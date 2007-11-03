@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-28 02:24+0000\n"
-"PO-Revision-Date: 2007-11-01 19:20+0100\n"
+"POT-Creation-Date: 2007-11-02 04:03+0000\n"
+"PO-Revision-Date: 2007-11-03 13:20+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -326,7 +326,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atributo inesperado %s::%s == «%s»."
 
 #: ../plugins/excel/excel-xml-read.c:1002
-#: ../plugins/openoffice/openoffice-read.c:2898 ../src/xml-sax-read.c:2533
+#: ../plugins/openoffice/openoffice-read.c:2967 ../src/xml-sax-read.c:2533
 msgid "XML document not well formed!"
 msgstr "El documento XML no se encuentra bien definido"
 
@@ -425,7 +425,7 @@ msgstr[1] ""
 "Algunos contenidos se perderán al guardar. Este formato sólo soporta %u "
 "filas y este libro de cuentas tiene %d"
 
-#: ../plugins/excel/ms-excel-write.c:312
+#: ../plugins/excel/ms-excel-write.c:315
 msgid ""
 "This is somewhat corrupt.\n"
 "We already wrote a length for a string that is being truncated due to "
@@ -435,11 +435,11 @@ msgstr ""
 "Ya escribimos una longitud para una cadena que ha sido truncada debido a "
 "problemas de codificación."
 
-#: ../plugins/excel/ms-excel-write.c:5509
+#: ../plugins/excel/ms-excel-write.c:5516
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "No se pudo el flujo «Libro» para escritura\n"
 
-#: ../plugins/excel/ms-excel-write.c:5529
+#: ../plugins/excel/ms-excel-write.c:5536
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "No se puede abrir el flujo «Libro de cuentas» para escritura\n"
 
@@ -906,6 +906,7 @@ msgid "cell"
 msgstr "celda"
 
 #: ../plugins/fn-info/functions.c:1937 ../plugins/fn-string/functions.c:1244
+#: ../src/ssconvert.c:93
 msgid "string"
 msgstr "cadena"
 
@@ -939,7 +940,7 @@ msgstr "Incoherencia de tipo"
 #: ../plugins/fn-stat/functions.c:6016 ../plugins/fn-stat/functions.c:6045
 #: ../plugins/fn-stat/functions.c:6048 ../plugins/fn-stat/functions.c:6051
 #: ../plugins/fn-stat/functions.c:6054 ../plugins/fn-stat/functions.c:6070
-#: ../src/func-builtin.c:272 ../src/func-builtin.c:278
+#: ../src/func-builtin.c:274 ../src/func-builtin.c:280
 msgid "number,number,"
 msgstr "número,número,"
 
@@ -1140,7 +1141,7 @@ msgstr "Funciones matemáticas"
 msgid "Mathematical Functions"
 msgstr "Funciones matemáticas"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:300
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:302
 msgid "Mathematics"
 msgstr "Matemáticas"
 
@@ -1763,7 +1764,7 @@ msgstr "GNU Oleo (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "Importa documentos GNU Oleo"
 
-#: ../plugins/openoffice/openoffice-read.c:458
+#: ../plugins/openoffice/openoffice-read.c:469
 #, c-format
 msgid ""
 "Unable to parse\n"
@@ -1774,7 +1775,7 @@ msgstr ""
 "\t«%s»\n"
 "debido a «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:692
+#: ../plugins/openoffice/openoffice-read.c:703
 #, c-format
 msgid ""
 "Content past the maxium number of rows supported in this build (%u).  Please "
@@ -1783,55 +1784,55 @@ msgstr ""
 "El contenido excedió el número máximo de filas soportadas en esta "
 "compilación (%u). Por favor recompile con límites mayores."
 
-#: ../plugins/openoffice/openoffice-read.c:871
+#: ../plugins/openoffice/openoffice-read.c:884
 msgid "Missing expression"
 msgstr "Expresión perdida"
 
-#: ../plugins/openoffice/openoffice-read.c:878
+#: ../plugins/openoffice/openoffice-read.c:891
 msgid "Missing expression namespace"
 msgstr "Falta el espacio de nombres de la expresión"
 
-#: ../plugins/openoffice/openoffice-read.c:886
+#: ../plugins/openoffice/openoffice-read.c:899
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "La expresión «%s» no empieza con un carácter reconocido"
 
-#: ../plugins/openoffice/openoffice-read.c:971
+#: ../plugins/openoffice/openoffice-read.c:984
 msgid "Invalid array expression does not specify number of columns."
 msgstr "La expresión del array no indica el número de columnas."
 
-#: ../plugins/openoffice/openoffice-read.c:974
+#: ../plugins/openoffice/openoffice-read.c:987
 msgid "Invalid array expression does not specify number of rows."
 msgstr "La expresión del array no indica el número de filas."
 
-#: ../plugins/openoffice/openoffice-read.c:1555
+#: ../plugins/openoffice/openoffice-read.c:1568
 #, c-format
 msgid "Unknown break type '%s' defaulting to Manual"
 msgstr "Tipo de salto desconocido «%s», cambiando a manual"
 
-#: ../plugins/openoffice/openoffice-read.c:1756
+#: ../plugins/openoffice/openoffice-read.c:1793
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "la expresión «%s» @ «%s» no es una referencia de celda"
 
-#: ../plugins/openoffice/openoffice-read.c:1793
+#: ../plugins/openoffice/openoffice-read.c:1830
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Rango DB «%s» no válido"
 
-#: ../plugins/openoffice/openoffice-read.c:2787
+#: ../plugins/openoffice/openoffice-read.c:2857
 msgid "Unknown mimetype for openoffice file."
 msgstr "Tipo mime desconocido para el archivo openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:2801
+#: ../plugins/openoffice/openoffice-read.c:2871
 msgid "No stream named content.xml found."
 msgstr "No se encontró ningún flujo llamado content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:2809
+#: ../plugins/openoffice/openoffice-read.c:2879
 msgid "No stream named styles.xml found."
 msgstr "No se encontró ningún flujo llamado styles.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:2859
+#: ../plugins/openoffice/openoffice-read.c:2928
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Metadato inválido: «%s»"
@@ -5817,7 +5818,9 @@ msgstr "Crear una tabla de datos"
 
 #: ../src/dialogs/dialog-data-table.c:150
 msgid "The selection must have more than 1 column and row to create a Data Table."
-msgstr "La selección debe tener más de una columna y fila para crear una tabla de datos."
+msgstr ""
+"La selección debe tener más de una columna y fila para crear una tabla de "
+"datos."
 
 #: ../src/dialogs/dialog-data-table.c:169
 msgid "Could not create the Data Table definition dialog."
@@ -6196,8 +6199,8 @@ msgstr "Nombre del complemento"
 msgid "Description"
 msgstr "Descripción"
 
-#: ../src/dialogs/dialog-plugin-manager.c:729 ../src/ssconvert.c:68
-#: ../src/ssconvert.c:84
+#: ../src/dialogs/dialog-plugin-manager.c:729 ../src/ssconvert.c:70
+#: ../src/ssconvert.c:86
 msgid "ID"
 msgstr "ID"
 
@@ -7343,7 +7346,7 @@ msgstr "Anchura _fija"
 msgid "Fixed"
 msgstr "Fijado"
 
-#: ../src/dialogs/dialog-stf.glade.h:24 ../src/stf-export.c:513
+#: ../src/dialogs/dialog-stf.glade.h:24 ../src/stf-export.c:514
 msgid "Format"
 msgstr "Formato"
 
@@ -9429,7 +9432,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "GNUMERIC_VERSION()."
 
-#: ../src/func-builtin.c:304
+#: ../src/func-builtin.c:306
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -9838,7 +9841,7 @@ msgstr ""
 "\n"
 "-- El equipo de Gnumeric."
 
-#: ../src/main-application.c:233 ../src/ssconvert.c:319 ../src/ssindex.c:211
+#: ../src/main-application.c:233 ../src/ssconvert.c:363 ../src/ssindex.c:211
 #, c-format
 msgid ""
 "%s\n"
@@ -10027,39 +10030,39 @@ msgstr "ruta"
 msgid "PDF export"
 msgstr "Exportar a PDF"
 
-#: ../src/print.c:954
+#: ../src/print.c:1037
 msgid "Print Selection"
 msgstr "Selección de impresión"
 
-#: ../src/print.c:1224
+#: ../src/print.c:1318
 msgid "_All workbook sheets"
 msgstr "_Todas las hojas del libro de cuentas"
 
-#: ../src/print.c:1229
+#: ../src/print.c:1323
 msgid "A_ctive workbook sheet"
 msgstr "Hoja a_ctiva del libro de cuentas"
 
-#: ../src/print.c:1234
+#: ../src/print.c:1328
 msgid "_Workbook sheets:"
 msgstr "Hojas del _libro de cuentas"
 
-#: ../src/print.c:1239
+#: ../src/print.c:1333
 msgid "Current _selection only"
 msgstr "Sólo la _selección actual"
 
-#: ../src/print.c:1244
+#: ../src/print.c:1338
 msgid "_Ignore defined print area"
 msgstr "_Ignorar el área de impresión definido"
 
-#: ../src/print.c:1248
+#: ../src/print.c:1342
 msgid "from:"
 msgstr "de:"
 
-#: ../src/print.c:1256
+#: ../src/print.c:1350
 msgid "to:"
 msgstr "a:"
 
-#: ../src/print.c:1456
+#: ../src/print.c:1550
 msgid "Gnumeric Print Range"
 msgstr "Rango de impresión de Gnumeric"
 
@@ -10703,35 +10706,39 @@ msgstr "Insertar filas"
 msgid "Delete Rows"
 msgstr "Borrar filas"
 
-#: ../src/ssconvert.c:51 ../src/ssindex.c:48
+#: ../src/ssconvert.c:53 ../src/ssindex.c:48
 msgid "Display program version"
 msgstr "Mostrar la versión del programa"
 
-#: ../src/ssconvert.c:60 ../src/ssindex.c:69
+#: ../src/ssconvert.c:62 ../src/ssindex.c:69
 msgid "Optionally specify an encoding for imported content"
 msgstr "Opcionalmente especificar una codificación para el contenido importado"
 
-#: ../src/ssconvert.c:61 ../src/ssindex.c:70
+#: ../src/ssconvert.c:63 ../src/ssindex.c:70
 msgid "ENCODING"
 msgstr "CODIFICACIÓN"
 
-#: ../src/ssconvert.c:67
+#: ../src/ssconvert.c:69
 msgid "Optionally specify which importer to use"
 msgstr "Opcionalmente especificar qué importador usar"
 
-#: ../src/ssconvert.c:74
+#: ../src/ssconvert.c:76
 msgid "List the available importers"
 msgstr "Listar los importadores disponibles"
 
-#: ../src/ssconvert.c:83
+#: ../src/ssconvert.c:85
 msgid "Optionally specify which exporter to use"
 msgstr "Opcionalmente especificar qué exportador usar"
 
-#: ../src/ssconvert.c:90
+#: ../src/ssconvert.c:92
+msgid "Detailed instructions for the chosen exporter"
+msgstr "Instrucciones detalladas para el exportador elegido"
+
+#: ../src/ssconvert.c:99
 msgid "List the available exporters"
 msgstr "Lista de exportadores disponibles"
 
-#: ../src/ssconvert.c:97
+#: ../src/ssconvert.c:106
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time."
@@ -10739,19 +10746,27 @@ msgstr ""
 "Exportar un archivo por cada hoja si el exportador sólo soporta una hoja al "
 "tiempo."
 
-#: ../src/ssconvert.c:104
+#: ../src/ssconvert.c:113
 msgid "Recalculate all cells before writing the result."
 msgstr "Recalcular todas las celdas antes de escribir el resultado."
 
-#: ../src/ssconvert.c:115
+#: ../src/ssconvert.c:124
 msgid "The range to export"
 msgstr "El rango que exportar"
 
-#: ../src/ssconvert.c:122
+#: ../src/ssconvert.c:131
 msgid "Goal seek areas"
 msgstr "Áreas de búsqueda de objetivo"
 
-#: ../src/ssconvert.c:199
+#: ../src/ssconvert.c:184
+msgid "Cannot parse export options."
+msgstr "No se pueden analizar las opciones de exportación."
+
+#: ../src/ssconvert.c:190
+msgid "The file saver does not take options"
+msgstr "El guardado de archivos no toma opciones"
+
+#: ../src/ssconvert.c:240
 #, c-format
 msgid ""
 "Unknown exporter '%s'.\n"
@@ -10760,7 +10775,7 @@ msgstr ""
 "Exportador desconocido «%s»\n"
 "Pruebe con --list-exporters para ver una lista de posibilidades.\n"
 
-#: ../src/ssconvert.c:218
+#: ../src/ssconvert.c:259
 #, c-format
 msgid ""
 "Unable to guess exporter to use for '%s'.\n"
@@ -10769,7 +10784,7 @@ msgstr ""
 "Imposible adivinar el exportador a usar para «%s».\n"
 "Intente --list-exporters para ver una lista de posibilidades.\n"
 
-#: ../src/ssconvert.c:229
+#: ../src/ssconvert.c:270
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
@@ -10778,7 +10793,7 @@ msgstr ""
 "explícito.\n"
 "Intente --list-exportes para ver una lista de posibilidades.\n"
 
-#: ../src/ssconvert.c:239
+#: ../src/ssconvert.c:280
 #, c-format
 msgid ""
 "Unknown importer '%s'.\n"
@@ -10787,7 +10802,7 @@ msgstr ""
 "Importador desconocido «%s».\n"
 "Pruebe con --list-importers para ver una lista de posibilidades.\n"
 
-#: ../src/ssconvert.c:282
+#: ../src/ssconvert.c:326
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -10797,11 +10812,11 @@ msgstr ""
 "archivo.\n"
 "Sólo se guardará la hoja actual.\n"
 
-#: ../src/ssconvert.c:312 ../src/ssconvert.c:351
+#: ../src/ssconvert.c:356 ../src/ssconvert.c:395
 msgid "INFILE [OUTFILE]"
 msgstr "ARCHIVO-ENTRADA [ARCHIVO-SALIDA]"
 
-#: ../src/ssconvert.c:326
+#: ../src/ssconvert.c:370
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -10812,7 +10827,7 @@ msgstr ""
 "datadir := «%s»\n"
 "libdir := «%s»\n"
 
-#: ../src/ssconvert.c:349 ../src/ssindex.c:222
+#: ../src/ssconvert.c:393 ../src/ssindex.c:222
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Uso: %s [OPCIÓN…] %s\n"
@@ -10840,33 +10855,62 @@ msgstr ""
 "datadir := «%s»\n"
 "libdir := «%s»\n"
 
-#: ../src/stf-export.c:485
+#: ../src/stf-export.c:486
 msgid "Character set"
 msgstr "Conjunto de caracteres"
 
-#: ../src/stf-export.c:486
+#: ../src/stf-export.c:487
 msgid "The character encoding of the output."
 msgstr "El conjunto de caracteres de la salida."
 
-#: ../src/stf-export.c:494
+#: ../src/stf-export.c:495
 msgid "Locale"
 msgstr "Región"
 
-#: ../src/stf-export.c:495
+#: ../src/stf-export.c:496
 msgid "The locale to use for number and date formatting."
 msgstr "La configuración regional para el formateo de fechas y números."
 
-#: ../src/stf-export.c:503
+#: ../src/stf-export.c:504
 msgid "Transliterate mode"
 msgstr "Modo transliterado"
 
-#: ../src/stf-export.c:504
+#: ../src/stf-export.c:505
 msgid "What to do with unrepresentable characters."
 msgstr "Qué hacer con los caracteres no representables."
 
-#: ../src/stf-export.c:514
+#: ../src/stf-export.c:515
 msgid "How should cells be formatted?"
 msgstr "¿Como formatear las celdas?"
+
+#: ../src/stf-export.c:554
+msgid "Error while trying to export file as text"
+msgstr "Error al intentar exportar el archivo como texto"
+
+#: ../src/stf-export.c:569
+msgid "Error while trying to write text file"
+msgstr "Error al intentar escribir en el archivo de texto"
+
+#: ../src/stf-export.c:590
+#, c-format
+msgid "Invalid value for option %s\n"
+msgstr "Valor inválido para la opción %s\n"
+
+#: ../src/stf-export.c:611
+msgid "There is no such sheet"
+msgstr "No existe dicha hoja"
+
+#: ../src/stf-export.c:629
+msgid "eol must be one of unix, mac, and windows"
+msgstr "eol debe ser uno de unix, mac y windows"
+
+#: ../src/stf-export.c:660
+msgid "Invalid option for stf exporter"
+msgstr "Opción no válida para exportar stf"
+
+#: ../src/stf-export.c:687
+msgid "Text (configurable)"
+msgstr "Texto (configurable)"
 
 #: ../src/stf-parse.c:1202
 msgid ""
@@ -10912,27 +10956,19 @@ msgstr ""
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Ha ocurrido un error al intentar parsear los datos en la hoja"
 
-#: ../src/stf.c:420
-msgid "Error while trying to export file as text"
-msgstr "Error al intentar exportar el archivo como texto"
-
-#: ../src/stf.c:448
+#: ../src/stf.c:426
 msgid "Error while trying to write CSV file"
 msgstr "Error al intentar escribir el archivo CSV"
 
-#: ../src/stf.c:538
+#: ../src/stf.c:518
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Valores separados por comas o tabuladores (CSV/TSV)"
 
-#: ../src/stf.c:543
+#: ../src/stf.c:526
 msgid "Text import (configurable)"
 msgstr "Importar texto (configurable)"
 
-#: ../src/stf.c:549
-msgid "Text export (configurable)"
-msgstr "Exportar texto (configurable)"
-
-#: ../src/stf.c:553
+#: ../src/stf.c:538
 msgid "Comma separated values (CSV)"
 msgstr "Valores separados por comas (CSV)"
 
