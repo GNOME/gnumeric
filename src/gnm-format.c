@@ -234,8 +234,20 @@ int
 gnm_format_is_date_for_value (GOFormat const *fmt,
 			      GnmValue const *value)
 {
-	fmt = gnm_format_specialize (fmt, value);
+	if (value)
+		fmt = gnm_format_specialize (fmt, value);
+
 	return go_format_is_date (fmt);
+}
+
+int
+gnm_format_is_time_for_value (GOFormat const *fmt,
+			      GnmValue const *value)
+{
+	if (value)
+		fmt = gnm_format_specialize (fmt, value);
+
+	return (go_format_get_family (fmt) == GO_FORMAT_TIME);
 }
 
 gboolean

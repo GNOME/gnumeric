@@ -81,7 +81,7 @@ enum {
 void
 gnm_stf_export_options_sheet_list_clear (GnmStfExport *stfe)
 {
-	g_return_if_fail (stfe != NULL);
+	g_return_if_fail (IS_GNM_STF_EXPORT (stfe));
 
 	go_slist_free_custom (stfe->sheet_list, g_object_unref);
 	stfe->sheet_list = NULL;
@@ -98,11 +98,20 @@ gnm_stf_export_options_sheet_list_clear (GnmStfExport *stfe)
 void
 gnm_stf_export_options_sheet_list_add (GnmStfExport *stfe, Sheet *sheet)
 {
-	g_return_if_fail (stfe != NULL);
+	g_return_if_fail (IS_GNM_STF_EXPORT (stfe));
 	g_return_if_fail (IS_SHEET (sheet));
 
 	g_object_ref (sheet);
 	stfe->sheet_list = g_slist_append (stfe->sheet_list, sheet);
+}
+
+
+GSList *
+gnm_stf_export_options_sheet_list_get (const GnmStfExport *stfe)
+{
+	g_return_val_if_fail (IS_GNM_STF_EXPORT (stfe), NULL);
+
+	return stfe->sheet_list;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -119,7 +128,7 @@ try_auto_date (GnmValue *value, const GOFormat *format,
 	GString *xlfmt;
 
 	is_date = gnm_format_is_date_for_value (format, value) > 0;
-	is_time = (go_format_get_family (format) == GO_FORMAT_TIME);
+	is_time = gnm_format_is_time_for_value (format, value) > 0;
 
 	if (!is_date && !is_time)
 		return NULL;
@@ -533,20 +542,33 @@ GSF_CLASS (GnmStfExport, gnm_stf_export,
 #include "dialog-stf-export.h"
 #include "workbook-view.h"
 
+static GnmStfExport *
+gnm_stf_get_stfe (GObject *obj)
+{
+	GnmStfExport *stfe = g_object_get_data (obj, "stfe");
+	if (!stfe) {
+		stfe = g_object_new (GNM_STF_EXPORT_TYPE,
+				     "quoting-triggers", ", \t\n\"",
+				     "separator", " ",
+				     NULL);
+		g_object_set_data_full (obj, "stfe", stfe, g_object_unref);
+	}
+	return stfe;		
+}
+
 static void
 gnm_stf_file_saver_save (GOFileSaver const *fs, IOContext *context,
 			 gconstpointer wbv, GsfOutput *output)
 {
-	GnmStfExport *stfe = g_object_get_data (G_OBJECT (fs), "exporter");
+	Workbook *wb = wb_view_get_workbook (wbv);
+	GnmStfExport *stfe = gnm_stf_get_stfe (G_OBJECT (wb));
 	GsfOutput *dummy_sink;
 
 	// TODO: move this GUI dependent code out of this
 	// filesaver into gui-file.c. After this, remove includes (see above).
 	if (IS_WBC_GTK (context->impl)) {
 		gboolean cancelled =
-			stf_export_dialog (WBC_GTK (context->impl),
-					   stfe,
-					   wb_view_get_workbook (wbv));
+			stf_export_dialog (WBC_GTK (context->impl), stfe, wb);
 		if (cancelled) {
 			gnumeric_io_error_unknown (context);
 			return;
@@ -635,8 +657,7 @@ gnm_stf_fs_set_export_options (GOFileSaver *fs,
 			       GError **err,
 			       gpointer user)
 {
-	GnmStfExport *stfe =
-		g_object_get_data (G_OBJECT (fs), "exporter");
+	GnmStfExport *stfe = gnm_stf_get_stfe (G_OBJECT (doc));
 	gnm_stf_export_options_sheet_list_clear (stfe);
 	return go_file_saver_parse_options (fs, doc, options, err, stfe,
 					    cb_set_export_option);
@@ -650,16 +671,9 @@ gnm_stf_file_saver_new (gchar const *id)
 					     _("Text (configurable)"),
 					     FILE_FL_WRITE_ONLY,
 					     gnm_stf_file_saver_save);
-	GObject *exporter = g_object_new (GNM_STF_EXPORT_TYPE,
-					  "quoting-triggers", ", \t\n\"",
-					  NULL);
 	go_file_saver_set_save_scope (fs, FILE_SAVE_WORKBOOK);
-
 	g_signal_connect (G_OBJECT (fs), "set-export-options",
 			  G_CALLBACK (gnm_stf_fs_set_export_options),
 			  NULL);
-	g_object_set_data_full (G_OBJECT (fs),
-				"exporter", exporter,  g_object_unref);
-
 	return GO_FILE_SAVER (fs);
 }

@@ -27,6 +27,7 @@ Morten:
 	* Fix print crash.  [#478552]
 	* Fix xls FMR.  [#491472]
 	* Fix gnumeric sax loader UMR.  [#492391]
+	* Make text exporter remember settings between invocations.
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.13

@@ -35,6 +35,7 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
+#include <string.h>
 
 typedef enum {
 	PAGE_SHEETS,
@@ -80,11 +81,15 @@ typedef struct {
 	gboolean cancelled;
 } TextExportState;
 
+static const char *format_seps[] = {
+	" ", "\t", "!", ":", ",", "-", "|", ";", "/", NULL
+};
+
 static void
 sheet_page_separator_menu_changed (TextExportState *state)
 {
-	/* 9 == the custom entry */
-	if (gtk_combo_box_get_active (state->format.separator) == 9) {
+	unsigned active = gtk_combo_box_get_active (state->format.separator);
+	if (active < G_N_ELEMENTS (format_seps) && !format_seps[active]) {
 		gtk_widget_set_sensitive (state->format.custom, TRUE);
 		gtk_widget_grab_focus (state->format.custom);
 		gtk_editable_select_region (GTK_EDITABLE (state->format.custom), 0, -1);
@@ -99,37 +104,135 @@ static void
 stf_export_dialog_format_page_init (TextExportState *state)
 {
 	GtkWidget *table;
+	GObject *sobj = G_OBJECT (state->stfe);
 
-	state->format.termination = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format_termination"));
-	gtk_combo_box_set_active (state->format.termination, 0);
-	state->format.separator   = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format_separator"));
-	gtk_combo_box_set_active (state->format.separator, 0);
-	state->format.custom      = glade_xml_get_widget (state->gui, "format_custom");
-	state->format.quote       = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format_quote"));
-	gtk_combo_box_set_active (state->format.quote, 0);
-	state->format.quotechar   = GTK_COMBO_BOX_ENTRY      (glade_xml_get_widget (state->gui, "format_quotechar"));
-	gtk_combo_box_set_active (GTK_COMBO_BOX (state->format.quotechar), 0);
-	state->format.format      = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format"));
-	gtk_combo_box_set_active (GTK_COMBO_BOX (state->format.format), 0);
-	state->format.charset	  = go_charmap_sel_new (GO_CHARMAP_SEL_FROM_UTF8);
-	state->format.locale	  = go_locale_sel_new ();
-	state->format.transliterate = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format_transliterate"));
+	{
+		char *eol;
+		int i;
+
+		state->format.termination = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format_termination"));
+		g_object_get (sobj, "eol", &eol, NULL);
+		if (strcmp (eol, "\r") == 0)
+			i = 1;
+		else if (strcmp (eol, "\r\n") == 0)
+			i = 2;
+		else
+			i = 0;
+		gtk_combo_box_set_active (state->format.termination, i);
+		g_free (eol);
+	}
+
+	{
+		char *s;
+		unsigned ui;
+		gint pos = 0;
+
+		state->format.separator = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format_separator"));
+		state->format.custom = glade_xml_get_widget (state->gui, "format_custom");
+		g_object_get (sobj, "separator", &s, NULL);
+		for (ui = 0; ui < G_N_ELEMENTS (format_seps) - 1; ui++)
+			if (strcmp (s, format_seps[ui]) == 0)
+				break;
+		gtk_combo_box_set_active (state->format.separator, ui);
+		if (!format_seps[ui])
+			gtk_editable_insert_text (GTK_EDITABLE (state->format.custom),
+						  s, -1,
+						  &pos);
+		g_free (s);
+	}
+
+	{
+		GsfOutputCsvQuotingMode	quotingmode;
+		int i;
+
+		state->format.quote = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format_quote"));
+		g_object_get (sobj, "quoting-mode", &quotingmode, NULL);
+		switch (quotingmode) {
+		default:
+		case GSF_OUTPUT_CSV_QUOTING_MODE_AUTO: i = 0; break;
+		case GSF_OUTPUT_CSV_QUOTING_MODE_ALWAYS: i = 1; break;
+		case GSF_OUTPUT_CSV_QUOTING_MODE_NEVER: i = 2; break;
+		}
+		gtk_combo_box_set_active (state->format.quote, i);
+	}
+
+	{
+		char *s;
+		gint pos;
+
+		state->format.quotechar = GTK_COMBO_BOX_ENTRY (glade_xml_get_widget (state->gui, "format_quotechar"));
+		g_object_get (sobj, "quote", &s, NULL);
+		gtk_editable_insert_text (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (state->format.quotechar))),
+					  s, -1, &pos);
+		g_free (s);
+	}
+
+	{
+		GnmStfFormatMode format;
+		int i;
+
+		state->format.format = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format"));
+		g_object_get (sobj, "format", &format, NULL);
+		switch (format) {
+		default:
+		case GNM_STF_FORMAT_AUTO: i = 0; break;
+		case GNM_STF_FORMAT_RAW: i = 1; break;
+		case GNM_STF_FORMAT_PRESERVE: i = 2; break;
+		}
+		gtk_combo_box_set_active (state->format.format, i);
+	}
+
+	{
+		char *charset;
+		state->format.charset = go_charmap_sel_new (GO_CHARMAP_SEL_FROM_UTF8);
+		g_object_get (sobj, "charset", &charset, NULL);
+		if (charset) {
+			go_charmap_sel_set_encoding (GO_CHARMAP_SEL (state->format.charset),
+						     charset);
+			g_free (charset);
+		}
+	}
+
+	{
+		char *locale;
+		state->format.locale = go_locale_sel_new ();
+		g_object_get (sobj, "locale", &locale, NULL);
+		if (locale) {
+			go_locale_sel_set_locale (GO_LOCALE_SEL (state->format.locale),
+						  locale);
+			g_free (locale);
+		}
+	}
+
+	{
+		GnmStfTransliterateMode mode;
+		int i;
+
+		state->format.transliterate = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format_transliterate"));
+		g_object_get (sobj, "transliterate-mode", &mode, NULL);
+		if (!gnm_stf_export_can_transliterate ()) {
+			if (mode == GNM_STF_TRANSLITERATE_MODE_TRANS)
+				mode = GNM_STF_TRANSLITERATE_MODE_ESCAPE;
+			/* It might be better to render insensitive
+			 * only one option than the whole list as in
+			 * the following line but it is not possible
+			 * with gtk-2.4. May be it should be changed
+			 * when 2.6 is available (inactivate only the
+			 * transliterate item)
+			 */
+			gtk_widget_set_sensitive (GTK_WIDGET (state->format.transliterate), FALSE);
+		}
+		switch (mode) {
+		default:
+		case GNM_STF_TRANSLITERATE_MODE_TRANS: i = 0; break;
+		case GNM_STF_TRANSLITERATE_MODE_ESCAPE: i = 1; break;
+		}
+		gtk_combo_box_set_active (state->format.transliterate, i);
+	}
+
 	gnumeric_editable_enters (state->window, state->format.custom);
 	gnumeric_editable_enters (state->window,
 			gtk_bin_get_child (GTK_BIN (state->format.quotechar)));
-
-	if (gnm_stf_export_can_transliterate ()) {
-		gtk_combo_box_set_active (state->format.transliterate,
-			GNM_STF_TRANSLITERATE_MODE_TRANS);
-	} else {
-		gtk_combo_box_set_active (state->format.transliterate,
-			GNM_STF_TRANSLITERATE_MODE_ESCAPE);
-		/* It might be better to render insensitive only one option than
-		the whole list as in the following line but it is not possible
-		with gtk-2.4. May be it should be changed when 2.6 is available	
-		(inactivate only the transliterate item) */
-		gtk_widget_set_sensitive (GTK_WIDGET (state->format.transliterate), FALSE);
-	}
 
 	table = glade_xml_get_widget (state->gui, "format_table");
 	gtk_table_attach_defaults (GTK_TABLE (table), state->format.charset,
@@ -201,21 +304,13 @@ stf_export_dialog_finish (TextExportState *state)
 
 	quote = gtk_editable_get_chars (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (state->format.quotechar))), 0, -1);
 
-	switch (gtk_combo_box_get_active (state->format.separator)) {
-	case 0: separator = g_strdup (" "); break;
-	case 1: separator = g_strdup ("\t"); break;
-	case 2: separator = g_strdup ("!"); break;
-	case 3: separator = g_strdup (":"); break;
-	default:
-	case 4: separator = g_strdup (","); break;
-	case 5: separator = g_strdup ("-"); break;
-	case 6: separator = g_strdup ("|"); break;
-	case 7: separator = g_strdup (";"); break;
-	case 8: separator = g_strdup ("/"); break;
-	case 9:
-		separator = gtk_editable_get_chars
-			(GTK_EDITABLE (state->format.custom), 0, -1);
-		break;
+	{
+		unsigned u = gtk_combo_box_get_active (state->format.separator);
+		if (u >= G_N_ELEMENTS (format_seps))
+			u = 4;
+		separator = format_seps[u]
+			? g_strdup (format_seps[u])
+			: gtk_editable_get_chars (GTK_EDITABLE (state->format.custom), 0, -1);
 	}
 
 	charset = go_charmap_sel_get_encoding (GO_CHARMAP_SEL (state->format.charset));
@@ -429,10 +524,11 @@ static void
 stf_export_dialog_sheet_page_init (TextExportState *state)
 {
 	int i;
-	Sheet *sheet, *cur_sheet;
+	Sheet *cur_sheet;
 	GtkTreeSelection  *selection;
 	GtkTreeIter iter;
 	GtkCellRenderer *renderer;
+	GSList *sheet_list;
 
 	state->sheets.select_all  = glade_xml_get_widget (state->gui, "sheet_select_all");
 	state->sheets.select_none = glade_xml_get_widget (state->gui, "sheet_select_none");
@@ -474,22 +570,29 @@ stf_export_dialog_sheet_page_init (TextExportState *state)
 	state->sheets.num = workbook_sheet_count (state->wb);
 	state->sheets.num_selected = 0;
 	state->sheets.non_empty = 0;
+
+	sheet_list = gnm_stf_export_options_sheet_list_get (state->stfe);
+
 	for (i = 0 ; i < state->sheets.num ; i++) {
-		GnmRange total_range;
-		gboolean export;
-		sheet = workbook_sheet_by_index (state->wb, i);
-		total_range = sheet_get_extent (sheet, TRUE);
-		export =  !sheet_is_region_empty (sheet, &total_range);
+		Sheet *sheet = workbook_sheet_by_index (state->wb, i);
+		GnmRange total_range = sheet_get_extent (sheet, TRUE);
+		gboolean empty = sheet_is_region_empty (sheet, &total_range);
+		gboolean export =
+			!sheet_list || g_slist_find (sheet_list, sheet);
+		/* The above adds up to n^2 in number of sheets.  Tough.  */
+
 		gtk_list_store_append (state->sheets.model, &iter);
 		gtk_list_store_set (state->sheets.model, &iter,
 				    STF_EXPORT_COL_EXPORTED,	export,
 				    STF_EXPORT_COL_SHEET_NAME,	sheet->name_quoted,
 				    STF_EXPORT_COL_SHEET,	sheet,
-				    STF_EXPORT_COL_NON_EMPTY,   export,
+				    STF_EXPORT_COL_NON_EMPTY,   !empty,
 				    -1);
+		if (!empty)
+			state->sheets.non_empty++;
+
 		if (export) {
 			state->sheets.num_selected++;
-			state->sheets.non_empty++;
 			gtk_tree_selection_select_iter (selection, &iter);
 		}
 	}

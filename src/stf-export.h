@@ -27,8 +27,9 @@ GType gnm_stf_format_mode_get_type (void);
 typedef struct _GnmStfExport GnmStfExport;
 GType gnm_stf_export_get_type (void);
 
-void gnm_stf_export_options_sheet_list_clear    (GnmStfExport *export_options);
-void gnm_stf_export_options_sheet_list_add      (GnmStfExport *export_options, Sheet *sheet);
+void gnm_stf_export_options_sheet_list_clear    (GnmStfExport *stfe);
+void gnm_stf_export_options_sheet_list_add      (GnmStfExport *stfe, Sheet *sheet);
+GSList *gnm_stf_export_options_sheet_list_get (const GnmStfExport *stfe);
 
 gboolean gnm_stf_export_can_transliterate (void);
 
