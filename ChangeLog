@@ -1,5 +1,12 @@
 2007-11-04  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
+	* src/print.c (print_range_used_units): deleted
+	(print_job_info_init_sheet): deleted
+	(paginate): simplify arguments
+	(compute_sheet_pages): use simplified arguments for paginate
+	
+2007-11-04  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
 	* src/print.c (compute_sheet_pages_down_then_across): use
 	  new pagination info
 	(compute_sheet_pages_across_then_down): ditto

@@ -779,70 +779,6 @@ compute_scale_fit_to (Sheet const *sheet,
 #define COL_FIT(col) (col >= SHEET_MAX_COLS ? (SHEET_MAX_COLS-1) : col)
 #define ROW_FIT(row) (row >= SHEET_MAX_ROWS ? (SHEET_MAX_ROWS-1) : row)
 
-#if 0
-
-static double
-print_range_used_units (Sheet const *sheet, gboolean compute_rows,
-			PrintRepeatRange const *range)
-{
-	GnmRange const *r = &range->range;
-	if (compute_rows)
-		return sheet_row_get_distance_pts
-			(sheet, r->start.row, r->end.row+1);
-	else
-		return sheet_col_get_distance_pts
-			(sheet, r->start.col, r->end.col+1);
-}
-
-static void
-print_job_info_init_sheet (PrintJobInfo *pj, Sheet const *sheet)
-{
-	PrintInformation const *pi = sheet->print_info;
-	PrintMargins const *pm = &sheet->print_info->margin;
-	double header = 0, footer = 0, left = 0, right = 0;
-
-	if (!gnome_print_config_get_page_size (pj->gp_config, &pj->width, &pj->height))
-		pj->width = pj->height = 1.;
-
-	print_info_get_margins (pi, &header, &footer, &left, &right);
-	pj->x_points = pj->width - (left + right);
-	pj->y_points = pj->height -
-		(MAX (pm->top.points, header) +
-		 MAX (pm->bottom.points, footer));
-
-	if (pi->print_titles) {
-		pj->titles_used_x = sheet->cols.default_style.size_pts;
-		pj->titles_used_y = sheet->rows.default_style.size_pts;
-	} else {
-		pj->titles_used_x = 0;
-		pj->titles_used_y = 0;
-	}
-
-	pj->repeat_rows_used_y = (pi->repeat_top.use)
-	    ? print_range_used_units (sheet, TRUE, &pi->repeat_top)
-	    : 0.;
-	pj->repeat_cols_used_x = (pi->repeat_left.use)
-	    ? print_range_used_units (sheet, FALSE, &pi->repeat_left)
-	    : 0.;
-
-	pj->render_info->sheet = sheet;
-}
-
-/*
- * code to count the number of pages that will be printed.
- * Unfortuantely a lot of data here is calculated again when you
- * actually print the page ...
- */
-
-typedef struct _PageCountInfo {
-	int pages;
-	PrintJobInfo *pj;
-	GnmRange r;
-	int current_output_sheet;
-} PageCountInfo;
-
-#endif
-
 static void
 compute_sheet_pages_add_sheet (PrintingInstance * pi, Sheet const *sheet, gboolean selection,
                      gboolean ignore_printarea)
@@ -957,7 +893,7 @@ static void
 paginate (void *result,
 	  PrintingInstance * pi, Sheet const *sheet,
 	  gint start, gint end,
-	  gdouble usable, PrintRepeatRange *repeat, gboolean repeat_row,
+	  gdouble usable, gboolean repeat, gint repeat_start, gint repeat_end,
 	  gdouble header,
 	  double (sheet_get_distance_pts) (Sheet const *sheet, int from, int to),
 	  ColRowInfo const *(get_info)(Sheet const *sheet, int const p),
@@ -968,12 +904,9 @@ paginate (void *result,
 	gint n_rep = 0, first_rep = 0;
 	gdouble repeating = 0.;
 
-	if (repeat->use) {
-		gint last_rep;
-
-		first_rep = (repeat_row ? repeat->range.start.row : repeat->range.start.col);
-		last_rep = (repeat_row ? repeat->range.end.row : repeat->range.end.col);
-		n_rep = last_rep - first_rep + 1;
+	if (repeat) {
+		first_rep = repeat_start;
+		n_rep = repeat_end - first_rep + 1;
 		repeating = sheet_get_distance_pts (sheet, first_rep, first_rep + n_rep);
 	} 
 
@@ -1033,7 +966,6 @@ compute_sheet_pages (GtkPrintContext   *context,
 	gdouble top_margin, bottom_margin, edge_to_below_header, edge_to_above_footer;
 	gdouble px, py;
 	gdouble usable_x, usable_y;
-	gdouble repeating_x = 0., repeating_y = 0.;
 
 	GSList *column_pagination = NULL;
 	GSList *row_pagination = NULL;
@@ -1104,10 +1036,12 @@ compute_sheet_pages (GtkPrintContext   *context,
 	usable_y   = page_height / py;
 
 	paginate (&column_pagination, pi, sheet, r.start.col, r.end.col, usable_x,
-		  &(pinfo->repeat_left), FALSE, row_header_width, 
+		  pinfo->repeat_left.use, pinfo->repeat_left.range.start.col, 
+		  pinfo->repeat_left.range.end.col, row_header_width, 
 		  sheet_col_get_distance_pts, sheet_col_get_info, TRUE);
 	paginate (&row_pagination, pi, sheet, r.start.row, r.end.row, usable_y,
-		  &(pinfo->repeat_top), TRUE, col_header_height,
+		  pinfo->repeat_top.use, pinfo->repeat_top.range.start.row, 
+		  pinfo->repeat_top.range.end.row, col_header_height,
 		  sheet_row_get_distance_pts, sheet_row_get_info, TRUE);
 
 	if (sheet->print_info->print_across_then_down)
