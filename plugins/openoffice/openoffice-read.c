@@ -74,6 +74,8 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
+#undef OO_DEBUG_OBJS
+
 #define CXML2C(s) ((char const *)(s))
 #define CC2XML(s) ((xmlChar const *)(s))
 
@@ -161,7 +163,6 @@ typedef struct {
 	GHashTable		*graph_styles;	/* contain links to OOChartStyle GSLists */
 	OOPlotType	 	 plot_type;
 	SheetObjectAnchor	 anchor;	/* anchor to draw the frame (images or graphs) */
-	GogAxisType		 axis_type;
 } OOChartInfo;
 
 typedef enum {
@@ -188,12 +189,12 @@ typedef struct {
 	GsfInfile	*zip;		/* Reference to the open file, to load graphs and images*/
 	OOChartInfo	 chart;
 	GnmParsePos 	 pos;
-	GnmCellPos 	 data_extent;
-	GnmCellPos 	 style_extent;
+	GnmCellPos 	 extent_data;
+	GnmCellPos 	 extent_style;
 
 	int		 col_inc, row_inc;
-	gboolean	 simple_content;
-	gboolean	 error_content;
+	gboolean	 content_is_simple;
+	gboolean	 content_is_error;
 
 	GHashTable	*formats;
 
@@ -505,8 +506,8 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->pos.eval.col = 0;
 	state->pos.eval.row = 0;
-	state->data_extent.col = state->style_extent.col = 0;
-	state->data_extent.row = state->style_extent.row = 0;
+	state->extent_data.col = state->extent_style.col = 0;
+	state->extent_data.row = state->extent_style.row = 0;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "name")) {
@@ -567,8 +568,8 @@ oo_colrow_reset_defaults (OOParseState *state, gboolean is_cols)
 					data.cri->size_pts);
 		}
 		colrow_reset_defaults (state->pos.sheet, is_cols, 1 + (is_cols
-			? state->data_extent.col
-			: state->data_extent.row));
+			? state->extent_data.col
+			: state->extent_data.row));
 	}
 }
 
@@ -592,14 +593,14 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	/* default cell styles are applied only to cells that are specified
 	 * which is a performance nightmare.  Instead we apply the styles to
 	 * the entire column or row and clear the area beyond the extent here. */
-	if (state->style_extent.col < SHEET_MAX_COLS) {
-		range_init (&r, state->style_extent.col, 0,
+	if (state->extent_style.col < SHEET_MAX_COLS) {
+		range_init (&r, state->extent_style.col, 0,
 			SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 		sheet_style_set_range (state->pos.sheet, &r,
 			sheet_style_default (state->pos.sheet));
 	}
-	if (state->style_extent.row < SHEET_MAX_ROWS) {
-		range_init (&r, 0, state->style_extent.row,
+	if (state->extent_style.row < SHEET_MAX_ROWS) {
+		range_init (&r, 0, state->extent_style.row,
 			SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 		sheet_style_set_range (state->pos.sheet, &r,
 			sheet_style_default (state->pos.sheet));
@@ -741,16 +742,12 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->row_inc = repeat_count;
 }
+
 static void
 oo_row_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	state->pos.eval.row += state->row_inc;
-
-	if (state->style_extent.col < state->pos.eval.col)
-		state->style_extent.col = state->pos.eval.col;
-	if (state->style_extent.row < state->pos.eval.row)
-		state->style_extent.row = state->pos.eval.row;
 }
 
 static char const *
@@ -851,13 +848,12 @@ oo_expr_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *
 }
 
 static void
-oo_cell_content_span_start (GsfXMLIn *xin, xmlChar const **attrs)
+oo_update_data_extent (OOParseState *state, int cols, int rows)
 {
-}
-
-static void
-oo_cell_content_span_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
-{
+	if (state->extent_data.col < (state->pos.eval.col + cols - 1))
+		state->extent_data.col = state->pos.eval.col + cols - 1;
+	if (state->extent_data.row < (state->pos.eval.row + rows - 1))
+		state->extent_data.row = state->pos.eval.row + rows - 1;
 }
 
 static void
@@ -875,7 +871,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmRange tmp;
 
 	state->col_inc = 1;
-	state->error_content = FALSE;
+	state->content_is_error = FALSE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc))
 			;
@@ -902,7 +898,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				 * having value date with expr : '=' and the
 				 * message in the content.
 				 */
-				state->error_content = TRUE;
+				state->content_is_error = TRUE;
 			else
 				texpr = oo_expr_parse_str (xin, expr_string,
 					&state->pos, GNM_EXPR_PARSE_DEFAULT);
@@ -973,7 +969,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				state->pos.eval.col, state->pos.eval.row,
 				style);
 	}
-	state->simple_content = FALSE;
+	state->content_is_simple = FALSE;
 	if (texpr != NULL) {
 		GnmCell *cell = sheet_cell_fetch (state->pos.sheet,
 			state->pos.eval.col, state->pos.eval.row);
@@ -993,6 +989,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				texpr);
 			if (val != NULL)
 				gnm_cell_assign_value (cell, val);
+			oo_update_data_extent (state, array_cols, array_rows);
 		} else {
 			if (val != NULL)
 				gnm_cell_set_expr_and_value (cell, texpr, val,
@@ -1000,6 +997,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			else
 				gnm_cell_set_expr (cell, texpr);
 			gnm_expr_top_unref (texpr);
+			oo_update_data_extent (state, 1, 1);
 		}
 	} else if (val != NULL) {
 		GnmCell *cell = sheet_cell_fetch (state->pos.sheet,
@@ -1010,9 +1008,10 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_cell_assign_value (cell, val);
 		else
 			gnm_cell_set_value (cell, val);
-	} else if (!state->error_content)
+		oo_update_data_extent (state, 1, 1);
+	} else if (!state->content_is_error)
 		/* store the content as a string */
-		state->simple_content = TRUE;
+		state->content_is_simple = TRUE;
 
 	if (merge_cols > 1 || merge_rows > 1) {
 		range_init_cellpos_size (&tmp, &state->pos.eval,
@@ -1026,21 +1025,50 @@ oo_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
-	if (state->col_inc > 1) {
+	if (state->col_inc > 1 || state->row_inc > 1) {
 		GnmCell *cell = sheet_cell_get (state->pos.sheet,
 			state->pos.eval.col, state->pos.eval.row);
 
 		if (!gnm_cell_is_empty (cell)) {
-			int i = 1;
+			int i, j;
 			GnmCell *next;
-			for (; i < state->col_inc ; i++) {
-				next = sheet_cell_fetch (state->pos.sheet,
-					state->pos.eval.col + i, state->pos.eval.row);
-				gnm_cell_set_value (next, value_dup (cell->value));
-			}
+			for (j = 0; j < state->row_inc ; j++)
+				for (i = 0; i < state->col_inc ; i++)
+					if (j > 0 || i > 0) {
+						next = sheet_cell_fetch (state->pos.sheet,
+							state->pos.eval.col + i, state->pos.eval.row + j);
+						gnm_cell_set_value (next, value_dup (cell->value));
+					}
+			oo_update_data_extent (state, state->col_inc, state->row_inc);
 		}
 	}
 	state->pos.eval.col += state->col_inc;
+}
+
+static void
+oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	if (state->content_is_simple || state->content_is_error) {
+		GnmValue *v;
+		GnmCell *cell = sheet_cell_fetch (state->pos.sheet,
+			state->pos.eval.col, state->pos.eval.row);
+
+		if (state->content_is_simple)
+			/* embedded newlines stored as a series of <p> */
+			if (VALUE_IS_STRING (cell->value))
+				v = value_new_string_str (gnm_string_get_nocopy (
+					g_strconcat (cell->value->v_str.val->str, "\n",
+						     xin->content->str, NULL)));
+			else
+				v = value_new_string (xin->content->str);
+		else
+			v = value_new_error (NULL, xin->content->str);
+
+		gnm_cell_set_value (cell, v);
+		oo_update_data_extent (state, 1, 1);
+	}
 }
 
 static void
@@ -1071,36 +1099,6 @@ oo_covered_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	state->pos.eval.col += state->col_inc;
-}
-
-static void
-oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
-{
-	OOParseState *state = (OOParseState *)xin->user_state;
-
-	if (state->simple_content || state->error_content) {
-		GnmValue *v;
-		GnmCell *cell = sheet_cell_fetch (state->pos.sheet,
-			state->pos.eval.col, state->pos.eval.row);
-
-		if (state->simple_content)
-			/* embedded newlines stored as a series of <p> */
-			if (VALUE_IS_STRING (cell->value))
-				v = value_new_string_str (gnm_string_get_nocopy (
-					g_strconcat (cell->value->v_str.val->str, "\n",
-						     xin->content->str, NULL)));
-			else
-				v = value_new_string (xin->content->str);
-		else
-			v = value_new_error (NULL, xin->content->str);
-
-		gnm_cell_set_value (cell, v);
-	}
-
-	if (state->data_extent.col < state->pos.eval.col)
-		state->data_extent.col = state->pos.eval.col;
-	if (state->data_extent.row < state->pos.eval.row)
-		state->data_extent.row = state->pos.eval.row;
 }
 
 static void
@@ -1695,10 +1693,8 @@ oo_prop_list_apply (GSList *props, GObject *obj)
 
 	for (ptr = props; ptr; ptr = ptr->next) {
 		prop = ptr->data;
-		if (NULL != g_object_class_find_property (klass, prop->name)) {
-			    g_print ("%s\n", prop->name);
+		if (NULL != g_object_class_find_property (klass, prop->name))
 			    g_object_set_property (obj, prop->name, &prop->value);
-		}
 	}
 }
 
@@ -1731,12 +1727,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			if (btmp)
 				style->plot_props = g_slist_prepend (style->plot_props,
 					oo_prop_new_string ("type", "as_percentage"));
-		} else if (oo_attr_int (xin, attrs, OO_NS_CHART, "overlap", &tmp))
+		} else if (oo_attr_int (xin, attrs, OO_NS_CHART, "overlap", &tmp)) {
 			style->plot_props = g_slist_prepend (style->plot_props,
-				oo_prop_new_int ("overlap-percentage", -tmp));
-		else if (oo_attr_int (xin, attrs, OO_NS_CHART, "gap-width", &tmp))
+				oo_prop_new_int ("overlap-percentage", tmp));
+		} else if (oo_attr_int (xin, attrs, OO_NS_CHART, "gap-width", &tmp))
 			style->plot_props = g_slist_prepend (style->plot_props,
-				oo_prop_new_int ("gap-percentage", -tmp));
+				oo_prop_new_int ("gap-percentage", tmp));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "series-source"))
 			style->src_in_rows = attr_eq (attrs[1], "rows");
 	}
@@ -1987,7 +1983,9 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	if (!name)
 		return;
 
+#ifdef OO_DEBUG_OBJS
 	g_print ("START %s\n", name);
+#endif
 	content = gsf_infile_child_by_vname (state->zip, name, "content.xml", NULL);
 
 	if (content != NULL) {
@@ -1997,7 +1995,9 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 		gsf_xml_in_doc_free (doc);
 		g_object_unref (content);
 	}
+#ifdef OO_DEBUG_OBJS
 	g_print ("END %s\n", name);
+#endif
 
 	g_hash_table_destroy (state->chart.graph_styles);
 	state->chart.graph_styles = g_hash_table_new_full (
@@ -2067,23 +2067,31 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	OOChartStyle *style = NULL;
 	gchar const *style_name = NULL;
+	GogAxisType  axis_type;
 	int tmp;
 
-	state->chart.axis_type = GOG_AXIS_UNKNOWN;
+	axis_type = GOG_AXIS_UNKNOWN;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
 			style_name = CXML2C (attrs[1]);
 		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "dimension", types, &tmp))
-			state->chart.axis_type = tmp;
+			axis_type = tmp;
 
-	axes = gog_chart_get_axes (state->chart.chart, state->chart.axis_type);
-	if (NULL == axes)
-		return;
-	state->chart.axis = axes->data;
-	g_slist_free (axes);
+	axes = gog_chart_get_axes (state->chart.chart, axis_type);
+	if (NULL != axes) {
+		state->chart.axis = axes->data;
+		g_slist_free (axes);
+	}
 
-	if (NULL != (style = g_hash_table_lookup (state->chart.graph_styles, style_name)))
-		oo_prop_list_apply (style->axis_props, G_OBJECT (state->chart.axis));
+	if (NULL != (style = g_hash_table_lookup (state->chart.graph_styles, style_name))) {
+		if (NULL != state->chart.axis)
+			oo_prop_list_apply (style->axis_props, G_OBJECT (state->chart.axis));
+
+		/* AAARRRGGGHH : why would they do this.  The axis style impact
+		 * the plot ?? */
+		if (NULL != state->chart.plot)
+			oo_prop_list_apply (style->plot_props, G_OBJECT (state->chart.plot));
+	}
 }
 
 static void
@@ -2207,7 +2215,9 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, GogMSDimType dim_type)
 		if (ptr == CXML2C (range))
 			return;
 		v = value_new_cellrange (&ref.a, &ref.b, 0, 0);
+#ifdef OO_DEBUG_OBJS
 		g_print ("%d = rangeref (%s)\n", dim, range);
+#endif
 	} else if (NULL != gog_dataset_get_dim (GOG_DATASET (state->chart.series), dim))
 		return;	/* implicit does not overwrite existing */
 	else if (state->chart.src_n_vectors <= 0) {
@@ -2219,7 +2229,9 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, GogMSDimType dim_type)
 			   state->chart.src_sheet,
 			   &state->chart.src_range);
 
+#ifdef OO_DEBUG_OBJS
 		g_print ("%d = implicit (%s)\n", dim, range_as_string (&state->chart.src_range));
+#endif
 
 		state->chart.src_n_vectors--;
 		if (state->chart.src_in_rows)
@@ -2242,7 +2254,9 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
+#ifdef OO_DEBUG_OBJS
 	g_print ("<<<<< Start\n");
+#endif
 	state->chart.series = gog_plot_new_series (state->chart.plot);
 	state->chart.domain_count = 0;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -2260,7 +2274,9 @@ oo_plot_series_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	oo_plot_assign_dim (xin, NULL, GOG_MS_DIM_VALUES);
 	state->chart.series = NULL;
+#ifdef OO_DEBUG_OBJS
 	g_print (">>>>> end\n");
+#endif
 }
 
 static void
@@ -2546,7 +2562,7 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", GSF_XML_NO_CON
 	GSF_XML_IN_NODE (TABLE_ROW, TABLE_CELL, OO_NS_TABLE, "table-cell", GSF_XML_NO_CONTENT, &oo_cell_start, &oo_cell_end),
 	  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &oo_cell_content_end),
 	    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),
-	    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, &oo_cell_content_span_start, &oo_cell_content_span_end),
+	    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, NULL, NULL),
 	  GSF_XML_IN_NODE (TABLE_CELL, CELL_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, NULL, NULL),		/* ignore for now */
 	  GSF_XML_IN_NODE (TABLE_CELL, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* ignore for now */
 	    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd def */
@@ -2600,7 +2616,8 @@ GSF_XML_IN_NODE_END
 /****************************************************************************/
 /* Generated based on:
  * http://www.oasis-open.org/committees/download.php/12572/OpenDocument-v1.0-os.pdf */
-static GsfXMLInNode const opendoc_content_dtd [] = {
+static GsfXMLInNode const opendoc_content_dtd [] =
+{
 	GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 	GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", GSF_XML_NO_CONTENT, NULL, NULL),
 	  GSF_XML_IN_NODE (OFFICE, SCRIPT, OO_NS_OFFICE, "scripts", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2700,28 +2717,28 @@ static GsfXMLInNode const opendoc_content_dtd [] = {
 
 	    GSF_XML_IN_NODE (SPREADSHEET, TABLE, OO_NS_TABLE, "table", GSF_XML_NO_CONTENT, &oo_table_start, &oo_table_end),
 	      GSF_XML_IN_NODE (TABLE, FORMS, OO_NS_OFFICE, "forms", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (TABLE, TABLE_ROWS, OO_NS_TABLE, "table-rows", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, &oo_col_start, NULL),
 	      GSF_XML_IN_NODE (TABLE, TABLE_ROW, OO_NS_TABLE, "table-row", GSF_XML_NO_CONTENT, &oo_row_start, &oo_row_end),
-	      GSF_XML_IN_NODE (TABLE, TABLE_ROWS, OO_NS_TABLE, "table-rows", GSF_XML_NO_CONTENT, NULL, NULL),
+
 		GSF_XML_IN_NODE (TABLE_ROW, TABLE_CELL, OO_NS_TABLE, "table-cell", GSF_XML_NO_CONTENT, &oo_cell_start, &oo_cell_end),
+		  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &oo_cell_content_end),
+		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),
+		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, NULL, NULL),
+		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, NULL, NULL),
+		      GSF_XML_IN_NODE (CELL_TEXT_SPAN, CELL_TEXT_SPAN_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, NULL, NULL),
+		  GSF_XML_IN_NODE (TABLE_CELL, CELL_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, NULL, NULL),		/* ignore for now */
+		  GSF_XML_IN_NODE (TABLE_CELL, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),			/* ignore for now */
+		    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd def */
+		    GSF_XML_IN_NODE (CELL_GRAPHIC, DRAW_POLYLINE, OO_NS_DRAW, "polyline", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd def */
 		  GSF_XML_IN_NODE (TABLE_CELL, CELL_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, NULL, NULL),
 		    GSF_XML_IN_NODE (CELL_FRAME, CELL_IMAGE, OO_NS_DRAW, "image", GSF_XML_NO_CONTENT, NULL, NULL),
 		      GSF_XML_IN_NODE (CELL_IMAGE, IMAGE_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
+		  GSF_XML_IN_NODE (TABLE_CELL, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, &od_draw_frame, NULL),
+		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, &od_draw_object, NULL),
+		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_IMAGE, OO_NS_DRAW, "image", GSF_XML_NO_CONTENT, &od_draw_image, NULL),
 		GSF_XML_IN_NODE (TABLE_ROW, TABLE_COVERED_CELL, OO_NS_TABLE, "covered-table-cell", GSF_XML_NO_CONTENT, &oo_covered_cell_start, &oo_covered_cell_end),
-		  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &oo_cell_content_end),
 
-			GSF_XML_IN_NODE (TABLE_CELL, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, &od_draw_frame, NULL),
-			GSF_XML_IN_NODE (DRAW_FRAME, DRAW_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, &od_draw_object, NULL),
-			GSF_XML_IN_NODE (DRAW_FRAME, DRAW_IMAGE, OO_NS_DRAW, "image", GSF_XML_NO_CONTENT, &od_draw_image, NULL),
-
-		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),
-		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, NULL, NULL),
-		    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, &oo_cell_content_span_start, &oo_cell_content_span_end),
-		      GSF_XML_IN_NODE (CELL_TEXT_SPAN, CELL_TEXT_SPAN_ADDR, OO_NS_TEXT, "a", GSF_XML_SHARED_CONTENT, NULL, NULL),
-		  GSF_XML_IN_NODE (TABLE_CELL, CELL_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, NULL, NULL),		/* ignore for now */
-		  GSF_XML_IN_NODE (TABLE_CELL, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* ignore for now */
-		    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd def */
-		    GSF_XML_IN_NODE (CELL_GRAPHIC, DRAW_POLYLINE, OO_NS_DRAW, "polyline", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd def */
 	      GSF_XML_IN_NODE (TABLE, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL, OO_NS_TABLE, "table-column", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd def */

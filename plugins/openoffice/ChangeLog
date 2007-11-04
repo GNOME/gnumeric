@@ -1,3 +1,13 @@
+2007-10-31  Jody Goldberg <jody@gnome.org>
+
+	All calls to *cell_set_* should be followed by an extent update.
+	* openoffice-read.c (oo_update_data_extent) : create this to provide a
+	  single location for updating the data extent when debugging.
+	(oo_cell_start) : use it here to update extent for arrays,
+	expressions, and inline values.
+	(oo_cell_end) : and here for repeated cols/rows.
+	(oo_cell_content_end) : and here for child content.
+
 2007-10-29  Jody Goldberg <jody@gnome.org>
 
 	* openoffice-read.c (od_draw_frame) : fix the namespace for y, and
