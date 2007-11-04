@@ -1348,7 +1348,7 @@ stf_parse_options_guess (char const *data)
 
 	res = stf_parse_options_new ();
 	lines_chunk = g_string_chunk_new (100 * 1024);
-	lines = stf_parse_lines (res, lines_chunk, data, SHEET_MAX_ROWS, FALSE);
+	lines = stf_parse_lines (res, lines_chunk, data, 1000, FALSE);
 
 	tabcount = count_character (lines, '\t', 0.2);
 	sepcount = count_character (lines, sepchar, 0.2);

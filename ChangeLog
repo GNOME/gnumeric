@@ -1,5 +1,8 @@
 2007-11-03  Morten Welinder  <terra@gnome.org>
 
+	* src/stf-parse.c (stf_parse_options_guess): Guess using 1000
+	first lines.
+
 	* src/stf-export.c (gnm_stf_export_options_sheet_list_get): New
 	function.
 	(try_auto_date): Use gnm_format_is_time_for_value.

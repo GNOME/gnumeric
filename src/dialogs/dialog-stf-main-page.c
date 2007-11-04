@@ -86,7 +86,7 @@ main_page_update_preview (StfDialogData *pagedata)
 	GPtrArray *lines = stf_parse_lines (pagedata->parseoptions,
 					    lines_chunk,
 					    pagedata->utf8_data,
-					    SHEET_MAX_ROWS,
+					    INT_MAX,
 					    TRUE);
         unsigned int ui;
 
@@ -133,7 +133,7 @@ static void
 main_page_import_range_changed (StfDialogData *data)
 {
 	RenderData_t *renderdata = data->main.renderdata;
-	int startrow, stoprow;
+	int startrow, stoprow, stoplimit;
 	char *linescaption;
 
 	g_return_if_fail (renderdata->lines != NULL);
@@ -141,18 +141,20 @@ main_page_import_range_changed (StfDialogData *data)
 	startrow = gtk_spin_button_get_value_as_int (data->main.main_startrow);
 	stoprow  = gtk_spin_button_get_value_as_int (data->main.main_stoprow);
 
-	if (stoprow > (int)renderdata->lines->len) {
-	     stoprow = renderdata->lines->len;
-	     gtk_spin_button_set_value (data->main.main_stoprow, stoprow);
+	if (startrow > stoprow) {
+		startrow = stoprow;
+		gtk_spin_button_set_value (data->main.main_startrow, startrow);
 	}
 
-	if (startrow > stoprow) {
-	     startrow = stoprow;
-	     gtk_spin_button_set_value (data->main.main_startrow, startrow);
+	stoplimit = MIN ((int)renderdata->lines->len,
+			 startrow + (SHEET_MAX_ROWS - 1));
+	if (stoprow > stoplimit) {
+		stoprow = stoplimit;
+		gtk_spin_button_set_value (data->main.main_stoprow, stoprow);
 	}
 
 	main_page_set_spin_button_adjustment (data->main.main_startrow, 1, stoprow);
-	main_page_set_spin_button_adjustment (data->main.main_stoprow, startrow, renderdata->lines->len);
+	main_page_set_spin_button_adjustment (data->main.main_stoprow, startrow, stoplimit);
 
 	data->cur = stf_parse_find_line (data->parseoptions, data->utf8_data, startrow - 1);
 	data->cur_end = stf_parse_find_line (data->parseoptions, data->utf8_data, stoprow);

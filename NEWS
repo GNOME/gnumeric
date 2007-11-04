@@ -28,6 +28,7 @@ Morten:
 	* Fix xls FMR.  [#491472]
 	* Fix gnumeric sax loader UMR.  [#492391]
 	* Make text exporter remember settings between invocations.
+	* Make text import handle ranges of files with >64k rows.  [#370273]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.13
