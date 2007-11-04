@@ -591,15 +591,14 @@ gnm_stf_file_saver_save (GOFileSaver const *fs, IOContext *context,
 }
 
 static gboolean
-cb_set_export_option (GOFileSaver *fs, GODoc *doc,
-		      const char *key, const char *value,
+cb_set_export_option (const char *key, const char *value,
 		      GError **err, gpointer user)
 {
-	GnmStfExport *stfe = user;
+	Workbook *wb = user;
+	GnmStfExport *stfe = gnm_stf_get_stfe (G_OBJECT (wb));
 	const char *errtxt;
 
 	if (strcmp (key, "sheet") == 0) {
-		Workbook *wb = WORKBOOK (doc);
 		Sheet *sheet = workbook_sheet_by_name (wb, value);
 		if (!sheet) {
 			errtxt = _("There is no such sheet");
@@ -659,8 +658,7 @@ gnm_stf_fs_set_export_options (GOFileSaver *fs,
 {
 	GnmStfExport *stfe = gnm_stf_get_stfe (G_OBJECT (doc));
 	gnm_stf_export_options_sheet_list_clear (stfe);
-	return go_file_saver_parse_options (fs, doc, options, err, stfe,
-					    cb_set_export_option);
+	return go_parse_key_value (options, err, cb_set_export_option, doc);
 }
 
 GOFileSaver *
