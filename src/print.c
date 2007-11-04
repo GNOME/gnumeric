@@ -89,6 +89,13 @@ typedef struct {
 	gint first_rep_rows;
 } SheetPageRange;
 
+typedef struct {
+	gint rc;
+	gint count;
+	gint first_rep;
+	gint n_rep;
+} PaginationInfo;
+
 
 gboolean gnm_print_debug = FALSE;
 
@@ -888,145 +895,128 @@ adjust_repetition (Sheet const *sheet,
 	}
 }
 
-static gboolean
+
+
+static void
 compute_sheet_pages_down_then_across (PrintingInstance * pi,
 				      Sheet const *sheet,
-				      GnmRange const *r,
-				      gdouble usable_x,
-				      gdouble usable_y,
-				      gdouble col_header_height,
-				      gdouble row_header_width,
-				      gint n_rep_cols,
-				      gint n_rep_rows,
-				      gint first_rep_rows,
-				      gint first_rep_cols,
-				      gdouble repeating_x, 
-				      gdouble repeating_y)
+				      GSList *column_pagination,
+				      GSList *row_pagination)
 {
-	int col = r->start.col;
+	GnmRange range;
+	GSList *c_list = column_pagination;
 
-	while (col <= r->end.col) {
-		int row = r->start.row;
-		int col_count;
-		gdouble repeating_x_used = 0.;
-		gint n_rep_cols_used = 0, first_rep_cols_used = 0;
+	while (c_list) {
+		PaginationInfo *c_info = c_list->data;
+		GSList *r_list = row_pagination;
 
-		adjust_repetition (sheet, col,
-				   first_rep_cols, n_rep_cols,
-				   repeating_x,
-				   &first_rep_cols_used, &n_rep_cols_used,
-				   &repeating_x_used,
-				   sheet_col_get_distance_pts);
-
-		col_count = compute_group (sheet, col, r->end.col,
-					   usable_x - row_header_width - repeating_x_used, 
-					   sheet_col_get_info);
-
-		while (row <= r->end.row) {
-			int row_count;
-			gdouble repeating_y_used = 0.;
-			gint n_rep_rows_used = 0, first_rep_rows_used = 0;
-
-			adjust_repetition (sheet, row,
-					   first_rep_rows, n_rep_rows,
-					   repeating_y,
-					   &first_rep_rows_used, &n_rep_rows_used,
-					   &repeating_y_used,
-					   sheet_row_get_distance_pts);
-
-			row_count = compute_group (sheet, row, r->end.row,
-						   usable_y - col_header_height - repeating_y_used, 
-						   sheet_row_get_info);
-
-			{
-				GnmRange range;
-				range_init (&range, COL_FIT (col), ROW_FIT (row),
-					    COL_FIT (col + col_count - 1),
-					    ROW_FIT (row + row_count - 1));
-				compute_sheet_pages_add_range (pi, sheet, &range, 
-							       n_rep_cols_used, n_rep_rows_used,
-							       first_rep_rows_used, first_rep_cols_used);
-			}
+		while (r_list) {
+			PaginationInfo *r_info = r_list->data;
 			
-			row += row_count;
+			range_init (&range, COL_FIT (c_info->rc), ROW_FIT (r_info->rc),
+				    COL_FIT (c_info->rc + c_info->count - 1),
+				    ROW_FIT (r_info->rc + r_info->count - 1));
+			compute_sheet_pages_add_range (pi, sheet, &range, 
+						       c_info->n_rep, r_info->n_rep,
+						       c_info->first_rep, r_info->first_rep);
+			r_list = r_list->next;
 		}
-		col += col_count;
+		c_list = c_list->next;
 	}
-
-	return FALSE;
 }
 
-static gboolean
+static void
 compute_sheet_pages_across_then_down (PrintingInstance * pi,
 				      Sheet const *sheet,
-				      GnmRange const *r,
-				      gdouble usable_x,
-				      gdouble usable_y,
-				      gdouble col_header_height,
-				      gdouble row_header_width,
-				      gint n_rep_cols,
-				      gint n_rep_rows,
-				      gint first_rep_rows,
-				      gint first_rep_cols,
-				      gdouble repeating_x, 
-				      gdouble repeating_y)
+				      GSList *column_pagination,
+				      GSList *row_pagination)
 {
-	int row = r->start.row;
+	GnmRange range;
+	GSList *r_list = row_pagination;
 
-	while (row <= r->end.row) {
-		int col = r->start.col;
-		int row_count;
-		gdouble repeating_y_used = 0.;
-		gint n_rep_rows_used = 0, first_rep_rows_used = 0;
+	while (r_list) {
+		PaginationInfo *r_info = r_list->data;
+		GSList *c_list = column_pagination;
 
-		adjust_repetition (sheet, row,
-				   first_rep_rows, n_rep_rows,
-				   repeating_y,
-				   &first_rep_rows_used, &n_rep_rows_used,
-				   &repeating_y_used,
-				   sheet_row_get_distance_pts);
-
-		row_count = compute_group (sheet, row, r->end.row,
-					   usable_y - col_header_height - repeating_y_used, 
-					   sheet_row_get_info);
-
-		while (col <= r->end.col) {
-			int col_count;
-			gdouble repeating_x_used = 0.;
-			gint n_rep_cols_used = 0, first_rep_cols_used = 0;
-
-			adjust_repetition (sheet, col,
-					   first_rep_cols, n_rep_cols,
-					   repeating_x,
-					   &first_rep_cols_used, &n_rep_cols_used,
-					   &repeating_x_used,
-					   sheet_col_get_distance_pts);
-
-			col_count = compute_group (sheet, col, r->end.col,
-						   usable_x - row_header_width - repeating_x_used, 
-						   sheet_col_get_info);
-
-			{
-				GnmRange range;
-				range_init (&range, COL_FIT (col), ROW_FIT (row),
-					    COL_FIT (col + col_count - 1),
-					    ROW_FIT (row + row_count - 1));
-				compute_sheet_pages_add_range (pi, sheet, &range, 
-							       n_rep_cols_used, n_rep_rows_used,
-							       first_rep_rows_used, first_rep_cols_used);
-			}
+		while (c_list) {
+			PaginationInfo *c_info = c_list->data;
 			
-			col += col_count;
+			range_init (&range, COL_FIT (c_info->rc), ROW_FIT (r_info->rc),
+				    COL_FIT (c_info->rc + c_info->count - 1),
+				    ROW_FIT (r_info->rc + r_info->count - 1));
+			compute_sheet_pages_add_range (pi, sheet, &range, 
+						       c_info->n_rep, r_info->n_rep,
+						       c_info->first_rep, r_info->first_rep);
+			c_list = c_list->next;
 		}
-		row += row_count;
+		r_list = r_list->next;
+	}
+}
+
+static void
+paginate (void *result,
+	  PrintingInstance * pi, Sheet const *sheet,
+	  gint start, gint end,
+	  gdouble usable, PrintRepeatRange *repeat, gboolean repeat_row,
+	  gdouble header,
+	  double (sheet_get_distance_pts) (Sheet const *sheet, int from, int to),
+	  ColRowInfo const *(get_info)(Sheet const *sheet, int const p),
+	  gboolean yield_list)
+{
+	GSList *list = NULL;
+	int rc = start;
+	gint n_rep = 0, first_rep = 0;
+	gdouble repeating = 0.;
+
+	if (repeat->use) {
+		gint last_rep;
+
+		first_rep = (repeat_row ? repeat->range.start.row : repeat->range.start.col);
+		last_rep = (repeat_row ? repeat->range.end.row : repeat->range.end.col);
+		n_rep = last_rep - first_rep + 1;
+		repeating = sheet_get_distance_pts (sheet, first_rep, first_rep + n_rep);
+	} 
+
+	while (rc <= end) {
+		int count;
+		PaginationInfo *item;
+ 
+		gdouble repeating_used = 0.;
+		gint n_rep_used = 0, first_rep_used = 0;
+
+		adjust_repetition (sheet, rc,
+				   first_rep, n_rep,
+				   repeating,
+				   &first_rep_used, &n_rep_used,
+				   &repeating_used,
+				   sheet_get_distance_pts);
+
+		count = compute_group (sheet, rc, end,
+				       usable - header - repeating_used, 
+				       get_info);
+		
+		item = g_new (PaginationInfo,1);
+		item->rc = rc;
+		item->count = count;
+		item->first_rep = first_rep_used;
+		item->n_rep = n_rep_used;
+
+		list = g_slist_prepend (list, item);
+
+		rc += count;
 	}
 
-	return FALSE;
+	list = g_slist_reverse (list);
+
+	*((GSList **) result) = list;
+
+	return;
 }
 
 /*
- * Returns TRUE if case of problems.
- */
+  return TRUE in case of trouble
+*/
+
 static gboolean
 compute_sheet_pages (GtkPrintContext   *context,
 		     PrintingInstance * pi,
@@ -1041,11 +1031,12 @@ compute_sheet_pages (GtkPrintContext   *context,
 	gdouble row_header_width = 0.;
 	gdouble page_width, page_height;
 	gdouble top_margin, bottom_margin, edge_to_below_header, edge_to_above_footer;
-	gint n_rep_cols = 0, n_rep_rows = 0, first_rep_rows = 0, first_rep_cols = 0;
-	gint last_rep_cols = 0, last_rep_rows = 0;
 	gdouble px, py;
 	gdouble usable_x, usable_y;
 	gdouble repeating_x = 0., repeating_y = 0.;
+
+	GSList *column_pagination = NULL;
+	GSList *row_pagination = NULL;
 
 	if (pinfo->print_titles) {
 		col_header_height = sheet->rows.default_style.size_pts;
@@ -1077,35 +1068,6 @@ compute_sheet_pages (GtkPrintContext   *context,
 	page_height -= ((edge_to_below_header - top_margin)
 			+ (edge_to_above_footer - bottom_margin));
 
-	if (pinfo->repeat_top.use) {
-		first_rep_rows = pinfo->repeat_top.range.start.row;
-		last_rep_rows = pinfo->repeat_top.range.end.row;
-		n_rep_rows = last_rep_rows - first_rep_rows + 1;
-		repeating_y = sheet_row_get_distance_pts 
-			(sheet, first_rep_rows,
-			 first_rep_rows + n_rep_rows);
-	} 
-	if (pinfo->repeat_left.use) {
-		first_rep_cols = pinfo->repeat_left.range.start.col;
-		last_rep_cols = pinfo->repeat_left.range.end.col;
-		n_rep_cols = last_rep_cols - first_rep_cols + 1;
-		repeating_x = sheet_col_get_distance_pts 
-			(sheet, first_rep_cols,
-			 first_rep_cols + n_rep_cols);
-	} 
-
-	px = pinfo->scaling.percentage.x / 100.;
-	py = pinfo->scaling.percentage.y / 100.;
-
-	if (px <= 0.)
-		px = 1.;
-	if (py <= 0.)
-		py = 1.;
-
-	usable_x   = page_width / px;
-	usable_y   = page_height / py;
-
-
 	if (pinfo->scaling.type == PRINT_SCALE_FIT_PAGES) {
 		/* Note that the resulting scale is independent from */
 		/* whether we print first down or across!            */
@@ -1130,22 +1092,35 @@ compute_sheet_pages (GtkPrintContext   *context,
 		pinfo->scaling.percentage.y = pxy * 100.;
 	}
 
+	px = pinfo->scaling.percentage.x / 100.;
+	py = pinfo->scaling.percentage.y / 100.;
+
+	if (px <= 0.)
+		px = 1.;
+	if (py <= 0.)
+		py = 1.;
+
+	usable_x   = page_width / px;
+	usable_y   = page_height / py;
+
+	paginate (&column_pagination, pi, sheet, r.start.col, r.end.col, usable_x,
+		  &(pinfo->repeat_left), FALSE, row_header_width, 
+		  sheet_col_get_distance_pts, sheet_col_get_info, TRUE);
+	paginate (&row_pagination, pi, sheet, r.start.row, r.end.row, usable_y,
+		  &(pinfo->repeat_top), TRUE, col_header_height,
+		  sheet_row_get_distance_pts, sheet_row_get_info, TRUE);
 
 	if (sheet->print_info->print_across_then_down)
-		return compute_sheet_pages_across_then_down
-			(pi, sheet, &r, 
-			 usable_x, usable_y,
-			 col_header_height, row_header_width,
-			 n_rep_cols, n_rep_rows,
-			 first_rep_rows, first_rep_cols,
-			 repeating_x, repeating_y);
-	else return compute_sheet_pages_down_then_across
-		     (pi, sheet, &r, 
-		      usable_x, usable_y,
-		      col_header_height, row_header_width,
-		      n_rep_cols, n_rep_rows,
-		      first_rep_rows, first_rep_cols,
-		      repeating_x, repeating_y);
+		compute_sheet_pages_across_then_down (pi, sheet, 
+						      column_pagination,row_pagination);
+	else
+		compute_sheet_pages_down_then_across (pi, sheet,
+						      column_pagination,row_pagination);
+
+	go_slist_free_custom (column_pagination, g_free);
+	go_slist_free_custom (row_pagination, g_free);
+	
+	return FALSE;
 }
 
 /*
