@@ -1,4 +1,4 @@
-2007-10-31  Jody Goldberg <jody@gnome.org>
+2007-11-03  Jody Goldberg <jody@gnome.org>
 
 	All calls to *cell_set_* should be followed by an extent update.
 	* openoffice-read.c (oo_update_data_extent) : create this to provide a
