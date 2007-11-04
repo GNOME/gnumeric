@@ -1,3 +1,7 @@
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
 2007-10-27  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c : Move from

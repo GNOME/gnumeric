@@ -1,3 +1,7 @@
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
 2007-11-04  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-export.c (gnm_stf_fs_set_export_options): Adapt to

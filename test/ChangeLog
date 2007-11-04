@@ -1,3 +1,7 @@
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
 2007-10-28  Jon K Hellan  <hellan@acm.org>
 
 	* t8003-valgrind-pdf.supp: More suppressions for Debian

@@ -1,3 +1,7 @@
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
 2007-11-01  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_write_ClientTextbox): Survive NULL
