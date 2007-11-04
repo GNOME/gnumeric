@@ -1,3 +1,14 @@
+gnumeric (1.7.14-1) unstable; urgency=low
+
+  * New upstream release.
+  * [debian/control]
+    * Bumped goffice build dependency per configure.in .
+    * Versioned the evince recommends to versions which implement the
+      --print-settings parameter used in the GTK_PRINT_PREVIEW_COMMAND
+      definition in current gtk+. (Closes: #448445)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 04 Nov 2007 20:25:29 +0100
+
 gnumeric (1.7.13-1) unstable; urgency=low
 
   * New upstream release.
