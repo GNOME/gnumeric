@@ -789,10 +789,19 @@ compute_scale_fit_to (Sheet const *sheet,
 		      int start, int end, double usable,
 		      ColRowInfo const *(get_info)(Sheet const *sheet, int const p),
 		      double (get_distance_pts) (Sheet const *sheet, int from, int to),
-		      gint pages, double max_percent, double extent, double header)
+		      gint pages, double max_percent, double header,
+		      gboolean repeat, gint repeat_start, gint repeat_end)
 {
 	double max_p, min_p;
 	gint   max_pages, min_pages;
+	double extent;
+
+	extent = get_distance_pts (sheet, start, end + 1);
+
+	/* If the repeating columns are not included we should add them */
+	if (repeat && (repeat_start < start))
+		extent += get_distance_pts (sheet, repeat_start, 
+					    (repeat_end < start) ? (repeat_end + 1) : start);
 
 	/* This means to take whatever space is needed.  */
 	if (pages <= 0)
@@ -814,7 +823,7 @@ compute_scale_fit_to (Sheet const *sheet,
 		max_p = max_percent;
 
 	max_pages = paginate (NULL, sheet, start, end, usable/max_p - header,
-			      FALSE, 0, 0,
+			      repeat, repeat_start, repeat_end,
 			      get_distance_pts, get_info);
 
 	if (max_pages == pages)
@@ -827,7 +836,7 @@ compute_scale_fit_to (Sheet const *sheet,
 		min_p = max_percent;
 
 	min_pages = paginate (NULL, sheet, start, end, usable/min_p - header,
-			      FALSE, 0, 0,
+			      repeat, repeat_start, repeat_end,
 			      get_distance_pts, get_info);
 
 
@@ -837,7 +846,7 @@ compute_scale_fit_to (Sheet const *sheet,
 	while (max_p - min_p > 0.001) {
 		double cur_p = (max_p + min_p) / 2.;
 		int cur_pages = paginate (NULL, sheet, start, end, usable/cur_p - header,
-					  FALSE, 0, 0,
+					  repeat, repeat_start, repeat_end,
 					  get_distance_pts, get_info);
 
 		if (cur_pages > pages) {
@@ -1005,18 +1014,16 @@ compute_sheet_pages (GtkPrintContext   *context,
 					    page_height, sheet_row_get_info,
 					    sheet_row_get_distance_pts,
 					    pinfo->scaling.dim.rows, 1.,
-					    sheet_row_get_distance_pts (sheet,
-									r.start.row,
-									r.end.row+1),
-					    col_header_height);
+					    col_header_height,
+					    pinfo->repeat_top.use, pinfo->repeat_top.range.start.row, 
+					    pinfo->repeat_top.range.end.row);
 		pxy = compute_scale_fit_to (sheet, r.start.col, r.end.col,
 					    page_width, sheet_col_get_info,
 					    sheet_col_get_distance_pts,
 					    pinfo->scaling.dim.cols, pxy,
-					    sheet_col_get_distance_pts (sheet,
-									r.start.col,
-									r.end.col+1),
-					    row_header_width);
+					    row_header_width,
+					    pinfo->repeat_left.use, pinfo->repeat_left.range.start.col, 
+					    pinfo->repeat_left.range.end.col);
 
 		pinfo->scaling.percentage.x = pxy * 100.;
 		pinfo->scaling.percentage.y = pxy * 100.;

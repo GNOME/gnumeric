@@ -1,5 +1,11 @@
 2007-11-05  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
+	* src/print.c (compute_scale_fit_to): new arguments to pass
+	  through to paginate. Also calculate extent internally.
+	(compute_sheet_pages): pass more info to compute_scale_fit_to
+
+2007-11-05  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
 	* src/print.c (compute_n_pages): deleted
 	(compute_scale_fit_to): use paginate rather than compute_n_pages
 	(compute_sheet_pages_add_range): change expected argument order to 
