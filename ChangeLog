@@ -1,5 +1,8 @@
 2007-11-05  Morten Welinder  <terra@gnome.org>
 
+	* src/print-info.c (print_init): Hook up options parsing for pdf
+	export.
+
 	* src/stf-export.c (gnm_stf_export_options_sheet_list_clear): Hold
 	a weak sheet reference only.
 

@@ -622,6 +622,26 @@ pdf_write_workbook (GOFileSaver const *fs, IOContext *context,
 			 PRINT_ALL_SHEETS, output);
 }
 
+static gboolean
+cb_set_pdf_option (const char *key, const char *value,
+		      GError **err, gpointer user)
+{
+	Workbook *wb = user;
+
+	g_print ("TODO: %s -> %s\n", key, value);
+	return FALSE;
+}
+
+static gboolean
+pdf_set_export_options (GOFileSaver *fs,
+			GODoc *doc,
+			const char *options,
+			GError **err,
+			gpointer user)
+{
+	return go_parse_key_value (options, err, cb_set_pdf_option, doc);
+}
+
 void
 print_init (void)
 {
@@ -630,6 +650,9 @@ print_init (void)
 		PDF_SAVER_ID, "pdf",
 		_("PDF export"),
 		FILE_FL_WRITE_ONLY, pdf_write_workbook);
+	g_signal_connect (G_OBJECT (saver), "set-export-options",
+			  G_CALLBACK (pdf_set_export_options),
+			  NULL);
 	go_file_saver_register (saver);
 	g_object_unref (saver);
 
