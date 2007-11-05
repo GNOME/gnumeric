@@ -1,3 +1,11 @@
+2007-11-05  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
+	* src/print.c (compute_n_pages): deleted
+	(compute_scale_fit_to): use paginate rather than compute_n_pages
+	(compute_sheet_pages_add_range): change expected argument order to 
+	  match how you are called.
+	(paginate): drop unneeded arguments
+	
 2007-11-05  Morten Welinder  <terra@gnome.org>
 
 	* src/print-info.c (print_init): Hook up options parsing for pdf
