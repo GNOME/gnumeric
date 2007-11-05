@@ -26,6 +26,7 @@
 #include "gnumeric-gconf-priv.h"
 
 #include <goffice/app/go-doc.h>
+#include <goffice/app/go-cmd-context.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/utils/datetime.h>
 #include <goffice/utils/go-glib-extras.h>
@@ -624,12 +625,35 @@ pdf_write_workbook (GOFileSaver const *fs, IOContext *context,
 
 static gboolean
 cb_set_pdf_option (const char *key, const char *value,
-		      GError **err, gpointer user)
+		   GError **err, gpointer user)
 {
 	Workbook *wb = user;
 
-	g_print ("TODO: %s -> %s\n", key, value);
-	return FALSE;
+	if (strcmp (key, "sheet") == 0) {
+		g_warning ("Selecting sheets is not yet supported.");
+		return FALSE;
+	}
+
+	if (strcmp (key, "paper") == 0) {
+		int i;
+
+		for (i = 0; i < workbook_sheet_count (wb); i++) {
+			Sheet *sheet = workbook_sheet_by_index (wb, i);
+			if (print_info_set_paper (sheet->print_info, value)) {
+				*err = g_error_new (go_error_invalid (), 0,
+						    _("Unknown paper size"));
+
+				return TRUE;
+			}
+		}
+		return FALSE;
+	}
+
+	if (err)
+		*err = g_error_new (go_error_invalid (), 0,
+				    _("Invalid option for pdf exporter"));
+
+	return TRUE;
 }
 
 static gboolean
@@ -802,12 +826,26 @@ print_info_set_margins (PrintInformation *pi,
 						 right, GTK_UNIT_POINTS);
 }
 
-void
-page_setup_set_paper        (GtkPageSetup *page_setup, char const *paper)
+
+static void
+paper_log_func (const gchar   *log_domain,
+		GLogLevelFlags log_level,
+		const gchar   *message,
+		gpointer       user_data)
+{
+	int *pwarn = user_data;
+
+	if (log_level & G_LOG_LEVEL_WARNING)
+		*pwarn = 1;
+}
+
+gboolean
+page_setup_set_paper (GtkPageSetup *page_setup, char const *paper)
 {
 	GtkPaperSize* gtk_paper;
+	int bad_paper = 0;
 
-	g_return_if_fail (page_setup != NULL);
+	g_return_val_if_fail (page_setup != NULL, TRUE);
 
 /* We are now using the standard paper names given by PWG 5101.1-2002 */
 /* We are trying to map some old gnome-print paper names.                  */
@@ -822,34 +860,51 @@ page_setup_set_paper        (GtkPageSetup *page_setup, char const *paper)
  "B5" -> GTK_PAPER_NAME_B5
  *  */
 
-	if (g_ascii_strncasecmp ("A4", paper, 2) == 0)
+	if (g_ascii_strcasecmp ("A4", paper) == 0)
 		paper = GTK_PAPER_NAME_A4;
-	else if (g_ascii_strncasecmp ("A3", paper, 2) == 0)
+	else if (g_ascii_strcasecmp ("A3", paper) == 0)
 	        paper = GTK_PAPER_NAME_A3;
-	else if (g_ascii_strncasecmp ("A5", paper, 2) == 0)
+	else if (g_ascii_strcasecmp ("A5", paper) == 0)
 		paper = GTK_PAPER_NAME_A5;
-	else if (g_ascii_strncasecmp ("B5", paper, 2) == 0)
+	else if (g_ascii_strcasecmp ("B5", paper) == 0)
 		paper = GTK_PAPER_NAME_B5;
-	else if (g_ascii_strncasecmp ("USLetter", paper, 8) == 0)
+	else if (g_ascii_strcasecmp ("USLetter", paper) == 0 ||
+		 g_ascii_strcasecmp ("US-Letter", paper) == 0 ||
+		 g_ascii_strcasecmp ("Letter", paper) == 0)
 		paper = GTK_PAPER_NAME_LETTER;
-	else if (g_ascii_strncasecmp ("US-Letter", paper, 9) == 0)
-		paper = GTK_PAPER_NAME_LETTER;
-	else if (g_ascii_strncasecmp ("USLegal", paper, 7) == 0)
+	else if (g_ascii_strcasecmp ("USLegal", paper) == 0)
 		paper = GTK_PAPER_NAME_LEGAL;
 	else if (g_ascii_strncasecmp ("Executive", paper, 9) == 0)
 		paper = GTK_PAPER_NAME_EXECUTIVE;
 
-	gtk_paper = gtk_paper_size_new (paper);
-	gtk_page_setup_set_paper_size (page_setup, gtk_paper);
-	gtk_paper_size_free (gtk_paper);
+	/* Hack: gtk_paper_size_new warns on bad paper, so shut it up.  */
+	/* http://bugzilla.gnome.org/show_bug.cgi?id=493880 */
+	{
+		const char *domain = "Gtk";
+		guint handler = g_log_set_handler (domain, G_LOG_LEVEL_WARNING,
+						   paper_log_func, &bad_paper);
+
+		gtk_paper = gtk_paper_size_new (paper);
+		g_log_remove_handler (domain, handler);
+		if (!gtk_paper)
+			bad_paper = 1;
+	}
+
+	if (!bad_paper)
+		gtk_page_setup_set_paper_size (page_setup, gtk_paper);
+	if (gtk_paper)
+		gtk_paper_size_free (gtk_paper);
+
+	return bad_paper;
 }
 
-void
+gboolean
 print_info_set_paper (PrintInformation *pi, char const *paper)
 {
-	g_return_if_fail (pi != NULL);
+	g_return_val_if_fail (pi != NULL, TRUE);
+
 	print_info_load_defaults (pi);
-	page_setup_set_paper (pi->page_setup, paper);
+	return page_setup_set_paper (pi->page_setup, paper);
 }
 
 char *

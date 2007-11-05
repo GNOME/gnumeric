@@ -139,8 +139,8 @@ char const *unit_to_unit_name (GtkUnit unit);
 void        print_init               (void);
 void        print_shutdown           (void);
 
-void	    page_setup_set_paper	(GtkPageSetup *page_setup, char const *paper);
-void	    print_info_set_paper     	   (PrintInformation *pi, char const *paper);
+gboolean    page_setup_set_paper	(GtkPageSetup *page_setup, char const *paper);
+gboolean    print_info_set_paper     	   (PrintInformation *pi, char const *paper);
 void	    print_info_set_paper_orientation   (PrintInformation *pi,
 						GtkPageOrientation orientation);
 char 	   *page_setup_get_paper (GtkPageSetup *page_setup);

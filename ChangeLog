@@ -2,6 +2,8 @@
 
 	* src/print-info.c (print_init): Hook up options parsing for pdf
 	export.
+	(page_setup_set_paper): Return an error code.
+	(print_info_set_paper): Ditto.
 
 	* src/stf-export.c (gnm_stf_export_options_sheet_list_clear): Hold
 	a weak sheet reference only.
