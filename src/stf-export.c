@@ -72,6 +72,14 @@ enum {
 
 /* ------------------------------------------------------------------------- */
 
+static void
+cb_sheet_destroyed (GnmStfExport *stfe, gpointer deadsheet)
+{
+	g_return_if_fail (IS_GNM_STF_EXPORT (stfe));
+
+	stfe->sheet_list = g_slist_remove (stfe->sheet_list, deadsheet);
+}
+
 /**
  * gnm_stf_export_options_sheet_list_clear:
  * @stfe: an export options struct
@@ -81,9 +89,20 @@ enum {
 void
 gnm_stf_export_options_sheet_list_clear (GnmStfExport *stfe)
 {
+	GSList *l;
+
 	g_return_if_fail (IS_GNM_STF_EXPORT (stfe));
 
-	go_slist_free_custom (stfe->sheet_list, g_object_unref);
+
+	for (l = stfe->sheet_list; l; l = l->next) {
+		Sheet *sheet = l->data;
+
+		g_object_weak_unref (G_OBJECT (sheet),
+				     (GWeakNotify) cb_sheet_destroyed,
+				     stfe);
+	}
+
+	g_slist_free (stfe->sheet_list);
 	stfe->sheet_list = NULL;
 }
 
@@ -101,7 +120,9 @@ gnm_stf_export_options_sheet_list_add (GnmStfExport *stfe, Sheet *sheet)
 	g_return_if_fail (IS_GNM_STF_EXPORT (stfe));
 	g_return_if_fail (IS_SHEET (sheet));
 
-	g_object_ref (sheet);
+	g_object_weak_ref (G_OBJECT (sheet),
+			   (GWeakNotify) cb_sheet_destroyed,
+			   stfe);
 	stfe->sheet_list = g_slist_append (stfe->sheet_list, sheet);
 }
 
