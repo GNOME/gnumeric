@@ -614,6 +614,7 @@ psiconv_read (IOContext *io_context, Workbook *wb, GsfInput *input)
 
 	if ((config = psiconv_config_default()) == NULL)
 		goto out;
+	config->verbosity = PSICONV_VERB_ERROR;
 	psiconv_config_read(NULL,&config);
 	if (psiconv_parse(config, buf, &psi_file) != 0) {
 		psi_file = NULL;
@@ -647,6 +648,7 @@ psiconv_read_header (GsfInput *input)
 
 	if ((config = psiconv_config_default()) == NULL)
 		goto out;
+	config->verbosity = PSICONV_VERB_FATAL;
 	psiconv_config_read(NULL,&config);
 
 	if ((buf = psiconv_stream_to_buffer (input, 1024)) == NULL)
