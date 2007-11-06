@@ -285,7 +285,7 @@ Architecture Changes
 	9.5.4) diagonal borders					(DONE)
 	9.5.5) spans						(DONE)
 	9.5.5) merges						(DONE)
-	9.5.6) check right margin, we overwrite the edge
+	9.5.6) check right margin, we overwrite the edge	(DONE)
 	9.5.7) init preview scroll to right in rtl mode
 	9.5.8) Objects						(DONE)
         9.5.9) Patterns
@@ -976,7 +976,7 @@ Architecture Changes
       rows and/or columns
     - account for repeating rows/cols when paginating             (DONE)
     - account for repeating rows/cols when calculating scalei	  (DONE)
-    - print headers & footers
+    - print headers & footers					  (DONE)
     - enable header/footer specification
 
 -------------------------------------------------------------------------------

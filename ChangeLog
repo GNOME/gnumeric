@@ -1,5 +1,17 @@
 2007-11-06  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
+	* src/print.c (PrintingInstance): add HFRenderInfo
+	(printing_instance_new): handle HFRenderInfo field
+	(printing_instance_destroy): ditto
+	(ensure_decoration_layout): rewrite for gtkprint
+	(print_hf_element): ditto
+	(print_hf_line): ditto
+	(print_headers): delete
+	(print_footers): delete
+	(print_page): also print headers and footers
+
+2007-11-06  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
 	* src/xml-sax-read.c (xml_sax_print_hf): new
 	(PRINT_HEADER): hook up xml_sax_print_hf
 	(PRINT_FOOTER): ditto

@@ -72,6 +72,7 @@ typedef struct {
 	PrintRange pr;
 	guint to, from;
 	guint last_pagination;
+	HFRenderInfo *hfi;
 } PrintingInstance;
 
 typedef struct {
@@ -103,6 +104,7 @@ static PrintingInstance *
 printing_instance_new (void)
 {
 	PrintingInstance * pi = g_new0 (PrintingInstance,1);
+	pi->hfi = hf_render_info_new ();
 
 	return pi;
 }
@@ -112,6 +114,7 @@ printing_instance_delete (PrintingInstance *pi)
 {
 	go_list_free_custom (pi->gnmSheets, g_free);
 	go_list_free_custom (pi->gnmSheetRanges, g_free);
+	hf_render_info_destroy (pi->hfi);
 	g_free (pi);
 }
 
@@ -308,28 +311,23 @@ print_page_row_headers (GtkPrintContext   *context, PrintingInstance * pi,
 	pango_font_description_free (desc);
 }
 
-#if 0
-
 static PangoLayout *
-ensure_decoration_layout (PrintJobInfo *pj)
+ensure_decoration_layout (GtkPrintContext   *context)
 {
-	if (!pj->decoration_layout) {
-		PangoLayout *layout = gnome_print_pango_create_layout (pj->print_context);
-		/*
-		 * Copy the style so we don't leave a cached GnmFont in the
-		 * prefs object.
-		 */
-		GnmStyle *style = gnm_style_dup (gnm_app_prefs->printer_decoration_font);
-		GnmFont *font = gnm_style_get_font
-			(style,
-			 pango_layout_get_context (layout),
-			 1.);
+	GnmStyle *style;
+	GnmFont *font;
+	PangoLayout *layout;
 
-		pj->decoration_layout = layout;
-		pango_layout_set_font_description (layout, font->go.font->desc);
-		gnm_style_unref (style);
-	}
-	return pj->decoration_layout;
+	layout = gtk_print_context_create_pango_layout (context);
+	style = gnm_style_dup (gnm_app_prefs->printer_decoration_font);
+	font = gnm_style_get_font
+		(style,
+		 pango_layout_get_context (layout),
+		 1.);
+	pango_layout_set_font_description (layout, font->go.font->desc);
+	gnm_style_unref (style);
+
+	return layout;
 }
 
 
@@ -346,156 +344,62 @@ ensure_decoration_layout (PrintJobInfo *pj)
  * the rectangle.
  */
 static void
-print_hf_element (PrintJobInfo const *pj, Sheet const *sheet, char const *format,
-		  PangoAlignment side, double y, gboolean align_bottom)
+print_hf_element (GtkPrintContext   *context, cairo_t *cr, Sheet const *sheet, 
+		  char const *format,
+		  PangoAlignment side, gdouble width, gboolean align_bottom, 
+		  HFRenderInfo *hfi)
 {
-	PrintInformation const *pi = sheet->print_info;
+	PangoLayout *layout;
+	
+	gdouble text_height = 0.;
 	char *text;
-
-	g_return_if_fail (pj != NULL);
-	g_return_if_fail (pj->render_info != NULL);
 
 	if (format == NULL)
 		return;
-	text = hf_format_render (format, pj->render_info, HF_RENDER_PRINT);
 
-	if (text && text[0]) {
-		double header = 0, footer = 0, left = 0, right = 0;
-		PangoLayout *layout = ensure_decoration_layout ((PrintJobInfo *)pj);
+	text = hf_format_render (format, hfi, HF_RENDER_PRINT);
+	
+	if (text == NULL)
+		return;
 
-		print_info_get_margins (pi, &header, &footer, &left, &right);
-		pango_layout_set_alignment (layout, side);
-		pango_layout_set_width (layout, (pj->width - left - right) * PANGO_SCALE);
-		pango_layout_set_text (layout, text, -1);
-
-		if (align_bottom) {
-			int height;
-			pango_layout_get_size (layout, NULL, &height);
-			y += height / (double)PANGO_SCALE;
-		}
-
-		gnome_print_moveto (pj->print_context, left, y);
-		gnome_print_pango_layout (pj->print_context, layout);
+	layout = ensure_decoration_layout (context);
+	
+	pango_layout_set_text (layout, text, -1);
+	pango_layout_set_width (layout, width * PANGO_SCALE);
+	pango_layout_set_alignment (layout, side);
+	
+	if (align_bottom) {
+		gint layout_height = 0;
+		pango_layout_get_size (layout, NULL, &layout_height);
+		text_height = (gdouble)layout_height / PANGO_SCALE;
 	}
-	g_free (text);
+		
+	cairo_move_to (cr, 0., - text_height);
+	pango_cairo_show_layout (cr, layout);
+		
+	g_object_unref (layout);
+	g_free(text);
 }
 
 /*
  * print_hf_line
- * @pj:     printing context
  * @hf:     header/footer descriptor
- * @y:      vertical position
- * @left:   left coordinate of clip rectangle
- * @bottom: bottom coordinate of clip rectangle
- * @right:  right coordinate of clip rectangel
- * @top:    top coordinate of clip rectangle
+ * @align_bottom:      vertical position (whether to print above or below
+ * @width:  width of header line
  *
  * Print a header/footer line.
  *
- * Position at y, and clip to rectangle. If gnm_print_debug is TRUE, display
- * the rectangle.
  */
 static void
-print_hf_line (PrintJobInfo const *pj, Sheet const *sheet,
-	       PrintHF const *hf,
-	       double y,
-	       double left, double bottom, double right, double top,
-	       gboolean align_bottom)
+print_hf_line (GtkPrintContext   *context, cairo_t *cr, Sheet const *sheet, 
+	       PrintHF const *hf, gboolean align_bottom, gdouble width, HFRenderInfo *hfi)
 {
-	/* Check if there's room to print. top and bottom are on the clip
-	 * path, so we are actually requiring room for a 6x4 pt
-	 * character. */
-	if (ABS (top - bottom) < 8)
-		return;
-	if (ABS (left - right) < 6)
-		return;
-
-	gnome_print_gsave (pj->print_context);
-
-	gnome_print_setrgbcolor (pj->print_context, 0, 0, 0);
-
-	gnm_print_make_rect_path (pj->print_context,
-				   left, bottom, right, top);
-
-#ifndef NO_DEBUG_PRINT
-	if (gnm_print_debug) {
-		static const double dash[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
-		static gint n_dash = G_N_ELEMENTS (dash);
-
-		gnome_print_gsave (pj->print_context);
-		gnome_print_setdash (pj->print_context, n_dash, dash, 0.0);
-		gnome_print_stroke  (pj->print_context);
-		gnome_print_grestore (pj->print_context);
-	}
-#endif
-	/* Clip the header or footer */
-	gnome_print_clip      (pj->print_context);
-
-	print_hf_element (pj, sheet, hf->left_format, PANGO_ALIGN_LEFT, y, align_bottom);
-	print_hf_element (pj, sheet, hf->middle_format, PANGO_ALIGN_CENTER, y, align_bottom);
-	print_hf_element (pj, sheet, hf->right_format, PANGO_ALIGN_RIGHT, y, align_bottom);
-
-	gnome_print_grestore (pj->print_context);
+	print_hf_element (context, cr, sheet, hf->left_format, PANGO_ALIGN_LEFT, width, align_bottom, hfi);
+	print_hf_element (context, cr, sheet, hf->middle_format, PANGO_ALIGN_CENTER, width, align_bottom, hfi);
+	print_hf_element (context, cr, sheet, hf->right_format, PANGO_ALIGN_RIGHT, width, align_bottom, hfi);
 }
 
-/*
- * print_headers
- * @pj: printing context
- * Print headers
- *
- * Align ascenders flush with inside of top margin.
- */
-static void
-print_headers (PrintJobInfo const *pj, Sheet const *sheet)
-{
-	PrintInformation const *pi = sheet->print_info;
-	PrintMargins const *pm = &pi->margin;
-	double top, bottom, y;
-	double header = 0, footer = 0, left = 0, right = 0;
 
-	print_info_get_margins (pi, &header, &footer, &left, &right);
-
-	y = pj->height - header;
-	top    =  1 + pj->height - MIN (header, pm->top.points);
-	bottom = -1 + pj->height - MAX (header, pm->top.points);
-
-	print_hf_line (pj, sheet, pi->header, y,
-		       -1 + left, bottom,
-		       pj->width - right, top,
-		       FALSE);
-}
-
-/*
- * print_footers
- * @pj: printing context
- * Print footers
- *
- * Align descenders flush with inside of bottom margin.
- */
-static void
-print_footers (PrintJobInfo const *pj, Sheet const *sheet)
-{
-	PrintInformation const *pi = sheet->print_info;
-	PrintMargins const *pm = &pi->margin;
-	double top, bottom, y;
-	double header = 0, footer = 0, left = 0, right = 0;
-
-	print_info_get_margins (pi, &header, &footer, &left, &right);
-
-	y = footer;
-	top    =  1 + MAX (footer, pm->bottom.points);
-	bottom = -1 + MIN (footer, pm->bottom.points);
-
-	/* Clip path for the header
-	 * NOTE : postscript clip paths exclude the border, gdk includes it.
-	 */
-	print_hf_line (pj, sheet, pi->footer, y,
-		       -1 + left, bottom,
-		       pj->width - right, top,
-		       TRUE);
-}
-
-#endif
 
 /**
  * print_page:
@@ -572,11 +476,24 @@ print_page (GtkPrintOperation *operation,
 	print_height = main_height + col_header_height + rep_row_height;
 	print_width = main_width + row_header_width + rep_col_width;
 
-/* printing header  */
-
-
-/* printing footer  */
-
+	/* printing header  */
+	
+	if (edge_to_below_header > header) {
+		cairo_save (cr);
+		print_hf_line (context, cr, sheet, pinfo->header, 
+			       FALSE, width, pi->hfi);
+		cairo_restore (cr);
+	}
+	
+	/* printing footer  */
+	
+	if (edge_to_above_footer > footer) {
+		cairo_save (cr);
+		cairo_translate (cr, 0, height + header + footer);
+		print_hf_line (context, cr, sheet, pinfo->footer, TRUE, width, 
+			       pi->hfi);
+		cairo_restore (cr);
+	}
 
 /* setting up content area */
 	cairo_save (cr);
@@ -1175,6 +1092,7 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 
 		gtk_print_operation_set_n_pages (operation, n_pages == 0 ? 1 : n_pages);
 		gtk_print_operation_set_unit (operation, GTK_UNIT_POINTS);
+		pi->hfi->pages = n_pages;
 
 		if (n_pages == 0) /* gtk+ cannot handle 0 pages */
 			gtk_print_operation_cancel (operation);
@@ -1287,8 +1205,11 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 	PrintingInstance * pi = (PrintingInstance *) user_data;
 	SheetPageRange * gsr = g_list_nth_data (pi->gnmSheetRanges,
 					       page_nr);
-	if (gsr)
+	if (gsr) {
+		pi->hfi->page = page_nr + 1;
+		pi->hfi->sheet = gsr->sheet;
 		print_page (operation, context, pi, gsr);
+	}
 }
 
 static void
