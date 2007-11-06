@@ -73,6 +73,7 @@ struct _PrintInformation {
 
 	/* Gnumeric specific */
 	unsigned int     print_even_if_only_styles:1;
+	unsigned int     do_not_print:1;
 
 	enum {
 		PRINT_COMMENTS_NONE,

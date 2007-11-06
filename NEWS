@@ -7,6 +7,10 @@ Andreas
 Jean
 	* Print images.
 
+Morten:
+	* Make pdf exporter able to print specified sheets only.
+	* Make it possible to set page size for ssconvert's pdf exporter.
+
 --------------------------------------------------------------------------
 Gnumeric 1.7.14
 

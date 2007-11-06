@@ -623,12 +623,15 @@ pdf_write_workbook (GOFileSaver const *fs, IOContext *context,
 	GPtrArray *sheets = g_object_get_data (G_OBJECT (wb), "pdf-sheets");
 
 	if (sheets) {
-		gsize i;
+		int i;
 
-		g_warning ("Printing specified sheets only is not implemented.");
-		for (i = 0; i < sheets->len; i++) {
+		for (i = 0; i < workbook_sheet_count (wb); i++) {
+			Sheet *sheet = workbook_sheet_by_index (wb, i);
+			sheet->print_info->do_not_print = TRUE;
+		}
+		for (i = 0; i < (int)sheets->len; i++) {
 			Sheet *sheet = g_ptr_array_index (sheets, i);
-			g_printerr ("Should print %s\n", sheet->name_quoted);
+			sheet->print_info->do_not_print = FALSE;
 		}
 	}
 

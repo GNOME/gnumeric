@@ -1,3 +1,11 @@
+2007-11-06  Morten Welinder  <terra@gnome.org>
+
+	* src/print-info.c (pdf_write_workbook): Set do_not_print flags to
+	relects sheet selection.
+
+	* src/print.c (compute_pages): Do not print sheets marked
+	do_not_print.
+
 2007-11-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-so-filled.c: (gnm_so_filled_draw_cairo): use cairo_t*

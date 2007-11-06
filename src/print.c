@@ -1075,42 +1075,44 @@ compute_pages (GtkPrintOperation *operation,
 	       guint from,
 	       guint to)
 {
-	Workbook * wb = pi->wb;
+	Workbook *wb = pi->wb;
 	guint i;
 	guint n;
 
 	switch (pr) {
 	case PRINT_ACTIVE_SHEET:
-		compute_sheet_pages_add_sheet (pi,
-			   pi->sheet, FALSE, FALSE);
+		compute_sheet_pages_add_sheet (pi, pi->sheet, FALSE, FALSE);
 		break;
 	case PRINT_ALL_SHEETS:
-		n =  workbook_sheet_count (wb);
-		for (i = 0; i < n; i++)
-			compute_sheet_pages_add_sheet (pi,
-					     workbook_sheet_by_index (wb, i),
-					     FALSE, FALSE);
+		n = workbook_sheet_count (wb);
+		for (i = 0; i < n; i++) {
+			Sheet *sheet = workbook_sheet_by_index (wb, i);
+			if (sheet->print_info->do_not_print)
+				continue;
+			compute_sheet_pages_add_sheet (pi, sheet,
+						       FALSE, FALSE);
+		}
 		break;
 	case PRINT_SHEET_RANGE:
-		n =  workbook_sheet_count (wb);
+		n = workbook_sheet_count (wb);
 		if (to > n)
 			to = n;
-		for (i = from - 1; i < to; i++)
-			compute_sheet_pages_add_sheet (pi,
-					     workbook_sheet_by_index (wb, i),
-					     FALSE, FALSE);
+		for (i = from - 1; i < to; i++){
+			Sheet *sheet = workbook_sheet_by_index (wb, i);
+			if (sheet->print_info->do_not_print)
+				continue;
+			compute_sheet_pages_add_sheet (pi, sheet,
+						       FALSE, FALSE);
+		}
 		break;
 	case PRINT_SHEET_SELECTION:
-		compute_sheet_pages_add_sheet (pi,
-				     pi->sheet, TRUE, FALSE);
+		compute_sheet_pages_add_sheet (pi, pi->sheet, TRUE, FALSE);
 		break;
 	case PRINT_IGNORE_PRINTAREA:
-		compute_sheet_pages_add_sheet (pi,
-				     pi->sheet, FALSE, TRUE);
+		compute_sheet_pages_add_sheet (pi, pi->sheet, FALSE, TRUE);
 		break;
 	case PRINT_SHEET_SELECTION_IGNORE_PRINTAREA:
-		compute_sheet_pages_add_sheet (pi,
-				     pi->sheet, TRUE, TRUE);
+		compute_sheet_pages_add_sheet (pi, pi->sheet, TRUE, TRUE);
 		break;
 	}
 	return;
