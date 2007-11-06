@@ -953,6 +953,47 @@ xml_sax_repeat_left (GsfXMLIn *xin, xmlChar const **attrs)
 				(&pi->repeat_left.range, CXML2C (attrs[1]));
 }
 
+static void
+xml_sax_print_hf (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	PrintInformation *pi;
+	PrintHF *hf;
+
+	g_return_if_fail (state->sheet != NULL);
+	g_return_if_fail (state->sheet->print_info != NULL);
+
+	pi = state->sheet->print_info;
+
+	switch (xin->node->user_data.v_int) {
+	case 0:
+		hf = pi->footer;
+		break;
+	case 1:
+		hf = pi->header;
+		break;
+	default:
+		return;
+	}
+	
+	g_return_if_fail (hf != NULL);
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		double pts;
+		if ( attr_eq (attrs[0], "Left")) {
+			g_free (hf->left_format);
+			hf->left_format = g_strdup (CXML2C (attrs[1]));
+		} else if (attr_eq (attrs[0], "Middle")) {
+			g_free (hf->middle_format);
+			hf->middle_format = g_strdup (CXML2C (attrs[1]));
+		} else if (attr_eq (attrs[0], "Right")) {
+			g_free (hf->right_format);
+			hf->right_format = g_strdup (CXML2C (attrs[1]));
+		} else
+			unknown_attr (xin, attrs);
+	}
+}
+
 
 static void
 xml_sax_even_if_only_styles (GsfXMLIn *xin, xmlChar const **attrs)
@@ -2269,8 +2310,8 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALS
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_TITLES,	    GNM, "titles",	GSF_XML_NO_CONTENT, &xml_sax_print_titles, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_REPEAT_TOP, GNM, "repeat_top",	GSF_XML_NO_CONTENT, &xml_sax_repeat_top, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_REPEAT_LEFT,GNM, "repeat_left",	GSF_XML_NO_CONTENT, &xml_sax_repeat_left, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_HEADER,	    GNM, "Footer",	GSF_XML_NO_CONTENT, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_FOOTER,	    GNM, "Header",	GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE_FULL (SHEET_PRINTINFO, PRINT_FOOTER,	    GNM, "Footer",	GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_print_hf, NULL, 0),
+	GSF_XML_IN_NODE_FULL (SHEET_PRINTINFO, PRINT_HEADER,	    GNM, "Header",	GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_print_hf, NULL, 1),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ORDER,	    GNM, "order",	GSF_XML_CONTENT,  NULL, &xml_sax_print_order),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_PAPER,	    GNM, "paper",	GSF_XML_CONTENT,  NULL, &xml_sax_paper),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ORIENT,	    GNM, "orientation",	GSF_XML_CONTENT,  NULL, &xml_sax_orientation),

@@ -1,3 +1,9 @@
+2007-11-06  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
+	* src/xml-sax-read.c (xml_sax_print_hf): new
+	(PRINT_HEADER): hook up xml_sax_print_hf
+	(PRINT_FOOTER): ditto
+
 2007-11-06  Morten Welinder  <terra@gnome.org>
 
 	* src/print-info.c (pdf_write_workbook): Set do_not_print flags to

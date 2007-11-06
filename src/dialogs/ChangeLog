@@ -1,3 +1,9 @@
+2007-11-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-printer-setup.c: reenable some of the header/footer 
+	  specification
+	* print.glade: remove unnecessary label on header/footer page
+
 2007-11-04  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.14

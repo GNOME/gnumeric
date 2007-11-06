@@ -3,6 +3,7 @@ Gnumeric 1.7.15
 Andreas
 	* Speed up pagination
 	* Account for repeating rows/cols when scaling automatically
+	* Load header & footer info from file
 
 Jean
 	* Print images.

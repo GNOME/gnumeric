@@ -153,9 +153,9 @@ struct _PrinterSetupState {
 	GnmExprEntry *top_entry;
 	GnmExprEntry *left_entry;
 
-/*	/\* The header and footer data. *\/ */
-/*	PrintHF *header; */
-/*	PrintHF *footer; */
+	/* The header and footer data. */
+	PrintHF *header;
+	PrintHF *footer;
 
 /*	/\* The header and footer customize dialogs. *\/ */
 /*	GtkWidget *customize_header; */
@@ -816,6 +816,8 @@ do_footer_customize (PrinterSetupState *state)
 	do_hf_customize (FALSE, state);
 }
 
+#endif
+
 static void
 header_changed (GtkComboBox *menu, PrinterSetupState *state)
 {
@@ -824,13 +826,13 @@ header_changed (GtkComboBox *menu, PrinterSetupState *state)
 	PrintHF *format = (selection)? selection->data: NULL;
 
 	if (format == NULL) {
-		do_header_customize (state);
+/* 		do_header_customize (state); */
 	} else {
 		print_hf_free (state->header);
 		state->header = print_hf_copy (format);
 	}
 	
-		display_hf_preview (state, TRUE);
+/* 		display_hf_preview (state, TRUE); */
 }
 
 static void
@@ -841,14 +843,15 @@ footer_changed (GtkComboBox *menu, PrinterSetupState *state)
 	PrintHF *format = (selection)? selection->data: NULL;
 
 	if (format == NULL) {
-		do_footer_customize (state);
+/* 		do_footer_customize (state); */
 	} else {
 		print_hf_free (state->footer);
 		state->footer = print_hf_copy (format);
 	}
 
-	display_hf_preview (state, FALSE);
+/* 	display_hf_preview (state, FALSE); */
 }
+
 
 /*
  * Fills one of the GtkCombos for headers or footers with the list
@@ -901,15 +904,15 @@ fill_hf (PrinterSetupState *state, GtkComboBox *om, GCallback callback, gboolean
 	}
 
 	/* Add menu option to customize the header/footer. */
-	if (header)
-		res = g_strdup_printf (_("Customize header"));
-	else
-		res = g_strdup_printf (_("Customize footer"));
-	gtk_list_store_append (store, &iter);
-	gtk_list_store_set (store, &iter,
-				0, res,
-				-1);
-	g_free (res);
+/* 	if (header) */
+/* 		res = g_strdup_printf (_("Customize header")); */
+/* 	else */
+/* 		res = g_strdup_printf (_("Customize footer")); */
+/* 	gtk_list_store_append (store, &iter); */
+/* 	gtk_list_store_set (store, &iter, */
+/* 				0, res, */
+/* 				-1); */
+/* 	g_free (res); */
 
 	gtk_combo_box_set_active (om, idx);
 	g_signal_connect (G_OBJECT (om), "changed", callback, state);
@@ -933,6 +936,8 @@ do_setup_hf_menus (PrinterSetupState *state)
 	if (state->footer)
 		fill_hf (state, footer, G_CALLBACK (footer_changed), FALSE);
 }
+
+#if 0
 
 static char *
 text_get (GtkEditable *text_widget)
@@ -1238,6 +1243,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 	gtk_box_pack_start (GTK_BOX (wid), GTK_WIDGET (pi->canvas), TRUE, TRUE, 0);
 }
 
+#endif
 
 /*
  * Setup the widgets for the header and footer tab.
@@ -1272,14 +1278,14 @@ do_setup_hf (PrinterSetupState *state)
 				     hf_formats->data);
 
 	do_setup_hf_menus (state);
-
+/*
 	create_hf_preview_canvas (state, TRUE);
 	create_hf_preview_canvas (state, FALSE);
 
 	display_hf_preview (state, TRUE);
 	display_hf_preview (state, FALSE);
+*/
 }
-#endif
 
 static void
 display_order_icon (GtkToggleButton *toggle, PrinterSetupState *state)
@@ -1718,10 +1724,9 @@ cb_do_print_destroy (PrinterSetupState *state)
 /*		gtk_widget_destroy (state->customize_footer); */
 
 	g_object_unref (state->gui);
-/*	g_object_unref (state->gp_config); */
 
-/*	print_hf_free (state->header); */
-/*	print_hf_free (state->footer); */
+	print_hf_free (state->header);
+	print_hf_free (state->footer);
 	print_info_free (state->pi);
 /*	g_free (state->pi_header); */
 /*	g_free (state->pi_footer); */
@@ -1838,15 +1843,15 @@ printer_setup_state_new (WBCGtk *wbcg, Sheet *sheet)
 
 	do_setup_main_dialog (state);
 	do_setup_sheet_selector (state);
-/*	do_setup_hf (state); */
+	do_setup_hf (state); 
 	do_setup_page_info (state);
 	do_setup_page (state);
 	do_setup_scale (state);
 
 	
 	notebook = glade_xml_get_widget (state->gui, "print-setup-notebook");
-	if ((page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), 2)) != NULL)
-		gtk_widget_destroy (page);
+/* 	if ((page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), 2)) != NULL) */
+/* 		gtk_widget_destroy (page); */
 
 	return state;
 }
@@ -1944,8 +1949,6 @@ do_fetch_margins (PrinterSetupState *state)
 	print_info_set_edge_to_below_header (state->pi, header * factor);
 }
 
-#if 0
-
 static void
 do_fetch_hf (PrinterSetupState *state)
 {
@@ -1955,8 +1958,6 @@ do_fetch_hf (PrinterSetupState *state)
 	state->pi->header = print_hf_copy (state->header);
 	state->pi->footer = print_hf_copy (state->footer);
 }
-
-#endif
 
 static void
 do_fetch_page_info (PrinterSetupState *state)
@@ -1986,7 +1987,7 @@ fetch_settings (PrinterSetupState *state)
 	do_fetch_scale (state);
 	do_fetch_margins (state);
 	do_fetch_unit (state);
-/*	do_fetch_hf (state); */
+	do_fetch_hf (state);
 	do_fetch_page_info (state);
 }
 
