@@ -1,3 +1,8 @@
+2007-11-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (xl_axis_get_elem): don't set cross auto each
+	time there is an auto parameter, just for cross.
+
 2007-11-04  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.14

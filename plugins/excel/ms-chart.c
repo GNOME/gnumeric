@@ -2161,8 +2161,8 @@ xl_axis_get_elem (GogObject *axis, unsigned dim, gchar const *name,
 		if (dim == GOG_AXIS_ELEM_CROSS_POINT) {
 		    gog_dataset_set_dim (GOG_DATASET (axis), dim,
 			    go_data_scalar_val_new (0.), NULL);
+		    g_object_set (axis, "pos-str", "cross", NULL);
 		}
-		g_object_set (axis, "pos-str", "cross", NULL);
 	} else {
 		double const val = gsf_le_get_double (data);
 		double real_value = (log_scale)? gnm_pow10 (val): val;
