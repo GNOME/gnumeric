@@ -194,7 +194,7 @@ gnm_so_polygon_user_config (SheetObject *so, SheetControl *sc)
 #endif /* WITH_GTK */
 
 static void
-gnm_so_polygon_draw_cairo (SheetObject const *so, gpointer data,
+gnm_so_polygon_draw_cairo (SheetObject const *so, cairo_t *cr,
 	double width, double height)
 {
 }

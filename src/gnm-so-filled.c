@@ -247,43 +247,42 @@ gnm_so_filled_new_view (SheetObject *so, SheetObjectViewContainer *container)
 #endif /* WITH_GTK */
 
 static void
-gnm_so_filled_draw_cairo (SheetObject const *so, gpointer data,
+gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 			  double width, double height)
 {
 	GnmSOFilled *sof = GNM_SO_FILLED (so);
-	cairo_t *cairo = (cairo_t*) data;
 	GogStyle const *style = sof->style;
 	cairo_pattern_t *pat = NULL;
 
-	cairo_new_path (cairo);
+	cairo_new_path (cr);
 	if (sof->is_oval) {
-		cairo_save (cairo);
-		cairo_scale (cairo, width, height);
-		cairo_arc (cairo, .5, .5, .5, 0., 2 * M_PI);
-		cairo_restore (cairo);
+		cairo_save (cr);
+		cairo_scale (cr, width, height);
+		cairo_arc (cr, .5, .5, .5, 0., 2 * M_PI);
+		cairo_restore (cr);
 	} else {
-		cairo_move_to (cairo, 0., 0.);
-		cairo_line_to (cairo, width, 0.);
-		cairo_line_to (cairo, width, height);
-		cairo_line_to (cairo, 0., height);
-		cairo_line_to (cairo, 0., 0.);
-		cairo_close_path (cairo);
+		cairo_move_to (cr, 0., 0.);
+		cairo_line_to (cr, width, 0.);
+		cairo_line_to (cr, width, height);
+		cairo_line_to (cr, 0., height);
+		cairo_line_to (cr, 0., 0.);
+		cairo_close_path (cr);
 	}
 	/* Fill the shape */
-	pat = gog_style_create_cairo_pattern (style, cairo);
+	pat = gog_style_create_cairo_pattern (style, cr);
 	if (pat) {
-		cairo_set_source (cairo, pat);
-		cairo_fill_preserve (cairo);
+		cairo_set_source (cr, pat);
+		cairo_fill_preserve (cr);
 		cairo_pattern_destroy (pat);
 	}
 	/* Draw the line */
-	cairo_set_line_width (cairo, (style->outline.width)? style->outline.width: 1.);
-	cairo_set_source_rgba (cairo,
+	cairo_set_line_width (cr, (style->outline.width)? style->outline.width: 1.);
+	cairo_set_source_rgba (cr,
 		UINT_RGBA_R(style->outline.color),
 		UINT_RGBA_B(style->outline.color),
 		UINT_RGBA_G(style->outline.color),
 		UINT_RGBA_A(style->outline.color));
-	cairo_stroke (cairo);
+	cairo_stroke (cr);
 }
 
 static gboolean

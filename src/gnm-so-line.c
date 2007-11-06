@@ -205,11 +205,10 @@ gnm_so_line_new_view (SheetObject *so, SheetObjectViewContainer *container)
 #endif /* WITH_GTK */
 
 static void
-gnm_so_line_draw_cairo (SheetObject const *so, gpointer data,
+gnm_so_line_draw_cairo (SheetObject const *so, cairo_t *cr,
 			double width, double height)
 {
 	GnmSOLine *sol = GNM_SO_LINE (so);
-	cairo_t *cairo = (cairo_t*) data;
 	GogStyleLine const *style = &sol->style->line;
 	double x1, y1, x2, y2;
 
@@ -248,8 +247,8 @@ gnm_so_line_draw_cairo (SheetObject const *so, gpointer data,
 		return;
 	}
 
-	cairo_set_line_width (cairo, (style->width)? style->width: 1.);
-	cairo_set_source_rgba (cairo,
+	cairo_set_line_width (cr, (style->width)? style->width: 1.);
+	cairo_set_source_rgba (cr,
 		UINT_RGBA_R(style->color),
 		UINT_RGBA_B(style->color),
 		UINT_RGBA_G(style->color),
@@ -260,18 +259,18 @@ gnm_so_line_draw_cairo (SheetObject const *so, gpointer data,
 
 		phi = atan2 (y2 - y1, x2 - x1) - M_PI_2;
 
-		cairo_save (cairo);
-		cairo_translate (cairo, x2, y2);
-		cairo_rotate (cairo, phi);
-		cairo_set_line_width (cairo, 1.0);
-		cairo_new_path (cairo);
-		cairo_move_to (cairo, 0.0, 0.0);
-		cairo_line_to (cairo, -sol->end_arrow.c, -sol->end_arrow.b);
-		cairo_line_to (cairo, 0.0, -sol->end_arrow.a);
-		cairo_line_to (cairo, sol->end_arrow.c, -sol->end_arrow.b);
-		cairo_close_path (cairo);
-		cairo_fill (cairo);
-		cairo_restore (cairo);
+		cairo_save (cr);
+		cairo_translate (cr, x2, y2);
+		cairo_rotate (cr, phi);
+		cairo_set_line_width (cr, 1.0);
+		cairo_new_path (cr);
+		cairo_move_to (cr, 0.0, 0.0);
+		cairo_line_to (cr, -sol->end_arrow.c, -sol->end_arrow.b);
+		cairo_line_to (cr, 0.0, -sol->end_arrow.a);
+		cairo_line_to (cr, sol->end_arrow.c, -sol->end_arrow.b);
+		cairo_close_path (cr);
+		cairo_fill (cr);
+		cairo_restore (cr);
 
 		/* Make the line shorter so that the arrow won't be
 		 * on top of a (perhaps quite fat) line.  */
@@ -279,11 +278,11 @@ gnm_so_line_draw_cairo (SheetObject const *so, gpointer data,
 		y2 -= sol->end_arrow.a * cos (phi);
 	}
 
-	cairo_set_line_width (cairo, style->width);
-	cairo_new_path (cairo);
-	cairo_move_to (cairo, x1, y1);
-	cairo_line_to (cairo, x2, y2);
-	cairo_stroke (cairo);
+	cairo_set_line_width (cr, style->width);
+	cairo_new_path (cr);
+	cairo_move_to (cr, x1, y1);
+	cairo_line_to (cr, x2, y2);
+	cairo_stroke (cr);
 }
 
 static gboolean

@@ -573,6 +573,30 @@ gnm_soi_copy (SheetObject *dst, SheetObject const *src)
 }
 
 static void
+gnm_soi_draw_cairo (SheetObject const *so, cairo_t *cr,
+			  double width, double height)
+{
+	GdkPixbuf *pixbuf = soi_get_pixbuf (SHEET_OBJECT_IMAGE (so), 1.);
+	GOImage *img = go_image_new_from_pixbuf (pixbuf);
+	cairo_pattern_t *cr_pattern = go_image_create_cairo_pattern (img);
+	int w, h;
+	cairo_matrix_t cr_matrix;
+
+	w = gdk_pixbuf_get_width  (pixbuf);
+	h = gdk_pixbuf_get_height (pixbuf);
+	cairo_matrix_init_scale (&cr_matrix,
+				 w / width,
+				 h / height);
+	cairo_pattern_set_matrix (cr_pattern, &cr_matrix);
+	cairo_rectangle (cr, 0., 0., width, height);
+	cairo_set_source (cr, cr_pattern);
+	cairo_fill (cr);
+	cairo_pattern_destroy (cr_pattern);
+	g_object_unref (img);
+	g_object_unref (pixbuf);
+}
+
+static void
 gnm_soi_default_size (SheetObject const *so, double *w, double *h)
 {
 	GdkPixbuf *buf = soi_get_pixbuf (SHEET_OBJECT_IMAGE (so), 1.);
@@ -635,6 +659,7 @@ gnm_soi_class_init (GObjectClass *object_class)
 	so_class->write_xml_sax		= gnm_soi_write_xml_sax;
 	so_class->prep_sax_parser	= gnm_soi_prep_sax_parser;
 	so_class->copy			= gnm_soi_copy;
+	so_class->draw_cairo		= gnm_soi_draw_cairo;
 	so_class->user_config		= NULL;
 	so_class->default_size		= gnm_soi_default_size;
 	so_class->rubber_band_directly	= TRUE;

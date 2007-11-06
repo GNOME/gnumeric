@@ -385,11 +385,11 @@ gnm_sog_copy (SheetObject *dst, SheetObject const *src)
 }
 
 static void
-gnm_sog_draw_cairo (SheetObject const *so, gpointer data,
+gnm_sog_draw_cairo (SheetObject const *so, cairo_t *cr,
 			  double width, double height)
 {
 	gog_graph_render_to_cairo (SHEET_OBJECT_GRAPH (so)->graph,
-				   data, width, height);
+				   cr, width, height);
 }
 
 typedef struct {

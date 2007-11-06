@@ -536,10 +536,9 @@ sheet_object_can_print (SheetObject const *so)
  *
  **/
 void
-sheet_object_draw_cairo (SheetObject const *so, gpointer *data, gboolean rtl)
+sheet_object_draw_cairo (SheetObject const *so, cairo_t *cr, gboolean rtl)
 {
 	if (SO_CLASS (so)->draw_cairo) {
-		cairo_t *cairo = (cairo_t*) data;
 		SheetObjectAnchor const *anchor;
 		double x = 0., y = 0., width, height, cell_width, cell_height;
 		anchor = sheet_object_get_anchor (so);
@@ -574,8 +573,8 @@ sheet_object_draw_cairo (SheetObject const *so, gpointer *data, gboolean rtl)
 		}
 
 		/* we don't need to save/restore cairo, the caller must do it */
-		cairo_translate (cairo, x, y);
-		SO_CLASS (so)->draw_cairo (so, cairo, width, height);
+		cairo_translate (cr, x, y);
+		SO_CLASS (so)->draw_cairo (so, cr, width, height);
 	}
 }
 

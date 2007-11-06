@@ -1,3 +1,16 @@
+2007-11-06  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-so-filled.c: (gnm_so_filled_draw_cairo): use cairo_t*
+	as arg for draw_cairo instead of gpointer.
+	* src/gnm-so-line.c: (gnm_so_line_draw_cairo): ditto.
+	* src/gnm-so-polygon.c: (gnm_so_polygon_draw_cairo): ditto.
+	* src/sheet-object-graph.c: (gnm_sog_draw_cairo): ditto.
+	* src/sheet-object-impl.h: ditto.
+	* src/sheet-object.c: (sheet_object_draw_cairo): ditto.
+	* src/sheet-object.h: ditto.
+	* src/sheet-object-image.c: (gnm_soi_draw_cairo),
+	(gnm_soi_class_init): implement draw_cairo (for printing).
+
 2007-11-05  Morten Welinder  <terra@gnome.org>
 
 	* src/print-info.c (pdf_write_workbook): Prepare for printing

@@ -67,7 +67,7 @@ typedef struct {
 	void	     (*default_size) (SheetObject const *so,
 				      double *width_pts, double *height_pts);
 
-	void	       (*draw_cairo) (SheetObject const *so, gpointer data,
+	void	       (*draw_cairo) (SheetObject const *so, cairo_t *cr,
 				      double width, double height);
 
 	void          (*foreach_dep) (SheetObject *so,
