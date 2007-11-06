@@ -137,6 +137,8 @@ sub test_sheet_calc {
     my $pargs = (ref $_[0]) ? shift @_ : [];
     my ($range,$expected) = @_;
 
+    &report_skip ("file $file does not exist") unless -r $file;
+
     my $tmp = fileparse ($file);
     $tmp =~ s/\.[a-zA-Z0-9]+$/.csv/;
     &junkfile ($tmp);
@@ -350,6 +352,16 @@ sub test_ssindex {
     } else {
 	die "Fail\n";
     }
+}
+
+# -----------------------------------------------------------------------------
+
+sub report_skip {
+    my ($txt) = @_;
+
+    print "SKIP -- $txt\n";
+    # 77 is magic for automake
+    exit 77;
 }
 
 # -----------------------------------------------------------------------------
