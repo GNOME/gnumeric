@@ -1,3 +1,9 @@
+2007-11-05  Morten Welinder  <terra@gnome.org>
+
+	* src/print-info.c (pdf_write_workbook): Prepare for printing
+	selected sheets.  Note: doesn't actually work yet.
+	(cb_set_pdf_option): Parse sheets to be printing.
+
 2007-11-05  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	* src/print.c (compute_scale_fit_to): new arguments to pass

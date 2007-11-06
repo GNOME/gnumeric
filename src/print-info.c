@@ -619,8 +619,27 @@ pdf_write_workbook (GOFileSaver const *fs, IOContext *context,
 		    gconstpointer wbv_, GsfOutput *output)
 {
 	WorkbookView const *wbv = wbv_;
+	Workbook const *wb = wb_view_get_workbook (wbv);
+	GPtrArray *sheets = g_object_get_data (G_OBJECT (wb), "pdf-sheets");
+
+	if (sheets) {
+		gsize i;
+
+		g_warning ("Printing specified sheets only is not implemented.");
+		for (i = 0; i < sheets->len; i++) {
+			Sheet *sheet = g_ptr_array_index (sheets, i);
+			g_printerr ("Should print %s\n", sheet->name_quoted);
+		}
+	}
+
 	gnm_print_sheet (NULL, wb_view_cur_sheet (wbv), FALSE,
 			 PRINT_ALL_SHEETS, output);
+}
+
+static void
+cb_free_sheets (GPtrArray *a)
+{
+	g_ptr_array_free (a, TRUE);
 }
 
 static gboolean
@@ -630,7 +649,24 @@ cb_set_pdf_option (const char *key, const char *value,
 	Workbook *wb = user;
 
 	if (strcmp (key, "sheet") == 0) {
-		g_warning ("Selecting sheets is not yet supported.");
+		Sheet *sheet = workbook_sheet_by_name (wb, value);
+		GPtrArray *sheets;
+
+		if (!sheet) {
+			*err = g_error_new (go_error_invalid (), 0,
+					    _("There is no such sheet"));
+			return TRUE;
+		}
+
+		sheets = g_object_get_data (G_OBJECT (wb), "pdf-sheets");
+		if (!sheets) {
+			sheets = g_ptr_array_new ();
+			g_object_set_data_full (G_OBJECT (wb),
+						"pdf-sheets", sheets,
+						(GDestroyNotify)cb_free_sheets);
+		}
+		g_ptr_array_add (sheets, sheet);
+
 		return FALSE;
 	}
 
