@@ -4,6 +4,9 @@ Andreas
 	* Speed up pagination
 	* Account for repeating rows/cols when scaling automatically
 
+Jean
+	* Print images.
+
 --------------------------------------------------------------------------
 Gnumeric 1.7.14
 
