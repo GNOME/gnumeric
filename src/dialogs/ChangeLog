@@ -1,5 +1,11 @@
 2007-11-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-printer-setup.c: eanble header/footer preview
+	(create_hf_preview_canvas): use a font similar to the header
+	  footer font chosen by the user.
+
+2007-11-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-printer-setup.c: reenable some of the header/footer 
 	  specification
 	* print.glade: remove unnecessary label on header/footer page

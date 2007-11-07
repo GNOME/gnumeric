@@ -91,7 +91,6 @@ typedef struct {
 	double scale;
 } MarginPreviewInfo;
 
-#if 0
 
 typedef struct {
 	/* The Canvas object for the header/footer sample preview */
@@ -104,7 +103,6 @@ typedef struct {
 
 } HFPreviewInfo;
 
-#endif
 
 typedef struct _PrinterSetupState PrinterSetupState;
 typedef struct {
@@ -162,8 +160,8 @@ struct _PrinterSetupState {
 /*	GtkWidget *customize_footer; */
 
 /*	/\* The header and footer preview widgets. *\/ */
-/*	HFPreviewInfo *pi_header; */
-/*	HFPreviewInfo *pi_footer; */
+	HFPreviewInfo *pi_header;
+	HFPreviewInfo *pi_footer;
 };
 
 static void dialog_gtk_printer_setup_cb (PrinterSetupState *state);
@@ -759,8 +757,6 @@ do_setup_margin (PrinterSetupState *state)
 
 }
 
-#if 0
-
 /* Display the header or footer preview in the print setup dialog.
  * Use the canvas widget in the HFPreviewInfo struct.
  *
@@ -804,6 +800,8 @@ display_hf_preview (PrinterSetupState *state, gboolean header)
 	hf_render_info_destroy (hfi);
 }
 
+#if 0
+
 static void
 do_header_customize (PrinterSetupState *state)
 {
@@ -832,7 +830,7 @@ header_changed (GtkComboBox *menu, PrinterSetupState *state)
 		state->header = print_hf_copy (format);
 	}
 	
-/* 		display_hf_preview (state, TRUE); */
+		display_hf_preview (state, TRUE);
 }
 
 static void
@@ -849,7 +847,7 @@ footer_changed (GtkComboBox *menu, PrinterSetupState *state)
 		state->footer = print_hf_copy (format);
 	}
 
-/* 	display_hf_preview (state, FALSE); */
+	display_hf_preview (state, FALSE);
 }
 
 
@@ -1106,6 +1104,8 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	gtk_widget_show (dialog);
 }
 
+#endif
+
 /* header/footer_preview_event
  * If the user double clicks on a header/footer preview canvas, we will
  * open up the dialog to modify the header or footer.
@@ -1119,7 +1119,7 @@ header_preview_event (G_GNUC_UNUSED FooCanvas *canvas,
 	    event->type != GDK_2BUTTON_PRESS ||
 	    event->button.button != 1)
 		return FALSE;
-	do_hf_customize (TRUE, state);
+/* 	do_hf_customize (TRUE, state); */
 	return TRUE;
 }
 
@@ -1131,7 +1131,7 @@ footer_preview_event (G_GNUC_UNUSED FooCanvas *canvas,
 	    event->type != GDK_2BUTTON_PRESS ||
 	    event->button.button != 1)
 		return FALSE;
-	do_hf_customize (FALSE, state);
+/* 	do_hf_customize (FALSE, state); */
 	return TRUE;
 }
 
@@ -1145,6 +1145,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 	GtkWidget *wid;
 	HFPreviewInfo *pi;
 	PangoFontDescription *font_desc;
+	GnmStyle *style;
 	gdouble width = HF_PREVIEW_X;
 	gdouble height = HF_PREVIEW_Y;
 	gdouble shadow = HF_PREVIEW_SHADOW;
@@ -1181,13 +1182,17 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		"fill-color",	"white",
 		NULL);
 
-	/* Use the Gnumeric default font. */
+	style = gnm_style_dup (gnm_app_prefs->printer_decoration_font);
+		gnm_style_unref (style);
 	font_desc = pango_font_description_new ();
-	pango_font_description_set_family (font_desc, DEFAULT_FONT);
-	pango_font_description_set_style (font_desc, PANGO_STYLE_NORMAL);
+	pango_font_description_set_family (font_desc, gnm_style_get_font_name (style));
+	pango_font_description_set_style 
+		(font_desc, gnm_style_get_font_italic (style) ? 
+		 PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
 	pango_font_description_set_variant (font_desc, PANGO_VARIANT_NORMAL);
 	pango_font_description_set_weight (font_desc, PANGO_WEIGHT_NORMAL);
 	pango_font_description_set_size (font_desc, 8 * PANGO_SCALE);
+	gnm_style_unref (style);
 
 	pi->left = foo_canvas_item_new (
 		foo_canvas_root (FOO_CANVAS (pi->canvas)),
@@ -1243,8 +1248,6 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 	gtk_box_pack_start (GTK_BOX (wid), GTK_WIDGET (pi->canvas), TRUE, TRUE, 0);
 }
 
-#endif
-
 /*
  * Setup the widgets for the header and footer tab.
  *
@@ -1278,13 +1281,13 @@ do_setup_hf (PrinterSetupState *state)
 				     hf_formats->data);
 
 	do_setup_hf_menus (state);
-/*
+
 	create_hf_preview_canvas (state, TRUE);
 	create_hf_preview_canvas (state, FALSE);
 
 	display_hf_preview (state, TRUE);
 	display_hf_preview (state, FALSE);
-*/
+
 }
 
 static void
@@ -1516,7 +1519,6 @@ do_update_page (PrinterSetupState *state)
 static void
 do_setup_page (PrinterSetupState *state)
 {
-/*	GtkTable *table; */
 	GladeXML *gui;
 
 	gui = state->gui;
@@ -1728,8 +1730,8 @@ cb_do_print_destroy (PrinterSetupState *state)
 	print_hf_free (state->header);
 	print_hf_free (state->footer);
 	print_info_free (state->pi);
-/*	g_free (state->pi_header); */
-/*	g_free (state->pi_footer); */
+	g_free (state->pi_header);
+	g_free (state->pi_footer);
 	g_object_unref (state->unit_model);
 	g_free (state);
 }
@@ -1848,11 +1850,6 @@ printer_setup_state_new (WBCGtk *wbcg, Sheet *sheet)
 	do_setup_page (state);
 	do_setup_scale (state);
 
-	
-	notebook = glade_xml_get_widget (state->gui, "print-setup-notebook");
-/* 	if ((page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), 2)) != NULL) */
-/* 		gtk_widget_destroy (page); */
-
 	return state;
 }
 
@@ -1925,7 +1922,6 @@ do_fetch_scale (PrinterSetupState *state)
 static void
 do_fetch_margins (PrinterSetupState *state)
 {
-/*	GtkToggleButton *t; */
 	double header, footer, top, bottom, left, right;
 	GtkPageSetup     *ps = print_info_get_page_setup (state->pi);
 	double factor = get_conversion_factor (state->display_unit);
