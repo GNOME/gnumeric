@@ -16,8 +16,6 @@ Release Critical
 
 In Progress
 -----------
-    Andreas
-        - remove feature regression due to gtkprint conversion
     Jody
 	- CELL translation & array handling
 	- INDEX range res, iteration
@@ -961,7 +959,7 @@ Architecture Changes
 	37.2.8) Text direction in styles
 
 38) GtkPrint conversion
-    - restore all of the dialog
+    - restore all of the dialog					  (DONE)
     - win32 breakage
 	 - preview puts black background around glyphs
 	 - preview drops rotated text
@@ -977,7 +975,7 @@ Architecture Changes
     - account for repeating rows/cols when paginating             (DONE)
     - account for repeating rows/cols when calculating scalei	  (DONE)
     - print headers & footers					  (DONE)
-    - enable header/footer specification
+    - enable header/footer specification			  (DONE)
 
 -------------------------------------------------------------------------------
 Target Features

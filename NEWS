@@ -5,6 +5,7 @@ Andreas:
 	* Account for repeating rows/cols when scaling automatically
 	* Load header & footer info from file
 	* Print headers and footers
+	* Reenable header/footer customization
 
 Jean:
 	* Print images.

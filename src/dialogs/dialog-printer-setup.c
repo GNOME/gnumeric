@@ -108,8 +108,6 @@ typedef struct _PrinterSetupState PrinterSetupState;
 typedef struct {
 	double     value;
 	GtkSpinButton *spin;
-/*	GtkAdjustment *adj; */
-
 	FooCanvasItem *line;
 	double bound_x1, bound_y1, bound_x2, bound_y2;
 	MarginPreviewInfo *pi;
@@ -127,7 +125,6 @@ struct _PrinterSetupState {
 	GtkWidget        *scale_percent_radio;
 	GtkWidget        *scale_fit_to_radio;
 	GtkWidget        *scale_no_radio;
-	
 
 	GtkWidget        *unit_selector;
 	GtkTreeModel     *unit_model;
@@ -155,11 +152,11 @@ struct _PrinterSetupState {
 	PrintHF *header;
 	PrintHF *footer;
 
-/*	/\* The header and footer customize dialogs. *\/ */
-/*	GtkWidget *customize_header; */
-/*	GtkWidget *customize_footer; */
+	/* The header and footer customize dialogs. */
+	GtkWidget *customize_header;
+	GtkWidget *customize_footer;
 
-/*	/\* The header and footer preview widgets. *\/ */
+	/* The header and footer preview widgets. */
 	HFPreviewInfo *pi_header;
 	HFPreviewInfo *pi_footer;
 };
@@ -168,9 +165,7 @@ static void dialog_gtk_printer_setup_cb (PrinterSetupState *state);
 static void fetch_settings (PrinterSetupState *state);
 static void do_update_page (PrinterSetupState *state);
 static void do_fetch_margins (PrinterSetupState *state);
-#if 0
 static void do_hf_customize (gboolean header, PrinterSetupState *state);
-#endif
 
 static double
 get_conversion_factor (GtkUnit unit)
@@ -425,32 +420,8 @@ margin_preview_page_create (PrinterSetupState *state)
 static void
 canvas_update (PrinterSetupState *state)
 {
-/*	guchar *unit_txt; */
-
 	margin_preview_page_destroy (state);
 	margin_preview_page_create (state);
-
-/*	unit_txt = gnome_print_config_get (state->gp_config, GNOME_PRINT_KEY_PREFERED_UNIT); */
-/*	if (unit_txt) { */
-/*		GnomePrintUnitSelector *sel = */
-/*			GNOME_PRINT_UNIT_SELECTOR (state->unit_selector); */
-/*		const GnomePrintUnit *unit = */
-/*			gnome_print_unit_get_by_abbreviation (unit_txt); */
-
-/*		g_free (unit_txt); */
-/*		gnome_print_unit_selector_set_unit (sel, unit); */
-/*		spin_button_adapt_to_unit (state->margins.header.spin, unit); */
-/*		spin_button_adapt_to_unit (state->margins.footer.spin, unit); */
-/*	} */
-}
-
-
-static void
-notebook_flipped (G_GNUC_UNUSED GtkNotebook *notebook,
-		  G_GNUC_UNUSED GtkNotebookPage *page,
-		  gint page_num,
-		  PrinterSetupState *state)
-{
 }
 
 
@@ -800,8 +771,6 @@ display_hf_preview (PrinterSetupState *state, gboolean header)
 	hf_render_info_destroy (hfi);
 }
 
-#if 0
-
 static void
 do_header_customize (PrinterSetupState *state)
 {
@@ -814,8 +783,6 @@ do_footer_customize (PrinterSetupState *state)
 	do_hf_customize (FALSE, state);
 }
 
-#endif
-
 static void
 header_changed (GtkComboBox *menu, PrinterSetupState *state)
 {
@@ -824,7 +791,7 @@ header_changed (GtkComboBox *menu, PrinterSetupState *state)
 	PrintHF *format = (selection)? selection->data: NULL;
 
 	if (format == NULL) {
-/* 		do_header_customize (state); */
+ 		do_header_customize (state);
 	} else {
 		print_hf_free (state->header);
 		state->header = print_hf_copy (format);
@@ -841,7 +808,7 @@ footer_changed (GtkComboBox *menu, PrinterSetupState *state)
 	PrintHF *format = (selection)? selection->data: NULL;
 
 	if (format == NULL) {
-/* 		do_footer_customize (state); */
+ 		do_footer_customize (state);
 	} else {
 		print_hf_free (state->footer);
 		state->footer = print_hf_copy (format);
@@ -901,17 +868,6 @@ fill_hf (PrinterSetupState *state, GtkComboBox *om, GCallback callback, gboolean
 		g_free (right);
 	}
 
-	/* Add menu option to customize the header/footer. */
-/* 	if (header) */
-/* 		res = g_strdup_printf (_("Customize header")); */
-/* 	else */
-/* 		res = g_strdup_printf (_("Customize footer")); */
-/* 	gtk_list_store_append (store, &iter); */
-/* 	gtk_list_store_set (store, &iter, */
-/* 				0, res, */
-/* 				-1); */
-/* 	g_free (res); */
-
 	gtk_combo_box_set_active (om, idx);
 	g_signal_connect (G_OBJECT (om), "changed", callback, state);
 
@@ -934,8 +890,6 @@ do_setup_hf_menus (PrinterSetupState *state)
 	if (state->footer)
 		fill_hf (state, footer, G_CALLBACK (footer_changed), FALSE);
 }
-
-#if 0
 
 static char *
 text_get (GtkEditable *text_widget)
@@ -1104,8 +1058,6 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	gtk_widget_show (dialog);
 }
 
-#endif
-
 /* header/footer_preview_event
  * If the user double clicks on a header/footer preview canvas, we will
  * open up the dialog to modify the header or footer.
@@ -1119,7 +1071,7 @@ header_preview_event (G_GNUC_UNUSED FooCanvas *canvas,
 	    event->type != GDK_2BUTTON_PRESS ||
 	    event->button.button != 1)
 		return FALSE;
-/* 	do_hf_customize (TRUE, state); */
+ 	do_hf_customize (TRUE, state); 
 	return TRUE;
 }
 
@@ -1131,7 +1083,7 @@ footer_preview_event (G_GNUC_UNUSED FooCanvas *canvas,
 	    event->type != GDK_2BUTTON_PRESS ||
 	    event->button.button != 1)
 		return FALSE;
-/* 	do_hf_customize (FALSE, state); */
+ 	do_hf_customize (FALSE, state); 
 	return TRUE;
 }
 
@@ -1183,7 +1135,6 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		NULL);
 
 	style = gnm_style_dup (gnm_app_prefs->printer_decoration_font);
-		gnm_style_unref (style);
 	font_desc = pango_font_description_new ();
 	pango_font_description_set_family (font_desc, gnm_style_get_font_name (style));
 	pango_font_description_set_style 
@@ -1259,19 +1210,20 @@ do_setup_hf (PrinterSetupState *state)
 	GtkComboBox *header;
 	GtkComboBox *footer;
 	GtkCellRenderer *renderer;
+	GtkWidget *w;
 
 	g_return_if_fail (state != NULL);
 
 	header = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "option-menu-header"));
 	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (header), renderer, TRUE);
-    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (header), renderer,
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (header), renderer,
                                         "text", 0,
                                         NULL);
 	footer = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "option-menu-footer"));
 	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
 	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (footer), renderer, TRUE);
-    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (footer), renderer,
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (footer), renderer,
                                         "text", 0,
                                         NULL);
 
@@ -1281,6 +1233,16 @@ do_setup_hf (PrinterSetupState *state)
 				     hf_formats->data);
 
 	do_setup_hf_menus (state);
+
+	w = glade_xml_get_widget (state->gui, "configure-header-button");
+	g_signal_connect_swapped (G_OBJECT (w),
+		"clicked",
+		G_CALLBACK (do_header_customize), state);
+	w = glade_xml_get_widget (state->gui, "configure-footer-button");
+	g_signal_connect_swapped (G_OBJECT (w),
+		"clicked",
+		G_CALLBACK (do_footer_customize), state);
+
 
 	create_hf_preview_canvas (state, TRUE);
 	create_hf_preview_canvas (state, FALSE);
@@ -1320,8 +1282,6 @@ load_print_area (PrinterSetupState *state)
 		 wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
 		 &print_area);
 }
-
-
 
 static void
 do_setup_page_info (PrinterSetupState *state)
@@ -1719,11 +1679,11 @@ cb_do_print (PrinterSetupState *state)
 static void
 cb_do_print_destroy (PrinterSetupState *state)
 {
-/*	if (state->customize_header) */
-/*		gtk_widget_destroy (state->customize_header); */
+	if (state->customize_header) 
+		gtk_widget_destroy (state->customize_header); 
 
-/*	if (state->customize_footer) */
-/*		gtk_widget_destroy (state->customize_footer); */
+	if (state->customize_footer) 
+		gtk_widget_destroy (state->customize_footer); 
 
 	g_object_unref (state->gui);
 
@@ -1811,9 +1771,6 @@ do_setup_main_dialog (PrinterSetupState *state)
 		G_CALLBACK (cb_do_print_cancel), state);
 	
 	w = glade_xml_get_widget (state->gui, "print-setup-notebook");
-	g_signal_connect (G_OBJECT (w),
-		"switch-page",
-		G_CALLBACK (notebook_flipped), state);
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (w), 0);
 	
 	g_object_set_data_full (G_OBJECT (state->dialog),
@@ -1840,8 +1797,8 @@ printer_setup_state_new (WBCGtk *wbcg, Sheet *sheet)
 	state->gui   = gui;
 	state->pi    = print_info_dup (sheet->print_info);
 	state->display_unit = state->pi->desired_display.top;
-/*	state->customize_header = NULL; */
-/*	state->customize_footer = NULL; */
+	state->customize_header = NULL; 
+	state->customize_footer = NULL; 
 
 	do_setup_main_dialog (state);
 	do_setup_sheet_selector (state);

@@ -1,5 +1,18 @@
 2007-11-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-printer-setup.c: reenable header/footer customization
+	(canvas_update): replace gnome-print code with corresponding
+	  gtk code
+	(hf_fill): don't add a configuration command to the header/footer
+	  lists
+	(notebook_flipped): deleted
+	(create_hf_preview_canvas): don't unref the style twice.
+	(do_setup_hf): hookup customization buttons
+	* print.glade: added two configuration buttons for header &
+	  footer
+
+2007-11-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-printer-setup.c: eanble header/footer preview
 	(create_hf_preview_canvas): use a font similar to the header
 	  footer font chosen by the user.
