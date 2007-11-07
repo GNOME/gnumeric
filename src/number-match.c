@@ -1089,7 +1089,7 @@ format_match (char const *text, GOFormat *cur_fmt,
 
 	case GO_FORMAT_DATE: {
 		gboolean month_before_day =
-			gnm_format_month_before_day (cur_fmt, NULL);
+			gnm_format_month_before_day (cur_fmt, NULL) != 0;
 
 		v = format_match_datetime (text, date_conv,
 					   month_before_day,
@@ -1104,7 +1104,7 @@ format_match (char const *text, GOFormat *cur_fmt,
 
 	case GO_FORMAT_TIME: {
 		gboolean month_before_day =
-			gnm_format_month_before_day (cur_fmt, NULL);
+			gnm_format_month_before_day (cur_fmt, NULL) != 0;
 
 		gboolean prefer_hour =
 			gnm_format_has_hour (cur_fmt, NULL);
@@ -1166,7 +1166,7 @@ format_match (char const *text, GOFormat *cur_fmt,
 	}
 
 	v = format_match_datetime (text, date_conv,
-				   go_locale_month_before_day (),
+				   go_locale_month_before_day () != 0,
 				   TRUE,
 				   FALSE);
 	if (v)

@@ -1,3 +1,11 @@
+2007-11-06  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-edit.c (wbcg_edit_start): Use yyyy-m-d format for
+	date entry when appropriate.
+
+	* src/gnm-format.c (gnm_format_month_before_day): Update return
+	value like for go_format_month_before_day.
+
 2007-11-06  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	* src/print.c (PrintingInstance): add HFRenderInfo

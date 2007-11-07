@@ -882,12 +882,19 @@ wbcg_edit_start (WBCGtk *wbcg,
 			}
 
 			case GO_FORMAT_DATE: {
+				const char *ftxt;
 				GString *fstr;
 				GOFormat *new_fmt;
-				gboolean mbd = gnm_format_month_before_day
+				int mbd = gnm_format_month_before_day
 					(fmt, cell->value);
 
-				fstr = g_string_new (mbd ? "m/d/yyyy" : "d/m/yyyy");
+				switch (mbd) {
+				case 0: ftxt = "d/m/yyyy"; break;
+				default:
+				case 1: ftxt = "m/d/yyyy"; break;
+				case 2: ftxt = "yyyy-m-d"; break;
+				}
+				fstr = g_string_new (ftxt);
 
 				if (!close_to_int (f, 1e-6 / (24 * 60 * 60))) {
 					g_string_append_c (fstr, ' ');

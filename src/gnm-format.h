@@ -34,8 +34,8 @@ int gnm_format_is_date_for_value (GOFormat const *fmt,
 int gnm_format_is_time_for_value (GOFormat const *fmt,
 				  GnmValue const *value);
 
-gboolean gnm_format_month_before_day (GOFormat const *fmt,
-				      GnmValue const *value);
+int gnm_format_month_before_day (GOFormat const *fmt,
+				 GnmValue const *value);
 
 gboolean gnm_format_has_hour (GOFormat const *fmt,
 			      GnmValue const *value);

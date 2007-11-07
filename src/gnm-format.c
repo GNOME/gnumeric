@@ -250,7 +250,7 @@ gnm_format_is_time_for_value (GOFormat const *fmt,
 	return (go_format_get_family (fmt) == GO_FORMAT_TIME);
 }
 
-gboolean
+int
 gnm_format_month_before_day (GOFormat const *fmt,
 			     GnmValue const *value)
 {
@@ -263,7 +263,7 @@ gnm_format_month_before_day (GOFormat const *fmt,
 	if (mbd < 0)
 		mbd = go_locale_month_before_day ();
 
-	return mbd != 0;
+	return mbd;
 }
 
 gboolean
