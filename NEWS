@@ -1,12 +1,12 @@
 Gnumeric 1.7.15
 
-Andreas
+Andreas:
 	* Speed up pagination
 	* Account for repeating rows/cols when scaling automatically
 	* Load header & footer info from file
 	* Print headers and footers
 
-Jean
+Jean:
 	* Print images.
 
 Morten:
@@ -17,10 +17,10 @@ Morten:
 --------------------------------------------------------------------------
 Gnumeric 1.7.14
 
-Andreas
+Andreas:
 	* Print repeated rows and columns.
 	* Fix printing crash. [#491775]
-	* Reimplement down then across printng
+	* Reimplement down then across printing
 
 Götz Waschk:
 	* Fix paradox plugin compilation.  [#489030]
@@ -165,7 +165,7 @@ Morten:
 	* Fix loading/saving of R1C1 attribute.  [#448714]
 	* Fix overflow problem when int!=long.  [#458158]
 
-Nils Kanning :
+Nils Kanning:
 	* Fix the inline documentation for python addins. [#412804]
 
 --------------------------------------------------------------------------
