@@ -647,6 +647,11 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 		xml_node_get_int  (child, "value",  &b);
 		pi->print_titles          = (b == 1);
 	}
+	if ((child = e_xml_get_child_by_name (tree, CC2XML ("do_not_print")))) {
+		xml_node_get_int  (child, "value",    &b);
+		pi->do_not_print  = (b == 1);
+	}
+
 
 	xml_read_print_repeat_range (ctxt, tree, "repeat_top",
 				     &pi->repeat_top);

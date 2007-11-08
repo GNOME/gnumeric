@@ -6,6 +6,7 @@ Andreas:
 	* Load header & footer info from file
 	* Print headers and footers
 	* Reenable header/footer customization
+	* Add do-not-print flag to sheets. [#371754]
 
 Jean:
 	* Print images.

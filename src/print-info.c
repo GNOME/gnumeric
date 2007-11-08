@@ -300,6 +300,7 @@ print_info_new (gboolean load_defaults)
 
 	res->start_page	   = -1;
 	res->n_copies	   = 0;
+	res->do_not_print   = FALSE;
 
 	res->page_setup = NULL;
 	res->page_breaks.v = NULL;

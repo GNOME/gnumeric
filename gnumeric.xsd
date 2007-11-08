@@ -301,6 +301,12 @@
             </xsd:element>
             <!-- typical values are A4, US-Letter -->
             <xsd:element name="paper"       type="xsd:string" minOccurs="0" maxOccurs="1"/>
+	    <!-- do not print this sheet when "all" is selected in the job -->
+	    <xsd:element name="do_not_print">
+	        <xsd:complexType>
+	            <xsd:attribute name="value" type="xsd:boolean" use="required"/>
+	        </xsd:complexType>
+	    </xsd:element>
 
         </xsd:sequence>
     </xsd:complexType>

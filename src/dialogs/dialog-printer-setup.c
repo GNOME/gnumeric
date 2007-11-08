@@ -1294,6 +1294,7 @@ do_setup_page_info (PrinterSetupState *state)
 	GtkWidget *onlystyles= glade_xml_get_widget (state->gui, "check-only-styles");
 	GtkWidget *bw        = glade_xml_get_widget (state->gui, "check-black-white");
 	GtkWidget *titles    = glade_xml_get_widget (state->gui, "check-print-titles");
+	GtkWidget *do_not_print = glade_xml_get_widget (state->gui, "check-do-not-print");
 	GtkWidget *order_rd  = glade_xml_get_widget (state->gui, "radio-order-right");
 	GtkWidget *order_dr  = glade_xml_get_widget (state->gui, "radio-order-down");
 	GtkWidget *order_table = glade_xml_get_widget (state->gui, "page-order-table");
@@ -1350,6 +1351,8 @@ do_setup_page_info (PrinterSetupState *state)
 				      state->pi->print_black_and_white);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (titles), 
 				      state->pi->print_titles);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (do_not_print), 
+				      state->pi->do_not_print);
 
 	order = state->pi->print_across_then_down ? order_rd : order_dr;
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (order), TRUE);
@@ -1784,8 +1787,6 @@ printer_setup_state_new (WBCGtk *wbcg, Sheet *sheet)
 	PrinterSetupState *state;
 	GladeXML *gui;
 
-	GtkWidget *page, *notebook;
-
 	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"print.glade", NULL, NULL);
         if (gui == NULL)
@@ -1927,6 +1928,8 @@ do_fetch_page_info (PrinterSetupState *state)
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "check-print-titles")));
 	pi->print_across_then_down = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "radio-order-right")));
+	pi->do_not_print = gtk_toggle_button_get_active
+		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "check-do-not-print")));
 	pi->repeat_top.use = gnm_expr_entry_get_rangesel (state->top_entry,
 		&pi->repeat_top.range, NULL);
 	pi->repeat_left.use = gnm_expr_entry_get_rangesel (state->left_entry,

@@ -1,3 +1,10 @@
+2007-11-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* print.glade: add "do not print" checkbox
+	* dialog-printer-setup.c (do_setup_page_info): handle do-not-print
+	  checkbox
+	(do_fetch_page_info): ditto
+
 2007-11-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-printer-setup.c: reenable header/footer customization
