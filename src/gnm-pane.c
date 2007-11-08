@@ -681,74 +681,6 @@ gnm_pane_size_allocate (GtkWidget *w, GtkAllocation *allocation)
 	gnm_pane_compute_visible_region (pane, TRUE);
 }
 
-static void
-gnm_pane_dispose (GObject *obj)
-{
-	GnmPane *pane = GNM_PANE (obj);
-
-	if (pane->col.canvas != NULL) {
-		gtk_object_destroy (GTK_OBJECT (pane->col.canvas));
-		pane->col.canvas = NULL;
-	}
-
-	if (pane->row.canvas != NULL) {
-		gtk_object_destroy (GTK_OBJECT (pane->row.canvas));
-		pane->row.canvas = NULL;
-	}
-
-	g_slist_free (pane->cursor.animated);
-	pane->cursor.animated = NULL;
-
-	if (pane->mouse_cursor) {
-		gdk_cursor_unref (pane->mouse_cursor);
-		pane->mouse_cursor = NULL;
-	}
-	gnm_pane_clear_obj_size_tip (pane);
-
-	if (pane->drag.ctrl_pts) {
-		g_hash_table_destroy (pane->drag.ctrl_pts);
-		pane->drag.ctrl_pts = NULL;
-	}
-
-	/* Be anal just in case we somehow manage to remove a pane
-	 * unexpectedly.  */
-	pane->grid = NULL;
-	pane->editor = NULL;
-	pane->cursor.std = pane->cursor.rangesel = pane->cursor.special = pane->cursor.expr_range = NULL;
-	pane->size_guide.guide = NULL;
-	pane->size_guide.start = NULL;
-	pane->size_guide.points = NULL;
-
-	G_OBJECT_CLASS (parent_klass)->dispose (obj);
-}
-
-static void
-gnm_pane_finalize (GObject *object)
-{
-	g_object_unref (G_OBJECT (GNM_PANE (object)->im_context));
-	G_OBJECT_CLASS (parent_klass)->finalize (object);
-}
-
-static void
-gnm_pane_class_init (GnmPaneClass *klass)
-{
-	GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
-	GtkWidgetClass *widget_class  = (GtkWidgetClass *) klass;
-
-	parent_klass = g_type_class_peek_parent (klass);
-
-	gobject_class->dispose  = gnm_pane_dispose;
-	gobject_class->finalize = gnm_pane_finalize;
-
-	widget_class->realize		   = gnm_pane_realize;
-	widget_class->unrealize		   = gnm_pane_unrealize;
-	widget_class->size_allocate	   = gnm_pane_size_allocate;
-	widget_class->key_press_event	   = gnm_pane_key_press;
-	widget_class->key_release_event	   = gnm_pane_key_release;
-	widget_class->focus_in_event	   = gnm_pane_focus_in;
-	widget_class->focus_out_event	   = gnm_pane_focus_out;
-}
-
 static GtkEditable *
 gnm_pane_get_editable (GnmPane const *pane)
 {
@@ -884,6 +816,63 @@ cb_ctrl_pts_free (GtkObject **ctrl_pts)
 }
 
 static void
+gnm_pane_dispose (GObject *obj)
+{
+	GnmPane *pane = GNM_PANE (obj);
+
+	if (pane->col.canvas != NULL) {
+		gtk_object_destroy (GTK_OBJECT (pane->col.canvas));
+		pane->col.canvas = NULL;
+	}
+
+	if (pane->row.canvas != NULL) {
+		gtk_object_destroy (GTK_OBJECT (pane->row.canvas));
+		pane->row.canvas = NULL;
+	}
+
+	if (pane->im_context) {
+		GtkIMContext *imc = pane->im_context;
+
+		pane->im_context = NULL;
+		g_signal_handlers_disconnect_by_func
+			(imc, cb_gnm_pane_commit, pane);
+		g_signal_handlers_disconnect_by_func
+			(imc, cb_gnm_pane_preedit_changed, pane);
+		g_signal_handlers_disconnect_by_func
+			(imc, cb_gnm_pane_retrieve_surrounding, pane);
+		g_signal_handlers_disconnect_by_func
+			(imc, cb_gnm_pane_delete_surrounding, pane);
+		gtk_im_context_set_client_window (imc, NULL);
+		g_object_unref (imc);
+	}
+
+	g_slist_free (pane->cursor.animated);
+	pane->cursor.animated = NULL;
+
+	if (pane->mouse_cursor) {
+		gdk_cursor_unref (pane->mouse_cursor);
+		pane->mouse_cursor = NULL;
+	}
+	gnm_pane_clear_obj_size_tip (pane);
+
+	if (pane->drag.ctrl_pts) {
+		g_hash_table_destroy (pane->drag.ctrl_pts);
+		pane->drag.ctrl_pts = NULL;
+	}
+
+	/* Be anal just in case we somehow manage to remove a pane
+	 * unexpectedly.  */
+	pane->grid = NULL;
+	pane->editor = NULL;
+	pane->cursor.std = pane->cursor.rangesel = pane->cursor.special = pane->cursor.expr_range = NULL;
+	pane->size_guide.guide = NULL;
+	pane->size_guide.start = NULL;
+	pane->size_guide.points = NULL;
+
+	G_OBJECT_CLASS (parent_klass)->dispose (obj);
+}
+
+static void
 gnm_pane_init (GnmPane *pane)
 {
 	FooCanvas	*canvas = FOO_CANVAS (pane);
@@ -929,13 +918,34 @@ gnm_pane_init (GnmPane *pane)
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_DEFAULT);
 
 	g_signal_connect (G_OBJECT (pane->im_context), "commit",
-		G_CALLBACK (cb_gnm_pane_commit), pane);
+			  G_CALLBACK (cb_gnm_pane_commit), pane);
 	g_signal_connect (G_OBJECT (pane->im_context), "preedit_changed",
-		G_CALLBACK (cb_gnm_pane_preedit_changed), pane);
+			  G_CALLBACK (cb_gnm_pane_preedit_changed), pane);
 	g_signal_connect (G_OBJECT (pane->im_context), "retrieve_surrounding",
-		G_CALLBACK (cb_gnm_pane_retrieve_surrounding), pane);
+			  G_CALLBACK (cb_gnm_pane_retrieve_surrounding),
+			  pane);
 	g_signal_connect (G_OBJECT (pane->im_context), "delete_surrounding",
-		G_CALLBACK (cb_gnm_pane_delete_surrounding), pane);
+			  G_CALLBACK (cb_gnm_pane_delete_surrounding),
+			  pane);
+}
+
+static void
+gnm_pane_class_init (GnmPaneClass *klass)
+{
+	GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
+	GtkWidgetClass *widget_class  = (GtkWidgetClass *) klass;
+
+	parent_klass = g_type_class_peek_parent (klass);
+
+	gobject_class->dispose  = gnm_pane_dispose;
+
+	widget_class->realize		   = gnm_pane_realize;
+	widget_class->unrealize		   = gnm_pane_unrealize;
+	widget_class->size_allocate	   = gnm_pane_size_allocate;
+	widget_class->key_press_event	   = gnm_pane_key_press;
+	widget_class->key_release_event	   = gnm_pane_key_release;
+	widget_class->focus_in_event	   = gnm_pane_focus_in;
+	widget_class->focus_out_event	   = gnm_pane_focus_out;
 }
 
 GSF_CLASS (GnmPane, gnm_pane,

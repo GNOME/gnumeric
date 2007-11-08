@@ -1,3 +1,10 @@
+2007-11-07  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-pane.c (gnm_pane_dispose): Get rid of ->im_context here,
+	not in gnm_pane_finalize.  First disconnect signals and window.
+	This fixes FMR during workbook destruction.
+	(gnm_pane_finalize): Delete.
+
 2007-11-06  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk-edit.c (wbcg_edit_start): Use yyyy-m-d format for
