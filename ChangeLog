@@ -1,5 +1,9 @@
 2007-11-08  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
+	* gnumeric.xsd: add do_not_print field
+
+2007-11-08  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
 	* src/xml-sax-read.c (xml_sax_print_do_not_print): new
 	* src/xml-sax-write.c (xml_write_print_info): write do_not_print 
 	  field
