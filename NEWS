@@ -15,6 +15,7 @@ Morten:
 	* Make it possible to set page size for ssconvert's pdf exporter.
 	* Fix date entry problem with yyyy-mm-dd formats.  [#494387]
 	* Fix FMR during workbook destruction.
+	* Fix UMR when moving cells.
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.14

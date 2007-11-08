@@ -4293,6 +4293,9 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 			} else
 				reloc_info.reloc_type = GNM_EXPR_RELOCATE_MOVE_RANGE;
 
+			parse_pos_init_sheet (&reloc_info.pos,
+					      rinfo->origin_sheet);
+
 			while (invalid) {
 				GnmRange *r = invalid->data;
 				invalid = g_slist_remove (invalid, r);
