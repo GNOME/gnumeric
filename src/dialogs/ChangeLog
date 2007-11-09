@@ -1,5 +1,11 @@
 2007-11-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-printer-setup.c (do_hf_customize): retrieve buffers only once
+	  and reset the modified bit after loading text.
+	(create_hf_preview_canvas): Don't center multiline headers or footers
+	
+2007-11-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* hf-config.glade: replace GtkEntry with GtkTextView
 	* dialog-printer-setup.c (text_get): rewritten for GtkTextView
 	(hf_customize_apply): replace GtkEntry with GtkTextView

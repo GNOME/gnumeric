@@ -68,10 +68,10 @@
 #define MARGIN_COLOR_ACTIVE "red"
 
 #define HF_PREVIEW_X 350
-#define HF_PREVIEW_Y 50
+#define HF_PREVIEW_Y 75
 #define HF_PREVIEW_SHADOW 2
 #define HF_PREVIEW_PADDING 5
-#define HF_PREVIEW_MARGIN 15
+#define HF_PREVIEW_MARGIN 10
 
 #define PRINTER_SETUP_KEY "printer-setup-dialog"
 
@@ -978,6 +978,8 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 {
 	GladeXML *gui;
 	GtkTextView *left, *middle, *right;
+	GtkTextBuffer *left_buffer, *middle_buffer, *right_buffer;
+	
 	GtkWidget *dialog;
 	PrintHF **config = NULL;
 
@@ -1013,10 +1015,18 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		state->customize_footer = dialog;
 		gtk_window_set_title (GTK_WINDOW (dialog), _("Custom footer configuration"));
 	}
+	
+	left_buffer = gtk_text_view_get_buffer (left);
+	middle_buffer = gtk_text_view_get_buffer (middle);
+	right_buffer = gtk_text_view_get_buffer (right);
 
-	gtk_text_buffer_set_text (gtk_text_view_get_buffer (left), (*config)->left_format, -1);
-	gtk_text_buffer_set_text (gtk_text_view_get_buffer (middle), (*config)->middle_format, -1);
-	gtk_text_buffer_set_text (gtk_text_view_get_buffer (right), (*config)->right_format, -1);
+	gtk_text_buffer_set_text (left_buffer, (*config)->left_format, -1);
+	gtk_text_buffer_set_text (middle_buffer, (*config)->middle_format, -1);
+	gtk_text_buffer_set_text (right_buffer, (*config)->right_format, -1);
+
+	gtk_text_buffer_set_modified (left_buffer, FALSE);
+	gtk_text_buffer_set_modified (middle_buffer, FALSE);
+	gtk_text_buffer_set_modified (right_buffer, FALSE);
 
 /* 	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (left)); */
 /* 	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (middle)); */
@@ -1044,13 +1054,12 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	g_object_set_data (G_OBJECT (dialog), "state", state);
 
 	/* Setup bindings to mark when the entries are modified. */
-	g_signal_connect_swapped (G_OBJECT (gtk_text_view_get_buffer (left)),
+	g_signal_connect_swapped (G_OBJECT (left_buffer),
 		"modified-changed", G_CALLBACK (cb_hf_changed), gui);
-	g_signal_connect_swapped (G_OBJECT (gtk_text_view_get_buffer (middle)),
+	g_signal_connect_swapped (G_OBJECT (middle_buffer),
 		"modified-changed", G_CALLBACK (cb_hf_changed), gui);
-	g_signal_connect_swapped (G_OBJECT (gtk_text_view_get_buffer (right)),
+	g_signal_connect_swapped (G_OBJECT (right_buffer),
 		"modified-changed", G_CALLBACK (cb_hf_changed), gui);
-
 
 	gnumeric_init_help_button (glade_xml_get_widget (gui, "help_button"),
 		header  ? GNUMERIC_HELP_LINK_PRINTER_SETUP_HEADER_CUSTOMIZATION
@@ -1161,7 +1170,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		foo_canvas_text_get_type (),
 		"x",		padding,
 		"y",		header ? margin : bottom_margin,
-		"anchor",	GTK_ANCHOR_WEST,
+		"anchor",	header ? GTK_ANCHOR_NORTH_WEST : GTK_ANCHOR_SOUTH_WEST,
 		"font-desc",	font_desc,
 		"fill-color",	"black",
 		"text",		"Left",
@@ -1172,7 +1181,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		foo_canvas_text_get_type (),
 		"x",		width / 2,
 		"y",		header ? margin : bottom_margin,
-		"anchor",	GTK_ANCHOR_CENTER,
+		"anchor",	header ? GTK_ANCHOR_NORTH : GTK_ANCHOR_SOUTH,
 		"font-desc",	font_desc,
 		"fill-color",	"black",
 		"text",		"Center",
@@ -1183,7 +1192,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		foo_canvas_text_get_type (),
 		"x",		width - padding,
 		"y",		header ? margin : bottom_margin,
-		"anchor",	GTK_ANCHOR_EAST,
+		"anchor",	header ? GTK_ANCHOR_NORTH_EAST : GTK_ANCHOR_SOUTH_EAST,
 		"font-desc",    font_desc,
 		"fill-color",	"black",
 		"text",		"Right",
