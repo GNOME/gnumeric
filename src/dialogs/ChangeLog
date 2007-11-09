@@ -1,5 +1,12 @@
 2007-11-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* hf-config.glade: rewrite with glade 3
+	* dialog-printer-setup.c (do_hf_customize): use 
+	  gtk_window_set_transient_for since go_gtk_window_set_transient 
+	  stacks the dialog below the print setup dialog.
+	
+2007-11-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* print.glade: add "do not print" checkbox
 	* dialog-printer-setup.c (do_setup_page_info): handle do-not-print
 	  checkbox
