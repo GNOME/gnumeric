@@ -892,16 +892,23 @@ do_setup_hf_menus (PrinterSetupState *state)
 }
 
 static char *
-text_get (GtkEditable *text_widget)
+text_get (GtkTextView *text_widget)
 {
-	return gtk_editable_get_chars (GTK_EDITABLE (text_widget), 0, -1);
+	GtkTextBuffer *buffer;
+	GtkTextIter start;
+	GtkTextIter end;
+	
+	buffer = gtk_text_view_get_buffer (text_widget);
+	gtk_text_buffer_get_bounds (buffer, &start, &end);
+
+	return gtk_text_buffer_get_slice (buffer, &start, &end, TRUE);
 }
 
 static void
 hf_customize_apply (GtkWidget *dialog)
 {
 	GladeXML *gui;
-	GtkEntry *left, *middle, *right;
+	GtkTextView *left, *middle, *right;
 	char *left_format, *right_format, *middle_format;
 	PrintHF **config = NULL;
 	gboolean header;
@@ -914,13 +921,13 @@ hf_customize_apply (GtkWidget *dialog)
         if (gui == NULL)
                 return;
 
-	left   = GTK_ENTRY (glade_xml_get_widget (gui, "left-format"));
-	middle = GTK_ENTRY (glade_xml_get_widget (gui, "middle-format"));
-	right  = GTK_ENTRY (glade_xml_get_widget (gui, "right-format"));
+	left   = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "left-format"));
+	middle = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "middle-format"));
+	right  = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "right-format"));
 
-	left_format   = text_get (GTK_EDITABLE (left));
-	middle_format = text_get (GTK_EDITABLE (middle));
-	right_format  = text_get (GTK_EDITABLE (right));
+	left_format   = text_get (left);
+	middle_format = text_get (middle);
+	right_format  = text_get (right);
 
 	header = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (dialog), "header"));
 	state = g_object_get_data (G_OBJECT (dialog), "state");
@@ -970,7 +977,7 @@ static void
 do_hf_customize (gboolean header, PrinterSetupState *state)
 {
 	GladeXML *gui;
-	GtkEntry *left, *middle, *right;
+	GtkTextView *left, *middle, *right;
 	GtkWidget *dialog;
 	PrintHF **config = NULL;
 
@@ -991,9 +998,9 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
         if (gui == NULL)
                 return;
 
-	left   = GTK_ENTRY (glade_xml_get_widget (gui, "left-format"));
-	middle = GTK_ENTRY (glade_xml_get_widget (gui, "middle-format"));
-	right  = GTK_ENTRY (glade_xml_get_widget (gui, "right-format"));
+	left   = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "left-format"));
+	middle = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "middle-format"));
+	right  = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "right-format"));
 	dialog = glade_xml_get_widget (gui, "hf-config");
 
 	if (header) {
@@ -1007,13 +1014,13 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		gtk_window_set_title (GTK_WINDOW (dialog), _("Custom footer configuration"));
 	}
 
-	gtk_entry_set_text (left, (*config)->left_format);
-	gtk_entry_set_text (middle, (*config)->middle_format);
-	gtk_entry_set_text (right, (*config)->right_format);
+	gtk_text_buffer_set_text (gtk_text_view_get_buffer (left), (*config)->left_format, -1);
+	gtk_text_buffer_set_text (gtk_text_view_get_buffer (middle), (*config)->middle_format, -1);
+	gtk_text_buffer_set_text (gtk_text_view_get_buffer (right), (*config)->right_format, -1);
 
-	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (left));
-	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (middle));
-	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (right));
+/* 	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (left)); */
+/* 	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (middle)); */
+/* 	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (right)); */
 
 	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "apply_button")),
 		"clicked", G_CALLBACK (hf_customize_apply), dialog);
@@ -1037,12 +1044,12 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	g_object_set_data (G_OBJECT (dialog), "state", state);
 
 	/* Setup bindings to mark when the entries are modified. */
-	g_signal_connect_swapped (G_OBJECT (left),
-		"changed", G_CALLBACK (cb_hf_changed), gui);
-	g_signal_connect_swapped (G_OBJECT (middle),
-		"changed", G_CALLBACK (cb_hf_changed), gui);
-	g_signal_connect_swapped (G_OBJECT (right),
-		"changed", G_CALLBACK (cb_hf_changed), gui);
+	g_signal_connect_swapped (G_OBJECT (gtk_text_view_get_buffer (left)),
+		"modified-changed", G_CALLBACK (cb_hf_changed), gui);
+	g_signal_connect_swapped (G_OBJECT (gtk_text_view_get_buffer (middle)),
+		"modified-changed", G_CALLBACK (cb_hf_changed), gui);
+	g_signal_connect_swapped (G_OBJECT (gtk_text_view_get_buffer (right)),
+		"modified-changed", G_CALLBACK (cb_hf_changed), gui);
 
 
 	gnumeric_init_help_button (glade_xml_get_widget (gui, "help_button"),

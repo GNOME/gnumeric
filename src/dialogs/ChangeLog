@@ -1,3 +1,10 @@
+2007-11-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* hf-config.glade: replace GtkEntry with GtkTextView
+	* dialog-printer-setup.c (text_get): rewritten for GtkTextView
+	(hf_customize_apply): replace GtkEntry with GtkTextView
+	(do_hf_customize): ditto
+
 2007-11-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* hf-config.glade: rewrite with glade 3
