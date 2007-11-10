@@ -78,6 +78,37 @@ eval_pos_init_dep (GnmEvalPos *ep, GnmDependent const *dep)
 	return ep;
 }
 
+/**
+ * eval_pos_init_editpos :
+ *
+ * @ep : The position to init.
+ * @sv : Sheetview
+ *
+ * The function initializes an evalpos with the edit position from the
+ * given sheetview.
+ *
+ * Returns @ep
+ */
+GnmEvalPos *
+eval_pos_init_editpos (GnmEvalPos *ep, SheetView const *sv)
+{
+	g_return_val_if_fail (ep != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
+
+	return eval_pos_init (ep, sv_sheet (sv),
+		sv->edit_pos.col, sv->edit_pos.row);
+}
+
+/**
+ * eval_pos_init_cell :
+ *
+ * @ep : The position to init.
+ * @cell : A cell
+ *
+ * The function initializes an evalpos with the given cell
+ *
+ * Returns @ep
+ */
 GnmEvalPos *
 eval_pos_init_cell (GnmEvalPos *ep, GnmCell const *cell)
 {

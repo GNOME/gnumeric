@@ -196,65 +196,45 @@ wb_control_cur_sheet_view (WorkbookControl const *wbc)
 	return wb_view_cur_sheet_view (wbc->wb_view);
 }
 
-gboolean
-wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
+static void
+wb_create_name (WorkbookControl *wbc, char const *text, GnmParsePos *pp)
 {
+	GnmRange const *r;
+	GnmCellRef a, b;
+	GnmExpr const *target_range;
+	
+	r = selection_first_range (wb_control_cur_sheet_view (wbc),
+		                   GO_CMD_CONTEXT (wbc), _("Define Name"));
+	if (r != NULL) {
+		a.sheet = b.sheet = wb_control_cur_sheet (wbc);
+		a.col = r->start.col;
+		a.row = r->start.row;
+		b.col = r->end.col;
+		b.row = r->end.row;
+		a.col_relative = a.row_relative = b.col_relative = b.row_relative = FALSE;
+		pp->sheet = NULL; /* make it a global name */
+		if (gnm_cellref_equal (&a, &b))
+			target_range = gnm_expr_new_cellref (&a);
+		else
+			target_range = gnm_expr_new_constant (
+				value_new_cellrange_unsafe (&a, &b));
+		cmd_define_name (wbc, text, pp, gnm_expr_top_new (target_range), NULL);
+	}
+}
+
+/*
+ * Select the given range and make the it visible.
+ */
+static void
+wb_control_jump (WorkbookControl *wbc, Sheet *sheet, GnmValue *target)
+{
+	SheetView *sv;
+	GnmEvalPos ep;
 	GnmRangeRef r;
 	GnmCellPos tmp;
-	Sheet *sheet  = wb_control_cur_sheet (wbc);
-	SheetView *sv;
-	GnmValue *target;
-	const GnmRange *first_range;
-	GnmEvalPos ep;
-
-	if (text == NULL || *text == '\0')
-		return FALSE;
-
-	/* not an address, is it a name ? */
-	target = value_new_cellrange_str (sheet, text);
-	if (target == NULL) {
-		GnmParsePos pp;
-		GnmNamedExpr *nexpr = expr_name_lookup (
-			parse_pos_init_sheet (&pp, sheet), text);
-
-		/* If no name, or just a placeholder exists create a name */
-		if (nexpr == NULL || expr_name_is_placeholder (nexpr)) {
-			GnmRange const *r = selection_first_range (
-				wb_control_cur_sheet_view (wbc),
-				GO_CMD_CONTEXT (wbc),
-				_("Define Name"));
-			if (r != NULL) {
-				GnmCellRef a, b;
-				GnmExpr const *target_range;
-
-				a.sheet = b.sheet = sheet;
-				a.col = r->start.col;
-				a.row = r->start.row;
-				b.col = r->end.col;
-				b.row = r->end.row;
-				a.col_relative = a.row_relative = b.col_relative = b.row_relative = FALSE;
-				pp.sheet = NULL; /* make it a global name */
-				if (gnm_cellref_equal (&a, &b))
-					target_range = gnm_expr_new_cellref (&a);
-				else
-					target_range = gnm_expr_new_constant (
-						value_new_cellrange_unsafe (&a, &b));
-				cmd_define_name (wbc, text, &pp, gnm_expr_top_new (target_range), NULL);
-			}
-			return FALSE;
-		} else {
-			target = gnm_expr_top_get_range (nexpr->texpr);
-			if (target == NULL) {
-				go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),
-					_("Address"), text);
-				return FALSE;
-			}
-		}
-	}
 
 	sv = sheet_get_view (sheet, wb_control_view (wbc));
-	first_range = selection_first_range (sv, NULL, NULL);
-	eval_pos_init_pos (&ep, sheet, &first_range->start);
+	eval_pos_init_editpos (&ep, sv);
 
 	gnm_cellref_make_abs (&r.a, &target->v_range.cell.a, &ep);
 	gnm_cellref_make_abs (&r.b, &target->v_range.cell.b, &ep);
@@ -272,6 +252,44 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 	sv_update (sv);
 	if (wb_control_cur_sheet (wbc) != sheet)
 		wb_view_sheet_focus (wbc->wb_view, sheet);
+}
+
+/*
+ * This is called when something is entered in the location entry.
+ * We either go there (if the text refers to a cell by address or
+ * name), or we try to define a name for the selection.
+ */
+gboolean
+wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
+{
+	Sheet *sheet  = wb_control_cur_sheet (wbc);
+	GnmValue *target;
+
+	if (text == NULL || *text == '\0')
+		return FALSE;
+
+	target = value_new_cellrange_str (sheet, text);
+	if (target == NULL) {
+		/* Not an address; is it a name? */
+		GnmParsePos pp;
+		GnmNamedExpr *nexpr = expr_name_lookup (
+			parse_pos_init_sheet (&pp, sheet), text);
+
+		/* If no name, or just a placeholder exists create a name */
+		if (nexpr == NULL || expr_name_is_placeholder (nexpr)) {
+			wb_create_name (wbc, text, &pp);
+			return FALSE;
+		} else {
+			target = gnm_expr_top_get_range (nexpr->texpr);
+			if (target == NULL) {
+				go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),
+					_("Address"), text);
+				return FALSE;
+			}
+		}
+	}
+
+	wb_control_jump (wbc, sheet, target);
 	value_release (target);
 	return TRUE;
 }

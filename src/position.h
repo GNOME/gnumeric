@@ -23,11 +23,12 @@ struct _GnmParsePos {
 #define eval_sheet(a,b)     (((a) != NULL) ? (a) : (b))
 
 /* Initialization routines for Evaluation Positions */
-GnmEvalPos  *eval_pos_init	 (GnmEvalPos *ep, Sheet *s, int col, int row);
-GnmEvalPos  *eval_pos_init_pos	 (GnmEvalPos *ep, Sheet *s, GnmCellPos const *pos);
-GnmEvalPos  *eval_pos_init_dep	 (GnmEvalPos *ep, GnmDependent const *dep);
-GnmEvalPos  *eval_pos_init_cell	 (GnmEvalPos *ep, GnmCell const *cell);
-GnmEvalPos  *eval_pos_init_sheet (GnmEvalPos *ep, Sheet *sheet);
+GnmEvalPos  *eval_pos_init	   (GnmEvalPos *ep, Sheet *s, int col, int row);
+GnmEvalPos  *eval_pos_init_pos	   (GnmEvalPos *ep, Sheet *s, GnmCellPos const *pos);
+GnmEvalPos  *eval_pos_init_dep	   (GnmEvalPos *ep, GnmDependent const *dep);
+GnmEvalPos  *eval_pos_init_cell	   (GnmEvalPos *ep, GnmCell const *cell);
+GnmEvalPos  *eval_pos_init_editpos (GnmEvalPos *ep, SheetView const *sv);
+GnmEvalPos  *eval_pos_init_sheet   (GnmEvalPos *ep, Sheet *sheet);
 
 /* Initialization routines for Parse Positions */
 GnmParsePos *parse_pos_init         (GnmParsePos *pp, Workbook *wb,
