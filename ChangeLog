@@ -1,5 +1,15 @@
 2007-11-09  Morten Welinder  <terra@gnome.org>
 
+	* src/commands.c (cmd_define_name): Validate name.
+
+	* src/workbook-control.c (wb_control_parse_and_jump): Parse with
+	respect to edit position.
+
+	* src/value.c (value_new_cellrange_parsepos_str): New function
+	split form value_new_cellrange_str.
+	(value_new_cellrange_str): Simplify using
+	value_new_cellrange_parsepos_str.
+
 	* src/workbook-control.c (wb_control_jump): Split from
 	wb_control_parse_and_jump.
 	* src/position.c (eval_pos_init_editpos): New function.

@@ -5652,6 +5652,13 @@ cmd_define_name (WorkbookControl *wbc, char const *name,
 	g_return_val_if_fail (pp != NULL, TRUE);
 	g_return_val_if_fail (texpr != NULL, TRUE);
 
+	if (!expr_name_validate (name)) {
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), name,
+					_("is not not allowed as defined name"));
+		gnm_expr_top_unref (texpr);
+		return TRUE;
+	}
+
 	if (expr_name_check_for_loop (name, texpr)) {
 		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), name,
 					_("has a circular reference"));

@@ -361,14 +361,34 @@ value_new_cellrange_r (Sheet *sheet, GnmRange const *r)
 GnmValue *
 value_new_cellrange_str (Sheet *sheet, char const *str)
 {
-	GnmParsePos  pp;
-	GnmExprTop const *texpr;
+	GnmParsePos pp;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (str != NULL, NULL);
 
-	texpr = gnm_expr_parse_str (str,
-		parse_pos_init_sheet (&pp, sheet),
+	parse_pos_init_sheet (&pp, sheet);
+	return value_new_cellrange_parsepos_str (&pp, str);
+}
+
+/**
+ * value_new_cellrange_parsepos_str :
+ * @pp:  if a relative range is specified, then it will be interpreted relative
+ *       to this position (affects only A1-style relative references).
+ * @str: a range specification (ex: "A1", "A1:C3", "Sheet1!A1:C3", "R1C1").
+ *
+ * Parse @str using the convention associated with @sheet.
+ * Returns a (GnmValue *) of type VALUE_CELLRANGE if the @range was
+ * succesfully parsed or NULL on failure.
+ */
+GnmValue *
+value_new_cellrange_parsepos_str (GnmParsePos *pp, char const *str)
+{
+	GnmExprTop const *texpr;
+
+	g_return_val_if_fail (pp != NULL, NULL);
+	g_return_val_if_fail (str != NULL, NULL);
+
+	texpr = gnm_expr_parse_str (str, pp,
 		GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES |
 		GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
 		NULL, NULL);
@@ -381,7 +401,6 @@ value_new_cellrange_str (Sheet *sheet, char const *str)
 
 	return NULL;
 }
-
 
 GnmValue *
 value_new_array_non_init (guint cols, guint rows)

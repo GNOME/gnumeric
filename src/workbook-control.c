@@ -236,9 +236,6 @@ wb_control_jump (WorkbookControl *wbc, Sheet *sheet, GnmValue *target)
 	sv = sheet_get_view (sheet, wb_control_view (wbc));
 	eval_pos_init_editpos (&ep, sv);
 
-	gnm_cellref_make_abs (&r.a, &target->v_range.cell.a, &ep);
-	gnm_cellref_make_abs (&r.b, &target->v_range.cell.b, &ep);
-
 	if (r.a.sheet) {
 		sheet = r.a.sheet;
 		sv = sheet_get_view (sheet, wb_control_view (wbc));
@@ -262,13 +259,15 @@ wb_control_jump (WorkbookControl *wbc, Sheet *sheet, GnmValue *target)
 gboolean
 wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 {
-	Sheet *sheet  = wb_control_cur_sheet (wbc);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	GnmParsePos pp;
 	GnmValue *target;
 
 	if (text == NULL || *text == '\0')
 		return FALSE;
 
-	target = value_new_cellrange_str (sheet, text);
+	parse_pos_init_editpos (&pp, wb_control_cur_sheet_view (wbc));
+	target = value_new_cellrange_parsepos_str (&pp, text);
 	if (target == NULL) {
 		/* Not an address; is it a name? */
 		GnmParsePos pp;

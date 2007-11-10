@@ -18,6 +18,10 @@ Morten:
 	* Fix date entry problem with yyyy-mm-dd formats.  [#494387]
 	* Fix FMR during workbook destruction.
 	* Fix UMR when moving cells.
+	* Validate names before defining them.
+
+Oliver Burnett-Hall:
+       * Fix R1C1 issued with defined names.  [#409997]  [#494318]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.14
