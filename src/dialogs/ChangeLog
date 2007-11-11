@@ -1,5 +1,9 @@
 2007-11-11  Morten Welinder  <terra@gnome.org>
 
+	* dialog-cell-sort.c: Clean out the iterator mess.
+
+2007-11-11  Morten Welinder  <terra@gnome.org>
+
 	* dialog-cell-sort.c (move_cb): Swap entries instead of
 	delete+insert.  (Code by Andreas.)
 	(cb_sort_selection_changed): Remove unused argument.  All callers
