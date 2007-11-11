@@ -1,3 +1,10 @@
+2007-11-11  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-sort.c (move_cb): Swap entries instead of
+	delete+insert.  (Code by Andreas.)
+	(cb_sort_selection_changed): Remove unused argument.  All callers
+	changed.
+
 2007-11-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-printer-setup.c (do_hf_customize): retrieve buffers only once

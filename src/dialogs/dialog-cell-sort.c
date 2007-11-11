@@ -574,8 +574,7 @@ select_iter_at_row (gint row,
  *
  */
 static void
-cb_sort_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
-			   SortFlowState *state)
+cb_sort_selection_changed (SortFlowState *state)
 {
 	GtkTreeIter iter;
 	GtkTreeIter this_iter;
@@ -625,42 +624,22 @@ toggled (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 static void
 move_cb (SortFlowState *state, gint direction)
 {
-	GtkTreeIter iter;
-	gboolean descending, case_sensitive, sort_by_value, move_format;
-	gint number, row;
-	char *name, *header;
+	GtkTreeIter iter, this_iter;
+        gint row, new_row;
 
-	if (!gtk_tree_selection_get_selected (state->selection, NULL, &iter))
+	if (!gtk_tree_selection_get_selected (state->selection, NULL,
+					      &this_iter))
 		return;
 
-	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
-			    ITEM_HEADER, &header,
-			    ITEM_NAME, &name,
-			    ITEM_DESCENDING,&descending,
-			    ITEM_CASE_SENSITIVE, &case_sensitive,
-			    ITEM_SORT_BY_VALUE, &sort_by_value,
-			    ITEM_MOVE_FORMAT, &move_format,
-			    ITEM_NUMBER, &number,
-			    -1);
-	row = location_of_iter (&iter, state->model);
-	if (row + direction < 0)
-		return;
-	gtk_list_store_remove (state->model, &iter);
-	gtk_list_store_insert (state->model, &iter, row + direction);
-	gtk_list_store_set (state->model, &iter,
-			    ITEM_HEADER, header,
-			    ITEM_NAME, name,
-			    ITEM_DESCENDING,descending,
-			    ITEM_DESCENDING_IMAGE,descending ? state->image_descending :
-							       state->image_ascending,
-			    ITEM_CASE_SENSITIVE, case_sensitive,
-			    ITEM_SORT_BY_VALUE, sort_by_value,
-			    ITEM_MOVE_FORMAT, move_format,
-			    ITEM_NUMBER, number,
-			    -1);
-	gtk_tree_selection_select_iter (state->selection, &iter);
-	g_free (name);
-	g_free (header);
+	row = location_of_iter (&this_iter, state->model);
+	new_row = row + direction;
+
+	if (new_row < 0 || !gtk_tree_model_iter_nth_child  
+            (GTK_TREE_MODEL (state->model), &iter, NULL, new_row))
+                return;
+
+	gtk_list_store_swap (state->model, &this_iter, &iter);
+	cb_sort_selection_changed (state);
 }
 
 static void
@@ -988,7 +967,7 @@ dialog_init (SortFlowState *state)
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));
 	state->selection = gtk_tree_view_get_selection (state->treeview);
 	gtk_tree_selection_set_mode (state->selection, GTK_SELECTION_BROWSE);
-	g_signal_connect (state->selection,
+	g_signal_connect_swapped (state->selection,
 		"changed",
 		G_CALLBACK (cb_sort_selection_changed), state);
 
@@ -1117,7 +1096,7 @@ dialog_init (SortFlowState *state)
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_dialog_destroy);
-	cb_sort_selection_changed (NULL, state);
+	cb_sort_selection_changed (state);
 	dialog_load_selection (state);
 	cb_update_sensitivity (state);
 	cb_sort_header_check (state);
