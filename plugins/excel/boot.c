@@ -62,7 +62,7 @@ gint ms_excel_read_debug = 0;
 gint ms_excel_pivot_debug = 0;
 gint ms_excel_escher_debug = 0;
 gint ms_excel_formula_debug = 0;
-gint ms_excel_chart_debug = 12;
+gint ms_excel_chart_debug = 0;
 gint ms_excel_write_debug = 0;
 gint ms_excel_object_debug = 0;
 
