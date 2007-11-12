@@ -27,6 +27,7 @@ Morten:
 	* Fix gtk issues triggered by sorting dialog.
 	* Improve initial appearance of quit dialog.
 	* Plug printing dialog leak.
+	* Fix just-in-time evaluation problem.
 
 Oliver Burnett-Hall:
        * Fix R1C1 issued with defined names.  [#409997]  [#494318]

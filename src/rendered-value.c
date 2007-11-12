@@ -195,7 +195,6 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	gboolean         displayed_formula;
 
 	g_return_val_if_fail (cell != NULL, NULL);
-	g_return_val_if_fail (cell->value != NULL, NULL);
 	g_return_val_if_fail (context != NULL, NULL);
 
 	/* sheet->workbook can be NULL when called from preview-grid.c  */
@@ -210,6 +209,9 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	if (cell->base.flags & GNM_CELL_HAS_NEW_EXPR) {
 		gnm_cell_eval (cell);
 	}
+
+	/* Must come after above gnm_cell_eval.  */
+	g_return_val_if_fail (cell->value != NULL, NULL);
 
 	rotation = gnm_style_get_rotation (mstyle);
 	if (rotation) {

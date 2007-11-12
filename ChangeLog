@@ -1,3 +1,8 @@
+2007-11-12  Morten Welinder  <terra@gnome.org>
+
+	* src/rendered-value.c (gnm_rendered_value_new): Don't test
+	cell->value too soon.
+
 2007-11-12  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c (table_cellregion_write): Paste as values so
