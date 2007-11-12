@@ -1,5 +1,8 @@
 2007-11-12  Morten Welinder  <terra@gnome.org>
 
+	* dialog-quit.c (show_quit_dialog): Populate before showing so we
+	don't see an annoying resize.
+
 	* dialog-solver.c (dialog_init): Connect.
 	(cb_dialog_solver_destroy_constraints): New function, extracted
 	from cb_dialog_solver_destroy.  (Code by Jean, really.)
