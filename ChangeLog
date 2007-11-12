@@ -1,5 +1,8 @@
 2007-11-12  Morten Welinder  <terra@gnome.org>
 
+	* src/parse-util.c (rangeref_parse): Don't allow workbook without
+	sheet.
+
 	* src/rendered-value.c (gnm_rendered_value_new): Don't test
 	cell->value too soon.
 

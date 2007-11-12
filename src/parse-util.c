@@ -1021,7 +1021,7 @@ char const *
 rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 		GnmConventions const *convs)
 {
-	char const *ptr = start, *start_sheet, *tmp1, *tmp2;
+	char const *ptr = start, *start_sheet, *start_wb, *tmp1, *tmp2;
 	Workbook *wb;
 	Workbook *ref_wb;
 
@@ -1030,6 +1030,7 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 
 	wb = pp->wb;
 	ref_wb = wb ? wb : pp->sheet->workbook;
+	start_wb = start;
 	start_sheet = wbref_parse (start, &wb, ref_wb);
 	if (start_sheet == NULL)
 		return start; /* TODO error unknown workbook */
@@ -1046,8 +1047,11 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 
 		if (*ptr++ != '!')
 			return start; /* TODO syntax error */
-	} else
+	} else {
+		if (start_sheet != start_wb)
+			return start; /* Workbook, but no sheet.  */
 		res->b.sheet = NULL;
+	}
 
 	if (convs->r1c1_addresses) { /* R1C1 handler */
 		tmp1 = r1c1_rangeref_parse (res, ptr, pp);

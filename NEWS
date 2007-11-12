@@ -17,6 +17,7 @@ Jean:
 
 Jon Kåre:
         * Fix clipboard export.  [#496187]
+
 Morten:
 	* Make pdf exporter able to print specified sheets only.
 	* Make it possible to set page size for ssconvert's pdf exporter.
@@ -28,6 +29,7 @@ Morten:
 	* Improve initial appearance of quit dialog.
 	* Plug printing dialog leak.
 	* Fix just-in-time evaluation problem.
+	* Fix minor parse problem for faulty inter-workbook references.
 
 Oliver Burnett-Hall:
        * Fix R1C1 issued with defined names.  [#409997]  [#494318]
