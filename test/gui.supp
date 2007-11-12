@@ -19,6 +19,26 @@
 }
 
 {
+   x11_write_XRenderCreatePicture
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XRenderCreatePicture
+}
+
+{
+   x11_write_XFreePixmap
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XFreePixmap
+}
+
+{
    x11_write_XPending
    Memcheck:Param
    write(buf)
@@ -27,6 +47,47 @@
    fun:*
    fun:*
    fun:XPending
+}
+
+{
+   x11_write_XRenderCompositeText8
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XRenderCompositeText8
+}
+
+{
+   x11_write_XRenderSetPictureClipRectangles
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:XRenderSetPictureClipRectangles
+}
+
+{
+   x11_write_XDefineCursor
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XDefineCursor
+}
+
+{
+   x11_write_XFillRectangle
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XFillRectangle
 }
 
 {

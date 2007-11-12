@@ -23,6 +23,8 @@ Morten:
 	* Fix UMR when moving cells.
 	* Validate names before defining them.
 	* Fix gtk issues triggered by sorting dialog.
+	* Improve initial appearance of quit dialog.
+	* Plug printing dialog leak.
 
 Oliver Burnett-Hall:
        * Fix R1C1 issued with defined names.  [#409997]  [#494318]
