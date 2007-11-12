@@ -475,7 +475,9 @@ table_cellregion_write (GOCmdContext *ctx, GnmCellRegion *cr,
 	r.end.col = cr->cols - 1;
 	r.end.row = cr->rows - 1;
 
-	paste_target_init (&pt, sheet, &r, PASTE_ALL_TYPES);
+	paste_target_init (&pt, sheet, &r, 
+			   PASTE_AS_VALUES | PASTE_FORMATS | 
+			   PASTE_COMMENTS | PASTE_OBJECTS);
 	if (clipboard_paste_region (cr, &pt, ctx) == FALSE) {
 		go_file_saver_save (saver, ioc, wb_view, output);
 		if (!gnumeric_io_error_occurred (ioc)) {
@@ -697,6 +699,9 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 
 		/* If the other app was a gnumeric, emulate a cut */
 		if (to_gnumeric) {
+			/* FIXME: This needs undo.
+			 * Use a variant of cmd_selection_clear that would use
+			 * the src range rather than the current selection */
 			sheet_clear_region (sheet,
 				a->start.col, a->start.row,
 				a->end.col,   a->end.row,

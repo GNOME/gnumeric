@@ -1,3 +1,8 @@
+2007-11-12  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-clipboard.c (table_cellregion_write): Paste as values so
+	that we don't care about array boundaries. Fixes #496187.
+
 2007-11-12  Morten Welinder  <terra@gnome.org>
 
 	* src/print.c (gnm_print_sheet): Handle more
