@@ -413,10 +413,6 @@ free_original_values (GSList *ov)
 static void
 cb_dialog_solver_destroy (SolverState *state)
 {
-	GtkTreeIter iter;
-	GtkTreeModel *store;
-	void* p;
-
 	g_return_if_fail (state != NULL);
 
 	if (state->ov_cell_stack != NULL &&
@@ -444,17 +440,24 @@ cb_dialog_solver_destroy (SolverState *state)
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
 
 	state->dialog = NULL;
+	g_free (state);
+}
 
-	/*Free the constraint_t associated with the list */
-	store = gtk_tree_view_get_model (state->constraint_list);
+static void
+cb_dialog_solver_destroy_constraints (GtkTreeView *constraint_list)
+{
+	GtkTreeModel *store = gtk_tree_view_get_model (constraint_list);
+	GtkTreeIter iter;
+
 	if (gtk_tree_model_get_iter_first (store, &iter))
 		do {
+			constraint_t *p;
 			gtk_tree_model_get (store, &iter, 1, &p, -1);
 			release_constraint (p);
 		} while (gtk_tree_model_iter_next (store, &iter));
 
-	g_free (state);
 }
+
 
 static void
 restore_original_values (GSList *input_cells, GSList *ov)
@@ -1208,6 +1211,10 @@ dialog_init (SolverState *state)
 /* constraint_list */
 	state->constraint_list = GTK_TREE_VIEW (glade_xml_get_widget
 					    (state->gui, "constraint_list"));
+	g_signal_connect (G_OBJECT (state->constraint_list), "destroy",
+			  G_CALLBACK (cb_dialog_solver_destroy_constraints),
+			  NULL);
+
 	state->constr = NULL;
 	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (state->constraint_list)), "changed",
 			  G_CALLBACK (constraint_select_click), state);

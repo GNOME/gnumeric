@@ -9,9 +9,11 @@ Andreas:
 	* Add do-not-print flag to sheets. [#371754]
 	* Allow multi-line headers and footers
 	* Allow nicer entry of header/footer fields [#122175]
+	* Fix gtk issues triggered by sorting dialog.
 
 Jean:
 	* Print images.
+	* Fix FMR in solver dialog.  [#496052]
 
 Morten:
 	* Make pdf exporter able to print specified sheets only.
@@ -20,6 +22,7 @@ Morten:
 	* Fix FMR during workbook destruction.
 	* Fix UMR when moving cells.
 	* Validate names before defining them.
+	* Fix gtk issues triggered by sorting dialog.
 
 Oliver Burnett-Hall:
        * Fix R1C1 issued with defined names.  [#409997]  [#494318]

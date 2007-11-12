@@ -1,3 +1,9 @@
+2007-11-12  Morten Welinder  <terra@gnome.org>
+
+	* dialog-solver.c (dialog_init): Connect.
+	(cb_dialog_solver_destroy_constraints): New function, extracted
+	from cb_dialog_solver_destroy.  (Code by Jean, really.)
+
 2007-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* hf-config.glade: add toolbar buttons
