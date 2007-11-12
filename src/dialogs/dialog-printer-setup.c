@@ -161,6 +161,15 @@ struct _PrinterSetupState {
 	HFPreviewInfo *pi_footer;
 };
 
+typedef struct _HFCustomizeState HFCustomizeState;
+struct _HFCustomizeState {
+	GtkWidget        *dialog;
+	GladeXML         *gui;
+	PrinterSetupState *printer_setup_state;
+	PrintHF          **hf;
+	gboolean         is_header;
+};
+
 static void dialog_gtk_printer_setup_cb (PrinterSetupState *state);
 static void fetch_settings (PrinterSetupState *state);
 static void do_update_page (PrinterSetupState *state);
@@ -817,6 +826,54 @@ footer_changed (GtkComboBox *menu, PrinterSetupState *state)
 	display_hf_preview (state, FALSE);
 }
 
+static char *
+create_hf_name (char const *left, char const *middle, char const *right)
+{
+		char *this, *res;
+
+		res = g_strdup_printf ("%s%s%s%s%s",
+				       left," \xe2\x90\xa3 ", middle, " \xe2\x90\xa3 ", right);
+		
+		this = res;
+		while (*this) {
+			if (*this == '\n') {
+				char *newstring;
+				*this = 0;
+				newstring =  g_strconcat (res, "\xe2\x90\xa4", this + 1, NULL);
+				this = newstring + (this - res);
+				g_free (res);
+				res = newstring;
+			} else
+				this = g_utf8_find_next_char (this, NULL);
+		}
+
+		return res;
+}
+
+static void
+append_hf_item (GtkListStore *store, PrintHF *format, HFRenderInfo *hfi)
+{
+	GtkTreeIter iter;
+	char *left, *middle, *right;
+	char *res;
+
+	left   = hf_format_render (format->left_format, hfi, HF_RENDER_PRINT);
+	middle = hf_format_render (format->middle_format, hfi, HF_RENDER_PRINT);
+	right  = hf_format_render (format->right_format, hfi, HF_RENDER_PRINT);
+
+	res = create_hf_name (left, middle, right);
+
+	gtk_list_store_append (store, &iter);
+	gtk_list_store_set (store, &iter,
+			    0, res,
+			    -1);
+
+	g_free (res);
+	g_free (left);
+	g_free (middle);
+	g_free (right);
+
+}
 
 /*
  * Fills one of the GtkCombos for headers or footers with the list
@@ -828,47 +885,32 @@ fill_hf (PrinterSetupState *state, GtkComboBox *om, GCallback callback, gboolean
 	GList *l;
 	HFRenderInfo *hfi;
 	GtkListStore *store;
-	GtkTreeIter iter;
-	char *res;
 	PrintHF *select = header ? state->header : state->footer;
-	int i, idx = 0;
+	int i, idx = -1;
 
 	hfi = hf_render_info_new ();
 	hfi->page = 1;
-	hfi->pages = 1;
+	hfi->pages = 99;
 
 	store = gtk_list_store_new (1, G_TYPE_STRING);
 	gtk_combo_box_set_model (om, GTK_TREE_MODEL (store));
 
 	for (i = 0, l = hf_formats; l; l = l->next, i++) {
 		PrintHF *format = l->data;
-		char *left, *middle, *right;
 
 		if (print_hf_same (format, select))
 			idx = i;
 
-		left   = hf_format_render (format->left_format, hfi, HF_RENDER_PRINT);
-		middle = hf_format_render (format->middle_format, hfi, HF_RENDER_PRINT);
-		right  = hf_format_render (format->right_format, hfi, HF_RENDER_PRINT);
-
-		res = g_strdup_printf (
-			"%s%s%s%s%s",
-			left, (*left && (*middle || *right)) ? ", " : "",
-			middle, (*middle && *right) ? ", " : "",
-			right);
-
-		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
-					0, res,
-					-1);
-
-		g_free (res);
-		g_free (left);
-		g_free (middle);
-		g_free (right);
+		append_hf_item (store, format, hfi);
 	}
 
+	if (idx < 0) {
+		append_hf_item (store, select, hfi);
+		idx = i;
+	}
+	
 	gtk_combo_box_set_active (om, idx);
+
 	g_signal_connect (G_OBJECT (om), "changed", callback, state);
 
 	hf_render_info_destroy (hfi);
@@ -891,6 +933,8 @@ do_setup_hf_menus (PrinterSetupState *state)
 		fill_hf (state, footer, G_CALLBACK (footer_changed), FALSE);
 }
 
+/*************  Header Footer Customization *********** Start *************/
+
 static char *
 text_get (GtkTextView *text_widget)
 {
@@ -905,60 +949,43 @@ text_get (GtkTextView *text_widget)
 }
 
 static void
-hf_customize_apply (GtkWidget *dialog)
+hf_customize_apply (HFCustomizeState *hf_state)
 {
-	GladeXML *gui;
 	GtkTextView *left, *middle, *right;
 	char *left_format, *right_format, *middle_format;
-	PrintHF **config = NULL;
-	gboolean header;
-	PrinterSetupState *state;
 
-	g_return_if_fail (dialog != NULL);
+	g_return_if_fail (hf_state != NULL);
 
-	gui = glade_get_widget_tree (GTK_WIDGET (dialog));
-
-        if (gui == NULL)
-                return;
-
-	left   = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "left-format"));
-	middle = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "middle-format"));
-	right  = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "right-format"));
+	left   = GTK_TEXT_VIEW (glade_xml_get_widget (hf_state->gui, "left-format"));
+	middle = GTK_TEXT_VIEW (glade_xml_get_widget (hf_state->gui, "middle-format"));
+	right  = GTK_TEXT_VIEW (glade_xml_get_widget (hf_state->gui, "right-format"));
 
 	left_format   = text_get (left);
 	middle_format = text_get (middle);
 	right_format  = text_get (right);
 
-	header = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (dialog), "header"));
-	state = g_object_get_data (G_OBJECT (dialog), "state");
-
-	if (header)
-		config = &state->header;
-	else
-		config = &state->footer;
-
-	print_hf_free (*config);
-	*config = print_hf_new (left_format, middle_format, right_format);
+	print_hf_free (*(hf_state->hf));
+	*(hf_state->hf) = print_hf_new (left_format, middle_format, right_format);
 
 	g_free (left_format);
 	g_free (middle_format);
 	g_free (right_format);
 
-	print_hf_register (*config);
+	print_hf_register (*(hf_state->hf));
 
-	do_setup_hf_menus (state);
-	display_hf_preview (state, header);
+	do_setup_hf_menus (hf_state->printer_setup_state);
+	display_hf_preview (hf_state->printer_setup_state, hf_state->is_header);
 
-	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "apply_button"), FALSE);
-	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "ok_button"), FALSE);
+	gtk_widget_set_sensitive (glade_xml_get_widget (hf_state->gui, "apply_button"), FALSE);
+	gtk_widget_set_sensitive (glade_xml_get_widget (hf_state->gui, "ok_button"), FALSE);
 }
 
 
 static void
-hf_customize_ok (GtkWidget *dialog)
+hf_customize_ok (HFCustomizeState *hf_state)
 {
-	hf_customize_apply (dialog);
-	gtk_widget_destroy (dialog);
+	hf_customize_apply (hf_state);
+	gtk_widget_destroy (hf_state->dialog);
 }
 
 static gboolean
@@ -981,7 +1008,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	GtkTextBuffer *left_buffer, *middle_buffer, *right_buffer;
 	
 	GtkWidget *dialog;
-	PrintHF **config = NULL;
+	HFCustomizeState* hf_state;
 
 	/* Check if this dialog isn't already created. */
 	if (header)
@@ -1000,18 +1027,25 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
         if (gui == NULL)
                 return;
 
+	hf_state = g_new0 (HFCustomizeState, 1);
+	hf_state->gui = gui;
+	hf_state->printer_setup_state = state;
+	hf_state->is_header = header;
+
 	left   = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "left-format"));
 	middle = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "middle-format"));
 	right  = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "right-format"));
+
 	dialog = glade_xml_get_widget (gui, "hf-config");
+	hf_state->dialog = dialog;
 
 	if (header) {
-		config = &state->header;
+		hf_state->hf = &state->header;
 		state->customize_header = dialog;
 		gtk_window_set_title (GTK_WINDOW (dialog), _("Custom header configuration"));
 
 	} else {
-		config = &state->footer;
+		hf_state->hf = &state->footer;
 		state->customize_footer = dialog;
 		gtk_window_set_title (GTK_WINDOW (dialog), _("Custom footer configuration"));
 	}
@@ -1020,9 +1054,9 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	middle_buffer = gtk_text_view_get_buffer (middle);
 	right_buffer = gtk_text_view_get_buffer (right);
 
-	gtk_text_buffer_set_text (left_buffer, (*config)->left_format, -1);
-	gtk_text_buffer_set_text (middle_buffer, (*config)->middle_format, -1);
-	gtk_text_buffer_set_text (right_buffer, (*config)->right_format, -1);
+	gtk_text_buffer_set_text (left_buffer, (*(hf_state->hf))->left_format, -1);
+	gtk_text_buffer_set_text (middle_buffer, (*(hf_state->hf))->middle_format, -1);
+	gtk_text_buffer_set_text (right_buffer, (*(hf_state->hf))->right_format, -1);
 
 	gtk_text_buffer_set_modified (left_buffer, FALSE);
 	gtk_text_buffer_set_modified (middle_buffer, FALSE);
@@ -1033,9 +1067,9 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 /* 	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (right)); */
 
 	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "apply_button")),
-		"clicked", G_CALLBACK (hf_customize_apply), dialog);
+		"clicked", G_CALLBACK (hf_customize_apply), hf_state);
 	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "ok_button")),
-		"clicked", G_CALLBACK (hf_customize_ok), dialog);
+		"clicked", G_CALLBACK (hf_customize_ok), hf_state);
 	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "cancel_button")),
 		"clicked", G_CALLBACK (gtk_widget_destroy), dialog);
 	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "apply_button"), FALSE);
@@ -1050,8 +1084,8 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 
 
 	/* Remember whether it is customizing header or footer. */
-	g_object_set_data (G_OBJECT (dialog), "header", GINT_TO_POINTER (header));
-	g_object_set_data (G_OBJECT (dialog), "state", state);
+	g_object_set_data_full (G_OBJECT (dialog),
+		"hfstate", hf_state, (GDestroyNotify) g_free);
 
 	/* Setup bindings to mark when the entries are modified. */
 	g_signal_connect_swapped (G_OBJECT (left_buffer),
@@ -1076,7 +1110,12 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 
 
 	gtk_widget_show_all (dialog);
+	gtk_widget_hide (glade_xml_get_widget (gui, "insertion-toolbar"));
 }
+
+/*************  Header Footer Customization *********** End *************/
+
+
 
 /* header/footer_preview_event
  * If the user double clicks on a header/footer preview canvas, we will

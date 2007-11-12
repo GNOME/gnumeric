@@ -1,3 +1,12 @@
+2007-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* hf-config.glade: some fine tuning (scroll bars, toolbar, etc.)
+	* dialog-printer-setup.c (create_hf_name): new
+	(append_hf_item): new
+	(fill_hf): use append_hf_item
+	(hf_customize_apply): use new hf_state
+	(hf_customize_ok): ditto
+
 2007-11-11  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-sort.c: Clean out the iterator mess.
