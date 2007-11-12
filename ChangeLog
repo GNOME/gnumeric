@@ -1,5 +1,8 @@
 2007-11-12  Morten Welinder  <terra@gnome.org>
 
+	* src/print.c (gnm_print_sheet): Handle more
+	gtk_print_operation_run result codes.  Fix leak.
+
 	* src/workbook-control.c (wb_control_jump): Add missing
 	inititialization of r.  Fixes #496071.
 

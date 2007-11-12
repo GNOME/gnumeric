@@ -1479,8 +1479,21 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 
   res = gtk_print_operation_run (print, action, parent, NULL);
 
-  if (res == GTK_PRINT_OPERATION_RESULT_APPLY)
-	gnm_gconf_set_print_settings (gtk_print_operation_get_print_settings (print));
+  switch (res) {
+  case GTK_PRINT_OPERATION_RESULT_APPLY:
+	  gnm_gconf_set_print_settings (gtk_print_operation_get_print_settings (print));
+	  break;
+  case GTK_PRINT_OPERATION_RESULT_CANCEL:
+	  printing_instance_delete (pi);
+	  break;
+  case GTK_PRINT_OPERATION_RESULT_ERROR:
+	  /* FIXME? */
+	  break;
+  case GTK_PRINT_OPERATION_RESULT_IN_PROGRESS:
+	  /* FIXME? */
+	  break;
+  default: ;
+  }
 
   if (tmp_file_name) {
 	  char buffer[64 * 1024];
