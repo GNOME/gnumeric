@@ -1,3 +1,8 @@
+2007-11-12  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-control.c (wb_control_jump): Add missing
+	inititialization of r.  Fixes #496071.
+
 2007-11-09  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_define_name): Validate name.

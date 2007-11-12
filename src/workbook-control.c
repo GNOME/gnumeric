@@ -230,7 +230,7 @@ wb_control_jump (WorkbookControl *wbc, Sheet *sheet, GnmValue *target)
 {
 	SheetView *sv;
 	GnmEvalPos ep;
-	GnmRangeRef r;
+	GnmRangeRef r = target->v_range.cell;
 	GnmCellPos tmp;
 
 	sv = sheet_get_view (sheet, wb_control_view (wbc));
