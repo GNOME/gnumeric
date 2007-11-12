@@ -1,3 +1,9 @@
+2007-11-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (axislineformat), (ms_excel_chart_read),
+	(chart_write_axis): use the "invisible" property for axis when
+	appropriate.
+
 2007-11-06  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (xl_axis_get_elem): don't set cross auto each

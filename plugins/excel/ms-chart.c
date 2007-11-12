@@ -613,14 +613,9 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 	if (s->axis != NULL)
 		switch (type) {
 		case 0:
-			if (s->axislineflags == 8) {
-				/* axis has no ticks, it is a dummy axis, just delete it */
-				gog_object_clear_parent (GOG_OBJECT (s->axis));
-				g_object_unref (s->axis);
-				if (s->xaxis == s->axis)
-					s->xaxis = NULL;
-				s->axis = NULL;
-			} else {
+			if (s->axislineflags == 8)
+				g_object_set (s->axis, "invisible", TRUE, NULL);
+			else {
 				g_object_set (G_OBJECT (s->axis),
 					"style", s->style,
 					NULL);
@@ -3416,6 +3411,37 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 	g_array_free (state.stack, TRUE);
 	ms_container_finalize (&state.container);
 
+	{
+		/* try to replace hidden axes by visible ones when possible */
+		GSList *l, *cur;
+		GogAxis *hidden, *visible;
+		int i;
+		for (i = GOG_AXIS_X; i <= GOG_AXIS_Y; i++) {
+			hidden = visible = NULL;
+			l = gog_chart_get_axes (state.chart, i);
+			cur = l;
+			while (cur) {
+				gboolean invisible;
+				g_object_get (cur->data, "invisible", &invisible, NULL);
+				if (invisible)
+					hidden = GOG_AXIS (cur->data);
+				else
+					visible = GOG_AXIS (cur->data);
+				cur = cur->next;
+			}
+			g_slist_free (l);
+			if (hidden && visible) {
+				l = gog_axis_contributors (hidden);
+				cur = l;
+				while (cur) {
+					if (IS_GOG_PLOT (cur->data))
+						gog_plot_set_axis (GOG_PLOT (cur->data), visible);
+					cur = cur->next;
+				}
+			}
+		}
+	}
+
 	if (full_page != NULL) {
 		static GnmRange const fixed_size = { { 1, 1 }, { 12, 32 } };
 		SheetObjectAnchor anchor;
@@ -4558,8 +4584,10 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 	ms_biff_put_2byte (s->bp, BIFF_CHART_axislineformat, 0); /* a real axis */
 	if (axis != NULL) {
 		GogObject *Grid;
+		gboolean invisible;
+		g_object_get (G_OBJECT (axis), "invisible", &invisible, NULL);
 		chart_write_LINEFORMAT (s, &GOG_STYLED_OBJECT (axis)->style->line,
-					TRUE, FALSE);
+					!invisible, invisible);
 		Grid = gog_object_get_child_by_name (GOG_OBJECT (axis), "MajorGrid");
 		if (Grid) {
 			ms_biff_put_2byte (s->bp, BIFF_CHART_axislineformat, 1);
