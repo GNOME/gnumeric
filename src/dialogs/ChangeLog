@@ -1,3 +1,13 @@
+2007-11-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* hf-config.glade: add delete button on toolbar
+	* dialog-printer-setup.c (hf_delete_tag_cb): new
+	(hf_insert_hf_tag): mark tag wit formatting
+	(buffer_delete_range_cb): new
+	(add_named_tags): new
+	(add_text_to_buffer): new
+	(do_hf_customize): hook up above callbacks
+
 2007-11-12  Morten Welinder  <terra@gnome.org>
 
 	* dialog-quit.c (show_quit_dialog): Populate before showing so we

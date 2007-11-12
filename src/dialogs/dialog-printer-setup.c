@@ -55,6 +55,7 @@
 #include <gtk/gtkcelllayout.h>
 #include <gtk/gtkcellrenderertext.h>
 /*#include <gtk/gtkmenuitem.h>*/
+#include <gdk/gdkkeysyms.h>
 
 /* FIXME: do not hardcode pixel counts.  */
 #define PREVIEW_X 170
@@ -78,6 +79,8 @@
 #define PAPER_PAGE 0
 #define SCALE_PAGE 1
 #define HF_PAGE 2
+
+#define HF_TAG_NAME "field_tag"
 
 typedef struct {
 	/* The Canvas object */
@@ -936,16 +939,53 @@ do_setup_hf_menus (PrinterSetupState *state)
 /*************  Header Footer Customization *********** Start *************/
 
 static void
-hf_insert_hf_tag (HFCustomizeState *hf_state, gchar const *tag)
+hf_delete_tag_cb (HFCustomizeState *hf_state)
 {
 	GtkWidget* focus;
 
 	focus = gtk_window_get_focus (GTK_WINDOW (hf_state->dialog));
 
 	if (GTK_IS_TEXT_VIEW (focus)) {
-		GtkTextBuffer *buffer = gtk_text_view_get_buffer (focus);
-		gtk_text_buffer_insert_interactive_at_cursor
-			(buffer, tag, -1, TRUE);
+		GtkTextBuffer *textbuffer;
+		GtkTextTag    *tag;
+		GtkTextIter   start;
+		GtkTextIter   end;
+
+		textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (focus));
+		tag = gtk_text_tag_table_lookup (gtk_text_buffer_get_tag_table (textbuffer),
+						 HF_TAG_NAME);
+		gtk_text_buffer_get_selection_bounds (textbuffer, &start, &end);
+		
+		if (gtk_text_iter_has_tag (&start, tag) && !gtk_text_iter_begins_tag (&start, tag))
+			gtk_text_iter_backward_to_tag_toggle (&start, tag);
+		if (gtk_text_iter_has_tag (&end, tag) && !gtk_text_iter_toggles_tag (&end, tag))
+			gtk_text_iter_forward_to_tag_toggle (&end, tag);
+		
+		
+		gtk_text_buffer_delete (textbuffer, &start, &end);
+	}
+}
+
+static void
+hf_insert_hf_tag (HFCustomizeState *hf_state, gchar const *text)
+{
+	GtkWidget* focus;
+	GtkTextIter iter;
+
+	focus = gtk_window_get_focus (GTK_WINDOW (hf_state->dialog));
+
+	if (GTK_IS_TEXT_VIEW (focus)) {
+		GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (focus));
+
+		hf_delete_tag_cb (hf_state); 
+
+		 if (gtk_text_buffer_insert_interactive_at_cursor
+		     (buffer, "", -1, TRUE)) {
+			 gtk_text_buffer_get_iter_at_mark 
+				 (buffer, &iter, gtk_text_buffer_get_insert (buffer));
+			 gtk_text_buffer_insert_with_tags_by_name
+				 (buffer, &iter, text, -1, HF_TAG_NAME, NULL);
+		 }
 	}
 }
 
@@ -991,6 +1031,24 @@ hf_insert_path_cb (HFCustomizeState *hf_state)
 {
 	hf_insert_hf_tag(hf_state, "&[PATH]");
 }
+
+
+static void 
+buffer_delete_range_cb (GtkTextBuffer *textbuffer,
+			GtkTextIter   *start,
+			GtkTextIter   *end,
+			gpointer       user_data)
+{
+	GtkTextTag    *tag;
+	tag = gtk_text_tag_table_lookup (gtk_text_buffer_get_tag_table (textbuffer),
+					 HF_TAG_NAME);
+	if (gtk_text_iter_has_tag (start, tag) && !gtk_text_iter_begins_tag (start, tag))
+		gtk_text_iter_backward_to_tag_toggle (start, tag);
+	if (gtk_text_iter_has_tag (end, tag) && !gtk_text_iter_toggles_tag (end, tag))
+		gtk_text_iter_forward_to_tag_toggle (end, tag);
+}
+
+
 
 static char *
 text_get (GtkTextView *text_widget)
@@ -1053,6 +1111,64 @@ cb_hf_changed (GladeXML *gui)
 	return FALSE;
 }
 
+
+static void
+add_named_tags (GtkTextBuffer *buffer)
+{
+	GtkTextTag *tag;
+
+	tag = gtk_text_tag_new (HF_TAG_NAME);
+	g_object_set(tag,
+		     "editable", FALSE,
+		     "underline", TRUE,
+		     "underline-set", TRUE,
+		     "weight", PANGO_WEIGHT_BOLD,
+		     "weight-set", TRUE,
+		     "stretch", PANGO_STRETCH_CONDENSED,
+		     "stretch-set", TRUE,
+		     NULL);
+
+	gtk_text_tag_table_add (gtk_text_buffer_get_tag_table (buffer), tag);
+}
+
+static void
+add_text_to_buffer (GtkTextBuffer *buffer, char const *text)
+{
+	gchar const *here = text, *end;
+	gunichar closing = g_utf8_get_char ("]");
+	gunichar ambersand = g_utf8_get_char ("&");
+	GtkTextIter iter;
+	
+	gtk_text_buffer_get_end_iter (buffer, &iter);
+
+	while (*here) {
+		if (here[0] == '&' && here[1] == '[') {
+			end = g_utf8_strchr (here, -1, closing);
+			if (end == NULL) {
+				gtk_text_buffer_insert (buffer, &iter, here, -1);
+				break;
+			} else {
+				gtk_text_buffer_insert_with_tags_by_name
+					(buffer, &iter, here, end - here + 1, 
+					 HF_TAG_NAME, NULL);
+				here = end + 1;
+			}
+		} else {
+			end = g_utf8_strchr (g_utf8_find_next_char (here, NULL),
+					     -1, ambersand);
+			if (end == NULL) {
+				gtk_text_buffer_insert (buffer, &iter, here, -1);
+				break;
+			} else {
+				gtk_text_buffer_insert (buffer, &iter, here, end - here);
+				here = end;
+			}
+		}
+	}
+	
+	gtk_text_buffer_set_modified (buffer, FALSE);
+}
+
 /*
  * Open up a DIALOG to allow the user to customize the header
  * or the footer.
@@ -1111,33 +1227,39 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	middle_buffer = gtk_text_view_get_buffer (middle);
 	right_buffer = gtk_text_view_get_buffer (right);
 
-	gtk_text_buffer_set_text (left_buffer, (*(hf_state->hf))->left_format, -1);
-	gtk_text_buffer_set_text (middle_buffer, (*(hf_state->hf))->middle_format, -1);
-	gtk_text_buffer_set_text (right_buffer, (*(hf_state->hf))->right_format, -1);
+	add_named_tags (left_buffer);
+	add_named_tags (middle_buffer);
+	add_named_tags (right_buffer);
 
-	gtk_text_buffer_set_modified (left_buffer, FALSE);
-	gtk_text_buffer_set_modified (middle_buffer, FALSE);
-	gtk_text_buffer_set_modified (right_buffer, FALSE);
+	add_text_to_buffer (left_buffer, (*(hf_state->hf))->left_format);
+	add_text_to_buffer (middle_buffer, (*(hf_state->hf))->middle_format);
+	add_text_to_buffer (right_buffer, (*(hf_state->hf))->right_format);
 
-/* 	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (left)); */
-/* 	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (middle)); */
-/* 	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (right)); */
+	g_signal_connect (G_OBJECT (left_buffer), "delete-range",  
+			  G_CALLBACK (buffer_delete_range_cb), NULL);
+	g_signal_connect (G_OBJECT (middle_buffer), "delete-range",  
+			  G_CALLBACK (buffer_delete_range_cb), NULL);
+	g_signal_connect (G_OBJECT (right_buffer), "delete-range",  
+			  G_CALLBACK (buffer_delete_range_cb), NULL);
 
 	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "apply_button")),
 		"clicked", G_CALLBACK (hf_customize_apply), hf_state);
 	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "ok_button")),
 		"clicked", G_CALLBACK (hf_customize_ok), hf_state);
-	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "cancel_button")),
-		"clicked", G_CALLBACK (gtk_widget_destroy), dialog);
+	g_signal_connect_swapped 
+		(G_OBJECT (glade_xml_get_widget (gui, "cancel_button")),
+		 "clicked", G_CALLBACK (gtk_widget_destroy), dialog);
 	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "apply_button"), FALSE);
 	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "ok_button"), FALSE);
 
 	if (header)
 		g_signal_connect (G_OBJECT (dialog), "destroy",
-				  G_CALLBACK (gtk_widget_destroyed), &state->customize_header);
+				  G_CALLBACK (gtk_widget_destroyed), 
+				  &state->customize_header);
 	else
 		g_signal_connect (G_OBJECT (dialog), "destroy",
-				  G_CALLBACK (gtk_widget_destroyed), &state->customize_footer);
+				  G_CALLBACK (gtk_widget_destroyed), 
+				  &state->customize_footer);
 
 
 	/* Remember whether it is customizing header or footer. */
@@ -1156,20 +1278,30 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		header  ? GNUMERIC_HELP_LINK_PRINTER_SETUP_HEADER_CUSTOMIZATION
 			: GNUMERIC_HELP_LINK_PRINTER_SETUP_FOOTER_CUSTOMIZATION);
 
-	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "insert-date-button")),
-		"clicked", G_CALLBACK (hf_insert_date_cb), hf_state);
-	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "insert-page-button")),
-		"clicked", G_CALLBACK (hf_insert_page_cb), hf_state);
-	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "insert-pages-button")),
-		"clicked", G_CALLBACK (hf_insert_pages_cb), hf_state);
-	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "insert-sheet-button")),
-		"clicked", G_CALLBACK (hf_insert_sheet_cb), hf_state);
-	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "insert-time-button")),
-		"clicked", G_CALLBACK (hf_insert_time_cb), hf_state);
-	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "insert-file-button")),
-		"clicked", G_CALLBACK (hf_insert_file_cb), hf_state);
-	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "insert-path-button")),
-		"clicked", G_CALLBACK (hf_insert_path_cb), hf_state);
+	g_signal_connect_swapped 
+		(G_OBJECT (glade_xml_get_widget (gui, "delete-button")),
+		 "clicked", G_CALLBACK (hf_delete_tag_cb), hf_state);
+	g_signal_connect_swapped 
+		(G_OBJECT (glade_xml_get_widget (gui, "insert-date-button")),
+		 "clicked", G_CALLBACK (hf_insert_date_cb), hf_state);
+	g_signal_connect_swapped 
+		(G_OBJECT (glade_xml_get_widget (gui, "insert-page-button")),
+		 "clicked", G_CALLBACK (hf_insert_page_cb), hf_state);
+	g_signal_connect_swapped 
+		(G_OBJECT (glade_xml_get_widget (gui, "insert-pages-button")),
+		 "clicked", G_CALLBACK (hf_insert_pages_cb), hf_state);
+	g_signal_connect_swapped 
+		(G_OBJECT (glade_xml_get_widget (gui, "insert-sheet-button")),
+		 "clicked", G_CALLBACK (hf_insert_sheet_cb), hf_state);
+	g_signal_connect_swapped 
+		(G_OBJECT (glade_xml_get_widget (gui, "insert-time-button")),
+		 "clicked", G_CALLBACK (hf_insert_time_cb), hf_state);
+	g_signal_connect_swapped 
+		(G_OBJECT (glade_xml_get_widget (gui, "insert-file-button")),
+		 "clicked", G_CALLBACK (hf_insert_file_cb), hf_state);
+	g_signal_connect_swapped 
+		(G_OBJECT (glade_xml_get_widget (gui, "insert-path-button")),
+		 "clicked", G_CALLBACK (hf_insert_path_cb), hf_state);
 	
 
 	/* Let them begin typing into the first entry widget. */
