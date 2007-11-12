@@ -1,5 +1,12 @@
 2007-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* hf-config.glade: add toolbar buttons
+	* dialog-printer-setup.c (hf_insert_*_cb): new
+	(hf_insert_hf_tag): new
+	(do_hf_customize): hook up toolbar buttons
+	
+2007-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* hf-config.glade: some fine tuning (scroll bars, toolbar, etc.)
 	* dialog-printer-setup.c (create_hf_name): new
 	(append_hf_item): new

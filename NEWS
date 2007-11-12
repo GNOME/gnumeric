@@ -8,6 +8,7 @@ Andreas:
 	* Reenable header/footer customization
 	* Add do-not-print flag to sheets. [#371754]
 	* Allow multi-line headers and footers
+	* Allow nicer entry of header/footer fields [#122175]
 
 Jean:
 	* Print images.

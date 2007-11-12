@@ -935,6 +935,63 @@ do_setup_hf_menus (PrinterSetupState *state)
 
 /*************  Header Footer Customization *********** Start *************/
 
+static void
+hf_insert_hf_tag (HFCustomizeState *hf_state, gchar const *tag)
+{
+	GtkWidget* focus;
+
+	focus = gtk_window_get_focus (GTK_WINDOW (hf_state->dialog));
+
+	if (GTK_IS_TEXT_VIEW (focus)) {
+		GtkTextBuffer *buffer = gtk_text_view_get_buffer (focus);
+		gtk_text_buffer_insert_interactive_at_cursor
+			(buffer, tag, -1, TRUE);
+	}
+}
+
+
+static void
+hf_insert_date_cb (HFCustomizeState *hf_state)
+{
+	hf_insert_hf_tag(hf_state, "&[DATE]");
+}
+
+static void
+hf_insert_time_cb (HFCustomizeState *hf_state)
+{
+	hf_insert_hf_tag(hf_state, "&[TIME]");
+}
+
+static void
+hf_insert_page_cb (HFCustomizeState *hf_state)
+{
+	hf_insert_hf_tag(hf_state, "&[PAGE]");
+}
+
+static void
+hf_insert_pages_cb (HFCustomizeState *hf_state)
+{
+	hf_insert_hf_tag(hf_state, "&[PAGES]");
+}
+
+static void
+hf_insert_sheet_cb (HFCustomizeState *hf_state)
+{
+	hf_insert_hf_tag(hf_state, "&[TAB]");
+}
+
+static void
+hf_insert_file_cb (HFCustomizeState *hf_state)
+{
+	hf_insert_hf_tag(hf_state, "&[FILE]");
+}
+
+static void
+hf_insert_path_cb (HFCustomizeState *hf_state)
+{
+	hf_insert_hf_tag(hf_state, "&[PATH]");
+}
+
 static char *
 text_get (GtkTextView *text_widget)
 {
@@ -1099,6 +1156,22 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		header  ? GNUMERIC_HELP_LINK_PRINTER_SETUP_HEADER_CUSTOMIZATION
 			: GNUMERIC_HELP_LINK_PRINTER_SETUP_FOOTER_CUSTOMIZATION);
 
+	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "insert-date-button")),
+		"clicked", G_CALLBACK (hf_insert_date_cb), hf_state);
+	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "insert-page-button")),
+		"clicked", G_CALLBACK (hf_insert_page_cb), hf_state);
+	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "insert-pages-button")),
+		"clicked", G_CALLBACK (hf_insert_pages_cb), hf_state);
+	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "insert-sheet-button")),
+		"clicked", G_CALLBACK (hf_insert_sheet_cb), hf_state);
+	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "insert-time-button")),
+		"clicked", G_CALLBACK (hf_insert_time_cb), hf_state);
+	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "insert-file-button")),
+		"clicked", G_CALLBACK (hf_insert_file_cb), hf_state);
+	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "insert-path-button")),
+		"clicked", G_CALLBACK (hf_insert_path_cb), hf_state);
+	
+
 	/* Let them begin typing into the first entry widget. */
 	gtk_widget_grab_focus (GTK_WIDGET (left));
 
@@ -1110,7 +1183,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 
 
 	gtk_widget_show_all (dialog);
-	gtk_widget_hide (glade_xml_get_widget (gui, "insertion-toolbar"));
+/* 	gtk_widget_hide (glade_xml_get_widget (gui, "insertion-toolbar")); */
 }
 
 /*************  Header Footer Customization *********** End *************/
