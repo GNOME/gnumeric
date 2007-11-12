@@ -188,7 +188,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 						   GTK_RESPONSE_OK);
 		go_widget_set_tooltip_text
 			(button,
-			 _("Save selecting documents and then quit"));
+			 _("Save selected documents and then quit"));
 	} else {
 		button = go_gtk_dialog_add_button (dialog,
 						   _("Discard"), 
