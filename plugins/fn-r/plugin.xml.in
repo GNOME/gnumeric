@@ -2,7 +2,7 @@
 <plugin id="Gnumeric_r">
 	<information>
 		<_name>Statistical Functions</_name>
-		<_description>Statistical Functions with naming a calling conventions from The R Project</_description>
+		<_description>Statistical Functions with naming and calling conventions from The R Project</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="rstat"/>
