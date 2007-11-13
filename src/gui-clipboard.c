@@ -617,7 +617,6 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 	GOCmdContext *ctx = cmd_context_stderr_new ();
 	gchar *target_name = gdk_atom_name (selection_data->target);
 
-	printf("requested format: %s\n", target_name);
 	/*
 	 * There are 4 cases. What variables are valid depends on case:
 	 * source is

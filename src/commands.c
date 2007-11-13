@@ -5654,7 +5654,7 @@ cmd_define_name (WorkbookControl *wbc, char const *name,
 
 	if (!expr_name_validate (name)) {
 		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), name,
-					_("is not not allowed as defined name"));
+					_("is not allowed as defined name"));
 		gnm_expr_top_unref (texpr);
 		return TRUE;
 	}
