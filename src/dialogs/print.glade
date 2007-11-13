@@ -543,7 +543,7 @@
                                       <widget class="GtkRadioButton" id="scale-no-radio">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="label" translatable="yes">_No scaling	</property>
+                                        <property name="label" translatable="yes">_No scaling</property>
                                         <property name="use_underline">True</property>
                                         <property name="response_id">0</property>
                                         <property name="active">True</property>
