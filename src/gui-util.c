@@ -180,6 +180,36 @@ cb_keyed_dialog_keypress (GtkWidget *dialog, GdkEventKey *event,
 	return FALSE;
 }
 
+#define SAVE_SIZES_SCREEN_KEY "geometry-hash"
+
+static void
+cb_save_sizes (GtkWidget *dialog, char *key_copy)
+{
+	GdkRectangle *r;
+	GdkScreen *screen = gtk_widget_get_screen (dialog);
+	GHashTable *h = g_object_get_data (G_OBJECT (screen),
+					   SAVE_SIZES_SCREEN_KEY);
+	if (!h) {
+		h = g_hash_table_new_full (g_str_hash, g_str_equal,
+					   (GDestroyNotify)g_free,
+					   (GDestroyNotify)g_free);
+		/*
+		 * We hang this on the screen because pixel sizes make
+		 * no sense across screens.
+		 *
+		 * ANYONE WHO CHANGES THIS CODE TO SAVE THESE SIZES ON EXIT
+		 * AND RELOADS THEM ON STARTUP WILL GET TARRED AND FEATHERED.
+		 * -- MW, 20071113
+		 */
+		g_object_set_data_full (G_OBJECT (screen),
+					SAVE_SIZES_SCREEN_KEY, h,
+					(GDestroyNotify)g_hash_table_destroy);
+	}
+
+	r = g_memdup (&dialog->allocation, sizeof (dialog->allocation));
+	g_hash_table_replace (h, key_copy, r);
+}
+
 /**
  * gnumeric_keyed_dialog
  *
@@ -196,6 +226,10 @@ void
 gnumeric_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
 {
 	KeyedDialogContext *ctxt;
+	GtkWindow *top;
+	GdkScreen *screen;
+	GHashTable *h;
+	GdkRectangle *allocation;
 
 	g_return_if_fail (IS_WBC_GTK (wbcg));
 	g_return_if_fail (GTK_IS_WINDOW (dialog));
@@ -210,13 +244,33 @@ gnumeric_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
 	ctxt->dialog = GTK_WIDGET (dialog);
 	ctxt->key  = key;
 	ctxt->freed = FALSE;
-	g_object_set_data_full (G_OBJECT (wbcg),
-		key, ctxt, (GDestroyNotify) cb_free_keyed_dialog_context);
-	g_object_set_data_full (G_OBJECT (dialog),
-		"KeyedDialog", ctxt, (GDestroyNotify) cb_free_keyed_dialog_context);
-	g_signal_connect (G_OBJECT (dialog),
-		"key_press_event",
-		G_CALLBACK (cb_keyed_dialog_keypress), NULL);
+	g_object_set_data_full (G_OBJECT (wbcg), key, ctxt,
+				(GDestroyNotify)cb_free_keyed_dialog_context);
+	g_object_set_data_full (G_OBJECT (dialog), "KeyedDialog", ctxt,
+				(GDestroyNotify)cb_free_keyed_dialog_context);
+	g_signal_connect (G_OBJECT (dialog), "key_press_event",
+			  G_CALLBACK (cb_keyed_dialog_keypress), NULL);
+
+	top = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (dialog)));
+	screen = gtk_widget_get_screen (GTK_WIDGET (dialog));
+	h = g_object_get_data (G_OBJECT (screen), SAVE_SIZES_SCREEN_KEY);
+	allocation = h ? g_hash_table_lookup (h, key) : NULL;
+
+	/* TECHOLOGY PREVIEW -- ZOOM DIALOG ONLY.  */
+	if (strcmp (key, "zoom-dialog") == 0) {
+		if (allocation) {
+#if 0
+			g_print ("Setting saved size for %s: %dx%d\n",
+				 key, allocation->width, allocation->height);
+#endif
+			gtk_window_set_default_size
+				(top, allocation->width, allocation->height);
+		}
+
+		g_signal_connect (G_OBJECT (dialog), "destroy",
+				  G_CALLBACK (cb_save_sizes),
+				  g_strdup (key));
+	}
 }
 
 /**

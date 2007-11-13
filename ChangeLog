@@ -1,3 +1,8 @@
+2007-11-13  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnumeric_keyed_dialog): Tentatively persist zoom
+	dialog window size within session.
+
 2007-11-13  Jon K Hellan  <hellan@acm.org>
 
 	* src/commands.c (cmd_define_name): Fix typo. Fixes #496334.
