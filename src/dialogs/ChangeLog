@@ -1,5 +1,11 @@
 2007-11-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-printer-setup.c (do_update_page): we need to set the
+	  header and footer margins first (they change the top and 
+	  bottom margins)
+
+2007-11-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* hf-config.glade: add some icons
 	* dialog-printer-setup.c (hf_insert_hf_stock_tag): new
 	(hf_insert_hf_text_tag): new

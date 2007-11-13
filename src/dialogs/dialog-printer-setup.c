@@ -1938,6 +1938,12 @@ do_update_page (PrinterSetupState *state)
 				&edge_to_below_header,
 				&edge_to_above_footer);
 	scale = get_conversion_factor (state->display_unit);
+	do_update_margin (&state->margins.header,
+			  (edge_to_below_header - top) / scale,
+			  state->display_unit);
+	do_update_margin (&state->margins.footer,
+			  (edge_to_above_footer - bottom) / scale,
+			  state->display_unit);
 	do_update_margin (&state->margins.top, top / scale,
 			  state->display_unit);
 	do_update_margin (&state->margins.bottom, bottom / scale,
@@ -1945,12 +1951,6 @@ do_update_page (PrinterSetupState *state)
 	do_update_margin (&state->margins.left, left / scale,
 			  state->display_unit);
 	do_update_margin (&state->margins.right, right / scale,
-			  state->display_unit);
-	do_update_margin (&state->margins.header,
-			  (edge_to_below_header - top) / scale,
-			  state->display_unit);
-	do_update_margin (&state->margins.footer,
-			  (edge_to_above_footer - bottom) / scale,
 			  state->display_unit);
 	configure_bounds_top (state);
 	configure_bounds_header (state);
@@ -2379,7 +2379,7 @@ do_fetch_margins (PrinterSetupState *state)
 	gtk_page_setup_set_bottom_margin (ps, bottom, state->display_unit);
 	gtk_page_setup_set_left_margin (ps, left, state->display_unit);
 	gtk_page_setup_set_right_margin (ps, right, state->display_unit);
-	
+
 	header += top;
 	footer += bottom;
 
