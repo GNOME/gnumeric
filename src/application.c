@@ -716,7 +716,7 @@ gnm_app_class_init (GObjectClass *gobject_klass)
 	gobject_klass->get_property = gnumeric_application_get_property;
 	g_object_class_install_property (gobject_klass, APPLICATION_PROP_FILE_HISTORY_LIST,
 		g_param_spec_pointer ("file-history-list", _("File History List"),
-				      _("A GSlist of filenames that have been read recently"),
+				      _("A list of filenames that have been read recently"),
 				      GSF_PARAM_STATIC | G_PARAM_READABLE));
 
 	signals [WORKBOOK_ADDED] = g_signal_new ("workbook_added",
