@@ -225,30 +225,35 @@ wb_create_name (WorkbookControl *wbc, char const *text, GnmParsePos *pp)
 /*
  * Select the given range and make the it visible.
  */
-static void
-wb_control_jump (WorkbookControl *wbc, Sheet *sheet, GnmValue *target)
+static gboolean
+wb_control_jump (WorkbookControl *wbc, Sheet *sheet, const GnmRangeRef *r)
 {
 	SheetView *sv;
-	GnmEvalPos ep;
-	GnmRangeRef r = target->v_range.cell;
 	GnmCellPos tmp;
 
-	sv = sheet_get_view (sheet, wb_control_view (wbc));
-	eval_pos_init_editpos (&ep, sv);
+	if (r->a.sheet)
+		sheet = r->a.sheet;
 
-	if (r.a.sheet) {
-		sheet = r.a.sheet;
-		sv = sheet_get_view (sheet, wb_control_view (wbc));
+	if (!sheet_is_visible (sheet)) {
+		go_cmd_context_error_invalid
+			(GO_CMD_CONTEXT (wbc),
+			 _("Cannot jump to an invisible sheet"),
+			 sheet->name_unquoted);
+		return FALSE;
 	}
 
-	tmp.col = r.a.col;
-	tmp.row = r.a.row;
-	sv_selection_set (sv, &tmp, r.a.col, r.a.row, r.b.col, r.b.row);
-	sv_make_cell_visible (sv, r.b.col, r.b.row, FALSE);
-	sv_make_cell_visible (sv, r.a.col, r.a.row, FALSE);
+	sv = sheet_get_view (sheet, wb_control_view (wbc));
+
+	tmp.col = r->a.col;
+	tmp.row = r->a.row;
+	sv_selection_set (sv, &tmp, r->a.col, r->a.row, r->b.col, r->b.row);
+	sv_make_cell_visible (sv, r->b.col, r->b.row, FALSE);
+	sv_make_cell_visible (sv, r->a.col, r->a.row, FALSE);
 	sv_update (sv);
 	if (wb_control_cur_sheet (wbc) != sheet)
 		wb_view_sheet_focus (wbc->wb_view, sheet);
+
+	return TRUE;
 }
 
 /*
@@ -262,6 +267,7 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	GnmParsePos pp;
 	GnmValue *target;
+	gboolean res;
 
 	if (text == NULL || *text == '\0')
 		return FALSE;
@@ -288,9 +294,9 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 		}
 	}
 
-	wb_control_jump (wbc, sheet, target);
+	res = wb_control_jump (wbc, sheet, &target->v_range.cell);
 	value_release (target);
-	return TRUE;
+	return res;
 }
 
 static void

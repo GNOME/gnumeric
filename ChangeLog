@@ -1,5 +1,9 @@
 2007-11-12  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-control.c (wb_control_jump): Simplify.  Return
+	error indicator and take simpler arguments.  Caller fixed.  Refuse
+	to jump to invisible sheet.  Fixes #496304.
+
 	* src/sheet.c (sheet_cell_set_text): Fix interaction between
 	spanning and manual recalc.  Fixes #495879.
 
