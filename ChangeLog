@@ -1,3 +1,7 @@
+2007-11-13  Jon K Hellan  <hellan@acm.org>
+
+	* src/commands.c (cmd_define_name): Fix typo. Fixes #496334.
+
 2007-11-12  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-control.c (wb_control_jump): Simplify.  Return
