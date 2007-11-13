@@ -60,6 +60,16 @@
 }
 
 {
+   x11_write_XRenderComposite
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XRenderComposite
+}
+
+{
    x11_write_XRenderSetPictureClipRectangles
    Memcheck:Param
    write(buf)
@@ -111,6 +121,17 @@
 }
 
 {
+   x11_write_XDrawLine2
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:XDrawLine
+}
+
+{
    x11_write_XFlush
    Memcheck:Param
    write(buf)
@@ -118,6 +139,18 @@
    fun:*
    fun:*
    fun:XFlush
+}
+
+{
+   x11_write_XFlushGCCache
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:_XFlushGCCache
 }
 
 {
