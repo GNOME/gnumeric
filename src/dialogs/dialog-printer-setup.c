@@ -56,6 +56,7 @@
 #include <gtk/gtkcellrenderertext.h>
 /*#include <gtk/gtkmenuitem.h>*/
 #include <gdk/gdkkeysyms.h>
+#include <goffice/utils/go-glib-extras.h>
 
 /* FIXME: do not hardcode pixel counts.  */
 #define PREVIEW_X 170
@@ -171,6 +172,28 @@ struct _HFCustomizeState {
 	PrinterSetupState *printer_setup_state;
 	PrintHF          **hf;
 	gboolean         is_header;
+	GtkTextBuffer    *left_buffer;
+	GtkTextBuffer    *middle_buffer;
+	GtkTextBuffer    *right_buffer;
+	GList            *marks;
+};
+
+typedef enum {
+	HF_FIELD_UNKNOWN,
+	HF_FIELD_FILE, 
+	HF_FIELD_PATH,
+	HF_FIELD_DATE,
+	HF_FIELD_TIME,
+	HF_FIELD_PAGE,
+	HF_FIELD_PAGES,
+	HF_FIELD_SHEET
+} HFFieldType;
+
+typedef struct _HFMarkInfo HFMarkInfo;
+struct _HFMarkInfo {
+	GtkTextMark *mark;
+	HFFieldType type;
+	char *options;
 };
 
 static void dialog_gtk_printer_setup_cb (PrinterSetupState *state);
@@ -966,118 +989,287 @@ hf_delete_tag_cb (HFCustomizeState *hf_state)
 	}
 }
 
+
 static void
-hf_insert_hf_tag (HFCustomizeState *hf_state, gchar const *text)
+hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer, HFFieldType type)
 {
-	GtkWidget* focus;
 	GtkTextIter iter;
+	gchar const *stock_id;
+	GdkPixbuf* pix;
+	GtkTextMark *new_mark;
+	HFMarkInfo *mark_info;
+		
+	
+	switch (type) {
+	case HF_FIELD_FILE:
+		stock_id = GTK_STOCK_FILE;
+		break;
+	case HF_FIELD_PATH:
+		stock_id = GTK_STOCK_DIRECTORY;
+		break;
+	default:
+		return;
+	}
+	
+	hf_delete_tag_cb (hf_state);
 
-	focus = gtk_window_get_focus (GTK_WINDOW (hf_state->dialog));
+	if (gtk_text_buffer_insert_interactive_at_cursor (buffer, "", -1, TRUE)) {
+		GtkWidget* focus;
+		
+		focus = gtk_window_get_focus (GTK_WINDOW (hf_state->dialog));
+	
+		gtk_text_buffer_get_iter_at_mark 
+			(buffer, &iter, gtk_text_buffer_get_insert (buffer));
 
-	if (GTK_IS_TEXT_VIEW (focus)) {
-		GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (focus));
+		pix = gtk_widget_render_icon (focus, stock_id,
+					      GTK_ICON_SIZE_MENU, NULL);
+		gtk_text_buffer_insert_pixbuf (buffer, &iter, pix);
+		gtk_text_iter_backward_char (&iter);
+		new_mark = gtk_text_buffer_create_mark (buffer, NULL,
+							&iter, FALSE);
+		g_object_ref (new_mark);
 
-		hf_delete_tag_cb (hf_state); 
+		mark_info = g_new0 (HFMarkInfo, 1);
+		mark_info->mark = new_mark;
+		mark_info->type = type;
+		mark_info->options = NULL;
+		hf_state->marks = g_list_append (hf_state->marks, mark_info);
+	}
+}
 
-		 if (gtk_text_buffer_insert_interactive_at_cursor
-		     (buffer, "", -1, TRUE)) {
-			 gtk_text_buffer_get_iter_at_mark 
-				 (buffer, &iter, gtk_text_buffer_get_insert (buffer));
-			 gtk_text_buffer_insert_with_tags_by_name
-				 (buffer, &iter, text, -1, HF_TAG_NAME, NULL);
-		 }
+static void
+hf_insert_hf_text_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer, gchar const *text)
+{
+	GtkTextIter iter;
+	
+	hf_delete_tag_cb (hf_state); 
+	
+	if (gtk_text_buffer_insert_interactive_at_cursor (buffer, "", -1, TRUE)) {
+		gtk_text_buffer_get_iter_at_mark 
+			(buffer, &iter, gtk_text_buffer_get_insert (buffer));
+		gtk_text_buffer_insert_with_tags_by_name
+			(buffer, &iter, text, -1, HF_TAG_NAME, NULL);
 	}
 }
 
 
 static void
+hf_insert_hf_tag (HFCustomizeState *hf_state, HFFieldType type)
+{
+	GtkWidget* focus;
+
+	focus = gtk_window_get_focus (GTK_WINDOW (hf_state->dialog));
+
+	if (GTK_IS_TEXT_VIEW (focus)) {
+		GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (focus));
+		
+		switch (type) {
+		case HF_FIELD_FILE:
+		case HF_FIELD_PATH:
+			hf_insert_hf_stock_tag (hf_state, buffer, type);
+			break;
+		case HF_FIELD_DATE:
+			hf_insert_hf_text_tag (hf_state, buffer, "&[DATE]");
+			break;
+		case HF_FIELD_TIME:
+			hf_insert_hf_text_tag (hf_state, buffer, "&[TIME]");
+			break;
+		case HF_FIELD_PAGE:
+			hf_insert_hf_text_tag (hf_state, buffer, "&[PAGE]");
+			break;
+		case HF_FIELD_PAGES:
+			hf_insert_hf_text_tag (hf_state, buffer, "&[PAGES]");
+			break;
+		case HF_FIELD_SHEET:
+			hf_insert_hf_text_tag (hf_state, buffer, "&[SHEET]");
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+
+
+static void
 hf_insert_date_cb (HFCustomizeState *hf_state)
 {
-	hf_insert_hf_tag(hf_state, "&[DATE]");
+	hf_insert_hf_tag (hf_state, HF_FIELD_DATE);
 }
 
 static void
 hf_insert_time_cb (HFCustomizeState *hf_state)
 {
-	hf_insert_hf_tag(hf_state, "&[TIME]");
+	hf_insert_hf_tag (hf_state, HF_FIELD_TIME);
 }
 
 static void
 hf_insert_page_cb (HFCustomizeState *hf_state)
 {
-	hf_insert_hf_tag(hf_state, "&[PAGE]");
+	hf_insert_hf_tag (hf_state, HF_FIELD_PAGE);
 }
 
 static void
 hf_insert_pages_cb (HFCustomizeState *hf_state)
 {
-	hf_insert_hf_tag(hf_state, "&[PAGES]");
+	hf_insert_hf_tag (hf_state, HF_FIELD_PAGES);
 }
 
 static void
 hf_insert_sheet_cb (HFCustomizeState *hf_state)
 {
-	hf_insert_hf_tag(hf_state, "&[TAB]");
+	hf_insert_hf_tag (hf_state, HF_FIELD_SHEET);
 }
 
 static void
 hf_insert_file_cb (HFCustomizeState *hf_state)
 {
-	hf_insert_hf_tag(hf_state, "&[FILE]");
+	hf_insert_hf_tag (hf_state, HF_FIELD_FILE);
 }
 
 static void
 hf_insert_path_cb (HFCustomizeState *hf_state)
 {
-	hf_insert_hf_tag(hf_state, "&[PATH]");
+	hf_insert_hf_tag (hf_state, HF_FIELD_PATH);
 }
-
 
 static void 
 buffer_delete_range_cb (GtkTextBuffer *textbuffer,
 			GtkTextIter   *start,
 			GtkTextIter   *end,
-			gpointer       user_data)
+			HFCustomizeState *hf_state)
 {
 	GtkTextTag    *tag;
+	GtkTextIter   iter;
+	GList *l = hf_state->marks;
+	
 	tag = gtk_text_tag_table_lookup (gtk_text_buffer_get_tag_table (textbuffer),
 					 HF_TAG_NAME);
+	gtk_text_iter_order (start, end);
+
 	if (gtk_text_iter_has_tag (start, tag) && !gtk_text_iter_begins_tag (start, tag))
 		gtk_text_iter_backward_to_tag_toggle (start, tag);
 	if (gtk_text_iter_has_tag (end, tag) && !gtk_text_iter_toggles_tag (end, tag))
 		gtk_text_iter_forward_to_tag_toggle (end, tag);
+
+	/* Deleting all of our marks from this range */
+	while (l) {
+		HFMarkInfo *info = l->data;
+		
+		if (gtk_text_mark_get_buffer (info->mark) == textbuffer) {
+			gtk_text_buffer_get_iter_at_mark (textbuffer, &iter, info->mark);
+			if (gtk_text_iter_in_range (&iter, start, end))
+				gtk_text_buffer_delete_mark (textbuffer, info->mark);
+		}
+		l = l->next;
+	}
 }
 
+static int
+mark_info_compare (HFMarkInfo *a, HFMarkInfo *b)
+{
+	GtkTextIter iter_a, iter_b;
+	GtkTextBuffer *buffer;
 
+	buffer = gtk_text_mark_get_buffer (a->mark);
+	gtk_text_buffer_get_iter_at_mark (buffer, &iter_a, a->mark);
+	gtk_text_buffer_get_iter_at_mark (buffer, &iter_b, b->mark);
+
+	return gtk_text_iter_compare (&iter_a, &iter_b);
+}
+
+static void
+append_tag_descriptor (GString* string, HFFieldType type, char const *options)
+{
+	char const *code;
+
+	switch (type) {
+		case HF_FIELD_FILE:
+			code = "&[FILE";
+			break;
+		case HF_FIELD_PATH:
+			code = "&[PATH";
+			break;
+		case HF_FIELD_DATE:
+			code = "&[DATE";
+			break;
+		case HF_FIELD_TIME:
+			code = "&[TIME";
+			break;
+		case HF_FIELD_PAGE:
+			code = "&[PAGE";
+			break;
+		case HF_FIELD_PAGES:
+			code = "&[PAGES";
+			break;
+		case HF_FIELD_SHEET:
+			code = "&[SHEET";
+			break;
+		default:
+			return;
+	}
+
+	g_string_append (string, code);
+	if (options) {
+		g_string_append_c (string, ':');
+		g_string_append (string, options);
+	}
+	g_string_append_c (string, ']');
+}
 
 static char *
-text_get (GtkTextView *text_widget)
+text_get (HFCustomizeState *hf_state, GtkTextBuffer *buffer)
 {
-	GtkTextBuffer *buffer;
 	GtkTextIter start;
 	GtkTextIter end;
-	
-	buffer = gtk_text_view_get_buffer (text_widget);
-	gtk_text_buffer_get_bounds (buffer, &start, &end);
+	GList *l, *sorted_marks = NULL;
+	gchar *text;
+	GString* string;
 
-	return gtk_text_buffer_get_slice (buffer, &start, &end, TRUE);
+	string = g_string_new ("");
+
+	l = hf_state->marks;
+	while (l) {
+		HFMarkInfo *m = l->data;
+		if (gtk_text_mark_get_buffer (m->mark) == buffer)
+			sorted_marks = g_list_insert_sorted 
+				(sorted_marks, m, (GCompareFunc) mark_info_compare);
+		l = l->next;
+	}
+
+	gtk_text_buffer_get_bounds (buffer, &start, &end);
+	
+	l = sorted_marks;
+	while (l) {
+		HFMarkInfo *m = l->data;
+		GtkTextIter mark_position;
+
+		gtk_text_buffer_get_iter_at_mark (buffer, &mark_position, m->mark);
+		text = gtk_text_buffer_get_text (buffer, &start, &mark_position, FALSE);
+		g_string_append (string, text);
+		g_free (text);
+		append_tag_descriptor (string, m->type, m->options);
+		start = mark_position;
+		l = l->next;
+	}
+	g_list_free (sorted_marks);	
+	text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
+	g_string_append (string, text);
+	g_free (text);
+
+	return g_string_free (string, FALSE);
 }
 
 static void
 hf_customize_apply (HFCustomizeState *hf_state)
 {
-	GtkTextView *left, *middle, *right;
 	char *left_format, *right_format, *middle_format;
 
 	g_return_if_fail (hf_state != NULL);
 
-	left   = GTK_TEXT_VIEW (glade_xml_get_widget (hf_state->gui, "left-format"));
-	middle = GTK_TEXT_VIEW (glade_xml_get_widget (hf_state->gui, "middle-format"));
-	right  = GTK_TEXT_VIEW (glade_xml_get_widget (hf_state->gui, "right-format"));
-
-	left_format   = text_get (left);
-	middle_format = text_get (middle);
-	right_format  = text_get (right);
+	left_format   = text_get (hf_state, hf_state->left_buffer);
+	middle_format = text_get (hf_state, hf_state->middle_buffer);
+	right_format  = text_get (hf_state, hf_state->right_buffer);
 
 	print_hf_free (*(hf_state->hf));
 	*(hf_state->hf) = print_hf_new (left_format, middle_format, right_format);
@@ -1087,7 +1279,6 @@ hf_customize_apply (HFCustomizeState *hf_state)
 	g_free (right_format);
 
 	print_hf_register (*(hf_state->hf));
-
 	do_setup_hf_menus (hf_state->printer_setup_state);
 	display_hf_preview (hf_state->printer_setup_state, hf_state->is_header);
 
@@ -1131,8 +1322,19 @@ add_named_tags (GtkTextBuffer *buffer)
 	gtk_text_tag_table_add (gtk_text_buffer_get_tag_table (buffer), tag);
 }
 
+static gboolean
+is_known_tag (HFCustomizeState* hf_state, GtkTextBuffer *buffer, char const *tag, gint length)
+{
+	if ((length = 7) && 0 == g_ascii_strncasecmp (tag, "&[FILE]", 7)) 
+		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_FILE);
+	else if ((length = 7) && 0 == g_ascii_strncasecmp (tag, "&[PATH]", 7)) 
+		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PATH);
+	else return FALSE;
+	return TRUE;
+}
+
 static void
-add_text_to_buffer (GtkTextBuffer *buffer, char const *text)
+add_text_to_buffer (HFCustomizeState* hf_state, GtkTextBuffer *buffer, char const *text)
 {
 	gchar const *here = text, *end;
 	gunichar closing = g_utf8_get_char ("]");
@@ -1148,9 +1350,10 @@ add_text_to_buffer (GtkTextBuffer *buffer, char const *text)
 				gtk_text_buffer_insert (buffer, &iter, here, -1);
 				break;
 			} else {
-				gtk_text_buffer_insert_with_tags_by_name
-					(buffer, &iter, here, end - here + 1, 
-					 HF_TAG_NAME, NULL);
+				if (!is_known_tag ( hf_state, buffer, here, end - here + 1))
+					gtk_text_buffer_insert_with_tags_by_name
+						(buffer, &iter, here, end - here + 1, 
+						 HF_TAG_NAME, NULL);
 				here = end + 1;
 			}
 		} else {
@@ -1167,6 +1370,25 @@ add_text_to_buffer (GtkTextBuffer *buffer, char const *text)
 	}
 	
 	gtk_text_buffer_set_modified (buffer, FALSE);
+}
+
+static void
+free_hf_mark_info (HFMarkInfo *info)
+{
+	if (info->mark)
+		g_object_unref (G_OBJECT (info->mark));
+	if (info->options)
+		g_free (info->options);
+	g_free (info);
+}
+
+static void
+free_hf_state (HFCustomizeState *hf_state)
+{
+	g_return_if_fail (hf_state != NULL);
+
+	go_list_free_custom (hf_state->marks, (GFreeFunc) free_hf_mark_info);
+	g_free (hf_state);
 }
 
 /*
@@ -1223,24 +1445,20 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		gtk_window_set_title (GTK_WINDOW (dialog), _("Custom footer configuration"));
 	}
 	
-	left_buffer = gtk_text_view_get_buffer (left);
-	middle_buffer = gtk_text_view_get_buffer (middle);
-	right_buffer = gtk_text_view_get_buffer (right);
+	hf_state->left_buffer = left_buffer = gtk_text_view_get_buffer (left);
+	hf_state->middle_buffer = middle_buffer = gtk_text_view_get_buffer (middle);
+	hf_state->right_buffer = right_buffer = gtk_text_view_get_buffer (right);
 
 	add_named_tags (left_buffer);
 	add_named_tags (middle_buffer);
 	add_named_tags (right_buffer);
 
-	add_text_to_buffer (left_buffer, (*(hf_state->hf))->left_format);
-	add_text_to_buffer (middle_buffer, (*(hf_state->hf))->middle_format);
-	add_text_to_buffer (right_buffer, (*(hf_state->hf))->right_format);
-
 	g_signal_connect (G_OBJECT (left_buffer), "delete-range",  
-			  G_CALLBACK (buffer_delete_range_cb), NULL);
+			  G_CALLBACK (buffer_delete_range_cb), hf_state);
 	g_signal_connect (G_OBJECT (middle_buffer), "delete-range",  
-			  G_CALLBACK (buffer_delete_range_cb), NULL);
+			  G_CALLBACK (buffer_delete_range_cb), hf_state);
 	g_signal_connect (G_OBJECT (right_buffer), "delete-range",  
-			  G_CALLBACK (buffer_delete_range_cb), NULL);
+			  G_CALLBACK (buffer_delete_range_cb), hf_state);
 
 	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "apply_button")),
 		"clicked", G_CALLBACK (hf_customize_apply), hf_state);
@@ -1262,9 +1480,8 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 				  &state->customize_footer);
 
 
-	/* Remember whether it is customizing header or footer. */
 	g_object_set_data_full (G_OBJECT (dialog),
-		"hfstate", hf_state, (GDestroyNotify) g_free);
+		"hfstate", hf_state, (GDestroyNotify) free_hf_state);
 
 	/* Setup bindings to mark when the entries are modified. */
 	g_signal_connect_swapped (G_OBJECT (left_buffer),
@@ -1315,7 +1532,10 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 
 
 	gtk_widget_show_all (dialog);
-/* 	gtk_widget_hide (glade_xml_get_widget (gui, "insertion-toolbar")); */
+
+	add_text_to_buffer (hf_state, left_buffer, (*(hf_state->hf))->left_format);
+	add_text_to_buffer (hf_state, middle_buffer, (*(hf_state->hf))->middle_format);
+	add_text_to_buffer (hf_state, right_buffer, (*(hf_state->hf))->right_format);
 }
 
 /*************  Header Footer Customization *********** End *************/

@@ -1,3 +1,21 @@
+2007-11-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* hf-config.glade: add some icons
+	* dialog-printer-setup.c (hf_insert_hf_stock_tag): new
+	(hf_insert_hf_text_tag): new
+	(hf_insert_hf_tag): rewritten to use the above and change 
+	  all callers to use new arguments
+	(buffer_delete_range_cb): delete dropped textmarks
+	(mark_info_compare): new
+	(append_tag_descriptor): new
+	(text_get): handle icon tags and marks
+	(hf_customize_apply): simplify
+	(is_known_tag): new
+	(add_text_to_buffer): use icons if possible
+	(free_hf_mark_info): new
+	(free_hf_state): new
+	(do_hf_customize): rearrange to allow for icon rendering
+
 2007-11-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* hf-config.glade: add delete button on toolbar
