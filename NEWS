@@ -30,6 +30,7 @@ Morten:
 	* Plug printing dialog leak.
 	* Fix just-in-time evaluation problem.
 	* Fix minor parse problem for faulty inter-workbook references.
+	* Fix interaction between re-spanning and manual recalc.  [#495879]
 
 Oliver Burnett-Hall:
        * Fix R1C1 issued with defined names.  [#409997]  [#494318]

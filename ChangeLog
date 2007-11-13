@@ -1,5 +1,8 @@
 2007-11-12  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (sheet_cell_set_text): Fix interaction between
+	spanning and manual recalc.  Fixes #495879.
+
 	* src/parse-util.c (rangeref_parse): Don't allow workbook without
 	sheet.
 

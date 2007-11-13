@@ -2107,7 +2107,13 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 		gnm_cell_set_expr (cell, texpr);
 		gnm_expr_top_unref (texpr);
 
-		/* clear spans from _other_ cells */
+		/*
+		 * Queue recalc before spanning.  Otherwise spanning may
+		 * create a bogus rendered value, see #495879.
+		 */
+		cell_queue_recalc (cell);
+
+		/* Clear spans from _other_ cells */
 		sheet_cell_calc_span (cell, GNM_SPANCALC_SIMPLE);
 	} else {
 		g_return_if_fail (val != NULL);
@@ -2119,10 +2125,12 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 			go_format_unref (fmt);
 		}
 
+		/* Queue recalc before spanning, see above.  */
+		cell_queue_recalc (cell);
+
 		sheet_cell_calc_span (cell, GNM_SPANCALC_RESIZE | GNM_SPANCALC_RENDER);
 	}
 
-	cell_queue_recalc (cell);
 	sheet_flag_status_update_cell (cell);
 }
 
