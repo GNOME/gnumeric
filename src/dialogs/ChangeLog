@@ -1,5 +1,11 @@
 2007-11-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-printer-setup.c (fill_hf): current format must be 
+	  registered.
+	(do_setup_hf_menus): Make sure current format is registered.
+
+2007-11-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-printer-setup.c (do_update_page): we need to set the
 	  header and footer margins first (they change the top and 
 	  bottom margins)

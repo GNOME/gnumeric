@@ -930,15 +930,12 @@ fill_hf (PrinterSetupState *state, GtkComboBox *om, GCallback callback, gboolean
 		append_hf_item (store, format, hfi);
 	}
 
-	if (idx < 0) {
-		append_hf_item (store, select, hfi);
-		idx = i;
-	}
-	
+	if (idx < 0)
+		g_critical ("Current format is not registered!");
+		
 	gtk_combo_box_set_active (om, idx);
-
 	g_signal_connect (G_OBJECT (om), "changed", callback, state);
-
+	
 	hf_render_info_destroy (hfi);
 }
 
@@ -952,6 +949,11 @@ do_setup_hf_menus (PrinterSetupState *state)
 
 	header = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "option-menu-header"));
 	footer = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "option-menu-footer"));
+
+	if (state->header)
+		print_hf_register (state->header);
+	if (state->footer)
+		print_hf_register (state->footer);
 
 	if (state->header)
 		fill_hf (state, header, G_CALLBACK (header_changed), TRUE);
