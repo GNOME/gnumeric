@@ -183,7 +183,7 @@ cb_keyed_dialog_keypress (GtkWidget *dialog, GdkEventKey *event,
 #define SAVE_SIZES_SCREEN_KEY "geometry-hash"
 
 static void
-cb_save_sizes (GtkWidget *dialog, char *key_copy)
+cb_save_sizes (GtkWidget *dialog, const char *key)
 {
 	GdkRectangle *r;
 	GdkScreen *screen = gtk_widget_get_screen (dialog);
@@ -207,7 +207,8 @@ cb_save_sizes (GtkWidget *dialog, char *key_copy)
 	}
 
 	r = g_memdup (&dialog->allocation, sizeof (dialog->allocation));
-	g_hash_table_replace (h, key_copy, r);
+	gdk_window_get_position (dialog->window, &r->x, &r->y);
+	g_hash_table_replace (h, g_strdup (key), r);
 }
 
 /**
@@ -260,16 +261,18 @@ gnumeric_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
 	if (strcmp (key, "zoom-dialog") == 0) {
 		if (allocation) {
 #if 0
-			g_print ("Setting saved size for %s: %dx%d\n",
-				 key, allocation->width, allocation->height);
+			g_print ("Restoring %s to %dx%d at (%d,%d)\n",
+				 key, allocation->width, allocation->height,
+				 allocation->x, allocation->y);
 #endif
+			gtk_window_move (top, allocation->x, allocation->y);
 			gtk_window_set_default_size
 				(top, allocation->width, allocation->height);
 		}
 
-		g_signal_connect (G_OBJECT (dialog), "destroy",
+		g_signal_connect (G_OBJECT (dialog), "unrealize",
 				  G_CALLBACK (cb_save_sizes),
-				  g_strdup (key));
+				  (gpointer)key);
 	}
 }
 
