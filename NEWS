@@ -33,6 +33,7 @@ Morten:
 	* Fix interaction between re-spanning and manual recalc.  [#495879]
 	* Refuse to jump to invisible sheet.  [#496304]
 	* Fix rtl display problem.  [#496304]
+	* Plug leak in oleo import.  [#496867]
 
 Oliver Burnett-Hall:
        * Fix R1C1 issued with defined names.  [#409997]  [#494318]

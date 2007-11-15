@@ -290,6 +290,9 @@ oleo_read (IOContext *io_context, Workbook *wb, GsfInput *input)
 		g_free (utf8line);
 	}
 
+	if (style)
+		gnm_style_unref (style);
+
 	g_iconv_close (state.converter);
 	gnm_conventions_free (state.convs);
 	g_object_unref (G_OBJECT (state.textline));
