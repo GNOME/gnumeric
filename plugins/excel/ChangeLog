@@ -1,3 +1,7 @@
+2007-11-12  Morten Welinder  <terra@gnome.org>
+
+	* xlsx-read.c (xlsx_CT_Selection): Plug leak.
+
 2007-11-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (areaformat): set fill.auto_fill to FALSE for

@@ -3343,6 +3343,7 @@ xlsx_CT_Selection (GsfXMLIn *xin, xmlChar const **attrs)
 			g_free (ptr->data);
 		}
 		sv_set_edit_pos (state->sv, &edit_pos);
+		g_slist_free (accum);
 	}
 }
 static void
