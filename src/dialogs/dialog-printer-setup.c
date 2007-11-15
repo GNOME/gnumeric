@@ -57,6 +57,7 @@
 /*#include <gtk/gtkmenuitem.h>*/
 #include <gdk/gdkkeysyms.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <string.h>
 
 /* FIXME: do not hardcode pixel counts.  */
 #define PREVIEW_X 170
@@ -994,7 +995,7 @@ hf_delete_tag_cb (HFCustomizeState *hf_state)
 
 
 static void
-hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer, HFFieldType type)
+hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer, HFFieldType type, char *options)
 {
 	GtkTextIter iter;
 	gchar const *stock_id;
@@ -1051,29 +1052,13 @@ hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer, HFFie
 		mark_info = g_new0 (HFMarkInfo, 1);
 		mark_info->mark = new_mark;
 		mark_info->type = type;
-		mark_info->options = NULL;
+		mark_info->options = options ? g_strdup (options) : NULL;
 		hf_state->marks = g_list_append (hf_state->marks, mark_info);
 	}
 }
 
 static void
-hf_insert_hf_text_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer, gchar const *text)
-{
-	GtkTextIter iter;
-	
-	hf_delete_tag_cb (hf_state); 
-	
-	if (gtk_text_buffer_insert_interactive_at_cursor (buffer, "", -1, TRUE)) {
-		gtk_text_buffer_get_iter_at_mark 
-			(buffer, &iter, gtk_text_buffer_get_insert (buffer));
-		gtk_text_buffer_insert_with_tags_by_name
-			(buffer, &iter, text, -1, HF_TAG_NAME, NULL);
-	}
-}
-
-
-static void
-hf_insert_hf_tag (HFCustomizeState *hf_state, HFFieldType type)
+hf_insert_hf_tag (HFCustomizeState *hf_state, HFFieldType type, char *options)
 {
 	GtkWidget* focus;
 
@@ -1082,52 +1067,53 @@ hf_insert_hf_tag (HFCustomizeState *hf_state, HFFieldType type)
 	if (GTK_IS_TEXT_VIEW (focus)) {
 		GtkTextBuffer *buffer = 
 			gtk_text_view_get_buffer (GTK_TEXT_VIEW (focus));
-		hf_insert_hf_stock_tag (hf_state, buffer, type);
+		hf_insert_hf_stock_tag (hf_state, buffer, type, options);
 	}
 }
 
 
 
 static void
-hf_insert_date_cb (HFCustomizeState *hf_state)
+hf_insert_date_cb (GtkWidget *widget, HFCustomizeState *hf_state)
 {
-	hf_insert_hf_tag (hf_state, HF_FIELD_DATE);
+	
+	hf_insert_hf_tag (hf_state, HF_FIELD_DATE, g_object_get_data (G_OBJECT (widget), "options"));
 }
 
 static void
-hf_insert_time_cb (HFCustomizeState *hf_state)
+hf_insert_time_cb (GtkWidget *widget, HFCustomizeState *hf_state)
 {
-	hf_insert_hf_tag (hf_state, HF_FIELD_TIME);
+	hf_insert_hf_tag (hf_state, HF_FIELD_TIME, g_object_get_data (G_OBJECT (widget), "options"));
 }
 
 static void
 hf_insert_page_cb (HFCustomizeState *hf_state)
 {
-	hf_insert_hf_tag (hf_state, HF_FIELD_PAGE);
+	hf_insert_hf_tag (hf_state, HF_FIELD_PAGE, NULL);
 }
 
 static void
 hf_insert_pages_cb (HFCustomizeState *hf_state)
 {
-	hf_insert_hf_tag (hf_state, HF_FIELD_PAGES);
+	hf_insert_hf_tag (hf_state, HF_FIELD_PAGES, NULL);
 }
 
 static void
 hf_insert_sheet_cb (HFCustomizeState *hf_state)
 {
-	hf_insert_hf_tag (hf_state, HF_FIELD_SHEET);
+	hf_insert_hf_tag (hf_state, HF_FIELD_SHEET, NULL);
 }
 
 static void
 hf_insert_file_cb (HFCustomizeState *hf_state)
 {
-	hf_insert_hf_tag (hf_state, HF_FIELD_FILE);
+	hf_insert_hf_tag (hf_state, HF_FIELD_FILE, NULL);
 }
 
 static void
 hf_insert_path_cb (HFCustomizeState *hf_state)
 {
-	hf_insert_hf_tag (hf_state, HF_FIELD_PATH);
+	hf_insert_hf_tag (hf_state, HF_FIELD_PATH, NULL);
 }
 
 static void 
@@ -1323,24 +1309,49 @@ add_named_tags (GtkTextBuffer *buffer)
 }
 
 static gboolean
+check_hf_tag (char const *unknown_tag, char const *known_tag, gchar **options)
+{
+	int len;
+	if (0 != g_ascii_strncasecmp (unknown_tag, "&[", 2))
+		return FALSE;
+	unknown_tag += 2;
+	len = strlen (known_tag);
+	if (0 != g_ascii_strncasecmp (unknown_tag, known_tag, len))
+		return FALSE;
+	unknown_tag += len;
+	if (*unknown_tag == ']')
+		return TRUE;
+	if (*unknown_tag != ':')
+		return FALSE;
+	unknown_tag++;
+	len = strlen (unknown_tag) - 1;
+	if ((len > 0) && (options != NULL)) {
+		*options = g_strndup (unknown_tag, len);
+	}
+	return TRUE;
+}
+
+static gboolean
 is_known_tag (HFCustomizeState* hf_state, GtkTextBuffer *buffer, char const *tag, gint length)
 {
-	if (0 == g_ascii_strncasecmp (tag, "&[FILE]", 7)) 
-		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_FILE);
-	else if (0 == g_ascii_strncasecmp (tag, "&[PATH]", 7)) 
-		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PATH);
-	else if (0 == g_ascii_strncasecmp (tag, "&[PAGE]", 7)) 
-		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PAGE);
-	else if (0 == g_ascii_strncasecmp (tag, "&[PAGES]", 8)) 
-		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PAGES);
-	else if (0 == g_ascii_strncasecmp (tag, "&[TAB]", 6)) 
-		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_SHEET);
-	else if (0 == g_ascii_strncasecmp (tag, "&[DATE]", 7)) 
-		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_DATE);
-	else if (0 == g_ascii_strncasecmp (tag, "&[TIME]", 7)) 
-		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_TIME);
-	else if (0 == g_ascii_strncasecmp (tag, "&[CELL]", 7)) 
-		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_CELL);
+	gchar *options = NULL;
+
+	if (check_hf_tag (tag, "FILE", &options))
+		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_FILE, options);
+	else if (check_hf_tag (tag, "PATH", &options)) 
+		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PATH, options);
+	else if (check_hf_tag (tag, "PAGES", &options)) 
+		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PAGES, options);
+	else if (check_hf_tag (tag, "PAGE", &options)) 
+		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PAGE, options);
+	else if (check_hf_tag (tag, "TAB", &options)) 
+		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_SHEET, options);
+	else if (check_hf_tag (tag, "DATE", &options)) 
+		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_DATE, options);
+	else if (check_hf_tag (tag, "TIME", &options)) 
+		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_TIME, options);
+	else if (check_hf_tag (tag, "CELL", &options)) 
+		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_CELL, options);
 	else return FALSE;
 	return TRUE;
 }
@@ -1402,6 +1413,70 @@ free_hf_state (HFCustomizeState *hf_state)
 
 	go_list_free_custom (hf_state->marks, (GFreeFunc) free_hf_mark_info);
 	g_free (hf_state);
+}
+
+static void
+hf_attach_insert_date_menu (GtkMenuToolButton *button, HFCustomizeState* hf_state)
+{
+	GtkWidget *menu = NULL;
+	GtkWidget *item = NULL;
+
+	g_signal_connect 
+		(G_OBJECT (button),
+		 "clicked", G_CALLBACK (hf_insert_date_cb), hf_state);
+
+	menu = gtk_menu_new ();
+
+	item = gtk_menu_item_new_with_label (_("Default date format"));
+	g_signal_connect
+		(G_OBJECT (item),
+		 "activate", G_CALLBACK (hf_insert_date_cb), hf_state);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	item = gtk_separator_menu_item_new ();
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	item = gtk_menu_item_new_with_label (("YYYY/MM/DD"));
+	g_signal_connect 
+		(G_OBJECT (item),
+		 "activate", G_CALLBACK (hf_insert_date_cb), hf_state);
+	g_object_set_data_full (G_OBJECT (item), "options", g_strdup("YYYY/MM/DD"), g_free);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	gtk_menu_tool_button_set_menu (button, menu);
+	gtk_widget_show_all (menu);
+}
+
+static void
+hf_attach_insert_time_menu (GtkMenuToolButton *button, HFCustomizeState* hf_state)
+{
+	GtkWidget *menu = NULL;
+	GtkWidget *item = NULL;
+
+	g_signal_connect 
+		(G_OBJECT (button),
+		 "clicked", G_CALLBACK (hf_insert_time_cb), hf_state);
+
+	menu = gtk_menu_new ();
+
+	item = gtk_menu_item_new_with_label (_("Default Time Format"));
+	g_signal_connect
+		(G_OBJECT (item),
+		 "activate", G_CALLBACK (hf_insert_time_cb), hf_state);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	item = gtk_separator_menu_item_new ();
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	item = gtk_menu_item_new_with_label (("HH:MM:SS"));
+	g_signal_connect 
+		(G_OBJECT (item),
+		 "activate", G_CALLBACK (hf_insert_time_cb), hf_state);
+	g_object_set_data_full (G_OBJECT (item), "options", g_strdup("HH:MM:SS"), g_free);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	gtk_menu_tool_button_set_menu (button, menu);
+	gtk_widget_show_all (menu);
 }
 
 /*
@@ -1516,37 +1591,41 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	g_signal_connect_swapped 
 		(G_OBJECT (glade_xml_get_widget (gui, "delete-button")),
 		 "clicked", G_CALLBACK (hf_delete_tag_cb), hf_state);
+
 	button = GTK_TOOL_BUTTON (glade_xml_get_widget (gui, "insert-date-button"));
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Date");
-	g_signal_connect_swapped 
-		(G_OBJECT (button),
-		 "clicked", G_CALLBACK (hf_insert_date_cb), hf_state);
+	hf_attach_insert_date_menu (GTK_MENU_TOOL_BUTTON (button), hf_state);
+
 	button = GTK_TOOL_BUTTON (glade_xml_get_widget (gui, "insert-page-button"));
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Page");
 	g_signal_connect_swapped 
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_page_cb), hf_state);
+
 	button = GTK_TOOL_BUTTON (glade_xml_get_widget (gui, "insert-pages-button"));
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Pages");
 	g_signal_connect_swapped 
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_pages_cb), hf_state);
+
 	button = GTK_TOOL_BUTTON (glade_xml_get_widget (gui, "insert-sheet-button"));
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Sheet");
 	g_signal_connect_swapped 
 		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_sheet_cb), hf_state);
+
 	button = GTK_TOOL_BUTTON (glade_xml_get_widget (gui, "insert-time-button"));
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Time");
-	g_signal_connect_swapped 
-		(G_OBJECT (button),
-		 "clicked", G_CALLBACK (hf_insert_time_cb), hf_state);
+	hf_attach_insert_time_menu (GTK_MENU_TOOL_BUTTON (button), hf_state);
+
 	g_signal_connect_swapped 
 		(G_OBJECT (glade_xml_get_widget (gui, "insert-file-button")),
 		 "clicked", G_CALLBACK (hf_insert_file_cb), hf_state);
+
 	g_signal_connect_swapped 
 		(G_OBJECT (glade_xml_get_widget (gui, "insert-path-button")),
 		 "clicked", G_CALLBACK (hf_insert_path_cb), hf_state);
+
 	button = GTK_TOOL_BUTTON (glade_xml_get_widget (gui, "insert-cell-button"));
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Cell");
 	

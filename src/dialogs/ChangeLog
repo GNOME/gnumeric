@@ -1,5 +1,18 @@
 2007-11-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-printer-setup.c (hf_insert_hf_stock_tag): handle 
+	  options, add argument and change all callers
+	(hf_insert_hf_text_tag): deleted
+	(hf_insert_date_cb): retrieve and pass on options
+	(hf_insert_time_cb): ditto
+	(check_hf_tag): new
+	(is_known_tag): use check_hf_tag
+	(hf_attach_insert_date_menu): new
+	(hf_attach_insert_time_menu): new
+	(do_hf_customize): use hf_attach_insert_*_menu
+
+2007-11-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* hf-config.glade: add menu buttons to toolbar
 	* dialog-printer-setup.c: add "cell" field to all tag lists
 	(do_hf_customize): add icon to insert cell tag button
