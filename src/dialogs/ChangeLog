@@ -1,3 +1,9 @@
+2007-11-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* hf-config.glade: add menu buttons to toolbar
+	* dialog-printer-setup.c: add "cell" field to all tag lists
+	(do_hf_customize): add icon to insert cell tag button
+
 2007-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-printer-setup.c (hf_insert_hf_stock_tag): add

@@ -186,7 +186,8 @@ typedef enum {
 	HF_FIELD_TIME,
 	HF_FIELD_PAGE,
 	HF_FIELD_PAGES,
-	HF_FIELD_SHEET
+	HF_FIELD_SHEET,
+	HF_FIELD_CELL
 } HFFieldType;
 
 typedef struct _HFMarkInfo HFMarkInfo;
@@ -1024,6 +1025,9 @@ hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer, HFFie
 	case HF_FIELD_SHEET:
 		stock_id = "Gnumeric_Pagesetup_HF_Sheet";
 		break;
+	case HF_FIELD_CELL:
+		stock_id = "Gnumeric_Pagesetup_HF_Cell";
+		break;
 	default:
 		return;
 	}
@@ -1198,6 +1202,9 @@ append_tag_descriptor (GString* string, HFFieldType type, char const *options)
 		case HF_FIELD_SHEET:
 			code = "&[TAB";
 			break;
+		case HF_FIELD_CELL:
+			code = "&[CELL";
+			break;
 		default:
 			return;
 	}
@@ -1326,12 +1333,14 @@ is_known_tag (HFCustomizeState* hf_state, GtkTextBuffer *buffer, char const *tag
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PAGE);
 	else if (0 == g_ascii_strncasecmp (tag, "&[PAGES]", 8)) 
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PAGES);
-	else if (0 == g_ascii_strncasecmp (tag, "&[TAB]", 8)) 
+	else if (0 == g_ascii_strncasecmp (tag, "&[TAB]", 6)) 
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_SHEET);
 	else if (0 == g_ascii_strncasecmp (tag, "&[DATE]", 7)) 
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_DATE);
 	else if (0 == g_ascii_strncasecmp (tag, "&[TIME]", 7)) 
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_TIME);
+	else if (0 == g_ascii_strncasecmp (tag, "&[CELL]", 7)) 
+		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_CELL);
 	else return FALSE;
 	return TRUE;
 }
@@ -1538,6 +1547,8 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	g_signal_connect_swapped 
 		(G_OBJECT (glade_xml_get_widget (gui, "insert-path-button")),
 		 "clicked", G_CALLBACK (hf_insert_path_cb), hf_state);
+	button = GTK_TOOL_BUTTON (glade_xml_get_widget (gui, "insert-cell-button"));
+	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Cell");
 	
 
 	/* Let them begin typing into the first entry widget. */

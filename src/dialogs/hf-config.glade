@@ -42,7 +42,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkToolButton" id="insert-date-button">
+                  <widget class="GtkMenuToolButton" id="insert-date-button">
                     <property name="visible">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                     <property name="tooltip" translatable="yes">Insert the date of printing</property>
@@ -50,10 +50,11 @@
                   </widget>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="homogeneous">False</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkToolButton" id="insert-time-button">
+                  <widget class="GtkMenuToolButton" id="insert-time-button">
                     <property name="visible">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                     <property name="tooltip" translatable="yes">Insert the time of printing</property>
@@ -135,6 +136,27 @@
                     <property name="tooltip" translatable="yes">Insert the path to the file</property>
                     <property name="label" translatable="yes">Path</property>
                     <property name="stock_id">gtk-directory</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkSeparatorToolItem" id="toolbutton3">
+                    <property name="visible">True</property>
+                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkMenuToolButton" id="insert-cell-button">
+                    <property name="visible">True</property>
+                    <property name="sensitive">False</property>
+                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                    <property name="tooltip" translatable="yes">Insert a spreadsheet cell</property>
+                    <property name="label" translatable="yes">Cell</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
