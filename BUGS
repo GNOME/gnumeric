@@ -8,6 +8,10 @@ release, and longer term bugs.
 For 1.8
 -------
     : Get a list of criticals fixed between 1.6 and 1.8
+    : http://bugzilla.gnome.org/show_bug.cgi?id=450444 (themeable icons)
+    : tango icons
+	http://live.gnome.org/GnomeGoals/AppIcon
+	http://live.gnome.org/ThemableAppSpecificIcons
 
 Release Critical
 ----------------
@@ -19,13 +23,11 @@ In Progress
     Jody
 	- CELL translation & array handling
 	- INDEX range res, iteration
-	- dialog cleanup
 	- ExprEntry extensions
 	- Filter dups (does this make sense ?)
 	- python wrapper for libspreadsheet
 	- mis-export of array expr
 	    http://bugzilla.gnome.org/show_bug.cgi?id=322096
-	- OOX : 
 
 Review
 ------
@@ -34,13 +36,8 @@ Review
 Short term goals
 ----------------
     - replicate win32 print problems
-    - Finish the Data -> Table dialog
-    - http://bugzilla.gnome.org/show_bug.cgi?id=450444 (themeable icons)
-    - tango icons
-	http://live.gnome.org/GnomeGoals/AppIcon
-	http://live.gnome.org/ThemableAppSpecificIcons
+    - Finish the Data -> Table dialog				(DONE)
     - Use go_glade_signal_connect (and friends)
-    - dialog open wrapper to store previous size/position of dialog
 
 Worries
 -------
@@ -88,9 +85,6 @@ Worries
 
 Pending Patches
 ---------------
-    http://bugzilla.gnome.org/show_bug.cgi?id=310354
-    - autopackage patches		{rob}
-    - fwd & backwards eval		{morten}
 
 Blocked Patches
 ---------------
