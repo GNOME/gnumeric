@@ -476,8 +476,10 @@ BC_R(areaformat)(XLChartHandler const *handle,
 		s->style->fill.pattern.pattern = 0;
 		s->style->fill.pattern.fore =
 		s->style->fill.pattern.back = 0;
-	} else
+	} else {
 		s->style->fill.type = GOG_FILL_STYLE_NONE;
+		s->style->fill.auto_type = FALSE;
+	}
 
 	return FALSE;
 }
@@ -2232,7 +2234,9 @@ XL_gog_series_set_dim (GogSeries *series, GogMSDimType ms_type, GOData *val);
 void
 XL_gog_series_set_dim (GogSeries *series, GogMSDimType ms_type, GOData *val)
 {
-	int dim = XL_gog_series_map_dim (series, ms_type);
+	int dim;
+	g_return_if_fail (series !=NULL);
+	dim = XL_gog_series_map_dim (series, ms_type);
 	if (dim >= -1) {
 		gog_series_set_dim (series, dim, val, NULL);
 		return;
@@ -3431,8 +3435,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 			}
 			g_slist_free (l);
 			if (hidden && visible) {
-				l = gog_axis_contributors (hidden);
-				cur = l;
+				GSList const *l = gog_axis_contributors (hidden), *cur = l;
 				while (cur) {
 					if (IS_GOG_PLOT (cur->data))
 						gog_plot_set_axis (GOG_PLOT (cur->data), visible);

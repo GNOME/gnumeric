@@ -1,3 +1,9 @@
+2007-11-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (areaformat): set fill.auto_fill to FALSE for
+	transparent backgounds,
+	(XL_gog_series_set_dim), (ms_excel_chart_read): fix compiler warnings.
+
 2007-11-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (axislineformat), (ms_excel_chart_read),
