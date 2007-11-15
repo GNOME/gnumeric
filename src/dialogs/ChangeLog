@@ -1,3 +1,13 @@
+2007-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-printer-setup.c (hf_insert_hf_stock_tag): add
+	  additional recognized field types
+	(hf_insert_hf_tag): we only need to handle stock ids here
+	(append_tag_descriptor): the sheet tag is &[TAB]
+	(is_known_tag): add more known tags
+	(add_text_to_buffer): make sure the iter stays valid
+	(do_hf_customize): add icons to toolbar
+	
 2007-11-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-printer-setup.c (fill_hf): current format must be 

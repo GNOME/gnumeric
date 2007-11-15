@@ -148,7 +148,14 @@ IMAGES = 							\
 	data_slice_16.png		data_slice_24.png	\
 	\
 	autofilter_16.png		autofilter_24.png	\
-	autofilter_delete_16.png	autofilter_delete_24.png
+	autofilter_delete_16.png	autofilter_delete_24.png \
+	\
+	hf_page.png \
+	hf_cell.png \
+	hf_date.png \
+	hf_pages.png \
+	hf_sheet.png \
+	hf_time.png
 
 VARIABLES = 		 									\
 	gnm_column_add_16			$(srcdir)/column_add_16.xpm			\
@@ -330,7 +337,13 @@ VARIABLES = 		 									\
 	gnm_autofilter_24			$(srcdir)/autofilter_24.png			\
 	gnm_autofilter_16			$(srcdir)/autofilter_16.png			\
 	gnm_autofilter_delete_24		$(srcdir)/autofilter_delete_24.png		\
-	gnm_autofilter_delete_16		$(srcdir)/autofilter_delete_16.png
+	gnm_autofilter_delete_16		$(srcdir)/autofilter_delete_16.png              \
+	gnm_printsetup_hf_page                  $(srcdir)/hf_page.png                           \
+	gnm_printsetup_hf_pages                 $(srcdir)/hf_pages.png                          \
+	gnm_printsetup_hf_cell                  $(srcdir)/hf_cell.png                           \
+	gnm_printsetup_hf_date                  $(srcdir)/hf_date.png                           \
+	gnm_printsetup_hf_time                  $(srcdir)/hf_time.png                           \
+	gnm_printsetup_hf_sheet                 $(srcdir)/hf_sheet.png
 
 pixbuf_file = $(top_builddir)/src/pixmaps/gnumeric-stock-pixbufs.h
 noinst_DATA = $(pixbuf_file)

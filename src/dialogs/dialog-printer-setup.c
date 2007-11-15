@@ -1009,21 +1009,34 @@ hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer, HFFie
 	case HF_FIELD_PATH:
 		stock_id = GTK_STOCK_DIRECTORY;
 		break;
+	case HF_FIELD_PAGE:
+		stock_id = "Gnumeric_Pagesetup_HF_Page";
+		break;
+	case HF_FIELD_PAGES:
+		stock_id = "Gnumeric_Pagesetup_HF_Pages";
+		break;
+	case HF_FIELD_DATE:
+		stock_id = "Gnumeric_Pagesetup_HF_Date";
+		break;
+	case HF_FIELD_TIME:
+		stock_id = "Gnumeric_Pagesetup_HF_Time";
+		break;
+	case HF_FIELD_SHEET:
+		stock_id = "Gnumeric_Pagesetup_HF_Sheet";
+		break;
 	default:
 		return;
 	}
 	
 	hf_delete_tag_cb (hf_state);
 
-	if (gtk_text_buffer_insert_interactive_at_cursor (buffer, "", -1, TRUE)) {
-		GtkWidget* focus;
-		
-		focus = gtk_window_get_focus (GTK_WINDOW (hf_state->dialog));
-	
+	if (gtk_text_buffer_insert_interactive_at_cursor 
+	    (buffer, "", -1, TRUE)) {
 		gtk_text_buffer_get_iter_at_mark 
 			(buffer, &iter, gtk_text_buffer_get_insert (buffer));
-
-		pix = gtk_widget_render_icon (focus, stock_id,
+		
+		pix = gtk_widget_render_icon (GTK_WIDGET (hf_state->dialog), 
+					      stock_id,
 					      GTK_ICON_SIZE_MENU, NULL);
 		gtk_text_buffer_insert_pixbuf (buffer, &iter, pix);
 		gtk_text_iter_backward_char (&iter);
@@ -1063,31 +1076,9 @@ hf_insert_hf_tag (HFCustomizeState *hf_state, HFFieldType type)
 	focus = gtk_window_get_focus (GTK_WINDOW (hf_state->dialog));
 
 	if (GTK_IS_TEXT_VIEW (focus)) {
-		GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (focus));
-		
-		switch (type) {
-		case HF_FIELD_FILE:
-		case HF_FIELD_PATH:
-			hf_insert_hf_stock_tag (hf_state, buffer, type);
-			break;
-		case HF_FIELD_DATE:
-			hf_insert_hf_text_tag (hf_state, buffer, "&[DATE]");
-			break;
-		case HF_FIELD_TIME:
-			hf_insert_hf_text_tag (hf_state, buffer, "&[TIME]");
-			break;
-		case HF_FIELD_PAGE:
-			hf_insert_hf_text_tag (hf_state, buffer, "&[PAGE]");
-			break;
-		case HF_FIELD_PAGES:
-			hf_insert_hf_text_tag (hf_state, buffer, "&[PAGES]");
-			break;
-		case HF_FIELD_SHEET:
-			hf_insert_hf_text_tag (hf_state, buffer, "&[SHEET]");
-			break;
-		default:
-			break;
-		}
+		GtkTextBuffer *buffer = 
+			gtk_text_view_get_buffer (GTK_TEXT_VIEW (focus));
+		hf_insert_hf_stock_tag (hf_state, buffer, type);
 	}
 }
 
@@ -1205,7 +1196,7 @@ append_tag_descriptor (GString* string, HFFieldType type, char const *options)
 			code = "&[PAGES";
 			break;
 		case HF_FIELD_SHEET:
-			code = "&[SHEET";
+			code = "&[TAB";
 			break;
 		default:
 			return;
@@ -1327,10 +1318,20 @@ add_named_tags (GtkTextBuffer *buffer)
 static gboolean
 is_known_tag (HFCustomizeState* hf_state, GtkTextBuffer *buffer, char const *tag, gint length)
 {
-	if ((length = 7) && 0 == g_ascii_strncasecmp (tag, "&[FILE]", 7)) 
+	if (0 == g_ascii_strncasecmp (tag, "&[FILE]", 7)) 
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_FILE);
-	else if ((length = 7) && 0 == g_ascii_strncasecmp (tag, "&[PATH]", 7)) 
+	else if (0 == g_ascii_strncasecmp (tag, "&[PATH]", 7)) 
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PATH);
+	else if (0 == g_ascii_strncasecmp (tag, "&[PAGE]", 7)) 
+		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PAGE);
+	else if (0 == g_ascii_strncasecmp (tag, "&[PAGES]", 8)) 
+		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PAGES);
+	else if (0 == g_ascii_strncasecmp (tag, "&[TAB]", 8)) 
+		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_SHEET);
+	else if (0 == g_ascii_strncasecmp (tag, "&[DATE]", 7)) 
+		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_DATE);
+	else if (0 == g_ascii_strncasecmp (tag, "&[TIME]", 7)) 
+		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_TIME);
 	else return FALSE;
 	return TRUE;
 }
@@ -1343,8 +1344,6 @@ add_text_to_buffer (HFCustomizeState* hf_state, GtkTextBuffer *buffer, char cons
 	gunichar ambersand = g_utf8_get_char ("&");
 	GtkTextIter iter;
 	
-	gtk_text_buffer_get_end_iter (buffer, &iter);
-
 	while (*here) {
 		if (here[0] == '&' && here[1] == '[') {
 			end = g_utf8_strchr (here, -1, closing);
@@ -1352,15 +1351,18 @@ add_text_to_buffer (HFCustomizeState* hf_state, GtkTextBuffer *buffer, char cons
 				gtk_text_buffer_insert (buffer, &iter, here, -1);
 				break;
 			} else {
-				if (!is_known_tag ( hf_state, buffer, here, end - here + 1))
+				if (!is_known_tag ( hf_state, buffer, here, end - here + 1)) {
+					gtk_text_buffer_get_end_iter (buffer, &iter);
 					gtk_text_buffer_insert_with_tags_by_name
 						(buffer, &iter, here, end - here + 1, 
 						 HF_TAG_NAME, NULL);
+				}
 				here = end + 1;
 			}
 		} else {
 			end = g_utf8_strchr (g_utf8_find_next_char (here, NULL),
 					     -1, ambersand);
+			gtk_text_buffer_get_end_iter (buffer, &iter);
 			if (end == NULL) {
 				gtk_text_buffer_insert (buffer, &iter, here, -1);
 				break;
@@ -1406,6 +1408,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	
 	GtkWidget *dialog;
 	HFCustomizeState* hf_state;
+	GtkToolButton *button;
 
 	/* Check if this dialog isn't already created. */
 	if (header)
@@ -1455,6 +1458,10 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	add_named_tags (middle_buffer);
 	add_named_tags (right_buffer);
 
+	add_text_to_buffer (hf_state, left_buffer, (*(hf_state->hf))->left_format);
+	add_text_to_buffer (hf_state, middle_buffer, (*(hf_state->hf))->middle_format);
+	add_text_to_buffer (hf_state, right_buffer, (*(hf_state->hf))->right_format);
+
 	g_signal_connect (G_OBJECT (left_buffer), "delete-range",  
 			  G_CALLBACK (buffer_delete_range_cb), hf_state);
 	g_signal_connect (G_OBJECT (middle_buffer), "delete-range",  
@@ -1500,20 +1507,30 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	g_signal_connect_swapped 
 		(G_OBJECT (glade_xml_get_widget (gui, "delete-button")),
 		 "clicked", G_CALLBACK (hf_delete_tag_cb), hf_state);
+	button = GTK_TOOL_BUTTON (glade_xml_get_widget (gui, "insert-date-button"));
+	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Date");
 	g_signal_connect_swapped 
-		(G_OBJECT (glade_xml_get_widget (gui, "insert-date-button")),
+		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_date_cb), hf_state);
+	button = GTK_TOOL_BUTTON (glade_xml_get_widget (gui, "insert-page-button"));
+	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Page");
 	g_signal_connect_swapped 
-		(G_OBJECT (glade_xml_get_widget (gui, "insert-page-button")),
+		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_page_cb), hf_state);
+	button = GTK_TOOL_BUTTON (glade_xml_get_widget (gui, "insert-pages-button"));
+	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Pages");
 	g_signal_connect_swapped 
-		(G_OBJECT (glade_xml_get_widget (gui, "insert-pages-button")),
+		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_pages_cb), hf_state);
+	button = GTK_TOOL_BUTTON (glade_xml_get_widget (gui, "insert-sheet-button"));
+	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Sheet");
 	g_signal_connect_swapped 
-		(G_OBJECT (glade_xml_get_widget (gui, "insert-sheet-button")),
+		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_sheet_cb), hf_state);
+	button = GTK_TOOL_BUTTON (glade_xml_get_widget (gui, "insert-time-button"));
+	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Time");
 	g_signal_connect_swapped 
-		(G_OBJECT (glade_xml_get_widget (gui, "insert-time-button")),
+		(G_OBJECT (button),
 		 "clicked", G_CALLBACK (hf_insert_time_cb), hf_state);
 	g_signal_connect_swapped 
 		(G_OBJECT (glade_xml_get_widget (gui, "insert-file-button")),
@@ -1534,10 +1551,6 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 
 
 	gtk_widget_show_all (dialog);
-
-	add_text_to_buffer (hf_state, left_buffer, (*(hf_state->hf))->left_format);
-	add_text_to_buffer (hf_state, middle_buffer, (*(hf_state->hf))->middle_format);
-	add_text_to_buffer (hf_state, right_buffer, (*(hf_state->hf))->right_format);
 }
 
 /*************  Header Footer Customization *********** End *************/

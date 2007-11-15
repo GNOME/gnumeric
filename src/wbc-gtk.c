@@ -3594,7 +3594,14 @@ wbc_gtk_setup_icons (void)
 
 		{ gnm_border_top_n_bottom,		NULL,				"Gnumeric_BorderTop_n_Bottom" },
 		{ gnm_border_top_n_double_bottom,	NULL,				"Gnumeric_BorderTop_n_DoubleBottom" },
-		{ gnm_border_top_n_thick_bottom,	NULL,				"Gnumeric_BorderTop_n_ThickBottom" }
+		{ gnm_border_top_n_thick_bottom,	NULL,				"Gnumeric_BorderTop_n_ThickBottom" },
+
+		{ gnm_printsetup_hf_page,               NULL,                           "Gnumeric_Pagesetup_HF_Page"},
+		{ gnm_printsetup_hf_pages,              NULL,                           "Gnumeric_Pagesetup_HF_Pages"},
+		{ gnm_printsetup_hf_time,               NULL,                           "Gnumeric_Pagesetup_HF_Time"},
+		{ gnm_printsetup_hf_date,               NULL,                           "Gnumeric_Pagesetup_HF_Date"},
+		{ gnm_printsetup_hf_sheet,              NULL,                           "Gnumeric_Pagesetup_HF_Sheet"},
+		{ gnm_printsetup_hf_cell,               NULL,                           "Gnumeric_Pagesetup_HF_Cell"},
 	};
 	static gboolean done = FALSE;
 
