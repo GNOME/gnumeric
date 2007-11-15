@@ -827,6 +827,51 @@ target_list_to_entries (GtkTargetList *target_list, int *n_entries)
 	return entries;
 }
 
+/* Restrict the	set of formats offered to clipboard manager. */
+/* We include bmp in the whitelist because that's the only image format 
+ * we share with OOo over clipboard (!) */
+static void
+set_clipman_targets (GdkDisplay *disp, GtkTargetEntry *targets, int n_targets)
+{
+	static GtkTargetEntry clipman_whitelist[] = {
+		{ (char *) GNUMERIC_ATOM_NAME, 0, GNUMERIC_ATOM_INFO },
+		{ (char *)"text/html", 0, 0 },
+		{ (char *)"UTF8_STRING", 0, 0 },
+		{ (char *)"application/x-goffice-graph", 0, 0 },
+		{ (char *)"image/svg+xml", 0, 0 },
+		{ (char *)"image/x-wmf", 0, 0 },
+		{ (char *)"image/x-emf", 0, 0 },
+		{ (char *)"image/png", 0, 0 },
+		{ (char *)"image/jpeg", 0, 0 },
+		{ (char *)"image/bmp", 0, 0 },
+	};
+	int n_whitelist = G_N_ELEMENTS (clipman_whitelist);
+	int n_allowed;
+	GtkTargetList *tl = gtk_target_list_new(NULL, 0);
+	GtkTargetEntry *t, *wt, *t_allowed;
+
+	for (t = targets; t - targets < n_targets; t++) {
+		for (wt = clipman_whitelist; 
+		     wt - clipman_whitelist < n_whitelist; wt++) {
+			if (strcmp(t->target, wt->target) == 0) {
+				gtk_target_list_add 
+					(tl, gdk_atom_intern (t->target, FALSE), 
+					 t->flags, t->info);
+				break;
+			}
+		}
+	}
+	
+	t_allowed = gtk_target_table_new_from_list (tl, &n_allowed);
+
+	gtk_clipboard_set_can_store (
+			gtk_clipboard_get_for_display (
+				disp, GDK_SELECTION_CLIPBOARD),
+				t_allowed, n_allowed);
+	gtk_target_table_free (t_allowed, n_allowed);
+	t_allowed = NULL;
+}
+
 gboolean
 x_claim_clipboard (WBCGtk *wbcg)
 {
@@ -886,10 +931,7 @@ x_claim_clipboard (WBCGtk *wbcg)
 		(GtkClipboardClearFunc) x_clipboard_clear_cb,
 		gnm_app_get_app ());
 	if (ret) {
-		gtk_clipboard_set_can_store (
-			gtk_clipboard_get_for_display (
-				display, GDK_SELECTION_CLIPBOARD),
-				targets, n_targets);
+		set_clipman_targets (display, targets, n_targets);
 		ret = gtk_clipboard_set_with_owner (
 			gtk_clipboard_get_for_display (display,
 						       GDK_SELECTION_PRIMARY),

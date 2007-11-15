@@ -1,3 +1,9 @@
+2007-11-15  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-clipboard.c (set_clipman_targets): New. Restrict the
+	set of formats offered to clipboard manager.
+	(x_claim_clipboard): Use it.
+
 2007-11-14  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	* src/pixmaps/hf_date.png: new (temporary) icon
