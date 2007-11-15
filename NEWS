@@ -34,6 +34,7 @@ Morten:
 	* Refuse to jump to invisible sheet.  [#496304]
 	* Fix rtl display problem.  [#496304]
 	* Plug leak in oleo import.  [#496867]
+	* Fix g-critical problem with editable labels' cursors.
 
 Oliver Burnett-Hall:
        * Fix R1C1 issued with defined names.  [#409997]  [#494318]

@@ -43,8 +43,8 @@ struct _EditableLabel {
 	char	 *unedited_text;
 	unsigned int base_set;
 	unsigned int text_set;
-	unsigned int editable;
-	unsigned int set_cursor_after_motion;
+	unsigned int editable : 1;
+	unsigned int set_cursor_after_motion : 1;
 };
 
 typedef struct {
@@ -92,10 +92,14 @@ el_set_style_label (EditableLabel *el)
 static void
 el_set_cursor (GtkEntry *entry, GdkCursorType cursor_type)
 {
-	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (entry));
-	GdkCursor *cursor = gdk_cursor_new_for_display (display, cursor_type);
-	gdk_window_set_cursor (entry->text_area, cursor);
-	gdk_cursor_unref (cursor);
+	if (entry->text_area) {
+		GdkDisplay *display =
+			gtk_widget_get_display (GTK_WIDGET (entry));
+		GdkCursor *cursor =
+			gdk_cursor_new_for_display (display, cursor_type);
+		gdk_window_set_cursor (entry->text_area, cursor);
+		gdk_cursor_unref (cursor);
+	}
 }
 
 static void
@@ -360,6 +364,7 @@ editable_label_start_editing (EditableLabel *el)
 		return;
 
 	el->unedited_text = g_strdup (gtk_entry_get_text (GTK_ENTRY (el)));
+
 	g_signal_connect (G_OBJECT (el),
 		"activate",
 		G_CALLBACK (el_entry_activate), NULL);
