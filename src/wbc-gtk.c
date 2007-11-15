@@ -1032,6 +1032,7 @@ wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 
 	if (sheet) {
 		wbcg_update_menu_feedback (wbcg, sheet);
+		cb_direction_change (NULL, NULL, scg);
 
 		g_object_connect
 			(G_OBJECT (sheet),

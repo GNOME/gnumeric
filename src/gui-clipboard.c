@@ -45,6 +45,29 @@
 #include <string.h>
 #include <unistd.h>
 
+static gboolean
+debug_clipboard (void)
+{
+	static guint flags;
+	static gboolean inited = FALSE;
+
+	if (!inited) {
+		/* not static */
+		const GDebugKey keys[] = {
+			{ (char*)"clipboard", 1 },
+		};
+
+		const char *val = g_getenv ("GNM_DEBUG");
+		flags = val
+			? g_parse_debug_string (val, keys, G_N_ELEMENTS (keys))
+			: 0;
+
+		inited = TRUE;
+	}
+
+	return (flags & 1) != 0;
+}
+
 typedef struct {
 	WBCGtk *wbcg;
 	GnmPasteTarget        *paste_target;
@@ -617,6 +640,9 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 	GOCmdContext *ctx = cmd_context_stderr_new ();
 	gchar *target_name = gdk_atom_name (selection_data->target);
 
+	if (debug_clipboard ())
+		g_message ("clipboard target=%s", target_name);
+
 	/*
 	 * There are 4 cases. What variables are valid depends on case:
 	 * source is
@@ -641,10 +667,14 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 	if (selection_data->target == gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE)) {
 		GsfOutputMemory *output  = gnm_cellregion_to_xml (clipboard);
 		if (output) {
+			gsf_off_t size = gsf_output_size (GSF_OUTPUT (output));
+			if (debug_clipboard ())
+				g_message ("clipboard .gnumeric of %d bytes",
+					   (int)size);
 			gtk_selection_data_set
 				(selection_data, selection_data->target, 8,
 				 gsf_output_memory_get_bytes (output),
-				 gsf_output_size (GSF_OUTPUT (output)));
+				 size);
 			g_object_unref (output);
 			to_gnumeric = TRUE;
 		}
@@ -654,6 +684,9 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		guchar *buffer = table_cellregion_write (ctx, clipboard,
 							 saver_id,
 							 &buffer_size);
+		if (debug_clipboard ())
+			g_message ("clipboard html of %d bytes",
+				    buffer_size);
 		gtk_selection_data_set (selection_data,
 					selection_data->target, 8,
 					(guchar *) buffer, buffer_size);
@@ -662,6 +695,9 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		int buffer_size;
 		guchar *buffer = graph_write (clipboard, target_name,
 					      &buffer_size);
+		if (debug_clipboard ())
+			g_message ("clipboard graph of %d bytes",
+				   buffer_size);
 		gtk_selection_data_set (selection_data,
 					selection_data->target, 8,
 					(guchar *) buffer, buffer_size);
@@ -670,6 +706,9 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		int buffer_size;
 		guchar *buffer = image_write (clipboard, target_name,
 					      &buffer_size);
+		if (debug_clipboard ())
+			g_message ("clipboard image of %d bytes",
+				    buffer_size);
 		gtk_selection_data_set (selection_data,
 					selection_data->target, 8,
 					(guchar *) buffer, buffer_size);
@@ -683,17 +722,23 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		GString *res = cellregion_to_string (clipboard,
 			TRUE, workbook_date_conv (wb));
 		if (res != NULL) {
+			if (debug_clipboard ())
+				g_message ("clipboard text of %d bytes",
+					   (int)res->len);
 			gtk_selection_data_set_text (selection_data,
 				res->str, res->len);
 			g_string_free (res, TRUE);
 		} else {
+			if (debug_clipboard ())
+				g_message ("clipboard empty text");
 			gtk_selection_data_set_text (selection_data, "", 0);
 		}
 	}
 
 	/*
-	 * If this was a CUT operation we need to clear the content that was pasted
-	 * into another application and release the stuff on the clipboard
+	 * If this was a CUT operation we need to clear the content that
+	 * was pasted into another application and release the stuff on
+	 * the clipboard
 	 */
 	if (content_needs_free) {
 
