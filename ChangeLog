@@ -1,5 +1,8 @@
 2007-11-16  Morten Welinder  <terra@gnome.org>
 
+	* src/application.c: use the recent manager to received
+	notifications of changes and tell GnmApp watchers.
+
 	* src/gnumeric-gconf.c: Check the right symbol for backend.
 
 	* src/clipboard.c (cellregion_to_string): Fix cut-and-paste-code

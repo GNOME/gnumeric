@@ -14,7 +14,7 @@
 #include "selection.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
-#include "workbook-priv.h" /* For Workbook::name */
+#include "workbook.h"
 #include "sheet.h"
 #include "sheet-view.h"
 #include "sheet-private.h"
@@ -66,6 +66,11 @@ struct _GnmApp {
 	GnmRange	*clipboard_cut_range;
 
 	GList		*workbook_list;
+
+#ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
+	GtkRecentManager *recent;
+	gulong           recent_sig;
+#endif	
 };
 
 typedef struct {
@@ -551,13 +556,12 @@ GSList *
 gnm_app_history_get_list (int max_elements)
 {
 #ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
-	GtkRecentManager *manager = gtk_recent_manager_get_default ();
 	GSList *res = NULL;
 	GList *items, *l;
 	GtkFileFilter *filter = gnm_app_create_opener_filter ();
 	int n_elements = 0;
 
-	items = gtk_recent_manager_get_items (manager);
+	items = gtk_recent_manager_get_items (app->recent);
 	items = g_list_sort (items, (GCompareFunc)compare_mru);
 
 	for (l = items; l && n_elements < max_elements; l = l->next) {
@@ -617,7 +621,6 @@ gnm_app_history_add (char const *uri, const char *mimetype)
 #ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
 	GtkRecentData rd;
 	gboolean retval;
-	GtkRecentManager *manager = gtk_recent_manager_get_default ();
 
 	memset (&rd, 0, sizeof (rd));
 
@@ -633,7 +636,7 @@ gnm_app_history_add (char const *uri, const char *mimetype)
 	rd.groups = NULL;
 	rd.is_private = FALSE;
 
-	retval = gtk_recent_manager_add_full (manager, uri, &rd);
+	retval = gtk_recent_manager_add_full (app->recent, uri, &rd);
 
 	g_free (rd.mime_type);
 	g_free (rd.app_name);
@@ -654,6 +657,12 @@ void     gnm_app_set_transition_keys	(gboolean state)
 }
 
 static void
+cb_recent_changed (G_GNUC_UNUSED GtkRecentManager *recent, GnmApp *app)
+{
+	g_object_notify (G_OBJECT (app), "file-history-list");
+}
+
+static void
 gnumeric_application_finalize (GObject *obj)
 {
 	GnmApp *application = GNM_APP (obj);
@@ -661,7 +670,13 @@ gnumeric_application_finalize (GObject *obj)
 	g_free (application->clipboard_cut_range);
 	application->clipboard_cut_range = NULL;
 
-	app = NULL;
+#ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
+	application->recent = NULL;
+#endif
+
+	if (app == application)
+		app = NULL;
+
 	G_OBJECT_CLASS (parent_klass)->finalize (obj);
 }
 
@@ -747,6 +762,13 @@ gnm_app_init (GObject *obj)
 	gnm_app->clipboard_sheet_view = NULL;
 
 	gnm_app->workbook_list = NULL;
+
+#ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
+	gnm_app->recent = gtk_recent_manager_get_default ();
+	g_signal_connect_object (G_OBJECT (gnm_app->recent),
+				 "changed", G_CALLBACK (cb_recent_changed),
+				 gnm_app, 0);
+#endif
 
 	app = gnm_app;
 }

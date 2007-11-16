@@ -40,6 +40,7 @@ Morten:
 	* Fix g-critical problem with editable labels' cursors.
 	* Plug excel exporter leaks.  [#497191]
 	* Make sure =<right> produces a relative address.
+	* Improve recent-files integration.
 
 Oliver Burnett-Hall:
        * Fix R1C1 issued with defined names.  [#409997]  [#494318]

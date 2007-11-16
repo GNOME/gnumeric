@@ -1,3 +1,10 @@
+2007-11-16  Morten Welinder  <terra@gnome.org>
+
+	* dialog-preferences.c (cb_workbook_removed): New handler to close
+	dialog when the last workbook is closed.
+	(dialog_preferences): Don't store wb.  It isn't needed and won't
+	necessarily stay valid.
+
 2007-11-15  Morten Welinder  <terra@gnome.org>
 
 	* dialog-preferences.c (cb_close_clicked): Remove the state key.

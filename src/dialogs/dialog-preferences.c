@@ -78,8 +78,8 @@ typedef struct {
 	GtkTextView	*description;
 	GtkTreeStore    *store;
 	GtkTreeView     *view;
-	Workbook	*wb;
 	GOConfNode	*root;
+	gulong          app_wb_removed_sig;
 } PrefState;
 
 typedef void (* double_conf_setter_t) (gnm_float value);
@@ -951,6 +951,8 @@ cb_preferences_destroy (PrefState *state)
 		g_object_unref (state->store);
 	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
+	g_signal_handler_disconnect (gnm_app_get_app (),
+				     state->app_wb_removed_sig);
 	g_free (state);
 	g_object_set_data (gnm_app_get_app (), PREF_DIALOG_KEY, NULL);
 }
@@ -980,6 +982,14 @@ cb_destroy_and_unref (GtkWidget *w)
 	gtk_widget_destroy (w);
 	g_object_unref (w);
 }
+
+static void
+cb_workbook_removed (PrefState *state)
+{
+	if (gnm_app_workbook_list () == NULL)
+		cb_close_clicked (state);
+}
+
 
 /* Note: The first page listed below is opened through File/Preferences, */
 /*       and the second through Format/Workbook */
@@ -1013,7 +1023,6 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 	state->dialog     = glade_xml_get_widget (gui, "preferences");
 	state->notebook   = glade_xml_get_widget (gui, "notebook");
 	state->description = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "description"));
-	state->wb	  = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 
 	state->view = GTK_TREE_VIEW(glade_xml_get_widget (gui, "itemlist"));
 	state->store = gtk_tree_store_new (NUM_COLUMNS,
@@ -1056,6 +1065,11 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 	g_object_set_data_full (gnm_app_get_app (),
 				PREF_DIALOG_KEY, g_object_ref (state->dialog),
 				(GDestroyNotify)cb_destroy_and_unref);
+	state->app_wb_removed_sig =
+		g_signal_connect_swapped (gnm_app_get_app (),
+					  "workbook_removed",
+					  G_CALLBACK (cb_workbook_removed),
+					  state);
 
 	for (i = 0; page_info[i].page_initializer; i++) {
 		const page_info_t *this_page =  &page_info[i];
