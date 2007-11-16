@@ -491,14 +491,45 @@ add_cells(Sheet *sheet, const psiconv_sheet_cell_list psi_cells,
 	psiconv_u32 i;
 	psiconv_sheet_cell psi_cell;
 
-	/* FIXME : Without seeing the psiconv code this seems
-	 * VERY inefficent.  index & len are O(n) operations on lists.
-	 * Why not just walk the list ?
-	 */
+	/* psiconv_lists are actually arrays, so this isn't inefficient. */
 	for (i = 0; i < psiconv_list_length(psi_cells); i++) {
 		/* If psiconv_list_get fails, something is very wrong... */
 		if ((psi_cell = psiconv_list_get(psi_cells,i)))
 			add_cell(sheet,psi_cell,psi_formulas, default_style);
+	}
+}
+
+static double
+cm2pts (double len_cm)
+{
+  return len_cm / 2.54 * 72.;
+}
+
+static void
+set_row_heights (Sheet *sheet, psiconv_sheet_grid_size_list heights)
+{
+	psiconv_u32 i;
+	psiconv_sheet_grid_size psi_height;
+
+	for (i = 0; i < psiconv_list_length(heights); i++) {
+		if ((psi_height = psiconv_list_get (heights, i)))
+			sheet_row_set_size_pts 
+				(sheet, psi_height->line_number,
+				 cm2pts (psi_height->size), TRUE);
+	}
+}
+
+static void
+set_col_widths (Sheet *sheet, psiconv_sheet_grid_size_list widths)
+{
+	psiconv_u32 i;
+	psiconv_sheet_grid_size psi_width;
+
+	for (i = 0; i < psiconv_list_length(widths); i++) {
+		if ((psi_width = psiconv_list_get (widths, i)))
+			sheet_col_set_size_pts 
+				(sheet, psi_width->line_number,
+				 cm2pts (psi_width->size), TRUE);
 	}
 }
 
@@ -509,6 +540,7 @@ add_worksheet(Workbook *wb, psiconv_sheet_worksheet psi_worksheet,int nr,
 	Sheet *sheet;
 	char *sheet_name;
 	GnmStyle *default_style;
+	psiconv_sheet_grid_section grid;
 
 	sheet_name = g_strdup_printf (_("Sheet%d"),nr);
 	sheet = sheet_new (wb, sheet_name);
@@ -525,7 +557,17 @@ add_worksheet(Workbook *wb, psiconv_sheet_worksheet psi_worksheet,int nr,
 	set_layout(default_style,psi_worksheet->default_layout);
 
 	/* TODO: Add show_zeros */
-
+	grid = psi_worksheet->grid;
+	if (grid) {
+		sheet_row_set_default_size_pts 
+			(sheet, cm2pts (grid->default_row_height));
+		sheet_col_set_default_size_pts 
+			(sheet, cm2pts (grid->default_column_width));
+		if (grid->row_heights)
+			set_row_heights (sheet, grid->row_heights);
+		if (grid->column_heights)
+			set_col_widths (sheet, grid->column_heights);
+	}
 	add_cells(sheet,psi_worksheet->cells,psi_formulas,default_style);
 
 	/* TODO: What about the NULL? */

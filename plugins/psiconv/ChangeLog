@@ -1,3 +1,10 @@
+2007-11-16  Jon K Hellan  <hellan@acm.org>
+
+	* psiconv-read.c (cm2pts): New. Convert from cm to pts.
+	(set_row_heights): New. Set row heights.
+	(set_col_widths): New. Set column widths.
+	(add_worksheet): Set row heights and column widths.
+
 2007-11-05  Jon K Hellan  <hellan@acm.org>
 
 	* psiconv-read.c (psiconv_read_header): Shut up complaints during
