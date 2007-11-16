@@ -2,7 +2,7 @@
 /*
  * clipboard.c: A temporary store for contents from a worksheet
  *
- * Copyright (C) 2000-2005 Jody Goldberg   (jody@gnome.org)
+ * Copyright (C) 2000-2007 Jody Goldberg   (jody@gnome.org)
  *		 1999      Miguel de Icaza (miguel@gnu.org)
  *
  * This program is free software; you can redistribute it and/or
@@ -800,6 +800,41 @@ cellregion_invalidate_sheet (GnmCellRegion *cr,
 		sheet_object_invalidate_sheet (ptr->data, sheet);
 }
 
+static void
+cb_cellregion_extent (GnmCellCopy *cc, gconstpointer ignore, GnmRange *extent)
+{
+	if (extent->start.col >= 0) {
+		if (extent->start.col > cc->offset.col)
+			extent->start.col = cc->offset.col;
+		else if (extent->end.col < cc->offset.col)
+			extent->end.col = cc->offset.col;
+
+		if (extent->start.row > cc->offset.row)
+			extent->start.row = cc->offset.row;
+		else if (extent->end.row < cc->offset.row)
+			extent->end.row = cc->offset.row;
+	} else /* first cell */
+		extent->start = extent->end = cc->offset;
+}
+
+/**
+ * cellregion_extent:
+ * @cr : #GnmCellRegion
+ * @extent : #GnmRange
+ *
+ * Find the min and max col/row with cell content
+ **/
+static void
+cellregion_extent (GnmCellRegion const *cr, GnmRange *extent)
+{
+	if (NULL != cr->cell_content) {
+		range_init (extent, -1, -1, -1, -1);
+		g_hash_table_foreach (cr->cell_content,
+			(GHFunc)cb_cellregion_extent, extent);
+	} else
+		range_init (extent, 0, 0, 0, 0);
+}
+
 GString *
 cellregion_to_string (GnmCellRegion const *cr,
 		      gboolean only_visible,
@@ -807,10 +842,13 @@ cellregion_to_string (GnmCellRegion const *cr,
 {
 	GString *all, *line;
 	GnmCellCopy const *cc;
-	int cols, rows, col, row, next_col_check, next_row_check;
-	ColRowStateList	const *col_state, *row_state;
+	int col, row, next_col_check, next_row_check;
+	GnmRange extent;
+	ColRowStateList	const *col_state = NULL, *row_state = NULL;
 	ColRowRLEState const *rle;
-	int ncells;
+	int ncells, i;
+	GnmStyle const *style;
+	GOFormat const *fmt;
 
 	g_return_val_if_fail (cr != NULL, NULL);
 	g_return_val_if_fail (cr->rows >= 0, NULL);
@@ -821,15 +859,22 @@ cellregion_to_string (GnmCellRegion const *cr,
 	all = g_string_sized_new (20 * ncells + 1);
 	line = g_string_new (NULL);
 
-	cols = cr->cols;
-	rows = cr->rows;
-	col_state = only_visible ? cr->col_state : NULL;
-	next_col_check = (NULL != col_state) ? 0 : -1;
-	row_state = only_visible ? cr->row_state : NULL;
-	next_row_check = (NULL != row_state) ? 0 : -1;
+	cellregion_extent (cr, &extent);
 
-	for (row = 0; row < rows;) {
-		if (row == next_row_check && NULL != row_state) {
+	if (only_visible && NULL != (row_state = cr->row_state)) {
+		next_row_check = i = 0;
+		while ((i += ((ColRowRLEState *)(row_state->data))->length) <= extent.start.row) {
+			if (NULL == (row_state = row_state->next)) {
+				next_row_check = SHEET_MAX_ROWS;
+				break;
+			}
+			next_row_check = i;
+		}
+	} else
+		next_row_check = SHEET_MAX_ROWS;
+
+	for (row = extent.start.row; row <= extent.end.row;) {
+		if (row >= next_row_check) {
 			rle = row_state->data;
 			row_state = row_state->next;
 			next_row_check += rle->length;
@@ -841,8 +886,20 @@ cellregion_to_string (GnmCellRegion const *cr,
 
 		g_string_assign (line, "");
 
-		for (col = 0; col < cols;) {
-			if (col == next_col_check && NULL != col_state) {
+		if (only_visible && NULL != (col_state = cr->col_state)) {
+			next_col_check = i = 0;
+			while ((i += ((ColRowRLEState *)(col_state->data))->length) <= extent.start.col) {
+				if (NULL == (col_state = col_state->next)) {
+					next_row_check = SHEET_MAX_COLS;
+					break;
+				}
+				next_col_check = i;
+			}
+		} else
+			next_row_check = SHEET_MAX_COLS;
+
+		for (col = extent.start.col; col <= extent.end.col;) {
+			if (col == next_col_check) {
 				rle = col_state->data;
 				col_state = col_state->next;
 				next_col_check += rle->length;
@@ -854,10 +911,8 @@ cellregion_to_string (GnmCellRegion const *cr,
 
 			cc = cellregion_get_content (cr, col, row);
 			if (cc) {
-				GnmStyle const *style = style_list_get_style
-					(cr->styles, col, row);
-				GOFormat const *fmt =
-					gnm_style_get_format (style);
+				style = style_list_get_style (cr->styles, col, row);
+				fmt = gnm_style_get_format (style);
 
 				if (go_format_is_general (fmt) &&
 				    VALUE_FMT (cc->val))
@@ -866,11 +921,11 @@ cellregion_to_string (GnmCellRegion const *cr,
 				format_value_gstring (line, fmt, cc->val,
 						      NULL, -1, date_conv);
 			}
-			if (++col < cols)
+			if (++col <= extent.end.col)
 				g_string_append_c (line, '\t');
 		}
 		g_string_append_len (all, line->str, line->len);
-		if (++row < rows)
+		if (++row <= extent.end.col)
 			g_string_append_c (all, '\n');
 	}
 

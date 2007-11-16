@@ -15,6 +15,9 @@ Jean:
 	* Print images.
 	* Fix FMR in solver dialog.  [#496052]
 
+Jody:
+	* Fix visibilty filtering for clipboard export. [#496985]
+
 Jon Kåre:
         * Fix clipboard export.  [#496187]
 

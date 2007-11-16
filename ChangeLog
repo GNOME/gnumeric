@@ -4,6 +4,13 @@
 	set of formats offered to clipboard manager.
 	(x_claim_clipboard): Use it.
 
+2007-11-15  Jody Goldberg <jody@gnome.org>
+
+	* src/clipboard.c (cb_cellregion_extent) : new.
+	(cellregion_extent) : new.  currently internal.  Might be useful
+	 externally.
+	(cellregion_to_string) : check the extent of the content.
+
 2007-11-14  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	* src/pixmaps/hf_date.png: new (temporary) icon
