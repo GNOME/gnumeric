@@ -1,3 +1,7 @@
+2007-11-15  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_sheet_free): Plug leaks.  [#497191]
+
 2007-11-12  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-read.c (xlsx_CT_Selection): Plug leak.

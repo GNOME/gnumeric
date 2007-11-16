@@ -4840,6 +4840,9 @@ excel_sheet_free (ExcelWriteSheet *esheet)
 {
 	g_slist_free (esheet->textboxes);
 	go_slist_free_custom (esheet->blips, (GFreeFunc) blipinf_free);
+	style_list_free (esheet->conditions);
+	style_list_free (esheet->hlinks);
+	style_list_free (esheet->validations);
 	g_free (esheet);
 }
 

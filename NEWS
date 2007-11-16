@@ -38,6 +38,7 @@ Morten:
 	* Fix rtl display problem.  [#496304]
 	* Plug leak in oleo import.  [#496867]
 	* Fix g-critical problem with editable labels' cursors.
+	* Plug excel exporter leaks.  [#497191]
 
 Oliver Burnett-Hall:
        * Fix R1C1 issued with defined names.  [#409997]  [#494318]
