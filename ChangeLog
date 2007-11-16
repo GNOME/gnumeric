@@ -1,5 +1,7 @@
 2007-11-16  Morten Welinder  <terra@gnome.org>
 
+	* src/gnumeric-gconf.c: Check the right symbol for backend.
+
 	* src/clipboard.c (cellregion_to_string): Fix cut-and-paste-code
 	bug.
 

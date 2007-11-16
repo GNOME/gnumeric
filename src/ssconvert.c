@@ -117,7 +117,7 @@ static const GOptionEntry ssconvert_options [] = {
 
 	/* ---------------------------------------- */
 
-	/* For now this is for INTERNAL GNM_VERSION_FULL ONLY.  */
+	/* For now this is for INTERNAL GNUMERIC USE ONLY.  */
 	{
 		"export-range", 0,
 		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &ssconvert_range,
