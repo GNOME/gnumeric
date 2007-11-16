@@ -39,6 +39,7 @@ Morten:
 	* Plug leak in oleo import.  [#496867]
 	* Fix g-critical problem with editable labels' cursors.
 	* Plug excel exporter leaks.  [#497191]
+	* Make sure =<right> produces a relative address.
 
 Oliver Burnett-Hall:
        * Fix R1C1 issued with defined names.  [#409997]  [#494318]

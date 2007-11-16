@@ -139,7 +139,7 @@ gee_rangesel_reset (GnmExprEntry *gee)
 	rs->text_start = 0;
 	rs->text_end = 0;
 	memset (&rs->ref, 0, sizeof (GnmRange));
-	if (gee->flags & GNM_EE_FORCE_REL_REF)
+	if (!(gee->flags & GNM_EE_FORCE_ABS_REF))
 		rs->ref.a.col_relative = rs->ref.b.col_relative =
 			rs->ref.a.row_relative = rs->ref.b.row_relative = TRUE;
 

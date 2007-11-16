@@ -1,3 +1,8 @@
+2007-11-16  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-edit.c (wbcg_edit_start): Explicitly clear force
+	rel/abs flags.
+
 2007-11-15  Morten Welinder  <terra@gnome.org>
 
 	* src/application.c (gnm_app_release_pref_dialog,

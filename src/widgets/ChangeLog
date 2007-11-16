@@ -1,3 +1,10 @@
+2007-11-16  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-expr-entry.c (gee_rangesel_reset): Default to relative
+	references in the absence of either force flag.  (Also fixes the
+	case where both are set and the abs is supposed to take
+	precedence.)
+
 2007-11-15  Morten Welinder  <terra@gnome.org>
 
 	* widget-editable-label.c (el_set_cursor): Avoid crash if called
