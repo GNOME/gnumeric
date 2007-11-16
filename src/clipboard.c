@@ -890,13 +890,13 @@ cellregion_to_string (GnmCellRegion const *cr,
 			next_col_check = i = 0;
 			while ((i += ((ColRowRLEState *)(col_state->data))->length) <= extent.start.col) {
 				if (NULL == (col_state = col_state->next)) {
-					next_row_check = SHEET_MAX_COLS;
+					next_col_check = SHEET_MAX_COLS;
 					break;
 				}
 				next_col_check = i;
 			}
 		} else
-			next_row_check = SHEET_MAX_COLS;
+			next_col_check = SHEET_MAX_COLS;
 
 		for (col = extent.start.col; col <= extent.end.col;) {
 			if (col == next_col_check) {

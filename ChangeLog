@@ -1,5 +1,8 @@
 2007-11-16  Morten Welinder  <terra@gnome.org>
 
+	* src/clipboard.c (cellregion_to_string): Fix cut-and-paste-code
+	bug.
+
 	* src/wbc-gtk-edit.c (wbcg_edit_start): Explicitly clear force
 	rel/abs flags.
 
