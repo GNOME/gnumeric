@@ -44,21 +44,7 @@
 
 #include <gui-util.h>
 #include <glade/glade.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtktreestore.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkcellrendererpixbuf.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktogglebutton.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
@@ -74,7 +60,7 @@ enum {
 typedef struct {
 	GladeXML	*gui;
 	GtkWidget	*dialog;
-	GtkWidget	*notebook;
+	GtkNotebook	*notebook;
 	GtkTextView	*description;
 	GtkTreeStore    *store;
 	GtkTreeView     *view;
@@ -936,8 +922,7 @@ cb_dialog_pref_selection_changed (GtkTreeSelection *selection,
 		gtk_tree_model_get (GTK_TREE_MODEL (state->store), &iter,
 				    PAGE_NUMBER, &page,
 				    -1);
-		gtk_notebook_set_current_page (GTK_NOTEBOOK(state->notebook),
-					       page);
+		gtk_notebook_set_current_page (state->notebook, page);
 	} else {
 		dialog_pref_select_page (state, "0");
 	}
@@ -947,13 +932,19 @@ static void
 cb_preferences_destroy (PrefState *state)
 {
 	go_conf_sync (state->root);
-	if (state->store)
+	if (state->store) {
 		g_object_unref (state->store);
-	if (state->gui != NULL)
+		state->store = NULL;
+	}
+	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
-	g_signal_handler_disconnect (gnm_app_get_app (),
-				     state->app_wb_removed_sig);
-	g_free (state);
+		state->gui = NULL;
+	}
+	if (state->app_wb_removed_sig) {
+		g_signal_handler_disconnect (gnm_app_get_app (),
+					     state->app_wb_removed_sig);
+		state->app_wb_removed_sig = 0;
+	}
 	g_object_set_data (gnm_app_get_app (), PREF_DIALOG_KEY, NULL);
 }
 
@@ -961,7 +952,6 @@ static void
 cb_close_clicked (PrefState *state)
 {
 	gtk_widget_destroy (GTK_WIDGET (state->dialog));
-	g_object_set_data (G_OBJECT (state->dialog), "state", NULL);
 }
 
 static void
@@ -974,13 +964,6 @@ cb_dialog_pref_switch_page  (GtkNotebook *notebook,
 					       notebook, page_num);
 	else
 		dialog_pref_page_open (state);
-}
-
-static void
-cb_destroy_and_unref (GtkWidget *w)
-{
-	gtk_widget_destroy (w);
-	g_object_unref (w);
 }
 
 static void
@@ -1021,7 +1004,7 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 	state->root = gnm_conf_get_root ();
 	state->gui = gui;
 	state->dialog     = glade_xml_get_widget (gui, "preferences");
-	state->notebook   = glade_xml_get_widget (gui, "notebook");
+	state->notebook = (GtkNotebook*)glade_xml_get_widget (gui, "notebook");
 	state->description = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "description"));
 
 	state->view = GTK_TREE_VIEW(glade_xml_get_widget (gui, "itemlist"));
@@ -1059,12 +1042,14 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_PREFERENCES);
+	g_signal_connect_swapped (G_OBJECT (state->dialog), "destroy",
+				  G_CALLBACK (cb_preferences_destroy),
+				  state);
 	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) cb_preferences_destroy);
+				"state", state,	(GDestroyNotify)g_free);
 
-	g_object_set_data_full (gnm_app_get_app (),
-				PREF_DIALOG_KEY, g_object_ref (state->dialog),
-				(GDestroyNotify)cb_destroy_and_unref);
+	g_object_set_data (gnm_app_get_app (), PREF_DIALOG_KEY, state->dialog);
+
 	state->app_wb_removed_sig =
 		g_signal_connect_swapped (gnm_app_get_app (),
 					  "workbook_removed",
@@ -1073,8 +1058,9 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 
 	for (i = 0; page_info[i].page_initializer; i++) {
 		const page_info_t *this_page =  &page_info[i];
-		GtkWidget *page = this_page->page_initializer (state, this_page->data,
-							       GTK_NOTEBOOK (state->notebook), i);
+		GtkWidget *page =
+			this_page->page_initializer (state, this_page->data,
+						     state->notebook, i);
 		GtkWidget *label = NULL;
 
 		if (this_page->icon_name)
@@ -1082,7 +1068,7 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 							  GTK_ICON_SIZE_BUTTON);
 		else if (this_page->page_name)
 			label = gtk_label_new (this_page->page_name);
-		gtk_notebook_append_page (GTK_NOTEBOOK (state->notebook), page, label);
+		gtk_notebook_append_page (state->notebook, page, label);
 		dialog_pref_add_item (state, this_page->page_name, this_page->icon_name, i, this_page->parent_path);
 	}
 
