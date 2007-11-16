@@ -458,7 +458,7 @@ gnm_expr_free (GnmExpr const *expr)
 /**
  * gnm_expr_equal : Returns TRUE if the supplied expressions are exactly the
  *   same.  No eval position is used to see if they are effectively the same.
- *   Named expressions must refer the the same name, having equivalent names is
+ *   Named expressions must refer the same name, having equivalent names is
  *   insufficeient.
  */
 static gboolean

@@ -447,7 +447,7 @@ tool_load_selection (GenericToolState *state, gboolean allow_multiple)
  * @state:
  *
  * Update the dialog widgets sensitivity if the only items of interest
- * are one or two standard input and and one output item, permitting multiple
+ * are one or two standard input and one output item, permitting multiple
  * areas as first input.
  *
  * used by:

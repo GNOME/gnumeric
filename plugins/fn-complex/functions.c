@@ -261,7 +261,7 @@ static GnmFuncHelp const help_iminv[] = {
 	F_("@FUNCTION=IMINV\n"
 	   "@SYNTAX=IMINV(inumber)\n"
 	   "@DESCRIPTION="
-	   "IMINV returns the the inverse, or reciprocal, of the complex "
+	   "IMINV returns the inverse, or reciprocal, of the complex "
 	   "number z (@inumber), where\n\n\t1/z = (x - i y)/(x^2 + y^2).\n"
 	   "\n"
 	   "* If @inumber is not a valid complex number, IMINV returns "

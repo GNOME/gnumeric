@@ -4988,7 +4988,7 @@ read_utf16_str (int word_len, guint8 const *data)
  * XL (at least XL 2000) stores URLs exactly as input by the user. No
  * quoting, no mime encoding of email headers. If cgi parameters are
  * separated by '&', '&' is stored, not '&amp;'. An email subject in
- * cyrillic characters is stored as as cyrillic characters, not as an
+ * cyrillic characters is stored as cyrillic characters, not as an
  * RFC 2047 MIME encoded header.
  */
 static void
@@ -6277,7 +6277,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view, GsfInput *input,
 			break;
 
 		case BIFF_DIMENSIONS_v0:
-			/* Ignore files that pad the the end with zeros */
+			/* Ignore files that pad the end with zeros */
 			if (prev_was_eof) {
 				stop_loading = TRUE;
 				break;

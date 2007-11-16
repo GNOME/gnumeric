@@ -3026,7 +3026,7 @@ analysis_tool_ftest_engine (data_analysis_output_t *dao, gpointer specs,
  * makes sense when you are calculating an intercept, but in this case you are not
  * and the df should be just (n - #slope parameters). Excel is inconsistent,
  * in that it does not use the same df to calculate the significance that it
- * does to calculate the the F-stat itself. Inference on regressions
+ * does to calculate the F-stat itself. Inference on regressions
  * without intercepts don't really work anyway (because of the way the
  * statistics work, not the code), so this is not a terribly big deal, and
  * those who would actually use the significance of F  are not likely to be

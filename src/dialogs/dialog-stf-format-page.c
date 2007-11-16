@@ -370,7 +370,7 @@ cb_col_event (GtkWidget *widget, GdkEvent *event, gpointer _col)
 			/*
 			 * We use overlapping buttons and that does not actually work...
 			 *
-			 * In a square area the height of the hbox, click the the
+			 * In a square area the height of the hbox, click the
 			 * checkbox.
 			 */
 			int xmax = GTK_BIN (widget)->child->allocation.height;

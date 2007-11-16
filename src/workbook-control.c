@@ -418,7 +418,7 @@ wb_control_init_state (WorkbookControl *wbc)
 	/* Setup the undo/redo combos */
 	command_setup_combos (wbc);
 
-	/* Add views all all existing sheets */
+	/* Add views for all existing sheets */
 	wbv = wb_control_view (wbc);
 	sheets = workbook_sheets (wb_control_get_workbook (wbc));
 	for (ptr = sheets; ptr != NULL ; ptr = ptr->next) {

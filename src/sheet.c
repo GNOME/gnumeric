@@ -4286,8 +4286,8 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 
 			reloc_info.origin_sheet = reloc_info.target_sheet = rinfo->target_sheet;;
 
-			/* send to infinity to invalidate, bug try to assist
-			 * the relocation heuristics only only move in 1
+			/* send to infinity to invalidate, but try to assist
+			 * the relocation heuristics only move in 1
 			 * dimension if possible to give us a chance to be
 			 * smart about partial invalidations */
 			reloc_info.col_offset = SHEET_MAX_COLS;

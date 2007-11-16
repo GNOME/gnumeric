@@ -1151,7 +1151,7 @@ sheet_style_apply_row (Sheet  *sheet, int row, GnmStyle *pstyle)
  * @pstyle : #GnmStyle
  *
  * Apply a partial style to a single cell
- * This function absorbs a reference to the the new @style.
+ * This function absorbs a reference to the new @style.
  **/
 void
 sheet_style_apply_pos (Sheet *sheet, int col, int row,
@@ -1174,7 +1174,7 @@ sheet_style_apply_pos (Sheet *sheet, int col, int row,
  * @style :
  *
  * Change the complete style for a single cell.
- * This function absorbs a reference to the the new @style.
+ * This function absorbs a reference to the new @style.
  **/
 void
 sheet_style_set_pos (Sheet *sheet, int col, int row,

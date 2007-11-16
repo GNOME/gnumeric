@@ -328,7 +328,7 @@ expr_name_handle_references (GnmNamedExpr *nexpr, gboolean add)
 			}
 		} else {
 			if (found == NULL)  {
-				g_warning ("Unregistered name being being removed ?");
+				g_warning ("Unregistered name being removed?");
 			} else {
 				g_hash_table_remove (sheet->deps->referencing_names, nexpr);
 			}
@@ -474,7 +474,7 @@ expr_name_queue_deps (GnmNamedExpr *nexpr)
  * 1) new names with @link_to_container TRUE are referenced by the container.
  *    The caller DOES NOT OWN a reference to the result, and needs to add their
  *    own.
- * 2) if @link_to_container is FALSE the the caller DOES OWN a reference, and
+ * 2) if @link_to_container is FALSE the caller DOES OWN a reference, and
  *    can free the result by unrefing the name.
  **/
 GnmNamedExpr *

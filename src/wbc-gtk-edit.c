@@ -199,7 +199,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 				if (reedit == VALIDATION_STATUS_INVALID_EDIT)
 					return FALSE;
 				/* restore focus to sheet , or we'll leave edit
-				 * mode only to jump right back in in the new
+				 * mode only to jump right back in the new
 				 * cell because it looks like someone just
 				 * focused on the edit line (eg hit F2) */
 				wbcg_focus_cur_scg (wbcg);
