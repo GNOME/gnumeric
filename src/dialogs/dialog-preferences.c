@@ -62,6 +62,8 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
+#define PREF_DIALOG_KEY "pref-dialog"
+
 enum {
 	ITEM_ICON,
 	ITEM_NAME,
@@ -912,7 +914,7 @@ dialog_pref_select_page (PrefState *state, char const *page)
 	GtkTreeIter iter;
 	GtkTreePath *path;
 
-	path = gtk_tree_path_new_from_string  (page);
+	path = gtk_tree_path_new_from_string (page);
 	
 	if (path != NULL) {
 		gtk_tree_selection_select_path (selection, path);
@@ -950,13 +952,14 @@ cb_preferences_destroy (PrefState *state)
 	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
 	g_free (state);
-	gnm_app_set_pref_dialog (NULL);
+	g_object_set_data (gnm_app_get_app (), PREF_DIALOG_KEY, NULL);
 }
 
 static void
 cb_close_clicked (PrefState *state)
 {
 	gtk_widget_destroy (GTK_WIDGET (state->dialog));
+	g_object_set_data (G_OBJECT (state->dialog), "state", NULL);
 }
 
 static void
@@ -969,6 +972,13 @@ cb_dialog_pref_switch_page  (GtkNotebook *notebook,
 					       notebook, page_num);
 	else
 		dialog_pref_page_open (state);
+}
+
+static void
+cb_destroy_and_unref (GtkWidget *w)
+{
+	gtk_widget_destroy (w);
+	g_object_unref (w);
 }
 
 /* Note: The first page listed below is opened through File/Preferences, */
@@ -985,7 +995,7 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 	GtkTreeViewColumn *column;
 	GtkTreeSelection  *selection;
 
-	w = gnm_app_get_pref_dialog ();
+	w = g_object_get_data (gnm_app_get_app (), PREF_DIALOG_KEY);
 	if (w) {
 		gtk_widget_show (w);
 		gdk_window_raise (w->window);
@@ -1043,7 +1053,9 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_preferences_destroy);
 
-	gnm_app_set_pref_dialog (state->dialog);
+	g_object_set_data_full (gnm_app_get_app (),
+				PREF_DIALOG_KEY, g_object_ref (state->dialog),
+				(GDestroyNotify)cb_destroy_and_unref);
 
 	for (i = 0; page_info[i].page_initializer; i++) {
 		const page_info_t *this_page =  &page_info[i];

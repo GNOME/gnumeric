@@ -997,7 +997,6 @@ xml_sax_print_hf (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (hf != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		double pts;
 		if ( attr_eq (attrs[0], "Left")) {
 			g_free (hf->left_format);
 			hf->left_format = g_strdup (CXML2C (attrs[1]));

@@ -65,9 +65,6 @@ struct _GnmApp {
 	GnmCellRegion	*clipboard_copied_contents;
 	GnmRange	*clipboard_cut_range;
 
-	/* Others */
-	GtkWidget       *pref_dialog;
-
 	GList		*workbook_list;
 };
 
@@ -654,28 +651,6 @@ gboolean gnm_app_use_transition_keys	(void) { return gnm_app_prefs->transition_k
 void     gnm_app_set_transition_keys	(gboolean state)
 {
 	((GnmAppPrefs *)gnm_app_prefs)->transition_keys = state;
-}
-
-gpointer
-gnm_app_get_pref_dialog (void)
-{
-	g_return_val_if_fail (app != NULL, NULL);
-	return app->pref_dialog;
-}
-
-void
-gnm_app_set_pref_dialog (gpointer dialog)
-{
-	g_return_if_fail (app != NULL);
-	app->pref_dialog = dialog;
-}
-
-void
-gnm_app_release_pref_dialog (void)
-{
-	g_return_if_fail (app != NULL);
-	if (app->pref_dialog)
-		gtk_widget_destroy (app->pref_dialog);
 }
 
 static void

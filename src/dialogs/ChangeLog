@@ -1,3 +1,9 @@
+2007-11-15  Morten Welinder  <terra@gnome.org>
+
+	* dialog-preferences.c (cb_close_clicked): Remove the state key.
+	(dialog_preferences): Store the application-wide dialog on the
+	application GObject.
+
 2007-11-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-printer-setup.c (hf_insert_hf_stock_tag): handle 

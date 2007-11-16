@@ -316,7 +316,6 @@ gnm_shutdown (void)
 {
 	GSList *plugin_states;
 
-	gnm_app_release_pref_dialog ();
 	gnm_app_clipboard_clear (TRUE);
 
 	plugin_states = go_plugins_shutdown ();

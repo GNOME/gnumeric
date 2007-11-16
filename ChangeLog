@@ -1,3 +1,8 @@
+2007-11-15  Morten Welinder  <terra@gnome.org>
+
+	* src/application.c (gnm_app_release_pref_dialog,
+	gnm_app_get_pref_dialog, gnm_app_set_pref_dialog): Remove.
+
 2007-11-15  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c (set_clipman_targets): New. Restrict the
