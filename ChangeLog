@@ -1,3 +1,8 @@
+2007-11-16  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
+	* src/print-cell.c (print_merged_range_gtk): print the 
+	  background behind the cell.
+
 2007-11-16  Morten Welinder  <terra@gnome.org>
 
 	* src/application.c: use the recent manager to received

@@ -10,6 +10,7 @@ Andreas:
 	* Allow multi-line headers and footers
 	* Allow nicer entry of header/footer fields [#122175]
 	* Fix gtk issues triggered by sorting dialog.
+	* Fix printing of background of merged cells. [#497478]
 
 Jean:
 	* Print images.

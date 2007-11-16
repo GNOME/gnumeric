@@ -220,7 +220,7 @@ print_merged_range_gtk (cairo_t *context, PangoContext *pcontext,
 
 	if (gnumeric_background_set_gtk (style, context))
 		/* Remember api excludes the far pixels */
-		print_rectangle_gtk (context, l, t, r-l+1, t-b+1);
+		print_rectangle_gtk (context, l, t, r-l+1, b-t+1);
 
 	if (range->start.col < view->start.col)
 		l -= dir * sheet_col_get_distance_pts (sheet,
