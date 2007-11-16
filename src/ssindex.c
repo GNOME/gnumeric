@@ -216,7 +216,7 @@ main (int argc, char const **argv)
 
 	if (ssindex_show_version) {
 		g_printerr (_("ssindex version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
-			    GNUMERIC_VERSION, gnm_sys_data_dir (), gnm_sys_lib_dir ());
+			    GNM_VERSION_FULL, gnm_sys_data_dir (), gnm_sys_lib_dir ());
 		return 0;
 	} else if (!ssindex_run_indexer && !ssindex_list_mime_types) {
 		g_printerr (_("Usage: %s [OPTION...] %s\n"),

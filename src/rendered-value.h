@@ -1,8 +1,11 @@
-#ifndef GNUMERIC_RENDERED_VALUE_H
-# define GNUMERIC_RENDERED_VALUE_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_RENDERED_VALUE_H_
+# define _GNM_RENDERED_VALUE_H_
 
 #include "gnumeric.h"
 #include <pango/pango.h>
+
+G_BEGIN_DECLS
 
 /**
  * GnmRenderedValue:
@@ -57,4 +60,6 @@ char const *gnm_rendered_value_get_text (GnmRenderedValue const * rv);
 void gnm_rendered_value_init (void);
 void gnm_rendered_value_shutdown (void);
 
-#endif /* GNUMERIC_RENDERED_VALUE_H */
+G_END_DECLS
+
+#endif /* _GNM_RENDERED_VALUE_H_ */

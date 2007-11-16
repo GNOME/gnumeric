@@ -1,9 +1,11 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef PREVIEW_GRID_IMPL_H
-#define PREVIEW_GRID_IMPL_H
+#ifndef _GNM_PREVIEW_GRID_IMPL_H_
+# define _GNM_PREVIEW_GRID_IMPL_H_
 
 #include "preview-grid.h"
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
+
+G_BEGIN_DECLS
 
 struct _PreviewGrid {
 	FooCanvasGroup base;
@@ -36,4 +38,6 @@ typedef struct {
 
 #define PREVIEW_GRID_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), preview_grid_get_type (), PreviewGridClass))
 
-#endif /* PREVIEW_GRID_IMPL_H */
+G_END_DECLS
+
+#endif /* _GNM_PREVIEW_GRID_IMPL_H_ */

@@ -1,11 +1,14 @@
-#ifndef GNUMERIC_SHEET_CONTROL_GUI_PRIV_H
-#define GNUMERIC_SHEET_CONTROL_GUI_PRIV_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_SHEET_CONTROL_GUI_PRIV_H_
+# define _GNM_SHEET_CONTROL_GUI_PRIV_H_
 
 #include "sheet-control-gui.h"
 #include "sheet-control-priv.h"
 #include "sheet-object.h"
 #include <gtk/gtktable.h>
 #include <gtk/gtkpaned.h>
+
+G_BEGIN_DECLS
 
 #define	SCG_NUM_PANES		4
 struct _SheetControlGUI {
@@ -77,4 +80,6 @@ void scg_mode_edit		(SheetControlGUI *scg);
 	}						\
   } while (0)
 
-#endif /* GNUMERIC_SHEET_CONTROL_GUI_PRIV_H */
+G_END_DECLS
+
+#endif /* _GNM_SHEET_CONTROL_GUI_PRIV_H_ */

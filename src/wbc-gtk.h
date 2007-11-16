@@ -1,7 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
-#ifndef GNM_WBC_GTK_H
-#define GNM_WBC_GTK_H
+#ifndef _GNM_WBC_GTK_H_
+# define _GNM_WBC_GTK_H_
 
 #include "gnumeric.h"
 #include "gui-gnumeric.h"
@@ -10,6 +9,8 @@
 
 #include <gtk/gtkwindow.h>
 #include <gtk/gtktoggleaction.h>
+
+G_BEGIN_DECLS
 
 #define WBC_GTK_TYPE	(wbc_gtk_get_type ())
 #define WBC_GTK(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), WBC_GTK_TYPE, WBCGtk))
@@ -80,4 +81,6 @@ void	      wbcg_set_entry	     	(WBCGtk *wbc,
 					 GnmExprEntry *new_entry);
 gboolean      wbcg_entry_has_logical	(WBCGtk const *wbcg);
 
-#endif /* GNM_WBC_GTK_H */
+G_END_DECLS
+
+#endif /* _GNM_WBC_GTK_H_ */

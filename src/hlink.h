@@ -1,8 +1,11 @@
-#ifndef GNUMERIC_HLINK_H
-#define GNUMERIC_HLINK_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_HLINK_H_
+# define _GNM_HLINK_H_
 
 #include "gnumeric.h"
 #include <glib-object.h>
+
+G_BEGIN_DECLS
 
 #define GNM_HLINK_TYPE		(gnm_hlink_get_type ())
 #define GNM_HLINK(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_HLINK_TYPE, GnmHLink))
@@ -26,4 +29,6 @@ GType gnm_hlink_url_get_type (void);
 GType gnm_hlink_email_get_type (void);
 GType gnm_hlink_external_get_type (void);
 
-#endif /* GNUMERIC_HLINK_H */
+G_END_DECLS
+
+#endif /* _GNM_HLINK_H_ */

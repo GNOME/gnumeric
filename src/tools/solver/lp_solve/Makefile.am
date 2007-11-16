@@ -2,7 +2,7 @@ AM_CPPFLAGS = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/src				\
-	-include $(CONFIG_HEADER)			\
+	$(foreach d, $(CONFIG_HEADER), -include $(d))	\
 	-DGNUMERIC_INTERNAL				\
 	$(GNUMERIC_CFLAGS)				\
 	-DPARSER_LP

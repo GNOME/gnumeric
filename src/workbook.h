@@ -1,13 +1,16 @@
-#ifndef GNUMERIC_WORKBOOK_H
-#define GNUMERIC_WORKBOOK_H
-
-#define WORKBOOK_TYPE        (workbook_get_type ())
-#define WORKBOOK(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), WORKBOOK_TYPE, Workbook))
-#define IS_WORKBOOK(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), WORKBOOK_TYPE))
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_WORKBOOK_H_
+# define _GNM_WORKBOOK_H_
 
 #include "gnumeric.h"
 #include <goffice/app/file.h>
 #include <glib-object.h>
+
+G_BEGIN_DECLS
+
+#define WORKBOOK_TYPE        (workbook_get_type ())
+#define WORKBOOK(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), WORKBOOK_TYPE, Workbook))
+#define IS_WORKBOOK(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), WORKBOOK_TYPE))
 
 GType       workbook_get_type            (void);
 Workbook   *workbook_new                 (void);
@@ -77,4 +80,6 @@ int workbook_sheet_state_size	(WorkbookSheetState const *wss);
 char *workbook_sheet_state_diff (WorkbookSheetState const *wss_a,
 				 WorkbookSheetState const *wss_b);
 
-#endif /* GNUMERIC_WORKBOOK_H */
+G_END_DECLS
+
+#endif /* _GNM_WORKBOOK_H_ */

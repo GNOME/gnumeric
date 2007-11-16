@@ -575,7 +575,7 @@ gee_init (GnmExprEntry *gee)
 
 	gee->entry = GTK_ENTRY (gtk_entry_new ());
 
-#ifdef USE_HILDON
+#ifdef GNM_USE_HILDON
 	g_object_set (G_OBJECT (gee->entry), "autocap", FALSE, NULL);
 #endif
 

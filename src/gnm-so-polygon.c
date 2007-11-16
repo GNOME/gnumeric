@@ -52,7 +52,7 @@ typedef struct {
 } GnmSOPolygon;
 typedef SheetObjectClass GnmSOPolygonClass;
 
-#ifdef WITH_GTK
+#ifdef GNM_WITH_GTK
 #include "gnm-pane.h"
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-polygon.h>
@@ -110,7 +110,7 @@ static GSF_CLASS_FULL (PolygonFooView, so_polygon_foo_view,
 	NULL, NULL, NULL, NULL, NULL,
 	FOO_TYPE_CANVAS_POLYGON, 0,
 	GSF_INTERFACE (so_polygon_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
-#endif /* WITH_GTK */
+#endif /* GNM_WITH_GTK */
 
 /*****************************************************************************/
 
@@ -134,7 +134,7 @@ sop_default_style (void)
 	return res;
 }
 
-#ifdef WITH_GTK
+#ifdef GNM_WITH_GTK
 #include <sheet-control-gui.h>
 #include <dialogs/dialogs.h>
 
@@ -191,7 +191,7 @@ gnm_so_polygon_user_config (SheetObject *so, SheetControl *sc)
 		_("Polygon Properties"));
 }
 
-#endif /* WITH_GTK */
+#endif /* GNM_WITH_GTK */
 
 static void
 gnm_so_polygon_draw_cairo (SheetObject const *so, cairo_t *cr,
@@ -320,10 +320,10 @@ gnm_so_polygon_class_init (GObjectClass *gobject_class)
 	so_class->rubber_band_directly	= FALSE;
 	so_class->xml_export_name	= "SheetObjectPolygon";
 
-#ifdef WITH_GTK
+#ifdef GNM_WITH_GTK
 	so_class->new_view		= gnm_so_polygon_new_view;
 	so_class->user_config		= gnm_so_polygon_user_config;
-#endif /* WITH_GTK */
+#endif /* GNM_WITH_GTK */
 	so_class->draw_cairo	= gnm_so_polygon_draw_cairo;
 
         g_object_class_install_property (gobject_class, SOP_PROP_STYLE,

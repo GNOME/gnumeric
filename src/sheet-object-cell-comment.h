@@ -1,7 +1,10 @@
-#ifndef GNUMERIC_SHEET_OBJECT_CELL_COMMENT_H
-#define GNUMERIC_SHEET_OBJECT_CELL_COMMENT_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_SHEET_OBJECT_CELL_COMMENT_H_
+# define _GNM_SHEET_OBJECT_CELL_COMMENT_H_
 
 #include "sheet-object.h"
+
+G_BEGIN_DECLS
 
 #define CELL_COMMENT_TYPE     (cell_comment_get_type ())
 #define CELL_COMMENT(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), CELL_COMMENT_TYPE, GnmComment))
@@ -20,4 +23,6 @@ void	     cell_comment_set_cell   (GnmComment *cc, GnmCellPos const *pos);
 GnmComment *cell_set_comment (Sheet *sheet, GnmCellPos const *pos,
 			       char const *author, char const *text);
 
-#endif /* GNUMERIC_SHEET_OBJECT_CELL_COMMENT_H */
+G_END_DECLS
+
+#endif /* _GNM_SHEET_OBJECT_CELL_COMMENT_H_ */

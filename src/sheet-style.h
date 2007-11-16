@@ -1,7 +1,10 @@
-#ifndef GNUMERIC_SHEET_STYLE_H
-#define GNUMERIC_SHEET_STYLE_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_SHEET_STYLE_H_
+# define _GNM_SHEET_STYLE_H_
 
 #include "gnumeric.h"
+
+G_BEGIN_DECLS
 
 struct _GnmStyleRegion {
 	GnmRange  range; /* must be 1st */
@@ -79,4 +82,6 @@ GnmStyleList *sheet_style_collect_validations	(Sheet const *s, GnmRange const *r
 /* For internal use only */
 void	  sheet_style_unlink (Sheet *sheet, GnmStyle *st);
 
-#endif /* GNUMERIC_SHEET_STYLE_H */
+G_END_DECLS
+
+#endif /* _GNM_SHEET_STYLE_H_ */

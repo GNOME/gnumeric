@@ -1,8 +1,11 @@
-#ifndef GNUMERIC_STYLE_BORDER_H
-#define GNUMERIC_STYLE_BORDER_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_STYLE_BORDER_H_
+# define _GNM_STYLE_BORDER_H_
 
 #include "gnumeric.h"
 #include <gdk/gdkgc.h>
+
+G_BEGIN_DECLS
 
 typedef enum {
 	GNM_STYLE_BORDER_HORIZONTAL,
@@ -101,4 +104,6 @@ void gnm_style_border_print_diag_gtk (GnmStyle const *style,
 				      cairo_t *context,
 				      float x1, float y1, float x2, float y2);
 
-#endif /* GNUMERIC_STYLE_BORDER_H */
+G_END_DECLS
+
+#endif /* _GNM_STYLE_BORDER_H_ */

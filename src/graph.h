@@ -1,12 +1,14 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNUMERIC_GRAPH_H
-#define GNUMERIC_GRAPH_H
+#ifndef _GNM_GRAPH_H_
+# define _GNM_GRAPH_H_
 
 #include "gnumeric.h"
 #include "sheet-object.h"
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/data/goffice-data.h>
 #include <glib-object.h>
+
+G_BEGIN_DECLS
 
 void	 gnm_go_data_set_sheet (GOData *dat, Sheet *sheet);
 Sheet   *gnm_go_data_get_sheet (GOData const *dat);
@@ -38,4 +40,6 @@ typedef struct _GnmGODataMatrix GnmGODataMatrix;
 GType	 gnm_go_data_matrix_get_type  (void);
 GOData	*gnm_go_data_matrix_new_expr  (Sheet *sheet, GnmExprTop const *texpr);
 
-#endif /* GNUMERIC_GRAPH_H */
+G_END_DECLS
+
+#endif /* _GNM_GRAPH_H_ */

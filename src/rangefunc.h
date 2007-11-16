@@ -1,8 +1,11 @@
-#ifndef GNUMERIC_RANGEFUNC_H
-#define GNUMERIC_RANGEFUNC_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_RANGEFUNC_H_
+# define _GNM_RANGEFUNC_H_
 
 #include "numbers.h"
 #include <goffice/math/go-rangefunc.h>
+
+G_BEGIN_DECLS
 
 #ifdef WITH_LONG_DOUBLE
 #	define gnm_range_sum go_range_suml
@@ -62,4 +65,6 @@ int gnm_range_mode	(gnm_float const *xs, int n, gnm_float *res);
 
 int gnm_range_min_k_nonconst (gnm_float       *xs, int n, gnm_float *res, int k);
 
-#endif
+G_END_DECLS
+
+#endif /* _GNM_RANGEFUNC_H_ */

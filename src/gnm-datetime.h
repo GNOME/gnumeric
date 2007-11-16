@@ -1,5 +1,6 @@
-#ifndef GNM_DATETIME_H
-#define GNM_DATETIME_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_DATETIME_H_
+# define _GNM_DATETIME_H_
 
 #include "gnumeric.h"
 #include "numbers.h"
@@ -21,4 +22,4 @@ gnm_float yearfrac (GDate const *from, GDate const *to, basis_t basis);
 
 G_END_DECLS
 
-#endif /* GNM_DATETIME_H */
+#endif /* _GNM_DATETIME_H_ */

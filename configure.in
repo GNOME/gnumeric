@@ -7,19 +7,29 @@ m4_define([gnumeric_version_epoch], [1])
 m4_define([gnumeric_version_major], [7])
 m4_define([gnumeric_version_minor], [15])
 m4_define([gnumeric_version_extra], [])
-m4_define([gnumeric_full_version],
+m4_define([gnumeric_version_full],
     [gnumeric_version_epoch.gnumeric_version_major.gnumeric_version_minor[]gnumeric_version_extra])
 
 dnl Emphasize some of the checks.
 m4_define([BIG_CHECKING], [AC_MSG_CHECKING([
 ======== $1])])
 
-AC_INIT([gnumeric], [gnumeric_full_version],
+AC_INIT([gnumeric], [gnumeric_version_full],
 	[http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric])
 
 AC_CONFIG_SRCDIR(src/sheet.h)
 AM_INIT_AUTOMAKE([dist-bzip2])
+
+dnl This one is created by autoheader, ...
 AC_CONFIG_HEADERS(gnumeric-config.h)
+
+dnl ... and this one is a small subset, maintained manually,
+dnl which will be installed.
+AC_CONFIG_HEADERS(gnumeric-features.h)
+dnl
+dnl Make sure these two won't clash.  Put the following to gnumeric-config.h:
+AH_BOTTOM([/* Don't include gnumeric-features.h, it's a subset of gnumeric-config.h. */
+#define GNUMERIC_FEATURES_H])
 
 AM_MAINTAINER_MODE
 
@@ -190,7 +200,7 @@ fi
 
 gnumeric_with_gnome=$gnumeric_with_gtk
 if test "x$gnumeric_with_gtk" = "xtrue" ; then
-	AC_DEFINE(WITH_GTK, 1, [Define if UI is built])
+	AC_DEFINE(GNM_WITH_GTK, 1, [Define if UI is built])
 	libspreadsheet_reqs="$libspreadsheet_reqs $libspreadsheet_gtk_reqs"
 	gnumeric_reqs="$gnumeric_reqs $gnumeric_gtk_reqs"
 
@@ -216,7 +226,7 @@ if test "x$gnumeric_with_gtk" = "xtrue" ; then
 	fi
 
 	if test "x$gnumeric_with_gnome" = "xtrue"; then
-		AC_DEFINE(WITH_GNOME, 1, [Define if GNOME extensions are available])
+		AC_DEFINE(GNM_WITH_GNOME, 1, [Define if GNOME extensions are available])
 		libspreadsheet_reqs="$libspreadsheet_reqs $libspreadsheet_gnome_reqs"
 		gnumeric_reqs="$gnumeric_reqs $gnumeric_gnome_reqs"
 	fi
@@ -285,11 +295,10 @@ if test "x$enable_hildon" = "xyes" ; then
 fi
 
 if test "x$HAVE_HILDON" = "xyes" ; then
-    AC_DEFINE(USE_HILDON, 1, [Build with Maemo/Hildon support])
+    AC_DEFINE(GNM_USE_HILDON, 1, [Build with Maemo/Hildon support])
 fi
 
 AM_CONDITIONAL(USE_HILDON, test "x$HAVE_HILDON" = "xyes")
-
 AC_SUBST(HILDON_CFLAGS)
 AC_SUBST(HILDON_LIBS)
 
@@ -580,7 +589,7 @@ if test "x$enable_solver" = xno; then
 	enable_solver=false
 else
 	enable_solver=true
-	AC_DEFINE(ENABLE_SOLVER, 1, [Define if SOLVER is compiled])
+	AC_DEFINE(GNM_ENABLE_SOLVER, 1, [Define if SOLVER is compiled])
 fi
 AM_CONDITIONAL(ENABLE_SOLVER, $enable_solver)
 
@@ -765,7 +774,7 @@ AC_ARG_WITH(long_double,
 
 		float_msg="long double (EXPERIMENTAL)"
 		AC_MSG_WARN([Long double support is experimental -- expect problems])
-		AC_DEFINE(WITH_LONG_DOUBLE, 1,
+		AC_DEFINE(GNM_WITH_LONG_DOUBLE, 1,
 			[Define if the long double type is to be used]
 		)
 	fi]
@@ -1013,8 +1022,8 @@ dnl
 AC_SUBST(gnumeric_plugindir, '${gnumeric_libdir}/plugins')
 
 dnl Export to gnumeric-config.h
-AC_DEFINE(GNUMERIC_VERSION, "gnumeric_full_version",
-	[The version number of this release, possibly suffixed for bonobo])
+AC_DEFINE(GNM_VERSION_FULL, "gnumeric_version_full",
+	[The version number of this release, with optional extra suffix])
 AC_DEFINE(GNM_VERSION_EPOCH, gnumeric_version_epoch,
 	[The Epoch of this release])
 AC_DEFINE(GNM_VERSION_MAJOR, gnumeric_version_major,

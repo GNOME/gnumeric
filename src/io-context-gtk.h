@@ -1,10 +1,13 @@
-#ifndef GNUMERIC_IO_CONTEXT_GTK_H
-#define GNUMERIC_IO_CONTEXT_GTK_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_IO_CONTEXT_GTK_H_
+# define _GNM_IO_CONTEXT_GTK_H_
 
 #include <stdarg.h>
 #include "gui-gnumeric.h"
 #include <gtk/gtkwindow.h>
 #include <goffice/app/io-context.h>
+
+G_BEGIN_DECLS
 
 typedef struct _IOContextGtk IOContextGtk;
 typedef struct _IOContextGtkClass IOContextGtkClass;
@@ -19,4 +22,6 @@ GType io_context_gtk_get_type (void);
 void  icg_set_transient_for (IOContextGtk *icg, GtkWindow *parent_window);
 gboolean icg_get_interrupted (IOContextGtk *icg);
 
-#endif /* GNUMERIC_IO_CONTEXT_GTK_H */
+G_END_DECLS
+
+#endif /* _GNM_IO_CONTEXT_GTK_H_ */

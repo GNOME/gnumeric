@@ -1,9 +1,12 @@
-#ifndef GNUMERIC_MATHFUNC_H
-#define GNUMERIC_MATHFUNC_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_MATHFUNC_H_
+# define _GNM_MATHFUNC_H_
 
 #include "numbers.h"
 #include <math.h>
 #include <glib.h>
+
+G_BEGIN_DECLS
 
 #ifdef qgamma
 /* It was reported that mips-sgi-irix6.5 has a weird and conflicting define
@@ -184,4 +187,6 @@ void mathfunc_init (void);
 
 /* ------------------------------------------------------------------------- */
 
-#endif
+G_END_DECLS
+
+#endif /* _GNM_MATHFUNC_H_ */

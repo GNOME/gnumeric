@@ -1,7 +1,10 @@
-#ifndef GNUMERIC_GUI_FILE_H
-#define GNUMERIC_GUI_FILE_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_GUI_FILE_H_
+# define _GNM_GUI_FILE_H_
 
 #include "gui-gnumeric.h"
+
+G_BEGIN_DECLS
 
 gboolean gui_file_save_as   (WBCGtk *wbcg, WorkbookView *wbv);
 gboolean gui_file_save      (WBCGtk *wbcg, WorkbookView *wbv);
@@ -12,4 +15,6 @@ gboolean gui_file_read	    (WBCGtk *wbcg, char const *file_name,
 			     GOFileOpener const *optional_format,
 			     gchar const *optional_encoding);
 
-#endif /* GNUMERIC_GUI_FILE_H */
+G_END_DECLS
+
+#endif /* _GNM_GUI_FILE_H_ */

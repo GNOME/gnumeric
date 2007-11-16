@@ -679,7 +679,7 @@ static GNM_ACTION_DEF (cb_tools_merge)		{ dialog_merge (wbcg); }
 
 static GNM_ACTION_DEF (cb_tools_solver)
 	{
-#ifdef ENABLE_SOLVER
+#ifdef GNM_ENABLE_SOLVER
 	dialog_solver (wbcg, wbcg_cur_sheet (wbcg));
 #endif
 }
@@ -1487,7 +1487,7 @@ static GtkActionEntry const permanent_actions[] = {
 		G_CALLBACK (cb_help_about) },
 };
 
-#ifdef USE_HILDON
+#ifdef GNM_USE_HILDON
 #define FULLSCREEN_ACCEL "F6"
 #define ZOOM_IN_ACCEL "F7"
 #define ZOOM_OUT_ACCEL "F8"

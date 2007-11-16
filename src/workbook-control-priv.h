@@ -1,8 +1,11 @@
-#ifndef GNUMERIC_WORKBOOK_CONTROL_PRIV_H
-#define GNUMERIC_WORKBOOK_CONTROL_PRIV_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_WORKBOOK_CONTROL_PRIV_H_
+# define _GNM_WORKBOOK_CONTROL_PRIV_H_
 
 #include "workbook-control.h"
 #include <goffice/app/go-doc-control-impl.h>
+
+G_BEGIN_DECLS
 
 struct _WorkbookControl {
 	GODocControl base;
@@ -52,4 +55,6 @@ typedef struct {
 
 #define WORKBOOK_CONTROL_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), WORKBOOK_CONTROL_TYPE, WorkbookControlClass))
 
-#endif /* GNUMERIC_WORKBOOK_CONTROL_PRIV_H */
+G_END_DECLS
+
+#endif /* _GNM_WORKBOOK_CONTROL_PRIV_H_ */

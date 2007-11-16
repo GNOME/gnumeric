@@ -63,7 +63,7 @@
 #include <goffice/app/go-plugin-loader-module.h>
 #include <glade/glade.h>
 
-#ifdef WITH_GNOME
+#ifdef GNM_WITH_GNOME
 #include <libgnomevfs/gnome-vfs-init.h>
 #endif
 
@@ -136,7 +136,7 @@ cb_gnm_option_group_post_parse (GOptionContext *context,
 {
 	if (param_show_version) {
 		g_print (_("gnumeric version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
-			 GNUMERIC_VERSION, gnm_sys_data_dir (), gnm_sys_lib_dir ());
+			 GNM_VERSION_FULL, gnm_sys_data_dir (), gnm_sys_lib_dir ());
 		exit (0);
 	}
 	return TRUE;
@@ -249,7 +249,7 @@ gnumeric_check_for_components (void)
 void
 gnm_init (gboolean fast)
 {
-#if defined (WITH_GNOME) || defined (USE_HILDON)
+#if defined (GNM_WITH_GNOME) || defined (GNM_USE_HILDON)
 	gnome_vfs_init ();
 #endif
 
@@ -258,7 +258,7 @@ gnm_init (gboolean fast)
 		&plugin_service_function_group_get_type);
 	plugin_service_define ("ui",
 		&plugin_service_ui_get_type);
-	go_plugin_loader_module_register_version ("gnumeric", GNUMERIC_VERSION);
+	go_plugin_loader_module_register_version ("gnumeric", GNM_VERSION_FULL);
 
 	g_object_new (GNM_APP_TYPE, NULL);
 	mathfunc_init ();

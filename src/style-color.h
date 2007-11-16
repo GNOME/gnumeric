@@ -1,10 +1,13 @@
-#ifndef GNM_COLOR_H
-#define GNM_COLOR_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_STYLE_COLOR_H_
+# define _GNM_STYLE_COLOR_H_
 
 #include "gnumeric.h"
 #include "libgnumeric.h"
 #include <goffice/utils/go-color.h>
 #include <gdk/gdkcolor.h>
+
+G_BEGIN_DECLS
 
 #define GNM_STYLE_COLOR_TYPE                 (gnm_style_color_get_type ())
 GType gnm_style_color_get_type (void);
@@ -46,4 +49,6 @@ GnmColor *style_color_grid     (void);
 void gnm_color_init     (void);
 void gnm_color_shutdown (void);
 
-#endif /* GNM_COLOR_H */
+G_END_DECLS
+
+#endif /* _GNM_STYLE_COLOR_H_ */

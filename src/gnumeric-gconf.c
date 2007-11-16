@@ -49,7 +49,7 @@ static GOConfNode *root = NULL;
 #define d(code)
 #endif
 
-#ifdef WITH_GNOME
+#ifdef GNUMERIC_WITH_GNOME
 #include "gnm-conf-gconf.c"
 #elif defined G_OS_WIN32
 #include "gnm-conf-win32.c"

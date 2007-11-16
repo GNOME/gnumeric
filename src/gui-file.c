@@ -37,7 +37,7 @@
 #include <errno.h>
 #include <string.h>
 
-#ifdef USE_HILDON
+#ifdef GNM_USE_HILDON
 #include <hildon-fm/hildon-widgets/hildon-file-chooser-dialog.h>
 #endif
 
@@ -234,7 +234,7 @@ gui_file_open (WBCGtk *wbcg, char const *default_format)
 	gtk_widget_set_sensitive (GTK_WIDGET (format_combo), opener_default == 0);
 	file_format_changed_cb (format_combo, &data);
 
-#ifdef USE_HILDON
+#ifdef GNM_USE_HILDON
 	fsel = GTK_FILE_CHOOSER (hildon_file_chooser_dialog_new (wbcg_toplevel (wbcg), GTK_FILE_CHOOSER_ACTION_OPEN));
 #else
 	fsel = GTK_FILE_CHOOSER
@@ -304,7 +304,7 @@ gui_file_open (WBCGtk *wbcg, char const *default_format)
 
 		g_object_set_data_full (G_OBJECT (advanced_button), "extra",
 			g_object_ref (box), g_object_unref);
-#ifdef USE_HILDON
+#ifdef GNM_USE_HILDON
 		/*
 		 * Don't need to show the vbox. This is here just to avoid the warning :
 		 * GLIB WARNING ** default - hildon-file-chooser-dialog.c:1226: invalid
@@ -392,7 +392,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 	}
 	savers = g_list_sort (savers, file_saver_description_cmp);
 
-#ifdef USE_HILDON
+#ifdef GNM_USE_HILDON
 	fsel = GTK_FILE_CHOOSER (hildon_file_chooser_dialog_new (wbcg_toplevel (wbcg), GTK_FILE_CHOOSER_ACTION_SAVE));
 #else
 	fsel = GTK_FILE_CHOOSER
@@ -452,7 +452,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 		gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (format_combo), FALSE, TRUE, 6);
 		gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (format_combo));
 
-#ifdef USE_HILDON
+#ifdef GNM_USE_HILDON
 		gtk_widget_show_all (box);
 		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (fsel)->vbox), box, FALSE, TRUE, 6);
 #else

@@ -46,7 +46,7 @@
 #include <time.h>
 #include <string.h>
 
-#ifdef WITH_GNOME
+#ifdef GNM_WITH_GNOME
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-ui-main.h>
 #include <libgnome/gnome-program.h>
@@ -55,7 +55,7 @@
 #include <libgnomeui/gnome-authentication-manager.h>
 #endif
 
-#ifdef USE_HILDON
+#ifdef GNM_USE_HILDON
 #include <libosso.h>
 #endif
 
@@ -188,7 +188,7 @@ gnumeric_arg_parse (int argc, char **argv)
 	g_option_context_add_main_entries (ocontext, gnumeric_options, GETTEXT_PACKAGE);
 	g_option_context_add_group	  (ocontext, gnm_get_option_group ());
 
-#ifdef WITH_GNOME
+#ifdef GNM_WITH_GNOME
 #ifndef GNOME_PARAM_GOPTION_CONTEXT
 	/*
 	 * Bummer.  We cannot make gnome_program_init handle our args so
@@ -238,7 +238,7 @@ gnumeric_arg_parse (int argc, char **argv)
 
 	if (!funcdump) {
 		gtk_init (&argc, &argv);
-#ifdef WITH_GNOME
+#ifdef GNM_WITH_GNOME
 		gnome_authentication_manager_init ();
 #endif
 	}
@@ -307,7 +307,7 @@ main (int argc, char const **argv)
 	IOContext *ioc;
 	WorkbookView *wbv;
 	GSList *wbcgs_to_kill = NULL;
-#ifdef USE_HILDON
+#ifdef GNM_USE_HILDON
 	osso_context_t * osso_context;
 #endif
 
@@ -334,8 +334,8 @@ main (int argc, char const **argv)
 	}
 #endif
 
-#ifdef USE_HILDON
-	osso_context = osso_initialize ("gnumeric", GNUMERIC_VERSION, TRUE, NULL);
+#ifdef GNM_USE_HILDON
+	osso_context = osso_initialize ("gnumeric", GNM_VERSION_FULL, TRUE, NULL);
 #endif
 
 	gnumeric_arg_parse (argc, (char **)argv);
@@ -371,7 +371,7 @@ main (int argc, char const **argv)
 	g_set_application_name (_("Gnumeric Spreadsheet"));
 	gnm_plugins_init (GO_CMD_CONTEXT (ioc));
 
-#ifdef WITH_GNOME
+#ifdef GNM_WITH_GNOME
 	bonobo_activate ();
 #endif
 	if (startup_files) {
@@ -445,7 +445,7 @@ main (int argc, char const **argv)
 			warn_about_ancient_gnumerics (g_get_prgname(), ioc);
 		}
 		g_object_unref (ioc);
-#ifdef WITH_GNOME
+#ifdef GNM_WITH_GNOME
 		bonobo_main ();
 #else
 		gtk_main ();
@@ -455,7 +455,7 @@ main (int argc, char const **argv)
 		g_slist_foreach (wbcgs_to_kill, (GFunc)cb_kill_wbcg, NULL);
 	}
 
-#ifdef USE_HILDON
+#ifdef GNM_USE_HILDON
 	osso_deinitialize (osso_context);
 #endif
 
@@ -464,7 +464,7 @@ main (int argc, char const **argv)
 	store_plugin_state ();
 	gnm_shutdown ();
 
-#ifdef WITH_GNOME
+#ifdef GNM_WITH_GNOME
 	bonobo_ui_debug_shutdown ();
 #elif defined(G_OS_WIN32)
 	if (has_console) {

@@ -1,7 +1,10 @@
-#ifndef GNUMERIC_STRING_H
-#define GNUMERIC_STRING_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_STR_H_
+# define _GNM_STR_H_
 
 #include "gnumeric.h"
+
+G_BEGIN_DECLS
 
 struct _GnmString {
 	int        ref_count;
@@ -20,4 +23,6 @@ void       gnm_string_unref      (GnmString *str);
 GnmString *gnm_string_concat     (GnmString const *a, GnmString const *b);
 GnmString *gnm_string_concat_str (GnmString const *a, char const *b);
 
-#endif /* GNUMERIC_STRING_H */
+G_END_DECLS
+
+#endif /* _GNM_STR_H_ */

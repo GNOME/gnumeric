@@ -1,11 +1,14 @@
-#ifndef GNUMERIC_EXPR_NAME_H
-#define GNUMERIC_EXPR_NAME_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_EXPR_NAME_H_
+# define _GNM_EXPR_NAME_H_
 
 #include "gnumeric.h"
 #include "expr.h"
 #include "func.h"
 #include "parse-util.h"
 #include <goffice/utils/go-undo.h>
+
+G_BEGIN_DECLS
 
 struct _GnmNamedExpr {
 	int	    ref_count;
@@ -73,4 +76,6 @@ void gnm_named_expr_collection_relink (GnmNamedExprCollection *names);
 GnmNamedExpr *gnm_named_expr_collection_lookup (GnmNamedExprCollection const *scope,
 						char const *name);
 
-#endif /* GNUMERIC_EXPR_NAME_H */
+G_END_DECLS
+
+#endif /* _GNM_EXPR_NAME_H_ */

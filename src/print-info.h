@@ -1,12 +1,14 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNM_PRINT_INFO_H
-#define GNM_PRINT_INFO_H
+#ifndef _GNM_PRINT_INFO_H_
+# define _GNM_PRINT_INFO_H_
 
 #include "gnumeric.h"
 #include <gtk/gtkpagesetup.h>
 
+G_BEGIN_DECLS
+
 typedef struct {
-  GtkUnit   top, bottom, left, right, header, footer;
+	GtkUnit   top, bottom, left, right, header, footer;
 } DesiredDisplay;
 
 /* Header/Footer definition */
@@ -181,4 +183,6 @@ gboolean	 gnm_page_breaks_append_break	(GnmPageBreaks *breaks,
 /* Formats known */
 extern GList *hf_formats;
 
-#endif /* GNM_PRINT_INFO_H */
+G_END_DECLS
+
+#endif /* _GNM_PRINT_INFO_H_ */

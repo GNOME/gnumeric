@@ -1,7 +1,10 @@
-#ifndef GNUMERIC_SHEET_AUTOFILL_H
-#define GNUMERIC_SHEET_AUTOFILL_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_SHEET_AUTOFILL_H_
+# define _GNM_SHEET_AUTOFILL_H_
 
 #include "gnumeric.h"
+
+G_BEGIN_DECLS
 
 void gnm_autofill_init  (void);
 void gnm_autofill_shutdown  (void);
@@ -16,4 +19,6 @@ char *gnm_autofill_hint (Sheet *sheet, gboolean default_increment,
 			 int w,        int h,
 			 int end_col,  int end_row);
 
-#endif /* GNUMERIC_SHEET_AUTOFILL_H */
+G_END_DECLS
+
+#endif /* _GNM_SHEET_AUTOFILL_H_ */

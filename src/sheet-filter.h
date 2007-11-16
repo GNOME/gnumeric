@@ -1,8 +1,10 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNM_SHEET_FILTER_H
-#define GNM_SHEET_FILTER_H
+#ifndef _GNM_SHEET_FILTER_H_
+# define _GNM_SHEET_FILTER_H_
 
 #include "gnumeric.h"
+
+G_BEGIN_DECLS
 
 typedef enum {
 	GNM_FILTER_UNUSED	= -1,
@@ -84,4 +86,6 @@ void gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 				     gboolean is_cols, gboolean is_insert,
 				     int start, int count);
 
-#endif /* GNM_SHEET_FILTER_H */
+G_END_DECLS
+
+#endif /* _GNM_SHEET_FILTER_H_ */

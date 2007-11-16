@@ -1,10 +1,13 @@
-#ifndef GNUMERIC_SHEET_CONTROL_GUI_H
-#define GNUMERIC_SHEET_CONTROL_GUI_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_SHEET_CONTROL_GUI_H_
+# define _GNM_SHEET_CONTROL_GUI_H_
 
 #include "gui-gnumeric.h"
 #include "sheet-control.h"
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkselection.h>
+
+G_BEGIN_DECLS
 
 #define SHEET_CONTROL_GUI_TYPE        (sheet_control_gui_get_type ())
 #define SHEET_CONTROL_GUI(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_CONTROL_GUI_TYPE, SheetControlGUI))
@@ -115,4 +118,6 @@ GnmPane	   *scg_pane		(SheetControlGUI *scg, int pane);
 
 WBCGtk *scg_wbcg	(SheetControlGUI const *scg);
 
-#endif /* GNUMERIC_SHEET_CONTROL_GUI_H */
+G_END_DECLS
+
+#endif /* _GNM_SHEET_CONTROL_GUI_H_ */

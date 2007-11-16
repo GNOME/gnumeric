@@ -1,8 +1,11 @@
-#ifndef GNUMERIC_MSTYLE_H
-#define GNUMERIC_MSTYLE_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_MSTYLE_H_
+# define _GNM_MSTYLE_H_
 
 #include "gnumeric.h"
 #include "style.h"
+
+G_BEGIN_DECLS
 
 /*
  * Keep element_size up to date.
@@ -172,4 +175,6 @@ void        gnm_style_shutdown (void);
 /* debug util */
 void gnm_style_dump (GnmStyle const *style);
 
-#endif /* GNUMERIC_MSTYLE_H */
+G_END_DECLS
+
+#endif /* _GNM_MSTYLE_H_ */

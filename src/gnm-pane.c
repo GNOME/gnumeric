@@ -627,7 +627,7 @@ gnm_pane_key_release (GtkWidget *widget, GdkEventKey *event)
 static gint
 gnm_pane_focus_in (GtkWidget *widget, GdkEventFocus *event)
 {
-#ifndef USE_HILDON
+#ifndef GNM_USE_HILDON
 	gtk_im_context_focus_in (GNM_PANE (widget)->im_context);
 #endif
 	return (*GTK_WIDGET_CLASS (parent_klass)->focus_in_event) (widget, event);

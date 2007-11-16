@@ -40,13 +40,13 @@
 #include <goffice/utils/go-file.h>
 #include <goffice/utils/go-glib-extras.h>
 
-#ifdef WITH_GTK
-#ifdef WITH_GNOME
+#ifdef GNM_WITH_GTK
+#ifdef GNM_WITH_GNOME
 #include <bonobo/bonobo-main.h>
 #else
 #include <gtk/gtkmain.h> /* for gtk_main_quit */
 #endif
-#endif /* WITH_GTK */
+#endif /* GNM_WITH_GTK */
 
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-impl-utils.h>
@@ -161,9 +161,9 @@ workbook_finalize (GObject *obj)
 	wb->sheets = NULL;
 
 	/* this has no business being here */
-#ifdef WITH_GTK
+#ifdef GNM_WITH_GTK
 	if (initial_workbook_open_complete && gnm_app_workbook_list () == NULL)
-#ifdef WITH_GNOME
+#ifdef GNM_WITH_GNOME
 		bonobo_main_quit ();
 #else
 		gtk_main_quit ();

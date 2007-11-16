@@ -1,9 +1,12 @@
-#ifndef GNUMERIC_DEPENDENT_H
-#define GNUMERIC_DEPENDENT_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_DEPENDENT_H_
+# define _GNM_DEPENDENT_H_
 
 #include "gnumeric.h"
 #include <goffice/utils/goffice-utils.h>
 #include <goffice/utils/go-undo.h>
+
+G_BEGIN_DECLS
 
 struct _GnmDependent {
 	guint	  flags;
@@ -134,4 +137,6 @@ t ## _get_dep_type (void)					\
 
 void dependent_debug_name (GnmDependent const *dep, GString *target);
 
-#endif /* GNUMERIC_DEPENDENT_H */
+G_END_DECLS
+
+#endif /* _GNM_DEPENDENT_H_ */

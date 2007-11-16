@@ -1,5 +1,6 @@
-#ifndef GNM_WBC_GTK_IMPL_H
-#define GNM_WBC_GTK_IMPL_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_WBC_GTK_IMPL_H_
+# define _GNM_WBC_GTK_IMPL_H_
 
 #include "gnumeric.h"
 #include "wbc-gtk.h"
@@ -14,15 +15,17 @@
 #include <goffice/gtk/go-action-combo-color.h>
 #include <goffice/gtk/go-action-combo-text.h>
 #include <goffice/gtk/go-action-combo-pixmaps.h>
-#ifdef USE_HILDON
+#ifdef GNM_USE_HILDON
 #include <hildon-widgets/hildon-program.h>
 #endif
+
+G_BEGIN_DECLS
 
 struct _WBCGtk {
 	WorkbookControl	base;
 
 	GtkWidget   *toplevel;
-#ifdef USE_HILDON
+#ifdef GNM_USE_HILDON
 	HildonProgram *hildon_prog;
 #endif
 	GtkNotebook *notebook;
@@ -148,4 +151,6 @@ void	 wbc_gtk_markup_changer	(WBCGtk *wbcg);
 extern gint wbc_gtk_debug_deps;
 extern gint wbc_gtk_debug_expr_share;
 
-#endif /* GNM_WBC_GTK_IMPL_H */
+G_END_DECLS
+
+#endif /* _GNM_WBC_GTK_IMPL_H_ */

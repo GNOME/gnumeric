@@ -160,9 +160,9 @@ libspreadsheet_la_SOURCES =			\
 	print-cell.c
 
 # When we switch to subversion fix this to nest as
-# libspreadsheet-ver/ssheet/header
+# libspreadsheet-ver/spreadsheet/header
 # doing it now would require massive cvs surgery.
-libspreadsheet_includedir = $(includedir)/libspreadsheet-1-7/ssheet
+libspreadsheet_includedir = $(includedir)/libspreadsheet-1-7/spreadsheet
 libspreadsheet_include_HEADERS = 	\
 	application.h				\
 	auto-format.h				\

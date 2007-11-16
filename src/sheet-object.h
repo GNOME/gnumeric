@@ -1,11 +1,13 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNUMERIC_SHEET_OBJECT_H
-#define GNUMERIC_SHEET_OBJECT_H
+#ifndef _GNM_SHEET_OBJECT_H_
+# define _GNM_SHEET_OBJECT_H_
 
 #include "gnumeric.h"
 #include <gtk/gtkselection.h>
 #include <gsf/gsf-output.h>
 #include <goffice/utils/go-undo.h>
+
+G_BEGIN_DECLS
 
 /***********************************************************
  * Move to goffice during 1.7 */
@@ -132,4 +134,6 @@ void sheet_object_draw_cairo (SheetObject const *so, cairo_t *cr, gboolean rtl);
 
 /* management routine to register all the builtin object types */
 void sheet_objects_init (void);
-#endif /* GNUMERIC_SHEET_OBJECT_H */
+G_END_DECLS
+
+#endif /* _GNM_SHEET_OBJECT_H_ */

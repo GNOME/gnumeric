@@ -1,9 +1,12 @@
-#ifndef GNUMERIC_SEARCH_H
-#define GNUMERIC_SEARCH_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_SEARCH_H_
+# define _GNM_SEARCH_H_
 
 #include <gnumeric.h>
 #include <position.h>
 #include <goffice/utils/regutf8.h>
+
+G_BEGIN_DECLS
 
 #define GNM_SEARCH_REPLACE_TYPE        (gnm_search_replace_get_type ())
 #define GNM_SEARCH_REPLACE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_SEARCH_REPLACE_TYPE, GnmSearchReplace))
@@ -127,4 +130,6 @@ gboolean gnm_search_replace_value (GnmSearchReplace *sr,
 				   GnmEvalPos const *ep,
 				   GnmSearchReplaceValueResult *res);
 
-#endif
+G_END_DECLS
+
+#endif /* _GNM_SEARCH_H_ */

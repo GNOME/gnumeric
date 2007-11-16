@@ -1,5 +1,6 @@
-#ifndef GNM_PLUGIN_H
-#define GNM_PLUGIN_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_PLUGIN_H_
+# define _GNM_PLUGIN_H_
 
 #include <gnumeric.h>
 #include <goffice/app/goffice-app.h>
@@ -8,6 +9,8 @@
 #include <gmodule.h>
 #include <libxml/tree.h>
 #include <gsf/gsf.h>
+
+G_BEGIN_DECLS
 
 #define GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE  (plugin_service_function_group_get_type ())
 #define GNM_PLUGIN_SERVICE_FUNCTION_GROUP(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE, PluginServiceFunctionGroup))
@@ -45,7 +48,7 @@ typedef struct {
 #define GNM_PLUGIN_MODULE_HEADER					\
 G_MODULE_EXPORT GOPluginModuleDepend const go_plugin_depends [] = {	\
 	{ "goffice",	GOFFICE_API_VERSION },				\
-	{ "gnumeric",	GNUMERIC_VERSION }				\
+	{ "gnumeric",	GNM_VERSION_FULL }				\
 };	\
 G_MODULE_EXPORT GOPluginModuleHeader const go_plugin_header =  		\
 	{ GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, G_N_ELEMENTS (go_plugin_depends) }
@@ -54,4 +57,6 @@ G_MODULE_EXPORT GOPluginModuleHeader const go_plugin_header =  		\
 
 void gnm_plugins_init (GOCmdContext *c);
 
-#endif /* GNM_PLUGIN_H */
+G_END_DECLS
+
+#endif /* _GNM_PLUGIN_H_ */

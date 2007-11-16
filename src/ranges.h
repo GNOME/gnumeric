@@ -1,7 +1,10 @@
-#ifndef GNM_RANGES_H
-# define GNM_RANGES_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_RANGES_H_
+# define _GNM_RANGES_H_
 
 #include "gnumeric.h"
+
+G_BEGIN_DECLS
 
 /**
  * range_equal:
@@ -109,4 +112,6 @@ GnmValue      *global_range_list_foreach  (GSList *gr_list, GnmEvalPos const *ep
 gboolean       global_range_contained	  (Sheet const *sheet,
 					   GnmValue const *a, GnmValue const *b);
 
-#endif /* GNM_RANGES_H */
+G_END_DECLS
+
+#endif /* _GNM_RANGES_H_ */

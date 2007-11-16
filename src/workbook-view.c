@@ -967,7 +967,7 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 	return !has_error;
 }
 
-#ifndef WITH_GNOME
+#ifndef GNM_WITH_GNOME
 static void
 gnm_mailto_url_show (char const *url, char const *working_dir, GError **err)
 {
@@ -1100,7 +1100,7 @@ wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 			char *url, *tmp = go_url_encode (full_name, 0);
 			url = g_strdup_printf ("mailto:someone?attach=%s", tmp);
 			g_free (tmp);
-#ifdef WITH_GNOME
+#ifdef GNM_WITH_GNOME
 			go_url_show (url);
 #else
 			gnm_mailto_url_show (url, template, &err);

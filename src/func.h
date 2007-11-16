@@ -1,8 +1,11 @@
-#ifndef GNUMERIC_FUNC_H
-#define GNUMERIC_FUNC_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_FUNC_H_
+# define _GNM_FUNC_H_
 
 #include "gnumeric.h"
 #include "dependent.h"
+
+G_BEGIN_DECLS
 
 /* Setup of the symbol table */
 void functions_init     (void);
@@ -262,4 +265,6 @@ TokenizedHelp *tokenized_help_new     (GnmFunc const *fn_def);
 char const    *tokenized_help_find    (TokenizedHelp *tok, char const *token);
 void           tokenized_help_destroy (TokenizedHelp *tok);
 
-#endif /* GNUMERIC_FUNC_H */
+G_END_DECLS
+
+#endif /* _GNM_FUNC_H_ */

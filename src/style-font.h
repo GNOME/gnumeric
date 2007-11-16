@@ -1,9 +1,12 @@
-#ifndef GNUMERIC_STYLE_FONT_H
-#define GNUMERIC_STYLE_FONT_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_STYLE_FONT_H_
+# define _GNM_STYLE_FONT_H_
 
 #include "gnumeric.h"
 #include "libgnumeric.h"
 #include <pango/pango.h>
+
+G_BEGIN_DECLS
 
 struct _GnmFont {
 	int	 ref_count;
@@ -42,4 +45,6 @@ void	 gnm_font_shutdown     (void);
 /* Internal : Deprecated : Wrong place */
 PangoContext *gnm_pango_context_get (void);
 
-#endif /* GNUMERIC_STYLE_FONT_H */
+G_END_DECLS
+
+#endif /* _GNM_STYLE_FONT_H_ */

@@ -1,7 +1,10 @@
-#ifndef GNUMERIC_SHEET_MERGED_H
-#define GNUMERIC_SHEET_MERGED_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_SHEET_MERGE_H_
+# define _GNM_SHEET_MERGE_H_
 
 #include "gnumeric.h"
+
+G_BEGIN_DECLS
 
 gboolean     gnm_sheet_merge_add		(Sheet *sheet,
 						 GnmRange const *r,
@@ -21,4 +24,6 @@ void	     gnm_sheet_merge_get_adjacent	(Sheet const *sheet,
 						 GnmRange const **left,
 						 GnmRange const **right);
 
-#endif /* GNUMERIC_SHEET_MERGED_H */
+G_END_DECLS
+
+#endif /* _GNM_SHEET_MERGE_H_ */

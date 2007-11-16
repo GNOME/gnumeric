@@ -1339,7 +1339,7 @@ gnumeric_info (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			workbook_get_recalcmode (wb) ? _("Automatic") : _("Manual"));
 	} else if (!g_ascii_strcasecmp (info_type, "release")) {
 		/* Version of Gnumeric (Well, Microsoft Excel), as text.  */
-		return value_new_string (GNUMERIC_VERSION);
+		return value_new_string (GNM_VERSION_FULL);
 #ifdef HAVE_UNAME
 	} else if (!g_ascii_strcasecmp (info_type, "system")) {
 		/* Name of the operating environment.  */

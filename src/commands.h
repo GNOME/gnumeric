@@ -1,9 +1,11 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNUMERIC_COMMANDS_H
-#define GNUMERIC_COMMANDS_H
+#ifndef _GNM_COMMANDS_H_
+# define _GNM_COMMANDS_H_
 
 #include "gnumeric.h"
 #include "tools/tools.h"
+
+G_BEGIN_DECLS
 
 void command_undo   (WorkbookControl *wbc);
 void command_redo   (WorkbookControl *wbc);
@@ -158,4 +160,6 @@ gboolean cmd_so_set_value (WorkbookControl *wbc,
 			   const GnmCellRef *pref,
 			   GnmValue *new_val);
 
-#endif /* GNUMERIC_COMMANDS_H */
+G_END_DECLS
+
+#endif /* _GNM_COMMANDS_H_ */

@@ -1,9 +1,12 @@
-#ifndef GNUMERIC_WORKBOOK_VIEW_H
-#define GNUMERIC_WORKBOOK_VIEW_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_WORKBOOK_VIEW_H_
+# define _GNM_WORKBOOK_VIEW_H_
 
 #include "gnumeric.h"
 #include <glib-object.h>
 #include <gsf/gsf.h>
+
+G_BEGIN_DECLS
 
 struct _WorkbookView {
 	GObject  base;
@@ -108,4 +111,6 @@ do {										\
 } while (0)
 
 
-#endif /* GNUMERIC_WORKBOOK_VIEW_H */
+G_END_DECLS
+
+#endif /* _GNM_WORKBOOK_VIEW_H_ */

@@ -1,7 +1,10 @@
-#ifndef GNUMERIC_CMD_EDIT_H
-#define GNUMERIC_CMD_EDIT_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_CMD_EDIT_H_
+# define _GNM_CMD_EDIT_H_
 
 #include "gnumeric.h"
+
+G_BEGIN_DECLS
 
 /* TODO : move these to selection */
 void sv_select_cur_row	   (SheetView *sv);
@@ -20,4 +23,6 @@ void cmd_shift_rows  (WorkbookControl *wbc, Sheet *sheet,
 		      int col,
 		      int start_row, int end_row, int count);
 
-#endif /* GNUMERIC_CMD_EDIT_H */
+G_END_DECLS
+
+#endif /* _GNM_CMD_EDIT_H_ */

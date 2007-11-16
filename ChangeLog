@@ -416,6 +416,13 @@
 	* src/sheet-object-image.c (so_image_view_set_bounds): Use
 	go_pixbuf_tile.
 
+2007-10-12  Jody Goldberg <jody@gnome.org>
+
+	* libspreadsheet-1.7.pc.in : Set the cflags to include the target, and
+	  subdir until we fix the header includes and rename /src.
+	  Add LIBDIR/include to cflags
+	  Add PluginDir.
+
 2007-09-29  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	* samples/chart-stripe-tests.gnumeric: add reference images.

@@ -1,5 +1,8 @@
-#ifndef GNM_SHEET_PRIVATE_H
-#define GNM_SHEET_PRIVATE_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_SHEET_PRIVATE_H_
+# define _GNM_SHEET_PRIVATE_H_
+
+G_BEGIN_DECLS
 
 struct _SheetPrivate {
 	GnmRange	 unhidden_region;
@@ -21,4 +24,6 @@ struct _SheetPrivate {
 void gnm_sheet_cell_init (void);
 void gnm_sheet_cell_shutdown (void);
 
-#endif /* GNM_SHEET_PRIVATE_H */
+G_END_DECLS
+
+#endif /* _GNM_SHEET_PRIVATE_H_ */

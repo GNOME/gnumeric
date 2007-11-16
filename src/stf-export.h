@@ -1,9 +1,12 @@
-#ifndef GNUMERIC_STF_EXPORT_H
-#define GNUMERIC_STF_EXPORT_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_STF_EXPORT_H_
+# define _GNM_STF_EXPORT_H_
 
 #include "gnumeric.h"
 #include <gsf/gsf-output-csv.h>
 #include <goffice/app/goffice-app.h>
+
+G_BEGIN_DECLS
 
 #define GNM_STF_EXPORT_TYPE        (gnm_stf_export_get_type ())
 #define GNM_STF_EXPORT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_STF_EXPORT_TYPE, GnmStfExport))
@@ -38,4 +41,6 @@ gboolean gnm_stf_export (GnmStfExport *export_options);
 
 GOFileSaver *gnm_stf_file_saver_new (gchar const *id);
 
-#endif
+G_END_DECLS
+
+#endif /* _GNM_STF_EXPORT_H_ */

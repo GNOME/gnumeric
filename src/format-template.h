@@ -1,7 +1,10 @@
-#ifndef GNUMERIC_FORMAT_TEMPLATE_H
-#define GNUMERIC_FORMAT_TEMPLATE_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_FORMAT_TEMPLATE_H_
+# define _GNM_FORMAT_TEMPLATE_H_
 
 #include "gnumeric.h"
+
+G_BEGIN_DECLS
 
 /*
  * FORMAT TEMPLATE RULES
@@ -143,4 +146,6 @@ TemplateMember *format_template_member_new (void);
 TemplateMember *format_template_member_clone (TemplateMember *member);
 void format_template_member_free (TemplateMember *member);
 
-#endif /* GNUMERIC_FORMAT_TEMPLATE_H */
+G_END_DECLS
+
+#endif /* _GNM_FORMAT_TEMPLATE_H_ */

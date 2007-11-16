@@ -1,6 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNUMERIC_XML_IO_VERSION_H
-#define GNUMERIC_XML_IO_VERSION_H
+#ifndef _GNM_XML_IO_VERSION_H_
+# define _GNM_XML_IO_VERSION_H_
+
+G_BEGIN_DECLS
 
 typedef enum
 {
@@ -23,4 +25,6 @@ typedef enum
 	GNM_XML_LATEST = GNM_XML_V13
 } GnumericXMLVersion;
 
-#endif /* GNUMERIC_XML_IO_VERSION_H */
+G_END_DECLS
+
+#endif /* _GNM_XML_IO_VERSION_H_ */

@@ -1,8 +1,11 @@
-#ifndef GNUMERIC_VALIDATION_H
-#define GNUMERIC_VALIDATION_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_VALIDATION_H_
+# define _GNM_VALIDATION_H_
 
 #include "gnumeric.h"
 #include "str.h"
+
+G_BEGIN_DECLS
 
 typedef enum {
 	VALIDATION_STATUS_VALID,		/* things validate */
@@ -68,4 +71,6 @@ ValidationStatus validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 				  Sheet *sheet, GnmCellPos const *pos,
 				  gboolean *showed_dialog);
 
-#endif /* GNUMERIC_VALIDATION_H */
+G_END_DECLS
+
+#endif /* _GNM_VALIDATION_H_ */

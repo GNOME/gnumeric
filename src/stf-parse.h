@@ -1,8 +1,11 @@
-#ifndef GNUMERIC_STF_PARSE_H
-#define GNUMERIC_STF_PARSE_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_STF_PARSE_H_
+# define _GNM_STF_PARSE_H_
 
 #include <glib.h>
 #include <gnumeric.h>
+
+G_BEGIN_DECLS
 
 typedef enum {
 	PARSE_TYPE_NOTSET    = 1 << 0,
@@ -117,4 +120,6 @@ GnmCellRegion	*stf_parse_region			(StfParseOptions_t *parseoptions,
 							 char const *data, char const *data_end,
 							 Workbook const *wb);
 
-#endif /* GNUMERIC_STF_PARSE_H */
+G_END_DECLS
+
+#endif /* _GNM_STF_PARSE_H_ */

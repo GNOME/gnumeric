@@ -7,31 +7,6 @@ change_logs = ChangeLog \
 	OChangeLog-2000-02-23 OChangeLog-2000-10-10  \
 	OChangeLog-2001-06-26
 
-# gnewdir = $(datadir)/mc/templates
-# gnew_in_files = gnumeric.desktop.in
-# gnew_DATA = gnumeric.desktop
-
-# Mimedir = $(datadir)/mime-info
-# Mime_DATA = gnumeric.keys gnumeric.mime
-
-# Old stale functionality
-#
-#if WITH_GNOME
-#serverdir = $(libdir)/bonobo/servers/
-#server_in_files = GNOME_Gnumeric.server.in
-#server_DATA	= GNOME_Gnumeric.server
-#GNOME_Gnumeric.server.in : GNOME_Gnumeric.server.in.in Makefile
-#	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
-#
-# @INTLTOOL_SERVER_RULE@
-#endif
-
-# Unused as far as I know
-#gnumeric.keys: gnumeric.keys.in Makefile
-#	sed -e 's^\@gnumeric_icondir\@^$(gnumeric_icondir)^g' < $(srcdir)/gnumeric.keys.in > gnumeric.keys.tmp \
-#	&& mv gnumeric.keys.tmp gnumeric.keys 
-#
-
 CLEANFILES = gnumeric.desktop gnumeric.keys
 DISTCLEANFILES = intltool-extract intltool-merge intltool-update
 
@@ -67,6 +42,15 @@ endif
 	sed -e 's/BUGZILLAVERSION/@VERSION@/' <$@.tmp2 >$@
 	rm -f $@.tmp $@.tmp2
 
+configexecincludedir = $(gnumeric_libdir)/include
+install-exec-local: gnumeric-features.h
+	$(mkinstalldirs) $(DESTDIR)$(configexecincludedir)
+	file=$(DESTDIR)$(configexecincludedir)/$< ; \
+	if test -r $$file && cmp -s $< $$file; then :; \
+	else $(INSTALL_DATA) $< $$file; fi
+
+uninstall-local:
+	rm -f $(DESTDIR)$(configexecincludedir)/gnumeric-features.h
 dist-hook:
 	mkdir $(distdir)/samples
 	cp $(srcdir)/samples/*gnumeric $(distdir)/samples	

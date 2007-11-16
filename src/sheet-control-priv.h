@@ -1,7 +1,10 @@
-#ifndef GNUMERIC_SHEET_CONTROL_PRIV_H
-#define GNUMERIC_SHEET_CONTROL_PRIV_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_SHEET_CONTROL_PRIV_H_
+# define _GNM_SHEET_CONTROL_PRIV_H_
 
 #include "sheet-control.h"
+
+G_BEGIN_DECLS
 
 struct _SheetControl {
 	GObject object;
@@ -39,4 +42,6 @@ typedef struct {
 
 #define SHEET_CONTROL_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_CONTROL_TYPE, SheetControlClass))
 
-#endif /* GNUMERIC_SHEET_CONTROL_PRIV_H */
+G_END_DECLS
+
+#endif /* _GNM_SHEET_CONTROL_PRIV_H_ */

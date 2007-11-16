@@ -1,12 +1,14 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNM_SHEET_H
-#define GNM_SHEET_H
+#ifndef _GNM_SHEET_H_
+# define _GNM_SHEET_H_
 
 #include "gnumeric.h"
 #include "colrow.h"
 #include "position.h"
 #include <pango/pango.h>
 #include <goffice/utils/go-undo.h>
+
+G_BEGIN_DECLS
 
 typedef struct _SheetPrivate SheetPrivate;
 typedef enum {
@@ -357,4 +359,6 @@ do {										\
 	}										\
   } while (0)
 
-#endif /* GNM_SHEET_H */
+G_END_DECLS
+
+#endif /* _GNM_SHEET_H_ */

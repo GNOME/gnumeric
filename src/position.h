@@ -1,7 +1,10 @@
-#ifndef GNUMERIC_POSITION_H
-#define GNUMERIC_POSITION_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_POSITION_H_
+# define _GNM_POSITION_H_
 
 #include "gnumeric.h"
+
+G_BEGIN_DECLS
 
 struct _GnmEvalPos {
 	GnmCellPos		  eval;
@@ -77,4 +80,6 @@ gint  gnm_cellpos_equal		(GnmCellPos const *a, GnmCellPos const *b);
 void  gnm_cellpos_init_cellref	(GnmCellPos *cp,
 				 GnmCellRef const *cr, GnmCellPos const *pos);
 
-#endif /* GNUMERIC_POSITION_H */
+G_END_DECLS
+
+#endif /* _GNM_POSITION_H_ */

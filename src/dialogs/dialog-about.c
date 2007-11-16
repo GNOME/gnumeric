@@ -374,7 +374,7 @@ dialog_about (WBCGtk *wbcg)
 			    GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
 	gog_dataset_set_dim (GOG_DATASET (tmp), 0,
 		go_data_scalar_str_new (
-			"Gnumeric " GNUMERIC_VERSION "\n"
+			"Gnumeric " GNM_VERSION_FULL "\n"
 			"Copyright \xc2\xa9 2001-2007 Jody Goldberg\n"
 			"Copyright \xc2\xa9 1998-2000 Miguel de Icaza", FALSE),
 		NULL);

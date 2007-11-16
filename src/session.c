@@ -20,7 +20,7 @@
 
 #include <gnumeric-config.h>
 
-#ifdef WITH_GNOME
+#ifdef GNM_WITH_GNOME
 #include "gnumeric.h"
 #include <gtk/gtk.h>
 #include <glib.h>
@@ -256,4 +256,4 @@ void
 gnm_session_init (char const *argv0)
 {
 }
-#endif /* WITH_GNOME */
+#endif /* GNM_WITH_GNOME */

@@ -1,8 +1,10 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNUMERIC_PIVOTTABLE_H
-#define GNUMERIC_PIVOTTABLE_H
+#ifndef _GNM_PIVOTTABLE_H_
+# define _GNM_PIVOTTABLE_H_
 
 #include "gnumeric.h"
+
+G_BEGIN_DECLS
 
 typedef enum {
 	GNM_PIVOT_FIELD_UNASSIGNED	= 0,
@@ -35,4 +37,6 @@ void		gnm_pivottable_link   (GnmPivotTable *filter);
 void		gnm_pivottable_unlink (GnmPivotTable *filter);
 #endif
 
-#endif /* GNUMERIC_PIVOTTABLE_H */
+G_END_DECLS
+
+#endif /* _GNM_PIVOTTABLE_H_ */

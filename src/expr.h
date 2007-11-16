@@ -1,6 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNM_EXPR_H
-#define GNM_EXPR_H
+#ifndef _GNM_EXPR_H_
+# define _GNM_EXPR_H_
+
+G_BEGIN_DECLS
 
 #include "gnumeric.h"
 #include "position.h"
@@ -169,4 +171,6 @@ GnmExprTop const *gnm_expr_sharer_share (GnmExprSharer *es, GnmExprTop const *te
 void expr_init (void);
 void expr_shutdown (void);
 
-#endif /* GNM_EXPR_H */
+G_END_DECLS
+
+#endif /* _GNM_EXPR_H_ */

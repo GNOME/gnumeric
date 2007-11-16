@@ -1,7 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
-#ifndef GNM_CONF_H
-#define GNM_CONF_H
+#ifndef _GNM_GCONF_H_
+# define _GNM_GCONF_H_
 
 #include "numbers.h"
 #include <gnumeric.h>
@@ -10,6 +9,8 @@
 #include <libgnumeric.h>
 #include <goffice/utils/go-geometry.h>
 #include <gtk/gtkprintsettings.h>
+
+G_BEGIN_DECLS
 
 typedef struct {
 	struct {
@@ -238,4 +239,6 @@ void	 go_conf_remove_monitor	(guint monitor_id);
 guint	 go_conf_add_monitor	(GOConfNode *node, gchar const *key,
 				 GOConfMonitorFunc monitor, gpointer data);
 
-#endif /* GNM_CONF_H */
+G_END_DECLS
+
+#endif /* _GNM_GCONF_H_ */

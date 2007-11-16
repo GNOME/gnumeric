@@ -1,8 +1,11 @@
-#ifndef GNUMERIC_SHEET_CONTROL_H
-#define GNUMERIC_SHEET_CONTROL_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_SHEET_CONTROL_H_
+# define _GNM_SHEET_CONTROL_H_
 
 #include "gnumeric.h"
 #include <glib-object.h>
+
+G_BEGIN_DECLS
 
 #define SHEET_CONTROL_TYPE	(sheet_control_get_type ())
 #define SHEET_CONTROL(obj)	(G_TYPE_CHECK_INSTANCE_CAST ((obj), SHEET_CONTROL_TYPE, SheetControl))
@@ -43,4 +46,6 @@ void sc_set_panes		(SheetControl *sc);
 void sc_object_create_view	(SheetControl *sc, SheetObject *so);
 void sc_scale_changed		(SheetControl *sc);
 
-#endif /* GNUMERIC_SHEET_CONTROL_H */
+G_END_DECLS
+
+#endif /* _GNM_SHEET_CONTROL_H_ */

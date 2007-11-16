@@ -1,8 +1,11 @@
-#ifndef GNUMERIC_PRINT_H
-#define GNUMERIC_PRINT_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_PRINT_H_
+# define _GNM_PRINT_H_
 
 #include "gnumeric.h"
 #include <gsf/gsf-output.h>
+
+G_BEGIN_DECLS
 
 #define GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY		"GnumericPrintRange"
 #define GNUMERIC_PRINT_SETTING_PRINT_FROM_SHEET_KEY	"GnumericPrintFromSheet"
@@ -24,4 +27,6 @@ void gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 /* Internal */
 extern gboolean gnm_print_debug;
 
-#endif /* GNUMERIC_PRINT_H */
+G_END_DECLS
+
+#endif /* _GNM_PRINT_H_ */

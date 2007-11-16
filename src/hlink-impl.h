@@ -1,8 +1,10 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNUMERIC_HLINK_IMPL_H
-#define GNUMERIC_HLINK_IMPL_H
+#ifndef _GNM_HLINK_IMPL_H_
+# define _GNM_HLINK_IMPL_H_
 
 #include "hlink.h"
+
+G_BEGIN_DECLS
 
 struct _GnmHLink {
 	GObject obj;
@@ -16,4 +18,6 @@ typedef struct {
 	gboolean (*Activate) (GnmHLink *link, WorkbookControl *wbc);
 } GnmHLinkClass;
 
-#endif /* GNUMERIC_HLINK_IMPL_H */
+G_END_DECLS
+
+#endif /* _GNM_HLINK_IMPL_H_ */

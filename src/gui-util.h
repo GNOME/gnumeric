@@ -1,5 +1,6 @@
-#ifndef GNUMERIC_GUI_UTIL_H
-#define GNUMERIC_GUI_UTIL_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_GUI_UTIL_H_
+# define _GNM_GUI_UTIL_H_
 
 #include "gui-gnumeric.h"
 #include "command-context.h"
@@ -17,6 +18,8 @@
 #include <gtk/gtktextview.h>
 #include <gtk/gtkentry.h>
 #include <glade/glade-xml.h>
+
+G_BEGIN_DECLS
 
 #define GNM_ACTION_DEF(name)			\
 	void name (GtkAction *a, WBCGtk *wbcg)
@@ -121,4 +124,6 @@ void gnm_dialog_setup_destroy_handlers (GtkDialog *dialog,
 					WBCGtk *wbcg,
 					GnmDialogDestroyOptions what);
 
-#endif /* GNUMERIC_GUI_UTIL_H */
+G_END_DECLS
+
+#endif /* _GNM_GUI_UTIL_H_ */

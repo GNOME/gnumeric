@@ -1,5 +1,8 @@
-#ifndef GNUMERIC_SYMBOL_H
-#define GNUMERIC_SYMBOL_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_SYMBOL_H_
+# define _GNM_SYMBOL_H_
+
+G_BEGIN_DECLS
 
 typedef enum {
 	SYMBOL_FUNCTION
@@ -27,4 +30,6 @@ Symbol      *symbol_install        (SymbolTable *st, char const *str,
 void         symbol_ref            (Symbol *sym);
 void         symbol_unref          (Symbol *sym);
 
-#endif /* GNUMERIC_SYMBOL_H */
+G_END_DECLS
+
+#endif /* _GNM_SYMBOL_H_ */

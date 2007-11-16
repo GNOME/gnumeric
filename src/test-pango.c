@@ -22,7 +22,7 @@
 #include <goffice/app/io-context.h>
 
 #include <gtk/gtkmain.h>
-#ifdef WITH_GNOME
+#ifdef GNM_WITH_GNOME
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-ui-main.h>
 #endif
@@ -80,7 +80,7 @@ main (int argc, char const **argv)
 
 	g_idle_add (cb_exercise_pango, wbc);
 
-#ifdef WITH_GNOME
+#ifdef GNM_WITH_GNOME
 	bonobo_main ();
 #else
 	gtk_main ();

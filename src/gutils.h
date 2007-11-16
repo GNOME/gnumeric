@@ -1,7 +1,10 @@
-#ifndef GNUMERIC_UTILS_H
-#define GNUMERIC_UTILS_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_GUTILS_H_
+# define _GNM_GUTILS_H_
 
 #include <goffice/utils/regutf8.h>
+
+G_BEGIN_DECLS
 
 void gutils_init (void);
 void gutils_shutdown (void);
@@ -22,4 +25,6 @@ typedef struct _GnmLocale GnmLocale;
 GnmLocale *gnm_push_C_locale (void);
 void	   gnm_pop_C_locale  (GnmLocale *locale);
 
-#endif /* GNUMERIC_UTILS_H */
+G_END_DECLS
+
+#endif /* _GNM_GUTILS_H_ */

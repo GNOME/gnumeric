@@ -79,7 +79,7 @@ typedef SheetObjectClass GnmSOLineClass;
 
 static SheetObjectClass *gnm_so_line_parent_class;
 
-#ifdef WITH_GTK
+#ifdef GNM_WITH_GTK
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
@@ -123,7 +123,7 @@ static GSF_CLASS_FULL (LineFooView, so_line_foo_view,
 	NULL, NULL, NULL, NULL,
 	NULL, FOO_TYPE_CANVAS_LINE, 0,
 	GSF_INTERFACE (so_line_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
-#endif /* WITH_GTK */
+#endif /* GNM_WITH_GTK */
 enum {
 	SOL_PROP_0,
 	SOL_PROP_STYLE,
@@ -143,7 +143,7 @@ sol_default_style (void)
 	return res;
 }
 
-#ifdef WITH_GTK
+#ifdef GNM_WITH_GTK
 #include <sheet-control-gui.h>
 #include <dialogs/dialogs.h>
 #include <gnumeric-simple-canvas.h>
@@ -202,7 +202,7 @@ gnm_so_line_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	return gnm_pane_object_register (so, item, TRUE);
 }
 
-#endif /* WITH_GTK */
+#endif /* GNM_WITH_GTK */
 
 static void
 gnm_so_line_draw_cairo (SheetObject const *so, cairo_t *cr,
@@ -461,11 +461,11 @@ gnm_so_line_class_init (GObjectClass *gobject_class)
 	so_class->rubber_band_directly  = TRUE;
 	so_class->xml_export_name	= "SheetObjectGraphic";
 
-#ifdef WITH_GTK
+#ifdef GNM_WITH_GTK
 	so_class->draw_cairo	= gnm_so_line_draw_cairo;
 	so_class->user_config		= gnm_so_line_user_config;
 	so_class->new_view		= gnm_so_line_new_view;
-#endif /* WITH_GTK */
+#endif /* GNM_WITH_GTK */
 
         g_object_class_install_property (gobject_class, SOL_PROP_STYLE,
                  g_param_spec_object ("style", NULL, NULL, GOG_STYLE_TYPE,

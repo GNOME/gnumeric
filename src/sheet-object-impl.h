@@ -1,6 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNUMERIC_SHEET_OBJECT_PRIV_H
-#define GNUMERIC_SHEET_OBJECT_PRIV_H
+#ifndef _GNM_SHEET_OBJECT_IMPL_H_
+# define _GNM_SHEET_OBJECT_IMPL_H_
+
+G_BEGIN_DECLS
 
 #include "sheet-object.h"
 #include <gsf/gsf-libxml.h>
@@ -166,4 +168,6 @@ struct _SheetObjectExportableIface {
 					   GsfOutput *output, GError **err);
 };
 
-#endif /* GNUMERIC_SHEET_OBJECT_PRIV_H */
+G_END_DECLS
+
+#endif /* _GNM_SHEET_OBJECT_IMPL_H_ */

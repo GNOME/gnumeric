@@ -1,5 +1,6 @@
-#ifndef GNUMERIC_XML_IO_H
-#define GNUMERIC_XML_IO_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_XML_IO_H_
+# define _GNM_XML_IO_H_
 
 #include <gnumeric.h>
 #include <xml-io-version.h>
@@ -8,6 +9,8 @@
 #include <gsf/gsf-libxml.h>
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
+
+G_BEGIN_DECLS
 
 struct _XmlParseContext {
 	xmlDocPtr doc;		/* Xml document */
@@ -63,4 +66,6 @@ Sheet	    *gnm_xml_in_cur_sheet (GsfXMLIn const *xin);
 
 GnmConventions *gnm_xml_io_conventions (void);
 
-#endif /* GNUMERIC_XML_IO_H */
+G_END_DECLS
+
+#endif /* _GNM_XML_IO_H_ */

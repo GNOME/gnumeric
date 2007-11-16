@@ -1,8 +1,11 @@
-#ifndef GNUMERIC_COMPLEX_H
-#define GNUMERIC_COMPLEX_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_COMPLEX_H_
+# define _GNM_COMPLEX_H_
 
 #include "numbers.h"
 #include <math.h>
+
+G_BEGIN_DECLS
 
 typedef struct {
 	gnm_float re, im;
@@ -200,4 +203,6 @@ GNUMERIC_COMPLEX_PROTO (void complex_tan (complex_t *dst, complex_t const *src))
 #undef GNUMERIC_COMPLEX_PROTO
 #undef GNUMERIC_COMPLEX_BODY
 
-#endif
+G_END_DECLS
+
+#endif /* _GNM_COMPLEX_H_ */

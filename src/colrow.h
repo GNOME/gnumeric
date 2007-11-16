@@ -1,7 +1,10 @@
-#ifndef GNM_COLROW_H
-#define GNM_COLROW_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_COLROW_H_
+# define _GNM_COLROW_H_
 
 #include "gnumeric.h"
+
+G_BEGIN_DECLS
 
 struct _ColRowInfo {
 	/* Size including margins, and right grid line */
@@ -145,4 +148,6 @@ void             colrow_autofit                 (Sheet *sheet,
 						 ColRowIndexList **indices,
 						 ColRowStateList **sizes);
 
-#endif /* GNM_COLROW_H */
+G_END_DECLS
+
+#endif /* _GNM_COLROW_H_ */

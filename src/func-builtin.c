@@ -127,7 +127,7 @@ static GnmFuncHelp const help_gnumeric_version[] = {
 static GnmValue *
 gnumeric_version (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_string (GNUMERIC_VERSION);
+	return value_new_string (GNM_VERSION_FULL);
 }
 
 /***************************************************************************/

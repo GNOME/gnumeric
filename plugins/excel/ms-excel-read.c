@@ -1120,7 +1120,8 @@ ms_biff_bof_data_new (BiffQuery *q)
 				     ans->version = MS_BIFF_V7;
 				     break;
 			default:
-				fprintf (stderr,"Unknown BIFF sub-number in BOF %x\n", q->opcode);
+				fprintf (stderr, "Unknown BIFF sub-number 0x%X in BOF %x\n",
+					 GSF_LE_GET_GUINT16 (q->non_decrypted_data), q->opcode);
 				ans->version = MS_BIFF_V_UNKNOWN;
 			}
 			break;

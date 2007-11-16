@@ -1,8 +1,11 @@
-#ifndef GNM_GRAPH_WINDOW_H
-#define GNM_GRAPH_WINDOW_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_GRAPH_WINDOW_H_
+# define _GNM_GRAPH_WINDOW_H_
 
 #include <gtk/gtkwidget.h>
 #include <goffice/graph/gog-graph.h>
+
+G_BEGIN_DECLS
 
 #define GNM_TYPE_GRAPH_WINDOW             (gnm_graph_window_get_type ())
 #define GNM_GRAPH_WINDOW(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNM_TYPE_GRAPH_WINDOW, GnmGraphWindow))
@@ -20,4 +23,6 @@ GtkWidget *gnm_graph_window_new (GogGraph *graph,
 				 double    graph_width,
 				 double    graph_height);
 
-#endif /* GNM_GRAPH_WINDOW_H */
+G_END_DECLS
+
+#endif /* _GNM_GRAPH_WINDOW_H_ */

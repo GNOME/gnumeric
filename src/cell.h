@@ -1,8 +1,11 @@
-#ifndef GNM_CELL_H
-#define GNM_CELL_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_CELL_H_
+# define _GNM_CELL_H_
 
 #include "gnumeric.h"
 #include "dependent.h"
+
+G_BEGIN_DECLS
 
 typedef enum {
 	/* MUST BE > 0xFFF,FFFF to avoid conflict with GnmDependent */
@@ -65,7 +68,7 @@ void gnm_cell_set_expr_and_value(GnmCell *c,
 				 GnmExprTop const *texpr, GnmValue *v,
 				 gboolean link_expr);
 void gnm_cell_set_expr		(GnmCell *c, GnmExprTop const *texpr);
-void gnm_cell_set_expr_unsafe 	(GnmCell *cell, GnmExprTop const *texpr);
+void gnm_cell_set_expr_unsafe	(GnmCell *cell, GnmExprTop const *texpr);
 void gnm_cell_set_array_formula	(Sheet *sheet,
 				 int cola, int rowa, int colb, int rowb,
 				 GnmExprTop const *texpr);
@@ -87,4 +90,6 @@ GOColor gnm_cell_get_render_color	(GnmCell const * cell);
 char *	gnm_cell_get_entered_text	(GnmCell const * cell);
 char *  gnm_cell_get_rendered_text	(GnmCell *cell);
 
-#endif /* GNM_CELL_H */
+G_END_DECLS
+
+#endif /* _GNM_CELL_H_ */

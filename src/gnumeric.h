@@ -1,9 +1,12 @@
-#ifndef GNUMERIC_H
-#define GNUMERIC_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_GNUMERIC_H_
+# define _GNM_GNUMERIC_H_
 
 #include <glib.h>
 #include <goffice/app/goffice-app.h>
 #include <goffice/utils/goffice-utils.h>
+
+G_BEGIN_DECLS
 
 #define SHEET_MAX_ROWS		(16*16*16*16)	/* 0, 1, ... */
 #define SHEET_MAX_COLS		(4*4*4*4)	/* 0, 1, ... */
@@ -167,4 +170,6 @@ typedef struct _GnmInputMsg		GnmInputMsg;
 typedef struct _PrintInformation        PrintInformation;
 typedef struct _SolverParameters	SolverParameters;
 
-#endif /* GNUMERIC_H */
+G_END_DECLS
+
+#endif /* _GNM_GNUMERIC_H_ */

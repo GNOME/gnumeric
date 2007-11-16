@@ -1,11 +1,13 @@
-#ifndef GNUMERIC_EXPR_IMPL_H
-#define GNUMERIC_EXPR_IMPL_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_EXPR_IMPL_H_
+# define _GNM_EXPR_IMPL_H_
 
 #include "gnumeric.h"
 #include "numbers.h"
 #include "parse-util.h"
 
 
+G_BEGIN_DECLS
 
 struct _GnmExprConstant {
 	guint8 oper;
@@ -89,4 +91,6 @@ struct _GnmExprSharer {
 };
 
 
-#endif /* GNUMERIC_EXPR_IMPL_H */
+G_END_DECLS
+
+#endif /* _GNM_EXPR_IMPL_H_ */

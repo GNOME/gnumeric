@@ -1,8 +1,11 @@
-#ifndef GNUMERIC_SELECTION_H
-#define GNUMERIC_SELECTION_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_SELECTION_H_
+# define _GNM_SELECTION_H_
 
 #include "gnumeric.h"
 #include <goffice/graph/goffice-graph.h>
+
+G_BEGIN_DECLS
 
 typedef enum {
 	COL_ROW_NO_SELECTION,
@@ -62,4 +65,6 @@ gboolean sv_selection_foreach	 (SheetView *sv,
 				  GnmSelectionFunc handler,
 				  gpointer user_data);
 
-#endif /* GNUMERIC_SELECTION_H */
+G_END_DECLS
+
+#endif /* _GNM_SELECTION_H_ */

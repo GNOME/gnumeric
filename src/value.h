@@ -1,11 +1,13 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNM_VALUE_H
-#define GNM_VALUE_H
+#ifndef _GNM_VALUE_H_
+# define _GNM_VALUE_H_
 
 #include "gnumeric.h"
 #include "position.h"
 #include "numbers.h"
 #include <glib-object.h>
+
+G_BEGIN_DECLS
 
 typedef enum {
 	/* Use magic values to act as a signature
@@ -213,4 +215,6 @@ int     find_column_of_field	(GnmEvalPos const *ep,
 void value_init     (void);
 void value_shutdown (void);
 
-#endif /* GNM_VALUE_H */
+G_END_DECLS
+
+#endif /* _GNM_VALUE_H_ */

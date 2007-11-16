@@ -1,9 +1,12 @@
-#ifndef GNM_FORMAT_H
-#define GNM_FORMAT_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_FORMAT_H_
+# define _GNM_FORMAT_H_
 
 #include "gnumeric.h"
 #include <goffice/utils/go-format.h>
 #include <pango/pango.h>
+
+G_BEGIN_DECLS
 
 char  *format_value	    (GOFormat const *format,
 			     GnmValue const *value, GOColor *go_color,
@@ -59,4 +62,6 @@ gboolean gnm_format_has_hour (GOFormat const *fmt,
 
 
 
-#endif /* GNM_FORMAT_H */
+G_END_DECLS
+
+#endif /* _GNM_FORMAT_H_ */

@@ -54,9 +54,9 @@ gutils_init (void)
 #ifdef G_OS_WIN32
 	gchar *dir = g_win32_get_package_installation_directory (NULL, NULL);
 	priv_lib_dir = gnumeric_lib_dir = g_build_filename (dir,
-		"lib", "gnumeric", GNUMERIC_VERSION, NULL);
+		"lib", "gnumeric", GNM_VERSION_FULL, NULL);
 	priv_data_dir = gnumeric_data_dir = g_build_filename (dir,
-		"share", "gnumeric", GNUMERIC_VERSION, NULL);
+		"share", "gnumeric", GNM_VERSION_FULL, NULL);
 	gnumeric_icon_dir = g_build_filename (dir,
 		"share", "pixmaps", "gnumeric", NULL);
 	gnumeric_locale_dir = g_build_filename (dir,
@@ -65,7 +65,7 @@ gutils_init (void)
 #endif
 	home_dir = g_get_home_dir ();
 	gnumeric_usr_dir = (home_dir == NULL ? NULL :
-	   g_build_filename (home_dir, ".gnumeric", GNUMERIC_VERSION, NULL));
+	   g_build_filename (home_dir, ".gnumeric", GNM_VERSION_FULL, NULL));
 }
 
 void

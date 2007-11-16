@@ -7,6 +7,11 @@
 	* html_read.c (html_read_row): Really use the first url when
 	multiple urls in cell, not the last.
 
+2007-10-15  Jody Goldberg <jody@gnome.org>
+
+	Patch from editgrid.  
+	* latex.c (latex2e_find_vline) : Don't look for borders past max col.
+
 2007-10-21  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.13

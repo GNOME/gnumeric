@@ -1,11 +1,13 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNM_PANE_H
-#define GNM_PANE_H
+#ifndef _GNM_PANE_H_
+# define _GNM_PANE_H_
 
 #include "gui-gnumeric.h"
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
 #include "gui-util.h"
+
+G_BEGIN_DECLS
 
 #define GNM_PANE_TYPE	(gnm_pane_get_type ())
 #define GNM_PANE(o)	(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_PANE_TYPE, GnmPane))
@@ -114,4 +116,6 @@ void gnm_pane_window_to_coord   (GnmPane *pane,
 #define gnm_pane_x_w2c(pane,x) 	((pane)->simple.scg->sheet_control.sheet->text_is_rtl) ? \
 	gnm_foo_canvas_x_w2c ((FooCanvas *) (pane), (x)) : (x)
 
-#endif /* GNM_PANE_H */
+G_END_DECLS
+
+#endif /* _GNM_PANE_H_ */

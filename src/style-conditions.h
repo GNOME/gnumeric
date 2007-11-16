@@ -1,7 +1,10 @@
-#ifndef GNM_STYLE_CONDITIONS_H
-#define GNM_STYLE_CONDITIONS_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_STYLE_CONDITIONS_H_
+# define _GNM_STYLE_CONDITIONS_H_
 
 #include "gnumeric.h"
+
+G_BEGIN_DECLS
 
 /* This is persisted directly in .gnumeric files, DO NOT REMOVE OR REORDER */
 typedef enum {
@@ -49,4 +52,6 @@ GPtrArray    *gnm_style_conditions_overlay (GnmStyleConditions const *sc,
 int	      gnm_style_conditions_eval    (GnmStyleConditions const *sc,
 					    GnmEvalPos const *pos);
 
-#endif /* GNM_STYLE_CONDITIONS_H */
+G_END_DECLS
+
+#endif /* _GNM_STYLE_CONDITIONS_H_ */

@@ -1,8 +1,11 @@
-#ifndef GNUMERIC_COMPLETE_SHEET_H
-#define GNUMERIC_COMPLETE_SHEET_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_COMPLETE_SHEET_H_
+# define _GNM_COMPLETE_SHEET_H_
 
 #include "gnumeric.h"
 #include "complete.h"
+
+G_BEGIN_DECLS
 
 #define COMPLETE_SHEET_TYPE        (complete_sheet_get_type ())
 #define COMPLETE_SHEET(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), COMPLETE_SHEET_TYPE, CompleteSheet))
@@ -33,4 +36,6 @@ Complete *complete_sheet_new      (Sheet *sheet, int col, int row,
 				   CompleteMatchNotifyFn notify,
 				   void *notify_closure);
 
-#endif /* GNUMERIC_COMPLETE_H */
+G_END_DECLS
+
+#endif /* _GNM_COMPLETE_SHEET_H_ */

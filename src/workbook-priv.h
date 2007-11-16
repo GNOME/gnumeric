@@ -1,10 +1,13 @@
-#ifndef GNUMERIC_WORKBOOK_PRIV_H
-#define GNUMERIC_WORKBOOK_PRIV_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_WORKBOOK_PRIV_H_
+# define _GNM_WORKBOOK_PRIV_H_
 
 #include "workbook.h"
 #include <goffice/app/file.h>
 #include <goffice/app/go-doc-impl.h>
 #include <goffice/utils/datetime.h>
+
+G_BEGIN_DECLS
 
 struct _Workbook {
 	GODoc	doc;
@@ -90,4 +93,6 @@ do {										\
 	});								\
   } while (0)
 
-#endif /* GNUMERIC_WORKBOOK_PRIV_H */
+G_END_DECLS
+
+#endif /* _GNM_WORKBOOK_PRIV_H_ */

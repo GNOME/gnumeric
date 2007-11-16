@@ -615,7 +615,7 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->tab_color = NULL;
 	sheet->tab_text_color = NULL;
 	sheet->visibility = GNM_SHEET_VISIBILITY_VISIBLE;
-#ifdef WITH_GTK
+#ifdef GNM_WITH_GTK
 	sheet->text_is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);
 #else
 	sheet->text_is_rtl = FALSE;

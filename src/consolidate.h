@@ -1,9 +1,12 @@
-#ifndef GNUMERIC_CONSOLIDATE_H
-#define GNUMERIC_CONSOLIDATE_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_CONSOLIDATE_H_
+# define _GNM_CONSOLIDATE_H_
 
 #include "gnumeric.h"
 #include <tools/dao.h>
 #include <tools/tools.h>
+
+G_BEGIN_DECLS
 
 typedef enum {
 	/*
@@ -50,4 +53,6 @@ gboolean     consolidate_check_destination (GnmConsolidate *cs,
 gboolean tool_consolidate_engine (data_analysis_output_t *dao, gpointer specs,
 			     analysis_tool_engine_t selector, gpointer result);
 
-#endif
+G_END_DECLS
+
+#endif /* _GNM_CONSOLIDATE_H_ */

@@ -1521,7 +1521,7 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 				c->type = SolverLE;
 				break;
 			}
-#ifdef ENABLE_SOLVER
+#ifdef GNM_ENABLE_SOLVER
 			c->str = write_constraint_str (c->lhs.col, c->lhs.row,
 						       c->rhs.col, c->rhs.row,
 						       c->type, c->cols, c->rows);

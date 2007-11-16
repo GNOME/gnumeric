@@ -1,8 +1,11 @@
-#ifndef GNUMERIC_CLIPBOARD_H
-#define GNUMERIC_CLIPBOARD_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_CLIPBOARD_H_
+# define _GNM_CLIPBOARD_H_
 
 #include "gnumeric.h"
 #include <goffice/utils/go-undo.h>
+
+G_BEGIN_DECLS
 
 enum {
 	PASTE_CONTENTS		= 1 << 0, /* either CONTENTS or AS_VALUES */
@@ -97,4 +100,6 @@ void clipboard_init (void);
 void clipboard_shutdown (void);
 
 
-#endif /* GNUMERIC_CLIPBOARD_H */
+G_END_DECLS
+
+#endif /* _GNM_CLIPBOARD_H_ */

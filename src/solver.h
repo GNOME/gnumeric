@@ -1,32 +1,12 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/*
- * solver.h: Solver's APIs and data structures.
- *
- * Author:
- *  Jukka-Pekka Iivonen <iivonen@iki.fi>
- *
- * (C) Copyright 2000, 2002 by Jukka-Pekka Iivonen <iivonen@iki.fi>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- */
-#ifndef GNUMERIC_SOLVER_H
-#define GNUMERIC_SOLVER_H 1
+#ifndef _GNM_SOLVER_H_
+# define _GNM_SOLVER_H_
 
 #include "gnumeric.h"
 #include "numbers.h"
 
+
+G_BEGIN_DECLS
 
 #define SOLVER_MAX_TIME_ERR _("The maximum time exceeded. The optimal value could not be found in given time.")
 
@@ -93,7 +73,7 @@ typedef struct {
 	char                 *str;		/* the same in string form */
 } SolverConstraint;
 
-#ifdef ENABLE_SOLVER
+#ifdef GNM_ENABLE_SOLVER
 
 typedef enum {
 	SolverRunning, SolverOptimal, SolverUnbounded, SolverInfeasible,
@@ -266,7 +246,7 @@ void              solver_insert_rows    (Sheet *sheet, int row, int count);
 void              solver_delete_rows    (Sheet *sheet, int row, int count);
 void              solver_delete_cols    (Sheet *sheet, int col, int count);
 
-#else /* !ENABLE_SOLVER */
+#else /* !GNM_ENABLE_SOLVER */
 
 #define solver_param_new() NULL
 #define solver_lp_copy(src_param, new_sheet) NULL
@@ -279,4 +259,6 @@ void              solver_delete_cols    (Sheet *sheet, int col, int count);
 
 #endif
 
-#endif
+G_END_DECLS
+
+#endif /* _GNM_SOLVER_H_ */

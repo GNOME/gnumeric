@@ -117,7 +117,7 @@ static const GOptionEntry ssconvert_options [] = {
 
 	/* ---------------------------------------- */
 
-	/* For now this is for INTERNAL GNUMERIC ONLY.  */
+	/* For now this is for INTERNAL GNM_VERSION_FULL ONLY.  */
 	{
 		"export-range", 0,
 		G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_STRING, &ssconvert_range,
@@ -371,7 +371,7 @@ main (int argc, char const **argv)
 
 	if (ssconvert_show_version) {
 		g_print (_("ssconvert version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
-			 GNUMERIC_VERSION, gnm_sys_data_dir (), gnm_sys_lib_dir ());
+			 GNM_VERSION_FULL, gnm_sys_data_dir (), gnm_sys_lib_dir ());
 		return 0;
 	}
 

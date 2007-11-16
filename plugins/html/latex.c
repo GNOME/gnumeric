@@ -669,13 +669,15 @@ latex2e_find_vline (int col, int row, Sheet *sheet, GnmStyleElement which_border
 		return border->line_type;
 
 	if (which_border == MSTYLE_BORDER_LEFT) {
-		if (col < 1)
+		if (col <= 0)
 			return GNM_STYLE_BORDER_NONE;
 		style = sheet_style_get (sheet, col - 1, row);
 		border = gnm_style_get_border (style, MSTYLE_BORDER_RIGHT);
 		return ((gnm_style_border_is_blank (border)) ? GNM_STYLE_BORDER_NONE :
 			border->line_type);
 	} else {
+		if ((col+1) >= colrow_max (TRUE))
+		    return GNM_STYLE_BORDER_NONE;
 		style = sheet_style_get (sheet, col + 1, row);
 		border = gnm_style_get_border (style, MSTYLE_BORDER_LEFT);
 		return ((gnm_style_border_is_blank (border)) ? GNM_STYLE_BORDER_NONE :

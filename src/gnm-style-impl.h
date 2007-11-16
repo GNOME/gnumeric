@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNM_STYLE_IMPL_H
-#define GNM_STYLE_IMPL_H
+#ifndef _GNM_STYLE_IMPL_H_
+# define _GNM_STYLE_IMPL_H_
 
 #include "str.h"
 #include "style-border.h"
@@ -9,6 +9,8 @@
 #include "validation.h"
 #include "pattern.h"
 #include <goffice/utils/go-format.h>
+
+G_BEGIN_DECLS
 
 struct _GnmStyle {
 	unsigned int	changed;
@@ -76,4 +78,6 @@ struct _GnmStyle {
 				case MSTYLE_BORDER_DIAGONAL: \
 				case MSTYLE_BORDER_REV_DIAGONAL
 
-#endif /* GNM_STYLE_IMPL_H */
+G_END_DECLS
+
+#endif /* _GNM_STYLE_IMPL_H_ */

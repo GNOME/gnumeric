@@ -1,10 +1,12 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-#ifndef GNM_PANE_IMPL_H
-#define GNM_PANE_IMPL_H
+#ifndef _GNM_PANE_IMPL_H_
+# define _GNM_PANE_IMPL_H_
 
 #include <src/gnm-pane.h>
 #include <src/gnumeric-simple-canvas.h>
 #include <gtk/gtkimmulticontext.h>
+
+G_BEGIN_DECLS
 
 #define GNM_PANE_MAX_X 1000000
 #define GNM_PANE_MAX_Y 6000000
@@ -72,4 +74,6 @@ struct _GnmPane {
 	GtkWidget       *size_tip;
 };
 
-#endif /* GNM_PANE_IMPL_H */
+G_END_DECLS
+
+#endif /* _GNM_PANE_IMPL_H_ */

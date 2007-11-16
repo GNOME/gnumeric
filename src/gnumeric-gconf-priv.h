@@ -1,5 +1,8 @@
-#ifndef GNM_CONF_PRIV_H
-#define GNM_CONF_PRIV_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_GCONF_PRIV_H_
+# define _GNM_GCONF_PRIV_H_
+
+G_BEGIN_DECLS
 
 /*
  *  Note: This file must stay synchronized with the corresponding schema file!
@@ -128,4 +131,6 @@
 #define PLUGIN_GCONF_LATEX		"plugin/latex"
 #define PLUGIN_GCONF_LATEX_USE_UTF8	"use-utf8"
 
-#endif /* GNM_CONF_PRIV_H */
+G_END_DECLS
+
+#endif /* _GNM_GCONF_PRIV_H_ */

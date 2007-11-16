@@ -1,8 +1,11 @@
-#ifndef GNM_PARSE_UTIL_H
-# define GNM_PARSE_UTIL_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_PARSE_UTIL_H_
+# define _GNM_PARSE_UTIL_H_
 
 #include "gnumeric.h"
 #include "libgnumeric.h"
+
+G_BEGIN_DECLS
 
 char const *col_name  (int col);
 char const *cols_name (int start_col, int end_col);
@@ -203,4 +206,6 @@ void	    parse_text_value_or_expr (GnmParsePos const *pos,
 
 GString	*gnm_expr_conv_quote (GnmConventions const *conv, char const *str);
 
-#endif /* GNM_PARSE_UTIL_H */
+G_END_DECLS
+
+#endif /* _GNM_PARSE_UTIL_H_ */

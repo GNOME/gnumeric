@@ -1,8 +1,11 @@
-#ifndef GNUMERIC_SHEET_OBJECT_WIDGET_H
-#define GNUMERIC_SHEET_OBJECT_WIDGET_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_SHEET_OBJECT_WIDGET_H_
+# define _GNM_SHEET_OBJECT_WIDGET_H_
 
 #include "sheet-object.h"
 #include <pango/pango-attributes.h>
+
+G_BEGIN_DECLS
 
 void sheet_object_widget_register (void);
 
@@ -38,4 +41,6 @@ void sheet_widget_radio_button_set_label (SheetObject *so, char const *str);
 
 void sheet_widget_button_set_markup      (SheetObject *so, PangoAttrList *markup);
 
-#endif /* GNUMERIC_SHEET_OBJECT_WIDGET_H */
+G_END_DECLS
+
+#endif /* _GNM_SHEET_OBJECT_WIDGET_H_ */

@@ -1,9 +1,12 @@
-#ifndef GNUMERIC_APPLICATION_H
-#define GNUMERIC_APPLICATION_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_APPLICATION_H_
+# define _GNM_APPLICATION_H_
 
 #include "gnumeric.h"
 #include <glib-object.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+
+G_BEGIN_DECLS
 
 #define GNM_APP_TYPE	(gnm_app_get_type ())
 typedef gboolean (*GnmWbIterFunc) (Workbook *, gpointer data);
@@ -98,4 +101,6 @@ void	   gnm_app_foreach_extra_ui (GFunc func, gpointer data);
 /* internal implementation util */
 void _gnm_app_flag_windows_changed (void);
 
-#endif /* GNUMERIC_APPLICATION_H */
+G_END_DECLS
+
+#endif /* _GNM_APPLICATION_H_ */

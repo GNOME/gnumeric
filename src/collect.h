@@ -1,8 +1,11 @@
-#ifndef GNUMERIC_COLLECT_H
-#define GNUMERIC_COLLECT_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_COLLECT_H_
+# define _GNM_COLLECT_H_
 
 #include "numbers.h"
 #include "gnumeric.h"
+
+G_BEGIN_DECLS
 
 typedef enum {
 	COLLECT_IGNORE_STRINGS	= 0x01,
@@ -59,4 +62,6 @@ GSList *gnm_slist_sort_merge (GSList * list_1, GSList * list_2);
 
 GArray *gnm_strip_missing (GArray * data, GSList **missing);
 
-#endif
+G_END_DECLS
+
+#endif /* _GNM_COLLECT_H_ */

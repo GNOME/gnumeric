@@ -1,9 +1,13 @@
-#ifndef GNUMERIC_NUMBERS_H
-#define GNUMERIC_NUMBERS_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_NUMBERS_H_
+# define _GNM_NUMBERS_H_
 
-#include <gnumeric-config.h>
+#include <gnumeric-features.h>
 #include <goffice/math/go-math.h>
 
+G_BEGIN_DECLS
+
+/* WARNING : Any preprocessor conditionals in here must also be placed in libspreadsheet-config.h */
 #ifdef HAVE_IEEEFP_H
 #include <ieeefp.h>
 #endif
@@ -186,4 +190,6 @@ typedef double gnm_float;
 
 #endif
 
-#endif /* GNUMERIC_NUMBERS_H */
+G_END_DECLS
+
+#endif /* _GNM_NUMBERS_H_ */

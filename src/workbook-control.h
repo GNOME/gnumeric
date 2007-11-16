@@ -1,9 +1,12 @@
-#ifndef GNUMERIC_WORKBOOK_CONTROL_H
-#define GNUMERIC_WORKBOOK_CONTROL_H
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+#ifndef _GNM_WORKBOOK_CONTROL_H_
+# define _GNM_WORKBOOK_CONTROL_H_
 
 #include "gnumeric.h"
 #include "validation.h"
 #include <glib-object.h>
+
+G_BEGIN_DECLS
 
 #define WORKBOOK_CONTROL_TYPE     (workbook_control_get_type ())
 #define WORKBOOK_CONTROL(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), WORKBOOK_CONTROL_TYPE, WorkbookControl))
@@ -76,4 +79,6 @@ SheetView    *wb_control_cur_sheet_view	(WorkbookControl const *wbc);
 
 gboolean      wb_control_parse_and_jump (WorkbookControl *wbc, char const *text);
 
-#endif /* GNUMERIC_WORKBOOK_CONTROL_H */
+G_END_DECLS
+
+#endif /* _GNM_WORKBOOK_CONTROL_H_ */

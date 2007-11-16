@@ -60,7 +60,7 @@ typedef struct {
 } GnmSOFilled;
 typedef SheetObjectClass GnmSOFilledClass;
 
-#ifdef WITH_GTK
+#ifdef GNM_WITH_GTK
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 static void
 so_filled_view_destroy (SheetObjectView *sov)
@@ -124,7 +124,7 @@ static GSF_CLASS_FULL (FilledFooView, so_filled_foo_view,
 	NULL, NULL, NULL, NULL,
 	NULL, FOO_TYPE_CANVAS_GROUP, 0,
 	GSF_INTERFACE (so_filled_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
-#endif /* WITH_GTK */
+#endif /* GNM_WITH_GTK */
 
 /*****************************************************************************/
 
@@ -152,7 +152,7 @@ sof_default_style (void)
 }
 
 /*****************************************************************************/
-#ifdef WITH_GTK
+#ifdef GNM_WITH_GTK
 #include <sheet-control-gui.h>
 #include <dialogs/dialogs.h>
 #include <gnumeric-simple-canvas.h>
@@ -244,7 +244,7 @@ gnm_so_filled_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	return gnm_pane_object_register (so, FOO_CANVAS_ITEM (group), TRUE);
 }
 
-#endif /* WITH_GTK */
+#endif /* GNM_WITH_GTK */
 
 static void
 gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
@@ -484,10 +484,10 @@ gnm_so_filled_class_init (GObjectClass *gobject_class)
 	so_class->rubber_band_directly	= TRUE;
 	so_class->xml_export_name	= "SheetObjectFilled";
 
-#ifdef WITH_GTK
+#ifdef GNM_WITH_GTK
 	so_class->new_view		= gnm_so_filled_new_view;
 	so_class->user_config		= gnm_so_filled_user_config;
-#endif /* WITH_GTK */
+#endif /* GNM_WITH_GTK */
 
 	so_class->draw_cairo	= gnm_so_filled_draw_cairo;
 
