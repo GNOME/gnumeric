@@ -42,6 +42,7 @@ Morten:
 	* Plug excel exporter leaks.  [#497191]
 	* Make sure =<right> produces a relative address.
 	* Improve recent-files integration.
+	* Fix CHITEST crash.  [#497477]
 
 Oliver Burnett-Hall:
        * Fix R1C1 issued with defined names.  [#409997]  [#494318]

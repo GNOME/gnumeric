@@ -1491,6 +1491,10 @@ gnumeric_chitest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (ret != NULL)
 		return value_new_error_NUM (ei->pos);
 
+	/* This fixes 497477 -- no idea if it is right.  */
+	if (p1.columns == NULL)
+		return value_new_error_NUM (ei->pos);
+
 	p2.sum = 0;
 	p2.current_cell = p1.columns->data;
 	p2.next_col = p1.columns->next;
@@ -1507,7 +1511,7 @@ gnumeric_chitest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/* FIXME : XL docs claim df = (r-1)(c-1) not (r-1),
 	 * However, that makes no sense.
 	 */
-	return value_new_float (pchisq (p2.sum, (p1.rows - 1), FALSE, FALSE));
+	return value_new_float (pchisq (p2.sum, p1.rows - 1, FALSE, FALSE));
 }
 
 /***************************************************************************/
