@@ -1087,6 +1087,16 @@ hf_insert_time_cb (GtkWidget *widget, HFCustomizeState *hf_state)
 }
 
 static void
+hf_insert_cell_cb (GtkWidget *widget, HFCustomizeState *hf_state)
+{
+	char *options;
+	options = g_object_get_data (G_OBJECT (widget), "options");
+	if (options == NULL)
+		options = g_strdup ("A1");
+	hf_insert_hf_tag (hf_state, HF_FIELD_CELL, options);
+}
+
+static void
 hf_insert_page_cb (HFCustomizeState *hf_state)
 {
 	hf_insert_hf_tag (hf_state, HF_FIELD_PAGE, NULL);
@@ -1479,6 +1489,43 @@ hf_attach_insert_time_menu (GtkMenuToolButton *button, HFCustomizeState* hf_stat
 	gtk_widget_show_all (menu);
 }
 
+static void
+hf_attach_insert_cell_menu (GtkMenuToolButton *button, HFCustomizeState* hf_state)
+{
+	GtkWidget *menu = NULL;
+	GtkWidget *item = NULL;
+
+	g_signal_connect 
+		(G_OBJECT (button),
+		 "clicked", G_CALLBACK (hf_insert_cell_cb), hf_state);
+
+	menu = gtk_menu_new ();
+
+	item = gtk_menu_item_new_with_label (("A1 (first cell of the page area)"));
+	g_signal_connect 
+		(G_OBJECT (item),
+		 "activate", G_CALLBACK (hf_insert_cell_cb), hf_state);
+	g_object_set_data_full (G_OBJECT (item), "options", g_strdup("A1"), g_free);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	item = gtk_menu_item_new_with_label (_("$A$1 (first cell of this worksheet)"));
+	g_signal_connect
+		(G_OBJECT (item),
+		 "activate", G_CALLBACK (hf_insert_cell_cb), hf_state);
+	g_object_set_data_full (G_OBJECT (item), "options", g_strdup("$A$1"), g_free);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	item = gtk_menu_item_new_with_label (("First Printed Cell Of The Page)"));
+	g_signal_connect 
+		(G_OBJECT (item),
+		 "activate", G_CALLBACK (hf_insert_cell_cb), hf_state);
+	g_object_set_data_full (G_OBJECT (item), "options", g_strdup("rep|A1"), g_free);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	gtk_menu_tool_button_set_menu (button, menu);
+	gtk_widget_show_all (menu);
+}
+
 /*
  * Open up a DIALOG to allow the user to customize the header
  * or the footer.
@@ -1628,6 +1675,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 
 	button = GTK_TOOL_BUTTON (glade_xml_get_widget (gui, "insert-cell-button"));
 	gtk_tool_button_set_stock_id (button, "Gnumeric_Pagesetup_HF_Cell");
+	hf_attach_insert_cell_menu (GTK_MENU_TOOL_BUTTON (button), hf_state);
 	
 
 	/* Let them begin typing into the first entry widget. */

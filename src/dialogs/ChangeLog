@@ -1,3 +1,10 @@
+2007-11-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* hf-config.glade: enable all toolbar buttons
+	* dialog-printer-setup.c (hf_insert_cell_cb): new
+	(hf_attach_insert_cell_menu): new
+	(do_hf_customize): hook-up the above
+	
 2007-11-16  Morten Welinder  <terra@gnome.org>
 
 	* dialog-preferences.c (cb_workbook_removed): New handler to close
