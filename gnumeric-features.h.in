@@ -1,0 +1,139 @@
+#ifndef _LIBSPREADSHEET_CONFIG_H_
+#define _LIBSPREADSHEET_CONFIG_H_
+
+/* Manually maintained to hold any compile time flags necessary to use the ABI
+ * of libspreadsheet */
+
+/* The Epoch of this release */
+#undef GNM_VERSION_EPOCH
+/* Extra, possibly empty tag for this release */
+#undef GNM_VERSION_EXTRA
+/* The Major version number of this release */
+#undef GNM_VERSION_MAJOR
+/* The Minor version number of this release */
+#undef GNM_VERSION_MINOR
+/* The version number of this release, with optional extra suffix */
+#undef GNM_VERSION_FULL
+
+/* Define if GNOME extensions are available */
+#undef GNM_WITH_GNOME
+/* Define if UI is built */
+#undef GNM_WITH_GTK
+/* Build with Maemo/Hildon support */
+#undef GNM_USE_HILDON
+/* Define if the long double type is to be used */
+#undef GNM_WITH_LONG_DOUBLE
+/* Define if SOLVER is compiled */
+#undef GNM_ENABLE_SOLVER
+
+/* Define to 1 if you have the <ieeefp.h> header file. */
+#undef HAVE_IEEEFP_H
+
+/* Define to 1 if you have the <ieee754.h> header file. */
+#undef HAVE_IEEE754_H
+
+/* Define to 1 if you have the <sunmath.h> header file. */
+#undef HAVE_SUNMATH_H
+
+/* Define to 1 if you have the `acoshl' function. */
+#undef HAVE_ACOSHL
+
+/* Define to 1 if you have the `acosl' function. */
+#undef HAVE_ACOSL
+
+/* Define to 1 if you have the `asinhl' function. */
+#undef HAVE_ASINHL
+
+/* Define to 1 if you have the `asinl' function. */
+#undef HAVE_ASINL
+
+/* Define to 1 if you have the `atan2l' function. */
+#undef HAVE_ATAN2L
+
+/* Define to 1 if you have the `atanhl' function. */
+#undef HAVE_ATANHL
+
+/* Define to 1 if you have the `atanl' function. */
+#undef HAVE_ATANL
+
+/* Define to 1 if you have the `ceill' function. */
+#undef HAVE_CEILL
+
+/* Define to 1 if you have the `coshl' function. */
+#undef HAVE_COSHL
+
+/* Define to 1 if you have the `cosl' function. */
+#undef HAVE_COSL
+
+/* Define to 1 if you have the `expl' function. */
+#undef HAVE_EXPL
+
+/* Define to 1 if you have the `expm1l' function. */
+#undef HAVE_EXPM1L
+
+/* Define to 1 if you have the `fabsl' function. */
+#undef HAVE_FABSL
+
+/* Define to 1 if you have the `finitel' function. */
+#undef HAVE_FINITEL
+
+/* Define to 1 if you have the `floorl' function. */
+#undef HAVE_FLOORL
+
+/* Define to 1 if you have the `fmodl' function. */
+#undef HAVE_FMODL
+
+/* Define to 1 if you have the `tanhl' function. */
+#undef HAVE_TANHL
+
+/* Define to 1 if you have the `tanl' function. */
+#undef HAVE_TANL
+
+/* Define to 1 if you have the `lgamma' function. */
+#undef HAVE_LGAMMA
+
+/* Define if the lgamma_r function is available */
+#undef HAVE_LGAMMA_R
+
+/* Define to 1 if you have the `erfl' function. */
+#undef HAVE_ERFL
+
+/* Define to 1 if you have the `erfcl' function. */
+#undef HAVE_ERFCL
+
+/* Define to 1 if you have the `ynl' function. */
+#undef HAVE_YNL
+
+/* Define to 1 if you have the `hypotl' function. */
+#undef HAVE_HYPOTL
+
+/* Define to 1 if you have the `log10l' function. */
+#undef HAVE_LOG10L
+
+/* Define to 1 if you have the `log1pl' function. */
+#undef HAVE_LOG1PL
+
+/* Define to 1 if you have the `logl' function. */
+#undef HAVE_LOGL
+
+/* Define to 1 if the type `long double' works and has more range or precision
+   than `double'. */
+#undef HAVE_LONG_DOUBLE
+
+/* Define to 1 if the type `long double' works and has more range or precision
+   than `double'. */
+#undef HAVE_LONG_DOUBLE_WIDER
+
+/* Define to 1 if you have the `powl' function. */
+#undef HAVE_POWL
+
+/* Define to 1 if you have the `sinhl' function. */
+#undef HAVE_SINHL
+
+/* Define to 1 if you have the `sinl' function. */
+#undef HAVE_SINL
+
+/* Define to 1 if you have the `sqrtl' function. */
+#undef HAVE_SQRTL
+
+#endif  /* _LIBSPREADSHEET_CONFIG_H_ */
