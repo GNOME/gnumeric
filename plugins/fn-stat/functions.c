@@ -1392,126 +1392,68 @@ static GnmFuncHelp const help_chitest[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-typedef struct {
-        GSList *columns;
-        GSList *column;
-        int col;
-        int row;
-        int cols;
-        int rows;
-} stat_chitest_t;
-
-static GnmValue *
-callback_function_chitest_actual (GnmEvalPos const *ep, GnmValue *value,
-				  void *closure)
+static int
+calc_chisq (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res)
 {
-	stat_chitest_t *mm = closure;
-	gnm_float     *p;
+	gnm_float sum = 0;
+	int i;
 
-	if (!VALUE_IS_NUMBER (value))
-		return VALUE_TERMINATE;
+	for (i = 0; i < n; i++) {
+		gnm_float a = xs[i];
+		gnm_float e = ys[i];
 
-	p = g_new (gnm_float, 1);
-	*p = value_get_as_float (value);
-	mm->column = g_slist_append (mm->column, p);
+		if (e == 0)
+			return 1;
+		if (e < 0) {
+			/* Hack: return -1 as a flag.  */
+			*res = -1;
+			return 0;
+		}
 
-	mm->row++;
-	if (mm->row == mm->rows) {
-		mm->row = 0;
-		mm->col++;
-		mm->columns = g_slist_append (mm->columns, mm->column);
-		mm->column = NULL;
+		sum += (a - e) * (a / e - 1);
 	}
 
-	return NULL;
-}
-
-typedef struct {
-        GSList *current_cell;
-        GSList *next_col;
-        int    cols;
-        int    rows;
-        gnm_float sum;
-} stat_chitest_t_t;
-
-static GnmValue *
-callback_function_chitest_theoretical (GnmEvalPos const *ep, GnmValue *value,
-				       void *closure)
-{
-	stat_chitest_t_t *mm = closure;
-	gnm_float a, e, *p;
-
-	if (!VALUE_IS_NUMBER (value))
-		return VALUE_TERMINATE;
-
-	e = value_get_as_float (value);
-
-	if (mm->current_cell == NULL) {
-		mm->current_cell = mm->next_col->data;
-		mm->next_col = mm->next_col->next;
-	}
-	p = mm->current_cell->data;
-	a = *p;
-
-	if (e == 0)
-		return value_new_error_NUM (ep);
-
-	mm->sum += ((a-e) * (a-e)) / e;
-	g_free (p);
-	mm->current_cell = mm->current_cell->next;
-
-	return NULL;
+	*res = sum;
+	return 0;
 }
 
 static GnmValue *
 gnumeric_chitest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	stat_chitest_t   p1;
-	stat_chitest_t_t p2;
-	GSList           *tmp;
-	GnmValue           *ret;
+	int w0 = value_area_get_width (argv[0], ei->pos);
+	int h0 = value_area_get_height (argv[0], ei->pos);
+	int w1 = value_area_get_width (argv[1], ei->pos);
+	int h1 = value_area_get_height (argv[1], ei->pos);
+	GnmValue *v;
+	gnm_float chisq;
+	int df;
 
-	p1.row = p1.col = 0;
-	p1.columns = p1.column = NULL;
-	p1.cols = abs (argv[0]->v_range.cell.b.col -
-		       argv[0]->v_range.cell.a.col) + 1;
-	p1.rows = abs (argv[0]->v_range.cell.b.row -
-		       argv[0]->v_range.cell.a.row) + 1;
-	p2.rows = abs (argv[1]->v_range.cell.b.row -
-		       argv[1]->v_range.cell.a.row) + 1;
-	p2.cols = abs (argv[1]->v_range.cell.b.col -
-		       argv[1]->v_range.cell.a.col) + 1;
+	/* FIXME: Check precedence of errors: this vs. data errors.  */
+	if (w0 * h0 != w1 * h1)
+		return value_new_error_NA (ei->pos);
 
-	if (p1.cols != p2.cols || p1.rows != p2.rows)
+	v = float_range_function2 (argv[0], argv[1],
+				   ei,
+				   calc_chisq,
+				   COLLECT_IGNORE_BLANKS |
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS,
+				   GNM_ERROR_DIV0);
+
+	if (!VALUE_IS_NUMBER (v))
+		return v;
+
+	chisq = value_get_as_float (v);
+	value_release (v);
+
+	if (chisq == -1)
 		return value_new_error_NUM (ei->pos);
-
-	ret = function_iterate_do_value (ei->pos,
-		(FunctionIterateCB) callback_function_chitest_actual,
-		&p1, argv[0], TRUE, CELL_ITER_IGNORE_BLANK);
-	if (ret != NULL)
-		return value_new_error_NUM (ei->pos);
-
-	/* This fixes 497477 -- no idea if it is right.  */
-	if (p1.columns == NULL)
-		return value_new_error_NUM (ei->pos);
-
-	p2.sum = 0;
-	p2.current_cell = p1.columns->data;
-	p2.next_col = p1.columns->next;
-	ret = function_iterate_do_value (ei->pos,
-		(FunctionIterateCB) callback_function_chitest_theoretical,
-		&p2, argv[1], TRUE, CELL_ITER_IGNORE_BLANK);
-	if (ret != NULL)
-		return value_new_error_NUM (ei->pos);
-
-	for (tmp = p1.columns; tmp != NULL ; tmp = tmp->next)
-		g_slist_free (tmp->data);
-	g_slist_free (p1.columns);
 
 	/* FIXME : XL docs claim df = (r-1)(c-1) not (r-1),
 	 * However, that makes no sense.
 	 */
-	return value_new_float (pchisq (p2.sum, p1.rows - 1, FALSE, FALSE));
+	df = (h0 == 1 ? w0 - 1 : h0 - 1);
+	return value_new_float (pchisq (chisq, df, FALSE, FALSE));
 }
 
 /***************************************************************************/
@@ -5830,7 +5772,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "chiinv",       "ff",  N_("p,dof"),
 	  help_chiinv, gnumeric_chiinv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "chitest",      "rr",  N_("act_range,theo_range"),
+	{ "chitest",      "AA",  N_("act_range,theo_range"),
 	  help_chitest, gnumeric_chitest, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "confidence",   "fff",  N_("x,stddev,size"),

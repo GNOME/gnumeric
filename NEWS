@@ -43,6 +43,7 @@ Morten:
 	* Make sure =<right> produces a relative address.
 	* Improve recent-files integration.
 	* Fix CHITEST crash.  [#497477]
+	* Fix a pile of CHITEST cases.
 
 Oliver Burnett-Hall:
        * Fix R1C1 issued with defined names.  [#409997]  [#494318]
