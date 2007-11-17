@@ -110,6 +110,8 @@ typedef struct {
 	int       page;
 	int       pages;
 	GnmValue *date_time;
+	GnmRange  page_area;
+	GnmCellPos top_repeating;
 } HFRenderInfo;
 
 PrintInformation *print_info_new         (gboolean load_defaults);

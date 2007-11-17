@@ -435,6 +435,38 @@ unit_to_unit_name (GtkUnit unit)
 
 
 static void
+render_cell (GString *target, HFRenderInfo *info, char const *args)
+{
+	gboolean use_repeating = FALSE;
+
+	if (args && ((use_repeating = g_str_has_prefix (args, "rep|"))))
+		args += 4;
+
+	if (info->sheet) {
+		GnmCellRef ref;
+		GnmValue const *val;
+
+		gnm_cellref_init (&ref, (Sheet *)(info->sheet), 0, 0, FALSE);
+		cellref_parse (&ref, args, 
+			       use_repeating ? &info->top_repeating : &info->page_area.start);
+
+		val = sheet_cell_get_value (ref.sheet ? ref.sheet : info->sheet, ref.col, ref.row);
+		if (val != NULL) {
+			char const *value;
+			value = value_peek_string (val);
+			g_string_append (target, value);
+		}
+	}
+	else {
+		if (use_repeating)
+			g_string_append (target, "[");
+		g_string_append (target, args);
+		if (use_repeating)
+			g_string_append (target, "]");
+	}
+}
+
+static void
 render_tab (GString *target, HFRenderInfo *info, char const *args)
 {
 	if (info->sheet)
@@ -527,6 +559,7 @@ static struct {
 	{ N_("time"),  render_time  , NULL},
 	{ N_("file"),  render_file  , NULL},
 	{ N_("path"),  render_path  , NULL},
+	{ N_("cell"),  render_cell  , NULL},
 	{ NULL },
 };
 
@@ -602,6 +635,9 @@ hf_render_info_new (void)
 	hfi = g_new0 (HFRenderInfo, 1);
 	hfi->date_time = value_new_float (
 		datetime_timet_to_serial_raw (time (NULL), NULL));
+	range_init_full_sheet (&hfi->page_area);
+	hfi->top_repeating.col = 0;
+	hfi->top_repeating.row = 0;
 
 	return hfi;
 }

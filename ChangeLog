@@ -1,3 +1,10 @@
+2007-11-17  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
+	* src/print-info.h (HFRenderInfo): add page area info
+	* src/print-info.c (render_cell): new
+	(render_ops): add cell record
+	(hf_render_info_new): initialize page area info
+
 2007-11-16  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	* src/print-cell.c (print_merged_range_gtk): print the 

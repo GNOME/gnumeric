@@ -1,4 +1,4 @@
-2007-11-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2007-11-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* hf-config.glade: enable all toolbar buttons
 	* dialog-printer-setup.c (hf_insert_cell_cb): new

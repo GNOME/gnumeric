@@ -11,6 +11,7 @@ Andreas:
 	* Allow nicer entry of header/footer fields [#122175]
 	* Fix gtk issues triggered by sorting dialog.
 	* Fix printing of background of merged cells. [#497478]
+	* Allow inclusion of cell content in header/footer.
 
 Jean:
 	* Print images.
