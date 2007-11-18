@@ -1397,6 +1397,10 @@ calc_chisq (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res)
 {
 	gnm_float sum = 0;
 	int i;
+	gboolean has_neg = FALSE;
+
+	if (n == 0)
+		return 1;
 
 	for (i = 0; i < n; i++) {
 		gnm_float a = xs[i];
@@ -1404,13 +1408,16 @@ calc_chisq (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res)
 
 		if (e == 0)
 			return 1;
-		if (e < 0) {
-			/* Hack: return -1 as a flag.  */
-			*res = -1;
-			return 0;
-		}
+		else if (e < 0)
+			has_neg = TRUE;
+		else
+			sum += (a - e) / e * (a - e);
+	}
 
-		sum += (a - e) * (a / e - 1);
+	if (has_neg) {
+		/* Hack: return -1 as a flag.  */
+		*res = -1;
+		return 0;
 	}
 
 	*res = sum;
@@ -1428,7 +1435,7 @@ gnumeric_chitest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float chisq;
 	int df;
 
-	/* FIXME: Check precedence of errors: this vs. data errors.  */
+	/* Size error takes precedence over everything else.  */
 	if (w0 * h0 != w1 * h1)
 		return value_new_error_NA (ei->pos);
 
@@ -1446,6 +1453,7 @@ gnumeric_chitest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	chisq = value_get_as_float (v);
 	value_release (v);
 
+	/* See calc_chisq.  */
 	if (chisq == -1)
 		return value_new_error_NUM (ei->pos);
 
