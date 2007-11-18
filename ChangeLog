@@ -1,5 +1,10 @@
 2007-11-17  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
+	* src/print-info.c (render_cell): use rangeref_parse to also handle
+	  other sheets.
+
+2007-11-17  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
 	* src/print-info.h (HFRenderInfo): add page area info
 	* src/print-info.c (render_cell): new
 	(render_ops): add cell record

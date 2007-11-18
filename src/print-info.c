@@ -443,14 +443,25 @@ render_cell (GString *target, HFRenderInfo *info, char const *args)
 		args += 4;
 
 	if (info->sheet) {
-		GnmCellRef ref;
+		GnmRangeRef ref;
 		GnmValue const *val;
+		char const *tmp;
+		GnmParsePos ppos;
 
-		gnm_cellref_init (&ref, (Sheet *)(info->sheet), 0, 0, FALSE);
-		cellref_parse (&ref, args, 
-			       use_repeating ? &info->top_repeating : &info->page_area.start);
+		if (use_repeating)
+			parse_pos_init (&ppos, info->sheet->workbook, info->sheet, 
+					info->top_repeating.col, info->top_repeating.row);
+		else
+			parse_pos_init (&ppos, info->sheet->workbook, info->sheet, 
+					info->page_area.start.col, info->page_area.start.row);
+		tmp = rangeref_parse (&ref, args, &ppos, sheet_get_conventions (info->sheet));
+		
+		if (tmp == NULL || tmp == args) {
+			gnm_cellref_init (&ref.a, (Sheet *)(info->sheet), 0, 0, FALSE);
+		}
 
-		val = sheet_cell_get_value (ref.sheet ? ref.sheet : info->sheet, ref.col, ref.row);
+		val = sheet_cell_get_value 
+			(ref.a.sheet ? ref.a.sheet : info->sheet, ref.a.col, ref.a.row);
 		if (val != NULL) {
 			char const *value;
 			value = value_peek_string (val);
