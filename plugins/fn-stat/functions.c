@@ -3667,34 +3667,42 @@ static GnmFuncHelp const help_ftest[] = {
 static GnmValue *
 gnumeric_ftest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	stat_closure_t cl;
-	gnm_float     var1, var2, p;
-	int            dof1, dof2;
-	GnmValue         *err;
+	CollectFlags flags = COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS |
+		COLLECT_IGNORE_BLANKS;
+	gnm_float *xs= NULL, *ys = NULL;
+	int nx, ny;
+	GnmValue *res = NULL;
+	gnm_float p, varx, vary;
 
-	if (NULL != (err = stat_helper (&cl, ei->pos, argv [0])))
-		return err;
-	dof1 = cl.N - 1;
-	var1 = cl.Q / (cl.N - 1);
+	xs = collect_floats_value (argv[0], ei->pos, flags, &nx, &res);
+	if (res)
+		goto out;
 
-	if (NULL != (err = stat_helper (&cl, ei->pos, argv [1])))
-		return err;
-	dof2 = cl.N - 1;
-	var2 = cl.Q / (cl.N - 1);
+	ys = collect_floats_value (argv[1], ei->pos, flags, &ny, &res);
+	if (res)
+		goto out;
 
-	if (var2 == 0)
-		return value_new_error_VALUE (ei->pos);
-
-	p = pf (var1 / var2, dof1, dof2, FALSE, FALSE);
-	if (p > 0.5) {
-		/*
-		 * We need the other tail and 1-p might not be very
-		 * accurate.
-		 */
-		p = pf (var1 / var2, dof1, dof2, TRUE, FALSE);
+	if (gnm_range_var_est (xs, nx, &varx) ||
+	    gnm_range_var_est (ys, ny, &vary) ||
+	    vary == 0) {
+		res = value_new_error_DIV0 (ei->pos);
+		goto out;
 	}
 
-	return value_new_float (2 * p);
+	p = pf (varx / vary, nx - 1, ny - 1, FALSE, FALSE);
+	if (p > 0.5) {
+		/*
+		 * We need the other tail and 1-p might not be very accurate.
+		 */
+		p = pf (varx / vary, nx - 1, ny - 1, TRUE, FALSE);
+	}
+
+	res = value_new_float (2 * p);
+
+out:
+	g_free (xs);
+	g_free (ys);
+	return res;
 }
 
 /***************************************************************************/
