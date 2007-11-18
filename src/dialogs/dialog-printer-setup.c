@@ -1052,7 +1052,7 @@ hf_insert_hf_stock_tag (HFCustomizeState *hf_state, GtkTextBuffer *buffer, HFFie
 		mark_info = g_new0 (HFMarkInfo, 1);
 		mark_info->mark = new_mark;
 		mark_info->type = type;
-		mark_info->options = options ? g_strdup (options) : NULL;
+		mark_info->options = g_strdup (options);
 		hf_state->marks = g_list_append (hf_state->marks, mark_info);
 	}
 }
@@ -1411,8 +1411,7 @@ free_hf_mark_info (HFMarkInfo *info)
 {
 	if (info->mark)
 		g_object_unref (G_OBJECT (info->mark));
-	if (info->options)
-		g_free (info->options);
+	g_free (info->options);
 	g_free (info);
 }
 

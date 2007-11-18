@@ -1,3 +1,7 @@
+2007-11-17  Morten Welinder  <terra@gnome.org>
+
+	* dialog-printer-setup.c: Fix test suite failures.
+
 2007-11-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* hf-config.glade: enable all toolbar buttons
