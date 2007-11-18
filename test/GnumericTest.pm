@@ -367,6 +367,8 @@ sub report_skip {
 # -----------------------------------------------------------------------------
 # Setup a consistent environment
 
+&report_skip ("all tests skipped") if exists $ENV{'GNUMERIC_SKIP_TESTS'};
+
 delete $ENV{'G_SLICE'};
 $ENV{'G_DEBUG'} = 'fatal_criticals';
 
