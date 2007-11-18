@@ -24,6 +24,7 @@
 #include "workbook-view.h"
 #include "gnumeric-gconf.h"
 #include "gnumeric-gconf-priv.h"
+#include "parse-util.h"
 
 #include <goffice/app/go-doc.h>
 #include <goffice/app/go-cmd-context.h>
@@ -448,20 +449,23 @@ render_cell (GString *target, HFRenderInfo *info, char const *args)
 		char const *tmp;
 		GnmParsePos ppos;
 
-		if (use_repeating)
-			parse_pos_init (&ppos, info->sheet->workbook, info->sheet, 
-					info->top_repeating.col, info->top_repeating.row);
-		else
-			parse_pos_init (&ppos, info->sheet->workbook, info->sheet, 
-					info->page_area.start.col, info->page_area.start.row);
-		tmp = rangeref_parse (&ref, args, &ppos, sheet_get_conventions (info->sheet));
-		
+		parse_pos_init (&ppos, info->sheet->workbook, (Sheet *)info->sheet, 0, 0);
+		tmp = rangeref_parse 
+			(&ref, args, &ppos, sheet_get_conventions (info->sheet));
 		if (tmp == NULL || tmp == args) {
 			gnm_cellref_init (&ref.a, (Sheet *)(info->sheet), 0, 0, FALSE);
 		}
 
+		if (ref.a.row_relative)
+			ref.a.row += (use_repeating ? 
+				      info->top_repeating.row : info->page_area.start.row);
+		if (ref.a.col_relative)
+			ref.a.col += (use_repeating ? 
+				      info->top_repeating.col : info->page_area.start.col);
+
 		val = sheet_cell_get_value 
-			(ref.a.sheet ? ref.a.sheet : info->sheet, ref.a.col, ref.a.row);
+			(ref.a.sheet ? ref.a.sheet : (Sheet *)(info->sheet), 
+			 ref.a.col, ref.a.row);
 		if (val != NULL) {
 			char const *value;
 			value = value_peek_string (val);

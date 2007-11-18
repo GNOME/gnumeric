@@ -1208,6 +1208,12 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 	if (gsr) {
 		pi->hfi->page = page_nr + 1;
 		pi->hfi->sheet = gsr->sheet;
+		pi->hfi->page_area = gsr->range;
+		pi->hfi->top_repeating = gsr->range.start;
+		if (gsr->n_rep_cols > 0)
+			pi->hfi->top_repeating.col = gsr->first_rep_cols;
+		if (gsr->n_rep_rows > 0)
+			pi->hfi->top_repeating.row = gsr->first_rep_rows;
 		print_page (operation, context, pi, gsr);
 	}
 }

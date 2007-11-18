@@ -1,3 +1,8 @@
+2007-11-18  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
+	* src/print.c (gnm_draw_page_cb): set up HFRenderInfo
+	* src/print-info.c (render_cell): handle relative addresses
+	
 2007-11-17  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	* src/print-info.c (render_cell): use rangeref_parse to also handle
