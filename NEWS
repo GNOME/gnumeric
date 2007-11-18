@@ -18,8 +18,8 @@ Jean:
 	* Fix FMR in solver dialog.  [#496052]
 
 Jody:
-	* Fix visibilty filtering for clipboard export. [#496985]
-	* XLS export of hlyperlinks. [#81718]
+	* Fix visibility filtering for clipboard export. [#496985]
+	* XLS export of hyperlinks. [#81718]
 
 Jon Kåre:
         * Fix clipboard export.  [#496187]
