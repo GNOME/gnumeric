@@ -46,6 +46,7 @@ Morten:
 	* Fix CHITEST crash.  [#497477]
 	* Fix a pile of CHITEST corner cases.
 	* Fix a pile of FTEST corner cases.
+	* Improve error message for xls export with excess function arguments.
 
 Oliver Burnett-Hall:
        * Fix R1C1 issued with defined names.  [#409997]  [#494318]

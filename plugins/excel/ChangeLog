@@ -1,3 +1,7 @@
+2007-11-17  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-write.c (write_funcall): Fix error message.
+
 2007-11-15  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_sheet_free): Plug leaks.  [#497191]
