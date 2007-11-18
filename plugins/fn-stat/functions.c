@@ -58,76 +58,6 @@ float_compare (gnm_float const *a, gnm_float const *b)
 		return 1;
 }
 
-typedef struct {
-	int N;
-	gnm_float M, Q, sum;
-        gboolean afun_flag;
-} stat_closure_t;
-
-static void
-setup_stat_closure (stat_closure_t *cl)
-{
-	cl->N = 0;
-	cl->M = 0.0;
-	cl->Q = 0.0;
-	cl->afun_flag = 0;
-	cl->sum = 0.0;
-}
-
-static GnmValue *
-callback_function_stat (GnmEvalPos const *ep, GnmValue const *value, void *closure)
-{
-	stat_closure_t *mm = closure;
-	gnm_float x, dx, dm;
-
-	if (value != NULL && VALUE_IS_NUMBER (value))
-		x = value_get_as_float (value);
-	else {
-		if (mm->afun_flag)
-			x = 0;
-		else
-			return NULL;
-	}
-
-	/* I'm paranoid - if mm->N == -1, mm->N + 1 is 0 and the next line blows out */
-	if (mm->N == - 1)
-		return value_new_error_NUM (ep);
-
-	dx = x - mm->M;
-	dm = dx / (mm->N + 1);
-	mm->M += dm;
-	mm->Q += mm->N * dx * dm;
-	mm->N++;
-	mm->sum += x;
-
-	return NULL;
-}
-
-/**
- * FIXME : this is also a kludge, but at least it is more localized
- * than before.  We should not have to do this
- */
-static GnmValue *
-stat_helper (stat_closure_t *cl, GnmEvalPos const *ep, GnmValue const *val)
-{
-	GnmExpr expr_val;
-	GnmExprConstPtr argv[1] = { &expr_val };
-	GnmValue *err;
-
-	setup_stat_closure (cl);
-
-	gnm_expr_constant_init (&expr_val.constant, val);
-	err = function_iterate_argument_values
-		(ep, callback_function_stat, cl,
-		 1, argv, TRUE, CELL_ITER_ALL);
-
-	if (err != NULL)
-		return err;
-	if (cl->N <= 1)
-		return value_new_error_VALUE (ep);
-	return NULL;
-}
-
 /***************************************************************************/
 
 static GnmFuncHelp const help_varp[] = {
@@ -3669,7 +3599,7 @@ gnumeric_ftest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	CollectFlags flags = COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS |
 		COLLECT_IGNORE_BLANKS;
-	gnm_float *xs= NULL, *ys = NULL;
+	gnm_float *xs = NULL, *ys = NULL;
 	int nx, ny;
 	GnmValue *res = NULL;
 	gnm_float p, varx, vary;
@@ -3745,131 +3675,144 @@ static GnmFuncHelp const help_ttest[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-typedef struct {
-        GSList   *entries;
-        GSList   *current;
-        gboolean first;
-} stat_ttest_t;
+static int barf_ttest_dof;
+
+static int
+calc_ttest_paired (gnm_float const *xs, gnm_float const *ys, int n,
+		   gnm_float *res)
+{
+	gnm_float *zs, zm, zsig;
+	gboolean err;
+	int i;
+
+	if (n == 0)
+		return 1;
+
+	/* zs = xs - ys */
+	zs = g_memdup (xs, n * sizeof (*xs));
+	for (i = 0; i < n; i++)
+		zs[i] -= ys[i];
+
+	err = (gnm_range_average (zs, n, &zm) ||
+	       gnm_range_stddev_est (zs, n, &zsig) ||
+	       zsig == 0);
+	g_free (zs);
+
+	if (err)
+		return 1;
+	else {
+		*res = gnm_sqrt (n) * (zm / zsig);
+		/* We need this n out of here.  For now, hack it.  */
+		barf_ttest_dof = n - 1;
+		return 0;
+	}
+}
 
 static GnmValue *
-callback_function_ttest (GnmEvalPos const *ep, GnmValue const *value, void *closure)
+ttest_paired (GnmFuncEvalInfo *ei,
+	      GnmValue const *r0, GnmValue const *r1, int tails)
 {
-	stat_ttest_t *mm = closure;
-	gnm_float   x;
+	int w0 = value_area_get_width (r0, ei->pos);
+	int h0 = value_area_get_height (r0, ei->pos);
+	int w1 = value_area_get_width (r1, ei->pos);
+	int h1 = value_area_get_height (r1, ei->pos);
+	GnmValue *v;
+	gnm_float x;
 
-	if (value != NULL && VALUE_IS_NUMBER (value))
-		x = value_get_as_float (value);
-	else
-		x = 0;
+	/* Size error takes precedence over everything else.  */
+	if (w0 * h0 != w1 * h1)
+		return value_new_error_NA (ei->pos);
 
-	if (mm->first) {
-		gpointer p = g_new (gnm_float, 1);
-		*((gnm_float *) p) = x;
-		mm->entries = g_slist_append (mm->entries, p);
-	} else {
-		if (mm->current == NULL)
-			return VALUE_TERMINATE;
+	v = float_range_function2 (r0, r1, ei, calc_ttest_paired,
+				   COLLECT_IGNORE_BLANKS |
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS,
+				   GNM_ERROR_DIV0);
 
-		*((gnm_float *) mm->current->data) -= x;
-		mm->current = mm->current->next;
+	if (!VALUE_IS_NUMBER (v))
+		return v;
+
+	x = value_get_as_float (v);
+	value_release (v);
+
+	return value_new_float (tails * pt (gnm_abs (x), barf_ttest_dof,
+					    FALSE, FALSE));
+}
+
+static GnmValue *
+ttest_equal_unequal (GnmFuncEvalInfo *ei,
+		     GnmValue const *rx, GnmValue const *ry, int tails,
+		     gboolean unequal)
+{
+	CollectFlags flags = COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS |
+		COLLECT_IGNORE_BLANKS;
+	gnm_float *xs = NULL, *ys = NULL;
+	int nx, ny;
+	GnmValue *res = NULL;
+	gnm_float mx, vx, my, vy, dof, t;
+
+	xs = collect_floats_value (rx, ei->pos, flags, &nx, &res);
+	if (res)
+		goto out;
+
+	ys = collect_floats_value (ry, ei->pos, flags, &ny, &res);
+	if (res)
+		goto out;
+
+	if (gnm_range_average (xs, nx, &mx) ||
+	    gnm_range_var_est (xs, nx, &vx) ||
+	    gnm_range_average (ys, ny, &my) ||
+	    gnm_range_var_est (ys, ny, &vy)) {
+		res = value_new_error_DIV0 (ei->pos);
+		goto out;
 	}
 
-	return NULL;
+	if (vx == 0 && vy == 0) {
+		/* Note sure here.  */
+		res = value_new_error_DIV0 (ei->pos);
+		goto out;
+	}
+
+	if (unequal) {
+		gnm_float c = (vx / nx) / (vx / nx + vy / ny);
+		dof = 1.0 / ((c * c) / (nx - 1) +
+			     ((1 - c) * (1 - c)) / (ny - 1));
+	} else
+		dof = nx + ny - 2;
+
+	t = (mx - my) / gnm_sqrt (vx / nx + vy / ny);
+	res = value_new_float (tails * pt (gnm_abs (t), dof, FALSE, FALSE));
+
+out:
+	g_free (xs);
+	g_free (ys);
+	return res;
 }
 
 static GnmValue *
 gnumeric_ttest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	stat_closure_t cl;
-	stat_ttest_t   t_cl;
         int            tails, type;
-	gnm_float     mean1, mean2, x;
-	gnm_float     s, var1, var2, dof;
-	int            n1, n2;
-	GnmValue         *err;
 
 	tails = value_get_as_int (argv[2]);
 	type = value_get_as_int (argv[3]);
 
-	if ((tails != 1 && tails != 2) ||
-	    (type < 1 || type > 3))
+	if (tails != 1 && tails != 2)
 		return value_new_error_NUM (ei->pos);
 
-	if (type == 1) {
-		GSList  *current;
-		GnmExpr expr;
-		GnmExprConstPtr argv1[1] = { &expr };
-		gnm_float sum, dx, dm, M, Q, N;
+	switch (type) {
+	case 1:
+		return ttest_paired (ei, argv[0], argv[1], tails);
 
-		t_cl.first = TRUE;
-		t_cl.entries = NULL;
+	case 2:
+		return ttest_equal_unequal (ei, argv[0], argv[1], tails, FALSE);
 
-		gnm_expr_constant_init (&expr.constant, argv[0]);
-		err = function_iterate_argument_values
-			(ei->pos, callback_function_ttest, &t_cl,
-			 1, argv1, TRUE, CELL_ITER_ALL);
-		if (err != NULL)
-			return err;
+	case 3:
+		return ttest_equal_unequal (ei, argv[0], argv[1], tails, TRUE);
 
-		t_cl.first = FALSE;
-		t_cl.current = t_cl.entries;
-
-		gnm_expr_constant_init (&expr.constant, argv[1]);
-		err = function_iterate_argument_values
-			(ei->pos, &callback_function_ttest, &t_cl,
-			 1, argv1, TRUE, CELL_ITER_ALL);
-		if (err != NULL)
-			return err;
-
-		current = t_cl.entries;
-		dx = dm = M = Q = N = sum = 0;
-
-		while (current != NULL) {
-			x = *((gnm_float *) current->data);
-
-			dx = x - M;
-			dm = dx / (N + 1);
-			M += dm;
-			Q += N * dx * dm;
-			N++;
-			sum += x;
-
-			g_free (current->data);
-			current = current->next;
-		}
-		g_slist_free (t_cl.entries);
-
-		if (N - 1 == 0 || N == 0)
-			return value_new_error_NUM (ei->pos);
-
-		s = gnm_sqrt (Q / (N - 1));
-		mean1 = sum / N;
-		x = mean1 / (s / gnm_sqrt (N));
-		dof = N - 1;
-	} else {
-		if ((err = stat_helper (&cl, ei->pos, argv [0])))
-			return err;
-		var1 = cl.Q / (cl.N - 1);
-		mean1 = cl.sum / cl.N;
-		n1 = cl.N;
-
-		if ((err = stat_helper (&cl, ei->pos, argv [1])))
-			return err;
-		var2 = cl.Q / (cl.N - 1);
-		mean2 = cl.sum / cl.N;
-		n2 = cl.N;
-
-		if (type != 2) {
-			gnm_float c = (var1 / n1) / (var1 / n1 + var2 / n2);
-			dof = 1.0 / ((c * c) / (n1 - 1) + ((1 - c) * (1 - c)) /
-				     (n2 - 1));
-		} else
-			dof = n1 + n2 - 2;
-
-		x = (mean1 - mean2) / gnm_sqrt (var1 / n1 + var2 / n2);
+	default:
+		return value_new_error_NUM (ei->pos);
 	}
-
-	return value_new_float (tails * pt (gnm_abs (x), dof, FALSE, FALSE));
 }
 
 /***************************************************************************/
