@@ -124,17 +124,23 @@ struct _ExcelWriteState {
 #define BORDER_MAGIC GNM_STYLE_BORDER_NONE
 
 typedef enum {
-	STR_NO_LENGTH		= 0,
-	STR_ONE_BYTE_LENGTH	= 1,
-	STR_TWO_BYTE_LENGTH	= 2,
-	STR_LENGTH_MASK		= 3,
+	STR_ONE_BYTE_LENGTH	= 0,
+	STR_TWO_BYTE_LENGTH	= 1,
+	STR_FOUR_BYTE_LENGTH	= 2,
+	STR_NO_LENGTH		= 3,
+	STR_LENGTH_MASK		= 3, /* (1 << (flag & LENGTH_MASK)) == size */
+
 	/* biff7 will always be LEN_IN_BYTES,
 	 * biff8 will respect the flag and default to length in characters */
-	STR_LEN_IN_BYTES	= 4,
-	STR_SUPPRESS_HEADER	= 8
+	STR_LEN_IN_BYTES	= 1 << 2,
+
+	/* Drop 2byte/rich/phonetic header and force the use of 2byte chars */
+	STR_SUPPRESS_HEADER	= 1 << 3,
+
+	/* include a trailing null */
+	STR_TRAILING_NULL	= 1 << 4
 } WriteStringFlags;
 
-unsigned excel_write_string_len (guint8 const *txt, size_t *bytes);
 unsigned excel_write_string	(BiffPut *bp, WriteStringFlags flags,
 				 guint8 const *txt);
 unsigned excel_write_BOF	(BiffPut *bp, MsBiffFileType type);

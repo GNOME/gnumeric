@@ -47,6 +47,7 @@
 #include <style-conditions.h>
 #include <validation.h>
 #include <input-msg.h>
+#include <hlink.h>
 #include <sheet-style.h>
 #include <libgnumeric.h>
 #include <value.h>
@@ -232,15 +233,15 @@ excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
 }
 
 /**
- * excel_write_string_len :
+ * excel_strlen :
  * @str : The utf8 encoded string in question
  * @bytes :
  *
  * Returns the size of the string in _characters_ and stores the number of
  * bytes in @bytes.
  **/
-unsigned
-excel_write_string_len (guint8 const *str, size_t *bytes)
+static unsigned int
+excel_strlen (guint8 const *str, size_t *bytes)
 {
 	guint8 const *p = str;
 	size_t i = 0;
@@ -264,14 +265,14 @@ excel_write_string_len (guint8 const *str, size_t *bytes)
  * NOTE : I considered putting markup here too to be strictly correct and
  * export rich text directly.  But it was easier to just use RSTRING.
  *
- * The number of bytes used to write the len, header, and text
+ * Returns: The number of bytes used to write the len, header, and text
  **/
 unsigned
 excel_write_string (BiffPut *bp, WriteStringFlags flags,
 		    guint8 const *txt)
 {
-	size_t byte_len, out_bytes, offset;
-	unsigned char_len;
+	size_t byte_len, out_bytes, offset = 0;
+	unsigned int char_len, output_len;
 	char *in_bytes = (char *)txt; /* bloody strict-aliasing is broken */
 
 	g_return_val_if_fail (txt != NULL, 0);
@@ -280,23 +281,25 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 	if (bp->version < MS_BIFF_V8)
 		flags |= STR_LEN_IN_BYTES;
 
-	char_len = excel_write_string_len (txt, &byte_len);
-	if (char_len != byte_len) {
+	char_len = excel_strlen (txt, &byte_len);
+	if (char_len != byte_len || (flags & STR_SUPPRESS_HEADER)) {
 		char *tmp;
 
 		/* TODO : think about what to do with LEN_IN_BYTES */
-		if ((flags & STR_LENGTH_MASK) == STR_ONE_BYTE_LENGTH) {
-			if (char_len > 0xff)
-				char_len = 0xff;
-		}
+		if ((flags & STR_LENGTH_MASK) == STR_ONE_BYTE_LENGTH &&
+		    char_len > 0xff)
+			char_len = 0xff;
 		out_bytes = char_len * 2;
 
-		if ((out_bytes + 3) > bp->buf_len) {
+		/* 2 in case we null terminate, and up to 4 for the length */
+		if ((out_bytes + 4 + 2) > bp->buf_len) {
 			bp->buf_len = ((char_len >> 2) + 1) << 2;
 			bp->buf = g_realloc (bp->buf, bp->buf_len);
 		}
 
-		offset = (flags & STR_LENGTH_MASK);
+		if ((flags & STR_LENGTH_MASK) != STR_NO_LENGTH)
+			offset = 1 << (flags & STR_LENGTH_MASK);
+
 		if (bp->version >= MS_BIFF_V8 && !(flags & STR_SUPPRESS_HEADER))
 			bp->buf [offset++] = '\1';	/* flag as unicode */
 
@@ -308,6 +311,20 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 		g_iconv (bp->convert, &in_bytes, &byte_len, &tmp, &out_bytes);
 		out_bytes = (guint8 *)tmp - bp->buf;
 
+		if (flags & STR_TRAILING_NULL) {
+			GSF_LE_SET_GUINT16 (bp->buf + out_bytes, 0);
+			out_bytes += 2;
+		}
+		if (flags & STR_LEN_IN_BYTES)
+			output_len = out_bytes - offset;
+		else {
+			if (byte_len > 0)
+				output_len = g_utf8_pointer_to_offset (txt, in_bytes);
+			else
+				output_len = char_len;
+			output_len++;
+		}
+
 		switch (flags & STR_LENGTH_MASK) {
 		default:
 		case STR_NO_LENGTH:
@@ -315,25 +332,11 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 				g_warning (_("This is somewhat corrupt.\n"
 					     "We already wrote a length for a string that is being truncated due to encoding problems."));
 			break;
-		case STR_ONE_BYTE_LENGTH:
-			if (flags & STR_LEN_IN_BYTES) {
-				GSF_LE_SET_GUINT8 (bp->buf, out_bytes-offset);
-				break;
-			}
-			if (byte_len > 0)
-				char_len = g_utf8_pointer_to_offset (txt, in_bytes);
-			GSF_LE_SET_GUINT8 (bp->buf, char_len);
-			break;
-		case STR_TWO_BYTE_LENGTH:
-			if (flags & STR_LEN_IN_BYTES) {
-				GSF_LE_SET_GUINT16 (bp->buf, out_bytes-offset);
-				break;
-			}
-			if (byte_len > 0)
-				char_len = g_utf8_pointer_to_offset (txt, in_bytes);
-			GSF_LE_SET_GUINT16 (bp->buf, char_len);
-			break;
+		case STR_ONE_BYTE_LENGTH:  GSF_LE_SET_GUINT8  (bp->buf, output_len); break;
+		case STR_TWO_BYTE_LENGTH:  GSF_LE_SET_GUINT16 (bp->buf, output_len); break;
+		case STR_FOUR_BYTE_LENGTH: GSF_LE_SET_GUINT32 (bp->buf, output_len); break;
 		}
+
 		ms_biff_put_var_write (bp, bp->buf, out_bytes);
 	} else {
 		guint8 *tmp;
@@ -348,6 +351,10 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 		case STR_TWO_BYTE_LENGTH:
 			GSF_LE_SET_GUINT16 (tmp, char_len);
 			tmp += 2;
+			break;
+		case STR_FOUR_BYTE_LENGTH:
+			GSF_LE_SET_GUINT32 (tmp, char_len);
+			tmp += 4;
 			break;
 		}
 		if (bp->version >= MS_BIFF_V8 && !(flags & STR_SUPPRESS_HEADER))
@@ -521,7 +528,7 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb)
 		guint8 data[2];
 
 		ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
-		len = excel_write_string_len (
+		len = excel_strlen (
 			esheet->gnum_sheet->name_unquoted, NULL);
 
 		GSF_LE_SET_GUINT8 (data, len);
@@ -1238,6 +1245,125 @@ excel_write_DV (XLValInputPair const *vip, gpointer dummy, ExcelWriteSheet *eshe
 static void
 excel_write_HLINKs (BiffPut *bp, ExcelWriteSheet *esheet)
 {
+	static guint8 const stdlink_guid[] = {
+		0xd0, 0xc9, 0xea, 0x79, 0xf9, 0xba, 0xce, 0x11,
+		0x8c, 0x82, 0x00, 0xaa, 0x00, 0x4b, 0xa9, 0x0b,
+		/* unknown */
+		0x02, 0x00, 0x00, 0x00
+	};
+	GnmStyleList		*ptr;
+	GnmStyleRegion const	*sr;
+	GnmHLink		*hlink = NULL;
+	char const		*target;
+	char const		*tip;
+	guint8			 data [16];
+	GType			 t;
+
+	for (ptr = esheet->hlinks ; ptr != NULL ; ptr = ptr->next) {
+		sr = ptr->data;
+		/* Clip here to avoid creating a CF record if there are no regions */
+		if (sr->range.start.col >= esheet->max_col ||
+		    sr->range.start.row >= esheet->max_row)
+			continue;
+		if (NULL == (hlink = gnm_style_get_hlink (sr->style)))
+			continue; /* should not happen */
+		ms_biff_put_var_next (bp, BIFF_HLINK);
+		GSF_LE_SET_GUINT16 (data + 0, sr->range.start.row);
+		GSF_LE_SET_GUINT16 (data + 2, sr->range.end.row);
+		GSF_LE_SET_GUINT16 (data + 4, sr->range.start.col);
+		GSF_LE_SET_GUINT16 (data + 6, sr->range.end.col);
+		ms_biff_put_var_write (bp, data, 8);
+		ms_biff_put_var_write (bp, stdlink_guid, sizeof (stdlink_guid));
+
+		target = gnm_hlink_get_target (hlink);
+		t = G_OBJECT_TYPE (hlink);
+		if (t == gnm_hlink_cur_wb_get_type ()) {
+			/* -label, -target_base, +mark && type = 0 */
+			GSF_LE_SET_GUINT16 (data, 0x8);
+			ms_biff_put_var_write (bp, data, 4);
+			excel_write_string (bp,
+				STR_FOUR_BYTE_LENGTH | STR_SUPPRESS_HEADER | STR_TRAILING_NULL,
+				target);
+		} else if (t == gnm_hlink_url_get_type () ||
+			   t == gnm_hlink_email_get_type ()) {
+			static guint8 const magic[] = {
+				/* -label, -target_base, -mark && type = 3 */
+				0x3, 0, 0, 0,
+
+				/* guid */
+				0xe0, 0xc9, 0xea, 0x79, 0xf9, 0xba, 0xce, 0x11,
+				0x8c, 0x82, 0x00, 0xaa, 0x00, 0x4b, 0xa9, 0x0b,
+			};
+			ms_biff_put_var_write (bp, magic, sizeof magic);
+			excel_write_string (bp, 
+				STR_FOUR_BYTE_LENGTH | STR_SUPPRESS_HEADER | STR_TRAILING_NULL | STR_LEN_IN_BYTES,
+				target);
+		} else if (t == gnm_hlink_external_get_type ()) {
+			if (NULL != target &&
+			    0 == strncmp (target, "\\\\", 2)) {
+				GSF_LE_SET_GUINT32 (data,  0x117);
+				ms_biff_put_var_write (bp, data, 4);
+				excel_write_string (bp, 
+					STR_FOUR_BYTE_LENGTH | STR_SUPPRESS_HEADER | STR_TRAILING_NULL,
+					target);
+				/* Yes twice */
+				excel_write_string (bp, 
+					STR_FOUR_BYTE_LENGTH | STR_SUPPRESS_HEADER | STR_TRAILING_NULL,
+					target);
+			} else {
+				static guint8 const magic[] = {
+					/* -label, -target_base, -mark && type = 3 */
+					0x3, 0, 0, 0,
+
+					/* guid */
+					0x03, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+					0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46,
+
+					/* No leading ../ to path */
+					0, 0,
+
+					/* Store an empty short path incl trailing null */
+					1, 0, 0, 0,
+					0, /* the empty path */
+
+					/* unknown magic */
+					0xff, 0xff, 0xad, 0xde,	0, 0, 0, 0,
+					0, 0, 0, 0, 0, 0, 0, 0,
+					0, 0, 0, 0, 0, 0, 0, 0
+				};
+				unsigned int len;
+				ms_biff_put_var_write (bp, magic, sizeof magic);
+
+				len = g_utf8_strlen (target, -1);
+				GSF_LE_SET_GUINT32 (data+0, len*2 + 6);
+				GSF_LE_SET_GUINT32 (data+4, len*2);
+				GSF_LE_SET_GUINT16 (data+8, 3);
+				ms_biff_put_var_write (bp, data, 10);
+				excel_write_string (bp, 
+					STR_NO_LENGTH | STR_SUPPRESS_HEADER,
+					target);
+			}
+		}
+
+		ms_biff_put_commit (bp);
+
+		if (NULL != (tip = gnm_hlink_get_tip (hlink))) {
+			ms_biff_put_var_next (bp, BIFF_LINK_TIP);
+			GSF_LE_SET_GUINT16 (data + 0, 0x800);
+			GSF_LE_SET_GUINT16 (data + 2, sr->range.start.row);
+			GSF_LE_SET_GUINT16 (data + 4, sr->range.end.row);
+			GSF_LE_SET_GUINT16 (data + 6, sr->range.start.col);
+			GSF_LE_SET_GUINT16 (data + 8, sr->range.end.col);
+			ms_biff_put_var_write (bp, data, 10);
+
+			excel_write_string (bp,
+				STR_NO_LENGTH | STR_SUPPRESS_HEADER | STR_TRAILING_NULL,
+				tip);
+			ms_biff_put_commit (bp);
+		}
+	}
+	style_list_free (esheet->hlinks);
+	esheet->hlinks = NULL;
 }
 
 static void
@@ -1417,7 +1543,7 @@ excel_write_NAME (G_GNUC_UNUSED gpointer key,
 			ms_biff_put_var_write (ewb->bp, data, 15);
 		}
 	} else {
-		excel_write_string_len (name, &name_len);
+		excel_strlen (name, &name_len);
 		GSF_LE_SET_GUINT8 (data + 3, name_len); /* name_len */
 		ms_biff_put_var_write (ewb->bp, data, 14);
 		excel_write_string (ewb->bp, STR_NO_LENGTH, name);
@@ -3145,7 +3271,7 @@ excel_write_comments_biff7 (BiffPut *bp, ExcelWriteSheet *esheet)
 		GnmRange const *pos     = sheet_object_get_range (SHEET_OBJECT (cc));
 		char const  *in = cell_comment_text_get (cc);
 		size_t in_bytes, out_bytes;
-		unsigned len = excel_write_string_len (in, &in_bytes);
+		unsigned len = excel_strlen (in, &in_bytes);
 		char *buf;
 
 		g_return_if_fail (in != NULL);
@@ -3526,7 +3652,7 @@ excel_write_DOPER (GnmFilterCondition const *cond, int i, guint8 *buf)
 
 	case VALUE_STRING:	buf[0] = 6;
 				str = v->v_str.val->str;
-				buf[6] = excel_write_string_len (str, NULL);
+				buf[6] = excel_strlen (str, NULL);
 		break;
 	default :
 		/* ignore arrays, ranges, empties */
@@ -3976,7 +4102,7 @@ excel_write_ClientTextbox (ExcelWriteState *ewb, SheetObject *so)
 		g_warning ("Not sure why label is NULL here.");
 		label = g_strdup ("");
 	}
-	char_len = excel_write_string_len (label, NULL);
+	char_len = excel_strlen (label, NULL);
 	GSF_LE_SET_GUINT16 (buf + 10, char_len);
 	if (markup)
 		markuplen = 8 + markup->len * 4;
@@ -4746,7 +4872,7 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	excel_write_DVALs (ewb->bp, esheet);
 	excel_write_SHEETPROTECTION (ewb->bp, esheet->gnum_sheet);
 
-/* See: Global Column Widths...  not cricual.
+/* See: Global Column Widths...  not crucial.
 	data = ms_biff_put_len_next (ewb->bp, BIFF_GCW, 34);
 	{
 		int i;
@@ -4905,7 +5031,7 @@ excel_write_SST (ExcelWriteState *ewb)
 			extsst[i/8].streampos  = bp->streamPos + tmp;
 		}
 
-		char_len = excel_write_string_len (str, &byte_len);
+		char_len = excel_strlen (str, &byte_len);
 
 		/* get the size, the marker, and at least 1 character out */
 		if ((ptr + 5) >= last) {
@@ -5072,7 +5198,7 @@ cb_write_macro_NAME (gpointer key, ExcelFunc *efunc, ExcelWriteState *ewb)
 			0x0,		/* help */
 			0x0		/* status */
 		};
-		unsigned len = excel_write_string_len (efunc->macro_name, NULL);
+		unsigned len = excel_strlen (efunc->macro_name, NULL);
 
 		if (len > 255)
 			len = 255;

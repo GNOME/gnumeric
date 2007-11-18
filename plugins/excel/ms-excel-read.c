@@ -4540,7 +4540,6 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 		return;
 	}
 
-#warning "Are we sure the parse is relative to 0,0 ? DV is relative to the first range"
 	cond.texpr[0] = (expr0_len <= 0)
 		? NULL
 		: ms_sheet_parse_expr_internal
@@ -5030,13 +5029,18 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 
 	data += 32;
 
+	d (1, {
+		range_dump (&r, "");
+		fprintf (stderr, " = hlink options(0x%04x)\n", options);
+	});
+
 	if ((options & 0x14) == 0x14) {			/* label */
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
 		XL_CHECK_CONDITION (data + len*2 - q->data <= (int)q->length);
 		label = read_utf16_str (len, data);
 		data += len*2;
-		d (1, fprintf (stderr, "label = %s", label););
+		d (1, fprintf (stderr, "label = %s\n", label););
 	}
 
 	if (options & 0x80) {				/* target_base */
@@ -5045,7 +5049,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 		XL_CHECK_CONDITION (len*2 + data - q->data <= (int)q->length);
 		target_base = read_utf16_str (len, data);
 		data += len*2;
-		d (1, fprintf (stderr, "target_base = %s", target_base););
+		d (1, fprintf (stderr, "target_base = %s\n", target_base););
 	}
 
 	if (options & 0x8) {				/* 'text mark' */
@@ -5054,7 +5058,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 		XL_CHECK_CONDITION (len*2 + data - q->data <= (int)q->length);
 		mark = read_utf16_str (len, data);
 		data += len*2;
-		d (1, fprintf (stderr, "mark = %s", mark););
+		d (1, fprintf (stderr, "mark = %s\n", mark););
 	}
 
 	if ((options & 0x163) == 0x003 && !memcmp (data, url_guid, sizeof (url_guid))) {
@@ -5066,24 +5070,49 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 		XL_CHECK_CONDITION (len + data - q->data <= (int)q->length);
 
 		url = read_utf16_str (len/2, data);
-		link = g_object_new (gnm_hlink_url_get_type (), NULL);
+		if (NULL != url && 0 == g_ascii_strncasecmp (url,  "mailto:", 7))
+			link = g_object_new (gnm_hlink_email_get_type (), NULL);
+		else
+			link = g_object_new (gnm_hlink_url_get_type (), NULL);
 		gnm_hlink_set_target (link, url);
 		g_free (url);
-	} else if ((options & 0x1e1) == 0x001 && !memcmp (data, file_guid, sizeof (file_guid))) {
-		range_dump (&r, " <-- local file\n");
 
+	/* File link */
+	} else if ((options & 0x1e1) == 0x001 && !memcmp (data, file_guid, sizeof (file_guid))) {
+		guchar  *path;
+		GString *accum;
+		int up;
 		data += sizeof (file_guid);
+		up  = GSF_LE_GET_GUINT16 (data + 0);
 		len = GSF_LE_GET_GUINT32 (data + 2);
-		fprintf (stderr,"up count %hu len %hx\n", GSF_LE_GET_GUINT16 (data), len);
+		d (1, fprintf (stderr,"# leading ../ %d len 0x%04x\n",
+				 up, len););
+		data += 6;
+		XL_CHECK_CONDITION (len + data - q->data <= (int)q->length);
+		data += len + 16 + 12;
+		len = GSF_LE_GET_GUINT32 (data);
 		data += 6;
 
-		gsf_mem_dump (data, q->length - (data - q->data));
+		path = read_utf16_str (len/2, data);
+		accum = g_string_new (NULL);
+		while (up-- > 0)
+			g_string_append (accum, "..\\");
+		g_string_append (accum, path);
+		g_free (path);
+		link = g_object_new (gnm_hlink_external_get_type (), NULL);
+		gnm_hlink_set_target (link, accum->str);
+		g_string_free (accum, TRUE);
 
-		XL_CHECK_CONDITION (len + data - q->data <= (int)q->length);
-		data += len;
-
+	/* UNC File link */
 	} else if ((options & 0x1e3) == 0x103) {
-		range_dump (&r, " <-- unc file\n");
+		guchar  *path;
+
+		len = GSF_LE_GET_GUINT32 (data);
+		path = read_utf16_str (len*2, data+4);
+		link = g_object_new (gnm_hlink_external_get_type (), NULL);
+		gnm_hlink_set_target (link, path);
+		g_free (path);
+
 	} else if ((options & 0x1eb) == 0x008) {
 		link = g_object_new (gnm_hlink_cur_wb_get_type (), NULL);
 		gnm_hlink_set_target (link, mark);
@@ -5107,8 +5136,9 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	}
 
 	g_free (tip);
-	g_free (label);
+	g_free (mark);
 	g_free (target_base);
+	g_free (label);
 }
 
 static void

@@ -129,7 +129,7 @@ Architecture Changes
     5.1) xls
 	5.1.1) import pivot cache			{Jody}
 	5.1.2) export pivot cache
-    5.2) OOX						{Jody}
+    5.2) MOOX						{Jody}
 	5.2.1) import pivot cache 			{Jody}
 	5.2.2) export pivot cache			{Jody}
     5.3) ODF
@@ -260,7 +260,7 @@ Architecture Changes
 	    9.4.2.2) 97 out					(DONE)
 		9.4.2.2.1) sheet				(DONE)
 		9.4.2.2.2) style/XF				(DONE)
-	9.4.3) OOX						(DONE)
+	9.4.3) MOOX						(DONE)
 	    9.4.3.1) In						(DONE)
 	    9.4.3.2) Out					(DONE)
 	9.4.4) odf						(DONE)
@@ -373,7 +373,7 @@ Architecture Changes
 	    11.2.2.3) CF borders				(DONE)
 	    11.2.2.4) CF background				(DONE)
 	    11.2.2.5) collect colours				(DONE)
-    11.3) OOX
+    11.3) MOOX
 	11.3.1) import
 	11.3.2) export
     11.4) ODF
@@ -414,7 +414,7 @@ Architecture Changes
     12.4) XLS							(DONE)
 	12.4.1) import						(DONE)
 	12.4.2) export						(DONE)
-    12.5) OOX							(DONE)
+    12.5) MOOX							(DONE)
 	12.5.1) import						(DONE)
 	12.5.2) export						(DONE)
     12.6) ODF
@@ -434,7 +434,7 @@ Architecture Changes
 	16.2.3) XLS						(DONE)
 	    16.2.3.1) Import					(DONE)
 	    16.2.3.2) Export					(DONE)
-	16.2.4) OOX						(DONE)
+	16.2.4) MOOX						(DONE)
 	    16.2.4.1) Import					(DONE)
 	    16.2.4.2) Export					(DONE)
     16.3) Honour flags for Return/Tab
@@ -462,7 +462,7 @@ Architecture Changes
 		17.2.3.2.1) pre-Biff8				(DONE)
 		17.2.3.2.2) Biff8				(DONE)
 	    17.2.3.3) figure out the semantics of XL's min/max
-	17.2.4) OOX						(DONE)
+	17.2.4) MOOX						(DONE)
 	    17.2.4.1) Import					(DONE)
 	    17.2.4.2) Export					(DONE)
 	17.2.5) ODF
@@ -500,12 +500,15 @@ Architecture Changes
 
 3) hlinks
     3.1) Finish the edit dialog to load and store results 	(DONE)
-    3.2) Figure out import semantics of the other 2 XL types
-    3.3) email support ? via system 'evolution mailto:....'
-    3.4) Make file -> send email execution into a service
-    3.5) OOX
-	3.5.1) import
-	3.5.2) export
+    3.2) Figure out import semantics of the other 2 XL types	(DONE)
+    3.3) email support ? via system 'evolution mailto:....'	(DONE)
+    3.4) XLS export (6.10)					(DONE)
+    3.5) MOOX							(DONE)
+	3.5.1) import						(DONE)
+	3.5.2) export						(DONE)
+    3.6) Entering text of the form scheme://blah or a@b.c
+	    should insert hyperlinks
+    3.7) HYPERLINK function should create link.
 
 6) XL
     6.1) biff7 externsheet records in charts			(DONE)
@@ -527,12 +530,12 @@ Architecture Changes
 	6.9.4) combos						(DONE)
 	    6.9.4.1) XL95					(DONE)
 	    6.9.4.2) Escher					(DONE)
-    6.10) hlink export (97 only)
-    6.11) Comments
+    6.10) hlink export (97 only)				(DONE)
+    6.11) Comments						(DONE)
 	6.11.1) import for XL95					(DONE)
 	6.11.2) export for XL95					(DONE)
 	6.11.3) import for XL97					(DONE)
-	6.11.4) export for XL97 (needs placement kludge)
+	6.11.4) export for XL97 (needs placement kludge)	(DONE)
     6.12) Set operand classes
 	6.12.1) calc and set the classes			(DONE)
 	6.12.2) check target_type of external func		(DONE)
@@ -727,7 +730,7 @@ Architecture Changes
     21.44) XLS							(DONE)
 	21.44.1) import						(DONE)
 	21.44.2) export						(DONE)
-    21.45) OOX
+    21.45) MOOX
 	21.45.1) import
 	    21.45.1.1) top10					(DONE)
 	    21.45.1.2) items
@@ -761,7 +764,7 @@ Architecture Changes
     22.9) tune position & width of combo			(DONE)
     22.10) RTL (see 9.9)					(DONE)
     22.11) Odd .xls storage of aa,bb,cc
-    22.12) OOX							(DONE)
+    22.12) MOOX							(DONE)
 	22.12.1) import						(DONE)
 	22.12.2) export						(DONE)
     22.13) ODF
@@ -851,7 +854,7 @@ Architecture Changes
 	32.17.2) XLS
 	    32.17.2.1) import						(DONE)
 	    32.17.2.2) export
-	32.17.3) OOX
+	32.17.3) MOOX
 	    32.17.3.1) import
 	    32.17.3.2) export
 	32.17.4) ODF
@@ -878,7 +881,7 @@ Architecture Changes
 	32.18.2) XLS
 	    32.18.2.1) import						(DONE)
 	    32.18.2.2) export
-	32.18.3) OOX
+	32.18.3) MOOX
 	    32.18.3.1) import
 	    32.18.3.2) export
 	32.18.4) ODF
@@ -933,7 +936,7 @@ Architecture Changes
     36.10) See 5.3 (pivots)
     36.11) See 17.2.5 (page breaks)
 
-37) OOX
+37) MOOX
     37.1) Import
 	37.1.1) workbook/calc properties (Calc_PR)		(DONE)
 	    37.1.1.1) refMode from wb -> sheet			(DONE)
@@ -1037,7 +1040,6 @@ auto-fill
 
     - The max row/col canvas scroll size is still hard coded.
 
-    - Entering text of the form scheme://blah or a@b.c should insert hyperlinks
     - let's add simple commands like inc/dec font size and things like that.
 
     - Auto resize needs to handle empty cells.

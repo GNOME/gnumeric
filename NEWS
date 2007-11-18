@@ -19,6 +19,7 @@ Jean:
 
 Jody:
 	* Fix visibilty filtering for clipboard export. [#496985]
+	* XLS export of hlyperlinks. [#81718]
 
 Jon Kåre:
         * Fix clipboard export.  [#496187]

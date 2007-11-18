@@ -1,3 +1,9 @@
+2007-11-18  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_HLINKs) : implement.
+	* ms-excel-read.c (excel_read_HLINK) : enable file and unc links.
+	* plugin.xml.in : prefer biff8 to biff7 when matching by suffix.
+
 2007-11-17  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-write.c (write_funcall): Fix error message.
