@@ -1,3 +1,11 @@
+2007-11-18  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gnumeric-C.omf: Swapped "mime" and "dtd" parameters to "format"
+	element, putting "mime in front". This way, "yelp ghelp:gnumeric" (as
+	called from Help -> Contents) displays the manual with yelp 2.20.0,
+	rather than throw an `Unable to load page - The requested URI
+	"ghelp:gnumeric" is invalid' popup.
+
 2007-11-04  Morten Welinder <terra@gnome.org>
 
 	* Release 1.7.14

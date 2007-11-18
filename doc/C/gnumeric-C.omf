@@ -59,7 +59,7 @@
       User's Guide
     </type>
 
-    <format dtd="-//OASIS//DTD DocBook XML V4.2//EN" mime="text/xml"/>
+    <format mime="text/xml" dtd="-//OASIS//DTD DocBook XML V4.2//EN"/>
     <identifier url="gnumeric.xml"/>
     <language code="C"/>
     <relation seriesid="c5e3db84-64c3-11d6-85a3-a3e50590e6d1"/>
