@@ -1319,9 +1319,11 @@ add_named_tags (GtkTextBuffer *buffer)
 }
 
 static gboolean
-check_hf_tag (char const *unknown_tag, char const *known_tag, gchar **options)
+check_hf_tag (char const *unknown_tag, char const *known_tag, gchar **options, gint length)
 {
 	int len;
+	char *closing = unknown_tag + length;
+
 	if (0 != g_ascii_strncasecmp (unknown_tag, "&[", 2))
 		return FALSE;
 	unknown_tag += 2;
@@ -1334,7 +1336,7 @@ check_hf_tag (char const *unknown_tag, char const *known_tag, gchar **options)
 	if (*unknown_tag != ':')
 		return FALSE;
 	unknown_tag++;
-	len = strlen (unknown_tag) - 1;
+	len = closing - unknown_tag - 1;
 	if ((len > 0) && (options != NULL)) {
 		*options = g_strndup (unknown_tag, len);
 	}
@@ -1346,21 +1348,21 @@ is_known_tag (HFCustomizeState* hf_state, GtkTextBuffer *buffer, char const *tag
 {
 	gchar *options = NULL;
 
-	if (check_hf_tag (tag, "FILE", &options))
+	if (check_hf_tag (tag, "FILE", &options, length))
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_FILE, options);
-	else if (check_hf_tag (tag, "PATH", &options)) 
+	else if (check_hf_tag (tag, "PATH", &options, length)) 
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PATH, options);
-	else if (check_hf_tag (tag, "PAGES", &options)) 
+	else if (check_hf_tag (tag, "PAGES", &options, length)) 
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PAGES, options);
-	else if (check_hf_tag (tag, "PAGE", &options)) 
+	else if (check_hf_tag (tag, "PAGE", &options, length)) 
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_PAGE, options);
-	else if (check_hf_tag (tag, "TAB", &options)) 
+	else if (check_hf_tag (tag, "TAB", &options, length)) 
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_SHEET, options);
-	else if (check_hf_tag (tag, "DATE", &options)) 
+	else if (check_hf_tag (tag, "DATE", &options, length)) 
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_DATE, options);
-	else if (check_hf_tag (tag, "TIME", &options)) 
+	else if (check_hf_tag (tag, "TIME", &options, length)) 
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_TIME, options);
-	else if (check_hf_tag (tag, "CELL", &options)) 
+	else if (check_hf_tag (tag, "CELL", &options, length)) 
 		hf_insert_hf_stock_tag (hf_state, buffer, HF_FIELD_CELL, options);
 	else return FALSE;
 	return TRUE;
