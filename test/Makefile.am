@@ -2,6 +2,7 @@
 #
 # 1xxx: Evaluation
 # 10xx:   Large groups of functions
+# 11xx:   Specific functions
 # 18xx:   Operators
 # 19xx:   Evaluation modes, regressions
 #
