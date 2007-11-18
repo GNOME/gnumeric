@@ -16,6 +16,9 @@ Andreas:
 Jean:
 	* Print images.
 	* Fix FMR in solver dialog.  [#496052]
+	* Fix markers shapes and objects stack order when importing
+	xls files. [#344950]
+	* Fix transparent background import from xls.
 
 Jody:
 	* Fix visibility filtering for clipboard export. [#496985]
