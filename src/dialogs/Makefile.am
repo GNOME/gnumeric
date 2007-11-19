@@ -119,6 +119,7 @@ glade_DATA = 				\
 	goalseek.glade			\
 	goto.glade			\
 	hf-config.glade			\
+	hf-dt-format.glade		\
 	histogram.glade			\
 	hyperlink.glade			\
 	insert-cells.glade		\

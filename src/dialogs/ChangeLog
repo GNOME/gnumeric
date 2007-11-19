@@ -1,3 +1,14 @@
+2007-11-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* hf-dt-format.glade: new
+	* Makefile.am: added hf-dt-format.glade
+	* dialog-printer-setup.c (do_hf_dt_format_customize): new
+	(hf_insert_custom_date_cb): new
+	(hf_insert_custom_time_cb): new
+	(hf_attach_insert_date_menu): link hf_insert_custom_date_cb
+	(hf_attach_insert_time_menu): link hf_insert_custom_time_cb
+	(hf_dt_customize_ok): new
+	
 2007-11-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* print.glade: add orientation radio buttons to the main dialog

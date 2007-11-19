@@ -57,6 +57,8 @@
 /*#include <gtk/gtkmenuitem.h>*/
 #include <gdk/gdkkeysyms.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-format.h>
+#include <goffice/gtk/go-format-sel.h>
 #include <string.h>
 
 /* FIXME: do not hardcode pixel counts.  */
@@ -172,6 +174,16 @@ struct _PrinterSetupState {
 };
 
 typedef struct _HFCustomizeState HFCustomizeState;
+
+typedef struct _HFDTFormatState HFDTFormatState;
+struct _HFDTFormatState {
+	GtkWidget        *dialog;
+	GladeXML         *gui;
+	HFCustomizeState *hf_state;
+	char             *format_string;
+	GtkWidget        *format_sel;
+};
+
 struct _HFCustomizeState {
 	GtkWidget        *dialog;
 	GladeXML         *gui;
@@ -208,6 +220,8 @@ static void fetch_settings (PrinterSetupState *state);
 static void do_update_page (PrinterSetupState *state);
 static void do_fetch_margins (PrinterSetupState *state);
 static void do_hf_customize (gboolean header, PrinterSetupState *state);
+static char *do_hf_dt_format_customize (gboolean date, HFCustomizeState *hf_state);
+
 
 static double
 get_conversion_factor (GtkUnit unit)
@@ -1086,9 +1100,33 @@ hf_insert_date_cb (GtkWidget *widget, HFCustomizeState *hf_state)
 }
 
 static void
+hf_insert_custom_date_cb (GtkWidget *widget, HFCustomizeState *hf_state)
+{
+	char *format;
+
+	format = do_hf_dt_format_customize (TRUE, hf_state);
+	if (format != NULL) {
+		hf_insert_hf_tag (hf_state, HF_FIELD_DATE, format);
+		g_free (format);
+	}
+}
+
+static void
 hf_insert_time_cb (GtkWidget *widget, HFCustomizeState *hf_state)
 {
 	hf_insert_hf_tag (hf_state, HF_FIELD_TIME, g_object_get_data (G_OBJECT (widget), "options"));
+}
+
+static void
+hf_insert_custom_time_cb (GtkWidget *widget, HFCustomizeState *hf_state)
+{
+	char *format;
+
+	format = do_hf_dt_format_customize (FALSE, hf_state);
+	if (format != NULL) {
+		hf_insert_hf_tag (hf_state, HF_FIELD_TIME, format);
+		g_free (format);
+	}
 }
 
 static void
@@ -1327,7 +1365,7 @@ static gboolean
 check_hf_tag (char const *unknown_tag, char const *known_tag, gchar **options, gint length)
 {
 	int len;
-	char *closing = unknown_tag + length;
+	char const *closing = unknown_tag + length;
 
 	if (0 != g_ascii_strncasecmp (unknown_tag, "&[", 2))
 		return FALSE;
@@ -1449,6 +1487,12 @@ hf_attach_insert_date_menu (GtkMenuToolButton *button, HFCustomizeState* hf_stat
 		 "activate", G_CALLBACK (hf_insert_date_cb), hf_state);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
+	item = gtk_menu_item_new_with_label (_("Custom date format"));
+	g_signal_connect
+		(G_OBJECT (item),
+		 "activate", G_CALLBACK (hf_insert_custom_date_cb), hf_state);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
 	item = gtk_separator_menu_item_new ();
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
@@ -1475,10 +1519,16 @@ hf_attach_insert_time_menu (GtkMenuToolButton *button, HFCustomizeState* hf_stat
 
 	menu = gtk_menu_new ();
 
-	item = gtk_menu_item_new_with_label (_("Default Time Format"));
+	item = gtk_menu_item_new_with_label (_("Default time format"));
 	g_signal_connect
 		(G_OBJECT (item),
 		 "activate", G_CALLBACK (hf_insert_time_cb), hf_state);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	item = gtk_menu_item_new_with_label (_("Custom time format"));
+	g_signal_connect
+		(G_OBJECT (item),
+		 "activate", G_CALLBACK (hf_insert_custom_time_cb), hf_state);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
 	item = gtk_separator_menu_item_new ();
@@ -1699,7 +1749,84 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 
 /*************  Header Footer Customization *********** End *************/
 
+/*************  Date/Time Format Customization ******** Start ***********/
 
+static void
+hf_dt_customize_ok (HFDTFormatState *hf_dt_state)
+{
+	GOFormat *format = go_format_sel_get_fmt (hf_dt_state->format_sel);
+	hf_dt_state->format_string = g_strdup (go_format_as_XL (format));
+}
+
+static char *
+do_hf_dt_format_customize (gboolean date, HFCustomizeState *hf_state)
+{
+	GladeXML *gui;
+	
+	GtkWidget *dialog, *format_sel, *table;
+	HFDTFormatState* hf_dt_state;
+	gint result;
+	char *result_string = NULL;
+
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (hf_state->printer_setup_state->wbcg),
+		"hf-dt-format.glade", NULL, NULL);
+        if (gui == NULL)
+                return NULL;
+
+	hf_dt_state = g_new0 (HFDTFormatState, 1);
+	hf_dt_state->gui = gui;
+	hf_dt_state->hf_state = hf_state;
+	hf_dt_state->format_string = NULL;
+
+	dialog = glade_xml_get_widget (gui, "hf-dt-format");
+	hf_dt_state->dialog = dialog;
+
+	if (date) {
+		gtk_window_set_title (GTK_WINDOW (dialog), _("Date format selection"));
+	} else {
+		gtk_window_set_title (GTK_WINDOW (dialog), _("Time format selection"));
+	}
+	
+	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "ok_button")),
+		"clicked", G_CALLBACK (hf_dt_customize_ok), hf_dt_state);
+
+	g_object_set_data_full (G_OBJECT (dialog),
+		"hfdtstate", hf_dt_state, (GDestroyNotify) g_free);
+
+	gnumeric_init_help_button (glade_xml_get_widget (gui, "help_button"),
+		GNUMERIC_HELP_LINK_PRINTER_SETUP_GENERAL);
+
+	table = glade_xml_get_widget (gui, "layout-table");
+	if (table == NULL) {
+		gtk_widget_destroy (dialog);
+		return NULL;
+	}
+	hf_dt_state->format_sel = format_sel = go_format_sel_new ();
+	go_format_sel_set_style_format 
+		(format_sel, 
+		 date ? go_format_default_date () : go_format_default_time ());
+
+	gtk_widget_show_all (dialog);
+	gtk_table_attach_defaults (GTK_TABLE (table), format_sel, 0, 3, 1, 4);
+	gtk_widget_show (format_sel);
+
+	result = gtk_dialog_run (GTK_DIALOG (dialog));
+	switch (result)
+	{
+	case GTK_RESPONSE_OK:
+		result_string = hf_dt_state->format_string;
+		break;
+	default:
+		gtk_widget_destroy (dialog);
+		return NULL;
+	}
+	gtk_widget_destroy (dialog);
+	return result_string;
+}
+
+
+
+/*************  Date/Time Format Customization ******** End *************/
 
 /* header/footer_preview_event
  * If the user double clicks on a header/footer preview canvas, we will

@@ -207,6 +207,7 @@ src/dialogs/function-select.glade
 src/dialogs/goalseek.glade
 src/dialogs/goto.glade
 src/dialogs/hf-config.glade
+src/dialogs/hf-dt-format.glade
 src/dialogs/histogram.glade
 src/dialogs/hyperlink.glade
 src/dialogs/insert-cells.glade

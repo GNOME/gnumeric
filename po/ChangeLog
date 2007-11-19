@@ -1,3 +1,7 @@
+2007-11-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* POTFILES.in: added src/dialogs/hf-dt-format.glade
+
 2007-11-14  Jorge Gonzalez  <jorgegonz@svn.gnome.org>  
 
         * es.po: Updated Spanish translation.
