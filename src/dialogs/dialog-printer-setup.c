@@ -131,6 +131,11 @@ struct _PrinterSetupState {
 	GtkWidget        *scale_fit_to_radio;
 	GtkWidget        *scale_no_radio;
 
+	GtkWidget        *portrait_radio;
+	GtkWidget        *landscape_radio;
+	GtkWidget        *rev_portrait_radio;
+	GtkWidget        *rev_landscape_radio;
+
 	GtkWidget        *unit_selector;
 	GtkTreeModel     *unit_model;
 	GtkUnit		  display_unit;
@@ -2114,8 +2119,41 @@ do_update_page (PrinterSetupState *state)
 	configure_bounds_bottom (state);
 
 	canvas_update (state);
+
+	switch (print_info_get_paper_orientation (state->pi)) {
+	case GTK_PAGE_ORIENTATION_PORTRAIT:
+		gtk_toggle_button_set_active 
+			(GTK_TOGGLE_BUTTON (state->portrait_radio), TRUE);
+		break;
+	case GTK_PAGE_ORIENTATION_REVERSE_PORTRAIT:
+		gtk_toggle_button_set_active 
+			(GTK_TOGGLE_BUTTON (state->rev_portrait_radio), TRUE);
+		break;
+	case GTK_PAGE_ORIENTATION_LANDSCAPE:
+		gtk_toggle_button_set_active 
+			(GTK_TOGGLE_BUTTON (state->landscape_radio), TRUE);
+		break;
+	default:
+		gtk_toggle_button_set_active 
+			(GTK_TOGGLE_BUTTON (state->rev_landscape_radio), TRUE);
+		break;
+	}
 }
 
+
+static void
+orientation_changed_cb (PrinterSetupState *state)
+{
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->portrait_radio))) 
+		print_info_set_paper_orientation (state->pi, GTK_PAGE_ORIENTATION_PORTRAIT);
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->rev_portrait_radio))) 
+		print_info_set_paper_orientation (state->pi, GTK_PAGE_ORIENTATION_REVERSE_PORTRAIT);
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->landscape_radio))) 
+		print_info_set_paper_orientation (state->pi, GTK_PAGE_ORIENTATION_LANDSCAPE);
+	else 
+		print_info_set_paper_orientation (state->pi, GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE);
+	do_update_page (state);
+}
 
 static void
 do_setup_page (PrinterSetupState *state)
@@ -2127,6 +2165,18 @@ do_setup_page (PrinterSetupState *state)
 	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "paper-button")), 
 		"clicked", 
 		G_CALLBACK (dialog_gtk_printer_setup_cb), state); 
+
+	state->portrait_radio = glade_xml_get_widget (gui, "portrait-button");
+	state->landscape_radio = glade_xml_get_widget (gui, "landscape-button");
+	state->rev_portrait_radio = glade_xml_get_widget (gui, "r-portrait-button");
+	state->rev_landscape_radio = glade_xml_get_widget (gui, "r-landscape-button");
+
+	g_signal_connect_swapped (G_OBJECT (state->portrait_radio), "toggled",
+				  G_CALLBACK (orientation_changed_cb), state);
+	g_signal_connect_swapped (G_OBJECT (state->rev_portrait_radio), "toggled",
+				  G_CALLBACK (orientation_changed_cb), state);
+	g_signal_connect_swapped (G_OBJECT (state->landscape_radio), "toggled",
+				  G_CALLBACK (orientation_changed_cb), state);
 
 	do_setup_margin (state);
 	

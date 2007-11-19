@@ -1,5 +1,12 @@
 2007-11-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* print.glade: add orientation radio buttons to the main dialog
+	* dialog-printer-setup.c: (do_update_page) set these radio buttons
+	(orientation_changed_cb): one of these radio buttons was clicked.
+	(do_setup_page): setup these radio buttons
+
+2007-11-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-printer-setup.c (check_hf_tag): add length argument and 
 	  change all callers. Consider only length many characters.
 
