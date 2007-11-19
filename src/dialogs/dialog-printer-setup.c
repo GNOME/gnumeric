@@ -1754,7 +1754,8 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 static void
 hf_dt_customize_ok (HFDTFormatState *hf_dt_state)
 {
-	GOFormat *format = go_format_sel_get_fmt (hf_dt_state->format_sel);
+	GOFormat *format =
+		go_format_sel_get_fmt (GO_FORMAT_SEL (hf_dt_state->format_sel));
 	hf_dt_state->format_string = g_strdup (go_format_as_XL (format));
 }
 
@@ -1803,7 +1804,7 @@ do_hf_dt_format_customize (gboolean date, HFCustomizeState *hf_state)
 	}
 	hf_dt_state->format_sel = format_sel = go_format_sel_new ();
 	go_format_sel_set_style_format 
-		(format_sel, 
+		(GO_FORMAT_SEL (format_sel), 
 		 date ? go_format_default_date () : go_format_default_time ());
 
 	gtk_widget_show_all (dialog);

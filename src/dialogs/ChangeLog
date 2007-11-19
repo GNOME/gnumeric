@@ -1,3 +1,9 @@
+2007-11-19  Morten Welinder  <terra@gnome.org>
+
+	* dialog-printer-setup.c (do_hf_dt_format_customize): Fix
+	compilation type warning.
+	(hf_dt_customize_ok): Ditto.
+
 2007-11-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* hf-dt-format.glade: new
