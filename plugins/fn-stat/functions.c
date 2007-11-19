@@ -3774,14 +3774,18 @@ ttest_equal_unequal (GnmFuncEvalInfo *ei,
 	}
 
 	if (unequal) {
-		gnm_float c = (vx / nx) / (vx / nx + vy / ny);
-		dof = 1.0 / ((c * c) / (nx - 1) +
-			     ((1 - c) * (1 - c)) / (ny - 1));
-	} else
+		gnm_float S = (vx / nx + vy / ny);
+		gnm_float c = (vx / nx) / S;
+		gnm_float cC = (vy / ny) / S;
+		dof = 1.0 / (c * c / (nx - 1) + cC * cC / (ny - 1));
+		t = gnm_abs (mx - my) / gnm_sqrt (S);
+	} else {
 		dof = nx + ny - 2;
-
-	t = (mx - my) / gnm_sqrt (vx / nx + vy / ny);
-	res = value_new_float (tails * pt (gnm_abs (t), dof, FALSE, FALSE));
+		t = (gnm_abs (mx - my) *
+		     gnm_sqrt (dof * nx * ny /
+			       ((nx + ny) * ((nx - 1) * vx + (ny - 1) * vy))));
+	}
+	res = value_new_float (tails * pt (t, dof, FALSE, FALSE));
 
 out:
 	g_free (xs);
