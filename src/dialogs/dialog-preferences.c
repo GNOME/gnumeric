@@ -61,7 +61,6 @@ typedef struct {
 	GladeXML	*gui;
 	GtkWidget	*dialog;
 	GtkNotebook	*notebook;
-	GtkTextView	*description;
 	GtkTreeStore    *store;
 	GtkTreeView     *view;
 	GOConfNode	*root;
@@ -93,39 +92,6 @@ dialog_pref_add_item (PrefState *state, char const *page_name, char const *icon_
 			    PAGE_NUMBER, page,
 			    -1);
 	g_object_unref (icon);
-}
-
-static void
-dialog_pref_page_open (PrefState *state)
-{
-	GtkTextIter start;
-	GtkTextIter end;
-	GtkTextBuffer *buffer;
-
-	buffer = gtk_text_view_get_buffer (state->description);
-	gtk_text_buffer_get_bounds (buffer, &start, &end);
-	gtk_text_buffer_delete (buffer, &start, &end);
-}
-
-static void
-dialog_pref_load_description (PrefState *state, char const *text)
-{
-	GtkTextBuffer *buffer = gtk_text_view_get_buffer (state->description);
-
-	gtk_text_buffer_set_text (buffer, text, -1);
-}
-
-static void
-dialog_pref_load_description_from_key (PrefState *state, char const *key)
-{
-	char *long_desc = go_conf_get_long_desc (state->root, key);
-
-	if (long_desc == NULL)
-		dialog_pref_load_description (state, "");
-	else {
-		dialog_pref_load_description (state, long_desc);
-		g_free (long_desc);
-	}
 }
 
 static void
@@ -404,14 +370,6 @@ double_pref_create_widget (GOConfNode *node, char const *key, GtkWidget *table,
 /*******************************************************************************************/
 
 static void
-pref_font_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
-		     G_GNUC_UNUSED GtkNotebook *notebook,
-		     G_GNUC_UNUSED gint page_num)
-{
-	dialog_pref_load_description_from_key (state, GNM_CONF_FONT_NAME);
-}
-
-static void
 cb_pref_font_set_fonts (GOConfNode *node, char const *key, GtkWidget *page)
 {
 	if (!key || g_str_has_suffix (key, GNM_CONF_FONT_NAME))
@@ -474,14 +432,6 @@ pref_font_initializer (PrefState *state,
 /*******************************************************************************************/
 
 static void
-pref_font_hf_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
-			G_GNUC_UNUSED GtkNotebook *notebook,
-			G_GNUC_UNUSED gint page_num)
-{
-	dialog_pref_load_description_from_key (state, PRINTSETUP_GCONF_HF_FONT_NAME);
-}
-
-static void
 cb_pref_font_hf_set_fonts (GOConfNode *node, char const *key, GtkWidget *page)
 {
 	node = gnm_conf_get_root ();
@@ -540,15 +490,6 @@ pref_font_hf_initializer (PrefState *state,
 /*                     Undo Preferences Page                                              */
 /*******************************************************************************************/
 
-static void
-pref_undo_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
-		     G_GNUC_UNUSED GtkNotebook *notebook,
-		     G_GNUC_UNUSED gint page_num)
-{
-	dialog_pref_load_description (state,
-		_("The items on this page customize the behaviour of the undo/redo system."));
-}
-
 static GtkWidget *
 pref_undo_page_initializer (PrefState *state,
 			    G_GNUC_UNUSED gpointer data,
@@ -585,17 +526,6 @@ pref_undo_page_initializer (PrefState *state,
 /*******************************************************************************************/
 /*                     Sort Preferences Page                                              */
 /*******************************************************************************************/
-
-static void
-pref_sort_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
-		     G_GNUC_UNUSED GtkNotebook *notebook,
-		     G_GNUC_UNUSED gint page_num)
-{
-	dialog_pref_load_description (state,
-				      _("The items on this page customize the "
-					"inital settings of the sort dialog and "
-					"the behaviour of the sort toolbar buttons."));
-}
 
 static GtkWidget *
 pref_sort_page_initializer (PrefState *state,
@@ -638,17 +568,6 @@ pref_sort_page_initializer (PrefState *state,
 /*                     Window Preferences Page                                              */
 /*******************************************************************************************/
 
-static void
-pref_window_page_open (PrefState *state,
-		       G_GNUC_UNUSED gpointer data,
-		       G_GNUC_UNUSED GtkNotebook *notebook,
-		       G_GNUC_UNUSED gint page_num)
-{
-	dialog_pref_load_description (state,
-				      _("The items on this page customize the "
-					"new default workbook."));
-}
-
 static GtkWidget *
 pref_window_page_initializer (PrefState *state,
 			      G_GNUC_UNUSED gpointer data,
@@ -690,16 +609,6 @@ pref_window_page_initializer (PrefState *state,
 /*                     File/XML Preferences Page                                           */
 /*******************************************************************************************/
 
-static void
-pref_file_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
-		     G_GNUC_UNUSED GtkNotebook *notebook,
-		     G_GNUC_UNUSED gint page_num)
-{
-	dialog_pref_load_description (state,
-				      _("The items on this page are related to the saving "
-					"and opening of files."));
-}
-
 static GtkWidget *
 pref_file_page_initializer (PrefState *state,
 			    G_GNUC_UNUSED gpointer data,
@@ -740,16 +649,6 @@ pref_file_page_initializer (PrefState *state,
 /*                     Screen Preferences Page                                           */
 /*******************************************************************************************/
 
-static void
-pref_screen_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
-		       G_GNUC_UNUSED GtkNotebook *notebook,
-		       G_GNUC_UNUSED gint page_num)
-{
-	dialog_pref_load_description (state,
-				      _("The items on this page are related to "
-					"the screen layout and resolution."));
-}
-
 static GtkWidget *
 pref_screen_page_initializer (PrefState *state,
 			      G_GNUC_UNUSED gpointer data,
@@ -778,17 +677,6 @@ pref_screen_page_initializer (PrefState *state,
 /*******************************************************************************************/
 /*                     Tool Preferences Page                                               */
 /*******************************************************************************************/
-
-static void
-pref_tool_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
-		     G_GNUC_UNUSED GtkNotebook *notebook,
-		     G_GNUC_UNUSED gint page_num)
-{
-	dialog_pref_load_description (state,
-				      _("The items on this page and its subpages are "
-                                        "related to "
-					"various gnumeric tools."));
-}
 
 static GtkWidget *
 pref_tool_page_initializer (PrefState *state,
@@ -835,17 +723,6 @@ pref_tool_page_initializer (PrefState *state,
 /*                     Copy/Paste Preferences Page                                               */
 /*******************************************************************************************/
 
-static void
-pref_copypaste_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
-			  G_GNUC_UNUSED GtkNotebook *notebook,
-			  G_GNUC_UNUSED gint page_num)
-{
-	dialog_pref_load_description (state,
-				      _("The items on this page are "
-                                        "related to "
-					"copy, cut and paste."));
-}
-
 static GtkWidget *
 pref_copypaste_page_initializer (PrefState *state,
 				 G_GNUC_UNUSED gpointer data,
@@ -875,21 +752,19 @@ typedef struct {
 	char const *parent_path;
 	GtkWidget * (*page_initializer) (PrefState *state, gpointer data,
 					 GtkNotebook *notebook, gint page_num);
-	void	    (*page_open)	(PrefState *state, gpointer data,
-					 GtkNotebook *notebook, gint page_num);
 	gpointer data;
 } page_info_t;
 
 static page_info_t const page_info[] = {
-	{N_("Font"),          GTK_STOCK_ITALIC,		 NULL, &pref_font_initializer,		&pref_font_page_open,	NULL},
-	{N_("Copy and Paste"),GTK_STOCK_PASTE,		 NULL, &pref_copypaste_page_initializer,&pref_copypaste_page_open,	NULL},
-	{N_("Files"),         GTK_STOCK_FLOPPY,		 NULL, &pref_file_page_initializer,	&pref_file_page_open,	NULL},
-	{N_("Tools"),       GTK_STOCK_EXECUTE,           NULL, &pref_tool_page_initializer,	&pref_tool_page_open,	NULL},
-	{N_("Undo"),          GTK_STOCK_UNDO,		 NULL, &pref_undo_page_initializer,	&pref_undo_page_open,	NULL},
-	{N_("Windows"),       "Gnumeric_ObjectCombo",	 NULL, &pref_window_page_initializer,	&pref_window_page_open,	NULL},
-	{N_("Header/Footer"), GTK_STOCK_ITALIC,		 "0",  &pref_font_hf_initializer,	&pref_font_hf_page_open, NULL},
-	{N_("Sorting"),       GTK_STOCK_SORT_ASCENDING,  "3", &pref_sort_page_initializer,	&pref_sort_page_open,	NULL},
-	{N_("Screen"),        GTK_STOCK_PREFERENCES,     "5", &pref_screen_page_initializer,	&pref_screen_page_open,	NULL},
+	{N_("Font"),          GTK_STOCK_ITALIC,		 NULL, &pref_font_initializer,		NULL},
+	{N_("Copy and Paste"),GTK_STOCK_PASTE,		 NULL, &pref_copypaste_page_initializer,NULL},
+	{N_("Files"),         GTK_STOCK_FLOPPY,		 NULL, &pref_file_page_initializer,	NULL},
+	{N_("Tools"),       GTK_STOCK_EXECUTE,           NULL, &pref_tool_page_initializer,	NULL},
+	{N_("Undo"),          GTK_STOCK_UNDO,		 NULL, &pref_undo_page_initializer,	NULL},
+	{N_("Windows"),       "Gnumeric_ObjectCombo",	 NULL, &pref_window_page_initializer,	NULL},
+	{N_("Header/Footer"), GTK_STOCK_ITALIC,		 "0",  &pref_font_hf_initializer,	NULL},
+	{N_("Sorting"),       GTK_STOCK_SORT_ASCENDING,  "3", &pref_sort_page_initializer,	NULL},
+	{N_("Screen"),        GTK_STOCK_PREFERENCES,     "5", &pref_screen_page_initializer,	NULL},
 	{NULL, NULL, NULL, NULL, NULL, NULL},
 };
 
@@ -955,18 +830,6 @@ cb_close_clicked (PrefState *state)
 }
 
 static void
-cb_dialog_pref_switch_page  (GtkNotebook *notebook,
-			     G_GNUC_UNUSED GtkNotebookPage *page,
-			     gint page_num, PrefState *state)
-{
-	if (page_info[page_num].page_open)
-		page_info[page_num].page_open (state, page_info[page_num].data,
-					       notebook, page_num);
-	else
-		dialog_pref_page_open (state);
-}
-
-static void
 cb_workbook_removed (PrefState *state)
 {
 	if (gnm_app_workbook_list () == NULL)
@@ -1005,7 +868,6 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 	state->gui = gui;
 	state->dialog     = glade_xml_get_widget (gui, "preferences");
 	state->notebook = (GtkNotebook*)glade_xml_get_widget (gui, "notebook");
-	state->description = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "description"));
 
 	state->view = GTK_TREE_VIEW(glade_xml_get_widget (gui, "itemlist"));
 	state->store = gtk_tree_store_new (NUM_COLUMNS,
@@ -1034,10 +896,6 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 	g_signal_connect_swapped (G_OBJECT (glade_xml_get_widget (gui, "close_button")),
 		"clicked",
 		G_CALLBACK (cb_close_clicked), state);
-
-	g_signal_connect (G_OBJECT (state->notebook),
-		"switch-page",
-		G_CALLBACK (cb_dialog_pref_switch_page), state);
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),

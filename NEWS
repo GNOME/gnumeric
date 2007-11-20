@@ -2,6 +2,8 @@ Gnumeric 1.7.91 (rc2)
 
 Andreas:
 	* Fix formula guru. [#363871]
+	* Remove apparently confusing textview in the preference 
+	  dialog [#380080]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.90 (rc1)
