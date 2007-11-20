@@ -1,3 +1,29 @@
+gnumeric (1.7.90-1) unstable; urgency=low
+
+  * New upstream beta release.
+  * [debian/control]
+    * Bumped goffice build dependency per configure.in .
+    * Dropped `XS-' prefix from XS-Vcs-Svn, XS-Vcs-Browser.
+  * [debian/watch] Updated.
+  * [debian/gnumeric.install] Install gnumeric-features.h .
+
+  Christian Perrier <bubulle@debian.org>:
+  * Debconf templates and debian/control reviewed by the debian-l10n-
+    english team as part of the Smith review project. Closes: #448448
+  * [Debconf translation updates]
+  * Swedish. Closes: #449026
+  * Galician. Closes: #449065
+  * Slovak. Closes: #449079
+  * Finnish. Closes: #449086
+  * Portuguese. Closes: #449232
+  * Czech. Closes: #449269
+  * Italian. Closes: #449447
+  * Spanish; Castilian. Closes: #450546
+  * Russian. Closes: #451399
+  * French. Closes: #451758
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 20 Nov 2007 22:20:32 +0100
+
 gnumeric (1.7.14-1) unstable; urgency=low
 
   * New upstream release.

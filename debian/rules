@@ -72,9 +72,6 @@ features+= --without-bonobo
 # Don't build a PDF of the documentation.
 features+= --disable-pdfdocs
 
-# Enable it for my development tree:
-#features+= --enable-pdfdocs
-
 confflags :=	--prefix=/usr \
 		--mandir=\$${prefix}/share/man \
 		--sysconfdir=/etc \

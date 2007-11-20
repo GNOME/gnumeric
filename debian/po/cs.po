@@ -1,14 +1,14 @@
-# SOME DESCRIPTIVE TITLE.
+# Czech translation of gnumeric debconf messages.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# This file is distributed under the same license as the gnumeric package.
+# Miroslav Kure <kurem@debian.cz>, 2006,2007.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"Report-Msgid-Bugs-To: jdassen@debian.org\n"
-"POT-Creation-Date: 2006-01-04 21:26+0100\n"
-"PO-Revision-Date: 2006-02-17 19:56+0100\n"
+"Report-Msgid-Bugs-To: Source: gnumeric@packages.debian.org\n"
+"POT-Creation-Date: 2007-11-02 12:26+0100\n"
+"PO-Revision-Date: 2007-11-04 16:32+0100\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,27 +17,26 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../gnumeric.templates:4
-msgid "Are you sure you want to upgrade gnumeric right now?"
-msgstr "Jste si jisti, že chcete aktualizovat gnumeric právě teď?"
+#: ../gnumeric.templates:2001
+msgid "Really upgrade gnumeric?"
+msgstr "Opravdu aktualizovat gnumeric?"
 
 #. Type: boolean
 #. Description
-#: ../gnumeric.templates:4
+#: ../gnumeric.templates:2001
 msgid ""
-"It appears there is an instance of gnumeric running currently. If you "
-"upgrade gnumeric now, that instance may not be able to save its data anymore."
+"An instance of gnumeric is currently running. If you upgrade now, it may no "
+"longer be able to save its data."
 msgstr ""
-"Zdá se, že momentálně běží nejméně jedna instance gnumericu. Pokud "
-"provedete aktualizaci nyní, může se stát, že nebudete moci uložit právě "
-"otevřená data."
+"Momentálně běží nejméně jedna instance gnumericu. Pokud provedete "
+"aktualizaci nyní, může se stát, že nebudete moci uložit právě otevřená data."
 
 #. Type: boolean
 #. Description
-#: ../gnumeric.templates:4
+#: ../gnumeric.templates:2001
 msgid ""
-"You are strongly recommended to close the running instances of gnumeric "
-"prior to upgrading this package."
+"You should close the running instances of gnumeric before upgrading this "
+"package."
 msgstr ""
-"Před aktualizací tohoto balíku důrazně doporučujeme ukončit všechny běžící "
-"instance gnumericu."
+"Před aktualizací tohoto balíku byste měli ukončit všechny běžící instance "
+"gnumericu."

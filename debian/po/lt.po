@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric_1.6.3-2_templates\n"
-"Report-Msgid-Bugs-To: jdassen@debian.org\n"
-"POT-Creation-Date: 2006-07-22 13:33+0200\n"
+"Report-Msgid-Bugs-To: Source: gnumeric@packages.debian.org\n"
+"POT-Creation-Date: 2007-11-02 12:26+0100\n"
 "PO-Revision-Date: 2006-06-18 18:01+0300\n"
 "Last-Translator: Gintautas Miliauskas <gintas@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -19,26 +19,38 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../gnumeric.templates:1001
-msgid "Are you sure you want to upgrade gnumeric right now?"
-msgstr "Ar tikrai norite dabar atnaujinti gnumeric?"
+#: ../gnumeric.templates:2001
+msgid "Really upgrade gnumeric?"
+msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../gnumeric.templates:1001
+#: ../gnumeric.templates:2001
+#, fuzzy
+#| msgid ""
+#| "It appears there is an instance of gnumeric running currently. If you "
+#| "upgrade gnumeric now, that instance may not be able to save its data "
+#| "anymore."
 msgid ""
-"It appears there is an instance of gnumeric running currently. If you "
-"upgrade gnumeric now, that instance may not be able to save its data anymore."
+"An instance of gnumeric is currently running. If you upgrade now, it may no "
+"longer be able to save its data."
 msgstr ""
 "Atrodo, kad gnumeric šiuo metu paleistas. Jei atnaujinsite gnumeric dabar "
 "pat, paleistasis egzempliorius gali prarasti duomenis."
 
 #. Type: boolean
 #. Description
-#: ../gnumeric.templates:1001
+#: ../gnumeric.templates:2001
+#, fuzzy
+#| msgid ""
+#| "You are strongly recommended to close the running instances of gnumeric "
+#| "prior to upgrading this package."
 msgid ""
-"You are strongly recommended to close the running instances of gnumeric "
-"prior to upgrading this package."
+"You should close the running instances of gnumeric before upgrading this "
+"package."
 msgstr ""
 "Primygtinai rekomenduojame uždaryti veikiančius gnumeric egzempliorius prieš "
 "atnaujinant šį paketą."
+
+#~ msgid "Are you sure you want to upgrade gnumeric right now?"
+#~ msgstr "Ar tikrai norite dabar atnaujinti gnumeric?"
