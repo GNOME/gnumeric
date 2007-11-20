@@ -3984,6 +3984,7 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = count;
 	reloc_info.row_offset = 0;
+	parse_pos_init_sheet (&reloc_info.pos, sheet);
 
 	combine_undo (pundo, dependents_relocate (&reloc_info));
 
@@ -4038,6 +4039,7 @@ sheet_delete_cols (Sheet *sheet, int col, int count,
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = SHEET_MAX_COLS; /* force invalidation */
 	reloc_info.row_offset = 0;
+	parse_pos_init_sheet (&reloc_info.pos, sheet);
 
 	/* 0. Walk cells in deleted cols and ensure arrays aren't divided. */
 	if (sheet_range_splits_array (sheet, &reloc_info.origin, NULL,
@@ -4131,6 +4133,8 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = 0;
 	reloc_info.row_offset = count;
+	parse_pos_init_sheet (&reloc_info.pos, sheet);
+
 	combine_undo (pundo, dependents_relocate (&reloc_info));
 
 	/* 3. Move the rows to their new location (from last to first) */
@@ -4184,6 +4188,7 @@ sheet_delete_rows (Sheet *sheet, int row, int count,
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = 0;
 	reloc_info.row_offset = SHEET_MAX_ROWS; /* force invalidation */
+	parse_pos_init_sheet (&reloc_info.pos, sheet);
 
 	/* 0. Walk cells in deleted rows and ensure arrays aren't divided. */
 	if (sheet_range_splits_array (sheet, &reloc_info.origin, NULL,

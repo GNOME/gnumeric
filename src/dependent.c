@@ -1900,23 +1900,12 @@ cb_single_contained_collect (DependencySingle const *depsingle,
 			}});
 }
 
-struct cb_relocate_name {
-	GOUndo *undo;
-	GnmExprRelocateInfo rinfo;
-};
-
 static void
-cb_relocate_name (GnmNamedExpr *nexpr,
+cb_collect_names (GnmNamedExpr *nexpr,
 		  G_GNUC_UNUSED gpointer value,
-		  struct cb_relocate_name *data)
+		  GSList **l)
 {
-	GnmExprTop const *newtree =
-		gnm_expr_top_relocate (nexpr->texpr, &data->rinfo, TRUE);
-	if (newtree) {
-		GOUndo *u = expr_name_set_expr_undo_new (nexpr);
-		data->undo = go_undo_combine (data->undo, u);
-		expr_name_set_expr (nexpr, newtree);
-	}
+	*l = g_slist_prepend (*l, nexpr);
 }
 
 /**
@@ -2053,19 +2042,24 @@ dependents_relocate (GnmExprRelocateInfo const *rinfo)
 
 	case GNM_EXPR_RELOCATE_COLS:
 	case GNM_EXPR_RELOCATE_ROWS: {
-		struct cb_relocate_name data;
-		GHashTable *names =
-			rinfo->origin_sheet->deps->referencing_names;
+		GSList *names = NULL, *l;
 
-		if (!names)
-			break;
-
-		data.undo = u_names;
-		data.rinfo = *rinfo;
-		g_hash_table_foreach (names,
-				      (GHFunc)cb_relocate_name,
-				      &data);
-		u_names = data.undo;
+		if (sheet->deps->referencing_names)
+			g_hash_table_foreach (sheet->deps->referencing_names,
+					      (GHFunc)cb_collect_names,
+					      &names);
+		for (l = names; l; l = l->next) {
+			GnmNamedExpr *nexpr = l->data;
+			GnmExprTop const *newtree =
+				gnm_expr_top_relocate (nexpr->texpr,
+						       rinfo, TRUE);
+			if (newtree) {
+				GOUndo *u = expr_name_set_expr_undo_new (nexpr);
+				u_names = go_undo_combine (u_names, u);
+				expr_name_set_expr (nexpr, newtree);
+			}
+		}
+		g_slist_free (names);
 		break;
 
 	default:

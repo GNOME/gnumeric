@@ -5,6 +5,9 @@ Andreas:
 	* Remove apparently confusing textview in the preference 
 	  dialog [#380080]
 
+Morten:
+	* Fix crash in dependency code for named expressions.  [#498347]
+
 --------------------------------------------------------------------------
 Gnumeric 1.7.90 (rc1)
 

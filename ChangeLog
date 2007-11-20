@@ -1,3 +1,11 @@
+2007-11-20  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_insert_cols, sheet_insert_rows,
+	sheet_delete_cols, sheet_delete_rows): Initialize reloc_info.pos.
+	* src/dependent.c (dependents_relocate): When handling names, get
+	a list of the names as the hash will change during the process.
+	Fixes #498347.
+
 2007-11-19  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump to 1.7.91-rc2
