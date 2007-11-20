@@ -1,20 +1,23 @@
+# translation of oc.po to Occitan
 # Occitan translation of gnumeric.
 # Copyright (C) 2007 Free Software Foundation, Inc.
 # This file is under the same license as the gnumeric package.
-# 
-# Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay>, 2007.
 #
+#
+# Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay>, 2007.
+# Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.7.9\n"
+"Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-13 17:49+0200\n"
-"PO-Revision-Date: 2007-08-19 21:29+0200\n"
-"Last-Translator: Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay>\n"
-"Language-Team: Occitan (post 1500) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
+"PO-Revision-Date: 2007-11-20 14:31+0100\n"
+"Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
+"Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: ../gnumeric.desktop.in.h:1
 msgid "Calculation, Analysis, and Visualization of Information"
@@ -89,8 +92,7 @@ msgid "a, b, rho"
 msgstr ""
 
 #: ../plugins/derivatives/options.c:2317
-msgid ""
-"call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
+msgid "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 msgstr ""
 
 #: ../plugins/derivatives/options.c:2322
@@ -102,8 +104,7 @@ msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
 msgstr ""
 
 #: ../plugins/derivatives/options.c:2332
-msgid ""
-"call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
+msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 msgstr ""
 
 #: ../plugins/derivatives/options.c:2337 ../plugins/derivatives/options.c:2347
@@ -121,13 +122,11 @@ msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
 msgstr ""
 
 #: ../plugins/derivatives/options.c:2357
-msgid ""
-"call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
+msgid "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 msgstr ""
 
 #: ../plugins/derivatives/options.c:2362
-msgid ""
-"call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
+msgid "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
 
 #: ../plugins/derivatives/options.c:2367
@@ -264,8 +263,7 @@ msgid "Data Interchange Format (DIF) module"
 msgstr ""
 
 #: ../plugins/dif/plugin.xml.in.h:3
-msgid ""
-"Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr ""
 
 #: ../plugins/excel/boot.c:186
@@ -394,8 +392,7 @@ msgstr ""
 
 #: ../plugins/excel/ms-formula-write.c:535
 #, c-format
-msgid ""
-"Too many arguments for function '%s', MS Excel can only handle %d not %d"
+msgid "Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:241
@@ -1111,8 +1108,7 @@ msgid "Statistical Functions"
 msgstr "Foncions estadisticas"
 
 #: ../plugins/fn-r/plugin.xml.in.h:2
-msgid ""
-"Statistical Functions with naming a calling conventions from The R Project"
+msgid "Statistical Functions with naming a calling conventions from The R Project"
 msgstr ""
 
 #: ../plugins/fn-r/plugin.xml.in.h:3 ../plugins/fn-stat/plugin.xml.in.h:2
@@ -1124,7 +1120,7 @@ msgstr "Estadisticas"
 #: ../plugins/fn-random/functions.c:1197 ../plugins/fn-random/functions.c:1233
 #: ../plugins/fn-random/functions.c:1251 ../plugins/fn-stat/functions.c:5964
 msgid "p"
-msgstr ""
+msgstr "p"
 
 #: ../plugins/fn-random/functions.c:1203
 msgid "bottom,top"
@@ -1149,7 +1145,7 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:1218
 msgid "b"
-msgstr ""
+msgstr "b"
 
 #: ../plugins/fn-random/functions.c:1224
 msgid "nu1,nu2"
@@ -2377,7 +2373,7 @@ msgstr ""
 #: ../schemas/gnumeric-dialogs.schemas.in.h:45
 #, fuzzy
 msgid "Paper"
-msgstr "Perl"
+msgstr "Papièr"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:46
 msgid "Please use the Print Setup dialog to edit this value."
@@ -2480,8 +2476,7 @@ msgid ""
 msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:66
-msgid ""
-"This list contains all extra directories containing autoformat templates."
+msgid "This list contains all extra directories containing autoformat templates."
 msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:67
@@ -2635,8 +2630,7 @@ msgid ""
 msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:92
-msgid ""
-"This variable determines whether to activate every new encountered plugin."
+msgid "This variable determines whether to activate every new encountered plugin."
 msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:93
@@ -2875,18 +2869,15 @@ msgid ""
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:47
-msgid ""
-"This value determines the maximum number of items in the undo/redo list."
+msgid "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:48
-msgid ""
-"This value determines whether the default font for a new workbook is bold."
+msgid "This value determines whether the default font for a new workbook is bold."
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:49
-msgid ""
-"This value determines whether the default font for a new workbook is italic."
+msgid "This value determines whether the default font for a new workbook is italic."
 msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:50
@@ -3296,7 +3287,7 @@ msgstr ""
 
 #: ../src/dialogs/autoformat.glade.h:8 ../src/dialogs/doc-meta-data.glade.h:26
 msgid "Author:"
-msgstr "Autor :"
+msgstr "Ancora"
 
 #: ../src/dialogs/autoformat.glade.h:9
 msgid "Autoformat"
@@ -4066,7 +4057,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:63
 msgid "Core"
-msgstr ""
+msgstr "Nucli"
 
 #: ../src/dialogs/dialog-about.c:64
 msgid "Features"
@@ -4106,7 +4097,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:73
 msgid "Art"
-msgstr ""
+msgstr "Art"
 
 #: ../src/dialogs/dialog-about.c:74
 msgid "Packaging"
@@ -4422,7 +4413,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:162
 msgid "Kevin Breit"
-msgstr ""
+msgstr "Kevin Breit"
 
 #: ../src/dialogs/dialog-about.c:163
 msgid "Thomas Canty"
@@ -4442,7 +4433,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-about.c:167
 msgid "Alexander Kirillov"
-msgstr ""
+msgstr "Alexander Kirillov"
 
 #: ../src/dialogs/dialog-about.c:267
 msgid "About Gnumeric"
@@ -4571,8 +4562,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:1971
 #: ../src/tools/analysis-tools.c:3087 ../src/tools/analysis-tools.c:3166
-msgid ""
-"There must be an equal number of entries for each variable in the regression."
+msgid "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:2065
@@ -4885,8 +4875,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-col-width.c:226
 #, c-format
-msgid ""
-"Set column width of selection on <span style='italic' weight='bold'>%s</span>"
+msgid "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
 
 #: ../src/dialogs/dialog-consolidate.c:197
@@ -5363,7 +5352,7 @@ msgstr "Ecran"
 #: ../src/dialogs/dialog-printer-setup.c:694
 #, fuzzy
 msgid "points"
-msgstr "Punt"
+msgstr "punts"
 
 #: ../src/dialogs/dialog-printer-setup.c:698
 #, fuzzy
@@ -5372,7 +5361,7 @@ msgstr "Linha"
 
 #: ../src/dialogs/dialog-printer-setup.c:702
 msgid "mm"
-msgstr ""
+msgstr "mm"
 
 #: ../src/dialogs/dialog-printer-setup.c:905
 #, c-format
@@ -5656,8 +5645,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-row-height.c:222
 #, c-format
-msgid ""
-"Set row height of selection on <span style='italic' weight='bold'>%s</span>"
+msgid "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
 
 #: ../src/dialogs/dialog-scenarios.c:129
@@ -5879,8 +5867,7 @@ msgid ""
 msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:714
-msgid ""
-"The Target Cell value specified does not converge!  The program is unbounded."
+msgid "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr ""
 
 #: ../src/dialogs/dialog-solver.c:728
@@ -6027,7 +6014,7 @@ msgstr ""
 #: ../src/dialogs/dialog-stf-export.glade.h:24 ../src/wbc-gtk-actions.c:1574
 #: ../src/wbc-gtk-actions.c:1578
 msgid "Select _All"
-msgstr "_Tot seleccionar"
+msgstr "Seleccionar un fichièr"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:25
 msgid "Select all non-empty sheets for export."
@@ -6143,8 +6130,7 @@ msgid "A maximum of %d columns can be imported."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-format-page.c:541
-msgid ""
-"If this checkbox is selected, the column will be imported into Gnumeric."
+msgid "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-format-page.c:694
@@ -6181,7 +6167,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf.glade.h:9
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #: ../src/dialogs/dialog-stf.glade.h:10
 msgid "C_olon (:)"
@@ -6297,8 +6283,7 @@ msgid "See two successive separators as one."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf.glade.h:37
-msgid ""
-"See two successive text indicators as one that does not terminate the cell."
+msgid "See two successive text indicators as one that does not terminate the cell."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf.glade.h:38
@@ -6502,7 +6487,7 @@ msgstr "Fuèlhs"
 
 #: ../src/dialogs/dialog-zoom.glade.h:5 ../src/wbc-gtk.c:2193
 msgid "Zoom"
-msgstr ""
+msgstr "Zoom"
 
 #: ../src/dialogs/dialog-zoom.glade.h:7
 #, no-c-format
@@ -6562,7 +6547,7 @@ msgstr "<b>Opcions</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:8
 msgid "<b>Name:</b>"
-msgstr "<b>Nom :</b>"
+msgstr "<b>Nom :</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:9
 msgid "<b>Number of cells:</b>"
@@ -6670,7 +6655,7 @@ msgstr "Subjècte :"
 
 #: ../src/dialogs/doc-meta-data.glade.h:39
 msgid "Title:"
-msgstr "Títol :"
+msgstr "Títol:"
 
 #: ../src/dialogs/doc-meta-data.glade.h:40
 msgid "Value: "
@@ -7063,7 +7048,7 @@ msgstr ""
 
 #: ../src/dialogs/mean-tests.glade.h:21
 msgid "_Test"
-msgstr "_Tèst"
+msgstr "_Tèxt"
 
 #: ../src/dialogs/mean-tests.glade.h:22
 msgid "_Unequal"
@@ -7087,7 +7072,7 @@ msgstr ""
 
 #: ../src/dialogs/merge.glade.h:3
 msgid "_Merge"
-msgstr ""
+msgstr "_Fusionar"
 
 #: ../src/dialogs/moving-averages.glade.h:2
 msgid "3"
@@ -7182,7 +7167,7 @@ msgstr "<b>Nom :</b>"
 
 #: ../src/dialogs/print.glade.h:8
 msgid "<b>Print</b>"
-msgstr ""
+msgstr "<b>Estampar</b>"
 
 #: ../src/dialogs/print.glade.h:9
 msgid "<b>Scale</b>"
@@ -7266,7 +7251,7 @@ msgstr ""
 #: ../src/dialogs/print.glade.h:28
 #, fuzzy
 msgid "Scale"
-msgstr "valor"
+msgstr "Escala"
 
 #: ../src/dialogs/print.glade.h:29
 msgid "Scale to fit _horizontally on"
@@ -7491,17 +7476,17 @@ msgstr ""
 
 #: ../src/dialogs/scenario-manager.glade.h:12
 msgid "Show"
-msgstr "Visualizacion"
+msgstr "Mostrar"
 
 #: ../src/dialogs/scenario-manager.glade.h:13
 #: ../src/dialogs/workbook-attr.glade.h:13 ../src/workbook-control.c:350
 msgid "View"
-msgstr "Visualizar"
+msgstr "Visualizacion"
 
 #: ../src/dialogs/search.glade.h:1 ../src/dialogs/search-replace.glade.h:4
 #: ../templates/autoformat/autoformat.General.advanced.xml.in.h:1
 msgid "Advanced"
-msgstr "Avançat"
+msgstr "A_vançat"
 
 #: ../src/dialogs/search.glade.h:2
 msgid "C_olumn major"
@@ -8129,8 +8114,7 @@ msgid "Tabulate Dependency"
 msgstr ""
 
 #: ../src/dialogs/tabulate.glade.h:11
-msgid ""
-"Use down for first source, right for second, and multiple sheets for third"
+msgid "Use down for first source, right for second, and multiple sheets for third"
 msgstr ""
 
 #: ../src/dialogs/tabulate.glade.h:12
@@ -8318,7 +8302,7 @@ msgstr ""
 
 #: ../src/tools/analysis-tools.c:1477 ../src/tools/analysis-tools.c:1480
 msgid "Sample"
-msgstr ""
+msgstr "Mòstra"
 
 #: ../src/tools/analysis-tools.c:1518
 msgid ""
@@ -8610,7 +8594,7 @@ msgstr ""
 
 #: ../src/tools/analysis-histogram.c:309
 msgid "Bin"
-msgstr ""
+msgstr "Bin"
 
 #: ../src/tools/analysis-histogram.c:334
 msgid "Frequency"
@@ -9790,8 +9774,7 @@ msgstr ""
 
 #: ../src/format-template.c:791
 #, c-format
-msgid ""
-"The target region is too small.  It should be at least %d rows by %d columns"
+msgid "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr ""
 
 #: ../src/format-template.c:795
@@ -9843,7 +9826,7 @@ msgstr ""
 
 #: ../src/func-builtin.c:297
 msgid "Gnumeric"
-msgstr ""
+msgstr "Gnumeric"
 
 #: ../src/func.c:226
 #, c-format
@@ -9868,7 +9851,7 @@ msgstr ""
 
 #: ../src/func.c:935
 msgid "Area"
-msgstr "Zòna"
+msgstr "Crear"
 
 #: ../src/func.c:937
 msgid "Scalar, Blank, or Error"
@@ -11293,7 +11276,7 @@ msgstr ""
 
 #: ../src/validation.c:73
 msgid "Equal"
-msgstr ""
+msgstr "Egal"
 
 #: ../src/validation.c:74
 msgid "Not Equal"
@@ -11487,7 +11470,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:1261 ../src/wbc-gtk.c:1266
 msgid "Don't quit"
-msgstr ""
+msgstr "Sortir pas"
 
 #: ../src/wbc-gtk.c:1272
 msgid "Don't close"
@@ -11519,7 +11502,7 @@ msgstr "_Acceptar"
 
 #: ../src/wbc-gtk.c:2191
 msgid "_Zoom"
-msgstr ""
+msgstr "_Zoom"
 
 #: ../src/wbc-gtk.c:2217
 msgid "Clear Borders"
@@ -11844,7 +11827,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1422
 msgid "_View"
-msgstr "_Visualizar"
+msgstr "_Visualizacion"
 
 #: ../src/wbc-gtk-actions.c:1423
 msgid "_Windows"
@@ -11929,7 +11912,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1451
 msgid "Close the current file"
-msgstr "Tampar lo fichièr actual"
+msgstr "Tampar lo fichièr actiu"
 
 #: ../src/wbc-gtk-actions.c:1454
 msgid "Quit the application"
@@ -12014,7 +11997,7 @@ msgstr "Configurar la compaginacion per vòstra estampadoira"
 
 #: ../src/wbc-gtk-actions.c:1515
 msgid "Print preview"
-msgstr ""
+msgstr "Previsualizacion de l'estampatge"
 
 #: ../src/wbc-gtk-actions.c:1518
 msgid "Print the current file"
@@ -12151,8 +12134,7 @@ msgid "_Merge..."
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1603
-msgid ""
-"Merges columnar data into a sheet creating duplicate sheets for each row"
+msgid "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1605
@@ -13652,7 +13634,7 @@ msgstr ""
 
 #: ../templates/autoformat/autoformat.Financial.ice.xml.in.h:3
 msgid "Ice"
-msgstr ""
+msgstr "Glaça"
 
 #: ../templates/autoformat/autoformat.Financial.modern.xml.in.h:2
 msgid "Modern"
@@ -13693,7 +13675,7 @@ msgstr "Void"
 
 #: ../templates/autoformat/autoformat.General.table.xml.in.h:2
 msgid "Table"
-msgstr "Taula"
+msgstr "Tablèu"
 
 #: ../templates/autoformat/autoformat.General.table.xml.in.h:3
 msgid "Very simple table template with the same border everywhere "
@@ -13723,20 +13705,3 @@ msgstr ""
 msgid "A simple list template"
 msgstr ""
 
-#~ msgid "Layout"
-#~ msgstr "Presentacion"
-
-#~ msgid "Style"
-#~ msgstr "Estil"
-
-#~ msgid "_Add:"
-#~ msgstr "_Apondre :"
-
-#~ msgid "_Format"
-#~ msgstr "_Format"
-
-#~ msgid "_Page"
-#~ msgstr "_Pagina"
-
-#~ msgid "_Deactivate All"
-#~ msgstr "_Desactivar tot"

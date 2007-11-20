@@ -1,20 +1,23 @@
+# translation of oc.po to Occitan
 # Occitan translation of gnumeric.
-# Copyright (C) 1998-2004 Free Software Foundation, Inc.
+# Copyright (C) 1998-2004, 2007 Free Software Foundation, Inc.
 # This file is under the same license as the gnumeric package.
-# 
+#
 # Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay>.
 #
+# Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.5.4\n"
+"Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-09-09 21:43-0400\n"
-"PO-Revision-Date: 2007-10-14 16:26+0200\n"
-"Last-Translator: Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay>\n"
-"Language-Team: Occitan (post 1500) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
+"PO-Revision-Date: 2007-11-20 14:31+0100\n"
+"Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
+"Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: ../plugins/derivatives/options.c:174
 #, no-c-format
@@ -5717,8 +5720,7 @@ msgid "significance:base multiple (defaults to 1 for @x > 0 and -1 for @x <0)"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1053
-msgid ""
-"FLOOR function rounds @x down to the next nearest multiple of @significance."
+msgid "FLOOR function rounds @x down to the next nearest multiple of @significance."
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1055
@@ -6595,8 +6597,7 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:123
-msgid ""
-"R.PLNORM:cumulative distribution function of the log-normal distribution."
+msgid "R.PLNORM:cumulative distribution function of the log-normal distribution."
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:129
@@ -6750,8 +6751,7 @@ msgid "n2:the second number of degrees of freedom of the distribution"
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:413
-msgid ""
-"This function returns the probability density function of the F distribution."
+msgid "This function returns the probability density function of the F distribution."
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:433
@@ -6790,8 +6790,7 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:510
-msgid ""
-"R.PCHISQ:cumulative distribution function of the chi-square distribution."
+msgid "R.PCHISQ:cumulative distribution function of the chi-square distribution."
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:515
@@ -6821,8 +6820,7 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:585
-msgid ""
-"R.PWEIBULL:cumulative distribution function of the Weibull distribution."
+msgid "R.PWEIBULL:cumulative distribution function of the Weibull distribution."
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:591
@@ -6887,8 +6885,7 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:735
-msgid ""
-"R.PEXP:cumulative distribution function of the exponential distribution."
+msgid "R.PEXP:cumulative distribution function of the exponential distribution."
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:740
@@ -6952,8 +6949,7 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:864
-msgid ""
-"R.DNBINOM:probability density function of the negative binomial distribution."
+msgid "R.DNBINOM:probability density function of the negative binomial distribution."
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:869
@@ -6988,8 +6984,7 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:943
-msgid ""
-"R.DHYPER:probability density function of the hypergeometric distribution."
+msgid "R.DHYPER:probability density function of the hypergeometric distribution."
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:945 ../plugins/fn-r/functions.c:972
@@ -7014,8 +7009,7 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:970
-msgid ""
-"R.PHYPER:cumulative distribution function of the hypergeometric distribution."
+msgid "R.PHYPER:cumulative distribution function of the hypergeometric distribution."
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:977
@@ -7025,8 +7019,7 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:999
-msgid ""
-"R.QHYPER:probability quantile function of the hypergeometric distribution."
+msgid "R.QHYPER:probability quantile function of the hypergeometric distribution."
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:1006
@@ -10216,87 +10209,3 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#~ msgid ""
-#~ "@FUNCTION=COLUMN\n"
-#~ "@SYNTAX=COLUMN([reference])\n"
-#~ "@DESCRIPTION=COLUMN function returns the column number of the current "
-#~ "cell unless @reference is given. In that case, it returns an array of the "
-#~ "column numbers of all cells in @reference. \n"
-#~ "* If @reference is neither an array nor a reference nor a range, COLUMN "
-#~ "returns #VALUE! error.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "COLUMN() in E1 equals 5.\n"
-#~ "\n"
-#~ "@SEEALSO=COLUMNS,ROW,ROWS"
-#~ msgstr ""
-#~ "@FUNCTION=COLUMN\n"
-#~ "@SYNTAX=COLUMN([référence])\n"
-#~ "@DESCRIPTION=La fonction COLUMN renvoie le numéro de colonne de la "
-#~ "cellule courante. Si @référence est présent, COLUMN renvoie un tableau "
-#~ "des numéros de colonnes des cellules contenues dans @reference.\n"
-#~ "\n"
-#~ "* Si @référence n'est ni un tableau, ni une référence, ni un intervalle, "
-#~ "la fonction renvoie l'erreur #VALEUR!\n"
-#~ "@EXAMPLES=\n"
-#~ "COLUMN() en E1 vaut 5.\n"
-#~ "\n"
-#~ "@SEEALSO=COLUMNS,ROW,ROWS"
-
-#~ msgid ""
-#~ "@FUNCTION=ROW\n"
-#~ "@SYNTAX=ROW([reference])\n"
-#~ "@DESCRIPTION=ROW function returns an array of the row numbers taking a "
-#~ "default argument of the containing cell position.\n"
-#~ "\n"
-#~ "* If @reference is neither an array nor a reference nor a range, ROW "
-#~ "returns #VALUE! error.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "ROW() in G13 equals 13.\n"
-#~ "\n"
-#~ "@SEEALSO=COLUMN,COLUMNS,ROWS"
-#~ msgstr ""
-#~ "@FUNCTION=ROW\n"
-#~ "@SYNTAX=ROW([référence])\n"
-#~ "@DESCRIPTION=La fonction ROW renvoie un tableau de numéros de ligne en "
-#~ "prenant comme argument par défaut les positions de cellules contenues "
-#~ "dans @référence.\n"
-#~ "\n"
-#~ "* Si @référence n'est ni un tableau, ni une référence, ni un intervalle, "
-#~ "la fonction renvoie l'erreur #VALEUR!\n"
-#~ "@EXAMPLES=\n"
-#~ "ROW() en G13 vaut 13.\n"
-#~ "\n"
-#~ "@SEEALSO=COLUMN,COLUMNS,ROWS"
-
-#~ msgid ""
-#~ "@FUNCTION=FLOOR\n"
-#~ "@SYNTAX=FLOOR(x[,significance])\n"
-#~ "@DESCRIPTION=FLOOR function rounds @x down to the next nearest multiple "
-#~ "of @significance.\n"
-#~ "\n"
-#~ "* @significance defaults to 1.\n"
-#~ "* This function is Excel compatible.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "FLOOR(0.5) equals 0.\n"
-#~ "FLOOR(5,2) equals 4.\n"
-#~ "FLOOR(-5,-2) equals -4.\n"
-#~ "FLOOR(-5,2) equals #NUM!.\n"
-#~ "\n"
-#~ "@SEEALSO=CEIL, CEILING, ABS, INT, MOD"
-#~ msgstr ""
-#~ "@FUNCTION=FLOOR\n"
-#~ "@SYNTAX=FLOOR(x[;précision])\n"
-#~ "@DESCRIPTION=La fonction FLOOR arrondit @x au multiple de @précision "
-#~ "immédiatement inférieur, ou à l'entier immédiatement inférieur si "
-#~ "@précision est omis.\n"
-#~ "* Cette fonction est compatible avec Excel.\n"
-#~ "@EXAMPLES=\n"
-#~ "FLOOR(0,5) vaut 0.\n"
-#~ "FLOOR(5;2) vaut 4.\n"
-#~ "FLOOR(-5;-2) vaut -4.\n"
-#~ "FLOOR(-5;2) vaut #NUM!.\n"
-#~ "\n"
-#~ "@SEEALSO=CEIL, ABS, INT"
