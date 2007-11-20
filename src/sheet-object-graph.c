@@ -622,13 +622,15 @@ sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 			 GClosure *closure)
 {
 	GtkWidget *dialog = gog_guru (graph, GOG_DATA_ALLOCATOR (wbcg),
-		       GO_CMD_CONTEXT (wbcg), wbcg_toplevel (wbcg),
-		       closure);
-
-	gnumeric_init_help_button (gog_guru_get_help_button (dialog),
+		GO_CMD_CONTEXT (wbcg), closure);
+	gnumeric_init_help_button (
+		gog_guru_get_help_button (dialog),
 		"sect-graphics-plots");
-
-	wbc_gtk_attach_guru (wbcg, dialog);
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (dialog),
+		wbcg, GNM_DIALOG_DESTROY_SHEET_REMOVED);
+	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (dialog), "graph-guru");
 	g_object_set_data_full (G_OBJECT (dialog),
-		"guru", wbcg, (GDestroyNotify) cb_graph_guru_done);
+		"state", wbcg, (GDestroyNotify) cb_graph_guru_done);
+	wbc_gtk_attach_guru (wbcg, dialog);
+	gtk_widget_show (dialog);
 }
