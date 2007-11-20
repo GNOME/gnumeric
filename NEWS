@@ -1,4 +1,10 @@
-Gnumeric 1.7.15
+Gnumeric 1.7.91 (rc2)
+
+Andreas:
+	* Fix formula guru. [#363871]
+
+--------------------------------------------------------------------------
+Gnumeric 1.7.90 (rc1)
 
 Andreas:
 	* Speed up pagination

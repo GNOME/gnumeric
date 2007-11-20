@@ -347,7 +347,7 @@ dialog_formula_guru_adjust_varargs (GtkTreeIter *iter, FormulaGuruState *state)
 }
 
 
-static void
+static gint
 dialog_formula_guru_load_fd (GtkTreePath *path, GnmFunc const *fd,
 			     FormulaGuruState *state)
 {
@@ -370,12 +370,12 @@ dialog_formula_guru_load_fd (GtkTreePath *path, GnmFunc const *fd,
 						      &iter, path)) {
 				gtk_tree_store_clear (state->model);
 				gtk_tree_path_free (new_path);
-				return;
+				return 0;
 			}
 		} else {
 			gtk_tree_store_clear (state->model);
 			gtk_tree_path_free (new_path);
-			return;
+			return 0;
 		}
 		gtk_tree_path_free (new_path);
 	}
@@ -399,7 +399,7 @@ dialog_formula_guru_load_fd (GtkTreePath *path, GnmFunc const *fd,
 	gtk_tree_view_expand_row (state->treeview, new_path, FALSE);
 	gtk_tree_path_free (new_path);
 
-
+	return max_arg;
 }
 
 static void
@@ -458,11 +458,13 @@ dialog_formula_guru_load_expr (GtkTreePath const *parent_path, gint child_num,
 
 	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_FUNCALL: {
-		int i;
+		int i, max_arg;
 		GtkTreeIter iter;
 
-		dialog_formula_guru_load_fd (path, expr->func.func, state);
-		for (i = 0; i < expr->func.argc; i++)
+		max_arg = dialog_formula_guru_load_fd (path, expr->func.func, state);
+		if (max_arg > expr->func.argc)
+			max_arg = expr->func.argc;
+		for (i = 0; i < max_arg; i++)
 			dialog_formula_guru_load_expr (path, i,
 						       expr->func.argv[i],
 						       state);

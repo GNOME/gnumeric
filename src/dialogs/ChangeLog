@@ -1,3 +1,10 @@
+2007-11-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-formula-guru.c (dialog_formula_guru_load_fd): return
+	  maximum number of possible arguments
+	(dialog_formula_guru_load_expr): use that return value of 
+	  dialog_formula_guru_load_fd and do not try to load more arguments.
+
 2007-11-19  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.90
