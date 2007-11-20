@@ -377,7 +377,7 @@ IMEXP("2-j") equals 3.992324-6.217676j.
 @CATEGORY=Complex
 @FUNCTION=IMINV
 @SYNTAX=IMINV(inumber)
-@DESCRIPTION=IMINV returns the the inverse, or reciprocal, of the complex number z (@inumber), where
+@DESCRIPTION=IMINV returns the inverse, or reciprocal, of the complex number z (@inumber), where
 
 	1/z = (x - i y)/(x^2 + y^2).
 
@@ -1007,6 +1007,16 @@ DVARP(A1:C7, "Salary", A9:B11) equals 41725140.25.
 @SEEALSO=DVAR
 
 @CATEGORY=Database
+@FUNCTION=EXECSQL
+@SYNTAX=EXECSQL(dsn,username,password,sql)
+@DESCRIPTION=The EXECSQL function lets you execute a command in a database server, and show the results returned in current sheet. It uses libgda as the means for accessing the databases.
+For using it, you need first to set up a libgda data source.
+@EXAMPLES=
+To get all the data from the table "Customers" present in the "mydatasource" GDA data source, you would use:
+EXECSQL("mydatasource","username","password","SELECT * FROM customers")
+@SEEALSO=READDBTABLE
+
+@CATEGORY=Database
 @FUNCTION=GETPIVOTDATA
 @SYNTAX=GETPIVOTDATA(pivot_table,field_name)
 @DESCRIPTION=GETPIVOTDATA function fetches summary data from a pivot table. @pivot_table is a cell range containing the pivot table. @field_name is the name of the field of which you want the summary data.
@@ -1016,6 +1026,16 @@ DVARP(A1:C7, "Salary", A9:B11) equals 41725140.25.
 @EXAMPLES=
 
 @SEEALSO=
+
+@CATEGORY=Database
+@FUNCTION=READDBTABLE
+@SYNTAX=READDBTABLE(dsn,username,password,table)
+@DESCRIPTION=The READDBTABLE function lets you get the contents of a table, as stored in a database. For using it, you need first to set up a libgda data source.
+Note that this function returns all the rows in the given table. If you want to get data from more than one table or want a more precise selection (conditions), use the EXECSQL function.
+@EXAMPLES=
+To get all the data from the table "Customers" present in the "mydatasource" GDA data source, you would use:
+READDBTABLE("mydatasource","username","password","customers")
+@SEEALSO=EXECSQL
 
 @CATEGORY=Date/Time
 @FUNCTION=DATE
@@ -2973,7 +2993,7 @@ For common stocks, this would be the dividend yield.
 @call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.
 @p_t is a zero coupon bond with expiry at option maturity.
 @f_t is the futures price.
-@x is is the strike price.
+@x is the strike price.
 @t1 is the time to maturity of the option.
 @t2 is the time to maturity of the underlying commodity futures contract.
 @v_s is the volatility of the spot commodity price.
@@ -3033,7 +3053,7 @@ For common stocks, this would be the dividend yield.
 @spot is the spot price of the underlying asset.
 @strike is the strike price at which the option is struck.
 @time1 is the time in years until the holder chooses a put or a call option.
-@time2 is the time in years until the the chosen option expires.
+@time2 is the time in years until the chosen option expires.
 @rate is the annualized risk-free rate of interest.
 @cost_of_carry is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.
 @EXAMPLES=
@@ -4989,6 +5009,30 @@ The argument must be at least 2, or else a #VALUE! error is returned.
 
 @EXAMPLES=
 @SEEALSO=ITHPRIME
+
+@CATEGORY=Python
+@FUNCTION=PY_BITAND
+@SYNTAX=PY_BITAND (num)
+@DESCRIPTION=The BITAND function returns bitwise and-ing of its arguments.
+@EXAMPLES=
+PY_BITAND(6, 2) equals 2)
+@SEEALSO=BITAND
+
+@CATEGORY=Python
+@FUNCTION=PY_CAPWORDS
+@SYNTAX=PY_CAPWORDS (sentence)
+@DESCRIPTION=
+@EXAMPLES=
+PY_CAPWORDS("Hello world") equals "Hello World")
+@SEEALSO=
+
+@CATEGORY=Python
+@FUNCTION=PY_PRINTF
+@SYNTAX=PY_PRINTF (format,...)
+@DESCRIPTION=
+@EXAMPLES=
+PY_PRINTF("Test: %.2f",12) equals "Test: 12.00")
+@SEEALSO=
 
 @CATEGORY=Random Numbers
 @FUNCTION=RAND
