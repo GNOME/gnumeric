@@ -5,6 +5,9 @@ Andreas:
 	* Remove apparently confusing textview in the preference 
 	  dialog [#380080]
 
+Jody:
+	* OFFSET use size of input range. [#497294]
+
 Morten:
 	* Fix crash in dependency code for named expressions.  [#498347]
 

@@ -1080,7 +1080,7 @@ static GnmFuncHelp const help_offset[] = {
 static GnmValue *
 gnumeric_offset (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	int width, height;
+	int tmp;
 	int row_offset, col_offset;
 
 	/* Copy the references so we can change them */
@@ -1089,29 +1089,32 @@ gnumeric_offset (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 	row_offset = value_get_as_int (args[1]);
 	col_offset = value_get_as_int (args[2]);
-	a.row     += row_offset; b.row += row_offset;
-	a.col     += col_offset; b.col += col_offset;
-
-	height = (args[3] != NULL)
-	    ? value_get_as_int (args[3])
-	    : value_area_get_height (args [0], ei->pos);
-	width = (args[4] != NULL)
-	    ? value_get_as_int (args[4])
-	    : value_area_get_width (args [0], ei->pos);
-
-	if (width < 1 || height < 1)
-		return value_new_error_VALUE (ei->pos);
-	else if (a.row < 0 || a.col < 0)
-		return value_new_error_REF (ei->pos);
-	else if (a.row >= SHEET_MAX_ROWS || a.col >= SHEET_MAX_COLS)
+	a.row     += row_offset;
+	a.col     += col_offset;
+	if (a.row < 0 || a.col < 0 ||
+	    a.row >= SHEET_MAX_ROWS || a.col >= SHEET_MAX_COLS)
 		return value_new_error_REF (ei->pos);
 
-	b.row += height - 1;
-	b.col += width  - 1;
-	if (b.row >= SHEET_MAX_ROWS || b.col >= SHEET_MAX_COLS)
+	if (args[3] != NULL) {
+		tmp = value_get_as_int (args[3]);
+		if (tmp < 1)
+			return value_new_error_VALUE (ei->pos);
+		b.row = a.row + tmp - 1;
+	} else
+		b.row += row_offset;
+	if (b.col < 0 || b.row >= SHEET_MAX_ROWS)
+		return value_new_error_REF (ei->pos);
+	if (args[4] != NULL) {
+		tmp = value_get_as_int (args[4]);
+		if (tmp < 1)
+			return value_new_error_VALUE (ei->pos);
+		b.col = a.col + tmp - 1;
+	} else
+		b.col += col_offset;
+	if (b.col < 0 || b.col >= SHEET_MAX_COLS)
 		return value_new_error_REF (ei->pos);
 
-	return value_new_cellrange (&a, &b, ei->pos->eval.col, ei->pos->eval.row);
+	return value_new_cellrange_unsafe (&a, &b);
 }
 
 /***************************************************************************/
