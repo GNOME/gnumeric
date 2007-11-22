@@ -459,6 +459,10 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 	 * allocate a single blob of memory for all 8 arrays of pointers.
 	 *	- 6 arrays of n GnmBorder const *
 	 *	- 2 arrays of n GnmStyle const *
+	 *
+	 * then alias the arrays for easy access so that array [col] is valid
+	 * for all elements start_col-1 .. end_col+1 inclusive.
+	 * Note that this means that in some cases array [-1] is legal.
 	 */
 	n = end_col - start_col + 3; /* 1 before, 1 after, 1 fencepost */
 	style_row_init (&prev_vert, &sr, &next_sr, start_col, end_col,

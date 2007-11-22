@@ -2,6 +2,8 @@
 #ifndef _GNM_SESSION_H_
 # define _GNM_SESSION_H_
 
+#include "gnumeric.h"
+
 G_BEGIN_DECLS
 
 void gnm_session_init (char const *argv0);
