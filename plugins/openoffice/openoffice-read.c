@@ -630,7 +630,7 @@ oo_append_page_break (OOParseState *state, int pos, gboolean is_vert)
 
 static void
 oo_col_row_style_apply_breaks (OOParseState *state, OOColRowStyle *cr_style,
-				int pos, gboolean is_vert)
+			       int pos, gboolean is_vert)
 {
 	/* AUTO seems to denote the possibility, of a break, rather than an
 	 * actual break, ignore it*/
@@ -681,7 +681,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 			if (col_info->size_pts > 0.)
 				sheet_col_set_size_pts (state->pos.sheet, i,
 					col_info->size_pts, col_info->manual);
-			oo_col_row_style_apply_breaks (state, col_info, i, TRUE);
+			oo_col_row_style_apply_breaks (state, col_info, i, FALSE);
 		}
 		col_info->col_count += repeat_count;
 	}
@@ -735,7 +735,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 			if (row_info->size_pts > 0.)
 				sheet_row_set_size_pts (state->pos.sheet, i,
 					row_info->size_pts, row_info->manual);
-			oo_col_row_style_apply_breaks (state, row_info, i, FALSE);
+			oo_col_row_style_apply_breaks (state, row_info, i, TRUE);
 		}
 		row_info->row_count += repeat_count;
 	}

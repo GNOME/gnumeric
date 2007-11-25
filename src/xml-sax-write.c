@@ -248,6 +248,31 @@ xml_write_print_hf (GnmOutputXML *state, char const *name,
 	gsf_xml_out_end_element (state->output);
 
 }
+
+static void
+xml_write_breaks (GnmOutputXML *state, GnmPageBreaks *breaks)
+{
+	GArray const *details = breaks->details;
+	GnmPageBreak const *binfo;
+	unsigned i;
+
+	gsf_xml_out_start_element (state->output,
+		(breaks->is_vert) ? GNM "vPageBreaks" : GNM "hPageBreaks");
+	gsf_xml_out_add_int (state->output, "count", details->len);
+
+	for (i = 0 ; i < details->len ; i++) {
+		binfo = &g_array_index (details, GnmPageBreak, i);
+		gsf_xml_out_start_element (state->output, GNM "break");
+		gsf_xml_out_add_int (state->output, "pos", binfo->pos);
+		if (binfo->type == GNM_PAGE_BREAK_MANUAL)
+			gsf_xml_out_add_cstr_unchecked  (state->output, "type", "manual");
+		else if (binfo->type == GNM_PAGE_BREAK_DATA_SLICE)
+			gsf_xml_out_add_cstr_unchecked  (state->output, "type", "data-slice");
+		gsf_xml_out_end_element (state->output); /* </break> */
+	}
+	gsf_xml_out_end_element (state->output);
+}
+
 static void
 xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 {
@@ -348,11 +373,16 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 		gsf_xml_out_simple_element (state->output, GNM "paper", paper_name);
 	g_free (paper_name);
 
+	if (NULL != pi->page_breaks.v)
+		xml_write_breaks (state, pi->page_breaks.v);
+	if (NULL != pi->page_breaks.h)
+		xml_write_breaks (state, pi->page_breaks.h);
+
 	gsf_xml_out_end_element (state->output);
 }
 
 static void
-xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
+xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 {
 	static char const *border_names[] = {
 		GNM "Top",
@@ -367,9 +397,12 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 	GnmInputMsg const *im;
 	GnmStyleConditions const *sc;
 	GnmStyleCond const *cond;
+	GnmBorder const *border;
+	GnmStyleBorderType t;
 	GnmParsePos    pp;
 	char	   *tmp;
 	unsigned i;
+	gboolean started;
 
 	gsf_xml_out_start_element (state->output, GNM "Style");
 
@@ -515,35 +548,31 @@ xml_write_gnmstyle (GnmOutputXML *state, GnmStyle const *style)
 					gsf_xml_out_simple_element (state->output, GNM "Expression1", tmp);
 					g_free (tmp);
 				}
-				xml_write_gnmstyle (state, cond->overlay);
+				xml_write_style (state, cond->overlay);
 				gsf_xml_out_end_element (state->output); /* </Condition> */
 			}
 	}
 
+	started = FALSE;
+	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++)
+		if (gnm_style_is_element_set (style, i) &&
+		    NULL != (border = gnm_style_get_border (style, i)) &&
+		    GNM_STYLE_BORDER_NONE != (t = border->line_type)) {
+			GnmColor const *col   = border->color;
 
-	i = MSTYLE_BORDER_TOP;
-	while (i <= MSTYLE_BORDER_DIAGONAL
-	       && !gnm_style_is_element_set (style, i)
-	       && NULL == gnm_style_get_border (style, i))
-		i++;
-	if (i <= MSTYLE_BORDER_DIAGONAL) {
-		gsf_xml_out_start_element (state->output, GNM "StyleBorder");
-		for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
-			GnmBorder const *border;
-			if (gnm_style_is_element_set (style, i) &&
-			    NULL != (border = gnm_style_get_border (style, i))) {
-				GnmStyleBorderType t = border->line_type;
-				GnmColor *col   = border->color;
-				gsf_xml_out_start_element (state->output,
-					border_names [i - MSTYLE_BORDER_TOP]);
-				gsf_xml_out_add_int (state->output, "Style", t);
-				if (t != GNM_STYLE_BORDER_NONE)
-					gnm_xml_out_add_color (state->output, "Color", col);
-				gsf_xml_out_end_element (state->output);
+			if (!started) {
+				gsf_xml_out_start_element (state->output, GNM "StyleBorder");
+				started = TRUE;
 			}
+
+			gsf_xml_out_start_element (state->output,
+				border_names [i - MSTYLE_BORDER_TOP]);
+			gsf_xml_out_add_int (state->output, "Style", t);
+				gnm_xml_out_add_color (state->output, "Color", col);
+			gsf_xml_out_end_element (state->output);
 		}
+	if (started)
 		gsf_xml_out_end_element (state->output);
-	}
 
 	gsf_xml_out_end_element (state->output);
 }
@@ -554,7 +583,7 @@ xml_write_style_region (GnmOutputXML *state, GnmStyleRegion const *region)
 	gsf_xml_out_start_element (state->output, GNM "StyleRegion");
 	xml_out_add_range (state->output, &region->range);
 	if (region->style != NULL)
-		xml_write_gnmstyle (state, region->style);
+		xml_write_style (state, region->style);
 	gsf_xml_out_end_element (state->output);
 }
 
@@ -1234,12 +1263,20 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 	locale = gnm_push_C_locale ();
 
 	gsf_xml_out_start_element (state.output, GNM "Workbook");
+
+	/* backwards compat, must be first */
 	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns:gnm",
 		"http://www.gnumeric.org/v10.dtd");
+#if 0 /* seems to break meta data */
+	/* default namespace added for 1.8 */
+	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns",
+		"http://www.gnumeric.org/v10.dtd");
+#endif
+
 	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns:xsi",
 		"http://www.w3.org/2001/XMLSchema-instance");
 	gsf_xml_out_add_cstr_unchecked (state.output, "xsi:schemaLocation",
-		"http://www.gnumeric.org/v8.xsd");
+		"http://www.gnumeric.org/v9.xsd");
 
 	xml_write_version	    (&state);
 	xml_write_attributes	    (&state);
@@ -1316,7 +1353,12 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	locale = gnm_push_C_locale ();
 
 	gsf_xml_out_start_element (state.state.output, GNM "ClipboardRange");
+
+	/* backwards compat, must be first */
 	gsf_xml_out_add_cstr_unchecked (state.state.output, "xmlns:gnm",
+		"http://www.gnumeric.org/v10.dtd");
+	/* default namespace added for 1.8 */
+	gsf_xml_out_add_cstr_unchecked (state.state.output, "xmlns",
 		"http://www.gnumeric.org/v10.dtd");
 
 	gsf_xml_out_add_int (state.state.output, "Cols", cr->cols);

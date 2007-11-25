@@ -157,6 +157,8 @@ gnm_xml_attr_int (xmlChar const * const *attrs, char const *name, int *res)
 	return TRUE;
 }
 
+/* NOT SUITABLE FOR HIGH VOLUME VALUES
+ * Checking both name and nick gets expensive */
 static gboolean
 xml_sax_attr_enum (xmlChar const * const *attrs,
 		   char const *name,
@@ -174,10 +176,11 @@ xml_sax_attr_enum (xmlChar const * const *attrs,
 	if (strcmp (CXML2C (attrs[0]), name))
 		return FALSE;
 
-	eclass = G_ENUM_CLASS (g_type_class_peek (etype));
-
+	eclass = G_ENUM_CLASS (g_type_class_ref (etype));
 	ev = g_enum_get_value_by_name (eclass, CXML2C (attrs[1]));
 	if (!ev) ev = g_enum_get_value_by_nick (eclass, CXML2C (attrs[1]));
+	g_type_class_unref (eclass);
+
 	if (!ev && gnm_xml_attr_int (attrs, name, &i))
 		/* Check that the value is valid.  */
 		ev = g_enum_get_value (eclass, i);
@@ -762,21 +765,17 @@ xml_sax_page_break (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	GnmPageBreakType  type = GNM_PAGE_BREAK_AUTO;
-	gboolean tmp;
-	int	 pos;
+	int pos = -1;
 
 	if (NULL == state->page_breaks)
 		return;
 
-	pos = 0;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gnm_xml_attr_int  (attrs, "pos", &pos)) ;
-		else if (xml_sax_attr_bool (attrs, "manual", &tmp)) { if (tmp) type = GNM_PAGE_BREAK_MANUAL; }
-#if 0 /* Ignored */
-		else if (gnm_xml_attr_int  (attrs, "first", &first)) ;
-		else if (gnm_xml_attr_int  (attrs, "last", &last)) ;
-#endif
+		if (gnm_xml_attr_int (attrs, "pos", &pos)) ;
+		else if (!strcmp (CXML2C (attrs[0]), "type"))
+			type = gnm_page_break_type_from_str (CXML2C (attrs[1]));
 
+	/* drops invalid positions */
 	gnm_page_breaks_append_break (state->page_breaks, pos, type);
 }
 
@@ -1229,7 +1228,7 @@ xml_sax_style_region_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-xml_sax_styleregion_start (GsfXMLIn *xin, xmlChar const **attrs)
+xml_sax_style_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
@@ -1283,7 +1282,7 @@ xml_sax_styleregion_start (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xml_sax_styleregion_font (GsfXMLIn *xin, xmlChar const **attrs)
+xml_sax_style_font (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
@@ -1362,7 +1361,7 @@ style_font_read_from_x11 (GnmStyle *mstyle, char const *fontname)
 }
 
 static void
-xml_sax_styleregion_font_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+xml_sax_style_font_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
@@ -1587,7 +1586,7 @@ xml_sax_input_msg (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-xml_sax_style_region_borders (GsfXMLIn *xin, xmlChar const **attrs)
+xml_sax_style_border (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
@@ -2307,15 +2306,13 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALS
 	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_RIGHT,  GNM, "right", GSF_XML_CONTENT, FALSE, FALSE, &xml_sax_print_margins, NULL, 3),
 	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_HEADER, GNM, "header",GSF_XML_CONTENT, FALSE, FALSE, &xml_sax_print_margins, NULL, 4),
 	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_FOOTER, GNM, "footer",GSF_XML_CONTENT, FALSE, FALSE, &xml_sax_print_margins, NULL, 5),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, V_BREAKS, GNM, "vBreaks", GSF_XML_NO_CONTENT, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_PRINTINFO, H_BREAKS, GNM, "hBreaks", GSF_XML_NO_CONTENT, NULL, NULL),
 
 	GSF_XML_IN_NODE_FULL (SHEET_PRINTINFO, V_PAGE_BREAKS, GNM, "vPageBreaks", GSF_XML_NO_CONTENT,
-			      FALSE, FALSE, &xml_sax_page_breaks_begin, &xml_sax_page_breaks_end, 0),
-	  GSF_XML_IN_NODE (V_PAGE_BREAKS, PAGE_BREAK, GNM, "brk", GSF_XML_NO_CONTENT, &xml_sax_page_break, NULL),
+			      FALSE, FALSE, &xml_sax_page_breaks_begin, &xml_sax_page_breaks_end, 1),
+	  GSF_XML_IN_NODE (V_PAGE_BREAKS, PAGE_BREAK, GNM, "break", GSF_XML_NO_CONTENT, &xml_sax_page_break, NULL),
 	GSF_XML_IN_NODE_FULL (SHEET_PRINTINFO, H_PAGE_BREAKS, GNM, "hPageBreaks", GSF_XML_NO_CONTENT,
 			      FALSE, FALSE, &xml_sax_page_breaks_begin, &xml_sax_page_breaks_end, 0),
-	  GSF_XML_IN_NODE (H_PAGE_BREAKS, PAGE_BREAK, GNM, "brk", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd Def */
+	  GSF_XML_IN_NODE (H_PAGE_BREAKS, PAGE_BREAK, GNM, "break", GSF_XML_NO_CONTENT, NULL, NULL), /* 2nd Def */
 
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_SCALE,	    GNM, "Scale",	GSF_XML_CONTENT, &xml_sax_print_scale, NULL),
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_VCENTER,    GNM, "vcenter",	GSF_XML_CONTENT, &xml_sax_print_vcenter, NULL),
@@ -2337,21 +2334,21 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALS
 
       GSF_XML_IN_NODE (SHEET, SHEET_STYLES, GNM, "Styles", GSF_XML_NO_CONTENT, NULL, NULL),
 	GSF_XML_IN_NODE (SHEET_STYLES, STYLE_REGION, GNM, "StyleRegion", GSF_XML_NO_CONTENT, &xml_sax_style_region_start, &xml_sax_style_region_end),
-	  GSF_XML_IN_NODE (STYLE_REGION, STYLE_STYLE, GNM, "Style", GSF_XML_NO_CONTENT, &xml_sax_styleregion_start, NULL),
-	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_FONT, GNM, "Font", GSF_XML_CONTENT, &xml_sax_styleregion_font, &xml_sax_styleregion_font_end),
+	  GSF_XML_IN_NODE (STYLE_REGION, STYLE_STYLE, GNM, "Style", GSF_XML_NO_CONTENT, &xml_sax_style_start, NULL),
+	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_FONT, GNM, "Font", GSF_XML_CONTENT, &xml_sax_style_font, &xml_sax_style_font_end),
 	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_BORDER, GNM, "StyleBorder", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE_FULL (STYLE_BORDER, BORDER_TOP,     GNM, "Top",
-				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_TOP),
+				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_border, NULL, MSTYLE_BORDER_TOP),
 	      GSF_XML_IN_NODE_FULL (STYLE_BORDER, BORDER_BOTTOM,  GNM, "Bottom",
-				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_BOTTOM),
+				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_border, NULL, MSTYLE_BORDER_BOTTOM),
 	      GSF_XML_IN_NODE_FULL (STYLE_BORDER, BORDER_LEFT,    GNM, "Left",
-				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_LEFT),
+				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_border, NULL, MSTYLE_BORDER_LEFT),
 	      GSF_XML_IN_NODE_FULL (STYLE_BORDER, BORDER_RIGHT,   GNM, "Right",
-				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_RIGHT),
+				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_border, NULL, MSTYLE_BORDER_RIGHT),
 	      GSF_XML_IN_NODE_FULL (STYLE_BORDER, BORDER_DIAG,    GNM, "Diagonal",
-				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_DIAGONAL),
+				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_border, NULL, MSTYLE_BORDER_DIAGONAL),
 	      GSF_XML_IN_NODE_FULL (STYLE_BORDER, BORDER_REV_DIAG,GNM, "Rev-Diagonal",
-				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_REV_DIAGONAL),
+				    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_style_border, NULL, MSTYLE_BORDER_REV_DIAGONAL),
 
 	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_VALIDATION, GNM, "Validation", GSF_XML_NO_CONTENT, &xml_sax_validation, &xml_sax_validation_end),
 	      GSF_XML_IN_NODE_FULL (STYLE_VALIDATION, STYLE_VALIDATION_EXPR0, GNM, "Expression0",
@@ -2566,6 +2563,7 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state.delayed_names = NULL;
 	state.so = NULL;
+	state.page_breaks = NULL;
 
 	g_object_ref (input);
 	input = maybe_gunzip (input);

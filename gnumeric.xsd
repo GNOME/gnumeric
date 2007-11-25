@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:gnm="http://www.gnumeric.org/v10.dtd"
+	    xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
             targetNamespace="http://www.gnumeric.org/v10.dtd"
             elementFormDefault="qualified"
             attributeFormDefault="unqualified">
@@ -16,6 +17,7 @@
 	    updated for 1.6.0 in Sept 2005
 	    updated for 1.7.1 in Jun 2006
 	    updated for 1.7.11 in Jun 2007	jody@gnome.org
+	    updated for 1.7.91 in Nov 2007	jody@gnome.org
         </xsd:documentation>
     </xsd:annotation>
     
@@ -26,6 +28,7 @@
 	<xsd:attribute name="Major"  type="xsd:positiveInteger" use="required"/>
 	<xsd:attribute name="Minor"  type="xsd:positiveInteger" use="required"/>
 	<xsd:attribute name="Full"   type="xsd:string"	    use="required"/>
+	<xsd:anyAttribute namespace="##other" processContents="lax"/>
     </xsd:complexType>
 
     <xsd:complexType name="Workbook">
@@ -47,6 +50,7 @@
                 <xsd:complexType>
                     <xsd:attribute name="Width"  type="xsd:positiveInteger" use="required"/>
                     <xsd:attribute name="Height" type="xsd:positiveInteger" use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
             <xsd:element name="Sheets"         type="gnm:Sheets"/>
@@ -54,6 +58,7 @@
             <xsd:element name="UIData">
                 <xsd:complexType>
                     <xsd:attribute name="SelectedTab" type="xsd:nonNegativeInteger" use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
             <xsd:element name="Calculation" minOccurs="0" maxOccurs="1">
@@ -63,11 +68,19 @@
                     <xsd:attribute name="MaxIterations"	     type="xsd:nonNegativeInteger"/>
 		    <xsd:attribute name="IterationTolerance" type="xsd:double"/>
 		    <xsd:attribute name="DateConvention"     type="gnm:DateConvention" use="optional" default="Lotus:1900"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="document-meta" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:attribute name="version"	     type="xsd:string"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
         <!-- version number should be v10 - - &gt;
         <xsd:attribute name="gnm" type="gnm:namespace" use="required"/> -->
+	<xsd:anyAttribute namespace="##other" processContents="lax"/>
     </xsd:complexType>
 
     <!-- How values are mapped to dates.   All date functions are affected -->
@@ -117,12 +130,21 @@
         <xsd:sequence>
             <xsd:element name="Attribute" minOccurs="0" maxOccurs="unbounded">
 		<xsd:complexType>
-		    <xsd:attribute name="name"   type="xsd:string" use="required"/>
-		    <xsd:attribute name="value"  type="xsd:string" use="required"/>
+                    <xsd:sequence>
+			<xsd:element name="type"  minOccurs="0" maxOccurs="1" type="gnm:AttributeType"/><!-- must be 4 -->
+			<xsd:element name="name"  minOccurs="1" maxOccurs="1" type="xsd:string"/>
+			<xsd:element name="value" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+                    </xsd:sequence>
 		</xsd:complexType>
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
+    <xsd:simpleType name="AttributeType">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="4"/>
+            <xsd:maxInclusive value="4"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 
     <xsd:complexType name="SheetNameIndex">
         <xsd:sequence>
@@ -152,6 +174,7 @@
                                     <xsd:element name="ColInfo" type="gnm:Col_Row" minOccurs="0" maxOccurs="unbounded"/>
                                 </xsd:sequence>
                                 <xsd:attribute name="DefaultSizePts" type="xsd:double" use="required"/>
+				<xsd:anyAttribute namespace="##other" processContents="lax"/>
                             </xsd:complexType>
                         </xsd:element>
                         <xsd:element name="Rows">
@@ -160,6 +183,7 @@
                                     <xsd:element name="RowInfo" type="gnm:Col_Row" minOccurs="0" maxOccurs="unbounded"/>
                                 </xsd:sequence>
                                 <xsd:attribute name="DefaultSizePts" type="xsd:double" use="required"/>
+				<xsd:anyAttribute namespace="##other" processContents="lax"/>
                             </xsd:complexType>
                         </xsd:element>
                         <xsd:element name="Selections"      type="gnm:Selections"/>
@@ -189,6 +213,7 @@
                     <xsd:attribute name="TabColor"	      type="gnm:color"   use="optional"/>
                     <xsd:attribute name="TabTextColor"	      type="gnm:color"   use="optional"/>
 		    <xsd:attribute name="ExprConvention"      type="gnm:ExprConvention" use="optional" default="gnumeric:A1"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
@@ -226,48 +251,56 @@
 		    <xsd:attribute name="percentage" type="xsd:double" use="optional"/>
 		    <xsd:attribute name="cols" type="xsd:integer" />
 		    <xsd:attribute name="rows" type="xsd:integer" />
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
-            <!-- center vertically? -->
+            <!-- center vertically -->
             <xsd:element name="vcenter">
                 <xsd:complexType>
                     <xsd:attribute name="value" type="xsd:boolean" use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
-            <!-- center horizontally? -->
+            <!-- center horizontally -->
             <xsd:element name="hcenter">
                 <xsd:complexType>
                     <xsd:attribute name="value" type="xsd:boolean" use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
-            <!-- print grid lines? -->
+            <!-- print grid lines -->
             <xsd:element name="grid">
                 <xsd:complexType>
                     <xsd:attribute name="value" type="xsd:boolean" use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
-            <!-- print even if only styles? -->
+            <!-- print even if only styles -->
             <xsd:element name="even_if_only_styles">
                 <xsd:complexType>
                     <xsd:attribute name="value" type="xsd:boolean" use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
-            <!-- print in monochrome? -->
+            <!-- print in monochrome -->
             <xsd:element name="monochrome">
                 <xsd:complexType>
                     <xsd:attribute name="value" type="xsd:boolean" use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
-            <!-- print in draft mode? -->
+            <!-- print in draft mode -->
             <xsd:element name="draft">
                 <xsd:complexType>
                     <xsd:attribute name="value" type="xsd:boolean" use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
-            <!-- print titles? -->
+            <!-- print titles -->
             <xsd:element name="titles">
                 <xsd:complexType>
                     <xsd:attribute name="value" type="xsd:boolean" use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
 
@@ -275,30 +308,20 @@
             <xsd:element name="repeat_top" minOccurs="0" maxOccurs="1">
                 <xsd:complexType>
                     <xsd:attribute name="value" type="xsd:string" use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
             <!-- repeat range -->
             <xsd:element name="repeat_left" minOccurs="0" maxOccurs="1">
                 <xsd:complexType>
                     <xsd:attribute name="value" type="xsd:string" use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
             <xsd:element name="order"       type="gnm:print_ordering"/>
             <xsd:element name="orientation" type="gnm:print_orientation"/>
-            <xsd:element name="Header">
-                <xsd:complexType>
-                    <xsd:attribute name="Left"   type="xsd:string" use="required"/>
-                    <xsd:attribute name="Middle" type="xsd:string" use="required"/>
-                    <xsd:attribute name="Right"  type="xsd:string" use="required"/>
-                </xsd:complexType>
-            </xsd:element>
-            <xsd:element name="Footer">
-                <xsd:complexType>
-                    <xsd:attribute name="Left"   type="xsd:string" use="required"/>
-                    <xsd:attribute name="Middle" type="xsd:string" use="required"/>
-                    <xsd:attribute name="Right"  type="xsd:string" use="required"/>
-                </xsd:complexType>
-            </xsd:element>
+            <xsd:element name="Header"	    type="gnm:HeaderFooter"/>
+            <xsd:element name="Footer"	    type="gnm:HeaderFooter"/>
             <!-- typical values are A4, US-Letter -->
             <xsd:element name="paper"       type="xsd:string" minOccurs="0" maxOccurs="1"/>
 	    <!-- do not print this sheet when "all" is selected in the job -->
@@ -308,12 +331,44 @@
 	        </xsd:complexType>
 	    </xsd:element>
 
+            <xsd:element name="vPageBreaks" type="gnm:PageBreaks" minOccurs="0" maxOccurs="1"/><!-- between rows -->
+            <xsd:element name="hPageBreaks" type="gnm:PageBreaks" minOccurs="0" maxOccurs="1"/><!-- between cols -->
         </xsd:sequence>
+	<xsd:anyAttribute namespace="##other" processContents="lax"/>
     </xsd:complexType>
+
+    <xsd:complexType name="HeaderFooter">
+	<xsd:attribute name="Left"   type="xsd:string" use="required"/>
+	<xsd:attribute name="Middle" type="xsd:string" use="required"/>
+	<xsd:attribute name="Right"  type="xsd:string" use="required"/>
+	<xsd:anyAttribute namespace="##other" processContents="lax"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="PageBreaks">
+	<xsd:sequence>
+	    <xsd:element name="break" minOccurs="0" maxOccurs="unbounded">
+		<xsd:complexType>
+		    <xsd:attribute name="pos"   type="xsd:nonNegativeInteger"	use="required"/>
+		    <xsd:attribute name="type"  type="gnm:PageBreakType" 	use="optional"		default="auto"/>
+		</xsd:complexType>
+	    </xsd:element>
+	</xsd:sequence>
+	<xsd:attribute name="count" type="xsd:nonNegativeInteger" use="optional"/>
+	<xsd:anyAttribute namespace="##other" processContents="lax"/>
+    </xsd:complexType>
+
+    <xsd:simpleType name="PageBreakType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="auto"/>
+            <xsd:enumeration value="manual"/>
+            <xsd:enumeration value="data-slice"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 
     <xsd:complexType name="margin">
         <xsd:attribute name="Points"   type="xsd:double"/>
         <xsd:attribute name="PrefUnit" type="gnm:print_units"/>
+	<xsd:anyAttribute namespace="##other" processContents="lax"/>
     </xsd:complexType>
     
     <xsd:simpleType name="print_units">
@@ -354,6 +409,7 @@
                     <xsd:attribute name="startRow" type="xsd:nonNegativeInteger" use="required"/>
                     <xsd:attribute name="endCol"   type="xsd:nonNegativeInteger" use="required"/>
                     <xsd:attribute name="endRow"   type="xsd:nonNegativeInteger" use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
@@ -371,6 +427,7 @@
                             <xsd:attribute name="Underline"     type="gnm:underline"	use="required"/>
                             <xsd:attribute name="StrikeThrough" type="xsd:boolean"	use="required"/>
                             <xsd:attribute name="Script"        type="gnm:script"	use="required"/>
+			    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                         </xsd:extension>
                     </xsd:simpleContent>
                 </xsd:complexType>
@@ -380,17 +437,18 @@
 		    <xsd:attribute name="type"          type="xsd:string"  use="required"/>
 		    <xsd:attribute name="target"        type="xsd:string"  use="optional"/>
 		    <xsd:attribute name="tip"		type="xsd:string"  use="optional"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
             <xsd:element name="StyleBorder" minOccurs="0" maxOccurs="1">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="Top"          type="gnm:StyleBorderElement"/>
-                        <xsd:element name="Bottom"       type="gnm:StyleBorderElement"/>
-                        <xsd:element name="Left"         type="gnm:StyleBorderElement"/>
-                        <xsd:element name="Right"        type="gnm:StyleBorderElement"/>
-                        <xsd:element name="Diagonal"     type="gnm:StyleBorderElement"/>
-                        <xsd:element name="Rev-Diagonal" type="gnm:StyleBorderElement"/>
+                        <xsd:element name="Top"          type="gnm:StyleBorderElement"	minOccurs="0"	maxOccurs="1"/>
+                        <xsd:element name="Bottom"       type="gnm:StyleBorderElement"	minOccurs="0"	maxOccurs="1"/>
+                        <xsd:element name="Left"         type="gnm:StyleBorderElement"	minOccurs="0"	maxOccurs="1"/>
+                        <xsd:element name="Right"        type="gnm:StyleBorderElement"	minOccurs="0"	maxOccurs="1"/>
+                        <xsd:element name="Diagonal"     type="gnm:StyleBorderElement"	minOccurs="0"	maxOccurs="1"/>
+                        <xsd:element name="Rev-Diagonal" type="gnm:StyleBorderElement"	minOccurs="0"	maxOccurs="1"/>
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
@@ -407,6 +465,7 @@
                             <xsd:attribute name="Message"	type="xsd:string"   use="optional"/>
                             <xsd:attribute name="Expression0"	type="xsd:string"   use="optional"/>
                             <xsd:attribute name="Expression1"	type="xsd:string"   use="optional"/>
+			    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                         </xsd:extension>
                     </xsd:simpleContent>
                 </xsd:complexType>
@@ -415,6 +474,7 @@
                 <xsd:complexType>
 		    <xsd:attribute name="Title"          type="xsd:string"  use="optional"/>
 		    <xsd:attribute name="Message"        type="xsd:string"  use="optional"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
@@ -431,23 +491,15 @@
         <xsd:attribute name="Fore"         type="gnm:color"               />
         <xsd:attribute name="Back"         type="gnm:color"               />
         <xsd:attribute name="PatternColor" type="gnm:color"               />
-        <!-- the most common value of the Format attribute, by far, is
-             General. Here are some other values: 
-             #,##0.00
-             $0.00_);[Red]($0.00)
-             "$"#,##0.00_);[Red]\("$"#,##0.00\)
-             [Blue][<1000];[Red][<100];[Yellow][<0];[Green][=0];[Blue][>10];[Red][>100];[Yellow][>1000]
-             [Blue][>=1000];[Red][>=100];[Yellow][>0];[Green][=0];[Yellow][>-100];[Red][>-1000];[Blue];[Cyan]
-             [>100]"bigger than 100:" 0.00;[>1000]"bigger than 1000": 0.00
-             [Blue];[Red];[Yellow];[Green]
-        -->
         <xsd:attribute name="Format"       type="xsd:string"           use="required"/>
+	<xsd:anyAttribute namespace="##other" processContents="lax"/>
     </xsd:complexType>
     
     <xsd:complexType name="StyleBorderElement">
         <xsd:attribute name="Style" type="gnm:border_style" use="required"/>
         <!-- Color is present when Style is not 0 -->
         <xsd:attribute name="Color" type="gnm:color"        use="optional"/>
+	<xsd:anyAttribute namespace="##other" processContents="lax"/>
     </xsd:complexType>
     
     <xsd:simpleType name="border_style">
@@ -583,6 +635,7 @@
         <xsd:attribute name="OutlineLevel" type="xsd:integer"            use="optional" default="0"/>
         <!-- The number of consequitive identically sized cols/rows -->
         <xsd:attribute name="Count"        type="xsd:integer"            use="optional" default="1"/>
+	<xsd:anyAttribute namespace="##other" processContents="lax"/>
     </xsd:complexType>
     
     <xsd:simpleType name="col_row_margin">
@@ -600,11 +653,13 @@
                     <xsd:attribute name="startRow" type="xsd:nonNegativeInteger" use="required"/>
                     <xsd:attribute name="endCol"   type="xsd:nonNegativeInteger" use="required"/>
                     <xsd:attribute name="endRow"   type="xsd:nonNegativeInteger" use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
         <xsd:attribute name="CursorCol" type="xsd:nonNegativeInteger" use="required"/>
         <xsd:attribute name="CursorRow" type="xsd:nonNegativeInteger" use="required"/>
+	<xsd:anyAttribute namespace="##other" processContents="lax"/>
     </xsd:complexType>
     
     <xsd:attributeGroup name="ObjectAnchor">
@@ -612,6 +667,7 @@
 	<xsd:attribute name="ObjectOffset"     type="gnm:offsets"	use="required"/>
 	<xsd:attribute name="ObjectAnchorType" type="gnm:anchor_type"	use="optional"/>
 	<xsd:attribute name="Direction"        type="gnm:direction"	use="required"/>
+	<xsd:anyAttribute namespace="##other" processContents="lax"/>
     </xsd:attributeGroup>
 
     <xsd:attributeGroup name="ObjectAdjustmentProps">
@@ -621,6 +677,7 @@
 	<xsd:attribute name="Page"	type="xsd:double"	use="required"/>
 	<xsd:attribute name="Value"	type="xsd:double"	use="required"/>
 	<xsd:attribute name="Input"	type="xsd:string"	use="required"/>
+	<xsd:anyAttribute namespace="##other" processContents="lax"/>
     </xsd:attributeGroup>
 
     <xsd:complexType name="Objects">
@@ -639,6 +696,7 @@
 		    <xsd:attributeGroup ref="gnm:ObjectAnchor"/>
                     <xsd:attribute name="Author"           type="xsd:string"  use="required"/>
                     <xsd:attribute name="Text"             type="xsd:string"  use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
             <xsd:element name="SheetObjectFilled" minOccurs="0" maxOccurs="unbounded">
@@ -654,6 +712,7 @@
                     <xsd:attribute name="ArrowShapeA"      type="xsd:double"          use="optional"/>
                     <xsd:attribute name="ArrowShapeB"      type="xsd:double"          use="optional"/>
                     <xsd:attribute name="ArrowShapeC"      type="xsd:double"          use="optional"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
 
@@ -662,6 +721,7 @@
                 <xsd:complexType>
 		    <xsd:attributeGroup ref="gnm:ObjectAnchor"/>
                     <xsd:attribute name="Label"            type="xsd:string"  use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
             <xsd:element name="SheetWidgetCheckbox"          minOccurs="0" maxOccurs="unbounded">
@@ -670,6 +730,7 @@
                     <xsd:attribute name="Label"            type="xsd:string"  use="required"/>
                     <xsd:attribute name="Value"            type="xsd:integer" use="required"/>
                     <xsd:attribute name="Input"            type="xsd:string"  use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
             <xsd:element name="SheetWidgetToggleButton"		minOccurs="0" maxOccurs="unbounded">
@@ -678,6 +739,7 @@
                     <xsd:attribute name="Label"            type="xsd:string"  use="required"/>
                     <xsd:attribute name="Value"            type="xsd:integer" use="required"/>
                     <xsd:attribute name="Input"            type="xsd:string"  use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
 
@@ -685,18 +747,21 @@
                 <xsd:complexType>
 		    <xsd:attributeGroup ref="gnm:ObjectAnchor"/>
 		    <xsd:attributeGroup ref="gnm:ObjectAdjustmentProps"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
             <xsd:element name="SheetWidgetSpinbutton"          minOccurs="0" maxOccurs="unbounded">
                 <xsd:complexType>
 		    <xsd:attributeGroup ref="gnm:ObjectAnchor"/>
 		    <xsd:attributeGroup ref="gnm:ObjectAdjustmentProps"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
             <xsd:element name="SheetWidgetSlider"		minOccurs="0" maxOccurs="unbounded">
                 <xsd:complexType>
 		    <xsd:attributeGroup ref="gnm:ObjectAnchor"/>
 		    <xsd:attributeGroup ref="gnm:ObjectAdjustmentProps"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
 
@@ -707,6 +772,7 @@
 			    <xsd:complexType mixed="true">
 				<xsd:attribute name="image-type" type="xsd:string"	use="required"/>
 				<xsd:attribute name="size-bytes" type="xsd:int"		use="optional"/>
+				<xsd:anyAttribute namespace="##other" processContents="lax"/>
 			    </xsd:complexType>
 			</xsd:element>
 		    </xsd:sequence>
@@ -715,21 +781,25 @@
 		    <xsd:attribute name="crop-bottom"	type="xsd:double"  use="required"/>
 		    <xsd:attribute name="crop-left"	type="xsd:double"  use="required"/>
 		    <xsd:attribute name="crop-right"	type="xsd:double"  use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
             <xsd:element name="SheetObjectGraph"          minOccurs="0" maxOccurs="unbounded">
                 <xsd:complexType>
 		    <xsd:attributeGroup ref="gnm:ObjectAnchor"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
             <xsd:element name="SheetWidgetFrame"             minOccurs="0" maxOccurs="unbounded">
                 <xsd:complexType>
 		    <xsd:attributeGroup ref="gnm:ObjectAnchor"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
             <xsd:element name="SheetWidgetLabel"             minOccurs="0" maxOccurs="unbounded">
                 <xsd:complexType>
 		    <xsd:attributeGroup ref="gnm:ObjectAnchor"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
@@ -790,31 +860,28 @@
 		    use the "ExprID" attribute to indicate which shared
 		    expression is used, and no Content element is included
 	       -->
-               <xsd:complexType mixed="true">
-		   <!-- Compatibility for ancient 0.x format -->
-		   <xsd:sequence>
-		       <xsd:element name="Content"	     type="xsd:string" minOccurs="0" maxOccurs="1"/>
-		   </xsd:sequence>
+		<xsd:complexType mixed="true">
+		<!-- Compatibility for ancient 0.x format -->
+		    <xsd:sequence>
+			<xsd:element name="Content"	     type="xsd:string" minOccurs="0" maxOccurs="1"/>
+		    </xsd:sequence>
 
-                   <!-- Col and Row are sufficient for a cell that is an element of
-                        an array of cells as long as it's not the top left cell
-                   -->
-                   <xsd:attribute name="Col"         type="xsd:nonNegativeInteger" use="required"/>
-                   <xsd:attribute name="Row"         type="xsd:nonNegativeInteger" use="required"/>
-                   <!-- ExprID is only used to refer to a shared expression -->
-                   <xsd:attribute name="ExprID"      type="xsd:positiveInteger" use="optional"/>
-                   <!-- ValueType is not used if the cell contains an expression -->
-                   <xsd:attribute name="ValueType"   type="gnm:ValueType"           use="optional"/>
-                   <!-- ValueFormat is apparently used only for cell-by-cell format
-                        overrides
-                   -->
-                   <xsd:attribute name="ValueFormat" type="xsd:string"          use="optional"/>
-                   <!-- Cols and Rows are used to define an array of cells -->
-                   <xsd:attribute name="Cols"        type="xsd:positiveInteger" use="optional"/>
-                   <xsd:attribute name="Rows"        type="xsd:positiveInteger" use="optional"/>
-
-               </xsd:complexType>
-           </xsd:element>
+		    <!-- Col and Row are sufficient for a cell that is an element of
+		         an array of cells as long as it's not the top left cell -->
+		    <xsd:attribute name="Col"         type="xsd:nonNegativeInteger" use="required"/>
+		    <xsd:attribute name="Row"         type="xsd:nonNegativeInteger" use="required"/>
+		    <!-- ExprID is only used to refer to a shared expression -->
+		    <xsd:attribute name="ExprID"      type="xsd:positiveInteger" use="optional"/>
+		    <!-- ValueType is not used if the cell contains an expression -->
+		    <xsd:attribute name="ValueType"   type="gnm:ValueType"           use="optional"/>
+		    <!-- ValueFormat is apparently used only for cell-by-cell format overrides -->
+		    <xsd:attribute name="ValueFormat" type="xsd:string"          use="optional"/>
+		    <!-- Cols and Rows are used to define an array of cells -->
+		    <xsd:attribute name="Cols"        type="xsd:positiveInteger" use="optional"/>
+		    <xsd:attribute name="Rows"        type="xsd:positiveInteger" use="optional"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
+		</xsd:complexType>
+	    </xsd:element>
        </xsd:sequence>
     </xsd:complexType>
     
@@ -879,6 +946,7 @@
 				<xsd:attribute name="Top"   type="xsd:boolean"	use="optional"/> <!-- top vs bottom -->
 				<xsd:attribute name="Items" type="xsd:boolean"	use="optional"/> <!-- top n vs top n% -->
 				<xsd:attribute name="Count" type="xsd:double"	use="optional"/> <!-- top COUNT -->
+				<xsd:anyAttribute namespace="##other" processContents="lax"/>
 			    </xsd:complexType>
 			</xsd:element>
 		    </xsd:sequence>
@@ -892,6 +960,7 @@
        <xsd:sequence>
            <xsd:element name="Merge" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
        </xsd:sequence>
+       <xsd:anyAttribute namespace="##other" processContents="lax"/>
     </xsd:complexType>
 
     <xsd:complexType name="Solver">
@@ -905,6 +974,7 @@
                     <xsd:attribute name="Cols" type="xsd:positiveInteger"    use="required"/>
                     <xsd:attribute name="Rows" type="xsd:positiveInteger"    use="required"/>
                     <xsd:attribute name="Type" type="gnm:solver_constraint_t"    use="required"/>
+		    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
@@ -923,6 +993,7 @@
         <xsd:attribute name="LimitsR"	  type="xsd:boolean"		use="required"/>
         <xsd:attribute name="PerformR"	  type="xsd:boolean"		use="required"/>
         <xsd:attribute name="ProgramR"	  type="xsd:boolean"		use="required"/>
+	<xsd:anyAttribute namespace="##other" processContents="lax"/>
     </xsd:complexType>
 
     <xsd:simpleType name="solver_constraint_t">
@@ -959,15 +1030,15 @@
     </xsd:complexType>
 
     <xsd:complexType name="SheetLayout">
-      <xsd:sequence>
-           <xsd:element name="FreezePanes" minOccurs="0" maxOccurs="1">
-             <xsd:complexType>
-		<xsd:attribute name="FrozenTopLeft"   type="xsd:string" use="required"/>
-		<xsd:attribute name="UnfrozenTopLeft" type="xsd:string" use="required"/>
-             </xsd:complexType>
-           </xsd:element>
-      </xsd:sequence>
-      <xsd:attribute name="TopLeft"   type="xsd:string" use="required"/>
+	<xsd:sequence>
+	    <xsd:element name="FreezePanes" minOccurs="0" maxOccurs="1">
+		<xsd:complexType>
+		    <xsd:attribute name="FrozenTopLeft"   type="xsd:string" use="required"/>
+		    <xsd:attribute name="UnfrozenTopLeft" type="xsd:string" use="required"/>
+		</xsd:complexType>
+	    </xsd:element>
+	</xsd:sequence>
+	<xsd:attribute name="TopLeft"   type="xsd:string" use="required"/>
+	<xsd:anyAttribute namespace="##other" processContents="lax"/>
     </xsd:complexType>
-
 </xsd:schema>

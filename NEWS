@@ -7,6 +7,7 @@ Andreas:
 
 Jody:
 	* OFFSET use size of input range. [#497294]
+	* Finish .gnumeric i/o support for explicit page breaks.
 
 Morten:
 	* Fix crash in dependency code for named expressions.  [#498347]

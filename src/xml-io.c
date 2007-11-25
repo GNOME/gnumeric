@@ -571,6 +571,34 @@ xml_read_print_repeat_range (XmlParseContext *ctxt, xmlNodePtr tree,
 }
 
 static void
+xml_read_breaks (XmlParseContext *ctxt, xmlNodePtr tree, gboolean is_vert)
+{
+	GnmPageBreaks *page_breaks;
+	int pos, count = 0;
+	xmlChar *type_str;
+	GnmPageBreakType  type;
+
+	xml_node_get_int (tree, "count", &count);
+	page_breaks = gnm_page_breaks_new (count, is_vert);
+
+	for (tree = tree->xmlChildrenNode; tree != NULL ; tree = tree->next)
+		if (!xmlIsBlankNode (tree) &&
+		    0 == strcmp (tree->name, "break") &&
+		    xml_node_get_int (tree, "pos", &pos) &&
+		    pos >= 0) {
+			if (NULL != (type_str = xml_node_get_cstr  (tree, "type")))
+				type = gnm_page_break_type_from_str (CXML2C (type_str));
+			else
+				type = GNM_PAGE_BREAK_AUTO;
+
+			/* drops invalid positions */
+			gnm_page_breaks_append_break (page_breaks, pos, type);
+		}
+
+	print_info_set_breaks (ctxt->sheet->print_info, page_breaks);
+}
+
+static void
 xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr child;
@@ -685,6 +713,11 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 		print_info_set_paper (pi, paper);
 		xmlFree (paper);
 	}
+
+	if ((child = e_xml_get_child_by_name (tree, CC2XML ("vPageBreaks"))))
+		xml_read_breaks (ctxt, child, TRUE);
+	if ((child = e_xml_get_child_by_name (tree, CC2XML ("hPageBreaks"))))
+		xml_read_breaks (ctxt, child, FALSE);
 }
 
 static char const *

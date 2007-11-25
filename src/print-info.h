@@ -28,6 +28,7 @@ typedef enum {
 	GNM_PAGE_BREAK_AUTO,
 	GNM_PAGE_BREAK_DATA_SLICE
 } GnmPageBreakType;
+GnmPageBreakType gnm_page_break_type_from_str (char const *str);
 
 typedef struct {
 	int		 pos;  /* break before this 0 based position */

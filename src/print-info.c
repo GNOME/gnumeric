@@ -1223,3 +1223,21 @@ gnm_page_breaks_append_break (GnmPageBreaks *breaks,
 
 	return TRUE;
 }
+
+/**
+ * gnm_page_break_type_from_str
+ * @str :
+ *
+ **/
+GnmPageBreakType
+gnm_page_break_type_from_str (char const *str)
+{
+	if (0 == g_ascii_strcasecmp (str, "manual"))
+		return GNM_PAGE_BREAK_MANUAL;
+	if (0 == g_ascii_strcasecmp (str, "auto"))
+		return GNM_PAGE_BREAK_AUTO;
+	if (0 == g_ascii_strcasecmp (str, "data-slice"))
+		return GNM_PAGE_BREAK_DATA_SLICE;
+
+	return GNM_PAGE_BREAK_AUTO;
+}
