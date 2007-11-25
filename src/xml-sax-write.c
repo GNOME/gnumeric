@@ -377,7 +377,6 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 		xml_write_breaks (state, pi->page_breaks.v);
 	if (NULL != pi->page_breaks.h)
 		xml_write_breaks (state, pi->page_breaks.h);
-
 	gsf_xml_out_end_element (state->output);
 }
 
@@ -1272,7 +1271,6 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns",
 		"http://www.gnumeric.org/v10.dtd");
 #endif
-
 	gsf_xml_out_add_cstr_unchecked (state.output, "xmlns:xsi",
 		"http://www.w3.org/2001/XMLSchema-instance");
 	gsf_xml_out_add_cstr_unchecked (state.output, "xsi:schemaLocation",
