@@ -8,6 +8,7 @@ Andreas:
 Jody:
 	* OFFSET use size of input range. [#497294]
 	* Finish .gnumeric i/o support for explicit page breaks.
+	* Make xlsx import more defensive against unsupported bits.
 
 Morten:
 	* Fix crash in dependency code for named expressions.  [#498347]

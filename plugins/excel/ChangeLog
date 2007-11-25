@@ -1,3 +1,8 @@
+2007-11-23  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-read.c (xlsx_CT_PageMargins) : enable top/bottom.
+	  Convert header/footer from inches to pts.
+
 2007-11-19  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.90

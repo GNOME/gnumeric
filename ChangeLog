@@ -1,3 +1,7 @@
+2007-11-25  Jody Goldberg <jody@gnome.org>
+
+	* src/style-conditions.c (gnm_style_cond_is_valid) : make public.
+
 2007-11-24  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-sax-write.c (xml_write_breaks) : new.  Manual enum handling

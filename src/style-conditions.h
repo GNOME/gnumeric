@@ -52,6 +52,8 @@ GPtrArray    *gnm_style_conditions_overlay (GnmStyleConditions const *sc,
 int	      gnm_style_conditions_eval    (GnmStyleConditions const *sc,
 					    GnmEvalPos const *pos);
 
+gboolean      gnm_style_cond_is_valid (GnmStyleCond const *cond);
+
 G_END_DECLS
 
 #endif /* _GNM_STYLE_CONDITIONS_H_ */

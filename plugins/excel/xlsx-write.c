@@ -844,13 +844,15 @@ xlsx_write_protection (XLSXWriteState *state, GsfXMLOut *xml)
 static void
 xlsx_write_breaks (XLSXWriteState *state, GsfXMLOut *xml, GnmPageBreaks *breaks)
 {
-	unsigned const maxima = breaks->is_vert ? XLSX_MaxRow : XLSX_MaxCol;
+	unsigned const maxima = breaks->is_vert ? XLSX_MaxCol : XLSX_MaxRow;
 	GArray const *details = breaks->details;
 	GnmPageBreak const *binfo;
 	unsigned i;
 
 	gsf_xml_out_start_element (xml,
-		(breaks->is_vert) ? "colBreaks" : "rowBreaks");
+		(breaks->is_vert) ? "rowBreaks" : "colBreaks");
+	gsf_xml_out_add_int (xml, "count", details->len);
+
 	for (i = 0 ; i < details->len ; i++) {
 		binfo = &g_array_index (details, GnmPageBreak, i);
 		gsf_xml_out_start_element (xml, "brk");
@@ -894,15 +896,18 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 	gsf_xml_out_add_float (xml, "footer",	f_margin / 72., 4);
 	gsf_xml_out_end_element (xml); /* </pageMargins> */
 
-	if (NULL != pi->page_breaks.h && NULL != pi->page_breaks.v) {
-		xlsx_write_breaks (state, xml, pi->page_breaks.h);
-		xlsx_write_breaks (state, xml, pi->page_breaks.v);
-	}
-
 	gsf_xml_out_start_element (xml, "pageSetup");
 	gsf_xml_out_end_element (xml); /* </pageSetup> */
+
+	if (NULL != pi->page_breaks.v)
+		xlsx_write_breaks (state, xml, pi->page_breaks.v);
+	if (NULL != pi->page_breaks.h)
+		xlsx_write_breaks (state, xml, pi->page_breaks.h);
+
+#if 0
 	gsf_xml_out_start_element (xml, "headerFooter");
 	gsf_xml_out_end_element (xml); /* </headerFooter> */
+#endif
 
 }
 

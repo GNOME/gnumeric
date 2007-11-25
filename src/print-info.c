@@ -1238,6 +1238,5 @@ gnm_page_break_type_from_str (char const *str)
 		return GNM_PAGE_BREAK_AUTO;
 	if (0 == g_ascii_strcasecmp (str, "data-slice"))
 		return GNM_PAGE_BREAK_DATA_SLICE;
-
 	return GNM_PAGE_BREAK_AUTO;
 }

@@ -290,7 +290,7 @@ xlsx_warning (GsfXMLIn *xin, char const *fmt, ...)
 	}
 
 	gnm_io_warning (state->context, "%s", msg);
-	g_warning ("%s", msg);
+	g_printerr ("%s\n", msg);
 	g_free (msg);
 
 	return FALSE; /* convenience */
@@ -758,7 +758,7 @@ xlsx_get_num_fmt (GsfXMLIn *xin, char const *id)
 		res = go_format_new_from_XL (std_builtins[i]);
 		g_hash_table_replace (state->num_fmts, g_strdup (id), res);
 	} else
-	xlsx_warning (xin, _("Undefined number format id '%s'"), id);
+		xlsx_warning (xin, _("Undefined number format id '%s'"), id);
 	return res;
 }
 
@@ -1558,7 +1558,8 @@ xlsx_chart_pop (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	xlsx_chart_pop_obj ((XLSXReadState *)xin->user_state);
 }
 
-static GsfXMLInNode const xlsx_chart_dtd[] = {
+static GsfXMLInNode const xlsx_chart_dtd[] =
+{
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
   GSF_XML_IN_NODE (CHART_SPACE, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, &xlsx_chart_style_start, &xlsx_chart_style_end),
@@ -1891,6 +1892,8 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
     GSF_XML_IN_NODE (PRINT_SETTINGS, PAGE_SETUP, XL_NS_CHART, "pageSetup", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (PRINT_SETTINGS, PAGE_MARGINS, XL_NS_CHART, "pageMargins", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (PRINT_SETTINGS, HEADER_FOOTER, XL_NS_CHART, "headerFooter", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (HEADER_FOOTER, ODD_HEADER, XL_NS_SS, "oddHeader", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (HEADER_FOOTER, ODD_FOOTER, XL_NS_SS, "oddFooter", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (CHART_SPACE, LANG, XL_NS_CHART, "lang", GSF_XML_NO_CONTENT, NULL, NULL),
 GSF_XML_IN_NODE_END
 };
@@ -2501,15 +2504,13 @@ xlsx_CT_PageMargins (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_float (xin, attrs, "right", &margin))
 			print_info_set_margin_right (pi, GO_IN_TO_PT (margin));
 		else if (attr_float (xin, attrs, "top", &margin))
-			/* pi->margin.top = margin; */
-			;
+			print_info_set_edge_to_below_header (pi, GO_IN_TO_PT (margin));
 		else if (attr_float (xin, attrs, "bottom", &margin))
-			/* pi->margin.bottom = margin; */
-			;
+			print_info_set_edge_to_above_footer (pi, GO_IN_TO_PT (margin));
 		else if (attr_float (xin, attrs, "header", &margin))
-			print_info_set_margin_header (pi, margin);
+			print_info_set_margin_header (pi, GO_IN_TO_PT (margin));
 		else if (attr_float (xin, attrs, "footer", &margin))
-			print_info_set_margin_footer (pi, margin);
+			print_info_set_margin_footer (pi, GO_IN_TO_PT (margin));
 }
 
 static void
@@ -3132,8 +3133,9 @@ xlsx_cond_fmt_rule_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	"col2"		="xs:unsignedInt" use="optional">
 #endif
 
-	state->cond.overlay = xlsx_get_dxf (xin, dxf);
-	gnm_style_ref (state->cond.overlay);
+	if (dxf >= 0 && NULL != (state->cond.overlay = xlsx_get_dxf (xin, dxf)))
+		gnm_style_ref (state->cond.overlay);
+
 	switch (type) {
 	case XLSX_CF_TYPE_CELL_IS :
 		state->cond.op = op;
@@ -3159,9 +3161,18 @@ static void
 xlsx_cond_fmt_rule_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (NULL == state->conditions)
-		state->conditions = gnm_style_conditions_new ();
-	gnm_style_conditions_insert (state->conditions, &state->cond, -1);
+	if (gnm_style_cond_is_valid (&state->cond)) {
+		if (NULL == state->conditions)
+			state->conditions = gnm_style_conditions_new ();
+		gnm_style_conditions_insert (state->conditions, &state->cond, -1);
+	} else {
+		if (NULL != state->cond.texpr[0])
+			gnm_expr_top_unref (state->cond.texpr[0]);
+		if (NULL != state->cond.texpr[1])
+			gnm_expr_top_unref (state->cond.texpr[1]);
+		if (NULL != state->cond.overlay)
+			gnm_style_unref (state->cond.overlay);
+	}
 	state->cond.texpr[0] = state->cond.texpr[1] = NULL;
 	state->cond.overlay = NULL;
 }
@@ -3459,7 +3470,8 @@ xlsx_CT_HyperLinks (GsfXMLIn *xin, xmlChar const **attrs)
 	sheet_style_apply_range	(state->sheet, &r, style);
 }
 
-static GsfXMLInNode const xlsx_sheet_dtd[] = {
+static GsfXMLInNode const xlsx_sheet_dtd[] =
+{
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
   GSF_XML_IN_NODE (SHEET, PROPS, XL_NS_SS, "sheetPr", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -3521,8 +3533,11 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
 		   &xlsx_cond_fmt_rule_begin, &xlsx_cond_fmt_rule_end),
       GSF_XML_IN_NODE (COND_RULE, COND_FMLA, XL_NS_SS, "formula", GSF_XML_CONTENT, NULL, &xlsx_cond_fmt_formula_end),
       GSF_XML_IN_NODE (COND_RULE, COND_COLOR_SCALE, XL_NS_SS, "colorScale", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COND_COLOR_SCALE, CFVO, XL_NS_SS, "cfvo", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COND_COLOR_SCALE, COND_COLOR, XL_NS_SS, "color", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (COND_RULE, COND_DATA_BAR, XL_NS_SS, "dataBar", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (COND_RULE, COND_ICON_SET, XL_NS_SS, "iconSet", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (COND_ICON_SET, CFVO, XL_NS_SS, "cfvo", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 
   GSF_XML_IN_NODE (SHEET, HYPERLINKS, XL_NS_SS, "hyperlinks", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (HYPERLINKS, HYPERLINK, XL_NS_SS, "hyperlink", GSF_XML_NO_CONTENT, &xlsx_CT_HyperLinks, NULL),
@@ -3531,6 +3546,8 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
   GSF_XML_IN_NODE (SHEET, PRINT_MARGINS, XL_NS_SS, "pageMargins", GSF_XML_NO_CONTENT, &xlsx_CT_PageMargins, NULL),
   GSF_XML_IN_NODE (SHEET, PRINT_SETUP, XL_NS_SS, "pageSetup", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (SHEET, PRINT_HEADER_FOOTER, XL_NS_SS, "headerFooter", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (PRINT_HEADER_FOOTER, ODD_HEADER, XL_NS_SS, "oddHeader", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (PRINT_HEADER_FOOTER, ODD_FOOTER, XL_NS_SS, "oddFooter", GSF_XML_NO_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE_FULL (SHEET, ROW_BREAKS, XL_NS_SS, "rowBreaks", GSF_XML_NO_CONTENT,
 			FALSE, FALSE, &xlsx_CT_PageBreaks_begin, &xlsx_CT_PageBreaks_end, 1),
@@ -4434,6 +4451,11 @@ GSF_XML_IN_NODE_FULL (START, THEME, XL_NS_DRAW, "theme", GSF_XML_NO_CONTENT, FAL
 		  GSF_XML_IN_NODE (3D_LIGHT, 3D_ROT, XL_NS_DRAW, "rot", GSF_XML_NO_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE (THEME, OBJ_DEFAULTS, XL_NS_DRAW, "objectDefaults", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (OBJ_DEFAULTS, SP_DEF, XL_NS_DRAW, "spDef", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SP_DEF, SHAPE_PR,  XL_NS_DRAW, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SP_DEF, BODY_PR,   XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SP_DEF, LST_STYLE, XL_NS_DRAW, "lstStyle", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SP_DEF, LN_DEF,	  XL_NS_DRAW, "lnDef", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (THEME, EXTRA_COLOR_SCHEME, XL_NS_DRAW, "extraClrSchemeLst", GSF_XML_NO_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE_END

@@ -3,7 +3,7 @@
 /*
  * style-conditions.c:
  *
- * Copyright (C) 2005-2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2005-2007 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -43,16 +43,23 @@ struct _GnmStyleConditions {
 
 static GObjectClass *parent_class;
 
-static gboolean
-cond_validate (GnmStyleCond const *cond)
+/**
+ * gnm_style_cond_is_valid :
+ * @cond : #GnmStyleCond
+ *
+ * Returns: TRUE if @cond is in a reasonable state
+ **/
+gboolean
+gnm_style_cond_is_valid (GnmStyleCond const *cond)
 {
 	g_return_val_if_fail (cond != NULL, FALSE);
-	g_return_val_if_fail (cond->overlay != NULL, FALSE);
-	g_return_val_if_fail (cond->texpr[0] != NULL, FALSE);
-	g_return_val_if_fail ((cond->op == GNM_STYLE_COND_BETWEEN ||
-			   cond->op == GNM_STYLE_COND_NOT_BETWEEN) ^
-			  (cond->texpr[1] == NULL), FALSE);
 
+	if (cond->overlay == NULL) return FALSE;
+	if (cond->texpr[0] == NULL) return FALSE;
+	if ((cond->texpr[1] != NULL) ^
+	    (cond->op == GNM_STYLE_COND_BETWEEN ||
+	     cond->op == GNM_STYLE_COND_NOT_BETWEEN))
+	    return FALSE;
 	return TRUE;
 }
 
@@ -139,7 +146,7 @@ gnm_style_conditions_insert (GnmStyleConditions *sc,
 {
 	g_return_if_fail (cond != NULL);
 
-	if (sc == NULL || !cond_validate (cond)) {
+	if (sc == NULL || !gnm_style_cond_is_valid (cond)) {
 		cond_unref (cond); /* be careful not to leak */
 		return;
 	}
