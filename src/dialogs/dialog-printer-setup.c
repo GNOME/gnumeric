@@ -1418,6 +1418,8 @@ add_text_to_buffer (HFCustomizeState* hf_state, GtkTextBuffer *buffer, char cons
 	gunichar closing = g_utf8_get_char ("]");
 	gunichar ambersand = g_utf8_get_char ("&");
 	GtkTextIter iter;
+
+	g_return_if_fail (here != NULL);
 	
 	while (*here) {
 		if (here[0] == '&' && here[1] == '[') {

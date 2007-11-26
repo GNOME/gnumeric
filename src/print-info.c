@@ -50,9 +50,12 @@ print_hf_new (char const *left_side_format,
 	      char const *right_side_format)
 {
 	PrintHF *hf = g_new0 (PrintHF, 1);
-	hf->left_format   = g_strdup (left_side_format);
-	hf->middle_format = g_strdup (middle_format);
-	hf->right_format  = g_strdup (right_side_format);
+	hf->left_format   = g_strdup (left_side_format ? 
+				      left_side_format : "");
+	hf->middle_format = g_strdup (middle_format ?
+				      middle_format : "");
+	hf->right_format  = g_strdup (right_side_format ?
+				      right_side_format : "");
 	return hf;
 }
 

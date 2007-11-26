@@ -4,6 +4,7 @@ Andreas:
 	* Fix formula guru. [#363871]
 	* Remove apparently confusing textview in the preference 
 	  dialog [#380080]
+	* Fix header configuration crash [#499717]
 
 Jody:
 	* OFFSET use size of input range. [#497294]

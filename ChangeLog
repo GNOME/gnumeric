@@ -1,3 +1,7 @@
+2007-11-25  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
+	* print-info.c (print_hf_new): use empty strings rather than NULL
+
 2007-11-25  Jody Goldberg <jody@gnome.org>
 
 	* src/style-conditions.c (gnm_style_cond_is_valid) : make public.
