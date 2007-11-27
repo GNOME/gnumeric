@@ -133,7 +133,8 @@ gnm_search_collect_cells (GnmSearchReplace *sr)
 	switch (sr->scope) {
 	case GNM_SRS_WORKBOOK:
 		g_return_val_if_fail (sr->sheet != NULL, NULL);
-		cells = workbook_cells (sr->sheet->workbook, TRUE);
+		cells = workbook_cells (sr->sheet->workbook, TRUE,
+					GNM_SHEET_VISIBILITY_HIDDEN);
 		break;
 
 	case GNM_SRS_SHEET:
