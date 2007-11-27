@@ -5,15 +5,14 @@ Andreas:
 	* Remove apparently confusing textview in the preference 
 	  dialog [#380080]
 	* Fix header configuration crash [#499717]
-	* Fix sensitivity of buttons in header/footer 
-	  configuration [#499719]
+	* Fix sensitivity of buttons in header/footer configuration [#499719]
 
 Jody:
 	* OFFSET use size of input range. [#497294]
-	* Finish .gnumeric i/o support for explicit page breaks.
-	* Update the .gnumeric schema to handle modern content.
+	* Finish .gnumeric i/o support for explicit page breaks.  [#499339]
+	* Update the .gnumeric schema to handle modern content.  [#499378]
 	* Make xlsx import more defensive against unsupported bits.
-	* Fix xlsx round trip of margins.
+	* Fix xlsx round trip of margins.  [#499377]
 
 Morten:
 	* Fix crash in dependency code for named expressions.  [#498347]
