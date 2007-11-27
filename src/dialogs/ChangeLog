@@ -1,3 +1,8 @@
+2007-11-26  Morten Welinder  <terra@gnome.org>
+
+	* dialog-search.c (cursor_change): Don't try to go to hidden
+	sheets.  Fixes 499723.
+
 2007-11-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-printer-setup.c (hf_customize_apply): reset modification 

@@ -17,11 +17,6 @@ typedef enum {
 	GNM_SHEET_XLM
 } GnmSheetType;
 
-typedef enum {
-	GNM_SHEET_VISIBILITY_VISIBLE,
-	GNM_SHEET_VISIBILITY_HIDDEN,
-	GNM_SHEET_VISIBILITY_VERY_HIDDEN
-} GnmSheetVisibility;
 GType gnm_sheet_visibility_get_type (void);
 #define GNM_SHEET_VISIBILITY_TYPE (gnm_sheet_visibility_get_type ())
 

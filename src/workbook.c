@@ -492,12 +492,13 @@ workbook_foreach_cell_in_range (GnmEvalPos const *pos,
  *
  * @wb : The workbook to find cells in.
  * @comments: If true, include cells with only comments also.
+ * @vis: How visible a sheet needs to be in order to be considered.
  *
  * Collects a GPtrArray of GnmEvalPos pointers for all cells in a workbook.
  * No particular order should be assumed.
  */
 GPtrArray *
-workbook_cells (Workbook *wb, gboolean comments)
+workbook_cells (Workbook *wb, gboolean comments, GnmSheetVisibility vis)
 {
 	GPtrArray *cells = g_ptr_array_new ();
 
@@ -505,8 +506,12 @@ workbook_cells (Workbook *wb, gboolean comments)
 
 	WORKBOOK_FOREACH_SHEET (wb, sheet, {
 		int oldlen = cells->len;
-		GPtrArray *scells = sheet_cells (sheet, comments);
+		GPtrArray *scells;
 
+		if (sheet->visibility > vis)
+			continue;
+
+		scells = sheet_cells (sheet, comments);
 		g_ptr_array_set_size (cells, oldlen + scells->len);
 		memcpy (&g_ptr_array_index (cells, oldlen),
 			&g_ptr_array_index (scells, 0),

@@ -268,6 +268,9 @@ cursor_change (GtkTreeView *tree_view, DialogState *dd)
 		WorkbookView *wbv = wb_control_view (wbc);
 		SheetView *sv;
 
+		if (!sheet_is_visible (item->ep.sheet))
+			return;
+
 		if (wb_control_cur_sheet (wbc) != item->ep.sheet)
 			wb_view_sheet_focus (wbv, item->ep.sheet);
 		sv = wb_view_cur_sheet_view (wbv);

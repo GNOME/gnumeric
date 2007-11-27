@@ -21,6 +21,11 @@ typedef struct _WorkbookView		WorkbookView;
 typedef struct _WorkbookControl		WorkbookControl;
 typedef struct _WorkbookSheetState	WorkbookSheetState;
 
+typedef enum {
+	GNM_SHEET_VISIBILITY_VISIBLE,
+	GNM_SHEET_VISIBILITY_HIDDEN,
+	GNM_SHEET_VISIBILITY_VERY_HIDDEN
+} GnmSheetVisibility;
 typedef struct _Sheet			Sheet;
 typedef struct _SheetView		SheetView;
 typedef struct _SheetControl		SheetControl;

@@ -1,5 +1,16 @@
 2007-11-26  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk-actions.c (common_cell_goto): Don't try to go to an
+	invisible sheet.  Fixes the part of 499723 that Sum1 hasn't even
+	found yet.
+
+	* src/workbook.c (workbook_cells): Considers cells in sheets only
+	if they are sufficiently visible.
+	* src/search.c (gnm_search_collect_cells): Don't collect cells in
+	deeply hidden sheets.
+
+2007-11-26  Morten Welinder  <terra@gnome.org>
+
 	* src/workbook-control.c (wb_control_parse_and_jump): Make target
 	absolute.  Fixes #499722.
 
