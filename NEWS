@@ -15,6 +15,7 @@ Jody:
 
 Morten:
 	* Fix crash in dependency code for named expressions.  [#498347]
+	* Fix yet another jumpbox problem.  [#499722]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.90 (rc1)

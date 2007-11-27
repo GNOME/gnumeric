@@ -266,13 +266,16 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 {
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	GnmParsePos pp;
+	GnmEvalPos ep;
 	GnmValue *target;
-	gboolean res;
+	GnmRangeRef range;
+	SheetView *sv;
 
 	if (text == NULL || *text == '\0')
 		return FALSE;
 
-	parse_pos_init_editpos (&pp, wb_control_cur_sheet_view (wbc));
+	sv = wb_control_cur_sheet_view (wbc);
+	parse_pos_init_editpos (&pp, sv);
 	target = value_new_cellrange_parsepos_str (&pp, text);
 	if (target == NULL) {
 		/* Not an address; is it a name? */
@@ -294,9 +297,12 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 		}
 	}
 
-	res = wb_control_jump (wbc, sheet, &target->v_range.cell);
+	eval_pos_init_editpos (&ep, sv);
+	gnm_cellref_make_abs (&range.a, &target->v_range.cell.a, &ep);
+	gnm_cellref_make_abs (&range.b, &target->v_range.cell.b, &ep);
 	value_release (target);
-	return res;
+
+	return wb_control_jump (wbc, sheet, &range);
 }
 
 static void
