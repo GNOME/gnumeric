@@ -125,7 +125,7 @@ print_sheet_objects (GtkPrintContext   *context,
 		     GnmRange *range,
 		     double base_x, double base_y)
 {
-	GSList *ptr;
+	GSList *ptr, *objects;
 	double width, height;
 
 	g_return_if_fail (IS_SHEET (sheet));
@@ -150,7 +150,9 @@ print_sheet_objects (GtkPrintContext   *context,
 				 width, height);
 	cairo_clip (cr);
 
-	for (ptr = sheet->sheet_objects; ptr; ptr = ptr->next) {
+	objects = g_slist_reverse (g_slist_copy (sheet->sheet_objects));
+
+	for (ptr = objects; ptr; ptr = ptr->next) {
 		SheetObject *so = SHEET_OBJECT (ptr->data);
 		GnmRange const *r = &so->anchor.cell_bound;
 
@@ -185,6 +187,9 @@ print_sheet_objects (GtkPrintContext   *context,
 		sheet_object_draw_cairo (so, (gpointer)cr, sheet->text_is_rtl);
 		cairo_restore (cr);
 	}
+
+	g_slist_free (objects);
+
 	cairo_restore (cr);
 }
 
