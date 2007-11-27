@@ -667,8 +667,8 @@ gnm_pane_unrealize (GtkWidget *widget)
 	pane = GNM_PANE (widget);
 	g_return_if_fail (pane != NULL);
 
-	gtk_im_context_set_client_window (GNM_PANE (widget)->im_context,
-					  gtk_widget_get_toplevel (widget)->window);
+	if (pane->im_context)
+		gtk_im_context_set_client_window (pane->im_context, NULL);
 
 	(*GTK_WIDGET_CLASS (parent_klass)->unrealize)(widget);
 }

@@ -1,3 +1,7 @@
+2007-11-27  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-pane.c (gnm_pane_unrealize): Fix critical.  [#499905]
+
 2007-11-26  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk-actions.c (common_cell_goto): Don't try to go to an
