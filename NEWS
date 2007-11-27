@@ -5,6 +5,8 @@ Andreas:
 	* Remove apparently confusing textview in the preference 
 	  dialog [#380080]
 	* Fix header configuration crash [#499717]
+	* Fix sensitivity of buttons in header/footer 
+	  configuration [#499719]
 
 Jody:
 	* OFFSET use size of input range. [#497294]

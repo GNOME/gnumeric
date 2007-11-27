@@ -1,5 +1,10 @@
 2007-11-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-printer-setup.c (hf_customize_apply): reset modification 
+	  flags
+
+2007-11-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-printer-setup.c (add_text_to_buffer): if text is NULL
 	  there is no text to add.
 

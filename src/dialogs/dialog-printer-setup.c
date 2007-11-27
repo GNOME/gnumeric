@@ -1321,6 +1321,10 @@ hf_customize_apply (HFCustomizeState *hf_state)
 	do_setup_hf_menus (hf_state->printer_setup_state);
 	display_hf_preview (hf_state->printer_setup_state, hf_state->is_header);
 
+	gtk_text_buffer_set_modified (hf_state->left_buffer, FALSE);
+	gtk_text_buffer_set_modified (hf_state->middle_buffer, FALSE);
+	gtk_text_buffer_set_modified (hf_state->right_buffer, FALSE);
+
 	gtk_widget_set_sensitive (glade_xml_get_widget (hf_state->gui, "apply_button"), FALSE);
 	gtk_widget_set_sensitive (glade_xml_get_widget (hf_state->gui, "ok_button"), FALSE);
 }
