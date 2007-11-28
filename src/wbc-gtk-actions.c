@@ -306,10 +306,15 @@ static GNM_ACTION_DEF (cb_edit_redo_last) { command_redo (WORKBOOK_CONTROL (wbcg
 static void
 common_cell_goto (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 {
-	SheetView *sv = sheet_get_view (sheet,
-		wb_control_view (WORKBOOK_CONTROL (wbcg)));
+	SheetView *sv;
+	WorkbookView *wbv;
 
-	wb_view_sheet_focus (sv_wbv (sv), sheet);
+	if (!sheet_is_visible (sheet))
+		return;
+
+	wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	sv = sheet_get_view (sheet, wbv);
+	wb_view_sheet_focus (wbv, sheet);
 	sv_selection_set (sv, pos,
 		pos->col, pos->row,
 		pos->col, pos->row);
