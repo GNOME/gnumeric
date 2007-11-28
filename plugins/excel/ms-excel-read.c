@@ -6148,6 +6148,8 @@ excel_read_BOF (BiffQuery	 *q,
 		if (ver->type == MS_BIFF_TYPE_Worksheet) {
 			excel_read_sheet (q, importer, wb_view, esheet);
 			ms_container_realize_objs (sheet_container (esheet));
+			/* reverse the sheet objects satck order */
+			esheet->sheet->sheet_objects = g_slist_reverse (esheet->sheet->sheet_objects);
 		} else
 			ms_excel_chart_read (q, sheet_container (esheet),
 				sheet_object_graph_new (NULL),

@@ -615,12 +615,12 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 	if (s->axis != NULL)
 		switch (type) {
 		case 0:
+			g_object_set (G_OBJECT (s->axis),
+				"style", s->style,
+				NULL);
 			if (s->axislineflags == 8)
 				g_object_set (s->axis, "invisible", TRUE, NULL);
 			else {
-				g_object_set (G_OBJECT (s->axis),
-					"style", s->style,
-					NULL);
 				/* deleted axis sets flag here, rather than in TICK */
 				if (0 == (0x4 & GSF_LE_GET_GUINT16 (q->data+8)))
 					g_object_set (G_OBJECT (s->axis),
@@ -1407,13 +1407,17 @@ BC_R(objectlink)(XLChartHandler const *handle,
 	guint16 const purpose = GSF_LE_GET_GUINT16 (q->data);
 	GogObject *label = NULL;
 
-	if (s->text == NULL)
+	if (purpose != 4 && s->text == NULL)
 		return FALSE;
 
-	if (purpose == 1) {
+	switch (purpose) {
+	case 1:
 		g_return_val_if_fail (s->chart != NULL, FALSE);
 		label = gog_object_add_by_name (GOG_OBJECT (s->chart), "Title", NULL);
-	} else if (purpose == 2 || purpose == 3 || purpose == 7) {
+		break;
+	case 2:
+	case 3:
+	case 7: {
 		GSList *axes;
 		GogAxisType t;
 
@@ -1433,6 +1437,10 @@ BC_R(objectlink)(XLChartHandler const *handle,
 
 		label = gog_object_add_by_name (GOG_OBJECT (axes->data), "Label", NULL);
 		g_slist_free (axes);
+		break;
+	}
+	case 4:
+		break;
 	}
 
 	if (label != NULL) {
@@ -1583,6 +1591,33 @@ BC_R(pos)(XLChartHandler const *handle,
 
 /****************************************************************************/
 
+static void
+set_radial_axes (XLChartReadState *s)
+{
+	GSList *l, *cur;
+	/* Change axes types */
+	l = cur = gog_chart_get_axes (s->chart, GOG_AXIS_X);
+	while (cur) {
+		gog_object_clear_parent (GOG_OBJECT (cur->data));
+		g_object_set (G_OBJECT (cur->data), "type",
+			GOG_AXIS_CIRCULAR, NULL);
+		gog_object_add_by_name (GOG_OBJECT (s->chart),
+			"Circular-Axis", GOG_OBJECT (cur->data));
+		cur = cur->next;
+	}
+	g_slist_free (l);
+	l = cur = gog_chart_get_axes (s->chart, GOG_AXIS_Y);
+	while (cur) {
+		gog_object_clear_parent (GOG_OBJECT (cur->data));
+		g_object_set (G_OBJECT (cur->data), "type",
+			GOG_AXIS_RADIAL, NULL);
+		gog_object_add_by_name (GOG_OBJECT (s->chart),
+			"Radial-Axis", GOG_OBJECT (cur->data));
+		cur = cur->next;
+	}
+	g_slist_free (l);
+}
+
 static gboolean
 BC_R(radar)(XLChartHandler const *handle,
 	    XLChartReadState *s, BiffQuery *q)
@@ -1593,6 +1628,9 @@ BC_R(radar)(XLChartHandler const *handle,
 	 * to define a marker in the default case. */
 	if (s->plot)
 		g_object_set (G_OBJECT (s->plot), "default-style-has-markers", TRUE, NULL);
+
+	/* Change axes types */
+	set_radial_axes (s);
 
 	return FALSE;
 }
@@ -1605,6 +1643,9 @@ BC_R(radararea)(XLChartHandler const *handle,
 {
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 	s->plot = (GogPlot*) gog_plot_new_by_name ("GogRadarAreaPlot");
+
+	/* Change axes types */
+	set_radial_axes (s);
 
 	return FALSE;
 }
@@ -2589,7 +2630,8 @@ not_a_matrix:
 			     !strcmp (type, "GogLinePlot") ||
 			     !strcmp (type, "GogRadarPlot"))) {
 				plot_has_marks =
-					 go_marker_get_shape (style->marker.mark) != GO_MARKER_NONE;
+					(go_marker_get_shape (style->marker.mark) != GO_MARKER_NONE)
+					|| style->marker.auto_shape;
 				g_object_set (G_OBJECT (s->plot),
 					"default-style-has-markers",
 					plot_has_marks,
@@ -3435,12 +3477,24 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 			}
 			g_slist_free (l);
 			if (hidden && visible) {
-				GSList const *l = gog_axis_contributors (hidden), *cur = l;
+				GSList const *l1 = gog_axis_contributors (hidden), *cur1 = l1;
+				while (cur1) {
+					if (IS_GOG_PLOT (cur1->data))
+						gog_plot_set_axis (GOG_PLOT (cur1->data), visible);
+					cur1 = cur1->next;
+				}
+				/* now reparent the children of the hidden axis */
+				l = cur = gog_object_get_children (GOG_OBJECT (hidden), NULL);
 				while (cur) {
-					if (IS_GOG_PLOT (cur->data))
-						gog_plot_set_axis (GOG_PLOT (cur->data), visible);
+					GogObject *obj = GOG_OBJECT (cur->data);
+					GogObjectRole const *role = obj->role;
+					gog_object_clear_parent (obj);
+					gog_object_set_parent (obj, GOG_OBJECT (visible), role, obj->id);
 					cur = cur->next;
 				}
+				g_slist_free (l);
+				gog_object_clear_parent (GOG_OBJECT (hidden));
+				g_object_unref (hidden);
 			}
 		}
 	}
@@ -4923,6 +4977,10 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 					2, FALSE, TRUE, FALSE, FALSE, go_nan);
 			break;
 		case GOG_AXIS_SET_RADAR :
+				chart_write_axis (s, axis_set->axis[GOG_AXIS_CIRCULAR],
+					0, FALSE, TRUE, FALSE, FALSE, go_nan);
+				chart_write_axis (s, axis_set->axis[GOG_AXIS_RADIAL],
+					1, FALSE, FALSE, FALSE, FALSE, go_nan);
 			break;
 		}
 

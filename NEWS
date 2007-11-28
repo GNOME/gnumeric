@@ -8,6 +8,9 @@ Andreas:
 	* Fix sensitivity of buttons in header/footer configuration [#499719]
 	* Fix sheet object printing bug [#499913]
 
+Jean:
+	* Import/export radar plots axes. [#499349]
+
 Jody:
 	* OFFSET use size of input range. [#497294]
 	* Finish .gnumeric i/o support for explicit page breaks.  [#499339]

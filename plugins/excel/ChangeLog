@@ -1,3 +1,15 @@
+2007-11-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (axislineformat): always set the style, even for
+	invisible axes,
+	(objectlink): started work on series labels import,
+	(set_radial_axes),(radar), (radararea), load radar plot axes. [#499349]
+	(end): a better auto marker test for #344950,
+	(ms_excel_chart_read), reparent invisible axis children before
+	deleting the axis.
+	(chart_write_axis_sets): write radar plots axes. 
+	* ms-excel-read.c: (excel_read_BOF): reverse objects stack order.
+
 2007-11-23  Jody Goldberg <jody@gnome.org>
 
 	* xlsx-read.c (xlsx_CT_PageMargins) : enable top/bottom.
