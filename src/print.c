@@ -1132,7 +1132,7 @@ gnm_begin_print_cb (GtkPrintOperation *operation,
 	pr = gtk_print_settings_get_int_with_default
 		(settings, GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY, PRINT_ACTIVE_SHEET);
 	if (from != pi->from || to != pi->to || pr != pi->pr) {
-		g_warning ("Working around gtk+ bug 423484.");
+		/* g_warning ("Working around gtk+ bug 423484."); */
 		gtk_print_settings_set_int
 			(settings, GNUMERIC_PRINT_SETTING_PRINT_FROM_SHEET_KEY,
 			 pi->from);
@@ -1189,7 +1189,7 @@ gnm_request_page_setup_cb (GtkPrintOperation *operation,
 
 	gsr = g_list_nth_data (pi->gnmSheetRanges, page_nr);
 	if (gsr == NULL) {
-		g_warning ("Avoiding gtk+ bug 492498");
+		/* g_warning ("Avoiding gtk+ bug 492498"); */
 		return;
 	}
 

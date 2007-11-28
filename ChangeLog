@@ -1,3 +1,8 @@
+2007-11-28  Jon K Hellan  <hellan@acm.org>
+
+	* src/print.c (gnm_begin_print_cb, gnm_request_page_setup_cb):
+	Silence warnings about gtk+ workarounds.
+
 2007-11-27  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	* src/print.c (print_sheet_objects): print the sheet objects in 
