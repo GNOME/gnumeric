@@ -23,6 +23,7 @@ Morten:
 	* Fix yet another jumpbox problem.  [#499722]
 	* Fix Find dialog problem with hidden sheets.  [#499723]
 	* Fix pane-related critical.  [#499905]
+	* Fix critical in series filling.  [#499984]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.90 (rc1)

@@ -359,7 +359,7 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 						    (info->stop_value 
 						     - info->start_value)/
 						    info->step_value);
-				if (length_of_series < 0)
+				if (length_of_series < 1)
 					length_of_series = 1;
 				break;
 			case FillSeriesTypeGrowth:
@@ -368,7 +368,7 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 						    (gnm_log(info->stop_value
 							     /info->start_value))/
 						    gnm_log(info->step_value));
-				if (length_of_series < 0)
+				if (length_of_series < 1)
 					length_of_series = 1;
 				break;
 			}
