@@ -350,8 +350,9 @@ wbc_set_property (GObject      *object,
 }
 
 static GObjectClass *parent_klass;
+
 static void
-wbc_finalize (GObject *obj)
+wbc_dispose (GObject *obj)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (obj);
 	if (wbc->clipboard_changed_signal) {
@@ -359,16 +360,18 @@ wbc_finalize (GObject *obj)
 					     wbc->clipboard_changed_signal);
 		wbc->clipboard_changed_signal = 0;
 	}
+
 	if (wbc->wb_view != NULL)
 		wb_view_detach_control (wbc);
-	parent_klass->finalize (obj);
+
+	parent_klass->dispose (obj);
 }
 
 static void
 workbook_control_class_init (GObjectClass *object_class)
 {
 	parent_klass = g_type_class_peek_parent (object_class);
-	object_class->finalize = wbc_finalize;
+	object_class->dispose = wbc_dispose;
 	object_class->get_property = wbc_get_property;
 	object_class->set_property = wbc_set_property;
 

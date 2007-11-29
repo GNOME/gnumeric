@@ -675,7 +675,7 @@ wb_view_detach_from_workbook (WorkbookView *wbv)
 }
 
 static void
-wb_view_finalize (GObject *object)
+wb_view_dispose (GObject *object)
 {
 	WorkbookView *wbv = WORKBOOK_VIEW (object);
 
@@ -690,6 +690,15 @@ wb_view_finalize (GObject *object)
 	}
 
 	wb_view_detach_from_workbook (wbv);
+
+	parent_class->dispose (object);
+}
+
+
+static void
+wb_view_finalize (GObject *object)
+{
+	WorkbookView *wbv = WORKBOOK_VIEW (object);
 
 	if (wbv->auto_expr_func) {
 		gnm_func_unref (wbv->auto_expr_func);
@@ -723,6 +732,7 @@ workbook_view_class_init (GObjectClass *gobject_class)
 	gobject_class->set_property = wb_view_set_property;
 	gobject_class->get_property = wb_view_get_property;
 	gobject_class->finalize = wb_view_finalize;
+	gobject_class->dispose = wb_view_dispose;
 
 	/* FIXME?  Make a boxed type.  */
         g_object_class_install_property

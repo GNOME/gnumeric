@@ -1,3 +1,10 @@
+2007-11-28  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-view.c (wb_view_dispose): New function extracted
+	from wb_view_finalize to handle viewe-control disentanglement.
+	* src/workbook-control.c (wbc_dispose): Renamed from wbc_finalize
+	and hooked up accordingly.  Fixes #499680.
+
 2007-11-28  Jon K Hellan  <hellan@acm.org>
 
 	* src/print.c (gnm_begin_print_cb, gnm_request_page_setup_cb):
