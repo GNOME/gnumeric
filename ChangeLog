@@ -1,3 +1,7 @@
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
 2007-11-28  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c (wb_view_dispose): New function extracted

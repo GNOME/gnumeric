@@ -1,3 +1,7 @@
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
 2007-11-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (axislineformat): always set the style, even for

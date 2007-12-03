@@ -1,3 +1,7 @@
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
 2007-11-27  Morten Welinder  <terra@gnome.org>
 
 	* fill-series.c (fill_series_adjust_variables): Fix off-by-one

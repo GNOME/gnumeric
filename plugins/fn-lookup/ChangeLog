@@ -1,3 +1,7 @@
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
 2007-11-20  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_offset) : no need to translate the far corner

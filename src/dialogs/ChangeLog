@@ -1,3 +1,7 @@
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
 2007-11-26  Morten Welinder  <terra@gnome.org>
 
 	* dialog-search.c (cursor_change): Don't try to go to hidden
