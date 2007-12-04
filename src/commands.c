@@ -76,6 +76,7 @@
 #include <string.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-pango-extras.h>
 
 /*
  * There are several distinct stages to wrapping each command.
@@ -908,6 +909,10 @@ cb_gnm_pango_attr_list_equal (PangoAttribute *a, gpointer _sl)
 	return FALSE;
 }
 
+/*
+ * This is a bit of a hack.  It might claim a difference even when things
+ * actually are equal.  But not the other way around.
+ */
 static gboolean
 gnm_pango_attr_list_equal (PangoAttrList const *l1, PangoAttrList const *l2)
 {
@@ -925,7 +930,13 @@ gnm_pango_attr_list_equal (PangoAttrList const *l1, PangoAttrList const *l2)
 					      cb_gnm_pango_attr_list_equal,
 					      &sl2);
 
-		while (sl1 && sl2 && pango_attribute_equal (sl1->data, sl2->data)) {
+		while (sl1 && sl2) {
+			const PangoAttribute *a1 = sl1->data;
+			const PangoAttribute *a2 = sl2->data;
+			if (a1->start_index != a2->start_index ||
+			    a1->end_index != a2->end_index ||
+			    !pango_attribute_equal (a1, a2))
+				break;
 			sl1 = g_slist_delete_link (sl1, sl1);
 			sl2 = g_slist_delete_link (sl2, sl2);
 		}
@@ -949,7 +960,7 @@ cmd_set_text (WorkbookControl *wbc,
 	char *where;
 	gboolean truncated;
 	GnmRange r;
-	gboolean same_text, same_markup;
+	gboolean same_text = FALSE, same_markup = FALSE;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (new_text != NULL, TRUE);
@@ -964,21 +975,23 @@ cmd_set_text (WorkbookControl *wbc,
 
 	corrected_text = autocorrect_tool (new_text);
 
+	if (go_pango_attr_list_is_empty (markup))
+		markup = NULL;
+
 	if (cell) {
-		const PangoAttrList *old_markup = NULL;
 		char *old_text = gnm_cell_get_entered_text (cell);
 		same_text = strcmp (old_text, corrected_text) == 0;
 		g_free (old_text);
 
 		if (same_text && cell->value && VALUE_IS_STRING (cell->value)) {
 			const GOFormat *fmt = VALUE_FMT (cell->value);
-			if (fmt && go_format_is_markup (fmt))
-				old_markup = go_format_get_markup (fmt);
+			if (fmt && go_format_is_markup (fmt)) {
+				const PangoAttrList *old_markup =
+					go_format_get_markup (fmt);
+				same_markup = gnm_pango_attr_list_equal (old_markup, markup);
+			}
 		}
-
-		same_markup = gnm_pango_attr_list_equal (old_markup, markup);
-	} else
-		same_text = same_markup = FALSE;
+	}
 
 	if (same_text && same_markup) {
 		g_free (corrected_text);

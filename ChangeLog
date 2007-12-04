@@ -1,3 +1,22 @@
+2007-12-01  Morten Welinder  <terra@gnome.org>
+
+	Fixes for #470089.
+	* src/sheet.c (sheet_cell_set_text): Adjust markup if text was
+	quoted.
+
+	* src/commands.c (cmd_set_text): Don't compare markups if we don't
+	extract them.  Map empty markup to no markup.
+	(gnm_pango_attr_list_equal): Take into account that
+	pango_attribute_equal does not compare indices.
+
+	* src/wbc-gtk-edit.c (gnm_pango_attr_list_splice): Export to
+	Goffice.  .  Let caller do the splice.
+	(wbcg_edit_start): Adjust markup if we quoted the string.
+	(wbcg_edit_finish): Free cell_attrs if needed.
+	(wbcg_edit_add_markup): Unset attributes if the desired result
+	matches cell_attrs.
+	(wbcg_edit_init_markup): Initialize cell_attrs.
+
 2007-12-03  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump.  Hopefully last before 1.8

@@ -60,6 +60,7 @@
 #include "scenarios.h"
 #include "cell-draw.h"
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-pango-extras.h>
 #include <goffice/utils/go-format.h>
 
 #include <glib/gi18n-lib.h>
@@ -2088,8 +2089,8 @@ void
 sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 {
 	GnmExprTop const *texpr;
-	GnmValue	      *val;
-	GnmParsePos       pp;
+	GnmValue *val;
+	GnmParsePos pp;
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
@@ -2120,9 +2121,22 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 
 		gnm_cell_set_value (cell, val);
 		if (markup != NULL && VALUE_IS_STRING (cell->value)) {
-			GOFormat *fmt = go_format_new_markup (markup, TRUE);
+			gboolean quoted = (text[0] == '\'');
+			PangoAttrList *adj_markup;
+			GOFormat *fmt;
+
+			if (quoted) {
+				/* We ate the quote.  Adjust.  Ugh.  */
+				adj_markup = pango_attr_list_copy (markup);
+				go_pango_attr_list_erase (adj_markup, 0, 1);
+			} else
+				adj_markup = markup;
+
+			fmt = go_format_new_markup (adj_markup, TRUE);
 			value_set_fmt (cell->value, fmt);
 			go_format_unref (fmt);
+			if (quoted)
+				pango_attr_list_unref (adj_markup);
 		}
 
 		/* Queue recalc before spanning, see above.  */

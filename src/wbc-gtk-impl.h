@@ -34,11 +34,12 @@ struct _WBCGtk {
 	struct {
 		GnmExprEntry *entry; /* The real edit line */
 		GnmExprEntry *temp_entry; /* A tmp overlay eg from a guru */
-		GtkWidget*guru;
+		GtkWidget *guru;
 		gulong         signal_changed, signal_insert, signal_delete;
 		gulong         signal_cursor_pos, signal_selection_bound;
-		PangoAttrList *full_content;	/* include the cell attrs too */
-		PangoAttrList *markup;	/* just the markup */
+		PangoAttrList *cell_attrs;   /* Attrs from cell format. */
+		PangoAttrList *markup;	     /* just the markup */
+		PangoAttrList *full_content; /* cell_attrs+markup */
 		PangoAttrList *cur_fmt;	/* attrs for new text (depends on position) */
 	} edit_line;
 

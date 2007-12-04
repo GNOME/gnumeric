@@ -47,6 +47,7 @@
 #include "widgets/gnumeric-expr-entry.h"
 
 #include <goffice/utils/go-font.h>
+#include <goffice/utils/go-pango-extras.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -281,14 +282,26 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 		wbcg->edit_line.signal_selection_bound = 0;
 	}
 
+	if (wbcg->edit_line.cell_attrs != NULL) {
+		pango_attr_list_unref (wbcg->edit_line.cell_attrs);
+		wbcg->edit_line.cell_attrs = NULL;
+	}
+
+	if (wbcg->edit_line.markup) {
+		pango_attr_list_unref (wbcg->edit_line.markup);
+		wbcg->edit_line.markup = NULL;
+	}
+
 	if (wbcg->edit_line.full_content != NULL) {
 		pango_attr_list_unref (wbcg->edit_line.full_content);
-		pango_attr_list_unref (wbcg->edit_line.markup);
-		pango_attr_list_unref (wbcg->edit_line.cur_fmt);
-		wbcg->edit_line.full_content =
-			wbcg->edit_line.markup =
-			wbcg->edit_line.cur_fmt = NULL;
+		wbcg->edit_line.full_content = NULL;
 	}
+
+	if (wbcg->edit_line.cur_fmt) {
+		pango_attr_list_unref (wbcg->edit_line.cur_fmt);
+		wbcg->edit_line.cur_fmt = NULL;
+	}
+
 	/* set pos to 0, to ensure that if we start editing by clicking on the
 	 * editline at the last position, we'll get the right style feedback */
 	gtk_editable_set_position ((GtkEditable *) wbcg_get_entry (wbcg), 0);
@@ -348,69 +361,6 @@ cb_set_attr_list_len (PangoAttribute *a, gpointer len_bytes)
 	return FALSE;
 }
 
-struct cb_splice {
-	guint pos, len;
-	PangoAttrList *result;
-};
-
-static gboolean
-cb_splice (PangoAttribute *attr, gpointer _data)
-{
-	struct cb_splice *data = _data;
-
-	if (attr->start_index >= data->pos) {
-		PangoAttribute *new_attr = pango_attribute_copy (attr);
-		new_attr->start_index += data->len;
-		new_attr->end_index += data->len;
-		pango_attr_list_insert (data->result, new_attr);
-	} else if (attr->end_index <= data->pos) {
-		PangoAttribute *new_attr = pango_attribute_copy (attr);
-		pango_attr_list_insert (data->result, new_attr);
-	} else {
-		PangoAttribute *new_attr = pango_attribute_copy (attr);
-		new_attr->end_index = data->pos;
-		pango_attr_list_insert (data->result, new_attr);
-
-		new_attr = pango_attribute_copy (attr);
-		new_attr->start_index = data->pos + data->len;
-		new_attr->end_index += data->len;
-		pango_attr_list_insert (data->result, new_attr);
-	}
-
-	return FALSE;
-}
-
-static gboolean
-cb_splice_true (G_GNUC_UNUSED PangoAttribute *attr, G_GNUC_UNUSED gpointer data)
-{
-	return TRUE;
-}
-
-static void
-gnm_pango_attr_list_splice (PangoAttrList *tape,
-			    PangoAttrList *piece,
-			    guint pos, guint len)
-{
-	struct cb_splice data;
-	PangoAttrList *tape2;
-
-	data.result = tape;
-	data.pos = pos;
-	data.len = len;
-
-	/* Clean out the tape.  */
-	tape2 = pango_attr_list_filter (tape, cb_splice_true, NULL);
-
-	if (tape2) {
-		(void)pango_attr_list_filter (tape2, cb_splice, &data);
-		pango_attr_list_unref (tape2);
-	}
-
-	/* Apply the new attributes.  */
-	pango_attr_list_splice (data.result, piece, pos, 0);
-}
-
-
 static void
 cb_entry_insert_text (GtkEditable *editable,
 		      gchar const *text,
@@ -433,13 +383,17 @@ cb_entry_insert_text (GtkEditable *editable,
 					      cb_set_attr_list_len,
 					      GINT_TO_POINTER (len_bytes));
 
-		gnm_pango_attr_list_splice (wbcg->edit_line.full_content,
-					    wbcg->edit_line.cur_fmt,
-					    pos_in_bytes, len_bytes);
+		go_pango_attr_list_open_hole (wbcg->edit_line.full_content,
+					      pos_in_bytes, len_bytes);
+		pango_attr_list_splice (wbcg->edit_line.full_content,
+					wbcg->edit_line.cur_fmt,
+					pos_in_bytes, 0);
 
-		gnm_pango_attr_list_splice (wbcg->edit_line.markup,
-					    wbcg->edit_line.cur_fmt,
-					    pos_in_bytes, len_bytes);
+		go_pango_attr_list_open_hole (wbcg->edit_line.markup,
+					      pos_in_bytes, len_bytes);
+		pango_attr_list_splice (wbcg->edit_line.markup,
+					wbcg->edit_line.cur_fmt,
+					pos_in_bytes, 0);
 	}
 }
 
@@ -530,48 +484,6 @@ cb_entry_cursor_pos (WBCGtk *wbcg)
 	set_cur_fmt (wbcg, target_pos_in_bytes);
 }
 
-typedef struct {
-	unsigned start_pos, end_pos, len; /* in bytes not chars */
-} EntryDeleteTextClosure;
-
-
-/*
- *
- * |       +-------------------+            The attribute
- *
- *                                +----+    (1)
- *                  +------------------+    (2)
- *                  +------+                (3)
- *   +--+                                   (4)
- *   +--------------+                       (5)
- *   +---------------------------------+    (6)
- *
- */
-static gboolean
-cb_delete_filter (PangoAttribute *a, EntryDeleteTextClosure *change)
-{
-	if (change->start_pos >= a->end_index)
-		return FALSE;  /* (1) */
-
-	if (change->start_pos <= a->start_index) {
-		if (change->end_pos >= a->end_index)
-			return TRUE; /* (6) */
-
-		a->end_index -= change->len;
-		if (change->end_pos >= a->start_index)
-			a->start_index = change->start_pos; /* (5) */
-		else
-			a->start_index -= change->len; /* (4) */
-	} else {
-		if (change->end_pos >= a->end_index)
-			a->end_index = change->start_pos;  /* (2) */
-		else
-			a->end_index -= change->len; /* (3) */
-	}
-
-	return FALSE;
-}
-
 static void
 cb_entry_delete_text (GtkEditable    *editable,
 		      gint            start_pos,
@@ -589,20 +501,18 @@ cb_entry_delete_text (GtkEditable    *editable,
 
 	if (wbcg->edit_line.full_content) {
 		char const *str = gtk_entry_get_text (GTK_ENTRY (editable));
-		PangoAttrList *gunk;
-		EntryDeleteTextClosure change;
+		guint start_pos_in_bytes =
+			g_utf8_offset_to_pointer (str, start_pos) - str;
+		guint end_pos_in_bytes =
+			g_utf8_offset_to_pointer (str, end_pos) - str;
+		guint len_bytes = end_pos_in_bytes - start_pos_in_bytes;
 
-		change.start_pos = g_utf8_offset_to_pointer (str, start_pos) - str;
-		change.end_pos   = g_utf8_offset_to_pointer (str, end_pos) - str;
-		change.len = change.end_pos - change.start_pos;
-		gunk = pango_attr_list_filter (wbcg->edit_line.full_content,
-					       (PangoAttrFilterFunc) cb_delete_filter, &change);
-		if (gunk != NULL)
-			pango_attr_list_unref (gunk);
-		gunk = pango_attr_list_filter (wbcg->edit_line.markup,
-					       (PangoAttrFilterFunc) cb_delete_filter, &change);
-		if (gunk != NULL)
-			pango_attr_list_unref (gunk);
+		go_pango_attr_list_erase (wbcg->edit_line.full_content,
+					  start_pos_in_bytes,
+					  len_bytes);
+		go_pango_attr_list_erase (wbcg->edit_line.markup,
+					  start_pos_in_bytes,
+					  len_bytes);
 		cb_entry_cursor_pos (wbcg);
 	}
 }
@@ -610,17 +520,55 @@ cb_entry_delete_text (GtkEditable    *editable,
 static void
 wbcg_edit_init_markup (WBCGtk *wbcg, PangoAttrList *markup)
 {
-	SheetView const *sv  = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
-	char const *text = gtk_entry_get_text (wbcg_get_entry (wbcg));
+	SheetView const *sv;
+	char const *text;
+	GnmStyle const *style;
 
 	g_return_if_fail (wbcg->edit_line.full_content == NULL);
 
 	wbcg->edit_line.markup = markup;
-	wbcg->edit_line.full_content = gnm_style_generate_attrs_full (
-		sheet_style_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row));
+
+	sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+	style = sheet_style_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row);
+	wbcg->edit_line.cell_attrs = gnm_style_generate_attrs_full (style);
+
+	wbcg->edit_line.full_content = pango_attr_list_copy (wbcg->edit_line.cell_attrs);
 	pango_attr_list_splice (wbcg->edit_line.full_content, markup, 0, 0);
 
+	text = gtk_entry_get_text (wbcg_get_entry (wbcg));
 	set_cur_fmt (wbcg, strlen (text) - 1);
+}
+
+struct cb_set_or_unset {
+	const PangoAttribute *attr;
+	gboolean set_in_ref;
+};
+
+static gboolean
+cb_set_or_unset (PangoAttribute *attr, gpointer _data)
+{
+	struct cb_set_or_unset *data = _data;
+	if (pango_attribute_equal (attr, data->attr))
+		data->set_in_ref = TRUE;
+	return FALSE;
+}
+
+static void
+set_or_unset (PangoAttrList *dst, const PangoAttribute *attr,
+	      PangoAttrList *ref)
+{
+	struct cb_set_or_unset data;
+
+	data.attr = attr;
+	data.set_in_ref = FALSE;
+	(void)pango_attr_list_filter (ref, cb_set_or_unset, &data);
+
+	if (data.set_in_ref)
+		go_pango_attr_list_unset (dst,
+					  attr->start_index, attr->end_index,
+					  attr->klass->type);
+	else
+		pango_attr_list_change (dst, pango_attribute_copy (attr));
 }
 
 /**
@@ -628,7 +576,7 @@ wbcg_edit_init_markup (WBCGtk *wbcg, PangoAttrList *markup)
  * @wbcg : #WBCGtk
  * @attr : #PangoAttribute
  *
- * Absorb the ref to @attr and merge it into the list
+ * Absorbs the ref to @attr.
  **/
 void
 wbcg_edit_add_markup (WBCGtk *wbcg, PangoAttribute *attr)
@@ -643,16 +591,18 @@ wbcg_edit_add_markup (WBCGtk *wbcg, PangoAttribute *attr)
 
 		attr->start_index = g_utf8_offset_to_pointer (str, attr->start_index) - str;
 		attr->end_index = g_utf8_offset_to_pointer (str, attr->end_index) - str;
-		pango_attr_list_change (wbcg->edit_line.full_content,
-					pango_attribute_copy (attr));
-		pango_attr_list_change (wbcg->edit_line.markup,
-					pango_attribute_copy (attr));
+		set_or_unset (wbcg->edit_line.full_content, attr,
+			      wbcg->edit_line.cell_attrs);
+		set_or_unset (wbcg->edit_line.markup, attr,
+			      wbcg->edit_line.cell_attrs);
 	}
 
 	/* the format to use when inserting text, we will resize it later */
 	attr->start_index = 0;
 	attr->end_index = INT_MAX;
-	pango_attr_list_change (wbcg->edit_line.cur_fmt, attr);
+	set_or_unset (wbcg->edit_line.cur_fmt, attr,
+		      wbcg->edit_line.cell_attrs);
+	pango_attribute_destroy (attr);
 	wbc_gtk_markup_changer (wbcg);
 }
 
@@ -835,6 +785,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 		gtk_entry_set_text (wbcg_get_entry (wbcg), "");
 	else if (cell != NULL) {
 		gboolean set_text = FALSE;
+		gboolean quoted = FALSE;
 		GODateConventions const *date_conv =
 			workbook_date_conv (sv->sheet->workbook);
 
@@ -938,17 +889,23 @@ wbcg_edit_start (WBCGtk *wbcg,
 			}
 		}
 
-		if (!text)
+		if (!text) {
 			text = gnm_cell_get_entered_text (cell);
+			quoted = (text[0] == '\'');
+		}
 
 		if (set_text)
 			gtk_entry_set_text (wbcg_get_entry (wbcg), text);
 
 		if (cell->value != NULL) {
 			GOFormat *fmt = VALUE_FMT (cell->value);
-			if (fmt != NULL && go_format_is_markup (fmt))
-				wbcg_edit_init_markup (wbcg, pango_attr_list_copy (
-					(PangoAttrList *) go_format_get_markup (fmt)));
+			if (fmt != NULL && go_format_is_markup (fmt)) {
+				PangoAttrList *markup =
+					pango_attr_list_copy ((PangoAttrList *)go_format_get_markup (fmt));
+				if (quoted)
+					go_pango_attr_list_open_hole (markup, 0, 1);
+				wbcg_edit_init_markup (wbcg, markup);
+			}
 		}
 	}
 

@@ -1,3 +1,9 @@
+Gnumeric 1.7.92 (rc3)
+
+Morten:
+	* Fix a handful of rich-text editing bugs.  [#470089]
+
+--------------------------------------------------------------------------
 Gnumeric 1.7.91 (rc2)
 
 Andreas:
