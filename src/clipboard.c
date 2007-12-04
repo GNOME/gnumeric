@@ -469,6 +469,7 @@ clipboard_paste_region (GnmCellRegion const *cr,
 
 			if (has_contents && NULL != cr->cell_content) {
 				dat.pt = pt;
+				dat.cr = cr;
 				g_hash_table_foreach (cr->cell_content,
 					(GHFunc)cb_paste_cell, &dat);
 			}
