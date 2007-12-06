@@ -15,6 +15,7 @@ Build-Depends: debhelper (>= 5.0.37.2), python-central (>= 0.5), dh-buildinfo,
  libgsf-gnome-1-dev (>= 1.14.2),
  pxlib-dev (>= 0.5.1-2+b1), libpsiconv-dev (>= 0.9.8-2), libperl-dev,
  python-dev, python-gtk2-dev
+Homepage: http://www.gnumeric.org/
 Vcs-Svn: svn://svn.gnome.org/svn/gnumeric/trunk
 Vcs-Browser: http://svn.gnome.org/viewcvs/gnumeric/trunk/
 Standards-Version: 3.7.2

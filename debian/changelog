@@ -1,3 +1,14 @@
+gnumeric (1.7.91-1) unstable; urgency=low
+
+  * New upstream beta release.
+  * [debian/rules] Changed the way in which LDFLAGS are passed so
+    -Wl,--as-needed has much greater effect.
+  * [debian/control] Added Homepage.
+  * [debian/po/vi.po] Added Vietnamese translation courtesy of Clytie Siddall
+    <clytie@riverland.net.au>. (Closes: #453626).
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 06 Dec 2007 10:17:19 +0100
+
 gnumeric (1.7.90-1) unstable; urgency=low
 
   * New upstream beta release.
