@@ -3465,34 +3465,35 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 		for (i = GOG_AXIS_X; i <= GOG_AXIS_Y; i++) {
 			hidden = visible = NULL;
 			l = gog_chart_get_axes (state.chart, i);
-			cur = l;
-			while (cur) {
+
+			for (cur = l; cur; cur = cur->next) {
 				gboolean invisible;
 				g_object_get (cur->data, "invisible", &invisible, NULL);
 				if (invisible)
 					hidden = GOG_AXIS (cur->data);
 				else
 					visible = GOG_AXIS (cur->data);
-				cur = cur->next;
 			}
 			g_slist_free (l);
 			if (hidden && visible) {
-				GSList const *l1 = gog_axis_contributors (hidden), *cur1 = l1;
-				while (cur1) {
+				GSList *l1, *cur1;
+
+				l1 = g_slist_copy (gog_axis_contributors (hidden));
+				for (cur1 = l1; cur1; cur1 = cur1->next) {
 					if (IS_GOG_PLOT (cur1->data))
 						gog_plot_set_axis (GOG_PLOT (cur1->data), visible);
-					cur1 = cur1->next;
 				}
+				g_slist_free (l1);
 				/* now reparent the children of the hidden axis */
-				l = cur = gog_object_get_children (GOG_OBJECT (hidden), NULL);
-				while (cur) {
-					GogObject *obj = GOG_OBJECT (cur->data);
+				l1 = gog_object_get_children (GOG_OBJECT (hidden), NULL);
+				for (cur1 = l1; cur1; cur1 = cur1->next) {
+					GogObject *obj = GOG_OBJECT (cur1->data);
 					GogObjectRole const *role = obj->role;
 					gog_object_clear_parent (obj);
 					gog_object_set_parent (obj, GOG_OBJECT (visible), role, obj->id);
-					cur = cur->next;
 				}
-				g_slist_free (l);
+				g_slist_free (l1);
+
 				gog_object_clear_parent (GOG_OBJECT (hidden));
 				g_object_unref (hidden);
 			}

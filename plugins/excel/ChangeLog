@@ -1,3 +1,8 @@
+2007-12-07  Morten Welinder  <terra@gnome.org>
+
+	* ms-chart.c (ms_excel_chart_read): Copy list of contributors
+	because it will change underneath us.  [#501656]
+
 2007-12-03  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.91
