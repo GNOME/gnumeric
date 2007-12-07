@@ -148,7 +148,14 @@
       two ways. If the cell is selected, the value will appear in the
       data entry area (to the right of the equals button directly
       above the cell grid). Alternatively, the column containing the
-      cell can be widened until the data contents become visible.
+      cell can be widened until the data contents become visible:
+      select the whole column (by clicking on the column header)
+      and choose 
+      <menuchoice>
+      <guimenu>Format</guimenu>
+      <guisubmenu>Column</guisubmenu>
+      <guimenuitem>Auto fit selection</guimenuitem>
+      </menuchoice>.
     </para>
   </note>
 
