@@ -1706,6 +1706,31 @@ sheet_get_nominal_printarea	(Sheet const *sheet)
 			value_release (val);
 		}
 	}
+	
+
+	/* We are now trying to fix any problems with the print area */
+	while (print_area.start.col < 0)
+		print_area.start.col += SHEET_MAX_COLS;
+	while (print_area.start.row < 0)
+		print_area.start.row += SHEET_MAX_ROWS;
+	while (print_area.end.col < 0)
+		print_area.end.col += SHEET_MAX_COLS;
+	while (print_area.end.row < 0)
+		print_area.end.row += SHEET_MAX_ROWS;
+
+	if (print_area.start.col > print_area.end.col) {
+		int col = print_area.end.col;
+		print_area.end.col = print_area.start.col;
+		print_area.start.col = col;
+	}
+	if (print_area.start.row > print_area.end.row) {
+		int row = print_area.end.row;
+		print_area.end.row = print_area.start.row;
+		print_area.start.row = row;
+	}
+
+	range_ensure_sanity (&print_area);
+	
 	return print_area;
 }
 

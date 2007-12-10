@@ -1,3 +1,8 @@
+2007-12-10  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
+	Fix for #502206
+	* src/sheet.c (sheet_get_nominal_printarea): fix invalid printarea
+
 2007-12-10  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (gnm_expr_relocate): Access the right union member.
