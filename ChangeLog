@@ -1,3 +1,8 @@
+2007-12-10  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (gnm_expr_relocate): Access the right union member.
+	Fixes #502781.
+
 2007-12-01  Morten Welinder  <terra@gnome.org>
 
 	Fixes for #470089.

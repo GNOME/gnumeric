@@ -3,6 +3,7 @@ Gnumeric 1.7.92 (rc3)
 Morten:
 	* Fix a handful of rich-text editing bugs.  [#470089]
 	* Fix xls chart import problem.  [#501656]
+	* Fix crash relocating set expressions.  [#502781]
 
 --------------------------------------------------------------------------
 Gnumeric 1.7.91 (rc2)

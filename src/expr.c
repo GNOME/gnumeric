@@ -1931,7 +1931,7 @@ gnm_expr_relocate (GnmExpr const *expr, RelocInfoInternal const *rinfo)
 		if (rewrite) {
 			for (i = 0; i < argc; i++)
 				if (!argv[i])
-					argv[i] = gnm_expr_copy (expr->func.argv[i]);
+					argv[i] = gnm_expr_copy (expr->set.argv[i]);
 
 			return gnm_expr_new_setv (argc, argv);
 		}
