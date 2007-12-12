@@ -1278,15 +1278,8 @@ static gboolean
 BC_R(lineformat)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
-	static GOLineDashType const dash_map []= {
-		GO_LINE_SOLID,
-		GO_LINE_DASH,
-		GO_LINE_DOT,
-		GO_LINE_DASH_DOT,
-		GO_LINE_DASH_DOT_DOT,
-		GO_LINE_NONE
-	};
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+8);
+	guint16 pattern = GSF_LE_GET_GUINT16 (q->data+4);
 
 	BC_R(get_style) (s);
 	switch (GSF_LE_GET_GINT16 (q->data+6)) {
@@ -1302,17 +1295,13 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	}
 	s->style->line.color      = BC_R(color) (q->data, "LineColor");
 	s->style->line.auto_color = s->style->line.auto_dash = (flags & 0x01) ? TRUE : FALSE;
-	s->style->line.pattern    = GSF_LE_GET_GUINT16 (q->data+4);
 
 	d (0, g_printerr ("flags == %hd.\n", flags););
 	d (0, g_printerr ("Lines are %f pts wide.\n", s->style->line.width););
 	d (0, g_printerr ("Lines have a %s pattern.\n",
-		       ms_line_pattern [s->style->line.pattern]););
+		       ms_line_pattern [pattern]););
 
-	if (s->style->line.pattern <= G_N_ELEMENTS (dash_map))
-		s->style->line.dash_type = dash_map [s->style->line.pattern];
-	else
-		s->style->line.dash_type = GO_LINE_SOLID;
+	s->style->line.dash_type = xl_pattern_to_line_type (pattern);
 
 	if (BC_R(ver)(s) >= MS_BIFF_V8 && s->currentSeries != NULL) {
 		guint16 const fore = GSF_LE_GET_GUINT16 (q->data+10);
@@ -3478,7 +3467,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 			if (hidden && visible) {
 				GSList *l1, *cur1;
 
-				l1 = g_slist_copy (gog_axis_contributors (hidden));
+				l1 = g_slist_copy ((GSList *) gog_axis_contributors (hidden));
 				for (cur1 = l1; cur1; cur1 = cur1->next) {
 					if (IS_GOG_PLOT (cur1->data))
 						gog_plot_set_axis (GOG_PLOT (cur1->data), visible);
@@ -3694,7 +3683,7 @@ chart_write_LINEFORMAT (XLChartWriteState *s, GogStyleLine const *lstyle,
 
 	if (lstyle != NULL) {
 		color_index = chart_write_color (s, data, lstyle->color);
-		pat = patterns[lstyle->pattern];
+		pat = patterns[lstyle->dash_type];
 		if (lstyle->width < 0.) {
 			w = 0xffff;
 			pat = 5;	/* none */
@@ -4665,7 +4654,6 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		line_style.auto_dash = FALSE;
 		line_style.color = 0;
 		line_style.auto_color = FALSE;
-		line_style.pattern = 5;
 		chart_write_LINEFORMAT (s, NULL,
 					FALSE, TRUE);
 	}
@@ -5291,7 +5279,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 				/* FIXME: change this code when series lines are available ! */
 				style->line.auto_dash = FALSE;
 				style->line.auto_color = FALSE;
-				style->line.pattern = 5;
+				style->line.dash_type = GO_LINE_NONE;
 				style->marker.auto_shape = FALSE;
 				go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
 				style->marker.auto_fill_color = FALSE;
@@ -5311,7 +5299,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 				/* FIXME: change this code when series lines are available ! */
 				style->line.auto_dash = FALSE;
 				style->line.auto_color = FALSE;
-				style->line.pattern = 5;
+				style->line.dash_type = GO_LINE_NONE;
 				style->marker.auto_shape = FALSE;
 				go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
 				style->marker.auto_fill_color = FALSE;
@@ -5366,7 +5354,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 				/* FIXME: change this code when series lines are available ! */
 				style->line.auto_dash = FALSE;
 				style->line.auto_color = FALSE;
-				style->line.pattern = 5;
+				style->line.dash_type = GO_LINE_NONE;
 				style->marker.auto_shape = FALSE;
 				go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
 				style->marker.auto_fill_color = FALSE;
@@ -5386,7 +5374,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 				/* FIXME: change this code when series lines are available ! */
 				style->line.auto_dash = FALSE;
 				style->line.auto_color = FALSE;
-				style->line.pattern = 5;
+				style->line.dash_type = GO_LINE_NONE;
 				style->marker.auto_shape = FALSE;
 				go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
 				style->marker.auto_fill_color = FALSE;

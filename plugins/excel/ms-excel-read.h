@@ -153,4 +153,6 @@ void excel_unexpected_biff (BiffQuery *q, char const *state, int debug_level);
 void excel_read_cleanup (void);
 void excel_read_init (void);
 
+unsigned xl_pattern_to_line_type (guint16 pattern);
+
 #endif /* GNM_MS_EXCEL_READ_H */

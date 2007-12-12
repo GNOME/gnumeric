@@ -374,6 +374,19 @@ ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
 	return FALSE;
 }
 
+unsigned xl_pattern_to_line_type (guint16 pattern)
+{
+	static GOLineDashType const dash_map []= {
+		GO_LINE_SOLID,
+		GO_LINE_DASH,
+		GO_LINE_DOT,
+		GO_LINE_DASH_DOT,
+		GO_LINE_DASH_DOT_DOT,
+		GO_LINE_NONE
+	};
+	return (pattern >= G_N_ELEMENTS (dash_map))? GO_LINE_SOLID: dash_map[pattern];
+}
+
 static gboolean
 ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 {
@@ -435,8 +448,8 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			MS_OBJ_ATTR_OUTLINE_COLOR, RGBA_BLACK);
 		style->line.width = ms_obj_attr_get_uint (obj->attrs,
 			MS_OBJ_ATTR_OUTLINE_WIDTH, 0) / 256.;
-		style->line.pattern = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE)
-			? 0 : ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 1);
+		style->line.dash_type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE)
+			? GO_LINE_NONE : xl_pattern_to_line_type (ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 1));
 		g_object_set (G_OBJECT (so), "style", style, NULL);
 		g_object_unref (style);
 		break;
@@ -456,8 +469,8 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			MS_OBJ_ATTR_OUTLINE_COLOR, RGBA_BLACK);
 		style->outline.width = ms_obj_attr_get_uint (obj->attrs,
 			MS_OBJ_ATTR_OUTLINE_WIDTH, 0) / 256.;
-		style->outline.pattern = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE)
-			? 0 : ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 1);
+		style->outline.dash_type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_OUTLINE_HIDE)
+			? GO_LINE_NONE : xl_pattern_to_line_type (ms_obj_attr_get_int (obj->attrs, MS_OBJ_ATTR_OUTLINE_STYLE, 1));
 		style->fill.pattern.back = ms_sheet_map_color (esheet, obj,
 			MS_OBJ_ATTR_FILL_COLOR, RGBA_WHITE);
 		style->fill.pattern.fore = ms_sheet_map_color (esheet, obj,

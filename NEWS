@@ -2,6 +2,10 @@ Gnumeric 1.7.92 (rc3)
 
 Andreas:
 	* Fix print area bug [#502206]
+
+Jean:
+	* Fix import/export of line styles in xls files. [#502968]
+
 Morten:
 	* Fix a handful of rich-text editing bugs.  [#470089]
 	* Fix xls chart import problem.  [#501656]
