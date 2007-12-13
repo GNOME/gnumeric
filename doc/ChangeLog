@@ -1,3 +1,23 @@
+2007-12-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* C/figures/print-worksheet-printer-job.png: new
+	* C/figures/print-worksheet-printer-advanced.png: new
+	* C/figures/print-worksheet-print_range.png: new
+	* C/figures/printing-setup-page-paper-type.png: new
+	* C/figures/print-worksheet-printer-general.png: new
+	* C/figures/print-worksheet-printer-image_quality.png: new
+	* C/figures/print-worksheet-page_setup.png: new
+	* C/figures/print-worksheet-file-general.png: new
+	* C/figures/print-worksheet-printer-finishing.png: new
+	* C/figures/printing-setup-scale.png: new
+	* C/figures/printing-setup-sheet.png: updated
+	* C/figures/printing-setup-header.png: updated
+	* C/figures/printing-setup-header-config.png: updated
+	* C/figures/printing-preview.png: updated
+	* C/figures/print-large.png: updated
+	* C/figures/printing-setup-page.png: updated
+	* C/printing.xml: partial update
+
 2007-12-03  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.91
