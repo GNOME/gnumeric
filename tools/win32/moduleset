@@ -40,10 +40,9 @@
 	    <patch file="&patch_dir;pcre.patch"/>
 	</patches>
     </tarball>
-    <!--
-    <tarball id="glib" version="2.12.13">
-	<source href="http://download.gnome.org/sources/glib/2.12/glib-2.12.13.tar.bz2"
-		md5sum="d76124236e4e216e8c0861341e967a76"/>
+    <tarball id="glib" version="2.14.4">
+	<source href="http://download.gnome.org/sources/glib/2.14/glib-2.14.4.tar.bz2"
+		md5sum="7ee7874108cbe9ea7fff1f4ab3389ce8"/>
 	<patches>
 		<patch file="http://osl.ulpgc.es/~arc/gnome/gtk/glib_win32_cachefile.patch.gz"/>
 	</patches>
@@ -52,7 +51,7 @@
 	    <dep package="iconv"/>
 	</dependencies>
     </tarball>
-    -->
+    <!--
     <autotools id="glib">
 	<branch/>
 	<patches>
@@ -63,6 +62,7 @@
 	    <dep package="iconv"/>
 	</dependencies>
     </autotools>
+    -->
 
 <!-- Compression -->
 <!--
@@ -197,28 +197,27 @@
 	</dependencies>
     </autotools>
 
-    <tarball id="atk" version="1.19.1">
-	<source href="http://ftp.acc.umu.se/pub/gnome/sources/atk/1.19/atk-1.19.1.tar.bz2"
-		md5sum="ec288e7b0fa5993c2de11ce4f71577c0"/>
+    <tarball id="atk" version="1.20.0">
+	<source href="http://ftp.acc.umu.se/pub/gnome/sources/atk/1.20/atk-1.20.0.tar.bz2"
+		md5sum="b1a9e28d9f54ea306bd85a4c84b25fb8"/>
 	<dependencies>
 	    <dep package="glib"/>
 	</dependencies>
     </tarball>
-<!--
-    <tarball id="gtk+" version="2.10.14">
-	<source href="http://ftp.acc.umu.se/pub/gnome/sources/gtk+/2.10/gtk+-2.10.14.tar.bz2"
-		md5sum="018d7dd0fa7de01cfdb77c7c55e7ba26"/>
+    <tarball id="gtk+" version="2.12.3">
+	<source href="http://ftp.acc.umu.se/pub/gnome/sources/gtk+/2.12/gtk+-2.12.3.tar.bz2"
+		md5sum="dc8455144f27945f2fcbe91e75acd118"/>
 	<dependencies>
 	    <dep package="glib"/>
 	    <dep package="cairo"/>
 	    <dep package="atk"/>
 	    <dep package="pango"/>
-// <dep package="jpeg"/>
+<!-- <dep package="jpeg"/> -->
 	    <dep package="tiff"/>
 	    <dep package="png"/>
 	</dependencies>
     </tarball>
-    -->
+<!--
     <autotools id="gtk+">
 	<branch/>
 	<dependencies>
@@ -230,6 +229,7 @@
 	    <dep package="png"/>
 	</dependencies>
     </autotools>
+    -->
 
 <!-- glade stack -->
     <tarball id="libxml2" version="2.6.30">
