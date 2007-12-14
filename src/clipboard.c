@@ -236,24 +236,32 @@ paste_cell (Sheet *dst_sheet,
 static void
 paste_object (GnmPasteTarget const *pt, SheetObject const *src, int left, int top)
 {
-	if ((pt->paste_flags & PASTE_OBJECTS) ||
-	    G_OBJECT_TYPE (src) == CELL_COMMENT_TYPE) {
-		SheetObject *dst = sheet_object_dup (src);
-		if (dst != NULL) {
-			SheetObjectAnchor tmp;
-			sheet_object_anchor_assign (&tmp, sheet_object_get_anchor (src));
-			if (pt->paste_flags & PASTE_TRANSPOSE) {
-				GnmCellPos origin;
-				origin.col = 0;
-				origin.row = 0;
-				range_transpose (&tmp.cell_bound, &origin);
-			}
-			range_translate (&tmp.cell_bound, left, top);
-			sheet_object_set_anchor (dst, &tmp);
-			sheet_object_set_sheet (dst, pt->sheet);
-			g_object_unref (dst);
-		}
+	SheetObject *dst;
+	SheetObjectAnchor tmp;
+
+	sheet_object_anchor_assign (&tmp, sheet_object_get_anchor (src));
+	if ((pt->paste_flags & PASTE_COMMENTS)) {
+		if (G_OBJECT_TYPE (src) != CELL_COMMENT_TYPE ||
+		    (pt->paste_flags & PASTE_IGNORE_COMMENTS_AT_ORIGIN &&
+		     tmp.cell_bound.start.col == 0  &&
+		     tmp.cell_bound.start.row == 0))
+			return;
+	} else if (!(pt->paste_flags & PASTE_OBJECTS))
+		return;
+
+	if (NULL == (dst = sheet_object_dup (src)))
+		return;
+
+	if (pt->paste_flags & PASTE_TRANSPOSE) {
+		GnmCellPos origin;
+		origin.col = 0;
+		origin.row = 0;
+		range_transpose (&tmp.cell_bound, &origin);
 	}
+	range_translate (&tmp.cell_bound, left, top);
+	sheet_object_set_anchor (dst, &tmp);
+	sheet_object_set_sheet (dst, pt->sheet);
+	g_object_unref (dst);
 }
 
 struct paste_cell_data {

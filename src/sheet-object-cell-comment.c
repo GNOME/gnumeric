@@ -76,10 +76,9 @@ comment_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 
 		scale = 1. / view->canvas->pixels_per_unit;
 
-		if (r != NULL) {
-			so->anchor.cell_bound.end.col = r->end.col;
+		if (r != NULL)
 			far_col = 1 + r->end.col;
-		} else
+		else
 			far_col = 1 + so->anchor.cell_bound.start.col;
 
 		/* TODO : This could be optimized using the offsets associated with the visible region */
@@ -387,7 +386,7 @@ cell_comment_text_set (GnmComment *cc, char const *text)
 
 /* convenience routine */
 void
-cell_comment_set_cell (GnmComment *cc, GnmCellPos const *pos)
+cell_comment_set_pos (GnmComment *cc, GnmCellPos const *pos)
 {
 	/* top right */
 	static float const a_offsets [4] = { 1., 0., 1., 0. };
@@ -415,7 +414,7 @@ cell_set_comment (Sheet *sheet, GnmCellPos const *pos,
 	cc->author = g_strdup (author);
 	cc->text = g_strdup (text);
 
-	cell_comment_set_cell (cc, pos);
+	cell_comment_set_pos (cc, pos);
 
 	sheet_object_set_sheet (SHEET_OBJECT (cc), sheet);
 	/* setting the sheet added a reference */

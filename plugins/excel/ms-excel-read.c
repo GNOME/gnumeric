@@ -572,7 +572,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		/* our comment object is too weak.  This anchor is for the text box,
 		 * we need to store the indicator */
 		if (obj->comment_pos.col >= 0 && obj->comment_pos.row >= 0)
-			cell_comment_set_cell (CELL_COMMENT (obj->gnum_obj),
+			cell_comment_set_pos (CELL_COMMENT (obj->gnum_obj),
 				&obj->comment_pos);
 		break;
 

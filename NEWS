@@ -6,6 +6,9 @@ Andreas:
 Jean:
 	* Fix import/export of line styles in xls files. [#502968]
 
+Jody:
+	* Fix cell comments in presence on merged cells.  [#503392]
+
 Morten:
 	* Fix a handful of rich-text editing bugs.  [#470089]
 	* Fix xls chart import problem.  [#501656]

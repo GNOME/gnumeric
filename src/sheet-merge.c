@@ -55,7 +55,8 @@ range_row_cmp (GnmRange const *a, GnmRange const *b)
  * @cc : the calling context
  *
  * Add a range to the list of merge targets.  Checks for array spliting returns
- * TRUE if there was an error.  Does not regen spans, redraw or render.
+ * %TRUE if there was an error.  Queues a respan.  Only queus a redraw if @clear
+ * is %TRUE.
  */
 gboolean
 gnm_sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
@@ -156,8 +157,10 @@ gnm_sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
  * @cc    : the calling context
  *
  * Remove a merged range.
- * returns TRUE if there was an error.
- */
+ * Queues a redraw.
+ *
+ * Returns: %TRUE if there was an error.
+ **/
 gboolean
 gnm_sheet_merge_remove (Sheet *sheet, GnmRange const *r, GOCmdContext *cc)
 {
@@ -184,6 +187,7 @@ gnm_sheet_merge_remove (Sheet *sheet, GnmRange const *r, GOCmdContext *cc)
 	if (comment != NULL)
 		sheet_object_update_bounds (SHEET_OBJECT (comment), NULL);
 
+	sheet_redraw_range (sheet, r);
 	sheet_flag_status_update_range (sheet, r);
 	SHEET_FOREACH_VIEW (sheet, sv, sv->reposition_selection = TRUE;);
 	g_free (r_copy);

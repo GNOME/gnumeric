@@ -1,3 +1,18 @@
+2007-12-13  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-cell-comment.c (comment_view_set_bounds) : remove
+	  kludge that altered the anchor.  That makes it impossible to look
+	  the comment up.
+	* src/colrow.c (colrow_set_sizes) : instead, just reposition all
+	  objects when cols resize.
+
+	* src/clipboard.c (paste_object) : Add support for a magic new flag
+	  PASTE_IGNORE_COMMENTS_AT_ORIGIN for use by.
+
+	* src/commands.c (cmd_merge_cells_undo) : Used here so that when we
+	  paste the old content back into the merged region we do not
+	  duplicate a comment that existed in the cell.  [#503392]
+
 2007-12-10  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	Fix for #502206

@@ -461,11 +461,18 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 			return g_slist_prepend (res, g_slist_append (NULL, rles));
 		}
 
-		/* force a re-render of cells with expanding formats */
-		if (is_cols)
+		if (is_cols) {
+			/* force a re-render of cells with expanding formats */
 			sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
 				index->first, 0, index->last, SHEET_MAX_ROWS-1,
 				(CellIterFunc) &cb_clear_variable_width_content, NULL);
+
+			/* In order to properly reposition cell comments in
+			 * merged cells that cross the boundary we need to do
+			 * everything.  Remove this when comments are handled
+			 * properly */
+			sheet->priv->reposition_objects.col = 0;
+		}
 
 		for (i = index->first ; i <= index->last ; ++i) {
 			int tmp = new_size;
@@ -549,8 +556,17 @@ colrow_set_states (Sheet *sheet, gboolean is_cols,
 	sheet->priv->recompute_visibility = TRUE;
 	if (is_cols) {
 		sheet_flag_recompute_spans (sheet);
+
+		/* In order to properly reposition cell
+		 * comments in merged cells that cross the
+		 * boundary we need to do everything.  Revert
+		 * this when comments are handled properly */
+#if 0
 		if (sheet->priv->reposition_objects.col > first)
 			sheet->priv->reposition_objects.col = first;
+#else
+		sheet->priv->reposition_objects.col = 0;
+#endif
 	} else {
 		if (sheet->priv->reposition_objects.row > first)
 			sheet->priv->reposition_objects.row = first;
@@ -1048,8 +1064,18 @@ colrow_set_visibility (Sheet *sheet, gboolean is_cols,
 			sheet->priv->recompute_visibility = TRUE;
 
 			if (is_cols) {
+				sheet_flag_recompute_spans (sheet);
+
+				/* In order to properly reposition cell
+				 * comments in merged cells that cross the
+				 * boundary we need to do everything.  Revert
+				 * this when comments are handled properly */
+#if 0
 				if (sheet->priv->reposition_objects.col > i)
 					sheet->priv->reposition_objects.col = i;
+#else
+				sheet->priv->reposition_objects.col = 0;
+#endif
 			} else {
 				if (sheet->priv->reposition_objects.row > i)
 					sheet->priv->reposition_objects.row = i;

@@ -3605,13 +3605,8 @@ cmd_unmerge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			&(g_array_index (me->ranges, GnmRange, i)));
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 			GnmRange const tmp = *(GnmRange *)(ptr->data);
-			GnmComment * cc;
-
-			cc = sheet_get_comment (me->cmd.sheet, &(tmp.start));
 			g_array_append_val (me->unmerged_regions, tmp);
 			gnm_sheet_merge_remove (me->cmd.sheet, &tmp, GO_CMD_CONTEXT (wbc));
-			if (cc)
-				cell_comment_set_cell (cc, &(tmp.start));
 			sheet_range_calc_spans (me->cmd.sheet, &tmp,
 						GNM_SPANCALC_RE_RENDER);
 		}
@@ -3719,7 +3714,11 @@ cmd_merge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		gnm_sheet_merge_remove (me->cmd.sheet, r, GO_CMD_CONTEXT (wbc));
 	}
 
-	flags = PASTE_CONTENTS | PASTE_FORMATS | PASTE_COMMENTS;
+	/* Avoid pasting comments that are at 0,0.  Redo copies the target
+	 * region (including all comments) .  If there was a comment in the top
+	 * left we would end up duplicating it. */
+	flags = PASTE_CONTENTS | PASTE_FORMATS | PASTE_COMMENTS |
+		PASTE_IGNORE_COMMENTS_AT_ORIGIN;
 	if (me->center)
 		flags |= PASTE_FORMATS;
 	for (i = 0 ; i < me->ranges->len ; ++i) {

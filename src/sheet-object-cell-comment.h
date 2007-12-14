@@ -19,9 +19,9 @@ char const  *cell_comment_text_get   (GnmComment const *cc);
 void         cell_comment_text_set   (GnmComment       *cc, char const *text);
 
 /* convenience routine */
-void	     cell_comment_set_cell   (GnmComment *cc, GnmCellPos const *pos);
-GnmComment *cell_set_comment (Sheet *sheet, GnmCellPos const *pos,
-			       char const *author, char const *text);
+void	     cell_comment_set_pos   (GnmComment *cc, GnmCellPos const *pos);
+GnmComment  *cell_set_comment	    (Sheet *sheet, GnmCellPos const *pos,
+				     char const *author, char const *text);
 
 G_END_DECLS
 
