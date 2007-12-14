@@ -316,6 +316,7 @@ typedef struct {
 	GnmSheetVisibility visibility;
 	GnmColor *tab_color;
 	GnmColor *tab_text_color;
+	GnmColor *grid_color;
 
 	/* expressions with ref > 1 a map from index -> expr pointer */
 	GHashTable *expr_map;
@@ -565,6 +566,7 @@ xml_sax_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->visibility = GNM_SHEET_VISIBILITY_VISIBLE;
 	state->tab_color = NULL;
 	state->tab_text_color = NULL;
+	state->grid_color = NULL;
 	state->sheet_zoom = 1.; /* default */
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -596,6 +598,8 @@ xml_sax_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 			state->tab_color = color;
 		else if (xml_sax_attr_color (attrs, "TabTextColor", &color))
 			state->tab_text_color = color;
+		else if (xml_sax_attr_color (attrs, "GridColor", &color))
+			state->grid_color = color;
 		else
 			unknown_attr (xin, attrs);
 }
@@ -672,6 +676,8 @@ xml_sax_sheet_name (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_object_set (sheet, "visibility", state->visibility, NULL);
 	sheet->tab_color = state->tab_color;
 	sheet->tab_text_color = state->tab_text_color;
+	if (state->grid_color)
+		sheet_style_set_auto_pattern_color (sheet, state->grid_color);
 }
 
 static void

@@ -77,7 +77,6 @@ Worries
     - operand.xls
     - pivot-edited.xls : odd colours in the 'the range that contains' box
     - hidding col/row headers should not hide outline symbols
-    - xml persistence of grid colour
     - store and persist view modes
     - fix bogosity of 'ant' cursors being in sheet_view and having the app contact them.
 

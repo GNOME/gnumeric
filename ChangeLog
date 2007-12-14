@@ -1,5 +1,13 @@
 2007-12-13  Jody Goldberg <jody@gnome.org>
 
+	* src/xml-io.c (xml_sheet_read) : support grid colour.
+	* src/xml-sax-read.c (xml_sax_sheet_start) : ditto.
+	(xml_sax_sheet_name) : ditto.
+	* src/xml-sax-write.c (xml_write_sheet) : ditto.
+	* gnumeric.xsd : ditto.
+
+2007-12-13  Jody Goldberg <jody@gnome.org>
+
 	* src/sheet-object-cell-comment.c (comment_view_set_bounds) : remove
 	  kludge that altered the anchor.  That makes it impossible to look
 	  the comment up.

@@ -1905,6 +1905,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	gboolean tmp;
 	xmlChar *val;
 	int tmpi;
+	GnmColor *c;
 
 	if (strcmp (tree->name, "Sheet")){
 		g_printerr ("xml_sheet_read: invalid element type %s, 'Sheet' expected\n",
@@ -1961,6 +1962,8 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 		g_object_set (sheet, "visibility", tmpi, NULL);
 	sheet->tab_color = xml_node_get_color (tree, "TabColor");
 	sheet->tab_text_color = xml_node_get_color (tree, "TabTextColor");
+	if (NULL != (c = xml_node_get_color (tree, "GridColor")))
+		sheet_style_set_auto_pattern_color (sheet, c);
 
 	xml_node_get_double (e_xml_get_child_by_name (tree, CC2XML ("Zoom")), NULL,
 			     &zoom_factor);

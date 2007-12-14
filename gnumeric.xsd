@@ -210,6 +210,7 @@
                     <xs:attribute name="Protected"	     type="xs:boolean" use="optional" default="false"/>
                     <xs:attribute name="TabColor"	     type="gnm:color"   use="optional"/>
                     <xs:attribute name="TabTextColor"	     type="gnm:color"   use="optional"/>
+                    <xs:attribute name="GridColor"	     type="gnm:color"   use="optional"/>
 		    <xs:attribute name="ExprConvention"      type="gnm:ExprConvention" use="optional" default="gnumeric:A1"/>
 		    <xs:anyAttribute namespace="##other" processContents="lax"/>
                 </xs:complexType>

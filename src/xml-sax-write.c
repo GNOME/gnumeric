@@ -1100,6 +1100,8 @@ xml_write_objects (GnmOutputXML *state, GSList *objects)
 static void
 xml_write_sheet (GnmOutputXML *state, Sheet const *sheet)
 {
+	GnmColor *c;
+
 	state->sheet = sheet;
 	gsf_xml_out_start_element (state->output, GNM "Sheet");
 
@@ -1138,6 +1140,10 @@ xml_write_sheet (GnmOutputXML *state, Sheet const *sheet)
 		gnm_xml_out_add_color (state->output, "TabColor", sheet->tab_color);
 	if (sheet->tab_text_color != NULL)
 		gnm_xml_out_add_color (state->output, "TabTextColor", sheet->tab_text_color);
+	if (NULL != (c = sheet_style_get_auto_pattern_color (sheet))) {
+		gnm_xml_out_add_color (state->output, "GridColor", c);
+		style_color_unref (c);
+	}
 
 	gsf_xml_out_simple_element (state->output,
 		GNM "Name", sheet->name_unquoted);
