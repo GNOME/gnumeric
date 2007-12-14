@@ -412,7 +412,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 					workbook_cmd_dec_indent (sc->wbc);
 				else
 					workbook_cmd_inc_indent	(sc->wbc);
-			} else {
+			} else if (gnm_app_enter_moves_dir () != GO_DIRECTION_NONE) {
 				gboolean forward = TRUE;
 				gboolean horizontal = TRUE;
 				if (is_enter) {
@@ -427,7 +427,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 
 				sv_selection_walk_step (sv, forward, horizontal);
 
-				/* invalidate, in case Enter direction gets changes */
+				/* invalidate, in case Enter direction changes */
 				if (is_enter)
 					sv->first_tab_col = -1;
 			}

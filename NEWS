@@ -8,6 +8,7 @@ Jean:
 
 Jody:
 	* Fix cell comments in presence on merged cells.  [#503392]
+	* Support enter_moves_dir == NONE. [#500718]
 
 Morten:
 	* Fix a handful of rich-text editing bugs.  [#470089]

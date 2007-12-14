@@ -42,6 +42,11 @@
 	matches cell_attrs.
 	(wbcg_edit_init_markup): Initialize cell_attrs.
 
+2007-11-30  Jody Goldberg <jody@gnome.org>
+
+	* src/gnm-pane.c (gnm_pane_key_mode_sheet) : enter_moves_dir == NONE
+	  should not move anywhere.
+
 2007-12-03  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump.  Hopefully last before 1.8
