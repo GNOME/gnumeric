@@ -10,6 +10,7 @@ Jody:
 	* Fix cell comments in presence on merged cells.  [#503392]
 	* Support enter_moves_dir == NONE. [#500718]
 	* .gnumeric support for persisting grid colour.
+	* Fix clipboard for regions with merges/styles but no content. [503634]
 
 Morten:
 	* Fix a handful of rich-text editing bugs.  [#470089]

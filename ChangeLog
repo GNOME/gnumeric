@@ -1,3 +1,8 @@
+2007-12-15  Jody Goldberg <jody@gnome.org>
+
+	* src/clipboard.c (clipboard_paste_region) : A region is not empty if
+	  there are merges or styles. [#503634]
+
 2007-12-13  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io.c (xml_sheet_read) : support grid colour.

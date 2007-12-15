@@ -329,7 +329,10 @@ clipboard_paste_region (GnmCellRegion const *cr,
 	g_return_val_if_fail (cr != NULL, TRUE);
 
 	/* we do not need any of this fancy stuff when pasting a simple object */
-	if (cr->cell_content == NULL && cr->objects != NULL) {
+	if (cr->cell_content == NULL &&
+	    cr->styles == NULL &&
+	    cr->merged == NULL &&
+	    cr->objects != NULL) {
 		if (pt->paste_flags & (PASTE_COMMENTS | PASTE_OBJECTS))
 			for (ptr = cr->objects; ptr; ptr = ptr->next)
 				paste_object (pt, ptr->data,
