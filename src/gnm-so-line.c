@@ -98,7 +98,7 @@ so_line_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 	sheet_object_direction_set (so, coords);
 
 	if (visible &&
-	    style->color != 0 && style->width >= 0 && style->dash_type != 0) {
+	    style->color != 0 && style->width >= 0 && style->dash_type != GO_LINE_NONE) {
 		FooCanvasPoints *points = foo_canvas_points_new (2);
 		points->coords[0] = coords[0];
 		points->coords[1] = coords[1];
@@ -139,7 +139,7 @@ sol_default_style (void)
 	res->interesting_fields = GOG_STYLE_LINE;
 	res->line.width   = 0; /* hairline */
 	res->line.color   = RGBA_BLACK;
-	res->line.dash_type = 1; /* anything but 0 */
+	res->line.dash_type = GO_LINE_SOLID; /* anything but 0 */
 	return res;
 }
 
@@ -166,7 +166,7 @@ cb_gnm_so_line_changed (GnmSOLine const *sol,
 	GogStyleLine const *style = &sol->style->line;
 	GdkColor buf, *gdk = NULL;
 
-	if (style->color != 0 && style->width >= 0 && style->dash_type != 0)
+	if (style->color != 0 && style->width >= 0 && style->dash_type != GO_LINE_NONE)
 		gdk = go_color_to_gdk (style->color, &buf);
 
 	if (style->width > 0.)	/* in pts */
@@ -212,7 +212,7 @@ gnm_so_line_draw_cairo (SheetObject const *so, cairo_t *cr,
 	GogStyleLine const *style = &sol->style->line;
 	double x1, y1, x2, y2;
 
-	if (style->color == 0 || style->width < 0 || style->dash_type == 0)
+	if (style->color == 0 || style->width < 0 || style->dash_type == GO_LINE_NONE)
 		return;
 
 	switch (so->anchor.base.direction) {

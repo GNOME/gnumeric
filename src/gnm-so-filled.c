@@ -145,7 +145,7 @@ sof_default_style (void)
 	res->interesting_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
 	res->outline.width = 0; /* hairline */
 	res->outline.color = RGBA_BLACK;
-	res->outline.dash_type = 1; /* anything but 0 */
+	res->outline.dash_type = GO_LINE_SOLID; /* anything but 0 */
 	res->fill.type = GOG_FILL_STYLE_PATTERN;
 	go_pattern_set_solid (&res->fill.pattern, RGBA_WHITE);
 	return res;
@@ -181,7 +181,7 @@ cb_gnm_so_filled_style_changed (FooCanvasItem *background, GnmSOFilled const *so
 
 	if (style->outline.color != 0 &&
 	    style->outline.width >= 0 &&
-	    style->outline.dash_type != 0)
+	    style->outline.dash_type != GO_LINE_NONE)
 		outline_gdk = go_color_to_gdk (style->outline.color, &outline_buf);
 
 	if (style->fill.type != GOG_FILL_STYLE_NONE)
