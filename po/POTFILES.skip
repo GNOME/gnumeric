@@ -3,6 +3,9 @@
 # These are generated:
 src/parser.c
 #
+# not used yet
+src/dialogs/pivottable.glade
+#
 # and these are no longer in use:
 plugins/gb/plugin.c
 plugins/gb/plugin.xml.in

@@ -1,3 +1,8 @@
+2007-12-16  Jody Goldberg <jody@gnome.org>
+
+	* POTFILES.skip : Tack on an unused glade file to make the
+	  translation engines happy.
+
 2007-12-03  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.91
@@ -259,7 +264,7 @@
 2006-12-08  Takeshi AIHANA <takeshi.aihana@gmail.com>
 
 	* ja.po: Fixed translation error with pango markup reported by
-	         MATSUI Tetsushi.
+		 MATSUI Tetsushi.
 
 2006-12-05  David Lodge <dave@cirt.net>
 
@@ -499,7 +504,7 @@
 2006-03-06  Ahmad Riza H Nst  <rizahnst@eriagempita.co.id>
 
 	* id.po: Added Indonesian translation, done by Imam Musthaqim
-	                <imam@infoflow.co.id>
+			<imam@infoflow.co.id>
 			
 2006-03-04  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
@@ -2093,7 +2098,7 @@
 2003-11-15  Duarte Loreto <aflinta@cvs.gnome.org>
 
 	* pl.po: Updated Polish translation by
-	               GNOME PL Team <translators@gnome.pl>
+		       GNOME PL Team <translators@gnome.pl>
 
 2003-11-13  Duarte Loreto <happyguy_pt@hotmail.com>
 
