@@ -42,7 +42,7 @@ static GnmAppPrefs prefs;
 GnmAppPrefs const *gnm_app_prefs = &prefs;
 static GOConfNode *root = NULL;
 
-/* #define NO_DEBUG_GCONF */
+#define NO_DEBUG_GCONF
 #ifndef NO_DEBUG_GCONF
 #define d(code)	{ code; }
 #else

@@ -1,3 +1,7 @@
+2007-12-17  Morten Welinder  <terra@gnome.org>
+
+	* src/gnumeric-gconf.c: Quiet the debug code.
+
 2007-12-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-so-filled.c: (sof_default_style),
