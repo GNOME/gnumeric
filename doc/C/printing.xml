@@ -324,7 +324,7 @@
 	<term>&amp;[TAB]</term>
 	<listitem>
 	  <para>
-	    Name of the workbook.
+	    Name of the worksheet.
 	  </para>
 	</listitem>
       </varlistentry>
@@ -380,6 +380,30 @@
 	    The path of the file excluding the basename. 
             For the file <literal>/home/jdoe/file.gnumeric</literal>, this opcode prints 
             <literal>/home/jdoe/</literal>.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[CELL:$A$1]</term>
+	<listitem>
+	  <para>
+	    The content of the cell <literal>$A$1</literal> on the sheet being printed. Instead of  <literal>$A$1</literal> any other absolutely addressed cell may be used.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[CELL:A1]</term>
+	<listitem>
+	  <para>
+	    The content of the top left cell on the current page. Instead of  <literal>A1</literal> any other relative cell address may be used. This relative address is interpreted with respect to the top left cell on the current page. Any repeating rows or columns are ignored.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[CELL:rep|A1]</term>
+	<listitem>
+	  <para>
+	    The content of the top left cell on the current page. Instead of  <literal>A1</literal> any other relative cell address may be used. This relative address is interpreted with respect to the top left cell on the current page. Repeating rows or columns are not ignored. So if the top left cell is in a repeating row or column then the relative address is interpreted with respect to that cell.
 	  </para>
 	</listitem>
       </varlistentry>
