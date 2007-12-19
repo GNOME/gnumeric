@@ -975,6 +975,11 @@ Architecture Changes
     - print headers & footers					  (DONE)
     - enable header/footer specification			  (DONE)
 
+39) Lotus filter
+    39.1) http://www.openoffice.org/issues/show_bug.cgi?id=84496
+	 Lots of juicey warnings.  Although we do seem to handle the sheet
+	 names correctly.
+
 -------------------------------------------------------------------------------
 Target Features
 ---------------
