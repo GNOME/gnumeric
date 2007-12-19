@@ -300,6 +300,43 @@ dao_cell_is_visible (data_analysis_output_t *dao, int col, int row)
 
 
 /*
+ * dao_set_cell_array_expr absorbs the reference for the expr.
+ *
+ */
+void 
+dao_set_cell_array_expr (data_analysis_output_t *dao, int col, int row,
+			 GnmExpr const *expr)
+{
+	GnmExprTop const *texpr;
+
+	col += dao->offset_col;
+	row += dao->offset_row;
+
+	/* Check that the output is in the given range, but allow singletons
+	 * to expand
+	 */
+	if (dao->type == RangeOutput &&
+	    (dao->cols > 1 || dao->rows > 1) &&
+	    (col >= dao->cols || row >= dao->rows)) {
+		gnm_expr_free (expr);
+	        return;
+	}
+
+	col += dao->start_col;
+	row += dao->start_row;
+	if (col >= SHEET_MAX_COLS || row >= SHEET_MAX_ROWS) {
+		gnm_expr_free (expr);
+		return;
+	}
+
+	texpr = gnm_expr_top_new (expr);
+	gnm_cell_set_array_formula (dao->sheet, 
+				    col, row, col, row,
+				    texpr);
+}
+
+
+/*
  * dao_set_cell_expr absorbs the reference for the expr.
  *
  */

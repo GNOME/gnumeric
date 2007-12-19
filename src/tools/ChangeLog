@@ -1,3 +1,11 @@
+2007-12-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dao.h (dao_set_cell_array_expr): new
+	* dao.c (dao_set_cell_array_expr): new
+	* analysis-tools.c (analysis_tool_ttest_paired_engine_run):
+	  use dao_set_cell_array_expr for vector calculations
+	  fixes [#504256]
+
 2007-12-03  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.91

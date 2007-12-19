@@ -85,6 +85,8 @@ void dao_set_cell_value       (data_analysis_output_t *dao, int col, int row,
 			       GnmValue *v);
 void dao_set_cell_expr       (data_analysis_output_t *dao, int col, int row,
 			       GnmExpr const *expr);
+void dao_set_cell_array_expr (data_analysis_output_t *dao, int col, int row,
+			      GnmExpr const *expr);
 void dao_set_cell_float       (data_analysis_output_t *dao,
 			       int col, int row, gnm_float v);
 void dao_set_cell_int         (data_analysis_output_t *dao,

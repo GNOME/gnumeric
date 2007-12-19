@@ -1859,22 +1859,22 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 
 	/* Observed Mean Difference */
 	expr_diff = gnm_expr_new_binary (expr_1, GNM_EXPR_OP_SUB, expr_2);
-	dao_set_cell_expr (dao, 1, 6,
-			   gnm_expr_new_funcall1 (fd_mean,
-						  gnm_expr_copy (expr_diff)));
+	dao_set_cell_array_expr (dao, 1, 6,
+				 gnm_expr_new_funcall1 (fd_mean,
+							gnm_expr_copy (expr_diff)));
 
 	/* Variance of the Differences */
-	dao_set_cell_expr (dao, 1, 7,
-			   gnm_expr_new_funcall1 (fd_var,
-						  gnm_expr_copy (expr_diff)));
+	dao_set_cell_array_expr (dao, 1, 7,
+				 gnm_expr_new_funcall1 (fd_var,
+							gnm_expr_copy (expr_diff)));
 
 	/* df */
-	dao_set_cell_expr (dao, 1, 8,
-			   gnm_expr_new_binary
-			   (gnm_expr_new_funcall1 (fd_count, expr_diff),
-			    GNM_EXPR_OP_SUB,
-			    gnm_expr_new_constant (value_new_int (1))));
-
+	dao_set_cell_array_expr (dao, 1, 8,
+				 gnm_expr_new_binary
+				 (gnm_expr_new_funcall1 (fd_count, expr_diff),
+				  GNM_EXPR_OP_SUB,
+				  gnm_expr_new_constant (value_new_int (1))));
+	
 	/* t */
 	/* E24 = (E21-E20)/(E22/(E23+1))^0.5 */
 	{
