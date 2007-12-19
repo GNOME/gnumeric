@@ -4,8 +4,8 @@ dnl (It needs _AC_AM_CONFIG_HEADER_HOOK, for example.)
 AC_PREREQ(2.54)
 
 m4_define([gnumeric_version_epoch], [1])
-m4_define([gnumeric_version_major], [7])
-m4_define([gnumeric_version_minor], [92])
+m4_define([gnumeric_version_major], [8])
+m4_define([gnumeric_version_minor], [0])
 m4_define([gnumeric_version_extra], [])
 m4_define([gnumeric_version_full],
     [gnumeric_version_epoch.gnumeric_version_major.gnumeric_version_minor[]gnumeric_version_extra])
@@ -129,8 +129,8 @@ PKG_PROG_PKG_CONFIG(0.18)
 
 libgoffice=
 goffice_ver=
-dnl Currently only 0.5 will work
-for ver in 0.5; do
+dnl Only 0.6.x, or really late 0.5.x will work
+for ver in 0.6 0.5 ; do
   if test "x$libgoffice" = x; then
     AC_MSG_CHECKING([libgoffice-$ver])
     if pkg-config --exists libgoffice-$ver; then
