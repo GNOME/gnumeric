@@ -164,7 +164,7 @@
 
  <sect2 id="print-advanced">
   <title>Advanced</title>
-  <figure id="print-worksheet-printer-advanced-(example)-fig">
+  <figure id="print-worksheet-printer-advanced-example-fig">
     <title><interface>Print Dialog Advanced Tab</interface></title>
     <mediaobject>
       <imageobject>
@@ -276,7 +276,7 @@
    </para>
   </sect2>
 
-  <sect2 id="print-setup-header">
+  <sect2 id="print-setup-dialog-header">
     <title>Page Setup Dialog - Headers and Footers</title>
 
    <figure id="print-setup-header">
@@ -427,7 +427,7 @@
    </tip> 
   </sect2>
  
-  <sect2 id="print-setup-sheet">
+  <sect2 id="print-setup-dialog-sheet">
    <title>Page Setup Dialog - Sheet</title>
 
    <figure id="print-setup-sheet">

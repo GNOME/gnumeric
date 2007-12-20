@@ -37,8 +37,7 @@
         </textobject>
 	<caption>
 	  <para>
-	    Please note that &gnum; looks prettier than shown
-            here. This image has been shrunk to fit in this document.
+	    An example of &gnum;, shrunk to fit in this document.
 	  </para>
 	</caption>
       </mediaobject>
@@ -63,25 +62,26 @@
   url="http://www.gnome.org/">GNOME</ulink> project.  This manual
   describes version &appversion; of &gnum;.
 </para>
-
-<warning>
-  <para>
-    The 1.7 series of releases are unstable releases meant for
-    developer testing. If you want a stable release get the most recent
-    release from the 1.6 series.
-  </para>
-</warning>
-
 <note>
   <para>
-    Releases of &gnum; in the 1.6 series have numbers starting
-    with 1.6 but with extra numbers afterwards, such as 1.6.0 or
-    1.6.3. These are stable releases which are only changed with minor
+    Releases of &gnum; in the 1.8 series have numbers starting
+    with 1.8 but with extra numbers afterwards, such as 1.8.0 or
+    1.8.3. These are stable releases which are only changed with minor
     improvements and fixes for problems (bugs) in the program. These
     releases can be considered safe for use in a production
     environment.
   </para>
 </note>
+
+<!-- TO UN_COMMENT WHEN 1.9 ROLLS AROUND
+<warning>
+  <para>
+    The 1.9 series of releases are unstable releases meant for
+    developer testing. If you want a stable release get the most recent
+    release from the 1.8 series.
+  </para>
+</warning>
+-->
 
 
 <para>
@@ -242,13 +242,13 @@
 </para>
 
 
-
+<!-- UNCOMMENT WHEN 1.9 is released
 <para>
-  <emphasis role="bold">The Gnumeric 1.7 Series of Releases for Developers</emphasis>
+  <emphasis role="bold">The Gnumeric 1.9 Series of Releases for Developers</emphasis>
 </para>
 
 <para>
-  The &gnum; 1.7 series of releases are
+  The &gnum; 1.9 series of releases are
   developer releases. These releases are kept as stable as
   possible. However, each release in this series includes changes and
   improvements some of which are quite large. These new changes may
@@ -263,8 +263,30 @@
 </para>
 
 <para>
-  In this version of &gnum;, we have been
-  patching bugs, and working on the following features:
+  In this version of &gnum;, we have been patching bugs, and working on the 
+  following features:
+
+  <itemizedlist>
+    <listitem>
+      <para>
+        <emphasis role="bold">...Topic...</emphasis>
+      </para>
+      <para>
+	Comment...
+      </para>
+    </listitem>
+</para>
+-->
+
+
+<para>
+  <emphasis role="bold">New features introduced in the Gnumeric 1.8 release
+  series:</emphasis>
+</para>
+
+<para>
+  The 1.8 series of &gnum; includes
+  numerous improvements over the versions in the 1.6 series.
 
   <itemizedlist>
     <listitem>
@@ -596,7 +618,7 @@
 
 <para>
   For more details on the changes in
-  &gnum;, refer to the file named NEWS in
+  &gnum;, refer to the file; named NEWS in
   the source code distribution.
 </para>
 
@@ -613,7 +635,7 @@
   &gnum; is maintained in the GNOME
   bugzilla database. This list can be accessed using <ulink
   type="http"
-  url="http://bugzilla.gnome.org/buglist.cgi?product=Gnumeric&amp;bug_status=UNCONFIRMED&amp;bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=NEEDINFO&amp;bug_status=REOPENED&amp;email1=&amp;emailtype1=substring&amp;emailassigned_to1=1&amp;email2=&amp;emailtype2=substring&amp;emailreporter2=1&amp;changedin=&amp;chfieldfrom=&amp;chfieldto=Now&amp;chfieldvalue=&amp;short_desc=&amp;short_desc_type=substring&amp;long_desc=&amp;long_desc_type=substring&amp;bug_file_loc=&amp;bug_file_loc_type=substring&amp;status_whiteboard=&amp;status_whiteboard_type=substring&amp;keywords=&amp;keywords_type=anywords&amp;op_sys_details=&amp;op_sys_details_type=substring&amp;version_details=&amp;version_details_type=substring&amp;cmdtype=doit&amp;newqueryname=&amp;order=Reuse+same+sort+as+last+time&amp;form_name=query">this
+  url="http://bugzilla.gnome.org/buglist.cgi?product=Gnumeric&amp;bug_status=UNCONFIRMED&amp;bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=NEEDINFO&amp;bug_status=REOPENED&amp;order=bugs.bug_id">this
   bugzilla query</ulink>. 
 </para>
         

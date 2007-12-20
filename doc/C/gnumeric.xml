@@ -1,17 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 
+<!-- These are here for a reason, please leave them. -avc -->
+<!--
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" 
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+-->
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
 
-
-  <!ENTITY app "Gnumeric">
-  <!ENTITY appversion "1.7">
-  <!ENTITY manrevision "1.4">
-  <!ENTITY date "November 2006">
-  <!ENTITY file-format-open "Excel 95/97/2000/2003/XP/2007, gnumeric XML, HTML, 
-           comma separated CSV, Applix,  Lotus 1-2-3, GNU oleo, OpenOffice ODF">
   <!ENTITY gnum "<application>Gnumeric</application>">
+  <!ENTITY appversion "1.8">
+  <!ENTITY manrevision "1.8">
+  <!ENTITY date "November 2007">
+  <!ENTITY file-format-open "Gnumeric XML, 
+                             Microsoft Excel 95/97/2000/2003/XP/2007, 
+                             Text: comma separated value CSV; tab separated value TSV,
+                             HTML,
+                             Applix,  
+                             Lotus 1-2-3, 
+                             GNU oleo, 
+                             OpenOffice ODF, 
+                             Microsoft Office Open XML">
 
+  <!-- Some extra enties to help validation -->
+  <!-- Why? These are defined within docbook, no? What tool needs these? -avc -->
+  <!--
+  <!ENTITY mdash  "-">
+  <!ENTITY hellip  "...">
+  <!ENTITY yen    "JPY">
+  <!ENTITY pound  "GBP">
+  <!ENTITY curren  "Currency">
+  -->
 
   <!ENTITY legal                SYSTEM "legal.xml">
 
@@ -19,9 +41,9 @@
   <!ENTITY manual-usage         SYSTEM "manual-usage.xml">
   <!ENTITY quick-start          SYSTEM "quick-start.xml">
 
-  <!ENTITY gui-overview	        SYSTEM "gui-overview.xml">
+  <!ENTITY gui-overview         SYSTEM "gui-overview.xml">
   <!ENTITY gui-menus            SYSTEM "gui-menus.xml">
-  <!ENTITY gui-toolbars	        SYSTEM "gui-toolbars.xml">
+  <!ENTITY gui-toolbars         SYSTEM "gui-toolbars.xml">
   <!ENTITY gui-other-elements   SYSTEM "gui-other-elements.xml">
   <!ENTITY gui-mouse            SYSTEM "gui-mouse.xml">
 
@@ -79,11 +101,11 @@
 
   <!ENTITY morehelp             SYSTEM "morehelp.xml">
 
-  <!ENTITY bugs			SYSTEM "bugs.xml">
+  <!ENTITY bugs                 SYSTEM "bugs.xml">
  
   <!ENTITY getting-involved     SYSTEM "getting-involved.xml">
 
-  <!ENTITY installing            SYSTEM "installing.xml">
+  <!ENTITY installing           SYSTEM "installing.xml">
 
   <!ENTITY compiling            SYSTEM "compiling.xml">
 
@@ -101,17 +123,11 @@
   <!ENTITY about-license        SYSTEM "about-license.xml">
   
 
-  <!ENTITY function-ref	        SYSTEM "functions.xml">
+  <!ENTITY function-ref         SYSTEM "functions.xml">
 
   <!ENTITY appendix-keybindings SYSTEM "appendix-keybindings.xml">
   <!ENTITY appendix-glossary    SYSTEM "appendix-glossary.xml">
 
-  <!-- Some extra enties to help validation -->
-  <!ENTITY mdash	"---">
-  <!ENTITY hellip	"...">
-  <!ENTITY yen		"JPY">
-  <!ENTITY pound	"GBP">
-  <!ENTITY curren	"Currency">
 ]>
 
 
@@ -123,6 +139,7 @@
   Template last modified Feb 12, 2002
   
 -->
+
 <!-- =============Document Header ============================= -->
 <book id="index" lang="en">
 <!-- please do not change the id; for translations, change lang to -->
@@ -154,8 +171,8 @@
     </copyright>
   <!-- translators: uncomment this:
     <copyright>
-   	<year>2003</year>
-   	<holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+      <year>2003</year>
+      <holder>ME-THE-TRANSLATOR (Latin translation)</holder>
     </copyright>
    -->
 
@@ -167,12 +184,6 @@
               Charles Twardy, Sebastian Klost, Thomas Miesbauer.
       </holder> 
     </copyright>
-  <!-- translators: uncomment this:
-    <copyright>
-   	<year>2003</year>
-   	<holder>ME-THE-TRANSLATOR (Latin translation)</holder>
-    </copyright>
-   -->
 
     <copyright>
       <year>2002</year>
@@ -181,12 +192,6 @@
               Alexander Kirillov, Eric Baudais, Gregory Leblanc.
       </holder> 
     </copyright>
-  <!-- translators: uncomment this:
-    <copyright>
-   	<year>2002</year>
-   	<holder>ME-THE-TRANSLATOR (Latin translation)</holder>
-    </copyright>
-   -->
 
     <copyright>
       <year>1998</year>
@@ -197,15 +202,6 @@
               Almer S. Tigelaar, Morten Welinder.
       </holder> 
     </copyright>
-  <!-- translators: uncomment this:
-    <copyright>
-        <year>1998</year>
-        <year>1999</year>
-        <year>2000</year>
-   	<year>2001</year>
-   	<holder>ME-THE-TRANSLATOR (Latin translation)</holder>
-    </copyright>
-   -->
 
     <publisher> 
       <publishername> GNOME Documentation Project </publishername> 
@@ -220,100 +216,97 @@
     <authorgroup> 
       <author> 
         <firstname>Eric</firstname>
-	<surname>Baudais</surname> 
+        <surname>Baudais</surname> 
         <email>baudais@okstate.edu</email>
       </author>
       <author> 
         <firstname>Kevin</firstname>
-	<surname>Breit</surname>  
+        <surname>Breit</surname>  
        <email>mrproper@ximian.com</email>
       </author>
       <author> 
         <firstname>Thomas</firstname>
-	<surname>Canty</surname> 
+        <surname>Canty</surname> 
         <email>tommydal@ihug.com.au</email>
       </author>
       <author> 
         <firstname>Adrian</firstname>
-	<surname>Custer</surname> 
+        <surname>Custer</surname> 
         <email>acuster@gnome.org</email>
       </author>
       <author> 
         <firstname>Ray</firstname>
-	<surname>Dassen</surname> 
+        <surname>Dassen</surname> 
         <email>jdassen@debian.org</email>
       </author>
       <author>
         <firstname>Jody</firstname>
         <surname>Goldberg</surname> 
-	<affiliation>
-	    <orgname>GNOME Documentation Project</orgname>
-	</affiliation>
         <email>jody@gnome.org</email>
       </author>
       <author> 
         <firstname>Andreas</firstname>
-	<surname>Guelzow</surname> 
+        <surname>Guelzow</surname> 
         <email>aguelzow@taliesin.ca</email>
       </author>
       <author> 
         <firstname>Jon K.</firstname>
-	<surname>Hellan</surname> 
+        <surname>Hellan</surname> 
         <email>hellan@acm.org</email>
       </author>
       <author> 
         <firstname>Miguel</firstname>
-	<surname>de Icaza</surname>
+        <surname>de Icaza</surname>
         <email>miguel@gnu.org</email>
       </author>
       <author> 
         <firstname>Jukka-Pekka</firstname>
-	<surname>Iivonen</surname> 
+        <surname>Iivonen</surname> 
         <email>jiivonen@hutcs.cs.hut.fi</email>
       </author>
       <author> 
         <firstname>Alexander</firstname>
-	<surname>Kirillov</surname> 
+        <surname>Kirillov</surname> 
         <email>kirillov@math.sunysb.edu</email>
       </author>
       <author> 
         <firstname>Sebastian</firstname>
-	<surname>Klost</surname> 
+        <surname>Klost</surname> 
         <email>sebastian.klost@gmx.de</email>
       </author>
       <author> 
         <firstname>Gregory</firstname>
-	<surname>Leblanc</surname>
+        <surname>Leblanc</surname>
         <email>gleblanc@linuxweasel.com</email>
       </author>
       <author> 
         <firstname>Thomas</firstname>
-	<surname>Miesbauer</surname> 
+        <surname>Miesbauer</surname> 
         <email>thomas.miesbauer@web.de</email>
       </author>
       <author> 
         <firstname>Wayne</firstname>
-	<surname>Schuller</surname>
+        <surname>Schuller</surname>
         <email>k_wayne@linuxpower.org</email>
       </author>
       <author> 
         <firstname>Almer S.</firstname>
-	<surname>Tigelaar</surname>
+        <surname>Tigelaar</surname>
         <email>almer1@dds.nl</email>
       </author>
       <author> 
         <firstname>Charles</firstname>
-	<surname>Twardy</surname>
+        <surname>Twardy</surname>
         <email>ctwardy@mail.csse.monash.edu.au</email>
       </author>
       <author> 
         <firstname>Aaron</firstname>
-	<surname>Weber</surname>
+        <surname>Weber</surname>
         <email>aaron@ximian.com</email>
       </author>
       <author> 
         <firstname>Morten</firstname>
-	<surname>Welinder</surname>
+        <surname>Welinder</surname>
         <email>terra@diku.dk</email>
       </author>
    <!-- This is appropriate place for other contributors: translators,
@@ -322,8 +315,8 @@
        <firstname>Latin</firstname> 
        <surname>Translator 1</surname> 
        <affiliation> 
-	  <orgname>Latin Translation Team</orgname> 
-	  <address> <email>translator@gnome.org</email> </address> 
+          <orgname>Latin Translation Team</orgname> 
+          <address> <email>translator@gnome.org</email> </address> 
        </affiliation>
        <contrib>Latin translation</contrib>
      </othercredit>
@@ -333,45 +326,53 @@
 
     <revhistory>
       <revision> 
-	<revnumber>Gnumeric Manual: Version &manrevision;</revnumber> 
-	<date>&date;</date> 
-	<revdescription> 
-	  <para role="author">The Gnumeric Team</para>
-	  <para role="publisher">GNOME Documentation Project</para>
-	</revdescription> 
+        <revnumber>Gnumeric Manual: Version &manrevision;</revnumber> 
+        <date>&date;</date> 
+        <revdescription> 
+          <para role="author">The Gnumeric Team</para>
+          <para role="publisher">GNOME Documentation Project</para>
+        </revdescription> 
       </revision>
       <revision> 
-	<revnumber>Gnumeric Manual: Version 1.2</revnumber> 
-	<date>September 2002</date> 
-	<revdescription> 
-	  <para role="author">The Gnumeric Team</para>
-	  <para role="publisher">GNOME Documentation Project</para>
-	</revdescription> 
+        <revnumber>Gnumeric Manual: Version 1.4</revnumber> 
+        <date>November 2004</date> 
+        <revdescription> 
+          <para role="author">The Gnumeric Team</para>
+          <para role="publisher">GNOME Documentation Project</para>
+        </revdescription> 
       </revision>
       <revision> 
-	<revnumber>Gnumeric Manual: Version 1.0</revnumber> 
-	<date>January 2002</date> 
-	<revdescription> 
-	  <para role="author">The Gnumeric Team</para>
-	  <para role="publisher">GNOME Documentation Project</para>
-	</revdescription> 
+        <revnumber>Gnumeric Manual: Version 1.2</revnumber> 
+        <date>September 2002</date> 
+        <revdescription> 
+          <para role="author">The Gnumeric Team</para>
+          <para role="publisher">GNOME Documentation Project</para>
+        </revdescription> 
       </revision>
       <revision> 
-	<revnumber>Gnumeric Manual: Earlier Versions</revnumber> 
-	<date>1998-2001</date> 
-	<revdescription> 
-	  <para role="author">The Gnumeric Team</para>
-	  <para role="publisher">GNOME Documentation Project</para>
-	</revdescription> 
+        <revnumber>Gnumeric Manual: Version 1.0</revnumber> 
+        <date>January 2002</date> 
+        <revdescription> 
+          <para role="author">The Gnumeric Team</para>
+          <para role="publisher">GNOME Documentation Project</para>
+         </revdescription> 
+      </revision>
+      <revision> 
+        <revnumber>Gnumeric Manual: Earlier Versions</revnumber> 
+        <date>1998-2001</date> 
+        <revdescription> 
+          <para role="author">The Gnumeric Team</para>
+          <para role="publisher">GNOME Documentation Project</para>
+        </revdescription> 
       </revision>
     </revhistory>
 
-    <releaseinfo>This manual describes version &appversion; of &app;.
+    <releaseinfo>This manual describes version &appversion; of Gnumeric
     </releaseinfo> 
     <legalnotice> 
       <title>Feedback</title> 
       <para>
-        To report a bug or make a suggestion regarding the &app;
+        To report a bug or make a suggestion regarding the &gnum;
         application or this manual, follow the directions in
         <xref linkend="chapter-bugs" />.
 

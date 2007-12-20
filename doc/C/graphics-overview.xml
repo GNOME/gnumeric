@@ -479,8 +479,7 @@
 
     <warning>
       <para>
-        The stacking of graphical elements in version 1.3 of
-        &gnum; is currently not working
+        The stacking of graphical elements in &gnum; is currently not working
         correctly. Widget elements are always placed above the other
         elements and do not honor the same ordering scheme as the rest
         of the elements. A large amount of work will be required to
