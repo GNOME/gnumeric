@@ -8,15 +8,9 @@ release, and longer term bugs.
 For 1.8
 -------
     : Get a list of criticals fixed between 1.6 and 1.8
-    : http://bugzilla.gnome.org/show_bug.cgi?id=450444 (themeable icons)
-    : tango icons
-	http://live.gnome.org/GnomeGoals/AppIcon
-	http://live.gnome.org/ThemableAppSpecificIcons
 
 Release Critical
 ----------------
-    : undo of cell range cut over clipboard
-    http://live.gnome.org/Academic
 
 In Progress
 -----------
@@ -38,6 +32,14 @@ Short term goals
     - replicate win32 print problems
     - Finish the Data -> Table dialog				(DONE)
     - Use go_glade_signal_connect (and friends)
+    : http://bugzilla.gnome.org/show_bug.cgi?id=450444 (themeable icons)
+    : tango icons
+	http://live.gnome.org/GnomeGoals/AppIcon
+	http://live.gnome.org/ThemableAppSpecificIcons
+    : undo of cell range cut over clipboard
+    http://live.gnome.org/Academic
+
+    : ={A1:A3+rand()}	only calls rand() once.
 
 Worries
 -------

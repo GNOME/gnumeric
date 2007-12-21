@@ -162,7 +162,7 @@ libspreadsheet_la_SOURCES =			\
 # When we switch to subversion fix this to nest as
 # libspreadsheet-ver/spreadsheet/header
 # doing it now would require massive cvs surgery.
-libspreadsheet_includedir = $(includedir)/libspreadsheet-1-7/spreadsheet
+libspreadsheet_includedir = $(includedir)/libspreadsheet-@GNUMERIC_API_VER@/spreadsheet
 libspreadsheet_include_HEADERS = 	\
 	application.h				\
 	auto-format.h				\

@@ -38,5 +38,7 @@ GNOME_Gnumeric.server
 .intltool-cache*
 xmldocs.make
 omf.make
+libspreadsheet.pc
+libspreadsheet-1.8.pc
 libspreadsheet-1.7.pc
 .dotest

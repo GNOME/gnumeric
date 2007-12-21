@@ -21,10 +21,14 @@ EXTRA_DIST = \
 	intltool-merge.in	\
 	intltool-update.in	\
 	xmldocs.make 		\
+	libspreadsheet.pc.in	\
 	omf.make
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libspreadsheet-1.7.pc
+pkgconfig_DATA = libspreadsheet-@GNUMERIC_API_VER@.pc
+
+libspreadsheet-@GNUMERIC_API_VER@.pc: libspreadsheet.pc
+	cp $< $@
 
 @INTLTOOL_DESKTOP_RULE@
 

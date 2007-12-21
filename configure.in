@@ -20,6 +20,26 @@ AC_INIT([gnumeric], [gnumeric_version_full],
 AC_CONFIG_SRCDIR(src/sheet.h)
 AM_INIT_AUTOMAKE([dist-bzip2])
 
+dnl Version info for libraries = CURRENT:REVISION:AGE
+dnl
+dnl Within each x.y.*, ABI is maintained backward and _forward_ compatible.
+dnl (As a consequence, no exported function may be added.)
+dnl So it's enough to have one interface number per each x.y.* branch.
+dnl
+dnl OTOH, we are not able to keep ABI strictly backward compatible throughout
+dnl the whole x.*.*.
+dnl The easiest way is to declare no ABI compatibility, ie. AGE is always 0.
+dnl
+m4_define([version_iface],
+        m4_eval(100 * gnumeric_version_epoch + gnumeric_version_major))
+
+AC_SUBST([VERSION_INFO], [version_iface:gnumeric_version_minor:0])
+AC_SUBST([VERSION_IFACE], [version_iface])
+
+dnl Almost like epoch.major but development versions look forward to the next
+dnl stable release.
+AC_SUBST([GNUMERIC_API_VER], [1.8])
+
 dnl This one is created by autoheader, ...
 AC_CONFIG_HEADERS(gnumeric-config.h)
 
@@ -1036,7 +1056,7 @@ AC_DEFINE(GNM_VERSION_EXTRA, "gnumeric_version_extra",
 AC_OUTPUT([
 gnumeric.spec
 Makefile
-libspreadsheet-1.7.pc
+libspreadsheet.pc
 icons/Makefile
 src/Makefile
 src/dialogs/Makefile
