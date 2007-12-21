@@ -1,3 +1,7 @@
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
 2007-12-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (lineformat), (ms_excel_chart_read),

@@ -1,3 +1,7 @@
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
 2007-12-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* data-types.xml: Describe how to widen cells to make contents visible.

@@ -1,3 +1,7 @@
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
 2007-12-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dao.h (dao_set_cell_array_expr): new
