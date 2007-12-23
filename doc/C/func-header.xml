@@ -1,3 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!-- These are here for a reason, please leave them. -avc -->
+<!--
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" 
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+-->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+
+  <!ENTITY gnum "<application>Gnumeric</application>">
+
+]>
+
 <appendix id="function-reference">
   <title>Function Reference</title>
 

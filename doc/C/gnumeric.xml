@@ -17,13 +17,17 @@
   <!ENTITY date "November 2007">
   <!ENTITY file-format-open "Gnumeric XML, 
                              Microsoft Excel 95/97/2000/2003/XP/2007, 
+                             OpenOffice ODF, 
+                             Microsoft Office Open XML,
                              Text: comma separated value CSV; tab separated value TSV,
-                             HTML,
                              Applix,  
                              Lotus 1-2-3, 
-                             GNU oleo, 
-                             OpenOffice ODF, 
-                             Microsoft Office Open XML">
+                             Quatro Pro,  
+                             HTML,
+                             SYLK,
+                             DIF,
+                             SC,
+                             GNU oleo">
 
   <!-- Some extra enties to help validation -->
   <!-- Why? These are defined within docbook, no? What tool needs these? -avc -->
