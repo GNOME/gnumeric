@@ -274,7 +274,7 @@ sub test_valgrind {
     $cmd = "--leak-check=full $cmd";
     $cmd = "--num-callers=20 $cmd";
     $cmd = "--track-fds=yes $cmd";
-    $cmd = "--log-file-exactly=$outfile $cmd";
+    $cmd = "--log-file=$outfile $cmd";
     $cmd = "valgrind $cmd";
     $cmd = "../libtool --mode=execute $cmd" if $uselibtool;
 
