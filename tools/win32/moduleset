@@ -94,8 +94,8 @@
 	</patches>
     </tarball>
 -->
-    <tarball id="png" version="1.2.18">
-	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.18.tar.bz2" />
+    <tarball id="png" version="1.2.24">
+	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.24.tar.bz2" />
 	<dependencies>
 	    <!-- <dep package="zlib"/> -->
 	</dependencies>
@@ -162,13 +162,13 @@
 	</dependencies>
     </autotools>
 
-    <tarball id="libdatrie" version="0.1.1" checkoutdir="libdatrie-0.1.1">
-	<source href="http://ftp.debian.org/pool/main/libd/libdatrie/libdatrie_0.1.1.orig.tar.gz"
-		md5sum="6beadd556169aa58c9210c713d139229"/>
+    <tarball id="libdatrie" version="0.1.2" checkoutdir="libdatrie-0.1.2">
+	<source href="http://ftp.debian.org/pool/main/libd/libdatrie/libdatrie_0.1.2.orig.tar.gz"
+		md5sum="3eaedd5452149e11547a0dc74ee3fcfd"/>
     </tarball>
-    <tarball id="libthai" version="0.1.8" checkoutdir="libthai-0.1.8">
-	<source href="http://ftp.debian.org/pool/main/libt/libthai/libthai_0.1.8.orig.tar.gz"
-		md5sum="cd96e82408d0bc4fe5ef2a93d05804e8"/>
+    <tarball id="libthai" version="0.1.9" checkoutdir="libthai-0.1.9">
+	<source href="http://ftp.debian.org/pool/main/libt/libthai/libthai_0.1.9.orig.tar.gz"
+		md5sum="7002d111b293f202d20b28aa2b4ed68f"/>
 	<dependencies>
 	    <dep package="libdatrie"/>
 	</dependencies>
