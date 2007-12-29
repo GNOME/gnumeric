@@ -19,7 +19,7 @@ functions.xml: $(gnumeric_docdir)/make-func-list.pl $(functions_xml_parts)
 	 $(PERL) $(gnumeric_docdir)/make-func-list.pl func.defs ;	\
 	 cat $(srcdir)/func-footer.xml					\
 	) >functions.tmp ;						\
-	if xmllint --format --encode "UTF-8" functions.tmp >functions.out ; then	\
+	if xmllint -noent --format --encode "UTF-8" functions.tmp >functions.out ; then	\
 	    mv functions.out $@; rm functions.tmp;					\
 	fi
 
