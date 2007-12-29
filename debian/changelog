@@ -1,3 +1,38 @@
+gnumeric (1.8.0-1) unstable; urgency=medium
+
+  * New upstream stable release, building on top of goffice 0.6.
+    (Closes: #458006)
+  * [doc/C/gnumeric-C.omf] Taken from svn as it is missing in the upstream
+    tarball.
+  * Upstream changes in this release include:
+    * Fixed paired t-test [gnome #504256]. (Closes: #456798)
+  * [debian/copyright, debian/gnumeric-doc.copyright] Updated.
+  * [debian/control]
+    * Build depend on new goffice packages (as per configure.in). 
+      (Closes: #458006)
+    * Updated Standards-Version.
+  * [debian/po/de.po] Updated translation. Thanks Johannes Starosta
+    <feedback-an-johannes@arcor.de>. (Closes: #455223)
+
+  Gnumeric bugs cleanup:
+  * Several issues were fixed during the 1.7.x development series:
+    * Title elements in charts are lost when saving in xls format. 
+      (Closes: #305399)
+    * "x_order_2: colinear!" message when showing Help -> About. 
+      (Closes: #341262)
+    * Autocomplete should be more configurable. (Closes: #242528)
+    * RFE: Quick tab color changer. (Closes: #353811)
+    * RFE: Support import of OOXML. (Closes: #408068)
+  * Issues which have been tagged as unreproducible for a long time and for
+    which no new information regarding them (or new reports of them) has come
+    forth:
+    * Gnumeric crashes and hangs the entire computer (Closes: #447219)
+    * Eats all memory if started with LC_NUMERIC set. (Closes: #395051)
+    * XLS plugin is off by default. (Closes: #416110)
+    Please reopen them if they can be reproduced with this version.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 29 Dec 2007 23:57:51 +0100
+
 gnumeric (1.7.91-1) unstable; urgency=low
 
   * New upstream beta release.
