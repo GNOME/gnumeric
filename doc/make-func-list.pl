@@ -84,6 +84,9 @@ while (<>) {
 	my @links = split (/,/, $linktxt);
 
 	if ($state) {
+	    if ($state == 3) {
+		print "        </itemizedlist>\n";
+	    }
 	    print "    </refsect1>\n";
 	}
 	print "    <refsect1>\n";

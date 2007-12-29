@@ -2,6 +2,12 @@
 
 	* Release 1.8.0
 
+2007-12-29  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (help_floor) : re-order the help text.  The current
+	  dump routine is too stupid to order things correctly for the
+	  massaging script.
+
 2007-12-03  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.7.91

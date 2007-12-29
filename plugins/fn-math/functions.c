@@ -1048,7 +1048,6 @@ static GnmFuncHelp const help_floor[] = {
 	{ GNM_FUNC_HELP_NAME, F_("FLOOR:rounds down.") },
 	{ GNM_FUNC_HELP_ARG, F_("x:value.") },
 	{ GNM_FUNC_HELP_ARG, F_("significance:base multiple (defaults to 1 for @x > 0 and -1 for @x <0)") },
-	{ GNM_FUNC_HELP_SEEALSO, "CEIL,CEILING,ABS,INT,MOD" },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_(
 	   "FLOOR function rounds @x down to the next nearest multiple "
 	   "of @significance.") },
@@ -1056,6 +1055,7 @@ static GnmFuncHelp const help_floor[] = {
 	{ GNM_FUNC_HELP_EXAMPLES, F_("FLOOR(5,2) equals 4.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("FLOOR(-5,-2) equals -4.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("FLOOR(-5,2) equals #NUM!.") },
+	{ GNM_FUNC_HELP_SEEALSO, "CEIL,CEILING,ABS,INT,MOD" },
 	{ GNM_FUNC_HELP_END }
 };
 

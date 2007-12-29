@@ -1,4 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- These are here for a reason, please leave them. -avc -->
+<!--
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" 
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+-->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!ENTITY gnum "<application>Gnumeric</application>">
+]>
 <appendix id="function-reference">
   <title>Function Reference</title>
   <para>
@@ -17,7 +28,6 @@
         <refname>
           <function>BITAND</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BITAND</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
@@ -47,7 +57,6 @@
         <refname>
           <function>BITLSHIFT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BITLSHIFT</function>(<parameter>x</parameter>,<parameter>n</parameter>)</synopsis>
@@ -81,7 +90,6 @@
         <refname>
           <function>BITOR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BITOR</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
@@ -111,7 +119,6 @@
         <refname>
           <function>BITRSHIFT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BITRSHIFT</function>(<parameter>x</parameter>,<parameter>n</parameter>)</synopsis>
@@ -145,7 +152,6 @@
         <refname>
           <function>BITXOR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BITXOR</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
@@ -178,7 +184,6 @@
         <refname>
           <function>COMPLEX</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>COMPLEX</function>(<parameter>real</parameter>,<parameter>im</parameter>[,<parameter>suffix</parameter>])</synopsis>
@@ -217,7 +222,6 @@
         <refname>
           <function>IMABS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMABS</function>(<parameter>inumber</parameter>)</synopsis>
@@ -256,7 +260,6 @@
         <refname>
           <function>IMAGINARY</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMAGINARY</function>(<parameter>inumber</parameter>)</synopsis>
@@ -294,7 +297,6 @@
         <refname>
           <function>IMARCCOS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMARCCOS</function>(<parameter>inumber</parameter>)</synopsis>
@@ -330,7 +332,6 @@
         <refname>
           <function>IMARCCOSH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMARCCOSH</function>(<parameter>inumber</parameter>)</synopsis>
@@ -366,7 +367,6 @@
         <refname>
           <function>IMARCCOT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMARCCOT</function>(<parameter>inumber</parameter>)</synopsis>
@@ -403,7 +403,6 @@
         <refname>
           <function>IMARCCOTH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMARCCOTH</function>(<parameter>inumber</parameter>)</synopsis>
@@ -440,7 +439,6 @@
         <refname>
           <function>IMARCCSC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMARCCSC</function>(<parameter>inumber</parameter>)</synopsis>
@@ -477,7 +475,6 @@
         <refname>
           <function>IMARCCSCH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMARCCSCH</function>(<parameter>inumber</parameter>)</synopsis>
@@ -514,7 +511,6 @@
         <refname>
           <function>IMARCSEC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMARCSEC</function>(<parameter>inumber</parameter>)</synopsis>
@@ -551,7 +547,6 @@
         <refname>
           <function>IMARCSECH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMARCSECH</function>(<parameter>inumber</parameter>)</synopsis>
@@ -588,7 +583,6 @@
         <refname>
           <function>IMARCSIN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMARCSIN</function>(<parameter>inumber</parameter>)</synopsis>
@@ -624,7 +618,6 @@
         <refname>
           <function>IMARCSINH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMARCSINH</function>(<parameter>inumber</parameter>)</synopsis>
@@ -660,7 +653,6 @@
         <refname>
           <function>IMARCTAN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMARCTAN</function>(<parameter>inumber</parameter>)</synopsis>
@@ -696,7 +688,6 @@
         <refname>
           <function>IMARCTANH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMARCTANH</function>(<parameter>inumber</parameter>)</synopsis>
@@ -732,7 +723,6 @@
         <refname>
           <function>IMARGUMENT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMARGUMENT</function>(<parameter>inumber</parameter>)</synopsis>
@@ -770,7 +760,6 @@
         <refname>
           <function>IMCONJUGATE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMCONJUGATE</function>(<parameter>inumber</parameter>)</synopsis>
@@ -809,7 +798,6 @@
         <refname>
           <function>IMCOS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMCOS</function>(<parameter>inumber</parameter>)</synopsis>
@@ -848,7 +836,6 @@
         <refname>
           <function>IMCOSH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMCOSH</function>(<parameter>inumber</parameter>)</synopsis>
@@ -885,7 +872,6 @@
         <refname>
           <function>IMCOT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMCOT</function>(<parameter>inumber</parameter>)</synopsis>
@@ -922,7 +908,6 @@
         <refname>
           <function>IMCOTH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMCOTH</function>(<parameter>inumber</parameter>)</synopsis>
@@ -959,7 +944,6 @@
         <refname>
           <function>IMCSC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMCSC</function>(<parameter>inumber</parameter>)</synopsis>
@@ -996,7 +980,6 @@
         <refname>
           <function>IMCSCH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMCSCH</function>(<parameter>inumber</parameter>)</synopsis>
@@ -1033,7 +1016,6 @@
         <refname>
           <function>IMDIV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMDIV</function>(<parameter>inumber1</parameter>,<parameter>inumber2</parameter>)</synopsis>
@@ -1071,7 +1053,6 @@
         <refname>
           <function>IMEXP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMEXP</function>(<parameter>inumber</parameter>)</synopsis>
@@ -1109,14 +1090,13 @@
         <refname>
           <function>IMINV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMINV</function>(<parameter>inumber</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>IMINV</function> returns the the inverse, or reciprocal, of the complex number z (<parameter>inumber</parameter>), where</para>
+        <para><function>IMINV</function> returns the inverse, or reciprocal, of the complex number z (<parameter>inumber</parameter>), where</para>
         <para>	1/z = (x - i y)/(x^2 + y^2).</para>
         <itemizedlist>
           <listitem>
@@ -1145,7 +1125,6 @@
         <refname>
           <function>IMLN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMLN</function>(<parameter>inumber</parameter>)</synopsis>
@@ -1186,7 +1165,6 @@
         <refname>
           <function>IMLOG10</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMLOG10</function>(<parameter>inumber</parameter>)</synopsis>
@@ -1225,7 +1203,6 @@
         <refname>
           <function>IMLOG2</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMLOG2</function>(<parameter>inumber</parameter>)</synopsis>
@@ -1264,7 +1241,6 @@
         <refname>
           <function>IMNEG</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMNEG</function>(<parameter>inumber</parameter>)</synopsis>
@@ -1300,7 +1276,6 @@
         <refname>
           <function>IMPOWER</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMPOWER</function>(<parameter>inumber1</parameter>,<parameter>inumber2</parameter>)</synopsis>
@@ -1338,7 +1313,6 @@
         <refname>
           <function>IMPRODUCT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMPRODUCT</function>(<parameter>inumber1</parameter>[,<parameter>inumber2</parameter>,<parameter/>...])</synopsis>
@@ -1376,7 +1350,6 @@
         <refname>
           <function>IMREAL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMREAL</function>(<parameter>inumber</parameter>)</synopsis>
@@ -1414,7 +1387,6 @@
         <refname>
           <function>IMSEC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMSEC</function>(<parameter>inumber</parameter>)</synopsis>
@@ -1451,7 +1423,6 @@
         <refname>
           <function>IMSECH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMSECH</function>(<parameter>inumber</parameter>)</synopsis>
@@ -1488,7 +1459,6 @@
         <refname>
           <function>IMSIN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMSIN</function>(<parameter>inumber</parameter>)</synopsis>
@@ -1527,7 +1497,6 @@
         <refname>
           <function>IMSINH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMSINH</function>(<parameter>inumber</parameter>)</synopsis>
@@ -1564,7 +1533,6 @@
         <refname>
           <function>IMSQRT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMSQRT</function>(<parameter>inumber</parameter>)</synopsis>
@@ -1602,7 +1570,6 @@
         <refname>
           <function>IMSUB</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMSUB</function>(<parameter>inumber1</parameter>,<parameter>inumber2</parameter>)</synopsis>
@@ -1640,7 +1607,6 @@
         <refname>
           <function>IMSUM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMSUM</function>(<parameter>inumber1</parameter>,<parameter>inumber2</parameter>)</synopsis>
@@ -1678,7 +1644,6 @@
         <refname>
           <function>IMTAN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMTAN</function>(<parameter>inumber</parameter>)</synopsis>
@@ -1717,7 +1682,6 @@
         <refname>
           <function>IMTANH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IMTANH</function>(<parameter>inumber</parameter>)</synopsis>
@@ -1757,7 +1721,6 @@
         <refname>
           <function>DAVERAGE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DAVERAGE</function>(<parameter>database</parameter>,<parameter>field</parameter>,<parameter>criteria</parameter>)</synopsis>
@@ -1807,7 +1770,6 @@
         <refname>
           <function>DCOUNT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DCOUNT</function>(<parameter>database</parameter>,<parameter>field</parameter>,<parameter>criteria</parameter>)</synopsis>
@@ -1856,7 +1818,6 @@
         <refname>
           <function>DCOUNTA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DCOUNTA</function>(<parameter>database</parameter>,<parameter>field</parameter>,<parameter>criteria</parameter>)</synopsis>
@@ -1905,7 +1866,6 @@
         <refname>
           <function>DGET</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DGET</function>(<parameter>database</parameter>,<parameter>field</parameter>,<parameter>criteria</parameter>)</synopsis>
@@ -1961,7 +1921,6 @@
         <refname>
           <function>DMAX</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DMAX</function>(<parameter>database</parameter>,<parameter>field</parameter>,<parameter>criteria</parameter>)</synopsis>
@@ -2010,7 +1969,6 @@
         <refname>
           <function>DMIN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DMIN</function>(<parameter>database</parameter>,<parameter>field</parameter>,<parameter>criteria</parameter>)</synopsis>
@@ -2058,7 +2016,6 @@
         <refname>
           <function>DPRODUCT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DPRODUCT</function>(<parameter>database</parameter>,<parameter>field</parameter>,<parameter>criteria</parameter>)</synopsis>
@@ -2105,7 +2062,6 @@
         <refname>
           <function>DSTDEV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DSTDEV</function>(<parameter>database</parameter>,<parameter>field</parameter>,<parameter>criteria</parameter>)</synopsis>
@@ -2153,7 +2109,6 @@
         <refname>
           <function>DSTDEVP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DSTDEVP</function>(<parameter>database</parameter>,<parameter>field</parameter>,<parameter>criteria</parameter>)</synopsis>
@@ -2201,7 +2156,6 @@
         <refname>
           <function>DSUM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DSUM</function>(<parameter>database</parameter>,<parameter>field</parameter>,<parameter>criteria</parameter>)</synopsis>
@@ -2249,7 +2203,6 @@
         <refname>
           <function>DVAR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DVAR</function>(<parameter>database</parameter>,<parameter>field</parameter>,<parameter>criteria</parameter>)</synopsis>
@@ -2297,7 +2250,6 @@
         <refname>
           <function>DVARP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DVARP</function>(<parameter>database</parameter>,<parameter>field</parameter>,<parameter>criteria</parameter>)</synopsis>
@@ -2335,6 +2287,37 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-EXECSQL">
+      <refmeta>
+        <refentrytitle>
+          <function>EXECSQL</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>EXECSQL</function>
+        </refname>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>EXECSQL</function>(<parameter>dsn</parameter>,<parameter>username</parameter>,<parameter>password</parameter>,<parameter>sql</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The <function>EXECSQL</function> function lets you execute a command in a database server, and show the results returned in current sheet. It uses libgda as the means for accessing the databases.</para>
+        <para>For using it, you need first to set up a libgda data source.</para>
+      </refsect1>
+      <refsect1>
+        <title>Examples</title>
+        <para/>
+        <para>To get all the data from the table "Customers" present in the "mydatasource" GDA data source, you would use:</para>
+        <para><function>EXECSQL</function>("mydatasource","username","password","SELECT * FROM customers")</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-READDBTABLE"><function>READDBTABLE</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-GETPIVOTDATA">
       <refmeta>
         <refentrytitle>
@@ -2345,7 +2328,6 @@
         <refname>
           <function>GETPIVOTDATA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>GETPIVOTDATA</function>(<parameter>pivot_table</parameter>,<parameter>field_name</parameter>)</synopsis>
@@ -2369,6 +2351,37 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-READDBTABLE">
+      <refmeta>
+        <refentrytitle>
+          <function>READDBTABLE</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>READDBTABLE</function>
+        </refname>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>READDBTABLE</function>(<parameter>dsn</parameter>,<parameter>username</parameter>,<parameter>password</parameter>,<parameter>table</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The <function>READDBTABLE</function> function lets you get the contents of a table, as stored in a database. For using it, you need first to set up a libgda data source.</para>
+        <para>Note that this function returns all the rows in the given table. If you want to get data from more than one table or want a more precise selection (conditions), use the EXECSQL function.</para>
+      </refsect1>
+      <refsect1>
+        <title>Examples</title>
+        <para/>
+        <para>To get all the data from the table "Customers" present in the "mydatasource" GDA data source, you would use:</para>
+        <para><function>READDBTABLE</function>("mydatasource","username","password","customers")</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-EXECSQL"><function>EXECSQL</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
   </sect1>
   <sect1 id="CATEGORY_DateTime">
     <title>Date/Time</title>
@@ -2382,7 +2395,6 @@
         <refname>
           <function>DATE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DATE</function> (<parameter>year</parameter>,<parameter>month</parameter>,<parameter>day</parameter>)</synopsis>
@@ -2427,7 +2439,6 @@
         <refname>
           <function>DATE2UNIX</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DATE2UNIX</function>(<parameter>serial</parameter>)</synopsis>
@@ -2460,7 +2471,6 @@
         <refname>
           <function>DATEDIF</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DATEDIF</function>(<parameter>date1</parameter>,<parameter>date2</parameter>,<parameter>interval</parameter>)</synopsis>
@@ -2500,7 +2510,6 @@
         <refname>
           <function>DATEVALUE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DATEVALUE</function>(<parameter>date_str</parameter>)</synopsis>
@@ -2535,7 +2544,6 @@
         <refname>
           <function>DAY</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DAY</function> (<parameter>date</parameter>)</synopsis>
@@ -2576,7 +2584,6 @@
         <refname>
           <function>DAYS360</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DAYS360</function> (<parameter>date1</parameter>,<parameter>date2</parameter>,<parameter>method</parameter>)</synopsis>
@@ -2626,7 +2633,6 @@
         <refname>
           <function>EDATE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>EDATE</function>(<parameter>date</parameter>,<parameter>months</parameter>)</synopsis>
@@ -2664,7 +2670,6 @@
         <refname>
           <function>EOMONTH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>EOMONTH</function> (<parameter>start_date</parameter>,<parameter>months</parameter>)</synopsis>
@@ -2702,7 +2707,6 @@
         <refname>
           <function>HOUR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>HOUR</function> (<parameter>date</parameter>)</synopsis>
@@ -2743,7 +2747,6 @@
         <refname>
           <function>ISOWEEKNUM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ISOWEEKNUM</function> (<parameter>date</parameter>)</synopsis>
@@ -2780,7 +2783,6 @@
         <refname>
           <function>ISOYEAR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ISOYEAR</function> (<parameter>date</parameter>)</synopsis>
@@ -2816,7 +2818,6 @@
         <refname>
           <function>MINUTE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MINUTE</function> (<parameter>date</parameter>)</synopsis>
@@ -2857,7 +2858,6 @@
         <refname>
           <function>MONTH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MONTH</function> (<parameter>date</parameter>)</synopsis>
@@ -2898,7 +2898,6 @@
         <refname>
           <function>NETWORKDAYS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>NETWORKDAYS</function> (<parameter>start_date</parameter>,<parameter>end_date</parameter>[,<parameter>holidays</parameter>])</synopsis>
@@ -2936,7 +2935,6 @@
         <refname>
           <function>NOW</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>NOW</function> (<parameter/>)</synopsis>
@@ -2973,7 +2971,6 @@
         <refname>
           <function>SECOND</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SECOND</function> (<parameter>date</parameter>)</synopsis>
@@ -3014,7 +3011,6 @@
         <refname>
           <function>TIME</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TIME</function> (<parameter>hours</parameter>,<parameter>minutes</parameter>,<parameter>seconds</parameter>)</synopsis>
@@ -3049,7 +3045,6 @@
         <refname>
           <function>TIMEVALUE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TIMEVALUE</function> (<parameter>timetext</parameter>)</synopsis>
@@ -3086,7 +3081,6 @@
         <refname>
           <function>TODAY</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TODAY</function>(<parameter/>)</synopsis>
@@ -3121,7 +3115,6 @@
         <refname>
           <function>UNIX2DATE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>UNIX2DATE</function>(<parameter>unixtime</parameter>)</synopsis>
@@ -3153,7 +3146,6 @@
         <refname>
           <function>WEEKDAY</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>WEEKDAY</function> (<parameter>date</parameter>[,<parameter/> method])</synopsis>
@@ -3200,7 +3192,6 @@
         <refname>
           <function>WEEKNUM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>WEEKNUM</function> (<parameter>date</parameter>[,<parameter>method</parameter>])</synopsis>
@@ -3242,7 +3233,6 @@
         <refname>
           <function>WORKDAY</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>WORKDAY</function> (<parameter>start_date</parameter>,<parameter>days</parameter>[,<parameter>holidays</parameter>])</synopsis>
@@ -3281,7 +3271,6 @@
         <refname>
           <function>YEAR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>YEAR</function> (<parameter>date</parameter>)</synopsis>
@@ -3322,7 +3311,6 @@
         <refname>
           <function>YEARFRAC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>YEARFRAC</function> (<parameter>start_date</parameter>,<parameter/> end_date [,<parameter>basis</parameter>])</synopsis>
@@ -3354,7 +3342,6 @@
         <refname>
           <function>BASE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BASE</function>(<parameter>number</parameter>,<parameter>base</parameter>[,<parameter>length</parameter>])</synopsis>
@@ -3395,7 +3382,6 @@
         <refname>
           <function>BESSELI</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BESSELI</function>(<parameter>x</parameter>,<parameter>y</parameter>)</synopsis>
@@ -3439,7 +3425,6 @@
         <refname>
           <function>BESSELJ</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BESSELJ</function>(<parameter>x</parameter>,<parameter>y</parameter>)</synopsis>
@@ -3482,7 +3467,6 @@
         <refname>
           <function>BESSELK</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BESSELK</function>(<parameter>x</parameter>,<parameter>y</parameter>)</synopsis>
@@ -3525,7 +3509,6 @@
         <refname>
           <function>BESSELY</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BESSELY</function>(<parameter>x</parameter>,<parameter>y</parameter>)</synopsis>
@@ -3569,7 +3552,6 @@
         <refname>
           <function>BIN2DEC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BIN2DEC</function>(<parameter>x</parameter>)</synopsis>
@@ -3606,7 +3588,6 @@
         <refname>
           <function>BIN2HEX</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BIN2HEX</function>(<parameter>number</parameter>[,<parameter>places</parameter>])</synopsis>
@@ -3646,7 +3627,6 @@
         <refname>
           <function>BIN2OCT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BIN2OCT</function>(<parameter>number</parameter>[,<parameter>places</parameter>])</synopsis>
@@ -3686,7 +3666,6 @@
         <refname>
           <function>CONVERT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CONVERT</function>(<parameter>number</parameter>,<parameter>from_unit</parameter>,<parameter>to_unit</parameter>)</synopsis>
@@ -3806,7 +3785,6 @@
         <refname>
           <function>DEC2BIN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DEC2BIN</function>(<parameter>number</parameter>[,<parameter>places</parameter>])</synopsis>
@@ -3846,7 +3824,6 @@
         <refname>
           <function>DEC2HEX</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DEC2HEX</function>(<parameter>number</parameter>[,<parameter>places</parameter>])</synopsis>
@@ -3886,7 +3863,6 @@
         <refname>
           <function>DEC2OCT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DEC2OCT</function>(<parameter>number</parameter>[,<parameter>places</parameter>])</synopsis>
@@ -3926,7 +3902,6 @@
         <refname>
           <function>DECIMAL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DECIMAL</function>(<parameter>text</parameter>,<parameter>base</parameter>)</synopsis>
@@ -3964,7 +3939,6 @@
         <refname>
           <function>DELTA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DELTA</function>(<parameter>x</parameter>[,<parameter>y</parameter>])</synopsis>
@@ -4006,7 +3980,6 @@
         <refname>
           <function>ERF</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ERF</function>(<parameter/>[lower limit,<parameter/>]upper_limit)</synopsis>
@@ -4048,7 +4021,6 @@
         <refname>
           <function>ERFC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ERFC</function>(<parameter>x</parameter>)</synopsis>
@@ -4085,7 +4057,6 @@
         <refname>
           <function>GESTEP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>GESTEP</function>(<parameter>x</parameter>[,<parameter>y</parameter>])</synopsis>
@@ -4123,7 +4094,6 @@
         <refname>
           <function>HEX2BIN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>HEX2BIN</function>(<parameter>number</parameter>[,<parameter>places</parameter>])</synopsis>
@@ -4163,7 +4133,6 @@
         <refname>
           <function>HEX2DEC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>HEX2DEC</function>(<parameter>x</parameter>)</synopsis>
@@ -4200,7 +4169,6 @@
         <refname>
           <function>HEX2OCT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>HEX2OCT</function>(<parameter>number</parameter>[,<parameter>places</parameter>])</synopsis>
@@ -4240,7 +4208,6 @@
         <refname>
           <function>INVSUMINV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>INVSUMINV</function>(<parameter>x1</parameter>,<parameter>x2</parameter>,<parameter/>...)</synopsis>
@@ -4279,7 +4246,6 @@
         <refname>
           <function>OCT2BIN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OCT2BIN</function>(<parameter>number</parameter>[,<parameter>places</parameter>])</synopsis>
@@ -4319,7 +4285,6 @@
         <refname>
           <function>OCT2DEC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OCT2DEC</function>(<parameter>x</parameter>)</synopsis>
@@ -4356,7 +4321,6 @@
         <refname>
           <function>OCT2HEX</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OCT2HEX</function>(<parameter>number</parameter>[,<parameter>places</parameter>])</synopsis>
@@ -4399,7 +4363,6 @@
         <refname>
           <function>DIMCIRC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DIMCIRC</function>(<parameter>traffic</parameter>,<parameter>gos</parameter>)</synopsis>
@@ -4431,7 +4394,6 @@
         <refname>
           <function>OFFCAP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OFFCAP</function>(<parameter>circuits</parameter>,<parameter>gos</parameter>)</synopsis>
@@ -4463,7 +4425,6 @@
         <refname>
           <function>OFFTRAF</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OFFTRAF</function>(<parameter>traffic</parameter>,<parameter>circuits</parameter>)</synopsis>
@@ -4500,7 +4461,6 @@
         <refname>
           <function>PROBBLOCK</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>PROBBLOCK</function>(<parameter>traffic</parameter>,<parameter>circuits</parameter>)</synopsis>
@@ -4540,7 +4500,6 @@
         <refname>
           <function>ACCRINT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ACCRINT</function>(<parameter>issue</parameter>,<parameter>first_interest</parameter>,<parameter>settlement</parameter>,<parameter>rate</parameter>,<parameter>par</parameter>,<parameter>frequency</parameter>[,<parameter>basis</parameter>])</synopsis>
@@ -4600,7 +4559,6 @@
         <refname>
           <function>ACCRINTM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ACCRINTM</function>(<parameter>issue</parameter>,<parameter>maturity</parameter>,<parameter>rate</parameter>[,<parameter>par</parameter>,<parameter>basis</parameter>])</synopsis>
@@ -4652,7 +4610,6 @@
         <refname>
           <function>AMORDEGRC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>AMORDEGRC</function>(<parameter>cost</parameter>,<parameter>purchase_date</parameter>,<parameter>first_period</parameter>,<parameter>salvage</parameter>,<parameter>period</parameter>,<parameter>rate</parameter>[,<parameter>basis</parameter>])</synopsis>
@@ -4703,7 +4660,6 @@
         <refname>
           <function>AMORLINC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>AMORLINC</function>(<parameter>cost</parameter>,<parameter>purchase_date</parameter>,<parameter>first_period</parameter>,<parameter>salvage</parameter>,<parameter>period</parameter>,<parameter>rate</parameter>[,<parameter>basis</parameter>])</synopsis>
@@ -4754,7 +4710,6 @@
         <refname>
           <function>COUPDAYBS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>COUPDAYBS</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>frequency</parameter>[,<parameter>basis</parameter>,<parameter>eom</parameter>])</synopsis>
@@ -4809,7 +4764,6 @@
         <refname>
           <function>COUPDAYS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>COUPDAYS</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>frequency</parameter>[,<parameter>basis</parameter>,<parameter>eom</parameter>])</synopsis>
@@ -4865,7 +4819,6 @@
         <refname>
           <function>COUPDAYSNC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>COUPDAYSNC</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>frequency</parameter>[,<parameter>basis</parameter>,<parameter>eom</parameter>])</synopsis>
@@ -4920,7 +4873,6 @@
         <refname>
           <function>COUPNCD</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>COUPNCD</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>frequency</parameter>[,<parameter>basis</parameter>,<parameter>eom</parameter>])</synopsis>
@@ -4975,7 +4927,6 @@
         <refname>
           <function>COUPNUM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>COUPNUM</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>frequency</parameter>[,<parameter>basis</parameter>,<parameter>eom</parameter>])</synopsis>
@@ -5029,7 +4980,6 @@
         <refname>
           <function>COUPPCD</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>COUPPCD</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>frequency</parameter>[,<parameter>basis</parameter>,<parameter>eom</parameter>])</synopsis>
@@ -5084,7 +5034,6 @@
         <refname>
           <function>CUM_BIV_NORM_DIST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CUM_BIV_NORM_DIST</function>(<parameter>a</parameter>,<parameter>b</parameter>,<parameter>rho</parameter>)</synopsis>
@@ -5116,7 +5065,6 @@
         <refname>
           <function>CUMIPMT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CUMIPMT</function>(<parameter>rate</parameter>,<parameter>nper</parameter>,<parameter>pv</parameter>,<parameter>start_period</parameter>,<parameter>end_period</parameter>,<parameter>type</parameter>)</synopsis>
@@ -5168,7 +5116,6 @@
         <refname>
           <function>CUMPRINC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CUMPRINC</function>(<parameter>rate</parameter>,<parameter>nper</parameter>,<parameter>pv</parameter>,<parameter>start_period</parameter>,<parameter>end_period</parameter>,<parameter>type</parameter>)</synopsis>
@@ -5220,7 +5167,6 @@
         <refname>
           <function>DB</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DB</function>(<parameter>cost</parameter>,<parameter>salvage</parameter>,<parameter>life</parameter>,<parameter>period</parameter>[,<parameter>month</parameter>])</synopsis>
@@ -5266,7 +5212,6 @@
         <refname>
           <function>DDB</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DDB</function>(<parameter>cost</parameter>,<parameter>salvage</parameter>,<parameter>life</parameter>,<parameter>period</parameter>[,<parameter>factor</parameter>])</synopsis>
@@ -5305,7 +5250,6 @@
         <refname>
           <function>DISC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DISC</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>par</parameter>,<parameter>redemption</parameter>[,<parameter>basis</parameter>])</synopsis>
@@ -5355,7 +5299,6 @@
         <refname>
           <function>DOLLARDE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DOLLARDE</function>(<parameter>fractional_dollar</parameter>,<parameter>fraction</parameter>)</synopsis>
@@ -5393,7 +5336,6 @@
         <refname>
           <function>DOLLARFR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DOLLARFR</function>(<parameter>decimal_dollar</parameter>,<parameter>fraction</parameter>)</synopsis>
@@ -5430,7 +5372,6 @@
         <refname>
           <function>DURATION</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DURATION</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>coup</parameter>,<parameter>yield</parameter>,<parameter>frequency</parameter>[,<parameter>basis</parameter>])</synopsis>
@@ -5481,7 +5422,6 @@
         <refname>
           <function>EFFECT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>EFFECT</function>(<parameter>r</parameter>,<parameter>nper</parameter>)</synopsis>
@@ -5526,7 +5466,6 @@
         <refname>
           <function>EURO</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>EURO</function>(<parameter>currency</parameter>)</synopsis>
@@ -5575,7 +5514,6 @@
         <refname>
           <function>EUROCONVERT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>EUROCONVERT</function>(<parameter>n</parameter>,<parameter>source</parameter>,<parameter>target</parameter>)</synopsis>
@@ -5623,7 +5561,6 @@
         <refname>
           <function>FV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>FV</function>(<parameter>rate</parameter>,<parameter>nper</parameter>,<parameter>pmt</parameter>[,<parameter>pv</parameter>,<parameter>type</parameter>])</synopsis>
@@ -5662,7 +5599,6 @@
         <refname>
           <function>FVSCHEDULE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>FVSCHEDULE</function>(<parameter>principal</parameter>,<parameter>schedule</parameter>)</synopsis>
@@ -5694,7 +5630,6 @@
         <refname>
           <function>G_DURATION</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>G_DURATION</function>(<parameter>rate</parameter>,<parameter>pv</parameter>,<parameter>fv</parameter>)</synopsis>
@@ -5738,7 +5673,6 @@
         <refname>
           <function>INTRATE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>INTRATE</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>investment</parameter>,<parameter>redemption</parameter>[,<parameter>basis</parameter>])</synopsis>
@@ -5791,7 +5725,6 @@
         <refname>
           <function>IPMT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IPMT</function>(<parameter>rate</parameter>,<parameter>per</parameter>,<parameter>nper</parameter>,<parameter>pv</parameter>[,<parameter>fv</parameter>,<parameter>type</parameter>])</synopsis>
@@ -5834,7 +5767,6 @@
         <refname>
           <function>IRR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IRR</function>(<parameter>values</parameter>[,<parameter>guess</parameter>])</synopsis>
@@ -5873,7 +5805,6 @@
         <refname>
           <function>ISPMT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ISPMT</function>(<parameter>rate</parameter>,<parameter>per</parameter>,<parameter>nper</parameter>,<parameter>pv</parameter>)</synopsis>
@@ -5907,7 +5838,6 @@
         <refname>
           <function>MDURATION</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MDURATION</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>coupon</parameter>,<parameter>yield</parameter>,<parameter>frequency</parameter>[,<parameter>basis</parameter>])</synopsis>
@@ -5958,7 +5888,6 @@
         <refname>
           <function>MIRR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MIRR</function>(<parameter>values</parameter>,<parameter>finance_rate</parameter>,<parameter>reinvest_rate</parameter>)</synopsis>
@@ -5987,7 +5916,6 @@
         <refname>
           <function>NOMINAL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>NOMINAL</function>(<parameter>r</parameter>,<parameter>nper</parameter>)</synopsis>
@@ -6029,7 +5957,6 @@
         <refname>
           <function>NPER</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>NPER</function>(<parameter>rate</parameter>,<parameter>pmt</parameter>,<parameter>pv</parameter>[,<parameter>fv</parameter>,<parameter>type</parameter>])</synopsis>
@@ -6068,7 +5995,6 @@
         <refname>
           <function>NPV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>NPV</function>(<parameter>rate</parameter>,<parameter>v1</parameter>,<parameter>v2</parameter>,<parameter/>...)</synopsis>
@@ -6099,7 +6025,6 @@
         <refname>
           <function>ODDFPRICE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ODDFPRICE</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>issue</parameter>,<parameter>first_coupon</parameter>,<parameter>rate</parameter>,<parameter>yld</parameter>,<parameter>redemption</parameter>,<parameter>frequency</parameter>[,<parameter>basis</parameter>])</synopsis>
@@ -6145,7 +6070,6 @@
         <refname>
           <function>ODDFYIELD</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ODDFYIELD</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>issue</parameter>,<parameter>first_coupon</parameter>,<parameter>rate</parameter>,<parameter>pr</parameter>,<parameter>redemption</parameter>,<parameter>frequency</parameter>[,<parameter>basis</parameter>])</synopsis>
@@ -6191,7 +6115,6 @@
         <refname>
           <function>ODDLPRICE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ODDLPRICE</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>last_interest</parameter>,<parameter>rate</parameter>,<parameter>yld</parameter>,<parameter>redemption</parameter>,<parameter>frequency</parameter>[,<parameter>basis</parameter>])</synopsis>
@@ -6237,7 +6160,6 @@
         <refname>
           <function>ODDLYIELD</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ODDLYIELD</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>last_interest</parameter>,<parameter>rate</parameter>,<parameter>pr</parameter>,<parameter>redemption</parameter>,<parameter>frequency</parameter>[,<parameter>basis</parameter>])</synopsis>
@@ -6283,7 +6205,6 @@
         <refname>
           <function>OPT_2_ASSET_CORRELATION</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_2_ASSET_CORRELATION</function>(<parameter>call_put_flag</parameter>,<parameter>spot1</parameter>,<parameter>spot2</parameter>,<parameter>strike1</parameter>,<parameter>strike2</parameter>,<parameter>time</parameter>,<parameter>cost_of_carry1</parameter>,<parameter>cost_of_carry2</parameter>,<parameter>rate</parameter>,<parameter>volatility1</parameter>,<parameter>volatility2</parameter>,<parameter>rho</parameter>)</synopsis>
@@ -6325,7 +6246,6 @@
         <refname>
           <function>OPT_AMER_EXCHANGE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_AMER_EXCHANGE</function>(<parameter>spot1</parameter>,<parameter>spot2</parameter>,<parameter>qty1</parameter>,<parameter>qty2</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>cost_of_carry1</parameter>,<parameter>cost_of_carry2</parameter>,<parameter>volatility1</parameter>,<parameter/> volatility2,<parameter/> rho)</synopsis>
@@ -6364,7 +6284,6 @@
         <refname>
           <function>OPT_BAW_AMER</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_BAW_AMER</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>cost_of_carry</parameter>,<parameter>volatility</parameter>)</synopsis>
@@ -6404,7 +6323,6 @@
         <refname>
           <function>OPT_BINOMIAL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_BINOMIAL</function>(<parameter>amer_euro_flag</parameter>,<parameter>call_put_flag</parameter>,<parameter>num_time_steps</parameter>,<parameter/> spot,<parameter/> strike,<parameter/> time,<parameter/> rate,<parameter/> volatility,<parameter/> cost_of_carry)</synopsis>
@@ -6446,7 +6364,6 @@
         <refname>
           <function>OPT_BJER_STENS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_BJER_STENS</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>volatility</parameter>[,<parameter>cost_of_carry</parameter>])</synopsis>
@@ -6486,7 +6403,6 @@
         <refname>
           <function>OPT_BS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_BS</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>volatility</parameter> [,<parameter>cost_of_carry</parameter>])</synopsis>
@@ -6528,7 +6444,6 @@
         <refname>
           <function>OPT_BS_CARRYCOST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_BS_CARRYCOST</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>volatility</parameter>[,<parameter>cost_of_carry</parameter>])</synopsis>
@@ -6571,7 +6486,6 @@
         <refname>
           <function>OPT_BS_DELTA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_BS_DELTA</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>volatility</parameter>[,<parameter>cost_of_carry</parameter>])</synopsis>
@@ -6613,7 +6527,6 @@
         <refname>
           <function>OPT_BS_GAMMA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_BS_GAMMA</function>(<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>volatility</parameter>[,<parameter>cost_of_carry</parameter>])</synopsis>
@@ -6656,7 +6569,6 @@
         <refname>
           <function>OPT_BS_RHO</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_BS_RHO</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>volatility</parameter>[,<parameter>cost_of_carry</parameter>])</synopsis>
@@ -6699,7 +6611,6 @@
         <refname>
           <function>OPT_BS_THETA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_BS_THETA</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>volatility</parameter>[,<parameter>cost_of_carry</parameter>])</synopsis>
@@ -6742,7 +6653,6 @@
         <refname>
           <function>OPT_BS_VEGA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_BS_VEGA</function>(<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>volatility</parameter>[,<parameter>cost_of_carry</parameter>])</synopsis>
@@ -6785,7 +6695,6 @@
         <refname>
           <function>OPT_COMPLEX_CHOOSER</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_COMPLEX_CHOOSER</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike_call</parameter>,<parameter>strike_put</parameter>,<parameter>time</parameter>,<parameter>time_call</parameter>,<parameter>time_put</parameter>,<parameter>rate</parameter>,<parameter>cost_of_carry</parameter>,<parameter>volatility</parameter>)</synopsis>
@@ -6828,7 +6737,6 @@
         <refname>
           <function>OPT_EURO_EXCHANGE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_EURO_EXCHANGE</function>(<parameter>spot1</parameter>,<parameter>spot2</parameter>,<parameter>qty1</parameter>,<parameter>qty2</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>cost_of_carry1</parameter>,<parameter>cost_of_carry2</parameter>,<parameter>volatility1</parameter>,<parameter>volatility2</parameter>,<parameter>rho</parameter>)</synopsis>
@@ -6867,7 +6775,6 @@
         <refname>
           <function>OPT_EXEC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_EXEC</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>volatility</parameter>,<parameter>cost_of_carry</parameter>,<parameter>lambda</parameter>)</synopsis>
@@ -6908,7 +6815,6 @@
         <refname>
           <function>OPT_EXTENDIBLE_WRITER</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_EXTENDIBLE_WRITER</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike1</parameter>,<parameter>strike2</parameter>,<parameter>time1</parameter>,<parameter>time2</parameter>,<parameter>rate</parameter>,<parameter>cost_of_carry</parameter>,<parameter>volatility</parameter>)</synopsis>
@@ -6950,7 +6856,6 @@
         <refname>
           <function>OPT_FIXED_STRK_LKBK</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_FIXED_STRK_LKBK</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>spot_min</parameter>,<parameter>spot_max</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>cost_of_carry</parameter>,<parameter>volatility</parameter>)</synopsis>
@@ -6992,7 +6897,6 @@
         <refname>
           <function>OPT_FLOAT_STRK_LKBK</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_FLOAT_STRK_LKBK</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>spot_min</parameter>,<parameter>spot_max</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>cost_of_carry</parameter>,<parameter>volatility</parameter>)</synopsis>
@@ -7033,7 +6937,6 @@
         <refname>
           <function>OPT_FORWARD_START</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_FORWARD_START</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>alpha</parameter>,<parameter>time1</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>volatility</parameter>,<parameter>cost_of_carry</parameter>)</synopsis>
@@ -7074,7 +6977,6 @@
         <refname>
           <function>OPT_FRENCH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_FRENCH</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>t2</parameter>,<parameter>rate</parameter>,<parameter>volatility</parameter>[,<parameter>cost_of_carry</parameter>])</synopsis>
@@ -7114,7 +7016,6 @@
         <refname>
           <function>OPT_GARMAN_KOHLHAGEN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_GARMAN_KOHLHAGEN</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>domestic_rate</parameter>,<parameter>foreign_rate</parameter>,<parameter>volatility</parameter>[,<parameter>cost_of_carry</parameter>])</synopsis>
@@ -7158,7 +7059,6 @@
         <refname>
           <function>OPT_JUMP_DIFF</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_JUMP_DIFF</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter>rate</parameter>,<parameter>volatility</parameter>,<parameter>lambda</parameter>,<parameter>gamma</parameter>)</synopsis>
@@ -7199,7 +7099,6 @@
         <refname>
           <function>OPT_MILTERSEN_SCHWARTZ</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_MILTERSEN_SCHWARTZ</function>(<parameter>call_put_flag</parameter>,<parameter>p_t</parameter>,<parameter>f_t</parameter>,<parameter>x</parameter>,<parameter>t1</parameter>,<parameter>t2</parameter>,<parameter>v_s</parameter>,<parameter>v_e</parameter>,<parameter>v_f</parameter>,<parameter>rho_se</parameter>,<parameter>rho_sf</parameter>,<parameter>rho_ef</parameter>,<parameter>kappa_e</parameter>,<parameter>kappa_f</parameter>)</synopsis>
@@ -7210,7 +7109,7 @@
         <para><parameter>call_put_flag</parameter> is 'c' or 'p' to indicate whether the option is a call or a put.</para>
         <para><parameter>p_t</parameter> is a zero coupon bond with expiry at option maturity.</para>
         <para><parameter>f_t</parameter> is the futures price.</para>
-        <para><parameter>x</parameter> is is the strike price.</para>
+        <para><parameter>x</parameter> is the strike price.</para>
         <para><parameter>t1</parameter> is the time to maturity of the option.</para>
         <para><parameter>t2</parameter> is the time to maturity of the underlying commodity futures contract.</para>
         <para><parameter>v_s</parameter> is the volatility of the spot commodity price.</para>
@@ -7246,7 +7145,6 @@
         <refname>
           <function>OPT_ON_OPTIONS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_ON_OPTIONS</function>(<parameter>type_flag</parameter>,<parameter>spot</parameter>,<parameter>strike1</parameter>,<parameter>strike2</parameter>,<parameter>time1</parameter>,<parameter>time2</parameter>,<parameter>rate</parameter>,<parameter>cost_of_carry</parameter>,<parameter>volatility</parameter>)</synopsis>
@@ -7289,7 +7187,6 @@
         <refname>
           <function>OPT_RGW</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_RGW</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>t1</parameter>,<parameter>t2</parameter>,<parameter>rate</parameter>,<parameter>d</parameter>,<parameter>volatility</parameter>)</synopsis>
@@ -7330,7 +7227,6 @@
         <refname>
           <function>OPT_SIMPLE_CHOOSER</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_SIMPLE_CHOOSER</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>time1</parameter>,<parameter>time2</parameter>,<parameter>rate</parameter>,<parameter>cost_of_carry</parameter>,<parameter>volatility</parameter>)</synopsis>
@@ -7342,7 +7238,7 @@
         <para><parameter>spot</parameter> is the spot price of the underlying asset.</para>
         <para><parameter>strike</parameter> is the strike price at which the option is struck.</para>
         <para><parameter>time1</parameter> is the time in years until the holder chooses a put or a call option.</para>
-        <para><parameter>time2</parameter> is the time in years until the the chosen option expires.</para>
+        <para><parameter>time2</parameter> is the time in years until the chosen option expires.</para>
         <para><parameter>rate</parameter> is the annualized risk-free rate of interest.</para>
         <para><parameter>cost_of_carry</parameter> is the leakage in value of the underlying asset, for common stocks, this would be the dividend yield.</para>
       </refsect1>
@@ -7370,7 +7266,6 @@
         <refname>
           <function>OPT_SPREAD_APPROX</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_SPREAD_APPROX</function>(<parameter>call_put_flag</parameter>,<parameter>fut_price1</parameter>,<parameter>fut_price2</parameter>,<parameter>strike</parameter>,<parameter>time</parameter>,<parameter/> rate,<parameter>volatility1</parameter>,<parameter>volatility2</parameter>,<parameter>rho</parameter>)</synopsis>
@@ -7410,7 +7305,6 @@
         <refname>
           <function>OPT_TIME_SWITCH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OPT_TIME_SWITCH</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>a</parameter>,<parameter>time</parameter>,<parameter>m</parameter>,<parameter>dt</parameter>,<parameter>rate</parameter>,<parameter>cost_of_carry</parameter>,<parameter>volatility</parameter>)</synopsis>
@@ -7453,7 +7347,6 @@
         <refname>
           <function>PMT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>PMT</function>(<parameter>rate</parameter>,<parameter>nper</parameter>,<parameter>pv</parameter>[,<parameter>fv</parameter>,<parameter>type</parameter>])</synopsis>
@@ -7497,7 +7390,6 @@
         <refname>
           <function>PPMT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>PPMT</function>(<parameter>rate</parameter>,<parameter>per</parameter>,<parameter>nper</parameter>,<parameter>pv</parameter>[,<parameter>fv</parameter>,<parameter>type</parameter>])</synopsis>
@@ -7541,7 +7433,6 @@
         <refname>
           <function>PRICE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>PRICE</function>(<parameter>settle</parameter>,<parameter>mat</parameter>,<parameter>rate</parameter>,<parameter>yield</parameter>,<parameter>redemption_price</parameter>,<parameter/>[frequency,<parameter>basis</parameter>])</synopsis>
@@ -7587,7 +7478,6 @@
         <refname>
           <function>PRICEDISC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>PRICEDISC</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>discount</parameter>,<parameter>redemption</parameter>[,<parameter>basis</parameter>])</synopsis>
@@ -7637,7 +7527,6 @@
         <refname>
           <function>PRICEMAT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>PRICEMAT</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>issue</parameter>,<parameter>rate</parameter>,<parameter>yield</parameter>[,<parameter>basis</parameter>])</synopsis>
@@ -7686,7 +7575,6 @@
         <refname>
           <function>PV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>PV</function>(<parameter>rate</parameter>,<parameter>nper</parameter>,<parameter>pmt</parameter>[,<parameter>fv</parameter>,<parameter>type</parameter>])</synopsis>
@@ -7723,7 +7611,6 @@
         <refname>
           <function>RATE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RATE</function>(<parameter>nper</parameter>,<parameter>pmt</parameter>,<parameter>pv</parameter>[,<parameter>fv</parameter>,<parameter>type</parameter>,<parameter>guess</parameter>])</synopsis>
@@ -7732,6 +7619,9 @@
         <title>Description</title>
         <para><function>RATE</function> calculates the rate of an investment.</para>
         <itemizedlist>
+          <listitem>
+            <para>If <parameter>pmt</parameter> is ommitted it defaults to 0</para>
+          </listitem>
           <listitem>
             <para>If <parameter>nper</parameter> &lt;= 0, <function>RATE</function> returns #NUM! error.</para>
           </listitem>
@@ -7761,7 +7651,6 @@
         <refname>
           <function>RECEIVED</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RECEIVED</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>investment</parameter>,<parameter>rate</parameter>[,<parameter>basis</parameter>])</synopsis>
@@ -7811,7 +7700,6 @@
         <refname>
           <function>SLN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SLN</function>(<parameter>cost</parameter>,<parameter>salvage_value</parameter>,<parameter>life</parameter>)</synopsis>
@@ -7853,7 +7741,6 @@
         <refname>
           <function>SYD</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SYD</function>(<parameter>cost</parameter>,<parameter>salvage_value</parameter>,<parameter>life</parameter>,<parameter>period</parameter>)</synopsis>
@@ -7896,7 +7783,6 @@
         <refname>
           <function>TBILLEQ</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TBILLEQ</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>discount</parameter>)</synopsis>
@@ -7936,7 +7822,6 @@
         <refname>
           <function>TBILLPRICE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TBILLPRICE</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>discount</parameter>)</synopsis>
@@ -7974,7 +7859,6 @@
         <refname>
           <function>TBILLYIELD</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TBILLYIELD</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>pr</parameter>)</synopsis>
@@ -8012,7 +7896,6 @@
         <refname>
           <function>VDB</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>VDB</function>(<parameter>cost</parameter>,<parameter>salvage</parameter>,<parameter>life</parameter>,<parameter>start_period</parameter>,<parameter>end_period</parameter>[,<parameter>factor</parameter>,<parameter>switch</parameter>])</synopsis>
@@ -8061,7 +7944,6 @@
         <refname>
           <function>XIRR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>XIRR</function>(<parameter>values</parameter>,<parameter>dates</parameter>[,<parameter>guess</parameter>])</synopsis>
@@ -8099,7 +7981,6 @@
         <refname>
           <function>XNPV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>XNPV</function>(<parameter>rate</parameter>,<parameter>values</parameter>,<parameter>dates</parameter>)</synopsis>
@@ -8134,7 +8015,6 @@
         <refname>
           <function>YIELD</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>YIELD</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>rate</parameter>,<parameter>price</parameter>,<parameter>redemption_price</parameter>,<parameter>frequency</parameter>[,<parameter>basis</parameter>])</synopsis>
@@ -8180,7 +8060,6 @@
         <refname>
           <function>YIELDDISC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>YIELDDISC</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>pr</parameter>,<parameter>redemption</parameter>[,<parameter>basis</parameter>])</synopsis>
@@ -8226,7 +8105,6 @@
         <refname>
           <function>YIELDMAT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>YIELDMAT</function>(<parameter>settlement</parameter>,<parameter>maturity</parameter>,<parameter>issue</parameter>,<parameter>rate</parameter>,<parameter>pr</parameter>[,<parameter>basis</parameter>])</synopsis>
@@ -8272,7 +8150,6 @@
         <refname>
           <function>GNUMERIC_VERSION</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>GNUMERIC_VERSION</function>(<parameter/>)</synopsis>
@@ -8300,7 +8177,6 @@
         <refname>
           <function>CELL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CELL</function>(<parameter>type</parameter>,<parameter>ref</parameter>)</synopsis>
@@ -8344,7 +8220,6 @@
         <refname>
           <function>COUNTBLANK</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>COUNTBLANK</function>(<parameter>range</parameter>)</synopsis>
@@ -8379,7 +8254,6 @@
         <refname>
           <function>ERROR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ERROR</function>(<parameter>text</parameter>)</synopsis>
@@ -8409,7 +8283,6 @@
         <refname>
           <function>ERROR.TYPE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ERROR.TYPE</function>(<parameter>value</parameter>)</synopsis>
@@ -8450,7 +8323,6 @@
         <refname>
           <function>EXPRESSION</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>EXPRESSION</function>(<parameter>cell</parameter>)</synopsis>
@@ -8481,7 +8353,6 @@
         <refname>
           <function>GETENV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>GETENV</function>(<parameter>string</parameter>)</synopsis>
@@ -8515,7 +8386,6 @@
         <refname>
           <function>INFO</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>INFO</function>(<parameter>type</parameter>)</synopsis>
@@ -8559,7 +8429,6 @@
         <refname>
           <function>ISBLANK</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ISBLANK</function>(<parameter>value</parameter>)</synopsis>
@@ -8594,7 +8463,6 @@
         <refname>
           <function>ISERR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ISERR</function>(<parameter>value</parameter>)</synopsis>
@@ -8629,7 +8497,6 @@
         <refname>
           <function>ISERROR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ISERROR</function>(<parameter>value</parameter>)</synopsis>
@@ -8664,7 +8531,6 @@
         <refname>
           <function>ISEVEN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ISEVEN</function>(<parameter>value</parameter>)</synopsis>
@@ -8699,7 +8565,6 @@
         <refname>
           <function>ISLOGICAL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ISLOGICAL</function>(<parameter>value</parameter>)</synopsis>
@@ -8734,7 +8599,6 @@
         <refname>
           <function>ISNA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ISNA</function>(<parameter>value</parameter>)</synopsis>
@@ -8769,7 +8633,6 @@
         <refname>
           <function>ISNONTEXT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ISNONTEXT</function>(<parameter>value</parameter>)</synopsis>
@@ -8804,7 +8667,6 @@
         <refname>
           <function>ISNUMBER</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ISNUMBER</function>(<parameter>value</parameter>)</synopsis>
@@ -8839,7 +8701,6 @@
         <refname>
           <function>ISODD</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ISODD</function>(<parameter>value</parameter>)</synopsis>
@@ -8874,7 +8735,6 @@
         <refname>
           <function>ISREF</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ISREF</function>(<parameter>value</parameter>)</synopsis>
@@ -8909,7 +8769,6 @@
         <refname>
           <function>ISTEXT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ISTEXT</function>(<parameter>value</parameter>)</synopsis>
@@ -8944,7 +8803,6 @@
         <refname>
           <function>N</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>N</function>(<parameter>value</parameter>)</synopsis>
@@ -8979,7 +8837,6 @@
         <refname>
           <function>NA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>NA</function>(<parameter/>)</synopsis>
@@ -9014,7 +8871,6 @@
         <refname>
           <function>TYPE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TYPE</function>(<parameter>value</parameter>)</synopsis>
@@ -9058,7 +8914,6 @@
         <refname>
           <function>AND</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>AND</function>(<parameter>b1</parameter>,<parameter/> b2,<parameter/> ...)</synopsis>
@@ -9104,7 +8959,6 @@
         <refname>
           <function>FALSE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>FALSE</function>(<parameter/>)</synopsis>
@@ -9139,7 +8993,6 @@
         <refname>
           <function>IF</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>IF</function>(<parameter>condition</parameter>[,<parameter>if</parameter>-true,<parameter>if</parameter>-false])</synopsis>
@@ -9177,7 +9030,6 @@
         <refname>
           <function>NOT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>NOT</function>(<parameter>number</parameter>)</synopsis>
@@ -9214,7 +9066,6 @@
         <refname>
           <function>OR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OR</function>(<parameter>b1</parameter>,<parameter/> b2,<parameter/> ...)</synopsis>
@@ -9258,7 +9109,6 @@
         <refname>
           <function>TRUE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TRUE</function>(<parameter/>)</synopsis>
@@ -9293,7 +9143,6 @@
         <refname>
           <function>XOR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>XOR</function>(<parameter>b1</parameter>,<parameter/> b2,<parameter/> ...)</synopsis>
@@ -9338,7 +9187,6 @@
         <refname>
           <function>ADDRESS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ADDRESS</function>(<parameter>row_num</parameter>,<parameter>col_num</parameter>[,<parameter>abs_num</parameter>,<parameter>a1</parameter>,<parameter>text</parameter>])</synopsis>
@@ -9392,7 +9240,6 @@
         <refname>
           <function>AREAS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>AREAS</function>(<parameter>reference</parameter>)</synopsis>
@@ -9425,7 +9272,6 @@
         <refname>
           <function>CHOOSE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CHOOSE</function>(<parameter>index</parameter>[,<parameter>value1</parameter>][,<parameter>value2</parameter>]...)</synopsis>
@@ -9460,24 +9306,21 @@
         <refname>
           <function>COLUMN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>COLUMN</function>(<parameter/>[reference])</synopsis>
+        <synopsis><function>COLUMN</function>(<parameter/>[reference].)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>COLUMN</function> function returns the column number of the current cell unless <parameter>reference</parameter> is given. In that case, it returns an array of the column numbers of all cells in <parameter>reference</parameter>.</para>
+        <para><function>COLUMN</function> function returns a Nx1 array containing the series of integers from the first column to the last column of <parameter>reference</parameter>.</para>
         <itemizedlist>
           <listitem>
-            <para>If <parameter>reference</parameter> is neither an array nor a reference nor a range, <function>COLUMN</function> returns #VALUE! error.</para>
+            <para><parameter>reference</parameter> defaults to the position of the current expression.</para>
+          </listitem>
+          <listitem>
+            <para>If <parameter>reference</parameter> is neither an array nor a reference nor a range, returns #VALUE! error.</para>
           </listitem>
         </itemizedlist>
-      </refsect1>
-      <refsect1>
-        <title>Examples</title>
-        <para/>
-        <para><function>COLUMN</function>() in E1 equals 5.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -9497,7 +9340,6 @@
         <refname>
           <function>COLUMNNUMBER</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>COLUMNNUMBER</function>(<parameter>name</parameter>)</synopsis>
@@ -9532,7 +9374,6 @@
         <refname>
           <function>COLUMNS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>COLUMNS</function>(<parameter>reference</parameter>)</synopsis>
@@ -9569,7 +9410,6 @@
         <refname>
           <function>HLOOKUP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>HLOOKUP</function>(<parameter>value</parameter>,<parameter>range</parameter>,<parameter>row</parameter>[,<parameter>approximate</parameter>,<parameter>as_index</parameter>])</synopsis>
@@ -9606,7 +9446,6 @@
         <refname>
           <function>HYPERLINK</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>HYPERLINK</function>(<parameter>link_location</parameter>[,<parameter>optional_label</parameter>])</synopsis>
@@ -9636,7 +9475,6 @@
         <refname>
           <function>INDEX</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>INDEX</function>(<parameter>array</parameter>[,<parameter>row</parameter>,<parameter/> col,<parameter/> area])</synopsis>
@@ -9673,7 +9511,6 @@
         <refname>
           <function>INDIRECT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>INDIRECT</function>(<parameter>ref_text</parameter>[,<parameter>format</parameter>])</synopsis>
@@ -9711,7 +9548,6 @@
         <refname>
           <function>LOOKUP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LOOKUP</function>(<parameter>value</parameter>,<parameter>vector1</parameter>[,<parameter>vector2</parameter>])</synopsis>
@@ -9752,7 +9588,6 @@
         <refname>
           <function>MATCH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MATCH</function>(<parameter>seek</parameter>,<parameter>vector</parameter>[,<parameter>type</parameter>])</synopsis>
@@ -9802,7 +9637,6 @@
         <refname>
           <function>OFFSET</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>OFFSET</function>(<parameter>range</parameter>,<parameter>row</parameter>,<parameter>col</parameter>[,<parameter>height</parameter>[,<parameter>width</parameter>]])</synopsis>
@@ -9844,24 +9678,21 @@
         <refname>
           <function>ROW</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>ROW</function>(<parameter/>[reference])</synopsis>
+        <synopsis><function>ROW</function>(<parameter/>[reference].)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>ROW</function> function returns an array of the row numbers taking a default argument of the containing cell position.</para>
+        <para><function>ROW</function> function returns a 1xN array containing the series of integers from the first row to the last row of <parameter>reference</parameter>.</para>
         <itemizedlist>
           <listitem>
-            <para>If <parameter>reference</parameter> is neither an array nor a reference nor a range, <function>ROW</function> returns #VALUE! error.</para>
+            <para><parameter>reference</parameter> defaults to the position of the current expression.</para>
+          </listitem>
+          <listitem>
+            <para>If <parameter>reference</parameter> is neither an array nor a reference nor a range, returns #VALUE! error.</para>
           </listitem>
         </itemizedlist>
-      </refsect1>
-      <refsect1>
-        <title>Examples</title>
-        <para/>
-        <para><function>ROW</function>() in G13 equals 13.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -9881,7 +9712,6 @@
         <refname>
           <function>ROWS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ROWS</function>(<parameter>reference</parameter>)</synopsis>
@@ -9918,7 +9748,6 @@
         <refname>
           <function>TRANSPOSE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TRANSPOSE</function>(<parameter>matrix</parameter>)</synopsis>
@@ -9947,7 +9776,6 @@
         <refname>
           <function>VLOOKUP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>VLOOKUP</function>(<parameter>value</parameter>,<parameter>range</parameter>,<parameter>column</parameter>[,<parameter>approximate</parameter>,<parameter>as_index</parameter>])</synopsis>
@@ -9987,7 +9815,6 @@
         <refname>
           <function>ABS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ABS</function>(<parameter>b1</parameter>)</synopsis>
@@ -10027,7 +9854,6 @@
         <refname>
           <function>ACOS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ACOS</function>(<parameter>x</parameter>)</synopsis>
@@ -10072,7 +9898,6 @@
         <refname>
           <function>ACOSH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ACOSH</function>(<parameter>x</parameter>)</synopsis>
@@ -10114,7 +9939,6 @@
         <refname>
           <function>ASIN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ASIN</function>(<parameter>x</parameter>)</synopsis>
@@ -10157,7 +9981,6 @@
         <refname>
           <function>ASINH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ASINH</function>(<parameter>x</parameter>)</synopsis>
@@ -10198,7 +10021,6 @@
         <refname>
           <function>ATAN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ATAN</function>(<parameter>x</parameter>)</synopsis>
@@ -10241,7 +10063,6 @@
         <refname>
           <function>ATAN2</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ATAN2</function>(<parameter>b1</parameter>,<parameter>b2</parameter>)</synopsis>
@@ -10285,7 +10106,6 @@
         <refname>
           <function>ATANH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ATANH</function>(<parameter>x</parameter>)</synopsis>
@@ -10329,7 +10149,6 @@
         <refname>
           <function>BETA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BETA</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
@@ -10366,7 +10185,6 @@
         <refname>
           <function>BETALN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BETALN</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
@@ -10403,7 +10221,6 @@
         <refname>
           <function>CEIL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CEIL</function>(<parameter>x</parameter>)</synopsis>
@@ -10439,7 +10256,6 @@
         <refname>
           <function>CEILING</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CEILING</function>(<parameter>x</parameter>[,<parameter>significance</parameter>])</synopsis>
@@ -10485,7 +10301,6 @@
         <refname>
           <function>COMBIN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>COMBIN</function>(<parameter>n</parameter>,<parameter>k</parameter>)</synopsis>
@@ -10527,7 +10342,6 @@
         <refname>
           <function>COS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>COS</function>(<parameter>x</parameter>)</synopsis>
@@ -10569,7 +10383,6 @@
         <refname>
           <function>COSH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>COSH</function>(<parameter>x</parameter>)</synopsis>
@@ -10616,7 +10429,6 @@
         <refname>
           <function>COUNTIF</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>COUNTIF</function>(<parameter>range</parameter>,<parameter>criteria</parameter>)</synopsis>
@@ -10656,7 +10468,6 @@
         <refname>
           <function>DEGREES</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DEGREES</function>(<parameter>x</parameter>)</synopsis>
@@ -10692,7 +10503,6 @@
         <refname>
           <function>EVEN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>EVEN</function>(<parameter>number</parameter>)</synopsis>
@@ -10728,7 +10538,6 @@
         <refname>
           <function>EXP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>EXP</function>(<parameter>x</parameter>)</synopsis>
@@ -10765,7 +10574,6 @@
         <refname>
           <function>EXPM1</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>EXPM1</function>(<parameter>x</parameter>)</synopsis>
@@ -10796,7 +10604,6 @@
         <refname>
           <function>FACT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>FACT</function>(<parameter>x</parameter>)</synopsis>
@@ -10832,7 +10639,6 @@
         <refname>
           <function>FACTDOUBLE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>FACTDOUBLE</function>(<parameter>number</parameter>)</synopsis>
@@ -10873,7 +10679,6 @@
         <refname>
           <function>FIB</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>FIB</function>(<parameter>number</parameter>)</synopsis>
@@ -10911,30 +10716,15 @@
         <refname>
           <function>FLOOR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>FLOOR</function>(<parameter>x</parameter>[,<parameter>significance</parameter>])</synopsis>
+        <synopsis><function>FLOOR</function>(<parameter>x</parameter>,<parameter>significance</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
         <para><function>FLOOR</function> function rounds <parameter>x</parameter> down to the next nearest multiple of <parameter>significance</parameter>.</para>
-        <itemizedlist>
-          <listitem>
-            <para><parameter>significance</parameter> defaults to 1.</para>
-          </listitem>
-          <listitem>
-            <para>This function is Excel compatible.</para>
-          </listitem>
-        </itemizedlist>
-      </refsect1>
-      <refsect1>
-        <title>Examples</title>
-        <para/>
-        <para><function>FLOOR</function>(0.5) equals 0.</para>
-        <para><function>FLOOR</function>(5,2) equals 4.</para>
-        <para><function>FLOOR</function>(-5,-2) equals -4.</para>
-        <para><function>FLOOR</function>(-5,2) equals #NUM!.</para>
+        <para><parameter>x</parameter>: value.</para>
+        <para><parameter>significance</parameter>: base multiple (defaults to 1 for <parameter>x</parameter> &gt; 0 and -1 for <parameter>x</parameter> &lt;0)</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -10956,7 +10746,6 @@
         <refname>
           <function>G_PRODUCT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>G_PRODUCT</function>(<parameter>value1</parameter>,<parameter/> value2,<parameter/> ...)</synopsis>
@@ -10992,7 +10781,6 @@
         <refname>
           <function>GCD</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>GCD</function>(<parameter>number1</parameter>,<parameter>number2</parameter>,<parameter/>...)</synopsis>
@@ -11034,7 +10822,6 @@
         <refname>
           <function>HYPOT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>HYPOT</function>(<parameter>number1</parameter>,<parameter>number2</parameter>,<parameter/>...)</synopsis>
@@ -11065,7 +10852,6 @@
         <refname>
           <function>INT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>INT</function>(<parameter>a</parameter>)</synopsis>
@@ -11105,7 +10891,6 @@
         <refname>
           <function>LCM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LCM</function>(<parameter>number1</parameter>,<parameter>number2</parameter>,<parameter/>...)</synopsis>
@@ -11147,7 +10932,6 @@
         <refname>
           <function>LN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LN</function>(<parameter>x</parameter>)</synopsis>
@@ -11187,7 +10971,6 @@
         <refname>
           <function>LN1P</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LN1P</function>(<parameter>x</parameter>)</synopsis>
@@ -11223,7 +11006,6 @@
         <refname>
           <function>LOG</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LOG</function>(<parameter>x</parameter>[,<parameter>base</parameter>])</synopsis>
@@ -11261,7 +11043,6 @@
         <refname>
           <function>LOG10</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LOG10</function>(<parameter>x</parameter>)</synopsis>
@@ -11301,7 +11082,6 @@
         <refname>
           <function>LOG2</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LOG2</function>(<parameter>x</parameter>)</synopsis>
@@ -11338,7 +11118,6 @@
         <refname>
           <function>MDETERM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MDETERM</function>(<parameter>matrix</parameter>)</synopsis>
@@ -11378,7 +11157,6 @@
         <refname>
           <function>MINVERSE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MINVERSE</function>(<parameter>matrix</parameter>)</synopsis>
@@ -11419,7 +11197,6 @@
         <refname>
           <function>MMULT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MMULT</function>(<parameter>array1</parameter>,<parameter>array2</parameter>)</synopsis>
@@ -11454,7 +11231,6 @@
         <refname>
           <function>MOD</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MOD</function>(<parameter>number</parameter>,<parameter>divisor</parameter>)</synopsis>
@@ -11497,7 +11273,6 @@
         <refname>
           <function>MROUND</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MROUND</function>(<parameter>number</parameter>,<parameter>multiple</parameter>)</synopsis>
@@ -11539,7 +11314,6 @@
         <refname>
           <function>MULTINOMIAL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MULTINOMIAL</function>(<parameter>value1</parameter>,<parameter/> value2,<parameter/> ...)</synopsis>
@@ -11574,7 +11348,6 @@
         <refname>
           <function>ODD</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ODD</function>(<parameter>number</parameter>)</synopsis>
@@ -11610,7 +11383,6 @@
         <refname>
           <function>PI</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>PI</function>(<parameter/>)</synopsis>
@@ -11648,7 +11420,6 @@
         <refname>
           <function>POWER</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>POWER</function>(<parameter>x</parameter>,<parameter>y</parameter>)</synopsis>
@@ -11693,7 +11464,6 @@
         <refname>
           <function>PRODUCT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>PRODUCT</function>(<parameter>value1</parameter>,<parameter/> value2,<parameter/> ...)</synopsis>
@@ -11730,7 +11500,6 @@
         <refname>
           <function>QUOTIENT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>QUOTIENT</function>(<parameter>numerator</parameter>,<parameter>denominator</parameter>)</synopsis>
@@ -11765,7 +11534,6 @@
         <refname>
           <function>RADIANS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RADIANS</function>(<parameter>x</parameter>)</synopsis>
@@ -11801,7 +11569,6 @@
         <refname>
           <function>ROMAN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ROMAN</function>(<parameter>number</parameter>[,<parameter>type</parameter>])</synopsis>
@@ -11849,7 +11616,6 @@
         <refname>
           <function>ROUND</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ROUND</function>(<parameter>number</parameter>[,<parameter>digits</parameter>])</synopsis>
@@ -11898,7 +11664,6 @@
         <refname>
           <function>ROUNDDOWN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ROUNDDOWN</function>(<parameter>number</parameter>[,<parameter>digits</parameter>])</synopsis>
@@ -11947,7 +11712,6 @@
         <refname>
           <function>ROUNDUP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ROUNDUP</function>(<parameter>number</parameter>[,<parameter>digits</parameter>])</synopsis>
@@ -11996,7 +11760,6 @@
         <refname>
           <function>SERIESSUM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SERIESSUM</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>m</parameter>,<parameter>coefficients</parameter>)</synopsis>
@@ -12033,7 +11796,6 @@
         <refname>
           <function>SIGN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SIGN</function>(<parameter>number</parameter>)</synopsis>
@@ -12070,7 +11832,6 @@
         <refname>
           <function>SIN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SIN</function>(<parameter>x</parameter>)</synopsis>
@@ -12111,7 +11872,6 @@
         <refname>
           <function>SINH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SINH</function>(<parameter>x</parameter>)</synopsis>
@@ -12154,7 +11914,6 @@
         <refname>
           <function>SQRT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SQRT</function>(<parameter>x</parameter>)</synopsis>
@@ -12192,7 +11951,6 @@
         <refname>
           <function>SQRTPI</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SQRTPI</function>(<parameter>number</parameter>)</synopsis>
@@ -12227,7 +11985,6 @@
         <refname>
           <function>SUM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SUM</function>(<parameter>value1</parameter>,<parameter/> value2,<parameter/> ...)</synopsis>
@@ -12264,7 +12021,6 @@
         <refname>
           <function>SUMA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SUMA</function>(<parameter>value1</parameter>,<parameter/> value2,<parameter/> ...)</synopsis>
@@ -12297,7 +12053,6 @@
         <refname>
           <function>SUMIF</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SUMIF</function>(<parameter>range</parameter>,<parameter>criteria</parameter>[,<parameter>actual_range</parameter>])</synopsis>
@@ -12337,7 +12092,6 @@
         <refname>
           <function>SUMPRODUCT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SUMPRODUCT</function>(<parameter/>)</synopsis>
@@ -12364,7 +12118,6 @@
         <refname>
           <function>SUMSQ</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SUMSQ</function>(<parameter>value1</parameter>,<parameter/> value2,<parameter/> ...)</synopsis>
@@ -12401,7 +12154,6 @@
         <refname>
           <function>SUMX2MY2</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SUMX2MY2</function>(<parameter>array1</parameter>,<parameter>array2</parameter>)</synopsis>
@@ -12444,7 +12196,6 @@
         <refname>
           <function>SUMX2PY2</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SUMX2PY2</function>(<parameter>array1</parameter>,<parameter>array2</parameter>)</synopsis>
@@ -12487,7 +12238,6 @@
         <refname>
           <function>SUMXMY2</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SUMXMY2</function>(<parameter>array1</parameter>,<parameter>array2</parameter>)</synopsis>
@@ -12531,7 +12281,6 @@
         <refname>
           <function>TAN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TAN</function>(<parameter>x</parameter>)</synopsis>
@@ -12572,7 +12321,6 @@
         <refname>
           <function>TANH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TANH</function>(<parameter>x</parameter>)</synopsis>
@@ -12614,7 +12362,6 @@
         <refname>
           <function>TRUNC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TRUNC</function>(<parameter>number</parameter>[,<parameter>digits</parameter>])</synopsis>
@@ -12659,7 +12406,6 @@
         <refname>
           <function>ISPRIME</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ISPRIME</function>(<parameter>i</parameter>)</synopsis>
@@ -12690,7 +12436,6 @@
         <refname>
           <function>ITHPRIME</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ITHPRIME</function>(<parameter>i</parameter>)</synopsis>
@@ -12720,7 +12465,6 @@
         <refname>
           <function>NT_D</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>NT_D</function>(<parameter>n</parameter>)</synopsis>
@@ -12751,7 +12495,6 @@
         <refname>
           <function>NT_MU</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>NT_MU</function>(<parameter>n</parameter>)</synopsis>
@@ -12791,7 +12534,6 @@
         <refname>
           <function>NT_PHI</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>NT_PHI</function>(<parameter>n</parameter>)</synopsis>
@@ -12822,7 +12564,6 @@
         <refname>
           <function>NT_PI</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>NT_PI</function>(<parameter>n</parameter>)</synopsis>
@@ -12854,7 +12595,6 @@
         <refname>
           <function>NT_SIGMA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>NT_SIGMA</function>(<parameter>n</parameter>)</synopsis>
@@ -12885,7 +12625,6 @@
         <refname>
           <function>PFACTOR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>PFACTOR</function>(<parameter>n</parameter>)</synopsis>
@@ -12918,7 +12657,6 @@
         <refname>
           <function>RAND</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RAND</function>(<parameter/>)</synopsis>
@@ -12953,7 +12691,6 @@
         <refname>
           <function>RANDBERNOULLI</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDBERNOULLI</function>(<parameter>p</parameter>)</synopsis>
@@ -12989,7 +12726,6 @@
         <refname>
           <function>RANDBETA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDBETA</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
@@ -13020,7 +12756,6 @@
         <refname>
           <function>RANDBETWEEN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDBETWEEN</function>(<parameter>bottom</parameter>,<parameter>top</parameter>)</synopsis>
@@ -13065,7 +12800,6 @@
         <refname>
           <function>RANDBINOM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDBINOM</function>(<parameter>p</parameter>,<parameter>trials</parameter>)</synopsis>
@@ -13104,7 +12838,6 @@
         <refname>
           <function>RANDCAUCHY</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDCAUCHY</function>(<parameter>a</parameter>)</synopsis>
@@ -13139,7 +12872,6 @@
         <refname>
           <function>RANDCHISQ</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDCHISQ</function>(<parameter>nu</parameter>)</synopsis>
@@ -13170,7 +12902,6 @@
         <refname>
           <function>RANDDISCRETE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDDISCRETE</function>(<parameter>val_range</parameter>[,<parameter>prob_range</parameter>])</synopsis>
@@ -13215,7 +12946,6 @@
         <refname>
           <function>RANDEXP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDEXP</function>(<parameter>b</parameter>)</synopsis>
@@ -13246,7 +12976,6 @@
         <refname>
           <function>RANDEXPPOW</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDEXPPOW</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
@@ -13285,7 +13014,6 @@
         <refname>
           <function>RANDFDIST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDFDIST</function>(<parameter>nu1</parameter>,<parameter>nu2</parameter>)</synopsis>
@@ -13316,7 +13044,6 @@
         <refname>
           <function>RANDGAMMA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDGAMMA</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
@@ -13351,7 +13078,6 @@
         <refname>
           <function>RANDGEOM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDGEOM</function>(<parameter>p</parameter>)</synopsis>
@@ -13387,7 +13113,6 @@
         <refname>
           <function>RANDGUMBEL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDGUMBEL</function>(<parameter>a</parameter>,<parameter>b</parameter>[,<parameter>type</parameter>])</synopsis>
@@ -13425,7 +13150,6 @@
         <refname>
           <function>RANDHYPERG</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDHYPERG</function>(<parameter>n1</parameter>,<parameter>n2</parameter>,<parameter>t</parameter>)</synopsis>
@@ -13458,7 +13182,6 @@
         <refname>
           <function>RANDLANDAU</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDLANDAU</function>(<parameter/>)</synopsis>
@@ -13491,7 +13214,6 @@
         <refname>
           <function>RANDLAPLACE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDLAPLACE</function>(<parameter>a</parameter>)</synopsis>
@@ -13521,7 +13243,6 @@
         <refname>
           <function>RANDLEVY</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDLEVY</function>(<parameter>c</parameter>,<parameter>alpha</parameter>[,<parameter>beta</parameter>])</synopsis>
@@ -13565,7 +13286,6 @@
         <refname>
           <function>RANDLOG</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDLOG</function>(<parameter>p</parameter>)</synopsis>
@@ -13600,7 +13320,6 @@
         <refname>
           <function>RANDLOGISTIC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDLOGISTIC</function>(<parameter>a</parameter>)</synopsis>
@@ -13631,7 +13350,6 @@
         <refname>
           <function>RANDLOGNORM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDLOGNORM</function>(<parameter>zeta</parameter>,<parameter>sigma</parameter>)</synopsis>
@@ -13661,7 +13379,6 @@
         <refname>
           <function>RANDNEGBINOM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDNEGBINOM</function>(<parameter>p</parameter>,<parameter>failures</parameter>)</synopsis>
@@ -13700,7 +13417,6 @@
         <refname>
           <function>RANDNORM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDNORM</function>(<parameter>mean</parameter>,<parameter>stdev</parameter>)</synopsis>
@@ -13735,7 +13451,6 @@
         <refname>
           <function>RANDNORMTAIL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDNORMTAIL</function>(<parameter>a</parameter>,<parameter>sigma</parameter>)</synopsis>
@@ -13768,7 +13483,6 @@
         <refname>
           <function>RANDPARETO</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDPARETO</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
@@ -13798,7 +13512,6 @@
         <refname>
           <function>RANDPOISSON</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDPOISSON</function>(<parameter>lambda</parameter>)</synopsis>
@@ -13834,7 +13547,6 @@
         <refname>
           <function>RANDRAYLEIGH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDRAYLEIGH</function>(<parameter>sigma</parameter>)</synopsis>
@@ -13864,7 +13576,6 @@
         <refname>
           <function>RANDRAYLEIGHTAIL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDRAYLEIGHTAIL</function>(<parameter>a</parameter>,<parameter>sigma</parameter>)</synopsis>
@@ -13897,7 +13608,6 @@
         <refname>
           <function>RANDTDIST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDTDIST</function>(<parameter>nu</parameter>)</synopsis>
@@ -13927,7 +13637,6 @@
         <refname>
           <function>RANDUNIFORM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDUNIFORM</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
@@ -13965,7 +13674,6 @@
         <refname>
           <function>RANDWEIBULL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANDWEIBULL</function>(<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
@@ -13995,7 +13703,6 @@
         <refname>
           <function>SIMTABLE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SIMTABLE</function>(<parameter>d1</parameter>,<parameter/> d2,<parameter/> ...,<parameter/> dN)</synopsis>
@@ -14031,7 +13738,6 @@
         <refname>
           <function>AVEDEV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>AVEDEV</function>(<parameter>n1</parameter>,<parameter/> n2,<parameter/> ...)</synopsis>
@@ -14067,7 +13773,6 @@
         <refname>
           <function>AVERAGE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>AVERAGE</function>(<parameter>value1</parameter>,<parameter/> value2,<parameter/>...)</synopsis>
@@ -14104,7 +13809,6 @@
         <refname>
           <function>AVERAGEA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>AVERAGEA</function>(<parameter>number1</parameter>,<parameter>number2</parameter>,<parameter/>...)</synopsis>
@@ -14140,7 +13844,6 @@
         <refname>
           <function>BERNOULLI</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BERNOULLI</function>(<parameter>k</parameter>,<parameter>p</parameter>)</synopsis>
@@ -14178,7 +13881,6 @@
         <refname>
           <function>BETADIST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BETADIST</function>(<parameter>x</parameter>,<parameter>alpha</parameter>,<parameter>beta</parameter>[,<parameter>a</parameter>,<parameter>b</parameter>])</synopsis>
@@ -14228,7 +13930,6 @@
         <refname>
           <function>BETAINV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BETAINV</function>(<parameter>p</parameter>,<parameter>alpha</parameter>,<parameter>beta</parameter>[,<parameter>a</parameter>,<parameter>b</parameter>])</synopsis>
@@ -14278,7 +13979,6 @@
         <refname>
           <function>BINOMDIST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>BINOMDIST</function>(<parameter>n</parameter>,<parameter>trials</parameter>,<parameter>p</parameter>,<parameter>cumulative</parameter>)</synopsis>
@@ -14325,7 +14025,6 @@
         <refname>
           <function>CAUCHY</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CAUCHY</function>(<parameter>x</parameter>,<parameter>a</parameter>,<parameter>cum</parameter>)</synopsis>
@@ -14363,7 +14062,6 @@
         <refname>
           <function>CHIDIST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CHIDIST</function>(<parameter>x</parameter>,<parameter>dof</parameter>)</synopsis>
@@ -14405,7 +14103,6 @@
         <refname>
           <function>CHIINV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CHIINV</function>(<parameter>p</parameter>,<parameter>dof</parameter>)</synopsis>
@@ -14444,7 +14141,6 @@
         <refname>
           <function>CHITEST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CHITEST</function>(<parameter>actual_range</parameter>,<parameter>theoretical_range</parameter>)</synopsis>
@@ -14480,7 +14176,6 @@
         <refname>
           <function>CONFIDENCE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CONFIDENCE</function>(<parameter>x</parameter>,<parameter>stddev</parameter>,<parameter>size</parameter>)</synopsis>
@@ -14524,7 +14219,6 @@
         <refname>
           <function>CORREL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CORREL</function>(<parameter>array1</parameter>,<parameter>array2</parameter>)</synopsis>
@@ -14565,7 +14259,6 @@
         <refname>
           <function>COUNT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>COUNT</function>(<parameter>b1</parameter>,<parameter/> b2,<parameter/> ...)</synopsis>
@@ -14601,7 +14294,6 @@
         <refname>
           <function>COUNTA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>COUNTA</function>(<parameter>b1</parameter>,<parameter/> b2,<parameter/> ...)</synopsis>
@@ -14642,7 +14334,6 @@
         <refname>
           <function>COVAR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>COVAR</function>(<parameter>array1</parameter>,<parameter>array2</parameter>)</synopsis>
@@ -14683,7 +14374,6 @@
         <refname>
           <function>CRITBINOM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CRITBINOM</function>(<parameter>trials</parameter>,<parameter>p</parameter>,<parameter>alpha</parameter>)</synopsis>
@@ -14730,7 +14420,6 @@
         <refname>
           <function>CRONBACH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CRONBACH</function>(<parameter>ref1</parameter>,<parameter>ref2</parameter>,<parameter/>...)</synopsis>
@@ -14760,7 +14449,6 @@
         <refname>
           <function>DEVSQ</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DEVSQ</function>(<parameter>n1</parameter>,<parameter/> n2,<parameter/> ...)</synopsis>
@@ -14799,7 +14487,6 @@
         <refname>
           <function>EXPONDIST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>EXPONDIST</function>(<parameter>x</parameter>,<parameter>y</parameter>,<parameter>cumulative</parameter>)</synopsis>
@@ -14840,7 +14527,6 @@
         <refname>
           <function>EXPPOWDIST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>EXPPOWDIST</function>(<parameter>x</parameter>,<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
@@ -14871,7 +14557,6 @@
         <refname>
           <function>FDIST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>FDIST</function>(<parameter>x</parameter>,<parameter>dof1</parameter>,<parameter>dof2</parameter>)</synopsis>
@@ -14912,7 +14597,6 @@
         <refname>
           <function>FINV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>FINV</function>(<parameter>p</parameter>,<parameter>dof1</parameter>,<parameter>dof2</parameter>)</synopsis>
@@ -14953,7 +14637,6 @@
         <refname>
           <function>FISHER</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>FISHER</function>(<parameter>x</parameter>)</synopsis>
@@ -14994,7 +14677,6 @@
         <refname>
           <function>FISHERINV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>FISHERINV</function>(<parameter>x</parameter>)</synopsis>
@@ -15032,7 +14714,6 @@
         <refname>
           <function>FORECAST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>FORECAST</function>(<parameter>x</parameter>,<parameter>known_y</parameter>'s,<parameter>known_x</parameter>'s)</synopsis>
@@ -15075,7 +14756,6 @@
         <refname>
           <function>FREQUENCY</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>FREQUENCY</function>(<parameter>data_array</parameter>,<parameter>bins_array</parameter>)</synopsis>
@@ -15110,7 +14790,6 @@
         <refname>
           <function>FTEST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>FTEST</function>(<parameter>array1</parameter>,<parameter>array2</parameter>)</synopsis>
@@ -15147,7 +14826,6 @@
         <refname>
           <function>GAMMADIST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>GAMMADIST</function>(<parameter>x</parameter>,<parameter>alpha</parameter>,<parameter>beta</parameter>,<parameter>cum</parameter>)</synopsis>
@@ -15188,7 +14866,6 @@
         <refname>
           <function>GAMMAINV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>GAMMAINV</function>(<parameter>p</parameter>,<parameter>alpha</parameter>,<parameter>beta</parameter>)</synopsis>
@@ -15229,7 +14906,6 @@
         <refname>
           <function>GAMMALN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>GAMMALN</function>(<parameter>x</parameter>)</synopsis>
@@ -15270,7 +14946,6 @@
         <refname>
           <function>GEOMDIST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>GEOMDIST</function>(<parameter>k</parameter>,<parameter>p</parameter>,<parameter>cum</parameter>)</synopsis>
@@ -15311,7 +14986,6 @@
         <refname>
           <function>GEOMEAN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>GEOMEAN</function>(<parameter>b1</parameter>,<parameter/> b2,<parameter/> ...)</synopsis>
@@ -15351,7 +15025,6 @@
         <refname>
           <function>GROWTH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>GROWTH</function>(<parameter>known_y</parameter>'s[,<parameter>known_x</parameter>'s,<parameter>new_x</parameter>'s,<parameter>const</parameter>])</synopsis>
@@ -15397,7 +15070,6 @@
         <refname>
           <function>HARMEAN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>HARMEAN</function>(<parameter>b1</parameter>,<parameter/> b2,<parameter/> ...)</synopsis>
@@ -15437,7 +15109,6 @@
         <refname>
           <function>HYPGEOMDIST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>HYPGEOMDIST</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>M</parameter>,<parameter>N</parameter>[,<parameter>cumulative</parameter>])</synopsis>
@@ -15483,7 +15154,6 @@
         <refname>
           <function>INTERCEPT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>INTERCEPT</function>(<parameter>known_y</parameter>'s,<parameter>known_x</parameter>'s)</synopsis>
@@ -15526,7 +15196,6 @@
         <refname>
           <function>KURT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>KURT</function>(<parameter>n1</parameter>,<parameter/> n2,<parameter/> ...)</synopsis>
@@ -15572,7 +15241,6 @@
         <refname>
           <function>KURTP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>KURTP</function>(<parameter>n1</parameter>,<parameter/> n2,<parameter/> ...)</synopsis>
@@ -15614,7 +15282,6 @@
         <refname>
           <function>LANDAU</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LANDAU</function>(<parameter>x</parameter>)</synopsis>
@@ -15644,7 +15311,6 @@
         <refname>
           <function>LAPLACE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LAPLACE</function>(<parameter>x</parameter>,<parameter>a</parameter>)</synopsis>
@@ -15674,10 +15340,9 @@
         <refname>
           <function>LARGE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>LARGE</function>(<parameter>n1</parameter>,<parameter/> n2,<parameter/> ...,<parameter/> k)</synopsis>
+        <synopsis><function>LARGE</function>(<parameter>n</parameter>,<parameter/> k)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -15720,7 +15385,6 @@
         <refname>
           <function>LINEST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LINEST</function>(<parameter>known_y</parameter>'s[,<parameter>known_x</parameter>'s[,<parameter>const</parameter>[,<parameter>stat</parameter>]]])</synopsis>
@@ -15766,7 +15430,6 @@
         <refname>
           <function>LOGEST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LOGEST</function>(<parameter>known_y</parameter>'s[,<parameter>known_x</parameter>'s,<parameter>const</parameter>,<parameter>stat</parameter>])</synopsis>
@@ -15812,7 +15475,6 @@
         <refname>
           <function>LOGFIT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LOGFIT</function>(<parameter>known_y</parameter>'s,<parameter>known_x</parameter>'s)</synopsis>
@@ -15853,7 +15515,6 @@
         <refname>
           <function>LOGINV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LOGINV</function>(<parameter>p</parameter>,<parameter>mean</parameter>,<parameter>stddev</parameter>)</synopsis>
@@ -15895,7 +15556,6 @@
         <refname>
           <function>LOGISTIC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LOGISTIC</function>(<parameter>x</parameter>,<parameter>a</parameter>)</synopsis>
@@ -15925,7 +15585,6 @@
         <refname>
           <function>LOGNORMDIST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LOGNORMDIST</function>(<parameter>x</parameter>,<parameter>mean</parameter>,<parameter>stddev</parameter>)</synopsis>
@@ -15966,7 +15625,6 @@
         <refname>
           <function>LOGREG</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LOGREG</function>(<parameter>known_y</parameter>'s[,<parameter>known_x</parameter>'s[,<parameter>const</parameter>[,<parameter>stat</parameter>]]])</synopsis>
@@ -16005,7 +15663,6 @@
         <refname>
           <function>MAX</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MAX</function>(<parameter>b1</parameter>,<parameter/> b2,<parameter/> ...)</synopsis>
@@ -16042,7 +15699,6 @@
         <refname>
           <function>MAXA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MAXA</function>(<parameter>number1</parameter>,<parameter>number2</parameter>,<parameter/>...)</synopsis>
@@ -16079,7 +15735,6 @@
         <refname>
           <function>MEDIAN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MEDIAN</function>(<parameter>n1</parameter>,<parameter/> n2,<parameter/> ...)</synopsis>
@@ -16127,7 +15782,6 @@
         <refname>
           <function>MIN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MIN</function>(<parameter>b1</parameter>,<parameter/> b2,<parameter/> ...)</synopsis>
@@ -16164,7 +15818,6 @@
         <refname>
           <function>MINA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MINA</function>(<parameter>number1</parameter>,<parameter>number2</parameter>,<parameter/>...)</synopsis>
@@ -16201,7 +15854,6 @@
         <refname>
           <function>MODE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MODE</function>(<parameter>n1</parameter>,<parameter/> n2,<parameter/> ...)</synopsis>
@@ -16244,7 +15896,6 @@
         <refname>
           <function>NEGBINOMDIST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>NEGBINOMDIST</function>(<parameter>f</parameter>,<parameter>t</parameter>,<parameter>p</parameter>)</synopsis>
@@ -16292,7 +15943,6 @@
         <refname>
           <function>NORMDIST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>NORMDIST</function>(<parameter>x</parameter>,<parameter>mean</parameter>,<parameter>stddev</parameter>,<parameter>cumulative</parameter>)</synopsis>
@@ -16330,7 +15980,6 @@
         <refname>
           <function>NORMINV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>NORMINV</function>(<parameter>p</parameter>,<parameter>mean</parameter>,<parameter>stddev</parameter>)</synopsis>
@@ -16372,7 +16021,6 @@
         <refname>
           <function>NORMSDIST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>NORMSDIST</function>(<parameter>x</parameter>)</synopsis>
@@ -16407,7 +16055,6 @@
         <refname>
           <function>NORMSINV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>NORMSINV</function>(<parameter>p</parameter>)</synopsis>
@@ -16449,7 +16096,6 @@
         <refname>
           <function>PARETO</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>PARETO</function>(<parameter>x</parameter>,<parameter>a</parameter>,<parameter>b</parameter>)</synopsis>
@@ -16479,7 +16125,6 @@
         <refname>
           <function>PEARSON</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>PEARSON</function>(<parameter>array1</parameter>,<parameter>array2</parameter>)</synopsis>
@@ -16520,7 +16165,6 @@
         <refname>
           <function>PERCENTILE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>PERCENTILE</function>(<parameter>array</parameter>,<parameter>k</parameter>)</synopsis>
@@ -16562,7 +16206,6 @@
         <refname>
           <function>PERCENTRANK</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>PERCENTRANK</function>(<parameter>array</parameter>,<parameter>x</parameter>[,<parameter>significance</parameter>])</synopsis>
@@ -16611,7 +16254,6 @@
         <refname>
           <function>PERMUT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>PERMUT</function>(<parameter>n</parameter>,<parameter>k</parameter>)</synopsis>
@@ -16652,7 +16294,6 @@
         <refname>
           <function>POISSON</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>POISSON</function>(<parameter>x</parameter>,<parameter>mean</parameter>,<parameter>cumulative</parameter>)</synopsis>
@@ -16697,7 +16338,6 @@
         <refname>
           <function>PROB</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>PROB</function>(<parameter>x_range</parameter>,<parameter>prob_range</parameter>,<parameter>lower_limit</parameter>[,<parameter>upper_limit</parameter>])</synopsis>
@@ -16741,7 +16381,6 @@
         <refname>
           <function>QUARTILE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>QUARTILE</function>(<parameter>array</parameter>,<parameter>quart</parameter>)</synopsis>
@@ -16797,7 +16436,6 @@
         <refname>
           <function>R.DBETA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.DBETA</function>(<parameter>x</parameter>,<parameter>a</parameter>,<parameter>b</parameter>,<parameter>give_log</parameter>)</synopsis>
@@ -16827,7 +16465,6 @@
         <refname>
           <function>R.DBINOM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.DBINOM</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>psuc</parameter>,<parameter>give_log</parameter>)</synopsis>
@@ -16857,7 +16494,6 @@
         <refname>
           <function>R.DCAUCHY</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.DCAUCHY</function>(<parameter>x</parameter>,<parameter>location</parameter>,<parameter>scale</parameter>,<parameter>give_log</parameter>)</synopsis>
@@ -16887,7 +16523,6 @@
         <refname>
           <function>R.DCHISQ</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.DCHISQ</function>(<parameter>x</parameter>,<parameter>df</parameter>,<parameter>give_log</parameter>)</synopsis>
@@ -16916,7 +16551,6 @@
         <refname>
           <function>R.DEXP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.DEXP</function>(<parameter>x</parameter>,<parameter>scale</parameter>,<parameter>give_log</parameter>)</synopsis>
@@ -16945,7 +16579,6 @@
         <refname>
           <function>R.DF</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.DF</function>(<parameter>x</parameter>,<parameter>n1</parameter>,<parameter>n2</parameter>,<parameter>give_log</parameter>)</synopsis>
@@ -16975,7 +16608,6 @@
         <refname>
           <function>R.DGAMMA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.DGAMMA</function>(<parameter>x</parameter>,<parameter>shape</parameter>,<parameter>scale</parameter>,<parameter>give_log</parameter>)</synopsis>
@@ -17005,7 +16637,6 @@
         <refname>
           <function>R.DGEOM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.DGEOM</function>(<parameter>x</parameter>,<parameter>psuc</parameter>,<parameter>give_log</parameter>)</synopsis>
@@ -17034,7 +16665,6 @@
         <refname>
           <function>R.DHYPER</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.DHYPER</function>(<parameter>x</parameter>,<parameter>r</parameter>,<parameter>b</parameter>,<parameter>n</parameter>,<parameter>give_log</parameter>)</synopsis>
@@ -17065,7 +16695,6 @@
         <refname>
           <function>R.DLNORM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.DLNORM</function>(<parameter>x</parameter>,<parameter>logmean</parameter>,<parameter>logsd</parameter>,<parameter>give_log</parameter>)</synopsis>
@@ -17095,7 +16724,6 @@
         <refname>
           <function>R.DNBINOM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.DNBINOM</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>psuc</parameter>,<parameter>give_log</parameter>)</synopsis>
@@ -17125,7 +16753,6 @@
         <refname>
           <function>R.DNORM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.DNORM</function>(<parameter>x</parameter>,<parameter>mu</parameter>,<parameter>sigma</parameter>,<parameter>give_log</parameter>)</synopsis>
@@ -17155,7 +16782,6 @@
         <refname>
           <function>R.DPOIS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.DPOIS</function>(<parameter>x</parameter>,<parameter>lambda</parameter>,<parameter>give_log</parameter>)</synopsis>
@@ -17184,7 +16810,6 @@
         <refname>
           <function>R.DT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.DT</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>give_log</parameter>)</synopsis>
@@ -17213,7 +16838,6 @@
         <refname>
           <function>R.DWEIBULL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.DWEIBULL</function>(<parameter>x</parameter>,<parameter>shape</parameter>,<parameter>scale</parameter>,<parameter>give_log</parameter>)</synopsis>
@@ -17243,7 +16867,6 @@
         <refname>
           <function>R.PBETA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.PBETA</function>(<parameter>x</parameter>,<parameter>a</parameter>,<parameter>b</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17274,7 +16897,6 @@
         <refname>
           <function>R.PBINOM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.PBINOM</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>psuc</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17305,7 +16927,6 @@
         <refname>
           <function>R.PCAUCHY</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.PCAUCHY</function>(<parameter>x</parameter>,<parameter>location</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17336,7 +16957,6 @@
         <refname>
           <function>R.PCHISQ</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.PCHISQ</function>(<parameter>x</parameter>,<parameter>df</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17366,7 +16986,6 @@
         <refname>
           <function>R.PEXP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.PEXP</function>(<parameter>x</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17396,7 +17015,6 @@
         <refname>
           <function>R.PF</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.PF</function>(<parameter>x</parameter>,<parameter>n1</parameter>,<parameter>n2</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17427,7 +17045,6 @@
         <refname>
           <function>R.PGAMMA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.PGAMMA</function>(<parameter>x</parameter>,<parameter>shape</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17458,7 +17075,6 @@
         <refname>
           <function>R.PGEOM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.PGEOM</function>(<parameter>x</parameter>,<parameter>psuc</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17488,7 +17104,6 @@
         <refname>
           <function>R.PHYPER</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.PHYPER</function>(<parameter>x</parameter>,<parameter>r</parameter>,<parameter>b</parameter>,<parameter>n</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17520,7 +17135,6 @@
         <refname>
           <function>R.PLNORM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.PLNORM</function>(<parameter>x</parameter>,<parameter>logmean</parameter>,<parameter>logsd</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17551,7 +17165,6 @@
         <refname>
           <function>R.PNBINOM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.PNBINOM</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>psuc</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17582,7 +17195,6 @@
         <refname>
           <function>R.PNORM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.PNORM</function>(<parameter>x</parameter>,<parameter>mu</parameter>,<parameter>sigma</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17613,7 +17225,6 @@
         <refname>
           <function>R.PPOIS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.PPOIS</function>(<parameter>x</parameter>,<parameter>lambda</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17643,7 +17254,6 @@
         <refname>
           <function>R.PT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.PT</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17673,7 +17283,6 @@
         <refname>
           <function>R.PWEIBULL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.PWEIBULL</function>(<parameter>x</parameter>,<parameter>shape</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17704,7 +17313,6 @@
         <refname>
           <function>R.QBETA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.QBETA</function>(<parameter>p</parameter>,<parameter>a</parameter>,<parameter>b</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17735,7 +17343,6 @@
         <refname>
           <function>R.QBINOM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.QBINOM</function>(<parameter>x</parameter>,<parameter>n</parameter>,<parameter>psuc</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17766,7 +17373,6 @@
         <refname>
           <function>R.QCAUCHY</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.QCAUCHY</function>(<parameter>p</parameter>,<parameter>location</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17797,7 +17403,6 @@
         <refname>
           <function>R.QCHISQ</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.QCHISQ</function>(<parameter>p</parameter>,<parameter>df</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17827,7 +17432,6 @@
         <refname>
           <function>R.QEXP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.QEXP</function>(<parameter>p</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17857,7 +17461,6 @@
         <refname>
           <function>R.QF</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.QF</function>(<parameter>x</parameter>,<parameter>n1</parameter>,<parameter>n2</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17888,7 +17491,6 @@
         <refname>
           <function>R.QGAMMA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.QGAMMA</function>(<parameter>p</parameter>,<parameter>shape</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17919,7 +17521,6 @@
         <refname>
           <function>R.QGEOM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.QGEOM</function>(<parameter>p</parameter>,<parameter>psuc</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17949,7 +17550,6 @@
         <refname>
           <function>R.QHYPER</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.QHYPER</function>(<parameter>p</parameter>,<parameter>r</parameter>,<parameter>b</parameter>,<parameter>n</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -17981,7 +17581,6 @@
         <refname>
           <function>R.QLNORM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.QLNORM</function>(<parameter>x</parameter>,<parameter>logmean</parameter>,<parameter>logsd</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -18012,7 +17611,6 @@
         <refname>
           <function>R.QNBINOM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.QNBINOM</function>(<parameter>p</parameter>,<parameter>n</parameter>,<parameter>psuc</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -18043,7 +17641,6 @@
         <refname>
           <function>R.QNORM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.QNORM</function>(<parameter>p</parameter>,<parameter>mu</parameter>,<parameter>sigma</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -18074,7 +17671,6 @@
         <refname>
           <function>R.QPOIS</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.QPOIS</function>(<parameter>p</parameter>,<parameter>lambda</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -18104,7 +17700,6 @@
         <refname>
           <function>R.QT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.QT</function>(<parameter>p</parameter>,<parameter>n</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -18134,7 +17729,6 @@
         <refname>
           <function>R.QWEIBULL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>R.QWEIBULL</function>(<parameter>p</parameter>,<parameter>shape</parameter>,<parameter>scale</parameter>,<parameter>lower_tail</parameter>,<parameter>log_p</parameter>)</synopsis>
@@ -18165,7 +17759,6 @@
         <refname>
           <function>RANK</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RANK</function>(<parameter>x</parameter>,<parameter>ref</parameter>[,<parameter>order</parameter>])</synopsis>
@@ -18201,7 +17794,6 @@
         <refname>
           <function>RAYLEIGH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RAYLEIGH</function>(<parameter>x</parameter>,<parameter>sigma</parameter>)</synopsis>
@@ -18231,7 +17823,6 @@
         <refname>
           <function>RAYLEIGHTAIL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RAYLEIGHTAIL</function>(<parameter>x</parameter>,<parameter>a</parameter>,<parameter>sigma</parameter>)</synopsis>
@@ -18261,7 +17852,6 @@
         <refname>
           <function>RSQ</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RSQ</function>(<parameter>array1</parameter>,<parameter>array2</parameter>)</synopsis>
@@ -18306,7 +17896,6 @@
         <refname>
           <function>SKEW</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SKEW</function>(<parameter>n1</parameter>,<parameter/> n2,<parameter/> ...)</synopsis>
@@ -18352,7 +17941,6 @@
         <refname>
           <function>SKEWP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SKEWP</function>(<parameter>n1</parameter>,<parameter/> n2,<parameter/> ...)</synopsis>
@@ -18394,7 +17982,6 @@
         <refname>
           <function>SLOPE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SLOPE</function>(<parameter>known_y</parameter>'s,<parameter>known_x</parameter>'s)</synopsis>
@@ -18431,10 +18018,9 @@
         <refname>
           <function>SMALL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>SMALL</function>(<parameter>n1</parameter>,<parameter/> n2,<parameter/> ...,<parameter/> k)</synopsis>
+        <synopsis><function>SMALL</function>(<parameter>n</parameter>,<parameter/> k)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -18477,7 +18063,6 @@
         <refname>
           <function>SSMEDIAN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SSMEDIAN</function>(<parameter>array</parameter>[,<parameter>interval</parameter>)]</synopsis>
@@ -18522,7 +18107,6 @@
         <refname>
           <function>STANDARDIZE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>STANDARDIZE</function>(<parameter>x</parameter>,<parameter>mean</parameter>,<parameter>stddev</parameter>)</synopsis>
@@ -18560,7 +18144,6 @@
         <refname>
           <function>STDEV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>STDEV</function>(<parameter>b1</parameter>,<parameter/> b2,<parameter/> ...)</synopsis>
@@ -18604,7 +18187,6 @@
         <refname>
           <function>STDEVA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>STDEVA</function>(<parameter>number1</parameter>,<parameter>number2</parameter>,<parameter/>...)</synopsis>
@@ -18645,7 +18227,6 @@
         <refname>
           <function>STDEVP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>STDEVP</function>(<parameter>b1</parameter>,<parameter/> b2,<parameter/> ...)</synopsis>
@@ -18684,7 +18265,6 @@
         <refname>
           <function>STDEVPA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>STDEVPA</function>(<parameter>number1</parameter>,<parameter>number2</parameter>,<parameter/>...)</synopsis>
@@ -18723,7 +18303,6 @@
         <refname>
           <function>STEYX</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>STEYX</function>(<parameter>known_y</parameter>'s,<parameter>known_x</parameter>'s)</synopsis>
@@ -18764,7 +18343,6 @@
         <refname>
           <function>SUBTOTAL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SUBTOTAL</function>(<parameter>function_nbr</parameter>,<parameter>ref1</parameter>,<parameter>ref2</parameter>,<parameter/>...)</synopsis>
@@ -18817,7 +18395,6 @@
         <refname>
           <function>TDIST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TDIST</function>(<parameter>x</parameter>,<parameter>dof</parameter>,<parameter>tails</parameter>)</synopsis>
@@ -18863,7 +18440,6 @@
         <refname>
           <function>TINV</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TINV</function>(<parameter>p</parameter>,<parameter>dof</parameter>)</synopsis>
@@ -18903,7 +18479,6 @@
         <refname>
           <function>TREND</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TREND</function>(<parameter>known_y</parameter>'s[,<parameter>known_x</parameter>'s[,<parameter>new_x</parameter>'s[,<parameter>const</parameter>]]])</synopsis>
@@ -18948,7 +18523,6 @@
         <refname>
           <function>TRIMMEAN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TRIMMEAN</function>(<parameter>ref</parameter>,<parameter>fraction</parameter>)</synopsis>
@@ -18988,7 +18562,6 @@
         <refname>
           <function>TTEST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TTEST</function>(<parameter>array1</parameter>,<parameter>array2</parameter>,<parameter>tails</parameter>,<parameter>type</parameter>)</synopsis>
@@ -19044,7 +18617,6 @@
         <refname>
           <function>VAR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>VAR</function>(<parameter>b1</parameter>,<parameter/> b2,<parameter/> ...)</synopsis>
@@ -19082,7 +18654,6 @@
         <refname>
           <function>VARA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>VARA</function>(<parameter>number1</parameter>,<parameter>number2</parameter>,<parameter/>...)</synopsis>
@@ -19123,7 +18694,6 @@
         <refname>
           <function>VARP</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>VARP</function>(<parameter>b1</parameter>,<parameter/> b2,<parameter/> ...)</synopsis>
@@ -19159,7 +18729,6 @@
         <refname>
           <function>VARPA</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>VARPA</function>(<parameter>number1</parameter>,<parameter>number2</parameter>,<parameter/>...)</synopsis>
@@ -19198,7 +18767,6 @@
         <refname>
           <function>WEIBULL</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>WEIBULL</function>(<parameter>x</parameter>,<parameter>alpha</parameter>,<parameter>beta</parameter>,<parameter>cumulative</parameter>)</synopsis>
@@ -19242,7 +18810,6 @@
         <refname>
           <function>ZTEST</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ZTEST</function>(<parameter>ref</parameter>,<parameter>x</parameter>)</synopsis>
@@ -19290,7 +18857,6 @@
         <refname>
           <function>ASC</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>ASC</function>(<parameter>string</parameter>)</synopsis>
@@ -19320,7 +18886,6 @@
         <refname>
           <function>CHAR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CHAR</function>(<parameter>x</parameter>)</synopsis>
@@ -19350,7 +18915,6 @@
         <refname>
           <function>CLEAN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CLEAN</function>(<parameter>string</parameter>)</synopsis>
@@ -19385,7 +18949,6 @@
         <refname>
           <function>CODE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CODE</function>(<parameter>char</parameter>)</synopsis>
@@ -19420,7 +18983,6 @@
         <refname>
           <function>CONCATENATE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>CONCATENATE</function>(<parameter>string1</parameter>[,<parameter>string2</parameter>...])</synopsis>
@@ -19457,7 +19019,6 @@
         <refname>
           <function>DOLLAR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>DOLLAR</function>(<parameter>num</parameter>[,<parameter>decimals</parameter>])</synopsis>
@@ -19494,7 +19055,6 @@
         <refname>
           <function>EXACT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>EXACT</function>(<parameter>string1</parameter>,<parameter/> string2)</synopsis>
@@ -19532,7 +19092,6 @@
         <refname>
           <function>FIND</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>FIND</function>(<parameter>string1</parameter>,<parameter>string2</parameter>[,<parameter>start</parameter>])</synopsis>
@@ -19570,7 +19129,6 @@
         <refname>
           <function>FIXED</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>FIXED</function>(<parameter>num</parameter>,<parameter/>[decimals,<parameter/> no_commas])</synopsis>
@@ -19607,7 +19165,6 @@
         <refname>
           <function>LEFT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LEFT</function>(<parameter>text</parameter>[,<parameter>num_chars</parameter>])</synopsis>
@@ -19643,7 +19200,6 @@
         <refname>
           <function>LEN</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LEN</function>(<parameter>string</parameter>)</synopsis>
@@ -19680,7 +19236,6 @@
         <refname>
           <function>LENB</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LENB</function>(<parameter>string</parameter>)</synopsis>
@@ -19717,7 +19272,6 @@
         <refname>
           <function>LOWER</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>LOWER</function>(<parameter>text</parameter>)</synopsis>
@@ -19752,7 +19306,6 @@
         <refname>
           <function>MID</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>MID</function>(<parameter>string</parameter>,<parameter/> position,<parameter/> length)</synopsis>
@@ -19788,7 +19341,6 @@
         <refname>
           <function>PROPER</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>PROPER</function>(<parameter>string</parameter>)</synopsis>
@@ -19824,7 +19376,6 @@
         <refname>
           <function>REPLACE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>REPLACE</function>(<parameter>old</parameter>,<parameter>start</parameter>,<parameter>num</parameter>,<parameter>new</parameter>)</synopsis>
@@ -19862,7 +19413,6 @@
         <refname>
           <function>REPT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>REPT</function>(<parameter>string</parameter>,<parameter>num</parameter>)</synopsis>
@@ -19897,7 +19447,6 @@
         <refname>
           <function>RIGHT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>RIGHT</function>(<parameter>text</parameter>[,<parameter>num_chars</parameter>])</synopsis>
@@ -19934,7 +19483,6 @@
         <refname>
           <function>SEARCH</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SEARCH</function>(<parameter>search_string</parameter>,<parameter>text</parameter>[,<parameter>start_num</parameter>])</synopsis>
@@ -19977,7 +19525,6 @@
         <refname>
           <function>SUBSTITUTE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>SUBSTITUTE</function>(<parameter>text</parameter>,<parameter/> old,<parameter/> new [,<parameter>num</parameter>])</synopsis>
@@ -20013,7 +19560,6 @@
         <refname>
           <function>T</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>T</function>(<parameter>value</parameter>)</synopsis>
@@ -20051,7 +19597,6 @@
         <refname>
           <function>TEXT</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TEXT</function>(<parameter>value</parameter>,<parameter>format_text</parameter>)</synopsis>
@@ -20089,7 +19634,6 @@
         <refname>
           <function>TRIM</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>TRIM</function>(<parameter>text</parameter>)</synopsis>
@@ -20127,7 +19671,6 @@
         <refname>
           <function>UNICHAR</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>UNICHAR</function>(<parameter>x</parameter>)</synopsis>
@@ -20160,7 +19703,6 @@
         <refname>
           <function>UNICODE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>UNICODE</function>(<parameter>char</parameter>)</synopsis>
@@ -20192,7 +19734,6 @@
         <refname>
           <function>UPPER</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>UPPER</function>(<parameter>text</parameter>)</synopsis>
@@ -20227,7 +19768,6 @@
         <refname>
           <function>VALUE</function>
         </refname>
-        <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
         <synopsis><function>VALUE</function>(<parameter>text</parameter>)</synopsis>
