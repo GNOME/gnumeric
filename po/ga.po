@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-26 20:29-0700\n"
+"POT-Creation-Date: 2007-12-29 14:30-0500\n"
 "PO-Revision-Date: 2007-12-26 20:29-0700\n"
 "Last-Translator: Seán de Búrca <leftmostcat@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -3128,6 +3128,7 @@ msgid "Would split array %s"
 msgstr ""
 
 #: ../src/command-context.c:58
+#, c-format
 msgid "Would split an array"
 msgstr ""
 
@@ -3478,6 +3479,7 @@ msgid "Sheet names must be non-empty."
 msgstr ""
 
 #: ../src/commands.c:4777
+#, c-format
 msgid "A workbook cannot have two sheets with the same name."
 msgstr ""
 
@@ -3497,6 +3499,7 @@ msgid "Merging data into %s"
 msgstr ""
 
 #: ../src/commands.c:5355
+#, c-format
 msgid "Changing workbook properties"
 msgstr ""
 
@@ -3578,6 +3581,7 @@ msgstr ""
 #: ../src/tools/solver/reports-write.c:743
 #: ../src/tools/solver/reports-write.c:907
 #: ../src/tools/solver/reports-write.c:958
+#, c-format
 msgid "Solver"
 msgstr ""
 
@@ -3587,6 +3591,7 @@ msgid "Goal Seek (%s)"
 msgstr ""
 
 #: ../src/commands.c:6495
+#, c-format
 msgid "Tabulating Dependencies"
 msgstr ""
 
@@ -5563,6 +5568,7 @@ msgid "Create Data Table"
 msgstr "Cruthaigh líosta"
 
 #: ../src/dialogs/dialog-data-table.c:150
+#, c-format
 msgid ""
 "The selection must have more than 1 column and row to create a Data Table."
 msgstr ""
@@ -6443,6 +6449,7 @@ msgid "Could not create the Scenario Add dialog."
 msgstr ""
 
 #: ../src/dialogs/dialog-scenarios.c:247
+#, c-format
 msgid "Created on "
 msgstr ""
 
@@ -9684,18 +9691,22 @@ msgid ""
 msgstr ""
 
 #: ../src/parser.y:316
+#, c-format
 msgid "An array must have at least 1 element"
 msgstr ""
 
 #: ../src/parser.y:348
+#, c-format
 msgid "Arrays must be rectangular"
 msgstr ""
 
 #: ../src/parser.y:367
+#, c-format
 msgid "Constructed ranges use simple references"
 msgstr ""
 
 #: ../src/parser.y:381 ../src/parser.y:395
+#, c-format
 msgid "All entries in the set must be references"
 msgstr ""
 
@@ -9710,6 +9721,7 @@ msgid "Unknown sheet '%s'"
 msgstr ""
 
 #: ../src/parser.y:592
+#, c-format
 msgid "() is an invalid expression"
 msgstr ""
 
@@ -9724,34 +9736,42 @@ msgid "Unknown workbook '%s'"
 msgstr ""
 
 #: ../src/parser.y:990 ../src/parser.y:1254
+#, c-format
 msgid "Could not find matching closing quote"
 msgstr ""
 
 #: ../src/parser.y:1115
+#, c-format
 msgid "Sheet name is required"
 msgstr ""
 
 #: ../src/parser.y:1168 ../src/parser.y:1177 ../src/parser.y:1202
+#, c-format
 msgid "The number is out of range"
 msgstr ""
 
 #: ../src/parser.y:1236
+#, c-format
 msgid "Improperly formatted error token"
 msgstr ""
 
 #: ../src/parser.y:1432
+#, c-format
 msgid "Multiple expressions are not supported in this context"
 msgstr ""
 
 #: ../src/parser.y:1455
+#, c-format
 msgid "Could not find matching opening parenthesis"
 msgstr ""
 
 #: ../src/parser.y:1459
+#, c-format
 msgid "Could not find matching closing parenthesis"
 msgstr ""
 
 #: ../src/parser.y:1463
+#, c-format
 msgid "Invalid expression"
 msgstr ""
 
@@ -9807,16 +9827,17 @@ msgid "path"
 msgstr "conair"
 
 #: ../src/print-info.c:715 ../src/stf-export.c:625
-#, fuzzy
+#, fuzzy, c-format
 msgid "There is no such sheet"
 msgstr "Scríos leathanach seo"
 
 #: ../src/print-info.c:738
-#, fuzzy
+#, fuzzy, c-format
 msgid "Unknown paper size"
 msgstr "Leagan anaithnid"
 
 #: ../src/print-info.c:748
+#, c-format
 msgid "Invalid option for pdf exporter"
 msgstr ""
 
@@ -10131,6 +10152,7 @@ msgid ""
 msgstr ""
 
 #: ../src/sheet-object-graph.c:246 ../src/sheet-object-image.c:410
+#, c-format
 msgid "Unknown failure while saving image"
 msgstr ""
 
@@ -10567,6 +10589,7 @@ msgid "Cannot parse export options."
 msgstr ""
 
 #: ../src/ssconvert.c:190
+#, c-format
 msgid "The file saver does not take options"
 msgstr ""
 
@@ -10585,6 +10608,7 @@ msgid ""
 msgstr ""
 
 #: ../src/ssconvert.c:270
+#, c-format
 msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
@@ -10709,6 +10733,7 @@ msgid "Text to Columns"
 msgstr ""
 
 #: ../src/stf.c:276
+#, c-format
 msgid "Only one column of <b>input</b> data can be parsed at a time"
 msgstr ""
 
@@ -13815,6 +13840,7 @@ msgid "(Non Blanks...)"
 msgstr ""
 
 #: ../src/widgets/gnumeric-expr-entry.c:1409
+#, c-format
 msgid "Expecting a single range"
 msgstr ""
 
