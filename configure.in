@@ -4,8 +4,8 @@ dnl (It needs _AC_AM_CONFIG_HEADER_HOOK, for example.)
 AC_PREREQ(2.54)
 
 m4_define([gnumeric_version_epoch], [1])
-m4_define([gnumeric_version_major], [8])
-m4_define([gnumeric_version_minor], [1])
+m4_define([gnumeric_version_major], [9])
+m4_define([gnumeric_version_minor], [0])
 m4_define([gnumeric_version_extra], [])
 m4_define([gnumeric_version_full],
     [gnumeric_version_epoch.gnumeric_version_major.gnumeric_version_minor[]gnumeric_version_extra])
@@ -38,7 +38,7 @@ AC_SUBST([VERSION_IFACE], [version_iface])
 
 dnl Almost like epoch.major but development versions look forward to the next
 dnl stable release.
-AC_SUBST([GNUMERIC_API_VER], [1.8])
+AC_SUBST([GNUMERIC_API_VER], [1.10])
 
 dnl This one is created by autoheader, ...
 AC_CONFIG_HEADERS(gnumeric-config.h)
