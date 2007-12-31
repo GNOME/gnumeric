@@ -11,13 +11,12 @@ msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-12-29 14:30-0500\n"
-"PO-Revision-Date: 2007-11-20 14:31+0100\n"
+"PO-Revision-Date: 2007-12-31 22:15+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: ../gnumeric.desktop.in.h:1
 msgid "Calculation, Analysis, and Visualization of Information"
@@ -359,22 +358,18 @@ msgstr ""
 msgid ""
 "Some content will be lost when saving.  This format only supports %u column, "
 "and this workbook has %d"
-msgid_plural ""
 "Some content will be lost when saving.  This format only supports %u "
 "columns, and this workbook has %d"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../plugins/excel/ms-excel-write.c:208
 #, c-format
 msgid ""
 "Some content will be lost when saving.  This format only supports %u row, "
 "and this workbook has %d"
-msgid_plural ""
 "Some content will be lost when saving.  This format only supports %u rows, "
 "and this workbook has %d"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../plugins/excel/ms-excel-write.c:332
 msgid ""
@@ -479,9 +474,9 @@ msgid "Undefined number format id '%s'"
 msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:1390
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown color '%s'"
-msgstr "Error desconeguda"
+msgstr "Color '%s' desconeguda"
 
 #: ../plugins/excel/xlsx-read.c:1393
 msgid "Missing theme"
@@ -532,7 +527,7 @@ msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:3112
 msgid "Undefined"
-msgstr ""
+msgstr "Indefinit"
 
 #: ../plugins/excel/xlsx-read.c:3155
 #, c-format
@@ -646,7 +641,7 @@ msgstr ""
 
 #: ../plugins/fn-database/plugin.xml.in.h:1 ../plugins/gda/plugin.xml.in.h:1
 msgid "Database"
-msgstr "Basa de donadas"
+msgstr "Donadas"
 
 #: ../plugins/fn-database/plugin.xml.in.h:2
 msgid "Database Functions"
@@ -851,7 +846,7 @@ msgstr "tèxt"
 
 #: ../plugins/fn-info/functions.c:1934 ../src/print-info.c:580
 msgid "cell"
-msgstr ""
+msgstr "cellula"
 
 #: ../plugins/fn-info/functions.c:1937 ../plugins/fn-string/functions.c:1244
 #: ../src/ssconvert.c:93
@@ -864,7 +859,7 @@ msgstr ""
 
 #: ../plugins/fn-info/plugin.xml.in.h:2
 msgid "Information"
-msgstr "Informacions"
+msgstr "Entresenhas"
 
 #: ../plugins/fn-info/plugin.xml.in.h:3
 msgid "Information Functions"
@@ -1277,7 +1272,6 @@ msgid "x,n,M,N,cumulative"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:5815 ../plugins/fn-stat/functions.c:5903
-#, fuzzy
 msgid "values,k,"
 msgstr "valor"
 
@@ -1939,7 +1933,7 @@ msgstr ""
 #: ../plugins/python-loader/gnm-python.c:157
 #, c-format
 msgid "Could not find %s"
-msgstr "Impossible de trouver %s"
+msgstr "Impossible de trobar %s"
 
 #: ../plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -2376,7 +2370,6 @@ msgid "Page Header"
 msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:45
-#, fuzzy
 msgid "Paper"
 msgstr "Papièr"
 
@@ -3878,7 +3871,7 @@ msgstr ""
 
 #: ../src/dialogs/autoformat.glade.h:8 ../src/dialogs/doc-meta-data.glade.h:26
 msgid "Author:"
-msgstr "Ancora"
+msgstr "Autor :"
 
 #: ../src/dialogs/autoformat.glade.h:9
 msgid "Autoformat"
@@ -4366,7 +4359,6 @@ msgid "Direction:"
 msgstr "Direction :"
 
 #: ../src/dialogs/cell-sort.glade.h:6
-#, fuzzy
 msgid "Locale:"
 msgstr "Valor :"
 
@@ -4547,7 +4539,6 @@ msgid "Co_lumn Input :"
 msgstr ""
 
 #: ../src/dialogs/data-table.glade.h:2 ../src/dialogs/dialog-data-table.c:160
-#, fuzzy
 msgid "Data Table"
 msgstr "Basa de donadas"
 
@@ -5508,7 +5499,6 @@ msgid "Could not create the Data Table definition dialog."
 msgstr ""
 
 #: ../src/dialogs/dialog-define-names.c:397
-#, fuzzy
 msgid "Invalid name"
 msgstr "L'expression es pas valida"
 
@@ -5893,7 +5883,6 @@ msgid "Sort Area Has a HEADER"
 msgstr ""
 
 #: ../src/dialogs/dialog-preferences.c:695
-#, fuzzy
 msgid "Enter _Moves Selection"
 msgstr "Proteccion"
 
@@ -5926,12 +5915,10 @@ msgid "Screen"
 msgstr "Ecran"
 
 #: ../src/dialogs/dialog-printer-setup.c:719
-#, fuzzy
 msgid "points"
 msgstr "punts"
 
 #: ../src/dialogs/dialog-printer-setup.c:723
-#, fuzzy
 msgid "inches"
 msgstr "Linha"
 
@@ -5968,12 +5955,10 @@ msgid "Custom footer configuration"
 msgstr ""
 
 #: ../src/dialogs/dialog-printer-setup.c:1792
-#, fuzzy
 msgid "Date format selection"
 msgstr "Copar la seleccion"
 
 #: ../src/dialogs/dialog-printer-setup.c:1794
-#, fuzzy
 msgid "Time format selection"
 msgstr "Copar la seleccion"
 
@@ -6014,7 +5999,6 @@ msgid "Some Documents have not Been Saved"
 msgstr ""
 
 #: ../src/dialogs/dialog-quit.c:164
-#, fuzzy
 msgid "Select all"
 msgstr "Seleccionar un fichièr"
 
@@ -6023,7 +6007,6 @@ msgid "Select all documents for saving"
 msgstr ""
 
 #: ../src/dialogs/dialog-quit.c:175
-#, fuzzy
 msgid "Clear Selection"
 msgstr "Proteccion"
 
@@ -6032,9 +6015,8 @@ msgid "Unselect all documents for saving"
 msgstr ""
 
 #: ../src/dialogs/dialog-quit.c:186
-#, fuzzy
 msgid "Save Selected"
-msgstr "Suprimit"
+msgstr "_Seleccionar"
 
 #: ../src/dialogs/dialog-quit.c:191
 msgid "Save selected documents and then quit"
@@ -6050,16 +6032,14 @@ msgid "Discard changes"
 msgstr ""
 
 #: ../src/dialogs/dialog-quit.c:200
-#, fuzzy
 msgid "Save"
-msgstr "Escala"
+msgstr "Enregistrar"
 
 #: ../src/dialogs/dialog-quit.c:203
 msgid "Save document"
-msgstr ""
+msgstr "Enregistrar lo document"
 
 #: ../src/dialogs/dialog-quit.c:207
-#, fuzzy
 msgid "Don't Quit"
 msgstr "Sortir pas"
 
@@ -6068,14 +6048,12 @@ msgid "Resume editing"
 msgstr ""
 
 #: ../src/dialogs/dialog-quit.c:231
-#, fuzzy
 msgid "Save?"
 msgstr "Escala"
 
 #: ../src/dialogs/dialog-quit.c:243
-#, fuzzy
 msgid "Document"
-msgstr "Documentacion"
+msgstr "Document"
 
 #: ../src/dialogs/dialog-random-generator.c:110
 msgid "Uniform"
@@ -6315,7 +6293,6 @@ msgid "Recently Used Files"
 msgstr ""
 
 #: ../src/dialogs/dialog-recent.c:78
-#, fuzzy
 msgid "All files"
 msgstr "Totes los fichièrs"
 
@@ -6747,7 +6724,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.glade.h:43
 msgid "_Separator:"
-msgstr ""
+msgstr "_Separador :"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:44
 msgid "_Unknown characters:"
@@ -6788,11 +6765,9 @@ msgid "Importing %i columns and ignoring %i."
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-format-page.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "A maximum of %d column can be imported."
-msgid_plural "A maximum of %d columns can be imported."
-msgstr[0] "Podètz importar un maximum de %d colomna"
-msgstr[1] "Podètz importar un maximum de %d colomna"
+msgstr "Podètz importar un maximum de %d colomna."
 
 #: ../src/dialogs/dialog-stf-format-page.c:316
 msgid "Ignore all columns on right"
@@ -6833,9 +6808,7 @@ msgstr ""
 #: ../src/dialogs/dialog-stf-main-page.c:162
 #, c-format
 msgid "%d of %d line to import"
-msgid_plural "%d of %d lines to import"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../src/dialogs/dialog-stf-main-page.c:185
 #, c-format
@@ -7162,7 +7135,7 @@ msgstr ""
 #: ../src/dialogs/dialog-view.c:163
 #, c-format
 msgid "Screen %d"
-msgstr ""
+msgstr "Ecran %d"
 
 #: ../src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
@@ -7223,7 +7196,7 @@ msgstr "<b>Grop :</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:4
 msgid "<b>Information</b>"
-msgstr "<b>Informacions</b>"
+msgstr "<b>Entresenhas</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:5
 msgid "<b>Last Accessed:</b>"
@@ -7335,7 +7308,7 @@ msgstr "Gestionari :"
 
 #: ../src/dialogs/doc-meta-data.glade.h:35
 msgid "Name: "
-msgstr "Nom :"
+msgstr "Nom : "
 
 #: ../src/dialogs/doc-meta-data.glade.h:36
 msgid "Properties"
@@ -7542,7 +7515,6 @@ msgid "Date"
 msgstr "Data"
 
 #: ../src/dialogs/hf-config.glade.h:3
-#, fuzzy
 msgid "Delete Field"
 msgstr "Suprimit"
 
@@ -7591,14 +7563,12 @@ msgid "Page"
 msgstr "Pagina"
 
 #: ../src/dialogs/hf-config.glade.h:16
-#, fuzzy
 msgid "Pages"
-msgstr "Pagina"
+msgstr "Paginas"
 
 #: ../src/dialogs/hf-config.glade.h:17
-#, fuzzy
 msgid "Path"
-msgstr "Pegar"
+msgstr "Camin"
 
 #: ../src/dialogs/hf-config.glade.h:19 ../src/wbc-gtk-actions.c:2018
 msgid "Time"
@@ -7876,7 +7846,7 @@ msgstr "Tièra d'ajustons"
 
 #: ../src/dialogs/plugin-manager.glade.h:6
 msgid "Plugin Manager"
-msgstr ""
+msgstr "Gestionari d'ajustons"
 
 #: ../src/dialogs/plugin-manager.glade.h:7
 msgid "Plugin directory:"
@@ -7907,21 +7877,18 @@ msgid "8.5 in wide by 11.0 in high"
 msgstr ""
 
 #: ../src/dialogs/print.glade.h:4
-#, fuzzy
 msgid "<b>Center on page:</b>"
 msgstr "<b>Creat :</b>"
 
 #: ../src/dialogs/print.glade.h:5
-#, fuzzy
 msgid "<b>O_rientation:</b>"
-msgstr "<b>Opcions</b>"
+msgstr "<b>Emplaçament :</b>"
 
 #: ../src/dialogs/print.glade.h:6
 msgid "<b>Page Order</b>"
 msgstr ""
 
 #: ../src/dialogs/print.glade.h:7
-#, fuzzy
 msgid "<b>Paper:</b>"
 msgstr "<b>Nom :</b>"
 
@@ -7946,9 +7913,8 @@ msgid "Apply to all sheets of this _workbook."
 msgstr ""
 
 #: ../src/dialogs/print.glade.h:13
-#, fuzzy
 msgid "Bottom margin:"
-msgstr "Inferior"
+msgstr ""
 
 #: ../src/dialogs/print.glade.h:14
 msgid "Change Paper Type"
@@ -7959,9 +7925,8 @@ msgid "Co_mments:"
 msgstr ""
 
 #: ../src/dialogs/print.glade.h:16
-#, fuzzy
 msgid "Configure"
-msgstr "Nucli"
+msgstr "Configurar"
 
 #: ../src/dialogs/print.glade.h:17
 msgid "Do not print with all sheets"
@@ -7972,14 +7937,12 @@ msgid "Fi_rst page number:"
 msgstr ""
 
 #: ../src/dialogs/print.glade.h:19
-#, fuzzy
 msgid "Footer:"
 msgstr "Poliça :"
 
 #: ../src/dialogs/print.glade.h:20
-#, fuzzy
 msgid "Header:"
-msgstr "Encap"
+msgstr "Encap :"
 
 #: ../src/dialogs/print.glade.h:21
 msgid "Headers and Footers"
@@ -7987,7 +7950,7 @@ msgstr ""
 
 #: ../src/dialogs/print.glade.h:22
 msgid "Landscape"
-msgstr ""
+msgstr "Païsatge"
 
 #: ../src/dialogs/print.glade.h:23
 msgid "Left margin:"
@@ -7998,9 +7961,8 @@ msgid "Page Setup"
 msgstr "Configuracion de la pagina"
 
 #: ../src/dialogs/print.glade.h:26
-#, fuzzy
 msgid "Portrait"
-msgstr "Punt"
+msgstr "Contrast"
 
 #: ../src/dialogs/print.glade.h:27
 msgid "Print _area:"
@@ -8031,7 +7993,6 @@ msgid "Save as default settings"
 msgstr ""
 
 #: ../src/dialogs/print.glade.h:34
-#, fuzzy
 msgid "Scale"
 msgstr "Escala"
 
@@ -8052,14 +8013,12 @@ msgid "Top margin:"
 msgstr ""
 
 #: ../src/dialogs/print.glade.h:40
-#, fuzzy
 msgid "Unit:"
 msgstr "_Unitats :"
 
 #: ../src/dialogs/print.glade.h:41
-#, fuzzy
 msgid "_Automatic scaling:"
-msgstr "Automatic"
+msgstr ""
 
 #: ../src/dialogs/print.glade.h:42
 msgid "_Black and white"
@@ -8094,9 +8053,8 @@ msgid "_Horizontally"
 msgstr ""
 
 #: ../src/dialogs/print.glade.h:50
-#, fuzzy
 msgid "_No scaling"
-msgstr "Automatic"
+msgstr ""
 
 #: ../src/dialogs/print.glade.h:51
 msgid "_Rows to repeat on the upper region:"
@@ -8107,12 +8065,10 @@ msgid "_Vertically"
 msgstr ""
 
 #: ../src/dialogs/print.glade.h:53
-#, fuzzy
 msgid "letter"
 msgstr "Suprimir"
 
 #: ../src/dialogs/print.glade.h:54
-#, fuzzy
 msgid "page(s)"
 msgstr "pagina"
 
@@ -8272,7 +8228,7 @@ msgstr ""
 
 #: ../src/dialogs/search-replace.glade.h:2
 msgid "<span weight=\"bold\">Miscellaneous</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Divèrs</span>"
 
 #: ../src/dialogs/search-replace.glade.h:3
 msgid "<span weight=\"bold\">Search Text Type</span>"
@@ -8435,7 +8391,7 @@ msgstr ""
 
 #: ../src/dialogs/search-replace.glade.h:44 ../src/dialogs/search.glade.h:29
 msgid "_Comments"
-msgstr "_Comentaris :"
+msgstr "_Comentaris"
 
 #: ../src/dialogs/search-replace.glade.h:45 ../src/dialogs/search.glade.h:30
 msgid "_Current sheet"
@@ -8583,7 +8539,7 @@ msgstr ""
 
 #: ../src/dialogs/search.glade.h:39
 msgid "_Search for:"
-msgstr ""
+msgstr "_Recercar :"
 
 #: ../src/dialogs/sheet-order.glade.h:1
 msgid "Manage Sheets..."
@@ -8674,7 +8630,7 @@ msgstr ""
 
 #: ../src/dialogs/simulation.glade.h:19
 msgid "Summary"
-msgstr "Somari"
+msgstr "Resumit"
 
 #.
 #. * Fill in the labels of `Problem Size' section.
@@ -8701,12 +8657,10 @@ msgid "Frame Properties"
 msgstr "Proprietats de l'encastre"
 
 #: ../src/dialogs/so-list.glade.h:1
-#, fuzzy
 msgid "List Properties"
 msgstr "Propietats"
 
 #: ../src/dialogs/so-list.glade.h:2
-#, fuzzy
 msgid "_Content :"
 msgstr "_Somari"
 
@@ -9132,7 +9086,7 @@ msgstr "Totes"
 
 #: ../src/gnm-graph-window.c:192
 msgid "Fit"
-msgstr ""
+msgstr "Filtre"
 
 #: ../src/gnm-graph-window.c:193
 msgid "Fit Width"
@@ -9160,7 +9114,7 @@ msgstr "200 %"
 
 #: ../src/gnm-graph-window.c:200
 msgid "300%"
-msgstr "300 %"
+msgstr "800 %"
 
 #: ../src/gnm-graph-window.c:201
 msgid "500%"
@@ -9188,9 +9142,7 @@ msgstr ""
 #: ../src/gnm-plugin.c:219
 #, c-format
 msgid "%d function in category \"%s\""
-msgid_plural "Group of %d functions in category \"%s\""
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../src/gnm-plugin.c:326
 msgid "Missing file name."
@@ -9204,9 +9156,7 @@ msgstr ""
 #: ../src/gnm-plugin.c:409
 #, c-format
 msgid "User interface with %d action"
-msgid_plural "User interface with %d actions"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: ../src/gnm-plugin.c:515 ../src/gnm-plugin.c:587
 #, c-format
@@ -9245,12 +9195,10 @@ msgstr ""
 #. xgettext: If possible try to use the same mnemonic for
 #. * Advanced and Simple
 #: ../src/gui-file.c:184 ../src/gui-file.c:247
-#, fuzzy
 msgid "Advanc_ed"
 msgstr "Avançat"
 
 #: ../src/gui-file.c:187
-#, fuzzy
 msgid "Simpl_e"
 msgstr "Simple"
 
@@ -9417,7 +9365,6 @@ msgid ""
 msgstr ""
 
 #: ../src/libgnumeric.c:162
-#, fuzzy
 msgid "Gnumeric Options"
 msgstr "Opcions"
 
@@ -9650,7 +9597,7 @@ msgid "There is no such sheet"
 msgstr ""
 
 #: ../src/print-info.c:738
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown paper size"
 msgstr "Error desconeguda"
 
@@ -9660,7 +9607,6 @@ msgid "Invalid option for pdf exporter"
 msgstr ""
 
 #: ../src/print-info.c:769
-#, fuzzy
 msgid "PDF export"
 msgstr "Exportar"
 
@@ -9965,7 +9911,7 @@ msgstr ""
 
 #: ../src/sheet-object-graph.c:331
 msgid "Open in _New Window"
-msgstr ""
+msgstr "Dobrir dins una fenèstra _novèla"
 
 #: ../src/sheet-object-image.c:463
 msgid "_Save as image"
@@ -10997,7 +10943,6 @@ msgid "Fill Series (%s)"
 msgstr ""
 
 #: ../src/tools/filter.c:136
-#, fuzzy
 msgid "Filtered"
 msgstr "Fichièr"
 
@@ -11423,7 +11368,7 @@ msgstr "Non"
 #. Fill in other titles.
 #: ../src/tools/solver/reports-write.c:746
 msgid "General Information"
-msgstr "Informacions generalas"
+msgstr "Entresenhas generalas"
 
 #: ../src/tools/solver/reports-write.c:747
 msgid "Problem Size"
@@ -11937,7 +11882,7 @@ msgstr "Tornar far l'accion anullada"
 
 #: ../src/wbc-gtk-actions.c:1478 ../src/wbc-gtk-actions.c:1556
 msgid "_Contents"
-msgstr "_Somari"
+msgstr "_Ensenhador"
 
 #: ../src/wbc-gtk-actions.c:1479
 msgid "Open a viewer for Gnumeric's documentation"
@@ -11964,7 +11909,6 @@ msgid "Report a _Problem"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1488
-#, fuzzy
 msgid "Report problem"
 msgstr "Rapòrt"
 
@@ -11998,7 +11942,7 @@ msgstr "Config_uracion de la pagina..."
 
 #: ../src/wbc-gtk-actions.c:1517
 msgid "Setup the page settings for your current printer"
-msgstr "Configurar la compaginacion per vòstra estampadoira"
+msgstr "Configurar la compaginacion per vòstra estampaira"
 
 #: ../src/wbc-gtk-actions.c:1520
 msgid "Print preview"
@@ -12235,7 +12179,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1656
 msgid "_Find..."
-msgstr "_Recercar"
+msgstr "_Recercar..."
 
 #: ../src/wbc-gtk-actions.c:1657
 msgid "Search for something"
@@ -12700,7 +12644,7 @@ msgstr ""
 #. Data
 #: ../src/wbc-gtk-actions.c:1877
 msgid "_Sort..."
-msgstr ""
+msgstr "_Ordenar..."
 
 #: ../src/wbc-gtk-actions.c:1878
 msgid "Sort the selected region"
@@ -12724,7 +12668,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1886
 msgid "T_ext to Columns..."
-msgstr "Suprimir de colomnas"
+msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1887
 msgid "Parse the text in the selection into data"
@@ -12740,7 +12684,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1892
 msgid "_Table..."
-msgstr "Tablèu"
+msgstr "_Tablèu..."
 
 #: ../src/wbc-gtk-actions.c:1893
 msgid "Create a Data Table to evaluate a function with multiple inputs"
@@ -13338,7 +13282,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:418
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplicar"
 
 #: ../src/wbc-gtk.c:419
 msgid "Remove"
@@ -13419,7 +13363,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:2034 ../src/wbc-gtk.c:2039
 msgid "_Discard"
-msgstr ""
+msgstr "_Ignorar"
 
 #: ../src/wbc-gtk.c:2038 ../src/wbc-gtk.c:2049
 msgid "_Accept"
@@ -13471,7 +13415,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:2323 ../src/wbc-gtk.c:2324
 msgid "Borders"
-msgstr "Borders"
+msgstr "Bordaduras"
 
 #: ../src/wbc-gtk.c:2481
 msgid "Set Foreground Color"
@@ -13993,3 +13937,4 @@ msgstr ""
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr ""
+
