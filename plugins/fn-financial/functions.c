@@ -4089,7 +4089,7 @@ GnmFuncDescriptor const financial_functions[] = {
 	{ "nper", "fff|ff", "rate,pmt,pv,fv,type",
 	  help_nper,	  gnumeric_nper, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "npv", NULL, "",
+	{ "npv", NULL, N_("rate,values"),
 	  help_npv,	  NULL, gnumeric_npv, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

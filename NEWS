@@ -1,4 +1,10 @@
-Gnumeric 1.7.92 (rc3)
+Gnumeric 1.9.0
+
+Morten:
+	* Fix NPV doc problem.  [#506160]
+
+--------------------------------------------------------------------------
+Gnumeric 1.8.0
 
 Andreas:
 	* Fix print area bug [#502206]
