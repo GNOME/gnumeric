@@ -8,6 +8,11 @@ use GnumericTest;
 # See #490828
 
 &message ("Check the xls importer and exporter with valgrind.");
+
+my $src = "$samples/excel/sort.xls";
+&GnumericTest::report_skip ("file $src does not exist") unless -r $src;
+
 my $tmp = "sort.xls";
 &GnumericTest::junkfile ($tmp);
-&test_valgrind ("$ssconvert $samples/excel/sort.xls $tmp", 1);
+
+&test_valgrind ("$ssconvert $src $tmp", 1);

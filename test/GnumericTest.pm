@@ -192,6 +192,8 @@ sub test_importer {
 	&junkfile ($tmp);
     }
 
+    &report_skip ("file $file does not exist") unless -r $file;
+
     my $code = system ("$ssconvert '$file' '$tmp' 2>&1 | sed -e 's/^/| /'");
     &system_failure ($ssconvert, $code) if $code;
 
@@ -258,6 +260,9 @@ sub test_valgrind {
     die "Cannot remove $outfile.\n" if -f $outfile;
     &junkfile ($outfile);
 
+    my $valhelp = `valgrind --help 2>&1`;
+    die "Problem running valgrind.\n" unless $valhelp =~ /log-file/;
+
     $cmd = "--gen-suppressions=all $cmd";
     {
 	my $suppfile = "common.supp";
@@ -274,7 +279,11 @@ sub test_valgrind {
     $cmd = "--leak-check=full $cmd";
     $cmd = "--num-callers=20 $cmd";
     $cmd = "--track-fds=yes $cmd";
-    $cmd = "--log-file=$outfile $cmd";
+    if ($valhelp =~ /--log-file-exactly=/) {
+	$cmd = "--log-file-exactly=$outfile $cmd";
+    } else {
+	$cmd = "--log-file=$outfile $cmd";
+    }
     $cmd = "valgrind $cmd";
     $cmd = "../libtool --mode=execute $cmd" if $uselibtool;
 
@@ -300,6 +309,8 @@ sub test_valgrind {
 
 sub test_ssindex {
     my ($file,$test) = @_;
+
+    &report_skip ("file $file does not exist") unless -r $file;
 
     my $xmlfile = fileparse ($file);
     $xmlfile =~ s/\.[a-zA-Z0-9]+$/.xml/;

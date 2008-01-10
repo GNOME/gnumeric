@@ -1,3 +1,8 @@
+2008-01-10  Morten Welinder  <terra@gnome.org>
+
+	* GnumericTest.pm (test_valgrind): Handle older valgrinds.
+	(test_importer): Skip if source file is missing.
+
 2007-12-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.8.0
