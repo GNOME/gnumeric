@@ -5568,6 +5568,9 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 
 	/* write chart title if any */
 	label = GOG_LABEL (gog_object_get_child_by_name (GOG_OBJECT (state.chart), "Title"));
+	if (label == NULL)
+		/* in that case, try the graph title */
+		label = GOG_LABEL (gog_object_get_child_by_name (GOG_OBJECT (state.graph), "Title"));
 	if (label != NULL) {
 		GOData *text = gog_dataset_get_dim (GOG_DATASET (label), 0);
 		if (text != NULL) {
