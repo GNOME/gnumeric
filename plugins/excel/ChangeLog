@@ -1,3 +1,8 @@
+2008-01-12  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (ms_excel_chart_write): save graph title if any and
+	if the first chart has no title. [#301720]
+
 2007-12-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.8.0
