@@ -926,7 +926,7 @@ if test "x$python_msg" = xyes; then
 	if test "x$with_win32" = "xyes" ; then
 	    PY_INCLUDE_DIR="$PY_PREFIX/include"
 	else
-	    PY_INCLUDE_DIR="$PY_PREFIX/include/python$PY_VERSION"
+	    PY_INCLUDE_DIR=`$PYTHON -c 'import sys ; import distutils.sysconfig ; sys.stdout.write(distutils.sysconfig.get_python_inc())'`
 	fi
     fi
 
@@ -951,12 +951,12 @@ if test "x$python_msg" = xyes; then
 	if test "x$with_win32" = "xyes" ; then
 	    PY_LIB_DIR="$PY_PREFIX/libs"
 	else
-	    PY_LIB_DIR="$PY_PREFIX/lib"
+	    PY_LIB_DIR=`$PYTHON -c 'import sys ; import distutils.sysconfig ; sys.stdout.write(distutils.sysconfig.get_config_var("LIBPL"))'`
 	fi
     fi
 
-    GNM_PY_CFLAGS="-I $PY_INCLUDE_DIR $PYGOBJECT_CFLAGS"
-    GNM_PY_LDFLAGS="-L $PY_LIB_DIR -lpython$PY_VERSION $PYGOBJECT_LDFLAGS"
+    GNM_PY_CFLAGS="-I$PY_INCLUDE_DIR $PYGOBJECT_CFLAGS"
+    GNM_PY_LDFLAGS="-L$PY_LIB_DIR -lpython$PY_VERSION $PYGOBJECT_LIBS"
     python_msg="yes (using $PYTHON)"
 fi
 AC_SUBST(GNM_PY_CFLAGS)
