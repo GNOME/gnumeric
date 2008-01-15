@@ -20,7 +20,7 @@
 #
 # 90xx: Misc stuff.
 
-TESTS = t[0-9][0-9][0-9][0-9]-*.pl
+TESTS = $(wildcard t[0-9][0-9][0-9][0-9]-*.pl)
 SUPPS = common.supp gui.supp t8003-valgrind-pdf.supp
 
 import-db:

@@ -1,5 +1,10 @@
 2008-01-14  Morten Welinder  <terra@gnome.org>
 
+	* Makefile.am (DISTCLEANFILES): Get rid of the versioned .pc file
+	too.
+
+2008-01-14  Morten Welinder  <terra@gnome.org>
+
 	* configure.in (GNM_PY_LDFLAGS): Fix assumptions about directory
 	layout.  [#509023]  [508988]
 
