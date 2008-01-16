@@ -3,6 +3,7 @@ Gnumeric 1.9.0
 Morten:
 	* Fix NPV doc problem.  [#506160]
 	* Fix python compilation problem.  [#509023]  [508988]
+	* Fix DSUM crash.  [#509427] 
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.0

@@ -1,3 +1,9 @@
+2008-01-15  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (database_float_range_function,
+	database_value_range_function): Verify that we have a cellrange
+	which is the only cases handled.  Part of fix for 509427.
+
 2007-12-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.8.0

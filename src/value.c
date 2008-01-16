@@ -1596,6 +1596,8 @@ parse_database_criteria (GnmEvalPos const *ep, GnmValue const *database, GnmValu
 	int   b_col, b_row, e_col, e_row;
 	int   *field_ind;
 
+	g_return_val_if_fail (criteria->type == VALUE_CELLRANGE, NULL);
+
 	sheet = eval_sheet (criteria->v_range.cell.a.sheet, ep->sheet);
 	b_col = criteria->v_range.cell.a.col;
 	b_row = criteria->v_range.cell.a.row;
