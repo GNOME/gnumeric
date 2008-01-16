@@ -1,3 +1,8 @@
+2008-01-15  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_HLINK): Improve error checks.
+	Fixes 505330.
+
 2008-01-12  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (ms_excel_chart_write): save graph title if any and

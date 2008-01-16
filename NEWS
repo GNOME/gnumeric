@@ -5,6 +5,7 @@ Morten:
 	* Fix python compilation problem.  [#509023]  [508988]
 	* Fix DSUM crash.  [#509427] 
 	* Fix insert-current-date locale problem.  [#508237]
+	* Fix xls read crash.  [#505330]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.0
