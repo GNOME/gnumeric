@@ -1,3 +1,9 @@
+2008-01-15  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (parse_database_criteria): Verify that we have a
+	cellrange which is the only cases handled.  Part of fix for
+	509427.
+
 2008-01-14  Morten Welinder  <terra@gnome.org>
 
 	* Makefile.am (DISTCLEANFILES): Get rid of the versioned .pc file

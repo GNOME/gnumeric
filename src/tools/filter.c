@@ -114,6 +114,10 @@ advanced_filter (WorkbookControl        *wbc,
         GSList  *crit, *rows;
 	GnmEvalPos ep;
 
+	/* I don't like this -- minimal fix for now.  509427.  */
+	if (criteria->type != VALUE_CELLRANGE)
+		return ERR_INVALID_FIELD;
+
 	crit = parse_database_criteria (
 		eval_pos_init_sheet (&ep, wb_control_cur_sheet (wbc)),
 		database, criteria);
