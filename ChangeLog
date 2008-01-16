@@ -1,3 +1,14 @@
+2008-01-10  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-edit.c (wbcg_edit_start): Use
+	gnm_format_for_date_editing.
+
+	* src/wbc-gtk-actions.c (insert_date_time_common): New function to
+	format numbers according to cell's format when appropriate.
+	Fixes 508237.
+
+	* src/gnm-format.c (gnm_format_for_date_editing): New function.
+
 2008-01-15  Morten Welinder  <terra@gnome.org>
 
 	* src/value.c (parse_database_criteria): Verify that we have a

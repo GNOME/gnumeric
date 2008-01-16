@@ -26,6 +26,7 @@
 #include <gnumeric-config.h>
 #include "gnm-format.h"
 #include "value.h"
+#include "cell.h"
 
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-glib-extras.h>
@@ -265,6 +266,23 @@ gnm_format_month_before_day (GOFormat const *fmt,
 
 	return mbd;
 }
+
+GOFormat *
+gnm_format_for_date_editing (GnmCell const *cell)
+{
+	int mbd = cell
+		? gnm_format_month_before_day (gnm_cell_get_format (cell),
+					       cell->value)
+		: go_locale_month_before_day ();
+
+	switch (mbd) {
+	case 0: return go_format_new_from_XL ("d/m/yyyy");
+	default:
+	case 1: return go_format_new_from_XL ("m/d/yyyy");
+	case 2: return go_format_new_from_XL ("yyyy-m-d");
+	}
+}
+
 
 gboolean
 gnm_format_has_hour (GOFormat const *fmt,

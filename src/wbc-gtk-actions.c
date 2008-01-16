@@ -569,45 +569,71 @@ static GNM_ACTION_DEF (cb_view_freeze_panes)
 
 /****************************************************************************/
 
-static GNM_ACTION_DEF (cb_insert_current_date_time)
+static void
+insert_date_time_common (WBCGtk *wbcg, int what)
 {
 	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
-		Workbook const *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
-		GnmValue *v = value_new_float (
-			datetime_timet_to_serial_raw (time (NULL), workbook_date_conv (wb)));
-		char *txt = format_value (go_format_default_date_time (), v, NULL, -1,
-				workbook_date_conv (wb));
-		value_release (v);
-		wb_control_edit_line_set (WORKBOOK_CONTROL (wbcg), txt);
-		g_free (txt);
-	}
-}
-static GNM_ACTION_DEF (cb_insert_current_date)
-{
-	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
-		Workbook const *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+		SheetView *sv = wb_control_cur_sheet_view (wbc);
+		Sheet *sheet = sv_sheet (sv);
+		GnmCell const *cell = sheet_cell_get (sheet,
+						      sv->edit_pos.col,
+						      sv->edit_pos.row);
+		GODateConventions const *date_conv =
+			workbook_date_conv (sheet->workbook);
 		GnmValue *v = value_new_int (
-			datetime_timet_to_serial (time (NULL), workbook_date_conv (wb)));
-		char *txt = format_value (go_format_default_date (), v, NULL, -1,
-			workbook_date_conv (wb));
+			datetime_timet_to_serial (time (NULL), date_conv));
+		GOFormat *vfmt;
+		char *txt;
+
+		switch (what) {
+		case 1:
+			vfmt = go_format_default_time ();
+			go_format_ref (vfmt);
+			break;
+		case 2:
+			vfmt = gnm_format_for_date_editing (cell);
+			break;
+		case 3: {
+			GString *fstr;
+
+			vfmt = gnm_format_for_date_editing (cell);
+			fstr = g_string_new (go_format_as_XL (vfmt));
+			go_format_unref (vfmt);
+			g_string_append_c (fstr, ' ');
+			vfmt = go_format_default_time ();
+			g_string_append (fstr, go_format_as_XL (vfmt));
+			vfmt = go_format_new_from_XL (fstr->str);
+			g_string_free (fstr, TRUE);
+			break;
+		}
+		default:
+			g_assert_not_reached ();
+		}
+
+		txt = format_value (vfmt, v, NULL, -1, date_conv);
+		wb_control_edit_line_set (wbc, txt);
+
 		value_release (v);
-		wb_control_edit_line_set (WORKBOOK_CONTROL (wbcg), txt);
+		go_format_unref (vfmt);
 		g_free (txt);
 	}
 }
 
+
+
+static GNM_ACTION_DEF (cb_insert_current_date_time)
+{
+	insert_date_time_common (wbcg, 3);
+}
+static GNM_ACTION_DEF (cb_insert_current_date)
+{
+	insert_date_time_common (wbcg, 2);
+}
+
 static GNM_ACTION_DEF (cb_insert_current_time)
 {
-	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
-		Workbook const *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
-		GnmValue *v = value_new_float (
-			datetime_timet_to_seconds (time (NULL)) / (24.0 * 60 * 60));
-		char *txt = format_value (go_format_default_time (), v, NULL, -1,
-				workbook_date_conv (wb));
-		value_release (v);
-		wb_control_edit_line_set (WORKBOOK_CONTROL (wbcg), txt);
-		g_free (txt);
-	}
+	insert_date_time_common (wbcg, 1);
 }
 
 static GNM_ACTION_DEF (cb_define_name)
