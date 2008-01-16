@@ -96,6 +96,43 @@ typedef struct {
 
 #define N_BYTES_BETWEEN_PROGRESS_UPDATES   0x1000
 
+/*
+ * Check whether the product of the first two arguments exceeds
+ * the third.  The function should be overflow-proof.
+ */
+static gboolean
+product_gt (size_t count, size_t itemsize, size_t space)
+{
+	return itemsize > 0 &&
+		(count > G_MAXUINT / itemsize || count * itemsize > space);
+}
+
+static void
+record_size_barf (size_t count, size_t itemsize, size_t space,
+		  const char *locus)
+{
+	g_warning ("File is most likely corrupted.\n"
+		   "(Requested %u*%u bytes, but only %u bytes left in record.\n"
+		   "The problem occurred in %s.)",
+		   (unsigned)count, (unsigned)itemsize,
+		   (unsigned)space,
+		   locus);
+}
+
+#define XL_NEED_BYTES(count) XL_NEED_ITEMS(count,1)
+
+#define XL_NEED_ITEMS(count__,size__)					\
+  do {									\
+	  size_t count_ = (count__);					\
+	  size_t size_ = (size__);					\
+	  size_t space_ = q->length - (data - q->data);			\
+	  if (G_UNLIKELY (product_gt (count_, size_, space_))) {	\
+                record_size_barf (count_, size_, space_, G_STRFUNC);	\
+		return;							\
+          }								\
+  } while (0)
+
+
 /* #define NO_DEBUG_EXCEL */
 #ifndef NO_DEBUG_EXCEL
 #define d(level, code)	do { if (ms_excel_read_debug > level) { code } } while (0)
@@ -3425,29 +3462,40 @@ excel_read_XCT (BiffQuery *q, GnmXLImporter *importer)
 			continue;
 
 		for (data = q->data + 4; ep.eval.col <= last_col ; ep.eval.col++) {
-			XL_CHECK_CONDITION (data + 1 - q->data <= (int)q->length);
+			guint8 oper;
+			XL_NEED_BYTES (1);
 
-			switch (*data) {
-			case  1: v = value_new_float (GSF_LE_GET_DOUBLE (data+1));
-				 data += 9;
-				 break;
-			case  2: len = data[1];
-				 v = value_new_string_nocopy (
-					excel_get_text (importer, data + 2, len, NULL));
-				 data += 2 + len;
-				 break;
+			oper = *data++;
+			switch (oper) {
+			case  1:
+				XL_NEED_BYTES (8);
+				v = value_new_float (GSF_LE_GET_DOUBLE (data));
+				data += 8;
+				break;
+			case  2:
+				XL_NEED_BYTES (1);
+				len = *data++;
+				v = value_new_string_nocopy (
+					excel_get_text (importer, data, len, NULL));
+				data += len;
+				break;
 
-			case  4: v = value_new_bool (GSF_LE_GET_GUINT16 (data+1) != 0);
-				 data += 9;
-				 break;
+			case 4:
+				XL_NEED_BYTES (2);
+				v = value_new_bool (GSF_LE_GET_GUINT16 (data) != 0);
+				/* FIXME: 8?? */
+				data += 8;
+				break;
 
-			case 16: v = biff_get_error (&ep, GSF_LE_GET_GUINT16 (data+1));
-				 data += 9;
-				 break;
+			case 16:
+				XL_NEED_BYTES (2);
+				v = biff_get_error (&ep, GSF_LE_GET_GUINT16 (data));
+				/* FIXME: 8?? */
+				data += 8;
+				break;
 
 			default :
-				g_warning ("Unknown oper type 0x%x in a CRN record", (int)*data);
-				data++;
+				g_warning ("Unknown oper type 0x%x in a CRN record", oper);
 				v = NULL;
 			}
 
@@ -5050,7 +5098,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	if ((options & 0x14) == 0x14) {			/* label */
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
-		XL_CHECK_CONDITION (data + len*2 - q->data <= (int)q->length);
+		XL_NEED_ITEMS (len, 2);
 		label = read_utf16_str (len, data);
 		data += len*2;
 		d (1, fprintf (stderr, "label = %s\n", label););
@@ -5059,7 +5107,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	if (options & 0x80) {				/* target_base */
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
-		XL_CHECK_CONDITION (len*2 + data - q->data <= (int)q->length);
+		XL_NEED_ITEMS (len, 2);
 		target_base = read_utf16_str (len, data);
 		data += len*2;
 		d (1, fprintf (stderr, "target_base = %s\n", target_base););
@@ -5068,7 +5116,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	if (options & 0x8) {				/* 'text mark' */
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
-		XL_CHECK_CONDITION (len*2 + data - q->data <= (int)q->length);
+		XL_NEED_ITEMS (len, 2);
 		mark = read_utf16_str (len, data);
 		data += len*2;
 		d (1, fprintf (stderr, "mark = %s\n", mark););
@@ -5080,7 +5128,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 		data += sizeof (url_guid);
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
-		XL_CHECK_CONDITION (len + data - q->data <= (int)q->length);
+		XL_NEED_BYTES (len);
 
 		url = read_utf16_str (len/2, data);
 		if (NULL != url && 0 == g_ascii_strncasecmp (url,  "mailto:", 7))
@@ -5101,7 +5149,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 		d (1, fprintf (stderr,"# leading ../ %d len 0x%04x\n",
 				 up, len););
 		data += 6;
-		XL_CHECK_CONDITION (len + data - q->data <= (int)q->length);
+		XL_NEED_BYTES (len);
 		data += len + 16 + 12;
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 6;
