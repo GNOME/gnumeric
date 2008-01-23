@@ -360,10 +360,12 @@
     <autotools id="gnumeric" version="trunk">
 	<branch/>
 	<dependencies>
-	    <dep package="libgnomedb"/>
 	    <dep package="goffice"/>
+	</dependencies>
+	<suggests>
+	    <dep package="libgnomedb"/>
 	    <dep package="psiconv"/>
 	    <dep package="pygobject"/>
-	</dependencies>
+	</suggests>
     </autotools>
 </moduleset>
