@@ -29,6 +29,7 @@ Review
 
 Short term goals
 ----------------
+    - .gnumeric I/O for PI:{error_display,comment_placement}
     - replicate win32 print problems
     - Finish the Data -> Table dialog				(DONE)
     - Use go_glade_signal_connect (and friends)
@@ -451,6 +452,7 @@ Architecture Changes
 
 17) Explicit Page Breaks
     17.1) Store them in PrintInfo				(DONE)
+    17.2) Respect them
     17.3) I/O
 	17.3.1) Gnumeric					(DONE)
 	    17.3.1.1) Extend XSD				(DONE)
@@ -947,6 +949,7 @@ Architecture Changes
 	37.1.3) Rich text
 	37.1.4) Validation					(DONE)
 	37.1.6) More print settings
+	    37.1.6.1) PI:{error_display,comment_placement}
 	37.1.7) Comments
 	37.1.8) Text direction in styles
     37.2) Export
@@ -955,6 +958,7 @@ Architecture Changes
 	37.2.3) Rich text
 	37.2.4) Validation					(DONE)
 	37.2.6) More print settings
+	    37.2.6.1) PI:{error_display,comment_placement}
 	37.2.7) Comments
 	37.2.8) Text direction in styles
 
@@ -982,6 +986,10 @@ Architecture Changes
 	 Lots of juicey warnings.  Although we do seem to handle the sheet
 	 names correctly.
 
+40) Printing
+    40.1) Page Breaks
+    40.2) PI:comment_placement
+    40.3) PI:display_errors
 -------------------------------------------------------------------------------
 Target Features
 ---------------

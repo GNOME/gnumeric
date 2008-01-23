@@ -447,24 +447,32 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	g_return_val_if_fail (container != NULL, TRUE);
 	esheet = (ExcelReadSheet *)container;
 
-	attr = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_ANCHOR);
-	if (attr == NULL) {
-		fprintf (stderr,"MISSING anchor for obj %p with id %d of type %s\n", (void *)obj, obj->id, obj->excel_type_name);
-		return TRUE;
+	/* our comment object is too weak.  This anchor is for the text box,
+	 * we need to store the indicator */
+	if (obj->excel_type == 0x19 &&
+	    obj->comment_pos.col >= 0 && obj->comment_pos.row >= 0) {
+		cell_comment_set_pos (CELL_COMMENT (obj->gnum_obj),
+			&obj->comment_pos);
+	} else {
+		attr = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_ANCHOR);
+		if (attr == NULL) {
+			fprintf (stderr,"MISSING anchor for obj %p with id %d of type %s\n", (void *)obj, obj->id, obj->excel_type_name);
+			return TRUE;
+		}
+
+		if (ms_sheet_obj_anchor_to_pos (esheet->sheet, container->importer->ver,
+						attr->v.v_ptr, &range, offsets))
+			return TRUE;
+
+		flip_h = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_H);
+		flip_v = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_V);
+		direction =
+			((flip_h == NULL) ? GOD_ANCHOR_DIR_RIGHT : 0) |
+			((flip_v == NULL) ? GOD_ANCHOR_DIR_DOWN : 0);
+
+		sheet_object_anchor_init (&anchor, &range, offsets, direction);
+		sheet_object_set_anchor (so, &anchor);
 	}
-
-	if (ms_sheet_obj_anchor_to_pos (esheet->sheet, container->importer->ver,
-					attr->v.v_ptr, &range, offsets))
-		return TRUE;
-
-	flip_h = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_H);
-	flip_v = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_V);
-	direction =
-		((flip_h == NULL) ? GOD_ANCHOR_DIR_RIGHT : 0) |
-		((flip_v == NULL) ? GOD_ANCHOR_DIR_DOWN : 0);
-
-	sheet_object_anchor_init (&anchor, &range, offsets, direction);
-	sheet_object_set_anchor (so, &anchor);
 	sheet_object_set_sheet (so, esheet->sheet);
 
 	if (ms_obj_attr_get_ptr (obj->attrs, MS_OBJ_ATTR_TEXT, &label, FALSE))
@@ -605,12 +613,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			ms_obj_attr_get_expr (obj->attrs, MS_OBJ_ATTR_INPUT_FROM, NULL, FALSE));
 		break;
 
-	case 0x19:
-		/* our comment object is too weak.  This anchor is for the text box,
-		 * we need to store the indicator */
-		if (obj->comment_pos.col >= 0 && obj->comment_pos.row >= 0)
-			cell_comment_set_pos (CELL_COMMENT (obj->gnum_obj),
-				&obj->comment_pos);
+	case 0x19: /* cell comment text box */
 		break;
 
 	default:

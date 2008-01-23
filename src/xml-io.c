@@ -1709,8 +1709,14 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
 	tmp = (char *) xmlGetProp (tree, (xmlChar *)"ObjectBound");
 	if (tmp != NULL) {
 		GnmRange r;
-		if (range_parse (&r, tmp))
+		if (range_parse (&r, tmp)) {
+			/* Patch problems introduced in some 1.7.x versions that stored
+			 * comments in merged cells with the full rectangle of the merged cell
+			 * rather than just the top left corner */
+			if (G_OBJECT_TYPE (so) != CELL_COMMENT_TYPE)
+				r.end = r.start;
 			so->anchor.cell_bound = r;
+		}
 		xmlFree (tmp);
 	}
 
@@ -1722,8 +1728,8 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
 		xmlFree (tmp);
 	}
 
-	/* DEPRECATED : There was once an 'AnchorType' but it is now ignored */
 #if 0
+	/* Deprecated in 1.7.7 */
 	tmp = (char *) xmlGetProp (tree, (xmlChar *)"ObjectAnchorType");
 	if (tmp != NULL) {
 		int i[4], count;
