@@ -1,3 +1,7 @@
+2008-01-24  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_move_range): Fix sanity check.  [#511706]
+
 2008-01-16  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_csv_line): Allocate from the string
