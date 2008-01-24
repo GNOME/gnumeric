@@ -1,5 +1,8 @@
 Gnumeric 1.8.1
 
+Jody:
+	* Fix cell comment positioning problem.  [#506017]
+
 Morten:
 	* Fix NPV doc problem.  [#506160]
 	* Fix python compilation problem.  [#509023]  [508988]
