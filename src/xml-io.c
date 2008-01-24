@@ -1713,7 +1713,7 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
 			/* Patch problems introduced in some 1.7.x versions that stored
 			 * comments in merged cells with the full rectangle of the merged cell
 			 * rather than just the top left corner */
-			if (G_OBJECT_TYPE (so) != CELL_COMMENT_TYPE)
+			if (G_OBJECT_TYPE (so) == CELL_COMMENT_TYPE)
 				r.end = r.start;
 			so->anchor.cell_bound = r;
 		}

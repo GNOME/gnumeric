@@ -2062,7 +2062,7 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 	/* Patch problems introduced in some 1.7.x versions that stored
 	 * comments in merged cells with the full rectangle of the merged cell
 	 * rather than just the top left corner */
-	if (G_OBJECT_TYPE (so) != CELL_COMMENT_TYPE)
+	if (G_OBJECT_TYPE (so) == CELL_COMMENT_TYPE)
 		anchor_r.end = anchor_r.start;
 
 	sheet_object_anchor_init (&anchor, &anchor_r, anchor_offset, anchor_dir);
