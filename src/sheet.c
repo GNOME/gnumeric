@@ -4294,7 +4294,9 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 	g_return_if_fail (rinfo != NULL);
 	g_return_if_fail (IS_SHEET (rinfo->origin_sheet));
 	g_return_if_fail (IS_SHEET (rinfo->target_sheet));
-	g_return_if_fail (rinfo->col_offset != 0 || rinfo->row_offset != 0);
+	g_return_if_fail (rinfo->origin_sheet != rinfo->target_sheet ||
+			  rinfo->col_offset != 0 ||
+			  rinfo->row_offset != 0);
 
 	dst = rinfo->origin;
 	out_of_range = range_translate (&dst,
