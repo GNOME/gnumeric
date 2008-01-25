@@ -1,3 +1,8 @@
+2008-01-24  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/clipboard.c (paste_object): Fix paste-graph
+	problem.  [#507342]
+
 2008-01-24  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_move_range): Fix sanity check.  [#511706]
