@@ -1,3 +1,12 @@
+gnumeric (1.8.1-1) unstable; urgency=medium
+
+  * New upstream release. Changes include
+    * plugins/excel/ms-chart.c: (ms_excel_chart_write): save graph title if
+      any and if the first chart has no title. (Gnome #301720) 
+      (Closes: #305399)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 25 Jan 2008 19:55:54 +0100
+
 gnumeric (1.8.0-1) unstable; urgency=medium
 
   * New upstream stable release, building on top of goffice 0.6.
