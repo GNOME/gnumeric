@@ -240,8 +240,8 @@ paste_object (GnmPasteTarget const *pt, SheetObject const *src, int left, int to
 	SheetObjectAnchor tmp;
 
 	sheet_object_anchor_assign (&tmp, sheet_object_get_anchor (src));
-	if ((pt->paste_flags & PASTE_COMMENTS)) {
-		if (G_OBJECT_TYPE (src) != CELL_COMMENT_TYPE ||
+	if (G_OBJECT_TYPE (src) == CELL_COMMENT_TYPE) {
+		if ((pt->paste_flags & PASTE_COMMENTS) &&
 		    (pt->paste_flags & PASTE_IGNORE_COMMENTS_AT_ORIGIN &&
 		     tmp.cell_bound.start.col == 0  &&
 		     tmp.cell_bound.start.row == 0))

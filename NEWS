@@ -1,5 +1,8 @@
 Gnumeric 1.9.0
 
+Jean:
+	* Fix graph paste.  [#507342]
+
 Jody:
 	* Fix cell comment positioning problem.  [#506017]
 
