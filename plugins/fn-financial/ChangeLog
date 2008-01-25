@@ -1,3 +1,7 @@
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
 2008-01-10  Morten Welinder  <terra@gnome.org>
 
 	* functions.c: Add proper argument description to NPV.  [#506160]

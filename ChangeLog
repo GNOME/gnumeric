@@ -1,3 +1,7 @@
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
 2008-01-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/clipboard.c (paste_object): Fix paste-graph

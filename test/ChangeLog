@@ -1,3 +1,7 @@
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
 2008-01-14  Morten Welinder  <terra@gnome.org>
 
 	* Makefile.am (TESTS): Use $(wildcard ...) and screw the automake
