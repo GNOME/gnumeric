@@ -19,6 +19,7 @@
 
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-locale.h>
+#include <goffice/utils/go-file.h>
 
 #include <stdlib.h>
 #include <math.h>
@@ -31,21 +32,11 @@
 #include <locale.h>
 #include <gsf/gsf-impl-utils.h>
 
-#ifndef G_OS_WIN32
-static char const *gnumeric_lib_dir	= GNUMERIC_LIBDIR;
-static char const *gnumeric_data_dir	= GNUMERIC_DATADIR;
-static char const *gnumeric_icon_dir	= GNUMERIC_ICONDIR;
-static char const *gnumeric_locale_dir	= GNUMERIC_LOCALEDIR;
-#else
 static char *gnumeric_lib_dir;
 static char *gnumeric_data_dir;
-static char *priv_lib_dir;
-static char *priv_data_dir;
 static char *gnumeric_icon_dir;
 static char *gnumeric_locale_dir;
-#endif
-
-static char const *gnumeric_usr_dir;
+static char *gnumeric_usr_dir;
 
 void
 gutils_init (void)
@@ -53,15 +44,40 @@ gutils_init (void)
 	char const *home_dir;
 #ifdef G_OS_WIN32
 	gchar *dir = g_win32_get_package_installation_directory (NULL, NULL);
-	priv_lib_dir = gnumeric_lib_dir = g_build_filename (dir,
-		"lib", "gnumeric", GNM_VERSION_FULL, NULL);
-	priv_data_dir = gnumeric_data_dir = g_build_filename (dir,
-		"share", "gnumeric", GNM_VERSION_FULL, NULL);
-	gnumeric_icon_dir = g_build_filename (dir,
-		"share", "pixmaps", "gnumeric", NULL);
-	gnumeric_locale_dir = g_build_filename (dir,
-		"share", "locale", NULL);
+	gnumeric_lib_dir = g_build_filename (dir, "lib",
+					     "gnumeric", GNM_VERSION_FULL,
+					     NULL);
+	gnumeric_data_dir = g_build_filename (dir, "share",
+					      "gnumeric", GNM_VERSION_FULL,
+					      NULL);
+	gnumeric_icon_dir = g_build_filename (dir, "share", "pixmaps",
+					      "gnumeric", NULL);
+	gnumeric_locale_dir = g_build_filename (dir, "share", "locale", NULL);
 	g_free (dir);
+#else
+	const char *argv0 = g_get_prgname ();
+	char *base = argv0 ? g_path_get_basename (argv0) : NULL;
+	gboolean running_in_tree = base && strncmp (base, "lt-", 3) == 0;
+
+	g_free (base);
+	if (running_in_tree) {
+		char *dotlibs = g_path_get_dirname (argv0);
+		char *top = g_build_filename (dotlibs, "..", "../", NULL);
+		char *plugins = g_build_filename (top, PLUGIN_SUBDIR, NULL);
+		if (g_file_test (plugins, G_FILE_TEST_IS_DIR))
+			gnumeric_lib_dir =
+				go_filename_simplify (top, GO_DOTDOT_SYNTACTIC,
+						      FALSE);
+		g_free (top);
+		g_free (plugins);
+		g_free (dotlibs);
+	}
+
+	if (!gnumeric_lib_dir)
+		gnumeric_lib_dir = g_strdup (GNUMERIC_LIBDIR);
+	gnumeric_data_dir = g_strdup (GNUMERIC_DATADIR);
+	gnumeric_icon_dir = g_strdup (GNUMERIC_ICONDIR);
+	gnumeric_locale_dir = g_strdup (GNUMERIC_LOCALEDIR);
 #endif
 	home_dir = g_get_home_dir ();
 	gnumeric_usr_dir = (home_dir == NULL ? NULL :
@@ -71,13 +87,16 @@ gutils_init (void)
 void
 gutils_shutdown (void)
 {
-#ifdef G_OS_WIN32
-	g_free (priv_lib_dir);
-	g_free (priv_data_dir);
+	g_free (gnumeric_lib_dir);
+	gnumeric_lib_dir = NULL;
+	g_free (gnumeric_data_dir);
+	gnumeric_data_dir = NULL;
 	g_free (gnumeric_icon_dir);
+	gnumeric_icon_dir = NULL;
 	g_free (gnumeric_locale_dir);
+	gnumeric_locale_dir = NULL;
 	g_free (gnumeric_usr_dir);
-#endif
+	gnumeric_usr_dir = NULL;
 }
 
 char const *

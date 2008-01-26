@@ -11,7 +11,8 @@ my $HOME = exists $ENV{'HOME'};
 
 # ----------------------------------------
 
-print STDERR "Warning: tests are run using installed plugins.  (\"make install\".)\n";
+# No longer true.  We use the tree's plugins, at least on Linux.
+#print STDERR "Warning: tests are run using installed plugins.  (\"make install\".)\n";
 
 # ----------------------------------------
 
