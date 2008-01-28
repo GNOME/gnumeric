@@ -1,5 +1,8 @@
 Gnumeric 1.8.2
 
+Morten:
+	* Fix loading of solver constraints.
+
 --------------------------------------------------------------------------
 Gnumeric 1.8.1
 

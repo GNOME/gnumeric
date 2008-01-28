@@ -1,3 +1,7 @@
+2008-01-28  Morten Welinder  <terra@gnome.org>
+
+	* solver.c (solver_param_read_sax): New function.
+
 2008-01-24  Morten Welinder <terra@gnome.org>
 
 	* Release 1.8.1

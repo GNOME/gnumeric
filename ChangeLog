@@ -1,3 +1,9 @@
+2008-01-28  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_solver_start): New function.
+	(gnm_xml_attr_bool): Renamed from xml_sax_attr_bool and made
+	public.
+
 2008-01-24  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Post-release bump.

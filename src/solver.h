@@ -4,6 +4,7 @@
 
 #include "gnumeric.h"
 #include "numbers.h"
+#include <gsf/gsf-libxml.h>
 
 
 G_BEGIN_DECLS
@@ -246,6 +247,8 @@ void              solver_insert_rows    (Sheet *sheet, int row, int count);
 void              solver_delete_rows    (Sheet *sheet, int row, int count);
 void              solver_delete_cols    (Sheet *sheet, int col, int count);
 
+void              solver_param_read_sax (GsfXMLIn *xin, xmlChar const **attrs);
+
 #else /* !GNM_ENABLE_SOLVER */
 
 #define solver_param_new() NULL
@@ -256,6 +259,7 @@ void              solver_delete_cols    (Sheet *sheet, int col, int count);
 #define solver_delete_cols(sheet, col, count)	do {} while(0)
 #define solver_delete_rows(sheet, row, count)	do {} while(0)
 #define solver_constraint_destroy(c) do {} while(0)
+#define solver_param_read_sax (void)
 
 #endif
 

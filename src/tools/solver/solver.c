@@ -42,13 +42,18 @@
 #include "api.h"
 #include "gutils.h"
 #include <goffice/utils/go-glib-extras.h>
+#include "xml-io.h"
 
 #include <math.h>
+#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #ifdef HAVE_TIMES
 #include <sys/times.h>
 #endif
+
+#define GNM 0
+#define CXML2C(s) ((char const *)(s))
 
 /* ------------------------------------------------------------------------- */
 
@@ -82,6 +87,93 @@ solver_param_destroy (SolverParameters *sp)
 	g_free (sp->options.scenario_name);
 	g_free (sp);
 }
+
+static void
+solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	int type;
+	SolverConstraint *c;
+	int i;
+	Sheet *sheet = gnm_xml_in_cur_sheet (xin);
+	SolverParameters *sp = sheet->solver_parameters;
+
+	c = g_new0 (SolverConstraint, 1);
+
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2) {
+		if (gnm_xml_attr_int (attrs+i, "Lcol", &c->lhs.col) ||
+		    gnm_xml_attr_int (attrs+i, "Lrow", &c->lhs.row) ||
+		    gnm_xml_attr_int (attrs+i, "Rcol", &c->rhs.col) ||
+		    gnm_xml_attr_int (attrs+i, "Rrow", &c->rhs.row) ||
+		    gnm_xml_attr_int (attrs+i, "Cols", &c->cols) ||
+		    gnm_xml_attr_int (attrs+i, "Rows", &c->rows) ||
+		    gnm_xml_attr_int (attrs+i, "Type", &type))
+			; /* Nothing */
+	}
+
+	switch (type) {
+	case 1: c->type = SolverLE; break;
+	case 2: c->type = SolverGE; break;
+	case 4: c->type = SolverEQ; break;
+	case 8: c->type = SolverINT; break;
+	case 16: c->type = SolverBOOL; break;
+	default: c->type = SolverLE; break;
+	}
+
+#ifdef GNM_ENABLE_SOLVER
+	c->str = write_constraint_str (c->lhs.col, c->lhs.row,
+				       c->rhs.col, c->rhs.row,
+				       c->type, c->cols, c->rows);
+#endif
+	sp->constraints = g_slist_append (sp->constraints, c);
+}
+
+void
+solver_param_read_sax (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	Sheet *sheet = gnm_xml_in_cur_sheet (xin);
+	SolverParameters *sp = sheet->solver_parameters;
+	int i;
+	int col = -1, row = -1;
+	int ptype;
+
+	static GsfXMLInNode const dtd[] = {
+	  GSF_XML_IN_NODE (SHEET_SOLVER_CONSTR, SHEET_SOLVER_CONSTR, GNM, "Constr", GSF_XML_NO_CONTENT, &solver_constr_start, NULL),
+	  GSF_XML_IN_NODE_END
+	};
+	static GsfXMLInDoc *doc;
+
+	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2) {
+		if (gnm_xml_attr_int (attrs+i, "ProblemType", &ptype))
+			sp->problem_type = (SolverProblemType)ptype;
+		else 		if (strcmp (CXML2C (attrs[i]), "Inputs") == 0) {
+			g_free (sp->input_entry_str);
+			sp->input_entry_str = g_strdup (CXML2C (attrs[i+1]));
+		} else if (gnm_xml_attr_int (attrs+i, "TargetCol", &col) ||
+			   gnm_xml_attr_int (attrs+i, "TargetRow", &row) ||
+			   gnm_xml_attr_int (attrs+i, "MaxTime", &(sp->options.max_time_sec)) ||
+			   gnm_xml_attr_int (attrs+i, "MaxIter", &(sp->options.max_iter)) ||
+			   gnm_xml_attr_bool (attrs+i, "NonNeg", &(sp->options.assume_non_negative)) ||
+			   gnm_xml_attr_bool (attrs+i, "Discr", &(sp->options.assume_discrete)) ||
+			   gnm_xml_attr_bool (attrs+i, "AutoScale", &(sp->options.automatic_scaling)) ||
+			   gnm_xml_attr_bool (attrs+i, "ShowIter", &(sp->options.show_iter_results)) ||
+			   gnm_xml_attr_bool (attrs+i, "AnswerR", &(sp->options.answer_report)) ||
+			   gnm_xml_attr_bool (attrs+i, "SensitivityR", &(sp->options.sensitivity_report)) ||
+			   gnm_xml_attr_bool (attrs+i, "LimitsR", &(sp->options.limits_report)) ||
+			   gnm_xml_attr_bool (attrs+i, "PerformR", &(sp->options.performance_report)) ||
+			   gnm_xml_attr_bool (attrs+i, "ProgramR", &(sp->options.program_report)))
+			; /* Nothing */
+	}
+
+	if (col >= 0 && col < SHEET_MAX_COLS &&
+	    row >= 0 && row < SHEET_MAX_ROWS)
+		sp->target_cell = sheet_cell_fetch (sheet, col, row);
+
+	if (!doc)
+		doc = gsf_xml_in_doc_new (dtd, NULL);
+	gsf_xml_in_push_state (xin, doc, NULL, NULL, attrs);
+}
+
+
 
 static SolverResults *
 solver_results_init (const SolverParameters *sp)

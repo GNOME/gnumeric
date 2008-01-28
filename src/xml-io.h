@@ -60,6 +60,8 @@ gboolean gnm_xml_attr_int     (xmlChar const * const *attrs,
 			       char const *name, int * res);
 gboolean gnm_xml_attr_double  (xmlChar const * const *attrs,
 			       char const *name, double * res);
+gboolean gnm_xml_attr_bool    (xmlChar const * const *attrs,
+			       char const *name, gboolean *res);
 
 SheetObject *gnm_xml_in_cur_obj   (GsfXMLIn const *xin);
 Sheet	    *gnm_xml_in_cur_sheet (GsfXMLIn const *xin);
