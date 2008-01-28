@@ -31,6 +31,7 @@
 #include "sheet-filter.h"
 #include "sheet.h"
 #include "ranges.h"
+#include "solver.h"
 #include "style.h"
 #include "style-border.h"
 #include "style-color.h"
@@ -118,8 +119,8 @@ xml_sax_double (xmlChar const *chars, double *res)
 	return *end == '\0';
 }
 
-static gboolean
-xml_sax_attr_bool (xmlChar const * const *attrs, char const *name, gboolean *res)
+gboolean
+gnm_xml_attr_bool (xmlChar const * const *attrs, char const *name, gboolean *res)
 {
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -487,9 +488,9 @@ xml_sax_calculation (GsfXMLIn *xin, xmlChar const **attrs)
 	double	 d;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (xml_sax_attr_bool (attrs, "ManualRecalc", &b))
+		if (gnm_xml_attr_bool (attrs, "ManualRecalc", &b))
 			workbook_set_recalcmode (state->wb, !b);
-		else if (xml_sax_attr_bool (attrs, "EnableIteration", &b))
+		else if (gnm_xml_attr_bool (attrs, "EnableIteration", &b))
 			workbook_iteration_enabled (state->wb, b);
 		else if (gnm_xml_attr_int  (attrs, "MaxIterations", &i))
 			workbook_iteration_max_number (state->wb, i);
@@ -570,27 +571,27 @@ xml_sax_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->sheet_zoom = 1.; /* default */
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (xml_sax_attr_bool (attrs, "DisplayFormulas", &tmp))
+		if (gnm_xml_attr_bool (attrs, "DisplayFormulas", &tmp))
 			state->display_formulas = tmp;
-		else if (xml_sax_attr_bool (attrs, "HideZero", &tmp))
+		else if (gnm_xml_attr_bool (attrs, "HideZero", &tmp))
 			state->hide_zero = tmp;
-		else if (xml_sax_attr_bool (attrs, "HideGrid", &tmp))
+		else if (gnm_xml_attr_bool (attrs, "HideGrid", &tmp))
 			state->hide_grid = tmp;
-		else if (xml_sax_attr_bool (attrs, "HideColHeader", &tmp))
+		else if (gnm_xml_attr_bool (attrs, "HideColHeader", &tmp))
 			state->hide_col_header = tmp;
-		else if (xml_sax_attr_bool (attrs, "HideRowHeader", &tmp))
+		else if (gnm_xml_attr_bool (attrs, "HideRowHeader", &tmp))
 			state->hide_row_header = tmp;
-		else if (xml_sax_attr_bool (attrs, "DisplayOutlines", &tmp))
+		else if (gnm_xml_attr_bool (attrs, "DisplayOutlines", &tmp))
 			state->display_outlines = tmp;
-		else if (xml_sax_attr_bool (attrs, "OutlineSymbolsBelow", &tmp))
+		else if (gnm_xml_attr_bool (attrs, "OutlineSymbolsBelow", &tmp))
 			state->outline_symbols_below = tmp;
-		else if (xml_sax_attr_bool (attrs, "OutlineSymbolsRight", &tmp))
+		else if (gnm_xml_attr_bool (attrs, "OutlineSymbolsRight", &tmp))
 			state->outline_symbols_right = tmp;
 		else if (xml_sax_attr_enum (attrs, "Visibility", GNM_SHEET_VISIBILITY_TYPE, &tmpi))
 			state->visibility = tmpi;
-		else if (xml_sax_attr_bool (attrs, "RTL_Layout", &tmp))
+		else if (gnm_xml_attr_bool (attrs, "RTL_Layout", &tmp))
 			state->text_is_rtl = tmp;
-		else if (xml_sax_attr_bool (attrs, "Protected", &tmp))
+		else if (gnm_xml_attr_bool (attrs, "Protected", &tmp))
 			state->is_protected = tmp;
 		else if (strcmp (CXML2C (attrs[0]), "ExprConvention") == 0)
 			state->expr_conv_name = g_strdup (attrs[1]);
@@ -1255,7 +1256,7 @@ xml_sax_style_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 		else if (gnm_xml_attr_int (attrs, "WrapText", &val))
 			gnm_style_set_wrap_text (state->style, val);
-		else if (xml_sax_attr_bool (attrs, "ShrinkToFit", &val))
+		else if (gnm_xml_attr_bool (attrs, "ShrinkToFit", &val))
 			gnm_style_set_shrink_to_fit (state->style, val);
 		else if (gnm_xml_attr_int (attrs, "Rotation", &val)) {
 			/* Work around a bug pre 1.5.1 that would allow
@@ -1410,9 +1411,9 @@ xml_sax_validation (GsfXMLIn *xin, xmlChar const **attrs)
 			state->validation.title = g_strdup (CXML2C (attrs[1]));
 		} else if (attr_eq (attrs[0], "Message")) {
 			state->validation.msg = g_strdup (CXML2C (attrs[1]));
-		} else if (xml_sax_attr_bool (attrs, "AllowBlank", &b_dummy)) {
+		} else if (gnm_xml_attr_bool (attrs, "AllowBlank", &b_dummy)) {
 			state->validation.allow_blank = b_dummy;
-		} else if (xml_sax_attr_bool (attrs, "UseDropdown", &b_dummy)) {
+		} else if (gnm_xml_attr_bool (attrs, "UseDropdown", &b_dummy)) {
 			state->validation.use_dropdown = b_dummy;
 		} else
 			unknown_attr (xin, attrs);
@@ -1905,10 +1906,10 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2)
 		if (attr_eq (attrs[i], "Type"))   type = CXML2C (attrs[i + 1]);
 		else if (gnm_xml_attr_int (attrs+i, "Index", &cond_num)) ;
-		else if (xml_sax_attr_bool (attrs, "Top", &top)) ;
-		else if (xml_sax_attr_bool (attrs, "Items", &items)) ;
+		else if (gnm_xml_attr_bool (attrs, "Top", &top)) ;
+		else if (gnm_xml_attr_bool (attrs, "Items", &items)) ;
 		else if (gnm_xml_attr_double  (attrs, "Count", &bucket_count)) ;
-		else if (xml_sax_attr_bool (attrs, "IsAnd", &is_and)) ;
+		else if (gnm_xml_attr_bool (attrs, "IsAnd", &is_and)) ;
 		else if (attr_eq (attrs[i], "Op0")) xml_sax_filter_operator (state, &op0, attrs[i + 1]);
 		else if (attr_eq (attrs[i], "Op1")) xml_sax_filter_operator (state, &op1, attrs[i + 1]);
 		/*
@@ -2102,6 +2103,12 @@ xml_sax_object_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	 * has not yet been called.  As a consequence, we cannot
 	 * update the GUI here.
 	 */
+}
+
+static void
+xml_sax_solver_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	solver_param_read_sax (xin, attrs);
 }
 
 static void
@@ -2403,7 +2410,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALS
       GSF_XML_IN_NODE (SHEET, SHEET_LAYOUT, GNM, "SheetLayout", GSF_XML_NO_CONTENT, &xml_sax_sheet_layout, NULL),
 	GSF_XML_IN_NODE (SHEET_LAYOUT, SHEET_FREEZEPANES, GNM, "FreezePanes", GSF_XML_NO_CONTENT, &xml_sax_sheet_freezepanes, NULL),
 
-      GSF_XML_IN_NODE (SHEET, SHEET_SOLVER, GNM, "Solver", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SHEET, SHEET_SOLVER, GNM, "Solver", GSF_XML_NO_CONTENT, xml_sax_solver_start, NULL),
       GSF_XML_IN_NODE (SHEET, SHEET_SCENARIOS, GNM, "Scenarios", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (SHEET_SCENARIOS, SHEET_SCENARIO, GNM, "Scenario", GSF_XML_NO_CONTENT, NULL, NULL),
 

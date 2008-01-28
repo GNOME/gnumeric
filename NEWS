@@ -14,6 +14,7 @@ Morten:
 	* Fix xls read crash.  [#505330]
 	* Plug csv leak.
 	* Fix inter-sheet cut problem.  [#511706]
+	* Fix loading of solver constraints.
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.0
