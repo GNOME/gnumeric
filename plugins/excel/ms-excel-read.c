@@ -3170,10 +3170,11 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 				unsigned expr_len = 0;
 				guint8 const *expr_data = NULL;
 				if (7 + 2 + namelen <= q->length) {
-					expr_len = GSF_LE_GET_GUINT16 (q->data + 7 + namelen);
-					if (7 + 2 + namelen + expr_len <= q->length)
+					unsigned el = GSF_LE_GET_GUINT16 (q->data + 7 + namelen);
+					if (7 + 2 + namelen + el <= q->length) {
+						expr_len = el;
 						expr_data = q->data + 9 + namelen;
-					else
+					} else
 						gnm_io_warning (container->importer->context,
 							_("Incorrect expression for name '%s': content will be lost.\n"),
 							name);

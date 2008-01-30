@@ -3,7 +3,7 @@ Gnumeric 1.8.2
 Morten:
 	* Fix loading of solver constraints.
 	* Fix solver issue.  [#512500]
-	* Fix corrupted-xls-file problem.  [#512984]
+	* Fix corrupted-xls-file problems.  [#512984] [#513005]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.1

@@ -1,3 +1,8 @@
+2008-01-30  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_EXTERNNAME): Fix the error case.
+	Fixes 513005.
+
 2008-01-29  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_EXTERNSHEET_v8): Check q->length
