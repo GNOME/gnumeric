@@ -16,7 +16,7 @@ Morten:
 	* Fix inter-sheet cut problem.  [#511706]
 	* Fix loading of solver constraints.
 	* Fix solver issue.  [#512500]
-	* Fix corrupted-xls-file problem.  [#512984]
+	* Fix corrupted-xls-file problems.  [#512984] [#513005]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.0
