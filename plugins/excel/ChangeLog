@@ -1,3 +1,13 @@
+2008-01-29  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_EXTERNSHEET_v8): Check q->length
+	properly.  Fixes #512984.
+
+2008-01-26  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_string): Fix length written for
+	the unicode case (with length measured in characters).
+
 2008-01-15  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_HLINK): Improve error checks.
