@@ -350,15 +350,15 @@ get_lp_coeff (GnmCell *target, GnmCell *change)
 {
         gnm_float x0, x1;
 
-	gnm_cell_set_value (change, value_new_float (0.0));
-	cell_queue_recalc (change);
-	gnm_cell_eval (target);
-	x0 = value_get_as_float (target->value);
-
-	gnm_cell_set_value (change, value_new_float (1.0));
+	gnm_cell_set_value (change, value_new_float (1));
 	cell_queue_recalc (change);
 	gnm_cell_eval (target);
 	x1 = value_get_as_float (target->value);
+
+	gnm_cell_set_value (change, value_new_float (0));
+	cell_queue_recalc (change);
+	gnm_cell_eval (target);
+	x0 = value_get_as_float (target->value);
 
 	return x1 - x0;
 }
@@ -481,23 +481,26 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 	for (i = ind = 0; i < param->n_total_constraints; i++) {
 	        SolverConstraint const *c = solver_get_constraint (res, i);
 		GTimeVal cur_time;
-		const GnmValue *val;
+		const GnmValue *lval;
+		const GnmValue *rval;
+		gnm_float lx, rx;
 
 		target = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
 		if (target) {
 			gnm_cell_eval (target);
-			val = target->value;
+			lval = target->value;
 		} else
-			val = NULL;
+			lval = NULL;
 
 		/* Check that LHS is a number type. */
-		if (val == NULL || !VALUE_IS_NUMBER (val)) {
+		if (lval == NULL || !VALUE_IS_NUMBER (lval)) {
 			*errmsg = _("The LHS cells should contain formulas "
 				    "that yield proper numerical values.  "
 				    "Specify valid LHS entries.");
 			solver_results_free (res);
 			return NULL;
 		}
+		lx = value_get_as_float (lval);
 
 		if (c->type == SolverINT) {
 		        n = get_col_nbr (res, &c->lhs);
@@ -529,20 +532,21 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 		target = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
 		if (target) {
 			gnm_cell_eval (target);
-			val = target->value;
+			rval = target->value;
 		} else
-			val = NULL;
+			rval = NULL;
 
 		/* Check that RHS is a number type. */
-		if (val == NULL || !VALUE_IS_NUMBER (val)) {
+		if (rval == NULL || !VALUE_IS_NUMBER (rval)) {
 			*errmsg = _("The RHS cells should contain proper "
 				    "numerical values only.  Specify valid "
 				    "RHS entries.");
 			solver_results_free (res);
 			return NULL;
 		}
+		rx = value_get_as_float (rval);
 
-		x = value_get_as_float (val);
+		x = rx - lx;
 		alg->set_constr_fn (program, ind, c->type, x);
 		res->rhs[i] = x; 
 		ind++;
@@ -603,6 +607,8 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 		        alg->set_int_fn (program, i);
 		res->ilp_flag = TRUE;
 	}
+
+	alg->print_fn (program);
 
 	return program;
 }

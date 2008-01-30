@@ -1,3 +1,11 @@
+2008-01-29  Morten Welinder  <terra@gnome.org>
+
+	* solver.c (lp_qp_solver_init): Take lhs' value for vars=0 into
+	account.  In the typical case, that is vars itself, but in #512500
+	it is not.
+	(get_lp_coeff): Compute at x=1 first, then at x=0.  Hence we leave
+	things at zero.
+
 2008-01-28  Morten Welinder  <terra@gnome.org>
 
 	* solver.c (solver_param_read_sax): New function.
