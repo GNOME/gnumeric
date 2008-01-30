@@ -1,3 +1,8 @@
+2008-01-29  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_EXTERNSHEET_v8): Check q->length
+	properly.  Fixes #512984.
+
 2008-01-24  Morten Welinder <terra@gnome.org>
 
 	* Release 1.8.1

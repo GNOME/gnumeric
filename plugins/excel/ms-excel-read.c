@@ -5406,7 +5406,10 @@ excel_read_EXTERNSHEET_v8 (BiffQuery const *q, GnmXLImporter *importer)
 
 	XL_CHECK_CONDITION (importer->ver >= MS_BIFF_V8);
 	g_return_if_fail (importer->v8.externsheet == NULL);
+
+	XL_CHECK_CONDITION (q->length >= 2);
 	num = GSF_LE_GET_GUINT16 (q->data);
+	XL_CHECK_CONDITION (q->length >= 2 + num * 6);
 
 	d (2, fprintf (stderr,"ExternSheet (%d entries)\n", num););
 	d (10, gsf_mem_dump (q->data, q->length););
