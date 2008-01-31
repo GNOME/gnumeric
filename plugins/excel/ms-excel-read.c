@@ -5213,10 +5213,14 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 static void
 excel_read_CODENAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 {
-	char *codename = excel_get_text (importer, q->data + 2,
+	char *codename;
+	GObject *obj;
+
+	XL_CHECK_CONDITION (q->length >= 2);
+
+	codename = excel_get_text (importer, q->data + 2,
 		GSF_LE_GET_GUINT16 (q->data), NULL);
-	GObject *obj = (esheet == NULL)
-		? G_OBJECT (importer->wb) : G_OBJECT (esheet->sheet);
+	obj = esheet ? G_OBJECT (esheet->sheet) : G_OBJECT (importer->wb);
 	g_object_set_data_full (obj, CODENAME_KEY, codename, g_free);
 }
 
@@ -5277,14 +5281,17 @@ read_DOPER (guint8 const *doper, gboolean is_equal,
 static void
 excel_read_AUTOFILTER (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	guint16 const flags = GSF_LE_GET_GUINT16 (q->data + 2);
+	guint16 flags;
 	GnmFilterCondition *cond = NULL;
-	GnmFilter	   *filter;
+	GnmFilter *filter;
 
 	/* XL only supports 1 filter per sheet */
 	g_return_if_fail (esheet->sheet->filters != NULL);
 	g_return_if_fail (esheet->sheet->filters->data != NULL);
 	g_return_if_fail (esheet->sheet->filters->next == NULL);
+
+	XL_CHECK_CONDITION (q->length >= 4);
+	flags = GSF_LE_GET_GUINT16 (q->data + 2);
 
 	filter = esheet->sheet->filters->data;
 
@@ -5299,8 +5306,11 @@ excel_read_AUTOFILTER (BiffQuery *q, ExcelReadSheet *esheet)
 		unsigned     len0, len1;
 		GnmFilterOp  op0,  op1;
 		guint8 const *data;
-		GnmValue *v0 = read_DOPER (q->data + 4,  flags & 4, &len0, &op0);
-		GnmValue *v1 = read_DOPER (q->data + 14, flags & 8, &len1, &op1);
+		GnmValue *v0, *v1;
+
+		XL_CHECK_CONDITION (q->length >= 24);
+		v0 = read_DOPER (q->data + 4,  flags & 4, &len0, &op0);
+		v1 = read_DOPER (q->data + 14, flags & 8, &len1, &op1);
 
 		data = q->data + 24;
 		if (len0 > 0) {
@@ -5462,8 +5472,11 @@ void
 excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 {
 	Sheet *sheet = NULL;
-	/* unsigned const len  = GSF_LE_GET_GUINT8 (q->data); */
-	unsigned const type = GSF_LE_GET_GUINT8 (q->data + 1);
+	guint8 type;
+
+	XL_CHECK_CONDITION (q->length >= 2);
+
+	type = GSF_LE_GET_GUINT8 (q->data + 1);
 
 	d (1, {
 	   fprintf (stderr,"extern v7 %p\n", container);
@@ -5478,12 +5491,12 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 	/* Type 3 is undocumented magic.  It is used to forward declare sheet
 	 * names in the current workbook */
 	case 3: {
-		guint8 len = GSF_LE_GET_GUINT8 (q->data);
+		unsigned len = GSF_LE_GET_GUINT8 (q->data);
 		char *name;
 
 		/* opencalc screws up its export, overstating
 		 * the length by 1 */
-		if ((unsigned)(len+2) > q->length)
+		if (len + 2 > q->length)
 			len = q->length - 2;
 
 		name = excel_get_text (container->importer, q->data + 2, len, NULL);
