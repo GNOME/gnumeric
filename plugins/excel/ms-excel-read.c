@@ -5606,8 +5606,10 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 static void
 excel_read_BOOLERR (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	int base = (q->opcode == BIFF_BOOLERR_v0) ? 7 : 6;
+	unsigned base = (q->opcode == BIFF_BOOLERR_v0) ? 7 : 6;
 	GnmValue *v;
+
+	XL_CHECK_CONDITION (q->length >= base + 2);
 
 	if (GSF_LE_GET_GUINT8 (q->data + base + 1)) {
 		GnmEvalPos ep;
@@ -5646,6 +5648,8 @@ excel_read_HEADER_FOOTER (GnmXLImporter const *importer,
 			  BiffQuery *q, PrintInformation *pi,
 			  gboolean is_header)
 {
+	XL_CHECK_CONDITION (q->length >= (importer->ver >= MS_BIFF_V8 ? 4 : 2));
+
 	if (q->length) {
 		char *l, *c, *r, *str = (importer->ver >= MS_BIFF_V8)
 			? excel_get_text (importer, q->data + 2, GSF_LE_GET_GUINT16 (q->data), NULL)
@@ -5672,7 +5676,10 @@ excel_read_HEADER_FOOTER (GnmXLImporter const *importer,
 static void
 excel_read_REFMODE (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	guint16 mode = GSF_LE_GET_GUINT16 (q->data);
+	guint16 mode;
+
+	XL_CHECK_CONDITION (q->length >= 2);
+	mode = GSF_LE_GET_GUINT16 (q->data);
 	g_object_set (esheet->sheet, "use-r1c1", mode == 0, NULL);
 }
 
@@ -5681,8 +5688,13 @@ excel_read_PAGE_BREAK (BiffQuery *q, ExcelReadSheet *esheet, gboolean is_vert)
 {
 	unsigned i;
 	unsigned step = (esheet_ver (esheet) >= MS_BIFF_V8) ? 6 : 2;
-	guint16  count = GSF_LE_GET_GUINT16 (q->data);
-	GnmPageBreaks *breaks = gnm_page_breaks_new (count, is_vert);
+	guint16 count;
+	GnmPageBreaks *breaks;
+
+	XL_CHECK_CONDITION (q->length >= 2);
+	count = GSF_LE_GET_GUINT16 (q->data);
+	XL_CHECK_CONDITION (q->length >= 2 + count * step);
+	breaks = gnm_page_breaks_new (count, is_vert);
 
 	/* 1) Ignore the first/last info for >= biff8
 	 * 2) Assume breaks are manual in the absence of any information  */

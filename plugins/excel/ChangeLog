@@ -1,3 +1,11 @@
+2008-01-31  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_BOOLERR): Properly check record
+	length.
+	(excel_read_HEADER_FOOTER): Ditto.
+	(excel_read_REFMODE): Ditto.  Fixes #513364.
+	(excel_read_PAGE_BREAK): Ditto.  Fixes #513361.
+
 2008-01-30  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_EXTERNNAME): Fix the error case.
