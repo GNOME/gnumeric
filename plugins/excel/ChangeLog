@@ -2,6 +2,12 @@
 
 	* ms-excel-read.c (excel_read_EXTERNNAME): Fix the error case.
 	Fixes #513005.
+	(excel_read_LABEL): Properly check record length.  Fixes #513313.
+
+2008-01-29  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_string): Fix length written for
+	the unicode case (with length measured in characters).
 
 2008-01-29  Morten Welinder  <terra@gnome.org>
 
