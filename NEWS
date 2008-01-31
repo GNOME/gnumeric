@@ -16,7 +16,8 @@ Morten:
 	* Fix inter-sheet cut problem.  [#511706]
 	* Fix loading of solver constraints.
 	* Fix solver issue.  [#512500]
-	* Fix corrupted-xls-file problems.  [#512984] [#513005] [513313]
+	* Fix corrupted-xls-file problems.  [#512984] [#513005] [#513313]
+	  [#513317]
 	* Fix non-ascii export problem.  [#511135]
 
 --------------------------------------------------------------------------

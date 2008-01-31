@@ -3856,17 +3856,21 @@ static void
 excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	GnmCellPos edit_pos, tmp;
-	unsigned const pane_number = GSF_LE_GET_GUINT8 (q->data);
-	int i, j = GSF_LE_GET_GUINT16 (q->data + 5);
-	int num_refs = GSF_LE_GET_GUINT16 (q->data + 7);
+	unsigned pane_number, i, j, num_refs;
 	guint8 *refs;
 	SheetView *sv = sheet_get_view (esheet->sheet, esheet->container.importer->wbv);
 	GnmRange r;
 
-	if (pane_number != esheet->active_pane)
-		return;
+	XL_CHECK_CONDITION (q->length >= 9);
+	pane_number = GSF_LE_GET_GUINT8 (q->data);
 	edit_pos.row = GSF_LE_GET_GUINT16 (q->data + 1);
 	edit_pos.col = GSF_LE_GET_GUINT16 (q->data + 3);
+	j = GSF_LE_GET_GUINT16 (q->data + 5);
+	num_refs = GSF_LE_GET_GUINT16 (q->data + 7);
+	XL_CHECK_CONDITION (q->length >= 9 + 6 * num_refs);
+
+	if (pane_number != esheet->active_pane)
+		return;
 
 	d (5, fprintf (stderr,"Start selection in pane #%d\n", pane_number););
 	d (5, fprintf (stderr,"Cursor: %s in Ref #%d\n", cellpos_as_string (&edit_pos),
