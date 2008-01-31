@@ -322,7 +322,6 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 				output_len = g_utf8_pointer_to_offset (txt, in_bytes);
 			else
 				output_len = char_len;
-			output_len++;
 		}
 
 		switch (flags & STR_LENGTH_MASK) {
