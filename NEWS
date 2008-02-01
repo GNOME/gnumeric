@@ -7,6 +7,7 @@ Morten:
 	  [#513317] [#513361] [#513364] [#513551] [#513605] [#513608]
 	* Fix non-ascii export problem.  [#511135]
 	* Band-aid evaluation problem with broken xls.  [#513559]
+	* Fix circular array formula problem.
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.1

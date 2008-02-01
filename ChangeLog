@@ -1,5 +1,8 @@
 2008-02-01  Morten Welinder  <terra@gnome.org>
 
+	* src/expr.c (gnm_expr_eval): Fix FMRs for circular array
+	formulas.
+
 	* src/sheet-autofill.c (add_item): Plug leak.
 
 2008-01-31  Morten Welinder  <terra@gnome.org>
