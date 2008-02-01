@@ -5,6 +5,7 @@
 	(excel_read_HEADER_FOOTER): Ditto.
 	(excel_read_REFMODE): Ditto.  Fixes #513364.
 	(excel_read_PAGE_BREAK): Ditto.  Fixes #513361.
+	(excel_set_xf): Ditto.  Fixes #513551.
 
 2008-01-30  Morten Welinder  <terra@gnome.org>
 

@@ -1404,6 +1404,8 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 		gnm_cell_eval (corner);
 		a = corner->base.texpr->expr->array_corner.value;
+		if (a == NULL)
+			return handle_empty (NULL, flags);
 
 		if ((a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)) {
 			int const num_x = value_area_get_width (a, pos);

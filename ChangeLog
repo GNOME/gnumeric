@@ -1,3 +1,8 @@
+2008-01-31  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (gnm_expr_eval): Handle the case of no value
+	calculated for the array.  [#513559]
+
 2008-01-28  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (xml_sax_solver_start): New function.
