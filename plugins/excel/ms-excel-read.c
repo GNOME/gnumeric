@@ -1859,10 +1859,15 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 static BiffXFData const *
 excel_set_xf (ExcelReadSheet *esheet, BiffQuery *q)
 {
-	guint16 const col    = XL_GETCOL (q);
-	guint16 const row    = XL_GETROW (q);
-	BiffXFData const *xf = excel_get_xf (esheet, GSF_LE_GET_GUINT16 (q->data + 4));
-	GnmStyle *mstyle     = excel_get_style_from_xf (esheet, xf);
+	guint16 col, row;
+	BiffXFData const *xf;
+	GnmStyle *mstyle;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 6, NULL);
+	col = XL_GETCOL (q);
+	row = XL_GETROW (q);
+	xf = excel_get_xf (esheet, GSF_LE_GET_GUINT16 (q->data + 4));
+	mstyle = excel_get_style_from_xf (esheet, xf);
 
 	d (3, fprintf (stderr,"%s!%s%d = xf(0x%hx) = style (%p) [LEN = %u]\n", esheet->sheet->name_unquoted,
 		 col_name (col), row + 1, GSF_LE_GET_GUINT16 (q->data + 4), mstyle, q->length););

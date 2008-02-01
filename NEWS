@@ -4,8 +4,9 @@ Morten:
 	* Fix loading of solver constraints.
 	* Fix solver issue.  [#512500]
 	* Fix corrupted-xls-file problems.  [#512984] [#513005] [#513313]
-	  [#513317] [#513361] [#513364]
+	  [#513317] [#513361] [#513364] [#513551]
 	* Fix non-ascii export problem.  [#511135]
+	* Band-aid evaluation problem with broken xls.  [#513559]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.1
