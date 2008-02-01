@@ -1376,14 +1376,14 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		GnmEvalPos range_pos = *pos;
 		range_pos.array = &expr->array_corner;
 
-		/* Release old value if necessary */
-		a = expr->array_corner.value;
-		if (a != NULL)
-			value_release (a);
 		a = gnm_expr_eval (expr->array_corner.expr, &range_pos,
 			flags | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+
+		if (expr->array_corner.value)
+			value_release (expr->array_corner.value);
+
 		/* Store real result (cast away const)*/
-		*((GnmValue **)&(expr->array_corner.value)) = a;
+		((GnmExpr*)expr)->array_corner.value = a;
 
 		if (a != NULL &&
 		    (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)) {
