@@ -1075,14 +1075,15 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 }
 
 static void
-add_item (GString *dst, char const *item, char const *sep)
+add_item (GString *dst, char *item, char const *sep)
 {
 	if (!dst) return;
 	if (dst->len)
 		g_string_append (dst, sep);
-	if (item)
+	if (item) {
 		g_string_append (dst, item);
-	else
+		g_free (item);
+	} else
 		g_string_append (dst, "?");
 }
 
