@@ -1320,9 +1320,12 @@ static void
 excel_read_FORMAT (BiffQuery *q, GnmXLImporter *importer)
 {
 	MsBiffVersion const ver = importer->ver;
-	BiffFormatData *d = g_new (BiffFormatData, 1);
+	BiffFormatData *d;
 
 	if (ver >= MS_BIFF_V7) {
+		XL_CHECK_CONDITION (q->length >= 4);
+
+		d = g_new (BiffFormatData, 1);
 		d->idx = GSF_LE_GET_GUINT16 (q->data);
 		d->name = (ver >= MS_BIFF_V8)
 			? excel_get_text (importer, q->data + 4,
@@ -1330,6 +1333,9 @@ excel_read_FORMAT (BiffQuery *q, GnmXLImporter *importer)
 			: excel_get_text (importer, q->data + 3,
 				GSF_LE_GET_GUINT8 (q->data + 2), NULL);
 	} else {
+		XL_CHECK_CONDITION (q->length >= 3);
+
+		d = g_new (BiffFormatData, 1);
 		/* no usable index */
 		d->idx = g_hash_table_size (importer->format_table);
 		d->name = (ver >= MS_BIFF_V4)
@@ -3284,9 +3290,13 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 	gboolean builtin_name = FALSE;
 	char *name = NULL;
 	/* length in characters (not bytes) in the same pos for all versions */
-	unsigned name_len = GSF_LE_GET_GUINT8  (q->data + 3);
+	unsigned name_len;
 	/* guint8  kb_shortcut	= GSF_LE_GET_GUINT8  (q->data + 2); */
 	/* int fn_grp_idx = (flags & 0xfc0)>>6; */
+
+	XL_CHECK_CONDITION (q->length >= 4);
+
+	name_len = GSF_LE_GET_GUINT8  (q->data + 3);
 
 	d (2, {
 	   fprintf (stderr,"NAME\n");
@@ -3301,10 +3311,12 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 	 * the version is the same for very old and new, with _v2 used for
 	 * some intermediate variants */
 	if (ver >= MS_BIFF_V8) {
+		XL_CHECK_CONDITION (q->length >= 14);
 		expr_len = GSF_LE_GET_GUINT16 (q->data + 4);
 		sheet_index = GSF_LE_GET_GUINT16 (q->data + 8);
 		data = q->data + 14;
 	} else if (ver >= MS_BIFF_V7) {
+		XL_CHECK_CONDITION (q->length >= 14);
 		expr_len = GSF_LE_GET_GUINT16 (q->data + 4);
 		/* opencalc docs claim 8 is the right one, XL docs say 6 == 8
 		 * pivot.xls suggests that at least for local builtin names 6
@@ -3312,10 +3324,12 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 		sheet_index = GSF_LE_GET_GUINT16 (q->data + 6);
 		data = q->data + 14;
 	} else if (ver >= MS_BIFF_V3) {
+		XL_CHECK_CONDITION (q->length >= 6);
 		expr_len = GSF_LE_GET_GUINT16 (q->data + 4);
 		data = q->data + 6;
 		sheet_index = 0; /* no sheets */
 	} else {
+		XL_CHECK_CONDITION (q->length >= 5);
 		expr_len = GSF_LE_GET_GUINT8 (q->data + 4);
 		data = q->data + 5;
 		sheet_index = 0; /* no sheets */
