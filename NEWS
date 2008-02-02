@@ -1,5 +1,8 @@
 Gnumeric 1.9.0
 
+Hans de Goede:
+	* Fix broken xls issues.  [#505330]
+
 Jean:
 	* Fix graph paste.  [#507342]
 

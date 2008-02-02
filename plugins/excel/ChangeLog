@@ -2,6 +2,7 @@
 
 	* ms-excel-read.c (excel_read_workbook) [BIFF_DSF]: Properly check
 	record length.  Fixes #513835.
+	(excel_read_HLINK): Be even stricter about record lengths.
 
 2008-02-01  Morten Welinder  <terra@gnome.org>
 
