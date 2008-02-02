@@ -3565,23 +3565,28 @@ get_row_height_units (guint16 height)
 static void
 excel_read_ROW (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	guint16 const row = GSF_LE_GET_GUINT16 (q->data);
+	guint16 row, height;
+	guint16 flags = 0;
+	guint16 flags2 = 0;
+	guint16 xf;
+	gboolean is_std_height;
+
+	XL_CHECK_CONDITION (q->length >= (q->opcode == BIFF_ROW_v2 ? 16 : 8));
+
+	row = GSF_LE_GET_GUINT16 (q->data);
 #if 0
 	/* Unnecessary info for now.
-	 * do we want to preallocate baed on this info?
+	 * do we want to preallocate based on this info?
 	 */
 	guint16 const start_col = GSF_LE_GET_GUINT16 (q->data + 2);
 	guint16 const end_col = GSF_LE_GET_GUINT16 (q->data + 4) - 1;
 #endif
-	guint16 const height = GSF_LE_GET_GUINT16 (q->data + 6);
-	guint16 flags = 0;
-	guint16 flags2 = 0;
-	guint16 xf;
+	height = GSF_LE_GET_GUINT16 (q->data + 6);
 
 	/* If the bit is on it indicates that the row is of 'standard' height.
 	 * However the remaining bits still include the size.
 	 */
-	gboolean const is_std_height = (height & 0x8000) != 0;
+	is_std_height = (height & 0x8000) != 0;
 
 	if (q->opcode == BIFF_ROW_v2) {
 		flags = GSF_LE_GET_GUINT16 (q->data + 12);

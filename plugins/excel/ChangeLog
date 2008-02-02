@@ -1,8 +1,11 @@
 2008-02-01  Morten Welinder  <terra@gnome.org>
 
+	* ms-chart.c (BC_R): Ditto.  Fixes #513790.
+
 	* ms-excel-read.c (excel_read_NAME): Properly check record length.
 	Fixes #513608.
 	(excel_read_FORMAT): Ditto.  Fixes #513608.
+	(excel_read_ROW): Ditto.  Fixes #513787.
 
 2008-01-31  Morten Welinder  <terra@gnome.org>
 

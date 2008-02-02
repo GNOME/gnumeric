@@ -1191,8 +1191,12 @@ BC_R(legend)(XLChartHandler const *handle,
 	guint8 const spacing = GSF_LE_GET_GUINT8  (q->data+17);
 	guint16 const flags = GSF_LE_GET_GUINT16  (q->data+18);
 #endif
-	guint16 const XL_pos = GSF_LE_GET_GUINT8 (q->data+16);
+	guint16 XL_pos;
 	GogObjectPosition pos;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 17, FALSE);
+
+	XL_pos = GSF_LE_GET_GUINT8 (q->data+16);
 
 	switch (XL_pos) {
 	case 0: pos = GOG_POSITION_S | GOG_POSITION_ALIGN_CENTER; break;
