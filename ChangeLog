@@ -1,5 +1,9 @@
 2008-02-01  Morten Welinder  <terra@gnome.org>
 
+	* src/main-application.c (pathetic_qt_workaround): Work around
+	Qt-theme (or Qt-library) bug.
+	(main): Install pathetic_qt_workaround.  Fixes #512752.
+
 	* src/expr.c (gnm_expr_eval): Fix FMRs for circular array
 	formulas.
 

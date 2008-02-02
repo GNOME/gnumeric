@@ -8,6 +8,7 @@ Morten:
 	* Fix non-ascii export problem.  [#511135]
 	* Band-aid evaluation problem with broken xls.  [#513559]
 	* Fix circular array formula problem.
+	* Work around Qt theme bug.  [#512752]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.1
