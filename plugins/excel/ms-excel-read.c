@@ -5128,6 +5128,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	});
 
 	if ((options & 0x14) == 0x14) {			/* label */
+		XL_NEED_ITEMS (1, 4);
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
 		XL_NEED_ITEMS (len, 2);
@@ -5137,6 +5138,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	}
 
 	if (options & 0x80) {				/* target_base */
+		XL_NEED_ITEMS (1, 4);
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
 		XL_NEED_ITEMS (len, 2);
@@ -5146,8 +5148,10 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	}
 
 	if (options & 0x8) {				/* 'text mark' */
+		XL_NEED_ITEMS (1, 4);
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
+
 		XL_NEED_ITEMS (len, 2);
 		mark = read_utf16_str (len, data);
 		data += len*2;
@@ -5158,10 +5162,11 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 		guchar *url;
 
 		data += sizeof (url_guid);
+		XL_NEED_ITEMS (1, 4);
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
-		XL_NEED_BYTES (len);
 
+		XL_NEED_BYTES (len);
 		url = read_utf16_str (len/2, data);
 		if (NULL != url && 0 == g_ascii_strncasecmp (url,  "mailto:", 7))
 			link = g_object_new (gnm_hlink_email_get_type (), NULL);
@@ -5175,17 +5180,25 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 		guchar  *path;
 		GString *accum;
 		int up;
+
 		data += sizeof (file_guid);
+
+		XL_NEED_BYTES (6);
 		up  = GSF_LE_GET_GUINT16 (data + 0);
 		len = GSF_LE_GET_GUINT32 (data + 2);
 		d (1, fprintf (stderr,"# leading ../ %d len 0x%04x\n",
 				 up, len););
 		data += 6;
+
 		XL_NEED_BYTES (len);
-		data += len + 16 + 12;
+		data += len;
+
+		XL_NEED_BYTES (16 + 12 + 6);
+		data += 16 + 12;
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 6;
 
+		XL_NEED_BYTES (len);
 		path = read_utf16_str (len/2, data);
 		accum = g_string_new (NULL);
 		while (up-- > 0)
@@ -5200,8 +5213,12 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	} else if ((options & 0x1e3) == 0x103) {
 		guchar  *path;
 
+		XL_NEED_ITEMS (1, 4);
 		len = GSF_LE_GET_GUINT32 (data);
-		path = read_utf16_str (len*2, data+4);
+		data += 4;
+
+		XL_NEED_BYTES (len);
+		path = read_utf16_str (len/2, data);
 		link = g_object_new (gnm_hlink_external_get_type (), NULL);
 		gnm_hlink_set_target (link, path);
 		g_free (path);

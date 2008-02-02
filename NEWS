@@ -1,5 +1,8 @@
 Gnumeric 1.8.2
 
+Hans de Goede:
+	* Fix broken xls issues.  [#505330]
+
 Morten:
 	* Fix loading of solver constraints.
 	* Fix solver issue.  [#512500]
