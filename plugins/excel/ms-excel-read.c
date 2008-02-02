@@ -6463,11 +6463,15 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view, GsfInput *input,
 
 		case BIFF_DSF:		/* stored in the biff8 workbook */
 		case BIFF_XL5MODIFY:	/* stored in the biff5/7 book */
+		{
+			gboolean dsf = (q->length >= 2 &&
+					GSF_LE_GET_GUINT16 (q->data));
 			d (0, fprintf (stderr, "Double stream file : %d\n",
-				       GSF_LE_GET_GUINT16 (q->data)););
-			if (GSF_LE_GET_GUINT16 (q->data))
+				       dsf););
+			if (dsf)
 				*is_double_stream_file = TRUE;
 			break;
+		}
 
 		case BIFF_XL9FILE:
 			d (0, puts ("XL 2000 file"););
