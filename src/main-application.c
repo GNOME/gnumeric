@@ -374,6 +374,7 @@ main (int argc, char const **argv)
 	if (with_gui) {
 		ioc = IO_CONTEXT (g_object_new (TYPE_IO_CONTEXT_GTK, NULL));
 		handle_paint_events ();
+		pathetic_qt_workaround ();
 	} else {
 		/* TODO: Make this inconsistency go away */
 		GOCmdContext *cc = cmd_context_stderr_new ();
