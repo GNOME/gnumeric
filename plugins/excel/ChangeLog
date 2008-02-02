@@ -1,3 +1,8 @@
+2008-02-02  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_workbook) [BIFF_DSF]: Properly check
+	record length.  Fixes #513835.
+
 2008-02-01  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_NAME): Properly check record length.
