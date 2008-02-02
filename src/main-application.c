@@ -45,6 +45,7 @@
 #include <fcntl.h>
 #include <time.h>
 #include <string.h>
+#include <locale.h>
 
 #ifdef GNM_WITH_GNOME
 #include <bonobo/bonobo-main.h>
@@ -258,13 +259,33 @@ store_plugin_state (void)
 	g_slist_free (active_plugins);
 }
 
-static int
+static gboolean
 cb_kill_wbcg (WBCGtk *wbcg)
 {
 	gboolean still_open = wbc_gtk_close (wbcg);
 	g_assert (!still_open);
 	return FALSE;
 }
+
+static gboolean
+pathetic_qt_workaround (void)
+{
+	/*
+	 * When using with the Qt theme, the qt library will be initialized
+	 * somewhere around the time the first widget is created or maybe
+	 * realized.  That code literally does
+	 *
+	 *        setlocale( LC_NUMERIC, "C" );	// make sprintf()/scanf() work
+	 *
+	 * I am not kidding.  It seems like we can fix this by re-setting the
+	 * proper locale when the gui comes up.
+	 *
+	 * See bug 512752, for example.
+	 */
+	setlocale (LC_ALL, "");
+	return FALSE;
+}
+
 
 static void
 check_pango_attr_list_splice_bug (void)
@@ -422,7 +443,7 @@ main (int argc, char const **argv)
 				break; /* Don't load any more workbooks */
 		}
 	}
-	/* FIXME: May be we should quit here if we were asked to open
+	/* FIXME: Maybe we should quit here if we were asked to open
 	   files and failed to do so. */
 
 	/* If we were intentionally short circuited exit now */
@@ -445,6 +466,8 @@ main (int argc, char const **argv)
 			warn_about_ancient_gnumerics (g_get_prgname(), ioc);
 		}
 		g_object_unref (ioc);
+
+		g_idle_add ((GSourceFunc)pathetic_qt_workaround, NULL);
 #ifdef GNM_WITH_GNOME
 		bonobo_main ();
 #else
