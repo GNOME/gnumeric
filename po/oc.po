@@ -7208,7 +7208,7 @@ msgstr ""
 
 #: ../src/dialogs/doc-meta-data.glade.h:7
 msgid "<b>Location:</b>"
-msgstr "<b>Opcions</b>"
+msgstr "<b>Emplaçament :/b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:8
 msgid "<b>Name:</b>"
@@ -7276,7 +7276,7 @@ msgstr ""
 
 #: ../src/dialogs/doc-meta-data.glade.h:24
 msgid "<pages>"
-msgstr ""
+msgstr "<paginas>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:25
 msgid "<sheets>"
@@ -8215,7 +8215,7 @@ msgstr ""
 
 #: ../src/dialogs/scenario-manager.glade.h:12
 msgid "Show"
-msgstr "Mostrar"
+msgstr "Visualizar"
 
 #: ../src/dialogs/scenario-manager.glade.h:13
 #: ../src/dialogs/workbook-attr.glade.h:13 ../src/workbook-control.c:382
@@ -10269,7 +10269,7 @@ msgstr "Suprimir de colomnas"
 
 #: ../src/sheet.c:4158
 msgid "Insert Rows"
-msgstr "Inserir linhas"
+msgstr "Inserir de linhas"
 
 #: ../src/sheet.c:4234
 msgid "Delete Rows"
