@@ -48,8 +48,16 @@ functions_init (void)
 void
 functions_shutdown (void)
 {
-	while (unknown_cat != NULL && unknown_cat->functions != NULL)
-		gnm_func_free (unknown_cat->functions->data);
+	while (unknown_cat != NULL && unknown_cat->functions != NULL) {
+		GnmFunc *func = unknown_cat->functions->data;
+		if (func->ref_count > 0) {
+			g_warning ("Function %s still has %d refs.\n",
+				   gnm_func_get_name (func),
+				   func->ref_count);
+			func->ref_count = 0;
+		}
+		gnm_func_free (func);
+	}
 	func_builtin_shutdown ();
 
 	symbol_table_destroy (global_symbol_table);
