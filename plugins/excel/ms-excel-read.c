@@ -2314,6 +2314,13 @@ excel_read_XF (BiffQuery *q, GnmXLImporter *importer)
 }
 
 static void
+excel_read_XF_INDEX (BiffQuery *q, ExcelReadSheet *esheet)
+{
+	XL_CHECK_CONDITION (q->length >= 2);
+	esheet->biff2_prev_xf_index = GSF_LE_GET_GUINT16 (q->data);
+}
+
+static void
 biff_xf_data_destroy (BiffXFData *xf)
 {
 	if (xf->style_format) {
@@ -5626,8 +5633,9 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 	gchar *txt;
 
 	XL_CHECK_CONDITION (q->length >= 8);
-	in_len = q->opcode == BIFF_LABEL_v0 ?
-		GSF_LE_GET_GUINT8 (q->data + 7) : GSF_LE_GET_GUINT16 (q->data + 6);
+	in_len = (q->opcode == BIFF_LABEL_v0)
+		? GSF_LE_GET_GUINT8 (q->data + 7)
+		: GSF_LE_GET_GUINT16 (q->data + 6);
 	XL_CHECK_CONDITION (q->length - 8 >= in_len);
 
 	txt = excel_get_text (esheet->container.importer, q->data + 8,
@@ -5699,15 +5707,25 @@ xl_hf_strstr (char *buf, char target)
 
 static void
 excel_read_HEADER_FOOTER (GnmXLImporter const *importer,
-			  BiffQuery *q, PrintInformation *pi,
+			  BiffQuery *q, ExcelReadSheet *esheet,
 			  gboolean is_header)
 {
-	XL_CHECK_CONDITION (q->length >= (importer->ver >= MS_BIFF_V8 ? 4 : 2));
+	PrintInformation *pi = 	esheet->sheet->print_info;
 
 	if (q->length) {
-		char *l, *c, *r, *str = (importer->ver >= MS_BIFF_V8)
-			? excel_get_text (importer, q->data + 2, GSF_LE_GET_GUINT16 (q->data), NULL)
-			: excel_get_text (importer, q->data + 1, GSF_LE_GET_GUINT8  (q->data), NULL);
+		char *l, *c, *r, *str;
+
+		if (importer->ver >= MS_BIFF_V8) {
+			XL_CHECK_CONDITION (q->length >= 3);
+			str = excel_get_text (importer, q->data + 2,
+					      GSF_LE_GET_GUINT16 (q->data),
+					      NULL);
+		} else {
+			XL_CHECK_CONDITION (q->length >= 2);
+			str = excel_get_text (importer, q->data + 1,
+					      GSF_LE_GET_GUINT8  (q->data),
+					      NULL);
+		}
 		d (2, fprintf (stderr,"%s == '%s'\n", is_header ? "header" : "footer", str););
 
 		r = xl_hf_strstr (str, 'R'); /* order is important */
@@ -5765,21 +5783,136 @@ excel_read_PAGE_BREAK (BiffQuery *q, ExcelReadSheet *esheet, gboolean is_vert)
 	print_info_set_breaks (esheet->sheet->print_info, breaks);
 }
 
+static void
+excel_read_INTEGER (BiffQuery *q, ExcelReadSheet *esheet)
+{
+	XL_CHECK_CONDITION (q->length >= 7 + 2);
+	excel_sheet_insert_val
+		(esheet, q,
+		 value_new_int (GSF_LE_GET_GUINT16 (q->data + 7)));
+}
+
+static void
+excel_read_NUMBER (BiffQuery *q, ExcelReadSheet *esheet, size_t ofs)
+{
+	XL_CHECK_CONDITION (q->length >= ofs + 8);
+	excel_sheet_insert_val
+		(esheet, q,
+		 value_new_float (gsf_le_get_double (q->data + ofs)));
+}
+
+static void
+excel_read_MARGIN (BiffQuery *q, ExcelReadSheet *esheet)
+{
+	double m;
+	PrintInformation *pi = esheet->sheet->print_info;
+
+	XL_CHECK_CONDITION (q->length >= 8);
+	m = GO_IN_TO_PT (gsf_le_get_double (q->data));
+
+	switch (q->opcode) {
+	case BIFF_LEFT_MARGIN: print_info_set_margin_left (pi, m); break;
+	case BIFF_RIGHT_MARGIN: print_info_set_margin_right (pi, m); break;
+	case BIFF_TOP_MARGIN: print_info_set_edge_to_below_header (pi, m); break;
+	case BIFF_BOTTOM_MARGIN: print_info_set_edge_to_above_footer (pi, m); break;
+	default: g_assert_not_reached ();
+	}
+}
+
+
+static void
+excel_read_PRINTHEADERS (BiffQuery *q, ExcelReadSheet *esheet)
+{
+	XL_CHECK_CONDITION (q->length >= 2);
+	esheet->sheet->print_info->print_titles =
+		(GSF_LE_GET_GUINT16 (q->data) == 1);
+}
+
+static void
+excel_read_PRINTGRIDLINES (BiffQuery *q, ExcelReadSheet *esheet)
+{
+	XL_CHECK_CONDITION (q->length >= 2);
+	esheet->sheet->print_info->print_grid_lines =
+		(GSF_LE_GET_GUINT16 (q->data) == 1);
+}
+
+static void
+excel_read_HCENTER (BiffQuery *q, ExcelReadSheet *esheet)
+{
+	XL_CHECK_CONDITION (q->length >= 2);
+	esheet->sheet->print_info->center_horizontally =
+		GSF_LE_GET_GUINT16 (q->data) == 0x1;
+}
+
+static void
+excel_read_VCENTER (BiffQuery *q, ExcelReadSheet *esheet)
+{
+	XL_CHECK_CONDITION (q->length >= 2);
+	esheet->sheet->print_info->center_vertically =
+		GSF_LE_GET_GUINT16 (q->data) == 0x1;
+}
+
+static void
+excel_read_PLS (BiffQuery *q, ExcelReadSheet *esheet)
+{
+	XL_CHECK_CONDITION (q->length >= 2);
+	if (GSF_LE_GET_GUINT16 (q->data) == 0x00) {
+		/*
+		 * q->data + 2 -> q->data + q->length
+		 * map to a DEVMODE structure see MS' SDK.
+		 */
+	} else if (GSF_LE_GET_GUINT16 (q->data) == 0x01) {
+		/*
+		 * q's data maps to a TPrint structure
+		 * see Inside Macintosh Vol II p 149.
+		 */
+	}
+}
+
+static void
+excel_read_RK (BiffQuery *q, ExcelReadSheet *esheet)
+{
+	XL_CHECK_CONDITION (q->length >= 6 + 4);
+	excel_sheet_insert_val (esheet, q,
+				biff_get_rk (q->data + 6));
+}
+
+static void
+excel_read_LABELSST (BiffQuery *q, ExcelReadSheet *esheet)
+{
+	unsigned i;
+
+	XL_CHECK_CONDITION (q->length >= 6 + 4);
+	i = GSF_LE_GET_GUINT32 (q->data + 6);
+
+	if (esheet->container.importer->sst && i < esheet->container.importer->sst_len) {
+		GnmValue *v;
+		GnmString *str = esheet->container.importer->sst[i].content;
+		/* ? Why would there be a NULL ? */
+		if (NULL != str) {
+			gnm_string_ref (str);
+			v = value_new_string_str (str);
+		} else
+			v = value_new_string ("");
+		if (esheet->container.importer->sst[i].markup != NULL)
+			value_set_fmt (v, esheet->container.importer->sst[i].markup);
+		excel_sheet_insert_val (esheet, q, v);
+	} else
+		g_warning ("string index 0x%u >= 0x%x\n",
+			   i, esheet->container.importer->sst_len);
+}
+
+
 static gboolean
 excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 		  WorkbookView *wb_view, ExcelReadSheet *esheet)
 {
 	MsBiffVersion const ver = importer->ver;
-	PrintInformation *pi;
-	GnmValue *v;
-	unsigned i;
 
 	g_return_val_if_fail (importer != NULL, FALSE);
 	g_return_val_if_fail (esheet != NULL, FALSE);
 	g_return_val_if_fail (esheet->sheet != NULL, FALSE);
 	g_return_val_if_fail (esheet->sheet->print_info != NULL, FALSE);
-
-	pi = esheet->sheet->print_info;
 
 	d (1, fprintf (stderr,"----------------- '%s' -------------\n",
 		      esheet->sheet->name_unquoted););
@@ -5810,18 +5943,9 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 		case BIFF_BLANK_v0:
 		case BIFF_BLANK_v2: excel_set_xf (esheet, q); break;
 
-		case BIFF_INTEGER:
-			excel_sheet_insert_val (esheet, q,
-				value_new_int (GSF_LE_GET_GUINT16 (q->data + 7)));
-			break;
-		case BIFF_NUMBER_v0:
-			excel_sheet_insert_val (esheet, q,
-				value_new_float (gsf_le_get_double (q->data + 7)));
-			break;
-		case BIFF_NUMBER_v2:
-			excel_sheet_insert_val (esheet, q,
-				value_new_float (gsf_le_get_double (q->data + 6)));
-			break;
+		case BIFF_INTEGER: excel_read_INTEGER (q, esheet); break;
+		case BIFF_NUMBER_v0: excel_read_NUMBER (q, esheet, 7); break;
+		case BIFF_NUMBER_v2: excel_read_NUMBER (q, esheet, 6); break;
 
 		case BIFF_LABEL_v0:
 		case BIFF_LABEL_v2: excel_read_LABEL (q, esheet, FALSE); break;
@@ -5870,8 +5994,8 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 
 
 
-		case BIFF_HEADER: excel_read_HEADER_FOOTER (importer, q, pi, TRUE); break;
-		case BIFF_FOOTER: excel_read_HEADER_FOOTER (importer, q, pi, FALSE); break;
+		case BIFF_HEADER: excel_read_HEADER_FOOTER (importer, q, esheet, TRUE); break;
+		case BIFF_FOOTER: excel_read_HEADER_FOOTER (importer, q, esheet, FALSE); break;
 
 		case BIFF_EXTERNCOUNT: /* ignore */ break;
 		case BIFF_EXTERNSHEET: /* These cannot be biff8 */
@@ -5893,30 +6017,18 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 			break;
 
 		case BIFF_LEFT_MARGIN:
-			print_info_set_margin_left
-				(pi, GO_IN_TO_PT (gsf_le_get_double (q->data)));
-			break;
 		case BIFF_RIGHT_MARGIN:
-			print_info_set_margin_right
-				(pi, GO_IN_TO_PT (gsf_le_get_double (q->data)));
-			break;
 		case BIFF_TOP_MARGIN:
-			print_info_set_edge_to_below_header
-				(pi,
-				 GO_IN_TO_PT (gsf_le_get_double (q->data)));
-			break;
 		case BIFF_BOTTOM_MARGIN:
-			print_info_set_edge_to_above_footer
-				(pi,
-				 GO_IN_TO_PT (gsf_le_get_double (q->data)));
+			excel_read_MARGIN (q, esheet);
 			break;
 
 		case BIFF_PRINTHEADERS:
-			pi->print_titles = (GSF_LE_GET_GUINT16 (q->data) == 1);
+			excel_read_PRINTHEADERS (q, esheet);
 			break;
 
 		case BIFF_PRINTGRIDLINES:
-			pi->print_grid_lines = (GSF_LE_GET_GUINT16 (q->data) == 1);
+			excel_read_PRINTGRIDLINES (q, esheet);
 			break;
 
 		case BIFF_WINDOW1:	break; /* what does this do for a sheet ? */
@@ -5927,19 +6039,7 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 		case BIFF_BACKUP:	break;
 		case BIFF_PANE:		excel_read_PANE (q, esheet, wb_view);	 break;
 
-		case BIFF_PLS:
-			if (GSF_LE_GET_GUINT16 (q->data) == 0x00) {
-				/*
-				 * q->data + 2 -> q->data + q->length
-				 * map to a DEVMODE structure see MS' SDK.
-				 */
-			} else if (GSF_LE_GET_GUINT16 (q->data) == 0x01) {
-				/*
-				 * q's data maps to a TPrint structure
-				 * see Inside Macintosh Vol II p 149.
-				 */
-			}
-			break;
+		case BIFF_PLS: excel_read_PLS (q, esheet); break;
 
 		case BIFF_DEFCOLWIDTH:	excel_read_DEF_COL_WIDTH (q, esheet); break;
 
@@ -5949,10 +6049,7 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 		case BIFF_TAB_COLOR:	excel_read_TAB_COLOR (q, esheet);	break;
 		case BIFF_COLINFO:	excel_read_COLINFO (q, esheet);		break;
 
-		case BIFF_RK:
-			excel_sheet_insert_val (esheet, q,
-				biff_get_rk (q->data + 6));
-			break;
+		case BIFF_RK: excel_read_RK (q, esheet); break;
 
 		case BIFF_IMDATA: {
 			GdkPixbuf *pixbuf = excel_read_IMDATA (q, FALSE);
@@ -5964,12 +6061,8 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 		case BIFF_WSBOOL:	excel_read_WSBOOL (q, esheet);		break;
 		case BIFF_GRIDSET:		break;
 
-		case BIFF_HCENTER:
-			pi->center_horizontally = GSF_LE_GET_GUINT16 (q->data) == 0x1;
-			break;
-		case BIFF_VCENTER:
-			pi->center_vertically   = GSF_LE_GET_GUINT16 (q->data) == 0x1;
-			break;
+		case BIFF_HCENTER: excel_read_HCENTER (q, esheet); break;
+		case BIFF_VCENTER: excel_read_VCENTER (q, esheet); break;
 
 		case BIFF_COUNTRY:		break;
 		case BIFF_STANDARDWIDTH:	break; /* the 'standard width dialog' ? */
@@ -5999,22 +6092,7 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 		case BIFF_PHONETIC:	break;
 
 		case BIFF_LABELSST:
-			i = GSF_LE_GET_GUINT32 (q->data + 6);
-
-			if (esheet->container.importer->sst && i < esheet->container.importer->sst_len) {
-				GnmString *str = esheet->container.importer->sst[i].content;
-				/* ? Why would there be a NULL ? */
-				if (NULL != str) {
-					gnm_string_ref (str);
-					v = value_new_string_str (str);
-				} else
-					v = value_new_string ("");
-				if (esheet->container.importer->sst[i].markup != NULL)
-					value_set_fmt (v, esheet->container.importer->sst[i].markup);
-				excel_sheet_insert_val (esheet, q, v);
-			} else
-				g_warning ("string index 0x%u >= 0x%x\n",
-					 i, esheet->container.importer->sst_len);
+			excel_read_LABELSST (q, esheet);
 			break;
 
 		case BIFF_XF_OLD_v0:
@@ -6023,7 +6101,7 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 			excel_read_XF_OLD (q, importer);
 			break;
 		case BIFF_XF_INDEX:
-			esheet->biff2_prev_xf_index = GSF_LE_GET_GUINT16 (q->data);
+			excel_read_XF_INDEX (q, esheet);
 			break;
 
 		case BIFF_NAME_v0:

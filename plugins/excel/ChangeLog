@@ -1,3 +1,9 @@
+2008-02-03  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_sheet): Factor the rest of cases out
+	into functions so XL_CHECK_CONDITION can be used.  Fixes #513963
+	and several other similar issues.
+
 2008-02-02  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_workbook) [BIFF_DSF]: Properly check
