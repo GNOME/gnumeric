@@ -3190,6 +3190,72 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 	}
 }
 
+static void
+ms_excel_chart_read_PROTECT (BiffQuery *q, XLChartReadState *state)
+{
+	gboolean is_protected;
+
+	XL_CHECK_CONDITION (q->length >= 2);
+	is_protected = (1 == GSF_LE_GET_GUINT16 (q->data));
+	d (4, g_printerr ("Chart is%s protected;\n",
+			  is_protected ? "" : " not"););
+}
+
+static void
+ms_excel_chart_read_NUMBER (BiffQuery *q, XLChartReadState *state, size_t ofs)
+{
+	unsigned row, sernum;
+	double val;
+	XLChartSeries *series;
+
+	XL_CHECK_CONDITION (q->length >= ofs + 8);
+	row = GSF_LE_GET_GUINT16 (q->data);
+	sernum = GSF_LE_GET_GUINT16 (q->data + 2);
+	val = gsf_le_get_double (q->data + ofs);
+
+	if (state->cur_role < 0 ||
+	    state->series == NULL ||
+	    sernum >= state->series->len ||
+	    NULL == (series = g_ptr_array_index (state->series, sernum)))
+		return;
+
+	if (series->data[state->cur_role].value != NULL) {
+		value_release (series->data[state->cur_role].value->vals[0][row]);
+		series->data[state->cur_role].value->vals[0][row] = value_new_float (val);
+	}
+	d (10, g_printerr ("series %d, index %d, value %f\n", sernum, row, val););
+}
+
+static void
+ms_excel_chart_read_LABEL (BiffQuery *q, XLChartReadState *state)
+{
+	guint16 row, sernum, len;
+	char *label;
+	XLChartSeries *series;
+
+	XL_CHECK_CONDITION (q->length >= 8);
+	row = GSF_LE_GET_GUINT16 (q->data + 0);
+	sernum = GSF_LE_GET_GUINT16 (q->data + 2);
+	/* xf  = GSF_LE_GET_GUINT16 (q->data + 4); */
+	len = GSF_LE_GET_GUINT16 (q->data + 6);
+
+	if (state->cur_role < 0 ||
+	    state->series == NULL ||
+	    sernum >= state->series->len ||
+	    NULL == (series = g_ptr_array_index (state->series, sernum)))
+		return;
+
+	label = excel_get_text (state->container.importer, q->data + 8, len, NULL);
+	if (label != NULL  &&
+	    series->data[state->cur_role].value != NULL) {
+		value_release (series->data[state->cur_role].value->vals[0][row]);
+		series->data[state->cur_role].value->vals[0][row] = value_new_string (label);
+	}
+	d (10, {g_printerr ("'%s' row = %d, series = %d\n", label, row, sernum);});
+	g_free (label);
+}
+
+
 gboolean
 ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 		     SheetObject *sog, Sheet *full_page)
@@ -3292,62 +3358,25 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 			g_return_val_if_fail(state.stack->len == 0, TRUE);
 			break;
 
-		case BIFF_PROTECT : {
-			gboolean const is_protected =
-				(1 == GSF_LE_GET_GUINT16 (q->data));
-			d (4, g_printerr ("Chart is%s protected;\n",
-				     is_protected ? "" : " not"););
+		case BIFF_PROTECT:
+			ms_excel_chart_read_PROTECT (q, &state);
 			break;
-		}
 
 		case BIFF_BLANK_v0:
 		case BIFF_BLANK_v2: /* Stores a missing value in the inline value tables */
 			break;
+
 		case BIFF_NUMBER_v0:
-		case BIFF_NUMBER_v2: {
-			unsigned offset = (q->opcode == BIFF_NUMBER_v2) ? 6: 7;
-			unsigned row = GSF_LE_GET_GUINT16 (q->data);
-			unsigned sernum = GSF_LE_GET_GUINT16 (q->data + 2);
-			double val = gsf_le_get_double (q->data + offset);
-			XLChartSeries *series;
-
-			if (state.cur_role < 0 ||
-			    state.series == NULL || sernum >= state.series->len ||
-			    NULL == (series = g_ptr_array_index (state.series, sernum)))
-				break;
-
-			if (series->data[state.cur_role].value != NULL) {
-				value_release (series->data[state.cur_role].value->vals[0][row]);
-				series->data[state.cur_role].value->vals[0][row] = value_new_float (val);
-			}
-			d (10, g_printerr ("series %d, index %d, value %f\n", sernum, row, val););
+			ms_excel_chart_read_NUMBER (q, &state, 7);
 			break;
-		}
-
-		case BIFF_LABEL_v0 : break; /* ignore for now */
-		case BIFF_LABEL_v2 : {
-			guint16 row = GSF_LE_GET_GUINT16 (q->data + 0);
-			guint16 sernum = GSF_LE_GET_GUINT16 (q->data + 2);
-			/* guint16 xf  = GSF_LE_GET_GUINT16 (q->data + 4); */ /* not used */
-			guint16 len = GSF_LE_GET_GUINT16 (q->data + 6);
-			char *label;
-			XLChartSeries *series;
-
-			if (state.cur_role < 0 ||
-			    state.series == NULL || sernum >= state.series->len ||
-			    NULL == (series = g_ptr_array_index (state.series, sernum)))
-				break;
-
-			label = excel_get_text (container->importer, q->data + 8, len, NULL);
-			if (label != NULL  &&
-			    series->data[state.cur_role].value != NULL) {
-				value_release (series->data[state.cur_role].value->vals[0][row]);
-				series->data[state.cur_role].value->vals[0][row] = value_new_string (label);
-			}
-			d (10, {g_printerr ("'%s' row = %d, series = %d\n", label, row, sernum);});
-			g_free (label);
+		case BIFF_NUMBER_v2:
+			ms_excel_chart_read_NUMBER (q, &state, 6);
 			break;
-		}
+
+		case BIFF_LABEL_v0: break; /* ignore for now */
+		case BIFF_LABEL_v2:
+			ms_excel_chart_read_LABEL (q, &state);
+			break;
 
 		case BIFF_MS_O_DRAWING:
 			ms_escher_parse (q, &state.container, FALSE);

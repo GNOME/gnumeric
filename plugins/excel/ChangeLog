@@ -1,3 +1,18 @@
+2008-02-04  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_FORMULA): When we see multiple
+	expressions for a single cell, don't leak.  Fixes #514295.
+	(excel_cell_fetch): New function.
+	(excel_read_FORMULA, excel_read_LABEL, excel_sheet_insert_val):
+	Use excel_cell_fetch so we range check cell position.
+
+	* ms-chart.c (ms_excel_chart_read): Factor the rest of cases out
+	into functions so XL_CHECK_CONDITION can be used.  Fixes #514229
+	and several other similar issues.
+
+	* ms-excel-read.c (excel_read_DEF_ROW_HEIGHT): Add length checks.
+	Fixes #514230.
+
 2008-02-03  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_sheet): Factor the rest of cases out

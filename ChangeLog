@@ -1,3 +1,8 @@
+2008-02-04  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (functions_shutdown): Handle leftover place holders
+	better.  Fixes #514295.  (Also fixed in importer.)
+
 2008-02-02  Morten Welinder  <terra@gnome.org>
 
 	* src/main-application.c (main): Call pathetic_qt_workaround early
