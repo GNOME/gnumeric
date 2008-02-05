@@ -22,7 +22,7 @@ Morten:
 	* Fix corrupted-xls-file problems.  [#512984] [#513005] [#513313]
 	  [#513317] [#513361] [#513364] [#513551] [#513605] [#513608] [#513790]
 	  [#513787] [#513835] [#513963] [#514229] [#514230] [#514295] [#514435]
-	  [#514436] [#514437]
+	  [#514436] [#514437] [#514506] [#514510]
 	* Fix non-ascii export problem.  [#511135]
 	* Band-aid evaluation problem with broken xls.  [#513559]
 	* Fix circular array formula problem.
