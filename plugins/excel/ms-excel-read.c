@@ -1423,6 +1423,7 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 	guint16 data;
 	guint8 data1;
 
+	XL_CHECK_CONDITION (q->length >= 4);
 	fd->height = GSF_LE_GET_GUINT16 (q->data + 0);
 	data = GSF_LE_GET_GUINT16 (q->data + 2);
 	fd->italic     = (data & 0x2) == 0x2;
@@ -1440,12 +1441,14 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 		} else
 			fd->color_idx  = 0x7f;
 	} else if (ver <= MS_BIFF_V4) /* Guess */ {
+		XL_CHECK_CONDITION (q->length >= 6);
 		fd->color_idx  = GSF_LE_GET_GUINT16 (q->data + 4);
 		fd->boldness  = (data & 0x1) ? 0x2bc : 0x190;
 		fd->underline = (data & 0x4) ? UNDERLINE_SINGLE : UNDERLINE_NONE;
 		fd->script = GO_FONT_SCRIPT_STANDARD;
 		fd->fontname = excel_biff_text_1 (importer, q, 6);
 	} else {
+		XL_CHECK_CONDITION (q->length >= 11);
 		fd->color_idx  = GSF_LE_GET_GUINT16 (q->data + 4);
 		fd->boldness   = GSF_LE_GET_GUINT16 (q->data + 6);
 		data = GSF_LE_GET_GUINT16 (q->data + 8);
@@ -1927,7 +1930,7 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 static BiffXFData const *
 excel_set_xf (ExcelReadSheet *esheet, BiffQuery *q)
 {
-	guint16 col, row;
+	unsigned col, row;
 	BiffXFData const *xf;
 	GnmStyle *mstyle;
 
@@ -1935,6 +1938,7 @@ excel_set_xf (ExcelReadSheet *esheet, BiffQuery *q)
 	col = XL_GETCOL (q);
 	row = XL_GETROW (q);
 	xf = excel_get_xf (esheet, GSF_LE_GET_GUINT16 (q->data + 4));
+	XL_CHECK_CONDITION_VAL (col < SHEET_MAX_COLS && row < SHEET_MAX_ROWS, xf);
 	mstyle = excel_get_style_from_xf (esheet, xf);
 
 	d (3, fprintf (stderr,"%s!%s%d = xf(0x%hx) = style (%p) [LEN = %u]\n", esheet->sheet->name_unquoted,
@@ -2526,7 +2530,8 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	excel_set_xf (esheet, q);
 
 	cell = excel_cell_fetch (q, esheet);
-	g_return_if_fail (cell != NULL);
+	if (!cell)
+		return;
 
 	/* TODO : it would be nice to figure out how to allocate recalc tags.
 	 * that would avoid the scary
@@ -2734,18 +2739,23 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	GnmCellPos pos;
 
-	XL_CHECK_CONDITION (q->length >= 4);  /* Check */
+	XL_CHECK_CONDITION (q->length >= 4);
 
 	pos.row = XL_GETROW (q);
 	pos.col = XL_GETCOL (q);
+	XL_CHECK_CONDITION (pos.col < SHEET_MAX_COLS && pos.row < SHEET_MAX_ROWS);
 
 	if (esheet_ver (esheet) >= MS_BIFF_V8) {
-		guint16  options = GSF_LE_GET_GUINT16 (q->data + 4);
-		gboolean hidden = (options & 0x2)==0;
-		guint16  obj_id  = GSF_LE_GET_GUINT16 (q->data + 6);
-		guint16  author_len = GSF_LE_GET_GUINT16 (q->data + 8);
-		MSObj   *obj;
-		char    *author;
+		guint16 options, obj_id, author_len;
+		gboolean hidden;
+		MSObj *obj;
+		char *author;
+
+		XL_CHECK_CONDITION (q->length >= 10);
+		options = GSF_LE_GET_GUINT16 (q->data + 4);
+		hidden = (options & 0x2)==0;
+		obj_id = GSF_LE_GET_GUINT16 (q->data + 6);
+		author_len = GSF_LE_GET_GUINT16 (q->data + 8);
 
 		/* Docs claim that only 0x2 is valid, all other flags should
 		 * be 0 but we have seen examples with 0x100 'pusiuhendused juuli 2003.xls'
@@ -2773,8 +2783,12 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 		}
 		g_free (author);
 	} else {
-		guint len = GSF_LE_GET_GUINT16 (q->data + 4);
-		GString *comment = g_string_sized_new (len);
+		guint len;
+		GString *comment;
+
+		XL_CHECK_CONDITION (q->length >= 6);
+		len = GSF_LE_GET_GUINT16 (q->data + 4);
+		comment = g_string_sized_new (len);
 
 		for (; len > 2048 ; len -= 2048) {
 			guint16 opcode;
@@ -2785,6 +2799,7 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 
 			if (!ms_biff_query_peek_next (q, &opcode) ||
 			    opcode != BIFF_NOTE || !ms_biff_query_next (q) ||
+			    q->length < 4 ||
 			    XL_GETROW (q) != 0xffff || XL_GETCOL (q) != 0) {
 				g_warning ("Invalid Comment record");
 				g_string_free (comment, TRUE);
@@ -2797,7 +2812,7 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 			      col_name (pos.col), pos.row + 1, comment->str););
 
 		cell_set_comment (esheet->sheet, &pos, NULL, comment->str);
-		g_string_free (comment, FALSE);
+		g_string_free (comment, TRUE);
 	}
 }
 

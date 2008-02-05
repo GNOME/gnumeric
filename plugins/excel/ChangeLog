@@ -1,3 +1,11 @@
+2008-02-05  Morten Welinder  <terra@gnome.org>
+
+	* ms-escher.c (ms_escher_read_Blip): Don't construct bogus blip.
+	Fixes #514510.
+
+	* ms-excel-read.c (excel_read_FONT): Add length checks.  Fixes
+	#514506.
+
 2008-02-04  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_biff_text, excel_biff_text_1,
