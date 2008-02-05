@@ -4306,7 +4306,7 @@ excel_read_MULRK (BiffQuery *q, ExcelReadSheet *esheet)
 		mstyle = excel_get_style_from_xf (esheet, xf);
 		if (mstyle != NULL)
 			sheet_style_set_pos (esheet->sheet, col, row, mstyle);
-		if (xf->is_simple_format)
+		if (xf && xf->is_simple_format)
 			value_set_fmt (v, xf->style_format);
 		cell = sheet_cell_fetch (esheet->sheet, col, row);
 		if (cell)
@@ -5668,6 +5668,19 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 	g_ptr_array_add (container->v7.externsheets, sheet);
 }
 
+static void
+excel_read_EXTERNSHEET (BiffQuery const *q, GnmXLImporter *importer,
+			const MsBiffBofData *ver)
+{
+	XL_CHECK_CONDITION (ver != NULL);
+
+	if (ver->version >= MS_BIFF_V8)
+		excel_read_EXTERNSHEET_v8 (q, importer);
+	else
+		excel_read_EXTERNSHEET_v7 (q, &importer->container);
+}
+
+
 /* FILEPASS, ask the user for a password if necessary
  * return value is an error string, or NULL for success
  */
@@ -6522,10 +6535,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view, GsfInput *input,
 
 		case BIFF_EXTERNCOUNT:	/* ignore */ break;
 		case BIFF_EXTERNSHEET:
-			if (ver->version >= MS_BIFF_V8)
-				excel_read_EXTERNSHEET_v8 (q, importer);
-			else
-				excel_read_EXTERNSHEET_v7 (q, &importer->container);
+			excel_read_EXTERNSHEET (q, importer, ver);
 			break;
 
 		case BIFF_PRECISION : {
