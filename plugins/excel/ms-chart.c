@@ -364,6 +364,7 @@ BC_R(ai)(XLChartHandler const *handle,
 				: gnm_go_data_vector_new_expr (sheet, texpr);
 		}
 	} else if (ref_type == 1 && purpose != GOG_MS_DIM_LABELS &&
+		   s->currentSeries &&
 		   s->currentSeries->data [purpose].num_elements > 0) {
 		if (s->currentSeries->data [purpose].value)
 			g_warning ("Leak?");
@@ -981,9 +982,16 @@ static gboolean
 BC_R(fontx)(XLChartHandler const *handle,
 	    XLChartReadState *s, BiffQuery *q)
 {
-	ExcelFont const *font = excel_font_get (s->container.importer,
-		GSF_LE_GET_GUINT16 (q->data));
-	GOFont const *gfont = excel_font_get_gofont (font);
+	ExcelFont const *font;
+	GOFont const *gfont;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+	font = excel_font_get (s->container.importer,
+			       GSF_LE_GET_GUINT16 (q->data));
+	if (!font)
+		return FALSE;
+
+	gfont = excel_font_get_gofont (font);
 	go_font_ref (gfont);
 	BC_R(get_style) (s);
 	gog_style_set_font (s->style, gfont);

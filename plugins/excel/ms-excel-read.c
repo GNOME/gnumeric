@@ -902,22 +902,14 @@ excel_get_chars (GnmXLImporter const *importer,
 	return ans;
 }
 
-/**
- * excel_get_text :
- * @importer :
- * @pos : pointer to the start of string information
- * @length : in _characters_
- * @byte_len : The number of bytes between @pos and the end of string data
- *
- * Returns a string which the caller is responsible for freeing
- **/
-char *
-excel_get_text (GnmXLImporter const *importer,
-		guint8 const *pos, guint32 length, guint32 *byte_length)
+static char *
+excel_get_text_full (GnmXLImporter const *importer,
+		     guint8 const *pos, guint32 length,
+		     guint32 *byte_length, guint32 maxlen)
 {
 	char *ans;
 	guint8 const *ptr;
-	unsigned byte_len, trailing_data_len, n_markup;
+	unsigned byte_len, trailing_data_len, n_markup, str_len_bytes;
 	gboolean use_utf16, has_extended;
 
 	if (byte_length == NULL)
@@ -940,7 +932,16 @@ excel_get_text (GnmXLImporter const *importer,
 		ptr = pos;
 	}
 
-	*byte_length += (use_utf16 ? 2 : 1) * length;
+	str_len_bytes = (use_utf16 ? 2 : 1) * length;
+	if (*byte_length > maxlen) {
+		*byte_length = maxlen;
+		length = 0;
+	} else if (maxlen - *byte_length < str_len_bytes) {
+		*byte_length = maxlen;
+		length = (maxlen - *byte_length) / (use_utf16 ? 2 : 1);
+	} else
+		*byte_length += str_len_bytes;
+
 	ans = excel_get_chars (importer, ptr, length, use_utf16);
 
 	d (4, {
@@ -953,6 +954,61 @@ excel_get_text (GnmXLImporter const *importer,
 	});
 
 	return ans;
+}
+
+/**
+ * excel_get_text :
+ * @importer :
+ * @pos : pointer to the start of string information
+ * @length : in _characters_
+ * @byte_len : The number of bytes between @pos and the end of string data
+ *
+ * Returns a string which the caller is responsible for freeing
+ **/
+char *
+excel_get_text (GnmXLImporter const *importer,
+		guint8 const *pos, guint32 length, guint32 *byte_length)
+{
+	return excel_get_text_full (importer, pos, length, byte_length,
+				    G_MAXUINT);
+}
+
+static char *
+excel_biff_text (GnmXLImporter const *importer,
+		 const BiffQuery *q, guint32 ofs, guint32 length)
+{
+	XL_CHECK_CONDITION_VAL (q->length >= ofs, NULL);
+
+	return excel_get_text_full (importer, q->data + ofs, length,
+				    NULL, q->length - ofs);
+}
+
+static char *
+excel_biff_text_1 (GnmXLImporter const *importer,
+		   const BiffQuery *q, guint32 ofs)
+{
+	guint32 length;
+
+	XL_CHECK_CONDITION_VAL (q->length > ofs, NULL);
+	length = GSF_LE_GET_GUINT8 (q->data + ofs);
+	ofs++;
+
+	return excel_get_text_full (importer, q->data + ofs, length,
+				    NULL, q->length - ofs);
+}
+
+static char *
+excel_biff_text_2 (GnmXLImporter const *importer,
+		   const BiffQuery *q, guint32 ofs)
+{
+	guint32 length;
+
+	XL_CHECK_CONDITION_VAL (q->length > ofs + 1, NULL);
+	length = GSF_LE_GET_GUINT16 (q->data + ofs);
+	ofs += 2;
+
+	return excel_get_text_full (importer, q->data + ofs, length,
+				    NULL, q->length - ofs);
 }
 
 typedef struct {
@@ -1243,8 +1299,7 @@ excel_read_BOUNDSHEET (BiffQuery *q, GnmXLImporter *importer)
 		bs->type = MS_BIFF_TYPE_Worksheet;
 		default_name = _("Sheet%d");
 		bs->visibility = GNM_SHEET_VISIBILITY_VISIBLE;
-		bs->name = excel_get_text (importer, q->data + 1,
-			GSF_LE_GET_GUINT8 (q->data), NULL);
+		bs->name = excel_biff_text_1 (importer, q, 0);
 	} else {
 		if (importer->ver > MS_BIFF_V8)
 			g_printerr ("Unknown BIFF Boundsheet spec. Assuming same as Biff7 FIXME\n");
@@ -1288,8 +1343,7 @@ excel_read_BOUNDSHEET (BiffQuery *q, GnmXLImporter *importer)
 		* other locales universally seem to treat the first byte as a length
 		* and the second as the unicode flag header.
 		*/
-		bs->name = excel_get_text (importer, q->data + 7,
-			GSF_LE_GET_GUINT8 (q->data + 6), NULL);
+		bs->name = excel_biff_text_1 (importer, q, 6);
 	}
 
 	/* TODO: find some documentation on this.
@@ -1343,10 +1397,8 @@ excel_read_FORMAT (BiffQuery *q, GnmXLImporter *importer)
 		d = g_new (BiffFormatData, 1);
 		d->idx = GSF_LE_GET_GUINT16 (q->data);
 		d->name = (ver >= MS_BIFF_V8)
-			? excel_get_text (importer, q->data + 4,
-				GSF_LE_GET_GUINT16 (q->data + 2), NULL)
-			: excel_get_text (importer, q->data + 3,
-				GSF_LE_GET_GUINT8 (q->data + 2), NULL);
+			? excel_biff_text_2 (importer, q, 2)
+			: excel_biff_text_1 (importer, q, 2);
 	} else {
 		XL_CHECK_CONDITION (q->length >= 3);
 
@@ -1354,10 +1406,8 @@ excel_read_FORMAT (BiffQuery *q, GnmXLImporter *importer)
 		/* no usable index */
 		d->idx = g_hash_table_size (importer->format_table);
 		d->name = (ver >= MS_BIFF_V4)
-			? excel_get_text (importer, q->data + 3,
-				GSF_LE_GET_GUINT8 (q->data + 2), NULL)
-			: excel_get_text (importer, q->data + 1,
-				GSF_LE_GET_GUINT8 (q->data), NULL);
+			? excel_biff_text_1 (importer, q, 2)
+			: excel_biff_text_1 (importer, q, 0);
 	}
 
 	d (3, fprintf (stderr, "Format data: 0x%x == '%s'\n", d->idx, d->name););
@@ -1382,8 +1432,7 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 		fd->boldness  = (data & 0x1) ? 0x2bc : 0x190;
 		fd->underline = (data & 0x4) ? UNDERLINE_SINGLE : UNDERLINE_NONE;
 		fd->script = GO_FONT_SCRIPT_STANDARD;
-		fd->fontname = excel_get_text (importer, q->data + 5,
-			GSF_LE_GET_GUINT8 (q->data + 4), NULL);
+		fd->fontname = excel_biff_text_1 (importer, q, 4);
 		if (ms_biff_query_peek_next (q, &opcode) &&
 		    opcode == BIFF_FONT_COLOR) {
 			ms_biff_query_next (q);
@@ -1395,8 +1444,7 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 		fd->boldness  = (data & 0x1) ? 0x2bc : 0x190;
 		fd->underline = (data & 0x4) ? UNDERLINE_SINGLE : UNDERLINE_NONE;
 		fd->script = GO_FONT_SCRIPT_STANDARD;
-		fd->fontname = excel_get_text (importer, q->data + 7,
-			GSF_LE_GET_GUINT8 (q->data + 6), NULL);
+		fd->fontname = excel_biff_text_1 (importer, q, 6);
 	} else {
 		fd->color_idx  = GSF_LE_GET_GUINT16 (q->data + 4);
 		fd->boldness   = GSF_LE_GET_GUINT16 (q->data + 6);
@@ -1418,8 +1466,7 @@ excel_read_FONT (BiffQuery *q, GnmXLImporter *importer)
 		case 0x21: fd->underline = UNDERLINE_SINGLE; break;	/* single accounting */
 		case 0x22: fd->underline = UNDERLINE_DOUBLE; break;	/* double accounting */
 		}
-		fd->fontname = excel_get_text (importer, q->data + 15,
-			GSF_LE_GET_GUINT8 (q->data + 14), NULL);
+		fd->fontname = excel_biff_text_1 (importer, q, 14);
 	}
 	fd->color_idx &= 0x7f; /* Undocumented but a good idea */
 
@@ -2571,11 +2618,10 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 				 *        DAMN! this was us!  we were screwing
 				 *        up when exporting ""
 				 */
-				guint16 const len = (q->data != NULL) ? GSF_LE_GET_GUINT16 (q->data) : 0;
+				guint16 const len = (q->length >= 2) ? GSF_LE_GET_GUINT16 (q->data) : 0;
 
 				if (len > 0)
-					v = excel_get_text (esheet->container.importer,
-						q->data + 2, len, NULL);
+					v = excel_biff_text (esheet->container.importer, q, 2, len);
 				else
 					/*
 					 * Pre-Biff8 seems to use len=0
@@ -2710,7 +2756,7 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 		if (options & 0xe7d)
 			g_warning ("unknown flag on NOTE record %hx", options);
 
-		author = excel_get_text (esheet->container.importer, q->data + 10, author_len, NULL);
+		author = excel_biff_text (esheet->container.importer, q, 10, author_len);
 		d (1, fprintf (stderr,"Comment at %s%d id %d options"
 			      " 0x%x hidden %d by '%s'\n",
 			      col_name (pos.col), pos.row + 1,
@@ -2734,8 +2780,8 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 			guint16 opcode;
 
 			g_string_append (comment,
-					 excel_get_text (esheet->container.importer,
-							 q->data + 6, 2048, NULL));
+					 excel_biff_text (esheet->container.importer,
+							  q, 6, 2048));
 
 			if (!ms_biff_query_peek_next (q, &opcode) ||
 			    opcode != BIFF_NOTE || !ms_biff_query_next (q) ||
@@ -2745,7 +2791,7 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 				return;
 			}
 		}
-		g_string_append (comment, excel_get_text (esheet->container.importer, q->data + 6, len, NULL));
+		g_string_append (comment, excel_biff_text (esheet->container.importer, q, 6, len));
 
 		d (2, fprintf (stderr,"Comment in %s%d: '%s'\n",
 			      col_name (pos.col), pos.row + 1, comment->str););
@@ -3241,15 +3287,13 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 	} else if (ver >= MS_BIFF_V5) {
 		XL_CHECK_CONDITION (q->length >= 7);
 
-		name = excel_get_text (container->importer, q->data + 7,
-			GSF_LE_GET_GUINT8 (q->data + 6), NULL);
+		name = excel_biff_text_1 (container->importer, q, 6);
 		nexpr = excel_parse_name (container->importer, NULL,
 			name, NULL, 0, FALSE, NULL);
 	} else {
 		XL_CHECK_CONDITION (q->length >= 3);
 
-		name = excel_get_text (container->importer, q->data + 3,
-			GSF_LE_GET_GUINT8 (q->data + 2), NULL);
+		name = excel_biff_text_1 (container->importer, q, 2);
 		nexpr = excel_parse_name (container->importer, NULL,
 			name, NULL, 0, FALSE, NULL);
 	}
@@ -3363,6 +3407,8 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 	}
 
 	name = excel_read_name_str (importer, data, &name_len, builtin_name);
+	XL_NEED_BYTES (name_len);
+	data += name_len;
 
 	if (name != NULL) {
 		Sheet *sheet = NULL;
@@ -3388,8 +3434,10 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 		if (importer->num_name_records < importer->names->len)
 			nexpr = g_ptr_array_index (importer->names, importer->num_name_records);
 
+		XL_NEED_BYTES (expr_len);
 		nexpr = excel_parse_name (importer, sheet,
-			name, data + name_len, expr_len, TRUE, nexpr);
+			name, data, expr_len, TRUE, nexpr);
+		data += expr_len;
 
 		/* Add a ref to keep it around after the excel-sheet/wb goes
 		 * away.  externnames do not get references and are unrefed
@@ -3428,7 +3476,6 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 		char *help_txt;
 		char *status_txt;
 
-		data += name_len + expr_len;
 		menu_txt = excel_get_text (importer, data, menu_txt_len, NULL);
 		data += menu_txt_len;
 		descr_txt = excel_get_text (importer, data, descr_txt_len, NULL);
@@ -5292,8 +5339,7 @@ excel_read_CODENAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *eshe
 
 	XL_CHECK_CONDITION (q->length >= 2);
 
-	codename = excel_get_text (importer, q->data + 2,
-		GSF_LE_GET_GUINT16 (q->data), NULL);
+	codename = excel_biff_text_2 (importer, q, 0);
 	obj = esheet ? G_OBJECT (esheet->sheet) : G_OBJECT (importer->wb);
 	g_object_set_data_full (obj, CODENAME_KEY, codename, g_free);
 }
@@ -5573,7 +5619,7 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 		if (len + 2 > q->length)
 			len = q->length - 2;
 
-		name = excel_get_text (container->importer, q->data + 2, len, NULL);
+		name = excel_biff_text (container->importer, q, 2, len);
 
 		if (name != NULL) {
 			sheet = workbook_sheet_by_name (container->importer->wb, name);
@@ -5743,14 +5789,10 @@ excel_read_HEADER_FOOTER (GnmXLImporter const *importer,
 
 		if (importer->ver >= MS_BIFF_V8) {
 			XL_CHECK_CONDITION (q->length >= 3);
-			str = excel_get_text (importer, q->data + 2,
-					      GSF_LE_GET_GUINT16 (q->data),
-					      NULL);
+			str = excel_biff_text_2 (importer, q, 0);
 		} else {
 			XL_CHECK_CONDITION (q->length >= 2);
-			str = excel_get_text (importer, q->data + 1,
-					      GSF_LE_GET_GUINT8  (q->data),
-					      NULL);
+			str = excel_biff_text_1 (importer, q, 0);
 		}
 		d (2, fprintf (stderr,"%s == '%s'\n", is_header ? "header" : "footer", str););
 
