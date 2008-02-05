@@ -1,3 +1,8 @@
+2008-02-05  Morten Welinder  <terra@gnome.org>
+
+	* src/clipboard.c (cellregion_to_string): Fix col/row confusion.
+	Fixes #514438.
+
 2008-02-04  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (functions_shutdown): Handle leftover place holders
