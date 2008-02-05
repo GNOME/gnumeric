@@ -14,6 +14,7 @@ Morten:
 	* Band-aid evaluation problem with broken xls.  [#513559]
 	* Fix circular array formula problem.
 	* Work around Qt theme bug.  [#512752]
+	* Fix paste-as-text bug.  [#514438]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.1

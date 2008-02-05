@@ -937,7 +937,7 @@ cellregion_to_string (GnmCellRegion const *cr,
 				g_string_append_c (line, '\t');
 		}
 		g_string_append_len (all, line->str, line->len);
-		if (++row <= extent.end.col)
+		if (++row <= extent.end.row)
 			g_string_append_c (all, '\n');
 	}
 
