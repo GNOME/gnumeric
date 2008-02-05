@@ -319,7 +319,7 @@ ms_biff_query_set_decrypt (BiffQuery *q, MsBiffVersion version,
 	if (password == NULL)
 		return FALSE;
 
-	if (version < MS_BIFF_V8 || q->data[0] == 0)
+	if (version < MS_BIFF_V8 || q->length == 0 || q->data[0] == 0)
 		return ms_biff_pre_biff8_query_set_decrypt (q, password);
 
 	XL_CHECK_CONDITION_VAL (q->length == sizeof_BIFF_8_FILEPASS, FALSE);

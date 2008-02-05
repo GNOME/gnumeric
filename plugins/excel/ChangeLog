@@ -1,5 +1,14 @@
 2008-02-04  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (excel_biff_text, excel_biff_text_1,
+	excel_biff_text_2): New functions.  Use these where possible to
+	add length checks.
+
+	* ms-chart.c (ai): Handle missing series.  Fixes #514435.
+	(fontx): Add length checks.  Fixes #514436.
+	* ms-biff.c (ms_biff_query_set_decrypt): Handle empty record.
+	Fixes #514437.
+
 	* ms-excel-read.c (excel_read_FORMULA): When we see multiple
 	expressions for a single cell, don't leak.  Fixes #514295.
 	(excel_cell_fetch): New function.
