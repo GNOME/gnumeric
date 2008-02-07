@@ -883,10 +883,11 @@ ms_obj_map_forms_obj (MSObj *obj, MSContainer *c,
 	char *type;
 	guint32 len;
 
-	if ((data+16) > last)
+	if (last - data < 16)
 		return;
 	type = excel_get_text (c->importer, data + 16,
-		GSF_LE_GET_GUINT16 (data + 14 ), &len);
+			       GSF_LE_GET_GUINT16 (data + 14),
+			       &len, last - data);
 	if (NULL == type || strncmp (type, "Forms.", 6)) {
 		g_free (type);
 		return;

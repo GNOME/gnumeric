@@ -50,7 +50,7 @@ typedef struct {
 typedef struct {
 	GnmCellPos key;
 	guint8 *data;
-	guint32 data_len;
+	guint32 data_len, array_data_len;
 	gboolean is_array;
 } XLSharedFormula;
 
@@ -135,10 +135,12 @@ void	       ms_biff_bof_data_destroy (MsBiffBofData * data);
 
 char *excel_get_chars (GnmXLImporter const *importer,
 		       guint8 const *ptr, size_t length,
-				  gboolean use_utf16);
-char *excel_get_text  (GnmXLImporter const *importer,
-		       guint8 const *ptr, guint32 length,
-		       guint32 *byte_length);
+		       gboolean use_utf16);
+char * excel_get_text (GnmXLImporter const *importer,
+		       guint8 const *pos, guint32 length,
+		       guint32 *byte_length, guint32 maxlen);
+char *excel_biff_text_1 (GnmXLImporter const *importer, const BiffQuery *q, guint32 ofs);
+char *excel_biff_text_2 (GnmXLImporter const *importer, const BiffQuery *q, guint32 ofs);
 
 GnmColor	*excel_palette_get (GnmXLImporter *importer, gint idx);
 ExcelFont const *excel_font_get    (GnmXLImporter const *importer, unsigned idx);
