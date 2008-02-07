@@ -100,8 +100,7 @@ xl_read_pivot_cache (XLPivotReadState *s, BiffQuery *q)
 		guint16 base_fields	= GSF_LE_GET_GUINT16 (q->data + 10);	/* base */
 		/* guint16 zero */
 		guint16 type		= GSF_LE_GET_GUINT16 (q->data + 16);
-		char *who		= excel_get_text (s->importer,
-			q->data + 20, GSF_LE_GET_GUINT16 (q->data + 18), NULL);
+		char *who		= excel_biff_text_2 (s->importer, q, 18);
 		fprintf (stderr, "num_rec = %u;\nstream_id = %hu;\n"
 			 "rec per block = %hu;\nbase fields = %hu;\ntotal fields = %hu;\n"
 			 "last modified by = '%s';type = 0x%x, flags = 0x%x;\n",
@@ -139,8 +138,7 @@ xl_read_pivot_cache (XLPivotReadState *s, BiffQuery *q)
 			guint16 grouped_items	= GSF_LE_GET_GUINT16  (q->data + 8);
 			guint16 base_items	= GSF_LE_GET_GUINT16  (q->data + 10);
 			guint16 std_items	= GSF_LE_GET_GUINT16  (q->data + 12);
-			char *name = excel_get_text (s->importer, q->data + 16,
-				GSF_LE_GET_GUINT16 (q->data + 14), NULL);
+			char *name = excel_biff_text_2 (s->importer, q, 14);
 			switch (index_type) {
 			case 1 : /* items follow field description with no index */
 				s->num_items  = GSF_LE_GET_GUINT16  (q->data + 6);
@@ -212,8 +210,7 @@ const sal_uInt16 EXC_SXFIELD_INDEX_STEP     = 2;        /// List index for step 
 		break;
 
 		case BIFF_SXSTRING: if (check_min_len (q, 2)) {
-			char *val = excel_get_text (s->importer, q->data + 2,
-				GSF_LE_GET_GUINT16 (q->data + 0), NULL);
+			char *val = excel_biff_text_2 (s->importer, q, 0);
 			d_item (s);
 			d (2, fprintf (stderr, "'%s' (string);\n", val););
 			g_free (val);

@@ -1,3 +1,20 @@
+2008-02-07  Morten Welinder  <terra@gnome.org>
+
+	* ms-chart.c (xl_chart_import_error_bar): Avoid crash in missing
+	parent-series case.  Fixes #514630.
+
+	* ms-formula-read.c (excel_parse_formula1, excel_parse_formula):
+	Grow a maxlen argument and make sure we do not read more.  Fixes
+	#514637.
+
+	* ms-excel-read.c (excel_read_string_header, excel_get_text): Grow
+	an array_length argument and make sure we do not read more array
+	data than call.  All callers changed.
+	(excel_biff_text, excel_biff_text_1, excel_biff_text_2): New
+	Biff-record based wrappers for excel_get_text.
+	(excel_formula_shared): Make sure to copy the data behind the
+	expression too.
+
 2008-02-05  Morten Welinder  <terra@gnome.org>
 
 	* ms-escher.c (ms_escher_read_Blip): Don't construct bogus blip.

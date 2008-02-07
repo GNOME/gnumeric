@@ -843,6 +843,39 @@ static char const *ptg_name[] = {
 	"PTG_REF_ERR_3D", "PTG_AREA_ERR_3D", "PTG_3E",	"PTG_3F"
 };
 
+
+static gboolean
+check_formula_len (int left, int needed)
+{
+	if (needed > left) {
+		g_warning ("File is most likely corrupted.\n"
+			   "(Needed %d bytes for formula item, has only %d.)",
+			   needed, left);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+
+#define CHECK_FORMULA_LEN(len_)					\
+do {								\
+	ptg_length = (len_);					\
+	if (check_formula_len (len_left, ptg_length + 1)) {	\
+		goto length_error;				\
+	}							\
+} while (0)							\
+
+#define CHECK_FORMULA_ARRAY_LEN(len_)				\
+do {								\
+	int needed_ = len_;					\
+	int left_ = array_length - (array_data - array_data0);	\
+	if (check_formula_len (left_, needed_)) {		\
+                if (v)						\
+			value_release (v);			\
+		goto length_error;				\
+	}							\
+} while (0)
+
 /**
  * Parse that RP Excel formula, see S59E2B.HTM
  * Return a dynamicly allocated GnmExpr containing the formula, or NULL
@@ -851,7 +884,7 @@ static GnmExpr const *
 excel_parse_formula1 (MSContainer const *container,
 		      ExcelReadSheet const *esheet,
 		      int fn_col, int fn_row,
-		      guint8 const *mem, guint16 length,
+		      guint8 const *mem, guint16 length, guint16 array_length,
 		      gboolean shared,
 		      gboolean *array_element)
 {
@@ -861,7 +894,8 @@ excel_parse_formula1 (MSContainer const *container,
 	guint8 const *cur = mem + 1;
 
 	/* Array sizes and values are stored at the end of the stream */
-	guint8 const *array_data = mem + length;
+	guint8 const *array_data0 = mem + length;
+	guint8 const *array_data = array_data0;
 
 	int len_left = length;
 	GnmExprList *stack = NULL;
@@ -901,8 +935,14 @@ excel_parse_formula1 (MSContainer const *container,
 			XLSharedFormula *sf;
 			GnmCellPos top_left;
 
+			if (ver >= MS_BIFF_V3) {
+				CHECK_FORMULA_LEN(3);
+				top_left.col = GSF_LE_GET_GUINT16 (cur+2);
+			} else {
+				CHECK_FORMULA_LEN(4);
+				top_left.col = GSF_LE_GET_GUINT8 (cur+2);
+			}
 			top_left.row = GSF_LE_GET_GUINT16 (cur+0);
-			top_left.col = (ver >= MS_BIFF_V3) ? GSF_LE_GET_GUINT16 (cur+2) : GSF_LE_GET_GUINT8 (cur+2);
 			sf = excel_sheet_shared_formula (esheet, &top_left);
 
 			if (sf == NULL) {
@@ -926,7 +966,8 @@ excel_parse_formula1 (MSContainer const *container,
 
 			d (0, fprintf (stderr, "Parse shared formula\n"););
 			expr = excel_parse_formula1 (container, esheet, fn_col, fn_row,
-				sf->data, sf->data_len, TRUE, array_element);
+						     sf->data, sf->data_len, sf->array_data_len,
+						     TRUE, array_element);
 
 			parse_list_push (&stack, expr);
 			ptg_length = length; /* Force it to be the only token */
@@ -937,8 +978,14 @@ excel_parse_formula1 (MSContainer const *container,
 			XLDataTable *dt;
 			GnmCellPos top_left;
 
+			if (ver >= MS_BIFF_V3) {
+				CHECK_FORMULA_LEN(3);
+				top_left.col = GSF_LE_GET_GUINT16 (cur+2);
+			} else {
+				CHECK_FORMULA_LEN(4);
+				top_left.col = GSF_LE_GET_GUINT8 (cur+2);
+			}
 			top_left.row = GSF_LE_GET_GUINT16 (cur+0);
-			top_left.col = (ver >= MS_BIFF_V3) ? GSF_LE_GET_GUINT16 (cur+2) : GSF_LE_GET_GUINT8 (cur+2);
 			dt = excel_sheet_data_table (esheet, &top_left);
 
 			if (dt == NULL) {
@@ -1018,15 +1065,17 @@ excel_parse_formula1 (MSContainer const *container,
 			break;
 
 		case FORMULA_PTG_ATTR : { /* FIXME: not fully implemented */
-			guint8  grbit = GSF_LE_GET_GUINT8 (cur);
+			guint8 grbit;
 			guint16 w;
 			if (ver >= MS_BIFF_V3) {
+				CHECK_FORMULA_LEN(3);
 				w = GSF_LE_GET_GUINT16 (cur+1);
-				ptg_length = 3;
 			} else {
+				CHECK_FORMULA_LEN(2);
 				w = GSF_LE_GET_GUINT8 (cur+1);
-				ptg_length = 2;
 			}
+
+			grbit = GSF_LE_GET_GUINT8 (cur);
 			if (grbit == 0x00) {
 #if 0
 				ms_excel_dump_cellname (container->importer, esheet, fn_col, fn_row);
@@ -1080,61 +1129,47 @@ excel_parse_formula1 (MSContainer const *container,
 		break;
 
 		case FORMULA_PTG_SHEET:
+			CHECK_FORMULA_LEN(10);
 			g_warning ("PTG_SHEET! please send us a copy of this file.");
-			ptg_length = 10;
 			break;
 
 		case FORMULA_PTG_SHEET_END:
+			CHECK_FORMULA_LEN(4);
 			g_warning ("PTG_SHEET_END! please send us a copy of this file.");
-			ptg_length = 4;
 			break;
 
 		case FORMULA_PTG_ERR:
+			CHECK_FORMULA_LEN(1);
 			parse_list_push_raw (&stack, biff_get_error (NULL, GSF_LE_GET_GUINT8 (cur)));
-			ptg_length = 1;
 			break;
 
 		case FORMULA_PTG_INT:
+			CHECK_FORMULA_LEN(2);
 			parse_list_push_raw (&stack, value_new_int (GSF_LE_GET_GUINT16 (cur)));
-			ptg_length = 2;
 			break;
 
 		case FORMULA_PTG_BOOL:
+			CHECK_FORMULA_LEN(1);
 			parse_list_push_raw (&stack, value_new_bool (GSF_LE_GET_GUINT8 (cur)));
-			ptg_length = 1;
 			break;
 
 		case FORMULA_PTG_NUM:
+			CHECK_FORMULA_LEN(8);
 			parse_list_push_raw (&stack, value_new_float (gsf_le_get_double (cur)));
-			ptg_length = 8;
 			break;
 
 		case FORMULA_PTG_STR: {
 			char *str;
 			guint32 byte_len;
-			int char_len = GSF_LE_GET_GUINT8 (cur);
+			int char_len;
 
-			if (char_len <= len_left) {
-				str = excel_get_text (container->importer, cur+1, char_len, &byte_len);
-				ptg_length = 1 + byte_len;
-				/* data validation has a non-standard form of expression
-				 */
-#if 0
-				if (str != NULL && ) {
-					int res_char_len = g_utf8_strlen (str,  byte_len);
-				}
-#endif
-			} else {
-				str = NULL;
+			CHECK_FORMULA_LEN(1);
+			char_len = GSF_LE_GET_GUINT8 (cur);
 
-#if 0
-				/* we can not flag this because some versions of gnumeric
-				 * produced invalid output where "" was stored as
-				 * PTG_STR with no length **/
-				g_warning ("invalid string of len %d, larger than remaining space %d",
-					   len, len_left);
-#endif
-			}
+			str = excel_get_text (container->importer, cur+1,
+					      char_len, &byte_len,
+					      len_left - 1);
+			ptg_length = 1 + byte_len;
 
 			if (str != NULL) {
 				d (2, fprintf (stderr, "   -> '%s'\n", str););
@@ -1147,7 +1182,7 @@ excel_parse_formula1 (MSContainer const *container,
 		}
 
 		case FORMULA_PTG_EXTENDED : { /* Extended Ptgs for Biff8 */
-			ptg_length = 1;
+			CHECK_FORMULA_LEN(1);
 			switch ((eptg = GSF_LE_GET_GUINT8 (cur))) {
 			default :
 				g_warning ("EXCEL : unknown ePtg type %02x", eptg);
@@ -1248,11 +1283,15 @@ excel_parse_formula1 (MSContainer const *container,
 		break;
 
 		case FORMULA_PTG_ARRAY : {
-			unsigned cols = GSF_LE_GET_GUINT8  (array_data + 0);
-			unsigned rows = GSF_LE_GET_GUINT16 (array_data + 1);
-			unsigned lpx, lpy, elem_len = 0;
-			GnmValue *v, *elem;
-			guint8 val_type;
+			unsigned cols, rows;
+			unsigned lpx, lpy;
+			GnmValue *v = NULL;
+
+			CHECK_FORMULA_LEN(7);
+			CHECK_FORMULA_ARRAY_LEN(3);
+			cols = GSF_LE_GET_GUINT8  (array_data + 0);
+			rows = GSF_LE_GET_GUINT16 (array_data + 1);
+			array_data += 3;
 
 			if (ver >= MS_BIFF_V8) {
 				cols++;
@@ -1261,7 +1300,6 @@ excel_parse_formula1 (MSContainer const *container,
 				cols = 256;
 
 			v = value_new_array (cols, rows);
-			ptg_length = 7;
 
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_formula_debug > 4) {
@@ -1272,10 +1310,14 @@ excel_parse_formula1 (MSContainer const *container,
 					cols, rows);
 			}
 #endif
-			array_data += 3;
 			for (lpy = 0; lpy < rows; lpy++) {
 				for (lpx = 0; lpx < cols; lpx++) {
+					GnmValue *elem;
+					guint8 val_type;
+
+					CHECK_FORMULA_ARRAY_LEN(1);
 					val_type = GSF_LE_GET_GUINT8 (array_data);
+					array_data++;
 #ifndef NO_DEBUG_EXCEL
 					if (ms_excel_formula_debug > 5) {
 						fprintf (stderr, "\tArray elem type 0x%x (%d,%d)\n", val_type, lpx, lpy);
@@ -1283,23 +1325,29 @@ excel_parse_formula1 (MSContainer const *container,
 #endif
 					switch (val_type) {
 					case 1:
-						elem = value_new_float (gsf_le_get_double (array_data+1));
-						elem_len = 9;
+						CHECK_FORMULA_ARRAY_LEN(8);
+						elem = value_new_float (gsf_le_get_double (array_data));
+						array_data += 8;
 						break;
 
 					case 2: {
-						guint32 len;
+						guint32 len, chars;
 						char *str;
 
 						if (ver >= MS_BIFF_V8) {
-							str = excel_get_text (container->importer, array_data + 3,
-								GSF_LE_GET_GUINT16 (array_data+1), &len);
-							elem_len = len + 3;
+							CHECK_FORMULA_ARRAY_LEN(2);
+							chars = GSF_LE_GET_GUINT16 (array_data);
+							array_data += 2;
 						} else {
-							str = excel_get_text (container->importer, array_data + 2,
-								GSF_LE_GET_GUINT8 (array_data+1), &len);
-							elem_len = len + 2;
+							CHECK_FORMULA_ARRAY_LEN(1);
+							chars = GSF_LE_GET_GUINT8 (array_data);
+							array_data++;
 						}
+						str = excel_get_text
+							(container->importer, array_data,
+							 chars, &len,
+							 array_length - (array_data - array_data0));
+						array_data += len;
 
 						if (str) {
 #ifndef NO_DEBUG_EXCEL
@@ -1314,22 +1362,21 @@ excel_parse_formula1 (MSContainer const *container,
 					}
 
 					case 4:
-						elem = value_new_bool (array_data [1] ? TRUE : FALSE);
-						elem_len = 9;
+						CHECK_FORMULA_ARRAY_LEN(8);
+						elem = value_new_bool (array_data[0] ? TRUE : FALSE);
 						break;
 					case 16:
-						elem = biff_get_error (NULL, array_data [1]);
-						elem_len = 9;
+						CHECK_FORMULA_ARRAY_LEN(8);
+						elem = biff_get_error (NULL, array_data[0]);
 						break;
 
 					default :
-						fprintf (stderr, "FIXME: Duff array item type %d @ %s%d:%d,%d with %d\n",
-							val_type, col_name(fn_col), fn_row+1, lpx, lpy, elem_len);
-						gsf_mem_dump (array_data-elem_len-9, 9+elem_len+9);
+						fprintf (stderr, "FIXME: Duff array item type %d @ %s%d:%d,%d\n",
+							val_type, col_name(fn_col), fn_row+1, lpx, lpy);
+						gsf_mem_dump (array_data-1, 9);
 						elem = value_new_empty ();
 					}
 					value_array_set (v, lpx, lpy, elem);
-					array_data += elem_len;
 				}
 			}
 			parse_list_push_raw (&stack, v);
@@ -1341,10 +1388,10 @@ excel_parse_formula1 (MSContainer const *container,
 			int iftab;
 
 			if (ver >= MS_BIFF_V4) {
-				ptg_length = 2;
+				CHECK_FORMULA_LEN(2);
 				iftab = GSF_LE_GET_GUINT16 (cur);
 			} else {
-				ptg_length = 1;
+				CHECK_FORMULA_LEN(1);
 				iftab = GSF_LE_GET_GUINT8 (cur);
 			}
 
@@ -1356,7 +1403,7 @@ excel_parse_formula1 (MSContainer const *container,
 		}
 
 		case FORMULA_PTG_FUNC_VAR: {
-			int const numargs = (GSF_LE_GET_GUINT8 ( cur ) & 0x7f);
+			int numargs;
 			/* index into fn table */
 			int iftab;
 #if 0
@@ -1366,12 +1413,13 @@ excel_parse_formula1 (MSContainer const *container,
 			int const cmdquiv = (GSF_LE_GET_GUINT16 (cur+1) & 0x8000);
 #endif
 			if (ver >= MS_BIFF_V4) {
-				ptg_length = 3;
+				CHECK_FORMULA_LEN(3);
 				iftab = (GSF_LE_GET_GUINT16 (cur+1) & 0x7fff);
 			} else {
-				ptg_length = 2;
+				CHECK_FORMULA_LEN(2);
 				iftab = GSF_LE_GET_GUINT8 (cur+1);
 			}
+			numargs = (GSF_LE_GET_GUINT8 (cur) & 0x7f);
 
 			if (!make_function (&stack, iftab, numargs, container->importer->wb)) {
 				error = TRUE;
@@ -1381,17 +1429,18 @@ excel_parse_formula1 (MSContainer const *container,
 		}
 
 		case FORMULA_PTG_NAME: {
-			guint16 name_idx = GSF_LE_GET_GUINT16 (cur);
+			guint16 name_idx;
 			GPtrArray    *names;
 			GnmExpr const*name;
 			GnmNamedExpr *nexpr = NULL;
 
 			if (ver >= MS_BIFF_V8)
-				ptg_length = 4;  /* Docs are wrong, no ixti */
+				CHECK_FORMULA_LEN(4);  /* Docs are wrong, no ixti */
 			else if (ver >= MS_BIFF_V5)
-				ptg_length = 14;
+				CHECK_FORMULA_LEN(14);
 			else
-				ptg_length = 10;
+				CHECK_FORMULA_LEN(10);
+			name_idx = GSF_LE_GET_GUINT16 (cur);
 
 			names = container->importer->names;
 			if (name_idx < 1 || names->len < name_idx ||
@@ -1426,29 +1475,29 @@ excel_parse_formula1 (MSContainer const *container,
 		break;
 
 		case FORMULA_PTG_REF_ERR:
-			ptg_length = (ver >= MS_BIFF_V8) ? 4 : 3;
+			CHECK_FORMULA_LEN(ver >= MS_BIFF_V8 ? 4 : 3);
 			parse_list_push_raw (&stack, value_new_error_REF (NULL));
 			break;
 
 		case FORMULA_PTG_AREA_ERR:
-			ptg_length = (ver >= MS_BIFF_V8) ? 8 : 6;
+			CHECK_FORMULA_LEN(ver >= MS_BIFF_V8 ? 8 : 6);
 			parse_list_push_raw (&stack, value_new_error_REF (NULL));
 			break;
 
 		case FORMULA_PTG_REF: case FORMULA_PTG_REFN: {
 			GnmCellRef ref;
 			if (ver >= MS_BIFF_V8) {
+				CHECK_FORMULA_LEN(4);
 				getRefV8 (&ref,
 					  GSF_LE_GET_GUINT16 (cur),
 					  GSF_LE_GET_GUINT16 (cur + 2),
 					  fn_col, fn_row, ptgbase == FORMULA_PTG_REFN);
-				ptg_length = 4;
 			} else {
+				CHECK_FORMULA_LEN(3);
 				getRefV7 (&ref,
 					  GSF_LE_GET_GUINT8 (cur+2),
 					  GSF_LE_GET_GUINT16 (cur),
 					  fn_col, fn_row, ptgbase == FORMULA_PTG_REFN);
-				ptg_length = 3;
 			}
 			parse_list_push (&stack, gnm_expr_new_cellref (&ref));
 			break;
@@ -1457,6 +1506,7 @@ excel_parse_formula1 (MSContainer const *container,
 		case FORMULA_PTG_AREA: case FORMULA_PTG_AREAN: {
 			GnmCellRef first, last;
 			if (ver >= MS_BIFF_V8) {
+				CHECK_FORMULA_LEN(8);
 				getRefV8 (&first,
 					  GSF_LE_GET_GUINT16 (cur+0),
 					  GSF_LE_GET_GUINT16 (cur+4),
@@ -1465,8 +1515,8 @@ excel_parse_formula1 (MSContainer const *container,
 					  GSF_LE_GET_GUINT16 (cur+2),
 					  GSF_LE_GET_GUINT16 (cur+6),
 					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN);
-				ptg_length = 8;
 			} else {
+				CHECK_FORMULA_LEN(6);
 				getRefV7 (&first,
 					  GSF_LE_GET_GUINT8 (cur+4),
 					  GSF_LE_GET_GUINT16 (cur+0),
@@ -1475,7 +1525,6 @@ excel_parse_formula1 (MSContainer const *container,
 					  GSF_LE_GET_GUINT8 (cur+5),
 					  GSF_LE_GET_GUINT16 (cur+2),
 					  fn_col, fn_row, ptgbase == FORMULA_PTG_AREAN);
-				ptg_length = 6;
 			}
 
 			parse_list_push_raw (&stack, value_new_cellrange (&first, &last, fn_col, fn_row));
@@ -1485,12 +1534,12 @@ excel_parse_formula1 (MSContainer const *container,
 		case FORMULA_PTG_MEM_AREA :
 		case FORMULA_PTG_MEM_ERR :
 			/* ignore this, we handle at run time */
-			ptg_length = 6;
+			CHECK_FORMULA_LEN(6);
 			break;
 
 		case FORMULA_PTG_MEM_FUNC:
 			/* ignore this, we handle at run time */
-			ptg_length = 2;
+			CHECK_FORMULA_LEN(2);
 			break;
 
 		case FORMULA_PTG_NAME_X : {
@@ -1501,9 +1550,13 @@ excel_parse_formula1 (MSContainer const *container,
 			Sheet *sheet = NULL;
 
 			if (ver >= MS_BIFF_V8) {
-				guint16 sheet_idx = GSF_LE_GET_GINT16 (cur);
-				ExcelExternSheetV8 const *es = excel_externsheet_v8 (
-					container->importer, sheet_idx);
+				guint16 sheet_idx;
+				ExcelExternSheetV8 const *es;
+
+				CHECK_FORMULA_LEN(6);
+				sheet_idx = GSF_LE_GET_GINT16 (cur);
+				es = excel_externsheet_v8 (container->importer, sheet_idx);
+
 				if (es != NULL && es->supbook < container->importer->v8.supbook->len) {
 					ExcelSupBook const *sup = &g_array_index (
 						container->importer->v8.supbook,
@@ -1520,10 +1573,11 @@ excel_parse_formula1 (MSContainer const *container,
 
 				d (2, fprintf (stderr, "name %hu : externsheet %hu\n",
 					       name_idx, sheet_idx););
-
-				ptg_length = 6;
 			} else {
-				gint16 sheet_idx = GSF_LE_GET_GINT16 (cur);
+				gint16 sheet_idx;
+
+				CHECK_FORMULA_LEN(24);
+				sheet_idx = GSF_LE_GET_GINT16 (cur);
 				name_idx  = GSF_LE_GET_GUINT16 (cur+10);
 #if 0
 				gsf_mem_dump (cur, 24);
@@ -1536,7 +1590,6 @@ excel_parse_formula1 (MSContainer const *container,
 				} else
 					names = container->v7.externnames;
 				sheet = excel_externsheet_v7 (container, sheet_idx);
-				ptg_length = 24;
 			}
 
 			if (names == NULL || name_idx < 1 || names->len < name_idx ||
@@ -1563,19 +1616,19 @@ excel_parse_formula1 (MSContainer const *container,
 		case FORMULA_PTG_REF_3D : { /* see S59E2B.HTM */
 			GnmCellRef first, last;
 			if (ver >= MS_BIFF_V8) {
+				CHECK_FORMULA_LEN(6);
 				getRefV8 (&first,
 					  GSF_LE_GET_GUINT16 (cur + 2),
 					  GSF_LE_GET_GUINT16 (cur + 4),
 					  fn_col, fn_row, 0);
 				last = first;
-				ptg_length = 6;
 			} else {
+				CHECK_FORMULA_LEN(17);
 				getRefV7 (&first,
 					  GSF_LE_GET_GUINT8  (cur + 16),
 					  GSF_LE_GET_GUINT16 (cur + 14),
 					  fn_col, fn_row, shared);
 				last = first;
-				ptg_length = 17;
 			}
 
 			if (excel_formula_parses_ref_sheets (container, cur, &first.sheet, &last.sheet))
@@ -1592,6 +1645,7 @@ excel_parse_formula1 (MSContainer const *container,
 			GnmCellRef first, last;
 
 			if (ver >= MS_BIFF_V8) {
+				CHECK_FORMULA_LEN(10);
 				getRefV8 (&first,
 					  GSF_LE_GET_GUINT16 (cur+2),
 					  GSF_LE_GET_GUINT16 (cur+6),
@@ -1600,8 +1654,8 @@ excel_parse_formula1 (MSContainer const *container,
 					  GSF_LE_GET_GUINT16 (cur+4),
 					  GSF_LE_GET_GUINT16 (cur+8),
 					  fn_col, fn_row, 0);
-				ptg_length = 10;
 			} else {
+				CHECK_FORMULA_LEN(20);
 				getRefV7 (&first,
 					  GSF_LE_GET_GUINT8 (cur+18),
 					  GSF_LE_GET_GUINT16 (cur+14),
@@ -1610,7 +1664,6 @@ excel_parse_formula1 (MSContainer const *container,
 					  GSF_LE_GET_GUINT8 (cur+19),
 					  GSF_LE_GET_GUINT16 (cur+16),
 					  fn_col, fn_row, shared);
-				ptg_length = 20;
 			}
 			if (excel_formula_parses_ref_sheets (container, cur, &first.sheet, &last.sheet))
 				parse_list_push_raw (&stack, value_new_error_REF (NULL));
@@ -1620,12 +1673,12 @@ excel_parse_formula1 (MSContainer const *container,
 		}
 
 		case FORMULA_PTG_REF_ERR_3D :
-			ptg_length = (ver >= MS_BIFF_V8) ? 6 : 17;
+			CHECK_FORMULA_LEN(ver >= MS_BIFF_V8 ? 6 : 17);
 			parse_list_push_raw (&stack, value_new_error_REF (NULL));
 			break;
 
 		case FORMULA_PTG_AREA_ERR_3D :
-			ptg_length = (ver >= MS_BIFF_V8) ? 10 : 20;
+			CHECK_FORMULA_LEN(ver >= MS_BIFF_V8 ? 10 : 20);
 			parse_list_push_raw (&stack, value_new_error_REF (NULL));
 			break;
 
@@ -1644,6 +1697,8 @@ excel_parse_formula1 (MSContainer const *container,
 		cur      += ptg_length + 1;
 		len_left -= ptg_length + 1;
 	}
+
+ length_error:
 
 	if (error) {
 		g_printerr ("formula data : %s\n", (shared?" (shared)":"(NOT shared)"));
@@ -1676,19 +1731,21 @@ excel_parse_formula1 (MSContainer const *container,
 #endif
 	return parse_list_pop (&stack);
 }
+#undef CHECK_FORMULA_LEN
+#undef CHECK_FORMULA_ARRAY_LEN
 
 GnmExprTop const *
 excel_parse_formula (MSContainer const *container,
 		     ExcelReadSheet const *esheet,
 		     int fn_col, int fn_row,
-		     guint8 const *mem, guint16 length,
+		     guint8 const *mem, guint16 length, guint16 array_length,
 		     gboolean shared,
 		     gboolean *array_element)
 {
 	GnmExprTop const *texpr =
 		gnm_expr_top_new (excel_parse_formula1 (container, esheet,
 							fn_col, fn_row,
-							mem, length,
+							mem, length, array_length,
 							shared,
 							array_element));
 	return texpr

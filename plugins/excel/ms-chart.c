@@ -1902,7 +1902,7 @@ BC_R(seriestext)(XLChartHandler const *handle,
 	if (slen == 0)
 		return FALSE;
 
-	str = excel_get_text (s->container.importer, q->data + 3, slen, NULL);
+	str = excel_biff_text_1 (s->container.importer, q, 2);
 	d (2, g_printerr ("'%s';\n", str););
 
 	if (s->currentSeries != NULL &&
@@ -3010,7 +3010,8 @@ static GnmExprTop const *
 chart_parse_expr  (MSContainer *container, guint8 const *data, int length)
 {
 	return excel_parse_formula (container, NULL, 0, 0,
-				    data, length, FALSE, NULL);
+				    data, length, 0 /* FIXME? */,
+				    FALSE, NULL);
 }
 
 static Sheet *
@@ -3108,10 +3109,13 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 	GogMSDimType msdim;
 	char const *prop_name = (series->err_type < 3)
 		? "x-errors" : "y-errors";
-	GParamSpec *pspec = g_object_class_find_property (
+	GParamSpec *pspec;
+
+	XL_CHECK_CONDITION (parent->series != NULL);
+
+	pspec = g_object_class_find_property (
 		G_OBJECT_GET_CLASS (parent->series),
 		prop_name);
-
 	state->plot = parent->series->plot;
 	if (pspec == NULL) {
 		pspec = g_object_class_find_property (
@@ -3131,8 +3135,8 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 		GOData	      *data;
 
 		g_object_get (G_OBJECT (parent->series),
-						prop_name, &error_bar,
-						NULL);
+			      prop_name, &error_bar,
+			      NULL);
 		if (!error_bar) {
 			error_bar = g_object_new (GOG_ERROR_BAR_TYPE, NULL);
 			error_bar->display = GOG_ERROR_BAR_DISPLAY_NONE;
@@ -3237,15 +3241,14 @@ ms_excel_chart_read_NUMBER (BiffQuery *q, XLChartReadState *state, size_t ofs)
 static void
 ms_excel_chart_read_LABEL (BiffQuery *q, XLChartReadState *state)
 {
-	guint16 row, sernum, len;
+	guint16 row, sernum;
 	char *label;
 	XLChartSeries *series;
 
-	XL_CHECK_CONDITION (q->length >= 8);
+	XL_CHECK_CONDITION (q->length >= 6);
 	row = GSF_LE_GET_GUINT16 (q->data + 0);
 	sernum = GSF_LE_GET_GUINT16 (q->data + 2);
 	/* xf  = GSF_LE_GET_GUINT16 (q->data + 4); */
-	len = GSF_LE_GET_GUINT16 (q->data + 6);
 
 	if (state->cur_role < 0 ||
 	    state->series == NULL ||
@@ -3253,7 +3256,7 @@ ms_excel_chart_read_LABEL (BiffQuery *q, XLChartReadState *state)
 	    NULL == (series = g_ptr_array_index (state->series, sernum)))
 		return;
 
-	label = excel_get_text (state->container.importer, q->data + 8, len, NULL);
+	label = excel_biff_text_2 (state->container.importer, q, 6);
 	if (label != NULL  &&
 	    series->data[state->cur_role].value != NULL) {
 		value_release (series->data[state->cur_role].value->vals[0][row]);

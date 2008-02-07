@@ -18,10 +18,10 @@
 
 GnmExprTop const *
 excel_parse_formula (MSContainer const *container,
-					 ExcelReadSheet const *esheet,
-					 int fn_col, int fn_row,
-					 guint8 const *mem, guint16 length,
-					 gboolean shared,
-					 gboolean *array_element);
+		     ExcelReadSheet const *esheet,
+		     int fn_col, int fn_row,
+		     guint8 const *mem, guint16 length, guint16 array_length,
+		     gboolean shared,
+		     gboolean *array_element);
 
 #endif /* GNM_MS_FORMULA_R_H */

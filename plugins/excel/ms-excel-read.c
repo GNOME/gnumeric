@@ -289,7 +289,8 @@ ms_sheet_parse_expr_internal (ExcelReadSheet *esheet, guint8 const *data, int le
 	g_return_val_if_fail (length > 0, NULL);
 
 	texpr = excel_parse_formula (&esheet->container, esheet, 0, 0,
-		data, length, FALSE, NULL);
+				     data, length, 0 /* FIXME */,
+				     FALSE, NULL);
 	if (ms_excel_read_debug > 8) {
 		char *tmp;
 		GnmParsePos pp;
@@ -825,52 +826,68 @@ excel_unexpected_biff (BiffQuery *q, char const *state,
 
 /**
  * excel_read_string_header :
- * @ptr : a pointer to the start of the string header
+ * @data : a pointer to the start of the string header
+ * @maxlen : the length of the data area
  * @use_utf16 : Is the content in 8 or 16 bit chars
  * @n_markup : number of trailing markup records
  * @has_extended : Is there trailing extended string info (eg japanese PHONETIC)
  * @post_data_len :
  *
- * returns a pointer to the start of the string
+ * returns the length of the header (in bytes)
  **/
-static unsigned
-excel_read_string_header (guint8 const *data,
+static guint32
+excel_read_string_header (guint8 const *data, guint32 maxlen,
 			  gboolean *use_utf16,
 			  unsigned *n_markup,
 			  gboolean *has_extended,
-			  unsigned  *post_data_len)
+			  unsigned *post_data_len)
 {
-	guint8 header = GSF_LE_GET_GUINT8 (data);
-	guint8 const *ptr = data;
+	guint8 header;
+	guint32 len;
 
-	*post_data_len = 0;
+	if (G_UNLIKELY (maxlen < 1))
+		goto error;
 
-	/* be anal and double check that the header looks valid */
-	if (((header & 0xf2) == 0)) {
-		*use_utf16  = (header & 0x1) != 0;
+	header = GSF_LE_GET_GUINT8 (data);
+	if (((header & 0xf2) != 0))
+		goto error;
 
-		ptr++; /* skip header */
-		if ((header & 0x8) != 0) {
-			*n_markup = GSF_LE_GET_GUINT16 (ptr);
-			*post_data_len += *n_markup * 4; /* 4 bytes per */
-			ptr += 2;
-		} else
-			*n_markup = 0;
-		if ((*has_extended   = (header & 0x4) != 0)) {
-			guint32 len_ext_rst = GSF_LE_GET_GUINT32 (ptr); /* A byte length */
-			*post_data_len += len_ext_rst;
-			ptr += 4;
+	*use_utf16 = (header & 0x1) != 0;
 
-			g_warning ("extended string support unimplemented:"
-				   "ignoring %u bytes\n", len_ext_rst);
-		}
+	if ((header & 0x8) != 0) {
+		if (G_UNLIKELY (maxlen < 3))
+			goto error;
+		*n_markup = GSF_LE_GET_GUINT16 (data + 1);
+		*post_data_len = *n_markup * 4; /* 4 bytes per */
+		len = 3;
 	} else {
-		g_warning ("potential problem.  A string with an invalid header was found");
-		*use_utf16 = *has_extended = FALSE;
 		*n_markup = 0;
+		*post_data_len = 0;
+		len = 1;
 	}
 
-	return ptr - data;
+	*has_extended = (header & 0x4) != 0;
+	if (*has_extended) {
+		guint32 len_ext_rst;
+
+		if (G_UNLIKELY (maxlen < len + 4))
+			goto error;
+		len_ext_rst = GSF_LE_GET_GUINT32 (data + len); /* A byte length */
+		*post_data_len += len_ext_rst;
+		len += 4;
+
+		g_warning ("Extended string support unimplemented; "
+			   "ignoring %u bytes\n", len_ext_rst);
+	}
+
+	return len;
+
+ error:
+	*use_utf16 = *has_extended = FALSE;
+	*n_markup = 0;
+	*post_data_len = 0;
+	g_warning ("Invalid string record.");
+	return 0;
 }
 
 char *
@@ -902,10 +919,10 @@ excel_get_chars (GnmXLImporter const *importer,
 	return ans;
 }
 
-static char *
-excel_get_text_full (GnmXLImporter const *importer,
-		     guint8 const *pos, guint32 length,
-		     guint32 *byte_length, guint32 maxlen)
+char *
+excel_get_text (GnmXLImporter const *importer,
+		guint8 const *pos, guint32 length,
+		guint32 *byte_length, guint32 maxlen)
 {
 	char *ans;
 	guint8 const *ptr;
@@ -919,8 +936,10 @@ excel_get_text_full (GnmXLImporter const *importer,
 		*byte_length = 1; /* the header */
 		if (length == 0)
 			return NULL;
-		ptr = pos + excel_read_string_header (pos,
-			&use_utf16, &n_markup, &has_extended, &trailing_data_len);
+		ptr = pos + excel_read_string_header
+			(pos, maxlen,
+			 &use_utf16, &n_markup, &has_extended,
+			 &trailing_data_len);
 		*byte_length += trailing_data_len;
 	} else {
 		*byte_length = 0; /* no header */
@@ -957,7 +976,7 @@ excel_get_text_full (GnmXLImporter const *importer,
 }
 
 /**
- * excel_get_text :
+ * excel_get_text_fixme :
  * @importer :
  * @pos : pointer to the start of string information
  * @length : in _characters_
@@ -965,12 +984,12 @@ excel_get_text_full (GnmXLImporter const *importer,
  *
  * Returns a string which the caller is responsible for freeing
  **/
-char *
-excel_get_text (GnmXLImporter const *importer,
-		guint8 const *pos, guint32 length, guint32 *byte_length)
+static char *
+excel_get_text_fixme (GnmXLImporter const *importer,
+		      guint8 const *pos, guint32 length, guint32 *byte_length)
 {
-	return excel_get_text_full (importer, pos, length, byte_length,
-				    G_MAXUINT);
+	return excel_get_text (importer, pos, length, byte_length,
+					  G_MAXUINT);
 }
 
 static char *
@@ -979,11 +998,11 @@ excel_biff_text (GnmXLImporter const *importer,
 {
 	XL_CHECK_CONDITION_VAL (q->length >= ofs, NULL);
 
-	return excel_get_text_full (importer, q->data + ofs, length,
+	return excel_get_text (importer, q->data + ofs, length,
 				    NULL, q->length - ofs);
 }
 
-static char *
+char *
 excel_biff_text_1 (GnmXLImporter const *importer,
 		   const BiffQuery *q, guint32 ofs)
 {
@@ -993,11 +1012,11 @@ excel_biff_text_1 (GnmXLImporter const *importer,
 	length = GSF_LE_GET_GUINT8 (q->data + ofs);
 	ofs++;
 
-	return excel_get_text_full (importer, q->data + ofs, length,
+	return excel_get_text (importer, q->data + ofs, length,
 				    NULL, q->length - ofs);
 }
 
-static char *
+char *
 excel_biff_text_2 (GnmXLImporter const *importer,
 		   const BiffQuery *q, guint32 ofs)
 {
@@ -1007,8 +1026,8 @@ excel_biff_text_2 (GnmXLImporter const *importer,
 	length = GSF_LE_GET_GUINT16 (q->data + ofs);
 	ofs += 2;
 
-	return excel_get_text_full (importer, q->data + ofs, length,
-				    NULL, q->length - ofs);
+	return excel_get_text (importer, q->data + ofs, length,
+			       NULL, q->length - ofs);
 }
 
 typedef struct {
@@ -1098,9 +1117,10 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 	offset += 2;
 	do {
 		offset = ms_biff_query_bound_check (q, offset, 1);
-		offset += excel_read_string_header (q->data + offset,
-				&use_utf16, &n_markup, &has_extended,
-				&post_data_len);
+		offset += excel_read_string_header
+			(q->data + offset, q->length - offset,
+			 &use_utf16, &n_markup, &has_extended,
+			 &post_data_len);
 		total_end_len += post_data_len;
 		total_n_markup += n_markup;
 		chars_left = (q->length - offset) / (use_utf16 ? 2 : 1);
@@ -2403,8 +2423,8 @@ biff_xf_data_destroy (BiffXFData *xf)
 static GnmExprTop const *
 excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 {
-	guint16 opcode, data_len;
-	GnmRange   r;
+	guint16 opcode, data_len, data_ofs, array_data_len;
+	GnmRange r;
 	gboolean is_array;
 	GnmExprTop const *texpr;
 	guint8 const *data;
@@ -2420,6 +2440,7 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 	}
 	ms_biff_query_next (q);
 
+	XL_CHECK_CONDITION_VAL (q->length >= 6, NULL);
 	r.start.row	= GSF_LE_GET_GUINT16 (q->data + 0);
 	r.end.row	= GSF_LE_GET_GUINT16 (q->data + 2);
 	r.start.col	= GSF_LE_GET_GUINT8 (q->data + 4);
@@ -2467,15 +2488,17 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 
 	is_array = (q->opcode != BIFF_SHRFMLA);
 
-	if (esheet_ver (esheet) > MS_BIFF_V4) {
-		data = q->data + (is_array ? 14 : 10);
-		data_len = GSF_LE_GET_GUINT16 (q->data + (is_array ? 12 : 8));
-	} else {
-		data = q->data + 10;
-		data_len = GSF_LE_GET_GUINT16 (q->data + 8);
-	}
+	data_ofs = (esheet_ver (esheet) > MS_BIFF_V4 && is_array) ? 14 : 10;
+	XL_CHECK_CONDITION_VAL (q->length >= data_ofs, NULL);
+	data = q->data + data_ofs;
+	data_len = GSF_LE_GET_GUINT16 (q->data + (data_ofs - 2));
+	XL_CHECK_CONDITION_VAL (q->length >= data_ofs + data_len, NULL);
+	array_data_len = data_len > 0 ? q->length - (data_ofs + data_len) : 0;
+
 	texpr = excel_parse_formula (&esheet->container, esheet,
-		r.start.col, r.start.row, data, data_len, !is_array, NULL);
+				     r.start.col, r.start.row,
+				     data, data_len, array_data_len,
+				     !is_array, NULL);
 
 	sf = g_new (XLSharedFormula, 1);
 
@@ -2486,8 +2509,9 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 	 */
 	sf->key = cell->pos;
 	sf->is_array = is_array;
-	sf->data = data_len > 0 ? g_memdup (data, data_len) : NULL;
+	sf->data = data_len > 0 ? g_memdup (data, data_len + array_data_len) : NULL;
 	sf->data_len = data_len;
+	sf->array_data_len = array_data_len;
 
 	d (1, fprintf (stderr,"Shared formula, extent %s\n", range_as_string (&r)););
 
@@ -2546,31 +2570,20 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	 * and have this checking done there.
 	 */
 	if (esheet_ver (esheet) >= MS_BIFF_V5) {
+		XL_CHECK_CONDITION (q->length >= 22);
 		expr_length = GSF_LE_GET_GUINT16 (q->data + 20);
 		offset = 22;
 	} else if (esheet_ver (esheet) >= MS_BIFF_V3) {
+		XL_CHECK_CONDITION (q->length >= 18);
 		expr_length = GSF_LE_GET_GUINT16 (q->data + 16);
 		offset = 18;
 	} else {
+		XL_CHECK_CONDITION (q->length >= 17);
 		expr_length = GSF_LE_GET_GUINT8 (q->data + 16);
 		offset = 17;
 		val_dat++;	/* compensate for the 3 byte style */
 	}
-
-	if (q->length < offset) {
-		g_printerr ("FIXME: serious formula error: "
-			"invalid FORMULA (0x%x) record with length %d (should >= %d)\n",
-			q->opcode, q->length, offset);
-		gnm_cell_set_value (cell, value_new_error (NULL, "Formula Error"));
-		return;
-	}
-	if (q->length < (unsigned)(offset + expr_length)) {
-		g_printerr ("FIXME: serious formula error: "
-			"supposed length 0x%x, real len 0x%x\n",
-                        expr_length, q->length - offset);
-		gnm_cell_set_value (cell, value_new_error (NULL, "Formula Error"));
-		return;
-	}
+	XL_CHECK_CONDITION (q->length >= offset + expr_length);
 
 	/* Get the current value so that we can format, do this BEFORE handling
 	 * shared/array formulas or strings in case we need to go to the next
@@ -2594,7 +2607,9 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	}
 
 	texpr = excel_parse_formula (&esheet->container, esheet, col, row,
-		(q->data + offset), expr_length, FALSE, &array_elem);
+				     q->data + offset, expr_length,
+				     q->length - (offset + expr_length),
+				     FALSE, &array_elem);
 #if 0
 	/* dump the trailing array and natural language data */
 	gsf_mem_dump (q->data + offset + expr_length,
@@ -2746,16 +2761,15 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 	XL_CHECK_CONDITION (pos.col < SHEET_MAX_COLS && pos.row < SHEET_MAX_ROWS);
 
 	if (esheet_ver (esheet) >= MS_BIFF_V8) {
-		guint16 options, obj_id, author_len;
+		guint16 options, obj_id;
 		gboolean hidden;
 		MSObj *obj;
 		char *author;
 
-		XL_CHECK_CONDITION (q->length >= 10);
+		XL_CHECK_CONDITION (q->length >= 8);
 		options = GSF_LE_GET_GUINT16 (q->data + 4);
 		hidden = (options & 0x2)==0;
 		obj_id = GSF_LE_GET_GUINT16 (q->data + 6);
-		author_len = GSF_LE_GET_GUINT16 (q->data + 8);
 
 		/* Docs claim that only 0x2 is valid, all other flags should
 		 * be 0 but we have seen examples with 0x100 'pusiuhendused juuli 2003.xls'
@@ -2766,7 +2780,7 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 		if (options & 0xe7d)
 			g_warning ("unknown flag on NOTE record %hx", options);
 
-		author = excel_biff_text (esheet->container.importer, q, 10, author_len);
+		author = excel_biff_text_2 (esheet->container.importer, q, 8);
 		d (1, fprintf (stderr,"Comment at %s%d id %d options"
 			      " 0x%x hidden %d by '%s'\n",
 			      col_name (pos.col), pos.row + 1,
@@ -3168,7 +3182,8 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 	if (expr_len != 0) {
 
 		texpr = excel_parse_formula (&importer->container, NULL, 0, 0,
-			expr_data, expr_len, TRUE, NULL);
+					     expr_data, expr_len, 0 /* FIXME? */,
+					     TRUE, NULL);
 
 		if (texpr == NULL) {
 			gnm_io_warning (importer->context, _("Failure parsing name '%s'"), name);
@@ -3220,9 +3235,10 @@ excel_read_name_str (GnmXLImporter *importer,
 			use_utf16 = has_extended = FALSE;
 			n_markup = trailing_data_len = 0;
 		} else
-			str += excel_read_string_header (str,
-				&use_utf16, &n_markup, &has_extended,
-				&trailing_data_len);
+			str += excel_read_string_header
+				(str, G_MAXINT /* FIXME */,
+				 &use_utf16, &n_markup, &has_extended,
+				 &trailing_data_len);
 
 		/* pull out the magic builtin enum */
 		builtin = excel_builtin_name (str);
@@ -3236,7 +3252,7 @@ excel_read_name_str (GnmXLImporter *importer,
 			name = g_strdup (builtin);
 		*name_len += str - data;
 	} else /* converts char len to byte len, and handles header */
-		name = excel_get_text (importer, data, *name_len, name_len);
+		name = excel_get_text_fixme (importer, data, *name_len, name_len);
 	return name;
 }
 
@@ -3491,13 +3507,13 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 		char *help_txt;
 		char *status_txt;
 
-		menu_txt = excel_get_text (importer, data, menu_txt_len, NULL);
+		menu_txt = excel_get_text_fixme (importer, data, menu_txt_len, NULL);
 		data += menu_txt_len;
-		descr_txt = excel_get_text (importer, data, descr_txt_len, NULL);
+		descr_txt = excel_get_text_fixme (importer, data, descr_txt_len, NULL);
 		data += descr_txt_len;
-		help_txt = excel_get_text (importer, data, help_txt_len, NULL);
+		help_txt = excel_get_text_fixme (importer, data, help_txt_len, NULL);
 		data += help_txt_len;
-		status_txt = excel_get_text (importer, data, status_txt_len, NULL);
+		status_txt = excel_get_text_fixme (importer, data, status_txt_len, NULL);
 
 		g_printerr ("Name record: '%s', '%s', '%s', '%s', '%s'\n",
 			name ? name : "(null)",
@@ -3588,7 +3604,7 @@ excel_read_XCT (BiffQuery *q, GnmXLImporter *importer)
 				XL_NEED_BYTES (1);
 				len = *data++;
 				v = value_new_string_nocopy (
-					excel_get_text (importer, data, len, NULL));
+					excel_get_text_fixme (importer, data, len, NULL));
 				data += len;
 				break;
 
@@ -4956,22 +4972,22 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 	data = q->data + 4;
 
 	XL_CHECK_CONDITION (data+3 <= end);
-	input_title = excel_get_text (esheet->container.importer, data + 2,
+	input_title = excel_get_text_fixme (esheet->container.importer, data + 2,
 		GSF_LE_GET_GUINT16 (data), &len);
 	data += len + 2;
 
 	XL_CHECK_CONDITION (data+3 <= end);
-	error_title = excel_get_text (esheet->container.importer, data + 2,
+	error_title = excel_get_text_fixme (esheet->container.importer, data + 2,
 		GSF_LE_GET_GUINT16 (data), &len);
 	data += len + 2;
 
 	XL_CHECK_CONDITION (data+3 <= end);
-	input_msg = excel_get_text (esheet->container.importer, data + 2,
+	input_msg = excel_get_text_fixme (esheet->container.importer, data + 2,
 		GSF_LE_GET_GUINT16 (data), &len);
 	data += len + 2;
 
 	XL_CHECK_CONDITION (data+3 <= end);
-	error_msg = excel_get_text (esheet->container.importer, data + 2,
+	error_msg = excel_get_text_fixme (esheet->container.importer, data + 2,
 		GSF_LE_GET_GUINT16 (data), &len);
 	data += len + 2;
 
@@ -5058,13 +5074,15 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 
 	if (expr1_len > 0)
 		texpr1 = excel_parse_formula (&esheet->container, esheet,
-			col, row,
-			expr1_dat, expr1_len, TRUE, NULL);
+					      col, row,
+					      expr1_dat, expr1_len, 0 /* FIXME */,
+					      TRUE, NULL);
 
 	if (expr2_len > 0)
 		texpr2 = excel_parse_formula (&esheet->container, esheet,
-			col, row,
-			expr2_dat, expr2_len, TRUE, NULL);
+					      col, row,
+					      expr2_dat, expr2_len, 0 /* FIXME */,
+					      TRUE, NULL);
 
 	d (1, fprintf (stderr,"style = %d, type = %d, op = %d\n",
 		       style, type, op););
@@ -5450,12 +5468,12 @@ excel_read_AUTOFILTER (BiffQuery *q, ExcelReadSheet *esheet)
 		data = q->data + 24;
 		if (len0 > 0) {
 			v0 = value_new_string_nocopy (
-				excel_get_text (esheet->container.importer, data, len0, NULL));
+				excel_get_text_fixme (esheet->container.importer, data, len0, NULL));
 			data += len0;
 		}
 		if (len1 > 0)
 			v1 = value_new_string_nocopy (
-				excel_get_text (esheet->container.importer, data, len1, NULL));
+				excel_get_text_fixme (esheet->container.importer, data, len1, NULL));
 
 		if (op1 == GNM_FILTER_UNUSED) {
 			cond = gnm_filter_condition_new_single (op0, v0);
@@ -5741,7 +5759,7 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 		: GSF_LE_GET_GUINT16 (q->data + 6);
 	XL_CHECK_CONDITION (q->length - 8 >= in_len);
 
-	txt = excel_get_text (esheet->container.importer, q->data + 8,
+	txt = excel_get_text_fixme (esheet->container.importer, q->data + 8,
 		in_len, &str_len);
 
 	d (0, fprintf (stderr,"%s in %s;\n",
@@ -6345,7 +6363,7 @@ excel_read_SUPBOOK (BiffQuery *q, GnmXLImporter *importer)
 	gsf_mem_dump (q->data + 4 + 1, len);
 	for (data = q->data + 4 + 1 + len, i = 0; i < numTabs ; i++) {
 		len = GSF_LE_GET_GUINT16 (data);
-		name = excel_get_text (importer, data + 2, len, &byte_length);
+		name = excel_get_text_fixme (importer, data + 2, len, &byte_length);
 		g_printerr ("\t-> %s\n", name);
 		g_free (name);
 		data += byte_length + 2;
