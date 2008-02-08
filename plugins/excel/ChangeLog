@@ -1,5 +1,12 @@
 2008-02-07  Morten Welinder  <terra@gnome.org>
 
+	* ms-biff.c (ms_biff_query_bound_check): Return (guint32)-1 on
+	error so we can tell.
+
+	* ms-excel-read.c (gnm_xl_importer_free): Be more careful when
+	freeing sst.
+	(sst_read_string): Be more careful.  This code is a mess.
+
 	* ms-chart.c (xl_chart_import_error_bar): Avoid crash in missing
 	parent-series case.  Fixes #514630.
 

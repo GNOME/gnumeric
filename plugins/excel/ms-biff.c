@@ -69,7 +69,7 @@ ms_biff_query_bound_check (BiffQuery *q, guint32 offset, unsigned len)
 		    opcode != BIFF_CONTINUE ||
 		    !ms_biff_query_next (q)) {
 			g_warning ("missing CONTINUE");
-			return 0;
+			return (guint32)-1;
 		}
 	}
 
