@@ -1112,11 +1112,17 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 	char    *str, *old_res, *res_str = NULL;
 
 	offset    = ms_biff_query_bound_check (q, offset, 2);
+	if (offset == (guint32)-1)
+		return offset;
 	XL_CHECK_CONDITION_VAL (offset < q->length, offset);
 	total_len = GSF_LE_GET_GUINT16 (q->data + offset);
 	offset += 2;
 	do {
 		offset = ms_biff_query_bound_check (q, offset, 1);
+		if (offset == (guint32)-1) {
+			g_free (res_str);
+			return offset;
+		}
 		offset += excel_read_string_header
 			(q->data + offset, q->length - offset,
 			 &use_utf16, &n_markup, &has_extended,
@@ -1150,6 +1156,10 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 		txo_run.first = 0;
 		for (i = total_n_markup ; i-- > 0 ; offset += 4) {
 			offset = ms_biff_query_bound_check (q, offset, 4);
+			if (offset == (guint32)-1) {
+				g_free (res_str);
+				return offset;
+			}
 			if ((q->length - offset) >= 4) {
 				txo_run.last = g_utf8_offset_to_pointer (res_str,
 					GSF_LE_GET_GUINT16 (q->data+offset)) - res_str;
@@ -1197,6 +1207,8 @@ excel_read_SST (BiffQuery *q, GnmXLImporter *importer)
 	offset = 8;
 	for (i = 0; i < importer->sst_len; i++) {
 		offset = sst_read_string (q, &importer->container, importer->sst + i, offset);
+		if (offset == (guint32)-1)
+			break;
 
 		if (importer->sst[i].content == NULL)
 			d (4, fprintf (stderr,"Blank string in table at 0x%x.\n", i););
@@ -3070,7 +3082,8 @@ gnm_xl_importer_free (GnmXLImporter *importer)
 	if (importer->sst != NULL) {
 		unsigned i = importer->sst_len;
 		while (i-- > 0) {
-			gnm_string_unref (importer->sst[i].content);
+			if (importer->sst[i].content)
+				gnm_string_unref (importer->sst[i].content);
 			if (importer->sst[i].markup != NULL)
 				go_format_unref (importer->sst[i].markup);
 		}
@@ -6510,6 +6523,17 @@ excel_read_BOF (BiffQuery	 *q,
 		g_printerr ("Unknown BOF (%x)\n", ver->type);
 }
 
+static void
+excel_read_CODEPAGE (BiffQuery *q, GnmXLImporter *importer)
+{
+	/* This seems to appear within a workbook */
+	/* MW: And on Excel seems to drive the display
+	   of currency amounts.  */
+	XL_CHECK_CONDITION (q->length >= 2);
+	gnm_xl_importer_set_codepage (importer,
+				      GSF_LE_GET_GUINT16 (q->data));
+}
+
 void
 excel_read_workbook (IOContext *context, WorkbookView *wb_view, GsfInput *input,
 		     gboolean *is_double_stream_file)
@@ -6586,12 +6610,8 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view, GsfInput *input,
 
 		case BIFF_BACKUP:	break;
 		case BIFF_CODEPAGE: /* DUPLICATE 42 */
-			/* This seems to appear within a workbook */
-			/* MW: And on Excel seems to drive the display
-			   of currency amounts.  */
-			gnm_xl_importer_set_codepage (importer,
-				GSF_LE_GET_GUINT16 (q->data));
-					break;
+			excel_read_CODEPAGE (q, importer);
+			break;
 
 		case BIFF_OBJPROTECT:
 		case BIFF_PROTECT:
