@@ -1,3 +1,8 @@
+2008-02-08  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_SUPBOOK): Add length checks.  Fixes
+	#515155.
+
 2008-02-07  Morten Welinder  <terra@gnome.org>
 
 	* ms-biff.c (ms_biff_query_bound_check): Return (guint32)-1 on
