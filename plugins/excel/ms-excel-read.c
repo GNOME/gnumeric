@@ -6313,14 +6313,17 @@ success :
 static void
 excel_read_SUPBOOK (BiffQuery *q, GnmXLImporter *importer)
 {
-	unsigned const numTabs = GSF_LE_GET_GUINT16 (q->data);
-	unsigned len = GSF_LE_GET_GUINT16 (q->data + 2);
+	unsigned numTabs, len;
 	unsigned i;
 	guint32 byte_length;
 	gboolean is_2byte = FALSE;
 	char *name;
 	guint8 encodeType, *data;
 	ExcelSupBook *new_supbook;
+
+	XL_CHECK_CONDITION (q->length >= 4);
+	numTabs = GSF_LE_GET_GUINT16 (q->data);
+	len = GSF_LE_GET_GUINT16 (q->data + 2);
 
 	d (2, fprintf (stderr,"supbook %d has %d\n", importer->v8.supbook->len, numTabs););
 
@@ -6345,6 +6348,7 @@ excel_read_SUPBOOK (BiffQuery *q, GnmXLImporter *importer)
 
 	new_supbook->type = EXCEL_SUP_BOOK_STD;
 
+	XL_CHECK_CONDITION (q->length >= 6);
 	switch (GSF_LE_GET_GUINT8 (q->data + 4)) {
 	case 0 : break; /* 1 byte locale compressed unicode for book name */
 	case 1 : len *= 2; is_2byte = TRUE; break;	/* 2 byte unicode */
@@ -6354,7 +6358,8 @@ excel_read_SUPBOOK (BiffQuery *q, GnmXLImporter *importer)
 		 return;
 	}
 
-	XL_CHECK_CONDITION (len < q->length);
+	/* 5??? */
+	XL_CHECK_CONDITION (len + 5 < q->length);
 
 #warning create a workbook and sheets when we have a facility for merging things
 	encodeType = GSF_LE_GET_GUINT8 (q->data + 5);
