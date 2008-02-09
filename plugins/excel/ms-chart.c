@@ -589,7 +589,10 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 		     XLChartReadState *s, BiffQuery *q)
 {
 	guint16 opcode;
-	guint16 const type = GSF_LE_GET_GUINT16 (q->data);
+	guint16 type;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+	type = GSF_LE_GET_GUINT16 (q->data);
 
 	d (0, {
 	g_printerr ("Axisline is ");
@@ -913,7 +916,7 @@ BC_R(dataformat)(XLChartHandler const *handle,
 
 	if (pt_num == 0 && series_index == 0 && series_index_for_label == 0xfffd)
 		s->has_extra_dataformat = TRUE;
-	XL_CHECK_CONDITION_VAL (s->series && series_index < s->series->len, TRUE);
+	XL_CHECK_CONDITION_VAL (series_index < s->series->len, TRUE);
 
 	series = g_ptr_array_index (s->series, series_index);
 	XL_CHECK_CONDITION_VAL (series != NULL, TRUE);
@@ -1829,9 +1832,14 @@ static gboolean
 BC_R(trendlimits)(XLChartHandler const *handle,
 		  XLChartReadState *s, BiffQuery *q)
 {
-	double const min = GSF_LE_GET_DOUBLE (q->data);
-	double const max = GSF_LE_GET_DOUBLE (q->data+8);
-	guint8 const skip_invalid = GSF_LE_GET_GUINT8  (q->data+16);
+	double min, max;
+	gboolean skip_invalid;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 17, FALSE);
+	min = GSF_LE_GET_DOUBLE (q->data);
+	max = GSF_LE_GET_DOUBLE (q->data + 8);
+	skip_invalid = GSF_LE_GET_GUINT8 (q->data + 16);
+
 	d (1, {
 		g_printerr ("skip invalid data: %s\n", (skip_invalid)? "yes": "no");
 		g_printerr ("min: %g\n", min);
@@ -1850,6 +1858,7 @@ BC_R(vector_details)(XLChartReadState *s, BiffQuery *q, XLChartSeries *series,
 		     GogMSDimType purpose,
 		     int type_offset, int count_offset, char const *name)
 {
+	XL_CHECK_CONDITION (q->length >= 2 + (unsigned)count_offset);
 #if 0
 	switch (GSF_LE_GET_GUINT16 (q->data + type_offset)) {
 	case 0 : /* date */ break;
@@ -1871,7 +1880,7 @@ BC_R(series)(XLChartHandler const *handle,
 {
 	XLChartSeries *series;
 
-	g_return_val_if_fail (s->currentSeries == NULL, TRUE);
+	XL_CHECK_CONDITION_VAL (s->currentSeries == NULL, TRUE);
 
 	d (2, g_printerr ("SERIES = %d\n", s->series->len););
 
@@ -1909,12 +1918,15 @@ static gboolean
 BC_R(seriestext)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const id = GSF_LE_GET_GUINT16 (q->data);	/* must be 0 */
-	int const slen = GSF_LE_GET_GUINT8 (q->data + 2);
+	guint16 id;
+	int slen;
 	char *str;
 	GnmValue *value;
 
-	g_return_val_if_fail (id == 0, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 3, FALSE);
+	id = GSF_LE_GET_GUINT16 (q->data);	/* must be 0 */
+	slen = GSF_LE_GET_GUINT8 (q->data + 2);
+	XL_CHECK_CONDITION_VAL (id == 0, FALSE);
 
 	if (slen == 0)
 		return FALSE;
@@ -1949,7 +1961,10 @@ static gboolean
 BC_R(serparent)(XLChartHandler const *handle,
 		XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const index = GSF_LE_GET_GUINT16 (q->data) - 1;
+	guint16 index;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+	index = GSF_LE_GET_GUINT16 (q->data) - 1;
 	d (1, g_printerr ("Parent series index is %hd\n", index););
 	s->parent_index = index;
 
@@ -1962,9 +1977,11 @@ static gboolean
 BC_R(sertocrt)(XLChartHandler const *handle,
 	       XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const index = GSF_LE_GET_GUINT16 (q->data);
+	guint16 index;
 
-	g_return_val_if_fail (s->currentSeries != NULL, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+	XL_CHECK_CONDITION_VAL (s->currentSeries != NULL, FALSE);
+	index = GSF_LE_GET_GUINT16 (q->data);
 
 	s->currentSeries->chart_group = index;
 
@@ -2025,6 +2042,7 @@ static gboolean
 BC_R(siindex)(XLChartHandler const *handle,
 	      XLChartReadState *s, BiffQuery *q)
 {
+	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
 	/* UNDOCUMENTED : Docs says this is long
 	 * Biff record is only length 2 */
 	s->cur_role = GSF_LE_GET_GUINT16 (q->data);
@@ -2037,6 +2055,8 @@ static gboolean
 BC_R(surf)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
 {
+	XL_CHECK_CONDITION_VAL (q->length >= 6, FALSE);
+
 #warning implement wireframe (aka use-color)
 #if 0
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+4);
