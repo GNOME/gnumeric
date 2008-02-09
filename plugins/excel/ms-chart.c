@@ -782,6 +782,8 @@ static gboolean
 BC_R(chart)(XLChartHandler const *handle,
 	    XLChartReadState *s, BiffQuery *q)
 {
+	XL_CHECK_CONDITION_VAL (q->length >= 16, FALSE);
+
 	d (1, {
 	/* Fixed point 2 bytes fraction 2 bytes integer */
 	guint32 const x_pos_fixed = GSF_LE_GET_GUINT32 (q->data + 0);
@@ -806,8 +808,12 @@ static gboolean
 BC_R(chartformat)(XLChartHandler const *handle,
 		  XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+16);
-	guint16 const z_order = GSF_LE_GET_GUINT16 (q->data+18);
+	guint16 flags, z_order;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 4, FALSE);
+
+	flags = GSF_LE_GET_GUINT16 (q->data+16);
+	z_order = GSF_LE_GET_GUINT16 (q->data+18);
 
 	/* always update the counter to keep the index in line with the chart
 	 * group specifier for series */
@@ -845,9 +851,11 @@ static gboolean
 BC_R(chartline)(XLChartHandler const *handle,
 		XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const type = GSF_LE_GET_GUINT16 (q->data);
+	guint16 type;
 
-	g_return_val_if_fail (type <= 2, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+	type = GSF_LE_GET_GUINT16 (q->data);
+	XL_CHECK_CONDITION_VAL (type <= 2, FALSE);
 
 	if (type == 1)
 		s->hilo = TRUE;
@@ -875,6 +883,8 @@ static gboolean
 BC_R(dat)(XLChartHandler const *handle,
 	  XLChartReadState *s, BiffQuery *q)
 {
+	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+
 #if 0
 	gint16 const flags = GSF_LE_GET_GUINT16 (q->data);
 	gboolean const horiz_border = (flags&0x01) ? TRUE : FALSE;
@@ -925,7 +935,10 @@ static gboolean
 BC_R(defaulttext)(XLChartHandler const *handle,
 		  XLChartReadState *s, BiffQuery *q)
 {
-	guint16	const tmp = GSF_LE_GET_GUINT16 (q->data);
+	guint16	tmp;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+	tmp = GSF_LE_GET_GUINT16 (q->data);
 
 	d (2, g_printerr ("applicability = %hd\n", tmp););
 
@@ -935,7 +948,7 @@ BC_R(defaulttext)(XLChartHandler const *handle,
 	 * 2 == All text in chart
 	 * 3 == Undocumented ??
 	 */
-	g_return_val_if_fail (tmp <= 3, TRUE);
+	XL_CHECK_CONDITION_VAL (tmp <= 3, TRUE);
 	return FALSE;
 }
 
@@ -945,6 +958,8 @@ static gboolean
 BC_R(dropbar)(XLChartHandler const *handle,
 	      XLChartReadState *s, BiffQuery *q)
 {
+	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+
 	/* NOTE : The docs lie.  values > 100 seem legal.  My guess based on
 	 * the ui is 500.
 	 */
