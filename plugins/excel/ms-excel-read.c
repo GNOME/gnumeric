@@ -2061,13 +2061,16 @@ excel_map_pattern_index_from_excel (int const i)
 static void
 excel_read_XF_OLD (BiffQuery *q, GnmXLImporter *importer)
 {
-	BiffXFData *xf = g_new0 (BiffXFData, 1);
+	BiffXFData *xf;
 	guint16 data;
         guint8 subdata;
 
 	d ( 2, fprintf(stderr, "XF # %d\n", importer->XF_cell_records->len); );
 	d ( 2, gsf_mem_dump (q->data, q->length); );
 
+	XL_CHECK_CONDITION (q->length > (importer->ver >= MS_BIFF_V3 ? 12 : 4));
+
+	xf = g_new0 (BiffXFData, 1);
         xf->font_idx = q->data[0];
         xf->format_idx = (importer->ver >= MS_BIFF_V3)
 		? q->data[1] : (q->data[2] & 0x3f);
