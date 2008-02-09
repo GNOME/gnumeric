@@ -1381,9 +1381,15 @@ BC_R(markerformat)(XLChartHandler const *handle,
 		GO_MARKER_CROSS
 	};
 	GOMarker *marker;
-	guint16 shape = GSF_LE_GET_GUINT16 (q->data+8);
-	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+10);
-	gboolean const auto_marker = (flags & 0x01) ? TRUE : FALSE;
+	guint16 shape;
+	guint16 flags;
+	gboolean auto_marker;
+
+	XL_CHECK_CONDITION_VAL (q->length >= (BC_R(ver)(s) >= MS_BIFF_V8 ? 20 : 8), FALSE);
+
+	shape = GSF_LE_GET_GUINT16 (q->data+8);
+	flags = GSF_LE_GET_GUINT16 (q->data+10);
+	auto_marker = (flags & 0x01) ? TRUE : FALSE;
 
 	BC_R(get_style) (s);
 	marker = go_marker_new ();
@@ -2098,6 +2104,8 @@ BC_R(text)(XLChartHandler const *handle,
 	};
 	unsigned tmp;
 #endif
+	XL_CHECK_CONDITION_VAL (q->length >= 8, FALSE);
+
 	BC_R(get_style) (s);
 
 #if 0 /*when we have somewhere to store it */
@@ -2142,10 +2150,14 @@ static gboolean
 BC_R(tick)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const major = GSF_LE_GET_GUINT8 (q->data);
-	guint16 const minor = GSF_LE_GET_GUINT8 (q->data+1);
-	guint16 const label = GSF_LE_GET_GUINT8 (q->data+2);
-	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+24);
+	guint16 major, minor, label, flags;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 26, FALSE);
+
+	major = GSF_LE_GET_GUINT8 (q->data);
+	minor = GSF_LE_GET_GUINT8 (q->data+1);
+	label = GSF_LE_GET_GUINT8 (q->data+2);
+	flags = GSF_LE_GET_GUINT16 (q->data+24);
 
 	if (s->axis != NULL)
 		g_object_set (G_OBJECT (s->axis),
@@ -2161,8 +2173,6 @@ BC_R(tick)(XLChartHandler const *handle,
 		s->style->font.color = BC_R(color) (q->data+4, "LabelColour");
 	}
 	d (1, {
-	guint16 const flags = GSF_LE_GET_GUINT8 (q->data+24);
-
 	switch (major) {
 	case 0: g_printerr ("no major tick;\n"); break;
 	case 1: g_printerr ("major tick inside axis;\n"); break;
@@ -2218,12 +2228,17 @@ static gboolean
 BC_R(units)(XLChartHandler const *handle,
 	    XLChartReadState *s, BiffQuery *q)
 {
+	guint16 type;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
+
 	/* Irrelevant */
-	guint16 const type = GSF_LE_GET_GUINT16 (q->data);
-	g_return_val_if_fail(type == 0, TRUE);
+	type = GSF_LE_GET_GUINT16 (q->data);
+	XL_CHECK_CONDITION_VAL (type == 0, TRUE);
 
 	return FALSE;
 }
+
 /****************************************************************************/
 
 static void
