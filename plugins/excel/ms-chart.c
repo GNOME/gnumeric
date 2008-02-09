@@ -1385,7 +1385,7 @@ BC_R(markerformat)(XLChartHandler const *handle,
 	guint16 flags;
 	gboolean auto_marker;
 
-	XL_CHECK_CONDITION_VAL (BC_R(ver)(s) >= MS_BIFF_V8 ? 20 : 8, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= (BC_R(ver)(s) >= MS_BIFF_V8 ? 20 : 8), FALSE);
 
 	shape = GSF_LE_GET_GUINT16 (q->data+8);
 	flags = GSF_LE_GET_GUINT16 (q->data+10);
