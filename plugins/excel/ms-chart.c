@@ -901,20 +901,22 @@ BC_R(dataformat)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
 	XLChartSeries *series;
-	guint16 const pt_num = GSF_LE_GET_GUINT16 (q->data);
-	guint16 const series_index = GSF_LE_GET_GUINT16 (q->data+2);
-	guint16 const series_index_for_label = GSF_LE_GET_GUINT16 (q->data+4);
+	guint16 pt_num, series_index, series_index_for_label;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 8, TRUE);
+	pt_num = GSF_LE_GET_GUINT16 (q->data);
+	series_index = GSF_LE_GET_GUINT16 (q->data+2);
+	series_index_for_label = GSF_LE_GET_GUINT16 (q->data+4);
 #if 0
 	guint16 const excel4_auto_color = GSF_LE_GET_GUINT16 (q->data+6) & 0x01;
 #endif
 
 	if (pt_num == 0 && series_index == 0 && series_index_for_label == 0xfffd)
 		s->has_extra_dataformat = TRUE;
-	g_return_val_if_fail (series_index < s->series->len, TRUE);
+	XL_CHECK_CONDITION_VAL (s->series && series_index < s->series->len, TRUE);
 
 	series = g_ptr_array_index (s->series, series_index);
-
-	g_return_val_if_fail (series != NULL, TRUE);
+	XL_CHECK_CONDITION_VAL (series != NULL, TRUE);
 
 	if (pt_num == 0xffff) {
 		s->style_element = -1;
