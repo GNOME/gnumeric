@@ -1,6 +1,7 @@
 2008-02-08  Morten Welinder  <terra@gnome.org>
 
-	* ms-chart.c: Sprinkle some length checks.  Fixes #515269.
+	* ms-chart.c: Sprinkle some length checks.  Fixes #515269 and
+	#515275.
 
 	* ms-excel-read.c (excel_read_SUPBOOK): Add length checks.  Fixes
 	#515155.
