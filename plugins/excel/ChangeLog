@@ -1,3 +1,11 @@
+2008-02-15  Morten Welinder  <terra@gnome.org>
+
+	* ms-chart.c (ms_excel_chart_read): Check record length here for
+	all chart record types.  (Derived from Jean's patch to #515343.)
+	Fixes #514513, #515343, #515873, #515876.
+	(BC(register_handlers)): Fix the minimum length of siindex
+	records.
+
 2008-02-08  Morten Welinder  <terra@gnome.org>
 
 	* ms-chart.c: Sprinkle some length checks.  Fixes #515269,
