@@ -141,13 +141,25 @@ typedef gboolean (*XLChartReader) (XLChartHandler const *handle,
 				   XLChartReadState *, BiffQuery *q);
 struct _XLChartHandler {
 	guint16 const opcode;
-	int const	min_size; /* To be useful this needs to be versioned */
+	guint16 const min_size; /* Minimum across all versions.  */
 	char const *const name;
 	XLChartReader const read_fn;
 };
 
 #define BC(n)	xl_chart_ ## n
 #define BC_R(n)	BC(read_ ## n)
+
+static gboolean
+check_style (GogStyle *style, char const *object)
+{
+	if (style == NULL) {
+		g_warning ("File is most likely corrupted.\n"
+			   "(%s has no associated style.)",
+			   object);
+		return FALSE;
+	}
+	return TRUE;
+}
 
 static inline MsBiffVersion
 BC_R (ver) (XLChartReadState const *s)
@@ -636,14 +648,16 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 			GogObject *GridLine = GOG_OBJECT (g_object_new (GOG_GRID_LINE_TYPE,
 							NULL));
 			gog_object_add_by_name (GOG_OBJECT (s->axis), "MajorGrid", GridLine);
-			gog_styled_object_set_style (GOG_STYLED_OBJECT (GridLine), s->style);
+			if (check_style (s->style, "axis major grid"))
+				gog_styled_object_set_style (GOG_STYLED_OBJECT (GridLine), s->style);
 			break;
 		}
 		case 2: {
 			GogObject *GridLine = GOG_OBJECT (g_object_new (GOG_GRID_LINE_TYPE,
 							NULL));
 			gog_object_add_by_name (GOG_OBJECT (s->axis), "MinorGrid", GridLine);
-			gog_styled_object_set_style (GOG_STYLED_OBJECT (GridLine), s->style);
+			if (check_style (s->style, "axis minor grid"))
+				gog_styled_object_set_style (GOG_STYLED_OBJECT (GridLine), s->style);
 			break;
 		}
 		case 3: {
@@ -656,8 +670,10 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 		default:
 			break;
 		}
-	g_object_unref (s->style);
-	s->style = NULL;
+	if (s->style) {
+		g_object_unref (s->style);
+		s->style = NULL;
+	}
 
 	return FALSE;
 }
@@ -3013,7 +3029,7 @@ BC(register_handlers)(void)
 	BIFF_CHART(serparent, 2);
 	BIFF_CHART(sertocrt, 2);
 	BIFF_CHART(shtprops, 3);
-	BIFF_CHART(siindex, 4);
+	BIFF_CHART(siindex, 2);
 	BIFF_CHART(surf, 2);
 	BIFF_CHART(text, 26);
 	BIFF_CHART(tick, 26);
@@ -3079,8 +3095,7 @@ xl_chart_import_trend_line (XLChartReadState *state, XLChartSeries *series)
 	Sheet *sheet;
 	XLChartSeries *parent = g_ptr_array_index (state->series, series->reg_parent);
 
-	if (NULL == parent || NULL == parent->series)
-		return;
+	XL_CHECK_CONDITION (parent != NULL && parent->series != NULL);
 
 	switch (series->reg_type) {
 	case 0:
@@ -3163,7 +3178,7 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 		? "x-errors" : "y-errors";
 	GParamSpec *pspec;
 
-	XL_CHECK_CONDITION (parent->series != NULL);
+	XL_CHECK_CONDITION (parent != NULL && parent->series != NULL);
 
 	pspec = g_object_class_find_property (
 		G_OBJECT_GET_CLASS (parent->series),
@@ -3198,9 +3213,10 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 			: GOG_ERROR_BAR_DISPLAY_NEGATIVE;
 		if (!series->err_teetop)
 			error_bar->width = 0;
-		if (error_bar->style != NULL) /* it should never be NULL */
+		if (check_style (series->style, "error bar")) {
 			g_object_unref (error_bar->style);
-		error_bar->style = gog_style_dup (series->style);
+			error_bar->style = gog_style_dup (series->style);
+		}
 		switch (series->err_src) {
 		case 1: {
 			/* percentage */
@@ -3406,7 +3422,15 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 				XLChartHandler const *const h =
 					chart_biff_handler [lsb];
 
-				if (state.graph	!= NULL) {
+				if (state.graph	== NULL) {
+					g_warning ("File is most like corrupted.\n"
+						   "Ignoring spurious chart record (%s).",
+						   h->name);
+				} else if (q->length < h->min_size) {
+					g_warning ("File is most like corrupted.\n"
+						   "Ignoring truncated %s record with length %u < %u",
+						   h->name, q->length, h->min_size);
+				} else {
 					d (0, { if (!begin_end)
 							g_printerr ("%s(\n", h->name); });
 					(void)(*h->read_fn)(h, &state, q);
@@ -3594,6 +3618,9 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 		sheet_object_set_sheet (sog, full_page);
 		g_object_unref (sog);
 	}
+
+	if (state.style != NULL)
+		g_object_unref (state.style); /* avoids a leak with corrupted files */
 
 	return FALSE;
 }
