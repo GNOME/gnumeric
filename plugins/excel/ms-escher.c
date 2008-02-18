@@ -1986,8 +1986,11 @@ ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 	g_return_val_if_fail (has_next_record, TRUE);
 
 	/* The object takes responsibility for the attributes */
-	ms_read_OBJ (state->q, state->container, h->attrs);
 	h->release_attrs = FALSE;
+	if (ms_read_OBJ (state->q, state->container, h->attrs)) {
+		h->attrs = NULL;  /* It got deleted.  */
+		return TRUE;
+	}
 
 	return FALSE;
 }

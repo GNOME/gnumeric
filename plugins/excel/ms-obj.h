@@ -140,7 +140,7 @@ struct _MSObj {
 	MSObjAttrBag	*attrs;
 };
 MSObj *ms_obj_new    (MSObjAttrBag *ab);
-void   ms_read_OBJ   (BiffQuery *q, MSContainer *c, MSObjAttrBag *ab);
+gboolean ms_read_OBJ   (BiffQuery *q, MSContainer *c, MSObjAttrBag *ab);
 void   ms_obj_delete (MSObj *obj);
 char  *ms_read_TXO   (BiffQuery *q, MSContainer *c, PangoAttrList **markup);
 

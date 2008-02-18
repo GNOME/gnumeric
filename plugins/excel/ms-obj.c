@@ -34,6 +34,7 @@
 #include "ms-obj.h"
 #include "ms-chart.h"
 #include "ms-escher.h"
+#include "ms-excel-util.h"
 
 #include <expr.h>
 #include <parse-util.h>
@@ -942,7 +943,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 #endif
 
 	/* Scan through the pseudo BIFF substream */
-	while (data_len_left > 0 && !hit_end) {
+	while (data_len_left >= 4 && !hit_end) {
 		guint16 const record_type = GSF_LE_GET_GUINT16(data);
 
 		/* All the sub-records seem to have this layout
@@ -953,13 +954,13 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 		guint16 len = GSF_LE_GET_GUINT16(data+2);
 
 		/* 1st record must be COMMON_OBJ*/
-		g_return_val_if_fail (obj->excel_type >= 0 ||
+		XL_CHECK_CONDITION_VAL (obj->excel_type >= 0 ||
 				      record_type == GR_COMMON_OBJ_DATA,
 				      TRUE);
 
 		switch (record_type) {
 		case GR_END:
-			g_return_val_if_fail (len == 0, TRUE);
+			XL_CHECK_CONDITION_VAL (len == 0, TRUE);
 			/* ms_obj_dump (data, len, data_len_left, "ObjEnd"); */
 			hit_end = TRUE;
 			break;
@@ -1083,7 +1084,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 			guint16 const options =GSF_LE_GET_GUINT16 (data+8);
 
 			/* Multiple objects in 1 record ?? */
-			g_return_val_if_fail (obj->excel_type == -1, TRUE);
+			XL_CHECK_CONDITION_VAL (obj->excel_type == -1, TRUE);
 
 			obj->excel_type = GSF_LE_GET_GUINT16(data+4);
 			obj->id = GSF_LE_GET_GUINT16(data+6);
@@ -1164,7 +1165,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 	}
 
 	/* Catch underflow too */
-	g_return_val_if_fail (data_len_left == 0, TRUE);
+	XL_CHECK_CONDITION_VAL (data_len_left == 0, TRUE);
 
 	/* FIXME : Throw away the IMDATA that may follow.
 	 * I am not sure when the IMDATA does follow, or how to display it,
@@ -1190,9 +1191,11 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
  * ms_read_OBJ :
  * @q : The biff record to start with.
  * @c : The object's container
- * @attrs : an OPTIONAL hash of object attributes.
+ * @attrs : an optional hash of object attributes.
+ *
+ * This function takes ownership of attrs.
  */
-void
+gboolean
 ms_read_OBJ (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs)
 {
 	static char const * const object_type_names[] = {
@@ -1227,8 +1230,8 @@ ms_read_OBJ (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs)
 	MSObj *obj;
 
 	/* no decent docs for this */
-	if  (c->importer->ver <= MS_BIFF_V4)
-		return;
+	if (c->importer->ver <= MS_BIFF_V4)
+		return FALSE;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_object_debug > 0)
@@ -1245,7 +1248,7 @@ ms_read_OBJ (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs)
 			printf ("}; /* OBJ error 1 */\n");
 #endif
 		ms_obj_delete (obj);
-		return;
+		return TRUE;
 	}
 
 	obj->excel_type_name = NULL;
@@ -1268,11 +1271,13 @@ ms_read_OBJ (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs)
 	if (obj->excel_type == 0x5) {
 		if (ms_excel_chart_read_BOF (q, c, obj->gnum_obj)) {
 			ms_obj_delete (obj);
-			return;
+			return TRUE;
 		}
 	}
 
 	ms_container_add_obj (c, obj);
+
+	return FALSE;
 }
 
 /**********************************************************************/
