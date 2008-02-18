@@ -525,6 +525,7 @@ mps_input_context_new (IOContext *io_context, Workbook *wb, GsfInput *input)
         ctxt->row_hash	     = g_hash_table_new (g_str_hash, g_str_equal);
         ctxt->col_hash	     = g_hash_table_new (g_str_hash, g_str_equal);
         ctxt->col_name_tbl   = NULL;
+	ctxt->objective_row  = NULL;
         ctxt->matrix	     = NULL;
 
 	ctxt->n_rows = ctxt->n_cols = ctxt->n_bounds = 0;
