@@ -1,3 +1,8 @@
+2008-02-18  Morten Welinder  <terra@gnome.org>
+
+	* qpro-read.c (qpro_parse_formula): Survive more bogus files.
+	Fixes #517144.
+
 2008-01-24  Morten Welinder <terra@gnome.org>
 
 	* Release 1.8.1
