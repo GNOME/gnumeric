@@ -985,7 +985,7 @@ msgstr "tên_cột"
 
 #: ../plugins/fn-lookup/functions.c:1296 ../plugins/fn-lookup/functions.c:1326
 msgid "val,range,col_idx,approx,as_index"
-msgstr "giá_trị,phạm_vị,chỉ_mục_cột,xấp_xỉ,như_chỉ_mục"
+msgstr "giá_trị,phạm_vi,chỉ_mục_cột,xấp_xỉ,như_chỉ_mục"
 
 #: ../plugins/fn-lookup/functions.c:1299
 msgid "link_location, label"
@@ -1001,11 +1001,11 @@ msgstr "tham_chiếu,hàng,cột,vùng"
 
 #: ../plugins/fn-lookup/functions.c:1308
 msgid "val,range,range"
-msgstr "giá_trị,phạm_vị,phạm_vị"
+msgstr "giá_trị,phạm_vi,phạm_vi"
 
 #: ../plugins/fn-lookup/functions.c:1311
 msgid "val,range,approx"
-msgstr "giá_trị,phạm_vị,xấp_xỉ"
+msgstr "giá_trị,phạm_vi,xấp_xỉ"
 
 #: ../plugins/fn-lookup/functions.c:1314
 msgid "ref,row,col,height,width"
@@ -1048,7 +1048,7 @@ msgstr "a,b"
 #. MS Excel puts this in statistical
 #: ../plugins/fn-math/functions.c:3328
 msgid "range,criteria"
-msgstr "phạm_vị,tiêu_chuẩn"
+msgstr "phạm_vi,tiêu_chuẩn"
 
 #: ../plugins/fn-math/functions.c:3336
 msgid "number,significance"
@@ -1093,11 +1093,11 @@ msgstr "x,n,m,hệ_số"
 
 #: ../plugins/fn-math/functions.c:3461
 msgid "range,criteria,actual_range"
-msgstr "phạm_vị,tiêu_chuẩn,phạm_vị_thật"
+msgstr "phạm_vi,tiêu_chuẩn,phạm_vi_thật"
 
 #: ../plugins/fn-math/functions.c:3464
 msgid "range,range,"
-msgstr "phạm_vị,phạm_vị,"
+msgstr "phạm_vi,phạm_vi,"
 
 #: ../plugins/fn-math/functions.c:3470 ../plugins/fn-math/functions.c:3473
 #: ../plugins/fn-math/functions.c:3476 ../plugins/fn-math/functions.c:3492
@@ -1162,7 +1162,7 @@ msgstr "ν"
 
 #: ../plugins/fn-random/functions.c:1215
 msgid "value_range,prob_range"
-msgstr "phạm_vị_giá_trị,phạm_vị_xác_suất"
+msgstr "phạm_vi_giá_trị,phạm_vi_xác_suất"
 
 #: ../plugins/fn-random/functions.c:1218
 msgid "b"
@@ -1256,7 +1256,7 @@ msgstr "p,btd"
 
 #: ../plugins/fn-stat/functions.c:5738
 msgid "act_range,theo_range"
-msgstr "phạm_vị_thật,phạm_vị_lý_thuyết"
+msgstr "phạm_vi_thật,phạm_vi_lý_thuyết"
 
 #: ../plugins/fn-stat/functions.c:5741
 msgid "x,stddev,size"
@@ -1350,7 +1350,7 @@ msgstr "x,mean,lũy_tích"
 
 #: ../plugins/fn-stat/functions.c:5891
 msgid "x_range,prob_range,lower_limit,upper_limit"
-msgstr "phạm_vị_x,phạm_vị_xác_suất,giới_hạn_dưới,giới_hạn_trên"
+msgstr "phạm_vi_x,phạm_vi_xác_suất,giới_hạn_dưới,giới_hạn_trên"
 
 #: ../plugins/fn-stat/functions.c:5894
 msgid "array,quart"
@@ -14565,7 +14565,7 @@ msgstr "Mẫu danh sách đơn giản"
 #~ msgstr "): ncalc (=%ld) != nb (=%ld); alpha=%"
 
 #~ msgid ". Arg. out of range?\n"
-#~ msgstr ". Đối số ở ngoại phạm vị?\n"
+#~ msgstr ". Đối số ở ngoại phạm vi?\n"
 
 #~ msgid ",nu=%"
 #~ msgstr ",nu=%"
