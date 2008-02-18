@@ -1,3 +1,9 @@
+2008-02-18  Morten Welinder  <terra@gnome.org>
+ 
+	* mps.c (mps_input_context_new): Initialize ->objective_row.
+	* parser.c (mps_parse_rows): Handle missing objective row.  Fixes
+	#517141.
+
 2008-01-24  Morten Welinder <terra@gnome.org>
 
 	* Release 1.8.1

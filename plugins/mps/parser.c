@@ -302,9 +302,13 @@ mps_parse_rows (MpsInputContext *ctxt)
 	        MpsRow *row = (MpsRow *) tmp->data;
 		g_hash_table_insert (ctxt->row_hash, row->name, (gpointer) row);
 	}
-	g_hash_table_insert (ctxt->row_hash, ctxt->objective_row->name,
-			     (gpointer) ctxt->objective_row);
-	ctxt->objective_row->index = ctxt->n_rows;
+	if (ctxt->objective_row) {
+		g_hash_table_insert (ctxt->row_hash, ctxt->objective_row->name,
+				     (gpointer) ctxt->objective_row);
+		ctxt->objective_row->index = ctxt->n_rows;
+	} else {
+		g_warning ("Missing objective row.  File is most likely corrupted.");
+	}
 	ctxt->n_rows += 1;
 
 	return TRUE;
