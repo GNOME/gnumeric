@@ -344,6 +344,23 @@ expr_stack_pop (GSList **pstack)
 	return expr;
 }
 
+static void
+q_condition_barf (const char *cond)
+{
+	g_warning ("File is most likely corrupted.\n"
+		   "(Condition \"%s\" failed.)\n",
+		   cond);
+}
+
+#define Q_CHECK_CONDITION(cond_)			\
+	do {						\
+		if (!(cond_)) {				\
+			q_condition_barf (#cond_);	\
+			fmla = refs;			\
+			goto error;			\
+		}					\
+	} while (0)
+
 
 static void
 qpro_parse_formula (QProReadState *state, int col, int row,
@@ -359,7 +376,6 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 	GSList  *stack = NULL;
 	GnmExprTop const *texpr;
 	guint8 const *refs, *fmla;
-	int len;
 
 #ifdef DEBUG_MISSING
 	dump_missing_functions ();
@@ -377,16 +393,17 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 #endif
 
 	while (fmla < refs && *fmla != QPRO_OP_EOF) {
+		QProOperators op = *fmla++;
 		GnmExpr const *expr = NULL;
-		len = 1;
 #if 0
-		g_print ("Operator %d.\n", *fmla);
+		g_print ("Operator %d.\n", op);
 #endif
-		switch (*fmla) {
+		switch (op) {
 		case QPRO_OP_CONST_FLOAT:
+			Q_CHECK_CONDITION (refs - fmla >= 8);
 			expr = gnm_expr_new_constant (value_new_float (
-				gsf_le_get_double (fmla + 1)));
-			len = 9;
+				gsf_le_get_double (fmla)));
+			fmla += 8;
 			break;
 
 		case QPRO_OP_CELLREF: {
@@ -441,14 +458,15 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 			break; /* Currently just ignore.  */
 
 		case QPRO_OP_CONST_INT:
+			Q_CHECK_CONDITION (refs - fmla >= 2);
 			expr = gnm_expr_new_constant (
-				value_new_int ((gint16)GSF_LE_GET_GUINT16 (fmla + 1)));
-			len = 3;
+				value_new_int ((gint16)GSF_LE_GET_GUINT16 (fmla)));
+			fmla += 2;
 			break;
 
 		case QPRO_OP_CONST_STR:
-			expr = gnm_expr_new_constant (qpro_new_string (state, fmla + 1));
-			len = 1 + strlen (fmla + 1) + 1;
+			expr = gnm_expr_new_constant (qpro_new_string (state, fmla));
+			fmla += strlen (fmla) + 1;
 			break;
 
 		case QPRO_OP_DEFAULT_ARG:
@@ -461,7 +479,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 		case QPRO_OP_EQ: case QPRO_OP_NE:
 		case QPRO_OP_LE: case QPRO_OP_GE:
 		case QPRO_OP_LT: case QPRO_OP_GT:
-		case QPRO_OP_CONCAT: {
+		case QPRO_OP_CONCAT: Q_CHECK_CONDITION (stack && stack->next); {
 			static GnmExprOp const binop_map[] = {
 				GNM_EXPR_OP_ADD,	GNM_EXPR_OP_SUB,
 				GNM_EXPR_OP_MULT,	GNM_EXPR_OP_DIV,
@@ -475,13 +493,13 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 			GnmExpr const *r = expr_stack_pop (&stack);
 			GnmExpr const *l = expr_stack_pop (&stack);
 			expr = gnm_expr_new_binary (
-				l, binop_map [*fmla - QPRO_OP_ADD], r);
+				l, binop_map [op - QPRO_OP_ADD], r);
 			break;
 		}
 
 		case QPRO_OP_AND:
-		case QPRO_OP_OR: {
-			GnmFunc *f = gnm_func_lookup (*fmla == QPRO_OP_OR ? "or" : "and",
+		case QPRO_OP_OR: Q_CHECK_CONDITION (stack && stack->next); {
+			GnmFunc *f = gnm_func_lookup (op == QPRO_OP_OR ? "or" : "and",
 						      NULL);
 			GnmExpr const *r = expr_stack_pop (&stack);
 			GnmExpr const *l = expr_stack_pop (&stack);
@@ -489,7 +507,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 			break;
 		}
 
-		case QPRO_OP_NOT: {
+		case QPRO_OP_NOT: Q_CHECK_CONDITION (stack); {
 			GnmFunc *f = gnm_func_lookup ("NOT", NULL);
 			GnmExpr const *a = expr_stack_pop (&stack);
 			expr = gnm_expr_new_funcall1 (f, a);
@@ -498,15 +516,17 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 
 		case QPRO_OP_UNARY_NEG:
 		case QPRO_OP_UNARY_PLUS:
+			Q_CHECK_CONDITION (stack);
 			expr = expr_stack_pop (&stack);
-			expr = gnm_expr_new_unary ((*fmla == QPRO_OP_UNARY_NEG)
-				? GNM_EXPR_OP_UNARY_NEG : GNM_EXPR_OP_UNARY_PLUS,
+			expr = gnm_expr_new_unary ((op == QPRO_OP_UNARY_NEG)
+						   ? GNM_EXPR_OP_UNARY_NEG
+						   : GNM_EXPR_OP_UNARY_PLUS,
 				expr);
 			break;
 
 		default:
-			if (QPRO_OP_FIRST_FUNC <= *fmla && *fmla <= QPRO_OP_LAST_FUNC) {
-				int idx = *fmla - QPRO_OP_FIRST_FUNC;
+			if (QPRO_OP_FIRST_FUNC <= op && op <= QPRO_OP_LAST_FUNC) {
+				int idx = op - QPRO_OP_FIRST_FUNC;
 				char const *name = qpro_functions[idx].name;
 				int args = qpro_functions[idx].args;
 				GnmExprList *arglist = NULL;
@@ -514,7 +534,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 				GnmFunc *f;
 
 				if (name == NULL) {
-					g_warning ("QPRO function %d is not known.", *fmla);
+					g_warning ("QPRO function %d is not known.", op);
 					break;
 				}
 				/* FIXME : Add support for workbook local functions */
@@ -545,8 +565,9 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 				}
 
 				if (args == ARGS_COUNT_FOLLOWS) {
-					args = fmla[1];
-					len++;
+					Q_CHECK_CONDITION (refs - fmla >= 1);
+					args = fmla[0];
+					fmla++;
 				}
 
 				while (args-- > 0)
@@ -555,34 +576,16 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 				expr = gnm_expr_new_funcall (f, arglist);
 				break;
 			} else {
-				g_warning ("Operator %d encountered.", *fmla);
+				g_warning ("Operator %d encountered.", op);
 			}
 		}
 		if (expr != NULL) {
 			stack = g_slist_prepend (stack, (gpointer)expr);
 		}
-		fmla += len;
 	}
-	g_return_if_fail (fmla != refs);
-	g_return_if_fail (stack != NULL);
-
-	if (stack->next) {
-		GSList *tmp;
-
-		for (tmp = stack; tmp; tmp = tmp->next) {
-			GnmParsePos pp;
-			char *p;
-
-			pp.wb = state->wb;
-			pp.sheet = state->cur_sheet;
-			pp.eval.col = col;
-			pp.eval.row = row;
-			p = gnm_expr_as_string (tmp->data, &pp, gnm_conventions_default);
-			g_print ("Expr: %s\n", p);
-			g_free (p);
-		}
-		g_return_if_fail (stack->next == NULL);
-	}
+	Q_CHECK_CONDITION (fmla != refs);
+	Q_CHECK_CONDITION (stack != NULL);
+	Q_CHECK_CONDITION (stack->next == NULL);
 
 	texpr = gnm_expr_top_new (stack->data);
 	g_slist_free (stack);
@@ -629,6 +632,31 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 		(sheet_cell_fetch (state->cur_sheet, col, row),
 		 texpr, val, TRUE);
 	gnm_expr_top_unref (texpr);
+	return;
+
+error:
+	{
+		GSList *tmp;
+		GnmParsePos pp;
+
+		pp.wb = state->wb;
+		pp.sheet = state->cur_sheet;
+		pp.eval.col = col;
+		pp.eval.row = row;
+
+		for (tmp = stack; tmp; tmp = tmp->next) {
+			GnmExpr *expr = tmp->data;
+			char *p;
+
+			p = gnm_expr_as_string (expr, &pp,
+						gnm_conventions_default);
+			g_printerr ("Expr: %s\n", p);
+			g_free (p);
+
+			gnm_expr_free (expr);
+		}
+		g_slist_free (stack);
+	}
 }
 
 static GnmStyle *
