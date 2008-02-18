@@ -1,3 +1,9 @@
+2008-02-17  Morten Welinder  <terra@gnome.org>
+
+	* ms-obj.c (ms_read_OBJ): Return error indicator.
+	* ms-escher.c (ms_escher_read_ClientData): Handle errors from
+	ms_read_OBJ.  Fixes #517106.
+
 2008-02-15  Morten Welinder  <terra@gnome.org>
 
 	* ms-chart.c (ms_excel_chart_read): Check record length here for
