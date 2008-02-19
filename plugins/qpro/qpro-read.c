@@ -374,7 +374,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 	guint16 ref_offset = GSF_LE_GET_GUINT16 (data + 12);
 	GnmValue   *val;
 	GSList  *stack = NULL;
-	GnmExprTop const *texpr;
+	GnmExprTop const *texpr = NULL;
 	guint8 const *refs, *fmla;
 
 #ifdef DEBUG_MISSING
@@ -570,9 +570,22 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 					fmla++;
 				}
 
-				while (args-- > 0)
+				while (stack && args > 0) {
 					arglist = g_slist_prepend (arglist,
 								   (gpointer)expr_stack_pop (&stack));
+					args--;
+				}
+				if (args > 0) {
+					g_warning ("File is probably corrupted.\n"
+						   "(Expression stack is short by %d arguments)",
+						   args);
+					while (args > 0) {
+						GnmExpr const *e = gnm_expr_new_constant (value_new_empty ());
+						arglist = g_slist_prepend (arglist,
+									   (gpointer)e);
+						args--;
+					}
+				}
 				expr = gnm_expr_new_funcall (f, arglist);
 				break;
 			} else {
@@ -587,8 +600,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 	Q_CHECK_CONDITION (stack != NULL);
 	Q_CHECK_CONDITION (stack->next == NULL);
 
-	texpr = gnm_expr_top_new (stack->data);
-	g_slist_free (stack);
+	texpr = gnm_expr_top_new (expr_stack_pop (&stack));
 
 	switch (magic) {
 	case 0x7ff0:
@@ -612,14 +624,14 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 			goto again;
 		}
 
-		g_return_if_fail (id == QPRO_FORMULA_STRING);
+		Q_CHECK_CONDITION (id == QPRO_FORMULA_STRING);
+		Q_CHECK_CONDITION (len >= 7);
 
 		new_col = data[0];
 		new_row = GSF_LE_GET_GUINT16 (data + 2);
 
 		/* Be anal */
-		g_return_if_fail (col == new_col);
-		g_return_if_fail (row == new_row);
+		Q_CHECK_CONDITION (col == new_col && row == new_row);
 
 		val = qpro_new_string (state, data + 7);
 		break;
@@ -657,6 +669,9 @@ error:
 		}
 		g_slist_free (stack);
 	}
+
+	if (texpr)
+		gnm_expr_top_unref (texpr);
 }
 
 static GnmStyle *
