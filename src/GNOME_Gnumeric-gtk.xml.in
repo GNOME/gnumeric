@@ -315,4 +315,5 @@
   <accelerator name="Repeat"		 action="Repeat"/>
   <accelerator name="EditSelectAllXL"	 action="EditSelectAllXL"/>
   <accelerator name="EditDeleteCellsXL"	 action="EditDeleteCellsXL"/>
+  <accelerator name="InsertCellsXL"	 action="InsertCellsXL"/>
 </ui>

@@ -1,7 +1,7 @@
 2008-02-19  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk-actions.c: Handle <control>KP_Subtract as
-	<control>minus.  Fixes #516358.
+	<control>minus.  Fixes #516358.  Ditto KP_Add.
 
 2008-02-05  Morten Welinder  <terra@gnome.org>
 

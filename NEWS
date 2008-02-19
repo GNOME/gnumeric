@@ -34,6 +34,7 @@ Morten:
 	* Fix corrupted-mps-bug.  [#517141]
 	* Fix corrupted-qpro-bugs.  [#517144] [#517376]
 	* Make <control>KP_Subtract work as <control>minus.  [#516358]
+	* Make <control>KP_Add work as <control>plus.
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.0
