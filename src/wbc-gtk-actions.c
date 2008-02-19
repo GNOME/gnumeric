@@ -1717,6 +1717,10 @@ static GtkActionEntry const actions[] = {
 	{ "InsertCells", NULL, N_("C_ells..."),
 		"<control>plus", N_("Insert new cells"),
 		G_CALLBACK (cb_insert_cells) },
+	/* A duplicate that should not go into the menus, used only for the accelerator */
+	{ "InsertCellsXL", NULL, N_("C_ells..."),
+		"<control>KP_Add", N_("Insert new cells"),
+		G_CALLBACK (cb_insert_cells) },
 	{ "InsertColumns", "Gnumeric_ColumnAdd", N_("_Columns"),
 		NULL, N_("Insert new columns"),
 		G_CALLBACK (cb_insert_cols) },
