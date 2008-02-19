@@ -314,4 +314,5 @@
   <accelerator name="FormatClearBorders" action="FormatClearBorders"/>
   <accelerator name="Repeat"		 action="Repeat"/>
   <accelerator name="EditSelectAllXL"	 action="EditSelectAllXL"/>
+  <accelerator name="EditDeleteCellsXL"	 action="EditDeleteCellsXL"/>
 </ui>
