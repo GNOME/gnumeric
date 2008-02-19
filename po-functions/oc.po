@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-29 14:31-0500\n"
+"POT-Creation-Date: 2008-02-19 20:24+0100\n"
 "PO-Revision-Date: 2007-11-20 14:31+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
@@ -1448,7 +1448,7 @@ msgid ""
 "@SEEALSO=IMSUB"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:269
+#: ../plugins/fn-database/functions.c:277
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
@@ -1500,7 +1500,7 @@ msgid ""
 "@SEEALSO=DCOUNT"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:346
+#: ../plugins/fn-database/functions.c:354
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
@@ -1551,7 +1551,7 @@ msgid ""
 "@SEEALSO=DAVERAGE"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:422
+#: ../plugins/fn-database/functions.c:430
 msgid ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
@@ -1602,7 +1602,7 @@ msgid ""
 "@SEEALSO=DCOUNT"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:496
+#: ../plugins/fn-database/functions.c:504
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
@@ -1655,7 +1655,7 @@ msgid ""
 "@SEEALSO=DCOUNT"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:582
+#: ../plugins/fn-database/functions.c:590
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -1706,7 +1706,7 @@ msgid ""
 "@SEEALSO=DMIN"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:660
+#: ../plugins/fn-database/functions.c:668
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -1756,7 +1756,7 @@ msgid ""
 "@SEEALSO=DMAX"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:735
+#: ../plugins/fn-database/functions.c:743
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -1805,7 +1805,7 @@ msgid ""
 "@SEEALSO=DSUM"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:810
+#: ../plugins/fn-database/functions.c:818
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -1856,7 +1856,7 @@ msgid ""
 "@SEEALSO=DSTDEVP"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:886
+#: ../plugins/fn-database/functions.c:894
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -1907,7 +1907,7 @@ msgid ""
 "@SEEALSO=DSTDEV"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:962
+#: ../plugins/fn-database/functions.c:970
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -1957,7 +1957,7 @@ msgid ""
 "@SEEALSO=DPRODUCT"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:1038
+#: ../plugins/fn-database/functions.c:1046
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -2008,7 +2008,7 @@ msgid ""
 "@SEEALSO=DVARP"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:1114
+#: ../plugins/fn-database/functions.c:1122
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -2059,7 +2059,7 @@ msgid ""
 "@SEEALSO=DVAR"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:1190
+#: ../plugins/fn-database/functions.c:1198
 msgid ""
 "@FUNCTION=GETPIVOTDATA\n"
 "@SYNTAX=GETPIVOTDATA(pivot_table,field_name)\n"
