@@ -1593,7 +1593,10 @@ static GtkActionEntry const actions[] = {
 	{ "EditDeleteCells", NULL, N_("C_ells..."),
 		  "<control>minus", N_("Delete the selected cells, shifting others into their place"),
 		  G_CALLBACK (cb_edit_delete_cells) },
-
+	/* A duplicate that should not go into the menus, used only for the accelerator */
+	{ "EditDeleteCellsXL", NULL, N_("C_ells..."),
+		  "<control>KP_Subtract", N_("Delete the selected cells, shifting others into their place"),
+		  G_CALLBACK (cb_edit_delete_cells) },
 
 /* Edit -> Select */
 
