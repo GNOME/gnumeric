@@ -1,3 +1,8 @@
+2008-02-19  Morten Welinder  <terra@gnome.org>
+
+	* ms-escher.c (ms_escher_get_data): Add a few checks before Sum1
+	finds this.
+
 2008-02-17  Morten Welinder  <terra@gnome.org>
 
 	* ms-obj.c (ms_read_OBJ): Return error indicator.
