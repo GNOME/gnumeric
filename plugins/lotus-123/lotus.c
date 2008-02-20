@@ -2176,18 +2176,35 @@ lotus_read_new (LotusState *state, record_t *r)
 		}
 
 		case LOTUS_RLDB_DATANODE: /* No length check needed.  */ {
+			if (!rldb) {
+				g_warning ("Ignoring stray RLDB_DATANODE");
+				break;
+			}
+
 			lotus_rldb_data (rldb, r->data, r->len);
 			break;
 		}
 
 		case LOTUS_RLDB_REGISTERID: CHECK_RECORD_SIZE (== 2) {
 			guint16 id = GSF_LE_GET_GUINT16 (r->data);
+
+			if (!rldb) {
+				g_warning ("Ignoring stray RLDB_REGISTERID");
+				break;
+			}
+
 			lotus_rldb_register_id (rldb, id);
 			break;
 		}
 
 		case LOTUS_RLDB_USEREGISTEREDID: CHECK_RECORD_SIZE (== 2) {
 			guint16 id = GSF_LE_GET_GUINT16 (r->data);
+
+			if (!rldb) {
+				g_warning ("Ignoring stray RLDB_USEID");
+				break;
+			}
+
 			lotus_rldb_use_id (rldb, id);
 			break;
 		}

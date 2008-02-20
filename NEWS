@@ -32,7 +32,7 @@ Morten:
 	* Work around Qt theme bug.  [#512752]
 	* Fix paste-as-text bug.  [#514438]
 	* Fix corrupted-mps-bug.  [#517141]
-	* Fix corrupted-qpro-bugs.  [#517144] [#517376]
+	* Fix corrupted-qpro-bugs.  [#517144] [#517376] [#517591]
 	* Make <control>KP_Subtract work as <control>minus.  [#516358]
 	* Make <control>KP_Add work as <control>plus.
 
