@@ -100,7 +100,34 @@ typedef struct {
 	Workbook	*wb;
 	Sheet		*cur_sheet;
 	GIConv          converter;
+	gboolean        corrupted;
 } QProReadState;
+
+static void
+corrupted (QProReadState *state)
+{
+	if (!state->corrupted) {
+		state->corrupted = TRUE;
+		g_printerr (_("File is most likely corrupted.\n"));
+	}
+}
+
+static void
+q_condition_barf (QProReadState *state, const char *cond)
+{
+	corrupted (state);
+	/* Translation is screwed here.  */
+	g_printerr ("Condition \"%s\" failed.\n", cond);
+}
+
+#define Q_CHECK_CONDITION(cond_)				\
+	do {							\
+		if (!(cond_)) {					\
+			q_condition_barf (state, #cond_);	\
+			goto error;				\
+		}						\
+	} while (0)
+
 
 static GnmValue *
 qpro_new_string (QProReadState *state, gchar const *data)
@@ -116,10 +143,9 @@ qpro_get_record (QProReadState *state, guint16 *id, guint16 *len)
 {
 	guint8 const *data;
 
-	if (NULL == (data = gsf_input_read (state->input, 4, NULL))) {
-		g_warning ("read failure");
-		return NULL;
-	}
+	data = gsf_input_read (state->input, 4, NULL);
+	Q_CHECK_CONDITION (data != NULL);
+
 	*id  = GSF_LE_GET_GUINT16 (data + 0);
 	*len = GSF_LE_GET_GUINT16 (data + 2);
 
@@ -132,13 +158,16 @@ qpro_get_record (QProReadState *state, guint16 *id, guint16 *len)
 
 	/* some sanity checking */
 	if (*id != QPRO_UNDOCUMENTED_837) {
-		g_return_val_if_fail (*len < 0x2000, NULL);
+		Q_CHECK_CONDITION (*len < 0x2000);
 	}
 
 	data = gsf_input_read (state->input, *len, NULL);
-	if (data == NULL)
-		g_warning ("huh? failure reading %hd for type %hd", *len, *id);
+	Q_CHECK_CONDITION (data != NULL);
+
 	return data;
+
+error:
+	return NULL;
 }
 
 #define validate(f,expected) qpro_validate_len (state, #f, len, expected)
@@ -146,10 +175,10 @@ qpro_get_record (QProReadState *state, guint16 *id, guint16 *len)
 static gboolean
 qpro_validate_len (QProReadState *state, char const *id, guint16 len, int expected_len)
 {
-	if (expected_len >= 0  && len != expected_len) {
-		gnm_io_warning (state->io_context,
-			_("Invalid '%s' record of length %hd instead of %d"),
-			id, len, expected_len);
+	if (expected_len >= 0 && len != expected_len) {
+		corrupted (state);
+		g_printerr ("Invalid '%s' record of length %hd instead of %d\n",
+			    id, len, expected_len);
 		return FALSE;
 	}
 
@@ -345,35 +374,16 @@ expr_stack_pop (GSList **pstack)
 }
 
 static void
-q_condition_barf (const char *cond)
-{
-	g_warning ("File is most likely corrupted.\n"
-		   "(Condition \"%s\" failed.)\n",
-		   cond);
-}
-
-#define Q_CHECK_CONDITION(cond_)			\
-	do {						\
-		if (!(cond_)) {				\
-			q_condition_barf (#cond_);	\
-			fmla = refs;			\
-			goto error;			\
-		}					\
-	} while (0)
-
-
-static void
 qpro_parse_formula (QProReadState *state, int col, int row,
 		    guint8 const *data, guint8 const *end)
 {
-	int magic = GSF_LE_GET_GUINT16 (data + 6) & 0x7ff8;
+	guint16 magic, ref_offset;
 #if 0
 	int flags = GSF_LE_GET_GUINT16 (data + 8);
 	int length = GSF_LE_GET_GUINT16 (data + 10);
 #endif
-	guint16 ref_offset = GSF_LE_GET_GUINT16 (data + 12);
 	GnmValue   *val;
-	GSList  *stack = NULL;
+	GSList *stack = NULL;
 	GnmExprTop const *texpr = NULL;
 	guint8 const *refs, *fmla;
 
@@ -381,9 +391,13 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 	dump_missing_functions ();
 #endif
 
+	Q_CHECK_CONDITION (end - data >= 14);
+	magic = GSF_LE_GET_GUINT16 (data + 6) & 0x7ff8;
+	ref_offset = GSF_LE_GET_GUINT16 (data + 12);
+
 	fmla = data + 14;
 	refs = fmla + ref_offset;
-	g_return_if_fail (refs <= end);
+	Q_CHECK_CONDITION (refs <= end);
 
 #if 0
 	puts (cell_coord_name (col, row));
@@ -408,7 +422,10 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 
 		case QPRO_OP_CELLREF: {
 			GnmCellRef ref;
-			guint16 tmp = GSF_LE_GET_GUINT16 (refs + 4);
+			guint16 tmp;
+
+			Q_CHECK_CONDITION (end - refs >= 6);
+			tmp = GSF_LE_GET_GUINT16 (refs + 4);
 			ref.sheet = NULL;
 			ref.col = *((gint8 *)(refs + 2));
 			ref.col_relative = (tmp & 0x4000) ? TRUE : FALSE;
@@ -425,6 +442,8 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 		case QPRO_OP_RANGEREF: {
 			GnmCellRef a, b;
 			guint16 tmp;
+
+			Q_CHECK_CONDITION (end - refs >= 10);
 
 			tmp = GSF_LE_GET_GUINT16 (refs + 4);
 			a.sheet = NULL;
@@ -530,7 +549,6 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 				char const *name = qpro_functions[idx].name;
 				int args = qpro_functions[idx].args;
 				GnmExprList *arglist = NULL;
-				GSList *tmp = stack;
 				GnmFunc *f;
 
 				if (name == NULL) {
@@ -548,20 +566,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 				if (args == ARGS_UNKNOWN) {
 					g_warning ("QPRO function %s is not supported.",
 						   name);
-					for (tmp = stack; tmp; tmp = tmp->next) {
-						GnmParsePos pp;
-						char *p;
-
-						pp.wb = state->wb;
-						pp.sheet = state->cur_sheet;
-						pp.eval.col = col;
-						pp.eval.row = row;
-						p = gnm_expr_as_string (tmp->data, &pp, gnm_conventions_default);
-						g_print ("Expr: %s\n", p);
-						g_free (p);
-					}
-					g_print ("-----\n");
-					break;
+					goto error;
 				}
 
 				if (args == ARGS_COUNT_FOLLOWS) {
@@ -576,8 +581,8 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 					args--;
 				}
 				if (args > 0) {
-					g_warning ("File is probably corrupted.\n"
-						   "(Expression stack is short by %d arguments)",
+					g_printerr ("File is probably corrupted.\n"
+						    "(Expression stack is short by %d arguments)",
 						   args);
 					while (args > 0) {
 						GnmExpr const *e = gnm_expr_new_constant (value_new_empty ());
@@ -589,7 +594,8 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 				expr = gnm_expr_new_funcall (f, arglist);
 				break;
 			} else {
-				g_warning ("Operator %d encountered.", op);
+				corrupted (state);
+				g_printerr ("Operator %d encountered.\n", op);
 			}
 		}
 		if (expr != NULL) {
@@ -612,7 +618,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 
 	again:
 		data = qpro_get_record (state, &id, &len);
-		g_return_if_fail (data != NULL);
+		Q_CHECK_CONDITION (data != NULL);
 
 		if (id == QPRO_UNDOCUMENTED_270) {
 			/*
@@ -620,7 +626,9 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 			 * more or less embedding a copy of the formula
 			 * record.
 			 */
+#if 0
 			g_warning ("Encountered 270 record.");
+#endif
 			goto again;
 		}
 
@@ -658,13 +666,12 @@ error:
 
 		for (tmp = stack; tmp; tmp = tmp->next) {
 			GnmExpr *expr = tmp->data;
-			char *p;
-
-			p = gnm_expr_as_string (expr, &pp,
-						gnm_conventions_default);
+#ifdef DEBUG_EXPR_STACK
+			char *p = gnm_expr_as_string (expr, &pp,
+						      gnm_conventions_default);
 			g_printerr ("Expr: %s\n", p);
 			g_free (p);
-
+#endif
 			gnm_expr_free (expr);
 		}
 		g_slist_free (stack);
@@ -884,6 +891,7 @@ qpro_file_open (GOFileOpener const *fo, IOContext *context,
 	state.wb = wb_view_get_workbook (new_wb_view);
 	state.cur_sheet = NULL;
 	state.converter	 = g_iconv_open ("UTF-8", "ISO-8859-1");
+	state.corrupted = FALSE;
 
 	/* check for >= QPro 6.0 which is OLE based */
 	ole = gsf_infile_msole_new (input, NULL);

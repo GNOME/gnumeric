@@ -181,6 +181,9 @@ ms_escher_get_data (MSEscherState *state,
 		state->segment_len = q->length;
 	}
 
+	g_return_val_if_fail (offset >= state->start_offset, NULL);
+	g_return_val_if_fail ((size_t)(offset - state->start_offset) < q->length, NULL);
+
 	res = q->data + offset - state->start_offset;
 	if ((*needs_free = ((offset + num_bytes) > state->end_offset))) {
 		guint8 *buffer = g_malloc (num_bytes);
