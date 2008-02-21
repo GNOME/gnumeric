@@ -949,6 +949,18 @@ auto_filler_copy (int size, guint last_col, guint last_row)
 
 /* ------------------------------------------------------------------------- */
 
+static int
+calc_steps (const GnmRange *r, int col_inc, int row_inc)
+{
+	if (r)
+		return col_inc
+			? range_width (r) / ABS (col_inc)
+			: range_height (r) / ABS (row_inc);
+	else
+		return 1;
+}
+
+
 /*
  * (base_col,base_row): start of source area.
  * (col_inc,row_inc): direction of fill.
@@ -968,13 +980,76 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 {
 	GList *fillers = NULL;
 	GList *f;
-	int i;
+	int i, j, true_region_size;
 	AutoFiller *af = NULL;
 	GnmStyle const **styles;
+	GnmRange const **merges;
+	int *merge_size;
 	char *hint = NULL;
+	gboolean reverse;
 
 	if (count_max <= 0 || region_size <= 0)
 		return NULL;
+
+	/*
+	 * These are both indexed by cell number in the sequence we see
+	 * cells.  I.e., they go 0, 1, 2, ... no matter what way we fill
+	 * and no matter if some cells are merged.
+	 *
+	 * The allocations may be larger than we need, but we don't know
+	 * the right size yet.
+	 */
+	styles = doit ? g_new0 (GnmStyle const *, region_size) : NULL;
+	merges = g_new0 (GnmRange const *, region_size);
+
+	/*
+	 * i counts rows/cols.
+	 * j follows, but skips hidden parts of merged cells.
+	 */
+
+	/*
+	 * Pass 1: Have a look at the merges.  We always go right or down
+	 * in this pass.
+	 */
+	merge_size = g_new0 (int, region_size);
+	reverse = (col_inc < 0 || row_inc < 0);
+	i = j = 0;
+	while (i < region_size) {
+		int i2 = (reverse ? region_size - 1 - i : i);
+		int j2 = (reverse ? /*true_*/region_size - 1 - j : j);
+		int col2 = base_col + i2 * col_inc;
+		int row2 = base_row + i2 * row_inc;
+		GnmCellPos pos;
+		int di;
+
+		if (styles) {
+			styles[j2] = sheet_style_get (sheet, col2, row2);
+			gnm_style_ref (styles[j2]);
+		}
+
+		pos.col = col2;
+		pos.row = row2;
+		merges[j2] = gnm_sheet_merge_contains_pos (sheet, &pos);
+		di = calc_steps (merges[j2], col_inc, row_inc);
+		merge_size[j2] = di - 1;
+		i += di;
+		j++;
+	}
+	true_region_size = j;
+
+	/* We didn't know true_region_size up there.  Patch up things.  */
+	if (reverse) {
+		memmove (merge_size,
+			 merge_size + (region_size - true_region_size),
+			 true_region_size * sizeof (*merge_size));
+		memmove (merges,
+			 merges + (region_size - true_region_size),
+			 true_region_size * sizeof (*merges));
+		if (styles)
+			memmove (styles,
+				 styles + (region_size - true_region_size),
+				 true_region_size * sizeof (*styles));
+	}
 
 	fillers = g_list_prepend
 		(fillers, auto_filler_arithmetic (singleton));
@@ -985,7 +1060,8 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 	fillers = g_list_prepend
 		(fillers, auto_filler_month ());
 	fillers = g_list_prepend
-		(fillers, auto_filler_copy (region_size, last_col, last_row));
+		(fillers, auto_filler_copy (true_region_size,
+					    last_col, last_row));
 	fillers = g_list_prepend (fillers, auto_filler_list (quarters, 50, TRUE));
 
 	fillers = g_list_prepend
@@ -1001,19 +1077,28 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 	fillers = g_list_prepend
 		(fillers, auto_filler_list (weekday_names_short, 50, FALSE));
 
-	styles = doit ? g_new (GnmStyle const *, region_size) : NULL;
-
-	for (i = 0; i < region_size; i++) {
+	/*
+	 * Pass 2: Present all cells to the fillers and remove fillers that
+	 * cannot handle the contents.
+	 */
+	for (i = j = 0; j < true_region_size; j++) {
+		int ms = merge_size[j];
 		int col = base_col + i * col_inc;
 		int row = base_row + i * row_inc;
-		GnmCell *cell = sheet_cell_get (sheet, col, row);
+		GnmCell *cell;
 		GList *f = fillers;
+
+		if (reverse && merges[j]) {
+			col -= range_width (merges[j]) - 1;
+			row -= range_height (merges[j]) - 1;
+		}
+		cell = sheet_cell_get (sheet, col, row);
 
 		while (f) {
 			AutoFiller *af = f->data;
 			GList *next = f->next;
 
-			af->teach_cell (af, cell, i);
+			af->teach_cell (af, cell, j);
 
 			if (af->status == AFS_ERROR) {
 				fillers = g_list_delete_link (fillers, f);
@@ -1023,10 +1108,7 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 			f = next;
 		}
 
-		if (styles) {
-			styles[i] = sheet_style_get (sheet, col, row);
-			gnm_style_ref (styles[i]);
-		}
+		i += (ms + 1);
 	}
 
 	/* Find the best filler that's ready.  */
@@ -1041,21 +1123,47 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 	if (!af) {
 		/* Strange, but no fill.  */
 	} else if (doit) {
-		for (; i < count_max; i++) {
+		while (i < count_max) {
+			int k = j % true_region_size;
+			int ms = merge_size[k];
 			int col = base_col + i * col_inc;
 			int row = base_row + i * row_inc;
-			int j = i % region_size;
-			GnmCell *cell = sheet_cell_fetch (sheet, col, row);
-			af->set_cell (af, cell, i);
+			GnmCell *cell;
 
-			sheet_style_set_pos (sheet, col, row, gnm_style_dup (styles[j]));
+			if (reverse && merges[k]) {
+				col -= range_width (merges[k]) - 1;
+				row -= range_height (merges[k]) - 1;
+			}
+			cell = sheet_cell_fetch (sheet, col, row);
+			af->set_cell (af, cell, j);
+
+			sheet_style_set_pos (sheet, col, row,
+					     gnm_style_dup (styles[k]));
+			if (merges[k]) {
+				GnmRange r = *merges[k];
+				int ofs = (i / region_size) * region_size;
+				range_translate (&r,
+						 ofs * col_inc,
+						 ofs * row_inc);
+				gnm_sheet_merge_add (sheet, &r, FALSE, NULL);
+			}
+			i += (ms + 1);
+			j++;
 		}
 	} else {
-		int i = count_max - 1;
 		GnmCellPos pos;
-		pos.col = base_col + i * col_inc;
-		pos.row = base_row + i * row_inc;
-		hint = af->hint (af, &pos, i);
+		int repeats = (count_max - 1) / region_size;
+		i = repeats * region_size;
+		j = 0;
+		while (i < count_max) {
+			int ms = merge_size[j];
+			pos.col = base_col + i * col_inc;
+			pos.row = base_row + i * row_inc;
+			i += (ms + 1);
+			j++;
+		}
+
+		hint = af->hint (af, &pos, repeats * true_region_size + j - 1);
 	}
 
 	while (fillers) {
@@ -1066,10 +1174,14 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 
 	if (styles) {
 		int i;
-		for (i = 0; i < region_size; i++)
-			gnm_style_unref (styles[i]);
+		for (i = 0; i < true_region_size; i++)
+			if (styles[i])
+				gnm_style_unref (styles[i]);
 		g_free (styles);
 	}
+
+	g_free (merges);
+	g_free (merge_size);
 
 	return hint;
 }
@@ -1094,20 +1206,25 @@ sheet_autofill_internal (Sheet *sheet, gboolean singleton,
 			 int end_col, int end_row,
 			 gboolean doit)
 {
-	int series;
+	int series = 0;
 	int right_col = MAX (base_col, end_col);
 	int bottom_row = MAX (base_row, end_row);
 	GString *res = NULL;
+	GnmCellPos pos;
+	GnmRange const *mr;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	if (!doit)
 		res = g_string_new (NULL);
 
+	pos.col = base_col;
+	pos.row = base_row;
+
 	if (base_col > end_col || base_row > end_row) {
 		if (base_col != end_col + w - 1) {
 			/* LEFT */
-			for (series = 0; series < h; series++)
+			while (series < h) {
 				add_item (res,
 					  sheet_autofill_dir (sheet, singleton,
 							      base_col, base_row - series,
@@ -1116,9 +1233,14 @@ sheet_autofill_internal (Sheet *sheet, gboolean singleton,
 							      right_col, bottom_row,
 							      doit),
 					  "\n");
+
+				pos.row = base_row - series;
+				mr = gnm_sheet_merge_contains_pos (sheet, &pos);
+				series += mr ? range_height (mr) : 1;
+			}
 		} else {
 			/* UP */
-			for (series = 0; series < w; series++)
+			while (series < w) {
 				add_item (res,
 					  sheet_autofill_dir (sheet, singleton,
 							      base_col - series, base_row,
@@ -1127,11 +1249,16 @@ sheet_autofill_internal (Sheet *sheet, gboolean singleton,
 							      right_col, bottom_row,
 							      doit),
 					  " | ");
+
+				pos.col = base_col - series;
+				mr = gnm_sheet_merge_contains_pos (sheet, &pos);
+				series += mr ? range_width (mr) : 1;
+			}
 		}
 	} else {
 		if (end_col != base_col + w - 1) {
 			/* RIGHT */
-			for (series = 0; series < h; series++)
+			while (series < h) {
 				add_item (res,
 					  sheet_autofill_dir (sheet, singleton,
 							      base_col, base_row + series,
@@ -1140,9 +1267,14 @@ sheet_autofill_internal (Sheet *sheet, gboolean singleton,
 							      right_col, bottom_row,
 							      doit),
 					  "\n");
+
+				pos.row = base_row + series;
+				mr = gnm_sheet_merge_contains_pos (sheet, &pos);
+				series += mr ? range_height (mr) : 1;
+			}
 		} else {
 			/* DOWN */
-			for (series = 0; series < w; series++)
+			while (series < w) {
 				add_item (res,
 					  sheet_autofill_dir (sheet, singleton,
 							      base_col + series, base_row,
@@ -1151,6 +1283,10 @@ sheet_autofill_internal (Sheet *sheet, gboolean singleton,
 							      right_col, bottom_row,
 							      doit),
 					  " | ");
+				pos.col = base_col + series;
+				mr = gnm_sheet_merge_contains_pos (sheet, &pos);
+				series += mr ? range_width (mr) : 1;
+			}
 		}
 	}
 

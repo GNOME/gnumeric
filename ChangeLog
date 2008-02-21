@@ -1,3 +1,8 @@
+2008-02-21  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-autofill.c (sheet_autofill_dir): Handle merged cells
+	better.  Fixes #504191.
+
 2008-02-19  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk-actions.c: Handle <control>KP_Subtract as

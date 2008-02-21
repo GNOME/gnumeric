@@ -36,6 +36,7 @@ Morten:
 	* Make <control>KP_Subtract work as <control>minus.  [#516358]
 	* Make <control>KP_Add work as <control>plus.
 	* Fix corrupted-applix-bug.  [#517778]
+	* Fix autofill issue with merged cells.  [#504191]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.0
