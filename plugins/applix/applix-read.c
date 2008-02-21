@@ -351,6 +351,9 @@ applix_get_line (ApplixReadState *state)
 			break;
 	}
 
+	if (offset == 0 && ptr == NULL)
+		return NULL;
+
 	if (state->buffer != NULL)
 		state->buffer [offset] = '\0';
 	return state->buffer;

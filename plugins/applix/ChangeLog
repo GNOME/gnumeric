@@ -1,3 +1,8 @@
+2008-02-20  Morten Welinder  <terra@gnome.org>
+
+	* applix-read.c (applix_get_line): If we hit eof with nothing
+	read, return NULL.  Callers appear to expect that.  Fixes #517778.
+
 2008-01-24  Morten Welinder <terra@gnome.org>
 
 	* Release 1.8.1
