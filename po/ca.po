@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-30 02:56+0100\n"
-"PO-Revision-Date: 2008-01-29 21:36+0100\n"
+"POT-Creation-Date: 2008-02-21 01:09+0100\n"
+"PO-Revision-Date: 2008-02-21 01:10+0100\n"
 "Last-Translator: David Planella Molas <david.planella@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgid "Calculation, Analysis, and Visualization of Information"
 msgstr "Càlcul, anàlisi, i visualització d'informació"
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:371
+#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:393
 msgid "Gnumeric Spreadsheet"
 msgstr "Full de càlcul Gnumeric"
 
@@ -239,8 +239,8 @@ msgstr "Subproductes financers"
 msgid "Functions related to financial derivatives"
 msgstr "Les funcions relacionades amb els subproductes financers"
 
-#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6256
-#: ../plugins/mps/mps.c:534 ../src/xml-io.c:2678 ../src/xml-sax-read.c:2592
+#: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6557
+#: ../plugins/mps/mps.c:535 ../src/xml-io.c:2678 ../src/xml-sax-read.c:2592
 msgid "Reading file..."
 msgstr "S'està llegint el fitxer..."
 
@@ -344,13 +344,13 @@ msgstr "Atribut inesperat %s::%s == «%s»."
 msgid "XML document not well formed!"
 msgstr "El document XML està mal format"
 
-#: ../plugins/excel/ms-excel-read.c:1146 ../src/value.c:78
+#: ../plugins/excel/ms-excel-read.c:1249 ../src/value.c:78
 msgid "#UNKNOWN!"
 msgstr "#DESCONEGUT!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: ../plugins/excel/ms-excel-read.c:1229 ../plugins/excel/ms-excel-read.c:1241
+#: ../plugins/excel/ms-excel-read.c:1332 ../plugins/excel/ms-excel-read.c:1343
 #: ../plugins/oleo/oleo.c:230 ../plugins/psiconv/psiconv-read.c:545
 #: ../src/dialogs/dialog-sheet-order.c:518
 #: ../src/dialogs/dialog-sheet-order.c:522
@@ -358,32 +358,32 @@ msgstr "#DESCONEGUT!"
 msgid "Sheet%d"
 msgstr "Full%d"
 
-#: ../plugins/excel/ms-excel-read.c:1245
+#: ../plugins/excel/ms-excel-read.c:1347
 #, c-format
 msgid "Macro%d"
 msgstr "Macro%d"
 
-#: ../plugins/excel/ms-excel-read.c:1249
+#: ../plugins/excel/ms-excel-read.c:1351
 #, c-format
 msgid "Chart%d"
 msgstr "Diagrama%d"
 
-#: ../plugins/excel/ms-excel-read.c:1252
+#: ../plugins/excel/ms-excel-read.c:1354
 #, c-format
 msgid "Module%d"
 msgstr "Mòdul%d"
 
-#: ../plugins/excel/ms-excel-read.c:3075
+#: ../plugins/excel/ms-excel-read.c:3205
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "S'ha produït un error en processar el nom «%s»"
 
-#: ../plugins/excel/ms-excel-read.c:3178
+#: ../plugins/excel/ms-excel-read.c:3310
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Expressió incorrecta per al nom «%s»: es perdrà el contingut.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3188
+#: ../plugins/excel/ms-excel-read.c:3320
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -392,7 +392,7 @@ msgstr ""
 "Els enllaços DDE no estan implementats.\n"
 "Es perdrà el nom «%s».\n"
 
-#: ../plugins/excel/ms-excel-read.c:3194
+#: ../plugins/excel/ms-excel-read.c:3326
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -401,11 +401,11 @@ msgstr ""
 "Els enllaços OLE no estan implementats.\n"
 "Es perdrà el nom «%s».\n"
 
-#: ../plugins/excel/ms-excel-read.c:5522
+#: ../plugins/excel/ms-excel-read.c:5712
 msgid "external references"
 msgstr "referències externes"
 
-#: ../plugins/excel/ms-excel-read.c:5548
+#: ../plugins/excel/ms-excel-read.c:5751
 msgid "No password supplied"
 msgstr "No s'ha subministrat la contrasenya"
 
@@ -439,7 +439,7 @@ msgstr[1] ""
 "Alguns continguts es perdran en desar. Aquest format només es permet %u "
 "files, i aquest llibre de treball en té %d"
 
-#: ../plugins/excel/ms-excel-write.c:332
+#: ../plugins/excel/ms-excel-write.c:331
 msgid ""
 "This is somewhat corrupt.\n"
 "We already wrote a length for a string that is being truncated due to "
@@ -449,11 +449,11 @@ msgstr ""
 "Ja s'ha escrit una llargada per una cadena que serà truncada per problemes "
 "de codificació."
 
-#: ../plugins/excel/ms-excel-write.c:5645
+#: ../plugins/excel/ms-excel-write.c:5644
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "No s'ha pogut obrir el flux «Book» per a l'escriptura\n"
 
-#: ../plugins/excel/ms-excel-write.c:5665
+#: ../plugins/excel/ms-excel-write.c:5664
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "No s'ha pogut obrir el flux «Workbook» per a l'escriptura\n"
 
@@ -1506,7 +1506,7 @@ msgid "Functions for manipulating strings"
 msgstr "Funcions per a tractar cadenes"
 
 #: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:154
-#: ../src/func.c:929
+#: ../src/func.c:937
 msgid "String"
 msgstr "Cadena"
 
@@ -1721,31 +1721,31 @@ msgstr "RHS"
 msgid "Slack"
 msgstr "Fluix"
 
-#: ../plugins/mps/mps.c:636
+#: ../plugins/mps/mps.c:637
 msgid "Error while reading MPS file."
 msgstr "S'ha produït un error en llegir el fitxer MPS."
 
-#: ../plugins/mps/parser.c:548
+#: ../plugins/mps/parser.c:552
 msgid "Problem name was not defined in the file."
 msgstr "El nom del problema no es va definir al fitxer."
 
-#: ../plugins/mps/parser.c:553
+#: ../plugins/mps/parser.c:557
 msgid "Invalid ROWS section in the file."
 msgstr "Secció ROWS no vàlida al fitxer"
 
-#: ../plugins/mps/parser.c:558
+#: ../plugins/mps/parser.c:562
 msgid "Invalid COLUMNS section in the file."
 msgstr "Secció COLUMNS no vàlida al fitxer"
 
-#: ../plugins/mps/parser.c:563
+#: ../plugins/mps/parser.c:567
 msgid "Invalid RHS section in the file."
 msgstr "Secció RHS no vàlida al fitxer"
 
-#: ../plugins/mps/parser.c:568
+#: ../plugins/mps/parser.c:572
 msgid "Invalid RANGES section in the file."
 msgstr "Secció RANGES no vàlida en el fitxer."
 
-#: ../plugins/mps/parser.c:573
+#: ../plugins/mps/parser.c:577
 msgid "Invalid BOUNDS section in the file."
 msgstr "Secció BOUNDS no vàlida al fitxer"
 
@@ -2164,22 +2164,22 @@ msgstr "Quatro Pro (*.wb1, *.wb2, *.wb3)"
 msgid "Quattro Pro(tm)"
 msgstr "Quattro Pro(tm)"
 
-#: ../plugins/qpro/qpro-read.c:151
+#: ../plugins/qpro/qpro-read.c:111
 #, c-format
-msgid "Invalid '%s' record of length %hd instead of %d"
-msgstr "Registre «%s» invàlid de longitud %hd en comptes de %d"
+msgid "File is most likely corrupted.\n"
+msgstr "Segurament el fitxer està malmès.\n"
 
-#: ../plugins/qpro/qpro-read.c:782
+#: ../plugins/qpro/qpro-read.c:832
 #, c-format
 msgid "Invalid zoom %hd %%"
 msgstr "Ampliació invàlida %hd %%"
 
-#: ../plugins/qpro/qpro-read.c:823
+#: ../plugins/qpro/qpro-read.c:873
 #, c-format
 msgid "Invalid record %d of length %hd"
 msgstr "Registre invàlid %d de longitud %hd"
 
-#: ../plugins/qpro/qpro-read.c:855
+#: ../plugins/qpro/qpro-read.c:906
 msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
@@ -3011,7 +3011,7 @@ msgid "Sort Area Has Header"
 msgstr "L'àrea d'ordenació té una capçalera"
 
 #: ../schemas/gnumeric-general.schemas.in.h:31
-#: ../src/dialogs/dialog-preferences.c:556 ../src/wbc-gtk-actions.c:1964
+#: ../src/dialogs/dialog-preferences.c:556 ../src/wbc-gtk-actions.c:1971
 msgid "Sort Ascending"
 msgstr "Ordena de manera ascendent"
 
@@ -3953,7 +3953,7 @@ msgstr "_Àrees"
 #: ../src/dialogs/histogram.glade.h:16 ../src/dialogs/rank.glade.h:9
 #: ../src/dialogs/regression.glade.h:8 ../src/dialogs/sampling.glade.h:11
 #: ../src/dialogs/shuffle.glade.h:5 ../src/wbc-gtk-actions.c:1590
-#: ../src/wbc-gtk-actions.c:1717
+#: ../src/wbc-gtk-actions.c:1724
 msgid "_Columns"
 msgstr "_Columnes"
 
@@ -3988,7 +3988,7 @@ msgstr "_Etiquetes"
 #: ../src/dialogs/moving-averages.glade.h:12 ../src/dialogs/rank.glade.h:12
 #: ../src/dialogs/regression.glade.h:13 ../src/dialogs/sampling.glade.h:18
 #: ../src/dialogs/shuffle.glade.h:6 ../src/wbc-gtk-actions.c:1587
-#: ../src/wbc-gtk-actions.c:1720
+#: ../src/wbc-gtk-actions.c:1727
 msgid "_Rows"
 msgstr "_Files"
 
@@ -4063,7 +4063,7 @@ msgstr "_No corregeixis:"
 msgid "First Letter"
 msgstr "Primera lletra"
 
-#: ../src/dialogs/autocorrect.glade.h:8 ../src/wbc-gtk-actions.c:2023
+#: ../src/dialogs/autocorrect.glade.h:8 ../src/wbc-gtk-actions.c:2030
 msgid "General"
 msgstr "General"
 
@@ -4825,7 +4825,7 @@ msgid "Correlation"
 msgstr "Correlació"
 
 #: ../src/dialogs/covariance.glade.h:1 ../src/tools/analysis-tools.c:967
-#: ../src/tools/analysis-tools.c:970 ../src/wbc-gtk-actions.c:1878
+#: ../src/tools/analysis-tools.c:970 ../src/wbc-gtk-actions.c:1885
 msgid "Covariance"
 msgstr "Covariància"
 
@@ -5713,7 +5713,7 @@ msgid "Double"
 msgstr "Doble"
 
 #: ../src/dialogs/dialog-cell-format.c:473 ../src/dialogs/dialog-search.c:156
-#: ../src/func.c:927 ../src/wbc-gtk-actions.c:2026
+#: ../src/func.c:935 ../src/wbc-gtk-actions.c:2033
 msgid "Number"
 msgstr "Nombre"
 
@@ -7098,8 +7098,8 @@ msgstr "N_o seleccionis res"
 #. *	with the rest of the key movement and rangeselection.
 #. *	Otherwise input methods would steal them
 #. A duplicate that should not go into the menus, used only for the accelerator
-#: ../src/dialogs/dialog-stf-export.glade.h:24 ../src/wbc-gtk-actions.c:1605
-#: ../src/wbc-gtk-actions.c:1609
+#: ../src/dialogs/dialog-stf-export.glade.h:24 ../src/wbc-gtk-actions.c:1608
+#: ../src/wbc-gtk-actions.c:1612
 msgid "Select _All"
 msgstr "Seleccion_a-ho tot"
 
@@ -7260,7 +7260,7 @@ msgstr ""
 "Les dades no són vàlides en la codificació %s. Seleccioneu una altra "
 "codificació."
 
-#: ../src/dialogs/dialog-stf-main-page.c:386 ../src/wbc-gtk-actions.c:1996
+#: ../src/dialogs/dialog-stf-main-page.c:386 ../src/wbc-gtk-actions.c:2003
 msgid "Line"
 msgstr "Línia"
 
@@ -7894,7 +7894,7 @@ msgstr "Introduïu com a funció de vector"
 msgid "Formula Guru"
 msgstr "Fórmules per a experts"
 
-#: ../src/dialogs/fourier-analysis.glade.h:1 ../src/wbc-gtk-actions.c:1884
+#: ../src/dialogs/fourier-analysis.glade.h:1 ../src/wbc-gtk-actions.c:1891
 msgid "Fourier Analysis"
 msgstr "Anàlisi de Fourier"
 
@@ -7906,7 +7906,7 @@ msgstr "_Invers"
 msgid "Category"
 msgstr "Categoria"
 
-#: ../src/dialogs/function-select.glade.h:3 ../src/wbc-gtk-actions.c:1960
+#: ../src/dialogs/function-select.glade.h:3 ../src/wbc-gtk-actions.c:1967
 msgid "Function"
 msgstr "Funció"
 
@@ -7919,7 +7919,7 @@ msgid "Select a function to insert:"
 msgstr "Seleccioneu una funció per inserir:"
 
 #: ../src/dialogs/function-select.glade.h:6 ../src/wbc-gtk-actions.c:1456
-#: ../src/wbc-gtk-actions.c:1650
+#: ../src/wbc-gtk-actions.c:1653
 msgid "_Insert"
 msgstr "_Insereix"
 
@@ -7971,7 +7971,7 @@ msgstr "_Fins el valor:"
 msgid "Go To..."
 msgstr "Vés a..."
 
-#: ../src/dialogs/hf-config.glade.h:2 ../src/wbc-gtk-actions.c:2041
+#: ../src/dialogs/hf-config.glade.h:2 ../src/wbc-gtk-actions.c:2048
 msgid "Date"
 msgstr "Data"
 
@@ -8031,7 +8031,7 @@ msgstr "Pàgines"
 msgid "Path"
 msgstr "Camí"
 
-#: ../src/dialogs/hf-config.glade.h:19 ../src/wbc-gtk-actions.c:2044
+#: ../src/dialogs/hf-config.glade.h:19 ../src/wbc-gtk-actions.c:2051
 msgid "Time"
 msgstr "Hora"
 
@@ -9015,7 +9015,7 @@ msgstr "_Cerca per:"
 msgid "Manage Sheets..."
 msgstr "Gestiona els fulls..."
 
-#: ../src/dialogs/sheet-order.glade.h:2 ../src/wbc-gtk-actions.c:1660
+#: ../src/dialogs/sheet-order.glade.h:2 ../src/wbc-gtk-actions.c:1663
 msgid "_Duplicate"
 msgstr "_Duplica"
 
@@ -9443,7 +9443,7 @@ msgstr "«%s» ja està definit al llibre de treball"
 msgid "Internal type error"
 msgstr "Error de tipus intern"
 
-#: ../src/expr.c:1452
+#: ../src/expr.c:1454
 msgid "Unknown evaluation error"
 msgstr "Error d'avaluació desconegut"
 
@@ -9554,41 +9554,41 @@ msgstr ""
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: ../src/func.c:226
+#: ../src/func.c:234
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "No es pot crear el fitxer %s\n"
 
-#: ../src/func.c:545
+#: ../src/func.c:553
 msgid "Function implementation not available."
 msgstr "No està disponible la implementació de la funció."
 
-#: ../src/func.c:760
+#: ../src/func.c:768
 msgid "Unknown Function"
 msgstr "Funció desconeguda"
 
-#: ../src/func.c:931
+#: ../src/func.c:939
 msgid "Boolean"
 msgstr "Booleà"
 
-#: ../src/func.c:933
+#: ../src/func.c:941
 msgid "Cell Range"
 msgstr "Rang de la cel·la"
 
-#: ../src/func.c:935
+#: ../src/func.c:943
 msgid "Area"
 msgstr "Àrea"
 
-#: ../src/func.c:937
+#: ../src/func.c:945
 msgid "Scalar, Blank, or Error"
 msgstr "Escalar, en blanc o error"
 
-#: ../src/func.c:939
+#: ../src/func.c:947
 msgid "Scalar"
 msgstr "Escalar"
 
 #. Missing values will be NULL.
-#: ../src/func.c:942
+#: ../src/func.c:950
 msgid "Any"
 msgstr "Qualsevol"
 
@@ -9900,39 +9900,39 @@ msgstr "Opcions del Gnumeric"
 msgid "Show Gnumeric Options"
 msgstr "Mostra les opcions del Gnumeric"
 
-#: ../src/main-application.c:75
+#: ../src/main-application.c:76
 msgid "Specify the size and location of the initial window"
 msgstr "Especifica la mida i ubicació de la finestra inicial"
 
-#: ../src/main-application.c:76
+#: ../src/main-application.c:77
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "AmpladaxAlçada+Xoff+Yoff"
 
-#: ../src/main-application.c:79
+#: ../src/main-application.c:80
 msgid "Don't show splash screen"
 msgstr "No ensenyis la pantalla de benvinguda"
 
-#: ../src/main-application.c:81
+#: ../src/main-application.c:82
 msgid "Don't display warning dialogs when importing"
 msgstr "No mostris diàlegs d'avís mentre importis"
 
-#: ../src/main-application.c:90 ../src/main-application.c:96
+#: ../src/main-application.c:91 ../src/main-application.c:97
 msgid "Dumps the function definitions"
 msgstr "Mostra les definicions de funcions"
 
-#: ../src/main-application.c:91 ../src/main-application.c:97
+#: ../src/main-application.c:92 ../src/main-application.c:98
 msgid "FILE"
 msgstr "Fitxer"
 
-#: ../src/main-application.c:102
+#: ../src/main-application.c:103
 msgid "Generate new help and po files"
 msgstr "Genera una ajuda nova i fitxers po"
 
-#: ../src/main-application.c:108
+#: ../src/main-application.c:109
 msgid "Exit immediately after loading the selected books"
 msgstr "Sortir immediatament després de carregar els llibres seleccionats"
 
-#: ../src/main-application.c:148
+#: ../src/main-application.c:149
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -9956,7 +9956,7 @@ msgstr ""
 "\n"
 "-- L'equip del Gnumeric."
 
-#: ../src/main-application.c:233 ../src/ssconvert.c:366 ../src/ssindex.c:211
+#: ../src/main-application.c:234 ../src/ssconvert.c:366 ../src/ssindex.c:211
 #, c-format
 msgid ""
 "%s\n"
@@ -9967,7 +9967,7 @@ msgstr ""
 "disponibles\n"
 "a la línia d'ordres.\n"
 
-#: ../src/main-application.c:296
+#: ../src/main-application.c:317
 msgid ""
 "The Pango library present on your system is buggy, see\n"
 "http://bugzilla.gnome.org/show_bug.cgi?id=316054\n"
@@ -10393,12 +10393,12 @@ msgid "Column _Width..."
 msgstr "Amplada de _columna..."
 
 #: ../src/sheet-control-gui.c:1826 ../src/sheet-control-gui.c:1834
-#: ../src/wbc-gtk-actions.c:1784 ../src/wbc-gtk-actions.c:1801
+#: ../src/wbc-gtk-actions.c:1791 ../src/wbc-gtk-actions.c:1808
 msgid "_Hide"
 msgstr "_Oculta"
 
 #: ../src/sheet-control-gui.c:1828 ../src/sheet-control-gui.c:1836
-#: ../src/wbc-gtk-actions.c:1787 ../src/wbc-gtk-actions.c:1804
+#: ../src/wbc-gtk-actions.c:1794 ../src/wbc-gtk-actions.c:1811
 msgid "_Unhide"
 msgstr "_Mostra"
 
@@ -10437,7 +10437,7 @@ msgid "Resize Object"
 msgstr "Redimensiona l'objecte"
 
 #. Format toolbar
-#: ../src/sheet-merge.c:74 ../src/wbc-gtk-actions.c:2016
+#: ../src/sheet-merge.c:74 ../src/wbc-gtk-actions.c:2023
 msgid "Merge"
 msgstr "Fusiona"
 
@@ -10467,11 +10467,11 @@ msgstr "Obre en una _nova finestra"
 msgid "_Save as image"
 msgstr "De_sa com a imatge"
 
-#: ../src/sheet-object-widget.c:280 ../src/wbc-gtk-actions.c:1975
+#: ../src/sheet-object-widget.c:280 ../src/wbc-gtk-actions.c:1982
 msgid "Frame"
 msgstr "Marc"
 
-#: ../src/sheet-object-widget.c:512 ../src/wbc-gtk-actions.c:2008
+#: ../src/sheet-object-widget.c:512 ../src/wbc-gtk-actions.c:2015
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "Botó"
@@ -10491,7 +10491,7 @@ msgstr "Quadre de verificació %d"
 msgid "Clicking checkbox"
 msgstr "S'està fent clic en el quadre de verificació"
 
-#: ../src/sheet-object-widget.c:1857 ../src/wbc-gtk-actions.c:2011
+#: ../src/sheet-object-widget.c:1857 ../src/wbc-gtk-actions.c:2018
 msgid "RadioButton"
 msgstr "Botó d'opció"
 
@@ -12055,7 +12055,7 @@ msgstr ""
 "El model és massa gran per a la generació de l'informe del programa. No s'ha "
 "creat l'informe del programa."
 
-#: ../src/tools/solver/solver.c:495
+#: ../src/tools/solver/solver.c:497
 msgid ""
 "The LHS cells should contain formulas that yield proper numerical values.  "
 "Specify valid LHS entries."
@@ -12063,7 +12063,7 @@ msgstr ""
 "Les cel·les LHS han de contenir fórmules que produeixin valors numèrics "
 "adequats. Especifiqueu entrades LHS vàlides."
 
-#: ../src/tools/solver/solver.c:538
+#: ../src/tools/solver/solver.c:541
 msgid ""
 "The RHS cells should contain proper numerical values only.  Specify valid "
 "RHS entries."
@@ -12071,11 +12071,11 @@ msgstr ""
 "Les cel·les han de contenir solament valors numèrics adequats. Especifica "
 "les entrades RHS vàlides."
 
-#: ../src/tools/solver/solver.c:570
+#: ../src/tools/solver/solver.c:574
 msgid "EqualTo models are not supported yet.  Please use Min or Max"
 msgstr "Els models EqualTo encara no estan implementats. Utilitzeu Min o Max"
 
-#: ../src/tools/solver/solver.c:583
+#: ../src/tools/solver/solver.c:587
 msgid ""
 "Failure setting automatic scaling with this solver, try a different "
 "algorithm."
@@ -12083,7 +12083,7 @@ msgstr ""
 "S'ha produït un error en escalar automàticament amb el resoledor. Proveu un "
 "algorisme diferent."
 
-#: ../src/tools/solver/solver.c:589
+#: ../src/tools/solver/solver.c:593
 msgid ""
 "Failure setting the maximum number of iterations with this solver, try a "
 "different algorithm."
@@ -12091,7 +12091,7 @@ msgstr ""
 "S'ha produït un error en establir el nombre màxim d'iteracions amb el "
 "resoledor. Proveu un algorisme diferent."
 
-#: ../src/tools/solver/solver.c:595
+#: ../src/tools/solver/solver.c:599
 msgid ""
 "Failure setting the maximum solving time with this solver, try a different "
 "algorithm."
@@ -12099,7 +12099,7 @@ msgstr ""
 "S'ha produït un error en establir el temps màxim per resoldre amb aquesta "
 "funció per resoldre. Proveu amb un algorisme diferent."
 
-#: ../src/tools/solver/solver.c:641
+#: ../src/tools/solver/solver.c:647
 msgid ""
 "Some of the input cells contain non-numeric values.  Specify a valid input "
 "range."
@@ -12439,7 +12439,7 @@ msgid "C_olumn"
 msgstr "C_olumna"
 
 #. ICK A DUPLICATE : we have no way to override a label on one proxy
-#: ../src/wbc-gtk-actions.c:1462 ../src/wbc-gtk-actions.c:1654
+#: ../src/wbc-gtk-actions.c:1462 ../src/wbc-gtk-actions.c:1657
 msgid "_Sheet"
 msgstr "F_ull"
 
@@ -12668,477 +12668,480 @@ msgstr "Esborra les files que contenen les cel·les seleccionades"
 msgid "Delete the column(s) containing the selected cells"
 msgstr "Esborra les columnes que contenen les cel·les seleccionades"
 
+#. A duplicate that should not go into the menus, used only for the accelerator
 #. Insert
-#: ../src/wbc-gtk-actions.c:1593 ../src/wbc-gtk-actions.c:1714
+#. A duplicate that should not go into the menus, used only for the accelerator
+#: ../src/wbc-gtk-actions.c:1593 ../src/wbc-gtk-actions.c:1597
+#: ../src/wbc-gtk-actions.c:1717 ../src/wbc-gtk-actions.c:1721
 msgid "C_ells..."
 msgstr "C_el·les..."
 
-#: ../src/wbc-gtk-actions.c:1594
+#: ../src/wbc-gtk-actions.c:1594 ../src/wbc-gtk-actions.c:1598
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "Suprimeix les cel·les seleccionades i desplaça les altres al seu lloc"
 
-#: ../src/wbc-gtk-actions.c:1606 ../src/wbc-gtk-actions.c:1610
+#: ../src/wbc-gtk-actions.c:1609 ../src/wbc-gtk-actions.c:1613
 msgid "Select all cells in the spreadsheet"
 msgstr "Selecciona totes les cel·les del full de càlcul"
 
-#: ../src/wbc-gtk-actions.c:1612
+#: ../src/wbc-gtk-actions.c:1615
 msgid "Select _Column"
 msgstr "Selecciona una _columna"
 
-#: ../src/wbc-gtk-actions.c:1613
+#: ../src/wbc-gtk-actions.c:1616
 msgid "Select an entire column"
 msgstr "Selecciona una columna completa"
 
-#: ../src/wbc-gtk-actions.c:1615
+#: ../src/wbc-gtk-actions.c:1618
 msgid "Select _Row"
 msgstr "Selecciona una _fila"
 
-#: ../src/wbc-gtk-actions.c:1616
+#: ../src/wbc-gtk-actions.c:1619
 msgid "Select an entire row"
 msgstr "Selecciona una fila completa"
 
-#: ../src/wbc-gtk-actions.c:1619
+#: ../src/wbc-gtk-actions.c:1622
 msgid "Select Arra_y"
 msgstr "Selecciona una matri_u"
 
-#: ../src/wbc-gtk-actions.c:1620
+#: ../src/wbc-gtk-actions.c:1623
 msgid "Select an array of cells"
 msgstr "Selecciona una matriu de cel·les"
 
-#: ../src/wbc-gtk-actions.c:1622
+#: ../src/wbc-gtk-actions.c:1625
 msgid "Select _Depends"
 msgstr "Selecciona _dependències"
 
-#: ../src/wbc-gtk-actions.c:1623
+#: ../src/wbc-gtk-actions.c:1626
 msgid "Select all the cells that depend on the current edit cell"
 msgstr ""
 "Selecciona totes les cel·les que depenen de la cel·la que s'està editant"
 
-#: ../src/wbc-gtk-actions.c:1625
+#: ../src/wbc-gtk-actions.c:1628
 msgid "Select _Inputs"
 msgstr "Selecc_iona les entrades"
 
-#: ../src/wbc-gtk-actions.c:1626
+#: ../src/wbc-gtk-actions.c:1629
 msgid "Select all the cells are used by the current edit cell"
 msgstr ""
 "Selecciona totes les cel·les que depenen de la cel·la que s'està editant"
 
 #. Edit -> Fill
-#: ../src/wbc-gtk-actions.c:1630
+#: ../src/wbc-gtk-actions.c:1633
 msgid "Auto_fill"
 msgstr "Omple _automàticament"
 
-#: ../src/wbc-gtk-actions.c:1631
+#: ../src/wbc-gtk-actions.c:1634
 msgid "Automatically fill the current selection"
 msgstr "Omple la selecció actual automàticament"
 
-#: ../src/wbc-gtk-actions.c:1633
+#: ../src/wbc-gtk-actions.c:1636
 msgid "_Merge..."
 msgstr "_Fusiona..."
 
-#: ../src/wbc-gtk-actions.c:1634
+#: ../src/wbc-gtk-actions.c:1637
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Fusiona les dades columnars en un full creant fulls duplicats per a cada "
 "fila."
 
-#: ../src/wbc-gtk-actions.c:1636
+#: ../src/wbc-gtk-actions.c:1639
 msgid "_Tabulate Dependency..."
 msgstr "_Tabula la dependència..."
 
-#: ../src/wbc-gtk-actions.c:1637
+#: ../src/wbc-gtk-actions.c:1640
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 "Fes una taula amb els valors d'una cel·la com a una funció d'altres cel·les"
 
-#: ../src/wbc-gtk-actions.c:1639
+#: ../src/wbc-gtk-actions.c:1642
 msgid "_Series..."
 msgstr "_Sèries..."
 
-#: ../src/wbc-gtk-actions.c:1640
+#: ../src/wbc-gtk-actions.c:1643
 msgid "Fill according to a linear or exponential series"
 msgstr "Omple d'acord amb una sèrie lineal o exponencial"
 
-#: ../src/wbc-gtk-actions.c:1642
+#: ../src/wbc-gtk-actions.c:1645
 msgid "_Random Generator..."
 msgstr "Gene_rador de nombres aleatoris..."
 
-#: ../src/wbc-gtk-actions.c:1643
+#: ../src/wbc-gtk-actions.c:1646
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Genera nombres aleatoris d'una selecció de distribucions"
 
 #. Edit -> Sheet
-#: ../src/wbc-gtk-actions.c:1647
+#: ../src/wbc-gtk-actions.c:1650
 msgid "_Manage Sheets..."
 msgstr "_Gestiona els fulls..."
 
-#: ../src/wbc-gtk-actions.c:1648
+#: ../src/wbc-gtk-actions.c:1651
 msgid "Manage the sheets in this workbook"
 msgstr "Gestiona els fulls en aquest llibre de treball"
 
-#: ../src/wbc-gtk-actions.c:1651 ../src/wbc-gtk-actions.c:1655
+#: ../src/wbc-gtk-actions.c:1654 ../src/wbc-gtk-actions.c:1658
 msgid "Insert a new sheet"
 msgstr "Insereix un full nou"
 
-#: ../src/wbc-gtk-actions.c:1657
+#: ../src/wbc-gtk-actions.c:1660
 msgid "_Append"
 msgstr "_Afegeix"
 
-#: ../src/wbc-gtk-actions.c:1658
+#: ../src/wbc-gtk-actions.c:1661
 msgid "Append a new sheet"
 msgstr "Insereix un full nou"
 
-#: ../src/wbc-gtk-actions.c:1661
+#: ../src/wbc-gtk-actions.c:1664
 msgid "Make a copy of the current sheet"
 msgstr "Fes una còpia del full actual"
 
-#: ../src/wbc-gtk-actions.c:1663
+#: ../src/wbc-gtk-actions.c:1666
 msgid "_Remove"
 msgstr "Suprimei_x"
 
-#: ../src/wbc-gtk-actions.c:1664
+#: ../src/wbc-gtk-actions.c:1667
 msgid "Irrevocably remove an entire sheet"
 msgstr "Suprimeix un full sencer irrevocablement"
 
-#: ../src/wbc-gtk-actions.c:1666
+#: ../src/wbc-gtk-actions.c:1669
 msgid "Re_name"
 msgstr "Torna a a_nomenar"
 
-#: ../src/wbc-gtk-actions.c:1667
+#: ../src/wbc-gtk-actions.c:1670
 msgid "Rename the current sheet"
 msgstr "Torna a anomenar el full actual"
 
 #. Edit
-#: ../src/wbc-gtk-actions.c:1671
+#: ../src/wbc-gtk-actions.c:1674
 msgid "Repeat"
 msgstr "Repeteix"
 
-#: ../src/wbc-gtk-actions.c:1672
+#: ../src/wbc-gtk-actions.c:1675
 msgid "Repeat the previous action"
 msgstr "Repeteix l'acció prèvia"
 
-#: ../src/wbc-gtk-actions.c:1674
+#: ../src/wbc-gtk-actions.c:1677
 msgid "P_aste special..."
 msgstr "Eng_anxa de forma especial..."
 
-#: ../src/wbc-gtk-actions.c:1675
+#: ../src/wbc-gtk-actions.c:1678
 msgid "Paste with optional filters and transformations"
 msgstr "Enganxa amb filtres i transformacions opcionals"
 
-#: ../src/wbc-gtk-actions.c:1678
+#: ../src/wbc-gtk-actions.c:1681
 msgid "Co_mment..."
 msgstr "Co_mentari..."
 
-#: ../src/wbc-gtk-actions.c:1679
+#: ../src/wbc-gtk-actions.c:1682
 msgid "Edit the selected cell's comment"
 msgstr "Edita el comentari de les cel·les seleccionades"
 
-#: ../src/wbc-gtk-actions.c:1682
+#: ../src/wbc-gtk-actions.c:1685
 msgid "_Find..."
 msgstr "Ce_rca..."
 
-#: ../src/wbc-gtk-actions.c:1683
+#: ../src/wbc-gtk-actions.c:1686
 msgid "Search for something"
 msgstr "Cerca alguna cosa"
 
-#: ../src/wbc-gtk-actions.c:1685
+#: ../src/wbc-gtk-actions.c:1688
 msgid "R_eplace..."
 msgstr "Reemp_laça..."
 
-#: ../src/wbc-gtk-actions.c:1686
+#: ../src/wbc-gtk-actions.c:1689
 msgid "Search for something and replace it with something else"
 msgstr "Cerca alguna cosa i reemplaça-la amb una altra cosa"
 
-#: ../src/wbc-gtk-actions.c:1688
+#: ../src/wbc-gtk-actions.c:1691
 msgid "_Goto cell..."
 msgstr "_Vés a la cel·la..."
 
-#: ../src/wbc-gtk-actions.c:1689
+#: ../src/wbc-gtk-actions.c:1692
 msgid "Jump to a specified cell"
 msgstr "Salta a una cel·la específica"
 
-#: ../src/wbc-gtk-actions.c:1692
+#: ../src/wbc-gtk-actions.c:1695
 msgid "Recalculate"
 msgstr "Recalcula"
 
-#: ../src/wbc-gtk-actions.c:1693
+#: ../src/wbc-gtk-actions.c:1696
 msgid "Recalculate the spreadsheet"
 msgstr "Recalcula el full de càlcul"
 
 #. View
-#: ../src/wbc-gtk-actions.c:1697
+#: ../src/wbc-gtk-actions.c:1700
 msgid "_New View..."
 msgstr "_Nova vista..."
 
-#: ../src/wbc-gtk-actions.c:1698
+#: ../src/wbc-gtk-actions.c:1701
 msgid "Create a new view of the workbook"
 msgstr "Crea una vista nova del llibre de treball"
 
-#: ../src/wbc-gtk-actions.c:1700 ../src/wbc-gtk.c:1182
+#: ../src/wbc-gtk-actions.c:1703 ../src/wbc-gtk.c:1182
 msgid "_Freeze Panes"
 msgstr "_Congela les subfinestres"
 
-#: ../src/wbc-gtk-actions.c:1701 ../src/wbc-gtk.c:1185
+#: ../src/wbc-gtk-actions.c:1704 ../src/wbc-gtk.c:1185
 msgid "Freeze the top left of the sheet"
 msgstr "Congela la part superior esquerra del full"
 
-#: ../src/wbc-gtk-actions.c:1703
+#: ../src/wbc-gtk-actions.c:1706
 msgid "_Zoom..."
 msgstr "A_mpliació..."
 
-#: ../src/wbc-gtk-actions.c:1704
+#: ../src/wbc-gtk-actions.c:1707
 msgid "Zoom the spreadsheet in or out"
 msgstr "Augmenta o redueix el full de càlcul"
 
-#: ../src/wbc-gtk-actions.c:1706
+#: ../src/wbc-gtk-actions.c:1709
 msgid "Zoom _In"
 msgstr "Au_gmenta"
 
-#: ../src/wbc-gtk-actions.c:1707
+#: ../src/wbc-gtk-actions.c:1710
 msgid "Increase the zoom to make things larger"
 msgstr "Augmenta la visualització per augmentar de mida"
 
-#: ../src/wbc-gtk-actions.c:1709
+#: ../src/wbc-gtk-actions.c:1712
 msgid "Zoom _Out"
 msgstr "_Redueix"
 
-#: ../src/wbc-gtk-actions.c:1710
+#: ../src/wbc-gtk-actions.c:1713
 msgid "Decrease the zoom to make things smaller"
 msgstr "Redueix la visualització per disminuir la mida"
 
-#: ../src/wbc-gtk-actions.c:1715
+#: ../src/wbc-gtk-actions.c:1718 ../src/wbc-gtk-actions.c:1722
 msgid "Insert new cells"
 msgstr "Insereix noves cel·les"
 
-#: ../src/wbc-gtk-actions.c:1718
+#: ../src/wbc-gtk-actions.c:1725
 msgid "Insert new columns"
 msgstr "Insereix noves columnes"
 
-#: ../src/wbc-gtk-actions.c:1721
+#: ../src/wbc-gtk-actions.c:1728
 msgid "Insert new rows"
 msgstr "Insereix noves files"
 
-#: ../src/wbc-gtk-actions.c:1724
+#: ../src/wbc-gtk-actions.c:1731
 msgid "C_hart..."
 msgstr "_Gràfic..."
 
-#: ../src/wbc-gtk-actions.c:1725
+#: ../src/wbc-gtk-actions.c:1732
 msgid "Insert a Chart"
 msgstr "Insereix un gràfic"
 
-#: ../src/wbc-gtk-actions.c:1727
+#: ../src/wbc-gtk-actions.c:1734
 msgid "_Image..."
 msgstr "_Imatge..."
 
-#: ../src/wbc-gtk-actions.c:1728
+#: ../src/wbc-gtk-actions.c:1735
 msgid "Insert an image"
 msgstr "Insereix una imatge"
 
-#: ../src/wbc-gtk-actions.c:1731
+#: ../src/wbc-gtk-actions.c:1738
 msgid "Hyper_link..."
 msgstr "En_llaç..."
 
-#: ../src/wbc-gtk-actions.c:1732
+#: ../src/wbc-gtk-actions.c:1739
 msgid "Insert a Hyperlink"
 msgstr "Insereix un hiperenllaç"
 
 #. Insert -> Special
-#: ../src/wbc-gtk-actions.c:1735
+#: ../src/wbc-gtk-actions.c:1742
 msgid "Current _date"
 msgstr "_Dades actuals"
 
-#: ../src/wbc-gtk-actions.c:1736
+#: ../src/wbc-gtk-actions.c:1743
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Insereix les dades actuals a les cel·les seleccionades"
 
-#: ../src/wbc-gtk-actions.c:1739
+#: ../src/wbc-gtk-actions.c:1746
 msgid "Current _time"
 msgstr "Hora ac_tual"
 
-#: ../src/wbc-gtk-actions.c:1740
+#: ../src/wbc-gtk-actions.c:1747
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Insereix l'hora actual a les cel·les seleccionades"
 
-#: ../src/wbc-gtk-actions.c:1743
+#: ../src/wbc-gtk-actions.c:1750
 msgid "Current d_ate and time"
 msgstr "D_ata i hora actuals"
 
-#: ../src/wbc-gtk-actions.c:1744
+#: ../src/wbc-gtk-actions.c:1751
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr "Insereix l'hora i la data actuals a les cel·les seleccionades"
 
 #. Insert -> Name
-#: ../src/wbc-gtk-actions.c:1748
+#: ../src/wbc-gtk-actions.c:1755
 msgid "_Define..."
 msgstr "_Defineix..."
 
-#: ../src/wbc-gtk-actions.c:1749
+#: ../src/wbc-gtk-actions.c:1756
 msgid "Edit sheet and workbook names"
 msgstr "Edita els noms del full i del llibre de treball"
 
-#: ../src/wbc-gtk-actions.c:1752
+#: ../src/wbc-gtk-actions.c:1759
 msgid "Paste the definition of a name or names"
 msgstr "Enganxa la definició d'un nom o noms"
 
-#: ../src/wbc-gtk-actions.c:1755
+#: ../src/wbc-gtk-actions.c:1762
 msgid "_Auto generate names..."
 msgstr "Gener_a els noms automàticament..."
 
-#: ../src/wbc-gtk-actions.c:1756
+#: ../src/wbc-gtk-actions.c:1763
 msgid "Use the current selection to create names"
 msgstr "Utilitza la selecció actual per crear els noms"
 
 #. Format
-#: ../src/wbc-gtk-actions.c:1761
+#: ../src/wbc-gtk-actions.c:1768
 msgid "_Cells..."
 msgstr "_Cel·les..."
 
-#: ../src/wbc-gtk-actions.c:1762
+#: ../src/wbc-gtk-actions.c:1769
 msgid "Modify the formatting of the selected cells"
 msgstr "Modifica el format de les cel·les seleccionades"
 
-#: ../src/wbc-gtk-actions.c:1764
+#: ../src/wbc-gtk-actions.c:1771
 msgid "_Workbook..."
 msgstr "Lli_bre de treball..."
 
-#: ../src/wbc-gtk-actions.c:1765
+#: ../src/wbc-gtk-actions.c:1772
 msgid "Modify the workbook attributes"
 msgstr "Modifica els atributs d'un llibre de treball"
 
-#: ../src/wbc-gtk-actions.c:1767
+#: ../src/wbc-gtk-actions.c:1774
 msgid "_Gnumeric..."
 msgstr "_Gnumeric..."
 
-#: ../src/wbc-gtk-actions.c:1768
+#: ../src/wbc-gtk-actions.c:1775
 msgid "Edit the Gnumeric Preferences"
 msgstr "Edita les preferències del Gnumeric"
 
-#: ../src/wbc-gtk-actions.c:1770
+#: ../src/wbc-gtk-actions.c:1777
 msgid "_Autoformat..."
 msgstr "_Autoformatatge..."
 
-#: ../src/wbc-gtk-actions.c:1771
+#: ../src/wbc-gtk-actions.c:1778
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formata una regió de cel·les seguint una plantilla predefinida"
 
-#: ../src/wbc-gtk-actions.c:1773
+#: ../src/wbc-gtk-actions.c:1780
 msgid "Direction"
 msgstr "Direcció"
 
-#: ../src/wbc-gtk-actions.c:1774
+#: ../src/wbc-gtk-actions.c:1781
 msgid "Toggle sheet direction, left-to-right vs right-to-left"
 msgstr "Commuta la direcció del full, d'esquerra a dreta o a l'inrevés"
 
 #. Format -> Col
-#: ../src/wbc-gtk-actions.c:1778
+#: ../src/wbc-gtk-actions.c:1785
 msgid "_Width..."
 msgstr "Amp_lada..."
 
-#: ../src/wbc-gtk-actions.c:1779
+#: ../src/wbc-gtk-actions.c:1786
 msgid "Change width of the selected columns"
 msgstr "Canvia l'amplada de les columnes seleccionades"
 
-#: ../src/wbc-gtk-actions.c:1781 ../src/wbc-gtk-actions.c:1798
+#: ../src/wbc-gtk-actions.c:1788 ../src/wbc-gtk-actions.c:1805
 msgid "_Auto fit selection"
 msgstr "_Ajusta automàticament la selecció"
 
-#: ../src/wbc-gtk-actions.c:1782
+#: ../src/wbc-gtk-actions.c:1789
 msgid "Ensure columns are just wide enough to display content"
 msgstr "Fes les columnes prou amples per visualitzar el contingut"
 
-#: ../src/wbc-gtk-actions.c:1785
+#: ../src/wbc-gtk-actions.c:1792
 msgid "Hide the selected columns"
 msgstr "Amaga les columnes seleccionades"
 
-#: ../src/wbc-gtk-actions.c:1788
+#: ../src/wbc-gtk-actions.c:1795
 msgid "Make any hidden columns in the selection visible"
 msgstr "Fes visible qualsevol columna amagada a la selecció"
 
-#: ../src/wbc-gtk-actions.c:1790
+#: ../src/wbc-gtk-actions.c:1797
 msgid "_Standard Width"
 msgstr "Amplada e_stàndard"
 
-#: ../src/wbc-gtk-actions.c:1791
+#: ../src/wbc-gtk-actions.c:1798
 msgid "Change the default column width"
 msgstr "Canvia l'amplada per defecte de la columna"
 
 #. Format -> Row
-#: ../src/wbc-gtk-actions.c:1795
+#: ../src/wbc-gtk-actions.c:1802
 msgid "H_eight..."
 msgstr "A_lçada..."
 
-#: ../src/wbc-gtk-actions.c:1796
+#: ../src/wbc-gtk-actions.c:1803
 msgid "Change height of the selected rows"
 msgstr "Canvia l'alçada de les files seleccionades"
 
-#: ../src/wbc-gtk-actions.c:1799
+#: ../src/wbc-gtk-actions.c:1806
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Fes les files prou altes per visualitzar el contingut"
 
-#: ../src/wbc-gtk-actions.c:1802
+#: ../src/wbc-gtk-actions.c:1809
 msgid "Hide the selected rows"
 msgstr "Amaga les files seleccionades"
 
-#: ../src/wbc-gtk-actions.c:1805
+#: ../src/wbc-gtk-actions.c:1812
 msgid "Make any hidden rows in the selection visible"
 msgstr "Fes visible a la selecció qualsevol fila amagada"
 
-#: ../src/wbc-gtk-actions.c:1807
+#: ../src/wbc-gtk-actions.c:1814
 msgid "_Standard Height"
 msgstr "Alçada e_stàndard"
 
-#: ../src/wbc-gtk-actions.c:1808
+#: ../src/wbc-gtk-actions.c:1815
 msgid "Change the default row height"
 msgstr "Canvia l'alçada de la fila per defecte"
 
 #. Tools
-#: ../src/wbc-gtk-actions.c:1812
+#: ../src/wbc-gtk-actions.c:1819
 msgid "_Plug-ins..."
 msgstr "Connec_tors..."
 
-#: ../src/wbc-gtk-actions.c:1813
+#: ../src/wbc-gtk-actions.c:1820
 msgid "Manage available plugin modules"
 msgstr "Gestiona els mòduls de connectors disponibles"
 
-#: ../src/wbc-gtk-actions.c:1815
+#: ../src/wbc-gtk-actions.c:1822
 msgid "Auto _Correct..."
 msgstr "_Corregeix automàticament..."
 
-#: ../src/wbc-gtk-actions.c:1816
+#: ../src/wbc-gtk-actions.c:1823
 msgid "Automatically perform simple spell checking"
 msgstr "Realitza una correcció ortogràfica simple automàticament"
 
-#: ../src/wbc-gtk-actions.c:1818
+#: ../src/wbc-gtk-actions.c:1825
 msgid "_Auto Save..."
 msgstr "Desa _automàticament..."
 
-#: ../src/wbc-gtk-actions.c:1819
+#: ../src/wbc-gtk-actions.c:1826
 msgid "Automatically save the current document at regular intervals"
 msgstr "Desa el document actual a intervals regulars"
 
-#: ../src/wbc-gtk-actions.c:1821
+#: ../src/wbc-gtk-actions.c:1828
 msgid "_Goal Seek..."
 msgstr "Ob_jectiu de cerca..."
 
-#: ../src/wbc-gtk-actions.c:1822
+#: ../src/wbc-gtk-actions.c:1829
 msgid "Iteratively recalculate to find a target value"
 msgstr "Recalcula iterativament per trobar un valor de destinació"
 
-#: ../src/wbc-gtk-actions.c:1824
+#: ../src/wbc-gtk-actions.c:1831
 msgid "_Solver..."
 msgstr "_Resoledor..."
 
-#: ../src/wbc-gtk-actions.c:1825
+#: ../src/wbc-gtk-actions.c:1832
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Recalcula iterativament les restriccions per acostar-se a un valor destí"
 
-#: ../src/wbc-gtk-actions.c:1827
+#: ../src/wbc-gtk-actions.c:1834
 msgid "Si_mulation..."
 msgstr "Si_mulació..."
 
-#: ../src/wbc-gtk-actions.c:1828
+#: ../src/wbc-gtk-actions.c:1835
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -13147,72 +13150,72 @@ msgstr ""
 "trobar probables sortides i riscos associats"
 
 #. Tools -> Scenarios
-#: ../src/wbc-gtk-actions.c:1833
+#: ../src/wbc-gtk-actions.c:1840
 msgid "_View..."
 msgstr "_Visualitza..."
 
-#: ../src/wbc-gtk-actions.c:1834
+#: ../src/wbc-gtk-actions.c:1841
 msgid "View, delete and report different scenarios"
 msgstr "Visualitza, suprimeix i informa de diferents escenaris"
 
-#: ../src/wbc-gtk-actions.c:1836
+#: ../src/wbc-gtk-actions.c:1843
 msgid "_Add..."
 msgstr "_Afegeix..."
 
-#: ../src/wbc-gtk-actions.c:1837
+#: ../src/wbc-gtk-actions.c:1844
 msgid "Add a new scenario"
 msgstr "Afegeix un nou escenari"
 
 #. Tools -> ANOVA
-#: ../src/wbc-gtk-actions.c:1841
+#: ../src/wbc-gtk-actions.c:1848
 msgid "_One Factor..."
 msgstr "Un fact_or..."
 
-#: ../src/wbc-gtk-actions.c:1842
+#: ../src/wbc-gtk-actions.c:1849
 msgid "One Factor Analysis of Variance..."
 msgstr "Anàlisi de variància d'un factor..."
 
-#: ../src/wbc-gtk-actions.c:1844
+#: ../src/wbc-gtk-actions.c:1851
 msgid "_Two Factor..."
 msgstr "Dos fac_tors..."
 
-#: ../src/wbc-gtk-actions.c:1845
+#: ../src/wbc-gtk-actions.c:1852
 msgid "Two Factor Analysis of Variance..."
 msgstr "Anàlisi de variància de dos factors..."
 
 #. Tools -> Forecasting
-#: ../src/wbc-gtk-actions.c:1849
+#: ../src/wbc-gtk-actions.c:1856
 msgid "_Exponential Smoothing..."
 msgstr "Suavitzat _exponencial..."
 
-#: ../src/wbc-gtk-actions.c:1850
+#: ../src/wbc-gtk-actions.c:1857
 msgid "Exponential smoothing..."
 msgstr "Suavitzat exponencial..."
 
-#: ../src/wbc-gtk-actions.c:1852
+#: ../src/wbc-gtk-actions.c:1859
 msgid "_Moving Average..."
 msgstr "_Mitjana mòbil..."
 
-#: ../src/wbc-gtk-actions.c:1853
+#: ../src/wbc-gtk-actions.c:1860
 msgid "Moving average..."
 msgstr "Mitjana mòbil..."
 
 #. Tools -> Two Means
-#: ../src/wbc-gtk-actions.c:1857
+#: ../src/wbc-gtk-actions.c:1864
 msgid "_Paired Samples: T-Test..."
 msgstr "Mostres A_parellades: T-Test..."
 
-#: ../src/wbc-gtk-actions.c:1858
+#: ../src/wbc-gtk-actions.c:1865
 msgid "Comparing two population means for two paired samples: t-test..."
 msgstr ""
 "S'està comparant dues mitjanes de població amb dues mostres aparellades: t-"
 "test..."
 
-#: ../src/wbc-gtk-actions.c:1861
+#: ../src/wbc-gtk-actions.c:1868
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgstr "Mostres d_esaparellades, variància igual: t-Test..."
 
-#: ../src/wbc-gtk-actions.c:1862
+#: ../src/wbc-gtk-actions.c:1869
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
@@ -13220,11 +13223,11 @@ msgstr ""
 "S'està comparant dues mitjanes de població per a dues mostres desaparellades "
 "de poblacions amb igual variància: t-test..."
 
-#: ../src/wbc-gtk-actions.c:1865
+#: ../src/wbc-gtk-actions.c:1872
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgstr "Mostres desaparellades, diferent _variància: T-Test..."
 
-#: ../src/wbc-gtk-actions.c:1866
+#: ../src/wbc-gtk-actions.c:1873
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
@@ -13232,11 +13235,11 @@ msgstr ""
 "S'està comparant dues mitjanes de població amb dues mostres desaparellades "
 "de poblacions amb desiguals variància: t-test..."
 
-#: ../src/wbc-gtk-actions.c:1869
+#: ../src/wbc-gtk-actions.c:1876
 msgid "_Known Variances: Z-Test..."
 msgstr "Variances descone_gudes: Z-Test..."
 
-#: ../src/wbc-gtk-actions.c:1870
+#: ../src/wbc-gtk-actions.c:1877
 msgid ""
 "Comparing two population means from populations with known variances: z-"
 "test..."
@@ -13245,210 +13248,210 @@ msgstr ""
 "conegudes: z-test..."
 
 #. Tools -> Analysis
-#: ../src/wbc-gtk-actions.c:1874
+#: ../src/wbc-gtk-actions.c:1881
 msgid "_Correlation..."
 msgstr "_Correlació..."
 
-#: ../src/wbc-gtk-actions.c:1875
+#: ../src/wbc-gtk-actions.c:1882
 msgid "Pearson Correlation"
 msgstr "Correlació de Pearson"
 
-#: ../src/wbc-gtk-actions.c:1877
+#: ../src/wbc-gtk-actions.c:1884
 msgid "Co_variance..."
 msgstr "Co_variància..."
 
-#: ../src/wbc-gtk-actions.c:1880
+#: ../src/wbc-gtk-actions.c:1887
 msgid "_Descriptive Statistics..."
 msgstr "Estadístiques _descriptives..."
 
-#: ../src/wbc-gtk-actions.c:1881
+#: ../src/wbc-gtk-actions.c:1888
 msgid "Various summary statistics"
 msgstr "Diferents estadístiques de resum"
 
-#: ../src/wbc-gtk-actions.c:1883
+#: ../src/wbc-gtk-actions.c:1890
 msgid "_Fourier Analysis..."
 msgstr "Anàlisi de _Fourier..."
 
-#: ../src/wbc-gtk-actions.c:1886
+#: ../src/wbc-gtk-actions.c:1893
 msgid "_Histogram..."
 msgstr "_Histograma..."
 
-#: ../src/wbc-gtk-actions.c:1887
+#: ../src/wbc-gtk-actions.c:1894
 msgid "Various frequency tables"
 msgstr "Varies taules de freqüència"
 
-#: ../src/wbc-gtk-actions.c:1889
+#: ../src/wbc-gtk-actions.c:1896
 msgid "Ranks And _Percentiles..."
 msgstr "Rangs i _percentils..."
 
-#: ../src/wbc-gtk-actions.c:1890
+#: ../src/wbc-gtk-actions.c:1897
 msgid "Ranks, placements and percentiles"
 msgstr "Rangs, situacions i percentils"
 
-#: ../src/wbc-gtk-actions.c:1892
+#: ../src/wbc-gtk-actions.c:1899
 msgid "_Regression..."
 msgstr "_Regressió..."
 
-#: ../src/wbc-gtk-actions.c:1893
+#: ../src/wbc-gtk-actions.c:1900
 msgid "Regression Analysis"
 msgstr "Anàlisi de regressió"
 
-#: ../src/wbc-gtk-actions.c:1895
+#: ../src/wbc-gtk-actions.c:1902
 msgid "_Sampling..."
 msgstr "Mo_streig..."
 
-#: ../src/wbc-gtk-actions.c:1896
+#: ../src/wbc-gtk-actions.c:1903
 msgid "Periodic and random samples"
 msgstr "Mostres aleatòries i periòdiques"
 
-#: ../src/wbc-gtk-actions.c:1898
+#: ../src/wbc-gtk-actions.c:1905
 msgid "_Two Variances: FTest..."
 msgstr "Dues variància: F_Test..."
 
-#: ../src/wbc-gtk-actions.c:1899
+#: ../src/wbc-gtk-actions.c:1906
 msgid "Comparing two population variances"
 msgstr "Comparar dues variàncies de població"
 
 #. Data
-#: ../src/wbc-gtk-actions.c:1903
+#: ../src/wbc-gtk-actions.c:1910
 msgid "_Sort..."
 msgstr "_Ordena..."
 
-#: ../src/wbc-gtk-actions.c:1904
+#: ../src/wbc-gtk-actions.c:1911
 msgid "Sort the selected region"
 msgstr "Ordena la regió seleccionada"
 
-#: ../src/wbc-gtk-actions.c:1906
+#: ../src/wbc-gtk-actions.c:1913
 msgid "Sh_uffle..."
 msgstr "Me_scla..."
 
-#: ../src/wbc-gtk-actions.c:1907
+#: ../src/wbc-gtk-actions.c:1914
 msgid "Shuffle cells, rows or columns"
 msgstr "Mescla cel·les, files o columnes"
 
-#: ../src/wbc-gtk-actions.c:1909
+#: ../src/wbc-gtk-actions.c:1916
 msgid "_Validate..."
 msgstr "_Valida..."
 
-#: ../src/wbc-gtk-actions.c:1910
+#: ../src/wbc-gtk-actions.c:1917
 msgid "Validate input with preset criteria"
 msgstr "Valida l'entrada amb els criteris donats"
 
-#: ../src/wbc-gtk-actions.c:1912
+#: ../src/wbc-gtk-actions.c:1919
 msgid "T_ext to Columns..."
 msgstr "De _text a columnes..."
 
-#: ../src/wbc-gtk-actions.c:1913
+#: ../src/wbc-gtk-actions.c:1920
 msgid "Parse the text in the selection into data"
 msgstr "Analitza el text de la selecció i genera dades"
 
-#: ../src/wbc-gtk-actions.c:1915
+#: ../src/wbc-gtk-actions.c:1922
 msgid "_Consolidate..."
 msgstr "_Consolida..."
 
-#: ../src/wbc-gtk-actions.c:1916
+#: ../src/wbc-gtk-actions.c:1923
 msgid "Consolidate regions using a function"
 msgstr "Consolida les regions usant una funció"
 
-#: ../src/wbc-gtk-actions.c:1918
+#: ../src/wbc-gtk-actions.c:1925
 msgid "_Table..."
 msgstr "_Taula..."
 
-#: ../src/wbc-gtk-actions.c:1919
+#: ../src/wbc-gtk-actions.c:1926
 msgid "Create a Data Table to evaluate a function with multiple inputs"
 msgstr ""
 "Crea una taula de dades per a avaluar una funció amb diferents entrades"
 
-#: ../src/wbc-gtk-actions.c:1922
+#: ../src/wbc-gtk-actions.c:1929
 msgid "_Data Slice..."
 msgstr "Tall de _Dades..."
 
-#: ../src/wbc-gtk-actions.c:1923
+#: ../src/wbc-gtk-actions.c:1930
 msgid "Create a Data Slice"
 msgstr "Crea un tall de dades"
 
 #. Data -> Outline
-#: ../src/wbc-gtk-actions.c:1928
+#: ../src/wbc-gtk-actions.c:1935
 msgid "_Hide Detail"
 msgstr "_Amaga els detalls"
 
-#: ../src/wbc-gtk-actions.c:1929
+#: ../src/wbc-gtk-actions.c:1936
 msgid "Collapse an outline group"
 msgstr "Redueix un grup de contorn"
 
-#: ../src/wbc-gtk-actions.c:1931
+#: ../src/wbc-gtk-actions.c:1938
 msgid "_Show Detail"
 msgstr "_Mostra els detalls"
 
-#: ../src/wbc-gtk-actions.c:1932
+#: ../src/wbc-gtk-actions.c:1939
 msgid "Uncollapse an outline group"
 msgstr "Amplia el grup de contorn"
 
-#: ../src/wbc-gtk-actions.c:1934
+#: ../src/wbc-gtk-actions.c:1941
 msgid "_Group..."
 msgstr "A_grupa..."
 
-#: ../src/wbc-gtk-actions.c:1935
+#: ../src/wbc-gtk-actions.c:1942
 msgid "Add an outline group"
 msgstr "Afegeix un grup de contorn"
 
-#: ../src/wbc-gtk-actions.c:1937
+#: ../src/wbc-gtk-actions.c:1944
 msgid "_Ungroup..."
 msgstr "Desagr_upa..."
 
-#: ../src/wbc-gtk-actions.c:1938
+#: ../src/wbc-gtk-actions.c:1945
 msgid "Remove an outline group"
 msgstr "Suprimeix el grup de contorn"
 
 #. Data -> Filter
-#: ../src/wbc-gtk-actions.c:1942 ../src/wbc-gtk.c:1193
+#: ../src/wbc-gtk-actions.c:1949 ../src/wbc-gtk.c:1193
 msgid "Add _Auto Filter"
 msgstr "_Afegeix filtre automàtic"
 
-#: ../src/wbc-gtk-actions.c:1943
+#: ../src/wbc-gtk-actions.c:1950
 msgid "Add or remove a filter"
 msgstr "Afegeix o elimina un filtre"
 
-#: ../src/wbc-gtk-actions.c:1945
+#: ../src/wbc-gtk-actions.c:1952
 msgid "_Show All"
 msgstr "Mo_stra-ho tot"
 
-#: ../src/wbc-gtk-actions.c:1946
+#: ../src/wbc-gtk-actions.c:1953
 msgid "Show all filtered and hidden rows"
 msgstr "Mostra totes les files filtrades o ocultes"
 
-#: ../src/wbc-gtk-actions.c:1948
+#: ../src/wbc-gtk-actions.c:1955
 msgid "Advanced _Filter..."
 msgstr "_Filtre avançat..."
 
-#: ../src/wbc-gtk-actions.c:1949
+#: ../src/wbc-gtk-actions.c:1956
 msgid "Filter data with given criteria"
 msgstr "Filtra les dades a partir dels criteris donats"
 
 #. Data -> External
-#: ../src/wbc-gtk-actions.c:1952
+#: ../src/wbc-gtk-actions.c:1959
 msgid "Import _Text File..."
 msgstr "Importa un fitxer de _text..."
 
-#: ../src/wbc-gtk-actions.c:1953
+#: ../src/wbc-gtk-actions.c:1960
 msgid "Import the text from a file"
 msgstr "Importa un text des d'un fitxer"
 
 #. Standard Toolbar
-#: ../src/wbc-gtk-actions.c:1957 ../src/wbc-gtk.c:3675
+#: ../src/wbc-gtk-actions.c:1964 ../src/wbc-gtk.c:3675
 #: ../src/workbook-view.c:810
 msgid "Sum"
 msgstr "Suma"
 
-#: ../src/wbc-gtk-actions.c:1958
+#: ../src/wbc-gtk-actions.c:1965
 msgid "Sum into the current cell"
 msgstr "Suma a la cel·la actual"
 
-#: ../src/wbc-gtk-actions.c:1961
+#: ../src/wbc-gtk-actions.c:1968
 msgid "Edit a function in the current cell"
 msgstr "Edita una funció a la cel·la actual"
 
-#: ../src/wbc-gtk-actions.c:1965
+#: ../src/wbc-gtk-actions.c:1972
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
@@ -13456,11 +13459,11 @@ msgstr ""
 "Ordena la regió seleccionada en ordre ascendent basant-se en la primera "
 "columna seleccionada."
 
-#: ../src/wbc-gtk-actions.c:1967
+#: ../src/wbc-gtk-actions.c:1974
 msgid "Sort Descending"
 msgstr "Ordena de forma descendent"
 
-#: ../src/wbc-gtk-actions.c:1968
+#: ../src/wbc-gtk-actions.c:1975
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
@@ -13469,453 +13472,453 @@ msgstr ""
 "columna seleccionada."
 
 #. Object Toolbar
-#: ../src/wbc-gtk-actions.c:1972
+#: ../src/wbc-gtk-actions.c:1979
 msgid "Label"
 msgstr "Etiqueta"
 
-#: ../src/wbc-gtk-actions.c:1973
+#: ../src/wbc-gtk-actions.c:1980
 msgid "Create a label"
 msgstr "Crea una etiqueta"
 
-#: ../src/wbc-gtk-actions.c:1976
+#: ../src/wbc-gtk-actions.c:1983
 msgid "Create a frame"
 msgstr "Crea un marc"
 
-#: ../src/wbc-gtk-actions.c:1978
+#: ../src/wbc-gtk-actions.c:1985
 msgid "Checkbox"
 msgstr "Quadre de verificació"
 
-#: ../src/wbc-gtk-actions.c:1979
+#: ../src/wbc-gtk-actions.c:1986
 msgid "Create a checkbox"
 msgstr "Crea un quadre de verificació"
 
-#: ../src/wbc-gtk-actions.c:1981
+#: ../src/wbc-gtk-actions.c:1988
 msgid "Scrollbar"
 msgstr "Barra de desplaçament"
 
-#: ../src/wbc-gtk-actions.c:1982
+#: ../src/wbc-gtk-actions.c:1989
 msgid "Create a scrollbar"
 msgstr "Crea una barra de desplaçament"
 
-#: ../src/wbc-gtk-actions.c:1984
+#: ../src/wbc-gtk-actions.c:1991
 msgid "Slider"
 msgstr "Lliscador"
 
-#: ../src/wbc-gtk-actions.c:1985
+#: ../src/wbc-gtk-actions.c:1992
 msgid "Create a slider"
 msgstr "Crea un lliscador"
 
-#: ../src/wbc-gtk-actions.c:1987
+#: ../src/wbc-gtk-actions.c:1994
 msgid "SpinButton"
 msgstr "Botó giratori"
 
-#: ../src/wbc-gtk-actions.c:1988
+#: ../src/wbc-gtk-actions.c:1995
 msgid "Create a spin button"
 msgstr "Crea un botó giratori"
 
-#: ../src/wbc-gtk-actions.c:1990
+#: ../src/wbc-gtk-actions.c:1997
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:3
 msgid "List"
 msgstr "Llista"
 
-#: ../src/wbc-gtk-actions.c:1991
+#: ../src/wbc-gtk-actions.c:1998
 msgid "Create a list"
 msgstr "Crea una llista"
 
-#: ../src/wbc-gtk-actions.c:1993
+#: ../src/wbc-gtk-actions.c:2000
 msgid "Combo Box"
 msgstr "Quadre combinat"
 
-#: ../src/wbc-gtk-actions.c:1994
+#: ../src/wbc-gtk-actions.c:2001
 msgid "Create a combo box"
 msgstr "Crea un quadre combinat"
 
-#: ../src/wbc-gtk-actions.c:1997
+#: ../src/wbc-gtk-actions.c:2004
 msgid "Create a line object"
 msgstr "Crea un objecte de línia"
 
-#: ../src/wbc-gtk-actions.c:1999
+#: ../src/wbc-gtk-actions.c:2006
 msgid "Arrow"
 msgstr "Fletxa"
 
-#: ../src/wbc-gtk-actions.c:2000
+#: ../src/wbc-gtk-actions.c:2007
 msgid "Create an arrow object"
 msgstr "Crea un objecte de fletxa"
 
-#: ../src/wbc-gtk-actions.c:2002
+#: ../src/wbc-gtk-actions.c:2009
 msgid "Rectangle"
 msgstr "Rectangle"
 
-#: ../src/wbc-gtk-actions.c:2003
+#: ../src/wbc-gtk-actions.c:2010
 msgid "Create a rectangle object"
 msgstr "Crea un objecte de rectangle"
 
-#: ../src/wbc-gtk-actions.c:2005
+#: ../src/wbc-gtk-actions.c:2012
 msgid "Ellipse"
 msgstr "El·lipse"
 
-#: ../src/wbc-gtk-actions.c:2006
+#: ../src/wbc-gtk-actions.c:2013
 msgid "Create an ellipse object"
 msgstr "Crea un objecte d'el·lipse"
 
-#: ../src/wbc-gtk-actions.c:2009
+#: ../src/wbc-gtk-actions.c:2016
 msgid "Create a button"
 msgstr "Crea un botó"
 
-#: ../src/wbc-gtk-actions.c:2012
+#: ../src/wbc-gtk-actions.c:2019
 msgid "Create a radio button"
 msgstr "Crea un botó de ràdio"
 
-#: ../src/wbc-gtk-actions.c:2017
+#: ../src/wbc-gtk-actions.c:2024
 msgid "Merge a range of cells"
 msgstr "Fusiona un rang de cel·les"
 
-#: ../src/wbc-gtk-actions.c:2019
+#: ../src/wbc-gtk-actions.c:2026
 msgid "Split"
 msgstr "Divideix"
 
-#: ../src/wbc-gtk-actions.c:2020
+#: ../src/wbc-gtk-actions.c:2027
 msgid "Split merged ranges of cells"
 msgstr "Divideix els rangs fusionats de les cel·les"
 
-#: ../src/wbc-gtk-actions.c:2024
+#: ../src/wbc-gtk-actions.c:2031
 msgid "Format the selection as General"
 msgstr "Dóna a la selecció el format general"
 
-#: ../src/wbc-gtk-actions.c:2027
+#: ../src/wbc-gtk-actions.c:2034
 msgid "Format the selection as numbers"
 msgstr "Dóna a la selecció el format de nombre"
 
-#: ../src/wbc-gtk-actions.c:2029
+#: ../src/wbc-gtk-actions.c:2036
 msgid "Currency"
 msgstr "Moneda"
 
-#: ../src/wbc-gtk-actions.c:2030
+#: ../src/wbc-gtk-actions.c:2037
 msgid "Format the selection as currency"
 msgstr "Dóna a la selecció el format de moneda"
 
-#: ../src/wbc-gtk-actions.c:2032
+#: ../src/wbc-gtk-actions.c:2039
 msgid "Accounting"
 msgstr "Financer"
 
-#: ../src/wbc-gtk-actions.c:2033
+#: ../src/wbc-gtk-actions.c:2040
 msgid "Format the selection as accounting"
 msgstr "Dóna a la selecció el format de comptabilitat"
 
-#: ../src/wbc-gtk-actions.c:2035
+#: ../src/wbc-gtk-actions.c:2042
 msgid "Percentage"
 msgstr "Percentatge"
 
-#: ../src/wbc-gtk-actions.c:2036
+#: ../src/wbc-gtk-actions.c:2043
 msgid "Format the selection as percentage"
 msgstr "Dóna a la selecció el format de percentatge"
 
-#: ../src/wbc-gtk-actions.c:2038
+#: ../src/wbc-gtk-actions.c:2045
 msgid "Scientific"
 msgstr "Científic"
 
-#: ../src/wbc-gtk-actions.c:2039
+#: ../src/wbc-gtk-actions.c:2046
 msgid "Format the selection as scientific"
 msgstr "Format la selecció com a científic"
 
-#: ../src/wbc-gtk-actions.c:2042
+#: ../src/wbc-gtk-actions.c:2049
 msgid "Format the selection as date"
 msgstr "Dóna a la selecció un format de data"
 
-#: ../src/wbc-gtk-actions.c:2045
+#: ../src/wbc-gtk-actions.c:2052
 msgid "Format the selection as time"
 msgstr "Dóna a la selecció un format d'hora"
 
-#: ../src/wbc-gtk-actions.c:2047
+#: ../src/wbc-gtk-actions.c:2054
 msgid "AddBorders"
 msgstr "Afegeix vores"
 
-#: ../src/wbc-gtk-actions.c:2048
+#: ../src/wbc-gtk-actions.c:2055
 msgid "Add a border around the selection"
 msgstr "Afegeix una vora a la selecció"
 
-#: ../src/wbc-gtk-actions.c:2050
+#: ../src/wbc-gtk-actions.c:2057
 msgid "ClearBorders"
 msgstr "Suprimeix les vores"
 
-#: ../src/wbc-gtk-actions.c:2051
+#: ../src/wbc-gtk-actions.c:2058
 msgid "Clear the border around the selection"
 msgstr "Neteja les vores al voltant de la selecció"
 
-#: ../src/wbc-gtk-actions.c:2054
+#: ../src/wbc-gtk-actions.c:2061
 msgid "Thousands Separator"
 msgstr "Separador de milers"
 
-#: ../src/wbc-gtk-actions.c:2055
+#: ../src/wbc-gtk-actions.c:2062
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr ""
 "Defineix el format de les cel·les seleccionades per incloure separadors de "
 "milers"
 
-#: ../src/wbc-gtk-actions.c:2057
+#: ../src/wbc-gtk-actions.c:2064
 msgid "Increase Precision"
 msgstr "Incrementa la precisió"
 
-#: ../src/wbc-gtk-actions.c:2058
+#: ../src/wbc-gtk-actions.c:2065
 msgid "Increase the number of decimals displayed"
 msgstr "Augmenta el nombre de decimals a visualitzar"
 
-#: ../src/wbc-gtk-actions.c:2060
+#: ../src/wbc-gtk-actions.c:2067
 msgid "Decrease Precision"
 msgstr "Redueix la precisió"
 
-#: ../src/wbc-gtk-actions.c:2061
+#: ../src/wbc-gtk-actions.c:2068
 msgid "Decrease the number of decimals displayed"
 msgstr "Disminueix el nombre de decimals a visualitzar"
 
-#: ../src/wbc-gtk-actions.c:2067
+#: ../src/wbc-gtk-actions.c:2074
 msgid "Decrease the indent, and align the contents to the left"
 msgstr "Redueix el sagnat, i alinea els continguts a l'esquerra"
 
-#: ../src/wbc-gtk-actions.c:2070
+#: ../src/wbc-gtk-actions.c:2077
 msgid "Increase the indent, and align the contents to the left"
 msgstr "Incrementa el sagnat, i alinea els continguts a l'esquerra"
 
-#: ../src/wbc-gtk-actions.c:2101
+#: ../src/wbc-gtk-actions.c:2108
 msgid "Display _Outlines"
 msgstr "Mostra els c_ontorns"
 
-#: ../src/wbc-gtk-actions.c:2102
+#: ../src/wbc-gtk-actions.c:2109
 msgid "Toggle whether or not to display outline groups"
 msgstr "Commuta la visualització dels grups de contorn"
 
-#: ../src/wbc-gtk-actions.c:2104
+#: ../src/wbc-gtk-actions.c:2111
 msgid "Outlines _Below"
 msgstr "Contorns a _sota"
 
-#: ../src/wbc-gtk-actions.c:2105
+#: ../src/wbc-gtk-actions.c:2112
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr ""
 "Commuta la visualització dels contorns de les files a dalt o a baix de tot"
 
-#: ../src/wbc-gtk-actions.c:2107
+#: ../src/wbc-gtk-actions.c:2114
 msgid "Outlines _Right"
 msgstr "Contorns a la d_reta"
 
-#: ../src/wbc-gtk-actions.c:2108
+#: ../src/wbc-gtk-actions.c:2115
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 "Commuta la visualització dels contorns de les columnes a l'esquerra o la "
 "dreta"
 
-#: ../src/wbc-gtk-actions.c:2110
+#: ../src/wbc-gtk-actions.c:2117
 msgid "Display _Formulas"
 msgstr "Mostra les _fórmules"
 
-#: ../src/wbc-gtk-actions.c:2111
+#: ../src/wbc-gtk-actions.c:2118
 msgid "Display the value of a formula or the formula itself"
 msgstr "Visualitza el valor d'una fórmula o la mateixa fórmula"
 
-#: ../src/wbc-gtk-actions.c:2113
+#: ../src/wbc-gtk-actions.c:2120
 msgid "Hide _Zeros"
 msgstr "Oculta els _zeros"
 
-#: ../src/wbc-gtk-actions.c:2114
+#: ../src/wbc-gtk-actions.c:2121
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Commuta la visualització dels zeros com a buits"
 
-#: ../src/wbc-gtk-actions.c:2116
+#: ../src/wbc-gtk-actions.c:2123
 msgid "Hide _Gridlines"
 msgstr "Oculta les línies de _quadrícula"
 
-#: ../src/wbc-gtk-actions.c:2117
+#: ../src/wbc-gtk-actions.c:2124
 msgid "Toggle whether or not to display gridlines"
 msgstr "Commuta la visualització les línies de la graella"
 
-#: ../src/wbc-gtk-actions.c:2119
+#: ../src/wbc-gtk-actions.c:2126
 msgid "Hide _Column Headers"
 msgstr "Oculta _capçaleres de columnes"
 
-#: ../src/wbc-gtk-actions.c:2120
+#: ../src/wbc-gtk-actions.c:2127
 msgid "Toggle whether or not to display column headers"
 msgstr "Commuta la visualització de les capçaleres de les columnes"
 
-#: ../src/wbc-gtk-actions.c:2122
+#: ../src/wbc-gtk-actions.c:2129
 msgid "Hide _Row Headers"
 msgstr "Oculta capçale_res de files"
 
-#: ../src/wbc-gtk-actions.c:2123
+#: ../src/wbc-gtk-actions.c:2130
 msgid "Toggle whether or not to display row headers"
 msgstr "Commuta la visualització de les capçaleres de les files"
 
 #. TODO : Make this a sub menu when we have more convention types
-#: ../src/wbc-gtk-actions.c:2127
+#: ../src/wbc-gtk-actions.c:2134
 msgid "Use R1C1 N_otation "
 msgstr "Usa la n_otació R1C1 "
 
-#: ../src/wbc-gtk-actions.c:2128
+#: ../src/wbc-gtk-actions.c:2135
 msgid "Display addresses as R1C1 or A1"
 msgstr "Mostra les adreces com a R1C1 o A1"
 
-#: ../src/wbc-gtk-actions.c:2132
+#: ../src/wbc-gtk-actions.c:2139
 msgid "_Left Align"
 msgstr "A_linea a l'esquerra"
 
-#: ../src/wbc-gtk-actions.c:2133 ../src/wbc-gtk-actions.c:2200
+#: ../src/wbc-gtk-actions.c:2140 ../src/wbc-gtk-actions.c:2207
 msgid "Align left"
 msgstr "Alinea a l'esquerra"
 
-#: ../src/wbc-gtk-actions.c:2135
+#: ../src/wbc-gtk-actions.c:2142
 msgid "_Center"
 msgstr "_Centra"
 
-#: ../src/wbc-gtk-actions.c:2136 ../src/wbc-gtk-actions.c:2201
+#: ../src/wbc-gtk-actions.c:2143 ../src/wbc-gtk-actions.c:2208
 msgid "Center horizontally"
 msgstr "Centra horitzontalment"
 
-#: ../src/wbc-gtk-actions.c:2138
+#: ../src/wbc-gtk-actions.c:2145
 msgid "_Right Align"
 msgstr "Alinea a la d_reta"
 
-#: ../src/wbc-gtk-actions.c:2139 ../src/wbc-gtk-actions.c:2202
+#: ../src/wbc-gtk-actions.c:2146 ../src/wbc-gtk-actions.c:2209
 msgid "Align right"
 msgstr "Alinea a la dreta"
 
-#: ../src/wbc-gtk-actions.c:2141
+#: ../src/wbc-gtk-actions.c:2148
 msgid "_Center Across Selection"
 msgstr "_Centra per selecció"
 
-#: ../src/wbc-gtk-actions.c:2142 ../src/wbc-gtk-actions.c:2205
+#: ../src/wbc-gtk-actions.c:2149 ../src/wbc-gtk-actions.c:2212
 msgid "Center horizontally across the selection"
 msgstr "Centra horitzontalment a través de la selecció"
 
-#: ../src/wbc-gtk-actions.c:2145
+#: ../src/wbc-gtk-actions.c:2152
 msgid "_Merge and Center"
 msgstr "_Fusiona i centra"
 
-#: ../src/wbc-gtk-actions.c:2146
+#: ../src/wbc-gtk-actions.c:2153
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr "Fusiona la selecció a la cel·la 1, i centra horitzontalment."
 
-#: ../src/wbc-gtk-actions.c:2153
+#: ../src/wbc-gtk-actions.c:2160
 msgid "Align _Top"
 msgstr "Alinea amun_t"
 
-#: ../src/wbc-gtk-actions.c:2154 ../src/wbc-gtk-actions.c:2212
+#: ../src/wbc-gtk-actions.c:2161 ../src/wbc-gtk-actions.c:2219
 msgid "Align Top"
 msgstr "Alinea amunt"
 
-#: ../src/wbc-gtk-actions.c:2156
+#: ../src/wbc-gtk-actions.c:2163
 msgid "_Vertically Center"
 msgstr "Centra _verticalment"
 
-#: ../src/wbc-gtk-actions.c:2157
+#: ../src/wbc-gtk-actions.c:2164
 msgid "Vertically Center"
 msgstr "Centra verticalment"
 
-#: ../src/wbc-gtk-actions.c:2159
+#: ../src/wbc-gtk-actions.c:2166
 msgid "Align _Bottom"
 msgstr "Alinea a_baix"
 
-#: ../src/wbc-gtk-actions.c:2160 ../src/wbc-gtk-actions.c:2214
+#: ../src/wbc-gtk-actions.c:2167 ../src/wbc-gtk-actions.c:2221
 msgid "Align Bottom"
 msgstr "Alinea abaix"
 
-#: ../src/wbc-gtk-actions.c:2163
+#: ../src/wbc-gtk-actions.c:2170
 msgid "View _Statusbar"
 msgstr "Vi_sualitza la barra d'estat"
 
-#: ../src/wbc-gtk-actions.c:2164
+#: ../src/wbc-gtk-actions.c:2171
 msgid "Toggle visibility of statusbar"
 msgstr "Commuta la visibilitat de la barra d'estat"
 
-#: ../src/wbc-gtk-actions.c:2168
+#: ../src/wbc-gtk-actions.c:2175
 msgid "F_ull Screen"
 msgstr "_Pantalla sencera..."
 
-#: ../src/wbc-gtk-actions.c:2169
+#: ../src/wbc-gtk-actions.c:2176
 msgid "Switch to or from full screen mode"
 msgstr "Commuta a o de pantalla completa"
 
-#: ../src/wbc-gtk-actions.c:2175
+#: ../src/wbc-gtk-actions.c:2182
 msgid "_Bold"
 msgstr "Ne_greta"
 
 #. ALSO "<control>2"
-#: ../src/wbc-gtk-actions.c:2176 ../src/widgets/widget-font-selector.c:205
+#: ../src/wbc-gtk-actions.c:2183 ../src/widgets/widget-font-selector.c:205
 msgid "Bold"
 msgstr "Negreta"
 
-#: ../src/wbc-gtk-actions.c:2178
+#: ../src/wbc-gtk-actions.c:2185
 msgid "_Italic"
 msgstr "Curs_iva"
 
 #. ALSO "<control>3"
-#: ../src/wbc-gtk-actions.c:2179 ../src/widgets/widget-font-selector.c:207
+#: ../src/wbc-gtk-actions.c:2186 ../src/widgets/widget-font-selector.c:207
 msgid "Italic"
 msgstr "Cursiva"
 
-#: ../src/wbc-gtk-actions.c:2181
+#: ../src/wbc-gtk-actions.c:2188
 msgid "_Underline"
 msgstr "S_ubratlla"
 
 #. ALSO "<control>4"
-#: ../src/wbc-gtk-actions.c:2182
+#: ../src/wbc-gtk-actions.c:2189
 msgid "Underline"
 msgstr "Subratlla"
 
-#: ../src/wbc-gtk-actions.c:2184
+#: ../src/wbc-gtk-actions.c:2191
 msgid "_Strike Through"
 msgstr "_Ratllat"
 
-#: ../src/wbc-gtk-actions.c:2185
+#: ../src/wbc-gtk-actions.c:2192
 msgid "Strike Through"
 msgstr "Ratllat"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:2187
+#: ../src/wbc-gtk-actions.c:2194
 msgid "_Double Underline"
 msgstr "Subratllat _doble"
 
-#: ../src/wbc-gtk-actions.c:2188
+#: ../src/wbc-gtk-actions.c:2195
 msgid "Double Underline"
 msgstr "Subratllat doble"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:2190
+#: ../src/wbc-gtk-actions.c:2197
 msgid "Su_perscript"
 msgstr "Sup_eríndex"
 
-#: ../src/wbc-gtk-actions.c:2191
+#: ../src/wbc-gtk-actions.c:2198
 msgid "Superscript"
 msgstr "Sup_eríndex"
 
 #. from icon theme
-#: ../src/wbc-gtk-actions.c:2193
+#: ../src/wbc-gtk-actions.c:2200
 msgid "Subscrip_t"
 msgstr "Su_bíndex"
 
-#: ../src/wbc-gtk-actions.c:2194
+#: ../src/wbc-gtk-actions.c:2201
 msgid "Subscript"
 msgstr "Su_bíndex"
 
-#: ../src/wbc-gtk-actions.c:2203
+#: ../src/wbc-gtk-actions.c:2210
 msgid "Fill Horizontally"
 msgstr "Emplena horitzontalment"
 
-#: ../src/wbc-gtk-actions.c:2204
+#: ../src/wbc-gtk-actions.c:2211
 msgid "Justify Horizontally"
 msgstr "Justifica horitzontalment"
 
-#: ../src/wbc-gtk-actions.c:2207
+#: ../src/wbc-gtk-actions.c:2214
 msgid "Align numbers right, and text left"
 msgstr "Alinea els nombres a la dreta i el text a l'esquerra"
 
-#: ../src/wbc-gtk-actions.c:2213
+#: ../src/wbc-gtk-actions.c:2220
 msgid "Center Vertically"
 msgstr "Centra verticalment"
 
-#: ../src/wbc-gtk-actions.c:2237 ../src/wbc-gtk-actions.c:2238
-#: ../src/wbc-gtk-actions.c:2241 ../src/wbc-gtk-actions.c:2256
+#: ../src/wbc-gtk-actions.c:2244 ../src/wbc-gtk-actions.c:2245
+#: ../src/wbc-gtk-actions.c:2248 ../src/wbc-gtk-actions.c:2263
 msgid "Horizontal Alignment"
 msgstr "Alineació horitzontal"
 
-#: ../src/wbc-gtk-actions.c:2252 ../src/wbc-gtk-actions.c:2253
+#: ../src/wbc-gtk-actions.c:2259 ../src/wbc-gtk-actions.c:2260
 msgid "Vertical Alignment"
 msgstr "Alineació vertical"
 
@@ -14617,6 +14620,9 @@ msgstr "Plantilla de llista lila"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Una plantilla de llista senzilla"
+
+#~ msgid "Invalid '%s' record of length %hd instead of %d"
+#~ msgstr "Registre «%s» invàlid de longitud %hd en comptes de %d"
 
 #~ msgid "Save the embedded workbook"
 #~ msgstr "Desa el llibre de treball incrustat"
