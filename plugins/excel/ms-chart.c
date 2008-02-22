@@ -316,8 +316,11 @@ BC_R(ai)(XLChartHandler const *handle,
 		if (texpr != NULL) {
 			Sheet *sheet = ms_container_sheet (s->container.parent);
 
-			g_return_val_if_fail (sheet != NULL, FALSE);
-			g_return_val_if_fail (s->currentSeries != NULL, TRUE);
+			XL_CHECK_CONDITION_VAL (sheet && 
+						s->currentSeries &&
+						purpose < G_N_ELEMENTS (s->currentSeries->reg_dims) &&
+						s->currentSeries->reg_dims[purpose] == NULL,
+						(gnm_expr_top_unref (texpr), TRUE));
 
 			s->currentSeries->reg_dims[purpose] =
 				gnm_go_data_scalar_new_expr (sheet, texpr);
@@ -381,7 +384,7 @@ BC_R(ai)(XLChartHandler const *handle,
 		if (s->currentSeries->data [purpose].value)
 			g_warning ("Leak?");
 
-		s->currentSeries->data [purpose].value = (GnmValueArray *)
+		s->currentSeries->data[purpose].value = (GnmValueArray *)
 			value_new_array (1, s->currentSeries->data [purpose].num_elements);
 	} else {
 		g_return_val_if_fail (length == 0, TRUE);
@@ -3293,10 +3296,15 @@ ms_excel_chart_read_NUMBER (BiffQuery *q, XLChartReadState *state, size_t ofs)
 	sernum = GSF_LE_GET_GUINT16 (q->data + 2);
 	val = gsf_le_get_double (q->data + ofs);
 
-	if (state->cur_role < 0 ||
-	    state->series == NULL ||
-	    sernum >= state->series->len ||
-	    NULL == (series = g_ptr_array_index (state->series, sernum)))
+	if (state->series == NULL)
+		return;
+
+	XL_CHECK_CONDITION (state->cur_role >= 0);
+	XL_CHECK_CONDITION (state->cur_role < GOG_MS_DIM_TYPES);
+	XL_CHECK_CONDITION (sernum < state->series->len);
+
+	series = g_ptr_array_index (state->series, sernum);
+	if (series == NULL)
 		return;
 
 	if (series->data[state->cur_role].value != NULL) {
@@ -3318,10 +3326,15 @@ ms_excel_chart_read_LABEL (BiffQuery *q, XLChartReadState *state)
 	sernum = GSF_LE_GET_GUINT16 (q->data + 2);
 	/* xf  = GSF_LE_GET_GUINT16 (q->data + 4); */
 
-	if (state->cur_role < 0 ||
-	    state->series == NULL ||
-	    sernum >= state->series->len ||
-	    NULL == (series = g_ptr_array_index (state->series, sernum)))
+	if (state->series == NULL)
+		return;
+
+	XL_CHECK_CONDITION (state->cur_role >= 0);
+	XL_CHECK_CONDITION (state->cur_role < GOG_MS_DIM_TYPES);
+	XL_CHECK_CONDITION (sernum < state->series->len);
+
+	series = g_ptr_array_index (state->series, sernum);
+	if (series == NULL)
 		return;
 
 	label = excel_biff_text_2 (state->container.importer, q, 6);
