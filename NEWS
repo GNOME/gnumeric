@@ -24,7 +24,7 @@ Morten:
 	* Fix corrupted-qpro-bugs.  [#517144] [#517376] [#517591]
 	* Make <control>KP_Subtract work as <control>minus.  [#516358]
 	* Make <control>KP_Add work as <control>plus.
-	* Fix corrupted-applix-bug.  [#517778]
+	* Fix corrupted-applix-bugs.  [#517778]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.1

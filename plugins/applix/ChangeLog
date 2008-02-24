@@ -1,3 +1,8 @@
+2008-02-23  Morten Welinder  <terra@gnome.org>
+
+	* applix-read.c (applix_parse_style): Prevent crash when the font
+	table is screwed.  Plug leak.
+
 2008-02-20  Morten Welinder  <terra@gnome.org>
 
 	* applix-read.c (applix_get_line): If we hit eof with nothing
