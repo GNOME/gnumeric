@@ -748,8 +748,10 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					char *start = (sep += 2);
 
 					font_id = a_strtol (start, &sep);
-					if (start == sep || font_id < 0 || font_id >= (int)state->font_names->len)
+					if (start == sep || font_id < 0 || font_id >= (int)state->font_names->len) {
 						applix_parse_error (state, "Unknown font index %s", start);
+						font_id = 0;
+					}
 					break;
 				}
 
@@ -768,7 +770,8 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 			return NULL;
 		}
 
-		gnm_style_set_font_name (style, g_ptr_array_index (state->font_names, font_id));
+		if (font_id < (int)state->font_names->len)
+			gnm_style_set_font_name (style, g_ptr_array_index (state->font_names, font_id));
 
 		/* Background, pattern, and borders */
 		for (++sep ; *sep && *sep != ')' ; ) {
@@ -787,7 +790,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 
 				if (sep == end || 0 >= num || num >= (int)G_N_ELEMENTS (map)) {
 					applix_parse_error (state, "Unknown pattern %s", sep);
-					return NULL;
+					goto error;
 				}
 
 				num = map[num];
@@ -797,14 +800,14 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				if (sep[0] == 'F' && sep[1] == 'G' ) {
 					GnmColor *color = applix_get_color (state, &sep);
 					if (color == NULL)
-						return NULL;
+						goto error;
 					gnm_style_set_pattern_color (style, color);
 				}
 
 				if (sep[0] == 'B' && sep[1] == 'G') {
 					GnmColor *color = applix_get_color (state, &sep);
 					if (color == NULL)
-						return NULL;
+						goto error;
 					gnm_style_set_back_color (style, color);
 				}
 			} else if (sep[0] == 'T' || sep[0] == 'B' || sep[0] == 'L' || sep[0] == 'R') {
@@ -829,14 +832,14 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 
 				if (sep == end || 0 >= num || num >= (int)G_N_ELEMENTS (map)) {
 					applix_parse_error (state, "Unknown border style %s", sep);
-					return NULL;
+					goto error;
 				}
 				sep = end;
 
 				if (sep[0] == 'F' && sep[1] == 'G' ) {
 					color = applix_get_color (state, &sep);
 					if (color == NULL)
-						return NULL;
+						goto error;
 				} else
 					color = style_color_black ();
 
@@ -848,13 +851,13 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				++sep;
 			else if (*sep != ')') {
 				applix_parse_error (state, "Invalid pattern, background, or border");
-				return NULL;
+				goto error;
 			}
 		}
 
 		if (*sep != ')') {
 			applix_parse_error (state, "Invalid pattern or background");
-			return NULL;
+			goto error;
 		}
 
 		/* Store the newly parsed style along with its descriptor */
@@ -866,6 +869,11 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 	*buffer = tmp + 2;
 	gnm_style_ref (style);
 	return style;
+
+error:
+	if (style)
+		gnm_style_unref (style);
+	return NULL;
 }
 
 static gboolean
