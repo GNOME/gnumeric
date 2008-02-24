@@ -5535,13 +5535,13 @@ excel_read_SCL (BiffQuery *q, Sheet *sheet)
  * WARNING WARNING WARNING
  **/
 ExcelExternSheetV8 const *
-excel_externsheet_v8 (GnmXLImporter const *importer, gint16 i)
+excel_externsheet_v8 (GnmXLImporter const *importer, guint16 i)
 {
 	d (2, fprintf (stderr, "externv8 %hd\n", i););
 
 	g_return_val_if_fail (importer->v8.externsheet != NULL, NULL);
 
-	if (i >= (int)importer->v8.externsheet->len) {
+	if (i >= importer->v8.externsheet->len) {
 		g_warning ("%hd >= %u\n", i, importer->v8.externsheet->len);
 		return NULL;
 	}

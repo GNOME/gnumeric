@@ -127,7 +127,7 @@ struct _GnmXLImporter {
 GnmValue *biff_get_error (GnmEvalPos const *pos, guint8 const err);
 
 Sheet		*excel_externsheet_v7	 (MSContainer const *container, gint16 i);
-ExcelExternSheetV8 const *excel_externsheet_v8 (GnmXLImporter const *wb, gint16 i);
+ExcelExternSheetV8 const *excel_externsheet_v8 (GnmXLImporter const *wb, guint16 i);
 
 void		excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container);
 MsBiffBofData *ms_biff_bof_data_new     (BiffQuery * q);
