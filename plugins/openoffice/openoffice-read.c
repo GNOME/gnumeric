@@ -1394,9 +1394,7 @@ oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 	char const *end = oo_parse_distance (xin, str, "border", &pts);
 	GnmBorder *border = NULL;
 	GnmColor *color = NULL;
-	char *border_color = NULL;
-	char *border_type = NULL;
-	size_t pos = 0;
+	const char *border_color = NULL;
 	GnmStyleBorderType border_style;
 	GnmStyleBorderLocation const loc =
 		GNM_STYLE_BORDER_TOP + (int)(location - MSTYLE_BORDER_TOP);
@@ -1405,13 +1403,10 @@ oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 		return;
 	if (*end == ' ')
 		end++;
-/* "0.035cm solid #000000" */
+	/* "0.035cm solid #000000" */
 	border_color = strchr (end, '#');
 	if (border_color) {
-		pos = strlen (end) - strlen (border_color);
-		border_type = (char *)malloc(pos);
-		memset (border_type, '\0', pos);
-		strncpy (border_type, end, pos-1);
+		char *border_type = g_strndup (end, border_color - end);
 		color = oo_parse_color (xin, CC2XML (border_color), "color");
 
 		if (!strcmp ("solid", border_type)) {
@@ -1425,10 +1420,10 @@ oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 			border_style = GNM_STYLE_BORDER_DOUBLE;
 
 		border = gnm_style_border_fetch (border_style, color,
-					     gnm_style_border_get_orientation (loc));
+						 gnm_style_border_get_orientation (loc));
 		border->width = pts;
 		gnm_style_set_border (style, location, border);
-		free (border_type);
+		g_free (border_type);
 	}
 }
 
