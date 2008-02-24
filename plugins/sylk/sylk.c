@@ -195,19 +195,24 @@ sylk_parse_int (char const *str, int *res)
 }
 
 static GnmValue *
-sylk_parse_value (SylkReader *state, char *str)
+sylk_parse_value (SylkReader *state, const char *str)
 {
 	GnmValue *val;
 	if ('\"' == *str) { /* quoted string */
-		unsigned len = strlen (str);
+		size_t len;
+
+		str++;
+		len = strlen (str);
 		if (str[len-1] == '\"')
-			str[len-1] = '\0';
-		return value_new_string (str+1);
+			len--;
+		return value_new_string_nocopy (g_strndup (str + 1, len));
 	}
 
-	if (NULL != (val = format_match_simple (str)))
+	val = format_match_simple (str);
+	if (val)
 		return val;
-	return value_new_string_nocopy (str);
+
+	return value_new_string (str);
 }
 
 static GnmExprTop const *

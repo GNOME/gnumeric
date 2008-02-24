@@ -1,3 +1,8 @@
+2008-02-23  Morten Welinder  <terra@gnome.org>
+
+	* sylk.c (sylk_parse_value): Constify and fix the unqouted-string
+	case.
+
 2007-12-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.8.0
