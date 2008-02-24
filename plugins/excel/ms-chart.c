@@ -305,6 +305,8 @@ BC_R(ai)(XLChartHandler const *handle,
 
 	int top_state = BC_R(top_state) (s, 0);
 
+	XL_CHECK_CONDITION_VAL (q->length - 8 >= length, TRUE);
+
 	/* ignore these for now */
 	if (top_state == BIFF_CHART_text)
 		return FALSE;

@@ -1,3 +1,8 @@
+2008-02-23  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_externsheet_v8): Take guint16 argument to
+	prevent negative lookups.
+
 2008-02-19  Morten Welinder  <terra@gnome.org>
 
 	* ms-escher.c (ms_escher_get_data): Add a few checks before Sum1
