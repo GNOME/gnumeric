@@ -203,7 +203,7 @@ sylk_parse_value (SylkReader *state, const char *str)
 
 		str++;
 		len = strlen (str);
-		if (str[len-1] == '\"')
+		if (len > 0 && str[len - 1] == '\"')
 			len--;
 		return value_new_string_nocopy (g_strndup (str, len));
 	}
