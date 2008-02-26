@@ -38,6 +38,7 @@ Morten:
 	* Make <control>KP_Add work as <control>plus.
 	* Fix corrupted-applix-bugs.  [#517778]
 	* Fix autofill issue with merged cells.  [#504191]
+	* Fix sylk importer's format handling.
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.0

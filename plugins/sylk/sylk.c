@@ -205,7 +205,7 @@ sylk_parse_value (SylkReader *state, const char *str)
 		len = strlen (str);
 		if (str[len-1] == '\"')
 			len--;
-		return value_new_string_nocopy (g_strndup (str + 1, len));
+		return value_new_string_nocopy (g_strndup (str, len));
 	}
 
 	val = format_match_simple (str);
@@ -310,12 +310,6 @@ sylk_rtd_c_parse (SylkReader *state, char *str)
 	if (val != NULL || texpr != NULL) {
 		GnmCell *cell = sheet_cell_fetch (state->pp.sheet,
 			state->pp.eval.col, state->pp.eval.row);
-
-		if (val != NULL) {
-			GnmStyle const *style = sheet_style_get (state->pp.sheet,
-				state->pp.eval.col, state->pp.eval.row);
-			value_set_fmt (val, gnm_style_get_format (style));
-		}
 
 		if (is_array) {
 			if (NULL != texpr)
