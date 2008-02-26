@@ -1,3 +1,8 @@
+2008-02-26  Morten Welinder  <terra@gnome.org>
+
+	* sylk.c (sylk_rtd_c_parse): Do not duplicate all cell formats as
+	value formats.
+
 2008-02-23  Morten Welinder  <terra@gnome.org>
 
 	* sylk.c (sylk_parse_value): Constify and fix the unqouted-string
