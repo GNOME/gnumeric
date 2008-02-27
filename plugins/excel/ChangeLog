@@ -1,3 +1,9 @@
+2008-02-27  Morten Welinder  <terra@gnome.org>
+
+	* ms-chart.c (set_radial_axes): If clearing the parent fails, the
+	ref-count is not as expected to stop messing with the object.
+	Fixes #518939.  Mostly.
+
 2008-02-23  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_externsheet_v8): Take guint16 argument to

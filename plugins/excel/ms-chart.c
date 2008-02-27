@@ -1643,25 +1643,32 @@ static void
 set_radial_axes (XLChartReadState *s)
 {
 	GSList *l, *cur;
-	/* Change axes types */
-	l = cur = gog_chart_get_axes (s->chart, GOG_AXIS_X);
-	while (cur) {
-		gog_object_clear_parent (GOG_OBJECT (cur->data));
-		g_object_set (G_OBJECT (cur->data), "type",
-			GOG_AXIS_CIRCULAR, NULL);
+
+	l = gog_chart_get_axes (s->chart, GOG_AXIS_X);
+	for (cur = l; cur; cur = cur->next) {
+		GogObject *axis = cur->data;
+
+		if (!gog_object_clear_parent (axis))
+			continue;
+
+		g_object_set (G_OBJECT (axis), "type",
+			      GOG_AXIS_CIRCULAR, NULL);
 		gog_object_add_by_name (GOG_OBJECT (s->chart),
-			"Circular-Axis", GOG_OBJECT (cur->data));
-		cur = cur->next;
+					"Circular-Axis", axis);
 	}
 	g_slist_free (l);
-	l = cur = gog_chart_get_axes (s->chart, GOG_AXIS_Y);
-	while (cur) {
-		gog_object_clear_parent (GOG_OBJECT (cur->data));
-		g_object_set (G_OBJECT (cur->data), "type",
-			GOG_AXIS_RADIAL, NULL);
+
+	l = gog_chart_get_axes (s->chart, GOG_AXIS_Y);
+	for (cur = l; cur; cur = cur->next) {
+		GogObject *axis = cur->data;
+
+		if (!gog_object_clear_parent (axis))
+			continue;
+
+		g_object_set (G_OBJECT (axis), "type",
+			      GOG_AXIS_RADIAL, NULL);
 		gog_object_add_by_name (GOG_OBJECT (s->chart),
-			"Radial-Axis", GOG_OBJECT (cur->data));
-		cur = cur->next;
+					"Radial-Axis", axis);
 	}
 	g_slist_free (l);
 }
