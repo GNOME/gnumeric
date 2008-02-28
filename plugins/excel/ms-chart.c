@@ -208,7 +208,7 @@ static int
 BC_R(top_state) (XLChartReadState *s, unsigned n)
 {
 	g_return_val_if_fail (s != NULL, 0);
-	g_return_val_if_fail (s->stack->len >= n+1, 0);
+	XL_CHECK_CONDITION_VAL (s->stack->len >= n+1, 0);
 	return g_array_index (s->stack, int, s->stack->len-1-n);
 }
 
@@ -2442,7 +2442,7 @@ BC_R(end)(XLChartHandler const *handle,
 	d (0, g_printerr ("}\n"););
 
 	g_return_val_if_fail (s->stack != NULL, TRUE);
-	g_return_val_if_fail (s->stack->len > 0, TRUE);
+	XL_CHECK_CONDITION_VAL (s->stack->len > 0, TRUE);
 
 	popped_state = BC_R(top_state) (s, 0);
 	s->stack = g_array_remove_index_fast (s->stack, s->stack->len-1);
@@ -3588,7 +3588,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 	g_array_free (state.stack, TRUE);
 	ms_container_finalize (&state.container);
 
-	{
+	if (state.chart) {
 		/* try to replace hidden axes by visible ones when possible */
 		GSList *l, *cur;
 		GogAxis *hidden, *visible;
