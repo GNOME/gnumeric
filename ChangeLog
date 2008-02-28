@@ -1,3 +1,11 @@
+2008-02-28  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-io.c (maybe_convert): Handle memory allocation failure
+	nicely.  Fixes #519319.
+
+	* src/xml-sax-read.c (maybe_convert): Handle memory allocation
+	failure nicely.
+
 2008-02-21  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-autofill.c (sheet_autofill_dir): Handle merged cells

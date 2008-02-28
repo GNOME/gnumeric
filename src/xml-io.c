@@ -2472,28 +2472,41 @@ maybe_convert (GsfInput *input, gboolean quiet)
 {
 	static char const *noencheader = "<?xml version=\"1.0\"?>";
 	static char const *encheader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+	const size_t nelen = strlen (noencheader);
+	const size_t elen = strlen (encheader);
 	guint8 const *buf;
 	gsf_off_t input_size;
-	GString *buffer;
+	GString the_buffer, *buffer = &the_buffer;
 	guint ui;
 	char *converted;
 	char const *encoding;
 	gboolean ok;
-
-	buf = gsf_input_read (input, strlen (noencheader), NULL);
-	if (!buf || strncmp (noencheader, buf, strlen (noencheader)) != 0)
-		return input;
+	gboolean any_numbered = FALSE;
 
 	input_size = gsf_input_remaining (input);
-	buffer = g_string_sized_new (input_size + strlen (encheader));
+
+	buf = gsf_input_read (input, nelen, NULL);
+	if (!buf ||
+	    strncmp (noencheader, (const char *)buf, nelen) != 0 ||
+	    input_size >= (gsf_off_t)(G_MAXINT - elen))
+		return input;
+
+	input_size -= nelen;
+
+	the_buffer.len = 0;
+	the_buffer.allocated_len = input_size + elen + 1;
+	the_buffer.str = g_try_malloc (the_buffer.allocated_len);
+	if (!the_buffer.str)
+		return input;
+
 	g_string_append (buffer, encheader);
-	ok = gsf_input_read (input, input_size, buffer->str + strlen (encheader)) != NULL;
+	ok = gsf_input_read (input, input_size, (guint8 *)buffer->str + elen) != NULL;
 	gsf_input_seek (input, 0, G_SEEK_SET);
 	if (!ok) {
-		g_string_free (buffer, TRUE);
+		g_free (buffer->str);
 		return input;
 	}
-	buffer->len = input_size + strlen (encheader);
+	buffer->len = input_size + elen;
 	buffer->str[buffer->len] = 0;
 
 	for (ui = 0; ui < buffer->len; ui++) {
@@ -2512,18 +2525,23 @@ maybe_convert (GsfInput *input, gboolean quiet)
 				g_string_erase (buffer, start + 1, ui - start);
 				ui = start;
 			}
+			any_numbered = TRUE;
 		}
 	}
 
 	encoding = go_guess_encoding (buffer->str, buffer->len, NULL, &converted);
-	g_string_free (buffer, TRUE);
+	if (encoding && !any_numbered &&
+	    converted && strcmp (buffer->str, converted) == 0)
+		quiet = TRUE;
+
+	g_free (buffer->str);
 
 	if (encoding) {
 		g_object_unref (input);
 		if (!quiet)
 			g_warning ("Converted xml document with no explicit encoding from transliterated %s to UTF-8.",
 				   encoding);
-		return gsf_input_memory_new (converted, strlen (converted), TRUE);
+		return gsf_input_memory_new ((void *)converted, strlen (converted), TRUE);
 	} else {
 		if (!quiet)
 			g_warning ("Failed to convert xml document with no explicit encoding to UTF-8.");
