@@ -10,13 +10,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-19 20:24+0100\n"
+"POT-Creation-Date: 2008-02-27 16:20+0100\n"
 "PO-Revision-Date: 2007-12-31 22:15+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);"
 
 #: ../gnumeric.desktop.in.h:1
 msgid "Calculation, Analysis, and Visualization of Information"
@@ -44,12 +45,12 @@ msgstr ""
 msgid "Invalid characters for encoding '%c%c'"
 msgstr ""
 
-#: ../plugins/applix/applix-read.c:1185
+#: ../plugins/applix/applix-read.c:1196
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
 msgstr ""
 
-#: ../plugins/applix/applix-read.c:1196
+#: ../plugins/applix/applix-read.c:1207
 #, c-format
 msgid ""
 "%s!%s : unable to parse '%s'\n"
@@ -288,7 +289,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr ""
 
 #: ../plugins/excel/excel-xml-read.c:1002
-#: ../plugins/openoffice/openoffice-read.c:2984 ../src/xml-sax-read.c:2609
+#: ../plugins/openoffice/openoffice-read.c:2979 ../src/xml-sax-read.c:2609
 msgid "XML document not well formed!"
 msgstr ""
 
@@ -765,8 +766,8 @@ msgstr ""
 msgid "Functions to help Erlang Analysis"
 msgstr ""
 
-#: ../plugins/fn-financial/functions.c:4092
 #
+#: ../plugins/fn-financial/functions.c:4092
 msgid "rate,values"
 msgstr ""
 
@@ -1746,34 +1747,34 @@ msgstr ""
 msgid "Invalid array expression does not specify number of rows."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1566
+#: ../plugins/openoffice/openoffice-read.c:1561
 #, c-format
 msgid "Unknown break type '%s' defaulting to Manual"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1789
+#: ../plugins/openoffice/openoffice-read.c:1784
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:1826
+#: ../plugins/openoffice/openoffice-read.c:1821
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2874
+#: ../plugins/openoffice/openoffice-read.c:2869
 msgid "Unknown mimetype for openoffice file."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2888
+#: ../plugins/openoffice/openoffice-read.c:2883
 msgid "No stream named content.xml found."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2896
+#: ../plugins/openoffice/openoffice-read.c:2891
 msgid "No stream named styles.xml found."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2945
+#: ../plugins/openoffice/openoffice-read.c:2940
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr ""
@@ -2072,22 +2073,22 @@ msgstr ""
 msgid "Quattro Pro(tm)"
 msgstr ""
 
-#: ../plugins/qpro/qpro-read.c:151
+#: ../plugins/qpro/qpro-read.c:111
 #, c-format
-msgid "Invalid '%s' record of length %hd instead of %d"
+msgid "File is most likely corrupted.\n"
 msgstr ""
 
-#: ../plugins/qpro/qpro-read.c:825
+#: ../plugins/qpro/qpro-read.c:832
 #, c-format
 msgid "Invalid zoom %hd %%"
 msgstr ""
 
-#: ../plugins/qpro/qpro-read.c:866
+#: ../plugins/qpro/qpro-read.c:873
 #, c-format
 msgid "Invalid record %d of length %hd"
 msgstr ""
 
-#: ../plugins/qpro/qpro-read.c:898
+#: ../plugins/qpro/qpro-read.c:906
 msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
@@ -2134,15 +2135,15 @@ msgstr ""
 msgid "MultiPlan (SYLK)"
 msgstr ""
 
-#: ../plugins/sylk/sylk.c:242
+#: ../plugins/sylk/sylk.c:247
 msgid "Multiple values in the same cell"
 msgstr ""
 
-#: ../plugins/sylk/sylk.c:251 ../plugins/sylk/sylk.c:260
+#: ../plugins/sylk/sylk.c:256 ../plugins/sylk/sylk.c:265
 msgid "Multiple expressions in the same cell"
 msgstr ""
 
-#: ../plugins/sylk/sylk.c:793
+#: ../plugins/sylk/sylk.c:792
 msgid "Missing closing 'E'"
 msgstr ""
 
@@ -5746,7 +5747,7 @@ msgstr ""
 #. Edit -> Clear
 #: ../src/dialogs/dialog-paste-special.c:66 ../src/wbc-gtk-actions.c:1573
 msgid "_All"
-msgstr "_Totas"
+msgstr "_Tot"
 
 #: ../src/dialogs/dialog-paste-special.c:67
 msgid "Cont_ent"
@@ -11047,7 +11048,7 @@ msgstr "Airal"
 
 #: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:3679
 msgid "Count"
-msgstr "Contar"
+msgstr "Comptar"
 
 #: ../src/tools/simulation.c:258
 msgid "Confidence (95 %)"
@@ -11103,7 +11104,7 @@ msgstr "Formula"
 #: ../src/tools/solver/reports-write.c:131
 #: ../src/tools/solver/reports-write.c:516
 msgid "Status"
-msgstr "Estatut"
+msgstr "Estat"
 
 #. Set `Status' column
 #. FIXME
@@ -11718,11 +11719,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1347
 msgid "Add Borders"
-msgstr ""
+msgstr "Apondre de bordaduras"
 
 #: ../src/wbc-gtk-actions.c:1347
 msgid "Remove borders"
-msgstr ""
+msgstr "Suprimir de bordaduras"
 
 #: ../src/wbc-gtk-actions.c:1376
 msgid "Increase precision"
