@@ -2474,29 +2474,41 @@ maybe_convert (GsfInput *input, gboolean quiet)
 {
 	static char const *noencheader = "<?xml version=\"1.0\"?>";
 	static char const *encheader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+	const size_t nelen = strlen (noencheader);
+	const size_t elen = strlen (encheader);
 	guint8 const *buf;
 	gsf_off_t input_size;
-	GString *buffer;
+	GString the_buffer, *buffer = &the_buffer;
 	guint ui;
 	char *converted;
 	char const *encoding;
 	gboolean ok;
 	gboolean any_numbered = FALSE;
 
-	buf = gsf_input_read (input, strlen (noencheader), NULL);
-	if (!buf || strncmp (noencheader, (const char *)buf, strlen (noencheader)) != 0)
+	input_size = gsf_input_remaining (input);
+
+	buf = gsf_input_read (input, nelen, NULL);
+	if (!buf ||
+	    strncmp (noencheader, (const char *)buf, nelen) != 0 ||
+	    input_size >= (gsf_off_t)(G_MAXINT - elen))
 		return input;
 
-	input_size = gsf_input_remaining (input);
-	buffer = g_string_sized_new (input_size + strlen (encheader));
+	input_size -= nelen;
+
+	the_buffer.len = 0;
+	the_buffer.allocated_len = input_size + elen + 1;
+	the_buffer.str = g_try_malloc (the_buffer.allocated_len);
+	if (!the_buffer.str)
+		return input;
+
 	g_string_append (buffer, encheader);
-	ok = gsf_input_read (input, input_size, (guint8 *)buffer->str + strlen (encheader)) != NULL;
+	ok = gsf_input_read (input, input_size, (guint8 *)buffer->str + elen) != NULL;
 	gsf_input_seek (input, 0, G_SEEK_SET);
 	if (!ok) {
-		g_string_free (buffer, TRUE);
+		g_free (buffer->str);
 		return input;
 	}
-	buffer->len = input_size + strlen (encheader);
+	buffer->len = input_size + elen;
 	buffer->str[buffer->len] = 0;
 
 	for (ui = 0; ui < buffer->len; ui++) {
@@ -2524,7 +2536,7 @@ maybe_convert (GsfInput *input, gboolean quiet)
 	    converted && strcmp (buffer->str, converted) == 0)
 		quiet = TRUE;
 
-	g_string_free (buffer, TRUE);
+	g_free (buffer->str);
 
 	if (encoding) {
 		g_object_unref (input);
