@@ -1,5 +1,11 @@
 2008-02-29  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* ms-chart.c: (ms_excel_chart_read): do not leak the default lot style,
+	(store_dim): accept vectors with nul length,
+	(chart_write_axis): fix export of invisible axis.
+
+2008-02-29  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* ms-chart.c (BC_R(end)): Drop axes that the plot cannot handle.
 	Fixes a number of criticals from #518939.
 

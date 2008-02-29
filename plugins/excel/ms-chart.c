@@ -3687,6 +3687,9 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 
 	if (state.style != NULL)
 		g_object_unref (state.style); /* avoids a leak with corrupted files */
+	if (state.default_plot_style != NULL)
+		g_object_unref (state.default_plot_style);
+
 
 	return FALSE;
 }
@@ -4215,10 +4218,13 @@ store_dim (GogSeries const *series, GogMSDimType t,
 		type = gnm_finite (tmp) ? 1 : 3;
 		count = 1;
 	} else if (IS_GO_DATA_VECTOR (dat)) {
-		/* cheesy test to see if the content is strings or numbers */
-		double tmp = go_data_vector_get_value (GO_DATA_VECTOR (dat), 0);
-		type = gnm_finite (tmp) ? 1 : 3;
 		count = go_data_vector_get_len (GO_DATA_VECTOR (dat));
+		if (count > 0) {
+			/* cheesy test to see if the content is strings or numbers */
+			double tmp = go_data_vector_get_value (GO_DATA_VECTOR (dat), 0);
+			type = gnm_finite (tmp) ? 1 : 3;
+		} else
+			type = 1;
 		if (count > 30000) /* XL limit */
 			count = 30000;
 	} else {
@@ -4822,19 +4828,19 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		GogObject *Grid;
 		gboolean invisible;
 		g_object_get (G_OBJECT (axis), "invisible", &invisible, NULL);
-		chart_write_LINEFORMAT (s, &GOG_STYLED_OBJECT (axis)->style->line,
+		chart_write_LINEFORMAT (s, (invisible? NULL: &GOG_STYLED_OBJECT (axis)->style->line),
 					!invisible, invisible);
 		Grid = gog_object_get_child_by_name (GOG_OBJECT (axis), "MajorGrid");
 		if (Grid) {
 			ms_biff_put_2byte (s->bp, BIFF_CHART_axislineformat, 1);
 			chart_write_LINEFORMAT (s, &GOG_STYLED_OBJECT (Grid)->style->line,
-						TRUE, FALSE);
+						FALSE, FALSE);
 		}
 		Grid = gog_object_get_child_by_name (GOG_OBJECT (axis), "MinorGrid");
 		if (Grid) {
 			ms_biff_put_2byte (s->bp, BIFF_CHART_axislineformat, 2);
 			chart_write_LINEFORMAT (s, &GOG_STYLED_OBJECT (Grid)->style->line,
-						TRUE, FALSE);
+						FALSE, FALSE);
 		}
 	} else {
 		GogStyleLine line_style;
