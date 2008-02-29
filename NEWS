@@ -6,7 +6,7 @@ Hans de Goede:
 Jean:
 	* Fix graph paste.  [#507342]
 	* Fix corrupted-xls-file problems.  [#514513] [#515343] [#515873]
-	  [#515876]
+	  [#515876] [#518939]
 
 Jody:
 	* Fix cell comment positioning problem.  [#506017]

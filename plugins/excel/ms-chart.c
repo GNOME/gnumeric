@@ -1648,7 +1648,9 @@ set_radial_axes (XLChartReadState *s)
 	for (cur = l; cur; cur = cur->next) {
 		GogObject *axis = cur->data;
 
-		if (!gog_object_clear_parent (axis))
+		if (gog_object_is_deletable (axis))
+			gog_object_clear_parent (axis);
+		else
 			continue;
 
 		g_object_set (G_OBJECT (axis), "type",
@@ -1662,7 +1664,9 @@ set_radial_axes (XLChartReadState *s)
 	for (cur = l; cur; cur = cur->next) {
 		GogObject *axis = cur->data;
 
-		if (!gog_object_clear_parent (axis))
+		if (gog_object_is_deletable (axis))
+			gog_object_clear_parent (axis);
+		else
 			continue;
 
 		g_object_set (G_OBJECT (axis), "type",
@@ -1678,6 +1682,7 @@ BC_R(radar)(XLChartHandler const *handle,
 	    XLChartReadState *s, BiffQuery *q)
 {
 	g_return_val_if_fail (s->plot == NULL, TRUE);
+
 	s->plot = (GogPlot*) gog_plot_new_by_name ("GogRadarPlot");
 	/* XL defaults to having markers and does not emit a style record
 	 * to define a marker in the default case. */
@@ -2698,9 +2703,48 @@ not_a_matrix:
 
 		g_return_val_if_fail (s->plot != NULL, TRUE);
 
+		/*
+		 * Check whether the chart already contains a plot and, if so,
+		 * if axis sets are compatible
+		 */
+		{
+			GogAxisSet axis_set = gog_chart_get_axis_set (s->chart);
+			GogAxisSet plot_axis_set = G_TYPE_INSTANCE_GET_CLASS ((s->plot), GOG_PLOT_TYPE, GogPlotClass)->axis_set;
+
+			if (axis_set != GOG_AXIS_SET_UNKNOWN &&
+			    (axis_set & GOG_AXIS_SET_FUNDAMENTAL & ~plot_axis_set)) {
+				GogAxisType i;
+				GogAxisSet j;
+
+				g_object_unref (s->plot);
+				s->plot = NULL;
+				if (s->style) {
+					g_object_unref (s->style);
+					s->style = NULL;
+				}
+
+				/* Now remove all unwanted axes.  */
+				for (i = 0, j = 1;
+				     i < GOG_AXIS_VIRTUAL;
+				     i++, j <<= 1) {
+					if ((j & axis_set) == 0) {
+						GSList *l = gog_chart_get_axes (s->chart, i), *cur;
+						for (cur = l; cur; cur = cur->next) {
+							GogObject *axis = cur->data;
+							gog_object_clear_parent (axis);
+							g_object_unref (axis);
+						}
+						g_slist_free (l);
+					}
+					
+				}
+				return TRUE;
+			}
+		}
+
 		/* Add _before_ setting styles so theme does not override */
 		gog_object_add_by_name (GOG_OBJECT (s->chart),
-			"Plot", GOG_OBJECT (s->plot));
+					"Plot", GOG_OBJECT (s->plot));
 
 		if (s->default_plot_style != NULL) {
 			char const *type = G_OBJECT_TYPE_NAME (s->plot);
