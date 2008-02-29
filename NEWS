@@ -40,6 +40,7 @@ Morten:
 	* Fix autofill issue with merged cells.  [#504191]
 	* Fix sylk importer's format handling.
 	* Fix memory allocation failure for huge .gnumeric files.  [#519319]
+	* Fix mstyle problem.  [#519451]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.0

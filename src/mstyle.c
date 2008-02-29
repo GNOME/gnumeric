@@ -593,13 +593,17 @@ link_pattern_color (GnmStyle *style, GnmColor *auto_color, gboolean make_copy)
 static GnmStyle *
 link_border_colors (GnmStyle *style, GnmColor *auto_color, gboolean make_copy)
 {
-	GnmBorder *border;
-	GnmColor *color;
 	int i;
 
 	for (i = MSTYLE_BORDER_TOP ; i <= MSTYLE_BORDER_DIAGONAL ; ++i) {
 		if (elem_is_set (style, i)) {
-			border = style->borders[i- MSTYLE_BORDER_TOP];
+			GnmBorder *border =
+				style->borders[i- MSTYLE_BORDER_TOP];
+			GnmColor *color;
+
+			if (!border)
+				continue;
+
 			color = border->color;
 			if (color->is_auto && auto_color != color) {
 				GnmBorder *new_border;
