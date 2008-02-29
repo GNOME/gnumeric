@@ -1,3 +1,8 @@
+2008-02-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (BC_R(end)): Drop axes that the plot cannot handle.
+	Fixes a number of criticals from #518939.
+
 2008-02-27  Morten Welinder  <terra@gnome.org>
 
 	* ms-chart.c (set_radial_axes): If clearing the parent fails, the

@@ -5,7 +5,7 @@ Hans de Goede:
 
 Jean:
 	* Fix corrupted-xls-file problems.  [#514513] [#515343] [#515873]
-	  [#515876]
+	  [#515876] [#518939]
 
 Morten:
 	* Fix loading of solver constraints.
