@@ -1,3 +1,8 @@
+2008-02-29  Morten Welinder  <terra@gnome.org>
+
+	* src/mstyle.c (link_border_colors): Handle NULL border which is
+	advertised as being ok.  Fixes #519451.
+
 2008-02-28  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-io.c (maybe_convert): Handle memory allocation failure
