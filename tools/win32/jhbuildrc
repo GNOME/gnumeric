@@ -14,13 +14,14 @@ modules = ['gtk+','gnumeric']
 # checkoutroot: path to download packages elsewhere
 # prefix:       target path to install the compiled binaries
 checkoutroot = os.path.expanduser('~/checkout/')
-prefix = os.path.expanduser("~/target")
+prefix	     = os.path.expanduser("~/target")
 
 #The host value is obtained with the result of executing
 #the config.guess script on any of the packages.
 #This value must be valid for most linux/x86 out there
 os.environ['HOST']	= 'i686-pc-linux-gnuaout'
 os.environ['TARGET']	= 'i586-pc-mingw32msvc'
+os.environ['PKG_CONFIG']= '/usr/bin/pkg-config'
 
 addpath('PKG_CONFIG_PATH', os.path.join(os.sep, 'usr', 'lib', 'pkgconfig'))
 addpath('PKG_CONFIG_PATH', os.path.join(os.sep, 'usr', 'share', 'pkgconfig'))
@@ -70,6 +71,7 @@ autogenargs += ' --disable-static'
 autogenargs += ' --enable-all-warnings'
 autogenargs += ' --enable-maintainer-mode'
 autogenargs += ' --enable-explicit-deps=no'
+autogenargs += ' --prefix='+prefix 
 
 for tool in ('AR', 'RANLIB', 'STRIP', 'AS',
 	     'DLLTOOL', 'OBJDUMP', 'NM', 'WINDRES'):
@@ -78,6 +80,7 @@ for tool in ('AR', 'RANLIB', 'STRIP', 'AS',
 #Module specific configure arguments
 module_autogenargs['pcre']    = autogenargs + ' --enable-utf8' + ' --enable-shared'
 module_autogenargs['gettext'] = autogenargs + """ --without-emacs \
+						  --disable-libasprintf \
                                                   --disable-java \
                                                   --disable-native-java \
                                                   --enable-relocatable"""
@@ -89,9 +92,9 @@ module_autogenargs['libbz2'] = ' --prefix='+prefix + ' --shared'
 module_autogenargs['glib'] =    autogenargs + """ --enable-explicit-deps=no \
                                                   --cache-file=win32.cache \
                                                   --disable-gtk-doc"""
-module_autogenargs['expat']	= autogenargs
-module_autogenargs['freetype']	= autogenargs
-module_autogenargs['fontconfig']= autogenargs + """ --with-arch=i586-pc-mingw32msvc"""
+#module_autogenargs['expat']	= autogenargs
+#module_autogenargs['freetype']	= autogenargs + """ --enable=shared"""
+#module_autogenargs['fontconfig']= autogenargs + """ --with-arch=i586-pc-mingw32msvc"""
 module_autogenargs['pango']	= autogenargs + """ --disable-gtk-doc \
                                                   --enable-explicit-deps=no \
                                                   --with-included-modules"""
@@ -104,7 +107,9 @@ module_autogenargs['cairo']	= autogenargs + """ --enable-explicit-deps=no \
                                                   --enable-xlib=no \
                                                   --enable-xlib-xrender=no \
                                                   --enable-win32-font=yes \
-						  --enable-freetype"""
+						  --enable-freetype=no \
+						  --disable-static \
+						  --enable-shared"""
 
 
 module_autogenargs['libxml2']	= autogenargs + """ --disable-scrollkeeper"""
@@ -113,7 +118,9 @@ autogenargs += """ --disable-scrollkeeper --disable-gtk-doc"""
 
 module_autogenargs['atk']	= autogenargs + """ --disable-glibtest"""
 module_autogenargs['gtk+']	= autogenargs + """ --disable-glibtest"""
+
 module_autogenargs['libgda']	= autogenargs + """ --without-odbc --without-lda"""
+module_autogenargs['pxlib']	= autogenargs + """ --with-gsf=""" + prefix
 module_autogenargs['psiconv']	= autogenargs + """ --disable-xhtml-docs \
 						    --disable-html4-docs \
 						    --disable-ascii-docs \

@@ -78,7 +78,6 @@
 				<suffix>xlsb</suffix>
 				<suffix>xlsm</suffix>
 				<suffix>xltm</suffix>
-				<suffix>xltx</suffix>
 			</suffixes>
 <!--
 			<mime-types>

@@ -9,30 +9,22 @@
     <repository type="git" name="freedesktop.org"
 		href="git://cgit.freedesktop.org/git"/>
 
-<!-- i18n -->
-    <tarball id="iconv-fake" version="1.10">
-	<!-- this package is a workaround for bootstrapping
-	     intl support from gettext on iconv -->
-	<source href="http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.10.tar.gz"
-		md5sum="0d621d541e28ff053d8bbcf7215de3a4"/>
+    <tarball id="iconv" version="1.12">
+	<source href="http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.12.tar.gz"
+	    md5sum="c2be282595751535a618ae0edeb8f648"/>
     </tarball>
-    <tarball id="gettext" version="0.16.1">
-	<source href="ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.16.1.tar.gz"
-		md5sum="3d9ad24301c6d6b17ec30704a13fe127"/>
-	<dependencies>
-	    <dep package="iconv-fake"/>
-	</dependencies>
+ 
+    <tarball id="gettext" version="0.17">
+	<source href="ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.17.tar.gz"
+	    md5sum="58a2bc6d39c0ba57823034d55d65d606"/>
 	<patches>
-	    <patch file="&patch_dir;gettext-dup-labels.patch" />
+	    <patch file="http://www.gnome.org/~aruiz/gtk+/patches/gettext_0_17_crossbuild_override_tools_fix.patch"/>
 	</patches>
-    </tarball>
-    <tarball id="iconv" version="1.11">
-	<source href="http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.11.tar.gz"
-		md5sum="b77a17e4a5a817100ad4b2613935055e"/>
 	<dependencies>
-	    <dep package="gettext"/>
+	    <dep package="iconv"/>
 	</dependencies>
     </tarball>
+
     <tarball id="pcre" version="7.2">
 	<source href="http://downloads.sourceforge.net/pcre/pcre-7.2.tar.bz2"
 		md5sum="53305db73855f1ff155dcd2c05d448d3"/>
@@ -40,11 +32,11 @@
 	    <patch file="&patch_dir;pcre.patch"/>
 	</patches>
     </tarball>
-    <tarball id="glib" version="2.14.4">
-	<source href="http://download.gnome.org/sources/glib/2.14/glib-2.14.4.tar.bz2"
-		md5sum="7ee7874108cbe9ea7fff1f4ab3389ce8"/>
+    <tarball id="glib" version="2.14.6">
+	<source href="http://download.gnome.org/sources/glib/2.14/glib-2.14.6.tar.bz2"
+		md5sum="3b340946d6916ee9cbf2c348e7c099f1"/>
 	<patches>
-		<patch file="http://osl.ulpgc.es/~arc/gnome/gtk/glib_win32_cachefile.patch.gz"/>
+		<patch file="http://www.gnome.org/~aruiz/gtk+/patches/glib_win32_cachefile.patch"/>
 	</patches>
 	<dependencies>
 	    <dep package="gettext"/>
@@ -55,7 +47,7 @@
     <autotools id="glib">
 	<branch/>
 	<patches>
-		<patch file="http://osl.ulpgc.es/~arc/gnome/gtk/glib_win32_cachefile.patch.gz"/>
+		<patch file="http://www.gnome.org/~aruiz/gtk+/patches/glib_win32_cachefile.patch.gz"/>
 	</patches>
 	<dependencies>
 	    <dep package="gettext"/>
@@ -70,8 +62,7 @@
 	<source href="http://www.zlib.net/zlib-1.2.3.tar.gz"
 		md5sum="debc62758716a169df9f62e6ab2bc634"/>
 	<patches>
-	    <patch file="&patch_dir;zlib.patch" strip="1"/>
-	    <patch file="http://osl.ulpgc.es/~arc/gnome/gtk/zlib_mingw_build.patch.gz"/>
+	    <patch file="http://www.gnome.org/~aruiz/gtk+/patches/zlib_hardcore_makefile.patch"/>
 	</patches>
     </tarball>
     -->
@@ -85,86 +76,44 @@
     </tarball>
 
 <!-- Image formats  -->
-<!-- from gnuwin32
     <tarball id="jpeg" version="6b" checkoutdir="jpeg-6b">
 	<source href="http://www.ijg.org/files/jpegsrc.v6b.tar.gz"
 		md5sum="dbd5f3b47ed13132f04c685d608a7547"/>
 	<patches>
-	    <patch file="http://ftp.debian.org/debian/pool/main/libj/libjpeg6b/libjpeg6b_6b-13.diff.gz" strip="1"/>
+	    <patch file="http://gnome.org/~aruiz/gtk+/patches/jpeg_mingwport.patch" strip="1"/>
 	</patches>
     </tarball>
--->
-    <tarball id="png" version="1.2.24">
-	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.24.tar.bz2" />
+    <tarball id="png" version="1.2.25">
+	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.25.tar.bz2"
+		md5sum="0c1df914de7fd3b6a129af569889c856"/>
 	<dependencies>
-	    <!-- <dep package="zlib"/> -->
+	    <!--<dep package="zlib"/> -->
 	</dependencies>
     </tarball>
     <tarball id="tiff" version="3.8.2">
 	<source href="ftp://ftp.remotesensing.org/pub/libtiff/tiff-3.8.2.tar.gz"
 		md5sum="fbb6f446ea4ed18955e2714934e5b698"/>
 	<dependencies>
-	    <!-- <dep package="jpeg"/> -->
+	    <dep package="jpeg"/>
 	</dependencies>
-    </tarball>
-    <tarball id="freetype" version="2.3.5">
-	<source href="http://download.savannah.gnu.org/releases/freetype/freetype-2.3.5.tar.bz2"
-		md5sum="65234327c5ac46ee00ebda15995d4c1c"/>
-    </tarball>
-    <!--
-    <tarball id="expat" version="2.0.1">
-	<source href="http://internap.dl.sourceforge.net/sourceforge/expat/expat-2.0.1.tar.gz"
-		md5sum="ee8b492592568805593f81f8cdf2a04c"/>
-    </tarball>
-    -->
-    <tarball id="fontconfig" version="2.4.2">
-	<source href="http://fontconfig.org/release/fontconfig-2.4.2.tar.gz"
-		md5sum="f035852f521b54677f2b5c9e2f6d54a4"/>
-	<dependencies>
-	    <dep package="libxml2"/>
-	    <dep package="freetype"/>
-	</dependencies>
-	<patches>
-	    <patch file="&patch_dir;fontconfig-2.4.2-tml-20070301.diff"/>
-	    <patch file="&patch_dir;fontconfig-2.4.2-jeg.patch"/>
-	</patches>
     </tarball>
 
 <!-- Gtk stack -->
-<!-- wine breakage in 1.3.10 with ExtTextOutW, but 1.2.6 also seems broken
-    might as well use the latest and greatest, and test in vmware
-    <tarball id="cairo" version="1.2.6">
-	<source href="http://cairographics.org/releases/cairo-1.2.6.tar.gz"
-		md5sum="487b3d7515752fe57f780d0fd707b01a"/>
-    <tarball id="cairo" version="1.4.10">
-	<source href="http://cairographics.org/releases/cairo-1.4.10.tar.gz"
-		md5sum="5598a5e500ad922e37b159dee72fc993"/>
-	<dependencies>
-	    <dep package="zlib"/>
-	    <dep package="png"/>
-	    <dep package="freetype"/>
-	</dependencies>
-    </tarball>
-		-->
     <autotools id="pixman">
 	<branch repo="freedesktop.org"/>
-	<dependencies>
-	</dependencies>
     </autotools>
     <autotools id="cairo">
 	<branch repo="freedesktop.org"/>
 	<dependencies>
 	    <!-- <dep package="zlib"/> -->
 	    <dep package="png"/>
-	    <dep package="freetype"/>
-	    <dep package="fontconfig"/>
 	    <dep package="pixman"/>
 	</dependencies>
     </autotools>
 
-    <tarball id="libdatrie" version="0.1.2" checkoutdir="libdatrie-0.1.2">
-	<source href="http://ftp.debian.org/pool/main/libd/libdatrie/libdatrie_0.1.2.orig.tar.gz"
-		md5sum="3eaedd5452149e11547a0dc74ee3fcfd"/>
+    <tarball id="libdatrie" version="0.1.2" checkoutdir="libdatrie-0.1.3">
+	<source href="http://ftp.debian.org/pool/main/libd/libdatrie/libdatrie_0.1.3.orig.tar.gz"
+		md5sum="917a40de487df3c29650b7434f473fa0"/>
     </tarball>
     <tarball id="libthai" version="0.1.9" checkoutdir="libthai-0.1.9">
 	<source href="http://ftp.debian.org/pool/main/libt/libthai/libthai_0.1.9.orig.tar.gz"
@@ -197,16 +146,16 @@
 	</dependencies>
     </autotools>
 
-    <tarball id="atk" version="1.20.0">
-	<source href="http://ftp.acc.umu.se/pub/gnome/sources/atk/1.20/atk-1.20.0.tar.bz2"
-		md5sum="b1a9e28d9f54ea306bd85a4c84b25fb8"/>
+    <tarball id="atk" version="1.21.5">
+	<source href="http://ftp.acc.umu.se/pub/gnome/sources/atk/1.21/atk-1.21.5.tar.bz2"
+		md5sum="3ac67cf2c1739aca39c3e11284cf247e"/>
 	<dependencies>
 	    <dep package="glib"/>
 	</dependencies>
     </tarball>
-    <tarball id="gtk+" version="2.12.3">
-	<source href="http://ftp.acc.umu.se/pub/gnome/sources/gtk+/2.12/gtk+-2.12.3.tar.bz2"
-		md5sum="dc8455144f27945f2fcbe91e75acd118"/>
+    <tarball id="gtk+" version="2.12.8">
+	<source href="http://ftp.acc.umu.se/pub/gnome/sources/gtk+/2.12/gtk+-2.12.8.tar.bz2"
+		md5sum="1e0d7db0bfa210881743e1d42ee91a24"/>
 	<dependencies>
 	    <dep package="glib"/>
 	    <dep package="cairo"/>
@@ -319,6 +268,12 @@
 	</dependencies>
     </autotools>
 
+    <tarball id="pxlib" version="0.6.3">
+	<source href="http://superb-east.dl.sourceforge.net/sourceforge/pxlib/pxlib-0.6.3.tar.gz"
+		md5sum="0742020854496fa757d7acbe6a895224"/>
+	<patches>
+	</patches>
+    </tarball>
     <tarball id="psiconv" version="2.6.0">
 	<source href="http://software.frodo.looijaard.name/psiconv/files/psiconv-0.9.8.tar.gz"
 		md5sum="8d7548e3c6b9cd408544736133728acd"/>
@@ -352,6 +307,7 @@
 	    <dep package="pango"/>
 	    <dep package="libglade"/>
 	    <dep package="libart_lgpl"/>
+	    <dep package="intltool"/>
 	</dependencies>
 	<patches>
 	    <patch file="&patch_dir;goffice.patch"/>
@@ -364,6 +320,7 @@
 	</dependencies>
 	<suggests>
 	    <dep package="libgnomedb"/>
+	    <dep package="pxlib"/>
 	    <dep package="psiconv"/>
 	    <dep package="pygobject"/>
 	</suggests>

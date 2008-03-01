@@ -12,6 +12,8 @@ SetCompressor /SOLID lzma
 !define GNM_VERSION_FULL	"${GNM_VERSION}-${GNM_VERSION_TAG}"
 !define GNM_UNINST_KEY		"Software\Microsoft\Windows\CurrentVersion\Uninstall\${GNM_NAME}"
 !define GNM_STARTMENU_REG_VAL	"NSIS:StartMenuDir"
+!define GNM_HELP_DIR		"share\gnumeric\${GNM_VERSION}\doc\C"
+!define GNM_HELP		"${GNM_HELP_DIR}\gnumeric.chm"
 
 !define GOFFICE_VERSION		"@GOFFICE_VERSION@"
 
@@ -36,9 +38,11 @@ SetCompressor /SOLID lzma
 !define MUI_WELCOMEPAGE_TEXT "You can always get the newest version from:\r\n\r\nhttp://www.gnumeric.org/\r\n\r\nThis wizard will guide you through the installation of $(^NameDA).\r\n\r\nIt is recommended that you close all other applications before starting Setup. This will make it possible to update relevant system files without having to reboot your computer.\r\n\r\n$_CLICK"
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "gpl.txt"
+
 Page custom CustomPageShortcut
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
+
 var ICONS_GROUP
 !define MUI_STARTMENUPAGE_NODISABLE
 !define MUI_STARTMENUPAGE_DEFAULTFOLDER "Gnumeric"
@@ -52,6 +56,9 @@ var ICONS_GROUP
 !insertmacro MUI_UNPAGE_INSTFILES
 !insertmacro MUI_LANGUAGE "English"
 
+InstType "Full"
+InstType "Minimal"
+
 ; MUI end ------
 
 Var SHORTINSTDIR
@@ -60,199 +67,323 @@ Var INI_VALUE
 
 Name "${GNM_LONGNAME} ${GNM_VERSION_FULL}"
 OutFile			"gnumeric-${GNM_VERSION_FULL}.exe"
-;Icon			"gnm-installer.ico"
-InstallDir		"C:\Program Files\${GNM_NAME}\${GNM_VERSION}"
-InstallDirRegKey	HKLM "Software\GTK\2.0\${GNM_NAME}" "Path"
+Icon			"share\pixmaps\win32-gnumeric.ico"
+InstallDir		"C:\Program Files\${GNM_NAME}"
+InstallDirRegKey	HKLM "Software\GNOME\${GNM_NAME}" "Path"
 ShowInstDetails		hide
 ShowUnInstDetails	show
 
-Section "Gnumeric (required)" SEC03
-  SectionIn RO
-  SetOutPath "$INSTDIR"
+!define GNM_ROOT	"$INSTDIR\${GNM_VERSION}"
 
-  File /r /x "libpython*.dll" "bin\*"
-  File /r etc lib share
+Section "Gnumeric (required)" SEC01
+    SectionIn 1 2 RO
 
-  WriteRegStr SHCTX "Software\GTK\2.0\${GNM_NAME}" "Path" "$INSTDIR"
-  WriteRegStr SHCTX "Software\GTK\2.0\${GNM_NAME}" "Version" "$GNM_VERSION_FULL"
+    SetOutPath "${GNM_ROOT}\bin"
+    File /x "libpython*.dll" "bin\*.dll"
+    File "bin\gnumeric.exe"
+    File "bin\ssconvert.exe"
+    File "bin\gsf.exe"
+    File "bin\gtk-update-icon-cache.exe"
+    File "bin\gdk-pixbuf-query-loaders.exe"
 
-  GetFullPathName /SHORT $SHORTINSTDIR $INSTDIR
-  StrCmp $ISADMIN "1" 0 +5
-  ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-dialogs.reg"
-  ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-general.reg"
-  ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-plugins.reg"
-  Goto +4
-  ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-dialogs.hkcu.reg"
-  ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-general.hkcu.reg"
-  ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-plugins.hkcu.reg"
+    # required for g_spawn_*
+    File "bin\gspawn-win32-helper-console.exe"
+    File "bin\gspawn-win32-helper.exe"
 
-  ;ExecWait "$SHORTINSTDIR\gtk-update-icon-cache.exe $SHORTINSTDIR\share\icons\gnome"
-  ;ExecWait "$SHORTINSTDIR\gtk-update-icon-cache.exe $SHORTINSTDIR\share\icons\hicolor"
+    # helpful smoke test
+    File "bin\gtk-demo.exe"
 
-  !define Index "Line${__LINE__}"
-  ReadRegStr $1 HKCR ".gnumeric" ""
-  StrCmp $1 "" "${Index}-NoBackup1"
-    StrCmp $1 "Gnumeric.XML" "${Index}-NoBackup1"
-    WriteRegStr HKCR ".gnumeric" "Old Default" $1
-"${Index}-NoBackup1:"
-  ReadRegStr $1 HKCR ".gnumeric" "Content Type"
-  StrCmp $1 "" "${Index}-NoBackup2"
-    StrCmp $1 "application/x-gnumeric" "${Index}-NoBackup2"
-    WriteRegStr HKCR ".gnumeric" "Old Content Type" $1
-"${Index}-NoBackup2:"
-  WriteRegStr HKCR ".gnumeric" "" "Gnumeric.XML"
-  WriteRegStr HKCR ".gnumeric" "Content Type" "application/x-gnumeric"
-  ReadRegStr $0 HKCR "Gnumeric.XML" ""
-  StrCmp $0 "" 0 "${Index}-Skip"
-	WriteRegStr HKCR "Gnumeric.XML" "" "Gnumeric XML File"
-	WriteRegStr HKCR "Gnumeric.XML\shell" "" "Open"
-	WriteRegStr HKCR "Gnumeric.XML\DefaultIcon" "" "$INSTDIR\gnumeric.exe,0"
-"${Index}-Skip:"
-  WriteRegStr HKCR "Gnumeric.XML\shell\Open\command" "" '$INSTDIR\gnumeric.exe "%1"'
-  !undef Index
+    SetOutPath "${GNM_ROOT}"
+    File /r etc
+    File /r /x "*.a" /x "*.la" /x "*.lib" /x "*.def" /x "pkgconfig" /x "include" lib
+
+    SetOutPath "${GNM_ROOT}\share"
+    File /r "share\themes"
+    File /r "share\goffice"
+    File /r /x C "share\gnumeric"
+    File /r "share\libthai"
+    File /r "share\libgda-3.0"
+    File /r /x "demo" "share\gnome-db-3.0"
+    File /r "share\pixmaps"
+
+    SetOutPath "${GNM_ROOT}\${GNM_HELP_DIR}"
+    File "${GNM_HELP}"
+
+    WriteRegStr SHCTX "Software\GNOME\${GNM_NAME}" "Path" "${GNM_ROOT}\bin"
+    WriteRegStr SHCTX "Software\GNOME\${GNM_NAME}" "Version" "${GNM_VERSION_FULL}"
+
+    GetFullPathName /SHORT $SHORTINSTDIR ${GNM_ROOT}
+    StrCmp $ISADMIN "1" 0 +5
+	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-dialogs.reg"
+	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-general.reg"
+	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-plugins.reg"
+    Goto +4
+	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-dialogs.hkcu.reg"
+	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-general.hkcu.reg"
+	ExecWait "regedit /s $SHORTINSTDIR\etc\win32\reg\gnumeric-plugins.hkcu.reg"
+
+    ;ExecWait "${GNM_ROOT}\bin\gdk-pixbuf-query-loaders.exe >${GNM_ROOT}\etc\gtk-2.0\gdk-pixbuf.loaders"
+    ;ExecWait "${GNM_ROOT}\gtk-update-icon-cache.exe ${GNM_ROOT}\share\icons\gnome"
+    ;ExecWait "${GNM_ROOT}\gtk-update-icon-cache.exe ${GNM_ROOT}\share\icons\hicolor"
+
+    WriteRegStr HKCR "GNOME.Gnumeric"			"" "Gnumeric Spreadsheet"
+    WriteRegStr HKCR "GNOME.Gnumeric\shell"		"" "Open"
+    WriteRegStr HKCR "GNOME.Gnumeric\DefaultIcon"		"" "${GNM_ROOT}\bin\gnumeric.exe,0"
+    WriteRegStr HKCR "GNOME.Gnumeric\shell\Open\command"	"" '${GNM_ROOT}\bin\gnumeric.exe "%1"'
 SectionEnd
 
-;Section Translations
-;  File "*\*\*\*\gnumeric.mo" "*\*\*\*\gnumeric-functions.mo"
-;  File "*\*\*\*\goffice-${GOFFICE_VERSION}.mo"
-;SectionEnd
+#############################################################################
+
+SectionGroup "File Handlers"
+Section "Gnumeric (.gnumeric)"
+    SectionIn 1 2
+    WriteRegStr HKCR ".gnumeric" ""		"GNOME.Gnumeric"
+    WriteRegStr HKCR ".gnumeric" "Content Type" "application/x-gnumeric"
+SectionEnd
+
+Section "MS Excel (tm)"
+    WriteRegStr HKCR ".xls" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".xls" "Content Type"	"application/vnd.ms-excel"
+
+    WriteRegStr HKCR ".xlw" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".xlw" "Content Type"	"application/vnd.ms-excel"
+
+    WriteRegStr HKCR ".xlt" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".xlt" "Content Type"	"application/vnd.ms-excel"
+
+    WriteRegStr HKCR ".xlsx" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".xlsx" "Content Type"	"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    WriteRegStr HKCR ".xltx" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".xltx" "Content Type"	"application/vnd.openxmlformats-officedocument.spreadsheetml.template"
+SectionEnd
+Section "OpenOffice.org ODF"
+    WriteRegStr HKCR ".ods" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".ods" "Content Type"	"vnd.oasis.opendocument.spreadsheet"
+    WriteRegStr HKCR ".odt" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".odt" "Content Type"	"vnd.oasis.opendocument.spreadsheet-template"
+    WriteRegStr HKCR ".sxc" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".sxc" "Content Type"	"application/vnd.sun.xml.calc"
+    WriteRegStr HKCR ".stc" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".stc" "Content Type"	"application/vnd.sun.xml.calc.template"
+SectionEnd
+Section "Lotus 123 (tm)"
+    WriteRegStr HKCR ".wk1" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".wk1" "Content Type"	"application/vnd.lotus-1-2-3"
+    WriteRegStr HKCR ".wk4" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".wk4" "Content Type"	"application/vnd.lotus-1-2-3"
+    WriteRegStr HKCR ".wr1" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".wr1" "Content Type"	"application/vnd.lotus-1-2-3"
+    WriteRegStr HKCR ".wks" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".wks" "Content Type"	"application/vnd.lotus-1-2-3"
+    WriteRegStr HKCR ".123" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".123" "Content Type"	"application/vnd.lotus-1-2-3"
+SectionEnd
+Section "Applix (.as)"
+    WriteRegStr HKCR ".as" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".as" "Content Type"	"application/x-applix-spreadsheet"
+SectionEnd
+Section "Quattro Pro (tm)"
+    WriteRegStr HKCR ".wb1" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".wb1" "Content Type"	"application/x-quattro-pro"
+    WriteRegStr HKCR ".wb2" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".wb2" "Content Type"	"application/x-quattro-pro"
+    WriteRegStr HKCR ".wb3" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".wb3" "Content Type"	"application/x-quattro-pro"
+SectionEnd
+Section "Plan Perfect (tm)"
+    WriteRegStr HKCR ".pln" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".pln" "Content Type"	"application/x-planperfect"
+SectionEnd
+Section "Psiconv"
+    WriteRegStr HKCR ".psisheet" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".psisheet" "Content Type"	"application/x-psiconv"
+SectionEnd
+Section "Data Interchange Format (.dif)"
+    WriteRegStr HKCR ".dif" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".dif" "Content Type"	"application/x-dif-spreadsheet"
+SectionEnd
+Section "Multiplan SYLK"
+    WriteRegStr HKCR ".slk" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".slk" "Content Type"	"application/x-sylk"
+    WriteRegStr HKCR ".sylk" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".sylk" "Content Type"	"application/x-sylk"
+SectionEnd
+Section "GNU Oleo"
+    WriteRegStr HKCR ".oleo" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".oleo" "Content Type"	"application/x-oleo"
+SectionEnd
+Section "Paradox Database (tm)"
+    WriteRegStr HKCR ".px" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".px" "Content Type"	"application/x-paradox-db"
+SectionEnd
+Section "XBase Database (tm)"
+    WriteRegStr HKCR ".dbf" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".dbf" "Content Type"	"application/dbf"
+SectionEnd
+Section "MPS linear and integer programs"
+    WriteRegStr HKCR ".mps" ""			"GNOME.Gnumeric"
+    WriteRegStr HKCR ".mps" "Content Type"	"application/x-mps"
+SectionEnd
+
+SectionGroupEnd
+
+#############################################################################
+
+!macro Locale LOCALE
+Section "${LOCALE} Translation"
+    SectionIn 1
+    SetOutPath "${GNM_ROOT}\share\locale\${LOCALE}\LC_MESSAGES"
+    File "share\locale\${LOCALE}\LC_MESSAGES\gtk20.mo"
+    File "share\locale\${LOCALE}\LC_MESSAGES\glib20.mo"
+    File "share\locale\${LOCALE}\LC_MESSAGES\goffice-${GOFFICE_VERSION}.mo"
+    File "share\locale\${LOCALE}\LC_MESSAGES\gnumeric.mo"
+    File "share\locale\${LOCALE}\LC_MESSAGES\gnumeric-functions.mo"
+SectionEnd
+!macroend
+
+SectionGroup "Translations"
+    !insertmacro Locale "am"
+    !insertmacro Locale "ar"
+    !insertmacro Locale "az"
+    !insertmacro Locale "bg"
+    !insertmacro Locale "ca"
+    !insertmacro Locale "cs"
+    !insertmacro Locale "da"
+    !insertmacro Locale "de"
+    !insertmacro Locale "el"
+    !insertmacro Locale "en_CA"
+    !insertmacro Locale "en_GB"
+    !insertmacro Locale "es"
+    !insertmacro Locale "et"
+    !insertmacro Locale "fi"
+    !insertmacro Locale "fr"
+    !insertmacro Locale "ga"
+    !insertmacro Locale "gl"
+    !insertmacro Locale "he"
+    !insertmacro Locale "hr"
+    !insertmacro Locale "hu"
+    !insertmacro Locale "it"
+    !insertmacro Locale "ja"
+    !insertmacro Locale "ko"
+    !insertmacro Locale "lt"
+    !insertmacro Locale "lv"
+    !insertmacro Locale "ms"
+    !insertmacro Locale "nb"
+    !insertmacro Locale "nl"
+    !insertmacro Locale "nn"
+    !insertmacro Locale "oc"
+    !insertmacro Locale "pl"
+    !insertmacro Locale "pt"
+    !insertmacro Locale "pt_BR"
+    !insertmacro Locale "ro"
+    !insertmacro Locale "ru"
+    !insertmacro Locale "sk"
+    !insertmacro Locale "sr"
+    !insertmacro Locale "sr@Latn"
+    !insertmacro Locale "sv"
+    !insertmacro Locale "tr"
+    !insertmacro Locale "uk"
+    !insertmacro Locale "vi"
+    !insertmacro Locale "zh_CN"
+    !insertmacro Locale "zh_TW"
+SectionGroupEnd
+
+#############################################################################
 
 Section -AdditionalIcons
-  CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\${GNM_APPNAME}.lnk" "$INSTDIR\gnumeric.exe"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\${GNM_APPNAME} Help.lnk" "$INSTDIR\share\gnumeric\${GNM_VERSION}\doc\C\gnumeric.chm"
-  CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk" "$INSTDIR\uninst.exe"
+    SetOutPath "${GNM_ROOT}\bin"
+    CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
+    CreateShortCut  "$SMPROGRAMS\$ICONS_GROUP\${GNM_APPNAME}.lnk"	"${GNM_ROOT}\bin\gnumeric.exe"
+    CreateShortCut  "$SMPROGRAMS\$ICONS_GROUP\${GNM_APPNAME} Help.lnk"	"${GNM_ROOT}\${GNM_HELP}"
+    CreateShortCut  "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"		"${GNM_ROOT}\bin\uninst.exe"
 SectionEnd
 
 Section -Post
-  SetOutPath "$INSTDIR"
+    SetOutPath "$INSTDIR"
+    WriteUninstaller "${GNM_ROOT}\bin\uninst.exe"
 
-  WriteUninstaller "$INSTDIR\uninst.exe"
-  WriteRegStr SHCTX "${GNM_UNINST_KEY}" "DisplayName"			"$(^Name)"
-  WriteRegStr SHCTX "${GNM_UNINST_KEY}" "UninstallString"		"$INSTDIR\uninst.exe"
-  WriteRegStr SHCTX "${GNM_UNINST_KEY}" "DisplayVersion"		"${GNM_VERSION_FULL}"
-  WriteRegStr SHCTX "${GNM_UNINST_KEY}" "${GNM_STARTMENU_REG_VAL}"	"$ICONS_GROUP"
-  WriteRegStr SHCTX "${GNM_UNINST_KEY}" "Context" "$ISADMIN"
+    WriteRegStr SHCTX "${GNM_UNINST_KEY}" "DisplayName"			"$(^Name)"
+    WriteRegStr SHCTX "${GNM_UNINST_KEY}" "UninstallString"		"${GNM_ROOT}\bin\uninst.exe"
+    WriteRegStr SHCTX "${GNM_UNINST_KEY}" "DisplayVersion"		"${GNM_VERSION_FULL}"
+    WriteRegStr SHCTX "${GNM_UNINST_KEY}" "${GNM_STARTMENU_REG_VAL}"	"$ICONS_GROUP"
+    WriteRegStr SHCTX "${GNM_UNINST_KEY}" "Context"			"$ISADMIN"
+    WriteRegStr SHCTX "${GNM_UNINST_KEY}" "RootDir"			"$INSTDIR"
 SectionEnd
 
 ; Section descriptions
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SEC01} ""
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC02} ""
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
-LangString TEXT_IO_TITLE_OP1 ${LANG_ENGLISH} "Install Option"
+LangString TEXT_IO_TITLE_OP1	${LANG_ENGLISH} "Install Option"
 LangString TEXT_IO_SUBTITLE_OP1 ${LANG_ENGLISH} "You can choose to install ${GNM_NAME} for anyone who uses this computer or only you."
 
 Function CustomPageShortcut
-  ClearErrors
-  UserInfo::GetName
-  IfErrors Win9x
-  Pop $0
-  UserInfo::GetAccountType
-  Pop $1
-  StrCmp $1 "Admin" 0 not_admin
-Win9x:
-  !insertmacro MUI_HEADER_TEXT "$(TEXT_IO_TITLE_OP1)" "$(TEXT_IO_SUBTITLE_OP1)"
-  !insertmacro MUI_INSTALLOPTIONS_DISPLAY "op1.ini"
-  !insertmacro MUI_INSTALLOPTIONS_READ $INI_VALUE "op1.ini" "Field 2" "State"
-  StrCmp $INI_VALUE "1" 0 not_admin
-  StrCpy $ISADMIN "1"
-  SetShellVarContext all
-  Goto done
-not_admin:
-  StrCpy $ISADMIN "0"
-  SetShellVarContext current
-done:
+    ClearErrors
+    UserInfo::GetName
+    IfErrors Win9x
+	Pop $0
+	UserInfo::GetAccountType
+	Pop $1
+	StrCmp $1 "Admin" 0 not_admin
+    Win9x:
+	!insertmacro MUI_HEADER_TEXT			"$(TEXT_IO_TITLE_OP1)" "$(TEXT_IO_SUBTITLE_OP1)"
+	!insertmacro MUI_INSTALLOPTIONS_DISPLAY		"op1.ini"
+	!insertmacro MUI_INSTALLOPTIONS_READ $INI_VALUE "op1.ini" "Field 2" "State"
+	StrCmp $INI_VALUE "1" 0 not_admin
+	StrCpy $ISADMIN "1"
+	SetShellVarContext all
+	Goto done
+    not_admin:
+	StrCpy $ISADMIN "0"
+	SetShellVarContext current
+    done:
 FunctionEnd
 
 Function .onInit
-  ;InitPluginsDir
+	InitPluginsDir
 ;  !insertmacro MUI_INSTALLOPTIONS_EXTRACT "op1.ini"
 ;  !insertmacro MUI_INSTALLOPTIONS_EXTRACT "op3.ini"
 FunctionEnd
 
-Function un.onUninstSuccess
-  HideWindow
-  MessageBox MB_ICONINFORMATION|MB_OK "$(^Name) was successfully removed from your computer."
-FunctionEnd
-
 Function un.onInit
-  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove $(^Name) and all of its components?" IDYES +2
-  Abort
+    MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove $(^Name) and all of its components?" IDYES +2
+    Abort
 FunctionEnd
-
+Function un.onUninstSuccess
+    HideWindow
+    MessageBox MB_ICONINFORMATION|MB_OK "$(^Name) was successfully removed from your computer."
+FunctionEnd
 Section Uninstall
-  Push $1
+    Push $1
 
-  ReadRegStr $ISADMIN HKLM "${GNM_UNINST_KEY}" "Context"
-  StrCmp $ISADMIN "1" 0 +2
-  SetShellVarContext all
+    ReadRegStr $INSTDIR SHCTX "${GNM_UNINST_KEY}" "RootDir"
+    SetOutPath "$INSTDIR"
+    RMDir /r /REBOOTOK "${GNM_ROOT}"
 
-  ReadRegStr $ICONS_GROUP SHCTX "${GNM_UNINST_KEY}" "${GNM_STARTMENU_REG_VAL}"
-  Delete "$INSTDIR\uninst.exe"
-  Delete "$INSTDIR\license.txt"
+    ReadRegStr $ISADMIN SHCTX "${GNM_UNINST_KEY}" "Context"
+    StrCmp $ISADMIN "1" 0 +2
+	SetShellVarContext all
 
-  Delete "$SMPROGRAMS\$ICONS_GROUP\${GNM_APPNAME}.lnk"
-  Delete "$SMPROGRAMS\$ICONS_GROUP\${GNM_APPNAME} Help.lnk"
-  Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
-  Delete "$SMPROGRAMS\$ICONS_GROUP\Theme Selector.lnk"
-  GetFullPathName /SHORT $SHORTINSTDIR $INSTDIR
+    ReadRegStr $ICONS_GROUP SHCTX "${GNM_UNINST_KEY}" "${GNM_STARTMENU_REG_VAL}"
+    Delete "$SMPROGRAMS\$ICONS_GROUP\${GNM_APPNAME}.lnk"
+    Delete "$SMPROGRAMS\$ICONS_GROUP\${GNM_APPNAME} Help.lnk"
+    Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
+    RMDir "$SMPROGRAMS\$ICONS_GROUP"
 
-  RMDir "$SMPROGRAMS\$ICONS_GROUP"
+    GetFullPathName /SHORT $SHORTINSTDIR ${GNM_ROOT}
 
-  RMDir /REBOOTOK "$INSTDIR"
+    DeleteRegKey SHCTX "${GNM_UNINST_KEY}"
 
-  DeleteRegKey SHCTX "${GNM_UNINST_KEY}"
+    ReadRegStr $1 SHCTX "Software\GNOME\${GNM_NAME}" "Path"
+    StrCmp $1 "${GNM_ROOT}" 0 +2
+	DeleteRegValue SHCTX "Software\GNOME\${GNM_NAME}" "Path"
 
-  ReadRegStr $1 SHCTX "Software\GTK\2.0" "Path"
-  StrCmp $1 "$INSTDIR" 0 +2
-  DeleteRegValue SHCTX "Software\GTK\2.0" "Path"
+    DeleteRegKey /ifempty SHCTX "Software\GNOME\${GNM_NAME}"
+    DeleteRegKey /ifempty SHCTX "Software\GNOME"
 
-  ReadRegStr $1 SHCTX "Software\GTK\2.0" "DllPath"
-  StrCmp $1 "$INSTDIR" 0 +2
-  DeleteRegValue SHCTX "Software\GTK\2.0" "DllPath"
+#    SetAutoClose true
 
-  ReadRegStr $1 SHCTX "Software\GTK\2.0" "Version"
-  StrCmp $1 "${GTK_VERSION}" 0 +2
-  DeleteRegValue SHCTX "Software\GTK\2.0" "Version"
-
-  ReadRegStr $1 SHCTX "Software\GTK\2.0" "VendorVersion"
-  StrCmp $1 "${GTK_VENDORVERSION}" 0 +2
-  DeleteRegValue SHCTX "Software\GTK\2.0" "VendorVersion"
-
-  ReadRegStr $1 SHCTX "Software\GTK\2.0\${GNM_NAME}" "Path"
-  StrCmp $1 "$INSTDIR" 0 +2
-  DeleteRegValue SHCTX "Software\GTK\2.0\${GNM_NAME}" "Path"
-
-  DeleteRegKey /ifempty SHCTX "Software\GTK\2.0\${GNM_NAME}"
-  DeleteRegKey /ifempty SHCTX "Software\GTK\2.0"
-  DeleteRegKey /ifempty SHCTX "Software\GTK"
-
-  !define Index "Line${__LINE__}"
-  ReadRegStr $1 HKCR ".gnumeric" ""
-  StrCmp $1 "Gnumeric.XML" 0 "${Index}-NoOwn"
-    ReadRegStr $1 HKCR ".gnumeric" "Old Content Type"
-    StrCmp $1 "" 0 "${Index}-Restore1"
-      DeleteRegValue HKCR ".gnumeric" "Content Type"
-    Goto "${Index}-Next"
-"${Index}-Restore1:"
-      WriteRegStr HKCR ".gnumeric" "Content Type" $1
-      DeleteRegValue HKCR ".gnumeric" "Old Content Type"
-"${Index}-Next:"
-    ReadRegStr $1 HKCR ".gnumeric" "Old Default"
-    StrCmp $1 "" 0 "${Index}-Restore2"
-      DeleteRegKey HKCR ".gnumeric"
-    Goto "${Index}-NoOwn"
-"${Index}-Restore2:"
-      WriteRegStr HKCR ".gnumeric" "" $1
-      DeleteRegValue HKCR ".gnumeric" "Old Default"
-"${Index}-NoOwn:"
-  DeleteRegKey HKCR "Gnumeric.XML"
-  !undef Index
-
-  SetAutoClose true
-
-  Pop $1
+    Pop $1
 SectionEnd
 
