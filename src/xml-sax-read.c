@@ -1616,7 +1616,7 @@ xml_sax_style_border (GsfXMLIn *xin, xmlChar const **attrs)
 			GNM_STYLE_BORDER_TOP + (int)(type - MSTYLE_BORDER_TOP);
 		GnmBorder *border =
 			gnm_style_border_fetch ((GnmStyleBorderType)pattern, colour,
-					    gnm_style_border_get_orientation (loc));
+						gnm_style_border_get_orientation (loc));
 		gnm_style_set_border (state->style, type, border);
 	}
 }
@@ -1830,10 +1830,14 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			GnmExprTop const *texpr =
 				g_hash_table_lookup (state->expr_map, id);
 			if (texpr == NULL) {
-				if (gnm_cell_has_expr (cell))
-					g_hash_table_insert (state->expr_map, id,
-							     (gpointer)cell->base.texpr);
-				else
+				if (gnm_cell_has_expr (cell)) {
+					GnmExprTop const *texpr =
+						cell->base.texpr;
+					gnm_expr_top_ref (texpr);
+					g_hash_table_insert (state->expr_map,
+							     id,
+							     (gpointer)texpr);
+				} else
 					g_warning ("XML-IO : Shared expression with no expression ??");
 			} else if (!is_post_52_array)
 				g_warning ("XML-IO : Duplicate shared expression");
@@ -2591,7 +2595,9 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.validation.texpr[0] = state.validation.texpr[1] = NULL;
 	state.cond.texpr[0] = state.cond.texpr[1] = NULL;
 	state.cond_save_style = NULL;
-	state.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
+	state.expr_map = g_hash_table_new_full
+		(g_direct_hash, g_direct_equal,
+		 NULL, (GFreeFunc)gnm_expr_top_unref);
 	state.delayed_names = NULL;
 	state.so = NULL;
 	state.page_breaks = NULL;
