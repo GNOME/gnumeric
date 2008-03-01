@@ -51,6 +51,10 @@ html :
 validate :
 	xmllint --valid --noout $(srcdir)/gnumeric.xml
 
+# http://docbook.sourceforge.net/release/xsl/current/doc/html/htmlhelp.encoding.html
+# http://home.kc.rr.com/rstone/ricks.htm
+# http://frogleg.mvps.org/helptechnologies/htmlhelp/hhtutorials.html
+# --param htmlhelp.force.map.and.alias 1
 chm :
 	-rm -rf chm
 	mkdir -p chm && cd chm && xsltproc -o . 	\
