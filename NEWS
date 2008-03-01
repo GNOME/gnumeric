@@ -41,6 +41,7 @@ Morten:
 	* Fix sylk importer's format handling.
 	* Fix memory allocation failure for huge .gnumeric files.  [#519319]
 	* Fix mstyle problem.  [#519451]
+	* Fix auto-fill problem.  [#519680]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.0

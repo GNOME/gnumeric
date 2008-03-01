@@ -1,3 +1,9 @@
+2008-03-01  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-autofill.c (afm_teach_cell): Fix end-of-month problem.
+	Fixes #519680.
+	(auto_filler_month): Initialize ->end_of_month.
+
 2008-02-29  Morten Welinder  <terra@gnome.org>
 
 	* src/mstyle.c (link_border_colors): Handle NULL border which is
