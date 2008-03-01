@@ -1,7 +1,7 @@
 schema_in_files = gnumeric-dialogs.schemas.in gnumeric-general.schemas.in gnumeric-plugins.schemas.in 
-schemadir   = @GCONF_SCHEMA_FILE_DIR@
 if WITH_GNOME
-schema_DATA = $(schema_in_files:.schemas.in=.schemas)
+schemadir   	= @GCONF_SCHEMA_FILE_DIR@
+schema_DATA 	= $(schema_in_files:.schemas.in=.schemas)
 endif
 
 EXTRA_DIST = $(schema_in_files)

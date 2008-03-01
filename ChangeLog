@@ -1,3 +1,14 @@
+2008-03-01  Jody Goldberg <jody@gnome.org>
+
+	* src/Makefile.am : build ssconvert & ssindex with -mconsole and
+	  without -mwindows
+
+	* src/workbook-view.c (gnm_mailto_url_show) : Add a win32 version of
+	  mailto support.
+
+	* schemas/Makefile.am : Don't create a dir if built without gconf
+	  autoconf macros.
+
 2008-03-01  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (xml_sax_cell_content): Ref shared

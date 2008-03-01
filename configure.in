@@ -181,7 +181,7 @@ gnumeric_reqs="$libspreadsheet_reqs
 	gmodule-2.0		>= 2.6.0
 	gthread-2.0		>= 2.6.0
 	pango			>= 1.8.1
-	pangoft2		>= 1.8.1
+	pangocairo		>= 1.8.1
 "
 libspreadsheet_gtk_reqs="
 	libglade-2.0		>= 2.3.6

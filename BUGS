@@ -30,7 +30,6 @@ Review
 Short term goals
 ----------------
     - .gnumeric I/O for PI:{error_display,comment_placement}
-    - replicate win32 print problems
     - Finish the Data -> Table dialog				(DONE)
     - Use go_glade_signal_connect (and friends)
     : http://bugzilla.gnome.org/show_bug.cgi?id=450444 (themeable icons)
@@ -964,11 +963,6 @@ Architecture Changes
 
 38) GtkPrint conversion
     - restore all of the dialog					  (DONE)
-    - win32 breakage
-	 - preview puts black background around glyphs
-	 - preview drops rotated text
-	 - printing kerns poorly
-	 - printing 'A' produces '$' ??
     - page breaks
     - col/row headings                                            (DONE)
     - cell text wraps differently when printing than displaying due to scaling
@@ -990,6 +984,16 @@ Architecture Changes
     40.1) Page Breaks
     40.2) PI:comment_placement
     40.3) PI:display_errors
+
+41) win32
+    41.1) Printing
+	41.1.1) preview puts black background around glyphs
+	41.1.2) preview drops rotated text
+    41.2) hhmap
+	41.2.1) how to generate
+	41.2.2) include in the installer
+    41.3) optionally add quicklaunch & desktop links
+
 -------------------------------------------------------------------------------
 Target Features
 ---------------

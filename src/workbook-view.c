@@ -67,6 +67,13 @@
 #include <stdlib.h>
 #include "mathfunc.h"
 
+#ifdef G_OS_WIN32
+#include <windef.h>
+#include <shellapi.h>
+#include <wingdi.h>
+#include <winuser.h>
+#endif
+
 enum {
 	PROP_0,
 	PROP_AUTO_EXPR_FUNC,
@@ -981,6 +988,10 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 static void
 gnm_mailto_url_show (char const *url, char const *working_dir, GError **err)
 {
+#ifdef G_OS_WIN32
+	ShellExecute (NULL, "open", url, NULL, working_dir, SW_SHOWNORMAL);
+	return;
+#else
 	static struct {
 		char const *app;
 		char const *arg;
@@ -1018,6 +1029,7 @@ gnm_mailto_url_show (char const *url, char const *working_dir, GError **err)
 	if (err)
 		*err = g_error_new (go_error_invalid (), 0,
 				    "Missing handler for mailto URLs.");
+#endif
 }
 #endif
 

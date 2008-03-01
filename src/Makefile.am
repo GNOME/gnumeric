@@ -289,12 +289,33 @@ gnumeric_SOURCES =				\
 gnumeric_LDADD =				\
 	libspreadsheet.la			\
 	$(INTLLIBS)
-
 gnumeric_LDFLAGS = -export-dynamic
+
+ssconvert_LDADD   = $(gnumeric_LDADD)
+ssconvert_LDFLAGS = -export-dynamic
+ssconvert_SOURCES =				\
+	ssconvert.c
+ssindex_LDADD   = $(gnumeric_LDADD)
+ssindex_LDFLAGS = -export-dynamic
+ssindex_SOURCES =				\
+	ssindex.c
+
+test_pango_LDADD   = $(gnumeric_LDADD)
+test_pango_LDFLAGS = -export-dynamic
+test_pango_SOURCES =				\
+	test-pango.c
+
+# A stub program for testing
+#bin_PROGRAMS += harness
+#harness_LDADD   = $(gnumeric_LDADD)
+#harness_LDFLAGS = -export-dynamic
+#harness_SOURCES = test-harness.c
 
 if WITH_WIN32
     gnumeric_LDADD += gnumeric_rc.o
-    gnumeric_LDFLAGS += -mwindows
+    gnumeric_LDFLAGS	+= -mwindows
+    ssconvert_LDFLAGS	+= -mconsole
+    ssindex_LDFLAGS	+= -mconsole
 
     libspreadsheet_la_DEPENDENCIES = libspreadsheet.def
     libspreadsheet_la_LDFLAGS += -no-undefined -export-symbols libspreadsheet.def
@@ -340,25 +361,6 @@ gnumeric_app_libs +=				\
 	tools/solver/lp_solve/liblp_solve.la
 endif
 
-ssconvert_LDADD   = $(gnumeric_LDADD)
-ssconvert_LDFLAGS = -export-dynamic
-ssconvert_SOURCES =				\
-	ssconvert.c
-ssindex_LDADD   = $(gnumeric_LDADD)
-ssindex_LDFLAGS = -export-dynamic
-ssindex_SOURCES =				\
-	ssindex.c
-
-test_pango_LDADD   = $(gnumeric_LDADD)
-test_pango_LDFLAGS = -export-dynamic
-test_pango_SOURCES =				\
-	test-pango.c
-
-# A stub program for testing
-#bin_PROGRAMS += harness
-#harness_LDADD   = $(gnumeric_LDADD)
-#harness_LDFLAGS = -export-dynamic
-#harness_SOURCES = test-harness.c
 
 # Rules for the marshalers code:
 GENMARSHAL_COMMAND = $(GLIB_GENMARSHAL) --prefix=gnm_
