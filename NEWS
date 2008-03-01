@@ -42,6 +42,7 @@ Morten:
 	* Fix memory allocation failure for huge .gnumeric files.  [#519319]
 	* Fix mstyle problem.  [#519451]
 	* Fix auto-fill problem.  [#519680]
+	* Fix corrupted-gnumeric-bug.  [#519761]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.0

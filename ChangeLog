@@ -1,5 +1,10 @@
 2008-03-01  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-sax-read.c (xml_sax_cell_content): Ref shared
+	expressions before inserting them into the hash.
+	(gnm_xml_file_open): Register a value-free function for the shared
+	expression hash.  Fixes #519761.
+
 	* src/sheet-autofill.c (afm_teach_cell): Fix end-of-month problem.
 	Fixes #519680.
 	(auto_filler_month): Initialize ->end_of_month.
