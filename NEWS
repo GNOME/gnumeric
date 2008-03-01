@@ -10,6 +10,10 @@ Jean:
 
 Jody:
 	* Fix cell comment positioning problem.  [#506017]
+	* Update win32 build.
+	* Fix win32 help.
+	* Fix File->Sendto on win32.
+	* Fix ssconvert win32.
 
 Morten:
 	* Fix NPV doc problem.  [#506160]

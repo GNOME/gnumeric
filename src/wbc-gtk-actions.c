@@ -869,22 +869,27 @@ static GNM_ACTION_DEF (cb_data_ungroup)		{ group_ungroup_colrow (wbcg, FALSE); }
 static GNM_ACTION_DEF (cb_help_docs)
 {
 	char   *argv[] = { NULL, NULL, NULL };
-	GError *error = NULL;
+	GError *err = NULL;
 
 #ifndef G_OS_WIN32
 	argv[0] = (char *)"yelp";
 	argv[1] = (char *)"ghelp:gnumeric";
 	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
-		NULL, NULL, NULL, &error);
+		NULL, NULL, NULL, &err);
 #else
-	/* TODO : handle translations when we generate them */
+	/* TODO : Should really start in same directory as the gspawn-* helpers
+	 * are installed in case they are not in the path */
 	argv[0] = (char *)"hh";
 	argv[1] = g_build_filename (gnm_sys_data_dir (), "doc", "C",
 			"gnumeric.chm", NULL);
 	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
-		NULL, NULL, NULL, &error);
+		NULL, NULL, NULL, &err);
 	g_free (argv[1]);
 #endif
+	if (NULL != err) {
+		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
+		g_error_free (err);
+	}
 }
 
 static GNM_ACTION_DEF (cb_help_web)

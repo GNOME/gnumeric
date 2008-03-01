@@ -23,7 +23,7 @@
 #include "mathfunc.h"
 #include "gnumeric-gconf.h"
 
-#include <pango/pangoft2.h>
+#include <pango/pangocairo.h>
 #include <gdk/gdkpango.h>
 #include <gtk/gtkmain.h>
 #include <string.h>
@@ -292,9 +292,9 @@ gnm_pango_context_get (void)
 		context = gdk_pango_context_get_for_screen (screen);
 	} else {
 		if (!fontmap)
-			fontmap = pango_ft2_font_map_new ();
-		pango_ft2_font_map_set_resolution (PANGO_FT2_FONT_MAP (fontmap), 96, 96);
-		context = pango_ft2_font_map_create_context (PANGO_FT2_FONT_MAP (fontmap));
+			fontmap = pango_cairo_font_map_new ();
+		pango_cairo_font_map_set_resolution (PANGO_CAIRO_FONT_MAP (fontmap), 96);
+		context = pango_cairo_font_map_create_context (PANGO_CAIRO_FONT_MAP (fontmap));
 	}
 	pango_context_set_language (context, gtk_get_default_language ());
 	pango_context_set_base_dir (context, PANGO_DIRECTION_LTR);
@@ -381,12 +381,6 @@ gnm_font_shutdown (void)
 	gnumeric_default_font_name = NULL;
 
 	if (fontmap) {
-		/*
-		 * Workaround for bug #143542 (PangoFT2Fontmap leak).
-		 * See also bug #148997 (Text layer rendering leaks font file
-		 * descriptor).
-		 */
-		pango_ft2_font_map_substitute_changed (PANGO_FT2_FONT_MAP (fontmap));
 		g_object_unref (fontmap);
 		fontmap = NULL;
 	}

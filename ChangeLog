@@ -9,6 +9,14 @@
 	Fixes #519680.
 	(auto_filler_month): Initialize ->end_of_month.
 
+2008-03-01  Jody Goldberg <jody@gnome.org>
+
+	* src/style.c : drop use of pangoft2 as a hard coded fallback use
+	  pangocairo instead.
+
+	* src/wbc-gtk-actions.c (cb_help_docs) : add a warning if help viewer
+	  fails.
+
 2008-02-29  Morten Welinder  <terra@gnome.org>
 
 	* src/mstyle.c (link_border_colors): Handle NULL border which is
