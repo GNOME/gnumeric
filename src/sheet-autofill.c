@@ -508,7 +508,7 @@ auto_filler_number_string (gboolean singleton, gboolean fixed_length)
 /*
  * Month sequences:
  *
- * 1-Jan-2009, 1-Feb-2009, 3-Mar-2009, ...
+ * 1-Jan-2009, 1-Feb-2009, 1-Mar-2009, ...
  * 31-Jan-2009, 28-Feb-2009, 31-Mar-2009, ...
  * 1-Jan-2009, 1-Jan-2010, 1-Jan-2011, ...
  */
@@ -520,7 +520,7 @@ typedef struct {
 	GDate base;
 	GOFormat *format;
 	int nmonths;
-	gboolean end_of_month;
+	gboolean end_of_month, same_of_month;
 } AutoFillerMonth;
 
 static void
@@ -567,8 +567,10 @@ afm_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 		int day = g_date_get_day (&d);
 		int nmonths;
 
-		if (day != g_date_get_day (&afm->base) &&
-		    day != g_date_get_days_in_month (month, year))
+		if (day != g_date_get_day (&afm->base))
+			afm->same_of_month = FALSE;
+
+		if (!afm->same_of_month && !afm->end_of_month)
 			goto bad;
 
 		nmonths = 12 * (year - g_date_get_year (&afm->base)) +
@@ -651,6 +653,8 @@ auto_filler_month (void)
 	res->filler.hint = afm_hint;
 	res->format = NULL;
 	res->dateconv = NULL;
+	res->end_of_month = TRUE;
+	res->same_of_month = TRUE;
 
 	return &res->filler;
 }
