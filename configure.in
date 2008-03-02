@@ -272,11 +272,19 @@ case $host_os in
 mingw* | pw32* | cygwin*)
     with_win32=yes
     GNUMERIC_PLUGIN_LDFLAGS="-no-undefined $GNUMERIC_LIBS -Wl,--enable-runtime-pseudo-relo,--export-all-symbols \$(top_builddir)/src/libspreadsheet.la -s"
+    ;;
+esac
+
+with_native_win32=no
+case $host_os in
+mingw* | pw32*)
+    with_native_win32=yes
     AC_ARG_VAR(WINDRES, [The windres executable (used by win32 builds only).])
     AC_CHECK_TOOL(WINDRES, windres, :)
     ;;
 esac
 AM_CONDITIONAL(WITH_WIN32, test $with_win32 = yes)
+AM_CONDITIONAL(WITH_NATIVE_WIN32, test $with_native_win32 = yes)
 AM_CONDITIONAL(CROSS_COMPILING, test x"$cross_compiling" != "xno")
 
 GNUMERIC_PLUGIN_LDFLAGS="-avoid-version $GNUMERIC_PLUGIN_LDFLAGS"
@@ -908,7 +916,7 @@ if test "x$python_msg" = xyes; then
      major_ver=`$PYTHON -c 'import sys ; sys.stdout.write(sys.version[0:1])'`]
     if test "x$major_ver" = "x2"; then
 	AC_MSG_RESULT(yes)
-	if test "x$with_win32" = "xyes" ; then
+	if test "x$with_native_win32" = "xyes" ; then
 	    # 2.x on linux, 2x on win32
 	    PY_VERSION=`echo $PY_VERSION | sed -e 's/\\.//'`
 	fi
@@ -923,7 +931,7 @@ if test "x$python_msg" = xyes; then
 	PY_PREFIX=`$PYTHON -c 'import sys ; sys.stdout.write(sys.prefix)'`
     fi
     if test "x$PY_INCLUDE_DIR" = x; then
-	if test "x$with_win32" = "xyes" ; then
+	if test "x$with_native_win32" = "xyes" ; then
 	    PY_INCLUDE_DIR="$PY_PREFIX/include"
 	else
 	    PY_INCLUDE_DIR=`$PYTHON -c 'import sys ; import distutils.sysconfig ; sys.stdout.write(distutils.sysconfig.get_python_inc())'`
@@ -948,7 +956,7 @@ fi
 AM_CONDITIONAL(WITH_PYTHON, test "x$python_msg" = xyes)
 if test "x$python_msg" = xyes; then
     if test "x$PY_LIB_DIR" = x; then
-	if test "x$with_win32" = "xyes" ; then
+	if test "x$with_native_win32" = "xyes" ; then
 	    PY_LIB_DIR="$PY_PREFIX/libs"
 	else
 	    PY_LIB_DIR=`$PYTHON -c 'import sys ; import distutils.sysconfig ; sys.stdout.write(distutils.sysconfig.get_config_var("LIBPL"))'`

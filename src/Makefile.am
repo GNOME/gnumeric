@@ -311,7 +311,7 @@ test_pango_SOURCES =				\
 #harness_LDFLAGS = -export-dynamic
 #harness_SOURCES = test-harness.c
 
-if WITH_WIN32
+if WITH_NATIVE_WIN32
     gnumeric_LDADD += gnumeric_rc.o
     gnumeric_LDFLAGS	+= -mwindows
     ssconvert_LDFLAGS	+= -mconsole
@@ -319,7 +319,9 @@ if WITH_WIN32
 
     libspreadsheet_la_DEPENDENCIES = libspreadsheet.def
     libspreadsheet_la_LDFLAGS += -no-undefined -export-symbols libspreadsheet.def
+endif
 
+if WITH_WIN32
 libspreadsheet.def: local.def 
 	echo EXPORTS > $@ && \
 	cat $^ | sort >> $@
@@ -392,7 +394,7 @@ gnumeric-paths.h: Makefile
 	echo '#endif /* GNUMERIC_PATHS_H */'; \
 	) >$@
 
-if WITH_WIN32
+if WITH_NATIVE_WIN32
 gnumeric_rc.o: gnumeric.rc
 	$(WINDRES) -DVERSION=$(VERSION) -DVERSION_NUMBER=`echo $(VERSION).0.0.0 | sed 's/\([0-9]*\)[^.]*\.*\([0-9]*\)[^.]*\.*\([0-9]*\)[^.]*\.*\([0-9]*\).*/\1,\2,\3,\4/'` --include-dir $(srcdir) -i $< -o $@
 install-exec-hook:

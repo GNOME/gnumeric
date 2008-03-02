@@ -17,6 +17,7 @@ Jody:
 	* Fix win32 help.
 	* Fix File->Sendto on win32.
 	* Fix ssconvert win32.
+	* Merge some cygwin build patches. [#506366]
 
 Morten:
 	* Fix NPV doc problem.  [#506160]

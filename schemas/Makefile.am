@@ -21,7 +21,7 @@ else
 install-data-local:
 endif
 
-if WITH_WIN32
+if WITH_NATIVE_WIN32
 SUFFIXES = .schemas.in .reg .hkcu.reg
 regdir = $(prefix)/etc/win32/reg
 reg_DATA = $(schema_in_files:.schemas.in=.reg) $(schema_in_files:.schemas.in=.hkcu.reg)
