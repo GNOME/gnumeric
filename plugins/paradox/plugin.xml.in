@@ -10,12 +10,17 @@
 	<services>
 		<service type="file_opener" id="paradox" priority="100" probe="FALSE">
 			<information>
-				<_description>Paradox database or primary index file</_description>
+				<_description>Paradox database or primary index file (*.db, *.px)</_description>
 			</information>
 			<suffixes>
 				<suffix>db</suffix>
 				<suffix>px</suffix>
 			</suffixes>
+		</service>
+		<service type="file_saver" id="paradox" format_level="write_only" file_extension="db">
+			<information>
+				<_description>Paradox database (*.db)</_description>
+			</information>
 		</service>
 	</services>
 </plugin>
