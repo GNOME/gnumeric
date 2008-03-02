@@ -1,3 +1,10 @@
+2008-03-02  Jody Goldberg <jody@gnome.org>
+
+	From David Reiser:
+	* gnm-python.c : Add NO_IMPORT_PYGOBJECT. #510059
+	* py-gnumeric.c : ditto.
+	* python-loader.c : ditto.
+
 2007-12-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.8.0

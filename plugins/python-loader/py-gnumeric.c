@@ -6,10 +6,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <Python.h>
 #include <gnumeric.h>
-#include <glib.h>
-#include "pygobject.h"
 #include "application.h"
 #include "workbook.h"
 #include "cell.h"
@@ -22,12 +19,17 @@
 #include "func.h"
 #include "str.h"
 #include "wbc-gtk.h"
-#include <goffice/app/go-plugin.h>
 #include "parse-util.h"
 #include "gnm-py-interpreter.h"
 #include "py-gnumeric.h"
 
+#include <goffice/app/go-plugin.h>
+
 #include <glib/gi18n-lib.h>
+
+#include <Python.h>
+#define NO_IMPORT_PYGOBJECT
+#include <pygobject.h>
 
 static PyTypeObject py_Boolean_object_type;
 typedef struct _py_Boolean_object py_Boolean_object;

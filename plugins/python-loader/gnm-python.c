@@ -6,9 +6,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <Python.h>
-#include <pygobject.h>
-#include <glib.h>
+
 #include "gnm-py-interpreter.h"
 #include "gnm-python.h"
 #include "py-gnumeric.h"
@@ -21,6 +19,10 @@
 
 #include <glib/gi18n-lib.h>
 #include <unistd.h>
+
+#include <Python.h>
+#define NO_IMPORT_PYGOBJECT
+#include <pygobject.h>
 
 struct _GnmPython {
 	GObject parent_instance;

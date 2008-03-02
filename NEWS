@@ -1,5 +1,8 @@
 Gnumeric 1.9.0
 
+David Reiser:
+	* Patch for OSX build of python plugin. [#510059]
+
 Hans de Goede:
 	* Fix broken xls issues.  [#505330]
 
