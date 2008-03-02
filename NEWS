@@ -48,6 +48,9 @@ Morten:
 	* Fix auto-fill problem.  [#519680]
 	* Fix corrupted-gnumeric-bug.  [#519761]
 
+Uwe Steinmann:
+	* Paradox DB export.
+
 --------------------------------------------------------------------------
 Gnumeric 1.8.0
 
