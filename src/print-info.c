@@ -580,7 +580,6 @@ static struct {
 	{ N_("cell"),  render_cell  , NULL},
 	{ NULL },
 };
-
 /*
  * Renders an opcode.  The opcodes can take an argument by adding trailing ':'
  * to the opcode and then a number format code
@@ -612,6 +611,34 @@ render_opcode (GString *target, char /* non-const */ *opcode,
 	}
 	g_free (opcode_trans);
 }
+
+#if 0
+3.3.1.36 evenHeader (Even Page Header)
+
+          &P              Current page number
+          &N              Page count
+          &D              Current date
+          &T              Current time
+          &A              Sheet name (BIFF5-BIFF8)
+          &F              File name without path
+          &Z              File path without file name (BIFF8X)
+          &G              Picture (BIFF8X)
+          &B              Bold on/off (BIFF2-BIFF4)
+          &I              Italic on/off (BIFF2-BIFF4)
+          &U              Underlining on/off
+          &E              Double underlining on/off (BIFF5-BIFF8)
+          &S              Strikeout on/off
+          &X              Superscript on/off (BIFF5-BIFF8)
+          &Y              Subscript on/off (BIFF5-BIFF8)
+     &"<fontname>"        Set new font <fontname>
+&"<fontname>,<fontstyle>" Set new font with specified style <fontstyle>. The style <fontstyle> is in most cases
+                          one of “Regular”, “Bold”, “Italic”, or “Bold Italic”. But this setting is dependent on the
+                          used font, it may differ (localised style names, or “Standard”, “Oblique”, ...). (BIFF5-
+                          BIFF8)
+     &<fontheight>        Set font height in points (<fontheight> is a decimal value). If this command is followed
+                          by a plain number to be printed in the header, it will be separated from the font height
+                          with a space character.
+#endif
 
 char *
 hf_format_render (char const *format, HFRenderInfo *info, HFRenderType render_type)
