@@ -51,6 +51,7 @@ Morten:
 	* Fix mstyle problem.  [#519451]
 	* Fix auto-fill problem.  [#519680]
 	* Fix corrupted-gnumeric-bug.  [#519761]
+	* Fix insert-time problem.
 
 Uwe Steinmann:
 	* Paradox DB export.
