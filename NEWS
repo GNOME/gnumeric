@@ -25,7 +25,7 @@ Morten:
 	* Fix corrupted-sylk-bug.
 	* Make <control>KP_Subtract work as <control>minus.  [#516358]
 	* Make <control>KP_Add work as <control>plus.
-	* Fix corrupted-applix-bugs.  [#517778]
+	* Fix corrupted-applix-bugs.  [#517778] [#520873]
 	* Fix sylk importer's format handling.
 	* Fix memory allocation failure for huge .gnumeric files.  [#519319]
 	* Fix mstyle problem.  [#519451]
