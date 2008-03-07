@@ -1,0 +1,41 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnumeric_1.6.3-2\n"
+"Report-Msgid-Bugs-To: Source: gnumeric@packages.debian.org\n"
+"POT-Creation-Date: 2007-11-02 12:26+0100\n"
+"PO-Revision-Date: 2007-11-16 18:30-1000\n"
+"Last-Translator: Atsushi Shimono <shimono@mozilla.gr.jp>\n"
+"Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:2001
+msgid "Really upgrade gnumeric?"
+msgstr "gnumeric を本当にアップグレードしますか?"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:2001
+msgid ""
+"An instance of gnumeric is currently running. If you upgrade now, it may no "
+"longer be able to save its data."
+msgstr ""
+"実行中の gnumeric を検出しました。もし、gnumeric を今すぐ更新すると、そのデー"
+"タは一切保存できなくなります。"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:2001
+msgid ""
+"You should close the running instances of gnumeric before upgrading this "
+"package."
+msgstr ""
+"このパッケージをアップグレードする前に、実行中の gnumeric を終了すべきです。"

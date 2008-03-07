@@ -1,0 +1,726 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-03-06  Morten Welinder  <terra@gnome.org>
+
+	* applix-read.c (applix_read): Fix null deref.  #520873.
+
+2008-02-23  Morten Welinder  <terra@gnome.org>
+
+	* applix-read.c (applix_parse_style): Prevent crash when the font
+	table is screwed.  Plug leak.
+
+2008-02-20  Morten Welinder  <terra@gnome.org>
+
+	* applix-read.c (applix_get_line): If we hit eof with nothing
+	read, return NULL.  Callers appear to expect that.  Fixes #517778.
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-22  Morten Welinder  <terra@gnome.org>
+
+	* applix-read.c: Fix "dereferencing type-punned pointer" problems.
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-07-22  Jody Goldberg <jody@gnome.org>
+
+	Report from Coverity.
+	* applix-read.c (applix_parse_style) : Fail when faced with an invalid
+	  number.
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-08  Morten Welinder  <terra@gnome.org>
+
+	* applix-read.c (applix_parse_style): Use gnm_style_set_format,
+	not gnm_style_set_format_text.
+
+2007-03-04  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_func_map_in) : Adapt to the new func_map
+	  approach to renaming.
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-23  Jon K Hellan  <hellan@acm.org>
+
+	* applix-read.c (applix_read_impl): Check for valid sheet, in case
+	#312010 could happen with applix, too.
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* applix-read.c: replaced gi18n.h by gi18n-lib.h.
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2006-04-24  Morten Welinder  <terra@gnome.org>
+
+	* applix-read.c (applix_read_cells): Ignore cells beyond
+	SHEET_MAX_COLS x SHEET_MAX_ROWS.
+	(cb_remove_style): Fix crash.
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2004-01-26  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_parse_style) : handle double underline
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-07-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* applix-read.c (applix_read): remove last argument 
+	  in workbook_sheet_reorder, replace workbook_sheet_reorganize
+	  with workbook_sheet_rename
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-03-07  Morten Welinder  <terra@diku.dk>
+
+	* applix-read.c (applix_parse_style): Use G_N_ELEMENTS.
+
+2003-03-05  Morten Welinder  <terra@diku.dk>
+
+	* applix-read.c (applix_read_attributes): Fix integer/gboolean
+	confusion.
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2003-01-07  Morten Welinder  <terra@diku.dk>
+
+	* applix-read.c (function_renamer): New function.
+	(applix_conventions): Initialize the function rewriter.
+
+2003-01-02  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_parse_cellref) : warning.
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-29  Jody Goldberg <jody@gnome.org>
+
+	* applix-write.c : Add include for gsf-output.h
+	(applix_write) : tidy up the constness.
+
+2002-11-28  Jon K Hellan  <hellan@acm.org>
+
+	* applix.h (applix_write): Port to gsf output.
+
+	* boot.c (applix_file_save): Ditto.
+
+	* applix-write.c (applix_write): Ditto.
+
+2002-11-26  Morten Welinder  <terra@diku.dk>
+
+	* applix-read.c (ApplixReadState): Add expression conventions.
+	(applix_conventions): New function.
+	(applix_read): Create parsing conventions.
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-14  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Remove "open" and "import" attributes.
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-28  Jon K Hellan  <hellan@acm.org>
+
+	* applix-read.c (applix_read_impl): Limit sscanf field lengths.
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-10-18  Morten Welinder  <terra@diku.dk>
+
+	* applix-read.c (applix_read_impl): Plug leak.
+
+2002-10-04  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_read_view) : ignore named views.
+	(applix_read_sheet_table) : implement.
+	(applix_read) : rename the sheets.
+
+2002-10-04  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_parse_style) : improve format generation
+	slightly to be #,##0 rather than #,###
+	(applix_fetch_sheet) : new.
+	(applix_read_view) : ignore PrintView's and keep track of target sheet
+	  order.
+	(applix_read) : set the sheets into the correct order in case any
+	  where implicitly created out of order.
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_sheetref_parse) : new.
+	(applix_rangeref_parse) : new.
+
+2002-09-27  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_rangeref_parse) : new.
+
+2002-09-25  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_read_view) : fix warning.
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-19  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (applix_file_probe): Use glib's seek enum instead of
+	the enum which used to be in libgsf.
+
+2002-08-17  Jon K Hellan  <hellan@acm.org>
+
+	* applix-read.c (applix_read_impl): Limit default_label_style and
+	default_number_style to size of buffer.
+
+2002-08-17  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (applix_file_save): Predeclare.
+
+2002-08-14  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_get_line) : fix typo.
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-06-27  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_read_view) : top left is in view now.
+
+2002-06-21  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_parse_cellref) : take a CellPos.
+	(applix_read_cells) : tidy a smidge.
+	(applix_read_impl) : start to support named ranges.
+
+2002-06-20  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_read_view) : selection is in the view now.
+	  Tweak the logic to truely ignore the 'Current' view.
+
+2002-06-20  Morten Welinder <terra@diku.dk>
+
+	* applix-read.c (applix_read_impl): Initialize vars.
+	(applix_read): the keys are strings, not ints.
+	(applix_read_cells): Isolate the key -- sometimes there seems to be
+	a formula there also.
+
+2002-06-14  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_read_view) : current views are magic, ignore
+	  them.
+
+2002-06-14  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_read_cells) : be more expressive and lenient
+	  when dealing with parse errors.
+	(applix_get_line) : handle the 8bit character encoding.  TODO : add
+	  the 16 bit when we figure out what encoding all of this lives in.
+	(applix_get_sheet) : Flag the need to recompute spans.
+
+2002-06-14  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c : convert to gsf input and restructure quite a bit to
+	  be more flexible, add support for applix-5, and support
+	  hidden/locked formats.
+
+2002-06-13  Jody Goldberg <jody@gnome.org>
+
+	* boot.c : convert to libgsf.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.3
+
+2002-03-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.2
+
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
+2002-02-22  Jon K Hellan  <hellan@acm.org>
+
+	* applix-write.c (applix_save): Rename to applix_write.
+
+2002-02-21  Morten Welinder <terra@diku.dk>
+
+	* applix-read.c (applix_parse_style): Constify.
+
+2002-02-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.0
+
+2002-02-10  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=70327
+	* applix-read.c (applix_parse_style) : Looks like the font indicies
+	  are 0 based.
+	(applix_parse_error) : Make this vararg and generate decent errors.
+
+2002-02-05  Jon K Hellan  <hellan@acm.org>
+
+	* applix-read.c (applix_read_colormap): Use style_color_new_i8.
+
+2002-01-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.3
+
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.2
+
+2002-01-10  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_parse_style) : add new date format
+
+2002-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.1
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_get_precision) : doh!
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.0
+
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.1
+
+2001-12-17  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_parse_style) : support 'G#' styles for
+	  formats.
+
+2001-12-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.0
+
+2001-11-25  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_read_cells) : use expr_parse_str, it is
+	  simpler.
+
+2001-11-19  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.76
+
+2001-11-07  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_read_cells) : changes to gnumeric_expr_parser
+	signature.
+
+2001-11-05  Jody Goldberg <jgoldberg@home,com>
+
+	* Release 0.75
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.74
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.73
+
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.72
+
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
+2001-09-25  Jon K Hellan  <hellan@acm.org>
+
+	* .cvsignore: Add plugin.xml
+
+2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml: Removed
+
+	* plugin.xml.in: Copied from plugin.xml, prepared for localization.
+
+	* Makefile.am: Use xml-i18n-tools to create plugin.xml (with
+	translations merged from .po file).
+
+2001-08-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.70
+
+2001-08-11  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.69
+
+2001-07-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.68
+
+2001-07-16  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_read_view) : Use sheet_set_initial_top_left.
+
+2001-06-28  Jody Goldberg <jgoldberg@home>
+
+	* Release 0.67
+
+2001-06-27  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.66
+
+2001-06-21  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_read_view) : patch some gcc3 warnings.
+
+2001-05-29  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* boot.c (applix_file_probe): Added FileProbeLevel argument.
+
+2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* boot.c (applix_file_probe, applix_file_open):
+	s/FileOpener/GnumFileOpener/
+	s/FileSaver/GnumFileSaver/
+
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.65
+
+2001-05-01  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c : suppress warnings.
+
+2001-03-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.64
+
+2001-02-25  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* Makefile.am: Removed -DGNUMERIC_VERSION, the macro is already
+	defined in config.h.
+
+2001-02-23  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.63
+
+2001-02-19  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (applix_load): Change file format level to
+	FILE_FL_MANUAL_REMEMBER. Fix typo: FILE_SAVER_ID_INVAID ->
+	FILE_SAVER_ID_INVALID.
+
+2001-02-16  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.62
+
+2001-02-12  Karl Eichwalder  <ke@suse.de>
+
+	* Makefile.am (EXTRA_DIST): New variable; add
+	$(gnumeric_plugin_applix_DATA).
+
+2001-02-09  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_read_cells) : Adjust to new signature for
+	  parser.
+
+2001-01-11  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_parse_style) : remove the border shifting
+	  cruft.  This will be taken care of in the primary system.
+
+2000-12-29  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_read) : fix cut-n-pate-o
+
+2000-12-17 Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.61
+
+2000-12-7  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.60
+
+2000-11-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.59
+
+2000-11-13  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.58
+
+2000-11-07  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_read_impl) : Some files do not appear to have
+	  the 'Currect Doc Real Name:' field.
+	(applix_parse_style) : Move the skiping of the separator up here.
+
+2000-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c : Adjust to the signature changes for reading views
+	  rather than workbooks.
+	* boot.c : ditto.
+
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.57
+
+2000-09-19  Morten Welinder <terra@diku.dk>
+
+	* applix-read.c (applix_read_colormap): isdigit takes unsigned
+ 	chars, not chars.
+	(applix_parse_style): Ditto.
+	(applix_read_impl): Ditto.
+
+2000-09-06  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_get_sheet) : changes to signature of
+	  sheet_set_zoom_factor.
+
+2000-07-31  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_parse_style) : Implement quick and simple
+	  translations of number formats.
+
+2000-07-31  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_parse_style) : Support font names.
+	(applix_read) : Ditto.
+	(applix_read_typefaces) : Implement.
+
+2000-07-24  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_get_sheet) : Adjust to changes in sheet_set_zoom_factor.
+
+2000-07-08  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_read_views) : Fix.  The Current view uses a
+	  different syntax than normal views.  Ignore it.
+	(applix_read_view) : Implement row/col sizes, custom and default.
+	(applix_read_cells) : Fix bottom/right borders.
+	(applix_parse_style) : Add font size and font colour. Ignore 'fg'
+	  directives.  What are they ??
+	(applix_get_line) : Implement.
+	(applix_read_impl) : Fix off by one error in column bound check.
+
+2000-07-07  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_read_cells) : Fix array formulas.
+	(applix_read_views) : Implement a bit more.
+	(applix_read_view) : new function.

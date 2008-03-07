@@ -1,0 +1,11 @@
+application/x-quattro-pro
+	ext: wb1 wb2 wb3
+
+application/x-sc
+	ext: sc
+
+application/x-planperfect
+	ext: pln
+
+application/x-mps
+	ext: mps

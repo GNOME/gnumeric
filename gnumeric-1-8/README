@@ -1,0 +1,200 @@
+Gnumeric -- The GNOME spreadsheet
+Jody Goldberg <jody@gnome.org>
+
+The project aims to become a drop in replacement for proprietary spreadsheets.
+If you are interested in contributing to its development please send us some
+email, there are lots of projects available.
+
+To report Gnumeric bugs, please visit bugzilla.gnome.org.
+
+Gnumeric is licensed under the terms of the GNU GPL included in the
+file COPYING.
+
+Requirements
+------------
+
+You need:				Debian package name
+	glib		>= 2.6.0	libglib2.0-dev
+	gtk+		>= 2.10.0	libgtk2.0-dev
+	libgsf		>= 1.14.6	libgsf-1-dev
+	libgoffice	>= 0.5.1	libgoffice-0-5-dev
+	libglade	>= 2.3.6	libglade2-dev
+	gnome-xml   	>= 2.4.12	libxml2-dev
+	pango		>= 1.8.1	libpango1.0-dev
+	NOTE: gnome-xml is also known as libxml
+
+Optionally:
+	libgsf-gnome	>= 1.14.2	libgsf-gnome-1-dev
+	libgnome	>= 2.0.0	libgnome2-dev
+	libgnomeui	>= 2.0.0	libgnomeui-dev
+	libbonobo	>= 2.2.0	libbonobo2-dev
+	libbonoboui	>= 2.2.0	libbonoboui2-dev
+	python		>= 2.0		python-dev
+	pygtk		>= 1.99.10	python-gtk2-dev
+
+	The GDA plugin, for accessing databases
+	gda		>= 1.3.0	libgda2-dev
+	libgnomedb	>= 1.3.0	libgnomedb2-dev
+
+Currently disabled:
+	guile		>= 1.5	(no maintainer)
+
+Runtime suggestions:
+	To view help pages in the --with-gnome build there is a
+	runtime dependence on 'yelp'
+
+Mailing lists
+-------------
+
+   There is a mailing list used to discuss Gnumeric, to subscribe
+send a mail to:
+
+	gnumeric-list-request@gnome.org
+
+   And in the body of the message write "subscribe"
+
+   An archive of the mailing lists is available in:
+
+	http://mail.gnome.org/archives/gnumeric-list/
+
+
+Random notes:
+-------------
+
+This is a partial list of Features implemented in Gnumeric, we need
+documentation for these:
+
+	- Autofill
+		Number autofill (computes delta, autofills from that).
+	 	String autofill (daynames, months are built in).
+		String+Number combo integer autofill.
+		Formula autofill.
+
+	- Drag and drop selection
+		Select an area and use the border to drag the
+	 	contents (shift/control/alt are modifiers to copy
+		or move)
+
+	- Selection
+		- Multiple selections are supported, hold down control
+		  key to augment the existing selection (they can be
+		  discontinuous).
+
+		- Walking selection.
+		  Use return/tab and shift-return/shift-tab to capture 
+		  information in a selection.
+
+		- Fill quickly a region with the same text: just enter
+		  the text in a selection and press control-enter.
+
+	- Number formatting
+		- The formatting of numbers is very powerful, we
+		  emulate the Excel number formatting specification.
+
+		- Format rules: you can use rules to specify which
+		  format to use.
+
+		- Format colors: you can specify a color to format
+		  with in the format.
+
+		- Conditional colours and format strings.
+
+	- Column/Row resizing
+		- Drag the column/row division to adjust the column
+		  and row dimensions.
+
+		- To make changes to various columns/rows
+		  simultaneously, select the columns and then change
+		  the dimension of one of them.  
+
+	- Content
+		- Merged Cells
+		- Array formulas
+
+	- Filters
+		- MS OfficeOpenXML 	Read/Write
+		- MS Excel (95 -> 2003)	Read/Write
+		- MS Excel (v2 -> v4)	Read
+		- Applix (v4 & v5)	Read
+		- Quattro Pro (v1-v3)	Read
+		- Planperfect		Read
+		- Lotus (wk1)		Read
+		- OpenOffice.org/ODF	Read/Write
+		- html (3.2 & 4.0)	Read
+		- html (4.0, xhtml)	Write
+		- Latex 		Write
+		- Troff 		Write
+		- DIF			Read
+		- SYLK			Read/Write
+		- Oleo			Read
+		- SC			Read
+		- MPS Optimizer files	Read
+		- XBase db		Read
+		- Text files		Read/Write
+		- CSV, TSV		Read/Write
+		- PSION			Read
+
+	- To edit the contents of a cell that already has a value,
+	  press F2 key.
+
+	- When typing a formula, you can use the cursor keys to select
+	  a cell or a cell range in the expression.  This will only
+	  work if a cell name is valid at the cursor point.
+
+	  To specify a cell range, just move to the start of the cell
+	  range and then hold down the shift key while making the size
+	  of the selection cursor bigger.
+
+	- An expression is evaluated constantly on top of the current
+	  selection.  There is a number of pre-defined auto-compute
+	  expressions, you can change this by right clicking on this
+	  expression (it is on the bottom right corner).
+
+	- If you drag a selection with button 3 instead of button one
+	  there is no default action, rather, a menu pops up with 
+	  a list of possible options on actions to perform.
+
+	- Gnumeric distinguishes regular text from formulas by preceding
+	  formulas with an equal sign.  So to enter an expression you have	
+	  to enter for example: =1+2.
+
+	- Control-A selects all.
+	- Alt-Space selects the row.
+	- Control-Space selects a column.
+
+	- Selection-keys + control extend the selection to boundary of
+	  worksheet.
+
+	- Shift-Backspace:  Collapses selection to active cell.
+
+	- Home: move to the beginning of the row.
+	
+	- Control-Home: move to the cell A1
+
+	- Control-Enter: copies current edit text to the selected range.
+
+	- Control-Shift-Enter: If there is a single range selected and the
+	  current edit text is a formula, the formula is made into an
+	  'array-formula'.
+
+	- Control-Pg{Up,Down}: Switch to the previous/next worksheet.
+	- Alt-Pg{Up,Down}: Page left and right.
+	- Mouse-Wheel : scroll up/down
+	- Alt-Mouse-Wheel : scroll left-right
+	- Arrow+ScrollLock
+
+     o Frozen Panes (including Horizontal or Vertical only)
+
+     o Auto-convert-on-input features: When you enter text in Gnumeric
+       it is now matched against the known formats of Gnumeric and if
+       possible, converted to a (number, format) pair.  This works
+       when you enter a formula and when you type in text.
+
+       This means you can use now dates and times in expressions, like
+       this: ="10-Jan"+45.  
+
+       Autofill will also work on this.
+
+     o Gnumeric command line debug arguments.
+	- dump-func-defs
+	- debug

@@ -1,0 +1,47 @@
+<sect1>
+  <title>Traduciendo los formatos numéricos</title>
+
+    <para>Hay un par de cosas que debe recordar cuando traduzca
+Gnumeric. Gnumeric, al contrario que las aplicaciones normales incluye
+cadenas utilizadas para escribir números de diferentes formas: como
+fechas, como horas, como monedas, números, y números con formato
+contable. Deberá dejar de lado durante la traducción general los
+formatos numéricos y los códigos de formato de las fechas.</para>
+    
+    <para>Por ejemplo, en México hablamos español (código del lenguaje
+"es"), por lo que debe hacerse una traducción al español de todos los
+mensajes que hay en el programa en el fichero es.po.</para>
+    
+    <para>Las fechas se representan en México como día/mes/año. El
+comportamiento por defecto de Gnumeric es seguir las reglas que hay en
+Estados Unidos, que son mes/día/año. Así pues, en lugar de añadir
+estas traducciones al fichero es.po, se deben añadir en un fichero
+especial para la región, en nuestro ejemplo "es_MX.po". La moneda en
+México utiliza los mismo símbolos, por lo que estos códigos no se
+tocarán. El punto como separador decimal y los separadores de los
+miles son, de nuevo, los mismos que en Estados Unidos, por lo que
+tampoco los tocaremos.</para>
+    
+    <para>Por tanto, básicamente: cuando hagamos una traducción del
+formato moneda/fecha/número, asegúrese de que no hay otras regiones
+que utilicen su misma lengua pero que tienen un conjunto de reglas
+diferentes (si tiene dudas, simplemente no toque los códigos de
+formato y añada su versión ``localizada'' al fichero nn_MM.po).</para>
+    
+</sect1>
+
+<sect1>
+  <title>Tratando con los formatos de moneda</title>
+
+    <para>Gnumeric utiliza la información local para distinguir el
+carácter utilizado como separador de miles y el utilizado como
+separador decimal. En las cadenas de formato numérico, utilice su
+separador regional para los decimales como el separador decimal. Por
+ejemplo, si tenemos el formato "#.00" de Gnumeric, los traductores
+franceses para Francia deberán cambiarlo por "#,00". El formato por
+defecto "#,##0" (que significa mostrar al menos un dígito, pero
+separar los miles con comas) debe traducirse por "#.##0".</para>
+
+</sect1>
+
+    

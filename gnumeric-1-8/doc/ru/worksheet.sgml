@@ -1,0 +1,536 @@
+<sect1>
+  <title>Рабочая таблица</title>
+  
+  <para>После запуска Gnumeric вы оказываетесь в режиме просмотра
+    рабочей таблицы. Именно в нем выполняется вся работа над данными в таблице,
+    и предоставляется доступ к различным диалоговым меню Gnumeric.</para>
+  
+  <para>Поле рабочей таблицы разделено на несколько важных областей. Строка меню,
+   строка кнопок, область ввода, главная область ячеек и информационная область.
+   См. <xref linkend="worksheet-all-1.jpg"> </para>
+  
+  <figure id="worksheet-all-1.jpg">
+    <title>Пример полной рабочей таблицы.</title>
+    <screenshot>
+      <graphic fileref="images/worksheet-all-1.jpg"></graphic>
+    </screenshot>
+  </figure>
+  
+  <sect2 id="menu-bar">
+    <title>Строка меню</title>    
+    <para>По умолчанию строка меню находится на верху окна приложения.
+      Она предоставляет быстрый и упорядоченный доступ к некоторым
+      наиболее общим доступным операциям.</para>
+    
+    <sect3>
+      
+      <!-- IF someone knows a more approriate way to document menu
+      options, let me know. This seems a bit excessive, and the output
+      from db2html is kind of lame -->
+      
+      <title><guimenu>Файл</guimenu></title>
+      <variablelist>
+	<varlistentry>
+	  <term><guimenuitem>Новый</guimenuitem></term>
+	  <listitem><para>Создает новую таблицу в новом окне.</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem>Открыть</guimenuitem></term>
+	  <listitem><para>Открывает существующую таблицу в новом окне.</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem>Сохранить</guimenuitem></term>
+	  <listitem><para>Сохраняет текущую рабочую таблицу. Если файл уже был ранее назван и сохранен,
+	   то текущая рабочая таблица будет сохранена в том же файле. Если файл еще не был сохранен, то 
+	    будет запрошено имя и путь для файла.</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem>Сохранить как...</guimenuitem></term>
+
+	  <listitem><para>Сохраняет файл с новым именем. Это может быть новая созданная таблица
+	      или старая таблица с другим именем. </para></listitem>
+
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem>Дополнения</guimenuitem></term>
+	  <listitem><para>Открывает диалог дополнений для загрузки/сохранения дополнений.  
+	      В списке показаны уже загруженные дополнения и допускается подгрузка других
+              дополнений пользователя.</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem>Закрыть</guimenuitem></term>
+	  <listitem><para>Закрывает текущую таблицу.</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem>Выход</guimenuitem></term>
+	  <listitem><para>Закрывает открытые таблицы и завершает работу Gnumeric</para></listitem>
+	</varlistentry>
+	
+      </variablelist>  
+      
+      
+    </sect3> 
+    
+    <sect3>
+      <title><guimenu>Правка</guimenu></title>
+      <variablelist>
+	
+	<varlistentry>
+	  <term><guimenuitem>Вырезать</guimenuitem></term>
+	  <listitem><para>Удаляет содержимое выделенных ячеек и сохраняет его в буфере обмена.</para></listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>Скопировать</guimenuitem></term>
+	  <listitem><para>Делает копию текущего выделения для последующей вставки.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>Вставить</guimenuitem></term>
+	  <listitem><para>Вставляеь содержимое буфера обмена с позиции курсора.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>Специальная вставка...</guimenuitem></term>
+	  <listitem><para>Вставляет содержимое буфера обмена, но предоставляет дополнительные
+	   возможности по сравнению с обычной вставкой. Полезно для вставки только формата или только значения и т.п.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>Выделить все</guimenuitem></term>
+	  <listitem><para>Выделяет все ячейки в таблице.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guisubmenu>Очистить -></guisubmenu></term>
+	  <listitem>
+	    <para>
+	      <variablelist>
+		<varlistentry>
+		  <term><guimenuitem>Все</guimenuitem></term>
+		  <listitem><para>Очищает все ячейки.</para></listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term><guimenuitem>Формат</guimenuitem></term>
+		  <listitem><para>Очищает формат выделенных ячеек.</para></listitem>
+		</varlistentry>
+	      </variablelist>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>Перейти к ячейке</guimenuitem></term>
+	  <listitem><para>Позволяет пользователю указать ячейку, к которой он хотел бы переместиться.</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu>Вид</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem>Масштаб</guimenuitem></term>
+	  <listitem><para>Масштабирование. Позволяет увеличивать и уменьшать изображение ячеек.</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu>Вставка</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem>Ячейки...</guimenuitem></term>
+	  <listitem><para>Вставляет новую ячейку.</para></listitem>
+	</varlistentry>
+	<varlistentry><term><guimenuitem>Строки</guimenuitem></term>
+	  <listitem><para>Вставляет строку ячеек.</para></listitem>
+	</varlistentry>
+	<varlistentry><term><guimenuitem>Столбцы</guimenuitem></term>
+	  <listitem><para>Вставляет столбец ячеек.</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu>Формат</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem>Ячейки</guimenuitem></term>
+	  <listitem><para>Открывает диалоговое окно формата ячеек. Используется для изменения шрифта, цвета и т.д.</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu>Справка</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem>О программе...</guimenuitem></term>
+	  <listitem><para>View the online help for Gnumeric</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+  </sect2>
+  <!-- end of menubar description -->
+  
+  <sect2 id="buttonbar-buttons">
+    <title>Строка кнопок</title>
+    
+    <para>Строка кнопок содержит много пиктограмм представляющих некоторые наиболее
+      часто используемые действия выполняемые пользователем. Она предназначена для
+      более быстрого доступа к выполняющим эти действия инструментам.</para>
+    
+    <variablelist>
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/stock-new.png"></inlinegraphic>
+	    Новый файл.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Создает новый файл</para>
+	</listitem>
+      </varlistentry>
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/stock-open.png"></inlinegraphic>
+	    Открыть
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Открывает существующий файл.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term
+	  <guiicon><inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
+	    Сохранить
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Сохраняет текущую таблицу на диске.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/stock-cut.png"></inlinegraphic>
+	    Вырезать
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Копирует ячейки текущего выделения в буфер обмена и удаляет их из таблицы.</para>
+	</listitem>
+      </varlistentry>
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/stock-copy.png"></inlinegraphic>
+	    Скопировать
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Копирует ячейки текущего выделения в буфер обмена.</para>
+	</listitem>
+      </varlistentry>
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/stock-paste.png"></inlinegraphic>
+	    Вставить
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Вставляет содержимое буфера обмена в активную ячейку.</para>
+	</listitem>
+      </varlistentry>
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/align-left.png"></inlinegraphic>
+	    Выключка влево..
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Выравнивает содержимое ячеек по левому краю.</para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/align-center.png"></inlinegraphic>
+	    Выключка по центру
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Центрирует содержимое ячеек.</para>
+	</listitem>
+      </varlistentry>
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/align-right.png"></inlinegraphic>
+	    Выключка вправо...
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Выравнивает содержимое ячеек по правому краю.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/bold.png"></inlinegraphic>
+	    Полужирный
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Изменяет стиль шрифта текущей ячейки на полужирный или на светлый, если он уже полужирный.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/italic.png"></inlinegraphic>
+	    Наклонный
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Изменяет стиль шрифта текущей ячейки на наклонный или на прямой, если он уже наклонный.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/line.png"></inlinegraphic>
+	    Линия
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Позволяет нарисовать линию на поле таблицы.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/arrow.png"></inlinegraphic>
+	    Стрелка
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Позволяет нарисовать линию со стрелкой на одном конце, может использоваться в качестве указателя.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/rect.png"></inlinegraphic>
+	    Прямоугольник
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Позволяет нарисовать прямоугольник на поле таблицы.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/oval.png"></inlinegraphic>
+	    Эллипс
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Позволяет нарисовать эллипс или окружность на поле таблицы.</para>
+	</listitem>
+      </varlistentry>
+      
+    </variablelist>
+    
+  </sect2>
+  <!-- end of button bar docs -->
+  
+  <sect2 id="worksheet-data-entry">
+    <title>Область ввода данных.</title>
+    
+    <para>Непосредственно под строкой кнопок располагается область 
+      ввода данных. Это небольшая область, которая содержит индикатор
+      текущей ячейки, кнопки <guibutton>confirm</guibutton> и
+      <guibutton>cancel</guibutton>, и область ввода для детального
+      редактирования содержания ячейки.  См. <xref
+	linkend="worksheet-data-1"></para>
+    
+    
+    <figure id="worksheet-data-1">
+      <title>Область ввода данных.</title>
+      <screenshot>
+	<graphic fileref="images/worksheet-data-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <sect3>
+      <title>Индикатор текущей ячейки.</title>
+      <para>В самой левой части области ввода данных расположен индикатор текущей
+	ячейки.  Если выделена одна ячейка, он будет показывать ее адрес.
+	Если выделена область ячеек, он показывает размер области в формате:</para>
+      
+      <blockquote><para>4Lx5C</para></blockquote>
+      
+      <para>Где L число строк и C число столбцов. В приведенном выше примере
+	выделенно 4 строки и 5 столбцов.</para>
+      
+      
+      <figure id="worksheet-data-2">
+	<title>Индикатор текущей ячейки.</title>
+	<screenshot>
+	  <graphic fileref="images/worksheet-data-2.jpg"></graphic>
+	</screenshot>
+      </figure>
+      
+    </sect3>
+    
+    <sect3>
+      <title><guibutton>Кнопка подтверждения</guibutton></title>
+      
+      <para>После ввода данных в области ввода, вы можете подтвердить
+	содержимое текущей ячейки нажав зеленую кнопку перевода строки
+	<guibutton>
+	  <inlinegraphic fileref="images/worksheet-data-3.jpg">
+	  </inlinegraphic>
+	</guibutton>.
+      </para>
+      
+    </sect3>
+    
+    <sect3>
+      <title><guibutton>Кнопка отмены</guibutton></title>
+      
+      <para>Если пользователь считает, что данные введенные в ячейку
+	это не то чего он хотел, кнопка отмены позволяет отказаться от
+	введенных данных и вернуть в исходное состояние содержимое ячейки.
+	Ввод данных в ячейку можно отменить нажав кнопку с красным крестом
+	<guibutton>
+	  <inlinegraphic fileref="images/worksheet-data-4.jpg">
+	  </inlinegraphic>
+	</guibutton>.
+      </para>
+      
+      <para>Наиболее вероятно использование этой кнопки, когда содержимое ячейки
+	переписывается новыми данными. Если пользователь решит отказаться от изменений
+	до того как подтвердит их, то он может воспользоваться кнопкой отмены.</para>
+    </sect3>
+  </sect2>
+  
+  <sect2>
+    <title>Область ячеек</title>
+      
+    <para>В основном работа с таблицей производится в главной области ячеек, большой
+      решетке представляющей часть рабочей таблицы. Именно сюда вводятся все формулы и данные,
+      и это центр активности для таблицы.</para>
+    
+    <para>Таблица ограничивается метками строк и столбцов. Столбцы помечаются
+          буквами, метки располагаются по горизонтали наверху таблицы. См. <xref
+	linkend="worksheet-cols-1">. Строки помечаются цифрами, метки располагаются
+	по вертикали с левой стороны таблицы.
+	См. <xref linkend="worksheet-rows-1"></para>
+    
+    <figure id="worksheet-cols-1">
+      <title>Метки столбцов наверху таблицы.</title>
+      <screenshot>
+	<graphic fileref="images/worksheet-cols-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <figure id="worksheet-rows-1">
+      <title>Метки строк слевой стороны таблицы.</title>
+      <screenshot>
+	<graphic fileref="images/worksheet-rows-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    
+  </sect2>
+  
+  <sect2>
+    <title>Информационная область</title>
+    
+    <para>Область в самом низу рабочей таблицы - это информационная область. 
+      Она содержит информацию о выделенных ячейках, а также предоставляет доступ
+      к кнопкам увеличения и уменьшения масштаба. Здесь же располагается индикатор таблицы.</para>
+    
+    <figure id="worksheet-info-1">
+      <title>Информационная область.</title>
+      <screenshot>
+	<graphic fileref="images/worksheet-info-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <sect3>
+      <title>Индикатор таблицы</title>
+      <para>На левой стороне расположен индикатор таблицы. В рабочей книге состоящей из нескольких
+	таблиц он показывает как много таблиц существует и позволяет пользователю 
+	перемещаться к другим таблцам, нажимая на подходящий ярлык.</para>
+    </sect3>
+    
+    <sect3>
+      <title>Кнопки масштаба</title>
+      <para>Кнопки <guibutton>Zoom in</guibutton> (<xref linkend="worksheet-zoomin-1">) и
+	  <guibutton>Zoom out</guibutton> (<xref linkend="worksheet-zoomout-1">) также расположены в информационной
+	  области. Нажатие на <guibutton>Zoom in</guibutton> увеличивает таблицу и показывает  ее
+	более детально. <guibutton>Zoom out</guibutton> показывает больший участок таблицы
+	    с меньшим количеством деталей. Вид таблицы может быть также изменен с использованием
+	    пункта <guimenuitem>Zoom</guimenuitem> из меню <guimenu>Вид</guimenu>. </para>
+      
+      <figure id="worksheet-zoomin-1">
+	<title>Кнопка увеличения масштаба.</title>
+	<screenshot>
+	  <graphic fileref="images/worksheet-zoomin-1.jpg"></graphic>
+	</screenshot>
+      </figure>
+      
+      <figure id="worksheet-zoomout-1">
+	<title>Кнопка уменьшения масштаба</title>
+	<screenshot>
+	  <graphic fileref="images/worksheet-zoomout-1.jpg"></graphic>
+	</screenshot>
+      </figure>
+      
+    </sect3>
+    
+    <sect3>
+      <title>Область текущего вычисления</title>
+      
+      <para>В нижнем правом углу существует информационная область, которая показывает некоторое постоянно вычисляемое
+       значение. По умолчанию это сумма всех выделенных в данный момент ячеек.</para>
+      
+      <para>Тип вычисляемого значения можно изменить щелкнув в этой области правой кнопкой мыши.
+      	Можно подсчитывать сумму, минимальное, максимальное или среднее значение, количество заполненных ячеек.</para>
+      
+      <figure id="worksheet-running-calc-1">
+	<title>Область текущего вычисления.</title>
+	<screenshot>
+	  <graphic fileref="images/worksheet-running-calc-1.jpg"></graphic>
+	</screenshot>
+      </figure>
+    </sect3>
+  </sect2>
+</sect1>
+
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         

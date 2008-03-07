@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_sample_datasource">
+	<information>
+		<_name>Sample DataSource</_name>
+		<_description>A proof of concept external data source</_description>
+		<require_explicit_enabling/>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="sample_datasource"/>
+	</loader>
+	<services>
+		<service type="function_group" id="ATL">
+			<_category>Finance</_category>
+			<functions>
+				<function name="atl_last"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

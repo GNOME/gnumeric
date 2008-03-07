@@ -1,0 +1,757 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-02-24  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_parse_border): Use g_strndup instead of
+	doing it by hand.
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-24  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_col_start) : swap sense of 'is_vert' for
+	  explicit page breaks.
+	(oo_row_start) : ditto.
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-11-03  Jody Goldberg <jody@gnome.org>
+
+	All calls to *cell_set_* should be followed by an extent update.
+	* openoffice-read.c (oo_update_data_extent) : create this to provide a
+	  single location for updating the data extent when debugging.
+	(oo_cell_start) : use it here to update extent for arrays,
+	expressions, and inline values.
+	(oo_cell_end) : and here for repeated cols/rows.
+	(oo_cell_content_end) : and here for child content.
+
+2007-10-29  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (od_draw_frame) : fix the namespace for y, and
+	  provide defaults of 0 incase of invalid input.
+
+2007-10-29  Jody Goldberg <jody@gnome.org>
+
+	Data is implicitly allocated in all sorts of undocumented ways.
+	* openoffice-read.c (oo_plot_area) : refactor the data handling into
+	(oo_plot_assign_dim) : here.
+
+	Clean up the way parameters are handled.
+	(oo_prop_list_free) : new.
+	(oo_prop_free) : new.
+	(oo_prop_new_....) : new.
+	(oo_prop_list_apply) : new.
+
+2007-10-27  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (od_chart_wall): Grid got renamed to
+	Backplane, so change here.
+
+2007-10-26  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-write.c (openoffice_file_save) : compression-level is a
+	  construction time attribute.
+
+2007-10-25  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_iteration) : new.
+
+2007-10-25  Jody Goldberg <jody@gnome.org>
+
+	* plugin.xml.in : add stc.
+
+2007-10-25  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (openoffice_file_open) : Assume files without a
+	  mimetype entry are OO.o 1.x rather than failing.
+	  Be more flexible about which mimetypes are acceptable.
+	(oo_row_start) : Do not set a size if none was specified (some .sxc files)
+	(oo_col_start) : ditto.
+	(oo_colrow_reset_defaults) : ditto.
+	(oo_style_prop_cell) : valign==automatic is usually bottom, sometimes
+	  center, never top.
+	  Fully support protected and hidden.
+	(oo_cell_content_end) : Handle a series of <p> in a single cell that
+	  designate embedded newlines.
+
+	* openoffice-write.c (openoffice_file_save) : ensure that we do not
+	  compress the mimetype.
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-07-22  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_attr_int) : add some validation.
+
+2007-07-17  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_colrow_reset_defaults) : typo breaks
+	  precedence.
+
+2007-06-27  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_table_start) : keep track of the extent of
+	  col/row styling and the extent of cell content seperately.
+	(cb_find_default_colrow_style) : new.
+	(oo_colrow_reset_defaults) : pick a default style and recompress the
+	  available cols/rows by using it.
+	(oo_table_end) : assign the page breaks.  And restore the col/row
+	  defaults.
+	(odf_append_page_break) : new.
+	(odf_col_row_style_apply_breaks) : new.
+	(oo_col_start) : keep a counter of style use to find the default.
+	  Handle manual vs auto (kludged, no default is specified in the the
+	  std).
+	(oo_row_start) : ditto.
+	(oo_cell_content_end) : simple mechanism to track extent of cells
+	  with data.
+	(oo_style_prop_col_row) : parse 'use-optimal-....' flags.  Cols seem
+	  to have a different default than rows ???
+
+2007-06-15  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_expr_parse_str) : make this a real function
+	  and centralize the error handling.
+	(oo_cell_start) : simplify expr parse error handling.
+	(oo_named_expr) : ditto.
+	(od_plot_area) : ditto.
+	(oo_table_start) : apply the table style.
+	(oo_col_start) : make the col/row style smarter in prep for page breaks.
+	(oo_row_start) : ditto.
+	(oo_style) : handle table styles.
+	(oo_style_end) : ditto.
+	(oo_style_prop) : ditto.
+	(oo_page_break_type) : new.
+	(oo_style_prop_col_row) : merge oo_style_prop_row and
+	  oo_style_prop_col and add support for page breaks.
+	(oo_style_prop_table) : new.
+	(openoffice_file_open) : init the table styles.
+
+	* openoffice-write.c (odf_write_table_style) : new.
+	(table_style_name) : new.
+	(odf_write_table_styles) : generate the styles based on the sheets.
+	(odf_write_content) : write a style appropriate for the sheet.
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-29  Jody Goldberg <jody@gnome.org>
+
+	* plugin.xml.in : add .odt
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (odf_func_map_in) : adapt to the new mechanism of
+	  function renaming.
+	(oo_conventions) : handle inline arrays.
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2007-01-19  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-write.c : re-prefix things s/oo_/odf_/ for consistency.
+	(odf_add_bool) : new,  the stock gsf_xml_out_add_bool uses 1, but OOo
+	  doesn't support it.
+	(odf_write_filter_cond) : new.
+	(odf_write_autofilter) : new.
+	(odf_write_content) : write the autofilters.
+
+	* openoffice-read.c (oo_db_range_start) : new.
+	(oo_db_range_end) : new.
+	(oo_filter_cond) : new.
+	(oo_table_end) : clear the cell pos at the end.
+	(oo_rangeref_parse) : mark unused arg.
+	(openoffice_file_open) : init filter.
+
+2007-01-19  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c: Cleanups.
+
+2007-01-16  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (od_plot_area): Fix crash [#396200]
+
+2007-01-09  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (od_style_prop_chart): Don't use g_strtod.  We
+	do not want dual-locale semantics.
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-11-17  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_unknown_hander) : add hook for oo-build
+	  specific extensions.
+
+2006-11-09  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (openoffice_file_open) : use the new
+	  gnm_push_C_locale/gnm_pop_C_locale utils.
+	* openoffice-write.c (openoffice_file_save) : ditto.
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-09-23  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (openoffice_file_open) : remove size checks on
+	  substreams.  If gsf was crashing on an empty xml file, then we
+	  should fix it there.	[#350644]
+
+2006-09-14  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_cell_start): Fix time value import.
+	[#355943]
+
+2006-08-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (openoffice_file_open): Add two gsf_input_size()
+	  checks (patch by sum1_abi@yahoo.com)	[#350644]
+
+2006-08-09  Eduardo Lima <eduardo.lima@indt.org.br>
+
+	* openoffice-write.c (od_write_cell): Changed casts from uint to
+	unsigned int in calls to gsf_xml_out_add_uint().
+
+2006-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (oo_write_cell): We will also be called for 
+	  empty cells with attached cell comment.
+	(oo_write_sheet): we may not collapse empty cells that have comments
+	  attached to them
+
+2006-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (oo_write_cell): add GnmComment parameter and
+	write annotation
+	(oo_write_sheet): call oo_write_cell with new GnmComment parameter
+
+2006-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (oo_expr_conventions_new): set argument separator
+
+2006-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (oo_cellref_as_string): new
+	(oo_rangeref_as_string): new
+	(oo_expr_conventions_new): initialize cell_ref_, range_ref_handler
+	  and output_sheet_name_sep
+
+2006-06-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (od_write_cell): handle matrix functions and
+	  be careful with checking unkown strings. Remove some duplicated code.
+	(oo_write_sheet): extent is 0 based 
+	(oo_write_content): We are writing opendocument. We should be checking the 
+	  standard rather than OOo limitations.
+
+2006-07-14  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-write.c (oo_write_mimetype) : use ods, rather than sxc
+
+2006-07-12  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_cell_start) : be more flexible with spans. [#347263]
+
+2006-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (oo_write_content): move ns structure to file
+	  scope
+	(oo_write_styles): implement stub
+	(oo_write_settings): implement stub
+	(oo_write_manifest): update to opendocument
+
+2006-06-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (oo_write_sheet): write table:table-column
+	(oo_write_content): there is no office:class attribute in opendocument
+	  version 1.0 but we should use office:spreadsheet element
+
+2006-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (GnmOOExport): add GnmExprConventions
+	  field
+	(oo_expr_conventions_new): new
+	(od_write_cell): try to write some formulas
+	(oo_write_content): fix some spelling, temporarily skip writing 
+	  styles, don't use the office:spreadsheet element until we
+	  know why openoffice doesn't like it.
+	(openoffice_file_save): initialize GnmExprConventions in 
+	  GnmOOExport
+	
+2006-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (od_write_empty_cell): don't write 
+	  number-columns-repeated if value is 1
+	(od_write_covered_cell): ditto
+	(od_write_cell): handle various value types
+
+2006-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (od_cell_is_covered): implement
+	(od_write_cell): handle merged cells
+	(cb_sheet_merges_free): new
+	(oo_write_sheet): initialize & clean up  merge handling
+
+2006-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugin.xml.in : use .ods extension for writer
+	* openoffice-write.c (oo_max_cols): deleted
+	(oo_max_rows) : deleted
+	(od_cell_is_covered): new
+	(od_write_empty_cell): new
+	(od_write_covered_cell): new
+	(od_write_cell): new
+	(oo_write_sheet): use the above and drop the check for whether the 
+	  extent is to large for openoffice. OpenDocument has no limit
+	(openoffice_file_save): use new ur[ln]s
+
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/openoffice/openoffice-read.c: replaced gi18n.h by gi18n-lib.h.
+	* plugins/openoffice/openoffice-write.c:
+
+2006-05-23  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-write.c (oo_write_meta) : write the meta data.
+
+2006-05-09  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_cellref_parse) : Eike just posted a newer
+	  definition of how sheet names are encoded.
+	    - only single quotes are allowed
+	    - in quoted names a quote is escaped by doubling it 'aa''a' == aa'a
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2006-05-07  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_cellref_parse) : handled quoted sheet named.
+	(oo_style_prop_cell) : Handle other forms of underlining.
+	(oo_row_start) : collapsed/filtered rows.
+	(oo_col_start) : ditto.
+
+2006-05-06  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (openoffice_file_open) : read metadata.
+
+2006-03-16  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (od_chart_grid): Use GOG_AXIS_UNKNOWN (== -1),
+	not UNKNOWN (== 10).
+
+2006-02-16  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (openoffice_file_open): Don't leak the
+	meta_data object.
+	(od_style_prop_chart): Fix leaks.
+	(od_chart_axis): Plug leak.
+	(od_chart_grid): Plug leak.
+	(clean_lists): Speed up and fix a pile of leaks.
+
+2006-02-15  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (openoffice_file_open): Updates from #316234.
+
+2006-01-22  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c: Stub for table:named-range.
+
+2006-01-21  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_conventions): Intersection character is '!'.
+
+2006-01-21  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_conventions): Set range_sep_colon.
+
+2006-01-20  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_cell_start): Fix loading of boolean
+	constants from ods files.
+
+2005-11-16  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c : Some minor polish
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-11-10  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_col_start) : add full column style support.
+	(oo_parse_border) : handle the space between the distance and the type.
+	(oo_style_prop_cell) : diagonal borders, opendoc alignments, opendoc
+			       font info.
+
+2005-11-06  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=316234
+	Patch from Luciano Miguel Wolf <luciano.wolf@indt.org.br>
+	* openoffice-read.c : Some initial work on ods import.
+
+2005-11-06  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_style): Attempt a fix for 320818.
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-29  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c : Add a hook for 'tab-stops'
+	(oo_style) : suppress warning for default-style
+	  cell.  It does not have a name but we may still want to use it.  I'm
+	  not sure where.
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-05-08  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c : quick hack to get a start on OASIS vs 1.0.x
+	  Add the name spaces.
+
+2005-05-07  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* openoffice-read.c: (openoffice_file_open): use go_setlocale
+	instead of gnm_setlocale.
+	* openoffice-write.c: (openoffice_file_save): ditto.
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2005-01-14  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_conventions) : set dots_in_names to allow for
+	  addin functions like com.sun.star.sheet.addin.Analysis.getErf
+	(oo_unknown_hander) :  Use a custom unknown handler to do a group map
+	  from com.sun.star.sheet.addin.Analysis.get*
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-18  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c : Add support for date and time styles
+	(oo_cell_start) : Handle time-values
+	(openoffice_file_open) : read styles.
+
+2004-10-17  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c : Add basic parser for date formats
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-05-10  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-write.c : A quick stub
+
+2004-05-06  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c : Add some incomplete hooks to read rich text
+
+2004-04-03  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_attr_distance) : new.
+	(oo_style_prop_row) : new.
+	(oo_style_prop_col) : new.
+	(oo_style_prop) : break out parsers for each style type.
+	(oo_style_start) : handle col/row sizes.
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-11-16  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (openoffice_file_open) : do not translate the
+	  bools.
+
+2003-10-27  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (opencalc_content_dtd) : tack on a few more nodes
+	  to silence warnings.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=125611
+	* openoffice-read.c (oo_attr_int) : OUCH!  Minor typo crept in when
+	  adding namespace support that broke importing all integers !  In
+	  this case it showed up because the integer was specifying spans.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=125604
+	* openoffice-read.c (openoffice_file_open) : OO uses C locale for
+	  numbers be careful to set and clear the locales appropriately.
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2003-01-22  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c : Convert to the new gsf::xml interface to get
+	  namespace support.
+	(oo_conventions) : add a map to convert ERRORTYPE -> ERROR.TYPE
+
+2003-01-02  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_date_convention) : support 1904 date
+	  convention.
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-26  Morten Welinder  <terra@diku.dk>
+
+	* openoffice-read.c (OOParseState): Add expression conventions.
+	(oo_conventions): New function.
+	(openoffice_file_open): Create and destroy expression conventions.
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-14  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Remove "open" and "import" attributes.
+
+2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* openoffice-read.c (openoffice_file_open): Made static.
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-10-24  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_style_prop) : fix handling of vertical
+	  alignment..
+
+2002-10-23  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=96595
+	* openoffice-read.c (oo_covered_cell_start) : new.
+	(oo_covered_cell_end) : new.  covered cells, and repeated convered
+	  cells take up space.
+	(oo_cell_end) : a repeated cell with content replicates the content.
+	(oo_cell_start) : a repeated cell with a style replicates the style.
+
+2002-10-09  Morten Welinder  <terra@diku.dk>
+
+	* openoffice-read.c (OOParseState): Avoid "gboolean ... : 1".
+
+2002-10-08  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_style) : correctly layer parent styles but
+	  lose the relationship because we have no similar structure.
+	  Put the frame work in place to start supporting number formats but
+	  do not implement it yet.
+
+2002-10-08  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_named_expr) : support named expressions.
+	(oo_cell_start) : support merged ranges.
+
+2002-10-07  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_table_start) : fix accidental offset of 1,1.
+
+2002-10-02  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c : Ensure that the sheet ordering is correct.
+
+2002-10-01  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_attr_enum) : new.
+	(oo_style_prop) : some initial work.
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-09-29  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_cell_start) : handle array expressions,
+	  and saved booleans, numbers, and strings (errors handled elsewhere)
+	  TODO : dates
+	(xml_sax_attr_bool) : use oo_warning
+	(xml_sax_attr_int) : use oo_warning
+	(xml_sax_attr_float) : use oo_warning
+
+2002-09-29  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_warning) : new utility.
+	(oo_cellref_parse) : new.
+	(oo_rangeref_parse) : new.
+	(oo_cell_start) : initial support for expressions.  Still need to
+	  restore the saved values.
+
+2002-09-26  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c : whip up a quick initial version that ignores
+	  formats, and expressions but does appear to handle values, and sheet
+	  names.

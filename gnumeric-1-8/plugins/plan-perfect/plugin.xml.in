@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_plan_perfect">
+	<information>
+		<_name>Plan Perfect</_name>
+		<_description>Imports Plan Perfect Formatted Documents</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="plan_perfect"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="pln" priority="1" probe="TRUE">
+			<information>
+				<_description>Plan Perfect Format (PLN) import</_description>
+			</information>
+			<suffixes>
+				<suffix>pln</suffix>
+			</suffixes>
+			<mime-types>
+				<mime-type>application/x-planperfect</mime-type>
+			</mime-types>
+		</service>
+	</services>
+</plugin>

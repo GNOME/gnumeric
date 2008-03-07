@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_sc">
+	<information>
+		<_name>SC/XSpread</_name>
+		<_description>Imports SC/XSpread files</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="sc"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="sc" priority="51" probe="TRUE">
+			<information>
+				<_description>SC/xspread</_description>
+			</information>
+			<mime-types>
+				<mime-type>application/x-sc</mime-type>
+			</mime-types>
+		</service>
+	</services>
+</plugin>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_fnerlang">
+	<information>
+		<_name>Erlang Functions</_name>
+		<_description>Functions to help Erlang Analysis</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="erlang"/>
+	</loader>
+	<services>
+		<service type="function_group" id="erlang">
+			<_category>Erlang</_category>
+			<functions>
+				<function name="probblock"/>
+				<function name="offtraf"/>
+				<function name="dimcirc"/>
+				<function name="offcap"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

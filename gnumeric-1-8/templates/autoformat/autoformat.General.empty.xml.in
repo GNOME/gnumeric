@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmr:FormatTemplate xmlns:gmr="http://www.gnome.org/gnumeric/format-template/v1">
+  <gmr:Information _author="Gnumeric Team" _name="Empty" _description="A fully empty template" category="General"/>
+  <gmr:Members/>
+</gmr:FormatTemplate>

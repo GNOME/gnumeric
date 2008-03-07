@@ -1,0 +1,1191 @@
+<?xml version="1.0"?>
+<gmr:Workbook xmlns:gmr="http://www.gnumeric.org/v8.dtd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gnumeric.org/v8.xsd">
+  <gmr:Attributes>
+    <gmr:Attribute>
+      <gmr:name>WorkbookView::show_horizontal_scrollbar</gmr:name>
+      <gmr:type>4</gmr:type>
+      <gmr:value>TRUE</gmr:value>
+    </gmr:Attribute>
+    <gmr:Attribute>
+      <gmr:name>WorkbookView::show_vertical_scrollbar</gmr:name>
+      <gmr:type>4</gmr:type>
+      <gmr:value>TRUE</gmr:value>
+    </gmr:Attribute>
+    <gmr:Attribute>
+      <gmr:name>WorkbookView::show_notebook_tabs</gmr:name>
+      <gmr:type>4</gmr:type>
+      <gmr:value>TRUE</gmr:value>
+    </gmr:Attribute>
+  </gmr:Attributes>
+  <gmr:Summary>
+    <gmr:Item>
+      <gmr:name>codepage</gmr:name>
+      <gmr:val-string>1252</gmr:val-string>
+    </gmr:Item>
+    <gmr:Item>
+      <gmr:name>last_saved</gmr:name>
+      <gmr:val-string>Wed Mar  8 18:50:25 2000</gmr:val-string>
+    </gmr:Item>
+    <gmr:Item>
+      <gmr:name>created</gmr:name>
+      <gmr:val-string>Wed Mar  8 18:28:23 2000</gmr:val-string>
+    </gmr:Item>
+    <gmr:Item>
+      <gmr:name>security</gmr:name>
+      <gmr:val-int>0</gmr:val-int>
+    </gmr:Item>
+    <gmr:Item>
+      <gmr:name>thumbnail_scaling</gmr:name>
+      <gmr:val-string>False</gmr:val-string>
+    </gmr:Item>
+    <gmr:Item>
+      <gmr:name>links_uptodate</gmr:name>
+      <gmr:val-string>False</gmr:val-string>
+    </gmr:Item>
+    <gmr:Item>
+      <gmr:name>last_author</gmr:name>
+      <gmr:val-string>Jody</gmr:val-string>
+    </gmr:Item>
+    <gmr:Item>
+      <gmr:name>application</gmr:name>
+      <gmr:val-string>Microsoft Excel</gmr:val-string>
+    </gmr:Item>
+    <gmr:Item>
+      <gmr:name>author</gmr:name>
+      <gmr:val-string>Jody</gmr:val-string>
+    </gmr:Item>
+    <gmr:Item>
+      <gmr:name>company</gmr:name>
+      <gmr:val-string>b</gmr:val-string>
+    </gmr:Item>
+  </gmr:Summary>
+  <gmr:SheetNameIndex>
+    <gmr:SheetName>Sheet1</gmr:SheetName>
+  </gmr:SheetNameIndex>
+  <gmr:Names/>
+  <gmr:Geometry Width="947" Height="606"/>
+  <gmr:Sheets>
+    <gmr:Sheet DisplayFormulas="false" HideZero="false" HideGrid="false" HideColHeader="false" HideRowHeader="false" DisplayOutlines="true" OutlineSymbolsBelow="true" OutlineSymbolsRight="true">
+      <gmr:Name>Sheet1</gmr:Name>
+      <gmr:MaxCol>4</gmr:MaxCol>
+      <gmr:MaxRow>18</gmr:MaxRow>
+      <gmr:Zoom>1.000000</gmr:Zoom>
+      <gmr:Names/>
+      <gmr:PrintInformation>
+        <gmr:Margins>
+          <gmr:top Points="108" PrefUnit="in"/>
+          <gmr:bottom Points="72" PrefUnit="in"/>
+          <gmr:left Points="54" PrefUnit="in"/>
+          <gmr:right Points="54" PrefUnit="in"/>
+          <gmr:header Points="108" PrefUnit="in"/>
+          <gmr:footer Points="72" PrefUnit="in"/>
+        </gmr:Margins>
+        <gmr:vcenter value="0"/>
+        <gmr:hcenter value="0"/>
+        <gmr:grid value="0"/>
+        <gmr:even_if_only_styles value="1"/>
+        <gmr:monochrome value="0"/>
+        <gmr:draft value="0"/>
+        <gmr:titles value="0"/>
+        <gmr:repeat_top value=""/>
+        <gmr:repeat_left value=""/>
+        <gmr:order>d_then_r</gmr:order>
+        <gmr:orientation>portrait</gmr:orientation>
+        <gmr:Header Left="" Middle="&amp;[TAB]" Right=""/>
+        <gmr:Footer Left="" Middle="Page &amp;[PAGE]" Right=""/>
+        <gmr:paper>US-Letter</gmr:paper>
+      </gmr:PrintInformation>
+      <gmr:Styles>
+        <gmr:StyleRegion startCol="2" startRow="1" endCol="2" endRow="1">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="6" Color="3333:3333:3333"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="3" startRow="14" endCol="3" endRow="14">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="13" endCol="0" endRow="13">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="15" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="1" Color="8080:8080:8080"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="1" startRow="1" endCol="1" endRow="1">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="6" Color="3333:3333:3333"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="6" Color="3333:3333:3333"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="1" startRow="14" endCol="2" endRow="14">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0%">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="1" endCol="0" endRow="1">
+          <gmr:Style HAlign="4" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="15" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="1" Color="8080:8080:8080"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="3" startRow="2" endCol="3" endRow="2">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="2" startRow="2" endCol="2" endRow="2">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="FFFF:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="14" endCol="0" endRow="14">
+          <gmr:Style HAlign="4" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="15" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="1" startRow="2" endCol="1" endRow="2">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="FFFF:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="6" Color="3333:3333:3333"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="3" startRow="3" endCol="3" endRow="3">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="2" endCol="0" endRow="2">
+          <gmr:Style HAlign="4" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="15" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="2" startRow="3" endCol="2" endRow="3">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="F800:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="1" startRow="3" endCol="1" endRow="3">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="6" Color="3333:3333:3333"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="3" startRow="4" endCol="3" endRow="4">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="3" endCol="0" endRow="3">
+          <gmr:Style HAlign="4" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="15" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="1" Color="8080:8080:8080"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="8" startRow="0" endCol="15" endRow="255">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="0" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
+            <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="4" startRow="0" endCol="4" endRow="17">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="0" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="F800:F800:0" PatternColor="0:0:0" Format="General">
+            <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="2" startRow="4" endCol="2" endRow="4">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="FFFF:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="1" startRow="4" endCol="1" endRow="4">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="FFFF:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="6" Color="3333:3333:3333"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="16" startRow="0" endCol="63" endRow="4095">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="0" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
+            <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="7" startRow="13" endCol="7" endRow="31">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="0" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
+            <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="4" endCol="0" endRow="4">
+          <gmr:Style HAlign="4" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="15" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="3" startRow="5" endCol="3" endRow="5">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="3" startRow="22" endCol="6" endRow="31">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="0" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
+            <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="4" startRow="18" endCol="4" endRow="18">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="0" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="F800:F800:0" PatternColor="0:0:0" Format="General">
+            <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="2" startRow="5" endCol="2" endRow="5">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="1" startRow="5" endCol="1" endRow="5">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="6" Color="3333:3333:3333"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="5" endCol="0" endRow="5">
+          <gmr:Style HAlign="4" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="15" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="1" Color="8080:8080:8080"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="3" startRow="6" endCol="3" endRow="6">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="2" startRow="6" endCol="2" endRow="6">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="15" endCol="2" endRow="31">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="0" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
+            <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="1" startRow="6" endCol="1" endRow="6">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="6" Color="3333:3333:3333"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="32" endCol="7" endRow="255">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="0" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
+            <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="3" startRow="7" endCol="3" endRow="7">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="6" endCol="0" endRow="6">
+          <gmr:Style HAlign="4" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="15" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="2" startRow="7" endCol="2" endRow="7">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="5" startRow="0" endCol="6" endRow="21">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="0" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="F800:F800:0" PatternColor="0:0:0" Format="General">
+            <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="1" startRow="7" endCol="1" endRow="7">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="F800:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="6" Color="3333:3333:3333"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="3" startRow="8" endCol="3" endRow="8">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="7" endCol="0" endRow="7">
+          <gmr:Style HAlign="4" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="15" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="1" Color="8080:8080:8080"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="4" startRow="19" endCol="4" endRow="21">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="0" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="F800:F800:0" PatternColor="0:0:0" Format="General">
+            <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="2" startRow="8" endCol="2" endRow="8">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="FFFF:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="256" endCol="15" endRow="4095">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="0" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
+            <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="3" startRow="15" endCol="3" endRow="21">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="0" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="F800:F800:0" PatternColor="0:0:0" Format="General">
+            <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="1" startRow="8" endCol="1" endRow="8">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="FFFF:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="6" Color="3333:3333:3333"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="3" startRow="9" endCol="3" endRow="9">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="8" endCol="0" endRow="8">
+          <gmr:Style HAlign="4" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="15" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="2" startRow="9" endCol="2" endRow="9">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="F800:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="7" startRow="0" endCol="7" endRow="11">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="0" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
+            <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="1" startRow="9" endCol="1" endRow="9">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="6" Color="3333:3333:3333"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="3" startRow="10" endCol="3" endRow="10">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="9" endCol="0" endRow="9">
+          <gmr:Style HAlign="4" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="15" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="1" Color="8080:8080:8080"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="64" startRow="0" endCol="255" endRow="65535">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="0" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
+            <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="2" startRow="10" endCol="2" endRow="10">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="7" startRow="12" endCol="7" endRow="12">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="0" Indent="0" Locked="1" Hidden="0" Fore="0:0:8000" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
+            <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="1" startRow="10" endCol="1" endRow="10">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="FFFF:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="6" Color="3333:3333:3333"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="3" startRow="11" endCol="3" endRow="11">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="10" endCol="0" endRow="10">
+          <gmr:Style HAlign="4" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="15" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="2" startRow="11" endCol="2" endRow="11">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="1" startRow="11" endCol="1" endRow="11">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="F800:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="6" Color="3333:3333:3333"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="3" startRow="12" endCol="3" endRow="12">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="1" Color="8080:8080:8080"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="11" endCol="0" endRow="11">
+          <gmr:Style HAlign="4" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="15" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="1" Color="8080:8080:8080"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="2" startRow="12" endCol="2" endRow="12">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="1" Color="8080:8080:8080"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="3" startRow="0" endCol="3" endRow="0">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="12" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="4096" endCol="63" endRow="65535">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="0" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="FFFF:FFFF:FFFF" PatternColor="0:0:0" Format="General">
+            <gmr:Font Unit="9" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="1" startRow="12" endCol="1" endRow="12">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="FFFF:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="1" Color="8080:8080:8080"/>
+              <gmr:Left Style="6" Color="3333:3333:3333"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="1" startRow="0" endCol="2" endRow="0">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="15" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="1" startRow="13" endCol="3" endRow="13">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="_(* #,##0.00_);_(* (#,##0.00);_(* &quot;-&quot;??_);_(@_)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="8080:8080:8080"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="12" endCol="0" endRow="12">
+          <gmr:Style HAlign="4" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="15" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="1" Color="F6F6:F6F6:F6F6"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="0" startRow="0" endCol="0" endRow="0">
+          <gmr:Style HAlign="8" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="General">
+            <gmr:Font Unit="10" Bold="1" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="0"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+        <gmr:StyleRegion startCol="3" startRow="1" endCol="3" endRow="1">
+          <gmr:Style HAlign="1" VAlign="2" WrapText="0" Orient="1" Shade="1" Indent="0" Locked="1" Hidden="0" Fore="0:0:0" Back="C0C0:C0C0:C0C0" PatternColor="9999:9999:FFFF" Format="0.0000_);[Red]\(0.0000\)">
+            <gmr:Font Unit="10" Bold="0" Italic="0" Underline="0" StrikeThrough="0">Helvetica</gmr:Font>
+            <gmr:StyleBorder>
+              <gmr:Top Style="6" Color="3333:3333:3333"/>
+              <gmr:Bottom Style="0"/>
+              <gmr:Left Style="0"/>
+              <gmr:Right Style="0"/>
+              <gmr:Diagonal Style="0"/>
+              <gmr:Rev-Diagonal Style="0"/>
+            </gmr:StyleBorder>
+          </gmr:Style>
+        </gmr:StyleRegion>
+      </gmr:Styles>
+      <gmr:Cols DefaultSizePts="48">
+        <gmr:ColInfo No="0" Unit="78.8" MarginA="2" MarginB="2" HardSize="1"/>
+        <gmr:ColInfo No="1" Unit="73.5" MarginA="2" MarginB="2" HardSize="1"/>
+        <gmr:ColInfo No="2" Unit="75" MarginA="2" MarginB="2" HardSize="1"/>
+        <gmr:ColInfo No="3" Unit="45" MarginA="2" MarginB="2" HardSize="1"/>
+        <gmr:ColInfo No="4" Unit="48" MarginA="2" MarginB="2"/>
+      </gmr:Cols>
+      <gmr:Rows DefaultSizePts="12.8">
+        <gmr:RowInfo No="0" Unit="17.2" MarginA="0" MarginB="0" HardSize="1" Count="13"/>
+        <gmr:RowInfo No="13" Unit="12.8" MarginA="0" MarginB="0"/>
+        <gmr:RowInfo No="14" Unit="17.2" MarginA="0" MarginB="0" HardSize="1"/>
+        <gmr:RowInfo No="17" Unit="12.8" MarginA="0" MarginB="0"/>
+        <gmr:RowInfo No="18" Unit="12" MarginA="0" MarginB="0"/>
+      </gmr:Rows>
+      <gmr:Selections CursorCol="1" CursorRow="19">
+        <gmr:Selection startCol="1" startRow="19" endCol="1" endRow="19"/>
+      </gmr:Selections>
+      <gmr:Objects>
+        <gmr:SheetObjectGraphic FillColor="F800:0:0" Type="2" Width="3" ArrowShapeA="8" ArrowShapeB="10" ArrowShapeC="3" ObjectBound="B16:C18" ObjectOffset="0.520408153533936 0.294117659330368 0.920000016689301 0.647058844566345" ObjectAnchorType="0 0 0 0" Direction="0"/>
+        <gmr:SheetObjectFilled OutlineColor="F800:0:0" Type="102" Width="4" ObjectBound="C18:G20" ObjectOffset="0.779999971389771 0.235294118523598 0.46875 0.941176474094391" ObjectAnchorType="0 0 0 0" Direction="0"/>
+        <gmr:SheetObjectFilled Type="102" Width="1" ObjectBound="A14:C16" ObjectOffset="0.990476191043854 0.647058844566345 0.159999996423721 0.764705896377563" ObjectAnchorType="0 0 0 0" Direction="255"/>
+      </gmr:Objects>
+      <gmr:Cells>
+        <gmr:Cell Col="1" Row="0" ValueType="60">
+          <gmr:Content>EUR/USD</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="2" Row="0" ValueType="60">
+          <gmr:Content>GBP/USD</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="1" ValueType="60">
+          <gmr:Content>March</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="1" ValueType="40">
+          <gmr:Content>1.1806</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="2" Row="1" ValueType="40">
+          <gmr:Content>1.6139</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="2" ValueType="60">
+          <gmr:Content>April</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="2" ValueType="40">
+          <gmr:Content>1.0229</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="2" Row="2" ValueType="40">
+          <gmr:Content>1.6075</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="3" ValueType="60">
+          <gmr:Content>May</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="3" ValueType="40">
+          <gmr:Content>1.0705</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="2" Row="3" ValueType="40">
+          <gmr:Content>1.5997</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="4" ValueType="60">
+          <gmr:Content>June</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="4" ValueType="40">
+          <gmr:Content>1.0459</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="2" Row="4" ValueType="40">
+          <gmr:Content>1.5689</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="5" ValueType="60">
+          <gmr:Content>July</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="5" ValueType="40">
+          <gmr:Content>1.046</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="2" Row="5" ValueType="40">
+          <gmr:Content>1.6004</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="6" ValueType="60">
+          <gmr:Content>August</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="6" ValueType="40">
+          <gmr:Content>1.0838</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="2" Row="6" ValueType="40">
+          <gmr:Content>1.6072</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="7" ValueType="60">
+          <gmr:Content>September</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="7" ValueType="40">
+          <gmr:Content>1.0273</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="2" Row="7" ValueType="40">
+          <gmr:Content>1.6559</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="8" ValueType="60">
+          <gmr:Content>October</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="8" ValueType="40">
+          <gmr:Content>1.0084</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="2" Row="8" ValueType="40">
+          <gmr:Content>1.6247</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="9" ValueType="60">
+          <gmr:Content>November</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="9" ValueType="40">
+          <gmr:Content>1.0092</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="2" Row="9" ValueType="40">
+          <gmr:Content>1.6215</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="10" ValueType="60">
+          <gmr:Content>December</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="10" ValueType="40">
+          <gmr:Content>1.0036</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="2" Row="10" ValueType="40">
+          <gmr:Content>1.6369</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="11" ValueType="60">
+          <gmr:Content>January</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="11" ValueType="40">
+          <gmr:Content>0.9933</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="2" Row="11" ValueType="40">
+          <gmr:Content>1.6142</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="12" ValueType="60">
+          <gmr:Content>February</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="12" ValueType="40">
+          <gmr:Content>0.9576</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="2" Row="12" ValueType="40">
+          <gmr:Content>1.5793</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="14" ValueType="60">
+          <gmr:Content>Loss</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="14">
+          <gmr:Content>=B13/B2-1</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="2" Row="14">
+          <gmr:Content>=C13/C2-1</gmr:Content>
+        </gmr:Cell>
+        <gmr:Cell Col="4" Row="18" ValueType="60">
+          <gmr:Content>The UK is happy it is NOT part of EMU</gmr:Content>
+        </gmr:Cell>
+      </gmr:Cells>
+      <gmr:SheetLayout TopLeft="A1"/>
+      <gmr:Solver TargetCol="-1" TargetRow="-1" ProblemType="1" Inputs=""/>
+    </gmr:Sheet>
+  </gmr:Sheets>
+  <gmr:UIData SelectedTab="0"/>
+</gmr:Workbook>

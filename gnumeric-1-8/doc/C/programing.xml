@@ -1,0 +1,48 @@
+<sect1 id="sect-programing-overivew">
+  <title>Background to  programing &gnum;</title>
+
+  <para>
+    Aims of &gnum; and why working jointly makes sense.
+  </para>
+
+  <para>
+    C, gtk+ and other fundamentals
+  </para>
+
+  <para>
+    Architectural design
+  </para>
+
+  <para>
+    Collaborative process:
+      -start by submitting patches
+       checkout/code/checkbuild/diff/send patch to Jody or list or
+      bugzilla
+
+      -graduate to cvs access
+
+      !communicate!
+  </para>
+
+</sect1>
+
+
+
+<sect1 id="sect-programming-social">
+  <title>Collaboration with the &gnum; team</title>
+
+  <para>
+    If you work with the team or separate, you'll want to interact.
+      --coordinate 
+      --collaborate
+  </para>
+
+  <para>
+    
+  </para>
+
+
+</sect1>
+
+
+

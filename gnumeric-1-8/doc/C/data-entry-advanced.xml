@@ -1,0 +1,541 @@
+<sect1 id="sect-dataentryadv">
+  <title>Advanced Data Entry</title>
+
+  <para>
+    This section describes advanced methods for data entry in
+    &gnum;. This includes techniques
+    useful when adding large amounts of data, methods to automatically
+    catch mistakes during data entry, using pre-defined templates to
+    format data input, obtaining data from external sources and
+    generating sequences of random numbers with defined distributions.
+  </para>
+
+  <sect2 id="sect-dataentryadv-large">
+    <title>Entering Large Quantities of Data</title>
+
+    <para>
+      It is sometimes necessary to enter large amounts of data by hand
+      into a spreadsheet. To facilitate this work,
+      &gnum; provides several techniques
+      to facilitate the entry of large amounts of data.
+    </para>
+
+    <para>
+      If data are to be entered into a series of rows or columns, this
+      region can be selected ahead of time thereby modifying the
+      behaviour of the data entry keys (the <keysym>Enter</keysym>,
+      <keysym>Tab</keysym> and arrow keys).
+    </para>
+
+    <procedure>
+      <title>Data entry into a region</title>
+
+        <step>
+          <para>
+            Select the region with the mouse. For example, the region
+            from cell C4 to cell E8 can be selected by clicking with
+            the left mouse button on cell C4 and dragging the mouse
+            cursor to cell E8. (More information on complex selections
+            is presented below.)
+          </para>
+        </step>
+
+        <step>
+          <para>
+            Enter data by typing the data and the the
+            <keysym>Enter</keysym> key. If this is done repeatedly,
+            the fifth time the <keysym>Enter</keysym> key is pressed,
+            the selection will not move to cell C9 but will jump up to
+            cell D4.
+          </para>
+        </step>
+
+    </procedure>
+
+    <note>
+      <para>
+        The <keysym>Tab</keysym> key can also be used instead of the
+        <keysym>Enter</keysym> key to move sequentially through the
+        selection.
+      </para>
+    </note>
+
+  </sect2>
+
+
+
+
+  <sect2 id="sect-dataentryadv-series">
+    <title>Entering a Regular Sequence</title>
+
+        <para>
+          It is often necessary to enter a regular sequence of numbers
+          or a repeated sequence of
+          text. &gnum; provides several
+          ways to input series and sequences of this kind.
+        </para>
+
+        <para>
+          The simplest way to fill a series with the same element
+          repeated involves entering the element once and dragging the
+          selection box to fill that element repeatedly. For example,
+          the text "employee:" could be input into cell C2. That cell
+          could then be selected. The selection box is a thick white
+          rectangle which surrounds the cell. This selection box has a
+          small white square at the bottom right hand corner. If the
+          mouse cursor is placed above this square box, it changes to
+          a thin cross. If the left hand mouse button is clicked and
+          held, and the mouse dragged to cell C10,
+          &gnum; will automatically fill
+          all of the cells with the identical string.
+        </para>
+
+        <para>
+          An alternative way to enter data into a region involves
+          first selecting the region, then typing the value and
+          finally typing the
+          <keycombo><keysym>Ctrl</keysym><keysym>Enter</keysym></keycombo>
+          key combination. This will fill the whole region with the
+          identical value which was originally entered.
+        </para>
+
+        <para>
+          A similar method is available to fill sequences of
+          integers. If the example just given was altered so that cell
+          C2 had the number 14 and the <keysym>Ctrl</keysym> key was
+          held during the dragging of the selection,
+          &gnum; will automatically fill
+          the cells C2 to C10 with the series 14,15,16,...,22.
+        </para>
+
+        <para>
+          More complex series and sequences of data can be entered
+          with a similar mechanism. 
+        </para>
+
+        <para>
+          To do an autofill:
+        </para>
+
+        <procedure>
+	<step>
+	  <para>
+	    Enter a value into the first cell you wish to
+	    autofill. For example, the cell C2 could have the number
+	    "24" entered.
+	  </para>
+	</step>
+
+	<step>
+	  <para>
+	    Enter a second value into the second cell you wish to
+	    autofill. This must be adjacent to the first cell. This
+	    sets the increment to use when autofilling the rest of
+	    your cells. For example, the cell D2 could have the number
+	    "28" entered.
+	  </para>
+	</step>
+
+	<step>
+	  <para>
+	    Select both the cells just entered. At the bottom-right of
+	    the selection should be a small box. Your mouse cursor
+	    will change to a cross-hair when placed over the box.
+	    Press and hold on the box. Drag in the direction, either
+	    vertical or horizontal, you wish to increment and release
+	    when all the cells are filled. For example, selecting
+	    cells C2 and D2, then dragging the bottom right of the
+	    selection to cell I2 will fill the cells with the sequence
+	    from 24 to 48 with each increment being 4.
+	  </para>
+	</step>
+        </procedure>
+
+        <para>
+          An alternative to the last step involves using the
+          menus. Once the first two values have been input, the whole
+          range to be filled can be selected using the mouse and then
+          the <guimenuitem>Autofill</guimenuitem> selection can be
+          made from the <guimenu>Edit</guimenu> and
+          <guisubmenu>Fill</guisubmenu>. This will automatically
+          complete the series in the selected region.
+        </para>
+
+
+        <para>
+	  &gnum; is able to increment
+	  several types of data beyond simple integers. The procedure
+	  is the same as described above but involves different
+	  starting values. &gnum; can
+	  increment:
+	<variablelist>
+	  <varlistentry>
+	    <term>Integers</term>
+	    <listitem>
+	      <para>
+		1, 2, 3, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Natural Numbers</term>
+	    <listitem>
+	      <para>
+		1.03, 2.05, 3.07, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Weekday Names</term>
+	    <listitem>
+	      <para>
+		Monday, Tuesday, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Weekday Abbreviations</term>
+	    <listitem>
+	      <para>
+		Mon, Tues, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Month Names</term>
+	    <listitem>
+	      <para>
+		January, February, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Month Abbreviations</term>
+	    <listitem>
+	      <para>
+		Jan, Feb, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Strings with Numbers</term>
+	    <listitem>
+	      <para>
+		Item1, Item2, etc
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Dates</term>
+	    <listitem>
+	      <para>
+		11/14/2001, 11/15/2001, etc.
+	      </para>
+	      <para>
+		&gnum; supports
+		incrementing the date by month, date, or year.
+	      </para>
+		<para>
+		  Note that, While &gnum;
+		  will increment days of the month, if you do
+		  11/14/2001 and 12/14/2001, it will recognize it as
+		  the same day of the month and increment the month so
+		  the next value would be to 1/14/2002 instead of the
+		  day difference.
+		</para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+        </para>
+
+        <para>
+          &gnum; can be explicitly told
+          the cells to autofill as in the examples above, but it can
+          also guess the number of cells to fill based on the length
+          of an adjacent column or row. For example, if the cells B2
+          to B10 have information and cell C2 has the integer value
+          "1", then selecting cell C2 and double clicking on the
+          bottom rightmost box of the selection rectangle will fill
+          the value "1" from cell C3 to cell C10.
+        </para>
+
+  </sect2>
+
+
+
+
+
+  <sect2 id="sect-dataentryadv-autocorrect">
+    <title>Automatically Correcting Simple Mistakes</title>
+
+    <para>
+      The entry of large amounts of data into a spreadsheet is tedious
+      work which is prone to repeated
+      mistakes. &gnum; provides a tool to
+      automatically correct commonly made simple mistakes. The
+      corrections are configured and activated using the `AutoCorrect'
+      dialog, available via <guimenuitem>Auto Correct</guimenuitem> in
+      the <guimenu>Tools</guimenu> menu.
+    </para>
+
+       <figure id="fig-autocorrect-figure">
+         <title>The Auto Correct dialog.</title>
+         <screenshot>
+           <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/dialog-auto-correct.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the auto-correct dialog.</phrase>
+            </textobject>
+           </mediaobject>
+         </screenshot>
+       </figure>
+
+  <sect3 id="sect-dataentryadv-autocorrect-init-caps">
+     <title>Correct TWo INitial CApitals</title>
+
+     <para>A common mistake is to hold down the shift key a little bit
+     too long while typing initial letters.  When it happens, you will
+     get two initial capitals instead of one.  If this correction rule
+     is activated, the second letter of words beginning with two
+     capital letters is automatically lowercased.  For example, if you
+     type `TOtal' into a cell it is replaced by `Total'.  Note that if
+     the word contains two capital letters only, it is not
+     replaced.</para>
+
+     <para>It is possible to specify exceptions to this tool.  For
+     example, you do not want the tool to replace the word `PVbonds'
+     when it is typed.  To specify exceptions, press the
+     ``Exceptions...''  button in the dialog.  This should pop up the
+     ``Auto correct exceptions'' dialog.  In this dialog, select the
+     ``INitial CApitals'' page.  In this page, type `PVbonds' into the
+     ``Do not correct'' entry, and press ``Add'' button.  Now the word
+     should be included in the list of exceptions.  To remove a word
+     from the list, select the word and press the ``Remove'' button.
+     If you now press ``Ok'' the exceptions in the list are
+     activated.</para>
+
+  </sect3>
+
+  <sect3 id="sect-dataentryadv-autocorrect-first-letter">
+     <title>Capitalize the First Letter of Sentences</title>
+
+     <para>If this correction rule is activated, the first letter of a
+     sentence typed into a cell is capitalized, if it is a lowercase
+     letter in the first place.  Only text that ends to a dot is
+     considered a sentence.</para>
+
+     <para>It is possible to specify exceptions to this tool.  For
+     example, you do not want the tool to capitalize letters after
+     acronym `i.g.'.  To specify exceptions, press the
+     ``Exceptions...''  button in the dialog.  This should pop up the
+     ``Auto correct exceptions'' dialog.  In this dialog, select the
+     ``First letter'' page.  In this page, type `i.g.' into the ``Do
+     not capitalize after'' entry, and press ``Add'' button.  Now the
+     word should be included in the list of exceptions.  To remove a
+     word from the list, select the word and press the ``Remove''
+     button.  If you now press ``Ok'' the exceptions in the list are
+     activated.</para>
+
+  </sect3>
+
+  <sect3 id="sect-dataentryadv-autocorrect-cap-days">
+     <title>Capitalize the Names of Days</title>
+
+     <para>If this correction rule is activated, the first letter of a
+     name of a day is capitalized automatically.  For example, if you
+     type `monday', it is automatically replaced by `Monday'.</para>
+  </sect3>
+
+
+  </sect2>
+
+
+
+
+  <sect2 id="sect-dataentryadv-templates">
+    <title>Using a Format Template</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+   </sect2>
+
+
+  <sect2 id="sect-dataentryadv-random">
+    <title>Generating Random Number Sequences</title>
+
+  <figure id="random-tool-dialog">
+    <title>Random Number Generation Tool Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-random.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the random number generation
+              tool.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+     <para>Use the random number generation tool to generate random
+     numbers.  This tool can generate random numbers from various
+     probability distributions.</para>
+
+     <para>Specify the number of variables in the
+     <quote><guilabel>Number of Variables:</guilabel></quote> entry.
+     This determines the number of columns of random values to be
+     produced.</para> <para> Specify the number of random numbers for
+     each variable in the <quote><guilabel>Size of
+     Sample:</guilabel></quote> entry.  This determines the number of
+     rows of random values to be produced.</para> <para> Specify the
+     random distribution by selecting one of the items from the random
+     distribution list.  The following random distributions are
+     supported: Discrete, Normal, Poisson, Exponential, Binomial,
+     Negative Binomial, Bernoulli, and Uniform.</para> <para> Specify
+     the parameters of the selected distribution:</para>
+
+     <variablelist>
+     <varlistentry><term>Discrete Random Distribution</term>
+     <listitem>
+        <para>Specify the value and probability input range in the
+        <quote><guilabel>Value and Probability Input
+        Range:</guilabel></quote> entry box.  The value and
+        probability input range is a table consisting of two columns
+        and any number of rows.  The first column specifies the
+        discrete random values and the second column the probabilities
+        for them.  The discrete random values do not have to be
+        numbers, for example, strings will do as well.  The sum of the
+        probabilities in the second column should be one.  For
+        example, if you have the values A, B, C, and D in A1:A4 and
+        values 0.1, 0.4, 0.2, and 0.3 in B1:B4, you would specify the
+        value and probability input range to be A1:B4.</para>
+
+	<note><para>If the probabilities do not add to 1, they will be 
+	automatically scaled.</para></note>
+     </listitem></varlistentry>
+
+     <varlistentry><term>Normal Random Distribution</term>
+     <listitem>
+        <para>Specify the mean and the
+	standard deviation.  The default values are 0 for the
+	mean and 1 for the standard deviation.</para>
+     </listitem></varlistentry>
+
+     <varlistentry><term>Poisson Random Distribution</term>
+     <listitem>
+	<para>Specify the lambda in the
+	<quote><guilabel>Lambda</guilabel></quote> entry. Lambda is
+	the average number of events in a unit time interval.</para>
+	</listitem></varlistentry>
+
+     <varlistentry><term>Exponential Random Distribution</term>
+     <listitem>
+	<para>Specify <parameter>b</parameter> in
+	the <quote><guilabel>b Value</guilabel></quote> entry.</para>
+     </listitem></varlistentry>
+
+     <varlistentry><term>Binomial Random Distribution</term>
+     <listitem>
+	<para>Specify the
+	probability of success (<parameter>p</parameter>) in the 
+	<quote><guilabel>p Value</guilabel></quote> entry and  the
+	number of trials (<parameter>n</parameter>) in the 
+	<quote><guilabel>Number of Trials</guilabel></quote> entry.  
+	The Binomial
+	distribution is a discrete distribution in which the
+	experiment consists of <parameter>n</parameter> identical trials. 
+	Each trial is independent of other the trials
+	and has two possible outcomes, a success or a failure.  The
+	probability of success <parameter>p</parameter> is constant from 
+	one trial to another.
+	The mean of a random variable that has a Binomial distribution
+	is <parameter>E(X) = np</parameter>, and the variance is 
+	<parameter>var(X) = np(1-p)</parameter>.</para>
+     </listitem></varlistentry>
+
+     <varlistentry><term>Negative Binomial Distribution</term>
+     <listitem>
+	<para>Specify the probability of success
+	<parameter>p</parameter> in the <quote><guilabel>p
+	Value</guilabel></quote> entry and the number of failures
+	<parameter>r</parameter> in the <quote><guilabel>Number of
+	Failures</guilabel></quote> entry.  Negative Binomial
+	distribution is a discrete distribution in which the
+	experiment consists of a sequence of independent trials.  Each
+	trial has two possible outcomes, a success or a failure.  The
+	probability of success <parameter>p</parameter> is constant
+	from one trial to another.  The experiment continues until
+	<parameter>r</parameter> failures are observed, where
+	<parameter>r</parameter> is fixed in advance.  The mean of a
+	random variable that has a Negative Binomial distribution is
+	<parameter>E(X) = r(1-p)/p</parameter>, and the variance is
+	<parameter>var(X) = r(1-p)/p^2</parameter>.</para>
+	</listitem></varlistentry>
+
+     <varlistentry><term>Bernoulli Random Distribution</term>
+     <listitem>
+        <para>Specify the probability of success
+        (<parameter>p</parameter>) in the <quote><guilabel>p
+        Value</guilabel></quote> entry. <parameter>p</parameter> is a
+        probability value between 0 and 1. The Bernoulli distribution
+        has two random values 0 and 1, and <parameter>p</parameter> is
+        the probability to observe value 1.  The mean of a random
+        variable that has a Bernoulli distribution is <parameter>E(X)
+        = 1(p) + 0(1-p) = p</parameter>, and the variance is
+        <parameter>var(X) = p(1-p)</parameter>.</para>
+        </listitem></varlistentry>
+
+     <varlistentry><term>Uniform Random Distribution</term>
+     <listitem>
+        <para>Specify the range of the continuous random variable with
+        the <quote><guilabel>Between:</guilabel></quote> and
+        <quote><guilabel>And:</guilabel></quote> entries.  The default
+        values for these entries are 0 and 1.</para>
+        </listitem></varlistentry>
+     </variablelist>
+   <figure id="random-example-1">
+    <title>Some Example Data for the Random Number Generation Tool</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-random-ex1.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of some example data for use with the
+              random number generation tool.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+ <example id="usingrandomtool"><title>Using the Random Number Generation Tool</title>
+     <para><xref linkend="random-example-1" /> shows some example data and 
+     <xref linkend="random-example-2" /> the corresponding output.
+     </para>
+</example>
+  <figure id="random-example-2">
+    <title>Random Number Generation Tool Output</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-random-ex2.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output from the random number
+              generation tool.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  </sect2>
+
+
+</sect1>
+

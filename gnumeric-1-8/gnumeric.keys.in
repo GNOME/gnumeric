@@ -1,0 +1,132 @@
+application/x-gnumeric
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-gnumeric.png
+
+application/vnd.ms-excel
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-xls.png
+
+application/msexcel
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-xls.png
+
+application/x-msexcel
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-xls.png
+
+application/x-ms-excel
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-xls.png
+
+application/vnd.ms-excel
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-xls.png
+
+application/x-excel
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-xls.png
+
+x-dos_ms_excel
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-xls.png
+
+application/xls
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-xls.png
+
+application/x-xls
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-xls.png
+
+zz-winassoc-xls
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-xls.png
+
+application/x-applix-spreadsheet
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-applix-spreadsheet.png
+
+application/vnd.lotus-1-2-3
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-vnd.lotus-1-2-3.png
+
+text/x-comma-separated-values
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-generic-spreadsheet.png
+
+text/comma-separated-values
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-generic-spreadsheet.png
+
+text/csv
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-generic-spreadsheet.png
+
+application/csv
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-generic-spreadsheet.png
+
+application/tab-separated-values
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-generic-spreadsheet.png
+
+application/x-oleo
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-generic-spreadsheet.png
+
+application/x-xbase
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-generic-spreadsheet.png
+
+application/vnd.sun.xml.calc
+	open=gnumeric %f
+	view=gnumeric %f
+
+application/vnd.sun.xml.calc.template
+	open=gnumeric %f
+	view=gnumeric %f
+
+application/x-quattro-pro
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-generic-spreadsheet.png
+
+application/x-sc
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-generic-spreadsheet.png
+
+application/x-sylk
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-generic-spreadsheet.png
+
+application/x-planperfect
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-generic-spreadsheet.png
+
+application/x-mps
+	open=gnumeric %f
+	view=gnumeric %f
+	icon-filename=@gnumeric_icondir@/gnome-application-x-generic-spreadsheet.png

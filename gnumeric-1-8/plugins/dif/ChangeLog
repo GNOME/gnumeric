@@ -1,0 +1,612 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-22  Jody Goldberg <jody@gnome.org>
+
+	* dif.c (dif_file_save) : fix un-initialized mem usage.
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-11-08  Jody Goldberg <jody@gnome.org>
+
+	* dif.c (dif_file_save) : export errors, booleans, and values
+	  properly.
+
+2006-11-08  Jody Goldberg <jody@gnome.org>
+
+	* dif.c (dif_parse_sheet) : use the new
+	  gnm_push_C_locale/gnm_pop_C_locale utils.
+	(dif_file_save) : ditto.
+
+2006-11-08  Jody Goldberg <jody@gnome.org>
+
+	Get things partially working.
+	* dif.c (dif_get_line) : inc the line number so that error messages
+	  are more useful.
+	(dif_parse_data) : handle quoted strings properly.
+	(dif_parse_data) : handle other value types.
+	(dif_file_save) : fix off by one in count of exported cols/rows.
+	(dif_file_save) : fix ancient typo in exported strings. "1,0" not
+	  "1.0"
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dif.c: replaced gi18n.h by gi18n-lib.h.
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-07-28  Morten Welinder  <terra@gnome.org>
+
+	* dif.c (dif_file_open): Call gnumeric_io_error_occurred instead
+	of checking that its address is non-NULL.
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-29  Jody Goldberg <jody@gnome.org>
+
+	* dif.c (dif_file_save) : remove unused variable and tidy constness.
+
+2002-11-28  Jon K Hellan  <hellan@acm.org>
+
+	* dif.c (dif_file_save): Port to gsf output.
+
+2002-11-18  Morten Welinder  <terra@diku.dk>
+
+	* dif.c (dif_get_line): Do UTF-8 conversions.
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-14  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Remove "open" and "import" attributes.
+
+2002-11-07  Jody Goldberg <jody@gnome.org>
+
+	* dif.c (dif_file_open) : hard code the default saver
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-10-04  Jody Goldberg <jody@gnome.org>
+
+	* dif.c : fix includes.
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-06-14  Jody Goldberg <jody@gnome.org>
+
+	* dif.c (dif_parse_header) : convert to libgsf.
+	(dif_file_open) : ditto.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.3
+
+2002-03-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.2
+
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
+2002-02-19  Peter Moulder  <pmoulder@csse.monash.edu.au>
+
+	* dif.c (dif_file_save): Ensure r is initialized before use.
+	  Affects VECTORS and TUPLES values in dif header.
+
+2002-02-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.0
+
+2002-01-23  Jody Goldberg <jody@gnome.org>
+
+	* dif.c : glib now has g_alloca, no need for portability.h
+
+2002-01-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.3
+
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.2
+
+2002-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.1
+
+2001-12-31  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* dif.c (DifInputContext) : use 'guchar' for data and cur.
+	* dif.c (dif_input_context_new) : use 'guchar' for data.
+	* dif.c (dif_input_context_destroy) : use 'guchar' pointers.
+	* dif.c (dif_get_line) : ditto.
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.0
+
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.1
+
+2001-12-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.0
+
+2001-11-19  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.76
+
+2001-11-05  Jody Goldberg <jgoldberg@home,com>
+
+	* Release 0.75
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.74
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.73
+
+2001-10-26  Morten Welinder  <terra@diku.dk>
+
+	* dif.c (dif_parse_header): Eliminate invalid allocs.
+
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.72
+
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
+2001-09-25  Jon K Hellan  <hellan@acm.org>
+
+	* .cvsignore: Add plugin.xml
+
+2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml: Removed
+
+	* plugin.xml.in: Copied from plugin.xml, prepared for localization.
+
+	* Makefile.am: Use xml-i18n-tools to create plugin.xml (with
+	translations merged from .po file).
+
+	* dif.c (dif_file_save): Use gnumeric_io_error_string.
+
+2001-08-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.70
+
+2001-08-11  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.69
+
+2001-07-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.68
+
+2001-07-15  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* dif.c (dif_file_open):
+	s/gnumeric_io_error_info_push/gnumeric_io_error_push/
+
+	* plugin.xml (<information>):
+	s/CSV/DIF
+
+2001-07-01  Morten Welinder  <terra@diku.dk>
+
+	* dif.c: Compilation fix from Adrian Bunk.
+
+2001-06-28  Jody Goldberg <jgoldberg@home>
+
+	* Release 0.67
+
+2001-06-28  Jody Goldberg <jgoldberg@home.com>
+
+	* dif.c (dif_file_save) : we don't handle spans or merges.
+
+2001-06-27  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.66
+
+2001-06-12  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* dif.c (dif_input_context_new): Adjusted to memory_io_progress_set
+	signature change.
+
+2001-06-04  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml (<service>): Set save_scope to "sheet".
+
+2001-06-03  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am (INCLUDES) : add top_builddir so that we can gt
+	  portability.h
+
+2001-06-01  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* dif.c (dif_input_context_new, dif_input_context_destroy, dif_get_line,
+	dif_eat_line): Report reading progress via io_context.
+
+2001-05-31  Karl Eichwalder  <ke@suse.de>
+
+	* dif.c (dif_file_save): Normalize message string.
+
+2001-05-31  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* dif.c
+	(dif_input_context_new): Allocate "empty" line by default.
+	(dif_get_line): Fixed typo.
+
+2001-05-29  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* dif.c
+	New line parsing routine - doesn't allocate/deallocate memory at every
+	input line, stops processing at the end of mmaped file (instead of
+	crashing).
+	Write empty cells too (previous behaviour was incorrect).
+	Write the current sheet instead of the first one (for XL compatibility).
+	Detailed error reporting, fixed leaks, general cleanup.
+
+	* dif.h: Removed.
+
+	* Makefile.am (dif_la_SOURCES): Removed dif.h
+
+	* plugin.xml (<service>): Set "open" to TRUE, added <file_patterns>.
+
+2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* dif.c (dif_file_open, dif_file_save):
+	s/FileOpener/GnumFileOpener/
+	s/FileSaver/GnumFileSaver/
+
+	* plugin.xml (<service>): Register only as importer.
+
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.65
+
+2001-04-19  Jody Goldberg <jgoldberg@home.com>
+
+	* dif.c (dif_file_save) : fix leak.  Why do we only save the first
+	  sheet ?
+
+2001-03-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.64
+
+2001-02-23  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.63
+
+2001-02-16  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.62
+
+2001-02-12  Karl Eichwalder  <ke@suse.de>
+
+	* Makefile.am (EXTRA_DIST): New variable; add
+	$(gnumeric_plugin_dif_DATA).
+
+2000-12-17 Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.61
+
+2000-12-7  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.60
+
+2000-11-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.59
+
+2000-11-13  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.58
+
+2000-11-12  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* dif.c
+	(dif_write_workbook): Don't use sheet->rows and sheet->cols, instead
+	use sheet_get_extent.
+
+2000-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* dif.c : Adjust to the signature changes for reading views
+	  rather than workbooks.
+
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.57
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.56
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.55
+
+2000-05-20  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.54
+
+2000-05-09  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.53
+
+2000-04-20  Jody Goldberg <jgoldberg@home.com>
+
+	* dif.c (dif_parse_dat) : Use sheet_cell_fetch just in case. Some
+	  minor reformating.
+	(dif_write_cell) : This is very broken. Remove some unused args.
+	(dif_write_workbook) : Remove setvbuf.  That level of optimization is
+	  not necessary.
+
+2000-03-23  Jon K Hellan  <hellan@acm.org>
+
+	* dif.c (dif_read_workbook): Set save info, tag as manual.
+	(init_plugin): Tag saver as manual
+
+2000-02-26  Jody Goldberg <jgoldberg@home.com>
+
+	* dif.c (dif_read_workbook) : Bug 5716.
+
+2000-01-31  Jon K Hellan  <hellan@acm.org>
+        * dif.c	(dif_write_workbook): Improve reporting.
+
+2000-01-31  Jon K Hellan  <hellan@acm.org>
+
+	* dif.c (dif_write_workbook): Call gnumeric_error_save on failure.
+
+2000-01-29  Jon K Hellan  <hellan@acm.org>
+
+	* dif.c (dif_read_workbook, dif_write_workbook): Add
+	CommandContext.
+	(dif_read_workbook): Return 0 on success, -1 on failure.
+	 Use gnumeric_error_read to report errors.
+
+1999-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* dif.c (dif_read_workbook) : Preliminary error reporting support.
+
+1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
+
+	* dif.c (dif_cleanup_plugin): free pd->title
+	(MAP_FAILED) defined MAP_FAILED where missing.  (from csv-io.c)
+
+1999-11-19  Kevin Handy  <kth@srv.net>
+
+	* dif.h, dif.c: Initial version.

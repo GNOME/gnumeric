@@ -1,0 +1,313 @@
+<sect1 id="sect-configuration-preferences">
+  <title>General Preferences</title>
+
+  <para>
+    &gnum; provides several general preferences which can be set by
+    the user using the <interface>Preferences Dialog</interface>.  
+  </para>
+
+  <para>
+    The <interface>Preferences Dialog</interface> has several
+    pages. Each page addresses a certain aspects of using &gnum;. The
+    pages are selected by clicking on one of the options in the top
+    left column. These act like a tab interface in changing the rest
+    of the dialog options.
+  </para>
+
+  <tip>
+    <title>Tooltips appear under the mouse pointer</title>
+
+    <para>
+       When the mouse pointer is placed over an entry field or a
+       checkbox, after a certain delay, a temporary tooltip may
+       appear. The tooltip is a small window with information about
+       each option. The tooltip disappears once the mouse pointer is
+       moved to a new area of the screen.
+    </para>
+  </tip> 
+ 
+  <warning>
+    <title>Some preferences require advanced understanding.</title>
+
+    <para>
+       Certain of the options, such as the options for changing the
+       number of pixels per length (the 'pixel pitch') on the screen,
+       are generally set correctly automatically. These options are
+       fundamental and should only be changed by users who understand
+       the option.
+    </para>
+  </warning> 
+
+
+
+
+
+  <sect2 id="sect-configuration-preferences-usage">
+    <title>Using the Preferences Dialog</title>
+
+    <para>
+      The preference dialog can be started by selecting the
+      <guimenu>File</guimenu> and then the 
+      <guimenuitem>Preferences</guimenuitem> menu item.
+    </para>
+
+    <para>
+      The dialog is used by selecting one of the categories in the top
+      left column of options and then changing the settings for that
+      option. The categories are presented as a list; each can be
+      selected in turn by placing the mouse pointer over the desired
+      element and clicking with the primary mouse button.
+    </para>
+
+    <para>
+      Certain elements, such as the <guilabel>Font</guilabel>
+      preference, have a small triangle in front of their
+      name. Clicking on this triangle will open a sub-element line
+      which allows the sub-element to be selected and have its options
+      altered. 
+    </para>
+
+  </sect2>
+
+
+
+
+
+  <sect2 id="sect-configuration-preferences-font">
+    <title>Font Preferences</title>
+
+    <para>
+      The font preferences allow the user to change the font which is
+      used by default in the &gnum; grid cells and to set the font
+      used for headers and footers when printing.
+    </para>
+
+    <para>
+      The <interface>Font</interface> selection sets the default font
+      name, size and style to be used in the cells on every sheet. 
+    </para>
+
+    <figure id="fig-configuration-preferences-font">
+      <title><interface>Display Font</interface></title>
+      <mediaobject>
+        <imageobject>
+	  <imagedata format="PNG"
+		     fileref="figures/preferences-font.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>
+      The <interface>Headers/Footers</interface> selection sets the
+      font name, size and style which will be used, by default, in the
+      headers and footers added to each page of printed output. These
+      selections can be over-ridden in the print preferences dialog as
+      explained in <xref linkend="chapter-printing" />. The content of
+      the headers and footers is determined via the <interface> Page
+      Setup dialog</interface>, detailed in <xref
+      linkend="sect-printing-setup" />.
+    </para>
+
+    <figure id="fig-configuration-preferences-font-header">
+      <title><interface>Header &amp; Footer Font</interface></title>
+      <mediaobject>
+        <imageobject>
+	  <imagedata format="PNG"
+		   fileref="figures/preferences-font-header.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+  </sect2>
+
+
+
+
+
+  <sect2 id="sect-configuration-preferences-copypaste">
+    <title>Copy and Paste Preferences</title>
+
+
+    <para>
+      The <interface>Copy and Paste</interface> element allows the
+      user to determine how copied items are integrated into the
+      clipboard mechanism.
+    </para>
+
+    <figure id="fig-configuration-preferences-windows">
+      <title><interface>Copy and Paste</interface></title>
+      <mediaobject>
+        <imageobject>
+	  <imagedata format="PNG"
+		   fileref="figures/preferences-copypaste.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </sect2>
+
+
+
+
+
+  <sect2 id="sect-configuration-preferences-files">
+    <title>File Preferences</title>
+
+    <para>
+      The <interface>Files</interface> element provides settings related
+      to the handling of files.
+    </para>
+
+    <figure id="configuration-preferences-files">
+      <title><interface>Files</interface></title>
+      <mediaobject>
+        <imageobject>
+	  <imagedata format="PNG"
+		   fileref="figures/preferences-files.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <tip>
+      <title>The number of recently used files</title>
+      <para>
+        If you are usually using one of a small number of documents,
+        you should set the <interface>Length of File
+        History</interface> to be slightly larger than the number of
+        these documents.
+      </para>
+    </tip> 
+
+  </sect2>
+
+
+
+
+
+  <sect2 id="sect-configuration-preferences-tools">
+    <title>Tools Preferences</title>
+
+
+    <para>
+      The <interface>Tools</interface> element allows to determine the
+      settings for the recently used function list, for autocompletion
+      of data entry in cells and for range selections.
+    </para>
+
+    <figure id="configuration-preferences-tools">
+      <title><interface>Tools</interface></title>
+      <mediaobject>
+        <imageobject>
+	  <imagedata format="PNG"
+		   fileref="figures/preferences-tools.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>
+      The <interface>Sorting</interface> element allows to determine the
+      default settings for the <interface>Sort Dialog</interface>.
+    </para>
+
+    <figure id="configuration-preferences-sorting">
+      <title><interface>Sorting</interface></title>
+      <mediaobject>
+        <imageobject>
+	  <imagedata format="PNG"
+		   fileref="figures/preferences-sorting.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+  </sect2>
+
+
+
+
+
+  <sect2 id="sect-configuration-preferences-undo">
+    <title>Undo History Preferences</title>
+
+    <para>
+      The <interface>Undo</interface> element permits to customize the
+      undo feature. You would normally like the number of undo items
+      to be in the 10 to 25 range and the maximal undo size to be
+      10000 to 100000, unless you only have little memory available.
+    </para>
+
+    <figure id="configuration-preferences-undo">
+      <title><interface>Undo</interface></title>
+      <mediaobject>
+        <imageobject>
+	  <imagedata format="PNG"
+		   fileref="figures/preferences-undo.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+  </sect2>
+
+
+
+
+
+  <sect2 id="sect-configuration-preferences-windows">
+    <title>Windows Preferences</title>
+
+    <para>
+      The windows preferences include options to set the default
+      appearance of the whole window displaying the &gnum; interface
+      as well as 
+    </para>
+
+    <para>
+      The <interface>Windows</interface> element includes a variety of
+      options that did not fit within any of the other tabs.
+    </para>
+
+    <figure id="configuration-preferences-various">
+      <title><interface>Windows</interface></title>
+      <mediaobject>
+        <imageobject>
+	  <imagedata format="PNG"
+		   fileref="figures/preferences-windows.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <para>
+      The <interface>Screen</interface> elements allows the user to
+      set the pixel pitch (number of pixels per length) for the
+      screen. This is a fundamental property of the display which
+      should be set correctly by default. 
+    </para>
+
+    <figure id="configuration-preferences-various-internal">
+      <title><interface>Screen</interface></title>
+        <mediaobject>
+          <imageobject>
+	    <imagedata format="PNG"
+		   fileref="figures/preferences-screen.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <warning>
+      <title>The pixel pitch is fundamental</title>
+
+      <para>
+        These options affect the display of &gnum; and should only be
+        changed after serious consideration. By default these options
+        should be correct and should only be altered for non-standard
+        screens and when the appearance of &gnum; and its contents are
+        clearly incorrect.
+      </para>
+    </warning>
+
+  </sect2>
+
+
+</sect1>
+
+
+
+

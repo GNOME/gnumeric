@@ -1,0 +1,22 @@
+Here is a short description of the analysis-tools:
+
+SS = Sum of Squares
+MS = Mean Square   (MS = SS/df)
+df = degree of freedom
+
+Multiple R = Multiple Regression
+R Square   = coefficient of determination, but in some langs mathematics
+	     use R^2, so ask you math teacher :)
+ANOVA      = ANalysis Of VAriance
+
+Ask if you want :)
+
+Valek <frob@df.ru> and Kenneth <kenneth@gnu.org>
+Created with help from Pete.
+
+t-test: technically called Student's t-test
+F-test: used to test whether the variances of two samples are different
+Named after Fischer
+t-test: used to test whether the means of two samples are  different 
+http://stat.ethz.ch/R-alpha/library/base/html/t.test.html
+http://www.statsol.com/tools/stattools/ttestindependenttoolhelp.html

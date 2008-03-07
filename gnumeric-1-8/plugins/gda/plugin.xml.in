@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_gdaif">
+	<information>
+		<_name>Database</_name>
+		<_description>Database functions for retrieval of data from a database.</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="gdaif"/>
+	</loader>
+	<services>
+		<service type="function_group" id="gdaif">
+			<_category>Database</_category>
+			<functions>
+				<function name="execSQL"/>
+				<function name="readDBTable"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

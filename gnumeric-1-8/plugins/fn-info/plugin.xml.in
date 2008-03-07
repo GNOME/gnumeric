@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_fninfo">
+	<information>
+		<_name>Information Functions</_name>
+		<_description>Functions for inspecting values, cells, and more</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="plugin"/>
+	</loader>
+	<services>
+		<service type="function_group" id="info">
+			<_category>Information</_category>
+			<functions>
+				<function name="cell"/>
+				<function name="countblank"/>
+				<function name="error"/>
+				<function name="error.type"/>
+				<function name="expression"/>
+				<function name="info"/>
+				<function name="isblank"/>
+				<function name="iserr"/>
+				<function name="iserror"/>
+				<function name="iseven"/>
+				<function name="islogical"/>
+				<function name="isna"/>
+				<function name="isnontext"/>
+				<function name="isnumber"/>
+				<function name="isodd"/>
+				<function name="isref"/>
+				<function name="istext"/>
+				<function name="n"/>
+				<function name="na"/>
+				<function name="type"/>
+				<function name="getenv"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

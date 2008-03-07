@@ -1,0 +1,47 @@
+Index: data/Makefile.am
+===================================================================
+--- data/Makefile.am	(revision 1658)
++++ data/Makefile.am	(working copy)
+@@ -15,8 +15,11 @@
+ SUBDIRS = $(glade3_directory_16) $(glade3_directory_22)
+ 
+ # GConf schemas
++scemas = libgnomedb-3.0.schemas
+ schemadir   = $(GCONF_SCHEMA_FILE_DIR)
+-schema_DATA = libgnomedb-3.0.schemas
++if GCONF_SCHEMAS_INSTALL
++schema_DATA = $(schemas)
++endif
+ 
+ @INTLTOOL_SCHEMAS_RULE@
+ 
+Index: configure.in
+===================================================================
+--- configure.in	(revision 1658)
++++ configure.in	(working copy)
+@@ -118,11 +118,23 @@
+ ALL_LINGUAS="ar az be ca cs da de dz el en_CA en_GB es eu fa fi fr ga gl hr hu it ja ka ko lt ml ms nb ne nl pl pt pt_BR ru rw sk sl sq sr sr@Latn sv ta tr uk vi zh_CN zh_HK zh_TW"
+ AM_GLIB_GNU_GETTEXT
+ 
++dnl The following conditional is set in AM_GCONF_SOURCE_2.
++dnl Because we may skip its execution, we have to set a default here.
++AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL], [false])
++m4_pattern_allow([^AM_GCONF_SOURCE_2$])
++
+ dnl *******************************
+ dnl GConf schemas
+ dnl ******************************
+-AC_PATH_PROG(GCONFTOOL, gconftool-2)
+-AM_GCONF_SOURCE_2
++dnl Don't publish the GCONFTOOL variable, AM_GCONF_SOURCE_2 has ``gconftool-2'' hardwired.
++GCONFTOOL=
++AC_CHECK_PROG([GCONFTOOL], [gconftool-2], [gconftool-2], [no])
++if test "x$GCONFTOOL" = "xno"; then
++    AC_MSG_WARN([Unable to find gconftool-2])
++else
++    AM_GCONF_SOURCE_2
++fi
++AM_CONDITIONAL(WITH_GCONF, test "x$GCONFTOOL" != "xno")
+ 
+ dnl ******************************
+ dnl Checks for GConf librarie

@@ -1,0 +1,326 @@
+<sect1 id="sect-gui-mouse">
+  <title>The Mouse Pointers used by Gnumeric</title>
+
+  <para>
+    The shape of the mouse pointer (the pointer which is movable by
+    the mouse) changes in different contexts. This indicates that
+    different functionality is available and that mouse clicks will
+    have different results. The different mouse pointers and the
+    actions they indicate are discussed below.
+  </para>
+
+  <variablelist>
+
+    <varlistentry>
+      <term>
+        <inlinemediaobject> 
+          <imageobject>
+            <imagedata fileref="figures/pointer_left.png" 
+                format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An arrow pointing to the upper left.</phrase>
+            </textobject>
+        </inlinemediaobject>
+          The left pointing arrow pointer:
+      </term>
+      <listitem>
+        <para>
+          The left hand pointing arrow pointer is the standard pointer
+          used for most of the interaction with
+          &gnum;. This pointer is used to
+          select menus and menu entries, toolbar buttons, columns or
+          rows, the scrolling `thumbs' and various other elements.
+        </para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>
+              <inlinemediaobject> 
+                <imageobject>
+                  <imagedata fileref="figures/pointer_cross_wide.png" 
+                      format="PNG" />
+                </imageobject>
+                <textobject>
+                  <phrase>A wide white cross with black shading.</phrase>
+                </textobject>
+              </inlinemediaobject>
+              The cell selection pointer:
+      </term>
+      <listitem>
+        <para>
+          This pointer appears over the cell grid area and can be used
+          to select cells for editing.
+        </para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>
+              <inlinemediaobject> 
+                <imageobject>
+                  <imagedata fileref="figures/pointer_text_edit.png" 
+                      format="PNG" />
+                </imageobject>
+                <textobject>
+                  <phrase>A vertical bar limited at each end by short
+                  horizontal stubs.</phrase>
+                </textobject>
+              </inlinemediaobject>
+              The text editing pointer:
+      </term>
+      <listitem>
+        <para>
+          The text editing pointer is used to indicate the location in
+          the text where new edits will appear. This cursor can be used
+          to change the scale of the zoom, to change the name and size
+          of the font currently used or to edit the cell contents in
+          the cell entry area (the white area to the right of the
+          equals (=) sign.
+        </para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>
+              <inlinemediaobject> 
+                <imageobject>
+                  <imagedata fileref="figures/pointer_cross_hair.png" 
+                      format="PNG" />
+                </imageobject>
+                <textobject>
+                  <phrase>A thin cross pointer</phrase>
+                </textobject>
+              </inlinemediaobject>
+              The crosshair pointer:
+      </term>
+      <listitem>
+        <para>
+          The crosshair pointer can be used to change the cell
+          selection area. The pointer appears when the mouse pointer is
+          placed over the handle box, the black square at the lower
+          right hand side of the selection. When the crosshair pointer
+          appear, the selection can be altered by clicking the
+          left-hand mouse button and dragging the handle to a new
+          position. The cross hair pointer can also be used to insert a
+          graphic object, by clicking with the left hand mouse button
+          to place one corner and releasing the button to place another
+          of the corners.
+        </para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>
+              <inlinemediaobject> 
+                <imageobject>
+                  <imagedata 
+                      fileref="figures/pointer_double_vertical_arrow.png" 
+                      format="PNG" />
+                </imageobject>
+                <textobject>
+                  <phrase>A double ended vertical arrow.</phrase>
+                </textobject>
+              </inlinemediaobject>
+              <inlinemediaobject> 
+                <imageobject>
+                  <imagedata 
+                      fileref="figures/pointer_double_horizontal_arrow.png" 
+                      format="PNG" />
+                </imageobject>
+                <textobject>
+                  <phrase>A double ended horizontal arrow.</phrase>
+                </textobject>
+              </inlinemediaobject>
+              The expansion pointers:
+      </term>
+      <listitem>
+        <para>
+          These pointers can be used to change the height of rows or
+          the width of columns. These pointers appear in certain dialog
+          windows to resize the different parts of the dialog. The
+          pointers are also used to resize graphical objects as is
+          explained below.
+        </para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>
+              <inlinemediaobject> 
+                <imageobject>
+                  <imagedata fileref="figures/pointer_hand_left.png" 
+                      format="PNG" />
+                </imageobject>
+                <textobject>
+                  <phrase>A left pointing hand icon.</phrase>
+                </textobject>
+              </inlinemediaobject>
+              The sheet selection and hyperlink pointer:
+      </term>
+      <listitem>
+        <para>
+          This pointer appears above the sheet tabs and can be used,
+          by left clicking, to change the currently selected sheet or,
+          by right clicking, to obtain the sheet dialog box. This
+          pointer also appears above cells which are hyperlinks. Left
+          clicking on a hyperlink may change the view to a new
+          location, or may open an external file.
+        </para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>
+              <inlinemediaobject> 
+                <imageobject>
+                  <imagedata fileref="figures/pointer_right.png" 
+                      format="PNG" />
+                </imageobject>
+                <textobject>
+                  <phrase>An arrow pointing to the upper right.</phrase>
+                </textobject>
+              </inlinemediaobject>
+              The right pointing arrow pointer:
+      </term>
+      <listitem>
+        <para>
+          The right hand pointing arrow pointer is used to select
+          graphical objects (such as drawing objects (e.g. arrows,
+          ellipses) and graph objects (e.g. charts)).
+        </para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>
+              <inlinemediaobject> 
+                <imageobject>
+                  <imagedata fileref="figures/pointer_four_way_arrow.png" 
+                      format="PNG" />
+                </imageobject>
+                <textobject>
+                  <phrase>A four way arrow.</phrase>
+                </textobject>
+              </inlinemediaobject>
+              The movement pointer:
+      </term>
+      <listitem>
+        <para>
+          The movement pointer can be used to move graphical objects
+          around a worksheet without resizing the object.
+        </para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>
+              <inlinemediaobject> 
+                <imageobject>
+                  <imagedata 
+                      fileref="figures/pointer_double_vertical_arrow.png" 
+                      format="PNG" />
+                </imageobject>
+                <textobject>
+                  <phrase>A double ended vertical arrow.</phrase>
+                </textobject>
+              </inlinemediaobject>
+              <inlinemediaobject> 
+                <imageobject>
+                  <imagedata 
+                      fileref="figures/pointer_double_horizontal_arrow.png" 
+                      format="PNG" />
+                </imageobject>
+                <textobject>
+                  <phrase>A double ended horizontal arrow.</phrase>
+                </textobject>
+              </inlinemediaobject>
+              <inlinemediaobject> 
+                <imageobject>
+                  <imagedata fileref="figures/pointer_diagonal_resize.png" 
+                      format="PNG" />
+                </imageobject>
+                <textobject>
+                  <phrase>A diagonal double arrow with center box.</phrase>
+                </textobject>
+              </inlinemediaobject>
+              The graphical object re-sizing pointers:
+      </term>
+      <listitem>
+        <para>
+          These pointers allow the resizing of graphical objects. If the
+          mouse pointer is placed over one of the handle boxes of the
+          graphical object, the handle box will turn green and the
+          pointer will change to one of these forms. When these pointers
+          appear, click dragging with the left mouse button will
+          resize the graphical object either scaling or stretching the
+          object.
+        </para>
+      </listitem>
+    </varlistentry>
+
+<!--
+    <varlistentry>
+      <term>
+              <inlinemediaobject> 
+                <imageobject>
+                  <imagedata fileref="figures/pointer_zoom_in.png" 
+                      format="PNG" />
+                </imageobject>
+                <textobject>
+                  <phrase>A magnifing glass icon with a plus symbol.
+                  </phrase>
+                </textobject>
+              </inlinemediaobject>
+              <inlinemediaobject> 
+                <imageobject>
+                  <imagedata fileref="figures/pointer_zoom_out.png" 
+                      format="PNG" />
+                </imageobject>
+                <textobject>
+                  <phrase>A magnifing glass icon with a minus symbol.
+                  </phrase>
+                </textobject>
+              </inlinemediaobject>
+              The zoom pointers:
+      </term>
+      <listitem>
+        <para>
+          These pointers
+        </para>
+      </listitem>
+    </varlistentry>
+-->
+
+    <varlistentry>
+      <term>
+              <inlinemediaobject> 
+                <imageobject>
+                  <imagedata fileref="figures/pointer_resize_multiple.png" 
+                      format="PNG" />
+                </imageobject>
+                <textobject>
+                  <phrase>Several pointers used to resize dialogs and
+                  windows.</phrase>
+                </textobject>
+              </inlinemediaobject>
+              The window resizing pointers:
+      </term>
+      <listitem>
+        <para>
+          These pointers are used to change the size of
+          &gnum; windows and dialogs.
+        </para>
+      </listitem>
+    </varlistentry>
+
+
+  </variablelist>
+
+
+</sect1>
+ 
+
+
+

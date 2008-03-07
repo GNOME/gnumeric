@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_guile">
+	<information>
+		<_name>Guile Plugin</_name>
+		<_description>This plugin enables Guile(scheme) support in Gnumeric</_description>
+		<require_explicit_enabling/>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="guile"/>
+	</loader>
+</plugin>

@@ -1,0 +1,352 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2006-03-23  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_workday): Implement a fairly decent
+	version of this.
+	(gnumeric_edate, gnumeric_eomonth): Improve compatibility.
+
+2006-03-19  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (datedif_opt_yd): Use g_date_days_between.
+
+2006-01-26  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_date): Improve Excel compatibility.
+
+2006-01-24  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_second, gnumeric_minute, gnumeric_hour):
+	Improve Excel compatibility.
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-07-15  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_days360) : method is a bool in XL.  Assume
+	  method non-0 == 1. [#310518]
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-12-09  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_unix2date): Mea culpa.  Handle fractional
+	seconds correctly.
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-07-14  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : s/january/January/
+
+2003-07-08  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_days360): Simplify greatly using
+	days_between_basis.
+
+2003-07-01  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_yearfrac): Use yearfrac.
+
+2003-06-30  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_datevalue) : add mention of 1900 vs 1904
+	  conventions.
+
+2003-06-27  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_yearfrac) : add to round things out.
+
+2003-06-12  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : Some docs cleanups as per
+	http://bugzilla.gnome.org/show_bug.cgi?id=115028
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-25  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_days360): Add a sane method also.
+
+2002-11-25  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_days360): Don't be sane, be compatible.
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-04  Morten Welinder  <terra@diku.dk>
+
+	* functions.c: Adapt to new auto-format specs.
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-10-15  Morten Welinder  <terra@diku.dk>
+
+	* plugin.xml.in: Add YEARFRAC.
+
+2002-10-14  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : the marshaller handles implicit conversions
+	  so change most of the functions to take 'f' in place of 'S'
+	  - remove the checks for VALUE_ERROR that is handled in func.c
+	  - Found a missing function 'yearfrac' that was apparently
+	    added in xl 2k.  Added a stub
+	  - add status
+	  - Assign a format to some of the results
+
+2002-10-14  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_datedif): Use floorgnum, not floor.
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+2002-07-27  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Function description clean up.
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-07-13  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_isoyear) : silence some warnings.
+
+2002-07-07  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Added function ISOYEAR.
+
+	* functions.c (gnumeric_date, datedif_opt_yd, datedif_opt_md,
+	gnumeric_year, gnumeric_month, gnumeric_day, gnumeric_weekday,
+	gnumeric_days360, gnumeric_eomonth, gnumeric_workday,
+	get_serial_weekday, networkdays_holiday_callback,
+	gnumeric_networkdays): Replaced deprecated g_date_xxx with
+	g_date_get_xxx.
+	(gnumeric_isoweeknum): Cross reference ISOYEAR in docs.
+	(gnumeric_isoyear): New function implementing new spreadsheet
+	funtion ISOYEAR: The year an ISO 8601 week number refers to.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+

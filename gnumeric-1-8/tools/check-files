@@ -1,0 +1,103 @@
+#!/usr/bin/perl -w
+#
+#  Gnumeric
+#
+#  Copyright (C) 2001 Morten Welinder.
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License as
+#  published by the Free Software Foundation; either version 2 of the
+#  License, or (at your option) any later version.
+#
+#  This library is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#  General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this library; if not, write to the Free Software
+#  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+#  Author: Morten Welinder <terra@gnome.org>
+
+use strict;
+
+my $exitcode = 0;
+
+die "$0: must be run from top-level directory.\n"
+    unless (-r "configure.in" &&
+	    -r 'ChangeLog' &&
+	    -r 'po/POTFILES.in');
+
+my %exceptions =
+    (
+     );
+
+
+my $pofilename = "po/POTFILES.in";
+my @pot_files;
+my %pot_files;
+{
+    local (*POT);
+    open (*POT, "<$pofilename") or die "Cannot read $pofilename: $!\n";
+    while (<POT>) {
+	next if /^\s*\#/ || /^\s*$/;
+	next if /^\s*\[encoding/;
+	chomp;
+	if(/^\s+/) {
+		print STDERR "WARNING: leading whitespace detected in line ($_)\n";
+		s/^\s+//;
+	}
+	if(/\s+$/) {
+		print STDERR "WARNING: trailing whitespace detected in line ($_)\n";
+		s/\s+$//;
+	}
+	push @pot_files, $_;
+	$pot_files{$_} = 1;
+    }
+}
+
+foreach my $filename (@pot_files) {
+    next if -r $filename && -f $filename;
+
+    print STDERR "$0: File `$filename' listed in $pofilename isn't there.\n";
+    $exitcode = 1;
+}
+
+{
+    my $first_unknown = 1;
+
+    local (*CVS);
+    open (*CVS, "cvs -nq update 2>&1 |")
+	or die "$0: cannot execute cvs: $!\n";
+    while (<CVS>) {
+	chomp;
+
+	if (/\? (.*)$/) {
+	    print STDERR "$0: File `$1' is not known.\n";
+	    if ($first_unknown) {
+		$first_unknown = 0;
+		print STDERR "$0:   Suggest delete, cvs add, or .cvsignore solution.\n";
+	    }
+	    $exitcode = 1;
+	    next;
+	}
+
+	if (/A (.*)$/) {
+	    print STDERR "$0: New file `$1' has not been committed.\n";
+	    $exitcode = 1;
+	    next;
+	}
+
+	if (/D (.*)$/) {
+	    print STDERR "$0: Deletion of file `$1' has not been committed.\n";
+	    if ($pot_files{$1}) {
+		print STDERR "$0: FYI, that file is in $pofilename.\n";
+	    }
+	    $exitcode = 1;
+	    next;
+	}
+    }
+}
+
+exit $exitcode;

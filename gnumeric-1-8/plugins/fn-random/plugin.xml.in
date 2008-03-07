@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_fnrandom">
+	<information>
+		<_name>Random Number Functions</_name>
+		<_description>Functions for generating random numbers</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="plugin"/>
+	</loader>
+	<services>
+		<service type="function_group" id="random">
+			<_category>Random Numbers</_category>
+			<functions>
+				<function name="rand"/>
+				<function name="randbernoulli"/>
+				<function name="randbeta"/>
+				<function name="randbetween"/>
+				<function name="randbinom"/>
+				<function name="randcauchy"/>
+				<function name="randchisq"/>
+				<function name="randdiscrete"/>
+				<function name="randexp"/>
+				<function name="randexppow"/>
+				<function name="randfdist"/>
+				<function name="randgamma"/>
+				<function name="randnorm"/>
+				<function name="randnormtail"/>
+				<function name="randgeom"/>
+				<function name="randgumbel"/>
+				<function name="randhyperg"/>
+				<function name="randlandau"/>
+				<function name="randlaplace"/>
+				<function name="randlevy"/>
+				<function name="randlog"/>
+				<function name="randlogistic"/>
+				<function name="randlognorm"/>
+				<function name="randnegbinom"/>
+				<function name="randpareto"/>
+				<function name="randpoisson"/>
+				<function name="randrayleigh"/>
+				<function name="randrayleightail"/>
+				<function name="randtdist"/>
+				<function name="randuniform"/>
+				<function name="randweibull"/>
+				<function name="simtable"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

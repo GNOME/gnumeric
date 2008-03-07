@@ -1,0 +1,26 @@
+Gnumeric plugins typically either define a file format (input and/or output)
+or a set of functions.  Nothing prevents a mixture -- that is just how things
+have turned out so far.
+
+When you add or delete files, don't forget...
+
+* Edit po/POTFILES.in
+* Edit configure.in
+* Edit plugins/Makefile.am
+
+
+
+
+
+
+File-format plugins
+--------------------
+
+For a good skeleton, grab a copy of the applix plugin.
+
+
+
+Plugins containing functions
+-----------------------------
+
+For a good skeleton, grab a copy of the fn-date plugin.

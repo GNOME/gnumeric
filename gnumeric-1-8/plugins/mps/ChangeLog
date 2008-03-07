@@ -1,0 +1,492 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-02-18  Morten Welinder  <terra@gnome.org>
+ 
+	* mps.c (mps_input_context_new): Initialize ->objective_row.
+	* parser.c (mps_parse_rows): Handle missing objective row.  Fixes
+	#517141.
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* mps.c: replaced gi18n.h by gi18n-lib.h.
+	* parser.c: ditto.
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2006-02-22  Morten Welinder  <terra@gnome.org>
+
+	* mps.c (mps_write_coefficients): Plug leaks.  Avoid going through
+	the parser for creating expressions.
+
+2006-02-19  Morten Welinder  <terra@gnome.org>
+
+	* mps.c (mps_write_coefficients): Use gnm_expr_new_funcall1 and
+	gnm_expr_new_funcall2.  Avoid casting between GSList* and GList*
+	in ways that surely never worked.
+	(mps_write_coefficients): Plug leaks.
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-04-06  Jody Goldberg <jody@gnome.org>
+
+	* mps.c (mps_set_cell) : Use cell_set_value, rather than the more
+	  expensive sheet_cell_set_value
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-07-16  Jody Goldberg <jody@gnome.org>
+
+	* mps.c : strip unnecessary unportable includes
+	* parser.c : ditto.
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-20  Morten Welinder  <terra@diku.dk>
+
+	* parser.c (mps_parse_name): Don't use ctype.h
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-14  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Remove "open" and "import" attributes.
+
+2002-11-12  Morten Welinder  <welinder@rentec.com>
+
+	* mps.c (BINDING_LIMIT): Delete.
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* mps.c (mps_write_coefficients): Even more speed by using expressions
+	instead of strings and parsing.
+
+2002-08-17  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* mps.c (mps_write_coefficients): Use directly expressions for
+	slacks instead of going through parser.
+
+2002-08-16  Jon K Hellan  <hellan@acm.org>
+
+	* parser.c (mps_add_bound): Allocate sufficient space in
+	bound->name for all possible values of counter.
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-07-07  Jody Goldberg <jody@gnome.org>
+
+	* parser.c (mps_parse_ranges) : avoid warnings.
+
+2002-07-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* mps.c (mps_prepare): Added support for FX bounds.
+
+	* parser.c (mps_parse_bounds): Related changes.
+
+2002-07-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* parser.c (mps_parse_ranges): Wrote. Currently gives only a valid
+	error msg.
+	(mps_parse_bounds): Added support for lower bounds.
+	(mps_parse_file): Added ranges section parsing.
+
+2002-07-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* parser.c (mps_add_bound): Bug fix: Add type field setting.
+
+	* mps.c (mps_prepare): Bug fix: Write the RHS of a bound into the
+	correct column.
+
+2002-06-16  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* parser.c (mps_add_row): Bug Fix: Row name of the objective
+	function need not be given as the last one any more.
+	(mps_parse_rows): Related changes.
+	(mps_get_line): Fix seg. fault in the case of an empty row.
+
+2002-06-15  Jody Goldberg <jody@gnome.org>
+
+	* mps.c (mps_input_context_destroy) : do not free the line, we do not
+	  own that memory.
+
+2002-06-14  Jody Goldberg <jody@gnome.org>
+
+	* parser.c (mps_parse_name) : just use strdup.
+	(mps_add_row) : ditto.
+	(mps_get_line): ditto.
+	* mps.c (mps_input_context_new) : convert to libgsf.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.3
+
+2002-03-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.2
+
+2002-03-26  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* mps.c: Moved the parser part into parser.c.
+
+	* mps.h, parser.c, Makefile.am: New files.
+
+2002-03-24  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* mps.c: Major clean up.  Does not crach any more if a model
+	having more than 250 columns is loaded.
+
+2002-03-11  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* mps.c (mps_create_sheet): Removed a title to make the program
+	report to look better.
+
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
+2002-02-25  Jody Goldberg <jody@gnome.org>
+
+	* mps.c : include solver.h
+	(mps_create_sheet) : handle change of solver_parms from
+	  containment -> pointer.
+
+2001-02-20  Morten Welinder  <terra@diku.dk>
+
+	* mps.c (mps_parse_name): Fix isspace usage.
+	(mps_create_sheet): Constify.
+
+2002-02-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.0
+
+2002-01-23  Jody Goldberg <jody@gnome.org>
+
+	* mps.c : glib now has g_alloca, no need for portability.h
+
+2002-01-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.3
+
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.2
+
+2002-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.1
+
+2002-01-03  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* mps.c : Changed types to fix signedness warnings.
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* mps.c (mps_input_context_new) : supress warnings.
+	(mps_get_line) : ditto.
+	(mps_parse_name) : ditto.
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.0
+
+2001-12-29  Jody Goldberg <jody@gnome.org>
+
+	* mps.c (mps_input_context_new) : formating.
+	  init row_hash, col_hash,  col_name_tbl, matrix.
+	(mps_input_context_destroy) : be more careful about errors.
+	(mps_file_open) : handle errors more smoothly.
+	(mps_create_sheet) : don't complain if there is a problem.
+
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.1
+
+2001-12-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.0
+
+2001-11-19  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.76
+
+2001-11-05  Jody Goldberg <jgoldberg@home,com>
+
+	* Release 0.75
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.74
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.73
+
+2001-10-26  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* mps.c: Added the i18n stuff that got lost in previous commit.
+
+2001-10-25  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* mps.c: Moved to character position based scanning since many MPS
+	files (like Netlib's blend) skip tokens.  MPS is actually position
+	based according to its definition.  Some work towards BOUND
+	support.
+
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.72
+
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
+2001-09-25  Jon K Hellan  <hellan@acm.org>
+
+	* .cvsignore: Add plugin.xml
+
+2001-08-26  Morten Welinder  <terra@diku.dk>
+
+	* mps.c (mps_add_column): Use g_strdup.
+	(mps_add_rhs): Ditto.
+	(mps_parse_columns): Use new function get_token.  Fix signedness
+ 	problem.
+	(mps_parse_rhs): Ditto.
+	(mps_add_row): Fix signedness problem.
+	(mps_parse_columns): Ditto.
+	(mps_parse_name): Ditto.
+	(mps_parse_columns, mps_parse_rhs): Allow much wider names and
+ 	numbers.
+	(mps_parse_rhs): Stop on non-indented line.
+
+2001-08-26  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* mps.c: Initial version.

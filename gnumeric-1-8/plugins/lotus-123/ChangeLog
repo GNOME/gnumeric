@@ -1,0 +1,882 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-02-20  Morten Welinder  <terra@gnome.org>
+
+	* lotus.c (lotus_read_new): Handle stray rldb records.  Fixes
+	#517591.
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* boot.c: replaced gi18n.h by gi18n-lib.h.
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2006-04-10  Morten Welinder  <terra@gnome.org>
+
+	* lotus.c (lotus_get_lmbcs): Add extra parameter for default
+	group.  Propagate.  Implement group 12 (by assuming it matches
+	code page 950).  Fixes #337968.
+	(lotus_format_string): If we don't have the right format, use
+	"General" and not "".
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-11-11  Morten Welinder  <terra@gnome.org>
+
+	* lotus-formula.c (wk1_fin_func): Renamed form wk1_irr_func and
+	extended to handle pv/fv/pmt too.  Docs or samples would be good!
+
+2005-11-10  Morten Welinder  <terra@gnome.org>
+
+	* lotus-formula.c (wk1_irr_func): Implement.
+	(lotus_parse_formula_old): Handle operators in the switch as the
+	ordinals differ from the new ones.
+	(lotus_parse_formula_new): Correctly map from the names that Lotus
+	1-2-3 uses to the ones we do.
+	(lotus_formula_init, lotus_formula_shutdown): New functions.
+	(make_function): Use a table instead of a stupid linear search.
+
+	* boot.c (go_plugin_init, go_plugin_shutdown): New functions.
+
+2005-11-01  Morten Welinder  <terra@gnome.org>
+
+	* boot.c (lotus_file_probe): Add another magic number.
+
+2005-10-18  Morten Welinder  <terra@gnome.org>
+
+	* lotus.c (lotus_read_new): Handle some wk4 records.
+
+2005-10-13  Morten Welinder  <terra@gnome.org>
+
+	* lotus.c (lotus_set_rowheight_cb, lotus_set_colwidth_cb,
+	lotus_twips_to_points, lotus_qmps_to_points): New functions.
+	(lotus_rldb_apply): Handle column height and row widths too.
+
+2005-10-12  Morten Welinder  <terra@gnome.org>
+
+	* lotus.c (lotus_format_string): Extract from...
+	(cell_set_format_from_lotus_format): ...here.
+	(lotus_pattern): New function.
+	(lotus_set_formats_cb): Implement.
+	(lotus_read_old): Check record sizes.
+	(lotus_read_new): Deal with patterns, font sizes, and some font
+	bits.  (The latter not observed in corpus.)
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-10-09  Morten Welinder  <terra@gnome.org>
+
+	* lotus.c (lotus_read_new): Read some style info.
+
+2005-09-09  Morten Welinder  <terra@gnome.org>
+
+	* lotus.c (lotus_read_new): Add checks for record sizes, just in
+	case we get something malformed.
+
+2005-09-08  Morten Welinder  <terra@gnome.org>
+
+	* lotus.c (lotus_get_lmbcs): Handle all two-byte sequences.  Add
+	missing "break".
+
+2005-09-08  Morten Welinder  <terra@gnome.org>
+
+	* lotus.c (lotus_read_new): Fix C99ism.
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-09-07  Morten Welinder <terra@gnome.org>
+
+	* lotus-formula.c (lotus_parse_formula): Change to take a
+	GnmParsePos instead of sheet/col/row.  This change propagated all
+	the way down.
+	(handle_named_func): Made into a function and asked to handle
+	naming differences too.
+
+	* lotus.c (lotus_read_new): Handle cell comments.  Add missing
+	"break" after large-data record handling.
+	(lotus_get_lmbcs): First try at a reasonable decoder from LMBCS to
+	UTF-8.  (In particular this handles the junk that appears in
+	SPLFUNCs.)
+
+2005-09-06  Morten Welinder <terra@gnome.org>
+
+	* lotus-formula.c (lotus_parse_formula_new): Handle SPLFUNCs too.
+
+2005-09-05  Morten Welinder <terra@gnome.org>
+
+	* lotus.c (lotus_read_new): Handle formulas too.
+	* lotus-formula.c (lotus_parse_formula_new): New function.
+
+2005-09-02  Morten Welinder <terra@gnome.org>
+
+	* lotus.c (lotus_read_new): Handle more numbers.
+
+2005-09-02  Morten Welinder <terra@gnome.org>
+
+	* boot.c (lotus_file_probe): Extend the probe to handle SmartSuite
+	98 documents.
+	(lotus_file_open): Assume all strings to be in CP850 encoding.
+
+	* lotus.c (lotus_read_old): Split out from lotus_read.
+	(lotus_read_new): New function.
+	(lotus_read): Read the BOF and call the right one of the above.
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=158126
+	* boot.c (lotus_file_probe): don't work with null pointer
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-21  Jody Goldberg <jody@gnome.org>
+
+	* plugin.xml.in : Handle *.123
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2004-01-07  Jody Goldberg <jody@gnome.org>
+
+	* lotus-formula.c (lotus_parse_formula) : patch for ancient typo from
+	  Dave Jones <davej@redhat.com>
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-07-28  Jody Goldberg <jody@gnome.org>
+
+	* lotus-formula.c (wk1_std_func) : dup the name in case the plugin
+	  gets removed while we still have a reference to the symbol.
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-03-05  Morten Welinder  <terra@diku.dk>
+
+	* lotus.c (record_peek_next): Fix integer/gboolean confusion.
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2003-01-20  Jody Goldberg <jody@gnome.org>
+
+	* lotus-formula.c : convert
+	    log -> log instead of log10
+	    ln -> ln   instead of log
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-14  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Remove "open" and "import" attributes.
+
+	* boot.c (lotus_file_probe): Don't seek back to 0, calling wrapper
+	does that.
+
+2002-11-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* lotus-formula.c: Included headers for some standard library
+	functions.
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-08-28  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (lotus_file_open) : gnm_iconv_close has moved to libgsf.
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-23  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (lotus_file_open) : handle the bogus error reporting here.
+	  and open and close the iconv handler.
+
+	* lotus.c (lotus_new_string) : new utility to handle encoding
+	  conversions.
+	(lotus_wk1_read) : use it here, and change the signature to take a
+	  LotusWk1Read state structure to make life easier.
+
+	* lotus-formula.c (lotus_parse_formula) : take a LotusWk1Read and use
+	  lotus_new_string.
+
+2002-08-23  Jody Goldberg <jody@gnome.org>
+
+	* lotus-formula.c (lotus_parse_formula) : enable bit-{and,or}
+
+2002-08-19  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (lotus_file_probe): Use glib's seek enum instead of the
+	enum which used to be in libgsf.
+
+	* lotus.c (record_peek_next): Ditto.
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-08-06  Morten Welinder  <terra@diku.dk>
+
+	* *.c: use gsf_le_get_double and gsf_le_set_double (etc.)
+
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+2002-08-03  Jody Goldberg <jody@gnome.org>
+
+	* lotus-formula.c : mechanism for argument mapping.
+	Fix more arg counts to avoid leaking.
+
+2002-08-02  Jody Goldberg <jody@gnome.org>
+
+	* lotus-formula.c (make_function) : generate placeholders for unknowns.
+	(attach_sheet) : use col_name to name the sheets in lotus like fashion.
+
+	* lotus-formula.c : support @@
+	Fix mapping for
+	    ISSTRING	-> ISTEXT
+	    LENGTH	-> LEN
+	    CHR		-> CHAR
+	    ASCII	-> CODE
+	    STD		-> STDEVP
+	    AVG		-> DAVERAGE
+	    DCNT	-> DCOUNT
+	    COLS	-> COLUMNS
+	    REPEAT	-> REPT
+	    STREQ	-> EXACT
+	    CTERM	-> NPER
+	    SOY??	-> SYD
+	    ROWS has 1 arg not  2
+	    FIND has 2 args not 3
+
+	Add a pile of things that WK4 generated for WK1
+	(lotus_parse_formula) : support strings in expressions.
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-07-15  Jody Goldberg <jody@gnome.org>
+
+	* lotus-formula.c : NA has no args
+
+2002-07-15  Jody Goldberg <jody@gnome.org>
+
+	* lotus.c (read_workbook) : use cell_set_expr_and_value for formulas.
+	  Handle the magic exponents that indicate that the previous value was
+	  a string.  We need a sample of a previous value == err or na
+	* lotus-formula.c (sign_extend) : fix.
+
+2002-06-25  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (lotus_file_probe): Rewind file after probing.
+
+2002-06-07  Jody Goldberg <jody@gnome.org>
+
+	* lotus.c (record_new) : convert to libgsf.
+	(record_next) : ditto.
+	(record_destroy) : ditto.
+	(read_workbook) : ditto.
+	(lotus_read) : ditto.
+
+	* lotus-formula.c (get_cellref) : some constness.
+	(make_function) : ditto.
+	(lotus_parse_formula) : ditto.
+
+	* boot.c (lotus_file_open) : convert to libgsf.
+	(lotus_file_probe) : ditto.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.3
+
+2002-04-19  Morten Welinder <terra@diku.dk>
+
+	* lotus-formula.c (make_function): Use error constant as
+	expression.  (I.e., don't call "ERROR".)
+
+2002-03-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.2
+
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
+2002-02-21  Morten Welinder <terra@diku.dk>
+
+	* lotus-formula.c (make_function): Constify.
+
+2002-02-20  Morten Welinder  <terra@diku.dk>
+
+	* lotus.c (lotus_special_formats): Constify and make static.
+
+	* lotus-formula.c (functions): Constify.
+
+2002-02-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.0
+
+2002-01-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.3
+
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.2
+
+2002-01-07  Jody Goldberg <jody@gnome.org>
+
+	* lotus.c (attach_sheet) : Explicitly request a full respan for the
+	update after we load.  I had been relying on there being a col/row or
+	default col/row sizing to force it.
+
+2002-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.1
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.0
+
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.1
+
+2001-12-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.0
+
+2001-11-25  Jody Goldberg <jody@gnome.org>
+
+	* lotus-formula.c : s/ParseList/ExprList/
+
+2001-11-19  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.76
+
+2001-11-05  Jody Goldberg <jgoldberg@home,com>
+
+	* Release 0.75
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.74
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.73
+
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.72
+
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
+2001-09-25  Jon K Hellan  <hellan@acm.org>
+
+	* .cvsignore: Add plugin.xml
+
+2001-08-24  Jody Goldberg <jgoldberg@home.com>
+
+	* lotus.[ch] : fix and prune includes.
+	* boot.c: fix and prune includes.
+	* lotus-formula.c: fix and prune includes.
+
+2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml: Removed
+
+	* plugin.xml.in: Copied from plugin.xml, prepared for localization.
+
+	* Makefile.am: Use xml-i18n-tools to create plugin.xml (with
+	translations merged from .po file).
+
+2001-08-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.70
+
+2001-08-17  Morten Welinder  <terra@diku.dk>
+
+	* lotus.h: Guard and get rid of old getdouble junk.
+	* lotus-formula.h: Guard.
+	* lotus-types.h: Ditto.
+
+	* boot.c (lotus_file_probe): Fix signedness problem.
+
+2001-08-11  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.69
+
+2001-07-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.68
+
+2001-07-14  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* lotus.c (lotus_read): Use gnumeric_io_error_string.
+
+2001-06-28  Jody Goldberg <jgoldberg@home>
+
+	* Release 0.67
+
+2001-06-27  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.66
+
+2001-05-29  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* boot.c (lotus_file_probe): Added FileProbeLevel argument.
+
+2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* boot.c (lotus_file_probe, lotus_file_open):
+	s/FileOpener/GnumFileOpener/
+	s/FileSaver/GnumFileSaver/
+
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.65
+
+2001-03-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.64
+
+2001-02-23  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.63
+
+2001-02-19  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (lotus_load): Change file format level to
+	FILE_FL_MANUAL_REMEMBER. Fix typo: FILE_SAVER_ID_INVAID ->
+	FILE_SAVER_ID_INVALID.
+
+2001-02-16  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.62
+
+2001-02-12  Karl Eichwalder  <ke@suse.de>
+
+	* Makefile.am (EXTRA_DIST): New variable; add
+	$(gnumeric_plugin_lotus_DATA).
+
+2000-12-17 Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.61
+
+2000-12-15  Morten Welinder  <terra@diku.dk>
+
+	* lotus-formula.c: avoid unaligned accesses.
+	(parse_list_pop): Flag errors as such, not as strings.
+
+	* lotus.c: avoid unaligned accesses.
+	(read_workbook): Validate first record.  Plug leak.
+	(append_zeros): Turbo version.
+
+	* boot.c (lotus_probe): Check for magic header.
+	(filename_ext): Skip extensions in directory names.
+
+2000-12-07  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.60
+
+2000-11-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.59
+
+2000-11-13  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.58
+
+2000-10-30  Morten Welinder  <terra@diku.dk>
+
+	* *.c: use gutils.c for accessing i386 doubles.
+
+2000-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* boot.c : Adjust to the signature changes for reading views
+	  rather than workbooks.
+	* lotus123.c : ditto.
+
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.57
+
+2000-06-28  Jody Goldberg <jgoldberg@home.com>
+
+	* lotus-formula.c (make_function) : Use func_lookup_by_name.
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.56
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.55
+
+2000-05-20  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.54
+
+2000-05-09  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.53
+
+2000-05-07  Karl Eichwalder  <ke@suse.de>
+
+	* boot.c (init_plugin): Change string for consistency.
+
+2000-05-06  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am : Remove config.h from here too.
+
+2000-05-01  Michael Meeks  <michael@helixcode.com>
+
+	* config.h: Remove redundant file.
+
+2000-04-08  Jon K Hellan  <hellan@acm.org>
+
+	* lotus.c (attach_sheet): Remove \n from sheet name. Gettextize
+	sheet name template.
+
+2000-04-06  Jody Goldberg <jgoldberg@home.com>
+
+	* lotus.c (lotus_read) : Move the freeze/thaw and recalc to a higher
+	  level.
+
+2000-04-06  Jody Goldberg <jgoldberg@home.com>
+
+	* lotus-formula.c (lotus_parse_formula) : Adjust to changes in
+	  value_new_cellrange.
+
+2000-03-31  Michael Meeks  <michael@helixcode.com>
+
+	* lotus.c (read_workbook): kill old old comments.
+
+2000-03-31  Stephen Wood  <saw@genhomepage.com>
+
+	* lotus-formula.c (functions): Add arg count to most functions.
+	* lotus.c (cell_set_format_from_lotus_format): New routine
+	(read_workbook): Read lotus format for each cell and set
+	corresponding format in gnumeric sheet.
+
+2000-03-24  Stephen Wood  <saw@genhomepage.com>
+
+	* lotus-formula.c (functions): Set args of DATE to 3.
+	(sign_extend): Extend sign from bit 13 instead of 14.
+	(get_cellref): Don't compute absolute reference when importing
+	relative references.
+	(lotus_parse_formula): Be more careful with pointer arithmetic.
+
+2000-03-23  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (lotus_load): No longer change filename extension to
+	".gnumeric". Set save info, tag as manual.
+	(LOTUS_TITLE, LOTUS_DESCR): No, we haven't got export.
+
+2000-01-31  Jon K Hellan  <hellan@acm.org>
+
+	* lotus.c (read_workbook): Add CommandContext.
+
+2000-01-29  Jon K Hellan  <hellan@acm.org>
+
+	* lotus.c (lotus_read): Add CommandContext. Return 0 on success,
+	-1 on failure. Use gnumeric_error_read to report errors. Close
+	file unconditionally.
+	(read_workbook): Return 0 on success, -1 on failure. Remove unused
+	panic_message variable.
+
+	* lotus.h (lotus_read): Add CommandContext. Return int.
+
+	* boot.c (lotus_load): Ditto
+
+2000-01-18  Jody Goldberg <jgoldberg@home.com>
+
+	* lotus-formula.c (functions) : Enable OPER_UNARY_PLUS.
+
+1999-12-23  Michael Meeks  <mmeeks@gnu.org>
+
+	* lotus.c (read_workbook): comment out format_prefix.
+
+1999-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* boot.c (lotus_load) : Return error strings.
+	* lotus.c (read_workbook) : Ditto.
+	(lotus_read) : Ditto.
+
+1999-12-21  Jon K Hellan  <hellan@acm.org>
+ 
+	* README: I was credited for this, but I did not write it.
+ 
+1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
+ 
+	* boot.c (lotus_cleanup_plugin): free pd->title
+
+1999-10-13  Michael Meeks  <mmeeks@gnu.org>
+
+	* lotus.c (read_workbook): Pre-initialize the only sheet we
+	can read, so if we don't get a BOF (!) we can cope.
+	(attach_sheet): create.	(read_workbook): update so we allways
+	have at least one sheet attached.
+
+1999-08-11  Michael Meeks  <michael@imaginator.com>
+
+	* boot.c (lotus_load): Add workbook argument to lotus_read.
+
+	* lotus.c (lotus_read): Added Workbook argument and updated
+	return type.
+
+1999-08-09    <miguel@gnu.org>
+
+	* boot.c (lotus_cleanup_plugin): Change to new file open
+	conventions. 
+
+1999-08-02  Michael Meeks  <michael@imaginator.com>
+
+	* Makefile.am: Remove redundant reference to boot.h
+
+1999-07-31  Morten Welinder  <terra@diku.dk>
+
+	* lotus.c (lotus_getdouble): Constify.
+
+	* lotus.h (lotus_getdouble): Fix prototype.
+	(lotus_setdouble): Ditto.
+
+1999-07-21  Michael Meeks  <michael@edenproject.org>
+
+	* boot.c (lotus_load): Stupid bugs.
+
+	* lotus-formula.c (lotus_parse_formula): Re-arrange Range.
+	Fix lots of oddities in function table.
+	(get_cellref): Fixed up silly bug + add debug.
+	(lotus_parse_formula): Stupid bug in range setting a twice.
+
+	* lotus.c (record_new): Actualy setup the file pointer.
+	(read_workbook): Scads of i,j swapping to get col,row.
+	Actually use labels we read.
+	Remove a load of incorrect +1 offsets.
+
+1999-07-21  Michael Meeks  <michael@edenproject.org>
+
+	* lotus.h (LOTUS_GETDOUBLE): Split these into lotus.h
+
+	* Makefile.am: Added lotus-formula.[ch]
+
+	* lotus-formual.[ch]: ditto.
+
+	* lotus.c (read_workbook): Changed NAME to INTEGER doh.
+
+	* boot.c (lotus_probe): Expand to 'wks' files.
+
+1999-07-21  Michael Meeks  <michael@edenproject.org>
+
+	* lotus.[ch]: Created.
+
+	* boot.[ch]: Created
+
+	* Makefile.am: Created.

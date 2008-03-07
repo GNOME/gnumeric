@@ -1,0 +1,223 @@
+IMPORTANT
+
+This document describes an obsolete Python plugin which is no longer
+part of Gnumeric. The current Python plugin support is based on the
+plugin loader in plugins/python-loader. This will be documented
+later. For now, plugins/py-func and plugins/gnome-glossary serve as
+examples. 
+
+Jon Kåre Hellan <hellan@acm.org>                       Oct 11, 2002
+-------------------------------------------------------------------
+
+
+
+
+
+
+
+
+Python plugin for Gnumeric
+--------------------------
+
+Jon Kåre Hellan <hellan@acm.org>                       Feb 26, 2000
+
+NOTE 1: A more complete documentation of the Python plugin will follow
+in due course (whatever that means).
+
+NOTE 2: The plugin is still experimental. Things can change if
+somebody convinces us of a better way of doing it. If you need an
+assurance of stability, please ask, and we'll reconsider the
+"experimental" status.
+
+Introduction:
+-------------
+
+The Python plugin lets you add spreadsheet functions to Gnumeric using
+Python.
+
+The steps involved are:
+
+1. Write a function in Python
+
+2. Make the Python function known to Gnumeric by calling
+   gnumeric.register_function. More about this later.
+
+Enabling installation
+---------------------
+
+On Solaris, there are problems with linking the plugin dynamically to
+Gnumeric. Because it doesn't work everywhere, it is not installed by
+default. On Linux, it works. To enable installation, comment out the
+line starting with noinst_LTLIBRARIES in plugins/python/Makefile.am in
+the Gnumeric source tree, and uncomment the line starting with
+#plugin_LTLIBRARIES. Next, run automake from the root of the source
+tree.
+
+Plugin startup
+--------------
+
+When the plugin is initialized, the file gnumeric_startup.py is run.
+This file is in the directory "gnumeric/python" in the Gnome
+directory.  It imports necessary definitions from gnumeric_defs.py,
+and defines a couple of spreadsheet functions. These functions are not
+particularly useful, but are intended to illustrate how to write
+spreadsheet functions in Python.
+
+Finally, the file ~/.gnumeric/rc.py is run. This is where users can
+define their own functions.
+
+Registering a spreadsheet function
+----------------------------------
+
+A spreadsheet function is registered using the Python function
+gnumeric.register_function:
+
+gnumeric.register_function (<function_name>,
+			    <category_name>,
+			    <parameter_declaration>,
+			    <parameter_names>,
+			    <help_string>,
+			    <python_function>)
+
+The meaning of the parameters is:
+function_name	       The name of the spreadsheet function.
+category_name	       The function category.
+parameter_declaration  See below
+parameter_names        A string which lists the names of the parameters.
+help_string            Help string. The format is documented in ...
+python_function        The Python function which implements the
+                       spreadsheet function.
+
+The python function must take a context as the first parameter. This
+is used when calling back into built-in functions. The other
+parameters correspond to the parameters you register for the
+spreadsheet function.
+
+Example:
+
+Here's a Python function to return the middle of a string:
+
+def gnumeric_mid(context, text, start_num, num_chars):
+    return text[start_num-1:start_num+num_chars-1];
+
+Here's a help string for the function:
+
+help_mid = \
+    "@FUNCTION=PY_MID\n"                       \
+    "@SYNTAX=PY_MID(text,start,num_chars)\n"               \
+    "@DESCRIPTION="                         \
+    "Returns a specific number of characters from a text string, "  \
+    "starting at START and spawning NUM_CHARS.  Index is counted "  \
+    "starting from one"
+
+Here's how the function can be registered. We use the spreadsheet
+function name "py_mid", because there is a built-in "mid" function:
+
+gnumeric.register_function("py_mid", "Plugin demo", "sff", "text, 
+                           start_num, num_chars", help_mid, gnumeric_mid);
+
+Heres's how you can use it in a spreadsheet:
+
+py_mid("Hello", 1, 2)
+
+Parameter tokens used in Gnumeric
+---------------------------------
+
+parameter_declaration is a string where each character is a token
+defining the type of a parameter. A complete reference can be found in
+writing-functions.sgml.
+
+Here are the parameter tokens used in Gnumeric:
+
+f : A floating point value.
+s : A string.
+b : A boolean.
+r : A GnmRange, e. g. A1:A5 - See 'A'
+a : An Array e. g. {1,2,3;4,5,6} ( a 3x2 array ) - See 'A'
+A : Either an Array or a GnmRange.
+? : Any type.
+| : This designates that the arguments in the token string
+    following this character are optional.
+
+For functions which accept an arbitrary number of parameters, give an
+empty parameter_declaration.
+
+Python mapping of Gnumeric values.
+----------------------------------
+
+Function parameters and function results are passed across the C
+interface to Gnumeric using the data structure GnmValue, which is a
+discriminated union. This table shows the mappings between the various
+types of Gnumeric values and Python data types.
+
+VALUE_FLOAT      <=>    Python float
+VALUE_STRING     <=>    Python string
+VALUE_CELLRANGE  <=>    Python CellRange class
+VALUE_EMPTY      <=>    Python None
+VALUE_BOOLEAN     =>    Python Boolean class
+VALUE_ERROR      <=>    Python Exception class (not yet done)
+VALUE_ARRAY      <=>    Python list of lists. array[y][x] denotes row
+                        y, column x of the array.
+
+The classes CellRange, CellRef and Boolean live in the module
+gnumeric_defs, which is imported on startup.
+
+CellRange objects are a tuple of two CellRef objects. The CellRef
+class has the following attributes:
+      column
+      row
+      col_relative
+      row_relative
+      sheet
+The first four are integers (the Python plugin C code enforces
+this). Sheet is not yet implemented.
+
+Here is why we use a class for booleans: Many built-in spreadsheet
+functions treat the boolean values TRUE and FALSE differently from the
+integers 0 and 1. So they have to be able to tell whether a Python
+function returned a boolean or an integer. The objects
+gnumeric_defs.TRUE and gnumeric_defs.FALSE are instantiated on
+startup.
+
+Invoking Gnumeric functions from Python
+--------------------------------------
+
+Python functions may invoke spreadsheet functions by means of the Python
+function gnumeric.apply:
+
+gnumeric.apply(<context>,<function_name>,
+	       <arguments>)
+
+context:       Context to pass to built-in functions.
+function_name: The name of the spreadsheet function (string).
+arguments:     A sequence of the arguments. Any sequence type will do,
+               but a tuple is the natural choice.
+
+Example: Calling "abs" from Python
+
+abs_val = gnumeric.apply("abs", (f,))
+
+NOTE: (f,) is the way a tuple of length one is written.
+
+Errors and Exceptions
+---------------------
+
+When a Python exception has propagated to a Python function called
+directly from C without being caught, it is handled as follows: A
+VALUE_ERROR is returned, where the message part is the string
+representation of the type and value of the exception. Currently, the
+full traceback is also written to standard error. A better solution
+for this will have to be found.
+
+A Python function may also receive a VALUE_ERROR, either as an
+argument or as a return value. This value will be converted to an
+exception of the class GnumericError, with the
+exception value set to the message part. If the Python function should
+return this value to C code, it can convert the exception back to the
+original VALUE_ERROR.
+
+Python environment
+------------------
+
+The directory "gnumeric/python" in the Gnome directory is appended to
+sys.path.

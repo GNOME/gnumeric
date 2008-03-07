@@ -1,0 +1,58 @@
+# -*- mode: python -*-
+
+# You can build gnumeric from CVS with jhbuild by adapting this file
+# and copying it to ~/.jhbuildrc. It has been tested on debian sid
+# with debian's autotools installed and devel packages for the
+# dependencies we do not want to build from CVS.
+
+# this is for anonymous cvs. if you have a cvs account, use that instead
+cvsroot = ':pserver:anonymous@anoncvs.gnome.org:/cvs/gnome'
+
+# what module set should be used.
+moduleset = 'gnome-2.10'
+
+# A list of the modules to build. We just build gnumeric and some dependencies
+modules = [ 'gnumeric' ]
+
+# A list of modules to skip - i.e. use your distro's devel packages instead.
+skip = [ 'atk',
+         'glib',
+         'pango',
+         'gtk+',
+         'fontconfig',
+         'Xft',
+         'libart_lgpl',
+         'libglade',
+         'libbonobo',
+         'libgda',
+         'gnome-python/pygtk',
+         'gtkhtml2',
+         'libgnomeprint',
+         'libgnomeprintui',
+         'libgnomeui',
+         'gnome-vfs',
+         'scrollkeeper',
+         'libxml2',
+         'libxslt',
+         'libgnomecanvas',
+	 'mozilla',
+	 'intltool']
+
+# what directory should the source be checked out to?
+checkoutroot = os.path.join(os.environ['HOME'], 'gnome')
+
+# the prefix to configure/install modules to (must have write access)
+prefix = os.path.join(os.environ['HOME'], 'gnome/test')
+
+# extra arguments to pass to all autogen.sh scripts
+# to speed up builds of gnome2, try '--disable-static --disable-gtk-doc'
+autogenargs='--disable-static --disable-gtk-doc'
+module_autogenargs['gnumeric']='--with-gnome --without-perl'
+# set CFLAGS:
+os.environ['CFLAGS'] = '-g'
+
+# a alternative install program to use.
+# The included install-check program won't update timestamps if the
+# header hasn't changed
+os.environ['INSTALL'] = os.path.join(os.environ['HOME'],
+                                     'bin', 'install-check')

@@ -1,0 +1,104 @@
+<!DOCTYPE book PUBLIC "-//Davenport//DTD DocBook V3.0//ES" [
+<!entity editing SYSTEM "editing.sgml">
+<!entity numberformat SYSTEM "number-format.sgml">
+<!entity formulas SYSTEM "formulas.sgml">
+<!entity cellrefer SYSTEM "cell_refer.sgml">
+<!entity selections SYSTEM "selections.sgml">
+<!entity autofill SYSTEM "autofill.sgml">
+<!entity worksheet SYSTEM "worksheet.sgml">
+<!entity files SYSTEM "files.sgml">
+]>
+<book id="gnumeric">
+  <bookinfo>
+    <title>Manual de usuario de Gnumeric</title>
+    <authorgroup>
+      <author>
+	<firstname>Miguel</firstname> <surname>de Icaza
+	  Amozurrutia</surname>
+	<affiliation>
+	  <address>
+	    <email>miguel@gnu.org</email>
+	  </address>
+	</affiliation>
+      </author>
+    </authorgroup>
+    <copyright>
+      <year>1998</year> <holder>Miguel de Icaza (n.)</holder>
+    </copyright>
+    <legalnotice>
+      <para>This documentation is free software; you can redistribute
+	it and/or modify it under the terms of the GNU General Public
+	License as published by the Free Software Foundation; either
+	version 2 of the License, or (at your option) any later
+	version.</para>
+      
+      <para>This program is distributed in the hope that it will be
+	useful, but WITHOUT ANY WARRANTY; without even the implied
+	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+	See the GNU General Public License for more details.</para>
+      
+      <para>You should have received a copy of the GNU General Public
+	License along with this program; if not, write to the Free
+	Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+	02110-1301  USA</para>
+      
+      <para>For more details see the file COPYING in the source
+	distribution of GNOME.</para>
+    </legalnotice>
+  </bookinfo>
+
+  <toc></toc>
+
+  <chapter id="editing">
+    <title>Introduciendo datos.</title>
+    &editing;
+  </chapter>
+ 
+   <chapter id="style">
+      <title>Estilo.</title> <para> LO QUE SEA </para>
+   </chapter>
+
+   <chapter id="formatting">
+     <title>Formato de celda.</title>
+      &numberformat;
+   </chapter>
+
+   <chapter id="worksheet">
+     <title>Hoja de cálculo.</title> 
+      &worksheet;
+   </chapter>
+
+  <chapter id="files">
+    <title>Trabajando con ficheros.</title>
+    &files;
+  </chapter>
+
+  <chapter id="tutorials">
+    <title>Tutoriales</title>
+    <para>Todavía nada, pero dentro de poco tendremos unos cuantos
+paseos guiados por Gnumeric.</para>
+  </chapter>
+
+  <chapter id="cell-elements">
+    <title>Dibujando en una hoja de trabajo</title>
+    <para>cajas, etiquetas, etc... dentro de poco.</para>
+  </chapter>
+
+</book>
+	
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         

@@ -1,0 +1,60 @@
+<sect1 id="sect-data-overview">
+  <title>Data in Gnumeric Cells</title>
+  
+  <para>
+    The purpose of a spreadsheet is to manipulate data and perform
+    calculations on those data. In order to understand how to use
+    &gnum;, it is necessary to understand
+    what types of data are available and how these types can be
+    manipulated.
+  </para>
+
+  <para>
+    Because all of the data which are entered into a
+    &gnum; workbook can eventually be
+    stored in a file, the file contents define the kinds of data which
+    can be entered into the spreadsheet. A file contains:
+      <itemizedlist>
+        <listitem>
+          <para>
+            metadata about the file contents,
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            global data for the workbook,
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            the actual data contents of each worksheet in the workbook.
+          </para>
+        </listitem>
+      </itemizedlist>
+    The metadata include a brief document summary describing the file
+    contents and include the settings applicable to the data contents,
+    such as the settings for the printing of each sheet and any
+    settings for automatically saving the file. The global data for
+    the workbook include any names which are defined by the user and
+    attributes, such as the protected status of the workbook and
+    sheets. The actual data contained in the worksheets include the
+    contents of the cells, both data and formatting, and other objects
+    such as drawing and charts.
+  </para>
+
+  <para>
+    This chapter describes the information which can be stored in
+    spreadsheet cells. This includes the five types of data which cells
+    can contain and the formatting which can be applied to each
+    cell. The chapter first describes the five data types available,
+    then describes the formatting which can be performed on each cell,
+    then explains how data can be inserted into a spreadsheet and
+    finally describes how to copy and move data around a worksheet
+    along with the transformations which can be performed as the data
+    are moved. This chapter does not describe other types of data
+    which can be stored in a spreadsheet such as drawing elements and
+    graphs used to chart data. These are explained in later chapters.
+  </para>
+
+
+</sect1>

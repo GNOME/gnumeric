@@ -1,0 +1,4 @@
+Module=main; main.gba
+Startup="Sub main"
+
+

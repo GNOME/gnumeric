@@ -1,0 +1,191 @@
+
+<sect1 id="sect-graphics-images">
+  <title>Images</title>
+
+  <para>
+    Images can be added, as floating graphical elements, to
+    &gnum; worksheets. These images will
+    be saved as part of the file and therefore can be sent to others
+    embedded within the spreadsheet file.
+  </para>
+
+  <para>
+    Images in several file formats can be added, but the specific list
+    depends on the particular installation of the underlying software
+    library, <filename>gdk-pixbuf</filename>. By default, the ANI, BMP,
+    GIF, ICO, JPEG, PCX, PNG, PNM/PBM/PGM/PPM family, Sun raster
+    (RAS), Targa (TGA), TIFF, WBMP, XBM, XPM image formats are
+    supported, but extensions to the library can also support other
+    formats such as the WMF Windows Metafile and SVG Scalable
+    Vector Graphics formats. 
+  </para>
+
+  <note>
+    <para>
+      A complete listing of the file formats supported by the local
+      version of <filename>gdk-pixbuf</filename> can be generated with
+      the <screen>
+gdk-pixbuf-query-loaders
+      </screen>
+      command-line application, if this is installed on the system.
+    </para>
+  </note>
+
+
+
+  <sect2 id="sect-graphics-images-insert">
+    <title>Inserting Images</title>
+
+    <para>
+      
+    </para>
+
+    <para>
+      Inserting an image is performed like inserting any other
+      graphical element using the menu entry to start the process,
+      then selecting the file, and finally using the mouse to place
+      the image above the worksheet.
+    </para>
+
+    
+      <procedure>
+        <title>Procedure to insert an image into a worksheet.</title>
+        <step>
+	  <title>
+	    Select the <guimenuitem>"Image"</guimenuitem> menu item in
+	    the <guimenu>"Insert"</guimenu> menu
+	  </title>
+	  <para>
+	    Inserting an image starts by selecting, in the
+	    <guimenu>Insert</guimenu> menu, the
+	    <guimenuitem>Image</guimenuitem> menu item using the mouse
+	    cursor and the primary mouse button. This will open a
+	    dialog in which the user can select the file which
+	    contains the desired image.
+	  </para>
+	</step>
+
+        <step>
+	  <title>Select the file containing the image</title>
+	  <para>
+	    In the dialog which appears the user must select the file
+	    which contains the desired image. The dialog will be
+	    specific to the particular operating system platform but
+	    should provide a way to navigate the filesystem to pick
+	    the folder that contains the file and have a way to select
+	    the file or type its name. When these choices have been
+	    made, the dialog can be dismissed by double clicking on
+	    the file or by clicking on the <guibutton>Open</guibutton>
+	    button. This will dismiss the dialog and expose the
+	    worksheet, with the mouse pointer now converted to a thin
+	    cross-hair.
+	  </para>
+	</step>
+
+	<step>
+	  <title>
+	    Place the image on the worksheet with the mouse pointer
+	  </title> 
+	  <para>
+	    The image, which will float like other graphical elements
+	    above the worksheet, must be placed on the worksheet. The
+	    image can be placed with its default size by
+	    moving the thin cross-hair pointer above the worksheet and
+	    clicking with the primary mouse button. Alternatively, the
+	    image can be placed and sized by selecting two of the
+	    resulting corners. This is done by moving the thin
+	    cross-hair pointer over the worksheet, determining one
+	    corner by clicking and holding the primary mouse button,
+	    dragging the pointer to the opposite corner, and releasing
+	    the mouse button. The image will then appear between the
+	    place where the primary mouse button was pressed and the
+	    place the button was released.
+	  </para>
+	</step> 
+
+      </procedure>
+
+
+  </sect2>
+
+
+
+  <sect2 id="sect-graphics-images-save">
+    <title>Saving Images to New Files</title>
+
+    <para>
+      Images in a &gnum; worksheet can be
+      saved to a new, separate file. The image can be saved either in
+      its original format or in PNG or JPEG formats. The ability to
+      save images to a new file is especially useful when a
+      spreadsheet file has been transferred to a computer that does not
+      have a copy of the original image.
+    </para>
+
+    <para>
+      Images above a worksheet can be saved by accessing the context
+      menu, selecting the many entry and navigating the file saving
+      dialog which appears.
+    </para> 
+
+      <procedure>
+        <title>Procedure to save a worksheet image.</title>
+        <step>
+	  <title>Open the context menu</title>
+	  <para>
+	    The context menu is opened by placing the mouse cursor
+            over the image and clicking one of the secondary mouse
+            buttons.
+	  </para>
+	</step>
+	<step>
+	  <title>
+	    Select the <guimenuitem>"Save As"</guimenuitem> menu item
+	  </title>
+	  <para>
+	    Once the context menu appears, the mouse cursor can be
+	    moved over the menu. As the cursor passes over each menu
+	    item, that item will be highlighted. When the
+	    <guimenuitem>Save As</guimenuitem> menu item is
+	    highlighted, clicking with the primary mouse button will
+	    select that entry, causing the context menu to disappear
+	    and the <interface>Save As</interface> dialog to
+	    appear.
+	  </para>
+	</step>
+	<step>
+	  <title>Select the file name and location</title>
+	  <para>
+	    The <interface>Save As</interface> dialog which opens will
+	    depend on the platform that the user is using but should
+	    be standard for that platform. The dialog should allow a
+	    user to define a name for the file, to select the folder
+	    (directory) in which a file will be saved, and to select
+	    the format for the saved file. When all these selections
+	    have been made, the <guibutton>Save</guibutton> can be
+	    pressed which will dismiss the dialog and save the file.
+	  </para>
+	</step>
+      </procedure>
+
+  </sect2>
+
+
+
+  <sect2 id="sect-graphics-images-delete">
+    <title>Deleting Images</title>
+
+    <para>
+      An image element, floating above a worksheet, can be deleted
+      from the worksheet and from the
+      &gnum; file using the context
+      menu. The procedure for deleting all graphical elements is the
+      same; this procedure is explained in <xref
+      linkend="sect-graphical-overview-deleting" />. 
+    </para>
+
+  </sect2>
+
+
+</sect1>
+

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_numtheory">
+	<information>
+		<_name>Number Theory</_name>
+		<_description>Several basic utilities for prime numbers, pi, phi, sigma. It also holds some simple bitwise operations.</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="numtheory"/>
+	</loader>
+	<services>
+		<service type="function_group" id="num_theory">
+			<_category>Number Theory</_category>
+			<functions>
+				<function name="isprime"/>
+				<function name="ithprime"/>
+				<function name="nt_d"/>
+				<function name="nt_mu"/>
+				<function name="nt_phi"/>
+				<function name="nt_pi"/>
+				<function name="nt_sigma"/>
+				<function name="pfactor"/>
+			</functions>
+		</service>
+		<service type="function_group" id="bitwise">
+			<_category>Bitwise Operations</_category>
+			<functions>
+				<function name="bitand"/>
+				<function name="bitlshift"/>
+				<function name="bitor"/>
+				<function name="bitrshift"/>
+				<function name="bitxor"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

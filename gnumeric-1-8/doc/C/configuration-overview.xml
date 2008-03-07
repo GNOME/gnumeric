@@ -1,0 +1,51 @@
+<sect1 id="sect-configuration-overview">
+  <title>Overview</title>
+
+  <para>
+    Several preferences which relate to &gnum; as a whole can be
+    configured and will affect the appearance and behaviour of the
+    program every time it is run. These preferences can be set by the
+    user.
+  </para>
+
+  <para>
+    &gnum; provides a main preference configuration panel which allows
+    users to configure fundamental properties of the program including
+    the font used within the spreadsheet, the type of file generated
+    when a workbook is saved, default settings for the tools and the
+    'undo' mechanism, as well as several fundamental properties of the
+    program, such as the pixel pitch of the display, which require
+    advanced knowledge to understand. <xref
+    linkend="sect-configuration-preferences"/> explains how to alter
+    these preferences.
+  </para>
+
+  <para>
+    The toolbars can also be configured by being hidden from
+    view. This allows &gnum; to be fit into a smaller space. <xref
+    linkend="sect-configuration-toolbars"/> explains how to hide or
+    show each toolbar.
+  </para>
+
+  <para>
+    Much of the functionality of &gnum; is provided through the plugin
+    mechanism. Individual plugins can be disabled to save memory space
+    or when the plugin computer code is being altered. <xref
+    linkend="sect-configuration-plugins"/> explains how to disable
+    and re-enable &gnum; plugins.
+  </para>
+
+  <para>
+    &gnum; is designed to be used around the globe and therefore
+    allows the use to determine the language for the menus and to
+    determine location specific information such as the character used
+    to separate whole numbers from fractional units. These language
+    and locale settings are explained in <xref
+    linkend="sect-configuration-localization"/>. 
+  </para>
+
+  <para>
+  </para>
+
+</sect1>
+

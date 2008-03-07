@@ -1,0 +1,1013 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2008-01-15  Morten Welinder  <terra@gnome.org>
+
+	* filter.c (advanced_filter): Verify that we have a cellrange
+	which is the only cases handled.  Part of fix for 509427.
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dao.h (dao_set_cell_array_expr): new
+	* dao.c (dao_set_cell_array_expr): new
+	* analysis-tools.c (analysis_tool_ttest_paired_engine_run):
+	  use dao_set_cell_array_expr for vector calculations
+	  fixes [#504256]
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-27  Morten Welinder  <terra@gnome.org>
+
+	* fill-series.c (fill_series_adjust_variables): Fix off-by-one
+	error.  [#499984]
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-16  Morten Welinder  <terra@gnome.org>
+
+	* scenarios.c (scenarios_free): Call scenario_free, it
+	scenarios_free!
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-08-06  Morten Welinder  <terra@gnome.org>
+
+	* filter.c (advanced_filter): Translate.
+
+	* data-shuffling.c (data_shuffling): Fix typo and translate.
+
+	* auto-correct.c (autocorrect_initial_caps): Don't affect
+	expressions.  Fixes #463996.
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* analysis-tools.c: make two new functions public.
+	* analysis-tools.h: ditto.
+
+2007-03-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* analysis-histogram.c: use new names for range and regression functions.
+	* analysis-tools.h: ditto.
+	* simulation.c: ditto.
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-12-02  Jody Goldberg <jody@gnome.org>
+
+	All callers changed.
+	* scenarios.c (scenarios_free) : renamed from scenario_free_all.
+	(scenarios_dup) : renamed from scenario_copy_all.
+	(scenarios_insert_rows) : renamed from scenario_insert_rows.
+	(scenarios_insert_cols) : renamed from scenario_insert_cols.
+	(scenarios_delete_rows) : renamed from scenario_delete_rows.
+	(scenarios_delete_cols) : renamed from scenario_delete_cols.
+	(scenarios_move_range) : renamed from scenario_move_range.
+
+2006-11-30  Morten Welinder  <terra@gnome.org>
+
+	* goal-seek.c (goal_seek_newton): Improve handling of flat spots,
+	including those that happen because of fake_df.
+
+2006-11-29  Morten Welinder  <terra@gnome.org>
+
+	* goal-seek.c (goal_seek_bisection): Rounding errors can cause the
+	Ridder midpoint to leave the interval.  Catch that.  Continue
+	until the bitter end, i.e., ignore desired precision here.
+
+2006-11-28  Morten Welinder  <terra@gnome.org>
+
+	* goal-seek.c (goal_seek_newton_polish): New function for
+	post-processing.
+
+2006-11-26  Morten Welinder  <terra@gnome.org>
+
+	* goal-seek.c (goal_seek_newton): Allow up to 40 iterations.
+	Don't overshoot anymore after we have both sides of the root.
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* analysis-tools.c: ditto.
+	* auto-correct.c: ditto.
+	* dao.c: ditto.
+	* data-shuffling.c: ditto.
+	* fill-series.c: ditto.
+	* filter.c: ditto.
+	* random-generator.c: ditto.
+	* scenarios.c: ditto.
+	* simulation.c: ditto.
+	* tabulate.c: ditto.
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2006-02-19  Morten Welinder  <terra@gnome.org>
+
+	* analysis-tools.c: Use gnm_expr_new_funcall1,
+	gnm_expr_new_funcall2, and gnm_expr_new_funcall3.
+
+2005-12-13  Morten Welinder  <terra@gnome.org>
+
+	* scenarios.c (scenario_add_new): Constify.
+	(collect_values): Initialize changing_cells with NULL.
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-23  Stepan Kasal  <kasal@ucw.cz>
+
+	* dao.c (dao_command_descriptor): Typo.
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-04-14  Morten Welinder  <terra@gnome.org>
+
+	* goal-seek.c (goal_seek_initialize): Initalize ->have_root.
+	(update_data): Set ->have_root.
+	(goal_seek_point, goal_seek_newton, goal_seek_bisection,
+	goal_seek_trawl_uniformly, goal_seek_trawl_normally): If we
+	already have a root, return success right away.
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=124858
+	* auto-correct.c (autocorrect_initial_caps): g_unichar_isspace
+	  requires a gunichar
+
+2004-11-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=124858
+	* auto-correct.c (autocorrect_initial_caps): don't `fix'
+	  strings with capitals later in the string.
+	
+2004-11-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=158209
+	* auto-correct.c (autocorrect_initial_caps): don't replace 
+	  initial cups if we have found an exception
+	
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=153527
+	* dao.c (dao_adjust): don't expand the dao beyond SHEET_MAX_ROWS
+	  or SHEET_MAX_COLS.
+
+2004-10-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+        * analysis-tools.c (analysis_tool_ttest_eqvar_engine_run): 
+	  adjust italic region
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-20  Stepan Kasal  <kasal@ucw.cz>
+
+	* data-shuffling.c, fill-series.c, filter.c, scenarios.c:
+	* simulation.c, tabulate.c: Don't include unnecessary GUI gheaders.
+	* simulation.h: #include "dao.h"
+
+2004-09-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c (analysis_tool_ztest_engine_run): 
+	  use smaller tail
+	(analysis_tool_ttest_paired_engine_run): rewritten
+	(analysis_tool_ttest_paired_engine): increase dao size
+
+2004-09-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c (analysis_tool_ztest_engine_run): 
+	  rewritten
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-09-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c (analysis_tool_ttest_eqvar_engine_run):
+	  rewritten
+
+2004-09-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c (analysis_tool_ttest_neqvar_engine_run):
+	  rewritten
+
+2004-09-02  Stepan Kasal  <kasal@ucw.cz>
+
+	* Makefile.am: Set SUBDIRS = solver, only if ENABLE_SOLVER.
+
+2004-08-31  Jody Goldberg <jody@gnome.org>
+
+	* dao.c : Remove unnecessary include of gtk/gtk.h
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-07-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c (analysis_tools_write_label_ftest): new
+	(analysis_tool_ftest_engine_run): rewritten
+
+2004-07-20  Jody Goldberg <jody@gnome.org>
+
+	* solver/solver.c (solver_run) : More win32 portability
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-07-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c (cb_inputexpr_free): new
+	(analysis_tool_table): new
+	(analysis_tool_correlation_engine_run): use analysis_tool_table
+	(analysis_tool_covariance_engine_run): use analysis_tool_table	
+
+2004-07-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.h (dao_cell_is_visible): new
+	* dao.c (dao_cell_is_visible): new
+	(dao_set_cell_expr): fix leak
+	* analysis-tools.c (analysis_tools_remove_label): new
+	(analysis_tools_write_label): use generic argument and 
+	  analysis_tools_remove_label
+	(summary_statistics): change call to analysis_tools_write_label
+	(confidence_level): ditto
+	(kth_smallest_largest): ditto
+	(analysis_tool_anova_single_engine_run): rewrite
+
+2004-07-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c (cb_adjust_areas): new
+	(prepare_input_range): adjust areas also for GROUPED_BY_AREA
+	(analysis_tool_anova_single_engine_run): call dao_redraw_respan
+
+2004-06-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.h (analysis_tools_data_descriptive_t): add
+	  use_ssmedian field
+	* analysis-tools.c (analysis_tools_write_label): new
+	(cb_cut_into_cols): make input references absolute
+	(cb_cut_into_rows): ditto
+	(summary_statistics): rewrite
+	(confidence_level): ditto
+	(kth_smallest_largest): new
+	(kth_largest): deleted
+	(kth_smallest): deleted
+	(analysis_tool_descriptive_engine_run): call the modified 
+	  summary_statistics, confidenc_level and kth_smallest_largest
+	  functions and do not pre-calculate the basic statistics.
+	* dao.c (dao_set_cell_expr): absorb the expr reference.
+
+2004-05-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c (analysis_tool_fourier_calc_length) do not
+	  use dao
+	(analysis_tool_fourier_engine): do not pass dao to
+	  analysis_tool_fourier_calc_length
+	
+2004-03-30  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=138533
+	* analysis-tools.c (analysis_tool_moving_average_engine_run) : handle
+	  insufficient data
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2003-12-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.h (dao_load_from_value): new
+	* dao.c (dao_load_from_value): new
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-29  Morten Welinder  <terra@gnome.org>
+
+	* analysis-tools.c (analysis_tool_covariance_engine_run):
+	Covar(X,X) happens to be the same as Var(X,X) and is generally not
+	1.  (Population variance, that is.)
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-08-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.[ch] (dao_update_sheet_pointer): delete
+
+2003-08-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.h (dao_update_sheet_pointer): add `old_only' argument
+	* dao.c (dao_update_sheet_pointer): add `old_only' argument
+	((dao_prepare_output): don't try to update new-sheet pointer
+
+2003-08-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.c (dao_update_sheet_pointer): new
+	(dao_prepare_output): update sheet pointer before using and
+	  set sheet_idx when setting sheet
+	* dao.h (dao_update_sheet_pointer): new
+
+2003-08-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* tabulate.[ch]: new
+	* Makefile.am: added tabulate.[ch]
+
+2003-08-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.c (dao_set_cell_expr): new
+	(dao_put_formulas): new
+	(dao_convert_to_values): new
+	(dao_redraw_respan): new
+	* dao.h (dao_set_cell_expr): new
+	(dao_put_formulas): new
+	(dao_convert_to_values): new
+	(dao_redraw_respan): new
+
+2003-07-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* fill-series.c (fill_series_adjust_variables): adjust 
+	series length determination procedure
+
+2003-07-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.c: in all calls to dao_set_style, pass the raw
+	coordinates, since we otehrwise translate twice
+	(dao_set_date): new
+	(dao_set_percentage): do not hardcode the format
+	(dao_adjust): use -1 to mean no change
+	(dao_set_style): if we don't use the mstyle, release it
+	* dao.h (dao_set_date): new
+	* fill-series.[ch]: essentially rewrite to make undoable
+
+2003-06-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c: spelling fix
+
+2003-06-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.c (dao_prepare_output): add space and parentheses around
+	  sheet number to sheet name
+
+2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c (analysis_tool_regression_engine_run): set the 
+	  error code to show that we have reported the errors
+	* analysis-tools.h: add more items to analysis_tools_error_code_t
+	
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-06-06  Jody Goldberg <jody@gnome.org>
+
+	* scenarios.h : tweak header to be more friendly.
+
+2003-05-31  Jody Goldberg <jody@gnome.org>
+
+	* solver/solver.c (solver_lp_copy) : quick ugly patch.  Copying string
+	  pointers is a bad idea.
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-04-22  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* fill-series.c (do_row_filling): Eliminate a crach.
+
+2003-04-20  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* simulation.c (simulation_tool): Added checking of maximum
+	elapsed time.
+
+	* scenarios.[ch]: Results cell in summary reporting can also be a
+	list of cell ranges.
+
+	* scenarios.c (scenario_summary_res_cells): Fixed the results
+	reporting in summary report.
+
+2003-04-19  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* data-shuffling.c (run_shuffling_tool): Implement free area search.
+
+2003-04-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* scenarios.c (scenario_move_range): Implemented.
+	(move_range): Implemented the simplest case.
+	
+	* scenarios.c (scenario_summary_res_cells): Result cells output added.
+
+	* dao.c (dao_set_align): Wrote.
+
+	* scenarios.c (*): Replaced the loops that go through the values
+	by a callback function. Store values before showing a scenario and
+	restore them if cancelled.
+
+2003-04-16  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* scenarios.c (scenario_new): Make the name to be unique if it
+	isn't already.
+	(find_scenario): Renamed by scenario_find_by_name.
+	
+	* scenarios.c (scenario_add_new): Simplified the API.
+
+	* scenarios.c (find_scenario): API change to check the deletion
+	flag.
+	(scenario_delete): Renamed to scenario_mark_deleted and modified
+	to support canceling deletions.
+	(scenario_recover_all): New function.
+	(scenario_summary): Return also the new sheet where the report
+	exists to support canceling.
+
+	* scenarios.h (scenario_t): Added marked_deleted field.
+	(*): API changes.
+	
+2003-04-15  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* scenarios.c (scenario_summary): Set colors of the report.
+
+	* dao.c (dao_set_colors): Wrote.
+
+	* scenarios.c (scenario_add_new, collect_values): Return TRUE if
+	changing cells contain at least one formula.
+
+2003-04-14  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* scenarios.c (scenario_summary): Implemented. Result cells output
+	still missing.
+
+2003-04-11  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* scenarios.c: Added support for insert column/row and delete
+	column/row.
+
+2003-04-10  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* Makefile.am: Added scenarios.[ch].
+
+	* scenarios.[ch]: Implemented scenario_copy_all () for sheet
+	duplication. Added scenario_copy ().
+	Implemented scenario_free_all () for sheet removal.
+	Fixed also the scenario value storage indexing.
+
+2003-04-09  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* scenarios.[ch]: Start of scenarios like in XL.
+
+2003-04-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* fill-series.[ch]: Introduced a new filling tool just like in XL.
+
+2003-04-02  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* data-shuffling.[ch]: Introduced a new tool for data shuffling.
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-12-17  Jody Goldberg <jody@gnome.org>
+
+	* simulation.c (simulation_tool) : patch minor memory overrun.
+
+2002-12-18  Morten Welinder  <terra@diku.dk>
+
+	* analysis-tools.c (analysis_tool_regression_engine_run): Fix it
+	right.
+
+2002-12-18  Morten Welinder  <terra@diku.dk>
+
+	* analysis-tools.c (analysis_tool_regression_engine_run): Fix
+ 	memory management for ->missing.
+	(union_of_int_sets): Cleanup.
+
+2002-12-16  Jody Goldberg <jody@gnome.org>
+
+	* analysis-tools.c (cb_cut_into_cols) : It is ok for sheet B to be
+	  NULL.
+	(cb_cut_into_rows) : ditto.
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* dao.c: Included headers for some standard library functions.
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-10-25  Morten Welinder  <terra@diku.dk>
+
+	* dao.c (dao_prepare_output): Fix col/row confusion.
+
+2002-10-14  Morten Welinder  <terra@diku.dk>
+
+	* analysis-tools.c (analysis_tool_ttest_neqvar_engine_run): Use
+	gnumabs, not fabs.
+
+2002-10-10  Morten Welinder  <terra@diku.dk>
+
+	* dao.h (data_analysis_output_t): Avoid "gboolean ... : 1".
+	* auto-correct.c (struct autocorrect): Ditto.
+
+2002-10-03  Jody Goldberg <jody@gnome.org>
+
+	* analysis-tools.c : Convert to using command context rather than
+	 accessing the gui-control directly.
+	* random-generator.c : ditto.
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-09-10  Morten Welinder  <terra@diku.dk>
+
+	* auto-correct.c (autocorrect_tool): Split the meat into
+	subfunctions.
+	(autocorrect_set_exceptions): Don't convert into ucs4.
+	(autocorrect_get_exceptions): therefore don't convert from ucs4.
+	(autocorrect_names_of_days): New function.
+	(autocorrect_first_letter): New function, unimplemented.
+	(autocorrect_initial_caps): New function.
+
+2002-09-09  Jody Goldberg <jody@gnome.org>
+
+	* auto-correct.c (autocorrect_tool) : convert to unicode.
+	(autocorrect_set_exceptions) : convert to ucs4 internally.
+	(autocorrect_get_exceptions) : change the memory management semantics
+	  of the result.
+	(autocorrect_get_feature) : init the gconf cache as needed.
+	(autocorrect_store_config) : use a changeset.
+	(cb_autocorrect_update) : Use clear and load.
+	(autocorrect_init) : hook on to the application as data so to handle
+	  destruction in stead of requiring explicit removal.
+	(autocorrect_load) : handle the gconf lookup directly.
+
+2002-08-29  Jody Goldberg <jody@gnome.org>
+
+	* auto-correct.c (autocorrect_tool) : don't run off the end of strings
+	  looking for spaces.
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-16  Jon K Hellan  <hellan@acm.org>
+
+	* simulation.c (simulation_tool): Remove unused variable
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-08-06  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* simulation.c: Plugged a lot of leaks. A new public function to
+	take care of the memory buffer releasing.
+
+2002-08-06  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* simulation.[ch]: Started the results summary reporting.
+
+2002-08-04  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* dao.c (dao_append_date): New function.
+
+2002-08-04  Jon K Hellan  <hellan@acm.org>
+
+	* simulation.c: Include rangefunc.h.
+
+2002-08-03  Jon K Hellan  <hellan@acm.org>
+
+	* filter.c (cb_show_all): Return a value.
+
+2002-08-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* simulation.c: Added range, count and confidence level reporting.
+
+	* simulation.c (simulation_tool, create_reports,
+	eval_inputs_list): Added the generations of the statistics of the
+	input variables too.
+
+2002-08-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* simulation.c (simulation_tool): Fixed leaks in error condition.
+	Redraw and recompute with sheet->simulation_round=0.
+	(create_reports): Set summary labels italic. Fix the row positions
+	if first_round > 1.
+
+2002-08-02  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* dao.c (dao_set_bold, dao_set_underlined, dao_set_italic,
+	dao_set_percent): Bug fix: dao relative indexing.
+
+	* simulation.c (create_reports): Reporting look improvements.  Use
+	dao_prepare_output.
+
+2002-07-30  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* simulation.[ch]: Initial version of the Risk Simulation tool.
+	It's similar to XL's add-on plug-in's like @RISK but not yet that
+	good (yet).
+
+	* solver/reports.c, dao.[ch]: Moved find_name to dao.c and renamed
+	it as dao_find_name.
+
+	* solver/reports-write.c, dao.[ch]: Moved fill_header_titles to
+	dao.c and renamed it as dao_write_header.
+
+2002-07-29  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* analysis-tools.c
+	(analysis_tool_exponential_smoothing_engine_run): Added standard
+	errors output.
+
+2002-07-26  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* filter.[ch]: New file for filtering submenu functionality.
+
+2002-07-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* random-generator.c (tool_random_engine): Added Gaussian tail and
+	uniform integer distributions.
+
+2002-07-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* random-generator.c (tool_random_engine): Added Landau
+	distribution.
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-07-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* random-generator.c (tool_random_engine): Add Rayleigh Tail
+	distribution.
+
+2002-07-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* random-generator.c (tool_random_engine): Add Exponential Power.
+
+2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* random-generator.c (tool_random_engine): Added Levy.
+
+2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* random-generator.c (tool_random_engine): Added Gamma, Geometric,
+	Laplace, Logarithmic, Logistic, Lognormal, Pareto, Rayleigh, T,
+	Type I Gumbel, and Type II Gumbel.
+
+2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* random-generator.c (tool_random_engine): Added Beta, Cauchy,
+	Chi-Squared, F, and Weibull.
+
+	* random-generator.h: Related changes.
+
+2002-06-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.c (dao_format_output) : don't just bail out when clear_outputrange
+	is false
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-05-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/tools/auto-correct.c (autocorrect_shutdown) : change
+	  gnm_gconf_rm_notification_autocorrect to gnm_gconf_rm_notification
+
+2002-05-03  Morten Welinder  <terra@diku.dk>
+
+	* goal-seek.c (fake_df): More debug.  Handle things that come out
+	NaN.
+	(goal_seek_newton): Better xstep calculation for the
+	fake_df case.
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.3
+
+2002-04-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/tools/dao.[ch] (dao_get_colrow_state_list) : new
+	(dao_set_colrow_state_list) : new
+
+2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* auto-correct.[ch] : switch from gnome-config to gconf and make
+	  preserve autocorrect exceptions. Make exception lists into 
+	  GSList
+
+2002-04-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.c (dao_command_descriptor) : use cmd_range_to_str_utility
+
+2002-04-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* random-generator.[ch] : make undoable
+
+2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c : adjust includes
+	* random-generator.c : ditto
+
+2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* Makefile.am : added tools.h
+	* analysis-tools.c : use inheritance over #define
+	* analysis-tools.h : use inheritance over #define
+	* dao.h : delete labels_flag from dao (it's not an output option)
+	* random-generator.c :  use inheritance over #define
+	* tools.h : new
+
+2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.[hc] : make regrssion tool undoable
+
+2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c : make histogram undoable
+	* analysis-tools.h : include the analysis-tools.c specific
+	  header info (rather than putting that into tools.h)
+	* random-generator.h : include tools.h, contain random_tools
+	  prototype
+	* dao.c (dao_set_cell_value) : plug leak
+
+2002-03-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* random-generator.[ch] : new files extracted from
+	  analysis-tools.[ch]
+	* analysis-tools.[ch] : some code moved to 
+	  random-generator.[ch]
+	* Makefile.am : added random-generator.[ch]
+	  
+2002-03-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c : make F-, z- and t-tests undoable
+	* analysis-tools.h : add selector
+
+2002-03-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c :  make fourier analysis, moving averages, 
+	  rank and percentile, and sampling tools undoable
+	* dao.c (dao_set_style) : new
+	(dao_set_percent) : use offsets by calling dao_set_style
+	(dao_set_italic) : ditto
+
+2002-03-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c : make Fourier Analysis Tool undoable
+
+2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c : make Descriptive Stats Tool undoable
+
+2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c : make Covariance Tool undoable
+
+2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c : make Correlation Tool undoable
+
+2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c : make 2-factor ANOVA's undoable
+
+2002-03-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.2
+
+2002-03-12  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* autocorrect.c, analysis-tools.c: Added GPL clause.
+
+	* dao.[ch] (dao_set_bold): New function.  Moved from
+	src/tools/solver/reports.c.
+	(dao_set_underlined): Ditto.
+
+2002-03-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.[hc] : new files, code extracted from 
+	  src/tools/analysis-tools.[ch] and 
+	  src/dialogs/dialog-analysis-tools.c, various
+	  functions renamed (prepended dao_)
+	* analysis-tools.[ch] : some code moved to
+	  src/dialogs/dao-gui-utils.[hc] and dao.[hc], change of 
+	  names of utility functions now in 
+	  src/dialogs/dao-gui-utils.[hc] or dao.[hc]
+	* Makefile.am : added dao.[hc]
+
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
+2002-03-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c (dao_range_name) : new utility
+	(dao_command_descriptor) : new utility
+	(dao_adjust) : new utility
+	(prepare_output) : set all variables to sensible values
+	  to avoid unnecessary type checks elsewhere
+	(format_output) : utility clearing output range as
+	  appropriate.
+	(anova_single_factor_tool) : change into an engine
+	  callable by cmd_analysis_tool, renamed to 
+	  analysis_tool_anova_single_engine_run
+	(analysis_tool_anova_single_engine_clean) : new
+	(analysis_tool_anova_single_engine) : selector function
+	* analysis-tools.h : some rearrangments, new 
+	  analysis_tool_engine_t type, added fields to 
+	  data_analysis_output_type_t
+
+2002-03-08  Morten Welinder  <terra@diku.dk>
+
+	* analysis-tools.c (dao_set_cell_comment): New function.
+	(regression_tool): Set a comment on the P-value header.
+
+	* analysis-tools.c (fourier_fft_inv): Eliminate.
+	(fourier_fft): Handle inverse case also.  Make n and skip
+	parameters.  Eliminate fourier_t.  Constify.
+
+2002-03-07  Morten Welinder  <terra@diku.dk>
+
+	* analysis-tools.c (set_cell_value): Safety checks.
+
+2002-03-07  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* goal-seek, Makefile.am: Moved goal seek into this directory.
+
+	* stat-analysis, Makefile.am: Moved analysis tools into this
+	directory.
+
+2002-03-06  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver: Moved Solver into this directory.
+
+	* Makefile.am: Created.

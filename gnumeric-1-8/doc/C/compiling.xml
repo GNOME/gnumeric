@@ -1,0 +1,67 @@
+<sect1 id="sect-compiling-overivew">
+  <title>Overview of the compilation process</title>
+
+  <para>
+    This section has not yet been written.
+  </para>
+
+  <para>
+    The first build is hard b/c need tools and libs, rest easy.
+  </para>
+
+  <para>
+    The process: 
+      - update source or change code
+      - auto/config
+      - compile
+      - install
+      - run
+
+  </para>
+
+</sect1>
+
+
+
+<sect1 id="sect-compiling-gettingCode">
+  <title>How to Obtain Gnumeric Source Code</title>
+
+  <para>
+    Two sources: tarballs, cvs.
+  </para>
+
+  <para>
+    Unpack to a dir
+  </para>
+</sect1>
+
+
+
+
+
+<sect1 id="sect-compiling-envt">
+  <title>How to setup a build environment</title>
+
+  <para>
+    This section has not yet been written.
+  </para>
+
+</sect1>
+
+
+
+
+
+<sect1 id="sect-compiling-build">
+  <title>The build process</title>
+
+  <para>
+    This section has not yet been written.
+  </para>
+
+  <para>
+    The process (autogen.sh) -> Configure -> Make -> Make install.
+  </para>
+
+</sect1>
+

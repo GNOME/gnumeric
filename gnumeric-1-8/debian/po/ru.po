@@ -1,0 +1,47 @@
+# translation of gnumeric_1.6.3-2_debconf-ru.po to Russian
+# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
+# Yuri Kozlov <kozlov.y@gmail.com>, 2006.
+# Sergey Alyoshin <alyoshin.s@gmail.com>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnumeric_1.6.3-7_ru\n"
+"Report-Msgid-Bugs-To: Source: gnumeric@packages.debian.org\n"
+"POT-Creation-Date: 2007-11-02 12:26+0100\n"
+"PO-Revision-Date: 2007-11-03 19:01+0300\n"
+"Last-Translator: Sergey Alyoshin <alyoshin.s@gmail.com>\n"
+"Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.9.1\n"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:2001
+msgid "Really upgrade gnumeric?"
+msgstr "Выполнить обновление gnumeric?"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:2001
+msgid ""
+"An instance of gnumeric is currently running. If you upgrade now, it may no "
+"longer be able to save its data."
+msgstr ""
+"Экземпляр gnumeric запущен в данный момент. Если вы выполните обновление в "
+"таком состоянии, то gnumeric, возможно, не сможет сохранить данные."
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:2001
+msgid ""
+"You should close the running instances of gnumeric before upgrading this "
+"package."
+msgstr ""
+"Перед обновлением этого пакета следует закрыть все работающие экземпляры "
+"gnumeric."
+
+#~ msgid "Are you sure you want to upgrade gnumeric right now?"
+#~ msgstr "Вы уверены, что хотите обновить gnumeric прямо сейчас?"

@@ -1,0 +1,97 @@
+<sect1>
+<title>Moviendo celdas</title>
+
+	<para>Gnumeric permite mover y copiar celdas y sus contenidos
+con solo arrastrar y soltar la celda en su nueva posición. </para>
+ 
+	<para>El procedimiento básico para arrastrar y soltar
+rápidamente una celda a su nueva posición es pinchar en el borde, y
+arrastrar la celda a su nueva posición y soltar. El contenido de la
+celda pasará a la nueva posición.</para>
+
+  <itemizedlist>
+     <listitem><para>Pinchar (BR1) en el borde (en cualquier parte,
+menos en el cuadrado de autorrelleno que hay en la esquina inferior
+derecha). Con Ctrl+pinchar se copia la celda, mientras que si sólo se
+pincha la celda se moverá en lugar de copiarse.</para></listitem>
+
+     <listitem><para>Arrastrar la celda a su nueva
+posición.</para></listitem>
+
+     <listitem><para>Soltar la celda seleccionada.</para></listitem>
+  </itemizedlist>
+
+  <para>Este es el método más simple y más común de los métodos para
+mover y copiar es el de arrastrar y soltar. Los atajos por teclado le
+proporcionan una opción para mover y copiar rápidamente.</para>
+
+   <sect2>
+    <title>Opción del botón derecho</title>
+
+  <para>La otra opción más ...The other more extensive option to moving and copying cells is the 
+  right click options. This presents a menu of options that is more extensive
+  that can be easily done with the normal keybindings</para>
+
+<itemizedlist>
+     <listitem><para>Pinchar con el botón derecho (BR3) en el borde
+(de nuevo, en cualquier parte excepto en el cuadrito del
+autorrellenado que hay en la esquina inferior
+izquierda).</para></listitem>
+
+     <listitem><para>Arrastrar la celda hasta su nueva
+posición.</para></listitem>
+
+     <listitem><para>Soltar la selección. Debería desplegarse un menú
+de opciones.</para></listitem>
+
+    <listitem><para>Seleccionar la opción adecuada del menú y pinchar
+de nuevo. La nueva celda debería tener la nueva
+información.</para></listitem>
+
+  </itemizedlist>
+
+
+   <para>¡ARREGLADME! Añadir aquí una imagen una vez sepa como hacer
+cursores</para>
+
+  <para>Opciones del menú del botón derecho del ratón relacionadas con
+mover y copiar</para>
+  
+<itemizedlist>
+     <listitem><para>Copiar: Tiene el mismo efecto que la operación
+normal de copia. Copia el valor, el formato, y la fórmula. Equivalente
+a hacer Ctrl+BR1.</para></listitem>
+
+     <listitem><para>Mover: El mismo efecto que la operación normal de
+mover. Mueve el valor, el formato, y la fórmula. Equivalente a
+BR1.</para></listitem>
+
+     <listitem><para>Copiar formato: Copia la información acerca del
+formato de la celda origen. En el formato se incluye el tipo de
+número, el color, el tipo de letra, filltype <!-- FIXME -->,
+etc.</para></listitem>
+
+    <listitem><para>Copiar valores: Copia el valor que hay en la celda
+origen a la celda destino. </para></listitem>
+
+    <listitem><para>Empujar las celdas hacia abajo y copiar: todavía
+no se ha implementado</para></listitem>
+    <listitem><para>Empujar las celdas hacia la derecha y copiar:
+todavía no se ha implementado</para></listitem>
+    <listitem><para>Empujar las celdas hacia abajo y mover: todavía no
+se ha implementado</para></listitem>
+    <listitem><para>Empujar las celdas hacia la derecha y mover:
+todavía no se ha implementado</para></listitem>
+
+  </itemizedlist>
+
+
+  <screenshot>
+       <screeninfo>Figura 1.
+	 </screeninfo>
+       <graphic fileref="dndselection-1.jpg"></graphic>
+       El menú de opciones del botón derecho del ratón. 
+  </screenshot>
+
+  </sect2>
+</sect1>

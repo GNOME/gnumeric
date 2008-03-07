@@ -1,0 +1,504 @@
+<sect1>
+<title>ワークシート</title>
+
+<para>
+Gnumeric を開くと、ワークシートのビューが表示されます。ここで、スプレッドシートを使う作業のほとんどが行われ、また、Gnumeric の各種サブダイアログにも、すべて、ここからアクセスすることができます。
+</para>
+
+<para>
+ワークシートのビューは、いくつかのメインエリアに分かれています。メニューバー、ボタンバー、入力領域、メイン・セル領域、情報領域です。<xref linkend="worksheet-all-1.jpg"> を参照してください。
+</para>
+
+<figure id="worksheet-all-1.jpg">
+    <title>ワークシートの全貌の例</title>
+    <screenshot>
+      <graphic fileref="images/worksheet-all-1.jpg"></graphic>
+    </screenshot>
+  </figure>
+
+  <sect2 id="menu-bar">
+    <title>メニューバー</title>    
+    <para>
+メニューバーのデフォルトの位置は、アプリケーション・ウィンドウの一番上です。メニューバーを使って、よく使われるいくつかの機能に、迅速かつ整然とアクセスすることができます。
+</para>
+    
+    <sect3>
+      
+      <!-- メニューオプションのもっとよい文書化方法を知っている人がいたら
+	知らせてください。この部分は少し多すぎるし、db2htmlも不便なので -->
+      
+      <title><guimenu><accel>F</accel>ile</guimenu></title>
+      <variablelist>
+	<varlistentry>
+	  <term><guimenuitem><accel>N</accel>ew</guimenuitem></term>
+	  <listitem><para>新しいワークシートを作成します。ウィンドウに新しいワークシートを開きます。</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>O</accel>pen</guimenuitem></term>
+	  <listitem><para>既存のワークシートを開きます。ファイルが選択された新しいウィンドウを生成します。</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>S</accel>ave</guimenuitem></term>
+	  <listitem><para>カレントのワークシートを保存します。すでに名前を付けて保存してあるファイルなら、この機能によって、暗黙のうちに新しいファイル名で保存されます。初めて保存するファイルなら、ファイル名とパスの入力が求められます。
+</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem>S<accel>a</accel>ve
+	  as..</guimenuitem></term>
+
+	  <listitem><para>ファイルを新しい名前で保存します。新しく作成されたファイルを保存したり、ファイルを別の名前で保存したりするのに使います。
+</para></listitem>
+
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>P</accel>lugins</guimenuitem></term>
+	  <listitem><para>プラグイン・ダイアログを開きます。プラグインの読込みや保存に使います。このダイアログで、読込み済みのプラグインをリスト表示ができ、また、プラグインの追加をすることもできます。</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>C</accel>lose</guimenuitem></term>
+	  <listitem><para>カレントのワークシートを閉じます。</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>Q</accel>uit</guimenuitem></term>
+	  <listitem><para>開いているワークシートを閉じて Gnumeric を終了します。</para></listitem>
+	</varlistentry>
+	
+      </variablelist>  
+      
+      
+    </sect3> 
+    
+    <sect3>
+      <title><guimenu><accel>E</accel>dit</guimenu></title>
+      <variablelist>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>C</accel>ut</guimenuitem></term>
+	  <listitem><para>現在選択されているセルのコンテンツを切り取って保存します。</para></listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>C<accel>o</accel>py</guimenuitem></term>
+	  <listitem><para>後で貼り付けられるように、現在選択されているセルのコピーを作成します。</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem><accel>P</accel>aste</guimenuitem></term>
+	  <listitem><para>カーソル位置のカット・バッファにあるすべての内容を貼り付けます。</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>P<accel>a</accel>ste Special</guimenuitem></term>
+	  <listitem><para>カット・バッファから貼り付けますが、貼り付ける内容に関しては、より多くのオプションがあります。フォーマットだけ、あるいは値だけを貼り付ける場合などに便利です。</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem><accel>S</accel>elect All</guimenuitem></term>
+	  <listitem><para>ワークシートにあるすべてのセルを選択します。
+</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guisubmenu>Clear -></guisubmenu></term>
+	  <listitem>
+	    <para>
+	      <variablelist>
+		<varlistentry>
+		  <term><guimenuitem><accel>A</accel>ll</guimenuitem></term>
+		  <listitem><para>すべてのセルを消去します。</para></listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term><guimenuitem><accel>F</accel>ormats</guimenuitem></term>
+		  <listitem><para>選択したセルのフォーマットを消去します。</para></listitem>
+		</varlistentry>
+	      </variablelist>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem><accel>G</accel>oto Cell</guimenuitem></term>
+	  <listitem><para>「ジャンプ」先のセルを指定することができます。</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu><accel>V</accel>iew</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem><accel>Z</accel>oom</guimenuitem></term>
+	  <listitem><para>ズームインします。スプレッド・シートの一部分をさらに詳しく表示します。</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu><accel>I</accel>nsert</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem><accel>C</accel>ells</guimenuitem></term>
+	  <listitem><para>新しいセルを追加します。</para></listitem>
+	</varlistentry>
+	<varlistentry><term><guimenuitem><accel>R</accel>ows</guimenuitem></term>
+	  <listitem><para>セルの行を追加します。</para></listitem>
+	</varlistentry>
+	<varlistentry><term><guimenuitem>C<accel>o</accel>lumns</guimenuitem></term>
+	  <listitem><para>セルの列を追加します。</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu>F<accel>o</accel>rmat</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem><accel>C</accel>ells</guimenuitem></term>
+	  <listitem><para>セル・フォーマット・ダイアログを開きます。フォーマット・スタイル、色などを変更するときに使います。</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu><accel>H</accel>elp</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem>Cells</guimenuitem></term>
+	  <listitem><para>Gnumeric のオンライン・ヘルプを開きます。</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+  </sect2>
+  <!-- メニューバーの解説の終了 -->
+  
+  <sect2 id="buttonbar-buttons">
+    <title>ボタンバー</title>
+    
+    <para>ボタンバーには、よく使われる機能を表す数多くのアイコンがあります。これらのツールにすばやくアクセスできるようにと設けられたものです。</para>
+    
+    <variablelist>
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/stock-new.png"></inlinegraphic>
+	    New File.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>新しいファイルを作成します。</para>
+	</listitem>
+      </varlistentry>
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/stock-open.png"></inlinegraphic>
+	    Open
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>既存のファイルを開きます。</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term
+	  <guiicon><inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
+	    Save
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>カレントのワークシートをディスクに保存します。</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/stock-cut.png"></inlinegraphic>
+	    Cut
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>現在選択されている範囲にあるセルをカット・バッファにコピーして削除します。</para>
+	</listitem>
+      </varlistentry>
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/stock-copy.png"></inlinegraphic>
+	    Copy
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>現在選択されている範囲にあるセルをカット・バッファにコピーします。
+</para>
+	</listitem>
+      </varlistentry>
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/stock-paste.png"></inlinegraphic>
+	    Paste
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>カット・バッファのコンテンツをアクティブ・セルに貼り付けます。</para>
+	</listitem>
+      </varlistentry>
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/align-left.png"></inlinegraphic>
+	    Left justify..
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>セルのコンテンツをセルの左に揃えます。</para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/align-center.png"></inlinegraphic>
+	    Center
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>セルのコンテンツをセンタリングします。</para>
+	</listitem>
+      </varlistentry>
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/align-right.png"></inlinegraphic>
+	    Right Justify
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>セルのコンテンツをセルの右に揃えます。</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/bold.png"></inlinegraphic>
+	    Bold
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>カレントのセルを太字体にします。すでに太字体になっている場合は太字体から変更します。</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/italic.png"></inlinegraphic>
+	    Italic
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>カレントのセルのスタイルをイタリック体に変更します。</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/line.png"></inlinegraphic>
+	    Line
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>ワークシートに線を作図します。</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/arrow.png"></inlinegraphic>
+	    Arrow
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>片端に矢のついた線を作図します。ポインタです。</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/rect.png"></inlinegraphic>
+	    Box
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>ワークシートに四角形を作図します。</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="images/oval.png"></inlinegraphic>
+	    Ellipse
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>ワークシートに楕円や円を作図します。
+</para>
+	</listitem>
+      </varlistentry>
+      
+    </variablelist>
+    
+  </sect2>
+  <!-- ボタンバーの解説の終了 -->
+  
+  <sect2 id="worksheet-data-entry">
+    <title>データ入力領域</title>
+    
+    <para>ボタンバーのすぐ下にあるのがデータ入力領域です。小さな領域ですが、ここに、カレント・セル・インジケータ、 <guibutton>確認</guibutton> ボタン、<guibutton>キャンセル</guibutton> ボタン、セル・コンテンツの詳細な編集に使う入力領域があります。<xref linkend="worksheet-data-1">を参照してください。
+</para>
+    
+    <figure id="worksheet-data-1">
+      <title>データ入力領域</title>
+      <screenshot>
+	<graphic fileref="images/worksheet-data-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <sect3>
+      <title>カレント・セル・インジケータ</title>
+      <para>データ入力領域の左端にカレント・セル・インジケータの領域があります。一つのセルが選択されたときは、そのセルのアドレスが表示されます。ある範囲が選択されると、そのサイズが次のフォーマットで表示されます。</para>
+      
+      <blockquote><para>4Lx5C</para></blockquote>
+      
+      <para>L は行数、C は列数です。上の例は、4 行 5 列が選択されたことを示しています。</para>
+      
+      
+      <figure id="worksheet-data-2">
+	<title>カレント・セル・インジケーター</title>
+	<screenshot>
+	  <graphic fileref="images/worksheet-data-2.jpg"></graphic>
+	</screenshot>
+      </figure>
+      
+    </sect3>
+    
+    <sect3>
+      <title><guibutton>確認ボタン</guibutton></title>
+      
+      <para>入力領域にデータを入力している際に、緑のリターンボタンを押してカレント・セルのコンテンツを確認することができます。
+	<guibutton>
+	  <inlinegraphic fileref="images/worksheet-data-3.jpg">
+	  </inlinegraphic>
+	</guibutton>.
+      </para>
+      
+    </sect3>
+    
+    <sect3>
+      <title><guibutton>キャンセルボタン</guibutton></title>
+      
+      <para>セルに入っているデータを変更したいときは、キャンセルボタンを押して、カレント・データをキャンセルし、そのセルを前の状態に戻します。セルに入力中のデータは、赤いX ボタンを押すとキャンセルすることができます。
+	<guibutton>
+	  <inlinegraphic fileref="images/worksheet-data-4.jpg">
+	  </inlinegraphic>
+	</guibutton>.
+      </para>
+      
+      <para>セルのコンテンツを新しいデータで上書きするときに使うのが、このボタンの最も一般的な使い方です。データを変更したが、まだ確認（確定）はしていない段階で、もう一度元に戻したいときは、キャンセルボタンを使います。</para>
+    </sect3>
+  </sect2>
+  
+  <sect2>
+    <title>セル領域</title>
+      
+    <para>スプレッドシートに対する作業のほとんどは、メイン・セル領域、すなわち、ワークシートのうち、大きなグリッド状の部分で行います。ここが、すべての数式やデータを入力する場所であり、スプレッドシートに対する作業の中心となる部分です。</para>
+    
+    <para>スプレッドシートの端には列ラベルと行ラベルが付いています。列ラベルはアルファベット順に、シートの上端に横に並びます。<xref linkend="worksheet-cols-1"> を参照してください。行ラベルは数字の順に、シートの左端に沿って縦に並びます。<xref linkend="worksheet-rows-1"> を参照してください。
+</para>
+
+    <figure id="worksheet-cols-1">
+      <title>ワークシート上端の列ラベル</title>
+      <screenshot>
+	<graphic fileref="images/worksheet-cols-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <figure id="worksheet-rows-1">
+      <title> ワークシート左端の行ラベル</title>
+      <screenshot>
+	<graphic fileref="images/worksheet-rows-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    
+  </sect2>
+  
+  <sect2>
+    <title>情報領域</title>
+    
+    <para>ワークシートの一番下のセクションは情報領域です。ここには、現在選択されているセルについての情報が入っています。またここから、ズームイン、ズームアウトに使うボタンにアクセスすることができます。シート・インジケータもここにあります。</para>
+    
+    <figure id="worksheet-info-1">
+      <title>情報領域</title>
+      <screenshot>
+	<graphic fileref="images/worksheet-info-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <sect3>
+      <title>シート・インジケーター</title>
+      <para>左端にシート・インジケータがあります。複数のシートを含むワークブックでは、含まれているシートの数がここに示されます。また、該当のタグをクリックして別のシートに移動することができます。この機能はまだ実装されていません。
+</para>
+    </sect3>
+    
+    <sect3>
+      <title>ズームボタン</title>
+      <para><guibutton>Zoom in</guibutton> (<xref linkend="worksheet-zoomin-1">)ボタンと <guibutton>Zoom out</guibutton> (<xref linkend="worksheet-zoomout-1">) ボタンも情報領域にあります。<guibutton>Zoom in</guibutton> を押すとスプレッドシートを拡大してシートの細目を表示させることができます。<guibutton>Zoom out</guibutton> を使うと、細目は見えなくなりますが、スプレッドシートの表示範囲を広げることができます。また、<guimenu>View</guimenu> メニューと <guimenuitem>Zoom</guimenuitem> オプションを使って変更することができます。</para>
+      
+      <figure id="worksheet-zoomin-1">
+	<title>Tズームインボタン</title>
+	<screenshot>
+	  <graphic fileref="images/worksheet-zoomin-1.jpg"></graphic>
+	</screenshot>
+      </figure>
+      
+      <figure id="worksheet-zoomout-1">
+	<title>ズームアウトボタン</title>
+	<screenshot>
+	  <graphic fileref="images/worksheet-zoomout-1.jpg"></graphic>
+	</screenshot>
+      </figure>
+      
+    </sect3>
+    
+    <sect3>
+      <title>自動計算領域</title>
+      
+      <para>右下にあるのは、名にらかの項目について自動的に計算した値を示す情報領域です。デフォルト設定は、現在選択されているセルの合計数を示すようになっています。</para>
+      
+      <para>右クリック・オプションがあり、選択できる項目が他にもいくつか用意されています。Sum（合計）、Min（最小値）、Max（最大値）、Average（平均）、Count（カウント）などを計算させることができます。</para>
+      
+      <figure id="worksheet-running-calc-1">
+	<title>自動計算領域</title>
+	<screenshot>
+	  <graphic fileref="images/worksheet-running-calc-1.jpg"></graphic>
+	</screenshot>
+      </figure>
+    </sect3>
+  </sect2>
+</sect1>
+
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_fnfinancial">
+	<information>
+		<_name>Financial Functions</_name>
+		<_description>Interest rate calculations</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="plugin"/>
+	</loader>
+	<services>
+		<service type="function_group" id="financial">
+			<_category>Finance</_category>
+			<functions>
+				<function name="accrint"/>
+				<function name="accrintm"/>
+				<function name="amordegrc"/>
+				<function name="amorlinc"/>
+				<function name="coupdaybs"/>
+				<function name="coupdays"/>
+				<function name="coupdaysnc"/>
+				<function name="coupncd"/>
+				<function name="coupnum"/>
+				<function name="couppcd"/>
+				<function name="cumipmt"/>
+				<function name="cumprinc"/>
+				<function name="db"/>
+				<function name="ddb"/>
+				<function name="disc"/>
+				<function name="dollarde"/>
+				<function name="dollarfr"/>
+				<function name="duration"/>
+				<function name="effect"/>
+				<function name="euro"/>
+				<function name="euroconvert"/>
+				<function name="g_duration"/>
+				<function name="fv"/>
+				<function name="fvschedule"/>
+				<function name="intrate"/>
+				<function name="ipmt"/>
+				<function name="irr"/>
+				<function name="ispmt"/>
+				<function name="mduration"/>
+				<function name="mirr"/>
+				<function name="nominal"/>
+				<function name="nper"/>
+				<function name="npv"/>
+				<function name="oddfprice"/>
+				<function name="oddfyield"/>
+				<function name="oddlprice"/>
+				<function name="oddlyield"/>
+				<function name="pmt"/>
+				<function name="ppmt"/>
+				<function name="price"/>
+				<function name="pricedisc"/>
+				<function name="pricemat"/>
+				<function name="pv"/>
+				<function name="rate"/>
+				<function name="received"/>
+				<function name="sln"/>
+				<function name="syd"/>
+				<function name="tbilleq"/>
+				<function name="tbillprice"/>
+				<function name="tbillyield"/>
+				<function name="vdb"/>
+				<function name="xirr"/>
+				<function name="xnpv"/>
+				<function name="yield"/>
+				<function name="yielddisc"/>
+				<function name="yieldmat"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

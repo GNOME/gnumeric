@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_fnmath">
+	<information>
+		<_name>Math Functions</_name>
+		<_description>Mathematical Functions</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="plugin"/>
+	</loader>
+	<services>
+		<service type="function_group" id="math">
+			<_category>Mathematics</_category>
+			<functions>
+				<function name="abs"/>
+				<function name="acos"/>
+				<function name="acosh"/>
+				<function name="asin"/>
+				<function name="asinh"/>
+				<function name="atan"/>
+				<function name="atanh"/>
+				<function name="atan2"/>
+				<function name="beta"/>
+				<function name="betaln"/>
+				<function name="cos"/>
+				<function name="cosh"/>
+				<function name="countif"/>
+				<function name="ceil"/>
+				<function name="ceiling"/>
+				<function name="degrees"/>
+				<function name="even"/>
+				<function name="exp"/>
+				<function name="expm1"/>
+				<function name="fact"/>
+				<function name="factdouble"/>
+				<function name="fib"/>
+				<function name="combin"/>
+				<function name="floor"/>
+				<function name="gcd"/>
+				<function name="hypot"/>
+				<function name="int"/>
+				<function name="lcm"/>
+				<function name="ln"/>
+				<function name="ln1p"/>
+				<function name="log"/>
+				<function name="log2"/>
+				<function name="log10"/>
+				<function name="mod"/>
+				<function name="mround"/>
+				<function name="multinomial"/>
+				<function name="odd"/>
+				<function name="power"/>
+				<function name="g_product"/>
+				<function name="quotient"/>
+				<function name="radians"/>
+				<function name="roman"/>
+				<function name="round"/>
+				<function name="rounddown"/>
+				<function name="roundup"/>
+				<function name="seriessum"/>
+				<function name="sign"/>
+				<function name="sin"/>
+				<function name="sinh"/>
+				<function name="sqrt"/>
+				<function name="sqrtpi"/>
+				<function name="suma"/>
+				<function name="sumif"/>
+				<function name="sumproduct"/>
+				<function name="sumsq"/>
+				<function name="sumx2my2"/>
+				<function name="sumx2py2"/>
+				<function name="sumxmy2"/>
+				<function name="tan"/>
+				<function name="tanh"/>
+				<function name="trunc"/>
+				<function name="pi"/>
+				<function name="mmult"/>
+				<function name="minverse"/>
+				<function name="mdeterm"/>
+				<!-- <function name="logmdeterm"/> -->
+			</functions>
+		</service>
+	</services>
+</plugin>

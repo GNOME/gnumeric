@@ -1,0 +1,1259 @@
+<sect1 id="sect-gui-toolbars">
+  <title>Toolbars</title>
+
+<!-- TODO: add xrefs from each button to a section of the manual. -->
+
+  <para>
+    The toolbars contain buttons and other elements which can be used
+    to perform quickly some the more common operations. Each button
+    has an icon intended to provide a mnemonic reminder of the
+    operation performed by the button. The toolbar elements are
+    intended to provide fast access to the commonly used tools. Almost
+    all of these functions are also available through the menu
+    system. The specific actions required to use each button vary.
+  </para>
+  
+  <para>&gnum; has three toolbars, the
+  standard toolbar, the format toolbar and the object toolbar. The
+  three toolbars are shown in <xref linkend="fig-toolbars" />.
+  </para>
+  
+  <figure id="fig-toolbars">
+    <title>The Three Gnumeric Toolbars</title>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="figures/toolbars.png" 
+	           format="PNG" scale="100"/>
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <para>
+    These toolbars will be discussed separately in the subsequent
+    sections of this manual. User interaction with each toolbar
+    happens in essentially the same way. Similarly, the toolbars can
+    be configured in the same way. The next section explains the
+    standard behavior of &gnum;
+    toolbars.
+  </para>
+  
+  
+  
+  <sect2 id="toolbar-use">
+    <title>General Toolbar Behavior</title>
+    
+    <para>In the same way that menus can be moved around, as was
+    explained <xref linkend="menu-bars" />, toolbars can be moved
+    around the &gnum; window by dragging
+    the little tag on the leftmost portion of the toolbar.
+    </para>
+
+    <para>
+      If the &gnum; window is too small
+      to fit all of the toolbar buttons, gnumeric may display a little
+      right pointing black arrow to indicate that there are more
+      options. If the user clicks on this arrow, a window will open
+      with the remaining buttons.
+    </para>
+
+    <para>
+      Certain toolbar options, such as the zoom box, are combinations
+      of a button or text entry area and a downward pointing arrow. If
+      the user clicks on the arrow, a list of available options
+      appears.
+    </para>
+    
+  </sect2>
+
+
+
+
+
+
+<!-- ************************* THE STANDARD TOOLBAR ************** -->
+<sect2 id="std-toolbar">
+  <title>The Standard Toolbar</title>
+  
+  <para>
+    The standard toolbar is shown in <xref
+    linkend="fig-toolbar-standard" />.
+  </para>
+  
+  <figure id="fig-toolbar-standard">
+    <title>The <interface>Standard Toolbar</interface>.</title>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="figures/toolbar-standard.png" format="PNG" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <para>
+    The <interface>Standard Toolbar</interface> gives the user access
+    to file operations, printing, movement of data blocks, the undo
+    system, and to some of the powerful tools like the function
+    creator and the graphing system.
+  </para>
+  
+
+
+
+	<!-- The list of standard toolbar objects. -->
+    <variablelist>
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-new.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "New File"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    New File.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Create a new file.</para>
+	</listitem>
+      </varlistentry>
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-open.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Open File"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Open
+         </guiicon>
+	</term>
+	<listitem>
+	  <para>Open an existing file.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-save.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Save File"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Save
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Save the current worksheet to disk.</para>
+	</listitem>
+      </varlistentry>
+
+       <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-print.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Print"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Print
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Print the current worksheet or workbook to a file or a
+	  printer.</para>
+	</listitem>
+      </varlistentry>
+     
+       <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-preview.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Print Preview"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Print Preview
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Display a print preview of the current worksheet.</para>
+	</listitem>
+      </varlistentry>
+     
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-cut.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Cut"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Cut
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>
+            Copy the cells in the current selection to the clipboard
+            buffer and mark them to be deleted from the current
+            position. The cells will only be removed if they are
+            pasted into a new position.
+          </para>
+	</listitem>
+      </varlistentry>
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-copy.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Copy"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Copy
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Copy the cells in the current selection to the clipboard buffer.</para>
+	</listitem>
+      </varlistentry>
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-paste.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Paste"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Paste
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Paste the contents of the clipboard buffer into the
+	  active cell.</para>
+	</listitem>
+      </varlistentry>
+
+       <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-undo-and-history.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Undo"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	   Undo 
+	  </guiicon>
+	</term>
+	<listitem>
+          <para>Undoes the last operation undertaken.</para>
+	</listitem>
+      </varlistentry>
+
+        <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-redo-and-history.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Redo"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	   Redo 
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>
+            This is the reverse of the undo operation, restoring its
+            original state.
+          </para>
+	</listitem>
+      </varlistentry>
+
+     <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-insert-hyperlink.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Insert Hyperlink"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	   Insert a hyperlink 
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>
+            This button opens a dialog to allow the user to define a
+            hyperlink either internally within the spreadsheet or to
+            an external resource such as a web page.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+     <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-sum.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Sum"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	   Sum into the current cell 
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>
+            Starts a simple sum formula in the selected cell with
+            &gnum; simply waiting for a
+            selection to be made to complete the sum. The user selects
+            the destination cell, pushes this button, enters the range
+            to be summed and pushes the confirm button (green arrow)
+            in the data entry area or types the
+            <keycap>Return</keycap> key.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-function.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Function"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	   The function druid
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button will start a formula in the current cell using the
+	  function druid.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-sort-az.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Sort A to Z"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	   Sort Ascending 
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Sorts the selected region in ascending order based on the 
+          first column selected.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-sort-za.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Sort Z to A"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Sort Descending
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Sorts the selected region in descending order based on the 
+          first column selected.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-graph.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Graph"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	   Graph
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button calls the graph druid to create a graph.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-insert-object.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Insert Object"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Insert Object
+		</guiicon>
+	</term>
+	<listitem>
+	  <para>This button will insert a component object into the
+	  current worksheet. Components are the way that the GNOME
+	  project has chosen to enable certain programs to use others
+	  within themselves. &gnum; is
+	  able to use the <application>Guppi</application> plotting
+	  program and the <application>Dia</application> diagramming
+	  program in this way.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-insert-component.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Insert Component"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	   Insert Shaped Component
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>
+            This button allows user to insert a component into
+            &gnum; that is not a simple
+            rectangle but may have an arbitrary shape. This
+            functionality is currently not used but provided for
+            future needs.
+          </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-zoom.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Zoom"
+              box.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Zoom
+		</guiicon>
+	</term>
+	<listitem>
+	  <para>
+            The zoom button allows the users to trade-off the extent of
+            the worksheet which is visible against the size of the
+            visible text and cells.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+
+    </variablelist>
+</sect2>
+
+
+
+
+
+<!-- ************************* THE FORMAT TOOLBAR ************** -->
+<sect2 id="fmt-toolbar">
+  <title>The Format Toolbar</title>
+
+  <para> The <interface>Format Toolbar</interface> ...</para>
+  
+  <figure id="toolbar-format.png">
+     <title>The <interface>Format Toolbar</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="figures/toolbar-format.png" format="PNG" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+ 	<para> The <interface>Format Toolbar</interface>. </para>
+
+
+
+    <variablelist>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-font-type.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Font"
+              selection box.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Font Chooser.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>The user can change the font of a selection either by
+	  typing the name of a new font in the text area of this box
+	  or by clicking on the little arrow to the right of the text
+	  area. This will cause a menu to appear from which a font can
+	  be chosen.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-font-size.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Font Size"
+              selection box.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Font size
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>The user can change the font size of a selection by
+	  typing the number of a different font size or by clicking on
+	  the little arrow to the right of the entry box and selecting
+	  the preferred size.</para>
+	</listitem>
+      </varlistentry>
+
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-bold.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Bold"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Bold
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Change the style of the current cell to be bold, or un
+	  bold it if it is already bold.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-italic.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Italic"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Italic
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Change the style of the current cell to be italicized.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-underline.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Underline"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	   Underline
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Change the style of the current cell to be underlined.</para>
+	</listitem>
+      </varlistentry>
+
+
+
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-align-left.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Left Justify"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Left justify..
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Justify the contents of the cell to the left of the cell.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-align-center.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Center"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Center
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Center the content of the cells.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-align-right.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Right Justify"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Right Justify
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Justify the content of the cells to the right side of
+	  the cells</para>
+	</listitem>
+      </varlistentry>
+
+
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-center-across-selection.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Center across Selection"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Center across the selection
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Center the content of the cells on the selected cells.</para>
+	</listitem>
+      </varlistentry>
+
+
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-merge.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Merge Cells"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Merge Cells
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Merge the selected cells into a single cell.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-split.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Split Merged Cells"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Split Merged Cells
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Split previously merged cells into separate cells.</para>
+	</listitem>
+      </varlistentry>
+
+      
+
+
+       <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-money.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Money"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Money
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Sets the format of the selected cells to be monetary.</para>
+	</listitem>
+      </varlistentry>
+      
+        <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-percent.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Percentage"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Percentage
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Sets the format of the selected cells to be a percentage.</para>
+	</listitem>
+      </varlistentry>
+      
+         <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-thousands.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Thousands Separator"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Thousands separator
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Sets the format of the selected cells to use thousands
+	  separator.</para>
+	</listitem>
+      </varlistentry>
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-increase-precision.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Increase Precision"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Increase the displayed precision.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Increases the number of decimals shown in the
+	  currently selected cell.</para>
+	</listitem>
+      </varlistentry>
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-decrease-precision.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Decrease Precision"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Decrease the displayed precision.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Decreases the number of decimals in the currently
+	  selected cell.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-decrease-indent.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Decrease Indentation"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Decrease the displayed indentation.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button decreases the indentation of selected
+	  elements.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-increase-indent.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Increase Indentation"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Increase the displayed indentation.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button increases the indentation of selected
+	  elements.</para>
+	</listitem>
+      </varlistentry>
+
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-borders.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Borders"
+              button and drop down palette.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Change the display borders.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button and drop down menu can be used to set the
+	  borders of all the cells in the selection.</para>
+	</listitem>
+      </varlistentry>
+
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-fill.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Set background colour"
+              button and drop down palette.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Set the Background Colour.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button and drop down menu can be used to set the back ground
+colour.</para>
+	</listitem>
+      </varlistentry>
+
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-text-colour.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the format toolbar's "Set text colour"
+              button and drop down palette.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Set the Text Colour
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This can be used to change the colour of the text.</para>
+	</listitem>
+      </varlistentry>
+
+
+   </variablelist>
+</sect2>
+
+
+
+
+
+
+
+
+
+
+<!-- ************************* THE OBJECT TOOLBAR ************** -->
+<sect2 id="obj-toolbar">
+	<title>The Object Toolbar</title>
+
+
+	<figure id="toolbar-object.png">
+     <title>The <interface>Object Toolbar</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="figures/toolbar-object.png" format="PNG" />
+      </imageobject>
+    </mediaobject>
+    </figure>
+ 	<para> The <interface>Object Toolbar</interface>. </para>
+
+
+
+
+
+
+
+   <variablelist>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-label.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert a Label"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Insert a label.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button allows the user to insert a text label
+	  into a worksheet.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-frame.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert a Frame"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Insert a Frame.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button allows a user to insert a frame into a worksheet.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-checkbox.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert a Checkbox"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Insert a Checkbox.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button allows a user to insert a check box.</para>
+	</listitem>
+      </varlistentry>
+
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-scrollbar.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert a Scrollbar"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Insert a Scrollbar.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button allows a user to insert a scrollbar.</para>
+	</listitem>
+      </varlistentry>
+
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-spin.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert a
+              spinbutton box" button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Insert a Spinbutton Box.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button allows a user to insert a spinbutton box.</para>
+	</listitem>
+      </varlistentry>
+
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-slider.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert a Slider"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Insert a Slider.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button allows a user to insert a slider.</para>
+	</listitem>
+      </varlistentry>
+
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-list.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert a List"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Insert a List.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button allows a user to insert a list.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-combo.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert a Combobox"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Insert a Combo Box
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This allows a user to insert a Combo Box.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-line.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert a Line"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Line
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Draw a line on the worksheet.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-arrow.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert an Arrow"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Arrow
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Draw a line with a arrow at one end. A pointer.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-rectangle.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert a Box"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Box
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Draw a box onto the worksheet.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-oval.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert an Ellipse"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	    Ellipse
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Draw an ellipse or a circle on the worksheet.</para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+</sect2>
+<!-- end of button bar docs -->
+ 
+</sect1>
+

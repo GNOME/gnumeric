@@ -1,0 +1,18 @@
+# These templates have been reviewed by the debian-l10n-english
+# team
+#
+# If modifications/additions/rewording are needed, please ask
+# debian-l10n-english@lists.debian.org for advice.
+#
+# Even minor modifications require translation updates and such
+# changes should be coordinated with translators and reviewers.
+
+Template: gnumeric/existing-process
+Type: boolean
+Default: false
+_Description: Really upgrade gnumeric?
+ An instance of gnumeric is currently running. If you
+ upgrade now, it may no longer be able to save its data.
+ .
+ You should close the running instances of gnumeric
+ before upgrading this package.

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_oleo">
+	<information>
+		<_name>GNU Oleo</_name>
+		<_description>Imports GNU Oleo documents</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="oleo"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="oleo" priority="100" probe="FALSE">
+			<information>
+				<_description>GNU Oleo (*.oleo)</_description>
+			</information>
+			<suffixes>
+				<suffix>oleo</suffix>
+			</suffixes>
+			<mime-types>
+				<mime-type>application/x-oleo</mime-type>
+			</mime-types>
+		</service>
+	</services>
+</plugin>

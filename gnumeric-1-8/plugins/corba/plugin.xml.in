@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_CORBA">
+	<information>
+		<_name>CORBA Interface</_name>
+		<_description>Provides a CORBA scripting interface</_description>
+		<require_explicit_enabling/>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="corba"/>
+	</loader>
+</plugin>

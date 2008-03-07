@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_PerlLoader">
+	<information>
+		<_name>Perl plugin loader</_name>
+		<_description>This plugin provides support for Perl plugins</_description>
+		<require_explicit_enabling/>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="perl_loader"/>
+	</loader>
+	<services>
+		<service type="plugin_loader" id="perl"></service>
+	</services>
+</plugin>

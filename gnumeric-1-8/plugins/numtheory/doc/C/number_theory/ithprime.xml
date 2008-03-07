@@ -1,0 +1,27 @@
+<sect2 id="numtheory-ithprime">
+  <title>ithprime</title>
+  <sect3 id="numtheory-ithprime-syntax">
+    <title>Syntax</title>
+    <para>
+      =ITHPRIME(i)
+    </para>
+  </sect3>
+  <sect3 id="numtheory-ithprime-description">
+    <title>Description</title>
+    <para>
+      The ithprime function returns the ith prime.  This funtion only
+      takes one argument.
+    </para>
+  </sect3>
+  <sect3 id="numtheory-ithprime-examples">
+    <title>Examples</title>
+    <para>
+      For examples, see <xref linkend="examples-ithprime">
+    </para>
+  </sect3>
+  <sect3 id="numtheory-ithprime-seealso">
+    <title>See Also</title>
+    <para>
+      <xref linkend="numtheory-d" /> <xref linkend="numtheory-sigma" />
+    </para>
+  </sect3>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_applix">
+	<information>
+		<_name>Applix</_name>
+		<_description>Imports version 4.[234] spreadsheets</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="applix"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="applix" priority="100" probe="TRUE">
+			<information>
+				<_description>Applix (*.as)</_description>
+			</information>
+			<suffixes>
+				<suffix>as</suffix>
+			</suffixes>
+			<mime-types>
+				<mime-type>application/x-applix-spreadsheet</mime-type>
+			</mime-types>
+		</service>
+	</services>
+</plugin>

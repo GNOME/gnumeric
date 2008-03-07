@@ -1,0 +1,859 @@
+<sect1 id="sect-data-types">
+  <title>The Types of Cell Elements</title>
+  
+  <para>
+    Each cell in a &gnum; worksheet can
+    contain only a single data element. These elements will have one
+    of five basic types: text, numbers, booleans, formulas, or
+    errors. During data entry, &gnum;
+    assigns a default data type to the cell based on an analysis of
+    the cell contents. This assignment can be changed later if
+    &gnum; makes the wrong
+    assignment. For information on how to change the data type of a
+    cell, see <xref linkend="sect-data-format" />.
+  </para>
+
+  <para>
+    The five basic types of data which can be stored in a spreadsheet
+    cell are:
+    <variablelist>
+
+       <varlistentry>
+         <term>Text</term>
+         <listitem>
+           <para>
+              A text element can contain a series of letters, numbers
+              or other contents. For example, the first cell in a
+              worksheet might contain the characters &mdash;This
+              worksheet describes the company's income &mdash; which
+              &gnum; would interpret to
+              be text. In order to distinguish text elements from
+              number or formula elements, the text element may start
+              with a single quote. For instance, if a cell contained
+              only the three digits 345,
+              &gnum; would consider that
+              to be the number three hundred and forty five. If this
+              cell is intended to be a string,
+              &gnum; will store the cell
+              as '345. The newline character cannot be entered
+              directly but must be entered as <keycombo>
+              <keycap>Alt</keycap>
+              <keycap>Enter</keycap></keycombo>. For more information
+              on entering and formatting text elements, see <xref
+              linkend="sect-data-text" />.
+            </para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+         <term>Numbers</term>
+         <listitem>
+           <para>
+              A number element can contain a series of digits (425)
+              but may include specific text and formatting characters
+              to indicate negative numbers (-345), decimal separator
+              (34.0567), thousand separators (12,342), currency ($23),
+              dates (21-10-1998), times (10:23) or scientific notation
+              (2.3e12). Dates may include the names of months or their
+              abbreviation. The currency, decimal separator and
+              thousands separator symbols vary depending on the locale
+              (the language and other location specific behaviour) to
+              which &gnum; has been
+              set. See <xref linkend="sect-configuration-localization"
+              /> to understand how to change the locale. If you want a
+              number to be displayed as a plain string without any
+              number formatting, you can put a single quote (') before
+              it. For more information on entering and formatting,
+              numeric elements see <xref
+              linkend="sect-data-numbers"/>.
+            </para>
+          </listitem>
+        </varlistentry>
+
+
+       <varlistentry>
+         <term>Boolean</term>
+         <listitem>
+           <para>
+              A boolean element can contain one of two values: TRUE
+              and FALSE. These are useful as inputs or outputs from
+              formulas and for boolean algebra.  More information on
+              boolean data elements is presented in <xref
+              linkend="sect-data-boolean" />.
+            </para>
+          </listitem>
+        </varlistentry>
+
+
+       <varlistentry>
+         <term>Formulas</term>
+         <listitem>
+           <para>
+             A formula is an instruction to
+             &gnum; which describes a
+             calculation which should be performed
+             automatically. These formulas can contain standard
+             arithmetic elements but can also contain references to
+             other cells. Calculations which depend on other cells are
+             usually recalculated when the values of another cell
+             changes. Formulas always begin with a special character
+             &mdash; the equals sign (=). The commercial at symbol (@)
+             can be used instead of the equals sign during data entry
+             but &gnum; will convert this
+             to an equals sign. Alternatively, an entry which
+             describes a calculation and which starts with either the
+             plus (+) or minus symbol (-) will be converted to a
+             formula starting with an equals sign. For a more complete
+             explanation of formulas, see <xref
+             linkend="sect-data-formulas" />.
+            </para>
+
+           <para>
+           A cell reference is the part of a formula which refers to
+           another cell.  For example, in the formula to add two cells
+           =(A4+A1), both A4 and A1 are cell references. These
+           references can be quite complex referring to cells in
+           different worksheets or even in different files. See <xref
+           linkend="sect-data-formulas-references" /> for a complete
+           explanation of references.
+            </para>
+ 
+          </listitem>
+        </varlistentry>
+
+
+       <varlistentry>
+         <term>Error</term>
+         <listitem>
+           <para>
+              An error element describes the failure to calculate the
+              result of a formula. These values are rarely entered
+              directly by a user but usually are the display given
+              when a formula cannot be correctly calculated.  See
+              <xref linkend="sect-data-errors" /> for a complete list
+              of error values and their explanation.
+            </para>
+          </listitem>
+        </varlistentry>
+
+    </variablelist>
+  </para>
+
+  <note>
+    <para>
+      A cell may display a series of hash marks (######). This
+      indicates that the result is too wide to display in the cell
+      given the current font setting and the current column
+      width. When this occurs, the value in the cell can be seen in
+      two ways. If the cell is selected, the value will appear in the
+      data entry area (to the right of the equals button directly
+      above the cell grid). Alternatively, the column containing the
+      cell can be widened until the data contents become visible:
+      select the whole column (by clicking on the column header)
+      and choose 
+      <menuchoice>
+      <guimenu>Format</guimenu>
+      <guisubmenu>Column</guisubmenu>
+      <guimenuitem>Auto fit selection</guimenuitem>
+      </menuchoice>.
+    </para>
+  </note>
+
+
+<sect2 id="sect-data-text">
+  <title>Text Data Elements</title>
+
+  <para>
+    Text elements consist of an arbitrary sequence of characters or
+    numbers entered into a cell. Because
+    &gnum; automatically recognizes
+    certain sequences as numbers or formulas, certain sequences of
+    characters (such as sequences containing only digits or a text
+    element which starts with an equals sign) must be treated
+    specially to have them considered text. In order to force any
+    sequence to be considered text, the sequence can be started with
+    an apostrophe symbol (<keysym>'</keysym>). Alternatively, the
+    'number' format of the cell can be specified to be 'text' before
+    entering the characters, as explained in <xref
+    linkend="number-formatting-overview"/>. Text elements are the
+    simplest elements to enter into spreadsheet cells.
+  </para>
+
+  <para> An example of a spreadsheet cell grid with cells containing
+  text is given in <xref linkend="fig-cell-with-text" />.
+
+  <figure id="fig-cell-with-text">
+    <title>A Text Data Element in a Cell.</title>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="figures/cell-with-text.png" format="PNG" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  </para>
+
+  <para>
+    Valid text entries include simple words, whole sentences and even
+    paragraphs.
+  </para>
+
+  <note>
+    <para>
+      To include a newline in a cell, a special key combination is
+      required. A newline symbol can be inserted with the key
+      combination of
+      <keycombo><keysym>Alt</keysym><keysym>Enter</keysym></keycombo>.
+    </para>
+  </note>
+
+
+</sect2>	  
+
+<sect2 id="sect-data-numbers">
+  <title>Number Data Elements</title>
+
+<!-- TODO: add influence of locale (decimal, thousands sep) on number format. -->
+
+  <para>
+    Number data elements include a variety of data all of which are
+    stored and manipulated by &gnum; as
+    numbers. This includes integers, decimal fractions, general
+    fractions, numbers in scientific notation, dates, times, and
+    currency values.
+  </para>
+
+  <para>
+    Data are recognized as numbers when they are entered, dependent on
+    the format of the sequence of characters
+    entered. &gnum; attempts to
+    intelligently guess the subtype of the data and match the data to
+    an existing format for numbered data. If it matches a data format,
+    &gnum; will automatically assign the
+    datum to a data type and associate an appropriate display format
+    with the cell. The format recognition of
+    &gnum; includes a wide variety of
+    data formats which are discussed in detail in <xref
+    linkend="number-formatting-overview" />.
+  </para>
+
+  <para>
+    Because &gnum; automatically guesses
+    the data type of a number being entered into a cell, this process
+    may have to be over-ridden for certain types of data. For
+    example, postal codes in the United States consist of a sequence
+    of numbers which &gnum; interprets as
+    an integer. However, U.S. postal codes can start with a leading
+    zero which &gnum; discards by
+    default. In order to override the default format, the number
+    format of the cell must be specified before the entry of the
+    data. This is explained in <xref
+    linkend="number-formatting-overview" />, below.
+  </para>
+
+
+</sect2>	  
+
+<sect2 id="sect-data-boolean">
+  <title>Boolean Data Elements</title>
+  
+  <para>
+    Cells can contain boolean data elements. These elements arise from
+    Boolean logic which is a branch of mathematics. These elements are
+    useful for manipulation of formulas.
+  </para>
+
+  <para>
+    Boolean values can be either "TRUE" or "FALSE". If these strings
+    are entered into a cell, &gnum; will
+    recognize these as boolean values. These values can then be used
+    in formulas. Certain formulas will also return boolean values.
+  </para>
+
+<!--
+  <example>
+    <para>
+      An example of a formula expression which uses booleans and
+      returns a boolean value:
+      <programlisting>
+        =
+
+      </programlisting>
+    </para>
+  </example>
+-->
+
+
+</sect2>	  
+
+
+
+
+
+<sect2 id="sect-data-formulas">
+  <title>Formula Elements</title>
+  
+<!-- TODO: add explanation of operator precedence. -->
+<!-- TODO: add explanation of stacked division a/b/c. -->
+
+  <para>
+    Formulas are the key to making a powerful spreadsheet. A formula
+    instructs &gnum; to perform
+    calculations and display the results. These calculations are
+    defined as a formula data elements. The power of these formulas
+    arises because these formulas can include the contents of other
+    cells and the results of the formulas are updated automatically
+    when the contents of any cell included in the formula change. The
+    contents of other cells are included using "cell references" which
+    are explained below.
+  </para>
+
+  <para>
+    Any formula entered into a cell must follow a specific syntax so
+    that &gnum; can interpret the formula
+    correctly. This syntax closely follows mathematical notation but
+    also includes spreadsheet formulas, object names and cell
+    references.
+  </para>
+    
+  <sect3 id="sect-data-formulas-syntax">
+    <title>Syntax</title>
+    
+    <para>
+      Formulas are distinguished from regular data by starting with an
+      equals sign (=) as the first character. Everything following
+      this equals sign is evaluated as a formula.
+    </para>
+
+    <tip>
+      <title>Alternate Beginnings for Formulas</title>
+
+      <para>
+        To accommodate those more familiar with Lotus spreadsheets,
+        Gnumeric recognizes the commercial at symbol (@) as the
+        beginning of a formula and substitutes an equals sign.  The
+        plus and minus characters (+ and -) may also start formulas
+        that involve calculation, but when used in front of a single
+        number only indicate the sign of the number.
+      </para>
+    </tip>
+
+    <para>
+      The simplest formulas just use the standard math operator and
+      symbols.  Addition, subtraction, multiplication, and division
+      are represented by +, -, *, and /, just as you would expect.
+      +,- can be placed in front of numbers to indicate sign, as well.
+      
+      <example id="standardoperators">
+        <title>Examples of standard operators</title>
+        <programlisting>
+=5+5            returns 10.
+	
+=5-4            returns 1.
+	
+=-5             returns -5.
+	
+=5*5            returns 25.
+
+=(5*5)+11       returns 36.
+	
+=(5*5)+(49/7)   returns 32.
+        </programlisting>
+      </example>
+    </para>
+
+    <para>
+      Formulas can result in error values in several instances. If a
+      formula is entered incorrectly,
+      &gnum; will display a warning and
+      allow either the formula to be corrected or will save the
+      formula as text for editing later. If a syntactically correct
+      formula results in a nonsensical calculation (for instance, a
+      division by zero), then an error value will be displayed
+      indicating the error.
+    </para>
+
+  </sect3>
+
+
+
+  <sect3 id="sect-data-formulas-functions">
+    <title>Using Functions</title>
+    
+    <para>
+      Formulas can also contain functions which denote the use of
+      standard mathematical, business, statistical, and scientific
+      calculations. These functions take the place of any data element
+      in a formula and can therefore be combined with the standard
+      arithmetic operators described above.
+    </para>
+
+    <para>
+      These functions have the form:
+    
+      <example id="basicfunctionsyntax">
+        <title>Basic Function syntax</title>
+        <programlisting>
+FUNCTIONNAME(ARGUMENTS)
+        </programlisting>
+      </example>
+
+      where FUNCTIONNAME indicates the name of a function and
+      ARGUMENTS indicates one or more arguments to the function. The
+      function arguments are separated by commas (<keysym>,</keysym>).
+
+    </para>
+
+    <tip>
+      <para>
+        While the documentation generally refers to functions and to
+        cells in capital letters, their use is not actually case
+        sensitive.
+      </para>
+    </tip>
+
+    <para>
+      Some examples of the use of functions are: 
+
+	<example id="functionsyntax">
+	  <title>Some examples of function syntax</title>
+	  <programlisting>
+=SUM(A1,A2,A4,B5)
+	    
+=AVERAGE(A1:A16)
+	    
+=EXP(1)
+	    
+=PI()
+	    
+=3+4*MIN(A1,A2,B6)
+	  </programlisting>
+	</example>
+
+      The arguments of the functions vary in number from none, as in
+      the PI() function, to an unlimited number, as in the SUM()
+      function, depending on the type of function.
+    </para>
+
+  </sect3>
+
+
+
+  <sect3 id="sect-data-formulas-references">
+    <title>Cell Referencing</title>
+
+    <para>
+      Formulas can include the displayed data from other cells. These
+      contents are described as `cell references' which are names
+      indicating that the contents of other cells should be used in
+      the calculation.
+    </para>
+
+    <para>
+      Each cell in a spreadsheet is named by its column and row
+      labels. The column labels are letters and the row labels are
+      numbers. The first cell, therefore, is called A1. One column
+      over and two rows down from cell A1 is the cell B3. The right
+      most and bottom most cell is cell IV65536 which is the cell in
+      column IV and in row 65536.
+    </para>
+
+    <para>
+      The value of a cell can be used in a formula simply by entering
+      its name where a number value would otherwise occur. For
+      example, to have the data in cell B1 appear in another cell,
+      enter =B1 into that cell. Other more complex examples include:
+  
+      <example id="simplecellrefer">
+        <title>Some examples of simple cell reference syntax</title>
+
+        <programlisting>
+=A1+EXP(B1)-(C3/C4)
+      
+=COS(A2)*SIN(A2)
+        </programlisting>
+      </example>
+    </para>
+  
+    <sect4 id="sect-data-formulas-references-absolute">
+      <title>Absolute cell referencing</title>
+
+      <para>
+        Cells can be referenced in the default way (relative
+        referencing), or by using absolute referencing. Absolute
+        referencing means that when the cell is copied, the cell
+        reference does not change. Normally, auto-filling a cell range
+        or moving cell will change its cell reference to so that it
+        maintains a relation to the original cell. Absolute
+        referencing prevents these changes.
+      </para>
+
+      <tip id="why-bother">
+        <title>When Does Relative Referencing Make a Difference?</title>
+        <para>
+          The difference between absolute and relative cell references
+          only matters if you are copying or moving cells that contain
+          cell references. For cells that are going to remain in
+          place, both the relative and absolute references have the
+          same result.
+        </para>
+      </tip>
+
+      <example id="relative-referencing-explained">
+        <title>Relative References</title>
+          <para>
+            For example, if =A1 is the formula entered into cell B2,
+            cell B2 will display the data in cell A1, which is one row
+            up and one column left.  Then, if you copy the contents of
+            B2 to cell F6, cell F6 will contain the value from E5,
+            which is also one row up and one column left.
+          </para>
+
+          <para>
+            For the copied cell to still refer to A1, specify absolute
+            references using the $ character: $A$1 refers to cell A1,
+            no matter where it is copied.
+          </para>
+        </example>
+
+      <para>
+        The format for absolute cell referencing is to use a '$' in
+        front of the cell coordinate that the you want to stay
+        constant. The column, row, sheet, or any combination of these
+        can be held constant.
+      </para>
+
+      <example id="cell-refer-absolute-reference">
+        <title>Absolute cell referencing examples</title>
+
+        <para>
+          What happens when a given formula is entered into cell B2,
+          then copied to other cells?
+	<variablelist>
+	  <varlistentry>
+	    <term>=A1</term> 
+            <listitem>
+              <para>
+                =A1 is a normal, or relative, cell reference
+                function. When =A1 is entered into cell B2, it refers
+                to the value of data one cell up and one cell left
+                from the cell with the reference. Therefore, if this
+                formula were copied from cell B2 to cell C2, the value
+                displayed in cell C2 will be the value of data in cell
+                B1.  Copied to cell R19, the formula will display the
+                data in cell Q18.
+              </para>
+            </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>=$A1</term>
+            <listitem>
+              <para>
+                In this case, the column value is absolute, but the
+                row value is relative.  Therefore, if =$A1 is entered
+                into cell B2, the formula refers to the data in column
+                A that is one row up from the current location.
+                Copied to cell C2, the formula will refer to the data
+                in cell A1. Copied to cell R19, it will refer to the
+                data in A18.
+              </para>
+            </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>=A$1</term>
+            <listitem>
+              <para>
+                This formula uses a relative column value and an
+                absolute row value. In cell B2, it refers to cell A1
+                as the data in the cell one column left and in row
+                1. Copied to cell C3, the formula will display the
+                data in cell B1.
+              </para>
+            </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>=$A$1</term>
+            <listitem>
+              <para>
+                No matter where this formula is copied, it will always
+                refer to the data in cell A1.
+              </para>
+            </listitem>
+	  </varlistentry>
+	</variablelist>
+        </para>
+      </example>
+    </sect4>
+
+
+    <sect4 id="sect-data-formulas-references-multi">
+      <title>Referencing multiple cells</title>
+    
+      <para>
+        Many functions can take multiple cells as arguments. This can
+        either be a comma separated list, an array, or any combination
+        thereof.
+      </para>
+    
+      <sect5 id="sect-data-formulas-references-multi-indiv">
+        <title>Multiple individual cells</title>
+      
+        <para>
+          A comma separated list of cell references can be used to
+          indicate cells that are discontinuous.
+        </para>
+      
+      
+        <example id="cellrefermutiplecells">
+	  <title>Some examples of function syntax</title>
+	  <programlisting>
+=SUM(A1,B2,C4)
+	  
+=MIN(A1,B2,C4,C5,D6)
+	  </programlisting>
+        </example>
+      
+      
+        <screenshot>
+	  <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/cells-1.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of a worksheet with a function.</phrase>
+            </textobject>
+           </mediaobject>
+        </screenshot>
+
+      </sect5>
+    
+      <sect5 id="sect-data-formulas-references-multi-region">
+        <title>Referencing a continuous region of cells</title>
+      
+        <para>
+          For functions that take more than one argument, it is often
+          easier to reference the cells as a group. This can include
+          cells in sets horizontally, vertically, or in arrays.
+        </para>
+      
+        <para>
+          The ':' operator is used to indicate a range of cells. The
+          basic syntax is upper left corner:bottom right
+          corner.
+        </para>
+      
+        <example id="cellrefercontin">
+	  <title>Referencing blocks of cells</title>
+	  <programlisting>
+=SUM(A1:E1)
+	  
+=AVERAGE(B4:E7)
+	  
+=MIN(A1:A5)            
+	  </programlisting>
+        </example>
+      
+      
+        <screenshot>
+	  <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/cells-2.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of a worksheet with a function
+              referencing a block of cells.</phrase>
+            </textobject>
+           </mediaobject>
+        </screenshot>
+      </sect5>
+    
+      <sect5 id="sect-data-formulas-references-multi-disjoint">
+        <title>Referencing non-continuous regions</title>
+	  
+        <para>
+          For referencing cells that are in non-continuous regions,
+          you can use any combination of the above methods to get the
+          needed cells.
+        </para>
+      
+      
+	<example id="cellreferdiscontin">
+	  <title>Referencing blocks of cells</title>
+	  <programlisting>
+=SUM(A1:E1, B19, L14:L17)
+	  
+=AVERAGE(A1,A3, A5:C5)
+	  </programlisting>
+        </example>
+      </sect5>
+    </sect4>
+
+    <sect4 id="sect-data-formulas-references-tosheets">
+      <title>Referencing cells on other sheets</title>
+
+      <para>
+        It is possible to reference cells which are not part of the
+        current sheet.  This is done using the SHEETNAME!CELLLIST
+        syntax, where SHEETNAME is an identifier (usually a sheet
+        name) and CELLLIST is a regular cell reference as described in
+        the previous sections.
+      </para>
+
+      <para>
+        Note that if SHEETNAME contains spaces, you need to quote the
+        whole name to allow &gnum; to
+        group the separate words in SHEETNAME as single name.  For
+        example, you should use 'Name With Spaces'.
+      </para>
+
+      <example id="simple-sheet-ref">
+        <title>Referencing cells in other sheets</title>
+        <programlisting>
+='Sheet 0'!A1+'Sheet 3'!A5
+
+=SUM('Sheet 1'!A1:'Sheet 1'!A5)
+        </programlisting>
+      </example>
+
+    </sect4>
+
+    <sect4 id="sect-data-formulas-references-tofiles">
+      <title>Referencing cells on other files</title>
+
+      <para>
+        It is possible to reference cells in other files. The
+        canonical form for these references is
+        =[filename]SHEETNAME!CELLLIST. Again, if the name of the file
+        contains spaces, it is necessary to surround the filename with
+        quotes.
+      </para>
+
+      <example id="simple-file-ref">
+        <title>Referencing cells in other files</title>
+        <programlisting>
+=['Name of the file']'Sheet 0'!A1
+
+=CEIL( ['First Version.gnumeric']'Sheet 1'!E20 )
+        </programlisting>
+      </example>
+
+    </sect4>
+
+
+  </sect3>
+
+
+
+  <sect3 id="sect-data-formulas-names">
+    <title>Names</title>
+
+    <para>
+      Names are labels which have a meaning defined by the user. Names
+      can be defined to apply to a whole workbook or to a particular
+      sheet in a workbook. Names can refer to a numeric value, to a
+      particular range of cells, or to part of a formula. The name can
+      be used wherever its meaning could otherwise be used.
+    </para>
+
+    <example id="namesyntax">
+      <title>Examples of name usage</title>
+
+      <para>
+        If myCellRange is defined as '$A$1:$B$500' and my_E_Constant is
+        defined as 2.71828182845 then we can have:
+      </para>
+
+      <programlisting>
+=VLOOKUP(C1, "gnu", myCellRange, 2, 0)
+
+=LN(my_E_Constant)
+
+=SUM(myCellRange, my_E_Constant)
+      </programlisting>
+    </example>
+
+    <para>
+      Names are defined using the <guimenu>Insert</guimenu>
+      <guimenuitem>Name</guimenuitem> dialog. This allows manipulation
+      of all the names in the related workbook. A name can have any
+      form except that it cannot consist of a number, of the name of a
+      sheet or of that of a function, since this would cause
+      confusion.
+    </para>
+
+    <para>
+      In addition to the names defined by the user,
+      &gnum; has some pre-defined names
+      for useful elements. These are:
+    </para>
+
+    <itemizedlist>
+      <listitem>
+        <para>
+          "Sheet_Title:" this returns the name of the current
+          sheet
+        </para>
+      </listitem>
+    </itemizedlist>
+
+  </sect3>
+
+  <sect3 id="sect-data-formulas-array">
+    <title>Array Formulas</title>
+    
+    <para>
+      It is periodically useful or necessary to have an expression
+      return a matrix rather than a single value.  The first example
+      most people think of are matrix operations such as
+      multiplication, transpose, and inverse.  A less obvious usage is
+      for data retrieval routines (databases, realtime data-feeds) or
+      functions with vector results (yield curve calculations).
+    </para>
+    
+    <example id="arrayformulacreate">
+      <title>Entering an Array Formula</title>
+      <para>
+        An array formula is currently entered by selecting the single
+        range in which to store the result, entering the array
+        formula, and hitting the key combination,
+        <keycombo>
+          <keycap>Ctrl</keycap>
+          <keycap>Shift</keycap>
+          <keycap>Enter</keycap>
+        </keycombo>.
+      </para>
+
+      <para>
+        The result is displayed as:
+      </para>
+
+      <programlisting>
+={FUNCTION(ARGUMENTS)}(num_rows, num_cols)[row][column]
+      </programlisting>
+    </example>
+
+  </sect3>
+
+
+</sect2>
+             
+
+
+
+
+<sect2 id="sect-data-errors">
+  <title>Error Elements</title>
+  
+  <para>
+    Cells can display error values if the formula contained in the
+    cell cannot be solved or if other anomalous conditions occur.
+  </para>
+
+
+</sect2>
+
+
+</sect1>

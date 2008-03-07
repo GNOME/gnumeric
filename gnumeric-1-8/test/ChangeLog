@@ -1,0 +1,124 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2008-01-14  Morten Welinder  <terra@gnome.org>
+
+	* Makefile.am (TESTS): Use $(wildcard ...) and screw the automake
+	complaint.
+
+2008-01-10  Morten Welinder  <terra@gnome.org>
+
+	* GnumericTest.pm (test_valgrind): Handle older valgrinds.
+	(test_importer): Skip if source file is missing.
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-28  Jon K Hellan  <hellan@acm.org>
+
+	* t8003-valgrind-pdf.supp: More suppressions for Debian
+
+2007-10-26  Jon K Hellan  <hellan@acm.org>
+
+	* common.supp: Add suppressions for Debian
+
+2007-10-21  Morten Welinder  <terra@gnome.org>
+
+	* test/t8000-valgrind.supp: Make a little more generic to also fit
+	OpenSUSE 10.3
+
+2007-10-21  Morten Welinder  <terra@gnome.org>
+
+	* Makefile.am (TESTS): Try to please newer automakes.
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-08-31  Morten Welinder  <terra@gnome.org>
+
+	* t1900-array.pl: Specify sheet name for cell to test too.
+
+2007-08-06  Morten Welinder  <terra@gnome.org>
+
+	* t1900-array.pl: Check the correct cell.
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Jody Goldberg <jody@gnome.org>
+
+	* t5902-applix.pl : new.
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-12  Morten Welinder  <terra@gnome.org>
+
+	* t9000-ssindex.pl: New test.
+
+	* GnumericTest.pm: Turn on fatal_criticals.
+	(test_ssindex): New test helper for ssindex.
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-28  Morten Welinder  <terra@gnome.org>
+
+	* GnumericTest.pm (test_sheet_calc): Allow options to ssconvert.
+
+2006-11-22  Morten Welinder  <terra@gnome.org>
+
+	* t8000-valgrind.supp: Add ORBit_gconf_ping_writev_i686_sym.
+
+2006-11-21  Morten Welinder  <terra@gnome.org>
+
+	* t8101-gfree.pl: New checker.
+
+	* t8100-null-false.pl: New checker.
+
+2006-11-20  Morten Welinder  <terra@gnome.org>
+
+	* test/GnumericTest.pm (test_importer): Grep out version node when
+	doing sha1sum.

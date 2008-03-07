@@ -1,0 +1,111 @@
+Gnumeric Structured Text Format (STF) Parser
+============================================
+
+by Almer S. Tigelaar
+
+1. Creation/Destruction
+2. Customizing the export
+	2.1 Terminator Type
+	2.2 Cell Separator
+	2.3 Quoting mode
+	2.4 Quoting char
+	2.5 Sheet list
+3. Callback routine
+4. Exporting
+
+1. Creation/Destruction
+=======================
+	
+	To export a file you first need to create an StfExportOptions_t
+	struct, this allows you to customize the export :
+
+		StfExportOptions_t *export_options;
+
+		export_options = stf_export_options_new ();
+
+	After use you must free the struct by calling :
+
+		stf_export_options_free (export_options)
+
+
+2.1 Terminator Type
+===================
+	
+	The terminator type is the character sequence used to terminate a line, you
+	can choose from 3 stock options, namely :
+
+		TERMINATOR_TYPE_LINEFEED           Unix (\n)
+		TERMINATOR_TYPE_RETURN             Macintosh (\r)
+		TERMINATOR_TYPE_RETURN_LINEFEED    Windows (\r\n)
+
+2.2 Cell Separator
+==================
+
+	This is used to separate cells. You can set it to anything you'd like.
+
+	Example :
+
+		This,is,an,example
+                    |  |  |
+                    -----------------< Cell separator
+
+2.3 Quoting mode
+================
+	
+	This is used to control _when_ to quote. You can choose
+	from three stock options, namely :
+
+		QUOTING_MODE_AUTO     Automatically qoute where needed
+		QUOTING_MODE_ALWAYS   Always quote
+		QUOTING_MODE_NEVER    Never quote
+2.4 Quoting char
+	
+	This is the character used for quoting..
+	(Normally this should be set to " )
+
+2.5 Sheet list
+==============
+	
+	The sheet list contains all sheets to be exported.
+	
+	You can add sheets by calling :
+		
+		Sheet *sheet;
+
+		stf_export_options_sheet_list_add (export_options, sheet);
+	
+	You can clear the list by calling :
+
+		stf_export_options_sheet_list_clear (export_options);
+	
+3. Callback routine
+===================
+
+	The callback routine is called once data has to be written.
+	You _must_ set this, if you do not the stf exporter will not
+	know where to export the data too..
+
+	You can set it by calling :
+	
+		FILE *file;
+		
+		stf_export_options_set_write_callback (export_options, my_write_func, file);
+
+	The callback routine should look like this :
+
+		my_write_func (char *string, gpointer data)
+		{
+			/* write string to file
+			 * (in this case @data is a FILE* pointer
+			 * so fputs (string, data) would be feasible
+			 */
+		}
+
+4. Exporting
+============
+
+	After having set all the options, you can call :
+
+		stf_export (export_options);
+
+	This will call the callback routine (see 3) multiple times.

@@ -1,0 +1,643 @@
+<!-- 
+  This is at the top level to avoid any chapter TOC.
+-->
+
+<para>
+  &gnum; is a spreadsheet, a computer
+  program used to manipulate and analyze numeric
+  data. &gnum; can help you keep track of
+  information in lists, organize numeric values in columns and rows,
+  perform and update complex calculations by defining each step of the
+  calculation and modifying particular steps subsequently, create and
+  display or print graphical plots of data using bar plots, line
+  graphs, pie charts or radar charts, implement complex optimization
+  modeling or perform many other tasks involving numbers, dates,
+  times, names or other data.
+</para>
+
+<para>
+  The features of &gnum; make it
+  versatile and powerful. The screenshot (picture) of
+  &gnum; shown in <xref
+  linkend="fig-gnumeric-power-example" /> demonstrates the main
+  program window and some of the features currently available.
+
+  <figure id="fig-gnumeric-power-example">
+    <title>An example of what Gnumeric can do.</title>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/gnumeric-power-example.png" 
+              format="PNG" />
+        </imageobject>
+        <textobject>
+          <phrase>An image of &gnum;
+          showing the use of complex formatting and several graphical
+          plots.</phrase>
+        </textobject>
+	<caption>
+	  <para>
+	    An example of &gnum;, shrunk to fit in this document.
+	  </para>
+	</caption>
+      </mediaobject>
+    </screenshot>
+  </figure>
+
+  &gnum; currently supports a full
+  complement of calculation functions, formatting options, graph
+  types and drawing options.
+  </para>
+
+<para>
+      
+</para>
+
+<para>
+  &gnum; aims to be the best
+  spreadsheet available. It has been developed over many
+  years to become mature and mathematically
+  correct. &gnum; was created and is
+  maintained by the <ulink type="http"
+  url="http://www.gnome.org/">GNOME</ulink> project.  This manual
+  describes version &appversion; of &gnum;.
+</para>
+<note>
+  <para>
+    Releases of &gnum; in the 1.8 series have numbers starting
+    with 1.8 but with extra numbers afterwards, such as 1.8.0 or
+    1.8.3. These are stable releases which are only changed with minor
+    improvements and fixes for problems (bugs) in the program. These
+    releases can be considered safe for use in a production
+    environment.
+  </para>
+</note>
+
+<!-- TO UN_COMMENT WHEN 1.9 ROLLS AROUND
+<warning>
+  <para>
+    The 1.9 series of releases are unstable releases meant for
+    developer testing. If you want a stable release get the most recent
+    release from the 1.8 series.
+  </para>
+</warning>
+-->
+
+
+<para>
+  <emphasis role="bold">Goals of Gnumeric</emphasis>
+</para>
+<para>
+  &gnum; is developed with a specific set of
+  goals in mind.
+  <itemizedlist>
+    <listitem>
+      <para>
+	<emphasis role="bold">Stability</emphasis>
+      </para>
+      <para>
+        &gnum; has undergone significant
+        amounts of testing. A diverse group of users evaluates
+        &gnum; in a wide variety of
+        environments. Testing workbooks are used to assess the
+        mathematical correctness of the calculations and to validate
+        the quality of the file importers.
+      </para>
+
+    </listitem>
+
+    <listitem>
+      <para>
+	<emphasis role="bold">Accuracy</emphasis>
+      </para>
+      <para>
+        Calculating the correct answer is important, and &gnum;
+	has worked hard to surpass the competition.  Recent
+	<ulink type="http" url="http://www.csdassn.org/software_reports.cfm">reports</ulink>
+	indicate that it has done so.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+	<emphasis role="bold">File compatibility</emphasis>
+      </para>
+      <para>
+        Transparent access and manipulation of files from other
+        applications is vital in a modern office. The
+        &gnum; file format is simply
+        compressed XML which can be decompressed using
+        <application>gunzip</application>, the GNU
+        <application>gzip</application> program's decompression utility, into
+        text. &gnum; can open files from
+        several well known proprietary and free spreadsheets including
+        MS Excel<trademark/>, Lotus 1-2-3<trademark/>,
+        Applix<trademark/>, OpenOffice.org<trademark/>,
+        Psion<trademark/>, Sylk<trademark/>, XBase<trademark/>,
+        Oleo<trademark/>, PlanPerfect<trademark/>, Quattro
+        Pro<trademark/>&nbsp;and HTML. &gnum; 
+        can save files to several versions of the MS Excel<trademark/>&nbsp;file
+        format and can save tables into LaTeX
+        <markup>\longtable</markup>, HTML, and roff
+        files. &gnum; also benefits from
+        a highly configurable text importer and exporter which ensures
+        that data can be transferred smoothly, and allows new formats
+        to be added easily as plug-in software routines.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">Minimal cost of transition</emphasis>
+      </para>
+      <para>
+        Learning new and unfamiliar interfaces is an expensive and
+        frustrating process. &gnum;
+        attempts to present itself so that a user's familiarity with
+        other applications will still apply and to offer new features
+        in an intuitive manner.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+	<emphasis role="bold">Extensive feature set</emphasis>
+      </para>
+      <para>
+        &gnum; now has enough of the
+        features that users expect in a spreadsheet to provide for the
+        vast majority of user needs. However, new features are
+        constantly being added. People often quote the statistic that
+        most users only need 20% of the features of the software they
+        use. This statistic does not mean that only 20% of the
+        features are needed but, rather, that most users share a
+        common need for 10% of the features and require distinct
+        features for the rest of their
+        work. &gnum; attempts to provide
+        full implementations of the features it offers, leaving
+        features unimplemented until a robust and complete
+        implementation exists.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">Internationalization</emphasis>
+      </para>
+      <para>
+	&gnum; has been translated into
+	46 languages, and is being used by people around the globe with the
+	symbols and date/monetary conventions appropriate for their local
+	setting.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+	<emphasis role="bold">Scalability</emphasis>
+      </para>
+      <para>
+        The core architecture is designed to ensure that
+        &gnum; can comfortably scale to
+        moderately large loads (1 million cells) while remaining
+        usable on older hardware.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+	<emphasis role="bold">Openness</emphasis>
+      </para>
+      <para>
+        &gnum; is <ulink type="http"
+        url="http://www.gnu.org/philosophy/free-sw.html">free
+        software</ulink> in the sense of giving its users several
+        freedoms related to the program including the freedoms to use,
+        modify and redistribute the program. These freedoms are
+        explained at the <ulink type="http"
+        url="http://www.fsf.org">Free Software Foundation</ulink> web
+        site page on the <ulink type="http"
+        url="http://www.gnu.org/philosophy/free-sw.html"> philosophy
+        of free software</ulink>. In order to maintain these freedoms
+        for everyone, certain restrictions are required which prevent
+        anyone limiting these freedom for others.
+        &gnum; is therefore released
+        under a particular license agreement;
+        &gnum; is licensed under the
+        terms of the <ulink type="http"
+        url="http://www.gnu.org/copyleft/gpl.html">GNU GPL</ulink>.
+      </para>
+      <para>
+        One of the consequences of these freedoms, is that everyone
+        can have access to the source code used to create
+        &gnum;. This code is explicitly
+        maintained and documented to make it easy for anyone to modify
+        in any way they choose. This makes it possible to modify the
+        spreadsheet, write custom routines or extend
+        &gnum; for special needs.
+      </para>
+    </listitem>
+
+  </itemizedlist> 
+</para>
+
+
+<!-- UNCOMMENT WHEN 1.9 is released
+<para>
+  <emphasis role="bold">The Gnumeric 1.9 Series of Releases for Developers</emphasis>
+</para>
+
+<para>
+  The &gnum; 1.9 series of releases are
+  developer releases. These releases are kept as stable as
+  possible. However, each release in this series includes changes and
+  improvements some of which are quite large. These new changes may
+  cause the program to crash and loose data. Do not use these releases
+  if you cannot afford to loose any data or work. However, these
+  releases include many new features that can be helpful. If you use
+  this series, backup your data often, not just by saving files but by
+  renaming them and checking that they can be reopened. If you
+  experience mistakes or crashes while you are using this version,
+  please report these using the GNOME project's bug reporting
+  interface as detailed in <xref linkend="chapter-bugs" />.
+</para>
+
+<para>
+  In this version of &gnum;, we have been patching bugs, and working on the 
+  following features:
+
+  <itemizedlist>
+    <listitem>
+      <para>
+        <emphasis role="bold">...Topic...</emphasis>
+      </para>
+      <para>
+	Comment...
+      </para>
+    </listitem>
+</para>
+-->
+
+
+<para>
+  <emphasis role="bold">New features introduced in the Gnumeric 1.8 release
+  series:</emphasis>
+</para>
+
+<para>
+  The 1.8 series of &gnum; includes
+  numerous improvements over the versions in the 1.6 series.
+
+  <itemizedlist>
+    <listitem>
+      <para>
+        <emphasis role="bold">Improved .gnumeric and export</emphasis>
+      </para>
+      <para>
+	&gnum; now uses the faster SAX based parser by default for parsing
+	<literal>.gnumeric</literal> files. The schema was improved and
+	additional features were added.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">Microsoft OfficeOpenXML import and export</emphasis>
+      </para>
+      <para>
+	Basic import and export support for the
+	<ulink type="http" url="http://en.wikipedia.org/wiki/Ooxml"> Office Open XML </ulink> ("OOXML")
+	format was added, focussing on standard spreadsheet content. 
+	Charts and embedded objects are not yet supported.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">New value formatting engine</emphasis>
+      </para>
+      <para>
+	Improved compatibility and performance.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">Use new Gtk based Printing</emphasis>
+      </para>
+      <para>
+	The printing infrastructure was changed to use Gtk based printing
+	instead of the deprecated libgnomeprint libraries.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">Improved in-cell drop downs</emphasis>
+      </para>
+      <para>
+	In cell validation lists, and improved finger feel for autofilters.
+      </para>
+    </listitem>
+  </itemizedlist>
+</para>
+
+<para>
+  <emphasis role="bold">New features introduced in the Gnumeric 1.6 release
+  series:</emphasis>
+</para>
+
+<para>
+  The 1.6 series of &gnum; includes
+  numerous improvements over the versions in the 1.4 series.
+
+  <itemizedlist>
+    <listitem>
+      <para>
+        <emphasis role="bold">Better Charting: </emphasis>
+      </para>
+      <para>
+	Several new types of charts have been added, and many features, such as
+	regression lines, have been added.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">Improved Accuracy: </emphasis>
+      </para>
+      <para>
+	  While &gnum; 1.4 was already the best available source for accuracy
+	  in statistical calculations, &gnum; 1.6 is even better. We are
+	  continuing our behind-the-scenes cooperation with The R Project to
+	  make this happen. We have also added a new plugin supplying
+	  consistently named probability density, cumulative density, and
+	  reverse cumulative density functions to &gnum;. The new function
+	  names mirror their R counterparts.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">The Port to Microsoft Operating Systems</emphasis>
+      </para>
+      <para>
+	  Our "Windows" port is now mature enough for everyday use. We have
+	  improved the theming support of our custom widgets, so Gnumeric now
+	  looks and feels slighly more like a native application. The build
+	  might still have a few rough edges, but those are being worked on.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">Right-to-Left Support: </emphasis>
+      </para>
+      <para>
+	  We now support right-to-left orientation of the sheets as well as
+	  for text within cells.
+      </para>
+    </listitem>
+  </itemizedlist>
+</para>
+
+<para>
+  <emphasis role="bold">New features introduced in the Gnumeric 1.4 release
+  series:</emphasis>
+</para>
+        
+<para>
+  The 1.4 series of &gnum; include
+  numerous improvements over the versions in the 1.2 series.
+
+  <itemizedlist>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">The Port to Microsoft Operating Systems</emphasis>
+      </para>
+      <para>
+        The port of the core of &gnum; to
+        the GTK+ libraries will enable the application to be run on
+        the series of operating systems sold by Microsoft and
+        colloquially known as "Windows".
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">Improved Analytics</emphasis>
+      </para>
+      <para>
+        The analytical correctness of
+        &gnum; is a primary concern of
+        the team. The precision and correctness of the analytics are
+	constantly being evaluated and improved.  Updated versions of the
+	solver libraries (lp_solve and GLPK) were added.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">Improved Charting</emphasis>
+      </para>
+      <para>
+        The graphical system is improving rapidly with new types of
+        graphs, such as radar plots.  There is now support for error bars
+	and additional styles.  The plots also look significantly sharper on
+	screen, and off thanks to some pixel tuning.  The axes now support
+	various mappings (logarithmic, inverse), and there are a wider
+	selection of markers.  There is also support for formatting individual
+	points in a plot.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">Rich Text In Cells</emphasis>
+      </para>
+      <para>
+        The ability to use Rich Text has been added in this
+        version. This allows a single cell to contain text with mixed
+        formatting including bold, italic and other formats.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">Improved Microsoft Excel Compatibility</emphasis>
+      </para>
+      <para>
+        The file format used by the Microsoft Excel<trademark/>&nbsp;
+        spreadsheet is commonly used to exchange spreadsheet
+        documents. The &gnum; team spends
+        a considerable effort reverse engineering that file format to
+        ensure that &gnum; can read and
+	write files in that format.  This release now supports all forms of
+	'array formula' and adds export support for charts, rich text, and images.
+	More compatibility accelerator keys were added to simplify transition,
+	and improve the finger feel.  There is better support for hyperlinks.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">Printing</emphasis>
+      </para>
+      <para>
+	Using <application>Pango</application> throughout the printing subsystem
+	improves the consistency between on screen and resulting paper.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">Improved Analytics:</emphasis>
+      </para>
+      <para>
+        This version of &gnum; includes
+        470 sheet functions including all of the functions from the
+        North American edition of Microsoft Excel 2000 (TM). This
+        version also includes numerous new functions and statistical
+        routines imported from the <application><ulink type="http"
+        url="http://www.r-project.org/">R</ulink></application>
+        statistical language, from the <ulink type="http"
+        url="http://www.gnu.org/software/gsl/">GNU Scientific
+        Library</ulink>, and from other sources. The random number
+        generation has been updated to include Beta, Cauchy,
+        Chi-Squared, Exponential power F, Gamma, Geometric, Laplace,
+        Levy alpha-Stable Logarithmic, Logistic, Log-normal, Pareto,
+        Rayleigh Rayleigh tail, T, Type I Gumbel, Type II Gumbel,
+        Weibull Gaussian Tail, Landau, and Uniform integer
+        distributions. The derivative valuation routines have been
+        expanded to include Black-Scholes (and sensitivities), Garman
+        Kohlhagen, Merton Jump Diffusion process, Bjerksund and
+        Stensland (American options), Forward Starts, Simple and
+        Complex Choosers, Exchange Options, options on future spreads,
+	and most favourable state payouts. The solver has been improved with
+	new linear and quadratic programming routines.  There were improvements
+	in the T-Test, Z-Test, and F-Test.  More accuracy for GEOMDIST,
+	BINOMDIST, BETADIST, BETAINV, FINV, CAUCHY, FDIST, FTEST, HYPGEOMDIST,
+	ERF, FISHER, EFFECT, NOMINAL, MIRR, IRR, XNPV, NPV, PMT, RATE, PV, FV,
+	IPMT, PPMT, ZTEST, EXPM1, LN1P.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">Import/Export</emphasis>
+      </para>
+      <para>
+	The xml exporter is now much faster and lighter for 
+	<literal>.gnumeric</literal> files,
+	and the GNOME enabled &gnum; supports gnome-vfs
+	and drag-n-drop images and files.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">GTK+ Port</emphasis>
+      </para>
+      <para>
+        One of the principal aims of this developers series is to make
+        &gnum; work using only the GTK+
+        libraries. These libraries, following their 2.4.0 release,
+        have all the functionality needed for the core of
+        &gnum;. This work will remove all
+        dependencies in the core code on GNOME libraries although a
+        version with the more complete features included in GNOME will
+        still exist.
+      </para>
+    </listitem>
+
+</itemizedlist>
+
+</para>
+
+
+<!--
+
+    <listitem>
+      <para>
+        <emphasis role="bold">Improved File Import and Export:</emphasis>
+      </para>
+      <para>
+        The ability to import and export files of different formats
+        has been greatly improved. &gnum; 
+        now supports Applix<trademark/>, Excel<trademark/> 1997, 2000
+        and XP formats (possibly encrypted), Lotus<trademark/>,
+        OpenOffice.org<trademark/>, Plan Perfect<trademark/>, and
+        Quattro Pro<trademark/>. These file tools have been made more
+        robust by using the GNOME Structured File library.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">Improved Graphing:</emphasis>
+      </para>
+      <para>
+        The earlier versions of &gnum; 
+        relied on the <application>Guppi</application> program for
+        graphing. This has been changed in the current version which
+        uses a newer framework for the production of graphs. This
+        newer framework should provide quicker graphs and will be a
+        better platform for future development.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">Improved Structure based on GTK 2.0:</emphasis>
+      </para>
+      <para>
+        This version of &gnum; is based
+        on the second version of the Gimp Tool Kit (GTK+), the basic
+        libraries of computer code used to build GNOME
+        applications. This second version improves on the first and
+        provides a sound basis for future programming. Users will
+        benefit greatly from this second version of the GTK+
+        libraries. &gnum; is now able to
+        produce characters from a much larger range of languages, has
+        improved icons, is better integrated with GNOME and has other
+        visual improvements like anti-aliased
+        fonts. &gnum; can also now be
+        used without problem on a machine with several screens. The
+        transition to GTK+ 2.0 has also greatly improved performance.
+      </para>
+    </listitem>
+
+  </itemizedlist>
+
+</para>
+
+-->
+
+<para>
+    The 1.4.x release is dedicated to the memory of lost colleagues, <emphasis
+    role="bold">Chema (Grandma) Celorio</emphasis> who helped make
+    &gnum; as stable as it is,  and <emphasis
+    role="bold">Mel Seder</emphasis> who kept us smiling.  They'll be missed.
+</para>
+
+<para>
+  For more details on the changes in
+  &gnum;, refer to the file; named NEWS in
+  the source code distribution.
+</para>
+
+<para>
+      
+</para>
+
+<para>
+  <emphasis role="bold">Known Issues in Gnumeric:</emphasis>
+</para>
+        
+<para>
+  The current list of all known and reported problems with
+  &gnum; is maintained in the GNOME
+  bugzilla database. This list can be accessed using <ulink
+  type="http"
+  url="http://bugzilla.gnome.org/buglist.cgi?product=Gnumeric&amp;bug_status=UNCONFIRMED&amp;bug_status=NEW&amp;bug_status=ASSIGNED&amp;bug_status=NEEDINFO&amp;bug_status=REOPENED&amp;order=bugs.bug_id">this
+  bugzilla query</ulink>. 
+</para>
+        
+<!--  LocalWords:  modyfing
+ -->

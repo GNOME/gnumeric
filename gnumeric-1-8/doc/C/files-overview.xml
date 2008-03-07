@@ -1,0 +1,77 @@
+<sect1 id="sect-files-overview">
+  <title>Files in Gnumeric</title>
+
+<!-- TODO: move the "understanding the filesystem" from 'opening' to here. -->
+
+  <para>
+    &gnum; stores its information by creating files and re-opening
+    these files during a future session. Saving information to files
+    also allows a user to send the information to others.
+  </para>
+
+  <para>
+    The default file format for &gnum; is based on the eXtensible
+    Markup Language (XML). By default, files are saved as text files,
+    consisting of XML, which are then compressed using the library of
+    the <application>gzip</application> program. The extension for
+    &gnum; files is <literal>.gnumeric</literal> on platforms which
+    support file extensions of any size, <literal>.gnum</literal> for
+    systems which restrict extensions to four letters, or
+    <literal>.gnm</literal> for systems which restrict extensions to
+    three letters.
+  </para>
+
+  <para>
+    &gnum; can also open or save files in a number of other file
+    formats. The project prides itself for the work reverse
+    engineering and supporting the file formats used by Microsoft
+    Excel. &gnum; can use the Excel file format as if it were the
+    native file format, meaning that &gnum; can store and retrieve
+    essentially every aspect of a worksheet using the Excel
+    format. Similarly, &gnum; supports the OASIS standard Open Office
+    XML file format as if it were the native format.
+  </para>
+
+  <warning>
+    <para>
+      &gnum; cannot delete files from the file system. &gnum; can open
+      existing files and create new files but cannot delete files once
+      they are created. Files can be deleted using a file browser such
+      as <application>Nautilus</application> on the GNOME desktop or
+      using the command-line program <application>rm</application>.
+    </para>
+  </warning>
+
+  <note>
+    <para>
+      This chapter discusses working with actual files. It is also
+      possible to import data into &gnum; using the clipboard by
+      copying either text or html table information in another program
+      and then pasting the resulting data into a worksheet.  See <xref
+      linkend="sect-movecopy-xclipboard"/> for details.
+    </para>
+  </note>
+
+  <para>
+    Text files are often used to store data, using many different
+    systems to structure the data such as using commas, tabs or spaces
+    to separate values. &gnum; features a flexible system that enables
+    users to define exactly the structure of the text file to be
+    opened or saved.
+  </para>
+
+  <para>
+    &gnum; can be integrated with an email client to allow files to be
+    sent directly as attachments to an electronic mail message.
+  </para>
+
+  <para>
+    &gnum; also features a command-line tool called
+    <application>ssconvert</application> to convert files between any
+    of the file formats which it supports.
+  </para>
+
+
+</sect1>
+
+       

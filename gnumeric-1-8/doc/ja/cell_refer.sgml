@@ -1,0 +1,193 @@
+<sect1 id="cell-referencing">
+	<title>
+	セル参照
+	</title>
+
+<para>
+単一のセル、たとえばセル B1 に保存された値は、関数の引数として B1 と入力するだけで参照することができます。
+</para>
+  
+<para>
+セルは C4 などのフォーマットで参照されますが、この「C」は列ラベル、「4」は行ラベルです。
+</para>
+  
+<example id="simplecellrefer">
+	<title>
+	関数シンタックスの例
+	</title>
+
+	<programlisting>
+      =EXP(B1)
+      
+      =COS(A2)
+      
+	</programlisting>
+</example>
+
+<sect2>
+	<title>
+	絶対セル参照
+	</title>
+
+<para>
+セルを参照するには、デフォルトの方法（相対参照）も絶対参照も使うことができます。絶対参照とは、コピーしてもセル参照が変更されないことを意味します。通常は、セル範囲をオートフィルしたり、セルを移動したりすると、元のセルとの関係が維持されるように、セル参照が変更されます。セルを絶対参照した場合は、この挙動は無効になります。
+</para>
+
+<para>
+セルを絶対参照する場合は、ユーザが一定にしておきたいと考えるセル座標の前に「$」をつけるフォーマットを使います。すると、列、行、シート、あるいはそれらの組み合わせは一定となります。
+</para>
+
+<example id="cell-refer-absolute-reference">
+	<title>
+	絶対セル参照の例
+	</title>
+
+	<programlisting>
+	A1          一般的なのセル参照
+	$A2         列固定のセル参照
+	A$2         行固定のセル参照
+	$A$2        列と行の両方を固定したセル参照
+	</programlisting>
+</example>
+
+</sect2>
+
+<sect2>
+	<title>
+	複数のセルの参照
+	</title>
+
+<para>
+複数のセルを引数とする関数は数多くあります。たとえば、コンマで区切られたリスト、配列、あるいはそれらの組み合わせを引数とする関数です。
+</para>
+
+<sect3>
+	<title>
+	独立した複数のセルの集まり
+	</title>
+
+<para>
+コンマで区切られたセル参照のリストは、不連続のセルを指し示すのに使うことができます。
+</para>
+
+<example id="cellrefermutiplecells">
+	<title>
+	関数シンタックスの例
+	</title>
+
+	<programlisting>
+	  =SUM(A1,B2,C4)
+	  
+	  =MIN(A1,B2,C4,C5,D6)
+	  
+	</programlisting>
+</example>
+
+	<screenshot>
+	<graphic fileref="images/cells-1.jpg"></graphic>
+	</screenshot>
+
+</sect3>
+
+<sect3>
+	<title>
+	連続したセル領域の参照
+	</title>
+      
+<para>
+複数の引数を受け取る関数の場合は、セルを一つの集合として参照する方が簡単な場合が多くあります。そのような集合は、縦あるいは横のセットの場合もあれば配列の場合もあります。
+</para>
+      
+<para>
+演算子「:」はセル範囲を示すときに使われます。基本のシンタックスは、「左上コーナー：右下コーナー」の形です。
+</para>
+
+<example id="cellrefercontin">
+	<title>
+	セルブロックの参照
+	</title>
+
+	<programlisting>
+	  =SUM(A1:E1)
+	  
+	  =AVERAGE(B4:E7)
+	  
+	  =MIN(A1:A5)            
+	</programlisting>
+</example>
+
+<screenshot>
+	<graphic fileref="images/cells-2.jpg"></graphic>
+</screenshot>
+</sect3>
+
+<sect3>
+	<title>
+	不連続な範囲にあるセルの参照
+	</title>
+
+<para>
+不連続な範囲にあるセルを参照する場合は、上記の方法を任意に組み合わせて必要なセルを取得します。
+</para>
+
+<example id="cellreferdiscontin">
+	<title>
+	不連続なセル範囲の参照
+	</title>
+
+	<programlisting>
+	  =SUM(A1:E1, B19, L14:L17)
+	  
+	  =AVERAGE(A1,A3, A5:C5)
+	  
+	</programlisting>
+</example>
+
+</sect3>
+
+</sect2>
+
+<sect2>
+	<title>
+	他のシートのセルの参照
+	</title>
+
+<para>
+カレント・シートには存在しないセルを参照することも可能です。これは、NAME ! CELLというシンタックスを使って参照しますが、NAME は識別子（通常はシート名）で CELL は前項で説明した通常のセル参照です。
+</para>
+
+<para>
+NAME にスペースが含まれている場合は、その NAME 全体を引用しない限り、NAME 中のいろいろな語を一つの名前として Gnumeric に認識させることができません。たとえば、デフォルトで作成した「Sheet 0」を参照する場合は、"Sheet 0"を使う必要があります。
+</para>
+
+<example id="simple-sheet-ref">
+	<title>
+	他のシートにある値の参照
+	</title>
+
+	<programlisting>
+	='Sheet 0'!A1+'Sheet 3'!A5
+
+	=SUM('Sheet 1'!A1:'Sheet 1'!A5)
+	</programlisting>
+</example>
+
+</sect2>
+
+</sect1>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         

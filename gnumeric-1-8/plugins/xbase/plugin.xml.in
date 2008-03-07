@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_xbase">
+	<information>
+		<_name>XBase</_name>
+		<_description>Imports XBase files</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="xbase"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="xbase" priority="100" probe="FALSE">
+			<information>
+				<_description>Xbase (*.dbf) file format</_description>
+			</information>
+			<suffixes>
+				<suffix>dbf</suffix>
+			</suffixes>
+			<mime-types>
+				<mime-type>application/dbase</mime-type>
+				<mime-type>application/dbf</mime-type>
+				<mime-type>application/x-dbase</mime-type>
+				<mime-type>application/x-dbf</mime-type>
+				<mime-type>application/x-xbase</mime-type>
+				<mime-type>zz-application/zz-winassoc-dbf</mime-type>
+			</mime-types>
+		</service>
+	</services>
+</plugin>

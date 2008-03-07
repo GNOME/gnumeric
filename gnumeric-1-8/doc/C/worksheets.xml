@@ -1,0 +1,492 @@
+<sect1 id="sect-worksheets-overview">
+  <title>Overview</title>
+
+  <para>
+    Worksheets contain the elements, such as the cell grid area, which
+    provide the principal work entities for &gnum; users. The
+    worksheet grid area allows users to enter data, develop analyses
+    of these data, and display both data and results. Worksheets also
+    contain graphical elements such as graphs and widgets. The
+    worksheets are themselves grouped into a workbook which will be
+    stored in a &gnum; file. The manipulation of workbooks is
+    explained in <xref linkend="sect-workbooks"/> while the material
+    below explains the manipulation of worksheets.
+  </para>
+
+  <para>
+    Worksheets contain both working elements and metadata
+    elements. The working elements include the data contents of cells
+    in the grid area, cell comments, cell formatting, and sheet
+    objects, such as graphical plots. The metadata include the
+    worksheet name and worksheet settings controlling the visual
+    appearance of the worksheet or the display of the worksheet.
+  </para>
+
+  <para>
+    This section explains the main ways to manipulate &gnum;
+    worksheets. <xref linkend="sect-worksheets-navigation"/> explains
+    how to navigate the worksheet to change the area which is
+    displayed and change the currently selected area. <xref
+    linkend="sect-worksheets-display"/> presents several alternative
+    settings which alter the display of cell contents, of the grid
+    area, of the worksheet as a whole or of &gnum; itself. <xref
+    linkend="sect-worksheets-settings"/> explains how to alter
+    settings which affect all the contents of the worksheet such as
+    the status of the content protection mechanism. <xref
+    linkend="sect-worksheets-printSettings"/> gives a brief
+    explanation of the print settings which apply specifically to each
+    worksheet; a more complete explanation of the print settings is
+    given in <xref linkend="chapter-printing"/>. Finally, <xref
+    linkend="sect-worksheets-managing"/> explains how the entire
+    collection of worksheets can be manipulated so as to add,
+    duplicate, delete or re-order the worksheets within a workbook.
+  </para>
+
+</sect1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<sect1 id="sect-worksheets-navigation">
+  <title>Worksheet Navigation</title>
+
+  <para>
+    &gnum; worksheets can be conceived of as a single, continuous,
+    two-dimensional grid of cells. However, &gnum; cannot display the
+    entire grid at once but only shows a portion of the
+    worksheet. Since only a portion of the worksheet can be seen at
+    any particular time, &gnum; provides users with several ways to
+    change the portion of the worksheet that is displayed. <xref
+    linkend="sect-worksheets-navigation-selection"/> explains the
+    various ways that the display window can be moved to a different
+    section of the worksheet grid, while <xref
+    linkend="sect-worksheets-display"/> , further below, explains more
+    powerful methods to re-organize the display of the cell grid area.
+  </para>
+
+<!--
+  <para>
+    Each worksheet also contains a 
+  </para>
+-->
+
+  <sect2 id="sect-worksheets-navigation-movingAround">
+    <title>Moving Around a Worksheet</title>
+
+    <para>
+      
+    </para>
+
+  </sect2>
+
+  <sect2 id="sect-worksheets-navigation-selection">
+    <title>Moving the Selection</title>
+
+    <para>
+    </para>
+
+  </sect2>
+
+
+
+</sect1>
+    
+
+
+
+
+<sect1 id="sect-worksheets-display">
+  <title>Worksheet Display</title>
+
+  <para>
+    The display of each worksheet can be controlled by several
+    settings and configurations. The worksheet, conceptually, consists
+    of a single continuous two dimensional grid of cells arranged in
+    65536 rows by 258 columns, and &gnum;, by default, displays a
+    small portion of the worksheet area as a continuous region. This
+    chapter...
+
+
+    ...or which allow
+    the user to rearrange the cell grid to fix parts of the worksheet
+    grid while scrolling others or to group rows or columns of data
+    within a worksheet for convenient editing and analysis...
+  </para>
+
+  <note>
+    <title>
+      Changing the default size of the &gnum; cell grid.
+    </title>
+    <para>
+      The worksheet grid is 65536 rows by 258 columns of cells, by
+      default. This can be changed but only by altering the computer
+      program files and recompiling the code to make a new version of
+      the &gnum; program. 
+<!-- TODO: ask- how to change the size (row/col) of the cell grid? -->
+<!-- TODO: add- add a link to compile section. -->
+    </para>
+  </note>
+
+
+
+  <sect2 id="sect-worksheets-display-appearance">
+    <title>Appearance</title>
+
+    <para>
+      
+    </para>
+
+    <sect3 id="sect-worksheets-display-appearance-cell">
+      <title>The cell content appearance</title>
+
+      <para>
+        This section has not yet been written.
+      </para>
+
+      <sect4 id="sect-worksheets-display-appearance-cell-formulas">
+        <title>Displaying Formulas or Results</title>
+
+        <para>
+          This section has not yet been written.
+        </para>
+
+      </sect4>
+
+      <sect4 id="sect-worksheets-display-appearance-zeros">
+        <title>Displaying Zeros or Blank cells</title>
+
+        <para>
+          This section has not yet been written.
+        </para>
+
+      </sect4>
+
+    </sect3>
+
+
+
+    <sect3 id="sect-worksheets-display-appearance-grid">
+      <title>The grid area appearance</title>
+
+      <para>
+        This section has not yet been written.
+      </para>
+
+      <sect4 id="sect-worksheets-display-appearance-grid-lines">
+        <title>Displaying Gridlines</title>
+
+        <para>
+          This section has not yet been written.
+        </para>
+
+      </sect4>
+
+      <sect4 id="sect-worksheets-display-appearance-grid-headers">
+        <title>Displaying Row and Column Headers</title>
+
+        <para>
+          This section has not yet been written.
+        </para>
+
+      </sect4>
+
+'    </sect3>
+
+
+
+    <sect3 id="sect-worksheets-display-appearance-book">
+      <title>The workbook appearance</title>
+
+      <para>
+        This section has not yet been written.
+      </para>
+
+
+      <sect4 id="sect-worksheets-display-appearance-book-zoom">
+        <title>Zoom: Changing the Scale of a View</title>
+
+        <para>
+          This section has not yet been written.
+        </para>
+      </sect4>
+
+
+      <sect4 id="sect-worksheets-display-appearance-book-full">
+        <title>Full Screen Mode</title>
+
+        <para>
+          This section has not yet been written.
+        </para>
+
+      </sect4>
+
+      <sect4 id="sect-worksheets-display-appearance-tabs">
+        <title>Displaying Workbook Tabs</title>
+
+        <para>
+          This section has not yet been written.
+        </para>
+
+      </sect4>
+
+      <sect4 id="sect-worksheets-display-appearance-scroolbars">
+        <title>Displaying Grid Area Scrollbars</title>
+
+        <para>
+          This section has not yet been written.
+        </para>
+
+      </sect4>
+
+    </sect3>
+
+
+
+  </sect2>
+
+
+
+  <sect2 id="sect-worksheets-display-grouping">
+    <title>Grouping Rows and Columns</title>
+
+    <para>
+      
+    </para>
+
+  </sect2>
+
+
+  <sect2 id="sect-worksheets-display-panes">
+    <title>Display Panes</title>
+
+    <para>
+      
+    </para>
+
+  </sect2>
+
+
+</sect1>
+
+
+
+
+
+
+
+
+
+
+<sect1 id="sect-worksheets-settings">
+  <title>General Settings</title>
+
+  <para>
+    
+  </para>
+  
+  <sect2 id="sect-worksheets-settings-protection">
+    <title>Content Protection</title>
+
+    <para>
+      
+    </para>
+
+  </sect2>
+
+
+</sect1>
+
+
+
+
+
+
+
+
+
+
+<sect1 id="sect-worksheets-printSettings">
+  <title>Print Settings</title>
+
+<!-- TODO: ref- printing chapter. -->
+  <para>
+    
+  </para>
+
+</sect1>
+
+
+
+
+
+
+
+
+
+
+<sect1 id="sect-worksheets-managing">
+  <title>Managing Worksheets</title>
+
+  <para>
+   
+  </para>
+
+  <para>
+    This section has not yet been written.
+  </para>
+
+  <sect2 id="sect-worksheets-managing-process">
+    <title>Alternative Approaches</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+
+
+    <sect3 id="sect-worksheets-managing-process-menu">
+      <title>Using the menu</title>
+
+      <para>
+        This section has not yet been written.
+      </para>
+
+    </sect3>
+
+
+
+
+    <sect3 id="sect-worksheets-managing-process-mouse">
+      <title>Using the mouse</title>
+
+      <para>
+        This section has not yet been written.
+      </para>
+
+    </sect3>
+
+
+
+
+    <sect3 id="sect-worksheets-managing-process-contextmenu">
+      <title>Using the context menu</title>
+
+      <para>
+        This section has not yet been written.
+      </para>
+
+    </sect3>
+
+
+
+
+    <sect3 id="sect-worksheets-managing-process-dialog">
+      <title>Using the sheet management dialog</title>
+
+      <para>
+        This section has not yet been written.
+      </para>
+
+    </sect3>
+
+
+  </sect2>
+
+
+
+
+
+
+
+  <sect2 id="sect-worksheets-managing-adding">
+    <title>Adding a Blank Worksheet</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+  </sect2>
+
+
+
+  <sect2 id="sect-worksheets-managing-duplicating">
+    <title>Duplicating a Worksheet</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+  </sect2>
+
+
+
+  <sect2 id="sect-worksheets-managing-copyPaste">
+    <title>Copying or Pasting a Worksheet</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+  </sect2>
+
+
+
+  <sect2 id="sect-worksheets-managing-renaming">
+    <title>Renaming a Worksheet</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+  </sect2>
+
+
+  <sect2 id="sect-worksheets-managing-reorder">
+    <title>Reordering Worksheets in a Workbook</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+  </sect2>
+
+
+  <sect2 id="sect-worksheets-managing-tabAppearance">
+    <title>Changing the appearance of Worksheet Tabs</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+  </sect2>
+
+
+  <sect2 id="sect-worksheets-managing-removing">
+    <title>Deleting Worksheets</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+
+  </sect2>
+
+
+</sect1>
+
+
+
+
+
+
+

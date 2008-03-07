@@ -1,0 +1,4544 @@
+<sect1 id="sect-graphics-plots">
+  <title>Graphical Plots</title>
+
+  <para>
+    &gnum; includes a powerful mechanism
+    to create graphical plots which present visually the data contained
+    in a worksheet. 
+  </para>
+
+  <para>
+    The first sub-section of this section starts with an overview of
+    graph creation, discusses terminology, and presents graph
+    components and their organization. The next sub-section explains
+    the <interface>"Graph Guru"</interface> which is the tool used to
+    configure graphs. The subsequent  sub-section presents the different
+    types of plots which can be included in a graph and the final
+    sub-section explains how data can be pre-selected to speed up the
+    process of graph creation.
+  </para>
+
+  <note>
+    <para>
+      Graphs are exceedingly effective communication
+      devices. Unfortunately, this means that one cannot determine,
+      simply based on the data to be plotted, what type of plot will be
+      the most effective. Instead users must familiarize themselves with
+      the various types of plots which are available and decide for
+      themselves which plot type is the most effective to communicate
+      an idea. <xref
+      linkend="sect-graphics-plots-overview-types" /> contains a
+      detailed explanation of the plot types available in
+      &gnum;.
+    </para>
+  </note>
+
+
+
+
+  <sect2 id="sect-graphics-plots-overview">
+    <title>Overview of Plots</title>
+
+    <para>
+      This overview will start with a brief summary of the process
+      involved in creating a graph, then will discuss the terminology
+      used in this document, will present the components of a graph,
+      and present the hierarchy of the components used in to configure
+      the graphs.
+    </para>
+
+      <sect3 id="sect-graphics-plots-overview-process">
+        <title>The Graph Creation Process</title>
+
+	<para> 
+	  The process of graph creation involves several steps each of
+	  which requires the user to understand clearly what they
+	  intend to do. This outline is presented to help users
+	  understand the subsequent discussion in this document.
+        </para>
+
+
+      <procedure>
+        <title>Outline of the procedure to create a graph.</title>
+
+        <step>
+	  <title>
+	    Data entry.
+	  </title>
+	  <para>
+	   Before a graph can be created, the data must be entered
+	  into a workbook.
+	  </para>
+	</step>
+
+        <step>
+	  <title>
+	    (Optional) Data pre-selection.
+	  </title>
+	  <para>
+	    As explained in <xref
+	    linkend="sect-graphics-plots-preselect" />, it is possible
+	    to pre-select the data and have gnumeric correctly assign
+	    the cell contents into series names, category labels and
+	    data values. This process can only be understood once the
+	    rest of the graph creation process has been mastered so
+	    the discussion of pre-selecting data is left until the end
+	    of this section.
+	  </para>
+	</step>
+
+        <step>
+	  <title>
+	    Opening the graph guru
+	  </title>
+	  <para>
+	    The <interface>Graph Guru</interface> can be opened in two
+	    ways. It can be opened by clicking on the <guibutton>Graph
+	    Guru</guibutton> button,
+	    <inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="figures/button-graph.png" />
+              </imageobject>
+              <textobject>
+                <phrase>An image of the toolbar graph guru button.</phrase>
+              </textobject>
+            </inlinemediaobject>, which is on the standard toolbar
+	    immediately to the left of the zoom box. Alternatively the
+	    <interface>Graph Guru</interface> can be opened by using,
+	    in the <guimenu>Insert</guimenu> menu, the
+	    <guimenuitem>Chart</guimenuitem> menu item.
+	  </para>
+	</step>
+
+        <step>
+	  <title>
+	    Configuring the graph
+	  </title>
+	  <para>
+	    The <interface>Graph Guru</interface> provides the user
+	    with a large number of options to configure the graph, its
+	    charts and the plots. The first panel provides a way to
+	    select the plot type, sub-type and, for some types, a
+	    style. The second panel allows the user to configure each
+	    element of the graph. When the configuration is complete,
+	    the guru is dismissed by clicking the
+	    <guibutton>OK</guibutton> button. This step will be
+	    explained in detail in <xref
+	    linkend="sect-graphics-plots-graphguru-navigating" />,
+	    below. 
+	  </para>
+	</step>
+
+        <step>
+	  <title>
+	    Inserting the graph
+	  </title>
+	  <para>
+	    Finally, the graph is inserted into
+	    the worksheet like any other graphical element, as was
+	    explained in <xref
+	    linkend="sect-graphical-overview-adding" />. 
+	  </para>
+	</step>
+      </procedure>
+
+
+    </sect3>
+
+
+
+
+    <sect3 id="sect-graphics-plots-overview-terms">
+      <title>On Terminology</title>
+
+  <note>
+
+    <para>
+      The terminology used for describing the components of data
+      graphs is confusing because graphs use many components and the
+      words are applied arbitrarily to each component. For example,
+      the words "graph", "chart", and "plot" could be used
+      interchangeably but in &gnum;
+      these words are used as explained below.
+    </para>
+
+    <para>
+      The term 'graph' will be used, in this documentation, to refer
+      to the entire graphical element placed on the worksheet. A graph
+      has an outline and a background, may have one or more titles,
+      and will have at least one 'chart'.
+    </para>
+
+    <para>
+      The term 'chart' will be used to denote an intermediate level
+      element which has an outline and a background, may have one or
+      more titles, may have a legend and will have at least one
+      'plot'. To support the plot, the chart may have a 'grid' area
+      behind the plotted data, and have one or more axes.
+    </para>
+
+    <para>
+      Each 'plot' will be defined to be of a particular type when it
+      is created.  Plots will have one or more 'series' of data values
+      which will define the magnitude of the values of to be plotted
+      and may define a number of other related values including errors
+      in the x and y directions.
+    </para>
+
+  </note>
+
+  <para>
+    This terminology can be used to describe in detail the components
+    of a graph in &gnum;. <xref
+    linkend="fig-graph-components" /> presents the components of a
+    graph. 
+  </para>
+
+
+    </sect3>
+
+
+    <sect3 id="sect-graphics-plots-overview-components">
+      <title>The Components of Graphs</title>
+
+  <figure id="fig-graph-components">
+    <title>The components of Gnumeric graphs</title>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/graph-components.png" 
+              format="PNG"  />
+        </imageobject>
+        <textobject>
+          <para>
+            This screenshot depicts a graph in Gnumeric and describes
+	    all of the components.
+          </para>
+        </textobject>
+        <caption>
+          <para>
+	    This screenshot presents several of the major components of
+            &gnum; graphs. These components
+            will be presented next in their containment hierarchy. The
+            hierarchy is used in the <interface>Graph Guru</interface> to
+            organize the components so a user can change all the
+            preferences.
+	  </para>
+        </caption>
+      </mediaobject>
+    </screenshot>
+  </figure>
+
+
+    </sect3>
+
+     <sect3 id="sect-graphics-plots-overview-componentHierarchy">
+       <title>The Graph Component Hierarchy</title>
+
+       <para>
+         The components that make up a graph in
+         &gnum;  are arranged in a
+         hierarchy with all the configurable options of the graph
+         assigned as properties to one of the components in the
+         hierarchy. 
+       </para>
+
+
+  <figure id="fig-graph-componentHierarchy">
+    <title>The hierarchy of components and their properties</title>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/graph-hierarchy.png" 
+              format="PNG"  />
+        </imageobject>
+        <textobject>
+          <para>
+            This figure includes an image of the graph hierarchy
+            presented by the graph guru along with text descriptions
+            of each component and of their properties.
+          </para>
+        </textobject>
+        <caption>
+          <para>
+	    The hierarchy of graph component elements and the associated
+            properties. In this case, the element 'X-Axis2' is selected.
+	  </para>
+        </caption>
+      </mediaobject>
+    </screenshot>
+  </figure>
+
+
+        <para>
+          In &gnum;, Graphs are the top
+          level element containing all the other components. Graphs
+          have two properties related to the style of the background
+          rectangular panel, its fill and its outline. Graphs can hold
+          one or more titles and one or more charts.
+        </para>
+
+        <para>
+          Titles have the same properties related to their background
+          rectangular panel, the fill and outline, have
+          properties related to the text, the font type, style, and
+          size, and have the text data that will be the title itself.
+        </para>
+
+	<para>
+	  Charts have the same properties related to the background
+	  rectangular panel and can contain a number of other
+	  components including their own titles, a legend, plot
+	  accessories and plots.
+        </para>
+
+	<para>
+	  Legends have the same properties related to their background
+	  rectangular panel and also have the properties related to
+	  the font in which the name of each series will be added to
+	  the legend, the font type, style, and size.
+	</para>
+
+	<para>
+	  Certain plot types require accessory components such as the
+	  elements related to the creation of a Cartesian coordinate
+	  system. Charts which include one or more plots of this kind
+	  will have a Grid and may have X (horizontal) and Y
+	  (vertical) axes.
+	</para>
+
+	<para>
+	  Grids are the background of Cartesian plots and have the
+	  properties determining the fill of this area and the line
+	  pattern displayed behind the plotted series.
+	</para>
+
+	<para>
+	  Axes have properties related to the outer bounds of the
+	  axis, the style of the line drawn for the axis, the font
+	  style of the markers along the axis, detail properties of
+	  the tics and other markers on the axis, and the number
+	  format of the axis markers.
+
+	</para>
+
+	<para>
+	  Axis labels share the same properties related to the style
+	  of their background rectangular panel, including the fill
+	  and outline properties, have properties related to the style
+	  of the font used for the text, including the font type,
+	  style and size, and the data contents of the text used to
+	  label the axis.
+	</para>
+
+	<para>
+	  The properties of each type of plot, and of the data series
+	  they contain, vary depending on the actual type of the
+	  plot. For instance, the values of a data series which
+	  are  plotted as a pie plot will not have any associated
+	  error values, whereas values plotted as columns could be
+	  associated to Y-error values and values plotted as an XY
+	  scatterplot could be associated with error values in both
+	  the X and the Y direction. Obviously, these different plot
+	  types will require different options. The options associated
+	  with each specific plot type will be discussed below, in 
+	  <xref linkend="sect-graphics-plots-elementProperties" />.
+	</para>
+
+     </sect3>
+
+   </sect2>
+
+
+
+
+
+  <sect2 id="sect-graphics-plots-graphguru">
+    <title>The Graph Guru</title>
+
+    <para>
+      All graphs in &gnum; are created
+      using the <interface>Graph Guru</interface> which is a complex
+      dialog that allows for detailed customization of each graph.
+    </para>
+
+
+
+    <sect3 id="sect-graphics-plots-graphguru-components">
+      <title>The components of the Graph Guru</title>
+
+      <para>
+        The <interface>Graph Guru</interface> consists of two panels
+        which appear sequentially. The first panel allows the user to
+        select the type of the plot, and possibly a sub-type and a
+        style. The second panel provides a way to configure the style
+        formats of each component of the final graph. <xref
+        linkend="fig-graphguru-panels" /> shows the different areas
+        of the two panels of the <interface>Graph Guru</interface>.
+      </para>
+      
+      <figure id="fig-graphguru-panels">
+        <title>The two panels of the Graph Guru</title>
+	 <screenshot>
+          <mediaobject> 
+	    <imageobject> 
+	      <imagedata fileref="figures/graphguru-components.png"
+	                 format="PNG" />
+	    </imageobject>
+	    <textobject>
+	      <para> 
+	        This screenshot depicts the two panels of the graph
+	        guru.
+	      </para>
+	    </textobject>
+	  </mediaobject>
+	</screenshot>
+      </figure>
+
+      <para>
+        The different parts of each panel of the <interface>Graph
+        Guru</interface> have been shaded with boxes of different
+        colors and labeled with a letter in <xref
+        linkend="fig-graphguru-panels" />. The purpose of each of
+        these sections will be explained below:
+
+	<variablelist>
+	  <title>The components of the two panels</title>
+
+	  <varlistentry>
+	    <term>
+	      <guimenu>A</guimenu> - The Plot Type Selection Area
+
+	    </term>
+	    <listitem>
+	      <para>
+	        This area lists the different types of plots which can
+		be contained within the graph. The desired plot type
+		can be selected simply by placing the mouse cursor
+		over the desired type and clicking with the primary
+		mouse button. The blue highlight indicates the
+		currently selected type. 
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <guimenu>B</guimenu> - The Plot Subtype and Style
+	    Selection Area or Preview Area.
+	    </term>
+	    <listitem>
+	      <para>
+	        This area presents a number of icons which change
+	        depending on the plot type that has been
+	        selected. Certain icons represent plot sub-types, for
+	        example, distinguishing plots with columns that are
+	        side by side from plots with stacked columns. Other
+	        icons represent different plot styles, for example
+	        distinguishing line plots in which each data point is
+	        labeled with a graphical symbol from line plots where
+	        data points do not have any symbol. The highlight box
+	        around one icon 
+	        indicates which icon is currently chosen.
+	      </para>
+
+	      <para>
+	        This area also becomes a preview area when the
+	        <guibutton>Show Sample</guibutton> button is pressed,
+	        as explained below in the list entry
+	        <guimenu>D</guimenu> explaining that button.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+
+	  <varlistentry>
+	    <term>
+	      <guimenu>C</guimenu> - The Plot Description Area
+	    </term>
+	    <listitem>
+	      <para>
+	        This area gives a brief text description of the
+	        selected combination of plot type and sub-type.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <guimenu>D</guimenu> - The Show Sample Button
+	    </term>
+	    <listitem>
+	      <para>
+	        This area is a button which can be pressed by placing
+	        the mouse cursor over this area and pressing the
+	        primary mouse button. When the button is pressed, the
+	        area indicated by the label <guimenu>B</guimenu>
+	        becomes a preview of the graph with the selected plot
+	        type and sub-type. Note that the preview will only
+	        show a plot once data values have been added to one of
+	        the series.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <guimenu>E</guimenu> - The First Panel Navigation Buttons
+	    </term>
+	    <listitem>
+	      <para>
+	        These buttons enable the user to navigate through the
+	        <interface>Graph Guru</interface>.
+	      </para>
+	      
+	      <variablelist>
+
+	        <varlistentry>
+		  <term>
+		    The <guibutton>Help</guibutton> Button
+		  </term>
+		  <listitem>
+		    <para>
+		      The <guibutton>Help</guibutton> button should
+		      cause this section of the manual to open.
+		    </para>
+		  </listitem>
+		</varlistentry>
+
+	        <varlistentry>
+		  <term>
+		    The <guibutton>Cancel</guibutton> Button
+		  </term>
+		  <listitem>
+		    <para>
+		      The <guibutton>Cancel</guibutton> button will
+		      dismiss the <interface>Graph Guru</interface>
+		      and return the user to the
+		      &gnum; worksheet.
+		    </para>
+		  </listitem>
+		</varlistentry>
+
+	        <varlistentry>
+		  <term>
+		    The <guibutton>Forward</guibutton> Button
+		  </term>
+		  <listitem>
+		    <para>
+		      The <guibutton>Forward</guibutton> button will
+		      dismiss the first panel of the <interface>Graph
+		      Guru</interface> and open up the second panel.
+		    </para>
+		  </listitem>
+		</varlistentry>
+
+	        <varlistentry>
+		  <term>
+		    The <guibutton>OK</guibutton> Button
+		  </term>
+		  <listitem>
+		    <para>
+		      The <guibutton>OK</guibutton> button will
+		      dismiss the <interface>Graph Guru</interface> and
+		      allow users to insert the graph, as it is
+		      currently defined, into the worksheet. The
+		      resulting graph may not include any plots or
+		      data but it can be modified subsequently using
+		      the context menu's
+		      <guimenuitem>Properties</guimenuitem> menu entry.
+		    </para>
+		  </listitem>
+		</varlistentry>
+
+	      </variablelist>
+
+
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <guimenu>F</guimenu> - The hierarchy tree of graph components
+	    </term>
+	    <listitem>
+	      <para>
+	        This area allows the user to navigate the hierarchy of
+	        graph components. The components are arranged in a
+	        tree with nodes indicated by arrowheads. Components
+	        can be selected by clicking on the component name with
+	        the mouse pointer and nodes can be expanded or
+	        collapsed by clicking on the arrowheads. The selection
+	        of different components in this area will cause
+	        different property options to be displayed in area
+	        <guimenu>J</guimenu> since each component in the
+	        hierarchy has its own specific properties.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <guimenu>G</guimenu> - The hierarchy modification buttons
+	    </term>
+	    <listitem>
+	      <para>
+	        These buttons allow a user to modify the hierarchy of
+	        components by adding components with the
+	        <guibutton>Add</guibutton> button or by removing
+	        components with the <guibutton>Delete</guibutton>
+	        button. The <guibutton>Order</guibutton> allows the
+	        user to change the stacking order of charts, moving
+	        them up or down, or of data series, moving them toward
+	        the front or back.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <guimenu>H</guimenu> - The panel rearrangement handles
+	    </term>
+	    <listitem>
+	      <para>
+	        These triple dots indicate that the mouse can be used
+	        to change the shape and size of the different areas in
+	        this panel of the graph guru. These handles can be
+	        used by placing the mouse pointer above a handle,
+	        clicking and holding with the primary mouse button,
+	        then dragging the handle to a new position, and then
+	        releasing the mouse button.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <guimenu>I</guimenu> - The preview area
+	    </term>
+	    <listitem>
+	      <para>
+	        This area shows a preview of the graph as it will look
+	        if the user clicks on the <guibutton>OK</guibutton> at
+	        the bottom of the panel, in area <guimenu>K</guimenu>.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <guimenu>J</guimenu> - The component properties
+	    selection area.
+	    </term>
+	    <listitem>
+	      <para>
+	        This area allows the user to change the graph by
+	        modifying the properties of the component that is
+	        selected (highlighted in blue) in area
+	        <guimenu>F</guimenu>. For components which have
+	        multiple properties these may be grouped into related
+	        sets and placed on different tabs. By clicking on the
+	        tabs at the upper left, a user can access the
+	        properties in each set.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <guimenu>K</guimenu> - The second panel navigation buttons
+	    </term>
+	    <listitem>
+	      <para>
+	        These buttons act in the same way as the buttons in
+	        the first panel, in area <guimenu>E</guimenu> except
+	        that the <guibutton>Forward</guibutton> is now a
+	        <guibutton>Back</guibutton> and takes the user back to
+	        the first panel.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+
+        </variablelist>
+
+      </para>
+
+
+    </sect3>
+
+    <sect3 id="sect-graphics-plots-graphguru-navigating">
+      <title>Navigating the graph guru</title>
+
+      <para>
+        Graphs in &gnum; are created using
+        the <interface>Graph Guru</interface>. The process involved in
+        using this 'guru' essentially follows the alphabetical labels
+        presented in <xref linkend="fig-graphguru-panels" />.
+      </para>
+      <procedure>
+        <title>The Graph Creation Process</title>
+
+        <step>
+	  <title>Data Pre-selection</title>
+          <para>
+
+	    Advanced users generally start by pre-selecting at least
+            some of the data they will use in their plots. However,
+            this step requires a complete understanding graphs and
+            this step is not described here. <xref
+            linkend="sect-graphics-plots-preselect" /> will explain
+            data preselection once the rest of the graphing process
+            has been explained.
+          </para>
+        </step>
+
+        <step>
+          <title>Launching the Graph Guru</title>
+          <para>
+            The <interface>Graph guru</interface> can be started in
+            two ways. One way to start the <interface>Graph
+            Guru</interface> is to click, with the primary mouse
+            button, on the toolbar graph button,
+            <inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="figures/button-graph.png" />
+              </imageobject>
+              <textobject>
+                <phrase>
+                  The icon on the toolbar button which starts the
+                  graph guru.
+      	        </phrase>  
+              </textobject>
+             </inlinemediaobject>. Another way is to select, from the
+             <guimenu>Insert</guimenu> menu, the
+             <guimenuitem>Chart...</guimenuitem> menu item. Both
+             approaches will launch the <interface>Graph Guru</interface>.
+          </para>
+        </step>
+
+        <step>
+          <title>Selecting the plot type, sub-type, and style.</title>
+
+          <para>
+            The <interface>Graph guru</interface> opens to the first
+            of two panels. The areas of this panel are shown in the
+            left hand side of <xref linkend="fig-graphguru-panels"
+            />. This panel enables the user to select the type of the
+            first plot in the chart, and its sub-type and style. To
+            make a graph with multiple plots, a user should start by
+            selecting the first plot; subsequent plots can be added
+            later. 
+          </para>
+          
+          <procedure>
+            <step>
+              <title>Picking the plot type</title>
+              <para>
+                The first area, area <guimenu>A</guimenu>, provides
+                a list of the plot types. The user can pick one of
+                the types by placing the mouse pointer on top of
+                that appropriate entry in the list and clicking the
+                primary mouse button. The blue highlight indicates
+                which plot type has been chosen. The characteristics
+                of the different plot types are explained extensively
+                in <xref
+                linkend="sect-graphics-plots-overview-types" />. 
+              </para>
+            </step>
+            <step>
+              <title>Picking the plot sub-type and style</title>
+              <para>
+                The second area of the first panel of the
+                <interface>Graph Guru</interface>, labeled
+                <guimenu>B</guimenu> in <xref
+                linkend="fig-graphguru-panels" />, presents one or
+                more icons. The icons presented in this area will
+                change depending on what plot type is highlighted in
+                area <guimenu>A</guimenu>. The icons provide a way
+                to select a sub-type of plot, for example, the icons
+                for the column plot type provide the choice between
+                plotting columns of each data series side-by-side or
+                plotting these columns stacked upon each other.
+                These icons may also provide a way to quickly select
+                different styles for the plot type, for example the
+                icons for the line type provide a choice between
+                plotting a simple line or placing markers at the
+                points along the line. The sub-type cannot be
+                changed in the next panel of the <interface>Graph
+                Guru</interface> without deleting the plot and
+                creating a new one. However, the style choices can
+                be altered in the next panel. The meaning of each of
+                these icons is explained in <xref
+                linkend="sect-graphics-plots-overview-types" />
+                below grouped by plot type. If data has been
+                pre-selected, clicking on the <guibutton>Show
+                Sample</guibutton> will present a preview of the plot
+                type in area <guimenu>B</guimenu>.
+              </para>
+            </step>
+            <step>
+              <title>Moving to the next panel</title>
+              <para>
+                Once a plot type has been chosen in area
+                <guimenu>A</guimenu> and an icon selected in area
+                <guimenu>B</guimenu>, the first panel has been
+                completed. Clicking on the
+                <guibutton>Forward</guibutton> button will dismiss
+                the first panel of the <interface>Graph
+                Guru</interface> and bring up the second panel.
+              </para>
+            </step>
+          </procedure>
+        </step>
+
+        <step>
+          <title>Configuring the plot</title>
+          <para>
+            The second panel of the <interface>Graph Guru</interface>
+            enables users to configure the plot. This includes
+            determining the values which will actually be plotted,
+            adding titles to various components, labels to the data
+            series, names to data categories, and changing the
+            appearance of the different components.
+          </para>
+
+          <para>
+            The simplest way both to learn the hierarchy of components
+            in &gnum; graphs and to
+            understand the properties which can be changed for each
+            component is to work sequentially through all of the
+            components while both noting the components which can be
+            added, listed in the drop down menu when the
+            <guibutton>Add</guibutton> button is pressed, and
+            observing the properties of the component which can be
+            altered, shown in the lower part of the panel, the area
+            labeled <guimenu>J</guimenu> in <xref
+            linkend="fig-graphguru-panels" />. Each component in the
+            hierarchy can be selected in turn using the complete tree
+            of all the components presented in the top leftmost area,
+            labeled <guimenu>F</guimenu>. Components can be selected
+            by placing the mouse pointer over their name in this tree
+            and then clicking with the primary mouse button. The
+            currently selected component is indicated by the blue
+            highlight on that line. Changing the selected component
+            will also change the properties listed in area
+            <guimenu>J</guimenu>. Tree nodes, indicated by arrowheads
+            in front of the name of a component, can be expanded or
+            collapsed with alternative mouse clicks.
+          </para>
+
+          <para>
+            The second panel of the <interface>Graph Guru</interface>
+            only allows two types of actions to be performed: the
+            hierarchy of component elements can be modified or the
+            properties of an element can be altered.
+          
+            <variablelist>
+              <title></title>
+
+
+              <varlistentry>
+                <term><guimenu>Changing the component elements</guimenu></term>
+                <listitem>
+                  <para>
+      	            The component elements of the graph can be changed
+      	            using the buttons in area
+      	            <guimenu>G</guimenu>. Elements can be added,
+      	            deleted or re-ordered.
+      	          </para>
+
+                  <variablelist>
+                    <title></title>
+
+                    <varlistentry>
+                      <term>Adding component elements</term>
+                      <listitem>
+                        <para>
+      	                  An element can be added by selecting the
+      	                  parent element in the hierarchy presented
+      	                  in area <guimenu>F</guimenu> and then
+      	                  clicking and holding the
+      	                  <guibutton>Add</guibutton> button. This action
+      	                  will reveal a drop down list including all
+      	                  the possible elements that can be added. By
+      	                  moving the mouse pointer onto the drop down
+      	                  list and releasing the mouse button while
+      	                  the pointer is over an element, that
+      	                  element will be added. To add a plot to a
+      	                  chart, it is necessary to navigate into the
+      	                  sub-menu to select the plot type and then
+      	                  into that sub-menu to select a plot
+      	                  sub-type or style in a process that mimics
+      	                  the process of selecting a plot discussed above.
+      	                </para>
+                      </listitem>
+                    </varlistentry>
+
+                    <varlistentry>
+                      <term>Deleting component elements</term>
+                      <listitem>
+                        <para>
+      	                  An element can be deleted by selecting the
+      	                  element in the hierarchy presented in area
+      	                  <guimenu>F</guimenu>, and then clicking the
+      	                  <guibutton>Delete</guibutton> button below
+      	                  the hierarchy.
+      	                </para>
+                      </listitem>
+                    </varlistentry>
+
+                    <varlistentry>
+                      <term>Re-ordering component elements</term>
+                      <listitem>
+                        <para>
+      		          The order of some of the elements can be
+      	                  interchanged using the
+      	                  <guibutton>Order</guibutton> button below
+      	                  the element hierarchy. For example, if an
+      	                  element has two titles, the order of the
+      	                  titles could be swapped. Similarly the
+      	                  vertical order of charts can be
+      	                  interchanged. The effect on plots and series
+      	                  is different. For those elements, the order
+      	                  button changes the stacking order in the
+      	                  front to back dimension. For example, if a
+      	                  chart has a bar plot and a line plot, the
+      	                  order button will change which of the two
+      	                  plots is visible in front of the other.
+      	                </para>
+                      </listitem>
+                    </varlistentry>
+
+                  </variablelist>
+
+      	        </listitem>
+              </varlistentry>
+
+
+              <varlistentry>
+                <term>
+                  <guimenu>Configuring the properties of the Element</guimenu>
+                </term>
+                <listitem>
+                  <para>
+      	            The bottom area of the second panel, area
+      	            <guimenu>J</guimenu> in <xref
+      	            linkend="fig-graphguru-panels"/>, allows the user
+      	            to configure the properties of each element in the
+      	            hierarchy. When there are many properties, they
+      	            will be grouped into similar sets and placed on
+      	            different tabs. The detailed explanation of how to
+      	            configure each property of each element will be
+      	            explained in <xref
+      	            linkend="sect-graphics-plots-elementProperties" /> below.
+      	          </para>
+                </listitem>
+              </varlistentry>
+            </variablelist>
+           
+            Once the plot is sufficiently configured, it can be placed
+            on the worksheet to assess its appearance. The user can
+            return to this panel of the <interface>Graph
+            Guru</interface> using the context menu on the graph. The
+            <interface>Graph Guru</interface> is dismissed by
+            clicking on the <guibutton>OK</guibutton> button.
+<!-- TODO: Change when the button label changes from "OK" (HIG) -->
+          </para>
+        </step>
+
+        <step>
+          <title>Place the graph</title>
+          <para>
+            After exiting the <interface>Graph Guru</interface>, the
+            user must place the graph on a worksheet. Immediately
+            after exiting the <interface>Graph Guru</interface>, the
+            mouse pointer will have changed to the thin cross-hair
+            cursor. The user can place the graph by moving the pointer
+            over the worksheet and clicking once with the primary
+            mouse button. Alternatively, the user can place and size
+            the graph by determining two of the corners of the
+            graph. This is done by moving the pointer onto the
+            worksheet to the first corner, clicking and holding the
+            primary mouse button, dragging the mouse pointer to the
+            opposite corner and releasing the mouse button. 
+          </para>
+        </step>
+
+        <step>
+          <title>Modifying an existing graph</title>
+          <para>
+            A graph which has already been created can be modified by
+            clicking on the graph with one of the secondary mouse
+            buttons in order to invoke the context menu and then
+            selecting the <guimenuitem>Properties</guimenuitem> menu
+            entry. This will cause the second panel of the
+            <interface>Graph Guru</interface> to appear which will
+            enable the user to make any desired modifications. The use
+            of the context menu was discussed in <xref
+            linkend="sect-graphical-overview-contextmenu" />.
+          </para>
+        </step>
+
+        <step>
+          <title>Deleting a graph</title>
+          <para>
+            A graph which has been made can be deleted by invoking the
+            context menu and selecting the
+            <guimenuitem>Delete</guimenuitem> menu item. 
+          </para>
+        </step>
+
+      </procedure>
+
+
+
+    </sect3>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+  <sect2 id="sect-graphics-plots-overview-types">
+    <title>Plot Types</title>
+
+    <para>
+      &gnum; graphs can include any of
+      the plot types presented below. The section for each type
+      explains the overall concept of the plot, gives an example,
+      explains the data required for the plot type, and explains the
+      icons in the <interface>Graph Guru</interface> which allow
+      setting the plot sub-type and style.
+    </para>
+
+
+    <sect3 id="sect-graphics-plots-overview-types-line" >
+      <title>
+        Line Plots
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="figures/graphs-types-line.png" 
+		       valign="top" />
+          </imageobject>
+          <textobject>
+            <phrase>An icon for the line plot type.</phrase>
+          </textobject>
+        </inlinemediaobject>
+      </title>
+
+      <para>
+        Line plots present the numeric values of categorical data with
+        the data values of each series connected by a line. Sequential
+        data values are considered to belong to different categories
+        and are plotted along the horizontal (X) axis at equally
+        spaced intervals. The data values from different series are
+        assigned to these categories based on the position of the
+        value in the series, for example, the second data value taken
+        from each series all share one category. The data values are
+        plotted along the vertical (Y) axis according to their numeric
+        value and the particular sub-type chosen for the line plot.
+      </para>
+
+      <para>
+        Line plot sub-types provide three options for relating the
+        values from different data series. The first sub-type plots
+        each series independently with the data value determining the
+        vertical distance between each point and the horizontal
+        axis. The second sub-type plots the series stacked on each
+        other in a cumulative fashion with the data value of each
+        series determining the vertical distance from the point to the
+        sum of the values in all the previous series. For example, if
+        the first series starts with values 
+	<literal>{3.9, 4.2, ...}</literal>, the second
+        series with values 
+        <literal>{1.2, 3.5, ...}</literal>, and the
+        third series with values 
+	<literal>{3.1, 1.9, ...}</literal>, then the
+        point value for the second element of the third series will be
+        plotted at 9.6 
+	(<literal>9.6=4.2+3.5+1.9</literal>) along
+        the vertical axis. The third sub-type plots each series based
+        on the proportional contribution of the value to the total of
+        all values in that category. Using the example above, the
+        three values would be plotted at 0.4375, 0.8020, and 1 because
+        the intervals between zero and each of these numbers is
+        <literal>0.4375=4.2/(4.2+3.5+1.9)</literal>
+        for the first, 
+	<literal>0.3645...=3.5/(4.2+3.5+1.9)</literal> for the
+        second, and 
+        <literal>0.1979...=1.9/(4.2+3.5+1.9)</literal> 
+	for the third, although, by default, these numbers are
+        presented as percentages on the vertical (Y) axis.
+      </para>
+
+      <para>
+        Two styles are available by default for line plots. In the
+        first no markers are placed on the value of the point whereas
+        in the second a point marker is added wherever the points are
+        plotted.
+      </para>
+
+      <figure id="fig-graph-types-example-line">
+        <title>An example of line plots</title>
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="figures/graph-example-line.png" 
+                               format="PNG" />
+                    </imageobject>
+                    <textobject>
+                      <para>
+		        A screenshot of a line plot and the data
+                        necessary to generate the plot.
+                      </para>
+                    </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a table of data and three
+                        line plots. The data consist of three series
+                        organized by row and starting with the words
+                        "Widgets", "Gadgets", and "Lumpets". Each of
+                        these series has values in five categories. The
+                        three graphs illustrate the three sub-types of
+                        line plots, with the series plotted
+                        independently in the left plot, stacked in the
+                        middle plot, and proportionately stacked in the
+                        right plot.
+	              </para>
+                    </caption>
+                  </mediaobject>
+                </screenshot>
+      </figure>
+
+      <para>
+        Each series in line plots can include three main elements and
+        two error elements, although only the value element is
+        necessary. The series can have a 'Name' element, which is a
+        single text entry used to identify the series, must have a
+        'Values' element, which is a sequence of numeric values, and
+        may have a 'Label' element, which is a sequence of text
+        entries used to identify the categories.  All of these
+        elements can be defined as references to a region of the
+        worksheet, as literally defined entries, or as formula
+        expressions which result in the correct type. The 'Label'
+        element is shared by all of the series. The legend added to a
+        line plot identifies the different series, by default using
+        the entries of the 'Name' element of each series. The two
+        error elements include a list for errors in the positive
+        direction and one for errors in the negative direction.
+      </para>
+
+<table frame='all'><title>The data in each line plot series</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+
+<thead>
+<row>
+  <entry align="center">Element</entry>
+  <entry align="center">Type</entry>
+  <entry align="center">Example</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>Name</entry>
+  <entry>A single textual entry labeling the data series. These will
+    be used in the legend which may be displayed with the line
+    plot.</entry> 
+  <entry>{"Widgets"}</entry>
+</row>
+<row>
+  <entry>Value</entry>
+  <entry>A list of numeric values.</entry>
+  <entry>{1293, 2502, 3297, 1100, 2487}</entry>
+</row>
+<row>
+  <entry>Label</entry>
+  <entry>A list of textual entries labeling each
+    value. Generally, this series will have as many entries as there
+    were in the 'Value' series. These entries are shared by all the
+    series in the line plot.</entry> 
+  <entry>{"North", "South", "Central", "East", "West"}</entry>
+</row>
+<row>
+  <entry>Error (+)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
+</row>
+<row>
+  <entry>Error (-)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+      <para>
+        Line plots provide six icons to choose between three plot
+        sub-types each with two different styles.
+      </para>
+
+
+
+      <variablelist>
+        <title>Line plot sub-type and style options.</title>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_line_1_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a line plot of the sub-type with
+                          independent, overlapping
+	                  lines and of the style without point markers.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a line plot of the sub-type with
+                    independent, overlapping
+	            lines and of the style without point markers.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_line_1_2.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a line plot of the sub-type with stacked
+	                  lines and of the style without point markers.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a line plot of the sub-type with stacked
+	            lines and of the style without point markers.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_line_1_3.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a line plot of the sub-type with
+                          stacked proportion lines and of the style
+                          without point markers.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a line plot of the sub-type with stacked
+                    proportion lines and of the style without point
+                    markers.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_line_2_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a line plot of the sub-type
+                          with overlapping 
+	                  lines and of the style with point markers.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a line plot of the sub-type with overlapping
+	            lines and of the style with point markers.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_line_2_2.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a line plot of the sub-type with stacked
+	                  lines and of the style with point markers.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a line plot of the sub-type with stacked
+	            lines and of the style with point markers.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_line_2_3.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a line plot of the sub-type with
+                          stacked proportion lines and of the style
+                          without point markers.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a line plot of the sub-type with stacked
+                    proportion lines and of the style without point
+                    markers.
+		  </para>
+		</listitem>
+	      </varlistentry>
+	    </variablelist>
+
+
+    </sect3>
+
+
+
+
+
+    <sect3 id="sect-graphics-plots-overview-types-xy" >
+      <title>
+        XY Scatterplots
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="figures/graphs-types-xyplot.png" 
+		       valign="top"/>
+          </imageobject>
+          <textobject>
+            <phrase>An icon for the XY scatterplot plot type.</phrase>
+          </textobject>
+        </inlinemediaobject>
+      </title>
+
+      <para>
+         The data values of two series of equal length are plotted on
+	 the Cartesian (X-Y) plane, the value from the first series
+	 determining the position of the plotted symbol along the X
+	 axis, and the value from the second series determining the
+	 position of the plotted symbol along the Y axis. Data can be
+	 plotted as points only, with each pair of data series having
+	 different symbols, or, alternatively, sequential data pairs
+	 can be connected by a line, or, finally, both symbols and a
+	 connecting line can be used.
+      </para>
+
+      <figure id="fig-graph-types-example-xyplot">
+        <title>An example of an XY scatterplot</title>
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="figures/graph-example-xyplot.png" 
+                               format="PNG"  />
+                    </imageobject>
+                    <textobject>
+                      <para>
+		        A screenshot of an XY scatterplot and the data
+                        used to generate the plot.
+                      </para>
+                    </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a data table with two
+                        different series highlighted which are usable in
+                        a scatterplot. Each series is comprised of two
+                        lists of numeric values. The screenshot also
+                        shows the scatterplot made from these two data
+                        series.
+	              </para>
+                    </caption>
+                  </mediaobject>
+                </screenshot>
+      </figure>
+
+      <para>
+        Each series in a scatterplot can include three core components
+        and four optional error components. The series may have a
+        name, a single text value which will identify the series in
+        the <interface>Graph Guru</interface> and in any legend
+        attached to the chart. The series must have two lists of
+        quantitative values, a list of X values and a list of Y
+        values, which must have an equal number of elements. The
+        series may also contain lists of error values for each of the
+        X and Y lists with a positive and a negative component for
+        each.
+      </para>
+
+<table frame='all'><title>The data in each XY scatterplot series</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+
+<thead>
+<row>
+  <entry align="center">Element</entry>
+  <entry align="center">Type</entry>
+  <entry align="center">Example</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>Name</entry>
+  <entry>A single textual element labeling the data series.</entry>
+  <entry>{"Series1"}</entry>
+</row>
+<row>
+  <entry>X</entry>
+  <entry>A list of numeric values, which will place the values along
+  the horizontal axis.</entry>
+  <entry>{14.5, 2.8, 11.8, 5.7, 8.2}</entry>
+</row>
+<row>
+  <entry>Y</entry>
+  <entry>A second list of numeric values, which will place the values along
+  the vertical axis.</entry>
+  <entry>{154, 29, 63, 90, 107}</entry>
+</row>
+<row>
+  <entry>X Error (+)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'X' list. These values can be in the same units as
+  the numeric values in the 'X' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
+</row>
+<row>
+  <entry>X Error (-)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'X' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
+</row>
+<row>
+  <entry>Y Error (+)</entry>
+  <entry>A list of numeric values with as many elements as there were
+  in the 'Y' list, and therefore in the 'X' list. These values can be
+  in the same units as the numeric values in the 'Y' list, can be
+  proportions or can be proportions multiplied by one hundred.</entry>
+  <entry>{0.09, 0.11, 0.10, 0.12, 0.09}</entry>
+</row>
+<row>
+  <entry>Y Error (-)</entry>
+  <entry>A list of numeric values with as many elements as there were
+  in the 'Y' list, and therefore in the 'X' list. These values can be
+  in the same units as the numeric values in the 'Y' list, can be
+  proportions or can be proportions multiplied by one hundred.
+</entry> 
+  <entry>{0.10, 0.09, 0.08, 0.11, 0.11}</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+      <para>
+        XY scatterplots provide three icons to select between
+        different style options. The plots can be rendered with
+        markers at each point, with markers at each point and a line
+        joining adjacent values in the data lists, or with a line but
+        no markers. 
+      </para>
+
+
+
+      <variablelist>
+        <title>XY scatterplot style options.</title>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_scatter_1_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for scatter plot of style with only
+                          a marker at each point.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for scatterplot of style with only
+                    a marker at each point.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_scatter_3_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for scatter plot of style with a
+                          marker at each point and a line between
+                          adjacent points in the value lists.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for scatterplot of style with a
+                          marker at each point and a line between
+                          adjacent points in the value lists.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_scatter_3_2.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for scatter plot of style with only
+                          a line between adjacent points in the value lists.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for scatterplot of style with only
+                    a line between adjacent points in the value lists.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+      </variablelist>
+
+
+    </sect3>
+
+
+
+
+    <sect3 id="sect-graphics-plots-overview-types-bubble" >
+      <title>
+        Bubble Plots
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="figures/graphs-types-bubble.png" 
+		       valign="top"/>
+          </imageobject>
+          <textobject>
+            <phrase>An icon for the pie plot type.</phrase>
+          </textobject>
+        </inlinemediaobject>
+      </title>
+
+      <para>
+        The data values from three series of equal length are plotted
+	on the Cartesian (X-Y) plane, the value from the first series
+	determining the position of the plotted symbol center along
+	the X axis, the value from the second series determining the
+	position of the plotted symbol center along the Y axis, and
+	the value of the third series determining the radius of the
+	circle plotted. Each triplet of series can be plotted with
+	different symbols but the data values of any series can be
+	shared.
+      </para>
+
+      <figure id="fig-graph-types-example-bubble">
+        <title>An example of a bubble plot</title>
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="figures/graph-example-bubble.png" 
+                               format="PNG"  />
+                    </imageobject>
+                    <textobject>
+                      <para>
+		        A screenshot of a worksheet with two series of
+                        data, each with three lists, and of the
+                        resulting bubble plot.
+                      </para>
+                    </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a worksheet with a table
+                        of data with two series, each with three lists
+                        of numeric values. The screenshot also shows a
+                        bubble plot made from these two series.
+	              </para>
+                    </caption>
+                  </mediaobject>
+                </screenshot>
+      </figure>
+
+      <para>
+        Each series in a bubble plot can include four main components
+        and four optional error components. The series may have a
+        name, a single text value which will identify the series in
+        the graph guru and in any legend attached to the chart. The
+        series must have two lists of quantitative values, a list of X
+        values and a list of Y values, which must have an equal number
+        of elements. The series must also have a list, with the same
+        number of elements, whose values will determine the size of
+        the circles drawn at each point. The series may have lists of
+        error components for the X values or the Y values and for
+        positive or negative errors.
+      </para>
+
+<table frame='all'><title>The data in each bubble series</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+
+<thead>
+<row>
+  <entry align="center">Element</entry>
+  <entry align="center">Type</entry>
+  <entry align="center">Example</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>Name</entry>
+  <entry>A single textual element labeling the data series.</entry>
+  <entry>{"Series1"}</entry>
+</row>
+<row>
+  <entry>X</entry>
+  <entry>A list of numeric values, which will place the values along
+  the horizontal axis.</entry>
+  <entry>{14.5, 2.8, 11.8, 5.7, 8.2}</entry>
+</row>
+<row>
+  <entry>Y</entry>
+  <entry>A second list of numeric values, which will place the values along
+  the vertical axis.</entry>
+  <entry>{154, 29, 63, 90, 107}</entry>
+</row>
+<row>
+  <entry>Bubble</entry>
+  <entry>A series of numeric values, which will determine the size of
+  each circle drawn at the points.</entry>
+  <entry>{45, 54, 34, 23, 37}</entry>
+</row>
+<row>
+  <entry>X Error (+)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'X' list. These values can be in the same units as
+  the numeric values in the 'X' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
+</row>
+<row>
+  <entry>X Error (-)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'X' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
+</row>
+<row>
+  <entry>Y Error (+)</entry>
+  <entry>A list of numeric values with as many elements as there were
+  in the 'Y' list, and therefore in the 'X' list. These values can be
+  in the same units as the numeric values in the 'Y' list, can be
+  proportions or can be proportions multiplied by one hundred.</entry>
+  <entry>{0.09, 0.11, 0.10, 0.12, 0.09}</entry>
+</row>
+<row>
+  <entry>Y Error (-)</entry>
+  <entry>A list of numeric values with as many elements as there were
+  in the 'Y' list, and therefore in the 'X' list. These values can be
+  in the same units as the numeric values in the 'Y' list, can be
+  proportions or can be proportions multiplied by one hundred.
+</entry> 
+  <entry>{0.10, 0.09, 0.08, 0.11, 0.11}</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+      <para>
+        Bubble plots have a single icon for the plot style.
+      </para>
+
+
+
+      <variablelist>
+        <title>The icon for bubble plots</title>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_bubble_1_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a bubble plot.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a bubble plot.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+      </variablelist>
+
+
+    </sect3>
+
+
+
+
+
+
+
+    <sect3 id="sect-graphics-plots-overview-types-pie" >
+      <title>
+        Pie Plots
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="figures/graphs-types-pie.png" 
+		       valign="top"/>
+          </imageobject>
+          <textobject>
+            <phrase>An icon for the pie plot type.</phrase>
+          </textobject>
+        </inlinemediaobject>
+      </title>
+
+      <para>
+        Pie plots present the numeric values from a single series of
+        categorical data as slices of a circular area, the angular
+        arc of each slice determined by the proportional magnitude of
+        each value compared to the overall sum of all the values. For
+        example, if the series had values { 1.12, 4.48, 3.36, 1.68,
+        0.56}, the contribution of each slice to the total would be
+	{0.10, 0.40, 0.330, 0.15, 0.0 5}, since 
+	<literal>0.10= 1.12/(1.12+4.48+3.36+1.68+0.56)</literal>, and
+        the angular arcs of the wedges would be
+	{36, 144, 108, 54, 18} degrees, since
+	<literal>36=0.10*360</literal>.
+      </para>
+
+      <para>
+        Pie plots do not have any sub-types.
+      </para>
+
+      <para>
+        Pie plot styles provide two choices for the rendering of the
+        pie chart, either with all slices linked into one overall
+        circle, or with gaps between the slices. The size of the gap
+        is a property of the pie plot which can be changed.
+      </para>
+
+      <figure id="fig-graph-types-example-pie">
+        <title>An example of a pie plot</title>
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="figures/graph-example-pie.png" 
+                               format="PNG"  />
+                    </imageobject>
+                    <textobject>
+                      <para>
+		        A screenshot of a worksheet area showing a
+                        data table and a pie plot made with those
+                        data.
+                      </para>
+                    </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a table of data and a pie
+                        plot. The data consist of a single data series
+                        organized in a row and starting with the word
+                        "Widgets". The series has values in five
+                        categories. The legend includes the names of the
+                        different data categories.
+	              </para>
+                    </caption>
+                  </mediaobject>
+                </screenshot>
+      </figure>
+
+      <para>
+        Each pie plot contains a single series which can include three
+        elements although only the value element is necessary. The
+        series can have a 'Name' element, which is a single text entry
+        used to identify the series, must have a 'Values' element,
+        which is a sequence of numeric values, and may have a 'Label'
+        element, which is a sequence of text entries used to identify
+        the categories. All of these elements can be defined as
+        references to a region of the worksheet, as literally defined
+        entries, or as formula expressions which result in the correct
+        type. The legend added to a pie plot identifies the different
+        categories using the entries in the 'Label' element.
+      </para>
+
+<table frame='all'><title>The data in each pie plot series</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+
+<thead>
+<row>
+  <entry align="center">Element</entry>
+  <entry align="center">Type</entry>
+  <entry align="center">Example</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>Name</entry>
+  <entry>A single textual entry labeling the data series.</entry>
+  <entry>{"Widgets"}</entry>
+</row>
+<row>
+  <entry>Value</entry>
+  <entry>A list of numeric values.</entry>
+  <entry>{1293, 2502, 3297, 1100, 2487}</entry>
+</row>
+<row>
+  <entry>Label</entry>
+  <entry>A list of textual entries labeling the category of each
+  value. Generally, this series will have as many entries as there
+  were in the 'Value' list. These will be used in the legend which
+  may be displayed with the pie plot.</entry> 
+  <entry>{"North", "South", "Central", "East", "West"}</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+      <para>
+        Pie plots do not have any sub-types but provide two icons to
+        distinguish the style of the plot allowing a choice between
+        pie plots which comprise a single circular area or plots with
+        distinct pie slices separated by small gaps.
+      </para>
+
+      <variablelist>
+        <title>Line plot sub-type and style options.</title>
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_pie_1_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a pie plot of the style with
+	                  joint slices. 
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a pie plot of the style with joint slices.
+		  </para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_pie_2_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a pie plot of the style with separated 
+	                  slices.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a pie plot of the style with separated slices.
+		  </para>
+		</listitem>
+	      </varlistentry>
+	    </variablelist>
+
+
+    </sect3>
+
+
+
+    <sect3 id="sect-graphics-plots-overview-types-area" >
+      <title>
+        Area Plots
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="figures/graphs-types-area.png" 
+		       valign="top"/>
+          </imageobject>
+          <textobject>
+            <phrase>An icon for the area plot type.</phrase>
+          </textobject>
+        </inlinemediaobject>
+      </title>
+
+      <para>
+        Area plots present the numeric values of categorical data with
+        the data values of each series connected by a line and the
+        area below the line shaded. This type is directly analogous to
+        the line plot type. Sequential data values are considered to
+        belong to different categories and are plotted along the
+        horizontal axis at equally spaced intervals. The data
+        values from different series are assigned to these categories
+        based on the position of the value in the series, for example,
+        the second data value taken from each series all share one
+        category. The data values are plotted along the vertical (Y)
+        axis according to their numeric value and the particular
+        sub-type chosen for the area plot.
+      </para>
+
+      <para>
+        Area plot sub-types provide three options for relating the
+        values from different data series. The first sub-type plots
+        each series independently with the data value determining the
+        vertical distance between each point and the horizontal
+        axis. The second sub-type plots the series stacked on each
+        other in a cumulative fashion with the data value of each
+        series determining the vertical distance from the point to the
+        sum of the values in all the previous series. For example, if
+        the first series starts with values 
+	<literal>{3.9, 4.2, ...}</literal>, the second
+        series with values 
+        <literal>{1.2, 3.5, ...}</literal>, and the
+        third series with values 
+	<literal>{3.1, 1.9, ...}</literal>, then the
+        point value for the second element of the third series will be
+        plotted at 9.6 
+	(since <literal>9.6=4.2+3.5+1.9</literal>) along
+        the vertical axis. The third sub-type plots each series based
+        on the proportional contribution of the value to the total of
+        all values in that category. Using the example above, the
+        three values would be plotted at 0.4375, 0.8020, and 1 because
+        the intervals between zero and each of these numbers is
+        <literal>0.4375=4.2/(4.2+3.5+1.9)</literal>
+        for the first, 
+	<literal>0.3645...=3.5/(4.2+3.5+1.9)</literal> for the
+        second, and 
+        <literal>0.1979...=1.9/(4.2+3.5+1.9)</literal> 
+	for the third, although, by default, these numbers are
+        presented as percentages on the vertical (Y) axis.
+      </para>
+
+
+      <para>
+        Area plots do not have any pre-defined styles.
+      </para>
+
+
+      <figure id="fig-graph-types-example-area">
+        <title>An example of area plots</title>
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="figures/graph-example-area.png" 
+                               format="PNG"  />
+                    </imageobject>
+                    <textobject>
+                      <para>
+		        A screenshot of a worksheet with a data table
+                        and a graph containing an area plot.
+                      </para>
+                    </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a table of data and three
+                        area plots. The data consist of three series
+                        organized by row and starting with the words
+                        "Widgets", "Gadgets", and "Lumpets". Each of
+                        these series has values in five categories. The
+                        three graphs illustrate the three sub-types of
+                        area plots, with the series plotted
+                        independently in the left plot, stacked in the
+                        middle plot, and proportionately stacked in the
+                        right plot.
+	              </para>
+                    </caption>
+                  </mediaobject>
+                </screenshot>
+      </figure>
+
+      <para>
+        Each series in area plots can include three main elements and
+        two error elements, although only the value element is
+        necessary. The series can have a 'Name' element, which is a
+        single text entry used to identify the series, must have a
+        'Values' element, which is a sequence of numeric values, and
+        may have a 'Label' element, which is a sequence of text
+        entries used to identify the categories.  All of these
+        elements can be defined as references to a region of the
+        worksheet, as literally defined entries, or as formula
+        expressions which result in the correct type. The 'Label'
+        element is shared by all of the series. The legend added to an
+        area plot identifies the different series, by default using
+        the entries of the 'Name' element of each series. The two
+        error elements include a list for errors in the positive
+        direction and one for errors in the negative direction.
+      </para>
+
+<table frame='all'><title>The data in each area plot series</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+
+<thead>
+<row>
+  <entry align="center">Element</entry>
+  <entry align="center">Type</entry>
+  <entry align="center">Example</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>Name</entry>
+  <entry>A single textual element labeling the data series. These will
+    be used in the legend which may be displayed with the area
+    plot.</entry> 
+  <entry>{"Widgets"}</entry>
+</row>
+<row>
+  <entry>Value</entry>
+  <entry>A series of numeric values.</entry>
+  <entry>{1293, 2502, 3297, 1100, 2487}</entry>
+</row>
+<row>
+  <entry>Label</entry>
+  <entry>A series of textual elements labeling each
+    value. Generally, this series will have as many entries as there
+    were in the "Value" series. These entries are shared by all the
+    series in the area plot.</entry> 
+  <entry>{"North", "South", "Central", "East", "West"}</entry>
+</row>
+<row>
+  <entry>Error (+)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
+</row>
+<row>
+  <entry>Error (-)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+      <para>
+        Area plots provide three icons to choose one of the three
+      area plot sub-types.
+      </para>
+
+
+
+      <variablelist>
+        <title>Area plot sub-type and style options.</title>
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_area_1_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for an area plot of the sub-type with
+	                  independent, overlapping areas.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for an area plot of the sub-type with independent,
+	            overlapping areas.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_area_1_2.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for an area plot of the sub-type with
+                      stacked areas.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for an area plot of the sub-type with
+                    stacked areas.
+		  </para>
+		</listitem>
+	      </varlistentry>
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_area_1_3.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for an area plot of the sub-type with
+                          stacked, proportionate areas.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for an area plot of the sub-type with
+                    stacked, proportionate areas.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+
+	    </variablelist>
+
+
+    </sect3>
+
+
+    <sect3 id="sect-graphics-plots-overview-types-bar" >
+      <title>
+        Bar Plots
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="figures/graphs-types-bar.png" 
+		       valign="top"/>
+          </imageobject>
+          <textobject>
+            <phrase>An icon for the bar plot type.</phrase>
+          </textobject>
+        </inlinemediaobject>
+      </title>
+
+      <para>
+        Bar plots present the numeric values of categorical data with
+        the data values of each series represented as a horizontal
+        bar. Sequential data values are considered to belong to
+        different categories and are plotted along the vertical
+        axis at equally spaced intervals. The data values from
+        different series are assigned to these categories based on the
+        position of the value in the series, for example, the second
+        data value taken from each series all share one category. The
+        data values are plotted along the horizontal (X) axis as bars
+        of different lengths and positions depending on the numeric
+        content of the data value and the particular sub-type
+        chosen for the bar plot.
+      </para>
+
+      <para>
+        Bar plot sub-types provide three options for relating the
+        values from different data series. The first sub-type plots
+        each series independently in adjacent bars, each of which is
+        tied to the vertical axis and has its length determined by the
+        numeric content of the data value. The second sub-type plots
+        each series as a horizontally stacked set of bars with the
+        horizontal length of each element determined by the numeric
+        content of the data value and the position of the bar
+        determined by the position of the element in the data
+        series. For example, if the first series starts with values
+	<literal>{3.9, 4.2, ...}</literal>, the second
+        series with values 
+        <literal>{1.2, 3.5, ...}</literal>, and the
+        third series with values 
+	<literal>{3.1, 1.9, ...}</literal>, then the third bar will be
+        plotted ranging from 7.7 to 9.6, since 
+	<literal>7.7=4.2+3.5</literal> and 
+	<literal>9.6=4.2+3.5+1.9</literal>. The third sub-type plots
+        each series as a horizontally stacked set of bars scaled to
+        the total all the numeric values in that category. Using the
+        example above, the three bars would range from 0 to 0.4375,
+        from 0.4375 to 0.8020, and from 0.8020 to 1 respectively
+        because the intervals are the proportional contribution of
+        each data value to the total, i.e.
+        <literal>0.4375=4.2/(4.2+3.5+1.9)</literal>
+        for the first, 
+	<literal>0.3645...=3.5/(4.2+3.5+1.9)</literal> for the
+        second, and 
+        <literal>0.1979...=1.9/(4.2+3.5+1.9)</literal> 
+	for the third. By default, these numbers are
+        presented as percentages on the horizontal (X) axis.
+      </para>
+
+      <para>
+        Bar plots do not have any pre-defined styles.
+      </para>
+
+
+
+      <figure id="fig-graph-types-example-bar">
+        <title>An example of bar plots</title>
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="figures/graph-example-bar.png" 
+                               format="PNG"  />
+                    </imageobject>
+                    <textobject>
+                      <para>
+		        A screenshot of a table of data and three bar
+                        plots made using those data. 
+                      </para>
+                    </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a table of data and three
+                        bar plots. The data consist of three series
+                        organized by row and starting with the words
+                        "Widgets", "Gadgets", and "Lumpets". Each of
+                        these series has values in five categories. The
+                        three graphs illustrate the three sub-types of
+                        bar plots, with the series plotted
+                        independently in the left plot, stacked in the
+                        middle plot, and proportionately stacked in the
+                        right plot.
+	              </para>
+                    </caption>
+                  </mediaobject>
+                </screenshot>
+      </figure>
+
+      <para>
+        Each series in bar plots can include three main elements and
+        two error elements, although only the value element is
+        necessary. The series can have a 'Name' element, which is a
+        single text entry used to identify the series, must have a
+        'Values' element, which is a sequence of numeric values, and
+        may have a 'Label' element, which is a sequence of text
+        entries used to identify the categories.  All of these
+        elements can be defined as references to a region of the
+        worksheet, as literally defined entries, or as formula
+        expressions which result in the correct type. The 'Label'
+        element is shared by all of the series. The legend added to a
+        bar plot identifies the different series, by default using the
+        entries of the 'Name' element of each series. The two error
+        elements include a list for errors in the positive direction
+        and one for errors in the negative direction.
+      </para>
+
+<table frame='all'><title>The data in each bar plot series</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+
+<thead>
+<row>
+  <entry align="center">Element</entry>
+  <entry align="center">Type</entry>
+  <entry align="center">Example</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>Name</entry>
+  <entry>A single textual element labeling the data series. These will
+    be used in the legend which may be displayed with the bar
+    plot.</entry>
+  <entry>{"Widgets"}</entry>
+</row>
+<row>
+  <entry>Value</entry>
+  <entry>A series of numeric values.</entry>
+  <entry>{1293, 2502, 3297, 1100, 2487}</entry>
+</row>
+<row>
+  <entry>Label</entry>
+  <entry>A series of textual elements labeling each
+  value. Generally, this series will have as many entries as there
+  were in the "Value" series. These entries are shared by all the
+    series in the bar plot.</entry> 
+  <entry>{"North", "South", "Central", "East", "West"}</entry>
+</row>
+<row>
+  <entry>Error (+)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
+</row>
+<row>
+  <entry>Error (-)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+      <para>
+        Bar plots provide three icons to choose one of the three bar
+      plot sub-types.
+      </para>
+
+
+
+      <variablelist>
+        <title>Bar plot sub-type and style options.</title>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_bar_1_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a bar plot of the sub-type with
+                          independent, adjacent bars.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a bar plot of the sub-type with
+                    independent, adjacent bars.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_bar_1_2.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a bar plot of the sub-type with
+                          horizontally stacked bars.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a bar plot of the sub-type with
+                    horizontally stacked bars.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_bar_1_3.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a bar plot of the sub-type with
+                          horizontally stacked, proportionately scaled bars.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a bar plot of the sub-type with
+                    horizontally stacked, proportionately scaled bars.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	    </variablelist>
+
+
+    </sect3>
+
+
+    <sect3 id="sect-graphics-plots-overview-types-column" >
+      <title>
+        Column Plots
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="figures/graphs-types-column.png" 
+		       valign="top"/>
+          </imageobject>
+          <textobject>
+            <phrase>An icon for the column plot type.</phrase>
+          </textobject>
+        </inlinemediaobject>
+      </title>
+
+
+      <para>
+        Column plots present the numeric values of categorical data with
+        the data values of each series represented as a vertical
+        column. Sequential data values are considered to belong to
+        different categories and are plotted along the horizontal
+        axis at equally spaced intervals. The data values from
+        different series are assigned to these categories based on the
+        position of the value in the series, for example, the second
+        data value taken from each series all share one category. The
+        data values are plotted along the vertical (Y) axis as columns
+        of different heights and positions depending on the numeric
+        content of the data value and the particular sub-type
+        chosen for the column plot.
+      </para>
+
+      <para>
+        Column plot sub-types provide three options for relating the
+        values from different data series. The first sub-type plots
+        each series independently in adjacent bars, each of which is
+        tied to the horizontal axis and has its height determined by
+        the numeric content of the data value. The second sub-type
+        plots each series as a vertically stacked set of columns with
+        the vertical height of each element determined by the
+        numeric content of the data value and the position of the column
+        determined by the position of the element in the data
+        series. For example, if the first series starts with values
+	<literal>{3.9, 4.2, ...}</literal>, the second
+        series with values 
+        <literal>{1.2, 3.5, ...}</literal>, and the
+        third series with values 
+	<literal>{3.1, 1.9, ...}</literal>, then the third column will be
+        plotted ranging from 7.7 to 9.6, since 
+	<literal>7.7=4.2+3.5</literal> and 
+	<literal>9.6=4.2+3.5+1.9</literal>. The third sub-type plots
+        each series as a vertically stacked set of columns scaled to
+        the total all the numeric values in that category. Using the
+        example above, the three columns would range from 0 to 0.4375,
+        from 0.4375 to 0.8020, and from 0.8020 to 1 respectively
+        because the intervals are the proportional contribution of
+        each data value to the total, i.e.
+        <literal>0.4375=4.2/(4.2+3.5+1.9)</literal>
+        for the first, 
+	<literal>0.3645...=3.5/(4.2+3.5+1.9)</literal> for the
+        second, and 
+        <literal>0.1979...=1.9/(4.2+3.5+1.9)</literal> 
+	for the third. By default, these numbers are
+        presented as percentages on the vertical (Y) axis.
+      </para>
+
+      <para>
+        Column plots do not have any pre-defined styles.
+      </para>
+
+
+      <figure id="fig-graph-types-example-column">
+        <title>An example of column plots</title>
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="figures/graph-example-column.png" 
+                               format="PNG"  />
+                    </imageobject>
+                    <textobject>
+                      <para>
+		        A screenshot of a table of data and three column
+                        plots made using those data. 
+                      </para>
+                    </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a table of data and three
+                        column plots. The data consist of three series
+                        organized by row and starting with the words
+                        "Widgets", "Gadgets", and "Lumpets". Each of
+                        these series has values in five categories. The
+                        three graphs illustrate the three sub-types of
+                        column plots, with the series plotted
+                        independently in the left plot, stacked in the
+                        middle plot, and proportionately stacked in the
+                        right plot.
+	              </para>
+                    </caption>
+                  </mediaobject>
+                </screenshot>
+      </figure>
+
+      <para>
+        Each series in column plots can include three main elements
+        and two error elements, although only the value element is
+        necessary. The series can have a 'Name' element, which is a
+        single text entry used to identify the series, must have a
+        'Values' element, which is a sequence of numeric values, and
+        may have a 'Label' element, which is a sequence of text
+        entries used to identify the categories.  All of these
+        elements can be defined as references to a region of the
+        worksheet, as literally defined entries, or as formula
+        expressions which result in the correct type. The 'Label'
+        element is shared by all of the series. The legend added to a
+        column plot identifies the different series, by default using
+        the entries of the 'Name' element of each series. The two
+        error elements include a list for errors in the positive
+        direction and one for errors in the negative direction.
+      </para>
+
+<table frame='all'><title>The data in each column plot series</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+
+<thead>
+<row>
+  <entry align="center">Element</entry>
+  <entry align="center">Type</entry>
+  <entry align="center">Example</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>Name</entry>
+  <entry>A single textual element labeling the data series. These will
+    be used in the legend which may be displayed with the column
+    plot.</entry>
+  <entry>{"Widgets"}</entry>
+</row>
+<row>
+  <entry>Value</entry>
+  <entry>A series of numeric values.</entry>
+  <entry>{1293, 2502, 3297, ,1100, 2487}</entry>
+</row>
+<row>
+  <entry>Label</entry>
+  <entry>A series of textual elements labeling each
+    value. Generally, this series will have as many entries as there
+    were in the "Value" series. These entries are shared by all the
+    series in the column plot.</entry> 
+  <entry>{"North", "South", "Central", "East", "West"}</entry>
+</row>
+<row>
+  <entry>Error (+)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
+</row>
+<row>
+  <entry>Error (-)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+      <para>
+        Column plots provide three icons to choose between three plot
+        sub-types. 
+      </para>
+
+
+
+      <variablelist>
+        <title>Column plot sub-type and style options.</title>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_column_1_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for pie plot of style with joint slices.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for pie plot of style with joint slices.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_column_1_2.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for pie plot of style with joint slices.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for pie plot of style with joint slices.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_column_1_3.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for pie plot of style with joint slices.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for pie plot of style with joint slices.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	    </variablelist>
+
+
+    </sect3>
+
+
+
+
+
+
+    <sect3 id="sect-graphics-plots-overview-types-radar" >
+      <title>
+        Radar Plots
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="figures/graphs-types-radar.png" 
+		       valign="top"/>
+          </imageobject>
+          <textobject>
+            <phrase>An icon for the radar plot type.</phrase>
+          </textobject>
+        </inlinemediaobject>
+      </title>
+
+      <para>
+        Radar plots present the numeric values of categorical data as
+        a set of points plotted along a set of axes radiating from a
+        central point, with as many axes as there are values in the
+        series and with the points connected by a line, possibly with
+        the interior of the shape filled in. Sequential data values
+        are considered to belong to different categories and are
+        plotted on separate axes which are not necessarily orthogonal
+        and radiate from a central point. Sequential points are
+        connected by a line with the final point connected back to the
+        first to form a closed polygon. The data values from different
+        series are assigned to categories based on the position of the
+        value in the series, for example, the second data value taken
+        from each series all share one category and will therefore all
+        be plotted on the same axis.  The data values are plotted
+        along the axis of each class according to their numeric value.
+      </para>
+
+
+      <para>
+        Radar plots do not have any sub-types.
+      </para>
+
+      <para>
+        Radar plot styles provide three choices for the rendering of the
+        chart. The first style presents the radar chart as only a polygon of
+        lines. The second style also includes a marker where the data
+        values are plotted on each axis. The third style plots the
+        radar chart as a filled polygon. 
+      </para>
+
+
+      <figure id="fig-graph-types-example-radar">
+        <title>An example of radar plots</title>
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="figures/graph-example-radar.png" 
+                               format="PNG"  />
+                    </imageobject>
+                    <textobject>
+                      <para>
+		        A screenshot of a worksheet area showing a
+                        data table and three radar charts made using
+                        those data.
+                      </para>
+                    </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a table of data and three
+                        radar plots. The data consist of three series
+                        organized by row and starting with the words
+                        "Widgets", "Gadgets", and "Lumpets". Each of
+                        these series has values in five categories. The
+                        three graphs illustrate the three sub-types of
+                        radar plots, with the top left plot including
+                        lines only, the top right plot including both
+                        lines and markers on the points, and the bottom
+                        middle plot using filled polygons.
+	              </para>
+                    </caption>
+                  </mediaobject>
+                </screenshot>
+      </figure>
+
+      <para>
+        Each series in radar plots can include three main elements and
+        two error elements, although only the value element is
+        necessary. The series can have a 'Name' element, which is a
+        single text entry used to identify the series, must have a
+        'Values' element, which is a sequence of numeric values, and
+        may have a 'Label' element, which is a sequence of text
+        entries used to identify the categories.  All of these
+        elements can be defined as references to a region of the
+        worksheet, as literally defined entries, or as formula
+        expressions which result in the correct type. The 'Label'
+        element is shared by all of the series. The legend added to a
+        radar plot identifies the different series, by default using
+        the entries of the 'Name' element of each series. The two
+        error elements include a list for errors in the positive
+        direction and one for errors in the negative direction.
+      </para>
+
+<table frame='all'><title>The data in each radar plot series</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+
+<thead>
+<row>
+  <entry align="center">Element</entry>
+  <entry align="center">Type</entry>
+  <entry align="center">Example</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>Name</entry>
+  <entry>A single textual element labeling the data series.</entry>
+  <entry>{"Widgets"}</entry>
+</row>
+<row>
+  <entry>Value</entry>
+  <entry>A series of numeric values.</entry>
+  <entry>{1293, 2502, 3297, 1100, 2487}</entry>
+</row>
+<row>
+  <entry>Label</entry>
+  <entry>A series of textual elements labeling each
+  value. Generally, this series will have as many entries as there
+  were in the 'Value' series.</entry> 
+  <entry>{"North", "South", "Central", "East", "West"}</entry>
+</row>
+<row>
+  <entry>Error (+)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
+</row>
+<row>
+  <entry>Error (-)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+      <para>
+        Radar plots provide three icons distinguishing the three
+        different styles.
+      </para>
+
+
+
+      <variablelist>
+        <title>Radar plot sub-type and style options.</title>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_radar_1_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a radar plot with the style of
+                          simple lines only.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a radar plot with the style displaying
+                    simple lines only.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_radar_1_2.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a radar plot with the style
+                          displaying both lines and point markers on
+                          the data values.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a radar plot with the style
+                    displaying both lines and point markers on the
+                    data values.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_radar_1_3.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a radar plot with the style
+                          displaying a filled area.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a radar plot with the style
+                    displaying a filled area.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	    </variablelist>
+
+
+    </sect3>
+
+
+    <sect3 id="sect-graphics-plots-overview-types-ring" >
+      <title>
+        Ring Plots
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="figures/graphs-types-ring.png" 
+		       valign="top"/>
+          </imageobject>
+          <textobject>
+            <phrase>An icon for the ring plot type.</phrase>
+          </textobject>
+        </inlinemediaobject>
+      </title>
+
+      <para>
+        Ring plots present the numeric values of categorical data as
+        segments of circular rings. Sequential data values are
+        considered to belong to different categories and are plotted
+        with distinct patterns. The data values from different series
+        are assigned to these categories based on the position of the
+        value in the series, for example, the second data value taken
+        from each series all share one category. The data values are
+        used to determine the size of the arc based on the
+        proportionate size of the data value to the sum of all data
+        values in the series. For
+        example, if the series had values { 1.12, 4.48, 3.36, 1.68,
+        0.56}, the contribution of each ring section to the total would be
+	{0.10, 0.40, 0.330, 0.15, 0.0 5}, since 
+	<literal>0.10= 1.12/(1.12+4.48+3.36+1.68+0.56)</literal>, and
+        the angular arcs of the sections would be
+	{36, 144, 108, 54, 18} degrees, since
+	<literal>36=0.10*360</literal>.
+      </para>
+
+      <para>
+        Ring plots do not have any sub-types.
+      </para>
+
+      <para>
+        Ring plot styles provide two choices. Ring plots can be
+        plotted with all segments linked into a single overall ring,
+        with different series plotted immediately adjacent to one
+        another in sequentially larger rings. Alternatively, the
+        segments of the outermost ring can be split and float a
+        certain distance away from the next ring.
+      </para>
+
+
+
+      <figure id="fig-graph-types-example-ring">
+        <title>An example of ring plots</title>
+              <screenshot>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="figures/graph-example-ring.png" 
+                               format="PNG"  />
+                    </imageobject>
+                    <textobject>
+                      <para>
+		        A screenshot of a worksheet area showing a
+                        data table and two ring plots made with those
+                        data.
+                      </para>
+                    </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a table of data and two
+                        ring plots. The data consist of a single data
+                        series organized in a row and starting with the
+                        word "Widgets". The data consist of three series
+                        organized by row and starting with the words
+                        "Widgets", "Gadgets", and "Lumpets". Each of
+                        these series has values in five categories. The
+                        two graphs illustrate the two sub-types of ring
+                        plots, the left most plot without any gaps and
+                        the right most plot having the outer plot with
+                        gaps.
+	              </para>
+                    </caption>
+                  </mediaobject>
+                </screenshot>
+      </figure>
+
+      <para>
+        Each series in ring plots can include three main elements and
+        two error elements, although only the value element is
+        necessary. The series can have a 'Name' element, which is a
+        single text entry used to identify the series, must have a
+        'Values' element, which is a sequence of numeric values, and
+        may have a 'Label' element, which is a sequence of text
+        entries used to identify the categories.  All of these
+        elements can be defined as references to a region of the
+        worksheet, as literally defined entries, or as formula
+        expressions which result in the correct type. The 'Label'
+        element is shared by all of the series. The legend added to a
+        ring plot identifies the different series, by default using
+        the entries of the 'Name' element of each series. The two
+        error elements include a list for errors in the positive
+        direction and one for errors in the negative direction.
+      </para>
+
+<table frame='all'><title>The data in each ring plot series</title>
+<tgroup cols='3' align='left' colsep='1' rowsep='1'>
+
+<thead>
+<row>
+  <entry align="center">Element</entry>
+  <entry align="center">Type</entry>
+  <entry align="center">Example</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>Name</entry>
+  <entry>A single textual element labeling the data series.</entry>
+  <entry>{"Widgets"}</entry>
+</row>
+<row>
+  <entry>Value</entry>
+  <entry>A series of numeric values.</entry>
+  <entry>{1293, 2502, 3297, 1100, 2487}</entry>
+</row>
+<row>
+  <entry>Label</entry>
+  <entry>A series of textual elements labeling each
+  value. Generally, this series will have as many entries as there
+  were in the "Value" series.</entry> 
+  <entry>{"North", "South", "Central", "East", "West"}</entry>
+</row>
+<row>
+  <entry>Error (+)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.10, 0.12, 0.09, 0.11, 0.09}</entry>
+</row>
+<row>
+  <entry>Error (-)</entry>
+  <entry>A list of numeric values with as many elements as there
+  were in the 'Value' list. These values can be in the same units as
+  the numeric values in the 'Value' list, can be proportions or can be
+  proportions multiplied by one hundred.</entry> 
+  <entry>{0.08, 0.11, 0.10, 0.09, 0.11}</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+      <para>
+        Ring plots provide two icons distinguishing the two different
+        styles. 
+      </para>
+
+
+
+      <variablelist>
+        <title>Ring plot sub-type and style options.</title>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_ring_1_1.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a ring plot with the style of
+                          displaying series in contiguous rings.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a ring plot with the style of
+                    displaying series in contiguous rings.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	      <varlistentry>
+	        <term>
+		    <inlinemediaobject>
+                      <imageobject>
+                        <imagedata fileref="figures/chart_ring_1_2.png" />
+                      </imageobject>
+                      <textobject>
+                        <phrase>
+		          The icon for a ring plot with the style of
+                          displaying the outermost series separated
+                          from the rest.
+	                </phrase>
+                      </textobject>
+                    </inlinemediaobject>
+	        </term>
+	        <listitem>
+	          <para>
+		    The icon for a ring plot with the style of
+                    displaying the outermost series separated
+                    from the rest.
+		  </para>
+		</listitem>
+	      </varlistentry>
+
+	    </variablelist>
+
+
+
+      <para>
+         Several new types of plots will be added to
+         &gnum; in the near future as the
+         graphing engine is improved.
+        
+         <!-- mention here to keep in figures/ and its Makefile.am -->
+         <!-- graph_stock.png -->
+         <!-- graph_surface.png -->
+      </para>
+	    
+    </sect3>
+  </sect2>
+
+
+
+
+
+
+
+
+
+  <sect2 id="sect-graphics-plots-elementProperties">
+    <title>Configuring Graph Element Properties</title>
+
+    <para>
+      Graphs in &gnum; can be configured
+      extensively using the <interface>Graph Guru</interface>. In this
+      way, the user can determine the data used in the plots, the
+      names and labels associated with the data, the numerical values
+      of the axes and the stylistic presentation of all the graphical
+      elements.
+    </para>
+
+    <para>
+      Graphs are configured element by element, first by selecting the
+      element name in the top left area of the second panel of the
+      <interface>Graph Guru</interface>, shown as area
+      <guimenu>F</guimenu> in <xref linkend="fig-graphguru-panels"/>,
+      and, second, by altering the properties in the bottom area of
+      the second panel of the
+      <interface>Graph Guru</interface>, shown as area
+      <guimenu>J</guimenu>. These changes will be applied to the graph
+      only when the <guibutton>OK</guibutton> button is pressed.
+    </para>
+
+    <note>
+    <para>
+      A number of properties of the graph are configured using the
+      &gnum; entry box shown in <xref
+      linkend="fig-widget-entryBox"/>. 
+
+      <figure id="fig-widget-entryBox">
+        <title>The data entry box widget</title>
+	 <screenshot>
+          <mediaobject> 
+	    <imageobject> 
+	      <imagedata fileref="figures/widget-entryBox-outlined.png"
+	                 format="PNG" />
+	    </imageobject>
+	    <textobject>
+	      <para> 
+	        This screenshot depicts the widget used to enter data
+	        as defined values, references or expressions.
+	      </para>
+	    </textobject>
+	    <caption>
+	      <para>
+	        The data entry box widget allows users to enter data as
+	        defined values (e.g. "A name", 123, or {12,32,14}), as references
+	        (e.g. 'Sheet1!A2:B4'), or as expressions (e.g. sin({11,16}) ).
+	      </para>
+	    </caption>
+	  </mediaobject>
+	</screenshot>
+      </figure>
+
+      Information can be inserted to the data entry box, first, by
+      selecting the box with a mouse click and, then, either typing
+      data on a keyboard or using the mouse to select a region of the
+      worksheet.
+
+    </para>
+    </note>
+
+
+
+
+    <sect3 id="sect-graphics-plots-elementProperties-backPanels">
+      <title>Background Panels: Graphs, Charts, Grids</title>
+
+      <para>
+        Several elements of the graph function as background panels
+        for the other elements. These panels can be configured to
+        display a visible background consisting of a solid color, a
+        pattern, a gradient, or an image. Alternatively, the panel can
+        be made transparent to show the underlying panel, if
+        any. Where there are only transparent panels, the worksheet
+        itself will be visible behind the graph.
+      </para>
+
+      <figure id="fig-graphics-plots-elementProperties-backPanels">
+        <title>The background panel configuration.</title>
+	 <screenshot>
+          <mediaobject> 
+	    <imageobject> 
+	      <imagedata fileref="figures/graphguru-backPanels-none.png"
+	                 format="PNG" />
+	    </imageobject>
+	    <textobject>
+	      <para> 
+	        This screenshot depicts the two elements of background
+	        panels which can be configured, the background fill
+	        and the outline. 
+	      </para>
+	    </textobject>
+	    <caption>
+	      <para>
+	        This screenshot depicts the two elements of background
+	        panels which can be configured, the background fill
+	        and the outline. 
+	      </para>
+	    </caption>
+	  </mediaobject>
+	</screenshot>
+      </figure>
+
+      <para>
+        The background panel <guilabel>Fill</guilabel> refers to the
+        area which is behind the entire component. The
+        <guilabel>Outline</guilabel> refers to a solid box which will
+        be drawn around the edge of the component.
+      </para>
+
+      <para>
+        The <guilabel>Outline</guilabel> can be configured by
+        selecting a color using the color picker widget and by
+        choosing a size using the spin button box. A size of '-1'
+        indicates that no line will be drawn, whereas sizes zero and
+        above indicate the size of the line that will be drawn.
+      </para>
+
+      <para>
+        The <guilabel>Fill</guilabel> can be configured to be a
+        pattern, which includes a solid color, a gradient or an image.
+      </para>
+
+      <figure id="fig-graphics-plots-elementProperties-backPanels-pattern">
+        <title>The pattern background panel fill configuration.</title>
+	 <screenshot>
+          <mediaobject> 
+	    <imageobject> 
+	      <imagedata fileref="figures/graphguru-backPanels-pattern.png"
+	                 format="PNG" />
+	    </imageobject>
+	    <textobject>
+	      <para> 
+	        This screenshot depicts the configuration properties
+	        for the pattern background panel fill.
+	      </para>
+	    </textobject>
+	    <caption>
+	      <para>
+	        This screenshot depicts the configuration properties for
+	        the pattern background panel fill.
+	      </para>
+	    </caption>
+	  </mediaobject>
+	</screenshot>
+      </figure>
+
+      <para>
+        The fill using a pattern enables the panel background to
+        consist either of a solid color, or of a solid color overlain
+        by a pattern. The top drop down button, labeled
+        <guilabel>Pattern</guilabel>, allows the user to select the
+        pattern overlay from a number of different standard
+        patterns. The pattern in the top left corner is an empty
+        pattern which allows the background color indicated in the
+        third drop down button to fill the panel. The middle drop down
+        button, labeled <guilabel>Foreground</guilabel>, allows the
+        user to select the color of the overlay in the pattern. The
+        bottom drop down button, labeled
+        <guilabel>Background</guilabel>, allows the user to select the
+        color of the underlay. If the pattern is empty, the color of
+        the Background will be the color of the entire panel.
+      </para>
+
+      <note>
+        <para>
+	  If all of these buttons appear black, change the color of
+	  the <guilabel>Background</guilabel> to white to see the
+	  pattern and foreground color.
+	</para>
+      </note>
+
+      <figure id="fig-graphics-plots-elementProperties-backPanels-gradient">
+        <title>The gradient background panel fill configuration.</title>
+	 <screenshot>
+          <mediaobject> 
+	    <imageobject> 
+	      <imagedata fileref="figures/graphguru-backPanels-gradient.png"
+	                 format="PNG" />
+	    </imageobject>
+	    <textobject>
+	      <para> 
+	        This screenshot depicts the configuration properties
+	        for the gradient background panel fill.
+	      </para>
+	    </textobject>
+	    <caption>
+	      <para>
+	        This screenshot depicts the configuration properties for
+	        the gradient background panel fill. 
+	      </para>
+	    </caption>
+	  </mediaobject>
+	</screenshot>
+      </figure>
+
+      <para>
+        The background panel can be filled with a gradient
+        transitioning either between two colors or between a color and
+        a tone, either white or black. The top drop down button,
+        labeled <guilabel>Direction</guilabel>, gives the user a
+        number of choices for the direction in which the gradient will
+        operate. The drop down button named <guilabel>Type</guilabel>
+        allows the user to pick between gradients which transition
+        between two colors, the <guilabel>2 Colors</guilabel> option,
+        and gradients that transition from a color to pure white or
+        pure black, the <guilabel>Brightness</guilabel> option. The
+        drop down buttons for the <guilabel>Start</guilabel> and
+        <guilabel>End</guilabel> colors allow the user to pick the
+        colors in the gradient. For the brightness gradients, a slider
+        allows the user to select the transition direction. Moving the
+        slider toward <guilabel>Brighter</guilabel> will fade the
+        color to white whereas moving the slider toward
+        <guilabel>Darker</guilabel> will fade the color toward black.
+      </para>
+
+      <note>
+        <para>
+	  If all of these buttons appear black, change the color of
+	  the <guilabel>Start</guilabel> button to white to see the
+	  gradient.
+	</para>
+      </note>
+
+      <figure id="fig-graphics-plots-elementProperties-backPanels-image">
+        <title>The image background panel fill configuration.</title>
+	 <screenshot>
+          <mediaobject> 
+	    <imageobject> 
+	      <imagedata fileref="figures/graphguru-backPanels-image.png"
+	                 format="PNG" />
+	    </imageobject>
+	    <textobject>
+	      <para> 
+	        This screenshot depicts the configuration properties
+	        for the image background panel fill.
+	      </para>
+	    </textobject>
+	    <caption>
+	      <para>
+	        This screenshot depicts the configuration properties for
+	        the image background panel fill. 
+	      </para>
+	    </caption>
+	  </mediaobject>
+	</screenshot>
+      </figure>
+
+      <para>
+        The image background fill type allows the user to select an
+        image to fill the background of the panel. The image can be in
+        any file format supported by the <literal>gdk-pixbuf</literal>
+        library as explained in <xref
+        linkend="sect-graphics-images"/>. The image can be fit in one
+        of two ways. The image fit can be stretched so the image fills
+        the whole panel area or the image fit can be wallpapered where
+        the image is repeated in a tile pattern to fill up the whole
+        background. The button labeled <guilabel>Select</guilabel>
+        allows the user to call the file selector and choose the file
+        which contains the desired image. On the GNOME desktop, the
+        file chooser has a preview area to see the image before adding
+        it. The size of the image, in pixels, is displayed in the
+        configuration dialog as '# x #' where the number symbol
+        indicates the number of pixels, and the number of pixels in
+        each row comes before the number in each column.
+      </para>
+
+    </sect3>
+
+
+
+
+    <sect3 id="sect-graphics-plots-elementProperties-title">
+      <title>Titles and Axis Labels</title>
+
+      <para>
+        Both <guilabel>Title</guilabel> and <guilabel>Axis
+        Labels</guilabel> can be configured using three tabs. The
+        first tab allows the user to configure the background panel of
+        the title or axis label. The second tab allows the user to
+        select the font that will be used to display the words in the
+        title or axis label. The third tab allows the user to input
+        the actual words which will be used in the graph.
+      </para>
+
+     <figure id="fig-graphics-plots-elementProperties-title-font">
+        <title>The font selection for Titles and Axis Labels.</title>
+	 <screenshot>
+          <mediaobject> 
+	    <imageobject> 
+	      <imagedata fileref="figures/graphguru-title-font.png"
+	                 format="PNG" />
+	    </imageobject>
+	    <textobject>
+	      <para> 
+	        This screenshot depicts the font configuration panel
+	        for titles and axis labels in the <interface>Graph
+	        Guru</interface>. 
+	      </para>
+	    </textobject>
+	    <caption>
+	      <para>
+	        This screenshot depicts the font configuration panel
+	        for titles and axis labels in the <interface>Graph
+	        Guru</interface>. 
+	      </para>
+	    </caption>
+	  </mediaobject>
+	</screenshot>
+      </figure>
+
+      <para>
+        The <guilabel>Style</guilabel> tab allows the user to
+        configure the background panel in the same way this was
+        configured for graphs, charts and grids, as was explained
+        above in <xref
+        linkend="sect-graphics-plots-elementProperties-backPanels"/>. 
+      </para>
+
+
+       <para>
+        The <guilabel>Font</guilabel> tab is shown in <xref
+        linkend="fig-graphics-plots-elementProperties-title-font" />
+        and consists of three column lists. The first column list
+        allows the user to select the font name by scrolling the list
+        and then clicking on the desired name. The currently selected
+        font name is highlighted in light blue. The second column list
+        allows the user to select the font style including italic and
+        bold styles. The third column list allows the user to select a
+        size for the font. The preview area contains a few characters
+        to illustrate the appearance of the currently selected
+        combination. 
+      </para>
+
+      <para>
+        The <guilabel>Data</guilabel> tab displays a single entry box
+        in which the user can place the words which will appear in the
+        title or in the label. The user can simply type the text, can
+        add a reference to a section of the worksheet or can add an
+        expression which results in a text value.
+      </para>
+
+     </sect3>
+
+
+
+
+    <sect3 id="sect-graphics-plots-elementProperties-legend">
+      <title>Chart Legends</title>
+
+      <para>
+        Chart legends provide a graphical explanation of the data
+        plotted with the names and style of the
+        different series, or categories, plotted in each chart.  
+        Legends are configured through two tabs, labeled
+        <guilabel>Style</guilabel> and <guilabel>Font</guilabel>. The
+        <guilabel>Style</guilabel>  tab 
+        allows for the configuration of the background pane in a manner
+        analogous to the graph, chart and grid background panes,
+        explained in  <xref
+        linkend="sect-graphics-plots-elementProperties-backPanels"/>.
+        The <guilabel>Font</guilabel> tab allows the configuration of
+        the font that will appear in the legend. This configuration is
+        identical to the configuration of the title and axis label
+        fonts presented in <xref
+        linkend="sect-graphics-plots-elementProperties-title"/>. 
+      </para>
+
+    </sect3>
+
+
+
+
+
+    <sect3 id="sect-graphics-plots-elementProperties-axes">
+      <title>Axes</title>
+
+      <para>
+        Axes are used in several different kinds of plots to provide
+        quantitative indexes for the scale of each plot
+        direction. &gnum; uses four
+        different kinds of axes. <guilabel>Category</guilabel> axes do
+        not provide a quantitative scale but merely distinguish each
+        different category by providing space for the values of the
+        category along the axis. <guilabel>Continuous</guilabel> axes
+        provide a quantitative measure of each value based on the
+        projection of that value onto the
+        axis. <guilabel>Radial</guilabel> axes are used in radar plots
+        and are continuous axes which radiate from a central
+        point. <guilabel>Circular</guilabel> axes have not yet been
+        implemented.
+      </para>
+
+      <para>
+        Line, column and area charts use a category axis to separate
+        the categories along the horizontal direction and a continuous
+        axis to distinguish values in the vertical direction. Bar
+        charts reverse these two axes. XY scatter plots and bubble
+        plots use two continuous axes, one in the horizontal
+        direction, the X-axis, and one in the vertical direction, the
+        Y-axis. Radar plots use three or more continuous axes
+        radiating from a central point. Pie and Ring plots do not use
+        any axes.
+      </para>
+
+      <sect4 id="sect-graphics-plots-elementProperties-axes-categorical">
+        <title>Category Axes</title>
+
+	<para>
+	  Category axes distinguish the different categories of each
+	  value in a category series such as the series in line, bar,
+	  column and area plots.
+	</para>
+
+        <figure id="fig-graphics-plots-elementProperties-axes-category-bounds">
+          <title>Category axis bounds configuration.</title>
+	  <screenshot>
+            <mediaobject> 
+	      <imageobject> 
+	        <imagedata fileref="figures/graphguru-axes-category-bounds.png"
+	                 format="PNG" />
+	      </imageobject>
+	      <textobject>
+	        <para> 
+	          This screenshot depicts the 'bounds' tab for the
+	          configuration of a category axis. 
+	        </para>
+	      </textobject>
+	    </mediaobject>
+	  </screenshot>
+        </figure>
+
+	<para>
+	  The <guilabel>Bounds</guilabel> tab allows the user to
+	  override the automatic configuration of axis tick marks and
+	  labels. Each of the three choices can be over-ridden by
+	  deselecting the check box on the left. The check boxes can
+	  be deselected by placing the mouse pointer over the check
+	  box and clicking with the primary mouse button. When a check
+	  box is unselected, the entry box will become active allowing
+	  the user to input a different value than the default. The
+	  first check box controls the number of tick marks, allowing
+	  tick marks to appear after the integer number of categories
+	  shown. The second check box controls the number of labels
+	  displayed, allowing a regular number of category labels to
+	  be skipped. The third check box controls the placement of
+	  the orthogonal axis relative to the category axis.
+        </para>
+
+        <figure id="fig-graphics-plots-elementProperties-axes-categry-style">
+          <title>Category axis line style configuration.</title>
+	  <screenshot>
+            <mediaobject> 
+	      <imageobject> 
+	        <imagedata fileref="figures/graphguru-axes-category-style.png"
+	                 format="PNG" />
+	      </imageobject>
+	      <textobject>
+	        <para> 
+	          This screenshot depicts the 'style' tab for the
+	          configuration of a category axis.
+	        </para>
+	      </textobject>
+	    </mediaobject>
+	  </screenshot>
+        </figure>
+
+	<para>
+	  The <guilabel>Style</guilabel> tab allows the user to
+	  configure the line style of the axis, including the color
+	  and thickness of the line. The drop down button labeled
+	  <guilabel>Color</guilabel> can be clicked to expose the
+	  color picker panel which allows the user to select a new
+	  color either simply by clicking on an icon or by using the
+	  color picker wheel. The size spin button allows a user to
+	  change the thickness of the axis by typing a new number in
+	  the text box or by clicking on the arrows. A value of '-1'
+	  in this box will cause the axis not to be drawn.
+	</para>
+
+	<para>
+	  The <guilabel>Font</guilabel> tab allows the user to
+	  configure the font used to label the separate
+	  categories. The font configuration is performed in the same
+	  way as the font configuration for titles and axis labels
+	  which was explained in <xref
+	  linkend="sect-graphics-plots-elementProperties-title" />. 
+	</para>
+
+        <figure id="fig-graphics-plots-elementProperties-axes-categry-details">
+          <title>The category axis details configuration.</title>
+	  <screenshot>
+            <mediaobject> 
+	      <imageobject> 
+	        <imagedata fileref="figures/graphguru-axes-category-details.png"
+	                 format="PNG" />
+	      </imageobject>
+	      <textobject>
+	        <para> 
+	          This screenshot depicts the 'details' tab for the
+	          configuration of a category axis.
+	        </para>
+	      </textobject>
+	    </mediaobject>
+	  </screenshot>
+        </figure>
+
+	<para>
+	  The <guilabel>Details</guilabel> tab allows a user to
+	  configure other aspects of the axis. 
+	</para>
+
+	<para>
+	  The <guilabel>Position</guilabel> of the axis is placed in
+	  the <guilabel>Low</guilabel> position by default. This can
+	  be altered by pressing the radio button in front of the
+	  <guilabel>High</guilabel> label which will move the internal
+	  button and will alter the position of the axis, moving it
+	  either to the top of the graph for horizontal axes, or to
+	  the right of the graph for vertical axes.
+	</para>
+
+	<para>
+	  The <guilabel>Mapping</guilabel> of the axis can be changed
+	  simply by clicking on the check box. This will cause a check
+	  mark to appear in the box and will invert the axis so that
+	  the order of the categories will become reversed.
+        </para>
+
+	<para>
+	  The <guilabel>Major ticks</guilabel> displayed on the axis
+	  can be altered. The labels shown in the plot can be hidden
+	  by unchecking the check box in front of the 'Show Labels'
+	  text by placing the mouse cursor over the box and clicking
+	  with the primary mouse button. The ticks on the axis can be
+	  hidden or can be displayed on the outside of the graph, or
+	  on the inside of the graph, or on both sides depending on
+	  which of the two boxes are checked.
+	</para>
+
+	<para>
+	  The <guilabel>Minor ticks</guilabel> do not currently have
+	  any effect for category axes.
+	</para>
+
+
+      </sect4>
+
+
+
+      <sect4 id="sect-graphics-plots-elementProperties-axes-continuous">
+        <title>Continuous Axes: Linear and Radial</title>
+
+	<para>
+	  Continuous axes are configured in much the same way as
+	  category axes except for some minor differences.
+	</para>
+
+        <figure id="fig-graphics-plots-elementProperties-axes-continuous-bounds">
+          <title>Continuous axis bounds configuration.</title>
+	  <screenshot>
+            <mediaobject> 
+	      <imageobject> 
+	        <imagedata fileref="figures/graphguru-axes-continuous-bounds.png"
+	                 format="PNG" />
+	      </imageobject>
+	      <textobject>
+	        <para> 
+	          This screenshot depicts the 'bounds' tab for the
+	          configuration of a continuous axis. 
+	        </para>
+	      </textobject>
+	    </mediaobject>
+	  </screenshot>
+        </figure>
+
+	<para>
+	  The <guilabel>Bounds</guilabel> tab allow users to configure
+	  the limits and intervals of a continuous axis. 
+	</para>
+
+	<para>
+	  The <guilabel>Style</guilabel> tab changes the linear style
+	  of the axis in the same way as it acted on category
+	  axes. The explanation given in <xref
+	  linkend="sect-graphics-plots-elementProperties-axes-categorical"/>
+	  apply equally well to continuous axes.
+	</para>
+
+	<para>
+	  The <guilabel>Font</guilabel> tab also allows users to
+	  configure the font used in the numeric markers along the
+	  axis. Selecting the font for a continuous axis works in the
+	  same way as for a category axis as was explained in <xref
+	  linkend="sect-graphics-plots-elementProperties-axes-categorical"/>.
+	</para>
+
+	<para>
+	  The <guilabel>Details</guilabel> tab has two small
+	  differences compared to category axes. The mapping of the axis
+	  can be altered from a linear scale to a logarithmic scale by
+	  clicking on the drop down box and dragging to the entry
+	  labeled <guimenuitem>Log</guimenuitem>. The minor ticks,
+	  whose size was configured in the <guilabel>Bounds</guilabel>
+	  tab, are displayed for continuous axes unlike for
+	  categorical axes.
+	</para>
+
+        <figure id="fig-graphics-plots-elementProperties-axes-continuous-format">
+          <title>Continuous axis format configuration.</title>
+	  <screenshot>
+            <mediaobject> 
+	      <imageobject> 
+	        <imagedata fileref="figures/graphguru-axes-continuous-format.png"
+	                 format="PNG" />
+	      </imageobject>
+	      <textobject>
+	        <para> 
+	          This screenshot depicts the 'format' tab for the
+	          configuration of a continuous axis. 
+	        </para>
+	      </textobject>
+	    </mediaobject>
+	  </screenshot>
+        </figure>
+
+	<para>
+	  The <guilabel>Format</guilabel> tab allow users to configure
+	  the numeric type of the elements on a continuous axis. This
+	  configuration parallels the configuration of the numeric
+	  type of a worksheet cell as explained in <xref
+	  linkend="number-formatting-overview"/>. 
+	</para>
+
+
+      </sect4>
+
+      <sect4 id="sect-graphics-plots-elementProperties-axes-circular">
+        <title>Circular Axes</title>
+
+	<para>
+	  Circular Axes have not been fully implemented and do not yet
+	  have any properties which can be configured.
+	</para>
+
+      </sect4>
+
+    </sect3>
+
+
+
+
+
+    <sect3 id="sect-graphics-plots-elementProperties-plots">
+      <title>Plots</title>
+
+      <para>
+        Certain of the properties of plots are assigned directly to
+        the plot element and are configured when the plot element
+        itself is selected.
+      </para>
+
+     <para>
+	Line plots, Area plots, and XY scatter plots do not have any
+	plot level properties which can be configured.
+      </para>
+
+
+
+      <sect4 id="sect-graphics-plots-elementProperties-plots-bubble">
+        <title>Bubble plots</title>
+
+	<para>
+	  The bubbles in bubble plots are used to represent a third
+	  data component with the size of the bubble representing the
+	  value of the third component.
+	</para>
+
+        <figure id="fig-graphics-plots-elementProperties-plots-bubble">
+          <title>The configurable properties of a bubble plot.</title>
+	  <screenshot>
+            <mediaobject> 
+	      <imageobject> 
+	        <imagedata fileref="figures/graphguru-plot-bubble.png"
+	                 format="PNG" />
+	      </imageobject>
+	      <textobject>
+	        <para> 
+	          This screenshot depicts the properties of a bubble plot
+	          which can be configured. 
+	        </para>
+	      </textobject>
+	    </mediaobject>
+	  </screenshot>
+        </figure>
+
+	<para>
+	  The first choice in the bubble plot properties allows the
+	  user to represent the bubble value based on the area or the
+	  diameter of the bubble. The representation of a bubble using
+	  the surface is similar to using a log scale since the area
+	  is a squared quantity.
+        </para>
+
+        <para>
+	  The <guilabel>Show negative values</guilabel> property, if
+	  the check box is checked, will cause negatives values to be
+	  shown with the size of the bubble based on the absolute
+	  value of the value and the style of the bubble having a
+	  white fill.
+        </para>
+
+        <para>
+	  The <guilabel>Vary colors by bubble</guilabel>, if the check
+          box is checked, will cause each value in a series to be
+          displayed with a different fill color instead of coloring
+          all the values in a single series with the same color.
+        </para>
+
+        <para>
+	  The bubbles in a series are scaled relative to each other
+          with the maximum value having a default, fixed size and the
+          other values being scaled to this maximum bubble. Using this
+          spin button, the default size of the maximum bubble can be
+          altered. 
+        </para>
+
+      </sect4>
+
+
+
+
+      <sect4 id="sect-graphics-plots-elementProperties-plots-pie">
+        <title>Pie plots</title>
+
+	<para>
+	  Pie plots represent the data values as slices of a circular
+	  area, with the central angle of each slice, or wedge,
+	  proportional to the size of the value compared to the sum of
+	  all the values in the series.
+	</para>
+
+        <figure id="fig-graphics-plots-elementProperties-plots-pie">
+          <title>The configurable properties of a pie plot.</title>
+	  <screenshot>
+            <mediaobject> 
+	      <imageobject> 
+	        <imagedata fileref="figures/graphguru-plot-pie.png"
+	                 format="PNG" />
+	      </imageobject>
+	      <textobject>
+	        <para> 
+	          This screenshot depicts the properties of a pie plot
+	          which can be configured. 
+	        </para>
+	      </textobject>
+	    </mediaobject>
+	  </screenshot>
+        </figure>
+
+	<para>
+	  The slices by default are plotted clockwise starting from
+	  the vertical which is considered 0 degrees. The first option
+	  allows the user to set a different starting point for the
+	  pie series by changing the value in the spin box. The value
+	  will increase to 360 degrees and then reset to zero.
+        </para>
+
+        <para>
+	  Pie plots can be displayed with the slices separated from
+	  each other which in certain situations may improve the
+	  visual clarity of a pie plot. The second spin button allows
+	  the slices to be separated.
+        </para>
+
+        <para>
+	  The colors of each slice, by default, are all different to
+	  allow the easy visual distinction between each slice. Since
+	  pie plots only allow a single series to be plotted, there is
+	  no need to use color to associate the values from different
+	  series. By unchecking this box, all of the slices in a pie
+	  chart can be made to follow the color scheme defined in the
+	  plot series <guilabel>Style</guilabel> tab. However, if this
+	  box is unchecked, the outlines of the slices must be styled
+	  with a different color for the slices to be distinguishable.
+	</para>
+
+      </sect4>
+
+
+
+
+      <sect4 id="sect-graphics-plots-elementProperties-plots-barCol">
+        <title>Bar and Column plots</title>
+
+	<para>
+	  Bar and column plots can be displayed with different sized
+	  gaps between categories and different overlaps between the
+	  values of different series in each category.
+	</para>
+
+        <figure id="fig-graphics-plots-elementProperties-plots-">
+          <title>The configurable properties of bar and column plots.</title>
+	  <screenshot>
+            <mediaobject> 
+	      <imageobject> 
+	        <imagedata fileref="figures/graphguru-plot-barCol.png"
+	                 format="PNG" />
+	      </imageobject>
+	      <textobject>
+	        <para> 
+	          This screenshot depicts the properties of bar and
+	          column plots which can be configured. 
+	        </para>
+	      </textobject>
+	    </mediaobject>
+	  </screenshot>
+        </figure>
+
+	<para>
+	  The <guilabel>Gap</guilabel> describes the separation
+	  between the values plotted in each category. By default, the
+	  gap between categories is one and half times the width of a
+	  bar or a column. This spin button can be used to decrease
+	  the gap to zero, so there is no gap between categories, or
+	  increase the gap to 500% so the gap is five times the size
+	  of a bar or a column.
+	</para>
+
+	<para>
+	  The <guilabel>Overlap</guilabel> describes the separation
+	  between values of the different series in each category. By
+	  default these values will be plotted immediately adjacent to
+	  each other. This spin button can be lowered to minus 100%
+	  which leaves a gap the size of a bar or column between the
+	  values of each series. Alternatively, the values can be made
+	  to overlap up to 100%, a complete overlap. When values
+	  completely overlap, the latter series are plotted on top of
+	  the first series and a value may be completely obscured. In
+	  this case it may be possible to use partially transparent
+	  colors for the different series to allow both values to be
+	  visible.  
+	</para>
+
+      </sect4>
+
+
+
+
+      <sect4 id="sect-graphics-plots-elementProperties-plots-radar">
+        <title>Radar plots</title>
+
+	<para>
+	  Radar plots have as many axes as there are categories in
+	  each series. 
+	</para>
+
+        <figure id="fig-graphics-plots-elementProperties-plots-radar">
+          <title>The configurable properties of a radar plot.</title>
+	  <screenshot>
+            <mediaobject> 
+	      <imageobject> 
+	        <imagedata fileref="figures/graphguru-plot-radar.png"
+	                 format="PNG" />
+	      </imageobject>
+	      <textobject>
+	        <para> 
+	          This screenshot depicts the properties of a radar plot
+	          which can be configured. 
+	        </para>
+	      </textobject>
+	    </mediaobject>
+	  </screenshot>
+        </figure>
+
+	<para>
+	  By default the axis for the first category is vertical
+	  leaving the center point in the upward direction. The first
+	  spin box in the radar plot properties allows a user to
+	  change this orientation. The spin button can increase from
+	  zero degrees to 359 degrees when it will reset to 0.
+	</para>
+
+	<note>
+	<para>
+	  The <guilabel>Vary colors by slice</guilabel> property is
+	  probably a mistake which should not be part of radar plot
+	  properties. 
+	</para>
+	</note>
+
+
+      </sect4>
+
+
+
+
+      <sect4 id="sect-graphics-plots-elementProperties-plots-ring">
+        <title>Ring plots</title>
+
+	<para>
+	  Ring plots are similar to pie plots but may have an empty
+	  center and can be made with multiple series. 
+	</para>
+
+        <figure id="fig-graphics-plots-elementProperties-plots-ring">
+          <title>The configurable properties of a ring plot.</title>
+	  <screenshot>
+            <mediaobject> 
+	      <imageobject> 
+	        <imagedata fileref="figures/graphguru-plot-ring.png"
+	                 format="PNG" />
+	      </imageobject>
+	      <textobject>
+	        <para> 
+	          This screenshot depicts the properties of a ring plot
+	          which can be configured. 
+	        </para>
+	      </textobject>
+	    </mediaobject>
+	  </screenshot>
+        </figure>
+
+	<para>
+	  Like pie plots, ring plots assign values to the slices of a
+	  circular area by representing the magnitude of the value by
+	  the central angle of the slice, although for ring plots the
+	  center of the circular area is empty. Like pie plots, the
+	  first slice is plotted starting clockwise from the vertical
+	  and this first option can change the beginning point of the
+	  first slice's angle.
+	</para>
+
+	<para>
+	  The slices of a ring plot can also be separated. The
+	  <guilabel>Slice Separation</guilabel> option allows a user
+	  to determine the proportional size of the gap between
+	  slices.
+	</para>
+
+	<para>
+	  The <guilabel>Center size</guilabel> option determines the
+	  size of the hole in the middle of the rings as a fraction of
+	  the total radius. The center size can be altered in 5
+	  percent increments.
+	</para>
+
+	<para>
+	  The <guilabel>Vary colors by slice</guilabel> check box
+	  allows the user to assign colors either by slices, which is
+	  the default, or by series. To use color to distinguish
+	  series rather than categories, this button should not be
+	  checked. 
+	</para>
+
+      </sect4>
+
+    </sect3>
+
+
+
+
+
+
+    <sect3 id="sect-graphics-plots-elementProperties-series">
+      <title>Data Series</title>
+
+      <para>
+        Each plot will have one or more 'series' which organize the
+        data values. Each series element has a number of
+        properties. The element will have a <guilabel>Style</guilabel>
+        tab with which the style of the line and point markers, or the
+        area and outline can be set. Each series element will have a
+        <guilabel>Data</guilabel> tab in which the name of the series,
+        the values used for the series and any labels associated with
+        these values can be entered. The data values will generally be
+        entered as references to cells on a worksheet which will allow
+        the plots to be automatically altered when the values in the
+        worksheet change. The series may also have one or more
+        <guilabel>Error</guilabel> tabs in which error values can be
+        associated to the data value of each element in the series.
+      </para>
+
+
+      <sect4 id="sect-graphics-plots-elementProperties-series-style-line">
+        <title>Series line style</title>
+
+	<para>
+	  Series in line plots, in some radar plots and in scatter
+	  plots will have a style tab in which the graphical style of
+	  the lines and point markers can be established.
+	</para>
+
+        <figure id="fig-graphics-plots-elementProperties-series-style-line">
+          <title>The configurable properties of a line style.</title>
+	  <screenshot>
+            <mediaobject> 
+	      <imageobject> 
+	        <imagedata fileref="figures/graphguru-series-style-line.png"
+	                 format="PNG" />
+	      </imageobject>
+	      <textobject>
+	        <para> 
+	          This screenshot depicts the properties of a line style
+	          which can be configured. 
+	        </para>
+	      </textobject>
+	      <caption>
+	        <para>
+	          The properties of a single value data series include an
+	          optional name, a required list of values and an optional
+	          list of labels. The name, in this case, is a reference
+	          to cell D7 in the first worksheet. The values are the
+	          contents of the cells in the range E7:I7. The labels are
+	          the contents of the cells in the range E6:I6. Note that
+	          there are as many cells in the labels range as in the
+	          values range.
+	        </para>
+	      </caption>
+	    </mediaobject>
+	  </screenshot>
+        </figure>
+
+	<para>
+	  The <guilabel>Line</guilabel> properties include the line
+	  color and size. The color can be altered in the standard way
+	  using the drop down color chooser. The width of the line can
+	  be changed with the spin box. A line size of '-1' means that
+	  the line will not be plotted. 
+	</para>
+
+	<para>
+	  The <guilabel>Marker</guilabel> properties determine the
+	  style of the graphical symbol which will be plotted for each
+	  data value. The first drop down box allows the user to
+	  choose between a number of different symbols. The blank
+	  symbol indicates that no symbol will be plotted where the
+	  data value would be. Each shape will have a fill color, and an
+	  outline with both a color and a size. The colors can be
+	  changed by clicking on the drop down box and picking one of
+	  the given colors or using the color picker to select a new
+	  color. The size of the outline can be altered by clicking in
+	  the text area and editing the value or by using the spin
+	  arrows to increase or decrease the size.
+	</para>
+
+      </sect4>
+
+
+
+
+      <sect4 id="sect-graphics-plots-elementProperties-series-style-filled">
+        <title>Series filled style</title>
+
+	<para>
+	  Series in bubble plots, area plots, bar plots, column plots,
+	  filled radar plots, and ring plots will have a
+	  <guilabel>Style</guilabel> with fill and outline
+	  properties. These properties are the same as those presented
+	  for background panels in <xref
+	  linkend="sect-graphics-plots-elementProperties-backPanels"/>
+	  and are changed in the same way. 
+	</para>
+
+        <figure id="fig-graphics-plots-elementProperties-series-style-filled">
+          <title>The configurable properties of a filled style.</title>
+	  <screenshot>
+            <mediaobject> 
+	      <imageobject> 
+	        <imagedata fileref="figures/graphguru-series-style-filled.png"
+	                 format="PNG" />
+	      </imageobject>
+	      <textobject>
+	        <para> 
+	          This screenshot depicts the properties of a filled style
+	          which can be configured. 
+	        </para>
+	      </textobject>
+	    </mediaobject>
+	  </screenshot>
+        </figure>
+
+	<para>
+	  The <guilabel>Fill</guilabel> properties will determine the
+	  character of the inside of the area. The fill type can be
+	  none, pattern, gradient, or image, in the same way as the
+	  fill of background panels. If images are used for the
+	  background, the whole image will be shown and it will be
+	  scaled to the size of the area.
+	</para>
+
+	<para>
+	  The <guilabel>Outline</guilabel> properties will determine
+	  the size of the linear element that surrounds the area. The
+	  color and size of this outline element can be altered. 
+	</para>
+
+      </sect4>
+
+
+
+
+       <sect4 id="sect-graphics-plots-elementProperties-series-data-single">
+        <title>Series data: single values</title>
+
+	<para>
+	  The <guilabel>Data</guilabel> tab allows the user to
+	  configure the data contents of the series. Some of these
+	  data contents are optional, as is indicated by the
+	  parentheses around the label. At the minimum one set of
+	  numerical quantities will be required.
+	</para>
+
+	<para>
+	  The entry boxes in the <guilabel>Data</guilabel> tab can be
+	  filled in several ways. The data can be a static value or
+	  array such as a sting literal, "SeriesName", or a group of
+	  values, <literal>{12.05, 73.02, 128.89}</literal>. Note that
+	  the separator between elements in the array will depend on
+	  the locale since the glyph between whole numbers and decimal
+	  fractions differs around the world. Alternatively, the value
+	  of an entry box can be the reference to a cell or to a
+	  range. This reference can either be typed into the entry box
+	  or can be entered by clicking in the entry box text area and
+	  then selecting the range on the worksheet. Finally, the
+	  value in the entry box can be an expression, such as
+	  <literal>sin({120, 982, 140})</literal>.
+	</para>
+
+	<para>
+	  Single series involve the simplest data. They may have an
+	  overall name, must have a list of values, and may have a
+	  list of names, with as many names as there are numbers in
+	  the values list, which will act as category names. For plot
+	  types with more than one single list series, the label names
+	  will be shared between all the series.
+	</para>
+
+        <figure id="fig-graphics-plots-elementProperties-series-data-">
+          <title>The configurable properties of single value data series.</title>
+	  <screenshot>
+            <mediaobject> 
+	      <imageobject> 
+	        <imagedata fileref="figures/graphguru-series-data-single.png"
+	                 format="PNG" />
+	      </imageobject>
+	      <textobject>
+	        <para> 
+	          This screenshot depicts the properties of a single
+	          value data series 
+	          which can be configured. 
+	        </para>
+	      </textobject>
+	    </mediaobject>
+	  </screenshot>
+        </figure>
+
+	<para>
+	  The <guilabel>Name</guilabel> property is a single string
+	  which will give a tag to the series itself. A name is not
+	  required. This name will be used in the Graph Guru to name
+	  the series and may be used in a chart legend to describe the
+	  series.
+	</para>
+
+	<para>
+	  The <guilabel>Values</guilabel> property must contain a list
+	  of numeric quantities. A list of values is required. The
+	  values can be described either directly as a static array,
+	  described through a reference to a cell range with numeric
+	  values, or described through an expression which results in
+	  the list of quantities.
+	</para>
+
+ 	<para>
+	  The <guilabel>Labels</guilabel> property describes the names
+	  of the categories. This property is not required. must be a list of
+	  text elements, with as many elements as there are quantities
+	  in the list of values. These elements will provide the
+	  elements in the legend for pie and ring plots. For line,
+	  area, bar and column plots, the labels will provide the
+	  category names for the axis with categories. 
+	</para>
+
+ 	<para>
+	  The <guilabel>Show in Legend</guilabel> property determines
+	  if this series will be shown in the legend if a legend is
+	  added to the chart. It is sometimes useful to exclude
+	  certain series from the legend. If the box is checked, the
+	  series will be included in any legend displayed in the
+	  chart; if the box is not checked, the series will not be
+	  displayed in the legend. The box can be unchecked by placing
+	  the mouse pointer over the box and clicking with the primary
+	  mouse button.
+	</para>
+
+    </sect4>
+
+
+
+
+
+      <sect4 id="sect-graphics-plots-elementProperties-series-data-xy">
+        <title>Series data: X and Y values</title>
+
+	<para>
+	  Series with dual data values allow plots to be constructed
+	  in which one value is plotted against the other. XY scatter
+	  plots require this type of data.
+	</para>
+
+        <figure id="fig-graphics-plots-elementProperties-series-data-xy">
+          <title>The configurable properties of dual value data series.</title>
+	  <screenshot>
+            <mediaobject> 
+	      <imageobject> 
+	        <imagedata fileref="figures/graphguru-series-data-xy.png"
+	                 format="PNG" />
+	      </imageobject>
+	      <textobject>
+	        <para> 
+	          This screenshot depicts the properties of data
+	          series with two values, an x and a y,
+	          which can be configured. 
+	        </para>
+	      </textobject>
+	      <caption>
+	        <para>
+	          Dual data series require two sets of values, an X list
+	          and a Y list.
+	        </para>
+	      </caption>
+	    </mediaobject>
+	  </screenshot>
+        </figure>
+
+	<para>
+	  The <guilabel>Name</guilabel> property is a single text
+	  element that will name the series in the graph guru and in
+	  any legend in the chart.
+	</para>
+
+	<para>
+	  The <guilabel>X</guilabel> property is a list of
+	  quantitative values that will provide the horizontal
+	  positioning of each element. This list is required.
+	</para>
+
+	<para>
+	  The <guilabel>Y</guilabel> property is a list of
+	  quantitative values that will provide the vertical
+	  positioning of each element. This list is required and must
+	  have the same number of elements as the list of X values. 
+	</para>
+
+      </sect4>
+
+
+
+
+      <sect4 id="sect-graphics-plots-elementProperties-series-data-bubble">
+        <title>Series data: bubble values</title>
+
+	<para>
+	  Bubble series are simple extensions of the XY series to
+	  include a third data value, often called W, which will
+	  determine the size of the bubble.
+	</para>
+
+        <figure id="fig-graphics-plots-elementProperties-series-data-bubble">
+          <title>The configurable properties of bubble data series.</title>
+	  <screenshot>
+            <mediaobject> 
+	      <imageobject> 
+	        <imagedata fileref="figures/graphguru-series-data-bubble.png"
+	                 format="PNG" />
+	      </imageobject>
+	      <textobject>
+	        <para> 
+	          This screenshot depicts the properties of a bubble
+	  data series with three values
+	          which can be configured. 
+	        </para>
+	      </textobject>
+	    </mediaobject>
+	  </screenshot>
+        </figure>
+
+	<para>
+	  The <guilabel>Name</guilabel> property is a single text
+	  element that will name the series in the graph guru and in
+	  any legend in the chart.
+	</para>
+
+	<para>
+	  The <guilabel>X</guilabel> property is a list of
+	  quantitative values that will provide the horizontal
+	  positioning of each element. This list is required.
+	</para>
+
+	<para>
+	  The <guilabel>Y</guilabel> property is a list of
+	  quantitative values that will provide the vertical
+	  positioning of each element. This list is required and must
+	  have the same number of elements as the list of X values. 
+	</para>
+
+	<para>
+	  The <guilabel>Bubble</guilabel> property is a list of
+	  quantitative values that will provide the size of the
+	  bubbles associated to each element. This list is required
+	  and must have the same number of elements as the lists of X
+	  and of Y values.
+	</para>
+
+      </sect4>
+
+
+
+     <sect4 id="sect-graphics-plots-elementProperties-series-error">
+        <title>Series error values</title>
+
+	<para>
+	  Several plot types allow the plotting of error values using
+	  whisker plots. The series in these plot types will have
+	  extra tabs allowing the whisker positions to be
+	  listed. Line, bar, column and area plots allow an error plot
+	  to bracket the plotted quantitative value in the direction
+	  of the quantitative axis. XY scatter plots and bubble plots
+	  allow whiskers in both directions.
+	</para>
+
+        <figure id="fig-graphics-plots-elementProperties-series-error">
+          <title>The configurable properties of data series error values.</title>
+	  <screenshot>
+            <mediaobject> 
+	      <imageobject> 
+	        <imagedata fileref="figures/graphguru-series-error.png"
+	                 format="PNG" />
+	      </imageobject>
+	      <textobject>
+	        <para> 
+	          This screenshot depicts the properties of the error
+	          values in a data series
+	          which can be configured. 
+	        </para>
+	      </textobject>
+	    </mediaobject>
+	  </screenshot>
+        </figure>
+
+	<para>
+	  The <guilabel>Error Category</guilabel> includes several
+	  different categories which can be selected by clicking on
+	  the drop down box and dragging the mouse pointer onto the
+	  appropriate entry. If the error category is set to "none",
+	  no error bars will be plotted. If the category is set to
+	  "absolute" the values in the error lists will be considered
+	  to be in the same units as the axis. If the category is set
+	  to "relative", the values in the error list are assumed to
+	  be a fraction of the total of each value. If the category is
+	  set to "percent", the values in the error list are assumed
+	  to be 1/100 th of the fraction of the total of each
+	  value. Note that if the cells in the worksheet are already
+	  set to the percent format, they should be incorporated as
+	  "relative" errors.
+	</para>
+
+	<para>
+	  The <guilabel>Style</guilabel> properties alter the
+	  appearance of the error whiskers. The
+	  <guilabel>Display</guilabel> property can be used to prevent
+	  the display of any whiskers, to allow
+	  only upper or lower whiskers, or to display both. The
+	  <guilabel>Width</guilabel> property alters the width of
+	  the outer marker of the whisker. The <guilabel>Line
+	  width</guilabel> property alters the size of the
+	  whiskers. The color box selects the color of the line used
+	  to draw the whiskers.
+	</para>
+
+	<para>
+	  The <guilabel>Values</guilabel> properties describe the lists
+	  of quantitative values which will be used for the
+	  whiskers. These lists are required if an error is to be
+	  displayed and the lists must have as many elements as were
+	  in the list of data "Values". The positive (+) list
+	  quantifies either only the upper error values if the lower
+	  values are not displayed or the negative list is
+	  defined. The positive list can also be used for both error
+	  values if the errors are symmetrical. The negative (-) list
+	  quantifies the lower whisker.
+	</para>
+
+      </sect4>
+
+    </sect3>
+
+  </sect2>
+
+
+
+
+
+
+  <sect2 id="sect-graphics-plots-preselect">
+    <title>Pre-Selecting Data</title>
+
+    <para>
+      This section is not yet written.
+    </para>
+
+  </sect2>
+
+
+
+</sect1>

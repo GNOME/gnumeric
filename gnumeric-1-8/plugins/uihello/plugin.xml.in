@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_UIHello">
+	<information>
+		<_name>UI Hello</_name>
+		<_description>Hello World plugin using ui service</_description>
+		<require_explicit_enabling/>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="plugin"/>
+	</loader>
+	<services>
+		<service type="ui" id="hello" file="hello.xml">
+			<actions>
+				<action name="HelloWorld" label="Testing Testing 123" icon="gtk-add" />
+				<action name="HelloMenu" label="Make a Menu" />
+			</actions>
+		</service>
+	</services>
+</plugin>

@@ -1,0 +1,176 @@
+<sect1 id="cell-referencing">
+  <title>Referencias a celdas</title>
+  
+  
+  <para>Para hacer referencia al valor almacenado en una celda,
+digamos B1, sólo hay que escribir "B1" como argumento de la
+función.</para>
+  
+  <para>Se hace referencia a las celdas en un formato del estilo C4,
+donde C es la etiqueta de la columna y 4 es la etiqueta de la
+fila.</para>
+  
+  <example id="simplecellrefer">
+    <title>Algunos ejemplos de la sintaxis de las funciones</title>
+    <programlisting>
+      =EXP(B1)
+      
+      =COS(A2)
+      
+    </programlisting>
+  </example>
+  
+  <sect2>
+    <title>Referencia absoluta a las celdas</title>
+
+    <para>Se puede hacer referencia a las celdas de la forma por
+defecto (referencia relativa), o haciendo uso de la referencia
+absoluta. Hacer una referencia absoluta significa que cuando se copie
+la celda, la referenia que hay dentro de la misma no
+cambiará. Normalmente, cuando se autorrellena un rango de celdas o se
+mueve una celda, cambian las referencias que contiene para mantener
+una relación con la celda original. Con la referencia absoluta a
+celdas se elimina este comportamiento. </para>
+
+    <para>La forma de utilizar la referencia absoluta a celdas es
+poniendo un `$' delante de la coordenada de la celda que queremos
+mantener intacta. Se puede mantener constante la columna, fila, hoja,
+o cualquier combinación de las tres.</para>
+
+    <example id="cell-refer-absolute-reference">
+      <title>Ejemplos de referencia absoluta a celdas</title>
+      <programlisting>
+	A1          Referencia normal a una celda
+	$A2         Mantener constante el valor de la columna
+	A$2         Mantener constante el valor de la fila
+	$A$2        Mantener constantes la fila y la columna
+      </programlisting>
+    </example>
+
+  </sect2>
+
+
+  <sect2>
+    <title>Haciendo referencia a varias celdas</title>
+    
+    <para>Muchas funciones pueden tomar como argumentos varias
+celdas. Las distintas celdas se pueden introducir como una lista
+separada por comas, como un vector, o como cualquier combinación de
+los anteriores.</para>
+    
+    <sect3>
+      <title>Varias celdas individuales</title>
+      
+      <para>Para indicar celdas no contiguas se puede utilizar una
+lista separada por comas.</para>
+      
+      
+      <example id="cellrefermutiplecells">
+	<title>Algunos ejemplos de la sintaxis de funciones</title>
+	<programlisting>
+	  =SUM(A1,B2,C4)
+	  
+	  =MIN(A1,B2, C4,C5,D6)
+	  
+	</programlisting>
+      </example>
+      
+      
+      <screenshot>
+	<graphic fileref="../C/images/cells-1.jpg"></graphic>
+      </screenshot>
+      
+	</sect3>
+    
+    <sect3>
+      <title>Haciendo referencia a un conjunto de celdas contiguas</title>
+      
+      <para>Para las funciones que toman más de un argumento,
+normalmente es más fácil hacer referencia a las celdas como un
+grupo. De esta forma se pueden incluir celdas que esten dispuestas
+horizontal o verticalmente, así como aquellas que estén dispuestas en
+forma de bloque.</para>
+      
+      <para>El operador `:' se utiliza para indicar un conjunto de
+celdas. La sintaxis básica es esquina superior izquierda:esquina
+inferior derecha. </para>
+      
+      <example id="cellrefercontin">
+	<title>Haciendo referencia a un bloque de celdas</title>
+	<programlisting>
+	  =SUM(A1:E1)
+	  
+	  =AVERAGE(B4:E7)
+	  
+	  =MIN(A1:A5)            
+	</programlisting>
+      </example>
+      
+      
+      <screenshot>
+	<graphic fileref="../C/images/cells-2.jpg"></graphic>
+      </screenshot>
+    </sect3>
+    
+    <sect3>
+      <title>Haciendo referencia a una región no contigua</title>
+	  
+      <para>Para hacer referencia a las celdas que están en regiones
+no contiguas se puede utilizar cualquier combinación de los métodos
+que se han discutido anteriormente.</para>
+      
+      
+	  <example id="cellreferdiscontin">
+	<title>Haciendo referencia a bloques de celdas</title>
+	<programlisting>
+	  =SUM(A1:E1, B19, L14:L17)
+	  
+	  =AVERAGE(A1,A3, A5:C5)
+	  
+	</programlisting>
+      </example>
+    </sect3>
+  </sect2>
+
+  <sect2>
+    <title>Haciendo referencia a celdas contenidas en otras hojas</title>
+
+    <para>Es posible hacer referencia a celdas que no sean parte de la
+hoja actual. Para conseguirlo se utiliza la sintaxis NOMBRE!CELDA,
+donde NOMBRE es un identificador (normalmente el nombre de la hoja) y
+CELDA es una referencia normal a una celda tal y como se ha descrito
+en las secciones anteriores.</para>
+
+    <para>Si NOMBRE tiene espacios en blanco, tendrá que ponerlo entre
+comillas para que Gnumeric agrupe las distintas palabras que hay en
+NOMBRE en un solo nombre. Por ejemplo, deberá utilizar "Hoja 0" cuando
+se refiera a la "Hoja 0" creada por defecto.</para> 
+
+    <example id="simple-sheet-ref">
+      <title>Haciendo referencia a valores en otras hojas</title>
+      <programlisting>
+	='Hoja 0'!A1+'Hoja 3'!A5
+
+	=SUM('Hoja 1'!A1:'Hoja 1'!A5)
+      </programlisting>
+    </example>
+
+  </sect2>
+</sect1>
+
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         

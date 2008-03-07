@@ -1,0 +1,98 @@
+<sect1>
+  <title>Moving Cells</title>
+  
+  <para>Gnumeric allows the user to move and copy cells
+    and their contents by simply dragging and dropping the
+    cell to its new location. </para>
+  
+  
+  <para>The basic procedure to quickly drag and drop a cell to
+    a new location is to click on the border, and drag the cell
+    to its new location and release. The contents of the cell
+    will be moved to the new cell.</para>
+  
+  <itemizedlist>
+    <listitem><para>Click (MB1) on the border (anywhere, except the autofill square in
+	the bottom right corner). Ctrl+click copies the cell, while a plain
+	click just moves the cell.</para></listitem>
+    
+    <listitem><para>Drag the cell to the new cell location.</para></listitem>
+    
+    <listitem><para>Release the selection.</para></listitem>
+  </itemizedlist>
+  
+  <para>This is the simplest method and most common use the drag and drop
+    cell moving and copying. The keybindings give you a good set of options
+    for quick moving and copying.</para>
+  
+  <sect2>
+    <title>Right Click Options</title>
+    
+    <para>The other more extensive option to moving and copying cells is the 
+      right click options. This presents a menu of options that is more extensive
+      that can be easily done with the normal keybindings</para>
+    
+    <itemizedlist>
+      <listitem><para>Right Click (MB3) on the border (anywhere, except the autofill square in
+	  the bottom right corner).</para></listitem>
+      
+      <listitem><para>Drag the cell to the new cell location.</para></listitem>
+      
+      <listitem><para>Release the selection. An options menu should pop-up.</para></listitem>
+      
+      <listitem><para>Select the appropriate option from the menu and click again. The new
+	  cell should have the new info.</para></listitem>
+      
+    </itemizedlist>
+    
+    
+    <para>FIXME! screenshot here once i figure out how to do cursors</para>
+    
+    <para>Move and copy right click menu options</para>
+    
+    <itemizedlist>
+      <listitem><para>Copy: Same effect as the normal Copy operations. It
+	  copies the value, the format, and the formula. Equilivent to Ctrl+MB1.</para></listitem>
+      
+      <listitem><para>Move: Same effect as the normal Move operations. It
+	  moves the value, the format, and the formula. Equilivent to MB1.</para></listitem>
+      
+      <listitem><para>Copy Formats: Copies the formatting info of the source cell. This
+	  includes number format, color, font, filltype, etc.</para></listitem>
+      
+      <listitem><para>Copy Values: Copies the value in the source cell to the destination
+	  cell. </para></listitem>
+      
+      <listitem><para>Shift Cells Down and Copy: not implemented yet</para></listitem>
+      <listitem><para>Shift Cells Right and Copy: not implemented yet</para></listitem>
+      <listitem><para>Shift Cells Down and Move: not implemented yet</para></listitem>
+      <listitem><para>Shift Cells Right and Move: not implemented yet</para></listitem>
+      
+    </itemizedlist>
+    
+    
+    <screenshot>
+      <screeninfo>Figure 1.
+      </screeninfo>
+      <graphic fileref="dndselection-1.jpg"></graphic>
+      The right click option menu. 
+    </screenshot>
+    
+  </sect2>
+</sect1>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         

@@ -1,0 +1,10 @@
+Makefile
+Makefile.in
+libxbase.a
+*.lo
+*.la
+.libs
+.deps
+plugin.xml
+*.loT
+*.sw*

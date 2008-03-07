@@ -1,0 +1,93 @@
+#!/usr/bin/perl -w
+#
+#  Gnumeric
+#
+#  Copyright (C) 2006 Morten Welinder.
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License as
+#  published by the Free Software Foundation; either version 2 of the
+#  License, or (at your option) any later version.
+#
+#  This library is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#  General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this library; if not, write to the Free Software
+#  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+#  Author: Morten Welinder <terra@gnome.org>
+
+use strict;
+
+my $exitcode = 0;
+my $verbose = 0;
+my $strict = 0;
+
+warn "$0: should be run from top-level directory.\n"
+    unless -r "configure.in" && -r 'ChangeLog';
+
+my %base_exceptions =
+    ();
+
+my %exceptions =
+    ();
+
+{
+    local (*FIND);
+    open (*FIND, "find . '(' -type f -name '*.c' -print ')' -o '(' -type d '(' -name CVS -o -name intl -o -name macros ')' -prune ')' |")
+	or die "$0: cannot execute find: $!\n";
+  FILE:
+    foreach my $filename (<FIND>) {
+	chomp $filename;
+	$filename =~ s|^\./||;
+
+	next if $exceptions{$filename};
+	my $basename = $filename;
+	$basename =~ s|^.*/||;
+	next if $base_exceptions{$basename};
+
+	local (*FIL);
+	if (open (*FIL, "< $filename")) {
+	    # print STDERR "Checking $filename...\n";
+	    my $lineno = 0;
+	    my @lines;
+	  LINE:
+	    while (<FIL>) {
+		$lineno++;
+
+		push @lines, $_;
+
+		if ($lineno >= 2 &&
+		    ($lines[-2] . $lines[-1]) =~
+		    /^\s*if\s*\(\s*([^ 	()]+)\s*(!=\s*NULL\s*)?\)\s*(g_free|g_list_free|g_slist_free|go_list_free_custom|go_slist_free_custom)\s*\(\s*\1\s*\)\s*;/) {
+		    print STDERR "$0: Checked $3 at $filename:$lineno\n";
+		    next LINE;
+		}
+
+		if ($lineno >= 4 &&
+		    ($lines[-4] . $lines[-3] . $lines[-2] . $lines[-1] ) =~
+		    /^\s*if\s*\(\s*([^ 	()]+)\s*(!=\s*NULL\s*)?\)\s*{\s*(g_free|g_list_free|g_slist_free|go_list_free_custom|go_slist_free_custom)\s*\(\s*\1\s*\)\s*;\s*\1\s*=\s*(0|NULL)\s*;\s*}/) {
+		    print STDERR "$0: Checked $3 at $filename:$lineno\n";
+		    next LINE;
+		}
+
+		if ($lineno >= 3 &&
+		    ($lines[-3] . $lines[-2] . $lines[-1]) =~
+		    /^[^\n]*([^ 	()]+)\s*\?\s*g_strdup\s*\(\s*\1\s*\)\s*:\s*NULL/) {
+		    print STDERR "$0: Checked g_strdup at $filename:$lineno\n";
+		    next LINE;
+		}
+	    }
+	    close (*FIL);
+	} else {
+	    print STDERR "$0: Cannot read `$filename': $!\b";
+	    $exitcode = 1;
+	}
+    }
+    close (*FIND);
+}
+
+exit $exitcode;

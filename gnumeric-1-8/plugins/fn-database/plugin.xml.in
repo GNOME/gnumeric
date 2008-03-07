@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_fndatabase">
+	<information>
+		<_name>Database Functions</_name>
+		<_description>Functions looking up values in databases</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="plugin"/>
+	</loader>
+	<services>
+		<service type="function_group" id="database">
+			<_category>Database</_category>
+			<functions>
+				<function name="daverage"/>
+				<function name="dcount"/>
+				<function name="dcounta"/>
+				<function name="dget"/>
+				<function name="dmax"/>
+				<function name="dmin"/>
+				<function name="dproduct"/>
+				<function name="dstdev"/>
+				<function name="dstdevp"/>
+				<function name="dsum"/>
+				<function name="dvar"/>
+				<function name="dvarp"/>
+				<function name="getpivotdata"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

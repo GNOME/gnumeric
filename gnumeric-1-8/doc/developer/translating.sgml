@@ -1,0 +1,59 @@
+<!DOCTYPE book PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
+]>
+
+<sect1 id="translating">
+  <title>Translating Gnumeric</title>
+    
+    <para>
+      There are a couple of things that should be kept in mind when
+      translating Gnumeric.  Gnumeric, unlike regular applications
+      includes strings used to render numbers in various ways: as
+      dates, as times, as currency, number, as accounting-formatted
+      numbers.  You should usually leave alone during the general
+      language translation the number formatting and the date
+      formatting codes.
+    </para>
+    
+    <para>
+      For example, in México, we speak spanish (language code "es"),
+      so a spanish translation should be done for all of the messages
+      in the program in the file es.po.
+    </para>
+    
+    <para>
+      Dates in México are represented as day/month/year.  The Gnumeric
+      default is to follow the rules for the US, which are
+      month/day/year.  Now, instead of adding those translations to
+      the es.po file, those strings should be added to a per-country
+      file, in this example the "es_MX.po" file.  Currency in México
+      uses the same symbols, so those format codes are left untouched.
+      Decimal point separator and thousand separators in Mexico are,
+      again, the same as in the US, so they are left untouched.
+    </para>
+    
+    <para>
+      So, basically: when doing currency/date/number format
+      translation, make sure no other country that uses your language
+      has a different set of rules (when in doubt, just dont touch the
+      formatting codes and add your localized version to the nn_MM.po
+      file).
+    </para>
+</sect1>
+
+<sect1 id="currency">
+  <title>Dealing with currency formats</title>
+
+    <para>
+      Gnumeric uses the locale information to distinguish which
+      character is used as a thousand separator and which one is used
+      as a decimal separator.  On the number formatting strings, use
+      your country decimal separator as the decimal separator.  For
+      example, given the format in Gnumeric "#.00", French translators
+      for France should change that to "#,00".  Thus, the default
+      format "#,##0" (which means show at least one number, but
+      separate the thousands with commas) should be translated in this
+      case to "#.##0".
+  </para>
+</sect1>
+
+    

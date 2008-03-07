@@ -1,0 +1,29 @@
+    <sect2 id="numtheory-ntd">
+      <title>nt_d</title>
+      <sect3 id="numtheory-ntd-syntax">
+	<title>Syntax</title>
+	<para>
+	  =NT_D(n)
+	</para>
+      </sect3>
+      <sect3 id="numtheory-ntd-description">
+	<title>Description</title>
+	<para>
+	  The NT_D function calculates the number of divisors of n.
+	  This function only takes one argument.
+	</para>
+      </sect3>
+      <sect3 id="numtheory-ntd-examples">
+	<title>Examples</title>
+	<para>
+	  For an example about nt_d, see <xref linkend="examples-ntd" />.
+	</para>
+      </sect3>
+      <sect3 id="numtheory-ntd-seealso">
+	<title>See Also</title>
+	<para>
+	  ithprime, <xref linkend="numtheory-ntphi" />, <xref
+	  linkend="numtheory-ntsigma" />
+	</para>
+      </sect3>
+    </sect2>

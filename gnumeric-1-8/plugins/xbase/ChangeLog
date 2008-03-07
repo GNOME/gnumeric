@@ -1,0 +1,667 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* pboot.c: replaced gi18n.h by gi18n-lib.h.
+	* xbase.c: ditto.
+	
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2006-03-01  Morten Welinder  <terra@gnome.org>
+
+	* xbase.c (xbase_read_header): Fall back to using ISO-8859-1.
+
+	* boot.c (xbase_field_as_value): Simplify assuming ->char_map is
+	always available.  Handle failing conversion.
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-02-09  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (xbase_field_as_value): strtognum has been renamed to
+	gnm_strto. Update accordingly.
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-02-07  Morten Welinder  <terra@gnome.org>
+
+	* boot.c (xbase_field_as_value): Apparently 'N' signifies a
+	floating point number, not an integer.  Handle that and thus fix
+	#166311.
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2005-01-12  Jody Goldberg <jody@gnome.org>
+
+	* boot.c : include stdlib.h to remove warning about atoi
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-08-28  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=143724
+	* xbase.c (xbase_open) : stop importing when we hit SHEET_MAX_COLS
+	* boot.c (xbase_file_open) : and when we hit SHEET_MAX_ROWS
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-06-04  Morten Welinder  <terra@gnome.org>
+
+	* xbase.c (xbase_read_header): Return error in ErrorInfo way.
+	Caller changed.
+	(xbase_open): Handle errors from xbase_read_header.
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-02-18  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (xbase_field_as_value) : don't free the string since we're
+	  not copying it.  Handle the case where the encoding was not
+	  specified.
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-14  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Remove "open" and "import" attributes.
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-10-01  Jody Goldberg <jody@gnome.org>
+
+	* xbase.c (xbase_close) : close the iconv handler.
+	(xbase_read_header) : set the iconv handler.
+
+	* boot.c (xbase_field_as_value) : map strings to UTF-8.
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-09-28  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=94341
+	* xbase.c (xbase_read_header) : don't guess about the existence of a
+	  dbc field.  Foxbase docs claim there is a 263 byte field after the
+	  field descriptors, all the other docs claim not.  Use the stored
+	  header size directly.
+
+	  while we're in here add more enum values for codepage, and version.
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-19  Jon K Hellan  <hellan@acm.org>
+
+	* xbase.c (record_seek, xbase_field_new): Use glib's seek enum
+	instead of the enum which used to be in libgsf.
+
+2002-08-15  Jon K Hellan  <hellan@acm.org>
+
+	* xbase.[ch] (record_seek): Change type of row parameter to
+	gsf_off_t.
+
+	* xbase.c (record_seek): Change type of offset variable to
+	gsf_off_t.
+
+	* xbase.h (struct XBfile): Change type of offset to gsf_off_t.
+	(struct XBrecord): Change type of row to gsf_off_t.
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-08-06  Morten Welinder  <terra@diku.dk>
+
+	* *.c: use gsf_le_get_double and gsf_le_set_double (etc).
+
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-06-08  Jody Goldberg <jody@gnome.org>
+
+	* xbase.c (xbase_field_new) : convert to libgsf.
+	(xbase_close) : ditto.
+	(xbase_open) : ditto.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.3
+
+2002-03-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.2
+
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
+2002-02-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.0
+
+2002-01-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.3
+
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.2
+
+2002-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.1
+
+2001-12-30  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* signedness fixes/workarounds
+	* boot.c (xb_setdouble) : make s gchar* rather than guint8*.
+	* xbase.c (record_new) : cast g_strnfill result to guint8*.
+	* xbase.c, xbase.h (record_get_field) : return gchar* rather than 
+	  guint8.
+	* xbase.h (XBfield) : made name gchar[] rather than guint8[].
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.0
+
+2001-12-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.1
+
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (xbase_field_as_value) : be more picky about parsing dates.
+	  The spec states that they must be in this format.
+
+2001-12-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.0
+
+2001-11-05  Jody Goldberg <jgoldberg@home,com>
+
+	* Release 0.75
+
+2001-11-01  Jody Goldberg <jgoldberg@home.com>
+
+	* xbase.c (record_get_field) : fix bone headed indexing scheme.
+	(xbase_close) : release the fmt.
+	(xbase_field_new) : renamed to make sense and supply a style for dates.
+
+	* boot.c (xbase_field_as_value) : now that record_get_field is less
+	  bizzare use a sane indexing scheme here to.  Support dates.
+	  Use the field length so that strings don't magicly enclude the
+	  entire record.
+	(xbase_file_open) : use a nice sane indexing scheme here too.
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.74
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.73
+
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.72
+
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
+2001-09-25  Jon K Hellan  <hellan@acm.org>
+
+	* .cvsignore: Add plugin.xml
+
+2001-08-24  Jody Goldberg <jgoldberg@home.com>
+
+	* boot.[ch] : fix the includes.
+	* xbase.[ch] : fix the includes.
+
+2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml: Removed
+
+	* plugin.xml.in: Copied from plugin.xml, prepared for localization.
+
+	* Makefile.am: Use xml-i18n-tools to create plugin.xml (with
+	translations merged from .po file).
+
+2001-08-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.70
+
+2001-08-17  Morten Welinder  <terra@diku.dk>
+
+	* xbase.h: Guard.
+
+2001-08-11  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.69
+
+2001-07-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.68
+
+2001-06-28  Jody Goldberg <jgoldberg@home>
+
+	* Release 0.67
+
+2001-06-27  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.66
+
+2001-05-23  Jody Goldberg <jgoldberg@home.com>
+
+	* boot.c (xbase_field_as_value) : remove the attempt to null terminate
+	  a string that we already assume was null terminated when we strdup
+	  it.
+	(xbase_file_open) : force a full respan.
+
+2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* boot.c (xbase_file_open):
+	s/FileOpener/GnumFileOpener/
+
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.65
+
+2001-03-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.64
+
+2001-02-23  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.63
+
+2001-02-19  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (xbase_load): Change file format level to
+	FILE_FL_MANUAL_REMEMBER. Fix typo: FILE_SAVER_ID_INVAID ->
+	FILE_SAVER_ID_INVALID.
+
+2001-02-16  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.62
+
+2001-02-12  Karl Eichwalder  <ke@suse.de>
+
+	* Makefile.am (EXTRA_DIST): New variable; add
+	$(gnumeric_plugin_xbase_DATA).
+
+2000-12-17 Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.61
+
+2000-12-7  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.60
+
+2000-11-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.59
+
+2000-11-13  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.58
+
+2000-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* boot.c : Adjust to the signature changes for reading views
+	  rather than workbooks.
+	* xbase.c : ditto.
+
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.57
+
+2000-08-16  Jody Goldberg <jgoldberg@home.com>
+
+	* xbase.c : Include gutils.h to get the decls for gnumeric_get_le_...
+
+2000-08-15  Morten Welinder  <terra@diku.dk>
+
+	* xbase.c: use new gnumeric_get_le_... support.
+
+2000-07-27  Morten Welinder  <terra@diku.dk>
+
+	* boot.c (xbase_field_as_value): Plug huge leaks.  Fix 'I' case.
+	Partially fix 'B' case.
+	(xbase_load): Plug leak.
+
+	* xbase.c (xbase_read_field): It looks like '\0' is a terminator
+ 	too.  Sounds reasonable.
+	(xbase_close): Plug another huge leak.
+
+2000-07-26  Morten Welinder  <terra@diku.dk>
+
+	* xbase.c (deref_le_guint16, deref_le_guint32): New functions.
+	(xbase_open): Initialise ans->offset.
+	(xbase_read_header): Fix huge amounts of bogusities.
+	(xbase_read_field): Ditto.
+
+	* boot.c (xb_setdouble): Don't define until such time as it gets
+ 	used.
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.56
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.55
+
+2000-05-20  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.54
+
+2000-05-09  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.53
+
+2000-04-06  Jody Goldberg <jgoldberg@home.com>
+
+	* boot.c (xbase_load) : Moved the recalc free/thaw to a higher level.
+
+2000-03-23  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (xbase_load): No longer change filename extension to
+	".gnumeric". Set save info. Tag as MANUAL.
+	(XBASE_TITLE, XBASE_DESCR): No, we haven't got export.
+
+2000-02-22  Morten Welinder  <terra@diku.dk>
+
+	* boot.c (xbase_field_as_value): Change assert to g_assert.
+
+2000-01-31  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c: Call gnumeric_error_save on failure.
+
+2000-01-29  Jon K Hellan  <hellan@acm.org>
+
+	* xbase.h (xbase_open): Add CommandContext.
+
+	* xbase.c (xbase_open): Add CommandContext. Remove progress
+	message to stdout. Use gnumeric_error_read to report errors.
+
+	* boot.c (xbase_load): Add CommandContext. Return 0 on success, -1
+	on failure.
+
+2000-01-17  Jody Goldberg <jgoldberg@home.com>
+
+	* xbase.c : Remove unused xml includes.
+
+1999-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* boot.c (xbase_load) : Return an error string.  This is very
+	  preliminary.  We should get real error messages from the importer.
+
+1999-12-10  Michael Meeks  <mmeeks@gnu.org>
+
+	* xbase.c: don't define type_descriptions if not debugging.
+
+1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
+ 
+        * boot.c (xbase_cleanup_plugin): free pd->title
+
+1999-08-11  Michael Meeks  <michael@imaginator.com>
+
+	* boot.c (xbase_load): Add missing ';' Miguel's been doing too
+	much Pascal recently :-)
+
+1999-08-09    <miguel@gnu.org>
+
+	* boot.c (xbase_load): Adapted to new file open conventions.
+
+1999-08-02  Elliot Lee <sopwith@redhat.com>
+
+	* Makefile.am: boot.h not needed.
+
+1999-07-31  Morten Welinder  <terra@diku.dk>
+
+	* xbase.c (field_types): Move from xbase.h.
+	(field_type_descriptions): Ditto.
+	(xbase_close): Kill warning.
+
+	* boot.c (xb_getdouble): Make static and constify.
+	(xb_setdouble): Make static.
+
+1999-07-21  Michael Meeks  <michael@edenproject.org>
+
+	* boot.c: Removed include boot.h
+
+	* boot.h: Removed, contained only redundant data.
+
+1999-06-28  Michael Meeks  <michael@edenproject.org>
+
+	* boot.c (xbase_can_unload, xbase_cleaup_plugin):
+	implemented.
+	(xbase_init): renamed to init_plugin and updated.
+
+	* Makefile.am: converted to plugin.
+
+1999-06-23  Michael Meeks  <michael@edenproject.org>
+
+	* boot.c (xbase_probe): Fix for filenames with no
+	extension.
+
+1999-06-18  Michael Meeks  <michael@edenproject.org>
+
+	* xbase.c (xbase_read_field): Conditional debug
+	(xbase_read_header): ditto
+
+1999-06-10  Sean Atkinson  <sca20@cam.ac.uk>
+
+	* Created.

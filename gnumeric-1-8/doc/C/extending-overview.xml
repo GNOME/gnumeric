@@ -1,0 +1,10 @@
+<sect1 id="sect-extending-overview">
+  <title>The Approaches to Extending Gnumeric</title>
+
+  <para>
+    There are several ways that &gnum;
+    can be extended to add functionality. 
+  </para>
+
+
+</sect1>

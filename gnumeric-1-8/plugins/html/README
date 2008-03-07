@@ -1,0 +1,65 @@
+Welcome to the Gnumeric HTML Plugin README.
+
+The HTML plugin supports export to HTML, LaTeX and roff formats. The 
+export PS/PDF/EPS functions have been deprecated.
+
+The plugin is published under the GNU GPL.
+
+Note: None of these export functions supports graphics output!
+
+Original Author: rasca (thron@gmx.de)
+
+
+
+**********************************************************************
+
+Features of the export/import HTML functions:
+--------------------------------------------
+
+	- exporting tables
+		* all tables are written in one file, but every sheet
+		  gets it's own TABLE-tag
+		* beside the content of the cells it self the following
+		  attributes are exported:
+			- center and right horizontal alignment
+			- vertical top alignment
+			- background color
+			- foreground color
+			- bold font setting
+			- italic font setting
+		* the characters "<" and ">" are 7bit encoded
+
+	- importing tables
+		* This has now been rewritten to use the libxml2 html parser.
+		* while reading the html file the following attributes
+		  are imported:
+			- bold font setting
+			- italic font setting
+			- hyperlinks
+
+**********************************************************************
+
+Features of the export LaTeX functions:
+--------------------------------------
+
+	- only the topmost sheet is exported
+	- table can be set in portrait (default) or landscape mode
+	- left and right alignment
+	- file can be run alone or embedded in another
+	- uses the longtable package for multi-page tables
+	- merges
+	- text colour
+	- bold, italic and sansserif
+	- borders (except for merges, intersection of borders not ideal)
+	- math mode for math formats
+
+
+
+**********************************************************************
+
+Features of the export Roff function:
+------------------------------------
+
+	- bold, italic
+	- left, right and center alignment
+

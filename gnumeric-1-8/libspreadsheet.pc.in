@@ -1,0 +1,20 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+VERSION=@VERSION@
+gnumeric_libdir=@gnumeric_libdir@
+libgoffice=@LIBGOFFICE@
+
+Name: libspreadsheet
+Description: The spreadsheet internals of Gnumeric (DEVELOPMENT VERSION)
+Version: @VERSION@
+URL: http://www.gnumeric.org
+Requires: glib-2.0 gobject-2.0 libgsf-1 libxml-2.0 gtk+-2.0 libglade-2.0 @LIBGOFFICE@
+Requires.private: libart-2.0
+Libs: -L${libdir} -lspreadsheet-@GNUMERIC_API_VER@ @GTK_EXTRA_LIBS@
+
+# for now include both the directory and the child, until we rename the includes in svn
+Cflags: -I${includedir}/libspreadsheet-@GNUMERIC_API_VER@/spreadsheet -I${includedir}/libspreadsheet-@GNUMERIC_API_VER@ -I${gnumeric_libdir}/include
+
+PluginDir: @gnumeric_plugindir@

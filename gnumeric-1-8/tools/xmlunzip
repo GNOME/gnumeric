@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# quick and simple
+case "$1" in
+# OpenOffice 2.x
+    *.ods)  suffix=.ods ;;
+    *.odt)  suffix=.odt ;;
+    *.odp)  suffix=.odp ;;
+    *.odg)  suffix=.odg ;;
+    *.odf)  suffix=.odf ;;
+
+# OpenOffice 1.x
+    *.sxc)  suffix=.sxc ;;
+    *.stc)  suffix=.stc ;;
+    *.sxt)  suffix=.sxt ;;
+    *.sxp)  suffix=.sxp ;;
+
+# Office12
+    *.xlsx) suffix=.xlsx ;;
+    *.xlsm) suffix=.xlsm ;;
+    *.docx) suffix=.docx ;;
+    *.docm) suffix=.docm ;;
+    *.pptx) suffix=.pptx ;;
+    *.pptm) suffix=.pptm ;;
+esac
+
+dir=`basename "$1" $suffix`
+rm -rf "$dir"
+unzip -q -d "$dir" "$1"
+cd "$dir"
+IFS='
+'
+files=`find . -name \*.xml -o -name \*.rels`
+
+tmpfile=".dumper-$$.xml"
+for f in $files ; do
+    if [ -s "$f" ] ; then
+	xmllint --format "$f" > "$tmpfile"
+	mv "$tmpfile" "$f"
+    elif [ ! -f "$f" ] ; then
+	echo "MISSING '$f'"
+    fi
+done

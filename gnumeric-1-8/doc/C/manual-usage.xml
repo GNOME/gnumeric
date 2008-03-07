@@ -1,0 +1,369 @@
+<!--
+    Note: This is all in the top level to skip any chapter TOC. 
+-->
+
+  <para>
+    There are several ways to use this manual depending on what kind
+    of user you are. 
+    <itemizedlist>
+
+     <listitem>
+        <para><emphasis role="bold">New users</emphasis>
+        </para>
+        <para>
+          If you are new to computers or to spreadsheets consider
+          reading <xref linkend="chapter-quick-start" />, titled "A
+          Quick Introduction", which explains the basics of
+          spreadsheets in general and
+          &gnum; in particular.
+        </para>
+      </listitem>
+      <listitem>
+        <para><emphasis role="bold">Users who want specific help</emphasis>
+        </para>
+        <para>
+          Quickly finding help for a particular question can be quite
+          hard. We suggest first reading the explanations of the
+          contents of each chapter which are given below to try to
+          figure out where your question might be answered, and then
+          go directly to that section.
+<!-- TODO: when index is added, add the sentence below.
+	  Alternatively, the text of the manual can be searched by
+          using the index. 
+--> 
+        </para>
+      </listitem>
+    </itemizedlist>
+  </para>
+
+  <para>
+    The chapters of this version of the
+    &gnum; manual are organized as
+    follows:
+
+    <!-- Note: keep this synched up with the chapter introductions
+         presented in gnumeric.xml -->
+    <itemizedlist>
+      <listitem>
+	<para>
+	  <xref linkend="chapter-quick-start" />: 
+              <emphasis role="bold">A Quick Introduction</emphasis>
+        </para>
+        <para>
+          The best way to learn how to use
+          &gnum; is to begin exploring
+          the program yourself. This chapter will help you get started
+          trying new things and seeing what happens. The chapter
+          explains the fundamentals of spreadsheets in general and of
+          &gnum; in particular. The
+          chapter attempts to help new users get started with
+          &gnum; and provides background
+          for the more detailed explanations given in the rest of the
+          manual.
+        </para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-gui-elements" />:
+              <emphasis role="bold">Gnumeric Elements</emphasis>
+        </para>
+        <para>
+          This chapter describes all of the pieces of
+          &gnum; which a user can
+          manipulate. The chapter provides explanations for each of
+          the menus, menu entries, toolbar buttons and other elements
+          of the graphical user interface.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-data" />: 
+              <emphasis role="bold">Working with Data</emphasis>
+        </para>
+        <para>
+          This chapter explains the core functionality of
+          &gnum; including the basic
+          types of data manipulated by
+          &gnum;, the methods of
+          entering, altering and formatting data, and the basic
+          tools for analysis of these data. More advanced analysis is
+          described in <xref linkend="chapter-advanced-analysis" />.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-advanced-analysis" />: 
+              <emphasis role="bold">Advanced Analysis</emphasis>
+        </para>
+        <para>
+          This chapter explains many of the advanced analytic tools
+          available in &gnum; including
+          statistical analysis, linear algebra calculations and
+          simulation analysis.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-graphics" />: <emphasis role="bold">Graphics:
+              Plots, Images, Widgets, and Drawings</emphasis> 
+	</para> 
+	<para> 
+	  This chapter explains how to add graphical elements to a
+          &gnum; worksheet, including
+          data graphs to plot worksheet data, images from external
+          files, graphical user interface widgets which interact with
+          worksheet data, and simple drawing elements. 
+	</para> 
+      </listitem>
+
+<!--
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-worksheets" />: 
+              <emphasis role="bold">Using Worksheets</emphasis>
+        </para>
+
+        <para>
+          This chapter explains the use and manipulation of worksheets
+          in &gnum;. The chapter explains how to move around a
+          worksheet, how to alter the appearance and display organization of
+          the worksheet contents, how to manipulate entire worksheets
+          and how to protect worksheet contents.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-workbooks" />: 
+              <emphasis role="bold">Workbook Settings</emphasis>
+        </para>
+        <para>
+          This chapter explains the contents of a
+          &gnum; workbook which are not
+          part of the worksheets. This includes several settings which
+          apply to the workbook and are saved in the
+          &gnum; file. Settings which
+          apply to the &gnum; program
+          itself are called `preferences' and are explained in <xref
+          linkend="chapter-configuring" />.
+	</para>
+      </listitem>
+
+-->
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-configuring" />: 
+              <emphasis role="bold">Configuring Gnumeric</emphasis>
+        </para>
+        <para>
+          This chapter explains how to change the default behaviour of
+          &gnum; including the startup
+          behaviour and default locale (language and number display).
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-files" />: 
+              <emphasis role="bold">Working with Files</emphasis>
+        </para>
+        <para>
+          This chapter explains how to use files in &gnum;. The
+          chapter provides an extensive description of the file
+          formats used by &gnum;. The chapter also explains how to
+          open files, import data from text files, save files, export
+          data to text files, send data to others via electronic mail,
+          and convert files from one format to another.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-printing" />: 
+              <emphasis role="bold">Printing</emphasis>
+        </para>
+        <para>
+          This chapter explains how to print spreadsheets, tables and
+          plots from &gnum; to a printer
+          directly or into Postscript or PDF (both are page
+          description languages).
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-morehelp" />: 
+              <emphasis role="bold">Getting More Help</emphasis>
+        </para>
+        <para>
+          This chapter describes other sources of help which are
+          available to users including the
+          &gnum; web site, the mailing
+          list, and the internet relay chat (IRC) discussion
+          channel. The chapter also explains how to tell the project
+          about a problem with the program.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="chapter-bugs" />: 
+              <emphasis role="bold">Reporting a Problem</emphasis>
+        </para>
+        <para>
+           This chapter explains how to report a problem with
+           &gnum; so that the problem can
+           be fixed. The same procedure can be used to file a report
+           requesting an enhancement or a new feature.
+	</para>
+      </listitem>
+<!--
+      <listitem>
+	<para>
+	  <xref linkend="chapter-getting-involved" />: 
+              <emphasis role="bold">Getting Involved</emphasis>
+        </para>
+        <para>
+           This chapter explains how to get involved in the &gnum; project,
+           the GNOME project, or other free software projects.
+	</para>
+      </listitem>
+-->
+
+<!--
+      <listitem>
+	<para>
+	  <xref linkend="chapter-installing" />: 
+              <emphasis role="bold">Installing &gnum;</emphasis>
+        </para>
+        <para>
+           This chapter explains how to install &gnum; using previously
+           compiled and bundled files. 
+	</para>
+      </listitem>
+-->
+<!--
+      <listitem>
+	<para>
+	  <xref linkend="chapter-compiling" />: 
+              <emphasis role="bold">Compiling &gnum;</emphasis>
+        </para>
+        <para>
+           This chapter explains how to compiling the &gnum; source
+           code into a working program. The chapter explains how to
+           obtain the source code for the &gnum; program, how to
+           create a correct environment for compilation, and the steps
+           involved in compilation.
+	</para>
+      </listitem>
+-->
+      <listitem>
+	<para>
+	  <xref linkend="chapter-extending" />: 
+              <emphasis role="bold">Extending Gnumeric</emphasis>
+        </para>
+        <para>
+          This chapter explains how to go about extending
+          &gnum; to provide extra
+          functionality. Because &gnum;
+          is Free Software this is quite easy to do.
+	</para>
+      </listitem>
+<!--
+      <listitem>
+	<para>
+	  <xref linkend="chapter-programing" />: 
+              <emphasis role="bold">Programing &gnum;</emphasis>
+        </para>
+        <para>
+           This chapter explains how to work programing the internals
+           of &gnum;. This includes explaining the different parts of
+           the code base, the tools that can be used to help and other
+           useful information.
+	</para>
+      </listitem>
+-->
+<!--
+      <listitem>
+	<para>
+	  <xref linkend="chapter-documenting" />: 
+              <emphasis role="bold">Improve this manual</emphasis>
+        </para>
+        <para>
+           This chapter explains how to help improve this manual by
+           editing the text from which the manual is build. This
+           includes explaining the GNOME Documentation Project,
+           DocBook and other relevant information.
+	</para>
+      </listitem>
+      <listitem>
+	<para>
+	  <xref linkend="chapter-about" />: 
+              <emphasis role="bold">About Gnumeric</emphasis>
+        </para>
+        <para>
+          This chapter provides some background information on the
+          creation and distribution of
+          &gnum;.
+	</para>
+      </listitem>
+-->
+
+      <listitem>
+	<para>
+	  <xref linkend="function-reference" />: 
+              <emphasis role="bold">Function Reference</emphasis>
+        </para>
+        <para>
+          This appendix provides a list of all the functions which are
+          currently defined in &gnum;.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  <xref linkend="keybinding" />: 
+              <emphasis role="bold">Keybinding Reference</emphasis>
+        </para>
+        <para>
+          This appendix lists the keyboard shortcuts which are defined
+          by default in &gnum;.
+	</para>
+      </listitem>
+
+<!--
+      <listitem>
+	<para>
+	  <xref linkend="glossary" />: 
+              <emphasis role="bold">Glossary</emphasis>
+        </para>
+        <para>
+          This appendix defines certain terms used in this manual.
+	</para>
+      </listitem>
+-->
+
+<!--
+      <listitem>
+	<para>
+	  <xref linkend="index" />: 
+              <emphasis role="bold">Index</emphasis>
+        </para>
+        <para>
+          The index provides a link to the concepts used in this manual.
+	</para>
+      </listitem>
+-->
+
+    </itemizedlist>
+  </para>
+
+
+
+

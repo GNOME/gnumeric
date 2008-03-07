@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_fndate">
+	<information>
+		<_name>Date and Time Functions</_name>
+		<_description>Functions manipulating dates and time</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="plugin"/>
+	</loader>
+	<services>
+		<service type="function_group" id="datetime">
+			<_category>Date/Time</_category>
+			<functions>
+				<function name="date"/>
+				<function name="unix2date"/>
+				<function name="date2unix"/>
+				<function name="datevalue"/>
+				<function name="datedif"/>
+				<function name="day"/>
+				<function name="days360"/>
+				<function name="edate"/>
+				<function name="eomonth"/>
+				<function name="hour"/>
+				<function name="minute"/>
+				<function name="month"/>
+				<function name="networkdays"/>
+				<function name="now"/>
+				<function name="second"/>
+				<function name="time"/>
+				<function name="timevalue"/>
+				<function name="today"/>
+				<function name="weekday"/>
+				<function name="workday"/>
+				<function name="year"/>
+				<function name="yearfrac"/>
+				<function name="isoweeknum"/>
+				<function name="isoyear"/>
+				<function name="weeknum"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

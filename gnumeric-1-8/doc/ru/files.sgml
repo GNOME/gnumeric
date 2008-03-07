@@ -1,0 +1,151 @@
+<sect1>
+  <title>Работа с файлами</title>
+
+  <sect2>
+    <title>Сохранение файлов</title>
+
+    <para>Существует несколько способов сохранить открытый файл. Если файл
+      назван и уже существует (т.е. это не новая рабочая книга) функция "Сохранить"
+      сохранит файл с существующим именем. </para>
+
+    <para>Процедура сохранения может быть вызвана несколькими способами. Она доступна из 
+      строки меню (см. <xref linkend="menu-bar">), в пункте <guimenu>Файл</guimenu>/
+	<guimenuitem>Сохранить</guimenuitem>. Также существует кнопка <guibutton>Save</guibutton> (см. <xref linkend="buttonbar-buttons">).
+	  Все эти способы равносильны. </para>
+
+
+    <!-- FIXME is this proper? --> 
+    <important>
+      <variablelist>
+	<title>Вызов сохранения файла</title>
+      <varlistentry>
+	  <term>Строка меню</term>
+	  <listitem>
+	    <para> 
+	      <guimenu>Файл</guimenu>/
+	      <guimenuitem>Сохранить</guimenuitem>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    Строка кнопок
+	  </term>
+	  <listitem>
+	    <para>
+	    <guiicon>
+		<inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
+		Сохранить
+	      </guiicon>
+	    </para>
+	  </listitem>
+      </varlistentry>
+	<!-- FIXME this is broken, the keycombo actions seem t ge ignored -->
+	<!-- We need to maek it clear its alt and F _then_ a, and the generated html doesnt do that -->
+	<varlistentry>
+	  <term>
+	    Комбинация клавиш
+	  </term>
+	<listitem>
+	    <para>
+	      <keycombo action=seq>
+		<keycombo action=simul>
+		  <keycap>Alt</keycap><keycap>f</keycap>
+		</keycombo>
+		<keycap>s</keycap>
+	      </keycombo>
+	    </para>
+	  </listitem>
+      </varlistentry>
+      </variablelist>
+      
+    </important>
+      
+    <para>Чтобы сохранить новый файл или переименовать файл, используется функция <guimenuitem>Сохранить как...</guimenuitem>.
+     При этом у пользователя будет запрошено новое имя файла и место где его надо сохранить.
+     </para>
+    
+    <important>
+	<variablelist>
+	<title>Вызов "Сохранить как.."</title>
+	<varlistentry>
+	  <term>Строка меню</term>
+	  <listitem>
+	    <para> 
+	      <guimenu>Файл/guimenu>/
+	      <guimenuitem>Сохранить как...</guimenuitem>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    Строка кнопок
+	  </term>
+	  <listitem>
+	    <para>
+	      <guiicon>
+		<inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
+		Сохранить
+	      </guiicon>
+		  Эта кнопка вызывает <guimenuitem>Сохранить как...</guimenuitem> для новых неназванных файлов. Чтобы переименовать файл,
+		  надо использовать меню или комбинацию клавиш.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<!-- FIXME this is broken, the keycombo actions seem t ge ignored -->
+	<!-- We need to maek it clear its alt and F _then_ a, and the generated html doesnt do that -->
+	<varlistentry>
+	<term>
+	    Комбинация клавиш
+	  </term>
+	  <listitem>
+	    <para>
+	      <keycombo action=seq>
+		<keycombo action=simul>
+		  <keycap>Alt</keycap><keycap>f</keycap>
+		</keycombo>
+		<keycap>a</keycap>
+	      </keycombo>
+	  </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+      
+    </important>
+
+    </sect2>
+
+    <sect2>
+      <title>Формат файлов</title>
+      
+      <para>По умолчанию файлы сохраняются в "родном" формате Gnumeric - формате файлов xml. 
+	Это xml формат основанный на ASCII-тексте. Однако, обычно при чтении и записи
+	используется сжатие gzip. </para>
+      
+    <para>Несжатый формат имеет легко читаемый вид и создан для легкого лексического анализа.
+      Поэтому его легко расширить.</para>
+      
+  </sect2>
+
+</sect1>
+
+
+
+
+
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         

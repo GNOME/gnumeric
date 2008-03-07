@@ -1,0 +1,60 @@
+<sect1 id="sect-advanced-analysis-goalseek">
+  <title>Goal Seek Tool</title>
+
+  <para>Use Goal Seek Tool to search for a value of a single model
+  variable that yields a given desired value of another single
+  variable.  For example, you can use the Goal Seek to find the
+  break-even value for sales (the break-even is the amount of sales
+  whose marginal revenue just covers the fixed costs and the profit is
+  thus zero).</para>
+
+  <sect2 id="sect-advanced-analysis-goalseek-tool">
+    <title>Using the Tool</title>
+
+    <para>First, select the ``Goal Seek...''  tool item from ``Tools''
+    menu.  Specify the output variable cell (``Set Cell'') by typing
+    the cell reference into the entry or by clicking the worksheet
+    cell.  If you are searching for the break-even point, for example,
+    you should specify the cell reference of the profit calculation
+    here.</para>
+
+    <para>Specify the desired result for the output variable cell into
+    the ``To Value'' cell.  In the search for the break-even, specify
+    this to be zero.</para>
+
+    <para>Specify the input variable cell (``By changing cell'') by
+    typing the cell reference into the entry or by clicking the
+    worksheet cell.  In the search for the break-even, specify the
+    cell reference of the sales here.  When you have done this, you
+    may want to press the ``Apply'' button to start the tool.</para>
+
+  </sect2>
+
+  <sect2 id="sect-advanced-analysis-goalseek-results">
+    <title>Results</title>
+
+    <para>Gnumeric will systematically iterate the model by changing
+    the input value to achieve the desired result, if possible.  If
+    goal seek was successful the tool displays the message ``Goal
+    Seeking with cell __ found a solution''.</para>
+
+    <para>It is possible that Gnumeric does not find a solution that
+    generates the desired result.  There may not be such a solution
+    for the model, or, it may be too difficult to find.  For example,
+    the mathematical function behind the calculation may have many
+    non-continuous points.</para>
+
+  </sect2>
+
+  <sect2 id="sect-advanced-analysis-goalseek-range">
+    <title>Desired Value in a Given Range</title>
+
+    <para>If Gnumeric did not find a solution that generates the
+    desired result, you may want to try to specify a range (minimum
+    and maximum) in which the value of the output variable should be.
+    To do this, specify the ``Minimum'' and ``Maximum''
+    entries.</para>
+
+  </sect2>
+
+</sect1>

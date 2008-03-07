@@ -1,0 +1,332 @@
+{
+   ORBit_gconf_ping_writev_i686
+   Memcheck:Param
+   writev(vector[...])
+   fun:*
+   fun:*
+   fun:link_connection_writev
+   fun:giop_send_buffer_write
+   fun:*
+   fun:ORBit_small_invoke_stub
+   fun:ORBit_small_invoke_stub_n
+   fun:ORBit_c_stub_invoke
+   fun:ConfigServer_ping
+   fun:gconf_activate_server
+}
+
+{
+   ORBit_gconf_ping_writev_i686_sym
+   Memcheck:Param
+   writev(vector[...])
+   fun:do_writev
+   fun:write_data_T
+   fun:link_connection_writev
+   fun:giop_send_buffer_write
+   fun:orbit_small_marshal
+   fun:ORBit_small_invoke_stub
+   fun:ORBit_small_invoke_stub_n
+   fun:ORBit_c_stub_invoke
+   fun:ConfigServer_ping
+   fun:gconf_activate_server
+}
+
+{
+   ORBit_gconf_ping_writev_x64
+   Memcheck:Param
+   writev(vector[...])
+   fun:do_writev
+   fun:*
+   fun:link_connection_writev
+   fun:giop_send_buffer_write
+   fun:*
+   fun:ORBit_small_invoke_stub
+   # fun:ORBit_small_invoke_stub_n
+   # fun:ORBit_c_stub_invoke
+   fun:ConfigServer_ping
+   fun:gconf_activate_server
+}
+
+{
+   ncsd_get_map_ref_i686
+   Memcheck:Param
+   socketcall.send(msg)
+   fun:send
+   fun:__nscd_get_map_ref
+}
+
+{
+   ncsd_get_map_ref_x64
+   Memcheck:Param
+   socketcall.sendto(msg)
+   fun:send
+   fun:get_mapping
+   fun:__nscd_get_map_ref
+}
+
+{
+   glibc_fseeko
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:fseeko
+}
+
+{
+   glibc_fseeko64
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:fseeko64
+}
+
+{
+   getpwuid_r_debian_1
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:getpwuid_r
+}
+
+{
+   getpwuid_r_debian_2
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:getpwuid_r
+}
+
+{
+   dlopen_debian_1
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:dlopen   
+}
+
+{
+   dlopen_debian_2
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:dlopen   
+}
+
+{
+   dlopen_debian_3
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:dlopen
+}
+
+{
+   dlopen_debian_4
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:dlopen
+}
+
+{
+   dlopen_debian_5
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:__libc_dlopen_mode
+}
+
+{
+   dlopen_debian_6
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:__libc_dlopen_mode
+}
+
+{
+   dlopen_debian_7
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:__libc_dlopen_mode
+}
+
+{
+   dlsym_debian_1
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:_dl_sym
+}
+
+{
+   dlsym_debian_2
+   Memcheck:Addr4
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:__libc_dlsym
+}
+
+# -----------------------------------------------------------------------------
+
+{
+   Leak/g_type_register_static
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:type_data_make_W
+   fun:g_type_register_static
+}
+
+{
+   Leak/gnm_pre_parse_init/g_set_prgname
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_strdup
+   fun:g_set_prgname
+   fun:gnm_pre_parse_init
+}
+
+{
+   Leak/gtk_page_setup_copy
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:g_slice_alloc0
+   fun:*
+   fun:gtk_paper_size_new
+}
+
+{
+   Leak/font-config/FcStrCopy
+   Memcheck:Leak
+   fun:malloc
+   fun:FcStrCopy
+}
+
+{
+   Leak/font-config/XML_ParseBuffer
+   Memcheck:Leak
+   fun:malloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:XML_ParseBuffer
+}
+
+{
+   Leak/getpwuid_r_debian
+   Memcheck:Leak
+   fun:malloc
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:getpwuid_r
+}
+
+{
+   fwrite_debian
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:fwrite
+}
+
+{
+   Leak/g_type_init_debian
+   Memcheck:Leak
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:g_type_init
+}

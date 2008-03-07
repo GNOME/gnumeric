@@ -1,0 +1,7 @@
+#! /bin/sh
+# List possible misspellings
+
+cat *xml | \
+	aspell list --encoding=utf-8 --mode=sgml -l en_US -p ./Localwords | \
+	sort | uniq | \
+	aspell list --encoding=utf-8 --mode=sgml -l en_GB

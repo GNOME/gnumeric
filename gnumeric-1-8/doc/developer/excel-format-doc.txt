@@ -1,0 +1,196 @@
+Custom number formats
+
+Using number format codes, you can create your own custom number
+formats. Number format codes can have up to four sections, separated
+by semicolons. These sections define the formats for positive numbers,
+negative numbers, zero values, and text, in that order.
+
+If you include only two sections, the first one is used for positive
+numbers and zeros, and the second one is used for negative numbers. If
+you have only one section, all numbers use that format. If you skip a
+section, include the semicolon.
+
+For more information about basic number format codes, click .
+
+For more information about number format codes for dates and times,
+click .
+
+For more information about number format codes for text and spacing,
+click .
+
+For more information about other number format codes, click .
+
+------------------------------------------
+Basic number format codes
+
+· Use the General format to display numbers as integers, fractions as
+decimals, and scientific format for numbers that are too wide for the
+cell. Click Cells on the Format menu, click the Number tab, and click
+General in the Type box.
+
+· To display a specific number of digits (0's or #'s) to the right and
+left of the decimal point, include a decimal point in the number
+format. If the format contains only #'s to the left of the decimal
+point, numbers less than 1 begin with a decimal point.
+
+
+· To create placeholders for numbers, include the following format
+codes in a section. If the number has more digits to the right of the
+decimal point than there are placeholders in the format, the number is
+rounded to as many decimal places as there are placeholders. If the
+number has more digits to the left of the decimal point than there are
+placeholders in the format, the extra digits are displayed.
+
+
+· # does not display extra zeros.
+
+· 0 (zero) displays extra zeros when a number has fewer digits than
+there are zeros in the format.
+
+· ? displays extra zeros when a number has fewer digits than there are
+zeros in the format, and also adds a space for insignificant zeros on
+either side of the decimal point so that decimal points align. You can
+also use this symbol for fractions that have varying numbers of
+digits.
+
+
+To display				Use this format code
+
+1234.59 as 1234.6			####.#
+
+8.9 as 8.900				#.000
+
+12 as 12.0 and 1234.568 as 1234.57	#.0#
+
+5.25 as 5 1/4 and 5.3 as 5 3/10, with aligned division symbols	
+					# ???/???
+
+.5 as 0.5				0.##
+
+· To display a comma as a thousands separator or to scale a number by
+a multiple of a thousand, include a comma in the number format.
+
+
+
+To display		  Use this format code
+
+12000 as 12,000		  #,###
+
+12000 as 12		  #,
+
+12200000 as 12.2	  0.0,,
+
+· To set the color for a section of the format, type the name of the
+color in square brackets in the section. To display a color from the
+color palette, include [COLOR n] in a section, where n is a number
+from 0 to 56.
+
+
+[BLACK]	[BLUE]
+[CYAN]	[GREEN]
+[MAGENTA]	[RED]
+[WHITE]	[YELLOW]
+
+------------------------------
+
+Number format codes for dates and times
+
+· To display days, months, and years, include the following format
+codes in a section. If you use m immediately after the h or hh format
+code, Microsoft Excel displays the minute instead of the month.
+
+To display		   Use this format code
+Months as 1-12		   m
+Months as 01-12	           mm
+Months as Jan-Dec	   mmm
+Months as January-December mmmm
+Days as 1-31		   d
+Days as 01-31		   dd
+Days as Sun-Sat		   ddd
+Days as Sunday-Saturday	   dddd
+Years as 00-99		   yy
+Years as 1900-2078	   yyyy
+
+· To display hours, minutes, and seconds, include the following format
+codes in a section.
+
+To display	        Use this format code
+Hours as 0-23		h
+Hours as 00-23		hh
+Minutes as 0-59		m
+Minutes as 00-59	mm
+Seconds as 0-59		s
+Seconds as 00-59	ss
+Hours as 4 AM		h AM
+Time as 4:36 pm		h:mm pm
+Time as 4:36:03 p	h:mm:ss p
+Hours as 25.02		[h]:mm
+Minutes as 63:46	[mm]:ss
+
+If the format contains an AM or PM, the hour is based on the 12-hour
+clock, where AM, am, A, or a indicates times from midnight until noon,
+and PM, pm, P, or p indicates times from noon until
+midnight. Otherwise, the hour is based on the 24-hour clock. The m or
+mm must appear immediately after the h or hh format code, or Microsoft
+Excel displays the month rather than the minute. 
+
+You can also use the decimal point to create time formats that display
+fractions of a second. 
+
+To display hours greater than 24, or minutes or seconds greater than
+60, place brackets around the leftmost part of the time code. For
+example, the time code [h]:mm:ss allows the display of hours greater
+than 24.
+
+
+-----------------------------
+
+
+
+Number format codes for text and spacing
+
+·	To display characters, either enclose the characters in double
+quotation marks or precede them with a backslash. The following
+special characters do not need to be enclosed in quotation marks to be
+displayed: $ - + / ( ) : space. If you enter any of the following
+symbols, a backslash is provided for you: ! ^ & ` (left single
+quotation mark) ' (right single quotation mark) ~ { } = < >.
+
+·	To create a space the width of a character in a number format,
+include an underscore followed by the character. For example, an
+underscore followed by a closing parenthesis allows positive numbers
+to line up correctly with negative numbers that are enclosed in
+parentheses.
+
+· To include a text section in a number format, include the symbol @
+in the number format. Any text entered in the cell is formatted
+according to the section where the @ symbol appears. If the format
+does not have a text section, text you enter is not affected by the
+format.
+
+-------------------------------
+
+Other number format codes
+
+·	To display numbers as a percentage, where the number is
+multiplied by 100 and the percent sign is added, include the percent
+sign (%) in the number format.
+
+·	To display numbers in scientific format, include the following
+format codes in a section. If a format contains a 0 or # to the right
+of an E-, E+, e-, or e+, Microsoft Excel displays the number in
+scientific format and inserts an E or e. The number of 0's or #'s to
+the right determines the exponent's number of digits. E- or e- places
+a minus sign by negative exponents. E+ or e+ places a minus sign by
+negative exponents and a plus sign by positive exponents. 
+
+·	To repeat the next character in the format enough times to
+fill the column width, include an asterisk (*) in the number format. 
+
+·	To set conditional values for a section, enclose the condition
+in square brackets, where condition is <, >, =, >=, <=, or <>. You can
+set conditions for each section of a number format. For example, the
+following format displays entries greater than 1000 in blue: 
+
+[>1000][Blue]#,##
+

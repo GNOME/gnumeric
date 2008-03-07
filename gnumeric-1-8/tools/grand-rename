@@ -1,0 +1,114 @@
+#!/usr/bin/perl -w
+# -----------------------------------------------------------------------------
+
+use strict;
+
+die "$0: must be run from top-level directory.\n"
+    unless (-r "configure.in" &&
+	    -r 'ChangeLog' &&
+	    -r 'po/POTFILES.in');
+
+my $doit = ($ARGV[0] && $ARGV[0] =~ /^--doit/ && shift);
+
+my $oldname = $ARGV[0];
+my $newname = $ARGV[1];
+if (defined ($oldname) && !defined ($newname)) {
+    $newname = $oldname;
+    if ($oldname =~ /^_?[A-Z].*[a-z]/) {
+	$newname =~ s/(_*)/$1Gnm/;
+    } elsif ($oldname =~ /^[a-z0-9_]+$/) {
+	$newname =~ s/(_*)/$1gnm_/;
+    } elsif ($oldname =~ /^[A-Z0-9_]+$/) {
+	$newname =~ s/(_*)/$1GNM_/;
+    }
+}
+die "Usage $0 oldname newname\n" unless $oldname && $newname;
+die "$0: oldname and newname must be different\n" if $oldname eq $newname;
+
+my @files = &find_files ();
+
+&do_files (\@files, 1);
+if ($doit) {
+    print STDERR "Renaming $oldname to $newname\n";
+    &do_files (\@files, 0);
+}
+
+# -----------------------------------------------------------------------------
+
+sub find_files {
+    my @files = ();
+
+    my %generated =
+	('stamp.h' => 1,
+	 'gnumeric-config.h' => 1,
+	 'src/parser.c' => 1,
+	 );
+
+    local (*FIL);
+    open (*FIL, "find . '(' -name '*.[chy]' -type f -print ')' -o " .
+	  "'(' -type d '(' -name CVS -o -name intl -o -name macros ')' -prune ')' |") or
+	die "$0: Cannot run find command.\n";
+    while (<FIL>) {
+	chomp;
+	s|^\./||;
+
+	next if $generated{$_};
+
+	push @files, $_;
+    }
+    close (*FIL);
+
+    return @files;
+}
+
+# -----------------------------------------------------------------------------
+
+sub do_files {
+    my ($pfiles,$test) = @_;
+
+    foreach my $filename (@$pfiles) {
+	local (*SRC);
+	local (*DST);
+
+	# print STDERR "Scanning $filename...\n";
+	my $newfilename = "$filename.new";
+
+	open (*SRC, "<$filename") || die "$0: Cannot read $filename: $!\n";
+	if (!$test) {
+	    open (*DST, ">$newfilename") || die "$0: Cannot write $newfilename: $!\n";
+	}
+
+	my $didit = 0;
+
+	if ($test) {
+	    my $lineno = 1;
+	    foreach my $line (<SRC>) {
+		my $linecopy = $line;
+		$line =~ s/\b$oldname\b/$newname/g;
+		$line =~ s/\b$newname\b/$oldname/g;
+		if ($line ne $linecopy) {
+		    chomp ($linecopy);
+		    die "$0: Rename clash in $filename, line $lineno: $linecopy <-> $line\n";
+		}
+		$lineno++;
+	    }
+	} else {
+	    foreach my $line (<SRC>) {
+		$didit = 1 if $line =~ s/\b$oldname\b/$newname/g;
+		print DST $line;
+	    }
+	}
+	close (*SRC);
+
+	if (!$test) {
+	    close (*DST);
+	    if ($didit) {
+		rename $newfilename, $filename;
+	    } else {
+		unlink $newfilename;
+	    }
+	}
+    }
+}
+
+# -----------------------------------------------------------------------------

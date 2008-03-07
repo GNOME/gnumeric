@@ -1,0 +1,75 @@
+<sect1 id="sect-about-history">
+  <title>The History of Gnumeric</title>
+
+  <para>
+  &gnum; was created in <date>August, 1998</date> 
+  by 
+  <author>
+    <firstname>Miguel</firstname> 
+    <surname>de Icaza</surname> 
+  </author> 
+  almost a year after starting the GNOME Desktop project.  
+  
+  Historically the spreadsheet was a killer application, an application 
+  so useful it gave businesses the reason they needed to buy computers.  
+  
+  Similarly &gnum; gives people a great reason to 
+  choose GNOME.  
+  &gnum; also provided a valuable opportunity for 
+  developers to stress test various technologies needed for the GNOME Desktop. 
+
+  <!-- 
+  Background information:
+  Article on Linuxplanet.com quoted Miguel as saying Gnumeric 
+  was development was started in part to stress test the canvas widget 
+  http://linuxplanet.com/linuxplanet/reviews/3989/1/
+  -->
+
+  Miguel eventually moved on to other projects after founding software 
+  development company Ximian.  
+
+  </para>
+
+  <para>
+  <!--
+  Early days, instability, need to develop technologies as they went along
+  -->
+ 
+  </para>
+
+  <para>
+  <author><firstname>Jody</firstname> <surname>Goldberg</surname></author> 
+  became the maintainer of <applicatoin>Gnumeric</application> midway through 
+  <date>2000</date> in recognition of the work he was doing.  
+  </para>
+
+  <!--
+  This is just a start, but obviously a whole lot more needs to be written 
+  before this can be linked to from the index again.  
+  
+  Hopefully this document should in some small way inspire people to get 
+  involved rather than becoming a tedious Changelog or list of credits.   
+  
+  more things that could be added:
+  short notes on 
+    bonobo infrastucture
+    guppi framework
+
+  other milestones?
+  
+  gnome office worth mentioning?
+  short noted on the shadow cast by OpenOffice?
+  
+  -->
+  <para>
+  &gnum; reached a major milestone on 
+  <date>December 31, 2001</date> with the successful release of Version 1.0.  
+  </para>
+
+  <para>
+  Who knows what the future will bring for &gnum;.  
+  There is still more history that has not yet been written.
+  </para>
+
+</sect1>
+

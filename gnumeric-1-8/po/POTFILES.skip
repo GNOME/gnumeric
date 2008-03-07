@@ -1,0 +1,22 @@
+# List of source files to be ignored:
+#
+# These are generated:
+src/parser.c
+#
+# not used yet
+src/dialogs/pivottable.glade
+#
+# and these are no longer in use:
+plugins/gb/plugin.c
+plugins/gb/plugin.xml.in
+plugins/guile/plugin.c
+plugins/guile/plugin.xml.in
+plugins/guile/smob-value.c
+#
+# and this is a test program intended to have arbitrary content.
+src/test-harness.c
+#
+# We cannot have these as adding them breaks distcheck
+component/Gnumeric-embed.xml.in
+component/gnumeric.c
+component/plugin.xml.in

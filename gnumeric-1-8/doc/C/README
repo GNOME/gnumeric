@@ -1,0 +1,88 @@
+<!-- This is doc/C/README -->
+
+Last edited: 1 October 2004
+
+
+There are many hidden chapters that could be written.
+
+Major issues:
+------------
+Bonobo-build: haven't seen it, don't know it's status/differences.
+INDEX:
+GLOSSARY:
+
+
+
+
+TODO List:
+---------
+The TODO list can be obtained by 
+
+grep -in todo *.xml
+
+Add TODO items as self contained comments beginning at the start of the
+line. 
+
+
+
+
+Grep'able Comments:
+------------------
+
+<!-- TODO:        - These are things to be done.
+<!-- Note:        - These are reminders of structures of the document
+                    such as essentially parallel sections.
+<!-- TODO: Ask    - These are requests for clarification.
+<!-- TODO...Hack  - These are workarounds for the current yelp/gkthtml.
+
+
+
+
+
+Adding and removing files:
+-------------------------
+All files added or removed must be sync'ed with the Makefile.am's
+
+.xml files with C/Makefile.am
+figures with C/figures/Makefile.am
+
+
+
+
+
+Formatting:
+----------
+  Please keep the formatting consistent:
+    - no tabs
+    - indent is 2 spaces
+    - text of paragraph indented from <para> tag
+    - all elements indented unless the close tag fits on the same line
+
+
+
+
+File-naming:
+-----------
+  Please name files in the same chapter with the same starting element
+
+  Please name images in parallel to the current convention.
+    - Button-
+    - Dialog-
+
+
+
+Id-naming:
+---------
+  Please use tags based on text placement in hierarchy
+    - Start of tag describes what it is sect- fig- table-
+    - Inside of tag is -chaptername-section-section...
+
+
+
+Emacs:
+-----
+  Please do not append emacs tags at the end of files
+
+
+Thanks.
+

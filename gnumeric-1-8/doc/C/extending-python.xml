@@ -1,0 +1,1228 @@
+<sect1 id="sect-extending-python">
+  <title>Programming Gnumeric using Python</title>
+
+  <para>
+    A powerful way to access and manipulate data in
+    &gnum; involves using the Python
+    programming language. As &gnum;
+    develops from version 1.2, the scripting methods will become
+    increasingly powerful. Since &gnum;
+    is free software, you could extend it directly using the source
+    code and adding C language functions to the code. Python offers a
+    higher level abstraction through which to interact with the
+    spreadsheet.
+  </para>
+
+  <para>
+    Python and &gnum; can be used in
+    several ways. This section will describe how to obtain
+    &gnum;, install it and get things
+    configured correctly for access with Python. If you already have
+    the pieces in place, you can skip the section <xref
+    linkend="sect-extending-python-install"/>.
+  </para>
+
+
+  <para>
+    This section was written by Charles Twardy. It owes a great deal
+    to the nice guide Travis Whitton wrote: <ulink type="http"
+    url="http://grub.ath.cx/gnumeric-python/">Python/Gnumeric guide
+    for the old API in Gnumeric 1.0.</ulink> Jon K&#228;re Hellan
+    contributed most of the code to enable Python in
+    &gnum; and wrote the file
+    <literal>python-gnumeric.txt</literal> in the source
+    tree. Nathan Hurst provided the idea and support.
+  </para>
+
+  <warning>
+    <para>
+      The Python API, that is the list of methods available in Python,
+      is still experimental and may change!
+    </para>
+  </warning>
+
+  <para>
+    For further information, the web page maintained by Jon K&#228;re
+    Hellan's has some python plugins and other useful
+    information. That page can be found through <ulink type="http"
+    url="http://domen.uninett.no/~jk/gnumeric/">this link</ulink>. The
+    main <ulink type="http"
+    url="http://www.gnome.org/projects/gnumeric/">Gnumeric
+    page</ulink> may also have useful information.
+  </para>
+
+  <para>
+    If you need help online, you may want to check out:
+
+      <itemizedlist>
+
+        <listitem>
+          <para>
+            The Gnumeric Function-Writer's Guide. Until I write one
+            for Python, you'll have to settle for
+            <literal>doc/developer/writing-functions.sgml</literal> in
+            the Gnumeric source tree.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            The files that actually define the Python interface. In
+            particular,
+            <literal>plugins/python-loader/py-gnumeric.c</literal> has
+            good comments at the beginning.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            The instructions on how to use GNOME CVS can be found <ulink
+            url="http://developer.gnome.org/tools/cvs.html">here</ulink>.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            The gnumeric discussion list:
+            <literal>&lt;gnumeric-list@gnome.org&gt;</literal>
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            The IRC channel #gnumeric on the GIMPnet server.  Right
+            now, the project leader is Jody Goldberg (jody) and the
+            Debianizer is: J.H.M. Dassen (jhm). Jody, Jon K. Hellan,
+            and Zbigniew Chyla appear prominently in the Python
+            ChangeLog.
+          </para>
+        </listitem>
+
+      </itemizedlist>
+
+  </para>
+  
+  <sect2 id="sect-extending-python-install">
+    <title>Installing and Building Gnumeric for Python</title>
+
+    <para>
+      This section describes how to obtain the
+      &gnum; source code, configure it
+      for Python and build it. This section will eventually be
+      removed as Python becomes supported by default.
+    </para>
+
+  <sect3 id="sect-extending-python-install-prelim">
+    <title>Preliminaries</title>
+	
+    <para>
+      I'm going to define some variables here so that you can insert
+      the appropriate command or item for your system when they
+      occur. I'll prefix them all with '$'.
+    </para>
+	
+    <itemizedlist>
+
+      <listitem>
+        <para>
+        <emphasis>$root</emphasis>: Do whatever you do to become
+        root. The usual options are:
+
+        <itemizedlist>
+
+          <listitem>
+            <para>
+              <literal>su -</literal> and hit <keycap>Enter</keycap>
+            </para>
+          </listitem>
+
+          <listitem>
+            <para>
+            <literal>sudo</literal>
+            </para>
+          </listitem>
+
+          <listitem>
+            <para>
+            <literal>fakeroot</literal> (works in some situations, but
+            not all)
+            </para>
+          </listitem>
+
+        </itemizedlist>
+        </para>
+      </listitem>
+		
+       <listitem>
+         <para>
+           <emphasis>$version</emphasis>: Whatever your current
+           Gnumeric version is. Some examples:
+
+           <itemizedlist>
+             <listitem><para>1.4.20</para></listitem>
+             <listitem><para>1.6.20</para></listitem>
+             <listitem><para>1.7.90</para></listitem>
+           </itemizedlist>
+         </para>
+       </listitem>
+     </itemizedlist>
+	
+  </sect3>
+  
+  <sect3 id="sect-extending-python-install-build">
+    <title>In the Beginning (Installing and Building)</title>
+
+    <para>
+      You need to get Python and Gnumeric, and the Python plugin for
+      Gnumeric. You can get the binaries, the packaged source, or the
+      developing edge CVS.
+    </para>
+	
+    <sect4 id="sect-extending-python-install-binaries">
+      <title>Getting the binaries (Debian)</title>
+
+      <para>
+        I've only tested this on sid (unstable). The version you get
+        from stable (woody) may not act quite the same.
+      </para>
+
+      <procedure>
+        <step>
+          <para>
+            <emphasis>$root</emphasis> <literal>apt-get install
+            gnumeric gnumeric-python python</literal>
+          </para>
+        </step>
+      </procedure>
+    </sect4>
+
+    <sect4 id="sect-extending-python-install-debsource">
+      <title>
+        Getting and building the current Debianized source
+      </title>
+
+      <para>
+        If you have Debian, and don't need the bleeding edge, this is
+        <emphasis>by far</emphasis> the easiest way to get and build
+        the source.
+      </para>
+
+      <procedure>
+
+          <step>
+            <para>
+              Change to a directory where you want to hang the source
+              directory.
+            </para>
+          </step>
+
+          <step>
+            <para>
+              <emphasis>$root</emphasis> <literal>apt-get build-dep
+			  gnumeric</literal>
+            </para>
+          </step>
+
+          <step>
+            <para>
+              <literal>apt-get source gnumeric</literal>
+            </para>
+          </step>
+
+          <step>
+            <para>
+              <literal>cd gnumeric-</literal><emphasis>$version</emphasis>
+            </para>
+          </step>
+
+          <step>
+            <para>
+              <literal>debian/rules build</literal>
+            </para>
+          </step>
+
+          <step>
+            <para>
+              To make the .deb packages: <emphasis>$root</emphasis>
+            <literal>./debian/rules binary</literal>
+            </para>
+          </step>
+
+          <step>
+            <para>
+              To install those .deb packages:
+            </para>
+            <procedure>
+
+              <step>
+                <para>
+                  <literal>cd ..</literal> to change to that directory.
+                </para>
+              </step>
+
+              <step>
+                <para>
+                  <emphasis>$root</emphasis> <literal>dpkg -i
+                  gnum*deb</literal> (presuming you don't have other
+                  .deb packages beginning with "gnum" lying around
+                  here.
+                </para>
+              </step>
+
+            </procedure>
+          </step>
+
+          <step>
+            <para>
+              You may or may not want to remove those .deb files now:
+              <emphasis>$root</emphasis> <literal>rm
+              gnum*deb</literal>)
+            </para>
+           </step>
+       </procedure>
+     </sect4>
+
+    <sect4 id="sect-extending-python-install-cvs">
+      <title>Getting and building the source from CVS-HEAD</title>
+	  
+      <para>
+        Remember that this is the developing edge. Things may not
+        work. Generally don't do this unless you are subscribed to the
+        mail list and possibly also on the IRC channel.
+      </para>
+  
+      <para>
+        You will need a few things for this to work at all:
+      </para>
+
+      <procedure>
+
+           <step><para>gnome-common</para></step>
+
+           <step><para>libgsf (see below)</para></step>
+
+           <step>
+             <para>
+               pygtk2 (On Debian, make sure to get python-gtk2 and
+               python-gtk2-dev)
+             </para>
+           </step>
+
+           <step><para>gnumeric (see below, obviously)</para></step>
+
+      </procedure>
+
+      <para>
+        And although the following will build in the main build space,
+        it's probably better to build in a temporary space. But I
+        can't be bothered to learn how to fiddle the build pathways.
+      </para>
+	  
+      <procedure>
+          <step>
+            <para>
+              Change to a directory where you want to hang the source
+              directory for Gnumeric and a few other GNOME things.
+            </para>
+          </step>
+
+          <step>
+            <para>
+              <literal>export
+              CVSROOT=:pserver:anonymous@anoncvs.gnome.org:/cvs/gnome</literal>
+            </para>
+          </step>
+
+          <step>
+            <para>
+              <literal>cvs login</literal> (No password -- hit
+              RETURN.)
+            </para>
+          </step>
+
+          <step>
+            <para>
+              Getting and building libgsf:
+            </para>
+
+            <procedure>
+
+              <step>
+                <para>
+                  cvs co libgsf
+                </para>
+              </step>
+
+              <step>
+                <para>
+                  cd libgsf
+                </para>
+              </step>
+
+              <step>
+                <para>
+                  Red Hat: <literal>./autogen.sh</literal>
+                </para>
+              </step>
+
+              <step>
+                <para>
+                  Debian: <literal>./autogen.sh --prefix=/usr
+                --with-gconf-schema-file-dir=/etc/gconf/schemas</literal>
+                </para>
+              </step>
+
+              <step>
+                <para>
+                  <literal>make</literal>
+                </para>
+              </step>
+
+              <step>
+                <para>
+                  <emphasis>$root</emphasis> <literal>make install</literal>
+                </para>
+              </step>
+
+              <step>
+                <para>
+                  If you find that this didn't work, try <literal>make
+                  clean</literal> and then repeat from the autogen
+                  step.
+                </para>
+              </step>
+            </procedure>
+
+          </step>
+
+          <step>
+             <para>
+               Getting and building libgal <emphasis
+               role="bold">No longer necessary! (13 June
+               2003)</emphasis>
+             </para>
+	  </step>
+
+	  <step>
+            <para>
+              Getting and building gnumeric:
+            </para>
+		  <procedure>
+			<step><para><literal>cvs -z3 checkout gnumeric -d
+				gnumeric-head</literal></para></step>
+			<step><para><literal>cd gnumeric-head</literal></para></step>
+			<step><para>Red Hat: <literal>./autogen.sh</literal> and wait while it
+			  compiles</para></step>
+			<step><para>Debian: <literal>./autogen.sh --prefix=/usr --with-gconf-schema-file-dir=/etc/gconf/schemas</literal></para></step>
+			<step><para><literal>make</literal></para></step>
+			<step><para><emphasis role="bold">Optional:</emphasis> <emphasis>$root</emphasis> <literal>make install</literal></para></step>
+			<step><para>If you find that this didn't work, try <literal>make clean</literal> and
+			  then repeat from the autogen step. For example,
+			  sometimes I've had it not create the python-loader.</para></step>
+		  </procedure>
+	   </step>
+
+	  </procedure>
+
+	<para>
+          OK, you should now have gnumeric! Test it! If you installed
+          the Debianized version via apt-get, or did "make install",
+          it should be installed to /usr/bin (or /usr/local/bin on
+          Red Hat?)  and you can just type
+          <literal>gnumeric</literal>. Otherwise you will find it in
+          <literal>gnumeric-head/src/</literal> and you will have to
+          run it from there. 
+        </para>
+
+    </sect4>
+
+  </sect3>
+
+  </sect2>
+
+
+  <sect2 id="sect-extending-python-console">
+    <title>The Python Console</title>
+
+    <para>
+      There is an interactive Python console available from inside
+      Gnumeric. This is a good place to explore things, and if the
+      console is expanded, will be a nice place for scripting. In the
+      meantime, what I have called "Spellbooks" below are much more
+      useful, but are fixed plugins as of Gnumeric startup. So right
+      now I putter in the console as I develop plugin literal in the
+      form of spellbooks. After 1.2.0, Gnumeric will be working on its
+      scripting API, so the two approaches may merge. Or not.
+    </para>
+
+    <sect3 id="sect-extending-python-console-enabling">
+      <title>Enabling the Python Console</title>
+
+      <para>
+        You can run a Python interpreter from inside Gnumeric, but you
+        have to turn it on. To do this you simply uncomment a line in
+        python-loader/plugins.xml. Normally, that file lives in
+        /usr/lib/gnumeric/<emphasis>$version</emphasis>/plugins/python-loader/,
+        or perhaps <emphasis>/usr/local/lib...</emphasis> on Red Hat.
+        I used to suggest making a local but you should probably make
+        a local copy, but that was pain for little gain. So:
+      </para>
+
+        <procedure>
+
+	  <step>
+            <para>
+              <literal>gnumeric --version</literal> to make sure you
+              get the right version name for the following. (You'll
+              have to do this for every new version of Gnumeric!).
+            </para>
+          </step>
+
+	  <step>
+            <para>
+              <literal>cd ~/.gnumeric/</literal>
+                <emphasis>$version</emphasis>
+                 <literal>/plugins/</literal>
+            </para>
+          </step>
+
+	  <step>
+            <para>
+              Edit <literal>python-loader/plugin.xml</literal>.
+            </para>
+          </step>
+
+	  <step>
+           <para>
+               Uncomment the five lines starting with
+               <literal>ui-console-menu service</literal> near the
+               bottom (remove the "&lt;!--" and "--&gt;" tags around
+               the &lt;service...&gt; and &lt;/service&gt; tags.
+            </para>
+          </step>
+
+	  <step>
+            <para>
+              Save the file.
+            </para>
+          </step>
+
+	  <step>
+            <para>
+              Start gnumeric (same version).
+            </para>
+          </step>
+
+	  <step>
+            <para>
+              Select from the <guimenu>Tools</guimenu> the <guimenuitem>Python
+              console</guimenuitem>.
+            </para>
+          </step>
+
+          <step>
+            <para>
+              <emphasis>Enjoy!</emphasis>
+            </para>
+          </step>
+
+        </procedure>
+
+    </sect3>
+
+    <sect3 id="sect-extending-python-console-playing">
+      <title>Playing with the Python console</title>
+
+      <para>
+        At the top there is a drop-down menu <guimenu>Execute
+        in</guimenu>. Right now your only choice will be
+        <guimenuitem>Default</guimenuitem>. After you evaluate functions
+        from other plugins, those environments will become available
+        too (JK says this is called lazy loading). But I'll assume you
+        are using Default. (The only real difference is that you have
+        to import Gnumeric first, and you can't see your plugin
+        functions.)
+      </para>
+  
+      <para>
+        (Note: older releases required you to type <literal>print
+        dir()</literal> instead of just
+        <literal>dir()</literal>. Fixed in cvs 16 June 2003, and
+        certainly in 1.1.20 and higher.
+      </para>
+  
+      <para>
+        Let's start by taking a look at the environment.
+      </para>
+
+      <programlisting>
+>>> import <co id="gnumeric"></co>Gnumeric
+>>> dir()
+['Gnumeric', '__builtins__', '__doc__', '__name__']
+>>> dir(Gnumeric)
+['Boolean', 'CellPos', 'FALSE', 'GnumericError', 'GnumericErrorDIV0',
+'GnumericErrorNA', 'GnumericErrorNAME', 'GnumericErrorNULL',
+'GnumericErrorNUM', 'GnumericErrorRECALC', 'GnumericErrorREF',
+'GnumericErrorVALUE', 'MStyle', 'Range', 'TRUE', '__doc__',
+'__name__', <co id="functions"></co>'functions', 'plugin_info', 'workbook_new', 'workbooks'] 
+
+      </programlisting>
+
+      <calloutlist>
+      <callout arearefs="gnumeric">
+        <para>
+          'Gnumeric' is a module that exists only within Gnumeric, and
+          which defines the Gnumeric Python API.
+        </para>
+      </callout>
+
+      <callout arearefs="functions">
+        <para>
+          Gnumeric.functions is the list of all the Gnumeric functions
+          you would see in the function browser. You cannot yet do
+          <literal>dir(Gnumeric.functions)</literal> but maybe someone
+          will bind that soon.
+        </para>
+
+        <para>
+          RangeRef is not listed. That seems to limit us, though later
+          in the tutorial we'll see how to use regular functions to
+          get inside RangeRefs.
+        </para>
+
+      </callout>
+      </calloutlist>
+
+      <para>
+        So do some exploring. First, let's poke around to figure out
+        how to use CellPos.
+      </para>
+
+      <programlisting>
+# I wonder how to use CellPos (I've glanced at the source, but...)
+
+>>> dir(Gnumeric.CellPos)                 # shows nothing useful
+
+>>> Gnumeric.CellPos()                    
+TypeError: CellPos() takes exactly 2 arguments (0 given)  
+
+>>> Gnumeric.CellPos("a1","a2") 
+TypeError: an integer is required.        # Right. 
+
+>>> a=Gnumeric.CellPos(1,2)               # It worked!
+>>> a
+&lt;CellPos object at 0x106b6eb8&gt;      # Yeah, I know...
+
+>>> dir(a)
+['get_tuple']
+
+>>> a.get_tuple()
+(1,2)                                     # Cool. That's (col,row)
+
+>>> str(a)                                # Super cool.
+'B3'                                      # JK hasn't implemented this for tuples yet
+       </programlisting>
+
+
+       <para>
+         Similarly, we can explore Gnumeric.Range:
+       </para>
+	  
+       <programlisting>
+>>> r = Gnumeric.Range((1,2),(3,4))
+TypeError: Range() argument 1 must be CellPos, not tuple
+
+>>> r = Gnumeric.Range(a,a)
+>>> r
+&lt;Range object at 0x1071d888&gt;
+
+>>> dir(r)
+['get_tuple']
+
+>>> r.get_tuple()
+(3, 7, 3, 7)
+	  </programlisting>
+
+	  <para>If you
+		evaluate in the context of a plugin (rather than in Default), then
+		<literal>dir(Gnumeric.plugin_info)</literal> will reveal some simple
+		informational functions you can call for the local plugin(s).</para>
+	  
+	  <para>Note: obviously I don't really know what I'm doing, or I wouldn't
+		be poking around like this.</para>
+
+	</sect3>
+
+	<sect3 id="sect-extending-python-console-morefun">
+	  <title>More fun with the Python console</title>
+
+	 <para>Jon K. Hellan writes, "Here are some more things you can do
+	  from the console:"</para>
+	  <programlisting>
+# Get a workbook
+>>> wb=Gnumeric.workbooks()[0]
+>>> wb
+&lt;Workbook object at 0x862a490&gt;
+>>> dir(wb)
+>>> ['gui_add', 'sheet_add', 'sheets']
+
+# Get a sheet
+>>> s=wb.sheets()[0]
+>>> s
+&lt;Sheet object at 0x863e8d0&gt;
+>>> dir(s)
+['cell_fetch', 'get_extent', 'get_name_unquoted', 'rename',
+'style_apply_range', 'style_get', 'style_set_pos', 'style_set_range']
+
+# Get a cell. s.cell_fetch(0,0) and s[0,0] are synonyms. First
+# coordinate is columns, i.e. s[1,0] is B1.
+>>> c=s[0,0]
+>>> c
+&lt;Cell object at 0x863d810&gt;
+>>> dir(c)
+['get_entered_text', 'get_mstyle', 'get_rendered_text', 'get_value',
+'get_value_as_string', 'set_text']
+
+# Change the cell - it changes in the grid
+>>> c.set_text('foo')
+
+# Retrieve the cell - both ways.
+>>> c.get_value()
+foo
+>>> s.cell_fetch(0,0).get_value()
+foo
+</programlisting>
+
+	  <para>Very, very nice.  Note, after setting a value, it won't show up
+		until that cell is redrawn. That will happen automatically with plugin
+		functions, but in the console, you may have to click on the cell.
+	  </para>
+
+	</sect3>
+  </sect2>
+
+  <sect2 id="sect-extending-python-builtins">
+    <title>Using the built-in Python functions</title>
+	
+    <para>
+      To enable the Python-loader and Python plugins:
+    </para>
+
+    <procedure>
+
+       <step>
+         <para>
+           Select the <guimenu>Tools</guimenu> menu and the
+           <guimenuitem>Plugins</guimenuitem> menuitem.
+         </para>
+       </step>
+
+       <step>
+         <para>
+           Select "Python plugin loader" and "Python
+           functions". Restart Gnumeric.
+         </para>
+       </step>
+
+     </procedure>
+
+	<para>The quickest way to test whether you now have Python functions
+	  is to type <literal>=py_capwords("fred flintstone")</literal> in the
+	  first cell. After you hit &lt;Enter&gt;, you should see "Fred
+	  Flintstone".</para>
+
+	<para>You can also click on the functions button, and scroll down to
+	  the "Python" category. Select that. You should see at
+	  least two functions defined: PY_CAPWORDS and PY_PRINTF. They're
+	  not very useful, but they prove you've got the plugins. Test
+	  them either via the GUI or by typing into the cell.</para>
+
+	<para>I'll presume they worked.</para>
+  </sect2>
+
+  <sect2 id="sect-extending-python-writing">
+	<title>Writing your own Python functions</title>
+
+	<para>To scribe new magic you must write your spells in places where
+	  Gnumeric will find them. That place is in folders under:
+	  <literal>~/.gnumeric/&lt;version&gt;/plugins/</literal>
+	  Each folder under here is one "spellbook" of new plugin
+	  functions. You may put all your spells in one spellbook, or group
+	  them neatly depending on your tastes. Each spellbook must have two
+	  files. We'll create a spellbook called "myfuncs". A pedestrian name
+	  for pedestrian spells. When I have more skill, perhaps I'll make
+	  some with better names. Several suggest themselves:
+	  <itemizedlist>
+		<listitem><para>Transformations: of obvious value for a spreadsheet</para></listitem>
+		<listitem><para>Illusions: statistical functions, clearly</para></listitem>
+		<listitem><para>Charms: presentation graphics</para></listitem>
+		<listitem><para>Necromancy: file repair and missing values?</para></listitem>
+		<listitem><para>Divination: data mining!</para></listitem>
+	  </itemizedlist>
+	</para>
+
+	<sect3 id="sect-extending-python-writing-prepare">
+	  <title>Prepare the spellbook</title>
+
+	<para>In many ways it would be easier to start by copying the
+	  py_func spellbook to your local .gnumeric folder, and just adding a
+	  function to that. But in general it will be more useful to be
+	  able to write your own separate spellbooks, so here we go.</para>
+
+	  <procedure>
+		<step>
+		  <para>
+			<emphasis role="bold">Make the folder: </emphasis>
+			First we make the folders and get into the right one. As noted
+			above, we'll call our folder (spellbook) myfuncs.
+		  </para>
+		  <substeps>
+			<step><para>If they don't already exist:</para>
+			  <substeps>
+				<step><para><literal>mkdir ~/.gnumeric</literal></para></step>
+				<step><para><literal>mkdir ~/.gnumeric/&lt;version&gt;</literal></para></step>
+			  </substeps>
+			</step>
+			<step><para><literal>mkdir ~/.gnumeric/&lt;version&gt;/plugins/myfuncs/</literal></para></step>
+			<step><para><literal>cd ~/.gnumeric/&lt;version&gt;/plugins/myfuncs/</literal></para></step>
+		  </substeps>
+		</step>
+
+		<step>
+		  <para>
+			<emphasis role="bold">Make the files:</emphasis>
+			A spellbook has two files. The first is the python file
+			with the functions. The second is the XML file "plugin.xml". The
+			XML file holds that master spells that tell Gnumeric what
+			functions we've defined, and what the name of the python file
+			<emphasis>is</emphasis>, and one other important item. We'll create these as
+			blank files.
+		  </para>
+		  <substeps>
+			<step><para><literal>touch my-func.py</literal></para></step>
+			<step><para><literal>touch plugin.xml</literal></para></step>
+		  </substeps>
+		</step>
+
+		<step>
+		  <para>
+			<emphasis role="bold">Write the master spells</emphasis>
+			The good news is that you only need to do this once per
+			spellbook. After that you just add spells to it.
+		  </para>
+		  <para>Your XML file must tell Gnumeric about your plugin. Here is a
+			simple template. (If you want to learn about internationalization,
+			see the example in the system's py-func spellbook.) Open up
+			plugin.xml and insert the following lines:
+		  </para>
+
+		  <programlisting>
+&lt;?xml version="1.0"?&gt;
+&lt;plugin id="Gnumeric_MyFuncPlugin"&gt;
+	&lt;information&gt;
+		&lt;name&gt;Other Python functions from HOWTO&lt;/name&gt;
+		&lt;description&gt;A few extra python functions demonstrating the API.&lt;/description&gt;
+	&lt;/information&gt;
+	&lt;loader type="Gnumeric_PythonLoader:python"&gt;
+		&lt;attribute name="module_name" value="<emphasis
+			  role="bold">my-func</emphasis>"/&gt; <co id="my-func"></co>
+	&lt;/loader&gt;
+	&lt;services&gt;
+		&lt;service type="function_group" id="<emphasis
+				role="bold">example</emphasis>"&gt; <co id="example"></co>
+			&lt;category&gt;Local Python&lt;/category&gt;
+			&lt;functions&gt;
+			&lt;/functions&gt;
+		&lt;/service&gt;
+	&lt;/services&gt;
+&lt;/plugin&gt;
+		  </programlisting>
+
+                  <calloutlist>
+		  <callout arearefs="my-func">
+			<para>
+			  The value of "name" determines the name of your python
+			  script (file). In this case, it must be "my-func.py"
+			</para>
+		  </callout>
+
+		  <callout arearefs="example">
+			<para>
+			  The value of "id" here determines the name of the
+			  function dictionary in your python script. In this case,
+			  it must be "example_functions" because here the value is
+			  "example".
+			</para>
+		  </callout>
+                  </calloutlist>
+		</step>
+
+		<step>
+		  <para>
+			<emphasis role="bold">Prepare to write the
+			spells:</emphasis> Next we'll create a minimal python
+			file. As noted above, we must name the file
+			<emphasis
+			role="bold">my-func</emphasis>.py and it must have a dictionary
+			called <emphasis role="bold">example</emphasis>_functions.
+			So open up my-func.py and insert the following lines.
+		  </para>
+		  <programlisting>
+# my-func.py
+#
+
+from Gnumeric import GnumericError, GnumericErrorVALUE
+import Gnumeric
+import string
+	
+example_functions = {
+}
+		  </programlisting>
+		</step>
+	  </procedure>
+	</sect3>
+
+	<sect3 id="sect-extending-python-writing-newspells">
+	  <title>Writing new spells</title>
+
+	  <para>To add new functions to Python, you now must do five things
+		(three sir!):</para>
+
+	  <procedure>
+		<step><para>Write the python function in your copy of
+		  <literal>my-func.py</literal>.</para></step>
+	  
+		<step><para>Insert the function info into the <literal>example_functions</literal>
+		  dictionary at the end of <literal>my_func.py</literal></para></step>
+	  
+		<step><para>Insert the function name into the functions list at the end of
+		  <literal>plugin.xml</literal>.</para></step>
+	  </procedure>
+	
+	
+	  <para>
+		<emphasis role="bold">Writing a simple script:</emphasis>
+		Let's do something very simple: add two numbers
+		together. First, edit my-func.py.</para>
+	  <programlisting>
+	<emphasis># Add two numbers together</emphasis>
+    def func_add(num1, num2):
+        return num1 + num2
+
+    <emphasis># Translate the func_add python function to a gnumeric function and register it</emphasis>
+    example_functions = {
+        'py_add': func_add
+    }
+	  </programlisting>
+
+	<para>Then let the plugin-loader(?) know about your function. Add the
+	following line near the end of plugin.xml (between
+	  &lt;functions&gt; and &lt;/functions&gt;).</para>
+	<programlisting>
+                 &lt;function name="py_add"/&gt;
+	</programlisting>
+
+	<para>Now start Gnumeric and type <literal>py_add(2,3)</literal> into a
+	  cell. You should get "5". You can also use cell references. If
+	  that was in cell A1, go to cell A2 and type
+	  <literal>py_add(A1,3)</literal> and you will get "8".  But your
+	  function won't show up in the GUI list yet.</para>
+
+	<para>
+		<emphasis role="bold">Tell the GUI:</emphasis>
+		To make your function show up in the GUI, you have to tell
+		Gnumeric some things about it via a standard header, like
+		this:</para>
+	  <programlisting>
+	<emphasis># Add two numbers together</emphasis>
+	def func_add(num1, num2):
+        '@FUNCTION=PY_ADD\n'\
+        '@SYNTAX=py_add(num1, num2)\n'\
+        '@DESCRIPTION=Adds two numbers together.\n'\
+        'Look, the description can go onto other lines.\n\n'\
+        '@EXAMPLES=To add two constants, just type them in: py_add(2,3)\n'\
+        'To add two cells, use the cell addresses: py_add(A1,A2)\n\n'\
+        '@SEEALSO='
+
+        return num1 + num2
+	  </programlisting>
+
+	  <para>The text after '@DESCRIPTION=' is the description that shows up
+		in the function GUI. You can make it as simple or detailed as you
+		want. I'm not sure how many other fields get used right now, as I
+		haven't seen the EXAMPLES show up anywhere.</para>
+	  
+	  <para>But this still isn't quite right. Gnumeric doesn't know how
+		many arguments the function can handle, nor of what type. So the
+		function GUI will prompt for the two values it knows about (as
+		type "Any") and then keep prompting for more. But py_add cannot
+		accept all types, nor can it handle more than two arguments, so
+		unless you give it precisely 2 numbers, you will get an error when
+		you click "OK".</para>
+	  
+	  <para>
+		<emphasis role="bold">Know your limits...</emphasis>
+		We got away last time just because Gnumeric was forgiving. Now
+		we need to say that we can accept only 2 values, of type
+		floating-point (which will also handle ints).</para>
+	  
+	  <para>Where before we had: <literal>'py_add': func_add</literal>, 
+		we should now put: <literal>'py_add': ('ff','num1,num2',func_add)</literal>
+		This says that Gnumeric should expect two floating-point numbers
+		('ff') with names 'num1' and 'num2', and pass them to func_add.</para>
+	  
+	  <para>
+		<emphasis role="bold">...and surpass them</emphasis>
+		Of course, there is no reason an add function shouldn't be able
+		to handle a range. The simplest way to do that is to accept a
+		range, and then call Gnumeric's own SUM function on it! All of
+		Gnumeric's functions are available to you in the dictionary
+		Gnumeric.functions, keyed by name. So here is how to write py_sum.
+	  </para>
+
+	<procedure>
+	  <step>
+		  <para>First, define func_sum (in my-func.py):</para>
+		  
+		  <programlisting>
+def func_sum(gRange):
+	'@FUNCTION=PY_SUM\n'\
+	'@SYNTAX=PY_SUM(range)\n'\
+	'@DESCRIPTION=Adds a range of numbers together.'\
+	'Just like built-in SUM.\n\n'\
+	'@EXAMPLES=To add values in A1 to A5, just type them in:\n'\
+	'    py_sum(a1:a5)\n'\
+	'@SEEALSO='
+	try:
+		sum = Gnumeric.functions['sum']
+		val = sum(gRange)
+		#  val = reduce(lambda a,b: a+b, vals)
+	except TypeError:
+		raise GnumericError, GnumericErrorVALUE
+	else:
+		return val
+		  </programlisting>
+		</step>
+
+		<step><para>Then insert it into your functions dictionary. That
+		dictionary now looks like this (with 'r' denoting a range type):</para>
+
+		  <programlisting>
+example_functions = {
+	'py_add': ('ff','num1,num2',func_add),
+	'py_sum': ('r', 'values', func_sum)
+}
+		  </programlisting>
+		</step>
+
+		<step><para>Finally, make an entry in the XML list, so that it now looks
+		  like:</para>
+		  <programlisting>
+			&lt;functions&gt;
+				&lt;function name="py_add"/&gt;
+				&lt;function name="py_sum"/&gt;
+			&lt;/functions&gt;
+		  </programlisting>
+		</step>
+	  </procedure>
+
+	  <para>I told you this was the easy way to do it. Obviously it's not
+		very useful to just duplicate Gnumeric functions. But that's as
+		far as I've made it. From what can tell, range objects are
+		packaged as opaque pointers of type RangeRefObject. There seems
+		to be no way to work with them from within Python, so we must
+		rely on the Gnumeric functions.</para>
+
+	</sect3>
+
+	<sect3 id="sect-extending-python-writing-newspells2">
+	  <title>Do it yourself (mostly)</title>
+
+    <para>All is not lost, despite the opaque pointers. For in Gnumeric
+    we can read about all the functions that have been defined. Some
+    of those take references (including RangeRefs) and return useful
+    information. For example, under "Lookup" we find "Column" and
+    "Row" which return arrays of all the column (or row) indices in
+    the range. So we can redo the sum function.</para>
+
+    <para>Presume we can convert our RangeRef to a start tuple and and
+    end tuple. Then we can write sum2:
+		<programlisting>
+def func_sum2(gRange):
+	'@FUNCTION=PY_SUM2\n'\
+	'@SYNTAX=PY_SUM2(range)\n'\
+	'@DESCRIPTION=Adds a range of numbers together,'\
+	'without calling built-in SUM.\n\n'\
+	'@EXAMPLES=To add values in A1 to A5, just type them in:\n'\
+	'    py_sum(a1:a5)\n'\
+	'@SEEALSO='
+	try:
+		[r_begin, r_end] = range_ref_to_tuples(gRange)
+		wb=Gnumeric.Workbooks()[0]   # Careful! This is WRONG! It doesn't
+		s=wb.sheets()[0]             # use the ACTUAL workbook or sheet.
+
+		val = 0
+		for col in range(r_begin[0], r_end[0]):
+			for row in range(r_begin[1], r_end[1]):
+				cell = s[col, row]
+				val = val + cell.get_value()
+				# Note: this doesn't skip blank cells etc.
+
+	except TypeError:
+		raise GnumericError,GnumericErrorVALUE
+	else:
+		return val
+		</programlisting>
+	  </para>
+
+    <para>That's fine as far as it goes, but we need to define the helper
+    function "range_ref_to_tuples". Although I'm rather ashamed to
+    show this ugly literal, here's how I did it (someone suggest a
+    better way, please!):
+		<programlisting>
+def range_ref_to_tuples(range_ref):
+	'''I need a function to find the bounds of a RangeRef. This one
+	extracts them from the Gnumeric "column" and "row" commands, and
+	returns them as a pair of tuples. Surely there is a better way?
+	For example, return a list of cells??'''
+
+	col  = Gnumeric.functions['column']   
+	row  = Gnumeric.functions['row']
+
+	# "column" and "row" take references and return an array of col or row
+	# nums for each cell in the reference. For example, [[1, 1, 1], [2, 2, 2]]
+	# for columns and [[2, 3, 4], [2, 3, 4]] for rows.
+
+	try:
+		columns = col(range_ref)
+		rows    = row(range_ref)
+
+		begin_col = columns[0][0] - 1  
+		begin_row = rows[0][0] - 1     
+
+		end_col = columns[-1][-1]
+		end_row = rows[-1][-1]
+
+		# We subtracted 1 from the begin values because in the API,
+		# indexing begins at 0, while "column" and "row" begin at 1.
+		# We did NOT subtract 1 from the end values, in order to make
+		# them suitable for Python's range(begin, end) paradigm.
+		
+	except TypeError:
+		raise GnumericError,GnumericErrorVALUE
+	except NameError:                     # right name?
+		raise GnumericError,Gnumeric.GnumericErrorNAME
+	except RefError:                     # right name?
+		raise GnumericError,Gnumeric.GnumericErrorREF
+	except NumError:                     # right name?
+		raise GnumericError,Gnumeric.GnumericErrorNUM
+
+
+	return [ (begin_col, begin_row), (end_col, end_row) ]
+		</programlisting>
+	  </para>
+
+	  <para>From there, insert the function into the dictionary, and insert
+		its name into <literal>plugin.xml</literal>. I leave these as exercises
+		to the reader (answers in the sample files -- no
+		peeking!). Restart Gnumeric and you should be able to use
+		py_sum2!</para>
+	  
+	  <para>There are a couple of glitches:</para>
+	  <itemizedlist>
+		<listitem><para>It fails the first time with "could not import
+		  gobject". Just run again, I don't know what that's about.</para></listitem>
+		
+		<listitem><para>It will only work for Workbook 1 and Sheet 1. JK thinks that
+		  there may be no way to get the current Workbook/Sheet in the
+		  Python API. Hrm....</para></listitem>
+		
+		<listitem><para>As noted, it should do some simple trapping to skip blank or
+      text-filled cells. That <emphasis>can</emphasis> be done! I just didn't. It's
+      late.</para></listitem>
+    </itemizedlist>
+	</sect3>
+
+    <sect3 id="extending-python-writing-help">
+	  <title>More help</title>
+	  
+	  <para>Relative to the source tree:</para>
+	  
+	  <itemizedlist>
+		<listitem><para>The Python interface is defined in: <literal>plugins/python-loader/py-gnumeric.c</literal>
+		  That file also has good notes at the beginning.</para></listitem>
+		
+		<listitem><para>There are interesting things about the way it used to be in:
+		  <literal>doc/developer/python-gnumeric.txt</literal>.</para></listitem>
+	  </itemizedlist>
+
+	</sect3>
+	
+	<sect3 id="extending-python-writing-programs">
+	  <title>Program Listings</title>
+	  
+	  <para>You can see my examples in full, with more comments:
+		<itemizedlist>
+		  <listitem><para><ulink url="myfuncs/my-func.py"><literal>my-func.py</literal></ulink></para></listitem>
+		  <listitem><para><ulink url="myfuncs/plugin.xml"><literal>plugin.xml</literal></ulink></para></listitem>
+		</itemizedlist>
+	  </para>
+	</sect3>
+  </sect2>
+
+
+  <sect2 id="extending-python-upgrading">
+	<title>Upgrading</title>
+	
+	<para>To upgrade, first choose any method from the installation
+	section above. But note: when you upgrade your Gnumeric version,
+	it will look for your Python scripts in the corresponding
+	version-named subdirectories. For example, if your scripts are in
+	"~/.gnumeric/1.1.17/plugins", but you just upgraded to 1.1.18, you
+	may need to rename that to "~/.gnumeric/1.1.18/plugins". If you
+	want to keep and run several versions of Gnumeric, you'll have to
+	copy or symlink them.</para>
+
+	<para>If you want the Python console, you'll also have to
+	re-enable it, following the directions above. If you had made a
+	local copy of the old one, make sure you
+	<emphasis>don't</emphasis> copy or link that to the new
+	directory. It won't work.</para>
+
+	<para>Find the new version with <literal>gnumeric --version</literal>,
+	  making sure to invoke the proper gnumeric.</para>
+
+  </sect2>
+
+  <sect2 id="sect-extending-python-fancy">
+	<title>Fancy tricks</title>
+
+	<para>To be written....</para>
+
+    <itemizedlist>
+     <listitem><para>Swapping ranges (not a normal cell function, but I wrote
+      one) that did this. But now I can rewrite it using the GUI,
+		which will make a lot more sense.</para></listitem>
+
+      <listitem><para>JK's python-only transpose function</para></listitem>
+
+	  <listitem><para>A Gnumeric interface to the Snob clustering
+		algorithm. Coming soon to a spreadsheet near you!</para></listitem>
+
+    </itemizedlist>
+  </sect2>
+
+  <sect2 id="sect-extending-python-questions">
+	<title>Features wanted, and Questions</title>
+
+	<itemizedlist>
+      <listitem><para>Is it really impossible to determine the current
+      workbook/sheet from Python? That's a bummer.  [JK writes: "Not
+      yet fixed, but now fixable."]</para></listitem>
+
+      <listitem><para>Several previous items are no longer on this list, due to
+      the diligence of the Gnumeric hackers.</para></listitem>
+	</itemizedlist>
+  </sect2>
+ 
+</sect1>

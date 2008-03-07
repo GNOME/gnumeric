@@ -1,0 +1,28 @@
+<sect1 id="license-intro">
+  <title>Lizenz</title>
+  <para>
+    Gnumeric ist freie Software. Sie können es unter den Bedingungen der
+    <citetitle>GNU General Public License</citetitle>, wie von der Free
+    Software Foundation veröffentlicht, weitergeben und/oder modifizieren,
+    entweder gemäß Version 2 der Lizenz oder (nach Ihrer Option) jeder
+    späteren Version.
+  </para>
+  <para>
+    Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, daß es Ihnen
+    von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne die
+    implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN
+    BESTIMMTEN ZWECK. Details finden Sie in der <citetitle>GNU General Public
+    License.</citetitle>
+  </para>
+  <para>
+    Sie sollten eine Kopie der <citetitle>GNU General Public License
+    </citetitle> zusammen mit diesem Programm erhalten haben. Falls nicht,
+    schreiben Sie an die
+    <address>
+      Free Software Foundation, Inc.
+      <street>51 Franklin St</street>, Fifth Floor,
+      <city>Boston</city>, <state>MA</state> <postcode>02110-1301</postcode>
+      <country>USA</country>
+    </address>
+  </para>
+</sect1>

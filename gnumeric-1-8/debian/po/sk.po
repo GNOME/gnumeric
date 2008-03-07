@@ -1,0 +1,40 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gnumeric 1.6.3-6\n"
+"Report-Msgid-Bugs-To: Source: gnumeric@packages.debian.org\n"
+"POT-Creation-Date: 2007-11-02 12:26+0100\n"
+"PO-Revision-Date: 2007-11-02 21:43+0100\n"
+"Last-Translator: Ivan Masár <helix84@centrum.sk>\n"
+"Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:2001
+msgid "Really upgrade gnumeric?"
+msgstr "Naozaj chcete aktualizovať gnumeric?"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:2001
+msgid ""
+"An instance of gnumeric is currently running. If you upgrade now, it may no "
+"longer be able to save its data."
+msgstr ""
+"Momentálne beží inštancia aplikácie gnumeric. Ak budete teraz aktualizovať, "
+"táto inštancia nebude môcť uložiť pracovné údaje."
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:2001
+msgid ""
+"You should close the running instances of gnumeric before upgrading this "
+"package."
+msgstr ""
+"Pred aktualizáciou balíka by ste mali zastaviť všetky bežiace inštancie "
+"aplikácie gnumeric."
+
+#~ msgid "Are you sure you want to upgrade gnumeric right now?"
+#~ msgstr "Ste si istý, že teraz chcete aktualizovať Gnumeric?"

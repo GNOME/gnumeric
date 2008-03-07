@@ -1,0 +1,63 @@
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+          "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!ENTITY nt_phi_title     SYSTEM "number_theory/phi_title.xml">
+<!ENTITY nt_phi           SYSTEM "number_theory/phi.xml">
+<!ENTITY nt_mu_title      SYSTEM "number_theory/mu_title.xml">
+<!ENTITY nt_mu            SYSTEM "number_theory/mu.xml">
+<!ENTITY nt_d_title       SYSTEM "number_theory/d_title.xml">
+<!ENTITY nt_d             SYSTEM "number_theory/d.xml">
+<!ENTITY nt_sigma_title   SYSTEM "number_theory/sigma_title.xml">
+<!ENTITY nt_sigma         SYSTEM "number_theory/sigma.xml">
+<!ENTITY nt_ithprime_title      SYSTEM "number_theory/ithprime_title.xml">
+<!ENTITY nt_ithprime      SYSTEM "number_theory/ithprime.xml">
+<!ENTITY nt_isprime       SYSTEM  "number_theory/isprime.xml">
+<!ENTITY nt_isprime_title SYSTEM "number_theory/isprime_title.xml">
+<!ENTITY nt_pi_title      SYSTEM  "number_theory/pi_title.xml">
+<!ENTITY nt_pi            SYSTEM  "number_theory/pi.xml">
+<!ENTITY nt_bitor_title   SYSTEM  "number_theory/bitor_title.xml">
+<!ENTITY nt_bitor         SYSTEM  "number_theory/bitor.xml">
+<!ENTITY nt_bitxor_title  SYSTEM  "number_theory/bitxor_title.xml">
+<!ENTITY nt_bitxor        SYSTEM  "number_theory/bitxor.xml">
+<!ENTITY nt_bitand_title  SYSTEM  "number_theory/bitand_title.xml">
+<!ENTITY nt_bitand        SYSTEM  "number_theory/bitand.xml">
+<!ENTITY nt_bitlshift_title     SYSTEM
+          "number_theory/bitlshift_title.xml">
+<!ENTITY nt_bitlshift     SYSTEM  "number_theory/bitlshift.xml">
+<!ENTITY nt_bitrshift_title     SYSTEM
+          "number_theory/bitrshift_title.xml">
+<!ENTITY nt_bitrshift     SYSTEM  "number_theory/bitrshift.xml">
+]>
+
+<chapter>
+  <title>Function Reference</title>
+&nt_phi_title;
+&nt_mu_title;
+&nt_d_title;
+&nt_sigma_title;
+&nt_ithprime_title;
+&nt_isprime_title;
+&nt_pi_title;
+&nt_bitor_title;
+&nt_bitxor_title;
+&nt_bitand_title;
+&nt_bitlshift_title;
+&nt_bitrshift_title;
+
+  <sect1 id="numtheory">
+    <title>Number Theory</title>
+&nt_phi;
+&nt_mu;
+&nt_d;
+&nt_sigma;
+&nt_isprime;
+&nt_pi_title;
+&nt_bitor_title;
+&nt_bitxor;
+&nt_bitand;
+&nt_bitlshift;
+&nt_bitrshift;
+  </sect1>
+</chapter>
+
+
+

@@ -1,0 +1,17 @@
+Gnumeric for Debian: FAQs
+-------------------------
+
+Q: The "help" function does not work. Is gnumeric broken?
+A: Probably not.
+   If you get a warning similar to
+	(gnumeric:4283): Bonobo-WARNING **: Error: 'Unable to find the help files in either /usr/share/gnumeric/1.1.20-bonobo/share/gnome/help/gnumeric/ or /usr/share/gnome/help/.  Please check your installation'
+   the GNOME help system could not find the gnumeric manual. Install the
+   "gnumeric-doc" package which contains the gnumeric manual.
+   If you get a warning similar to
+	(gnumeric:4680): Bonobo-WARNING **: Error: 'Failed to execute child process "gnome-help" (No such file or directory)'
+   you need to install the "yelp" package which contains the help viewer.
+
+Q: Where is the <foo> plugin?
+A: Plugins that require additional libraries or programs are packaged 
+   separately (e.g. "gnumeric-python"). Do "apt-cache search gnumeric" to
+   find them.

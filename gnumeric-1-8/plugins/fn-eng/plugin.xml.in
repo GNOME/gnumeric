@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_fneng">
+	<information>
+		<_name>Engineering Functions</_name>
+		<_description>Functions for complex numbers, base conversions, and more</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="plugin"/>
+	</loader>
+	<services>
+		<service type="function_group" id="engineering">
+			<_category>Engineering</_category>
+			<functions>
+				<function name="base"/>
+				<function name="besseli"/>
+				<function name="besselk"/>
+				<function name="besselj"/>
+				<function name="bessely"/>
+				<function name="bin2dec"/>
+				<function name="bin2hex"/>
+				<function name="bin2oct"/>
+				<function name="convert"/>
+				<function name="dec2bin"/>
+				<function name="dec2oct"/>
+				<function name="dec2hex"/>
+				<function name="decimal"/>
+				<function name="delta"/>
+				<function name="erf"/>
+				<function name="erfc"/>
+				<function name="gestep"/>
+				<function name="hex2bin"/>
+				<function name="hex2dec"/>
+				<function name="hex2oct"/>
+				<function name="invsuminv"/>
+				<function name="oct2bin"/>
+				<function name="oct2dec"/>
+				<function name="oct2hex"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

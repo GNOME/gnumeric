@@ -1,0 +1,322 @@
+Trying to list of types and fields to save to implement full load/store
+of Gnumeric spreadsheets.
+
+Daniel V.
+$Id$
+
+This is totally out of date.
+Update it to match the xml.
+
+-------------- Workbook : a set of spreadsheets + a style --------------
+Workbook:
+   Style .  style
+   Sheet[]  sheets
+   Summary  summary information
+
+-------------- Style : specific rendering informations --------------
+Style
+   StyleFormat format
+   StyleFont font
+   StyleBorder border
+   StyleShade shading
+   int halign
+   int valign
+   int orientation
+
+StyleFormat
+   char *format
+
+StyleFont
+   char *font_name
+   int units
+
+StyleBorder
+   int left
+   int right
+   int top
+   int bottom
+   GdkColor left_color
+   GdkColor right_color
+   GdkColor top_color
+   GdkColor bottom_color
+
+GdkColor
+   ushort red
+   ushort green
+   ushort blue
+
+StyleShade
+   pattern
+
+------------ Sheet : big container, especially a set of Cells -----------
+
+Sheet
+   Workbook parent_workbook /* save as URI if Sheet saved independantly ? */
+   char *name
+   double   last_zoom_factor_used
+   Style style
+   ColRowInfo default_col_style
+   ColRowInfo cols_info[]
+   ColRowInfo default_row_style
+   ColRowInfo rows_info[]
+   Cells cell_hash[]
+   int max_col_used
+   int max_row_used
+
+
+ColRowInfo
+   int pos
+   Style style
+   int units
+   int pixels
+
+There were once (pre 1.7.1)
+   int margin_a
+   int margin_b
+   But they are now depricated and ignored.
+
+GnmCell
+   GnmCellPos pos
+   StyleFormat *parse_format	// The format used to parse the input text
+
+------------ Summary : long list of items and their values -----------
+
+Summary
+   Item[]
+      name
+      val-int / val-string ( + val-datestamp in future )
+
+============================================================================
+
+
+Sun Jul 26 17:34:14 EDT 1998 Saving the "default" Workbook produces:
+
+---------------------- default.wb ------------------------
+<?xml version="1.0"?>
+<?xml:namespace ns="http://www.gnome.org/gnumeric/" prefix="gmr"?>
+<gmr:Workbook>
+  <gmr:Sheets>
+    <gmr:Sheet>Sheet 0</gmr:Sheet>
+  </gmr:Sheets>
+</gmr:Workbook>
+----------------------------------------------------------
+
+and Sheet_0 (lack a suffix ...).
+Note that the ref_count on FontStyle is respected by using NAME and
+HREF attribs so that they (will) share the same pointer when reloaded.
+
+--------------------------- Sheet_0 ----------------------
+<?xml version="1.0"?>
+<?xml:namespace ns="http://www.gnome.org/gnumeric/" prefix="gmr"?>
+<gmr:Sheet>
+  <gmr:Name>Sheet 0</gmr:Name>
+  <gmr:MaxCol>40</gmr:MaxCol>
+  <gmr:MaxRow>40</gmr:MaxRow>
+  <gmr:Zoom>1.000000</gmr:Zoom>
+  <gmr:Cols>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="30" No="0">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font NAME="FontDef1" Unit="14">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="90" No="2">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="150" No="4">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="210" No="6">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="270" No="8">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="330" No="10">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="390" No="12">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="450" No="14">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="510" No="16">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="570" No="18">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="630" No="20">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="690" No="22">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="750" No="24">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="810" No="26">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="870" No="28">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="930" No="30">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="990" No="32">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="1050" No="34">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="1110" No="36">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="1170" No="38">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+  </gmr:Cols>
+  <gmr:Rows>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="30" No="0">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="90" No="2">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="150" No="4">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="210" No="6">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="270" No="8">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="330" No="10">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="390" No="12">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="450" No="14">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="510" No="16">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="570" No="18">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="630" No="20">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="690" No="22">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="750" No="24">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="810" No="26">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="870" No="28">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="930" No="30">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="990" No="32">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="1050" No="34">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="1110" No="36">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+    <gmr:ColRowInfo MarginB="1" MarginA="1" Unit="1170" No="38">
+      <gmr:Style Format="#" Orient="1" VAlign="4" HAlign="2">
+        <gmr:Font HREF="#FontDef1"/>
+      </gmr:Style>
+    </gmr:ColRowInfo>
+  </gmr:Rows>
+  <gmr:Cells/>
+</gmr:Sheet>
+--------------------------------------------------------------------

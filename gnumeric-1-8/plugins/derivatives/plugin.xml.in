@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_derivatives">
+	<information>
+		<_name>Financial Derivatives</_name>
+		<_description>Functions related to financial derivatives</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="derivatives"/>
+	</loader>
+	<services>
+		<service type="function_group" id="derivatives">
+			<_category>Finance</_category>
+			<functions>
+				<function name="cum_biv_norm_dist"/>
+				<function name="opt_bs"/>
+				<function name="opt_bs_delta"/>
+				<function name="opt_bs_rho"/>
+				<function name="opt_bs_theta"/>
+				<function name="opt_bs_gamma"/>
+				<function name="opt_bs_vega"/>
+				<function name="opt_bs_carrycost"/>
+				<function name="opt_garman_kohlhagen"/>	
+				<function name="opt_french"/>
+				<function name="opt_jump_diff"/>
+				<function name="opt_bjer_stens"/>
+				<function name="opt_baw_amer"/>
+				<function name="opt_exec"/>
+				<function name="opt_miltersen_schwartz"/>
+				<function name="opt_rgw"/>
+				<function name="opt_forward_start"/>
+				<function name="opt_time_switch"/>
+				<function name="opt_simple_chooser"/>
+				<function name="opt_complex_chooser"/>
+				<function name="opt_on_options"/>
+				<function name="opt_extendible_writer"/>
+				<function name="opt_2_asset_correlation"/>
+				<function name="opt_euro_exchange"/>
+				<function name="opt_amer_exchange"/>
+				<function name="opt_spread_approx"/>
+				<function name="opt_float_strk_lkbk"/>
+				<function name="opt_fixed_strk_lkbk"/>
+				<function name="opt_binomial"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

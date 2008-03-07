@@ -1,0 +1,545 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-23  Morten Welinder  <terra@gnome.org>
+
+	* lp_solve.c: Update to lp_solve 5.5 and put everything in one
+	file.
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-04-23  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* Makefile.am: Added "-include $(CONFIG_HEADER)" to AM_CPPFLAGS for
+	HAVE_GETTIMEOFDAY to fix a build issue on Darwin reported by Spundun
+	Bhatt.
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-07-04  Jukka Pekka  <jiivonen@cs145201.pp.htv.fi>
+
+	* solve.c (check_solution): Removed.
+	(*): More clean up.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.3
+
+2002-04-15  Morten Welinder  <terra@diku.dk>
+
+	* *.c: Include <gnumeric-config.h> as needed.
+
+2002-03-29  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* lpkit.h: Added #ifndef.
+
+	* lpkit.c (write_MPS): removed.
+
+2002-03-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.2
+
+2002-03-23  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* lpkit.[ch] (unscale, lp_solve_is_feasible, get_constraint_value,
+	lp_solve_reset_basis, lp_solve_get_row, mat_elm): Removed.
+
+2002-03-22  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solve.c (iteration): Add checking of the elapsed time.
+
+	* lpkit.[ch] (lp_solve_set_max_time): Wrote.
+
+2002-03-21  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* doc.txt: Removed.
+
+2002-03-20  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* lpkit.[ch] (lp_solve_set_max_iter): Wrote.
+
+	* lpkit.h (_lprec): Added max_total_iter field.
+
+	* solve.c (iteration): Added check for max iterations.
+	(milpsolve): Ditto.
+
+2002-03-18  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solve.c (lag_solve): Removed.
+
+	* doc.txt: Added the API documentation from the original package.
+
+2002-03-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solve.c (milpsolve): Fixed the failure check.
+
+2002-03-15  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solve.c: Changes related to the enumeration of the solver's
+	status type.
+
+2002-03-14  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* lpkit.[ch], solve.c: Fixed the name space bloating.
+
+	* lpkit.c (inc_col_space, inc_row_space): Removed.
+	(add_lag_con, get_reduced_costs): Removed.
+
+2002-03-12  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* Makefile.am, solver-lp-api-wrapper.c: Removed.  These things are
+	now in src/tools/solver/api.c.
+
+2002-03-11  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* lpkit.c (set_rh_vec): Removed.
+	(str_set_rh_vec): Removed.
+	(lp_solve_add_constraint): Removed.
+
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
+2002-03-09  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver-lp-api-wrapper.c (lp_solve_set_constr_rhs): fixed the
+	value type.
+
+	* lpkit.c (str_set_obj_fn): removed.
+	(str_add_constraint): removed.
+	(del_constraint): removed.
+	(str_add_column): removed.
+	(del_column): removed.
+	(write_LP): removed.
+	(print_duals): removed.
+	(str_add_lag_con): removed.
+	(add_column): removed.
+	(get_column): removed.
+	(print_scales): removed.
+
+2002-03-07  Morten Welinder  <terra@diku.dk>
+
+	* lpkit.h (_lprec): Change must_be_int, ch_sign, lower, and basis
+	to char *.  Change scalar truth value fields to gboolean.
+
+	* lpkit.c: Use strtognum, not strtod.
+
+	* solve.c (milpsolve): Fix warning.
+
+	* lp-solve-debug.c (lp_solve_debug_print): Constify.
+
+	* lpkit.c (add_lag_con): Fix warning.
+
+2002-03-04 Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
+
+	* Initial import of the lp-solve-3.2 package.  Lot's of changes
+	related to Glib and GNOME coding style.
+
+2002-03-04 Original ChangeLog of the lp-solve 3.2
+	
+	Changed after first review for comp.sources.reviewed:
+
+	- Bug with row singletons and assignment fixed.
+	- Makefile fixed.
+	- Formatted man page (lp_solve.man) added + target to generate it
+	  in the Makefile
+	- install signal handler after reading the input to avoid dumping core
+	- changed names of some examples to make them uniform
+	- added correct results for all examples
+
+	Changes since the comp.sources.reviewed release:
+
+	- added more input sanity checking
+	- removed a bug in the Branch-and-Bound code which could cause
+	  umlimited recursion and finally a core dump
+	- removed the duplicate declaration of global variable Rows
+	- replaced bcopy by the ANSI standard memcopy
+	- various small cosmetic changes
+
+	Changes for version 1.1
+
+	- added KNOWN_BUGS file.
+	- accept x <= 0 as a sane bound.
+
+	Changes for version 1.2
+
+	- added (unsupported by me) VMS_SUPPORT file
+	- made lp_solve print the reason a problem cannot be solved
+	  (unbounded or infeasible)
+	- added input format extension to optionally indicate whether the
+	  objective function should be minimized or maximized.
+	- Added output(!) in real MPS format for the -v option.
+
+	Changes for version 1.3
+
+	- Added #ifdefs to handle the different definitions necessary for
+	  yytext on different computers. Why is there no standard???
+	- Fixed a very nasty bug in the parser which would handle variables
+	  on the right hand side of the relational operator which had an
+	  effective negative sign wrongly (actually, the negative sign was
+	  ignored).
+	- added -p option to print the values of the dual variables.
+	- Added test target in Makefile to allow automatic testing with the
+	  standard examples ex[1-5].lp.
+	- Added syntax extension for optional user specified constraint
+	  (dual) names.
+	- Fixed bug in the combination of minimization of the objective
+	  function (min: <obj fun>) and MILP problems. Pure LP worked ok.
+	- From now on lp_solve refuses problems with just bounds (0 real
+	  constraints). This does not work anyway.
+
+	Changes for version 1.4
+
+	- Various cosmetic changes to the sources
+	- Added ex6.lp just for fun (read it!).
+	- Added results obtained on netlib and miplib benchmark sets (thanks to
+	  mps2eq).
+	- removed pragmas for Alliant computers (they're out of business
+	  anyway).
+	- changed the default "double" type to REAL, which can be changed
+	  during compilation (-DREAL=float or -DREAL='long double')
+
+	Changes for version 1.5
+
+	- Added -scale option for global scaling of the problem.
+	- Fixed problem with Endetacol being written out of bounds.
+	- Added -autoscale option for automatic scaling of rows and columns.
+	- Added ex7.lp, an example which can only be solved when scaled
+	  properly.
+	- Added -solve_dual option to let lp_solve solve the dual of the
+	  problem it is reading. This is not a very useful option, but I
+	  needed it to check the results generated by the updated -p option
+	  (see next item). It will not work with equality constraints.
+	- The -p option now produces real dual values, thanks to a code hint by
+	  Jeroen Dirks (jeroend@tor.numetrix.com)
+	- The MILP branch-and-bound loop was rearranged by Jeroen Dirks
+	  resulting in significantly increased performance (2 - 10 times
+	  faster).
+
+	Changes for 2.0a
+
+	- Added a procedural interface (the lp toolkit).
+	- removed -scale and -solve_dual options
+	- renamed option -autoscale to -s
+
+	Changes for 2.0b1	
+
+	- Added -mps option to read MPS files. And also included some mps
+	  associated functions in the toolkit.
+
+	Changes for 2.0b2
+
+	- Fixed bug in:
+	  delete_lp
+	  del_constraint
+	  write_MPS
+	- added:
+	  write_LP
+	  msp2lp
+	  lp2mps
+
+	Changes for 2.0b3
+
+	- Changed default integer/noninteger value to 1e-3
+	- Added Epsb in Iteration function at minit detection
+	  (lp_solve gave infeasible for some feasible problems)
+	- Added -degen perturbation option for degenerate problems.
+
+	Changes for 2.0
+
+	- Removed "Parsing" message
+	- Made CHECK Warning output print to stderr
+
+	Changes for 2.1beta
+
+	- added '-time' option to print CPU times of parsing and optimization
+	- fixed some MPS reading problems
+	- allow empty OF in lp_solve format to get just a feasible solution
+	- added filtering of very small pivots to improve numerical stability
+	- fixed several bugs in lpkit.c and readmps.c
+
+	Changes for 2.1
+
+	- improved the speed of the MPS reader (considerably!) by
+	  introducing hash tables
+	  - fixed bug in column_in_lp
+	  - updated Jeroen Dirks' email address in the sources
+	  - added HARTMUT_DOCUMENTATION to the distribution
+
+	Changes for 2.2
+
+	- fixed memory leak in delete_lp
+	- fixed some more lpkit.c bugs
+	- got rid of the ugly global variables used in solve.c. 
+
+	Changes for 2.3
+
+	- fixed memory problem in solve.c (eta arrays were not always
+	  realloc-ed on time).
+	- support for RANGES in MPS reworked; should now be according to
+	  standard
+	- option -degen could sometimes produce "results" for infeasible
+	  problems, fixed.
+	- previous versions of lp_solve would not scale any column when integer
+	  variables were present. Now only the actual integer columns are not
+	  scaled.
+	- copy_lp now also copies the rowname and colname hash tables
+
+	Changes for 3.0
+
+	- lp_solve now has an official open source license, 3.0 and up will
+	  have the LGPL license attached.
+	- there was a problem in write_MPS, where numbers were printed with
+	  up to 16 digits instead of the maximum of 12
+
+	Changes for 3.0
+
+	- Bug fix with -degen option (constants were not so constant any more)
+
+	Changes for 3.1
+
+	- copy name strings in copy_hash_table to avoid crashes when old
+	  lp's are freed
+	- added call to btran at line 925 of solve.c according to an analysis
+	  by Joerg Herbers
+
+	Changes for 3.1a
+
+	- fixed memory management problem in read.c introduced in 3.1
+
+	Changes for 3.2
+
+	- fixed eta realloc problem in solve.c

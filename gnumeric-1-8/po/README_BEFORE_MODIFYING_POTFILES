@@ -1,0 +1,8 @@
+
+WARNING WARNING WARNING
+
+When you remove a file from POTFILES.in it
+disappears from the translations.  If you are
+renaming things or shuffling code around warn
+the translators before removing a file.
+

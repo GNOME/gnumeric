@@ -1,0 +1,151 @@
+#!/usr/bin/perl -w
+# -----------------------------------------------------------------------------
+
+use strict;
+
+$| = 1;
+
+my $myself = $0;
+$myself =~ s|^.*/||;
+
+die "$0: must run from top-level gnumeric directory.\n"
+    unless -r "gnumeric-config.h.in";
+my $dst = "src/cut-n-paste-code/goffice/cut-n-paste";
+
+my $eggdir = $ARGV[0];
+$eggdir = "../libegg" unless defined $eggdir;
+die "$0: must specify libegg directory on command line.\n"
+    unless -d $eggdir;
+
+-d $dst or mkdir $dst or
+    die "$0: cannot mkdir $dst: $!\n";
+
+# &copy_subsystem ("menu");
+# &copy_subsystem ("toolbar");
+&copy_subsystem ("recent-files");
+
+# -----------------------------------------------------------------------------
+
+sub copy_subsystem {
+    my ($sys) = @_;
+
+    my $srcdir = "$eggdir/libegg/$sys";
+    my $dstdir = "$dst/egg-$sys";
+
+    -d $dstdir or mkdir "$dstdir" or
+	die "$0: cannot mkdir $dstdir: $!\n";
+
+    my @sources;
+
+    local (*SRC,*DST);
+    open (SRC, "<$srcdir/Makefile.am") or
+	die "$0: Cannot read $srcdir/Makefile.am: $!\n";
+    open (DST, ">$dstdir/Makefile.am.new") or
+	die "$0: Cannot write $dstdir/Makefile.am.new: $!\n";
+    print STDERR "Creating $dstdir/Makefile.am...";
+    while (<SRC>) {
+	next if /^test_/ ... !/\\\s*$/;
+	next if /^noinst_PROGRAMS/;
+	next if /^(librecent_files_la_|bonobo_view_test_|gtk_view_test_|populate_recent_|vfs_|vfsconf_)/;
+
+	s/\b[a-z0-9.-]*bonobo[a-z0-9.-]*\b//;
+
+	s|\$\(EGG_RECENT_CFLAGS\)|\$\(GNUMERIC_CFLAGS\) -I\$\(top_srcdir\)/src -DUSE_STABLE_LIBGNOMEUI|;
+	s/\$\(EGG_EXEC_CFLAGS\)/ /;
+	s/\$\(EGG_VFS_MODULE_CFLAGS\)/ /;
+
+	if (/^[a-zA-Z0-9_]+_(HEADERS|la_SOURCES)\s*=/ ... !/\\\s*$/) {
+	    my $line = $_;
+	    $line =~ s/^.*=//;
+	    $line =~ s/\s*\\//;
+	    $line =~ s/^\s+//;
+	    $line =~ s/\s+$//;
+	    push @sources, split (' ', $line) if $line ne '';
+	}
+
+	s/LTLIBRARIES/LIBRARIES/;
+	s/_la_/_a_/;
+	s/\.la/\.a/;
+
+	print DST;
+    }
+    close (*SRC);
+    close (*DST);
+    &update_file ("$dstdir/Makefile.am");
+
+    open (DST, ">$dstdir/.cvsignore.new") or
+	die "$0: Cannot write $dstdir/.cvsignore.new: $!\n";
+    print STDERR "Creating $dstdir/.cvsignore...";
+    print DST "Makefile.in\n";
+    print DST "Makefile\n";
+    print DST ".deps\n";
+    print DST ".libs\n";
+    close (*DST);
+    &update_file ("$dstdir/.cvsignore");
+
+    foreach my $file (@sources) {
+	local (*SRC,*DST);
+	open (SRC, "<$srcdir/$file") or
+	    die "$0: Cannot read $srcdir/$file: $!\n";
+	open (DST, ">$dstdir/$file.new") or
+	    die "$0: Cannot write $dstdir/$file.new: $!\n";
+
+	print STDERR "Creating $dstdir/$file...";
+
+	print DST "/* File import from libegg to gnumeric by $myself.  Do not edit.  */\n\n";
+
+	if ($file =~ /\.c$/) {
+	    print DST "#include <goffice/goffice-config.h>\n";
+	    # print DST "#include <glib/gi18n.h>\n";
+	    # print DST "#include <gnumeric.h>\n\n";
+	}
+
+      LINE:
+	while (<SRC>) {
+	    chomp;
+
+	    s/\s+$//;
+
+	    if (/^\s*\#\s*include\s*<config\.h>$/) {
+		$_ = "/* $_ */";
+	    }
+
+	    # Turn C++ comments into C comments.
+	    if (m|^\s*//|) {
+		s|//|/*|;
+		s|$|*/|;
+	    }
+
+	    print DST "$_\n";
+	}
+	close (*SRC);
+	close (*DST);
+
+	&update_file ("$dstdir/$file");
+    }
+}
+
+# -----------------------------------------------------------------------------
+
+sub update_file {
+    my ($old) = @_;
+    my ($new) = "$old.new";
+
+    if (!-r $old) {
+	rename $new, $old or
+	    die "$0: Cannot rename $new to $old: $!\n";
+	print STDERR " -- done.\n";
+    } else {
+	system ("cmp '$old' '$new' >/dev/null");
+	if ($? == 0) {
+	    print STDERR " -- unchanged.\n";
+	    unlink $new;
+	} else {
+	    rename $new, $old or
+		die "$0: Cannot rename $new to $old: $!\n";
+	    print STDERR " -- done.\n";
+	}
+    }
+}
+
+# -----------------------------------------------------------------------------

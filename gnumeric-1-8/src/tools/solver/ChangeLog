@@ -1,0 +1,661 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-29  Morten Welinder  <terra@gnome.org>
+
+	* solver.c (lp_qp_solver_init): Take lhs' value for vars=0 into
+	account.  In the typical case, that is vars itself, but in #512500
+	it is not.
+	(get_lp_coeff): Compute at x=1 first, then at x=0.  Hence we leave
+	things at zero.
+
+2008-01-28  Morten Welinder  <terra@gnome.org>
+
+	* solver.c (solver_param_read_sax): New function.
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-07-12  Jody Goldberg <jody@gnome.org>
+
+	* api.c : Update glpk api usage to the new names (post 4.4) now that
+	  the old ones have been removed in 4.9.
+
+2006-05-31  Morten Welinder  <terra@gnome.org>
+
+	* solver.c (solver_lp_copy): Don't create dangling cells here.
+
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* api.c: ditto.
+	* reports-write.c: ditto.
+	* reports.c: ditto.
+	* solver.c: ditto.
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2006-01-02  Stepan Kasal  <kasal@ucw.cz>
+
+	* solver.c (solver_param_destroy): Use g_slist_free to destroy the
+	  input_cells GSList.
+
+2005-12-13  Morten Welinder  <terra@gnome.org>
+
+	* solver.c (solver_param_destroy): Destroy and free the list of
+	constaints.  Free the list of input cells.
+	(solver_constraint_destroy): New function.
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-23  Morten Welinder  <terra@gnome.org>
+
+	* solver.c (get_lp_coeff): Fix.
+
+2005-08-22  Morten Welinder  <terra@gnome.org>
+
+	* solver.c (lp_qp_solver_init): Properly check that the constraint
+	sides are not empty.  Fixes #314025.
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-31  Stepan Kasal  <kasal@ucw.cz>
+
+        * solver.c: Include gutils.h instead of the declaration of
+	  solver_max_time_err.
+
+2005-05-29  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=171025
+	* solver.c (lp_qp_solver_init) : Add some cell_eval calls,
+	  and use the correct base for mapping constraints.
+	* reports.c (solver_prepare_reports_success) : rhs is stored in the
+	  initialization.
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-03-16  Stepan Kasal  <kasal@ucw.cz>
+
+	* api.c (w_lp_solve_set_constr): Always assign a value to
+	  lp_constraint_type, to silence the compiler.
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-11-04  Jody Goldberg <jody@gnome.org>
+
+	* reports-write.c (solver_program_report) : remove the debug test that
+	  has been in there for 3 years!  re-enable the program report
+
+	* api.c (w_lp_solve_set_option) : Implement max-iter and timeout.
+	  Dummy out the autoscale support, it's not really relevant here.
+	  We should really query the engine for that type of thing.
+
+	* solver.c (lp_qp_solver_init) : Add more error messages when faced
+	  with option setting failures.
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-07-02  Jody Goldberg <jody@gnome.org>
+
+	* reports-write.c (solver_performance_report) : make use of uname
+	  conditional on having it
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2004-02-03  Morten Welinder  <terra@gnome.org>
+
+	* solver.c (write_constraint_str): Use unicode.
+
+	* reports-write.c (solver_program_report): Use unicode characters
+	for <= and >=, not underlines.
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-06-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* reports-write.c: spelling fix
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-06-05  Jody Goldberg <jody@gnome.org>
+
+	* api.c (w_glpk_get_iterations) : remove unused variable to silence
+	  warning.
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-04-20  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c (lp_qp_solver_init): Added a max time elapsed check.
+
+2003-04-16  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c (solver_param_new, solver_param_destroy): Added
+	scenario name field.
+
+2003-02-24  Morten Welinder  <terra@diku.dk>
+
+	* solver.c (write_constraint_str): Use g_string_new (NULL).
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2003-01-10  Morten Welinder  <terra@diku.dk>
+
+	* reports-write.c (solver_performance_report): Kill cpu model
+	detection.  Gnumeric is a spreadsheet.
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* api.c: Made lots of functions static.
+
+2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* reports-write.c: Don't use // comments.
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-10-09  Morten Welinder  <terra@diku.dk>
+
+	* api.c (w_glpk_print_lp): Fix type error.
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-17  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c (solver_param_new): Clean up now that algorithm
+	selection works.
+
+2002-08-13  Jukka Pekka <jiivonen@hutcs.cs.hut.fi>
+
+	* glpk/*.: Imported GLPK (The GNU linear programming kit) version
+	3.2.
+
+	* api.c: Lot's of changes for the glpk wrappers since the
+	interface has changed a lot since version 3.0.5.
+
+	* api.h: Added SOLVER_DEBUG constant.
+
+	* solver.c: Moved the model printing into the api.c.
+	
+2002-08-13 Jukka Pekka   <jiivonen@localhost.localdomain>
+
+	* reports.c (solver_prepare_reports_success): Bug fix: wrong loop
+	variable.
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-07-16  Morten Welinder  <terra@diku.dk>
+
+	* api.c (w_qp_dummy_set_constr): Fix printing of gnum_float values.
+
+2002-06-27  Jody Goldberg <jody@gnome.org>
+
+	* api.c (qp_algorithm) : add a dummy to silence the warning.
+
+2002-06-12  Jukka Pekka  <jiivonen@cs145201.pp.htv.fi>
+
+	* reports-write.c (solver_performance_report): Added the printing
+	of the number of iterations needed.
+
+	* solver.c (solver_run): Store nbr of iterations that was needed.
+
+	* api.c (w_lp_solve_get_iterations): Wrote.
+
+2002-05-30  Jukka-Pekka Iivonen  <jiivonen@cs145201.pp.htv.fi>
+
+	* reports.c (solver_reports): Program report generation can now
+	fail gracefully.
+	reports-write.c (solver_program_report): Related changes.
+
+2002-05-29  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* reports-write.c (solver_performance_report): Even more stuff is
+	now reported.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-05-28  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* reports-write.c (solver_performance_report): Add printing of
+	some options used.
+	* reports-write.c (solver_answer_report): Ditto.
+
+2002-05-27  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c (solver_lp_copy): Fixed.
+
+2002-05-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* reports-write.c : include reports-write.h to fix warnings
+	* api.c : make a bunch of functions static to fix warnings
+	* solver.c (solver_results_init) : make static
+	(solver_run) : make static
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.3
+
+2002-03-29  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c (solver_delete_rows, solver_delete_cols): Wrote.
+
+	* solver.c (solver_insert_cols, solver_insert_rows): Wrote.
+
+2002-03-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.2
+
+2002-03-26  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* api.c (w_lp_solve_set_bool): Bug fix: a boolean variable should
+	not be able to be -TRUE  ;-)
+
+2002-03-24  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c (restore_original_values) : Wrote.
+
+	* solver.c : Speed improvements.
+
+2002-03-23  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c (lp_qp_solver_init): Implemented `Assume Integer'
+	functionality.
+
+2002-03-22  Jody Goldberg <jody@gnome.org>
+
+	* solver.c (solver_param_new) : init input_cells, and constraints to
+	NULL.  It is not strictly necessary but makes me feel good.
+
+2002-03-22  Jody Goldberg <jody@gnome.org>
+
+	* reports-write.c (solver_program_report) : suppress warning.
+	(solver_performance_report) : fix typo.
+
+2002-03-22  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* api.c (w_lp_solve_set_option): Max time setting added.
+
+	* solver.c (lp_qp_solver_init): Added start time argument.
+	(solver_run): Fixed the user and system time reporting.  Passes
+	now the start time to lp_qp_solver_init.
+
+	* reports-write.c (solver_performance_report): Added rounding of
+	real time.
+
+2002-03-20  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c (solver_results_init): Bug fix: Allocate using total #
+	of constructors.
+
+	* api.c (w_lp_solve_set_option): Added max iteration setting.
+
+2002-03-19  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* api.[ch], reports.c, solver.c : Started the implementation of QP
+	program reporting.
+
+2002-03-18  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* reports.c, solver.c, reports-write.c: More clean up.
+
+	* reports.c, solver.c, reports-write.c: Made find_name static.
+
+	* reports-write.[ch]: Created.  reports-write.c should contain
+	writing only.  The logic will move into reports.c.
+
+	* reports.c: Moved lots of stuff to reports-write.c.
+
+	* solver.c: Started adding support for QP.
+
+2002-03-17  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c, reporst.c: Started adding allowable changes for
+	constraints in the sensitivity report.
+
+	* reports.c, solver.c, api.c: Implemented support for bool constraints.
+
+	* solver.c, api.c : Implemented the support for non-negativity
+	assumption button.  Should be now fully working with both LP Solve
+	and GLPK Simplex.
+	
+	* solver.c, api.c: Api changes.  Added print LP function for debugging.
+
+2002-03-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c (solver): Fix crash with INT constraints.
+
+	* reports.c: Fixed reporting with INT constraints.
+
+	* solver.c (get_col_nbr): New function.
+	(lp_solver_init): Fixed the `Int' constraints.
+
+	* api.c (w_glpk_init): Killed a warning.
+	(w_lp_solve_set_int): Fixed the column indexing.
+
+	* api.c, solver.c: Completed the support for GLPK's two phase
+	primal simplex method.
+
+	* api.c: Added support for automatic scaling and non-negativity
+	assumption options.  Framwork for max iterations and max time
+	options added too.
+
+2002-03-15  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c (lp_solver_init): Added a check that at least one of
+	the obj. fn coefficents should be != 0.
+	(lp_solver_init): Add checks that both LHS and RHS are numbers.
+
+	* reports.c (solver_performance_report): Fixed the `OS' title to be bold.
+	Improve the titles and add the name of the algorithm.
+
+	* api.c: Started adding support for GLPK.
+
+2002-03-14  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* api.c: Fixed the name space bloat from the LP Solve.
+
+2002-03-12  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* api.h, Makefile.am, solver.c: Added api.h.
+
+	* solver.c, reports.c, api.c: Added GPL clause.
+
+	* Makefile.am, api.c: New file.  Contains the API wrappings for
+	the optimization algorithms.
+
+	* solver.c (solver): Bug fix: added a type coersion.
+
+	* reports.c : moved set_bold and set_underlined into
+	src/tools/dao.[ch].
+
+2002-03-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* reports.c : changed names of utility functions now in 
+	  src/tools/dao.[hc]
+
+2002-03-11  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* reports.c (fill_header_titles): Added also the printing of the
+	time.
+	(solver_program_report): Print the coefficent only if it is != 1.
+	(solver_performance_report): Fixed the CPU model and MHz printing
+	at least for Linux.
+	(get_cpu_info): Wrote.
+
+	* solver.c (solver): Use G_USEC_PER_SEC instead of a constant.
+
+	* reports.c (solver_limits_report): Changed the row nbr to three
+	to make the title visible again.
+	
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
+2002-03-10  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* reports.c (solver_sensitivity_report): Some improvements.
+
+	* solver.c (is_still_feasible): Wrote.
+	(calculate_limits): Wrote.
+	(solver): Finished the limits reporting.
+	(check_program_definition_failures): Fixed allocation bug.
+
+	* reports.c (solver_program_report): Implemented the program
+	report generation.  Gives the LP program in math form.
+	(solver_limits_report): Implemented.
+
+	* solver.c: Related changes.
+	
+2002-03-09  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* reports.c (solver_program_report): Renamed as
+	solver_performance_report.  Added stubs for solver_program_report
+	and solver_dual_program_report.
+
+	* reports.c (solver_answer_report): Fix the final value of
+	obj. fn. reporting in the case where the target cell has a
+	constant increment.
+	(solver_limits_report): Ditto.
+
+	* solver.c (solver_results_free): Plugged a leak.
+	(solver): Plugged a leak.
+	(check_program_definition_failures): Remove list inverting.
+	(lp_solver_init): Fixed the index of the column.
+
+2002-03-08  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* reports.c (solver_lp_reports): Do not generate sensitivity and
+	limits reports if the problem is MILP or ILP.
+
+	* solver.c (solver): Fetch the results only if the solver found a
+	proper sollution.
+	(solver): Measure the real time elapsed by the solving stage.
+
+	* reports.c (solver_program_report): Made the format of the ratios
+	to be percentages.
+
+2002-03-07  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c (lp_solver_init): Made to use API calls instead of
+	using direct calls to LP Solve.
+
+	* reports.c (solver_program_report): Added non-zeros statistics for the
+	objective fn as well.
+	(fill_header_titles): Added filename to be printed as well.
+
+	* reports.c (solver_limits_report): Implemented the initial limits
+	reporting.
+	(solver_program_report): Implemented the program statistics
+	reporting.
+
+2002-03-06  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* lp_solve: Imported.
+
+	* solver.c, reports.c: Split the src/solver-lp.c into two parts
+	and moved here.
+
+	* Makefile.am: Created.

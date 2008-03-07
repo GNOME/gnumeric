@@ -1,0 +1,543 @@
+<sect1 id="sect-printing">
+  <title>Printing to a Printer or a File.</title>
+
+  <para>
+    The <interface>Print dialog</interface> includes the most important options
+    related to printing. More detailed options related to printing can be set
+    in the <interface>Page Setup dialog</interface>, detailed in
+    <xref linkend="sect-printing-setup" />. Press the
+    <guibutton>Print</guibutton> to print out the workbook. Press the
+    <guibutton>Print Preview</guibutton> button to display the
+    <interface>Print Preview</interface>.
+  </para>
+
+  <important>
+	<para>
+	The number of tabs and the content of some of the tabs of the <interface>Print 
+        dialog</interface> depends on the printer model you use. Some of the described 
+        tabs or options may not be available with your printer, especially when 
+        printing to a file.
+	</para>
+  </important>
+ 
+ <sect2 id="print-general">
+  <title>Print General</title>
+  <figure id="print-workbook-printer-fig">
+    <title><interface>Print Dialog Printer Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/print-worksheet-printer-general.png" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <para>
+    Select the preferred <interface>printer</interface> in the upper half of
+    the tab. Your default printer is already highlighted when you open the
+    <interface>Printer dialog</interface>. Optionally select the <guilabel>number of 
+    copies</guilabel> and a <guilabel>page range</guilabel> in the lower half of 
+    the dialog. Click on <guibutton>Print</guibutton> to send the document to your
+    printing system. 
+  </para>
+
+  <para>
+    When printing to a file you may want to change the <guilabel>output name</guilabel> 
+    and <guilabel>folder</guilabel> before printing. You can choose between saving a 
+    <keycap>postscript</keycap> or a <keycap>PDF</keycap> file.
+  </para>
+ </sect2>
+
+ <sect2 id="print-page-setup">
+  <title>Page Setup</title>
+  <figure id="print-worksheet-page-setup-fig">
+    <title><interface>Print Dialog Page Setup Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/print-worksheet-page_setup.png" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <para>
+    In the <guimenuitem>Page Setup</guimenuitem> tab you can choose several options
+    concerning the layout or the paper. Choose how many sheets shall appear on one
+    piece of paper, about two-sided printing, limit the printed pages by even or odd
+    page numbers or the scale in the layout section. Select the <guilabel>paper 
+    type</guilabel> (e.g. preprinted) and the paper source and output tray in the 
+    paper section.
+    <tip>
+	<para>
+	The preview in the lower part of the tab gives you a small hint of how your
+	printed document will look like.
+	</para>
+    </tip>
+  </para>
+ </sect2>
+
+ <sect2 id="print-print-range">
+  <title>Print Range</title>
+  <figure id="print-worksheet-print-range-fig">
+    <title><interface>Print Dialog Range Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/print-worksheet-print_range.png" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <para>
+    The <guimenuitem>Print Range</guimenuitem> tab gives you the opportunity to limit
+    the <guilabel>range</guilabel> of the printed workbook. You may choose between 
+    printing the whole workbook, only the selected or not the selected area or a 
+    defined range of worksheets.
+  </para>
+ </sect2>
+
+ <sect2 id="print-job">
+  <title>Print Job</title>
+  <figure id="print-worksheet-job-fig">
+    <title><interface>Print Dialog Job Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/print-worksheet-printer-job.png" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <para>
+    In the <guimenuitem>Job</guimenuitem> tab you may change the <guilabel>priority
+    </guilabel> or add <guilabel>billing information</guilabel> to the print job. Also 
+    you can choose to add a <guilabel>cover page</guilabel> in front or after the 
+    printed worksheets. Finally you can decide wheter your job should be printed
+    right now or at a defined point in time.
+
+    <important>
+	<para>
+	Some options may be unavailable due to user restrictions. Ask your local
+	administrator for further details.
+	</para>
+    </important>
+  </para>
+ </sect2>
+
+ <sect2 id="print-image-quality">
+  <title>Image Quality</title>
+  <figure id="print-worksheet-printer-image-quality-fig">
+    <title><interface>Print Dialog Image Quality Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/print-worksheet-printer-image_quality.png" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <para>
+    In the <guimenuitem>Image Quality</guimenuitem> tab you can select the
+    <guilabel>resolution</guilabel> of the printed document depending on your printer. 
+    No more, no less.
+  </para>
+ </sect2>
+
+ <sect2 id="print-finishing">
+  <title>Finishing</title>
+  <figure id="print-worksheet-printer-finishing-fig">
+    <title><interface>Print Dialog Finishing Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/print-worksheet-printer-finishing.png" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <para>
+    The <guimenuitem>Finishing</guimenuitem> tab lets decide wheter you want
+    a blank <guilabel>seperation sheet</guilabel> after every page, after the whole 
+    job or no seperation sheet at all.
+  </para>
+ </sect2>
+
+ <sect2 id="print-advanced">
+  <title>Advanced</title>
+  <figure id="print-worksheet-printer-advanced-example-fig">
+    <title><interface>Print Dialog Advanced Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/print-worksheet-printer-advanced.png" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <para>
+    In the <guimenuitem>Advanced</guimenuitem> tab you can change several
+    options depending on the printer model you use.
+  </para>
+ </sect2>
+</sect1>
+
+
+
+<sect1 id="sect-printing-setup">
+  <title>Page Setup.</title>
+  <para>
+    The <interface>Page Setup Dialog</interface> can be used to
+    configure various options related to printing out a
+    workbook. Click on <menuchoice> <guimenu>File Menu</guimenu>
+    <guimenuitem>Page Setup</guimenuitem> </menuchoice> to activate
+    the <interface>Page Setup</interface>.
+  </para>
+
+  <tip>
+    <para>
+      Remember that at any time you can click on the <guibutton>Print
+      preview</guibutton> button to see what your document looks like
+      with your selected options. See the <xref
+      linkend="sect-printing-preview" />
+    </para>
+  </tip> 
+
+  <para>
+    Normally the specified settings apply only to the current sheet. 
+    Select another sheet at the bottom of the 
+    <interface>Page Setup Dialog</interface> or select 
+    <guilabel>Apply to all sheets of this workbook</guilabel>. You
+    can also save your adjustments by activating the <guilabel>save as 
+    default settings</guilabel> flag.
+  </para>
+
+
+  <sect2 id="print-setup-page">
+    <title>Page Setup Dialog - Page</title>
+
+
+  <figure id="print-setup-page-fig">
+    <title><interface>Print Setup Page Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/printing-setup-page.png" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+    <para>
+      Change the paper type by clicking the <guibutton>Change Paper Type</guibutton> button. 
+
+      <figure id="print-setup-page-paper-type-fig">
+        <title><interface>Print Setup Paper Type dialog</interface></title>
+        <mediaobject>
+        <imageobject>
+	  <imagedata format="PNG"
+		   fileref="figures/printing-setup-page-paper-type.png" />
+          </imageobject>
+        </mediaobject>
+      </figure>      
+      Select the preferred printer or choose Any Printer to see the formats
+      supported by all printers. Pick a <guilabel>paper size</guilabel> and 
+      <guilabel>page orientation</guilabel> (portrait, landscape or reverse) 
+      to suit the best layout for your document.
+    </para>
+
+    <para>
+    Specify the required <guilabel>margins</guilabel> of the page. Nothing will 
+    be printed inside these margins, not even page numbers. The margins will be 
+    measured in the same units (millimetres, points or inches) as the paper size. 
+    Change the <guilabel>unit</guilabel> in the paper and layout section to best 
+    fit your needs. You may also specify whether the page is centered <guilabel>
+    horizontally</guilabel> and/or <guilabel>vertically</guilabel> on the printable 
+    part of the page.
+    </para>
+  </sect2>
+
+  <sect2 id="print-setup-scale">
+   <title>Page Setup Dialog - Scale</title>
+
+   <figure id="print-setup-scale-fig">
+    <title><interface>Print Setup Scale Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/printing-setup-scale.png" />
+      </imageobject>
+    </mediaobject>
+   </figure>
+
+   <para>
+   Select the scale applyed while printing. You can choose between
+   <guilabel>no scaling</guilabel>, a <guilabel>fixed scaling</guilabel> or 
+   <guilabel>automatic scaling</guilabel> to fit the workbook to a defined 
+   number of paper sheets.
+   </para>
+  </sect2>
+
+  <sect2 id="print-setup-dialog-header">
+    <title>Page Setup Dialog - Headers and Footers</title>
+
+   <figure id="print-setup-header">
+    <title><interface>Print Setup Headers and Footers Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/printing-setup-header.png" />
+      </imageobject>
+    </mediaobject>
+   </figure>
+
+   <para>
+   Select a predefined format for either the header or the footer. You
+   can define an header or a footer by clicking the <guibutton>Configure</guibutton> 
+   button next to the according drop-down field.
+   </para>
+
+   <figure id="print-setup-header-config">
+    <title><interface>Print Setup Headers and Footers Configure Dialog</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/printing-setup-header-config.png" />
+      </imageobject>
+    </mediaobject>
+   </figure>
+
+   <para>
+   Headers and footers are divided into left, center and right area. Select
+   the area you want to change. Insert a user-defined text or just select one 
+   or several of the given options. When selecting <guibutton>time</guibutton> 
+   and/or <guibutton>date</guibutton> you may choose the format by clicking on 
+   the arrow next to the symbol and click on  the prefered option. Beside the 
+   according <guibutton>page</guibutton> number, the number of total <guibutton>
+   pages</guibutton> and the name of the according worksheet, you may also insert 
+   the <guibutton>file</guibutton> name and/or <guibutton>path</guibutton>. 
+   Finally you can select a defined <guibutton>cell</guibutton> to appear in the
+   header/footer. Additionally there are a number of special <keycap>opcodes</keycap>
+   for common options. These are:
+   </para>
+
+    <variablelist>
+      <varlistentry>
+	<term>&amp;[TAB]</term>
+	<listitem>
+	  <para>
+	    Name of the worksheet.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[PAGE]</term>
+	<listitem>
+	  <para>
+	    Page number in the printing.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[PAGES]</term>
+	<listitem>
+	  <para>
+	    Total number of pages in the printout.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[DATE]</term>
+	<listitem>
+	  <para>
+	    Current date in format dd-mmm-yyyy. 
+            The format can be changed by specifying the desired format in the opcode: 
+            <literal>&amp;[DATE:yyyy/mm/dd]</literal>.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[TIME]</term>
+	<listitem>
+	  <para>
+	    Current time in format hh:mm.  
+            The format can be changed by specifying the desired format in the opcode: 
+            <literal>&amp;[TIME:hh:mm:ss]</literal>.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[FILE]</term>
+	<listitem>
+	  <para>
+	    The basename of the file. For the file <literal>/home/jdoe/file.gnumeric</literal>, 
+            this opcode prints <literal>file.gnumeric</literal>.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[PATH]</term>
+	<listitem>
+	  <para>
+	    The path of the file excluding the basename. 
+            For the file <literal>/home/jdoe/file.gnumeric</literal>, this opcode prints 
+            <literal>/home/jdoe/</literal>.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[CELL:$A$1]</term>
+	<listitem>
+	  <para>
+	    The content of the cell <literal>$A$1</literal> on the sheet being printed. Instead of  <literal>$A$1</literal> any other absolutely addressed cell may be used.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[CELL:A1]</term>
+	<listitem>
+	  <para>
+	    The content of the top left cell on the current page. Instead of  <literal>A1</literal> any other relative cell address may be used. This relative address is interpreted with respect to the top left cell on the current page. Any repeating rows or columns are ignored.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[CELL:rep|A1]</term>
+	<listitem>
+	  <para>
+	    The content of the top left cell on the current page. Instead of  <literal>A1</literal> any other relative cell address may be used. This relative address is interpreted with respect to the top left cell on the current page. Repeating rows or columns are not ignored. So if the top left cell is in a repeating row or column then the relative address is interpreted with respect to that cell.
+	  </para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+
+   <tip>
+    <title>TIP</title>
+    <para>
+    You can choose the font in which the header and footer is printed by
+    selecting a default header/footer font in the preferences (see in <xref
+    linkend="sect-configuration-preferences" />).
+    </para>
+   </tip> 
+    
+   <tip>
+    <title>TIP</title>
+    <para>
+    Double clicking on the header or footer preview will quickly
+    allow you to customize that header or footer.
+    </para>
+   </tip> 
+  </sect2>
+ 
+  <sect2 id="print-setup-dialog-sheet">
+   <title>Page Setup Dialog - Sheet</title>
+
+   <figure id="print-setup-sheet">
+    <title><interface>Print Setup Sheet Tab</interface></title>
+    <mediaobject>
+      <imageobject>
+	<imagedata format="PNG"
+		   fileref="figures/printing-setup-sheet.png" />
+      </imageobject>
+    </mediaobject>
+   </figure>
+   <para>
+   You can select rows or columns to be printed on every page of
+   the output. This is commonly used for printing column or row
+   names. To enable this, enter the range of cells to be
+   repeated in <guilabel>Rows to repeat...</guilabel> or
+   <guilabel>Columns to repeat...</guilabel> field. Instead of
+   entering them manually, you can also select columns or rows to
+   be repeated using the mouse.
+   </para>
+
+   <warning>
+    <title>WARNING</title>
+    <para>
+    Note that the rows and columns must be entered as ranges. 
+    That is, if you want to have first row repeated, you
+    must enter <literal>1:1</literal>, not just
+    <literal>1</literal>. Similarly, to have column
+    <literal>A</literal> repeated, you must enter
+    <literal>A:A</literal>.
+    </para>
+   </warning>
+
+   <para>
+   Select <guilabel>Grid lines</guilabel> to print the cell
+   grid lines with your document. Unselect the button to hide
+   the grid lines from your print output.
+   </para>
+
+   <para>
+   Select <guilabel>Black and white</guilabel> to convert the
+   colours in your document to a greyscale range.
+   </para>
+
+   <para>
+   Select <guilabel>Do not print with all sheets</guilabel>
+    <warning>
+     <para>
+     TO BE FILLED
+     </para>
+    </warning>
+   </para>
+
+   <para>
+   Select <guilabel>Row and column headings</guilabel> to 
+   print the row and column headings (1,2,3,... and A,B,C,...).
+   </para>
+
+   <para>
+   Select <guilabel>Styles with no content</guilabel> to
+   ensure cells with style changes will be printed, even if
+   they are empty. For example, if you have a number of cells
+   with the background color changed but no data in them, you
+   can select this option to ensure they are in the printed
+   output.
+   </para>
+
+   <para>
+   Finally you can decide about the direction in which the
+   workbook will be printed (Down, then right or Right, then
+   down).
+   </para>
+  </sect2>
+</sect1>
+
+
+<sect1 id="sect-printing-preview">
+  <title>Print Preview</title>
+
+  <para>
+    The <interface>Print Preview Dialog</interface> is used to display
+    what the printed output will look like. The <interface>Print Preview 
+    dialog</interface> can be used to check whether you have the desired 
+    formatting and layout before you print out the workbook. 
+    <application>Evince</application> is set up to be the default viewer. 
+  </para>
+
+  <sect2 id="print-preview-customizing">
+   <title>Customizing the preview application</title>
+
+   <para>
+   You may change the default preview application by editing your 
+   presets for GTK. Open the file .gtkrc-<replaceable>your GTK version</replaceable>
+   and add a line in the format 
+   <command>gtk-print-preview-command="<replaceable>command to your preferred 
+   viewer</replaceable>"</command>.
+  
+  <warning>
+   <para>
+    Please make sure you have only one line defining your preview application.
+   </para>
+  </warning>
+
+  <tip>
+   <para>
+    It is strongly recommended to use <application>Evince</application> as the 
+    default viewer. A convincing argument is that <application>Evince</application> 
+    deletes the preview file after closing the viewer.
+   </para>
+  </tip>
+  </para>
+ </sect2>
+</sect1>

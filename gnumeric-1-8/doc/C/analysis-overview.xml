@@ -1,0 +1,12 @@
+<sect1 id="sect-analysis-overview">
+  <title>Advanced Analysis in Gnumeric</title>
+
+  <para>
+    There are several kinds of analysis which can be performed using
+    the &gnum; spreadsheet. These include
+    statistical analysis and linear programming methods. These are
+    described in this chapter.
+  </para>
+
+</sect1>
+

@@ -1,0 +1,63 @@
+# Translation of gnumeric_1.6.3-1_templates.po to dutch
+# This file is distributed under the same license as the gnumeric package.
+#
+#    Translators, if you are not familiar with the PO format, gettext
+#    documentation is worth reading, especially sections dedicated to
+#    this format, e.g. by running:
+#         info -n '(gettext)PO Files'
+#         info -n '(gettext)Header Entry'
+#    Some information specific to po-debconf are available at
+#            /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans#
+#    Developers do not need to manually edit POT or PO files.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnumeric_1.6.3-1_templates\n"
+"Report-Msgid-Bugs-To: Source: gnumeric@packages.debian.org\n"
+"POT-Creation-Date: 2007-11-02 12:26+0100\n"
+"PO-Revision-Date: 2006-04-12 10:33+0100\n"
+"Last-Translator: Kurt De Bree <kdebree(AT)telenet(DOT)be>\n"
+"Language-Team: dutch <debian-l10n-dutch@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.10.2\n"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:2001
+msgid "Really upgrade gnumeric?"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:2001
+#, fuzzy
+#| msgid ""
+#| "It appears there is an instance of gnumeric running currently. If you "
+#| "upgrade gnumeric now, that instance may not be able to save its data "
+#| "anymore."
+msgid ""
+"An instance of gnumeric is currently running. If you upgrade now, it may no "
+"longer be able to save its data."
+msgstr ""
+"Het lijkt erop dat gnumeric nog ergens loopt. Aanpassingen in de open "
+"rekenbladen kunnen mogelijk niet opgeslagen worden."
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:2001
+#, fuzzy
+#| msgid ""
+#| "You are strongly recommended to close the running instances of gnumeric "
+#| "prior to upgrading this package."
+msgid ""
+"You should close the running instances of gnumeric before upgrading this "
+"package."
+msgstr ""
+"U wordt ten zeerste aangeraden om vóór de opwaardering de nog openstaande "
+"gnumeric-rekenbladen te sluiten."
+
+#~ msgid "Are you sure you want to upgrade gnumeric right now?"
+#~ msgstr "Weet u zeker dat u gnumeric nu wilt opwaarderen?"

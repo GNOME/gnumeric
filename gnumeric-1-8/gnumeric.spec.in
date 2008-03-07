@@ -1,0 +1,263 @@
+# conditional features selected using --with <foo> or --without <foo>
+%{!?_with_bonobo:	%{!?_without_bonobo: %define _without_bonobo --without-bonobo}}
+%{!?_with_gda:		%{!?_without_gda: %define _without_gda --without-gda}}
+%{!?_with_guile:	%{!?_without_guile: %define _without_guile --without-guile}}
+%{!?_with_long_double:	%{!?_without_long_double: %define _without_long_double --without-long-double}}
+%{!?_with_python:	%{!?_without_python: %define _with_python --with-python}}
+
+%define  RELEASE 1
+%define  rel     %{?CUSTOM_RELEASE} %{!?CUSTOM_RELEASE:%RELEASE}
+
+Summary: the GNOME spreadsheet
+Name: 		gnumeric
+Version: 	@VERSION@
+Release: 	%rel
+License: 	GPL
+Group: 		Applications/Productivity
+Source: ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/gnumeric-%{version}.tar.gz
+Url:		http://www.gnome.org/gnumeric
+BuildRoot:	%{_tmppath}/%{name}-%{PACKAGE_VERSION}-root
+BuildRequires:	glib2-devel		>= 2.6.0
+BuildRequires:	libgsf-devel		>= 1.14.6
+BuildRequires:	gtk2-devel		>= 2.10.0
+BuildRequires:	libxml2-devel		>= 2.4.12
+BuildRequires:	libglade2-devel		>= 2.3.6
+BuildRequires:	libgnome-devel		>= 2.0.0
+BuildRequires:	libgnomeui-devel	>= 2.0.0
+# What about libart requirement?
+%if %{?_with_bonobo:1}%{!?_with_bonobo:0}
+BuildRequires: libbonobo-devel		>= 2.0.0
+BuildRequires: libbonoboui-devel	>= 2.0.0
+%endif
+%{?_with_gda:BuildRequires:	libgda-devel		>= 1.0.1}
+%{?_with_guile:BuildRequires:	guile-devel		>= 1.5}
+%{?_with_python:BuildRequires:	pygtk2-devel		>= 1.99.10}
+Prereq:		GConf2
+Prereq:		scrollkeeper
+
+%description
+This is Gnumeric, a spreadsheet for GNOME.  It aims to be a drop in
+replacement for proprietary spreadsheets.  It provides import/export from
+MS Excel files and many other formats (csv, latex, xbase, applix, quattro pro,
+OpenOffice, planperfect).
+
+# Don't even think about it. -- MW
+#%package devel
+#Summary: Files necessary to develop gnumeric-based applications.
+#Group: Development/Libraries
+
+#%description devel
+#The gnumeric-devel package includes files necessary to develop gnumeric-based
+#applications.
+
+#Install gnumeric-devel if you want to develop programs which will use gnumeric.
+
+%define clean_buildroot [ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
+
+%prep
+%setup -q
+
+%build
+%configure \
+  %{?_with_bonobo} %{?_without_bonobo} \
+  %{?_with_gda} %{?_without_gda} \
+  %{?_with_guile} %{?_without_guile} \
+  %{?_with_long_double} %{?_without_long_double} \
+  %{?_with_python} %{?_without_python}
+make %{?_smp_mflags}
+
+%install
+%clean_buildroot
+export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
+%makeinstall
+%find_lang %{name}
+
+%post
+scrollkeeper-update
+export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
+gconftool-2 --makefile-install-rule /etc/gconf/schemas/%{name}-dialogs.schemas >/dev/null
+gconftool-2 --makefile-install-rule /etc/gconf/schemas/%{name}-general.schemas >/dev/null
+gconftool-2 --makefile-install-rule /etc/gconf/schemas/%{name}-plugins.schemas >/dev/null
+
+%postun
+scrollkeeper-update
+
+%clean
+%clean_buildroot
+
+%files -f %{name}.lang
+%defattr (-, root, root)
+%{_bindir}/*
+%{_sysconfdir}/gconf/schemas/*
+%{_libdir}/%{name}
+%{_libdir}/bonobo/servers/*
+%{_datadir}/%{name}
+%{_datadir}/applications/*
+%{_datadir}/mc/templates/*
+%{_datadir}/mime-info/*
+%{_datadir}/pixmaps/*
+%{_datadir}/omf/*
+%if %{?_with_bonobo:1}%{!?_with_bonobo:0}
+%{_libexecdir}/*
+%endif
+
+%doc HACKING AUTHORS ChangeLog NEWS BUGS README COPYING TODO
+
+# Don't even think about it.  -MW
+# Gnumeric is not ready for a devel package yet.  Please wait until we split
+# out libgnumeric.
+#%files devel
+#%defattr (-, root, root)
+#%{_libdir}/gnumericConf.sh
+#%{_datadir}/gnumeric/%{version}/idl/*.idl
+
+%changelog
+* Sun Oct 10 2004 Jody Goldberg <jody@gnome.org>
+- Lets stick with fedora core package names as the defacto standard until
+  something better presents itself.  There are still no guarantees that this
+  works.
+
+* Fri Sep 12 2003 Jody Goldberg <jody@gnome.org>
+- install the plugin schema too.
+
+* Sun Nov  4 2001 Jody Goldberg <jody@gnome.org>
+- bump the libole req
+
+* Wed Oct  9 2001 John Gotts <jgotts@linuxsavvy.com>
+- gnome-core added as a requirement because gnumeric requires
+  gnome-help-browser.  Also added bonobo >= 1.0.9 as a requirement.
+
+* Wed Sep 12 2001 John Gotts <jgotts@linuxsavvy.com>
+- Keep the /usr/share/gnumeric directory structure under RPM revision control.
+  %dirs should be used sparingly, but no other package will use this directory
+  structure, so it's okay here.
+
+* Thu Jun 28 2001 Jody Goldberg <jody@gnome.org>
+- bump libxml1 req.
+
+* Wed Jun 27 2001 John Gotts <jgotts@linuxsavvy.com>
+- Added the python stuff back; it reappeared in 0.66.
+- We're now Bonobo by default!
+- Cautiously added a %dir.  %dir gets overused by many RPM's.  Try running
+  'rpm -qf /usr/bin' some time.  ;-(
+
+* Wed Jun 27 2001 John Gotts <jgotts@linuxsavvy.com>
+- Note that the most important reason for -devel RPM's is to exclude files that
+  aren't needed on the majority of systems.  The reason that the "premature"
+  and "useless" files were moved to a -devel RPM wasn't to highlight their
+  usefulness for software development, it was to facilitate their exclusion
+  from the vast majority of installations.  It would be better to not install
+  these files in the first place, but spec files should follow the principle of
+  least surprise and mirror what a "make install" would do.
+- Used some more wildcards for easier maintainability.
+- Re-alphabetize.
+- gnumericConf.sh shouldn't have its executable bit stripped.
+- The python plugin doesn't seem to be getting built by default anymore.
+
+* Tue Jun 26 2001 Jody Goldberg <jody@gnome.org>
+- load the bonobo ui file from a version specific location
+
+* Sat May 19 2001 Jody Goldberg <jody@gnome.org>
+- update the gal req
+
+* Tue Apr 01 2001 Jody Goldberg <jody@gnome.org>
+- remove gnorba file
+- rename oaf file
+- include category files
+
+* Tue Feb 20 2001 John Gotts <jgotts@linuxsavvy.com>
+- Adapted to the recent directory reorganization.  Also alphabetically
+  reordered the directories while I was at it.  Someone should figure out why
+  we can't package the locale data.
+
+* Tue Feb 13 2001 Jody Goldberg <jody@gnome.org>
+- Updated version requirements for libglade
+
+* Sat Feb 10 2001 Jody Goldberg <jody@gnome.org>
+- Updated version requirements for GAL
+
+* Wed Dec 06 2000 Jody Goldberg <jody@gnome.org>
+- Updated version requirements for GAL
+
+* Tue Nov 14 2000 John Gotts <jgotts@linuxsavvy.com>
+- Require GAL 0.2.2 instead of 0.2.2.0.
+- Use %{version} instead of at characters surrouding VERSION (it makes a nicer
+  generated spec file).
+- Created devel package.
+- Fixed category to match Red Hat.
+- Added the standard mechanism to build from either the tarball or CVS (and
+  reindented things following the current practice).
+
+* Thu Nov 09 2000 Jody Goldberg <jody@gnome.org>
+- Updated version requirements for GAL
+
+* Fri Nov 03 2000 Jody Goldberg <jody@gnome.org>
+- Updated version requirements for GAL
+
+* Wed Oct 18 2000 John Gotts <jgotts@linuxsavvy.com>
+- Added gnumeric.xml, gnome-application-x-gnumeric.png,
+  gnome-application-x-xls.png, gnumeric.oafinfo, and gnumericConf.sh. 
+- Fixed incorrect idl path.
+- Removed an excess blank line.  ;-)
+
+* Sun Oct 01 2000 Almer S. Tigelaar <almer1@dds.nl>
+- Make some minor adjustments for the autoformatter
+
+* Thu Sep 28 2000 Jody Goldberg <jody@gnome.org>
+- Updated version requirements for gnome-print
+
+* Wed Sep 20 2000 Jody Goldberg <jody@gnome.org>
+- Updated version requirements for glade
+- Looks like someone already added gal.
+
+* Wed Sep 20 2000 Kenneth Christiansen <kenneth@gnu.org>
+- Made it work with the new autoformatter
+- Upped gnome-print to 0.22
+
+* Sat Aug 11 2000 Jody Goldberg <jody@gnome.org>
+- Updated version requirements for gnome-print
+
+* Sat Jun 21 2000 Jody Goldberg <jody@gnome.org>
+- Add libole2
+
+* Sat May 20 2000 Jody Goldberg <jody@gnome.org>
+- Updated version requirements for gnome-print, and libglade.
+
+* Mon May 15 2000 Karl Eichwalder <ke@suse.de>
+- Use %{version}, %{name} and %{sysconfdir} more consistently.
+- Avoid long lines.
+
+* Thu Mar 29 2000 Kjartan Maraas <kmaraas@online.no>
+- Removed gnome-gnumeric-xl.png since it is nowhere to be found.
+- Added --without-bonobo and --without-gb.
+- Added %define for sysconfdir
+
+* Mon Feb 29 2000 Jody Goldberg <jody@gnome.org>
+- Updated version requirements for gnome-print, and gnome-libs.
+
+* Sun Jan 30 2000 Gregory McLean <gregm@comstar.net>
+- Added in some auto-detect the language files logic (rpm 3.0.xx only)
+
+* Mon Jan 12 2000 Jody Goldberg <jody@gnome.org>
+- Add depend on gtk+ >= 1.2.2 so that we can get gtk_object_get.
+
+* Mon Jan 03 2000 Gregory McLean <gregm@comstar.net>
+- Updated to 0.47
+
+* Mon Dec 20 1999 Jody Goldberg <jody@gnome.org>
+- Updated the libglade dependancy.
+- Remove req for guile.  We can build without it.
+
+* Thu Sep 02 1999 Gregory McLean <gregm@comstar.net>
+- Added small fix so glade generated dialogs appear.
+
+* Wed Jul 14 1999 Gregory McLean <gregm@comstar.net>
+- Added the gnome-print requirement.
+- Updated the file list to try and quiet down the updating.
+- added the sysconfdir
+
+* Tue Mar 9  1999 Gregory McLean <gregm@comstar.net>
+- Updated the spec file.
+
+* Thu Sep 24 1998 Michael Fulbright <msf@redhat.com>
+- Version 0.2

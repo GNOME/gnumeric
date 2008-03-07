@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui>
+  <menubar>
+    <menu name="File" action="MenuFile">
+      <menuitem action="FileNew"/>
+      <menuitem action="FileOpen"/>
+      <separator name="file-sep1"/>
+      <menuitem action="FileSave"/>
+      <menuitem action="FileSaveAs"/>
+      <separator name="file-sep2"/>
+      <menuitem action="FilePageSetup"/>
+      <menu name="Print Area" action="FilePrintArea">
+        <menuitem action="FilePrintAreaSet"/>
+        <menuitem action="FilePrintAreaClear"/>
+        <menuitem action="FilePrintAreaShow"/>
+      </menu>
+      <menuitem action="FilePrintPreview"/>
+      <menuitem action="FilePrint"/>
+      <separator name="file-sep3"/>
+      <menuitem action="FileSend"/>
+      <menuitem action="FileMetaData"/>
+      <menuitem action="FilePreferences"/>
+      <separator name="file-sep4"/>
+      <placeholder name="FileHistory" />
+      <menuitem action="FileHistoryFull"/>
+      <separator name="file-sep5"/>
+      <menuitem action="FileClose"/>
+      <menuitem action="FileQuit"/>
+    </menu>
+    <menu name="Edit" action="MenuEdit">
+      <menuitem action="Undo"/>
+      <menuitem action="Redo"/>
+      <separator name="edit-sep1"/>
+      <menuitem action="EditCut"/>
+      <menuitem action="EditCopy"/>
+      <menuitem action="EditPaste"/>
+      <menuitem action="EditPasteSpecial"/>
+<!--TODO  menuitem action="EditPasteLink" -->
+      <separator name="edit-sep2"/>
+      <menu name="Fill" action="MenuEditFill">
+        <menuitem action="EditFillAutofill"/>
+        <menuitem action="ToolsMerge"/>
+        <menuitem action="ToolsTabulate"/>
+        <menuitem action="EditFillSeries"/>
+        <menuitem action="RandomGenerator"/>
+      </menu>
+      <menu name="Clear" action="MenuEditClear">
+        <menuitem action="EditClearAll"/>
+        <menuitem action="EditClearFormats"/>
+        <menuitem action="EditClearComments"/>
+        <menuitem action="EditClearContent"/>
+      </menu>
+      <menu name="Delete" action="MenuEditDelete">
+	<menuitem action="EditDeleteColumns"/>
+	<menuitem action="EditDeleteRows"/>
+	<menuitem action="EditDeleteCells"/>
+      </menu>
+      <separator name="edit-sep3"/>
+      <menuitem action="EditFind"/>
+      <menuitem action="EditReplace"/>
+      <menuitem action="EditGoto"/>
+      <separator name="edit-sep4"/>
+      <menu name="EditSheet" action="MenuEditSheet">
+        <menuitem action="SheetReorder"/>
+        <separator/>
+        <menuitem action="InsertSheet"/>
+        <menuitem action="InsertSheetAtEnd"/>
+        <menuitem action="EditDuplicateSheet"/>
+        <menuitem action="SheetRemove"/>
+        <menuitem action="SheetChangeName"/>
+      </menu>
+      <menu name="Select" action="MenuEditSelect">
+        <menuitem action="EditSelectAll"/>
+        <menuitem action="EditSelectColumn"/>
+        <menuitem action="EditSelectRow"/>
+        <menuitem action="EditSelectArray"/>
+        <menuitem action="EditSelectDepends"/>
+        <menuitem action="EditSelectInputs"/>
+      </menu>
+      <menuitem action="EditRecalc"/>
+      <placeholder name="ops"/>
+    </menu>
+    <menu name="View" action="MenuView">
+      <menuitem action="ViewNew"/>
+      <menuitem action="ViewFreezeThawPanes"/>
+      <menu name="Windows" action="MenuViewWindows">
+      </menu>
+      <separator/>
+      <menu name="Toolbars" action="MenuViewToolbars">
+      </menu>
+      <menuitem action="ViewStatusbar"/>
+      <menuitem action="ViewFullScreen"/>
+      <menuitem action="ViewZoom"/>
+    </menu>
+    <menu name="Insert" action="MenuInsert">
+      <menuitem action="InsertCells"/>
+      <menuitem action="InsertColumns"/>
+      <menuitem action="InsertRows"/>
+      <menuitem action="SheetInsert"/>
+      <separator/>
+      <menuitem action="ChartGuru"/>
+<!-- These don't work yet for Gnome 2 
+	    <menuitem action="InsertComponent" />
+	    <menuitem action="InsertShapedComponent" />
+	    <separator/>
+            -->
+      <menuitem action="InsertImage"/>
+      <menuitem action="InsertFormula"/>
+      <menu name="Names" action="MenuInsertNames">
+        <menuitem action="EditNames"/>
+      </menu>
+      <menuitem action="InsertComment"/>
+      <menuitem action="InsertHyperlink"/>
+      <menu name="Special" action="MenuInsertSpecial">
+        <menuitem action="InsertCurrentDate"/>
+        <menuitem action="InsertCurrentTime"/>
+        <menuitem action="InsertCurrentDateTime"/>
+      </menu>
+    </menu>
+    <menu name="Format" action="MenuFormat">
+      <menuitem action="FormatCells"/>
+      <menu name="FormatColumn" action="MenuFormatColumn">
+        <menuitem action="ColumnSize"/>
+        <menuitem action="ColumnAutoSize"/>
+        <menuitem action="ColumnHide"/>
+        <menuitem action="ColumnUnhide"/>
+        <menuitem action="ColumnDefaultSize"/>
+      </menu>
+      <menu name="FormatRow" action="MenuFormatRow">
+        <menuitem action="RowSize"/>
+        <menuitem action="RowAutoSize"/>
+        <menuitem action="RowHide"/>
+        <menuitem action="RowUnhide"/>
+        <menuitem action="RowDefaultSize"/>
+      </menu>
+      <menu name="FormatSheets" action="MenuFormatSheet">
+        <menuitem action="SheetReorder"/>
+        <menuitem action="SheetChangeName"/>
+        <separator/>
+        <menuitem action="SheetDisplayFormulas"/>
+        <menuitem action="SheetUseR1C1"/>
+        <menuitem action="SheetHideZeros"/>
+        <menuitem action="SheetHideGridlines"/>
+        <menuitem action="SheetHideColHeader"/>
+        <menuitem action="SheetHideRowHeader"/>
+	<menuitem action="SheetDirection"/>
+      </menu>
+      <menuitem action="FormatWorkbook"/>
+      <menuitem action="FilePreferences"/>
+      <menuitem action="FormatAuto"/>
+    </menu>
+    <menu name="Tools" action="MenuTools">
+      <menuitem action="ToolsAutoCorrect"/>
+      <menuitem action="ToolsAutoSave"/>
+      <separator/>
+      <menuitem action="ToolsGoalSeek"/>
+      <menuitem action="ToolsSolver"/>
+      <menu name="Scenarios" action="MenuToolsScenarios">
+        <menuitem action="ToolsScenarios"/>
+        <menuitem action="ToolsScenarioAdd"/>
+      </menu>
+      <menuitem action="ToolsSimulation"/>
+      <menu name="ToolStatisticalAnalysis" action="MenuToolStatisticalAnalysis">
+        <menu name="ANOVA" action="MenuANOVA">
+          <menuitem action="ToolsANOVAoneFactor"/>
+          <menuitem action="ToolsANOVAtwoFactor"/>
+        </menu>
+        <menuitem action="ToolsCorrelation"/>
+        <menuitem action="ToolsCovariance"/>
+        <menuitem action="ToolsDescStatistics"/>
+        <menu name="ToolForecast" action="MenuToolForecast">
+          <menuitem action="ToolsExpSmoothing"/>
+          <menuitem action="ToolsAverage"/>
+        </menu>
+        <menuitem action="ToolsFourier"/>
+        <menuitem action="ToolsHistogram"/>
+        <menuitem action="ToolsRanking"/>
+        <menuitem action="ToolsRegression"/>
+        <menuitem action="ToolsSampling"/>
+        <menu name="ToolTTest" action="MenuToolTTest">
+          <menuitem action="ToolTTestPaired"/>
+          <menuitem action="ToolTTestEqualVar"/>
+          <menuitem action="ToolTTestUnequalVar"/>
+          <menuitem action="ToolZTest"/>
+        </menu>
+        <menuitem action="ToolsFTest"/>
+      </menu>
+      <separator/>
+      <menuitem action="ToolsPlugins"/>
+    </menu>
+    <menu name="Data" action="MenuData">
+      <menuitem action="DataSort"/>
+      <menu name="Filter" action="MenuFilter">
+        <menuitem action="DataAutoFilter"/>
+        <menuitem action="DataFilterShowAll"/>
+        <menuitem action="DataFilterAdvancedfilter"/>
+      </menu>
+      <menuitem action="DataValidate"/>
+      <menuitem action="DataConsolidate"/>
+      <menuitem action="DataTable"/>
+<!--      <menuitem action="DataSlice"/> -->
+      <menu name="Outline" action="MenuOutline">
+        <menuitem action="DataOutlineHideDetail"/>
+        <menuitem action="DataOutlineShowDetail"/>
+        <menuitem action="DataOutlineGroup"/>
+        <menuitem action="DataOutlineUngroup"/>
+        <separator/>
+        <menuitem action="SheetDisplayOutlines"/>
+        <menuitem action="SheetOutlineBelow"/>
+        <menuitem action="SheetOutlineRight"/>
+      </menu>
+      <separator/>
+      <menuitem action="DataTextToColumns"/>
+      <menu name="ExternalData" action="MenuExternalData">
+        <menuitem action="DataImportText"/>
+      </menu>
+    </menu>
+    <menu name="Help" action="MenuHelp">
+      <menuitem action="HelpDocs"/>
+      <menuitem action="HelpWeb"/>
+      <menuitem action="HelpIRC"/>
+      <menuitem action="HelpBug"/>
+      <separator/>
+      <menuitem action="HelpAbout"/>
+    </menu>
+  </menubar>
+  <toolbar _name="StandardToolbar">
+    <toolitem action="FileNew"/>
+    <toolitem action="FileOpen"/>
+    <toolitem action="FileSave"/>
+    <separator name="std-sep1"/>
+    <toolitem action="FilePrint"/>
+    <toolitem action="FilePrintPreview"/>
+    <separator name="std-sep2"/>
+    <toolitem action="EditCut"/>
+    <toolitem action="EditCopy"/>
+    <toolitem action="EditPaste"/>
+    <separator name="std-sep3"/>
+    <toolitem action="Undo"/>
+    <toolitem action="Redo"/>
+    <separator name="std-sep4"/>
+    <toolitem action="InsertHyperlink"/>
+    <toolitem action="AutoSum"/>
+    <toolitem action="InsertFormula"/>
+    <toolitem action="SortAscending"/>
+    <toolitem action="SortDescending"/>
+    <separator name="std-sep5"/>
+    <toolitem action="ChartGuru" />
+    <toolitem action="Zoom"/>
+  </toolbar>
+  <toolbar _name="FormatToolbar">
+    <toolitem action="FontName"/>
+    <toolitem action="FontSize"/>
+    <toolitem action="FontBold"/>
+    <toolitem action="FontItalic"/>
+    <toolitem action="FontUnderline"/>
+    <separator name="fmt-sep1"/>
+    <toolitem action="AlignLeft"/>
+    <toolitem action="AlignCenter"/>
+    <toolitem action="AlignRight"/>
+    <toolitem action="CenterAcrossSelection"/>
+    <toolitem action="FormatMergeCells"/>
+    <toolitem action="FormatUnmergeCells"/>
+    <separator name="fmt-sep2"/>
+    <toolitem action="FormatAsAccounting"/>
+    <toolitem action="FormatAsPercentage"/>
+    <toolitem action="FormatWithThousands"/>
+    <toolitem action="FormatIncreasePrecision"/>
+    <toolitem action="FormatDecreasePrecision"/>
+    <separator name="fmt-sep3"/>
+    <toolitem action="FormatDecreaseIndent"/>
+    <toolitem action="FormatIncreaseIndent"/>
+    <separator name="fmt-sep4"/>
+    <toolitem action="BorderSelector"/>
+    <toolitem action="ColorBack"/>
+    <toolitem action="ColorFore"/>
+  </toolbar>
+  <toolbar _name="ObjectToolbar">
+    <toolitem action="CreateLabel"/>
+    <toolitem action="CreateFrame"/>
+<!-- Not useful until we have scripts
+    <toolitem action="CreateButton"/> -->
+<!-- think about how to handle groups
+    <toolitem action="CreateRadioButton"/> -->
+    <toolitem action="CreateCheckbox"/>
+    <toolitem action="CreateScrollbar"/>
+    <toolitem action="CreateSpinButton"/>
+    <toolitem action="CreateSlider"/>
+    <toolitem action="CreateList"/>
+    <toolitem action="CreateCombo"/>
+    <toolitem action="CreateLine"/>
+    <toolitem action="CreateArrow"/>
+    <toolitem action="CreateRectangle"/>
+    <toolitem action="CreateEllipse"/>
+  </toolbar>
+
+  <accelerator name="CopyRight"		 action="CopyRight"/>
+  <accelerator name="CopyDown"		 action="CopyDown"/>
+  <accelerator name="FontBold"		 action="FontBold"/>
+  <accelerator name="FontItalic"	 action="FontItalic"/>
+  <accelerator name="FontUnderline"	 action="FontUnderline"/>
+  <accelerator name="FontDoubleUnderline" action="FontDoubleUnderline"/>
+  <accelerator name="FontSuperscript"	 action="FontSuperscript"/>
+  <accelerator name="FontSubscript"	 action="FontSubscript"/>
+  <accelerator name="FontStrikeThrough"  action="FontStrikeThrough"/>
+  <accelerator name="FormatAsNumber"	 action="FormatAsNumber"/>
+  <accelerator name="FormatAsCurrency"	 action="FormatAsCurrency"/>
+  <accelerator name="FormatAsGeneral"    action="FormatAsGeneral"/>
+  <accelerator name="FormatAsPercentage" action="FormatAsPercentage"/>
+  <accelerator name="FormatAsScientific" action="FormatAsScientific"/>
+  <accelerator name="FormatAsDate"	 action="FormatAsDate"/>
+  <accelerator name="FormatAsTime"	 action="FormatAsTime"/>
+  <accelerator name="FormatAddBorders"	 action="FormatAddBorders"/>
+  <accelerator name="FormatClearBorders" action="FormatClearBorders"/>
+  <accelerator name="Repeat"		 action="Repeat"/>
+  <accelerator name="EditSelectAllXL"	 action="EditSelectAllXL"/>
+  <accelerator name="EditDeleteCellsXL"	 action="EditDeleteCellsXL"/>
+  <accelerator name="InsertCellsXL"	 action="InsertCellsXL"/>
+</ui>

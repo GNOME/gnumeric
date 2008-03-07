@@ -1,0 +1,1132 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* data-types.xml: Describe how to widen cells to make contents visible.
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-18  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gnumeric-C.omf: Swapped "mime" and "dtd" parameters to "format"
+	element, putting "mime in front". This way, "yelp ghelp:gnumeric" (as
+	called from Help -> Contents) displays the manual with yelp 2.20.0,
+	rather than throw an `Unable to load page - The requested URI
+	"ghelp:gnumeric" is invalid' popup.
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-10-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* welcome.xml: Copyedit.
+	* *.xml: Consistently use &gnum;.
+
+2007-09-29  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* Makefile.am: Hook up PDF support properly.
+
+2007-09-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* figures/toolbars.510.png, figures/gnumeric-empty.510.png,
+	figures/toolbar-format.510.png, figures/toolbar-standard.510.png:
+	Dropped ".510" from the filename as this caused problems when
+	generating PDF documentation through dblatex.
+	* gui-toolbars.xml, quick-start.xml: Updated file references
+	accordingly.
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* quick-start.xml : validate 
+
+2007-09-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* quick-start.xml: Make the text somewhat more engaging by addressing
+	the reader as "you" more often, reducing the amount of passive voice,
+	and using an authorial "we".
+	* data-entry.xml, data-types.xml, extending-python.xml,
+	files-formats.xml, gnumeric.xml, gui-overview.xml, morehelp.xml,
+	quick-start.xml, welcome.xml: 
+	  * When referring to the desktop environment as a whole, capitalise
+	    "GNOME" consistently.
+	  * Removed spaces before colons.
+	  * Added &nbsp; after <trademark/> where needed for proper PDF
+	    rendering.
+	  * Refer to the chapter on reporting problems rather than to bugzilla
+	    directly.
+	  * Removed a reference to an obsolete development series (1.3).
+	  * Replaced a reference to ghelp:gnome-feedback (which appears to be
+	    obsolete) with a reference to the chapter on reporting problems.
+
+2007-08-06  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* texmf.cnf: New.
+	* graphics-plots.xml: Removed "width" settings from <imagedata> as they
+	caused the images to be much to large when rendering the manual to PDF.
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-07-17  Jody Goldberg <jody@gnome.org>
+
+	* welcome.xml : update a bit.
+
+	* gnumeric-driver.xsl : update the filter location.
+
+	* Makefile.am : add the new file, and force the docs to validate
+	  during distcheck.
+	* gui-menus.xml : add the new file.
+	* gnumeric.xml : add the new element.
+	* data-modify.xml : Split out the filter portion.
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-16  Jody Goldberg <jody@gnome.org>
+
+	* extending-python.xml : Fix the python plugin path. [#382321]
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-11-06  Jody Goldberg <jody@gnome.org>
+
+	Patch from acuster :
+	* analysis-goalseek.xml : Add missing section ids.
+	* analysis-solver.xml : ditto.
+	* data-types.xml : ditto.
+	* gui-other-elements.xml : ditto.
+	* quick-start.xml : ditto.
+	* printing.xml : fix section ids
+	* gui-menus.xml : Fix linkend.
+
+2006-11-06  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.xml :
+	  - Bump the appversion to 1.7.
+	  - include some new file formats.
+	  - Include some extra entities so that things validate.
+
+2006-10-26  Jon K Hellan  <hellan@acm.org>
+
+	* gnumeric.xml: Make docs validate
+
+	* gui-menus.xml: Ditto.
+
+	* graphics-plots.xml: Ditto.
+
+	* functions.xml: Ditto.
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-16  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : only install ssconvert.1 and ssindex.1 if they are enabled.
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-22  Morten Welinder <terra@gnome.org>
+
+	* Makefile.am: Allow overrides to mandir.  [#316106]
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-19  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* Spell: New. List possible misspellings in the XML docs.
+	* Localwords: Local word list for Spell.
+
+2005-08-18  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* ssindex.1: New.
+	* Makefile.am: Updated accordingly.
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-16  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : install the man pages
+
+	* gnumeric-C.omf : version = 1.4
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-12-02  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.xml : Don't put appendix wrappers here, then have extra
+	  wrappers in the entity files.
+
+	* functions.xml : regenerate with the appendix as a wrapper and
+	sect2 -> sect1, makes the grouping more natural
+
+	* appendix-keybindings.xml : Add F4 and move appendix description here
+	  to avoid extra container page
+
+2004-12-01  Jody Goldberg <jody@gnome.org>
+
+	* welcome.xml : typo and emphasis
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-28  Adrian Custer <acuster@gnome.org>
+
+	* NEWS Tweaks for release.
+
+	* configuration-preferences.xml: Remove duplicate id.
+	* gui-menus.xml: Remove id to toolbar context menu.
+	* gui-toolbars.xml: Remove id to toolbar context menu.
+	* functions.xml: Change EXCH to EXCHANGE, the real fix should be
+	                 in plugins/derivatives/options.c line 1921.
+
+
+2004-11-22  Adrian Custer <acuster@gnome.org>
+
+	* NEWS Comment out worksheet/workbook.
+
+	* gnumeric.xml: comment out worksheet/book chapters.
+	* manual-usage.xml: comment out worksheet/book chapters.
+	* gui-menus.xml: Change context menu shot, edit the section,
+	                 remove the section on toolbar context menus.
+	* worksheet.xml: minor tweaks.
+	* workbook.xml: minor tweaks.
+	* graphics-overview.xml: Change the context menu shot, edit the
+	                         text. 
+
+	* figures/menu-context-object-order.png: Added.
+	* figures/menu-context-graph-order.png: Added.
+	* figures/Makefile.am: Support for above.
+	
+2004-11-22  Adrian Custer <acuster@gnome.org>
+
+	* NEWS Bugs, typos and other lower life forms.
+
+	* configuration-preferences.xml: change section.
+	
+2004-11-22  Adrian Custer <acuster@gnome.org>
+
+	* NEWS Redo three screenshots.
+
+2004-11-22  Adrian Custer <acuster@gnome.org>
+
+	* NEWS Redo configuration-preferences screenshots.
+
+	* figures/preferences-various.png: rm.
+	* figures/preferences-various-internal.png: rm.
+	* figures/preferences-copypaste.png: add.
+	* figures/preferences-screen.png: add.
+	* figures/preferences-tools.png: add.
+
+	* configuration-preferences.xml: Edit.
+
+2004-11-22  Adrian Custer <acuster@gnome.org>
+
+	* NEWS Minor cleanups for numbering. Edit worksheet
+	       chapter. Write configuration chapter.
+
+	* gnumeric.xml: Change link name for desktop-help. Change WS
+	                chapter title. Reorder configuration chapt.
+	* manual-usage.xml: Change WS chapter title.
+	* quick-start.xml: Windows version now exists.
+	* worksheets.xml: Re-organize and write.
+	* configuration-preferences.xml: Limit images to 550px.
+	* configuration-*.xml: Edits.
+	* figures/preferences-*.png: Change size, remove border.
+
+2004-11-19  Adrian Custer <acuster@gnome.org>
+
+	* NEWS Bump version to 1.4. Start edits of worksheet 
+	       chapter. Minor Edits.
+	
+	* gnumeric.xml: Change title, edit paragraph. 
+	                Change guilabel -> emphasis. 
+	* manual-usage.xml: Change title, edit paragraph.
+	* worksheets.xml: Major edits.
+	* welcome.xml: Edit for 1.4. Change guilabel -> emphasis.
+	* morehelp.xml: Change guilabel -> emphasis.
+	* quickstart.xml: remove scale="100" on screenshot.
+
+	* gnumeric-driver.xsl: Add. Driver file for win32 HTMLhelp.
+
+2004-11-14  Adrian Custer <acuster@gnome.org>
+
+	* gnumeric.xml: Help the poor packagers. revert to docbook 4.1.2.
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-06  Adrian Custer <acuster@gnome.org>
+
+	* NEWS Misc cleanup.
+
+	* figures/gnumeric-power-example.png: Made 510 pixels wide.
+
+	* gnumeric.xml: Added a comma in graphics chapter title.
+	* welcome.xml: Added caption with note to image.
+	* quick-start.xml: Sync chapter titles.
+	* file-save.xml: fix invalid varlistentry.
+	* gui-overview.xml: fix link id name, links in last para.
+	* quick-start.xml: fix link id name.
+	* graphics-plots.xml: move valign into <imagedata>, remove valign
+	                      from <tgroup>.
+	* files-formats.xml: remove valign from <tgroup>.
+	* files-opening.xml: remove valign from <tgroup>.
+	* files-textopen.xml: correct linkends.
+	* files-saving.xml: remove valign from <tgroup>. Add a link.
+	* bugs.xml: remove valign from <tgroup>.
+	* gui-toolbars.xml: rm discussion of "tearing off" since it broke
+	                      a ref. 
+	* graphics-widgets.xml: added a link.
+	* graphics-drawings.xml: added a link.
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : remove non-existent file
+
+2004-10-05  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gui-menus.xml, quick-start.xml: Fixed typos.
+
+2004-10-05  Adrian Custer <acuster@gnome.org>
+
+	* NEWS Updated the 'Elements' chapter.
+
+	* gnumeric.xml: Revert to Docbook 4.2. We actually need to back 
+	  down to 4.1.2 or clear this with the GDP. For the moment, I 
+	  only have 4.2 so we can change this when I get closer to a 
+	  real network. Bump this up to validate and back down to commit.
+
+	* figures/gnumeric-labelled.png: changed.
+	* figures/gnumeric-rearranged.png: deleted.
+	* figures/toolbars.png: changed to toolbars.510.png.
+	* figures/toolbar-standard.png: changed to toolbar-standard.510.png.
+	* figures/toolbar-format.png: changed to toolbar-forat.510.png.
+	* figures/label-*.png: 7 files deleted.
+	* figures/gnumeric-empty.png: changed to gnumeric-empty.510.png.
+	* figures/Makefile.am: Ammended.
+
+	* gnumeric.xml: Rename "elements" chapter. Remove warning.
+	* manual-usage.xml: Rename "elements" chapter.
+	* gui-overview.xml: Edits. New Screenshot.
+	* gui-menus.xml: Edits. New Screenshots.
+	* gui-toolbars.xml: Move down a level. Update.
+	* gui-other-elements.xml: remove intro section.
+
+2004-10-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gnumeric.xml: Upgrade to DocBook XML V4.3 which is the first version
+	to support the "uri" element we use in bugs.xml and morehelp.xml .
+	* files-formats.xml: Changed the (invalid) "title"-less "table"s into
+	"informaltable"s which are valid and are rendered by yelp the same way
+	the invalid "title"-less "table"s were.
+
+2004-10-03  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* manual-usage.xml: Comment out reference to the "About" chapter.
+	* files-formats.xml, files-saving.xml, files-textopen.xml,
+	files-textsave.xml, getting-involved.xml, graphics-plots.xml,
+	gui-menus.xml, gui-other-elements.xml: Spelling/typo fixes.
+
+2004-10-03  Adrian Custer <acuster@gnome.org>
+
+	* NEWS Finished this revision of the 'Working with files' chapter.
+
+
+	* figures/textguru-export-panel1-withTags.png: Added.
+	* figures/textguru-export-panel2-withTags.png: Added.
+	* figures/files-csv-export-ex1.png 
+	* figures/files-csv-export-ex2.png 
+	* figures/Makefile.am: Add and delete files above.
+
+	* gnumeric.xml: Disable the "About" chapter.
+	* files-overview.xml: Add a TODO.
+	* files-formats.xml: change link to 'encoding'. Get rid of Ray's
+	stupid dummy <title> tags since they cause yelp to add a table
+	number we don't need. Run off and mess up your own part of the
+	docs. Any validator that requires a title element ought to be
+	forced to write a docbook.
+	* files-opening.xml: change link to 'encoding'.
+	* files-textopen.xml: move three 'complexities' down a
+	                      level. Write structuring section. Write
+			      intro paragraph for components section.
+	* files-saving.xml: Edits to make parallel to files-opening.
+	* files-textsave.xml: Edits to update, add figures.
+	* files-email.xml: 
+	* files-ssconvert.xml: Edits.
+
+2004-10-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* extending-python.xml, morehelp.xml: Corrected capitalisation of
+	GIMPnet.
+
+2004-10-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* welcome.xml: Removed "trademark" tag as it is not allowed inside
+	guilabel.
+	* graphics-plots.xml: "procedure"s don't go in "para"s.
+	* files-formats.xml: Added empty "title" tags in "table"s. "ulink" tags
+	take "url" attributes, not "linkend"s.
+	* files-opening.xml, files-textopen.xml: Wrapped "caption" contents in
+	"para"s.
+	* analysis-statistical.xml, appendix-keybindings.xml, bugs.xml,
+	configuration-preferences.xml, data-modify.xml, data-move-copy.xml,
+	data-selections.xml, data-types.xml, files-formats.xml,
+	files-opening.xml, gui-menus.xml, gui-mouse.xml,
+	gui-other-elements.xml, gui-toolbars.xml, morehelp.xml,
+	quick-start.xml, worksheets.xml: Spelling fixes.
+
+2004-10-01  Adrian Custer <acuster@gnome.org>
+
+	* NEWS Reorg then hide the sections.
+
+	* README: tweak.
+	* gnumeric.xml: Support reorg.
+	* manual-usage.xml: Add text for new chapters.
+	* getting-invovled.xml: Split new chapter from 'About...'
+	* installing.xml: Add new chapter
+	* compiling.xml: Split new chapter from 'About...'
+	* programing.xml: Split new chapter from 'Extending...'
+	* documenting.xml: Add new chapter
+	* about-get-involved.xml: Delete.
+	* about-compiling.xml: Delete.
+	* extending-code.xml: Delete.
+	* Makefile.am: support new, delete old.
+
+2004-10-01  Adrian Custer <acuster@gnome.org>
+
+	* NEWS 
+
+	* README: Tweak.
+	* data-types.xml: add TODO comment.
+	* files-opening.xml: change pseudo substeps into alternatives.
+	* files-textopen.xml: add procedure skeleton.
+
+2004-10-01  Adrian Custer <acuster@gnome.org>
+
+	* NEWS: Minor tweaks.
+
+	* README: Added 'TODO List'.
+	* data-types.xml: Add TODO.
+	* files-formats.xml: Tweak csv,tsv,text mentions of druids.
+	* files-opening.xml: Tweak notes mentioning druids.
+	* files-textopen.xml: Tweak comments.
+	* files-saving.xml:  Add notes mentioning druids. Add TODO note.
+	* files-textsave.xml: Add TODO note.
+
+2004-10-01  Adrian Custer <acuster@gnome.org>
+
+	* NEWS: Minor tweaks.
+
+	* files-formats.xml: Add TODO comments.
+	* files-opening.xml: Change 'location' to 'folder'. Change
+	                     'bookmarks' to 'bookmark folders'.
+	* files-saving.xml: Change 'location' to 'folder'. Change
+	                    'bookmarks' to 'bookmark folders'.
+	
+2004-10-01  Adrian Custer <acuster@gnome.org>
+
+	* NEWS: Doc Cleanup: Standardize the TODO comments.
+
+	* manual-usage.xml: massage TODO statements for grep.
+	* quick-start.xml: massage TODO statements for grep.
+	* gui-menus.xml: remove spurious TODO.
+
+	* files-email.xml: massage TODO statements for grep.
+	* files-format.xml: massage TODO statements for grep.
+	* files-opening.xml: massage TODO statements for grep.
+	* files-saving.xml: massage TODO statements for grep.
+	* files-ssconvert.xml: massage TODO statements for grep.
+	* files-textopen.xml: massage TODO statements for grep.
+	* graphics-images.xml: remove spurious TODO.
+	* graphics-overview.xml: massage TODO statements for grep.
+	* graphics-plot.xml: massage TODO statements for grep.
+
+2004-10-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* data-move-copy.xml: Fixed link.
+	* files-textopen.xml: Moved "caption" tags into "mediaobject"s where
+	they are valid.
+
+2004-09-30  Adrian Custer <acuster@gnome.org>
+
+	* NEWS: Clean the last of the curft. The docs, figures/ directory
+	        and figures/Makefile.am are now in sync.
+
+	* figures/pointer_hand_closed: Deleted
+	* figures/pointer_hand_open: Deleted
+	* figures/Makefile.am: remove the files above
+	
+2004-09-30  Adrian Custer <acuster@gnome.org>
+
+	* NEWS: Rewrite of the 'Text Import' section of the 'Working with
+	        Files' chapter. 
+	* NEWS: Cleaned up the figures/ dir. Now only images in the text
+	        are present. 
+
+	* gnumeric.xml: Add explicit encoding.
+	
+	* figures/textguru-import-panel1-withTags.png: Added
+	* figures/textguru-import-panel2a-withTags.png: Added
+	* figures/textguru-import-panel2b-withTags.png: Added
+	* figures/textguru-import-panel3-withTags.png: Added
+	* figures/files-csv-import-ex1.png: Deleted
+	* figures/files-csv-import-ex2.png: Deleted
+	* figures/files-csv-import-ex3.png: Deleted
+	* figures/files-csv-import-ex4.png: Deleted
+	* figures/files-csv-import-ex5.png: Deleted
+	* figures/Makefile.am: Modified for files above. Major edits to
+	  sync with files in text and in figures/ directory.
+	
+	* files-formats.xml: misc edit. Add TODO comments.
+	* files-textopen.xml: Wrote.
+	
+	* graphics-plots.xml: Add a comment w/ stock/surface plot.
+	* analysis-solver.xml: Add a comment with sovler-05.png.
+	* gui-menus.xml: Change image for format and help menus.
+	* gui-toolbars.xml: Add hyperlink, scroll, spin, slide entries.
+	* printing.xml: Add fitonetoone button, dropped fit tall/wide.
+	
+2004-09-30  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* files-textopen.xml, files-saving.xml, graphics-plots.xml,
+	files-formats.xml, data-entry-external.xml, gui-menus.xml,
+	files-opening.xml, graphics-drawings.xml: Fixed dangling links, typos,
+	tags.
+	* files-opening.xml, graphics-plots.xml: Moved "caption" tags into
+	"mediaobject"s where they are valid.
+
+2004-09-29  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* Makefile.am: Set "figdir" so the figures get installed.
+
+2004-09-29  Adrian Custer <acuster@gnome.org>
+
+	* figures/dialog-fileopen-withTags.png: Added
+	* figures/Makefile.am: Modified
+
+	* files-formats.xml: changed links (-files- to -file- );
+	* files-opening.xml: changed links (dropped -formats- ); Wrote;
+	* files-textopen.xml: changed links (dropped -formats- );
+	* files-saving.xml: changed links (dropped -formats- ); encoding
+	                    note => sect2; typo;
+	* files-textsave.xml: changed links (dropped -formats- );
+
+2004-09-28  Adrian Custer <acuster@gnome.org>
+
+	* files-saving.xml: maybe this one will help.
+
+2004-09-28  Adrian Custer <acuster@gnome.org>
+
+	* files-saving.xml: l674. another stupid breaker. bad me.
+
+2004-09-28  Adrian Custer <acuster@gnome.org>
+
+	* figures/dialog-filesave-compact-withTags.png: Added
+	* figures/dialog-filesave-expanded-withTags.png: Added
+	* figures/file-formats-import-list.png: Removed.
+	* figures/files-formats-list.png: Removed.
+	* figures/Makefile.am: Modified
+	
+	* files-opening.xml: Minor edits. Skeleton outline.
+	* files-saving.xml: Edits. Spell Check
+	* graphics-plots.xml: Typo.
+	
+2004-09-26  Adrian Custer <acuster@gnome.org>
+
+	* gnumeric.xml: Edit File chapter. Added files as entities.
+	* manual-usage.xml: Edit File chapter intro paragraph.
+	
+	* files-formats.xml: Added.
+	* files-textopen.xml: Added. Moved Text Import here.
+	* files-textsave.xml: Added. Moved Text Export here.
+	* files-email.xml: Added.
+	* files-ssconvert.xml: Added.
+	* files-autosave.xml: Deleted. Contents to config chapter.
+	* Makefile.am: Added and deleted files above.
+	* workbooks.xml: Added autosave section from files-autosave.xml.
+	
+	* files-overview.xml: Edits.
+	* files-formats.xml: Edits. Table and list of formats.
+	* files-opening.xml: Edits. How-to and list of formats.
+	* files-textopen.xml: Edits.
+	* files-saving.xml: Edits. How-to and list of formats.
+	* files-textsave.xml: Edits.
+
+2004-09-23  Adrian Custer <acuster@gnome.org>
+
+	* gnumeric.xml: Edit "More Help" chapter title.
+	* morehelp.xml: Edit section titles. Minor Edits.
+	
+2004-09-23  Adrian Custer <acuster@gnome.org>
+
+	* gnumeric.xml: Edit bugs chapter paragraph.
+	* manual-usage.xml: Edit bugs chapter paragraph.
+	* bugs.xml: Reorganize. Finish bugzilla instructions.
+	
+2004-09-22  Adrian Custer <acuster@gnome.org>
+
+	* graphics-plots.xml: close the note on line 4026.
+	
+2004-09-22  Adrian Custer <acuster@gnome.org>
+
+	* gnumeric.xml: Edits for the graphics chapter. Split 'widgets'.
+	* manual-usage.xml: Edit graph chapter paragraph.
+	* quick-start.xml: Edit the graphing section - changed end to
+	                   warning and moved to the begining.
+	
+	* graphics-overview.xml: First edits.
+	* figures/graphical-elements.png: New File.
+	* figures/graphical-elements-selected.png: New File.
+	* figures/graphical-elements-stacked.png: New File.
+	* figures/Makefile.am: Added filename above.
+	
+	* graphics-plots.xml: First edits.
+	* figures/graph-components.png: Added.
+	* figures/graph-hierarchy.png: Added.
+	* figures/graphguru-components.png: Added.
+	* figures/graphs-types-line.png: Added from goffice. Was linegraph.xpm.
+	* figures/graphs-types-xyplot.png: Added from goffice. Was scatter.xpm.
+	* figures/graphs-types-ring.png: Added from goffice. Was doughnut.xpm.
+	* figures/graphs-types-area.png: Added from goffice. Was area.xpm.
+	* figures/graphs-types-bar.png: Added from goffice. Was bar.xpm.
+	* figures/graphs-types-bubble.png: Added from goffice. Was bubble.xpm.
+	* figures/graphs-types-column.png: Added from goffice. Was column.xpm.
+	* figures/graphs-types-pie.png: Added from goffice. Was pie.xpm.
+	* figures/graphs-types-radar.png: Added from goffice. Was radar.xpm.
+	* figures/graphs-types-surface.png: Add from goffice. Was surface.xpm.
+	* figures/graphs-types-stock.png: Added from goffice. Was stock.xpm.
+	* figures/graph-example-line.png: Added.
+	* figures/graph-example-xyplot.png: Added.
+	* figures/graph-example-bubble.png: Added.
+	* figures/graph-example-pie.png: Added.
+	* figures/graph-example-area.png: Added.
+	* figures/graph-example-bar.png: Added.
+	* figures/graph-example-column.png: Added.
+	* figures/graph-example-radar.png: Added.
+	* figures/graph-example-ring.png: Added.
+	* figures/chart_line_1_1.png: Added from goffice.
+	* figures/chart_line_1_2.png: Added from goffice.
+	* figures/chart_line_1_3.png: Added from goffice.
+	* figures/chart_line_2_1.png: Added from goffice.
+	* figures/chart_line_2_2.png: Added from goffice.
+	* figures/chart_line_2_3.png: Added from goffice.
+	* figures/chart_scatter_1_1.png: Added from goffice.
+	* figures/chart_scatter_3_1.png: Added from goffice.
+	* figures/chart_scatter_3_2.png: Added from goffice.
+	* figures/chart_bubble_1_1.png: Added from goffice.
+	* figures/chart_pie_1_1.png: Added from goffice.
+	* figures/chart_pie_2_1.png: Added from goffice.
+	* figures/chart_area_1_1.png: Added from goffice.
+	* figures/chart_area_1_2.png: Added from goffice.
+	* figures/chart_area_1_3.png: Added from goffice.
+	* figures/chart_bar_1_1.png: Added from goffice.
+	* figures/chart_bar_1_2.png: Added from goffice.
+	* figures/chart_bar_1_3.png: Added from goffice.
+	* figures/chart_column_1_1.png: Added from goffice.
+	* figures/chart_column_1_2.png: Added from goffice.
+	* figures/chart_column_1_3.png: Added from goffice.
+	* figures/chart_radar_1_1.png: Added from goffice.
+	* figures/chart_radar_1_2.png: Added from goffice.
+	* figures/chart_radar_1_3.png: Added from goffice.
+	* figures/chart_ring_1_1.png: Added from goffice.
+	* figures/chart_ring_1_2.png: Added from goffice.
+	* figures/widget-entryBox.png: Added.
+	* figures/widget-entryBox-outlined.png: Added.
+	* figures/graphguru-backPanels-none.png: Added.
+	* figures/graphguru-backPanels-pattern.png: Added.
+	* figures/graphguru-backPanels-gradient.png: Added.
+	* figures/graphguru-backPanels-image.png: Added.
+	* figures/graphguru-title-font.png: Added.
+	* figures/graphguru-axes-category-bounds.png: Added.
+	* figures/graphguru-axes-category-details.png: Added.
+	* figures/graphguru-axes-category-style.png: Added.
+	* figures/graphguru-axes-continuous-bounds.png: Added.
+	* figures/graphguru-axes-continuous-format.png: Added.
+	* figures/graphguru-plot-barCol.png: Added.
+	* figures/graphguru-plot-bubble.png: Added.
+	* figures/graphguru-plot-pie.png: Added.
+	* figures/graphguru-plot-radar.png: Added.
+	* figures/graphguru-plot-ring.png: Added.
+	* figures/graphguru-series-data-bubble.png: Added.
+	* figures/graphguru-series-data-single.png: Added.
+	* figures/graphguru-series-data-xy.png: Added.
+	* figures/graphguru-series-error.png: Added.
+	* figures/graphguru-series-style-filled.png: Added.
+	* figures/graphguru-series-style-line.png: Added.
+	* figures/Makefile.am: Added files above.
+	
+	
+	
+	
+	* graphics-images.xml: Edits.
+	
+	* graphics-widgets.xml: Split from graphics-drawings.xml. Edits.
+	* Makefile.am: Added filename above.
+	* figures/widget-label.png: Added.
+	* figures/widget-frame.png: Added.
+	* figures/widget-checkbox.png: Added.
+	* figures/widget-scrollbar.png: Added.
+	* figures/widget-spinbutton.png: Added.
+	* figures/widget-slider.png: Added.
+	* figures/widget-list.png: Added.
+	* figures/widget-combobox.png: Added.
+	* figures/dialog-properties-labels.png: Added.
+	* figures/dialog-properties-frames.png: Added.
+	* figures/dialog-properties-checkbox.png: Added.
+	* figures/dialog-properties-scrollbar.png: Added.
+	* figures/Makefile.am: Added filenames above.
+	
+	* graphics-drawings.xml: Spit out the widgets. Edits.
+	* figures/drawing-line.png: Added.
+	* figures/drawing-arrow.png: Added.
+	* figures/arrowhead-dimensions.png: Added.
+	* figures/drawing-rectangle.png: Added.
+	* figures/drawing-oval.png: Added.
+	* figures/dialog-properties-line.png: Added.
+	* figures/dialog-properties-arrow.png: Added.
+	* figures/dialog-properties-rectangle.png: Added.
+	* figures/dialog-properties-oval.png: Added.
+	* figures/Makefile.am: Added filenames above.
+
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-30  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* Makefile.am: Added bugs.xml to entities; sorted entities.
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-08-23  Adrian Custer <acuster@gnome.org>
+
+	* gnumeric.xml:
+	* welcome.xml: Shuffle the screenshot upwards.
+	* morehelp.xml: Write all sections. Remove bugs subsection.
+        * bugs.xml: New file. Made into its own chapter. Not quite done.
+
+
+2004-07-19  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gnumeric-C.omf: Added DOCTYPE so the file validates with "xmllint
+	--noout --valid" (as per "Writing ScrollKeeper OMF Files V1.1");
+	updated version/date information.
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-07-05  Adrian Custer <acuster@gnome.org>
+
+	* gnumeric.xml: Spell check.
+	* welcome.xml: Spell check. Change (tm) to <trademark/>.
+	* manual-usage.xml: Spell check.
+	* quick-start.xml: Spell check. Change verbatim indents.
+    	* data-overview.xml: Minor edits. Spell check.
+	* data-types.xml: Fix typos. Change verbatim indents. Spell
+	check. Minor edits.
+	* data-entry.xml: Minor edits. Spell check.
+	* data-entry-advanced.xml: Minor edits. Spell check.
+	* file-opening.xml: Change (tm) to <trademark/>.
+
+2004-07-05  Adrian Custer <acuster@gnome.org>
+
+    	* The first major 1.3 edits.
+	* TODO: Addded with list of topics that need some gnum. lovin'.
+    	* gnumeric.xml: Start of 1.3 docs. Update versions and
+	  dates. Split into a developer and stable version.
+	* welcome.xml: Update the version number. Split 1.3. Update.
+	* manual-usage.xml: Add new user switch.
+	* quick-start.xml: Make OS agnostic. Remove redundant "Getting
+	  started" section, moved to chapter header in gnumeric.xml.  Added
+	  section: "Parts of Gnm". Placed text correctly in <para> to
+	  validate.
+    	* data-selections.xml: Edit the multiple cell selection text, closes 
+          http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=256777.
+    
+
+2004-05-15  Adrian Custer <acuster@gnome.org>
+
+	* quick-start.xml: some graphing info.
+	
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+	* Makefile.am : do not list gnumeric.xml in the entities it is
+	  autoadded by the magic in xmldocs.make
+	  remove the png figures from the list of entities
+
+2004-03-05  Jody Goldberg <jody@gnome.org>
+
+	* data-format.xml : Add 'mmmmm'
+
+2004-01-14  Jody Goldberg <jody@gnome.org>
+
+	* about-authors.xml : Add jimmac.
+
+2004-01-14  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gui-other-elements.xml, gui-overview.xml, gui-toolbars.xml, 
+	printing.xml: Added missing '.png' suffix to figure filerefs.
+	* figures/Makefile.am: Added missing figures to EXTRA_DIST.
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+	* files-autosave.xml : use dialog-autosave.png because it exists.
+	* figures/Makefile.am (EXTRA_DIST) : remove non existent auto-save.png
+	  and worksheet-print.png
+
+2003-11-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-statistical.xml: remove random generator description
+	* data-entry-advanced.xml: add random generator description
+
+2003-11-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysistools-statistical.xml: incorporate new screen shot
+	* figures/Makefile.am: add new file
+
+	for Sebastian Klost:
+	* figures/analysistools-ANOVA1-ex1.png: updated
+	* figures/analysistools-ANOVA1-ex2.png: updated
+	* figures/analysistools-ANOVA2w-ex1.png: updated
+	* figures/analysistools-ANOVA2w-ex2.png: updated
+	* figures/analysistools-ANOVA2wo-ex1.png: updated
+	* figures/analysistools-ANOVA2wo-ex2.png: updated
+	* figures/analysistools-correlation-ex1.png: updated
+	* figures/analysistools-correlation-ex2.png: updated
+	* figures/analysistools-correlation-ex3.png: updated
+	* figures/analysistools-correlation.png: updated
+	* figures/analysistools-covariance-ex1.png: updated
+	* figures/analysistools-covariance-ex2.png: updated
+	* figures/analysistools-covariance.png: updated
+	* figures/analysistools-descstats-ex1.png: updated
+	* figures/analysistools-descstats-ex2.png: updated
+	* figures/analysistools-descstats.png: updated
+	* figures/analysistools-fourier.png: updated
+	* figures/analysistools-ftest-ex1.png: updated
+	* figures/analysistools-ftest-ex2.png: updated
+	* figures/analysistools-ftest.png: updated
+	* figures/analysistools-histogram-bins.png: updated
+	* figures/analysistools-histogram-ex1.png: updated
+	* figures/analysistools-histogram-ex2.png: updated
+	* figures/analysistools-histogram-ex3.png: updated
+	* figures/analysistools-histogram.png: updated
+	* figures/analysistools-moving-average-ex1.png: updated
+	* figures/analysistools-moving-average-ex2.png: updated
+	* figures/analysistools-moving-average.png: updated
+	* figures/analysistools-outputoptions.png: updated
+	* figures/analysistools-ranges.png: updated
+	* figures/analysistools-rank-ex1.png: updated
+	* figures/analysistools-rank-ex2.png: updated
+	* figures/analysistools-rank.png: updated
+	* figures/analysistools-regression-ex1.png: updated
+	* figures/analysistools-regression-ex2.png: updated
+	* figures/analysistools-regression-ex3.png: updated
+	* figures/analysistools-regression.png: updated
+	* figures/analysistools-sampling-ex1.png: updated
+	* figures/analysistools-sampling-ex2.png: updated
+	* figures/analysistools-sampling.png: updated
+	* figures/analysistools-smoothing-ex1.png: updated
+	* figures/analysistools-smoothing-ex2.png: updated
+	* figures/analysistools-smoothing.png: updated
+	* figures/analysistools-tools.png: updated
+	* figures/analysistools-ttest-equal-ex1.png: updated
+	* figures/analysistools-ttest-equal-ex2.png: updated
+	* figures/analysistools-ttest-equal.png: updated
+	* figures/analysistools-ttest-paired-ex1.png: updated
+	* figures/analysistools-ttest-paired-ex2.png: updated
+	* figures/analysistools-ttest-paired.png: updated
+	* figures/analysistools-ttest-unequal-ex1.png: updated
+	* figures/analysistools-ttest-unequal-ex2.png: updated
+	* figures/analysistools-ttest-unequal.png: updated
+	* figures/analysistools-ttest.png: updated
+	* figures/analysistools-ztest-ex1.png: updated
+	* figures/analysistools-ztest-ex2.png: updated
+	* figures/analysistools-ztest.png: updated
+	* figures/analysistools-descstats-ex1-options.png: new
+	* gnumeric_doc_analysistools.gnumeric: data for analysis tools 
+	  screen shots
+
+2003-11-11  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* C/Makefile.am: Removed datasource.xml from entities as it doesn't
+	exist yet.
+
+2003-11-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* configuration-preferences.xml: add text
+	* figures/Makefile.am: add new files
+	
+	for Sebastian Klost:
+	* figures/preferences-files.png: new
+	* figures/preferences-font-header.png: new
+	* figures/preferences-font.png: new
+	* figures/preferences-sorting.png: new
+	* figures/preferences-undo.png: new
+	* figures/preferences-various-internal.png: new
+	* figures/preferences-various.png: new
+	* figures/preferences-windows.png: new
+
+2003-11-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* figures/printing-setup-margins.png: delete
+	* figures/printing-setup-page-1.png: delete
+	* figures/Makefile.am: remove deleted files
+
+2003-11-02  Jody Goldberg <jody@gnome.org>
+
+	* welcome.xml : minor edits.
+
+	* Makefile.am (include) : Actually install the man pages.
+
+2003-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* figures/Makefile.am (EXTRA_DIST): Sorted in sort(1) order; added
+	missing images. (Debian #218580)
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-10-05 Adrian Custer <acuster@gnome.org>
+
+	* quick-start.xml: edit the graphing section.
+	* figures/gnumeric-icon-24.png: add.
+
+2003-09-27  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* ssconvert.1: New.
+	* Makefile.am: Include ssconvert.1
+
+2003-09-16 Adrian Custer <acuster@gnome.org>
+
+	* quick-start.xml: update the graphing section.
+	* figures/example-data.png: add.
+	* figures/example-columnSelect.png: add.
+	* figures/example-colGraph.png: add.
+	* figures/example-colGraph-modified.png: add.
+	* figures/menu-context-graph.png: add.
+	* figures/button-graphEditor-add.png: add.
+	
+2003-09-16 Adrian Custer <acuster@gnome.org>
+
+	* welcome.xml: Updated with release announcement info.
+	* data-entry-external.xml: replace a <code> tag with <literal>.
+	
+2003-09-15 Adrian Custer <acuster@gnome.org>
+
+	* welcome.xml: Updated.
+
+2003-09-15 Adrian Custer <acuster@gnome.org>
+
+	* datasource.xml: remove as separate chapter, add to data chapter.
+	* data-entry-external.xml: Added.
+	* printing.xml: Added patch from Andreas for headers/footers.
+	* figures/gnumeric-icon.png: Added the icon.
+	* figures/gnumeric-power-example.png: Updated.
+	* figures/gnumeric-empty.png: Updated.
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-13 Adrian Custer <acuster@gnome.org>
+
+	* gnumeric.1: Update the man page.
+
+2003-09-12 Adrian Custer <acuster@gnome.org>
+
+	* quick-start.xml: Remove a false statement of mine.
+	
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-09-09 Adrian Custer <acuster@gnome.org>
+
+	* extending-python.xml: Added text from Charles Twardy.
+	* gnumeric.xml: Added Charles Twardy as contributor.
+	* welcome.xml: minor edits.
+	* quick-start.xml: removed a period.
+	
+2003-09-06 Adrian Custer <acuster@gnome.org>
+
+	* gnumeric.xml: Downgrade to Docbook 4.1.2.
+
+2003-08-29  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gnumeric.1: Fixed incorrect section argument to .TH .
+	  (Fixes Debian bug report #207705)
+
+2003-08-22  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* Makefile.am: Added analysis-goalseek.xml, analysis-scenarios to
+	  entities.
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-08-09 Adrian Custer <acuster@nature.berkeley.edu>
+
+	* Add link id's for filters
+
+2003-08-09 Adrian Custer <acuster@nature.berkeley.edu>
+
+	* Add analysis-scenarios.xml
+	* Split analysis-goalseek.xml from analysis-solver.xml
+	* Fix erros.
+
+2003-08-09 Adrian Custer <acuster@nature.berkeley.edu>
+
+	* Add to graphics-drawings.xml links for help buttons.
+
+2003-07-16  Jody Goldberg <jody@gnome.org>
+
+	* functions.xml : regenerate with all the recent fixes
+
+2003-07-09 Adrian Custer <acuster@nature.berkeley.edu>
+
+	* Split data-entry-advanced from data-entry
+	* Add data-generate.xml
+
+2003-07-09 Adrian Custer <acuster@nature.berkeley.edu>
+
+	* Added README
+
+2003-07-07 Adrian Custer <acuster@nature.berkeley.edu>
+
+	* New chapter organization
+	* New figures/*.png names
+	* Changed all <graphic> to <mediaobject>
+	* Added "Getting Started" chapter
+	* Set up links for help buttons in dialogs
+	* Added section headings for future text.
+
+2003-06-01 Adrian Custer <acuster@nature.berkeley.edu>
+
+	* Complete redsign of gnumeric/doc/C/
+
+2003-06-01 Adrian Custer <acuster@nature.berkeley.edu>
+
+	* New ChangeLog 
+

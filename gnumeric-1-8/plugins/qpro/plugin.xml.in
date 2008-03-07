@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_QPro">
+	<information>
+		<_name>Quattro Pro(tm)</_name>
+		<_description>Imports Quattro Pro (tm) files</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="qpro"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="qpro" priority="100" probe="TRUE">
+			<information>
+				<_description>Quattro Pro (*.wb1, *.wb2, *.wb3)</_description>
+			</information>
+			<suffixes>
+				<suffix>wb1</suffix>
+				<suffix>wb2</suffix>
+				<suffix>wb3</suffix>
+			</suffixes>
+			<mime-types>
+				<mime-type>application/x-quattropro</mime-type>
+				<mime-type>application/x-quattro-pro</mime-type>
+			</mime-types>
+		</service>
+	</services>
+</plugin>

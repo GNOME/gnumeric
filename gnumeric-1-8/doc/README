@@ -1,0 +1,9 @@
+Each language has its own directory where the translated documentation
+goes. 'C' being the default (English) language.
+
+In order to avoid useless weight it is a good idea to use the images
+in the C/figures/ directory, that is using relative paths as 
+"../C/figures/image_name" and only use "figures/image_name" (that is using
+an images/ directory under the specific language directory) for those
+images where a translation is useful (images whith text strings for
+example).

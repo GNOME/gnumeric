@@ -1,0 +1,48 @@
+<sect1 id="sect-configuration-plugins">
+  <title>Plugins</title>
+
+  <para>
+    &gnum; allows users to configure the plugins which are currently
+    in use. The <guilabel>Plugin Manager</guilabel> provides all the
+    configuration options in one location.
+  </para>
+
+  <para>
+    The <guilabel>Plugin Manager</guilabel> can be started by clicking
+    on the <guimenu>Tools</guimenu> menu and selecting the
+    <guimenuitem>Plugins...</guimenuitem> menu item.
+  </para>
+
+  <para>
+    The <guilabel>Plugin Manager</guilabel> is a tabbed dialog with
+    three tabs. The first tab, labeled <guilabel>Plugin
+    List</guilabel>, provides a list of all the currently
+    visible plugins, the second tab, labeled <guilabel>Plugin
+    Details</guilabel> provides details on the plugin selected in the
+    first tab. The third tab, labeled <guilabel>Directories</guilabel>
+    lists the directories which are currently searched to discover new
+    plugins.
+  </para>
+
+  <para>
+    The first tab provides a list of plugins, an explanation of each
+    and a method to activate or de-activate the plugin. The list
+    includes all of the plugins which have been found by &gnum; in the
+    directories listed in the third tab. An explanation can be
+    obtained for each plugin by selecting the plugin from the list by
+    placing the mouse pointer over the plugin name and clicking with
+    the primary mouse button. The explanation will then appear in the
+    bottom text area. The active column provides check boxes in front
+    of each listed plugin. If the box contains a check mark, the
+    plugin has been activated and its functionality should be
+    available.
+  </para>
+
+  <para>
+  </para>
+
+  <para>
+  </para>
+
+</sect1>
+

@@ -1,0 +1,157 @@
+<sect1>
+  <title>Trabajando con archivos</title>
+
+  <sect2>
+    <title>Guardando archivos</title>
+
+    <para>Hay varias formas de grabar un archivo abierto. Si el
+archivo tiene nombre y ya existe (es decir, si no es una hoja nueva)
+la función Guardar lo guardará con el nombre actual. </para>
+
+    <para>Puede invocar la operación de Guardar de varias formas. Está
+disponible en la barra de menúes (ver <xref linkend="menu-bar">) en la
+opción <guimenuitem><accel>G</accel>uardar</guimenuitem> del menú
+<guimenu><accel>A</accel>rchivo</guimenu>. También tenemos el icono
+<guibutton>Guardar</guibutton> en la barra de herramientas para
+guardar el archivo (ver <xref linkend="buttonbar-buttons">). Todos
+estos métodos son equivalentes.</para>
+
+    <!-- FIXME is this proper? --> 
+    <important>
+      <variablelist>
+	<title>Guardando un archivo</title>
+      <varlistentry>
+	  <term>Barra de menú</term>
+	  <listitem>
+	    <para> 
+	      <guimenu><accel>A</accel>rchivo</guimenu>/
+	      <guimenuitem><accel>G</accel>uardar</guimenuitem>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    Barra de herramientas
+	  </term>
+	  <listitem>
+	    <para>
+	    <guiicon>
+		<inlinegraphic fileref="../C/images/stock-save.png"></inlinegraphic>
+		Guardar
+	      </guiicon>
+	    </para>
+	  </listitem>
+      </varlistentry>
+	<!-- FIXME this is broken, the keycombo actions seem t ge ignored -->
+	<!-- We need to maek it clear its alt and F _then_ a, and the generated html doesnt do that -->
+	<varlistentry>
+	  <term>
+	    Atajo por teclado
+	  </term>
+	<listitem>
+	    <para>
+	      <keycombo action=seq>
+		<keycombo action=simul>
+		  <keycap>Alt</keycap><keycap>a</keycap>
+		</keycombo>
+		<keycap>g</keycap>
+	      </keycombo>
+	    </para>
+	  </listitem>
+      </varlistentry>
+      </variablelist>
+      
+    </important>
+      
+    <para>Para guardar nuevos archivos, o para renombrarlos, tenemos
+<guimenuitem>Guardar como...</guimenuitem>. Se le pedirá al usuario un
+nuevo nombre para el archivo y una dirección donde guardarlo.</para>
+    
+    <important>
+	<variablelist>
+	<title>Usando Guardar como... en un archivo</title>
+	<varlistentry>
+	  <term>Barra de menú</term>
+	  <listitem>
+	    <para> 
+	      <guimenu><accel>A</accel>rchivo</guimenu>/
+	      <guimenuitem>G<accel>u</accel>ardar como...</guimenuitem>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    Barra de herramientas
+	  </term>
+	  <listitem>
+	    <para>
+	      <guiicon>
+		<inlinegraphic fileref="../C/images/stock-save.png"></inlinegraphic>
+		Guardar
+	      </guiicon>
+		  Cuando estemos con un archivo anónimo, con este
+botón se llamará a <guimenuitem>Guardar como...</guimenuitem>. Para
+renombrar un archivo, se tiene que utilizar el menú o el atajo por
+teclado.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<!-- FIXME this is broken, the keycombo actions seem t ge ignored -->
+	<!-- We need to maek it clear its alt and F _then_ a, and the generated html doesnt do that -->
+	<varlistentry>
+	<term>
+	    Atajo por teclado
+	  </term>
+	  <listitem>
+	    <para>
+	      <keycombo action=seq>
+		<keycombo action=simul>
+		  <keycap>Alt</keycap><keycap>a</keycap>
+		</keycombo>
+		<keycap>u</keycap>
+	      </keycombo>
+	  </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+      
+    </important>
+
+    </sect2>
+
+    <sect2>
+      <title>Formato del archivo</title>
+      
+      <para>El formato de archivo por defecto que se utiliza en
+Gnumeric es xml. Es decir, los archivos que se guardan con Gnumeric
+son ficheros de texto xml normales. Sin embargo, se guardan y se
+cargan los ficheros comprimidos con gzip.</para>
+      
+    <para>Una vez descomprimido el fichero tiene una forma legible por
+humanos y diseñada para ser comprendida fácilmente. Tiene muchas
+posibilidades de expansión.</para>
+      
+  </sect2>
+
+</sect1>
+
+
+
+
+
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         

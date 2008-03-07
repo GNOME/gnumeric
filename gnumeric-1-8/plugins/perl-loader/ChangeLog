@@ -1,0 +1,172 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-15  Morten Welinder  <terra@gnome.org>
+
+	* Makefile.am (perl_loader_la_LIBADD): Add GTK_LIBS so we load the
+	right glib etc.
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-25  Morten Welinder  <terra@gnome.org>
+
+	* perl-cc-wrapper: Improve error handling.
+
+2006-10-17  Morten Welinder  <terra@gnome.org>
+
+	* boot.c (go_plugin_init): Initialize the type here.  (By calling
+	the right function.)
+	(go_plugin_shutdown): Not here.
+	(perl_get_loader_type): Export.
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/perl-loader/perl-loader.c: replaced gi18n.h by gi18n-lib.h.
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-04-18  Stepan Kasal  <kasal@ucw.cz>
+
+	* perl-loader.c (python_function_get_gnumeric_help): Disable until
+	the code is adapted for struct GnmFuncHelp; for now, define as NULL.
+
+2005-04-12  Stepan Kasal  <kasal@ucw.cz>
+
+	* Makefile.am: Distribute perl-cc-wrapper.
+
+2005-04-08  Morten Welinder  <terra@gnome.org>
+
+	* Makefile.am (COMPILE): add $(srcdir) to wrapper location.
+
+2005-04-05  Morten Welinder  <terra@gnome.org>
+
+	* Makefile.am: disable dependency tracking (which gets configured
+	to use the wrong compiler).  Install our own compiler.
+
+2005-04-05  Jody Goldberg <jody@gnome.org>
+
+	* perl-loader.c : Make it compile again
+
+2005-04-05  Stepan Kasal  <kasal@ucw.cz>
+
+	* Makefile.am (perl_loader_CFLAGS): Remove, it has no effect.
+	(xsinit.c): Don't distribute this file; call $(PERL), not perl.
+
+2005-04-04  Morten Welinder  <terra@gnome.org>
+
+	* Makefile.am: Use the right compiler.
+
+2005-04-04  Stepan Kasal  <kasal@ucw.cz>
+
+	* perl-loader.c: GnmPluginLoader renamed to GOPluginLoader.
+
+2004-11-02  Morten Welinder  <terra@gnome.org>
+
+	* perl-loader.c (call_perl_function_args): C99 Fix.
+	(gplp_load_base): Only use PERL_EXIT_DESTRUCT_END when defined.
+	Don't free the loader's name!

@@ -1,0 +1,344 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2007-01-06  Morten Welinder  <terra@gnome.org>
+
+	* sample_datasource.c (cb_atl_input): Use gnm_float.
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-06-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* sample_datasource.c (watcher_hash): extinguish warning #346045
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-23  Stepan Kasal  <kasal@ucw.cz>
+
+	* sample_datasource.c (atl_last): Adapt to the new definition
+	of GnmFuncArgs.
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-03-23  Morten Welinder  <terra@gnome.org>
+
+	* sample_datasource.c (go_plugin_init): Use g_open, not open.  Use
+	g_build_filename, not concat.
+	(go_plugin_shutdown): Use g_unlink, not unlink.
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-12-03  Jody Goldberg <jody@gnome.org>
+
+	* sample_datasource.c (plugin_init) : open with 'rb' instead of 'b'
+	  for platforms where it matters.
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-08  Morten Welinder  <terra@gnome.org>
+
+	* sample_datasource.c (cb_watcher_queue_recalc): Recalc when
+	needed.
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-07-16  Jody Goldberg <jody@gnome.org>
+
+	* sample_datasource.c : Improve help text.
+
+2003-06-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* plugin.xml.in: change category Financial to Finance
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-03-18  Morten Welinder  <terra@diku.dk>
+
+	* sample_datasource.c (plugin_init): Handle failure of mkfifo.
+	Keep track of filename used.
+	(plugin_cleanup): Ditto.
+
+	(plugin_init): Use a named pipe in the home directory, not in /tmp
+	(because that is a security risk, at least when not done
+	carefully)
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* sample_datasource.c (cb_atl_input): Changed type of buf to reflect
+	  actual use.
+	* sample_datasource.c: Define _POSIX_SOURCE for fdopen().
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-10-04  Jody Goldberg <jody@gnome.org>
+
+	* sample_datasource.c : fix includes.
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.3
+
+2002-03-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.2
+
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
+2002-03-09  Jody Goldberg <jody@gnome.org>
+
+	This is not really a change note.  However, I wanted to point out that
+	the 2nd limitation below is fixed now link functions are now called
+	correctly.
+
+2002-03-01  Jody Goldberg <jody@gnome.org>
+
+	* sample_datasource.c : Initial implementation of an external data
+	  source.  The actual data source is quick and dirty, we just read
+	  from a named pipe.  It is completely unsuitable for real work.  The
+	  intent is to provide a test bed for the components necessary to
+	  produce a data source.  Current architectural limitations include
+	    - Although the source queues things correctly for recalc it does
+	      not actually run the recalc yet.  We'll want to offer some
+	      configurability for this.
+	    - linking an expression from a plugin that has not yet been loaded
+	      should activate.  Instead we don't activate until the first
+	      evaluation.  This is not a major failing but it does mean that
+	      _link functions are not called corerctly.
+	    - The init/cleanup routines for plugins should have
+	      CommandContexts to report errors.
+	    - It would be nice to be able to add menu and toolbar entries.
+
+
+	To use the source :
+	    in a sheet atl_last(ticker)
+	    and then cat > /tmp/atl
+	    ticker:value
+	    The on sheet value will only change on the _next_ user invoked
+	    recalc.

@@ -1,0 +1,24 @@
+<sect1 id="sect-configuration-toolbars">
+  <title>Toolbars</title>
+
+  <para>
+    The three &gnum; toolbars can either be hidden from view or shown
+    above or below the cell grid area. The three different toolbars
+    are explained in <xref linkend="sect-gui-toolbars" />.
+  </para>
+
+  <para>
+    Toolbars can be hidden or shown by clicking with the primary mouse
+    button on the
+    <guimenu>View</guimenu> menu, the dragging the pointer down to the
+    <guimenuitem>Toolbars</guimenuitem> to open its submenu and then
+    moving the pointer into the sub-menu listing the three
+    toolbars. By default each toolbar appears with a small check mark
+    in front of its name indicating that it is visible. Clicking on
+    any of the toolbars will alter its setting, making the toolbar
+    visible if it is hidden or hiding the toolbar if it is
+    visible.
+  </para>
+
+</sect1>
+

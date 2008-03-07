@@ -1,0 +1,151 @@
+Adding formulas to gnumeric using the guile plugin
+--------------------------------------------------
+
+Ariel Rios <ariel@arcavia.com>
+
+This paper will introduce the guile plugin as a convenient,
+efficient and easy way to adding formulas unto gnumeric.
+
+Function tokens used in Gnumeric
+
+NOTE: Please refer to the writing-functions.sgml for
+a complete reference.
+
+f : A floating point (double) value.
+s : A string (char*)
+b : A boolean
+r : A GnmRange eg. A1:A5 - See 'A'
+a : An Array eg. {1,2,3;4,5,6} ( a 3x2 array ) - See 'A'
+A : Either an Array or a GnmRange: Use the
+    value_area set of functions to simplify the code.
+    see expr.h.
+? : Any type, the type must be checked from value->type.   
+| : This designates that the arguments in the token string
+    following this character are optional.
+
+Although scheme makes no difference in data types, we must know
+what kind of data we are getting from gnumeric so we can use it
+accordingly.
+
+The next table will show the data types we are expecting:
+
+f : (double) => number (big, integer, rational)
+s : (char *) => string
+b : (bool)   => scheme bool (#t #f)
+r : (range)  => scheme list
+a : (array)  => scheme list
+| : (optional => correspond to scheme dot inside a lambda defintion
+
+3. Adding formulas unto gnumeric.
+
+Adding formulas unto gnumeric is very easy. 
+
+First you need to create a new scheme file named guile.scm
+and copy it on your HOME .gnumeric directory.
+
+Inside the file you will need to register the scheme functions you will
+want to register. The registration is done via the register-function 
+procedure:
+
+(register-function
+ name
+ arg
+ description
+ function)
+
+name => New formula will be registered using this string.
+
+"sign"
+
+arg => String that includes the combination of arguments to be passed
+       by the gnumeric formula
+"f"
+
+description=> Description of the new formula.
+
+"@FUNCTION=SIGN
+@SYNTAX=SIGN(number)
+@DESCRIPTION=Returns -1 if NUMBER is less than 0, 1 if NUMBER
+is greater than 0 and 0 if NUMBER is equal 0."
+
+function => The scheme function. Please note that the number of arguments
+            of function shall be the same as the arguments given in arg.
+
+4. Example:
+
+The following is the registration of the fibonacci function.
+This function is already included on the gnumeric distribution.
+
+;;fibonacci function
+;;Usage: =FIBO(number)
+;;Calculates the fibonacci number of number.
+
+;; A fibonacci number is the sum of the two preceding numbers
+;; in the fibonacci series:
+
+;; (fibonacci 0) => 0
+;; (fibonacci 1) => 1
+;; (fibonacci 2) => 1
+;; (fibonacci 3) => 2
+;; (fibonacci 4) => 3
+;; (fibonacci 20) => 6765
+;; (fibonacci 30) => 832040
+
+(define (fibo k)
+  (let ((n (value-get-as-int k)))
+    (letrec ((fibof
+	      (lambda (n a b)
+		(if (<= n 2)
+		    b
+		    (fibof (- n 1) b (+ a b))))))
+      (value-new-float (fibof n 1 1)))))
+
+(register-function 
+"fibo" "f"
+"@FUNCTION=FIBO
+@SYNTAX=FIBO(num)
+@DESCRIPTION=Returns the fibonnacci computation for number."
+"Guile"
+fibo)
+
+You are now able to use you newly designed formula with:
+=FIBO(number)
+
+5. Using gnumeric GnmValue implementation.
+
+The Guile plugin has support for gnumeric value implementation;
+this is used by creating a new smob that adds
+GnmValue as new Guile data type. 
+
+-To create a new value the following set of functions:
+
+(make-val scm)
+Receives an int, float, string, bool or array and returns a new value smob. 
+This function will be deprecated.
+
+(value-new-empty scm)
+(value-new-bool scm)
+(value-new-int  scm)
+(value-new-float scm)
+(value-new-string scm)
+(value-new-list scm)
+(value-new-array-list scm)
+
+This functions receive a scm object and returns a new value smob.
+
+-To get the value of the smob depending on its type:
+
+(value_get_as_bool scm)
+(value_get_as_checked_bool scm)
+(value_get_as_string scm)      
+(value_get_as_int scm)     
+(value_get_as_list scm)
+
+This functions receive a scm object and returns a the value
+allocated within the smob.
+
+
+
+
+
+

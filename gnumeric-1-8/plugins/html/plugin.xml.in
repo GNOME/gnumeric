@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_html">
+	<information>
+		<_name>HTML &amp; TeX</_name>
+		<_description>Import/Export of HTML, TeX, DVI, roff</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="html"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="html" priority="100" probe="TRUE">
+			<information>
+				<_description>HTML (*.html, *.htm)</_description>
+			</information>
+			<suffixes>
+				<suffix>html</suffix>
+				<suffix>htm</suffix>
+			</suffixes>
+		</service>
+		<service type="file_saver" id="html32" file_extension="html" format_level="write_only">
+			<information>
+				<_description>HTML 3.2 (*.html)</_description>
+			</information>
+		</service>
+		<service type="file_saver" id="html40" file_extension="html" format_level="write_only">
+			<information>
+				<_description>HTML 4.0 (*.html)</_description>
+			</information>
+		</service>
+		<service type="file_saver" id="html40frag" file_extension="html" format_level="write_only">
+			<information>
+				<_description>HTML (*.html) fragment</_description>
+			</information>
+		</service>
+		<service type="file_saver" id="xhtml" file_extension="html" format_level="write_only">
+			<information>
+				<_description>XHTML (*.html)</_description>
+			</information>
+		</service>
+		<service type="file_saver" id="xhtml_range" 
+		 save_scope="range"
+                 file_extension="html" format_level="write_only">
+			<information>
+				<_description>XHTML range - for export to clipboard</_description>
+			</information>
+		</service>
+		<service type="file_saver" id="latex" file_extension="tex" format_level="write_only">
+			<information>
+				<_description>LaTeX 2e (*.tex)</_description>
+			</information>
+		</service>
+		<service type="file_saver" id="latex_table" file_extension="tex" format_level="write_only">
+			<information>
+				<_description>LaTeX 2e (*.tex) table fragment</_description>
+			</information>
+		</service>
+		<service type="file_saver" id="roff" file_extension="me" format_level="write_only">
+			<information>
+				<_description>TROFF (*.me)</_description>
+			</information>
+		</service>
+	</services>
+</plugin>

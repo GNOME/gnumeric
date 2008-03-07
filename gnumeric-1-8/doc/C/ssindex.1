@@ -1,0 +1,97 @@
+.TH SSINDEX 1 "August 18, 2005" gnumeric "GNOME"
+.SH NAME
+ssindex \- generate index data for spreadsheet files
+
+.SH SYNOPSIS
+\fBssindex \fR [\fIOPTIONS\fR] [\fIFILES\fR]
+
+.SH DESCRIPTION
+This manual page briefly documents the \fBssindex\fR command.
+
+\fBssindex\fR is a command line utility to generate index data for
+various spreadsheet file formats. It is primarily used by the \fBBeagle\fR
+indexing sub-system and search aggregator.
+
+.\".SH "RETURN VALUE"
+.\".SH "EXIT STATUS"
+.\".SH ERRORS
+.SH OPTIONS
+This program follows the usual GNU command line syntax, with single
+letter options starting with a single dash (`-') and longer options
+starting with two dashes (`--').
+
+.SS "Main options"
+.TP
+.B \-E, \-\-import\-encoding=\fIENCODING\fR
+Specify an encoding for imported content
+.TP
+.B \-i, \-\-index
+Index the given files
+.TP
+.B \-m, \-\-list\-mime\-types
+List the MIME types which ssindex is able to read
+
+.SS "Help options"
+.TP
+.B \-v, \-\-version
+Display ssindex's version
+.TP
+.B \-?, \-\-help
+Display the supported options
+.TP
+.B \-\-usage
+Display a brief usage message
+
+.SS "Path options"
+.TP
+.B \-L, \-\-lib\-dir=\fISTRING\fR
+Set the root library directory
+.TP
+.B \-D, \-\-data\-dir=\fISTRING\fR
+Adjust the root data directory
+
+.\".SH USAGE
+.\".SH EXAMPLES
+.\".SH FILES
+.\".SH ENVIRONMENT
+.\".SH DIAGNOSTICS
+.\".SH SECURITY
+.\".SH CONFORMING TO
+.\".SH NOTES
+.\".SH BUGS
+
+.SH LICENSE
+
+\fBssindex\fR is licensed under the terms of the General Public
+License (GPL), version 2. For information on this license look at the
+source code that came with the software or see the 
+.UR http://www.gnu.org
+GNU project page
+.UE
+at http://www.gnu.org/.
+
+.SH COPYRIGHT
+
+The copyright on \fBssindex\fR and the \fBgnumeric\fR software and source
+code is held by the individual authors as is documented in the source code.
+
+.SH AUTHOR
+
+\fBssindex\fR's primary author is Jody Goldberg <jody@gnome.org>; 
+\fBssindex\fR builds on the \fBgnumeric\fR codebase.
+
+The initial version of this manpage was written by J.H.M. Dassen (Ray)
+<jdassen@debian.org>.
+
+.SH SEE ALSO
+\fBbeagled\fR(1), \fBgnumeric\fR(1)
+
+.UR http://www.gnome.org/projects/gnumeric/
+The Gnumeric Homepage
+.UE
+at \fIhttp://www.gnome.org/projects/gnumeric/\fR
+
+.UR http://www.gnome.org/
+The GNOME project page
+.UE
+at \fI http://www.gnome.org/\fR

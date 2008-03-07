@@ -1,0 +1,100 @@
+#!/usr/bin/perl -w
+#
+#  Gnumeric
+#
+#  Copyright (C) 2001 Morten Welinder.
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License as
+#  published by the Free Software Foundation; either version 2 of the
+#  License, or (at your option) any later version.
+#
+#  This library is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#  General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this library; if not, write to the Free Software
+#  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+#  Author: Morten Welinder <terra@gnome.org>
+
+use strict;
+
+my $exitcode = 0;
+
+die "$0: must be run from top-level directory.\n"
+    unless -r "configure.in" && -r 'ChangeLog';
+
+# The following are not binary files, regardless of their names.
+my %exceptions =
+    ('debian/mime.gnumeric' => 1,
+     );
+
+
+my @files;
+{
+    local (*FIND);
+    open (*FIND, "find . '(' -type f -print ')' -o '(' -type d '(' -name CVS -o -name intl -o -name macros ')' -prune ')' |")
+	or die "$0: cannot execute find: $!\n";
+    foreach my $filename (<FIND>) {
+	chomp $filename;
+	$filename =~ s|^\./||;
+	next if $exceptions{$filename};
+
+	my $dir = $filename;
+	$dir =~ s|[^/]+$||;
+	if (!-d "$dir/CVS") {
+	    # print STDERR "Skipping $dir\n";
+	    next;
+	}
+
+	if ($filename =~ /\.(pgn|gif|jpe?g|xcf)$/) {
+	    # Pictures
+	    push @files, $filename;
+	} elsif ($filename =~ /\.(xls|xlsx|ods|gnumeric|wb.|123)$/) {
+	    # Spreadsheets in binary formats.
+	    push @files, $filename;
+	} elsif ($filename =~ /\.(gz)$/) {
+	    # Other assorted junk.
+	    push @files, $filename;
+	}
+    }
+    close (*FIND);
+}
+
+if (@files) {
+    my $filename = undef;
+    my $any = 0;
+
+    local (*CVS);
+    open (*CVS, "cvs log -h -N '" . join ("' '", @files) . "' 2>/dev/null |")
+	or die "$0: cannot execute cvs: $!\n";
+    while (<CVS>) {
+	chomp;
+	if (/^Working file: (.+)$/i) {
+	    $filename = $1;
+	    next;
+	} elsif (/^keyword substitution: (.*)$/i) {
+	    my $mode = $1;
+	    if ($mode ne 'b') {
+		print STDERR "File `$filename' has cvs keyword mode `$mode'.\n";
+		$any = 1;
+	    }
+	    $filename = undef;
+	    next;
+	} elsif (/^==================/) {
+	    $filename = undef;
+	    next;
+	}
+    }
+    close (*CVS);
+
+    if ($any) {
+	print STDERR "$0: Suggest use of `cvs admin -kb ...' to fix these.\n";
+	$exitcode = 1;
+    }
+}
+
+exit $exitcode;

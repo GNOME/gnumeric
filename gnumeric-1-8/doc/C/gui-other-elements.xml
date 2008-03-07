@@ -1,0 +1,413 @@
+<sect1 id="data-entry">
+  <title>Data Entry Area</title>
+
+  <para>Immediately above the grid of cells is the data entry
+    area as shown in <xref linkend="worksheet-data-1" />.</para>
+  <figure id="worksheet-data-1">
+    <title>The Data Entry area.</title>
+    <screenshot>
+        <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/worksheet-data-1.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the data entry area.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  <para>This is a small area, which contains a current cell
+    indicator, a <guibutton>cancel</guibutton> button, a 
+    <guibutton>confirm</guibutton> button, an
+    <guibutton>entry</guibutton> button, and an entry area for
+    detailed editing of the cell contents. These elements are explained
+    individually below.
+  </para>
+  
+<!-- TODO: change through whole file current cell to selection. -->
+    <sect2 id="data-entry-currentcell">
+      <title>Current Cell Indicator</title>
+	  
+      <para>
+        On the far left of the Data Entry area is the current cell
+        indicator area.  This area is shown in <xref
+        linkend="worksheet-data-2" />
+      </para>
+
+<!-- TODO: change the screenshot to drop the other two buttons. -->
+
+      <figure id="worksheet-data-2">
+	<title>The Current Cell Indicator.</title>
+	<screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/worksheet-data-2.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the current cell indicator.</phrase>
+            </textobject>
+           </mediaobject>
+	</screenshot>
+      </figure>
+
+      <para>
+        The cell indicator will show the address for the cell at the
+        top left of the selected region. This address is listed in the
+        standard column:row notation. The alphabetic part indicates
+        the the column of this top leftmost cell and the numeric part
+        indicates the row of this top left cell. For instance, the
+        cell which is over three columns and down two rows is
+        designated:</para> <blockquote><para>C2</para></blockquote>
+        <para>This designation matches the column and row headers for
+        this cell.
+      </para>
+
+      <para>
+        While a region is being selected, the current cell indicator
+        will change to show the size of the region which is being
+        selected. This information is presented in a row number by
+        column number format. For instance, this designation:
+      
+        <blockquote><para>15R x 6C</para></blockquote>
+      
+        would indicate a selection area 15 rows high by 6 columns
+        wide. Once the mouse is released at the end of the selection,
+        the current cell indicator goes back to giving the address of
+        the single top leftmost cell.
+      </para>
+      
+    </sect2>
+    
+    <sect2 id="data-entry-cancel">
+      <title>The <guibutton>Cancel</guibutton> Button</title>
+      
+    <para>
+      The Cancel button 
+      <guibutton>
+	<inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/worksheet-data-4.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>An image of the cancel button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+      </guibutton>
+      can be used to cancel the current edit and to restore the cell
+      contents to the previous state. If a user decides in the middle
+      of an edit that the data being entered into a cell is not what
+      they want, the user can push this cancel button to cancel the
+      current data and return the cell to the state it was at before.
+    </para>
+      
+    <para>
+      The most common use of this button is when overwriting the contents
+      of a cell with new data. If the user decided to revert the change
+      before confirming it, the cancel button is the answer. Note that this 
+      button works just like typing the escape key on the keyboard.
+    </para>
+  </sect2>
+  
+	
+    <sect2 id="data-entry-confirm">
+      <title>The <guibutton>Confirm</guibutton> Button</title>
+      
+      <para>The confirm button
+      <guibutton>
+	<inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/worksheet-data-3.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the enter button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+       </guibutton>.  can be used to finish the edit of a cell and
+       enter the edit into the workbook. Note that this button works
+       in the same way as the enter key.
+	  </para>
+
+    </sect2>
+	
+	
+    <sect2 id="data-entry-equals">
+      <title>The <guibutton>Equals</guibutton> Button</title>
+      
+      <para>The equals button 
+		<guibutton>
+		  <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-equals.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the equals button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+		</guibutton>
+	  can be used to start a formula in the currently selected
+	  cell. If a user wanted to make cell D10 equal to cell B4,
+	  the user could simply click on cell D10, click this equals
+	  button, click on cell B4 and type the enter key. Note that
+	  this button works the same way as the equals key.
+      </para>
+      
+    </sect2>
+
+<!--TODO: Add <sect2> with discussion of the formula entry field. -->
+
+
+</sect1>
+
+
+
+
+
+
+  
+<sect1 id="cell-grid">
+    <title>The Cell Grid</title>
+      
+    <para>Most of the work done on a spreadsheet is done to the main
+    Cell area, the large grid like part of the worksheet. This is
+    where all the formulas and data are entered, and is the center of
+    activity for the spreadsheet.</para>
+
+<!-- TODO: change screenshot to fit in 510pixels. -->
+    <figure id="cell-grid.png">
+      <title>The Cell Grid area, with cells of different sizes.</title>
+      <screenshot>
+         <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/cell-grid.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the cell grid area.</phrase>
+            </textobject>
+          </mediaobject>
+      </screenshot>
+    </figure>
+ 
+ 	<para><xref linkend="cell-grid.png" /> shows the the cell grid
+ 	area, the column and row headers on the top and left, the
+ 	scrollbars on the right and bottom and the tab list at the
+ 	very bottom.
+	</para>
+	
+	<para> The figure has a few and shows that cell B3 as being 
+	selected. In this figure, the columns and rows have been 
+	resized and therefore look uneven. </para>
+	
+	<para>Each cell in this area is delimited by a light grey line
+	by default.  The current selection is indicated by a
+	rectangular box with a little box on the lower right, this
+	case cell J12. The view in this figure shows the middle
+	portion of a worksheet which is evident in two ways. Firstly,
+	the column and row headers do not start at column A and row
+	1. Secondly, the scroll thumbs are not at the top and
+	left. The thumbs are the boxes within the scroll bars that are
+	used to scroll. Note also that cell D19 has a comment within
+	it which is shown by the little red triangle at the top right
+	corner.</para>
+	
+	<para>The size of a cell is determined by the width of the
+	column and height of the row that the cell is in. The columns
+	and rows can be resized by acting on the header relevant to
+	the cell. The user must move the mouse pointer to the edge of
+	the header which is either to the right or below the cell.
+	With the mouse pointer in this position, the pointer will
+	change to a set of opposite pointing arrows. The user must
+	then drag this edge away from the top left corner. This takes
+	a little practice.</para>
+	
+	
+	<para>The cell area is the core of Gnumeric. Therefore the
+	manual explains the use of cells in much greater detail in a
+	separate section. Interested users should read <xref
+	linkend="chapter-data" />.</para>
+
+	
+
+  <sect2 id="col-row-headers">
+    <title>The Column and Row Headers</title>
+
+    <para>
+      The sheet is bordered by column headers on the top and row
+      headers to the left.  Columns are labeled alphabetically running
+      horizontally across the top of the sheet as shown in <xref
+      linkend="worksheet-cols-1" />.
+
+    <figure id="worksheet-cols-1">
+      <title>The column labels at the top of the worksheet.</title>
+      <screenshot>
+         <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/worksheet-cols-1.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the column labels.</phrase>
+            </textobject>
+           </mediaobject>
+      </screenshot>
+    </figure>
+
+    Rows are labeled along the left side of the worksheet. Each label
+    is a different integer increasing downward. This is shown in
+    <xref linkend="worksheet-rows-1" />.
+    
+    <figure id="worksheet-rows-1">
+      <title>The row labels at the left side of the worksheet.</title>
+      <screenshot>
+         <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/worksheet-rows-1.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the row labels.</phrase>
+            </textobject>
+           </mediaobject>
+      </screenshot>
+    </figure>
+
+    </para>
+
+	</sect2>
+
+  <sect2 id="cell-grid-scrollbars">
+    <title>The Scrollbars</title>
+
+<!-- TODO: add screenshot, explain the different parts: thumb, channel... -->
+    <para>
+      The cell grid area's scrollbars work like other scrollbars. In
+      this case they let the user work on a worksheet which is much
+      bigger than what could be shown at any given moment.
+    </para>
+
+  </sect2>
+
+
+
+
+  <sect2 id="cell-grid-tabs">
+    <title>The Tabbed Sheet Indicator</title>
+
+<!-- TODO: add a screenshot. Explain selction, drag. -->
+    <para>
+      At the bottom of <xref linkend="cell-grid.png" />, Gnumeric has
+      a tabbed sheet indicator. This is the boxes with the labels
+      "Guppies", "Turtles", "Mermaids", "seahorses" and so on. In
+      workbooks where there are more than one sheet, extra tabs are
+      used to indicate how many sheets are there, and also allows the
+      user to move to another sheet by clicking the proper tab. Each
+      tab is a link to a separate worksheet within Gnumeric. In this
+      figure, the "Turtles" tab has been selected. Gnumeric shows this
+      by making the "Turtles" since the tab is a little bigger and
+      making it overlap the two neighbouring tabs.
+    </para>
+
+    <para>
+      On the far right, the two arrows indicate that there are more
+      sheets in the workbook and more tabs for those
+      sheets. Unfortunately, there is not enough space to show them
+      all so Gnumeric displays these arrows. If all the sheets are
+      visible, these arrows will not be displayed. These arrows can be
+      used to scroll the tabs and bring tabs that were hidden into
+      view. This may be a little difficult to understand and work with
+      but becomes easier quickly.
+    </para>
+
+  </sect2>
+    
+
+
+</sect1>
+ 
+
+
+
+
+
+
+
+
+<sect1 id="info-area">
+    <title>The Information Area</title>
+    
+    <para>
+      The section at the very bottom of the worksheet view is the
+      information area as is shown in <xref linkend="info-area.png"
+      />.
+
+    <figure id="info-area.png">
+      <title>The Information Display Area.</title>
+
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/info-area.png" format="PNG" />
+          </imageobject>
+          <textobject>
+            <phrase>An image of the information display area.</phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+      The information area displays information depending on what is
+      happening in Gnumeric.
+    </para>
+	
+	<sect2 id="info-area-hint">
+		<title>The Menu Hint Area</title>
+	
+	<para>
+	The leftmost portion of the information display area, the part
+	which reads: "Sort the selected cells" is a hint explaining
+	what a menu does. In this case, the Data menu was opened and
+	the pointer is hovering above the "sort" menu entry. Gnumeric
+	is responding by giving a quick explanation of what that menu
+	entry does.
+	</para>
+
+	</sect2>
+
+	<sect2 id="info-area-file">
+		<title>The File Status Indicator</title>
+
+		<para>
+		Whenever Gnumeric opens or saves a file, the file
+		status indicator appears with a progress bar which
+		grows as Gnumeric progresses. In <xref
+		linkend="info-area.png" />, Gnumeric was just over
+		halfway done opening a file.
+		</para>
+	</sect2>
+
+
+
+       <sect2 id="info-area-calc">
+      <title>The Running Calculation Area</title>
+      
+      <para>In the bottom right hand corner, is an info area that
+      shows some constantly calculated values. The default set is to
+      show the Sum of all the currently selected cells.</para>
+      
+      <para>There is a right click option that includes a few more
+      options.  This can include Sum, Min, Max, Average, Count.</para>
+      
+      <figure id="worksheet-running-calc-1">
+	<title>The running calculation area.</title>
+	<screenshot>
+	  <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/worksheet-running-calc-1.png" format="PNG" /></imageobject>
+            <textobject>
+              <phrase>An image of the running calculation area.</phrase>
+            </textobject>
+           </mediaobject>
+	</screenshot>
+      </figure>
+    </sect2>
+  </sect1>
+
+<!--end of chapter Other graphical elements.-->
+

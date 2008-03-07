@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_lotus">
+	<information>
+		<_name>Lotus 123</_name>
+		<_description>Imports Lotus 123 files</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="lotus"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="lotus" priority="50" probe="TRUE">
+			<information>
+				<_description>Lotus 123 (*.wk1, *.wks, *.123)</_description>
+			</information>
+			<suffixes>
+				<suffix>wk1</suffix>
+				<suffix>wk4</suffix>
+				<suffix>wr1</suffix>
+				<suffix>wks</suffix>
+				<suffix>123</suffix>
+			</suffixes>
+			<mime-types>
+				<mime-type>application/vnd.lotus-1-2-3</mime-type>
+				<mime-type>application/x-123</mime-type>
+			</mime-types>
+		</service>
+	</services>
+</plugin>

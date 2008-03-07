@@ -1,0 +1,194 @@
+{
+   x11_writev_XSend
+   Memcheck:Param
+   writev(vector[...])
+   fun:do_writev
+   fun:*
+   fun:_XSend
+}
+
+
+{
+   x11_write_XReply
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:_XReply
+}
+
+{
+   x11_write_XRenderCreatePicture
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XRenderCreatePicture
+}
+
+{
+   x11_write_XFreePixmap
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XFreePixmap
+}
+
+{
+   x11_write_XPending
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:XPending
+}
+
+{
+   x11_write_XRenderCompositeText8
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XRenderCompositeText8
+}
+
+{
+   x11_write_XRenderComposite
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XRenderComposite
+}
+
+{
+   x11_write_XRenderSetPictureClipRectangles
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:XRenderSetPictureClipRectangles
+}
+
+{
+   x11_write_XDefineCursor
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XDefineCursor
+}
+
+{
+   x11_write_XFillRectangle
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XFillRectangle
+}
+
+{
+   x11_write_XSetWindowBackground
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XSetWindowBackground
+}
+
+{
+   x11_write_XDrawLine
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XDrawLine
+}
+
+{
+   x11_write_XDrawLine2
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:XDrawLine
+}
+
+{
+   x11_write_XFlush
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XFlush
+}
+
+{
+   x11_write_XFlushGCCache
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:*
+   fun:_XFlushGCCache
+}
+
+{
+   x11_write_XRenderChangePicture
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XRenderChangePicture
+}
+
+{
+   x11_write_XCreatePixmap
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XCreatePixmap
+}
+
+{
+   x11_write_XRenderAddGlyphs
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:*
+   fun:XRenderAddGlyphs
+}
+
+
+{
+   x11_write_ICE
+   Memcheck:Param
+   write(buf)
+   fun:*
+   fun:*
+   fun:_IceWrite
+}

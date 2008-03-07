@@ -1,0 +1,1008 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-09  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c (gplp_func_file_probe): Fix potential crash.
+	(gplp_load_service_file_opener): Fix crash. [#461845]
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-07-18  Jody Goldberg <jody@gnome.org>
+
+	Patch from Nils Kanning
+	* python-loader.c (python_function_get_gnumeric_help) : support the
+	  new help api.  [#412804]
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-03-02  Jody Goldberg <jody@gnome.org>
+
+	* python-loader.c (gplp_load_base) : compiler warning.
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-22  Jon K Hellan  <hellan@acm.org>
+
+	* py-interpreter-selector.c (cb_selector_changed,
+	cb_destroyed_interpreter): Check that tree model iterator is
+	valid.
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/python-loader/gnm-py-interpreter.c: replaced gi18n.h by
+	gi18n-lib.h.
+	* plugins/python-loader/gnm-python.c: ditto.
+	* plugins/python-loader/py-console.c: ditto.
+	* plugins/python-loader/py-gnumeric.c: ditto.
+	* plugins/python-loader/python-loader.c: ditto.
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2006-04-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* py-interpreter-selector.c: add missing header.
+
+2006-03-31  Jody Goldberg <jody@gnome.org>
+
+	* py-gnumeric.c (py_initgnumeric) : remove deleted std error
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-20  Jody Goldberg <jody@gnome.org>
+
+	Noted by Lukasz Stelmach <steelman@post.pl>
+	* py-gnumeric.c (py_RangeRef_object_getattr) : actually return the
+	  end.
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-25  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.c (py_Cell_set_text_method): Fix redisplay problem.
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-04-18  Stepan Kasal  <kasal@ucw.cz>
+
+	* python-loader.c (gplp_func_desc_load): Don't try to set up help
+	until the code is adapted for struct GnmFuncHelp.
+
+2005-03-23  Morten Welinder  <terra@gnome.org>
+
+	* python-loader.c (gnumeric_fopen_error_info): Use g_fopen, not
+	fopen.
+
+2005-03-04  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (go_plugin_init) : register types dynamicly using the plugin
+	  we pass in
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-11-01  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c (gplp_load_service_ui): Rename
+	<plugin_name>_ui_verbs to <plugin_name>_ui_actions.
+
+2004-10-29  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c (gplp_func_exec_action): Fix order of arguments.
+
+2004-10-29  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Enable UI service.
+
+	* ui-console-menu.xml: Adapt to GtkAction
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-30  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.c (py_CellRef_object_getattr): Implement col, row,
+	sheet, col_relative, row_relative attributes.
+	(py_RangeRef_get_tuple_method): New. Return a Python tuple of
+	CellRefs. 
+	(py_RangeRef_object_getattr): Implement start and end attributes.
+
+	CellRef, RangeRef, Cell: Note that lifecycle is broken.
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-08-30  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.c (py_Sheet_object_dealloc): Unref sheet.
+	(py_new_Sheet_object): Ref sheet.
+	(py_Workbook_gui_add): Return gui.
+	(py_Workbook_object_dealloc): Unref workbook.
+	(py_new_Workbook_object): Ref workbook.
+	(py_Gui_object_dealloc): Unref gui.
+	(py_new_Gui_object): Ref gui.
+	(py_GnmPlugin_object_dealloc): Unref pinfo.
+	(py_new_GnmPlugin_object): Ref pinfo.
+	(py_gnumeric_MStyle_method): Unref mstyle.
+	(py_gnumeric_workbook_new): Unref workbook.
+
+2004-08-27  Jon K Hellan  <hellan@acm.org>
+
+	* gnm-python.c, gnm-py-interpreter.c, py-gnumeric.c,
+	python-loader.c: Move Python.h include just after gnumeric-config,
+	to shut up redefinition warnings. Working around Python project
+	bug 107450 at sourceforge. 
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-05-26  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* py-interpreter-selector.c: (cb_selector_changed),
+	(find_item_with_interpreter), (menu_add_item_with_interpreter),
+	(cb_created_interpreter), (cb_destroyed_interpreter),
+	(gnm_py_interpreter_selector_init),
+	(gnm_py_interpreter_selector_new): replaced GtkOptionMenu by GtkComboBox
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2004-01-05  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.c (py_Boolean_object_dealloc,
+	py_CellPos_object_dealloc, py_Range_object_dealloc,
+	py_CellRef_object_dealloc, py_RangeRef_object_dealloc,
+	py_MStyle_object_dealloc, py_Cell_object_dealloc,
+	py_Sheet_object_dealloc, py_Workbook_object_dealloc,
+	py_Gui_object_dealloc, py_GnumericFunc_object_dealloc,
+	py_GnumericFuncDict_object_dealloc, py_GnmPlugin_object_dealloc):
+	Call PyObject_Del instead of free to avoid segfault.
+
+	(py_Gui_object_getattr, py_Gui_object_dealloc): Fix type of self
+	argument from py_Workbook_object to py_Gui_object.
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-08-04  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c: Rename all
+	gnumeric_plugin_loader_python_blah_blah functions to
+	gplp_blah_blah.
+	(gplp_load_base): Check for errors from gnm_python_object_get.
+	(gplp_loader_data_opener_free, gplp_loader_data_saver_free,
+	gplp_loader_data_fngroup_free, gplp_loader_data_ui_free): New
+	functions to free loader data.
+	(gplp_load_service_file_opener, gplp_load_service_file_saver)
+	(gplp_load_service_function_group): Ref PyObjects in loader data,
+	and replace g_object_set_data with g_object_set_data_full to make
+	sure that they are unrefed when loader data is destroyed.
+	(gplp_func_exec_verb): New function. Invoke a python function when
+	a verb is executed.
+	(gplp_load_service_ui): New function. Load UI service.
+	(gplp_func_file_probe, gplp_func_file_open, gplp_func_file_save):
+	Remove #ifndef WITH_PYGTK branch. Plugin now depends on Pygtk.
+
+	* py-interpreter-selector.c (gnm_py_interpreter_selector_init):
+	Move meat to gnm_py_interpreter_selector_new so that errors can be
+	reported.
+	(gnm_py_interpreter_selector_finalize): Check that py_object !=
+	NULL.
+	(gnm_py_interpreter_selector_new): Check for errors from
+	gnm_python_object_get and report them.
+
+	* py-interpreter-selector.[ch] (gnm_py_interpreter_selector_new):
+	Report errors.
+
+	* py-gnumeric.h (py_new_Gui_object): New function. Export it.
+
+	* py-gnumeric.c (py_CellPos_object_str): New function. Wraps
+	cellpos_as_string. Returns e.g. B7.
+	(py_Cell_get_entered_text_method): Fix typo.
+	(py_Workbook_gui_add): New function. Add a GUI to workbook.
+	(py_Workbook_object_getattr): Add gui_add method.
+	(struct _py_Gui_object, py_Gui_get_workbook, py_Gui_get_window,
+	py_Gui_object_getattr, py_Gui_object_dealloc, py_new_Gui_object,
+	py_Gui_object_type): New struct/functions/variable to wrap
+	WorkbookControlGUI.
+	(py_gnumeric_workbook_new): Fix typo.
+	(py_initgnumeric): Set plugin_info to None when C
+	counterpart is NULL. Add Gui object type.
+
+	* py-console.c (show_python_console): Report errors from
+	gnm_py_interpreter_selector_new.
+
+	* gnm-python.[ch] (gnm_python_object_get): Report errors.
+	
+	* gnm-python.c (gnm_init_pygobject): Resurrect. This time ask for
+	the gtk2 version of gobject and report errors.
+	(gnm_python_object_get): Remove Python 1.5 compatibility code. Call
+	gnm_init_pygobject.
+
+2003-07-26  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.c (py_Workbook_object_getattr): Reverse accidental
+	commit. 
+	
+2003-07-25  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.[ch]: Make most stuff static.
+	
+	* py-gnumeric.c: Rename convert_python_exception_to_gnumeric_value
+	py_exc_to_gnm_value, convert_python_exception_to_string to
+	py_exc_to_string, convert_python_to_gnumeric_value, to
+	py_obj_to_gnm_value, convert_gnumeric_value_to_python to
+	gnm_value_to_py_obj.
+	(call_python_function): Use renamed py_exc_to_gnm_value.
+	(py_exc_to_gnm_value): Kill duplicated implementation and make it
+	a wrapper around py_exc_to_string.
+	(python_call_gnumeric_function, call_python_function,
+	py_obj_to_gnm_value): Use renamed py_obj_to_gnm_value.
+	(python_call_gnumeric_function, call_python_function,
+	gnm_value_to_py_obj, py_Cell_get_value_method): Use renamed
+	gnm_value_to_py_obj.
+	(python_call_gnumeric_function): Make static.
+
+	* python-loader.c (gnumeric_plugin_loader_python_func_file_probe,
+	gnumeric_plugin_loader_python_func_file_open,
+	gnumeric_plugin_loader_python_func_file_save): Use renamed
+	py_exc_to_string.
+
+	* py-console.c (cb_key_event): New event handler: Close window on
+	Ctrl+W.
+	(show_python_console): Connect it.
+
+	* gnm-py-interpreter.c (gnm_py_interpreter_run_string): Check for
+	errors and clear Python exceptions when necessary.
+
+2003-07-23  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.c (EVAL_POS): Recode as new function get_eval_pos
+	and handle case when Gnumeric.Gnumeric_eval_pos has not yet been
+	set.
+	(python_call_gnumeric_function, call_python_function): Use
+	get_eval_pos.
+
+	* gnm-py-interpreter.c (read_file): Remove.
+
+2003-07-23  Jon K Hellan  <hellan@acm.org>
+
+	* py-console.c (app_cline_entered): Don't interpret empty string.
+	(app_run_string): New. Factored out of app_cline_entered.
+	(show_python_console): Raise window if it already exists.
+
+	* gnm-py-interpreter.c (struct _GnmPyInterpreter): Add
+	stringio_class member.
+	(gnm_py_interpreter_init): Initialize stringio_class member.
+	(gnm_py_interpreter_finalize): Unref stringio_class member.
+	(run_print_string): Use PyFile_WriteObject instead of
+	PyObject_Print.
+	(gnm_py_interpreter_run_string): Use Python StringIO class instead
+	of temp files. It's tidier, and Python would try to write to the
+	temp files after they were closed.
+
+2003-07-22  Morten Welinder  <terra@gnome.org>
+
+	* gnm-py-interpreter.c (run_print_string): Add braces around
+	Py_DECREF call.  (Why don't the python guys code macros like
+	everyone else do?)
+
+2003-07-21  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.c (py_initgnumeric): Initialize PyTypeObjects
+	properly.
+
+	* boot.c: Fix typo.
+
+2003-07-10  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.c (py_gnumeric_workbook_new): New. 
+	Implements Gnumeric.workbook_new()
+
+	* py-console.c (show_python_console): Make console window
+	resizable.
+
+2003-07-09  Jody Goldberg <jody@gnome.org>
+
+	* py-gnumeric.c (py_Workbook_sheet_add_method) : new.
+
+2003-06-20  Jon K Hellan  <hellan@acm.org>
+
+	* py-interpreter-selector.c (menu_find_item_with_interpreter): 
+	return NULL, not FALSE if no interpreter found.
+	(gnm_py_interpreter_selector_new): Replace gtk_type_new with
+	g_object_new.
+
+2003-06-15  Jon K Hellan  <hellan@acm.org>
+
+	* gnm-py-interpreter.c (run_print_string): New. Run a python
+	string, and print result.
+	(gnm_py_interpreter_run_string): Use it.
+
+	* py-console.c (struct app): Add text_view and text_end.
+	(app_text_print): Always keep end of text visible.
+	(show_python_console): Create marker at end of text. Set focus to
+	command line.
+
+	* python-loader.c (gnumeric_plugin_loader_python_func_file_probe)
+	(gnumeric_plugin_loader_python_func_file_open)
+	(gnumeric_plugin_loader_python_func_file_save): Unref - wrapping
+	the gsf stream as a Python object added a reference.
+
+	* gnm-python.c (gnm_init_pygobject): Remove.
+	(gnm_python_object_get): Don't call gnm_init_pygobject. pygtk.gobject
+	based plugins do this for us, and if we aren't using any of those,
+	it isn't necessary.
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-06-05  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.c (py_initgnumeric): Fix typo. Should be
+	"GnumericErrorVALUE", not "GnumericErrorVALUEL".
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-03-14  Jody Goldberg <jody@gnome.org>
+
+	* gnm-py-interpreter.c (gnm_py_interpreter_new) : Use G_N_ELEMENTS.
+
+2003-03-04  Jon K Hellan  <hellan@acm.org>
+
+	* gnm-python.c (gnm_init_pygobject): New function. Try to import
+	gobject, and don't crash Gnumeric if it fails.
+	(gnm_python_object_get): Use gnm_init_pygobject.
+
+	* python-loader.c (gnumeric_plugin_loader_python_func_file_probe,
+	gnumeric_plugin_loader_python_func_file_open,
+	gnumeric_plugin_loader_python_func_file_save): Check that we
+	managed to import gobject before calling pygobject_new.
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-30  Jon K Hellan  <hellan@acm.org>
+
+	* py-interpreter-selector.c (menu_find_item_with_interpreter):
+	Make it return a value also when compiled with debugging turned off.
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-29  Jody Goldberg <jody@gnome.org>
+
+	* python-loader.c (gnumeric_plugin_loader_python_func_file_save) :
+	const the view.
+
+2002-11-28  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c (gnumeric_plugin_loader_python_func_file_save):
+	Port to gsf output.
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-10-18  Morten Welinder  <terra@diku.dk>
+
+	* gnm-py-interpreter.c (gnm_py_interpreter_compare): Make UTF-8
+	safe.
+
+2002-10-11  Jon K Hellan  <hellan@acm.org>
+
+	* gnm-python.c: Include stdlib.h for setenv
+	(gnm_python_object_get): Only call PyEval_InitThreads if
+	WITH_THREAD defined in Python headers.
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-08-26  Jon K Hellan  <hellan@acm.org>
+
+	* gnm-python.c (gnm_python_new_interpreter): Fix warning.
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* gnm-python.c
+	Conditionally include "pygobject.h" (patch from Jon K)
+
+2002-08-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* Makefile.am (gnumeric_plugin_python_loader_DATA):
+	Removed py-console-ui.xml
+
+	* py-console-ui.xml: Removed
+
+	* py-console.c (show_python_console): Don't use bonobo-ui, build
+	UI manually (fixes crash at exit)
+
+	* gnm-python.[ch]: Cleaner memory management - gnm_python_object_get()
+	always returns new reference, all functions get GnmPython argument.
+
+	* python-loader.c
+	Cleaned up includes
+	(gnumeric_plugin_loader_python_load_base,
+	gnumeric_plugin_loader_python_unload_base):
+	Don't keep the number of loaded plugins, GnmPython takes care of this.
+	ref/unref GnmPython object where needed
+
+	* py-interpreter-selector.c: Keep reference to GnmPython, not to the
+	default interpreter, unref on finalization
+
+	* gnm-py-interpreter.c: Cleaned up includes
+
+	* py-command-line.c (gnm_py_command_line_keypress):
+	Don't store empty lines in the history
+
+	* py-gnumeric.c: Don't use gnm_python*, only Python API
+
+2002-08-20  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* py-console.c
+	#include <stdlib.h>
+	(app_cline_entered) s/stdout/stdout_str/, s/stderr/stderr_str/
+	(show_python_console): Connect to "interpreter_changed" with
+	g_signal_connect_object (using the window as an object), not
+	g_signal_connect.
+
+2002-08-20  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* Makefile.am
+	(INCLUDES): Define PLUGIN_ID
+	(gnumeric_plugin_python_loader_DATA):
+	Set to "ui-console-menu.xml py-console-ui.xml"
+	(python_loader_la_SOURCES): Added python-loader.h, gnm-python.h,
+	gnm-python.c, gnm-py-interpreter.h, gnm-py-interpreter.c,
+	py-interpreter-selector.c, py-interpreter-selector.h,
+	py-command-line.c, py-command-line.h, py-console.c, py-console.h,
+	boot.c.
+	(EXTRA_DIST): Added $(gnumeric_plugin_python_loader_DATA)
+
+	* plugin.xml.in: Added Python console using "ui" service
+
+	* python-loader.c:
+	Adjusted to plugin-loader.h (conversion from GtkObject to GObject).
+	Register GnumericPluginLoader as dynamic class (using PLUGIN_CLASS)
+	to allow unloading the plugin.
+	(initialize_python_if_needed): Moved to gnum-python.c and renamed
+	(python_get_loader_type): Moved to boot.c
+
+	* py-gnumeric.h
+	(struct InterpreterInfo, create_python_interpreter,
+	destroy_python_interpreter, switch_python_interpreter_if_needed,
+	clear_python_error_if_needed): Moved to gnum-python.c and renamed.
+
+	* py-gnumeric.c
+	(create_python_interpreter, destroy_python_interpreter,
+	switch_python_interpreter_if_needed, clear_python_error_if_needed):
+	Moved to gnum-python.c and renamed.
+	(py_gnumeric_Workbooks_method): New.
+	(py_initgnumeric): Made non-static.
+
+	* python-loader.h, gnm-python.h, gnm-python.c, gnm-py-interpreter.h,
+	gnm-py-interpreter.c, py-interpreter-selector.c,
+	py-interpreter-selector.h, py-command-line.c, py-command-line.h,
+	py-console.c, py-console.h, boot.c: New
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-08-09  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* python-loader.c
+	(gnumeric_plugin_loader_python_info_get_extra_info_list): Removed
+
+2002-08-06  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* python-loader.c
+	(gnumeric_plugin_loader_python_func_get_full_function_info):
+	Always set *link and *unlink to NULL.
+
+2002-08-04  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c (gnumeric_plugin_loader_python_func_file_open):
+	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service)).
+
+2002-07-27  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* python-loader.c (initialize_python_if_needed,
+	gnumeric_plugin_loader_python_set_attributes,
+	gnumeric_plugin_loader_python_load_base,
+	gnumeric_plugin_loader_python_unload_base,
+	gnumeric_plugin_loader_python_init,
+	gnumeric_plugin_loader_python_func_file_probe,
+	gnumeric_plugin_loader_python_func_file_open,
+	gnumeric_plugin_loader_python_load_service_file_opener,
+	gnumeric_plugin_loader_python_func_file_saver,
+	gnumeric_plugin_loader_python_load_service_file_saver,
+	call_python_function_args, call_python_function_nodes,
+	gnumeric_plugin_loader_python_func_get_full_function_info,
+	gnumeric_plugin_loader_python_load_service_function_group,
+	gnumeric_plugin_loader_python_unload_service_function_group,
+	python_get_loader_type):
+	Less assertions, GNM_INIT_RET_ERROR_INFO macro.
+	Use g_object data instead of plugin_service_get_loader_data.
+	"has_probe" field has been removed, always get a pointer to
+	*_file_probe pointer function if it's available.
+	Use g_object data instead of plugin_service_[gs]et_loader_data.
+	Set callbacks using plugin_service_get_cbs and PluginService*Callbacks
+	structs, instead of settings PluginService* fields directly (they are
+	private now).
+
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+	* py-gnumeric.[ch]:
+	s/PluginInfo/GnmPlugin/
+	Adjusted to plugin.c
+
+	* python-loader.c:
+	(gnumeric_plugin_loader_python_set_attributes):
+	Adjusted to plugin-loader.c (read attributes from GHashTable).
+	s/..._load/..._load_base/
+	s/..._unload/..._unload_base/
+	Adjusted to plugin.c
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-07-20  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c (BROKEN_PY_INITIALIZE): Test for this condition
+	is now autoconfiscated.
+
+
+2002-06-20  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c: Include pygobject.h if Pygtk is installed.
+	(initialize_python_if_needed): Add init_pygobject if Pygtk is
+	installed.
+	(gnumeric_plugin_loader_python_func_file_probe): Replace file name
+	argument with GsfInput. Try to wrap GsfInput in Python object if
+	Pygtk is installed. Otherwise give up with warning.
+	(gnumeric_plugin_loader_python_func_file_open): Ditto.
+
+	* Makefile.am: Add PYGTK_CFLAGS to includes.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-05-06  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c (gnumeric_plugin_loader_python_set_attributes) 
+	(gnumeric_plugin_loader_python_info_get_extra_info_list): Change
+	from GList to GSList, as the prototypes in
+	GnumericPluginLoaderClass already did a while ago. This silences
+	warnings.
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.3
+
+2002-03-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.2
+
+2002-03-22  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c: Include expr-impl.h
+
+2002-03-11  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.c (create_python_interpreter,
+	py_CellPos_get_tuple_method, py_CellPos_object_getattr,
+	py_Range_get_tuple_method, py_mstyle_set_font_bold_method,
+	py_mstyle_get_font_bold_method, py_mstyle_set_font_italic_method,
+	py_mstyle_get_font_italic_method,
+	py_mstyle_set_font_strike_method,
+	py_mstyle_get_font_strike_method, py_mstyle_set_font_size_method,
+	py_mstyle_get_font_size_method, py_mstyle_set_wrap_text_method,
+	py_mstyle_get_wrap_text_method, py_Cell_set_text_method,
+	py_Cell_get_mstyle_method, py_Cell_get_value_method,
+	py_Cell_get_value_as_string_method,
+	py_Cell_get_rendered_text_method, py_Cell_get_entered_text_method,
+	py_sheet_cell_fetch_method, py_sheet_style_get_method,
+	py_sheet_style_apply_range_method,
+	py_sheet_style_set_range_method, py_sheet_style_set_pos_method,
+	py_sheet_get_extent_method, py_sheet_rename_method,
+	py_sheet_get_name_unquoted_method, py_sheet_subscript,
+	py_Workbook_get_sheets_method, py_GnumericFuncDict_subscript,
+	py_PluginInfo_get_dir_name_method, py_PluginInfo_get_id_method,
+	py_PluginInfo_get_name_method,
+	py_PluginInfo_get_description_method, py_gnumeric_Boolean_method,
+	py_gnumeric_CellPos_method, py_gnumeric_Range_method,
+	py_gnumeric_MStyle_method, py_initgnumeric):
+
+	* python-loader.c (gnumeric_plugin_loader_python_load,
+	gnumeric_plugin_loader_python_func_file_probe,
+	gnumeric_plugin_loader_python_func_file_open,
+	gnumeric_plugin_loader_python_func_file_save,
+	(gnumeric_plugin_loader_python_func_get_full_function_info):
+	Python API doesn't expect arguments to be declared const. So cast
+	constants to non-const to silence warning.
+	(python_function_get_gnumeric_help) Return const gchar **.
+	(gnumeric_plugin_loader_python_func_get_full_function_info):
+	Change signature to match
+	PluginServiceFunctionGroup::plugin_func_get_full_function_info
+	prototype
+
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
+2002-03-09  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c (gnumeric_plugin_loader_python_load): Add final
+	NULL to g_build_filename.
+
+2002-03-07  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c (call_python_function_args,
+	call_python_function_nodes): Substitute ei->func_call->func for
+	ei->func_def and adapt pointer checks accordingly.
+
+
+2002-02-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.0
+
+2002-01-23  Jody Goldberg <jody@gnome.org>
+
+	* python-loader.c (gnumeric_plugin_loader_python_load) : Use the new
+	  glib2 style file tests.
+
+2002-01-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.3
+
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.2
+
+2002-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.1
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.0
+
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.1
+
+2001-12-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.0
+
+2001-12-12  Jody Goldberg <jody@gnome.org>
+
+	* python-loader.c (call_python_function_nodes) : Use ExprList.
+
+2001-11-05  Jody Goldberg <jgoldberg@home,com>
+
+	* Release 0.75
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.74
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.73
+
+2001-10-23  Jody Goldberg <jgoldberg@home.com>
+
+	* python-loader.c (call_python_function_nodes) :
+	s/eval_expr/expr_eval/
+
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.72
+
+2001-10-10  Jody Goldberg <jgoldberg@home.com>
+
+	* py-gnumeric.c (py_mstyle_merge_method) : delete.
+	(py_MStyle_object_methods) : remove mstyle_merge.
+
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
+2001-09-25  Jon K Hellan  <hellan@acm.org>
+
+	* .cvsignore: Add plugin.xml
+
+2001-08-28  Morten Welinder  <terra@diku.dk>
+
+	* python-loader.c (initialize_python_if_needed): Avoid segfaults
+ 	with buggy pythons.
+
+2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml: Removed
+
+	* plugin.xml.in: Copied from plugin.xml, prepared for localization.
+
+	* Makefile.am: Use xml-i18n-tools to create plugin.xml (with
+	translations merged from .po file).
+
+2001-08-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.70
+
+2001-08-11  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.69
+
+2001-07-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.68
+
+2001-07-14  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* python-loader.c (gnumeric_plugin_loader_python_func_file_open,
+	gnumeric_plugin_loader_python_func_file_save): Use gnumeric_io_error_string.
+
+2001-06-29  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* py-gnumeric.c (create_python_interpreter): Call PySys_SetArgv after
+	creating new interpreter (some modules assume that sys.argv is always
+	set).
+
+	* python-loader.c (gnumeric_plugin_loader_python_load): Marked two
+	strings for translation.
+
+2001-06-28  Jody Goldberg <jgoldberg@home>
+
+	* Release 0.67
+
+2001-06-28  Jody Goldberg <jgoldberg@home.com>
+
+	* py-gnumeric.c (py_sheet_get_extent_method) : changes to
+	  sheet_get_extent.
+
+2001-06-27  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.66
+
+2001-05-29  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* python-loader.c (gnumeric_plugin_loader_python_func_file_probe): Added
+	FileProbeLevel argument.
+
+2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* python-loader.c (gnumeric_plugin_loader_python_func_file_probe,
+	gnumeric_plugin_loader_python_func_file_probe,
+	gnumeric_plugin_loader_python_func_file_save):
+	s/FileOpener/GnumFileOpener/
+	s/FileSaver/GnumFileSaver/
+
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.65
+
+2001-05-17  Jody Goldberg <jgoldberg@home.com>
+
+	* py-gnumeric.c (py_Cell_render_value_method) : delete.  This should
+	  not be wrapped.
+
+2001-04-19  Jody Goldberg <jgoldberg@home.com>
+
+	* py-gnumeric.c (py_Workbook_get_sheets_method) : free the list of
+	  sheets.
+
+2001-03-31  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* py-gnumeric.c (destroy_python_interpreter): Fixed typo.
+
+2001-03-31  Zbigniew Chyla  <cyba@gnome.pl>
+
+	Patch from drk@sgi.com
+
+	* py-gnumeric.c: Added function declarations for object methods
+	to avoid declaring forward references for an unsized PyMethodDef
+	arrays.
+
+2001-03-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am (SOURCES) : Add missing header.
+
+2001-03-06  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* py-gnumeric.[ch], python-loader.c:
+	Replaced #include "Python.h" with #include <Python.h>.
+
+2001-03-06  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.c, py-gnumeric.h, python-loader.c: Fix include path
+	  for Python.h.
+	  
+	* .cvsignore: Add it.
+
+2001-03-05  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* Makefile.am, plugin.xml, py-gnumeric.c, py-gnumeric.h,
+	python-loader.c, README-IMPORTANT:
+	New plugin, loader for Python plugins.

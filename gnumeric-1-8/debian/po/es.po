@@ -1,0 +1,59 @@
+# gnumeric debconf translation to spanish
+# Copyright (C) 2006,2007 Software in the Public Interest
+# This file is distributed under the same license as the gnumeric package.
+#
+# Changes:
+# - Initial translation
+#        Carlos Valdivia Yagüe <valyag@dat.etsit.upm.es>, 2006
+# - Revisions
+#        Carlos Valdivia Yagüe <valyag@dat.etsit.upm.es>, 2007
+#
+#    Translators, if you are not familiar with the PO format, gettext
+#    documentation is worth reading, especially sections dedicated to
+#    this format, e.g. by running:
+#         info -n '(gettext)PO Files'
+#         info -n '(gettext)Header Entry'
+#
+#    Some information specific to po-debconf are available at
+#            /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+#    Developers do not need to manually edit POT or PO files.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnumeric 1.7.13-2\n"
+"Report-Msgid-Bugs-To: Source: gnumeric@packages.debian.org\n"
+"POT-Creation-Date: 2007-11-02 12:26+0100\n"
+"PO-Revision-Date: 2007-11-03 03:30+0100E\n"
+"Last-Translator: Carlos Valdivia Yagüe <valyag@dat.etsit.upm.es>\n"
+"Language-Team: Debian L10n Spanish <debian-l10n-spanish@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:2001
+msgid "Really upgrade gnumeric?"
+msgstr "¿Seguro que quiere actualizar gnumeric?"
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:2001
+msgid ""
+"An instance of gnumeric is currently running. If you upgrade now, it may no "
+"longer be able to save its data."
+msgstr ""
+"Hay una instancia de gnumeric en ejecución. Si actualiza gnumeric ahora, es "
+"posible que esa instancia no pueda guardar los datos."
+
+#. Type: boolean
+#. Description
+#: ../gnumeric.templates:2001
+msgid ""
+"You should close the running instances of gnumeric before upgrading this "
+"package."
+msgstr ""
+"Debería cerrar todas las instancias de gnumeric en ejecución antes de "
+"actualizar este paquete."

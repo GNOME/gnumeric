@@ -1,0 +1,399 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2007-01-03  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_cell): Lobotomize "color" and
+	"parenthesis" parts.  I have my doubts they work and right now
+	they are in the way.
+	(retrieve_format_info): Remove.
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-31  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (cb_countblank) : adjust to the change in CellIterFunc
+	  signature.
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2006-03-24  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_iseven, gnumeric_isodd): Handle very large
+	numbers.
+
+2005-12-21  Morten Welinder  <terra@gnome.org>
+
+	* functions.c: Make isnumber use B arg type, not E.
+
+2005-12-07  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_type): Fix value returned for ranges.
+
+2005-12-04  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_type): Don't crash for empty values.
+
+2005-11-25  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (cb_countblank): Empty strings should be considered
+	blank.
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-05-06  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_cell): Implement "sheetname".  Someone on
+	irc wanted that.  Fix sheet handling all over.
+
+2005-05-04  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_info) : Implement recalc
+
+2005-03-10  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=169802
+	* functions.c (gnumeric_cell) : honour explicit target
+	  sheets for CELL ("contents"
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2005-01-09  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_type) : The arg should be a
+	  '?' not an 'E' which forces things to be scalar.
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-08-19  Jon K Hellan  <hellan@acm.org>
+
+	* functions.c: Xref CELL->INDIRECT
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-07-16  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_info) : make conditional per-mg's request and
+	  add a fallback for windows.
+
+2004-05-14  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (translate_cell_format): Note that this isn't a very
+	good implementation.
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2004-01-08  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_isblank) : huge simplification
+	  now that we can use 'E'
+
+2004-01-07  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=130835
+	* functions.c (gnumeric_isnumber) : Accept blanks to avoid the
+	  implicit 0 return.
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-22  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_isblank) : simple fix to a long standing
+	  recalc bug.  We should look into how to make this a value function,
+	  and to see how it should handle ranges.
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-07-16  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : improve example for 'expression'
+
+2003-07-15  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (retrieve_format_info): Use precomputed family_info.
+
+2003-06-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* functions.c: spelling fixes
+	
+2003-06-13  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_cell) : fix warning.
+
+2003-06-10  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_cell): UTF-8 fix.
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-12-16  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_error_type): Base on value_error_classify.
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-10-16  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_islogical): Change arg type to "E" since
+	this function is not strict.
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-09-13  Jody Goldberg <jody@gnome.org>
+
+	*  functions.c (get_value_class) : delete.
+	(gnumeric_check_for_err) : delete.
+	(gnumeric_iserror) : make this a 'node' function that takes a scalar
+	  This allows implicit iteration to work.
+	(gnumeric_isna) : ditto.
+	(gnumeric_iserr) : ditto.
+	(gnumeric_error_type) : ditto.
+	(gnumeric_islogical) : ditto.
+	(gnumeric_isnontext) : ditto.
+	(gnumeric_isnumber) : ditto.
+	(gnumeric_istext) : ditto.
+	(gnumeric_type) : ditto.
+
+2002-08-30  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_expression): Avoid copying string.
+	(gnumeric_info): Ditto.
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+2002-08-03  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_cell) : return #VALUE! on unknown
+
+2002-08-03  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_cell) : merge in some of Harlan's CELL
+	  implementation.
+
+2002-07-27  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Function description clean up.
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-05-15  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : Add Harlan Grove's nicely thought out superset of CELL.
+
+2002-05-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* functions.c : mark argument names for translation and adjust 
+	  them for use by the formula guru.

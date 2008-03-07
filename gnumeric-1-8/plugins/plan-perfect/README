@@ -1,0 +1,9 @@
+This plugin will import a PlanPerfect spreadsheet (WordPerfect Corp's
+spreadsheet which was later replaced with Quatro Pro). This is the
+spreadsheet that was available from WordPerfect Corp for VAX/VMS,
+and in their DOS Office products, until they were bought by Novell,
+who replaced it with QuatroPro.
+
+It handles strings, numbers and formula's, but most of the formatting
+information is lost.
+

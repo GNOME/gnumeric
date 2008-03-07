@@ -1,0 +1,10 @@
+Makefile
+Makefile.in
+.deps
+.libs
+*.lo
+*.la
+plugin.xml
+xsinit.c
+*.loT
+*.sw*

@@ -1,0 +1,176 @@
+<sect1 id="sect-gui-overview">
+  <title>Overview</title>
+
+<!-- TODO: add section on "druids" graph/textopen/textsave. -->
+<!-- TODO: add section with "dialogs" filein/fileout/sheet/function/preferences/properties... -->
+  <para>
+    This part of the &gnum; manual
+    explains the pieces of the software that users can manipulate. The
+    menus, the toolbars and the cell grid area comprise what is called
+    the graphical user interface of an application because it is an
+    interface --- a way to interact with Gnumeric --- which is made of
+    graphical elements --- pictures --- designed to be used by human
+    users.
+  </para>
+
+  <para>
+    &gnum; opens by default with a view
+    of an empty workbook which is called "Book 1" and which contains
+    three worksheets: "Sheet1", "Sheet2", and "Sheet3" as can be seen
+    in <xref linkend="fig-gui-overview-gnumeric-labelled" />. The
+    outermost portion of the window is not actually part of
+    &gnum; and may look different on
+    different machines. &gnum; attempts
+    to place its name and the name of the workbook on this outer
+    portion.
+  </para>
+  
+  <para>
+    The majority of spreadsheet work is done while interacting with
+    this view of &gnum;. All of the
+    functions which &gnum; provides can
+    be accessed quickly from here. The graphic elements of
+    &gnum; are made of several
+    independent pieces.  <xref
+    linkend="fig-gui-overview-gnumeric-labelled" /> shows a newly
+    opened, empty Gnumeric with the principle elements labelled.
+  </para>
+
+  <figure id="fig-gui-overview-gnumeric-labelled">
+    <title>The Gnumeric worksheet elements</title>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="figures/gnumeric-labelled.png" format="PNG" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <para>
+    The elements names are listed below along with a reference to
+    the section that discusses that element. Those reading this document
+    on their computers may be able to click on the references to jump to
+    that section of the manual.
+  </para>
+  
+  <variablelist>
+    <varlistentry>
+      <term>
+        <emphasis role="bold">1</emphasis>
+	  The menubar
+      </term>
+      <listitem>
+	<para>The menubar provides access to the core
+	  functions of GNOME. Almost everything that can
+	  be done in &gnum;
+	  can be done through the menus. The menus and
+	  menubar are discussed in <xref linkend="sect-gui-menus" />. </para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>
+        <emphasis role="bold">2</emphasis>
+	  The standard toolbar
+      </term>
+      <listitem>
+	<para>
+	  The standard toolbar provides shortcuts for the most used
+	  items in the menus. The toolbars are discussed in <xref
+	  linkend="sect-gui-toolbars" /> and this toolbar in particular in
+	  <xref linkend="std-toolbar" />.
+	</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>
+        <emphasis role="bold">3</emphasis>
+	    The format toolbar
+      </term>
+      <listitem>
+	<para>
+	  The format toolbar changes the display properties of data in
+	  the workbook. It is presented in <xref linkend="fmt-toolbar"
+	  />, part of the general discussion of toolbars of <xref
+	  linkend="sect-gui-toolbars" />.
+        </para>
+      </listitem>
+    </varlistentry>
+   
+    <varlistentry>
+      <term>
+        <emphasis role="bold">4</emphasis>
+	  The object toolbar
+      </term>
+      <listitem>
+	<para>This toolbar enables the user to draw graphic elements
+	on the sheet, such as text labels, big red circles or thin
+	green arrows. These can be used to bring attention to a
+	particular part of a worksheet. The object toolbar is
+	explained in <xref linkend="obj-toolbar" /> in the <xref
+	linkend="sect-gui-toolbars" /> portion of the manual.</para>
+      </listitem>
+    </varlistentry>
+    
+    <varlistentry>
+      <term>
+        <emphasis role="bold">5</emphasis>
+	    The data entry area
+      </term>
+      <listitem>
+	<para>The data entry area is useful for the
+	  modification of complex formulas. It is discussed in
+	  <xref linkend="data-entry" />. </para>
+      </listitem>
+    </varlistentry>
+      
+    <varlistentry>
+      <term>
+        <emphasis role="bold">6</emphasis>
+	  The cell grid area
+      </term>
+      <listitem>
+	<para>The cell area lies in the middle of all the rest. The
+	cell area includes the row and column labels, the scrollbars
+	and the tabs below. The use of these elements is explained in
+	<xref linkend="cell-grid" />.</para>
+      </listitem>
+    </varlistentry>
+    
+    <varlistentry>
+      <term>
+        <emphasis role="bold">7</emphasis>
+	  The information area
+      </term>
+      <listitem>
+	<para>This area is used by
+	  &gnum; to give
+	  feedback on the status of certain
+	  operations. This information is explained in
+	  <xref linkend="info-area" />. </para>
+      </listitem>
+    </varlistentry>
+    
+  </variablelist>
+  
+  <para>
+    The next chapters will explain each of these elements. <xref
+    linkend="sect-gui-menus" /> will explain the menus, <xref
+    linkend="sect-gui-toolbars" /> will explain the toolbars, <xref
+    linkend="data-entry" /> will explain the data entry area, <xref
+    linkend="cell-grid" /> will explain the cell grid area, and <xref
+    linkend="info-area" /> will explain the information area.
+  </para>
+  
+        <!-- A few of these functions are complicated (and powerful) so
+	they are explained in larger sections later in the manual. The next
+	section gives references to those detailled so that readers looking
+	for advanced information can skip to those sections directly. -->
+
+
+
+</sect1>
+ 
+
+
+

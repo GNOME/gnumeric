@@ -1,0 +1,100 @@
+Day-counting rules are mandated by NASD Uniform Practice Code, Section 46, and MSRB Rule G-33, described in Mayle (1993, 17?23, A3?A15). See Public Securities Association (1990) for other rules applicable to state and municipal bonds.
+
+http://giaca.uhu.es/raw/aaa/pubs/05-99is/securearea/2is03.htm
+
+Day-Counting Conventions
+
+The fraction of a period elapsed at settlement (a ) depends partly on the type of bond, and thus, the day-counting convention required by either the National Association of Securities Dealers (NASD) or the Municipal Securities Rulemaking Board (MSRB).5 For example, an "actual/actual" day-counting convention is followed to calculate a for U. S. Treasury bonds. That is, a is computed by dividing the actual number of days elapsed at settlement by the actual number of days in the current interest period. However, for corporate and municipal bonds a "30/360" day-counting convention is used. This convention, which assumes that each month has 30 days, typically computes the number of days using the following formula: Number of days = (Y2 ? Y1)360 + (M2 ? M1)30 + (D2 ? D1), where Y, M and D stand for year, month and day, and 1 and 2 stand for the earlier and later date, respectively (Mayle 1993, 18). Generally, D1 and D2 are coded "30" whenever either is the last day of the month.
+
+
+http://www.tipsinc.com/doc/ok_day_type.htm:
+
+ 1 = Actual/Actual daycount method
+ 2 = NASD 30/360 daycount method
+ 4 = SIA 30/360 daycount method
+ 5 = ISMA 30/360 daycount method
+ 6 = New 30/360 daycount method - not currently used
+ 7 = Actual/360 daycount method
+ 8 = Actual/365 daycount method (short term and Canadian bonds only)
+ 9 = Euro/365 daycount method - no leap days
+ 10 = Currently used SIA/NASD/MSRB method
+ 11 = 30E+/360 If d2 = 31 change it to 1st of next month
+ 12 = Actual/365 daycount method (periodic payment securities)
+ 13 = Japanese/365 daycount method
+
+
+-----------------------------------------------------------------
+base 0: BASIS_MSRB_30_360
+
+MSRB/NSAD 30/360 daycount method 
+see MSRB Rule G-33
+http://www.msrb.org/msrb1/rules/ruleg33.htm
+http://12.109.140.198/msrb1/rules/interpg33.htm
+
+ Number of days =
+
+(Y2 - Y1) 360 + (M2 - M1) 30 + (D2 - D1)
+
+In this formula, the variables "Yl," "M1," and "D1" are defined as the year, month, and day, respectively, of the date on which the computation period begins (June 15, 1982, in your example), and "Y2,a" "M2," and "D2" as the year, month, and day of the date on which the computation period ends (July 1, 1982, in your example).
+
+For purposes of this formula, if the symbol "D2" has a value of "31," and the symbol "D1" has a value of "30" or "31," the value of the symbol "D2" shall be changed to "30." If the symbol "D1" has a value of "31," the value of the symbol "D1" shall be changed to "30." For purposes of this rule time periods shall be computed to include the day specified in the rule for the beginning of the period but not to include the day specified for the end of the period.
+
+
+-----------------------------------------------------------------
+base 1: BASIS_ACTACT
+
+Actual/Actual daycount method
+
+date adjustment:
+no change
+
+date difference:
+serial delta (# of days)
+
+-----------------------------------------------------------------
+base 2: BASIS_ACT_360
+
+Actual/360 daycount method
+
+date adjustment:
+no change
+
+date difference:
+serial delta 
+
+360/freq for length of coupon period
+
+-----------------------------------------------------------------
+base 3: BASIS_ACT_365
+
+Actual/365 daycount method (short term and Canadian bonds only)
+
+date adjustment:
+no change
+
+date difference:
+serial delta
+
+365/freq for length of coupon period, (with decimal answer)
+
+-----------------------------------------------------------------
+base 4: BASIS_30E_360
+
+date adjustment:
+from_date is changed from 31st to 30th
+to_date is changed from 31st to 30th
+
+date difference:
+each month 30 days, within a month serial delta
+
+-----------------------------------------------------------------
+base 5: BASIS_30Ep_360
+
+date adjustment:
+from_date is changed from 31st to 30th
+to_date is changed from 31st to 1st of following month
+
+date difference:
+each month 30 days, within a month serial delta
+
+-----------------------------------------------------------------

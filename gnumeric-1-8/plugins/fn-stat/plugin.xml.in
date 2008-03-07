@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_fnstat">
+	<information>
+		<_name>Statistical Functions</_name>
+		<_description>Statistical Functions</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="plugin"/>
+	</loader>
+	<services>
+		<service type="function_group" id="stat">
+			<_category>Statistics</_category>
+			<functions>
+				<function name="avedev"/>
+				<function name="average"/>
+				<function name="averagea"/>
+				<function name="bernoulli"/>
+				<function name="betadist"/>
+				<function name="betainv"/>
+				<function name="binomdist"/>
+				<function name="cauchy"/>
+				<function name="chidist"/>
+				<function name="chiinv"/>
+				<function name="chitest"/>
+				<function name="confidence"/>
+				<function name="count"/>
+				<function name="counta"/>
+				<function name="critbinom"/>
+				<function name="cronbach"/>
+				<function name="correl"/>
+				<function name="covar"/>
+				<function name="devsq"/>
+				<function name="exppowdist"/>
+				<function name="permut"/>
+				<function name="poisson"/>
+				<function name="expondist"/>
+				<function name="fdist"/>
+				<function name="finv"/>
+				<function name="fisher"/>
+				<function name="fisherinv"/>
+				<function name="forecast"/>
+				<function name="frequency"/>
+				<function name="ftest"/>
+				<function name="gammaln"/>
+				<function name="gammadist"/>
+				<function name="gammainv"/>
+				<function name="geomean"/>
+				<function name="geomdist"/>
+				<function name="growth"/>
+				<function name="harmean"/>
+				<function name="hypgeomdist"/>
+				<function name="intercept"/>
+				<function name="kurt"/>
+				<function name="kurtp"/>
+				<function name="landau"/>
+				<function name="laplace"/>
+				<function name="large"/>
+				<function name="linest"/>
+				<function name="logest"/>
+				<function name="logfit"/>
+				<function name="loginv"/>
+				<function name="logistic"/>
+				<function name="lognormdist"/>
+				<function name="logreg"/>
+				<function name="max"/>
+				<function name="maxa"/>
+				<function name="median"/>
+				<function name="min"/>
+				<function name="mina"/>
+				<function name="mode"/>
+				<function name="negbinomdist"/>
+				<function name="normdist"/>
+				<function name="norminv"/>
+				<function name="normsdist"/>
+				<function name="normsinv"/>
+				<function name="pareto"/>
+				<function name="percentile"/>
+				<function name="percentrank"/>
+				<function name="pearson"/>
+				<function name="prob"/>
+				<function name="quartile"/>
+				<function name="rank"/>
+				<function name="rayleigh"/>
+				<function name="rayleightail"/>
+				<function name="rsq"/>
+				<function name="skew"/>
+				<function name="skewp"/>
+				<function name="slope"/>
+				<function name="small"/>
+				<function name="ssmedian"/>
+				<function name="standardize"/>
+				<function name="stdev"/>
+				<function name="stdeva"/>
+				<function name="stdevp"/>
+				<function name="stdevpa"/>
+				<function name="steyx"/>
+				<function name="subtotal"/>
+				<function name="tdist"/>
+				<function name="tinv"/>
+				<function name="trend"/>
+				<function name="trimmean"/>
+				<function name="ttest"/>
+				<function name="var"/>
+				<function name="vara"/>
+				<function name="varp"/>
+				<function name="varpa"/>
+				<function name="weibull"/>
+				<function name="ztest"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

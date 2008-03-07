@@ -1,0 +1,11 @@
+--- Makefile.in	2007-08-06 15:58:01.000000000 -0400
++++ Makefile.in	2007-08-06 15:58:21.000000000 -0400
+@@ -6,7 +6,7 @@
+ 
+ 
+ art_config.h:	gen_art_config$(EXEEXT)
+-	./gen_art_config > art_config.h
++	./gen_art_config$(EXEEXT) > art_config.h
+ 
+ @OS_WIN32_TRUE@install-libtool-import-lib:
+ @OS_WIN32_TRUE@	$(INSTALL) .libs/libart_lgpl_2.dll.a $(DESTDIR)$(libdir)

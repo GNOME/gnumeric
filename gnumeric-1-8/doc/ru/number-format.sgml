@@ -1,0 +1,416 @@
+<sect1>
+  <title>Форматирование ячеек</title>
+
+  <para>Формат ячейкт позволяет вам способ представления данных в
+    таблице. Важно помнить, что при изменении формата меняется только
+    то как данные выглядят, а действительные значения данных не меняются. </para>
+  
+  <para>Допустимыми форматами являются денежные единицы, "научный"
+     формат, даты, время, дроби и другие. Положительные и отрицательные
+     значения могут отображаться разными цветами и форматами для aiding in
+     keeping track of values. Существует также множество различных форматов
+     даты и времени, теоретически для любого формата даты и времени какой вам
+     может придти в голову.
+    </para>
+    
+  <para>Чтобы изменить стиль форматирования ячейки или группы ячеек,
+    вам надо выбрать эту ячейку или ячейки (см. <xref
+    linkend="editing-selections">), для которые вы хотите применить/изменить
+    формат и затем выбрать из меню <guimenu>Формат</guimenu>/<guimenuitem>Ячейки...</guimenuitem>/Numbers
+    (или из контекстнозависимого всплывающего меню связанного с правой кнопкой мыши)
+    подходящий формат.</para>
+  
+  <para>Самый быстрый способ вызвать диалог формата ячеек - использовать
+        комбинацию клавиш <keycombo><keycap>Ctrl</keycap><keycap>1</keycap></keycombo>.
+        Это равносильно выбору пункта форматирования ячеек из меню.</para>
+
+  <para>Gnumeric предлагает большой набор предопределенных стилей форматирования.
+    Эти стили разделены по категориям в диалоговом окне Ячейка/Стиль.
+      Достаточно выбрать один из форматов отображения и подтвердить изменения, чтобы
+      изменить формат отображения для выбранных ячеек.</para>
+  
+  <para>Если ни один из предопределенных стилей форматирования не удовлетворяет
+    ваших потребностей, вы можете определить свой собственный стиль форматирования чисел
+    используя собственное форматирующее выражение: наличие собственных форматирующих выражений
+    предоставляет вам большую гибкость в отображении чисел.</para>
+
+<sect2 id="format-dialog">
+  <title>Диалог форматирования</title>
+
+  <para>Диалог форматирования чисел (см. <xref linkend="number-format-dialog"> ) 
+      поддерживает широкий диапазон возможностей. Основное использование этого диалога - это выбор
+     одного из множества предустановленных правил форматирования чисел. Эти правила определяют
+     стили, которые должны подходить в абсолютном большинстве случаев. Если же ни один
+     из имеющихся стилей не устраивает пользователя, он может создать свои собственные стили. </para>
+  
+  <figure id="number-format-dialog">
+      <title>Главный диалог форматирования чисел.</title>
+      <screenshot>
+	<graphic fileref="images/number-format-dialog.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+  <para>Главный диалог разделен на два списка, список категорий форматирования
+    и список форматов для каждой категории.</para>
+
+    <para>Существует также пример отображения того как должен выглядеть новый формат
+     и пример как выглядит код форматирования.</para>
+</sect2>    
+
+
+<sect2 id="changing-font">
+<title>Изменение шрифта</title>
+
+<para>Любая ячейка может использовать любой доступный Gnumeric шрифт. Это  
+относится к таким параметрам шрифта как насыщенность, наклон и т.п.
+как и к размеру шрифта.</para>
+
+<para>Чтобы изменить шрифт для ячеек просто откройте диалог форматирования
+(см. <xref linkend="format-dialog">) и выберите закладку шрифтов.
+При этом откроется стандартный диалог Gnome для выбора шрифта.</para>
+<!-- FIXME link to doc on the font dialog when they exist -->
+
+<figure id="number-format-font-dialog">
+   <title>Диалог выбора шрифта</title>
+   <screenshot>
+      <graphic fileref="images/number-format-font-dialog.jpg"></graphic>
+   </screenshot>
+</figure>
+
+<!-- FIXME -->
+<para>Reference docs on how to use the font dialog here.</para>
+<!-- FIXME -->
+
+<procedure>
+  <title>Чтобы изменить шрифт ячеек</title>
+   <step>
+     <para>
+        Выделите ячейку или область ячеек, для которых должен быть изменен шрифт. </para>
+   </step>
+   <step>
+      <para>Откройте диалог формата ячейки. Этот диалог может быть открыт из меню
+         <guimenu>Формат</guimenu><guimenuitem>Ячейки...</guimenuitem>,
+         нажатием <keycombo><keycap>Ctrl</keycap><keycap>1</keycap></keycombo>,
+         или щелчком правой кнопки мыши (<mousebutton>MB3</mousebutton>) и выбором
+         пункта <guimenuitem>Формат ячейки</guimenuitem> из возникающего меню.</para>
+   </step>
+   <step>
+      <para>Выберите в диалоговом окне закладку шрифты. При этом откроется
+            часть диалога позволяющая выбрать шрифт. Смотрите
+            <xref linkend="number-format-font-dialog"> как пример диалога.</para>
+</step>
+   <step><para>TELL PEOPLE HOW TO USE THE FONT DIALOG HERE</para></step>
+
+</procedure>
+
+<para>Для того чтобы просто изменить насыщенность или наклон шрифта в ячейке,
+существуют кнопки на панели инструментов ускоряющие эти действия.
+Смотрите <xref linkend="number-format-bold-italics"></para>
+
+</sect2>
+
+<sect2>
+<title>Изменение цвета ячеек</title>
+
+<para>Для любой ячейки в Gnumeric можно указать цвет текста, фона или 
+рамки. Для фона ячейки также можно указать шаблон заполнения.
+FIXME: Установка цвета и шаблона для фона пока что не доступна.</para>
+
+<figure id="number-format-color-dialog">
+  <title>Диалог цвета ячейки.</title>
+    <screenshot>
+      <graphic fileref="images/number-format-color-dialog.jpg"></graphic>
+     </screenshot>
+</figure>
+
+<para>Область <guilabel>Цвет текста</guilabel> используется для установки цвета
+для содержимого ячейки. По умолчанию установленного цвета нет
+и он зависит от глобальных установок. Чтобы назначить цвет для содержимого ячейки
+выберите <guibutton>Использовать этот цвет</guibutton> и затем щелкните на
+<guibutton>Color Selector Button</guibutton> чтобы открыть стандартный диалог
+Gnome для выбора цвета. Выберите цвет и нажмите <guibutton>Okay</guibutton>
+чтобы вернуться в диалог выбора цвета ячейки.</para>
+
+<procedure>
+  <title>Чтобы измененить цвет текста в ячейке</title>
+ <step>
+     <para>
+        Выберите ячейку или область ячеек, для которой вы хотите изменить цвет. </para>
+   </step>
+    <step>
+      <para>Откройте диалог формата ячейки. Этот диалог может быть открыт из меню
+         <guimenu>Формат</guimenu><guimenuitem>Ячейки...</guimenuitem>,
+         нажатием <keycombo><keycap>Ctrl</keycap><keycap>1</keycap></keycombo>,
+         или щелчком правой кнопки мыши (<mousebutton>MB3</mousebutton>) и выбором
+         пункта <guimenuitem>Формат ячейки</guimenuitem> из возникающего меню.</para>
+   </step>
+   <step>
+       <para>Выберите в диалоговом окне закладку <guilabel>Окрашивание</guilabel>. При этом
+       часть диалога позволяющая выбрать цвет. Смотрите 
+       <xref linkend="number-format-color-dialog"> как пример диалога.</para>
+   </step>
+   <step><para>TELL PEOPLE HOW TO USE THE COLOR PICKER HERE</para></step>
+    <!--  FIXME FIXME FIXME -->
+</procedure>
+
+<para><guilabel>Конфигурация фона</guilabel> включает возможность
+выбора установки сплошного окрашивания фона или заполнения его шаблоном.</para>
+
+<para>Чтобы установить цвет для сплошного окрашивания фона щелкните на
+<guibutton>use solid color</guibutton> и выберите цвет из диалога выбора цвета. </para>
+
+<para>Чтобы установить шаблон для фона ячейки щелкните на кнопке <guibutton>use a pattern</guibutton> 
+ и выберите шаблон щелкнув на шаблоне, который вы хотите использовать.
+Шаблон выбранный в настоящий момент выделяется сплошной черной рамкой. </para>
+
+<!-- fixme -->
+<para>Внимание: возможности установки шаблона для фона еще не реализованы.</para>
+<!-- fixme -->
+</sect2>
+
+<sect2>
+<title>Выравнивание и выключка содержимого ячейки</title>
+
+  
+<para>Содержимое ячейки может быть выровнено как необходимо.
+ Существует несколько возможностей выравнивания и выключки. Смотрите
+<xref linkend="number-format-justification">.</para>
+
+<figure id="number-format-justification">
+  <title>Пример выключки текста.</title>
+  <screenshot>
+     <graphic fileref="images/number-format-justification.jpg"></graphic>
+   </screenshot>
+</figure>
+
+<figure id="number-format-justification-dialog">
+  <title>Диалог выключки ячейки.</title>
+  <screenshot>
+     <graphic fileref="images/number-format-justification-dialog-2.jpg"></graphic>
+   </screenshot>
+</figure>
+
+<procedure>
+ <title>Чтобы изменить выключку ячейки</title>
+   <step>
+    <para>
+        Выберите ячейку или диапазон ячеек, для которых вы хотите изменить выключку. </para>
+   </step>
+    <step>
+      <para>Откройте диалог формата ячейки. Этот диалог может быть открыт из меню
+         <guimenu>Формат</guimenu><guimenuitem>Ячейки...</guimenuitem>,
+         нажатием <keycombo><keycap>Ctrl</keycap><keycap>1</keycap></keycombo>,
+         или щелчком правой кнопки мыши (<mousebutton>MB3</mousebutton>) и выбором
+         пункта <guimenuitem>Формат ячейки</guimenuitem> из возникающего меню.</para>
+   </step>
+   <step>
+     <para>
+       Выберите в диалоговом окне закладку <guilabel>Выравнивание</guilabel>. При этом
+       откроется часть диалога позволяющая выбрать параметры для выравнивания. Смотрите
+       <xref linkend="number-format-justification-dialog"> как пример диалога.
+     </para>
+    </step>
+   <step>
+     <para>Выберите тип выравнивания по горизонтали и вертикали щелкнув по одной
+     из кнопок в каждой группе. </para>
+   </step>
+</procedure>
+  
+<variablelist>
+   <title>Возможности горизонтальной выключки.</title>
+   <varlistentry>
+     <term><guibutton>Обычная</guibutton></term>
+     <listitem>
+          <para>Стандартная выключка по умолчанию. Она равносильна правой выключке
+           чисел и формул и левой выключке строк и меток.</para>
+     </listitem>
+   </varlistentry>
+   <varlistentry>
+      <term><guibutton>Влево</guibutton></term>
+      <listitem>
+        <para>Выключка содержимого ячейки влево.</para>
+      </listitem>
+   </varlistentry>
+   <varlistentry>
+     <term><guibutton>По центру</guibutton></term>
+     <listitem>
+       <para>Центрирование содержимого ячейки.</para>
+     </listitem>
+   </varlistentry>
+   <varlistentry>
+     <term><guibutton>Вправо</guibutton></term>
+     <listitem>
+       <para>Выключка содержимого ячейки вправо.</para>
+     </listitem>
+   </varlistentry>
+   <varlistentry>
+     <term><guibutton>Заполнение</guibutton></term>
+       <listitem>
+          <para>Заполнение ячейки содержимым. При этом содержимое
+                ячейки будет повторяться заполняя ее пространство.</para>
+       </listitem>
+    </varlistentry>
+   <varlistentry>
+     <term><guibutton>Выключка</guibutton></term>
+         <listitem>
+           <para>Левая выключка и центрирование по вертикали содержимого ячейки.</para>
+         </listitem>
+      </varlistentry>
+</variablelist>
+
+
+<!--FIXME I dont belive alignment is implemented yet -->
+<variablelist>
+   <title>Возможности выключки по вертикали.</title>
+<varlistentry>
+   <term><guibutton>Вверх</guibutton></term>
+   <listitem><para>Выравнивает верх содержимого ячейки с верхом ячейки.</para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><guibutton>По центру</guibutton></term>
+   <listitem><para>Центрирует содержимое ячейки по вертикали. Отступы сверху и снизу будут одинаковы.</para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><guibutton>Вниз</guibutton></term>
+   <listitem><para>Выравнивает содержимое ячейки по низу ячейки.</para></listitem>
+</varlistentry>
+<varlistentry>
+   <term><guibutton>По формату</guibutton></term>
+   <listitem><para>Выравнивает строки содержимого ячейки чтобы заполнить ее снизу до верху.
+   Если строка одна, она будет расположена внизу ячейки. Из двух строк одна будет внизу, а другая вверху ячейки.
+   Все дополнительные строки будут равномерно распределены по вертикали между верхней и нижней.</para></listitem>
+</varlistentry>
+</variablelist>
+
+
+</sect2>
+
+
+
+
+<sect2 id="number-format-bold-italics">
+   <title>Возможности форматирования ячеек с помощью панели кнопок.</title>
+
+  <para>Для ряда часто используемых форматов существуют ускоряющие доступ кнопки на панели. </para>
+
+<figure id="number-format-buttonbar">
+  <title>Примет кнопок для быстрой выключки.</title>
+  <screenshot>
+     <graphic fileref="images/number-format-buttonbar.jpg"></graphic>
+   </screenshot>
+</figure>
+
+<para>Смотрите <xref linkend="buttonbar-buttons"> для деталей того,
+ какие кнопки для чего предназначены.</para>
+
+</sect2>
+</sect1>
+
+  
+<sect1><title>Выражения форматирования чисел</title>
+    <para>В Gnumeric очень мощный модуль для форматирования чисел:
+      он может быть использован для отображения чисел в различных форматах,
+      а также предоставляет пользователю возможность указать цвета
+      в зависимости от различных условий.</para>
+
+  <para> <xref linkend="formula-example-1"> пример некоторых из множества 
+      возможностей форматирования, которые могут быть применены к числу 
+      с помощью предопределенных форматов. </para>
+  
+  <example id="formula-example-1">
+    <title>Некоторые примеры форматирования чисел</title>
+    <programlisting>
+      
+      Для числа 600
+      
+      Числа
+         Общий:                                           600.12
+             0.0:                                           600.1
+      Бухгалтерский
+                _($*#,##0_);_($*(#,##0);_($*"-"_);_(@_)           $600
+          _($*#,##0.00_);_($*(#,##0.00);_($*"-"??_);_(@_)   $600.12
+      Научный
+           0.00E+00                                         600.123
+      
+    </programlisting>
+      </example>
+      
+  </sect1>
+
+<sect1>
+<title>Форматирование даты и времени</title>
+   <para>Gnumeric поддерживает широкие возможности форматирования даты и времени.</para>
+
+   <para>Эти форматы могут быть использованы для преобразования существующего серийного числа времени
+   в новый более удобный для чтения формат или же даты могут быть введены в этих
+   форматах и Gnumeric будет автоматически преобразовывать их в серийные числа с
+   подходящим форматом ячейки. Смотрите <xref linkend="entering-dates-and-numbers"> для
+   дополнительной информации.</para>
+
+   <para>В <xref linkend="number-format-date-time-examples">  'д' это дни,
+  'м' - месяцы, 'г' - годы, 'ч' - часы и 'с' - секунды.</para>
+
+
+   <example id="number-format-date-time-examples">
+<title>Форматирование даты и времени.</title>
+<programlisting>
+
+    Дата
+        Формат                     Образец
+   Серийное число		36068.7	
+   м/д/гггг	        	10/1/1998	
+   д-ммм-гг		        1-Окт-98	
+   д-ммм-гггг		        1-Окт-1998	
+   д-ммм		        1-Окт	
+   д-мм		                1-10	
+   ммм/д		        Окт/1	
+   мм/д		                10/1	
+   мм/дд/гг		        10/01/98	
+   мм/дд/гггг		        10/01/1998	
+   ммм/дд/гг		        Окт/01/98	
+   ммм/дд/гггг		        Окт/01/1998	
+   ммм/ддд/гг		        Окт/Втр/98	
+   ммм/ддд/гггг		        10/01/1998	
+   мм/ддд/гг		        10/Втр/98	
+   мм/ддд/гггг		        10/Втр/1998	
+   ммм-гг		        Окт-98	
+   ммм-гггг		        Окт-1998	
+   м/д/гг ч:мм		        10/1/98 16:48	
+   м/д/гггг ч:мм                10/1/1998 16:48	
+
+
+Время
+
+      Формат                     Образец
+  Серийное число		       36068.7	
+  ч:мм:сс AM/PM		       4:51 PM	
+  ч:мм:сс AM/PM		       4:51:18 PM	
+  ч:мм		               16:51	
+  ч:мм:сс		       16:51:18	
+  м/д/гг ч:мм		       10/1/98 16:51	
+  мм:сс		               10:18	
+  мм:сс.0		       10:1836068.7	
+  [ч]:мм:сс		       :10:18	
+
+
+</programlisting>
+</example>
+
+</sect1>
+  
+    
+<!-- Keep this comment at the end of the file
+    Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         

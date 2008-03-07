@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_psiconv">
+	<information>
+		<_name>Psiconv</_name>
+		<_description>Imports Psion 5 series Sheet files</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="psiconv"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="psiconv" priority="100" probe="TRUE">
+			<information>
+				<_description>Psion (*.psisheet)</_description>
+			</information>
+			<suffixes>
+				<suffix>psisheet</suffix>
+			</suffixes>
+		</service>
+	</services>
+</plugin>

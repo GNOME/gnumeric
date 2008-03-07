@@ -1,0 +1,335 @@
+<sect1 id="sect-morehelp">
+  <title>Sources of  Help</title>
+
+  <para>
+    This manual is the most complete source of explanation for
+    &gnum; and attempts to describe as
+    much of the program as possible. However, this manual cannot
+    answer all the possible questions readers may have: the manual is
+    not yet finished and there are many situations which cannot be
+    explained through a manual. Other sources of information which
+    might be helpful to &gnum; users are
+    presented below.
+  </para>
+
+  <warning>
+    <para>
+      Several of the sources of information below involve talking
+      directly with the people who have created
+      &gnum;. These people are volunteers
+      who have spend several years working on the program to make it
+      useful. They will all be glad to help you
+      <emphasis>but</emphasis> only if they decide they want to. They
+      are all busy and only volunteer on this project. You can take
+      several steps to make these people want to help you.
+    </para>
+
+    <para>
+      First of all, try to help yourself by reading the existing
+      documents. If you have read the documents, others will be much
+      more likely to want to answer any questions that
+      remain. Secondly, be polite by introducing yourself, thanking
+      developers for their hard work and asking your questions
+      nicely. Please be aware that the developers all respect each
+      other and their users so therefore, while their answers may
+      appear brisk or discourteous, they are simply trying to be
+      efficient and save time by being curt. Please assume they
+      respect you and want to help you, after all they have written a
+      program for you to use.
+    </para>
+  </warning>
+
+    <para>
+      <emphasis role="bold">Steps for getting help.</emphasis>
+    </para>
+
+    <itemizedlist>
+        <listitem>
+            <para>
+	        <emphasis role="bold">Read the Manual:</emphasis>
+            </para>
+            <para>
+                First, please look carefully through this manual to
+                see if you can answer your own question. This can be
+                hard and requires careful thinking but will teach you
+                the most.
+            </para>
+        </listitem>
+
+        <listitem>
+            <para>
+	        <emphasis role="bold">Read the Web Site:</emphasis>
+            </para>
+            <para>
+                Second, look at the
+                &gnum; web site, look on
+                the world wide web for explanations using other
+                spreadsheets or look for a book on how to use another
+                spreadsheet. <xref linkend="sect-morehelp-web"/>
+                explains how to access and find information on the web
+                site.
+            </para>
+        </listitem>
+
+        <listitem>
+            <para>
+	        <emphasis role="bold">Read other Spreadsheet Tutorials:</emphasis>
+            </para>
+            <para>
+                Another useful source of help is the literature
+                written for other
+                spreadsheets. &gnum; is
+                quite similar to a number of other spreadsheets and
+                often books, web sites, tutorials and other documents
+                which describe how to use other spreadsheets can help
+                users understand how to use
+                &gnum;. <xref
+                linkend="sect-morehelp-books"/> describes other
+                spreadsheets for which usage manuals may provide
+                useful information.
+            </para>
+        </listitem>
+
+        <listitem>
+            <para>
+	        <emphasis role="bold">Send email to the Gnumeric List:</emphasis>
+            </para>
+            <para>
+                The &gnum; project
+                maintains an email mailing list which is a way for
+                people to send email to all the core developers. <xref
+                linkend="sect-morehelp-maillist"/> explains how to
+                send email to the gnumeric list and how to read past
+                messages including questions and answers which may be
+                helpful.
+            </para>
+        </listitem>
+
+        <listitem>
+            <para>
+	        <emphasis role="bold">Join the Chat Discussion:</emphasis>
+            </para>
+            <para>
+                The &gnum; project also
+                uses an Internet Relay Chat (IRC) channel, also known
+                as a `discussion room', in which developers talk to
+                each other, and to anyone else, about the
+                program. <xref linkend="sect-morehelp-irc"/> explains
+                how to join this discussion.
+            </para>
+        </listitem>
+     </itemizedlist>
+
+
+</sect1>
+
+<sect1 id="sect-morehelp-web">
+  <title>Web Resources</title>
+
+  <para>
+    The &gnum; project maintains a web
+    site with explanations, links and other useful information to
+    learn about and use this spreadsheet.
+  </para>
+
+  <sect2 id="sect-morehelp-web-gnumericSite">
+    <title>The Gnumeric Web Site</title>
+
+    <para>
+      The &gnum; web site can be accessed
+      by clicking on this <ulink type="http"
+      url="http://www.gnome.org/projects/gnumeric/">link</ulink>.
+      Alternatively, it may be necessary to enter the address directly
+      into a web browser. The &gnum;
+      project page address is:
+<screen>http://www.gnome.org/projects/gnumeric/
+</screen> 
+      It may be necessary to copy the text and paste it into the
+      address field.
+    </para>
+
+  </sect2>
+
+
+</sect1>
+
+
+
+<sect1 id="sect-morehelp-books">
+  <title>Related Manuals</title>
+
+  <para>
+    &gnum; strives to mimic the behaviour
+    of other spreadsheets so books which explain how to use these
+    other spreadsheets will probably be useful to help understand
+    &gnum;.
+  </para>
+
+  <para>
+    The OpenOffice.org spreadsheet named
+    <application>Calc</application> is another popular and highly
+    functional spreadsheet which provides users with the freedoms
+    provided by &gnum; including the
+    freedom to access and use the source code of the program
+    itself. The documentation for <application>Calc</application> may
+    also help explain how to use &gnum;
+    and can be accessed through the OpenOffice.org web site at <ulink
+    type="http" url="http://www.openoffice.org/">
+<uri>
+http://www.openoffice.org/
+</uri>
+    </ulink>.
+  </para>
+
+  <para>
+    The manuals for other spreadsheets, even those that restrict users
+    freedoms in several ways, may help to explain how to use
+    &gnum;.
+    &gnum; attempts explicitly to behave
+    in a manner understandable to users of the Microsoft
+    <application>Excel</application> spreadsheet. Because
+    <application>Excel</application> has a very large number of users,
+    many books have been written explaining how to use that
+    spreadsheet. Any local bookstore should have at least a few of
+    these books which may help answer any questions.
+  </para>
+
+</sect1>
+
+
+<sect1 id="sect-morehelp-maillist">
+  <title>The Mailing List</title>
+
+  <para>
+    The &gnum; project maintains a
+    mailing list which is a system by which people can send one email
+    which gets distributed to everyone who has signed up to read these
+    emails. Please understand that this list is used for serious
+    discussions about developing this spreadsheet further. Questions
+    from users are generally answered when posted to this list but
+    simple questions which are answered in the manual may generate the
+    simple answer, "Please read the manual." Also, developers
+    volunteer any time they take to answer your questions so please be
+    polite.
+  </para>
+
+  <para>
+    The best way to use this resource is first to read the archives
+    for the past few months to see if any of the subjects look similar
+    to the issue which interests you. It may be that your question has
+    just been asked by someone else and a good answer has been
+    posted. To access the archives, use a web browser to go to the
+    mailing list web page at <ulink type="http"
+    url="http://www.gnome.org/">
+<uri>
+http://www.gnome.org/
+</uri>
+    </ulink> and then ...
+  </para>
+
+  <para>
+    If none of the emails recently posted to the mailing list address
+    your issue, if you would like clarification to an earlier answer,
+    or if you simply want to thank the developers, you are welcome to
+    send an email of your own to the list. This simply requires
+    writing an email and sending it to
+<screen>gnumeric-list@gnome.org
+</screen>
+    and your posting will eventually get sent to everyone who is
+    subscribed to the list. Please select the subject of your email
+    carefully to make it easy for everyone to see if they are
+    interested in reading and possibly answering your message. For
+    example, the subject "I need help" may be true but is ineffective;
+    a better subject would be "Help needed with statistical
+    regression". Please make it easy for others to give you help.
+  </para>
+
+  <para>
+    After you have sent your email, there may be an initial delay
+    while the moderator of the list, a person who acts as editor,
+    reviews your email to see if it is relevant to the
+    discussion. This step is required to limit the junk email that
+    gets sent out to everyone.
+
+     <note>
+       <para>
+         Very rarely an email might automatically be discarded if it
+         appeared to be a mass junk mailing. If, after a few days,
+         your email does not appear in the archives and you don't get
+         any response, then re-send your email to the list omitting any
+         signatures or other material that might appear to be
+         commercial solicitation. A simple, text message is the least
+         likely to be discarded by these automatic tools.
+       </para>
+     </note>
+
+    Once your email is sent to everyone on the list, someone may
+    answer you. They may choose to answer you directly, to post a
+    response to the list, or to do both. In the hours and days after
+    posting, you can check to see if you received email and check the
+    list archives, as is explained above, to see if someone answered
+    there.
+  </para>
+
+
+</sect1>
+
+
+
+<sect1 id="sect-morehelp-irc">
+  <title>Internet Chat (IRC)</title>
+
+  <para>
+    The GNOME and GIMP projects maintain a series of servers to
+    provide a world wide network enabling an Internet Relay Chat (IRC)
+    system for discussion on issues related to those projects
+    including a discussion channel dedicated to
+    &gnum;. This is a system by which
+    people can communicate directly with each other by typing lines
+    into an IRC client which are then broadcast to everyone listening
+    in a particular channel. Unfortunately this manual cannot provide
+    a full explanation for how to obtain, install and use an IRC
+    client. There are a number of such programs available, many of
+    which provide users all the freedoms which
+    &gnum; provides and instructions for
+    these can be obtained from the world wide web. More information
+    and access to such software can easily be obtained by running a
+    search in any world wide web search engine for "IRC" and "client"
+    and the name of the operating system of the machine which will run
+    the software.
+  </para>
+
+  <para>
+    The &gnum; IRC discussion channel is
+    named <literal>#gnumeric</literal> (although the number symbol,
+    #, may not be needed) and is hosted on the series of servers
+    called <literal>GIMPnet</literal>. The best way to connect to
+    GIMPnet is using the IRC server
+    <literal>irc.gimp.org</literal>. That hostname points to a variety
+    of different servers in the United States. If you live elsewhere,
+    after you are connected you can use the chat command
+    <literal>/links</literal> to find a server which is closer on
+    the internet to your location. More information about GIMPnet can
+    be found by looking at the GIMPnet web site (<ulink type="http"
+    url="http://www.xach.com/gimpnet/" >
+    <uri>http://www.gimp.net/</uri> </ulink>).
+  </para>
+
+  <para>
+    If you decide to join the discussion, please be polite, post a
+    question or comment and be prepared to wait a little bit for
+    someone to address you. Several of the developers are permanently
+    connected to the channel and check every half hour or so to see if
+    anyone has asked a question but are working on something else in
+    the meantime. Your question may be answered right away but asking
+    questions using the mailing list may prove to be more efficient
+    since it would not require paying attention to the IRC channel
+    discussion, even if it ultimately requires longer to obtain an
+    answer.
+  </para>
+
+</sect1>
+
+
+
+

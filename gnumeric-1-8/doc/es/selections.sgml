@@ -1,0 +1,210 @@
+<sect1 id="editing-selections">
+  <title>Editar celdas utilizando la selección</title>
+  
+  <para>Hay varias formas de utilizar la selección para facilitar la
+edición de las celdas en la hoja de cálculo. </para>
+  
+  <para>Por ejemplo, se pueden introducir datos dando una selección de
+celdas (contiguas o no contiguas). <!-- XXX --> The <keycap>Enter</keycap> key will accept
+    the data and move the cursor to the next cell in the selection
+     down the selection.  The <keycap>tab</keycap> key will move the
+    cursor to the rightmost cell (or it will scroll if you have
+    reached the edge of the selection).</para>
+  
+  <para><keycombo><keycap>Control</keycap><keycap>Enter</keycap></keycombo>
+    does the inverse of <keycap>Enter</keycap> (it moves to the
+    previous cell in the selection, moving towards the top), while
+    <keycombo><keycap>Ctrl</keycap><keycap>Tab</keycap></keycombo>
+    moves the cursor to the left.</para>
+
+  <sect2>
+    
+    <title>Simple Selections</title>
+    
+    <para>The active cell is indicated by a dark double line with a small
+      square in the bottom right corner. The active cell is the the one 
+      that is currently in focus and will take any input for the keyboard.</para>
+    
+    
+    <figure id="activecell">
+      <title>An Active cell.</title>
+      <screenshot>
+	<graphic fileref="../C/images/selection-2.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+
+    <para>To make a cell become the active selected cell, simply move the white-cross cursor
+      over the cell and press the <mousebutton>MB1</mousebutton>.</para> 
+    
+    <figure id="activecellcursor">
+      <title>The active cell with the cursor.</title>
+      <screenshot>
+	<graphic fileref="../C/images/selection-1.jpg"></graphic>
+      </screenshot>
+    </figure>   
+  </sect2>
+  
+  <sect2>
+    <title>Selecting multiple cells</title>
+    
+    <para>A selection of multiple cells is indicated by a dark double line around
+      the extents of the selection. The top-left cell appears much like a single
+      selected cell while the rest of the selection is the inverse color.</para>
+    
+    <figure id="multicellselect">
+      <title>A multi-cell selection</title>
+      <screenshot>
+	<graphic fileref="../C/images/selection-3.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <para>To make a continuous selection of cells, click on the cell with
+      the white_cross cursor and drag the extents of the selection until
+      it comprises the area you wish to select, and release.</para>
+    
+    <figure id="multicellsect2">
+      <title>Multiple cells being selected with the cursor.</title> 
+      <screenshot>
+        <graphic fileref="../C/images/selection-4.jpg"></graphic>
+      </screenshot>
+    </figure>
+
+  </sect2>
+  
+  <sect2>
+    <title>Discontinuous selections</title>
+    
+    <para>To select a set of cells that may not be continuous,
+      use <keycombo><keycap>ctrl</keycap></keycombo>+<mousebutton>MB1</mousebutton> and 
+	drag to argument an existing selection. 
+	The cells can be added individually or as parts of other selections.</para>
+    
+    <figure id="dicontselect">
+      <title>A discontinuous selection of cells.</title>
+      <screenshot>
+	<graphic fileref="../C/images/selection-5.jpg"></graphic>
+      </screenshot>
+    </figure> 
+    
+    
+  </sect2>
+  
+  
+ <sect2>
+    <title>Keyboard Shortcuts</title>
+    
+    <para>The quickest way to make large selections, especially when your 
+      already using the keyboard is to just use the keyboard selection tools.
+      The basic use is to press <keycombo><keycap>Shift</keycap><keycap>arrow</keycap></keycombo>
+      keys to make a new selection.</para>
+    
+    <para>To select an entire row of cells, press Shift+space. This is equivalent 
+      to pressing the row label button on the left side of the sheet.</para> 
+    
+ <figure id="selectrow">
+      <title>An entire row being selected.</title>
+      <screenshot>
+	<graphic fileref="../C/images/selection-8.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    
+    <para>To select an entire column of cells, press <keycombo><keycap>Ctrl</keycap><keycap>
+	  Space</keycap></keycombo>
+      . This is equivalent 
+      to pressing the column label button on the top of the sheet.</para>
+
+    <figure id="selectcol">
+      <title>An entire column being selected.</title>
+      <screenshot>
+	<graphic fileref="../C/images/selection-9.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <para>To select the entire sheet, press 
+      <keycombo><keycap>Ctrl</keycap><keycap>A</keycap></keycombo>. This is equivalent  to
+      pressing the button in the top left corner of the sheet.</para>
+    
+    <figure id="selectall">
+      <title>The entire worksheet being selected.</title>
+      <screenshot>
+	<graphic fileref="../C/images/selection-10.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    
+    <itemizedlist>
+      <listitem>
+	<para>
+	  <keycombo><keycap>Shift</keycap><keycap>Arrow</keycap></keycombo>
+	  : Define selection with cursor keys.</para></listitem>
+      
+      <listitem>
+	<para>
+	  <keycombo><keycap>Shift</keycap><keycap>Space</keycap></keycombo>
+	  : Select current row. </para></listitem>
+
+      <listitem>
+	<para>
+	  <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo>
+	  : Select current column.</para></listitem>
+      
+      <listitem>
+	<para>
+	  <keycombo><keycap>Ctrl</keycap><keycap>A</keycap></keycombo>
+	  : Select the entire sheet.</para></listitem>
+      
+    </itemizedlist>
+    
+    
+
+  </sect2>
+  
+  <sect2>
+    <title>Filling a region with the same text or value.</title>
+    <para> For a set of cells that need to get filled with the same value,
+      the easiest way is to make a selection using one of the above mentioned, then
+      enter the value into one of the cells like normal, but instead of pressing
+      enter, press <keycombo><keycap>Ctrl</keycap><keycap>enter</keycap></keycombo>
+      instead. The selection will fill with the value entered 
+      for that cell.</para>
+    
+    <para>For cases where you want to fill with number sequences, or dates, or other 
+      sorted data, you may want to use the autofill option.</para>
+    
+    
+    <figure id="cellselectfillbefore">
+      <title>A selection of several cells.</title>
+      <screenshot>
+	<graphic fileref="../C/images/selection-6.jpg"></graphic>
+      </screenshot>
+    </figure>  
+    
+    <figure id="cellselectfillafter">
+      <title>A selection of several cells, filled with the same values.</title>
+      <screenshot>
+	<graphic fileref="../C/images/selection-7.jpg"></graphic> 
+      </screenshot>
+    </figure>
+    
+  </sect2>
+  
+</sect1>
+
+
+  <!-- Keep this comment at the end of the file
+  Local variables:
+  mode: sgml
+  sgml-omittag:t
+  sgml-shorttag:t
+  sgml-minimize-attributes:nil
+  sgml-always-quote-attributes:t
+  sgml-indent-step:2
+  sgml-indent-data:t
+  sgml-parent-document:nil
+  sgml-exposed-tags:nil
+  sgml-local-catalogs:nil
+  sgml-local-ecat-files:nil
+  End:
+  -->             

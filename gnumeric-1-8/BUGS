@@ -1,0 +1,1085 @@
+    To report Gnumeric bugs, please visit bugzilla.gnome.org.
+
+    This file is used as a scratch pad by developers.  It is a list of known
+issues that need to be addressed.  Divided into, things that will prevent
+release, and longer term bugs.
+
+-------------------------------------------------------------------------------
+For 1.8
+-------
+    : Get a list of criticals fixed between 1.6 and 1.8
+
+Release Critical
+----------------
+
+In Progress
+-----------
+    Jody
+	- CELL translation & array handling
+	- INDEX range res, iteration
+	- ExprEntry extensions
+	- Filter dups (does this make sense ?)
+	- python wrapper for libspreadsheet
+	- mis-export of array expr
+	    http://bugzilla.gnome.org/show_bug.cgi?id=322096
+
+Review
+------
+    - func name translation		{Manny}
+
+Short term goals
+----------------
+    - replicate win32 print problems
+    - Finish the Data -> Table dialog				(DONE)
+    - Use go_glade_signal_connect (and friends)
+    : http://bugzilla.gnome.org/show_bug.cgi?id=450444 (themeable icons)
+    : tango icons
+	http://live.gnome.org/GnomeGoals/AppIcon
+	http://live.gnome.org/ThemableAppSpecificIcons
+    : undo of cell range cut over clipboard
+    http://live.gnome.org/Academic
+
+    : ={A1:A3+rand()}	only calls rand() once.
+
+Worries
+-------
+    : range_translate in stf.c looks suspecious.
+    : Add bounds checking of integers on the xml based importers
+    : do bounds check in excel_get_text
+    : provide undo for dropped objects from sheet_objects_clear
+    : undo of pasting copy/cut of objects
+    : Select graph, Copy, and paste to Emacs: used to crash, but now it
+      just g_barfs and pastes empty string.
+
+    - Create new type string/double/int (not bool) for BIN2DEC etc.
+    - Allow missing arguments that are not '?' for ACCRINT.
+
+    - GETPIVOTDATA signature
+
+    - Reading /local/info/test-xls/Desktop\ \&\ Collaboration\ Products\ Weekly\ Invoice.xls
+	: getpivotdata
+    - TestForBiffConsumer : #REF ??
+    - accrint-test.xls : why fail ?
+    - BAHT functions
+    - broken-name.xls
+    - database_test.xls
+    - div0-xp.xls
+    - edward~1.xls
+    - eng.xls
+	- XL returns real numbers as strings from complex functions
+	- Check difference in besseli
+    - errors.xls
+	: calc of interest
+	: #REF on sheet2
+    - extract-clean-new.xls : loss of data in col A ?
+    - furigana.xls : #NAME?
+    - global_calling_placeholder.xls
+    - named-expr-95.xls
+    - named-expr-97.xls
+    - operand.xls
+    - pivot-edited.xls : odd colours in the 'the range that contains' box
+    - hidding col/row headers should not hide outline symbols
+    - store and persist view modes
+    - fix bogosity of 'ant' cursors being in sheet_view and having the app contact them.
+
+-------------------------------------------------------------------------------
+
+Pending Patches
+---------------
+
+Blocked Patches
+---------------
+
+    http://bugzilla.gnome.org/show_bug.cgi?id=84062
+    - XIM menu, blocking on gtk changes
+
+-------------------------------------------------------------------------------
+Architecture Changes
+--------------------
+
+- Merge wb_control_init_state and wb_control_set_view
+- Use gtk_window_group_new to keep wbcg's distinct 
+- merge GnmPane and GnmCanvas					(DONE)
+
+1) things to move into libgoffice
+    1.1) plugin-manager dialog
+    1.2) doc meta data
+	1.2.1) Use GsfDocMetaData	{Jody}
+	    1.2.1.1) sax-in
+	    1.2.1.2) sax-out					(DONE)
+	1.2.2) doc meta data dialog	{Trelane and etrunko}
+    1.3) Insert hyperlink dialog
+	1.3.1) Integration with evo address book
+    1.4) move password dialog to goffice
+
+2) Font handling (move to GOFont)
+
+3) Charting Enhancements					(DONE)
+    3.1) SheetObject editing					(DONE)
+	3.1.1) Connect SheetObject::user_config handler		(DONE)
+	3.1.2) Create a gog_object_dup to avoid live updating	(DONE)
+	3.1.3) Add undo/redo of full GogGraph assignment	(DONE)
+    3.2) Extend sheet object anchor assignment to call object	(DONE)
+          specfic handlers so that we can set the logical size
+	  of the graph.
+
+4) Function docs
+    4.1) Use multiple tagged paragraphs
+
+5) Pivot tables
+    5.1) xls
+	5.1.1) import pivot cache			{Jody}
+	5.1.2) export pivot cache
+    5.2) MOOX						{Jody}
+	5.2.1) import pivot cache 			{Jody}
+	5.2.2) export pivot cache			{Jody}
+    5.3) ODF
+    5.4) Look at swivel.com
+
+6) Undo/redo improvements
+    6.1) Keep a .swp style log of user actions
+    6.2) Restore Row heights in CmdFormat::undo
+    6.3) X-GNOME-Bugzilla-ExtraInfoScript=myscript
+
+7) Drag and Drop					{Jon Kare}
+    7.1) Common code framework for dnd and X/W32 clipboard
+    7.2) Find a better place than SheetControlGUI for dnd code
+    7.3) More formats, at least html and text
+    7.4) Advertise SVG for graphs, as the preferred format      (DONE)
+    7.5) Autoscroll for sheet object movement			(DONE)
+    7.6) Autoscroll in 1 dimension and movement in other
+
+8) Rich Text
+    8.1) font actions valid while editing			(DONE)
+    8.2) accumulate markup from toolbar while editing		(DONE)
+    8.3) display the marked-up content in edit-item		(DONE)
+    8.4) maintain consistency when text deleted			(DONE)
+    8.5) maintain consistency when text inserted		(DONE)
+    8.6) Keep a 'current' format that changes with edit_pos	(DONE)
+    8.7) Store the markup in a value fmt			(DONE)
+    8.8) Update fmt action state as cursor moves		(DONE)
+    8.9) extended rendered value to use the markup in fmts	(DONE)
+    8.10) Use existing markup when editing a cell		(DONE)
+    8.11) Persist markup as pseudo format			(DONE)
+    8.12) Parse markup in pseudo format				(DONE)
+    8.13) xls
+	8.13.1) import from RSTRING				(DONE)
+	    8.13.1.1) biff[57]					(DONE)
+	    8.13.1.2) biff8					(DONE)
+	8.13.2) import from SST					(DONE)
+	8.13.3) collect fonts from markup for export
+	    8.13.3.1) cells					(DONE)
+	    8.13.3.2) comments
+	    8.13.3.2) text boxes
+	8.13.4) export RSTRING (95 & 97)			(DONE)
+    8.14) editing while zoomed					(DONE)
+
+9) RTL
+    9.1) Drawing
+	9.1.1) item-bar						(DONE)
+	    9.1.1.1) col header					(DONE)
+		9.1.1.1.1) draw heading				(DONE)
+		9.1.1.1.2) button up/down			(DONE)
+		9.1.1.1.3) cursors				(DONE)
+		9.1.1.1.4) drag resize {seems broken}		(DONE)
+		9.1.1.1.5) groups				(DONE)
+		    9.1.1.1.5.1) ticks				(DONE)
+		    9.1.1.1.5.2) lines with marks on left	(DONE)
+		    9.1.1.1.5.3) lines with marks on right	(DONE)
+		    9.1.1.1.5.4) boxes with marks on left	(DONE)
+		    9.1.1.1.5.5) boxes with marks on right	(DONE)
+	    9.1.1.2) row header					(DONE)
+		9.1.1.2.1) drag resize				(DONE)
+		9.1.1.2.2) groups				(DONE)
+		    9.1.1.2.2.1) ticks				(DONE)
+		    9.1.1.2.2.2) lines				(DONE)
+		    9.1.1.2.2.3) boxes				(DONE)
+		9.1.1.2.3) events in RTL with outlines		(DONE)
+	9.1.2) item-cursor
+	    9.1.2.1) basic drawing				(DONE)
+	    9.1.2.2) motion					(DONE)
+	    9.1.2.3) drag autoscroll				(DONE)
+	    9.1.2.4) re-position the autofill handle
+	9.1.3) item-grid					(DONE)
+	    9.1.3.1) single cells				(DONE)
+	    9.1.3.2) outline borders				(DONE)
+	    9.1.3.4) diagonal borders				(DONE)
+	    9.1.3.5) spans					(DONE)
+	    9.1.3.5) merges					(DONE)
+	    9.1.3.6) put line on left in RTL mode		(DONE)
+	9.1.4) item-edit
+	    9.1.4.1) basic					(DONE)
+	    9.1.4.2) at the margins				(DONE)
+	    9.1.4.3) mouse events				(DONE)
+	    9.1.4.4) right alignment editing
+	    9.1.4.4) center alignment editing
+	    9.1.4.5) rotation
+	    9.1.4.6) merges					(DONE)
+	9.1.5) wbcg/scg/pane
+	    9.1.5.1) init scroll regions for rtl		(DONE)
+	    9.1.5.2) set_top_left				(DONE)
+	    9.1.5.3) set_left					(DONE)
+	    9.1.5.4) scrollbars					(DONE)
+	    9.1.5.5) positioning/redraw when flipping at IV1	(DONE)
+	    9.1.5.6) Zooming					(DONE)
+	    9.1.5.7) zooming sometimes loses headers		(DONE)
+			until a scroll
+	    9.1.5.8) increase zoom misaligns grid		(DONE)
+	    9.1.5.9) frozen panes				(DONE)
+	    9.1.5.10) autoscroll
+		9.1.5.10.1) basics				(DONE)
+		9.1.5.10.2) draging to right of col A jumps ?	(DONE)
+		9.1.5.10.3) object drags outside window
+    9.2) spans
+	9.2.1) swap left/right align during rtl			(DONE)
+	9.2.2) Respect style selected dir
+	9.2.3) add 'context' selected text dir
+    9.3) Model
+	9.3.1) Add GtkAction					(DONE)
+	9.3.2) Store state in scg				(DONE)
+	9.3.3) Store state in view				(DONE)
+	9.3.4) Store state in sheet				(DONE)
+	9.3.5) Update view when sheet changes			(DONE)
+	9.3.6) update sheet-controls when view changes		(DONE)
+	9.3.7) update wbcg when view changes			(DONE)
+	9.3.8) update wbcg when switching tabs 			(DONE)
+	9.3.9) Add a new style element for text dir		(DONE)
+	9.3.10) swap action icon depending on state
+	9.3.11) Add entry to format dialog to set text dir
+	9.3.12) Undo/Redo					(DONE)
+    9.4) Persistence						(DONE)
+	9.4.1) xml dom						(DONE)
+	    9.4.1.1) in						(DONE)
+	    9.4.1.2) out					(DONE)
+	9.4.2) xml sax						(DONE)
+	    9.4.2.1) in						(DONE)
+	    9.4.2.2) out					(DONE)
+	9.4.2) xls						(DONE)
+	    9.4.2.1) 97 in					(DONE)
+		9.4.2.1.1) sheet				(DONE)
+		9.4.2.1.2) style/XF				(DONE)
+	    9.4.2.2) 97 out					(DONE)
+		9.4.2.2.1) sheet				(DONE)
+		9.4.2.2.2) style/XF				(DONE)
+	9.4.3) MOOX						(DONE)
+	    9.4.3.1) In						(DONE)
+	    9.4.3.2) Out					(DONE)
+	9.4.4) odf						(DONE)
+	    9.4.4.1) In						(DONE)
+	    9.4.4.2) Out					(DONE)
+	9.4.5) csv
+	9.4.6) html
+	9.4.7) latex
+	9.4.8) sylk (unsupported in format)			(DONE)
+	9.4.9) dif (unsupported in format)			(DONE)
+    9.5) Printing
+	9.5.1) single cells					(DONE)
+	9.5.2) outline borders					(DONE)
+	9.5.4) diagonal borders					(DONE)
+	9.5.5) spans						(DONE)
+	9.5.5) merges						(DONE)
+	9.5.6) check right margin, we overwrite the edge	(DONE)
+	9.5.7) init preview scroll to right in rtl mode
+	9.5.8) Objects						(DONE)
+        9.5.9) Patterns
+    9.6) Add entry in manage sheet dialog			(DONE)
+    9.7) Add entry to tab context menu (do we need ?)
+    9.8) autofilters (see 21.41)				(DONE)
+    9.9) validate from list (see 22.10)				(DONE)
+    9.10) cell comments						(DONE)
+    9.11) sheet objects
+	9.11.1) reposition views when direction changes		(DONE)
+	9.11.2) movement					(DONE)
+	9.11.3) resize						(DONE)
+	9.11.4) creation pivots on right side.			(DONE)
+	9.11.5) selecting object sometimes jumps it to right	(DONE)
+	9.11.6) objects created in rtl disappear in ltr		(DONE)
+	9.11.7) set direction of views
+    9.12) preview grid ??
+	9.12.1) do we need/want the autoformat examples to swap dir ?
+    9.13) Set default value depending on LC_MESSAGE		(DONE)
+
+10) Functions
+    - Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)
+      algorithm, see Knuth.
+    - WORKDAY	Add holiday support (Leonard is working on this)
+    - Suport >100 style for SUBTOTAL
+    - docs
+	: Translate each arg name + description seperately to get better
+	  commonality.
+	: Translate description paragraphs seperately to allow better grouping.
+	: Make 'func is foo compatible' a flag on the importers
+	: func_help [] = {							(DONE)
+	    { ARG, N_("issue:The issue date of the underlying bond") },
+	    { ARG, N_("maturity:The maturity of the underlying bond") },
+	    { DESC, N_("calculates some stuff") },
+	    { DESC, N_("available day count basis conventions are :\n"
+		    "0\tUS 30/360") },
+	    { 0, NULL }
+	};
+	: need conventions for including markup
+	    - simple bold/italic/font
+	    - links
+	    - embedded images ??
+    - Support parsing and displaying locale specific function names.
+    - When loading a function that already has a definition (such as a stub),
+      we're in trouble: (a) we just overwrite the old definition in the symbol
+      table, (b) both old and new owner want to remove the symbol on exit.
+
+      We should somehow steal the old definition (and complain unless the old
+      was a stub) without changing the GnmFunc address.  On exit we should
+      explicitly check that it is ours to remove.
+    - examples
+	1) A registry of named data tables to reference from examples
+	2) The example text should have the expr in C locale 
+		?? how to reference the sample data ??
+    : HARMEAN with no arguments (or just strings/booleans) should yield N/A,
+      not NUM.
+    : MAXA,MINA with no arguments should yield N/A, not NUM.
+    : STDEVPA,VARPA with no arguments should yield VALUE, not DIV0.
+    : STDEVA,VARA with 0-1 arguments should yield DIV0, not VALUE.
+    : DEVSQ with no arguments should yield #NUM, not zero.
+	? How did you enter this.  xl-2k refuses to parse that
+        ! Import from a .csv file.
+
+    : tie the custom ui into action sensitivity pools
+    : support array evaluation for =LARGE and friends
+    : TRIMEAN is a list function ?
+    : ISREF is a list function ?
+
+11) Conditional formats
+    11.1) Data Structures in the core
+	11.1.1) Storage						(DONE)
+	11.1.2) Update GnmStyle to flag changes			(DONE)
+	11.1.3) Release						(DONE)
+	11.1.5) Check re-merging on change
+	11.1.6) Check merging of auto pattern colours on link
+    11.2) Gnumeric XML
+	11.2.1) import						(DONE)
+	    11.2.1.1) SAX					(DONE)
+	    11.2.1.2) DOM					(DONE)
+	11.2.2) Gnumeric XML export				(DONE)
+	    11.2.2.1) SAX					(DONE)
+	    11.2.2.2) DOM					(DONE)
+	11.2.3) Add to .xsd schema
+    11.2) XLS
+	11.2.1) import
+	    11.2.1.1) CONDFMT					(DONE)
+	    11.2.1.2) CF fonts					(DONE)
+	    11.2.1.3) CF borders				(DONE)
+	    11.2.1.4) CF background				(DONE)
+	11.2.2) export						(DONE)
+	    11.2.2.1) CONDFMT					(DONE)
+	    11.2.2.2) CF fonts					(DONE)
+	    11.2.2.3) CF borders				(DONE)
+	    11.2.2.4) CF background				(DONE)
+	    11.2.2.5) collect colours				(DONE)
+    11.3) MOOX
+	11.3.1) import
+	11.3.2) export
+    11.4) ODF
+	11.4.1) import
+	11.4.2) export
+    11.6) Evaluation
+	11.6.1) Custom						(DONE)
+	11.6.2) Comparisons
+	11.6.3) Optimize constants (=1)
+	11.6.4) Optimize non-position dependent (=$A$1>3)
+    11.7) Rendering
+	11.7.1) background					(DONE)
+	11.7.2) borders						(DONE)
+	11.7.3) font and font colour
+	11.7.4) Merged cells					(DONE)
+	11.7.5) Long spans
+    11.8) Printing
+	11.8.1) background
+	11.8.2) borders
+	11.8.3) font and font colour
+	11.8.4) Merged cells
+	11.8.5) Long spans
+    11.8) UI to modify
+
+12) Input Messages
+    12.1) Implement
+	12.1.1) Data Structure to store it			(DONE)
+	12.1.2) Display them
+    12.2) UI to modify them
+    12.3) Gnumeric XML						(DONE)
+	12.3.1) import						(DONE)
+	    12.3.1.1) SAX					(DONE)
+	    12.3.1.3) DOM					(DONE)
+	12.3.3) Gnumeric XML export				(DONE)
+	    12.3.3.1) SAX					(DONE)
+	    12.3.3.3) DOM					(DONE)
+	12.3.3) Add to .xsd schema				(DONE)
+    12.4) XLS							(DONE)
+	12.4.1) import						(DONE)
+	12.4.2) export						(DONE)
+    12.5) MOOX							(DONE)
+	12.5.1) import						(DONE)
+	12.5.2) export						(DONE)
+    12.6) ODF
+	12.6.1) import
+	12.6.2) export
+
+16) Protection limits for selection
+    16.1) Add flags to sheet					(DONE)
+	16.1.1) in header					(DONE)
+	16.1.2) sheet_dup					(DONE)
+    16.2) I/O
+	16.2.1) Gnumeric
+	    16.2.1.1) Extend XSD
+	    16.2.1.2) SAX Export			{partial}
+	    16.2.1.3) SAX Import
+	    16.2.2.4) DOM Import
+	16.2.3) XLS						(DONE)
+	    16.2.3.1) Import					(DONE)
+	    16.2.3.2) Export					(DONE)
+	16.2.4) MOOX						(DONE)
+	    16.2.4.1) Import					(DONE)
+	    16.2.4.2) Export					(DONE)
+    16.3) Honour flags for Return/Tab
+	16.3.1) Return/Tab
+	    16.3.1.1) Initial					(DONE)
+	    16.3.1.2) Wrap around
+	    16.3.1.3) Optimize finding next unlocked
+	16.3.2) mouse click					(DONE)
+	16.3.3) range selection					(DONE)
+	16.3.4) keyboard range extension
+	16.3.4) select all
+	16.3.5) cols/rows
+
+17) Explicit Page Breaks
+    17.1) Store them in PrintInfo				(DONE)
+    17.3) I/O
+	17.3.1) Gnumeric					(DONE)
+	    17.3.1.1) Extend XSD				(DONE)
+	    17.3.1.2) SAX Export				(DONE)
+	    17.3.1.3) SAX Import				(DONE)
+	    17.3.1.4) DOM Import				(DONE)
+	17.3.2) XL						(DONE)
+	    17.3.2.1) XLS					(DONE)
+		17.3.2.1.1) Import				(DONE)
+		17.3.3.2.2) Export				(DONE)
+		    17.3.3.2.2.1) pre-Biff8			(DONE)
+		    17.3.3.2.2.2) Biff8				(DONE)
+	    17.3.2.2) MOOX					(DONE)
+		17.3.2.2.1) Import				(DONE)
+		17.3.2.2.2) Export				(DONE)
+	17.3.3) ODF
+	    17.2.5.1) Import					(DONE)
+	    17.2.5.2) Export	{merge breaks and styles}
+	17.3.4) Lotus ?
+	17.3.5) Applix ?
+
+2) stf							{Andreas/Morten}
+    2.1) UTF-8 cleanliness					(DONE)
+    2.2) User specifiable character encoding                    (DONE)
+    2.3) Replace UI for format selection                        (DONE)
+    2.4) Provide an optional mechanism for specifying the
+	 target location useful for text to columns, and
+	 import into sheet
+    2.5) A help button                                          (DONE)
+    2.6) Make it possible to ignore column on import, thus      (DONE)
+	 making it possible to import (parts of) files with
+	 more than 256 columns.  (Think of this as a special
+	 "format".)
+    2.7) Create interface for line terminator selection         (DONE)
+    2.8) Make listed separators locale dependent (ie translators
+         should be able to define separators)		
+    2.9) User specifiable locale encoding (not to be confused   (DONE)
+         with character encoding)
+    2.10) Fix stf bugs                                          (DONE)
+    2.11) Improve initial file preview                          (DONE)
+    2.12) Hook up workbook-control-gui.c:cb_data_import_text    (DONE)
+	Data -> External -> Import _Text File...
+    2.13) Separate guessing of csv/fixed from importer.         (DONE)
+    2.14) Implement format guessing.
+    2.15) Put big "best guess" button on from page.
+    2.16) Fix character set mess on paste                       (DONE)
+    2.17) Tabs: handle optional expansion.
+    2.18) Kill use of "importlines" and properly find the end.  (DONE)
+    2.19) Fix locale specific parsing on paste.                 (DONE)
+
+3) hlinks
+    3.1) Finish the edit dialog to load and store results 	(DONE)
+    3.2) Figure out import semantics of the other 2 XL types	(DONE)
+    3.3) email support ? via system 'evolution mailto:....'	(DONE)
+    3.4) XLS export (6.10)					(DONE)
+    3.5) MOOX							(DONE)
+	3.5.1) import						(DONE)
+	3.5.2) export						(DONE)
+    3.6) Entering text of the form scheme://blah or a@b.c
+	    should insert hyperlinks
+    3.7) HYPERLINK function should create link.
+
+6) XL
+    6.1) biff7 externsheet records in charts			(DONE)
+    6.2) 97 export						(DONE)
+    6.3) Check xl import of unicode names			(DONE)
+    6.4) Fix export of unicode for 95 & 97			(DONE)
+    6.5) Intersection, union and set export
+    6.6) name export						(DONE)
+	6.6.1) Excel 97						(DONE)
+	6.6.2) Excel 95						(DONE)
+	6.6.3) Excel crashes on our xl95 export of names test	(DONE)
+    6.7) non-ole import (Nick Lamb is working on this)		(DONE)
+    6.8) Validation export					(DONE)
+	6.8.1) Clip ranges that are outside the sheet area	(DONE)
+    6.9) autofilter export					(DONE)
+	6.9.1) Add name						(DONE)
+	6.9.2) autofilterinfo count				(DONE)
+	6.9.3) field info in AUTOFILTER records			(DONE)
+	6.9.4) combos						(DONE)
+	    6.9.4.1) XL95					(DONE)
+	    6.9.4.2) Escher					(DONE)
+    6.10) hlink export (97 only)				(DONE)
+    6.11) Comments						(DONE)
+	6.11.1) import for XL95					(DONE)
+	6.11.2) export for XL95					(DONE)
+	6.11.3) import for XL97					(DONE)
+	6.11.4) export for XL97 (needs placement kludge)	(DONE)
+    6.12) Set operand classes
+	6.12.1) calc and set the classes			(DONE)
+	6.12.2) check target_type of external func		(DONE)
+	6.12.3) check target type of range/intersect
+    6.13) image export
+	6.13.1) Excel95
+	6.13.1) Excel97                                         (DONE)
+    6.13) chart import	
+	6.13.1) check overlap percentage for bars		(DONE)
+	6.13.2) Add gog_object_set_position			(DONE)
+	6.13.3) Handle 'use_one_style'				(DONE)
+	6.13.4) styles						(DONE)
+	    6.13.4.1) Area					(DONE)
+	    6.13.4.2) Line					(DONE)
+	    6.13.4.3) Marker					(DONE)
+	    6.13.4.4) Grid					(DONE)
+	    6.13.4.5) Chart					(DONE)
+	    6.13.4.6) Legend					(DONE)
+	6.13.5) Avoid leaking GODatas when faced with an	(DONE)
+		unknown plot type.
+	6.13.6) Titles						(DONE)
+	6.13.7) check marker none				(DONE)
+	6.13.8) Axis
+	    6.13.8.1) value format				(DONE)
+	    6.13.8.2) Axis bounds and ticks size		(DONE)
+	    6.13.8.3) log scale					(DONE)
+	    6.13.8.4) deleted axis should not appear		(DONE)
+	    6.13.8.5) double axis import on simple_bar2
+	    6.13.8.6) high/low flag is for partner not self
+	6.13.9) Gradients
+	    6.13.9.1) Horizontal x4				(DONE)
+	    6.13.9.2) Vertical x4				(DONE)
+	    6.13.9.3) Diag Up x4				(DONE)
+	    6.13.9.4) Diag Down x4				(DONE)
+	    6.13.9.5) From center
+	    6.13.9.6) From corner
+	    6.13.9.7) Two colour				(DONE)
+	    6.13.9.8) Two colour alpha (is this possible)
+	    6.13.9.9) One colour				(DONE)
+	    6.13.9.10) One colour alpha (is this possible)
+	    6.13.9.11) presets
+	6.13.10) override auto series indexing for xls
+	6.13.11) error bars
+	6.13.12) Singletons (for series that support them)	(DONE)
+	    6.13.12.1) Basic support				(DONE)
+	    6.13.12.2) Put pie extraction somewhere		(DONE)
+    6.14) chart export
+	6.14.1) Infrastructure
+	    6.14.1.1) escher wrappers				(DONE)
+	    6.14.1.2) spid generation across sheets		(DONE)
+	    6.14.1.3) collect colors				(DONE)
+	    6.14.1.4) collect fonts
+	    6.14.1.5) collect fmts
+	    6.14.1.6) Create a NullRenderer for measurement
+	    6.14.1.7) Handle multiple charts in a graph
+	    6.14.1.8) spid group allocation for gradients
+	6.14.2) Pie						(DONE)
+	    6.14.2.1) Basic					(DONE)
+	    6.14.2.2) Ring					(DONE)
+	6.14.3) XY						(DONE)
+	    6.14.3.1) Basic					(DONE)
+	    6.14.3.2) Bubble					(DONE)
+	6.14.4) 1.5d						(DONE)
+	    6.14.4.1) Col					(DONE)
+	    6.14.4.2) Bar					(DONE)
+	    6.14.4.3) Line					(DONE)
+	    6.14.4.4) Area					(DONE)
+	6.14.5) Axes
+	    6.14.5.1) value axis				(DONE)
+	    6.14.5.2) discrete axis
+	    6.14.5.3) axis set creation				(DONE)
+	    6.14.5.4) handle bar plot axes			(DONE)
+	    6.14.5.4) handle area plot axes
+	    6.14.5.5) radar plot axes
+	    6.14.5.6) check line formatting			(DONE)
+	    6.14.5.7) label fmt
+	    6.14.5.8) Tick position and axis label		(DONE)
+	6.14.6) Area Formating
+	    6.14.6.1) None					(DONE)
+	    6.14.6.2) Pattern					(DONE)
+	    6.14.6.3) Gradient
+	    6.14.6.3) Image
+	6.14.7) Marker Formating				(DONE)
+	6.14.7) Line Formating					(DONE)
+	6.14.8) labels
+	    6.14.8.1) Content
+	    6.14.8.2) Placement
+	    6.14.8.3) Markup
+	6.14.8) Legends
+	    6.14.8.1) Basic					(DONE)
+	    6.14.8.2) Exceptions
+	6.14.9) error bars
+	6.14.10) OOo compat
+	    6.14.10.1) Bubble seems broken
+	    6.14.10.2) Markers are not appearing
+	6.14.11) Singletons
+	6.14.12) Grid lines
+	    6.14.12.1) Import
+	    6.14.12.2) Export
+    6.15) Store and round trip macros (functional, but could be prettier)
+	6.15.1) blob CompObj stream				(DONE)
+	6.15.2) blob property streams to get the flags		(DONE)
+	6.15.3) export OBPROJ record if necessary 		(DONE)
+	6.15.4) export CODENAME records if necessary 		(DONE)
+	6.15.5) Store a workbook local function stub in import	(DONE)
+	6.15.6) use appropriate NAME record for function stubs	(DONE)
+	6.15.7) generate CompObj stream
+	6.15.8) generate property streams to get the flags
+	6.15.9) Look into Michael's vba compressor
+    6.16) Excel95 object import
+	6.16.1) TextBox						(DONE)
+    6.17) Excel95 object export
+    6.18) 'Forms' import					(DONE)
+	6.18.1) basic objects					(DONE)
+	6.18.2) connections to cells				(DONE)
+    6.19) print header/footer					(DONE)
+	6.19.1) import parsing					(DONE)
+	6.19.2) export						(DONE)
+
+13) UI
+    13.1) Zoom
+	13.1.1) Add a 'global' flag for the zoom dialog
+	13.1.2) Zoom to selection
+    13.2) Formula Guru
+	13.2.1) Fix keyboard interface
+    13.3.1) Item Edit
+	13.3.1) Mouse select range
+
+14) Polish up Open and Save
+    14.1) merge open and import dialogs				(DONE)
+    14.2) Notice mismatch between suffix and saver		(DONE)
+    14.3) sort the file types by precedence and recently used
+    14.4) do we want to persist recently used ?
+    14.5) Fix 'do you want to overwrite' transientness		(DONE)
+
+21) AutoFilter
+    21.1)  clip size for long lists				(DONE)
+    21.2)  fix mouse events for scrolled combos			(DONE)
+    21.3)  race condition on start				(DONE)
+    21.4)  top 10 dialog					(DONE)
+    21.5)  top 10 item filters					(DONE)
+    21.6)  top 10 percentage filters				(DONE)
+    21.7)  blank filters					(DONE)
+    21.8)  visual cue that row in part of a filter		(DONE)
+    21.9)  visual cue that a field is active			(DONE)
+    21.10) select the current condition in the combos		(DONE)
+    21.11) expression filters					(DONE)
+    21.12) expression dialog					(DONE)
+    21.13) Handle range changes (cut-n-paste or ins/del col/row)(DONE)
+    21.14) Handle the relationship between groups and filters	(DONE)
+    21.15) xml import/export					(DONE)
+    21.16) Fix cursor redraw after filter			(DONE)
+    21.17) Link filters to Show All menu			(DONE)
+    21.18) Have the show all action clear filter conditions	(DONE)
+    21.19) Change value entries in expr dialog into combos
+    21.20) editable enters for expr dialog value entries	(DONE)
+    21.21) 2nd value in expr dialog only if 1st is active
+    21.22) drag scroll for value combos				(DONE)
+    21.23) undo/redo for creation
+    21.24) undo/redo for condition set change
+    21.25) Undo redo support for ins/del col/row with filters
+    21.26) guess initial region if its a singleton
+    21.27) combo contains start to end of continuous region
+           not just the end of the selected region
+    21.28) filter changes should dirty things
+    21.29) Enter in combo selects the current val (see 22.3)	(DONE)
+    21.30) Cursor starts at selection not top (see 22.4)	(DONE)
+    21.31) Alt-Down opens an in cell combo (see 22.5)		(DONE)
+    21.31) Alt-Up/Down or Enter activates current selection	(DONE)
+    21.32) Order list by value, not string (eg 1, 10, 11, 2)	(DONE)
+    21.33) limit autofilter drop down width to cell width	(DONE)
+	: eg tc45 issue sheet
+	: bugreport0401.xls
+    21.34) Tooltip on combo with the current filter details
+    21.35) Change icon in combo from arrow to filter instead
+	    of changing colour
+    21.36) Support Office 2007 toggle selection
+    21.37) Add fun new types (std dev)
+    21.38) Add new condition types from style-condition
+    21.39) Look at merging style-condition and filter
+    21.40) col selector to autofilter dialog ala OOo
+    21.41) RTL (see 9.8)					(DONE)
+    21.42) Only list unfiltered results in combo		(DONE)
+    21.43) Gnumeric XML						(DONE)
+	21.43.1) import						(DONE)
+	    21.43.1.1) SAX					(DONE)
+	    21.43.1.2) DOM					(DONE)
+	21.43.2) Gnumeric XML export				(DONE)
+	    21.43.2.1) SAX					(DONE)
+	    21.43.2.2) DOM					(DONE)
+	21.43.3) Add to .xsd schema				(DONE)
+    21.44) XLS							(DONE)
+	21.44.1) import						(DONE)
+	21.44.2) export						(DONE)
+    21.45) MOOX
+	21.45.1) import
+	    21.45.1.1) top10					(DONE)
+	    21.45.1.2) items
+	    21.45.1.3) custom
+	    21.45.1.4) dynamic
+	21.45.2) export
+	    21.45.2.1) top10					(DONE)
+	    21.45.2.2) items
+	    21.45.2.3) custom
+	    21.45.2.4) dynamic
+    21.46) ODF
+	21.46.1) import
+	21.46.2) export
+    21.47) Find Leak						(DONE)
+    21.48) Duplication for sheet copy				(DONE)
+    21.49) http://bugzilla.gnome.org/show_bug.cgi?id=322389	(DONE)
+    21.50) #346002 : tooltip of matching rows
+    21.51) #383400 : '95' should match 95
+    22.52) Clipboard ?? do we want this ?
+    21.53) Support Office 2007 toggle date based buckets
+
+22) Validate from List
+    22.1) Implement						(DONE)
+    22.2) Pre-select current value in combo			(DONE)
+    22.3) Enter in combo selects the current val (see 21.29)	(DONE)
+    22.4) Cursor starts at selection not top	(see 21.30)	(DONE)
+    22.5) Alt-Down opens an in cell combo	(see 21.31)	(DONE)
+    22.6) Alt-Up/Down or Enter activates current selection	(DONE)
+    22.7) drag scroll in the combo				(DONE)
+    22.8) Order list by value, not string (1,10,11,2)		(DONE)
+    22.9) tune position & width of combo			(DONE)
+    22.10) RTL (see 9.9)					(DONE)
+    22.11) Odd .xls storage of aa,bb,cc
+    22.12) MOOX							(DONE)
+	22.12.1) import						(DONE)
+	22.12.2) export						(DONE)
+    22.13) ODF
+	22.13.1) import
+	22.13.2) export
+
+29) gconf.
+    29.1) Check for errors					(DONE)
+    29.2) update on remote changes
+    29.3) see if schema is installed				(DONE)
+    29.4) Move the pref storage into app and compartmentalize	(DONE)
+    	  the use of gconf.
+    29.5) update the preference structure on local changes 
+          (this is an automatic consequence of 29.2)	
+    29.6) Lockdown
+	    (from libgnome/schemas/desktop_gnome_lockdown.schemas)
+	29.6.1) /desktop/gnome/lockdown/disable_save_to_disk
+	29.6.2) /desktop/gnome/lockdown/disable_printing
+	29.6.3) /desktop/gnome/lockdown/disable_print_setup
+
+30) Cleanup importers/exporters
+    30.1) multiple extensions for exporters, with a default
+    30.2) flag/virtual for an imp/exp to flag viability with current context
+    30.3) support command line flags via goption (glib-2.5)		(DONE)
+    30.4) remove bogosity of function pointers that are unused
+    	in the base instance.
+    30.5) Allow import of multiple views			{jody}
+    30.5) Allow export of multiple views			{jody}
+
+31) sylk
+    31.1) importer
+	31.1.1) constants						(DONE)
+	31.1.2) expressions						(DONE)
+	31.1.3) array expressions					(DONE)
+	31.1.4) column widths						(DONE)
+	31.1.5) formats							(DONE)
+	31.1.6) fonts							(DONE)
+	31.1.7) styles							(DONE)
+	31.1.8) sheet/wb options					(DONE)
+	31.1.9) hidden cells
+	31.1.10) cell protection
+	31.1.11) comments
+	31.1.12) array row sep ';;'					(DONE)
+	31.1.13) escaping in expression string				(DONE)
+    31.2) exporter
+	31.2.1) constants						(DONE)
+	31.2.2) expressions						(DONE)
+	31.2.3) array expressions					(DONE)
+	31.2.4) column widths
+	31.2.5) formats	
+	31.2.6) fonts
+	31.2.7) styles
+	31.2.8) sheet/wb options					(DONE)
+	31.2.9) hidden cells
+	31.2.10) cell protection
+	31.2.11) comments
+	31.2.12) array row sep ';;'
+	31.2.13) escaping in expression string				(DONE)
+
+32) SheetObjects
+    32.1) SheetView specific objects					(DONE)
+    32.2) Add acetate_create virtual to handle shaped objects.
+    32.3) Other anchor types for sheet objects				(DONE)
+    32.4) Add keyboard controls for the control points			(DONE)
+	32.4.1) Arrows move						(DONE)
+	32.4.2) Ctrl Arrows expand					(DONE)
+	32.4.3) Shift Ctrl Arrows shrink				(DONE)
+    32.5) Use delta from start of drag rather than previous movement
+    32.6) Add 'is_printable' flag					(DONE)
+    32.7) Add 'move_with_cells' flag					(DONE)
+    32.8) Add ability to fix aspect ratio of drag resize
+    32.9) Honour rubber_band_directly during resize too			(DONE)
+    32.10) research the other xl object flags.
+    32.11) remove update_view_bounds and have the model emit a		(DONE)
+    	   bound_changed signal
+    32.12) double click to bring up prefs dialog			(DONE)
+    32.13) selecting object with other objects on top of it should
+   	   hide them while editing
+    32.14) ngettext for insert/delete objects undo message
+    32.15) Check the stacking of ctrl pts when moving multiple selections
+    32.16) event handling for check boxes				(DONE)
+    32.17) Combos
+	32.17.1) Gnumeric						(DONE)
+	    32.17.1.1) DOM import					(DONE)
+	    32.17.1.2) SAX import					(DONE)
+	    32.17.1.3) SAX export					(DONE)
+	32.17.2) XLS
+	    32.17.2.1) import						(DONE)
+	    32.17.2.2) export
+	32.17.3) MOOX
+	    32.17.3.1) import
+	    32.17.3.2) export
+	32.17.4) ODF
+	    32.17.4.1) import
+	    32.17.4.2) export
+	32.17.5) Populate list						(DONE)
+	32.17.6) Update list on source change				(DONE)
+	32.17.7) Link cell change updates selection			(DONE)
+	    32.17.7.1) in range						(DONE)
+	    32.17.7.2) truncate floats					(DONE)
+	    32.17.7.3) less than or eq 0 implies no selection		(DONE)
+	    32.17.7.4) gte list size selects last element		(DONE)
+	32.17.8) Selection change updates cell link			(DONE)
+	32.17.9) Use GtkComboBoxEntry					(DONE)
+	32.17.10) Make Entry non-focusable				(DONE)
+	32.17.11) update entry on model content change			(DONE)
+	32.17.12) Write a prop dialog #156762				(DONE)
+	32.17.13) Right click for context menu #135966			(DONE)
+    32.18) Lists
+	32.18.1) Gnumeric						(DONE)
+	    32.18.1.1) DOM import					(DONE)
+	    32.18.1.2) SAX import					(DONE)
+	    32.18.1.3) SAX export					(DONE)
+	32.18.2) XLS
+	    32.18.2.1) import						(DONE)
+	    32.18.2.2) export
+	32.18.3) MOOX
+	    32.18.3.1) import
+	    32.18.3.2) export
+	32.18.4) ODF
+	    32.18.4.1) import
+	    32.18.4.2) export
+	32.18.5) Populate list						(DONE)
+	32.18.6) Update list on source change				(DONE)
+	32.18.7) Link cell change updates selection			(DONE)
+	    32.18.7.1) in range						(DONE)
+	    32.18.7.2) truncate floats					(DONE)
+	    32.18.7.3) less than or eq 0 implies no selection		(DONE)
+	    32.18.7.4) gte list size selects last element		(DONE)
+	32.18.8) Selection change updates cell link			(DONE)
+	32.18.9) Write a prop dialog #156762				(DONE)
+    32.19) SheetObjectGroup
+    32.20) editing text boxes (do a derived FooCanvasEditableTextItem) we can
+          steal some of the xim support from item-edit.
+    32.21) rich text for objects
+
+33) Rotated text
+    33.1) Resurrect printing                                            (DONE)
+    33.2) Create new span type so drawing can overflow cells.
+    33.3) Draw borders sheared.
+    33.4) Draw background sheared when border present.
+
+35) Accessibility
+    We can use
+	http://bugzilla.gnome.org/attachment.cgi?id=47315&action=view
+    as a template
+
+36) OpenDocument (ODF)
+    36.1) missing features in importer that we in fact export
+         36.1.1)  Cell Comments
+    36.2) Import 
+         36.2.1)  We fail to do proper white space handling on import, see
+                 5.1.1 of the OpenDocument Standard. (It is only a minor
+                 issue since files created by OOo or us work correctly. 
+                 In fact because of 36.3.1, we depend currently on this to
+                 read our own files.)  
+	36.2.2) default col/row compression on OOo import.	(DONE)
+	36.2.3) table styles					(DONE)
+	36.2.4) col/row manual vs auto
+    36.3) Export
+         36.3.1)  We don't handle whitespace correctly. See OpenDocument
+                 format 5.1.1
+    36.4) See 11.4 (Conditionals)
+    36.5) See 12.6 (Input Messages)
+    36.6) See 21.46 (Autofilters)
+    36.7) See 22.13 (Validation)
+    36.8) See 32.17.4 (Sheet Object Combos)
+    36.9) See 32.18.4 (Sheet Object Lists)
+    36.10) See 5.3 (pivots)
+    36.11) See 17.2.5 (page breaks)
+
+37) MOOX
+    37.1) Import
+	37.1.1) workbook/calc properties (Calc_PR)		(DONE)
+	    37.1.1.1) refMode from wb -> sheet			(DONE)
+	37.1.2) Named expressions
+	37.1.3) Rich text
+	37.1.4) Validation					(DONE)
+	37.1.6) More print settings
+	37.1.7) Comments
+	37.1.8) Text direction in styles
+    37.2) Export
+	37.2.1) workbook/calc properties (Calc_PR)		(DONE)
+	37.2.2) Named expressions
+	37.2.3) Rich text
+	37.2.4) Validation					(DONE)
+	37.2.6) More print settings
+	37.2.7) Comments
+	37.2.8) Text direction in styles
+
+38) GtkPrint conversion
+    - restore all of the dialog					  (DONE)
+    - win32 breakage
+	 - preview puts black background around glyphs
+	 - preview drops rotated text
+	 - printing kerns poorly
+	 - printing 'A' produces '$' ??
+    - page breaks
+    - col/row headings                                            (DONE)
+    - cell text wraps differently when printing than displaying due to scaling
+      differences in font size.  do we want to eliminate this ?
+    - print repeating rows/cols                                   (DONE)
+    - adjust row and column headers in the presence of repeating  (DONE)
+      rows and/or columns
+    - account for repeating rows/cols when paginating             (DONE)
+    - account for repeating rows/cols when calculating scalei	  (DONE)
+    - print headers & footers					  (DONE)
+    - enable header/footer specification			  (DONE)
+
+39) Lotus filter
+    39.1) http://www.openoffice.org/issues/show_bug.cgi?id=84496
+	 Lots of juicey warnings.  Although we do seem to handle the sheet
+	 names correctly.
+
+-------------------------------------------------------------------------------
+Target Features
+---------------
+- validation from list (generalize filter combos)		(DONE)
+- insert cut
+- clipboard handlers in plugins
+- load/save of external references
+- all the merged cell singleton bugs
+- scripting
+- Save as ps
+
+-------------------------------------------------------------------------------
+Short Term Goals
+----------------
+
+- validate names to ensure that they are not :
+    : simple values (eg TRUE)
+    : Range refs (even in other conventions) eg 'A1' or 'R'
+
+Misc stuff that should be fixed
+-------------------------------
+
+- Missing undo/redo for
+    - Freeze panes (tricky this is a view attribute)
+    - `Add Scenario' Portion of Solver
+    - Sheet object configuration changes. (Done for graphs, lines, and fills)
+    - Workbook attr changes
+    - Adding autofilters
+
+- cols/rows
+    : Make unhide smarter to find hidden regions on either side of
+      selected ranges.
+    : drag based col/row resize should support negative sizes to
+      correspond to hiding.
+    : support delete for discontinuous ranges
+
+- Remove duplication of code between analysis-tools.c and collect.c
+    (Many analysis tools may in fact want to follow the consolidate style)
+
+autoformat
+----------
+    - leaking styles when an edge is disabled
+    - consider either using the users data as a sample, or at least making the
+      sample adaptive based on which edges are disabled.
+
+auto-fill
+---------
+    - The autocalc label should use a more readable format and should not get
+      clipped.
+
+    - Names
+	: references in names do not get changed with cut/paste or ins/del row/col.
+	  How to handle relative references in names ?? here.
+	: Dialog
+	    * We should start with the expr entry set to either the current cell,
+	      or by selecting the first named expression in scope that contains the
+	      current cell.
+	: Check scoping changes.						(DONE)
+	: Handle pasting an expression with an un-qualified sheet local name into
+	  another sheet
+
+    - clean up the range_list codes to differentiate a list of ranges from a list
+      of cellranges.
+
+    - The max row/col canvas scroll size is still hard coded.
+
+    - let's add simple commands like inc/dec font size and things like that.
+
+    - Auto resize needs to handle empty cells.
+
+    - Styles
+	: improve uniform_get to handle full sheet more quickly.
+	: Borders
+	    * use new border code for cell format dialog (possibly preview-grid)
+
+Import/Export
+-------------
+    : Look into octave/matlab filters
+    : look into maxima
+    : Talk to shaunm about mathematica
+
+Clipboard
+---------
+    - Fall back to string import when incoming html and OpenOffice doesn't
+      contain tables.                                               (DONE)
+    - May be not export html as table when just one cell is selected.
+
+General Ideas
+-------------
+    - A connection to swivel (www.swivel.com)
+    - Sugar/OLPC UI & collab
+    - Add 'send a frown/smile' button
+    - 'fish eye' zoom to around selection
+    - treemap for heirarchical data
+    - conditional / computed formats
+	: referenced styles (eg for time sheets)
+	: GnmColor computable to move the calculated aspect into the actual
+	  selectors
+    - 'Custom' autofilter type to eval expr per cell
+    - autofilter : refresh
+    - macro hook in validation to run proc if valid

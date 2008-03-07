@@ -1,0 +1,574 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* C/printing.xml: minor correction/addition
+
+2007-12-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* C/figures/print-worksheet-printer-job.png: new
+	* C/figures/print-worksheet-printer-advanced.png: new
+	* C/figures/print-worksheet-print_range.png: new
+	* C/figures/printing-setup-page-paper-type.png: new
+	* C/figures/print-worksheet-printer-general.png: new
+	* C/figures/print-worksheet-printer-image_quality.png: new
+	* C/figures/print-worksheet-page_setup.png: new
+	* C/figures/print-worksheet-file-general.png: new
+	* C/figures/print-worksheet-printer-finishing.png: new
+	* C/figures/printing-setup-scale.png: new
+	* C/figures/printing-setup-sheet.png: updated
+	* C/figures/printing-setup-header.png: updated
+	* C/figures/printing-setup-header-config.png: updated
+	* C/figures/printing-preview.png: updated
+	* C/figures/print-large.png: updated
+	* C/figures/printing-setup-page.png: updated
+	* C/printing.xml: partial update
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-10-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gnumeric-doc.make: Fixed 'validate' for out-of-source-dir builds.
+
+2007-09-29  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gnumeric-doc.make: Hook up PDF support properly.
+
+2007-09-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gnumeric-doc.make: Added support for rendering documentation as PDF
+	through dblatex.
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-08-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gnumeric-doc.make: When rendering as PDF, scale images to 600
+	per mille.
+
+2007-08-06  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gnumeric-doc.make: Added support for rendering documentation as PDF.
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-07-17  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-doc.make (chm) : no need to copy icons from magic yelp
+	  location and arbitrary names.  Include the icons directly and copy
+	  them from our tree.
+
+2007-07-17  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-doc.make : Add 'chm' and 'validate' targets.
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-11-06  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-doc.make : Update with extensions from gnome-doc-html
+	  We'll move to using that directly when it is not quite so bleeding
+	  edge (it was added in early Oct).
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-24  Morten Welinder  <terra@gnome.org>
+
+	* make-func-list.pl: Handle lack of @SEEALSO.
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-25  Jon K Hellan  <hellan@acm.org>
+
+	* developer/gnumeric.jhbuildrc: Add sample jhbuildrc.
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-04-01  Stepan Kasal  <kasal@ucw.cz>
+
+	* Makefile.am (functions.xml): Slight optimization of the rule.
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-12-02  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-doc.make : fix the icon paths
+	  tune the chunking now that we dropped the pointless wrappers in the
+	  appendicies
+
+2004-12-01  Jody Goldberg <jody@gnome.org>
+
+	* make-func-list.pl : drop empty refpurpose nodes
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-03-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+	* Makefile.am : delete xmldocs.make.  autogen installs the most recent
+	  version in top_srcdir
+
+	* gnumeric-doc.make : adjust to new position of xmldocs.make
+	* sgmldocs.make : delete
+
+2004-01-14  Jon K Hellan  <hellan@acm.org>
+
+	* Add diagram of mvc split.
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* C/printing.xml: updated
+
+2003-10-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* C/figures/print-worksheet.png: deleted
+	* C/printing.xml: updated
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-10-05  Jody Goldberg <jody@gnome.org>
+
+	* developer/writing-functions.sgml : document 'B' a scalar argument
+	  that includes even blanks and errors.
+
+2003-09-17  Jody Goldberg <jody@gnome.org>
+
+	* xmldocs.make : Make the magic sym link relative to keep rpm happy.
+
+2003-09-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	for Thomas Miesbauer
+	* C/figures/*.png: redo screenshots for version 1.2
+	
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-13  Jody Goldberg <jody@gnome.org>
+
+	* xmldocs.make : Make the magic sym link that enable bonobo and
+	  non-bonobo to coexist more explicit.
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-09-07  Adrian Custer <acuster@gnome.org>
+
+	* xmldocs.make added a symbolic link for non-bonobo build.
+	* xmldocs.make added a removal method for the link.
+
+2003-09-07  Adrian Custer <acuster@gnome.org>
+
+	* xmldocs.make added a /share/ because gnueric-bonobo looks there.
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-07-17  Jody Goldberg <jody@gnome.org>
+
+	* developer/Makefile.am : add python howto and guadec-4 presentation
+
+2003-07-10  Jody Goldberg <jody@gnome.org>
+
+	* make-func-list.pl : tweak spacing a bit
+
+2003-06-26  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=115630
+	* gnumeric-doc.make : remove the explicit dir qualification for
+	  func-header.xml func-footer.xml.
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-17  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* C/gui-elements.xml, C/worksheet.xml: Added missing file extensions.
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-12-07  Christian Neumair  <chris@gnome-de.org>
+
+	* de/*: removed.
+	* Makefile.am (SUBDIRS): removed de.
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-10-11  Jon K Hellan  <hellan@acm.org>
+
+	* developer/python-gnumeric.txt: Note that the plugin has been
+	removed.
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-09-21  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* xmldocs.make (install-data-am): fixed builds outside the source dir.
+
+2002-08-26  Jon K Hellan  <hellan@acm.org>
+
+	* xmldocs.make (docdir): tweak location to install
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-23  Jody Goldberg <jody@gnome.org>
+
+	* xmldocs.make (uninstall) : install docs where libgnome expects them
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-06-03  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-doc.make : Use += for EXTRA_DIST and entities
+	* xmldocs.make : Use += for EXTRA_DIST
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.3
+
+2002-03-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.2
+
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
+2002-02-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.0
+
+2002-02-05  Andras Timar  <timar@gnome.hu>
+
+	* hu, hu/topic.dat: Added these.
+
+2002-02-01  Karsten Weiss  <knweiss@gmx.de>
+
+        * de, de/topic.dat: Added these.
+
+2002-02-01  Christian Rose  <menthos@menthos.com>
+
+	* sv, sv/topic.dat: Added these.
+
+2002-01-22  Kevin Breit  <mrproper@ximian.com>
+
+	* sgmldocs.make (omffile): Added omffile=gnumeric-C.omf
+
+2002-01-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.3
+
+2002-01-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* fn-financial-bases.txt: describe coding for bases in
+	  src/functions/fn-financial.c and src/datetime.c
+
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.2
+
+2002-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.1
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.0
+
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.1
+
+2001-12-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.0
+
+2001-11-19  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.76
+
+2001-11-05  Jody Goldberg <jgoldberg@home,com>
+
+	* Release 0.75
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.74
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.73
+
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.72
+
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
+2001-09-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* doc/C/analysis-tools.sgml : Correct description of descriptive
+	  statistics tool
+
+2001-08-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.70
+
+2001-08-11  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.69
+
+2001-07-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.68
+
+2001-06-28  Jody Goldberg <jgoldberg@home>
+
+	* Release 0.67
+
+2001-06-27  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.66
+
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.65
+
+2001-03-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.64
+
+2001-02-23  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.63
+
+2001-02-16  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.62
+
+2000-12-17 Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.61
+
+2000-12-7  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.60
+
+2000-11-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.59
+
+2000-11-13  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.58
+
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.57
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.56
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.55
+
+2000-06-12  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am (EXTRA_DIST) : Add Missing files
+

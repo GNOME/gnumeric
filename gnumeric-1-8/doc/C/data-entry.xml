@@ -1,0 +1,430 @@
+<sect1 id="sect-data-entry">
+  <title>Data Entry</title>
+
+  <para>
+    There are several ways to add data into a spreadsheet. The
+    simplest data entry technique involves typing the data into a
+    spreadsheet by hand. This is usually necessary the first time that
+    data are introduced into a computer. If the data already exist in
+    a computer file of some kind, a simple way might exist to insert
+    these data into a &gnum;
+    worksheet. If the data are in a text file, they can be inserted
+    into a worksheet rapidly using the text conversion facilities. If
+    data exist in a spreadsheet file of a different format,
+    &gnum; may be able to open the file
+    and the data can then be copied where they are wanted.
+  </para>
+
+  <para>
+    This section explains how to enter data by hand into a
+    spreadsheet. The techniques necessary to obtain data from other
+    computer sources are explained in <xref linkend="chapter-files" /> which
+    deals with external data sources.
+  </para>
+    
+  <warning>
+    <para>
+      If the information being entered into
+      &gnum; cannot be interpreted
+      correctly, &gnum; will display an
+      error message. The user may then be forced to edit the data
+      before continuing. For example, a formula may be mathematically
+      incorrect if the user has two operators in a row (e.g. =3+*4)
+      and the dialog will give the user the chance to re-edit the
+      entry or accept the entry as text rather than as a formula. When
+      the formula is corrected, the leading apostrophe can be removed
+      and &gnum; will re-interpret the
+      entry as a formula.
+    </para>
+  </warning>
+
+  <sect2 id="sect-data-entry-simple">
+    <title>Data Entry by Editing Cells.</title>
+
+    <para>
+      The simplest method to place data in a spreadsheet involves
+      selecting the location for the data, typing the data on a
+      keyboard and then typing the <keysym>Enter</keysym> key to
+      finish the input.
+    </para>
+
+    <procedure>
+      <title>Simple Data Entry</title>
+      <step>
+        <para>
+          Select the cell where you want to enter data by clicking on
+          it with the white cross cursor. This will place the thick
+          `selection' box around that cell.
+        </para>
+      </step>
+
+      <step>
+        <para>
+          Type in the data or formula. The details of this step are
+          presented below for each of the five types of data which can
+          be entered.
+        </para>
+      </step>
+
+      <step>
+        <para>
+          Press the <keysym>Enter</keysym> key. This will complete the
+          input and move the selection box down one cell which will
+          then be able to receive further input.
+        </para>
+      </step>
+    </procedure>
+
+    <tip>
+      <para>
+        At any time while entering the data and before the
+        <keysym>Enter</keysym> is pressed, the user can cancel the
+        data entry by typing the <keysym>Esc</keysym> key. This will
+        return the spreadsheet to the selection mode and restore the
+        contents previously in the selected cell.
+      </para>
+    </tip>
+
+
+    <tip>
+      <para>
+        Instead of the <keysym>Enter</keysym> key, other keys can be
+        used to input the data in the current cell. These other keys
+        will move the selection box to other locations than does the
+        <keysym>Enter</keysym> key. The <keysym>Tab</keysym> key
+        inputs the entry in the currently selected cell and then moves
+        the selection box one cell to the right of the current
+        cell. The arrow keys input the entry into the currently
+        selected cell and move one cell in the direction of the
+        arrow. The <keysym>Enter</keysym> key can also be used in
+        conjunction with other keys. Typing the
+        <keycombo><keysym>Shift</keysym><keysym>Enter</keysym></keycombo>
+        combination will move the selection upwards after
+        entry. Typing the
+        <keycombo><keysym>Ctrl</keysym><keysym>Enter</keysym></keycombo>
+        combination will re-select the currently selected cell.
+      </para>
+    </tip>
+
+
+    <sect3 id="sect-data-entry-advanced-editing-mode">
+      <title>Advanced Editing Mode</title>
+      
+      <para>
+        After selecting the cell and initially entering the data, the
+        user is in a limited editing mode. The main key for editing
+        mistakes in this mode is the backspace key.
+      </para>
+    
+      <para>
+        For a more complete set of editing options, especially for
+        longer entries, there is an advanced editing mode.  To enter
+        the advanced editing mode, press the <keycap>F2</keycap>
+        function key or click on the editing region. The keyboard
+        focus will then shift from the current cell to the editing
+        region at the top of the worksheet. There, you can use cursor
+        keys to position the cursor within the data in the cell, and
+        have all of the capabilities of the data entry area available.
+      </para>
+
+       <para>
+         For example, you can use:      
+           <variablelist>
+	     <varlistentry>
+	       <term><keycap>Backspace</keycap></term>
+	       <listitem><para>Delete the character to the left of the
+	       cursor.</para></listitem>
+	     </varlistentry>
+	     <varlistentry>
+	       <term><keycap>Cursor keys</keycap></term>
+	       <listitem><para>Move the cursor appropriately.</para></listitem>
+	     </varlistentry>
+	     <varlistentry>
+	       <term><keycap>Ctrl+K</keycap></term>
+	       <listitem><para>Delete to the end of the line</para></listitem>
+	     </varlistentry>
+           </variablelist>
+         See <xref linkend="sect-data-entry" /> For more info on the data
+         entry area.
+       </para>
+
+      <tip>
+        <para>
+          All the normal key bindings for GNOME application entry
+          boxes also apply in the data entry box.
+        </para>
+      </tip>
+
+      <para>
+        After finishing the data entry, pressing the
+        <keycap>Enter</keycap> key will input the data entry and move
+        the selection box downward just like for the simple editing
+        mode.
+      </para>
+
+    </sect3>
+
+  </sect2>
+
+<!-- Below is a section for each data type explaining how to enter it. -->
+
+  <sect2 id="sect-data-entry-text">
+    <title>Entering Text Data</title>
+
+    <para>
+      Text can be entered by selecting a cell, typing the text and
+      then typing the <keysym>Enter</keysym> key. Anything that is not
+      interpreted to be a number, boolean, formula or error will be
+      treated as a text field. To prevent
+      &gnum; from interpreting an entry
+      as one of these other elements, a leading apostrophe can be
+      added to force the entry to be text. Any entry, no matter what
+      the contents, which starts with a leading apostrophe (') will be
+      considered to be text.
+    </para>
+
+    <tip>
+      <para>
+        Postal codes in the United States are series of five
+        integers. By default, &gnum;
+        interprets these to be numbers. This interpretation means that
+        the leading zeros used in the postal codes of the northeastern
+        region will be lost by default. To retain these leading zeros,
+        either the code should be entered with a leading apostrophe
+        (e.g. '02917) or the cells should be formatted as text before
+        data entry (see <xref linkend="sect-data-format" /> for an
+        explanation of formatting).
+      </para>
+    </tip>
+
+  </sect2>
+
+
+  <sect2 id="sect-data-entry-numbers">
+    <title>Entering Number Data</title>
+
+    <para>
+      Numbers can be entered like other items. First the cell in which
+      the number should be entered must be selected, then a valid
+      number must be typed in and finally the entry must be inserted
+      using the <keysym>Enter</keysym> key. The valid formats for
+      numbers are presented in <xref linkend="sect-data-numbers" />.
+    </para>
+
+    <para>
+      
+    </para>
+
+  </sect2>
+
+
+  <sect2 id="sect-data-entry-booleans">
+    <title>Entering Boolean Data</title>
+
+    <para>
+      A boolean can be entered by selecting the cell, typing the
+      boolean (either TRUE or FALSE) and then typing the
+      <keysym>Enter</keysym> key.
+    </para>
+
+  </sect2>
+
+
+  <sect2 id="sect-data-entry-formulas">
+    <title>Entering Formulas</title>
+
+    <para>
+      Formulas can be entered simply by typing a syntactically correct
+      formula in a cell. The correct syntax for formulas is explained
+      in detail in <xref linkend="sect-data-formulas" />. Formulas
+      begin with an equals sign (=) and contain arithmetic symbols,
+      functions with their arguments and cell references.
+    </para>
+
+    <para>
+      To enter a formula, first the cell must be selected, then the
+      correct formula must be typed, and finally the
+      <keysym>Enter</keysym> key must be typed.
+    </para>
+
+    <warning>
+      <para>
+        If the formula entered into
+        &gnum; cannot be interpreted
+        correctly, &gnum; will display an
+        error message giving the user the choice of re-editing the
+        formula or saving the formula as a text field to be edited
+        later. For example, a formula may be mathematically incorrect
+        if the user has two operators in a row (e.g. =3+*4). If the
+        formula is saved as text, when the formula is corrected the
+        leading apostrophe must be
+        removed. &gnum; will then
+        re-interpret the entry as a formula.
+      </para>
+    </warning>
+
+    <sect3 id="sect-data-entry-formulas-shortcuts-references">
+      <title>Shortcuts for including cell references and ranges in formulas
+      </title>
+
+      <para>
+        Formulas often include cell references or references to ranges
+        of cells as arguments to functions. These references and
+        ranges can be entered into a formula simply by typing in the
+        proper syntax (see <xref
+        linkend="sect-data-formulas-references" /> for more details).
+        But manually entering in cell ranges is slow and
+        cumbersome. In order to speed up the entry of these cell
+        ranges, the mouse and the keyboard arrow keys can be used to
+        select these cell ranges quickly.
+      </para>
+
+      <para>
+        When editing a formula, if the cursor is at a point where a
+        cell reference or range would be appropriate, the reference or
+        range can be selected using the mouse. If the mouse is used to
+        click on a cell, the reference of that cell will be entered
+        into a formula. Alternatively, if the mouse is used to drag a
+        selection over a range of cells, that cell range will become
+        part of the formula. The selected range will be highlighted by
+        a border of moving black dashes, commonly called the "marching
+        ants" border.
+      </para>
+
+  <figure id="fig-editing-cell-selection">
+    <title>The highlighted selection</title>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="figures/cell-selected.png"
+      format="PNG" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+  
+    <procedure>
+      <title>Using the mouse to enter cell references</title>
+      <step>
+	<para>
+          Begin entering a formula as you would normally. Stop at the
+	  point where a cell reference is appropriate. For example,
+	  example, type <userinput>=exp(</userinput>
+	</para>
+	</step>
+      <step>
+	<para>
+	  Click on the cell you want to reference. Its reference will
+	  be entered into the formula.
+	</para>
+      </step>
+      <step>
+	<para>
+	  To finish the formula, just type in the closing
+	  parenthesis. This will also "unselect" the region.
+	</para>
+      </step>
+    </procedure>
+    
+    <para>The mouse can be used to select a single cell, a continuous
+    range of cells or several disjoint ranges of cells just like
+    regular selections. </para>
+
+    <para>If entering lots of formulas or even just entering a few
+    formulas, it is often quickest to use the keyboard to select cells
+    and ranges of cells for use in formulas. Just as reaching a input
+    point allows the user to select cells with the mouse, it is
+    possible to use the keyboard to select cells. Just use the cursor
+    keys and selection modifiers to create a selection.</para>
+
+    <procedure>
+      <title>Using the keyboard to enter cell references</title>
+
+      <step>
+	<para>
+	  Select a cell to enter a formula into. For example A1.
+	</para>
+      </step>
+      <step>
+	<para>Enter a formula, but stop the cursor at a point
+	  where a cell reference is appropriate. For this example,
+	  =SUM( 
+	</para>
+      </step>
+      <step>
+	<para>
+	  Move the selection around with the cursor keys. Move the
+	  selection cursor to cell B1 to start the selection.
+	</para>
+      </step>
+      <step>
+	<para>
+	  Hold down <keycap>Shift</keycap> and move the selection one
+	  cell over and one cell down. Cells B1,B2,C1,C2 should now be
+	  selected and the formula should show =sum(B1:C2
+	</para>
+      </step>
+      <step>
+	<para>
+	  To finish the function, close the parenthesis. The cell should
+	  now show =sum(B1:C2). Press enter and the formula is entered.
+	</para>
+      </step>
+    </procedure>
+
+    <para>To select a range of cell, hold <keycap>Shift</keycap> and
+    move over the desired area.</para>
+
+    <para>To stop entering a selection or to start over, press
+    <keycombo><keycap>Shift</keycap>
+    <keycap>Backspace</keycap></keycombo></para>
+
+
+    </sect3>
+
+    <sect3 id="sect-data-entry-formulas-list">
+      <title>Entering formulas using the function list</title>
+
+    <para>
+      
+    </para>
+
+    </sect3>
+
+
+    <sect3 id="sect-data-entry-formulas-guru">
+      <title>Entering formulas using the formula guru</title>
+
+     <para>
+      
+    </para>
+
+   </sect3>
+
+  </sect2>
+
+
+  <sect2 id="sect-data-entry-errors">
+    <title>Entering Errors</title>
+
+    <para>
+      Errors are almost never entered directly into a spreadsheet but
+      usually arise from problems which
+      &gnum; encounters during
+      calculations. A list of errors with their meanings is presented
+      in <xref linkend="sect-data-errors" />.
+    </para>
+
+    <para>
+      In an unusual case where it is needed, an error can be entered
+      by hand like the entry of other elements. First the cell must be
+      selected, then the error must be entered (e.g. #DIV/0!) and
+      finally the <keysym>Enter</keysym> key must be pressed.
+    </para>
+
+  </sect2>
+
+
+
+
+
+</sect1>
+

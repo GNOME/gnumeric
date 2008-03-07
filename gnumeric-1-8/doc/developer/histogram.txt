@@ -1,0 +1,48 @@
+$id: histogram.txt,v 1.2 2006/11/15 19:39:59 solarion Exp $
+================================================================
+================================================================
+
+Histogram enhancement discussion
+
+================================================================
+================================================================
+
+GOALS
+================================================================
+* should be general for pivot tables
+* date/time buckets: second minute hour day week month quarter year
+decade day-of-week? 
+* connect to charts
+
+================================================================
+NOTES ON PRESENT IMPLEMENTAITON
+================================================================
+There is a histogram chart type, but it seems unimplemented
+  (investigating)
+There is a histogram statistical tool, but it does not output
+  a chart; only data.
+
+================================================================
+NOTES ON FUTURE IMPLEMENTATION
+================================================================
+Statistical tool could be used as input into chart.
+
+================================================================
+ACTION ITEMS - Mark with timestamp when complete.
+================================================================
+1) Learn about how to create a new chart type.  We might be able
+  to use the code used to generate the data set to generate the
+  chart as well (this is highly desirable for maintenance reasons)
+
+2) Learn about current histogram implementation.  How can we
+  integrate this into both charting and data generation?  We
+  should keep an eye on bin modifications.
+
+3) Learn what is meant about pivot tables.  What will be needed
+  to support pivot tables?
+
+================================================================
+WHITEBOARD AREA
+================================================================a
+Leave comments below, with your name and the date.
+  -Joseph - Nov 15, 2006

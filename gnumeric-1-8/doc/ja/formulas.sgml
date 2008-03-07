@@ -1,0 +1,179 @@
+<sect1 id="formulas">
+	<title>
+	数式
+	</title>
+
+<para>
+数式はスプレッドシートを使うあらゆる操作にかかわる要です。数式は、単独の数字、セル参照、セル範囲、セル配列などをはじめとするあらゆる種類の引数を受け取ることができます。
+</para>
+
+<sect2>
+	<title>
+	シンタックス
+	</title>
+
+<para>
+数式を通常のデータと区別するのは、「=」文字で始まる点です。「=」で始まるデータはすべて、文字列ではなく数式であると解釈されます。
+</para>
+
+<para>
+最も単純な数式は、標準の数学の演算子や符号を使うものです。「＋」、「−」、「*」、「/」は常識どおりに解釈されます。「＋」と「-」は、当然、単項演算子としても符号としても使うことができます。
+</para>
+
+<example id="standardoperators">
+	<title>
+	標準的な演算子の例
+	</title>
+
+	<programlisting>
+	=5+5            10 を返します。
+	
+	=5-4            1 を返します。
+	
+	=-5             -5 を返します。
+	
+	=5*5            25 を返します。
+	
+	=(5*5)+11       36 を返します。
+	
+	=(5*)+(49/7)    32 を返します。
+	</programlisting>
+</example>
+</sect2>
+
+<sect2>
+	<title>
+	関数の使い方
+	</title>
+
+<para>
+数学、ビジネス、統計、科学などにおけるほとんどの標準的な計算は、関数を使って行われます。関数は次の形式をとります。
+</para>
+
+<example id="basicfunctionsyntax">
+	<title>
+	関数の基本シンタックス
+	</title>
+
+	<programlisting>
+	=FUNCTION(ARGUMENTS)
+	</programlisting>
+</example>
+
+<para>
+一般的に文書上ではすべて大文字で表記しますが、実際の用法としては大文字と小文字の区別はありません。
+</para>
+	
+<example id="funxtionsyntax">
+	<title>
+	関数シンタックスの例
+	</title>
+
+	<programlisting>
+	    =SUM(A1,A2,A4,B5)
+	    
+            =AVERAGE(A1:A16)
+	    
+            =EXP(1)
+	    
+	    =PI()
+	    
+            =MIN(A1,A2,B6)
+	</programlisting>
+</example>
+
+<para>
+SUM 関数のように複数の引数を取る関数もあります。引数の数については、実際上無制限といえます。
+</para>
+</sect2>
+
+<sect2>
+	<title>
+	名前
+	</title>
+
+<para>
+複雑な式も名前を付ければ扱いやすくなります。名前は、他の数式の値を指し示します。セル範囲のラベルとしても使われます。
+</para>
+
+<example id="namesyntax">
+	<title>
+	名前を使った例
+	</title>
+
+<para>
+'$A$1:$B$500'の名前が「DataBase」、2.71828182845 の名前が「E_Constant」であるとすると、次のような式が使えます。
+</para>
+	<programlisting>
+	    =VLOOKUP (C1, "gnu", DataBase, 2, 0)
+
+	    =LN(E_Constant)
+
+	    =SUM(DataBase, E_Constant)
+	</programlisting>
+</example>
+
+<para>
+名前をつけるには
+<guimenu>Insert</guimenu> <guimenuitem>Name</guimenuitem>
+を使います。関係のあるワークブックの全ての名前を上手に操作することができます。名前は、関数と同じ名前を使用することはできません。混乱の元です。
+</para>
+
+<para>
+あなたが定義した名前の他に、ビルドインの名前があります。:
+</para>
+
+<itemizedlist>
+	<listitem><para>Sheet_Title : この名前を指定するとカレント・シートの名前を返します。</para></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2>
+	<title>
+	配列の数式
+	</title>
+
+<para>
+さらに画期的に便利で、また必要な機能として、一つの値を返すだけでなく、マトリックス値(行列)を返す式も使えます。最初の例として、一般的に考えられるのは、行列操作、つまり、行列の乗法、転置、逆行列の算出などでしょう。隠れた使い方として、データ抽出ルーチン(データベース、リアルタイム・データ入力)や、ベクトル値の関数（局面計算）などがあります。
+</para>
+
+<example id="arrayformulacreate">
+	<title>
+	配列の数式の入力
+	</title>
+
+<para>
+配列の数式を使うには、結果を保存する一つの範囲を選択し、配列の数式を入力し、魔法のキーの組み合わせ <keycap>Ctrl</keycap> + <keycap>Shift</keycap> + <keycap>Enter</keycap> を入力します。
+</para>
+
+<para>
+結果は次のように表示されます。
+</para>
+
+	<programlisting>
+	={FUNCTION(ARGUMENTS)}(num_rows, num_cols)[row number][col number]
+	</programlisting>
+</example>
+
+</sect2>
+
+</sect1>
+
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         
+

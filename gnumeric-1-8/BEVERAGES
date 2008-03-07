@@ -1,0 +1,47 @@
+A tally of the beverages owed for 1.8.x
+
+    Bring on the hurting
+
+----------------------------------------------------------------
+A tally of the beverages owed for 1.0.x
+
+    Morten 			: Hot Chocolate.
+    Bogus pointer comparison in help tokenizer.
+
+    sjburges@gimp.org		: Beer
+    First report that manually entered relative references
+    can crash checkbox.  More importantly the same issue
+    existed in the graph guru.
+
+    aguelzow@taliesin.ca	: TBD
+    Strange expr-entry bugs after I had 'fixed' it.
+
+    grabner.andreas@utanet.at	: TBD
+    Solver did not support blank unput cells.
+
+    a.t.meinen@chello.nl	: TBD
+    Thawing panes did not clean out animated cursors
+
+    a.t.meinen@chello.nl        : TBD
+    Crash in EXPRESSION.
+
+    Morten 			: Hot Chocolate.
+    Autofilter crash on error
+
+    Adrian Custer		: TBD
+    http://bugzilla.gnome.org/show_bug.cgi?id=66666
+
+    Mihael Vrbanec <miqster@gmx.net> : Long Island Ice Tea
+    Crash when shrink a selection for autofill without inverting.
+
+    Seth Burgess		: Beer
+    http://bugzilla.gnome.org/show_bug.cgi?id=67217
+
+1.0.0
+
+    llanero@jazzfree.com (Manuel)	: Beer
+    http://bugzilla.gnome.org/show_bug.cgi?id=68034
+
+1.0.1
+    Morten 			: Hot Chocolate.
+    Crash in search with newer gals.

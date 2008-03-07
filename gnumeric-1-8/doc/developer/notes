@@ -1,0 +1,125 @@
+
+Control-Enter after finishing entering some data into a cell
+sets the whole range of selected cells to that value.
+
+On a selection: Enter, Shift-Enter, Tab, Shift-Tab navigate trought
+the selected cells.
+
+Double clicking on a column division automatically adjusts the column
+size.
+
+Sheet drawing:
+
+	1. Selected background + white margin
+	2. Grids
+	3. CEll content
+
+If more than one sheet is selected changes take place on all sheets.
+
+Dates are stored as numbers with the format for the date.
+
+Today's date is inserted with Control-;
+Current tiem is inserted as Control-Shift+;
+
+The expression: 	="5/12/94"-"3/5/98" yields 68
+
+
+
+Date 1 is Jannuary 1, 1900
+
+Texts can be used in a formula:
+	="Total for "& 1985 displays "Totals for 1985"
+
+Hard carriage returns are entered with alt-enter
+
+Automatic completion of names is done per column (looked backwards)
+
+Alt-down arrow pops up a list of available choices for the autofill
+
+* FORMULAS:
+	
+	Operators, cell references, values, worsheet functions,
+	and names.
+
+	Arrays:  SUM({1,2,3}*4) gets converted to:
+		SUM({1,2,3}*{4,4,4})
+
+** Operators
+	
+*** Arithmetic
+
+	+, -, /, *, 
+	% (percent, as in 20%)
+	^ Exponentiation
+
+*** Comparision
+	=, <, >, <=, >= <>
+
+*** Text operator
+
+	& Concatenates values and returns a string value
+
+*** Reference operator
+	
+	Range (colon) Produces one reference to all the cells between
+	and includig the two references.
+
+	Union (comma) Produces one reference that includes the two
+	references
+
+	Intersection (space) Produces on reference to cells common
+	to the two references
+
+** Wierd things
+	="1"+"2" yields 3, Excel does the converion to integers
+	="A"&TRUE, Excel convers TRUE to a string: ATRUE
+
+** Display
+
+	Control-` Switches between computed formula display and
+	actual formua display
+
+** References
+	$ is the absolute cell reference
+	R[-2]C	Two rows above, same column
+	R[2]C[2] two column down, two right
+	R2C2 Absolute reference to B2
+	R[-1] Entire row above the active cell
+	R current row
+	
+	=Sheet4!D12+4
+	='Miguel is a moron'!A1+2
+	
+** Functions
+	They can take any number of arguments
+		X(number)
+	They are documented
+	The arguments are documented
+	A wizard can be popped up to help with it
+	
+*** Types
+	Database and list management functions
+	Date and time functions
+	DDE and external functions
+	Engineering functions
+	Financial functions
+	Information functons
+	Logical functions
+	Lookup and reference functions
+	Math and trigonometric functions
+	Statistical functions
+	Text functions
+
+** Errors
+
+	#####
+		Result too big to fit in scell
+	#DIV/0
+		Division by zero
+	#N/A
+		
+	#NAME?
+	#NULL!
+	#NUM!
+	#REF!
+	#VALUE!

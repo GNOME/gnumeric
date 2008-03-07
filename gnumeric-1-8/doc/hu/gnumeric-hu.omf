@@ -1,0 +1,58 @@
+<?xml version="1.0" standalone="no"?>
+<omf>
+  <resource>
+    <creator>
+      miguel@gnome.org (Miguel de Icaza)
+    </creator>
+    <maintainer>
+      jody@gnome.org (Jody Goldberg)
+    </maintainer>
+    <contributor>
+      acuster@nature.berkeley.edu (Adrian Custer)
+    </contributor>
+    <contributor>
+      mrproper@ximian.com (Kevin Breit)
+    </contributor>
+    <contributor>
+      aguelzow@taliesin.ca (Andreas Guelzow)
+    </contributor>
+    <contributor>
+      aaron@ximian.com (Aaron Weber)
+    </contributor>
+    <contributor>
+      tommydal@ihug.com.au (Thomas Canty)
+    </contributor>
+    <contributor>
+      kirillov@math.sunysb.edu (Alexander Kirillov)
+    </contributor>
+    <contributor>
+      k_wayne@linuxpower.org (Wayne Schuller)
+    </contributor>
+    <contributor>
+      jiivonen@hutcs.cs.hut.fi (Jukka-Pekka Iivonen)
+    </contributor>
+    <contributor>
+      adrian@gimp.or (Adrian Likins)
+    </contributor>
+
+    <title>
+      The Gnumeric Manual
+    </title>
+    <date>
+      2002-05-11
+    </date>
+    <version identifier="1.1.5" date="2002-05-11" description="Updated for 1.1.5"/>
+    <subject category="GNOME|Applications|Office"/>
+    <description>
+      This is the user's manual for Gnumeric, the GNOME spreadsheet.
+    </description>
+    <type>
+      user's guide
+    </type>
+    <format dtd="-//OASIS//DTD DocBook XML V4.1.2//EN" mime="text/xml"/>
+    <identifier url="gnumeric.xml"/>
+    <language code="C"/>
+    <relation seriesid="c5e3db84-64c3-11d6-85a3-a3e50590e6d1"/>
+    <rights type="GNU FDL" license.version="1.1" license="http://www.gnu.org/licenses/fdl.html" holder="Miguel de Icaza, Jody Goldberg, Thomas Canty, Jukka-Pekka Iivonen, Andreas J. Guelzow, Wayne Schuller, Adrian Custer, Kevin Breit, Aaron Weber, Alexander Kirillov"/>
+  </resource>
+</omf>

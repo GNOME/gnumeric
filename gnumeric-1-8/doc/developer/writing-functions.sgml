@@ -1,0 +1,262 @@
+
+Howto write builtin functions for gnumeric, version 0.2
+by Michael Meeks <mmeeks@gnu.org>
+
+
+This text describes the API and conventions a programmer should use
+to implement and register new functions for use in gnumeric.
+
+
+-------------------------------------------------------------------
+
+Functions in Gnumeric should be registered in a category, to do this
+you must get a category handle:
+
+FunctionCategory *cat = function_get_category (_("My functions"));
+
+If the category already exists it will be returned, otherwise a new
+category will be created. Then, you will have to add your functions
+individualy to the category. For example, a simple routine to sum
+two numbers, you would do:
+
+        char *help_add2numbers = "ADD2NUMBERS: Adds two numbers";
+
+This C declaration defines the HELP associated with this
+function.
+
+        function_add_args (cat, "add2numbers", "ff", "number1,number2",
+	                   help_add2numbers, add2numbers);
+
+[ NB. there are several types of function; more of this later ]
+
+This defines our function, the paramters in order are:
+
+'cat'          The category handle obtained earlier
+'add2numbers'  The function name ( as used in gnumeric )
+'ff'           The argument token type string, this tells gnumeric that
+               we are expecting two floating point arguments.
+'number1,...'  Symbolic names for the arguments (in case our function
+               supports them, this allows users to specify named paramters)
+'help_add2..'  This links in the help text
+'add2numbers'  This is the name of the function that gnumeric will call
+               to evaluate the function.
+
+Now, our routine is pretty simple: it will always require two arguments
+to be passed, so we can let Gnumeric deal with argument count and we
+can let the Gnumeric engine compute the values in the expression for
+us. If we had a more complex function we would need to use
+function_add_nodes ( more later ).
+
+When the user calls the function "ADD2NUMBERS" in a Gnumeric
+expression, our routine will be invoked, this is how the add2numbers
+function signature looks like:
+
+static Value *
+add2numbers (FunctionEvalInfo *ei, Value *argv [])
+{
+	
+}
+
+The function should return a newly allocated Value structure.
+Arguments are passed in the argv array and they contain Value
+structures (look in gnumeric/src/value.h for the definition of the
+_Value union, which is typedef'ed to Value in gnumeric.h).
+
+The first parameter, ei is a pointer to the FunctionEvalInfo
+structure, this looks like this: ( from expr.h )
+
+struct _FunctionEvalInfo {
+	EvalPosition        pos;
+	FunctionDefinition *func_def;
+};
+
+EvalPosition - Position at which the function is being evaluated. 
+
+NB. Unless you are doing something _extremely_ clever the correct way to
+return an error is thus:
+
+if (foo && bar)
+        return value_new_error (&ei->pos, _("My error"));
+
+FunctionDefinition - This returns a handle to a magic structure that
+                     should not be used. In future this will allow for
+                     extra function attributes to be set. This is normally
+		     ignored, but some functions might want to access this
+		     (for example, a single function callback might implement
+		     various functions and can figure how it was invoked by
+		     poking at this value).
+
+Here is the actual implementation:
+
+static Value *
+add2numbers (FunctionEvalPos *ei, Value *argv [])
+{
+	Value *result;
+	float number_a, number_b;
+
+	switch (argv [0].type){
+	case VALUE_INTEGER:
+		number_a = argv [0].v.v_int;
+		break;
+
+	case VALUE_FLOAT:
+		number_a = argv [0].v.v_float;
+		break;
+
+	default:
+	        return value_new_error (&ei->pos, "Invalid argument type");
+	}
+
+	switch (argv [1].type){
+	case VALUE_INTEGER:
+		number_b = argv [1].v.v_int;
+		break;
+
+	case VALUE_FLOAT:
+		number_b = argv [1].v.v_float;
+		break;
+
+	default:
+	        return value_new_error (&ei->pos, "Invalid argument type");
+	}
+
+	result = value_float (number_a + number_b);
+
+	return result;
+}
+
+Note that although typechecking is done in upper layers, both INTEGER
+and FLOAT types are passed through the 'f' function declaration token.
+It is of course good practice to provide a sensible default: case.
+
+If there is an error during the function processing, an error value
+should be returned.  The error string is managed by gnumeric in the
+same reference counted fashion that all other strings are handled.
+
+Return values and Strings.
+--------------------------
+
+There are a several utility functions provided by Gnumeric to create 
+Values: value_new_float, value_new_int, value_new_bool, value_new_string,
+value_new_cellrange, value_new_array, value_new_error. [ the nomenclature
+is as of different constructors for the same class: Value ]. All Values
+should idealy be created with these routines.
+
+
+Functions with some optional arguments
+--------------------------------------
+
+Gnumeric support three types of functions:
+
+* Fixed number of arguments ( dealt with above )
+* Optional argument functions and
+* Variable argument functions.
+
+The difference between the latter two is that eg. the SUM ()
+function will take an indefinate amount of arguments, whereas the
+ERF function is best described ERF(lower limit[,upper_limit]).
+In this instance, it is not worth the complexity of manualy
+traversing the raw expression tree as in SUM. Instead using the
+standard type checking the argument can be specified as optional,
+and if unspecified a NULL will be passed in the appropriate
+argv[] entry. Hence for erf (fn-eng.c):
+
+	function_add_args  (cat, "erf",         "f|f",  "lower,upper",
+		           &help_erf, gnumeric_erf );
+
+	Note "f|f" specifying  'upper' is optional. Any arguments that
+appear after a '|' symbol in the function definition string are
+deemed optional.
+
+	Hence in the code, it is vital to check optional pointers
+before assuming they are valid hence:
+
+static Value *
+gnumeric_erf (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t ans, lower, upper=0.0 ;
+
+	lower = value_get_as_double(argv[0]) ;
+	if (argv[1])
+		upper = value_get_as_double(argv[1]) ;
+...
+}
+
+	Note there must be a default value for optional arguments.
+Here upper has a default value of 0.0.
+
+
+Functions with a variable number of arguments
+---------------------------------------------
+
+In this case, the function writer is presented with the raw expression
+tree data as a list, to traverse himself.
+
+If you want to implement a function that takes a variable number of
+arguments you have to change your FunctionDefinition:  instead of
+setting the fifth parameter as NULL and the sixth pointing to your
+function, you should set the sixth parameter to NULL and you fill in
+the fifth parameter, like this:
+
+char *help_factadd = "Adds all of its arguments";
+
+	function_add_nodes (cat, "addall", "", "...", &help_addall,
+			    addall);
+
+NB. _add_nodes not _add_all.
+
+We will now implement addall, a function that takes any number and
+kind of arguments: strings, integers, floating point numbers, arrays
+and cell ranges.  
+
+This is a simple usage of addall, lets imagine cell A1 contains the
+value 5 and the cell A2 contains the value 3.
+
+addall (1)			returns 1
+addall (1,2)			returns 3
+addall (a1:a3)			returns 8
+addall (a1:a3,1)		returns 9
+
+Here is the function signature for addall:
+
+Value *
+addall (FunctionEvalInfo *ei, GList *expr_node_list)
+
+As usual, this routine would return a newly allocated Value or a COPY of
+an error if one is found.
+
+The first argument points to the usual EvalInfo structure, and the second
+argument is a linked list (a GList) that contains (ExprTree *) nodes.
+
+The ei->pos structure can be used to determine position ( as normal )
+
+struct _EvalPosition {
+	Sheet *sheet;
+	int    eval_col;
+	int    eval_row;
+};
+
+'sheet' points to the sheet in which the function is being evaluated.
+The 'eval_col' and 'eval_row' parameters are used to inform the function
+in which context the expression should be evaluated (ie, from which
+cell it is being invoked) and it is used when invoking the expr_eval
+function.
+
+
+Function Tokens
+---------------
+
+With intersection and iteration support
+    b : boolean		identical to f, Do we need this ?
+    f : float 		no errors, string conversion attempted, blanks
+			converted to int 0
+    s : string		no errors, blanks accepted and passed as empty
+    S : scalar		any scalar non-error, blanks passed as empty
+    E : scalar		any scalar non blank value
+    B : scalar		any scalar even a blank
+
+Without intersection or iteration support
+    r : cell range	content is _NOT_ guaranteed to have been evaluated yet
+    A : area		array, range, (range as above), or scalar
+    a : array
+    ? : anything

@@ -1,0 +1,40 @@
+For floating point operations, Gnumeric uses the C type gnm_float.
+Currently that is "double" or "long double", depending on whether
+Gnumeric was configured with --with-long-double.
+
+This has some coding style consequences...
+
+1. Don't use (say) "exp"; use "expgnum".  If you simply use "exp",
+   the argument will be cast from gnm_float to double, thus potentially
+   losing precision and the answer will also have reduced range and
+   precision.
+
+2. For exact, fractional constants, use GNM_const(273.18).  That will
+   expand to either "273.18" or "273.18L", i.e., a constant with the
+   right precision.  Don't bother for fractions that are a power of 2,
+   i.e., for 232.25.  Also, don't bother for constants that aren't
+   exact to begin with.  Note: make very sure you have a decimal point
+   or an "e" in the argument to GNM_const.
+
+   Use GNM_const also for huge numbers, e.g., GNM_const (1e100).
+
+3. Various <float.h> constants have "gnum" counterparts.  See numbers.h.
+   For example, GNUM_DIG.
+
+4. Various <math.h> constants have "gnum" counterparts.  See mathfunc.h.
+   For example, M_PIgnum and M_LN2gnum.
+
+5. To print gnm_float use one of the formats GNUM_FORMAT_f,
+   GNUM_FORMAT_g, ... defined in numbers.h
+
+-----------------------------------------------------------------------------
+
+Don't use...                 Use...
+---------------------------------------------------
+loggnum (1+x)                log1pgnum (x)
+loggnum (1-x)                log1pgnum (-x)
+expgnum (x * loggnum (y))    powgnum (y, x)
+expgnum (x) - 1              expm1gnum (x)
+1 - expgnum (x)              -expm1gnum (x)
+powgnum (1+x,y)              pow1p (x,y)
+powgnum (1+x,y) - 1          pow1pm1 (x,y)

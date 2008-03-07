@@ -1,0 +1,920 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugin.c: replaced gi18n.h by gi18n-lib.h.
+	* smob-value.c: ditto.
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2003-01-10  Morten Welinder  <terra@diku.dk>
+
+	* plugin.c (gnm_guile_catcher): buffer size paranoia.
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-10-13  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.c (scm_register_function): Switch to gnm_func_add.
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-08-07  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* Makefile.am (INCLUDES): Define PLUGIN_ID
+
+	* plugin.c (plugin_init_general):
+	Use the PLUGIN macro from module-plugin-defs.h
+
+2002-08-04  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.c (scm_register_function):
+	Adjusted to function_add_args signature change.
+
+2002-08-04  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.c (gnm_guile_catcher): Remove unused var 'len'.
+	(plugin_init_general): Remove unused var 'cat'.
+
+	* guile-support.c: Include position.h.
+
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+	* plugin.c (plugin_can_deactivate_general): Removed
+	(plugin_init_general): Use gnm_plugin_use_ref to prevent plugin from
+	being deactivated.
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-07-07  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.c (plugin_init_general): Remove call of
+	function_get_category - result is never used.
+
+
+2002-07-07  Jon K Hellan  <hellan@acm.org>
+
+	* smob-value.c (scm_value_get_as_string): Do type conversion
+	instead of failing for VALUE_BOOLEAN, VALUE_INTEGER and
+	VALUE_FLOAT. (From Joost Helberg).
+	(scm_value_get_as_int): Do type conversion instead of failing for
+	VALUE_BOOLEAN and VALUE_FLOAT.
+	(scm_value_get_as_float): Do type conversion instead of failing
+	for VALUE_BOOLEAN and VALUE_INTEGER.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.3
+
+2002-04-15  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.c: s/main.h/libgnumeric.h/
+
+2002-03-28  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.c (gnm_guile_helper): New function. Helper to call
+	scm_apply_0. 
+	(gnm_guile_catcher): New function. Receives error info from Guile
+	if Guile throws an error.
+	(func_marshal_func): Handle errors from Guile gracefully. The old
+	behaviour was to abort Gnumeric.
+
+	* gnumeric_startup.scm (gnm:error->string): New function. Returns
+	a string with Guile's error message.
+
+2002-03-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.2
+
+2002-03-26  Jon K Hellan  <hellan@acm.org>
+
+	* smob-value.c (make_value, scm_value_new_bool,
+	scm_value_new_float, scm_value_new_string): Fix
+	leak/unininitialized memory problem.
+
+	* plugin.c (func_scm_apply): Remove. It called scm_c_eval_string
+	on the contents of the first argument cell. This is a big security
+	hole.
+	(plugin_init_general): Don't export spreadsheet function
+	scm_apply, which used to be bound to func_scm_apply.
+
+2002-03-26  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.c (scm_gnumeric_funcall): Free Value after it has been
+	cloned.
+
+	* smob-value.c (make_new_smob): Make the Value inside the smob a
+	clone of v.
+	(get_value_from_smob): Also clone when returning Value from smob.
+
+2002-03-24  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.c (scm_register_function) constify help.
+	(func_scm_apply): Make expr_node_list a GnmExprList.
+
+	* smob-value.c (init_value_type): Guile API doesn't expect
+	arguments to be declared const. So cast constants to non-const to
+	silence warning.
+
+2002-03-22  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.c: Include expr-impl.h
+
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
+2002-03-07  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.c (func_marshal_func): Substitute ei->func_call->func for
+	ei->func_def and adapt pointer checks accordingly.
+
+2002-02-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.0
+
+2002-01-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.3
+
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.2
+
+2002-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.1
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.0
+
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.1
+
+2001-12-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.0
+
+2001-11-19  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.76
+
+2001-11-05  Jody Goldberg <jgoldberg@home,com>
+
+	* Release 0.75
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.74
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.73
+
+2001-10-23  Jody Goldberg <jgoldberg@home.com>
+
+	* plugin.c (func_scm_apply) : s/eval_expr/expr_eval/
+
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.72
+
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
+2001-09-25  Jon K Hellan  <hellan@acm.org>
+
+	* .cvsignore: Add plugin.xml
+
+2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml: Removed
+
+	* plugin.xml.in: Copied from plugin.xml, prepared for localization.
+
+	* Makefile.am: Use xml-i18n-tools to create plugin.xml (with
+	translations merged from .po file).
+
+2001-08-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.70
+
+2001-08-17  Morten Welinder  <terra@diku.dk>
+
+	* guile-support.h: Guard and prune includes.
+
+	* smob-value.h: Guard.
+
+2001-08-15  Ariel Rios  <ariel@linuxppc.org>
+
+	* plugin.c (plugin_init_general): Remove call of deprecated
+	has_gnumeric_been_compiled_with_guile_support func.
+	(has_gnumeric_been_compiled_with_guile_support): Removed.
+
+2001-08-14  Ariel Rios  <ariel@linuxppc.org>
+
+	* plugin.c (plugin_init_general): We now initialize guile
+	here.
+	(has_gnumeric_been_compiled_with_guile_support): Probably,
+	we don't need this function anymore. Anyway, it was moved
+	from src/main.c
+
+2001-08-11  Ariel Rios  <ariel@linuxppc.org>
+
+	* plugin.c (func_scm_apply): Use scm_c_eval_string instead of 
+        scm_eval_0str which is now deprecated.
+	(plugin_init_general): Ditto.
+
+2001-08-11  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.69
+
+2001-07-30  Ariel Rios  <ariel@linuxppc.org>
+
+	* plugin.c: Do not use gh.h anymore.
+
+	* smob-value.c (scm_i_scm2bool): Returns the value of a scheme object.
+	Temporary hack until this function can be put unto guile.
+	(make_value): Get rid of gh_* functons since the gh interface will be
+	deprecated from guile.
+	(scm_value_new_bool): Ditto.
+	(scm_value_get_as_float): Ditto.
+	(scm_value_get_as_list): Ditto.
+
+2001-07-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.68
+
+2001-06-28  Jody Goldberg <jgoldberg@home>
+
+	* Release 0.67
+
+2001-06-27  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.66
+
+2001-05-22  Ariel Rios  <ariel@linuxppc.org>
+
+	* smob-value.c (init_value_type): Use scm_c_define_gsubr as required by guile 1.4
+
+	* plugin.c (plugin_init_general): Ditto
+
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.65
+
+2001-03-29  Morten Welinder  <terra@diku.dk>
+
+	* smob-value.c (scm_value_get_as_list): Don't use //.
+	(print_value): Ditto.
+
+2001-03-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.64
+
+2001-02-23  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.63
+
+2001-02-16  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.62
+
+2001-02-12  Karl Eichwalder  <ke@suse.de>
+
+	* Makefile.am (EXTRA_DIST): Add $(gnumeric_plugin_guile_DATA).
+
+2001-01-28  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (init_plugin): Correct typo.
+
+2001-01-27  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* Makefile.am, plugin.c, plugin.xml:
+	Conversion to new plugins code.
+
+2000-12-20  Morten Welinder  <terra@diku.dk>
+
+	* guile-support.c: Include <config.h>.
+
+	* smob-value.c: Ditto.
+
+2000-12-17 Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.61
+
+2000-12-7  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.60
+
+2000-11-23  Ariel Rios  <ariel@arcavia.com>
+
+	* guile-support.h (gnumeric_list2scm): Removed unused prototypes.
+	(gnumeric_scm2list): Ditto
+	 (expr_to_scm): Ditto
+	* guile-support.c (gnumeric_list2scm): Removed unused function.
+	(gnumeric_scm2list): Ditto
+
+2000-11-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.59
+
+2000-11-13  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.58
+
+2000-11-12  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c: Add copyright notice.
+	* doc/guile-gnumeric.txt: Update documentation.
+
+2000-11-12  Ariel Rios  <ariel@arcavia.com>
+
+	* functions.scm (fibo): Return value smob
+	* guile-support.c : Ditto for the functions removed on header file.
+	(scm_to_value): We now only call get_value_from_smob and things are
+	way easier and cleaner now.
+	* guile-support.h: (list_to_scm): Removed function. 
+	(cell_ref_to_scm): Ditto
+	(scm_to_cell_ref): Ditto
+	(scm_symbolfrom0str): Ditto
+	(scm_to_value): Ditto.
+
+2000-11-12  Ariel Rios  <ariel@arcavia.com>
+
+	* functions.scm: Cleaned old commented scheme functions.
+
+2000-11-12  Ariel Rios  <ariel@arcavia.com>
+
+	* functions.scm (fibo): Use value-get-as-int for getting the integer value.
+	* guile-support.c (value_to_scm): We now create a new smob value instead of dealing 
+	with a case per case basis.
+
+2000-11-11  Ariel Rios  <ariel@arcavia.com>
+
+	* smob-value.c (scm_value_get_as_list): Should remove warning
+
+2000-11-06  Ariel Rios  <ariel@arcavia.com>
+
+	* smob-value.h (make_new_smob): Add prototype.
+	(make_new_smob): Ditto
+	* smob-value.c (make_new_smob): New functions that enables to create a
+	new value smob from a Value. This function is used in the C world.
+	(get_value_from_smob): Get the Value member from the smob. Also
+	used only in the C world.
+	(scm_value_new_bool): Function to create a new SCM.
+	(scm_value_new_float): Ditto.
+	(scm_value_new_string): Ditto.
+	(init_value_type): Add the value-new* functions into Guile.
+
+2000-11-06 Ariel Rios <ariel@arcavia.com>
+
+	* doc/guile-gnumeric.txt: Update documentation.
+
+2000-11-06  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (init_plugin): Add call to init_value_type ()
+
+2000-11-06  Ariel Rios  <ariel@arcavia.com>
+
+	* smob-value.c (scm_value_get_as_string): wrappers for Value.h equivalent.
+	(scm_value_get_as_int): Ditto.
+	(scm_value_get_as_float): Ditto.
+	(scm_value_get_as_list): Ditto. Need to be ckecked out!
+	Probably in this functions we should return SCM_ERROR instead of SCM_EOL
+	if the smob does not contains the required type.
+	(init_value_type): Add the previous functions
+	* smob-value.h (init_value_type): Correct prototype
+
+2000-11-06  Ariel Rios  <ariel@arcavia.com>
+
+	* smob-value.c (_SCM_Value): Remove scm and name values.
+	(make_value): Ditto. Also removed unused variables.
+	* Makefile.am: Compile smob-value.c
+
+2000-11-06  Ariel Rios  <ariel@arcavia.com>
+
+	* smob-value.h: New header file.
+	(init_value_type): New prototype.
+	* smob-value.c (SCM_Value): Smob structure.
+	(make_value): Creates a new SCM object instance.
+	(mark_value): Guile uses this functions to each created
+	instance of this type to the GC.
+	(free_value): Guile apply this instance where no new pointers
+	to the instance can be found.
+	(print_value): Write a printed representation of object.
+	(equalp_value): Compares to value_smob
+	(init_value_type): Inits the new value smob in Guile
+
+2000-11-05  Ariel Rios  <ariel@arcavia.com>
+
+	* guile-support.c (value_to_scm): Use value_get_as functions as per Jody 
+	recommendation.
+
+2000-11-04  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (scm_cell_expr): Return SCM_EOL instead of expr_to_scm. 
+	* guile-support.c (value_to_scm): Correctly create the list unto the guile interpreter.
+	Greatest PBB ever! In the VALUE_EMPTY case we now return SCM_EOL instead of SCM_UNSPECIFIED.
+	Clean some comments.
+	(expr_to_scm): Comment this function that it is not needed 
+
+2000-11-01  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (func_marshal_func): Added a nice SCM cast to remove warning.
+
+2000-10-30  Ariel Rios  <ariel@arcavia.com>
+
+	* guile-support.c (value_to_scm): Correct the VALUE_ARRAY case. 
+	We now correctly create the list, finish it and reverse it.
+
+2000-10-27 Ariel Rios  <ariel@arcavia.com>
+
+	* guile-support.c (gnumeric_list2scm): Translates GList into SCM ls.
+	(gnumeric_scm2list): Translates SCM ls into GList
+	(value_to_scm): Moved here from plugin.c
+	(scm_to_value): Ditto.
+	(expr_to_scm): Ditto.
+	(list_to_scm): Ditto. 
+	(cell_ref_to_scm): Ditto.
+	(scm_to_cell_ref): Ditto.
+	* guile-support.h (gnumeric_list2scm): Add prototype.
+	(gnumeric_scm2list, value_to_scm, scm_to_value, expr_to_scm,
+	list_to_scm, cell_ref_to_scm, scm_to_cell_ref): Ditto
+	* plugin.c: Removed functions. Include guile-support.h
+	* Makefile.am: Add guile-support.c
+
+2000-10-27  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (list_to_scm): Removed
+
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.57
+
+2000-09-25  Ariel Rios <ariel@arcavia.com>
+
+	* functions.scm: Create the ggtest formula. Handle with care.
+        Shows possible use of guile-gtk inside gnumeric. It is commented.        
+
+2000-09-09  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.c (scm_cell_expr):
+	s/cell->u.expression/cell->base.expression/
+
+2000-07-06  Michael Meeks  <michael@helixcode.com>
+
+	* plugin.c (scm_register_function): kill g_strdup leak.
+
+2000-06-29  Michael Meeks  <michael@helixcode.com>
+
+	* plugin.c (expr_to_scm): use func->name not func->symbol.
+
+2000-06-28  Jody Goldberg <jgoldberg@home.com>
+
+	* plugin.c : Remove include for symbol.h
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.56
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.55
+
+2000-06-07  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c: Removal of unused code. Found some nasty problems
+	that need to be addresed urgently in ranges and arrays.
+
+	* doc/guile-gnumeric.txt: Updated.
+
+2000-05-26  Jody Goldberg <jgoldberg@home.com>
+
+	* plugin.c (init_plugin) : rename
+	  gnumeric_error_plugin_problem -> gnumeric_error_plugin.
+
+2000-05-20  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.54
+
+2000-05-16  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (value_to_scm): VALUE_ARRAY now correctly returns the reversed list.
+	VALUE_EMPTY returns the empty list.
+
+2000-05-09  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.53
+
+2000-05-01  Jody Goldberg <jgoldberg@home.com>
+
+	* plugin.c (expr_to_scm) : OPER_PERCENT is a percentage not a modulo.
+
+2000-04-29  Michael Meeks  <michael@helixcode.com>
+
+	* Makefile.am (gnumeric_guiledir): fix so it builds.
+
+2000-04-26  Jody Goldberg <jgoldberg@home.com>
+
+	* plugin.c (init_plugin) : Use gnumeric_sys_data_dir.
+
+2000-04-21  Jody Goldberg <jgoldberg@home.com>
+
+	* plugin.c (scm_to_value) : Use value_new_{cellrange,string}.
+
+2000-04-05  Jody Goldberg <jgoldberg@home.com>
+
+	* plugin.c (func_scm_apply) : Use eval_expr_empty, and
+	  eval_expr_nonempty..
+
+2000-03-29  Jody Goldberg <jgoldberg@home.com>
+
+	* plugin.c (init_plugin) : Add check to ensure that gnumeric was
+	  compiled with guile support so that stale plugins do not crash.
+
+2000-03-08  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (init_plugin): Corrected the number of arguments
+        in the registration of register-function.
+
+2000-03-06  Ariel Rios  <ariel@arcavia.com>
+
+	* functions.scm: All the functions now use the scm_category argument.
+
+	* plugin.c (scm_register_function): Added the scm_category argument. From now on the user we'll be able to 
+	give the category his formula want's to be added upon.
+
+2000-02-10  Michael Meeks  <michael@helixcode.com>
+
+	* plugin.c: include cell.h
+
+2000-01-30  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+
+	* plugin.c (scm_register_function): Use set_user_data & not
+	the funclist. (fndef_compare): kill.
+	(func_marshal_func): user user_data instead of func_list;
+	constant time operation.
+
+2000-01-28  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+
+	* plugin.c: Kill nasty absolute references on includes.
+	(func_scm_apply): use ei->pos not ei for eval_expr.
+	(func_marshal_func): kill warning.
+
+2000-01-18  Jody Goldberg <jgoldberg@home.com>
+
+	* plugin.c (expr_to_scm) : Add OPER_UNARY_PLUS.
+
+2000-01-14 Jon K Hellan  <hellan@acm.org>
+
+	* plugin.c (func_scm_apply): Fix typo
+	* gnumeric_startup.scm (home-gnumericrc): Fix typo
+
+2000-01-12  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (scm_to_value): We are now able to handle scheme booleans.
+	(expr_to_scm): The warnings related to OPER_NAME and OPER_ARRAY were
+	eliminated.
+
+2000-01-06  Ariel Rios <ariel@arcavia.com>
+
+	* plugin.c (scm_to_value). Removed bug brought by SCM_NULLP.
+
+2000-01-06  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (scm_to_value) Replaced use of SCM_NIMP with SCM_NULLP
+
+2000-01-06  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (scm_to_cell_ref): Replaced calls to scm_num2int with gh_scm2int.
+	  (scm_num2int) Removed.
+
+2000-01-05  Ariel Rios  <ariel@arcavia.com>
+
+	* plugin.c (value_to_scm): Correctly handle the VALUE_BOOLEAN case.
+
+2000-01-05  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am : Install into the versioned directory.
+
+2000-01-02  Michael Meeks  <mmeeks@gnu.org>
+
+	* plugin.c (expr_to_scm): Fix using wrong member of expr.
+
+1999-12-30  Ariel Rios  <jarios@usa.net>
+
+	* plugin.c (init_plugin): Removed registration of func_scm_eval.
+	  (func_scm_eval): Removed. This function was not really used 
+	  or needed so I chose to remove possible security hazard.
+
+1999-12-29  Ariel Rios  <jarios@usa.net>
+
+	* gnumeric_startup.scm (home-gnumericrc): We change the location of the home
+	  gnumericrc to $HOME/.gnumerc/guile.scm
+
+1999-12-18  Ariel Rios <jarios@usa.net>
+
+	* functions.scm: THe formula redefinitions for sign, lcm and gcd were commented.
+	  It is almost useless to redefine them on Scheme since C version are faster.
+	  However, for example purposes I leave them commented.
+	  
+
+1999-12-18  Ariel Rios <jarios@usa.net>
+
+	* galway_startup.scm: We no longer display Guile initialization messages.
+
+1999-12-10  Ariel Rios <jarios@usa.net>
+
+	* plugin.c: (value_to_scm) We now handle the VALUE_ARRAY case passing the value
+	  as a scheme list by consing the elements of the list.
+
+1999-12-10  Michael Meeks  <mmeeks@gnu.org>
+
+	* Makefile.am: Fixup guile install.
+
+1999-12-10  Ariel Rios <jarios@usa.net>
+
+	* plugin.c: (expr_to_scm) The OPER_PERCENT case was included.
+
+1999-12-09  Ariel Rios <jarios@usa.net>
+
+	* plugin.c: We now include guile/gh.h so we can transform from doubles to scm numbers.
+	  (value_to_scm): In VALUE_INTEGER we now use gh_double2scm to pass the double unto
+	  scheme. In this way we remove the bug that crashed gnumeric when we passed a rational number.
+
+	* functions.scm: (test) A test function was added. Since it's only created for hacking purposes
+	  'tis commented.
+
+1999-12-08  Ariel Rios <jarios@usa.net>
+
+	* plugin.c: (func_marshal_func) We now use func_def_count_arg to get the count 
+          number. Count variable was replaced with min and max int vars. 
+          (scm_to_value): The float cast when returning a number was replaced
+          with a float_t cast as per Michael's recomendation.
+
+1999-12-07  Ariel Rios <jarios@usa.net>
+
+	* functions.scm: The function fibonacci was corrected so it can always return numbers.
+
+	* plugin.c: (scm_to_value) : Whenever VALUE type is a number we return a float.
+	  This removes some gnumeric crashes due to the fact that scm int may be in some
+	  cases bigger than C integers.
+
+1999-12-05  Ariel Rios <jarios@usa.net>
+
+	* Makefile.am: Modified to include functions.scm
+
+	* gnumeric_startup.scm: We now load the scheme
+          functions from the new file functions.scm
+
+	* functions.scm: The guile functions and their 
+          registration are now located in this file.
+          (=FIBO(num)): Added fibonacci formula.
+
+1999-11-28  Jody Goldberg <jgoldberg@home.com>
+
+	* plugin.c (value_to_scm) : Fill in the missing enums.
+	(scm_cell_value) : Use global eval_pos EvaluationPosition set on
+	  a per function call basis rather than some cheesy global workbook
+	  variable.
+	(scm_cell_expr) : Ditto.
+	(scm_set_cell_string) : Ditto.
+	(scm_gnumeric_funcall) : Ditto.
+	(func_marshal_func) : Create an implicit stack of eval_pos.
+	(init_plugin) : Init the eval_pos kludge.

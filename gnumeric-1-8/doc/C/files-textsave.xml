@@ -1,0 +1,458 @@
+<sect1 id="sect-file-textExport">
+  <title>Exporting Text Files</title>
+
+<!-- TODO: Rewrite this sucker! Use the new screenshots. -->
+
+  <para>
+    &gnum; can export worksheets to text files using some kind of data
+    structuring mechanism. Creating a text file requires, first, using
+    the <interface>Save As</interface> dialog to name the file,
+    select a folder in which to save it, and choose the file format
+    "Text export (configurable)", then, using the <interface>Text
+    Export</interface> druid to configure the characteristics of the
+    file structure. 
+  </para>
+
+  <para>
+
+
+
+files or file fragments that consist entirely of
+    text. Text files provide a basic, common format enabling programs
+    to share data.
+  </para>
+
+  <para>
+    The <interface>Text Export</interface> Druid consists of two
+    panels. 
+
+    The first panel...
+
+    The second panel
+
+  </para>
+
+
+  <tip>
+    <title>The steps involved in the text export druid.</title>
+
+    <para></para>
+<!-- TODO: render hack- remove this spacing hack  -->
+
+    <orderedlist>
+      <listitem>
+        <para>
+	  Launch the  <interface>Text export</interface> druid using,
+	  in the <guimenu>File</guimenu>, the
+	  <guimenuitem>Save As</guimenuitem> and selecting the "Text export
+	  (configurable)" file format type.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Select the worksheets to include in the exported file.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Configure the order of the worksheets for the exported file.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Go to the second panel.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Select the line termination character.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Select the value separating character or character sequence
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Select when values should be surrounded by a text indicating character.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Select the character or sequence to use to indicate a text field.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Configure the character encoding to use for the file.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Select how to handle unknown characters.
+	</para>
+      </listitem>
+       <listitem>
+        <para>
+	  Select whether to preserve the format of the cell contents.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Click on the <guibutton>Finish</guibutton> button to export
+	  the file.
+	</para>
+      </listitem>
+    </orderedlist>
+
+  </tip>
+
+
+  <sect2 id="note-file-textExport-druid">
+    <title>
+      The Components of the <interface>Text Export</interface> Druid
+    </title>
+
+    <para>
+      The <interface>Text Export</interface> druid consists of two
+      panels. The first panel allows the user to select the worksheets
+      included in the export and their order. The second panel allows
+      the user to configure the structuring elements, the line
+      delimiting characters, value separating characters, text indicating
+      characters, and file encoding. 
+    </para>
+
+    <sect3 id="sect-file-textExport-druid-panel1">
+      <title>
+        The first panel of the <interface>Text Export</interface> Druid.
+      </title>
+
+      <para>
+        The first panel of the <interface>Text Export</interface>
+        Druid allows users to set the file encoding, to determine the
+        character sequences used to separate lines, configure the type
+        of structuring being used and select the lines of the file to
+        import.
+      </para>
+
+      <figure id="fig-file-textExport-druid-panel1">
+        <title>
+	  The first panel of the <interface>Text Import</interface>
+	  druid with the component areas labeled with callouts.
+	</title>
+	<screenshot>
+          <mediaobject> 
+	    <imageobject> 
+	      <imagedata fileref="figures/textguru-export-panel1-withTags.png"
+	                 format="PNG" />
+	    </imageobject>
+	    <textobject>
+	      <para> 
+	        This screenshot depicts the first panel 'Text Export'
+	        druid with callouts labeling the different areas.
+	      </para>
+	    </textobject>
+	    <caption>
+              <para>
+	        The different components of the first panel of the
+	        <interface>Text Export</interface> druid with each component
+	        labeled with a callout.
+              </para>
+	    </caption>
+	  </mediaobject>
+	</screenshot>
+      </figure>
+
+      <para>
+        The purpose of each labeled component in <xref
+        linkend="fig-file-textExport-druid-panel1" /> is
+        explained below:
+
+	<variablelist>
+	  <title>The components of the first panel</title>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">1</emphasis> - The worksheet
+	      selection area.
+	    </term>
+	    <listitem>
+	      <para>
+	        This area allows the user to select the worksheets to
+	      be included in the file. By default, only the top most
+	      sheet will have its checkbox checked and be included in
+	      the export. The user can add sheets by clicking in their
+	      checkboxes to set the check marks.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">2</emphasis> - The worksheet
+	      selection and ordering buttons.
+	    </term>
+	    <listitem>
+	      <para>
+	        The top two buttons allows the user quickly to select
+	        or unselect all the worksheets to be included in the
+	        export file. The bottom two buttons allow the user to
+	        change the order of the worksheets in the file to be
+	        exported.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+ 	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">3</emphasis> - The button area.
+	    </term>
+	    <listitem>
+	      <para>
+	        These three buttons allow the user to navigate the
+	        druid. 
+<!-- TODO: bug- text export needs a help button. -->
+<!--
+                The <guibutton>Help</guibutton> button should
+	        open the &gnum; manual to this section.
+-->
+                 The <guibutton>Cancel</guibutton> button will dismiss
+	        the dialog and return the user to the worksheet. The
+	        <guibutton>Back</guibutton> button is disable since
+	        this is the first panel of the druid. The
+	        <guibutton>Forward</guibutton> button will dismiss the
+	        first panel and bring up the second panel of the druid.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+       </variablelist>
+
+      </para>
+
+    </sect3>
+
+     <sect3 id="sect-file-textExport-druid-panel2">
+      <title>
+        The second panel of the <interface>Text Export</interface> Druid.
+      </title>
+
+      <para>
+        The second panel of the <interface>Text Export</interface>
+        Druid allows users to select the line termination character,
+        configure the value separating character, select the text
+        indicating character and set the character encoding.
+      </para>
+
+      <figure id="fig-file-textExport-druid-panel2">
+        <title>
+	  The second panel of the <interface>Text Import</interface>
+	  druid with the component areas labeled with callouts.
+	</title>
+	<screenshot>
+          <mediaobject> 
+	    <imageobject> 
+	      <imagedata fileref="figures/textguru-export-panel2-withTags.png"	                 format="PNG" />
+	    </imageobject>
+	    <textobject>
+	      <para> 
+	        This screenshot depicts the second panel 'Text Export'
+	        druid with callouts labeling the different areas.
+	      </para>
+	    </textobject>
+	    <caption>
+              <para>
+	        The different components of the second panel of the
+	        <interface>Text Export</interface> druid with each component
+	        labeled with a callout.
+              </para>
+	    </caption>
+	  </mediaobject>
+	</screenshot>
+      </figure>
+
+
+      <para>
+        The purpose of each labeled component in <xref
+        linkend="fig-file-textExport-druid-panel2" /> is
+        explained below:
+
+
+	<variablelist>
+	  <title>The components of the second panel</title>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">1</emphasis> - The export
+	    characteristic menu buttons.
+	    </term>
+	    <listitem>
+	      <para>
+	        These drop down menus provide to set the different
+	        configuration parameters for the exported file. The
+	        various menus are as follows.
+		<itemizedlist>
+		  <listitem>
+		    <para>
+		      Line Delimiting Character-
+		    </para>
+		    <para>
+		      This button allows the user to activate a drop
+	              down list from which to select the character
+	              used to indicate the end of a line and beginning
+	              of the next. The three commonly used
+	              alternatives are provided. See <xref
+	              linkend="sect-file-textImport-complex-lineBreak"
+	              /> for more details.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Value Separating Character-
+		    </para>
+		    <para>
+		      This button allows the user to select a character
+	              to use as a line separator. The "Custom" type
+	              will active the text entry area to allow the
+	              user to determine a particular character or
+	              character sequence to use to delimit data
+	              values. See <xref
+	              linkend="sect-file-textImport-complex-dataStruct"
+	              /> for more details.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Value Separating Character entry area-
+		    </para>
+		    <para>
+		      This entry area allows the user to define
+	              explicitly the character or character sequence
+	              which should be used to separate each value field
+	              on every line. This area is only active if the
+	              "Custom" type has been selected from the list in
+	              the button above.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      The Text Field Delimiter activity setting-
+		    </para>
+<!-- TODO: ask- why does space require quotes in a csv file? -->
+		    <para>
+		      This button activates a list with three choices
+	              for the use of text field delimiters. Text
+	              fields can be delimited only where needed,
+	              meaning that the quote characters will only be
+	              used if the value contains the character used as
+	              a separator or a space. Alternatively the text
+	              field separators can be used around all values
+	              or never applied. See <xref
+	              linkend="sect-file-textImport-complex-dataStruct"
+	              /> for more details.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      The Text Field Delimiter character entry area and list-
+		    </para>
+		    <para>
+		      This area can be used as a text entry area to
+	              type the character to use to delimit text
+	              fields. Alternatively, three pre-selected
+	              characters, double quotes or single quotes, can
+	              be selected from the drop down list which
+	              appears by clicking on the downward pointing
+	              arrow to the right of the text field.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      File encoding selection button-
+		    </para>
+		    <para>
+		      This button allows the user to set the encoding
+	              scheme to use for the file.  By default, &gnum;
+	              selects the encoding scheme used by the locale
+	              of the user.  See <xref
+	              linkend="sect-file-textImport-complex-encoding"
+	              /> for more details.
+		    </para>
+		  </listitem>
+<!-- TODO: ask- how is this supposed to work? -->
+		  <listitem>
+		    <para>
+		      The unknown character handling setting button-
+		    </para>
+		    <para>
+		      This button selects whether to escape or
+	              transliterate characters which &gnum; does not
+	              recognize.
+		    </para>
+		  </listitem>
+<!-- TODO: ask- is this really what this does? -->
+		  <listitem>
+		    <para>
+		      The format preservation checkbox-
+		    </para>
+		    <para>
+		      This checkbox sets whether to preserve the
+	              number formats for formatted values.
+		    </para>
+		  </listitem>
+		</itemizedlist>.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">2</emphasis> - The button area.
+	    </term>
+	    <listitem>
+	      <para>
+	        These three buttons allow the user to navigate the
+	        druid. 
+<!-- TODO: bug- text export needs a help button. -->
+<!--
+                The <guibutton>Help</guibutton> button should
+	        open the &gnum; manual to this section.
+-->
+                The <guibutton>Cancel</guibutton> button will dismiss
+	        the dialog and return the user to the worksheet. The
+	        <guibutton>Back</guibutton> button is disable since
+	        this is the first panel of the druid. The
+	        <guibutton>Finish</guibutton> button will dismiss the
+	        druid and cause the file to be saved using the
+	        selected options.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+
+
+        </variablelist>
+
+      </para>
+
+    </sect3>
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</sect1>

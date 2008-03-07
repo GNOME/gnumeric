@@ -1,0 +1,724 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-27  Morten Welinder  <terra@gnome.org>
+
+	* check-gfrees: Check g_list_free, g_slist_free,
+	go_list_free_custom, and go_slist_free_custom in addition to
+	g_free.
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-11-11  Morten Welinder  <terra@gnome.org>
+
+	* grand-rename: Figure out the replacement text automatically.
+	
+2006-11-02  Morten Welinder  <terra@gnome.org>
+
+	* check-gfrees: New checker.
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-07-06  Jody Goldberg <jody@gnome.org>
+
+	* import-GLPK : update for glpk-4.9 and move to shared lib to link
+	  with libspreadsheet.
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2006-04-16  Morten Welinder  <terra@gnome.org>
+
+	* check-cvs-binary: Skip files in non-CVS directories.
+
+2005-12-19  Morten Welinder  <terra@gnome.org>
+
+	* import-lpsolve: Replace ftime call with g_get_current_time call.
+	Fixes #324358.
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-24  Morten Welinder  <terra@gnome.org>
+
+	* make-func-www: Update for changes underneath us.
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-25  Morten Welinder <terra@gnome.org>
+
+	* import-lpsolve: Delete more unused stuff.  Fix calloc calls.
+	Add <time.h>
+
+2005-08-24  Morten Welinder <terra@gnome.org>
+
+	* import-lpsolve: Make just about everything static and delete a
+	bunch of unused functions.
+
+2005-08-23  Morten Welinder <terra@gnome.org>
+
+	* import-lpsolve: New program.
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-30  Morten Welinder  <terra@gnome.org>
+
+	* news-to-html: Make this usable for libgsf and goffice too.
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-27  Morten Welinder  <terra@gnome.org>
+
+	* import-R: Mark more constants with GNM_const.  Use
+	gnm_fake_floor where appropritate.
+
+2005-05-26  Morten Welinder  <terra@gnome.org>
+
+	* import-R: Do not import qpois.
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-04-16  Ivan, Wong Yat Cheung  <email@ivanwong.info>
+
+	* tools/gconf-schemas-to-win32-reg.c: Moved here from src/tools/.
+	Add a new parameter that controls whether the converter should
+	output .hkcu.reg style or .reg style. And Jody told me that what
+	I want is g_printerr but not g_error.
+	* tools/Makefile.am: Add it.
+
+2005-04-09  Morten Welinder  <terra@gnome.org>
+
+	* import-R: Do not import qf.c anymore.  Again take phyper and
+	pcauchy from R since they included our fixes.
+
+2005-03-22  Stepan Kasal  <kasal@ucw.cz>
+
+	* import-foocanvas: Remove, it's now in goffice.
+
+2005-03-21  Morten Welinder  <terra@gnome.org>
+
+	* import-R: Import a handful of small functions more for the sake
+	of fn-r.
+
+2005-03-16  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* fixup-old-files: unzip rather than zip before converting.
+
+2005-02-10  Morten Welinder  <terra@gnome.org>
+
+	* import-R (import_file): Adapt to grand renaming.
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-14  Morten Welinder  <terra@gnome.org>
+
+	* import-R (import_file): Handle fraction of doubles.  Handle
+	#undef.
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-11-02  Morten Welinder  <terra@gnome.org>
+
+	* news-to-html (add_to_item): Handle multiple bug numbers on the
+	same line.
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-22  Morten Welinder  <terra@gnome.org>
+
+	* import-R (import_file): Make constant arrays static.
+	ceil->ceilgnum.
+
+2004-10-21  Morten Welinder  <terra@gnome.org>
+
+	* import-R (import_file): Update to R v2.  Fix "trunc".
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-29  Morten Welinder  <terra@gnome.org>
+
+	* import-egg (copy_subsystem): Update.
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-08-12  Morten Welinder  <terra@gnome.org>
+
+	* news-to-html (add_to_item): Fix link per Jon Kaare.
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-05-11  Morten Welinder  <terra@gnome.org>
+
+	* import-R (import_file): Eliminate gamma_cody macro.
+
+2004-04-15  Morten Welinder  <terra@gnome.org>
+
+	* import-R: Do not import phyper.
+
+2004-04-12  Morten Welinder  <terra@gnome.org>
+
+	* import-R (import_file): Improve precision of a pbeta calls in
+	pbinom and pt.
+
+2004-04-12  Morten Welinder  <terra@gnome.org>
+
+	* import-R: Do not import pf.
+
+2004-04-09  Morten Welinder  <terra@gnome.org>
+
+	* import-R: Do not import pcauchy.
+
+2004-04-06  Morten Welinder  <terra@gnome.org>
+
+	* import-R: Import dt; do not import pbeta.
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2004-03-23  Morten Welinder  <terra@gnome.org>
+
+	* import-R (import_file): Improve pgeom accuracy; problem spotted
+	by Ian Smith.
+
+2004-02-23  Morten Welinder  <terra@gnome.org>
+
+	* check-finalizers (pass1): Improve type definition detection.
+
+2004-02-19  Morten Welinder  <terra@gnome.org>
+
+	* check-finalizers: New toy.
+
+2004-01-22  Morten Welinder  <terra@gnome.org>
+
+	* import-bonobo: New file.
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-12-11  Morten Welinder  <terra@gnome.org>
+
+	* import-pcre: Remove old bug fixes not needed with newer PCREs.
+	Handle new EXPORT silliness.
+
+2003-12-10  Morten Welinder  <terra@gnome.org>
+
+	* import-GLPK (update_file): Overhaul to look like the others and
+	to handle source directory correctly.  Fix some "insist" calls.
+
+2003-11-30  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* import-GLPK: Update for GLPK 4.2
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-24  Morten Welinder  <terra@gnome.org>
+
+	* import-pcre: Up POSIX_MALLOC_THRESHOLD since we have lots of
+	()s.
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-06-14  Jon K Hellan  <hellan@acm.org>
+
+	* import-gal: Don't import files which are changed in gnumeric tree
+
+2003-06-13  Morten Welinder  <terra@gnome.org>
+
+	* import-gal: Include fix for widget-color-combo.h.
+
+2003-06-10  Morten Welinder  <terra@gnome.org>
+
+	* import-gal: Switch to foocanvas.
+
+2003-06-10  Morten Welinder  <terra@gnome.org>
+
+	* import-gal: Make default_color argument of color_combo_new const
+	and drop requirement that it stay around.
+	Make color combo multihead safe.
+
+2003-06-10  Morten Welinder  <terra@gnome.org>
+
+	* import-gal: Make pixmap combo multihead safe.
+
+2003-06-09  Morten Welinder  <terra@gnome.org>
+
+	* import-gal: New file.
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-06-06  Morten Welinder  <terra@gnome.org>
+
+	* check-glade-visible: Update to glade-2 standards.  Fix problems
+	reported.
+
+2003-05-19  Morten Welinder  <terra@gnome.org>
+
+	* import-pcre: Warning killer.
+
+	* fixup-deprecated: Handle even more objectified stuff.
+
+2003-05-18  Morten Welinder  <terra@gnome.org>
+
+	* fixup-deprecated: New script.
+
+	* import-foocanvas: undef GTK_DISABLE_DEPRECATED.
+
+2003-05-14  Morten Welinder  <terra@gnome.org>
+
+	* import-R (import_file): Eliminate ML_POSINF and ML_NEGINF.
+
+2003-05-13  Morten Welinder  <terra@gnome.org>
+
+	* import-R: Import qnbinom.c also.
+
+2003-05-12  Morten Welinder  <terra@gnome.org>
+
+	* import-pcre: Fix a bunch of ABRs on the fly.  (Reported upstream
+	also.)
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-05-09  Morten Welinder  <terra@gnome.org>
+
+	* import-pcre: New file.
+
+2003-05-05  Morten Welinder  <terra@gnome.org>
+
+	* import-R: Import dbeta.c.  Do not import qbeta.c.
+
+2003-05-01  Morten Welinder  <terra@gnome.org>
+
+	* import-R (import_file): Patch qbeta to work around a hang.
+	(This is a kludge.)
+
+	* import-R (import_file): Optimize lbeta slightly (given our
+	stupid gammafn).
+
+	* import-R (import_file): Patch an R bug.
+
+2003-03-05  Morten Welinder  <terra@diku.dk>
+
+	* check-null-false-returns: New program.
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-18  Morten Welinder  <terra@diku.dk>
+
+	* import-foocanvas (copy_subsystem): Add a noinst_HEADERS.
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-30  Morten Welinder  <terra@diku.dk>
+
+	* tools/import-R: Don't use R's qgamma.
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-10-25  Morten Welinder  <terra@diku.dk>
+
+	* import-R (import_file): Add a special patch to qgamma to improve
+	precision.
+
+2002-10-24  Morten Welinder  <terra@diku.dk>
+
+	* import-R (import_file): Take care of lgamma variants.
+	Improve precision of constant quotients.
+
+2002-10-14  Morten Welinder  <terra@diku.dk>
+
+	* import-R (import_file): Don't create floor calls, but floorgnum
+	calls!
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-09-03  Morten Welinder  <terra@diku.dk>
+
+	* import-egg (copy_subsystem): Skip continuation lines for test
+	programs also.
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-20  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* import-GLPK: Fixed a replace assingment.
+
+2002-08-19  Morten Welinder  <terra@diku.dk>
+
+	* import-GLPK: Constify a few routines.
+
+2002-08-14  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* import-GLPK: Removed four unnecessary header files.
+
+2002-08-13  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* import-GLPK: Use ~s/.../.../g instead of while loops.
+
+2002-08-13  Morten Welinder  <terra@diku.dk>
+
+	* import-GLPK: Fix also floor, ceil, and fabs calls.
+
+2002-08-13  Morten Welinder  <terra@diku.dk>
+
+	* import-GLPK: Silence perl warnings.  Add #! line for Emacs'
+	sake.  Add gnumeric-config.h as header.  Allow white-space in a
+	lot of pattern matches.
+
+2002-08-13  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* import-GLPK: A footprint optimization: cut glpmat1.c and glplp.c
+	while importing.
+
+	* import-GLPK: Makefile.am generation improvements.
+
+2002-08-13  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* import-GLPK: Added. Will be used in importing GLPK.
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-07-26  Morten Welinder  <terra@diku.dk>
+
+	* import-R: Add dcauchy, pcauchy, phyper, and pnbinom.
+	(import_file): gnum_float-handle tan and expm1.
+
+2002-07-25  Morten Welinder  <terra@diku.dk>
+
+	* import-R: Import also dgeom and pgeom.
+	(import_file): Optimise "log(1-x)".  (Filed as R bug.)
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-07-09  Morten Welinder  <terra@diku.dk>
+
+	* import-R (import_file): Import qpois.c also.
+
+2002-06-21  Morten Welinder  <terra@diku.dk>
+
+	* import-R: Import also dnbinom.c and dhyper.c
+
+2002-06-20  Morten Welinder  <terra@diku.dk>
+
+	* check-config-h.pl (guess_config_file): New function.
+
+2002-06-19  Morten Welinder  <terra@diku.dk>
+
+	* import-R (import_file): Remove some old hacks that are no longer
+	needed.
+
+	* import-R: Import also pexp.c and pweibull.c.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.3
+
+2002-03-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.2
+
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
+2002-03-05  Morten Welinder  <terra@diku.dk>
+
+	* import-R (import_file): Translate named constants too.
+	Eliminate various function synonyms.
+
+2002-02-27  Morten Welinder  <terra@diku.dk>
+
+	* import-R (import_file): Work a little harder on recognising "log"
+ 	as a function name.  Optimize a exp(y)-1 case.
+
+2002-02-26  Morten Welinder  <terra@diku.dk>
+
+	* import-R (import_file): New tool.
+
+2002-02-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.0
+
+2002-01-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.3
+
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.2
+
+2002-01-07  Morten Welinder  <terra@diku.dk>
+
+	* check-trailing-commas: New tool.
+
+	* check-config-h.pl: Fix after s/config/gnumeric-config/ change.
+	Also skip intl directory.
+
+2002-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.1
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.0
+
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.1
+
+2001-12-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.0
+
+2001-12-04  Morten Welinder  <terra@diku.dk>
+
+	* fixup-plugin-xml: New utility.
+
+2001-11-05  Jody Goldberg <jgoldberg@home,com>
+
+	* Release 0.75
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.74
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.73
+
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
+2001-08-11  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.69
+
+2001-06-28  Jody Goldberg <jgoldberg@home>
+
+	* Release 0.67
+
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.65
+
+2001-05-04  Morten Welinder  <terra@diku.dk>
+
+	* check-glade-visible: New tool.
+
+2001-03-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.64
+
+2001-01-31  Morten Welinder  <terra@diku.dk>
+
+	* check-header-guards: Certain file names are exceptions no matter
+ 	what directory they are in.
+
+2001-01-03  Morten Welinder <terra@diku.dk>
+
+	* check-header-guards: New tool.
+
+2001-01-02  Morten Welinder <terra@diku.dk>
+
+	* check-cvs-binary: New tool for checking cvs keyword substitution
+ 	mode.
+
+	* check-config-h.pl: Exit non-zero if any bad files were found.
+
+2000-12-19  Morten Welinder <terra@diku.dk>
+
+	* check-config-h.pl: Find only regular files.  Handle chomping
+ 	correctly.  Print error reason on failure.  Ever so slightly
+ 	improve style-keeping when editing.  Localise files to ensure they
+ 	are closed.
+
+2000-12-19  Morten Welinder <terra@diku.dk>
+
+	* check-config-h.pl: new script, stolen from Nautilus.
+
+2000-12-18  Morten Welinder <terra@diku.dk>
+
+	* release-do-CLog: handle file names with spaces, just in case.
+
+2000-12-18  Morten Welinder <terra@diku.dk>
+
+	* release-do-CLog: New script.

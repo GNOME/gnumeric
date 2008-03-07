@@ -1,0 +1,894 @@
+2003-07-05  Jody Goldberg <jody@gnome.org>
+
+	* func.defs : regenerate
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-04-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* simulation.xml: Documented the risk simulation tool.
+
+2003-04-16  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* scenarios.xml: Docs for the scenario tool.
+
+2003-04-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* fill-series.xml: Docs for the fill series tool.
+
+2003-04-02  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* shuffling.xml: Docs for the shuffling tool.
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-18  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* keybinding-appendix.xml: Consistently use `Ctrl' for Control, not
+	`Ctl'.
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* Makefile.am: added keybinding-appendix.xml .
+	* keybinding-appendix.xml: changed id to "keybindings" as "keybinding"
+	  was already used by gnumeric.xml .
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-11-01  Kevin Breit  <mrproper@ximian.com>
+
+	* gnumeric.xml: Fixed what things linked to.
+
+	* keybinding-appendix.xml: Added to CVS.  This lists the keystrokes which aren't listed in the menus.
+
+	* gnumeric.xml: Added a keybinding file.
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-09-27  J.H.M. Dassen (Ray) <jdassen@debian.org>
+ 
+ 	* gnumeric-C.omf: Corrected subject category so the docs show up in
+ 	yelp's help contents. 
+ 
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-08-26  Jon K Hellan  <hellan@acm.org>
+
+	* gnumeric-C.omf: Update format dtd and identifier url to match
+	xml version of docs.
+
+	* Makefile.am (entities): Comment out introduction.xml
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-07-31  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* simulation.xml: Initial version.
+
+2002-07-29  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* analysis-tools.xml: Added info regarding std.errors in the
+	exponential smoothing tool.
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-07-11  Jody Goldberg <jody@gnome.org>
+
+	* cell_refer.xml : fix example to match the strings we generate.
+
+2002-07-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.xml, figures/solver-0[2-4]: Major update.
+
+2002-06-03  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : finally clean up the EXTRA_DIST situation.
+
+2002-06-01  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=81456
+	* gnumeric-C.omf : apply the updated file
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-05-16  Alexander Kirillov  <kirillov@math.sunysb.edu>
+
+	* printing.xml: added more info about about selecting columns/rows to
+	repeat in print setup dialog (see bug 59498) 
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.3
+
+2002-03-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.2
+
+2002-03-15  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* doc/C/solver.xml: Added sections for Solver's reports.
+
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
+2002-03-06  Kevin Breit  <mrproper@ximian.com>
+
+	* doc/C/Makefile.am: Tell it to use xmldocs.make to build the documentation.  Let's hope this works!
+
+2002-03-03  Kevin Breit  <mrproper@ximian.com>
+
+	* doc/C/*sgml: Removed from this branch.
+
+	* doc/C/*xml: Added to this branch.  This is Gnome 2.0 docs.
+
+	* doc/C/new/*xml: Removed, as it belongs in doc/C/
+
+2002-02-23  Kevin Breit  <mrproper@ximian.com>
+
+	* new/analysis-tools.xml: Updated the introduction.  This was some changes that were in the SGML version but not the XML version.
+
+2002-02-18  Kevin Breit  <mrproper@ximian.com>
+
+	* new/solver.xml: Made changes by C. Scott Ananian
+
+	* number-format.sgml: Made changes by C. Scott Ananian
+
+	* new/editing.xml: Made changes by C. Scott Ananian
+
+2002-02-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.0
+
+2002-01-27  Kevin Breit  <mrproper@ximian.com>
+
+	* new/menus.xml: Fixed a linkend problem
+
+	* new/files.xml (h): Fixed some linkend problems.
+
+	* new/functions.xml: This appears to already be XMLized.  No changes needed.
+
+	* new/autosave.xml: Made XMLized.  I had to make id=autosave be id=usage-autosave because autosave appears to already exist.  I will fix this at a later date.
+
+	* new/gnumeric.xml: Enabled autosave.xml
+	Enabled functions.xml
+
+	* new/autofill.xml: This is good to go!  XMLized content, away
+
+	* new/number-format.xml: I fixed this.  This was kind of ugly.  I made it work nicely now!
+
+	* new/gnumeric.xml: Added autofill
+
+2002-01-26  Kevin Breit  <mrproper@ximian.com>
+
+	* formulas.sgml: Added, made XML compatible
+
+	* new/editing.xml: XMLized and added to CVS
+
+	* new/gnumeric.xml: Enabled the editing section
+	Enabled formulas
+
+	* new/worksheet.xml: This file builds properly now
+
+2002-01-25  Kevin Breit  <mrproper@ximian.com>
+
+	* new/gnumeric.xml: Made worksheet and toolbars be enabled
+
+	* new/worksheet.xml: XMLized and added
+
+	* new/toolbars.xml: XMLized and added
+
+2002-01-24  Kevin Breit  <mrproper@ximian.com>
+
+	* new/gui-elements.xml: Added file, not yet XMLized
+	This is now XML
+
+	* new/preface.xml: XMLized and added this file
+
+	* new/printing.xml: XMLized this document
+
+2002-01-23  Kevin Breit  <mrproper@ximian.com>
+
+	* new/menus.xml: Made build.  It is now fully XMLized.  The indenting is kind of obnoxious, but we'll deal with that later.
+
+	* new/analysis-tools.xml: Made build.  Finally.  This was an ongoing issue
+
+2002-01-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.3
+
+2002-01-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : updated intro section (again)
+	* figures/analysistools-tools.png : updated (again)
+	* figures/menu-tools-labelled.png : updated (again)
+
+2002-01-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : updated intro section
+	* figures/analysistools-tools.png : updated
+	* figures/menu-tools-labelled.png : updated
+
+2002-01-18  Kevin Breit  <mrproper@ximian.com>
+
+	* new/files.xml (h): XMLized this file
+
+	* new/copying-moving.xml: Made XMLized
+
+	* new/gnumeric.xml: Added selections.xml, copying-moving.xml, and files.xml, to the build list
+
+	* new/selections.xml: Made XMLized
+
+2002-01-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* Makefile.am: added missing figures
+
+2002-01-17  Alexander Kirillov  <kirillov@math.sunysb.edu>
+
+	* Makefile.am: added missing figures for number format section
+
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.2
+
+2002-01-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : document Fourier Analysis Tool.
+	* doc/C/figures/analysistools-fourier-formula.png : new
+
+2002-01-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : update histogram documentation
+	* figures/analysistools-histogram-ex3.png : new
+	* figures/analysistools-fourier.png : new
+	* figures/analysistools-histogram-bins.png : new
+	* figures/analysistools-histogram-ex1.png : updated
+	* figures/analysistools-histogram.png : updated
+	* figures/analysistools-outputoptions.png : updated
+
+2002-01-11 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* files.sgml : add short listing of formats to text import section
+
+2002-01-10  Alexander Kirillov  <kirillov@math.sunysb.edu>
+
+	* editing.sgml: I changed id of a table in  number-format.sgml but
+	forgot to change <xref> here. Fixing. 
+
+2002-01-09  Alexander Kirillov  <kirillov@math.sunysb.edu>
+
+	* number-format.sgml: complete rewrite
+
+	* figures/number-format-border-dialog.png, 
+	  figures/number-format-protection.png, 
+	  figures/number-format-validation.png, 
+	  figures/number-format-validation-warning.png: new  screenshots
+
+	* figures/number-format-color-dialog.png, 
+	  figures/number-format-font-dialog.png, 
+	  figures/number-format-justification-dialog.png: updated screenshots
+
+
+2002-01-07  Alexander Kirillov  <kirillov@math.sunysb.edu>
+
+	* gnumeric-C.omf: added email addresses
+
+2002-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.1
+
+2002-01-05  Kevin Breit  <mrproper@ximian.com>
+
+	* new/gnumeric.xml: I added a bunch of files to CVS for the XML conversion.  I also made changes to this so stuff would work.
+
+2002-01-04  Kevin Breit  <mrproper@ximian.com>
+
+	* new/gnumeric.xml: Added my name to the author list
+	Redo the introduction paragraph
+
+	* new/appendix-glossary.xml: I'm stupid.  I named this wrong.  Renamed to .xml instead of .sgml.
+
+	* new/gnumeric.xml: Made work with the glossary
+
+	* new/chapter-autofill.xml: Added file and made sure it works in XML.
+
+	* new/gnumeric.xml: Added chapter-autofill.sgml to the list
+
+	* new/appendix-glossary.sgml: Added this file to CVS so that stuff links right
+
+	* new/gnumeric.xml: Added the appendix-glossary.xml file
+
+	* new/preface.xml: Added this file to CVS and put it together.  This should be about all it needs.
+
+2002-01-04  Alexander Kirillov  <kirillov@math.sunysb.edu>
+
+
+	* copying-moving.sgml: major rewrite
+
+2002-01-04  Alexander Kirillov  <kirillov@math.sunysb.edu>
+
+	* preface.sgml, gui-elemnts.sgml, toolbars.sgml, menus.sgml: minor
+	clean-up: 
+	corrected some typos, used correct sgml tags (e.g.,
+	<keycap>Ctrl</keycap> instead of "Ctl", or
+	<application>Gnumeric</application> instead of Gnumeric), fixed
+	capitalization and periods  in titles.  
+
+2002-01-02  Alexander Kirillov  <kirillov@math.sunysb.edu>
+
+	* gnumeric-C.omf: added OMF file. Still missing emails of the
+	authors, but this is not essential. More importantly, still need
+	to change the makefiles
+
+2002-01-01  Jody Goldberg <jody@gnome.org>
+
+	* preface.sgml : minor edits.
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* selections.sgml : correct reference to shift-space and add ctrl-/
+	  and ctrl-arrow
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.0
+
+2001-12-31 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dndselection.sgml : outdated, remove
+	* Makefile.am : remove dndselection.sgml
+
+2001-12-30 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* files.sgml : fix some formatting problems
+
+2001-12-30  Jody Goldberg <jody@gnome.org>
+
+	* preface.sgml : a first pass.  Needs editing and polish.
+
+2001-12-30  Kevin Breit  <mrproper@ximian.com>
+
+	* authors.sgml, formulas.sgml, gnumeric.sgml, license.sgml, menus.sgml: Commited these changes for acuster.
+
+2001-12-30  Kevin Breit  <mrproper@ximian.com>
+
+	* graphs.sgml: Reworded stuff to be actually accurate.
+
+	* gnumeric.sgml: Added my name to the authors list
+
+2001-12-30  Jody Goldberg <jody@gnome.org>
+
+	* authors.sgml : update the authors list.
+	  remaining cleanup after lunch.
+
+2001-12-28 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* files.sgml : add more LaTeX2e documentation
+	* analysis-tools.sgml : fix capitalisation of  Gnumeric
+
+2001-12-29 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* graphs.sgml : small id fix to remove error messages
+
+2001-12-29  Kevin Breit  <mrproper@ximian.com>
+
+	* graphs.sgml: Updated to add more information
+
+2001-12-29 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* files.sgml : add example to troff format
+
+2001-12-29  Kevin Breit  <mrproper@ximian.com>
+
+	* gui-elements.sgml: Removed some links because they 
+	  were breaking the build and I don't know where they link to.
+
+	* graphs.sgml: Added file
+
+2001-12-28  Jody Goldberg <jody@gnome.org>
+
+	* gui-elements.sgml : apply adrian's changes.
+	* menus.sgml : apply adrian's changes.
+	* toolbars.sgml : apply adrian's changes.
+	* worksheet.sgml : apply adrian's changes.
+
+	* Makefile.am : We no longer seem to need to generate the index
+	  ourselves.
+
+2001-12-28  Alexander Kirillov  <kirillov@math.sunysb.edu>
+
+	* gnumeric.sgml: changed license to FDL, added FDL as an appendix
+	* fdl-appendix.sgml: added
+	* authors.sgml: updated, added link to gnome-feedback. 
+
+2001-12-28  Aaron Weber  <aaron@ximian.com>
+
+	* editing.sgml: revised and clarified. polish.
+
+	* formulas.sgml (sgml-local-catalogs): Clarify definitions of
+	formulas, characters that begin formulas. polish/revise.
+
+	* cell_refer.sgml: added an example for cell referencing, tip
+	about when relative references matter.
+ 
+2001-12-28 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* files.sgml : add text import druid docs
+	* figures/files-csv-import-ex2.png : new figure
+	* figures/files-csv-import-ex3.png : new figure
+	* figures/files-csv-import-ex4.png : new figure
+	* figures/files-csv-import-ex5.png : new figure
+
+2001-12-28 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* files.sgml : add text export druid docs
+	* figures/file-formats-import-list.png : updated
+	* figures/files-csv-import-ex1.png : new figure
+	* figures/files-csv-export-ex2.png : new figure
+	* figures/files-csv-export-ex1.pn : new figure
+	* autofill.sgml: remove compile warning
+	* formulas.sgml: typo
+
+2001-12-28  Kevin Breit  <mrproper@ximian.com>
+
+	* autofill.sgml: Increased the amount of info about fill types
+
+	* gnumeric.sgml: Small change in the titles
+
+	* autofill.sgml: Rewrote the entire autofill chapter
+
+2001-12-27 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* files.sgml : add opening/importing
+	* figures/files-formats-list.png : updated
+	* figures/file-formats-import-list.png : new figure
+
+2001-12-27  Kevin Breit  <mrproper@ximian.com>
+
+	* editing.sgml: Got ready for 1.0.
+
+	* formulas.sgml: Got ready for 1.0.  This means basic editing.
+
+	* copying-moving.sgml: Got ready for 1.0.
+
+	* autofill.sgml: Got ready for 1.0.
+
+	* number-format.sgml: Got ready for 1.0.  Added a bit, edited a bit, removed a bit.
+
+2001-12-26 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* files.sgml : add example images
+	* figures/files-xml-example.png : new figure
+	* figures/files-latex-example.png : new figure
+	* figures/files-html32-example.png : new figure
+	* figures/files-html40-example.png : new figure
+	* figures/files-html-example.png : new figure
+	* figures/files-dvi-example.png : new figure
+
+2001-12-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.1
+
+2001-12-25  Jody Goldberg <jody@gnome.org>
+
+	* Commit Adrian's updates.  They need work,
+	  but are an improvement on the existing copy.
+
+2001-12-25 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gnumeric.sgml : add copyright
+
+2001-12-24 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* files.sgml : add list of available file formats
+
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* autocorrect.sgml  : proof read and remove mention of an rule that
+	  has been deleted.
+
+2001-12-23 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* introduction.sgml : split into introduction.sgml and
+	  worksheet.sgml, incorporating some of the old unused,
+	  worksheet.sgml.
+	* gnumeric.sgml : support split
+	* worksheet.sgml : minor updates, still severely out of date
+	* figures/worksheet-info-1.png : updated
+	* figures/worksheet-running-calc-1.png : updated
+
+2001-12-22 Wayne Schuller <k_wayne@linuxpower.org>
+
+	* introduction.sgml : Improve 
+	* printing.sgml : Update and improve
+	* figures/printing-setup-header.png : updated
+	* figures/printing-setup-margins.png : updated
+	* figures/printing-setup-page.png : updated
+	* figures/printing-setup-header-config.png : new figure
+	* figures/printing-setup-sheet.png : new figure
+	* figures/sample_gnumeric.png : new figure
+
+2001-12-22 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Improve and add example to
+	  Random Number Generation Tool
+	* figures/analysistools-random.png : new figure
+	* figures/analysistools-random-ex1.png : new figure
+	* figures/analysistools-random-ex2.png : new figure
+
+2001-12-22 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Improve and add example to
+	  Moving Average and Exponential Smoothing Documentation
+	* figures/analysistools-moving-average.png : new figure
+	* figures/analysistools-moving-average-ex1.png : new figure
+	* figures/analysistools-moving-average-ex2.png : new figure
+	* figures/analysistools-smoothing.png : new figure
+	* figures/analysistools-smoothing-ex1.png : new figure
+	* figures/analysistools-smoothing-ex2.png : new figure
+
+2001-12-22 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Improve and add example to Sampling
+	  Tool and Rank and Percentile Tool Documentation
+	* figures/analysistools-sampling.png : new figure
+	* figures/analysistools-sampling-ex1.png : new figure
+	* figures/analysistools-sampling-ex2.png : new figure
+	* figures/analysistools-rank.png : updated
+	* figures/analysistools-rank-ex1.png : new figure
+	* figures/analysistools-rank-ex2.png : new figure
+
+2001-12-19 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Add example to Single Factor 
+	  ANOVA
+	* figures/analysistools-ANOVA1-ex1.png : new figure
+	* figures/analysistools-ANOVA1-ex2.png : new figure
+
+2001-12-17 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Wrote Regression Tool
+	  descriptions. Quote guilabels and guibuttons
+	  since they don't differ from straight text.
+	* figures/analysistools-regression-ex1.png : new figure
+	* figures/analysistools-regression-ex2.png : new figure
+	* figures/analysistools-regression-ex3.png : new figure
+	* figures/analysistools-regression.png : new figure
+
+2001-12-16 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Wrote t-Tests and z-Test
+	  descriptions
+	* figures/analysistools-histogram-ex1.png : new figure
+	* figures/analysistools-histogram-ex2.png : new figure
+	* figures/analysistools-histogram.png : new figure
+	* figures/analysistools-ttest.png : new figure
+	* figures/analysistools-ttest-paired.png : new figure
+	* figures/analysistools-ttest-unequal.png : new figure
+	* figures/analysistools-ttest-equal.png : new figure
+	* figures/analysistools-ztest.png : new figure
+	* figures/analysistools-ttest-paired-ex1.png : new figure
+	* figures/analysistools-ttest-paired-ex2.png : new figure
+	* figures/analysistools-ztest-ex1.png : new figure
+	* figures/analysistools-ztest-ex2.png : new figure
+	* figures/analysistools-ttest-equal-ex1.png : new figure
+	* figures/analysistools-ttest-equal-ex2.png : new figure
+	* figures/analysistools-ttest-unequal-ex1.png : new figure
+	* figures/analysistools-ttest-unequal-ex2.png : new figure
+
+
+2001-12-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.0
+
+2001-12-15 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Wrote Histogram Tool
+	  descriptions
+	* gnumeric.sgml: Fix capitalization
+	* analysistools-histogram-ex1.png : new figure
+	* analysistools-histogram-ex2.png : new figure
+	* analysistools-histogram.png : new figure
+
+2001-12-13 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Updated F-Test Tool
+	  descriptions
+	* doc/C/images/analysistools-ftest.png : new figure
+	* doc/C/images/analysistools-ftest-ex1.png : new figure
+	* doc/C/images/analysistools-ftest-ex2.png : new figure
+
+2001-12-13  Gregory Leblanc  <gleblanc@linuxweasel.com>
+
+	* analysis-tools.sgml: Fixed missing </para>
+	* autocorrect.sgml: Fixed duplicated ID
+	* gnumeric.sgml: Changed IDs for some chapters to not duplicate
+
+2001-12-12 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Updated Correlation, Covariance
+	  and Descriptive Statistics Tool descriptions
+	* images/analysistools-correlation-ex2.png : updated
+	* images/analysistools-correlation.png : updated
+	* images/analysistools-covariance.png : updated
+	* images/analysistools-descstats.png : updated
+	* images/analysistools-ranges.png : updated
+	* images/analysistools-covariance-ex1.png : new figure
+	* images/analysistools-covariance-ex2.png : new figure
+	* images/analysistools-descstats-ex1.png : new figure
+	* images/analysistools-descstats-ex2.png : new figure
+
+
+2001-12-12 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Some spelling corrections, updated
+	  ANOVA descriptions, corrected figure references
+	* images/analysistools-ANOVA2wo-ex1.png : new figure
+	* images/analysistools-ANOVA2wo-ex2.png : new figure
+	* images/analysistools-ANOVA2w-ex1.png : new figure
+	* images/analysistools-ANOVA2w-ex2.png : new figure
+
+2001-11-19  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.76
+
+2001-11-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* analysis-tools.sgml: Described the exponential smoothing tool.
+
+2001-11-05  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.sgml: Documented the goal seek tool.
+
+2001-11-05  Jody Goldberg <jgoldberg@home,com>
+
+	* Release 0.75
+
+2001-11-01  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* filter.sgml: Added figures.
+
+	* autocorrect.sgml: Added figures.
+
+	* autosave.sgml: Added a figure.
+
+2001-10-31  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* gnumeric.sgml, Makefile.am: Integrated auto correct tool and
+	filter documentation.
+
+2001-10-30  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* filter.sgml: Documented `Advanced Filter'.
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.74
+
+2001-10-29  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* analysis-tools.sgml: Documented `Binomial' and `Negative
+	Binomial' random distributions.
+
+	* autocorrect.sgml: Documented the autocorrect tool.  Now it
+	should be integrated somewhere...?
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.73
+
+2001-10-25  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* analysis-tools.sgml: Extended with moving average description.
+
+2001-10-18  Eric Baudais <baudais@okstate.edu>
+
+	* gnumeric.xml : Validated to DocBook XML.
+	* getting-started : Validated to DocBook XML and added remaining 
+	  sub-sections.
+
+2001-10-18  Eric Baudais <baudais@okstate.edu>
+
+	* gnumeric.xml : Added.
+	* introduction.xml : Added.
+	* getting-started.xml : Added.
+
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.72
+
+2001-10-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* solver.sgml : Added (empty) goal-seek chapter.
+
+2001-10-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Add references for ANOVA, Fourier, and 
+	  histogram tool.
+	* files.sgml : Remove subsection level skip.
+
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
+2001-10-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Small corrections (figure references).
+	* files.sgml : hook up autosave.sgml to make the help button on
+	  the autosave dialog work.
+	* gnumeric.sgml : ditto
+
+2001-10-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Extend manual.
+
+2001-09-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Modify description od descriptive stats tool.
+
+2001-09-17  Morten Welinder  <terra@diku.dk>
+
+	* make-index.pl: Use LF line endings.
+
+	* make-docbook.pl: Ditto.
+	(quote_stuff): Fix case with "&" and "<"/">" on	the same line.
+
+2001-08-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.70
+
+2001-08-11  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.69
+
+2001-07-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.68
+
+2001-06-28  Jody Goldberg <jgoldberg@home>
+
+	* Release 0.67
+
+2001-06-27  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.66
+
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.65
+
+2001-04-04  Morten Welinder  <terra@diku.dk>
+
+	* authors.sgml: refer to bugzilla, not bugs.
+
+2001-03-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.64
+
+2001-02-23  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.63
+
+2001-02-16  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.62
+
+2000-12-21  Jody Goldberg <jgoldberg@home.com>
+
+	* analysis-tools.sgml : Silence some warnings.
+	* solver.sgml : ditto.
+
+2000-12-17 Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.61
+
+2000-12-10  Morten Welinder  <terra@diku.dk>
+
+	* make-docbook.pl: Cleanup, quote "<" and ">".
+
+2000-12-07  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.60
+
+2000-12-01  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am (SGML_FILES) : Add missing copying-moving.sgml
+
+2000-11-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.59
+
+2000-11-13  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.58
+
+2000-11-12  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am : remove the gif files.
+
+2000-11-02  Almer S. Tigelaar  <almer1@dds.nl>
+
+	Fix bug #29305 and #29308
+
+	* files.sgml: images from gif -> png.
+	* worksheet.sgml: ditto.
+	* Makefile.am: Don't copy gif images
+
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.57
+
+2000-09-03  Jody Goldberg <jgoldberg@home.com>
+
+	* .cvsignore : ignore dbtohtml junk
+	* Makefile.am : gnumeric.html -> index.html
+
+2000-08-21  Dan Mueth <d-mueth@uchicago.edu>
+
+        * Merged in changes by Thomas Canty <tommydal@ihug.com.au>
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.56
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.55
+
+2000-05-20  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.54
+
+2000-05-09  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.53
+
+2000-04-01  Jody Goldberg <jgoldberg@home.com>
+
+	* make-docbook.pl : Update the include Example.
+	  Add more safety when missing @DESCRIPTION.
+

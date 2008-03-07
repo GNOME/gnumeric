@@ -1,0 +1,225 @@
+Working in Gnumeric
+-------------------
+
+   When writing Gnumeric our priorities are
+
+	1) Correctness.
+	2) Maintainable & Documented
+	3) Modular and well designed
+	and a distant
+	4) Fast
+
+    When you submit code to me for inclusion in Gnumeric, or when you modify
+the sources directly on the CVS repository, please keep those things in mind.
+While performance is important please note that we do not want to hand tune
+code to shave milliseconds at this point.  Well designed algorithms and data
+strucutures are fertile areas for development, obfuscated code to make a loop
+3% faster is not.  Specifically, this means:
+
+	- Clarity of design and function are paramount
+	- Make sure your code does not generate warnings at all.
+	- Please follow the coding style used Gnumeric.
+
+The Gnumeric coding style.
+--------------------------
+
+   The coding style of Gnumeric is a mix of various styles, make
+yourself familiar with the GNU coding standards (shipped with most
+GNU/Linux systems as the standards.info file), then read the Linux
+kernel coding standards and ignore Linus' jokes.  Then look at the
+Gtk+ header files to get aquainted on how to write nice header files
+that are almost self documenting. 
+
+   Remember: Use 8 space tabs for indentation: that will keep your
+code honest as you will be forced to split your routines in more
+modular chunks (as detailed by Linus). 
+   
+   Emacs users can get the default indentation style with this:
+  (set-c-style "K&R")
+  (setq c-basic-offset 8)
+
+   On top of that, you will have to:
+
+	- Follow the Gtk+ cleanliness conventions for function
+	  prototypes.
+
+	- Follow the Gtk+ namespace convention for function names. 
+	  module_submodule_operation
+
+	- Make sure your code does not have a single warning (with the
+	  default strong warnings that Gnumeric compiles with) before
+	  your code is submited. (Although we do not advocate -Werror)
+
+	- Every entry point to a public routine should use the
+	  g_return_if_fail and g_return_val_if_fail macros to verify
+	  that the parameters passed are valid.
+
+	- Under no circunstances use magic variables.  Use typedef
+	  enum { ... } type; to create enumerations.  Do not use
+	  integers to hold references to enumerations, the compiler
+	  can help catch various errors.
+
+	- Use g_warning to mark spots that need to be reviewed or are
+	  not finished to let me fix it eventually.
+
+	- It is more important to be correct than to be fast.  
+
+	- Do not optimize unnecesarly.  Do profile, do look for the
+	  weak spots before applying "optimization by feeling".  This
+	  is not a Ouija-based project. 
+
+	- It is more important to keep the code maintainable and
+	  readable than to be fast.  If you have a great idea about
+	  optimizing the code, make sure it is implemented cleanly,
+	  that there is a clean and maintainable way to do it:  
+
+        - Fast code that is difficult to maintain has no place in
+	  Gnumeric and will be dropped.
+
+	- Follow the Gnumeric commenting style, which is not the Gtk
+	  style;
+		/* ie. use this for
+		 * multi-line comments
+		 */
+
+	- Gnumeric is intended to be run in various countries with
+	  different currency conventions, number formatting
+	  conventions and different languages.  Use the locale
+	  functions to make sure your code will work on countries that
+	  have different conventions than your country.  
+
+   All of this is to ensure the Gnumeric code will be kept within
+reasonable margins of maintainability for the future: Remember, in two
+years you will probably be far too busy to maintain your own
+contributions, and they might become a burden to the program maintainers.
+
+   Gnumeric is the foundation for a large spreadsheet project and
+various other projects in the GNOME desktop (the document model and
+CORBA service provision).
+
+   Cleaning code in Gnumeric is more important than trying not to break
+existing code.  By all means, code clean ups are always welcome. 
+
+Extra Spreadsheet functions
+---------------------------
+
+   When you write new functions, keep the following in mind:
+
+	- Be compatible with the Excel functions as much as possible.
+
+	- Provide an online help description.  If you can provide
+	  examples of use in the documentation, that is even better.
+
+
+Things that are usually missed
+------------------------------
+
+Make sure that dialogs work well without using the mouse. GnomeDialog
+solves some of this automatically, but by no means all. Some dialogs
+aren't GnomeDialogs at all, and you have to do more work manually.
+
+- Pressing the escape key should dismiss the dialog.  
+
+  GnomeDialog does this. If your dialog does not inherit from
+  GnomeDialog, write a handler like src/file.c:fs_key_event and
+  connect it to "key_press_event". See src/file.c:workbook_save_as for
+  an example.
+
+- Initial keyboard focus should be assigned.
+
+  This means that when the dialog pops up, keystrokes should go to one
+  of the widgets in the dialog, often the top left widget. In glade,
+  you set initial focus by selecting "Has Focus" in the "Basic" panel
+  of the Property Editor. In C, you use gtk_widget_grab_focus (widget).
+
+  In multipage dialogs (druid, notebook, propertybox), you have to set
+  initial focus each time you switch pages. This means that you have
+  to do it from C, even if it's a glade dialog.
+
+  You also have to do it from C in OK/warning/error dialogs.
+
+- There should be a keyboard accelerator for each widget.
+
+  The user can navigate to the widget with Alt + <letter>, where
+  <letter> is an underlined letter in the widget label. It should
+  ideally be the first, but that's often not possible. 
+
+  In glade, you define the accelerator by inserting an "_" in the
+  label. Like this: "_File" makes F the accelerator. To make an
+  accelerator for a text field, insert an "_" in the label, and make
+  the field the "focus target" of the label. This can be done in the
+  widget panel of the property editor.
+
+  It's rather awkward to define accelerators for the "OK", "Cancel",
+  etc. buttons in a GnomeDialog using glade, and so far we have left
+  them alone.
+
+  There's a problem with accelerators in notebooks: You cannot use the
+  same letter in two different pages. This is either a bug in gtk or
+  in glade. For simple dialogs, it's possible to work around the
+  limitation, but for complex cases it is probably best to ignore it
+  and assume that it will eventually be fixed.
+
+- There should be a default button. This is activated when the user
+  presses <Enter>.
+
+  In glade, you achieve this with the "can default" and "has default"
+  properties in the "basic" pane of the property editor. Glade sets
+  "can default" on all buttons in the action area. This makes the
+  rightmost button the default. If you want another default, enable
+  "has default" on that button. Do not hesitate to make "OK" the
+  default, unless the operation is destructive.
+
+  In a druid, setting the default button from glade doesn't work.
+
+  In C, you use gtk_widget_grab_default (widget).
+
+- Pressing <Enter> in text fields should activate the default button.
+
+  This behavior isn't enabled by default. Invoke
+  gnome_dialog_editable_enters (dialog, editable) on all text fields,
+  including the entry fields of spinboxes and combos. If the dialog
+  does not inherit from GnomeDialog, use gnumeric_editable_enters
+  (window, editable) instead.
+
+- The dialog should be a transient child of the window it was popped up
+  for. Most window managers will then iconize it with the parent.
+  
+  For modal GnomeDialogs, gnumeric_dialog_run (workbook, dialog) takes
+  care of this. For other dialogs, use gnumeric_set_transient
+  (context, window).
+
+- Clist headers should only be active if they do something useful.
+
+  Keep them active e.g. if it is possible to change the sort order by
+  clicking on the header. Otherwise, make them passive with
+  gtk_clist_column_titles_passive (clist). There is no way to do this
+  in glade, yet.
+
+- Dialogs shouldn't flicker when popping up.
+
+  glade dialogs should have the "visible" property in the "basic" pane
+  set to "No". You should also not call gtk_widget_show / show_all on
+  the dialog before calling gnumeric_dialog_run / gnome_dialog_run,
+  because the dialog_run functions reposition the dialog.
+
+Guidelines for designing dialogs
+--------------------------------
+
+Spacing and border properties can be used to tidy a dialog, but this
+is not much use if everyone uses different values for these properties
+everywhere. For consistency the following rules have been made, all
+dialogs in Gnumeric should adhere to these rules :
+ 
+- Any container which can contain only a single widget (GtkWindow,
+  GtkFrame, etc..) should not have it's border set to anything other than
+  0.
+ 
+- Widgets which can host multiple other widgets must have a border of 4,
+  but only when it's not a child of a widget that already has border (or
+  spacing) set or the (indirect) child of a GtkWindow (this to avoid a
+  superfluous dialog border)
+ 
+- Spacing should always be set to 4 for GtkTable, VBoxes and HBoxes,
+  except for the toplevel VBox or HBox on a dialog which should have a
+  spacing of 8. (we don't want to mess with GnomeDialogs default setup)

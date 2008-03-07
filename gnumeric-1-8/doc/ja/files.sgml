@@ -1,0 +1,148 @@
+<sect1>
+  <title>ファイルの操作</title>
+  
+  <sect2>
+    <title>ファイルの操作</title>
+    
+    <para>現在開いているファイルを保存する方法はいくつかあります。名前の付いた既存のファイルなら（新規に作成したワークシートでないなら）Save機能を使って既存の名前で保存することができます。</para>
+    
+    <para>Save プロシージャを呼び出す方法はいくつかあります。メニューバー(
+	<xref linkend="menu-bar">
+参照）を使う場合は、メニュー項目の
+	<guimenu><accel>F</accel>ile</guimenu>/
+	<guimenuitem><accel>S</accel>ave</guimenuitem> から呼び出します。また、ボタンバーの
+	<guibutton>Save</guibutton>
+( <xref linkend="buttonbar-buttons">
+参照)を使うこともできます。これらのどの方法を使っても同じことです。
+    </para>
+
+    <!-- FIXME これは適当な方法か？ --> 
+    <important>
+      <variablelist>
+	<title>ファイル保存機能の読み出し</title>
+      <varlistentry>
+	  <term>メニューバー</term>
+	  <listitem>
+	    <para> 
+	      <guimenu><accel>F</accel>ile</guimenu>/
+	      <guimenuitem><accel>S</accel>ave</guimenuitem>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    ボタンバー
+	  </term>
+	  <listitem>
+	    <para>
+	      <guiicon>
+		<inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
+		Save
+	      </guiicon>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<!-- FIXME この部分は上手くいかない。keycombo アクションが無視されているようだ。 -->
+	<!-- alt + F そして s ということを明確にする必要がある。生成された html はそのようになっていない。 -->
+
+	<!-- よって、日本語版ではkeycomboアクションを削除 -->
+
+	<varlistentry>
+	  <term>
+	    キーボード・ショートカット
+	  </term>
+	  <listitem>
+	    <para>
+		<keycap>Alt</keycap>+<keycap>f</keycap> それから 
+		<keycap>s</keycap>
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+      
+    </important>
+    
+    <para>新しいファイルを保存するときやファイル名を変更するときは、<guimenuitem>Save As...</guimenuitem> を使います。この機能を使うと、保存したいファイルの名前とパスを入力することができます。
+    </para>
+    
+    <important>
+      <variablelist>
+	<title>ファイルSave as..機能の呼び出し</title>
+	<varlistentry>
+	  <term>メニューバー</term>
+	  <listitem>
+	    <para> 
+	      <guimenu><accel>F</accel>ile</guimenu>/
+	      <guimenuitem>S<accel>a</accel>ve as...</guimenuitem>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    ボタンバー
+	  </term>
+	  <listitem>
+	    <para>
+	      <guiicon>
+		<inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
+		Save
+	      </guiicon>
+	      このボタンバーを使うと、名前の付いていない新しいファイルに対して <guimenuitem>Save as...</guimenuitem> を呼び出すことができます。ファイル名を変更する場合は、メニューかキーボード・ショートカットを使う必要があります。
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<!-- FIXME この部分は上手くいかない。keycombo アクションが無視されているようだ。 -->
+	<!-- alt + F そして a ということを明確にする必要がある。生成された html はそのようになっていない。 -->
+
+	<!-- よって、日本語版ではkeycomboアクションを削除 -->
+
+	<varlistentry>
+	  <term>
+	    キーボードショートカット
+	  </term>
+	  <listitem>
+	    <para>
+		<keycap>Alt</keycap>+<keycap>f</keycap> それから 
+		<keycap>a</keycap>
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+      
+    </important>
+    
+  </sect2>
+  
+  <sect2>
+    <title>ファイルのフォーマット</title>
+    
+    <para>デフォルトのファイル・フォーマット、すなわち Gnumeric のネイティブのフォーマットは xml をベースにしています。これは、ascii ベースの xml フォーマットです。ただし、書き込みと読み出しは一般的には、gzip 圧縮形式で行われます。
+    </para>
+    
+    <para>圧縮しない形式は、読みやすく、分析しやすいフォーマットとなります。このフォーマットはきわめて高い拡張性を備えています。
+    </para>
+      
+  </sect2>
+
+</sect1>
+
+
+
+
+
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         

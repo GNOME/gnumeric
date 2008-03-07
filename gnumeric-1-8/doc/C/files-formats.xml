@@ -1,0 +1,3187 @@
+<sect1 id="sect-file-formats">
+  <title>File Formats</title>
+    
+  <para>
+    &gnum; supports numerous file formats in addition to its own XML
+    based format. The table below lists the formats currently
+    supported. In the table below, the name of the format is a link
+    which can be used to jump to the section which discusses the
+    format.
+  </para>
+
+<!--    TABLE    TABLE    TABLE    TABLE    TABLE    TABLE    -->
+<table frame='all'><title>The file formats supported by &gnum;</title>
+<tgroup cols='4' align='left' colsep='1' rowsep='1'>
+       
+
+<thead>
+<row>
+  <entry align="left">Format</entry>
+  <entry align="left">Extension</entry>
+  <entry align="left">Open</entry>
+  <entry align="left">Save</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry><link linkend="file-format-gnumeric">Gnumeric</link></entry>
+  <entry><literal>.gnumeric</literal> / <literal>.gnm</literal></entry> 
+  <entry>YES</entry>
+  <entry>YES</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-applix">Applix</link></entry>
+  <entry><literal>.as</literal></entry> 
+  <entry>YES</entry>
+  <entry></entry>
+</row>
+<row>
+  <entry><link linkend="file-format-csv">Comma Separated Values</link></entry>
+  <entry><literal>.csv</literal></entry> 
+  <entry>YES</entry>
+  <entry>YES</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-dif">Data Interchange Format</link></entry>
+  <entry><literal>.dif</literal></entry> 
+  <entry>YES</entry>
+  <entry>YES</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-oleo">GNU Oleo</link></entry>
+ <entry><literal>.oleo</literal></entry> 
+  <entry>YES</entry>
+  <entry></entry>
+</row>
+<row>
+  <entry><link linkend="file-format-html">HTML</link></entry>
+  <entry><literal>.html</literal> / <literal>.htm</literal></entry> 
+  <entry>YES</entry>
+  <entry>YES</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-latex">LaTeX</link></entry>
+  <entry><literal>.tex</literal></entry> 
+  <entry></entry>
+  <entry>YES</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-mps">Linear and Integer Program</link></entry>
+  <entry>none / <literal>.mps</literal></entry> 
+  <entry>YES</entry>
+  <entry></entry>
+</row>
+<row>
+  <entry><link linkend="file-format-lotus">Lotus 1-2-3</link></entry>
+  <entry><literal>.wk1</literal> / <literal>.wks</literal></entry> 
+  <entry>YES</entry>
+  <entry></entry>
+</row>
+<row>
+  <entry><link linkend="file-format-excel">Microsoft Excel</link></entry>
+  <entry><literal>.xls</literal></entry> 
+  <entry>YES</entry>
+  <entry>YES</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-multiplan">Multiplan SYLK</link></entry>
+  <entry><literal>none / .slk</literal></entry> 
+  <entry>YES</entry>
+  <entry></entry>
+</row>
+<row>
+  <entry><link linkend="file-format-ooo">OpenOffice.Org / StarOffice</link></entry>
+  <entry><literal>.sxc</literal></entry> 
+  <entry>YES</entry>
+  <entry>YES</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-planperfect">Plan Perfect</link></entry>
+  <entry><literal>.pln</literal></entry> 
+  <entry>YES</entry>
+  <entry></entry>
+</row>
+<row>
+  <entry><link linkend="file-format-ps">Postscript</link></entry>
+  <entry><literal>.ps</literal> / <literal>.eps</literal></entry> 
+  <entry></entry>
+  <entry>YES</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-pdf">PDF</link></entry>
+  <entry><literal>.pdf</literal></entry> 
+  <entry></entry>
+  <entry>YES</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-qpro">Quattro Pro</link></entry>
+  <entry><literal>.wb1</literal> / <literal>.wb2</literal> / <literal>.wb3</literal></entry> 
+  <entry>YES</entry>
+  <entry></entry>
+</row>
+<row>
+  <entry><link linkend="file-format-sc">SC/XSpread</link></entry>
+  <entry>none / .<literal>sc</literal></entry> 
+  <entry>YES</entry>
+  <entry></entry>
+</row>
+<row>
+  <entry><link linkend="file-format-tab">Tab Separated Values</link></entry>
+  <entry><literal>.tsv</literal> / <literal>.tab</literal></entry> 
+  <entry>YES</entry>
+  <entry>YES</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-text">Text Formats</link></entry>
+  <entry><literal>.txt</literal> / <literal>.text</literal></entry> 
+  <entry>YES</entry>
+  <entry>YES</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-troff">TROFF</link></entry>
+  <entry><literal>.me</literal></entry> 
+  <entry></entry>
+  <entry>YES</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-xbase">Xbase</link></entry>
+  <entry><literal>.dbf</literal></entry> 
+  <entry>YES</entry>
+  <entry></entry>
+</row>
+<row>
+  <entry><link linkend="file-format-xhtml">XHTML</link></entry>
+  <entry><literal>.xhtml</literal> / <literal>.html</literal></entry> 
+  <entry></entry>
+  <entry>YES</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+<!--    TABLE    TABLE    TABLE    TABLE    TABLE    TABLE    -->
+
+
+
+
+  <sect2 id="file-format-gnumeric">
+    <title>&gnum; XML File Format</title>
+
+    <para>
+      The &gnum; file format is based on the eXtensible Markup
+      Language (XML) and is used as the default file format.
+    </para>
+
+    <note>
+      <para>
+        &gnum; is currently using two different systems to process
+        XML.
+      </para>
+
+      <para>
+        The newer system is based on the SAX processing method for XML
+        and is substantially faster than the older method. This code
+        is based in a plugin module. The exporter is currently used
+        by default but the importer is still incomplete.
+      </para>
+
+      <para>
+	The older system is part of the core &gnum; program and is
+        still used to open files in the &gnum; format.
+      </para>
+    </note>
+
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>The Gnumeric file format</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry><literal>.gnumeric</literal></entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>&gnum;</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Both</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    This is the default file format and therefore has the best
+            support of all the formats available. Every feature that
+	    can be created in the spreadsheet should be savable using
+	    this format.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    The &gnum; file format is handled using two different code
+	    bases. The older version is part of the application
+	    itself. The newer version is in a plugin called
+	    "EXPERIMENTAL SAX based XML" because the parser is based
+	    on SAX.
+<!-- TODO: explain SAX differences and advantages. -->
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+            The &gnum; file format stores the file contents in the
+            eXtensible Markup Language (XML) and compresses the file
+            using the GNU project's <application>gzip</application>
+            compression library.
+          </para>
+
+          <para>
+            The &gnum; file format is designed to be flexible and
+            powerful. The format is easily processed by computers. The
+            format can readily be improved as gnumeric develops
+            without breaking compatibility with older versions. The
+            format is designed to be easily translated into text so
+            that it can be read by humans.
+          </para>
+
+	  <para>
+	    &gnum; automatically recognizes the version of the file
+	    format of any file saved since this format is contained in
+	    the file header. The table below is for information
+	    purposes only.
+
+<!--    TABLE    TABLE    TABLE    TABLE    TABLE    TABLE    -->
+<table frame='all'>
+  <title>Gnumeric XML format versions</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+       
+
+<thead>
+<row>
+  <entry align="center">XML File Format Version</entry>
+  <entry align="center">Gnumeric Version</entry>
+</row>
+</thead>
+<tbody>
+<row>
+   <entry>1</entry>
+  <entry></entry>
+</row>
+<row>
+   <entry>2</entry>
+  <entry></entry>
+</row>
+<row>
+   <entry>3</entry>
+  <entry>Since 0.52</entry>
+</row>
+<row>
+   <entry>4</entry>
+  <entry>Since 0.57</entry>
+</row>
+<row>
+   <entry>5</entry>
+  <entry>Since 0.58</entry>
+</row>
+<row>
+   <entry>6</entry>
+  <entry>Since 0.62</entry>
+</row>
+<row>
+   <entry>7</entry>
+  <entry>Since 0.66</entry>
+</row>
+<row>
+   <entry>8</entry>
+  <entry>Since 0.71</entry>
+</row>
+<row>
+   <entry>9</entry>
+  <entry>Since 0.73</entry>
+</row>
+<row>
+   <entry>10</entry>
+  <entry>Since 1.03</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+	  </para>
+
+	  <para>
+	    An outdated PDF document discussing the &gnum; file format
+	    which should provide a useful starting point was developed
+	    by the JWorkbook project. The file can be downloaded from
+	    <literal><ulink type="http"
+	    url="http://www.jfree.org/jworkbook/gnumeric-xml.pdf">
+	    http://www.jfree.org/jworkbook/gnumeric-xml.pdf</ulink></literal>.
+	  </para>
+
+
+
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+            Direct manipulation of &gnum; files is possible by
+	    transforming the files to text files and then using
+	    standard text file tools like document editors. In order
+	    to read the contents a &gnum; file must first be
+	    decompressed and can then be opened. In GNU systems, the
+	    &gnum; default file "Book1.gnumeric" can be uncompressed
+	    as follows:
+<screen>
+zcat Book1.gnumeric > Book1.text
+</screen>
+            alternatively, the file can be renamed and then
+            uncompressed with the following pair of commands:
+<screen>
+cp Book1.gnumeric Book1.text.gz
+gunzip Book1.text.gz
+</screen>
+            both possibilities yield the file "Book1.text" which is
+            an ASCII text file. This file can be opened in any editor,
+            like <application>Vim</application> or
+            <application>Emacs</application>,
+            or pager, like <application>Less</application>.
+          </para>
+
+	  <para></para>
+<!-- TODO Ask Shaun: why is this needed to get a par break? -->
+
+<!-- TODO: add uses of XML manipulation of .gnumeric files. -->
+          <para>
+	    XML manipulation tools can be used to transform &gnum;
+            files and access the data they contain, since the file
+            format is XML. The file can be validated by a Document
+            Type Definition document. Each &gnum; file format version
+            has its own DTD.
+<!-- TODO: get link to gnumeric DTD
+            These are available via the Internet
+            at <uri>http://www.gnome.org/projects/gnumeric/v10.dtd</uri>.
+ -->
+          </para>
+
+	  <para>
+	    The Java<trademark/>&nbsp;Language can be used to create,
+	    access, or manipulate &gnum; format files using the
+	    <application>JWorkbook</application> project library. See
+	    the project's <ulink type="http"
+	    url="http://http://www.jfree.org/jworkbook/index.html">
+	    website</ulink> for details.
+	  </para>
+
+	  <para>
+	    The C# language, through the
+	    <application>mono</application> implementation can also be
+	    used to manipulate &gnum; format files. 
+<!-- TODO: get link to C# version of JWorkbook
+             See the project's
+	    <ulink type="http" linkend="" > website</ulink> for
+	    details.
+-->
+	  </para>
+
+
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-applix">
+    <title>Applix File Format</title>
+
+    <para>
+      The Applix file format is used by the
+    <application>Applixware</application> group of applications which
+    include a spreadsheet component. The
+    <application>Applixware</application> spreadsheet is made by
+    <ulink type="http"
+    url="http://www.vistasource.com">Vistasource</ulink> and
+    claims to be a 'real-time', event driven software system.
+    </para>
+
+    <para>
+      &gnum; can read some files produced by the
+      <application>Applixware</application> spreadsheet.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>The Applix File Format</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.as</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>The <application>Applixware</application> Spreadsheet</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Open only</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Saving <application>Applixware</application> files has
+            recently been disabled due to lack of developer
+            interest. Instead of directly saving a file in the
+            <application>Applix</application> format, files can be
+            exported to to <application>Applixware</application> can
+            be performed using the <link
+            linkend="file-format-excel">Excel</link>&nbsp;file format.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the Applix plugin.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-csv">
+    <title>Comma Separated Value (CSV) File Format</title>
+
+<!-- TODO: explain locale prob- CSV file comma vs. decimal separator -->
+
+    <para>
+      The Comma Separated Value (CSV) file format is a common
+      structuring strategy for text format files. In CSV flies, each
+      line in the file represents a row of data and, within each line
+      of the file, the different data fields are separated from one
+      another using a comma. &gnum; handles CSV files through the text
+      importer and exporter but this format is given its own
+      definition in this document because it is such a common format.
+    </para>
+
+    <para>
+      &gnum; will automatically open CSV format files separating each
+      row into columns based on the presence of comma characters in
+      the file. If the automatic import leads to any errors, these can
+      generally be corrected by using the "Text Import (configurable)"
+      file format instead. Selecting that file format will launch the
+      <interface>Text Import</interface> druid which allows the user
+      to import CSV format files while specifying in greater detail
+      the settings of the import configuration parameters. See the
+      section on <link linkend="sect-file-textImport">importing text
+      files</link> or the section on <link
+      linkend="sect-file-textExport">exporting text files</link> for
+      an explanation of how to open or save CSV files through the
+      <interface>Text Import</interface> druid.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>Comma Separated Value, CSV</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.csv, .txt</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>Many</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Both</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    The CSV file format is only useful for the exchange of
+            cell data and cannot be used for sheet objects like
+            graphical plots. This file format cannot save the
+            formatting of cell contents, backgrounds or borders.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the core &gnum; program.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    CSV files are simple text files where each row of the text
+	    file represents one row in the spreadsheet and where the
+	    cells within a row are separated from each other by a
+	    comma. 
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    CSV files can be processed using any tool which operates
+	    on text files. The CSV format is also common as a format
+	    which can be opened by applications.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+    <para>
+      <emphasis role="italic">See the section on </emphasis>
+      <link linkend="file-format-text">Text Formats</link>
+    </para>
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-dif">
+    <title>Data Interchange Format (DIF) File Format</title>
+
+    <para>
+      The Data Interchange Format (DIF) file format is a text based
+      format encoded in ASCII with a header, for integrity
+      checking, and a body. The format was originally developed by
+      Software Arts in order to transfer data from
+      <application>VisiCalc</application>, the first spreadsheet.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>Data Interchange Format</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.dif</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>Various</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Both</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Since the DIF format only supports a single worksheet,
+            &gnum; only exports the top worksheet in the view used to
+            save the workbook.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the <quote>Data Interchange Format
+            (DIF) module</quote> plug-in.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    The format is a text file, encoded in ASCII, with a header
+	    and body.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    The file can be processed as a text file or imported to
+	    any program that recognizes the DIF format.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-oleo">
+    <title>GNU Oleo File Format</title>
+
+    <para>
+      The GNU Oleo file format is the format used by the GNU Oleo
+      spreadsheet, one of the early free software spreadsheets. The
+      GNU Oleo project has stagnated so this format is only supported
+      to enable the import of old files.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>GNU Oleo</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>Unknown</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry><application>GNU oleo</application></entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Open Only</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'GNU Oleo' plugin.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+<!-- TODO: html format edit limitations, encodings.  -->
+<!-- TODO: html format edit fragment handling (cut and paste) -->
+
+  <sect2 id="file-format-html">
+    <title>The HTML File Format</title>
+
+    <para>
+      The Hypertext Markup Language (HTML) file format is a text file
+      format with markup in the Hypertext Markup Language. These files
+      are designed to be viewed in a web browser.
+    </para>
+
+    <para>
+      &gnum; can save the cell contents in a worksheet to a text file
+      which consists either of entire, well formed HTML files of
+      version 3.2 or 4.0, or of a file fragment which contains only a
+      &lt;table&gt; structure and must be inserted into an HTML
+      file. &gnum; can also open files which consist only of simple,
+      well formed HTML &lt;table&gt; structures.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Names:</emphasis>
+	    </entry>
+	    <entry>Hypertext Markup Language (HTML)</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.html, .htm</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>Any Web Browser, any text editor</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Save Only, but also can import HTML &lt;table&gt; 
+	           structures</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Only the cell contents of a worksheet are saved with sheet
+            object elements, such as graphical plots, ignored.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'HTML &amp; TeX' plugin.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+<!-- TODO remove or improve HTML examples
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    The following figures illustrate the output of the
+	    different HTML file formats.
+	  </para>
+
+          <figure id="fig-file-format-html32-ex1">
+            <title>An HTML 3.2 format file</title>
+            <screenshot>
+	      <mediaobject>
+                <imageobject>
+                  <imagedata fileref="figures/files-html32-example.png" 
+                             format="PNG" />
+                </imageobject>
+                <textobject>
+                <phrase>An image of the rendered output of an HTML 3.2
+                        format file generated by Gnumeric.</phrase>
+                </textobject>
+              </mediaobject>
+            </screenshot>
+          </figure>
+
+          <figure id="file-format-html40-ex1">
+            <title>An HTML 4.0 format file</title>
+            <screenshot>
+	      <mediaobject>
+                <imageobject>
+                  <imagedata fileref="figures/files-html40-example.png" 
+                             format="PNG" />
+                </imageobject>
+                <textobject>
+                <phrase>An image of the rendered output of an HTML 4.0
+                        format file generated by Gnumeric.</phrase> 
+                </textobject>
+              </mediaobject>
+            </screenshot>
+          </figure>
+
+          <figure id="fig-file-format-html-fragment">
+            <title>An HTML fragment</title>
+            <screenshot>
+	      <mediaobject>
+                <imageobject>
+                  <imagedata fileref="figures/files-html-example.png" 
+                             format="PNG" />
+                </imageobject>
+                <textobject>
+                <phrase>An image of the rendered output of an HTML fragment
+                        format file generated by Gnumeric, after the
+                        incorporation of this fragment into a valid
+                        HTML file.</phrase>  
+                </textobject>
+              </mediaobject>
+            </screenshot>
+          </figure>
+	</listitem>
+      </varlistentry>
+-->
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    All these files can be opened by any text editor. The HTML
+	    3.2 and 4.0 format files can be opened by any web browser
+	    such as <application>Mozilla</application>.
+	  </para>
+	  <para>
+	    Files which are generated as HTML fragments must be placed
+	    into an HTML file with a valid pre-amble and closing
+	    statements. 
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+    <para>
+      <emphasis role="italic">See Also:</emphasis>
+      <link linkend="file-format-xhtml">XHTML Format</link>
+    </para>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-latex">
+    <title>LaTeX File Format</title>
+
+    <para>
+      The LaTeX file format is a text file format with markup in the
+      LaTeX 2&#949; derivative of the TeX family of languages.
+    </para>
+
+    <para>
+      &gnum; generates LaTeX files to allow the export of tables of
+      numeric values for use in the LaTeX document processing
+      system. LaTeX is a derived format of the TeX system. The files
+      generated by &gnum; are designed to be used by a LaTeX
+      processor, such as <application>latex</application> or
+      <application>pdflatex</application>, to generate files in
+      viewable formats such as Device Independent (DVI), Postscript
+      (PS) or Portable Document Format (PDF).
+    </para>
+
+    <para>
+      The generated files can either be processed directly or can be
+      included in other LaTeX files.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>LaTeX</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.tex</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry><application>latex</application>,
+	           <application>pdflatex</application></entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Save only</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    &gnum; generates a LaTeX <literal>longtable</literal>
+            structure which contains only the contents of the cells in
+            the worksheet displayed in the view at the time the file
+            was created.
+	  </para>
+	  <para>
+	    Font coloring is supported. Thin cell borders are
+            translated into single lines and thick cell borders are
+            translated into double lines. Cell background colors are
+            ignored.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'HTML &amp; TeX' plugin.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+
+	  <para>
+	    The generated file includes extensive documentation in TeX
+	    comment fields, to explain how to use and alter the
+	    file. Lines in the file which are comments begin and end
+	    with double percent symbols (%%). Lines which are designed
+	    as user options begin with a single percent symbol (%)
+	    which can be deleted to make the LaTeX command on that
+	    line take effect.
+	  </para>
+
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+
+	  <para>
+	    The LaTeX files generated by &gnum; can either be
+	    processed directly by a LaTeX processor or can be included
+	    as tables in other files. The files can be included by
+	    reference as explained below or can be pasted into other
+	    files at the appropriate location. The file can also be
+	    altered to change certain parameters. These alterations
+	    are explained as comments within the file itself and are
+	    presented below.
+	  </para>
+
+	  <para>
+	    The file created by &gnum; can be run directly through a
+	    LaTeX processor without any modifications. For example, if
+	    the file were saved as <filename>Book1.tex</filename>, the
+	    following command 
+<screen>
+pdflatex Book1.tex
+</screen>
+            generates a PDF file named
+	    <filename>Book1.pdf</filename>. The file can be generated
+	    in landscape format and the headers, footers and column
+	    widths of the file can be altered in the manner explained
+	    below.
+	  </para>
+
+	  <para></para>
+<!-- TODO Ask Shaun: why is this needed to get a par break? -->
+
+	  <para>
+	    The file can also be included within another LaTeX file to
+	    provide a single table. This requires, first, ensuring
+	    that all the packages which will be needed are included, and
+	    second, defining a LaTeX variable which is used as a dummy
+	    tag to exclude the preamble used to process the file on
+	    its own. The LaTeX file generated by &gnum; requires using
+	    the following lines in the preamble
+<screen>
+\usepackage{ucs}
+\usepackage{utf8}{inputenc}
+\usepackage{color}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{calc}
+\usepackage{multirow}
+\usepackage{hhline}
+\usepackage{ifthen}  
+</screen>
+            to include each of these packages. Optionally, to include
+	    the table in landscape mode, the preamble also needs the line
+<screen>
+\usepackage{lscape}
+</screen>
+            to include the <literal>lscape</literal> package. Second,
+	    the following line
+<screen>
+\def\inputGnumericTable{}
+</screen>
+            must be included to make the LaTeX processor ignore the
+	    preamble section of the file generated by &gnum;. The
+	    generated file can be included either by adding, at the
+	    appropriate location in the other file, the line
+<screen>
+\input{<replaceable>mygnumericfile.tex</replaceable>}  
+</screen>
+            with the text <literal>mygnumericfile</literal> replaced
+	    with the appropriate file name or by pasting the entire
+	    file generated by &gnum; into the other file. 
+	  </para>
+
+	  <para></para>
+<!-- TODO Ask Shaun: why is this needed to get a par break? -->
+
+
+          <para>
+	    An option is provided in the file allows the table to be
+	    presented in landscape mode which allows wider tables to
+	    be included. For files which are to be processed
+	    independently, the option can be changed in the document
+	    class definition
+<screen>
+\documentclass[12pt%
+	           %,landscape%
+             ]{report}
+</screen>
+            by removing the percent symbol (%) in front of
+	    <literal>,landscape</literal>. For files to be included as
+	    tables in other LaTeX files, the preamble must include the
+	    <literal>lscape</literal> package, as was explained above,
+	    and the two commands
+<screen>
+\def\gnumericTableEnd{\end{landscape}}
+\begin{landscape}
+</screen>
+            must have the leading percent sign removed.
+	  </para>
+
+	  <para></para>
+<!-- TODO Ask Shaun: why is this needed to get a par break? -->
+
+          <para>
+	    An option is provided to change the widths of the columns
+	    of the file generated by &gnum;. By default, the file
+	    attempts to maintain the proportions between the columns
+	    in the &gnum; worksheet, yet scale the resulting table for
+	    the width of the paper defined in LaTeX. To change the
+	    column widths, look for the section in the
+	    <application>LaTeX</application> file with lines that look
+	    like
+<screen>
+\def\gnumericColA{107pt*\gnumericScale}
+\def\gnumericColB{89pt*\gnumericScale}
+\def\gnumericColC{98pt*\gnumericScale}
+\def\gnumericColD{89pt*\gnumericScale}
+\def\gnumericColE{89pt*\gnumericScale}
+</screen>
+            and that may have as many entries as there were columns in
+	    the worksheet. The TeX 'lengths' defined for each column
+	    can be changed. For example, change the second column
+	    (Column B) to a width of 0.75 inches, we would simply have
+	    to modify this code to: 
+<screen>
+\def\gnumericColA{107pt*\gnumericScale}
+\def\gnumericColB{0.75in}
+\def\gnumericColC{98pt*\gnumericScale}
+\def\gnumericColD{89pt*\gnumericScale}
+\def\gnumericColE{89pt*\gnumericScale}
+</screen>
+            and the resulting file would have a second column 0.75
+	    inches wide.
+	  </para>
+
+	  <para></para>
+<!-- TODO Ask Shaun: why is this needed to get a par break? -->
+
+	  <para>
+	    An option to change the headers and footers of the table
+	    is provided as well. The file itself contains comments on
+	    how to alter these but the choices will require seeing the
+	    documentation of the <literal>longtable</literal> LaTeX
+	    package. See that documentation and the contents of the
+	    file generated by &gnum; for details.
+	  </para>  
+
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-mps">
+    <title>Linear and Integer Program Expression (MPS) File Format</title>
+
+    <para>
+      The Linear and Integer Program Expression  file format is a text
+      file format, encoded as ASCII, which uses fixed columns. The
+      format was developed by International Business Machines
+      Corporation to express linear and integer programs. 
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>Linear and Integer Program Expression (MPS)</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>none / .mps</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>Various linear programming applications</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Open only</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'Linear and integer expression (MPS)
+            format module' plug-in.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    The Argonne National Laboratory of the United States has a
+	    simple <ulink type="ftp"
+	    url="http://www-unix.mcs.anl.gov/otc/Guide/faq/linear-programming-faq.html#Q5"
+	    >introduction</ulink>
+	    to the MPS format on their web site.
+	  </para>
+
+	  <para>
+	    The MIPLIB site has more information including a file
+	    named 
+	    <ulink type="ftp"
+	      url="ftp://softlib.cs.rice.edu/pub/miplib/mps_format"
+	      >mps_format</ulink> which is a brief introduction to the
+	    format and includes the following section:
+<screen>
+The following template is a guide for the use of MPS format:
+
+---------------------------------------------------------------------
+Field:    1           2          3         4         5         6
+Columns:  2-3        5-12      15-22     25-36     40-47     50-61
+
+          NAME   problem name
+
+          ROWS
+
+           type     name
+
+          COLUMNS
+                   column       row       value     row      value
+                    name        name                name
+          RHS
+                    rhs         row       value     row      value
+                    name        name                name
+          RANGES
+                    range       row       value     row      value
+                    name        name                name
+          BOUNDS
+
+           type     bound       column     value
+                    name        name
+          ENDATA
+---------------------------------------------------------------------
+</screen>
+            and provides further explanations to the components. The
+            file also suggests as more complete references:
+<screen>
+  "Advanced Linear Programming," by Bruce A. Murtagh
+  "Computer Solutions of Linear Programs," by J.L. Nazareth
+</screen>
+            which should provide a better explanation.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-lotus">
+    <title>Lotus 1-2-3 File Format</title>
+
+    <para>
+      The Lotus 1-2-3 file format is the format used by the Lotus
+      <application>1-2-3</application> spreadsheet, which is now part of
+      the office suite called <application>SmartSuite</application>. 
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>Lotus 1-2-3</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.wk1,.wks</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>Lotus <application>SmartSuite</application></entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Open only.</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'Lotus 123' plugin.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Many spreadsheet programs support this format.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-excel">
+    <title>Microsoft Excel File Format</title>
+
+    <para>
+      The Microsoft Excel<trademark/>&nbsp;file format is a binary file
+      format used by the <application>Excel</application> program in
+      the <application>Office</application> suite. The format is a
+      common format supported to various extents by most spreadsheets
+      although it is incompletely documented. The &gnum; project has
+      reversed engineered all of the core features of the format.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>Excel</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.xls</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>Microsoft <application>Excel</application>,
+	           Microsoft <application>Office</application>,
+		   and many other spreadsheets </entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Both</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Most core features of the format are supported.
+	  </para>
+
+	  <warning>
+	    <para>
+	      &gnum; does not support the very old file formats used by
+	      Excel<trademark/>&nbsp;versions prior to Excel<trademark/> 5.0.
+	    </para>
+	  </warning>
+
+          <para>
+            &gnum; can open files from most of the Microsoft
+            Excel<trademark/>&nbsp;file formats and all of the recent file
+            formats. The formats supported are:      
+            <itemizedlist>
+	      <listitem>
+	        <para> MS Excel<trademark/>&nbsp;5.0/95.
+		</para>
+	      </listitem>
+	      <listitem>
+	        <para> MS Excel<trademark/>&nbsp;97/2000/XP.
+		</para>
+	      </listitem>
+	      <listitem>
+	        <para> MS Excel<trademark/>&nbsp;97/2000/XP &amp; 5.0/95.
+		</para>
+	      </listitem>
+	    </itemizedlist>
+	  </para>
+
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'MS Excel (tm)' plugin.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    These are binary file formats.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    A number of other programs are able to process files in
+	    the Microsoft Excel file format.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-multiplan">
+    <title>Multiplan SYLK File Format</title>
+
+    <para>
+      The Microsoft Multiplan Symbolic Link Interchange (SYLK) file
+      format is a column based format.
+    </para>
+
+    <para>
+      &gnum; can read files in this format.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>Symbolic Link Interchange (SYLK)</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>none / .slk</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry><application>Multiplan</application></entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Open only</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'Multiplan (SYLK)' plugin.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+<!-- TODO: split or explain the three OOo formats OASIS/sxc/sxw -->
+  <sect2 id="file-format-ooo">
+    <title>OpenOffice.org XML File Format</title>
+
+    <para>
+      The OpenOffice.org XML file format is zip archive including
+      several components all of which are text files, most of these with
+      markup in the eXtensible Markup Language (XML). 
+    </para>
+
+    <para>
+      &gnum; can both open and save files in this format and plans to
+      continue to support this format in the future.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>OASIS XML, OpenOffice.org XML, StarOffice</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.sxc</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry><application>OpenOffice.org Calc</application>,
+	           <application>StarCalc</application></entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Both</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'OpenCalc/StarCalc' plugin.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+
+	  <para>
+	    The file format is a zip archive containing several text
+	    and XML elements: a <filename>mimetype</filename> file
+	    giving the mime type, a <filename>content.xml</filename>
+	    file with the contents of the spreadsheet cells, and
+	    several other files with meta data, style definitions or
+	    information on the settings. The file contents can be
+	    extracted with the <application>unzip</application>
+	    command line program or with any of a number of graphical
+	    interface programs.
+	  </para>
+
+	  <para>
+	    The Organization for the Advancement of Structured
+            Information Standards (OASIS) has accepted this file
+            format as the standard "OASIS Open Office XML Format".
+	    The published specification for the file format is
+	    available from the <ulink type="http"
+	    url="http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=office">
+	    OASIS Open Office XML Format Technical Committee</ulink>
+	    web page. Other information is available from the <ulink
+	    type="http"
+	    url="http://xml.openoffice.org/">OpenOffice.org XML
+	    File Format</ulink> web page, part of the OpenOffice.org
+	    project.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Files in this format can be imported and modified by the
+	    <application>OpenOffice.org Calc</application> spreadsheet
+	    or may be modified through XML processing.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-planperfect">
+    <title>Plan Perfect File Format</title>
+
+    <para>
+      The Plan Perfect file format is a format used by the
+    <application>PlanPerfect</application> spreadsheet.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>Plan Perfect</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>Unknown</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry><application>PlanPerfect</application>.</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Open only.</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'Plan Perfect' plug-in.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-ps">
+    <title>Postscript File Format</title>
+
+    <para>
+      The Postscript file format is a text format which contains the
+      program code for a postscript interpreter. Postscript is a page
+      description language designed to enable the creation and
+      transfer of printer-ready output.
+    </para>
+
+    <note>
+      <para>
+        &gnum; supports the creation of Postscript files through the
+        printing interface, not through the file save mechanism. See
+        <xref linkend="chapter-printing" />, for details on how to
+        generate a Postscript file.
+      </para>
+    </note>
+     
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>Postscript</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.ps</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>Many programs can interpret and display Postscript
+	    files including: <application>GGV</application>,
+	    <application>ghostview</application>
+	    (<application>gv</application>), and
+	    <application>ghostscript</application>.  </entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Save only.</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    The creation of Postscript files is supported internally
+	    by the printing sub-system.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    The Postscript language was created by Adobe, Inc. The
+	    Adobe web site has a non-technical <ulink type="http"
+	    url="http://www.adobe.com/products/postscript/main.html">introduction</ulink>,
+	    as well as a technical <ulink type="http"
+	    url="http://www.adobe.com/products/postscript/overview.html">overview</ulink>
+	    and the actual <ulink type="http"
+	    url="http://partners.adobe.com/asn/tech/ps/specifications.jsp">specifications</ulink>.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Postscript files can imported into other documents by
+	    several programs. For the very advanced, postscript files
+	    can be reprogrammed using a text editor.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-pdf">
+    <title>Portable Document Format (PDF) File Format</title>
+
+    <para>
+      The Portable Document Format (PDF) file format is a binary
+      format which contains page description primitives and combines a
+      subset of the Postscript language with some more recent
+      features. The Portable Document Format is a page description
+      language designed to enable the creation and transfer of
+      printer-ready output.
+    </para>
+
+    <note>
+      <para>
+        &gnum; supports the creation of PDF files through the
+        printing interface, not through the file save mechanism. See
+        <xref linkend="chapter-printing" />, for details on how to
+        generate a PDF file.
+      </para>
+    </note>
+     
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>Portable Document Format (PDF)</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.pdf</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>
+	      PDF is supported by a wide variety of programs including
+	      <application>gPDF</application>, 
+	      <application>Xpdf</application>, 
+	      <application>GGV</application>, 
+	      <application>ghostview</application>
+	      (<application>gv</application>), and
+	      <application>ghostscript</application>, </entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Save only</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    The creation of PDF files is supported internally
+	    by the printing sub-system.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	     The Postscript language was created by Adobe, Inc. The
+	    Adobe web site has a non-technical <ulink type="http"
+	    url="http://www.adobe.com/products/postscript/main.html">introduction</ulink>,
+	    as well as a technical <ulink type="http"
+	    url="http://www.adobe.com/products/postscript/overview.html">overview</ulink>
+	    and the actual <ulink type="http"
+	    url="http://partners.adobe.com/asn/tech/ps/specifications.jsp">specifications</ulink>.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    PDF files can imported into other documents by
+	    several programs.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-qpro">
+    <title>Quattro Pro File Format</title>
+
+    <para>
+      The Quattro Pro file format is the format used by Corel's
+      <application>QuattroPro</application> spreadsheet.
+    </para>
+
+    <para>
+      &gnum; supports opening these files to import their data.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>Quattro Pro</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.wb1 / .wb2 / .wb3</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry><application>Quattro Pro</application></entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Open only</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the Quattro<trademark/>&nbsp;Pro plugin.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-sc">
+    <title>SC/Xspread File Format</title>
+
+    <para>
+      The SC/Xspread file format is the file format used by the old sc and
+      Xspread spreadsheets. 
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>SC file format</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>YES</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry><application>SC</application>,
+	    <application>Xspread</application>,
+	    <application>S</application> spreadsheets.
+	    </entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Open only.</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'SC/XSpread' plug-in.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-tab">
+    <title>Tab Separated Value File Format</title>
+
+    <para>
+      The Tab Separated Value file format is a common structuring
+      strategy for text format files. In tab separated value flies,
+      each line in the file represents a row of data and, within each
+      line of the file, the different data fields are separated from
+      one another using a tab spacing. &gnum; handles tab separated
+      value files through the text importer and exporter but this
+      format is given its own definition in this document because it
+      is such a common format.
+    </para>
+
+    <para>
+      &gnum; will automatically open Tab Separated Value format files
+      separating each row into columns based on the presence of tab
+      characters in the file. If the automatic import leads to any
+      errors, these can generally be corrected by using the "Text
+      Import (configurable)" file format instead. Selecting that file
+      format will launch the <interface>Text Import</interface> druid
+      which allows the user to import Tab Separated Value format files
+      while specifying in greater detail the settings of the import
+      configuration parameters. See the section on <link
+      linkend="sect-file-textImport">importing text files</link> or
+      the section on <link linkend="sect-file-textExport">exporting
+      text files</link> for an explanation of how to open or save Tab
+      Separated Value format files through the <interface>Text
+      Import</interface> druid.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>Tab Separated Value</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry><literal>.tsv</literal> / <literal>.tab</literal></entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>Multiple</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Both</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    The tab separated value file format is only useful for the
+            exchange of cell data and cannot be used for sheet objects
+            like graphical plots. This file format cannot save the
+            formatting of cell contents, backgrounds or borders.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	    <para>
+	    Supported by the core &gnum; program.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Tab separated value files are simple text files where each
+	    row of the text file represents one row in the spreadsheet
+	    and where the cells within a row are separated from each
+	    other by a comma.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Tab separated value files can be processed using any tool
+            which operates on text files. The tab separated value
+            format is also common as a format which can be opened by
+            applications.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+    <para>
+      <emphasis role="italic">See the section on </emphasis>
+      <link linkend="file-format-text">Text Formats</link>
+    </para>
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-text">
+    <title>Text File Formats</title>
+
+    <para>
+      Files in the text file format are files in which the bytes
+      represent the text characters of a particular character set
+      using a specific system to relate the binary numbers in the file
+      to the text characters of the set. Such systems are called
+      'encodings' and become an issue when the file includes
+      characters that are not in the standard ASCII set, such as
+      characters in languages other than English. Character encodings
+      are explained in greater detail in <xref
+      linkend="sect-file-textImport-complex-encoding"/>.
+    </para>
+
+    <para>
+      Choosing the "Text import (configurable)" or "Text export
+      (configurable)" file formats to open or save files will cause
+      &gnum; to start the <interface>Text Import</interface> or
+      <interface>Text Export</interface> druids. These allow the users
+      to configure in detail the parameters with which existing files
+      will be read into a workbook or existing workbooks will be
+      output to a file.
+    </para>
+
+    <para>
+      The Text file format includes a number of different formatting
+      strategies for text files in which data fields are structured in
+      a regular pattern. Most of these formats represent rows of data
+      on different lines of the file using different strategies to
+      separated data values within each row. 'Fixed-width' formats
+      place each data entry in a separate column and therefore limit
+      the size of the data entries. 'Separated' formats use a special
+      character or character sequence to separate entries. For
+      instance, the comma separated value, the tab separated value
+      formats and the space separated value formats use commas, tabs,
+      and spaces respectively to separate the data fields.
+    </para>
+
+    <para>
+      &gnum; can open and save files to a wide variety of text file
+      formats when the text importer or the text exporter is
+      configured appropriately. File can be generated with many
+      different encodings. See the section on <link
+      linkend="sect-file-textImport">importing text files</link> or
+      the section on <link linkend="sect-file-textExport">exporting
+      text files</link> for an explanation of how to open or save
+      these formatted text files.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>Text File Format</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry><literal>.text</literal> / <literal>.txt</literal>
+	    / none </entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>Many programs can read and create formatted text files</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Both</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    The exporter can only create text files using a separator
+            character and cannot create fixed-width structured files.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the core &gnum; program.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Text file format files are simple text files containing
+	    the data for each cell of the worksheet organized in a
+	    systematic fashion.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Text format files can be processed using any tool which
+	    operates on text files, and many other applications can
+	    read or generate one or more of these formats.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-troff">
+    <title><command>TROFF</command> File Format</title>
+
+    <para>
+      The <command>TROFF</command> file format is a text file format
+      with markup in <literal>TROFF</literal>.
+    </para>
+
+    <para>
+      The <command>TROFF</command> system is a documentation
+      preparation system that can generate many different output files
+      from an input file with standard markup. &gnum; produces a file
+      that can be used as input to the <command>TROFF</command> system
+      or its GNU project replacement, <command>GROFF</command>.
+    </para>
+
+    <para>
+      The support for this format is mostly intended to produce simple
+      tables into a file which can be used in the
+      <command>TROFF</command> system. Since &gnum; supports full
+      output to Postscript and PDF file formats, those formats should
+      be used to generate graphics for plots and drawing elements.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>TROFF</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.me</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry><application>TROFF</application>,
+	    <application>GROFF</application></entry> 
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Save only</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'HTML &amp; TeX' plugin.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+
+	  <para>
+            Two examples of the <command>TROFF</command> system will
+            illustrate how to use this file format. Both examples
+            start with a simple worksheet which consists of a simple
+            grid of cells with cell contents, which has been used to
+            create a file called "myfile.me" in the
+            <command>TROFF</command> file format.
+	  </para>
+
+	  <para>
+	    A table in postscript file format can be created starting
+	    from the file generated by &gnum;. The command
+<screen>
+groff -me -t -Tps <replaceable>myfile.me</replaceable><replaceable>myfile.ps</replaceable>
+</screen>
+            will create a postscript file of the corresponding
+	    table. Note, however, that &gnum; itself can make a
+	    Postscript file of the table directly through the printing
+	    system.
+          </para>
+
+	  <para>
+	    A table in postscript file format can be created starting
+	    from the file generated by &gnum;. The command
+<screen>
+groff -me -t -Tascii <replaceable>myfile.me</replaceable><replaceable>myfile.ascii</replaceable>
+</screen>
+            creates an <keycap>ascii</keycap> (straight text)
+	    file. This file will look like:
+<screen>
+
+
+
+
+
+Sheet 0
+
+
++----------+------------------+-------------+------------+---+
+|          | Operating System |             |            |   |
++----------+------------------+-------------+------------+---+
+|          |       DOS        |    Linux    |    SCO     |   |
++----------+------------------+-------------+------------+---+
+|  January | $1000.00         | $900.00     | $500.00    |   |
++----------+------------------+-------------+------------+---+
+| February | $900.00          | $2500.00    | $300.00    |   |
++----------+------------------+-------------+------------+---+
+|    March | $800.00          | $4100.00    | $100.00    |   |
++----------+------------------+-------------+------------+---+
+|    April | $700.00          | $5700.00    | ($100.00)  |   |
++----------+------------------+-------------+------------+---+
+|      May | $600.00          | $7300.00    | ($300.00)  |   |
++----------+------------------+-------------+------------+---+
+|     June | $500.00          | $8900.00    | ($500.00)  |   |
++----------+------------------+-------------+------------+---+
+|     July | $400.00          | $10500.00   | ($700.00)  |   |
++----------+------------------+-------------+------------+---+
+|   August | $300.00          | $12100.00   | ($900.00)  |   |
++----------+------------------+-------------+------------+---+
+|September | $200.00          | $13700.00   | ($1100.00) |   |
++----------+------------------+-------------+------------+---+
+|  October | $100.00          | $15300.00   | ($1300.00) |   |
++----------+------------------+-------------+------------+---+
+| November | $0.00            | $16900.00   | ($1500.00) |   |
++----------+------------------+-------------+------------+---+
+| December | ($100.00)        | $18500.00   | ($1700.00) |   |
++----------+------------------+-------------+------------+---+
+|          |                  |             |            |   |
++----------+------------------+-------------+------------+---+
+|  Totals: | $5400.00         | $116400.00  | ($7200.00) |   |
++----------+------------------+-------------+------------+---+
+|          |                  |             |            |   |
++----------+------------------+-------------+------------+---+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              1
+
+
+
+</screen>
+          </para>
+
+
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="file-format-xbase">
+    <title>Xbase File Format</title>
+
+    <para>
+      The Xbase file format is a file format that includes a series of
+      files of which one is a text file containing the data and the
+      rest are index or other files. The data file consists of a
+      header and then the records themselves.
+    </para>
+
+    <para>
+      &gnum; only opens the data file.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>XBase data file format</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.dbf</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>
+	      <application>dBase</application>,
+	      <application>Clipper</application>,
+	      <application>FoxPro</application>,
+	      <application>Visual dBase</application>,
+	      <application>Visual FoxPro</application>,
+	      and numerous other database applications.
+	    </entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Open only</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'XBase' plugin.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    The xBase file format is a generic name for database files
+            saved in the format used by Aston-Tate's (then Borland's)
+            <application>dBase</application> database system. The
+            system became widely popular and has been used extensively
+            by other systems.
+	  </para>
+
+	  <para>
+	    See the <ulink type ="http"
+            url="http://www.pgts.com.au/download/public/xbase.htm">
+            Xbase File Format Description</ulink> by Erik Bachmann for
+            more details on the xBase format.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+
+
+
+
+
+
+
+
+<!-- TODO: xhtml format edit fragment handling (cut and paste) -->
+
+
+  <sect2 id="file-format-xhtml">
+    <title>XHTML File Format</title>
+
+    <para>
+      The XHTML file format is a text file format with markup in the
+      eXtensible Markup Language (XML) using a definition which mimics
+      the Hypertext Markup Language (HTML). These files are designed
+      to be viewed in a web browser.
+    </para>
+
+    <para>
+<!-- TODO: Explain import of XHTML tables
+      &gnum; can open well formed xhtml tables placing the data contents of
+      each entry into a cell of a worksheet.
+-->
+      &gnum; can save the cell contents from a worksheet to a text
+      file which consists of an XHTML file fragment containing only a
+      &lt;table&gt; structure, designed to be inserted into another
+      XHTML file.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>XHTML</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry><literal>.xhtml</literal> / <literal>.html</literal></entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>Most modern web browsers such as
+	    <application>Mozilla</application> and
+	    <application>Mozilla-Firefox</application ></entry> 
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Both</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'HTML &amp; TeX' plugin.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    The file is generated, encoded in UTF-8, in the World Wide
+	    Web consortium (W3C) XHTML 1.0 Transitional file format. 
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    These XHTML files can be opened by any text editor and can
+	    be viewed using any web browser such as
+	    <application>Mozilla</application>.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+    <para>
+      <emphasis role="italic">See Also:</emphasis>
+      <link linkend="file-format-html">HTML Format</link>
+    </para>
+
+
+  </sect2>
+
+
+
+
+</sect1>
+
+       

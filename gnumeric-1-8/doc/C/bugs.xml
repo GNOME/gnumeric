@@ -1,0 +1,639 @@
+<sect1 id="sect-bugs">
+  <title>Overview</title>
+
+  <para>
+    &gnum; is a complex computer program
+    and therefore necessarily contains some mistakes. The
+    &gnum; team is keenly interested in
+    finding these errors and correcting them. Suggestions for
+    improvement are also welcome and can be submitted in the same
+    fashion as an error report.
+  </para>
+
+  <para>
+    <emphasis>
+      Please, help us to fix any errors by telling us about them.
+    </emphasis>
+  </para>
+
+  <para>
+    Reports of problems with &gnum;
+    provide the project with a way of making sure that the mistake is
+    eventually fixed. Often the mistake is obvious and a fix can be
+    made immediately to be included in the very next release of
+    &gnum;. Occasionally, the mistake is
+    more complex and the problem may take a while to be resolved. In
+    these cases, the report provides a way to remind the developers that
+    the problem still exists.
+  </para>
+
+  <note>
+    <para>
+      Mistakes in programs are often called "bugs" after one of the
+      earliest errors in an old machine which was actually caused
+      by an insect entering the machine and preventing a switch from
+      closing.
+    </para>
+  </note>
+
+  <para>
+    The &gnum; project uses a world wide
+    web system called <application>Bugzilla</application> to collect
+    reports of program errors and then to track these errors until
+    they are finally fixed. The system was developed as part of the
+    <application>Mozilla</application> web browser project, which
+    explains the origin of the strange name.
+  </para>
+
+  <para>
+    The process of submitting the report of a problem or of a
+    suggested enhancement is quite simple and can be completed in just
+    a few steps. The process begins with obtaining a good
+    understanding of the problem to be able to provide a detailed
+    statement explaining the problem exactly. Next, the user must open
+    an account with the GNOME project's
+    <application>Bugzilla</application> system. Finally, the user must
+    submit the statement of the problem, ideally, along with some
+    information about the computer setup being used by the person
+    experiencing the problem.
+  </para>
+
+  <para>
+    The explanation given below should be sufficient to file a
+    report. For more detailed
+    instructions, the main page of GNOME's bugzilla can be found at
+    <ulink type="http" url="http://bugzilla.gnome.org/">
+      <uri>http://bugzilla.gnome.org/</uri>
+    </ulink> and instructions can be found at 
+    <ulink type="http" url="http://bugzilla.gnome.org/bug-HOWTO.html">
+      <uri>http://bugzilla.gnome.org/bug-HOWTO.html</uri>
+    </ulink>.
+  </para>
+
+</sect1>
+
+
+  <sect1 id="sect-bugs-understand">
+    <title>Defining the error</title>
+
+    <para>
+      The most critical step is understanding the error as well as
+      possible. This requires knowing clearly what was happening
+      before the error occurred, what specifically caused the error to
+      occur, what the error condition is and what happened as a
+      consequence of the error.
+    </para>
+
+    <para>
+      The most helpful situation to enable the developers to find and
+      correct the error is to come up with a sequence of steps that
+      generate the error. If the error can be repeated, it can almost
+      always be corrected. The most helpful error reports include a
+      small recipe that can cause the error to occur.
+    </para>
+
+  </sect1>
+
+
+
+
+<sect1 id="sect-bugs-bugzilla_account">
+  <title>Opening an account</title>
+
+    <para>
+      The first time a user uses <application>Bugzilla</application>,
+      they must create an account. This account is needed to allow
+      users to be informed of the status of the bug as it is tracked
+      by the system from submission to resolution. The only
+      requirement for opening a <application>Bugzilla</application>
+      account is the possession of a valid email address through which
+      the user can receive a password.
+    </para>
+
+  <sect2 id="sect-bugs-bugzilla_account-create">
+    <title>Creating a new account</title>
+
+    <para>
+      Users of <application>Bugzilla</application> are automatically
+      redirected to a login page, unless they have previously logged
+      into the system and accepted a 'cookie' with which they identify
+      themselves. The login page has a link called "Create a new
+      account" which will direct users to the account creation page.
+    </para>
+
+    <para>
+      Alternatively, by clicking on this <ulink type="http"
+      url="http://bugzilla.gnome.org/createaccount.cgi">link</ulink>,
+      users can follow a shortcut directly to the account creation
+      page.
+    </para>
+
+    <para>
+      Creating a new account is very simple. The account creation page
+      has two fields. In the first, a valid email account must be
+      given. The second asks for a name by which the user wishes to be
+      known. After a user fills out these two fields, clicking on the
+      button labeled "Create Account" will cause a new account to be
+      created and an email sent to the address given in the email
+      field. The email will contain the password used to identify this
+      user.
+    </para>
+
+  </sect2>
+
+  <sect2 id="sect-bugs-bugzilla_account-login">
+    <title>Logging into the account</title>
+
+    <para>
+      After creating an account, users can visit the bug entry
+      <ulink type="http" 
+      url="http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric">page
+      </ulink>
+      for &gnum;. Here
+      users are asked to login with their email address and
+      password. After logging in, <application>Bugzilla</application>
+      will present a page to add a bug report.
+   </para>
+
+   <note>
+     <para>
+       A user who accepts cookies from <literal>bugzilla.gnome.org</literal>
+       will only have to give a password the first time they visit
+       GNOME's <application>Bugzilla</application>. During all future
+       visits, GNOME will recognize the cookie and thereby identify
+       the user.
+     </para>
+   </note>
+
+ </sect2>
+
+</sect1>
+
+
+
+
+<sect1 id="sect-bugs-report">
+  <title>Filing a report</title>
+
+    <warning>
+      <para>
+        In order to file a report of a problem with
+        &gnum;, a
+        <application>Bugzilla</application> account is
+        necessary. Please see the previous section, <xref
+        linkend="sect-bugs-bugzilla_account" />, for an explanation of
+        how to open an account.
+      </para>
+    </warning>
+
+    <para>
+      The &gnum; bug entry page consists
+      of several fields many of which must be filled out to provide a
+      useful bug report. The most important of these will be the "Bug
+      Description" which contains both the brief "Summary" field which
+      acts like an email subject line and the detailed description
+      field "Step to reproduce the bug" which should be used to give a
+      more complete explanation of the problem and, ideally, to
+      describe step by step how to reproduce the bug. The only other
+      field which is required is the "Component" field which can be
+      set to "General" and left to the developers to define more
+      specifically. The remaining fields can be helpful, since they
+      provide extra information which may help resolve the problem, but
+      are not necessary. After filling out these three fields, a user
+      can, if they desire, simply skip to the bottom and press the
+      <guibutton>Commit</guibutton> button.
+    </para>
+
+  <sect2 id="sect-bugs-bugzilla_access">
+    <title>Accessing the GNOME project's Bugzilla</title>
+
+    <para>
+      There are several ways to file a bug report through
+      <application>Bugzilla</application>.
+    </para>
+
+    <para>
+       One of the entries in the <guimenu>Help</guimenu> menu is
+      called <guimenuitem>Report a Problem</guimenuitem>. This menu
+      entry should cause a browser window to launch and open
+      <application>Bugzilla</application> to the
+      &gnum; page.
+    </para>
+
+    <para>
+      Alternatively, users can click on this <ulink type="http"
+      url="http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric">
+      link</ulink> to access the &gnum;
+      page in <application>Bugzilla</application>.
+    </para>
+
+    <para>
+      If neither of those shortcuts work, the user must use a web
+      browser to access the following location:
+<screen>http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric
+</screen>
+      The simplest way would be to use the mouse to copy the text and
+      paste that text into the location bar of a web browser.
+    </para>
+
+    <para>
+      The user may be asked to login, by giving their account name and
+      their password, when they begin their browser session with
+      <application>Bugzilla</application>. See <xref
+      linkend="sect-bugs-bugzilla_account-login" /> for an explanation
+      of how to login to <application>Bugzilla</application>.
+    </para>
+
+  </sect2>
+
+
+    <sect2 id="sect-bugs-report-description">
+      <title>The Bug Description</title>
+
+      <para>
+        A useful error report will include a subject that describes
+        the error concisely, has a brief introduction which explains
+        in greater detail what happened and, ideally, has a small
+        recipe that leads to the error being repeated.
+      </para>
+
+      <para>
+        The summary field, like the subject of an email message,
+        briefly describes the problem. For example, a useful error
+        report might have a summary "Gnumeric crashes when saving a
+        file".
+      </para>
+
+      <para>
+        The field titled "Steps to reproduce the bug" should contain a
+        slightly expanded version of the summary giving an overview of
+        the problem and then give a step-by-step example of how to
+        reproduce the problem. For example, this field could look like
+        the following: 
+<screen> 
+This report describes an error which causes Gnumeric to crash
+during the use of the file save dialog.
+
+1) Start a new Gnumeric
+2) In Cell A1 type "hello"
+3) From the "File" menu, select "Save As"
+=> The "Save As dialog" opens up
+4) In the file name box, type "my_spreadsheet.gnumeric"
+5) Click on the "Save" button
+=> I expected the file to be saved, and to be able to keep
+working but instead Gnumeric disappeared and the file was 
+never saved.
+
+thanks, 
+a user
+</screen>
+       </para>
+
+    </sect2>
+
+
+
+
+  <sect2 id="sect-bugs-report-product">
+    <title>Product and Component</title>
+
+    <para>
+      The <emphasis>Product</emphasis> should be set to
+      &gnum; since the GNOME version of
+      <application>Bugzilla</application> is used for all the different
+      programs in the project.
+    </para>
+
+    <para>
+      The <emphasis>Component</emphasis> describes the part of
+      &gnum; that causes the
+      problem. This may not be obvious so, unless one of the other
+      entries clearly matches, the component should be set to
+      "General". The possible components for
+      &gnum; are as follows.
+    </para>
+
+<table frame='all'><title>Components of Gnumeric</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+
+<thead>
+<row>
+  <entry align="center">Component</entry>
+  <entry align="center">Explanation</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>Analytics</entry>
+  <entry>Problems with calculations and other mathematics.</entry>
+</row>
+<row>
+  <entry>Charting</entry>
+  <entry>Problems with graphical plots of worksheet data.</entry>
+</row>
+<row>
+  <entry>Compilation</entry>
+  <entry>Problems encountered during source code compilation.</entry>
+</row>
+<row>
+  <entry>Database plugin</entry>
+  <entry>Problems when using a database from
+  &gnum;.</entry>
+</row>
+<row>
+  <entry>Documentation</entry>
+  <entry>Problems with this manual, with the explanations of
+  functions, or with any other explanations.</entry>
+</row>
+<row>
+  <entry>General</entry>
+  <entry><emphasis>The Default.</emphasis> Use this when none of the other
+  categories apply.</entry>
+</row>
+<row>
+  <entry>GUI</entry>
+  <entry>Problems with the graphical user interface.</entry>
+</row>
+<row>
+  <entry>GUI Expression Entry Widget</entry>
+  <entry>Problems while entering or editing cell contents.</entry>
+</row>
+<row>
+  <entry>import/export Applix</entry>
+  <entry>Problems opening or saving a file to the file format used by
+  the Applix spreadsheet.</entry>
+</row>
+<row>
+  <entry>import/export HTML</entry>
+  <entry>Problems opening or saving a file to the HTML or LaTeX file
+  formats.</entry> 
+</row>
+<row>
+  <entry>import/export MS Excel (tm)</entry>
+  <entry>Problems opening or saving a file to any of the various file
+  formats used by the Microsoft Excel spreadsheet.</entry>
+</row>
+<row>
+  <entry>import/export OOo / OASIS</entry>
+  <entry>Problems opening or saving a file to the OASIS file format
+  used by OpenOffice.Org Calc or Star Office Calc.</entry>
+</row>
+<row>
+  <entry>import/export Text</entry>
+  <entry>Problems opening or saving a file to a text file format
+  including tab, comma and space delimited files.</entry>
+</row>
+<row>
+  <entry>Installation</entry>
+  <entry>Problems encountered during
+  &gnum; installation.</entry>
+</row>
+<row>
+  <entry>Main System</entry>
+  <entry>This component is no longer used.</entry>
+</row>
+<row>
+  <entry>Printing</entry>
+  <entry>Problems encountered when printing a worksheet.</entry>
+</row>
+<row>
+  <entry>Sheet Objects</entry>
+  <entry>Problems with any images, widgets, or drawing elements added
+  to a worksheet.</entry> 
+</row>
+</tbody>
+</tgroup>
+</table>
+
+
+  </sect2>
+
+
+
+    <sect2 id="sect-bugs-report-severity">
+      <title>The Severity and Priority of the Problem</title>
+
+      <para>
+        The severity level indicates the seriousness of the problem
+        and the priority level indicates the desire of the developers
+        to address the bug. These fields are used mostly by the
+        developers and should both be left as "normal" unless the user
+        has a good reason to change them.
+      </para>
+
+      <para>
+        There are two cases when the user should change the severity
+	of the report. In the first case, if the user has a problem
+	which causes &gnum; to crash (to
+	suddenly disappear or stop working) or a problem in which data
+	is lost, the severity should be set to "critical". In the
+	second case, if the user has a report about a desired feature,
+	the severity should be set to "enhancement" so the developers
+	will know right away that the desired functionality has not
+	yet been added to the program.
+      </para>
+
+      <para>
+        The problem severity levels are explained below.
+      </para>
+
+<table frame='all'><title>Problem Severity</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+<thead>
+<row>
+  <entry align="center">Severity Level</entry>
+  <entry align="center">Explanation</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry>blocker</entry>
+  <entry>The level used to indicate a problem which must be fixed
+  before any next release.</entry>
+</row>
+<row>
+  <entry>critical</entry>
+  <entry>The level used to indicate a very important problem such as a
+  program crash or loss of data.</entry>
+</row>
+<row>
+  <entry>major</entry>
+  <entry>The level used to indicate a severe problem but one that does
+  not cause a crash or loss of data.</entry>
+</row>
+<row>
+  <entry>normal</entry>
+  <entry>The level to use by default and used for the majority of
+  reports.</entry>
+</row>
+<row>
+  <entry>minor</entry>
+  <entry>The level used for problems which do not affect the
+  functioning of the program.</entry>
+</row>
+<row>
+  <entry>trivial</entry>
+  <entry>The level used to report typos, aesthetic, and other very
+  small problems.</entry>
+</row>
+<row>
+  <entry>enhancement</entry>
+  <entry>These are reports which are requests for future improvements
+  of the program.</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+      <para>
+        The priority level should be left at the "normal" level since this
+        is a field used by the developers themselves.
+      </para>
+
+    </sect2>
+
+
+
+
+    <sect2 id="sect-bugs-report-version">
+      <title>The Version of Gnumeric and GNOME</title>
+
+      <para>
+        The version field is used to indicate the version of
+	&gnum; which was used when the
+	problem occurred. If the problem occurs with several versions,
+	the most recent version number should be used. The version
+	number can be obtained by opening the <interface>"About
+	Gnumeric"</interface> dialog using the <guimenu>Help</guimenu>
+	menu and the <guimenuitem>About</guimenuitem> menu item.
+      </para>
+
+      <para>
+        The "CVS" version refers to a version which the user has
+        recently obtained from the Concurrent Versions System
+        repository provided by the GNOME project.
+      </para>
+
+      <para>
+        The "Other version details" text box can be used to describe
+        any unusual characteristics of the program such as plugins
+        which were added or other uncommon modifications.
+      </para>
+
+      <para>
+        If &gnum; is being used with a
+        GNOME desktop, the version of GNOME being used can be entered
+        in the "Gnome Version" field.
+      </para>
+
+    </sect2>
+
+
+
+    <sect2 id="sect-bugs-report-os">
+      <title>The Type of Operating System and Distribution</title>
+
+      <para>
+        The "Operating System" field can be used to describe the
+	underlying operating system being used to run the
+	&gnum; program. Please note, that
+	if the program is run in an artificial environment such as a
+	virtual machine or a Cygwin setup, this should be indicated in
+	the next field.
+      </para>
+
+      <para>
+        The "Distribution/Version" field should be used to add detail
+        to the operating system described earlier.
+      </para>
+
+    </sect2>
+
+
+
+
+
+
+    <sect2 id="sect-bugs-report-other">
+      <title>Other fields and keywords</title>
+
+     <para>
+        These fields are used by advanced users to better sort through
+        all the reports. The "Keywords" field is used to relate the
+        reports to each other and the "CC" field is used by those who
+        are interested to add themselves to those who are notified
+        when changes are made to the report.
+      </para>
+
+    </sect2>
+
+
+    <sect2 id="sect-bugs-report-commit">
+      <title>Submitting the report</title>
+
+      <para>
+        In order to submit the bug report into
+        <application>Bugzilla</application>, once all of the important
+        fields have been submitted, simply click on the
+        <guibutton>Commit</guibutton> button.
+      </para>
+
+      <para>
+        Once the bug is committed, a bug report number for this bug
+        will be assigned, and email will be sent either the the
+        project maintainer or to one of the other developers which
+        deal specifically with that component of the program. When
+        others take an interest in the bug and add comments or
+        solutions, email will be sent out to the user to inform them
+        of the status of the bug until it is either dismissed or
+        resolved. Bugs can be dismissed if they describe a behaviour
+        that is expected or if they are not deemed important enough to
+        fix. 
+      </para>
+
+      <note>
+        <para>
+	  A user can choose not to be notified when changes to reports
+	  are submitted. The user preference page can be accessed <ulink
+	  type="http"
+	  url="http://bugzilla.gnome.org/userprefs.cgi">here</ulink> at the
+	  following URL.
+<screen>http://bugzilla.gnome.org/userprefs.cgi
+</screen>
+       </para>
+     </note>
+
+    </sect2>
+
+
+
+
+    <sect2 id="sect-bugs-report-template">
+      <title>Bookmarking a template</title>
+
+      <para>
+        A version of the bug entry page with most of the fields
+        already filled out can be saved as a link and bookmarked for
+        future use. This ability is only of use for developers or for
+        users who have found a large number of bugs in one particular
+        component of &gnum;.
+      </para>
+
+      <para>
+        To use this shortcut, first open a new bug report, then fill
+        out only the fields that will apply to all the future bugs
+        being reported and then click on the button labelled "Bookmark
+        these values". <application>Bugzilla</application> will then
+        construct a template and will provide a link which can be
+        saved for future use just as any other page on the web can be
+        saved as a bookmark. To use these values, simply clicking on
+        the bookmark will open the &gnum;
+        page of <application>Bugzilla</application> with the common
+        fields already filled out.
+      </para>
+
+    </sect2>
+
+
+</sect1>
+

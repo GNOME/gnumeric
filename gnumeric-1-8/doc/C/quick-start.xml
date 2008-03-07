@@ -1,0 +1,1933 @@
+<sect1 id="sect-quick-start-top">
+  <title>Working with Gnumeric</title>
+
+  <para>
+    Using a spreadsheet generally involves several steps. First the
+    application is started to obtain an empty workbook, which
+    generally has several empty worksheets. Next, data and formulas
+    are entered into one or several sheets. The data may be entered by
+    hand or imported from external files. The formulas are generally
+    entered by hand, possibly with the help of various tools. The data
+    may be formatted to appear in particular ways and to clarify the
+    structure of the data in the worksheet. A user may also create
+    several graphical plots. Certain parts of the spreadsheets may be
+    printed out as tables. The work is then usually saved into a file
+    which can be re-opened later to add or modify the contents of the
+    workbook.
+  </para>
+
+  <note>
+    <para>
+      The terminology can be confusing. A spreadsheet file contains a
+      workbook and possibly some other information about the
+      file. (Because the workbook is far more important than the extra
+      information, the files themselves are often called workbooks.) A
+      workbook contains one or more worksheets. Each worksheet
+      contains a large number of cells usually arranged into a two
+      dimensional grid made up of columns and rows. 
+      We introduce the names of the parts of 
+      &gnum; below in 
+      <xref linkend="quick-parts-of-gnumeric" /> and explain the parts 
+      further in <xref linkend="chapter-gui-elements"/>.
+    </para>
+  </note>
+
+</sect1>
+
+
+
+
+
+
+
+
+<sect1 id="sect-quick-starting-gnumeric">
+  <title>Starting Gnumeric the First Time</title>
+
+  <para>
+    &gnum; can be started in several ways
+    on every computer operating system and desktop environment. Each
+    of the approaches described below are equivalent; they result in a
+    gnumeric window appearing on your monitor as shown in <xref
+    linkend="fig-gnumeric-first-start" />
+  </para>
+
+  <figure id="fig-gnumeric-first-start">
+    <title>The Gnumeric spreadsheet when first opened.</title>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/gnumeric-empty.png" 
+              format="PNG"/>
+        </imageobject>
+        <textobject>
+          <para>
+            This screenshot depicts Gnumeric when first opened.
+          </para>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+  </figure>
+
+  <note>
+    <title>Starting is the hardest step</title>
+    <para>
+      Starting &gnum; the first time is the most difficult
+      step. Unfortunately, this is also the step which we cannot
+      effectively explain in this manual. &gnum; can be installed
+      many different ways so no generic instructions can possibly
+      suffice. The pointers below will hopefully help you get past this
+      first step.
+    </para>
+  </note>
+
+  <note>
+    <para>
+      We assume that the &gnum; program is
+      already installed program on your machine.
+      Installing &gnum; depends
+      on the particular operating system and distribution used on your
+      machine and is therefore beyond the scope of this manual. If
+      &gnum; is not already installed on your
+      machine, read the manuals that came with your distribution or
+      look at your distribution vendor's web site.
+<!-- TODO: ref- add a link to the installation section. -->
+    </para>
+  </note>
+
+  <sect2 id="sect-quick-starting-gnumeric-gnome">
+    <title>Starting Gnumeric from the GNOME desktop</title>
+
+    <para>
+      If you are a GNOME user, you should have a `panel' somewhere on
+      your desktop. This panel contains icons, and at least two menus.
+      One of these menus is called <guimenu>Applications</guimenu> and
+      has an icon which looks like the outline of a foot. If you click
+      on this menu name, a menu will appear. Drag the cursor down to
+      the <guisubmenu>Office</guisubmenu> sub-menu name, and a sub-menu
+      will appear. Drag the cursor into the sub-menu and then release
+      the mouse button when the cursor is on the entry which reads
+      "Gnumeric Spreadsheet." This will start the program and the main
+      window of &gnum; will appear as
+      shown in <xref linkend="fig-gnumeric-first-start" />.
+    </para>
+  </sect2>
+
+  <sect2 id="sect-quick-starting-gnumeric-unixdesktop">
+    <title>Starting Gnumeric from another *NIX desktop</title>
+
+    <para>
+      If you run a UNIX-like operating system (called *NIX in this
+      manual) such as GNU/Linux, GNU on some other kernel, or a
+      commercial UNIX (TM) system, or if you use a commercially
+      distributed version of GNOME, of the KDE (K Desktop
+      Environment), or of a similar desktop system, you will have to
+      find a way to launch &gnum;
+      yourself. Hunt around the menus until you find something named
+      "Gnumeric", possibly with the
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="figures/gnumeric-icon-24.png" 
+              format="PNG" />
+        </imageobject>
+        <textobject>
+          <para>
+            This image depicts the menu icon of Gnumeric.
+          </para>
+        </textobject>
+      </inlinemediaobject>
+      icon and then click on that menu entry.
+    </para>
+    <warning>
+      <para>
+        On UNIX-like operating systems, &gnum; 
+        requires the X window system to run.
+      </para>
+    </warning>
+  </sect2>
+
+  <sect2 id="sect-quick-starting-gnumeric-unixshell">
+    <title>Starting Gnumeric from a *NIX terminal</title>
+
+    <para>
+      You can also start &gnum; from the
+      command line in an <application>xterm</application> window or
+      equivalent terminal emulator. Open a terminal, and, at the shell
+      prompt type:
+      <screen>
+gnumeric &amp;
+      </screen>
+      which will start the program and send it into the background.
+    </para>
+    <warning>
+      <para>
+        You must be running the X window system to run
+        &gnum;.
+      </para>
+    </warning>
+  </sect2>
+
+  <sect2 id="sect-quick-starting-gnumeric-doze">
+    <title>Starting Gnumeric from a Microsoft desktop</title>
+
+    <para>
+      &gnum;, starting with the 1.4 series, can be run as a native
+      application on the Microsoft Windows operating systems. On those
+      operating systems, The <guilabel>Start</guilabel> menu should
+      contain an entry which will launch &gnum;. The actual location
+      of the menu item depends on the choices made during
+      installation. 
+    </para>
+
+    <sect3 id="sect-quick-starting-gnumeric-dozePrompt">
+      <title>Starting Gnumeric from a Microsoft command prompt</title>
+
+      <para>
+        You can also start &gnum; from a
+        shell window by finding the directory with the program itself
+        which will be called <filename>gnumeric.exe</filename>. You
+        can either move to that directory and type:
+        <screen>
+gnumeric
+        </screen>
+        or you can type the whole name of the path and file, which
+        will be something like:
+        <screen>
+c:\Program Files\Gnome-Office\gnumeric
+        </screen>
+        either of which should start the program.
+      </para>
+    </sect3>
+
+  </sect2>
+
+  <sect2 id="quick-start-by-file">
+    <title>Starting from a Spreadsheet file</title>
+
+    <para>
+      &gnum; can also be opened using a
+      spreadsheet file directly. If there is a spreadsheet file on the
+      desktop or in a file manager like
+      <application>Nautilus</application>, it may be possible to click
+      or double-click with the mouse pointer on the file and have
+      &gnum; open the file
+      automatically. Alternatively, you may be able to right click on
+      the file and get a pop-up menu that will allow you to select
+      &gnum; as the application to use to
+      open the file.
+    </para>
+  </sect2>
+    
+  <sect2 id="quick-start-other">
+    <title>Other sources of help</title>
+
+    <para>
+      If you are still stuck, ask a friend or someone who knows your
+      machine. Unfortunately, getting started is often the hardest
+      part of learning to use a new program but it is also the one
+      place a manual such as this one cannot really help.
+    </para>
+
+  </sect2>
+
+</sect1>
+
+
+<sect1 id="quick-parts-of-gnumeric">
+  <title>The Parts of Gnumeric</title>
+
+  <para>
+    After opening, &gnum; appears as was
+    shown in <xref linkend="fig-gnumeric-first-start" /> but is shown
+    below with the major components labeled. The open
+    application contains a menubar at the top, two toolbars below the
+    menu bar, and below these, on the left, the object toolbar, and,
+    on the right, the data entry area above the cell grid area which
+    itself is above the list of worksheets and the information
+    area.
+  </para>
+
+  <figure id="fig-quick-parts-gnumeric-labelled">
+    <title>The parts of Gnumeric</title>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="figures/gnumeric-labelled.png" format="PNG" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+  <para>
+    The part names are listed below along with a reference to
+    the section that discusses that element. If you are reading this document
+    on a computers, you may be able to click on the references to jump to
+    that section of the manual.
+  </para>
+  
+  <variablelist>
+    <varlistentry>
+      <term>
+        <emphasis role="bold">1</emphasis>
+	  The menubar
+      </term>
+      <listitem>
+	<para>The menubar provides access to the core
+	  functions of GNOME. Almost everything that you can
+	  do in &gnum;
+	  you can do through the menus. We discuss the menus and
+	  menubar in <xref linkend="sect-gui-menus" />. </para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>
+        <emphasis role="bold">2</emphasis>
+	  The standard toolbar
+      </term>
+      <listitem>
+	<para>
+	  The standard toolbar provides shortcuts for the most used
+	  items in the menus. We discuss the toolbars in <xref
+	  linkend="sect-gui-toolbars" /> and this toolbar in particular in
+	  <xref linkend="std-toolbar" />.
+	</para>
+      </listitem>
+    </varlistentry>
+
+    <varlistentry>
+      <term>
+        <emphasis role="bold">3</emphasis>
+	    The format toolbar
+      </term>
+      <listitem>
+	<para>
+	  The format toolbar changes the display properties of data in
+	  the workbook. We present it in <xref linkend="fmt-toolbar"
+	  />, part of the general discussion of toolbars of <xref
+	  linkend="sect-gui-toolbars" />.
+        </para>
+      </listitem>
+    </varlistentry>
+   
+    <varlistentry>
+      <term>
+        <emphasis role="bold">4</emphasis>
+	  The object toolbar
+      </term>
+      <listitem>
+	<para>This toolbar enables you to draw graphic elements
+	on the sheet, such as text labels, big red circles or thin
+	green arrows. You can use these to bring attention to a
+	particular part of a worksheet. We explain the object toolbar in
+	<xref linkend="obj-toolbar" /> in the <xref
+	linkend="sect-gui-toolbars" /> portion of this manual.</para>
+      </listitem>
+    </varlistentry>
+    
+    <varlistentry>
+      <term>
+        <emphasis role="bold">5</emphasis>
+	    The data entry area
+      </term>
+      <listitem>
+	<para>The data entry area is useful for the
+	  modification of complex formulas. We discuss it in
+	  <xref linkend="data-entry" />. </para>
+      </listitem>
+    </varlistentry>
+      
+    <varlistentry>
+      <term>
+        <emphasis role="bold">6</emphasis>
+	  The cell grid area
+      </term>
+      <listitem>
+	<para>The cell area lies in the middle of all the rest. The
+	cell area includes the row and column labels, the scrollbars
+	and the tabs below. We explain the use of these elements in
+	<xref linkend="cell-grid" />.</para>
+      </listitem>
+    </varlistentry>
+    
+    <varlistentry>
+      <term>
+        <emphasis role="bold">7</emphasis>
+	  The information area
+      </term>
+      <listitem>
+	<para>This area is used by
+	  &gnum; to give you
+	  feedback on the status of certain
+	  operations. We explain this information in
+	  <xref linkend="info-area" />. </para>
+      </listitem>
+    </varlistentry>
+    
+  </variablelist>
+
+  <para>
+    For a detailed explanation of each of these elements, see
+    <xref linkend="sect-gui-overview" />.
+  </para>
+
+  <para>
+    By default, &gnum; opens a workbook
+    with three worksheets and a file name of
+    <filename>Book1.gnumeric</filename>.
+  </para>
+
+</sect1>
+
+
+
+
+
+
+<sect1 id="quick-commands">
+  <title>Using Commands</title>
+
+  <para>
+    You can access the commands provided by
+    &gnum; using several methods.
+    These methods are explained here. The most important commands are
+    explained in the rest of this chapter. We explain all of the commands 
+    in later chapters of this manual.
+  </para>
+
+  <sect2 id="quick-commands-menu">
+    <title>Using Menu Commands</title>
+    <para>
+      The menus provide the simplest way for you to get to all of the commands
+      provided by &gnum;. These menus
+      work like those in any GNOME application: you click on the menu to
+      open it, you drag the mouse cursor onto the menu and then release the
+      mouse button (or click again) while the cursor is above a menu entry 
+      to execute that command. For further information, see <xref
+      linkend="sect-gui-menus"/>.
+    </para>
+  </sect2>
+
+  <sect2 id="quick-commands-toolbar">
+    <title>Using Toolbar Button Commands</title>
+    <para>
+      The buttons on the toolbars are quite simple to use. You simply
+      place the mouse cursor above one of the buttons and press
+      the left mouse button to perform the command and it will either
+      execute immediately or open a dialog window to obtain further
+      information first. For further information on the toolbar button
+      commands, see <xref linkend="sect-gui-toolbars"/>.
+    </para>
+  </sect2>
+
+  <sect2 id="quick-commands-context">
+    <title>Using Context Menu Commands</title>
+    <para>
+      In many situations, &gnum; provides
+      a menu right under the mouse cursor if the right hand mouse
+      button is clicked. This menu contains different entries
+      depending on where the mouse cursor is when you click the right
+      hand mouse button. For further information, see <xref
+      linkend="context-menu"/>.
+    </para>
+  </sect2>
+
+  <sect2 id="quick-commands-keyboard">
+    <title>Using Keyboard Shortcut Commands</title>
+    <para>
+      You can trigger certain common commands by using a combination of
+      keys. The menu entries are often followed by a combination of
+      keys which you can use to trigger that command. For instance,
+      to save the file which you are currently using, you can 
+      jointly type the control key and the s key
+      (i.e. <keycombo><keysym>Ctrl</keysym><keysym>S</keysym></keycombo>).
+      For further information, see <xref linkend="keybinding"/>.
+    </para>
+  </sect2>
+
+</sect1>
+
+
+
+
+
+<sect1 id="quick-data">
+  <title>Data in Gnumeric</title>
+
+  <para>
+    The main purpose of spreadsheets like
+    &gnum; is to collect information in a
+    coherent manner, perform calculations on the information and then
+    be able to update those calculations easily if the original
+    numbers change. The use of a spreadsheet therefore requires a
+    substantial understanding of the types of information which can be
+    entered into the spreadsheet and the methods which can be used to
+    manipulate that information. This section explains how you can use
+    data in &gnum;.
+  </para>
+
+    <sect2 id="quick-data-datatypes">
+    <title>The Types of Data in a Spreadsheet</title>
+
+    <para>
+      Spreadsheets like &gnum; treat
+      information by separating the data into separate cells and
+      considering the data in each cell to be separate elements. Each
+      cell in the spreadsheet has both a value, which is what
+      &gnum; manipulates, and a
+      representation, which is what is actually shown. Understanding
+      this distinction is complicated and make take some time if you are new
+      to spreadsheets.
+      time. This distinction between value and representation is one of the
+      reasons spreadsheets are so useful.
+    </para>
+
+    <para>
+      The cells of the spreadsheet are contained in the cell grid
+      area. The cell grid area is the area with a white background and
+      grey grid lines. The grid lines separate this area into separate
+      cells. Each cell has a unique reference name which is the
+      combination of the letters of the name of the column and the
+      number of the row. For instance, the top, leftmost cell is the
+      cell named "A1" and the cell two over to the right and four rows
+      down is named "C4" because it is in the column labelled "C" and
+      in the fourth row. Each of these cells can contain only one
+      single datum.
+    </para>
+
+    <para>
+      The datum contained in any cell will have one of five types: a
+      text string type, a number type, a formula type, a boolean type
+      or an error type. These five types of data values can then have
+      various display formats so that, for instance, a number value
+      can be displayed as a number, a monetary amount, a date or a
+      time. Text strings are sequences of characters and punctuation
+      marks and could, for example, contain textual information such
+      as people's names. Number values are simply numbers but may be
+      input and displayed in various formats including decimal
+      numbers, dates, times, and numbers in scientific
+      notation. Formulas are instructions to
+      &gnum; to calculate a result. The
+      power of spreadsheets comes from these formulas because the
+      results of the calculation can depend on the contents of other
+      cells. Boolean values are either TRUE or FALSE and can be used
+      in logical statements. Error values are usually the result of
+      mistakes or impossible calculations.
+    </para>
+
+    <para>
+      For more advanced information on the types of data usable in
+      &gnum;, see <xref
+      linkend="sect-data-types"/>.
+    </para>
+
+  </sect2>
+
+  <sect2 id="quick-data-input">
+    <title>Putting Data into the Spreadsheet</title>
+
+    <para>
+      In order to enter data into the spreadsheet, you must first
+      select a cell in which to place the information and then
+      actually type the information on the keyboard. Once you have
+      entered the information, &gnum;
+      attempts to figure out both the appropriate data value type to
+      assign to the cell and the appropriate data format in which to
+      display this data value. Because this process is quite complex,
+      you may occasionally need to actively select these
+      parameters of the cells, which we explaine in <xref
+      linkend="quick-format" /> below. The next two sections explain
+      how to get data into a cell, first by moving the selection box
+      to a desired cell and then by typing the data.
+    </para>
+
+    <sect3 id="quick-data-input-moveselection">
+      <title>Moving the selection box</title>
+      <para>
+        In order to enter data into
+        &gnum; you must place the selection box
+        over the appropriate cell. The selection box appears on
+        the cell grid as a double lined rectangle with a small grey
+        square in the lower right corner of the box. By default the
+        selection box surrounds the top, leftmost cell in the cell
+        grid area.
+      </para>
+
+      <para>
+        The simplest way to move the selection box is to use the
+        mouse. If the mouse cursor is placed over the cell "C3" (the
+        cursor will be represented as a thick white cross) and the
+        left mouse button then clicked, the selection box will move to
+        cell "C3". Note that the selection box can cover more than one
+        cell if the mouse is dragged while being clicked. The use of
+        these larger selections is explained below in <xref
+        linkend="quick-complex-select" />.
+      </para>
+
+      <tip>
+        <para>
+          The selection box also causes the header of the column and
+          row to change slightly. The headers will turn a darker shade
+          of gray and the font of the letters and numbers turn
+          bold. This helps indicate what is currently being selected.
+        </para>
+      </tip>
+
+      <para>
+        You can also move the selection box with the keyboard arrow
+        keys. For instance, typing the right arrow twice and the down
+        arrow once will move the selection box from the cell "C3" to
+        the cell "E4".
+      </para>
+
+      <para>
+        The selection box can be moved in other ways and will move in
+        response to certain actions. These movements become intuitive
+        after using &gnum; for a little
+        while.
+      </para>
+    </sect3>
+
+    <sect3 id="quick-data-input-input">
+      <title>Data Input</title>
+
+      <para>
+        In order to enter data into a selected cell, you can simply
+        start typing. The characters will then become part of the
+        spreadsheet when you change the selection either by typing the
+        <keycap>Enter</keycap> key, which moves the selection down one
+        cell, by typing the <keycap>Tab</keycap> key, which moves the
+        selection one cell to the right, or by selecting any other
+        cell with the mouse.
+      </para>
+
+      <para>
+        For example, you could use the mouse to select the cell four
+        columns over (Column D) and three rows down (Row 3). Then you
+        could type "Hello, this is a line of text." and then type
+        the <keycap>Enter</keycap> key. The text would then appear in
+        cell "D3" and, if the cells to the right are empty, would span
+        into those cells so that the whole entry is visible. The
+        selection box moves when you type the <keycap>Enter</keycap> 
+        and will therefore appear afterwards in cell "D4", ready
+        for the input of more data.
+      </para>
+
+      <note>
+        <para>
+          Note that as the data text is entered it appears in both the
+          cell and in the data entry area (the area below the toolbars
+          to the right of the equals (=) sign).
+        </para>
+      </note>
+
+      <para>
+        You can correct mistakes you make during data entry by
+        using the <keycap>Backspace</keycap> key or the
+        <keycap>Delete</keycap> key. Finer control can be obtained if
+        the cursor is moved to the text entry area by clicking in the
+        box to the right of the equals (=) sign with the
+        mouse. Editing in the text entry area enables the arrow keys
+        to navigate backwards and forwards within the text being
+        entered and also enables the mouse to be used to move the
+        cursor.
+      </para>
+
+      <para>
+        You can simply change the contents of a cell by selecting the
+        cell again and either type the new contents or edit the
+        existing contents of the cells.
+      </para>
+
+      <note>
+        <para>
+          If the content of the cell is too large for the size of the
+          cell, the entry may span over the edge of the cell into the
+          empty cells to the right. If the cell is a number, the cell
+          grid area may display hash marks (######) to indicate the
+          cell has content which is too large to display in the given
+          cell width.
+        </para>
+      </note>
+
+    </sect3>
+
+    <sect3 id="quick-data-input-recognition">
+      <title>Automatic Data recognition</title>
+
+      <para>
+        As you enter data into the spreadsheet,
+        &gnum; interprets the information
+        in order, first, to assign it to a data category and, second,
+        to give it an appropriate data display format. The entry will
+        be assigned to one of the basic data types and possibly to a
+        sub-type. Entries which start with an apostrophe (') are
+        considered to be text no matter what the rest of the
+        contents. Entries which start with an equals sign (=) are
+        automatically considered to be a formula. Entries which are
+        single numbers or which fall into commonly used patterns for
+        dates or times will be considered to be numbers.
+      </para>
+
+      <para>
+        &gnum; usually figures out
+        correctly both the type and the appropriate display format for
+        the data being entered. Occasionally, you will have to
+        force &gnum; to consider the data
+        to be a different data type than
+        &gnum; would guess by
+        default. We explain the details of this process in greater
+        detail in the extended chapter on data, <xref
+        linkend="chapter-data" />.
+      </para>
+
+    </sect3>
+
+    <sect3 id="quick-data-input-text">
+      <title>Entering text</title>
+
+      <para>
+        To enter text, you simply select the appropriate cell,
+        type the text and then the <keycap>Enter</keycap> key. If the
+        text is too large to fit in its own cell, and the cell to its
+        right is empty, the text will span into the cell on the
+        right. By default, &gnum; uses a
+        display format for text in which the contents are shown left
+        justified.
+      </para>
+
+      <para>
+        For more information about text elements, see <xref
+        linkend="sect-data-text"/>.
+      </para>
+
+    </sect3>
+
+    <sect3 id="quick-data-input-numbers">
+      <title>Entering numbers</title>
+
+      <para>
+        To enter numbers, select the appropriate cell,
+        type in a number and then the <keycap>Enter</keycap>
+        key. &gnum; recognizes several
+        types of information to be numbers.
+      </para>
+
+      <para>
+        The simplest kind of input which
+        &gnum; recognizes as numbers are
+        standard numeric values. Technically, these are contiguous
+        sequences of digits which may have a separator symbol between
+        the thousands and another symbol indicating the decimal
+        separator. These symbols follow the English convention by
+        default (comma as thousand separator, period as decimal
+        symbol) but will adopt the symbols appropriate for a different
+        locality if &gnum; is launched in
+        a particular way. For instance, in a French setting the period
+        is the thousand separator symbol and the comma the decimal
+        separator symbol.
+<!-- TODO: add xref to localization --> 
+        By default, &gnum; will display
+        these numeric values lined up against the right side of the
+        cell.
+      </para>
+
+      <para>
+        Several other types of input are recognized as numeric values
+        which means that calculations can be performed on the values
+        in the cells.
+      </para>
+
+      <itemizedlist mark='circle'>
+        <listitem>
+          <para>
+            Dates in the standard format of the locale are recognized
+            as numbers. By default, when you 11/21/1970 it will be
+            recognized as the twenty-first of November of the year
+            nineteen seventy. &gnum;
+            stores the value as the number of days since the first day
+            of January in 1900.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Time values, such as 10:34 or 11:23:45 PM, are recognized
+            as number values. These values are stored in
+            &gnum; as fractions of the
+            whole day. 
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            You can input percentage values simply by appending the
+            percent symbol (%) to the value.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Fractions can be input and are recognized as values.
+<!-- TODO: add example of a fraction. -->
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            You can also input numeric values using scientific notation. For
+            instance, 1.003e+6 will be recognized as the value one
+            million three thousand.
+          </para>
+        </listitem>
+      </itemizedlist>
+
+      <para>
+        For more information on numbers, see <xref
+        linkend="sect-data-numbers" />.
+      </para>
+
+    </sect3>
+
+    <sect3 id="quick-data-input-boolean">
+      <title>Entering a Boolean</title>
+      <para>
+        To enter a boolean values, select the appropriate
+        cell, type in either "TRUE" or "FALSE" and then the
+        <keycap>Enter</keycap> key.
+      </para>
+    </sect3>
+
+    <sect3 id="quick-data-input-formula">
+      <title>Entering a Formula</title>
+
+      <para>
+        To entering a formula, select a cell and type in the
+        equals sign (=) and then a valid formula. If
+        &gnum; cannot understand the
+        formula which is entered, it will open a dialog box which may
+        have an explanation and gives you a chance either to
+        re-edit the expression or to accept the entry as a text entry
+        instead of a formula. The second choice makes it easy to
+        re-edit the entry into a valid formula simply by fixing the
+        formula and removing the leading apostrophe (') before the
+        equals sign.
+      </para>
+
+      <para>
+        Formulas can be quite complex since the power of spreadsheets
+        comes from these formulas. A simple example of the use of a
+        formula is as follows: first, select cell B2 and input the
+        value "3" into that cell. Second, select cell D4 and input
+        (without the quotes) "=B2+2" and then type the
+        <keycap>Enter</keycap> key. Cell D4 should display the value
+        "5". If the value of cell B2 is changed from "3" to "100",
+        &gnum; will automatically update
+        the value of cell D4 to "102".
+      </para>
+
+      <para>
+        A valid formula can be a simple arithmetic equation such as 
+        <screen>
+=3+4-1
+        </screen>
+        which uses a formula to make the cell equal to the value
+        6.
+      </para>
+
+      <para>
+        Formulas may include calls to functions. These are statements
+        which indicate that more complex operations should be
+        performed. For instance, a formula could be "=EXP(24)" which
+        would give the value of e (the base of the natural logarithm)
+        raised to the 24th power. The cell would then display
+        "2.6489e+10".
+      </para>
+
+      <para>
+        As was shown in the example above, formulas may contain
+        `references' to the contents of another cell. In the example
+        given above, the contents of the cell in the second column and
+        the second row was used in a calculation by using the cell
+        name "B2". These references mean that complex calculations can
+        be automatically updated when one of the original values
+        change. 
+      </para>
+
+      <para>
+        You can make references to the cells in other worksheets and
+        even to those in other workbooks (files). The basic format of
+        a complete reference is made of the name of the file the
+        reference is in, enclosed by square brackets, followed by the
+        name of the sheet, followed by an exclamation point, followed
+        by the letters of the column, followed by the number of the
+        row. For example, a complete reference could be
+        "[my_file.gnumeric]"Sheet3"!C3". These complete references can
+        be shortened if the filename or sheet names are the same as
+        that of the reference. "AE34" would refer to the cell in the
+        current file, in the current worksheet which is in column "AE"
+        and in row "34".
+      </para>
+
+      <para>
+        References can refer to a range of contiguous range of
+        cells. For instance, the reference "A1:E5" refers to all the
+        cells from the top-left most cell of the current sheet to the
+        cell five rows down and five rows over. This can be useful in
+        a formula which uses a function such as MAX(). The formula
+        "=MAX(A1:E5)" would display the value of the largest number
+        value in this range of cells.
+      </para>
+
+      <para>
+        For more information on references see the complete discussion
+        in <xref linkend="sect-data-formulas-references" /> later on in this
+        manual.
+      </para>
+
+
+      <para>
+         For a more discussion of the use of formulas see <xref
+         linkend="sect-data-formulas" /> later in this manual. For a
+         list of the functions available, see the function reference
+         appendix, <xref linkend="function-reference" />, or click on
+         the toolbar button with the symbol "f(x)" on it for an
+         organized list of functions.
+      </para>
+
+    </sect3>
+
+    <sect3 id="quick-data-input-error">
+      <title>Entering an Error Value</title>
+
+      <para>
+        Error values are almost never entered into the spreadsheet
+        directly but generally arise when formulas cannot calculate
+        valid results.
+      </para>
+
+    </sect3>
+
+  </sect2>
+</sect1>
+
+
+<sect1 id="quick-format">
+  <title>Cell Formats</title>
+
+  <para>
+    The data in &gnum; are stored in the
+    cells of the spreadsheet, each of which has a cell format which
+    dictates how the data will be displayed, whether the cell will
+    have borders and other information. Cell formatting can be quite
+    confusing at first because it combines simple changes, such as the
+    colour of the characters being displayed, with more complex ideas,
+    such as how future changes to the cell will be interpreted.
+  </para>
+
+  <para>
+    All of the cell formatting commands can be reached through a
+    context menu by right clicking on a cell and selecting the
+    <guilabel>Format Cells...</guilabel> menu entry. This will open a
+    dialog window with tabs which group together similar types of
+    formatting. Clicking on the <guilabel>Font</guilabel> tab allows
+    you to change the font family, style, size and colour. For
+    instance, if the cell B2 contained the text "Hello, this is my
+    first spreadsheet" then you can make this text bigger by
+    selecting a larger font size.
+  </para>
+
+  <sect2 id="quick-format-simple">
+    <title>Simple Cell Formatting</title>
+
+    <para>
+      Simple changes to the format of a cell include changing the
+      alignment of the characters, changing the font type or colour,
+      changing the border, and changing the colour or pattern of the
+      background.
+    </para>
+
+    <para>
+      The <guilabel>Alignment</guilabel>, <guilabel>Font</guilabel>,
+      <guilabel>Border</guilabel>, and <guilabel>Background</guilabel>
+      tabs are simple to understand simply by playing around with the
+      settings and looking at the effect on a cell which contains
+      text.
+    </para>
+
+    <para>
+      The <guilabel>Protection</guilabel> and
+      <guilabel>Validation</guilabel> tabs are advanced functionality
+      which you can ignore at the beginning. For explanations of these
+      tabs, see the advanced description in <xref
+      linkend="sect-data-format-validation" />.
+      </para>
+
+  </sect2>
+
+  <sect2 id="sect-quick-format-number">
+    <title>Formatting the Display and Entry Data Types</title>
+
+    <para>
+      Cell formats are most difficult to understand when they address
+      the type of data stored and the visual display of that
+      data. This only arises with the options selected in the
+      <guilabel>Number</guilabel> tab of the <guilabel>Format
+      Cells</guilabel> dialog. While these ideas are complex, 
+      you need to understand them early on as they are fundamental
+      to spreadsheet use.
+    </para>
+
+    <para>
+      When you enter data into &gnum;,
+      the spreadsheet interprets the entry based on the input format
+      of the cell. The default format of empty cells is the
+      <guilabel>General</guilabel> format which instructs
+      &gnum; to guess both the type of
+      the data being entered and a suitable display format for that
+      data type. However, you can change the <guilabel>General</guilabel>
+      format to a specific format in order to alter both the way
+      &gnum; interprets any future data
+      input to the cell and the way data in the cell are displayed.
+    </para>
+
+    <note>
+      <para>
+        Changing the format does not alter the data type of data
+        already in a cell but does alter the display format of that
+        data. This means that the input format will only affect future
+        input whereas the display format will affect both the data
+        currently in the cell and any data placed later into the cell.
+      </para>
+    </note>
+
+    <para>
+      For example, if you enter "12/25/2000" (without the quotes),
+      &gnum; guesses that this is a date
+      and stores the value 36885. (The value
+      &gnum; uses for dates is the number
+      of days since the last day of 1899.
+      <footnote>
+	<para>
+        &gnum; actually perpetuates an error of
+        <application>Excel</application> for the sake of compatibility
+        and assumes 1900 to be a leap year even though it was not.
+	</para>
+      </footnote>
+      At the same time, &gnum; changes the
+      display format to display this number as a date, with a numeric
+      month, day and year, separated by slashes.
+    </para>
+
+    <important>
+      <para>
+        The order in which the formatting operations occur is
+        critical. It is not possible to alter the type of a datum
+        currently in a cell by formatting. To alter the interpretation
+        of the data type in a cell, formatting must occur
+        <emphasis>prior</emphasis> to the entry of the data.
+      </para>
+    </important>
+
+    <para>
+      It sometimes becomes necessary to override the "General" type if
+      &gnum; is making an incorrect
+      assessment of the data being entered. Postal Zip Codes in the
+      United States, for instance, are incorrectly interpreted to be
+      numbers. Some of these Zip Codes start with a leading zero which
+      the "General" format type drops so the user must
+      intervene to keep that zero displayed. In order to input these
+      Zip Codes, the following steps must be performed. First, the
+      cell must be selected. Next, the cell must be formatted to hold
+      a "Text" value. This formatting changes both the interpretation
+      of any future data entry into this cell and alters the display
+      formatting of the cell. Finally, the Zip Code can be
+      entered. Following these steps, the data value will be
+      considered to be a "Text" value, any leading zeros will be
+      retained and the data will be left justified since this is the
+      default display format for "Text" values.
+    </para>
+
+    <tip>
+      <para>
+        If you need to alter the data type of a whole column prior
+        to data entry, you can do this in one formatting
+        operation. First you select the whole column by clicking
+        on the column header (the letters at the top). Next, you can format
+        the selected cells at once by clicking the right
+        mouse button to obtain the context menu or by selecting the
+        <guimenu>Format</guimenu> menu and the
+        <guimenuitem>Cells...</guimenuitem> menu entry. This quick
+        approach to pre-formatting cells can also be done for any
+        group of selected cells.
+      </para>
+    </tip>
+
+  </sect2>
+
+</sect1>
+
+
+<sect1 id="quick-complex-select">
+    <title>Complex Cell Selections</title>
+  
+    <para>
+      Selections can be more complex than a single cell at a
+      time. Selections may describe a continuous rectangular block of
+      cells, an arbitrary shaped group of cells or even a discontinuous
+      group of cells.
+    </para>
+
+    <para>
+      The most common way to select a continuous rectangular block of
+      cells uses a click and drag mouse motion. You can select the cells 
+      in this continuous block by clicking and holding the left
+      mouse button down on one of the corner cells (for instance, the
+      top, leftmost cell) and dragging the mouse cursor to the
+      opposite corner (for instance, the bottom, rightmost cell)
+      before releasing. The selection box will expand to include all
+      of the cells in this range.
+    </para>
+
+    <para>
+      The most common way to select an arbitrary shaped or
+      discontinuous group of cells is to hold down the
+      <keycap>Ctrl</keycap> key while using the mouse to select
+      cells. As long as you hold the <keycap>Ctrl</keycap> key down,
+      all of the cells included by a click or a click and drag motion
+      will be added to the selection.
+    </para>
+
+    <note>
+      <para>
+        There are several operations which cannot be performed with
+        odd shaped or discontinuous groups of cells.
+      </para>
+    </note>
+
+    <para>
+      For more information and other ways to select multiple cells,
+      see the complete discussion in <xref
+      linkend="sect-data-selections" />. 
+    </para>
+
+</sect1>
+
+
+<sect1 id="quick-cut-n-paste">
+  <title>Moving Cell Contents, Inserting New Cells or Deleting Cells</title>
+
+  <para>
+    The contents of cells, both data values and formatting, can be
+    moved from one part of a spreadsheet to another so that data do
+    not have to be re-entered if the spreadsheet is reorganized. New
+    cells can be added to a spreadsheet and old cells removed but
+    these latter operations cause the layout of the spreadsheet to be
+    altered.
+  </para>
+
+  <sect2 id="quick-cut-n-paste-movecontents">
+    <title>Moving Cell Contents</title>
+
+    <para>
+      The simplest way to move cell contents around a spreadsheet
+      involves selecting a block of cells containing the contents to
+      be moved, either "cutting" or "copying" those cells, selecting
+      the location where these contents are to be moved and then
+      pasting the data.
+    </para>
+
+    <para>
+      Moving data can only be performed with a single selection of
+      cells which means that only continuous rectangular blocks of
+      cells can be moved. This does mean, however, that columns or
+      rows can be moved as a unit. By default,
+      &gnum; moves the entire contents of
+      the cells including both the data values and the formatting of
+      the cells.
+    </para>
+
+    <para>
+      Once you have selected a group of cells, they can be "cut" or "copied"
+      either using the <guimenu>Edit</guimenu> menu, the toolbar
+      buttons (a pair of scissors or two pieces of paper, respectively),
+      the right mouse button context menu or keyboard shortcuts
+      (<keycombo><keysym>Ctrl</keysym><keysym>X</keysym></keycombo> or
+      <keycombo><keysym>Ctrl</keysym><keysym>C</keysym></keycombo>
+      respectively). If cells are "cut" the contents will be removed
+      from the current location. If cells are "copied", the contents
+      will be duplicated in the new location. These two operations
+      treat cell references in formulas slightly differently. If cells
+      are "cut", any references in the cells in the new location will
+      remain pointed at the original cells. If cells are "copied", the
+      references in the cells in the new location will point to cells
+      in the same relative position.
+    </para>
+
+    <para>
+      You can select the new location for the cells in two ways. The
+      simplest is to select the top, left cell of the new
+      location. Alternatively, you can select the whole new range of cells 
+      but the shape of this new range must match exactly the
+      dimensions of the original range which is more difficult.
+    </para>
+
+    <para>
+      Finally you can "paste" the cell contents in the new location
+      using either the <guimenu>Edit</guimenu> menu
+      <guimenuitem>Paste</guimenuitem> menu entry, the toolbar button
+      with a clipboard, the context menu
+      <guimenuitem>Paste</guimenuitem> menu entry or the
+      <keycombo><keysym>Ctrl</keysym><keysym>V</keysym></keycombo>
+      keyboard shortcut.
+    </para>
+
+    <para>
+      An alternative way to move cells in a current worksheet involves
+      dragging and dropping the original selection. You select the cells to be
+      moved as above. You then place the mouse cursor on
+      the thick white selection border. If you click and hold the left hand
+      button, you can drag the selected cells to a new
+      location resulting in the same operation as a "cut" and a
+      "paste". If you hold down the <keysym>Ctrl</keysym> key during
+      the click and drag of the mouse, the result is the same as a
+      "copy" and "paste" operation and can be repeated several times.
+    </para>
+
+    <para>
+      Both the <guimenu>Edit</guimenu> menu and the context menu have
+      an extra menu entry called <guimenuitem>Paste
+      Special...</guimenuitem> which can be used during a cut and
+      paste operation to selectively transfer some of the original the
+      cell contents or to alter the contents in specific ways. This
+      option allows the transfer of only the cell contents, only the
+      cell formats or only the calculated values of the cells. The
+      transferred contents can also be mathematically combined with the
+      current contents of cells in the new location. Alternatively,
+      the selection can be transposed. See <xref
+      linkend="sect-movecopy-pastespecial" /> for more information on
+      the <guimenuitem>Paste Special...</guimenuitem> command.
+    </para>
+
+
+  </sect2>
+
+
+  <sect2 id="quick-cut-n-paste-insdel">
+    <title>Inserting and Deleting Cells</title>
+
+    <para>
+      A worksheet can also be altered by inserting or by deleting
+      cells. These operations actually alter the locations of cells in
+      a workbook.
+    </para>
+
+    <para>
+      Inserting and deleting columns and rows are easy to
+      understand. If you select a group of columns or rows, selecting
+      the <guimenuitem>Column</guimenuitem> or
+      <guimenuitem>Row</guimenuitem> menu entries in the
+      <guimenu>Insert</guimenu> menu will add the same number of
+      columns to the left of the selected columns or of rows above the
+      selected rows. You can also use the context menu for the insert
+      operation. The context menu can be used to delete the currently
+      selected columns or rows.
+    </para>
+
+    <warning>
+      <para>
+        Insert operations can result in the loss of data if the last
+        columns or rows currently contain information.
+      </para>
+    </warning>
+
+    <para>
+      Individual cells or contiguous rectangular blocks of cells can
+      also be inserted and deleted. During this operation, you are
+      asked which way to shift the current cells to allow the
+      insertion or deletion of the selected cells. The movement can be
+      along the rows or along the columns and will result in the
+      relative movement of cells which were previously
+      contiguous. This shift is the fundamental difference between
+      insert and delete operations compared to cut or copy and paste
+      operations.
+    </para>
+
+  </sect2>
+
+</sect1>
+
+
+
+
+
+
+<sect1 id="quick-sheets">
+  <title>Sheets</title>
+
+  <para>
+    The worksheets in a workbook can be altered in several ways. The
+    name of a particular worksheet can be altered. New sheets can be
+    added. A current sheet can be duplicated or removed. The sheets
+    can be reordered. Other sheets operations can alter the colour of
+    the tabs or change the "protection" status of a worksheet to allow
+    cells to be locked or hidden.
+  </para>
+
+  <para>
+    The names of sheets can be changed. You can do this by editing
+    the tab directly. Clicking twice on a tab will highlight the text
+    and then standard editing operations will alter the text contents. 
+  </para>
+
+  <para>
+    You can insert a new empty sheet after the current sheet through
+    the <guimenuitem>Sheet</guimenuitem> menu entry in the
+    <guimenu>Insert</guimenu> menu or through the context menu which
+    appears when you click the right mouse button on a tab.
+  </para>
+
+  <para>
+    Instead of an empty sheet, you can add a copy of the current worksheet 
+    to the workbook after the current sheet by selecting the
+    <guimenuitem>Duplicate this Sheet</guimenuitem> menu entry from
+    the context menu.
+  </para>
+
+  <para>
+    You can remove the current sheet using the <guimenuitem>Remove
+    this Sheet</guimenuitem> menu entry from the context
+    menu. 
+    <warning>
+      <para>
+        Deleted sheets cannot be retrieved through the "Undo"
+        mechanism and sheet deletion is therefore an irreversible operation. Be
+        careful!
+      </para>
+    </warning>
+  </para>
+
+  <para>
+    You can re-order worksheets by clicking and holding the left
+    mouse button on a tab, then dragging that tab to the left or to
+    the right. Little arrows will appear showing the location where
+    the sheet will be placed. Releasing the mouse button will then
+    move the sheet to this new position.
+  </para>
+
+  <para>
+    Many of these operations can be performed at once from the
+    <guilabel>Manage Sheets</guilabel> dialog which can be opened
+    through the <guimenuitem>Manage Sheets...</guimenuitem> menu entry
+    in either the <guisubmenu>Sheet</guisubmenu> submenu in the
+    <guimenu>Edit</guimenu> menu or in the sheet tab's context
+    menu.
+<!-- TODO: add an xref to the 'Manage Sheets' dialog.
+    For more information on this dialog, see <xref
+    linkend="" />.
+-->
+  </para>
+
+
+</sect1>	
+
+
+
+
+
+<sect1 id="quick-graphing">
+  <title>Graphing</title>
+
+  <para>
+    A major function of moderns spreadsheets is to provide a quick and
+    easy way to plot numerical data in graphical charts of various
+    kinds. The use of graphs provides users a way to explore data to
+    discover relationships and trends in the data values. Graphs also
+    provide an effective way to present data so as to demonstrate
+    relationships in the data and summarize large amounts of data in
+    an effective image. In &gnum;, both
+    of these can be done easily and efficiently.
+  </para>
+
+  <warning>
+    <title>Graphing is a work in progress</title>
+
+    <para>
+      The approach to the creation of graphical displays of data was
+      completely redesigned in
+      &gnum; version 1.2 and is still
+      being improved. The ultimate goal is a system which will produce
+      an elegant graph automatically but can be customized in detail
+      according the user's preferences. This is a active area of
+      programming development and therefore will be changing
+      repeatedly in future versions.
+    </para>
+
+    <para>
+      Information on the creation of graphical displays of data is
+      presented in greater detail in <xref linkend="chapter-graphics"
+      />. That chapter will be updated regularly during development to
+      explain in detail how to produce and modify graphical displays
+      of data.
+    </para>
+
+  </warning>  
+
+  <para>
+    When graphs are used to explore data, the aim is usually to
+    produce a plot quickly with a minimum of effort. These plots are
+    not designed to look polished but must present the required
+    information as quickly as possible. To produce these graphs, users
+    must learn a simple series of operations which will produce the
+    desired plots. For speed, the most critical operation involves
+    selecting the cells on the spreadsheet which will be used as data
+    <emphasis>before</emphasis> starting the graphing process.
+  </para>
+
+  <para>
+    Graphs which are used to present data must be carefully crafted to
+    communicate effectively. Clarity of communication is the critical
+    factor and the plot may include a large amount of work to ensure
+    that the visual result of the plot helps to communicate the
+    desired result.
+    <tip>
+      <para>
+        The use of a graph may not be the best way to communicate
+        information. A verbal explanation or a simple table are often
+        sufficient and, because they are more compact, may be more
+        effective ways to communicate.
+      </para>
+    </tip>
+    &gnum; includes a large number of
+    features which allow users to craft the look of a particular graph
+    to maximize the effectiveness of the presentation. In
+    &gnum;, it is possible to change the
+    fonts, modify the borders of each element, add patterns and images
+    to backgrounds, add patterns to plot elements and configure the
+    graph in multiple ways. These features will be explained in detail
+    below.
+    <tip>
+      <para>
+        Graphs which use a large number of the graphical features
+        available in &gnum; often appear
+        cluttered. The visual richness of such images can often
+        obscure the message contained in the presentation of the
+        data. Spare, elegant and direct graphs will communicate
+        results most effectively.
+      </para>
+    </tip>
+  </para>
+
+  <sect2 id="quick-graphing-anExample">
+    <title>A Simple Graphing Example</title>
+
+    <para>
+      This section will introduce the process of creating a graph
+      by presenting an example of a side-by-side column plot.
+    </para>
+
+    <sect3 id="quick-graphing-anExample-data">
+    <title>Data for the examples.</title>
+    <para>
+      Because a graph requires data, it is first necessary to create
+      some simple data to use in these examples. First we have to
+      input these data into a worksheet. The data used are shown in
+      <xref linkend="fig-quick-graph-dataPic"/>. For clarity in this
+      discussion, the word "Interval" should be in cell A1.
+    </para>
+
+    <figure id="fig-quick-graph-dataPic">
+      <title>Gnumeric with the data used in this example.</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/example-data.png" format="PNG"
+            />
+          </imageobject>
+          <textobject>
+            <para>
+              This screenshot depicts Gnumeric with the data used in the
+              two example graphs.
+            </para>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+    </sect3>
+
+    <sect3 id="quick-graphing-anExample-plot">
+      <title>Making the Column Plot </title>
+
+      <para>
+        A column plot presents a series of data points as columns
+        whose height depends on the value of each datum. This is a
+        useful type of plot to show the number of eggs produced in
+        each interval.
+      </para>
+
+      <procedure>
+        <title>Making a Column Plot</title>
+
+        <step>
+          <para>
+            The quickest way to make a plot starts with the selection
+            of the data. Using the mouse, first select the range B1:C5
+            which includes the data both for the number of Eggs and
+            for the number of Females.
+          </para>
+        </step>
+
+        <step>
+          <para>
+            Next, click on the graphing toolbar button
+              <inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="figures/button-graph.png" 
+                            format="PNG"/>
+                </imageobject>
+                <textobject>
+                  <para>
+                    This image shows the toolbar graphing button.
+                  </para>
+                </textobject>
+              </inlinemediaobject>
+             which looks like three colored pillars. This launches a
+             new window called the graph guru.
+          </para>
+        </step>
+
+        <step>
+          <para>
+            Next, click on the word "Column" next to the icon with
+            vertical colored bars
+              <inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="figures/example-columnSelect.png" 
+                            format="PNG"/>
+                </imageobject>
+                <textobject>
+                  <para>
+                    This image shows the "column" plot type after it
+                    has been selected.
+                  </para>
+                </textobject>
+              </inlinemediaobject>
+            which will move the selection down to that row.
+          </para>
+        </step>
+
+        <step>
+<!--TODO: update button label from "OK" to "Graph"-->
+          <para>
+            Click on the "Ok" button. This will make the druid
+            disappear and leave the mouse cursor as a thin crosshair.
+          </para>
+        </step>
+
+        <step>
+          <para>
+            Finally, we will place and size the graph on a
+            sheet. Click on the sheet and drag downward and to the
+            right. As the mouse is dragged, a rectangle will
+            expand. When the mouse button is released, a simple column
+            chart should appear.
+          </para>
+        </step>
+       
+      </procedure>
+
+      <para>
+        The simple graph should look like <xref
+        linkend="fig-quick-graph-colGraph"/>.
+      </para>
+
+      <figure id="fig-quick-graph-colGraph">
+        <title>The Simple Graph with a Column Plot.</title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/example-colGraph.png"
+              format="PNG" />
+            </imageobject>
+            <textobject>
+              <para>
+                This screenshot depicts the simple graph with a single
+                chart containing a column plot.
+              </para>
+            </textobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+
+    </sect3>
+
+    <sect3 id="quick-graphing-anExample-simple">
+      <title>Modifying the Simple Graph</title>
+
+      <para>
+        The graph can be customized with titles, extra charts,
+        overlaid plots, label boxes and lots of extra information. To
+        customize the graph, right click on the plot to open the graph
+        custom menu. The graph context menu will appear as shown in
+        <xref linkend="fig-quick-graph-contextMenu"/>.
+      </para>
+
+      <figure id="fig-quick-graph-contextMenu">
+        <title>The context menu which appears on a graph object.</title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/menu-context-graph.png"
+              format="PNG" />
+            </imageobject>
+            <textobject>
+              <para>
+                This screenshot depicts the context menu applicable
+                to graphs.
+              </para>
+            </textobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+
+      <para>
+        This menu provides access to several functions. Users can
+        customize the appearance of graphs by selecting the
+        <guimenuitem>Properties</guimenuitem> menu item, can save the
+        graph into PNG or SVG formats using the <guimenuitem>Save as
+        image</guimenuitem> menu item, can reorder the various
+        graphical elements displayed in the worksheet using the
+        <guimenuitem>Top</guimenuitem>, <guimenuitem>Up</guimenuitem>,
+        <guimenuitem>Down</guimenuitem>, and
+        <guimenuitem>Bottom</guimenuitem> menu items or can delete
+        graphical elements with the <guimenuitem>Delete</guimenuitem>
+        menu item.
+      </para>
+
+      <para>
+        If we wanted to add a title and a legend to the graph, we
+        could use the <guimenuitem>Properties</guimenuitem> menu item
+        to open the graph editor and customize the graph as follows:
+      </para>
+
+      <procedure>
+        <title>Adding a title and legend to the simple graph</title>
+
+        <step>
+          <para>
+            Right click on the graph to open the context menu
+            and select the <guimenuitem>Properties</guimenuitem> menu
+            item. This will open the graph editor.
+          </para>
+        </step>
+
+        <step>
+          <para>
+            The graph editor opens with the top-level "Graph" entry
+            selected in the element tree displayed in the top left
+            pane of the editor. The top right pane of the editor
+            displays a preview of the eventual graph. The bottom pane
+            of the editor has a single or several tabs presenting the
+            elements which can be modified for the particular item
+            selected in the element tree. Click and hold on the
+            <guibutton>Add</guibutton> button
+              <inlinemediaobject>
+                <imageobject>
+                  <imagedata
+                       fileref="figures/button-graphEditor-add.png"
+                       format="PNG"/>
+                </imageobject>
+                <textobject>
+                  <para>
+                    This image shows the <guibutton>Add</guibutton>
+                    button in the graph editor.
+                  </para>
+                </textobject>
+              </inlinemediaobject>
+            to open the menu of elements addable to a graph. Note that
+            this menu changes depending on the element selected in the
+            element tree when the <guibutton>Add</guibutton> is
+            clicked. Drag the mouse cursor down until the selection
+            highlights the "Title" entry and release the mouse
+            button. This will add a "Title" node in the graph element
+            tree and change the selection to this "Title" node. The
+            bottom pane of the graph editor will also change to
+            display the modifiable characteristics of the "Title"
+            element.
+          </para>
+        </step>
+
+        <step>
+          <para>
+            In the text field of the tab displayed in the bottom pane
+            of the graph editor, add a title such as "Egg Production
+            and Female Productivity" and type the
+            <keycap>Enter</keycap> key. Note that the title appears at
+            the top of the graph in the preview pane.
+          </para>
+        </step>
+
+        <step>
+          <para>
+            In the graph tree, select the node labelled
+            "Chart1". Next, click and hold on the add button, drag
+            down to the <guimenuitem>Legend</guimenuitem> menu item
+            and release. Note that this adds a legend on the right of
+            the graph in the preview pane.
+          </para>
+        </step>
+
+        <step>
+          <para>
+            Click on the "Ok" button. The plot should now have a title
+            and a legend. Note that
+            &gnum; has used the words in
+            the column headers automatically to label the two data
+            series in the legend.
+          </para>
+        </step>
+       
+      </procedure>
+      <para>
+        The modified graph should look like <xref
+        linkend="fig-quick-graph-colGraph-modified"/>.
+      </para>
+
+      <figure id="fig-quick-graph-colGraph-modified">
+        <title>The Modified Column Graph.</title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/example-colGraph-modified.png"
+              format="PNG" />
+            </imageobject>
+            <textobject>
+              <para>
+                This screenshot depicts the example column graph with
+                a title and a legend.
+              </para>
+            </textobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+
+    </sect3>
+
+  </sect2>    
+
+</sect1>
+
+
+<sect1 id="quick-printing">
+  <title>Printing</title>
+
+  <para>
+    Printing in &gnum; is quite simple
+    and similar to other GNOME applications. Printing can be done
+    using the toolbar buttons or can be accessed through the
+    <guimenu>File</guimenu> menu. Printing usually involves
+    configuring the page properties (like the paper type and margins),
+    then previewing the document to be printed and finally actually
+    printing the document.
+  </para>
+
+  <para>
+    In order to configure a worksheet for printing several parameters
+    must be set such as the correct size of the paper sheet, the
+    layout of the spreadsheet, headers and footers and such
+    information. These parameters can be set once for all of the
+    worksheets in a file or separately for each worksheet. The
+    <guimenuitem>Page Setup...</guimenuitem> menu entry invokes a
+    dialog through which to alter the printing parameters.
+  </para>
+
+  <para>
+    The <guimenuitem>Print Preview...</guimenuitem> menu item or
+    toolbar button will open a window which shows what will be printed
+    with the current configuration. By default, printing only applies
+    to the current worksheet but this can be changed in the print
+    dialog explained next.
+  </para>
+
+  <para>
+    The <guimenuitem>Print...</guimenuitem> menu item or toolbar
+    button will open a dialog which allows the user to select whether
+    to print to a printer or to a postscript or PDF file. Various
+    printers can be selected and the parameters of the job, such as
+    whether to print all the worksheets or only the currently selected
+    worksheet, can be altered. Clicking on the
+    <guibutton>Print</guibutton> button will perform the printing
+    task.
+  </para>
+
+  <para>
+    Printing is explained in greater detail in <xref
+    linkend="chapter-printing" />.
+  </para>
+
+
+
+</sect1>
+
+
+
+<sect1 id="quick-files">
+  <title>File Opening and Saving</title>
+
+  <para>
+    When you first start &gnum; a new
+    workbook will be opened.  To save this workbook into a file, click
+    on <menuchoice><guimenu>File</guimenu><guimenuitem>Save As
+    &hellip; </guimenuitem></menuchoice>.  This brings up the file
+    dialog where you can pick the filename and format for the book you
+    are saving.  It is best to save the book in the <guilabel>Gnumeric
+    XML file format</guilabel> the first time.  This allows you to
+    easily edit the file without worrying about changes in the format
+    and look of the book.
+  </para>
+
+  <para>
+    Once the file has a name and a file format, saving subsequent
+    changes can be done easily either through the
+    <guimenu>File</guimenu> menu, through the toolbar or through a
+    keyboard shortcut. Saving with the menu requires selecting the
+    <guimenu>File</guimenu> and then the <guimenuitem>Save
+    </guimenuitem> menu item. Saving with the toolbar simply requires
+    clicking on 
+	<inlinemediaobject>
+	  <imageobject>
+		<imagedata fileref="figures/button-save.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+		<phrase>The "Save File" button</phrase>
+	  </textobject>
+	</inlinemediaobject>
+    in the tool bar. Finally saving with a keyboard shortcut simply
+    requires typing
+    <keycombo><keysym>Ctrl</keysym><keysym>S</keysym></keycombo>.
+  </para>
+
+    
+  <para>
+    Sometimes you want your book to be saved often so you do not lose
+    any work. To save the book at intervals click on
+    <menuchoice><guimenu>Tools</guimenu> <guimenuitem>Auto Save
+    &hellip;</guimenuitem></menuchoice>.  The <interface> Auto
+    Save</interface> dialog appears.
+	<figure id="fig-dialog-autosave">
+	  <title>Auto Save dialog</title>
+	  <screenshot>
+	    <mediaobject>
+	      <imageobject>
+		<imagedata fileref="figures/dialog-autosave.png" format="PNG"/>
+	      </imageobject>
+	      <textobject>
+		<phrase>The autosave dialog box.</phrase>
+	      </textobject>
+	    </mediaobject>
+	  </screenshot>
+	</figure>
+    Click on the <guibutton>Automatic Save Every</guibutton> button
+    and enter the number of minutes will pass between each save.  When
+    the interval is shorter more of your work will be potentially
+    saved, but &gnum; might appear
+    sluggish.  If &gnum; is sluggish
+    increase the time between saves.  The button <guibutton>Prompt
+    Before Saving</guibutton> brings up a dialog to ask if you want to
+    save the book.
+  </para>
+
+  <warning>
+    <para>
+      Using the automatic saving feature of
+      &gnum; can save time but is
+      dangerous. &gnum; does not create a
+      new file each time a file is saved but instead
+      &gnum; modifies the existing file
+      which destroys the previous work. In certain situations, this
+      feature can lead to the loss of possibly important work. Users
+      are highly recommended to backup their work by copying the
+      original file to a new name or by saving files to newly named
+      files.
+    </para>
+  </warning>
+
+  <para>
+    An existing spreadsheet file can be opened in several ways. If the
+    file has an icon on the desktop, this icon can be clicked or
+    double-clicked with the mouse button. Similarly, if a file
+    manager, such as the <application>Nautilus</application> file
+    manager, lists the file, then the file name can be clicked and
+    opened. If &gnum; is already opened,
+    a file can be opened by clicking on the <guimenu>File</guimenu>
+    and selecting the <guimenuitem>Open</guimenuitem> menu
+    item. Alternatively, the "Open file" button on the toolbar,
+	<inlinemediaobject>
+	  <imageobject>
+		<imagedata fileref="figures/button-open.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+		<phrase>An image of the "Open File" button.</phrase>
+	  </textobject>
+	</inlinemediaobject>, 
+    can be used or the <keysym>F3</keysym> key clicked.  All three of
+    these open the <interface>Open File</interface> dialog.  You can
+    then select the spreadsheet file you wish to open.
+    &gnum; can open many different types
+    of spreadsheet file formats.
+  </para>
+
+  <note>
+    <para>
+      If the file has recently been opened in
+      &gnum;, the file name will appear
+      in the <guimenu>File</guimenu> menu and can simply be clicked to
+      re-open the file.
+    </para>
+  </note>
+
+</sect1>
+
+
+
+<sect1 id="quick-closing-gnumeric">
+  <title>Closing Gnumeric</title>
+
+  <para>
+    There are several ways to close
+    &gnum;. The simplest is to select the
+    <guimenu>File</guimenu> menu and then the
+    <guimenuitem>Quit</guimenuitem> menu option at the bottom of the
+    <guimenu>File</guimenu>.
+  </para>
+
+  <para>
+    &gnum; can also be closed through the
+    window manager by clicking on a close box in the window frame or
+    through a pop-up menu. The placement of the box and the invocation
+    of the menu depend on the particular window manager and the theme
+    being used. If the GNOME panel is running the window list applet,
+    clicking with the right mouse button opens a context menu with a
+    <guimenuitem>Close</guimenuitem> which can be used to close
+    &gnum;.
+  </para>
+
+  <note>
+    <para>
+      If any changes have been made to the workbook since the last
+      time it was saved, a dialog will open to ask what is supposed to
+      happen to the contents of the workbook. At this point the
+      contents of the workbook can be saved (Save), the request to
+      close gnumeric can be cancelled (Don't Quit) or the most recent
+      changes can be discarded (Discard). If the user decides to save
+      the content, a second dialog may open requesting a file name,
+      location and type for the saved workbook.
+    </para>
+  </note>
+
+  <note>
+    <para>
+      Any files which are saved by &gnum;
+      must be deleted by the user. Either the GNOME file manager
+      <application>Nautilus</application> or the shell tool
+      <command>rm</command> can be used to delete the files. 
+    </para>
+  </note>
+
+</sect1>
+

@@ -1,0 +1,337 @@
+#!/usr/bin/perl -w
+#
+# import-GLPK: Use this Perl script to import GLPK into Gnumeric.
+#              Tested with glpk 4.2.
+#
+# GLPK is the GNU Linear Programming Kit. You can get the latest version
+# from any GNU mirror ftp site in the glpk directory.
+#
+# The script performs the following modifications to the original source
+# code:
+#       - imports only the selected files from the original source code
+#         distribution
+#       - creates the necessary 'Makefile.am's
+#       - uses gnm_float instead of double in all places
+#	- uses gnm_sqrt, ... instead of sqrt, ... in all places
+#
+#
+# Author:
+#         Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
+#
+
+use strict;
+
+#
+# Check the command line arguments.
+#
+
+my $glpk_path = $ARGV[0];
+my $dest_path = $ARGV[1];
+
+# Check paths.
+if (!defined ($glpk_path) || !defined ($dest_path)) {
+    print "Usage: import-GLPK <glpk-path> <destination-path>\n";
+    print "Both paths should be directories.\n\n";
+    exit;
+}
+
+
+#
+# Create destination directory hierarchy
+#
+
+#system "rm -rf $dest_path";
+mkdir $dest_path;
+mkdir "$dest_path/doc";
+mkdir "$dest_path/include";
+mkdir "$dest_path/source";
+
+
+#
+# Select files that are copied as is, like documentation etc.
+#
+
+my @files =
+    ("AUTHORS",
+     "ChangeLog",
+     "NEWS",
+     "README",
+     "doc/bench.txt",
+     "doc/lang.latex",
+     "doc/refman.latex",
+     );
+
+foreach my $filename (@files) {
+    my $srcfilename = "$glpk_path/$filename";
+    my $dstfilename = "$dest_path/$filename";
+    my $tmpfilename = "$dstfilename.new";
+
+    print STDERR "Creating $dstfilename...";
+    system "cp -p $srcfilename $tmpfilename";
+    &update_file ($dstfilename);
+}
+
+
+#
+# Select source code files that are filtered to be Gnumeric friedly.
+#
+
+# Add these Gnumeric headers
+my @gnumeric_inc =
+    ("gnumeric-config.h",
+     "gnumeric.h",
+     "numbers.h",
+     );
+
+# Select these sources to be imported into Gnumeric
+
+my @src =
+    (
+     "include/glpavl.h",
+     ##"include/glpchol.h",
+     "include/glpdmp.h",
+     ##"include/glphbsm.h",
+     "include/glpiet.h",
+     "include/glpipp.h",
+     "include/glpinv.h",
+     "include/glpios.h",
+     ##"include/glpipm.h",
+     "include/glpk.h",
+     "include/glplib.h",
+     "include/glplpp.h",
+     ##"include/glplpt.h",
+     "include/glplpx.h",
+     "include/glpluf.h",
+#"include/glpmat.h",
+     "include/glpmip.h",
+     ##"include/glpmpl.h",
+     ##"include/glpmps.h",
+     ##"include/glpqmd.h",
+     "include/glpspx.h",
+     "include/glpstr.h",
+     ##"include/glptsp.h",
+
+
+
+     "source/glpavl.c",
+     ##"source/glpchol.c",
+     "source/glpdmp.c",      # glp_dmp_get_atomv, ...
+     ##"source/glphbsm.c",
+     ##"source/glpiet.c",
+     "source/glpipp1.c",
+     "source/glpipp2.c",
+     "source/glpinv.c",      # inv_btran, ...
+     ##"source/glpios1.c",
+     ##"source/glpios2.c",
+     ##"source/glpios3.c",
+     ##"source/glpipm.c",
+     "source/glplib1a.c",
+     "source/glplib1b.c",
+     "source/glplib2.c",     # ucalloc, ...
+     "source/glplib3.c",     # get_atom
+     "source/glplib4.c",
+     "source/glplpp1.c",
+     "source/glplpp2.c",     # lpp_presolve
+     ##"source/glplpt.c",
+     "source/glplpx1.c",     # lpx_set_row_bnds, lpx_create_prob,...
+     "source/glplpx2.c",     # lpx_get_mat_col, ...
+     "source/glplpx3.c",     # lpx_reset_parms
+     "source/glplpx4.c",     # lpx_scale_prob, lpx_unscale_prob
+     "source/glplpx5.c",
+     "source/glplpx6a.c",    # lpx_simplex
+     ##"source/glplpx6b.c",
+     "source/glplpx6c.c",    # lpx_integer
+     "source/glplpx6d.c",    # lpx_intopt
+     ##"source/glplpx6d.c",
+     "source/glplpx7.c",
+     "source/glplpx7a.c",    # lpx_remove_tiny
+     ##"source/glplpx8a.c",
+     ##"source/glplpx8b.c",
+     ##"source/glplpx8c.c",
+     ##"source/glplpx8d.c",
+     "source/glpluf.c",      # luf_create
+     ##"source/glpmat.c",
+     "source/glpmip1.c",     # mip_delete_tree
+     "source/glpmip2.c",     # mip_driver
+     ##"source/glpmpl1.c",
+     ##"source/glpmpl2.c",
+     ##"source/glpmpl3.c",
+     ##"source/glpmpl4.c",
+     ##"source/glpmps.c",
+     ##"source/glpqmd.c",
+     "source/glpspx1.c",     # spx_update, ...
+     "source/glpspx2.c",     # spx_reset_refsp, ...
+     "source/glpstr.c",
+     ##"source/glptsp.c",
+     );
+
+#
+# Filter sources
+#
+
+foreach my $filename (@src) {
+    my $srcfilename = "$glpk_path/$filename";
+    my $dstfilename = "$dest_path/$filename";
+    my $tmpfilename = "$dstfilename.new";
+
+    # GLPK's directory changed between 4.1 and 4.2.  For now, we stick with
+    # the old one.
+    $srcfilename =~ s|source/|src/|;
+
+    open IN, "<$srcfilename" or
+	die "$0: Cannot read $srcfilename: $!\n";
+    open OUTFILE, ">$tmpfilename" or
+	die "$0: Cannot create $tmpfilename: $!\n";
+
+    print STDERR "Creating $dstfilename...";
+
+    my $flag = 0;
+    my $header_name = undef;
+
+    while (<IN>) {
+	if (/(.*)/) {
+	    # Filtering
+
+	    my $line = $1;
+	    # Use gnm_float instead of double
+	    $line =~ s/double/gnm_float/g;
+
+	    # Use gnm_sqrt instead of sqrt, etc.
+	    $line =~ s/\b(sqrt|exp|log|pow|log1p|expm1|ceil|floor|sin|sinh|tan)(\s|$|\()/gnm_$1$2/g;
+	    $line =~ s/\bfabs\b/gnm_abs/g;
+
+	    # Use g_malloc instead of malloc
+	    $line =~ s/[^u]malloc\s*\(/g_malloc \(/g;
+
+	    # Use g_free instead of free
+	    $line =~ s/[^u]free\s*\(/g_free \(/g;
+
+	    # Constify a few routines.
+	    if (/^void\s+(_insist|lib_set_fault_hook|fault|lib_set_print_hook|print)\b/) {
+		$line =~ s/\bchar\s+\*/const char */g;
+	    }
+
+	    # Avoid abort for these.
+	    if (/^(\s*)insist\s*\(\"not implemented yet\"\s*==\s*NULL\)/) {
+		$line = "$1ret = LPX_E_INSTAB;\n";
+		$line .= "$1break;";
+	    }
+
+	    print OUTFILE "$line\n";
+
+	    # Add Gnumeric headers
+	    if ($flag && $line=~/\#\s*define\s*_(\w+)_H/) {
+		if ($1 eq $header_name) {
+		    print OUTFILE "\n";
+		    foreach my $hfile (@gnumeric_inc) {
+			print OUTFILE "\#include \"$hfile\"\n";
+		    }
+		    $flag = 0;
+		    $header_name = undef;
+		}
+	    } elsif ($line =~/\#\s*ifndef\s*_(\w+)_H/) {
+		$flag = 1;
+		$header_name = $1;
+	    } else {
+		$flag = 0;
+		$header_name = undef;
+	    }
+	}
+    }
+
+    close OUTFILE;
+    close IN;
+
+    &update_file ($dstfilename);
+}
+
+#
+# Create 'Makefile.am's
+#
+
+{
+    my $filename = "Makefile.am";
+    my $dstfilename = "$dest_path/$filename";
+    my $tmpfilename = "$dstfilename.new";
+
+    open OUTFILE, ">$tmpfilename" or
+	die "$0: Cannot create $tmpfilename: $!\n";
+    print STDERR "Creating $dstfilename...";
+
+    print OUTFILE "SUBDIRS = source include\n\n";
+    print OUTFILE "AM_CPPFLAGS =\t\t\t\t\t\t\\\n";
+    print OUTFILE "\t-DGNOMELOCALEDIR=\\\"\"\$(datadir)/locale\"\\\"\t\\\n";
+    print OUTFILE "\t-I\$(top_srcdir)\t\t\t\t\t\\\n";
+    print OUTFILE "\t-I\$(top_srcdir)/src\t\t\t\t\\\n";
+    print OUTFILE "\t-I\$(top_srcdir)/src/tools\t\t\t\\\n";
+    print OUTFILE "\t-I\$(top_srcdir)/src/tools/solver\t\t\\\n";
+    print OUTFILE "\t-I\$(top_srcdir)/src/tools/solver/glpk/include\t\\\n";
+    print OUTFILE "\t\$(GNUMERIC_CFLAGS)\n\n";
+    print OUTFILE "noinst_LTLIBRARIES =\n\n";
+    close OUTFILE;
+
+    &update_file ($dstfilename);
+}
+
+{
+    my $filename = "Makefile.am";
+    my $dstfilename = "$dest_path/source/$filename";
+    my $tmpfilename = "$dstfilename.new";
+
+    open OUTFILE, ">$tmpfilename" or
+	die "$0: Cannot create $tmpfilename: $!\n";
+    print STDERR "Creating $dstfilename...";
+
+    print OUTFILE "SUBDIRS = \n\n";
+    print OUTFILE "AM_CPPFLAGS =\t\t\t\t\t\t\\\n";
+    print OUTFILE "\t-DGNOMELOCALEDIR=\\\"\"\$(datadir)/locale\"\\\"\t\\\n";
+    print OUTFILE "\t-I\$(top_srcdir)\t\t\t\t\t\\\n";
+    print OUTFILE "\t-I\$(top_srcdir)/src\t\t\t\t\\\n";
+    print OUTFILE "\t-I\$(top_srcdir)/src/tools\t\t\t\\\n";
+    print OUTFILE "\t-I\$(top_srcdir)/src/tools/solver\t\t\\\n";
+    print OUTFILE "\t-I\$(top_srcdir)/src/tools/solver/glpk/include\t\\\n";
+    print OUTFILE "\t\$(GNUMERIC_CFLAGS)\n\n";
+    print OUTFILE "noinst_LTLIBRARIES = libglpk.la\n\n";
+    print OUTFILE "libglpk_la_SOURCES =\t\t\t\t\t\\\n";
+
+    foreach my $name (@src) {
+	next if $name =~ /include\//;
+
+	$name =~s/source\///;
+	print OUTFILE "\t$name\t\t\t\t";
+
+	if ($name eq $src[-1]) {
+	    print OUTFILE "\n";
+	} else {
+	    print OUTFILE "\\\n";
+	}
+    }
+    close OUTFILE;
+
+    &update_file ($dstfilename);
+}
+
+# -----------------------------------------------------------------------------
+
+sub update_file {
+    my ($old) = @_;
+    my ($new) = "$old.new";
+
+    if (!-r $old) {
+	rename $new, $old or
+	    die "$0: Cannot rename $new to $old: $!\n";
+	print STDERR " -- done.\n";
+    } else {
+	system ("cmp '$old' '$new' >/dev/null");
+	if ($? == 0) {
+	    print STDERR " -- unchanged.\n";
+	    unlink $new;
+	} else {
+	    rename $new, $old or
+		die "$0: Cannot rename $new to $old: $!\n";
+	    print STDERR " -- done.\n";
+	}
+    }
+}
+
+# -----------------------------------------------------------------------------

@@ -1,0 +1,563 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-05  Jody Goldberg <jody@gnome.org>
+
+	* sc.c (sc_func_map_in) : adapt to change in ExprConv
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Morten Welinder  <terra@gnome.org>
+
+	* sc.c (sc_parse_let): Handle functions with no args.
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* sc.c: replaced gi18n.h by gi18n-lib.h.
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2006-04-29  Jody Goldberg <jody@gnome.org>
+
+	* sc.c (set_h_align) : don't change a style that is already in the
+	  hash !
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-07-07  Jon K Hellan  <hellan@acm.org>
+
+	* sc.c (ScParseState): New struct.
+	(sc_parse_label, sc_parse_let, sc_cmd_t, sc_parse_line,
+	(sc_parse_sheet): Call with ScParseState.
+	(sc_row_parse): New. Like row_parse in parse_utils, but accepts
+	row 0.
+	(sc_rangeref_parse): Rewrite. Based on gnm_1_0_rangeref_parse, but
+	uses sc_row_parse and doesn't handle sheets or workbooks.
+	(sc_parse_let): Remove '@'s before parsing. Use state's expr
+	conventions. Queue recalc of valueless expressions.
+	(simple_renames): Mapping table from sc to gnumeric function names.
+	(function_renamer): New. Renames functions from sc to gnumeric.
+	(sc_conventions): New. Creates a GnmExprConventions appropriate to
+	sc.
+	(sc_file_open): Call sheet parser with ScParseState. Initialize
+	expr conventions.
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-04-18  Stepan Kasal  <kasal@ucw.cz>
+
+	* sc.c (sc_rangeref_parse): Mark the function as G_GNUC_UNUSED.
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2005-01-12  Jody Goldberg <jody@gnome.org>
+
+	* sc.c : include stdlib.h to remove warning about atoi
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-04-09  Morten Welinder  <terra@gnome.org>
+
+	* sc.c (sc_parse_coord): Prevent buffer overflow.
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-20  Morten Welinder  <terra@diku.dk>
+
+	* sc.c (sc_cellname_to_coords): Eliminate ctype.h usage.
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-14  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Remove "open" and "import" attributes.
+
+2002-11-13  Morten Welinder  <terra@diku.dk>
+
+	* sc.c (sc_file_open): Create a GIConv object and pass it to
+	sc_parse_sheet.
+	(sc_parse_sheet): Convert lines here.
+	(sc_parse_line): Improve the command extraction.
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-10-18  Morten Welinder  <terra@diku.dk>
+
+	* sc.c (sc_rangeref_parse): New function to partially handle sc's
+	row zero.
+
+	* sc.c (sc_parse_let): Handle expressions.  Turn constant
+	expressions into values.
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-09-10  Morten Welinder  <terra@diku.dk>
+
+	* sc.c: Avoid trailing comma in enum.
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-19  Jon K Hellan  <hellan@acm.org>
+
+	* sc.c (sc_file_probe): Use glib's seek enum instead of the enum
+	which used to be in libgsf.
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-06-21  Jody Goldberg <jody@gnome.org>
+
+	* sc.c (sc_parse_cell_name_list) : change to parse_cell_name.
+
+2002-06-07  Jody Goldberg <jody@gnome.org>
+
+	* sc.c (sc_file_probe) : new.
+	(sc_file_open) : use probe, and rewrite to support GsfInput.
+	(sc_parse_line) : signature change.
+	(sc_parse_label) : ditto.
+	(sc_parse_let_expr) : ditto.
+	(sc_parse_let) : ditto.
+	(sc_parse_sheet) : ditto.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.3
+
+2002-03-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.2
+
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
+2002-02-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.0
+
+2002-01-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.3
+
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.2
+
+2002-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.1
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.0
+
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.1
+
+2001-12-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.0
+
+2001-11-05  Jody Goldberg <jgoldberg@home,com>
+
+	* Release 0.75
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.74
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.73
+
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.72
+
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
+2001-09-25  Jon K Hellan  <hellan@acm.org>
+
+	* .cvsignore: Add plugin.xml
+
+2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml: Removed
+
+	* plugin.xml.in: Copied from plugin.xml, prepared for localization.
+
+	* Makefile.am: Use xml-i18n-tools to create plugin.xml (with
+	translations merged from .po file).
+
+2001-08-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.70
+
+2001-08-11  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.69
+
+2001-07-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.68
+
+2001-06-28  Jody Goldberg <jgoldberg@home>
+
+	* Release 0.67
+
+2001-06-27  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.66
+
+2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* sc.c (sc_file_open):
+	s/FileOpener/GnumFileOpener/
+	s/FileSaver/GnumFileSaver/
+
+	* plugin.xml (<service>): Register only as importer.
+
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.65
+
+2001-05-13  Almer S. Tigelaar  <almer@gnome.org>
+
+	* sc.c (sc_parse_coord): Fix signedness.
+
+2001-05-07  Morten Welinder  <terra@diku.dk>
+
+	* sc.c (sc_parse_cell_name_list): g_free, not free.
+
+2001-03-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.64
+
+2001-02-23  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.63
+
+2001-02-19  Jon K Hellan  <hellan@acm.org>
+
+	* sc.c (sc_read_workbook): Fix typo: FILE_SAVER_ID_INVAID ->
+	FILE_SAVER_ID_INVALID.
+
+2001-02-16  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.62
+
+2001-02-12  Karl Eichwalder  <ke@suse.de>
+
+	* Makefile.am (EXTRA_DIST): New variable; add
+	$(gnumeric_plugin_sc_DATA).
+
+2001-01-08  Jody Goldberg <jgoldberg@home.com>
+
+	* sc.c (sc_parse_label) : cell_get_mstyle no longer bumps the ref
+	  count.
+
+2000-12-17 Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.61
+
+2000-12-7  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.60
+
+2000-11-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.59
+
+2000-11-13  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.58
+
+2000-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* sc.c : Adjust to the signature changes for reading views
+	  rather than workbooks.
+
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.57
+
+2000-08-30  Jody Goldberg <jgoldberg@home.com>
+
+	* sc.c : include style.h directly.
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.56
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.55
+
+2000-05-20  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.54
+
+2000-05-20  Jeff Garzik  <jgarzik@mandrakesoft.com>
+
+	* sc.c (sc_cellname_to_coords): Fix one-off bug in cell-name-to-
+	column conversion code.
+
+2000-05-09  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.53
+
+2000-04-21  Jody Goldberg <jgoldberg@home.com>
+
+	* sc.c (sc_parse_line) : Use NULL name to terminate list of commands
+	  rather than decrementing an unsigned.
+
+2000-03-23  Jon K Hellan  <hellan@acm.org>
+
+	* sc.c (sc_read_workbook): Set save info, tag as MANUAL.
+
+2000-03-04  Morten Welinder  <terra@diku.dk>
+
+	* sc.c (sc_parse_sheet): Fix argument to isalpha.
+	(sc_cellname_to_coords): Fix arguments to isalpha, isdigit, and
+ 	toupper.
+
+2000-01-29  Jon K Hellan  <hellan@acm.org>
+
+	* sc.c (sc_read_workbook, sc_parse_sheet): Add
+	CommandContext. Return 0 on success, -1 on failure.  Use
+	gnumeric_error_read to report errors.
+
+1999-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* sc.c (sc_parse_sheet) : Return an error string.
+	(sc_read_workbook) : Ditto.
+
+1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
+
+	* sc.c: General cleanup, handle left/right-justified
+	labels, begin work on expression parsing.
+
+1999-11-19  Jeff Garzik  <jgarzik@mandrakesoft.com>
+
+	* Makefile.am, sc.c:
+	new SC/xspread file import plug-in.
+	Ultra simple, supports only cell values currently.

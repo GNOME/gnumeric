@@ -1,0 +1,14 @@
+Makefile.in
+Makefile
+.deps
+.libs
+*.lo
+*.la
+plugin.xml
+GNOME_Gnumeric.h
+GNOME_Gnumeric-common.c
+GNOME_Gnumeric-skels.c
+GNOME_Gnumeric-stubs.c
+stamp_Gnumeric_idl
+*.loT
+*.sw*

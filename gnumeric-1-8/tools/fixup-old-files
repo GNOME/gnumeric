@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# This is a script that will update files from 1.0.x versions if you
+# get errors like...
+#   Input is not proper UTF-8, indicate encoding !
+#   Bytes: 0xE9 0x73 0x20 0x70
+# We aren't sure why these happen for some people, but given the age
+# of the 1.0.x series we probably won't spend more time on the issue.
+
+# It assumes that the files were using ISO8859-1 encoding.  (Files
+# from Gnumeric before 1.2 do not contain encoding information.  That's
+# the whole problem, in fact.)
+
+# Adapted from script by daniel.savard@gmail.com
+
+# Almost completely untested, btw.
+# PLEASE BACKUP YOUR FILES FIRST!
+
+my_file=$1
+tmp=/tmp/conv_$$.gnumeric
+
+if [ -f $tmp ]; then
+    rm -f $tmp
+fi
+
+type=`file "$my_file" | sed -e 's/^.*:[ 	]*//' -e 's/[ 	].*//'`
+if [ "$type" != "gzip" ]
+then
+    echo "$my_file"
+    echo "Incompatible file format."
+    exit 1
+fi
+
+if [ -w "$my_file" ]; then
+    gzip -d < "$my_file" | iconv -f ISO8859-1 -t UTF-8 | sed s/'<?xml version="1.0"?>'/'<?xml version="1.0" encoding="UTF-8"?>'/ | gzip > $tmp
+    mv $tmp "$my_file"
+fi
+
+exit 0

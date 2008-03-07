@@ -1,0 +1,59 @@
+<sect1 id="sect-files-ssconvert">
+  <title>Converting Files</title>
+
+  <para>
+    &gnum; can convert files automatically without needing user
+    intervention. This allows a large number of files to be converted
+    using a script. &gnum; is distributed along with a program called
+    <application>ssconvert</application> which is the program used to
+    convert files automatically. All of the file formats supported by
+    &gnum; can be used except for the Postscript and PDF file formats
+    which operate through the printing system.
+  </para>
+
+  <para>
+    This application is used, from the command line by specifying, any
+    desired options, an input file and an output file. For example,
+<screen>
+ssconvert myfile.xls myfile.gnumeric
+</screen>
+    would convert an <application>Excel</application> format file to a
+    &gnum; format file. 
+  </para>
+
+<!-- TODO: render hack -->
+  <para></para>
+
+  <para>
+    The available import and export file formats which ssconvert
+    can read can be listed using
+<screen>
+ssconvert --list-importers
+</screen>
+    or 
+<screen>
+ssconvert --list-exporters
+</screen>
+    respectively.
+  </para>
+
+<!-- TODO: render hack -->
+  <para></para>
+
+  <para>
+    Like other GNU command line applications,
+    <application>ssconvert</application>  includes a manual page. This
+    page can be accessed by typing:
+<screen>
+man ssconvert
+</screen>
+    which will open the manual page. This page can be navigated by
+    typing the space bar or using the <keysym>Page Up</keysym> and
+    <keysym>Page Down</keysym> buttons. The
+    <application>man</application> program can be dismissed by typing
+    the <keysym>q</keysym> key.
+  </para>
+
+
+</sect1>
+

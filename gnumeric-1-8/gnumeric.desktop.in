@@ -1,0 +1,17 @@
+[Desktop Entry]
+Encoding=UTF-8
+_Name=Gnumeric Spreadsheet
+_GenericName=Spreadsheet
+_Comment=Calculation, Analysis, and Visualization of Information
+Exec=gnumeric %F_OR_U
+Icon=gnome-gnumeric.png
+Terminal=false
+Type=Application
+Categories=Application;Office;Spreadsheet;Science;Math;GNOME;GTK;
+StartupNotify=true
+X-GNOME-Bugzilla-Bugzilla=GNOME
+X-GNOME-Bugzilla-Product=Gnumeric
+X-GNOME-Bugzilla-Version=BUGZILLAVERSION
+X-GNOME-Bugzilla-Component=General
+DocPath=gnumeric
+MimeType=application/x-gnumeric;application/vnd.ms-excel;application/excel;application/msexcel;application/x-excel;application/x-ms-excel;application/x-msexcel;application/x-xls;application/xls;application/x-dos_ms_excel;zz-application/zz-winassoc-xls;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;application/csv;application/tab-separated-values;text/comma-separated-values;text/csv;text/spreadsheet;text/tab-separated-values;text/x-comma-separated-values;application/vnd.lotus-1-2-3;application/x-123;application/vnd.sun.xml.calc;application/vnd.sun.xml.calc.template;application/x-applix-spreadsheet;application/x-mps;application/x-oleo;application/x-planperfect;application/x-quattropro;application/x-sc;application/x-sylk;application/x-xbase;

@@ -1,0 +1,240 @@
+<sect1 id="editing-selections">
+	<title>
+	セル選択を使った編集
+	</title>
+
+<para>
+スプレッドシート上のセルの編集をしやすくする方法として、選択したセルの様々な使い方があります。
+</para>
+
+<para>
+たとえば、セル（隣接しているかどうかを問わない）を選択すると、データを入力することができます。<keycap>Enter</keycap> キーを押すと、入力データが確定されて、カーソルは選択した範囲の中で１つ下のセルに移動します。<keycap>tab</keycap> キーで、カーソルを右端のセルに移動することができます（選択した範囲の端まで来るとスクロールします）。
+</para>
+
+<para>
+<keycap>Ctrl</keycap> + <keycap>Enter</keycap> を使うと <keycap>Enter</keycap> キーの逆の操作となり（選択範囲の中で、上方へ、つまり、１つ前のセルに移動）、<keycap>Ctrl</keycap> + <keycap>Tab</keycap> を使うとカーソルは左に移動します。
+</para>
+
+<sect2>
+	<title>
+	単純な選択
+	</title>
+
+<para>
+アクティブ・セルは、濃い二重線で示され、その右下のコーナーに小さな四角のマークが表示されます。アクティブ・セルとは、現在フォーカスがあるセルのことで、キーボードからの任意の入力を受け入れます。
+</para>
+
+<figure id="activecell">
+	<title>
+	アクティブ・セル
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/selection-2.jpg"></graphic>
+	</screenshot>
+</figure>
+
+<para>
+セルは、ホワイトクロス・カーソルをそのセルに移動して <mousebutton>MB1</mousebutton> を押すだけでアクティブな選択されたセルとなります。
+</para> 
+
+<figure id="activecellcursor">
+	<title>
+	カーソルが置かれたアクティブ・セル
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/selection-1.jpg"></graphic>
+	</screenshot>
+</figure>   
+</sect2>
+
+<sect2>
+	<title>
+	複数のセルの選択
+	</title>
+
+<para>
+複数のセルが選択されると、選択された範囲は濃い二重線で囲まれます。左上のセルは、１つだけ選択された場合のセルと同じように表示されますが、残りのセルは反転表示されます。
+</para>
+
+<figure id="multicellselect">
+	<title>
+	複数セルの選択
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/selection-3.jpg"></graphic>
+	</screenshot>
+</figure>
+
+<para>
+セルを連続的に選択するには、ホワイトクロス・カーソルのあるセルをクリックし、選択したい範囲が取り込まれるところまでドラッグしてリリースします。
+</para>
+
+<figure id="multicellsect2">
+	<title>
+	カーソルで選択中の複数セル
+	</title>
+
+	<screenshot>
+        <graphic fileref="images/selection-4.jpg"></graphic>
+	</screenshot>
+</figure>
+
+</sect2>
+
+<sect2>
+	<title>
+	不連続なセルの選択
+	</title>
+
+<para>
+不連続なセルを含む一群のセルを選択する場合は、<keycap>Ctrl</keycap> + <mousebutton>MB1</mousebutton> を使って既に選択したセルの引数までドラッグします。セルは単独で追加することもできるし、他の選択範囲の一部として追加することもできます。
+</para>
+
+<figure id="dicontselect">
+	<title>
+	不連続なセルの選択
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/selection-5.jpg"></graphic>
+	</screenshot>
+</figure> 
+
+</sect2>
+
+<sect2>
+	<title>
+	キーボード・ショートカット
+	</title>
+
+<para>
+広い範囲のセルを選択する最も簡単な方法、特にキーボードを使用しているときに使うと便利な方法は、キーボードの選択ツールを使う方法です。基本的な使い方としては、<keycap>Shift</keycap> + <keycap>arrow</keycap>（矢印）キーを使って新しい範囲を選択します。
+</para>
+
+<para>
+行にあるすべてのセルを選択するときは、<keycap>Shift</keycap> + スペースキーを使います。これは、シートの左端にある行ラベルボタンを押すのと同じことです。
+</para> 
+
+<figure id="selectrow">
+	<title>
+	列全体の選択
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/selection-8.jpg"></graphic>
+	</screenshot>
+</figure>
+
+<para>
+列にある全部のセルを選択するときは、<keycap>Ctrl</keycap> + スペース キーを使います。これは、シートの上端にある列ラベルボタンを押すのと同じことです。
+</para>
+
+<figure id="selectcol">
+	<title>
+	列全体の選択
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/selection-9.jpg"></graphic>
+	</screenshot>
+</figure>
+
+<para>
+シート全体を選択するときは、<keycap>Ctrl</keycap> + <keycap>A</keycap> を使います。これはシートの左上コーナーにあるボタンを押すのと同じことです。
+</para>
+
+<figure id="selectall">
+	<title>
+	ワークシート全体の選択
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/selection-10.jpg"></graphic>
+ 	</screenshot>
+</figure>
+
+<itemizedlist>
+
+<listitem>
+<para>
+<keycap>Shift</keycap> + 矢印キー : カーソルキーで選択範囲を定義します。
+</para>
+</listitem>
+
+<listitem>
+<para>
+<keycap>Shift</keycap> + スペース：カレントの行を選択します。 
+</para>
+</listitem>
+
+<listitem>
+<para>
+<keycap>Ctrl</keycap> + スペース : カレントの列を選択します。
+</para>
+</listitem>
+
+<listitem>
+<para>
+<keycap>Ctrl</keycap> + <keycap>A</keycap> : シート全体を選択します。
+</para>
+</listitem>
+
+</itemizedlist>
+
+</sect2>
+
+<sect2>
+	<title>
+	ある領域を同じテキストや値で埋める方法
+	</title>
+
+<para>
+一群のセルを同じ値で埋める必要があるときは、上記のいずれかの方法で選択範囲を決め、次に通常の方法でその中の１つのセルに値を入力して、ただし、<keycap>Enter</keycap> キーではなく、<keycap>Ctrl</keycap> + <keycap>Enter</keycap> を使うのが最も簡単です。すると、選択した範囲はそのセルに入力された値で埋まります。
+</para>
+
+<para>
+数字のシーケンス、日付、その他のソート済みのデータで埋めたいときはオートフィル機能を使う方が便利でしょう。
+</para>
+
+<figure id="cellselectfillbefore">
+	<title>
+	選択された複数のセル
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/selection-6.jpg"></graphic>
+</screenshot>
+</figure>  
+
+<figure id="cellselectfillafter">
+	<title>
+	ある領域を同じテキストや値で埋める方法
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/selection-7.jpg"></graphic> 
+	</screenshot>
+</figure>
+
+</sect2>
+
+</sect1>
+
+  <!-- Keep this comment at the end of the file
+  Local variables:
+  mode: sgml
+  sgml-omittag:t
+  sgml-shorttag:t
+  sgml-minimize-attributes:nil
+  sgml-always-quote-attributes:t
+  sgml-indent-step:2
+  sgml-indent-data:t
+  sgml-parent-document:nil
+  sgml-exposed-tags:nil
+  sgml-local-catalogs:nil
+  sgml-local-ecat-files:nil
+  End:
+  -->             

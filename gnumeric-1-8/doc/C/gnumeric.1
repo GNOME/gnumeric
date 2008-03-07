@@ -1,0 +1,234 @@
+.TH GNUMERIC 1 "September 14, 2003" gnumeric "GNOME"
+.SH NAME
+gnumeric \- a GNOME spreadsheet application.
+
+.SH SYNOPSIS
+\fBgnumeric\fR [\fIOPTIONS\fR] [\fIfiles\fR \fI...\fR ]
+
+.SH DESCRIPTION
+\fBGnumeric\fR is a powerful spreadsheet program created by the GNOME
+project. \fBGnumeric\fR intends to compete with commercial
+spreadsheets by becoming fully compatible with Microsoft Excel(TM) and
+through the support of most popular spreadsheet file formats such as
+Excel(TM), Lotus 1-2-3(TM), Applix(TM), Sylk(TM), XBase(TM),
+Oleo(TM) and OpenOffice.org formats.
+
+\fBGnumeric\fR supports advanced calculations using statistical,
+financial and database access functions. Plotting data is supported
+through an incomplete but powerful plotting system. A plugin system
+extends \fBgnumeric\fR , for instance enabling the export of data to
+the LaTeX \\longtable format. Plugins can be used to define custom
+functionality. A rudimentary scripting API for the Python language
+exists and will be extended in the near future. Since \fBgnumeric\fR
+is \fBfree\fR software, \fBgnumeric\fR can also be extended directly
+at the source code level by any competent programmer.
+
+The program can be started from the command line as \fBgnumeric\fR or
+from one of the menus provided by the underlying platform. When started
+on the command line, \fBgnumeric\fR may be followed by the options listed
+below and possibly the names of files in various spreadsheet formats
+which will then be opened immediately. For instance, the command:
+
+    gnumeric myfile.gnumeric
+
+will launch \fBgnumeric\fR and open the file called
+"myfile.gnumeric". The default \fBgnumeric\fR file format is in
+extensible markup language (XML) which subsequently has been
+compressed with \fBgzip\fR.
+
+.SH USER OPTIONS
+This program follows the usual GNU command line syntax, with single
+letter options starting with a single dash (`-') and longer options
+starting with two dashes (`--').
+
+.SS "Help options"
+.B \-?, \-\-help
+Show help message.
+.TP
+.B \-\-usage
+Displays a brief usage message.
+
+.SS "Gnumeric options"
+.TP
+.B \-v, \-\-version
+Displays the version number of the installed instance of
+\fBgnumeric\fR.
+.TP
+.B \-\-no-splash
+Start \fBgnumeric\fR without showing the splash screen.  The splash 
+screen is normally shown if loading files takes too long.
+.TP
+\fB\-L, \-\-lib-dir=\fR\fISTRING\fR 
+Set the root library directory to STRING which should be a pathname.
+.TP
+\fB\-D, \-\-data-dir=\fR\fISTRING\fR 
+Adjust the root data directory to STRING which should be a pathname.
+
+.SS "Options for window placement"
+.TP
+\fB\-g, \-\-geometry=WIDTHxHEIGHT+XOFF+YOFF 
+Set the size and position of the first window. All units are in
+pixels. The X offset is from the left hand side of the screen, the Y
+offset is from the top of the screen. For example, \-g=800x600+20+30
+will open a gnumeric window 800 pixels wide by 600 pixels high, with
+the left edge of gnumeric 20 pixels from the left of the screen and
+the top edge of gnumeric 30 pixels from the top of the screen.
+.TP
+.B \fB\-\-display=\fR\fIDISPLAY\fR
+X display to use, where DISPLAY has the form
+machinename:Xdisplay.Screen. Note that the machine displaying gnumeric
+must have granted the machine running gnumeric the right to display
+(see xhost).
+
+.TP 
+.B \fB\-\-screen=\fR\fISCREEN\fR
+X screen to use, a more compact form of the functionality described
+above.
+
+
+
+
+.SH ADVANCED OPTIONS
+
+.SS "Gnumeric options"
+.TP
+\fB\-\-dump-func-defs=\fR\fIFILE\fR
+Dumps the function definitions to the file with name FILE.
+.TP
+\fB\-\-dump-func-state=\fR\fIFILE\fR
+Dumps the function definitions to the file with name FILE.
+.TP
+\fB\-\-debug=\fR\fILEVEL\fR
+Enables some debugging functions.
+.TP
+.BI \-\-debug_deps= LEVEL
+Enables some dependency related debugging functions.
+.TP
+.BI \-\-debug_share= LEVEL
+Enables some dependency functions for expression sharing.
+.TP
+.BI \-\-debug_print= LEVEL
+Enables some print debugging behavior.
+.TP
+.B \-\-quit
+Exit immediately after loading the selected books (useful for
+testing).
+
+.SS "Oaf options"
+.TP
+\fB\-\-oaf-ior-fd=\fR\fIFD\fR
+File descriptor on which to print the \fIIOR\fR.
+.TP
+\fB\-\-oaf-activate-iid=\fR\fIIID\fR
+\fIIID\fR to activate.
+.TP
+.B \-\-oaf-private
+Prevent registering of server with OAF.
+
+.SS "GNOME options"
+.TP
+.B \-\-disable-sound
+Disable sound server usage.
+.TP
+.B \-\-enable-sound
+Enable sound server usage.
+.TP
+\fB\-\-espeaker=\fR\fIHOSTNAME:PORT\fR
+Host:port on which the sound server to use is running.
+.TP
+.B \-\-disable-crash-dialog
+Disable the bug submission dialog which appears if Gnumeric crashes.
+
+.SS "GTK options"
+.TP
+\fB\-\-gdk-debug=\fR\fIFLAGS\fR
+Gdk debugging flags to set.
+.TP
+\fB\-\-gdk-no-debug=\fR\fIFLAGS\fR
+Gdk debugging flags to unset.
+.TP
+.B \-\-sync
+Make X calls synchronous.
+.TP
+\fB\-\-name=\fR\fINAME\fR
+Program name as used by the window manager.
+.TP
+\fB\-\-class=\fR\fICLASS\fR
+Program class as used by the window manager.
+.TP
+\fB\-\-gxid_host=\fR\fIHOST\fR
+The host on which to contact the gxid daemon. This overrides the GXID_HOST environment variable. This option is only available if GTK+ has been configured with \-\-gdk-target=x11.
+.TP
+\fB\-\-gxid_port=\fR\fIPORT\fR
+The port for the connection to gxid. This overrides the GXID_PORT environment variable. This option is only available if GTK+ has been configured with --gdk-target=x11.
+.TP
+\fB\-\-gtk-debug=\fR\fIFLAGS\fR
+Gtk+ debugging flags to set.
+.TP
+\fB\-\-gtk-no-debug=\fR\fIFLAGS\fR
+Gtk+ debugging flags to unset.
+.TP
+\fB\-\-g-fatal-warnings\fR
+Make all warnings fatal.
+.TP
+\fB\-\-gtk-module=\fR\fIMODULE\fR
+Load an additional Gtk module.
+
+.SS "Session management options"
+.TP
+\fB\-\-sm-client-id=\fR\fIID\fR
+Specify session management ID.
+.TP
+\fB\-\-sm-config-prefix=\fR\fIPREFIX\fR
+Specify prefix of saved configuration.
+.TP
+.B \-\-sm-disable
+Disable connection to session manager.
+
+
+.SH VERSION
+This manual page describes \fBgnumeric\fR version 1.8.
+
+.SH BUGS
+For the list of known \fBgnumeric\fR bugs, or to report new ones
+please visit \fIhttp://bugzilla.gnome.org\fR.
+
+.SH "SEE ALSO"
+.TP
+.B The Gnumeric Manual
+Available through the \fBHelp\fR menu or on the world wide web at 
+\fIhttp://www.gnome.org/projects/gnumeric/doc/index.html\fR
+.TP
+.B The Gnumeric Homepage
+.I http://www.gnome.org/projects/gnumeric/
+.TP
+.B The GNOME project page
+.I http://www.gnome.org/
+
+.SH LICENSE
+
+\fBGnumeric\fR is licensed under the terms of the General Public
+License (GPL), version 2. For information on this license look at the
+source code that came with the software or see the GNU project page at
+http://www.gnu.org/.
+
+.SH COPYRIGHT
+
+The copyright on the \fBgnumeric\fR software and source code is held
+by the individual authors as is documented in the source code.
+
+
+.SH AUTHORS
+.SS "Gnumeric"
+Jody Goldberg <jody@gnome.org>
+.br
+Miguel de Icaza <miguel@gnome.org>
+.br
+Morten Welinder <terra@gnome.org>
+.br
+
+-- and many others.  For a more complete list, see the About dialog.
+.SS "This manual page"
+Jan Schaumann <jschauma@netmeister.org>
+.br
+Adrian Custer <acuster@gnome.org>

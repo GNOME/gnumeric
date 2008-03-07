@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_mps">
+	<information>
+		<_name>Linear and integer program expression format (MPS) module</_name>
+		<_description>Reads LP programs stored in the MPS format (*.mps)</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="mps"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="mps" priority="1" probe="FALSE">
+			<information>
+				<_description>Linear and integer program (*.mps) file format</_description>
+			</information>
+			<suffixes>
+				<suffix>mps</suffix>
+			</suffixes>
+			<mime-types>
+				<mime-type>application/x-mps</mime-type>
+			</mime-types>
+		</service>
+	</services>
+</plugin>

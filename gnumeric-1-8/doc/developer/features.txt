@@ -1,0 +1,148 @@
+The Gnumeric feature list for gnumeric 1.3.1
+
+* Core capabilities
+
+  ** Functions
+
+     - 100% of builtin Excel (North America) functions.
+     - 100% of Standard Addin functions.
+     - 60 functions not included in MS Excel.
+
+  ** Computation
+
+     - Inter sheet dependencies.
+     - User defined Names (for ranges and functions).
+     - Arrays and Array functions.
+     - Implict iteration
+     - Computed dependencies
+     
+  ** Misc
+
+     - Cell comments.
+     - Toolbar for common operations.
+     - Cell Merging.
+     - Multiple Views.
+     - Zoom.
+     - Auto Filter
+     - Data Consolidate
+     - Rich text in cells
+
+  ** Sheet Objects
+
+     - Lines, Elipses, squares.
+     - Button, combo, list, checkbutton, scrollbar, slider
+
+  ** Printing
+
+     - Cell contents.
+     - Style information.
+     - Per sheet printer setups.
+     - Print preview.
+
+     *** Print Options
+
+	 - Page orientation.
+	 - 6 margins + paper size.
+	 - Headers + footers.
+	 - Grid lines, comments, headings.
+	 - Print order.
+
+  ** Formats
+
+	 - All builtin Excel like formats: number, currency, acounting,
+           date, time, percentage, fraction, scientific, text, special.
+	 - Compatible format description language.
+
+  ** Styles
+
+     *** Borders
+
+	 - Outer and inner, colors, diagonals, 13 line types.
+
+     *** Colors
+
+	 - Foreground, background, pattern, 18 patterns.
+
+     *** Font
+
+	 - Font name, size, style ( bold, italic ), color.
+
+     *** Alignment
+
+	 - Horizontal (general, left, center, right, fill, justify).
+	 - Vertical   (top, center, bottom, justify).
+	 - Center across selection.
+	 - Indention.
+	 - Wrap text.
+    
+  ** Autofill
+
+	Autofill for various sequences is supported.
+
+  ** Automatic guessing of input
+
+	Gnumeric will try to parse user entered input as a number
+	with a format applied (so you can enter dates directly, and
+	they will be stored internally as a number + a format to
+	render it).
+
+* International
+
+	Gnumeric has been localized to various languages, and 
+	we welcome new contributions.  It handles numeric formats
+	properly for various countries and languages.
+ 
+* Import filters
+
+  ** Excel
+
+     Summary information.
+     All sheet text + formulas.
+     Styles, selection.
+     Embedded images.
+     Printer setups.
+     Charts
+
+   ** XML ( gnumeric native format )
+
+   ** HTML various
+
+   ** CSV adaptive ( comma separated values )
+
+   ** Lotus 1-2-3 wk1 format
+
+   ** GNU oleo ( rudimentary )
+
+   ** Plan-Perfect
+
+   ** SYLK
+
+   ** X-Base
+
+   ** Applix
+
+   ** SC/XSpread
+
+   ** Quattro Pro
+
+   ** Open Office
+   
+* Export filters
+
+  ** Excel
+
+     Summary Information.
+     All sheet text + formulae.
+     Names.
+
+   ** XML ( gnumeric format )
+
+     All data except embedded objects.
+
+   ** HTML various
+
+   ** LaTeX, Troff
+
+   ** PDF, DVI
+  
+   ** CSV various

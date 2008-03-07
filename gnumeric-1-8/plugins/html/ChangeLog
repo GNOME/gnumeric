@@ -1,0 +1,1417 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-24  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (html_read_row): Really use the first url when
+	multiple urls in cell, not the last.
+
+2007-10-15  Jody Goldberg <jody@gnome.org>
+
+	Patch from editgrid.  
+	* latex.c (latex2e_find_vline) : Don't look for borders past max col.
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-10-08  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (html_read_row): Make link to first url in cell if
+	more than one exists.
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-08-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	* latex.c (latex_file_save): use \linewidth rather 
+	  than \textwidth
+	  
+2006-07-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* latex.h (latex_table_file_save): new
+	* latex.c (latex_table_file_save): new
+	(latex2e_table_write_cell): new
+	(latex2e_table_write_file_header): new
+	* plugin.xml.in: add latex_table file_saver
+	
+2006-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* latex.c (latex_fputs_latin): fix typo and add
+	  const qualifiers
+	(latex_math_fputs_latin): ditto
+
+2006-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	for Shixin Zeng <shixinzeng@sjtu.edu.cn>
+
+	* latex.c (latex_raw_str): new
+	(latex_fputs_utf): handle \L escape
+	(latex_math_fputs_utf): ditto
+	(latex_fputs_latin): ditto
+	(latex_math_fputs_latin): ditto
+
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* html_read.c: replaced gi18n.h by gi18n-lib.h.
+	* roff.c: ditto.
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2006-04-01  Jody Goldberg <jody@gnome.org>
+
+	* html.c (html_write_cell_content) : ivan noticed that underlining is
+	  not being exported.
+
+2006-01-25  Morten Welinder  <terra@gnome.org>
+
+	* html_read.c (html_file_probe): Get rid of casts.  Fix probing in
+	the face of truncated characters and don't rely on
+	go_guess_encoding resetting the utf8 buffer on failure.
+
+2006-01-25  Jon K Hellan  <hellan@acm.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=311879
+	* plugin.xml.in: probe=TRUE for html importer.
+	* html_read.[ch] (html_file_probe): New. Probe for html and Excel
+	quasi html.
+
+2006-01-23   Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=325656
+	* latex.c (latex_convert_latin_to_utf): new
+	(latex_fputs_latin) use latex_convert_latin_to_utf
+	(latex_math_fputs_latin): ditto
+
+2006-01-14   Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=325656
+	* latex.c (latex_fputs_latin) use "-" as replacement for unicode
+	(latex_math_fputs_latin): ditto
+	
+2006-01-04  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (html_append_text): Handle whitespace in a unicode
+	compatible way.
+
+2005-11-15  Jon K Hellan  <hellan@acm.org>
+
+	* latex.c (latex2e_write_table_header): Fix off by one.
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-12  Jon K Hellan  <hellan@acm.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=303827
+	* html.c (html_file_save): Don't output the xml declaration for xhtml.
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-04-13  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (html_file_open): Try to detect unmarked UTF16LE.
+
+2005-02-24  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (html_file_open): Check if file is large enough to
+	probe byte order mark.
+	(html_read_content, html_read_row): Import hyperlinks as hyperlinks.
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-11-01   Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=157047
+	* latex.c (latex2e_write_multicolumn_cell): cells can extend to
+	  the right. So if we see a span it may start earlier than the
+	  cell creating it. Add an argument specifying the column we 
+	  are working in.
+	(latex_file_save): add argument to latex2e_write_multicolumn_cell
+	  call
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-07-28   Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html.c (html_write_cell_content): only export URL links
+
+2004-07-27   Andreas J. Guelzow <aguelzow@taliesin.ca>
+	for: Yukihiro Nakai  <nakai@gnome.gr.jp>
+
+	* html.c: Add link features.
+	* html.c: newline in cell turns to be <br> now
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-05-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=142219
+	* latex.c (latex2e_find_vline) : Undo last patch.
+	
+2004-04-02  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=100372
+	* latex.c (latex2e_find_vline) : Honor visibility
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-10-07  Morten Welinder  <terra@gnome.org>
+
+	* html_read.c (html_read_row): Plug leaks.
+	(*): Sanitize casts.
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-07-15  Morten Welinder  <terra@gnome.org>
+
+	* latex.c (latex2e_write_multicolumn_cell): Use precomputed
+	family.
+
+2003-07-06  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (is_elt_type, starts_inferred_table,
+	ends_inferred_table, starts_inferred_row, ends_inferred_row): New
+	functions. Helpers for handling incomplete html fragments.
+	(html_search_for_tables): Handle incomplete html fragments,
+	usually from the clipboard. e.g. a <td> without <tr> and <table>
+	in front of it.
+
+2003-06-30  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c: See yesterday. Now actually commit it.
+	
+	* html.c: Revert accidental commit.
+
+2003-06-29  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (html_read_table): Pass in GnmHtmlTableCtxt from
+	outside. When page contains multiple tables, this lets us
+	concatenate them instead of creating multiple sheets.
+	(html_search_for_tables): Add GnmHtmlTableCtxt parameter. Don't
+	call the function recursively when this node is a table. This
+	means that tables within the table aren't treated as independent
+	tables.
+	(html_file_open): Add a GnmHtmlTableCtxt local variable and pass
+	it as an argument to html_search_for_tables.
+
+2003-06-24  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Add xhtml_range saver. Used when exporting to
+	clipboard.
+
+	* html.[ch] (xhtml_range_file_save): New function. Save range as
+	xhtml. Used when exporting to clipboard.
+
+	* html.c (write_sheet): Add save_scope parameter. Don't add
+	caption if scope is 'range'.
+	(html_file_save): Call write_sheet with save_scope argument.
+
+2003-06-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c (latex_fputs_utf): new
+	(latex_math_fputs_utf): new
+	(latex_fputs_latin): formerly latex_fputs
+	(latex_math_fputs_latin): formerly latex_math_fputs
+	(latex_fputs): call appropriate latex_fputs_*
+	(latex_math_fputs): call appropriate latex_math_fputs_*
+	(latex2e_write_file_header): include appropriate encoding
+
+2003-06-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c (latex_fputs): convert cell content to latin1 
+	  before exporting
+	(latex_math_fputs): ditto
+	(latex2e_write_file_header): add fullpage package
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-25  Jody Goldberg <jody@gnome.org>
+
+	* html.c (html_print_encoded) : export in utf8.
+	(html_file_save) : mark the results as being utf8.
+
+2003-05-20  Morten Welinder  <terra@gnome.org>
+
+	* html.c: Adapt to StyleColor changes.
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-05-07  Jody Goldberg <jody@gnome.org>
+
+	* html_read.c (html_file_open) : patch compiler warning.  Not really
+	  relevant now.  xmlDetectCharEncoding would never return utf8 without
+	  one of the cases being true.
+
+2003-04-28  Morten Welinder  <terra@gnome.org>
+
+	* latex.c (latex2e_print_vert_border): Sanity check.
+	(latex2e_write_multicolumn_cell): Fix off-by one access to
+	borders.
+
+2003-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c: add missing border connector (31) (Thanks Adrian!)
+
+2003-03-26  Jody Goldberg <jody@gnome.org>
+
+	* html.c (html_get_color) : no need to operate on the pixel directly.
+	  Use the rgb in the StyleColor.
+	(html_get_border_style) : ditto.
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2003-01-21  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (html_append_text): New function. Append text to
+	buffer, normalizing all sequences of whitespace to a single space.
+	(html_read_content): Use html_append_text instead of htmlNodeDump
+	for content. Make content buffer a GString.
+	(html_read_row):  Make content buffer a GString.
+
+2003-01-17  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (html_file_open): Skip byte order mark. Arguably,
+	this is libxml2's job.
+
+2003-01-16  Jon K Hellan  <hellan@acm.org>
+
+	(html_read_table): Take two.
+
+2003-01-16  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (struct GnmHtmlTableCtxt): Add. Keep state while
+	traversing thead, tfoot, tbody parts.
+	(html_read_row): Replace row and sheet parameters with a
+	GnmHtmlTableCtxt.
+	(html_read_rows): Add. Read rows in a row group (thead, tfoot,
+	tbody or plain table).
+	(html_read_table): Replace row and sheet with a
+	GnmHtmlTableCtxt. Call html_read_rows to read rows groupwise.
+
+2003-01-14  Morten Welinder  <terra@diku.dk>
+
+	* html.c (html_get_color): Adapt to cell_get_render_color changes.
+	* latex.c (latex2e_write_multicolumn_cell): Ditto.
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-29  Jody Goldberg <jody@gnome.org>
+
+	* roff.c (roff_file_save) : const the view and include gsf-output.h
+
+	* latex.c (latex_file_save) : const the view.
+
+	* html.c : include gsf-output.h and remove some vacuous comments.
+	(html_write_cell_content) : remove trailing argument from a puts.
+	(html_file_save) : const the view.
+	(html40_file_save) : ditto.
+	(html32_file_save) : ditto.
+	(html40frag_file_save) : ditto.
+	(xhtml_file_save) : ditto.
+
+2002-11-28  Jon K Hellan  <hellan@acm.org>
+
+	* html.[ch] (html40_file_save, html32_file_save) 
+	(html40frag_file_save, xhtml_file_save): Port to gsf output.
+
+	* html.c (html_print_encoded, html_write_cell_content) 
+	(html_write_one_border_style_40, html_write_border_style_40) 
+	(write_cell, write_row, write_sheet, html_file_save): Ditto.
+
+	* latex.[ch] (latex_file_save): Ditto.
+
+	* latex.c (latex_fputs, latex_math_fputs)
+	(latex2e_write_file_header, latex2e_write_table_header)
+	(latex2e_print_vert_border, latex2e_write_blank_cell)
+	(latex2e_write_multicolumn_cell, latex2e_print_hhline): Ditto.
+
+	* roff.[ch] (roff_fprintf, write_wb_roff, roff_file_save): Ditto.
+
+	* roff.c (roff_dvi_file_save): Remove.
+
+	* plugin.xml.in: Remove dvi via roff.
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-14  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Remove "open" and "import" attributes.
+
+2002-10-30  Andreas J. Guelzow <aguelzow@taliesin.ca> for
+
+	* plugin.xml.in : all file_savers in this plugin are lossy 
+	  (write_only)
+
+2002-10-30  Andreas J. Guelzow <aguelzow@taliesin.ca> for
+
+	* roff.c (roff_fprintf) : do not print hidden cells
+	(write_wb_roff) : recalculcate spans if necessary
+
+2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* html_read.c: Added explicit casts between the various char types.
+
+2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* html.h: Added xhtml_file_save prototype.
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-30  Andreas J. Guelzow <aguelzow@taliesin.ca> for
+	Dustin T. Mudryk <mordak@hotmail.com>
+
+	* latex.c (latex2e_write_multicolumn_cell) modified to exclude hidden
+	cells in latex 
+
+2002-10-30  Andreas J. Guelzow <aguelzow@taliesin.ca> for 
+	Adrian V. Custer <acuster@nature.berkeley.edu>
+
+	* latex.c (latex2e_write_file_header): make 
+	  \def\gnumericTableWidthDefined a \global.
+	(latex_file_save): add some linebreaks.
+
+2002-10-31  Morten Welinder  <terra@diku.dk>
+
+	* latex.c (latex_file_save): Fix col/row confusion.
+
+2002-10-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c (latex2e_write_multicolumn_cell): fix a silly 
+	  mistake (97246)
+	(latex_math_fputs) : latex_fputs for math mode
+
+2002-10-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c: add missing border connector (Thanks Adrian!)
+	(latex_file_save) : calc spans
+	* html.c (write_row) : calc spans
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-10-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c: add missing border connector (Thanks Adrian!)
+
+2002-10-10 Tim A. Garner <garnertim@hotmail.com>
+
+	* latex.c (latex2e_write_multicolumn_cell): set up a switch for 
+	  displaying numbers in italics 
+
+2002-10-09  Tim A. Garner <garnertim@hotmail.com>
+
+	* html.c (html_write_cell_content): modified to exclude hidden 
+	  cells in HTML32
+	(write_cell): modified to exclude hidden cells in HTML40, XHTML
+	  and HTML40F
+
+2002-10-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html.c : new XHTML version
+	(write_row): place apostrophies arounf property values
+	(write_sheet) : use <p /> for xhtml
+	(html_file_save) : handle version == XHTML
+	(xhtml_file_save) : new
+	* plugin.xml.in : add xhtml file saver
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-09-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html.c (write_cell): use valign=middle rather than
+	  valign=center
+
+2002-09-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html.c (html_write_cell_content): change to
+	  lowercase tags
+	(write_cell): ditto
+	(write_row): ditto
+	(write_sheet): ditto
+	(html_file_save): ditto
+
+2002-08-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=92367
+	* latex.c: adjust corner connectors
+	(latex2e_write_file_header) : don't require
+	  length definition for files that are being input
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-15  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (html_file_open): Change type of size variable to
+	gsf_off_t.
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-07-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=88164
+	* latex.c (latex2e_write_multicolumn_cell) : set locale to C before
+	writing decimals (LaTeX assumes C locale).
+
+2002-06-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=84396
+	* html.c (html_get_text_color) : be more careful
+	(write_cell) : write the background colour if and only if the cell has a
+	  background pattern
+	* latex.c (latex2e_write_multicolumn_cell) : be more casreful with font colours.
+
+2002-06-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html_read.c (html_read_content) : also save src prop of <img>
+
+2002-06-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html_read.c (html_search_for_tables) : important all rather than just top tables
+
+2002-06-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html_read.c (html_read_content) : add argument and save href prop of <a>
+	(html_read_row) : set comment
+
+2002-06-12  Jody Goldberg <jody@gnome.org>
+
+	* html_read.c : clean up the includes and remove some old cruft.
+
+2002-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html_read.c (html_read_content) : new
+	(html_read_row) : move some code into html_read_content, <th> should be bold
+
+2002-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html_read.c (html_read_row) : handle merges (colspan/rowspan)
+
+2002-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html.h (html_file_open) : fix prototype 
+	* html_read.c (html_read_buffer) : disable
+	(html_get_sheet) : new
+	(html_read_row) : new
+	(html_read_table) : new
+	(html_search_for_tables) : really find tables
+	(html_read_buffer) : change invocation of html_search_for_tables
+
+2002-06-06  Jody Goldberg <jody@gnome.org>
+
+	* html_read.c (html_file_open) : convert to using libgsf.
+	  And rewrite to use libxml2's html parser.  We still need to walk the
+	  resulting parse tree.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* boot.c : remove gnome.h
+	* font.c : ditto.
+	* roff.c : use libgnome/gnome-i18n.h
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-05-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html_read.c (html32_read_buffer) : make static
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.3
+
+2002-04-16  Jody Goldberg <jody@gnome.org>
+
+	* html_read.c (html32_file_open) : switch to mmap and break the bogus
+	  little parser out into.
+	(html32_read_buffer) : here.  Take a guess at a decent interface for
+	  buffer parsing.  The goal is to register these in the clpboard.
+
+2002-04-16  Jody Goldberg <jody@gnome.org>
+
+	* html_read.c : split the read functionality into a seprate file to
+	  start work on a parser for buffers.
+
+2002-04-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html.c (html_write_border_style_40) : new
+	(html_get_border_style) : new
+	(write_sheet) : for html4 set replace cell spacing with cell padding
+	(write_cell) : call html_write_border_style_40
+
+2002-04-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html.c (write_cell) : include styles specs for HTML4.0
+
+2002-04-02  Jody Goldberg <jody@gnome.org>
+
+	* latex.c (latex2e_write_multicolumn_cell) : Cell::col_info is
+	  deprecated.  Use Cell::pos::col
+
+2002-03-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.2
+
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
+2002-02-21  Morten Welinder <terra@diku.dk>
+
+	* font.c (font_is_monospaced): Constify.
+	(font_is_helvetica): Constify.
+	(font_is_sansserif): Constify.
+
+2002-02-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.0
+
+2002-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c don't let strings stradle lines
+
+2002-01-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html.c (html_get_text_color) : make sure text is in fact rendered
+	* latex.c (latex2e_write_multicolumn_cell) : ditto
+
+2002-01-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.3
+
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.2
+
+2002-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.1
+
+2001-12-31  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* html.c (html_get_text_color) : use guint* rather than int* for r,g,b.
+	* html.c (html_get_color) : ditto.
+
+2001-12-30  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* html.c (write_row) : Separated pos initialisation from declaration.
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* html.c (write_cell) : warning suppression.
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.0
+
+2001-12-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=66457
+	* roff.c (write_wb_roff) : use real col & row numbers
+
+2001-12-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=67550
+	* html.c (html_get_text_color) : fix text colours determined 
+	  by number formatting
+	* latex.c (latex2e_write_multicolumn_cell) : ditto
+
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.1
+
+2001-12-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html.h : Add html40frag_file_save
+	* plugin.xml.in : ditto
+	* html.c (html_print_encoded) : changed from 
+	(html_write_cell_content) : changed from html_write_cell_str
+	(write_row) : new procedure figuring out merges and spans
+	(write_cell) : formerly html_write_cell40 and html_write_cell32
+	(write_sheet) : new procedure
+	(html32_file_save) : changed to wrapper calling html_file_save
+	(html40_file_save) : changed to wrapper calling html_file_save
+	(html40frag_file_save) : new wrapper calling html_file_save
+	(html_file_save) : common code of html32_file_save and
+	  html40_file_save
+
+
+2001-12-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.0
+
+2001-12-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c (latex2e_write_multicolumn_cell) : implement 
+	  spans and scale tables to width of page, 
+	  some minor fixes
+	(latex_file_save) : ditto
+
+2001-12-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* README : remove latex209 exporter
+	* latex.c : ditto
+	* latex.h : ditto
+	* plugin.xml.in : ditto
+
+2001-12-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c : combine border data structures plus some
+	  cleanup
+	(latex2e_find_vline) : new function
+	(latex2e_write_blank_cell) : new short extract of 
+	  latex2e_write_multicolumn_cell
+	(latex2e_file_save) : setup info for connection markers in
+	  \hhline
+	(latex2e_print_hhline) : print them
+
+2001-12-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c : remove default grid
+	(latex2e_write_multicolumn_cell) : Handle merges over
+	  more than one row and handle vertical borders.
+	(latex2e_file_save) : handle horizontal borders.
+	(latex2e_print_vert_border) : new utility
+	(latex2e_find_hhlines) : new utility
+	(latex2e_print_hhline) : new utility
+
+2001-12-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c (latex2e_write_multicolumn_cell) wrap text 
+	  (http://bugzilla.gnome.org/show_bug.cgi?id=20898)
+	  use math mode for mathematical formats
+	  (http://bugzilla.gnome.org/show_bug.cgi?id=63395)
+	(latex2e_file_save) retain relative column sizes
+
+2001-11-19  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.76
+
+2001-11-05  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.75
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.74
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.73
+
+2001-10-28  Jody Goldberg <jgoldberg@home.com>
+
+	* latex.c (latex2e_file_save) : Use sheet_merge_is_corner.
+
+2001-10-16  Adrian Custer <acuster@nature.berkeley.edu>
+
+	* latex.c : split the LaTeX2e exporter into four functions. The base
+	function writes the headers and checks for merges.
+		Add latex2e_write_file_header() which sets up the LaTeX file with user
+			preferences and allows the file to be \input -able (fixes 
+			http://bugzilla.gnome.org/show_bug.cgi?id=29506
+			suggestion of Han-Wen Nienhuys).
+		Add latex2e_write_table_header() allows control of the headers and
+			footers for this longtable.
+		Add	latex2e_write_multicolumn_cell() to output cell contents and
+			borders.
+	Please Note:
+		THE LaTeX2e EXPORTER NOW ONLY EXPORTS THE TOP SHEET!
+		The LaTeX file can be modified to print in landscape mode.
+		The file can be now be longer than a single page (uses \longtable,
+			suggestion of Jacek Pilszka on gnome-list). 
+		Preliminary support for merges: single row, horizontal merges that do
+			not span past the last column of the table are supported.
+
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.72
+
+2001-10-15  Adrian Custer <acuster@nature.berkeley.edu>
+
+	* latex.c : add documentation to functions, trivial changes to 2.09
+	exporter code.
+	* plugin.xml.in : changed identifier from LaTeX to LaTeX 2.09.
+
+2001-10-14  Adrian Custer <acuster@nature.berkeley.edu>
+
+	* latex.c : re-order the latex escape sequence, add documentation.
+
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
+2001-09-25  Jon K Hellan  <hellan@acm.org>
+
+	* Add plugin.xml
+
+2001-08-24  Jody Goldberg <jgoldberg@home.com>
+
+	* font.h : don't include a gui headerfile.
+	* boot.h : ditto.
+	* html.h : ditto.
+	* latex.h : ditto.
+	* roff.h : ditto.
+
+2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml: Removed
+
+	* plugin.xml.in: Copied from plugin.xml, prepared for localization.
+
+	* Makefile.am: Use xml-i18n-tools to create plugin.xml (with
+	translations merged from .po file).
+
+2001-08-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.70
+
+2001-08-17  Morten Welinder <terra@diku.dk>
+
+	* html.c (html_get_string): Eliminate bogus use of strstr.
+
+2001-08-17  Morten Welinder <terra@diku.dk>
+
+	* html.c (html_fprintf): Use fputc.  Don't do anything special for
+ 	single quote.
+	(html32_file_save): Add type to STYLE element.
+	(html_write_cell32): Use align, not halign.
+
+2001-08-11  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.69
+
+2001-08-01  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html32_file_save) : more conformance problems.
+	(html40_file_save) : ditto.
+
+2001-08-01  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html32_file_save) : Close with </BODY> not <BODY>
+	(html40_file_save) : ditto.
+
+2001-07-18  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml: Removed PDF file saver.
+
+	* roff.c (roff_pdf_file_save): Removed.
+
+2001-07-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.68
+
+2001-06-28  Jody Goldberg <jgoldberg@home>
+
+	* Release 0.67
+
+2001-06-28  Jody Goldberg <jgoldberg@home.com>
+
+	* roff.c (write_wb_roff) : we don't handle spans or merges.
+	* latex.c (latex2e_file_save) : ditto.
+	(latex_file_save) : ditto.
+	* html.c (html32_file_save) : ditto.
+	(html40_file_save) : ditto.
+
+2001-06-27  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.66
+
+2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* html.[ch] (html32_file_save, html40_file_save, html32_file_open)
+	latex.[ch] (latex_file_save, latex2e_file_save)
+	roff.[ch] (roff_dvi_file_save, roff_pdf_file_save, roff_file_save):
+	s/FileOpener/GnumFileOpener/
+	s/FileSaver/GnumFileSaver/
+
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.65
+
+2001-05-19  Almer S. Tigelaar  <almer@gnome.org>
+
+	* plugin.xml : Fix minor typo.
+
+2001-05-18  Jody Goldberg <jgoldberg@home.com>
+
+	* plugin.xml : Make name more descriptive.
+
+2001-04-19  Jody Goldberg <jgoldberg@home.com>
+
+	* roff.c (write_wb_roff) : fix leak.
+	* latex.c (latex_file_save) : ditto.
+	(latex2e_file_save) : ditto.
+	* html.c (html32_file_save) : Ditto.
+	(html40_file_save) : Ditto.
+
+2001-03-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.64
+
+2001-02-23  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.63
+
+2001-02-16  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.62
+
+2001-02-12  Karl Eichwalder  <ke@suse.de>
+
+	* Makefile.am (EXTRA_DIST): Add $(gnumeric_plugin_html_DATA).
+
+2001-02-06  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html_fprintf) : escape more characters
+	(html_get_string) : unescape more characters.
+
+2001-02-03  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html_read) : Make it suck slightly less.
+	  We have no business writing this crock of malarkey.
+	  This should use a REAL parser based on libxml.
+
+2001-02-02  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (findtag) : Quick utility.
+	(html_read) : use it.
+
+2001-01-08  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html_write_wb_html32) : Don't leak style references.
+	(html_write_wb_html40) : ditto.
+
+2000-12-17 Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.61
+
+2000-12-7  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.60
+
+2000-11-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.59
+
+2000-11-13  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.58
+
+2000-11-12  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* html.c 
+	(html_write_wb_html32): Use sheet_get_extent instead
+	of sheet->rows and sheet->cols.
+	(html_write_wb_html40): Idem.
+
+	* latex.c
+	(html_write_wb_latex): Idem.
+	(html_write_wb_latex2e): Idem.
+
+	* roff.c
+	(write_wb_roff): Idem.
+
+2000-11-11  Michael Meeks  <michael@helixcode.com>
+
+	* html.c (html_write_cell40): cell_default_halign not value~
+
+2000-10-30  Jody Goldberg <jgoldberg@home.com>
+
+	* html.[ch] : Adjust to the signature changes for reading views
+	  rather than workbooks.
+	* latex.[ch] : ditto.
+	* roff.[ch] : ditto.
+
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.57
+
+2000-08-30  Jody Goldberg <jgoldberg@home.com>
+
+	* roff.c : Include style.h
+	* html.c : Include style.h
+	* latex.c : Include style.h
+
+2000-08-21  Jody Goldberg <jgoldberg@home.com>
+
+	* roff.c : Include sheet.h
+	* html.c : Include sheet.h
+
+2000-08-09  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html_read) : Use builtin Cell::pos rather than
+	  the row/col infos.
+
+2000-07-25  Morten Welinder <terra@diku.dk>
+
+	* latex.c (latex_fprintf_cell): Rename from latex_fprintf.  Don't
+ 	escape quotes.  Do escape braces.  Properly handle '^', '~', and
+ 	'\\'.  Don't return anything.
+	(latex_fputs): New function extracted from latex_fprintf_cell.
+	(html_write_wb_latex): Write sheet name in LaTeX style.
+	(html_write_wb_latex2e): Ditto.
+
+	[Sure looks like the following!]
+
+2000-07-25  Jody Goldberg <jgoldberg@home.com>
+
+	* latex.c (latex_fprint_string) : New function split from
+	  latex_printf.
+	(latex_fprintf_cell) : Renamed from latex_printf,
+	(html_write_wb_latex) :  Use latex_fprint_string for sheet name.
+	(html_write_wb_latex2e) : Ditto.
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.56
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.55
+
+2000-05-20  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.54
+
+2000-05-09  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.53
+
+2000-05-04  Michael Meeks  <michael@helixcode.com>
+
+	* html.c (html_read): fix ' ' in Sheet index.
+
+2000-04-20  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html_write_cell_str) : Use cell_is_blank.
+	  value_get_default_halign.
+	* latex.c (latex_fprintf) : Ditto.
+	* roff.c (roff_fprintf) : Ditto.
+
+2000-04-08  Jon K Hellan  <hellan@acm.org>
+
+	* html.c (html_write_wb_html32, html_write_wb_html40): Output
+	sheet->name_unquoted instead of sheet->name.
+	(html_read): Gettextize sheet name template.
+
+	* latex.c (html_write_wb_latex, html_write_wb_latex2e):  Output
+	sheet->name_unquoted instead of sheet->name.
+
+	* roff.c (write_wb_roff): Ditto
+
+2000-03-23  Jody Goldberg <jgoldberg@home.com>
+
+	* epsf.c (epsf_write_cell) : Add HALIGN_CENTER_ACROSS_SELECTION.
+	* html.c (html_write_cell{32,40}) : Ditto.
+	* latex.c (html_write_wb_latex) : Ditto.
+	* roff.c (write_wb_roff) : Ditto.
+
+2000-03-23  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (html_init): Tag html savers as AUTO, the others as
+	WRITE_ONLY.
+
+	* html.c (html_read): Set save info, tag as AUTO.
+
+2000-03-04  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am : disable ps.[ch], epsf.[ch].
+	  These are now somewhat behind the times and have been superceded
+	  by gnome-print.
+	boot.c : Disable epsf.
+
+2000-02-26  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* html.c 
+	* (html_write_cell_str, html_write_cell32, html_write_cell40) :
+	* (html_write_wb_html32, html_write_wb_html40) :
+	Adjusted so it now uses sheet_style_computer and puts <BR> 
+	tags in empty cells, this way the cells will _always_ render
+	in a browser so the 'style' information is not lost for
+	empty cells.
+
+2000-01-31  Jon K Hellan  <hellan@acm.org>
+
+	* roff.c (write_wb_roff): Check missing style.
+	(html_write_wb_roff_ps, html_write_wb_roff_dvi,
+	html_write_wb_roff_pdf, html_write_wb_roff): Check popen result.
+	(write_wb_roff): Add command context.
+
+	* epsf.c (epsf_write_wb): Call gnumeric_error_save on
+	failure.
+
+	* html.c (html_write_wb_html32, html_write_wb_html40): Ditto.
+
+	* latex.c (html_write_wb_latex, html_write_wb_latex2e)): Call
+	gnumeric_error_save on failure. Dont't panic on missing style.
+
+2000-01-29  Jon K Hellan  <hellan@acm.org>
+
+	Megacommit.
+
+	The purpose of the changeset is twofold:
+
+	1. Use CommandContexts for error reporting for file read/save.
+	2. This allows us to let FileFormatOpen return 0 on success, -1 on
+	   failure, same as FileFormatSave. The convention to return NULL
+	   on success was highly ideosyncratic.
+
+	* epsf.h (epsf_write_wb): Add CommandContext.
+
+	* epsf.c (epsf_write_wb): ditto.
+
+	* latex.h (html_write_wb_latex, html_write_wb_latex2e): ditto
+
+	* latex.c (html_write_wb_latex, html_write_wb_latex2e): ditto
+
+	* roff.c (html_write_wb_roff_ps, html_write_wb_roff_dvi,
+	html_write_wb_roff_pdf, html_write_wb_roff): ditto
+
+	* roff.c (html_write_wb_roff_ps, html_write_wb_roff_dvi,
+	html_write_wb_roff_pdf, html_write_wb_roff): ditto
+
+	* html.h (html_read, html_write_wb_html40, html_write_wb_html32):
+	ditto.
+	(html_read): Return int.
+
+	* html.c (html_read, html_write_wb_html40, html_write_wb_html32):
+	ditto
+	(html_read): Return 0 on success, -1 on failure. Use
+	gnumeric_error_read to report errors.
+
+1999-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html_read) : Return some error strings.
+
+1999-12-18  Michael Meeks  <mmeeks@gnu.org>
+
+	* html.c (html_get_color): implement helper.
+	(html_write_cell32, html_write_cell40): use it + be more defensive.
+
+1999-12-18  Jarl van Katwijk <jarl@casema.net>
+
+	* html.c (html_write_cell32, html_write_cell40): fix stupid bug.
+
+1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
+ 
+        * html.c (html_cleanup_plugin): free pd->title
+
+1999-10-30  Michael Meeks  <mmeeks@gnu.org>
+
+	* html.c (html_write_cell32): fix uninitialized usage.
+
+1999-10-24  Michael Meeks  <mmeeks@gnu.org>
+
+	* html.c (html_write_cell_str): move common code here.
+	(html_read): Update style setting.
+	(html_cell_bold, html_cell_italic): kill.
+	(html_write_cell32, html_write_cell40): update style bits.
+
+	* font.c (font_get_size): kill ( mstyle_get_font_size )
+	(font_match): Move common code here.
+	(font_is_helvetica, font_is_monospaced, font_is_sansserif): update.
+
+	* epsf.c (epsf_write_cell): Kill 'Style'
+
+1999-10-20  Michael Meeks  <mmeeks@gnu.org>
+
+	* roff.c (write_wb_roff): kill leak.
+
+	* latex.c (html_write_wb_latex, html_write_wb_latex2e): kill leaks.
+
+	* epsf.c (epsf_write_cell): kill leak.
+
+	* html.c (html_write_cell32): ditto.
+
+1999-10-19  Michael Meeks  <mmeeks@gnu.org>
+
+	* html.c (html_cell_bold, html_cell_italic, html_read): Update.
+
+1999-10-03  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html_write_cell32, html_write_cell40) :
+	  Bug #2512.  Emit a </TD> after a <TD>.
+	  Use cell_get_horizontal_align to correctly handle
+	  the case of a 'General' format.
+
+1999-10-07  Michael Meeks  <mmeeks@gnu.org>
+
+	* html.c (html_cell_bold): Update to new style api.
+	(html_cell_italic, html_read): ditto.
+
+1999-09-28  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* html.c (html_write_cell32): Update style api.
+	(html_cell_bold, html_read, html_write_cell40): ditto.
+
+	* latex.c (html_write_wb_latex2e, html_write_wb_latex): 
+	ditto.
+
+	* roff.c (write_wb_roff): ditto.
+
+	* epsf.c (epsf_write_cell): ditto.
+
+1999-10-03  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html_write_cell32, html_write_cell40) :
+	  Bug #2512.  Emit a </TD> after a <TD>.
+	  Use cell_get_horizontal_align to correctly handle
+	  the case of a 'General' format.
+
+13/07/99 (rasca)
+
+	* latex.c: small fixes to use the right font for latex2e output
+
+	* ps.c: added code to draw an object simular to an ellipse :)
+
+12/07/99 (rasca)
+
+	* epsf.c, ps.c: added some code to draw lines
+
+11/07/99 (rasca)
+
+	* font.c: changed functions to meet the new font names in gnumeric
+
+	* epsf.c, ps.c: right alignment for text
+
+10/07/99 (rasca)
+
+	* added experimental EPSF support
+
+	* added PDF support by using groff and ghostscript
+
+	* merged in parts of miguels changes from gnumeric 0.28
+
+09/07/99 (rasca)
+	- export latex2e: added font colors
+	- added latex2e export funktion
+	- export latex: support for monospaced (\tt) font
+	- export troff/ps: support for helvetica font
+	- export troff: put font size information into the troff file
+	- export troff: support for fixed font formated cells
+	- export html: use TT-tag for fixed font
+	- minor improvements to the troff export filter
+
+08/07/99 (rasca)
+	- added first prototype for exporting as TROFF
+	- exporting html: fixed a bug which ignored empty cells
+	- exporting html: added caption to every table
+	- exporting latex: fixed a bug which ignoerd empty cells
+
+1999-07-07  Miguel de Icaza  <miguel@gnu.org>
+
+	* html.c: Split the code in manageable chunks.
+
+	* html.c: Removed useless pieces of code.
+
+07/07/99 (rasca)
+	- added first latex export code
+	- minor code clean ups
+	- import horizontal cell alignment (right and center)
+	- support for exporting fore- and background colors
+	- correct email address in README
+	- added file_format_unregister_open()
+	- reading now honors italic and bold
+
+07/07/99 (rasca)
+	- minor changes to the writing code, so that the cell could
+	  also have values like "<hello>"
+	- simple html read function which does not recognize alignment
+	  or bold/italic ..
+
+06/07/99 (rasca)
+	- right and left alignment, bold and italic seems to work :)
+	- started to write a html plugin to save a sheet as a raw html file

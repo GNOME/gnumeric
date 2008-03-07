@@ -1,0 +1,137 @@
+#!/usr/bin/perl -w
+# -----------------------------------------------------------------------------
+
+use strict;
+
+$| = 1;
+
+my $myself = $0;
+$myself =~ s|^.*/||;
+
+die "$0: must run from top-level gnumeric directory.\n"
+    unless -r "gnumeric-config.h.in";
+my $dstdir = "src/cut-n-paste-code/goffice/gui-utils";
+
+my $bonobouidir = $ARGV[0];
+$bonobouidir = "../libbonoboui" unless defined $bonobouidir;
+die "$0: must specify bonoboui directory on command line.\n"
+    unless -d $bonobouidir;
+
+-d $dstdir or mkdir $dstdir or
+    die "$0: cannot mkdir $dstdir: $!\n";
+
+my @files = ("bonobo-dock-band.c",
+	     "bonobo-dock-band.h",
+	     "bonobo-dock-item-grip.c",
+	     "bonobo-dock-item-grip.h",
+	     "bonobo-dock-item.c",
+	     "bonobo-dock-item.h",
+	     "bonobo-dock-layout.c",
+	     "bonobo-dock-layout.h",
+	     "bonobo-dock.c",
+	     "bonobo-dock.h",
+	     );
+
+my $srcdir = "$bonobouidir/bonobo";
+
+foreach my $file (@files) {
+    local (*SRC,*DST);
+    open (SRC, "<$srcdir/$file") or
+	die "$0: Cannot read $srcdir/$file: $!\n";
+    my $file2 = $file;
+    $file2 =~ s|bonobo|go|;
+    open (DST, ">$dstdir/$file2.new") or
+	die "$0: Cannot write $dstdir/$file.new: $!\n";
+
+    print STDERR "Creating $dstdir/$file2...";
+
+    my $def = '';
+
+    print DST "/* File import from bonoboui to gnumeric by $myself.  Do not edit.  */\n\n";
+
+    if (0 && $file =~ /^(gtk-combo-stack\.c)/) {
+	print DST "#undef GTK_DISABLE_DEPRECATED\n";
+	print DST "#warning \"This file uses GTK_DISABLE_DEPRECATED\"\n";
+    }
+
+    while (<SRC>) {
+	chomp;
+
+	if (/^\s*\#\s*include/) {
+	    $_ = "/* $_ */" if m|bonobo/bonobo-i18n\.h|;
+	    $_ = "/* $_ */" if m|bonobo/bonobo-a11y\.h|;
+	    $_ = "/* $_ */" if m|bonobo/bonobo-ui-private\.h|;
+
+	    s|bonobo/bonobo-ui-marshal\.h|gnm-marshalers.h|;
+	    s|bonobo/|goffice/gui-utils/|;
+
+	    if (s|config.h|gnumeric-config.h|) {
+		$_ .= "\n#include <glib/gi18n.h>";
+	    }
+	}
+
+	s|^\s*\#ifdef (BONOBO_UI_INTERNAL)\s*$|\#if 1 /* defined($1) */|;
+
+	s/\bbonobo_/go_/g;
+	s/\bbonobo-/go-/g;
+	s/\bBONOBO_/GO_/g;
+	s/\b_BONOBO_/_GO_/g;
+	s/\bBonobo/Go/g;
+	s/\b_Bonobo/_Go/g;
+
+	s/go_ui_marshal_/gnm__/g;
+
+	if (/^go_dock_item_grip_get_accessible\b/ ... /^\}/) {
+	    $_ = "$_\n#if 0" if /^\{/;
+	    $_ = "#else\n\treturn NULL;\n#endif\n$_" if /^\}/;
+	}
+	if (/= go_dock_item_grip_get_accessible;/) {
+	    $_ = "#if 0\n$_\n#endif";
+	}
+
+	if (0 && /^E_MAKE_TYPE/ ... /\)/) {
+	    $def = '' if /^E_MAKE_TYPE/;
+	    $def .= $_;
+
+	    if (/\)/) {
+		$def =~ /\((.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*(.*)\s*\)/;
+		print DST "GSF_CLASS($3,$1,$4,$5,$6)\n";
+	    }
+	    next;
+	}
+
+	s/\s+$//;
+
+	print DST "$_\n";
+    }
+
+    close (*SRC);
+    close (*DST);
+
+    &update_file ("$dstdir/$file2");
+}
+
+# -----------------------------------------------------------------------------
+
+sub update_file {
+    my ($old) = @_;
+    my ($new) = "$old.new";
+
+    if (!-r $old) {
+	rename $new, $old or
+	    die "$0: Cannot rename $new to $old: $!\n";
+	print STDERR " -- done.\n";
+    } else {
+	system ("cmp '$old' '$new' >/dev/null");
+	if ($? == 0) {
+	    print STDERR " -- unchanged.\n";
+	    unlink $new;
+	} else {
+	    rename $new, $old or
+		die "$0: Cannot rename $new to $old: $!\n";
+	    print STDERR " -- done.\n";
+	}
+    }
+}
+
+# -----------------------------------------------------------------------------

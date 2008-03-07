@@ -1,0 +1,28 @@
+<sect2 id="numtheory-bitrshift">
+  <title>nt_bitrshift</title>
+  <sect3 id="numtheory-bitrshift-syntax">
+    <title>Syntax</title>
+    <para>
+      =BITRSHIFT(x,n)
+    </para>
+  </sect3>
+  <sect3 id="numtheory-bitrshift-description">
+    <title>Description</title>
+    <para>
+      The BITRSHIFT function returns x bit-shifted right by n bits.
+      If n is negative, a left shift will in effect be performed.
+    </para>
+  </sect3>
+  <sect3 id="numtheory-bitrshift-examples">
+    <title>Examples</title>
+    <para>
+      
+    </para>
+  </sect3>
+  <sect3 id="numtheory-bitrshift-seealso">
+    <title>See Also</title>
+    <para>
+      <xref linkend="numtheory-bitrshift" />
+    </para>
+  </sect3>
+</sect2>

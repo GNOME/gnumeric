@@ -1,0 +1,868 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- These are here for a reason, please leave them. -avc -->
+<!--
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" 
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+-->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+
+  <!ENTITY gnum "<application>Gnumeric</application>">
+  <!ENTITY appversion "1.8">
+  <!ENTITY manrevision "1.8">
+  <!ENTITY date "November 2007">
+  <!ENTITY file-format-open "Gnumeric XML, 
+                             Microsoft Excel 95/97/2000/2003/XP/2007, 
+                             OpenOffice ODF, 
+                             Microsoft Office Open XML,
+                             Text: comma separated value CSV; tab separated value TSV,
+                             Applix,  
+                             Lotus 1-2-3, 
+                             Quatro Pro,  
+                             HTML,
+                             SYLK,
+                             DIF,
+                             SC,
+                             GNU oleo">
+
+  <!-- Some extra enties to help validation -->
+  <!-- Why? These are defined within docbook, no? What tool needs these? -avc -->
+  <!--
+  <!ENTITY mdash  "-">
+  <!ENTITY hellip  "...">
+  <!ENTITY yen    "JPY">
+  <!ENTITY pound  "GBP">
+  <!ENTITY curren  "Currency">
+  -->
+
+  <!ENTITY legal                SYSTEM "legal.xml">
+
+  <!ENTITY welcome              SYSTEM "welcome.xml">
+  <!ENTITY manual-usage         SYSTEM "manual-usage.xml">
+  <!ENTITY quick-start          SYSTEM "quick-start.xml">
+
+  <!ENTITY gui-overview         SYSTEM "gui-overview.xml">
+  <!ENTITY gui-menus            SYSTEM "gui-menus.xml">
+  <!ENTITY gui-toolbars         SYSTEM "gui-toolbars.xml">
+  <!ENTITY gui-other-elements   SYSTEM "gui-other-elements.xml">
+  <!ENTITY gui-mouse            SYSTEM "gui-mouse.xml">
+
+
+
+  <!ENTITY data-overview        SYSTEM "data-overview.xml">
+  <!ENTITY data-types           SYSTEM "data-types.xml">
+  <!ENTITY data-entry           SYSTEM "data-entry.xml">
+  <!ENTITY data-entry-adv       SYSTEM "data-entry-advanced.xml">
+  <!ENTITY data-entry-extern    SYSTEM "data-entry-external.xml">
+  <!ENTITY data-selections      SYSTEM "data-selections.xml">
+  <!ENTITY data-move-copy       SYSTEM "data-move-copy.xml">
+  <!ENTITY data-delete          SYSTEM "data-delete.xml">
+  <!ENTITY data-insert          SYSTEM "data-insert.xml">
+  <!ENTITY data-format          SYSTEM "data-format.xml">
+  <!ENTITY data-filter          SYSTEM "data-filter.xml">
+  <!ENTITY data-modify          SYSTEM "data-modify.xml">
+  <!ENTITY data-generate        SYSTEM "data-generate.xml">
+  <!ENTITY data-commentNlink    SYSTEM "data-commentNlink.xml">
+
+  <!ENTITY f-worksheets         SYSTEM "worksheets.xml">
+
+  <!ENTITY f-workbooks          SYSTEM "workbooks.xml">
+
+  <!ENTITY graphics-overview    SYSTEM "graphics-overview.xml">
+  <!ENTITY graphics-plots       SYSTEM "graphics-plots.xml">
+  <!ENTITY graphics-images      SYSTEM "graphics-images.xml">
+  <!ENTITY graphics-widgets     SYSTEM "graphics-widgets.xml">
+  <!ENTITY graphics-drawings    SYSTEM "graphics-drawings.xml">
+
+  <!ENTITY files-overview       SYSTEM "files-overview.xml">
+  <!ENTITY files-formats        SYSTEM "files-formats.xml">
+  <!ENTITY files-opening        SYSTEM "files-opening.xml">
+  <!ENTITY files-textopen       SYSTEM "files-textopen.xml">
+  <!ENTITY files-saving         SYSTEM "files-saving.xml">
+  <!ENTITY files-textsave       SYSTEM "files-textsave.xml">
+  <!ENTITY files-email          SYSTEM "files-email.xml">
+  <!ENTITY files-ssconvert      SYSTEM "files-ssconvert.xml">
+
+  <!ENTITY printing             SYSTEM "printing.xml">
+
+  <!ENTITY config-overview      SYSTEM "configuration-overview.xml">
+  <!ENTITY config-toolbars      SYSTEM "configuration-toolbars.xml">
+  <!ENTITY config-preferences   SYSTEM "configuration-preferences.xml">
+  <!ENTITY config-plugins       SYSTEM "configuration-plugins.xml">
+  <!ENTITY config-localization  SYSTEM "configuration-localization.xml">
+
+  <!ENTITY analysis-overview    SYSTEM "analysis-overview.xml">
+  <!ENTITY analysis-statistical SYSTEM "analysis-statistical.xml">
+  <!ENTITY analysis-complexNum  SYSTEM "analysis-complexNumbers.xml">
+  <!ENTITY analysis-solver      SYSTEM "analysis-solver.xml">
+  <!ENTITY analysis-simulation  SYSTEM "analysis-simulation.xml">
+  <!ENTITY analysis-scenarios   SYSTEM "analysis-scenarios.xml">
+  <!ENTITY analysis-goalseek    SYSTEM "analysis-goalseek.xml">
+
+  <!ENTITY morehelp             SYSTEM "morehelp.xml">
+
+  <!ENTITY bugs                 SYSTEM "bugs.xml">
+ 
+  <!ENTITY getting-involved     SYSTEM "getting-involved.xml">
+
+  <!ENTITY installing           SYSTEM "installing.xml">
+
+  <!ENTITY compiling            SYSTEM "compiling.xml">
+
+  <!ENTITY extending-overview   SYSTEM "extending-overview.xml">
+  <!ENTITY extending-functions  SYSTEM "extending-functions.xml">
+  <!ENTITY extending-python     SYSTEM "extending-python.xml">
+  <!ENTITY extending-plugins    SYSTEM "extending-plugins.xml">
+
+  <!ENTITY programing           SYSTEM "programing.xml">
+
+  <!ENTITY documenting          SYSTEM "documenting.xml">
+
+  <!ENTITY about-history        SYSTEM "about-history.xml">
+  <!ENTITY about-authors        SYSTEM "about-authors.xml">
+  <!ENTITY about-license        SYSTEM "about-license.xml">
+  
+
+  <!ENTITY function-ref         SYSTEM "functions.xml">
+
+  <!ENTITY appendix-keybindings SYSTEM "appendix-keybindings.xml">
+  <!ENTITY appendix-glossary    SYSTEM "appendix-glossary.xml">
+
+]>
+
+
+<!-- 
+      (Do not remove this comment block.)
+  Maintained by the GNOME Documentation Project
+  http://developer.gnome.org/projects/gdp
+  Template version: 2.0 beta
+  Template last modified Feb 12, 2002
+  
+-->
+
+<!-- =============Document Header ============================= -->
+<book id="index" lang="en">
+<!-- please do not change the id; for translations, change lang to -->
+<!-- appropriate code -->
+  <title>The Gnumeric Manual, version &appversion;</title>
+
+  <bookinfo>
+
+<!-- 
+    <abstract>
+      <para>
+        This manual describes &gnum;, a
+        spreadsheet produced by the GNOME project. The manual provides
+        a brief introduction to spreadsheets, describes exhaustively
+        all of the elements of the program and explains how to use the
+        program.
+      </para>
+    </abstract>
+-->
+
+    <copyright>
+      <year>2007</year>
+      <year>2006</year>
+      <year>2005</year>
+      <year>2004</year>
+      <holder>Adrian Custer, Ray Dassen, Jody Goldberg, 
+              Andreas Guelzow.
+      </holder> 
+    </copyright>
+  <!-- translators: uncomment this:
+    <copyright>
+      <year>2003</year>
+      <holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+    </copyright>
+   -->
+
+    <copyright>
+      <year>2003</year>
+      <holder>Kevin Breit, Adrian Custer, Ray Dassen, 
+              Jody Goldberg, Andreas J. Guelzow, Jon K. Hellan, 
+              Jukka-Pekka Iivonen, Alexander Kirillov, 
+              Charles Twardy, Sebastian Klost, Thomas Miesbauer.
+      </holder> 
+    </copyright>
+
+    <copyright>
+      <year>2002</year>
+      <holder>Jody Goldberg, Andreas J. Guelzow, Wayne Schuller, 
+              Adrian Custer, Kevin Breit, Aaron Weber, 
+              Alexander Kirillov, Eric Baudais, Gregory Leblanc.
+      </holder> 
+    </copyright>
+
+    <copyright>
+      <year>1998</year>
+      <year>1999</year>
+      <year>2000</year>
+      <year>2001</year>
+      <holder>Miguel de Icaza, Thomas Canty, Jukka-Pekka Iivonen,
+              Almer S. Tigelaar, Morten Welinder.
+      </holder> 
+    </copyright>
+
+    <publisher> 
+      <publishername> GNOME Documentation Project </publishername> 
+    </publisher> 
+
+    <!-- This file  contains link to license for the documentation 
+         (GNU FDL), and other legal stuff such as "NO WARRANTY" 
+         statement. Please do not change any of this. 
+    -->
+    &legal;
+
+    <authorgroup> 
+      <author> 
+        <firstname>Eric</firstname>
+        <surname>Baudais</surname> 
+        <email>baudais@okstate.edu</email>
+      </author>
+      <author> 
+        <firstname>Kevin</firstname>
+        <surname>Breit</surname>  
+       <email>mrproper@ximian.com</email>
+      </author>
+      <author> 
+        <firstname>Thomas</firstname>
+        <surname>Canty</surname> 
+        <email>tommydal@ihug.com.au</email>
+      </author>
+      <author> 
+        <firstname>Adrian</firstname>
+        <surname>Custer</surname> 
+        <email>acuster@gnome.org</email>
+      </author>
+      <author> 
+        <firstname>Ray</firstname>
+        <surname>Dassen</surname> 
+        <email>jdassen@debian.org</email>
+      </author>
+      <author>
+        <firstname>Jody</firstname>
+        <surname>Goldberg</surname> 
+        <email>jody@gnome.org</email>
+      </author>
+      <author> 
+        <firstname>Andreas</firstname>
+        <surname>Guelzow</surname> 
+        <email>aguelzow@taliesin.ca</email>
+      </author>
+      <author> 
+        <firstname>Jon K.</firstname>
+        <surname>Hellan</surname> 
+        <email>hellan@acm.org</email>
+      </author>
+      <author> 
+        <firstname>Miguel</firstname>
+        <surname>de Icaza</surname>
+        <email>miguel@gnu.org</email>
+      </author>
+      <author> 
+        <firstname>Jukka-Pekka</firstname>
+        <surname>Iivonen</surname> 
+        <email>jiivonen@hutcs.cs.hut.fi</email>
+      </author>
+      <author> 
+        <firstname>Alexander</firstname>
+        <surname>Kirillov</surname> 
+        <email>kirillov@math.sunysb.edu</email>
+      </author>
+      <author> 
+        <firstname>Sebastian</firstname>
+        <surname>Klost</surname> 
+        <email>sebastian.klost@gmx.de</email>
+      </author>
+      <author> 
+        <firstname>Gregory</firstname>
+        <surname>Leblanc</surname>
+        <email>gleblanc@linuxweasel.com</email>
+      </author>
+      <author> 
+        <firstname>Thomas</firstname>
+        <surname>Miesbauer</surname> 
+        <email>thomas.miesbauer@web.de</email>
+      </author>
+      <author> 
+        <firstname>Wayne</firstname>
+        <surname>Schuller</surname>
+        <email>k_wayne@linuxpower.org</email>
+      </author>
+      <author> 
+        <firstname>Almer S.</firstname>
+        <surname>Tigelaar</surname>
+        <email>almer1@dds.nl</email>
+      </author>
+      <author> 
+        <firstname>Charles</firstname>
+        <surname>Twardy</surname>
+        <email>ctwardy@mail.csse.monash.edu.au</email>
+      </author>
+      <author> 
+        <firstname>Aaron</firstname>
+        <surname>Weber</surname>
+        <email>aaron@ximian.com</email>
+      </author>
+      <author> 
+        <firstname>Morten</firstname>
+        <surname>Welinder</surname>
+        <email>terra@diku.dk</email>
+      </author>
+   <!-- This is appropriate place for other contributors: translators,
+          maintainers,  etc. Commented out by default.
+     <othercredit role="translator">
+       <firstname>Latin</firstname> 
+       <surname>Translator 1</surname> 
+       <affiliation> 
+          <orgname>Latin Translation Team</orgname> 
+          <address> <email>translator@gnome.org</email> </address> 
+       </affiliation>
+       <contrib>Latin translation</contrib>
+     </othercredit>
+   -->
+    </authorgroup> 
+
+
+    <revhistory>
+      <revision> 
+        <revnumber>Gnumeric Manual: Version &manrevision;</revnumber> 
+        <date>&date;</date> 
+        <revdescription> 
+          <para role="author">The Gnumeric Team</para>
+          <para role="publisher">GNOME Documentation Project</para>
+        </revdescription> 
+      </revision>
+      <revision> 
+        <revnumber>Gnumeric Manual: Version 1.4</revnumber> 
+        <date>November 2004</date> 
+        <revdescription> 
+          <para role="author">The Gnumeric Team</para>
+          <para role="publisher">GNOME Documentation Project</para>
+        </revdescription> 
+      </revision>
+      <revision> 
+        <revnumber>Gnumeric Manual: Version 1.2</revnumber> 
+        <date>September 2002</date> 
+        <revdescription> 
+          <para role="author">The Gnumeric Team</para>
+          <para role="publisher">GNOME Documentation Project</para>
+        </revdescription> 
+      </revision>
+      <revision> 
+        <revnumber>Gnumeric Manual: Version 1.0</revnumber> 
+        <date>January 2002</date> 
+        <revdescription> 
+          <para role="author">The Gnumeric Team</para>
+          <para role="publisher">GNOME Documentation Project</para>
+         </revdescription> 
+      </revision>
+      <revision> 
+        <revnumber>Gnumeric Manual: Earlier Versions</revnumber> 
+        <date>1998-2001</date> 
+        <revdescription> 
+          <para role="author">The Gnumeric Team</para>
+          <para role="publisher">GNOME Documentation Project</para>
+        </revdescription> 
+      </revision>
+    </revhistory>
+
+    <releaseinfo>This manual describes version &appversion; of Gnumeric
+    </releaseinfo> 
+    <legalnotice> 
+      <title>Feedback</title> 
+      <para>
+        To report a bug or make a suggestion regarding the &gnum;
+        application or this manual, follow the directions in
+        <xref linkend="chapter-bugs" />.
+
+      </para>
+<!-- Translators may also add here feedback address for translations -->
+    </legalnotice> 
+  </bookinfo>
+
+<!-- ============= Index         ============================= -->
+<!--
+  <indexterm> 
+    <primary>Gnumeric</primary> 
+  </indexterm>
+  <indexterm> 
+    <primary>GNOME Spreadsheet</primary> 
+  </indexterm> 
+  <indexterm> 
+    <primary>Office</primary> 
+  </indexterm> 
+-->
+
+<!-- ============= Document Body ============================= -->
+    <!-- Note: keep the chapter introductions presented here 
+         synched up with those in manual-usage.xml -->
+
+  <chapter id="chapter-welcome">
+    <title>Welcome!</title>
+
+    &welcome;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-manual-usage">
+    <title>How to Use this Manual</title>
+
+    &manual-usage;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-quick-start">
+    <title>A Quick Introduction</title>
+
+    <para>
+      The best way to learn how to use
+      &gnum; is to begin exploring the
+      program yourself. This chapter will help you get started trying
+      new things and seeing what happens. The chapter explains the
+      fundamentals of spreadsheets in general and of
+      &gnum; in particular. The chapter
+      attempts to help new users get started with
+      &gnum; and provides background for
+      the more detailed explanations given in the rest of the manual.
+    </para>
+
+    <note>
+      <para>
+        <emphasis role="bold">Getting started with computers</emphasis>
+      </para>
+
+      <para>
+        Unfortunately, this manual cannot teach you the very basics of
+        interacting with a modern computer. If you have never used
+        computers, don't know the names of the hardware components
+        (the pieces you can touch) or don't know the names of the
+        elements you see on the screen (like windows or the mouse
+        pointer), you will probably want to get some basic advice from
+        someone you know or read the manuals which came with your
+        machine or your operating system. It's all pretty easy but, in
+        order to understand this manual, you will need to know some
+        basic terminology and have some basic computing skills.
+      </para>
+
+      <para>
+        If you are using the GNOME desktop environment, you can read
+        the <ulink type="help" url="ghelp:user-guide">the GNOME
+        Desktop User Guide</ulink> for help in getting started with
+        computers.
+      </para>
+
+      <para>
+        If you are using the another desktop environment such as
+        <ulink url="http://www.kde.org/">KDE</ulink> or another
+        operating system, please see the instructions from the web
+        site linked with either your desktop environment, your
+        operating system, your software distribution source or the
+        people who provided you with your computer. There are also
+        many books providing good introduction to computers.
+      </para>
+    </note>
+
+    &quick-start;
+
+  </chapter>
+
+
+<!-- TODO: elements- Split each <sect1> into a separate file. Update. -->
+  <chapter id="chapter-gui-elements">
+    <title>Gnumeric Elements</title>
+
+    <para>
+      This chapter describes all of the pieces of
+      &gnum; which a user can
+      manipulate. The chapter provides explanations for each of the
+      menus, menu entries, toolbar buttons and other elements of the
+      graphical user interface.
+    </para>
+
+    &gui-overview;
+    &gui-menus;
+    &gui-toolbars;
+    &gui-other-elements;
+    &gui-mouse;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-data">
+    <title>Working with Data</title>
+
+    <para>
+      This chapter explains the core functionality of
+      &gnum; including the basic types of
+      data manipulated by &gnum;, the
+      methods of entering, manipulating and formatting data, and the
+      basic tools for analysis of these data. More advanced analysis is
+      described in <xref linkend="chapter-advanced-analysis" />.
+    </para>
+
+    &data-overview;
+    &data-types;
+    &data-entry;
+    &data-entry-adv;
+    &data-entry-extern;
+    &data-selections;
+    &data-move-copy;
+    &data-delete;
+    &data-insert;
+    &data-format;
+    &data-filter;
+    &data-modify;
+    &data-generate;
+    &data-commentNlink;
+
+  </chapter>
+
+
+<!-- TODO: analysis- Split into three Chapters: anal w/ stats, w/ scenarios, w/ l.p. -->
+  <chapter id="chapter-advanced-analysis">
+    <title>Advanced Analysis</title>
+
+    <para>
+      This chapter explains many of the advanced analytic tools
+      available in &gnum; including
+      statistical analysis, linear algebra calculations and simulation
+      analysis.
+    </para>
+
+    &analysis-overview;
+    &analysis-complexNum;
+    &analysis-goalseek;
+    &analysis-solver;
+    &analysis-simulation;
+    &analysis-scenarios;
+    &analysis-statistical;
+  </chapter>
+
+
+
+
+
+  <chapter id="chapter-graphics">
+    <title>Graphics: Plots, Images, Widgets, and Drawings</title>
+
+    <para>
+      This chapter explains how to add graphical elements to a
+          &gnum; worksheet, including
+          data graphs to plot worksheet data, images from external
+          files, graphical user interface widgets which interact with
+          worksheet data, and simple drawing elements.
+    </para>
+
+    &graphics-overview;
+    &graphics-plots;
+    &graphics-images;
+    &graphics-widgets;
+    &graphics-drawings;
+
+  </chapter>
+
+
+<!-- 
+
+  <chapter id="chapter-worksheets">
+    <title>Using Worksheets</title>
+
+    <para>
+      This chapter explains the use and manipulation of worksheets in
+      &gnum;. The chapter explains how to move around a worksheet, how
+      to alter the appearance and display organization of the
+      worksheet contents, how to manipulate entire worksheets and how
+      to protect worksheet contents.
+    </para>
+
+    &f-worksheets;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-workbooks">
+    <title>Workbook Settings</title>
+
+    <para>
+      This chapter explains the contents of a
+      &gnum; workbook which are not part
+      of the worksheets. This includes several settings which apply to
+      the workbook and are saved in the
+      &gnum; file. Settings which apply
+      to the &gnum; program itself are
+      called `preferences' and are explained in <xref
+      linkend="chapter-configuring" />.
+    </para>
+
+    &f-workbooks;
+
+  </chapter>
+
+-->
+
+  <chapter id="chapter-configuring">
+    <title>Configuring Gnumeric</title>
+
+    <para>
+      This chapter explains how to change the default behaviour of
+      &gnum; including the startup
+      behaviour and default locale (language and number display).
+    </para>
+
+    &config-overview;
+    &config-preferences;
+    &config-toolbars;
+    &config-plugins;
+    &config-localization;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-files">
+    <title>Working with Files</title>
+
+    <para>
+      This chapter explains how to use files in &gnum;. The chapter
+      provides an extensive description of the file formats used by
+      &gnum;. The chapter also explains how to open files, import data
+      from text files, save files, export data to text files, send
+      data to others via electronic mail, and convert files from one
+      format to another.
+    </para>
+
+    &files-overview;
+    &files-formats;
+    &files-opening;
+    &files-textopen;
+    &files-saving;
+    &files-textsave;
+    &files-email;
+    &files-ssconvert;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-printing">
+    <title>Printing</title>
+
+    <para>
+      This chapter explains how to print spreadsheets, tables and
+      plots from &gnum; to a printer
+      directly or into Postscript or PDF (both are page description
+      languages).
+    </para>
+
+    &printing;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-morehelp">
+    <title>Getting More Help</title>
+
+    <para>
+      This chapter describes other sources of help which are available
+      to users including the &gnum; web
+      site, the mailing list, and the internet relay chat (IRC)
+      discussion channel. 
+    </para>
+
+    &morehelp;
+
+  </chapter>
+
+
+
+  <chapter id="chapter-bugs">
+    <title>Reporting a Problem</title>
+
+    <para>
+      This chapter explains how to report a problem with
+      &gnum; so that the problem can be
+      fixed. The same procedure can be used to file a report
+      requesting an enhancement or a new feature.
+    </para>
+
+    &bugs;
+
+  </chapter>
+
+
+<!-- TODO: Write 'getting involved' chapter -->
+<!--
+  <chapter id="chapter-getting-involved">
+    <title>Getting Involved</title>
+
+    <para>
+      This chapter explains how to get involved in the &gnum; project,
+      the GNOME project, or other free software projects.
+    </para>
+
+    &getting-involved;
+
+  </chapter>
+-->
+
+
+<!-- TODO: Write 'installing' chapter -->
+<!--
+   <chapter id="chapter-installing">
+    <title>Installing &gnum;</title>
+
+    <para>
+      This chapter explains how to install &gnum; using previously
+      compiled and bundled files. 
+    </para>
+
+    &installing;
+
+  </chapter>
+-->
+
+
+<!-- TODO: Write 'compiling' chapter -->
+<!--
+   <chapter id="chapter-compiling">
+    <title>Compiling &gnum;</title>
+
+    <para>
+      This chapter explains how to compiling the &gnum; source code
+      into a working program. The chapter explains how to obtain the
+      source code for the &gnum; program, how to create a correct
+      environment for compilation, and the steps involved in
+      compilation.
+    </para>
+
+    &compiling;
+
+  </chapter>
+-->
+
+
+  <chapter id="chapter-extending">
+    <title>Extending Gnumeric</title>
+
+    <para>
+      This chapter explains how to go about extending
+      &gnum; to provide extra
+      functionality. Because &gnum; is
+      Free Software this is quite easy to do.
+    </para>
+
+    &extending-overview;
+    &extending-functions;
+    &extending-python;
+    &extending-plugins;
+
+  </chapter>
+
+
+
+<!-- TODO: Write 'programing' chapter -->
+<!--
+   <chapter id="chapter-programing">
+    <title>Programing &gnum;</title>
+
+    <para>
+      This chapter explains how to work programing the internals of
+      &gnum;. This includes explaining the different parts of the code
+      base, the tools that can be used to help and other useful
+      information. 
+    </para>
+
+    &programing;
+
+  </chapter>
+-->
+
+
+<!-- TODO: Write 'documenting' chapter -->
+<!--
+   <chapter id="chapter-documenting">
+    <title>Improve this manual</title>
+
+    <para>
+      This chapter explains how to help improve this manual by editing
+      the text from which the manual is build. This includes
+      explaining the GNOME Documentation Project, DocBook and other
+      relevant information.
+    </para>
+
+    &documenting;
+
+  </chapter>
+-->
+
+
+<!-- TODO: Write 'about' chapter -->
+<!--
+  <chapter id="chapter-about">
+    <title>About Gnumeric</title>
+
+    <para>
+      This chapter provides some background information on the
+      creation and distribution of
+      &gnum;.
+    </para>
+
+    &about-history;
+    &about-authors;
+    &about-license;
+
+  </chapter>
+-->
+
+
+<!-- ============= Appendices ================================ -->
+
+  &function-ref;
+  &appendix-keybindings;
+
+
+<!--
+
+  <appendix id="glossary">
+    <title>Glossary</title>
+
+    <para>
+      This appendix defines certain terms used in this manual.
+    </para>
+
+    &appendix-glossary;
+
+  </appendix>
+
+-->
+
+<!--
+
+  <appendix id="index">
+    <title>Index</title>
+
+    <para>
+      The index provides references to the use of the important ideas.
+    </para>
+
+    &index;
+
+  </appendix>
+
+-->
+
+
+</book>
+

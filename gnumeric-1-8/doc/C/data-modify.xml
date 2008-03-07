@@ -1,0 +1,62 @@
+<sect1 id="sect-data-modify">
+  <title>Modifying Data</title>
+  
+  <para>
+    This section has not yet been written...
+  </para>
+
+  <sect2 id="sect-data-modify-search">
+    <title>Searching for Data</title>
+
+    <para>
+      This section has not yet been written...
+    </para>
+
+  </sect2>
+
+  <sect2 id="sect-data-modify-searchreplace">
+    <title>Searching and Replacing Data</title>
+
+    <para>
+      This section has not yet been written...
+    </para>
+
+  </sect2>
+
+
+  <sect2 id="sect-data-modify-sorting">
+    <title>Sorting Data</title>
+
+    <para>
+      This section has not yet been written...
+    </para>
+
+  </sect2>
+
+
+  <sect2 id="sect-data-modify-shuffle">
+    <title>Shuffling Data</title>
+
+    <para>
+      With data shuffling tool you can shuffle data in a given cell
+      range.  The tool can be started by selecting ``Shuffle'' menu
+      item in ``Data'' menu.  In order to use the tool give the input
+      range in which the data to be shuffled is stored.  The tool is
+      able to shuffle the contents of the whole cell range, or, also
+      shuffle data according to rows or columns. The shuffling method
+      is selected under the ``Input Range'' entry. For example, if
+      your data is grouped by rows then select ``Shuffle Method''
+      ``Rows''.
+    </para>
+
+    <para>
+      The default output method is to shuffle in-place. The shuffled
+      data can also be written into a new sheet, new workbook, or into
+      an existing sheet by giving the output range. If you select the
+      ``Autofit Columns'' option, the width of each output column is
+      automatically fixed according to the size of data in it.
+    </para>
+
+  </sect2>
+
+</sect1>

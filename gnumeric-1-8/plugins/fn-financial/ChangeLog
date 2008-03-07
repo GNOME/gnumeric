@@ -1,0 +1,531 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2008-01-10  Morten Welinder  <terra@gnome.org>
+
+	* functions.c: Add proper argument description to NPV.  [#506160]
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-20  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_rate): Fix typo.
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-24  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_accrint) : if par is ommited use 1000 (XL
+	  compatibility).  Still more work needed.
+	(value_get_paytype) : Be more accomodating with values.  Anything
+	  non-zero
+
+2006-10-24  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (calculate_ipmt): New function replacing and fixing
+	calculate_interest_part.
+	(gnumeric_ipmt, gnumeric_ppmt): Use calculate_ipmt.
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2006-03-17  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_effect, gnumeric_nominal): Improve for
+	weird nper.
+	(gnumeric_dollarde, gnumeric_dollarfr): Fix for negative amounts.
+	Improve Excel compatibility.
+
+2006-03-06  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_xnpv): Fix handling of bools and strings.
+	(gnumeric_xirr): Fix handling of strings.  [#333620]
+	(gnumeric_xirr): Handle failing Newton search.  [#333631]
+
+2006-01-27  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (value_get_basis): New function to properly handle
+	basis fields.  All basis-taking functions changed.
+	(value_get_freq): New function to properly handle frequency
+	fields.  All frequency-taking functions changed.
+	(value_get_paytype): New function to properly handle front-or-back
+	payment flag.
+
+2006-01-09  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (func_coup): Simplify using
+	value_get_as_checked_bool.
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-11-07  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (price): Special-case n==1 as per HP's calculator
+	manuals.  Seems to agree with Excel's undocumented behaviour.
+	(Discovered by Philippe Lelong.)  Avoid potentially expensive
+	loop.
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-28  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_npv): Use a range function.
+
+2005-06-27  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_irr): If all else fails, try to Newton
+	seek from left edge of interval.
+	(irr_npv, irr_npv_df): Don't be smart.  Fixes Debian #315625.
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-08-25  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_accrint) : fix error checking
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-04-12  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (calculate_fvifa, calculate_pvif,
+	calculate_interest_part, price, gnumeric_effect, gnumeric_nominal,
+	gnumeric_mirr, irr_npv, irr_npv_df, callback_function_npv,
+	gnumeric_xnpv, xirr_npv): Improve precision for small rates using
+	new pow1p and pow1pm1.
+	(gnumeric_nper, gnumeric_g_duration): Use log1pgnum.
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2004-01-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* functions.c: fix argument names for RATE.
+
+2004-01-08  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_euroconvert) : slight cleanup.  Nothing major.
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-07-28  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : fix docs for mduration to use 'if basis is invald' to
+	  make life easier for translators when more day counts land.
+
+2003-07-16  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : document amorlinc & amordegrc
+	  fix arguments for duration.
+
+2003-07-14  Jody Goldberg <jody@gnome.org>
+
+	* functions.c :
+	s/begining/beginning/
+
+2003-07-14  Jody Goldberg <jody@gnome.org>
+
+	* plugin.xml.in : add missing decl for g_duration
+
+2003-07-05  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : s/sequrity/security/
+	s/depriciation/depreciation/
+	Remove the duplication of the arg decriptors for SLN
+
+2003-07-01  Jody Goldberg <jody@gnome.org>
+
+	* sc-fin.c : ditch sc's daycount routines
+
+2003-07-01  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_oddlprice, gnumeric_oddlyield): Dump OO's
+	implementation and roll our own.  (Our date stuff is better.)
+	(gnumeric_yielddisc): Dump OO's and use yearfrac.
+
+2003-06-29  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (func_coup): Use is_valid_basis and is_valid_freq.
+	(gnumeric_duration, gnumeric_mduration): Ditto, thus fixing for
+	frequency 6 and 12.
+
+2003-06-28  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : update the status for oddfyield
+
+2003-06-27  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (calc_oddfprice): New function, extracted from
+	gnumeric_oddfprice and fixed.
+	(gnumeric_oddfprice): Use calc_oddfprice.
+	(gnumeric_oddfyield): Implement.
+
+	* sc-fin.c (get_yielddisc): Beat some sense into this.
+
+2003-06-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* functions.c: spelling fixes
+	* plugin.xml.in: use `Finance'
+	
+2003-06-12  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : docs fixes as per
+	http://bugzilla.gnome.org/show_bug.cgi?id=115028
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-12-03  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_nper): Last two args are optional.
+
+2002-12-02  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_ispmt): Handle non-integer period numbers.
+	Ick.
+	(gnumeric_ipmt): Ditto.
+	(gnumeric_nper): Handle rate=0 special case.
+
+2002-12-01  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_ipmt): Base on calculate_interest_part.
+	(gnumeric_ppmt): Ditto.
+	(calculate_principal): Replaced by...
+	(calculate_interest_part): ...this new function which does not
+	have a rate=0 singularity.
+
+2002-11-24  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (calculate_fvifa): Handle rate==0 here.
+	(gnumeric_pv): Remove special case.
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-04  Morten Welinder  <terra@diku.dk>
+
+	* functions.c: Adapt to new autoformat specs.
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-10-15  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : convert all of the dates to 'f' rather than '?'
+	  because implicit conversions are handle in the marshaller.
+	Add some status.
+
+2002-10-14  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_dollarde): Use floorgnum, not floor.
+	(gnumeric_dollarfr): Ditto.
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-16  Jon K Hellan  <hellan@acm.org>
+
+	* functions.c (coupnum): Make static.
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-08-10  Jukka Pekka <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Implemented EUROCONVERT(). Rounding is not yet
+	XL2002 compatible.
+
+2002-08-10  Jukka Pekka <jiivonen@hutcs.cs.hut.fi>
+
+	* sc-fin.c (get_vdb): Fixed, hopefully.
+
+2002-08-07  Morten Welinder  <terra@diku.dk>
+
+	* sc-fin.c (ScInterVDB): Remove a few unused variables.
+
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+2002-07-27  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Much more function description clean up.
+
+2002-07-26  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Some function description clean up.
+
+2002-07-22  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* sc-fin.c (ScGetGDA, ScInterVDB, get_vdb): Imported from the OO
+	with some clean up.  The original code is quite a nightmare,
+	however, still a few identifiers are in German (Sprechen Sie
+	Deutch?).
+
+	* functions.c (gnumeric_vdb): Implemented.
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-07-16  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_dollarde): Use gpow10.
+	(gnumeric_dollarfr): Ditto.
+
+2002-07-16  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_yield): Use existing root finding
+	machinery.
+
+2002-07-16  Morten Welinder  <terra@diku.dk>
+
+	* sc-fin.c: Use powgnum, not pow.
+
+2002-07-13  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_price) : silence some warnings.
+
+2002-07-07  Jody Goldberg <jody@gnome.org>
+
+	* sc-fin.c (GetDiffParam) : avoid compiler warnings.
+	* functions.c (gnumeric_amordegrc) : ditto.
+
+2002-07-07  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c (gnumeric_yield): Fixed.
+
+2002-07-07  Jon K Hellan  <hellan@acm.org>
+
+	* functions.c (annual_year_basis, days_monthly_basis, coupnum):
+	Replaced deprecated g_date_xxx with g_data_get_xxx.
+
+2002-07-07  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions (gnumeric_cumprinc, gnumeric_cumipmt, gnumeric_mduration):
+	Implemented.
+
+	* sc-fin.c (GetRmz,GetZw,Duration,get_cumprinc,get_cumipmt,
+	get_mduration): Added.
+
+2002-07-07  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c (gnumeric_duration): Renamed DURATION() as
+	G_DURATION().  Wrote a new DURATION() that is XL compatible.
+
+	* sc-fin.c (get_duration): Added.
+
+2002-07-06  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c (gnumeric_amordegrc, gnumeric_amorlinc,
+	gnumeric_oddlprice, gnumeric_oddlyield, gnumeric_yieldmat,
+	gnumeric_yielddisc): Implemented. Thanks for OO, read the comment
+	in sc-fin.c.
+
+	* sc-fin.[ch], Makefile.am: Added new file.
+
+2002-06-14  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_euro) : add drachma.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-05-03  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_xirr): Put sane limits on the goal search.
+

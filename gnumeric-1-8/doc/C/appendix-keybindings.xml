@@ -1,0 +1,165 @@
+<appendix id="keybinding">
+  <title>Keybinding Reference</title>
+
+  <para>
+    This appendix lists the keyboard shortcuts which are defined by
+    default in &gnum;.
+  </para>
+
+  <para>
+    Keybindings are combinations of keystrokes which tell an application to
+    run a task.  These can greatly speed-up the user's interactions
+    with an application.  Some of the most common ones are
+    <keycombo>
+      <keycap>Ctrl</keycap>
+      <keycap>s</keycap>
+    </keycombo>
+    to save a file or
+    <keycombo>
+      <keycap>Ctrl</keycap>
+      <keycap>q</keycap>
+    </keycombo>
+    to quit the application.  &gnum; also
+    comes with keybindings to make your spreadsheet experience faster.
+  </para>
+
+  <para>
+    Normally, keybindings are next to a command in a menu.  For
+    example, if 
+    <menuchoice>
+      <guimenuitem>Save</guimenuitem>
+    </menuchoice>
+    has
+    <keycombo>
+      <keycap>Ctrl</keycap>
+      <keycap>s</keycap>
+    </keycombo>
+    next to it, that means that
+    <keycombo>
+      <keycap>Ctrl</keycap>
+      <keycap>s</keycap>
+    </keycombo>
+    can be typed at the same time to save your file.  However, some
+    keystrokes aren't listed in the menus.  They are as follows:
+  </para>
+
+  <itemizedlist>
+    <listitem>
+      <para>
+	<keycap>F2</keycap> sets the current cell for editing.  The
+	cursor is inserted at the end of the current text.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctrl-O</keycap> opens the <interface>Load file</interface>
+	dialog window.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctrl-F3</keycap> opens the <interface>Define Name</interface>
+	dialog window.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>F4</keycap> repeat the last action.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctrl-G</keycap> opens the <interface>Go to</interface>
+	dialog window which allows you to jump to a specified cell.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctrl-H</keycap> opens the <interface>Search and
+	Replace</interface> dialog where you can search through your
+	spreadsheets for text strings and replace them with something
+	else.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctrl-F</keycap> opens the <interface>Search
+	Center</interface>.  The <interface>Search Center</interface>
+	allows you to search through your spreadsheets for text
+	strings.
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+	<keycap>Ctrl-~</keycap> Formats the current selection as a 'General'.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctrl-$</keycap> Formats the current selection with the default currency
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctrl-#</keycap> Formats the current selection with default date style
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctrl-^</keycap> Formats the current selection as using scientific notation
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctrl-@</keycap> Formats the current selection with the default time format
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctrl-!</keycap> Formats the current selection as a number with 2 decimal places.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctrl-&amp;</keycap> Adds a thin border around the current selection
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctrl-_</keycap> Removes any borders around or in the current selection
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctrl-$</keycap> Formats the current selection as the default currency
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+	<keycap>Ctrl-B</keycap> or <keycap>Ctrl-2</keycap>
+	Toggles the boldness of the font in the current selection.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctrl-I</keycap> or <keycap>Ctrl-3</keycap>
+	Toggles the italics of the font in the current selection.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	<keycap>Ctrl-U</keycap> or <keycap>Ctrl-4</keycap>
+	Toggles single underlining of the current selection.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <keycap>Ctrl-5</keycap>
+	Toggles strikethrough of the current selection.
+      </para>
+    </listitem>
+
+  </itemizedlist>
+</appendix>

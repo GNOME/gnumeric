@@ -1,0 +1,773 @@
+<sect1 id="sect-graphics-widgets">
+  <title>GUI Widgets</title>
+
+  <para>
+    A &gnum; worksheet can graphical user
+    interface (GUI) elements, commonly called 'widgets', which can be
+    tied to the data contents of worksheet cells. For example, users
+    can add a slider widget which, when the position of the slider
+    moves, alters the numeric value in a worksheet cell.
+  </para>
+
+  <warning>
+    <title> Widgets are currently experimental!</title>
+    <para>
+      The current implementation of these widgets is incomplete. Some
+      of the obvious configuration settings for these widgets do not
+      exist and much of the functionality that these widgets should
+      exhibit has not been implemented. Future versions of
+      &gnum; will complete these widgets
+      and make them functional.
+    </para>
+  </warning>
+
+  <note>
+    <title>
+      Widgets do not currently stack properly on the worksheet
+    </title>
+    <para>
+      Widgets currently stay above all the other graphical elements
+      because they use a different system to calculate their positions
+      than the other graphical elements do. This will also be fixed in
+      future updates.
+    </para>
+  </note>
+
+<!-- This section is identical to that in graphics-drawings.xml -->
+
+  <para>
+    Each of these elements can be added by selecting the appropriate
+    icon on the object toolbar and using the thin cross-hair mouse
+    pointer to place the element on the worksheet by clicking or by
+    click-dragging with the primary mouse button. This process is
+    explained in greater detail in <xref
+    linkend="sect-graphical-overview-adding" />.
+  </para>
+
+  <para>
+    Each of these elements can be configured using the context menu
+    and its <guimenuitem>Properties</guimenuitem> menu item, as
+    explained in <xref linkend="sect-graphical-overview-modifing" />.
+  </para>
+
+  <para>
+    Each of these elements can be moved and resized on the worksheet, as
+    explained in <xref linkend="sect-graphical-overview-moveNresize" />.
+  </para>
+
+  <para>
+    The stacking order, from the front to the back, which determines
+    which widgets obscure each other, can be changed using the entries
+    in the context menu, as explained in <xref
+    linkend="sect-graphical-overview-restacking" />. However, as
+    explained in the note above, the widgets do not currently stack
+    under the other graphical elements.
+  </para>
+
+  <para>
+    Each of these elements can be deleted using the context menu and
+    its <guimenuitem>Delete</guimenuitem> menu item, as 
+    explained in <xref linkend="sect-graphical-overview-deleting" />.
+  </para>
+
+<!-- End of identical section. -->
+
+
+
+
+
+
+
+  <sect2 id="sect-graphics-widgets-label">
+    <title>Labels.</title>
+
+    <para>
+      Labels are intended to be small text elements which can be added
+      to the worksheet. Since it is currently not possible to edit the
+      text field, these widgets are not currently usable. The
+      properties of the border and background of the widget can be
+      changed but, because the word "Label" is always present, the
+      rectangle drawing element, presented in <xref
+      linkend="sect-graphics-drawings-rectangle" /> will be more
+      useful.
+    </para>
+
+    <figure id="fig-gnumeric-graphics-widgets-label-example">
+      <title>
+        A label widget.
+      </title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/widget-label.png" 
+                       format="PNG"/>
+          </imageobject>
+          <textobject>
+            <phrase>
+               An image of a label widget. 
+            </phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+   <sect3 id="sect-graphics-widgets-label-configure">
+      <title>Configuring the properties of the label</title>
+
+      <para>
+        The properties of the label can be altered with the
+        <guimenuitem>Properties</guimenuitem> menu item in the
+        context menu which appears when the mouse cursor is placed
+        over the label and one of the secondary mouse buttons is
+        pressed.
+      </para>
+
+      <para>
+        The label outline color and width, as well as the background,
+        "fill", color can be changed.
+      </para>
+
+    <figure id="fig-gnumeric-graphics-widgets-label-properties">
+    <title>
+      The configuration dialog for label properties.
+    </title>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/dialog-properties-label.png" 
+              format="PNG"/>
+        </imageobject>
+        <textobject>
+          <phrase>
+             An image of the dialog used to configure checkbox widget
+             elements. 
+          </phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+    </figure>
+
+      <para>
+        The color of the label outline can be altered by moving the mouse
+        pointer over the button with the icon of a small,
+        black, downward pointing arrow and then clicking with the
+        primary mouse button. This will open up a panel with a number
+        of standard colors presented as small squares. Any of these
+        colors can be selected by moving the mouse pointer over the
+        desired color and pressing once with the primary mouse
+        button. Alternatively, a custom color can be chosen by
+        clicking on the button at the bottom of the panel. This will
+        open up the color chooser dialog. In this dialog colors can be
+        defined using the numeric boxes or can be selected using the
+        color triangle. The color can be selected by Clicking on the
+        outer circle while the darkness or lightness can be selected
+        by clicking inside the triangle. Once the desired color has
+        been configured, this color can be used for the label outline
+        by clicking on the <guibutton>OK</guibutton> button.
+      </para>
+
+      <para>
+        The border width can be changed either by typing a new number
+        into the text box or by using the up and down arrows to
+        increment or decrement the width number.
+      </para>
+
+      <para>
+        The color of the background fill can be changed in the same
+        way as the color of the outline border, which was explained
+        above.
+      </para>
+
+
+    </sect3>
+
+  </sect2>
+
+
+
+
+
+
+
+
+  <sect2 id="sect-graphics-widgets-frame">
+    <title>Frames.</title>
+
+    <para>
+      Frames are intended to be transparent boxes with a title that
+      can be placed around part of the worksheet to highlight that
+      area. Because the format of the border of these widgets cannot
+      be altered, they are less visible than they could be. A similar
+      frame, without the title, can be made with the rectangle drawing
+      element, which is presented in <xref
+      linkend="sect-graphics-drawings-rectangle" />.
+    </para>
+
+    <figure id="fig-gnumeric-graphics-widgets-frame-example">
+      <title>
+        A frame widget.
+      </title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/widget-frame.png" 
+                       format="PNG"/>
+          </imageobject>
+          <textobject>
+            <phrase>
+               An image of a frame widget. 
+            </phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+   <sect3 id="sect-graphics-widgets-frame-configure">
+      <title>Configuring the properties of the checkbox</title>
+
+      <para>
+        The properties of the frame can be altered with the
+        <guimenuitem>Properties</guimenuitem> menu item in the
+        context menu which appears when the mouse cursor is placed
+        over the frame and one of the secondary mouse buttons is
+        pressed.
+      </para>
+
+      <para>
+        Currently, only the word that appears in the frame can be
+        altered. 
+      </para>
+
+
+    <figure id="fig-gnumeric-graphics-widgets-frame-properties">
+    <title>
+      The configuration dialog for frame properties.
+    </title>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/dialog-properties-frame.png" 
+              format="PNG"/>
+        </imageobject>
+        <textobject>
+          <phrase>
+             An image of the dialog used to configure frame widget
+             elements. 
+          </phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+    </figure>
+
+    <para>
+      The word displayed in the frame can be altered by typing new
+      text in the textbox next to the word "Label".
+    </para>
+
+    </sect3>
+
+  </sect2>
+
+
+
+
+
+
+
+
+
+  <sect2 id="sect-graphics-widgets-checkbox">
+    <title>Checkboxes.</title>
+
+    <para>
+      Checkboxes are widgets which allow a user to visually see the
+      state of an entity, whether it is checked or not, and tie this
+      state to the truth value of a Boolean cell, "TRUE" if the
+      checkbox is checked and "FALSE" the checkbox is not. The check
+      box can be used to alter the value of a cell, which will alter
+      any other cells whose values are computed based on the dependent
+      cell. This provides a simple way to alter a whole series of
+      computations. 
+    </para>
+  
+    <figure id="fig-gnumeric-graphics-widgets-checkbox-example">
+      <title>
+        A checkbox widget.
+      </title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/widget-checkbox.png" 
+                       format="PNG"/>
+          </imageobject>
+          <textobject>
+            <phrase>
+               An image of a checkbox widget. 
+            </phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+    <sect3 id="sect-graphics-widgets-checkbox-configure">
+      <title>Configuring the properties of the checkbox</title>
+
+      <para>
+        The properties of the checkbox can be altered with the
+        <guimenuitem>Properties</guimenuitem> menu item in the
+        context menu which appears when the mouse cursor is placed
+        over the checkbox and one of the secondary mouse buttons is
+        pressed.
+      </para>
+
+      <para>
+        Checkboxes have two properties which can be configured: the
+        worksheet cell whose value will be altered by clicking in the
+        checkbox and the text displayed on the checkbox.
+      </para>
+
+
+    <figure id="fig-gnumeric-graphics-widgets-checkbox-properties">
+    <title>
+      The configuration dialog for checkbox properties.
+    </title>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/dialog-properties-checkbox.png" 
+              format="PNG"/>
+        </imageobject>
+        <textobject>
+          <phrase>
+             An image of the dialog used to configure checkbox widget
+             elements. 
+          </phrase>
+        </textobject>
+      </mediaobject>
+    </screenshot>
+    </figure>
+
+    <para>
+      The "Link to:" field allows the user to select a cell that will
+      be changed in response to changes in the state of the widget. A
+      user can type the name of a cell in the text box or may click in
+      the text box to activate it and then click on the worksheet to
+      select the desired cell and &gnum;
+      will automatically add a reference to the cell.
+    </para>
+
+    <para>
+      The "Label" field accepts a text value which will appear next to
+      the checkbox. This text can indicate what the checkbox field
+      alters, for instance in <xref
+      linkend="fig-gnumeric-graphics-widgets-checkbox-example" /> the
+      checkbox could be used to alter a series of calculations, between
+      including interest or excluding it, from the computation.
+    </para>
+
+    </sect3>
+
+
+  </sect2>
+
+
+
+
+
+
+  <sect2 id="sect-graphics-widgets-scrollbar">
+    <title>Scrollbars.</title>
+
+
+    <para>
+      Scrollbars are widgets that allow the changing of a numeric
+      value by click-dragging with the mouse.
+    </para>
+
+    <figure id="fig-gnumeric-graphics-widgets-scrollbar-example">
+      <title>
+        A scrollbar widget.
+      </title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/widget-scrollbar.png" 
+                       format="PNG"/>
+          </imageobject>
+          <textobject>
+            <phrase>
+               An image of a scrollbar widget. 
+            </phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+    <para>
+      The scrollbar widget can be used in three ways: by dragging the
+      'thumb', by clicking on the arrows, or by clicking in the
+      'channel'. The 'thumb' is the small rectangular element between
+      the two arrow buttons. The 'thumb' can be dragged by placing the
+      mouse pointer over the thumb, clicking and holding with the
+      primary mouse button and then dragging the mouse pointer up or
+      down. Clicking on the arrow buttons will scroll the thumb in the
+      direction of the arrow. The 'channel' is the area between the
+      arrows that is not the 'thumb'. A mouse click with the primary
+      mouse button when the mouse pointer is over the 'channel' will
+      cause the scrollbar to move a 'page'. The motion of the 'thumb'
+      will cause a numeric value to change based on the configuration
+      of the widget, as is explained below.
+
+    </para>
+
+   <sect3 id="sect-graphics-widgets-scrollbar-configure">
+      <title>Configuring the properties of the scrollbar</title>
+
+      <para>
+        The properties of the scrollbar can be altered with the
+        <guimenuitem>Properties</guimenuitem> menu item in the
+        context menu which appears when the mouse cursor is placed
+        over the scrollbar and one of the secondary mouse buttons is
+        pressed.
+      </para>
+
+      <para>
+        Scrollbars have five properties which can be configured: the
+        worksheet cell whose value will be altered by movement of the
+        scrollbar 'thumb', the minimum value when the thumb is at the
+        top of its channel, the maximum value reached when the thumb
+        is at the bottom of its channel, the smallest increment of
+        change which is the change caused by clicking on the arrows,
+        and the page increment which is the change which occurs when
+        the channel is clicked.
+      </para>
+
+
+      <figure id="fig-gnumeric-graphics-widgets-scrollbar-properties">
+        <title>
+          The configuration dialog for scrollbar properties.
+        </title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/dialog-properties-scrollbar.png" 
+                         format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>
+                 An image of the dialog used to configure scrollbar widget
+                 elements. 
+              </phrase>
+            </textobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+
+      <para>
+        The "Link to:" field allows the user to select a cell that will
+        be changed in response to changes in the state of the
+        widget. A user can type the name of a cell in the text box or
+        may click in the text box to activate it and then click on the
+        worksheet to select the desired cell and
+        &gnum; will automatically add a
+        reference to the cell.
+      </para>
+
+      <para>
+        The other properties can be changed either by typing a new number
+        into the text box or by using the up and down arrows to
+        increment or decrement the width number.
+      </para>
+
+    </sect3>
+
+
+
+  </sect2>
+
+
+
+
+
+
+
+  <sect2 id="sect-graphics-widgets-spinbutton">
+    <title>Spinbuttons.</title>
+
+    <para>
+      Spinbuttons, like sliders, are widgets that allow a user to
+      change the numeric value in the cell by interacting with a
+      widget. The value of spinbuttons can be changed either by typing
+      a new number into the text box or by clicking on the arrow
+      buttons. If the buttons are clicked and held, the numeric value
+      will spin, incrementing or decrementing depending on the arrow
+      being held.
+    </para>
+
+    <figure id="fig-gnumeric-graphics-widgets-spinbutton-example">
+      <title>
+        A spinbutton widget.
+      </title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/widget-spinbutton.png" 
+                       format="PNG"/>
+          </imageobject>
+          <textobject>
+            <phrase>
+               An image of a spinbutton widget. 
+            </phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+   <sect3 id="sect-graphics-widgets-spinbutton-configure">
+      <title>Configuring the properties of the spinbutton</title>
+
+      <para>
+        The properties of the spinbutton can be altered with the
+        <guimenuitem>Properties</guimenuitem> menu item in the
+        context menu which appears when the mouse cursor is placed
+        over the spinbutton and one of the secondary mouse buttons is
+        pressed.
+      </para>
+
+      <para>
+        Spinbuttons have five properties which can be configured: the
+        worksheet cell whose value will be altered by the spinbutton,
+        the minimum value when the thumb is at the top of its channel,
+        the maximum value reached when the thumb is at the bottom of
+        its channel, the smallest increment of change which is the
+        change caused by clicking on the arrows, and the page
+        increment which is the change which occurs when the channel is
+        clicked.
+      </para>
+
+
+      <figure id="fig-gnumeric-graphics-widgets-spinbutton-properties">
+        <title>
+          The configuration dialog for spinbutton properties.
+        </title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+	      <!-- NB this is a shared dialog. -->
+              <imagedata fileref="figures/dialog-properties-scrollbar.png" 
+                         format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>
+                 An image of the dialog used to configure spinbutton widget
+                 elements. 
+              </phrase>
+            </textobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+
+      <para>
+        The "Link to:" field allows the user to select a cell that will
+        be changed in response to changes in the state of the
+        widget. A user can type the name of a cell in the text box or
+        may click in the text box to activate it and then click on the
+        worksheet to select the desired cell and
+        &gnum; will automatically add a
+        reference to the cell.
+      </para>
+
+      <para>
+        The other properties can be changed either by typing a new number
+        into the text box or by using the up and down arrows to
+        increment or decrement the width number.
+      </para>
+
+    </sect3>
+
+
+  </sect2>
+
+
+
+
+
+
+
+  <sect2 id="sect-graphics-widgets-slider">
+    <title>Sliders.</title>
+
+    <para>
+      Sliders, like scrollbars and spinbuttons, allow a cell value to
+    be changed based on user interaction with a widget on the screen.
+    </para>
+
+    <figure id="fig-gnumeric-graphics-widgets-slider-example">
+      <title>
+        A slider widget.
+      </title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/widget-slider.png" 
+                       format="PNG"/>
+          </imageobject>
+          <textobject>
+            <phrase>
+               An image of a slider widget. 
+            </phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+    <para>
+      The slider widget can be used in two ways: by dragging the
+      'thumb' or by clicking in the 'channel'. The 'thumb' is the
+      small rectangular element between the two arrow buttons. The
+      'thumb' can be dragged by placing the mouse pointer over the
+      thumb, clicking and holding with the primary mouse button and
+      then dragging the mouse pointer up or down. The 'channel' is the
+      area between the arrows that is not the 'thumb'. A mouse click
+      with the primary mouse button when the mouse pointer is over the
+      'channel' will cause the scrollbar to move a 'page'. The motion
+      of the 'thumb' will cause a numeric value to change based on the
+      configuration of the widget, as is explained below.
+    </para>
+
+   <sect3 id="sect-graphics-widgets-slider-configure">
+      <title>Configuring the properties of the slider</title>
+
+      <para>
+        The properties of the slider can be altered with the
+        <guimenuitem>Properties</guimenuitem> menu item in the
+        context menu which appears when the mouse cursor is placed
+        over the slider and one of the secondary mouse buttons is
+        pressed.
+      </para>
+
+      <para>
+        Sliders have five properties which can be configured: the
+        worksheet cell whose value will be altered by movement of the
+        scrollbar 'thumb', the minimum value when the thumb is at the
+        top of its channel, the maximum value reached when the thumb
+        is at the bottom of its channel, the smallest increment of
+        change, and the page increment which is the change which
+        occurs when the channel is clicked.
+      </para>
+
+
+      <figure id="fig-gnumeric-graphics-widgets-slider-properties">
+        <title>
+          The configuration dialog for slider properties.
+        </title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+	      <!-- NB this is a shared dialog. -->
+              <imagedata fileref="figures/dialog-properties-scrollbar.png" 
+                         format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>
+                 An image of the dialog used to configure slider  widget
+                 elements. 
+              </phrase>
+            </textobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+
+      <para>
+        The "Link to:" field allows the user to select a cell that will
+        be changed in response to changes in the state of the
+        widget. A user can type the name of a cell in the text box or
+        may click in the text box to activate it and then click on the
+        worksheet to select the desired cell and
+        &gnum; will automatically add a
+        reference to the cell.
+      </para>
+
+      <para>
+        The other properties can be changed either by typing a new number
+        into the text box or by using the up and down arrows to
+        increment or decrement the width number.
+      </para>
+
+    </sect3>
+
+
+  </sect2>
+
+
+
+
+
+
+  <sect2 id="sect-graphics-widgets-list">
+    <title>Lists.</title>
+
+    <para>
+      List widget elements are currently unusable because they cannot
+      be configured. 
+    </para>
+
+    <figure id="fig-gnumeric-graphics-widgets-list-example">
+      <title>
+        A list widget.
+      </title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/widget-list.png" 
+                       format="PNG"/>
+          </imageobject>
+          <textobject>
+            <phrase>
+               An image of a list widget. 
+            </phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+
+  </sect2>
+
+
+
+
+
+
+  <sect2 id="sect-graphics-widgets-combobox">
+    <title>Combination Boxes.</title>
+
+    <para>
+      Combination box widgets are currently unusable because they
+      cannot be configured. 
+    </para>
+
+    <figure id="fig-gnumeric-graphics-widgets-combobox-example">
+      <title>
+        A combination box widget.
+      </title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/widget-combobox.png" 
+                       format="PNG"/>
+          </imageobject>
+          <textobject>
+            <phrase>
+               An image of a combination box widget. 
+            </phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+  </sect2>
+
+
+</sect1>
+

@@ -1,0 +1,7 @@
+Makefile.in
+Makefile
+functions.xml
+func.defs
+gnumeric-*.omf
+gnumeric-*.omf.out
+omf_timestamp

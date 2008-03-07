@@ -1,0 +1,425 @@
+
+<sect1 id="sect-graphics-drawings">
+  <title>Drawing Elements</title>
+
+  <para>
+    A &gnum; worksheet can contain
+    graphical elements which are simple drawing shapes.
+  </para>
+
+  <note>
+    <para>
+      This implementation of the drawing objects is temporary and will
+      eventually be replaced by a more complete implementation
+      including more types of drawing objects and based on scalable
+      vector graphics (SVG) format graphical elements.
+
+    </para>
+  </note>
+
+<!-- This section is identical to that in graphics-widgets.xml -->
+
+  <para>
+    Each of these elements can be added by selecting the appropriate
+    icon on the object toolbar and using the thin cross-hair mouse
+    pointer to place the element on the worksheet by clicking or by
+    click-dragging with the primary mouse button. This process is
+    explained in greater detail in <xref
+    linkend="sect-graphical-overview-adding" />.
+  </para>
+
+  <para>
+    Each of these elements can be configured using the context menu
+    and its <guimenuitem>Properties</guimenuitem> menu item, as
+    explained in <xref linkend="sect-graphical-overview-modifing" />.
+  </para>
+
+  <para>
+    Each of these elements can be moved and resized on the worksheet, as
+    explained in <xref linkend="sect-graphical-overview-moveNresize" />.
+  </para>
+
+  <para>
+    The stacking order, from the front to the back, which determines
+    which widgets obscure each other, can be changed using the entries
+    in the context menu, as explained in <xref
+    linkend="sect-graphical-overview-restacking" />. However, as
+    explained in the note above, the widgets do not currently stack
+    under the other graphical elements.
+  </para>
+
+  <para>
+    Each of these elements can be deleted using the context menu and
+    its <guimenuitem>Delete</guimenuitem> menu item, as 
+    explained in <xref linkend="sect-graphical-overview-deleting" />.
+  </para>
+
+<!-- End of identical section. -->
+
+
+  <sect2 id="sect-graphics-drawings-line">
+    <title>Drawing Lines.</title>
+
+    <para>
+      Lines are simple drawing elements which can be added to a
+    worksheet. <xref
+    linkend="fig-gnumeric-graphics-drawings-line-example" /> shows a
+    wide orange line element placed above the worksheet grid.
+    </para>
+
+    <figure id="fig-gnumeric-graphics-drawings-line-example">
+      <title>
+        A line drawing element.
+      </title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/drawing-line.png" 
+                       format="PNG"/>
+          </imageobject>
+          <textobject>
+            <phrase>
+               An image of a line drawing element. 
+            </phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+   <sect3 id="sect-graphics-drawings-line-configure">
+      <title>Configuring the properties of the line</title>
+
+      <para>
+        The properties of the line can be altered with the
+        <guimenuitem>Properties</guimenuitem> menu item in the
+        context menu which appears when the mouse cursor is placed
+        over the line and one of the secondary mouse buttons is
+        pressed.
+      </para>
+
+      <para>
+        Lines have two properties, the color used for the line and the
+        width of the line.
+      </para>
+
+
+      <figure id="fig-gnumeric-graphics-drawing-line-properties">
+        <title>
+          The configuration dialog for line properties.
+        </title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/dialog-properties-line.png" 
+                         format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>
+                 An image of the dialog used to configure line drawing
+                 elements. 
+              </phrase>
+            </textobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+
+      <para>
+        The color of the line can be altered by moving the mouse
+        pointer over the button with the icon of a small,
+        black, downward pointing arrow and then clicking with the
+        primary mouse button. This will open up a panel with a number
+        of standard colors presented as small squares. Any of these
+        colors can be selected by moving the mouse pointer over the
+        desired color and pressing once with the primary mouse
+        button. Alternatively, a custom color can be chosen by
+        clicking on the button at the bottom of the panel. This will
+        open up the color chooser dialog. In this dialog colors can be
+        defined using the numeric boxes or can be selected using the
+        color triangle. The color can be selected by Clicking on the
+        outer circle while the darkness or lightness can be selected
+        by clicking inside the triangle. Once the desired color has
+        been configured, this color can be used for the label outline
+        by clicking on the <guibutton>OK</guibutton> button.
+      </para>
+
+      <para>
+        The line width can be changed either by typing a new number
+        into the text box or by using the up and down arrows to
+        increment or decrement the width number.
+      </para>
+
+    </sect3>
+
+
+
+  </sect2>
+
+  <sect2 id="sect-graphics-drawings-arrow">
+    <title>Drawing Arrows.</title>
+
+    <para>
+      Arrows are elements that can be used to point to values in a
+      worksheet. <xref
+      linkend="fig-gnumeric-graphics-drawings-arrow-example" /> shows
+      a purple arrow floating over a worksheet
+    </para>
+
+    <figure id="fig-gnumeric-graphics-drawings-arrow-example">
+      <title>
+        An arrow drawing element.
+      </title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/drawing-arrow.png" 
+                       format="PNG"/>
+          </imageobject>
+          <textobject>
+            <phrase>
+               An image of an arrow drawing element. 
+            </phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+   <sect3 id="sect-graphics-drawings-arrow-configure">
+      <title>Configuring the properties of the arrow</title>
+
+      <para>
+        The properties of the arrow can be altered with the
+        <guimenuitem>Properties</guimenuitem> menu item in the
+        context menu which appears when the mouse cursor is placed
+        over the arrow and one of the secondary mouse buttons is
+        pressed.
+      </para>
+
+      <para>
+        Arrows have five properties, the arrow color, the width of the
+        line stem of the arrow, and tree dimensions for the arrow point
+        which will be explained below.
+      </para>
+
+      <figure id="fig-gnumeric-graphics-drawing-arrow-properties">
+        <title>
+          The configuration dialog for arrow properties.
+        </title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/dialog-properties-arrow.png" 
+                         format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>
+                 An image of the dialog used to configure arrow drawing
+                 elements. 
+              </phrase>
+            </textobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+
+      <para>
+        The dimensions of related to the arrow are presented in <xref
+        linkend="fig-gnumeric-graphics-drawing-arrow-dimensions"
+        />.
+      </para>
+
+      <figure id="fig-gnumeric-graphics-drawing-arrow-dimensions">
+        <title>
+          The dimensions of the arrow point.
+        </title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/arrowhead-dimensions.png" 
+                         format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>
+                 An image describing the dimensions of the arrow head.
+              </phrase>
+            </textobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+
+      <para>
+        The 'Arrow Tip' is the distance from the point of the
+        arrow to the base of the arrowhead where the shaft begins. The
+        'Arrow Length' is the distance from the arrow point to either
+        of the outer side points of the arrow head, projected along
+        the shaft of the arrow. The 'Arrow Width' is the distance
+        between the two outer side points of the arrow head.
+      </para>
+
+    </sect3>
+
+
+  </sect2>
+
+
+  <sect2 id="sect-graphics-drawings-rectangle">
+    <title>Drawing Rectangles.</title>
+
+    <para>
+      Rectangles are areal drawing elements. <xref
+    linkend="fig-gnumeric-graphics-drawings-rectangle-example" />
+    shows a yellow rectangle with a blue border.
+    </para>
+
+    <para>
+      Rectangles have three properties which can be configured, the
+      color and width of the border and the color of the interior of
+      the rectangle.
+    </para>
+
+    <figure id="fig-gnumeric-graphics-drawings-rectangle-example">
+      <title>
+        A rectangle drawing element.
+      </title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/drawing-rectangle.png" 
+                       format="PNG"/>
+          </imageobject>
+          <textobject>
+            <phrase>
+               An image of a rectangle drawing element. 
+            </phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+   <sect3 id="sect-graphics-drawings-rectangle-configure">
+      <title>Configuring the properties of the rectangle</title>
+
+      <para>
+        The properties of the rectangle can be altered with the
+        <guimenuitem>Properties</guimenuitem> menu item in the
+        context menu which appears when the mouse cursor is placed
+        over the rectangle and one of the secondary mouse buttons is
+        pressed.
+      </para>
+
+
+      <figure id="fig-gnumeric-graphics-drawings-rectangle-properties">
+        <title>
+          The configuration dialog for rectangle properties.
+        </title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/dialog-properties-rectangle.png" 
+                         format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>
+                 An image of the dialog used to configure rectangle drawing
+                 elements. 
+              </phrase>
+            </textobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+
+      <para>
+        The color of the outline border can be configured by selecting
+        a new color from the color picker as was explained in <xref
+        linkend="sect-graphics-drawings-line" /> for the line drawing
+        element. The width of the border can be configured by typing a
+        new dimension in the text box or by clicking on the increment
+        arrows, up to increase the width and down to decrease the
+        width. The color of the interior of the rectangle, the 'fill'
+        color, can be configured in the same way as the color of the
+        outline border.
+      </para>
+
+    </sect3>
+
+
+  </sect2>
+
+  <sect2 id="sect-graphics-drawings-oval">
+    <title>Drawing Ovals.</title>
+
+   <para>
+      Ovals are areal drawing elements. <xref
+      linkend="fig-gnumeric-graphics-drawings-ovals-example" /> shows
+      a red oval with a transparent background, which is a useful way
+      to circle important ranges in a workbook.
+    </para>
+
+    <para>
+      Ovals, like rectangles, can be configured in the color and width
+      of the outline border, and the color of the fill.
+    </para>
+
+    <figure id="fig-gnumeric-graphics-drawings-ovals-example">
+      <title>
+        An oval drawing element.
+      </title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/drawing-oval.png" 
+                       format="PNG"/>
+          </imageobject>
+          <textobject>
+            <phrase>
+               An image of an oval drawing element. 
+            </phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+   <sect3 id="sect-graphics-drawings-oval-configure">
+      <title>Configuring the properties of the oval</title>
+
+      <para>
+        The properties of the oval can be altered with the
+        <guimenuitem>Properties</guimenuitem> menu item in the
+        context menu which appears when the mouse cursor is placed
+        over the oval and one of the secondary mouse buttons is
+        pressed.
+      </para>
+
+
+      <figure id="fig-gnumeric-graphics-drawings-oval-properties">
+        <title>
+          The configuration dialog for oval properties.
+        </title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/dialog-properties-oval.png" 
+                         format="PNG"/>
+            </imageobject>
+            <textobject>
+              <phrase>
+                 An image of the dialog used to configure oval drawing
+                 elements. 
+              </phrase>
+            </textobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+
+      <para>
+        The configuration of these properties is the same as the
+      configuration of the rectangle properties explained above.
+      </para>
+
+    </sect3>
+
+
+  </sect2>
+
+
+
+</sect1>
+

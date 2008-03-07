@@ -1,0 +1,68 @@
+#!/usr/bin/perl -w
+# -----------------------------------------------------------------------------
+
+# WARNING: This script requires supervision.  Inspect the diffs it creates,
+# or else!
+
+use strict;
+
+$| = 1;
+
+my $myself = $0;
+$myself =~ s|^.*/||;
+
+foreach my $filename (@ARGV) {
+    local (*SRC);
+    open (*SRC, "<$filename") || die "$myself: Cannot read $filename: $!\n";
+    my $contents;
+    {
+	local $/ = undef;
+	$contents = <SRC>;
+    }
+    close (*SRC);
+
+    my $changed = 0;
+
+    # GtkMenu stuff.
+    $changed = 1 if $contents =~
+	s/gtk_menu_(insert|prepend|append)\s*\((\s*)GTK_MENU\s*\(([^\(\)]+)\)/gtk_menu_shell_$1 \($2GTK_MENU_SHELL \($3\)/g;
+    $changed = 1 if $contents =~
+	s/gtk_menu_(insert|prepend|append)\s*\(([^\(\),]+),/gtk_menu_shell_$1 \(GTK_MENU_SHELL \($2\), /g;
+
+    # GtkEntry stuff
+    $changed = 1 if $contents =~
+	s/gtk_entry_(set_editable|set_position|select_region)\s*\((\s*)GTK_ENTRY\s*\(([^\(\)]+)\)/gtk_editable_$1 \($2GTK_EDITABLE \($3\)/g;
+    $changed = 1 if $contents =~
+	s/gtk_entry_(set_editable|set_position|select_region)\s*\(([^,]+),/gtk_editable_$1 \(GTK_EDITABLE \($2\),/g;
+
+    # Things that have gone the GObject way.
+    $changed = 1 if $contents =~
+	s/gtk_object_(unref|ref)\s*\(GTK_OBJECT\s*\(([^\(\)]+)\)\)/g_object_$1 \($2\)/g;
+    $changed = 1 if $contents =~
+	s/gdk_(object|drawable|bitmap|pixmap|pixbuf|gc|style)_(unref|ref)/g_object_$2/g;
+    $changed = 1 if $contents =~
+	s/gdk_cursor_destroy/gdk_cursor_unref/g;
+
+    # Simple renames.
+    $changed = 1 if $contents =~
+	s/gtk_spin_button_get_value_as_float/gtk_spin_button_get_value/g;
+    $changed = 1 if $contents =~
+	s/GTK_STRUCT_OFFSET/G_STRUCT_OFFSET/g;
+    $changed = 1 if $contents =~
+	s/gtk_notebook_set_page/gtk_notebook_set_current_page/g;
+
+    if ($changed) {
+	$contents =~ s/\n\n+\z/\n/;
+
+	my $tmpfilename = "$filename.new";
+
+	local (*DST);
+	open (*DST, ">$tmpfilename") || die "$myself: Cannot create $tmpfilename: $!\n";
+	print DST $contents;
+	close (*DST);
+
+	rename $tmpfilename, $filename;
+
+	print "$filename: changed.\n";
+    }
+}

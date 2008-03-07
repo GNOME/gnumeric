@@ -1,0 +1,1306 @@
+<sect1 id="sect-file-save">
+  <title>Saving Files</title>
+
+<!-- TODO: Sync with file-opening.xml for parallel structure. -->
+
+  <para>
+    There are several ways to save a &gnum; workbook that is
+    currently open.
+  </para>
+
+  <para>
+    Existing files can be saved directly but this process does not
+    allow a user to change any settings to the file creation process. 
+  </para>
+
+  <tip>
+    <title>Saving files directly</title>
+    <para>
+      If the workbook has already been saved to a file
+      or if the workbook was opened from a file that already existed,
+      &gnum; will simply overwrite the file with the newer version.
+
+      <variablelist>
+	<title>Three alternative ways to save a file directly</title>
+      <varlistentry>
+	  <term>
+	    <emphasis role="bold">Using the Menus</emphasis>
+	  </term>
+	  <listitem>
+	    <para> 
+	      Select, in the <guimenu><accel>F</accel>ile</guimenu> menu, the
+	      <guimenuitem><accel>S</accel>ave</guimenuitem> menu item.
+ 	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <emphasis role="bold">Using the Standard Toolbar</emphasis>
+	  </term>
+	  <listitem>
+	    <para>
+	      Click on the <guibutton>Save</guibutton> button:
+	      <guiicon>
+		<inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-save.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the file save button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	      </guiicon>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <emphasis role="bold">Using a Keyboard Shortcut</emphasis>
+	  </term>
+	  <listitem>
+	    <para>
+	      Type the combination
+	      <keycombo>
+	        <keysym>Ctrl</keysym><keysym>s</keysym>
+	      </keycombo>,
+	      typing both keys simultaneously.
+	    </para>
+<!-- TODO: render hack, remove me. -->
+	    <para>
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+
+      Each of these approaches will save the file directly, allowing
+      no intervention on the part the user. If the file has been newly
+      created, &gnum; will automatically launch the <interface>Save
+      As...</interface> dialog asking the user for a file name and
+      other configuration options for the file, as is explained below.
+    </para>
+  </tip>
+
+  <para>
+    Users wishing to save an existing file to a new file must invoke
+    the <interface>Save As...</interface> dialog. The <interface>Save
+    As...</interface> dialog can be invoked at any time to save the
+    current workbook to a new file with either a different name or a
+    different file format type. This dialog is automatically launched
+    when a user attempts to use one of the methods described above to
+    save a workbook which does not already have an existing file.
+    </para>
+
+  <para>
+    The <interface>Save As...</interface>
+    dialog asks the user to provide a name for the file to be
+    created, to select a folder in which to place the new file, and to
+    select a file format type for the file.
+  </para>
+
+  <tip>
+    <title>The steps required to save a file to a standard location.</title>
+
+    <para></para>
+<!--TODO: render hack, remove me.  -->
+
+    <orderedlist>
+      <listitem>
+        <para>
+	  Launch the  <interface>File Save</interface> dialog.
+	</para>
+	<para>
+	  In the <guimenu>File</guimenu> menu, select the
+	  <guimenuitem>Save As</guimenuitem> menu item.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Name the file. Open the folder containing the desired file.
+	</para>
+	<para>
+	  In the text entry area, enter the file name.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Select the desired folder in which to save the file.
+	</para>
+	<para>
+	  Select one of the standard locations to open the file.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Specify a file format type.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Click on the <guibutton>Save</guibutton> button.
+	</para>
+      </listitem>
+    </orderedlist>
+
+  </tip>
+
+  <para>
+    The remainder of this section explains these steps in greater
+    detail, first, by describing the components in the <interface>File
+    Save</interface> dialog and, then, by explaining each of the steps
+    above in greater detail.
+  </para>
+
+
+  <sect2 id="sect-file-save-dialog">
+    <title>Using the <interface>File Save</interface> dialog.</title>
+
+    <para>
+      Saving a workbook to a file can be a simple process, depending
+      on the folder in which the file is to be saved. If this folder
+      is in the predefined list of standard folders and user bookmark
+      folders, the file can be created with the compact
+      <interface>File Save</interface> dialog. The components of the
+      compact <interface>File Save</interface> dialog and the
+      procedure to save a workbook to a file in the predefined list of
+      folders are explained next.
+
+    </para>
+
+    <para>
+      However, when the workbook is to be saved to a file created in a
+      folder which is not in the preselected list, the expanded
+      <interface>File Save</interface> dialog will be required. The
+      components of the expanded <interface>File Save</interface>
+      dialog, the procedure for saving files in a different folder,
+      and an explanation of bookmark folders and their use are given
+      further below.
+    </para>
+
+
+    <sect3 id="sect-file-save-dialog-compact-components">
+      <title>
+        The components of the compact <interface>File Save</interface>
+        dialog. 
+      </title>
+
+      <para>
+        The <interface>File Save</interface> dialog allows the user to
+        save a workbook into a new file but requires that the user
+        provide a name for the file, select the folder in which to
+        save the file, and select a file format type to use for this
+        file. This dialog also provides a way to navigate the folder
+        hierarchy as will be explained further below.
+      </para>
+
+      <para>
+        The <interface>File Save</interface> dialog first opens in a
+        compact layout. The different areas of the dialog in this
+        compact layout are shown and labeled in <xref
+        linkend="fig-file-save-dialog-compact-components" />.
+      </para>
+      
+      <figure id="fig-file-save-dialog-compact-components">
+        <title>
+	  The compact form of the <interface>File Save</interface>
+	  dialog.
+	</title>
+	<screenshot>
+          <mediaobject> 
+	    <imageobject> 
+	      <imagedata fileref="figures/dialog-filesave-compact-withTags.png"
+	                 format="PNG" />
+	    </imageobject>
+	    <textobject>
+	      <para> 
+	        This screenshot depicts the 'File Save' dialog in its
+	        compact form with the different areas labeled.
+	      </para>
+	    </textobject>
+	  </mediaobject>
+	</screenshot>
+	<!-- <caption></caption>  -->
+      </figure>
+
+      <para>
+        The purpose of each labeled area will be explained below:
+
+	<variablelist>
+	  <title>The components of the compact  <interface>File
+	  Save</interface> dialog</title>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">A</emphasis> - The naming area.
+
+	    </term>
+	    <listitem>
+	      <para>
+	        This area is used to give the file its name. This is a
+		standard text entry area allowing all the basic
+		editing commands. The cursor can be moved left or
+		right using the keyboard arrow keys. The cursor can be
+		placed anywhere in the text by placing the mouse
+		pointer where the cursor should go and clicking with
+		the primary mouse button. The mouse can also select
+		part or all of the text with a click and drag. The
+		keyboard shortcuts for copying,
+		<keycombo><keysym>Ctrl</keysym><keysym>c</keysym></keycombo>,
+		cutting,
+		<keycombo><keysym>Ctrl</keysym><keysym>x</keysym></keycombo>,
+		or pasting,
+		<keycombo><keysym>Ctrl</keysym><keysym>x</keysym></keycombo>,
+		all work. The dialog uses filename matching to guess
+		file names based on the files already in the parent
+		folder.
+<!-- TODO: explain gnum system for adding extensions automatically. --> 
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">B</emphasis> - The folder
+	      selection area.
+	    </term>
+	    <listitem>
+	      <para>
+	        This area provides a drop down list of previously
+	        selected folders including the standard folders and
+	        the folders which have been bookmarked by the
+	        user. The area will be disabled if area <emphasis
+	        role="bold">D</emphasis> has been selected to expand
+	        the dialog.
+	      </para>
+	      <para>
+	        The desired folder can be selected by moving the mouse
+	        pointer over the button, clicking and holding the
+	        primary mouse button, dragging the mouse pointer onto
+	        the name of the desired folder and releasing the mouse
+	        button. The new folder name will appear on as the name
+	        on the button.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">C</emphasis> - The file format type
+	      selection area.
+	    </term>
+	    <listitem>
+	      <para>
+	        This area provides a drop down list of all the file
+	        formats provided by the &gnum; program itself and by
+	        all the currently active plugins.
+	      </para>
+	      <note>
+	        <para>
+		  If the file format type named "Text export
+		  (configurable)" is opened, this will start the text
+		  export procedure. <xref
+		  linkend="sect-file-textExport"/> explains this
+		  procedure in complete detail.
+		</para>
+	      </note>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">D</emphasis> - The dialog
+	      expansion area.
+	    </term>
+	    <listitem>
+	      <para>
+	        This area will alter the dialog to expand or collapse
+	        it. When expanded the dialog provides a way to select
+	        any folder accessible on the system, to create new
+	        folders and to add and remove bookmark folders from
+	        the user's bookmark folder list. When the dialog is
+	        expanded, the small arrow will point downward, the
+	        areas showing in <xref
+	        linkend="fig-file-save-dialog-expanded-components"/>
+	        will appear and area <emphasis
+	        role="bold">B</emphasis> will be disabled.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">E</emphasis> - The button area.
+
+	    </term>
+	    <listitem>
+	      <para>
+	       This area provides two buttons, the
+	      <guibutton>Cancel</guibutton> and the
+	      <guibutton>Save</guibutton> buttons. Clicking the
+	      <guibutton>Cancel</guibutton> button will dismiss the dialog
+	      and return the user to the worksheet. Clicking the
+	      <guibutton>Save</guibutton> button will cause a file to
+	      be created with the currently selected name, parent folder
+	      and format. If the selected file already exists, &gnum;
+	      will open a confirmation dialog since the command will
+	      obliterate the previously existing file.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+
+
+        </variablelist>
+
+      </para>
+
+
+
+      <para>
+        The procedure to save a file using this dialog in its compact
+        form is present next, in <xref
+        linkend="sect-file-save-dialog-quickintro" />. The
+        components of the dialog in its expanded layout, converted by
+        clicking in area <emphasis role="bold">D</emphasis> when the
+        <interface>File Save</interface> dialog is in its compact
+        form, will be explained further on, in <xref
+        linkend="sect-file-save-dialog-expanded-components" />,
+        followed by sections explaining the use of the dialog in this
+        expanded layout.
+      </para>
+
+
+    </sect3>
+
+
+
+
+
+
+
+    <sect3 id="sect-file-save-dialog-quickintro">
+      <title>
+        The basic file saving procedure.
+      </title>
+
+      <para>
+        Saving a workbook to a new file requires providing name the
+        file, selecting a folder in which the file will be placed, and
+        selecting a file format type.
+      </para>
+
+      <para>
+        The default action, if a user simply opens the <interface>File
+        Save</interface> dialog and clicks on the
+        <guibutton>Save</guibutton> button, is to name the file
+        <filename>Book1.gnumeric</filename> incrementing the number
+        for each new file created, to save the file in the user's home
+        folder, and to create a file in the &gnum; file format.
+      </para>
+
+      <warning>
+        <para>
+	  If the user provides a name for the file to be saved which
+	  is the same as the name of a file that already exists,
+	  &gnum; will open up a confirmation dialog asking the user if
+	  they really want to overwrite the existing file. If the user
+	  then clicks on the <guibutton>Yes</guibutton> button, the
+	  existing file will be destroyed and the new file created in
+	  its place.
+	</para>
+      </warning>
+
+      <procedure>
+        <title>The procedure to save a file.</title>
+
+        <step>
+	  <title>
+	    Open the <interface>File Save</interface> dialog.
+	  </title>
+	  <para>
+	    First, the dialog must be opened using either of the two
+	  following methods:
+	  </para>
+    
+      <variablelist>
+	<title>
+	  Two alternative ways to open the <interface>File
+	  Save</interface> dialog.
+	</title>
+
+	<varlistentry>
+	  <term>
+	    <emphasis role="bold">Using the Menus</emphasis>
+	  </term>
+	  <listitem>
+	    <para> 
+	      Select, in the <guimenu><accel>F</accel>ile</guimenu>
+	      menu, the 
+	      <guimenuitem>S<accel>a</accel>ve as...</guimenuitem>
+	      menu item.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term>
+	    <emphasis role="bold">Using a Keyboard Shortcut</emphasis>
+	  </term>
+	  <listitem>
+	    <para>
+	      Type the combination
+	      <keycombo>
+	        <keysym>Shift</keysym>
+		<keysym>Ctrl</keysym>
+		<keysym>s</keysym>
+	      </keycombo>,
+	      typing all three keys simultaneously.
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+
+          <para>
+            Both methods will launch the <interface>File
+            Save</interface> dialog to allow the user to name the
+            file, select a folder (also called a directory) for the
+            file and choose a file format type. This dialog will also
+            open automatically the first time a new workbook is saved.
+          </para>
+
+
+	</step>
+
+        <step>
+	  <title>
+	    Select a name for the file.
+	  </title>
+	  <para>
+	    Next, a name must be given for the file. &gnum; provides a
+	    default name but, when the dialog is first opened this
+	    name is highlighted indicating that it is already
+	    selected. Therefore, a user can simply start typing a new
+	    name and the first character entered will delete the name
+	    given by default. The file name field is presented as area
+	    <emphasis role="bold">A</emphasis> in <xref
+	    linkend="fig-file-save-dialog-compact-components"/>.
+	  </para>
+	  <note>
+	    <para>
+	      If typing a name does not have any effect, the 'focus'
+	      was probably inadvertently changed from the text entry
+	      area. Focus can be returned to the area by placing the
+	      mouse pointer over the box and clicking the primary
+	      mouse button. All the standard keyboard editing commands
+	      work in this text area and the mouse can be used to
+	      select text or to move the cursor location.
+	    </para>
+	  </note>
+	</step>
+
+        <step>
+	  <title>
+	    Select a folder in which to save the file.
+	  </title>
+	  <para>
+	    Then, the folder in which to save the file can be chosen
+	    from the drop down list shown as area <emphasis
+	    role="bold">B</emphasis> in <xref
+	    linkend="fig-file-save-dialog-compact-components"/>.
+	  </para>
+
+	  <para>
+	    Using this list requires placing the mouse pointer above
+	    the list button and clicking with the primary mouse button
+	    to open the list. The desired folder can then be selected
+	    by moving the pointer down the list and clicking again
+	    with the primary mouse button. The second click will close
+	    the drop down list and change the selected folder. Instead
+	    of the two mouse clicks, the entire operation can be
+	    replaced by a click-hold, drag and release, where the
+	    first mouse click is replaced by the click-and-hold and
+	    the second mouse click is replaced by the release.
+	  </para>
+
+	  <para>
+	    This list only provides a limited number of choices
+	    including several standard folders and any bookmark
+	    folders the user has previously added to the file
+	    selector. Other folders can be chosen, new folders can be
+	    created, and the list of bookmark folders available can
+	    be changed, by clicking in area <emphasis
+	    role="bold">D</emphasis> to change to the expanded dialog,
+	    as will be explained further below, in <xref
+	    linkend="sect-file-save-dialog-chdir" />, <xref
+	    linkend="sect-file-save-dialog-mkdir" /> and <xref
+	    linkend="sect-file-save-dialog-bookmarks" />.
+	  </para>
+	</step>
+
+        <step>
+	  <title>
+	    Select a file type.
+	  </title>
+
+	  <para>
+	    Next, the desired file type must be selected. Area
+	    <emphasis role="bold">C</emphasis> in <xref
+	    linkend="fig-file-save-dialog-compact-components"/>
+	    provides a drop down list of file types. The process for
+	    using this list is the same as was described in the
+	    previous step. The file types are listed below in <xref
+	    linkend="sect-file-save" /> and explained in
+	    detail in <xref linkend="sect-file-formats" />.
+	  </para>
+	      <note>
+	        <para>
+		  If the file format type named "Text export
+		  (configurable)" is opened, this will start the text
+		  export procedure. <xref
+		  linkend="sect-file-textExport"/> explains this
+		  procedure in complete detail.
+		</para>
+	      </note>
+
+	</step> 
+
+        <step>
+	  <title>
+	    Click the <guibutton>Save</guibutton> button.
+	  </title>
+	  <para>
+	    Finally, the <guibutton>Save</guibutton> button must be
+	    pressed by placing the mouse pointer over the button and
+	    clicking with the primary mouse button.
+	  </para>
+	</step>
+      </procedure>
+
+
+      <para>
+        This basic procedure does not allow a user to save the file
+        into folder other than one already provided. An expanded
+        procedure is needed to explain how to save a file into other
+        folders in the file system. The next section explains the
+        extra elements provided when the <interface>File
+        Save</interface> dialog is expanded and that section is
+        followed by a step-by-step procedure explaining how to use
+        this expanded dialog.
+      </para>
+
+    </sect3>
+
+
+
+
+
+
+
+
+    <sect3 id="sect-file-save-dialog-expanded-components">
+      <title>
+        The extra components in the expanded <interface>File Save</interface>
+        dialog. 
+      </title>
+
+      <para>
+        In order to select folders other than those provided in the
+        drop down list shown as area <emphasis
+        role="bold">B</emphasis> in <xref
+        linkend="fig-file-save-dialog-compact-components"/>,
+        the <interface>File Save</interface> dialog must be expanded
+        by clicking in the area labeled <emphasis
+        role="bold">D</emphasis>. In the expanded form, the
+        <interface>File Save</interface> dialog allows a user to
+        select a new folder in which to save a file, to create new
+        folders, and to add bookmark folders to the list
+        provided in the area labeled <emphasis
+        role="bold">C</emphasis>.
+      </para>
+
+      <para>
+        This section will explain the extra components of the
+        <interface>File Save</interface> dialog which are provided
+        when the dialog is expanded. <xref
+        linkend="fig-file-save-dialog-expanded-components" />
+        shows these different areas and adds a label to each.
+      </para>
+      
+
+      <figure id="fig-file-save-dialog-expanded-components">
+        <title>
+	  The expanded form of the <interface>File Save</interface>
+	  dialog.
+	</title>
+	<screenshot>
+          <mediaobject> 
+	    <imageobject> 
+	      <imagedata fileref="figures/dialog-filesave-expanded-withTags.png"
+	                 format="PNG" />
+	    </imageobject>
+	    <textobject>
+	      <para> 
+	        This screenshot depicts the 'File Save' dialog in its
+	        expanded form with the different areas labeled.
+	      </para>
+	    </textobject>
+	  </mediaobject>
+	</screenshot>
+	<!-- <caption></caption>  -->
+      </figure>
+
+      <para>
+        The different parts of each panel of the <interface>File
+        Save</interface> dialog after it has been expanded have been
+        shaded with boxes of different colors and labeled with a
+        letter in <xref
+        linkend="fig-file-save-dialog-expanded-components"
+        />. Five of the labeled areas are the same as the areas in the
+        dialog when it is in a compact form; these areas were
+        explained above. The remaining areas are explained below:
+
+	<variablelist>
+	  <title>The extra components in the expanded version of the
+	  <interface>File Save</interface> dialog</title>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">F</emphasis> - The 'relative root'
+	      selection area.
+
+	    </term>
+	    <listitem>
+	      <para>
+	        This area allows the user to select the starting
+	        folder from which to navigate the folder
+	        hierarchy. The navigation system only allows users to
+	        select sub-folders of the currently selected 'relative
+	        root' folder so the root folder selected in area
+	        <emphasis role="bold">F</emphasis> must contain the
+	        desired folder as a sub-folder.
+	      </para>
+
+	      <para>
+	        The folders listed in this area include the standard
+	        folders provided by the system and a number of folders
+	        added, as bookmark folders, by the user. The standard folders
+	        provided by the system will vary for different
+	        machines and system administrators may have disabled
+	        access to certain areas. By default, the standard
+	        folders provided include the user's 'Home' folder, the
+	        user's 'Desktop' folder, a folder pointing to the root
+	        of the filesystem tree and folders for each of the
+	        removable storage devices attached to the
+	        computer. The user's home folder, on GNU and other
+	        UNIX like systems, this
+	        folder is usually known as <literal>~</literal> or
+	        <literal>~user_account_name</literal> where the
+	        phrase <literal>user_account_name</literal>
+	        represents the account name used by the current
+	        user. This folder is often located at
+	        <filename>/home/user_account_name/</filename> in the
+	        filesystem. The 'Desktop' folder is the folder which
+	        holds the files which are displayed in the background
+	        of the user's window. The 'Filesystem' folder is the
+	        top of the filesystem tree, which on GNU systems is
+	        also known as <filename>/</filename>. The list also
+	        presents peripheral or external devices. Below the
+	        standard folders, area <emphasis
+	        role="bold">F</emphasis> has a separator and the
+	        bookmark folders selected by the user. In <xref
+	        linkend="fig-file-save-dialog-expanded-components"
+	        /> the folder <filename>currentWork</filename> is a
+	        folder named by the user and added to the list of
+	        bookmark folders. 
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">G</emphasis> - The folder hierarchy area.
+	    </term>
+	    <listitem>
+	      <para>
+	        This area displays the folder hierarchy starting from
+	        the starting folder selected in area <emphasis
+	        role="bold">F</emphasis> and ending in the current
+	        folder, the folder whose contents are displayed in
+	        area <emphasis role="bold">I</emphasis>, while
+	        displaying all the folders between the two. This area
+	        changes dynamically as the user changes to new
+	        folders. In the case shown in <xref
+	        linkend="fig-file-save-dialog-expanded-components" />,
+	        the user has selected the 'Home' folder as the
+	        starting folder in area <emphasis
+	        role="bold">F</emphasis> and has not navigated to any
+	        sub-folders.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">H</emphasis> - The Folder Creation button.
+	    </term>
+	    <listitem>
+	      <para>
+	        This button allows the user to create a folder in the
+	        directory listed in the rightmost part of the file
+	        component area, area <emphasis
+	        role="bold">G</emphasis>. When this button is clicked,
+	        by placing the mouse pointer over the button and
+	        clicking with the primary mouse button, a new folder
+	        is added to the list in area <emphasis
+	        role="bold">I</emphasis> with a temporary name of
+	        '<filename>Type name of New Folder</filename>'
+	        pre-selected and therefore ready to be edited into a
+	        new name.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">I</emphasis> - The folder content area.
+
+	    </term>
+	    <listitem>
+	      <para>
+	        This area displays the contents of the currently
+	        selected folder which is the rightmost folder shown in
+	        area <emphasis role="bold">G</emphasis>. 
+		
+		<warning>
+		  <para>
+		    Not all of the sub-folders and files present in
+		    the folder area are shown.
+		  </para>
+
+		  <para>
+		    Firstly, hidden folders and files, those that
+		    start with a leading period, are not displayed by
+		    default. These can be shown by placing the mouse
+		    pointer over area <emphasis
+		    role="bold">I</emphasis>, clicking with one of the
+		    secondary mouse buttons to raise the context menu,
+		    moving the pointer onto the <guimenuitem>Show
+		    hidden files</guimenuitem> menu entry, and
+		    clicking with the primary mouse button. This step
+		    will ensure that all the folders are displayed.
+		  </para>
+
+		  <para>
+		    Secondly, the filtering rule defined in
+	            area <emphasis role="bold">L</emphasis>
+	            will limit the files displayed based on the
+	            characteristics of these files. By default, a
+	            filtering rule is applied which causes only those
+	            files present that have an extension commonly used
+	            for spreadsheet files. The rule can be changed to
+	            display all the files regardless of their
+	            extension, except possibly for the hidden files.
+<!-- TODO: explain role of mime type in file dislpay filter. ibid  -opening. -->
+	          </para>
+		</warning>
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">J</emphasis> - The panel
+	      rearrangement handles.
+
+	    </term>
+	    <listitem>
+	      <para>
+	        These triple dots indicate that the mouse can be used
+	        to change the shape and size of the different areas in
+	        the dialog. These handles can be used by placing the
+	        mouse pointer above a handle, clicking and holding
+	        with the primary mouse button, then dragging the
+	        handle to a new position, and then releasing the mouse
+	        button.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">K</emphasis> - The bookmark
+	      folder list modification buttons.
+
+	    </term>
+	    <listitem>
+	      <para>
+	        These buttons will add or remove folders to or from
+	        the list of bookmark folders in area <emphasis
+	        role="bold">F</emphasis>. The
+	        <guibutton>Add</guibutton> button will add the folder
+	        currently selected in area <emphasis
+	        role="bold">G</emphasis>. The
+	        <guibutton>Remove</guibutton> button will remove any
+	        bookmark folder that is selected in area <emphasis
+	        role="bold">F</emphasis>.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">L</emphasis> - The filter
+	      definition area.
+	    </term>
+	    <listitem>
+	      <para>
+	        This area contains a drop down menu with the different
+	        filters defined by the application. &gnum; currently
+	        defines two filters. The first filters out all files
+	        that do not have an extension used by the spreadsheet
+	        formats supported by gnumeric. The second filter,
+	        labeled "All files", essentially disables any
+	        filtering operation, and lists all the files in the
+	        currently selected folder, except that files starting
+	        with a leading period are not shown. 
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+
+
+        </variablelist>
+
+      </para>
+
+      <para>
+        The uses of the <interface>File Save</interface> dialog in its
+        expanded form is explained below.
+      </para>
+
+    </sect3>
+
+
+
+
+    <sect3 id="sect-file-save-dialog-chdir">
+      <title>
+        Changing the currently selected folder.
+      </title>
+
+      <para>
+        In order to save a file in a folder other than that provided
+        by default, it is necessary to change the default folder. The
+        note below explains briefly the notion of folders and the
+        procedure further down explains how to change folders.
+      </para>
+
+      <note>
+        <title>Understanding the file organization system.</title>
+
+        <para>
+	  In order to understand how to change folders, it is first
+	  necessary to understand the system by which documents are
+	  stored. This system is called the 'filesystem'.
+	</para>
+
+	<para>
+	  All documents are stored in a folder. Folders can contain
+	  files but can also contain other folders. Any folder
+	  therefore can contain several sub-folders, each of which may
+	  itself contain several sub-folders; the resulting structure
+	  is called a nested 'tree' with the original folder being the
+	  'relative root' of that tree.
+        </para>
+
+	<para>
+	  In GNU and UNIX systems, all of the files are stored in
+	  folders organized in a single, unified filesystem tree with
+	  a folder named '<filename>/</filename>' at the absolute root
+	  of the tree. Every file is accessible from this absolute
+	  root folder and, by default, this folder is provided as the
+	  choice named <filename>Filesystem</filename> with an icon of
+	  a disk drive in area <emphasis role="bold">F</emphasis> in
+	  the <interface>File Save</interface> dialog.
+	</para>
+
+	<para>
+	  Navigating the directory tree from the single root folder
+	  would quickly become burdensome and the <interface>File
+	  Save</interface> dialog provides several other starting
+	  points in area <emphasis role="bold">F</emphasis>. These
+	  will be called, in this documentation, the 'relative root'
+	  folders since each of these will act as the root of the
+	  branching structure of sub-folders the relative root folder
+	  contains. Two relative root folders which are commonly
+	  provided are the 'Home' and 'Desktop' folders for the
+	  current user.
+	</para>
+
+	<para>
+	  In a complex computer system, the absolute root folder may
+	  be hidden from the user and only 'relative roots' will be
+	  present. These should jointly provide some way to access all
+	  the areas where the user can save files.
+	</para>
+
+	<para>
+	  The 'relative roots' are also necessary when several file
+	  systems are available to the user. This will be the case
+	  when filesystem on other machines are accessible over a
+	  network or when &gnum; is running on operating systems whose
+	  filesystems are not unified, such as the proprietary
+	  operating systems sold by Microsoft in which each disk drive
+	  has its own root named, for example,
+	  <filename>C:\</filename> or <filename>D:\</filename>.
+	</para>
+	  
+	<para>
+	  Additional 'relative root' folders can be added as 'bookmark
+	  folders' by the users themselves. These bookmark folders can
+	  be used to access quickly folders which are commonly
+	  used. The bookmark folders are listed, in area <emphasis
+	  role="bold">F</emphasis>, under the thin horizontal
+	  separator line. The creation and deletion of these bookmark
+	  folders is explained below, in <xref
+	  linkend="sect-file-save-dialog-bookmarks" />.
+	</para>
+
+	<para>
+	  
+
+	</para>
+      </note>
+
+      <para>
+        Changing folders involves selecting a 'relative root' folder,
+        then navigating into the appropriate sub-folder. When the
+        <guibutton>Save</guibutton> button is pressed, the file will be
+        saved in the folder listed as the right most button in area
+        <emphasis role="bold">G</emphasis> of <xref
+        linkend="fig-file-save-dialog-expanded-components" />
+        which also means that the file will be saved alongside the
+        folders and files listed in area <emphasis
+        role="bold">I</emphasis>.
+     </para>
+
+      <procedure>
+        <title>
+	  The procedure to change the currently selected folder.
+	</title>
+
+	<para>
+	  To select a new folder, one of the 'relative root' folders
+	  which contains the desired folder must first be selected and
+	  then the hierarchy must be navigated to find the desired
+	  folder. As explained below, a user can move around the
+	  hierarchy using as many changes as they need to choose the
+	  folder in which to save their &gnum; file.
+	</para>
+
+        <step>
+	  <title>
+	    Select a 'relative-root' folder in area <emphasis
+	    role="bold">F</emphasis>. 
+	  </title>
+	  <para>
+	    The first step in choosing a new folder requires
+	    selecting, in area <emphasis role="bold">F</emphasis>, a
+	    'relative root' folder which contains the desired
+	    folder. The new 'relative root' folder is chosen by placing the
+	    mouse pointer over the folder name and double clicking
+	    (click twice rapidly without moving the mouse) with the
+	    primary mouse button. This will change the leftmost button
+	    in  area <emphasis role="bold">G</emphasis> and change the
+	    folders and files listed in  area <emphasis
+	    role="bold">I</emphasis>.
+	  </para>
+	</step>
+
+        <step>
+	  <title>
+	    Navigate the filesystem to reach the desired
+	    folder using area <emphasis role="bold">I</emphasis>.
+	  </title>
+	  <para>
+	    The next step involves descending the folder tree to reach
+	    the desired folder. This requires double clicking the
+	    sub-folder of the 'relative root' folder which contains
+	    the desired folder and continuing through the whole
+	    hierarchy until the desired folder is reached. After each
+	    double click, the selected folder is added as the right
+	    most button in area <emphasis role="bold">G</emphasis> and
+	    the contents of the selected folder are shown in area
+	    <emphasis role="bold">I</emphasis>. Once the desired
+	    folder is reached, it must be opened in the same way, so
+	    that its contents are listed in area <emphasis
+	    role="bold">I</emphasis> and the file can then be saved
+	    into this folder by clicking on the
+	    <guibutton>Save</guibutton> button.
+	  </para>
+	</step>
+
+        <step>
+	  <title>
+	    Navigating back up the folder tree using area <emphasis
+	    role="bold">G</emphasis>. 
+	  </title>
+	  <para>
+	    If the sub-folder selected in area <emphasis
+	    role="bold">I</emphasis> does not contain the branch of
+	    the folder tree leading to the desired folder, the buttons
+	    in area <emphasis role="bold">G</emphasis> can be used to
+	    jump further up the folder tree but only as far as the
+	    'relative root' folder selected in area <emphasis
+	    role="bold">F</emphasis>. Area <emphasis
+	    role="bold">G</emphasis> provides a list of buttons with
+	    the names of all the folders between the 'relative root'
+	    listed in area <emphasis role="bold">F</emphasis> and the
+	    currently selected folder. By clicking on one of these
+	    buttons, that is by placing the mouse pointer over the
+	    button and clicking with the primary mouse button, the
+	    folder listed on the button will be opened in area
+	    <emphasis role="bold">I</emphasis> so that the selection
+	    process can restart from this branch.
+	  </para>
+	</step>
+
+      </procedure>
+
+      <para>
+        The process of exploration of the folder tree can continue as
+        long as the user wishes. If the user desires it is also
+        possible to create new folders as is explained next. 
+      </para>
+
+    </sect3>
+
+
+    <sect3 id="sect-file-save-dialog-mkdir">
+      <title>
+        Adding a folder.
+      </title>
+
+      <para>
+        Often the user wishes to save the &gnum; workbook by creating
+        a file in a folder which does not yet exist. A new folder can
+        be added to the folder tree by clicking on the
+        <guibutton>Create Folder</guibutton> button, which is labeled
+        as area <emphasis role="bold">H</emphasis> of <xref
+        linkend="fig-file-save-dialog-expanded-components"
+        />. The button can be clicked by placing the mouse pointer
+        over the button and pressing the primary mouse button.
+      </para>
+
+      <para>
+        When the <guibutton>Create Folder</guibutton> button is
+        pressed, a folder will be added at the top of the list in area
+        <emphasis role="bold">I</emphasis>, with its name,
+        <filename>Type name of new folder</filename> already selected
+        so that the user can simply start typing to give the folder a
+        desired name. Once the name has been entered on the keyboard,
+        typing the <keysym>Return</keysym> key (or the
+        <keysym>Enter</keysym> key, depending on the keyboard) will
+        change the folder name and open that folder. Area <emphasis
+        role="bold">I</emphasis> will therefore be empty since the
+        newly created folder has no contents.
+      </para>
+
+      <warning>
+        <para>
+	  There is no way to delete folders once they have been
+	  created, just as there is no way for &gnum; to delete files
+	  it has created. Folders created by mistake must be deleted
+	  using a file browser such as
+	  <application>Nautilus</application> or using command line
+	  programs such as <application>rm</application>.
+	</para>
+      </warning>
+
+    </sect3>
+
+
+    <!-- Keep in sync with similar section in file-open-dialog. -->
+    <sect3 id="sect-file-save-dialog-bookmarks">
+      <title>
+        Changing the list of bookmark folders.
+      </title>
+
+      <para>
+        The list of 'relative root' folders shown in area <emphasis
+        role="bold">F</emphasis> of <xref
+        linkend="fig-file-save-dialog-expanded-components" /> may
+        contain 'relative root' folders selected by the user. These
+        folders are called 'bookmark folders' and are listed in area
+        <emphasis role="bold">F</emphasis> below a thin horizontal
+        separator line. For example, <xref
+        linkend="fig-file-save-dialog-expanded-components" /> contains
+        a folder named <filename>currentWork</filename> which is a
+        bookmark folder selected by the user.
+      </para>
+
+      <para>
+        These bookmark folders can be added in two ways. A folder
+        which is selected in area <emphasis role="bold">I</emphasis>
+        can be added as a bookmark by clicking on the
+        <guibutton>Add</guibutton> button in area <emphasis
+        role="bold">K</emphasis>.
+      </para>
+
+      <para>
+	Alternatively, the folder can be dragged from area <emphasis
+        role="bold">I</emphasis> into area <emphasis
+        role="bold">K</emphasis>. The folder can be dragged by placing
+        the mouse pointer over the folder name in area <emphasis
+        role="bold">I</emphasis>, clicking and holding the primary
+        mouse button, moving the mouse pointer to area <emphasis
+        role="bold">F</emphasis> and releasing the mouse button. As
+        the mouse pointer is moved from area <emphasis
+        role="bold">I</emphasis> to area <emphasis
+        role="bold">F</emphasis>, a small icon of the folder will move
+        with the mouse pointer.
+      </para>
+
+      <para>
+        Any bookmark folder can also be removed from the 'relative
+        root' folders presented in area <emphasis
+        role="bold">F</emphasis> (or in the drop down list labeled
+        <emphasis role="bold">B</emphasis>). A bookmark folder can be
+        removed by clicking on the folder name in area <emphasis
+        role="bold">F</emphasis> and then clicking on the
+        <guibutton>Remove</guibutton> in area <emphasis
+        role="bold">K</emphasis>.
+      </para>
+
+
+    </sect3>
+
+
+  </sect2>
+
+
+
+
+
+
+
+  <!-- Formats for saving files *** keep // to sect in files-opening.xml  -->
+
+  <sect2 id="file-format-save-formats">
+    <title>The file formats which Gnumeric can write.</title>
+
+    <para>
+      &gnum; can write files in several formats used by other
+      programs. The details of these formats are provided in <xref
+      linkend="sect-file-formats"/> and the name of each file type in
+      the table below skips to the appropriate section of <xref
+      linkend="sect-file-formats"/>. The creation of files which
+      consist of structured text is described in <xref
+      linkend="sect-file-textExport" />. The creation of Postscript
+      and Portable Document Format (PDF) files is done through the
+      printing mechanism and is described in <xref
+      linkend="chapter-printing" />.&gnum; can also export text data
+      or HTML and XHTML tables through the clipboard mechanism, as is
+      explained in <xref linkend="sect-movecopy-xclipboard"/>.
+
+<!-- TODO: add link to other data ouput: e.g. direct database connect. -->
+    </para> 
+
+    <note>
+      <para>
+        Most of these formats are provided by plugins, which are
+        independent, configurable modules. If a format described below
+        does not appear in the <interface>File Save</interface>
+        dialog, this may be because the appropriate plugin has not
+        been configured or started. This can be verified by examining
+        the list of plugins which are currently running in the
+        <interface>Plugin Manager</interface> dialog.
+      </para>
+
+      <para>
+        The <interface>Plugin Manager</interface> dialog lists the
+        plugins which are currently in use and provides a way to start
+        plugins which are currently disabled. The <interface>Plugin
+        Manager</interface> can be started by selecting, in the
+        <guimenu>Tools</guimenu> menu, the
+        <guimenuitem>Plug-ins...</guimenuitem> menu item; see <xref
+        linkend="sect-configuration-plugins" /> for more information.
+      </para>
+    </note>
+
+
+
+<!--    TABLE    TABLE    TABLE    TABLE    TABLE    TABLE    -->
+<table frame='all'><title>The file formats which &gnum; can create.</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+       
+
+<thead>
+<row>
+  <entry align="left">Format</entry>
+  <entry align="left">Extension</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry><link linkend="file-format-gnumeric">Gnumeric</link></entry>
+  <entry><literal>.gnumeric</literal> / <literal>.gnm</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-csv">Comma Separated Values</link></entry>
+  <entry><literal>.csv</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-dif">Data Interchange Format</link></entry>
+  <entry><literal>.dif</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-html">HTML</link></entry>
+  <entry><literal>.html</literal> / <literal>.htm</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-latex">LaTeX</link></entry>
+  <entry><literal>.tex</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-excel">Microsoft Excel</link></entry>
+  <entry><literal>.xls</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-ooo">OpenOffice.Org / StarOffice</link></entry>
+  <entry><literal>.sxc</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-ps">Postscript</link></entry>
+  <entry><literal>.ps</literal> / <literal>.eps</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-pdf">PDF</link></entry>
+  <entry><literal>.pdf</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-tab">Tab Separated Values</link></entry>
+  <entry><literal>.tsv</literal> / <literal>.tab</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-text">Text Formats</link></entry>
+  <entry><literal>.txt</literal> / <literal>.text</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-troff">TROFF</link></entry>
+  <entry><literal>.me</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-xhtml">XHTML</link></entry>
+  <entry><literal>.xhtml</literal> / <literal>.html</literal></entry> 
+</row>
+</tbody>
+</tgroup>
+</table>
+<!--    TABLE    TABLE    TABLE    TABLE    TABLE    TABLE    -->
+
+
+  </sect2>
+
+
+</sect1>
+
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_PyFunc">
+	<information>
+		<_name>Python functions</_name>
+		<_description>Sample Python plugin providing some (useless) functions.</_description>
+		<require_explicit_enabling/>
+	</information>
+	<loader type="Gnumeric_PythonLoader:python">
+		<attribute name="module_name" value="py_func"/>
+	</loader>
+	<services>
+		<service type="function_group" id="test">
+			<_category>Python</_category>
+			<functions>
+				<function name="py_printf"/>
+				<function name="py_capwords"/>
+				<function name="py_bitand"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_OpenCalc">
+	<information>
+		<_name>OpenCalc/StarCalc</_name>
+		<_description>Open/Star Office spreadsheet</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="openoffice"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="openoffice" priority="1" probe="FALSE">
+			<information>
+				<_description>Open/Star Calc (*.sxc, *.ods)</_description>
+			</information>
+			<suffixes>
+				<suffix>ods</suffix>
+				<suffix>odt</suffix>
+				<suffix>sxc</suffix>
+				<suffix>stc</suffix>
+			</suffixes>
+			<mime-types>
+				<mime-type>vnd.oasis.opendocument.spreadsheet</mime-type>
+				<mime-type>vnd.oasis.opendocument.spreadsheet-template</mime-type>
+				<mime-type>application/vnd.sun.xml.calc</mime-type>
+				<mime-type>application/vnd.sun.xml.calc.template</mime-type>
+			</mime-types>
+		</service>
+		<service type="file_saver" id="openoffice" file_extension="ods"
+		         format_level="auto" overwrite_files="TRUE">
+			<information>
+				<_description>OpenDocument/OpenOffice _UNFINISHED_ (*.ods)</_description>
+			</information>
+		</service>
+	</services>
+</plugin>

@@ -1,0 +1,30 @@
+    <sect2 id="numtheory-ntsigma">
+      <title>nt_sigma</title>
+      <sect3 id="numtheory-ntsigma-syntax">
+	<title>Syntax</title>
+	<para>
+	  =NT_SIGMA(n)
+	</para>
+      </sect3>
+      <sect3 id="numtheory-ntsigma-description">
+	<title>Description</title>
+	<para>
+	  The NT_SIGMA function calculates the sum of the divisors of n.
+	  This function only takes one argument.
+	</para>
+      </sect3>
+      <sect3 id="numtheory-ntsigma-examples">
+	<title>Examples</title>
+	<para>
+	  For an example about nt_sigma, see <xref
+	  linkend="examples-ntsigma" />.
+	</para>
+      </sect3>
+      <sect3 id="numtheory-ntsigma-seealso">
+	<title>See Also</title>
+	<para>
+	  <xref linkend="numtheory-ntd" />, ithprime, <xref
+	  linkend="numtheory-ntphi" />
+	</para>
+      </sect3>
+    </sect2>

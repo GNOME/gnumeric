@@ -1,0 +1,48 @@
+#!/usr/bin/perl -w
+# -----------------------------------------------------------------------------
+# This program changes "... -o foo.lo ..." into "... -o foo.o ...", runs the
+# compiler proper and then renames foo.o onto foo.lo
+
+my @cmd = ();
+my $target;
+my $tmptarget;
+my $sanitize = 0;
+
+while (@ARGV) {
+    my $arg = shift @ARGV;
+    if ($arg =~ /^--sanitize=(.*)/) {
+	$sanitize = $1;
+	next;
+    }
+
+    if ($sanitize && $arg =~ /^-/ && $arg !~ /^-(threads|-pthread|D|U|I|c|o)/) {
+	# Options that get here are not in the desiret set.
+	# Notably we drop "-fPIC" (some variant of which should probably
+	# also occur in an unsanitized section).
+	print STDERR "$0: warning dropping $arg\n";
+	next;
+    }
+
+    push @cmd, $arg;
+    if ($arg eq '-o') {
+	$target = shift @ARGV;;
+	if ($target =~ /\.lo$/) {
+	    $tmptarget = $target;
+	    $tmptarget =~ s/\.lo$/-tmp.o/;
+	    push @cmd, $tmptarget;
+	} else {
+	    push @cmd, $target;
+	}
+    }
+}
+
+system (@cmd);
+
+my $code = $?;
+if ($code != 0) {
+    unlink $tmptarget if defined $tmptarget;
+    unlink $target;
+} elsif (defined $tmptarget) {
+    rename $tmptarget, $target;
+}
+exit $code >> 8;

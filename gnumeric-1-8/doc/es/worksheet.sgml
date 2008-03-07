@@ -1,0 +1,583 @@
+<sect1>
+  <title>La hoja de cálculo</title>
+  
+  <para>Después de abrir gnumeric, se le presentará una imagen de la
+hoja de cálculo. Aquí es donde se hace la mayoría del trabajo, y desde
+donde accederá a los subdiálogos de Gnumeric.</para>
+  
+  <para>La hoja de cálculo está dividida en varias zonas
+principales. La barra de menúes, la barra de botones, la zona de
+introducción de datos, la zona principal de las celdas, y la zona de
+información. Ver <xref linkend="worksheet-all-1.jpg"> </para>
+  
+  <figure id="worksheet-all-1.jpg">
+    <title>Un ejemplo de la hoja de cálculo.</title>
+    <screenshot>
+      <graphic fileref="../C/images/worksheet-all-1.jpg"></graphic>
+    </screenshot>
+  </figure>
+  
+  <sect2 id="menu-bar">
+    <title>La barra de menúes</title>    
+    <para>La posición por defecto de la barra de menúes es en la parte
+superior de la ventana. Proporciona una forma rápida y organizada de
+acceder a algunas de las opciones más comunes.</para>
+    
+    <sect3>
+      
+      <!-- IF someone knows a more approriate way to document menu
+      options, let me know. This seems a bit excessive, and the output
+      from db2html is kind of lame -->
+      
+      <title><guimenu><accel>A</accel>rchivo</guimenu></title>
+      <variablelist>
+	<varlistentry>
+	  <term><guimenuitem><accel>N</accel>uevo</guimenuitem></term>
+	  <listitem><para>Crea una nueva hoja de cálculo. Cuando
+selección esta opción se abrirá una nueva hoja de cálculo en una
+ventana.</para></listitem>
+	</varlistentry>
+<!-- Hay que comprobar que se han escogido como atajos por teclado los -->
+<!-- que pongo aquí -->
+	<varlistentry>
+	  <term><guimenuitem>A<accel>b</accel>rir</guimenuitem></term>
+	  <listitem><para>Abre una hoja ya existente. Se creará una
+nueva ventana conteniendo al fichero seleccionado.</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>G</accel>uardar</guimenuitem></term>
+	  <listitem><para>Guarda la hoja de cálculo actual. Si el
+fichero ya tiene un nombre y se ha guardado anteriormente, el fichero
+se volverá a guardar. Si no se ha guardado anteriormente, se pedirá un
+nombre de fichero y un directorio.</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem>G<accel>u</accel>ardar
+	  como..</guimenuitem></term>
+
+	  <listitem><para>Guarda un fichero con un nuevo
+nombre. Guarda un fichero recien creado o guarda un fichero con un
+nombre diferente al actual. </para></listitem>
+
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>P</accel>lugins</guimenuitem></term>
+	  <listitem><para>Abre un cuadro de diálogo para cargar y guardar
+plugins. El cuadro de diálogo muestra la lista de los plugins
+precargados y permite al usuario añadir más plugins.</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>C</accel>errar</guimenuitem></term>
+	  <listitem><para>Cierra la hoja de cálcula
+actual.</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>S</accel>alir</guimenuitem></term>
+	  <listitem><para>Cierra la hoja de cálculo abierta y sale de
+Gnumeric</para></listitem>
+	</varlistentry>
+	
+      </variablelist>  
+      
+      
+    </sect3> 
+    
+    <sect3>
+      <title><guimenu><accel>E</accel>dición</guimenu></title>
+      <variablelist>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>C</accel>ortar</guimenuitem></term>
+	  <listitem><para>Elimina el contenido de las celdas
+actualmente seleccionadas y las guarda en memoria.</para></listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>C<accel>o</accel>piar</guimenuitem></term>
+	  <listitem><para>Hace una copia en memoria de la selección
+actual, para poder pegarla posteriormente.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem><accel>P</accel>egar</guimenuitem></term>
+	  <listitem><para>Pega lo que esté en memoria en la posición
+en la que se encuentra el cursor.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>P<accel>e</accel>gado especial</guimenuitem></term>
+	  <listitem><para>Pega lo que hay en memoria, pero tiene más
+opciones que la opción pegar. Es útil para pegar sólo el formato, o
+sólo los valores, etc.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem><accel>S</accel>eleccionar
+todo</guimenuitem></term>
+	  <listitem><para>Selecciona todas las celdas de la hoja de
+cálculo.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guisubmenu>Borrar -></guisubmenu></term>
+	  <listitem>
+	    <para>
+	      <variablelist>
+		<varlistentry>
+		  <term><guimenuitem><accel>T</accel>odo</guimenuitem></term>
+		  <listitem><para>Borra todas las celdas.</para></listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term><guimenuitem><accel>F</accel>ormatos</guimenuitem></term>
+		  <listitem><para>Borra el formato de las celdas
+seleccionadas.</para></listitem>
+		</varlistentry>
+	      </variablelist>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem><accel>I</accel>r a la celda</guimenuitem></term>
+	  <listitem><para>Le permite al usuario ``saltar'' a una
+determinada celda.</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu><accel>V</accel>er</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem><accel>Z</accel>oom</guimenuitem></term>
+	  <listitem><para>Aumentar. Para mostrar una zona de la hoja
+de cálculo en más detalle.</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu><accel>I</accel>nsertar</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem><accel>C</accel>eldas</guimenuitem></term>
+	  <listitem><para>Insertar una nueva celda.</para></listitem>
+	</varlistentry>
+	<varlistentry><term><guimenuitem><accel>F</accel>ilas</guimenuitem></term>
+	  <listitem><para>Insertar una fila de celdas.</para></listitem>
+	</varlistentry>
+	<varlistentry><term><guimenuitem>C<accel>o</accel>lumnas</guimenuitem></term>
+	  <listitem><para>Insertar una columna de celdas.</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu>F<accel>o</accel>rmato</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem><accel>C</accel>eldas</guimenuitem></term>
+	  <listitem><para>Abrir el cuadro de diálogo formato de la
+celda. Se utiliza para cambiar el formato, el color,
+etc</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu>A<accel>y</accel>uda</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem>Celdas</guimenuitem></term>
+	  <listitem><para>Ver la ayuda de Gnumeric</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+  </sect2>
+  <!-- end of menubar description -->
+  
+  <sect2 id="buttonbar-buttons">
+    <title>La barra de botones</title>
+    
+    <para>La barra de botones contiene varios iconos representativos
+de algunas de las operaciones utilizadas más frecuentemente. El
+objetivo es proporcionar un acceso rápido a estas herramientas.</para>
+    
+    <variablelist>
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="../C/images/stock-new.png"></inlinegraphic>
+	    Nuevo Archivo.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Crear un archivo nuevo</para>
+	</listitem>
+      </varlistentry>
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="../C/images/stock-open.png"></inlinegraphic>
+	    Abrir
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Abrir un fichero existente.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term
+	  <guiicon><inlinegraphic fileref="../C/images/stock-save.png"></inlinegraphic>
+	    Guardar
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Guarda el contenido de la hoja de cálculo en disco.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="../C/images/stock-cut.png"></inlinegraphic>
+	    Cortar
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Copia las celdas actualmente seleccionadas y las borra.</para>
+	</listitem>
+      </varlistentry>
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="../C/images/stock-copy.png"></inlinegraphic>
+	    Copiar
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Copia las celdas actualmente seleccionadas en el
+búfer.</para>
+	</listitem>
+      </varlistentry>
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="../C/images/stock-paste.png"></inlinegraphic>
+	    Pegar
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Pega los contenidos del búfer en la celda
+activa.</para>
+	</listitem>
+      </varlistentry>
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="../C/images/align-left.png"></inlinegraphic>
+	    Justificar a la izquierda.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Justifica los contenidos de la celda a la
+izquierda.</para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="../C/images/align-center.png"></inlinegraphic>
+	    Centrar
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Centra los contenidos de las celdas.</para>
+	</listitem>
+      </varlistentry>
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="../C/images/align-right.png"></inlinegraphic>
+	    Justificar a la derecha
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Justifica los contenidos de las celdas a la
+derecha.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="../C/images/bold.png"></inlinegraphic>
+	    Negrita
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Cambia el estilo de la celda actual a negrita, o quita
+la negrita en caso de que estuviese activada.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="../C/images/italic.png"></inlinegraphic>
+	    Itálica
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Cambia el estilo de la celda actual para ponerla en
+itálica.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="../C/images/line.png"></inlinegraphic>
+	    Línea
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Dibuja una línea en la hoja de cálculo.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="../C/images/arrow.png"></inlinegraphic>
+	    Flecha
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Dibuja una línea con una flecha al final. Un puntero.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="../C/images/rect.png"></inlinegraphic>
+	    Caja
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Dibuja una caja en la hoja de cálculo.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="../C/images/oval.png"></inlinegraphic>
+	    Elipse
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Dibuja una elipse o un círculo en la hoja de
+cálculo.</para>
+	</listitem>
+      </varlistentry>
+      
+    </variablelist>
+    
+  </sect2>
+  <!-- end of button bar docs -->
+  
+  <sect2 id="worksheet-data-entry">
+    <title>Zona de introducción de datos.</title>
+    
+    <para>Inmediatamente debajo de la barra de botones está la zona de
+introducción de datos. Es una pequeña zona que contiene un indicador
+de la celda actual, un botón <guibutton>confirmar</guibutton> y un
+botón <guibutton>cancelar</guibutton>, y una zona de introducción para
+la edición detallada de los contenidos de la celda.  Ver <xref
+	linkend="worksheet-data-1"></para>
+    
+    
+    <figure id="worksheet-data-1">
+      <title>La zona de introducción de datos.</title>
+      <screenshot>
+	<graphic fileref="../C/images/worksheet-data-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <sect3>
+      <title>Indicador de la celda actual.</title>
+      <para>En la parte izquierda de la zona de introducción de datos
+está el indicador de la celda actual. Si se selecciona una solo celda,
+mostrará su dirección. Si se selecciona un intervalo de celdas, se
+mostrará el tamaño del mismo con el formato:</para>
+      
+      <blockquote><para>4Lx5C</para></blockquote>
+      
+      <para>Donde L es el número de filas y C es el número de
+columnas. En el ejemplo dado más arriba, tenemos seleccionado un
+intervalo de 4 filas por 5 columnas.</para>
+      
+      
+      <figure id="worksheet-data-2">
+	<title>El indicador de la celda actual.</title>
+	<screenshot>
+	  <graphic fileref="../C/images/worksheet-data-2.jpg"></graphic>
+	</screenshot>
+      </figure>
+      
+    </sect3>
+    
+    <sect3>
+      <title><guibutton>El botón de confimación</guibutton></title>
+      
+      <para>Mientras introducimos datos en la zona de entrada, puede
+confirmar los contenidos de la celda actual pulsando el botón verde
+	<guibutton>
+	  <inlinegraphic fileref="../C/images/worksheet-data-3.jpg">
+	  </inlinegraphic>
+	</guibutton>.
+      </para>
+      
+    </sect3>
+    
+    <sect3>
+      <title><guibutton>El botón de cancelar</guibutton></title>
+      
+      <para>Si un usuario decide que los datos introducidos en una
+celda no son los que quería, el botón de cancelar cancelará los datos
+actuales y devolverá la celda al estado en el que estaba
+anteriormente. El dato que estaba siendo introducido en la celda puede
+cancelarse pulsando el botón con una X roja
+	<guibutton>
+	  <inlinegraphic fileref="../C/images/worksheet-data-4.jpg">
+	  </inlinegraphic>
+	</guibutton>.
+      </para>
+      
+      <para>La utilización más normal es cuando se están
+sobreescribiendo los contenidos de una celda con nuevos datos. Si el
+usuario decide invertir el cambio antes de haberlo confirmado, no
+tiene más que utilizar el botón de cancelar.</para>
+    </sect3>
+  </sect2>
+  
+  <sect2>
+    <title>La zona de las celdas</title>
+      
+    <para>La mayoría del trabajo que se hace en una hoja de cálculo se
+hace en la zona principal de las celdas, que es donde está la gran
+malla que forma parte de la hoja de cálculo. Es ahí donde se
+introducirán todas las fórmulas y los datos, y es el centro de
+actividad de la hoja de cálculo.</para>
+
+    <para>La hoja está rodeada por una etiqueta con los nombres de las
+columnas y otra etiqueta con los nombres de las filas. Las columnas
+están ordenadas alfabeticamente en la parte superior de la hoja. Ver <xref
+linkend="worksheet-cols-1">. Las filas están en la parte izquierda de
+la hoja (en disposición vertical) y están ordenadas numéricamente.
+Ver <xref linkend="worksheet-rows-1"></para>
+    
+    <figure id="worksheet-cols-1">
+      <title>Las etiquetas de las columnas en lo alto de la hoja de
+cálculo.</title>
+      <screenshot>
+	<graphic fileref="../C/images/worksheet-cols-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <figure id="worksheet-rows-1">
+      <title>Las etiquetas de las filas en la parte izquierda de la
+hoja de cálculo.</title>
+      <screenshot>
+	<graphic fileref="../C/images/worksheet-rows-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    
+  </sect2>
+  
+  <sect2>
+    <title>La zona de información</title>
+    
+    <para>La sección que hay en la parte inferior de la hoja de
+cálculo es la zona de información. Contiene información acerca de las
+celdas actualmente seleccionadas, y también proporciona acceso a los
+botones de amplificación y reducción. También es ahí donde se
+encuentra el indicador de la hoja actual.</para>
+    
+    <figure id="worksheet-info-1">
+      <title>La zona de información.</title>
+      <screenshot>
+	<graphic fileref="../C/images/worksheet-info-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <sect3>
+      <title>Indicador de la hoja</title>
+      <para>En la parte izquierda está el indicador de la hoja de
+cálculo. Ahí se dice cuantas hojas hay en el libro de cálculo (donde
+puede haber más de una hoja), y también le permite al usuario moverse
+a otra hoja pulsando en la pestaña adecuada. Esto todavía no está
+implementado. </para>
+    </sect3>
+    
+    <sect3>
+      <title>Los botones de zoom</title>
+      <para>Los botones <guibutton>Aumentar</guibutton> (<xref
+linkend="worksheet-zoomin-1">) y <guibutton>Reducir</guibutton> (<xref
+linkend="worksheet-zoomout-1">) también están en la zona de
+información. Pulsando <guibutton>Aumentar</guibutton> se hace más
+grande la hoja de cálculo y se muestra una vista más detallada de la
+hoja. <guibutton>Reducir</guibutton> muestra una zona mayor de la hoja
+de cálculo pero con menos detalle. La vista de la hoja también puede
+cambiarse utilizan la opción <guimenuitem>Zoom</guimenuitem> del menú
+<guimenu>Vista</guimenu>. </para>
+      
+      <figure id="worksheet-zoomin-1">
+	<title>El botón de ampliación.</title>
+	<screenshot>
+	  <graphic fileref="../C/images/worksheet-zoomin-1.jpg"></graphic>
+	</screenshot>
+      </figure>
+      
+      <figure id="worksheet-zoomout-1">
+	<title>El botón de reducción</title>
+	<screenshot>
+	  <graphic fileref="../C/images/worksheet-zoomout-1.jpg"></graphic>
+	</screenshot>
+      </figure>
+      
+    </sect3>
+    
+    <sect3>
+      <title>La zona del cálculo constante</title>
+      
+      <para>En la esquina inferior derecha, hay una zona de
+información que muestra algunos valores que están constantemente
+calculándose. Por defecto se muestra la suma de todas las celdas
+actualmente seleccionadas.</para>
+      
+      <para>Hay una menú cuando se pulsa el botón derecho del ratón
+que incluye unas cuantas opciones más. Por ejemplo tenemos Sum (Suma),
+Min (Mínimo), Max (Máximo), Average (Media), Count (Contar).</para>
+      
+      <figure id="worksheet-running-calc-1">
+	<title>La zona del cálculo constante.</title>
+	<screenshot>
+	  <graphic fileref="../C/images/worksheet-running-calc-1.jpg"></graphic>
+	</screenshot>
+      </figure>
+    </sect3>
+  </sect2>
+</sect1>
+
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         

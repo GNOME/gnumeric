@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_sylk">
+	<information>
+		<_name>MultiPlan (SYLK)</_name>
+		<_description>Import/Export for MultiPlan (SYLK) files</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="sylk"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="sylk" priority="1" probe="TRUE">
+			<information>
+				<_description>MultiPlan (SYLK)</_description>
+			</information>
+			<suffixes>
+				<suffix>slk</suffix>
+				<suffix>sylk</suffix>
+			</suffixes>
+			<mime-types>
+				<mime-type>application/x-sylk</mime-type>
+			</mime-types>
+		</service>
+		<service type="file_saver" id="sylk" file_extension="slk"
+			 save_scope="sheet" format_level="auto" overwrite_files="TRUE">
+			<information>
+				<_description>MultiPlan (SYLK)</_description>
+			</information>
+		</service>
+	</services>
+</plugin>

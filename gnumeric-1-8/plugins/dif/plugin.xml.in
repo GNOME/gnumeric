@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_dif">
+	<information>
+		<_name>Data Interchange Format (DIF) module</_name>
+		<_description>Reads and writes information stored in the Data Interchange Format (*.dif)</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="dif"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="dif" priority="1" probe="FALSE">
+			<information>
+				<_description>Data Interchange Format (*.dif)</_description>
+			</information>
+			<suffixes>
+				<suffix>dif</suffix>
+			</suffixes>
+		</service>
+		<service type="file_saver" id="dif" file_extension="dif" format_level="manual_remember"
+		 save_scope="sheet">
+			<information>
+				<_description>Data Interchange Format (*.dif)</_description>
+			</information>
+		</service>
+	</services>
+</plugin>

@@ -1,0 +1,557 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* plugins/plan-perfect/pln.c: replaced gi18n.h by gi18n-lib.h.
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-10-03  Jody Goldberg <jody@gnome.org>
+
+	* charset.c (pln_get_str) : do not assume strings are null terminated.
+
+	* pln.c (pln_parse_sheet) : do not depend on probe routine seeking the
+	  file.
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-02-03  Jody Goldberg <jody@gnome.org>
+
+	* pln.c (pln_file_open) : no need to probe.  Gnumeric has already
+	  taken care of that.
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-14  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.xml.in: Remove "open" and "import" attributes.
+
+2002-11-02  Jody Goldberg <jody@gnome.org>
+
+	* charset.c (pln_get_str) : this is not static.
+
+2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* charset.c: Don't use // comments.
+	* charset.c (pln_get_str): made static. 
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-20  Jody Goldberg <jody@gnome.org>
+
+	* pln.c : fix some typos and do some function mapping
+
+2002-08-19  Jon K Hellan  <hellan@acm.org>
+
+	* pln.c (pln_file_probe): Use glib's seek enum instead of the enum
+	which used to be in libgsf.
+
+2002-08-17  Jody Goldberg <jody@gnome.org>
+
+	* charset.c : Abiword pointed me at the charset table in kword which
+	  was significantly more complete than the one in wp2x.
+
+2002-08-16  Jon K Hellan  <hellan@acm.org>
+
+	* pln.c (pln_file_probe, pln_file_open): Predeclare.
+
+2002-08-16  Jody Goldberg <jody@gnome.org>
+
+	* pln.c : do some primitive function name mapping.
+	    AVE -> AVERAGE
+
+	* pln.c (pln_convert_expr) : fix typo.
+
+2002-08-14  Jody Goldberg <jody@gnome.org>
+
+	* pln.c : rewrite a big part of this and some
+	  initial work on formats, use the saved values, and support
+	  character set mapping.
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-08-09  Jody Goldberg <jody@gnome.org>
+
+	* pln.c (pln_file_open) : fix signature and queue a respan.
+	(pln_parse_sheet) : YAY! we have specs.  Do a few minor tweaks.
+
+	* plugin.xml.in : update a bit.
+
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-06-05  Jody Goldberg <jody@gnome.org>
+
+	* pln.c (pln_file_probe) : add.
+	(pln_file_open) : use probe and convert to GsfInput.
+	(pln_parse_sheet) : use GsfInput, and clean up a mite.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.4
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.3
+
+2002-03-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.2
+
+2002-03-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.1
+
+2002-02-26  Morten Welinder  <terra@diku.dk>
+
+	* pln.c (pln_get_number): Increase precision and speed.  Too bad I
+	cannot test this.
+
+2002-02-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.0
+
+2002-01-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.3
+
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.2
+
+2002-01-06  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.1
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.0
+
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.1
+
+2001-12-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.0
+
+2001-11-05  Jody Goldberg <jgoldberg@home,com>
+
+	* Release 0.75
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.74
+
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.73
+
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.72
+
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.71
+
+2001-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am (EXTRA_DIST) : we need to include the plugin.xml for
+	  distcheck to work.
+
+2001-09-25  Jon K Hellan  <hellan@acm.org>
+
+	* .cvsignore: Add plugin.xml
+
+2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml: Removed
+
+	* plugin.xml.in: Copied from plugin.xml, prepared for localization.
+
+	* Makefile.am: Use xml-i18n-tools to create plugin.xml (with
+	translations merged from .po file).
+
+2001-08-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.70
+
+2001-08-11  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.69
+
+2001-07-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.68
+
+2001-07-14  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* pln.c (pln_file_open): Use gnumeric_io_error_string.
+
+2001-06-28  Jody Goldberg <jgoldberg@home>
+
+	* Release 0.67
+
+2001-06-27  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.66
+
+2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* pln.c (pln_file_open):
+	s/FileOpener/GnumFileOpener/
+	s/FileSaver/GnumFileSaver/
+
+	* plugin.xml (<service>): Register only as importer.
+
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.65
+
+2001-03-17  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.64
+
+2001-02-23  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.63
+
+2001-02-18  Jon K Hellan  <hellan@acm.org>
+
+	* pln.c (pln_read_workbook): Fix typo: FILE_SAVER_ID_INVAID ->
+	FILE_SAVER_ID_INVALID.
+
+2001-02-16  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.62
+
+2001-02-12  Karl Eichwalder  <ke@suse.de>
+
+	* Makefile.am: Add but comment out EXTRA_DIST.
+
+2000-12-17 Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.61
+
+2000-12-7  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.60
+
+2000-11-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.59
+
+2000-11-13  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.58
+
+2000-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* pln.c : Adjust to the signature changes for reading views
+	  rather than workbooks.
+
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.57
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.56
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.55
+
+2000-05-20  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.54
+
+2000-05-18  Jody Goldberg <jgoldberg@home.com>
+
+	* pln.c (pln_parse_sheet) : When the row is out of range return,
+	  don't just display an error then continue.
+
+2000-05-18   Kevin Handy <kth@srv.net>
+
+	* pln.c (pln_parse_sheet) : crow == 65535 is an end of sheet marker.
+
+2000-05-09  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.53
+
+2000-05-07  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am (gnumeric_plugin_LTLIBRARIES) : Disable for now.
+
+2000-04-20  Jody Goldberg <jgoldberg@home.com>
+
+	* pln.c (pln_parse_sheet) : Use sheet_cell_fetch to be safe.
+
+2000-04-08  Jon K Hellan  <hellan@acm.org>
+
+	* pln.c (pln_read_workbook): Use workbook_set_saveinfo instead of
+	workbook_set_filename.
+
+2000-03-23  Jon K Hellan  <hellan@acm.org>
+
+	* pln.c (pln_read_workbook): Set filename, tag it as MANUAL.
+
+2000-02-15  Jon K Hellan  <hellan@acm.org>
+
+	* pln.c: include cell.h, workbook.h
+	(pln_parse_sheet): Update from using to sheet_col_set_width to
+	sheet_col_set_size_pixels.
+
+2000-01-29  Jon K Hellan  <hellan@acm.org>
+
+	* pln.c (pln_parse_sheet, pln_read_workbook): Add
+	CommandContext. Return 0 on success, -1 on failure. Use
+	gnumeric_error_read to report errors.
+
+2000-01-13  Jody Goldberg <jgoldberg@home.com>
+
+	* pln.c (pln_parse_formula) : Suppress warnings.
+
+2000-01-11  Jody Goldberg <jgoldberg@home.com>
+
+	* pln.c (pln_parse_sheet) : Typo.
+
+2000-01-01  Jody Goldberg <jgoldberg@home.com>
+
+	* pln.c (pln_parse_sheet) : Use value_empty and value_error where
+	  appropriate.
+
+1999-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* pln.c (pln_parse_sheet) : Begin returning error strings.
+	(pln_read_workbook) : Improve error reporting.
+
+1999-11-29  Kevin Handy  <kth@srv.net>
+
+	* pln.h, pln.c: Initial version.

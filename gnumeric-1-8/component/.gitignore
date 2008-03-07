@@ -1,0 +1,8 @@
+Makefile.in
+Makefile
+.deps
+.libs
+*.lo
+*.la
+plugin.xml
+Gnumeric-embed.xml

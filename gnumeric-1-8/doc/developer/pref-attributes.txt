@@ -1,0 +1,181 @@
+/*
+ * Preferences & Persistent Attributes in Gnumeric
+ *
+ */
+
+/* Task */
+To have persistent workbook attributes, such as grid line color, default
+style for empty cells, and the host of of excel options, for which I
+have already generated a list.  In addition some application wide
+preferences like user defined plugin directories also need to be done.
+Workbook attributes should have the ability to undone and redone.
+
+/* Plan */  
+The application wide preferences will be done via the usual gnome-config
+system.  A preferences struct available globally can store various
+values.
+
+Workbook and sheet attributes will be handled by GtkArgs.  Each object
+can provide an array of GtkArgs (via internal use of gtk_object_getv) which
+can then be written out as part of a xmlDocNode in a standard way.  The format
+will be:
+
+  <gmr:Attributes>
+    <gmr:Attribute>
+      <gmr:name>Workbook::show_horizontal_scrollbar</gmr:name>
+      <gmr:type>4</gmr:type>
+      <gmr:value>FALSE</gmr:value>
+    </gmr:Attribute>
+    <gmr:Attribute>
+      <gmr:name>Workbook::show_vertical_scrollbar</gmr:name>
+      <gmr:type>4</gmr:type>
+      <gmr:value>FALSE</gmr:value>
+    </gmr:Attribute>
+    <gmr:Attribute>
+      <gmr:name>Workbook::show_notebook_tabs</gmr:name>
+      <gmr:type>4</gmr:type>
+      <gmr:value>FALSE</gmr:value>
+    </gmr:Attribute>
+  </gmr:Attributes>
+
+Name is the GtkArg name, type is GtkArg type (for easy mapping).
+Complex types (ie other objects) can be handled be multiple <value> tags, perhaps using a "name" attribute.  
+
+When the attributes are read back in they are turned into a GList of GtkArgs.
+Workbook and sheet objects will have functions to take this list and internally
+set the args.
+ 
+Undo/Redo will be done by using utility function calls of the workbook and
+sheet objects that get and set individual attributes interface for all 
+attributes.  The command struct will use a simple structure to store the
+previous arg.
+
+The workbook and sheet objects will also provide dialogs to set these 
+attributes.
+
+/*
+ * Gnumeric Preferences
+ *
+ * Additional preferences not found in the excel list. 
+ *
+ */
+
+Application
+	* Show history list (boolean)
+	       - if true, additional attribute: number of files (int)
+	* Default plugin directories (file names)
+
+/*
+ * Excel Preferences
+ *
+ * A list of all preferences found in Excel 97, broken down by 
+ * object type.
+ *
+ */
+
+Application
+	* Show formula bar (boolean)
+	* Show status bar (boolean)
+	* Comment display: none, indicator, indicator and comment (choice)
+	* Calculations: automatic, auto except tables, manual (choice)
+		- manual has a boolean attribute for calcing before save
+		- the are buttons to calc the sheet and calc now
+	* Iteration (boolean)
+		- not sure what this is doing exactly
+	* Maximum iterations (integer value)
+		- not sure what this is doing exactly (related to 
+		iteration)
+	* Minimum change (real value)
+		- not sure what this is doing exactly (related to 
+		iteration)
+	* Edit directly in cell (boolean)
+		- if true, cursor in cell else cursor in entry box
+	* Allow cell drag and drop (boolean)
+		- additional attribute if true, Alert before overwriting
+		(boolean)
+	* Move selection after enter (boolean)
+		- additional attribute if true, Direction of movement:
+		up, down, left, right (choice)
+	* Fixed number of decimals places (boolean)
+		- additional attribute if true, Number of decimal places
+		(integer value)
+	* Cut, copy, and sort objects with cells (boolean)
+	* Ask to update automatic links (boolean)
+	* Provide feedback with Animation (boolean)
+		- not exactly sure what this does
+	* Enable AutoComplete for cell values (boolean)	
+	* R1C1 Reference Style (boolean)
+		- indicate row and column by offset
+		- references are relative
+	* Ignore other applications (boolean)
+		- don't know what this does
+	* Macro virus protection (boolean)
+		- prompts to disable vb macros
+	* Recently used file list (boolean)
+		- additional attribute if true, number of files (integer)
+	* Prompt for workbook properties (boolean)
+		- prompts for summary info when saving if true
+	* Provide feedback with sound (boolean)
+	* Zoom on roll with Intellimouse (boolean)
+	* Sheets in new workbook (integer)
+	* Standard font (font)
+	* Font size (integer)
+	* Default file location (string)
+	* Alternate startup file location (string)
+	* User name (string)
+	* Save Excel files as (string)
+		- various formats
+	* Microsoft Excel menu or help key (string)
+	* Key binding: Excel menus, Lotus 1-2-3 help (choice)
+		- binds the functionality to the key from the above
+		attribute 
+	* Transition navigation keys (boolean)
+		- don't know what this does
+	* Transition formula evaluation
+		- don't know what this does
+	* Transition formula entry
+		- don't know what this does
+		- above three seem related to Lotus key bindings
+	* Custom lists
+		- allow user to make lists for autofill
+	
+Workbook
+	* Object display: show all, show placeholders, hide all (choice)
+	* Horizontal scrollbar (boolean)
+	* Vertical scrollbar (boolean)
+	* Sheet tabs (boolean)	
+	* Update remote references during calc (boolean)
+	* Keep only as much precision as displayed (boolean)
+	* Use 1904 date system (boolean)
+		- converts dates when selected/unselected
+		- stores dates relative to 1904 when true
+	* Accept labels in formulae (boolean)
+		- converts labels to cell references
+	* Save external link values (boolean)
+		- I think this keeps the last known external link value
+		with the workbook instead of only relying on the reference
+	* Standard colours
+		- sets palette for text and fill
+	* Chart fill
+		- standard chart fill colours
+	* Chart lines
+		- standard chart lines colours
+	
+Sheet
+	* Grid lines (boolean)
+	* Grid line colour (colour or auto/default)
+	* Row and column headers (boolean)
+	* Page break indicators (boolean)
+	* Show formulae (boolean)
+	* Show zero values (boolean)
+	* Show outline symbols (boolean)
+
+Chart
+	* Plot empty cells as: Not plotted, Zero, Interpolated (choice)
+	* Plot visible cells only (boolean)
+	* Chart sizes with window frame (boolean)
+		- don't know how to activate this option
+	* Show names (boolean)
+		- chart tips
+	* Show values (boolean)
+		- chart tips

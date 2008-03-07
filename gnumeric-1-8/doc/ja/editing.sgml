@@ -1,0 +1,357 @@
+<sect1>
+  <title>文字列と数字</title>
+  
+  <para>セルに入力できる基本的な形式のデータとしては、文字列、数字、式、セル参照があります。
+</para>
+  
+  <para>
+その中でも最も単純な種類のデータは文字列と数字です。それらは、セルに保管される定数値に過ぎません。この種のデータについては特に決められたシンタックスはありません。ただ一つの制限事項は、文字列や数字には新しい行を入れたり、冒頭に「=」を使うことができないことです。「=」は式あるいは参照を含むセルを表すのに使われます。
+</para>
+  
+  <para>文字列入力の例として、
+	<xref linkend="stringnumber"> 
+を参照してください。</para>
+  
+  <figure id="stringnumber">
+    <title>文字列と数字の入力</title>
+    <screenshot>
+      <graphic fileref="images/editing-1.jpg"></graphic>
+    </screenshot>
+  </figure>
+
+<sect2 id="entering-dates-and-numbers">
+  <title>日付と数字</title>
+
+  <para>文字列の中でも日付及び数字は特殊なケースで、数字の型に自動的に変換されます。入力した文字列が日付や時刻のフォーマットに一致した場合は、その文字列はシリアル値（その文字列の時刻を代表する）に変換され、セル・フォーマットは元の文字列のフォーマットに設定されます。</para>
+
+  <para>この機能は、認識可能なフォーマットで数字を入力するだけで使うことができます。この数字は Gnumeric によって自動的に適切なシリアル値に変換されます。この機能があるため、普通に読取りができるフォーマットで日付を入力しておいて、Gnumeric の内部ではそれを数値フォーマットで保管することができます。
+</para>
+
+  <para>ここで興味深いのは、ユーザが入力した文字列をオートフィル機能で正しく入力できることです（
+	<xref linkend="autofill">
+参照）</para>
+
+  <para>Gnumeric が認識するいろいろな日付や時刻のフォーマットの例については、
+	<xref linkend="number-format-date-time-examples">
+を参照してください。</para>
+
+  </SECT2>
+
+  <sect2>
+    <title>セルの編集</title>
+    
+    <procedure>
+      <title>セルにデータを入力する方法</title>
+      <step>
+	<para>
+ホワイトクロス・カーソルでセルをクリックします。こうするとセルはアクティブとなります(
+	<xref linkend="activecell">
+ 参照)。
+	    </para></step>
+      <step>
+	<para>日付または数式を入力します。</para></step>
+    </procedure>
+
+    <para>数式入力の詳細については、
+	<xref linkend="formulas">
+を参照してください。</para>
+
+  </sect2>
+
+  <sect2>
+    <title>コマンドの編集</title>
+    
+    <para>セルを選択してデータを入力すると、限定編集モードとなります。これは、参照を含むデータの入力に便利なモードとして用意されたものです。このモードでは、編集ミスを修正するのに使う主なキーはバックスペース・キーです。</para>
+    
+    <sect3>
+      <title>上級編集モード</title>
+      
+      <para>さらにいろいろな機能が揃ったオプションの編集モードもあります。特に長いデータの入力向けに、上級編集モードが用意されています。</para>
+      
+      <para>このモードは <keycap>F2</keycap> を押してアクセスすることができます。すると、ワークシート上のフォーカスが、カレント・セルから編集領域にシフトします。すると、セル内のテキストやデータをさらに細かく制御できます。カーソル・キーを使ってセルのデータ内でカーソルを移動することもできるようになります。データ入力領域の詳細については
+	<xref linkend="worksheet-data-entry">
+を参照してください。</para>
+      
+      <variablelist>
+	<varlistentry>
+	  <term><Keycap>バックスペース</keycap></term>
+	  <listitem><para>カーソルの左側の文字を削除します。</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><keycap>カーソルキー</keycap></term>
+	  <listitem><para>必要に応じてカーソルを移動します。</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><keycap>Ctrl + K</keycap></term>
+	  <listitem><para>行の末尾を削除します。</para></listitem>
+	</varlistentry>
+      </variablelist>
+      
+      <tip>
+	<para>Gnome アプリケーションの入力ボックスでの通常のキー規則がすべて有効です。
+</para>
+	<!-- FIXME デフォルトのキー規則のリファレンスが必要 -->
+      </tip>
+      
+    </sect3>
+    
+    <sect3>
+      <title>エラー・メッセージ</title>
+
+      <para>ユーザが許可されていない数式やデータを入力すると、そのセルにはエラー・メッセージが表示されます。</para>
+      
+      <!-- セルのエラーメッセージの一覧が必要  -->
+      
+      
+    </sect3>
+    
+  </sect2>
+  
+  
+</sect1>
+
+
+
+<!--  数式とセル参照に関するファイルを取り込む -->
+
+&formulas;
+
+&cellrefer;
+
+<sect1>
+  <title>数式入力中のセルの選択</title>
+
+  <para>数式をセルに入力する際、キーボードのカーソルキーとマウスを使うと、データをすばやく入力することができます。</para>
+
+  <para>数式にセル範囲を入力するにはいくつかの方法があります。セル範囲やセル参照は、適切な構文を入力するだけで数式に入力することができます。（詳細は
+	<xref linkend="cell-referencing">
+を参照してください）しかし、手作業でセル範囲を入力するのは時間もかかり面倒です。</para>
+
+  <para>セルにセル参照を入力するとします。カーソルを入力位置におきます。マウスかキーボードを使ってセルを選択すれば、セル参照を定義することができます。この方法と使うと、選択部分の表示は普通とは少々異なります。境界線が点線の「蟻の行列」のように強調表示されます。
+</para>
+
+  <figure id="editing-cell-selection">
+    <title>強調表示された選択部分</title>
+    <screenshot>
+      <graphic fileref="images/editing-cell-selection-1.jpg"></graphic>
+    </screenshot>
+  </figure>
+  
+  <sect2>
+    <title>マウスを使って数式にデータを入力する方法</title>
+
+    <para>セルに数式を入力するとします。カーソルを入力位置におきます。セルをクリックするだけで、セル参照が自動的に数式に代入されます。後は普通に数式を仕上げます。
+</para>
+
+    <procedure>
+      <title>マウスを使って数式に参照セルを入力する方法</title>
+      <step>
+	<para>
+	  数式を入力したいセルを選択します。例として A1 を選択しましょう。
+	</para>
+      </step>
+      <step>
+	<para>数式を入力しますが、カーソルは、セル参照を入力する位置に置いたままにします。ここでは例として =exp( と入力しましょう。
+	</para>
+	</step>
+      <step>
+	<para>
+	  ここで、マウスをクリックして参照したいセルをクリックします。たとえば、セル B1 をクリックしてみてください。すると、その参照がセル A1 に入力されている数式に入力されます。
+	</para>
+      </step>
+      <step>
+	<para>
+	  数式を仕上げるには、閉じ括弧を入力します。このとき選択状態が解除されます。
+	</para>
+      </step>
+    </procedure>
+    
+    <para>この方法は、通常のセルの選択と同様に、あるセル範囲を選択するのにも使うことができます。</para>
+    
+  </sect2>
+
+  <sect2>
+    <title>キーボードを使って数式にデータを入力する方法</title>
+
+    <para>2、3個やもっと多くの数式にセルやセル範囲を入力するのに、キーボードを使って選択するのが、最もすばやく作業できることもしばしばあります。マウスでセルを選択することができますが、同様に、キーボードを使ってセルを選択することもできます。カーソルキーとセレクション・モディファイヤを使ってセレクションを作成します。
+</para>
+
+    <procedure>
+      <title>キーボードを使って数式にデータを入力する方法</title>
+
+      <step>
+	<para>
+	  数式を入力するセルを選択します。例として A1 を選択しましょう。
+
+	</para>
+      </step>
+      <step>
+	<para>数式を入力します。セル参照の入力位置にカーソルを置いたままにします。ここでは、例として =SUM( と入力しましょう。	</para>
+      </step>
+      <step>
+	<para>
+	  カーソルキーを使ってセレクションカーソルを移動します。セレクションカーソルを B1 に移動してセレクションを開始します。</para>
+      </step>
+      <step>
+	<para>
+<keycap>Shift</keycap> キーを押さえたままセレクションを横に1つ、下に１つ移動します。セル B1、B2、C1、C2 が選択され、数式は =sum(B1:C2 と表示されます。
+	</para>
+      </step>
+      <step>
+	<para>
+	  数式を仕上げるには、括弧を閉じます。これで数式の入ったセルは =sum(B1:C2) となりました。<keycap>Enter</keycap> キーを押すと、この数式が入力されます。
+	</para>
+      </step>
+    </procedure>
+
+    <para>セル範囲を選択するには、<keycap>Shift</keycap> キーを押したまま、希望する領域を移動させます。</para>
+
+    <para>セレクションの入力を中止したり、始めからやり直したりするときは、<keycap>Shift</keycap>+<keycap>Backspace</keycap> を押します。
+</para>
+
+    </sect2>
+</sect1>	  
+
+
+<sect1>
+  <title>セルの移動とコピー</title>
+  
+  <para>Gnumeric でセルをコピーしたり移動する方法は次の２つです。</para>
+  
+  <itemizedlist>
+    <listitem><para>マウスを使って選択範囲をドラッグする方法 </para></listitem>
+    <listitem><para>コピー／切り取り／貼り付け操作を使う方法 </para></listitem>
+  </itemizedlist>
+  
+  <sect2>
+      <title>マウスを使って選択範囲をドラッグする方法 </title>
+
+<para>
+Gnumeric では、ドラッグ・アンド・ドロップの方法で、セルとそのコンテンツを新しい位置に移動したりコピーすることができます。
+</para>
+
+
+    <para>ドラッグ・アンド・ドロップで、すばやく新しい位置にセルを移動する基本的手順としては、セル境界をクリックして、そのセルを新しい位置までドラッグしてからリリースします。そのセルの内容が新しいセルに移動します。</para>
+    
+      <procedure>
+	<step>
+	  <para><mousebutton>(MB1)</mousebutton> をセル境界で（右下のコーナーにあるオートフィル起動用の四角いマーク以外の任意の場所で）クリックします。セルは、<keycap>Ctrl</keycap>+<mousebutton>MB1</mousebutton> を使うとコピーされ、ただクリックしただけだと移動します。</para>
+	</step>
+	
+	<step>
+	  <para>セルを新しい位置にドラッグします。</para>
+	</step>
+      
+	<step>
+	  <para>マウスボタンをリリースします。</para>
+	</step>
+      </procedure>
+    
+    <para>ドラッグ・アンド・ドロップによるセルの移動とコピーの方法としては、この方法が最も簡単で広く使われています。キーを使っても、移動・コピーをすばやく行うことができます。 </para>
+
+    </sect2>
+  
+  
+    <sect2>
+      <title>右クリック・オプション</title>
+    
+      <para>セルの移動・コピーを行うためのもう一方の方法は、さらに充実した機能を備えた右クリック・オプションです。これを使うと、キー操作だけで簡単に実行できるオプションの充実したメニューが表示されます。 </para>
+    
+      <procedure>
+	<step>
+	  <para><mousebutton>(MB3)</mousebutton> をセル境界で（右下のコーナーにあるオートフィル起動用の四角いマーク以外の任意の場所で）クリックします。</para>
+	</step>
+      
+	<step>
+	  <para>セルを新しい位置にドラッグします。 
+	  </para>
+	</step>
+	
+	<step>
+	  <para>マウスボタンをリリースします。するとオプション・メニューがポップアップします。</para>
+	</step>
+      
+	<step>
+	  <para>メニューから適切なオプションを選択してもう一度クリックします。これで、新しいセルに新しい情報が入ります。</para>
+	</step>
+	
+      </procedure>
+      
+      
+    </sect2>
+  
+  <sect2>
+    <title>移動・コピーのための右クリックによるメニュー・オプション </title>
+    
+    <itemizedlist>
+      <listitem>
+<para>
+Copy：通常の Copy 操作と同じ効果。値、フォーマット、数式をコピーします。<keycap>Ctrl</keycap>+<mousebutton>MB1</mousebutton> を使うのと同じことです。
+</para>
+      </listitem>
+      
+      <listitem>
+	<para>
+Move : 通常の Move 操作と同じ効果。値、フォーマット、数式を移動します。<mousebutton>MB1</mousebutton> を使うのと同じことです。 </para>
+      </listitem>
+	
+	<listitem>
+	  <para>
+Copy Formats：ソース・セルのフォーマット情報をコピーします。数字のフォーマット、色、フォント、フィルの種類などが含まれます。</para>
+	</listitem>
+	
+	<listitem>
+	  <para>
+Copy Values：ソース・セルにある値をコピー先のセルにコピーします。 </para>
+	</listitem>
+	
+	<listitem>
+<para>Shift Cells Down and Copy：まだ実装されていません。</para></listitem>
+
+	<listitem>
+<para>Shift Cells Right and Copy : まだ実装されていません。</para></listitem>
+
+	<listitem>
+<para>Shift Cells Down and Move : まだ実装されていません。</para></listitem>
+
+	<listitem>
+<para>Shift Cells Right and Move : まだ実装されていません。</para></listitem>
+	
+    </itemizedlist>
+  
+    <figure id="rightclickmove">
+      <title>右クリックでセルをドラッグするためのオプション・メニュー( <mousebutton>MB3</mousebutton> )</title>
+      <screenshot>
+	<graphic fileref="images/dndselection-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    </sect2>
+</sect1>
+  
+  
+  <!-- ファイル操作についてのファイルを取り込む -->
+  
+  &selections;
+  
+  
+  <!--  オートフィルについてのファイルを取り込む  -->
+  
+  &autofill;
+  
+  
+  <!-- Keep this comment at the end of the file
+  Local variables:
+  mode: sgml
+  sgml-omittag:t
+  sgml-shorttag:t
+  sgml-minimize-attributes:nil
+  sgml-always-quote-attributes:t
+  sgml-indent-step:2
+  sgml-indent-data:t
+  sgml-parent-document:nil
+  sgml-exposed-tags:nil
+  sgml-local-catalogs:nil
+  sgml-local-ecat-files:nil
+  End:
+  -->             

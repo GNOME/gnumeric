@@ -1,0 +1,266 @@
+<sect1 id="autofill">
+	<title>
+	オートフィル
+	</title>
+ 
+<para>
+スプレッドシートを扱う作業では、一連の数字、データ,その他の値の入った一まとまりのセルを追加することがよくあります。これは手作業で行うことができますが、Gnumericにはこのようなセルの追加を簡単に行うことのできるオートフィル・オプションが備わっています。
+</para>
+
+<para>
+この機能を使う好例は、部品番号の一覧やTVのチャンネルの一覧など、一連の数字を入力する場合です。このようなリストは、最初の数字をセルに入力し、セル・ボーダーの右下のコーナーのオートフィル・カーソルをクリックしてリストの入力方向にドラッグするだけで作成することができます。たとえば、最初のセルに「1」が入っている場合は、セル3〜4個分オートフィル・ボタン（
+	<xref linkend="celltobautofilled">
+参照）をドラッグすると、それらのセルに「１」、[2」、「3」、「4」が自動的に入力されます。（
+	<xref linkend="cellsautofilled">
+参照）
+</para>
+
+<procedure>
+	<title>
+	セル範囲のオートフィル
+	</title>
+
+<step performance="required">
+<para>オートフィルの対象となる領域の最初のセルを選択します。
+</para>
+</step>    
+
+<step performance="required">
+<para>このセルに最初の値を入力します。
+</para>
+</step>
+    
+<step performance="required">
+<para>最初のセルの右下のコーナーの小さな四角をクリックし、データを入力したい領域の最後までドラッグします。
+</para>
+</step>
+
+<step performance="required">
+<para>マウスボタンを放します。これで、選択された領域のセルにオートフィルによって値が入力されます。
+</para></step>
+</procedure>
+
+
+<figure id="celltobautofilled">
+	<title>
+	オーフィルを起動するシードの入ったセル
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/autofill-1.jpg"></graphic>
+	</screenshot>
+</figure>
+  
+<figure id="cellsautofilled">
+	<title>
+	オートフィル実行中のセル
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/autofill-2.jpg">
+	</graphic>
+	</screenshot>
+</figure>
+  
+<para>
+このように、オートフィル機能を使うと、1つずつ大きくなる一連の番号を簡単かつ迅速に生成することができますが、それと同様に便利な機能が他にもいろいろあります。次に、増分が1以外の一連の数字を入力する例を示します。たとえば、11で始まる奇数を生成する場合は、あるセルに「11」と入力し、次のセルに「13」と入力します。次に両方のセルを選択し、選択した部分を数字を入力したい領域の最後のセルまで拡張します。たとえば、次の5つのセルを選択した場合は、そこには「15」、「17」、「19」、「21」、「23」と入力されます。例として
+	<xref linkend="seedcellautofillsequence">、
+	<xref linkend="autofillsequence">
+を参照してください。
+</para>
+
+<figure id="seedcellautofillsequence">
+	<title>
+	日付のオートフィルを起動するシード・セル
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/autofill-3.jpg"></graphic>
+	</screenshot>
+</figure>
+
+<figure id="autofillsequence">
+	<title>
+	シーケンス入力中のセル
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/autofill-4.jpg">
+	</graphic>
+	</screenshot>
+</figure>
+
+<sect2>
+	<title>
+	日付の入力
+	</title>
+
+<para>
+たしかに番号は簡単なのです。本当にやっかいなのは、日付、時刻、その他の情報の入力です。でも、Gnumericという強い味方があるのだから、恐れることはありません。Gnumericには、日付、月、曜日などのオートフィル機能があります。
+</para>
+    
+<para>
+例として、典型的な請求書を見てみましょう。請求書の場合はすべてが月ごとに記録されます。したがって、一連のセルに暦の順で月を入力するのが普通です。これは実に簡単な操作で、基本的には数字の入力と同じ手順で行います。
+</para>
+
+<para>
+たとえば、セル B2 から始まる 12 個のセルに月を入力するには、B2 に「1月」という文字列を入力します。次に、フィル・ボタンをクリックして、12 個目のセルまで拡張し、ボタンを放します。このように簡単な操作でできるのです。例として
+	 <xref linkend="datefillseed">、
+	<xref linkend="datebeingfilled">、
+	<xref linkend="cellsfilled">
+を参照してください。
+</para>
+    
+<figure id="datefillseed">
+	<title>
+	日付が入って、フィル起動シードとなる準備のできたセル
+	</title>
+
+	<screenshot> 
+	<graphic fileref="images/autofill-5.jpg"></graphic>
+	</screenshot>
+</figure>
+    
+<figure id="datebeingfilled">
+	<title>
+	オートフィル実行中のセル
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/autofill-6.jpg"></graphic>
+	</screenshot>
+</figure>
+    
+<figure id="cellsfilled">
+	<title>
+	月がオートフィルされた一連のセル
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/autofill-7.jpg"></graphic>
+	</screenshot>
+</figure>
+    
+<para>
+その他、オートフィル機能が使える文字列としては、曜日（月曜、火曜、．．．）、曜日の短縮形（Mon、Tues．．．）、月の短縮形（jan、Feb．．．）などがあります。
+</para>
+    
+<para>
+次に、その他の文字列のフィルの種類について説明します。
+</para>
+
+</sect2>
+
+
+<sect2>
+	<title>
+	文字列と数字のオートフィル
+	</title>
+    
+<para>
+Gnumeric には、テキスト文字列に埋め込まれた数値のオートフィルを巧みに処理する機能があります。たとえば、「9度目の人生」、「8度目の人生」などの値をセルにオートフィルすることができます。
+</para>
+
+<para>
+	<xref linkend="autofillexamples"> 
+にいくつか例を示します。
+</para>
+    
+<figure id="autofillexamples">
+	<title>
+	簡単なオートフィルの例
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/autofill-8.jpg"></graphic>
+	</screenshot>
+</figure>
+
+</sect2>
+
+<sect2>
+	<title>
+	数式のオートフィル
+	</title>
+
+<para>
+オートフィル機能の中で最も便利なのはおそらく、関数をオートフィルできる機能でしょう。実際の動作は他のオートフィルの方法と基本的に同じですが、関数を移動する点だけが異なっています。
+</para>
+    
+<para>
+簡単な例として
+	<xref linkend="autofillfunction1">
+と
+	<xref linkend="autofillfunction2">
+を参照してください
+</para>
+
+<figure id="autofillfunction1">
+	<title>
+	オートフィルする数式
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/autofill-9.jpg"></graphic>
+	</screenshot>
+</figure> 
+
+<figure id="autofillfunction2">
+	<title>
+	いくつかのセルにオートフィルされた式
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/autofill-10.jpg"></graphic>
+	</screenshot>
+</figure> 
+
+</sect2>
+
+<sect2>
+	<title>
+	オートフィル機能についてのその他の注記
+	</title>
+
+<itemizedlist>
+
+<listitem>
+<para>
+オートフィル機能は、セルの下方向と右方向にしか動作しません。
+</para>
+</listitem>
+
+<listitem>
+<para>
+値が小さくなっていくようにオートフィルする場合は、最も大きい値を最初のセルに入力し、次の値を次のセルに入力します。それから、上記の最初のステップと同様にその両方を選択します。
+</para>
+</listitem>
+
+<listitem>
+<para>
+最初の値が3つ以上ある場合は、予期しない結果となる場合があります。慎重に操作してください。
+</para>
+</listitem>
+
+</itemizedlist>
+
+</sect2>
+
+</sect1>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         
+

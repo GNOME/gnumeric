@@ -1,0 +1,8 @@
+<glossentry id="demo">
+  <glossterm>Demo:</glossterm>
+  <glossdef>
+    <para>
+      A demo glossary entry
+    </para>
+  </glossdef>
+</glossentry>

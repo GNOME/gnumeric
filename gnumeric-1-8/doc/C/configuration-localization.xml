@@ -1,0 +1,35 @@
+<sect1 id="sect-configuration-localization">
+  <title>Languages and Locales</title>
+
+  <para>
+    &gnum; can be run in many languages with settings for number
+    formats, currencies and dates appropriate to each particular
+    area. Unfortunately, this aspect of the program is exceedingly
+    complex and requires the proper participation of the underlying
+    operating system. This dependency makes it impossible for this
+    manual to provide a complete explanation. The operating system
+    should include a complete discussion of locales and location
+    settings.
+  </para>
+
+  <para>
+    By default, &gnum; finds the configuration currently used by the
+    user and sets the language and locale settings appropriately.
+  </para>
+
+  <para>
+    It is also possible to run &gnum; using the language and
+    locale settings for a different place. This should be possible
+    simply by redefining the <userinput>LC_ALL</userinput>
+    environmental variable. For example, using the
+    <application>bash</application> shell it should be possible,
+    within a terminal, type:
+<screen>
+LC_ALL=fr_FR gnumeric &amp;
+</screen>
+    to make gnumeric open with its menus displayed in French and using
+    the french convention for numbers and currency.
+  </para>
+
+</sect1>
+

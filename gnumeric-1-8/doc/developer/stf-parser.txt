@@ -1,0 +1,230 @@
+Gnumeric Structured Text Format (STF) Parser
+============================================
+
+by Almer S. Tigelaar
+
+1. Creation/destruction
+2. Row separators
+3. Trimming
+4. Modification determination
+5. CSV Parsing
+	5.1 General
+	5.2 What is the string indicator?
+	5.3 How are adjacent string indicators handled?
+	5.4 What does "duplicates" mean?
+6. Fixed width parsing
+7. Cached parsing
+
+1. Creation/Destruction
+=======================
+
+	To parse you first need to create a StfParseOptions_t struct. 
+	this can be done like :
+
+		StfParseOptions_t *parseoptions;
+
+		parsoptions = stf_parse_options_new ();
+
+	After using a parse options struct you must free it by calling :
+
+		stf_parse_options_free (parseoptions);
+
+	You _HAVE_ to set the parsing method you want to use, either csv or
+	fixed width, you do this with :
+
+		stf_parse_options_set_type (parseoptions, parsetype);
+
+	where parsetype is PARSE_TYPE_CSV or PARSE_TYPE_FIXED.
+
+2. Row separators
+=================
+
+	Normally the newline (\n) character is used to separate rows, however it can
+	in some cases be desirable to set this to something else, e.g. a return character
+	(\r). You can archieve this by typing :
+
+		stf_parse_options_set_line_terminator (parseoptions, '\r');
+
+3. Trimming
+===========
+	
+	An common problem is to get excess spaces on left and/or right sides
+	of parsed text, e.g :
+	
+		" Example "
+	
+	This is in most cases undesirable. Therefore the stf parser removes
+	these spaces on _both_ sides by default :
+
+		"Example"
+
+	You can turn this off or change this with :
+
+		stf_parse_options_set_trim_spaces (parseoptions, TRIM_TYPE_NEVER);
+		stf_parse_options_set_trim_spaces (parseoptions, TRIM_TYPE_LEFT);
+		stf_parse_options_set_trim_spaces (parseoptions, TRIM_TYPE_RIGHT);
+		stf_parse_options_set_trim_spaces (parseoptions, TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
+
+4. Modification determination
+=============================
+
+	If you want to know, between several functions calls, if the actual contents of
+	the StfParseOptions_t struct have been modified you can use the before and after
+	modification calls, like :
+	
+		stf_parse_options_before_modification (parseoptions);
+
+		/* make some changes to the parseoptions with the set functions calls */
+
+		if (stf_parse_options_after_modification (parseoptions)) {
+			/* The parse options contents have changed...do something */
+		}
+
+	Note that this will keep track of content changes, for example :
+	(Splitpositions contains the numbers 5, 7 and 9 before modification)
+
+		stf_parse_options_before_modification (parseoptions);
+
+		stf_parse_options_fixed_splitpositions_clear (parseoptions);
+		stf_parse_options_fixed_splitpositions_add (parseoptions, 5);
+		stf_parse_options_fixed_splitpositions_add (parseoptions, 7);
+		stf_parse_options_fixed_splitpositions_add (parseoptions, 9);
+	
+		stf_parse_options_after_modification (parseoptions);
+	
+	stf_parse_options_after_modification WILL return FALSE, even though you cleared the splitpositions
+	and re-added them the contents (5, 7 and 9) remain the same, so the parseoptions have not been
+	modified.
+	
+5.1 CSV Parsing -> General
+==========================
+
+	CSV parsing is parsing data like :
+	
+		hello;this;is;data
+		this;is;the;second;row;of;data
+	
+	So lines with columns separated by separators, in this case a colon.
+
+	The general way to parse CSV data is :
+
+		stf_parse_options_set_type                (parseoptions, PARSE_TYPE_CSV);
+		stf_parse_options_csv_set_separators      (parseoptions, ";", NULL);
+		stf_parse_options_csv_set_stringindicator (parseoptions, '\"');
+		stf_parse_options_csv_set_duplicates      (parseoptions, FALSE);
+
+	This code will set the tab and colon characters to be recognized as column separators and
+	it will set the " characters as the string indicator and it sets no duplicates.
+
+	after that we'll call a parsing routine (for the example I'll call the general one)
+	(normally you don't call the stf_parse_general and stf_parse_general_cached directly,
+	 you create a separate function which parses the GSList returned by stf_parse_general or
+	 stf_parse_general_cached into a custom datastructure)
+
+		GSList *mylist;
+
+		mylist = stf_parse_general (parseoptions);
+
+5.2 CSV Parsing -> What is the string indicator?
+================================================
+
+	If you have data where the column separator(s) also appear within
+	the column themselves the string indicator can be quite handy.
+	Say you have the following data to parse :
+
+		"some";"example;data"
+
+	if you would set the string indicator to none and the column separator to
+	colon you would get three cells : 
+
+		"some" 
+		"example 
+		data"
+
+	This is not what we want ofcourse, "example;data" should be in one cell, so we
+	can force this be setting the string indicator to " , then the result would be 
+	two cells :
+
+	some
+	example;data
+
+5.3 CSV Parsing -> How are adjacent string indicators handled?
+============================================================
+
+	When parsing fields which are bounded by string indicators the convention
+	of doubling the indicator is used to encode an indicator that is NOT
+	the termination of the string.
+	eg
+	    "a""b"  encodes either the string
+		a"b
+	    or
+		ab
+	
+	To turn this off (it is turned on by default) you can use the following function :
+
+		stf_parse_options_csv_set_indicator_2x_is_single  (parseoptions, FALSE);
+
+5.4 CSV Parsing -> What does duplicates mean?
+=============================================
+
+	This means that several column separators are seen as one.
+	Say we have this data :
+
+		this;is;some;;data
+
+	(Notice the double colon)
+	If we would parse this with duplicates set to FALSE, we would get 5 cells :
+	
+		this
+		is
+		some
+		               <-- empty
+		data
+
+	However if we would parse this with duplicates set to TRUE, we would get only 4 cells :
+
+		this
+		is
+		some
+		data
+
+	So the two colons between "some" and "data" are seen as one.
+
+6. Fixed width parsing
+======================
+
+	Fixed width means that each column consists of a fixed number of characters.
+	if we have :
+
+		hello this is     a test
+		is    this really a test
+		yes   it   is     a test
+
+	Now you can see that each column has a certain, fixed, width. 
+	The widths of the sample data are : 6, 5, 7, 2, 4
+	But we always have to give absolute positions so the list will
+	become : 6, 11, 18, 20, 24
+	If we want to parse this we'll do it like this :
+
+		stf_parse_options_fixed_splitpositions_clear (parseoptions);
+		stf_parse_options_fixed_splitpositions_add   (parseoptions, 6);
+		stf_parse_options_fixed_splitpositions_add   (parseoptions, 11);
+		stf_parse_options_fixed_splitpositions_add   (parseoptions, 18);
+		stf_parse_options_fixed_splitpositions_add   (parseoptions, 20);
+		stf_parse_options_fixed_splitpositions_add   (parseoptions, 24);
+
+	Alternatively you can also call the autodiscovery function :
+
+		stf_parse_options_fixed_autodiscover (parseoptions, lines, text);
+
+	This function will try to recognize columns in the text and adjust the
+	splitpositions accordingly.
+
+	after that we'll call a parsing routine (for the example I'll call the general one)
+	(normally you don't call the stf_parse_general and stf_parse_general_cached directly,
+	 you create a separate function which parses the GSList returned by stf_parse_general or
+	 stf_parse_general_cached into a custom datastructure)
+
+		GSList *mylist;
+
+		mylist = stf_parse_general (parseoptions);

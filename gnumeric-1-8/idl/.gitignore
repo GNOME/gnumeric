@@ -1,0 +1,13 @@
+Makefile.in
+Makefile
+.deps
+GNOME_Gnumeric.h
+GNOME_Gnumeric-common.c
+GNOME_Gnumeric-skels.c
+GNOME_Gnumeric-stubs.c
+stamp_Gnumeric_idl
+GNOME_Gnumeric_Graph.h
+GNOME_Gnumeric_Graph-common.c
+GNOME_Gnumeric_Graph-skels.c
+GNOME_Gnumeric_Graph-stubs.c
+stamp_Gnumeric_Graph_idl

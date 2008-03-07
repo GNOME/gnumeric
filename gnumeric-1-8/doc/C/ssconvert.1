@@ -1,0 +1,175 @@
+.TH SSCONVERT 1 "September 27, 2003" gnumeric "GNOME"
+.SH NAME
+ssconvert \- a command line spreadsheet format converter
+
+.SH SYNOPSIS
+\fBssconvert\fR [\fIOPTIONS\fR] \fIinfile\fR \fIoutfile\fR
+
+.SH DESCRIPTION
+\fBssconvert\fR is a command line utility to convert spreadsheet files
+between various spreadsheet file formats. It is a companion utility to
+\fBGnumeric\fR, the powerful spreadsheet program created by the GNOME
+project.
+
+\fBssconvert\fR accepts either file names or URIs as \fIinfile\fR
+\fIoutfile\fR.  The special URIs \fIfd://0\fR and \fIfd://1\fR can be
+used for standard input and standard output respectively.
+
+
+.\".SH RETURN VALUE
+.\".SH EXIT STATUS
+.SH OPTIONS
+This program follows the usual GNU command line syntax, with single
+letter options starting with a single dash (`-') and longer options
+starting with two dashes (`--').
+
+.SS "Main options"
+.TP
+.B \-\-list\-exporters
+List the available exporters (file formats)
+.TP
+.B \-\-list\-importers
+List the available importers (file formats)
+.TP
+.B \-E, \-\-import\-encoding=\fISTRING\fR
+Specify an encoding for imported content.  This is only necessary when
+the right encoding does not follow from the input file name.
+.TP
+.B \-T, \-\-export\-type=\fIID\fR
+Specify which exporter to use; see below for a list.  This is only
+necessary when the right encoding does not follow from the output file
+name.
+.TP
+.B \-\-recalc
+Recalculate all formulas before writing.
+
+.SS "Help options"
+.TP
+.B \-v, \-\-version
+Display ssconvert's version
+.TP
+.B \-h, \-\-help, \-\-usage
+Display a brief usage message
+
+.SS "Path options"
+.TP
+.B \-L, \-\-lib\-dir=STRING
+Set the root library directory
+.TP
+.B \-D, \-\-data\-dir=STRING
+Adjust the root data directory
+
+.SH LIST OF IMPORTANT IDS
+.TP
+Gnumeric_XmlIO:sax
+Gnumeric XML file format
+.TP
+Gnumeric_Excel:excel_dsf   
+MS Excel (tm) 97/2000/XP & 5.0/95
+.TP
+Gnumeric_pdf:pdf_assistant
+Portable Document Format
+.TP
+Gnumeric_stf:stf_csv 
+Comma Separated Values
+
+.SH LIST OF LESS IMPORTANT IDS
+.TP
+Gnumeric_sylk:sylk
+Multiplan
+.TP
+Gnumeric_Excel:xlsx
+MS Excel (tm) 2007
+.TP
+Gnumeric_Excel:excel_biff8 
+MS Excel (tm) 97/2000/XP
+.TP
+Gnumeric_Excel:excel_biff7 
+MS Excel (tm) 5.0/95
+.TP
+Gnumeric_dif:dif           
+Data Interchange Format (*.dif)
+.TP
+Gnumeric_html:roff         
+TROFF (*.me)
+.TP
+Gnumeric_html:latex_table        
+LaTeX 2e (*.tex) table fragment
+.TP
+Gnumeric_html:latex        
+LaTeX 2e (*.tex)
+.TP
+Gnumeric_html:xhtml_range  
+XHTML range - for export to clipboard
+.TP
+Gnumeric_html:xhtml        
+XHTML (*.html)
+.TP
+Gnumeric_html:html40frag   
+HTML (*.html) fragment
+.TP
+Gnumeric_html:html40       
+HTML 4.0 (*.html)
+.TP
+Gnumeric_html:html32       
+HTML 3.2 (*.html)
+.TP
+Gnumeric_OpenCalc:openoffice
+OpenDocument/OpenOffice (*.ods)
+.TP
+Gnumeric_stf:stf_assistant           
+Text export (configurable)
+
+.\".SH USAGE
+.SH EXAMPLE
+To convert the gnumeric file \fIfoo.gnumeric\fR to a Microsoft Excel(TM) file
+\fIfoo.xls\fR:
+.PP
+\fBssconvert\fR \fB\-\-export\-type=\fRGnumeric_Excel:excel_dsf\fR \fIfoo.gnumeric\fR \fIfoo.xls\fR
+.PP
+
+.\".SH ENVIRONMENT
+.\".SH DIAGNOSTICS
+.\".SH SECURITY
+.\".SH CONFORMING TO
+.\".SH NOTES
+.SH BUGS
+
+\fBssconvert\fR is a recent addition to Gnumeric. Its main limitation is
+that there is currently no provision for importer or exporter specific flags.
+
+.SH LICENSE
+
+\fBssconvert\fR is licensed under the terms of the General Public
+License (GPL), version 2. For information on this license look at the
+source code that came with the software or see the 
+.UR http://www.gnu.org
+GNU project page
+.UE
+at http://www.gnu.org/.
+
+.SH COPYRIGHT
+
+The copyright on the \fBgnumeric\fR software and source code is held
+by the individual authors as is documented in the source code.
+
+.SH AUTHOR
+
+\fBssconvert\fR's primary author is Jody Goldberg <jody@gnome.org>; 
+\fBssconvert\fR builds on the \fBgnumeric\fR codebase.
+
+The initial version of this manpage was written by J.H.M. Dassen (Ray)
+<jdassen@debian.org>.
+
+.SH SEE ALSO
+\fBgnumeric\fR(1)
+
+.UR http://www.gnome.org/projects/gnumeric/
+The Gnumeric Homepage
+.UE
+at \fIhttp://www.gnome.org/projects/gnumeric/\fR
+
+.UR http://www.gnome.org/
+The GNOME project page
+.UE
+at \fI http://www.gnome.org/\fR

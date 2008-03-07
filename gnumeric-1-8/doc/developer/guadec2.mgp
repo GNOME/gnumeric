@@ -1,0 +1,310 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% "tfont" defs in this part is for those who have downloaded Microsoft
+%% TrueType fonts (or those who mounting Windows partition from your UNIX
+%% partition).
+%% those are available at: http://microsoft.com/typography/fontpack/default.htm
+%% and they require Windows licence to extract the archive.
+%%
+%% If you got Computer Modern fonts in TrueType format, you may want to
+%% use the following settings:
+%%	"cmss10.ttf" for standard, "cmssbx10.ttf" for thick,
+%%	"cmtt10.ttf" for typewriter
+%% CM fonts are avaiable at CTAN mirros, pub/CTAN/fonts/cm/ps-type1/bakoma/ttf.
+%% unlike MS ones, it does not require Windows license!
+%%
+%% see README.fonts{,.jp} for more detailed milage you take.
+%%
+%deffont "standard" xfont "helvetica-medium-r", vfont "goth", tfont "arial.ttf", tmfont "wadalab-gothic.ttf"
+%deffont "thick" xfont "helvetica-bold-r", vfont "goth", tfont "arialbd.ttf", tmfont "wadalab-gothic.ttf"
+%deffont "typewriter" xfont "courier-medium-r", vfont "goth", tfont "courbd.ttf", tmfont "wadalab-gothic.ttf"
+%%
+%% Default settings per each line numbers.
+%%
+%default 1 leftfill, size 2, fore "white", back "black", font "thick"
+%default 2 size 7, vgap 10, prefix " "
+%default 3 size 2, bar "gray70", vgap 10
+%default 4 size 5, fore "white", vgap 30, prefix " ", font "standard"
+%%
+%% Default settings that are applied to TAB-indented lines.
+%%
+%tab 1 size 7, vgap 60, prefix "  ", icon box "green" 50
+%tab 2 size 5, vgap 50, prefix "      ", icon arc "yellow" 50
+%tab 3 size 5, vgap 40, prefix "            ", icon delta3 "white" 40
+%tab 4 size 4, vgap 40, prefix "                     ", icon arc "red" 30
+%tab 5 size 4, vgap 40, prefix "                         ", icon delta1 "white" 30
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+
+%right
+State of GNOME Office
+%left
+
+	Who needs an office suite ?
+		Church Secretaries
+		Students
+		Office Workers
+		Short story: Everyone!
+%page
+
+%right
+State of GNOME Office
+%left
+
+		What is GNOME Office ?
+			A loose collection of programs?
+			A (soon to be) well integrated suite of applications?
+			A set of supporting libraries too?
+			Something else?
+
+		Applications associated with GNOME Office
+			Gnumeric Abiword Guppi Achtung
+			Dia Sodipodi Toutdoux Mrproject Evolution
+			Gnucash Gimp Gide
+			Open Office
+		Libraries associated with GNOME Office
+			Gnome Print	LibXML
+			LibOLE		GAL/EEL		wvWare
+%page
+
+%right
+State of Gnumeric
+%left
+
+	What is Gnumeric
+		A spreadsheet
+			"As close to Excel as necessary but no closer"
+
+		Created by Miguel almost 3 years ago
+		Showcases GNOME technology
+%page
+
+%right
+State of Gnumeric
+%left
+
+What is Gnumeric
+	What is our Quest
+		Provide a viable replacement for commercial spreadsheets
+			Use MS strategy 'Embrace Extend ...'
+			Concentrate of minimising cost of transition
+
+		Produce a high quality spreadsheet
+			Correctness
+			Maintainability
+			Completeness
+			Performance
+%page
+
+%right
+State of Gnumeric
+%left
+
+What is Gnumeric
+What is our Quest
+	What is the ground speed of an unladen swallow
+%page
+
+%right
+State of Gnumeric
+%left
+
+	Overall State
+		Characterise year as 'maturing'
+		# bugs vs panel
+		Attack of the Grandmothers
+		Establish release protocols
+		Fill in and test existing features
+		Improve internationalization
+		Portability
+%page
+
+%right
+State of Gnumeric
+%left
+
+	User Features
+		Structured Text import/export
+		Improve plugin architecture
+		Applix Import
+		Hidden rows/cols
+		Merged cells
+		Autoformat
+		Weighted undo completed
+%page
+
+%right
+State of Gnumeric
+%left
+
+	Developer Features
+		Workbook MVC split
+		Asymmetric Quad-tree style storage
+		Core support for graphing and sheet objects
+		Async UI update
+		Pending 
+			Outline mode support
+			Use of Gnumeric as Bonobo::{Control,Embeddable}
+			Improved parse errors (leading to validation)
+		Unscheduled
+			Support just in time render and span
+			Conditional formating
+			Move Cells into a-quadtree
+%page
+
+%right
+State of Gnumeric
+%left
+
+	Plans
+		1.0
+			Target simple home use
+			Charts
+			Frozen/Split Panes
+			Release during 2001
+			Feature freeze in July
+		1.2
+			Gui/Core split
+			Pivots
+			Scripting API Proposal
+		Beyond
+			Doom Component as Flight simulator proxy
+%page
+
+%right
+State of Gnumeric
+%left
+
+	The competition
+		OpenCalc
+		kspread
+		misc smaller offerings (siag, sc ...)
+%page
+
+%right
+State of Gnumeric
+%left
+
+Active Gnumeric Community
+		Alan Cox		Almer
+		Ariel		Chema
+		Dom Lachowicz	ERDI Gergo 
+		Hardy Falk		JPR
+		JPablo		Jacob
+		John Gill		Jon Kare
+		Jukka		Kenneth 
+		Marko		Matthew D. Bissiri
+		Michael Levy		Michael Meeks
+		Miguel		Mike Kestner
+		Morten		Pablo De Napoli
+		Thomas Canty		Vlad Harchev
+		Zbigniew Chyla	Translators & Testers
+%page
+
+%right
+State of AbiWord
+%left
+
+	What is AbiWord
+		A WYSIWYG wordprocessor
+			Abi = Free (in Spanish)
+
+		Created by AbiSource 3 years ago
+		Modular XP document creation package
+		Works on just about any Unix, BeOS, QNX, Win32, and MacOS
+%page
+
+%right
+State of AbiWord
+%left
+
+	Feature List :
+		Text, Image, Paragraph, Section formatting
+		Multiple Views
+		Tons of conversion filters
+		Fields
+		Styles
+		Multiple column layout
+		Multi-language spell-checking
+		Editable headers/footers
+		Lists
+		Just about every other thing that you'd expect in a WP
+			Except for tables
+%page
+
+%right
+State of AbiWord
+%left
+
+	What is XP?
+			A lot of things...
+				A way of thinking/designing
+				A way of life
+				A side-effect of good (or trivially simple ;) code/design
+				Good design and conforming code makes XP easy to achieve
+				A side-effect of an implementation language
+	So what does the Abi-Framework mean?
+				Abi on Windows looks like MSWord.
+				Abi on Gnome looks like Gnumeric or Evolution
+				Native component use/reuse
+				AbiWord achieves true integration with its host platform
+				Able to achieve anything that the underlying platform provides
+				Similar functionality is implemented on each platform
+%page
+
+%right
+State of AbiWord
+%left
+
+	libwv
+		XP MSWord DOC converter
+		Based on GLib and LibOLE2 and a lot of ANSI C code
+		wvWare
+				wvHTML, wvLaTeX, wvWML, wvABW, wvRTF, wvText
+				wvPS, wvDVI, wvPDF
+				etc...
+		Reads MSWord docs version 2->9 (Word 2 -> Word2000)
+		Stand-Alone library interface, usable by apps
+		Soon * -> DOC converter
+%page
+
+%right
+State of AbiWord
+%left
+
+So where does GNOME fit into the Abi framework?
+	Outright XP library usage
+			LibOLE2
+			GLib
+			GTK+
+	Gnome Libs currently used
+			Gnome Libs
+			Gnome Print 
+			GAL
+			Gnome Libs that will be used in the very near future
+				Bonobo
+				GConf
+				GB ?
+%page
+
+%right
+State of AbiWord
+%left
+
+	Plans
+		1.0
+			User definable Styles
+%page
+
+%right
+State of GNOME Office
+%left
+
+End result ?
+	Strive to push more things into lower-level libs
+	GAL,  Gnome Print, etc...
+	Put more functionality into these libs
+	Print to PDF, Fax
+	More 'clean' widgets not in GTK+ or Gnome Libs/UI
+	Get all Gnome apps to use these libs
+	Everyone benefits

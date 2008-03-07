@@ -1,0 +1,37 @@
+/* $Id$/
+
+Cell Content		Jody Goldberg <jody@gnome.org>
+
+
+Overview
+    GnmCell is one of the most widely used aspects of Gnumeric.  This document
+    describes the operations and state changes that are available.
+
+Content
+    location : Cells contain pointers to their sheet, the row, and the column
+               that contains them.  This may change.
+
+    value : A GnmValue *.  All displayable cells should have a value.
+
+    renderedvalue : A placeholder for future use.
+
+LifeCycle
+
+    When a cell is first created it is initialized to have value_empty and no location.
+
+Actions
+    - Mark sheet as dirty
+    - Queue depends for recalc
+    - Calculate
+    - Render
+    - Dimension
+    - Spans
+    - Redraw
+    - link expression to master list
+    - Update the edit area
+    - Recalc the auto expression
+
+Future plans
+    - just in span calculation
+    - span ovelap
+    - Have spans use run length encoding

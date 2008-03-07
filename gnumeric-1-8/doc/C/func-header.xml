@@ -1,0 +1,10 @@
+<appendix id="function-reference">
+  <title>Function Reference</title>
+
+  <para>
+    This appendix provides a list of all the functions which are
+    currently defined in Gnumeric.
+    <!-- Do not use &gnum; here we use xmllint to validate and format functions.xml
+         and it does not have access to the entities -->
+  </para>
+ 

@@ -1,0 +1,409 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
+2008-01-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.1
+
+2007-12-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.0
+
+2007-12-03  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.91
+
+2007-11-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.90
+
+2007-11-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.14
+
+2007-10-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.13
+
+2007-09-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.12
+
+2007-07-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.11
+
+2007-05-03  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.10
+
+2007-04-21  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.9
+
+2007-03-04  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.8
+
+2007-02-16  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.7
+
+2006-12-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.6
+
+2006-12-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.5
+
+2006-11-20  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.4
+
+2006-11-19  Morten Welinder <terra@gnome.org>
+
+	* Release 1.7.3
+
+2006-10-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.2
+
+2006-10-02  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.1
+
+2006-05-31  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (cb_randdiscrete) : Adjust to signature change in
+	  CellIterFunc.
+
+2006-05-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.7.0
+
+2006-02-06  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_randbetween): Fix Excel compatibility for
+	not-integer arguments.
+	(gnumeric_randnegbinom, gnumeric_randhyperg, gnumeric_randgumbel):
+	Take arguments larger than ints.
+	(gnumeric_randgeom, gnumeric_randlog): Handle results larger than
+	int.
+
+2005-11-14  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.1
+
+2005-10-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.6.0
+
+2005-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.90
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.5
+
+2005-08-28  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.4
+
+2005-08-15  Morten Welinder <terra@gnome.org>
+
+	* Release 1.5.3
+
+2005-06-13  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.2
+
+2005-05-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.1
+
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
+2005-01-17  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.2
+
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.1
+
+2004-11-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.0
+
+2004-11-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.93
+
+2004-10-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.92
+
+2004-10-05  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.91
+
+2004-09-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.90
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.1
+
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.0
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
+2003-11-26  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.2
+
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.1
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-07-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* function.c: fix randuniform docs ever so slightly
+	
+2003-07-16  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=115812
+	* functions.c : clarify randuniform docs slightly as per
+
+2003-07-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* function.c: replace `Gaussian' with `normal' or `norm' throughout.
+	* plugin.xml.in: ditto
+
+2003-07-05  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (cb_randdiscrete) : new evaluation semantics do not
+	  guarantee that range content will be evaluated before being called.
+
+2003-06-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* plugin.xml.in: Change to `Random Numbers' category
+	
+2003-06-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* functions.c: spelling fixes
+	
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.19
+
+2003-06-07  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.18
+
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
+2002-12-31  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.15
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
+2002-11-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.12
+
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.11
+
+2002-10-27  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.10
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
+2002-08-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.8
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : Do not translate ""
+
+2002-08-04  Jon K Hellan  <hellan@acm.org>
+
+	* functions.c: Include rangefunc.h.
+
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+2002-08-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c (gnumeric_randdiscrete): Added RANDDISCRETE().
+
+2002-07-30  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Added SIMTABLE() function which interacts with risk
+	simulation tool.
+
+2002-07-28  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Even more function description clean up.
+
+2002-07-27  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Function description clean up.
+
+2002-07-23  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Moved PDFRAYLEIGH(), PDFRAYLEIGHTAIL() to
+	fn-stat. Completed the move.
+
+	* gsl-pdf.[ch]: Removed.
+
+2002-07-23  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Moved PDFCAUCHY(), PDFLANDAU(), PDFLOGISTIC(),
+	PDFPARETO() to fn-stat.
+
+2002-07-23  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Moved PDFBERNOULLI() to fn-stat (renamed to
+	BERNOULLI()). Removed PDFGAMMA() and PDFEXP().
+
+2002-07-23  Jukka Pekka  <jiivonen@cs145201.pp.htv.fi>
+
+	* functions.c: Started moving probability density fns to fn-stat
+	since they belong to there.  Moved PDFGEOM() (renamed to
+	GEOMDIST()).
+
+2002-07-22  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Added PDFRAYLEIGHTAIL(), PDFLOGNORM(), PDFGEOM(),
+	PDFFDIST(), PDFTDIST(), PDFPARETO(), PDFLOGISTIC().
+
+2002-07-22  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Added PDFBINOM(), PDFNEGBINOM(), PDFPOISSON(),
+	PDFWEIBULL().
+
+2002-07-22  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* gsl-pdf.c (random_bernoulli_pdf, random_binomial_pdf,
+	random_cauchy_pdf, random_chisq_pdf, random_hypergeometric_pdf,
+	random_landau_pdf, random_logistic_pdf, random_lognormal_pdf,
+	random_negative_binomial_pdf, random_pareto_pdf,
+	random_poisson_pdf, random_rayleigh_pdf, random_rayleigh_tail_pdf,
+	random_tdist_pdf, random_weibull_pdf): Imported from the GSL.
+
+	* functions.c: Added PDFBERNOULLI(), PDFCAUCHY(), PDFLANDAU(), and
+	PDFRAYLEIGH().
+
+2002-07-22  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* gsl-pdf.c (random_gamma_pdf, random_beta_pdf, 
+	random_exponential_pdf): Imported from GSL.
+
+	* functions.c: Added PDFBETA(), PDFEXP(), PDFEXPPOW(), PDFGAMMA(),
+	PDFLAPLACE().
+
+2002-07-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Added RANDGAUSSIANTAIL().
+
+2002-07-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Added RANDLANDAU().
+
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
+2002-07-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Added RANDRAYLEIGHTAIL().
+
+2002-07-21  Jukka Pekka  <jiivonen@cs145201.pp.htv.fi>
+
+	* functions.c: Added RANDEXPPOW().
+
+2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Added RANDGUMBEL() and RANDLEVY().
+
+2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Added RANDTDIST(). Renamed RANDNORM() to
+	RANDGAUSSIAN() since it takes the parms.
+
+2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Added RANDBETA(), RANDCHISQ(), RANDFDIST(), RANDGEOM(), 
+	RANDHYPERG(), RANDLOG(), and RANDLOGISTIC().
+
+2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Added RANDGAMMA(), RANDLAPLACE(), RANDPARETO(),
+	and RANDWEIBULL().
+
+2002-07-17  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Added RANDNORM(), RANDLOGNORM(), RANDCAUCHY(), and
+	RANDUNIFORM().
+
+2002-07-13  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : fix includes.
+
+2002-07-08  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c: Moved RAND(), RANDBERNOULLI(), RNADBETWEEN(),
+	RANDBINOM(), RANDEXP(), RANDNEGBINOM(), and RANDPOISSON() from
+	fn-math to here.
+

@@ -1,0 +1,214 @@
+<!--//
+  TODO
+    Verbleibende, nicht übersetzte Aufgaben der Entwickler übersetzen.
+//-->
+<sect1 id="authors-intro">
+  <title>Autoren</title>
+  <table frame='none'>
+    <title><application>Gnumeric</application> wurde geschrieben von</title>
+    <tgroup cols='3' align='left' colsep='0' rowsep='0'>
+      <tbody>
+      <row>
+	<entry>Miguel de Icaza</entry>
+	<entry>Initiator</entry><entry>
+	<email>miguel@gnome.com</email></entry>
+      </row>
+      <row>
+	<entry>Jody Goldberg</entry>
+	<entry>Maintainer</entry><entry>
+	<email>jody@gnome.org</email></entry>
+      </row>
+      <row>
+	<entry>Morten Welinder</entry>
+	<entry>Kernentwickler, Purification</entry>
+      </row>
+      <row>
+	<entry>Jon K. Hellan</entry>
+	<entry>Kernentwickler, Grafische Benutzeroberfläche</entry>
+      </row>
+      <row>
+	<entry>Jukka-Pekka Iivonen</entry>
+	<entry>Kernentwickler, Funktionen und Werkzeuge</entry>
+      </row>
+      <row>
+	<entry>Michael Meeks</entry>
+	<entry>Kernentwickler, Excel</entry>
+      </row>
+      <row>
+	<entry>Almer S. Tigelaar</entry>
+	<entry>Kernentwickler, STF, Auto-Formatierung</entry>
+      </row>
+
+      <row>
+	<entry>Sean Atkinson</entry>
+	<entry>Funktionen und X-Base-Import</entry>
+      </row>
+      <row>
+	<entry>Kenneth Christiansen</entry>
+	<entry>Internationalisierung, Verschiedenes</entry>
+      </row>
+      <row>
+	<entry>Zbigniew Chyla</entry>
+	<entry>Plugin-System, Internationalisierung, Python</entry>
+      </row>
+      <row>
+	<entry>Tom Dyas</entry>
+	<entry>Plugin-System</entry>
+      </row>
+      <row>
+	<entry>ERDI Gergo</entry>
+	<entry>Verschiedne Widgets</entry>
+      </row>
+      <row>
+	<entry>Andreas J. Gülzow</entry>
+	<entry>Statistische Werkzeuge, HTML- and LaTeX-Export</entry>
+      </row>
+      <row>
+	<entry>Ross Ihaka</entry>
+	<entry>Spezialfunktionen</entry>
+      </row>
+      <row>
+	<entry>Lutz Muller</entry>
+	<entry>Verbesserungen an SheetObject</entry>
+      </row>
+      <row>
+	<entry>Yukihiro Nakai</entry>
+	<entry>Unterstützung für Eingabemethoden und Multi-Byte-Zeichen</entry>
+      </row>
+      <row>
+	<entry>Federico M. Quintero</entry>
+	<entry>Canvas-Unterstützung</entry>
+      </row>
+      <row>
+	<entry>JP Rosevear</entry>
+	<entry>Sortieren sowie INDEX</entry>
+      </row>
+      <row>
+	<entry>Ariel Rios</entry>
+	<entry>Guile-Unterstützung</entry>
+      </row>
+      <row>
+	<entry>Mark Probst</entry>
+	<entry>Guile-Unterstützung</entry>
+      </row>
+      <row>
+	<entry>Frank Chiulli</entry>
+	<entry>OLE-Unterstützung</entry>
+      </row>
+      <row>
+	<entry>Arturo Tena</entry>
+	<entry>OLE-Unterstützung</entry>
+      </row>
+      <row>
+	<entry>Tuomas Kuosmanen</entry>
+	<entry>Grafische Gestaltung</entry>
+      </row>
+      <row>
+	<entry>Jakub Steiner</entry>
+	<entry>Grafische Gestaltung</entry>
+      </row>
+      <row>
+	<entry>Grandma Chema Celorio</entry>
+	<entry>QA sowie Kopieren von Blättern</entry>
+      </row>
+      <row>
+	<entry>Juan Pablo</entry>
+	<entry>QA</entry>
+      </row>
+      <row>
+	<entry>Kevin Breit</entry>
+	<entry>Dokumentation</entry>
+      </row>
+      <row>
+	<entry>Thomas Canty</entry>
+	<entry>Dokumentation</entry>
+      </row>
+      <row>
+	<entry>Adrian Custer</entry>
+	<entry>QA, Dokumentation</entry>
+      </row>
+      <row>
+	<entry>Adrian Likins</entry>
+	<entry>QA, Dokumentation</entry>
+      </row>
+      <row>
+	<entry>Wayne Schuller</entry>
+	<entry>Dokumentation, Drucker-Kopfzeilen</entry>
+      </row>
+      <row>
+	<entry>Aaron Weber</entry>
+	<entry>Dokumentation</entry>
+      </row>
+      <row>
+	<entry>Alexander Kirillov</entry>
+	<entry>Dokumentation</entry>
+      </row>
+      <row>
+	<entry>J.H.M. (Ray) Dassen</entry>
+	<entry>Debian-Paketisierung</entry>
+      </row>
+      <row>
+	<entry>John Gotts</entry>
+	<entry>RPM-Paketisierung</entry>
+      </row>
+
+      <row>
+	<entry>Takashi Matsuda</entry>
+	<entry>Ursprüngliches Text-Plugin</entry>
+      </row>
+      <row>
+	<entry>Vincent Renardias</entry>
+	<entry>Ursprüngliche CSV-Unterstützung</entry>
+      </row>
+      <row>
+	<entry>Alan Cox</entry>
+	<entry>Zweites CSV-Plugin</entry>
+      </row>
+      <row>
+	<entry>Bruno Unna</entry>
+	<entry>Ursprünglicher Format-Dialog</entry>
+      </row>
+      <row>
+	<entry>Daniel Veillard</entry>
+	<entry>Ursprüngliche DOM-Unterstützung</entry>
+      </row>
+      <row>
+	<entry>Vladimir Vuksan</entry>
+	<entry>Ursprüngliche Finanzfunktionen</entry>
+      </row>
+      <row>
+	<entry>Jakub Jelinek</entry>
+	<entry>Early canvas work</entry>
+      </row>
+      <row>
+	<entry>Chris Lahey</entry>
+	<entry>Ursprüngliche Zahlenformat-Engine</entry>
+      </row>
+      <row>
+	<entry>Rasca</entry>
+	<entry>Ursprünglicher HTML-, Troff- und LaTeX-Export</entry>
+      </row>
+      </tbody>
+    </tgroup>
+  </table>
+
+  <para>
+    Weitere Informationen zu <application>Gnumeric</application> können Sie auf der
+    <ulink url="http://www.gnumeric.org" type="http">Gnumeric-Website</ulink>
+    abrufen.
+  </para>
+
+  <para>
+     Falls Sie Kommentare oder Anregungen bezüglich dieser Anwendung oder der
+     Dokumentation haben, Hilfe benötigen oder einen Fehler berichten wollen, so
+     kontaktieren Sie uns bitte entweder über das <ulink
+     url="http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric" type="http">
+     Internet</ulink> oder via Mailinglie.
+  </para>
+
+  <para>
+   Die deutsche Übersetzung wurde von Christian Neumair (<email>chris@gnome-de.org
+   </email>) angefertigt. Bitte schicken Sie sämtliche Kommentare und Anregungen,
+   die sich auf diese Übersetzung beziehen, an o.g. E-Mail-Adresse.
+  </para>
+</sect1>

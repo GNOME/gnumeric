@@ -1,0 +1,559 @@
+<gconfschemafile>
+    <schemalist>
+      <schema>
+        <key>/schemas/apps/gnumeric/functionselector/recentfunctions</key>
+        <applyto>/apps/gnumeric/functionselector/recentfunctions</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+	<list_type>string</list_type>
+        <locale name="C">
+        <short>List of recently used functions.</short>
+        <long>The function selector keeps a list of recently used functions. This is that list.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/functionselector/num-of-recent</key>
+        <applyto>/apps/gnumeric/functionselector/num-of-recent</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>12</default>
+        <locale name="C">
+        <short>Maximum Length of Recently Used Functions List</short>
+        <long>The function selector keeps a list of recently used functions. This is the maximum length of that list.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/autocorrect/init-caps</key>
+        <applyto>/apps/gnumeric/autocorrect/init-caps</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Autocorrect initial caps</short>
+        <long>Autocorrect initial caps</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/autocorrect/init-caps-list</key>
+        <applyto>/apps/gnumeric/autocorrect/init-caps-list</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+	<list_type>string</list_type>
+        <locale name="C">
+        <short>List of Init Caps Exceptions</short>
+        <long>The autocorrect engine does not correct the initial caps for words in this list.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/autocorrect/first-letter</key>
+        <applyto>/apps/gnumeric/autocorrect/first-letter</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Autocorrect first letter</short>
+        <long>Autocorrect first letter</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/autocorrect/first-letter-list</key>
+        <applyto>/apps/gnumeric/autocorrect/first-letter-list</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+	<list_type>string</list_type>
+        <locale name="C">
+        <short>List of First Letter Exceptions</short>
+        <long>The autocorrect engine does not correct the first letter for words in this list.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/autocorrect/names-of-days</key>
+        <applyto>/apps/gnumeric/autocorrect/names-of-days</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Autocorrect names of days</short>
+        <long>Autocorrect names of days</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/autocorrect/replace</key>
+        <applyto>/apps/gnumeric/autocorrect/replace</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Autocorrect replace</short>
+        <long>Autocorrect replace</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/plugins/activate-new</key>
+        <applyto>/apps/gnumeric/plugins/activate-new</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Activate New Plugins</short>
+        <long>This variable determines whether to activate every new encountered plugin.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/plugins/active</key>
+        <applyto>/apps/gnumeric/plugins/active</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+	<list_type>string</list_type>
+        <locale name="C">
+        <short>List of Active Plugins.</short>
+        <long>This list contains all plugins that are supposed to be automatically activated.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/plugins/known</key>
+        <applyto>/apps/gnumeric/plugins/known</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+	<list_type>string</list_type>
+        <locale name="C">
+        <short>List of Known Plugins.</short>
+        <long>This list contains all known plugins.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/plugins/file-states</key>
+        <applyto>/apps/gnumeric/plugins/file-states</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+	<list_type>string</list_type>
+        <locale name="C">
+        <short>List of Plugin File States.</short>
+        <long>This list contains all plugin file states.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/plugins/extra-dirs</key>
+        <applyto>/apps/gnumeric/plugins/extra-dirs</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+	<list_type>string</list_type>
+        <locale name="C">
+        <short>List of Extra Plugin Directories.</short>
+        <long>This list contains all extra directories containing plugins.</long>
+        </locale>
+      </schema>
+       <schema>
+        <key>/schemas/apps/gnumeric/autoformat/extra-dirs</key>
+        <applyto>/apps/gnumeric/autoformat/extra-dirs</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+	<list_type>string</list_type>
+        <locale name="C">
+        <short>List of Extra Autoformat Directories.</short>
+        <long>This list contains all extra directories containing autoformat templates.</long>
+        </locale>
+      </schema>
+       <schema>
+        <key>/schemas/apps/gnumeric/autoformat/sys-dir</key>
+        <applyto>/apps/gnumeric/autoformat/sys-dir</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default>autoformat-templates</default>
+        <locale name="C">
+        <short>System Directory for Autoformats</short>
+        <long>This directory contains the pre-installed autoformat templates.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/autoformat/usr-dir</key>
+        <applyto>/apps/gnumeric/autoformat/usr-dir</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default>autoformat-templates</default>
+        <locale name="C">
+        <short>User Directory for Autoformats</short>
+        <long>The main directory for user specific autoformat templates.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/all-sheets</key>
+        <applyto>/apps/gnumeric/printsetup/all-sheets</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>Apply print-setup to all sheets</short>
+        <long>This value determines whether by default the print set-up dialog applies to all sheets simultaneously.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/gtk-setting</key>
+        <applyto>/apps/gnumeric/printsetup/gtk-setting</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+	<list_type>string</list_type>
+        <locale name="C">
+        <short>GTKPrintSetting</short>
+        <long>The configuration of GTKPrintSetting. Do not edit this variable.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/header</key>
+        <applyto>/apps/gnumeric/printsetup/header</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+	<list_type>string</list_type>
+	<default>[,&amp;\[TAB\],]</default>
+        <locale name="C">
+        <short>Page Header</short>
+        <long>The default page header for new documents that can be modified using the 
+	page setup dialog.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/footer</key>
+        <applyto>/apps/gnumeric/printsetup/footer</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+	<list_type>string</list_type>
+	<default>[,Page &amp;\[PAGE\],]</default>
+        <locale name="C">
+        <short>Page Footer</short>
+        <long>The default page footer for new documents that can be modified using the 
+	page setup dialog.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/hf-font-size</key>
+        <applyto>/apps/gnumeric/printsetup/hf-font-size</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>10</default>
+        <locale name="C">
+        <short>Default Header/Footer Font Size</short>
+        <long>The default font size for headers and footers.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/hf-font-name</key>
+        <applyto>/apps/gnumeric/printsetup/hf-font-name</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+        <locale name="C">
+	<default>Sans</default>
+        <short>Default header/footer font name</short>
+        <long>The default font name for headers and footers.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/hf-font-bold</key>
+        <applyto>/apps/gnumeric/printsetup/hf-font-bold</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>The default header/footer font is bold.</short>
+        <long>This value determines whether the default font for headers and footers is bold.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/hf-font-italic</key>
+        <applyto>/apps/gnumeric/printsetup/hf-font-italic</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>The default header/footer font is italic.</short>
+        <long>This value determines whether the default font for headers and footers is italic.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/dialogs/rs/unfocused</key>
+        <applyto>/apps/gnumeric/dialogs/rs/unfocused</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>Allow Unfocused Range Selections</short>
+        <long>Some dialogs contain only a single entry field that allows range selections in the workbook. Setting this variable to TRUE directs selections to this entry even if the entry does not have keyboard focus.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/center-horizontally</key>
+        <applyto>/apps/gnumeric/printsetup/center-horizontally</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>Default Horizontal Centering</short>
+        <long>This value determines the default setting in the Print Setup dialog: whether to center pages horizontally. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/center-vertically</key>
+        <applyto>/apps/gnumeric/printsetup/center-vertically</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>Default Vertical Centering</short>
+        <long>>This value determines the default setting in the Print Setup dialog: whether to center pages vertically. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/print-grid-lines</key>
+        <applyto>/apps/gnumeric/printsetup/print-grid-lines</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>Default Grid Line Printing</short>
+        <long>>This value determines the default setting in the Print Setup dialog whether print grid lines. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/print-even-if-only-styles</key>
+        <applyto>/apps/gnumeric/printsetup/print-even-if-only-styles</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>Default Print Cells with Only Styles</short>
+        <long>This value determines the default setting in the Print Setup dialog whether to print empty but formatted cells. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/print-black-n-white</key>
+        <applyto>/apps/gnumeric/printsetup/print-black-n-white</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>Default Black and White Printing</short>
+        <long>This value determines the default setting in the Print Setup dialog whether to print in only black and white. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/print-titles</key>
+        <applyto>/apps/gnumeric/printsetup/print-titles</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>Default Title Printing</short>
+        <long>This value determines the default setting in the Print Setup dialog whether to print row and column headers. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/across-then-down</key>
+        <applyto>/apps/gnumeric/printsetup/across-then-down</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>Default Print Direction</short>
+        <long>This value determines the default setting in the Print Setup dialog whether to print first right then down. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/scale-percentage</key>
+        <applyto>/apps/gnumeric/printsetup/scale-percentage</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Default Scale Type</short>
+        <long>This value determines the default setting in the Print Setup dialog whether to scale pages by a given percentage. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/scale-percentage-value</key>
+        <applyto>/apps/gnumeric/printsetup/scale-percentage-value</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>100</default>
+        <locale name="C">
+        <short>Default Scale Percentage</short>
+        <long>This value gives the percentage by which to scale each printed page. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/scale-width</key>
+        <applyto>/apps/gnumeric/printsetup/scale-width</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>0</default>
+        <locale name="C">
+        <short>Default Scaling Width</short>
+        <long>This value determines the default number of pages a printout of the current sheet is supposed to be wide. 0 disables scaling. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/scale-height</key>
+        <applyto>/apps/gnumeric/printsetup/scale-height</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>0</default>
+        <locale name="C">
+        <short>Default Scaling Height</short>
+        <long>This value determines the default number of pages a printout of the current sheet is supposed to be high. 0 disables scaling. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/repeat-top</key>
+        <applyto>/apps/gnumeric/printsetup/repeat-top</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default></default>
+        <locale name="C">
+        <short>Default Repeated Top Region</short>
+        <long>This string gives the default region to be repeated at the top of each printed sheet. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/repeat-left</key>
+        <applyto>/apps/gnumeric/printsetup/repeat-left</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default></default>
+        <locale name="C">
+        <short>Default Repeated Left Region</short>
+        <long>This string gives the default region to be repeated at the left of each printed sheet. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/preferred-unit</key>
+        <applyto>/apps/gnumeric/printsetup/preferred-unit</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default>mm</default>
+        <locale name="C">
+        <short>Preferred Display Unit</short>
+        <long>This string gives the default unit to be used in the page setup dialog.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/margin-top</key>
+        <applyto>/apps/gnumeric/printsetup/margin-top</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>120</default>
+        <locale name="C">
+        <short>Default Top Margin</short>
+        <long>This value gives the default number of points from the top of a page to the start of the body. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/margin-bottom</key>
+        <applyto>/apps/gnumeric/printsetup/margin-bottom</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>120</default>
+        <locale name="C">
+        <short>Default Bottom Margin</short>
+        <long>This value gives the default number of points from the bottom of a page to the end of the body. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/margin-gtk-bottom</key>
+        <applyto>/apps/gnumeric/printsetup/margin-gtk-bottom</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>72</default>
+        <locale name="C">
+        <short>Default Bottom Outside Margin</short>
+        <long>This value gives the default number of points from the bottom of a page to the end of the footer. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/margin-gtk-top</key>
+        <applyto>/apps/gnumeric/printsetup/margin-gtk-top</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>72</default>
+        <locale name="C">
+        <short>Default Top Outside Margin</short>
+        <long>This value gives the default number of points from the top of a page to the top of the header. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/margin-gtk-left</key>
+        <applyto>/apps/gnumeric/printsetup/margin-gtk-left</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>72</default>
+        <locale name="C">
+        <short>Default Left Margin</short>
+        <long>This value gives the default number of points from the left of a page to the left of the body. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/margin-gtk-right</key>
+        <applyto>/apps/gnumeric/printsetup/margin-gtk-right</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>72</default>
+        <locale name="C">
+        <short>Default Bottom Margin</short>
+        <long>This value gives the default number of points from the right of a page to the right of the body. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/paper</key>
+        <applyto>/apps/gnumeric/printsetup/paper</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default></default>
+        <locale name="C">
+        <short>Paper</short>
+        <long>This is the default paper specification. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/paper-orientation</key>
+        <applyto>/apps/gnumeric/printsetup/paper-orientation</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>0</default>
+        <locale name="C">
+        <short>Paper</short>
+        <long>This is the default paper orientation. Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/hf-left</key>
+        <applyto>/apps/gnumeric/printsetup/hf-left</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+	<list_type>string</list_type>
+        <locale name="C">
+        <short>Header/Footer Format (Left Portion)</short>
+        <long>Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/hf-middle</key>
+        <applyto>/apps/gnumeric/printsetup/hf-middle</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+	<list_type>string</list_type>
+        <locale name="C">
+        <short>Header/Footer Format (Middle Portion)</short>
+        <long>Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/printsetup/hf-right</key>
+        <applyto>/apps/gnumeric/printsetup/hf-right</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+	<list_type>string</list_type>
+        <locale name="C">
+        <short>Header/Footer Format (Right Portion)</short>
+        <long>Please use the Print Setup dialog to edit this value.</long>
+        </locale>
+      </schema>
+   </schemalist>
+</gconfschemafile>
+  

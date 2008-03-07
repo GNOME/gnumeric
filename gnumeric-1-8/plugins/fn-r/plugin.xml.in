@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_r">
+	<information>
+		<_name>Statistical Functions</_name>
+		<_description>Statistical Functions with naming and calling conventions from The R Project</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="rstat"/>
+	</loader>
+	<services>
+		<service type="function_group" id="stat">
+			<_category>Statistics</_category>
+			<functions>
+				<function name="r.dbeta"/>
+				<function name="r.dbinom"/>
+				<function name="r.dcauchy"/>
+				<function name="r.dchisq"/>
+				<function name="r.dexp"/>
+				<function name="r.df"/>
+				<function name="r.dgamma"/>
+				<function name="r.dgeom"/>
+				<function name="r.dhyper"/>
+				<function name="r.dlnorm"/>
+				<function name="r.dnbinom"/>
+				<function name="r.dnorm"/>
+				<function name="r.dpois"/>
+				<function name="r.dt"/>
+				<function name="r.dweibull"/>
+				<function name="r.pbeta"/>
+				<function name="r.pbinom"/>
+				<function name="r.pcauchy"/>
+				<function name="r.pchisq"/>
+				<function name="r.pexp"/>
+				<function name="r.pf"/>
+				<function name="r.pgamma"/>
+				<function name="r.pgeom"/>
+				<function name="r.phyper"/>
+				<function name="r.plnorm"/>
+				<function name="r.pnbinom"/>
+				<function name="r.pnorm"/>
+				<function name="r.ppois"/>
+				<function name="r.pt"/>
+				<function name="r.pweibull"/>
+				<function name="r.qbeta"/>
+				<function name="r.qbinom"/>
+				<function name="r.qcauchy"/>
+				<function name="r.qchisq"/>
+				<function name="r.qexp"/>
+				<function name="r.qf"/>
+				<function name="r.qgamma"/>
+				<function name="r.qgeom"/>
+				<function name="r.qhyper"/>
+				<function name="r.qlnorm"/>
+				<function name="r.qnbinom"/>
+				<function name="r.qnorm"/>
+				<function name="r.qpois"/>
+				<function name="r.qt"/>
+				<function name="r.qweibull"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

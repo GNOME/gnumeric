@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_Excel">
+	<information>
+		<_name>MS Excel (tm)</_name>
+		<_description>Imports/Exports MS Excel (tm) files</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="excel"/>
+	</loader>
+	<services>
+		<!-- IMPORT binary Office 2 -> 2003 -->
+		<service type="file_opener" id="excel" priority="100" probe="TRUE">
+			<information>
+				<_description>MS Excel (tm) (*.xls)</_description>
+			</information>
+			<suffixes>
+				<suffix>xls</suffix>
+				<suffix>xlw</suffix>
+				<suffix>xlt</suffix>
+			</suffixes>
+			<mime-types>
+				<mime-type>application/vnd.ms-excel</mime-type>
+				<mime-type>application/excel</mime-type>
+				<mime-type>application/msexcel</mime-type>
+				<mime-type>application/x-excel</mime-type>
+				<mime-type>application/x-ms-excel</mime-type>
+				<mime-type>application/x-msexcel</mime-type>
+				<mime-type>application/x-xls</mime-type>
+				<mime-type>application/xls</mime-type>
+				<mime-type>application/x-dos_ms_excel</mime-type>
+				<mime-type>zz-application/zz-winassoc-xls</mime-type>
+			</mime-types>
+		</service>
+
+		<service type="file_saver" id="excel_biff8" file_extension="xls"
+		         format_level="auto" overwrite_files="TRUE"
+			 mime_type="application/vnd.ms-excel">
+			     <!-- Add default_saver_priority="100"  to make
+			     this the default -->
+			<information>
+				<_description>MS Excel (tm) 97/2000/XP</_description>
+			</information>
+		</service>
+		<service type="file_saver" id="excel_biff7" file_extension="xls"
+		         format_level="auto" overwrite_files="TRUE"
+			 mime_type="application/vnd.ms-excel">
+			<information>
+				<_description>MS Excel (tm) 5.0/95</_description>
+			</information>
+		</service>
+		<service type="file_saver" id="excel_dsf" file_extension="xls"
+		         format_level="auto" overwrite_files="TRUE"
+			 mime_type="application/vnd.ms-excel">
+			<information>
+				<_description>MS Excel (tm) 97/2000/XP &amp; 5.0/95</_description>
+			</information>
+		</service>
+
+		<!-- IMPORT partial format spreadsheetml from 2003  -->
+		<service type="file_opener" id="excel_xml" priority="1" probe="FALSE">
+			<information>
+				<_description>MS Excel (tm) 2003 SpreadsheetML</_description>
+			</information>
+			<suffixes>
+				<suffix>xml</suffix>
+				<suffix>sml</suffix> <!-- bogus.  necessary until we have better xml sniffing -->
+			</suffixes>
+		</service>
+
+		<!-- Office Open XML packages from Office 2007 -->
+		<service type="file_opener" id="xlsx" priority="100" probe="TRUE">
+			<information>
+				<_description>MS Excel (tm) 2007</_description>
+			</information>
+			<suffixes>
+				<suffix>xlsx</suffix>
+				<suffix>xltx</suffix>
+				<suffix>xlsb</suffix>
+				<suffix>xlsm</suffix>
+				<suffix>xltm</suffix>
+				<suffix>xltx</suffix>
+			</suffixes>
+<!--
+			<mime-types>
+				<mime-type>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</mime-type>
+				<mime-type>application/vnd.openxmlformats-officedocument.spreadsheetml.template</mime-type>
+				<mime-type>application/vnd.ms-excel.sheet.binary.macroEnabled.12</mime-type>
+				<mime-type>application/vnd.ms-excel.sheet.macroEnabled.12</mime-type>
+				<mime-type>application/vnd.ms-excel.template.macroEnabled.12</mime-type>
+			<mime-types>
+  -->
+		</service>
+
+		<service type="file_saver" id="xlsx" file_extension="xlsx"
+		         format_level="auto" overwrite_files="TRUE">
+			<information>
+				<_description>MS Excel (tm) 2007</_description>
+			</information>
+		</service>
+	</services>
+</plugin>

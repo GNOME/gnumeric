@@ -1,0 +1,9 @@
+Makefile
+*.lo
+*.la
+*.in
+.deps
+.libs
+plugin.xml
+*.loT
+*.sw*

@@ -1,0 +1,559 @@
+<sect1>
+	<title>
+	セルのフォーマット
+	</title>
+
+<para>
+セルのフォーマットによってスプレッドシート上のセル・データの表示方法を変更することができます。念頭においておくべき重要な点ですが、変更されるのはデータの表示方法だけで、データの値は変更されません。
+</para>
+
+<para>
+各種のフォーマットによって、貨幣単位、科学の分野での表記法、日付、端数などに対応することができます。正負の値はそれぞれ、別の色やフォーマットで表現することができるので、値の追跡がしやすくなります。また日付・時刻についても、数多くのフォーマットが用意されているので、事実上、考えうる限りの日付・時刻の表記法に対応することができます。
+</para>
+
+<para>
+単独のセルや複数のセルを含むある範囲のフォーマット・スタイルは、フォーマットの適用・変更を行いたいセルの範囲を選択して（ <xref linkend="editing-selections"> を参照）、メニューの <guimenu>Format</guimenu> / <guimenuitem>Cells</guimenuitem> / <guimenu>Numbers</guimenu> から（あるいは、右マウスボタンにバインドされている、コンテキスト・センシティブなポップアップ・メニューから）適切なフォーマットを選択するだけで、変更することができます。
+</para>
+
+<para>
+セル・フォーマット・ダイアログにアクセスする最も簡単な方法は、キーボード・ショートカットの <keycap>Ctrl</keycap> + <keycap>1</keycap> を使う方法です。これは、メニューからセル・フォーマット項目を選択するのと同じことです。
+</para>
+
+<para>
+Gnumeric には、数多くのフォーマット・スタイルがあらかじめ設定されています。それらのフォーマット・スタイルは、Cell / Style ダイアログ・ボックスにカテゴリー別に表示されます。表示フォーマットのうちからいずれか一つを選んで、変更内容を確定すると、セルの表示フォーマットを変更することができます。
+</para>
+
+<para>
+設定済みのフォーマット・スタイルの中にニーズに合うものが見当たらない場合は、カスタムのフォーマット式を使って独自の数字フォーマット・スタイルを定義することも可能です。カスタムの数字フォーマット式を使うと、数字の表示に対してさらに柔軟な対応が可能になります。
+</para>
+
+<sect2 id="format-dialog">
+	<title>
+	フォーマット・ダイアログ
+	</title>
+
+<para>
+数字フォーマッド・ダイアログ（ <xref linkend="number-format-dialog"> 参照）には、数字のフォーマット・オプションが数多く用意されています。このダイアログは、主に、豊富に用意されている設定済みの数字フォーマッド規則からどれかを選択するのに使われます。たいていの場合、これらのフォーマット・スタイルで十分間に合うことでしょう。ニーズに合うものがない場合は、自分でフォーマットを作成することも可能です。
+</para>
+
+<figure id="number-format-dialog">
+	<title>
+	数字フォーマットのメイン・ダイアログ
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/number-format-dialog.jpg"></graphic>
+	</screenshot>
+</figure>
+
+<para>
+メイン・ダイアログは二つのリストに分かれています。一つはフォーマット・カテゴリーのリスト、もう一つは各カテゴリー内のフォーマットのリストです。
+</para>
+
+<para>
+また、新しいフォーマットの表示結果やフォーマット・コード例を確認するためのサンプル出力もできます。
+</para>
+
+</sect2>
+
+<sect2 id="changing-font">
+	<title>
+	フォントの変更
+	</title>
+
+<para>
+いずれのセルに対しても、Gnumeric で使用できるフォントのうち、任意のフォントを使うことができます。フォント・サイズや太字、イタリックなどのフォント属性についても同様です。
+</para>
+
+<para>
+セルのフォントは、フォーマット・ダイアログ（ <xref linkend="format-dialog"> 参照）を開いて、フォント・タブを選択するだけで変更することができます。このタブを選択すると、Gnomeの標準のフォント選択ダイアログが開きます。
+</para>
+
+<!-- FIXME フォントダイアログに関する文書があればそれにリンクする -->
+
+<figure id="number-format-font-dialog">
+	<title>
+	フォント選択ダイアログ
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/number-format-font-dialog.jpg"></graphic>
+	</screenshot>
+</figure>
+
+<!-- FIXME -->
+
+<para>
+以下は、フォント・ダイアログの使用法に関する参考です。
+</para>
+
+<!-- FIXME -->
+
+<procedure>
+	<title>
+	セルのフォントを変更する方法
+	</title>
+
+<step>
+<para>
+フォントを変更したいセル、あるいはセルの範囲を選択します。
+</para>
+</step>
+
+<step>
+<para>
+セル・フォーマット・ダイアログを開きます。このダイアログは、<keycap>Ctrl</keycap> + <keycap>1</keycap> を使って、メニューの <guimenu>Format</guimenu> <guimenuitem>Cells</guimenuitem> から開くこともできるし、あるいは <mousebutton>MB3</mousebutton> を右クリックしてメニュー項目の <guimenuitem>Cell Format</guimenuitem> を選んで開くこともできます。
+</para>
+</step>
+
+<step>
+<para>
+ダイアログボックスのノートブックの中からフォント・タブを選択します。すると、ダイアログのフォント選択のセクションが開きます。このダイアログは <xref linkend="number-format-font-dialog"> にありますので、ご覧ください。
+</para>
+</step>
+
+<step>
+<para>
+これで、周囲の人にフォント・ダイアログの使い方について説明できます。
+</para>
+</step>
+
+</procedure>
+
+<para>
+セルのフォーマットを太字体やイタリック体に変更するだけなら、ツールバーのボタンを使って簡単に変更することができます。 <xref linkend="number-format-bold-italics"> を参照してください。
+</para>
+
+<procedure>
+	<title>
+	セルの文字の色の変更
+	</title>
+
+<step>
+<para>
+色を変更したいセルやセル範囲を選択してください。 
+</para>
+</step>
+
+<step>
+<para>
+セル・フォーマット・ダイアログを開きます。このダイアログは、<keycap>Ctrl</keycap> + <keycap>1</keycap> から開くこともできるし、あるいは <mousebutton>MB3</mousebutton> を右クリックしてメニュー項目の <guimenuitem>Cell Format</guimenuitem> を選んで開くこともできます。
+</para>
+</step>
+
+<step>
+<para>
+ダイアログボックスのノートブックの中からフォント・タブを選択します。すると、ダイアログのフォント選択のセクションが開きます。このダイアログは <xref linkend="number-format-color-dialog"> にありますので、ご覧ください。
+</para>
+</step>
+
+<step>
+<para>
+これで、周囲の人にカラー・ピッカーの使い方について説明できます。
+</para>
+</step>
+
+<!--  FIXME FIXME FIXME -->
+
+</procedure>
+
+</sect2>
+
+<sect2>
+	<title>
+	セルの背景色とパターンの変更
+	</title>
+
+<para>
+Gnumeric のセルはすべて、テキスト、背景、ボーダーなどに色を設定することができます。また、セルの背景にパターンを追加することも可能です。
+</para>
+
+<figure id="number-format-color-dialog">
+	<title>
+	セル・カラー・ダイアログ
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/number-format-color-dialog.jpg"></graphic>
+	</screenshot>
+</figure>
+
+<para>
+<guilabel>background configuration</guilabel> には、セルの背景にソリッド・カラーやパターンを設定するためのオプションが用意されています。
+</para>
+
+<para>
+セルの背景色にソリッド・カラーを設定するには、<guibutton>use solid color</guibutton> をクリックし、カラー設定ダイアログで色を選びます。
+</para>
+
+<para>
+セルの背景にパターンを設定するには、<guibutton>use a pattern</guibutton> ボタンをクリックしてから、使いたいパターンをクリックして選択します。現在選択されているパターンの周囲には、黒い実線が表示されます。
+</para>
+
+</sect2>
+
+<sect2>
+	<title>
+	セル・コンテンツの行揃えと整列
+	</title>
+
+<para>
+セルのコンテンツに対して、必要に応じて行揃えや整列を行うことができます。行揃えのオプションは数種類用意されています。<xref linkend="number-format-justification"> を参照してください。
+</para>
+
+<figure id="number-format-justification">
+	<title>
+	テキストの行揃えの例
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/number-format-justification.jpg"></graphic>
+	</screenshot>
+</figure>
+
+<figure id="number-format-justification-dialog">
+	<title>
+	セルの行揃えのダイアログ
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/number-format-justification-dialog-2.jpg">
+	</graphic>
+	</screenshot>
+</figure>
+
+<procedure>
+	<title>
+	セルの行揃えの変更
+	</title>
+<step>
+<para>
+行揃えを変更したいセル、あるいはセルの範囲を選択します。
+</para>
+</step>
+
+<step>
+<para>
+セル・フォーマット・ダイアログを開きます。このダイアログは、<keycap>Ctrl</keycap> + <keycap>1</keycap> を使って、メニューの <guimenu>Format</guimenu> <guimenuitem>Cells</guimenuitem> から開くこともできるし、<mousebutton>MB3</mousebutton> を右クリックして、メニュー項目 <guimenuitem>Cell Format</guimenuitem> を選んで開くこともできます。
+</para>
+</step>
+
+<step>
+<para>
+ノートブックのタブから <guilabel>Alignment</guilabel> タブを選択します。すると、ダイアログのフォント選択のセクションが開きます。このダイアログは <xref linkend="number-format-justification-dialog"> に示しますので、ご覧ください。
+</para>
+</step>
+
+<step>
+<para>
+ボタンをクリックして、縦あるいは横の行揃えの種類を選びます。各オプション・グループからはそれぞれ一つのオプションしか選べません。
+</para>
+</step>
+
+</procedure>
+
+<variablelist>
+	<title>
+	横の行揃えオプション
+	</title>
+
+<varlistentry>
+<term><guibutton>General</guibutton></term>
+
+<listitem>
+<para>
+標準的なデフォルトの行揃え。すなわち、数字と数式は右揃えし、文字列とラベルは左揃えします。
+</para>
+</listitem>
+
+</varlistentry>
+
+<varlistentry>
+<term><guibutton>Left</guibutton></term>
+
+<listitem>
+<para>
+すべてのセル・コンテンツを左揃えします。
+</para>
+</listitem>
+
+</varlistentry>
+
+<varlistentry>
+<term><guibutton>Center</guibutton></term>
+<listitem>
+<para>
+すべてのセル・コンテンツをセンタリングします。
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guibutton>Right</guibutton></term>
+<listitem>
+<para>
+すべてのセル・コンテンツを右揃えします。
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guibutton>Fill</guibutton></term>
+<listitem>
+<para>
+セルをコンテンツで埋めます。セル・コンテンツを反復してスペースを埋めます。
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guibutton>Justify</guibutton></term>
+<listitem>
+<para>
+セル・コンテンツを左揃えして上下にセンタリングします。
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+
+<!--FIXME もう行揃えが実装されてたとは思えない -->
+
+<variablelist>
+<title>縦の行揃えオプション</title>
+
+<varlistentry>
+<term><guibutton>Top</guibutton></term>
+<listitem>
+<para>
+セル・コンテンツの一番上の部分をセルの上端に揃えます。
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guibutton>Center</guibutton></term>
+
+<listitem>
+<para>
+セル・コンテンツを上下にセンタリングします。上下のスペースを均等にします。
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guibutton>Bottom</guibutton></term>
+<listitem>
+<para>
+セル・コンテンツをセルの下端に揃えます。
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guibutton>Justify</guibutton></term>
+<listitem><para>FIXME FIXME</para></listitem>
+
+<!--FIXME -->
+
+</varlistentry>
+</variablelist>
+
+</sect2>
+
+<sect2 id="number-format-bold-italics">
+	<title>
+	ボタンバーのセル・フォーマット・オプション
+	</title>
+
+<para>
+頻繁に使うフォーマットについては、ボタンバーにクイック・アクセス・ボタンが用意されています。
+</para>
+
+<figure id="number-format-buttonbar">
+	<title>
+	行揃えクイック・ボタンの例
+	</title>
+
+	<screenshot>
+	<graphic fileref="images/number-format-buttonbar.jpg"></graphic>
+	</screenshot>
+</figure>
+
+<para>
+これらのボタンの機能の詳細については <xref linkend="buttonbar-buttons"> を参照してください。
+</para>
+
+</sect2>
+</sect1>
+
+<sect1>
+	<title>
+	数字のフォーマット
+	</title>
+
+<para>
+Gnumeric にはきわめてパワフルな数のフォーマット・エンジンが備わっています。これを使うと、様々な条件に基づいて色を指定することができるほか、数を様々なフォーマットで表示することもできます。
+</para>
+
+<para>
+以下は、利用できる設定済みのフォーマットのカテゴリーです。
+</para>
+
+<example id="formula-format-overview">
+
+<programlisting>
+  標準           スイス・アーミー・ナイフのような万能のフォーマットです。
+		数値を最適な方法で表示しようとします。フォーマットの選択は、
+		セルのサイズと、表示するデータを Gnumericが 評価したタイプ
+		より決まります。（数値、日付、時間、など）
+
+  数値           小数点以下で0から30桁の数値を表示します。負数も通常どおり丸
+		括弧つきか、赤字で表示されます。オプションで、3桁ごと（千、百万
+		、..）に区切りを入れて表示することもできます。小数点と3桁ごと
+		の区切り記号は、国際的にサポートされています。
+
+  通貨           ほとんど数値と同じですが、通貨記号がつきます。現在は、'$'と、
+		主要な通貨の省略形（アルファベット3文字）が使えます。
+
+  会計           桁揃えに気を使った会計用のフォーマットです。負数と同じ桁に並ぶ
+		ように、正数の前に小さなスペースをつけます。例えば
+			' 600.123 ' : 正数の前のスペースに注意してください。
+			'-500.456 ' : 負数のフォーマットの一つ
+			'(500.456)' : もう一つの負数のフォーマット
+
+  日付           定義済みのデータ表現には、多くの組み合わせがあります。
+		年は2（yy）または4桁（yyyy）で表されます。月は、必要なだけ
+		（m）、通常は2桁（mm）、3桁（mm）のフォーマットがあります。
+		日は、必要なだけ(d)と2桁（dd）のフォーマットがあります。区切り
+		記号としては、多種の文字が選べます。
+
+  時間           日付と同様に時間に関しても、定義済みのフォーマットの中から必要
+		に応じて選ぶことができます。時間（h）、分（mm）、秒（mm）です。
+		上位の単位への繰り上がりをしないで、24時間以上の時間や、60分
+		（秒）以上の時間を表示させたい場合もあるでしょう。（例えば、1日
+		1時間ではなく、25時間）その場合は、'[h]'、'[m]'、'[s]'という
+		形式が使えます。
+
+  パーセント	     100倍してパーセントをつけた形式。小数点以下0から30桁が使えます。
+  科学            小数点以下0から30桁の科学計算用の形式。指数のコントロールに関
+		しては、今回は用意されていません。
+
+  文字           数字を文字として扱います。数字は正確に表現しますが、日付や時間
+		に関しては情報が失われます。
+
+  カスタム       すべての定義済みのフォーマットを網羅して、さらにユーザーが新し
+		いフォーマットを作ることができます。
+</programlisting>
+
+</example>
+
+<para>
+<xref linkend="formula-example-1"> に、設定済みのフォーマットを使った、数に対して適用できる数多くのフォーマット操作のうちからいくつかの例を示します。</para>
+
+<example id="formula-example-1">
+	<title>
+	数字のフォーマット例
+	</title>
+
+<programlisting>
+      
+      600.123を例に取ります。
+      
+      Numbers
+         General:                                           '600.123'
+             0.0:                                           '600.1'
+      Accounting
+          _($*#,##0_);_($*(#,##0);_($*"-"_);_(@_)           ' $600 '
+          _($*#,##0.00_);_($*(#,##0.00);_($*"-"??_);_(@_)   ' $600.12 '
+      Scientific
+           0.000E+00                                        '600.123'
+      
+	</programlisting>
+
+</example>
+
+</sect1>
+
+<sect1>
+	<title>
+	日付と時間のフォーマット
+	</title>
+
+<para>
+Gnumeric は、様々な種類の日付・時刻のフォーマットをサポートしています
+</para>
+
+<para>
+各種フォーマットを使って、既存の時間を表すシリアル・ナンバーをもっと分かりやすい新しいフォーマットに変換したり、日付を普通に読めるフォーマットで入力して、適切なセル・フォーマットを使って、それを自動的にシリアル・ナンバーに変換させたりすることができます。詳細については <xref linkend="entering-dates-and-numbers"> を参照してください。
+</para>
+
+<para>
+<xref linkend="number-format-date-time-examples"> では、「d」は日、「m」は月、「y」は年、「h」は時間、「s」は秒です。
+</para>
+
+<example id="number-format-date-time-examples">
+	<title>
+	日付と時間のフォーマット
+	</title>
+<programlisting>
+
+    Date
+        Format                     Sample
+   Serial number		36068.7	
+   m/d/yyyy	        	10/1/1998	
+   d-mmm-yy		        1-Oct-98	
+   d-mmm-yyyy		        1-Oct-1998	
+   d-mmm		        1-Oct	
+   d-mm		                1-10	
+   mmm/d		        Oct/1	
+   mm/d		                10/1	
+   mm/dd/yy		        10/01/98	
+   mm/dd/yyyy		        10/01/1998	
+   mmm/dd/yy		        Oct/01/98	
+   mmm/dd/yyyy		        Oct/01/1998	
+   mmm/ddd/yy		        Oct/Thu/98	
+   mmm/ddd/yyyy		        10/01/1998	
+   mm/ddd/yy		        10/Thu/98	
+   mm/ddd/yyyy		        10/Thu/1998	
+   mmm-yy		        Oct-98	
+   mmm-yyyy		        Oct-1998	
+   m/d/yy h:mm		        10/1/98 16:48	
+   m/d/yyyy h:mm                10/1/1998 16:48	
+
+
+Time
+
+      Format                     Sample
+  Serial number		       36068.7	
+  h:mm:ss AM/PM		       4:51 PM	
+  h:mm:ss AM/PM		       4:51:18 PM	
+  h:mm		               16:51	
+  h:mm:ss		       16:51:18	
+  m/d/yy h:mm		       10/1/98 16:51	
+  mm:ss		               10:18	
+  mm:ss.0		       10:1836068.7	
+  [h]:mm:ss		       :10:18	
+
+</programlisting>
+</example>
+
+</sect1>
+
+
+<!-- Keep this comment at the end of the file
+    Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         

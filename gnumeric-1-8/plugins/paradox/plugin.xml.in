@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_paradox">
+	<information>
+		<_name>Paradox</_name>
+		<_description>Imports Paradox files</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="paradox"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="paradox" priority="100" probe="FALSE">
+			<information>
+				<_description>Paradox database or primary index file</_description>
+			</information>
+			<suffixes>
+				<suffix>db</suffix>
+				<suffix>px</suffix>
+			</suffixes>
+		</service>
+	</services>
+</plugin>

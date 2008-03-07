@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin id="Gnumeric_fnstring">
+	<information>
+		<_name>String Functions</_name>
+		<_description>Functions for manipulating strings</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="plugin"/>
+	</loader>
+	<services>
+		<service type="function_group" id="string">
+			<_category>String</_category>
+			<functions>
+				<function name="asc"/>
+				<function name="char"/>
+				<function name="clean"/>
+				<function name="code"/>
+				<function name="concatenate"/>
+				<function name="dollar"/>
+				<function name="exact"/>
+				<function name="find"/>
+				<function name="fixed"/>
+				<function name="left"/>
+				<function name="len"/>
+				<function name="lenb"/>
+				<function name="lower"/>
+				<function name="mid"/>
+				<function name="proper"/>
+				<function name="replace"/>
+				<function name="rept"/>
+				<function name="right"/>
+				<function name="search"/>
+				<function name="substitute"/>
+				<function name="t"/>
+				<function name="text"/>
+				<function name="trim"/>
+				<function name="unichar"/>
+				<function name="unicode"/>
+				<function name="upper"/>
+				<function name="value"/>
+			</functions>
+		</service>
+	</services>
+</plugin>

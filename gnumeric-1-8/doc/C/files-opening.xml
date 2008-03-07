@@ -1,0 +1,1073 @@
+<sect1 id="sect-file-open">
+  <title>Opening Files</title>
+    
+  <para>
+    Opening an existing file into a &gnum; workbook requires working
+    through the <interface>File Open</interface> dialog. The user must
+    select the file that they wish &gnum; to open, possibly specifying
+    a file format and character encoding.
+  </para>
+  
+  <tip>
+    <title>The steps required to open a file.</title>
+
+<!-- TODO: render hack, remove me.  -->
+    <para></para>
+
+    <orderedlist>
+      <listitem>
+        <para>
+	  Launch the  <interface>File Open</interface> dialog.
+	</para>
+	<para>
+	  In the <guimenu>File</guimenu> menu, select the
+	  <guimenuitem>Open</guimenuitem> menu item.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Open the folder containing the desired file.
+	</para>
+	<para>
+	  Navigate the folder hierarchy by double-clicking on the folders.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Select the desired file within the folder.
+	</para>
+	<para>
+	  Click on the file name in the folder content area.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  (Optional) Specify a file format type.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  (Optional) Specify the character encoding.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Click on the <guibutton>Open</guibutton> button.
+	</para>
+      </listitem>
+    </orderedlist>
+
+  </tip>
+
+  <para>
+    The remainder of this section explains these steps in greater
+    detail, first, by describing the components in the <interface>File
+    Open</interface> dialog and, then, by explaining each of the steps
+    above in greater detail.
+  </para>
+
+
+
+
+  <sect2 id="file-open-dialog">
+    <title>Using the <interface>File Open</interface> dialog.</title>
+
+    
+    <para>
+      Opening a file into a workbook is a relatively simple
+      process. The only complications come from using the
+      <interface>File Open</interface> dialog to find the desired
+      file, from changing the automatic file format type recognition
+      system, or from specifying a different character encoding than
+      that chosen by &gnum;. The first of these steps will become
+      intuitive once the user understands the functioning of the
+      dialog. The latter two steps are generally unnecessary and can
+      be ignored by most users.
+    </para>
+
+    <para>
+      The next section explains in detail the different components of
+      the <interface>File Open</interface> dialog and the subsequent
+      section describes each step in the process of opening a file.
+    </para>
+
+    <sect3 id="sect-file-open-dialog-components">
+      <title>
+        The components of the <interface>File Open</interface> dialog
+      </title>
+
+      <para>
+        The <interface>File Open</interface> dialog allows the user to
+        open an existing file into a &gnum; workbook but requires that
+        the user find the folder containing the file, select the file,
+        and optionally define a file format type and a character
+        encoding. The dialog also allows the user to change the list
+        of bookmark folders to quickly access different parts of the
+        file system.
+      </para>
+
+      <para>
+	The <interface>File Open</interface> dialog first appears as
+        is shown in <xref linkend="fig-file-open-dialog-components" />
+        which also shows a label for each different component of the
+        dialog.
+      </para>
+      
+      <figure id="fig-file-open-dialog-components">
+        <title>
+	  The <interface>File Open</interface> dialog with the
+	  component areas labeled.
+	</title>
+	<screenshot>
+          <mediaobject> 
+	    <imageobject> 
+	      <imagedata fileref="figures/dialog-fileopen-withTags.png"
+	                 format="PNG" scale="100" />
+	    </imageobject>
+	    <textobject>
+	      <para> 
+	        This screenshot depicts the 'File Open' dialog with
+	        the different areas labeled.
+	      </para>
+	    </textobject>
+	    <caption>
+	      <para>
+                The different components of the <interface>File
+                Open</interface> dialog, shaded with boxes of different
+                colors and labeled with a letter.
+              </para>
+	    </caption>
+	  </mediaobject>
+	</screenshot>
+      </figure>
+
+      <para>
+        The purpose of each labeled component in <xref
+        linkend="fig-file-open-dialog-components" /> is
+        explained below:
+
+	<variablelist>
+	  <title>The components of the dialog</title>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">A</emphasis> - The starting
+	      folder selection area.
+
+	    </term>
+	    <listitem>
+	      <para>
+	        This area allows the user to begin navigating the
+	        filesystem by choosing a starting
+	        folder. The navigation system in this dialog only
+	        allows users to select sub-folders of this starting
+	        folder so the starting folder must contain the desired
+	        file, possibly nested in one or more sub-folders.
+	      </para>
+
+	      <para>
+	        The folders listed in this area include the standard
+	        folders provided by the system and a number of folders
+	        added, as bookmark folders, by the user. The standard
+	        folders provided by the system will vary for different
+	        machines and system administrators may have disabled
+	        access to certain branches of the filesystem. By
+	        default, the standard folders provided include the
+	        user's 'Home' folder, the user's 'Desktop' folder, a
+	        folder pointing to the root of the filesystem tree and
+	        folders for each of the removable storage devices
+	        attached to the computer. The user's home folder, on
+	        GNU and other UNIX like systems, this folder is
+	        usually known as <literal>~</literal> or
+	        <literal>~user_account_name</literal> where the phrase
+	        <literal>user_account_name</literal> represents the
+	        account name used by the current user. This folder is
+	        often located at
+	        <filename>/home/user_account_name/</filename> in the
+	        filesystem. The 'Desktop' folder is the folder which
+	        holds the files which are displayed in the background
+	        of the user's window. The 'Filesystem' folder is the
+	        top of the filesystem tree, which on GNU systems is
+	        also known as <filename>/</filename>. The list also
+	        presents peripheral or external devices. Below the
+	        standard folders, area <emphasis
+	        role="bold">A</emphasis> has a separator and the
+	        bookmark folders selected by the user. In <xref
+	        linkend="fig-file-open-dialog-components" /> the
+	        folder <filename>currentWork</filename> is a folder
+	        named by the user and added to the list of
+	        bookmark folders.
+	      </para>
+
+
+      <note>
+        <title>Understanding the file organization system.</title>
+
+        <para>
+	  In order to understand how to change folders, it is first
+	  necessary to understand the system by which documents are
+	  stored. This system is called the 'filesystem'.
+	</para>
+
+	<para>
+	  All documents are stored in a folder. Folders can contain
+	  files but can also contain other folders. Any folder
+	  therefore can contain several sub-folders, each of which may
+	  itself contain several sub-folders; the resulting structure
+	  is called a nested 'tree' with the original folder being the
+	  'relative root' of that tree.
+        </para>
+
+	<para>
+	  In GNU and UNIX systems, all of the files are stored in
+	  folders organized in a single, unified filesystem tree with
+	  a folder named '<filename>/</filename>' at the absolute root
+	  of the tree. Every file is accessible from this absolute
+	  root folder and, by default, this folder is provided as the
+	  choice named <filename>Filesystem</filename> with an icon of
+	  a disk drive in area <emphasis role="bold">A</emphasis> in
+	  the <interface>File Open</interface> dialog.
+	</para>
+
+	<para>
+	  Navigating the directory tree from the single root folder
+	  would quickly become burdensome and the <interface>File
+	  Open</interface> dialog provides several other starting
+	  folders in area <emphasis role="bold">A</emphasis>. Two
+	  starting folders which are commonly provided are the 'Home'
+	  and 'Desktop' folders for the current user.
+	</para>
+
+	<para>
+	  In a complex computer system, the absolute root folder may
+	  be hidden from the user and the starting folders accessible
+	  to the user may only provide limited access to the
+	  filesystem. Jointly, the starting folders provided should
+	  allow the users to access all the folders in which the user
+	  has permission to store files and to the folders which are
+	  designed to be read by the user.
+	</para>
+
+	<para>
+	  Several starting folders may be provided when files can be
+	  opened from different filesystems. This will be the case
+	  when filesystem on other machines are accessible over a
+	  network or when &gnum; is running on operating systems whose
+	  filesystems are not unified, such as the proprietary
+	  operating systems sold by Microsoft in which each disk drive
+	  has its own root named, for example,
+	  <filename>C:\</filename> or <filename>D:\</filename>.
+	</para>
+	  
+	<para>
+	  Additional starting folders can be added as 'bookmark
+	  folders' by the users themselves. These bookmark folders do
+	  not provide access to a different set of folders but merely
+	  provide efficient access to a folder and its
+	  sub-folders. These bookmark folders are easy to change to
+	  allow a user to work efficiently. These bookmark folders are
+	  listed, in area <emphasis role="bold">A</emphasis>, under
+	  the thin horizontal separator line. The creation and
+	  deletion of these bookmark folders is explained below, in
+	  <xref linkend="sect-file-open-dialog-bookmarks" />.
+
+
+	</para>
+
+	<para>
+	  
+
+	</para>
+      </note>
+
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">B</emphasis> - The folder hierarchy area.
+
+	    </term>
+	    <listitem>
+	      <para>
+	        This area displays the folder hierarchy starting from
+	        the starting folder selected in area <emphasis
+	        role="bold">A</emphasis> and ending in the current
+	        folder, the folder whose contents are displayed in
+	        area <emphasis role="bold">C</emphasis>, while
+	        displaying all the folders between the two. This area
+	        changes dynamically as the user changes to new
+	        folders. In the case shown in <xref
+	        linkend="fig-file-open-dialog-components" />, the user
+	        has selected their 'Home' folder as the starting folder
+	        in area <emphasis role="bold">A</emphasis> and has not
+	        navigated to any sub-folders.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">C</emphasis> - The folder content area.
+
+	    </term>
+	    <listitem>
+	      <para>
+	        This area displays the contents of the currently
+	        selected folder which is the rightmost folder shown in
+	        area <emphasis role="bold">B</emphasis>. 
+		
+		<warning>
+		  <title>
+		    This list of folders and files is filtered.
+		  </title>
+
+		  <para>
+		    Not all of the sub-folders and files present in
+		    the folder area are shown.
+		  </para>
+
+		  <para>
+		    Firstly, hidden folders and files, those that
+		    start with a leading period, are not displayed by
+		    default. These can be shown by placing the mouse
+		    pointer over area <emphasis
+		    role="bold">C</emphasis>, clicking with one of the
+		    secondary mouse buttons to raise the context menu,
+		    moving the pointer onto the <guimenuitem>Show
+		    hidden files</guimenuitem> menu entry, and
+		    clicking with the primary mouse button. This step
+		    will ensure that all the folders are displayed.
+		  </para>
+
+		  <para>
+		    Secondly, the filtering rule defined in
+	            area <emphasis role="bold">F</emphasis>
+	            will limit the files displayed based on the
+	            characteristics of these files. By default, a
+	            filtering rule is applied which causes only those
+	            files present that have an extension commonly used
+	            for spreadsheet files. The rule can be changed to
+	            display all the files regardless of their
+	            extension, except possibly for the hidden files.
+<!-- TODO explain role of mime type in file display filter. Ibid -saving -->
+		  </para>
+		</warning>
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">D</emphasis> - The panel
+	      rearrangement handles.
+
+	    </term>
+	    <listitem>
+	      <para>
+	        These triple dots indicate that the mouse can be used
+	        to change the shape and size of the different areas in
+	        the dialog. These handles can be used by placing the
+	        mouse pointer above a handle, clicking and holding
+	        with the primary mouse button, then dragging the
+	        handle to a new position, and then releasing the mouse
+	        button.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">E</emphasis> - The bookmark folder
+	      list modification buttons.
+
+	    </term>
+	    <listitem>
+	      <para>
+	        These buttons will add or remove folders to or from
+	        the list of bookmark folders in area <emphasis
+	        role="bold">A</emphasis>. The
+	        <guibutton>Add</guibutton> button will add the folder
+	        currently selected in area <emphasis
+	        role="bold">C</emphasis>. The
+	        <guibutton>Remove</guibutton> button will remove any
+	        bookmark folder that is selected in area <emphasis
+	        role="bold">A</emphasis>.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">F</emphasis> - The filter
+	      definition area.
+
+	    </term>
+	    <listitem>
+	      <para>
+	        This area contains a drop down menu with the different
+	        filters defined by the application. Filters are rules
+	        that limit the types of files which are displayed in
+	        the folder content area, area <emphasis
+	        role="bold">C</emphasis>.
+	      </para>
+
+	      <para>
+	        By default, the <interface>File Open</interface>
+	        dialog starts with a filter named "Spreadsheets" which
+	        causes the folder content list to only show files
+	        which are recognized as files that &gnum; could open.
+	      </para>
+
+	      <para>
+	        The filter in area <emphasis role="bold">F</emphasis>
+	        can be changed by clicking on the area to open the
+	        drop down list and then selecting the filter named
+	        "All files". This filter applies no rules, essentially
+	        disabling any filtering operation, and lists all the
+	        files in the currently selected folder. Note, however,
+	        as explained in the warning given in the section
+	        explaining area <emphasis role="bold">C</emphasis>
+	        above, that any files starting with a leading period
+	        are not shown. To display such 'hidden' files, the
+	        user must use the context menu available in area
+	        <emphasis role="bold">C</emphasis>. 
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">G</emphasis> - The file format type
+	      selection area.
+
+	    </term>
+	    <listitem>
+	      <para>
+	        This area provides a drop down list of all the file
+	        formats provided by the &gnum; program itself and by
+	        all the currently active plugins.
+	      </para>
+	      <para>
+	        By default, &gnum; is configured to automatically
+	        recognize the type of each file selected by the
+	        user. This recognition system is sophisticated and
+	        generally works. The best strategy is to try opening
+	        the file using this automatic recognition strategy
+	        and, only if the automatic recognition system fails,
+	        close the worksheet with the mangled file and re-try
+	        to open the file a second time but manually selecting
+	        the file type in the second attempt.
+	      </para>
+	      <para>
+	        The file formats which can be selected are those
+	        listed in <xref linkend="sect-file-open-formats"/>
+	        below. Each of these formats are explained in detail
+	        in <xref linkend="sect-file-formats"/>.
+	      </para>
+	      <note>
+	        <para>
+		  If the file format type named "Text import
+		  (configurable)" is opened, this will start the text
+		  import procedure. <xref
+		  linkend="sect-file-textImport"/> explains this
+		  procedure in complete detail.
+		</para>
+	      </note>
+	    </listitem>
+          </varlistentry>
+
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">H</emphasis> - The character
+	      encoding selection area.
+
+	    </term>
+	    <listitem>
+	      <para>
+	        This area provides a drop down menu which allows the
+	        user to specify the encoding which &gnum; must use to
+	        interpret the characters in text files. This menu is
+	        only enabled for the two text file formats: "Comma or
+	        Tab Separated Values (CSV/TSV)" and "Text Import
+	        (configurable)". This menu is disabled for all other
+	        file types because &gnum; automatically detects the
+	        encoding for those files.
+	      </para>
+
+	      <note>
+	        <para>
+		  A character encoding is a system to relate the
+	          binary digits contained in a computer file to the
+	          characters of a textual script. All computer files
+	          consist only of binary digits so some system is
+	          required to determine this relationship. Where early
+	          computers used simple encoding systems which only
+	          supported the characters commonly used in English,
+	          most systems are now standardizing on the UTF-8
+	          encoding scheme which relates the binary digits in
+	          computer files to characters defined in the
+	          Universal Character Set, a set which is still being
+	          defined but will include all the characters in every
+	          language and many other useful symbols for
+	          mathematics, science, music and literature.  <xref
+	          linkend="sect-file-textImport-complex-encoding"/>
+	          contains a brief explanation of character encoding,
+	          and discusses the encodings available in &gnum;.
+
+		</para>
+	      </note>
+
+	      <para>
+	        The character encoding can be set using the drop down
+	        menu in area <emphasis role="bold">H</emphasis>. By
+	        default, the encoding is set for the locale of the
+	        user. The locale is set by the operating system and
+	        defines the language, time zone and other geographic
+	        related preferences of the user.
+<!-- TODO: add link to locale --> 
+		The character encoding is changed by clicking on the
+	        drop down menu button in area <emphasis
+	        role="bold">H</emphasis>, that is by placing the mouse
+	        pointer over this menu and clicking on the primary
+	        mouse button, and then navigating the menu to select
+	        the new encoding, that is by moving the mouse through
+	        the menus and clicking on the name of the new
+	        encoding. &gnum; will then use this encoding to open
+	        the text file.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">I</emphasis> - The button area.
+	    </term>
+	    <listitem>
+	      <para>
+	        The button area provides two buttons, the
+	        <guibutton>Cancel</guibutton> and the
+	        <guibutton>Open</guibutton> buttons. Clicking the
+	        <guibutton>Cancel</guibutton> button will dismiss the
+	        dialog and return the user to the worksheet. Clicking
+	        the <guibutton>Open</guibutton> button will cause the
+	        selected file to be opened into a worksheet, using
+	        either the automatic file format type detection or the
+	        file format type specified if one has been selected,
+	        and using the character encoding scheme if one has
+	        been selected.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+
+
+        </variablelist>
+
+      </para>
+
+      <para>
+        The procedure required to open a file into a workbook using
+        this dialog is presented next.
+      </para>
+
+
+    </sect3>
+
+
+    <sect3 id="sect-file-open-dialog-process">
+      <title>
+        The procedure to open an existing file.
+      </title>
+
+      <para>
+        Opening an existing file into a workbook requires selecting the
+        folder containing the desired file, selecting the file within
+        this folder, and optionally selecting the file format type and
+        character encoding.
+      </para>
+
+      <procedure>
+        <title>The procedure to open a file.</title>
+
+        <step>
+	  <title>
+	    Launch the <interface>File Open</interface> dialog.
+	  </title>
+
+	  <para>
+	    The <interface>File Open</interface> dialog can be
+	    launched using three alternative approaches.
+	    
+<!-- TODO: v4.3 change to stepalternatives. -->
+      <variablelist>
+	<!-- 
+	<title>
+	  Three alternative ways to launch the <interface>File
+          Open</interface> dialog.
+	</title>
+	-->
+
+        <varlistentry>
+	  <term>
+	    <emphasis role="bold">Using the Menus</emphasis>
+	  </term>
+	  <listitem>
+	    <para> 
+	      Select, in the <guimenu><accel>F</accel>ile</guimenu> menu, the
+	      <guimenuitem><accel>O</accel>pen</guimenuitem> menu item.
+	    </para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>
+	    <emphasis role="bold">Using the Standard Toolbar</emphasis>
+	  </term>
+	  <listitem>
+	    <para>
+	      Click on the <guibutton>Open</guibutton> button:
+	      <guiicon>
+		<inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-open.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the open file button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	      </guiicon>
+	    </para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term>
+	    <emphasis role="bold">Using a Keyboard Shortcut</emphasis>
+	  </term>
+	  <listitem>
+	    <para>
+	      Type the combination
+	      <keycombo><keysym>Ctrl</keysym><keysym>o</keysym></keycombo>,
+	      typing both keys simultaneously.
+	    </para>
+	  </listitem>
+	</varlistentry>
+
+      </variablelist>
+
+
+	    All three methods will result in the equivalent action,
+            launching the <interface>File Open</interface> dialog to
+            allow the user to find the file that they wish to open.
+	  </para>
+
+	</step>
+
+
+
+        <step>
+	  <title>
+	    Navigate the file system to open the folder with the file.
+	  </title>
+
+	  <para>
+	    Changing folders involves selecting a starting
+	    folder in area <emphasis role="bold">A</emphasis> which
+	    contains the folder with the desired file, and then
+	    double-clicking on the folders listed in area <emphasis
+	    role="bold">C</emphasis> until the folder containing the
+	    file has been reached. The folder hierarchy listed in area
+	    <emphasis role="bold">B</emphasis>can also be used to
+	    navigate up the hierarchy if a folder was opened by
+	    mistake. As explained below, a user can move around the
+	    hierarchy with as many folder selections as they need to
+	    reach the folder containing the file the user desires to
+	    open.
+	  </para>
+
+	  <para>
+	    To select a new folder, one of the starting folders
+	    which contains the desired folder must first be selected
+	    and then the hierarchy must be navigated to find the
+	    desired folder, and this folder must be opened to expose
+	    its contents. As explained below, a user can move around
+	    the hierarchy using as many changes as they need to choose
+	    the folder in which to save their &gnum; file.
+	  </para>
+
+	    <substeps>
+	<step>
+	  <title>
+	    Select a starting folder in area <emphasis
+	    role="bold">A</emphasis>. 
+	  </title>
+	  <para>
+	    The first step in choosing a new folder requires
+	    selecting, in area <emphasis role="bold">A</emphasis>, a
+	    starting folder which contains the desired
+	    folder. The new starting folder is chosen by placing the
+	    mouse pointer over the folder name and double clicking
+	    (click twice rapidly without moving the mouse) with the
+	    primary mouse button. This will change the leftmost button
+	    in  area <emphasis role="bold">B</emphasis> and change the
+	    folders and files listed in  area <emphasis
+	    role="bold">C</emphasis> to list the contents of the
+	    starting folder which was just selected.
+	  </para>
+	</step>
+
+        <step>
+	  <title>
+	    Navigate the filesystem to reach the desired
+	    folder using area <emphasis role="bold">C</emphasis>.
+	  </title>
+	  <para>
+	    The next step involves descending the folder tree to reach
+	    the desired folder. This requires double clicking the
+	    sub-folder of the staring folder which contains
+	    the desired folder and continuing through the whole
+	    hierarchy until the desired folder is reached. After each
+	    double click, the selected folder is added as the right
+	    most button in area <emphasis role="bold">B</emphasis> and
+	    the contents of the selected folder are shown in area
+	    <emphasis role="bold">C</emphasis>. Once the desired
+	    folder is reached, it must be opened in the same way, so
+	    that its contents are listed in area <emphasis
+	    role="bold">C</emphasis> and the file can then be saved
+	    into this folder by clicking on the
+	    <guibutton>Save</guibutton> button.
+	  </para>
+	</step>
+
+        <step>
+	  <title>
+	    Navigating back up the folder tree using area <emphasis
+	    role="bold">B</emphasis>. 
+	  </title>
+	  <para>
+	    If the sub-folder selected in area <emphasis
+	    role="bold">C</emphasis> does not contain the branch of
+	    the folder tree leading to the desired folder, the buttons
+	    in area <emphasis role="bold">B</emphasis> can be used to
+	    jump further up the folder tree but only as far as the
+	    starting folder selected in area <emphasis
+	    role="bold">A</emphasis>. Area <emphasis
+	    role="bold">B</emphasis> provides a list of buttons with
+	    the names of all the folders between the starting folder
+	    listed in area <emphasis role="bold">A</emphasis> and the
+	    currently selected folder. By clicking on one of these
+	    buttons, that is by placing the mouse pointer over the
+	    button and clicking with the primary mouse button, the
+	    folder listed on the button will be opened in area
+	    <emphasis role="bold">C</emphasis> so that the selection
+	    process can restart from this branch.
+	  </para>
+	</step>
+
+	  </substeps>
+   
+	</step>
+
+        <step>
+	  <title>
+	    Select the file.
+	  </title>
+	  <para>
+	    The file must be selected by placing the mouse pointer
+	    over the filename in area <emphasis role="bold">C</emphasis>
+	    and clicking with the primary mouse button.
+	  </para>
+
+	  <tip>
+	    <para>
+	      The file can be opened and the dialog dismissed by
+	      selecting the file with a double click of the primary
+	      mouse button. The last two steps are optional and, if
+	      configured appropriately, the file can be selected and
+	      opened simply by double clicking on the file name.
+	    </para>
+	  </tip>
+
+	</step>
+
+        <step>
+	  <title>
+	    Optional: Select the file format type.
+	  </title>
+	  <para>
+
+	    &gnum; can automatically recognize the file format
+	    type. Alternatively, the file format can be specified
+	    explicitly by clicking on the drop down list button in
+	    area <emphasis role="bold">G</emphasis> and scrolling down
+	    the list to the desired file type.
+	  </para>
+
+	      <note>
+	        <para>
+		  If the file format type named "Text import
+		  (configurable)" is opened, this will start the text
+		  import procedure. <xref
+		  linkend="sect-file-textImport"/> explains this
+		  procedure in complete detail.
+		</para>
+	      </note>
+
+	</step>
+
+        <step>
+	  <title>
+	    Optional: Determine the file character encoding.
+	  </title>
+	  <para>
+	    For text files the character encoding must be
+	    specified. By default, &gnum; takes the character encoding
+	    appropriate to the user's locale. This encoding scheme can
+	    be changed by clicking on the drop down menu button in
+	    area <emphasis role="bold">H</emphasis> and navigating the
+	    menus to find the desired encoding.
+	  </para>
+
+	</step>
+
+        <step>
+	  <title>
+	    Click the <guibutton>Open</guibutton> button.
+	  </title>
+	  <para>
+	    Finally, the <guibutton>Open</guibutton> button must be
+	    pressed by placing the mouse pointer over the button and
+	    clicking with the primary mouse button.
+	  </para>
+	</step>
+      </procedure>
+
+      <para>
+        The file will be opened in a new window. If the selected file
+        format was "Text import (configurable)" the <interface>Text
+        Import</interface> druid will be opened. This druid is
+        explained in great detail in <xref
+        linkend="sect-file-textImport" />.
+      </para>
+
+    </sect3>
+
+
+    <!-- Keep in sync with similar section in file-save-dialog. -->
+    <sect3 id="sect-file-open-dialog-bookmarks">
+      <title>
+        Changing the list of bookmark folders.
+      </title>
+
+      <para>
+        The list of starting folders shown in area <emphasis
+        role="bold">A</emphasis> of <xref
+        linkend="fig-file-open-dialog-components" />
+        may contain starting folders selected by the
+        user. These folders are called 'bookmark folders' and are listed in
+        area <emphasis role="bold">A</emphasis> below a thin
+        horizontal separator line. For example, <xref
+        linkend="fig-file-open-dialog-components" />
+        contains a folder named <filename>currentWork</filename> which
+        is a bookmark folder selected by the user.
+      </para>
+
+      <para>
+        These bookmark folders can be added in two ways. A folder
+        which is selected in area <emphasis role="bold">C</emphasis>
+        can be added as a bookmark by clicking on the
+        <guibutton>Add</guibutton> button in area <emphasis
+        role="bold">E</emphasis>.
+      </para>
+
+      <para>
+	Alternatively, the folder can be dragged from area <emphasis
+        role="bold">C</emphasis> into area <emphasis
+        role="bold">A</emphasis>. The folder can be dragged by placing
+        the mouse pointer over the folder name in area <emphasis
+        role="bold">C</emphasis>, clicking and holding the primary
+        mouse button, moving the mouse pointer to area <emphasis
+        role="bold">A</emphasis> and releasing the mouse button. As
+        the mouse pointer is moved from area <emphasis
+        role="bold">C</emphasis> to area <emphasis
+        role="bold">A</emphasis>, a small icon of the folder will move
+        with the mouse pointer.
+      </para>
+
+      <para>
+        Any bookmark folder can also be removed from the list of
+        starting folders presented in area <emphasis
+        role="bold">A</emphasis>. A bookmark folder can be
+        removed by clicking on the folder name in area <emphasis
+        role="bold">A</emphasis> and then clicking on the
+        <guibutton>Remove</guibutton> in area <emphasis
+        role="bold">E</emphasis>.
+      </para>
+
+
+    </sect3>
+
+
+  
+  </sect2>
+
+
+
+
+
+
+
+  <!-- Formats for opening files *** keep // to sect in files-saving.xml -->
+
+  <sect2 id="sect-file-open-formats">
+    <title>The file formats which Gnumeric can read.</title>
+
+    <para>
+      &gnum; can open files which have been created in several formats
+      by other spreadsheet programs or databases. The details of these
+      formats are provided in <xref linkend="sect-file-formats"/> and
+      the name of each file type in the table below skips to the
+      appropriate section of <xref linkend="sect-file-formats"/>. The
+      opening of text formatted files is described in <xref
+      linkend="sect-file-textImport" />. &gnum; can also import
+      text data or HTML and XHTML tables through the clipboard
+      mechanism, as is explained in <xref
+      linkend="sect-movecopy-xclipboard"/>.
+
+<!-- TODO: add link to other data input: e.g. direct database acess. -->
+    </para> 
+
+    <note>
+      <para>
+        Most of these formats are provided by plugins, which are
+        independent, configurable modules. If a format described below
+        does not appear in the <interface>File Open</interface>
+        dialog, this may be because the appropriate plugin has not
+        been configured or started. This can be verified by examining
+        the list of plugins which are currently running in the
+        <interface>Plugin Manager</interface> dialog.
+      </para>
+
+      <para>
+        The <interface>Plugin Manager</interface> dialog lists the
+        plugins which are currently in use and provides a way to start
+        plugins which are currently disabled. The <interface>Plugin
+        Manager</interface> can be started by selecting, in the
+        <guimenu>Tools</guimenu> menu, the
+        <guimenuitem>Plug-ins...</guimenuitem> menu item; see <xref
+        linkend="sect-configuration-plugins" /> for more information.
+      </para>
+    </note>
+
+
+
+<!--    TABLE    TABLE    TABLE    TABLE    TABLE    TABLE    -->
+<table frame='all'><title>The file formats which &gnum; can open.</title>
+<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+       
+
+<thead>
+<row>
+  <entry align="left">Format</entry>
+  <entry align="left">Extension</entry>
+</row>
+</thead>
+<tbody>
+<row>
+  <entry><link linkend="file-format-gnumeric">Gnumeric</link></entry>
+  <entry><literal>.gnumeric</literal> / <literal>.gnm</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-applix">Applix</link></entry>
+  <entry><literal>.as</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-csv">Comma Separated Values</link></entry>
+  <entry><literal>.csv</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-dif">Data Interchange Format</link></entry>
+  <entry><literal>.dif</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-oleo">GNU Oleo</link></entry>
+ <entry><literal>.oleo</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-html">HTML</link></entry>
+  <entry><literal>.html</literal> / <literal>.htm</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-mps">Linear and Integer Program</link></entry>
+  <entry>none / <literal>.mps</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-lotus">Lotus 1-2-3</link></entry>
+  <entry><literal>.wk1</literal> / <literal>.wks</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-excel">Microsoft Excel</link></entry>
+  <entry><literal>.xls</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-multiplan">Multiplan SYLK</link></entry>
+  <entry><literal>none / .slk</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-ooo">OpenOffice.Org / StarOffice</link></entry>
+  <entry><literal>.sxc</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-planperfect">Plan Perfect</link></entry>
+  <entry><literal>.pln</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-qpro">Quattro Pro</link></entry>
+  <entry><literal>.wb1</literal> / <literal>.wb2</literal> / <literal>.wb3</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-sc">SC/XSpread</link></entry>
+  <entry>none / .<literal>sc</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-tab">Tab Separated Values</link></entry>
+  <entry><literal>.tsv</literal> / <literal>.tab</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-text">Text Formats</link></entry>
+  <entry><literal>.txt</literal> / <literal>.text</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-xbase">Xbase</link></entry>
+  <entry><literal>.dbf</literal></entry> 
+</row>
+</tbody>
+</tgroup>
+</table>
+<!--    TABLE    TABLE    TABLE    TABLE    TABLE    TABLE    -->
+
+
+
+  </sect2>
+
+
+</sect1>
+
+
+
+
+
+
+
+
+
+
+

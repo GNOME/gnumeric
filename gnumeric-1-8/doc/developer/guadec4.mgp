@@ -1,0 +1,359 @@
+%deffont "standard" xfont "helvetica-medium-r", tfont "standard.ttf", tmfont "hoso6.ttf"
+%deffont "thick" xfont "helvetica-bold-r", tfont "thick.ttf", tmfont "hoso6.ttf"
+%deffont "typewriter" xfont "courier-medium-r", tfont "typewriter.ttf", tmfont "hoso6.ttf"
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Default settings per each line numbers.
+%%
+%default 1 area 90 90, leftfill, size 7, fore "gray20", back "white", font "standard", hgap 0
+%default 2 size 7, vgap 10, prefix " ", ccolor "black"
+%default 3 size 2, bar "gray70", vgap 10
+%default 4 size 5, fore "gray20", vgap 30, prefix " ", font "standard"
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Default settings that are applied to TAB-indented lines.
+%%
+%tab 1 size 4.5, vgap 40, prefix "  ", icon box "green" 50
+%tab 2 size 4, vgap 40, prefix "      ", icon arc "blue" 50
+%tab 3 size 3, vgap 40, prefix "            ", icon delta3 "white" 40
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%nodefault
+%size 6.5, font "standard", back "white", ccolor "black"
+
+%center, image "gnumeric_splash.jpg"
+
+
+%center, fore "blue", font "standard", hgap 60, size 6.5
+Gnumeric :
+Why do we still bother ?
+%font "standard", hgap 0
+
+
+%left, size 5, fore "blue"
+  Jody Goldberg (jody@gnome.org)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%mark
+History
+%again
+%right, image "gnome-gnumeric.png"
+
+%left
+
+
+	1998 July 2    : Miguel de Icaza
+		Commits first code to CVS
+		Goal : build a real application to test GNOME
+
+	1999 June 12   : Jody Goldberg
+		Adds some error messages
+		Goal : build a spreadsheet to get some work done 
+
+%size 6
+	2001 Dec 31    : 1.0 Released
+		Promises of 'a quick 6 month port to gtk2'
+
+%fore "red"
+	2003 June 7    : 1.1.19
+		Still no feature freeze ??
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%mark
+Why the delay (gsf) ?
+%again
+%right, image "gnome-gnumeric.png"
+
+%left
+
+
+	2002 May - July  : GSF
+		Started as fix for 6.8 Meg OLE export problem
+		Expanded onto a 'maintainable' libole2
+		Exploded into a general i/o abstraction
+		Accumulates support for zip, gzip, bzip2
+		Adds xml sax in/out
+
+	A new common library for office apps
+		Gnumeric (all i/o converted)
+		Abiword (MS Word and WordPerfect)
+		Mrproject
+		Koffice (MS Word vs libwv)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%mark
+Why the delay (charts) ?
+%again
+%right, image "gnome-gnumeric.png"
+
+%left
+
+	1.0.x Guppi over Bonobo does not work well
+		Narrow interface boils down to
+			void Graph::apply (inout string xml);
+		Only I could debug it (on the Gnumeric side)
+			Debugging multiprocess code sucks
+		Only Jon could debug it (on the Guppi side)
+			Years of accumulated design
+	2002 Sept 23     : Guppi gets tired
+		and goes unmaintained
+	Why write a new one ?
+		Maintain Guppi hard without understanding it
+		gtk-extras2 did not map to MS XL charts well
+		R and Chaco weren't ready
+		Lots of others that solve different problems
+		Plenty that just suck
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%mark
+New Charting Engine 1
+%again
+%right, image "gnome-gnumeric.png"
+
+%left
+
+	Replacement arrives in 1.1.19
+	Lives in src/cut-n-paste/goffice
+		After 1.2 will move out of gnumeric
+		Plans to take large chunks of gnumeric with it
+	Easily extensible
+		Style Themes (hopefully like Apple's Keynote)
+%size 3
+      <Family _name="Pie" sample_image_file="pie.xpm"/>
+      <Type _name="Pie" row="1" col="1"
+              engine="GogPiePlot" family="Pie"
+             _description="Percentage of each contributor."
+              sample_image_file="chart_pie_1_1.png">
+	Uses Plot description framework
+%size 3
+      static GogSeriesDimDesc dimensions[] = {
+          { N_("Labels"), GOG_SERIES_SUGGESTED,  TRUE,
+	    GOG_DIM_LABEL, GOG_MS_DIM_CATEGORIES },
+          { N_("Values"), GOG_SERIES_REQUIRED, FALSE,
+	    GOG_DIM_VALUE, GOG_MS_DIM_VALUES }
+      };
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%mark
+New Charting Engine 2
+%again
+%right, image "gnome-gnumeric.png"
+
+%left
+
+		Much better connection with data than 1.0
+			Missing/error values supported
+			Data editors have much better 'finger feel'
+		Better Guru
+			Supports far more than just creation
+			Begins to stray from MS Excel compatibility
+%center, image "guadec4-sample-guru.png"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%mark
+Improved Features
+%again
+%right, image "gnome-gnumeric.png"
+
+%left
+
+	Capabilities
+		AutoFilters
+		Hyperlinks
+		Support use as Bonobo Control
+		Protected regions
+		Horizontal or vertical only frozen panes
+		Multi Head/Display support
+
+	Tools
+		Data Merge tool
+		Data Shuffling tool
+		'Fill Series' tool
+		Risk Simulation (Monte Carlo) tool
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%mark
+Improved Evaluation Engine
+%again
+%right, image "gnome-gnumeric.png"
+
+%left
+
+	Finishing MS Excel emulation layer
+		3D references
+			Sheet1:Sheet3!A1:C3
+		Constructed references
+			A1:address("C3")
+		Implicit iteration
+			{if(a1:a10>0,b1:b10,"haha")}
+		1904 date convention
+		Manual recalc
+		SUBTOTAL magic
+			Ony visible data is used
+		Placeholder names
+		Real time data feeds
+
+	And moving past it
+		Dynamic Dependencies
+			Much nicer than 'volatile' functions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%mark
+Improved Analytics
+%again
+%right, image "gnome-gnumeric.png"
+
+%left
+
+		More than 450 sheet functions
+			missing only 2 to be a strict superset of XL
+		Add more LP and QP algorithms to Solver
+			GNU Linear Programming Kit  (large simplex)
+			lp_solve
+		Additional Random number generators
+			Beta, Cauchy, Chi-Squared, Exponential power
+			F, Gamma, Geometric, Laplace, Levy alpha-Stable
+			Logarithmic, Logistic, Lognormal, Pareto, Rayleigh
+			Rayleigh tail, T, Type I Gumbel, Type II Gumbel, Weibull
+			Gaussian Tail, Landau, and Uniform integer.
+		Additional logarithmic regression functions
+			includes nonlinear fitting of a horizontal curve shift.
+		Greatly expand derivative valuation routines
+			Black-Scholes (and sensitivities), Garman Kohlhagen,
+			Merton Jump Diffussion process,
+			Bjerksund & Stensland (American options),
+			Forward Starts,  Simple & Complex Choosers
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%mark
+Improved Filters
+%again
+%right, image "gnome-gnumeric.png"
+
+%left
+
+		Added Quattro Pro, and OpenOffice
+		Improved Applix, Lotus, and Plan Perfect
+		Improved xbase, and HTML import and export
+		Improved latex export
+		Import encrypted xls
+		Export XLS XP/2k/97, and dual stream
+		Speed up all versions of XLS export
+		Prep for xml from MS Excel 2k or XP
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%mark
+Structural Improvements
+%again
+%right, image "gnome-gnumeric.png"
+
+%left
+
+	GSF
+		Gives us clipboard support for free
+		Transparent compression handling
+	Port to gtk2
+	Move majority of functions into plugins
+	UTF-8 internally
+	Pango in cells
+	Model View Controller split for Sheets
+	FooCanvas
+	Simplify packaging
+		Use Gdkpixbuf for images (no eog suggestion)
+		No more GAL
+		No guppi-gnumeric packaging disaster
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%mark
+Improved Performance
+%again
+%right, image "gnome-gnumeric.png"
+
+%left
+
+	Micro hash dependency enabled as default
+	Bucketing range depends
+	Aggressive expression sharing
+	Custom memory allocation
+	Just in time rendering and spanning
+	Motion compression
+	SAX based .gnumeric import, SAX-ish and export
+	Filter based text import
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%mark
+Improved UI
+%again
+%right, image "gnome-gnumeric.png"
+
+%left
+
+	HIG-ification
+	New art
+	Improved dialogs (eg sheet manager vs zoom)
+	Improved keynav
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%mark
+When can I get me some ?
+%again
+%right, image "gnome-gnumeric.png"
+
+%left
+
+	Feature freeze target July 1
+
+	Remaining features
+		Axis management for charts
+		Handle libxml1 files with no encoding
+		Format selector replacement for text import
+
+	Relatively short beta period
+		1 month
+		Weekly releases
+		1.1.x series has been relatively stable
+		Many improvements make 1.1 more stable than 1.0
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%mark
+Why not join the 'winning' team
+%again
+%right, image "gnome-gnumeric.png"
+
+%left
+
+	OpenOffice
+		10 Years
+		6,000,000 lines
+		A complete development platform
+
+	Gnumeric
+		5 Years
+		300,000 lines of Gnumeric
+		1,200,000 lines of GNOME
+		Not integrated with a suite
+
+	Which platform will reach goal first ?
+		Depends on your goal
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%mark
+Future Goals
+%again
+%right, image "gnome-gnumeric.png"
+
+%left
+
+	Targets for 2.0
+		Scripting
+		PivotTables
+		Conditional Formats
+		Extend collaboration with other office projects
+		Accessibility
+		Right to Left
+
+	http://www.gnome.org/projects/gnumeric
