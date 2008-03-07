@@ -581,26 +581,22 @@ insert_date_time_common (WBCGtk *wbcg, int what)
 						      sv->edit_pos.row);
 		GODateConventions const *date_conv =
 			workbook_date_conv (sheet->workbook);
-		time_t now = time (NULL);
-		gnm_float d;
-		GnmValue *v;
+		GnmValue *v = value_new_float
+			(datetime_timet_to_serial_raw (time (NULL), date_conv));
 		GOFormat *vfmt;
 		char *txt;
 
 		switch (what) {
 		case 1:
-			d = datetime_timet_to_serial_raw (now, date_conv);
 			vfmt = go_format_default_time ();
 			go_format_ref (vfmt);
 			break;
 		case 2:
-			d = datetime_timet_to_serial (now, date_conv);
 			vfmt = gnm_format_for_date_editing (cell);
 			break;
 		case 3: {
 			GString *fstr;
 
-			d = datetime_timet_to_serial_raw (now, date_conv);
 			vfmt = gnm_format_for_date_editing (cell);
 			fstr = g_string_new (go_format_as_XL (vfmt));
 			go_format_unref (vfmt);
@@ -615,7 +611,6 @@ insert_date_time_common (WBCGtk *wbcg, int what)
 			g_assert_not_reached ();
 		}
 
-		v = value_new_float (d);
 		txt = format_value (vfmt, v, NULL, -1, date_conv);
 		wb_control_edit_line_set (wbc, txt);
 
