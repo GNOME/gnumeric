@@ -1,3 +1,11 @@
+gnumeric (1.8.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * [debian/control] Added gnumeric Suggests: msttcorefonts as these may be
+    needed for proper preview and printing of Excel files.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 07 Mar 2008 07:01:57 +0100
+
 gnumeric (1.8.1-1) unstable; urgency=medium
 
   * New upstream release. Changes include

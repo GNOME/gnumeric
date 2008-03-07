@@ -24,7 +24,7 @@ Package: gnumeric
 Architecture: any
 Depends: ${shlibs:Depends}, procps, gsfonts, gnumeric-common (= ${source:Version}), ${misc:Depends}
 Recommends: evince (>= 0.9.0)
-Suggests: gnumeric-doc (>= ${Upstream-Version}), gnumeric-plugins-extra, epiphany-browser
+Suggests: gnumeric-doc (>= ${Upstream-Version}), gnumeric-plugins-extra, epiphany-browser, msttcorefonts
 Conflicts: gnumeric1.0, gnumeric1.0-doc, gnumeric-doc (<< ${Upstream-Version})
 Replaces: zh-trans (<< 0.8-1), gnumeric1.0
 XS-Python-Version: current
