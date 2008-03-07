@@ -1664,10 +1664,13 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	g_slist_free (state.sheet_order);
 
 	renamed_sheets = NULL;
-	for (ptr = state.std_names; ptr != NULL ; ptr = ptr->next)
+	for (ptr = state.std_names; ptr != NULL ; ptr = ptr->next) {
+		const char *name = ptr->data;
+		Sheet *sheet = workbook_sheet_by_name (state.wb, name);
+		int idx = sheet ? sheet->index_in_wb : -1;
 		renamed_sheets = g_slist_prepend (renamed_sheets,
-			GINT_TO_POINTER (workbook_sheet_by_name
-					 (state.wb, ptr->data)->index_in_wb));
+						  GINT_TO_POINTER (idx));
+	}
 	renamed_sheets = g_slist_reverse (renamed_sheets);
 	workbook_sheet_rename (state.wb, renamed_sheets,
 			       state.real_names,
