@@ -1,3 +1,7 @@
+2008-03-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.2
+
 2008-01-29  Morten Welinder  <terra@gnome.org>
 
 	* solver.c (lp_qp_solver_init): Take lhs' value for vars=0 into
