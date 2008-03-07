@@ -1528,14 +1528,17 @@ xlsx_chart_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		GogObject *label = gog_object_add_by_name (state->cur_obj,
 			(state->cur_obj == (GogObject *)state->chart) ? "Title" : "Label", NULL);
 		if (NULL != label) {
+			GnmValue *value = value_new_string_nocopy (state->chart_tx);
+			GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
 			gog_dataset_set_dim (GOG_DATASET (label), 0,
-				go_data_scalar_str_new (state->chart_tx, TRUE), NULL);
+				gnm_go_data_scalar_new_expr (state->sheet, texpr), NULL);
 			state->chart_tx = NULL;
 		}
 	}
 	g_free (state->chart_tx);
 	state->chart_tx = NULL;
 }
+
 static void
 xlsx_chart_text_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
@@ -1917,8 +1920,10 @@ xlsx_axis_cleanup (XLSXReadState *state)
 	for (ptr = list; ptr != NULL ; ptr = ptr->next)
 		if (IS_GOG_AXIS (ptr->data) &&
 		    NULL == g_hash_table_lookup (state->axis.by_obj, ptr->data)) {
-			gog_object_clear_parent	(GOG_OBJECT (ptr->data));
-			g_object_unref (G_OBJECT (ptr->data));
+			if (gog_object_is_deletable (GOG_OBJECT (ptr->data))) {
+				gog_object_clear_parent	(GOG_OBJECT (ptr->data));
+				g_object_unref (G_OBJECT (ptr->data));
+			}
 		}
 	g_slist_free (list);
 
