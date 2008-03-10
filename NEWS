@@ -52,6 +52,7 @@ Morten:
 	* Fix auto-fill problem.  [#519680]
 	* Fix corrupted-gnumeric-bug.  [#519761]
 	* Fix insert-time problem.
+	* Fix inc/dec buttons for General.  [#510252]
 
 Nick Lamb:
 	* Honour detachable-toolbar preference.  [#321867]
