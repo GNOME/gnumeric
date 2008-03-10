@@ -53,6 +53,9 @@ Morten:
 	* Fix corrupted-gnumeric-bug.  [#519761]
 	* Fix insert-time problem.
 
+Nick Lamb:
+	* Honour detachable-toolbar preference.  [#321867]
+
 Uwe Steinmann:
 	* Paradox DB export.
 
