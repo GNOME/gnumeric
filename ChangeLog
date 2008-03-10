@@ -1,3 +1,9 @@
+2008-03-10  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (cb_add_menus_toolbars): Honour
+	/desktop/gnome/interface/toolbar_detachable.  Patch from Nick
+	Lamb.  Fixes #321867.
+
 2008-03-06  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Post release bump.

@@ -3049,38 +3049,43 @@ cb_init_extra_ui (GnmAppExtraUI *extra_ui, WBCGtk *gtk)
 static void
 set_toolbar_style_for_position (GtkToolbar *tb, GtkPositionType pos)
 {
-	GtkHandleBox *hdlbox = GTK_HANDLE_BOX (GTK_WIDGET (tb)->parent);
+	GtkWidget *box = GTK_WIDGET (tb)->parent;
 
-	static const GtkPositionType hdlpos[] = {
-		GTK_POS_TOP, GTK_POS_TOP,
-		GTK_POS_LEFT, GTK_POS_LEFT
-	};
 	static const GtkOrientation orientations[] = {
 		GTK_ORIENTATION_VERTICAL, GTK_ORIENTATION_VERTICAL,
 		GTK_ORIENTATION_HORIZONTAL, GTK_ORIENTATION_HORIZONTAL
 	};
 
 	gtk_toolbar_set_orientation (tb, orientations[pos]);
-	gtk_handle_box_set_handle_position (hdlbox, hdlpos[pos]);
+
+	if (GTK_IS_HANDLE_BOX (box)) {
+		static const GtkPositionType hdlpos[] = {
+			GTK_POS_TOP, GTK_POS_TOP,
+			GTK_POS_LEFT, GTK_POS_LEFT
+		};
+
+		gtk_handle_box_set_handle_position (GTK_HANDLE_BOX (box),
+						    hdlpos[pos]);
+	}
 }
 
 static void
 set_toolbar_position (GtkToolbar *tb, GtkPositionType pos, WBCGtk *gtk)
 {
-	GtkWidget *hdlbox = GTK_WIDGET (tb)->parent;
-	GtkContainer *zone = GTK_CONTAINER (GTK_WIDGET (hdlbox)->parent);
+	GtkWidget *box = GTK_WIDGET (tb)->parent;
+	GtkContainer *zone = GTK_CONTAINER (GTK_WIDGET (box)->parent);
 	GtkContainer *new_zone = GTK_CONTAINER (gtk->toolbar_zones[pos]);
-	char const *name = g_object_get_data (G_OBJECT (hdlbox), "name");
+	char const *name = g_object_get_data (G_OBJECT (box), "name");
 
 	if (zone == new_zone)
 		return;
 
-	g_object_ref (hdlbox);
+	g_object_ref (box);
 	if (zone)
-		gtk_container_remove (zone, hdlbox);
+		gtk_container_remove (zone, box);
 	set_toolbar_style_for_position (tb, pos);
-	gtk_container_add (new_zone, hdlbox);
-	g_object_unref (hdlbox);
+	gtk_container_add (new_zone, box);
+	g_object_unref (box);
 
 	if (zone)
 		gnm_gconf_set_toolbar_position (name, pos);
@@ -3205,8 +3210,8 @@ cb_toolbar_activate (GtkToggleAction *action, WBCGtk *wbcg)
 }
 
 static void
-cb_handlebox_visible (GtkWidget *box, G_GNUC_UNUSED GParamSpec *pspec,
-		      WBCGtk *wbcg)
+cb_toolbar_box_visible (GtkWidget *box, G_GNUC_UNUSED GParamSpec *pspec,
+			WBCGtk *wbcg)
 {
 	GtkToggleAction *toggle_action = g_object_get_data (
 		G_OBJECT (box), "toggle_action");
@@ -3225,7 +3230,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		WBCGtk *wbcg = (WBCGtk *)gtk;
 		char const *name = gtk_widget_get_name (w);
 		GtkToggleActionEntry entry;
-		char *toggle_name = g_strdup_printf ("ViewMenuToolbar%s", name);
+		char *toggle_name = g_strconcat ("ViewMenuToolbar", name, NULL);
 		char *tooltip = g_strdup_printf (_("Show/Hide toolbar %s"), _(name));
 		gboolean visible = gnm_gconf_get_toolbar_visible (name);
 
@@ -3236,8 +3241,20 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		g_hash_table_insert (wbcg->visibility_widgets,
 			g_strdup (toggle_name), g_object_ref (w));
 #else
-		GtkWidget *box = gtk_handle_box_new ();
+		GtkWidget *box;
 		GtkPositionType pos = gnm_gconf_get_toolbar_position (name);
+		gboolean toolbars_can_detach = TRUE;
+#ifdef GNM_WITH_GNOME
+		toolbars_can_detach = go_conf_get_bool (NULL, "/desktop/gnome/interface/toolbar_detachable");
+#endif
+		if (toolbars_can_detach) {
+			box = gtk_handle_box_new ();
+			g_object_connect (box,
+				"signal::child_attached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (TRUE),
+				"signal::child_detached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (FALSE),
+				NULL);
+		} else
+			box = gtk_hbox_new (FALSE, 2);
 		g_signal_connect (G_OBJECT (w),
 				  "button_press_event",
 				  G_CALLBACK (cb_toolbar_button_press),
@@ -3253,11 +3270,10 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 			gtk_widget_hide (box);
 		set_toolbar_position (GTK_TOOLBAR (w), pos, gtk);
 
-		g_object_connect (box,
-			"signal::notify::visible", G_CALLBACK (cb_handlebox_visible), wbcg,
-			"signal::child_attached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (TRUE),
-			"signal::child_detached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (FALSE),
-			NULL);
+		g_signal_connect (box,
+				  "notify::visible",
+				  G_CALLBACK (cb_toolbar_box_visible),
+				  gtk);
 		g_object_set_data_full (G_OBJECT (box), "name",
 					g_strdup (name),
 					(GDestroyNotify)g_free);
@@ -3276,7 +3292,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		entry.callback = G_CALLBACK (cb_toolbar_activate);
 		entry.is_active = visible;
 		gtk_action_group_add_toggle_actions (gtk->toolbar.actions,
-			&entry, 1, (WBCGtk *)wbcg);
+			&entry, 1, wbcg);
 		g_object_set_data (G_OBJECT (box), "toggle_action",
 			gtk_action_group_get_action (gtk->toolbar.actions, toggle_name));
 		gtk_ui_manager_add_ui (gtk->ui, gtk->toolbar.merge_id,

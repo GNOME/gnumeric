@@ -1,5 +1,8 @@
 Gnumeric 1.8.3
 
+Nick Lamb:
+	* Honour detachable-toolbar preference.  [#321867]
+
 --------------------------------------------------------------------------
 Gnumeric 1.8.2
 
