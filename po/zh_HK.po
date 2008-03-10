@@ -1,4 +1,4 @@
-# traditional Chinese translation of gnumeric.
+# Chinese (Hong Kong) translation of gnumeric.
 # Copyright (C) 1999, 2001, 2003 Free Software Foundation, Inc.
 # Pofeng Lee <Pofeng.Lee@ms7.url.com.tw>, 1999
 # Abel Cheung <maddog@linux.org.hk>, 2001, 2003.
@@ -9,9 +9,9 @@ msgstr ""
 "Project-Id-Version: gnumeric 1.1.19\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-03-10 21:20+0800\n"
-"PO-Revision-Date: 2008-03-05 09:20+0800\n"
+"PO-Revision-Date: 2008-03-10 21:27+0800\n"
 "Last-Translator: Woodman Tuen <wmtuen@gmail.com>\n"
-"Language-Team: Chinese (traditional) <Community@linuxhall.org>\n"
+"Language-Team: Chinese (Hong Kong) <community@linuxhall.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -36,12 +36,12 @@ msgstr "當讀取 Applix 檔案時發生解析錯誤。"
 
 #: ../plugins/applix/applix-read.c:329
 msgid "Missing characters for character encoding"
-msgstr "字元編碼缺少部分字元"
+msgstr "字符編碼缺少部分字符"
 
 #: ../plugins/applix/applix-read.c:333
 #, c-format
 msgid "Invalid characters for encoding '%c%c'"
-msgstr "編碼‘%c%c’內有無效字元"
+msgstr "編碼‘%c%c’內有無效字符"
 
 #: ../plugins/applix/applix-read.c:1196
 #, c-format
@@ -195,7 +195,7 @@ msgstr "財務導出函數"
 
 #: ../plugins/derivatives/plugin.xml.in.h:3
 msgid "Functions related to financial derivatives"
-msgstr "與財務導出函數有關的函式"
+msgstr "與財務導出函數有關的函數"
 
 #: ../plugins/dif/dif.c:70 ../plugins/excel/ms-excel-read.c:6557
 #: ../plugins/mps/mps.c:535 ../src/xml-io.c:2696 ../src/xml-sax-read.c:2610
@@ -657,7 +657,7 @@ msgstr "資料庫"
 
 #: ../plugins/fn-database/plugin.xml.in.h:2
 msgid "Database Functions"
-msgstr "資料庫函式"
+msgstr "資料庫函數"
 
 #: ../plugins/fn-database/plugin.xml.in.h:3
 msgid "Functions looking up values in databases"
@@ -746,7 +746,7 @@ msgstr "工程學函數"
 
 #: ../plugins/fn-eng/plugin.xml.in.h:3
 msgid "Functions for complex numbers, base conversions, and more"
-msgstr "用於複數、進制轉換等函式"
+msgstr "用於複數、進制轉換等函數"
 
 #: ../plugins/fn-erlang/functions.c:319 ../plugins/fn-erlang/functions.c:324
 msgid "traffic,circuits"
@@ -1657,27 +1657,27 @@ msgstr "讀入 MPS 檔時發生錯誤。"
 
 #: ../plugins/mps/parser.c:552
 msgid "Problem name was not defined in the file."
-msgstr "檔案裡未有定義程式名稱。"
+msgstr "檔案裏未有定義程式名稱。"
 
 #: ../plugins/mps/parser.c:557
 msgid "Invalid ROWS section in the file."
-msgstr "檔案裡的 ROWS 章節無效。"
+msgstr "檔案裏的 ROWS 章節無效。"
 
 #: ../plugins/mps/parser.c:562
 msgid "Invalid COLUMNS section in the file."
-msgstr "檔案裡的 COLUMNS 章節無效。"
+msgstr "檔案裏的 COLUMNS 章節無效。"
 
 #: ../plugins/mps/parser.c:567
 msgid "Invalid RHS section in the file."
-msgstr "檔案裡的 RHS 章節無效。"
+msgstr "檔案裏的 RHS 章節無效。"
 
 #: ../plugins/mps/parser.c:572
 msgid "Invalid RANGES section in the file."
-msgstr "檔案裡的 RANGES 章節無效。"
+msgstr "檔案裏的 RANGES 章節無效。"
 
 #: ../plugins/mps/parser.c:577
 msgid "Invalid BOUNDS section in the file."
-msgstr "檔案裡的 BOUNDS 章節無效。"
+msgstr "檔案裏的 BOUNDS 章節無效。"
 
 #: ../plugins/mps/plugin.xml.in.h:1
 msgid "Linear and integer program (*.mps) file format"
@@ -1746,7 +1746,7 @@ msgstr "缺少了表示式名稱空間"
 #: ../plugins/openoffice/openoffice-read.c:895
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
-msgstr "表示式 '%s' 非以能辨認的字元開首"
+msgstr "表示式 '%s' 非以能辨認的字符開首"
 
 #: ../plugins/openoffice/openoffice-read.c:980
 msgid "Invalid array expression does not specify number of columns."
@@ -1886,7 +1886,7 @@ msgstr "無法為紀錄資料配置記憶體。"
 #: ../plugins/paradox/paradox.c:536
 #, c-format
 msgid "Field %d in line %d has possibly been cut off. Data has %d chars."
-msgstr "第 %2$d 列中的第 %1$d 欄可能被截短了。資料有 %3$d 個字元。"
+msgstr "第 %2$d 列中的第 %1$d 欄可能被截短了。資料有 %3$d 個字符。"
 
 #: ../plugins/paradox/paradox.c:545
 #, c-format
@@ -2153,7 +2153,7 @@ msgstr "不明的動作: %s"
 #: ../plugins/python-loader/python-loader.c:719
 #, c-format
 msgid "Not a valid function for action: %s"
-msgstr "並非用於此動作的有效函式: %s"
+msgstr "並非用於此動作的有效函數: %s"
 
 #: ../plugins/qpro/plugin.xml.in.h:1
 msgid "Imports Quattro Pro (tm) files"
@@ -2272,9 +2272,7 @@ msgid ""
 "This build of Gnumeric can only hold %d rows.  Ignoring the rest of this "
 "file.  You will need a custom build with SHEET_MAX_ROWS increased to read "
 "this file."
-msgstr ""
-"此 Gnumeric 版本只能處理 %d 列。此檔案其餘部分將忽略。您需要使用調大了 "
-"SHEET_MAX_ROWS 的特製版本才能讀取此檔案。 "
+msgstr "此 Gnumeric 版本只能處理 %d 列。此檔案其餘部分將忽略。你需要使用調大了 SHEET_MAX_ROWS 的特製版本才能讀取此檔案。 "
 
 #: ../plugins/xbase/plugin.xml.in.h:1
 msgid "Imports XBase files"
@@ -2316,7 +2314,7 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:5
 msgid "Apply print-setup to all sheets"
-msgstr "將列印設定套用於所有工作表"
+msgstr "將打印設定套用於所有工作表"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:6
 msgid "Autocorrect first letter"
@@ -2336,7 +2334,7 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:10
 msgid "Default Black and White Printing"
-msgstr "預設黑白列印"
+msgstr "預設黑白打印"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:11
 msgid "Default Bottom Margin"
@@ -2348,7 +2346,7 @@ msgstr "預設底外邊距"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:13
 msgid "Default Grid Line Printing"
-msgstr "預設列印格線"
+msgstr "預設打印格線"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:14
 msgid "Default Header/Footer Font Size"
@@ -2368,7 +2366,7 @@ msgstr ""
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:18
 msgid "Default Print Direction"
-msgstr "預設列印方向"
+msgstr "預設打印方向"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:19
 msgid "Default Repeated Left Region"
@@ -2392,11 +2390,11 @@ msgstr "預設縮放高度"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:24
 msgid "Default Scaling Width"
-msgstr "預設縮放寬度"
+msgstr "預設縮放闊度"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:25
 msgid "Default Title Printing"
-msgstr "預設標題列印"
+msgstr "預設標題打印"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:26
 msgid "Default Top Margin"
@@ -2416,7 +2414,7 @@ msgstr "預設頁首/頁尾字型名稱"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:30
 msgid "GTKPrintSetting"
-msgstr "GTK列印設定"
+msgstr "GTK打印設定"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:31
 msgid "Header/Footer Format (Left Portion)"
@@ -2483,7 +2481,7 @@ msgstr "紙張"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:46
 msgid "Please use the Print Setup dialog to edit this value."
-msgstr "請使用列印設定對話方塊編輯此值。"
+msgstr "請使用打印設定對話方塊編輯此值。"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:47
 msgid "Preferred Display Unit"
@@ -2521,7 +2519,7 @@ msgstr "自動修正功能不會修正本清單中所有字詞的第一個字母
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:53
 msgid "The configuration of GTKPrintSetting. Do not edit this variable."
-msgstr "「GTK列印設定」組態。請勿修改本變數。"
+msgstr "「GTK打印設定」組態。請勿修改本變數。"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:54
 msgid "The default font name for headers and footers."
@@ -2555,13 +2553,13 @@ msgstr ""
 msgid ""
 "The function selector keeps a list of recently used functions. This is that "
 "list."
-msgstr "函數選擇程序中保留了最近使用的函數紀錄清單。這裡是清單本身的內容。"
+msgstr "函數選擇程序中保留了最近使用的函數紀錄清單。這裏是清單本身的內容。"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:61
 msgid ""
 "The function selector keeps a list of recently used functions. This is the "
 "maximum length of that list."
-msgstr "函數選擇程序中保留了最近使用的函數紀錄清單。這裡是清單長度上限。"
+msgstr "函數選擇程序中保留了最近使用的函數紀錄清單。這裏是清單長度上限。"
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:62
 msgid "The main directory for user specific autoformat templates."
@@ -2856,11 +2854,11 @@ msgstr ""
 
 #: ../schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
-msgstr "水平方向的螢幕解析度。"
+msgstr "水平方向的螢幕解像度。"
 
 #: ../schemas/gnumeric-general.schemas.in.h:24
 msgid "Screen resolution in the vertical direction."
-msgstr "垂直方向的螢幕解析度。"
+msgstr "垂直方向的螢幕解像度。"
 
 #: ../schemas/gnumeric-general.schemas.in.h:25
 msgid ""
@@ -2893,9 +2891,7 @@ msgid ""
 "Some file formats can contain only a single sheet. This variable determines "
 "whether the user will be warned if only a single sheet of a multi-sheet "
 "workbook is being saved."
-msgstr ""
-"某些檔案格式只能容納一張工作表。在一本有多張工作表的活頁簿中，當只能儲存一張"
-"工作表時，本變數決定是否向使用者發出警告。"
+msgstr "某些檔案格式只能容納一張工作表。在一本有多張工作表的活頁簿中，當只能儲存一張工作表時，本變數決定是否向使用者發出警告。"
 
 #: ../schemas/gnumeric-general.schemas.in.h:30
 msgid "Sort Area Has Header"
@@ -2958,17 +2954,13 @@ msgstr ""
 msgid ""
 "This number (between 0.25 and 1.00) gives the horizontal fraction of the "
 "screen size covered by the default window."
-msgstr ""
-"本數字 (介乎 0.25 至 1.00 之間) 是預設開啟視窗時視窗所佔的螢幕水平長度的比"
-"例。"
+msgstr "本數字 (介乎 0.25 至 1.00 之間) 是預設開啟視窗時視窗所佔的螢幕水平長度的比例。"
 
 #: ../schemas/gnumeric-general.schemas.in.h:44
 msgid ""
 "This number (between 0.25 and 1.00) gives the vertical fraction of the "
 "screen size covered by the default window."
-msgstr ""
-"本數字 (介乎 0.25 至 1.00 之間) 是預設開啟視窗時視窗所佔的螢幕垂直長度的比"
-"例。"
+msgstr "本數字 (介乎 0.25 至 1.00 之間) 是預設開啟視窗時視窗所佔的螢幕垂直長度的比例。"
 
 #: ../schemas/gnumeric-general.schemas.in.h:45
 msgid ""
@@ -3246,7 +3238,7 @@ msgstr "輸入「%s%s」"
 #: ../src/commands.c:1242
 #, c-format
 msgid "Creating a Data Table in %s"
-msgstr "正於 %s 內建立資料表格"
+msgstr "正於 %s 內置立資料表格"
 
 #: ../src/commands.c:1274
 msgid "Ins/Del Column/Row"
@@ -3330,7 +3322,7 @@ msgstr "更改 %s 的格式"
 #: ../src/commands.c:2013
 #, c-format
 msgid "Autofitting column %s"
-msgstr "欄 %s 自動改變寬度"
+msgstr "欄 %s 自動改變闊度"
 
 #: ../src/commands.c:2014
 #, c-format
@@ -3360,7 +3352,7 @@ msgstr "設定 %s 的列高為預設值"
 #: ../src/commands.c:2029
 #, c-format
 msgid "Autofitting columns %s"
-msgstr "欄 %s 自動改變寬度"
+msgstr "欄 %s 自動改變闊度"
 
 #: ../src/commands.c:2030
 #, fuzzy, c-format
@@ -3380,7 +3372,7 @@ msgstr "設定 %s 的列高為 %d 像素"
 #: ../src/commands.c:2039
 #, c-format
 msgid "Setting width of columns %s to default"
-msgstr "將 %s 中每欄的寬度設定為預設值"
+msgstr "將 %s 中每欄的闊度設定為預設值"
 
 #: ../src/commands.c:2041
 #, c-format
@@ -3533,7 +3525,7 @@ msgstr "搜尋及取代"
 #: ../src/commands.c:4302
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
-msgstr "設定每欄預設寬度為 %.2f 點"
+msgstr "設定每欄預設闊度為 %.2f 點"
 
 #: ../src/commands.c:4303
 #, c-format
@@ -3672,7 +3664,7 @@ msgstr ""
 #: ../src/commands.c:6495
 #, c-format
 msgid "Tabulating Dependencies"
-msgstr "正在將增效模組相依性表格化"
+msgstr "正在將增效模組相根據性表格化"
 
 #: ../src/commands.c:6569
 msgid "Reconfigure Graph"
@@ -4036,7 +4028,7 @@ msgstr "本格式範例所屬的類別"
 
 #: ../src/dialogs/autoformat.glade.h:18
 msgid "The group/individual that made the template"
-msgstr "製作本格式範例的人或群組"
+msgstr "製作本格式範例的人或羣組"
 
 #: ../src/dialogs/autoformat.glade.h:19 ../src/dialogs/cell-format.glade.h:87
 msgid "_Bottom"
@@ -4545,7 +4537,7 @@ msgstr "使用預設值(_U)"
 
 #: ../src/dialogs/colrow.glade.h:1
 msgid "Group/Ungroup"
-msgstr "群組/解除群組"
+msgstr "羣組/解除羣組"
 
 #: ../src/dialogs/consolidate.glade.h:1
 msgid "C_opy labels"
@@ -4917,7 +4909,7 @@ msgstr "Gergo Erdi"
 
 #: ../src/dialogs/dialog-about.c:107
 msgid "Custom UI tools"
-msgstr "自訂圖形介面工具"
+msgstr "自選圖形介面工具"
 
 #: ../src/dialogs/dialog-about.c:108
 msgid "John Gotts"
@@ -5170,7 +5162,7 @@ msgstr "輸出範圍無效"
 
 #: ../src/dialogs/dialog-advanced-filter.c:144
 msgid "The given criteria are invalid."
-msgstr "給定的規限範圍無效"
+msgstr "指定的規限範圍無效"
 
 #: ../src/dialogs/dialog-advanced-filter.c:150
 msgid "No matching records were found."
@@ -5585,7 +5577,7 @@ msgstr ""
 
 #: ../src/dialogs/dialog-col-width.c:221
 msgid "Set standard/default column width"
-msgstr "設定每欄預設的寬度"
+msgstr "設定每欄預設的闊度"
 
 #: ../src/dialogs/dialog-col-width.c:226
 #, c-format
@@ -5932,7 +5924,7 @@ msgstr "選取目錄"
 
 #: ../src/dialogs/dialog-plugin-manager.c:409
 msgid "Plugin dependencies"
-msgstr "增效模組相依性"
+msgstr "增效模組相根據性"
 
 #: ../src/dialogs/dialog-plugin-manager.c:417
 msgid "Unknown plugin"
@@ -6059,7 +6051,7 @@ msgstr "預設日期格式"
 
 #: ../src/dialogs/dialog-printer-setup.c:1496
 msgid "Custom date format"
-msgstr "自訂日期格式"
+msgstr "自選日期格式"
 
 #: ../src/dialogs/dialog-printer-setup.c:1528
 msgid "Default time format"
@@ -6067,7 +6059,7 @@ msgstr "預設時間格式"
 
 #: ../src/dialogs/dialog-printer-setup.c:1534
 msgid "Custom time format"
-msgstr "自訂日期格式"
+msgstr "自選日期格式"
 
 #: ../src/dialogs/dialog-printer-setup.c:1573
 msgid "$A$1 (first cell of this worksheet)"
@@ -6158,7 +6150,7 @@ msgstr "捨棄"
 
 #: ../src/dialogs/dialog-quit.c:197
 msgid "Discard changes"
-msgstr "捨棄變更"
+msgstr "捨棄更改"
 
 #: ../src/dialogs/dialog-quit.c:200
 msgid "Save"
@@ -6615,7 +6607,7 @@ msgstr "最大值"
 
 #: ../src/dialogs/dialog-simulation.c:321
 msgid "Invalid variable range was given"
-msgstr "給定的變數範圍無效"
+msgstr "指定的變數範圍無效"
 
 #: ../src/dialogs/dialog-simulation.c:335
 msgid ""
@@ -6868,7 +6860,7 @@ msgstr "分隔符號(_S)："
 
 #: ../src/dialogs/dialog-stf-export.glade.h:44
 msgid "_Unknown characters:"
-msgstr "不明字元(_U)："
+msgstr "不明字符(_U)："
 
 #: ../src/dialogs/dialog-stf-fixed-page.c:52
 msgid "Autodiscovery did not find any columns in the text. Try manually"
@@ -6988,7 +6980,7 @@ msgstr "實際操作會在這一行開始，之前的任何一行都會被忽略
 
 #: ../src/dialogs/dialog-stf.glade.h:4
 msgid "Attempt to recognize columns in the text automatically."
-msgstr "嘗試自動辨認文字裡的欄位。"
+msgstr "嘗試自動辨認文字裏的欄位。"
 
 #: ../src/dialogs/dialog-stf.glade.h:5
 msgid ""
@@ -7016,7 +7008,7 @@ msgid ""
 "Character interpreted as quote character. If a termination or separation "
 "character is encountered within quotes it will be considered part of the "
 "column text."
-msgstr "作為引號的字元。如果在此引號字元裡出現分隔符號，分隔符號會失效。"
+msgstr "作為引號的字符。如果在此引號字符裏出現分隔符號，分隔符號會失效。"
 
 #: ../src/dialogs/dialog-stf.glade.h:13
 msgid "Clear list of columns"
@@ -7033,7 +7025,7 @@ msgstr "欄"
 #: ../src/dialogs/dialog-stf.glade.h:16
 #, fuzzy
 msgid "Custom separator, this can be any character."
-msgstr "自選分隔符號，可以是任何字元"
+msgstr "自選分隔符號，可以是任何字符"
 
 #: ../src/dialogs/dialog-stf.glade.h:17
 msgid "Data"
@@ -7041,13 +7033,13 @@ msgstr "資料"
 
 #: ../src/dialogs/dialog-stf.glade.h:18
 msgid "Define the width of each column manually."
-msgstr "自行設定每欄的寬度。"
+msgstr "自行設定每欄的闊度。"
 
 #: ../src/dialogs/dialog-stf.glade.h:19
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr "文字裡的每一欄都以一個「分隔符號」隔開，例如分號。"
+msgstr "文字裏的每一欄都以一個「分隔符號」隔開，例如分號。"
 
 #: ../src/dialogs/dialog-stf.glade.h:20
 msgid "Encoding:"
@@ -7059,7 +7051,7 @@ msgstr "完成(_I)"
 
 #: ../src/dialogs/dialog-stf.glade.h:22
 msgid "Fi_xed width"
-msgstr "固定寬度(_X)"
+msgstr "固定闊度(_X)"
 
 #: ../src/dialogs/dialog-stf.glade.h:23
 msgid "Fixed"
@@ -7325,7 +7317,7 @@ msgstr "_75 %"
 
 #: ../src/dialogs/dialog-zoom.glade.h:14
 msgid "_Custom Percentage"
-msgstr "自訂百分比(_C)"
+msgstr "自選百分比(_C)"
 
 #: ../src/dialogs/dialog-zoom.glade.h:15
 msgid "_Fit Selection"
@@ -7342,7 +7334,7 @@ msgstr "<b>建立日期：</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:3
 msgid "<b>Group:</b>"
-msgstr "<b>群組：</b>"
+msgstr "<b>羣組：</b>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:4
 msgid "<b>Information</b>"
@@ -7406,7 +7398,7 @@ msgstr "<建立日期>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:19
 msgid "<group>"
-msgstr "<群組>"
+msgstr "<羣組>"
 
 #: ../src/dialogs/doc-meta-data.glade.h:20
 msgid "<location>"
@@ -7683,7 +7675,7 @@ msgstr "插入新工作表儲存格"
 
 #: ../src/dialogs/hf-config.glade.h:8
 msgid "Insert the date of printing"
-msgstr "插入列印日期"
+msgstr "插入打印日期"
 
 #: ../src/dialogs/hf-config.glade.h:9
 msgid "Insert the name of the current sheet"
@@ -7703,7 +7695,7 @@ msgstr "插入檔案路徑"
 
 #: ../src/dialogs/hf-config.glade.h:13
 msgid "Insert the time of printing"
-msgstr "插入列印時間"
+msgstr "插入打印時間"
 
 #: ../src/dialogs/hf-config.glade.h:14
 msgid "Insert the total number of pages"
@@ -8010,9 +8002,7 @@ msgid ""
 "The plugin cannot be deactivated now because it is in use. However, if you "
 "use the check button below, the plugin won't be activated after restarting "
 "Gnumeric (unless needed by another plugin)."
-msgstr ""
-"該增效模組不能停止使用，因為它仍在使用中。可是，如果選取了下面的選項，重新啟"
-"動 Gnumeric 後就不會再啟動該增效模組，除非有其它增效模組需要這個增效模組。"
+msgstr "該增效模組不能停止使用，因為它仍在使用中。可是，如果選取了下面的選項，重新啟動 Gnumeric 後就不會再啟動該增效模組，除非有其它增效模組需要這個增效模組。"
 
 #: ../src/dialogs/plugin-manager.glade.h:9
 msgid "_Activate All"
@@ -8042,7 +8032,7 @@ msgstr "<b>方向(_R)：</b>"
 
 #: ../src/dialogs/print.glade.h:6
 msgid "<b>Page Order</b>"
-msgstr "<b>列印方向</b>"
+msgstr "<b>打印方向</b>"
 
 #: ../src/dialogs/print.glade.h:7
 msgid "<b>Paper:</b>"
@@ -8050,7 +8040,7 @@ msgstr "<b>紙張：</b>"
 
 #: ../src/dialogs/print.glade.h:8
 msgid "<b>Print</b>"
-msgstr "<b>列印</b>"
+msgstr "<b>打印</b>"
 
 #: ../src/dialogs/print.glade.h:9
 msgid "<b>Scale</b>"
@@ -8058,7 +8048,7 @@ msgstr "<b>縮放比例</b>"
 
 #: ../src/dialogs/print.glade.h:10
 msgid "<b>Titles To Print</b>"
-msgstr "<b>列印標題</b>"
+msgstr "<b>打印標題</b>"
 
 #: ../src/dialogs/print.glade.h:11
 msgid "Apply _to:"
@@ -8074,7 +8064,7 @@ msgstr "底邊距："
 
 #: ../src/dialogs/print.glade.h:14
 msgid "Change Paper Type"
-msgstr "變更紙張類型"
+msgstr "更改紙張類型"
 
 #: ../src/dialogs/print.glade.h:15
 msgid "Co_mments:"
@@ -8086,7 +8076,7 @@ msgstr "配置"
 
 #: ../src/dialogs/print.glade.h:17
 msgid "Do not print with all sheets"
-msgstr "不要將列印設定套用於所有工作表"
+msgstr "不要將打印設定套用於所有工作表"
 
 #: ../src/dialogs/print.glade.h:18
 msgid "Fi_rst page number:"
@@ -8122,7 +8112,7 @@ msgstr "直向"
 
 #: ../src/dialogs/print.glade.h:27
 msgid "Print _area:"
-msgstr "列印範圍(_A)"
+msgstr "打印範圍(_A)"
 
 #: ../src/dialogs/print.glade.h:28
 msgid "R_ight, then down"
@@ -8350,7 +8340,7 @@ msgstr ""
 
 #: ../src/dialogs/scenario-manager.glade.h:3
 msgid "<span weight=\"bold\">Changing Cells</span>"
-msgstr "<span weight=\"bold\">變更儲取格</span>"
+msgstr "<span weight=\"bold\">更改儲取格</span>"
 
 #: ../src/dialogs/scenario-manager.glade.h:4
 #, fuzzy
@@ -8916,7 +8906,7 @@ msgstr "答案(_A)"
 
 #: ../src/dialogs/solver.glade.h:20
 msgid "_Change"
-msgstr "變更(_C)"
+msgstr "更改(_C)"
 
 #: ../src/dialogs/solver.glade.h:21
 msgid "_Create a scenario if the optimal solution is found"
@@ -9165,7 +9155,7 @@ msgstr "目標區域太小。區域最小應佔 %d 列 %d 欄"
 #: ../src/format-template.c:795
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
-msgstr "目標區域太小。區域寬度最小應佔 %d 欄"
+msgstr "目標區域太小。區域闊度最小應佔 %d 欄"
 
 #: ../src/format-template.c:799
 #, c-format
@@ -9187,8 +9177,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
-"@DESCRIPTION=SUM 會取參數中所有的數值及參數所代表的儲存格的數值，計算它們的總"
-"和。\n"
+"@DESCRIPTION=SUM 會取參數中所有的數值及參數所代表的儲存格的數值，計算它們的總和。\n"
 "\n"
 "* 本函數是兼容於 Excel 的。\n"
 "@EXAMPLES=\n"
@@ -9210,11 +9199,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(數值1, 數值2, ...)\n"
-"@DESCRIPTION=PRODUCT 會取參數中所有的數值及參數所代表的儲存格的數值，回傳它們"
-"的乘積。\n"
+"@DESCRIPTION=PRODUCT 會取參數中所有的數值及參數所代表的儲存格的數值，回傳它們的乘積。\n"
 "\n"
-"* 本函數是兼容於 Excel 的。特別注意一點，如果所有儲存格都沒有內容，結果將會"
-"是 0。\n"
+"* 本函數是兼容於 Excel 的。特別注意一點，如果所有儲存格都沒有內容，結果將會是 0。\n"
 "\n"
 "@EXAMPLES=\n"
 "PRODUCT(2,5,9) 等於 90."
@@ -9252,7 +9239,7 @@ msgstr "不明的函數"
 
 #: ../src/func.c:939
 msgid "Boolean"
-msgstr "布林值"
+msgstr "邏輯值"
 
 #: ../src/func.c:941
 msgid "Cell Range"
@@ -9281,7 +9268,7 @@ msgstr "符合"
 
 #: ../src/gnm-graph-window.c:193
 msgid "Fit Width"
-msgstr "符合寬度"
+msgstr "符合闊度"
 
 #: ../src/gnm-graph-window.c:194
 msgid "Fit Height"
@@ -9465,7 +9452,7 @@ msgstr "無法開啟‘%s’"
 #: ../src/item-bar.c:777
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
-msgstr "寬度：%.2f 點 (%d 像素)"
+msgstr "闊度：%.2f 點 (%d 像素)"
 
 #: ../src/item-bar.c:780
 #, c-format
@@ -9541,7 +9528,7 @@ msgstr "調整根資料目錄"
 
 #: ../src/libgnumeric.c:112
 msgid "Enables some dependency related debugging functions"
-msgstr "啟用某些和相依性有關的偵錯功能"
+msgstr "啟用某些和相根據性有關的偵錯功能"
 
 #: ../src/libgnumeric.c:113 ../src/libgnumeric.c:119 ../src/libgnumeric.c:125
 msgid "LEVEL"
@@ -9553,7 +9540,7 @@ msgstr ""
 
 #: ../src/libgnumeric.c:124
 msgid "Enables some print debugging behavior"
-msgstr "啟用某些列印偵錯功能"
+msgstr "啟用某些打印偵錯功能"
 
 #: ../src/libgnumeric.c:138
 #, c-format
@@ -9619,9 +9606,9 @@ msgid ""
 "\n"
 "-- The Gnumeric Team."
 msgstr ""
-"多謝您使用 Gnumeric！\n"
+"多謝你使用 Gnumeric！\n"
 "\n"
-"您正在使用的是舊版本的 Gnumeric。\n"
+"你正在使用的是舊版本的 Gnumeric。\n"
 "現在新版本的 Gnumeric \n"
 "可能已經修正了不少的漏洞，\n"
 "和加入了許多新的功能。\n"
@@ -9630,7 +9617,7 @@ msgstr ""
 "如果需要更多資料，請瀏覽\n"
 "http://www.gnome.org/projects/gnumeric/。\n"
 "\n"
-"─ Gnumeric 開發團隊。"
+"─ Gnumeric 開發隊伍。"
 
 #: ../src/main-application.c:234 ../src/ssconvert.c:366 ../src/ssindex.c:211
 #, c-format
@@ -9826,7 +9813,7 @@ msgstr "PDF 匯出"
 
 #: ../src/print.c:911
 msgid "Print Selection"
-msgstr "列印選定範圍"
+msgstr "打印選定範圍"
 
 #: ../src/print.c:1254
 msgid "_All workbook sheets"
@@ -9858,7 +9845,7 @@ msgstr "至："
 
 #: ../src/print.c:1486
 msgid "Gnumeric Print Range"
-msgstr "Gnumeric 列印範圍"
+msgstr "Gnumeric 打印範圍"
 
 #. Actually we can get slightly more than max_width here.
 #. * But max_width was computed as an estimate, anyway, so we don't care.
@@ -9942,11 +9929,11 @@ msgstr ""
 #: ../src/search.c:622
 #, fuzzy
 msgid "The sheet in which to search."
-msgstr "在那裡搜尋。"
+msgstr "在那裏搜尋。"
 
 #: ../src/search.c:631
 msgid "Where to search."
-msgstr "在那裡搜尋。"
+msgstr "在那裏搜尋。"
 
 #: ../src/search.c:640
 msgid "Range as Text"
@@ -10322,7 +10309,7 @@ msgstr ""
 
 #: ../src/sheet.c:765
 msgid "Protected allow cell formatting"
-msgstr "保護，但允許變更儲存格格式"
+msgstr "保護，但允許更改儲存格格式"
 
 #: ../src/sheet.c:766
 msgid "Allow cell format changes while a sheet is protected"
@@ -10330,7 +10317,7 @@ msgstr ""
 
 #: ../src/sheet.c:769
 msgid "Protected allow column formatting"
-msgstr "保護，但允許變更欄位格式"
+msgstr "保護，但允許更改欄位格式"
 
 #: ../src/sheet.c:770
 msgid "Allow column formatting while a sheet is protected"
@@ -10338,7 +10325,7 @@ msgstr ""
 
 #: ../src/sheet.c:773
 msgid "Protected allow row formatting"
-msgstr "保護，但允許變更列格式"
+msgstr "保護，但允許更改列格式"
 
 #: ../src/sheet.c:774
 msgid "Allow row formatting while a sheet is protected"
@@ -10632,11 +10619,11 @@ msgstr ""
 
 #: ../src/stf-export.c:515
 msgid "Character set"
-msgstr "字元集"
+msgstr "字符集"
 
 #: ../src/stf-export.c:516
 msgid "The character encoding of the output."
-msgstr "輸出的字元編碼。"
+msgstr "輸出的字符編碼。"
 
 #: ../src/stf-export.c:524
 #, fuzzy
@@ -10837,9 +10824,7 @@ msgstr "協方差 (%s)"
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
-msgstr ""
-"/平均值/標準誤差/中位數/眾數/標準差/樣本變異數/峰態/偏斜度/值域/最小值/最大"
-"值/總和/個數"
+msgstr "/平均值/標準誤差/中位數/眾數/標準差/樣本變異數/峰態/偏斜度/值域/最小值/最大值/總和/個數"
 
 #: ../src/tools/analysis-tools.c:1187
 #, c-format
@@ -10977,9 +10962,7 @@ msgstr ""
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
-msgstr ""
-"/統計結果摘要//迴歸分析統計結果/Multiple R/R Square/Adjusted R Square/標準誤"
-"差/抽樣數目//ANOVA//迴歸/殘差/總計///截距"
+msgstr "/統計結果摘要//迴歸分析統計結果/Multiple R/R Square/Adjusted R Square/標準誤差/抽樣數目//ANOVA//迴歸/殘差/總計///截距"
 
 #: ../src/tools/analysis-tools.c:3205
 msgid "/df/SS/MS/F/Significance of F"
@@ -11212,7 +11195,7 @@ msgstr "目前值"
 
 #: ../src/tools/scenarios.c:691
 msgid "Changing Cells:"
-msgstr "變更儲存格："
+msgstr "更改儲存格："
 
 #: ../src/tools/simulation.c:94
 msgid ""
@@ -11813,16 +11796,16 @@ msgstr "#N/A"
 #. File->PrintArea
 #: ../src/wbc-gtk-actions.c:107 ../src/wbc-gtk-actions.c:1567
 msgid "Set Print Area"
-msgstr "設定列印範圍"
+msgstr "設定打印範圍"
 
 #: ../src/wbc-gtk-actions.c:111
 #, c-format
 msgid "Set Print Area to %s"
-msgstr "設定列印範圍至 %s"
+msgstr "設定打印範圍至 %s"
 
 #: ../src/wbc-gtk-actions.c:131 ../src/wbc-gtk-actions.c:1570
 msgid "Clear Print Area"
-msgstr "清除列印範圍"
+msgstr "清除打印範圍"
 
 #: ../src/wbc-gtk-actions.c:339
 #, c-format
@@ -11879,11 +11862,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:842
 msgid "Group"
-msgstr "組成群組"
+msgstr "組成羣組"
 
 #: ../src/wbc-gtk-actions.c:842
 msgid "Ungroup"
-msgstr "解散群組"
+msgstr "解散羣組"
 
 #: ../src/wbc-gtk-actions.c:990
 msgid "Sort"
@@ -11964,7 +11947,7 @@ msgstr "檔案(_F)"
 
 #: ../src/wbc-gtk-actions.c:1451
 msgid "Print Area"
-msgstr "列印範圍"
+msgstr "打印範圍"
 
 #: ../src/wbc-gtk-actions.c:1452
 msgid "_Edit"
@@ -12134,7 +12117,7 @@ msgstr "即時協助(_L)"
 
 #: ../src/wbc-gtk-actions.c:1516
 msgid "See if anyone is available to answer questions"
-msgstr "看看有沒有人在線上即時回答您的問題"
+msgstr "看看有沒有人在網上即時回答你的問題"
 
 #: ../src/wbc-gtk-actions.c:1518
 msgid "Report a _Problem"
@@ -12175,15 +12158,15 @@ msgstr "版面設定(_U)..."
 
 #: ../src/wbc-gtk-actions.c:1548
 msgid "Setup the page settings for your current printer"
-msgstr "修改目前印表機的版面設定"
+msgstr "修改目前打印機的版面設定"
 
 #: ../src/wbc-gtk-actions.c:1551
 msgid "Print preview"
-msgstr "預覽列印"
+msgstr "預覽打印"
 
 #: ../src/wbc-gtk-actions.c:1554
 msgid "Print the current file"
-msgstr "列印目前的檔案"
+msgstr "打印目前的檔案"
 
 #: ../src/wbc-gtk-actions.c:1556
 msgid "Proper_ties..."
@@ -12211,7 +12194,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1568
 msgid "Use the current selection as print area"
-msgstr "以目前選取區域作列印範圍"
+msgstr "以目前選取區域作打印範圍"
 
 #: ../src/wbc-gtk-actions.c:1571
 msgid "Undefine the print area"
@@ -12219,11 +12202,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1573
 msgid "Show Print Area"
-msgstr "顯示列印範圍"
+msgstr "顯示打印範圍"
 
 #: ../src/wbc-gtk-actions.c:1574
 msgid "Select the print area"
-msgstr "選取列印範圍"
+msgstr "選取打印範圍"
 
 #: ../src/wbc-gtk-actions.c:1579
 msgid "Clear the selected cells' formats, comments, and contents"
@@ -12614,11 +12597,11 @@ msgstr ""
 #. Format -> Col
 #: ../src/wbc-gtk-actions.c:1790
 msgid "_Width..."
-msgstr "寬度(_W)..."
+msgstr "闊度(_W)..."
 
 #: ../src/wbc-gtk-actions.c:1791
 msgid "Change width of the selected columns"
-msgstr "更改選定的每一欄的寬度"
+msgstr "更改選定的每一欄的闊度"
 
 #: ../src/wbc-gtk-actions.c:1793 ../src/wbc-gtk-actions.c:1810
 msgid "_Auto fit selection"
@@ -12626,7 +12609,7 @@ msgstr "自動符合內容(_A)"
 
 #: ../src/wbc-gtk-actions.c:1794
 msgid "Ensure columns are just wide enough to display content"
-msgstr "確定每欄寬度剛好足夠顯示內容"
+msgstr "確定每欄闊度剛好足夠顯示內容"
 
 #: ../src/wbc-gtk-actions.c:1797
 msgid "Hide the selected columns"
@@ -12638,11 +12621,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1802
 msgid "_Standard Width"
-msgstr "標準寬度(_S)"
+msgstr "標準闊度(_S)"
 
 #: ../src/wbc-gtk-actions.c:1803
 msgid "Change the default column width"
-msgstr "更改每欄預設的寬度"
+msgstr "更改每欄預設的闊度"
 
 #. Format -> Row
 #: ../src/wbc-gtk-actions.c:1807
@@ -12955,7 +12938,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1946
 msgid "_Group..."
-msgstr "組成群組(_G)..."
+msgstr "組成羣組(_G)..."
 
 #: ../src/wbc-gtk-actions.c:1947
 msgid "Add an outline group"
@@ -12963,7 +12946,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1949
 msgid "_Ungroup..."
-msgstr "解除群組(_U)..."
+msgstr "解除羣組(_U)..."
 
 #: ../src/wbc-gtk-actions.c:1950
 msgid "Remove an outline group"
@@ -13910,11 +13893,11 @@ msgstr "加入插入第 %d 頁工作表"
 
 #: ../src/workbook.c:1360
 msgid "Changing sheet tab colors"
-msgstr "變更工作表分頁顏色"
+msgstr "更改工作表分頁顏色"
 
 #: ../src/workbook.c:1362
 msgid "Changing sheet properties"
-msgstr "變更工作表屬性"
+msgstr "更改工作表屬性"
 
 #: ../src/workbook.c:1370
 msgid "Deleting sheet"
@@ -13927,7 +13910,7 @@ msgstr "正在刪除第 %d 頁工作表"
 
 #: ../src/workbook.c:1373
 msgid "Changing sheet order"
-msgstr "變更工作表次序"
+msgstr "更改工作表次序"
 
 #: ../src/workbook.c:1375
 msgid "Reorganizing Sheets"
@@ -14017,7 +14000,7 @@ msgstr ""
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:1
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:2
 msgid "Gnumeric Team"
-msgstr "Gnumeric 開發團隊"
+msgstr "Gnumeric 開發隊伍"
 
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:1
 msgid "A 3D list template"
