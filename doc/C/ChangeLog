@@ -1,3 +1,8 @@
+2008-03-11  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gnumeric.1, ssindex.1, ssconvert.1: Define .URL macro when not
+	  already defined by the man implementation and use it for hyperlinks.
+
 2007-12-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.8.0
