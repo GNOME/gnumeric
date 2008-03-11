@@ -1,3 +1,7 @@
+.de URL
+\\$2 \(laURL: \\$1 \(ra\\$3
+..
+.if \n[.g] .mso www.tmac
 .TH SSCONVERT 1 "September 27, 2003" gnumeric "GNOME"
 .SH NAME
 ssconvert \- a command line spreadsheet format converter
@@ -143,10 +147,7 @@ that there is currently no provision for importer or exporter specific flags.
 \fBssconvert\fR is licensed under the terms of the General Public
 License (GPL), version 2. For information on this license look at the
 source code that came with the software or see the 
-.UR http://www.gnu.org
-GNU project page
-.UE
-at http://www.gnu.org/.
+.URL "http://www.gnu.org" "GNU project page" .
 
 .SH COPYRIGHT
 
@@ -164,12 +165,6 @@ The initial version of this manpage was written by J.H.M. Dassen (Ray)
 .SH SEE ALSO
 \fBgnumeric\fR(1)
 
-.UR http://www.gnome.org/projects/gnumeric/
-The Gnumeric Homepage
-.UE
-at \fIhttp://www.gnome.org/projects/gnumeric/\fR
+.URL "http://www.gnome.org/projects/gnumeric/" "The Gnumeric Homepage" .
 
-.UR http://www.gnome.org/
-The GNOME project page
-.UE
-at \fI http://www.gnome.org/\fR
+.URL "http://www.gnome.org/" "The GNOME project page" .
