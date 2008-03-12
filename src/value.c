@@ -43,7 +43,6 @@
 #endif
 
 #if USE_VALUE_POOLS
-static GOMemChunk *value_bool_pool;
 static GOMemChunk *value_float_pool;
 static GOMemChunk *value_error_pool;
 static GOMemChunk *value_string_pool;
@@ -82,18 +81,17 @@ GnmValue *
 value_new_empty (void)
 {
 	/* This is a constant.  No need to allocate any memory.  */
-	static GnmValueAny v = { VALUE_EMPTY, NULL };
+	static const GnmValueAny v = { VALUE_EMPTY, NULL };
 	return (GnmValue *)&v;
 }
 
 GnmValue *
 value_new_bool (gboolean b)
 {
-	GnmValueBool *v = CHUNK_ALLOC (GnmValueBool, value_bool_pool);
-	*((GnmValueType *)&(v->type)) = VALUE_BOOLEAN;
-	v->fmt = NULL;
-	v->val = b;
-	return (GnmValue *)v;
+	/* These are constant.  No need to allocate any memory.  */
+	static const GnmValueBool vf = { VALUE_BOOLEAN, NULL, FALSE };
+	static const GnmValueBool vt = { VALUE_BOOLEAN, NULL, TRUE };
+	return (GnmValue*) (b ? &vt : &vf);
 }
 
 GnmValue *
@@ -539,11 +537,8 @@ value_release (GnmValue *value)
 
 	switch (value->type) {
 	case VALUE_EMPTY:
-		/* We did not allocate anything, there is nothing to free */
-		return;
-
 	case VALUE_BOOLEAN:
-		CHUNK_FREE (value_bool_pool, &value->v_bool);
+		/* We did not allocate anything, there is nothing to free */
 		return;
 
 	case VALUE_FLOAT:
@@ -1328,6 +1323,9 @@ value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
 void
 value_set_fmt (GnmValue *v, GOFormat const *fmt)
 {
+	if (fmt == VALUE_FMT (v))
+		return;
+	g_return_if_fail (v->type != VALUE_EMPTY && v->type != VALUE_BOOLEAN);
 	if (fmt != NULL)
 		go_format_ref ((GOFormat *)fmt);
 	if (VALUE_FMT (v) != NULL)
@@ -1739,11 +1737,6 @@ value_init (void)
 	}
 
 #if USE_VALUE_POOLS
-	value_bool_pool =
-		go_mem_chunk_new ("value bool pool",
-				   sizeof (GnmValueBool),
-				   16 * 1024 - 128);
-
 	value_float_pool =
 		go_mem_chunk_new ("value float pool",
 				   sizeof (GnmValueFloat),
@@ -1782,9 +1775,6 @@ value_shutdown (void)
 	}
 
 #if USE_VALUE_POOLS
-	go_mem_chunk_destroy (value_bool_pool, FALSE);
-	value_bool_pool = NULL;
-
 	go_mem_chunk_destroy (value_float_pool, FALSE);
 	value_float_pool = NULL;
 

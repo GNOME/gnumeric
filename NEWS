@@ -53,6 +53,7 @@ Morten:
 	* Fix corrupted-gnumeric-bug.  [#519761]
 	* Fix insert-time problem.
 	* Fix inc/dec buttons for General.  [#510252]
+	* Don't allocate memory for boolean values.  [#518527]
 
 Nick Lamb:
 	* Honour detachable-toolbar preference.  [#321867]

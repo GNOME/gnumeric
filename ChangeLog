@@ -1,3 +1,10 @@
+2008-03-12  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (value_new_bool): Don't allocate memory for bools.
+	There are only two different ones.
+	(value_release): Consequently don't release memory.
+	(value_set_fmt): Don't allow setting formats for empty and bool.
+
 2008-03-10  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk-actions.c (inc_dec): New function to do something
