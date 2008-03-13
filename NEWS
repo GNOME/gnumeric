@@ -54,6 +54,7 @@ Morten:
 	* Fix insert-time problem.
 	* Fix inc/dec buttons for General.  [#510252]
 	* Don't allocate memory for boolean values.  [#518527]
+	* Ignore invalid formats read from .gnumeric and .xls.  [#521849]
 
 Nick Lamb:
 	* Honour detachable-toolbar preference.  [#321867]

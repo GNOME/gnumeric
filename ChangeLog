@@ -1,5 +1,9 @@
 2008-03-12  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-sax-read.c (make_format): New function to handle invalid
+	formats.
+	(xml_sax_style_start, xml_sax_cell): Use make_format.
+
 	* src/value.c (value_new_bool): Don't allocate memory for bools.
 	There are only two different ones.
 	(value_release): Consequently don't release memory.

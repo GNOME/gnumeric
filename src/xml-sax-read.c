@@ -86,6 +86,21 @@ attr_eq (const xmlChar *a, const char *s)
 	return !strcmp (CXML2C (a), s);
 }
 
+static GOFormat *
+make_format (const char *str)
+{
+	GOFormat *res = go_format_new_from_XL (str);
+
+	if (go_format_is_invalid (res)) {
+		g_warning ("Ignoring invalid format [%s]",
+			   go_format_as_XL (res));
+		go_format_unref (res);
+		return NULL;
+	}
+
+	return res;
+}
+
 /*****************************************************************************/
 
 gboolean
@@ -1275,8 +1290,13 @@ xml_sax_style_start (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_style_set_back_color (state->style, colour);
 		else if (xml_sax_attr_color (attrs, "PatternColor", &colour))
 			gnm_style_set_pattern_color (state->style, colour);
-		else if (attr_eq (attrs[0], "Format"))
-			gnm_style_set_format_text (state->style, CXML2C (attrs[1]));
+		else if (attr_eq (attrs[0], "Format")) {
+			GOFormat *fmt = make_format (CXML2C (attrs[1]));
+			if (fmt) {
+				gnm_style_set_format (state->style, fmt);
+				go_format_unref (fmt);
+			}
+		}
 		else if (gnm_xml_attr_int (attrs, "Hidden", &val))
 			gnm_style_set_contents_hidden (state->style, val);
 		else if (gnm_xml_attr_int (attrs, "Locked", &val))
@@ -1647,7 +1667,7 @@ xml_sax_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gnm_xml_attr_int (attrs, "ExprID", &expr_id)) ;
 		else if (gnm_xml_attr_int (attrs, "ValueType", &value_type)) ;
 		else if (attr_eq (attrs[0], "ValueFormat"))
-			value_fmt = go_format_new_from_XL (CXML2C (attrs[1]));
+			value_fmt = make_format (CXML2C (attrs[1]));
 		else
 			unknown_attr (xin, attrs);
 	}

@@ -260,9 +260,19 @@ excel_wb_get_fmt (GnmXLImporter *importer, unsigned idx)
 	} else
 		g_printerr ("Unknown format: 0x%x\n", idx);
 
-	if (ans)
-		return go_format_new_from_XL (ans);
-	else
+	if (ans) {
+		GOFormat *fmt = go_format_new_from_XL (ans);
+
+		if (go_format_is_invalid (fmt)) {
+			g_warning ("Ignoring invalid format [%s]",
+				   go_format_as_XL (fmt));
+			go_format_unref (fmt);
+			fmt = go_format_general ();
+			go_format_ref (fmt);
+		}
+
+		return fmt;
+	} else
 		return NULL;
 }
 
