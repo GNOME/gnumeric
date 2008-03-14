@@ -47,11 +47,9 @@
 #include <validation.h>
 #include <workbook.h>
 #include <wbc-gtk.h>
-#include <workbook-view.h>
 #include <commands.h>
 #include <mathfunc.h>
 #include <preview-grid.h>
-#include <widgets/gnumeric-expr-entry.h>
 #include <widgets/widget-font-selector.h>
 #include <widgets/gnumeric-dashed-canvas-line.h>
 #include <widgets/gnm-format-sel.h>
@@ -64,24 +62,8 @@
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <glade/glade.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkcellrendererpixbuf.h>
-#include <gtk/gtktextview.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkicontheme.h>
-#include <gtk/gtkbox.h>
+#include <gtk/gtk.h>
 
-#include <math.h>
 #include <string.h>
 
 static struct {
@@ -244,8 +226,14 @@ fmt_dialog_changed (FormatState *state)
 
 	if (state->dialog_changed)
 		state->dialog_changed (state->dialog_changed_user_data);
-	else
-		gtk_widget_set_sensitive (state->apply_button, TRUE);
+	else {
+		GOFormatSel *gfs = GO_FORMAT_SEL (state->format_sel);
+		GOFormat *fmt = go_format_sel_get_fmt (gfs);
+		gboolean ok = !go_format_is_invalid (fmt);
+
+		gtk_widget_set_sensitive (state->apply_button, ok);
+		gtk_widget_set_sensitive (state->ok_button, ok);
+	}
 }
 
 /* Default to the 'Format' page but remember which page we were on between
