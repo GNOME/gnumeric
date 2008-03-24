@@ -1,3 +1,11 @@
+2008-03-20  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (criteria_test_equal, criteria_test_unequal,
+	criteria_test_less, criteria_test_less_or_equal,
+	criteria_test_greater, criteria_test_greater_or_equal): Handle
+	string values that can be interpreted as numbers.  Take extra
+	date_conv argument.  All callers changed.
+
 2008-03-12  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (make_format): New function to handle invalid

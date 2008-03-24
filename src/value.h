@@ -186,7 +186,8 @@ extern GnmValueErr const value_terminate_err;
 void value_array_set       (GnmValue *array, int col, int row, GnmValue *v);
 
 /* FIXME: this stuff below ought to go elsewhere.  */
-typedef gboolean (*GnmCriteriaFunc) (GnmValue const *x, GnmValue const *y);
+typedef gboolean (*GnmCriteriaFunc) (GnmValue const *x, GnmValue const *y,
+				     GODateConventions const *date_conv);
 typedef struct {
         GnmCriteriaFunc fun;
         GnmValue  *x;

@@ -555,6 +555,7 @@ static GnmFuncHelp const help_countif[] = {
 typedef struct {
         GnmCriteriaFunc  test;
         GnmValue *test_value;
+	GODateConventions const *date_conv;
 	int count;
 } CountIfClosure;
 
@@ -566,7 +567,7 @@ cb_countif (GnmCellIter const *iter, CountIfClosure *res)
 		gnm_cell_eval (cell);
 		if ((VALUE_IS_NUMBER (cell->value) ||
 		     VALUE_IS_STRING (cell->value)) &&
-		    (res->test) (cell->value, res->test_value))
+		    (res->test) (cell->value, res->test_value, res->date_conv))
 			res->count++;
 	}
 
@@ -591,6 +592,8 @@ gnumeric_countif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	      r->cell.b.sheet != NULL) ||
 	    (!VALUE_IS_NUMBER (argv[1]) && !VALUE_IS_STRING (argv[1])))
 	        return value_new_error_VALUE (ei->pos);
+
+	res.date_conv = sheet ?	workbook_date_conv (sheet->workbook) : NULL;
 
 	res.count = 0;
 	parse_criteria (argv[1], &res.test, &res.test_value, &iter_flags,
@@ -636,6 +639,7 @@ static GnmFuncHelp const help_sumif[] = {
 typedef struct {
         GnmCriteriaFunc  test;
         GnmValue            *test_value;
+	GODateConventions const *date_conv;
 
 	Sheet		*target_sheet;
 	GnmCellPos	 offset;
@@ -651,7 +655,7 @@ cb_sumif (GnmCellIter const *iter, SumIfClosure *res)
 	gnm_cell_eval (cell);
 
 	if ((VALUE_IS_NUMBER (cell->value) || VALUE_IS_STRING (cell->value)) &&
-	    (res->test) (cell->value, res->test_value)) {
+	    (res->test) (cell->value, res->test_value, res->date_conv)) {
 		if (NULL != res->target_sheet) {
 			cell = sheet_cell_get (res->target_sheet,
 				iter->pp.eval.col + res->offset.col,
@@ -694,6 +698,8 @@ gnumeric_sumif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	      r->cell.b.sheet != NULL) ||
 	    (!VALUE_IS_NUMBER (argv[1]) && !VALUE_IS_STRING (argv[1])))
 	        return value_new_error_VALUE (ei->pos);
+
+	res.date_conv = sheet ?	workbook_date_conv (sheet->workbook) : NULL;
 
 	col_end = r->cell.b.col;
 	row_end = r->cell.b.row;
