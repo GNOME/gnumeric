@@ -28,6 +28,7 @@
 #include <str.h>
 #include <cell.h>
 #include <sheet.h>
+#include <workbook.h>
 #include <value.h>
 #include <number-match.h>
 #include <collect.h>
@@ -56,6 +57,8 @@ find_cells_that_match (Sheet *sheet, GnmValue const *database,
 	int    row, first_row, last_row;
 	gboolean add_flag;
 	GnmCell *cell;
+	GODateConventions const *date_conv =
+		workbook_date_conv (sheet->workbook);
 
 	cells = NULL;
 	/* TODO : Why ignore the first row ?  What if there is no header ? */
@@ -85,7 +88,7 @@ find_cells_that_match (Sheet *sheet, GnmValue const *database,
 				if (tmp != NULL)
 					gnm_cell_eval (tmp);
 				if (gnm_cell_is_empty (tmp) ||
-				    !cond->fun (tmp->value, cond->x)) {
+				    !cond->fun (tmp->value, cond->x, date_conv)) {
 					add_flag = FALSE;
 					break;
 				}

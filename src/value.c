@@ -1337,77 +1337,149 @@ value_set_fmt (GnmValue *v, GOFormat const *fmt)
 
 /****************************************************************************/
 
-static gboolean
-criteria_test_equal (GnmValue const *x, GnmValue const *y)
+typedef enum { CRIT_NULL, CRIT_FLOAT, CRIT_BADFLOAT, CRIT_STRING } CritType;
+
+static CritType
+criteria_inspect_values (GnmValue const *x, GnmValue const *y,
+			 gnm_float *xr, gnm_float *yr,
+			 GODateConventions const *date_conv)
 {
+	GnmValue *vx;
+
 	if (x == NULL || y == NULL)
+		return CRIT_NULL;
+
+	if (!VALUE_IS_NUMBER (y))
+		return CRIT_STRING;
+	*yr = value_get_as_float (y);
+
+	if (VALUE_IS_NUMBER (x)) {
+		*xr = value_get_as_float (x);
+		return CRIT_FLOAT;
+	}
+
+	vx = format_match (value_peek_string (x), NULL, date_conv);
+	if (!vx)
+		return CRIT_BADFLOAT;
+
+	*xr = value_get_as_float (vx);
+	value_release (vx);
+	return CRIT_FLOAT;
+}
+
+
+static gboolean
+criteria_test_equal (GnmValue const *x, GnmValue const *y,
+		     GODateConventions const *date_conv)
+{
+	gnm_float xf, yf;
+
+	switch (criteria_inspect_values (x, y, &xf, &yf, date_conv)) {
+	default:
+		g_assert_not_reached ();
+	case CRIT_NULL:
+	case CRIT_BADFLOAT:
 		return FALSE;
-        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-		return (value_get_as_float (x) == value_get_as_float (y));
-	else
-		return (VALUE_IS_STRING (x) &&
-			VALUE_IS_STRING (y) &&
-			g_ascii_strcasecmp (x->v_str.val->str, y->v_str.val->str) == 0);
+	case CRIT_FLOAT:
+		return xf == yf;
+	case CRIT_STRING:
+		/* FIXME: _ascii_??? */
+		return g_ascii_strcasecmp (value_peek_string (x),
+					   value_peek_string (y)) == 0;
+	}
 }
 
 static gboolean
-criteria_test_unequal (GnmValue const *x, GnmValue const *y)
+criteria_test_unequal (GnmValue const *x, GnmValue const *y,
+		       GODateConventions const *date_conv)
 {
-	if (x == NULL)
-		return y != NULL;
-	if (y == NULL)
-		return TRUE;
-        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-		return (value_get_as_float (x) != value_get_as_float (y));
-	else
-		/* Hmm...  Is this really right?  number vs string, not unequal?  */
-		return (VALUE_IS_STRING (x) &&
-			VALUE_IS_STRING (y) &&
-			g_ascii_strcasecmp (x->v_str.val->str, y->v_str.val->str) != 0);
+	gnm_float xf, yf;
+
+	switch (criteria_inspect_values (x, y, &xf, &yf, date_conv)) {
+	default:
+		g_assert_not_reached ();
+	case CRIT_NULL:
+	case CRIT_BADFLOAT:
+		return FALSE;
+	case CRIT_FLOAT:
+		return xf != yf;
+	case CRIT_STRING:
+		/* FIXME: _ascii_??? */
+		return g_ascii_strcasecmp (value_peek_string (x),
+					   value_peek_string (y)) != 0;
+	}
 }
 
 static gboolean
-criteria_test_less (GnmValue const *x, GnmValue const *y)
+criteria_test_less (GnmValue const *x, GnmValue const *y,
+		    GODateConventions const *date_conv)
 {
-	if (x == NULL || y == NULL)
+	gnm_float xf, yf;
+
+	switch (criteria_inspect_values (x, y, &xf, &yf, date_conv)) {
+	default:
+		g_assert_not_reached ();
+	case CRIT_NULL:
+	case CRIT_BADFLOAT:
+	case CRIT_STRING:
 		return FALSE;
-        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-		return (value_get_as_float (x) < value_get_as_float (y));
-	else
-		return FALSE;
+	case CRIT_FLOAT:
+		return xf < yf;
+	}
 }
 
 static gboolean
-criteria_test_greater (GnmValue const *x, GnmValue const *y)
+criteria_test_greater (GnmValue const *x, GnmValue const *y,
+		       GODateConventions const *date_conv)
 {
-	if (x == NULL || y == NULL)
+	gnm_float xf, yf;
+
+	switch (criteria_inspect_values (x, y, &xf, &yf, date_conv)) {
+	default:
+		g_assert_not_reached ();
+	case CRIT_NULL:
+	case CRIT_BADFLOAT:
+	case CRIT_STRING:
 		return FALSE;
-        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-		return (value_get_as_float (x) > value_get_as_float (y));
-	else
-		return FALSE;
+	case CRIT_FLOAT:
+		return xf > yf;
+	}
 }
 
 static gboolean
-criteria_test_less_or_equal (GnmValue const *x, GnmValue const *y)
+criteria_test_less_or_equal (GnmValue const *x, GnmValue const *y,
+			     GODateConventions const *date_conv)
 {
-	if (x == NULL || y == NULL)
+	gnm_float xf, yf;
+
+	switch (criteria_inspect_values (x, y, &xf, &yf, date_conv)) {
+	default:
+		g_assert_not_reached ();
+	case CRIT_NULL:
+	case CRIT_BADFLOAT:
+	case CRIT_STRING:
 		return FALSE;
-        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-		return (value_get_as_float (x) <= value_get_as_float (y));
-	else
-		return FALSE;
+	case CRIT_FLOAT:
+		return xf <= yf;
+	}
 }
 
 static gboolean
-criteria_test_greater_or_equal (GnmValue const *x, GnmValue const *y)
+criteria_test_greater_or_equal (GnmValue const *x, GnmValue const *y,
+				GODateConventions const *date_conv)
 {
-	if (x == NULL || y == NULL)
+	gnm_float xf, yf;
+
+	switch (criteria_inspect_values (x, y, &xf, &yf, date_conv)) {
+	default:
+		g_assert_not_reached ();
+	case CRIT_NULL:
+	case CRIT_BADFLOAT:
+	case CRIT_STRING:
 		return FALSE;
-        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
-		return (value_get_as_float (x) >= value_get_as_float (y));
-	else
-		return FALSE;
+	case CRIT_FLOAT:
+		return xf >= yf;
+	}
 }
 
 /*
@@ -1643,6 +1715,8 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 	char const *t1, *t2;
 	GnmCell   *test_cell;
 	GnmCriteria const *cond;
+	GODateConventions const *date_conv =
+		workbook_date_conv (sheet->workbook);
 
 	for (row = first_row; row <= last_row; row++) {
 		add_flag = TRUE;
@@ -1655,7 +1729,7 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 				if (test_cell != NULL) {
 					gnm_cell_eval (test_cell);
 					if (!gnm_cell_is_empty (test_cell) &&
-					    !cond->fun (test_cell->value, cond->x)) {
+					    !cond->fun (test_cell->value, cond->x, date_conv)) {
 						add_flag = FALSE;
 						break;
 					}
