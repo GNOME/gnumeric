@@ -57,6 +57,7 @@ Morten:
 	* Ignore invalid formats read from .gnumeric and .xls.  [#521849]
 	* Don't allow entry of invalid formats for cells.  [#521849]
 	* Fix SUMIF problems.  [#523250]
+	* Allow opening multiple files in open dialog.  [#524479]
 
 Nick Lamb:
 	* Honour detachable-toolbar preference.  [#321867]

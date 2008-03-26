@@ -1,3 +1,8 @@
+2008-03-26  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-file.c (gui_file_open): Allow selection of multiple
+	files.  [#524479]
+
 2008-03-20  Morten Welinder  <terra@gnome.org>
 
 	* src/value.c (criteria_test_equal, criteria_test_unequal,

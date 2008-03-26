@@ -204,7 +204,7 @@ gui_file_open (WBCGtk *wbcg, char const *default_format)
 	file_format_changed_cb_data data;
 	gint opener_default;
 	char const *title;
-	char *uri = NULL;
+	GSList *uris = NULL;
 	char const *encoding = NULL;
 	GOFileOpener *fo = NULL;
 	Workbook *workbook = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
@@ -242,6 +242,7 @@ gui_file_open (WBCGtk *wbcg, char const *default_format)
 			       "action", GTK_FILE_CHOOSER_ACTION_OPEN,
 			       "local-only", FALSE,
 			       "title", _("Select a file"),
+			       "select-multiple", TRUE,
 			       NULL));
 
 	advanced_button = gtk_button_new_with_mnemonic (_("Advanc_ed"));
@@ -324,7 +325,7 @@ gui_file_open (WBCGtk *wbcg, char const *default_format)
 	if (!go_gtk_file_sel_dialog (wbcg_toplevel (wbcg), GTK_WIDGET (fsel)))
 		goto out;
 
-	uri = gtk_file_chooser_get_uri (fsel);
+	uris = gtk_file_chooser_get_uris (fsel);
 	encoding = go_charmap_sel_get_encoding (GO_CHARMAP_SEL (go_charmap_sel));
 	fo = g_list_nth_data (openers, gtk_combo_box_get_active (format_combo));
 
@@ -332,12 +333,18 @@ gui_file_open (WBCGtk *wbcg, char const *default_format)
 	gtk_widget_destroy (GTK_WIDGET (fsel));
 	g_list_free (openers);
 
-	if (uri) {
+	while (uris) {
+		char *uri = uris->data;
+		GSList *hook = uris;
+
 		/* Make sure dialog goes away right now.  */
 		while (g_main_context_iteration (NULL, FALSE));
 
 		gui_file_read (wbcg, uri, fo, encoding);
 		g_free (uri);
+
+		uris = uris->next;
+		g_slist_free_1 (hook);
 	}
 }
 
