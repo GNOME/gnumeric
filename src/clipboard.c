@@ -220,7 +220,7 @@ paste_cell (Sheet *dst_sheet,
 						gnm_expr_top_unref (relo);
 					relo = trelo;
 				}
-			} else if (!relo && gnm_expr_top_get_array_corner (src->texpr)) {
+			} else if (!relo && gnm_expr_top_is_array_corner (src->texpr)) {
 				/* We must not share array expressions.  */
 				relo = gnm_expr_top_new (gnm_expr_copy (src->texpr->expr));
 			}

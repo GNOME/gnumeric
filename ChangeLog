@@ -1,3 +1,8 @@
+2008-03-27  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (gnm_expr_top_is_array_corner): New function.  (I
+	have plans for gnm_expr_top_get_array_corner.)
+
 2008-03-26  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-file.c (gui_file_open): Allow selection of multiple

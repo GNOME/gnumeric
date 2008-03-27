@@ -765,7 +765,7 @@ static page_info_t const page_info[] = {
 	{N_("Header/Footer"), GTK_STOCK_ITALIC,		 "0",  &pref_font_hf_initializer,	NULL},
 	{N_("Sorting"),       GTK_STOCK_SORT_ASCENDING,  "3", &pref_sort_page_initializer,	NULL},
 	{N_("Screen"),        GTK_STOCK_PREFERENCES,     "5", &pref_screen_page_initializer,	NULL},
-	{NULL, NULL, NULL, NULL, NULL, NULL},
+	{NULL, NULL, NULL, NULL, NULL },
 };
 
 static void

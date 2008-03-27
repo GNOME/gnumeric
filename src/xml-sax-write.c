@@ -754,7 +754,7 @@ xml_write_cell_and_position (GnmOutputXML *state,
 
 	/* As of version 0.53 we save the size of the array as attributes */
 	/* As of version 0.57 the attributes are in the Cell not the Content */
-	if (texpr && gnm_expr_top_get_array_corner (texpr)) {
+	if (texpr && gnm_expr_top_is_array_corner (texpr)) {
 		gsf_xml_out_add_int (state->output, "Rows", texpr->expr->array_corner.rows);
 		gsf_xml_out_add_int (state->output, "Cols", texpr->expr->array_corner.cols);
 	}

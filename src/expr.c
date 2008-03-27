@@ -2810,7 +2810,7 @@ gnm_expr_top_relocate_sheet (GnmExprTop const *texpr,
 
 	res = gnm_expr_top_relocate (texpr, &rinfo, FALSE);
 	if (!res) {
-		if (gnm_expr_top_get_array_corner (texpr))
+		if (gnm_expr_top_is_array_corner (texpr))
 			res = gnm_expr_top_new (gnm_expr_copy (texpr->expr));
 		else
 			gnm_expr_top_ref ((res = texpr));
@@ -2925,6 +2925,13 @@ gnm_expr_top_get_array_corner (GnmExprTop const *texpr)
 	return GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER
 		? &texpr->expr->array_corner
 		: NULL;
+}
+
+gboolean
+gnm_expr_top_is_array_corner (GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+	return GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER;
 }
 
 gboolean
