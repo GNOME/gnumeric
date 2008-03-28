@@ -732,7 +732,7 @@ xml_write_cell_and_position (GnmOutputXML *state,
 		gnm_expr_top_is_shared (texpr);
 
 	/* Only the top left corner of an array needs to be saved (>= 0.53) */
-	if (texpr && gnm_expr_top_is_array_elem (texpr))
+	if (texpr && gnm_expr_top_is_array_elem (texpr, NULL, NULL))
 		return; /* DOM version would write <Cell Col= Row=/> */
 
 	gsf_xml_out_start_element (state->output, GNM "Cell");

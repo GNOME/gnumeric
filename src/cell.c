@@ -381,6 +381,7 @@ gnm_cell_array_bound (GnmCell const *cell, GnmRange *res)
 {
 	GnmExprTop const *texpr;
 	GnmExprArrayCorner const *array;
+	int x, y;
 
 	if (NULL == cell || !gnm_cell_has_expr (cell))
 		return FALSE;
@@ -388,10 +389,8 @@ gnm_cell_array_bound (GnmCell const *cell, GnmRange *res)
 	g_return_val_if_fail (res != NULL, FALSE);
 
 	texpr = cell->base.texpr;
-	if (gnm_expr_top_is_array_elem (texpr)) {
-		cell = sheet_cell_get (cell->base.sheet,
-			cell->pos.col - texpr->expr->array_elem.x,
-			cell->pos.row - texpr->expr->array_elem.y);
+	if (gnm_expr_top_is_array_elem (texpr, &x, &y)) {
+		cell = sheet_cell_get (cell->base.sheet, cell->pos.col - x, cell->pos.row - y);
 
 		g_return_val_if_fail (cell != NULL, FALSE);
 		g_return_val_if_fail (gnm_cell_has_expr (cell), FALSE);
@@ -428,7 +427,7 @@ gnm_cell_is_array (GnmCell const *cell)
 {
 	return cell != NULL && gnm_cell_has_expr (cell) &&
 		(gnm_expr_top_is_array_corner (cell->base.texpr) ||
-		 gnm_expr_top_is_array_elem (cell->base.texpr));
+		 gnm_expr_top_is_array_elem (cell->base.texpr, NULL, NULL));
 }
 
 /**

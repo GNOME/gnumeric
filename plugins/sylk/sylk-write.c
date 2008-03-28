@@ -119,7 +119,7 @@ cb_sylk_write_cell (GnmCellIter const *iter, SylkWriter *state)
 			gsf_output_printf (state->output, ";R%d;C%d;M",
 				iter->pp.eval.row + array->rows,
 				iter->pp.eval.col + array->cols);
-		} else if (gnm_expr_top_is_array_elem (texpr)) {
+		} else if (gnm_expr_top_is_array_elem (texpr, NULL, NULL)) {
 			gsf_output_write (state->output, 2, ";I");
 			texpr = NULL;
 		} else

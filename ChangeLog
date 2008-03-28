@@ -1,3 +1,8 @@
+2008-03-28  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (gnm_expr_top_is_array_elem): Take extra arguments
+	for storing coordinates.  All callers changed.
+
 2008-03-27  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c (wb_view_edit_line_set): Use more API

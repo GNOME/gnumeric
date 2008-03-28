@@ -847,7 +847,7 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, GnmCellPos const *pos,
 		Sheet *sheet = src->base.sheet;
 
 		/* Arrays are always assigned fully at the corner.  */
-		if (gnm_expr_top_is_array_elem (src_texpr))
+		if (gnm_expr_top_is_array_elem (src_texpr, NULL, NULL))
 			return NULL;
 
 		rinfo.reloc_type = GNM_EXPR_RELOCATE_MOVE_RANGE;
