@@ -117,7 +117,7 @@ guint           gnm_expr_top_hash               (GnmExprTop const *texpr);
 gboolean	gnm_expr_top_is_shared		(GnmExprTop const *texpr);
 gboolean	gnm_expr_top_is_err		(GnmExprTop const *texpr, GnmStdError e);
 gboolean 	gnm_expr_top_is_rangeref	(GnmExprTop const *texpr);
-gboolean	gnm_expr_top_is_array_elem	(GnmExprTop const *texpr);
+gboolean	gnm_expr_top_is_array_elem	(GnmExprTop const *texpr, int *x, int *y);
 gboolean	gnm_expr_top_is_array_corner	(GnmExprTop const *texpr);
 GnmExprArrayCorner const *gnm_expr_top_get_array_corner (GnmExprTop const *texpr);
 GnmValue       *gnm_expr_top_get_range		(GnmExprTop const *texpr);

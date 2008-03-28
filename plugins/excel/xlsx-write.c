@@ -411,7 +411,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 
 				if (gnm_cell_has_expr (cell)) {
 					texpr = cell->base.texpr;
-					if (!gnm_expr_top_is_array_elem (texpr)) {
+					if (!gnm_expr_top_is_array_elem (texpr, NULL, NULL)) {
 						gsf_xml_out_start_element (xml, "f");
 
 						array = gnm_expr_top_get_array_corner (texpr);

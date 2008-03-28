@@ -401,9 +401,7 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 				 */
 				if (gnm_expr_top_is_array_corner (texpr))
 					corner = cell;
-				else if (gnm_expr_top_is_array_elem (texpr)) {
-					x = texpr->expr->array_elem.x;
-					y = texpr->expr->array_elem.y;
+				else if (gnm_expr_top_is_array_elem (texpr, &x, &y)) {
 					corner = sheet_cell_get
 						(sheet,
 						 cell->pos.col - x,

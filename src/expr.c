@@ -2935,10 +2935,16 @@ gnm_expr_top_is_array_corner (GnmExprTop const *texpr)
 }
 
 gboolean
-gnm_expr_top_is_array_elem (GnmExprTop const *texpr)
+gnm_expr_top_is_array_elem (GnmExprTop const *texpr, int *x, int *y)
 {
 	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
-	return GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_ELEM;
+
+	if (GNM_EXPR_GET_OPER (texpr->expr) != GNM_EXPR_OP_ARRAY_ELEM)
+		return FALSE;
+
+	if (x) *x = texpr->expr->array_elem.x;
+	if (y) *y = texpr->expr->array_elem.y;
+	return TRUE;
 }
 
 GnmExprTop const *
