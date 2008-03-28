@@ -386,47 +386,49 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 
 	sv = wbv->current_sheet_view;
 	if (sv != NULL) {
-		char    *text;
-		GnmCell const *cell = sheet_cell_get (sv->sheet,
+		char *text;
+		Sheet *sheet = sv->sheet;
+		GnmCell const *cell = sheet_cell_get (sheet,
 			sv->edit_pos.col, sv->edit_pos.row);
 
 		if (NULL != cell) {
 			text = gnm_cell_get_entered_text (cell);
 
 			if (gnm_cell_has_expr (cell)) {
-				GnmExpr const *expr = cell->base.texpr->expr;
-				GnmCell const *corner;
+				GnmExprTop const *texpr = cell->base.texpr;
+				GnmCell const *corner = NULL;
 				int x = 0, y = 0;
-				char *tmp;
 
-				/* If this is part of an array we add '{' '}'
+				/*
+				 * If this is part of an array we add '{' '}'
 				 * and size information to the display.  That
 				 * is not actually part of the parsable
 				 * expression, but it is a useful extension to
-				 * the simple '{' '}' that MS excel(tm) uses. */
-				switch (GNM_EXPR_GET_OPER (expr)) {
-				case GNM_EXPR_OP_ARRAY_ELEM :
-					corner = sheet_cell_get (cell->base.sheet,
-						cell->pos.col - (x = expr->array_elem.x),
-						cell->pos.row - (y = expr->array_elem.y));
+				 * the simple '{' '}' that MS excel(tm) uses.
+				 */
+				if (gnm_expr_top_is_array_corner (texpr))
+					corner = cell;
+				else if (gnm_expr_top_is_array_elem (texpr)) {
+					x = texpr->expr->array_elem.x;
+					y = texpr->expr->array_elem.y;
+					corner = sheet_cell_get
+						(sheet,
+						 cell->pos.col - x,
+						 cell->pos.row - y);
+				}
 
-					g_return_if_fail (corner != NULL);
-					g_return_if_fail (gnm_cell_has_expr (corner));
+				if (corner) {
+					GnmExprArrayCorner const *ac = gnm_cell_is_array_corner (corner);
 
-					expr = corner->base.texpr->expr;
-
-				case GNM_EXPR_OP_ARRAY_CORNER :
-					tmp = g_strdup_printf ("{%s}(%d%c%d)[%d][%d]", text,
-						expr->array_corner.cols,
-						go_locale_get_arg_sep (),
-						expr->array_corner.rows,
-						x, y);
+					char *tmp = g_strdup_printf
+						("{%s}(%d%c%d)[%d][%d]",
+						 text,
+						 ac->cols,
+						 go_locale_get_arg_sep (),
+						 ac->rows,
+						 x, y);
 					g_free (text);
 					text = tmp;
-					break;
-
-				default :
-					break;
 				}
 			}
 		} else

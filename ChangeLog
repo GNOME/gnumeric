@@ -1,5 +1,9 @@
 2008-03-27  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-view.c (wb_view_edit_line_set): Use more API
+	instead of peeking inside expression implementation details so
+	much.
+
 	* src/expr.c (gnm_expr_top_is_array_corner): New function.  (I
 	have plans for gnm_expr_top_get_array_corner.)
 
