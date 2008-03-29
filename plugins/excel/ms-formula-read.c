@@ -936,10 +936,10 @@ excel_parse_formula1 (MSContainer const *container,
 			GnmCellPos top_left;
 
 			if (ver >= MS_BIFF_V3) {
-				CHECK_FORMULA_LEN(3);
+				CHECK_FORMULA_LEN(4);
 				top_left.col = GSF_LE_GET_GUINT16 (cur+2);
 			} else {
-				CHECK_FORMULA_LEN(4);
+				CHECK_FORMULA_LEN(3);
 				top_left.col = GSF_LE_GET_GUINT8 (cur+2);
 			}
 			top_left.row = GSF_LE_GET_GUINT16 (cur+0);
@@ -979,10 +979,10 @@ excel_parse_formula1 (MSContainer const *container,
 			GnmCellPos top_left;
 
 			if (ver >= MS_BIFF_V3) {
-				CHECK_FORMULA_LEN(3);
+				CHECK_FORMULA_LEN(4);
 				top_left.col = GSF_LE_GET_GUINT16 (cur+2);
 			} else {
-				CHECK_FORMULA_LEN(4);
+				CHECK_FORMULA_LEN(3);
 				top_left.col = GSF_LE_GET_GUINT8 (cur+2);
 			}
 			top_left.row = GSF_LE_GET_GUINT16 (cur+0);

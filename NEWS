@@ -6,6 +6,7 @@ Nick Lamb:
 Morten:
 	* Fix SUMIF problems.  [#523250]
 	* Allow opening multiple files in open dialog.  [#524479]
+	* Fix check for bogus xls files.  [#524926]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.2
