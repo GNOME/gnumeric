@@ -1,3 +1,8 @@
+2008-03-29  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-read.c (excel_parse_formula1): Fix swapped length
+	checks.  Fixes #524926.
+
 2008-03-12  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_wb_get_fmt): Replace invalid formats by
