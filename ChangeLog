@@ -1,3 +1,12 @@
+2008-03-30  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-clipboard.c (x_targets_received): Request text if holder
+	of clipboard doesn't offer any target we understand. Broken apps,
+	including jedit, have been seen to return a bogus list of targets,
+	but nonetheless return text when asked.
+	(utf8_content_received): New function. Passes text received from
+	clipboard to text_to_cell_Region.
+
 2008-03-30  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/stf.c: (stf_read_workbook), (stf_read_workbook_auto_csvtab):

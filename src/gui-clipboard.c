@@ -214,6 +214,37 @@ text_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 	g_free (ctxt);
 }
 
+static void
+utf8_content_received (GtkClipboard *clipboard,  const gchar *text,
+		       gpointer closure)
+{
+	GnmGtkClipboardCtxt *ctxt = closure;
+	WBCGtk *wbcg = ctxt->wbcg;
+	WorkbookControl	   *wbc  = WORKBOOK_CONTROL (wbcg);
+	GnmPasteTarget	   *pt   = ctxt->paste_target;
+	GnmCellRegion *content = NULL;
+
+	/* Nothing on clipboard? */
+	if (!text || strlen(text) == 0) {
+		;
+	} else {
+		content = text_to_cell_region (wbcg, text, strlen(text), "UTF-8", TRUE);
+	} 
+	if (content) {
+		/*
+		 * if the conversion from the X selection -> a cellregion
+		 * was canceled this may have content sized -1,-1
+		 */
+		if (content->cols > 0 && content->rows > 0)
+			cmd_paste_copy (wbc, pt, content);
+
+		/* Release the resources we used */
+		cellregion_unref (content);
+	}
+	g_free (ctxt->paste_target);
+	g_free (ctxt);
+}
+
 /**
  * Use the file_opener plugin service to read into a temporary workbook, in
  * order to copy from it to the paste target. A temporary sheet would do just
@@ -397,8 +428,8 @@ x_targets_received (GtkClipboard *clipboard, GdkAtom *targets,
 
 	/* Nothing on clipboard? */
 	if (targets == NULL || n_targets == 0) {
-		g_free (ctxt->paste_target);
-		g_free (ctxt);
+		gtk_clipboard_request_text (clipboard, utf8_content_received,
+					    ctxt);
 		return;
 	}
 

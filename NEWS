@@ -20,6 +20,9 @@ Jody:
 	* Fix ssconvert win32.
 	* Merge some cygwin build patches. [#506366]
 
+Jon Kåre:
+        * Receive clipboard from broken apps. [#524756]
+
 Morten:
 	* Fix NPV doc problem.  [#506160]
 	* Fix python compilation problem.  [#509023]  [508988]
