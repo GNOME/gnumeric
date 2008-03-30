@@ -1,3 +1,9 @@
+2008-03-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/stf.c: (stf_read_workbook), (stf_read_workbook_auto_csvtab):
+	call workbook_recalc_all instead or workbook_recalc to ensure 
+	formula evaluation. [#525107]
+
 2008-03-28  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (gnm_expr_top_is_array_elem): Take extra arguments
