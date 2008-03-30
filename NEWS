@@ -1,5 +1,8 @@
 Gnumeric 1.8.3
 
+Jean:
+	* Evaluate formulas loaded from a text file. [#525107]
+
 Nick Lamb:
 	* Honour detachable-toolbar preference.  [#321867]
 
