@@ -3,6 +3,9 @@ Gnumeric 1.8.3
 Jean:
 	* Evaluate formulas loaded from a text file. [#525107]
 
+Jon Kåre:
+        * Receive clipboard from broken apps. [#524756]
+
 Nick Lamb:
 	* Honour detachable-toolbar preference.  [#321867]
 
