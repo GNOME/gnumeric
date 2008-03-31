@@ -1,3 +1,9 @@
+2008-03-10  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-actions.c (inc_dec): New function to do something
+	vaugely sensible when inc/dec decimals is requested for General.
+	Fixes #510252.
+
 2008-03-30  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c (x_targets_received): Request text if holder

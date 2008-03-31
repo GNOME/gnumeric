@@ -1372,10 +1372,93 @@ modify_format (WBCGtk *wbcg,
 	}
 }
 
+static GnmValue *
+cb_calc_decs (GnmCellIter const *iter, gpointer user)
+{
+	int *pdecs = user;
+	int decs = 0;
+	GnmCell const *cell = iter->cell;
+	gnm_float f;
+	gnm_float eps = 1e-6;
+
+	if (!cell || !cell->value || !VALUE_IS_NUMBER (cell->value))
+		return NULL;
+
+	f = gnm_abs (value_get_as_float (cell->value));
+	if (*pdecs > 0) {
+		decs = *pdecs;
+		f *= gnm_pow10 (decs);
+	}
+
+	while (decs < 8) {
+		f -= gnm_floor (f);
+		if (f < eps || f > 1 - eps)
+			break;
+		f *= 10;
+		decs++;
+	}
+
+	*pdecs = decs;
+
+	return NULL;
+}
+
+static void
+inc_dec (WBCGtk *wbcg,
+	 int dir,
+	 GOFormat *(*format_modify_fn) (GOFormat const *format),
+	 char const *descriptor)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookView *wbv = wb_control_view (wbc);
+	GOFormat const *fmt = gnm_style_get_format (wbv->current_style);
+	SheetView *sv;
+	GOFormat *new_fmt;
+	GnmStyle *style;
+	GSList *l;
+	int decs = -2;
+	GString *new_fmt_str;
+
+	if (!go_format_is_general (fmt)) {
+		modify_format (wbcg, format_modify_fn, descriptor);
+		return;
+	}
+
+	sv = wb_view_cur_sheet_view (wbv);
+	if (!sv)
+		return;
+
+	for (l = sv->selections; l ; l = l->next) {
+		GnmRange const *r = l->data;
+		sheet_foreach_cell_in_range (sv_sheet (sv),
+					     CELL_ITER_IGNORE_BLANK |
+					     CELL_ITER_IGNORE_HIDDEN,
+					     r->start.col, r->start.row,
+					     r->end.col, r->end.row,
+					     cb_calc_decs,
+					     &decs);
+	}
+
+	new_fmt_str = g_string_new ("0");
+	if (decs + dir > 0) {
+		g_string_append_c (new_fmt_str, '.');
+		go_string_append_c_n (new_fmt_str, '0', decs + dir);
+	}
+	new_fmt = go_format_new_from_XL (new_fmt_str->str);
+	g_string_free (new_fmt_str, TRUE);
+
+	style = gnm_style_new ();
+	gnm_style_set_format (style, new_fmt);
+	cmd_selection_format (wbc, style, NULL, descriptor);
+	go_format_unref (new_fmt);
+}
+
 static GNM_ACTION_DEF (cb_format_inc_precision)
-	{ modify_format (wbcg, &go_format_inc_precision, _("Increase precision")); }
+	{ inc_dec (wbcg, 1,
+		   &go_format_inc_precision, _("Increase precision")); }
 static GNM_ACTION_DEF (cb_format_dec_precision)
-	{ modify_format (wbcg, &go_format_dec_precision, _("Decrease precision")); }
+	{ inc_dec (wbcg, -1,
+		   &go_format_dec_precision, _("Decrease precision")); }
 static GNM_ACTION_DEF (cb_format_with_thousands)
 	{ modify_format (wbcg, &go_format_toggle_1000sep, _("Toggle thousands separator")); }
 
