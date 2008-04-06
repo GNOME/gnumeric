@@ -1,3 +1,11 @@
+2008-04-06  Morten Welinder  <terra@gnome.org>
+
+	* src/collect.c (collect_strings): Change return type to GPtrArray
+	so we can actually tell if there was an error.  All callers
+	changed.  Fixes CONCATENATE.
+	(string_range_function): Make the subject function take a
+	GPtrArray for simplicity.  All callers changed.
+
 2008-03-10  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk-actions.c (inc_dec): New function to do something
