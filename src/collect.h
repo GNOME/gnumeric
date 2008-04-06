@@ -16,17 +16,17 @@ typedef enum {
 	COLLECT_ZEROONE_BOOLS	= 0x20,
 
 	COLLECT_IGNORE_ERRORS	= 0x100,
-	COLLECT_ZERO_ERRORS	= 0x200,
 
 	COLLECT_IGNORE_BLANKS	= 0x1000,
 	COLLECT_IGNORE_SUBTOTAL	= 0x2000,
-	COLLECT_INFO		= 0x8000
-} CollectFlags;
 
+	/* Not for general usage.  */
+	COLLECT_INFO		= 0x1000000
+} CollectFlags;
 
 typedef int (*float_range_function_t) (gnm_float const *, int, gnm_float *);
 typedef int (*float_range_function2_t) (gnm_float const *, gnm_float const *, int, gnm_float *);
-typedef int (*string_range_function_t) (GSList *, char**);
+typedef int (*string_range_function_t) (GPtrArray *, char**);
 
 /*gnm_float *collect_floats (int argc, GnmExprConstPtr const *argv,
 				GnmEvalPos const *ep, CollectFlags flags,
@@ -52,6 +52,7 @@ GnmValue *float_range_function2 (GnmValue const *val0, GnmValue const *val1,
 				 float_range_function2_t func,
 				 CollectFlags flags,
 				 GnmStdError func_error);
+
 GnmValue *string_range_function (int argc, GnmExprConstPtr const *argv,
 				 GnmFuncEvalInfo *ei,
 				 string_range_function_t func,
@@ -61,6 +62,7 @@ GnmValue *string_range_function (int argc, GnmExprConstPtr const *argv,
 GSList *gnm_slist_sort_merge (GSList * list_1, GSList * list_2);
 
 GArray *gnm_strip_missing (GArray * data, GSList **missing);
+
 
 G_END_DECLS
 

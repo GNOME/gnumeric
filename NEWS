@@ -63,6 +63,7 @@ Morten:
 	* Fix SUMIF problems.  [#523250]
 	* Allow opening multiple files in open dialog.  [#524479]
 	* Fix check for bogus xls files.  [#524926]
+	* Fix CONCATENATE's empty case.
 
 Nick Lamb:
 	* Honour detachable-toolbar preference.  [#321867]

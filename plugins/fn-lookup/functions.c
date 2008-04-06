@@ -135,26 +135,37 @@ find_bound_walk (int l, int h, int start, gboolean up, gboolean reset)
 }
 
 static int
+calc_length (GnmValue const *data, GnmEvalPos const *ep, gboolean vertical)
+{
+	if (vertical)
+		return value_area_get_height (data, ep);
+	else
+		return value_area_get_width (data, ep);
+}
+
+static const GnmValue *
+get_elem (GnmValue const *data, guint ui,
+	  GnmEvalPos const *ep, gboolean vertical)
+{
+	if (vertical)
+		return value_area_fetch_x_y (data, 0, ui, ep);
+	else
+		return value_area_fetch_x_y (data, ui, 0, ep);
+}
+
+static int
 find_index_linear (GnmFuncEvalInfo *ei,
 		   GnmValue const *find, GnmValue const *data,
-		   gint type, gboolean height)
+		   gint type, gboolean vertical)
 {
 	GnmValue const *index_val = NULL;
 	GnmValDiff comp;
 	int length, lp, index = -1;
 
-	if (height)
-		length = value_area_get_height (data, ei->pos);
-	else
-		length = value_area_get_width (data, ei->pos);
+	length = calc_length (data, ei->pos, vertical);
 
 	for (lp = 0; lp < length; lp++){
-		GnmValue const *v;
-
-		if (height)
-			v = value_area_fetch_x_y (data, 0, lp, ei->pos);
-		else
-			v = value_area_fetch_x_y (data, lp, 0, ei->pos);
+		GnmValue const *v = get_elem (data, lp, ei->pos, vertical);
 
 		g_return_val_if_fail (v != NULL, -1);
 
@@ -198,16 +209,12 @@ find_index_linear (GnmFuncEvalInfo *ei,
 static int
 find_index_bisection (GnmFuncEvalInfo *ei,
 		      GnmValue const *find, GnmValue const *data,
-		      gint type, gboolean height)
+		      gint type, gboolean vertical)
 {
 	GnmValDiff comp = TYPE_MISMATCH;
 	int high, low = 0, prev = -1, mid = -1;
 
-	if (height)
-		high = value_area_get_height (data, ei->pos);
-	else
-		high = value_area_get_width (data, ei->pos);
-	high--;
+	high = calc_length (data, ei->pos, vertical) - 1;
 
 	if (high < low) {
 		return -1;
@@ -236,10 +243,7 @@ find_index_bisection (GnmFuncEvalInfo *ei,
 		while (!find_compare_type_valid (find, v) && mid != -1) {
 			gboolean rev = FALSE;
 
-			if (height)
-				v = value_area_get_x_y (data, 0, mid, ei->pos);
-			else
-				v = value_area_get_x_y (data, mid, 0, ei->pos);
+			v = get_elem (data, mid, ei->pos, vertical);
 
 			if (find_compare_type_valid (find, v))
 				break;
@@ -292,10 +296,7 @@ find_index_bisection (GnmFuncEvalInfo *ei,
 					adj = mid - 1;
 				}
 
-				if (height)
-					v = value_area_fetch_x_y (data, 0, adj, ei->pos);
-				else
-					v = value_area_fetch_x_y (data, adj, 0, ei->pos);
+				v = get_elem (data, adj, ei->pos, vertical);
 
 				g_return_val_if_fail (v != NULL, -1);
 

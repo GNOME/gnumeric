@@ -6,7 +6,7 @@
 
 G_BEGIN_DECLS
 
-int range_concatenate (GSList *data, char **res);
+int range_concatenate (GPtrArray *data, char **res);
 
 G_END_DECLS
 

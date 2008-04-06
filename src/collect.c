@@ -23,11 +23,11 @@
 /* ------------------------------------------------------------------------- */
 
 typedef struct {
-	guint           alloc_count;
-	gnm_float   *data;
-	guint         count;
-	CollectFlags  flags;
-	GSList       *info;
+	guint alloc_count;
+	gnm_float *data;
+	guint count;
+	CollectFlags flags;
+	GSList *info;
 	GODateConventions const *date_conv;
 } collect_floats_t;
 
@@ -35,23 +35,19 @@ static GnmValue *
 callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 			   void *closure)
 {
-	gnm_float x;
-	collect_floats_t *cl = (collect_floats_t *)closure;
+	gnm_float x = 0;
+	collect_floats_t *cl = closure;
+	gboolean ignore = FALSE;
 
-	if (value == NULL) {
-		if (cl->flags & COLLECT_IGNORE_BLANKS)
-			goto callback_function_collect_store_info;
-		x = 0.;
-	} else switch (value->type) {
+	switch (value ? value->type : VALUE_EMPTY) {
 	case VALUE_EMPTY:
 		if (cl->flags & COLLECT_IGNORE_BLANKS)
-			goto callback_function_collect_store_info;
-		x = 0.;
+			ignore = TRUE;
 		break;
 
 	case VALUE_BOOLEAN:
 		if (cl->flags & COLLECT_IGNORE_BOOLS)
-			goto callback_function_collect_store_info;
+			ignore = TRUE;
 		else if (cl->flags & COLLECT_ZEROONE_BOOLS)
 			x = (value->v_bool.val) ? 1. : 0.;
 		else
@@ -64,9 +60,7 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 
 	case VALUE_ERROR:
 		if (cl->flags & COLLECT_IGNORE_ERRORS)
-			goto callback_function_collect_store_info;
-		else if (cl->flags & COLLECT_ZERO_ERRORS)
-			x = 0.;
+			ignore = TRUE;
 		else
 			return value_new_error_VALUE (ep);
 		break;
@@ -90,7 +84,7 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 			if (bad)
 				return value_new_error_VALUE (ep);
 		} else if (cl->flags & COLLECT_IGNORE_STRINGS)
-			goto callback_function_collect_store_info;
+			ignore = TRUE;
 		else if (cl->flags & COLLECT_ZERO_STRINGS)
 			x = 0;
 		else
@@ -100,29 +94,23 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 	default:
 		g_warning ("Trouble in callback_function_collect. (%d)",
 			   value->type);
-		goto callback_function_collect_store_info;
+		ignore = TRUE;
+	}
+
+	if (ignore) {
+		if (cl->flags & COLLECT_INFO)
+			cl->info = g_slist_prepend (cl->info, GUINT_TO_POINTER (cl->count));
+		else {
+			return NULL;
+		}
 	}
 
 	if (cl->count == cl->alloc_count) {
-		cl->alloc_count *= 2;
-		cl->data = g_realloc (cl->data, cl->alloc_count * sizeof (gnm_float));
+		cl->alloc_count = cl->alloc_count * 2 + 20;
+		cl->data = g_renew (gnm_float, cl->data, cl->alloc_count);
 	}
 
 	cl->data[cl->count++] = x;
-	return NULL;
-
- callback_function_collect_store_info:
-
-	if (!(cl->flags & COLLECT_INFO))
-		return NULL;
-
-	if (cl->count == cl->alloc_count) {
-		cl->alloc_count *= 2;
-		cl->data = g_realloc (cl->data, cl->alloc_count * sizeof (gnm_float));
-	}
-
-	cl->info = g_slist_prepend (cl->info, GUINT_TO_POINTER (cl->count));
-	cl->data[cl->count++] = 0;
 	return NULL;
 }
 
@@ -156,7 +144,6 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 		GnmEvalPos const *ep, CollectFlags flags,
 		int *n, GnmValue **error, GSList **info)
 {
-	GnmValue * err;
 	collect_floats_t cl;
 	CellIterFlags iter_flags = CELL_ITER_ALL;
 
@@ -172,24 +159,27 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 	if (flags & COLLECT_IGNORE_SUBTOTAL)
 		iter_flags |= CELL_ITER_IGNORE_SUBTOTAL;
 
-	cl.alloc_count = 20;
-	cl.data = g_new (gnm_float, cl.alloc_count);
+	cl.alloc_count = 0;
+	cl.data = NULL;
 	cl.count = 0;
 	cl.flags = flags;
 	cl.info = NULL;
 	cl.date_conv = workbook_date_conv (ep->sheet->workbook);
 
-	err = function_iterate_argument_values
+	*error = function_iterate_argument_values
 		(ep, &callback_function_collect, &cl,
 		 argc, argv,
 		 TRUE, iter_flags);
-
-	if (err) {
-		g_assert (VALUE_IS_ERROR (err));
+	if (*error) {
+		g_assert (VALUE_IS_ERROR (*error));
 		g_free (cl.data);
 		g_slist_free (cl.info);
-		*error = err;
 		return NULL;
+	}
+
+	if (cl.data == NULL) {
+		cl.alloc_count = 1;
+		cl.data = g_new (gnm_float, cl.alloc_count);
 	}
 
 	if (info)
@@ -250,7 +240,7 @@ float_range_function (int argc, GnmExprConstPtr const *argv,
 
 	vals = collect_floats (argc, argv, ei->pos, flags, &n, &error, NULL);
 	if (!vals)
-		return (error != VALUE_TERMINATE) ? error : NULL;
+		return error;
 
 	err = func (vals, n, &res);
 	g_free (vals);
@@ -439,47 +429,36 @@ float_range_function2 (GnmValue const *val0, GnmValue const *val1,
 /* ------------------------------------------------------------------------- */
 
 typedef struct {
-	GSList       *data;
-	CollectFlags  flags;
+	GPtrArray *data;
+	CollectFlags flags;
 } collect_strings_t;
 
 static GnmValue *
 callback_function_collect_strings (GnmEvalPos const *ep, GnmValue const *value,
 				   void *closure)
 {
-	char *text = NULL;
+	char *text;
 	collect_strings_t *cl = closure;
 
-	if (value == NULL) {
+	if (VALUE_IS_EMPTY (value)) {
 		if (cl->flags & COLLECT_IGNORE_BLANKS)
-			return NULL;
-		text = g_strdup ("");
-	} else switch (value->type) {
-	case VALUE_EMPTY:
-	case VALUE_BOOLEAN:
-	case VALUE_FLOAT:
-	case VALUE_STRING:
-		text = value_get_as_string (value);
-		break;
-	case VALUE_CELLRANGE :
-	case VALUE_ARRAY :
-		text = value_get_as_string (value);
-		break;
-	case VALUE_ERROR:
-		if (cl->flags & COLLECT_IGNORE_ERRORS)
-			return NULL;
-		else if (cl->flags & COLLECT_ZERO_ERRORS)
-			text = g_strdup ("");
+			text = NULL;
 		else
-			return value_new_error_VALUE (ep);
-		break;
-	default:
-		g_assert_not_reached ();
-		break;
-	}
+			text = g_strdup ("");
+	} else
+		text = value_get_as_string (value);
 
-	cl->data = g_slist_prepend (cl->data, text);
+	if (text)
+		g_ptr_array_add (cl->data, text);
+
 	return NULL;
+}
+
+static void
+collect_strings_free (GPtrArray *data)
+{
+	g_ptr_array_foreach (data, (GFunc)g_free, NULL);
+	g_ptr_array_free (data, TRUE);
 }
 
 /*
@@ -493,36 +472,36 @@ callback_function_collect_strings (GnmEvalPos const *ep, GnmValue const *value,
  *   NULL in case of error, error will be set
  *   Non-NULL in case of success.
  *
- * Evaluate a list of expressions and return the result as an array of
- * gnm_float.
+ * Evaluate a list of expressions and return the result as a GPtrArray of
+ * strings.
  */
 
-static GSList *
+static GPtrArray *
 collect_strings (int argc, GnmExprConstPtr const *argv,
 		 GnmEvalPos const *ep, CollectFlags flags,
 		 GnmValue **error)
 {
-	GnmValue * err;
 	collect_strings_t cl;
+	CellIterFlags iter_flags = CELL_ITER_ALL;
 
-	cl.data = NULL;
+	if (flags & COLLECT_IGNORE_BLANKS)
+		iter_flags = CELL_ITER_IGNORE_BLANK;
+
+	cl.data = g_ptr_array_new ();
 	cl.flags = flags;
 
-	err = function_iterate_argument_values
+	*error = function_iterate_argument_values
 		(ep, &callback_function_collect_strings, &cl,
 		 argc, argv,
-		TRUE, (flags & COLLECT_IGNORE_BLANKS) ?  CELL_ITER_IGNORE_BLANK : CELL_ITER_ALL);
-
-	if (err) {
-		g_assert (VALUE_IS_ERROR (err));
-		go_slist_free_custom (cl.data, g_free);
-		*error = err;
+		 TRUE, iter_flags);
+	if (*error) {
+		g_assert (VALUE_IS_ERROR (*error));
+		collect_strings_free (cl.data);
 		return NULL;
 	}
 
-	return g_slist_reverse (cl.data);
+	return cl.data;
 }
-
 
 GnmValue *
 string_range_function (int argc, GnmExprConstPtr const *argv,
@@ -532,16 +511,17 @@ string_range_function (int argc, GnmExprConstPtr const *argv,
 		       GnmStdError func_error)
 {
 	GnmValue *error = NULL;
-	GSList *vals;
+	GPtrArray *vals;
 	char *res = NULL;
 	int err;
 
 	vals = collect_strings (argc, argv, ei->pos, flags, &error);
 	if (!vals)
-		return (error != VALUE_TERMINATE) ? error : NULL;
+		return error;
 
 	err = func (vals, &res);
-	go_slist_free_custom (vals, g_free);
+
+	collect_strings_free (vals);
 
 	if (err) {
 		g_free (res);
