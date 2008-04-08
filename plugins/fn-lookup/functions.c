@@ -36,7 +36,7 @@
 #include <ranges.h>
 #include <expr.h>
 #include <expr-impl.h>
-#include <expr-impl.h>
+#include <application.h>
 #include <expr-name.h>
 #include <parse-util.h>
 #include <gnm-i18n.h>
@@ -49,6 +49,42 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
+static GHashTable *lookup_string_cache;
+
+static void
+clear_caches (void)
+{
+	if (lookup_string_cache) {
+		g_hash_table_destroy (lookup_string_cache);
+		lookup_string_cache = NULL;
+	}
+}
+
+static GHashTable *
+get_string_cache (const GnmSheetRange *sr)
+{
+	GHashTable *h;
+
+	if (!lookup_string_cache) {
+		lookup_string_cache = g_hash_table_new_full
+			((GHashFunc)gnm_sheet_range_hash,
+			 (GEqualFunc)gnm_sheet_range_equal,
+			 (GDestroyNotify)gnm_sheet_range_free,
+			 (GDestroyNotify)g_hash_table_destroy);
+	}
+
+	h = g_hash_table_lookup (lookup_string_cache, sr);
+	if (!h) {
+		h = g_hash_table_new_full (g_str_hash, g_str_equal,
+					   g_free, NULL);
+		g_hash_table_insert (lookup_string_cache,
+				     gnm_sheet_range_dup (sr), h);
+	}
+
+	return h;
+}
+
+/* -------------------------------------------------------------------------- */
 
 static gboolean
 find_type_valid (GnmValue const *find)
@@ -154,6 +190,58 @@ get_elem (GnmValue const *data, guint ui,
 }
 
 static int
+find_index_linear_equal_string (GnmFuncEvalInfo *ei,
+				const char *s, GnmValue const *data,
+				gboolean vertical)
+{
+	GHashTable *h;
+	gpointer pres;
+	char *sc;
+	gboolean found;
+	GnmRangeRef const *rr;
+	Sheet *start_sheet, *end_sheet;
+	GnmSheetRange sr;
+
+	if (data->type != VALUE_CELLRANGE)
+		return -2;
+	rr = value_get_rangeref (data);
+
+        gnm_rangeref_normalize (rr, ei->pos, &start_sheet, &end_sheet, &sr.range);
+	if (start_sheet != end_sheet)
+		return -2;
+
+	/* We need to do this early before calls to value_peek_string gets
+	   called too often.  */
+	sc = g_utf8_casefold (s, -1);
+
+	sr.sheet = start_sheet;
+	h = get_string_cache (&sr);
+
+	if (g_hash_table_size (h) == 0) {
+		int lp, length = calc_length (data, ei->pos, vertical);
+
+		for (lp = 0; lp < length; lp++) {
+			GnmValue const *v = get_elem (data, lp, ei->pos, vertical);
+			char *vc;
+
+			if (!VALUE_IS_STRING (v))
+				continue;
+
+			vc = g_utf8_casefold (value_peek_string (v), -1);
+			if (g_hash_table_lookup_extended (h, vc, NULL, NULL))
+				g_free (vc);
+			else
+				g_hash_table_insert (h, vc, GINT_TO_POINTER (lp));
+		}
+	}
+
+	found = g_hash_table_lookup_extended (h, sc, NULL, &pres);
+	g_free (sc);
+
+	return found ? GPOINTER_TO_INT (pres) : -1;
+}
+
+static int
 find_index_linear (GnmFuncEvalInfo *ei,
 		   GnmValue const *find, GnmValue const *data,
 		   gint type, gboolean vertical)
@@ -162,9 +250,16 @@ find_index_linear (GnmFuncEvalInfo *ei,
 	GnmValDiff comp;
 	int length, lp, index = -1;
 
+	if (VALUE_IS_STRING (find) && type == 0) {
+		const char *s = value_peek_string (find);
+		int i = find_index_linear_equal_string (ei, s, data, vertical);
+		if (i != -2)
+			return i;
+	}
+
 	length = calc_length (data, ei->pos, vertical);
 
-	for (lp = 0; lp < length; lp++){
+	for (lp = 0; lp < length; lp++) {
 		GnmValue const *v = get_elem (data, lp, ei->pos, vertical);
 
 		g_return_val_if_fail (v != NULL, -1);
@@ -1263,7 +1358,7 @@ gnumeric_transpose (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/* REMEMBER this is a transpose */
 	res = value_new_array_non_init (rows, cols);
 
-	for (r = 0; r < rows; ++r){
+	for (r = 0; r < rows; ++r) {
 		res->v_array.vals [r] = g_new (GnmValue *, cols);
 		for (c = 0; c < cols; ++c)
 			res->v_array.vals[r][c] = value_dup(
@@ -1330,3 +1425,17 @@ GnmFuncDescriptor const lookup_functions[] = {
 
         {NULL}
 };
+
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+{
+	g_signal_connect (gnm_app_get_app (), "recalc-finished",
+			  G_CALLBACK (clear_caches), NULL);
+}
+
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+{
+	g_signal_handlers_disconnect_by_func (gnm_app_get_app (),
+					      G_CALLBACK (clear_caches), NULL);
+}

@@ -65,6 +65,7 @@ Morten:
 	* Fix check for bogus xls files.  [#524926]
 	* Fix CONCATENATE's empty case.
 	* Improve performance of analysis tools for large ranges.
+	* Fix performance of repeated [VH]LOOKUP with constant data range.  [#525875]
 
 Nick Lamb:
 	* Honour detachable-toolbar preference.  [#321867]

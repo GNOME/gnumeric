@@ -1,5 +1,15 @@
 2008-04-08  Morten Welinder  <terra@gnome.org>
 
+	* src/dependent.c (workbook_recalc): If we recalculated anything,
+	emit recalc-finished on the application.
+
+	* src/application.c (gnm_app_class_init): Install new
+	"recalc-finished" signal.
+
+	* src/ranges.c (gnm_sheet_range_dup, gnm_sheet_range_equal,
+	gnm_sheet_range_hash, gnm_range_hash, gnm_range_equal): New
+	functions.
+
 	* src/collect.c (gnm_strip_missing): Don't return a value; take
 	list directly, not as reference; make O(n) instead of O(n^2).  All
 	callers changed.

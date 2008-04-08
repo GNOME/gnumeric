@@ -20,6 +20,9 @@ G_BEGIN_DECLS
 			    (a)->start.col == (b)->start.col && \
 			    (a)->end.col   == (b)->end.col)
 
+gboolean gnm_range_equal (const GnmRange *a, const GnmRange *b);
+guint gnm_range_hash (const GnmRange *r);
+
 /**
  * range_overlap:
  * @a: First range
@@ -98,6 +101,10 @@ GnmSheetRange *gnm_sheet_range_new	  (Sheet *sheet, GnmRange const *r);
 void           gnm_sheet_range_free       (GnmSheetRange *r);
 gboolean       gnm_sheet_range_from_value (GnmSheetRange *r, GnmValue const *v);
 gboolean       gnm_sheet_range_overlap    (GnmSheetRange const *a, GnmSheetRange const *b);
+GnmSheetRange *gnm_sheet_range_dup	  (GnmSheetRange const *sr);
+gboolean       gnm_sheet_range_equal      (const GnmSheetRange *a,
+					   const GnmSheetRange *b);
+guint          gnm_sheet_range_hash       (const GnmSheetRange *sr);
 
 char	      *global_range_name	  (Sheet const *sheet, GnmRange const *r);
 char	      *undo_cell_pos_name	  (Sheet const *sheet, GnmCellPos const *pos);
