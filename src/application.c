@@ -52,6 +52,7 @@ enum {
 	CUSTOM_UI_ADDED,
 	CUSTOM_UI_REMOVED,
 	CLIPBOARD_MODIFIED,
+	RECALC_FINISHED,
 	LAST_SIGNAL
 };
 
@@ -82,6 +83,7 @@ typedef struct {
 	void (*custom_ui_added)	    (GnmApp *gnm_app, GnmAppExtraUI *ui);
 	void (*custom_ui_removed)   (GnmApp *gnm_app, GnmAppExtraUI *ui);
 	void (*clipboard_modified)  (GnmApp *gnm_app);
+	void (*recalc_finished)     (GnmApp *gnm_app);
 } GnmAppClass;
 
 static GObjectClass *parent_klass;
@@ -748,6 +750,13 @@ gnm_app_class_init (GObjectClass *gobject_klass)
 		GNM_APP_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmAppClass, clipboard_modified),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+	signals [RECALC_FINISHED] = g_signal_new ("recalc_finished",
+		GNM_APP_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnmAppClass, recalc_finished),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);

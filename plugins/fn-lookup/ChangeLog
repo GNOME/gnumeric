@@ -1,3 +1,10 @@
+2008-04-08  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (find_index_linear_equal_string): New function for a
+	common special case.  Fixes #525875.
+	(go_plugin_init): Install signal to clear caches after recalcs.
+	(go_plugin_shutdown): Remove above signal.
+
 2008-03-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.8.2

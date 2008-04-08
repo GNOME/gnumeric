@@ -778,6 +778,29 @@ range_transpose (GnmRange *range, GnmCellPos const *origin)
 	return clipped;
 }
 
+gboolean
+gnm_range_equal (const GnmRange *a, const GnmRange *b)
+{
+	return range_equal (a, b);
+}
+
+guint
+gnm_range_hash (const GnmRange *r)
+{
+	guint res = 0;
+
+	res ^= r->start.col;
+	res *= 17;
+	res ^= r->start.row;
+	res *= 17;
+	res ^= r->end.col;
+	res *= 17;
+	res ^= r->end.row;
+
+	return res;
+}
+
+
 GnmSheetRange *
 gnm_sheet_range_new (Sheet *sheet, GnmRange const *r)
 {
@@ -791,6 +814,13 @@ gnm_sheet_range_new (Sheet *sheet, GnmRange const *r)
 	gr->range = *r;
 
 	return gr;
+}
+
+GnmSheetRange *
+gnm_sheet_range_dup (GnmSheetRange const *sr)
+{
+	g_return_val_if_fail (sr != NULL, NULL);
+	return gnm_sheet_range_new (sr->sheet, &sr->range);
 }
 
 /**
@@ -815,6 +845,19 @@ void
 gnm_sheet_range_free (GnmSheetRange *gr)
 {
 	g_free (gr);
+}
+
+gboolean
+gnm_sheet_range_equal (const GnmSheetRange *a,
+		       const GnmSheetRange *b)
+{
+	return a->sheet == b->sheet && range_equal (&a->range, &b->range);
+}
+
+guint
+gnm_sheet_range_hash (const GnmSheetRange *sr)
+{
+	return gnm_range_hash (&sr->range) ^ sr->sheet->index_in_wb;
 }
 
 gboolean
