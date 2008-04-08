@@ -38,6 +38,7 @@
 #include <expr-impl.h>
 #include <application.h>
 #include <expr-name.h>
+#include <mathfunc.h>
 #include <parse-util.h>
 #include <gnm-i18n.h>
 
@@ -50,6 +51,7 @@
 GNM_PLUGIN_MODULE_HEADER;
 
 static GHashTable *lookup_string_cache;
+static GHashTable *lookup_float_cache;
 
 static void
 clear_caches (void)
@@ -58,12 +60,27 @@ clear_caches (void)
 		g_hash_table_destroy (lookup_string_cache);
 		lookup_string_cache = NULL;
 	}
+	if (lookup_float_cache) {
+		g_hash_table_destroy (lookup_float_cache);
+		lookup_float_cache = NULL;
+	}
 }
 
 static GHashTable *
-get_string_cache (const GnmSheetRange *sr)
+get_cache (GnmFuncEvalInfo *ei, GnmValue const *data, gboolean stringp)
 {
+	GnmSheetRange sr;
 	GHashTable *h;
+	Sheet *end_sheet;
+	GnmRangeRef const *rr;
+
+	if (data->type != VALUE_CELLRANGE)
+		return NULL;
+	rr = value_get_rangeref (data);
+
+        gnm_rangeref_normalize (rr, ei->pos, &sr.sheet, &end_sheet, &sr.range);
+	if (sr.sheet != end_sheet)
+		return NULL;
 
 	if (!lookup_string_cache) {
 		lookup_string_cache = g_hash_table_new_full
@@ -73,12 +90,18 @@ get_string_cache (const GnmSheetRange *sr)
 			 (GDestroyNotify)g_hash_table_destroy);
 	}
 
-	h = g_hash_table_lookup (lookup_string_cache, sr);
+	h = g_hash_table_lookup (lookup_string_cache, &sr);
 	if (!h) {
-		h = g_hash_table_new_full (g_str_hash, g_str_equal,
-					   g_free, NULL);
+		if (stringp)
+			h = g_hash_table_new_full (g_str_hash,
+						   g_str_equal,
+						   g_free, NULL);
+		else
+			h = g_hash_table_new_full ((GHashFunc)gnm_float_hash,
+						   (GEqualFunc)gnm_float_equal,
+						   g_free, NULL);
 		g_hash_table_insert (lookup_string_cache,
-				     gnm_sheet_range_dup (sr), h);
+				     gnm_sheet_range_dup (&sr), h);
 	}
 
 	return h;
@@ -198,24 +221,14 @@ find_index_linear_equal_string (GnmFuncEvalInfo *ei,
 	gpointer pres;
 	char *sc;
 	gboolean found;
-	GnmRangeRef const *rr;
-	Sheet *start_sheet, *end_sheet;
-	GnmSheetRange sr;
 
-	if (data->type != VALUE_CELLRANGE)
-		return -2;
-	rr = value_get_rangeref (data);
-
-        gnm_rangeref_normalize (rr, ei->pos, &start_sheet, &end_sheet, &sr.range);
-	if (start_sheet != end_sheet)
+	h = get_cache (ei, data, TRUE);
+	if (!h)
 		return -2;
 
 	/* We need to do this early before calls to value_peek_string gets
 	   called too often.  */
 	sc = g_utf8_casefold (s, -1);
-
-	sr.sheet = start_sheet;
-	h = get_string_cache (&sr);
 
 	if (g_hash_table_size (h) == 0) {
 		int lp, length = calc_length (data, ei->pos, vertical);
@@ -224,7 +237,7 @@ find_index_linear_equal_string (GnmFuncEvalInfo *ei,
 			GnmValue const *v = get_elem (data, lp, ei->pos, vertical);
 			char *vc;
 
-			if (!VALUE_IS_STRING (v))
+			if (!v || !VALUE_IS_STRING (v))
 				continue;
 
 			vc = g_utf8_casefold (value_peek_string (v), -1);
@@ -242,6 +255,44 @@ find_index_linear_equal_string (GnmFuncEvalInfo *ei,
 }
 
 static int
+find_index_linear_equal_float (GnmFuncEvalInfo *ei,
+			       gnm_float f, GnmValue const *data,
+			       gboolean vertical)
+{
+	GHashTable *h;
+	gpointer pres;
+	gboolean found;
+
+	h = get_cache (ei, data, FALSE);
+	if (!h)
+		return -2;
+
+	if (g_hash_table_size (h) == 0) {
+		int lp, length = calc_length (data, ei->pos, vertical);
+
+		for (lp = 0; lp < length; lp++) {
+			GnmValue const *v = get_elem (data, lp, ei->pos, vertical);
+			gnm_float f2;
+
+			if (!v || !VALUE_IS_NUMBER (v))
+				continue;
+
+			f2 = value_get_as_float (v);
+
+			if (!g_hash_table_lookup_extended (h, &f2, NULL, NULL))
+				g_hash_table_insert
+					(h,
+					 g_memdup (&f2, sizeof (f2)),
+					 GINT_TO_POINTER (lp));
+		}
+	}
+
+	found = g_hash_table_lookup_extended (h, &f, NULL, &pres);
+
+	return found ? GPOINTER_TO_INT (pres) : -1;
+}
+
+static int
 find_index_linear (GnmFuncEvalInfo *ei,
 		   GnmValue const *find, GnmValue const *data,
 		   gint type, gboolean vertical)
@@ -253,6 +304,13 @@ find_index_linear (GnmFuncEvalInfo *ei,
 	if (VALUE_IS_STRING (find) && type == 0) {
 		const char *s = value_peek_string (find);
 		int i = find_index_linear_equal_string (ei, s, data, vertical);
+		if (i != -2)
+			return i;
+	}
+
+	if (VALUE_IS_NUMBER (find) && type == 0) {
+		gnm_float f = value_get_as_float (find);
+		int i = find_index_linear_equal_float (ei, f, data, vertical);
 		if (i != -2)
 			return i;
 	}
