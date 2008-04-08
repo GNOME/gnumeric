@@ -532,7 +532,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
 			gval = g_array_append_vals (gval, vals0, n0);
 			g_free (vals0);
-			gval = gnm_strip_missing (gval, &missing);
+			gnm_strip_missing (gval, missing);
 			vals0 = (gnm_float *) gval->data;
 			n0 = gval->len;
 			g_array_free (gval, FALSE);
@@ -540,7 +540,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
 			gval = g_array_append_vals (gval, vals1, n1);
 			g_free (vals1);
-			gval = gnm_strip_missing (gval, &missing);
+			gnm_strip_missing (gval, missing);
 			vals1 = (gnm_float *) gval->data;
 			n1 = gval->len;
 			g_array_free (gval, FALSE);
@@ -731,7 +731,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
 			gval = g_array_append_vals (gval, ord, n0);
 			g_free (ord);
-			gval = gnm_strip_missing (gval, &missing);
+			gnm_strip_missing (gval, missing);
 			ord = (gnm_float *) gval->data;
 			n0 = gval->len;
 			g_array_free (gval, FALSE);
@@ -739,7 +739,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
 			gval = g_array_append_vals (gval, absc, n1);
 			g_free (absc);
-			gval = gnm_strip_missing (gval, &missing);
+			gnm_strip_missing (gval, missing);
 			absc = (gnm_float *) gval->data;
 			n1 = gval->len;
 			g_array_free (gval, FALSE);
@@ -821,7 +821,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
 			gval = g_array_append_vals (gval, ord, n0);
 			g_free (ord);
-			gval = gnm_strip_missing (gval, &missing0);
+			gnm_strip_missing (gval, missing0);
 			ord = (gnm_float *) gval->data;
 			n0 = gval->len;
 			g_array_free (gval, FALSE);

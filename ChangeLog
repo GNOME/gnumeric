@@ -1,3 +1,9 @@
+2008-04-08  Morten Welinder  <terra@gnome.org>
+
+	* src/collect.c (gnm_strip_missing): Don't return a value; take
+	list directly, not as reference; make O(n) instead of O(n^2).  All
+	callers changed.
+
 2008-04-06  Morten Welinder  <terra@gnome.org>
 
 	* src/collect.c (collect_strings): Change return type to GPtrArray

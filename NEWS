@@ -15,6 +15,7 @@ Morten:
 	* Fix check for bogus xls files.  [#524926]
 	* Fix inc/dec buttons for General.  [#510252]
 	* Fix CONCATENATE's empty case.
+	* Improve performance of analysis tools for large ranges.
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.2
