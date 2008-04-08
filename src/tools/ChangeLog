@@ -1,3 +1,9 @@
+2008-04-08  Morten Welinder  <terra@gnome.org>
+
+	* analysis-tools.c (analysis_tool_regression_engine_run): Use
+	gnm_strip_missing instead of strip_missing.  Use
+	gnm_slist_sort_merge instead of horrible union_of_int_sets.
+
 2008-01-15  Morten Welinder  <terra@gnome.org>
 
 	* filter.c (advanced_filter): Verify that we have a cellrange

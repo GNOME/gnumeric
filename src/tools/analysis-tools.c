@@ -45,6 +45,7 @@
 #include "regression.h"
 #include "sheet-style.h"
 #include "workbook.h"
+#include "collect.h"
 #include "gnm-format.h"
 #include "sheet-object-cell-comment.h"
 #include "workbook-control.h"
@@ -222,105 +223,6 @@ destroy_data_set_list (GPtrArray * the_list)
 		destroy_data_set (data);
 	}
 	g_ptr_array_free (the_list, TRUE);
-}
-
-/*
- *  cb_insert_diff_elements :
- *  @data:
- *  @user_data: really a GSList **
- *
- */
-static void
-cb_insert_diff_elements (gpointer data, gpointer user_data)
-{
-	GSList **the_list = (GSList **) (user_data);
-
-	if (g_slist_find (*the_list, data) == NULL) {
-		*the_list = g_slist_prepend (*the_list, data);
-	}
-	return;
-}
-
-/*
- *  cb_int_descending:
- *  @a:
- *  @b:
- *
- */
-static gint
-cb_int_descending (gconstpointer a, gconstpointer b)
-{
-	guint a_int = GPOINTER_TO_UINT (a);
-	guint b_int = GPOINTER_TO_UINT (b);
-
-	if (b_int > a_int) return 1;
-	if (b_int < a_int) return -1;
-	return 0;
-}
-
-/*
- *  union_of_int_sets:
- *  @list_1:
- *  @list_2:
- *
- */
-static GSList*
-union_of_int_sets (GSList * list_1, GSList * list_2)
-{
-	GSList *list_res = NULL;
-
-	if (list_1 == NULL)
-		return g_slist_copy (list_2);
-	if (list_2 == NULL)
-		return g_slist_copy (list_1);
-
-	list_res = g_slist_copy (list_1);
-	g_slist_foreach (list_2, cb_insert_diff_elements, &list_res);
-
-	return list_res;
-}
-
-/*
- *  cb_remove_missing_el :
- *  @data:
- *  @user_data: really a GArray **
- *
- */
-static void
-cb_remove_missing_el (gpointer data, gpointer user_data)
-{
-	GArray **the_data = (GArray **) (user_data);
-	guint the_item = GPOINTER_TO_UINT (data);
-
-	*the_data = g_array_remove_index (*the_data, the_item);
-	return;
-}
-
-
-
-/*
- *  strip_missing:
- *  @data:
- *  @missing:
- *
- */
-static GArray*
-strip_missing (GArray * data, GSList * missing)
-{
-	GArray *new_data;
-	GSList * sorted_missing;
-
-	if ((missing == NULL) || (g_slist_length (missing) == 0))
-		return data;
-
-	sorted_missing = g_slist_sort (g_slist_copy (missing), cb_int_descending);;
-	new_data = g_array_new (FALSE, FALSE, sizeof (gnm_float));
-	g_array_set_size (new_data, data->len);
-	g_memmove (new_data->data, data->data, sizeof (gnm_float) * data->len);
-	g_slist_foreach (sorted_missing, cb_remove_missing_el, &new_data);
-	g_slist_free (sorted_missing);
-
-	return new_data;
 }
 
 /*
@@ -3060,7 +2962,6 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	GSList       *missing       = NULL;
 	GPtrArray    *x_data        = NULL;
 	data_set_t   *y_data        = NULL;
-	GArray       *cleaned       = NULL;
 	char         *text          = NULL;
 	char         *format;
 	gnm_regression_stat_t   *regression_stat = NULL;
@@ -3093,21 +2994,14 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	for (i = 0; i < xdim; i++) {
 		data_set_t *this_data = g_ptr_array_index (x_data, i);
 		GSList *this_missing = this_data->missing;
-		GSList *the_union =
-			union_of_int_sets (missing, this_missing);
-		g_slist_free (missing);
-		missing = the_union;
+		missing = gnm_slist_sort_merge (missing, g_slist_copy (this_missing));
 	}
 
 	if (missing != NULL) {
-		cleaned = strip_missing (y_data->data, missing);
-		g_array_free (y_data->data, TRUE);
-		y_data->data = cleaned;
+		gnm_strip_missing (y_data->data, missing);
 		for (i = 0; i < xdim; i++) {
 			data_set_t *this_data = g_ptr_array_index (x_data, i);
-			cleaned = strip_missing (this_data->data, missing);
-			g_array_free (this_data->data, TRUE);
-			this_data->data = cleaned;
+			gnm_strip_missing (this_data->data, missing);
 		}
 		g_slist_free (missing);
 	}

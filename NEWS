@@ -64,6 +64,7 @@ Morten:
 	* Allow opening multiple files in open dialog.  [#524479]
 	* Fix check for bogus xls files.  [#524926]
 	* Fix CONCATENATE's empty case.
+	* Improve performance of analysis tools for large ranges.
 
 Nick Lamb:
 	* Honour detachable-toolbar preference.  [#321867]
