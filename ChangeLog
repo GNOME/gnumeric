@@ -1,5 +1,8 @@
 2008-04-08  Morten Welinder  <terra@gnome.org>
 
+	* src/mathfunc.c (gnm_float_hash, gnm_float_equal): Moved from
+	rangefunc.c.  Made public.
+
 	* src/dependent.c (workbook_recalc): If we recalculated anything,
 	emit recalc-finished on the application.
 

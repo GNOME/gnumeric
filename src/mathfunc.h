@@ -183,6 +183,9 @@ gnm_float combin (gnm_float n, gnm_float k);
 gnm_float permut (gnm_float n, gnm_float k);
 gnm_float fact   (int n);
 
+gint gnm_float_equal (gnm_float const *a, const gnm_float *b);
+guint gnm_float_hash (gnm_float const *d);
+
 void mathfunc_init (void);
 
 /* ------------------------------------------------------------------------- */

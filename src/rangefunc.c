@@ -424,25 +424,6 @@ gnm_range_rsq_est (gnm_float const *xs, const gnm_float *ys, int n, gnm_float *r
 	return 0;
 }
 
-static guint
-float_hash (gnm_float const *d)
-{
-	int expt;
-	gnm_float mant = gnm_frexp (gnm_abs (*d), &expt);
-	guint h = ((guint)(0x80000000u * mant)) ^ expt;
-	if (*d >= 0)
-		h ^= 0x55555555;
-	return h;
-}
-
-static gint
-float_equal (gnm_float const *a, const gnm_float *b)
-{
-	if (*a == *b)
-	        return 1;
-	return 0;
-}
-
 /* Most-common element.  (The one whose first occurrence comes first in
    case of several equally common.  */
 int
@@ -456,8 +437,8 @@ gnm_range_mode (gnm_float const *xs, int n, gnm_float *res)
 
 	if (n <= 1) return 1;
 
-	h = g_hash_table_new_full ((GHashFunc)float_hash,
-				   (GCompareFunc)float_equal,
+	h = g_hash_table_new_full ((GHashFunc)gnm_float_hash,
+				   (GCompareFunc)gnm_float_equal,
 				   NULL,
 				   (GDestroyNotify)g_free);
 	for (i = 0; i < n; i++) {

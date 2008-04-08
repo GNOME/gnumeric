@@ -16,7 +16,8 @@ Morten:
 	* Fix inc/dec buttons for General.  [#510252]
 	* Fix CONCATENATE's empty case.
 	* Improve performance of analysis tools for large ranges.
-	* Fix performance of repeated [VH]LOOKUP with constant data range.  [#525875]
+	* Fix performance repeated VLOOKUP/HLOOKUP/MATCH with constant
+	  data range.  [#525875]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.2
