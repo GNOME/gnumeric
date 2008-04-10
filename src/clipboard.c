@@ -45,6 +45,7 @@
 #include <locale.h>
 #include <string.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/datetime.h>
 
 #ifndef USE_CELL_COPY_POOLS
 #define USE_CELL_COPY_POOLS 1
@@ -189,6 +190,14 @@ paste_link (GnmPasteTarget const *pt, int top, int left,
 	}
 }
 
+struct paste_cell_data {
+	GnmPasteTarget const *pt;
+	GnmCellRegion const  *cr;
+	GnmCellPos	top_left;
+	GnmExprRelocateInfo rinfo;
+	gboolean translate_dates;
+};
+
 /**
  * paste_cell: Pastes a cell in the spreadsheet
  * @dst_sheet:   The sheet where the pasting will be done
@@ -199,19 +208,21 @@ paste_link (GnmPasteTarget const *pt, int top, int left,
  * @paste_flags: Bit mask that describes the paste options.
  */
 static void
-paste_cell (Sheet *dst_sheet,
-	    int target_col, int target_row,
-	    GnmExprRelocateInfo const *rinfo,
-	    GnmCellCopy const *src, int paste_flags)
+paste_cell (int target_col, int target_row,
+	    GnmCellCopy const *src,
+	    const struct paste_cell_data *dat)
 {
+	Sheet *dst_sheet = dat->pt->sheet;
+	int paste_flags = dat->pt->paste_flags;
+
 	if (paste_flags & PASTE_OPER_MASK)
 		paste_cell_with_operation (dst_sheet, target_col, target_row,
-					   rinfo, src, paste_flags);
+					   &dat->rinfo, src, paste_flags);
 	else {
 		GnmCell *dst = sheet_cell_fetch (dst_sheet, target_col, target_row);
 		if (NULL != src->texpr && (paste_flags & PASTE_CONTENTS)) {
 			GnmExprTop const *relo = gnm_expr_top_relocate (
-				src->texpr, rinfo, FALSE);
+				src->texpr, &dat->rinfo, FALSE);
 			if (paste_flags & PASTE_TRANSPOSE) {
 				GnmExprTop const *trelo =
 					gnm_expr_top_transpose (relo ? relo : src->texpr);
@@ -228,8 +239,28 @@ paste_cell (Sheet *dst_sheet,
 						 value_dup (src->val), TRUE);
 			if (NULL != relo)
 				gnm_expr_top_unref (relo);
-		} else
-			gnm_cell_set_value (dst, value_dup (src->val));
+		} else {
+			GnmValue *newval = NULL;
+			GnmValue const *oldval = src->val;
+
+			if (dat->translate_dates && oldval && VALUE_IS_FLOAT (oldval)) {
+				GOFormat const *fmt = VALUE_FMT (oldval)
+					? VALUE_FMT (oldval)
+					: gnm_style_get_format (gnm_cell_get_style (dst));
+				if (go_format_is_date (fmt) == +1) {
+					gnm_float fnew = go_date_conv_translate
+						(value_get_as_float (oldval),
+						 dat->cr->date_conv,
+						 workbook_date_conv (dst_sheet->workbook));
+					newval = value_new_float (fnew);
+					value_set_fmt (newval, VALUE_FMT (oldval));
+				}
+			}
+
+			if (!newval)
+				newval = value_dup (src->val);
+			gnm_cell_set_value (dst, newval);
+		}
 	}
 }
 
@@ -264,13 +295,6 @@ paste_object (GnmPasteTarget const *pt, SheetObject const *src, int left, int to
 	g_object_unref (dst);
 }
 
-struct paste_cell_data {
-	GnmPasteTarget const *pt;
-	GnmCellRegion const  *cr;
-	GnmCellPos	top_left;
-	GnmExprRelocateInfo rinfo;
-};
-
 static void
 cb_paste_cell (GnmCellCopy const *src, gconstpointer ignore,
 	       struct paste_cell_data *dat)
@@ -295,8 +319,7 @@ cb_paste_cell (GnmCellCopy const *src, gconstpointer ignore,
 		dat->rinfo.pos.eval.row = target_row;
 	}
 
-	paste_cell (dat->pt->sheet, target_col, target_row,
-		    &dat->rinfo, src, dat->pt->paste_flags);
+	paste_cell (target_col, target_row, src, dat);
 }
 
 
@@ -324,6 +347,7 @@ clipboard_paste_region (GnmCellRegion const *cr,
 	GSList *ptr;
 	GnmRange const *r;
 	gboolean has_contents, adjust_merges = TRUE;
+	struct paste_cell_data dat;
 
 	g_return_val_if_fail (pt != NULL, TRUE);
 	g_return_val_if_fail (cr != NULL, TRUE);
@@ -432,11 +456,13 @@ clipboard_paste_region (GnmCellRegion const *cr,
 				    clearFlags, cc);
 	}
 
+	dat.translate_dates = cr->date_conv &&
+		!go_date_conv_equal (cr->date_conv, workbook_date_conv (pt->sheet->workbook));
+
 	for (i = 0; i < repeat_horizontal ; i++)
 		for (j = 0; j < repeat_vertical ; j++) {
 			int const left = i * src_cols + pt->range.start.col;
 			int const top = j * src_rows + pt->range.start.row;
-			struct paste_cell_data dat;
 
 			dat.top_left.col = left;
 			dat.top_left.row = top;
@@ -694,6 +720,9 @@ cellregion_new (Sheet *origin_sheet)
 {
 	GnmCellRegion *cr = g_new0 (GnmCellRegion, 1);
 	cr->origin_sheet	= origin_sheet;
+	cr->date_conv           = origin_sheet && origin_sheet->workbook
+		? workbook_date_conv (origin_sheet->workbook)
+		: NULL;
 	cr->cols = cr->rows	= -1;
 	cr->not_as_contents	= FALSE;
 	cr->cell_content	= NULL;

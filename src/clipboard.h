@@ -56,6 +56,7 @@ typedef struct {
 
 struct _GnmCellRegion {
 	Sheet		*origin_sheet; /* can be NULL */
+	const GODateConventions *date_conv; /* can be NULL */
 	GnmCellPos	 base;
 	int		 cols, rows;
 	ColRowStateList *col_state, *row_state;
