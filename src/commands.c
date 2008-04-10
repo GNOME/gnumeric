@@ -2776,7 +2776,7 @@ warn_if_date_trouble (WorkbookControl *wbc, GnmCellRegion *cr)
 		GError *err;
 		err = g_error_new (go_error_invalid(), 0,
 				   _("Copying between files with different date conventions.\n"
-				     "It is possible that some dates could be be copied\n"
+				     "It is possible that some dates could be copied\n"
 				     "incorrectly."));
 		go_cmd_context_error (GO_CMD_CONTEXT (wbc), err);
 		g_error_free (err);
