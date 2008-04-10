@@ -18,6 +18,7 @@ Morten:
 	* Improve performance of analysis tools for large ranges.
 	* Fix performance repeated VLOOKUP/HLOOKUP/MATCH with constant
 	  data range.  [#525875]
+	* Fix date pasting problems to/from 1904 workbooks.  [#490419]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.2

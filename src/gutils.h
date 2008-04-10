@@ -2,6 +2,7 @@
 #ifndef _GNM_GUTILS_H_
 # define _GNM_GUTILS_H_
 
+#include "gnumeric.h"
 #include <goffice/utils/regutf8.h>
 
 G_BEGIN_DECLS

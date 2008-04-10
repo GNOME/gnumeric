@@ -2760,6 +2760,30 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 
 /******************************************************************/
 
+static void
+warn_if_date_trouble (WorkbookControl *wbc, GnmCellRegion *cr)
+{
+	Workbook *wb = wb_control_get_workbook (wbc);
+	const GODateConventions *wb_date_conv = workbook_date_conv (wb);
+
+	if (cr->date_conv == NULL)
+		return;
+	if (go_date_conv_equal (cr->date_conv, wb_date_conv))
+		return;
+
+	/* We would like to show a warning, but it seems we cannot via a context.  */
+	{
+		GError *err;
+		err = g_error_new (go_error_invalid(), 0,
+				   _("Copying between files with different date conventions.\n"
+				     "It is possible that some dates could be be copied\n"
+				     "incorrectly."));
+		go_cmd_context_error (GO_CMD_CONTEXT (wbc), err);
+		g_error_free (err);
+	}
+}
+
+
 #define CMD_PASTE_COPY_TYPE        (cmd_paste_copy_get_type ())
 #define CMD_PASTE_COPY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_PASTE_COPY_TYPE, CmdPasteCopy))
 
@@ -3032,6 +3056,8 @@ cmd_paste_copy (WorkbookControl *wbc,
 		g_object_unref (me);
 		return TRUE;
 	}
+
+	warn_if_date_trouble (wbc, cr);
 
 	return command_push_undo (wbc, G_OBJECT (me));
 }

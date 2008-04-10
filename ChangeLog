@@ -1,3 +1,17 @@
+2008-04-10  Morten Welinder  <terra@gnome.org>
+
+	* src/clipboard.c (paste_cell): Translate dates if required.
+	Fixes #490419.
+	(cellregion_new): Setup new date_conv field from sheet.
+
+	* src/xml-io.c (xml_cellregion_read): Set of date_conv field from
+	xml.
+	(xml_read_clipboard_cell): Use date_conv from cell region, not
+	workbook.
+
+	* src/commands.c (warn_if_date_trouble): New function.
+	(cmd_paste_copy): Call warn_if_date_trouble.
+
 2008-04-08  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (gnm_float_hash, gnm_float_equal): Moved from

@@ -2078,10 +2078,8 @@ xml_read_clipboard_cell (XmlParseContext *ctxt, xmlNodePtr tree,
 			cc->val = value_new_from_string (value_type,
 				CXML2C (content), value_fmt, FALSE);
 		else {
-			GODateConventions const *date_conv =
-				ctxt->wb ? workbook_date_conv (ctxt->wb) : NULL;
 			parse_text_value_or_expr (&pp, CXML2C (content),
-				&cc->val, &cc->texpr, value_fmt, date_conv);
+				&cc->val, &cc->texpr, value_fmt, cr->date_conv);
 		}
 
 		if (shared_expr_index > 0) {
@@ -2143,6 +2141,7 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, const char *buffer, int
 	GnmCellRegion   *cr = NULL;
 	GnmLocale       *locale;
 	int dummy;
+	xmlChar *dateconvstr;
 
 	g_return_val_if_fail (buffer != NULL, NULL);
 
@@ -2173,6 +2172,15 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, const char *buffer, int
 	xml_node_get_int (clipboard, "BaseRow", &cr->base.row);
 	/* if it exists it is TRUE */
 	cr->not_as_contents = xml_node_get_int (clipboard, "NotAsContent", &dummy);
+
+	dateconvstr = xml_node_get_cstr (clipboard, "DateConvention");
+	if (!dateconvstr)
+		dateconvstr = xml_node_get_cstr (clipboard, "gnm:DateConvention");
+	cr->date_conv = go_date_conv_from_str (dateconvstr
+					       ? CXML2C (dateconvstr)
+					       : "Lotus:1900");
+	if (dateconvstr)
+		xmlFree (dateconvstr);
 
 	l = e_xml_get_child_by_name (clipboard, CC2XML ("Styles"));
 	if (l != NULL)
