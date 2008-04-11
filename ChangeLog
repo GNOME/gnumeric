@@ -4,6 +4,7 @@
 	lots of trouble.
 	(guess_time_format): Return the format, not a string.  Deduce
 	GOFormat's limit of decimals.
+	(guess_time_format): Improve handling of elapsed time format.
 
 2008-04-10  Morten Welinder  <terra@gnome.org>
 
