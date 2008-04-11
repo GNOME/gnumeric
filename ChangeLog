@@ -1,3 +1,10 @@
+2008-04-11  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-edit.c (close_to_int): Add missing abs case causing
+	lots of trouble.
+	(guess_time_format): Return the format, not a string.  Deduce
+	GOFormat's limit of decimals.
+
 2008-04-10  Morten Welinder  <terra@gnome.org>
 
 	* src/clipboard.c (paste_cell): Translate dates if required.
