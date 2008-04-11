@@ -635,7 +635,10 @@ guess_time_format (const char *prefix, gnm_float f)
 	GString *str = g_string_new (prefix);
 	GOFormat *fmt;
 
-	g_string_append (str, "hh:mm");
+	if (f >= 0 && f < 1)
+		g_string_append (str, "hh:mm");
+	else
+		g_string_append (str, "[h]:mm");
 	f *= 24 * 60;
 	if (!close_to_int (f, eps / 60)) {
 		g_string_append (str, ":ss");
@@ -874,17 +877,15 @@ wbcg_edit_start (WBCGtk *wbcg,
 				break;
 			}
 
-			case GO_FORMAT_TIME:
-				if (f >= 0 && f <= 1) {
-					GOFormat *new_fmt =
-						guess_time_format (NULL, f);
+			case GO_FORMAT_TIME: {
+				GOFormat *new_fmt = guess_time_format (NULL, f);
 
-					text = format_value (new_fmt, cell->value, NULL, -1,
-							     workbook_date_conv (sv->sheet->workbook));
-					set_text = TRUE;
-					go_format_unref (new_fmt);
-				}
+				text = format_value (new_fmt, cell->value, NULL, -1,
+						     workbook_date_conv (sv->sheet->workbook));
+				set_text = TRUE;
+				go_format_unref (new_fmt);
 				break;
+			}
 
 			default:
 				break;
