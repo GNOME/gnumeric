@@ -622,33 +622,45 @@ wbcg_edit_get_markup (WBCGtk *wbcg, gboolean full)
 static gboolean
 close_to_int (gnm_float x, gnm_float eps)
 {
-	return (x - gnm_fake_round (x)) < eps;
+	return gnm_abs (x - gnm_fake_round (x)) < eps;
 }
 
 
-static void
-guess_time_format (GString *res, gnm_float f)
+static GOFormat *
+guess_time_format (const char *prefix, gnm_float f)
 {
-	int decs;
+	int decs = 0;
 	gnm_float eps = 1e-6;
+	static int maxdecs = 6;
+	GString *str = g_string_new (prefix);
+	GOFormat *fmt;
 
-	g_string_append (res, "hh:mm");
+	g_string_append (str, "hh:mm");
 	f *= 24 * 60;
-	if (close_to_int (f, eps / 60))
-		return;
-
-	g_string_append (res, ":ss");
-	f *= 60;
-	if (close_to_int (f, eps))
-		return;
-
-	g_string_append_c (res, '.');
-	for (decs = 0; decs < 6; decs++) {
-		g_string_append_c (res, '0');
-		f *= 10;
-		if (close_to_int (f, eps))
-			break;
+	if (!close_to_int (f, eps / 60)) {
+		g_string_append (str, ":ss");
+		f *= 60;
+		if (!close_to_int (f, eps)) {
+			g_string_append_c (str, '.');
+			while (decs < maxdecs) {
+				decs++;
+				g_string_append_c (str, '0');
+				f *= 10;
+				if (close_to_int (f, eps))
+					break;
+			}
+		}
 	}
+
+	while (go_format_is_invalid ((fmt = go_format_new_from_XL (str->str))) && decs > 0) {
+		/* We don't know how many decimals GOFormat allows.  */
+		go_format_unref (fmt);
+		maxdecs = --decs;
+		g_string_truncate (str, str->len - 1);
+	}
+
+	g_string_free (str, TRUE);
+	return fmt;
 }
 
 static void
@@ -842,8 +854,9 @@ wbcg_edit_start (WBCGtk *wbcg,
 					go_format_unref (new_fmt);
 
 					g_string_append_c (fstr, ' ');
-					guess_time_format (fstr, f - gnm_floor (f));
-					new_fmt = go_format_new_from_XL (fstr->str);
+					new_fmt = guess_time_format
+						(fstr->str,
+						 f - gnm_floor (f));
 					g_string_free (fstr, TRUE);
 				}
 
@@ -863,12 +876,8 @@ wbcg_edit_start (WBCGtk *wbcg,
 
 			case GO_FORMAT_TIME:
 				if (f >= 0 && f <= 1) {
-					GString *fstr = g_string_new (NULL);
-					GOFormat *new_fmt;
-
-					guess_time_format (fstr, f);
-					new_fmt = go_format_new_from_XL (fstr->str);
-					g_string_free (fstr, TRUE);
+					GOFormat *new_fmt =
+						guess_time_format (NULL, f);
 
 					text = format_value (new_fmt, cell->value, NULL, -1,
 							     workbook_date_conv (sv->sheet->workbook));
