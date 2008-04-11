@@ -107,7 +107,7 @@
     </listitem>
     <listitem>
       <para>
-	<keycap>Ctrl-^</keycap> Formats the current selection as using scientific notation
+	<keycap>Ctrl-^</keycap> Formats the current selection as superscript
       </para>
     </listitem>
     <listitem>
@@ -127,7 +127,7 @@
     </listitem>
     <listitem>
       <para>
-	<keycap>Ctrl-_</keycap> Removes any borders around or in the current selection
+	<keycap>Ctrl-_</keycap> Formats the current selection as subscript
       </para>
     </listitem>
     <listitem>
