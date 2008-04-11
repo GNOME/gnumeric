@@ -20,6 +20,7 @@ Morten:
 	  data range.  [#525875]
 	* Fix date pasting problems to/from 1904 workbooks.  [#490419]
 	* Fix problems editing times.  [#527392]
+	* Implement IFERROR.  [#445591]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.2

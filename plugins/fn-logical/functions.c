@@ -305,6 +305,23 @@ gnumeric_if (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_iferror[] = {
+	{ GNM_FUNC_HELP_NAME, F_("IFERROR:Test for error.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:value to test for error.") },
+	{ GNM_FUNC_HELP_ARG, F_("y:alternate value.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the first value, unless that is an error, in which case it returns the second.") },
+	{ GNM_FUNC_HELP_SEEALSO, "IF,ISERROR" },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_iferror (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_dup (VALUE_IS_ERROR (argv[0]) ? argv[1] : argv[0]);
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_true[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=TRUE\n"
@@ -372,6 +389,9 @@ GnmFuncDescriptor const logical_functions[] = {
 	  gnumeric_if, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_SECOND,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "iferror", "EE", N_("value,value"), help_iferror,
+	  gnumeric_iferror, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "true", "", "", help_true, gnumeric_true,
 	  NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
