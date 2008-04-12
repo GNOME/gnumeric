@@ -1,3 +1,12 @@
+gnumeric (1.6.3-5.1+etch1) stable-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * Backport fix from upstream SVN:
+    - CVE-2008-0668: arbitrary code execution through integer overflow in
+      Excel spreadsheet HLINK handling
+
+ -- Devin Carraway <devin@debian.org>  Sun, 30 Mar 2008 01:02:31 +0000
+
 gnumeric (1.6.3-6) unstable; urgency=low
 
   * [plugins/excel/ms-chart.c] Don't delete a valid axis. Pulled in from
