@@ -70,6 +70,7 @@ Morten:
 	* Fix date pasting problems to/from 1904 workbooks.  [#490419]
 	* Fix problems editing times.  [#527392]
 	* Implement IFERROR.  [#445591]
+	* Implement F9 for evaluating a selected subexpression.
 
 Nick Lamb:
 	* Honour detachable-toolbar preference.  [#321867]

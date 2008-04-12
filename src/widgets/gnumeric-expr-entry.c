@@ -526,6 +526,47 @@ cb_gee_key_press_event (GtkEntry	*entry,
 		return TRUE;
 	}
 
+	case GDK_F9: {
+		/* Replace selection by its evaluated result.  */
+		GtkEditable *editable = GTK_EDITABLE (entry);
+		gint start, end;
+		char *str;
+		GnmExprTop const *texpr;
+		Sheet *sheet = gee->pp.sheet;
+
+		gtk_editable_get_selection_bounds (editable, &start, &end);
+		if (end <= start)
+			return FALSE;
+		str = gtk_editable_get_chars (editable, start, end);
+
+		texpr = gnm_expr_parse_str_simple (str, &gee->pp);
+		if (texpr) {
+			GnmValue *v;
+			GnmEvalPos ep;
+			char *cst;
+			GnmExpr const *expr;
+
+			eval_pos_init_pos (&ep, sheet, &gee->pp.eval);
+			v = gnm_expr_top_eval (texpr, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+			gnm_expr_top_unref (texpr);
+
+			/* Turn the value into an expression so we get the right syntax.  */
+			expr = gnm_expr_new_constant (v);
+			cst = gnm_expr_as_string  (expr, &gee->pp,
+						   sheet_get_conventions (sheet));
+			gnm_expr_free (expr);
+
+			gtk_editable_delete_text (editable, start, end);
+			gtk_editable_insert_text (editable, cst, -1, &start);
+			gtk_editable_set_position (editable, start);
+
+			g_free (cst);
+		}
+
+		g_free (str);
+		return TRUE;
+	}
+
 	default:
 		break;
 	}
