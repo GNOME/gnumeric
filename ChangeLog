@@ -1,3 +1,8 @@
+2008-04-14  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-image.c (gnm_soi_default_size,
+	gnm_soi_draw_cairo): Protect against a NULL pixbuf.
+
 2008-04-11  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk-edit.c (close_to_int): Add missing abs case causing

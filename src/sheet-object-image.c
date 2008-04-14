@@ -574,13 +574,19 @@ gnm_soi_copy (SheetObject *dst, SheetObject const *src)
 
 static void
 gnm_soi_draw_cairo (SheetObject const *so, cairo_t *cr,
-			  double width, double height)
+		    double width, double height)
 {
-	GdkPixbuf *pixbuf = soi_get_pixbuf (SHEET_OBJECT_IMAGE (so), 1.);
-	GOImage *img = go_image_new_from_pixbuf (pixbuf);
-	cairo_pattern_t *cr_pattern = go_image_create_cairo_pattern (img);
+	GdkPixbuf *pixbuf;
+	GOImage *img;
+	cairo_pattern_t *cr_pattern;
 	int w, h;
 	cairo_matrix_t cr_matrix;
+
+	pixbuf = soi_get_pixbuf (SHEET_OBJECT_IMAGE (so), 1.);
+	if (!pixbuf)
+		return;
+	img = go_image_new_from_pixbuf (pixbuf);
+	cr_pattern = go_image_create_cairo_pattern (img);
 
 	w = gdk_pixbuf_get_width  (pixbuf);
 	h = gdk_pixbuf_get_height (pixbuf);
@@ -600,6 +606,12 @@ static void
 gnm_soi_default_size (SheetObject const *so, double *w, double *h)
 {
 	GdkPixbuf *buf = soi_get_pixbuf (SHEET_OBJECT_IMAGE (so), 1.);
+
+	if (!buf) {
+		*w = *h = 5;
+		return;
+	}
+
 	*w = gdk_pixbuf_get_width  (buf);
 	*h = gdk_pixbuf_get_height (buf);
 
