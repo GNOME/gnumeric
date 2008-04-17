@@ -17,6 +17,7 @@ EXTRA_DIST = \
 	gnumeric.mime		\
 	gnumeric.spec		\
 	gnumeric.xsd		\
+	acinclude.m4		\
 	intltool-extract.in	\
 	intltool-merge.in	\
 	intltool-update.in	\

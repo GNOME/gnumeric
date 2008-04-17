@@ -19,6 +19,7 @@ Jody:
 	* Fix File->Sendto on win32.
 	* Fix ssconvert win32.
 	* Merge some cygwin build patches. [#506366]
+	* Enable the use of dolt.
 
 Jon Kåre:
         * Receive clipboard from broken apps. [#524756]
