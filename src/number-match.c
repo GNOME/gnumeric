@@ -395,8 +395,8 @@ static gnm_float
 handle_float (char const *text, GORegmatch const *pm)
 {
 	gnm_float val = 0;
-	char const *p = text + pm->rm_so;
-	char const *end = text + pm->rm_eo;
+	char const *p;
+	char const *end;
 	gnm_float num = 10;
 
 	/* Empty means zero.  */
