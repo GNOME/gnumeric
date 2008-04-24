@@ -17,4 +17,4 @@ Libs: -L${libdir} -lspreadsheet-@GNUMERIC_API_VER@ @GTK_EXTRA_LIBS@
 # for now include both the directory and the child, until we rename the includes in svn
 Cflags: -I${includedir}/libspreadsheet-@GNUMERIC_API_VER@/spreadsheet -I${includedir}/libspreadsheet-@GNUMERIC_API_VER@ -I${gnumeric_libdir}/include
 
-PluginDir: @gnumeric_plugindir@
+PluginDir=@gnumeric_plugindir@
