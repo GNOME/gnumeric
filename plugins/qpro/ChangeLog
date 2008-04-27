@@ -2,6 +2,7 @@
 
 	* qpro-read.c (qpro_get_record): 907 records are big too.  Fixes
 	#530183.
+	(qpro_read_sheet): Do aliggment for text cells.
 
 2008-02-19  Morten Welinder  <terra@gnome.org>
 

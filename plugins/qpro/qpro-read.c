@@ -18,6 +18,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
+ *
+ * Docs for the format used to be at
+ *
+ *   www.corel.com/partners_developers/ds/CO32SDK/docs/qp7/Qpf3recd.htm
+ *   www.corel.com/partners_developers/ds/CO32SDK/docs/qp7/Qpf2intr.htm
+ *
+ * Try Wayback!
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
@@ -34,6 +41,7 @@
 #include <cell.h>
 #include <value.h>
 #include <expr.h>
+#include <mstyle.h>
 #include <sheet-style.h>
 #include <style-color.h>
 #include <parse-util.h>
@@ -746,8 +754,32 @@ qpro_read_sheet (QProReadState *state)
 			if (validate (QPRO_LABEL_CELL, -1)) {
 				int col = data[0];
 				int row = GSF_LE_GET_GUINT16 (data + 2);
-				sheet_style_set_pos (sheet, col, row,
-					qpro_get_style (state, data + 4));
+				GnmHAlign align = HALIGN_GENERAL;
+				GnmStyle *as = qpro_get_style (state, data + 4);
+				GnmHAlign asa = gnm_style_is_element_set (as, MSTYLE_ALIGN_H)
+					? gnm_style_get_align_h (as)
+					: HALIGN_GENERAL;
+				if (asa == HALIGN_GENERAL)
+					asa = HALIGN_LEFT;
+
+				sheet_style_set_pos (sheet, col, row, as);
+				switch (data[6]) {
+				case '\'': align = HALIGN_LEFT; break;
+				case '^':  align = HALIGN_CENTER; break;
+				case '"':  align = HALIGN_RIGHT; break;
+				case '\\': break; /* Repeat */
+				case '|':  break; /* Page break */
+				case 0:    break; /* Nothing */
+				default:
+					g_printerr ("Ignoring unknown alignment\n");
+				}
+				if (align != HALIGN_GENERAL && align != asa) {
+					GnmStyle *s = gnm_style_new ();
+					gnm_style_set_align_h (s, align);
+					sheet_style_apply_pos (sheet, col, row,
+							       s);
+				}
+
 				gnm_cell_assign_value (sheet_cell_fetch (sheet, col, row),
 						   qpro_new_string (state, data + 7));
 			}
