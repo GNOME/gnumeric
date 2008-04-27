@@ -1,3 +1,8 @@
+2008-04-27  Morten Welinder  <terra@gnome.org>
+
+	* qpro-read.c (qpro_get_record): 907 records are big too.  Fixes
+	#530183.
+
 2008-02-19  Morten Welinder  <terra@gnome.org>
 
 	* qpro-read.c (qpro_parse_formula): Survive even more bogus files
