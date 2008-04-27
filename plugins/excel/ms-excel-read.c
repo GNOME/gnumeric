@@ -2757,7 +2757,9 @@ excel_sheet_insert_val (ExcelReadSheet *esheet, BiffQuery *q,
 		BiffXFData const *xf = excel_set_xf (esheet, q);
 
 		if (xf != NULL && xf->is_simple_format &&
-		    VALUE_FMT (v) == NULL)
+		    VALUE_FMT (v) == NULL &&
+		    !VALUE_IS_EMPTY (v) &&  /* We cannot set formats for */
+		    !VALUE_IS_BOOLEAN (v)) /* singetons. */
 			value_set_fmt (v, xf->style_format);
 		gnm_cell_set_value (cell, v);
 	} else
