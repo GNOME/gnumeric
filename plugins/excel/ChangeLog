@@ -1,3 +1,8 @@
+2008-04-27  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_sheet_insert_val): Don't set formats for
+	blanks and bools.  Fixes #530259.
+
 2008-03-29  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-read.c (excel_parse_formula1): Fix swapped length
