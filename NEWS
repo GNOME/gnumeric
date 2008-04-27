@@ -22,6 +22,7 @@ Morten:
 	* Fix problems editing times.  [#527392]
 	* Implement IFERROR.  [#445591]
 	* Implement F9 for evaluating a selected subexpression.
+	* Fix problem loading wb1 files.  [#530183]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.2

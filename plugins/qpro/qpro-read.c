@@ -150,18 +150,22 @@ qpro_get_record (QProReadState *state, guint16 *id, guint16 *len)
 	*len = GSF_LE_GET_GUINT16 (data + 2);
 
 #if 0
-	printf ("%hd with %hd\n", *id, *len);
+	g_printerr ("%hd with %hd\n", *id, *len);
 #endif
 
 	if (*len == 0)
 		return "";
 
-	/* some sanity checking */
-	if (*id != QPRO_UNDOCUMENTED_837) {
+	data = gsf_input_read (state->input, *len, NULL);
+
+	switch (*id) {
+	case QPRO_UNDOCUMENTED_837:
+	case QPRO_UNDOCUMENTED_907:
+		break; /* Nothing. */
+	default:
 		Q_CHECK_CONDITION (*len < 0x2000);
 	}
 
-	data = gsf_input_read (state->input, *len, NULL);
 	Q_CHECK_CONDITION (data != NULL);
 
 	return data;
@@ -686,7 +690,7 @@ qpro_get_style (QProReadState *state, guint8 const *data)
 {
 #if 0
 	unsigned attr_id = GSF_LE_GET_GUINT16 (data) >> 3;
-	printf ("Get Attr %u\n", attr_id);
+	g_printerr ("Get Attr %u\n", attr_id);
 #endif
 	return sheet_style_default (state->cur_sheet);
 }
@@ -705,7 +709,7 @@ qpro_read_sheet (QProReadState *state)
 	workbook_sheet_attach (state->wb, sheet);
 	sheet_flag_recompute_spans (sheet);
 #if 0
-	printf ("----------> start %s\n", def_name);
+	g_printerr ("----------> start %s\n", def_name);
 #endif
 	while (NULL != (data = qpro_get_record (state, &id, &len))) {
 		switch (id) {
@@ -788,7 +792,8 @@ qpro_read_sheet (QProReadState *state)
 			break;
 
 		case QPRO_PAGE_ATTRIBUTE:
-			if (validate (QPRO_PAGE_ATTRIBUTE, 30)) {
+			/* Documented at 30.  Observed at 34.  */
+			if (validate (QPRO_PAGE_ATTRIBUTE, -1)) {
 #warning TODO, mostly simple
 			}
 			break;
@@ -841,7 +846,7 @@ qpro_read_sheet (QProReadState *state)
 			break;
 	}
 #if 0
-	printf ("----------< end\n");
+	g_printerr ("----------< end\n");
 #endif
 	state->cur_sheet = NULL;
 }
