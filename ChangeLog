@@ -1,3 +1,8 @@
+2008-04-28  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-actions.c (cb_calc_decs): Use rendered value, if
+	available.
+
 2008-04-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* libspreadsheet.pc.in: fixed the plugins dir definition so tht it can
