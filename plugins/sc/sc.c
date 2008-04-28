@@ -266,7 +266,7 @@ sc_row_parse (char const *str, int *res, unsigned char *relative)
 	row = strtol (ptr, (char **)&end, 10);
 	if (ptr != end &&
 	    !g_unichar_isalnum (g_utf8_get_char (end)) && *end != '_' &&
-	    0 <= row && row  < SHEET_MAX_ROWS) {
+	    0 <= row && row  < gnm_sheet_get_max_rows (NULL)) {
 		*res = row;
 		return end;
 	} else

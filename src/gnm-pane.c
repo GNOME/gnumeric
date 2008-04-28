@@ -325,9 +325,9 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 			(*movefn)(scg, r.end.row - sv->edit_pos.row, FALSE, FALSE);
 		} else {
 			/* do the ctrl-home jump to A1 in 2 steps */
-			(*movefn)(scg, -SHEET_MAX_COLS, FALSE, TRUE);
+			(*movefn)(scg, -gnm_sheet_get_max_cols (sheet), FALSE, TRUE);
 			if ((event->state & GDK_CONTROL_MASK) || transition_keys)
-				(*movefn)(scg, -SHEET_MAX_ROWS, FALSE, FALSE);
+				(*movefn)(scg, -gnm_sheet_get_max_rows (sheet), FALSE, FALSE);
 		}
 		break;
 
@@ -525,11 +525,11 @@ gnm_pane_colrow_key_press (SheetControlGUI *scg, GdkEventKey *event,
 			range_init_full_sheet (&target);
 		else {					/* full row */
 			target.start.col = 0;
-			target.end.col = SHEET_MAX_COLS - 1;
+			target.end.col = gnm_sheet_get_max_cols (sv->sheet) - 1;
 		}
 	} else if (event->state & GDK_CONTROL_MASK) {	/* full col */
 		target.start.row = 0;
-		target.end.row = SHEET_MAX_ROWS - 1;
+		target.end.row = gnm_sheet_get_max_rows (sv->sheet) - 1;
 	} else
 		return FALSE;
 
@@ -1223,11 +1223,11 @@ gnm_pane_find_col (GnmPane const *pane, int x, int *col_origin)
 			}
 			pixel += tmp;
 		}
-	} while (++col < SHEET_MAX_COLS - 1);
+	} while (++col < gnm_sheet_get_max_cols (sheet) - 1);
 
 	if (col_origin)
 		*col_origin = gnm_pane_x_w2c (pane, pixel);
-	return SHEET_MAX_COLS - 1;
+	return gnm_sheet_get_max_cols (sheet) - 1;
 }
 
 /**
@@ -1273,10 +1273,10 @@ gnm_pane_find_row (GnmPane const *pane, int y, int *row_origin)
 			}
 			pixel += tmp;
 		}
-	} while (++row < SHEET_MAX_ROWS-1);
+	} while (++row < gnm_sheet_get_max_rows (sheet)-1);
 	if (row_origin)
 		*row_origin = pixel;
-	return SHEET_MAX_ROWS-1;
+	return gnm_sheet_get_max_rows (sheet)-1;
 }
 
 /*
@@ -1347,11 +1347,11 @@ gnm_pane_compute_visible_region (GnmPane *pane,
 			pixels = bound;
 		}
 		++col;
-	} while (pixels < width && col < SHEET_MAX_COLS);
+	} while (pixels < width && col < gnm_sheet_get_max_cols (sheet));
 
-	if (col >= SHEET_MAX_COLS) {
-		pane->last_visible.col = SHEET_MAX_COLS-1;
-		pane->last_full.col = SHEET_MAX_COLS-1;
+	if (col >= gnm_sheet_get_max_cols (sheet)) {
+		pane->last_visible.col = gnm_sheet_get_max_cols (sheet)-1;
+		pane->last_full.col = gnm_sheet_get_max_cols (sheet)-1;
 	}
 
 	/* Find out the last visible row and the last fully visible row */
@@ -1379,11 +1379,11 @@ gnm_pane_compute_visible_region (GnmPane *pane,
 			pixels = bound;
 		}
 		++row;
-	} while (pixels < height && row < SHEET_MAX_ROWS);
+	} while (pixels < height && row < gnm_sheet_get_max_rows (sheet));
 
-	if (row >= SHEET_MAX_ROWS) {
-		pane->last_visible.row = SHEET_MAX_ROWS-1;
-		pane->last_full.row = SHEET_MAX_ROWS-1;
+	if (row >= gnm_sheet_get_max_rows (sheet)) {
+		pane->last_visible.row = gnm_sheet_get_max_rows (sheet)-1;
+		pane->last_full.row = gnm_sheet_get_max_rows (sheet)-1;
 	}
 
 	/* Update the scrollbar sizes for the primary pane */
@@ -1428,11 +1428,11 @@ gnm_pane_redraw_range (GnmPane *pane, GnmRange const *r)
 		pane->first_offset.col;
 	y1 = scg_colrow_distance_get (scg, FALSE, pane->first.row, tmp.start.row) +
 		pane->first_offset.row;
-	x2 = (tmp.end.col < (SHEET_MAX_COLS-1))
+	x2 = (tmp.end.col < (gnm_sheet_get_max_cols (sheet)-1))
 		? 4 + 1 + x1 + scg_colrow_distance_get (scg, TRUE,
 							tmp.start.col, tmp.end.col+1)
 		: INT_MAX;
-	y2 = (tmp.end.row < (SHEET_MAX_ROWS-1))
+	y2 = (tmp.end.row < (gnm_sheet_get_max_rows (sheet)-1))
 		? 4 + 1 + y1 + scg_colrow_distance_get (scg, FALSE,
 							tmp.start.row, tmp.end.row+1)
 		: INT_MAX;
@@ -1465,7 +1465,7 @@ gnm_pane_slide_stop (GnmPane *pane)
 }
 
 static int
-col_scroll_step (int dx)
+col_scroll_step (int dx, Sheet *sheet)
 {
 	/* FIXME: get from gdk.  */
 	int dpi_x_this_screen = 90;
@@ -1473,11 +1473,11 @@ col_scroll_step (int dx)
 	double double_dx = dpi_x_this_screen / 3.0;
 	double step = pow (2.0, (dx - start_x) / double_dx);
 
-	return (int) (CLAMP (step, 1.0, SHEET_MAX_COLS / 15.0));
+	return (int) (CLAMP (step, 1.0, gnm_sheet_get_max_cols (sheet) / 15.0));
 }
 
 static int
-row_scroll_step (int dy)
+row_scroll_step (int dy, Sheet *sheet)
 {
 	/* FIXME: get from gdk.  */
 	int dpi_y_this_screen = 90;
@@ -1485,7 +1485,7 @@ row_scroll_step (int dy)
 	double double_dy = dpi_y_this_screen / 8.0;
 	double step = pow (2.0, (dy - start_y) / double_dy);
 
-	return (int) (CLAMP (step, 1.0, SHEET_MAX_ROWS / 15.0));
+	return (int) (CLAMP (step, 1.0, gnm_sheet_get_max_rows (sheet) / 15.0));
 }
 
 static gint
@@ -1499,6 +1499,9 @@ cb_pane_sliding (GnmPane *pane)
 	int col = -1, row = -1;
 	gboolean text_is_rtl = pane->simple.scg->sheet_control.sheet->text_is_rtl;
 	GnmPaneSlideInfo info;
+	Sheet *sheet = 	((SheetControl *) pane->simple.scg)->sheet;
+
+
 
 #if 0
 	g_warning ("slide: %d, %d", pane->sliding_dx, pane->sliding_dy);
@@ -1527,15 +1530,15 @@ cb_pane_sliding (GnmPane *pane)
 
 		if (slide_x) {
 			col = target_pane->last_full.col +
-				col_scroll_step (pane->sliding_dx);
-			if (col >= SHEET_MAX_COLS-1) {
-				col = SHEET_MAX_COLS-1;
+				col_scroll_step (pane->sliding_dx, sheet);
+			if (col >= gnm_sheet_get_max_cols (sheet)-1) {
+				col = gnm_sheet_get_max_cols (sheet)-1;
 				slide_x = FALSE;
 			}
 		}
 	} else if (pane->sliding_dx < 0) {
 		slide_x = TRUE;
-		col = pane0->first.col - col_scroll_step (-pane->sliding_dx);
+		col = pane0->first.col - col_scroll_step (-pane->sliding_dx, sheet);
 
 		if (pane1 != NULL) {
 			if (pane_index == 0 || pane_index == 3) {
@@ -1582,15 +1585,15 @@ cb_pane_sliding (GnmPane *pane)
 
 		if (slide_y) {
 			row = target_pane->last_full.row +
-				row_scroll_step (pane->sliding_dy);
-			if (row >= SHEET_MAX_ROWS-1) {
-				row = SHEET_MAX_ROWS-1;
+				row_scroll_step (pane->sliding_dy, sheet);
+			if (row >= gnm_sheet_get_max_rows (sheet)-1) {
+				row = gnm_sheet_get_max_rows (sheet)-1;
 				slide_y = FALSE;
 			}
 		}
 	} else if (pane->sliding_dy < 0) {
 		slide_y = TRUE;
-		row = pane0->first.row - row_scroll_step (-pane->sliding_dy);
+		row = pane0->first.row - row_scroll_step (-pane->sliding_dy, sheet);
 
 		if (pane3 != NULL) {
 			if (pane_index == 0 || pane_index == 1) {

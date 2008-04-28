@@ -6,7 +6,7 @@
  *   Miguel de Icaza (miguel@gnu.org)
  *
  * This is a pretty simple implementation, should be helpful
- * to find performance hot-spots (if you bump SEARCH_STEPS to SHEET_MAX_ROWS/2)
+ * to find performance hot-spots (if you bump SEARCH_STEPS to gnm_sheet_get_max_rows (sheet)/2)
  *
  * (C) 2000-2001 Ximian, Inc.
  */

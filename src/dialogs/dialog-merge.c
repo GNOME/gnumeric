@@ -231,7 +231,7 @@ cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	GSList *data_list = NULL, *field_list = NULL;
 	GnmValue *v_zone;
 	gint field_problems = 0;
-	gint min_length = SHEET_MAX_ROWS;
+	gint min_length = gnm_sheet_get_max_rows (state->sheet);
 	gint max_length = 0;
 
 	v_zone = gnm_expr_entry_parse_as_value (state->zone, state->sheet);

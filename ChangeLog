@@ -3,6 +3,10 @@
 	* src/colrow.h (colrow_max): Take a sheet argument too.  All
 	callers changed.
 
+	* */*.c: Use gnm_sheet_get_max_cols for SHEET_MAX_COLS and
+	gnm_sheet_get_max_rows for SHEET_MAX_ROWS in most cases.  (Adapted
+	from Jean's patch in #168875.)
+
 	* src/wbc-gtk-actions.c (cb_calc_decs): Use rendered value, if
 	available.
 

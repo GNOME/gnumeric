@@ -14,6 +14,7 @@
 #include "gnm-pane-impl.h"
 
 #include "sheet-control-gui.h"
+#include "sheet-control-priv.h"
 #include "style-color.h"
 #include "cell.h"
 #include "clipboard.h"
@@ -721,19 +722,19 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 			int boundary_col_for_target;
 			int target_row;
 
-			if (template_row < 0 || template_col >= SHEET_MAX_COLS ||
+			if (template_row < 0 || template_col >= gnm_sheet_get_max_cols (sheet) ||
 			    sheet_is_cell_empty (sheet, template_col,
 						 template_row)) {
 
 				template_row = ic->pos.end.row + 1;
-				if (template_row >= SHEET_MAX_ROWS ||
-				    template_col >= SHEET_MAX_COLS ||
+				if (template_row >= gnm_sheet_get_max_rows (sheet) ||
+				    template_col >= gnm_sheet_get_max_cols (sheet) ||
 				    sheet_is_cell_empty (sheet, template_col,
 							 template_row))
 					return TRUE;
 			}
 
-			if (template_col >= SHEET_MAX_COLS ||
+			if (template_col >= gnm_sheet_get_max_cols (sheet) ||
 			    sheet_is_cell_empty (sheet, template_col,
 						 template_row))
 				return TRUE;
@@ -776,19 +777,19 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 			int boundary_row_for_target;
 			int target_col;
 
-			if (template_col < 0 || template_row >= SHEET_MAX_ROWS ||
+			if (template_col < 0 || template_row >= gnm_sheet_get_max_rows (sheet) ||
 			    sheet_is_cell_empty (sheet, template_col,
 						 template_row)) {
 
 				template_col = ic->pos.end.col + 1;
-				if (template_col >= SHEET_MAX_COLS ||
-				    template_row >= SHEET_MAX_ROWS ||
+				if (template_col >= gnm_sheet_get_max_cols (sheet) ||
+				    template_row >= gnm_sheet_get_max_rows (sheet) ||
 				    sheet_is_cell_empty (sheet, template_col,
 							 template_row))
 					return TRUE;
 			}
 
-			if (template_row >= SHEET_MAX_ROWS ||
+			if (template_row >= gnm_sheet_get_max_rows (sheet) ||
 			    sheet_is_cell_empty (sheet, template_col,
 						 template_row))
 				return TRUE;
@@ -1096,18 +1097,19 @@ cb_move_cursor (GnmPane *pane, GnmPaneSlideInfo const *info)
 	int const w = (ic->pos.end.col - ic->pos.start.col);
 	int const h = (ic->pos.end.row - ic->pos.start.row);
 	GnmRange r;
+	Sheet *sheet = ((SheetControl *) (pane->simple.scg))->sheet;
 
 	r.start.col = info->col - ic->col_delta;
 	if (r.start.col < 0)
 		r.start.col = 0;
-	else if (r.start.col >= (SHEET_MAX_COLS - w))
-		r.start.col = SHEET_MAX_COLS - w - 1;
+	else if (r.start.col >= (gnm_sheet_get_max_cols (sheet) - w))
+		r.start.col = gnm_sheet_get_max_cols (sheet) - w - 1;
 
 	r.start.row = info->row - ic->row_delta;
 	if (r.start.row < 0)
 		r.start.row = 0;
-	else if (r.start.row >= (SHEET_MAX_ROWS - h))
-		r.start.row = SHEET_MAX_ROWS - h - 1;
+	else if (r.start.row >= (gnm_sheet_get_max_rows (sheet) - h))
+		r.start.row = gnm_sheet_get_max_rows (sheet) - h - 1;
 
 	item_cursor_tip_setlabel (ic, range_as_string (&ic->pos));
 

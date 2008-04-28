@@ -318,7 +318,7 @@ xl_xml_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 		r.start.col = state->pos.col;
 		r.end.col   = state->pos.col + span - 1;
 		r.start.row = 0;
-		r.end.row  = SHEET_MAX_ROWS - 1;
+		r.end.row  = gnm_sheet_get_max_rows (state->sheet) - 1;
 		gnm_style_ref (style);
 		sheet_style_set_range (state->sheet, &r, style);
 	}
@@ -373,7 +373,7 @@ xl_xml_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 		r.start.row = state->pos.row;
 		r.end.row   = state->pos.row + span - 1;
 		r.start.col = 0;
-		r.end.col  = SHEET_MAX_COLS - 1;
+		r.end.col  = gnm_sheet_get_max_cols (state->sheet) - 1;
 		gnm_style_ref (style);
 		sheet_style_set_range (state->sheet, &r, style);
 	}

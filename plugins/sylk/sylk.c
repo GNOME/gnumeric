@@ -621,7 +621,7 @@ sylk_rtd_f_parse (SylkReader *state, char *str)
 			int first, last, width;
 			if (3 == sscanf (str+1, "%d %d %d", &first, &last, &width)) {
 				/* width seems to be in characters */
-				if (first <= last && first < SHEET_MAX_COLS && last < SHEET_MAX_COLS)
+				if (first <= last && first < gnm_sheet_get_max_cols (NULL) && last < gnm_sheet_get_max_cols (NULL))
 					while (first <= last)
 						sheet_col_set_size_pts (state->pp.sheet,
 							first++ - 1, width*7.45, TRUE);

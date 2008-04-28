@@ -136,12 +136,12 @@ sv_is_colrow_selected (SheetView const *sv, int colrow, gboolean is_col)
 
 		if (is_col) {
 			if (ss->start.row == 0 &&
-			    ss->end.row >= SHEET_MAX_ROWS-1 &&
+			    ss->end.row >= gnm_sheet_get_max_rows (sv->sheet)-1 &&
 			    ss->start.col <= colrow && colrow <= ss->end.col)
 				return TRUE;
 		} else {
 			if (ss->start.col == 0 &&
-			    ss->end.col >= SHEET_MAX_COLS-1 &&
+			    ss->end.col >= gnm_sheet_get_max_cols (sv->sheet)-1 &&
 			    ss->start.row <= colrow && colrow <= ss->end.row)
 				return TRUE;
 		}
@@ -169,12 +169,12 @@ sv_is_full_colrow_selected (SheetView const *sv, gboolean is_cols, int index)
 	for (l = sv->selections; l != NULL; l = l->next){
 		GnmRange const *r = l->data;
 		if (is_cols) {
-			if (r->start.row > 0 || r->end.row < SHEET_MAX_ROWS - 1)
+			if (r->start.row > 0 || r->end.row < gnm_sheet_get_max_rows (sv->sheet) - 1)
 				return FALSE;
 			if (r->start.col <= index && index <= r->end.col)
 				found = TRUE;
 		} else {
-			if (r->start.col > 0 || r->end.col < SHEET_MAX_COLS - 1)
+			if (r->start.col > 0 || r->end.col < gnm_sheet_get_max_cols (sv->sheet) - 1)
 				return FALSE;
 			if (r->start.row <= index && index <= r->end.row)
 				found = TRUE;
@@ -210,7 +210,7 @@ sv_selection_col_type (SheetView const *sv, int col)
 			continue;
 
 		if (sr->start.row == 0 &&
-		    sr->end.row == SHEET_MAX_ROWS-1)
+		    sr->end.row == gnm_sheet_get_max_rows (sv->sheet)-1)
 			return COL_ROW_FULL_SELECTION;
 
 		ret = COL_ROW_PARTIAL_SELECTION;
@@ -245,7 +245,7 @@ sv_selection_row_type (SheetView const *sv, int row)
 			continue;
 
 		if (sr->start.col == 0 &&
-		    sr->end.col == SHEET_MAX_COLS-1)
+		    sr->end.col == gnm_sheet_get_max_cols (sv->sheet)-1)
 			return COL_ROW_FULL_SELECTION;
 
 		ret = COL_ROW_PARTIAL_SELECTION;
@@ -371,12 +371,12 @@ sv_selection_extend_to (SheetView *sv, int col, int row)
 
 	if (col < 0) {
 		base_col = 0;
-		col = SHEET_MAX_COLS - 1;
+		col = gnm_sheet_get_max_cols (sv->sheet) - 1;
 	} else
 		base_col = sv->cursor.base_corner.col;
 	if (row < 0) {
 		base_row = 0;
-		row = SHEET_MAX_ROWS - 1;
+		row = gnm_sheet_get_max_rows (sv->sheet) - 1;
 	} else
 		base_row = sv->cursor.base_corner.row;
 
@@ -460,8 +460,8 @@ sheet_selection_set_internal (SheetView *sv,
 	}
 
 	/* Has the entire row been selected/unselected */
-	if ((new_sel.start.row == 0 && new_sel.end.row == SHEET_MAX_ROWS-1) ^
-	    (old_sel.start.row == 0 && old_sel.end.row == SHEET_MAX_ROWS-1)) {
+	if ((new_sel.start.row == 0 && new_sel.end.row == gnm_sheet_get_max_rows (sv->sheet)-1) ^
+	    (old_sel.start.row == 0 && old_sel.end.row == gnm_sheet_get_max_rows (sv->sheet)-1)) {
 		GnmRange tmp = range_union (&new_sel, &old_sel);
 		sv_redraw_headers (sv, TRUE, FALSE, &tmp);
 	} else {
@@ -493,8 +493,8 @@ sheet_selection_set_internal (SheetView *sv,
 	}
 
 	/* Has the entire col been selected/unselected */
-	if ((new_sel.start.col == 0 && new_sel.end.col == SHEET_MAX_COLS-1) ^
-	    (old_sel.start.col == 0 && old_sel.end.col == SHEET_MAX_COLS-1)) {
+	if ((new_sel.start.col == 0 && new_sel.end.col == gnm_sheet_get_max_cols (sv->sheet)-1) ^
+	    (old_sel.start.col == 0 && old_sel.end.col == gnm_sheet_get_max_cols (sv->sheet)-1)) {
 		GnmRange tmp = range_union (&new_sel, &old_sel);
 		sv_redraw_headers (sv, FALSE, TRUE, &tmp);
 	} else {
@@ -853,7 +853,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 
 				case 1 : /* overlap bottom */
 					/* Split region */
-					if (b->end.row < (SHEET_MAX_ROWS-1)) {
+					if (b->end.row < (gnm_sheet_get_max_rows (sv->sheet)-1)) {
 						tmp = range_dup (a);
 						tmp->start.col = b->start.col;
 						tmp->start.row = b->end.row + 1;
@@ -1322,12 +1322,12 @@ characterize_vec (Sheet *sheet, GnmRange *vector,
 			if (!expand_text)
 				return TRUE;
 			if (as_cols) {
-				if (vector->end.col >= SHEET_MAX_COLS-1)
+				if (vector->end.col >= gnm_sheet_get_max_cols (sheet)-1)
 					return TRUE;
 				vector->end.col += dx;
 				dx = 1;
 			} else {
-				if (vector->end.row >= SHEET_MAX_ROWS-1)
+				if (vector->end.row >= gnm_sheet_get_max_rows (sheet)-1)
 					return TRUE;
 				vector->end.row += dy;
 				dy = 1;

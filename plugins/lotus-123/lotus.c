@@ -1157,26 +1157,26 @@ lotus_rldb_walk_3d (LotusRLDB *rldb3,
 
 		ci = 0;
 		for (r.range.start.col = 0;
-		     r.range.start.col < SHEET_MAX_COLS;
+		     r.range.start.col < gnm_sheet_get_max_cols (r.sheet);
 		     r.range.start.col = r.range.end.col + 1) {
 			if (ci >= rldb2->lower->len)
 				break;
 			rldb1 = g_ptr_array_index (rldb2->lower, ci);
 			ci++;
 			r.range.end.col =
-				MIN (SHEET_MAX_COLS - 1,
+				MIN (gnm_sheet_get_max_cols (r.sheet) - 1,
 				     r.range.start.col + (rldb1->rll - 1));
 
 			ri = 0;
 			for (r.range.start.row = 0;
-			     r.range.start.row < SHEET_MAX_ROWS;
+			     r.range.start.row < gnm_sheet_get_max_rows (r.sheet);
 			     r.range.start.row = r.range.end.row + 1) {
 				if (ri >= rldb1->lower->len)
 					break;
 				rldb0 = g_ptr_array_index (rldb1->lower, ri);
 				ri++;
 				r.range.end.row =
-					MIN (SHEET_MAX_ROWS - 1,
+					MIN (gnm_sheet_get_max_rows (r.sheet) - 1,
 					     r.range.start.row + (rldb0->rll - 1));
 
 				data = rldb0->datanode;
@@ -1204,7 +1204,7 @@ lotus_rldb_walk_2d (LotusRLDB *rldb2,
 	guint si, cri;
 	LotusRLDB *rldb1, *rldb0;
 	const GString *data;
-	int max = iscol ? SHEET_MAX_COLS : SHEET_MAX_ROWS;
+	int max = iscol ? gnm_sheet_get_max_cols (NULL) : gnm_sheet_get_max_rows (NULL);
 	int start, end;
 	Sheet *sheet;
 
@@ -1356,7 +1356,7 @@ lotus_set_colwidth_cb (LotusState *state,
 		: lotus_qmps_to_points (GSF_LE_GET_GUINT32 (data + 4));
 
 	value_set = (flags & 1) != 0;
-	if (end - start >= SHEET_MAX_COLS)
+	if (end - start >= gnm_sheet_get_max_cols (sheet))
 		sheet_col_set_default_size_pixels (sheet, size);
 	else {
 		int i;
@@ -1401,7 +1401,7 @@ lotus_set_rowheight_cb (LotusState *state,
 		: lotus_qmps_to_points (GSF_LE_GET_GUINT32 (data + 4));
 
 	value_set = (flags & 1) != 0;
-	if (end - start >= SHEET_MAX_ROWS)
+	if (end - start >= gnm_sheet_get_max_rows (sheet))
 		sheet_row_set_default_size_pixels (sheet, size);
 	else {
 		int i;

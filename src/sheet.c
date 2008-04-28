@@ -338,10 +338,10 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 	/* Then every column and row */
 	closure.sheet = sheet;
 	closure.is_cols = TRUE;
-	colrow_foreach (&sheet->cols, 0, SHEET_MAX_COLS - 1,
+	colrow_foreach (&sheet->cols, 0, gnm_sheet_get_max_cols (sheet) - 1,
 		(ColRowHandler)&cb_colrow_compute_pixels_from_pts, &closure);
 	closure.is_cols = FALSE;
-	colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS - 1,
+	colrow_foreach (&sheet->rows, 0, gnm_sheet_get_max_rows (sheet) - 1,
 		(ColRowHandler)&cb_colrow_compute_pixels_from_pts, &closure);
 
 	sheet_cell_foreach (sheet, (GHFunc)&cb_clear_rendered_cells, NULL);
@@ -645,7 +645,6 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->hash_merged = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
 					       (GCompareFunc)&gnm_cellpos_equal);
 
-	sheet->deps	 = gnm_dep_container_new ();
 	sheet->cell_hash = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
 					     (GCompareFunc)&gnm_cellpos_equal);
 
@@ -670,6 +669,8 @@ gnm_sheet_init (Sheet *sheet)
 	 * override this.
 	 */
 	sheet->last_zoom_factor_used = -1;
+
+	sheet->deps	 = gnm_dep_container_new (sheet);
 }
 
 static void
@@ -1170,7 +1171,7 @@ sheet_col_add (Sheet *sheet, ColRowInfo *cp, int col)
 	ColRowSegment **segment = (ColRowSegment **)&COLROW_GET_SEGMENT (&(sheet->cols), col);
 
 	g_return_if_fail (col >= 0);
-	g_return_if_fail (col < SHEET_MAX_COLS);
+	g_return_if_fail (col < gnm_sheet_get_max_cols (sheet));
 
 	if (*segment == NULL)
 		*segment = g_new0 (ColRowSegment, 1);
@@ -1190,7 +1191,7 @@ sheet_row_add (Sheet *sheet, ColRowInfo *rp, int row)
 	ColRowSegment **segment = (ColRowSegment **)&COLROW_GET_SEGMENT (&(sheet->rows), row);
 
 	g_return_if_fail (row >= 0);
-	g_return_if_fail (row < SHEET_MAX_ROWS);
+	g_return_if_fail (row < gnm_sheet_get_max_rows (sheet));
 
 	if (*segment == NULL)
 		*segment = g_new0 (ColRowSegment, 1);
@@ -1360,11 +1361,11 @@ sheet_update_only_grid (Sheet const *sheet)
 				  (p->recompute_visibility ?
 				   SPANCALC_NO_DRAW : GNM_SPANCALC_SIMPLE));
 #endif
-		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS - 1);
+		sheet_queue_respan (sheet, 0, gnm_sheet_get_max_rows (sheet) - 1);
 	}
 
-	if (p->reposition_objects.row < SHEET_MAX_ROWS ||
-	    p->reposition_objects.col < SHEET_MAX_COLS) {
+	if (p->reposition_objects.row < gnm_sheet_get_max_rows (sheet) ||
+	    p->reposition_objects.col < gnm_sheet_get_max_cols (sheet)) {
 		SHEET_FOREACH_VIEW (sheet, sv, {
 			if (!p->resize && sv_is_frozen (sv)) {
 				if (p->reposition_objects.col < sv->unfrozen_top_left.col ||
@@ -1375,8 +1376,8 @@ sheet_update_only_grid (Sheet const *sheet)
 			}
 		});
 		sheet_reposition_objects (sheet, &p->reposition_objects);
-		p->reposition_objects.row = SHEET_MAX_ROWS;
-		p->reposition_objects.col = SHEET_MAX_COLS;
+		p->reposition_objects.row = gnm_sheet_get_max_rows (sheet);
+		p->reposition_objects.col = gnm_sheet_get_max_cols (sheet);
 	}
 
 	if (p->resize) {
@@ -1646,8 +1647,8 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 	g_return_val_if_fail (IS_SHEET (sheet), dummy);
 
 	/* FIXME : Why -2 ??? */
-	closure.range.start.col = SHEET_MAX_COLS - 2;
-	closure.range.start.row = SHEET_MAX_ROWS - 2;
+	closure.range.start.col = gnm_sheet_get_max_cols (sheet) - 2;
+	closure.range.start.row = gnm_sheet_get_max_rows (sheet) - 2;
 	closure.range.end.col   = 0;
 	closure.range.end.row   = 0;
 	closure.spans_and_merges_extend = spans_and_merges_extend;
@@ -1667,9 +1668,9 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 					     closure.range.end.row);
 	}
 
-	if (closure.range.start.col >= SHEET_MAX_COLS - 2)
+	if (closure.range.start.col >= gnm_sheet_get_max_cols (sheet) - 2)
 		closure.range.start.col = 0;
-	if (closure.range.start.row >= SHEET_MAX_ROWS - 2)
+	if (closure.range.start.row >= gnm_sheet_get_max_rows (sheet) - 2)
 		closure.range.start.row = 0;
 	if (closure.range.end.col < 0)
 		closure.range.end.col = 0;
@@ -1710,13 +1711,13 @@ sheet_get_nominal_printarea	(Sheet const *sheet)
 
 	/* We are now trying to fix any problems with the print area */
 	while (print_area.start.col < 0)
-		print_area.start.col += SHEET_MAX_COLS;
+		print_area.start.col += gnm_sheet_get_max_cols (sheet);
 	while (print_area.start.row < 0)
-		print_area.start.row += SHEET_MAX_ROWS;
+		print_area.start.row += gnm_sheet_get_max_rows (sheet);
 	while (print_area.end.col < 0)
-		print_area.end.col += SHEET_MAX_COLS;
+		print_area.end.col += gnm_sheet_get_max_cols (sheet);
 	while (print_area.end.row < 0)
-		print_area.end.row += SHEET_MAX_ROWS;
+		print_area.end.row += gnm_sheet_get_max_rows (sheet);
 
 	if (print_area.start.col > print_area.end.col) {
 		int col = print_area.end.col;
@@ -1975,7 +1976,7 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
 	closure.sheet = sheet;
 	closure.col = col;
 
-	colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS - 1,
+	colrow_foreach (&sheet->rows, 0, gnm_sheet_get_max_rows (sheet) - 1,
 			&cb_recalc_spans_in_col, &closure);
 }
 
@@ -2390,7 +2391,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 {
 	gboolean find_nonblank = sheet_is_cell_empty (sheet, start_col, move_row);
 	gboolean keep_looking = FALSE;
-	int new_col, prev_col, lagged_start_col;
+	int new_col, prev_col, lagged_start_col, max_col = gnm_sheet_get_max_cols (sheet) - 1;
 	int iterations = 0;
 	GnmRange check_merge;
 	GnmRange const * const bound = &sheet->priv->unhidden_region;
@@ -2431,15 +2432,17 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 		++iterations;
 
 		if (new_col < bound->start.col)
-			return bound->start.col;
+			return MIN (bound->start.col, max_col);
 		if (new_col > bound->end.col)
-			return bound->end.col;
+			return MIN (bound->end.col, max_col);
 
 		keep_looking = sheet_col_is_hidden (sheet, new_col);
 		if (jump_to_boundaries) {
 			if (new_col > sheet->cols.max_used) {
 				if (count > 0)
-					return (find_nonblank || iterations == 1) ? bound->end.col : prev_col;
+					return (find_nonblank || iterations == 1)?
+						MIN (bound->end.col, max_col):
+						MIN (prev_col, max_col);
 				new_col = sheet->cols.max_used;
 			}
 
@@ -2459,7 +2462,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 		}
 	} while (keep_looking);
 
-	return new_col;
+	return MIN (new_col, max_col);
 }
 
 /*
@@ -2488,7 +2491,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 {
 	gboolean find_nonblank = sheet_is_cell_empty (sheet, move_col, start_row);
 	gboolean keep_looking = FALSE;
-	int new_row, prev_row, lagged_start_row;
+	int new_row, prev_row, lagged_start_row, max_row = gnm_sheet_get_max_rows (sheet) - 1;
 	int iterations = 0;
 	GnmRange check_merge;
 	GnmRange const * const bound = &sheet->priv->unhidden_region;
@@ -2529,15 +2532,17 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 		++iterations;
 
 		if (new_row < bound->start.row)
-			return bound->start.row;
+			return MIN (bound->start.row, max_row);
 		if (new_row > bound->end.row)
-			return bound->end.row;
+			return MIN (bound->end.row, max_row);
 
 		keep_looking = sheet_row_is_hidden (sheet, new_row);
 		if (jump_to_boundaries) {
 			if (new_row > sheet->rows.max_used) {
 				if (count > 0)
-					return (find_nonblank || iterations == 1) ? bound->end.row : prev_row;
+					return (find_nonblank || iterations == 1)?
+						MIN (bound->end.row, max_row):
+						MIN (prev_row, max_row);
 				new_row = sheet->rows.max_used;
 			}
 
@@ -2557,7 +2562,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 		}
 	} while (keep_looking);
 
-	return new_row;
+	return MIN (new_row, max_row);
 }
 
 typedef enum {
@@ -2843,7 +2848,7 @@ sheet_col_get (Sheet const *sheet, int pos)
 	ColRowSegment *segment;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (pos < SHEET_MAX_COLS, NULL);
+	g_return_val_if_fail (pos < gnm_sheet_get_max_cols (sheet), NULL);
 	g_return_val_if_fail (pos >= 0, NULL);
 
 	segment = COLROW_GET_SEGMENT (&(sheet->cols), pos);
@@ -2863,7 +2868,7 @@ sheet_row_get (Sheet const *sheet, int pos)
 	ColRowSegment *segment;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (pos < SHEET_MAX_ROWS, NULL);
+	g_return_val_if_fail (pos < gnm_sheet_get_max_rows (sheet), NULL);
 	g_return_val_if_fail (pos >= 0, NULL);
 
 	segment = COLROW_GET_SEGMENT (&(sheet->rows), pos);
@@ -3192,8 +3197,8 @@ sheet_is_cell_empty (Sheet *sheet, int col, int row)
 static void
 sheet_cell_add_to_hash (Sheet *sheet, GnmCell *cell)
 {
-	g_return_if_fail (cell->pos.col < SHEET_MAX_COLS);
-	g_return_if_fail (cell->pos.row < SHEET_MAX_ROWS);
+	g_return_if_fail (cell->pos.col < gnm_sheet_get_max_cols (sheet));
+	g_return_if_fail (cell->pos.row < gnm_sheet_get_max_rows (sheet));
 
 	cell->base.flags |= GNM_CELL_IN_SHEET_LIST;
 	/* NOTE :
@@ -3302,9 +3307,9 @@ sheet_cell_create (Sheet *sheet, int col, int row)
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (col >= 0, NULL);
-	g_return_val_if_fail (col < SHEET_MAX_COLS, NULL);
+	g_return_val_if_fail (col < gnm_sheet_get_max_cols (sheet), NULL);
 	g_return_val_if_fail (row >= 0, NULL);
-	g_return_val_if_fail (row < SHEET_MAX_ROWS, NULL);
+	g_return_val_if_fail (row < gnm_sheet_get_max_rows (sheet), NULL);
 
 	cell = cell_new ();
 	cell->base.sheet = sheet;
@@ -3408,7 +3413,7 @@ sheet_col_destroy (Sheet *sheet, int const col, gboolean free_cells)
 
 	if (free_cells)
 		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
-			col, 0, col, SHEET_MAX_ROWS - 1,
+			col, 0, col, gnm_sheet_get_max_rows (sheet) - 1,
 			&cb_free_cell, NULL);
 
 	(*segment)->info[sub] = NULL;
@@ -3445,7 +3450,7 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 
 	if (free_cells)
 		sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_NONEXISTENT,
-			0, row, SHEET_MAX_COLS - 1, row,
+			0, row, gnm_sheet_get_max_cols (sheet) - 1, row,
 			&cb_free_cell, NULL);
 
 	/* Rows have span lists, destroy them too */
@@ -3989,7 +3994,7 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 	GnmRange region;
 	int i;
 	ColRowStateList *states = NULL;
-	int first = SHEET_MAX_COLS - count;
+	int first = gnm_sheet_get_max_cols (sheet) - count;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count > 0, TRUE);
@@ -4003,23 +4008,23 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 	}
 
 	/* 0. Check displaced region and ensure arrays aren't divided. */
-	if (count < SHEET_MAX_COLS) {
-		range_init (&region, col, 0, SHEET_MAX_COLS - 1-count, SHEET_MAX_ROWS - 1);
+	if (count < gnm_sheet_get_max_cols (sheet)) {
+		range_init (&region, col, 0, gnm_sheet_get_max_cols (sheet) - 1-count, gnm_sheet_get_max_rows (sheet) - 1);
 		if (sheet_range_splits_array (sheet, &region, NULL,
 					      cc, _("Insert Columns")))
 			return TRUE;
 	}
 
 	/* 1. Delete all columns (and their cells) that will fall off the end */
-	for (i = sheet->cols.max_used; i >= SHEET_MAX_COLS - count ; --i)
+	for (i = sheet->cols.max_used; i >= gnm_sheet_get_max_cols (sheet) - count ; --i)
 		sheet_col_destroy (sheet, i, TRUE);
 
 	/* 2. Fix references to and from the cells which are moving */
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_COLS;
 	reloc_info.origin.start.col = col;
 	reloc_info.origin.start.row = 0;
-	reloc_info.origin.end.col = SHEET_MAX_COLS - 1;
-	reloc_info.origin.end.row = SHEET_MAX_ROWS - 1;
+	reloc_info.origin.end.col = gnm_sheet_get_max_cols (sheet) - 1;
+	reloc_info.origin.end.row = gnm_sheet_get_max_rows (sheet) - 1;
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = count;
 	reloc_info.row_offset = 0;
@@ -4029,7 +4034,7 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 
 	/* 3. Move the columns to their new location (from right to left) */
 	for (i = sheet->cols.max_used; i >= col ; --i)
-		colrow_move (sheet, i, 0, i, SHEET_MAX_ROWS - 1,
+		colrow_move (sheet, i, 0, i, gnm_sheet_get_max_rows (sheet) - 1,
 			     &sheet->cols, i, i + count);
 
 	solver_insert_cols (sheet, col, count);
@@ -4074,9 +4079,9 @@ sheet_delete_cols (Sheet *sheet, int col, int count,
 	reloc_info.origin.start.col = col;
 	reloc_info.origin.start.row = 0;
 	reloc_info.origin.end.col = col + count - 1;
-	reloc_info.origin.end.row = SHEET_MAX_ROWS - 1;
+	reloc_info.origin.end.row = gnm_sheet_get_max_rows (sheet) - 1;
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
-	reloc_info.col_offset = SHEET_MAX_COLS; /* force invalidation */
+	reloc_info.col_offset = gnm_sheet_get_max_cols (sheet); /* force invalidation */
 	reloc_info.row_offset = 0;
 	parse_pos_init_sheet (&reloc_info.pos, sheet);
 
@@ -4101,14 +4106,14 @@ sheet_delete_cols (Sheet *sheet, int col, int count,
 
 	/* 3. Fix references to and from the cells which are moving */
 	reloc_info.origin.start.col = col + count;
-	reloc_info.origin.end.col = SHEET_MAX_COLS - 1;
+	reloc_info.origin.end.col = gnm_sheet_get_max_cols (sheet) - 1;
 	reloc_info.col_offset = -count;
 	reloc_info.row_offset = 0;
 	combine_undo (pundo, dependents_relocate (&reloc_info));
 
 	/* 4. Move the columns to their new location (from left to right) */
 	for (i = col + count ; i <= sheet->cols.max_used; ++i)
-		colrow_move (sheet, i, 0, i, SHEET_MAX_ROWS - 1,
+		colrow_move (sheet, i, 0, i, gnm_sheet_get_max_rows (sheet) - 1,
 			     &sheet->cols, i, i - count);
 
 	solver_delete_cols (sheet, col, count);
@@ -4138,7 +4143,7 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 	GnmRange region;
 	int i;
 	ColRowStateList *states = NULL;
-	int first = SHEET_MAX_ROWS - count;
+	int first = gnm_sheet_get_max_rows (sheet) - count;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count > 0, TRUE);
@@ -4152,23 +4157,23 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 	}
 
 	/* 0. Check displaced region and ensure arrays aren't divided. */
-	if (count < SHEET_MAX_ROWS) {
-		range_init (&region, 0, row, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1-count);
+	if (count < gnm_sheet_get_max_rows (sheet)) {
+		range_init (&region, 0, row, gnm_sheet_get_max_cols (sheet) - 1, gnm_sheet_get_max_rows (sheet) - 1-count);
 		if (sheet_range_splits_array (sheet, &region, NULL,
 					      cc, _("Insert Rows")))
 			return TRUE;
 	}
 
 	/* 1. Delete all rows (and their cells) that will fall off the end */
-	for (i = sheet->rows.max_used; i >= SHEET_MAX_ROWS - count ; --i)
+	for (i = sheet->rows.max_used; i >= gnm_sheet_get_max_rows (sheet) - count ; --i)
 		sheet_row_destroy (sheet, i, TRUE);
 
 	/* 2. Fix references to and from the cells which are moving */
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_ROWS;
 	reloc_info.origin.start.col = 0;
 	reloc_info.origin.start.row = row;
-	reloc_info.origin.end.col = SHEET_MAX_COLS - 1;
-	reloc_info.origin.end.row = SHEET_MAX_ROWS - 1;
+	reloc_info.origin.end.col = gnm_sheet_get_max_cols (sheet) - 1;
+	reloc_info.origin.end.row = gnm_sheet_get_max_rows (sheet) - 1;
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = 0;
 	reloc_info.row_offset = count;
@@ -4178,7 +4183,7 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 
 	/* 3. Move the rows to their new location (from last to first) */
 	for (i = sheet->rows.max_used; i >= row ; --i)
-		colrow_move (sheet, 0, i, SHEET_MAX_COLS - 1, i,
+		colrow_move (sheet, 0, i, gnm_sheet_get_max_cols (sheet) - 1, i,
 			     &sheet->rows, i, i + count);
 
 	solver_insert_rows (sheet, row, count);
@@ -4222,11 +4227,11 @@ sheet_delete_rows (Sheet *sheet, int row, int count,
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_ROWS;
 	reloc_info.origin.start.col = 0;
 	reloc_info.origin.start.row = row;
-	reloc_info.origin.end.col = SHEET_MAX_COLS - 1;
+	reloc_info.origin.end.col = gnm_sheet_get_max_cols (sheet) - 1;
 	reloc_info.origin.end.row = row + count - 1;
 	reloc_info.origin_sheet = reloc_info.target_sheet = sheet;
 	reloc_info.col_offset = 0;
-	reloc_info.row_offset = SHEET_MAX_ROWS; /* force invalidation */
+	reloc_info.row_offset = gnm_sheet_get_max_rows (sheet); /* force invalidation */
 	parse_pos_init_sheet (&reloc_info.pos, sheet);
 
 	/* 0. Walk cells in deleted rows and ensure arrays aren't divided. */
@@ -4250,14 +4255,14 @@ sheet_delete_rows (Sheet *sheet, int row, int count,
 
 	/* 3. Fix references to and from the cells which are moving */
 	reloc_info.origin.start.row = row + count;
-	reloc_info.origin.end.row = SHEET_MAX_ROWS - 1;
+	reloc_info.origin.end.row = gnm_sheet_get_max_rows (sheet) - 1;
 	reloc_info.col_offset = 0;
 	reloc_info.row_offset = -count;
 	combine_undo (pundo, dependents_relocate (&reloc_info));
 
 	/* 4. Move the rows to their new location (from first to last) */
 	for (i = row + count ; i <= sheet->rows.max_used; ++i)
-		colrow_move (sheet, 0, i, SHEET_MAX_COLS - 1, i,
+		colrow_move (sheet, 0, i, gnm_sheet_get_max_cols (sheet) - 1, i,
 			     &sheet->rows, i, i - count);
 
 	solver_delete_rows (sheet, row, count);
@@ -4336,8 +4341,8 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 			 * the relocation heuristics only move in 1
 			 * dimension if possible to give us a chance to be
 			 * smart about partial invalidations */
-			reloc_info.col_offset = SHEET_MAX_COLS;
-			reloc_info.row_offset = SHEET_MAX_ROWS;
+			reloc_info.col_offset = gnm_sheet_get_max_cols (rinfo->target_sheet);
+			reloc_info.row_offset = gnm_sheet_get_max_rows (rinfo->target_sheet);
 			if (rinfo->col_offset == 0) {
 				reloc_info.col_offset = 0;
 				reloc_info.reloc_type = GNM_EXPR_RELOCATE_ROWS;
@@ -4400,8 +4405,8 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 		cell = cells->data;
 
 		/* check for out of bounds and delete if necessary */
-		if ((cell->pos.col + rinfo->col_offset) >= SHEET_MAX_COLS ||
-		    (cell->pos.row + rinfo->row_offset) >= SHEET_MAX_ROWS) {
+		if ((cell->pos.col + rinfo->col_offset) >= gnm_sheet_get_max_cols (rinfo->target_sheet) ||
+		    (cell->pos.row + rinfo->row_offset) >= gnm_sheet_get_max_rows (rinfo->target_sheet)) {
 			cell_free (cell);
 			continue;
 		}
@@ -4480,7 +4485,7 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 	}
 
 	g_return_val_if_fail (from >= 0, 1.);
-	g_return_val_if_fail (to <= SHEET_MAX_COLS, 1.);
+	g_return_val_if_fail (to <= gnm_sheet_get_max_cols (sheet), 1.);
 
 	/* Do not use colrow_foreach, it ignores empties */
 	dflt =  sheet->cols.default_style.size_pts;
@@ -4517,7 +4522,7 @@ sheet_col_get_distance_pixels (Sheet const *sheet, int from, int to)
 	}
 
 	g_return_val_if_fail (from >= 0, 1);
-	g_return_val_if_fail (to <= SHEET_MAX_COLS, 1);
+	g_return_val_if_fail (to <= gnm_sheet_get_max_cols (sheet), 1);
 
 	/* Do not use colrow_foreach, it ignores empties */
 	dflt =  sheet->cols.default_style.size_pts;
@@ -4660,7 +4665,7 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 	}
 
 	g_return_val_if_fail (from >= 0, 1.);
-	g_return_val_if_fail (to <= SHEET_MAX_ROWS, 1.);
+	g_return_val_if_fail (to <= gnm_sheet_get_max_rows (sheet), 1.);
 
 	/* Do not use colrow_foreach, it ignores empties.
 	 * Optimize this so that long jumps are not quite so horrific
@@ -4821,13 +4826,15 @@ static void
 sheet_dup_colrows (Sheet const *src, Sheet *dst)
 {
 	closure_clone_colrow closure;
+	int max_col = MIN (gnm_sheet_get_max_cols (src), gnm_sheet_get_max_cols (dst)),
+	    max_row = MIN (gnm_sheet_get_max_rows (src), gnm_sheet_get_max_rows (dst));
 
 	closure.sheet = dst;
 	closure.is_column = TRUE;
-	colrow_foreach (&src->cols, 0, SHEET_MAX_COLS - 1,
+	colrow_foreach (&src->cols, 0, max_col - 1,
 			&sheet_clone_colrow_info_item, &closure);
 	closure.is_column = FALSE;
-	colrow_foreach (&src->rows, 0, SHEET_MAX_ROWS - 1,
+	colrow_foreach (&src->rows, 0, max_row - 1,
 			&sheet_clone_colrow_info_item, &closure);
 
 	sheet_col_set_default_size_pixels (dst,

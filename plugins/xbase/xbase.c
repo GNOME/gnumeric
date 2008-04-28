@@ -2,10 +2,12 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
+#include <libgnumeric.h>
 #include "xbase.h"
 
 #include <gnm-format.h>
 #include <gutils.h>
+#include <sheet.h>
 #include <goffice/app/io-context.h>
 #include <goffice/app/error-info.h>
 
@@ -264,7 +266,7 @@ xbase_open (GsfInput *input, ErrorInfo **ret_error)
 
 	ans->fields = 0;
 	ans->format = NULL;
-	while (ans->fields < (SHEET_MAX_COLS-1) && (field = xbase_field_new (ans)) != NULL) {
+	while (ans->fields < (gnm_sheet_get_max_cols (NULL)-1) && (field = xbase_field_new (ans)) != NULL) {
 		ans->format = g_renew (XBfield *, ans->format, ans->fields + 1);
 		/* FIXME: allocate number of field formats from file size? */
 		ans->format[ans->fields++] = field;

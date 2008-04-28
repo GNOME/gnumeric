@@ -401,8 +401,8 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 {
 	GnmStyle *col_styles [SHEET_MAX_COLS];
 	GnmRange  extent;
-	int max_cols = SHEET_MAX_COLS;
-	int max_rows = SHEET_MAX_ROWS;
+	int max_cols = gnm_sheet_get_max_cols (sheet);
+	int max_rows = gnm_sheet_get_max_rows (sheet);
 	int i, col, row;
 	int null_cell;
 	int covered_cell;

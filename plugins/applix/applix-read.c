@@ -174,13 +174,13 @@ applix_parse_value (char *buf, char **follow)
 static gboolean
 valid_col (int c)
 {
-	return c >= 0 && c < SHEET_MAX_COLS;
+	return c >= 0 && c < gnm_sheet_get_max_cols (NULL);
 }
 
 static gboolean
 valid_row (int r)
 {
-	return r >= 0 && r < SHEET_MAX_ROWS;
+	return r >= 0 && r < gnm_sheet_get_max_rows (NULL);
 }
 
 static gboolean

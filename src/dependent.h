@@ -106,7 +106,7 @@ void dependents_workbook_destroy  (Workbook *wb);
 void dependents_revive_sheet      (Sheet *sheet);
 void workbook_queue_all_recalc	  (Workbook *wb);
 
-GnmDepContainer *gnm_dep_container_new  (void);
+GnmDepContainer *gnm_dep_container_new  (Sheet *sheet);
 void		 gnm_dep_container_dump	(GnmDepContainer const *deps);
 void             gnm_dep_container_sanity_check (GnmDepContainer const *deps);
 

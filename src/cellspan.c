@@ -256,7 +256,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 
 	gnm_sheet_merge_get_adjacent (sheet, &cell->pos, &merge_left, &merge_right);
 	min_col = (merge_left != NULL) ? merge_left->end.col : -1;
-	max_col = (merge_right != NULL) ? merge_right->start.col : SHEET_MAX_COLS;
+	max_col = (merge_right != NULL) ? merge_right->start.col : gnm_sheet_get_max_cols (sheet);
 
 	*col1 = *col2 = cell->pos.col;
 	switch (h_align) {

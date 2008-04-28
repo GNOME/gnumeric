@@ -90,7 +90,7 @@ static GOMemChunk *cset_pool;
 
 #define BUCKET_SIZE	128
 #define BUCKET_OF_ROW(row) ((row) / BUCKET_SIZE)
-#define BUCKET_LAST (BUCKET_OF_ROW (SHEET_MAX_ROWS - 1))
+#define BUCKET_LAST (BUCKET_OF_ROW (gnm_sheet_get_max_rows (sheet) - 1))
 #define BUCKET_START_ROW(b) ((b) * BUCKET_SIZE)
 #define BUCKET_END_ROW(b) ((b) * BUCKET_SIZE + (BUCKET_SIZE - 1))
 
@@ -2646,7 +2646,7 @@ dynamic_dep_free (DynamicDep *dyn)
 }
 
 GnmDepContainer *
-gnm_dep_container_new (void)
+gnm_dep_container_new (Sheet *sheet)
 {
 	GnmDepContainer *deps = g_new (GnmDepContainer, 1);
 
@@ -2810,6 +2810,7 @@ void
 gnm_dep_container_dump (GnmDepContainer const *deps)
 {
 	int i;
+	Sheet *sheet = NULL;
 
 	g_return_if_fail (deps != NULL);
 

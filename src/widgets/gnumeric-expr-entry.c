@@ -750,11 +750,11 @@ gee_prepare_range (GnmExprEntry const *gee, GnmRangeRef *dst)
 
 	if (gee->flags & GNM_EE_FULL_ROW) {
 		dst->a.col = 0;
-		dst->b.col = SHEET_MAX_COLS - 1;
+		dst->b.col = gnm_sheet_get_max_cols (gee->sheet) - 1;
 	}
 	if (gee->flags & GNM_EE_FULL_COL) {
 		dst->a.row = 0;
-		dst->b.row = SHEET_MAX_ROWS - 1;
+		dst->b.row = gnm_sheet_get_max_rows (gee->sheet) - 1;
 	}
 
 	/* special case a single merge to be only corner */

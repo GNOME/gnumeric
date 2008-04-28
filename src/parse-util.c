@@ -118,7 +118,7 @@ col_parse (char const *str, int *res, unsigned char *relative)
 	if (!(*relative = (*start != '$')))
 		start++;
 
-	for (ptr = start; col < SHEET_MAX_COLS ; ptr++)
+	for (ptr = start; col < gnm_sheet_get_max_cols (NULL) ; ptr++)
 		if (('a' <= *ptr && *ptr <= 'z'))
 			col = 26 * (col + 1) + (*ptr - 'a');
 		else if (('A' <= *ptr && *ptr <= 'Z'))
@@ -190,7 +190,7 @@ row_parse (char const *str, int *res, unsigned char *relative)
 	row = strtol (ptr, (char **)&end, 10);
 	if (ptr != end &&
 	    !g_unichar_isalnum (g_utf8_get_char (end)) && *end != '_' &&
-	    0 < row && row <= SHEET_MAX_ROWS) {
+	    0 < row && row <= gnm_sheet_get_max_rows (NULL)) {
 		*res = row - 1;
 		return end;
 	} else
@@ -205,9 +205,9 @@ cellref_abs_col (GnmCellRef const *ref, GnmParsePos const *pp)
 	int col = (ref->col_relative) ? pp->eval.col + ref->col : ref->col;
 
 	/* ICK!  XL compatibility kludge */
-	col %= SHEET_MAX_COLS;
+	col %= gnm_sheet_get_max_cols (ref->sheet);
 	if (col < 0)
-		return col + SHEET_MAX_COLS;
+		return col + gnm_sheet_get_max_cols (ref->sheet);
 	return col;
 }
 
@@ -217,9 +217,9 @@ cellref_abs_row (GnmCellRef const *ref, GnmParsePos const *pp)
 	int row = (ref->row_relative) ? pp->eval.row + ref->row : ref->row;
 
 	/* ICK!  XL compatibility kludge */
-	row %= SHEET_MAX_ROWS;
+	row %= gnm_sheet_get_max_rows (ref->sheet);
 	if (row < 0)
-		return row + SHEET_MAX_ROWS;
+		return row + gnm_sheet_get_max_rows (ref->sheet);
 	return row;
 }
 
@@ -299,9 +299,9 @@ cellref_as_string (GnmConventionsOut *out,
 		}
 
 		/* ICK!  XL compatibility kludge */
-		col %= SHEET_MAX_COLS;
+		col %= gnm_sheet_get_max_cols (sheet);
 		if (col < 0)
-			col += SHEET_MAX_COLS;
+			col += gnm_sheet_get_max_cols (sheet);
 		col_name_internal (target, col);
 
 		if (cell_ref->row_relative)
@@ -312,9 +312,9 @@ cellref_as_string (GnmConventionsOut *out,
 		}
 
 		/* ICK!  XL compatibility kludge */
-		row %= SHEET_MAX_ROWS;
+		row %= gnm_sheet_get_max_rows (sheet);
 		if (row < 0)
-			row += SHEET_MAX_ROWS;
+			row += gnm_sheet_get_max_rows (sheet);
 		row_name_internal (target, row);
 	}
 }
@@ -359,14 +359,14 @@ rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 
 	if (out->convs->r1c1_addresses) { /* R1C1 handler */
 		/* be sure to use else if so that a1:iv65535 does not vanish */
-		if (r.start.col == 0 && r.end.col == SHEET_MAX_COLS-1) {
+		if (r.start.col == 0 && r.end.col == gnm_sheet_get_max_cols (ref->a.sheet)-1) {
 			r1c1_add_index (target, 'R', ref->a.row, ref->a.row_relative);
 			if (ref->a.row != ref->b.row ||
 			    ref->a.row_relative != ref->b.row_relative) {
 				g_string_append_c (target, ':');
 				r1c1_add_index (target, 'R', ref->b.row, ref->b.row_relative);
 			}
-		} else if (r.start.row == 0 && r.end.row == SHEET_MAX_ROWS-1) {
+		} else if (r.start.row == 0 && r.end.row == gnm_sheet_get_max_rows (ref->a.sheet)-1) {
 			r1c1_add_index (target, 'C', ref->a.col, ref->a.col_relative);
 			if (ref->a.col != ref->b.col ||
 			    ref->a.col_relative != ref->b.col_relative) {
@@ -387,7 +387,7 @@ rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 		}
 	} else {
 		/* be sure to use else if so that a1:iv65535 does not vanish */
-		if (r.start.col == 0 && r.end.col == SHEET_MAX_COLS-1) {
+		if (r.start.col == 0 && r.end.col == gnm_sheet_get_max_cols (ref->a.sheet)-1) {
 			if (!ref->a.row_relative)
 				g_string_append_c (target, '$');
 			row_name_internal (target, r.start.row);
@@ -395,7 +395,7 @@ rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 			if (!ref->b.row_relative)
 				g_string_append_c (target, '$');
 			row_name_internal (target, r.end.row);
-		} else if (r.start.row == 0 && r.end.row == SHEET_MAX_ROWS-1) {
+		} else if (r.start.row == 0 && r.end.row == gnm_sheet_get_max_rows (ref->a.sheet)-1) {
 			if (!ref->a.col_relative)
 				g_string_append_c (target, '$');
 			col_name_internal (target, r.start.col);
@@ -973,7 +973,7 @@ r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
 			res->a.col_relative = FALSE;
 			res->a.col = 0;
 			res->b = res->a;
-			res->b.col = SHEET_MAX_COLS - 1;
+			res->b.col = gnm_sheet_get_max_cols (res->b.sheet) - 1;
 			if (ptr[0] != ':' || (ptr[1] != 'R' && ptr[1] != 'r'))
 				return ptr;
 			if (NULL == (tmp = r1c1_get_index (ptr+1, &res->b.row, &res->b.row_relative, FALSE)))
@@ -998,7 +998,7 @@ r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
 		res->a.row_relative = FALSE;
 		res->a.row = 0;
 		res->b = res->a;
-		res->b.row = SHEET_MAX_ROWS - 1;
+		res->b.row = gnm_sheet_get_max_rows (res->b.sheet) - 1;
 		if (ptr[0] != ':' || (ptr[1] != 'C' && ptr[1] != 'c'))
 			return ptr;
 		if (NULL == (tmp = r1c1_get_index (ptr, &res->b.col, &res->b.col_relative, TRUE)))
@@ -1068,7 +1068,7 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 		if (!tmp2)
 			return start;
 		res->a.col_relative = res->b.col_relative = FALSE;
-		res->a.col = 0; res->b.col = SHEET_MAX_COLS-1;
+		res->a.col = 0; res->b.col = gnm_sheet_get_max_cols (res->b.sheet)-1;
 		if (res->a.row_relative)
 			res->a.row -= pp->eval.row;
 		if (res->b.row_relative)
@@ -1084,7 +1084,7 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 		if (!tmp2)
 			return start;
 		res->a.row_relative = res->b.row_relative = FALSE;
-		res->a.row = 0; res->b.row = SHEET_MAX_ROWS-1;
+		res->a.row = 0; res->b.row = gnm_sheet_get_max_rows (res->b.sheet)-1;
 		if (res->a.col_relative)
 			res->a.col -= pp->eval.col;
 		if (res->b.col_relative)

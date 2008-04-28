@@ -477,9 +477,9 @@ sv_set_edit_pos (SheetView *sv, GnmCellPos const *pos)
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 	g_return_if_fail (pos != NULL);
 	g_return_if_fail (pos->col >= 0);
-	g_return_if_fail (pos->col < SHEET_MAX_COLS);
+	g_return_if_fail (pos->col < gnm_sheet_get_max_cols (sv->sheet));
 	g_return_if_fail (pos->row >= 0);
-	g_return_if_fail (pos->row < SHEET_MAX_ROWS);
+	g_return_if_fail (pos->row < gnm_sheet_get_max_rows (sv->sheet));
 
 	old = sv->edit_pos;
 	sv->first_tab_col = -1; /* invalidate */
@@ -725,8 +725,8 @@ sv_freeze_panes (SheetView *sv,
 		g_return_if_fail (unfrozen->row >= frozen->row);
 
 		/* Just in case */
-		if (unfrozen->col != (SHEET_MAX_COLS-1) &&
-		    unfrozen->row != (SHEET_MAX_ROWS-1) &&
+		if (unfrozen->col != (gnm_sheet_get_max_cols (sv->sheet)-1) &&
+		    unfrozen->row != (gnm_sheet_get_max_rows (sv->sheet)-1) &&
 		    !gnm_cellpos_equal (frozen, unfrozen)) {
 			sv->frozen_top_left = *frozen;
 			sv->unfrozen_top_left = *unfrozen;
@@ -792,7 +792,7 @@ sv_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
 			br.col += count;
 			if (tl.col > start)
 				tl.col += count;
-			if (br.col < tl.col || br.col >= SHEET_MAX_COLS)
+			if (br.col < tl.col || br.col >= gnm_sheet_get_max_cols (sv->sheet))
 				return;
 		} else {
 			if (tl.col >= start)
@@ -809,7 +809,7 @@ sv_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
 			br.row += count;
 			if (tl.row > start)
 				tl.row += count;
-			if (br.row < tl.row || br.row >= SHEET_MAX_ROWS)
+			if (br.row < tl.row || br.row >= gnm_sheet_get_max_rows (sv->sheet))
 				return;
 		} else {
 			if (tl.row >= start)
@@ -849,8 +849,8 @@ void
 sv_set_initial_top_left (SheetView *sv, int col, int row)
 {
 	g_return_if_fail (IS_SHEET_VIEW (sv));
-	g_return_if_fail (0 <= col && col < SHEET_MAX_COLS);
-	g_return_if_fail (0 <= row && row < SHEET_MAX_ROWS);
+	g_return_if_fail (0 <= col && col < gnm_sheet_get_max_cols (sv->sheet));
+	g_return_if_fail (0 <= row && row < gnm_sheet_get_max_rows (sv->sheet));
 	g_return_if_fail (!sv_is_frozen (sv) ||
 			  (sv->unfrozen_top_left.col <= col &&
 			   sv->unfrozen_top_left.row <= row));

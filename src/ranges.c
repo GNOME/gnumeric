@@ -37,8 +37,8 @@ range_init_full_sheet (GnmRange *r)
 {
 	r->start.col = 0;
 	r->start.row = 0;
-	r->end.col = SHEET_MAX_COLS - 1;
-	r->end.row = SHEET_MAX_ROWS - 1;
+	r->end.col = G_MAXINT / 2;
+	r->end.row = G_MAXINT / 2;
 	return r;
 }
 GnmRange *
@@ -47,7 +47,7 @@ range_init_cols (GnmRange *r, int start_col, int end_col)
 	r->start.col = start_col;
 	r->start.row = 0;
 	r->end.col = end_col;
-	r->end.row = SHEET_MAX_ROWS - 1;
+	r->end.row = gnm_sheet_get_max_rows (NULL) - 1;
 	return r;
 }
 
@@ -56,7 +56,7 @@ range_init_rows (GnmRange *r, int start_row, int end_row)
 {
 	r->start.col = 0;
 	r->start.row = start_row;
-	r->end.col = SHEET_MAX_COLS - 1;
+	r->end.col = gnm_sheet_get_max_cols (NULL) - 1;
 	r->end.row = end_row;
 	return r;
 }
@@ -577,9 +577,9 @@ gboolean
 range_is_full (GnmRange const *r, gboolean horiz)
 {
 	if (horiz)
-		return (r->start.col <= 0 && r->end.col >= SHEET_MAX_COLS - 1);
+		return (r->start.col <= 0 && r->end.col >= gnm_sheet_get_max_cols (NULL) - 1);
 	else
-		return (r->start.row <= 0 && r->end.row >= SHEET_MAX_ROWS - 1);
+		return (r->start.row <= 0 && r->end.row >= gnm_sheet_get_max_rows (NULL) - 1);
 }
 
 /**
@@ -592,9 +592,9 @@ void
 range_make_full	(GnmRange *r, gboolean full_col, gboolean full_row)
 {
 	if (full_col)
-		r->start.row = 0, r->end.row = SHEET_MAX_ROWS - 1;
+		r->start.row = 0, r->end.row = gnm_sheet_get_max_rows (NULL) - 1;
 	if (full_row)
-		r->start.col = 0, r->end.col = SHEET_MAX_COLS - 1;
+		r->start.col = 0, r->end.col = gnm_sheet_get_max_cols (NULL) - 1;
 }
 
 /**
@@ -615,9 +615,9 @@ range_clip_to_finite (GnmRange *range, Sheet *sheet)
 	 * using the current values as a cache
 	 */
 	extent = sheet_get_extent (sheet, FALSE);
-	if (range->end.col >= SHEET_MAX_COLS - 2)
+	if (range->end.col >= gnm_sheet_get_max_cols (NULL) - 2)
 		range->end.col = extent.end.col;
-	if (range->end.row >= SHEET_MAX_ROWS - 2)
+	if (range->end.row >= gnm_sheet_get_max_rows (NULL) - 2)
 		range->end.row = extent.end.row;
 }
 
@@ -658,10 +658,10 @@ range_translate (GnmRange *range, int col_offset, int row_offset)
 	range->end.row   += row_offset;
 
 	/* check for completely out of bounds */
-	if (range->start.col >= SHEET_MAX_COLS || range->start.col < 0 ||
-	    range->start.row >= SHEET_MAX_ROWS || range->start.row < 0 ||
-	    range->end.col >= SHEET_MAX_COLS || range->end.col < 0 ||
-	    range->end.row >= SHEET_MAX_ROWS || range->end.row < 0)
+	if (range->start.col >= gnm_sheet_get_max_cols (NULL) || range->start.col < 0 ||
+	    range->start.row >= gnm_sheet_get_max_rows (NULL) || range->start.row < 0 ||
+	    range->end.col >= gnm_sheet_get_max_cols (NULL) || range->end.col < 0 ||
+	    range->end.row >= gnm_sheet_get_max_rows (NULL) || range->end.row < 0)
 		return TRUE;
 
 	return FALSE;
@@ -679,12 +679,12 @@ range_ensure_sanity (GnmRange *range)
 {
 	if (range->start.col < 0)
 		range->start.col = 0;
-	if (range->end.col >= SHEET_MAX_COLS)
-		range->end.col = SHEET_MAX_COLS-1;
+	if (range->end.col >= gnm_sheet_get_max_cols (NULL))
+		range->end.col = gnm_sheet_get_max_cols (NULL)-1;
 	if (range->start.row < 0)
 		range->start.row = 0;
-	if (range->end.row >= SHEET_MAX_ROWS)
-		range->end.row = SHEET_MAX_ROWS-1;
+	if (range->end.row >= gnm_sheet_get_max_rows (NULL))
+		range->end.row = gnm_sheet_get_max_rows (NULL)-1;
 }
 
 /**
@@ -699,10 +699,10 @@ range_is_sane (GnmRange const *range)
 	g_return_val_if_fail (range != NULL, FALSE);
 	g_return_val_if_fail (range->start.col >= 0, FALSE);
 	g_return_val_if_fail (range->end.col >= range->start.col, FALSE);
-	g_return_val_if_fail (range->end.col < SHEET_MAX_COLS, FALSE);
+	g_return_val_if_fail (range->end.col < G_MAXINT / 2, FALSE);
 	g_return_val_if_fail (range->start.row >= 0, FALSE);
 	g_return_val_if_fail (range->end.row >= range->start.row, FALSE);
-	g_return_val_if_fail (range->end.row < SHEET_MAX_ROWS, FALSE);
+	g_return_val_if_fail (range->end.row < G_MAXINT / 2, FALSE);
 
 	return TRUE;
 }
@@ -730,9 +730,9 @@ range_transpose (GnmRange *range, GnmCellPos const *origin)
 
 	/* Start col */
 	t = origin->col + (src.start.row - origin->row);
-	if (t > SHEET_MAX_COLS - 1) {
+	if (t > gnm_sheet_get_max_cols (NULL) - 1) {
 		clipped = TRUE;
-		range->start.col = SHEET_MAX_COLS - 1;
+		range->start.col = gnm_sheet_get_max_cols (NULL) - 1;
 	} else if (t < 0) {
 		clipped = TRUE;
 		range->start.col = 0;
@@ -741,9 +741,9 @@ range_transpose (GnmRange *range, GnmCellPos const *origin)
 
 	/* Start row */
 	t = origin->row + (src.start.col - origin->col);
-	if (t > SHEET_MAX_COLS - 1) {
+	if (t > gnm_sheet_get_max_cols (NULL) - 1) {
 		clipped = TRUE;
-		range->start.row = SHEET_MAX_ROWS - 1;
+		range->start.row = gnm_sheet_get_max_rows (NULL) - 1;
 	} else if (t < 0) {
 		clipped = TRUE;
 		range->start.row = 0;
@@ -753,9 +753,9 @@ range_transpose (GnmRange *range, GnmCellPos const *origin)
 
 	/* End col */
 	t = origin->col + (src.end.row - origin->row);
-	if (t > SHEET_MAX_COLS - 1) {
+	if (t > gnm_sheet_get_max_cols (NULL) - 1) {
 		clipped = TRUE;
-		range->end.col = SHEET_MAX_COLS - 1;
+		range->end.col = gnm_sheet_get_max_cols (NULL) - 1;
 	} else if (t < 0) {
 		clipped = TRUE;
 		range->end.col = 0;
@@ -764,9 +764,9 @@ range_transpose (GnmRange *range, GnmCellPos const *origin)
 
 	/* End row */
 	t = origin->row + (src.end.col - origin->col);
-	if (t > SHEET_MAX_COLS - 1) {
+	if (t > gnm_sheet_get_max_cols (NULL) - 1) {
 		clipped = TRUE;
-		range->end.row = SHEET_MAX_ROWS - 1;
+		range->end.row = gnm_sheet_get_max_rows (NULL) - 1;
 	} else if (t < 0) {
 		clipped = TRUE;
 		range->end.row = 0;

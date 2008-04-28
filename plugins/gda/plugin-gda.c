@@ -157,7 +157,7 @@ display_recordset (GdaDataModel *recset, GnmFuncEvalInfo *ei)
 	if (rowcount <= 0)
 		return value_new_empty ();
 
-	if (rowcount >= SHEET_MAX_ROWS)
+	if (rowcount >= gnm_sheet_get_max_rows (ei->pos->sheet))
 		return value_new_error (ei->pos, _("Too much data returned"));
 
 	date_conv = workbook_date_conv (ei->pos->sheet->workbook);

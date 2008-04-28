@@ -204,12 +204,9 @@ xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
 	record = record_new (file);
 	row = 1;
 	do {
-		if (row >= SHEET_MAX_ROWS) {
-			g_warning (_("This build of Gnumeric can only hold %d "
-				   "rows.  Ignoring the rest of this file.  You "
-				   "will need a custom build with SHEET_MAX_ROWS "
-				   "increased to read this file."),
-				   SHEET_MAX_ROWS);
+		if (row >= gnm_sheet_get_max_rows (sheet)) {
+			/* FIXME: either we need to add new rows, if posible
+			or create a larger sheet*/
 			break;
 		}
 		for (i = 0; i < file->fields ; i++) {

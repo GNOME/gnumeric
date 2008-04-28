@@ -1739,7 +1739,7 @@ reloc_range (GnmExprRelocateInfo const *rinfo,
 			 * deleting rows. Otherwise we #REF! before  we can shorten
 			 * The -1 is safe, origin.start.row == 0 is handled above */
 			if (rinfo->reloc_type == GNM_EXPR_RELOCATE_ROWS &&
-			    rinfo->row_offset >= SHEET_MAX_ROWS)
+			    rinfo->row_offset >= gnm_sheet_get_max_rows (end_sheet))
 				rng->end.row  = rinfo->origin.start.row - 1;
 			else
 				rng->end.row += rinfo->row_offset;
@@ -1759,7 +1759,7 @@ reloc_range (GnmExprRelocateInfo const *rinfo,
 			 * deleting cols. Otherwise we #REF! before  we can shorten.
 			 * The -1 is safe, origin.start.col == 0 is handled above */
 			if (rinfo->reloc_type == GNM_EXPR_RELOCATE_COLS &&
-			    rinfo->col_offset >= SHEET_MAX_COLS)
+			    rinfo->col_offset >= gnm_sheet_get_max_cols (end_sheet))
 				rng->end.col  = rinfo->origin.start.col - 1;
 			else
 				rng->end.col += rinfo->col_offset;
@@ -1801,7 +1801,7 @@ reloc_restore_cellref (RelocInfoInternal const *rinfo,
 		res->sheet = rinfo->details->target_sheet;
 
 	if (!res->col_relative  || rinfo->check_rels) {
-		if (pos->col < 0 || SHEET_MAX_COLS <= pos->col)
+		if (pos->col < 0 || gnm_sheet_get_max_cols (sheet) <= pos->col)
 			return TRUE;
 		res->col = pos->col;
 		if (res->col_relative) {
@@ -1811,7 +1811,7 @@ reloc_restore_cellref (RelocInfoInternal const *rinfo,
 		}
 	}
 	if (!res->row_relative  || rinfo->check_rels) {
-		if (pos->row < 0 || SHEET_MAX_ROWS <= pos->row)
+		if (pos->row < 0 || gnm_sheet_get_max_rows (sheet) <= pos->row)
 			return TRUE;
 		res->row = pos->row;
 		if (res->row_relative) {
@@ -2119,7 +2119,7 @@ cellref_boundingbox (GnmCellRef const *cr, GnmRange *bound)
 {
 	if (cr->col_relative) {
 		if (cr->col >= 0) {
-			int const c = SHEET_MAX_COLS - cr->col - 1;
+			int const c = gnm_sheet_get_max_cols (cr->sheet) - cr->col - 1;
 			if (bound->end.col > c)
 				bound->end.col = c;
 		} else {
@@ -2130,7 +2130,7 @@ cellref_boundingbox (GnmCellRef const *cr, GnmRange *bound)
 	}
 	if (cr->row_relative) {
 		if (cr->row >= 0) {
-			int const r = SHEET_MAX_ROWS - cr->row - 1;
+			int const r = gnm_sheet_get_max_rows (cr->sheet) - cr->row - 1;
 			if (bound->end.row > r)
 				bound->end.row = r;
 		} else {

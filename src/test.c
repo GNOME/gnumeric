@@ -99,8 +99,8 @@ thrash_insert (Sheet *sheet)
 
 		r.start.col = 0;
 		r.start.row = MAX (0, j - 1);
-		r.end.col   = SHEET_MAX_COLS;
-		r.end.row   = MIN (SHEET_MAX_ROWS, j + 1);
+		r.end.col   = gnm_sheet_get_max_cols (sheet);
+		r.end.row   = MIN (gnm_sheet_get_max_rows (sheet), j + 1);
 
 		sheet_style_optimize (sheet, r);
 	}
