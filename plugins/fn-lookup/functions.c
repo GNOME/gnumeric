@@ -557,9 +557,9 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		if (err)
 		        return value_new_error_VALUE (ei->pos);
 	}
-	if (col < 0 || col >= SHEET_MAX_COLS)
+	if (col < 0 || col >= gnm_sheet_get_max_cols (ei->pos->sheet))
 		return value_new_error_VALUE (ei->pos);
-	if (row < 0 || row >= SHEET_MAX_ROWS)
+	if (row < 0 || row >= gnm_sheet_get_max_rows (ei->pos->sheet))
 		return value_new_error_VALUE (ei->pos);
 
 	if (!out.convs->r1c1_addresses)
@@ -1246,7 +1246,7 @@ gnumeric_offset (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	a.row     += row_offset;
 	a.col     += col_offset;
 	if (a.row < 0 || a.col < 0 ||
-	    a.row >= SHEET_MAX_ROWS || a.col >= SHEET_MAX_COLS)
+	    a.row >= gnm_sheet_get_max_rows (ei->pos->sheet) || a.col >= gnm_sheet_get_max_cols (ei->pos->sheet))
 		return value_new_error_REF (ei->pos);
 
 	if (args[3] != NULL) {
@@ -1256,7 +1256,7 @@ gnumeric_offset (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		b.row = a.row + tmp - 1;
 	} else
 		b.row += row_offset;
-	if (b.col < 0 || b.row >= SHEET_MAX_ROWS)
+	if (b.col < 0 || b.row >= gnm_sheet_get_max_rows (ei->pos->sheet))
 		return value_new_error_REF (ei->pos);
 	if (args[4] != NULL) {
 		tmp = value_get_as_int (args[4]);
@@ -1265,7 +1265,7 @@ gnumeric_offset (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		b.col = a.col + tmp - 1;
 	} else
 		b.col += col_offset;
-	if (b.col < 0 || b.col >= SHEET_MAX_COLS)
+	if (b.col < 0 || b.col >= gnm_sheet_get_max_cols (ei->pos->sheet))
 		return value_new_error_REF (ei->pos);
 
 	return value_new_cellrange_unsafe (&a, &b);

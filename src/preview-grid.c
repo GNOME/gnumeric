@@ -59,8 +59,8 @@ pg_get_style (PreviewGrid *pg, int col, int row)
 	PreviewGridClass *klass = PREVIEW_GRID_GET_CLASS (pg);
 	GnmStyle *style;
 
-	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, NULL);
-	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, NULL);
+	g_return_val_if_fail (col >= 0 && col < gnm_sheet_get_max_cols (pg->sheet), NULL);
+	g_return_val_if_fail (row >= 0 && row < gnm_sheet_get_max_rows (pg->sheet), NULL);
 	g_return_val_if_fail (klass != NULL, NULL);
 
 	if (klass->get_cell_style != NULL) {
@@ -82,8 +82,8 @@ pg_fetch_cell (PreviewGrid *pg, int col, int row, PangoContext *context,
 
 	g_return_val_if_fail (klass != NULL, NULL);
 	g_return_val_if_fail (pg != NULL, NULL);
-	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, NULL);
-	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, NULL);
+	g_return_val_if_fail (col >= 0 && col < gnm_sheet_get_max_cols (pg->sheet), NULL);
+	g_return_val_if_fail (row >= 0 && row < gnm_sheet_get_max_rows (pg->sheet), NULL);
 
 	if (NULL != klass->get_cell_value)
 		v = (klass->get_cell_value) (pg, col, row);
@@ -122,12 +122,12 @@ pg_get_row_offset (PreviewGrid *pg, int const y, int *row_origin)
 			return row;
 		}
 		pixel += h;
-	} while (++row < SHEET_MAX_ROWS);
+	} while (++row < gnm_sheet_get_max_rows (pg->sheet));
 
 	if (row_origin)
 		*row_origin = pixel;
 
-	return SHEET_MAX_ROWS - 1;
+	return gnm_sheet_get_max_rows (pg->sheet) - 1;
 }
 
 /**
@@ -154,12 +154,12 @@ pg_get_col_offset (PreviewGrid *pg, int const x, int *col_origin)
 			return col;
 		}
 		pixel += w;
-	} while (++col < SHEET_MAX_COLS);
+	} while (++col < gnm_sheet_get_max_cols (pg->sheet));
 
 	if (col_origin)
 		*col_origin = pixel;
 
-	return SHEET_MAX_COLS - 1;
+	return gnm_sheet_get_max_cols (pg->sheet) - 1;
 }
 
 static void

@@ -840,7 +840,7 @@ stf_parse_general (StfParseOptions_t *parseoptions,
 		if (parseoptions->parsetype != PARSE_TYPE_CSV)
 			src.position += compare_terminator (src.position, parseoptions);
 
-		if (++row == SHEET_MAX_ROWS)
+		if (++row == gnm_sheet_get_max_rows (NULL))
 			break;
 	}
 
@@ -1203,7 +1203,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 			if (parseoptions->col_import_array == NULL ||
 			    parseoptions->col_import_array_len <= lcol ||
 			    parseoptions->col_import_array[lcol]) {
-				if (col >= SHEET_MAX_COLS) {
+				if (col >= gnm_sheet_get_max_cols (sheet)) {
 					if (!parseoptions->cols_exceeded) {
 						g_warning (_("There are more columns of data than "
 							     "there is room for in the sheet.  Extra "

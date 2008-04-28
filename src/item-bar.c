@@ -147,9 +147,9 @@ item_bar_calc_size (ItemBar *ib)
 
 	/* 5 pixels left and right plus the width of the widest string I can think of */
 	if (char_label)
-		pango_layout_set_text (layout, "WWWWWWWWWW", strlen (col_name (SHEET_MAX_COLS - 1)));
+		pango_layout_set_text (layout, "WWWWWWWWWW", strlen (col_name (gnm_sheet_get_max_cols (sheet) - 1)));
 	else
-		pango_layout_set_text (layout, "8888888888", strlen (row_name (SHEET_MAX_ROWS - 1)));
+		pango_layout_set_text (layout, "8888888888", strlen (row_name (gnm_sheet_get_max_rows (sheet) - 1)));
 	pango_layout_get_extents (layout, NULL, &logical_rect);
 	ib->cell_width = 5 + 5 + PANGO_PIXELS (logical_rect.width);
 
@@ -374,7 +374,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 		}
 
 		do {
-			if (col >= SHEET_MAX_COLS)
+			if (col >= gnm_sheet_get_max_cols (sheet))
 				return;
 
 			/* DO NOT enable resizing all until we get rid of
@@ -537,7 +537,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 		}
 
 		do {
-			if (row >= SHEET_MAX_ROWS)
+			if (row >= gnm_sheet_get_max_rows (sheet))
 				return;
 
 			/* DO NOT enable resizing all until we get rid of
@@ -719,11 +719,11 @@ is_pointer_on_division (ItemBar const *ib, double x, double y,
 		*the_element = -1;
 	for (i = 0; total < major; i++) {
 		if (ib->is_col_header) {
-			if (i >= SHEET_MAX_COLS)
+			if (i >= gnm_sheet_get_max_cols (sheet))
 				return NULL;
 			cri = sheet_col_get_info (sheet, i);
 		} else {
-			if (i >= SHEET_MAX_ROWS)
+			if (i >= gnm_sheet_get_max_rows (sheet))
 				return NULL;
 			cri = sheet_row_get_info (sheet, i);
 		}

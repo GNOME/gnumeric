@@ -22,6 +22,7 @@
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "libgnumeric.h"
 #include "position.h"
 
 #include "sheet.h"
@@ -262,9 +263,9 @@ gnm_cellref_get_col (GnmCellRef const *ref, GnmEvalPos const *ep)
 	g_return_val_if_fail (ep != NULL, 0);
 
 	if (ref->col_relative) {
-		int res = (ep->eval.col + ref->col) % SHEET_MAX_COLS;
+		int res = (ep->eval.col + ref->col) % gnm_sheet_get_max_cols (ref->sheet);
 		if (res < 0)
-			return res + SHEET_MAX_COLS;
+			return res + gnm_sheet_get_max_cols (ref->sheet);
 		return res;
 	}
 	return ref->col;
@@ -277,9 +278,9 @@ gnm_cellref_get_row (GnmCellRef const *ref, GnmEvalPos const *ep)
 	g_return_val_if_fail (ep != NULL, 0);
 
 	if (ref->row_relative) {
-		int res = (ep->eval.row + ref->row) % SHEET_MAX_ROWS;
+		int res = (ep->eval.row + ref->row) % gnm_sheet_get_max_rows (ref->sheet);
 		if (res < 0)
-			return res + SHEET_MAX_ROWS;
+			return res + gnm_sheet_get_max_rows (ref->sheet);
 		return res;
 	}
 	return ref->row;
@@ -293,16 +294,16 @@ gnm_cellpos_init_cellref (GnmCellPos *res,
 	g_return_if_fail (res != NULL);
 
 	if (cell_ref->col_relative) {
-		res->col = (cell_ref->col + pos->col) % SHEET_MAX_COLS;
+		res->col = (cell_ref->col + pos->col) % gnm_sheet_get_max_cols (cell_ref->sheet);
 		if (res->col < 0)
-			res->col += SHEET_MAX_COLS;
+			res->col += gnm_sheet_get_max_cols (cell_ref->sheet);
 	} else
 		res->col = cell_ref->col;
 
 	if (cell_ref->row_relative) {
-		res->row = (cell_ref->row + pos->row) % SHEET_MAX_ROWS;
+		res->row = (cell_ref->row + pos->row) % gnm_sheet_get_max_rows (cell_ref->sheet);
 		if (res->row < 0)
-			res->row += SHEET_MAX_ROWS;
+			res->row += gnm_sheet_get_max_rows (cell_ref->sheet);
 	} else
 		res->row = cell_ref->row;
 }
@@ -316,15 +317,15 @@ gnm_cellref_make_abs (GnmCellRef *dest, GnmCellRef const *src, GnmEvalPos const 
 
 	*dest = *src;
 	if (src->col_relative) {
-		dest->col = (dest->col + ep->eval.col) % SHEET_MAX_COLS;
+		dest->col = (dest->col + ep->eval.col) % gnm_sheet_get_max_cols (dest->sheet);
 		if (dest->col < 0)
-			dest->col += SHEET_MAX_COLS;
+			dest->col += gnm_sheet_get_max_cols (dest->sheet);
 	}
 
 	if (src->row_relative) {
-		dest->row = (dest->row + ep->eval.row) % SHEET_MAX_ROWS;
+		dest->row = (dest->row + ep->eval.row) % gnm_sheet_get_max_rows (dest->sheet);
 		if (dest->row < 0)
-			dest->row += SHEET_MAX_ROWS;
+			dest->row += gnm_sheet_get_max_rows (dest->sheet);
 	}
 
 	dest->row_relative = dest->col_relative = FALSE;

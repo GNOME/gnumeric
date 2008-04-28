@@ -70,8 +70,8 @@ dao_init (data_analysis_output_t *dao,
 	dao->start_row         = 0;
 	dao->offset_col        = 0;
 	dao->offset_row        = 0;
-	dao->cols              = SHEET_MAX_COLS;
-	dao->rows              = SHEET_MAX_ROWS;
+	dao->cols              = gnm_sheet_get_max_cols (NULL);
+	dao->rows              = gnm_sheet_get_max_rows (NULL);
 	dao->sheet             = NULL;
 	dao->autofit_flag      = TRUE;
 	dao->clear_outputrange = TRUE;
@@ -173,8 +173,8 @@ dao_command_descriptor (data_analysis_output_t *dao, char const *format,
 void
 dao_adjust (data_analysis_output_t *dao, gint cols, gint rows)
 {
-	int max_rows = SHEET_MAX_ROWS - dao->start_row;
-	int max_cols = SHEET_MAX_COLS - dao->start_col;
+	int max_rows = gnm_sheet_get_max_rows (dao->sheet) - dao->start_row;
+	int max_cols = gnm_sheet_get_max_cols (dao->sheet) - dao->start_col;
 
 	if (dao->cols == 1 && dao->rows == 1) {
 		if (cols != -1)
@@ -221,22 +221,22 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 	        dao->sheet = sheet_new (wb, unique_name);
 		g_free (unique_name);
 		dao->start_col = dao->start_row = 0;
-		dao->rows = SHEET_MAX_ROWS;
-		dao->cols = SHEET_MAX_COLS;
+		dao->rows = gnm_sheet_get_max_rows (dao->sheet);
+		dao->cols = gnm_sheet_get_max_cols (dao->sheet);
 		workbook_sheet_attach (wb, dao->sheet);
 	} else if (dao->type == NewWorkbookOutput) {
 		Workbook *wb = workbook_new ();
 		dao->sheet = sheet_new (wb, name);
 		dao->start_col = dao->start_row = 0;
-		dao->rows = SHEET_MAX_ROWS;
-		dao->cols = SHEET_MAX_COLS;
+		dao->rows = gnm_sheet_get_max_rows (dao->sheet);
+		dao->cols = gnm_sheet_get_max_cols (dao->sheet);
 		workbook_sheet_attach (wb, dao->sheet);
 		dao->wbc = wb_control_wrapper_new (dao->wbc, NULL, wb, NULL);
 	}
 	if (dao->rows == 0 || (dao->rows == 1 && dao->cols == 1))
-		dao->rows = SHEET_MAX_ROWS - dao->start_row;
+		dao->rows = gnm_sheet_get_max_rows (dao->sheet) - dao->start_row;
 	if (dao->cols == 0 || (dao->rows == 1 && dao->cols == 1))
-		dao->cols = SHEET_MAX_COLS - dao->start_col;
+		dao->cols = gnm_sheet_get_max_cols (dao->sheet) - dao->start_col;
 	dao->offset_col = 0;
 	dao->offset_row = 0;
 }
@@ -295,7 +295,7 @@ dao_cell_is_visible (data_analysis_output_t *dao, int col, int row)
 	col += dao->start_col;
 	row += dao->start_row;
 
-	return (!(col >= SHEET_MAX_COLS || row >= SHEET_MAX_ROWS));
+	return (!(col >= gnm_sheet_get_max_cols (dao->sheet) || row >= gnm_sheet_get_max_rows (dao->sheet)));
 }
 
 
@@ -324,7 +324,7 @@ dao_set_cell_array_expr (data_analysis_output_t *dao, int col, int row,
 
 	col += dao->start_col;
 	row += dao->start_row;
-	if (col >= SHEET_MAX_COLS || row >= SHEET_MAX_ROWS) {
+	if (col >= gnm_sheet_get_max_cols (dao->sheet) || row >= gnm_sheet_get_max_rows (dao->sheet)) {
 		gnm_expr_free (expr);
 		return;
 	}
@@ -363,7 +363,7 @@ dao_set_cell_expr (data_analysis_output_t *dao, int col, int row,
 
 	col += dao->start_col;
 	row += dao->start_row;
-	if (col >= SHEET_MAX_COLS || row >= SHEET_MAX_ROWS) {
+	if (col >= gnm_sheet_get_max_cols (dao->sheet) || row >= gnm_sheet_get_max_rows (dao->sheet)) {
 		gnm_expr_free (expr);
 		return;
 	}
@@ -410,7 +410,7 @@ dao_set_cell_value (data_analysis_output_t *dao, int col, int row, GnmValue *v)
 
 	col += dao->start_col;
 	row += dao->start_row;
-	if (col >= SHEET_MAX_COLS || row >= SHEET_MAX_ROWS) {
+	if (col >= gnm_sheet_get_max_cols (dao->sheet) || row >= gnm_sheet_get_max_rows (dao->sheet)) {
 		value_release (v);
 		return;
 	}
@@ -572,7 +572,7 @@ dao_set_cell_comment (data_analysis_output_t *dao, int col, int row,
 
 	col += dao->start_col;
 	row += dao->start_row;
-	if (col >= SHEET_MAX_COLS || row >= SHEET_MAX_ROWS)
+	if (col >= gnm_sheet_get_max_cols (dao->sheet) || row >= gnm_sheet_get_max_rows (dao->sheet))
 		return;
 
 	pos.col = col;
@@ -598,7 +598,7 @@ dao_autofit_column (data_analysis_output_t *dao, int col)
 	actual_col = dao->start_col + col;
 
 	ideal_size = sheet_col_size_fit_pixels (dao->sheet, actual_col,
-						0, SHEET_MAX_ROWS - 1,
+						0, gnm_sheet_get_max_rows (dao->sheet) - 1,
 						FALSE);
 	if (ideal_size == 0)
 	        return;

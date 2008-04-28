@@ -782,7 +782,7 @@ solver_program_report (WorkbookControl *wbc,
 	        col = 0;
 		for (i = 0; i < vars; i++) {
 		        if (res->obj_coeff[i] != 0) {
-				if (1 + col*3 + 3 > SHEET_MAX_COLS)
+				if (1 + col*3 + 3 > gnm_sheet_get_max_cols (sheet))
 					goto unsuccessful;
 
 			        /* Print the sign. */

@@ -11,6 +11,7 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
+#include <libgnumeric.h>
 
 #include <cell.h>
 #include <sheet.h>
@@ -173,7 +174,7 @@ dif_parse_data (DifInputContext *ctxt)
 				gnm_io_warning (ctxt->io_context,
 						_("Syntax error at line %d. Ignoring."),
 						ctxt->line_no);
-			else if (col > SHEET_MAX_COLS) {
+			else if (col > gnm_sheet_get_max_cols (ctxt->sheet)) {
 				too_many_columns = TRUE;
 				break;
 			} else {
@@ -206,7 +207,7 @@ dif_parse_data (DifInputContext *ctxt)
 		} else if (val_type == 1) {
 			if (!dif_get_line (ctxt))
 				return FALSE;
-			if (col > SHEET_MAX_COLS) {
+			if (col > gnm_sheet_get_max_cols (ctxt->sheet)) {
 				too_many_columns = TRUE;
 				continue;
 			}
@@ -224,7 +225,7 @@ dif_parse_data (DifInputContext *ctxt)
 			if (strcmp (ctxt->line, "BOT") == 0) {
 				col = 0;
 				row++;
-				if (row > SHEET_MAX_ROWS) {
+				if (row > gnm_sheet_get_max_rows (ctxt->sheet)) {
 					too_many_rows = TRUE;
 					break;
 				}
@@ -249,11 +250,11 @@ dif_parse_data (DifInputContext *ctxt)
 
 	if (too_many_rows) {
 		g_warning (_("DIF file has more than the maximum number of rows %d. "
-		             "Ignoring remaining rows."), SHEET_MAX_ROWS);
+		             "Ignoring remaining rows."), gnm_sheet_get_max_rows (ctxt->sheet));
 	}
 	if (too_many_columns) {
 		g_warning (_("DIF file has more than the maximum number of columns %d. "
-		             "Ignoring remaining columns."), SHEET_MAX_COLS);
+		             "Ignoring remaining columns."), gnm_sheet_get_max_cols (ctxt->sheet));
 	}
 
 	return TRUE;

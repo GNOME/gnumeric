@@ -344,9 +344,9 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 			int rows = r->end.row - r->start.row + 1;
 			int cols = r->end.col - r->start.col + 1;
 
-			if (rows == SHEET_MAX_ROWS)
+			if (rows == gnm_sheet_get_max_rows (sv->sheet))
 				snprintf (buffer, sizeof (buffer), _("%dC"), cols);
-			else if (cols == SHEET_MAX_COLS)
+			else if (cols == gnm_sheet_get_max_cols (sv->sheet))
 				snprintf (buffer, sizeof (buffer), _("%dR"), rows);
 			else
 				snprintf (buffer, sizeof (buffer), _("%dR x %dC"),

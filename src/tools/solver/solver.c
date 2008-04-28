@@ -164,8 +164,8 @@ solver_param_read_sax (GsfXMLIn *xin, xmlChar const **attrs)
 			; /* Nothing */
 	}
 
-	if (col >= 0 && col < SHEET_MAX_COLS &&
-	    row >= 0 && row < SHEET_MAX_ROWS)
+	if (col >= 0 && col < gnm_sheet_get_max_cols (sheet) &&
+	    row >= 0 && row < gnm_sheet_get_max_rows (sheet))
 		sp->target_cell = sheet_cell_fetch (sheet, col, row);
 
 	if (!doc)

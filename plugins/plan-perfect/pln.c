@@ -489,8 +489,8 @@ pln_calc_font_width (guint16 cwidth, gboolean permit_default)
 static ErrorInfo *
 pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 {
-	int max_col = SHEET_MAX_COLS;
-	int max_row = SHEET_MAX_ROWS;
+	int max_col = gnm_sheet_get_max_cols (state->sheet);
+	int max_row = gnm_sheet_get_max_rows (state->sheet);
 	int i, rcode, rlength;
 	guint8 const *data;
 	GnmValue   *v;
@@ -498,7 +498,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 	GnmParsePos pp;
 	GnmRange r;
 
-	range_init (&r, 0,0,0, SHEET_MAX_ROWS);
+	range_init (&r, 0,0,0, gnm_sheet_get_max_rows (state->sheet));
 	parse_pos_init_sheet (&pp, state->sheet);
 
 	data = gsf_input_read (input, 16, NULL);

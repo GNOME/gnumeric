@@ -420,8 +420,8 @@ clipboard_paste_region (GnmCellRegion const *cr,
 		return TRUE;
 	}
 
-	if ((pt->range.start.col + dst_cols) > SHEET_MAX_COLS ||
-	    (pt->range.start.row + dst_rows) > SHEET_MAX_ROWS) {
+	if ((pt->range.start.col + dst_cols) > gnm_sheet_get_max_cols (pt->sheet) ||
+	    (pt->range.start.row + dst_rows) > gnm_sheet_get_max_rows (pt->sheet)) {
 		go_cmd_context_error_invalid (cc,
 					_("Unable to paste"),
 					_("result passes the sheet boundary"));
@@ -906,13 +906,13 @@ cellregion_to_string (GnmCellRegion const *cr,
 		next_row_check = i = 0;
 		while ((i += ((ColRowRLEState *)(row_state->data))->length) <= extent.start.row) {
 			if (NULL == (row_state = row_state->next)) {
-				next_row_check = SHEET_MAX_ROWS;
+				next_row_check = gnm_sheet_get_max_rows (cr->origin_sheet);
 				break;
 			}
 			next_row_check = i;
 		}
 	} else
-		next_row_check = SHEET_MAX_ROWS;
+		next_row_check = gnm_sheet_get_max_rows (cr->origin_sheet);
 
 	for (row = extent.start.row; row <= extent.end.row;) {
 		if (row >= next_row_check) {
@@ -931,13 +931,13 @@ cellregion_to_string (GnmCellRegion const *cr,
 			next_col_check = i = 0;
 			while ((i += ((ColRowRLEState *)(col_state->data))->length) <= extent.start.col) {
 				if (NULL == (col_state = col_state->next)) {
-					next_col_check = SHEET_MAX_COLS;
+					next_col_check = gnm_sheet_get_max_cols (cr->origin_sheet);
 					break;
 				}
 				next_col_check = i;
 			}
 		} else
-			next_col_check = SHEET_MAX_COLS;
+			next_col_check = gnm_sheet_get_max_cols (cr->origin_sheet);
 
 		for (col = extent.start.col; col <= extent.end.col;) {
 			if (col == next_col_check) {

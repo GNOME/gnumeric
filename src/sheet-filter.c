@@ -20,6 +20,7 @@
  * USA
  */
 #include <gnumeric-config.h>
+#include "libgnumeric.h"
 #include "sheet-filter.h"
 #include "sheet-filter-combo.h"
 
@@ -778,7 +779,7 @@ static gboolean
 sheet_cell_or_one_below_is_not_empty (Sheet *sheet, int col, int row)
 {
 	return !sheet_is_cell_empty (sheet, col, row) ||
-		(row < (SHEET_MAX_ROWS - 1) &&
+		(row < (gnm_sheet_get_max_rows (sheet) - 1) &&
 		 !sheet_is_cell_empty (sheet, col, row+1));
 }
 
@@ -805,7 +806,7 @@ gnm_sheet_filter_guess_region (Sheet *sheet, GnmRange *region)
 		region->start.col = col - 1;
 
 		/* look for next empty column */
-		for (col = start + 1; col < SHEET_MAX_COLS; col++)
+		for (col = start + 1; col < gnm_sheet_get_max_cols (sheet); col++)
 			if (!sheet_cell_or_one_below_is_not_empty (sheet, col, region->start.row))
 				break;
 		region->end.col = col - 1;

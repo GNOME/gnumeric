@@ -22,8 +22,10 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
+#include <libgnumeric.h>
 #include "dialog-stf.h"
 #include <gui-util.h>
+#include <sheet.h>
 #include <workbook.h>
 #include <gtk/gtkframe.h>
 #include <goffice/utils/go-glib-extras.h>
@@ -147,7 +149,7 @@ main_page_import_range_changed (StfDialogData *data)
 	}
 
 	stoplimit = MIN ((int)renderdata->lines->len,
-			 startrow + (SHEET_MAX_ROWS - 1));
+			 startrow + (gnm_sheet_get_max_rows (NULL) - 1));
 	if (stoprow > stoplimit) {
 		stoprow = stoplimit;
 		gtk_spin_button_set_value (data->main.main_stoprow, stoprow);

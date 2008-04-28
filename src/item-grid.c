@@ -813,9 +813,9 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	pos.row = gnm_pane_find_row (pane, y, NULL);
 
 	/* GnmRange check first */
-	if (pos.col >= SHEET_MAX_COLS)
+	if (pos.col >= gnm_sheet_get_max_cols (sheet))
 		return TRUE;
-	if (pos.row >= SHEET_MAX_ROWS)
+	if (pos.row >= gnm_sheet_get_max_rows (sheet))
 		return TRUE;
 
 	/* A new object is ready to be realized and inserted */

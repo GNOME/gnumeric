@@ -100,10 +100,10 @@ do_tabulation (WorkbookControl *wbc,
 
 			counts[i] = 1 + gnm_fake_floor ((data->maxima[i] - data->minima[i]) / data->steps[i]);
 			/* Silently truncate at the edges.  */
-			if (!data->with_coordinates && i == 0 && counts[i] > SHEET_MAX_COLS - 1) {
-				counts[i] = SHEET_MAX_COLS - 1;
-			} else if (!data->with_coordinates && i == 1 && counts[i] > SHEET_MAX_ROWS - 1) {
-				counts[i] = SHEET_MAX_ROWS - 1;
+			if (!data->with_coordinates && i == 0 && counts[i] > gnm_sheet_get_max_cols (sheet) - 1) {
+				counts[i] = gnm_sheet_get_max_cols (sheet) - 1;
+			} else if (!data->with_coordinates && i == 1 && counts[i] > gnm_sheet_get_max_rows (sheet) - 1) {
+				counts[i] = gnm_sheet_get_max_rows (sheet) - 1;
 			}
 		}
 	}
@@ -231,7 +231,7 @@ do_tabulation (WorkbookControl *wbc,
 
 		if (data->with_coordinates) {
 			row++;
-			if (row >= SHEET_MAX_ROWS)
+			if (row >= gnm_sheet_get_max_rows (sheet))
 				break;
 		}
 

@@ -283,7 +283,7 @@ ie_layout (FooCanvasItem *item)
 
 		while (col_size < width &&
 		       col <= pane->last_full.col &&
-		       col < SHEET_MAX_COLS-1) {
+		       col < gnm_sheet_get_max_cols (sheet)-1) {
 			ci = sheet_col_get_info (sheet, ++col);
 
 			g_return_if_fail (ci != NULL);

@@ -1878,8 +1878,8 @@ cmd_selection_format (WorkbookControl *wbc,
 		if (borders != NULL) {
 			if (range.start.col > 0) range.start.col--;
 			if (range.start.row > 0) range.start.row--;
-			if (range.end.col < SHEET_MAX_COLS-1) range.end.col++;
-			if (range.end.row < SHEET_MAX_ROWS-1) range.end.row++;
+			if (range.end.col < gnm_sheet_get_max_cols (me->cmd.sheet)-1) range.end.col++;
+			if (range.end.row < gnm_sheet_get_max_rows (me->cmd.sheet)-1) range.end.row++;
 		}
 
 		os = g_new (CmdFormatOldStyle, 1);
@@ -2188,10 +2188,10 @@ cmd_colrow_hide_correct_selection (CmdColRowHide *me, WorkbookControl *wbc)
 		sv_selection_reset (sv);
 		if (me->is_cols)
 			sv_selection_add_full (sv, y, x, y, 0,
-					       y, SHEET_MAX_ROWS - 1);
+					       y, gnm_sheet_get_max_rows (sheet) - 1);
 		else
 			sv_selection_add_full (sv, y, x, 0, x,
-					       SHEET_MAX_COLS - 1, x);
+					       gnm_sheet_get_max_cols (sheet) - 1, x);
 	}
 #endif
 }
@@ -2998,9 +2998,9 @@ cmd_paste_copy (WorkbookControl *wbc,
 			/* Before looking for tiling if we are not transposing,
 			 * allow pasting a full col or row from a single cell */
 			n = range_width (r);
-			if (n == 1 && cr->cols == SHEET_MAX_COLS) {
+			if (n == 1 && cr->cols == gnm_sheet_get_max_cols (me->cmd.sheet)) {
 				r->start.col = 0;
-				r->end.col = SHEET_MAX_COLS-1;
+				r->end.col = gnm_sheet_get_max_cols (me->cmd.sheet)-1;
 			} else {
 				n /= cr->cols;
 				if (n < 1) n = 1;
@@ -3008,9 +3008,9 @@ cmd_paste_copy (WorkbookControl *wbc,
 			}
 
 			n = range_height (r);
-			if (n == 1 && cr->rows == SHEET_MAX_ROWS) {
+			if (n == 1 && cr->rows == gnm_sheet_get_max_rows (me->cmd.sheet)) {
 				r->start.row = 0;
-				r->end.row = SHEET_MAX_ROWS-1;
+				r->end.row = gnm_sheet_get_max_rows (me->cmd.sheet)-1;
 			} else {
 				n /= cr->rows;
 				if (n < 1) n = 1;
@@ -3388,8 +3388,8 @@ cmd_copyrel (WorkbookControl *wbc,
 			src.start.col = src.end.col = (target.start.col + dx);
 	}
 
-	if (src.start.col < 0 || src.start.col >= SHEET_MAX_COLS ||
-	    src.start.row < 0 || src.start.row >= SHEET_MAX_ROWS)
+	if (src.start.col < 0 || src.start.col >= gnm_sheet_get_max_cols (sheet) ||
+	    src.start.row < 0 || src.start.row >= gnm_sheet_get_max_rows (sheet))
 		return FALSE;
 
 	/* Check arrays or merged regions in src or target regions */
@@ -3552,8 +3552,8 @@ cmd_selection_autoformat (WorkbookControl *wbc, GnmFormatTemplate *ft)
 		/* Store the containing range to handle borders */
 		if (range.start.col > 0) range.start.col--;
 		if (range.start.row > 0) range.start.row--;
-		if (range.end.col < SHEET_MAX_COLS-1) range.end.col++;
-		if (range.end.row < SHEET_MAX_ROWS-1) range.end.row++;
+		if (range.end.col < gnm_sheet_get_max_cols (sv->sheet)-1) range.end.col++;
+		if (range.end.row < gnm_sheet_get_max_rows (sv->sheet)-1) range.end.row++;
 
 		os = g_new (CmdFormatOldStyle, 1);
 

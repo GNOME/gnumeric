@@ -1957,7 +1957,7 @@ wbcg_create_edit_area (WBCGtk *wbcg)
 	len = go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg))),
 		GTK_WIDGET (entry)->style->font_desc,
-		cell_coord_name (SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1));
+		cell_coord_name (gnm_sheet_get_max_cols (NULL) - 1, gnm_sheet_get_max_rows (NULL) - 1));
 	/*
 	 * Add a little extra since font might be proportional and since
 	 * we also put user defined names there.

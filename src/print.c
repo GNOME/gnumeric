@@ -783,8 +783,8 @@ compute_scale_fit_to (Sheet const *sheet,
 	return min_p;
 }
 
-#define COL_FIT(col) (col >= SHEET_MAX_COLS ? (SHEET_MAX_COLS-1) : col)
-#define ROW_FIT(row) (row >= SHEET_MAX_ROWS ? (SHEET_MAX_ROWS-1) : row)
+#define COL_FIT(col) (col >= gnm_sheet_get_max_cols (sheet) ? (gnm_sheet_get_max_cols (sheet)-1) : col)
+#define ROW_FIT(row) (row >= gnm_sheet_get_max_rows (sheet) ? (gnm_sheet_get_max_rows (sheet)-1) : row)
 
 static void
 compute_sheet_pages_add_sheet (PrintingInstance * pi, Sheet const *sheet, gboolean selection,

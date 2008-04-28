@@ -123,9 +123,10 @@ static GNM_ACTION_DEF (cb_file_print_area_clear)
 {
 	GnmParsePos pp;
 	GnmRange r;
+	Sheet *sheet = wbcg_cur_sheet (wbcg);
 
 	range_init_full_sheet (&r);
-	parse_pos_init_sheet (&pp, wbcg_cur_sheet (wbcg));
+	parse_pos_init_sheet (&pp, sheet);
 	cmd_define_name	(WORKBOOK_CONTROL (wbcg), "Print_Area", &pp,
 			 gnm_expr_top_new_constant
 			 (value_new_cellrange_r (NULL, &r)),

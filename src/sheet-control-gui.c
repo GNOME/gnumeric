@@ -514,7 +514,7 @@ scg_select_all (SheetControlGUI *scg)
 
 	if (rangesel) {
 		scg_rangesel_bound (scg,
-			0, 0, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1);
+			0, 0, gnm_sheet_get_max_cols (sheet) - 1, gnm_sheet_get_max_rows (sheet) - 1);
 		gnm_expr_entry_signal_update (
 			wbcg_get_entry_logical (scg->wbcg), TRUE);
 	} else if (wbc_gtk_get_guru (scg->wbcg) == NULL) {
@@ -524,7 +524,7 @@ scg_select_all (SheetControlGUI *scg)
 		wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
 		sv_selection_reset (sv);
 		sv_selection_add_full (sv, sv->edit_pos.col, sv->edit_pos.row,
-			0, 0, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1);
+			0, 0, gnm_sheet_get_max_cols (sheet) - 1, gnm_sheet_get_max_rows (sheet) - 1);
 	}
 	sheet_update (sheet);
 }
@@ -559,24 +559,24 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 		if (rangesel) {
 			if (is_cols)
 				scg_rangesel_bound (scg,
-					index, 0, index, SHEET_MAX_ROWS - 1);
+					index, 0, index, gnm_sheet_get_max_rows (sv->sheet) - 1);
 			else
 				scg_rangesel_bound (scg,
-					0, index, SHEET_MAX_COLS - 1, index);
+					0, index, gnm_sheet_get_max_cols (sv->sheet) - 1, index);
 		} else if (is_cols) {
 			GnmPane *pane =
 				scg_pane (scg, scg->pane[3] ? 3 : 0);
 			sv_selection_add_full (sv,
 				index, pane->first.row,
 				index, 0,
-				index, SHEET_MAX_ROWS - 1);
+				index, gnm_sheet_get_max_rows (sv->sheet) - 1);
 		} else {
 			GnmPane *pane =
 				scg_pane (scg, scg->pane[1] ? 1 : 0);
 			sv_selection_add_full (sv,
 				pane->first.col, index,
 				0, index,
-				SHEET_MAX_COLS - 1, index);
+				gnm_sheet_get_max_cols (sv->sheet) - 1, index);
 		}
 	}
 
@@ -626,24 +626,24 @@ cb_hscrollbar_value_changed (GtkRange *range, SheetControlGUI *scg)
 }
 
 static void
-cb_hscrollbar_adjust_bounds (GtkRange *range, gdouble new_value)
+cb_hscrollbar_adjust_bounds (GtkRange *range, gdouble new_value, Sheet *sheet)
 {
 	gdouble limit = range->adjustment->upper - range->adjustment->page_size;
-	if (range->adjustment->upper < SHEET_MAX_COLS && new_value >= limit) {
+	if (range->adjustment->upper < gnm_sheet_get_max_cols (sheet) && new_value >= limit) {
 		range->adjustment->upper = new_value + range->adjustment->page_size + 1;
-		if (range->adjustment->upper > SHEET_MAX_COLS)
-			range->adjustment->upper = SHEET_MAX_COLS;
+		if (range->adjustment->upper > gnm_sheet_get_max_cols (sheet))
+			range->adjustment->upper = gnm_sheet_get_max_cols (sheet);
 		gtk_adjustment_changed (range->adjustment);
 	}
 }
 static void
-cb_vscrollbar_adjust_bounds (GtkRange *range, gdouble new_value)
+cb_vscrollbar_adjust_bounds (GtkRange *range, gdouble new_value, Sheet *sheet)
 {
 	gdouble limit = range->adjustment->upper - range->adjustment->page_size;
-	if (range->adjustment->upper < SHEET_MAX_ROWS && new_value >= limit) {
+	if (range->adjustment->upper < gnm_sheet_get_max_rows (sheet) && new_value >= limit) {
 		range->adjustment->upper = new_value + range->adjustment->page_size + 1;
-		if (range->adjustment->upper > SHEET_MAX_ROWS)
-			range->adjustment->upper = SHEET_MAX_ROWS;
+		if (range->adjustment->upper > gnm_sheet_get_max_rows (sheet))
+			range->adjustment->upper = gnm_sheet_get_max_rows (sheet);
 		gtk_adjustment_changed (range->adjustment);
 	}
 }
@@ -725,8 +725,9 @@ bar_set_left_col (GnmPane *pane, int new_first_col)
 {
 	FooCanvas *colc;
 	int col_offset;
+	Sheet *sheet = ((SheetControl*) pane->simple.scg)->sheet;
 
-	g_return_val_if_fail (0 <= new_first_col && new_first_col < SHEET_MAX_COLS, 0);
+	g_return_val_if_fail (0 <= new_first_col && new_first_col < gnm_sheet_get_max_cols (sheet), 0);
 
 	col_offset = pane->first_offset.col +=
 		scg_colrow_distance_get (pane->simple.scg, TRUE, pane->first.col, new_first_col);
@@ -744,8 +745,10 @@ bar_set_left_col (GnmPane *pane, int new_first_col)
 static void
 gnm_pane_set_left_col (GnmPane *pane, int new_first_col)
 {
+	Sheet *sheet;
 	g_return_if_fail (pane != NULL);
-	g_return_if_fail (0 <= new_first_col && new_first_col < SHEET_MAX_COLS);
+	sheet = ((SheetControl*) pane->simple.scg)->sheet;
+	g_return_if_fail (0 <= new_first_col && new_first_col < gnm_sheet_get_max_cols (sheet));
 
 	if (pane->first.col != new_first_col) {
 		FooCanvas * const canvas = FOO_CANVAS (pane);
@@ -769,6 +772,8 @@ scg_set_left_col (SheetControlGUI *scg, int col)
 	bound = &sheet->priv->unhidden_region;
 	if (col < bound->start.col)
 		col = bound->start.col;
+	else if (col >= gnm_sheet_get_max_cols (sheet))
+		col = gnm_sheet_get_max_cols (sheet) - 1;
 	else if (col > bound->end.col)
 		col = bound->end.col;
 
@@ -787,8 +792,9 @@ bar_set_top_row (GnmPane *pane, int new_first_row)
 {
 	FooCanvas *rowc;
 	int row_offset;
+	Sheet *sheet = ((SheetControl*) pane->simple.scg)->sheet;
 
-	g_return_val_if_fail (0 <= new_first_row && new_first_row < SHEET_MAX_ROWS, 0);
+	g_return_val_if_fail (0 <= new_first_row && new_first_row < gnm_sheet_get_max_rows (sheet), 0);
 
 	row_offset = pane->first_offset.row +=
 		scg_colrow_distance_get (pane->simple.scg, FALSE, pane->first.row, new_first_row);
@@ -804,8 +810,10 @@ bar_set_top_row (GnmPane *pane, int new_first_row)
 static void
 gnm_pane_set_top_row (GnmPane *pane, int new_first_row)
 {
+	Sheet *sheet;
 	g_return_if_fail (pane != NULL);
-	g_return_if_fail (0 <= new_first_row && new_first_row < SHEET_MAX_ROWS);
+	sheet = ((SheetControl*) pane->simple.scg)->sheet;
+	g_return_if_fail (0 <= new_first_row && new_first_row < gnm_sheet_get_max_rows (sheet));
 
 	if (pane->first.row != new_first_row) {
 		FooCanvas * const canvas = FOO_CANVAS(pane);
@@ -831,6 +839,8 @@ scg_set_top_row (SheetControlGUI *scg, int row)
 	bound = &sheet->priv->unhidden_region;
 	if (row < bound->start.row)
 		row = bound->start.row;
+	else if (row >= gnm_sheet_get_max_rows (sheet))
+		row = gnm_sheet_get_max_rows (sheet) - 1;
 	else if (row > bound->end.row)
 		row = bound->end.row;
 
@@ -911,12 +921,12 @@ gnm_pane_make_cell_visible (GnmPane *pane, int col, int row,
 	if (!GTK_WIDGET_REALIZED (pane))
 		return;
 
+	sheet = ((SheetControl *) pane->simple.scg)->sheet;
 	g_return_if_fail (col >= 0);
 	g_return_if_fail (row >= 0);
-	g_return_if_fail (col < SHEET_MAX_COLS);
-	g_return_if_fail (row < SHEET_MAX_ROWS);
+	g_return_if_fail (col < gnm_sheet_get_max_cols (sheet));
+	g_return_if_fail (row < gnm_sheet_get_max_rows (sheet));
 
-	sheet = ((SheetControl *) pane->simple.scg)->sheet;
 	canvas = FOO_CANVAS (pane);
 
 	/* Find the new pane->first.col */
@@ -1073,7 +1083,7 @@ scg_set_panes (SheetControl *sc)
 
 		gnm_pane_bound_set (scg->pane[0],
 			br->col, br->row,
-			SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1);
+			gnm_sheet_get_max_cols (sc->sheet) - 1, gnm_sheet_get_max_rows (sc->sheet) - 1);
 
 		if (freeze_h) {
 			scg->active_panes = 2;
@@ -1093,7 +1103,7 @@ scg_set_panes (SheetControl *sc)
 					0, 0);
 			}
 			gnm_pane_bound_set (scg->pane[1],
-				tl->col, br->row, br->col - 1, SHEET_MAX_ROWS - 1);
+				tl->col, br->row, br->col - 1, gnm_sheet_get_max_rows (sc->sheet) - 1);
 		}
 		if (freeze_h && freeze_v) {
 			scg->active_panes = 4;
@@ -1127,7 +1137,7 @@ scg_set_panes (SheetControl *sc)
 					0, 0);
 			}
 			gnm_pane_bound_set (scg->pane[3],
-				br->col, tl->row, SHEET_MAX_COLS - 1, br->row - 1);
+				br->col, tl->row, gnm_sheet_get_max_cols (sc->sheet) - 1, br->row - 1);
 		}
 	} else {
 		int i;
@@ -1139,7 +1149,7 @@ scg_set_panes (SheetControl *sc)
 
 		scg->active_panes = 1;
 		gnm_pane_bound_set (scg->pane[0],
-			0, 0, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1);
+			0, 0, gnm_sheet_get_max_cols (sc->sheet) - 1, gnm_sheet_get_max_rows (sc->sheet) - 1);
 	}
 
 	gtk_widget_show_all (GTK_WIDGET (scg->inner_table));
@@ -1438,7 +1448,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		G_CALLBACK (cb_vscrollbar_value_changed), scg);
 	g_signal_connect (G_OBJECT (scg->vs),
 		"adjust_bounds",
-		G_CALLBACK (cb_vscrollbar_adjust_bounds), NULL);
+		G_CALLBACK (cb_vscrollbar_adjust_bounds), sheet);
 
 	scg->ha = (GtkAdjustment *)gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
 	scg->hs = g_object_new (GTK_TYPE_HSCROLLBAR,
@@ -1450,7 +1460,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		G_CALLBACK (cb_hscrollbar_value_changed), scg);
 	g_signal_connect (G_OBJECT (scg->hs),
 		"adjust_bounds",
-		G_CALLBACK (cb_hscrollbar_adjust_bounds), NULL);
+		G_CALLBACK (cb_hscrollbar_adjust_bounds), sheet);
 
 	scg->table = GTK_TABLE (gtk_table_new (4, 4, FALSE));
 	gtk_table_attach (scg->table, GTK_WIDGET (scg->inner_table),
@@ -1875,10 +1885,10 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 	for (l = scg_view (scg)->selections; l != NULL; l = l->next) {
 		GnmRange const *r = l->data;
 
-		if (r->start.row == 0 && r->end.row == SHEET_MAX_ROWS - 1)
+		if (r->start.row == 0 && r->end.row == gnm_sheet_get_max_rows (sheet) - 1)
 			sensitivity_filter |= CONTEXT_DISABLE_FOR_ROWS;
 
-		if (r->start.col == 0 && r->end.col == SHEET_MAX_COLS - 1)
+		if (r->start.col == 0 && r->end.col == gnm_sheet_get_max_cols (sheet) - 1)
 			sensitivity_filter |= CONTEXT_DISABLE_FOR_COLS;
 
 		if (!has_link && sheet_style_region_contains_link (sheet, r))
@@ -2599,10 +2609,10 @@ scg_colrow_distance_get (SheetControlGUI const *scg, gboolean is_cols,
 	g_return_val_if_fail (from >= 0, 1);
 
 	if (is_cols) {
-		g_return_val_if_fail (to <= SHEET_MAX_COLS, 1);
+		g_return_val_if_fail (to <= gnm_sheet_get_max_cols (sc->sheet), 1);
 		collection = &sc->sheet->cols;
 	} else {
-		g_return_val_if_fail (to <= SHEET_MAX_ROWS, 1);
+		g_return_val_if_fail (to <= gnm_sheet_get_max_rows (sc->sheet), 1);
 		collection = &sc->sheet->rows;
 	}
 
@@ -2809,12 +2819,12 @@ scg_rangesel_extend_to (SheetControlGUI *scg, int col, int row)
 
 	if (col < 0) {
 		base_col = 0;
-		col = SHEET_MAX_COLS - 1;
+		col = gnm_sheet_get_max_cols (((SheetControl*) scg)->sheet) - 1;
 	} else
 		base_col = scg->rangesel.base_corner.col;
 	if (row < 0) {
 		base_row = 0;
-		row = SHEET_MAX_ROWS - 1;
+		row = gnm_sheet_get_max_rows (((SheetControl*) scg)->sheet) - 1;
 	} else
 		base_row = scg->rangesel.base_corner.row;
 

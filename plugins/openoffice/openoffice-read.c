@@ -593,15 +593,15 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	/* default cell styles are applied only to cells that are specified
 	 * which is a performance nightmare.  Instead we apply the styles to
 	 * the entire column or row and clear the area beyond the extent here. */
-	if (state->extent_style.col < SHEET_MAX_COLS) {
+	if (state->extent_style.col < gnm_sheet_get_max_cols (NULL)) {
 		range_init (&r, state->extent_style.col, 0,
-			SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+			gnm_sheet_get_max_cols (NULL)-1, gnm_sheet_get_max_rows (NULL)-1);
 		sheet_style_set_range (state->pos.sheet, &r,
 			sheet_style_default (state->pos.sheet));
 	}
-	if (state->extent_style.row < SHEET_MAX_ROWS) {
+	if (state->extent_style.row < gnm_sheet_get_max_rows (NULL)) {
 		range_init (&r, 0, state->extent_style.row,
-			SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+			gnm_sheet_get_max_cols (NULL)-1, gnm_sheet_get_max_rows (NULL)-1);
 		sheet_style_set_range (state->pos.sheet, &r,
 			sheet_style_default (state->pos.sheet));
 	}
@@ -669,7 +669,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 		r.start.col = state->pos.eval.col;
 		r.end.col   = state->pos.eval.col + repeat_count - 1;
 		r.start.row = 0;
-		r.end.row  = SHEET_MAX_ROWS - 1;
+		r.end.row  = gnm_sheet_get_max_rows (NULL) - 1;
 		gnm_style_ref (style);
 		sheet_style_set_range (state->pos.sheet, &r, style);
 	}
@@ -700,8 +700,8 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->pos.eval.col = 0;
 
-	if (state->pos.eval.row >= SHEET_MAX_ROWS) {
-		oo_warning (xin, _("Content past the maxium number of rows supported in this build (%u).  Please recompile with larger limits."), SHEET_MAX_ROWS);
+	if (state->pos.eval.row >= gnm_sheet_get_max_rows (NULL)) {
+		oo_warning (xin, _("Content past the maxium number of rows supported in this build (%u).  Please recompile with larger limits."), gnm_sheet_get_max_rows (NULL));
 		state->row_inc = 0;
 		return;
 	}
@@ -724,7 +724,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 		r.start.row = state->pos.eval.row;
 		r.end.row   = state->pos.eval.row + repeat_count - 1;
 		r.start.col = 0;
-		r.end.col  = SHEET_MAX_COLS - 1;
+		r.end.col  = gnm_sheet_get_max_cols (NULL) - 1;
 		gnm_style_ref (style);
 		sheet_style_set_range (state->pos.sheet, &r, style);
 	}

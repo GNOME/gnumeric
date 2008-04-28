@@ -211,7 +211,7 @@ stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
 				   nameutf8, data, data_len);
 	if (dialogresult != NULL && stf_store_results (dialogresult, sheet, 0, 0)) {
 		workbook_recalc_all (book);
-		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
+		sheet_queue_respan (sheet, 0, gnm_sheet_get_max_rows (sheet)-1);
 	} else {
 		/* the user has cancelled */
                 /* the caller should notice that we have no sheets */
@@ -374,7 +374,7 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 
 	if (stf_parse_sheet (po, utf8data, NULL, sheet, 0, 0)) {
 		workbook_recalc_all (book);
-		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
+		sheet_queue_respan (sheet, 0, gnm_sheet_get_max_rows (sheet)-1);
 		if (po->cols_exceeded) {
 /* Using go_cmd_context_error_import will destroy the successfully imported portion */
 /*			go_cmd_context_error_import (GO_CMD_CONTEXT (context), */

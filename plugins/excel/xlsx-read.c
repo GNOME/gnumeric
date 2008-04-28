@@ -2379,7 +2379,7 @@ xlsx_CT_Row (GsfXMLIn *xin, xmlChar const **attrs)
 			GnmRange r;
 			r.start.row = r.end.row = row;
 			r.start.col = 0;
-			r.end.col  = SHEET_MAX_COLS - 1;
+			r.end.col  = gnm_sheet_get_max_cols (state->sheet) - 1;
 			gnm_style_ref (style);
 			sheet_style_set_range (state->sheet, &r, style);
 		}
@@ -2426,8 +2426,8 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 
-	if (last >= SHEET_MAX_COLS)
-		last = SHEET_MAX_COLS - 1;
+	if (last >= gnm_sheet_get_max_cols (state->sheet))
+		last = gnm_sheet_get_max_cols (state->sheet) - 1;
 	for (i = first; i <= last; i++) {
 		if (width > 4)
 			sheet_col_set_size_pts (state->sheet, i, width,
@@ -2441,7 +2441,7 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 		r.start.col = first;
 		r.end.col   = last;
 		r.start.row = 0;
-		r.end.row  = SHEET_MAX_ROWS - 1;
+		r.end.row  = gnm_sheet_get_max_rows (state->sheet) - 1;
 		gnm_style_ref (style);
 		sheet_style_set_range (state->sheet, &r, style);
 	}
