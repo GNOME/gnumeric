@@ -1409,7 +1409,7 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 
 	/* Range that will get deleted. */
 	first = me->is_insert
-		? colrow_max (is_cols) - count
+		? colrow_max (is_cols, sheet) - count
 		: index;
 	last = first + count - 1;
 	(is_cols ? range_init_cols : range_init_rows) (&r, first, last);
@@ -2299,7 +2299,7 @@ cmd_selection_outline_change (WorkbookControl *wbc,
 						last, d+1, FALSE);
 				}
 			}
-		} else if (index+1 < colrow_max (is_cols)) {
+		} else if (index+1 < colrow_max (is_cols, sheet)) {
 			ColRowInfo const *next =
 				sheet_colrow_get (sheet, index+1, is_cols);
 

@@ -676,7 +676,7 @@ latex2e_find_vline (int col, int row, Sheet *sheet, GnmStyleElement which_border
 		return ((gnm_style_border_is_blank (border)) ? GNM_STYLE_BORDER_NONE :
 			border->line_type);
 	} else {
-		if ((col+1) >= colrow_max (TRUE))
+		if ((col+1) >= colrow_max (TRUE, sheet))
 		    return GNM_STYLE_BORDER_NONE;
 		style = sheet_style_get (sheet, col + 1, row);
 		border = gnm_style_get_border (style, MSTYLE_BORDER_LEFT);

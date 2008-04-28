@@ -1296,7 +1296,7 @@ sheet_colrow_fit_gutter (Sheet const *sheet, gboolean is_cols)
 {
 	int outline_level = 0;
 	colrow_foreach (is_cols ? &sheet->cols : &sheet->rows,
-		0, colrow_max (is_cols) - 1,
+			0, colrow_max (is_cols, sheet) - 1,
 		(ColRowHandler)cb_outline_level, &outline_level);
 	return outline_level;
 }
@@ -3839,14 +3839,14 @@ sheet_colrow_set_collapse (Sheet *sheet, gboolean is_cols, int pos)
 	ColRowInfo *cri;
 	ColRowInfo const *vs = NULL;
 
-	if (pos < 0 || pos >= colrow_max (is_cols))
+	if (pos < 0 || pos >= colrow_max (is_cols, sheet))
 		return;
 
 	/* grab the next or previous col/row */
 	if ((is_cols ? sheet->outline_symbols_right : sheet->outline_symbols_below)) {
 		if (pos > 0)
 			vs = sheet_colrow_get (sheet, pos-1, is_cols);
-	} else if ((pos+1) < colrow_max (is_cols))
+	} else if ((pos+1) < colrow_max (is_cols, sheet))
 		vs = sheet_colrow_get (sheet, pos+1, is_cols);
 
 	/* handle the case where an empty col/row should be marked collapsed */
@@ -3870,7 +3870,7 @@ sheet_colrow_insert_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 	sheet_colrow_insdel_finish (rinfo, is_cols, pos, pundo);
 	sheet_colrow_set_collapse (sheet, is_cols, pos);
 	sheet_colrow_set_collapse (sheet, is_cols, pos + count);
-	sheet_colrow_set_collapse (sheet, is_cols, colrow_max (is_cols));
+	sheet_colrow_set_collapse (sheet, is_cols, colrow_max (is_cols, sheet));
 	gnm_sheet_filter_insdel_colrow (sheet, is_cols, TRUE, pos, count);
 
 	/* WARNING WARNING WARNING
@@ -3889,7 +3889,7 @@ sheet_colrow_delete_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 			    int pos, int count, GOUndo **pundo)
 {
 	Sheet *sheet = rinfo->origin_sheet;
-	int end = colrow_max (is_cols) - count;
+	int end = colrow_max (is_cols, sheet) - count;
 
 	sheet_style_relocate (rinfo);
 	sheet_colrow_insdel_finish (rinfo, is_cols, pos, pundo);
@@ -5058,7 +5058,7 @@ sheet_set_outline_direction (Sheet *sheet, gboolean is_cols)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	/* not particularly efficient, but this is not a hot spot */
-	for (i = colrow_max (is_cols); i-- > 0 ; )
+	for (i = colrow_max (is_cols, sheet); i-- > 0 ; )
 		sheet_colrow_set_collapse (sheet, is_cols, i);
 }
 

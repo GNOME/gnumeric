@@ -2144,7 +2144,7 @@ snap_pos_to_grid (ObjDragInfo const *info, gboolean is_col, double w_pos,
 	gboolean snap = FALSE;
 	int length = 0;
 	ColRowInfo const *cr_info;
-	int sheet_max = colrow_max (is_col);
+	int sheet_max = colrow_max (is_col, sheet);
 	int const sign = (is_col && sheet->text_is_rtl) ? -1 : 1;
 	int pos = sign * (w_pos * FOO_CANVAS (pane)->pixels_per_unit + .5);
 

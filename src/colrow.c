@@ -430,7 +430,7 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 		 * defined calculation speed grinds to a halt.
 		 */
 		if (new_size > 0 && index->first == 0 &&
-		    (index->last+1) >= colrow_max (is_cols)) {
+		    (index->last+1) >= colrow_max (is_cols, sheet)) {
 			struct resize_closure closure;
 			ColRowRLEState *rles = g_new0 (ColRowRLEState, 1);
 
@@ -940,7 +940,7 @@ colrow_find_outline_bound (Sheet const *sheet, gboolean is_cols,
 {
 	ColRowInfo * (*get) (Sheet const *sheet, int pos) = is_cols
 		? &sheet_col_get : &sheet_row_get;
-	int const max = colrow_max (is_cols);
+	int const max = colrow_max (is_cols, sheet);
 	int const step = inc ? 1 : -1;
 
 	while (1) {
@@ -972,7 +972,7 @@ int
 colrow_find_adjacent_visible (Sheet *sheet, gboolean is_cols,
 			      int index, gboolean forward)
 {
-	int const max = colrow_max (is_cols);
+	int const max = colrow_max (is_cols, sheet);
 	int i         = index; /* To avoid trouble at edges */
 
 	do {
@@ -1083,7 +1083,7 @@ colrow_set_visibility (Sheet *sheet, gboolean is_cols,
 		}
 	}
 
-	if (changed && 0 <= i && i < colrow_max (is_cols)) {
+	if (changed && 0 <= i && i < colrow_max (is_cols, sheet)) {
 		ColRowInfo * const cri = sheet_colrow_fetch (sheet, i, is_cols);
 		if (prev_outline > cri->outline_level)
 			cri->is_collapsed = !visible;
@@ -1175,7 +1175,7 @@ colrow_reset_defaults (Sheet *sheet, gboolean is_cols,
 	ColRowInfo const *default_cri = &infos->default_style;
 	ColRowSegment *segment;
 	ColRowInfo *cri;
-	int const end = colrow_max (is_cols);
+	int const end = colrow_max (is_cols, sheet);
 	int inner, inner_start, inner_last, i;
 
 	i = COLROW_SEGMENT_START(maxima);
