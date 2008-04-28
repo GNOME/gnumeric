@@ -1165,7 +1165,8 @@ gnm_page_breaks_new (int len, gboolean is_vert)
 {
 	GnmPageBreaks *res = g_new (GnmPageBreaks, 1);
 
-	if (len < 0 || len > colrow_max (is_vert))
+#warning "We cannot use NULL here."
+	if (len < 0 || len > colrow_max (is_vert, NULL))
 		len = 0;
 	res->is_vert = is_vert;
 	res->details = g_array_sized_new (FALSE, FALSE,

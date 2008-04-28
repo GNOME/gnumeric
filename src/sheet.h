@@ -116,6 +116,11 @@ Sheet    *sheet_new_with_type	 (Workbook *wb, char const *name,
 Sheet    *sheet_dup		 (Sheet const *source_sheet);
 void      sheet_destroy_contents (Sheet *sheet);
 
+#define gnm_sheet_get_max_cols(sheet) SHEET_MAX_COLS
+#define gnm_sheet_get_max_rows(sheet) SHEET_MAX_ROWS
+#define gnm_sheet_get_last_col(sheet) (gnm_sheet_get_max_cols(sheet) - 1)
+#define gnm_sheet_get_last_row(sheet) (gnm_sheet_get_max_rows(sheet) - 1)
+
 /* GnmCell management */
 GnmCell  *sheet_cell_get	 (Sheet const *sheet, int col, int row);
 GnmCell  *sheet_cell_fetch	 (Sheet *sheet, int col, int row);
