@@ -67,6 +67,7 @@
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/utils/go-file.h>
+#include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-glib-extras.h>
 
 #include "widgets/widget-editable-label.h"
@@ -1377,28 +1378,33 @@ cb_calc_decs (GnmCellIter const *iter, gpointer user)
 {
 	int *pdecs = user;
 	int decs = 0;
-	GnmCell const *cell = iter->cell;
-	gnm_float f;
-	gnm_float eps = 1e-6;
+	GnmCell *cell = iter->cell;
+	char *text;
+	const char *p;
+	GString const *dec = go_locale_get_decimal ();
 
 	if (!cell || !cell->value || !VALUE_IS_NUMBER (cell->value))
 		return NULL;
 
-	f = gnm_abs (value_get_as_float (cell->value));
-	if (*pdecs > 0) {
-		decs = *pdecs;
-		f *= gnm_pow10 (decs);
+	/*
+	 * If we are displaying an equation, we don't want to look into
+	 * the rendered text.
+	 */
+	if (gnm_cell_has_expr (cell) && cell->base.sheet->display_formulas)
+		return NULL;
+
+	text = gnm_cell_get_rendered_text (cell);
+	p = strstr (text, dec->str);
+	if (p) {
+		p += dec->len;
+
+		while (g_ascii_isdigit (*p))
+			decs++, p++;
 	}
 
-	while (decs < 8) {
-		f -= gnm_floor (f);
-		if (f < eps || f > 1 - eps)
-			break;
-		f *= 10;
-		decs++;
-	}
+	*pdecs = MAX (*pdecs, decs);
 
-	*pdecs = decs;
+	g_free (text);
 
 	return NULL;
 }
