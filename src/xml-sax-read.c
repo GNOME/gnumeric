@@ -460,6 +460,22 @@ xml_sax_version (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xml_sax_wb_sheetsize (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	int tmpi;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (gnm_xml_attr_int (attrs, "gnm:Cols", &tmpi))
+			state->array_cols = tmpi;
+		else if (gnm_xml_attr_int (attrs, "gnm:Rows", &tmpi))
+			state->array_rows = tmpi;
+		else
+			unknown_attr (xin, attrs);
+	}
+}
+
+static void
 xml_sax_wb_sheetname (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
@@ -647,7 +663,6 @@ xml_sax_sheet_name (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	 */
 	if (state->version >= GNM_XML_V7) {
 		sheet = workbook_sheet_by_name (state->wb, content);
-
 		if (!sheet) {
 			gnumeric_io_error_string (state->context,
 				_("File has inconsistent SheetNameIndex element."));
@@ -2318,7 +2333,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALS
 	GSF_XML_IN_NODE (WB_SUMMARY_ITEM, WB_SUMMARY_ITEM_VALUE_INT, GNM, "val-int", GSF_XML_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE (WB, WB_SHEETNAME_INDEX, GNM, "SheetNameIndex", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (WB_SHEETNAME_INDEX, WB_SHEETNAME, GNM, "SheetName", GSF_XML_CONTENT, NULL, &xml_sax_wb_sheetname),
+    GSF_XML_IN_NODE (WB_SHEETNAME_INDEX, WB_SHEETNAME, GNM, "SheetName", GSF_XML_CONTENT, &xml_sax_wb_sheetsize, &xml_sax_wb_sheetname),
 
   GSF_XML_IN_NODE (WB, WB_NAMED_EXPRS, GNM, "Names", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (WB_NAMED_EXPRS, WB_NAMED_EXPR, GNM, "Name", GSF_XML_NO_CONTENT, NULL, &xml_sax_named_expr_end),

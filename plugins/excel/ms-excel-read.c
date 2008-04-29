@@ -280,15 +280,17 @@ static GnmCell *
 excel_cell_fetch (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	unsigned col, row;
+	Sheet *sheet = esheet->sheet;
 
 	XL_CHECK_CONDITION_VAL (q->length >= 4, NULL);
 
 	col = XL_GETCOL (q);
 	row = XL_GETROW (q);
 
-	XL_CHECK_CONDITION_VAL (col < SHEET_MAX_COLS && row < SHEET_MAX_ROWS, NULL);
+	XL_CHECK_CONDITION_VAL (col < gnm_sheet_get_max_cols (sheet), NULL);
+	XL_CHECK_CONDITION_VAL (row < gnm_sheet_get_max_rows (sheet), NULL);
 
-	return sheet_cell_fetch (esheet->sheet, col, row);
+	return sheet_cell_fetch (sheet, col, row);
 }
 
 static GnmExprTop const *
@@ -1975,19 +1977,21 @@ excel_set_xf (ExcelReadSheet *esheet, BiffQuery *q)
 	unsigned col, row;
 	BiffXFData const *xf;
 	GnmStyle *mstyle;
+	Sheet *sheet = esheet->sheet;
 
 	XL_CHECK_CONDITION_VAL (q->length >= 6, NULL);
 	col = XL_GETCOL (q);
 	row = XL_GETROW (q);
 	xf = excel_get_xf (esheet, GSF_LE_GET_GUINT16 (q->data + 4));
-	XL_CHECK_CONDITION_VAL (col < SHEET_MAX_COLS && row < SHEET_MAX_ROWS, xf);
+	XL_CHECK_CONDITION_VAL (col < gnm_sheet_get_max_cols (sheet), xf);
+	XL_CHECK_CONDITION_VAL (row < gnm_sheet_get_max_rows (sheet), xf);
 	mstyle = excel_get_style_from_xf (esheet, xf);
 
-	d (3, fprintf (stderr,"%s!%s%d = xf(0x%hx) = style (%p) [LEN = %u]\n", esheet->sheet->name_unquoted,
+	d (3, fprintf (stderr,"%s!%s%d = xf(0x%hx) = style (%p) [LEN = %u]\n", sheet->name_unquoted,
 		 col_name (col), row + 1, GSF_LE_GET_GUINT16 (q->data + 4), mstyle, q->length););
 
 	if (mstyle != NULL)
-		sheet_style_set_pos (esheet->sheet, col, row, mstyle);
+		sheet_style_set_pos (sheet, col, row, mstyle);
 	return xf;
 }
 
@@ -2780,12 +2784,17 @@ static void
 excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	GnmCellPos pos;
+	Sheet *sheet = esheet->sheet;
+	unsigned row, col;
 
 	XL_CHECK_CONDITION (q->length >= 4);
 
+	row = XL_GETROW (q);
+	col = XL_GETCOL (q);
+	XL_CHECK_CONDITION (col < gnm_sheet_get_max_cols (sheet));
+	XL_CHECK_CONDITION (row < gnm_sheet_get_max_rows (sheet));
 	pos.row = XL_GETROW (q);
 	pos.col = XL_GETCOL (q);
-	XL_CHECK_CONDITION (pos.col < SHEET_MAX_COLS && pos.row < SHEET_MAX_ROWS);
 
 	if (esheet_ver (esheet) >= MS_BIFF_V8) {
 		guint16 options, obj_id;
@@ -2820,7 +2829,7 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 		} else {
 			/* hmm, how did this happen ? we should have seen
 			 * some escher records earlier */
-			cell_set_comment (esheet->sheet, &pos, author, NULL);
+			cell_set_comment (sheet, &pos, author, NULL);
 		}
 		g_free (author);
 	} else {
@@ -2852,7 +2861,7 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 		d (2, fprintf (stderr,"Comment in %s%d: '%s'\n",
 			      col_name (pos.col), pos.row + 1, comment->str););
 
-		cell_set_comment (esheet->sheet, &pos, NULL, comment->str);
+		cell_set_comment (sheet, &pos, NULL, comment->str);
 		g_string_free (comment, TRUE);
 	}
 }
@@ -3755,7 +3764,8 @@ excel_read_ROW (BiffQuery *q, ExcelReadSheet *esheet)
 
 	if (flags & 0x80) {
 		if (xf != 0)
-			excel_set_xf_segment (esheet, 0, SHEET_MAX_COLS - 1,
+			excel_set_xf_segment (esheet,
+					      0, gnm_sheet_get_max_cols (esheet->sheet) - 1,
 					      row, row, xf);
 		d (1, fprintf (stderr,"row %d has flags 0x%x a default style %hd;\n",
 			      row + 1, flags, xf););
@@ -3825,7 +3835,7 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 	unsigned const outline_level = (unsigned)((options >> 8) & 0x7);
 	XL_font_width const *spec = xl_find_fontspec (esheet, &scale);
 
-	XL_CHECK_CONDITION (firstcol < SHEET_MAX_COLS);
+	XL_CHECK_CONDITION (firstcol < gnm_sheet_get_max_cols (esheet->sheet));
 	g_return_if_fail (spec != NULL);
 
 	/* Widths appear to be quoted including margins and the leading
@@ -3859,8 +3869,8 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 	});
 
 	/* NOTE: seems like this is inclusive firstcol, inclusive lastcol */
-	if (lastcol >= SHEET_MAX_COLS)
-		lastcol = SHEET_MAX_COLS - 1;
+	if (lastcol >= gnm_sheet_get_max_cols (esheet->sheet))
+		lastcol = gnm_sheet_get_max_cols (esheet->sheet) - 1;
 	for (i = firstcol; i <= lastcol; i++) {
 		/* Kludge : we should really use
 		 *	hard_size == customWidth && !bestFit
@@ -3874,7 +3884,7 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 
 	if (xf != 0)
 		excel_set_xf_segment (esheet, firstcol, lastcol,
-				      0, SHEET_MAX_ROWS - 1, xf);
+				      0, gnm_sheet_get_max_rows (esheet->sheet) - 1, xf);
 
 	if (hidden)
 		colrow_set_visibility (esheet->sheet, TRUE, FALSE,

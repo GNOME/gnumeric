@@ -494,7 +494,7 @@ sheet_style_init (Sheet *sheet)
 	}
 #endif
 
-	if (SHEET_MAX_COLS > 364238) {
+	if (gnm_sheet_get_max_cols (sheet) > 364238) {
 		/* Oh, yeah?  */
 		g_warning (_("This is a special version of Gnumeric.  It has been compiled\n"
 			     "with support for a very large number of columns.  Access to the\n"
@@ -1513,7 +1513,7 @@ sheet_style_apply_border (Sheet       *sheet,
 
 		/* 2.2 bottom outer */
 		r.end.row++;
-		if (r.end.row < (SHEET_MAX_ROWS-1)) {
+		if (r.end.row < (gnm_sheet_get_max_rows (sheet)-1)) {
 			r.start.row = r.end.row;
 			apply_border (sheet, &r, GNM_STYLE_BORDER_TOP,
 				      gnm_style_border_none ());
@@ -1545,7 +1545,7 @@ sheet_style_apply_border (Sheet       *sheet,
 
 		/* 4.2 right outer */
 		r.end.col++;
-		if (r.end.col < (SHEET_MAX_COLS-1)) {
+		if (r.end.col < (gnm_sheet_get_max_cols (sheet)-1)) {
 			r.start.col = r.end.col;
 			apply_border (sheet, &r, GNM_STYLE_BORDER_LEFT,
 				      gnm_style_border_none ());
@@ -1724,7 +1724,7 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 	if (r->start.col > 0)
 		start_col--;
 	end_col = r->end.col;
-	if (r->end.col < SHEET_MAX_COLS)
+	if (r->end.col < gnm_sheet_get_max_cols (sheet))
 		end_col++;
 
 	/* allocate then alias the arrays for easy access */
@@ -1781,7 +1781,7 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 	}
 
 	/* merge the top of the next row */
-	if (r->end.row < (SHEET_MAX_ROWS-1)) {
+	if (r->end.row < (gnm_sheet_get_max_rows (sheet)-1)) {
 		sr.row = r->end.row + 1;
 		sheet_style_get_row (sheet, &sr);
 	}
@@ -1845,7 +1845,7 @@ sheet_style_insert_colrow (GnmExprRelocateInfo const *rinfo)
 			col = 0;
 		corner.row = 0;
 		styles = sheet_style_get_list (rinfo->origin_sheet,
-			       range_init (&r, col, 0, col, SHEET_MAX_ROWS-1));
+					       range_init_cols (&r, col, col));
 		if (o > 0)
 			for (ptr = styles ; ptr != NULL ; ptr = ptr->next)
 				((GnmStyleRegion *)ptr->data)->range.end.col = o;
@@ -1857,7 +1857,7 @@ sheet_style_insert_colrow (GnmExprRelocateInfo const *rinfo)
 			row = 0;
 		corner.col = 0;
 		styles = sheet_style_get_list (rinfo->origin_sheet,
-			       range_init (&r, 0, row, SHEET_MAX_COLS-1, row));
+					       range_init_rows (&r, row, row));
 		if (o > 0)
 			for (ptr = styles ; ptr != NULL ; ptr = ptr->next)
 				((GnmStyleRegion *)ptr->data)->range.end.row = o;
@@ -1958,8 +1958,8 @@ sheet_style_get_extent (Sheet const *sheet, GnmRange *res,
 
 	if (most_common_in_cols != NULL) {
 		unsigned i;
-		for (i = 0; i < SHEET_MAX_COLS ; i++)
-			most_common_in_cols [i] = sheet_style_most_common_in_col (sheet, i);
+		for (i = 0; i < gnm_sheet_get_max_cols (sheet); i++)
+			most_common_in_cols[i] = sheet_style_most_common_in_col (sheet, i);
 	}
 
 	/* This could easily be optimized */
@@ -2437,8 +2437,7 @@ sheet_style_most_common_in_col (Sheet const *sheet, int col)
 	GHashTable *accumulator;
 	GnmRange       r;
 
-	r.start.col = r.end.col = col;
-	r.start.row = 0; r.end.row = SHEET_MAX_ROWS-1;
+	range_init_cols (&r, col, col);
 	accumulator = g_hash_table_new (gnm_style_hash, (GCompareFunc) gnm_style_equal);
 	foreach_tile (sheet->style_data->styles,
 		      TILE_TOP_LEVEL, 0, 0, &r,
