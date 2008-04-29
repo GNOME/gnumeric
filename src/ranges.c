@@ -37,10 +37,11 @@ range_init_full_sheet (GnmRange *r)
 {
 	r->start.col = 0;
 	r->start.row = 0;
-	r->end.col = G_MAXINT / 2;
-	r->end.row = G_MAXINT / 2;
+	r->end.col = gnm_sheet_get_max_cols (NULL) - 1;
+	r->end.row = gnm_sheet_get_max_rows (NULL) - 1;
 	return r;
 }
+
 GnmRange *
 range_init_cols (GnmRange *r, int start_col, int end_col)
 {
@@ -699,10 +700,10 @@ range_is_sane (GnmRange const *range)
 	g_return_val_if_fail (range != NULL, FALSE);
 	g_return_val_if_fail (range->start.col >= 0, FALSE);
 	g_return_val_if_fail (range->end.col >= range->start.col, FALSE);
-	g_return_val_if_fail (range->end.col < G_MAXINT / 2, FALSE);
+	g_return_val_if_fail (range->end.col < gnm_sheet_get_max_cols (NULL), FALSE);
 	g_return_val_if_fail (range->start.row >= 0, FALSE);
 	g_return_val_if_fail (range->end.row >= range->start.row, FALSE);
-	g_return_val_if_fail (range->end.row < G_MAXINT / 2, FALSE);
+	g_return_val_if_fail (range->end.row < gnm_sheet_get_max_rows (NULL), FALSE);
 
 	return TRUE;
 }

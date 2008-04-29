@@ -1,3 +1,9 @@
+2008-04-29  Morten Welinder  <terra@gnome.org>
+
+	* src/ranges.c (range_is_sane): Fix escaped G_MAXINT/2.  We're not
+	ready for that just yet.
+	(range_init_full_sheet): Ditto.
+
 2008-04-28  Morten Welinder  <terra@gnome.org>
 
 	* src/colrow.h (colrow_max): Take a sheet argument too.  All
