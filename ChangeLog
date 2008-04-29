@@ -1,5 +1,7 @@
 2008-04-29  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-sax-write.c (xml_write_sheet_names): Write sheet sizes.
+
 	* src/ranges.c (range_is_sane): Fix escaped G_MAXINT/2.  We're not
 	ready for that just yet.
 	(range_init_full_sheet): Ditto.
