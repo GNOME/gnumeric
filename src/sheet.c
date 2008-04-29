@@ -589,8 +589,8 @@ gnm_sheet_init (Sheet *sheet)
 	/* Init, focus, and load handle setting these if/when necessary */
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
-	sheet->priv->reposition_objects.row = SHEET_MAX_ROWS;
-	sheet->priv->reposition_objects.col = SHEET_MAX_COLS;
+	sheet->priv->reposition_objects.row = gnm_sheet_get_max_rows (sheet);
+	sheet->priv->reposition_objects.col = gnm_sheet_get_max_cols (sheet);
 
 	range_init_full_sheet (&sheet->priv->unhidden_region);
 
@@ -629,12 +629,12 @@ gnm_sheet_init (Sheet *sheet)
 
 	sheet->cols.max_used = -1;
 	g_ptr_array_set_size (sheet->cols.info = g_ptr_array_new (),
-			      COLROW_SEGMENT_INDEX (SHEET_MAX_COLS - 1) + 1);
+			      COLROW_SEGMENT_INDEX (gnm_sheet_get_max_cols (sheet) - 1) + 1);
 	sheet_col_set_default_size_pts (sheet, 48);
 
 	sheet->rows.max_used = -1;
 	g_ptr_array_set_size (sheet->rows.info = g_ptr_array_new (),
-			      COLROW_SEGMENT_INDEX (SHEET_MAX_ROWS - 1) + 1);
+			      COLROW_SEGMENT_INDEX (gnm_sheet_get_max_rows (sheet) - 1) + 1);
 	sheet_row_set_default_size_pts (sheet, 12.75);
 
 	sheet->print_info = print_info_new (FALSE);
