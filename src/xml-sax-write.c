@@ -161,8 +161,13 @@ xml_write_sheet_names (GnmOutputXML *state)
 	gsf_xml_out_start_element (state->output, GNM "SheetNameIndex");
 	for (i = 0 ; i < n ; i++) {
 		sheet = workbook_sheet_by_index (state->wb, i);
-		gsf_xml_out_simple_element (state->output, GNM "SheetName",
-			sheet->name_unquoted);
+		gsf_xml_out_start_element (state->output, GNM "SheetName");
+		gsf_xml_out_add_int (state->output, GNM "Cols",
+							 gnm_sheet_get_max_cols (sheet));
+		gsf_xml_out_add_int (state->output, GNM "Rows",
+							 gnm_sheet_get_max_rows (sheet));
+		gsf_xml_out_add_cstr (state->output, NULL, sheet->name_unquoted);
+		gsf_xml_out_end_element (state->output); /* </gnm:SheetName> */
 	}
 	gsf_xml_out_end_element (state->output); /* </gnm:SheetNameIndex> */
 }
