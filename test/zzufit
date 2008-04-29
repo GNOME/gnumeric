@@ -1,0 +1,77 @@
+#!/usr/bin/perl -w
+
+use strict;
+use Getopt::Long;
+
+my $file = "../samples/excel/mathfuns.xls";
+my $n = 0;
+my $rate = .0001;
+my $LOG = "zzuf.log";
+my $DIR = "zzuftmp";
+
+&GetOptions ("rate=f" => \$rate,
+	     "seed=i" => \$n,
+	     "victim=s" => \$file,
+	     )
+    or die &usage (1);
+
+if (!-d $DIR) {
+    mkdir ($DIR, 0777) or die "$0: Cannot create $DIR: $!\n";
+}
+
+while (1) {
+    $n++;
+    print STDERR "Test $n\n";
+    &append_log ("-------------------------------------------------------\n");
+
+    my ($filepath,$filebase,$fileext) =
+	($file =~ m:^(|.*/)([^/]+)(\.[^./]+)$:);
+    if (!defined $filepath) {
+	($filepath,$filebase) = ($file =~ m:^(|.*/)([^/]+)$:);
+	$fileext = "";
+    }
+
+    my $zzuffile = "$DIR/${filebase}-${n}${fileext}";
+    system ("zzuf -s$n -r$rate <'$file' >'$zzuffile'");
+
+    my $outfile = "$DIR/${filebase}-${n}.gnumeric";
+    system ("../src/ssconvert '$zzuffile' '$outfile' >>'$LOG' 2>&1");
+    my $code = $?;
+    my $sig = $code & 0x7f;
+    if ($sig) {
+	if ($code & 0x80) {
+	    &append_log ("CORE\n");
+	    print STDERR "CORE\n";
+	}
+	last if $sig == 2;
+    } else {
+	$code >>= 8;
+	my $txt = "Exit code $code\n";
+	&append_log ($txt);
+	if ($code >= 2) {
+	    print STDERR $txt;
+	} else {
+	    unlink $zzuffile, $outfile;
+	}
+    }
+}
+
+sub append_log {
+    my ($txt) = @_;
+    
+    local (*FIL);
+    open (FIL, ">>$LOG") or die "$0: Cannot append to $LOG: $!\n";
+    print FIL $txt;
+    close (FIL);
+}
+
+sub usage {
+    my ($res) = @_;
+
+    print STDERR "$0 [options]\n\n";
+    print STDERR "  --rate=frac      Fraction of bits to flip.\n";
+    print STDERR "  --seed=int       Initial seed.\n";
+    print STDERR "  --victim=file    File to create corrupted copies of.\n";
+
+    exit ($res);
+}
