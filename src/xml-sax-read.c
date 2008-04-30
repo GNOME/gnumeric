@@ -339,6 +339,8 @@ typedef struct {
 	GList *delayed_names;
 	SheetObject *so;
 
+	int sheet_rows, sheet_cols;
+
 	GnmPageBreaks *page_breaks;
 } XMLSaxParseState;
 
@@ -463,13 +465,15 @@ static void
 xml_sax_wb_sheetsize (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	int tmpi;
+
+	state->sheet_cols = gnm_sheet_get_max_cols (NULL);
+	state->sheet_rows = gnm_sheet_get_max_rows (NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (gnm_xml_attr_int (attrs, "gnm:Cols", &tmpi))
-			state->array_cols = tmpi;
-		else if (gnm_xml_attr_int (attrs, "gnm:Rows", &tmpi))
-			state->array_rows = tmpi;
+		if (gnm_xml_attr_int (attrs, "gnm:Cols", &state->sheet_cols))
+			; /* Nothing more */
+		else if (gnm_xml_attr_int (attrs, "gnm:Rows", &state->sheet_cols))
+			; /* Nothing more */
 		else
 			unknown_attr (xin, attrs);
 	}
