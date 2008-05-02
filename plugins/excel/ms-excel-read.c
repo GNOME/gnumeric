@@ -2419,13 +2419,15 @@ excel_read_XF (BiffQuery *q, GnmXLImporter *importer)
 	xf->mstyle = NULL;
 
 	g_ptr_array_add (importer->XF_cell_records, xf);
-	d (2, fprintf (stderr,"XF(0x%x): Font %d, Format %d, Fore %d, Back %d, Pattern = %d\n",
-		      importer->XF_cell_records->len - 1,
-		      xf->font_idx,
-		      xf->format_idx,
-		      xf->pat_foregnd_col,
-		      xf->pat_backgnd_col,
-		      xf->fill_pattern_idx););
+	d (2, g_printerr ("XF(0x%04x): S=%d L=%d H=%d L=%d xty=%d Font=%d Fmt=%d Fg=%d Bg=%d Pat=%d\n",
+			  importer->XF_cell_records->len - 1,
+			  xf->is_simple_format, xf->locked, xf->hidden, xf->format,
+			  xf->xftype,
+			  xf->font_idx,
+			  xf->format_idx,
+			  xf->pat_foregnd_col,
+			  xf->pat_backgnd_col,
+			  xf->fill_pattern_idx););
 }
 
 static void
@@ -5926,10 +5928,10 @@ excel_read_PAGE_BREAK (BiffQuery *q, ExcelReadSheet *esheet, gboolean is_vert)
 		gnm_page_breaks_append_break (breaks,
 			GSF_LE_GET_GUINT16 (q->data + 2 + i*step), GNM_PAGE_BREAK_MANUAL);
 #if 0
-		g_print ("%d  %d:%d\n",
-			 GSF_LE_GET_GUINT16 (q->data + 2 + i*step),
-			 GSF_LE_GET_GUINT16 (q->data + 2 + i*step + 2),
-			 GSF_LE_GET_GUINT16 (q->data + 2 + i*step + 4));
+		g_printerr ("%d  %d:%d\n",
+			    GSF_LE_GET_GUINT16 (q->data + 2 + i*step),
+			    GSF_LE_GET_GUINT16 (q->data + 2 + i*step + 2),
+			    GSF_LE_GET_GUINT16 (q->data + 2 + i*step + 4));
 #endif
 	}
 	print_info_set_breaks (esheet->sheet->print_info, breaks);
