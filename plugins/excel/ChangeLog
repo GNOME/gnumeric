@@ -1,3 +1,7 @@
+2008-05-02  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_XF): Dump more of the xf when debugging.
+
 2008-04-27  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_sheet_insert_val): Don't set formats for
