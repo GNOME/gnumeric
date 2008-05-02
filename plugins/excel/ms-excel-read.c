@@ -6467,6 +6467,8 @@ excel_read_BOF (BiffQuery	 *q,
 	/* The first BOF seems to be OK, the rest lie ? */
 	MsBiffVersion vv = MS_BIFF_V_UNKNOWN;
 	MsBiffBofData *ver = *version;
+	char const *version_desc = NULL;
+
 	if (ver) {
 		vv = ver->version;
 		ms_biff_bof_data_destroy (ver);
@@ -6480,19 +6482,19 @@ excel_read_BOF (BiffQuery	 *q,
 		if (ver->version >= MS_BIFF_V8) {
 			guint32 ver = GSF_LE_GET_GUINT32 (q->data + 4);
 			if (ver == 0x4107cd18)
-				g_printerr ("Excel 2000 ?\n");
+				version_desc = "Excel 2000 ?";
 			else
-				g_printerr ("Excel 97 +\n");
+				version_desc = "Excel 97 +";
 		} else if (ver->version >= MS_BIFF_V7)
-			g_printerr ("Excel 95\n");
+			version_desc = "Excel 95";
 		else if (ver->version >= MS_BIFF_V5)
-			g_printerr ("Excel 5.x\n");
+			version_desc = "Excel 5.x";
 		else if (ver->version >= MS_BIFF_V4)
-			g_printerr ("Excel 4.x\n");
+			version_desc = "Excel 4.x";
 		else if (ver->version >= MS_BIFF_V3)
-			g_printerr ("Excel 3.x - shouldn't happen\n");
+			version_desc = "Excel 3.x - shouldn't happen";
 		else if (ver->version >= MS_BIFF_V2)
-			g_printerr ("Excel 2.x - shouldn't happen\n");
+			version_desc = "Excel 2.x - shouldn't happen";
 	} else if (ver->type == MS_BIFF_TYPE_Worksheet ||
 		   ver->type == MS_BIFF_TYPE_Chart) {
 		BiffBoundsheetData *bs = g_hash_table_lookup (
@@ -6506,13 +6508,13 @@ excel_read_BOF (BiffQuery	 *q,
 				/* Top level worksheets existed up to & including 4.x */
 				gnm_xl_importer_set_version (importer, ver->version);
 				if (ver->version >= MS_BIFF_V5)
-					g_printerr ( ">= Excel 5 with no BOUNDSHEET ?? - shouldn't happen\n");
+					version_desc = ">= Excel 5 with no BOUNDSHEET ?? - shouldn't happen";
 				else if (ver->version >= MS_BIFF_V4)
-					g_printerr ( "Excel 4.x single worksheet\n");
+					version_desc = "Excel 4.x single worksheet";
 				else if (ver->version >= MS_BIFF_V3)
-					g_printerr ( "Excel 3.x single worksheet\n");
+					version_desc = "Excel 3.x single worksheet";
 				else if (ver->version >= MS_BIFF_V2)
-					g_printerr ( "Excel 2.x single worksheet\n");
+					version_desc = "Excel 2.x single worksheet";
 			} else
 				esheet = g_ptr_array_index (importer->excel_sheets, *current_sheet);
 		} else
@@ -6535,10 +6537,10 @@ excel_read_BOF (BiffQuery	 *q,
 		   ver->type == MS_BIFF_TYPE_Macrosheet) {
 		/* Skip contents of Module, or MacroSheet */
 		if (ver->type != MS_BIFF_TYPE_Macrosheet)
-			g_printerr ("VB Module.\n");
+			version_desc = "VB Module";
 		else {
 			(*current_sheet)++;
-			g_printerr ("XLM Macrosheet.\n");
+			version_desc = "XLM Macrosheet";
 		}
 
 		while (ms_biff_query_next (q) && q->opcode != BIFF_EOF)
@@ -6547,10 +6549,14 @@ excel_read_BOF (BiffQuery	 *q,
 			g_warning ("EXCEL: file format error.  Missing BIFF_EOF");
 	} else if (ver->type == MS_BIFF_TYPE_Workspace) {
 		/* Multiple sheets, XLW format from Excel 4.0 */
-		g_printerr ("Excel 4.x workbook\n");
+		version_desc = "Excel 4.x workbook";
 		gnm_xl_importer_set_version (importer, ver->version);
 	} else
 		g_printerr ("Unknown BOF (%x)\n", ver->type);
+
+	if (NULL != version_desc) {
+		d (1, g_printerr ("%s\n", version_desc););
+	}
 }
 
 static void

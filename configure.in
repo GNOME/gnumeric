@@ -411,14 +411,19 @@ fi
 AC_SUBST(WARN_CFLAGS)
 
 AC_ARG_ENABLE(ssconvert,
-  [--disable-ssconvert		Do not build ssconvert (command line spreadsheet conversion tool)],
+  [--disable-ssconvert		Do nott build ssconvert (command line spreadsheet conversion tool)],
   [], [enable_ssconvert=yes])
 AM_CONDITIONAL(ENABLE_SSCONVERT, test x"$enable_ssconvert" = "xyes")
 
 AC_ARG_ENABLE(ssindex,
-  [--disable-ssindex		Do no build ssindex (spreadsheet indexer for beagle)],
+  [--disable-ssindex		Do not build ssindex (spreadsheet indexer for beagle)],
   [], [enable_ssindex=yes])
 AM_CONDITIONAL(ENABLE_SSINDEX, test x"$enable_ssindex" = "xyes")
+
+AC_ARG_ENABLE(ssgrep,
+  [--disable-ssgrep		Do not build ssgrep (search for supplied strings in spreadsheet)],
+  [], [enable_ssgrep=yes])
+AM_CONDITIONAL(ENABLE_SSGREP, test x"$enable_ssgrep" = "xyes")
 
 dnl ****************************
 dnl GDA Plugin

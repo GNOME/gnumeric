@@ -1,3 +1,8 @@
+2008-05-02  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_biff_bof_data_new) : make the version info spew
+	  optional.
+
 2008-04-27  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_sheet_insert_val): Don't set formats for

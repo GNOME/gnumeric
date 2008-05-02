@@ -1272,7 +1272,9 @@ wb_view_new_from_uri (char const *uri,
 	if (input != NULL) {
 		WorkbookView *res;
 
+#if 0
 		g_printerr ("Reading %s\n", uri);
+#endif
 		res = wb_view_new_from_input (input,
 					      optional_fmt, io_context,
 					      optional_enc);

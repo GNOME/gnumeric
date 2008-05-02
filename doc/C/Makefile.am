@@ -85,6 +85,10 @@ if ENABLE_SSINDEX
 manpage_DATA += ssindex.1
 endif
 
+if ENABLE_SSGREP
+manpage_DATA += ssgrep.1
+endif
+
 # from gnumeric-doc.make
 dist-hook: validate
 

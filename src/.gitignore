@@ -15,6 +15,7 @@ gnm-marshalers.h
 gnumeric-paths.h
 ssconvert
 ssindex
+ssgrep
 test-pango
 GNOME_Gnumeric-gtk.xml
 HILDON_Gnumeric-gtk.xml

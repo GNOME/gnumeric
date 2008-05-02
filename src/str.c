@@ -161,6 +161,12 @@ gnm_string_dump (void)
 }
 
 void
+gnm_string_foreach (GHFunc callback, gpointer data)
+{
+	g_hash_table_foreach (string_hash_table, callback, data);
+}
+
+void
 gnm_string_init (void)
 {
 	string_hash_table = g_hash_table_new (g_str_hash, g_str_equal);

@@ -21,6 +21,9 @@ endif
 if ENABLE_SSINDEX
   bin_PROGRAMS += ssindex
 endif
+if ENABLE_SSGREP
+  bin_PROGRAMS += ssgrep
+endif
 
 AM_CPPFLAGS = 								\
 	-I$(top_srcdir)							\
@@ -299,6 +302,10 @@ ssindex_LDADD   = $(gnumeric_LDADD)
 ssindex_LDFLAGS = -export-dynamic
 ssindex_SOURCES =				\
 	ssindex.c
+ssgrep_LDADD   = $(gnumeric_LDADD)
+ssgrep_LDFLAGS = -export-dynamic
+ssgrep_SOURCES =				\
+	ssgrep.c
 
 test_pango_LDADD   = $(gnumeric_LDADD)
 test_pango_LDFLAGS = -export-dynamic
@@ -316,6 +323,7 @@ if WITH_NATIVE_WIN32
     gnumeric_LDFLAGS	+= -mwindows
     ssconvert_LDFLAGS	+= -mconsole
     ssindex_LDFLAGS	+= -mconsole
+    ssgrep_LDFLAGS	+= -mconsole
 
     libspreadsheet_la_DEPENDENCIES = libspreadsheet.def
     libspreadsheet_la_LDFLAGS += -no-undefined -export-symbols libspreadsheet.def
