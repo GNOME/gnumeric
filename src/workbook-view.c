@@ -877,7 +877,9 @@ wbv_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
 		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context), msg);
 		g_free (msg);
 	} else {
+#if 0
 		g_printerr ("Writing %s\n", uri);
+#endif
 		wbv_save_to_output (wbv, fs, output, io_context);
 		g_object_unref (output);
 	}

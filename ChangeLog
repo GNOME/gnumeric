@@ -1,3 +1,7 @@
+2008-05-02  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-view.c (wbv_save_to_uri): Zap this meesage too.
+
 2008-05-02  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : add ssgrep.
