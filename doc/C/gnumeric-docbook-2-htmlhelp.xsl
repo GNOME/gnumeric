@@ -34,6 +34,7 @@
   <!--If one, adds forward/back arrows at top and bottom. -->
   <xsl:param name="suppress.navigation" select="1"/>
 
+  <xsl:param name="htmlhelp.force.map.and.alias" select="1"/>
 
   <!-- The name of the .chm compiled help file -->
   <xsl:param name="htmlhelp.chm" select="'gnumeric.chm'"/>

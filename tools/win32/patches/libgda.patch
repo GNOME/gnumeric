@@ -1,0 +1,103 @@
+Index: libgda/gtk-doc.make
+===================================================================
+--- libgda/gtk-doc.make	(revision 3059)
++++ libgda/gtk-doc.make	(working copy)
+@@ -5,11 +5,11 @@
+ ####################################
+ 
+ if GTK_DOC_USE_LIBTOOL
+-GTKDOC_CC = $(LIBTOOL) --mode=compile $(CC) $(INCLUDES) $(AM_CFLAGS) $(CFLAGS)
+-GTKDOC_LD = $(LIBTOOL) --mode=link $(CC) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS)
++GTKDOC_CC = $(LIBTOOL) --mode=compile $(CC) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
++GTKDOC_LD = $(LIBTOOL) --mode=link $(CC) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS)
+ else
+-GTKDOC_CC = $(CC) $(INCLUDES) $(AM_CFLAGS) $(CFLAGS)
+-GTKDOC_LD = $(CC) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS)
++GTKDOC_CC = $(CC) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
++GTKDOC_LD = $(CC) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS)
+ endif
+ 
+ # We set GPATH here; this gives us semantics for GNU make
+@@ -38,8 +38,13 @@
+ 	$(DOC_MODULE).prerequisites \
+ 	$(DOC_MODULE).signals
+ 
+-CLEANFILES = $(SCANOBJ_FILES) $(DOC_MODULE)-unused.txt $(DOC_STAMPS)
++REPORT_FILES = \
++	$(DOC_MODULE)-undocumented.txt \
++	$(DOC_MODULE)-undeclared.txt \
++	$(DOC_MODULE)-unused.txt
+ 
++CLEANFILES = $(SCANOBJ_FILES) $(REPORT_FILES) $(DOC_STAMPS)
++
+ if ENABLE_GTK_DOC
+ all-local: html-build.stamp
+ else
+@@ -79,6 +84,10 @@
+ tmpl.stamp: tmpl-build.stamp
+ 	@true
+ 
++tmpl/*.sgml:
++	@true
++
++
+ #### xml ####
+ 
+ sgml-build.stamp: tmpl.stamp $(HFILE_GLOB) $(CFILE_GLOB) $(DOC_MODULE)-sections.txt $(srcdir)/tmpl/*.sgml $(expand_content_files)
+@@ -96,11 +105,11 @@
+ html-build.stamp: sgml.stamp $(DOC_MAIN_SGML_FILE) $(content_files)
+ 	@echo 'gtk-doc: Building HTML'
+ 	@-chmod -R u+w $(srcdir)
+-	rm -rf $(srcdir)/html 
++	rm -rf $(srcdir)/html
+ 	mkdir $(srcdir)/html
+ 	cd $(srcdir)/html && gtkdoc-mkhtml $(DOC_MODULE) ../$(DOC_MAIN_SGML_FILE)
+ 	test "x$(HTML_IMAGES)" = "x" || ( cd $(srcdir) && cp $(HTML_IMAGES) html )
+-	@echo 'gtk-doc: Fixing cross-references' 
++	@echo 'gtk-doc: Fixing cross-references'
+ 	cd $(srcdir) && gtkdoc-fixxref --module-dir=html --html-dir=$(HTML_DIR) $(FIXXREF_OPTIONS)
+ 	touch html-build.stamp
+ 
+@@ -110,11 +119,16 @@
+ 	rm -f *~ *.bak
+ 	rm -rf .libs
+ 
++distclean-local:
++	cd $(srcdir) && \
++	  rm -rf xml $(REPORT_FILES) \
++	         $(DOC_MODULE)-decl-list.txt $(DOC_MODULE)-decl.txt
++
+ maintainer-clean-local: clean
+-	cd $(srcdir) && rm -rf xml html $(DOC_MODULE)-decl-list.txt $(DOC_MODULE)-decl.txt
++	cd $(srcdir) && rm -rf xml html
+ 
+ install-data-local:
+-	installfiles=`echo $(srcdir)/html/*`; \
++	-installfiles=`echo $(srcdir)/html/*`; \
+ 	if test "$$installfiles" = '$(srcdir)/html/*'; \
+ 	then echo '-- Nothing to install' ; \
+ 	else \
+@@ -125,7 +139,10 @@
+ 	  done; \
+ 	  echo '-- Installing $(srcdir)/html/index.sgml' ; \
+ 	  $(INSTALL_DATA) $(srcdir)/html/index.sgml $(DESTDIR)$(TARGET_DIR) || :; \
++	  which gtkdoc-rebase >/dev/null && \
++	    gtkdoc-rebase --relative --dest-dir=$(DESTDIR) --html-dir=$(DESTDIR)$(TARGET_DIR) ; \
+ 	fi
++	
+ 
+ uninstall-local:
+ 	rm -f $(DESTDIR)$(TARGET_DIR)/*
+@@ -148,8 +165,9 @@
+ 	-cp $(srcdir)/tmpl/*.sgml $(distdir)/tmpl
+ 	-cp $(srcdir)/xml/*.xml $(distdir)/xml
+ 	cp $(srcdir)/html/* $(distdir)/html
+-	if test -f $(srcdir)/$(DOC_MODULE).types; then \
+-	  cp $(srcdir)/$(DOC_MODULE).types $(distdir)/$(DOC_MODULE).types; \
+-	fi
++	-cp $(srcdir)/$(DOC_MODULE).types $(distdir)/
++	-cp $(srcdir)/$(DOC_MODULE)-sections.txt $(distdir)/
++	cd $(distdir) && rm -f $(DISTCLEANFILES)
++	-gtkdoc-rebase --online --relative --html-dir=$(distdir)/html
+ 
+ .PHONY : dist-hook-local docs

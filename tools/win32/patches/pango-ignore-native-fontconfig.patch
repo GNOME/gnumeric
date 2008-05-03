@@ -1,0 +1,13 @@
+Index: configure.in
+===================================================================
+--- configure.in	(revision 2583)
++++ configure.in	(working copy)
+@@ -220,7 +220,7 @@
+ #
+ # Check for fontconfig
+ #
+-PKG_CHECK_MODULES(FONTCONFIG, fontconfig >= 1.0.1, have_fontconfig=true, AC_MSG_RESULT([no]))
++#PKG_CHECK_MODULES(FONTCONFIG, fontconfig >= 1.0.1, have_fontconfig=true, AC_MSG_RESULT([no]))
+ 
+ #
+ # Checks for FreeType

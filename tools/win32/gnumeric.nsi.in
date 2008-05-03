@@ -82,7 +82,9 @@ Section "Gnumeric (required)" SEC01
     File /x "libpython*.dll" "bin\*.dll"
     File "bin\gnumeric.exe"
     File "bin\ssconvert.exe"
+    File "bin\ssgrep.exe"
     File "bin\gsf.exe"
+    File "bin\gsf-vba-dump.exe"
     File "bin\gtk-update-icon-cache.exe"
     File "bin\gdk-pixbuf-query-loaders.exe"
 

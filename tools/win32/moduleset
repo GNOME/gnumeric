@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!DOCTYPE doc [
-<!--      <!ENTITY patch_dir "/gnome/src/gnumeric/tools/win32/patches/"> -->
-      <!ENTITY patch_dir "http://svn.gnome.org/svn/gnumeric/trunk/tools/win32/patches/">
+      <!ENTITY patch_dir "/gnome/src/gnumeric/tools/win32/patches/">
+      <!-- <!ENTITY patch_dir "http://svn.gnome.org/svn/gnumeric/trunk/tools/win32/patches/"> -->
 ]>
 <moduleset>
     <repository type="svn" name="svn.gnome.org" default="yes"
@@ -9,10 +9,12 @@
     <repository type="git" name="freedesktop.org"
 		href="git://cgit.freedesktop.org/git"/>
 
+<!--
     <tarball id="iconv" version="1.12">
 	<source href="http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.12.tar.gz"
 	    md5sum="c2be282595751535a618ae0edeb8f648"/>
     </tarball>
+    -->
  
     <tarball id="gettext" version="0.17">
 	<source href="ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.17.tar.gz"
@@ -21,7 +23,7 @@
 	    <patch file="http://www.gnome.org/~aruiz/gtk+/patches/gettext_0_17_crossbuild_override_tools_fix.patch"/>
 	</patches>
 	<dependencies>
-	    <dep package="iconv"/>
+<!--	    <dep package="iconv"/> -->
 	</dependencies>
     </tarball>
 
@@ -32,18 +34,25 @@
 	    <patch file="&patch_dir;pcre.patch"/>
 	</patches>
     </tarball>
+    <!--
     <tarball id="glib" version="2.14.6">
 	<source href="http://download.gnome.org/sources/glib/2.14/glib-2.14.6.tar.bz2"
 		md5sum="3b340946d6916ee9cbf2c348e7c099f1"/>
 	<patches>
 		<patch file="http://www.gnome.org/~aruiz/gtk+/patches/glib_win32_cachefile.patch"/>
+		<patch file="&patch_dir;glib-goption-disable-localization.patch"/>
 	</patches>
 	<dependencies>
 	    <dep package="gettext"/>
 	    <dep package="iconv"/>
 	</dependencies>
     </tarball>
-    <!--
+    -->
+    <autotools id="gtk-doc">
+	<branch module="gtk-doc/trunk" checkoutdir="gtk-doc"/>
+	<dependencies>
+	</dependencies>
+    </autotools>
     <autotools id="glib">
 	<branch/>
 	<patches>
@@ -51,21 +60,19 @@
 	</patches>
 	<dependencies>
 	    <dep package="gettext"/>
-	    <dep package="iconv"/>
+	    <dep package="gtk-doc"/>
+<!--	    <dep package="iconv"/> -->
 	</dependencies>
     </autotools>
-    -->
 
 <!-- Compression -->
-<!--
-    <tarball id="zlib" version="1.2.3">
+    <tarball id="zlib" version="1.2.3" makeargs="-f win32/Makefile.gcc -e zlib1.dll" makeinstallargs="-f win32/Makefile.gcc -e install">
 	<source href="http://www.zlib.net/zlib-1.2.3.tar.gz"
 		md5sum="debc62758716a169df9f62e6ab2bc634"/>
 	<patches>
-	    <patch file="http://www.gnome.org/~aruiz/gtk+/patches/zlib_hardcore_makefile.patch"/>
+	    <patch file="http://www.gnome.org/~aruiz/gtk+/patches/zlib_mingw.patch"/>
 	</patches>
     </tarball>
-    -->
     <tarball id="libbz2" version="1.0.4">
 	<source href="http://www.bzip.org/1.0.4/bzip2-1.0.4.tar.gz"
 		md5sum="fc310b254f6ba5fbb5da018f04533688"/>
@@ -84,12 +91,12 @@
 	</patches>
     </tarball>
     <tarball id="png" version="1.2.25">
-	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.25.tar.bz2"
-		md5sum="0c1df914de7fd3b6a129af569889c856"/>
+	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.26.tar.bz2"/>
 	<dependencies>
-	    <!--<dep package="zlib"/> -->
+	    <dep package="zlib"/>
 	</dependencies>
     </tarball>
+    <!--
     <tarball id="tiff" version="3.8.2">
 	<source href="ftp://ftp.remotesensing.org/pub/libtiff/tiff-3.8.2.tar.gz"
 		md5sum="fbb6f446ea4ed18955e2714934e5b698"/>
@@ -97,6 +104,7 @@
 	    <dep package="jpeg"/>
 	</dependencies>
     </tarball>
+    -->
 
 <!-- Gtk stack -->
     <autotools id="pixman">
@@ -105,7 +113,7 @@
     <autotools id="cairo">
 	<branch repo="freedesktop.org"/>
 	<dependencies>
-	    <!-- <dep package="zlib"/> -->
+	    <dep package="zlib"/>
 	    <dep package="png"/>
 	    <dep package="pixman"/>
 	</dependencies>
@@ -126,6 +134,12 @@
 	</patches>
     </tarball>
 
+    <autotools id="intltool">
+	<branch/>
+	<dependencies>
+	</dependencies>
+    </autotools>
+
 <!--
     <tarball id="pango" version="1.16.4">
 	<source href="http://ftp.gnome.org/pub/gnome/sources/pango/1.16/pango-1.16.4.tar.bz2"
@@ -143,30 +157,31 @@
 	    <dep package="cairo"/>
 	    <dep package="glib"/>
 	    <dep package="libthai"/>
+	    <dep package="gtk-doc"/>
 	</dependencies>
     </autotools>
 
-    <tarball id="atk" version="1.21.5">
-	<source href="http://ftp.acc.umu.se/pub/gnome/sources/atk/1.21/atk-1.21.5.tar.bz2"
-		md5sum="3ac67cf2c1739aca39c3e11284cf247e"/>
+    <tarball id="atk" version="1.22.0">
+	<source href="http://ftp.acc.umu.se/pub/gnome/sources/atk/1.22/atk-1.22.0.tar.bz2"/>
 	<dependencies>
 	    <dep package="glib"/>
 	</dependencies>
     </tarball>
-    <tarball id="gtk+" version="2.12.8">
-	<source href="http://ftp.acc.umu.se/pub/gnome/sources/gtk+/2.12/gtk+-2.12.8.tar.bz2"
-		md5sum="1e0d7db0bfa210881743e1d42ee91a24"/>
+<!--
+    <tarball id="gtk+" version="2.12.9">
+	<source href="http://download.gnome.org/sources/gtk+/2.12/gtk+-2.12.9.tar.bz2"
+		md5sum="33499772fdc3bea569c6d5673e5831b4"/>
+	<patches>
+	</patches>
+
 	<dependencies>
 	    <dep package="glib"/>
 	    <dep package="cairo"/>
 	    <dep package="atk"/>
 	    <dep package="pango"/>
-<!-- <dep package="jpeg"/> -->
-	    <dep package="tiff"/>
-	    <dep package="png"/>
 	</dependencies>
     </tarball>
-<!--
+    -->
     <autotools id="gtk+">
 	<branch/>
 	<dependencies>
@@ -174,16 +189,16 @@
 	    <dep package="cairo"/>
 	    <dep package="atk"/>
 	    <dep package="pango"/>
-	    <dep package="tiff"/>
-	    <dep package="png"/>
 	</dependencies>
     </autotools>
     -->
 
 <!-- glade stack -->
-    <tarball id="libxml2" version="2.6.30">
-	<source href="ftp://xmlsoft.org/libxml2/libxml2-2.6.30.tar.gz"
-		md5sum="460e6d853e824da700d698532e57316b"/>
+    <tarball id="libxml2" version="2.6.32">
+	<source href="ftp://xmlsoft.org/libxml2/libxml2-2.6.32.tar.gz"/>
+	<dependencies>
+	    <dep package="zlib"/>
+	</dependencies>
     </tarball>
     <tarball id="libglade" version="2.6.0">
 	<source href="http://ftp.gnome.org/pub/gnome/sources/libglade/2.6/libglade-2.6.0.tar.bz2"
@@ -206,67 +221,27 @@
 	</patches>
     </tarball>
 
-    <!--
-  <autotools id="pycairo">
-    <branch repo="cairo.freedesktop.org"/>
-    <dependencies>
-      <dep package="cairo"/>
-    </dependencies>
-  </autotools>
-  <autotools id="pygtk">
-    <branch/>
-    <dependencies>
-      <dep package="pygobject"/>
-      <dep package="gtk+"/>
-      <dep package="pycairo"/>
-      <dep package="libglade"/>
-    </dependencies>
-  </autotools>
-  -->
-
-    <autotools id="librsvg" supports-non-srcdir-builds="no">
-	<branch/>
-	<dependencies>
-	    <dep package="libxml2"/>
-	    <dep package="gtk+"/>
-	    <dep package="libart_lgpl"/>
-	    <dep package="libgsf"/>
-	    <dep package="libcroco"/>
-	</dependencies>
-    </autotools>
-
-    <tarball id="libcroco" supports-non-srcdir-builds="no" version="0.6.1">
-	<source href="http://download.gnome.org/sources/libcroco/0.6/libcroco-0.6.1.tar.bz2"
-		md5sum="b0975bd01eb11964f1b3f254f267a43d" size="381188"/>
-	<dependencies>
-	    <dep package="libxml2"/>
-	    <dep package="pango"/>
-	</dependencies>
-    </tarball>
-
-    <autotools id="intltool">
-	<branch/>
-	<dependencies>
-	</dependencies>
-    </autotools>
-    <autotools id="libgda" version="trunk">
-	<branch/>
+    <tarball id="libgda" version="3.0.2">
+	<source href="http://download.gnome.org/sources/libgda/3.1/libgda-3.1.2.tar.bz2"
+		md5sum="fe299d264ddeb7fbc36276f74f1abfdc"/>
 	<dependencies>
 	    <dep package="intltool"/>
 	    <dep package="glib"/>
 	    <dep package="libxml2"/>
 	</dependencies>
-    </autotools>
-    <autotools id="libgnomedb" version="trunk">
-	<branch/>
+    </tarball>
+    <tarball id="libgnomedb" version="trunk">
+	<source href="http://download.gnome.org/sources/libgnomedb/3.1/libgnomedb-3.1.2.tar.bz2"
+		md5sum="9896bd66451c3f1e2bdd1cd79d524348"/>
 	<patches>
 	    <patch file="&patch_dir;libgnomedb.patch"/>
 	</patches>
 	<dependencies>
+	    <dep package="intltool"/>
 	    <dep package="libgda"/>
 	    <dep package="gtk+"/>
 	</dependencies>
-    </autotools>
+    </tarball>
 
     <tarball id="pxlib" version="0.6.3">
 	<source href="http://superb-east.dl.sourceforge.net/sourceforge/pxlib/pxlib-0.6.3.tar.gz"
@@ -287,7 +262,9 @@
 	<dependencies>
 	    <dep package="glib"/>
 	    <dep package="libxml2"/>
-	    <!-- <dep package="zlib"/> -->
+	    <dep package="zlib"/>
+	    <dep package="libbz2"/>
+	    <dep package="intltool"/>
 	</dependencies>
     </autotools>
     <tarball id="libart_lgpl" version="2.3.19">

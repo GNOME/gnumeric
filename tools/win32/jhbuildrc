@@ -9,12 +9,13 @@
 
 #moduleset = 'http://osl.ulpgc.es/~arc/gnome/gtk/gtk+-win32.moduleset'
 moduleset = '/gnome/src/gnumeric/tools/win32/moduleset'
-modules = ['gtk+','gnumeric']
+modules = ['gnumeric']
 
 # checkoutroot: path to download packages elsewhere
 # prefix:       target path to install the compiled binaries
-checkoutroot = os.path.expanduser('~/checkout/')
-prefix	     = os.path.expanduser("~/target")
+checkoutroot = os.path.expanduser('~/win32/debug/src/')
+prefix	     = os.path.expanduser("~/win32/debug/test")
+os.environ['prefix']	= prefix	# for use in zlib kludge
 
 #The host value is obtained with the result of executing
 #the config.guess script on any of the packages.
@@ -52,6 +53,7 @@ os.environ['CPPFLAGS']	 = ' -O0 -g -I'+prefix+'/include -mno-cygwin -mms-bitfiel
 os.environ['CXXFLAGS']	 = ' -O0 -g -I'+prefix+'/include -mno-cygwin -mms-bitfields -march=i686 '
 os.environ['ARFLAGS']	 = 'rcs'
 os.environ['INSTALL']	 = os.path.expanduser('~/bin/install-check')
+os.environ['ACLOCAL_AMFLAGS'] = ' -I '+prefix+'/share/aclocal'	# for libgnomedb
 
 os.environ['WINEDEBUG']	 = '-all'
 os.environ['MAKE']	 = 'colormake'
@@ -78,6 +80,7 @@ for tool in ('AR', 'RANLIB', 'STRIP', 'AS',
 	autogenargs += ' '+tool+'="'+os.environ[tool]+'" '
 
 #Module specific configure arguments
+module_autogenargs['zlib']    = autogenargs + ' --prefix='+prefix+' --shared'
 module_autogenargs['pcre']    = autogenargs + ' --enable-utf8' + ' --enable-shared'
 module_autogenargs['gettext'] = autogenargs + """ --without-emacs \
 						  --disable-libasprintf \
@@ -92,9 +95,6 @@ module_autogenargs['libbz2'] = ' --prefix='+prefix + ' --shared'
 module_autogenargs['glib'] =    autogenargs + """ --enable-explicit-deps=no \
                                                   --cache-file=win32.cache \
                                                   --disable-gtk-doc"""
-#module_autogenargs['expat']	= autogenargs
-#module_autogenargs['freetype']	= autogenargs + """ --enable=shared"""
-#module_autogenargs['fontconfig']= autogenargs + """ --with-arch=i586-pc-mingw32msvc"""
 module_autogenargs['pango']	= autogenargs + """ --disable-gtk-doc \
                                                   --enable-explicit-deps=no \
                                                   --with-included-modules"""
@@ -111,13 +111,12 @@ module_autogenargs['cairo']	= autogenargs + """ --enable-explicit-deps=no \
 						  --disable-static \
 						  --enable-shared"""
 
-
-module_autogenargs['libxml2']	= autogenargs + """ --disable-scrollkeeper"""
+module_autogenargs['libxml2']	= autogenargs + """ --disable-scrollkeeper --without-iconv"""
 
 autogenargs += """ --disable-scrollkeeper --disable-gtk-doc"""
 
 module_autogenargs['atk']	= autogenargs + """ --disable-glibtest"""
-module_autogenargs['gtk+']	= autogenargs + """ --disable-glibtest"""
+module_autogenargs['gtk+']	= autogenargs + """ --disable-glibtest --without-libjasper"""
 
 module_autogenargs['libgda']	= autogenargs + """ --without-odbc --without-lda"""
 module_autogenargs['pxlib']	= autogenargs + """ --with-gsf=""" + prefix
@@ -127,6 +126,6 @@ module_autogenargs['psiconv']	= autogenargs + """ --disable-xhtml-docs \
 						    --without-imagemagick"""
 module_autogenargs['libglade']	= autogenargs
 module_autogenargs['pygobject']	= autogenargs
-module_autogenargs['libgsf']	= autogenargs
+module_autogenargs['libgsf']	= autogenargs + """ --without-gnome-vfs --without-bonobo"""
 module_autogenargs['goffice']	= autogenargs
 module_autogenargs['gnumeric']	= autogenargs

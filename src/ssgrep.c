@@ -71,6 +71,8 @@ cb_check_strings (G_GNUC_UNUSED gpointer key, gpointer str,
 		}
 		g_print ("\t%s : %d (string)\n", target, ((GnmString *)str)->ref_count);
 	}
+
+	g_free (clean);
 }
 
 static void
@@ -157,7 +159,7 @@ main (int argc, char const **argv)
 		return 0;
 	} 
 
-	targets = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	targets = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	if (ssgrep_keyword_file) {
 		GsfInput     	 *input;
 		GsfInputTextline *textline;

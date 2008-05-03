@@ -233,6 +233,8 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 		workbook_sheet_attach (wb, dao->sheet);
 		dao->wbc = wb_control_wrapper_new (dao->wbc, NULL, wb, NULL);
 	}
+	wb_view_sheet_focus (wb_control_view (dao->wbc), dao->sheet);
+
 	if (dao->rows == 0 || (dao->rows == 1 && dao->cols == 1))
 		dao->rows = gnm_sheet_get_max_rows (dao->sheet) - dao->start_row;
 	if (dao->cols == 0 || (dao->rows == 1 && dao->cols == 1))

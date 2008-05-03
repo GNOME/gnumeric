@@ -1,0 +1,130 @@
+Index: glib/goption.c
+===================================================================
+--- glib/goption.c	(revision 6663)
++++ glib/goption.c	(working copy)
+@@ -86,6 +86,7 @@
+ 
+   guint            help_enabled   : 1;
+   guint            ignore_unknown : 1;
++  guint		   delocalize : 1;
+   
+   GOptionGroup    *main_group;
+ 
+@@ -225,6 +226,7 @@
+   context->parameter_string = g_strdup (parameter_string);
+   context->help_enabled = TRUE;
+   context->ignore_unknown = FALSE;
++  context->delocalize = TRUE;
+ 
+   return context;
+ }
+@@ -347,6 +349,23 @@
+   return context->ignore_unknown;
+ }
+ 
++void
++g_option_context_set_delocalize (GOptionContext *context,
++				 gboolean	 delocalize)
++{
++  g_return_if_fail (context != NULL);
++
++  context->delocalize = delocalize;
++}
++
++gboolean
++g_option_context_get_delocalize (GOptionContext *context)
++{
++  g_return_if_fail (context != NULL);
++
++  return context->delocalize;
++}
++
+ /**
+  * g_option_context_add_group:
+  * @context: a #GOptionContext
+@@ -1003,7 +1022,10 @@
+       {
+ 	gchar *data;
+ 	
+-	data = g_locale_to_utf8 (value, -1, NULL, NULL, error);
++	if (context->delocalize)
++	    data = g_locale_to_utf8 (value, -1, NULL, NULL, error);
++	else
++	    data = g_strdup (value);
+ 
+ 	if (!data)
+ 	  return FALSE;
+@@ -1022,7 +1044,10 @@
+       {
+ 	gchar *data;
+ 
+-	data = g_locale_to_utf8 (value, -1, NULL, NULL, error);
++	if (context->delocalize)
++	    data = g_locale_to_utf8 (value, -1, NULL, NULL, error);
++	else
++	    data = g_strdup (value);
+ 
+ 	if (!data)
+ 	  return FALSE;
+@@ -1055,7 +1080,10 @@
+ 	gchar *data;
+ 
+ #ifdef G_OS_WIN32
+-	data = g_locale_to_utf8 (value, -1, NULL, NULL, error);
++	if (context->delocalize)
++	    data = g_locale_to_utf8 (value, -1, NULL, NULL, error);
++	else
++	    data = g_strdup (value);
+ 	
+ 	if (!data)
+ 	  return FALSE;
+@@ -1078,7 +1106,10 @@
+ 	gchar *data;
+ 	
+ #ifdef G_OS_WIN32
+-	data = g_locale_to_utf8 (value, -1, NULL, NULL, error);
++	if (context->delocalize)
++	    data = g_locale_to_utf8 (value, -1, NULL, NULL, error);
++	else
++	    data = g_strdup (value);
+ 	
+ 	if (!data)
+ 	  return FALSE;
+@@ -1135,13 +1166,21 @@
+ 	else if (entry->flags & G_OPTION_FLAG_FILENAME)
+ 	  {
+ #ifdef G_OS_WIN32
+-  	    data = g_locale_to_utf8 (value, -1, NULL, NULL, error);
++	    if (context->delocalize)
++		data = g_locale_to_utf8 (value, -1, NULL, NULL, error);
++	    else
++		data = g_strdup (value);
+ #else
+ 	    data = g_strdup (value);
+ #endif
+ 	  }
+ 	else
+-	  data = g_locale_to_utf8 (value, -1, NULL, NULL, error);
++	  {
++	    if (context->delocalize)
++		data = g_locale_to_utf8 (value, -1, NULL, NULL, error);
++	    else
++		data = g_strdup (value);
++	  }
+ 
+ 	if (!(entry->flags & (G_OPTION_FLAG_NO_ARG|G_OPTION_FLAG_OPTIONAL_ARG)) && 
+ 	    !data)
+Index: glib/goption.h
+===================================================================
+--- glib/goption.h	(revision 6663)
++++ glib/goption.h	(working copy)
+@@ -110,6 +110,9 @@
+ void		g_option_context_set_ignore_unknown_options (GOptionContext *context,
+ 							     gboolean	     ignore_unknown);
+ gboolean        g_option_context_get_ignore_unknown_options (GOptionContext *context);
++void		g_option_context_set_delocalize (GOptionContext *context,
++							     gboolean	     ignore_unknown);
++gboolean        g_option_context_get_delocalize (GOptionContext *context);
+ 
+ void            g_option_context_add_main_entries (GOptionContext      *context,
+ 						   const GOptionEntry  *entries,
