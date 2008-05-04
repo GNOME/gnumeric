@@ -1,3 +1,7 @@
+2008-05-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.0
+
 2008-04-08  Morten Welinder  <terra@gnome.org>
 
 	* analysis-tools.c (analysis_tool_regression_engine_run): Use

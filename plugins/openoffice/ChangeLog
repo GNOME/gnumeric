@@ -1,3 +1,7 @@
+2008-05-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.0
+
 2008-02-24  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_parse_border): Use g_strndup instead of

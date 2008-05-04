@@ -9236,6 +9236,34 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-IFERROR">
+      <refmeta>
+        <refentrytitle>
+          <function>IFERROR</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>IFERROR</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>IFERROR</function>(<parameter>x</parameter>,<parameter>y</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>This function returns the first value, unless that is an error, in which case it returns the second.</para>
+        <para><parameter>x</parameter>: value to test for error.</para>
+        <para><parameter>y</parameter>: alternate value.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-IF"><function>IF</function></link>,
+        <link linkend="gnumeric-ISERROR"><function>ISERROR</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-NOT">
       <refmeta>
         <refentrytitle>

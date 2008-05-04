@@ -1,3 +1,7 @@
+2008-05-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.0
+
 2008-03-13  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (fmt_dialog_changed): Disable Apply and Ok

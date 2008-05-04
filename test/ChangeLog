@@ -1,3 +1,7 @@
+2008-05-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.0
+
 2008-01-14  Morten Welinder  <terra@gnome.org>
 
 	* Makefile.am (TESTS): Use $(wildcard ...) and screw the automake

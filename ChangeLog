@@ -1,3 +1,7 @@
+2008-05-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.0
+
 2008-05-04  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_notebook_switch_page): When selecting a range

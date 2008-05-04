@@ -3766,6 +3766,14 @@ IF(FALSE,TRUE,FALSE) equals FALSE.
 @SEEALSO=
 
 @CATEGORY=Logic
+@FUNCTION=IFERROR
+@SYNTAX=IFERROR(x,y)
+@DESCRIPTION=This function returns the first value, unless that is an error, in which case it returns the second.
+@{x}: value to test for error.
+@{y}: alternate value.
+@SEEALSO=IF,ISERROR
+
+@CATEGORY=Logic
 @FUNCTION=NOT
 @SYNTAX=NOT(number)
 @DESCRIPTION=NOT implements the logical NOT function: the result is TRUE if the @number is zero;  otherwise the result is FALSE.

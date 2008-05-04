@@ -1,3 +1,7 @@
+2008-05-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.0
+
 2008-02-26  Morten Welinder  <terra@gnome.org>
 
 	* sylk.c (sylk_rtd_c_parse): Do not duplicate all cell formats as

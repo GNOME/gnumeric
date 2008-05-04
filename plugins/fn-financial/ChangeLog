@@ -1,3 +1,7 @@
+2008-05-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.0
+
 2008-01-10  Morten Welinder  <terra@gnome.org>
 
 	* functions.c: Add proper argument description to NPV.  [#506160]

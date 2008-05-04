@@ -1,3 +1,7 @@
+2008-05-04  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.0
+
 2008-03-06  Morten Welinder  <terra@gnome.org>
 
 	* applix-read.c (applix_read): Fix null deref.  #520873.
