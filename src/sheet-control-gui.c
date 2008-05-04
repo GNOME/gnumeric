@@ -2775,7 +2775,7 @@ scg_rangesel_stop (SheetControlGUI *scg, gboolean clear_string)
 	if (!scg->rangesel.active)
 		return;
 	if (scg->wbcg->rangesel != scg)
-		g_warning ("mis configed rangesel");
+		g_warning ("misconfiged rangesel");
 
 	scg->wbcg->rangesel = NULL;
 	scg->rangesel.active = FALSE;
