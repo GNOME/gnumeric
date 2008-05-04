@@ -763,7 +763,14 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 
 	cb_direction_change (NULL, NULL, new_scg);
 
-	if (wbcg_rangesel_possible (wbcg)) {
+	if (wbcg_is_editing (wbcg) && wbcg_rangesel_possible (wbcg)) {
+		/*
+		 * When we are editing, sheet changes are not done fully.
+		 * We revert to the original sheet later.
+		 *
+		 * On the other hand, when we are selecting a range for a
+		 * dialog, we do change sheet fully.
+		 */
 		scg_take_focus (new_scg);
 		return;
 	}

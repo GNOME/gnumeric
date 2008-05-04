@@ -1,3 +1,8 @@
+2008-05-04  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (cb_notebook_switch_page): When selecting a range
+	for a dialog, do sheet changes fully.  Fixes #529309.
+
 2008-05-02  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c (wbv_save_to_uri): Zap this meesage too.
