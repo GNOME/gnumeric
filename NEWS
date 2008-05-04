@@ -24,6 +24,7 @@ Morten:
 	* Implement F9 for evaluating a selected subexpression.
 	* Fix problem loading Quattro Pro files.  [#530183]
 	* Fix right/center text for Quattro Pro files.
+	* Fix problem with sheet changes during range selection.  [#529309]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.2
