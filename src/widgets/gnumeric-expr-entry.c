@@ -1179,7 +1179,8 @@ gnm_expr_entry_set_scg (GnmExprEntry *gee, SheetControlGUI *scg)
 	} else
 		gee->sheet = NULL;
 #if 0
-	g_warning ("Setting gee (%p)->sheet = %p", gee, gee->sheet);
+	g_printerr ("Setting gee (%p)->sheet = %s\n",
+		    gee, gee->sheet->name_unquoted);
 #endif
 }
 
