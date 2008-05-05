@@ -1,8 +1,37 @@
-gnumeric (1.9.0~pre-0) UNRELEASED; urgency=medium
+gnumeric (1.9.0-1) experimental; urgency=low
 
-  * SVN trunk
+  * New upstream development release.
 
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 29 Dec 2007 23:57:51 +0100
+  * Upstream changes include:
+    * Gnumeric graphs cannot always round trip through xls format, as
+      Gnumeric's structure for graphs is richer than that supported by the xls
+      format, e.g. Gnumeric supports multiple charts per graph and
+      distinguishes between graph titles and chart titles, but the xls format
+      only supports one chart per graph and just one title. When exporting to
+      xls format, if there is no chart title, but there is a graph title, save
+      that graph title. (Closes: #305399)
+  * [debian/control] Update libgsf and goffice build dependencies as per
+    configure.in .
+  * [debian/gnumeric.install] Include ssgrep.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 05 May 2008 07:17:09 +0200
+
+gnumeric (1.8.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * [debian/control] Added gnumeric Suggests: msttcorefonts as these may be
+    needed for proper preview and printing of Excel files.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 07 Mar 2008 07:01:57 +0100
+
+gnumeric (1.8.1-1) unstable; urgency=medium
+
+  * New upstream release. Changes include
+    * plugins/excel/ms-chart.c: (ms_excel_chart_write): save graph title if
+      any and if the first chart has no title. (Gnome #301720) 
+      (Closes: #305399)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 25 Jan 2008 19:55:54 +0100
 
 gnumeric (1.8.0-1) unstable; urgency=medium
 
