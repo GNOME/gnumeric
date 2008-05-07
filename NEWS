@@ -1,3 +1,9 @@
+Gnumeric 1.9.1
+
+Morten:
+	Fix Excel export problem for strings that need quoting.  [#530704]
+
+--------------------------------------------------------------------------
 Gnumeric 1.9.0
 
 David Reiser:

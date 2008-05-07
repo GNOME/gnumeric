@@ -1,3 +1,15 @@
+2008-05-07  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (ExcelStyleVariant): New type.
+	(xf_init): Create cell_style_variant hash.  Change domain type of
+	xf.two_way_table to ExcelStyleVariant.  All users changed.
+	(xf_free): Destroy cell_style_variant.
+	(cb_cell_pre_pass): If a string cell needs quoting, mark it as
+	variant 1.
+	(excel_sheet_write_block): Use proper variant.
+	(build_xf_data): Set ->format properly.
+	(excel_write_XF): Propagate ->format into XF.  Fixes #530704.
+
 2008-05-04  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.0

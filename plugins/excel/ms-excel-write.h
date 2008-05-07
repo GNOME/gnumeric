@@ -61,6 +61,7 @@ typedef struct {
 		TwoWayTable *two_way_table;
 		GnmStyle    *default_style;
 		GHashTable  *value_fmt_styles;
+		GHashTable  *cell_style_variant;
 	} xf;
 	struct {
 		TwoWayTable *two_way_table;

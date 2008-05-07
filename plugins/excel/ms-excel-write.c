@@ -3,11 +3,12 @@
  * ms-excel-write.c: MS Excel support for Gnumeric
  *
  * Authors:
- *    Michael Meeks (mmeeks@gnu.org)
- *    Jon K Hellan  (hellan@acm.org)
- *    Jody Goldberg (jody@gnome.org)
+ *    Michael Meeks  (mmeeks@gnu.org)
+ *    Jon K Hellan   (hellan@acm.org)
+ *    Jody Goldberg  (jody@gnome.org)
+ *    Morten Welinder (terra@gnome.org)
  *
- * (C) 1998-2007 Michael Meeks, Jon K Hellan, Jody Goldberg
+ * (C) 1998-2008 Michael Meeks, Jon K Hellan, Jody Goldberg, Morten Welinder
  **/
 
 /*
@@ -114,6 +115,28 @@ struct _BlipType {
 			 BlipInf *blip,
 			 BlipType *bt);
 };
+
+/*
+ * We sometimes need multiple XF records for a single Gnumeric style.  That
+ * happens, for example when we synthesize the cell-is-quoted flag.
+ */
+typedef struct {
+	GnmStyle const *style;
+	int variant;
+} ExcelStyleVariant;
+
+static guint
+excel_style_variant_hash (ExcelStyleVariant const *esv)
+{
+	return gnm_style_hash_XL (esv->style) ^ esv->variant;
+}
+
+static gboolean
+excel_style_variant_equal (ExcelStyleVariant const *a,
+			   ExcelStyleVariant const *b)
+{
+	return a->variant == b->variant && gnm_style_equal (a->style, b->style);
+}
 
 static guint
 gnm_color_to_bgr (GnmColor const *c)
@@ -1730,14 +1753,16 @@ put_color_go_color (XLExportBase *ewb, GOColor c)
 {
 	put_color_bgr (ewb, go_color_to_bgr (c));
 }
+
 /**
  * Add colors in mstyle to palette
  **/
 static void
-put_colors (GnmStyle const *st, gconstpointer dummy, XLExportBase *ewb)
+put_colors (ExcelStyleVariant const *esv, gpointer dummy, XLExportBase *ewb)
 {
 	unsigned i, j;
 	GnmBorder const *b;
+	GnmStyle const *st = esv->style;
 
 	put_color_gnm (ewb, gnm_style_get_font_color (st));
 	put_color_gnm (ewb, gnm_style_get_back_color (st));
@@ -1800,7 +1825,8 @@ gather_palette (XLExportBase *xle)
 
 	/* For each color in each style, get color index from hash. If
            none, it is not there yet, and we enter it. */
-	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_colors, xle);
+	g_hash_table_foreach (xle->xf.two_way_table->unique_keys,
+			      (GHFunc) put_colors, xle);
 
 	twt = xle->pal.two_way_table;
 	for (i = twt->idx_to_key->len - 1; i >= EXCEL_DEF_PAL_LEN; i--) {
@@ -2093,9 +2119,9 @@ excel_font_from_go_font (XLExportBase *ewb, GOFont const *font)
 }
 
 static void
-put_style_font (GnmStyle const *style, gconstpointer dummy, XLExportBase *xle)
+put_style_font (ExcelStyleVariant const *esv, gconstpointer dummy, XLExportBase *xle)
 {
-	put_efont (excel_font_new (style), xle);
+	put_efont (excel_font_new (esv->style), xle);
 }
 
 static void
@@ -2248,11 +2274,12 @@ formats_get_index (XLExportBase *xle, GOFormat const *format)
 {
 	return two_way_table_key_to_idx (xle->formats.two_way_table, format);
 }
+
 static void
-put_format (GnmStyle const *mstyle, gconstpointer dummy, XLExportBase *xle)
+put_format (ExcelStyleVariant const *esv, gpointer dummy, XLExportBase *xle)
 {
 	two_way_table_put (xle->formats.two_way_table,
-		go_format_ref (gnm_style_get_format (mstyle)), TRUE,
+		go_format_ref (gnm_style_get_format (esv->style)), TRUE,
 		(AfterPutFunc) after_put_format,
 		"Found unique format %d - 0x%x\n");
 }
@@ -2313,9 +2340,13 @@ excel_write_FORMATs (ExcelWriteState *ewb)
 static void
 xf_init (XLExportBase *xle)
 {
+	ExcelStyleVariant *esv;
+
 	/* Excel starts at XF_RESERVED for user defined xf */
-	xle->xf.two_way_table = two_way_table_new (gnm_style_hash_XL,
-		(GCompareFunc) gnm_style_equal_XL, XF_RESERVED, NULL);
+	xle->xf.two_way_table = two_way_table_new
+		((GHashFunc)excel_style_variant_hash,
+		 (GCompareFunc)excel_style_variant_equal,
+		 XF_RESERVED, g_free);
 
 	/* We store the default style for the workbook on xls import, use it if
 	 * it's available.  While we have a default style per sheet, we don't
@@ -2333,10 +2364,14 @@ xf_init (XLExportBase *xle)
 	xle->xf.value_fmt_styles = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal, NULL, (GDestroyNotify)gnm_style_unlink);
 	/* Register default style, its font and format */
-	two_way_table_put (xle->xf.two_way_table, xle->xf.default_style,
-		TRUE, NULL, NULL);
-	put_style_font (xle->xf.default_style, NULL, xle);
-	put_format (xle->xf.default_style, NULL, xle);
+	esv = g_new (ExcelStyleVariant, 1);
+	esv->style = xle->xf.default_style;
+	esv->variant = 0;
+	two_way_table_put (xle->xf.two_way_table, esv, TRUE, NULL, NULL);
+	put_style_font (esv, NULL, xle);
+	put_format (esv, NULL, xle);
+
+	xle->xf.cell_style_variant = g_hash_table_new (g_direct_hash, g_direct_equal);
 }
 
 static void
@@ -2348,10 +2383,12 @@ xf_free (XLExportBase *ewb)
 		gnm_style_unref (ewb->xf.default_style);
 		ewb->xf.default_style = NULL;
 		g_hash_table_destroy (ewb->xf.value_fmt_styles);
+
+		g_hash_table_destroy (ewb->xf.cell_style_variant);
 	}
 }
 
-static GnmStyle *
+static const ExcelStyleVariant *
 xf_get_mstyle (XLExportBase *xle, gint idx)
 {
 	return two_way_table_idx_to_key (xle->xf.two_way_table, idx);
@@ -2406,17 +2443,17 @@ txomarkup_new (ExcelWriteState *ewb,
 static void
 cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 {
-	int index;
-	GnmStyle const	*style;
-	GOFormat	*fmt;
-	GnmString	*str;
+	GnmStyle const *style;
+	GOFormat *fmt;
+	gboolean use_sst;
 
 	if (gnm_cell_has_expr (cell) || cell->value == NULL)
 		return;
 
-	if ((fmt = VALUE_FMT (cell->value)) != NULL) {
-		style = gnm_cell_get_style (cell);
+	use_sst = VALUE_IS_STRING (cell->value) && ewb->sst.strings != NULL;
+	style = gnm_cell_get_style (cell);
 
+	if ((fmt = VALUE_FMT (cell->value)) != NULL) {
 		/* Collect unique fonts in rich text */
 		if (VALUE_IS_STRING (cell->value) &&
 		    go_format_is_markup (fmt)) {
@@ -2424,9 +2461,9 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 				go_format_get_markup (fmt),
 				style);
 
-			g_hash_table_insert (ewb->cell_markup,
-				(gpointer)cell, txo);
-			return; /* we use RSTRING, no need to add to SST */
+			g_hash_table_insert (ewb->cell_markup, (gpointer)cell, txo);
+			/* we use RSTRING, no need to add to SST */
+			use_sst = FALSE;
 		}
 
 		/* XL has no notion of value format.  We need to create
@@ -2436,20 +2473,44 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 		else if (go_format_is_general (gnm_style_get_format (style))) {
 			GnmStyle *tmp = gnm_style_dup (style);
 			gnm_style_set_format (tmp, fmt);
+			style = sheet_style_find (cell->base.sheet, tmp);
 			g_hash_table_insert (ewb->base.xf.value_fmt_styles,
-				(gpointer)cell,
-				sheet_style_find (cell->base.sheet, tmp));
+					     (gpointer)cell,
+					     (gpointer)style);
 		}
 	}
 
 	/* Collect strings for the SST if we need them */
-	if (ewb->sst.strings != NULL && VALUE_IS_STRING (cell->value)) {
-		str = cell->value->v_str.val;
+	if (use_sst) {
+		GnmString *str = cell->value->v_str.val;
 		if (!g_hash_table_lookup_extended (ewb->sst.strings, str, NULL, NULL)) {
-			index = ewb->sst.indicies->len;
+			int index = ewb->sst.indicies->len;
 			g_ptr_array_add (ewb->sst.indicies, str);
 			g_hash_table_insert (ewb->sst.strings, str,
 				GINT_TO_POINTER (index));
+		}
+	}
+
+	if (VALUE_IS_STRING (cell->value)) {
+		/*
+		 * We need to know if Excel's parser would consider the string
+		 * a non-string if edited.  We use our parser as a proxy for
+		 * that.
+		 */
+		char *text = gnm_cell_get_entered_text (cell);
+		gboolean quoted = (text[0] == '\'');
+		g_free (text);
+
+		if (quoted) {
+			int xf;
+			ExcelStyleVariant *esv = g_new (ExcelStyleVariant, 1);
+			esv->variant = 1;
+			esv->style = style;
+			xf = two_way_table_put (ewb->base.xf.two_way_table,
+						esv, FALSE, NULL, NULL);
+			g_hash_table_insert (ewb->base.xf.cell_style_variant,
+					     (gpointer)cell,
+					     GINT_TO_POINTER (1));
 		}
 	}
 }
@@ -2457,8 +2518,12 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 static void
 cb_accum_styles (GnmStyle const *st, gconstpointer dummy, XLExportBase *xle)
 {
-	two_way_table_put (xle->xf.two_way_table, (gpointer)st, TRUE, NULL, NULL);
+	ExcelStyleVariant *esv = g_new (ExcelStyleVariant, 1);
+	esv->style = st;
+	esv->variant = 0;
+	two_way_table_put (xle->xf.two_way_table, esv, TRUE, NULL, NULL);
 }
+
 static void
 gather_styles (ExcelWriteState *ewb)
 {
@@ -2472,9 +2537,13 @@ gather_styles (ExcelWriteState *ewb)
 			(GHFunc) cb_cell_pre_pass, &ewb->base);
 		sheet_style_foreach (esheet->gnum_sheet,
 			(GHFunc) cb_accum_styles, &ewb->base);
-		for (col = 0; col < esheet->max_col; col++)
-			esheet->col_xf [col] = two_way_table_key_to_idx (
-				ewb->base.xf.two_way_table, esheet->col_style [col]);
+		for (col = 0; col < esheet->max_col; col++) {
+			ExcelStyleVariant esv;
+			esv.style = esheet->col_style[col];
+			esv.variant = 0;
+			esheet->col_xf[col] = two_way_table_key_to_idx
+				(ewb->base.xf.two_way_table, &esv);
+		}
 	}
 }
 
@@ -2651,16 +2720,17 @@ log_xf_data (XLExportBase *xle, BiffXFData *xfd, int idx)
 #endif
 
 static void
-build_xf_data (XLExportBase *xle, BiffXFData *xfd, GnmStyle *st)
+build_xf_data (XLExportBase *xle, BiffXFData *xfd, const ExcelStyleVariant *esv)
 {
 	ExcelWriteFont *f;
 	GnmBorder const *b;
 	int i;
+	GnmStyle const *st = esv->style;
 
 	memset (xfd, 0, sizeof *xfd);
 
 	xfd->parentstyle  = XF_MAGIC;
-	xfd->mstyle       = st;
+	xfd->mstyle       = (gpointer)st;
 
 	f = excel_font_new (st);
 	xfd->font_idx = two_way_table_key_to_idx (xle->fonts.two_way_table, f);
@@ -2671,6 +2741,7 @@ build_xf_data (XLExportBase *xle, BiffXFData *xfd, GnmStyle *st)
 
 	xfd->locked	= gnm_style_get_contents_locked (st);
 	xfd->hidden	= gnm_style_get_contents_hidden (st);
+	xfd->format     = (esv->variant & 1) ? MS_BIFF_F_LOTUS : MS_BIFF_F_MS;
 	xfd->halign	= gnm_style_get_align_h (st);
 	xfd->valign	= gnm_style_get_align_v (st);
 	xfd->wrap_text	= gnm_style_get_wrap_text (st);
@@ -2734,7 +2805,7 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 			tmp16 |= (1 << 1);
 
 		tmp16 |= (0 << 2);	/* GnmCell style */
-		/* tmp16 |= (0 << 3);	lotus123 transition */
+		tmp16 |= (xfd->format << 3);
 		/* tmp16 |= (0 << 4);	style 0 == parent */
 		GSF_LE_SET_GUINT16(data+4, tmp16);
 
@@ -4602,16 +4673,13 @@ static guint32
 excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 			 GArray *dbcells)
 {
-	GnmStyle const *style;
 	ExcelWriteState *ewb = esheet->ewb;
 	int col, row, max_row, max_col = esheet->max_col;
 	unsigned  ri_start [2]; /* Row info start */
 	unsigned *rc_start;	/* Row cells start */
 	guint16   xf_list [SHEET_MAX_COLS];
 	GnmRange  r;
-	GnmCell const	*cell;
 	Sheet		*sheet = esheet->gnum_sheet;
-	int	    xf;
 	TwoWayTable *twt = esheet->ewb->base.xf.two_way_table;
 	gboolean has_content = FALSE;
 
@@ -4639,16 +4707,23 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 			continue;
 		has_content = TRUE;
 		for (col = 0; col < max_col; col++) {
-			cell = sheet_cell_get (sheet, col, row);
+			int xf;
+			GnmCell const *cell = sheet_cell_get (sheet, col, row);
+			ExcelStyleVariant esv;
+
+			esv.variant = GPOINTER_TO_INT
+				(g_hash_table_lookup (ewb->base.xf.cell_style_variant, cell));
 
 			/* check for a magic value_fmt override*/
-			style = g_hash_table_lookup (ewb->base.xf.value_fmt_styles, cell);
-			if (style == NULL)
-				style = sheet_style_get (sheet, col, row);
-			xf = two_way_table_key_to_idx (twt, style);
+			esv.style = g_hash_table_lookup
+				(ewb->base.xf.value_fmt_styles, cell);
+			if (esv.style == NULL)
+				esv.style = sheet_style_get (sheet, col, row);
+			xf = two_way_table_key_to_idx (twt, &esv);
+
 			if (xf < 0) {
 				g_warning ("Can't find style %p for cell %s!%s",
-					   style, sheet->name_unquoted, cell_name (cell));
+					   esv.style, sheet->name_unquoted, cell_name (cell));
 				xf = 0;
 			}
 			if (cell == NULL) {
@@ -4984,9 +5059,9 @@ pre_pass (ExcelWriteState *ewb)
 
 	/* Gather Info from styles */
 	twt = xle->xf.two_way_table;
-	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_style_font, xle);
+	g_hash_table_foreach (twt->unique_keys, (GHFunc)put_style_font, xle);
 	twt = xle->xf.two_way_table;
-	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_format, xle);
+	g_hash_table_foreach (twt->unique_keys, (GHFunc)put_format, xle);
 	gather_palette (xle);
 }
 
