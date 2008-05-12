@@ -7,6 +7,7 @@
 #include <glib-object.h>
 #include <print-info.h>
 #include <libgnumeric.h>
+#include <goffice/app/go-conf.h>
 #include <goffice/utils/go-geometry.h>
 #include <gtk/gtkprintsettings.h>
 
@@ -98,8 +99,6 @@ typedef struct {
 	gboolean	 latex_use_utf8;
 } GnmAppPrefs;
 GNM_VAR_DECL GnmAppPrefs const *gnm_app_prefs;
-
-typedef struct _GOConfNode GOConfNode;
 
 void     gnm_conf_init (gboolean fast);
 void     gnm_conf_shutdown (void);
@@ -199,45 +198,6 @@ void     gnm_gconf_set_latex_use_utf8 (gboolean value);
 
 /* application interface */
 void     gnm_gconf_set_prefer_clipboard  (gboolean value);
-
-/**************************************************************/
-
-GOConfNode * go_conf_get_node       (GOConfNode *parent, gchar const *key);
-void	 go_conf_free_node	    (GOConfNode *node);
-
-gchar	*go_conf_get_short_desc     (GOConfNode *node, gchar const *key);
-gchar	*go_conf_get_long_desc      (GOConfNode *node, gchar const *key);
-GType	 go_conf_get_type	    (GOConfNode *node, gchar const *key);
-gchar	*go_conf_get_value_as_str   (GOConfNode *node, gchar const *key);
-gboolean go_conf_set_value_from_str (GOConfNode *node, gchar const *key, gchar const *val_str);
-
-gboolean go_conf_get_bool	(GOConfNode *node, gchar const *key);
-gint	 go_conf_get_int	(GOConfNode *node, gchar const *key);
-gdouble	 go_conf_get_double	(GOConfNode *node, gchar const *key);
-gchar	*go_conf_get_string	(GOConfNode *node, gchar const *key);
-GSList	*go_conf_get_str_list	(GOConfNode *node, gchar const *key);
-gchar	*go_conf_get_enum_as_str(GOConfNode *node, gchar const *key);
-
-gboolean go_conf_load_bool	(GOConfNode *node, gchar const *key, gboolean default_val);
-gint	 go_conf_load_int	(GOConfNode *node, gchar const *key, gint minima, gint maxima, gint default_val);
-gdouble	 go_conf_load_double	(GOConfNode *node, gchar const *key, gdouble minima, gdouble maxima, gdouble default_val);
-gchar	*go_conf_load_string	(GOConfNode *node, gchar const *key);
-GSList	*go_conf_load_str_list	(GOConfNode *node, gchar const *key);
-int	 go_conf_load_enum	(GOConfNode *node, gchar const *key, GType t, int default_val);
-
-void	 go_conf_set_bool	(GOConfNode *node, gchar const *key, gboolean val);
-void	 go_conf_set_int	(GOConfNode *node, gchar const *key, gint val);
-void	 go_conf_set_double	(GOConfNode *node, gchar const *key, gnm_float val);
-void	 go_conf_set_string	(GOConfNode *node, gchar const *key, gchar const *str);
-void	 go_conf_set_str_list	(GOConfNode *node, gchar const *key, GSList *list);
-void	 go_conf_set_enum	(GOConfNode *node, gchar const *key, GType t, gint val);
-
-void	 go_conf_sync		(GOConfNode *node);
-
-typedef void (*GOConfMonitorFunc) (GOConfNode *node, gchar const *key, gpointer data);
-void	 go_conf_remove_monitor	(guint monitor_id);
-guint	 go_conf_add_monitor	(GOConfNode *node, gchar const *key,
-				 GOConfMonitorFunc monitor, gpointer data);
 
 G_END_DECLS
 

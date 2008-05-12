@@ -422,9 +422,6 @@ uninstall-hook:
 EXTRA_DIST = \
 	gnm-marshalers.list			\
 	main-component.c			\
-	gnm-conf-gconf.c			\
-	gnm-conf-keyfile.c			\
-	gnm-conf-win32.c			\
 	README.gnm_float			\
 	gnumeric.rc gnm-i18n.h			\
 	GNOME_Gnumeric-gtk.xml.in		\
