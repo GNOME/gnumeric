@@ -1,3 +1,9 @@
+2008-05-13  Morten Welinder  <terra@gnome.org>
+
+	* analysis-tools.c (make_cellref): New function to simplify making
+	intra-sheet references.  All callers of gnm_expr_new_cellref in
+	this file changed to call this function.
+
 2008-05-04  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.0

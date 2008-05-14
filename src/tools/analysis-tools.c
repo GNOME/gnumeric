@@ -56,6 +56,20 @@
 #include <stdlib.h>
 #include <math.h>
 
+
+static const GnmExpr *
+make_cellref (int dx, int dy)
+{
+	GnmCellRef r;
+	r.sheet = NULL;
+	r.col = dx;
+	r.col_relative = TRUE;
+	r.row = dy;
+	r.row_relative = TRUE;
+	return gnm_expr_new_cellref (&r);
+}
+
+
 typedef struct {
 	char *format;
 	GPtrArray *data_lists;
@@ -1474,50 +1488,37 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 
 	/* Observed Mean Difference */
 	if (dao_cell_is_visible (dao, 2, 1)) {
-		static const GnmCellRef mean_2 = {NULL, 1, -4, TRUE, TRUE};
 		gnm_expr_free (expr_mean_2);
-		expr_mean_2 = gnm_expr_new_cellref (&mean_2);
+		expr_mean_2 = make_cellref (1, -4);
 	}
 
 	{
-		static const GnmCellRef mean_1 = {NULL, 0, -4, TRUE, TRUE};
 		dao_set_cell_expr (dao, 1, 5,
 				   gnm_expr_new_binary
-				   (gnm_expr_new_cellref (&mean_1),
+				   (make_cellref (0, -4),
 				    GNM_EXPR_OP_SUB,
 				    expr_mean_2));
 	}
 
 	/* z */
 	{
-		static const GnmCellRef mean_diff_hypo =
-			{NULL, 0, -2, TRUE, TRUE};
-		static const GnmCellRef mean_diff_observed =
-			{NULL, 0, -1, TRUE, TRUE};
-
-		GnmCellRef var_1 = {NULL, 0, -4, TRUE, TRUE};
-		GnmCellRef count_1 = {NULL, 0, -3, TRUE, TRUE};
-		GnmExpr const *expr_var_1 = gnm_expr_new_cellref (&var_1);
+		GnmExpr const *expr_var_1 = make_cellref (0, -4);
 		GnmExpr const *expr_var_2 = NULL;
-		GnmExpr const *expr_count_1 = gnm_expr_new_cellref (&count_1);
+		GnmExpr const *expr_count_1 = make_cellref (0, -3);
 		GnmExpr const *expr_a = NULL;
 		GnmExpr const *expr_b = NULL;
 		GnmExpr const *expr_count_2_adj = NULL;
 
-		if (dao_cell_is_visible (dao, 2,2)) {
-			static const GnmCellRef var_2 =
-				{NULL, 1, -4, TRUE, TRUE};
-			expr_var_2 = gnm_expr_new_cellref (&var_2);
+		if (dao_cell_is_visible (dao, 2, 2)) {
+			expr_var_2 = make_cellref (1, -4);
 		} else {
 			expr_var_2 = gnm_expr_new_constant
 			(value_new_float (info->var2));
 		}
 
 		if (dao_cell_is_visible (dao, 2, 3)) {
-			static const GnmCellRef count_2 =
-				{NULL, 1, -3, TRUE, TRUE};
 			gnm_expr_free (expr_count_2);
-			expr_count_2_adj = gnm_expr_new_cellref (&count_2);
+			expr_count_2_adj = make_cellref (1, -3);
 		} else
 			expr_count_2_adj = expr_count_2;
 
@@ -1529,11 +1530,9 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 		dao_set_cell_expr (dao, 1, 6,
 				   gnm_expr_new_binary
 				   (gnm_expr_new_binary
-				    (gnm_expr_new_cellref
-				     (&mean_diff_observed),
+				    (make_cellref (0, -1),
 				     GNM_EXPR_OP_SUB,
-				     gnm_expr_new_cellref
-				     (&mean_diff_hypo)),
+				     make_cellref (0, -2)),
 				    GNM_EXPR_OP_DIV,
 				    gnm_expr_new_funcall1
 				    (fd_sqrt,
@@ -1544,21 +1543,17 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 	}
 
 	/* P (Z<=z) one-tail */
-	{
-		static const GnmCellRef cr = {NULL, 0, -1, TRUE, TRUE};
-
-		/* FIXME: 1- looks like a bad idea.  */
-		dao_set_cell_expr
-			(dao, 1, 7,
-			 gnm_expr_new_binary
-			 (gnm_expr_new_constant (value_new_int (1)),
-			  GNM_EXPR_OP_SUB,
-			  gnm_expr_new_funcall1
-			  (fd_normsdist,
-			   gnm_expr_new_funcall1
-			   (fd_abs,
-			    gnm_expr_new_cellref (&cr)))));
-	}
+	/* FIXME: 1- looks like a bad idea.  */
+	dao_set_cell_expr
+		(dao, 1, 7,
+		 gnm_expr_new_binary
+		 (gnm_expr_new_constant (value_new_int (1)),
+		  GNM_EXPR_OP_SUB,
+		  gnm_expr_new_funcall1
+		  (fd_normsdist,
+		   gnm_expr_new_funcall1
+		   (fd_abs,
+		    make_cellref (0, -1)))));
 
 
 	/* Critical Z, one right tail */
@@ -1573,23 +1568,18 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 			  )));
 
 	/* P (T<=t) two-tail */
-
-	{
-		static const GnmCellRef cr = {NULL, 0, -3, TRUE, TRUE};
-
-		dao_set_cell_expr
-			(dao, 1, 9,
-			 gnm_expr_new_binary
-			 (gnm_expr_new_constant (value_new_int (2)),
-			  GNM_EXPR_OP_MULT,
-			  gnm_expr_new_funcall1
-			  (fd_normsdist,
-			   gnm_expr_new_unary
-			   (GNM_EXPR_OP_UNARY_NEG,
-			    gnm_expr_new_funcall1
-			    (fd_abs,
-			     gnm_expr_new_cellref (&cr))))));
-	}
+	dao_set_cell_expr
+		(dao, 1, 9,
+		 gnm_expr_new_binary
+		 (gnm_expr_new_constant (value_new_int (2)),
+		  GNM_EXPR_OP_MULT,
+		  gnm_expr_new_funcall1
+		  (fd_normsdist,
+		   gnm_expr_new_unary
+		   (GNM_EXPR_OP_UNARY_NEG,
+		    gnm_expr_new_funcall1
+		    (fd_abs,
+		     make_cellref (0, -3))))));
 
 	/* Critical Z, two tails */
 	dao_set_cell_expr
@@ -1780,25 +1770,19 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 	/* t */
 	/* E24 = (E21-E20)/(E22/(E23+1))^0.5 */
 	{
-		GnmCellRef cr_1 = {NULL, 0, -3, TRUE, TRUE};
-		GnmCellRef cr_2 = {NULL, 0, -4, TRUE, TRUE};
 		GnmExpr const *expr_num;
 		GnmExpr const *expr_denom;
 
-		expr_num = gnm_expr_new_binary (
-			gnm_expr_new_cellref (&cr_1),
-			GNM_EXPR_OP_SUB,
-			gnm_expr_new_cellref (&cr_2));
-
-		cr_1.row = -2;
-		cr_2.row = -1;
+		expr_num = gnm_expr_new_binary (make_cellref (0, -3),
+						GNM_EXPR_OP_SUB,
+						make_cellref (0,-4));
 
 		expr_denom = gnm_expr_new_binary
 			(gnm_expr_new_binary
-			 (gnm_expr_new_cellref (&cr_1),
+			 (make_cellref (0, -2),
 			  GNM_EXPR_OP_DIV,
 			  gnm_expr_new_binary
-			  (gnm_expr_new_cellref (&cr_2),
+			  (make_cellref (0, -1),
 			   GNM_EXPR_OP_ADD,
 			   gnm_expr_new_constant
 			   (value_new_int (1)))),
@@ -1812,65 +1796,45 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 	}
 
 	/* P (T<=t) one-tail */
-	{
-		static const GnmCellRef cr1 = {NULL, 0, -1, TRUE, TRUE};
-		static const GnmCellRef cr2 = {NULL, 0, -2, TRUE, TRUE};
-
-		dao_set_cell_expr
-			(dao, 1, 10,
-			 gnm_expr_new_funcall3
-			 (fd_tdist,
-			  gnm_expr_new_funcall1
-			  (fd_abs,
-			   gnm_expr_new_cellref (&cr1)),
-			  gnm_expr_new_cellref (&cr2),
-			  gnm_expr_new_constant (value_new_int (1))));
-	}
+	dao_set_cell_expr
+		(dao, 1, 10,
+		 gnm_expr_new_funcall3
+		 (fd_tdist,
+		  gnm_expr_new_funcall1
+		  (fd_abs,
+		   make_cellref (0, -1)),
+		  make_cellref (0, -2),
+		  gnm_expr_new_constant (value_new_int (1))));
 
 	/* t Critical one-tail */
-	{
-		static const GnmCellRef cr = {NULL, 0, -3, TRUE, TRUE};
-
-		dao_set_cell_expr
-			(dao, 1, 11,
-			 gnm_expr_new_funcall2
-			 (fd_tinv,
-			  gnm_expr_new_binary
-			  (gnm_expr_new_constant (value_new_int (2)),
-			   GNM_EXPR_OP_MULT,
-			   gnm_expr_new_constant
-			   (value_new_float (info->base.alpha))),
-			  gnm_expr_new_cellref (&cr)));
-	}
+	dao_set_cell_expr
+		(dao, 1, 11,
+		 gnm_expr_new_funcall2
+		 (fd_tinv,
+		  gnm_expr_new_binary
+		  (gnm_expr_new_constant (value_new_int (2)),
+		   GNM_EXPR_OP_MULT,
+		   gnm_expr_new_constant
+		   (value_new_float (info->base.alpha))),
+		  make_cellref (0, -3)));
 
 	/* P (T<=t) two-tail */
-
-	{
-		static const GnmCellRef cr1 = {NULL, 0, -3, TRUE, TRUE};
-		static const GnmCellRef cr2 = {NULL, 0, -4, TRUE, TRUE};
-
-		dao_set_cell_expr
-			(dao, 1, 12,
-			 gnm_expr_new_funcall3
-			 (fd_tdist,
-			  gnm_expr_new_funcall1 (fd_abs,
-						 gnm_expr_new_cellref (&cr1)),
-			  gnm_expr_new_cellref (&cr2),
-			  gnm_expr_new_constant (value_new_int (2))));
-	}
+	dao_set_cell_expr
+		(dao, 1, 12,
+		 gnm_expr_new_funcall3
+		 (fd_tdist,
+		  gnm_expr_new_funcall1 (fd_abs, make_cellref (0, -3)),
+		  make_cellref (0, -4),
+		  gnm_expr_new_constant (value_new_int (2))));
 
 	/* t Critical two-tail */
-	{
-		static const GnmCellRef cr = {NULL, 0, -5, TRUE, TRUE};
-
-		dao_set_cell_expr
-			(dao, 1, 13,
-			 gnm_expr_new_funcall2
-			 (fd_tinv,
-			  gnm_expr_new_constant
-			  (value_new_float (info->base.alpha)),
-			  gnm_expr_new_cellref (&cr)));
-	}
+	dao_set_cell_expr
+		(dao, 1, 13,
+		 gnm_expr_new_funcall2
+		 (fd_tinv,
+		  gnm_expr_new_constant
+		  (value_new_float (info->base.alpha)),
+		  make_cellref (0, -5)));
 
 	/* And finish up */
 
@@ -1895,7 +1859,8 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 
 gboolean
 analysis_tool_ttest_paired_engine (data_analysis_output_t *dao, gpointer specs,
-				  analysis_tool_engine_t selector, gpointer result)
+				   analysis_tool_engine_t selector,
+				   gpointer result)
 {
 	switch (selector) {
 	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
@@ -2010,26 +1975,21 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 	{
 		GnmExpr const *expr_var_2_adj = NULL;
 		GnmExpr const *expr_count_2_adj = NULL;
-		GnmCellRef var_1 = {NULL, 0, -2, TRUE, TRUE};
-		GnmCellRef count_1 = {NULL, 0, -1, TRUE, TRUE};
-		GnmExpr const *expr_var_1 = gnm_expr_new_cellref (&var_1);
-		GnmExpr const *expr_count_1 = gnm_expr_new_cellref (&count_1);
+		GnmExpr const *expr_var_1 = make_cellref (0, -2);
+		GnmExpr const *expr_count_1 = make_cellref (0, -1);
 		GnmExpr const *expr_one = gnm_expr_new_constant
 			(value_new_int (1));
 		GnmExpr const *expr_count_1_minus_1;
 		GnmExpr const *expr_count_2_minus_1;
 
-		if (dao_cell_is_visible (dao, 2,2)) {
-			static const GnmCellRef var_2 =
-				{NULL, 1, -2, TRUE, TRUE};
+		if (dao_cell_is_visible (dao, 2, 2)) {
 			gnm_expr_free (expr_var_2);
-			expr_var_2_adj = gnm_expr_new_cellref (&var_2);
+			expr_var_2_adj = make_cellref (1, -2);
 		} else
 			expr_var_2_adj = expr_var_2;
-		if (dao_cell_is_visible (dao, 2,3)) {
-			static const GnmCellRef count_2 =
-				{NULL, 1, -1, TRUE, TRUE};
-			expr_count_2_adj = gnm_expr_new_cellref (&count_2);
+
+		if (dao_cell_is_visible (dao, 2, 3)) {
+			expr_count_2_adj = make_cellref (1, -1);
 		} else
 			expr_count_2_adj = gnm_expr_copy (expr_count_2);
 
@@ -2065,31 +2025,24 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 
 	/* Observed Mean Difference */
 	if (dao_cell_is_visible (dao, 2,1)) {
-		static const GnmCellRef mean_2 = {NULL, 1, -5, TRUE, TRUE};
 		gnm_expr_free (expr_mean_2);
-		expr_mean_2 = gnm_expr_new_cellref (&mean_2);
+		expr_mean_2 = make_cellref (1, -5);
 	}
-	{
-		static const GnmCellRef mean_1 = {NULL, 0, -5, TRUE, TRUE};
-
-		dao_set_cell_expr (dao, 1, 6,
-				   gnm_expr_new_binary
-				   (gnm_expr_new_cellref (&mean_1),
-				    GNM_EXPR_OP_SUB,
-				    expr_mean_2));
-	}
+	dao_set_cell_expr (dao, 1, 6,
+			   gnm_expr_new_binary
+			   (make_cellref (0, -5),
+			    GNM_EXPR_OP_SUB,
+			    expr_mean_2));
 
 	/* df */
 	{
-		static const GnmCellRef count_1 = {NULL, 0, -4, TRUE, TRUE};
-		GnmExpr const *expr_count_1 = gnm_expr_new_cellref (&count_1);
+		GnmExpr const *expr_count_1 = make_cellref (0, -4);
 		GnmExpr const *expr_count_2_adj;
 		GnmExpr const *expr_two = gnm_expr_new_constant
 			(value_new_int (2));
 
 		if (dao_cell_is_visible (dao, 2,3)) {
-			GnmCellRef count_2 = {NULL, 1, -4, TRUE, TRUE};
-			expr_count_2_adj = gnm_expr_new_cellref (&count_2);
+			expr_count_2_adj = make_cellref (1, -4);
 		} else
 			expr_count_2_adj = gnm_expr_copy (expr_count_2);
 
@@ -2105,21 +2058,15 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 
 	/* t */
 	{
-		GnmCellRef mean_diff_hypo = {NULL, 0, -3, TRUE, TRUE};
-		GnmCellRef mean_diff_observed = {NULL, 0, -2, TRUE, TRUE};
-
-		GnmCellRef var = {NULL, 0, -4, TRUE, TRUE};
-		GnmCellRef count_1 = {NULL, 0, -5, TRUE, TRUE};
-		GnmExpr const *expr_var = gnm_expr_new_cellref (&var);
-		GnmExpr const *expr_count_1 = gnm_expr_new_cellref (&count_1);
+		GnmExpr const *expr_var = make_cellref (0, -4);
+		GnmExpr const *expr_count_1 = make_cellref (0, -5);
 		GnmExpr const *expr_a;
 		GnmExpr const *expr_b;
 		GnmExpr const *expr_count_2_adj;
 
 		if (dao_cell_is_visible (dao, 2,3)) {
-			GnmCellRef count_2 = {NULL, 1, -5, TRUE, TRUE};
 			gnm_expr_free (expr_count_2);
-			expr_count_2_adj = gnm_expr_new_cellref (&count_2);
+			expr_count_2_adj = make_cellref (1, -5);
 		} else
 			expr_count_2_adj = expr_count_2;
 
@@ -2133,11 +2080,9 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 		dao_set_cell_expr (dao, 1, 8,
 				   gnm_expr_new_binary
 				   (gnm_expr_new_binary
-				    (gnm_expr_new_cellref
-				     (&mean_diff_observed),
+				    (make_cellref (0, -2),
 				     GNM_EXPR_OP_SUB,
-				     gnm_expr_new_cellref
-				     (&mean_diff_hypo)),
+				     make_cellref (0, -3)),
 				    GNM_EXPR_OP_DIV,
 				    gnm_expr_new_binary
 					     (gnm_expr_new_binary
@@ -2151,68 +2096,47 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 	}
 
 	/* P (T<=t) one-tail */
-
-	{
-		static const GnmCellRef cr1 = {NULL, 0, -1, TRUE, TRUE};
-		static const GnmCellRef cr2 = {NULL, 0, -2, TRUE, TRUE};
-
-		dao_set_cell_expr
-			(dao, 1, 9,
-			 gnm_expr_new_funcall3
-			 (fd_tdist,
-			  gnm_expr_new_funcall1
-			  (fd_abs,
-			   gnm_expr_new_cellref (&cr1)),
-			  gnm_expr_new_cellref (&cr2),
-			  gnm_expr_new_constant (value_new_int (1))));
-	}
+	dao_set_cell_expr
+		(dao, 1, 9,
+		 gnm_expr_new_funcall3
+		 (fd_tdist,
+		  gnm_expr_new_funcall1
+		  (fd_abs,
+		   make_cellref (0, -1)),
+		  make_cellref (0, -2),
+		  gnm_expr_new_constant (value_new_int (1))));
 
 	/* t Critical one-tail */
-	{
-		static const GnmCellRef cr = {NULL, 0, -3, TRUE, TRUE};
-
-		dao_set_cell_expr
-			(dao, 1, 10,
-			 gnm_expr_new_funcall2
-			 (fd_tinv,
-			  gnm_expr_new_binary
-			  (gnm_expr_new_constant (value_new_int (2)),
-			   GNM_EXPR_OP_MULT,
-			   gnm_expr_new_constant
-			   (value_new_float (info->base.alpha))),
-			  gnm_expr_new_cellref (&cr)));
-	}
+	dao_set_cell_expr
+		(dao, 1, 10,
+		 gnm_expr_new_funcall2
+		 (fd_tinv,
+		  gnm_expr_new_binary
+		  (gnm_expr_new_constant (value_new_int (2)),
+		   GNM_EXPR_OP_MULT,
+		   gnm_expr_new_constant
+		   (value_new_float (info->base.alpha))),
+		  make_cellref (0, -3)));
 
 	/* P (T<=t) two-tail */
-
-	{
-		static const GnmCellRef cr1 = {NULL, 0, -3, TRUE, TRUE};
-		static const GnmCellRef cr2 = {NULL, 0, -4, TRUE, TRUE};
-
-		dao_set_cell_expr
-			(dao, 1, 11,
-			 gnm_expr_new_funcall3
-			 (fd_tdist,
-			  gnm_expr_new_funcall1
-			  (fd_abs,
-			   gnm_expr_new_cellref (&cr1)),
-			  gnm_expr_new_cellref (&cr2),
-			  gnm_expr_new_constant (value_new_int (2))));
-	}
+	dao_set_cell_expr
+		(dao, 1, 11,
+		 gnm_expr_new_funcall3
+		 (fd_tdist,
+		  gnm_expr_new_funcall1
+		  (fd_abs,
+		   make_cellref (0, -3)),
+		  make_cellref (0, -4),
+		  gnm_expr_new_constant (value_new_int (2))));
 
 	/* t Critical two-tail */
-
-	{
-		static const GnmCellRef cr = {NULL, 0, -5, TRUE, TRUE};
-
-		dao_set_cell_expr
-			(dao, 1, 12,
-			 gnm_expr_new_funcall2
-			 (fd_tinv,
-			  gnm_expr_new_constant
-			  (value_new_float (info->base.alpha)),
-			  gnm_expr_new_cellref (&cr)));
-	}
+	dao_set_cell_expr
+		(dao, 1, 12,
+		 gnm_expr_new_funcall2
+		 (fd_tinv,
+		  gnm_expr_new_constant
+		  (value_new_float (info->base.alpha)),
+		  make_cellref (0, -5)));
 
 	/* And finish up */
 
@@ -2346,27 +2270,20 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 
 	/* Observed Mean Difference */
 	if (dao_cell_is_visible (dao, 2,1)) {
-		static const GnmCellRef mean_2 = {NULL, 1, -4, TRUE, TRUE};
 		gnm_expr_free (expr_mean_2);
-		expr_mean_2 = gnm_expr_new_cellref (&mean_2);
+		expr_mean_2 = make_cellref (1, -4);
 	}
-	{
-		static const GnmCellRef mean_1 = {NULL, 0, -4, TRUE, TRUE};
-
-		dao_set_cell_expr (dao, 1, 5,
-				   gnm_expr_new_binary
-				   (gnm_expr_new_cellref (&mean_1),
-				    GNM_EXPR_OP_SUB,
-				    expr_mean_2));
-	}
+	dao_set_cell_expr (dao, 1, 5,
+			   gnm_expr_new_binary
+			   (make_cellref (0, -4),
+			    GNM_EXPR_OP_SUB,
+			    expr_mean_2));
 
 	/* df */
 
 	{
-		static const GnmCellRef var_1 = {NULL, 0, -4, TRUE, TRUE};
-		static const GnmCellRef count_1 = {NULL, 0, -3, TRUE, TRUE};
-		GnmExpr const *expr_var_1 = gnm_expr_new_cellref (&var_1);
-		GnmExpr const *expr_count_1 = gnm_expr_new_cellref (&count_1);
+		GnmExpr const *expr_var_1 = make_cellref (0, -4);
+		GnmExpr const *expr_count_1 = make_cellref (0, -3);
 		GnmExpr const *expr_a;
 		GnmExpr const *expr_b;
 		GnmExpr const *expr_var_2_adj;
@@ -2377,16 +2294,12 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 			(value_new_int (1));
 
 		if (dao_cell_is_visible (dao, 2,2)) {
-			static const GnmCellRef var_2 =
-				{NULL, 1, -4, TRUE, TRUE};
-			expr_var_2_adj = gnm_expr_new_cellref (&var_2);
+			expr_var_2_adj = make_cellref (1, -4);
 		} else
 			expr_var_2_adj = gnm_expr_copy (expr_var_2);
 
 		if (dao_cell_is_visible (dao, 2,3)) {
-			static const GnmCellRef count_2 =
-				{NULL, 1, -3, TRUE, TRUE};
-			expr_count_2_adj = gnm_expr_new_cellref (&count_2);
+			expr_count_2_adj = make_cellref (1, -3);
 		} else
 			expr_count_2_adj = gnm_expr_copy (expr_count_2);
 
@@ -2434,32 +2347,21 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 	/* t */
 
 	{
-		static const GnmCellRef mean_diff_hypo =
-			{NULL, 0, -3, TRUE, TRUE};
-		static const GnmCellRef mean_diff_observed =
-			{NULL, 0, -2, TRUE, TRUE};
-		static const GnmCellRef var_1 = {NULL, 0, -5, TRUE, TRUE};
-		static const GnmCellRef count_1 = {NULL, 0, -4, TRUE, TRUE};
-
-		GnmExpr const *expr_var_1 = gnm_expr_new_cellref (&var_1);
-		GnmExpr const *expr_count_1 = gnm_expr_new_cellref (&count_1);
+		GnmExpr const *expr_var_1 = make_cellref (0, -5);
+		GnmExpr const *expr_count_1 = make_cellref (0, -4);
 		GnmExpr const *expr_a;
 		GnmExpr const *expr_b;
 		GnmExpr const *expr_var_2_adj;
 		GnmExpr const *expr_count_2_adj;
 
 		if (dao_cell_is_visible (dao, 2,2)) {
-			static const GnmCellRef var_2 =
-				{NULL, 1, -5, TRUE, TRUE};
 			gnm_expr_free (expr_var_2);
-			expr_var_2_adj = gnm_expr_new_cellref (&var_2);
+			expr_var_2_adj = make_cellref (1, -5);
 		} else
 			expr_var_2_adj = expr_var_2;
 		if (dao_cell_is_visible (dao, 2,3)) {
-			static const GnmCellRef count_2 =
-				{NULL, 1, -4, TRUE, TRUE};
 			gnm_expr_free (expr_count_2);
-			expr_count_2_adj = gnm_expr_new_cellref (&count_2);
+			expr_count_2_adj = make_cellref (1, -4);
 		} else
 			expr_count_2_adj = expr_count_2;
 
@@ -2471,11 +2373,9 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 		dao_set_cell_expr (dao, 1, 7,
 				   gnm_expr_new_binary
 				   (gnm_expr_new_binary
-				    (gnm_expr_new_cellref
-				     (&mean_diff_observed),
+				    (make_cellref (0, -2),
 				     GNM_EXPR_OP_SUB,
-				     gnm_expr_new_cellref
-				     (&mean_diff_hypo)),
+				     make_cellref (0, -3)),
 				    GNM_EXPR_OP_DIV,
 				    gnm_expr_new_binary
 					     (gnm_expr_new_binary
@@ -2490,66 +2390,47 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 
 	/* P (T<=t) one-tail */
 	/* I9: =tdist(abs(Sheet1!I8),Sheet1!I7,1) */
-
-	{
-		static const GnmCellRef cr1 = {NULL, 0, -1, TRUE, TRUE};
-		static const GnmCellRef cr2 = {NULL, 0, -2, TRUE, TRUE};
-
-		dao_set_cell_expr
-			(dao, 1, 8,
-			 gnm_expr_new_funcall3
-			 (fd_tdist,
-			  gnm_expr_new_funcall1 (fd_abs,
-						 gnm_expr_new_cellref (&cr1)),
-			  gnm_expr_new_cellref (&cr2),
-			  gnm_expr_new_constant (value_new_int (1))));
-	}
+	dao_set_cell_expr
+		(dao, 1, 8,
+		 gnm_expr_new_funcall3
+		 (fd_tdist,
+		  gnm_expr_new_funcall1 (fd_abs,
+					 make_cellref (0, -1)),
+		  make_cellref (0, -2),
+		  gnm_expr_new_constant (value_new_int (1))));
 
 	/* t Critical one-tail */
         /* H10 = tinv(2*alpha,Sheet1!H7) */
-	{
-		static const GnmCellRef cr = {NULL, 0, -3, TRUE, TRUE};
-
-		dao_set_cell_expr
-			(dao, 1, 9,
-			 gnm_expr_new_funcall2
-			 (fd_tinv,
-			  gnm_expr_new_binary
-			  (gnm_expr_new_constant (value_new_int (2)),
-			   GNM_EXPR_OP_MULT,
-			   gnm_expr_new_constant
-			   (value_new_float (info->base.alpha))),
-			  gnm_expr_new_cellref (&cr)));
-	}
+	dao_set_cell_expr
+		(dao, 1, 9,
+		 gnm_expr_new_funcall2
+		 (fd_tinv,
+		  gnm_expr_new_binary
+		  (gnm_expr_new_constant (value_new_int (2)),
+		   GNM_EXPR_OP_MULT,
+		   gnm_expr_new_constant
+		   (value_new_float (info->base.alpha))),
+		  make_cellref (0, -3)));
 
 	/* P (T<=t) two-tail */
 	/* I11: =tdist(abs(Sheet1!I8),Sheet1!I7,1) */
-	{
-		static const GnmCellRef cr1 = {NULL, 0, -3, TRUE, TRUE};
-		static const GnmCellRef cr2 = {NULL, 0, -4, TRUE, TRUE};
-
-		dao_set_cell_expr
-			(dao, 1, 10,
-			 gnm_expr_new_funcall3
-			 (fd_tdist,
-			  gnm_expr_new_funcall1 (fd_abs,
-						 gnm_expr_new_cellref (&cr1)),
-			  gnm_expr_new_cellref (&cr2),
-			  gnm_expr_new_constant (value_new_int (2))));
-	}
+	dao_set_cell_expr
+		(dao, 1, 10,
+		 gnm_expr_new_funcall3
+		 (fd_tdist,
+		  gnm_expr_new_funcall1 (fd_abs,
+					 make_cellref (0, -3)),
+		  make_cellref (0, -4),
+		  gnm_expr_new_constant (value_new_int (2))));
 
 	/* t Critical two-tail */
-	{
-		static const GnmCellRef cr = {NULL, 0, -5, TRUE, TRUE};
-
-		dao_set_cell_expr
-			(dao, 1, 11,
-			 gnm_expr_new_funcall2
-			 (fd_tinv,
-			  gnm_expr_new_constant
-			  (value_new_float (info->base.alpha)),
-			  gnm_expr_new_cellref (&cr)));
-	}
+	dao_set_cell_expr
+		(dao, 1, 11,
+		 gnm_expr_new_funcall2
+		 (fd_tinv,
+		  gnm_expr_new_constant
+		  (value_new_float (info->base.alpha)),
+		  make_cellref (0, -5)));
 
 	/* And finish up */
 
@@ -2704,9 +2585,8 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 
 	/* df */
 	{
-		static const GnmCellRef cr = {NULL, 0, -1, TRUE, TRUE};
 		expr = gnm_expr_new_binary
-			(gnm_expr_new_cellref (&cr),
+			(make_cellref (0, -1),
 			 GNM_EXPR_OP_SUB,
 			 gnm_expr_new_constant (value_new_int (1)));
 		dao_set_cell_expr (dao, 1, 4, gnm_expr_copy (expr));
@@ -2714,37 +2594,29 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 	}
 
 	/* F value */
-	{
-		GnmCellRef cr_num = {NULL, 0, -3, TRUE, TRUE};
-		GnmCellRef cr_denum = {NULL, 1, -3, TRUE, TRUE};
-		if (dao_cell_is_visible (dao, 2, 2)) {
-			expr = gnm_expr_new_binary (
-				gnm_expr_new_cellref (&cr_num),
-				GNM_EXPR_OP_DIV,
-				gnm_expr_new_cellref (&cr_denum));
-			gnm_expr_free (expr_var_denum);
-		} else {
-			expr = gnm_expr_new_binary (
-				gnm_expr_new_cellref (&cr_num),
-				GNM_EXPR_OP_DIV,
-				expr_var_denum);
-		}
-
-		dao_set_cell_expr (dao, 1, 5, expr);
+	if (dao_cell_is_visible (dao, 2, 2)) {
+		expr = gnm_expr_new_binary
+			(make_cellref (0, -3),
+			 GNM_EXPR_OP_DIV,
+			 make_cellref (1, -3));
+		gnm_expr_free (expr_var_denum);
+	} else {
+		expr = gnm_expr_new_binary
+			(make_cellref (0, -3),
+			 GNM_EXPR_OP_DIV,
+			 expr_var_denum);
 	}
+	dao_set_cell_expr (dao, 1, 5, expr);
 
 	/* P right-tail */
 	{
-		static const GnmCellRef cr_df_num = {NULL, 0, -2, TRUE, TRUE};
-		static const GnmCellRef cr_df_denum = {NULL, 1, -2, TRUE, TRUE};
-		static const GnmCellRef cr_F = {NULL, 0, -1, TRUE, TRUE};
 		GnmFunc *fd_fdist = gnm_func_lookup ("FDIST", NULL);
 		const GnmExpr *arg3;
 
 		gnm_func_ref (fd_fdist);
 
 		if (dao_cell_is_visible (dao, 2, 2)) {
-			arg3 = gnm_expr_new_cellref (&cr_df_denum);
+			arg3 = make_cellref (1, -2);
 			gnm_expr_free (expr_count_denum);
 		} else {
 			expr_df_denum = gnm_expr_new_binary
@@ -2758,8 +2630,8 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			(dao, 1, 6,
 			 gnm_expr_new_funcall3
 			 (fd_fdist,
-			  gnm_expr_new_cellref (&cr_F),
-			  gnm_expr_new_cellref (&cr_df_num),
+			  make_cellref (0, -1),
+			  make_cellref (0, -2),
 			  arg3));
 
 		gnm_func_unref (fd_fdist);
@@ -2767,12 +2639,10 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 
 	/* F critical right-tail */
 	{
-		static const GnmCellRef cr_df_num = {NULL, 0, -3, TRUE, TRUE};
-		static const GnmCellRef cr_df_denum = {NULL, 1, -3, TRUE, TRUE};
 		const GnmExpr *arg3;
 
 		if (expr_df_denum == NULL) {
-			arg3 = gnm_expr_new_cellref (&cr_df_denum);
+			arg3 = make_cellref (1, -3);
 		} else {
 			arg3 = gnm_expr_copy (expr_df_denum);
 		}
@@ -2782,30 +2652,23 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			 gnm_expr_new_funcall3
 			 (fd_finv,
 			  gnm_expr_new_constant (value_new_float (info->alpha)),
-			  gnm_expr_new_cellref (&cr_df_num),
+			  make_cellref (0, -3),
 			  arg3));
 	}
 
 	/* P left-tail */
-	{
-		static const GnmCellRef cr = {NULL, 0, -2, TRUE, TRUE};
-
-		expr = gnm_expr_new_binary (
-			gnm_expr_new_constant (value_new_int (1)),
-			GNM_EXPR_OP_SUB,
-			gnm_expr_new_cellref (&cr));
-
-		dao_set_cell_expr (dao, 1, 8, expr);
-	}
+	dao_set_cell_expr (dao, 1, 8,
+			   gnm_expr_new_binary
+			   (gnm_expr_new_constant (value_new_int (1)),
+			    GNM_EXPR_OP_SUB,
+			    make_cellref (0, -2)));
 
 	/* F critical left-tail */
 	{
-		static const GnmCellRef cr_df_num = {NULL, 0, -5, TRUE, TRUE};
-		static const GnmCellRef cr_df_denum = {NULL, 1, -5, TRUE, TRUE};
 		const GnmExpr *arg3;
 
 		if (expr_df_denum == NULL) {
-			arg3 = gnm_expr_new_cellref (&cr_df_denum);
+			arg3 = make_cellref (1, -5);
 		} else {
 			arg3 = gnm_expr_copy (expr_df_denum);
 		}
@@ -2816,14 +2679,12 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			 (fd_finv,
 			  gnm_expr_new_constant
 			  (value_new_float (1. - info->alpha)),
-			  gnm_expr_new_cellref (&cr_df_num),
+			  make_cellref (0, -5),
 			  arg3));
 	}
 
 	/* P two-tail */
 	{
-		static const GnmCellRef cr_left = {NULL, 0, -2, TRUE, TRUE};
-		static const GnmCellRef cr_right = {NULL, 0, -4, TRUE, TRUE};
 		GnmFunc *fd_min = gnm_func_lookup ("MIN", NULL);;
 
 		gnm_func_ref (fd_min);
@@ -2835,19 +2696,17 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			  GNM_EXPR_OP_MULT,
 			  gnm_expr_new_funcall2
 			  (fd_min,
-			   gnm_expr_new_cellref (&cr_right),
-			   gnm_expr_new_cellref (&cr_left))));
+			   make_cellref (0, -4),
+			   make_cellref (0, -2))));
 		gnm_func_unref (fd_min);
 	}
 
 	/* F critical two-tail (left) */
 	{
-		static const GnmCellRef cr_df_num = {NULL, 0, -7, TRUE, TRUE};
-		static const GnmCellRef cr_df_denum = {NULL, 1, -7, TRUE, TRUE};
 		const GnmExpr *arg3;
 
 		if (expr_df_denum == NULL) {
-			arg3 = gnm_expr_new_cellref (&cr_df_denum);
+			arg3 = make_cellref (1, -7);
 		} else {
 			arg3 = expr_df_denum;
 		}
@@ -2858,24 +2717,19 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 			 (fd_finv,
 			  gnm_expr_new_constant
 			  (value_new_float (1 - info->alpha / 2.)),
-			  gnm_expr_new_cellref (&cr_df_num),
+			  make_cellref (0, -7),
 			  arg3));
 	}
 
 	/* F critical two-tail (right) */
-	{
-		static const GnmCellRef cr_df_num = {NULL, -1, -7, TRUE, TRUE};
-		static const GnmCellRef cr_df_denum = {NULL, 0, -7, TRUE, TRUE};
-
-		dao_set_cell_expr
-			(dao, 2, 11,
-			 gnm_expr_new_funcall3
-			 (fd_finv,
-			  gnm_expr_new_constant
-			  (value_new_float (info->alpha / 2.)),
-			  gnm_expr_new_cellref (&cr_df_num),
-			  gnm_expr_new_cellref (&cr_df_denum)));
-	}
+	dao_set_cell_expr
+		(dao, 2, 11,
+		 gnm_expr_new_funcall3
+		 (fd_finv,
+		  gnm_expr_new_constant
+		  (value_new_float (info->alpha / 2.)),
+		  make_cellref (-1, -7),
+		  make_cellref (0, -7)));
 
 	value_release (val_1);
 	value_release (val_2);
@@ -3819,12 +3673,10 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 			GnmExpr const *expr_ss_between;
 
 			if (dao_cell_is_visible (dao, 1,4)) {
-				GnmCellRef cr_within = {NULL, 0, 1, TRUE, TRUE};
-				GnmCellRef cr_total = {NULL, 0, 2, TRUE, TRUE};
 				expr_ss_between = gnm_expr_new_binary
-					(gnm_expr_new_cellref (&cr_total),
+					(make_cellref (0, 2),
 					 GNM_EXPR_OP_SUB,
-					 gnm_expr_new_cellref (&cr_within));
+					 make_cellref (0, 1));
 
 			} else {
 				expr_ss_between = gnm_expr_new_binary
@@ -3863,30 +3715,21 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 		}
 		{
 			/* MS values */
-			GnmExpr const *expr_ms = NULL;
-			GnmCellRef cr_num = {NULL, -2, 0, TRUE, TRUE};
-			GnmCellRef cr_denom = {NULL, -1, 0, TRUE, TRUE};
-			cr_num.sheet = dao->sheet;
-			cr_denom.sheet = dao->sheet;
-
-			expr_ms = gnm_expr_new_binary
-				(gnm_expr_new_cellref (&cr_num),
+			GnmExpr const *expr_ms =
+				gnm_expr_new_binary
+				(make_cellref (-2, 0),
 				 GNM_EXPR_OP_DIV,
-				 gnm_expr_new_cellref (&cr_denom));
+				 make_cellref (-1, 0));
 			dao_set_cell_expr (dao, 3, 2, gnm_expr_copy (expr_ms));
 			dao_set_cell_expr (dao, 3, 3, expr_ms);
 		}
 		{
 			/* Observed F */
-			GnmCellRef cr_num = {NULL, -1, 0, TRUE, TRUE};
-			GnmCellRef cr_denom = {NULL, -1, 1, TRUE, TRUE};
-			GnmExpr const *expr_denom = NULL;
-			GnmExpr const *expr_f = NULL;
-			cr_num.sheet = dao->sheet;
-			cr_denom.sheet = dao->sheet;
+			GnmExpr const *expr_denom;
+			GnmExpr const *expr_f;
 
 			if (dao_cell_is_visible (dao, 3, 3)) {
-				expr_denom = gnm_expr_new_cellref (&cr_denom);
+				expr_denom = make_cellref (-1, 1);
 				gnm_expr_free (expr_ss_within);
 			} else {
 				expr_denom = gnm_expr_new_binary
@@ -3896,26 +3739,23 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 			}
 
 			expr_f = gnm_expr_new_binary
-				(gnm_expr_new_cellref (&cr_num),
-				 GNM_EXPR_OP_DIV, expr_denom);
+				(make_cellref (-1, 0),
+				 GNM_EXPR_OP_DIV,
+				 expr_denom);
 			dao_set_cell_expr(dao, 4, 2, expr_f);
 		}
 		{
 			/* P value */
 			GnmFunc *fd_fdist;
-			GnmCellRef cr = {NULL, -1, 0, TRUE, TRUE};
 			const GnmExpr *arg1;
 			const GnmExpr *arg2;
 			const GnmExpr *arg3;
 
-			cr.sheet = dao->sheet;
-			arg1 = gnm_expr_new_cellref (&cr);
-			cr.col = -3;
-			arg2 = gnm_expr_new_cellref (&cr);
+			arg1 = make_cellref (-1, 0);
+			arg2 = make_cellref (-3, 0);
 
 			if (dao_cell_is_visible (dao, 2, 3)) {
-				cr.row = 1;
-				arg3 = gnm_expr_new_cellref (&cr);
+				arg3 = make_cellref (-3, 1);
 			} else {
 				arg3 = gnm_expr_copy (expr_wdof);
 			}
@@ -3934,15 +3774,10 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 		{
 			/* Critical F*/
 			GnmFunc *fd_finv;
-			GnmCellRef cr = {NULL, -4, 0, TRUE, TRUE};
-			const GnmExpr *arg2, *arg3;
-			cr.sheet = dao->sheet;
-
-			arg2 = gnm_expr_new_cellref (&cr);
+			const GnmExpr *arg3;
 
 			if (dao_cell_is_visible (dao, 2, 3)) {
-				cr.row = 1;
-				arg3 = gnm_expr_new_cellref (&cr);
+				arg3 = make_cellref (-4, 1);
 				gnm_expr_free (expr_wdof);
 			} else
 				arg3 = expr_wdof;
@@ -3956,7 +3791,7 @@ analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer spe
 				 (fd_finv,
 				  gnm_expr_new_constant
 				  (value_new_float (info->alpha)),
-				  arg2,
+				  make_cellref (-4, 0),
 				  arg3));
 			gnm_func_unref (fd_finv);
 		}
