@@ -1,3 +1,8 @@
+2008-05-15  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (random_gamma): Handle overflow and bogus
+	arguments.  Fixes #533288.
+
 2008-05-04  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_notebook_switch_page): When selecting a range

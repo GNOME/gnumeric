@@ -6804,16 +6804,17 @@ gamma_large (gnm_float a)
 }
 
 static gnm_float
-ran_gamma_int (unsigned int a)
+ran_gamma_int (gnm_float a)
 {
 	if (a < 12) {
 		gnm_float prod;
 
 		do {
-			unsigned int i;
+			unsigned int i, ua;
 			prod = 1;
+			ua = (unsigned int)a;
 
-			for (i = 0; i < a; i++)
+			for (i = 0; i < ua; i++)
 				prod *= random_01 ();
 
 			/*
@@ -6835,9 +6836,12 @@ ran_gamma_int (unsigned int a)
 gnm_float
 random_gamma (gnm_float a, gnm_float b)
 {
-	/* assume a > 0 */
-	/* FIXME: why not simply a gnm_float?	*/
-	unsigned int na = gnm_floor (a);
+	gnm_float na;
+
+	if (gnm_isnan (a) || gnm_isnan (b) || a <= 0 || b <= 0)
+		return gnm_nan;
+
+	na = gnm_floor (a);
 
 	if (a == na)
 		return b * ran_gamma_int (na);
