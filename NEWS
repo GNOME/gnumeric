@@ -4,6 +4,7 @@ Morten:
 	* Fix Excel export problem for strings that need quoting.  [#530704]
 	* Internal cleanup for analysis tools.  [#532210]
 	* Fix hang.  [#533288]
+	* Fix AREAS crash.  [#533370]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.0

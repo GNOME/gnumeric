@@ -1,3 +1,9 @@
+2008-05-16  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_areas): Check the value type of the
+	calculation function result, not something weird with the call
+	itself.  Fixes #533370.
+
 2008-05-04  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.0
