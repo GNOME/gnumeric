@@ -629,7 +629,7 @@ gnumeric_areas (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmValue *v = gnm_expr_eval (expr, ei->pos,
 			GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
-		if (expr->constant.value->type == VALUE_CELLRANGE)
+		if (v->type == VALUE_CELLRANGE)
 			res = 1;
 		value_release (v);
 		break;

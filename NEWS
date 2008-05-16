@@ -26,6 +26,7 @@ Morten:
 	* Fix right/center text for Quattro Pro files.
 	* Fix problem with sheet changes during range selection.  [#529309]
 	* Fix hang.  [#533288]
+	* Fix AREAS crash.  [#533370]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.2
