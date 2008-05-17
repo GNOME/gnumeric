@@ -10,6 +10,7 @@ Morten:
 	* Fix hang.  [#533288]
 	* Fix AREAS crash.  [#533370]
 	* Fix translation of function description.  [#533193]
+	* Fix R.QPOIS (and related functions) hang.  [#533515]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.0

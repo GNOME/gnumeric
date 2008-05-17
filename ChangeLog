@@ -1,3 +1,10 @@
+2008-05-17  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (qpois): Return nan on invalid lambda.  Fixes
+	#533515.
+	(discpfuncinverter): Handle overflow when searching for missing
+	side better.  Also fixes #533515.
+
 2008-05-16  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (tokenized_help_new): Translate old-style help texts.

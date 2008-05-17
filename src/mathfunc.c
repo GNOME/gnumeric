@@ -5834,7 +5834,7 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 	}
 
 #ifdef DEBUG_pfuncinverter
-	printf ("p=%.15g\n", p);
+	g_printerr ("p=%.15g\n", p);
 #endif
 
 	for (i = 0; i < 100; i++) {
@@ -5902,8 +5902,8 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 		if (!lower_tail) e = -e;
 
 #ifdef DEBUG_pfuncinverter
-		printf ("%3d:  x=%.15g  e=%.15g  l=%.15g  h=%.15g\n",
-			i, x, e, xlow, xhigh);
+		g_printerr ("%3d:  x=%.15g  e=%.15g  l=%.15g  h=%.15g\n",
+			    i, x, e, xlow, xhigh);
 #endif
 
 		if (e == 0)
@@ -5934,7 +5934,7 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 				gnm_float d = dpfunc_dx (x, shape, log_p);
 				if (log_p) d = gnm_exp (d - px);
 #ifdef DEBUG_pfuncinverter
-				g_print ("Newton: d=%-.14g\n", d);
+				g_printerr ("Newton: d=%-.14g\n", d);
 #endif
 				if (d) {
 					/*
@@ -5945,14 +5945,14 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 					x = x - e / d * 1.000001;
 					if (x > xlow && x < xhigh) {
 #ifdef DEBUG_pfuncinverter
-						printf ("Newton ok\n");
+						g_printerr ("Newton ok\n");
 #endif
 						i++;
 						goto newton_retry;
 					}
 				} else {
 #ifdef DEBUG_pfuncinverter
-						printf ("Newton d=0\n");
+						g_printerr ("Newton d=0\n");
 #endif
 				}
 			}
@@ -5969,7 +5969,7 @@ pfuncinverter (gnm_float p, const gnm_float shape[],
 		e = exlow, x = xlow;
 
 #ifdef DEBUG_pfuncinverter
-	printf ("--> %.15g\n\n", x);
+	g_printerr ("--> %.15g\n\n", x);
 #endif
 	return x;
 }
@@ -6005,10 +6005,14 @@ discpfuncinverter (gnm_float p, const gnm_float shape[],
 	x0 = gnm_floor (x0 + 0.5);
 	step = 1 + gnm_floor (gnm_abs (x0) * GNM_EPSILON);
 
+#if 0
+	g_printerr ("step=%.20g\n", step);
+#endif
+
 	for (i = 1; 1; i++) {
 		gnm_float ex0 = pfunc (x0, shape, lower_tail, log_p) - p;
 #if 0
-		g_print ("x=%.20g  e=%.20g\n", x0, ex0);
+		g_printerr ("x=%.20g  e=%.20g\n", x0, ex0);
 #endif
 		if (!lower_tail) ex0 = -ex0;
 		if (ex0 <= 0)
@@ -6025,7 +6029,10 @@ discpfuncinverter (gnm_float p, const gnm_float shape[],
 		} else {
 			gnm_float x1 = x0 + step;
 
-			if (x1 >= xlow && x1 <= xhigh) {
+			if (x1 == x0) {
+				/* Probably infinite.  */
+				return gnm_nan;
+			} else if (x1 >= xlow && x1 <= xhigh) {
 				x0 = x1;
 				step *= 2 * i;
 			} else {
@@ -6047,6 +6054,7 @@ discpfuncinverter (gnm_float p, const gnm_float shape[],
 	g_assert_not_reached ();
 }
 
+
 /* ------------------------------------------------------------------------ */
 
 static gnm_float
@@ -6059,13 +6067,18 @@ ppois1 (gnm_float x, const gnm_float *plambda,
 gnm_float
 qpois (gnm_float p, gnm_float lambda, gboolean lower_tail, gboolean log_p)
 {
-	gnm_float mu = lambda;
-	gnm_float sigma = gnm_sqrt (lambda);
-	gnm_float gamma = 1 / sigma;
+	gnm_float mu, sigma, gamma, y, z;
+
+	if (!(lambda >= 0))
+		return gnm_nan;
+
+	mu = lambda;
+	sigma = gnm_sqrt (lambda);
+	gamma = 1 / sigma;
 
 	/* Cornish-Fisher expansion:  */
-	gnm_float z = qnorm (p, 0., 1., lower_tail, log_p);
-	gnm_float y = mu + sigma * (z + gamma * (z * z - 1) / 6);
+	z = qnorm (p, 0., 1., lower_tail, log_p);
+	y = mu + sigma * (z + gamma * (z * z - 1) / 6);
 
 	return discpfuncinverter (p, &lambda, lower_tail, log_p,
 				  0, gnm_pinf, y,
