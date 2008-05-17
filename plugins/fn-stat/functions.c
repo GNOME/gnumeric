@@ -4755,7 +4755,7 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		GnmValue *copy = value_dup (argv[1]);
 		int firstcol = argv[1]->v_range.cell.a.col;
 		int lastcol  = argv[1]->v_range.cell.b.col;
-		if (firstcol < lastcol) {
+		if (firstcol > lastcol) {
 			int tmp = firstcol;
 			firstcol = lastcol;
 			lastcol = tmp;
