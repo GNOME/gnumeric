@@ -8,6 +8,7 @@ Morten:
 	* Internal cleanup for analysis tools.  [#532210]
 	* Fix hang.  [#533288]
 	* Fix AREAS crash.  [#533370]
+	* Fix translation of function description.  [#533193]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.0

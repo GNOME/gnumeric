@@ -47,6 +47,9 @@
 #include <gtk/gtkliststore.h>
 #include <string.h>
 
+#undef F_
+#define F_(s) dgettext ("gnumeric-functions", (s))
+
 #define FUNCTION_SELECT_KEY "function-selector-dialog"
 #define FUNCTION_SELECT_DIALOG_KEY "function-selector-dialog"
 
@@ -356,7 +359,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 	for (help = func->help; 1; help++) {
 		switch (help->type) {
 		case GNM_FUNC_HELP_NAME: {
-			const char *text = _(help->text);
+			const char *text = F_(help->text);
 			const char *colon = strchr (text, ':');
 			if (!colon)
 				break;
@@ -367,7 +370,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 			break;
 		}
 		case GNM_FUNC_HELP_ARG: {
-			const char *text = _(help->text);
+			const char *text = F_(help->text);
 			const char *colon = strchr (text, ':');
 			if (!colon)
 				break;
@@ -385,7 +388,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 			break;
 		}
 		case GNM_FUNC_HELP_DESCRIPTION: {
-			const char *text = _(help->text);
+			const char *text = F_(help->text);
 			ADD_TEXT ("\n");
 			ADD_TEXT (text);
 			ADD_TEXT ("\n");

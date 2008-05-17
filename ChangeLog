@@ -1,3 +1,8 @@
+2008-05-16  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (tokenized_help_new): Translate old-style help texts.
+	fixes part of #533193.
+
 2008-05-15  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (random_gamma): Handle overflow and bogus
