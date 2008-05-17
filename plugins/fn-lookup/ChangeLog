@@ -1,3 +1,8 @@
+2008-05-17  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* functions.c: (gnumeric_index): correctly check first argument
+	type. Fixes #533247.
+
 2008-05-16  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_areas): Check the value type of the

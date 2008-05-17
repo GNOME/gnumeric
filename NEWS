@@ -1,6 +1,7 @@
 Gnumeric 1.9.1
 
 Jean:
+	* Fix INDEX related crash. [#533247]
 	* Fix LINEST and LOGREG crashes.  [#533263]
 
 Morten:
