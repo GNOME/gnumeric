@@ -1072,7 +1072,7 @@ gnumeric_index (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	}
 
 #warning Work out a way to fall back to returning value when a reference is unneeded
-	if (VALUE_ARRAY	!= v->type) {
+	if (VALUE_CELLRANGE == v->type) {
 		GnmRangeRef const *src = &v->v_range.cell;
 		GnmCellRef a = src->a, b = src->b;
 		Sheet *start_sheet, *end_sheet;
@@ -1086,8 +1086,10 @@ gnumeric_index (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 		a.col = r.start.col; if (a.col_relative) a.col -= ei->pos->eval.col;
 		b.col = r.start.col; if (b.col_relative) b.col -= ei->pos->eval.col;
 		res = value_new_cellrange_unsafe (&a, &b);
-	} else
+	} else if (VALUE_ARRAY == v->type)
 		res = value_dup (value_area_fetch_x_y (v, elem[1], elem[0], ei->pos));
+	else
+		res = value_new_error_REF (ei->pos);
 	value_release (v);
 	return res;
 }
