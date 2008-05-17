@@ -28,6 +28,7 @@ Morten:
 	* Fix problem with sheet changes during range selection.  [#529309]
 	* Fix hang.  [#533288]
 	* Fix AREAS crash.  [#533370]
+	* Fix translation of function description.  [#533193]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.2

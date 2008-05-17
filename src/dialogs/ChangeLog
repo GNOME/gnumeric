@@ -1,3 +1,8 @@
+2008-05-16  Morten Welinder  <terra@gnome.org>
+
+	* dialog-function-select.c (describe_new_style): Do help text
+	translation in the right domain.  Fixes part of #533193.
+
 2008-03-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.8.2

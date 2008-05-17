@@ -1535,14 +1535,14 @@ tokenized_help_new (GnmFunc const *func)
 	tok->help_copy = NULL;
 	tok->sections = NULL;
 
-	if (func->help != NULL && func->help [0].type == GNM_FUNC_HELP_OLD) {
+	if (func->help != NULL && func->help[0].type == GNM_FUNC_HELP_OLD) {
 		char *ptr, *start;
 		gboolean seek_at = TRUE;
 		gboolean last_newline = TRUE;
 
 #warning "fixme, use the rest of the pieces and get rid of this routine."
-		tok->help_is_localized = FALSE;
-		tok->help_copy = g_strdup (func->help [0].text);
+		tok->help_is_localized = TRUE;
+		tok->help_copy = g_strdup (dgettext ("gnumeric-functions", func->help[0].text));
 		tok->sections = g_ptr_array_new ();
 
 		for (start = ptr = tok->help_copy; *ptr ; ptr++) {
