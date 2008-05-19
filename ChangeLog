@@ -3,6 +3,11 @@
 	* src/expr.c (value_intersection): Handle empty array.  [#533516]
 	Fix from Jean.
 
+2008-05-19  Jody Goldberg <jody@gnome.org>
+
+	* src/parse-util.c (r1c1_get_index) : handle =RC-10 as
+	      <ref "RC"><unary-><10> #533943
+
 2008-05-17  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (qpois): Return nan on invalid lambda.  Fixes

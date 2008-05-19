@@ -535,6 +535,12 @@ r1c1_get_index (char const *str, int *num, unsigned char *relative, gboolean is_
 	str++;
 	if ((*relative = (*str == '[')))
 		str++;
+	else if (*str == '-' || *str == '+') { /* handle RC-10 as RC followed by -10 */
+		*relative = TRUE;
+		*num = 0;
+		return str;
+	}
+
 	errno = 0;
 	*num = strtol (str, &end, 10);
 	if (errno == ERANGE)
