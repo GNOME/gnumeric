@@ -4,6 +4,7 @@ Jean:
 	* Evaluate formulas loaded from a text file. [#525107]
 	* Fix INDEX related crash. [#533247]
 	* Fix LINEST and LOGREG crashes.  [#533263]
+	* Handle empty array.  [#533516]
 
 Jon Kåre:
         * Receive clipboard from broken apps. [#524756]
