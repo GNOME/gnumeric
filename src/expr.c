@@ -645,7 +645,9 @@ value_intersection (GnmValue *v, GnmEvalPos const *pos)
 	gboolean found = FALSE;
 
 	if (v->type == VALUE_ARRAY) {
-		res = value_dup (v->v_array.vals[0][0]);
+		res = (v->v_array.x == 0 || v->v_array.y == 0)
+			? value_new_error_VALUE (NULL)
+			: value_dup (v->v_array.vals[0][0]);
 		value_release (v);
 		return res;
 	}

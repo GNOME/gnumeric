@@ -3,6 +3,7 @@ Gnumeric 1.9.1
 Jean:
 	* Fix INDEX related crash. [#533247]
 	* Fix LINEST and LOGREG crashes.  [#533263]
+	* Handle empty array.  [#533516]
 
 Morten:
 	* Fix Excel export problem for strings that need quoting.  [#530704]
