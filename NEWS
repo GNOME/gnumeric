@@ -16,6 +16,7 @@ Morten:
 	* Fix translation of function description.  [#533193]
 	* Fix R.QPOIS (and related functions) hang.  [#533515]
 	* Fix critical spew.  [#533511]
+	* Fix OPT_BS_DELTA assert.  [#533656]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.0
