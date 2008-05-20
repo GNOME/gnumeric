@@ -1,5 +1,8 @@
 2008-05-19  Morten Welinder  <terra@gnome.org>
 
+	* src/stf.c (stf_read_workbook_auto_csvtab): Don't assume that the
+	command context is a gui.  Fixes #533511.
+
 	* src/expr.c (value_intersection): Handle empty array.  [#533516]
 	Fix from Jean.
 
