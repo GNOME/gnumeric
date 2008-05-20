@@ -1,6 +1,11 @@
 2008-05-20  Morten Welinder  <terra@gnome.org>
 
-	* src/mathfunc.c (random_exppow): Add domain check.  Fixes #533965.
+	* src/value-sheet.c (value_area_get_x_y): Make sure to return an
+	empty value, not NULL, when a cell in a range isn't there.  Fixes
+	#533953.
+
+	* src/mathfunc.c (random_exppow): Add domain check.  Fixes
+	#533965.
 
 2008-05-19  Morten Welinder  <terra@gnome.org>
 
