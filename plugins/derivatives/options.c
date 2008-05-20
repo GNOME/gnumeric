@@ -275,7 +275,6 @@ opt_bs_delta1 (OptionSide side,
 		return gnm_exp ((b - r) * t) * (ncdf (d1) - 1.0);
 
 	default:
-		g_assert_not_reached ();
 		return gnm_nan;
 	}
 }
