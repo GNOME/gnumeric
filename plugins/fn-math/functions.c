@@ -3218,6 +3218,11 @@ gnumeric_sumproduct (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 					   GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
 					   GNM_EXPR_EVAL_PERMIT_EMPTY);
 
+		if (!val) {
+			size_error = TRUE;
+			break;
+		}
+
 		thissizex = value_area_get_width (val, ei->pos);
 		thissizey = value_area_get_height (val, ei->pos);
 

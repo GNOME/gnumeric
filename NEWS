@@ -4,6 +4,7 @@ Jean:
 	* Fix INDEX related crash. [#533247]
 	* Fix LINEST and LOGREG crashes.  [#533263]
 	* Handle empty array.  [#533516]
+	* Fix SUMPRODUCT criticals.  [#533507]
 
 Jody:
 	* Fix R1C1 parsing of refs followed by subtraction. [#533943]
