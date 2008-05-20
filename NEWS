@@ -32,6 +32,7 @@ Morten:
 	* Fix AREAS crash.  [#533370]
 	* Fix translation of function description.  [#533193]
 	* Fix R.QPOIS (and related functions) hang.  [#533515]
+	* Fix critical spew.  [#533511]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.2
