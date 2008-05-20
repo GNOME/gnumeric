@@ -225,13 +225,15 @@ value_area_get_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
 		/* Speedup */
 		if (sheet->cols.max_used < a_col ||
 		    sheet->rows.max_used < a_row)
-			return NULL;
+			return value_new_empty ();
 
 		cell = sheet_cell_get (sheet, a_col, a_row);
 		if (cell != NULL) {
 			gnm_cell_eval (cell);
 			return cell->value;
 		}
+
+		return value_new_empty ();
 	} else
 		return v;
 
