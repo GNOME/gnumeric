@@ -1,5 +1,9 @@
 2008-05-19  Morten Welinder  <terra@gnome.org>
 
+	* src/parser.y (fold_positive_constant, fold_negative_constant,
+	build_unary_op, build_binop, build_logical, build_not,
+	build_intersect, build_set): Propagate errors.  Fixes #533951.
+
 	* src/stf.c (stf_read_workbook_auto_csvtab): Don't assume that the
 	command context is a gui.  Fixes #533511.
 

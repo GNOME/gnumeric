@@ -235,7 +235,7 @@ report_err (ParserState *state, GError *err,
 static GnmExpr *
 fold_negative_constant (GnmExpr *expr)
 {
-	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT) {
+	if (expr && GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT) {
 		GnmValue *v = (GnmValue *)expr->constant.value;
 		
 		if (VALUE_IS_FLOAT (v)) {
@@ -253,7 +253,7 @@ fold_negative_constant (GnmExpr *expr)
 static GnmExpr *
 fold_positive_constant (GnmExpr *expr)
 {
-	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT) {
+	if (expr && GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT) {
 		const GnmValue *v = expr->constant.value;
 		if (VALUE_IS_FLOAT (v))
 			return expr;
@@ -265,6 +265,8 @@ fold_positive_constant (GnmExpr *expr)
 static GnmExpr *
 build_unary_op (GnmExprOp op, GnmExpr *expr)
 {
+	if (!expr) return NULL;
+
 	unregister_allocation (expr);
 	return register_expr_allocation (gnm_expr_new_unary (op, expr));
 }
@@ -272,6 +274,8 @@ build_unary_op (GnmExprOp op, GnmExpr *expr)
 static GnmExpr *
 build_binop (GnmExpr *l, GnmExprOp op, GnmExpr *r)
 {
+	if (!l || !r) return NULL;
+
 	unregister_allocation (r);
 	unregister_allocation (l);
 	return register_expr_allocation (gnm_expr_new_binary (l, op, r));
@@ -281,6 +285,8 @@ static GnmExpr *
 build_logical (GnmExpr *l, gboolean is_and, GnmExpr *r)
 {
 	static GnmFunc *and_func = NULL, *or_func = NULL;
+
+	if (!l || !r) return NULL;
 
 	if (and_func == NULL)
 		and_func = gnm_func_lookup ("AND", NULL);
@@ -297,6 +303,9 @@ static GnmExpr *
 build_not (GnmExpr *expr)
 {
 	static GnmFunc *not_func = NULL;
+
+	if (!expr) return NULL;
+
 	if (not_func == NULL)
 		not_func = gnm_func_lookup ("NOT", NULL);
 	unregister_allocation (expr);
@@ -375,6 +384,8 @@ build_range_ctor (GnmExpr *l, GnmExpr *r, GnmExpr *validate)
 static GnmExpr *
 build_intersect (GnmExpr *l, GnmExpr *r)
 {
+	if (!l || !r) return NULL;
+
 	if (gnm_expr_is_rangeref (l) && gnm_expr_is_rangeref (r))
 		return build_binop (l, GNM_EXPR_OP_INTERSECT, r);
 	report_err (state, g_error_new (1, PERR_SET_CONTENT_MUST_BE_RANGE,
@@ -390,7 +401,7 @@ build_set (GnmExprList *list)
 	GnmExprList *ptr;
 	for (ptr = list; ptr != NULL ; ptr = ptr->next) {
 		GnmExpr const *expr = ptr->data;
-		if (!gnm_expr_is_rangeref (expr)) {
+		if (!expr || !gnm_expr_is_rangeref (expr)) {
 			report_err (state, g_error_new (1, PERR_SET_CONTENT_MUST_BE_RANGE,
 				_("All entries in the set must be references")),
 				state->ptr, 0);
