@@ -19,6 +19,7 @@ Morten:
 	* Fix critical spew.  [#533511]
 	* Fix OPT_BS_DELTA assert.  [#533656]
 	* Fix parser crashes.  [#533951]
+	* Fix RANDEXPPOW hang.  [#533965]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.0

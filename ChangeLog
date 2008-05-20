@@ -1,3 +1,7 @@
+2008-05-20  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (random_exppow): Add domain check.  Fixes #533965.
+
 2008-05-19  Morten Welinder  <terra@gnome.org>
 
 	* src/parser.y (fold_positive_constant, fold_negative_constant,

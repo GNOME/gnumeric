@@ -7208,6 +7208,10 @@ random_exppow_pdf (gnm_float x, gnm_float a, gnm_float b)
 gnm_float
 random_exppow (gnm_float a, gnm_float b)
 {
+	/* See http://www.mcgill.ca/files/economics/propertiesandestimation.pdf */
+	if (!(a > 0) || gnm_isnan (b))
+		return gnm_nan;
+
 	if (b < 1) {
 		gnm_float u = random_01 ();
 		gnm_float v = random_gamma (1 / b, 1.0);
