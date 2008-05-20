@@ -5,6 +5,7 @@ Jean:
 	* Fix INDEX related crash. [#533247]
 	* Fix LINEST and LOGREG crashes.  [#533263]
 	* Handle empty array.  [#533516]
+	* Fix SUMPRODUCT criticals.  [#533507]
 
 Jon Kåre:
         * Receive clipboard from broken apps. [#524756]
