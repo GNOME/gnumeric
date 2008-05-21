@@ -21,6 +21,7 @@ Morten:
 	* Fix parser crashes.  [#533951]  [#534131]
 	* Fix RANDEXPPOW hang.  [#533965]
 	* Fix array evaluation problem.  [#533953]
+	* Fix COUNTBLANK crash.  [#534204]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.0
