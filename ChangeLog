@@ -1,3 +1,8 @@
+2008-05-21  Morten Welinder  <terra@gnome.org>
+
+	* src/parser.y: Further parser fixes.  Clarify the error handling
+	rules.  Fixes #534131.
+
 2008-05-20  Morten Welinder  <terra@gnome.org>
 
 	* src/value-sheet.c (value_area_get_x_y): Make sure to return an

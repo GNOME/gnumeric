@@ -313,12 +313,16 @@ build_not (GnmExpr *expr)
 		(gnm_expr_new_funcall1 (not_func, expr));
 }
 
+/*
+ * Build an array expresssion.
+ *
+ * Returns NULL on failure.  Caller must YYERROR in that case.
+ */
 static GnmExpr *
 build_array (GSList *cols)
 {
 	GnmValue *array;
-	GSList *row;
-	int x, mx, y;
+	int mx, y;
 
 	if (!cols) {
 		report_err (state, g_error_new (1, PERR_INVALID_EMPTY,
@@ -327,24 +331,18 @@ build_array (GSList *cols)
 		return NULL;
 	}
 
-	mx  = 0;
-	row = cols->data;
-	while (row) {
-		mx++;
-		row = row->next;
-	}
-
+	mx = g_list_length (cols->data);
 	array = value_new_array_empty (mx, g_slist_length (cols));
 
 	y = 0;
 	while (cols) {
-		row = cols->data;
-		x = 0;
+		GSList *row = cols->data;
+		int x = 0;
 		while (row && x < mx) {
-			GnmExpr    *expr = row->data;
+			GnmExpr const *expr = row->data;
 			GnmValue const *v = expr->constant.value;
 
-			g_assert (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT);
+			g_assert (expr && GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT);
 
 			value_array_set (array, x, y, value_dup (v));
 
@@ -366,6 +364,11 @@ build_array (GSList *cols)
 	return register_expr_allocation (gnm_expr_new_constant (array));
 }
 
+/*
+ * Build a range constructor.
+ *
+ * Returns NULL on failure.  Caller must YYERROR in that case.
+ */
 static GnmExpr *
 build_range_ctor (GnmExpr *l, GnmExpr *r, GnmExpr *validate)
 {
@@ -381,6 +384,11 @@ build_range_ctor (GnmExpr *l, GnmExpr *r, GnmExpr *validate)
 	return build_binop (l, GNM_EXPR_OP_RANGE_CTOR, r);
 }
 
+/*
+ * Build an intersection expression.
+ *
+ * Returns NULL on failure.  Caller must YYERROR in that case.
+ */
 static GnmExpr *
 build_intersect (GnmExpr *l, GnmExpr *r)
 {
@@ -394,6 +402,11 @@ build_intersect (GnmExpr *l, GnmExpr *r)
 	return NULL;
 }
 
+/*
+ * Build a set expression.
+ *
+ * Returns NULL on failure.  Caller must YYERROR in that case.
+ */
 static GnmExpr *
 build_set (GnmExprList *list)
 {
@@ -611,9 +624,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 				gnm_expr_list_free ($2);
 			} else {
 				$$ = build_set ($2);
-				if ($$ == NULL) {
-					YYERROR;
-				}
+				if ($$ == NULL) { YYERROR; }
 			}
 		}
 	}
@@ -621,6 +632,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		unregister_allocation ($2);
 		$$ = build_array ($2);
 		free_expr_list_list ($2);
+		if ($$ == NULL) { YYERROR; }
 	}
 
 	| function
@@ -738,7 +750,10 @@ sheetref: string_opt_quote SHEET_SEP {
 	;
 
 cellref:  RANGEREF { $$ = $1; }
-	| function RANGE_SEP function { $$ = build_range_ctor ($1, $3, NULL); }
+	| function RANGE_SEP function {
+		$$ = build_range_ctor ($1, $3, NULL);
+		if ($$ == NULL) { YYERROR; }
+	}
 	| RANGEREF RANGE_SEP function {
 		$$ = build_range_ctor ($1, $3, $1);
 		if ($$ == NULL) { YYERROR; }
