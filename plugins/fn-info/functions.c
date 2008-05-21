@@ -1226,33 +1226,45 @@ static GnmFuncHelp const help_countblank[] = {
 };
 
 static GnmValue *
-cb_countblank (GnmCellIter const *iter, gpointer user)
+cb_countblank (GnmValueIter const *iter, gpointer user)
 {
-	gnm_cell_eval (iter->cell);
-	if (!gnm_cell_is_empty (iter->cell)) {
-		GnmValue const *v = iter->cell->value;
-		if (VALUE_IS_STRING (v) && value_peek_string (v)[0] == 0)
-			; /* Nothing -- the empty string is blank.  */
-		else
-			*((int *)user) -= 1;
-	}
+	GnmValue const *v = iter->v;
+
+	if (VALUE_IS_STRING (v) && value_peek_string (v)[0] == 0)
+		; /* Nothing -- the empty string is blank.  */
+	else if (VALUE_IS_EMPTY (v))
+		; /* Nothing  */
+	else
+		*((int *)user) -= 1;
+
 	return NULL;
 }
 
 static GnmValue *
 gnumeric_countblank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	Sheet *start_sheet, *end_sheet;
-	GnmRange r;
-	int count;
+	GnmValue const *v = argv[0];
+	int count =
+		value_area_get_width (v, ei->pos) *
+		value_area_get_height (v, ei->pos);
+	int nsheets = 1;
 
-	gnm_rangeref_normalize (&argv[0]->v_range.cell, ei->pos,
-		&start_sheet, &end_sheet, &r);
-	count = range_width (&r) * range_height	(&r);
-	if (start_sheet != end_sheet && end_sheet != NULL)
-		count *= 1 + abs (end_sheet->index_in_wb - start_sheet->index_in_wb);
-	workbook_foreach_cell_in_range (ei->pos, argv[0],
-		CELL_ITER_IGNORE_BLANK, &cb_countblank, &count);
+	if (v->type == VALUE_CELLRANGE) {
+		GnmRange r;
+		Sheet *start_sheet, *end_sheet;
+
+		gnm_rangeref_normalize (&v->v_range.cell, ei->pos,
+					&start_sheet, &end_sheet, &r);
+
+		if (start_sheet != end_sheet && end_sheet != NULL)
+			nsheets = 1 + abs (end_sheet->index_in_wb -
+					   start_sheet->index_in_wb);
+	}
+
+	count *= nsheets;
+
+	value_area_foreach (v, ei->pos, CELL_ITER_IGNORE_BLANK,
+			    &cb_countblank, &count);
 
 	return value_new_int (count);
 }

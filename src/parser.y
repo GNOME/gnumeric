@@ -314,7 +314,7 @@ build_not (GnmExpr *expr)
 }
 
 /*
- * Build an array expresssion.
+ * Build an array expression.
  *
  * Returns NULL on failure.  Caller must YYERROR in that case.
  */

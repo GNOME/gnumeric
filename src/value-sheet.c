@@ -304,13 +304,14 @@ value_area_foreach (GnmValue const *v, GnmEvalPos const *ep,
 			(CellIterFunc) cb_wrapper_foreach_cell_in_area, &wrap);
 	}
 
+	v_iter.ep = ep;
+	v_iter.region = v;
+	v_iter.cell_iter = NULL;
+
 	/* If not an array, apply func to singleton */
-	v_iter.ep	= ep;
-	v_iter.region	= v;
         if (v->type != VALUE_ARRAY) {
 		v_iter.x = v_iter.y = 0;
 		v_iter.v = v;
-		v_iter.cell_iter = NULL;
 		return (*func) (&v_iter, user_data);
 	}
 
