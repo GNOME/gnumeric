@@ -70,7 +70,7 @@ static GHashTable *
 get_cache (GnmFuncEvalInfo *ei, GnmValue const *data, gboolean stringp)
 {
 	GnmSheetRange sr;
-	GHashTable *h;
+	GHashTable *h, *cache;
 	Sheet *end_sheet;
 	GnmRangeRef const *rr;
 
@@ -88,9 +88,16 @@ get_cache (GnmFuncEvalInfo *ei, GnmValue const *data, gboolean stringp)
 			 (GEqualFunc)gnm_sheet_range_equal,
 			 (GDestroyNotify)gnm_sheet_range_free,
 			 (GDestroyNotify)g_hash_table_destroy);
+		lookup_float_cache = g_hash_table_new_full
+			((GHashFunc)gnm_sheet_range_hash,
+			 (GEqualFunc)gnm_sheet_range_equal,
+			 (GDestroyNotify)gnm_sheet_range_free,
+			 (GDestroyNotify)g_hash_table_destroy);
 	}
 
-	h = g_hash_table_lookup (lookup_string_cache, &sr);
+	cache = stringp ? lookup_string_cache : lookup_float_cache;
+
+	h = g_hash_table_lookup (cache, &sr);
 	if (!h) {
 		if (stringp)
 			h = g_hash_table_new_full (g_str_hash,
@@ -100,8 +107,7 @@ get_cache (GnmFuncEvalInfo *ei, GnmValue const *data, gboolean stringp)
 			h = g_hash_table_new_full ((GHashFunc)gnm_float_hash,
 						   (GEqualFunc)gnm_float_equal,
 						   g_free, NULL);
-		g_hash_table_insert (lookup_string_cache,
-				     gnm_sheet_range_dup (&sr), h);
+		g_hash_table_insert (cache, gnm_sheet_range_dup (&sr), h);
 	}
 
 	return h;
