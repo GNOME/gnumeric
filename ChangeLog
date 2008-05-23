@@ -58,6 +58,15 @@
 	* src/gnumeric-gconf.c: ditto.
 	* src/gnumeric-gconf.h: ditto.
 
+2008-05-07  Jody Goldberg <jody@gnome.org>
+
+	Merge patch from Seán de Búrca [#450444]
+	* configure.in : add the new icon dirs.
+	* gnumeric.desktop.in : remove icon suffix.
+	* icons/Makefile.am : deploy the icons, and do some cleanup.
+	* src/wbc-gtk.c (wbc_gtk_class_init) : Now we can use the nice simple
+	  gtk_window_set_default_icon_name.
+
 2008-05-04  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump.

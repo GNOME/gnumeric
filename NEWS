@@ -23,6 +23,9 @@ Morten:
 	* Fix array evaluation problem.  [#533953]
 	* Fix COUNTBLANK crash.  [#534204]
 
+Seán de Búrca:
+	* Move to tango based icons.
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.0
 

@@ -4328,16 +4328,8 @@ wbc_gtk_class_init (GObjectClass *gobject_class)
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE,
 		0, G_TYPE_NONE);
-	{
-		GdkPixbuf *icon = gnumeric_load_pixbuf ("gnome-gnumeric.png");
-		if (icon != NULL) {
-			GList *icon_list = g_list_prepend (NULL, icon);
-			gtk_window_set_default_icon_list (icon_list);
-			g_list_free (icon_list);
-			g_object_unref (G_OBJECT (icon));
-		}
-	}
 
+	gtk_window_set_default_icon_name ("gnumeric");
 }
 
 static void

@@ -1,25 +1,33 @@
-iconsdir = $(gnumeric_icondir)
+SUBDIRS = 16x16 22x22 24x24 32x32 48x48 scalable
 
 # keep in sync with gnumeric/src/libgnumeric.c:gnm_common_init
-appicondir = $(datadir)/pixmaps
-appicon_DATA = gnome-gnumeric.png \
-               gnome-application-x-gnumeric.png \
+mimeicondir = $(datadir)/pixmaps
+mimeicon_DATA = gnome-application-x-gnumeric.png \
                gnome-application-x-xls.png \
                gnome-application-x-applix-spreadsheet.png \
                gnome-application-vnd.lotus-1-2-3.png \
                gnome-application-x-generic-spreadsheet.png \
 	       win32-gnumeric.ico
 
+iconsdir = $(gnumeric_icondir)
 icons_DATA = \
-	$(appicon_DATA)		\
+	$(mimeicon_DATA)	\
 	orient-horizontal.png	\
 	orient-vertical.png	\
 	right-down.png		\
-	down-right.png	\
+	down-right.png		\
+	gnumeric-about.png	\
 	stf-druid.png
 
-plot_icondir = $(gnumeric_icondir)
-plot_icon_DATA = \
-	gnumeric-about.png
+gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
 
-EXTRA_DIST = $(icons_DATA) $(plot_icon_DATA)
+install-data-hook: update-icon-cache
+uninstall-hook: update-icon-cache
+update-icon-cache:
+	@-if test -z "$(DESTDIR)"; then \
+		echo "Updating Gtk icon cache."; \
+		$(gtk_update_icon_cache); \
+	else \
+		echo "*** Icon cache not updated.  After (un)install, run this:"; \
+		echo "***   $(gtk_update_icon_cache)"; \
+	fi
