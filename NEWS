@@ -24,7 +24,7 @@ Morten:
 	* Fix COUNTBLANK crash.  [#534204]
 
 Seán de Búrca:
-	* Move to tango based icons.
+	* Move to tango based icons. [#450444]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.0
