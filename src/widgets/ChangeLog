@@ -1,3 +1,7 @@
+2008-05-24  Morten Welinder <terra@gnome.org>
+
+	* Release 1.8.3
+
 2008-04-12  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-expr-entry.c (cb_gee_key_press_event): Handle F9.
