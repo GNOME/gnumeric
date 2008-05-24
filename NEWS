@@ -22,6 +22,7 @@ Morten:
 	* Fix RANDEXPPOW hang.  [#533965]
 	* Fix array evaluation problem.  [#533953]
 	* Fix COUNTBLANK crash.  [#534204]
+	* Fix TREND crash.  [#534587]
 
 Seán de Búrca:
 	* Move to tango based icons. [#450444]

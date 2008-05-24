@@ -1,3 +1,8 @@
+2008-05-24  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_trend): Fix error handling and don't
+	evaluate things twice.  Fixes #534587.
+
 2008-05-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* functions.c (gnumeric_linest, gnumeric_logreg): Fix code to

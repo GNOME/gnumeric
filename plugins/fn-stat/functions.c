@@ -4592,11 +4592,16 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					   COLLECT_IGNORE_STRINGS |
 					   COLLECT_IGNORE_BOOLS,
 					   &nx, &result);
+		if (result)
+			goto out;
 
 		nxs = collect_floats_value (argv[2], ei->pos,
 					    COLLECT_IGNORE_STRINGS |
 					    COLLECT_IGNORE_BOOLS,
 					    &nnx, &result);
+		if (result)
+			goto out;
+
 		if (argv[3] != NULL) {
 			affine = value_get_as_bool (argv[3], &err);
 			if (err) {
@@ -4605,28 +4610,28 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			}
 		}
 	} else {
-		/* @new_x's is assumed to be the same as @known_x's */
 		if (argv[1] != NULL) {
 			xs = collect_floats_value (argv[1], ei->pos,
 						   COLLECT_IGNORE_STRINGS |
 						   COLLECT_IGNORE_BOOLS,
 						   &nx, &result);
-			nxs = collect_floats_value (argv[1], ei->pos,
-						    COLLECT_IGNORE_STRINGS |
-						    COLLECT_IGNORE_BOOLS,
-						    &nnx, &result);
+			if (result)
+				goto out;
 		} else {
 			xs = g_new (gnm_float, ny);
 			for (nx = 0; nx < ny; nx++)
 				xs[nx] = nx + 1;
-			nxs = g_new (gnm_float, ny);
-			for (nnx = 0; nnx < ny; nnx++)
-				xs[nnx] = nnx + 1;
 		}
+
+		/* @new_x's is assumed to be the same as @known_x's */
+		nnx = nx;
+		nxs = g_memdup (xs, nnx * sizeof (*xs));
 	}
 
-	if (result || ny < 1)
+	if (ny < 1 || nnx < 1) {
+		result = value_new_error_NUM (ei->pos);
 		goto out;
+	}
 
 	if (nx != ny) {
 		result = value_new_error_NUM (ei->pos);
