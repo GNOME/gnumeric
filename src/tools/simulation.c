@@ -44,7 +44,6 @@ init_stats (simstats_t *stats, simulation_t *sim)
 	stats->max        = g_new (gnm_float, sim->n_vars);
 	stats->mean       = g_new (gnm_float, sim->n_vars);
 	stats->median     = g_new (gnm_float, sim->n_vars);
-	stats->median     = g_new (gnm_float, sim->n_vars);
 	stats->mode       = g_new (gnm_float, sim->n_vars);
 	stats->stddev     = g_new (gnm_float, sim->n_vars);
 	stats->var        = g_new (gnm_float, sim->n_vars);
