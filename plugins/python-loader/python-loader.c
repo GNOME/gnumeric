@@ -37,7 +37,6 @@
 #include <stdlib.h>
 
 #include <Python.h>
-#define NO_IMPORT_PYGOBJECT
 #include <pygobject.h>
 
 typedef struct {
