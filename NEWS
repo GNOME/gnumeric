@@ -1,5 +1,8 @@
 Gnumeric 1.8.4
 
+Morten:
+	* Fix text export problem for times with fractional seconds.  [#534514]
+
 --------------------------------------------------------------------------
 Gnumeric 1.8.3
 

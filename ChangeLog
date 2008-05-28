@@ -1,3 +1,8 @@
+2008-05-27  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-export.c (try_auto_date): Don't generate an invalid time
+	format.  Fixes #534514.
+
 2008-05-24  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Post release bump.

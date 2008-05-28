@@ -159,6 +159,8 @@ try_auto_date (GnmValue *value, const GOFormat *format,
 	v = value_get_as_float (value);
 	if (v >= 2958466)
 		return NULL;  /* Year 10000 or beyond.  */
+
+#warning "We need to deal with this when fixing #509720"
 	if (v < 0)
 		return NULL;
 	vr = gnm_fake_round (v);
@@ -166,7 +168,7 @@ try_auto_date (GnmValue *value, const GOFormat *format,
 
 	needs_date = is_date || v >= 1;
 	needs_time = is_time || gnm_abs (v - vr) > 1e-9;
-	needs_frac_sec = needs_time && gnm_abs (vs - gnm_fake_trunc (vs)) > 1e-6;
+	needs_frac_sec = needs_time && gnm_abs (vs - gnm_fake_trunc (vs)) >= 0.5e-3;
 
 	xlfmt = g_string_new (NULL);
 	if (needs_date) g_string_append (xlfmt, "yyyy/mm/dd");
@@ -175,7 +177,7 @@ try_auto_date (GnmValue *value, const GOFormat *format,
 			g_string_append_c (xlfmt, ' ');
 		g_string_append (xlfmt, "hh:mm:ss");
 		if (needs_frac_sec)
-			g_string_append (xlfmt, ".000000");
+			g_string_append (xlfmt, ".000");
 	}
 	actual = go_format_new_from_XL (xlfmt->str);
 	g_string_free (xlfmt, TRUE);
