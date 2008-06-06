@@ -854,7 +854,7 @@ c:\Program Files\Gnome-Office\gnumeric
         a complete reference is made of the name of the file the
         reference is in, enclosed by square brackets, followed by the
         name of the sheet, followed by an exclamation point, followed
-        by the letters of the column, followed by the number of the
+        by the letter(s) of the column name, followed by the number of the
         row. For example, a complete reference could be
         "[my_file.gnumeric]"Sheet3"!C3". These complete references can
         be shortened if the filename or sheet names are the same as
