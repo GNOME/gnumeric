@@ -796,7 +796,7 @@ c:\Program Files\Gnome-Office\gnumeric
       <title>Entering a Formula</title>
 
       <para>
-        To entering a formula, select a cell and type in the
+        To enter a formula, select a cell and type in the
         equals sign (=) and then a valid formula. If
         &gnum; cannot understand the
         formula which is entered, it will open a dialog box which may
