@@ -115,9 +115,14 @@ two_way_table_put (TwoWayTable const *table, gpointer key,
 	gpointer unique;
 
 	if (addit) {
+		gint old_index = index;
 		index = table->idx_to_key->len + table->base;
 
-		if (!found) {
+		if (found) {
+			if (table->key_destroy_func)
+				(table->key_destroy_func) (key);
+			key = two_way_table_idx_to_key (table, old_index);
+		} else {
 			/* We have not seen this pointer before, but is the key
 			 * already in the set ?
 			 */
@@ -127,8 +132,7 @@ two_way_table_put (TwoWayTable const *table, gpointer key,
 						     GINT_TO_POINTER (index + 1));
 			g_hash_table_insert (table->unique_keys, key,
 					     GINT_TO_POINTER (index + 1));
-		} else if (table->key_destroy_func)
-			(table->key_destroy_func) (key);
+		}
 		g_ptr_array_add (table->idx_to_key, key);
 	}
 

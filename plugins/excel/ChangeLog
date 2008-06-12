@@ -1,3 +1,9 @@
+2008-06-11  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-util.c (two_way_table_put): If we free the key because
+	it is a duplicate, continue with the valid version, not the freed.
+	Fixes #537625.
+
 2008-05-07  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (ExcelStyleVariant): New type.

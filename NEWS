@@ -24,6 +24,7 @@ Morten:
 	* Fix COUNTBLANK crash.  [#534204]
 	* Fix TREND crash.  [#534587]
 	* Fix text export problem for times with fractional seconds.  [#534514]
+	* Fix xls export problem.  [#537625]
 
 Seán de Búrca:
 	* Move to tango based icons. [#450444]
