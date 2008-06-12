@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-28 23:19+0000\n"
-"PO-Revision-Date: 2008-05-21 19:04+0200\n"
+"POT-Creation-Date: 2008-05-31 15:14+0000\n"
+"PO-Revision-Date: 2008-06-04 02:42+0200\n"
 "Last-Translator: Mark Krapivner <mark125@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: ../gnumeric.desktop.in.h:1
 msgid "Calculation, Analysis, and Visualization of Information"
-msgstr ""
+msgstr "חישוב, ניתוח והדמיית נתונים"
 
 #. Keep in sync with .desktop file
 #: ../gnumeric.desktop.in.h:2 ../src/main-application.c:393
@@ -75,107 +75,107 @@ msgstr ""
 msgid "Provides a CORBA scripting interface"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2277 ../plugins/derivatives/options.c:2282
-#: ../plugins/derivatives/options.c:2287 ../plugins/derivatives/options.c:2292
-#: ../plugins/derivatives/options.c:2307
+#: ../plugins/derivatives/options.c:2276 ../plugins/derivatives/options.c:2281
+#: ../plugins/derivatives/options.c:2286 ../plugins/derivatives/options.c:2291
+#: ../plugins/derivatives/options.c:2306
 msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2297 ../plugins/derivatives/options.c:2302
+#: ../plugins/derivatives/options.c:2296 ../plugins/derivatives/options.c:2301
 msgid "spot, strike, time, rate, volatility, cost_of_carry"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2312
+#: ../plugins/derivatives/options.c:2311
 msgid "a, b, rho"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2317
+#: ../plugins/derivatives/options.c:2316
 msgid ""
 "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2322
+#: ../plugins/derivatives/options.c:2321
 msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2327
+#: ../plugins/derivatives/options.c:2326
 msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2332
+#: ../plugins/derivatives/options.c:2331
 msgid ""
 "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2337 ../plugins/derivatives/options.c:2347
+#: ../plugins/derivatives/options.c:2336 ../plugins/derivatives/options.c:2346
 msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2342
+#: ../plugins/derivatives/options.c:2341
 msgid ""
 "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
 "kappa_e, kappa_f)"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2352
+#: ../plugins/derivatives/options.c:2351
 msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2357
+#: ../plugins/derivatives/options.c:2356
 msgid ""
 "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2362
+#: ../plugins/derivatives/options.c:2361
 msgid ""
 "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2367
+#: ../plugins/derivatives/options.c:2366
 msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2372
+#: ../plugins/derivatives/options.c:2371
 msgid ""
 "spot, strike_call, strike_put, time, time_call, time_put, rate, "
 "cost_of_carry, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2377 ../plugins/derivatives/options.c:2382
+#: ../plugins/derivatives/options.c:2376 ../plugins/derivatives/options.c:2381
 msgid ""
 "type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
 "volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2387
+#: ../plugins/derivatives/options.c:2386
 msgid ""
 "type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
 "cost_of_carry2, rate, volatility1, volatility2, rho"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2392 ../plugins/derivatives/options.c:2397
+#: ../plugins/derivatives/options.c:2391 ../plugins/derivatives/options.c:2396
 msgid ""
 "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
 "volatility2,rho"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2402
+#: ../plugins/derivatives/options.c:2401
 msgid ""
 "call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
 "volatility2,rho"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2407
+#: ../plugins/derivatives/options.c:2406
 msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2412
+#: ../plugins/derivatives/options.c:2411
 msgid ""
 "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
 "volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2418
+#: ../plugins/derivatives/options.c:2417
 msgid ""
 "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
 "volatility, cost_of_carry"
@@ -195,10 +195,10 @@ msgstr ""
 msgid "Functions related to financial derivatives"
 msgstr ""
 
-#: ../plugins/dif/dif.c:71 ../plugins/excel/ms-excel-read.c:6569
-#: ../plugins/mps/mps.c:535 ../src/xml-io.c:2704 ../src/xml-sax-read.c:2630
+#: ../plugins/dif/dif.c:71 ../plugins/excel/ms-excel-read.c:6587
+#: ../plugins/mps/mps.c:535 ../src/xml-io.c:2704 ../src/xml-sax-read.c:2649
 msgid "Reading file..."
-msgstr ""
+msgstr "קורא קובץ..."
 
 #: ../plugins/dif/dif.c:175
 #, c-format
@@ -282,23 +282,23 @@ msgstr "מתכונן לשמירה..."
 msgid "Saving file..."
 msgstr "שומר קובץ..."
 
-#: ../plugins/excel/excel-xml-read.c:132 ../src/xml-sax-read.c:389
+#: ../plugins/excel/excel-xml-read.c:132 ../src/xml-sax-read.c:391
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr ""
 
 #: ../plugins/excel/excel-xml-read.c:1002
-#: ../plugins/openoffice/openoffice-read.c:2979 ../src/xml-sax-read.c:2647
+#: ../plugins/openoffice/openoffice-read.c:2981 ../src/xml-sax-read.c:2666
 msgid "XML document not well formed!"
 msgstr "מסמך ה-XML לא נוצר גראוי!"
 
-#: ../plugins/excel/ms-excel-read.c:1259 ../src/value.c:77
+#: ../plugins/excel/ms-excel-read.c:1261 ../src/value.c:77
 msgid "#UNKNOWN!"
 msgstr "#UNKNOWN!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: ../plugins/excel/ms-excel-read.c:1342 ../plugins/excel/ms-excel-read.c:1353
+#: ../plugins/excel/ms-excel-read.c:1344 ../plugins/excel/ms-excel-read.c:1355
 #: ../plugins/oleo/oleo.c:230 ../plugins/psiconv/psiconv-read.c:545
 #: ../src/dialogs/dialog-sheet-order.c:518
 #: ../src/dialogs/dialog-sheet-order.c:522
@@ -306,54 +306,54 @@ msgstr "#UNKNOWN!"
 msgid "Sheet%d"
 msgstr "גיליון%d"
 
-#: ../plugins/excel/ms-excel-read.c:1357
+#: ../plugins/excel/ms-excel-read.c:1359
 #, c-format
 msgid "Macro%d"
 msgstr "מאקרו%d"
 
-#: ../plugins/excel/ms-excel-read.c:1361
+#: ../plugins/excel/ms-excel-read.c:1363
 #, c-format
 msgid "Chart%d"
 msgstr "תרשים%d"
 
-#: ../plugins/excel/ms-excel-read.c:1364
+#: ../plugins/excel/ms-excel-read.c:1366
 #, c-format
 msgid "Module%d"
 msgstr "מודול%d"
 
-#: ../plugins/excel/ms-excel-read.c:3217
+#: ../plugins/excel/ms-excel-read.c:3228
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr ""
 
-#: ../plugins/excel/ms-excel-read.c:3322
+#: ../plugins/excel/ms-excel-read.c:3333
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr ""
 
-#: ../plugins/excel/ms-excel-read.c:3332
+#: ../plugins/excel/ms-excel-read.c:3343
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: ../plugins/excel/ms-excel-read.c:3338
+#: ../plugins/excel/ms-excel-read.c:3349
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: ../plugins/excel/ms-excel-read.c:5724
+#: ../plugins/excel/ms-excel-read.c:5736
 msgid "external references"
 msgstr ""
 
-#: ../plugins/excel/ms-excel-read.c:5763
+#: ../plugins/excel/ms-excel-read.c:5775
 msgid "No password supplied"
 msgstr "לא סופקה סיסמה"
 
-#: ../plugins/excel/ms-excel-write.c:196
+#: ../plugins/excel/ms-excel-write.c:219
 #, c-format
 msgid ""
 "Some content will be lost when saving.  This format only supports %u column, "
@@ -364,7 +364,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugins/excel/ms-excel-write.c:208
+#: ../plugins/excel/ms-excel-write.c:231
 #, c-format
 msgid ""
 "Some content will be lost when saving.  This format only supports %u row, "
@@ -375,18 +375,18 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../plugins/excel/ms-excel-write.c:331
+#: ../plugins/excel/ms-excel-write.c:354
 msgid ""
 "This is somewhat corrupt.\n"
 "We already wrote a length for a string that is being truncated due to "
 "encoding problems."
 msgstr ""
 
-#: ../plugins/excel/ms-excel-write.c:5644
+#: ../plugins/excel/ms-excel-write.c:5719
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "לא יכול לפתוח זרם 'ספר' לכתיבה\n"
 
-#: ../plugins/excel/ms-excel-write.c:5664
+#: ../plugins/excel/ms-excel-write.c:5739
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "לא יכול לפתוח זרם 'מחברת' לכתיבה\n"
 
@@ -551,12 +551,12 @@ msgstr ""
 msgid "Missing part-id for sheet '%s'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:4104
+#: ../plugins/excel/xlsx-read.c:4106
 #, c-format
 msgid "Missing record '%d'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:4556
+#: ../plugins/excel/xlsx-read.c:4558
 msgid "No workbook stream found."
 msgstr ""
 
@@ -649,7 +649,7 @@ msgstr "מסד נתונים"
 
 #: ../plugins/fn-database/plugin.xml.in.h:2
 msgid "Database Functions"
-msgstr ""
+msgstr "פונקציות מסד נתונים"
 
 #: ../plugins/fn-database/plugin.xml.in.h:3
 msgid "Functions looking up values in databases"
@@ -718,15 +718,15 @@ msgstr ""
 
 #: ../plugins/fn-date/plugin.xml.in.h:1
 msgid "Date and Time Functions"
-msgstr ""
+msgstr "פונקציות תאריך ושעה"
 
 #: ../plugins/fn-date/plugin.xml.in.h:2
 msgid "Date/Time"
-msgstr ""
+msgstr "תאריך/שעה"
 
 #: ../plugins/fn-date/plugin.xml.in.h:3
 msgid "Functions manipulating dates and time"
-msgstr ""
+msgstr "פונקציות המטפלות בתאריך ושעה"
 
 #: ../plugins/fn-eng/plugin.xml.in.h:1
 msgid "Engineering"
@@ -786,67 +786,67 @@ msgstr ""
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: ../plugins/fn-info/functions.c:1298 ../plugins/fn-info/functions.c:1314
+#: ../plugins/fn-info/functions.c:1310 ../plugins/fn-info/functions.c:1326
 msgid "Unimplemented"
 msgstr ""
 
-#: ../plugins/fn-info/functions.c:1322
+#: ../plugins/fn-info/functions.c:1334
 msgid "Unknown version"
 msgstr "גרסה לא ידוע"
 
-#: ../plugins/fn-info/functions.c:1324
+#: ../plugins/fn-info/functions.c:1336
 #, c-format
 msgid "%s version %s"
 msgstr ""
 
-#: ../plugins/fn-info/functions.c:1339
+#: ../plugins/fn-info/functions.c:1351
 #: ../src/dialogs/dialog-cell-format.c:2207
 #: ../src/dialogs/dialog-cell-format.c:2211
-#: ../src/dialogs/dialog-cell-format.c:2219 ../src/wbc-gtk.c:2492
+#: ../src/dialogs/dialog-cell-format.c:2219 ../src/wbc-gtk.c:2499
 msgid "Automatic"
 msgstr "אוטומטי"
 
-#: ../plugins/fn-info/functions.c:1339
+#: ../plugins/fn-info/functions.c:1351
 msgid "Manual"
 msgstr "ידנית"
 
-#: ../plugins/fn-info/functions.c:1349
+#: ../plugins/fn-info/functions.c:1361
 msgid "Unknown system"
 msgstr "מערכת לא ידועה"
 
-#: ../plugins/fn-info/functions.c:1365
+#: ../plugins/fn-info/functions.c:1377
 msgid "Unknown info_type"
 msgstr ""
 
-#: ../plugins/fn-info/functions.c:1721
+#: ../plugins/fn-info/functions.c:1733
 msgid "Invalid number of arguments"
 msgstr ""
 
-#: ../plugins/fn-info/functions.c:1874
+#: ../plugins/fn-info/functions.c:1886
 msgid "info_type, cell"
 msgstr ""
 
-#: ../plugins/fn-info/functions.c:1877 ../plugins/fn-info/functions.c:1883
-#: ../plugins/fn-info/functions.c:1886 ../plugins/fn-info/functions.c:1889
-#: ../plugins/fn-info/functions.c:1892 ../plugins/fn-info/functions.c:1895
+#: ../plugins/fn-info/functions.c:1889 ../plugins/fn-info/functions.c:1895
 #: ../plugins/fn-info/functions.c:1898 ../plugins/fn-info/functions.c:1901
 #: ../plugins/fn-info/functions.c:1904 ../plugins/fn-info/functions.c:1907
 #: ../plugins/fn-info/functions.c:1910 ../plugins/fn-info/functions.c:1913
-#: ../plugins/fn-info/functions.c:1916 ../plugins/fn-info/functions.c:1922
+#: ../plugins/fn-info/functions.c:1916 ../plugins/fn-info/functions.c:1919
+#: ../plugins/fn-info/functions.c:1922 ../plugins/fn-info/functions.c:1925
+#: ../plugins/fn-info/functions.c:1928 ../plugins/fn-info/functions.c:1934
 #: ../plugins/fn-string/functions.c:1310
 msgid "value"
 msgstr ""
 
-#: ../plugins/fn-info/functions.c:1880
+#: ../plugins/fn-info/functions.c:1892
 msgid "info_type"
 msgstr ""
 
 #. XL stores this in statistical ?
-#: ../plugins/fn-info/functions.c:1927
+#: ../plugins/fn-info/functions.c:1939
 msgid "range"
 msgstr ""
 
-#: ../plugins/fn-info/functions.c:1931 ../plugins/fn-string/functions.c:1253
+#: ../plugins/fn-info/functions.c:1943 ../plugins/fn-string/functions.c:1253
 #: ../plugins/fn-string/functions.c:1256 ../plugins/fn-string/functions.c:1259
 #: ../plugins/fn-string/functions.c:1280 ../plugins/fn-string/functions.c:1283
 #: ../plugins/fn-string/functions.c:1286 ../plugins/fn-string/functions.c:1292
@@ -855,11 +855,11 @@ msgstr ""
 msgid "text"
 msgstr ""
 
-#: ../plugins/fn-info/functions.c:1934 ../src/print-info.c:580
+#: ../plugins/fn-info/functions.c:1946 ../src/print-info.c:580
 msgid "cell"
 msgstr "תא"
 
-#: ../plugins/fn-info/functions.c:1937 ../plugins/fn-string/functions.c:1244
+#: ../plugins/fn-info/functions.c:1949 ../plugins/fn-string/functions.c:1244
 #: ../src/ssconvert.c:93
 msgid "string"
 msgstr "מחרוזת"
@@ -881,44 +881,44 @@ msgid "Type Mismatch"
 msgstr "הסוג אינו תואם"
 
 #: ../plugins/fn-logical/functions.c:376 ../plugins/fn-logical/functions.c:380
-#: ../plugins/fn-logical/functions.c:403 ../plugins/fn-math/functions.c:3463
-#: ../plugins/fn-stat/functions.c:5701 ../plugins/fn-stat/functions.c:5705
-#: ../plugins/fn-stat/functions.c:5709 ../plugins/fn-stat/functions.c:5747
-#: ../plugins/fn-stat/functions.c:5750 ../plugins/fn-stat/functions.c:5759
-#: ../plugins/fn-stat/functions.c:5795 ../plugins/fn-stat/functions.c:5809
-#: ../plugins/fn-stat/functions.c:5812 ../plugins/fn-stat/functions.c:5837
-#: ../plugins/fn-stat/functions.c:5841 ../plugins/fn-stat/functions.c:5845
-#: ../plugins/fn-stat/functions.c:5849 ../plugins/fn-stat/functions.c:5853
-#: ../plugins/fn-stat/functions.c:5857 ../plugins/fn-stat/functions.c:5913
-#: ../plugins/fn-stat/functions.c:5917 ../plugins/fn-stat/functions.c:5921
-#: ../plugins/fn-stat/functions.c:5925 ../plugins/fn-stat/functions.c:5954
-#: ../plugins/fn-stat/functions.c:5957 ../plugins/fn-stat/functions.c:5960
-#: ../plugins/fn-stat/functions.c:5963 ../plugins/fn-stat/functions.c:5979
+#: ../plugins/fn-logical/functions.c:403 ../plugins/fn-math/functions.c:3468
+#: ../plugins/fn-stat/functions.c:5706 ../plugins/fn-stat/functions.c:5710
+#: ../plugins/fn-stat/functions.c:5714 ../plugins/fn-stat/functions.c:5752
+#: ../plugins/fn-stat/functions.c:5755 ../plugins/fn-stat/functions.c:5764
+#: ../plugins/fn-stat/functions.c:5800 ../plugins/fn-stat/functions.c:5814
+#: ../plugins/fn-stat/functions.c:5817 ../plugins/fn-stat/functions.c:5842
+#: ../plugins/fn-stat/functions.c:5846 ../plugins/fn-stat/functions.c:5850
+#: ../plugins/fn-stat/functions.c:5854 ../plugins/fn-stat/functions.c:5858
+#: ../plugins/fn-stat/functions.c:5862 ../plugins/fn-stat/functions.c:5918
+#: ../plugins/fn-stat/functions.c:5922 ../plugins/fn-stat/functions.c:5926
+#: ../plugins/fn-stat/functions.c:5930 ../plugins/fn-stat/functions.c:5959
+#: ../plugins/fn-stat/functions.c:5962 ../plugins/fn-stat/functions.c:5965
+#: ../plugins/fn-stat/functions.c:5968 ../plugins/fn-stat/functions.c:5984
 #: ../src/func-builtin.c:274 ../src/func-builtin.c:280
 msgid "number,number,"
 msgstr "מספר,מספר,"
 
 #. MS Excel puts this in the engineering functions
-#: ../plugins/fn-logical/functions.c:384 ../plugins/fn-math/functions.c:3295
-#: ../plugins/fn-math/functions.c:3299 ../plugins/fn-math/functions.c:3302
-#: ../plugins/fn-math/functions.c:3305 ../plugins/fn-math/functions.c:3308
-#: ../plugins/fn-math/functions.c:3311 ../plugins/fn-math/functions.c:3314
-#: ../plugins/fn-math/functions.c:3320 ../plugins/fn-math/functions.c:3329
-#: ../plugins/fn-math/functions.c:3338 ../plugins/fn-math/functions.c:3346
-#: ../plugins/fn-math/functions.c:3349 ../plugins/fn-math/functions.c:3352
-#: ../plugins/fn-math/functions.c:3355 ../plugins/fn-math/functions.c:3358
-#: ../plugins/fn-math/functions.c:3363 ../plugins/fn-math/functions.c:3367
-#: ../plugins/fn-math/functions.c:3373 ../plugins/fn-math/functions.c:3383
-#: ../plugins/fn-math/functions.c:3390 ../plugins/fn-math/functions.c:3393
-#: ../plugins/fn-math/functions.c:3399 ../plugins/fn-math/functions.c:3402
-#: ../plugins/fn-math/functions.c:3415 ../plugins/fn-math/functions.c:3421
-#: ../plugins/fn-math/functions.c:3427 ../plugins/fn-math/functions.c:3448
-#: ../plugins/fn-math/functions.c:3451 ../plugins/fn-math/functions.c:3454
-#: ../plugins/fn-math/functions.c:3457 ../plugins/fn-math/functions.c:3460
-#: ../plugins/fn-math/functions.c:3473 ../plugins/fn-math/functions.c:3485
-#: ../plugins/fn-math/functions.c:3488 ../plugins/fn-stat/functions.c:5771
-#: ../plugins/fn-stat/functions.c:5774 ../plugins/fn-stat/functions.c:5792
-#: ../plugins/fn-stat/functions.c:5870 ../plugins/fn-string/functions.c:1247
+#: ../plugins/fn-logical/functions.c:384 ../plugins/fn-math/functions.c:3300
+#: ../plugins/fn-math/functions.c:3304 ../plugins/fn-math/functions.c:3307
+#: ../plugins/fn-math/functions.c:3310 ../plugins/fn-math/functions.c:3313
+#: ../plugins/fn-math/functions.c:3316 ../plugins/fn-math/functions.c:3319
+#: ../plugins/fn-math/functions.c:3325 ../plugins/fn-math/functions.c:3334
+#: ../plugins/fn-math/functions.c:3343 ../plugins/fn-math/functions.c:3351
+#: ../plugins/fn-math/functions.c:3354 ../plugins/fn-math/functions.c:3357
+#: ../plugins/fn-math/functions.c:3360 ../plugins/fn-math/functions.c:3363
+#: ../plugins/fn-math/functions.c:3368 ../plugins/fn-math/functions.c:3372
+#: ../plugins/fn-math/functions.c:3378 ../plugins/fn-math/functions.c:3388
+#: ../plugins/fn-math/functions.c:3395 ../plugins/fn-math/functions.c:3398
+#: ../plugins/fn-math/functions.c:3404 ../plugins/fn-math/functions.c:3407
+#: ../plugins/fn-math/functions.c:3420 ../plugins/fn-math/functions.c:3426
+#: ../plugins/fn-math/functions.c:3432 ../plugins/fn-math/functions.c:3453
+#: ../plugins/fn-math/functions.c:3456 ../plugins/fn-math/functions.c:3459
+#: ../plugins/fn-math/functions.c:3462 ../plugins/fn-math/functions.c:3465
+#: ../plugins/fn-math/functions.c:3478 ../plugins/fn-math/functions.c:3490
+#: ../plugins/fn-math/functions.c:3493 ../plugins/fn-stat/functions.c:5776
+#: ../plugins/fn-stat/functions.c:5779 ../plugins/fn-stat/functions.c:5797
+#: ../plugins/fn-stat/functions.c:5875 ../plugins/fn-string/functions.c:1247
 #: ../plugins/fn-string/functions.c:1250
 msgid "number"
 msgstr "מספר"
@@ -946,56 +946,56 @@ msgstr "לוגי"
 msgid "Logic Functions"
 msgstr "פונקציות לוגיות"
 
-#: ../plugins/fn-lookup/functions.c:1432
+#: ../plugins/fn-lookup/functions.c:1440
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1435
+#: ../plugins/fn-lookup/functions.c:1443
 msgid "reference"
 msgstr "הפנייה"
 
-#: ../plugins/fn-lookup/functions.c:1438
+#: ../plugins/fn-lookup/functions.c:1446
 msgid "index,value,"
 msgstr "אינדקס,ערך,"
 
-#: ../plugins/fn-lookup/functions.c:1441 ../plugins/fn-lookup/functions.c:1447
-#: ../plugins/fn-lookup/functions.c:1471 ../plugins/fn-lookup/functions.c:1474
+#: ../plugins/fn-lookup/functions.c:1449 ../plugins/fn-lookup/functions.c:1455
+#: ../plugins/fn-lookup/functions.c:1479 ../plugins/fn-lookup/functions.c:1482
 msgid "ref"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1444
+#: ../plugins/fn-lookup/functions.c:1452
 msgid "colname"
 msgstr "שם-עמודה"
 
-#: ../plugins/fn-lookup/functions.c:1450 ../plugins/fn-lookup/functions.c:1480
+#: ../plugins/fn-lookup/functions.c:1458 ../plugins/fn-lookup/functions.c:1488
 msgid "val,range,col_idx,approx,as_index"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1453
+#: ../plugins/fn-lookup/functions.c:1461
 msgid "link_location, label"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1456
+#: ../plugins/fn-lookup/functions.c:1464
 msgid "ref_string,format"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1459
+#: ../plugins/fn-lookup/functions.c:1467
 msgid "reference,row,col,area"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1462
+#: ../plugins/fn-lookup/functions.c:1470
 msgid "val,range,range"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1465
+#: ../plugins/fn-lookup/functions.c:1473
 msgid "val,range,approx"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1468
+#: ../plugins/fn-lookup/functions.c:1476
 msgid "ref,row,col,height,width"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1477 ../plugins/fn-math/functions.c:3501
+#: ../plugins/fn-lookup/functions.c:1485 ../plugins/fn-math/functions.c:3506
 msgid "array"
 msgstr "מערך"
 
@@ -1018,11 +1018,11 @@ msgstr "פונקציות חיפוש"
 msgid "Array version not implemented!"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3317
+#: ../plugins/fn-math/functions.c:3322
 msgid "xnum,ynum"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3323 ../plugins/fn-math/functions.c:3326
+#: ../plugins/fn-math/functions.c:3328 ../plugins/fn-math/functions.c:3331
 #: ../plugins/fn-random/functions.c:1200 ../plugins/fn-random/functions.c:1221
 #: ../plugins/fn-random/functions.c:1227 ../plugins/fn-random/functions.c:1266
 #: ../plugins/fn-random/functions.c:1281 ../plugins/fn-random/functions.c:1284
@@ -1030,67 +1030,67 @@ msgid "a,b"
 msgstr "א,ב"
 
 #. MS Excel puts this in statistical
-#: ../plugins/fn-math/functions.c:3334
+#: ../plugins/fn-math/functions.c:3339
 msgid "range,criteria"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3342
+#: ../plugins/fn-math/functions.c:3347
 msgid "number,significance"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3370 ../plugins/fn-stat/functions.c:5885
+#: ../plugins/fn-math/functions.c:3375 ../plugins/fn-stat/functions.c:5890
 msgid "n,k"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3377
+#: ../plugins/fn-math/functions.c:3382
 msgid "number,number"
 msgstr "מספר,מספר"
 
-#: ../plugins/fn-math/functions.c:3396
+#: ../plugins/fn-math/functions.c:3401
 msgid "number,base"
 msgstr "מספר,בסיס"
 
-#: ../plugins/fn-math/functions.c:3405 ../plugins/fn-math/functions.c:3424
+#: ../plugins/fn-math/functions.c:3410 ../plugins/fn-math/functions.c:3429
 msgid "numerator,denominator"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3408
+#: ../plugins/fn-math/functions.c:3413
 msgid "number,multiple"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3418
+#: ../plugins/fn-math/functions.c:3423
 msgid "base,exponent"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3430
+#: ../plugins/fn-math/functions.c:3435
 msgid "number,type"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3433 ../plugins/fn-math/functions.c:3437
-#: ../plugins/fn-math/functions.c:3441 ../plugins/fn-math/functions.c:3491
+#: ../plugins/fn-math/functions.c:3438 ../plugins/fn-math/functions.c:3442
+#: ../plugins/fn-math/functions.c:3446 ../plugins/fn-math/functions.c:3496
 msgid "number,digits"
 msgstr "מספר,ספרות"
 
-#: ../plugins/fn-math/functions.c:3445
+#: ../plugins/fn-math/functions.c:3450
 msgid "x,n,m,coefficients"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3467
+#: ../plugins/fn-math/functions.c:3472
 msgid "range,criteria,actual_range"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3470
+#: ../plugins/fn-math/functions.c:3475
 msgid "range,range,"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3476 ../plugins/fn-math/functions.c:3479
-#: ../plugins/fn-math/functions.c:3482 ../plugins/fn-math/functions.c:3498
-#: ../plugins/fn-stat/functions.c:5744 ../plugins/fn-stat/functions.c:5753
-#: ../plugins/fn-stat/functions.c:5876 ../plugins/fn-stat/functions.c:5932
+#: ../plugins/fn-math/functions.c:3481 ../plugins/fn-math/functions.c:3484
+#: ../plugins/fn-math/functions.c:3487 ../plugins/fn-math/functions.c:3503
+#: ../plugins/fn-stat/functions.c:5749 ../plugins/fn-stat/functions.c:5758
+#: ../plugins/fn-stat/functions.c:5881 ../plugins/fn-stat/functions.c:5937
 msgid "array1,array2"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3504 ../plugins/fn-math/functions.c:3508
+#: ../plugins/fn-math/functions.c:3509 ../plugins/fn-math/functions.c:3513
 msgid "array,matrix_type,bandsize"
 msgstr ""
 
@@ -1103,9 +1103,8 @@ msgid "Mathematical Functions"
 msgstr "פונקציות מתמטיות"
 
 #: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:302
-#, fuzzy
 msgid "Mathematics"
-msgstr "מתאים"
+msgstr "מתמטיקה"
 
 #: ../plugins/fn-r/plugin.xml.in.h:1 ../plugins/fn-stat/plugin.xml.in.h:1
 msgid "Statistical Functions"
@@ -1123,7 +1122,7 @@ msgid "Statistics"
 msgstr "סטטיסטיקה"
 
 #: ../plugins/fn-random/functions.c:1197 ../plugins/fn-random/functions.c:1233
-#: ../plugins/fn-random/functions.c:1251 ../plugins/fn-stat/functions.c:5873
+#: ../plugins/fn-random/functions.c:1251 ../plugins/fn-stat/functions.c:5878
 msgid "p"
 msgstr ""
 
@@ -1208,187 +1207,187 @@ msgstr "פונקציות מספרים אקראיים"
 #: ../src/dialogs/random-generation.glade.h:6
 #: ../src/tools/random-generator.c:674 ../src/tools/random-generator.c:677
 msgid "Random Numbers"
-msgstr ""
+msgstr "מספרים אקראיים"
 
-#: ../plugins/fn-stat/functions.c:5714 ../plugins/fn-stat/functions.c:5976
+#: ../plugins/fn-stat/functions.c:5719 ../plugins/fn-stat/functions.c:5981
 msgid "k,p"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5718
+#: ../plugins/fn-stat/functions.c:5723
 msgid "x,alpha,beta,a,b"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5721
+#: ../plugins/fn-stat/functions.c:5726
 msgid "p,alpha,beta,a,b"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5724
+#: ../plugins/fn-stat/functions.c:5729
 msgid "n,t,p,c"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5728
+#: ../plugins/fn-stat/functions.c:5733
 msgid "x,a,cum"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5732
+#: ../plugins/fn-stat/functions.c:5737
 msgid "x,dof"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5735 ../plugins/fn-stat/functions.c:5941
+#: ../plugins/fn-stat/functions.c:5740 ../plugins/fn-stat/functions.c:5946
 msgid "p,dof"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5738
+#: ../plugins/fn-stat/functions.c:5743
 msgid "act_range,theo_range"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5741
+#: ../plugins/fn-stat/functions.c:5746
 msgid "x,stddev,size"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5756
+#: ../plugins/fn-stat/functions.c:5761
 msgid "trials,p,alpha"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5762
+#: ../plugins/fn-stat/functions.c:5767
 msgid "x,y,cumulative"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5765
+#: ../plugins/fn-stat/functions.c:5770
 msgid "x,dof of num,dof of denom"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5768
+#: ../plugins/fn-stat/functions.c:5773
 msgid "p,dof of num,dof of denom"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5777
+#: ../plugins/fn-stat/functions.c:5782
 msgid "x,known y's,known x's"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5780
+#: ../plugins/fn-stat/functions.c:5785
 msgid "data_array,bins_array"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5783
+#: ../plugins/fn-stat/functions.c:5788
 msgid "arr1,arr2"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5786
+#: ../plugins/fn-stat/functions.c:5791
 msgid "number,alpha,beta,cum"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5789
+#: ../plugins/fn-stat/functions.c:5794
 msgid "number,alpha,beta"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5799 ../plugins/fn-stat/functions.c:5944
+#: ../plugins/fn-stat/functions.c:5804 ../plugins/fn-stat/functions.c:5949
 msgid "known_y's,known_x's,new_x's,const"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5806
+#: ../plugins/fn-stat/functions.c:5811
 msgid "x,n,M,N,cumulative"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5815 ../plugins/fn-stat/functions.c:5903
+#: ../plugins/fn-stat/functions.c:5820 ../plugins/fn-stat/functions.c:5908
 msgid "values,k,"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5819 ../plugins/fn-stat/functions.c:5822
-#: ../plugins/fn-stat/functions.c:5834
+#: ../plugins/fn-stat/functions.c:5824 ../plugins/fn-stat/functions.c:5827
+#: ../plugins/fn-stat/functions.c:5839
 msgid "known_y's,known_x's,const,stat"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5825 ../plugins/fn-stat/functions.c:5900
-#: ../plugins/fn-stat/functions.c:5929
+#: ../plugins/fn-stat/functions.c:5830 ../plugins/fn-stat/functions.c:5905
+#: ../plugins/fn-stat/functions.c:5934
 msgid "known_y's,known_x's"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5828 ../plugins/fn-stat/functions.c:5867
+#: ../plugins/fn-stat/functions.c:5833 ../plugins/fn-stat/functions.c:5872
 msgid "p,mean,stddev"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5831 ../plugins/fn-stat/functions.c:5907
+#: ../plugins/fn-stat/functions.c:5836 ../plugins/fn-stat/functions.c:5912
 msgid "x,mean,stddev"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5861
+#: ../plugins/fn-stat/functions.c:5866
 msgid "f,t,p"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5864
+#: ../plugins/fn-stat/functions.c:5869
 msgid "x,mean,stddev,cumulative"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5879
+#: ../plugins/fn-stat/functions.c:5884
 msgid "array,k"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5882
+#: ../plugins/fn-stat/functions.c:5887
 msgid "array,x,significance"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5888
+#: ../plugins/fn-stat/functions.c:5893
 msgid "x,mean,cumulative"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5891
+#: ../plugins/fn-stat/functions.c:5896
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5894
+#: ../plugins/fn-stat/functions.c:5899
 msgid "array,quart"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5910
+#: ../plugins/fn-stat/functions.c:5915
 msgid "array,interval"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5938
+#: ../plugins/fn-stat/functions.c:5943
 msgid "x,dof,tails"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5947
+#: ../plugins/fn-stat/functions.c:5952
 msgid "ref,fraction"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5951
+#: ../plugins/fn-stat/functions.c:5956
 msgid "array1,array2,tails,type"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5966
+#: ../plugins/fn-stat/functions.c:5971
 msgid "x.alpha,beta,cumulative"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5969
+#: ../plugins/fn-stat/functions.c:5974
 msgid "ref,x"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5973 ../plugins/fn-stat/functions.c:5991
+#: ../plugins/fn-stat/functions.c:5978 ../plugins/fn-stat/functions.c:5996
 msgid "x,a,b"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5982
+#: ../plugins/fn-stat/functions.c:5987
 msgid "x"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5985 ../plugins/fn-stat/functions.c:5988
+#: ../plugins/fn-stat/functions.c:5990 ../plugins/fn-stat/functions.c:5993
 msgid "x,a"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5994
+#: ../plugins/fn-stat/functions.c:5999
 msgid "x,sigma"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5997
+#: ../plugins/fn-stat/functions.c:6002
 msgid "x,a,sigma"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:6003
+#: ../plugins/fn-stat/functions.c:6008
 msgid "function_nbr,ref,ref,"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:6006
+#: ../plugins/fn-stat/functions.c:6011
 msgid "ref,ref,"
 msgstr ""
 
@@ -1616,8 +1615,8 @@ msgstr ""
 #: ../src/dialogs/dialog-define-names.c:569
 #: ../src/dialogs/dialog-doc-metadata.c:1214
 #: ../src/dialogs/dialog-formula-guru.c:827
-#: ../src/dialogs/dialog-function-select.c:539
-#: ../src/dialogs/dialog-function-select.c:561
+#: ../src/dialogs/dialog-function-select.c:542
+#: ../src/dialogs/dialog-function-select.c:564
 #: ../src/dialogs/dialog-paste-names.c:100
 #: ../src/dialogs/dialog-scenarios.c:374
 #: ../src/dialogs/dialog-simulation.c:221 ../src/dialogs/dialog-zoom.c:196
@@ -1776,19 +1775,19 @@ msgstr ""
 msgid "Invalid DB range '%s'"
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2869
+#: ../plugins/openoffice/openoffice-read.c:2871
 msgid "Unknown mimetype for openoffice file."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2883
+#: ../plugins/openoffice/openoffice-read.c:2885
 msgid "No stream named content.xml found."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2891
+#: ../plugins/openoffice/openoffice-read.c:2893
 msgid "No stream named styles.xml found."
 msgstr ""
 
-#: ../plugins/openoffice/openoffice-read.c:2940
+#: ../plugins/openoffice/openoffice-read.c:2942
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr ""
@@ -1923,12 +1922,11 @@ msgstr ""
 
 #: ../plugins/perl-func/plugin.xml.in.h:1
 msgid "Perl"
-msgstr "פרל"
+msgstr "Perl"
 
 #: ../plugins/perl-func/plugin.xml.in.h:2
-#, fuzzy
 msgid "Perl functions"
-msgstr "Vladimir Vuksan, פונקציות פיננסיות."
+msgstr "פונקציות Perl"
 
 #: ../plugins/perl-func/plugin.xml.in.h:3
 msgid "Sample Perl plugin providing some (useless) functions."
@@ -1953,9 +1951,8 @@ msgid "perl_func.pl doesn't exist."
 msgstr ""
 
 #: ../plugins/perl-loader/plugin.xml.in.h:1
-#, fuzzy
 msgid "Perl plugin loader"
-msgstr "מנהל תוספים"
+msgstr "טוען תוספי Perl"
 
 #: ../plugins/perl-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Perl plugins"
@@ -2098,70 +2095,70 @@ msgstr ""
 msgid "Python exception (%s)"
 msgstr ""
 
-#: ../plugins/python-loader/python-loader.c:74
+#: ../plugins/python-loader/python-loader.c:73
 msgid "Python module name not given."
 msgstr ""
 
-#: ../plugins/python-loader/python-loader.c:92
+#: ../plugins/python-loader/python-loader.c:91
 #, c-format
 msgid "Error while opening file \"%s\" for writing."
 msgstr ""
 
-#: ../plugins/python-loader/python-loader.c:96
+#: ../plugins/python-loader/python-loader.c:95
 #, c-format
 msgid "Error while opening file \"%s\" for reading."
 msgstr ""
 
-#: ../plugins/python-loader/python-loader.c:127
+#: ../plugins/python-loader/python-loader.c:126
 msgid "Cannot create new Python interpreter."
 msgstr ""
 
-#: ../plugins/python-loader/python-loader.c:148
+#: ../plugins/python-loader/python-loader.c:147
 #, c-format
 msgid "Module \"%s\" doesn't exist."
 msgstr ""
 
-#: ../plugins/python-loader/python-loader.c:166
+#: ../plugins/python-loader/python-loader.c:165
 #, c-format
 msgid "Execution of module \"%s\" failed."
 msgstr ""
 
-#: ../plugins/python-loader/python-loader.c:274
+#: ../plugins/python-loader/python-loader.c:273
 msgid "Some name"
 msgstr "שם כלשהו"
 
-#: ../plugins/python-loader/python-loader.c:337
-#: ../plugins/python-loader/python-loader.c:430
-#: ../plugins/python-loader/python-loader.c:654
-#: ../plugins/python-loader/python-loader.c:766
+#: ../plugins/python-loader/python-loader.c:336
+#: ../plugins/python-loader/python-loader.c:429
+#: ../plugins/python-loader/python-loader.c:653
+#: ../plugins/python-loader/python-loader.c:765
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr ""
 
-#: ../plugins/python-loader/python-loader.c:341
-#: ../plugins/python-loader/python-loader.c:435
+#: ../plugins/python-loader/python-loader.c:340
+#: ../plugins/python-loader/python-loader.c:434
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr ""
 
-#: ../plugins/python-loader/python-loader.c:659
-#: ../plugins/python-loader/python-loader.c:771
+#: ../plugins/python-loader/python-loader.c:658
+#: ../plugins/python-loader/python-loader.c:770
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr ""
 
-#: ../plugins/python-loader/python-loader.c:664
-#: ../plugins/python-loader/python-loader.c:776
+#: ../plugins/python-loader/python-loader.c:663
+#: ../plugins/python-loader/python-loader.c:775
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr ""
 
-#: ../plugins/python-loader/python-loader.c:714 ../src/gnm-plugin.c:559
+#: ../plugins/python-loader/python-loader.c:713 ../src/gnm-plugin.c:559
 #, c-format
 msgid "Unknown action: %s"
 msgstr "פעולה לא מוכרת: %s"
 
-#: ../plugins/python-loader/python-loader.c:719
+#: ../plugins/python-loader/python-loader.c:718
 #, c-format
 msgid "Not a valid function for action: %s"
 msgstr ""
@@ -2831,7 +2828,7 @@ msgstr "Auto Expression Recalculation Lag"
 #: ../schemas/gnumeric-general.schemas.in.h:2
 #: ../src/dialogs/dialog-preferences.c:705
 msgid "Autocomplete"
-msgstr ""
+msgstr "השלמה אוטומטית"
 
 #: ../schemas/gnumeric-general.schemas.in.h:3
 msgid ""
@@ -2860,7 +2857,7 @@ msgstr ""
 #: ../schemas/gnumeric-general.schemas.in.h:7
 #: ../src/dialogs/dialog-preferences.c:597
 msgid "Default Number of Sheets"
-msgstr ""
+msgstr "מספר גיליונות כברירת מחדל"
 
 #: ../schemas/gnumeric-general.schemas.in.h:8
 #: ../src/dialogs/dialog-preferences.c:631
@@ -3396,22 +3393,22 @@ msgstr "מחק עמודות"
 #: ../src/commands.c:1457
 #, c-format
 msgid "Inserting %d columns before %s"
-msgstr ""
+msgstr "מכניס %d עמודות לפני %s"
 
 #: ../src/commands.c:1458
 #, c-format
 msgid "Inserting %d column before %s"
-msgstr ""
+msgstr "מכניס %d עמודות לפני %s"
 
 #: ../src/commands.c:1473
 #, c-format
 msgid "Inserting %d rows before %s"
-msgstr ""
+msgstr "מכניס %d שורות לפני %s"
 
 #: ../src/commands.c:1474
 #, c-format
 msgid "Inserting %d row before %s"
-msgstr ""
+msgstr "מכניס %d שורות לפני %s"
 
 #: ../src/commands.c:1485
 #, c-format
@@ -3481,8 +3478,7 @@ msgstr ""
 #: ../src/commands.c:2017
 #, c-format
 msgid "Setting width of column %s to %d pixels"
-msgstr ""
-"קובע את רוחב העמודה %s ל-%d פיקסלים"
+msgstr "קובע את רוחב העמודה %s ל-%d פיקסלים"
 
 #: ../src/commands.c:2019
 #, c-format
@@ -3582,19 +3578,19 @@ msgstr ""
 
 #: ../src/commands.c:2438
 msgid "Those columns are already grouped"
-msgstr ""
+msgstr "העמודות האלו כבר מקובצות"
 
 #: ../src/commands.c:2439
 msgid "Those rows are already grouped"
-msgstr ""
+msgstr "השורות האלו כבר מקובצות"
 
 #: ../src/commands.c:2462
 msgid "Those columns are not grouped, you can't ungroup them"
-msgstr ""
+msgstr "העמודות האלו לא מקובצות, לא ניתן לבצע הפרדה"
 
 #: ../src/commands.c:2463
 msgid "Those rows are not grouped, you can't ungroup them"
-msgstr ""
+msgstr "השורות האלו לא מקובצות, לא ניתן לבצע הפרדה"
 
 #: ../src/commands.c:2476
 #, c-format
@@ -4106,22 +4102,24 @@ msgid "_Or"
 msgstr "_או"
 
 #: ../src/dialogs/autofilter-top10.glade.h:2
-#, fuzzy
 msgid ""
 "Items\n"
 "Percentage"
-msgstr "אחוזים"
+msgstr ""
+"פריטים\n"
+"אחוזים"
 
 #: ../src/dialogs/autofilter-top10.glade.h:4
 msgid "Show:"
 msgstr ""
 
 #: ../src/dialogs/autofilter-top10.glade.h:5
-#, fuzzy
 msgid ""
 "Top\n"
 "Bottom"
-msgstr "תקרה וגם רצפה"
+msgstr ""
+"עליון\n"
+"תחתון"
 
 #: ../src/dialogs/autoformat.glade.h:2
 msgid "A short description of the template"
@@ -4129,7 +4127,7 @@ msgstr ""
 
 #: ../src/dialogs/autoformat.glade.h:3
 msgid "Apply _Alignment"
-msgstr ""
+msgstr "החל _יישור"
 
 #: ../src/dialogs/autoformat.glade.h:4
 msgid "Apply _Borders"
@@ -4343,8 +4341,8 @@ msgstr ""
 "מותאם"
 
 #: ../src/dialogs/cell-format.glade.h:33
-#: ../src/dialogs/dialog-cell-format.c:2215 ../src/wbc-gtk.c:2545
-#: ../src/wbc-gtk.c:2546 ../src/wbc-gtk.c:2555
+#: ../src/dialogs/dialog-cell-format.c:2215 ../src/wbc-gtk.c:2552
+#: ../src/wbc-gtk.c:2553 ../src/wbc-gtk.c:2562
 msgid "Background"
 msgstr "רקע"
 
@@ -4353,7 +4351,7 @@ msgstr "רקע"
 msgid "Border"
 msgstr "גבול"
 
-#: ../src/dialogs/cell-format.glade.h:35 ../src/wbc-gtk.c:2224
+#: ../src/dialogs/cell-format.glade.h:35 ../src/wbc-gtk.c:2231
 msgid "Bottom"
 msgstr "תחתון"
 
@@ -4398,7 +4396,7 @@ msgid "Diagonal Stripe"
 msgstr ""
 
 #: ../src/dialogs/cell-format.glade.h:46
-#: ../src/dialogs/dialog-preferences.c:759 ../src/wbc-gtk.c:2596
+#: ../src/dialogs/dialog-preferences.c:759 ../src/wbc-gtk.c:2603
 msgid "Font"
 msgstr "גופן"
 
@@ -4451,7 +4449,7 @@ msgstr "יי_שור"
 msgid "Large Circles"
 msgstr ""
 
-#: ../src/dialogs/cell-format.glade.h:59 ../src/wbc-gtk.c:2216
+#: ../src/dialogs/cell-format.glade.h:59 ../src/wbc-gtk.c:2223
 msgid "Left"
 msgstr "שמאל"
 
@@ -4482,7 +4480,7 @@ msgstr "אלכסוני הפוך"
 msgid "Reverse Diagonal Stripe"
 msgstr ""
 
-#: ../src/dialogs/cell-format.glade.h:66 ../src/wbc-gtk.c:2218
+#: ../src/dialogs/cell-format.glade.h:66 ../src/wbc-gtk.c:2225
 msgid "Right"
 msgstr "ימין"
 
@@ -4688,9 +4686,8 @@ msgid "Sorting _preserves formats"
 msgstr ""
 
 #: ../src/dialogs/cell-sort.glade.h:16
-#, fuzzy
 msgid "_Left-Right"
-msgstr "_ימין"
+msgstr "_שמאל-ימין"
 
 #: ../src/dialogs/cell-sort.glade.h:17
 msgid "_Top-Bottom"
@@ -4702,7 +4699,7 @@ msgstr "רוחב עמודה"
 
 #: ../src/dialogs/col-width.glade.h:2
 msgid "_Column width (pt.):"
-msgstr ""
+msgstr "רוחב _עמודה (pt.):"
 
 #: ../src/dialogs/col-width.glade.h:3 ../src/dialogs/row-height.glade.h:3
 msgid "_Use Default"
@@ -4781,13 +4778,13 @@ msgstr "_פונקציה:"
 msgid "_Source areas:"
 msgstr "מבנה המקור"
 
-#: ../src/dialogs/correlation.glade.h:1 ../src/tools/analysis-tools.c:815
-#: ../src/tools/analysis-tools.c:818
+#: ../src/dialogs/correlation.glade.h:1 ../src/tools/analysis-tools.c:829
+#: ../src/tools/analysis-tools.c:832
 msgid "Correlation"
 msgstr ""
 
-#: ../src/dialogs/covariance.glade.h:1 ../src/tools/analysis-tools.c:869
-#: ../src/tools/analysis-tools.c:872 ../src/wbc-gtk-actions.c:1980
+#: ../src/dialogs/covariance.glade.h:1 ../src/tools/analysis-tools.c:883
+#: ../src/tools/analysis-tools.c:886 ../src/wbc-gtk-actions.c:1980
 msgid "Covariance"
 msgstr ""
 
@@ -4893,15 +4890,15 @@ msgstr "_עדכן"
 
 #: ../src/dialogs/delete-cells.glade.h:1
 msgid "<span weight=\"bold\">Delete Method</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">שיטת מחיקה</span>"
 
 #: ../src/dialogs/delete-cells.glade.h:2
 msgid "Delete _column(s)"
-msgstr ""
+msgstr "מחק _עמודה(ות)"
 
 #: ../src/dialogs/delete-cells.glade.h:3
 msgid "Delete _row(s)"
-msgstr ""
+msgstr "מחק _שורה(ות)"
 
 #: ../src/dialogs/delete-cells.glade.h:4
 msgid "Delete cells"
@@ -4924,7 +4921,7 @@ msgid "Confidence Interval for the _Mean"
 msgstr ""
 
 #: ../src/dialogs/descriptive-stats.glade.h:5
-#: ../src/tools/analysis-tools.c:1256 ../src/tools/analysis-tools.c:1259
+#: ../src/tools/analysis-tools.c:1270 ../src/tools/analysis-tools.c:1273
 msgid "Descriptive Statistics"
 msgstr ""
 
@@ -5044,9 +5041,8 @@ msgid "Quality Assurance and sheet copy."
 msgstr "Quality Assurance and sheet copy."
 
 #: ../src/dialogs/dialog-about.c:92
-#, fuzzy
 msgid "Frank Chiulli"
-msgstr "Frank Chiulli, תמיכת OLE."
+msgstr "Frank Chiulli"
 
 #: ../src/dialogs/dialog-about.c:93
 #, fuzzy
@@ -5117,18 +5113,16 @@ msgid "RPM packaging"
 msgstr "RPM packaging"
 
 #: ../src/dialogs/dialog-about.c:110
-#, fuzzy
 msgid "Andreas J. Gülzow"
-msgstr "Andreas J. Glzow, האקר Gnumeric."
+msgstr "Andreas J. Gülzow"
 
 #: ../src/dialogs/dialog-about.c:111
 msgid "Statistics and GUI master"
 msgstr "Statistics and GUI master"
 
 #: ../src/dialogs/dialog-about.c:112
-#, fuzzy
 msgid "Jon Kåre Hellan"
-msgstr "Jon Kre Hellan, האקר Gnumeric."
+msgstr "Jon Kåre Hellan"
 
 #: ../src/dialogs/dialog-about.c:113
 msgid "UI polish and all round bug fixer"
@@ -5139,9 +5133,8 @@ msgid "Ross Ihaka"
 msgstr "Ross Ihaka"
 
 #: ../src/dialogs/dialog-about.c:115
-#, fuzzy
 msgid "Special functions"
-msgstr "Vladimir Vuksan, פונקציות פיננסיות."
+msgstr "פונקציות מיוחדות"
 
 #: ../src/dialogs/dialog-about.c:116
 msgid "Jukka-Pekka Iivonen"
@@ -5227,9 +5220,8 @@ msgid "Mark Probst"
 msgstr "Mark Probst"
 
 #: ../src/dialogs/dialog-about.c:137 ../src/dialogs/dialog-about.c:143
-#, fuzzy
 msgid "Guile support"
-msgstr "Ariel Rios, תמיכת Guile."
+msgstr "Guile support"
 
 #: ../src/dialogs/dialog-about.c:138
 msgid "Rasca"
@@ -5277,9 +5269,8 @@ msgid "Initial work on OLE2 for libgsf"
 msgstr "Initial work on OLE2 for libgsf"
 
 #: ../src/dialogs/dialog-about.c:150
-#, fuzzy
 msgid "Almer S. Tigelaar"
-msgstr "Almer S. Tigelaar, האקר Gnumeric."
+msgstr "Almer S. Tigelaar"
 
 #: ../src/dialogs/dialog-about.c:151
 msgid "Consolidation and Structured Text importer"
@@ -5479,7 +5470,7 @@ msgid "Could not create the Sampling Tool dialog."
 msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:1971
-#: ../src/tools/analysis-tools.c:2987 ../src/tools/analysis-tools.c:3059
+#: ../src/tools/analysis-tools.c:2841 ../src/tools/analysis-tools.c:2913
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
@@ -5575,8 +5566,8 @@ msgid "Mar"
 msgstr "מרץ"
 
 #: ../src/dialogs/dialog-autoformat.c:72 ../src/dialogs/dialog-autoformat.c:76
-#: ../src/tools/analysis-tools.c:4343 ../src/tools/analysis-tools.c:4353
-#: ../src/tools/analysis-tools.c:4361
+#: ../src/tools/analysis-tools.c:4178 ../src/tools/analysis-tools.c:4188
+#: ../src/tools/analysis-tools.c:4196
 msgid "Total"
 msgstr "סך-הכל"
 
@@ -5726,13 +5717,13 @@ msgstr "הודעה (קבלת קלט לא תקין)"
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "הקריטריונים של בדיקת התקינות לא ניתנים לשימוש. לבטל את בדיקת התקינות?"
 
-#: ../src/dialogs/dialog-cell-format.c:2211 ../src/wbc-gtk.c:2205
-#: ../src/wbc-gtk.c:2329 ../src/wbc-gtk.c:2494 ../src/wbc-gtk.c:2495
-#: ../src/wbc-gtk.c:2506 ../src/wbc-gtk.c:2612 ../src/wbc-gtk.c:2676
+#: ../src/dialogs/dialog-cell-format.c:2211 ../src/wbc-gtk.c:2212
+#: ../src/wbc-gtk.c:2336 ../src/wbc-gtk.c:2501 ../src/wbc-gtk.c:2502
+#: ../src/wbc-gtk.c:2513 ../src/wbc-gtk.c:2619 ../src/wbc-gtk.c:2683
 msgid "Foreground"
 msgstr "חזית"
 
-#: ../src/dialogs/dialog-cell-format.c:2215 ../src/wbc-gtk.c:2543
+#: ../src/dialogs/dialog-cell-format.c:2215 ../src/wbc-gtk.c:2550
 msgid "Clear Background"
 msgstr "נקה רקע"
 
@@ -5792,7 +5783,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
-msgstr ""
+msgstr "קבע את רוחב העמודה ב-<span style='italic' weight='bold'>%s</span>"
 
 #: ../src/dialogs/dialog-consolidate.c:197
 #, c-format
@@ -5821,7 +5812,7 @@ msgstr "צור רשימה"
 #, c-format
 msgid ""
 "The selection must have more than 1 column and row to create a Data Table."
-msgstr ""
+msgstr "השטח המסומן צריך להכיל יותר מעמודה ושורה אחת כדי ליצור טבלת נתונים."
 
 #: ../src/dialogs/dialog-data-table.c:169
 msgid "Could not create the Data Table definition dialog."
@@ -5881,20 +5872,20 @@ msgstr ""
 msgid "Could not create the formula guru."
 msgstr ""
 
-#: ../src/dialogs/dialog-function-select.c:211
+#: ../src/dialogs/dialog-function-select.c:214
 msgid "Recently Used"
 msgstr "בשימוש לאחרונה"
 
-#: ../src/dialogs/dialog-function-select.c:216
+#: ../src/dialogs/dialog-function-select.c:219
 msgid "All Functions (long list)"
 msgstr "כל הפונקציות (רשימה ארוכה)"
 
-#: ../src/dialogs/dialog-function-select.c:377
+#: ../src/dialogs/dialog-function-select.c:380
 #, fuzzy
 msgid "Arguments:"
 msgstr "ה_ערות"
 
-#: ../src/dialogs/dialog-function-select.c:398
+#: ../src/dialogs/dialog-function-select.c:401
 msgid "See also: "
 msgstr "ראה גם:"
 
@@ -6103,9 +6094,8 @@ msgid "M_ultiply"
 msgstr ""
 
 #: ../src/dialogs/dialog-paste-special.c:79
-#, fuzzy
 msgid "D_ivide"
-msgstr "ה_סתר"
+msgstr "ל_חלק"
 
 #: ../src/dialogs/dialog-paste-special.c:179
 msgid "Paste Special"
@@ -6370,8 +6360,8 @@ msgstr "שמור את הנבחרים"
 msgid "Save selected documents and then quit"
 msgstr "שמור את הנבחרים ואז לצאת"
 
-#: ../src/dialogs/dialog-quit.c:194 ../src/wbc-gtk.c:1257
-#: ../src/wbc-gtk.c:1264 ../src/wbc-gtk.c:1270
+#: ../src/dialogs/dialog-quit.c:194 ../src/wbc-gtk.c:1264
+#: ../src/wbc-gtk.c:1271 ../src/wbc-gtk.c:1277
 msgid "Discard"
 msgstr "ביטול"
 
@@ -6656,7 +6646,7 @@ msgstr ""
 #, c-format
 msgid ""
 "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
-msgstr ""
+msgstr "קבע את גובה השורה ב-<span style='italic' weight='bold'>%s</span>"
 
 #: ../src/dialogs/dialog-scenarios.c:129
 msgid "Invalid changing cells"
@@ -6819,17 +6809,17 @@ msgstr ""
 msgid "Variable"
 msgstr ""
 
-#: ../src/dialogs/dialog-simulation.c:241 ../src/tools/simulation.c:247
-#: ../src/wbc-gtk.c:3692
+#: ../src/dialogs/dialog-simulation.c:241 ../src/tools/simulation.c:246
+#: ../src/wbc-gtk.c:3699
 msgid "Min"
 msgstr ""
 
-#: ../src/dialogs/dialog-simulation.c:241 ../src/wbc-gtk.c:3694
+#: ../src/dialogs/dialog-simulation.c:241 ../src/wbc-gtk.c:3701
 msgid "Average"
 msgstr ""
 
-#: ../src/dialogs/dialog-simulation.c:241 ../src/tools/simulation.c:249
-#: ../src/wbc-gtk.c:3693
+#: ../src/dialogs/dialog-simulation.c:241 ../src/tools/simulation.c:248
+#: ../src/wbc-gtk.c:3700
 msgid "Max"
 msgstr ""
 
@@ -7103,9 +7093,8 @@ msgid "Merge with column on _right"
 msgstr ""
 
 #: ../src/dialogs/dialog-stf-fixed-page.c:73
-#, fuzzy
 msgid "_Split this column"
-msgstr "קבע סוף לעמודה הזו"
+msgstr "_פיצול העמודה"
 
 #: ../src/dialogs/dialog-stf-fixed-page.c:76
 #, fuzzy
@@ -7290,7 +7279,7 @@ msgstr "רוחב קבוע"
 msgid "Fixed"
 msgstr "קובץ/"
 
-#: ../src/dialogs/dialog-stf.glade.h:24 ../src/stf-export.c:543
+#: ../src/dialogs/dialog-stf.glade.h:24 ../src/stf-export.c:545
 #, fuzzy
 msgid "Format"
 msgstr "מ_בנה"
@@ -7424,11 +7413,11 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf.glade.h:55
 msgid "_Macintosh (CR)"
-msgstr ""
+msgstr "_Macintosh (CR)"
 
 #: ../src/dialogs/dialog-stf.glade.h:56
 msgid "_Separated"
-msgstr ""
+msgstr "_מופרד "
 
 #: ../src/dialogs/dialog-stf.glade.h:57
 msgid "_Space"
@@ -7440,15 +7429,15 @@ msgstr "_לשונית"
 
 #: ../src/dialogs/dialog-stf.glade.h:59
 msgid "_To line: "
-msgstr ""
+msgstr "_לשורה:"
 
 #: ../src/dialogs/dialog-stf.glade.h:60
 msgid "_Unix (LF)"
-msgstr ""
+msgstr "_Unix (LF)"
 
 #: ../src/dialogs/dialog-stf.glade.h:61
 msgid "_Windows (CR+LF)"
-msgstr ""
+msgstr "_Windows (CR+LF)"
 
 #: ../src/dialogs/dialog-stf.glade.h:62
 msgid "`"
@@ -7526,7 +7515,7 @@ msgstr "הגדלה"
 msgid "Sheets"
 msgstr "גיליונות"
 
-#: ../src/dialogs/dialog-zoom.glade.h:5 ../src/wbc-gtk.c:2193
+#: ../src/dialogs/dialog-zoom.glade.h:5 ../src/wbc-gtk.c:2200
 msgid "Zoom"
 msgstr "קירוב"
 
@@ -7679,7 +7668,7 @@ msgstr "קובץ"
 
 #: ../src/dialogs/doc-meta-data.glade.h:32
 msgid "Keywords:"
-msgstr ""
+msgstr "מילות מפתח:"
 
 #: ../src/dialogs/doc-meta-data.glade.h:33
 msgid "Link:"
@@ -7713,8 +7702,8 @@ msgstr "ערך: "
 msgid "0.2"
 msgstr "0.2"
 
-#: ../src/dialogs/exp-smoothing.glade.h:3 ../src/tools/analysis-tools.c:3518
-#: ../src/tools/analysis-tools.c:3521
+#: ../src/dialogs/exp-smoothing.glade.h:3 ../src/tools/analysis-tools.c:3372
+#: ../src/tools/analysis-tools.c:3375
 msgid "Exponential Smoothing"
 msgstr ""
 
@@ -7831,7 +7820,7 @@ msgstr "_הכנס"
 
 #: ../src/dialogs/function-select.glade.h:1
 msgid "Category"
-msgstr ""
+msgstr "קטגוריה"
 
 #: ../src/dialogs/function-select.glade.h:3 ../src/wbc-gtk-actions.c:2062
 msgid "Function"
@@ -7843,7 +7832,7 @@ msgstr "בוחר פונקציות"
 
 #: ../src/dialogs/function-select.glade.h:5
 msgid "Select a function to insert:"
-msgstr ""
+msgstr "בחר פונקציה להכנסה:"
 
 #: ../src/dialogs/function-select.glade.h:6 ../src/wbc-gtk-actions.c:1551
 #: ../src/wbc-gtk-actions.c:1748
@@ -8000,7 +7989,7 @@ msgstr "אחוזים"
 #: ../src/dialogs/histogram.glade.h:6 ../src/tools/analysis-histogram.c:436
 #: ../src/tools/analysis-histogram.c:439
 msgid "Histogram"
-msgstr ""
+msgstr "היסטוגרמה"
 
 #: ../src/dialogs/histogram.glade.h:8
 msgid "M_in:"
@@ -8210,8 +8199,8 @@ msgstr "3"
 msgid "C_olumns"
 msgstr "ע_מודות"
 
-#: ../src/dialogs/moving-averages.glade.h:6 ../src/tools/analysis-tools.c:3385
-#: ../src/tools/analysis-tools.c:3388
+#: ../src/dialogs/moving-averages.glade.h:6 ../src/tools/analysis-tools.c:3239
+#: ../src/tools/analysis-tools.c:3242
 msgid "Moving Average"
 msgstr ""
 
@@ -8529,8 +8518,8 @@ msgstr "0.95"
 msgid "Confidence level:"
 msgstr ""
 
-#: ../src/dialogs/regression.glade.h:6 ../src/tools/analysis-tools.c:3263
-#: ../src/tools/analysis-tools.c:3266
+#: ../src/dialogs/regression.glade.h:6 ../src/tools/analysis-tools.c:3117
+#: ../src/tools/analysis-tools.c:3120
 msgid "Regression"
 msgstr ""
 
@@ -8554,7 +8543,7 @@ msgstr "גובה שורה"
 
 #: ../src/dialogs/row-height.glade.h:2
 msgid "_Row height (pt.):"
-msgstr ""
+msgstr "גובה _השורה (pt.):"
 
 #: ../src/dialogs/sampling.glade.h:4
 #, fuzzy
@@ -9053,7 +9042,7 @@ msgid "Prev. Sim."
 msgstr ""
 
 #. Fill in the header titles.
-#: ../src/dialogs/simulation.glade.h:18 ../src/tools/simulation.c:342
+#: ../src/dialogs/simulation.glade.h:18 ../src/tools/simulation.c:341
 msgid "Risk Simulation"
 msgstr ""
 
@@ -9263,7 +9252,7 @@ msgstr "מקסימום"
 msgid "Minimum"
 msgstr "מינימום"
 
-#: ../src/dialogs/tabulate.glade.h:7 ../src/tools/simulation.c:251
+#: ../src/dialogs/tabulate.glade.h:7 ../src/tools/simulation.c:250
 msgid "Mode"
 msgstr ""
 
@@ -9395,11 +9384,11 @@ msgstr ""
 msgid "'%s' is already defined in workbook"
 msgstr ""
 
-#: ../src/expr.c:763
+#: ../src/expr.c:765
 msgid "Internal type error"
 msgstr ""
 
-#: ../src/expr.c:1454
+#: ../src/expr.c:1456
 msgid "Unknown evaluation error"
 msgstr ""
 
@@ -9476,11 +9465,15 @@ msgid ""
 "@EXAMPLES=\n"
 "GNUMERIC_VERSION()."
 msgstr ""
+"@FUNCTION=GNUMERIC_VERSION\n"
+"@SYNTAX=GNUMERIC_VERSION()\n"
+"@DESCRIPTION=GNUMERIC_VERSION מדפיס את גרסת gnumeric כמחרוזת.\n"
+"@EXAMPLES=\n"
+"GNUMERIC_VERSION()."
 
 #: ../src/func-builtin.c:306
 msgid "Gnumeric"
-msgstr ""
-"‏Gnumeric"
+msgstr "‏Gnumeric"
 
 #: ../src/func.c:234
 #, c-format
@@ -9643,7 +9636,7 @@ msgstr ""
 #. * Advanced and Simple
 #: ../src/gui-file.c:184 ../src/gui-file.c:248
 msgid "Advanc_ed"
-msgstr ""
+msgstr "מתקד_ם"
 
 #: ../src/gui-file.c:187
 msgid "Simpl_e"
@@ -9651,7 +9644,7 @@ msgstr "פשו_ט"
 
 #: ../src/gui-file.c:218
 msgid "Load file"
-msgstr ""
+msgstr "טעינת קובץ"
 
 #: ../src/gui-file.c:244 ../src/gui-file.c:409
 msgid "Select a file"
@@ -9726,7 +9719,7 @@ msgstr ""
 
 #: ../src/item-cursor.c:872
 msgid "Drag to move"
-msgstr ""
+msgstr "גרור כדי להעביר"
 
 #: ../src/item-cursor.c:915
 msgid ""
@@ -9749,7 +9742,7 @@ msgstr ""
 
 #: ../src/item-cursor.c:1020
 msgid "Copy _Values"
-msgstr ""
+msgstr "העתק _ערכים"
 
 #: ../src/item-cursor.c:1025
 msgid "Shift _Down and Copy"
@@ -9897,98 +9890,98 @@ msgstr ""
 msgid "bessel_k(%"
 msgstr ""
 
-#: ../src/mathfunc.c:7732
+#: ../src/mathfunc.c:7753
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
 msgstr ""
 
-#: ../src/parser.y:316
+#: ../src/parser.y:329
 #, fuzzy, c-format
 msgid "An array must have at least 1 element"
 msgstr "בשם הגיליון צריכה להיות לפחות אות אחת"
 
-#: ../src/parser.y:348
+#: ../src/parser.y:355
 #, c-format
 msgid "Arrays must be rectangular"
 msgstr ""
 
-#: ../src/parser.y:367
+#: ../src/parser.y:379
 #, c-format
 msgid "Constructed ranges use simple references"
 msgstr ""
 
-#: ../src/parser.y:381 ../src/parser.y:395
+#: ../src/parser.y:400 ../src/parser.y:419
 #, c-format
 msgid "All entries in the set must be references"
 msgstr ""
 
-#: ../src/parser.y:445
+#: ../src/parser.y:469
 #, c-format
 msgid "Name '%s' does not exist"
 msgstr ""
 
-#: ../src/parser.y:490
+#: ../src/parser.y:514
 #, c-format
 msgid "Unknown sheet '%s'"
 msgstr ""
 
-#: ../src/parser.y:592
+#: ../src/parser.y:616
 #, c-format
 msgid "() is an invalid expression"
 msgstr ""
 
-#: ../src/parser.y:625 ../src/parser.y:647
+#: ../src/parser.y:648 ../src/parser.y:670
 #, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
 msgstr ""
 
-#: ../src/parser.y:698
+#: ../src/parser.y:721
 #, c-format
 msgid "Unknown workbook '%s'"
 msgstr ""
 
-#: ../src/parser.y:990 ../src/parser.y:1254
+#: ../src/parser.y:1016 ../src/parser.y:1280
 #, c-format
 msgid "Could not find matching closing quote"
 msgstr ""
 
-#: ../src/parser.y:1115
+#: ../src/parser.y:1141
 #, c-format
 msgid "Sheet name is required"
 msgstr ""
 
-#: ../src/parser.y:1168 ../src/parser.y:1177 ../src/parser.y:1202
+#: ../src/parser.y:1194 ../src/parser.y:1203 ../src/parser.y:1228
 #, c-format
 msgid "The number is out of range"
 msgstr ""
 
-#: ../src/parser.y:1236
+#: ../src/parser.y:1262
 #, c-format
 msgid "Improperly formatted error token"
 msgstr ""
 
-#: ../src/parser.y:1432
+#: ../src/parser.y:1458
 #, c-format
 msgid "Multiple expressions are not supported in this context"
 msgstr ""
 
-#: ../src/parser.y:1455
+#: ../src/parser.y:1481
 #, c-format
 msgid "Could not find matching opening parenthesis"
 msgstr ""
 
-#: ../src/parser.y:1459
+#: ../src/parser.y:1485
 #, c-format
 msgid "Could not find matching closing parenthesis"
 msgstr ""
 
-#: ../src/parser.y:1463
+#: ../src/parser.y:1489
 #, c-format
 msgid "Invalid expression"
 msgstr ""
 
-#: ../src/parser.y:1467
+#: ../src/parser.y:1493
 #, c-format
 msgid "Unexpected token %c"
 msgstr ""
@@ -10039,7 +10032,7 @@ msgstr ""
 msgid "path"
 msgstr ""
 
-#: ../src/print-info.c:742 ../src/stf-export.c:625
+#: ../src/print-info.c:742 ../src/stf-export.c:627
 #, fuzzy, c-format
 msgid "There is no such sheet"
 msgstr "שנה שם לגיליון זה"
@@ -10098,7 +10091,7 @@ msgstr "טווח הדפסה לGnumeric"
 #. Actually we can get slightly more than max_width here.
 #. * But max_width was computed as an estimate, anyway, so we don't care.
 #.
-#: ../src/ranges.c:1038
+#: ../src/ranges.c:1039
 msgid "..."
 msgstr "..."
 
@@ -10145,9 +10138,8 @@ msgid "Should the results of expressions be searched?"
 msgstr ""
 
 #: ../src/search.c:585
-#, fuzzy
 msgid "Search Comments"
-msgstr "מרכז חיפוש"
+msgstr "חיפוש הערות"
 
 #: ../src/search.c:586
 msgid "Should cell comments be searched?"
@@ -10277,7 +10269,7 @@ msgstr "_הכנס שורה(ות)"
 
 #: ../src/sheet-control-gui.c:1819
 msgid "_Delete Row(s)"
-msgstr "_מחר שורות"
+msgstr "_מחק שורות"
 
 #: ../src/sheet-control-gui.c:1822
 msgid "Clear Co_ntents"
@@ -10304,12 +10296,12 @@ msgstr "ה_סתר"
 #: ../src/sheet-control-gui.c:1838 ../src/sheet-control-gui.c:1846
 #: ../src/wbc-gtk-actions.c:1889 ../src/wbc-gtk-actions.c:1906
 msgid "_Unhide"
-msgstr ""
+msgstr "_ביטול הסתרה"
 
 #. Row specific (Note some labels duplicate col labels)
 #: ../src/sheet-control-gui.c:1842
 msgid "_Row Height..."
-msgstr ""
+msgstr "גובה _שורה..."
 
 #: ../src/sheet-control-gui.c:1849
 msgid "_Hyperlink"
@@ -10317,11 +10309,11 @@ msgstr "_היפר קישור"
 
 #: ../src/sheet-control-gui.c:1852
 msgid "Edit _Hyperlink"
-msgstr ""
+msgstr "ערוך _היפר קישור"
 
 #: ../src/sheet-control-gui.c:1855
 msgid "_Remove Hyperlink"
-msgstr ""
+msgstr "_הסר היפר קישור"
 
 #. This is somewhat cheesy and should use ngettext
 #: ../src/sheet-control-gui.c:2351
@@ -10367,7 +10359,7 @@ msgstr "_שמור כתמונה"
 
 #: ../src/sheet-object-graph.c:331
 msgid "Open in _New Window"
-msgstr ""
+msgstr "פתח בחלון _חדש"
 
 #: ../src/sheet-object-image.c:463
 msgid "_Save as image"
@@ -10453,9 +10445,8 @@ msgid "Cut"
 msgstr "גזור"
 
 #: ../src/sheet.c:687
-#, fuzzy
 msgid "The name of the sheet."
-msgstr "שנה שם לגיליון זה"
+msgstr "שם הגיליון."
 
 #: ../src/sheet.c:692
 msgid "text-is-rtl"
@@ -10545,11 +10536,11 @@ msgstr ""
 
 #: ../src/sheet.c:754
 msgid "Protected"
-msgstr ""
+msgstr "מוגן"
 
 #: ../src/sheet.c:755
 msgid "Sheet is protected."
-msgstr ""
+msgstr "הגיליון מוגן."
 
 #: ../src/sheet.c:758
 msgid "Protected Allow Edit objects"
@@ -10733,7 +10724,7 @@ msgstr ""
 
 #: ../src/sheet.c:4014
 msgid "Insert Columns"
-msgstr ""
+msgstr "הכנס עמודות"
 
 #: ../src/sheet.c:4090
 msgid "Delete Columns"
@@ -10741,72 +10732,72 @@ msgstr "מחק עמודות"
 
 #: ../src/sheet.c:4163
 msgid "Insert Rows"
-msgstr ""
+msgstr "הכנס שורות"
 
 #: ../src/sheet.c:4239
 msgid "Delete Rows"
 msgstr "מחק שורות"
 
 #: ../src/ssconvert.c:53 ../src/ssindex.c:48
-#, fuzzy
 msgid "Display program version"
-msgstr "הצג נוסחאות"
+msgstr "Display program version"
 
 #: ../src/ssconvert.c:62 ../src/ssindex.c:69
 msgid "Optionally specify an encoding for imported content"
-msgstr ""
+msgstr "Optionally specify an encoding for imported content"
 
 #: ../src/ssconvert.c:63 ../src/ssindex.c:70
 msgid "ENCODING"
-msgstr ""
+msgstr "ENCODING"
 
 #: ../src/ssconvert.c:69
 msgid "Optionally specify which importer to use"
-msgstr ""
+msgstr "Optionally specify which importer to use"
 
 #: ../src/ssconvert.c:76
 msgid "List the available importers"
-msgstr ""
+msgstr "List the available importers"
 
 #: ../src/ssconvert.c:85
 msgid "Optionally specify which exporter to use"
-msgstr ""
+msgstr "Optionally specify which exporter to use"
 
 #: ../src/ssconvert.c:92
 msgid "Detailed instructions for the chosen exporter"
-msgstr ""
+msgstr "Detailed instructions for the chosen exporter"
 
 #: ../src/ssconvert.c:99
 msgid "List the available exporters"
-msgstr ""
+msgstr "List the available exporters"
 
 #: ../src/ssconvert.c:106
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time."
 msgstr ""
+"Export a file for each sheet if the exporter only supports one sheet at a "
+"time."
 
 #: ../src/ssconvert.c:113
 msgid "Recalculate all cells before writing the result."
-msgstr ""
+msgstr "Recalculate all cells before writing the result."
 
 #: ../src/ssconvert.c:124
 msgid "The range to export"
-msgstr ""
+msgstr "The range to export"
 
 #: ../src/ssconvert.c:131
-#, fuzzy
 msgid "Goal seek areas"
-msgstr "מלא סדרות"
+msgstr "Goal seek areas"
 
 #: ../src/ssconvert.c:184
 msgid "Cannot parse export options."
-msgstr ""
+msgstr "Cannot parse export options."
 
 #: ../src/ssconvert.c:190
 #, c-format
 msgid "The file saver does not take options"
-msgstr ""
+msgstr "The file saver does not take options"
 
 #: ../src/ssconvert.c:240
 #, c-format
@@ -10814,6 +10805,8 @@ msgid ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
+"Unknown exporter '%s'.\n"
+"Try --list-exporters to see a list of possibilities.\n"
 
 #: ../src/ssconvert.c:259
 #, c-format
@@ -10821,6 +10814,8 @@ msgid ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
+"Unable to guess exporter to use for '%s'.\n"
+"Try --list-exporters to see a list of possibilities.\n"
 
 #: ../src/ssconvert.c:270
 #, c-format
@@ -10828,6 +10823,8 @@ msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
+"An output file name or an explicit export type is required.\n"
+"Try --list-exporters to see a list of possibilities.\n"
 
 #: ../src/ssconvert.c:280
 #, c-format
@@ -10835,6 +10832,8 @@ msgid ""
 "Unknown importer '%s'.\n"
 "Try --list-importers to see a list of possibilities.\n"
 msgstr ""
+"Unknown importer '%s'.\n"
+"Try --list-importers to see a list of possibilities.\n"
 
 #: ../src/ssconvert.c:329
 #, c-format
@@ -10842,10 +10841,12 @@ msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
 "Only the current sheet will be saved.\n"
 msgstr ""
+"Selected exporter (%s) does not support saving multiple sheets in one file.\n"
+"Only the current sheet will be saved.\n"
 
 #: ../src/ssconvert.c:359 ../src/ssconvert.c:398
 msgid "INFILE [OUTFILE]"
-msgstr ""
+msgstr "INFILE [OUTFILE]"
 
 #: ../src/ssconvert.c:373
 #, c-format
@@ -10854,24 +10855,26 @@ msgid ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
+"ssconvert version '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
 
 #: ../src/ssconvert.c:396 ../src/ssindex.c:222
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
-msgstr ""
+msgstr "Usage: %s [OPTION...] %s\n"
 
 #: ../src/ssindex.c:55
 msgid "List MIME types which ssindex is able to read"
-msgstr ""
+msgstr "List MIME types which ssindex is able to read"
 
 #: ../src/ssindex.c:62
-#, fuzzy
 msgid "Index the given files"
-msgstr "שומר את הקובץ הנוכחי"
+msgstr "Index the given files"
 
 #: ../src/ssindex.c:204 ../src/ssindex.c:224
 msgid "INFILE..."
-msgstr ""
+msgstr "INFILE..."
 
 #: ../src/ssindex.c:218
 #, c-format
@@ -10880,56 +10883,59 @@ msgid ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
+"ssindex version '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
 
-#: ../src/stf-export.c:515
+#: ../src/stf-export.c:517
 msgid "Character set"
 msgstr "מערך תווים"
 
-#: ../src/stf-export.c:516
+#: ../src/stf-export.c:518
 msgid "The character encoding of the output."
 msgstr ""
 
-#: ../src/stf-export.c:524
+#: ../src/stf-export.c:526
 #, fuzzy
 msgid "Locale"
 msgstr "מבנה המקור"
 
-#: ../src/stf-export.c:525
+#: ../src/stf-export.c:527
 msgid "The locale to use for number and date formatting."
 msgstr ""
 
-#: ../src/stf-export.c:533
+#: ../src/stf-export.c:535
 #, fuzzy
 msgid "Transliterate mode"
 msgstr "פונקציה"
 
-#: ../src/stf-export.c:534
+#: ../src/stf-export.c:536
 msgid "What to do with unrepresentable characters."
 msgstr ""
 
-#: ../src/stf-export.c:544
+#: ../src/stf-export.c:546
 msgid "How should cells be formatted?"
 msgstr ""
 
-#: ../src/stf-export.c:606
+#: ../src/stf-export.c:608
 #, fuzzy
 msgid "Error while trying to export file as text"
 msgstr "בעיה בפתיחת קובץ xbase."
 
-#: ../src/stf-export.c:643
+#: ../src/stf-export.c:645
 msgid "eol must be one of unix, mac, and windows"
 msgstr ""
 
-#: ../src/stf-export.c:663
+#: ../src/stf-export.c:665
 #, c-format
 msgid "Invalid value for option %s: \"%s\""
 msgstr ""
 
-#: ../src/stf-export.c:665
+#: ../src/stf-export.c:667
 msgid "Invalid option for stf exporter"
 msgstr ""
 
-#: ../src/stf-export.c:690
+#: ../src/stf-export.c:692
 msgid "Text (configurable)"
 msgstr ""
 
@@ -10964,30 +10970,30 @@ msgstr ""
 msgid "That file is not in the given encoding."
 msgstr ""
 
-#: ../src/stf.c:385
+#: ../src/stf.c:380
 msgid ""
 "Some columns of data were dropped since they exceeded the available sheet "
 "size."
 msgstr ""
 
-#: ../src/stf.c:392
+#: ../src/stf.c:404
 msgid "Parse error while trying to parse data into sheet"
 msgstr ""
 
-#: ../src/stf.c:426
+#: ../src/stf.c:438
 #, fuzzy
 msgid "Error while trying to write CSV file"
 msgstr "בעיה בפתיחת קובץ xbase."
 
-#: ../src/stf.c:518
+#: ../src/stf.c:530
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr ""
 
-#: ../src/stf.c:526
+#: ../src/stf.c:538
 msgid "Text import (configurable)"
 msgstr ""
 
-#: ../src/stf.c:538
+#: ../src/stf.c:550
 msgid "Comma separated values (CSV)"
 msgstr ""
 
@@ -11033,49 +11039,49 @@ msgstr ""
 #: ../src/tools/analysis-histogram.c:417
 #, c-format
 msgid "Histogram (%s)"
-msgstr ""
+msgstr "היסטוגרמה (%s)"
 
-#: ../src/tools/analysis-tools.c:193 ../src/tools/analysis-tools.c:283
-#: ../src/tools/analysis-tools.c:4287
+#: ../src/tools/analysis-tools.c:207 ../src/tools/analysis-tools.c:297
+#: ../src/tools/analysis-tools.c:4122
 #, c-format
 msgid "Row %i"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:196 ../src/tools/analysis-tools.c:286
-#: ../src/tools/analysis-tools.c:4279
+#: ../src/tools/analysis-tools.c:210 ../src/tools/analysis-tools.c:300
+#: ../src/tools/analysis-tools.c:4114
 #, c-format
 msgid "Column %i"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:199 ../src/tools/analysis-tools.c:289
+#: ../src/tools/analysis-tools.c:213 ../src/tools/analysis-tools.c:303
 #, c-format
 msgid "Bin %i"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:203 ../src/tools/analysis-tools.c:293
+#: ../src/tools/analysis-tools.c:217 ../src/tools/analysis-tools.c:307
 #, c-format
 msgid "Area %i"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:333
+#: ../src/tools/analysis-tools.c:347
 #, c-format
 msgid "Variable %i"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:788
+#: ../src/tools/analysis-tools.c:802
 msgid "Correlations"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:799
+#: ../src/tools/analysis-tools.c:813
 #, c-format
 msgid "Correlation (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:842
+#: ../src/tools/analysis-tools.c:856
 msgid "Covariances"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:853
+#: ../src/tools/analysis-tools.c:867
 #, c-format
 msgid "Covariance (%s)"
 msgstr ""
@@ -11087,131 +11093,131 @@ msgstr ""
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: ../src/tools/analysis-tools.c:954
+#: ../src/tools/analysis-tools.c:968
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1089
+#: ../src/tools/analysis-tools.c:1103
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1217
+#: ../src/tools/analysis-tools.c:1231
 #, c-format
 msgid "Largest (%d)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1224
+#: ../src/tools/analysis-tools.c:1238
 #, c-format
 msgid "Smallest (%d)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1241
+#: ../src/tools/analysis-tools.c:1255
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1319
+#: ../src/tools/analysis-tools.c:1333
 msgid "The requested sample size is too large for a periodic sample."
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1366
+#: ../src/tools/analysis-tools.c:1380
 #, c-format
 msgid "Sampling (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1378 ../src/tools/analysis-tools.c:1381
+#: ../src/tools/analysis-tools.c:1392 ../src/tools/analysis-tools.c:1395
 msgid "Sample"
 msgstr "דוגמה"
 
-#: ../src/tools/analysis-tools.c:1419
+#: ../src/tools/analysis-tools.c:1433
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1634
+#: ../src/tools/analysis-tools.c:1624
 #, c-format
 msgid "z-Test (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1644 ../src/tools/analysis-tools.c:1647
+#: ../src/tools/analysis-tools.c:1634 ../src/tools/analysis-tools.c:1637
 msgid "z-Test"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1687
+#: ../src/tools/analysis-tools.c:1677
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
 "tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1902
+#: ../src/tools/analysis-tools.c:1867
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1912 ../src/tools/analysis-tools.c:1915
-#: ../src/tools/analysis-tools.c:2253 ../src/tools/analysis-tools.c:2256
-#: ../src/tools/analysis-tools.c:2589 ../src/tools/analysis-tools.c:2592
+#: ../src/tools/analysis-tools.c:1877 ../src/tools/analysis-tools.c:1880
+#: ../src/tools/analysis-tools.c:2177 ../src/tools/analysis-tools.c:2180
+#: ../src/tools/analysis-tools.c:2470 ../src/tools/analysis-tools.c:2473
 msgid "t-Test"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1950
+#: ../src/tools/analysis-tools.c:1915
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2243 ../src/tools/analysis-tools.c:2579
+#: ../src/tools/analysis-tools.c:2167 ../src/tools/analysis-tools.c:2460
 #, c-format
 msgid "t-Test (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2288
+#: ../src/tools/analysis-tools.c:2212
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2627 ../src/tools/analysis-tools.c:2905
-#: ../src/tools/analysis-tools.c:2908
+#: ../src/tools/analysis-tools.c:2508 ../src/tools/analysis-tools.c:2759
+#: ../src/tools/analysis-tools.c:2762
 msgid "F-Test"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2629
+#: ../src/tools/analysis-tools.c:2510
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2895
+#: ../src/tools/analysis-tools.c:2749
 #, c-format
 msgid "F-Test (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2981
+#: ../src/tools/analysis-tools.c:2835
 msgid "Y Variable"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3033
+#: ../src/tools/analysis-tools.c:2887
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3041
+#: ../src/tools/analysis-tools.c:2895
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  All numerical precision was lost in the computation."
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3049
+#: ../src/tools/analysis-tools.c:2903
 msgid ""
 "Two or more of the independent variables are linearly\n"
 "dependent, and the regression cannot be calculated.\n"
@@ -11224,171 +11230,171 @@ msgstr ""
 #. analysis_tool_regression_engine_last_check
 #. we have to figure out which data we have to trnasfer from
 #. to here
-#: ../src/tools/analysis-tools.c:3076
+#: ../src/tools/analysis-tools.c:2930
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3099
+#: ../src/tools/analysis-tools.c:2953
 msgid "/df/SS/MS/F/Significance of F"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3106
+#: ../src/tools/analysis-tools.c:2960
 #, c-format
 msgid ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
 "%%"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3123
+#: ../src/tools/analysis-tools.c:2977
 msgid ""
 "Probability of an observation's absolute value being larger than the t-"
 "value's"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3231
+#: ../src/tools/analysis-tools.c:3085
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  Treat the regression result with great care!"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3246
+#: ../src/tools/analysis-tools.c:3100
 #, c-format
 msgid "Regression (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3310
+#: ../src/tools/analysis-tools.c:3164
 msgid "Standard Error"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3372
+#: ../src/tools/analysis-tools.c:3226
 #, c-format
 msgid "Moving Average (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3505
+#: ../src/tools/analysis-tools.c:3359
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3573
+#: ../src/tools/analysis-tools.c:3427
 msgid "Point"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3575
+#: ../src/tools/analysis-tools.c:3429
 msgid "Rank"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3576
+#: ../src/tools/analysis-tools.c:3430
 msgid "Percentile"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3636
+#: ../src/tools/analysis-tools.c:3490
 #, c-format
 msgid "Ranks (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3648 ../src/tools/analysis-tools.c:3651
+#: ../src/tools/analysis-tools.c:3502 ../src/tools/analysis-tools.c:3505
 msgid "Ranks"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3682
+#: ../src/tools/analysis-tools.c:3536
 msgid "Anova: Single Factor"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3683 ../src/tools/analysis-tools.c:4339
-#: ../src/tools/simulation.c:336
+#: ../src/tools/analysis-tools.c:3537 ../src/tools/analysis-tools.c:4174
+#: ../src/tools/simulation.c:335
 msgid "SUMMARY"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3686
+#: ../src/tools/analysis-tools.c:3540
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3754
+#: ../src/tools/analysis-tools.c:3608
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3760 ../src/tools/analysis-tools.c:4189
-#: ../src/tools/analysis-tools.c:4363
+#: ../src/tools/analysis-tools.c:3614 ../src/tools/analysis-tools.c:4024
+#: ../src/tools/analysis-tools.c:4198
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3990
+#: ../src/tools/analysis-tools.c:3825
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4001 ../src/tools/analysis-tools.c:4670
+#: ../src/tools/analysis-tools.c:3836 ../src/tools/analysis-tools.c:4505
 msgid "Anova"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4004
+#: ../src/tools/analysis-tools.c:3839
 msgid "Single Factor ANOVA"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4111
+#: ../src/tools/analysis-tools.c:3946
 msgid "The input range contains non-numeric data."
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4119
+#: ../src/tools/analysis-tools.c:3954
 msgid "Anova: Two-Factor Without Replication"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4120
+#: ../src/tools/analysis-tools.c:3955
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4183
+#: ../src/tools/analysis-tools.c:4018
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4329
+#: ../src/tools/analysis-tools.c:4164
 msgid "One of the factor combinations does not contain any observations!"
 msgstr ""
 
 #. We are ready to create the summary table
-#: ../src/tools/analysis-tools.c:4338
+#: ../src/tools/analysis-tools.c:4173
 msgid "Anova: Two-Factor With Replication"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4345
+#: ../src/tools/analysis-tools.c:4180
 msgid "/Count/Sum/Average/Variance"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4355
+#: ../src/tools/analysis-tools.c:4190
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4654
+#: ../src/tools/analysis-tools.c:4489
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4655
+#: ../src/tools/analysis-tools.c:4490
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4673
+#: ../src/tools/analysis-tools.c:4508
 msgid "Two Factor ANOVA"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4762 ../src/tools/solver/reports-write.c:644
+#: ../src/tools/analysis-tools.c:4597 ../src/tools/solver/reports-write.c:644
 msgid "Real"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4763
+#: ../src/tools/analysis-tools.c:4598
 msgid "Imaginary"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4823
+#: ../src/tools/analysis-tools.c:4658
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4835 ../src/tools/analysis-tools.c:4838
+#: ../src/tools/analysis-tools.c:4670 ../src/tools/analysis-tools.c:4673
 msgid "Fourier Series"
 msgstr ""
 
@@ -11400,16 +11406,15 @@ msgstr "גיליון חדש"
 msgid "New Workbook"
 msgstr "מחברת חדשה"
 
-#: ../src/tools/dao.c:955
+#: ../src/tools/dao.c:957
 msgid "Gnumeric "
-msgstr ""
-"‏Gnumeric "
+msgstr "‏Gnumeric "
 
-#: ../src/tools/dao.c:961
+#: ../src/tools/dao.c:963
 msgid "Worksheet:"
 msgstr "גיליון עבודה:"
 
-#: ../src/tools/dao.c:968
+#: ../src/tools/dao.c:970
 msgid "Report Created: "
 msgstr ""
 
@@ -11467,79 +11472,79 @@ msgstr "_תאריך נוכחי"
 msgid "Changing Cells:"
 msgstr ""
 
-#: ../src/tools/simulation.c:94
+#: ../src/tools/simulation.c:93
 msgid ""
 "Input variable did not yield to a numeric value. Check the model (maybe your "
 "last round # is too high)."
 msgstr ""
 
-#: ../src/tools/simulation.c:119
+#: ../src/tools/simulation.c:118
 msgid ""
 "Output variable did not yield to a numeric value. Check the output variables "
 "in your model (maybe your last round # is too high)."
 msgstr ""
 
-#: ../src/tools/simulation.c:235
+#: ../src/tools/simulation.c:234
 msgid "Simulation Report"
 msgstr ""
 
-#: ../src/tools/simulation.c:248
+#: ../src/tools/simulation.c:247
 msgid "Mean"
 msgstr ""
 
-#: ../src/tools/simulation.c:250
+#: ../src/tools/simulation.c:249
 msgid "Median"
 msgstr ""
 
-#: ../src/tools/simulation.c:252
+#: ../src/tools/simulation.c:251
 msgid "Std. Dev."
 msgstr ""
 
-#: ../src/tools/simulation.c:253
+#: ../src/tools/simulation.c:252
 msgid "Variance"
 msgstr ""
 
-#: ../src/tools/simulation.c:254
+#: ../src/tools/simulation.c:253
 msgid "Skewness"
 msgstr ""
 
-#: ../src/tools/simulation.c:255
+#: ../src/tools/simulation.c:254
 msgid "Kurtosis"
 msgstr ""
 
-#: ../src/tools/simulation.c:256
+#: ../src/tools/simulation.c:255
 msgid "Range"
 msgstr ""
 
-#: ../src/tools/simulation.c:257 ../src/wbc-gtk.c:3695
+#: ../src/tools/simulation.c:256 ../src/wbc-gtk.c:3702
 msgid "Count"
 msgstr ""
 
-#: ../src/tools/simulation.c:258
+#: ../src/tools/simulation.c:257
 msgid "Confidence (95 %)"
 msgstr ""
 
-#: ../src/tools/simulation.c:259
+#: ../src/tools/simulation.c:258
 msgid "Lower Limit (95 %)"
 msgstr ""
 
-#: ../src/tools/simulation.c:260
+#: ../src/tools/simulation.c:259
 msgid "Upper Limit (95 %)"
 msgstr ""
 
-#: ../src/tools/simulation.c:328
+#: ../src/tools/simulation.c:327
 msgid "SUMMARY OF SIMULATION ROUND #"
 msgstr ""
 
-#: ../src/tools/simulation.c:342
+#: ../src/tools/simulation.c:341
 msgid "Report"
 msgstr ""
 
-#: ../src/tools/simulation.c:389
+#: ../src/tools/simulation.c:388
 msgid "(Input) "
 msgstr ""
 
-#: ../src/tools/simulation.c:404
+#: ../src/tools/simulation.c:403
 msgid "Maximum time exceeded. Simulation was not completed. "
 msgstr ""
 
@@ -12321,7 +12326,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1567
 msgid "Get External _Data"
-msgstr ""
+msgstr "הוסף _נתונים חיצוניים"
 
 #: ../src/wbc-gtk-actions.c:1568
 msgid "_Help"
@@ -12355,19 +12360,19 @@ msgstr "העתק את הבחירה"
 msgid "Paste the clipboard"
 msgstr "בצע הדבקה"
 
-#: ../src/wbc-gtk-actions.c:1592 ../src/wbc-gtk.c:1208
+#: ../src/wbc-gtk-actions.c:1592 ../src/wbc-gtk.c:1215
 msgid "_Undo"
 msgstr "_חזור"
 
-#: ../src/wbc-gtk-actions.c:1593 ../src/wbc-gtk.c:2444
+#: ../src/wbc-gtk-actions.c:1593 ../src/wbc-gtk.c:2451
 msgid "Undo the last action"
 msgstr "ביטול הפעולה האחרונה"
 
-#: ../src/wbc-gtk-actions.c:1595 ../src/wbc-gtk.c:1207
+#: ../src/wbc-gtk-actions.c:1595 ../src/wbc-gtk.c:1214
 msgid "_Redo"
 msgstr "_בצע שוב"
 
-#: ../src/wbc-gtk-actions.c:1596 ../src/wbc-gtk.c:2439
+#: ../src/wbc-gtk-actions.c:1596 ../src/wbc-gtk.c:2446
 msgid "Redo the undone action"
 msgstr "חזור על הפעולה האחרונה שבוטלה"
 
@@ -12501,7 +12506,7 @@ msgstr "נקה את תוכן התאים הנבחרים"
 
 #: ../src/wbc-gtk-actions.c:1683
 msgid "Delete the row(s) containing the selected cells"
-msgstr "מחר את השורות המכילות את התאים המסומנים"
+msgstr "מחק את השורות המכילות את התאים המסומנים"
 
 #: ../src/wbc-gtk-actions.c:1686
 msgid "Delete the column(s) containing the selected cells"
@@ -12517,11 +12522,11 @@ msgstr "_תאים..."
 
 #: ../src/wbc-gtk-actions.c:1689 ../src/wbc-gtk-actions.c:1693
 msgid "Delete the selected cells, shifting others into their place"
-msgstr "מחר את התאים המסומנים, מה שיזיז תאים אחרים למקומם"
+msgstr "מחק את התאים המסומנים, מה שיזיז תאים אחרים למקומם"
 
 #: ../src/wbc-gtk-actions.c:1704 ../src/wbc-gtk-actions.c:1708
 msgid "Select all cells in the spreadsheet"
-msgstr ""
+msgstr "בחירת כל התאים בגיליון הנתונים"
 
 #: ../src/wbc-gtk-actions.c:1710
 msgid "Select _Column"
@@ -12529,7 +12534,7 @@ msgstr "בחר _עמודה"
 
 #: ../src/wbc-gtk-actions.c:1711
 msgid "Select an entire column"
-msgstr ""
+msgstr "בחר עמודה שלמה"
 
 #: ../src/wbc-gtk-actions.c:1713
 msgid "Select _Row"
@@ -12537,7 +12542,7 @@ msgstr "בחר _שורה"
 
 #: ../src/wbc-gtk-actions.c:1714
 msgid "Select an entire row"
-msgstr ""
+msgstr "בחר שורה שלמה"
 
 #: ../src/wbc-gtk-actions.c:1717
 msgid "Select Arra_y"
@@ -12712,11 +12717,11 @@ msgstr "תצוגה _חדשה..."
 msgid "Create a new view of the workbook"
 msgstr "צור תצוגה חדשה של המחברת"
 
-#: ../src/wbc-gtk-actions.c:1798 ../src/wbc-gtk.c:1182
+#: ../src/wbc-gtk-actions.c:1798 ../src/wbc-gtk.c:1189
 msgid "_Freeze Panes"
 msgstr "_הקפא חלונית"
 
-#: ../src/wbc-gtk-actions.c:1799 ../src/wbc-gtk.c:1185
+#: ../src/wbc-gtk-actions.c:1799 ../src/wbc-gtk.c:1192
 msgid "Freeze the top left of the sheet"
 msgstr "הקפא את החלק העליון השמאלי של הגיליון"
 
@@ -12865,7 +12870,7 @@ msgstr "כיוון"
 
 #: ../src/wbc-gtk-actions.c:1876
 msgid "Toggle sheet direction, left-to-right vs right-to-left"
-msgstr ""
+msgstr "מעבר בין כיוון הגיליון, שמאל-לימין או ימין-לשמאל"
 
 #. Format -> Col
 #: ../src/wbc-gtk-actions.c:1880
@@ -12878,7 +12883,7 @@ msgstr "שנה את הרוחב של העמודות הנבחרות"
 
 #: ../src/wbc-gtk-actions.c:1883 ../src/wbc-gtk-actions.c:1900
 msgid "_Auto fit selection"
-msgstr ""
+msgstr "התאמה _אוטומטית לבחירה"
 
 #: ../src/wbc-gtk-actions.c:1884
 msgid "Ensure columns are just wide enough to display content"
@@ -12886,11 +12891,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1887
 msgid "Hide the selected columns"
-msgstr ""
+msgstr "הסתר את העמודות המסומנות"
 
 #: ../src/wbc-gtk-actions.c:1890
 msgid "Make any hidden columns in the selection visible"
-msgstr ""
+msgstr "הפיכת כל העמודות המוסתרות באזור המסומן לנראות"
 
 #: ../src/wbc-gtk-actions.c:1892
 msgid "_Standard Width"
@@ -12915,11 +12920,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1904
 msgid "Hide the selected rows"
-msgstr ""
+msgstr "הסתר את השורות המסומנות"
 
 #: ../src/wbc-gtk-actions.c:1907
 msgid "Make any hidden rows in the selection visible"
-msgstr ""
+msgstr "הפיכת כל העמודות המוסתרות באזור המסומן לנראות"
 
 #: ../src/wbc-gtk-actions.c:1909
 msgid "_Standard Height"
@@ -13103,7 +13108,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1988
 msgid "_Histogram..."
-msgstr ""
+msgstr "_היסטוגרמה..."
 
 #: ../src/wbc-gtk-actions.c:1989
 msgid "Various frequency tables"
@@ -13235,7 +13240,7 @@ msgid "Remove an outline group"
 msgstr ""
 
 #. Data -> Filter
-#: ../src/wbc-gtk-actions.c:2044 ../src/wbc-gtk.c:1193
+#: ../src/wbc-gtk-actions.c:2044 ../src/wbc-gtk.c:1200
 msgid "Add _Auto Filter"
 msgstr "הוסף מ_סנן אוטומטי"
 
@@ -13266,10 +13271,10 @@ msgstr "ייבא קובץ _טקסט..."
 
 #: ../src/wbc-gtk-actions.c:2055
 msgid "Import the text from a file"
-msgstr ""
+msgstr "יבוא הטקסט מקובץ"
 
 #. Standard Toolbar
-#: ../src/wbc-gtk-actions.c:2059 ../src/wbc-gtk.c:3691
+#: ../src/wbc-gtk-actions.c:2059 ../src/wbc-gtk.c:3698
 #: ../src/workbook-view.c:817
 msgid "Sum"
 msgstr "סכם"
@@ -13464,23 +13469,20 @@ msgid "Format the selection as time"
 msgstr "גזור את הבחירה"
 
 #: ../src/wbc-gtk-actions.c:2149
-#, fuzzy
 msgid "AddBorders"
-msgstr "גבולות"
+msgstr "הוסת גבולות"
 
 #: ../src/wbc-gtk-actions.c:2150
-#, fuzzy
 msgid "Add a border around the selection"
-msgstr "גזור את הבחירה"
+msgstr "הוסף גבול מסביב לקטע המסומן"
 
 #: ../src/wbc-gtk-actions.c:2152
 msgid "ClearBorders"
 msgstr "נקה גבולות"
 
 #: ../src/wbc-gtk-actions.c:2153
-#, fuzzy
 msgid "Clear the border around the selection"
-msgstr "סימון לאורך המרכז"
+msgstr "נקה גבול מסביב לקטע המסומן"
 
 #: ../src/wbc-gtk-actions.c:2156
 msgid "Thousands Separator"
@@ -13548,7 +13550,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2215
 msgid "Hide _Zeros"
-msgstr ""
+msgstr "הסתר _אפסים"
 
 #: ../src/wbc-gtk-actions.c:2216
 msgid "Toggle whether or not to display zeros as blanks"
@@ -13556,27 +13558,27 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2218
 msgid "Hide _Gridlines"
-msgstr ""
+msgstr "הסתר _קווי הפרדה"
 
 #: ../src/wbc-gtk-actions.c:2219
 msgid "Toggle whether or not to display gridlines"
-msgstr ""
+msgstr "הצגה או הסתרה של קווי הפרדה בתאים"
 
 #: ../src/wbc-gtk-actions.c:2221
 msgid "Hide _Column Headers"
-msgstr ""
+msgstr "הסתר כותרת _עמודה"
 
 #: ../src/wbc-gtk-actions.c:2222
 msgid "Toggle whether or not to display column headers"
-msgstr ""
+msgstr "הצגה או הסתרה של כותרי עמודות"
 
 #: ../src/wbc-gtk-actions.c:2224
 msgid "Hide _Row Headers"
-msgstr ""
+msgstr "הסתר כותרת _שורה"
 
 #: ../src/wbc-gtk-actions.c:2225
 msgid "Toggle whether or not to display row headers"
-msgstr ""
+msgstr "הצגה או הסתרה של כותרי שורות"
 
 #. TODO : Make this a sub menu when we have more convention types
 #: ../src/wbc-gtk-actions.c:2229
@@ -13588,9 +13590,8 @@ msgid "Display addresses as R1C1 or A1"
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2234
-#, fuzzy
 msgid "_Left Align"
-msgstr "יישור לשמאל"
+msgstr "יישור _לשמאל"
 
 #: ../src/wbc-gtk-actions.c:2235 ../src/wbc-gtk-actions.c:2302
 msgid "Align left"
@@ -13605,9 +13606,8 @@ msgid "Center horizontally"
 msgstr "יישור אופקי של המרכז"
 
 #: ../src/wbc-gtk-actions.c:2240
-#, fuzzy
 msgid "_Right Align"
-msgstr "יישור לימין"
+msgstr "יישור _לימין"
 
 #: ../src/wbc-gtk-actions.c:2241 ../src/wbc-gtk-actions.c:2304
 msgid "Align right"
@@ -13712,14 +13712,12 @@ msgstr "קו-חוצה"
 
 #. from icon theme
 #: ../src/wbc-gtk-actions.c:2289
-#, fuzzy
 msgid "_Double Underline"
-msgstr "ה_זחה:"
+msgstr "קו תחתי _כפול"
 
 #: ../src/wbc-gtk-actions.c:2290
-#, fuzzy
 msgid "Double Underline"
-msgstr "ה_זחה:"
+msgstr "קו תחתי כפול"
 
 #. from icon theme
 #: ../src/wbc-gtk-actions.c:2292
@@ -13798,7 +13796,7 @@ msgstr "הסר עיצוב"
 
 #: ../src/wbc-gtk-edit.c:770
 msgid "Show this dialog next time."
-msgstr ""
+msgstr "הצג את התפריט בפעם הבאה."
 
 #: ../src/wbc-gtk.c:414
 msgid "Manage sheets..."
@@ -13820,151 +13818,151 @@ msgstr "הסר"
 msgid "Rename"
 msgstr "שינוי שם"
 
-#: ../src/wbc-gtk.c:1085
+#: ../src/wbc-gtk.c:1092
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: ../src/wbc-gtk.c:1181
+#: ../src/wbc-gtk.c:1188
 msgid "Un_freeze Panes"
 msgstr "בטל הקפאת חלונית"
 
-#: ../src/wbc-gtk.c:1184
+#: ../src/wbc-gtk.c:1191
 msgid "Unfreeze the top left of the sheet"
 msgstr "בטל את הקפאת החלק העליון השמאלי של הגיליון"
 
-#: ../src/wbc-gtk.c:1192
+#: ../src/wbc-gtk.c:1199
 msgid "Remove _Auto Filter"
 msgstr "הסר מסנן אוטומטי"
 
-#: ../src/wbc-gtk.c:1195
+#: ../src/wbc-gtk.c:1202
 msgid "Remove a filter"
 msgstr "הסר מסנן"
 
-#: ../src/wbc-gtk.c:1196
+#: ../src/wbc-gtk.c:1203
 msgid "Add a filter"
 msgstr "הוסף מסנן"
 
-#: ../src/wbc-gtk.c:1237
+#: ../src/wbc-gtk.c:1244
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "לשמור את השינויים למחברת '%s' לפני הסגירה?"
 
-#: ../src/wbc-gtk.c:1242
+#: ../src/wbc-gtk.c:1249
 msgid "Save changes to workbook before closing?"
 msgstr "לשמור את השינויים למחברת לפני הסגירה?"
 
-#: ../src/wbc-gtk.c:1249
+#: ../src/wbc-gtk.c:1256
 msgid "If you close without saving, changes will be discarded."
 msgstr "אם תסגור מבלי לשמור, כל השינויים יבוטלו."
 
-#: ../src/wbc-gtk.c:1255
+#: ../src/wbc-gtk.c:1262
 msgid "Discard all"
 msgstr "בטל הכל"
 
-#: ../src/wbc-gtk.c:1259
+#: ../src/wbc-gtk.c:1266
 msgid "Save all"
 msgstr "שמור הכול"
 
-#: ../src/wbc-gtk.c:1261 ../src/wbc-gtk.c:1266
+#: ../src/wbc-gtk.c:1268 ../src/wbc-gtk.c:1273
 msgid "Don't quit"
 msgstr "לא לצאת"
 
-#: ../src/wbc-gtk.c:1272
+#: ../src/wbc-gtk.c:1279
 msgid "Don't close"
 msgstr "לא לסגור"
 
-#: ../src/wbc-gtk.c:1974
+#: ../src/wbc-gtk.c:1981
 msgid "Cancel change"
 msgstr "ביטול שינויים"
 
-#: ../src/wbc-gtk.c:1978
+#: ../src/wbc-gtk.c:1985
 msgid "Accept change"
 msgstr "קבל שינויים"
 
-#: ../src/wbc-gtk.c:1982
+#: ../src/wbc-gtk.c:1989
 msgid "Enter formula..."
 msgstr "הכנס נוסחה..."
 
-#: ../src/wbc-gtk.c:2033 ../src/wbc-gtk.c:2048
+#: ../src/wbc-gtk.c:2040 ../src/wbc-gtk.c:2055
 msgid "_Re-Edit"
 msgstr "_ערוך-מחדש"
 
-#: ../src/wbc-gtk.c:2034 ../src/wbc-gtk.c:2039
+#: ../src/wbc-gtk.c:2041 ../src/wbc-gtk.c:2046
 msgid "_Discard"
 msgstr "_ביטול"
 
-#: ../src/wbc-gtk.c:2038 ../src/wbc-gtk.c:2049
+#: ../src/wbc-gtk.c:2045 ../src/wbc-gtk.c:2056
 msgid "_Accept"
 msgstr "_קבל"
 
-#: ../src/wbc-gtk.c:2191
+#: ../src/wbc-gtk.c:2198
 msgid "_Zoom"
 msgstr "_קירוב"
 
-#: ../src/wbc-gtk.c:2217
+#: ../src/wbc-gtk.c:2224
 msgid "Clear Borders"
 msgstr "נקה גבולות"
 
-#: ../src/wbc-gtk.c:2220
+#: ../src/wbc-gtk.c:2227
 msgid "All Borders"
 msgstr "כול הגבולות"
 
-#: ../src/wbc-gtk.c:2221
+#: ../src/wbc-gtk.c:2228
 msgid "Outside Borders"
 msgstr "מחוץ לגבולות"
 
-#: ../src/wbc-gtk.c:2222
+#: ../src/wbc-gtk.c:2229
 msgid "Thick Outside Borders"
 msgstr "גבולות חיצונים עבים"
 
-#: ../src/wbc-gtk.c:2225
+#: ../src/wbc-gtk.c:2232
 msgid "Double Bottom"
 msgstr "תחתית כפולה"
 
-#: ../src/wbc-gtk.c:2226
+#: ../src/wbc-gtk.c:2233
 msgid "Thick Bottom"
 msgstr "תחתית דקה"
 
-#: ../src/wbc-gtk.c:2228
+#: ../src/wbc-gtk.c:2235
 msgid "Top and Bottom"
 msgstr "תקרה וגם רצפה"
 
-#: ../src/wbc-gtk.c:2229
+#: ../src/wbc-gtk.c:2236
 msgid "Top and Double Bottom"
 msgstr "תקרה ורצפה כפולה"
 
-#: ../src/wbc-gtk.c:2230
+#: ../src/wbc-gtk.c:2237
 msgid "Top and Thick Bottom"
 msgstr ""
 
-#: ../src/wbc-gtk.c:2315
+#: ../src/wbc-gtk.c:2322
 msgid "Set Borders"
 msgstr "קבע גבולות"
 
-#: ../src/wbc-gtk.c:2323 ../src/wbc-gtk.c:2324
+#: ../src/wbc-gtk.c:2330 ../src/wbc-gtk.c:2331
 msgid "Borders"
 msgstr "גבולות"
 
-#: ../src/wbc-gtk.c:2481
+#: ../src/wbc-gtk.c:2488
 msgid "Set Foreground Color"
 msgstr "קבע צבע חזית"
 
 #. Set background to NONE
-#: ../src/wbc-gtk.c:2536
+#: ../src/wbc-gtk.c:2543
 msgid "Set Background Color"
 msgstr "קבע צבע רקע"
 
-#: ../src/wbc-gtk.c:2575
+#: ../src/wbc-gtk.c:2582
 #, c-format
 msgid "Font Name %s"
-msgstr ""
+msgstr "שם הגופן %s"
 
-#: ../src/wbc-gtk.c:2635
+#: ../src/wbc-gtk.c:2642
 #, c-format
 msgid "Font Size %f"
 msgstr "גודל הגופן %f"
 
-#: ../src/wbc-gtk.c:2653 ../src/wbc-gtk.c:2654
+#: ../src/wbc-gtk.c:2660 ../src/wbc-gtk.c:2661
 msgid "Font Size"
 msgstr "גודל הגופן"
 
@@ -13974,74 +13972,74 @@ msgstr "גודל הגופן"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:2862
+#: ../src/wbc-gtk.c:2869
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr ""
 
-#: ../src/wbc-gtk.c:3134
+#: ../src/wbc-gtk.c:3141
 #, fuzzy
 msgid "Display above sheets"
 msgstr "הצג נוסחאות"
 
-#: ../src/wbc-gtk.c:3135
+#: ../src/wbc-gtk.c:3142
 msgid "Display to the left of sheets"
-msgstr ""
+msgstr "הצג בצד שמאל לגיליונות"
 
-#: ../src/wbc-gtk.c:3136
+#: ../src/wbc-gtk.c:3143
 msgid "Display to the right of sheets"
-msgstr ""
+msgstr "הצג בצד ימין לגיליונות"
 
-#: ../src/wbc-gtk.c:3140
+#: ../src/wbc-gtk.c:3147
 msgid "Reattach to main window"
-msgstr ""
+msgstr "חבר מחדש לחלון הראשי"
 
-#: ../src/wbc-gtk.c:3172
+#: ../src/wbc-gtk.c:3179
 msgid "Hide"
 msgstr "הסתר"
 
-#: ../src/wbc-gtk.c:3234
-#, fuzzy, c-format
+#: ../src/wbc-gtk.c:3241
+#, c-format
 msgid "Show/Hide toolbar %s"
-msgstr "הגדר סרגלי כלים"
+msgstr "הצג/הסתר סרגל כלים %s"
 
-#: ../src/wbc-gtk.c:3739
+#: ../src/wbc-gtk.c:3746
 #, fuzzy
 msgid "Use maximum precision"
 msgstr "הגדל דיוק"
 
-#: ../src/wbc-gtk.c:3838
+#: ../src/wbc-gtk.c:3845
 #, c-format
 msgid "Open %s"
 msgstr "פתח את %s"
 
-#: ../src/wbc-gtk.c:4304
+#: ../src/wbc-gtk.c:4311
 msgid "Autosave prompt"
 msgstr ""
 
-#: ../src/wbc-gtk.c:4305
+#: ../src/wbc-gtk.c:4312
 msgid "Ask about autosave?"
 msgstr "לשאול על שמירה אוטומטית?"
 
-#: ../src/wbc-gtk.c:4311
+#: ../src/wbc-gtk.c:4318
 msgid "Autosave time in seconds"
 msgstr "זמן שמירה אוטומטית בשניות"
 
-#: ../src/wbc-gtk.c:4312
+#: ../src/wbc-gtk.c:4319
 msgid "Seconds before autosave"
 msgstr "שניות לפני שמירה אוטומטית"
 
 #: ../src/widgets/gnm-filter-combo-foo-view.c:171
 msgid "(All)"
-msgstr ""
+msgstr "(הכל)"
 
 #: ../src/widgets/gnm-filter-combo-foo-view.c:176
 msgid "(Top 10...)"
-msgstr ""
+msgstr "(10 עליונים...)"
 
 #: ../src/widgets/gnm-filter-combo-foo-view.c:183
 msgid "(Custom...)"
-msgstr ""
+msgstr "(מותאם אישית...)"
 
 #: ../src/widgets/gnm-filter-combo-foo-view.c:257
 msgid "(Blanks...)"
@@ -14051,14 +14049,14 @@ msgstr ""
 msgid "(Non Blanks...)"
 msgstr ""
 
-#: ../src/widgets/gnumeric-expr-entry.c:1450
+#: ../src/widgets/gnumeric-expr-entry.c:1451
 #, c-format
 msgid "Expecting a single range"
 msgstr ""
 
 #: ../src/widgets/widget-font-selector.c:206
 msgid "Bold italic"
-msgstr ""
+msgstr "מודגש נטוי"
 
 #: ../src/workbook-cmd-format.c:79
 msgid "Increase Indent"
@@ -14149,19 +14147,19 @@ msgstr "לא יכול לפתוח את '%s' לכתיבה: %s"
 msgid "Can't open '%s' for writing"
 msgstr "לא יכול לפתוח את '%s' לכתיבה"
 
-#: ../src/workbook-view.c:968 ../src/workbook-view.c:1148
+#: ../src/workbook-view.c:970 ../src/workbook-view.c:1150
 msgid "Default file saver is not available."
 msgstr ""
 
-#: ../src/workbook-view.c:1089
+#: ../src/workbook-view.c:1091
 msgid "Failed to create temporary file for sending."
 msgstr ""
 
-#: ../src/workbook-view.c:1242
+#: ../src/workbook-view.c:1244
 msgid "Unsupported file format."
 msgstr "סוג הקובץ לא נתמך."
 
-#: ../src/workbook-view.c:1290
+#: ../src/workbook-view.c:1294
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr ""
@@ -14227,7 +14225,7 @@ msgstr ""
 msgid "Reorganizing Sheets"
 msgstr ""
 
-#: ../src/xml-io.c:1687 ../src/xml-sax-read.c:2047
+#: ../src/xml-io.c:1687 ../src/xml-sax-read.c:2066
 #, fuzzy, c-format
 msgid "Unsupported object type '%s'"
 msgstr "לא יכול ליצור אובייקט מסוג '%s'"
@@ -14257,30 +14255,30 @@ msgstr "XML ניסיוני של Gnumeric (*.gnumeric)"
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
-#: ../src/xml-sax-read.c:425
+#: ../src/xml-sax-read.c:427
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr ""
 
-#: ../src/xml-sax-read.c:653
+#: ../src/xml-sax-read.c:672
 msgid "File has inconsistent SheetNameIndex element."
 msgstr ""
 
-#: ../src/xml-sax-read.c:1911
+#: ../src/xml-sax-read.c:1930
 #, fuzzy, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "שגיאה לא ידועה"
 
-#: ../src/xml-sax-read.c:1951
+#: ../src/xml-sax-read.c:1970
 msgid "Missing filter type"
 msgstr ""
 
-#: ../src/xml-sax-read.c:1973
+#: ../src/xml-sax-read.c:1992
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr ""
 
-#: ../src/xml-sax-read.c:1992
+#: ../src/xml-sax-read.c:2011
 msgid "Invalid filter, missing Area"
 msgstr ""
 
