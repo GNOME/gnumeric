@@ -7,7 +7,7 @@
  *    Michael Meeks (michael@ximian.com)
  *
  * (C) 1998-2001 Michael Meeks
- * (C) 2002-2007 Jody Goldberg
+ * (C) 2002-2008 Jody Goldberg
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
