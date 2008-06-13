@@ -2094,9 +2094,9 @@ static gboolean
 BC_R(surf)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
 {
-	XL_CHECK_CONDITION_VAL (q->length >= 6, FALSE);
+	XL_CHECK_CONDITION_VAL (q->length >= 2, FALSE);
 
-#warning implement wireframe (aka use-color)
+	/* TODO : implement wireframe (aka use-color) */
 #if 0
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+4);
 

@@ -1,3 +1,37 @@
+2008-06-13  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_obj_read_expr) : handle empty expressions without a
+	  calc id.
+	(ms_obj_read_biff8_obj) : drop the debug spew.
+
+	* ms-excel-read.c (excel_read_EXTERNNAME) : rework the logic to
+	  differentiate between name/DDE/OLE, and always load the name itself
+	  even if we do not support DDE/OLE.
+	(excel_read_EXTERNSHEET_v7) : hush.
+	(excel_read_HEADER_FOOTER) : drop the size checks (they were wrong for
+	  older sheets) they are unnecessary.  The biff_text handles it better.
+	(excel_biff_text_1) : use the same structure as the logic in ...
+	(excel_biff_text_2) : ... here.  And make it clear that we only need
+	  two bytes.
+
+	* ms-chart.c (BC_R(surf)) :  This is only 2 bytes, not 6.
+
+2008-06-12  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (gnm_xl_importer_free) : don't free a name that
+	  failed to import.
+	(excel_parse_name) : Do not free the name string here.
+	(excel_read_EXTERNNAME) : get the name string even for DDE and OLE.
+	  Fix the test for DDE links.
+	  Improve the warning for unsupported types, and win32 proof them.
+	  free the name string here.
+	(excel_read_NAME) : and free it here too.
+	(excel_read_SUPBOOK) : relax the size check to <=.  If there are no
+	  sheets in the external link (e.g. DDE links) then this is the whole
+	  record.  Remove the warning about unknown encoding.  There is no
+	  requirement that the first character be one of the magic encoding
+	  flags.
+
 2008-06-11  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-util.c (two_way_table_put): If we free the key because

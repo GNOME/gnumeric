@@ -1020,7 +1020,8 @@ excel_biff_text_1 (GnmXLImporter const *importer,
 {
 	guint32 length;
 
-	XL_CHECK_CONDITION_VAL (q->length > ofs, NULL);
+	XL_CHECK_CONDITION_VAL (q->length >= (ofs + 1), NULL);
+
 	length = GSF_LE_GET_GUINT8 (q->data + ofs);
 	ofs++;
 
@@ -1034,7 +1035,8 @@ excel_biff_text_2 (GnmXLImporter const *importer,
 {
 	guint32 length;
 
-	XL_CHECK_CONDITION_VAL (q->length > ofs + 1, NULL);
+	XL_CHECK_CONDITION_VAL (q->length >= (ofs + 2), NULL);
+
 	length = GSF_LE_GET_GUINT16 (q->data + ofs);
 	ofs += 2;
 
@@ -3095,7 +3097,8 @@ gnm_xl_importer_free (GnmXLImporter *importer)
 		ExcelSupBook *sup = &(g_array_index (importer->v8.supbook,
 						     ExcelSupBook, i));
 		for (j = 0; j < sup->externname->len; j++ )
-			expr_name_unref (g_ptr_array_index (sup->externname, j));
+			if (NULL != (nexpr = g_ptr_array_index (sup->externname, j)))
+				expr_name_unref (nexpr);
 		g_ptr_array_free (sup->externname, TRUE);
 	}
 	g_array_free (importer->v8.supbook, TRUE);
@@ -3243,7 +3246,6 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 	nexpr = expr_name_add (&pp, name,
 			       texpr,
 			       &err, link_to_container, stub);
-	g_free (name);
 	if (nexpr == NULL) {
 		gnm_io_warning (importer->context, err);
 		g_free (err);
@@ -3299,7 +3301,7 @@ static void
 excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 {
 	MsBiffVersion const ver = container->importer->ver;
-	GnmNamedExpr		*nexpr = NULL;
+	GnmNamedExpr *nexpr = NULL;
 	char *name = NULL;
 
 	d (2, {
@@ -3310,50 +3312,39 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 	 * the version is the same for very old and new, with _v2 used for
 	 * some intermediate variants */
 	if (ver >= MS_BIFF_V7) {
+		unsigned expr_len = 0;
+		guint8 const *expr_data = NULL;
 		guint16 flags;
 		guint32 namelen;
 
 		XL_CHECK_CONDITION (q->length >= 7);
-		flags = GSF_LE_GET_GUINT8 (q->data);
+
+		flags   = GSF_LE_GET_GUINT8 (q->data);
 		namelen = GSF_LE_GET_GUINT8 (q->data + 6);
 
-		switch (flags & 0x18) {
-		case 0x00: /* external name */
-			name = excel_read_name_str (container->importer, q->data + 7, &namelen, flags&1);
-			if (name != NULL) {
-				unsigned expr_len = 0;
-				guint8 const *expr_data = NULL;
-				if (7 + 2 + namelen <= q->length) {
-					unsigned el = GSF_LE_GET_GUINT16 (q->data + 7 + namelen);
-					if (7 + 2 + namelen + el <= q->length) {
-						expr_len = el;
-						expr_data = q->data + 9 + namelen;
-					} else
-						gnm_io_warning (container->importer->context,
-							_("Incorrect expression for name '%s': content will be lost.\n"),
-							name);
-				}
-				nexpr = excel_parse_name (container->importer, NULL,
-					name, expr_data, expr_len, FALSE, NULL);
+		name = excel_read_name_str (container->importer, q->data + 7, &namelen, flags&1);
+		if ((flags & (~1)) == 0) {	/* all flags but builtin must be 0 */
+			if (7 + 2 + namelen <= q->length) {
+				unsigned el = GSF_LE_GET_GUINT16 (q->data + 7 + namelen);
+				if (7 + 2 + namelen + el <= q->length) {
+					expr_len = el;
+					expr_data = q->data + 9 + namelen;
+				} else
+					gnm_io_warning (container->importer->context,
+						_("Incorrect expression for name '%s': content will be lost.\n"),
+						name);
 			}
-			break;
-
-		case 0x01: /* DDE */
+		} else if ((flags & 0x10) == 0) /* DDE */
 			gnm_io_warning (container->importer->context,
-				_("DDE links are not supported.\nName '%s' will be lost.\n"),
-				name);
-			break;
-
-		case 0x10: /* OLE */
+				_("DDE links are not supported yet.\nName '%s' will be lost.\n"),
+				name ? name : "NULL");
+		else /* OLE */
 			gnm_io_warning (container->importer->context,
-				_("OLE links are not supported.\nName '%s' will be lost.\n"),
-				name);
-			break;
+				_("OLE links are not supported yet.\nName '%s' will be lost.\n"),
+				name ? name : "NULL");
 
-		default:
-			g_warning ("EXCEL: Invalid external name type. ('%s')", name);
-			break;
-		}
+		nexpr = excel_parse_name (container->importer, NULL,
+			name, expr_data, expr_len, FALSE, NULL);
 	} else if (ver >= MS_BIFF_V5) {
 		XL_CHECK_CONDITION (q->length >= 7);
 
@@ -3385,6 +3376,7 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 			externnames = container->v7.externnames = g_ptr_array_new ();
 		g_ptr_array_add (externnames, nexpr);
 	}
+	g_free (name);
 }
 
 /* Do some error checking to handle the magic name associated with an
@@ -3507,6 +3499,7 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 		XL_NEED_BYTES (expr_len);
 		nexpr = excel_parse_name (importer, sheet,
 			name, data, expr_len, TRUE, nexpr);
+		g_free (name);
 		data += expr_len;
 
 		/* Add a ref to keep it around after the excel-sheet/wb goes
@@ -5731,7 +5724,7 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 
 	default:
 		/* Fix when we get placeholders to external workbooks */
-		gsf_mem_dump (q->data, q->length);
+		d (1, gsf_mem_dump (q->data, q->length););
 		gnm_io_warning_unsupported_feature (container->importer->context,
 			_("external references"));
 	}
@@ -5873,13 +5866,11 @@ excel_read_HEADER_FOOTER (GnmXLImporter const *importer,
 	if (q->length) {
 		char *l, *c, *r, *str;
 
-		if (importer->ver >= MS_BIFF_V8) {
-			XL_CHECK_CONDITION (q->length >= 3);
+		if (importer->ver >= MS_BIFF_V8)
 			str = excel_biff_text_2 (importer, q, 0);
-		} else {
-			XL_CHECK_CONDITION (q->length >= 2);
+		else
 			str = excel_biff_text_1 (importer, q, 0);
-		}
+
 		d (2, fprintf (stderr,"%s == '%s'\n", is_header ? "header" : "footer", str););
 
 		r = xl_hf_strstr (str, 'R'); /* order is important */
@@ -6385,8 +6376,7 @@ excel_read_SUPBOOK (BiffQuery *q, GnmXLImporter *importer)
 		 return;
 	}
 
-	/* 5??? */
-	XL_CHECK_CONDITION (len + 5 < q->length);
+	XL_CHECK_CONDITION (len + 5 <= q->length);
 
 #warning create a workbook and sheets when we have a facility for merging things
 	encodeType = GSF_LE_GET_GUINT8 (q->data + 5);
@@ -6401,8 +6391,7 @@ excel_read_SUPBOOK (BiffQuery *q, GnmXLImporter *importer)
 	case 0x02: /* chSelf */
 		break;
 	default:
-		fprintf (stderr,"Unknown/Unencoded?  (%x) %d\n",
-			encodeType, len);
+		; /* un encoded */
 	}
 	d (1, {
 	gsf_mem_dump (q->data + 4 + 1, len);

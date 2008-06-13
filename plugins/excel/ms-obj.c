@@ -500,6 +500,11 @@ ms_obj_read_expr (MSObj *obj, MSObjAttrID id, MSContainer *c,
 	/* <u16 length> <u32 calcid?> <var expr> */
 	g_return_val_if_fail ((data + 2) <= last, NULL);
 	len = GSF_LE_GET_GUINT16 (data);
+
+	/* looks like they sometimes skip the calc id if there is expr */
+	if (len == 0 && (data + 2) == last)
+		return data + 2;
+
 	g_return_val_if_fail ((data + 6 + len) <= last, NULL);
 	if (NULL == (ref = ms_container_parse_expr (c, data + 6, len)))
 		return NULL;
@@ -1176,7 +1181,6 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 		if (ms_biff_query_peek_next (q, &op) && op == BIFF_IMDATA) {
 			GdkPixbuf *pixbuf;
 
-			printf ("Reading trailing IMDATA;\n");
 			ms_biff_query_next (q);
 			pixbuf = excel_read_IMDATA (q, FALSE);
 			if (pixbuf)
