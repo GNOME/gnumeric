@@ -2955,8 +2955,11 @@ cb_regenerate_window_menu (WBCGtk *gtk)
 		gtk_ui_manager_remove_ui (gtk->ui, gtk->windows.merge_id);
 	gtk->windows.merge_id = gtk_ui_manager_new_merge_id (gtk->ui);
 
-	if (gtk->windows.actions != NULL)
+	if (gtk->windows.actions != NULL) {
+		gtk_ui_manager_remove_action_group (gtk->ui,
+			gtk->windows.actions);
 		g_object_unref (gtk->windows.actions);
+	}
 	gtk->windows.actions = gtk_action_group_new ("WindowList");
 
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->windows.actions, 0);
@@ -3828,8 +3831,11 @@ wbc_gtk_reload_recent_file_menu (WBCGtk const *wbcg)
 		gtk_ui_manager_remove_ui (gtk->ui, gtk->file_history.merge_id);
 	gtk->file_history.merge_id = gtk_ui_manager_new_merge_id (gtk->ui);
 
-	if (gtk->file_history.actions != NULL)
+	if (gtk->file_history.actions != NULL) {
+		gtk_ui_manager_remove_action_group (gtk->ui,
+			gtk->file_history.actions);
 		g_object_unref (gtk->file_history.actions);
+	}
 	gtk->file_history.actions = gtk_action_group_new ("FileHistory");
 
 	/* create the actions */

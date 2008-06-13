@@ -1,3 +1,9 @@
+2008-06-13  Jody Goldberg <jody@gnome.org>
+
+	* src/wbc-gtk.c (cb_regenerate_window_menu) : we need to remove the
+	  action group from the UI, not just unref it.
+	(wbc_gtk_reload_recent_file_menu) : ditto.
+
 2008-05-27  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-export.c (try_auto_date): Don't generate an invalid time
