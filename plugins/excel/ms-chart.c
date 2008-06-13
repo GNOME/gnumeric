@@ -2098,6 +2098,7 @@ BC_R(surf)(XLChartHandler const *handle,
 
 	/* TODO : implement wireframe (aka use-color) */
 #if 0
+	/* NOTE: The record is only 2 bytes, so this code is wrong.  */
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+4);
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
