@@ -90,8 +90,8 @@
 	    <patch file="http://gnome.org/~aruiz/gtk+/patches/jpeg_mingwport.patch" strip="1"/>
 	</patches>
     </tarball>
-    <tarball id="png" version="1.2.25">
-	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.26.tar.bz2"/>
+    <tarball id="png" version="1.2.29">
+	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.29.tar.bz2"/>
 	<dependencies>
 	    <dep package="zlib"/>
 	</dependencies>

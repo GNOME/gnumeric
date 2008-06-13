@@ -32,7 +32,6 @@
 	  requirement that the first character be one of the magic encoding
 	  flags.
 
-
 2008-06-11  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-util.c (two_way_table_put): If we free the key because
