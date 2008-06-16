@@ -1,3 +1,9 @@
+2008-06-16  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (gee_scan_for_range) : When selecting the
+	  corner of a merge highlight the whole thing, not just the corner.
+	  Fixes #127415.
+
 2008-05-04  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.0

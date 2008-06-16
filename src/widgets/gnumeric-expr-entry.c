@@ -379,6 +379,12 @@ gee_scan_for_range (GnmExprEntry *gee)
 		gnm_expr_entry_find_range (gee);
 		if (gnm_expr_entry_get_rangesel (gee, &range, &parse_sheet) &&
 		    parse_sheet == sheet) {
+
+			GnmRange const *merge; /* [#127415] */
+			if (range_is_singleton  (&range) &&
+			    NULL != (merge = gnm_sheet_merge_is_corner (parse_sheet, &range.start)))
+				range = *merge;
+
 			SCG_FOREACH_PANE (gee->scg, pane,
 				gnm_pane_expr_cursor_bound_set (pane, &range););
 			return;

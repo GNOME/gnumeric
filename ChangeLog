@@ -1,5 +1,10 @@
 2008-06-16  Jody Goldberg <jody@gnome.org>
 
+	* src/item-edit.c (item_edit_dispose) : delete the feedback ranges.
+	  Don't disable their creation into the future.
+
+2008-06-16  Jody Goldberg <jody@gnome.org>
+
 	* tools/win32/gnumeric.nsi.in : Make the default install set
 	  'Standard' and do not overwrite the common type (Excel/OOo).  [#534231]
 

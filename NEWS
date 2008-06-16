@@ -11,7 +11,9 @@ Jody:
 	* Fix xls import of DDE/OLE links (unimplemented).
 	* Fix xls import of empty pre-biff8 headers/footers.
 	* Fix menu warnings with newer Gtk+.
-	* POlish win32 installer. [#534231]
+	* Polish win32 installer. [#534231]
+	* Fix range highlighting while editing.
+	* Fix highlighting of merged cells. [#127415]
 
 Morten:
 	* Fix Excel export problem for strings that need quoting.  [#530704]
