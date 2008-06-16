@@ -56,8 +56,9 @@ var ICONS_GROUP
 !insertmacro MUI_UNPAGE_INSTFILES
 !insertmacro MUI_LANGUAGE "English"
 
-InstType "Full"
+InstType "Standard"
 InstType "Minimal"
+InstType "Full"
 
 ; MUI end ------
 
@@ -76,7 +77,7 @@ ShowUnInstDetails	show
 !define GNM_ROOT	"$INSTDIR\${GNM_VERSION}"
 
 Section "Gnumeric (required)" SEC01
-    SectionIn 1 2 RO
+    SectionIn 1 2 3 RO
 
     SetOutPath "${GNM_ROOT}\bin"
     File /x "libpython*.dll" "bin\*.dll"
@@ -105,7 +106,7 @@ Section "Gnumeric (required)" SEC01
     File /r /x C "share\gnumeric"
     File /r "share\libthai"
     File /r "share\libgda-3.0"
-    File /r /x "demo" "share\gnome-db-3.0"
+    ;File /r /x "demo" "share\gnome-db-3.0"
     File /r "share\pixmaps"
 
     SetOutPath "${GNM_ROOT}\${GNM_HELP_DIR}"
@@ -138,12 +139,13 @@ SectionEnd
 
 SectionGroup "File Handlers"
 Section "Gnumeric (.gnumeric)"
-    SectionIn 1 2
+    SectionIn 1 2 3
     WriteRegStr HKCR ".gnumeric" ""		"GNOME.Gnumeric"
     WriteRegStr HKCR ".gnumeric" "Content Type" "application/x-gnumeric"
 SectionEnd
 
 Section "MS Excel (tm)"
+    SectionIn 3
     WriteRegStr HKCR ".xls" ""			"GNOME.Gnumeric"
     WriteRegStr HKCR ".xls" "Content Type"	"application/vnd.ms-excel"
 
@@ -159,6 +161,7 @@ Section "MS Excel (tm)"
     WriteRegStr HKCR ".xltx" "Content Type"	"application/vnd.openxmlformats-officedocument.spreadsheetml.template"
 SectionEnd
 Section "OpenOffice.org ODF"
+    SectionIn 3
     WriteRegStr HKCR ".ods" ""			"GNOME.Gnumeric"
     WriteRegStr HKCR ".ods" "Content Type"	"vnd.oasis.opendocument.spreadsheet"
     WriteRegStr HKCR ".odt" ""			"GNOME.Gnumeric"
@@ -169,6 +172,7 @@ Section "OpenOffice.org ODF"
     WriteRegStr HKCR ".stc" "Content Type"	"application/vnd.sun.xml.calc.template"
 SectionEnd
 Section "Lotus 123 (tm)"
+    SectionIn 3
     WriteRegStr HKCR ".wk1" ""			"GNOME.Gnumeric"
     WriteRegStr HKCR ".wk1" "Content Type"	"application/vnd.lotus-1-2-3"
     WriteRegStr HKCR ".wk4" ""			"GNOME.Gnumeric"
@@ -181,10 +185,12 @@ Section "Lotus 123 (tm)"
     WriteRegStr HKCR ".123" "Content Type"	"application/vnd.lotus-1-2-3"
 SectionEnd
 Section "Applix (.as)"
+    SectionIn 1 3
     WriteRegStr HKCR ".as" ""			"GNOME.Gnumeric"
     WriteRegStr HKCR ".as" "Content Type"	"application/x-applix-spreadsheet"
 SectionEnd
 Section "Quattro Pro (tm)"
+    SectionIn 1 3
     WriteRegStr HKCR ".wb1" ""			"GNOME.Gnumeric"
     WriteRegStr HKCR ".wb1" "Content Type"	"application/x-quattro-pro"
     WriteRegStr HKCR ".wb2" ""			"GNOME.Gnumeric"
@@ -193,36 +199,44 @@ Section "Quattro Pro (tm)"
     WriteRegStr HKCR ".wb3" "Content Type"	"application/x-quattro-pro"
 SectionEnd
 Section "Plan Perfect (tm)"
+    SectionIn 1 3
     WriteRegStr HKCR ".pln" ""			"GNOME.Gnumeric"
     WriteRegStr HKCR ".pln" "Content Type"	"application/x-planperfect"
 SectionEnd
 Section "Psiconv"
+    SectionIn 1 3
     WriteRegStr HKCR ".psisheet" ""			"GNOME.Gnumeric"
     WriteRegStr HKCR ".psisheet" "Content Type"	"application/x-psiconv"
 SectionEnd
 Section "Data Interchange Format (.dif)"
+    SectionIn 1 3
     WriteRegStr HKCR ".dif" ""			"GNOME.Gnumeric"
     WriteRegStr HKCR ".dif" "Content Type"	"application/x-dif-spreadsheet"
 SectionEnd
 Section "Multiplan SYLK"
+    SectionIn 1 3
     WriteRegStr HKCR ".slk" ""			"GNOME.Gnumeric"
     WriteRegStr HKCR ".slk" "Content Type"	"application/x-sylk"
     WriteRegStr HKCR ".sylk" ""			"GNOME.Gnumeric"
     WriteRegStr HKCR ".sylk" "Content Type"	"application/x-sylk"
 SectionEnd
 Section "GNU Oleo"
+    SectionIn 1 3
     WriteRegStr HKCR ".oleo" ""			"GNOME.Gnumeric"
     WriteRegStr HKCR ".oleo" "Content Type"	"application/x-oleo"
 SectionEnd
 Section "Paradox Database (tm)"
+    SectionIn 1 3
     WriteRegStr HKCR ".px" ""			"GNOME.Gnumeric"
     WriteRegStr HKCR ".px" "Content Type"	"application/x-paradox-db"
 SectionEnd
 Section "XBase Database (tm)"
+    SectionIn 1 3
     WriteRegStr HKCR ".dbf" ""			"GNOME.Gnumeric"
     WriteRegStr HKCR ".dbf" "Content Type"	"application/dbf"
 SectionEnd
 Section "MPS linear and integer programs"
+    SectionIn 1 3
     WriteRegStr HKCR ".mps" ""			"GNOME.Gnumeric"
     WriteRegStr HKCR ".mps" "Content Type"	"application/x-mps"
 SectionEnd
@@ -233,7 +247,7 @@ SectionGroupEnd
 
 !macro Locale LOCALE
 Section "${LOCALE} Translation"
-    SectionIn 1
+    SectionIn 1 3
     SetOutPath "${GNM_ROOT}\share\locale\${LOCALE}\LC_MESSAGES"
     File "share\locale\${LOCALE}\LC_MESSAGES\gtk20.mo"
     File "share\locale\${LOCALE}\LC_MESSAGES\glib20.mo"
