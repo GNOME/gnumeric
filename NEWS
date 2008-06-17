@@ -14,6 +14,7 @@ Jody:
 	* Polish win32 installer. [#534231]
 	* Fix range highlighting while editing.
 	* Fix highlighting of merged cells. [#127415]
+	* Fix PageSetup on windows.
 
 Morten:
 	* Fix Excel export problem for strings that need quoting.  [#530704]

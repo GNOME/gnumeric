@@ -2776,7 +2776,8 @@ dialog_printer_setup_done_cb (GtkPageSetup *page_setup,
 {
 	if (page_setup) {
 		PrinterSetupState *state = data;
-		print_info_set_page_setup (state->pi, page_setup);
+		print_info_set_page_setup (state->pi,
+			gtk_page_setup_copy (page_setup));
 		do_update_page (state);
 	}
 }

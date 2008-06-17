@@ -1,3 +1,9 @@
+2008-06-17  Jody Goldberg <jody@gnome.org>
+
+	* dialog-printer-setup.c (dialog_printer_setup_done_cb) : Fix page
+	  setup on win32 which is much more restrictive about the lifecycle of
+	  the GtkPageSetup object.
+
 2008-05-16  Morten Welinder  <terra@gnome.org>
 
 	* dialog-function-select.c (describe_new_style): Do help text

@@ -1109,21 +1109,36 @@ print_info_get_page_setup (PrintInformation *pi)
 		return NULL;
 }
 
+/**
+ * print_info_set_page_setup :
+ * @pi : #PrintInformation
+ * @page_setup : #GtkPageSetup
+ *
+ * Absorb a ref to @page_setup.
+ *
+ * WHY WHY WHY
+ * 1) The life cycle in here is a tad odd, the load_defaults does nothing for the
+ * case of an existing page_setup, and seems like it should be ignored for the
+ * case of a new one.
+ *
+ * 2) Why not copy the page_setup in here and make the arg const ?
+ **/
 void
 print_info_set_page_setup (PrintInformation *pi, GtkPageSetup *page_setup)
 {
-	double header, footer, left, right;
-
 	g_return_if_fail (pi != NULL);
+
 	print_info_load_defaults (pi);
 
 	if (pi->page_setup) {
+		double header, footer, left, right;
+		print_info_get_margins (pi,
+			&header, &footer, &left, &right, NULL, NULL);
 		g_object_unref (pi->page_setup);
-		print_info_get_margins (pi, &header, &footer, &left, &right,
-					NULL, NULL);
 		pi->page_setup = page_setup;
 		print_info_set_margins (pi, header, footer, left, right);
-	} else pi->page_setup = page_setup;
+	} else
+		pi->page_setup = page_setup;
 }
 
 GtkPageOrientation

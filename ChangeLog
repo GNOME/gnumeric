@@ -1,3 +1,8 @@
+2008-06-17  Jody Goldberg <jody@gnome.org>
+
+	* src/print-info.c (print_info_set_page_setup) : fix a life cycle
+	  error and document.  Fixes page setup on win32.
+
 2008-06-16  Jody Goldberg <jody@gnome.org>
 
 	* src/item-edit.c (item_edit_dispose) : delete the feedback ranges.
