@@ -3013,12 +3013,13 @@ gnumeric_steyx (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_ztest[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=ZTEST\n"
-	   "@SYNTAX=ZTEST(ref,x)\n"
+	   "@SYNTAX=ZTEST(ref,x[,stddev])\n"
 
 	   "@DESCRIPTION="
 	   "ZTEST returns the two-tailed probability of a z-test.\n"
 	   "\n"
 	   "@ref is the data set and @x is the value to be tested.\n"
+	   "@stddev is optionally an assumed standard deviation.\n"
 	   "\n"
 	   "* If @ref contains less than two data items ZTEST "
 	   "returns #DIV/0! error.\n"
@@ -3035,33 +3036,47 @@ static GnmFuncHelp const help_ztest[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-static int
-range_ztest (gnm_float const *xs, int n, gnm_float *res)
-{
-	gnm_float x, s, m;
-
-	if (n < 3)
-		return 1;
-
-	x = xs[--n];
-	if (gnm_range_average (xs, n, &m))
-		return 1;
-	if (gnm_range_stddev_est (xs, n, &s) || s == 0)
-		return 1;
-
-	*res = pnorm (x, m, s / gnm_sqrt (n), TRUE, FALSE);
-	return 0;
-}
-
 static GnmValue *
-gnumeric_ztest (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_ztest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return float_range_function (argc, argv, ei,
-				     range_ztest,
-				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
-				     GNM_ERROR_DIV0);
+	int n;
+	gnm_float *xs;
+	GnmValue *result = NULL;
+	gnm_float x, s, m, p;
+
+	xs = collect_floats_value (argv[0], ei->pos,
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS |
+				   COLLECT_IGNORE_BLANKS,
+				   &n, &result);
+	if (result)
+		goto done;
+
+	x = value_get_as_float (argv[1]);
+
+	if (gnm_range_average (xs, n, &m)) {
+		result = value_new_error_DIV0 (ei->pos);
+		goto done;
+	}
+
+	if (argv[2])
+		s = value_get_as_float (argv[2]);
+	else if (gnm_range_stddev_est (xs, n, &s)) {
+		result = value_new_error_DIV0 (ei->pos);
+		goto done;
+	}
+
+	if (s <= 0) {
+		result = value_new_error_DIV0 (ei->pos);
+		goto done;
+	}
+
+	p = pnorm (x, m, s / gnm_sqrt (n), TRUE, FALSE);
+	result = value_new_float (p);
+
+done:
+	g_free (xs);
+	return result;
 }
 
 /***************************************************************************/
@@ -5971,8 +5986,8 @@ GnmFuncDescriptor const stat_functions[] = {
         { "weibull",      "fffb",  N_("x.alpha,beta,cumulative"),
 	  help_weibull, gnumeric_weibull, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "ztest", NULL,      N_("ref,x"),
-	  help_ztest, NULL, gnumeric_ztest, NULL, NULL, NULL,
+	{ "ztest", "Af|f",   N_("ref,x[,stddev]"),
+	  help_ztest, gnumeric_ztest, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
         { "exppowdist", "fff", N_("x,a,b"),         help_exppowdist,
