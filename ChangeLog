@@ -1,3 +1,8 @@
+2008-06-18  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (MATHLIB_ERROR): Return a NaN instead of
+	aborting.  Fixes #534475.
+
 2008-06-17  Morten Welinder  <terra@gnome.org>
 
 	* src/application.c (gnm_app_create_opener_filter): Suffix

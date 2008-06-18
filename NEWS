@@ -35,6 +35,7 @@ Morten:
 	* Fix ZTEST issue.  [#405958]
 	* Handle foo.XLS as well as foo.xls.  [#510036]
 	* Fix OPT_RGW hang.  [#534132]
+	* Fix BESSELI and BESSELK aborts.  [#534475]
 
 Seán de Búrca:
 	* Move to tango based icons. [#450444]

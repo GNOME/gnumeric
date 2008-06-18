@@ -82,7 +82,7 @@
 
 #define ML_UNDERFLOW (GNM_EPSILON * GNM_EPSILON)
 #define ML_ERROR(cause) /* Nothing */
-#define MATHLIB_ERROR g_error
+#define MATHLIB_ERROR(_a,_b) return gnm_nan;
 #define MATHLIB_WARNING g_warning
 #define MATHLIB_WARNING2 g_warning
 #define MATHLIB_WARNING4 g_warning
