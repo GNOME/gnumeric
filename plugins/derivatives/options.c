@@ -981,6 +981,9 @@ static gnm_float opt_rgw1 (gnm_float s, gnm_float x, gnm_float t1, gnm_float t2,
 	gnm_float ci, infinity;
 	gnm_float gfresult;
 
+	if (!(s > 0))
+		return gnm_nan;
+
 	infinity = 100000000;
 	epsilon = 0.00001;
 	sx = s - d * gnm_exp (-r * t1);

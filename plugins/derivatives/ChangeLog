@@ -1,3 +1,7 @@
+2008-06-18  Morten Welinder  <terra@gnome.org>
+
+	* options.c (opt_rgw1): Check for invalid "s" argument.
+
 2008-05-19  Morten Welinder  <terra@gnome.org>
 
 	* options.c (opt_bs_delta1): Don't assert.  OS_Error can occur as
