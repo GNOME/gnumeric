@@ -33,6 +33,7 @@ Morten:
 	* Fix text export problem for times with fractional seconds.  [#534514]
 	* Fix xls export problem.  [#537625]
 	* Fix ZTEST issue.  [#405958]
+	* Handle foo.XLS as well as foo.xls.  [#510036]
 
 Seán de Búrca:
 	* Move to tango based icons. [#450444]

@@ -1,3 +1,9 @@
+2008-06-17  Morten Welinder  <terra@gnome.org>
+
+	* src/application.c (gnm_app_create_opener_filter): Suffix
+	patterns should match upper and lower case file names.  Fixes
+	#510036.
+
 2008-06-17  Jody Goldberg <jody@gnome.org>
 
 	* src/print-info.c (print_info_set_page_setup) : fix a life cycle

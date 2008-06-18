@@ -516,18 +516,32 @@ gnm_app_create_opener_filter (void)
 
 		while (suffixes) {
 			const char *suffix = suffixes->data;
-			char *pattern;
+			GString *pattern;
 			int i;
 
 			for (i = 0; bad_suffixes[i]; i++)
 				if (strcmp (suffix, bad_suffixes[i]) == 0)
 					goto bad_suffix;
 
-			pattern = g_strconcat ("*.", suffix, NULL);
-			gtk_file_filter_add_pattern (filter, pattern);
+			/* Create "*.[xX][lL][sS]" */
+			pattern = g_string_new ("*.");
+			while (*suffix) {
+				gunichar uc = g_utf8_get_char (suffix);
+				suffix = g_utf8_next_char (suffix);
+				if (g_unichar_islower (uc)) {
+					g_string_append_c (pattern, '[');
+					g_string_append_unichar (pattern, uc);
+					uc = g_unichar_toupper (uc);
+					g_string_append_unichar (pattern, uc);
+					g_string_append_c (pattern, ']');
+				} else
+					g_string_append_unichar (pattern, uc);
+			}
+			
+			gtk_file_filter_add_pattern (filter, pattern->str);
 			if (0)
-				g_print ("%s: Adding %s\n", go_file_opener_get_description (opener), pattern);
-			g_free (pattern);
+				g_print ("%s: Adding %s\n", go_file_opener_get_description (opener), pattern->str);
+			g_string_free (pattern, TRUE);
 
 		bad_suffix:
 			suffixes = suffixes->next;
