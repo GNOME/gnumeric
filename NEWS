@@ -38,6 +38,7 @@ Morten:
 	* Fix OPT_RGW hang.  [#534132]
 	* Fix BESSELI and BESSELK aborts.  [#534475]
 	* Fix corrupted-xls-file problem.  [#539178]
+	* Fix markup/text confusion.  [#386412]
 
 Seán de Búrca:
 	* Move to tango based icons. [#450444]

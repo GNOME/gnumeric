@@ -4226,8 +4226,10 @@ wbcg_set_sensitive (GOCmdContext *cc, gboolean sensitive)
 static void
 wbcg_error_error (GOCmdContext *cc, GError *err)
 {
+	char *text = g_markup_escape_text (err->message, -1);
 	go_gtk_notice_dialog (wbcg_toplevel (WBC_GTK (cc)),
-		GTK_MESSAGE_ERROR, err->message);
+			      GTK_MESSAGE_ERROR, text);
+	g_free (text);
 }
 static void
 wbcg_error_error_info (GOCmdContext *cc, ErrorInfo *error)

@@ -1,3 +1,8 @@
+2008-06-19  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbcg_error_error_info): Quote markup.  Fixes
+	#386412.
+
 2008-06-19  Jody Goldberg <jody@gnome.org>
 
 	* src/wbc-gtk.c (scg_get_nth_scg) : new convenience routine to
