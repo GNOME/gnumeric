@@ -1,3 +1,7 @@
+2008-06-19  Morten Welinder  <terra@gnome.org>
+
+	* ms-chart.c (end): Fix corrupted-file crash.  [#539178]
+
 2008-06-13  Jody Goldberg <jody@gnome.org>
 
 	* ms-obj.c (ms_obj_read_expr) : handle empty expressions without a

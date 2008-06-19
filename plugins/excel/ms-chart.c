@@ -2848,11 +2848,13 @@ not_a_matrix:
 					eseries->data [GOG_MS_DIM_VALUES].data = NULL;
 				} else
 					eseries->extra_dim = GOG_MS_DIM_LOW;
-				g_object_set (G_OBJECT (series),
-					"style", s->chartline_style[1],
-					NULL);
-				g_object_unref (s->chartline_style[1]);
-				s->chartline_style[1] = NULL;
+				if (s->chartline_style[1]) {
+					g_object_set (G_OBJECT (series),
+						      "style", s->chartline_style[1],
+						      NULL);
+					g_object_unref (s->chartline_style[1]);
+					s->chartline_style[1] = NULL;
+				}
 			}
 			for (i = k ; i < l; i++ ) {
 				eseries = g_ptr_array_index (s->series, i);
