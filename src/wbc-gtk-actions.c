@@ -963,7 +963,7 @@ static GNM_ACTION_DEF (cb_insert_image)
 			guint8 const *data = gsf_input_read (input, len, NULL);
 			SheetObjectImage *soi = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL);
 			sheet_object_image_set_image (soi, "", (guint8 *)data, len, TRUE);
-			scg_mode_create_object (wbcg_cur_scg (wbcg), SHEET_OBJECT (soi));
+			wbcg_insert_object (wbcg, SHEET_OBJECT (soi));
 			g_object_unref (input);
 		} else
 			go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
@@ -1038,8 +1038,7 @@ static GNM_ACTION_DEF (cb_sort_descending) { sort_by_rows (wbcg, TRUE); }
 static void
 cb_add_graph (GogGraph *graph, gpointer wbcg)
 {
-	SheetControlGUI *scg = wbcg_cur_scg (WBC_GTK (wbcg));
-	scg_mode_create_object (scg, sheet_object_graph_new (graph));
+	wbcg_insert_object (WBC_GTK (wbcg), sheet_object_graph_new (graph));
 }
 
 static GNM_ACTION_DEF (cb_launch_chart_guru)
@@ -1055,17 +1054,11 @@ create_object (WBCGtk *wbcg, GType t,
 	       char const *first_property_name,
 	       ...)
 {
-	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	Sheet *sheet = scg_sheet (scg);
 	va_list	args;
-
 	va_start (args, first_property_name);
-	scg_mode_create_object (scg, (SheetObject *)
+	wbcg_insert_object (wbcg, (SheetObject *)
 		g_object_new_valist (t, first_property_name, args));
 	va_end (args);
-
-	workbook_recalc (sheet->workbook);
-	sheet_update (sheet);
 }
 
 static GNM_ACTION_DEF (cmd_create_label)

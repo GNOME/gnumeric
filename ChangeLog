@@ -1,3 +1,41 @@
+2008-06-19  Jody Goldberg <jody@gnome.org>
+
+	* src/wbc-gtk.c (scg_get_nth_scg) : new convenience routine to
+	  localize use of SHEET_CONTROL_KEY, and add some safety checks.
+	(wbcg_get_scg) : Use it.
+	(cb_sheet_label_drag_data_get) : ditto.
+	(cb_notebook_switch_page) : ditto.
+	(wbcg_sheet_order_changed) : ditto.
+	(wbcg_focus_cur_scg) : ditto.
+	(wbc_gtk_init) : Move new_object from scg -> wbcg.
+	(wbcg_update_action_sensitivity) : ditto.
+	(wbcg_menu_state_update) : ditto.
+
+	* src/wbc-gtk-edit.c (wbcg_insert_object) : moved from
+	  wbcg_insert_object and made smarter to walk through all scgs and
+	  setting cursor visibilty, and unanting.
+	(wbcg_insert_object_clear) : reworked from scg_mode_clear and made
+	  smarter.
+
+	* src/wbc-gtk-actions.c (cb_insert_image) : Use wbcg_insert_object.
+	(cb_add_graph) : ditto.
+	(create_object) : ditto, and remove the sheet_update/recalc.  It does
+	  not belong here.
+
+	* src/sheet-control-gui.c (scg_cursor_visible) : make public.
+	(scg_mode_clear) : moved into wbcg_insert_object_clear, and
+	  simplified.
+	(scg_mode_create_object) : reworked as wbcg_insert_object.
+	(scg_mode_edit) : Use the new wbcg_insert_object_clear and simplify.
+	(scg_object_select) : Adapt to moving new_object from SCG -> WBCG
+	(scg_objects_nudge) : ditto.
+	(scg_set_display_cursor) :  ditto.
+	* src/gnm-pane.c (gnm_pane_key_press) : ditto.
+	* src/item-bar.c (item_bar_draw) : ditto.
+	* src/item-grid.c (item_grid_draw) : ditto.
+	(ig_obj_create_begin) : ditto.
+	(item_grid_button_press) : ditto.
+
 2008-06-18  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (MATHLIB_ERROR): Return a NaN instead of

@@ -15,6 +15,7 @@ Jody:
 	* Fix range highlighting while editing.
 	* Fix highlighting of merged cells. [#127415]
 	* Fix PageSetup on windows.
+	* Make object insertion more flexible. [#97216]
 
 Morten:
 	* Fix Excel export problem for strings that need quoting.  [#530704]

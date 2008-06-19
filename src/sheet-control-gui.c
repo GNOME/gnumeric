@@ -690,7 +690,6 @@ scg_init (SheetControlGUI *scg)
 	scg->delayedMovement.handler = NULL;
 
 	scg->grab_stack = 0;
-	scg->new_object = NULL;
 	scg->selected_objects = NULL;
 }
 
@@ -725,7 +724,6 @@ bar_set_left_col (GnmPane *pane, int new_first_col)
 {
 	FooCanvas *colc;
 	int col_offset;
-	Sheet *sheet = ((SheetControl*) pane->simple.scg)->sheet;
 
 	g_return_val_if_fail (0 <= new_first_col && new_first_col < gnm_sheet_get_max_cols (sheet), 0);
 
@@ -792,7 +790,6 @@ bar_set_top_row (GnmPane *pane, int new_first_row)
 {
 	FooCanvas *rowc;
 	int row_offset;
-	Sheet *sheet = ((SheetControl*) pane->simple.scg)->sheet;
 
 	g_return_val_if_fail (0 <= new_first_row && new_first_row < gnm_sheet_get_max_rows (sheet), 0);
 
@@ -1913,7 +1910,7 @@ cb_redraw_sel (SheetView *sv, GnmRange const *r, gpointer user_data)
 	return TRUE;
 }
 
-static void
+void
 scg_cursor_visible (SheetControlGUI *scg, gboolean is_visible)
 {
 	SheetControl *sc = (SheetControl *) scg;
@@ -1930,25 +1927,6 @@ scg_cursor_visible (SheetControlGUI *scg, gboolean is_visible)
 
 /***************************************************************************/
 
-static gboolean
-scg_mode_clear (SheetControlGUI *scg)
-{
-	WorkbookControl *wbc;
-
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), FALSE);
-
-	if (scg->new_object != NULL) {
-		g_object_unref (G_OBJECT (scg->new_object));
-		scg->new_object = NULL;
-	}
-	scg_object_unselect (scg, NULL);
-	wbc = scg_wbc (scg);
-	if (wbc != NULL) /* during destruction */
-		wb_control_update_action_sensitivity (wbc);
-
-	return TRUE;
-}
-
 /**
  * scg_mode_edit:
  * @sc:  The sheet control
@@ -1962,13 +1940,15 @@ scg_mode_edit (SheetControlGUI *scg)
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	scg_mode_clear (scg);
+	if (scg->wbcg != NULL) /* Can be NULL during destruction */
+		wbcg_insert_object_clear (scg->wbcg);
 
 	/* During destruction we have already been disconnected
 	 * so don't bother changing the cursor */
 	if (scg->table != NULL &&
 	    scg_sheet (scg) != NULL &&
 	    scg_view (scg) != NULL) {
+		scg_object_unselect (scg, NULL);
 		scg_set_display_cursor (scg);
 		scg_cursor_visible (scg, TRUE);
 	}
@@ -1982,28 +1962,6 @@ static void
 scg_mode_edit_virt (SheetControl *sc)
 {
 	scg_mode_edit ((SheetControlGUI *)sc);
-}
-
-/**
- * scg_mode_create_object :
- * @so : The object the needs to be placed
- *
- * Takes a newly created SheetObject that has not yet been realized and
- * prepares to place it on the sheet.
- * NOTE : Absorbs a reference to the object.
- **/
-void
-scg_mode_create_object (SheetControlGUI *scg, SheetObject *so)
-{
-	g_return_if_fail (IS_SHEET_OBJECT (so));
-
-	if (scg_mode_clear (scg)) {
-		scg->new_object = so;
-		scg_cursor_visible (scg, FALSE);
-		scg_take_focus (scg);
-		scg_set_display_cursor (scg);
-		wb_control_update_action_sensitivity (scg_wbc (scg));
-	}
 }
 
 static int
@@ -2052,7 +2010,8 @@ scg_object_select (SheetControlGUI *scg, SheetObject *so)
 		    !wbcg_edit_finish (scg->wbcg, WBC_EDIT_ACCEPT, NULL))
 			return;
 		g_object_ref (so);
-		scg_mode_clear (scg);
+
+		wbcg_insert_object_clear (scg->wbcg);
 		scg_cursor_visible (scg, FALSE);
 		scg_set_display_cursor (scg);
 		scg_unant (SHEET_CONTROL (scg));
@@ -2357,7 +2316,7 @@ scg_objects_nudge (SheetControlGUI *scg, GnmPane *pane,
 		   int drag_type, double dx, double dy, gboolean symmetric, gboolean snap_to_grid)
 {
 	/* no nudging if we are creating an object */
-	if (!scg->new_object) {
+	if (!scg->wbcg->new_object) {
 		scg_objects_drag (scg, pane, NULL, &dx, &dy, drag_type, symmetric, snap_to_grid, FALSE);
 		scg_objects_drag_commit (scg, drag_type, FALSE);
 	}
@@ -2798,7 +2757,7 @@ scg_set_display_cursor (SheetControlGUI *scg)
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	if (scg->new_object != NULL)
+	if (scg->wbcg->new_object != NULL)
 		cursor = GDK_CROSSHAIR;
 
 	SCG_FOREACH_PANE (scg, pane, {

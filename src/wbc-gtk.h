@@ -25,6 +25,7 @@ WBCGtk *wbc_gtk_new (WorkbookView *optional_view,
 GtkWindow	*wbcg_toplevel	  (WBCGtk *wbcg);
 void	         wbcg_set_transient (WBCGtk *wbcg,
 				     GtkWindow *window);
+SheetControlGUI *wbcg_get_nth_scg (WBCGtk *wbcg, int page);
 SheetControlGUI *wbcg_cur_scg	  (WBCGtk *wbcg);
 Sheet		*wbcg_cur_sheet	  (WBCGtk *wbcg);
 Sheet		*wbcg_focus_cur_scg (WBCGtk *wbcg);
@@ -61,6 +62,9 @@ gboolean wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			   gboolean *showed_dialog);
 gboolean wbcg_edit_start  (WBCGtk *wbcg,
 			   gboolean blankp, gboolean cursorp);
+
+void	    wbcg_insert_object		(WBCGtk *wbcg, SheetObject *so);
+void	    wbcg_insert_object_clear	(WBCGtk *wbcg);
 
 void	    wbc_gtk_detach_guru		(WBCGtk *wbcg);
 void	    wbc_gtk_attach_guru		(WBCGtk *wbcg, GtkWidget *guru);

@@ -124,6 +124,8 @@ struct _WBCGtk {
 	Sheet       *editing_sheet;
 	gboolean     editing;
 
+	SheetObject	 *new_object;	/* A newly created object that has yet to be realized */
+
 	char *preferred_geometry;
 };
 

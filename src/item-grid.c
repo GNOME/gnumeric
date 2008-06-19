@@ -395,7 +395,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expo
 
 	gboolean const draw_selection =
 		ig->scg->selected_objects == NULL &&
-		ig->scg->new_object == NULL;
+		wbcg->new_object == NULL;
 
 	if (dir < 0) {
 		start_col = gnm_pane_find_col (pane, expose->area.x+width+2, &start_x);
@@ -769,12 +769,12 @@ static gboolean
 ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 {
 	GnmPane *pane = GNM_PANE (FOO_CANVAS_ITEM (ig)->canvas);
-	SheetObject *so = ig->scg->new_object;
+	SheetObject *so = ig->scg->wbcg->new_object;
 	SheetObjectAnchor anchor;
 	double coords[4];
 
 	g_return_val_if_fail (ig->scg->selected_objects == NULL, TRUE);
-	g_return_val_if_fail (ig->scg->new_object != NULL, TRUE);
+	g_return_val_if_fail (so != NULL, TRUE);
 
 	coords[0] = coords[2] = event->x;
 	coords[1] = coords[3] = event->y;
@@ -819,7 +819,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 		return TRUE;
 
 	/* A new object is ready to be realized and inserted */
-	if (scg->new_object != NULL)
+	if (wbcg->new_object != NULL)
 		return ig_obj_create_begin (ig, event);
 
 	/* If we are not configuring an object then clicking on the sheet

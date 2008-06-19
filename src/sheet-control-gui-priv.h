@@ -39,7 +39,6 @@ struct _SheetControlGUI {
 	guint 		 pane_drag_handler;
 
 	/* SheetObject support */
-	SheetObject	 *new_object;	/* A newly created object that has yet to be realized */
 	GHashTable	 *selected_objects;
 
 	/* Keep track of a rangeselector state */

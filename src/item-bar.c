@@ -19,7 +19,7 @@
 #include "sheet-control-gui-priv.h"
 #include "application.h"
 #include "selection.h"
-#include "wbc-gtk.h"
+#include "wbc-gtk-impl.h"
 #include "gui-util.h"
 #include "parse-util.h"
 #include "commands.h"
@@ -338,7 +338,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 	int prev_level;
 	GdkRectangle rect;
 	GdkPoint points[3];
-	gboolean const has_object = scg->new_object != NULL || scg->selected_objects != NULL;
+	gboolean const has_object = scg->wbcg->new_object != NULL || scg->selected_objects != NULL;
 	gboolean const rtl = sheet->text_is_rtl != FALSE;
 	int shadow;
 	int first_line_offset = 1;

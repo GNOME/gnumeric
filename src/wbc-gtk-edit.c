@@ -977,6 +977,68 @@ wbcg_edit_start (WBCGtk *wbcg,
 }
 
 /**
+ * wbcg_insert_object :
+ * @wbcg : #WBCGtk *
+ * @so : The object the needs to be placed
+ *
+ * Takes a newly created #SheetObject that has not yet been realized and
+ * prepares to place it on the sheet.
+ *
+ * NOTE : Absorbs a reference to the object.
+ **/
+void
+wbcg_insert_object (WBCGtk *wbcg, SheetObject *so)
+{
+	int i, npages;
+	SheetControlGUI *scg;
+
+	g_return_if_fail (IS_WBC_GTK (wbcg));
+	g_return_if_fail (IS_SHEET_OBJECT (so));
+
+	wbcg_insert_object_clear (wbcg);
+	wbcg->new_object = so;
+
+	npages = gtk_notebook_get_n_pages (wbcg->notebook);
+	for (i = 0; i < npages; i++)
+		if (NULL != (scg = wbcg_get_nth_scg (wbcg, i))) {
+			scg_object_unselect (scg, NULL);
+			scg_cursor_visible (scg, FALSE);
+			scg_set_display_cursor (scg);
+			sc_unant (SHEET_CONTROL (scg));
+		}
+
+	wb_control_update_action_sensitivity (WORKBOOK_CONTROL (wbcg));
+}
+
+/**
+ * wbcg_insert_object_clear :
+ * @wbcg : #WBCGtk
+ * 
+ * If we are preparing to insert a new object, unref the object, and restore
+ * a normal state to the scgs that was changed in wbcg_insert_object
+ * (e.g.  visiblity of cursors)
+ **/
+void
+wbcg_insert_object_clear (WBCGtk *wbcg)
+{
+	g_return_if_fail (IS_WBC_GTK (wbcg));
+
+	if (NULL != wbcg->new_object) {
+		int i, npages;
+		SheetControlGUI *scg;
+
+		g_object_unref (G_OBJECT (wbcg->new_object));
+		wbcg->new_object = NULL;
+
+		npages = gtk_notebook_get_n_pages (wbcg->notebook);
+		for (i = 0; i < npages; i++)
+			if (NULL != (scg = wbcg_get_nth_scg (wbcg, i)))
+				scg_cursor_visible (scg, TRUE);
+	}
+}
+
+
+/**
  * wbcg_get_entry :
  * @WBCGtk : @wbcg
  *
@@ -985,6 +1047,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 GtkEntry *
 wbcg_get_entry (WBCGtk const *wbcg)
 {
+	g_return_val_if_fail (IS_WBC_GTK (wbcg), NULL);
 	g_return_val_if_fail (wbcg != NULL, NULL);
 
 	return gnm_expr_entry_get_entry (wbcg->edit_line.entry);

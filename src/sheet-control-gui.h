@@ -19,8 +19,6 @@ SheetControlGUI *sheet_control_gui_new	    (SheetView *sv, WBCGtk *wbcg);
 
 void scg_take_focus             (SheetControlGUI *scg);
 
-void scg_mode_create_object	(SheetControlGUI *scg, SheetObject *so);
-
 void scg_context_menu		(SheetControlGUI *scg, GdkEventButton *event,
 				 gboolean is_col, gboolean is_row);
 
@@ -75,6 +73,7 @@ void scg_make_cell_visible	(SheetControlGUI *scg, int col, int row,
 				 gboolean force_scroll, gboolean couple_panes);
 
 void scg_set_display_cursor	(SheetControlGUI *scg);
+void scg_cursor_visible		(SheetControlGUI *scg, gboolean is_visible);
 void scg_cursor_move		(SheetControlGUI *scg, int dir,
 				 gboolean jump_to_bound, gboolean horiz);
 void scg_cursor_extend		(SheetControlGUI *scg, int n,

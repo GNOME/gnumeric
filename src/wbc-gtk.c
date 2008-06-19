@@ -167,7 +167,7 @@ wbc_gtk_set_toggle_action_state (WBCGtk const *wbcg,
 static SheetControlGUI *
 wbcg_get_scg (WBCGtk *wbcg, Sheet *sheet)
 {
-	GtkWidget *w;
+	SheetControlGUI *scg;
 	int i, npages;
 
 	if (sheet == NULL || wbcg->notebook == NULL)
@@ -176,12 +176,9 @@ wbcg_get_scg (WBCGtk *wbcg, Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (sheet->index_in_wb >= 0, NULL);
 
-	w = gtk_notebook_get_nth_page (wbcg->notebook, sheet->index_in_wb);
-	if (w) {
-		SheetControlGUI *scg = g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
-		if (scg_sheet (scg) == sheet)
-			return scg;
-	}
+	scg = wbcg_get_nth_scg (wbcg, sheet->index_in_wb);
+	if (NULL != scg && scg_sheet (scg) == sheet)
+		return scg;
 
 	/*
 	 * index_in_wb is probably not accurate because we are in the
@@ -189,9 +186,8 @@ wbcg_get_scg (WBCGtk *wbcg, Sheet *sheet)
 	 */
 	npages = gtk_notebook_get_n_pages (wbcg->notebook);
 	for (i = 0; i < npages; i++) {
-		GtkWidget *w = gtk_notebook_get_nth_page (wbcg->notebook, i);
-		SheetControlGUI *scg = g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
-		if (scg_sheet (scg) == sheet)
+		scg = wbcg_get_nth_scg (wbcg, i);
+		if (NULL != scg && scg_sheet (scg) == sheet)
 			return scg;
 	}
 
@@ -308,7 +304,7 @@ wbcg_update_action_sensitivity (WorkbookControl *wbc)
 	WBCGtk *wbcg = WBC_GTK (wbc);
 	SheetControlGUI	   *scg = wbcg_cur_scg (wbcg);
 	gboolean edit_object = scg != NULL &&
-		(scg->selected_objects != NULL || scg->new_object != NULL);
+		(scg->selected_objects != NULL || wbcg->new_object != NULL);
 	gboolean enable_actions = TRUE;
 	gboolean enable_edit_ok_cancel = FALSE;
 
@@ -506,13 +502,11 @@ cb_sheet_label_drag_data_get (GtkWidget *widget, GdkDragContext *context,
 {
 	SheetControlGUI *scg;
 	gint n_source;
-	GtkWidget *p_source;
 
 	g_return_if_fail (IS_WBC_GTK (wbcg));
 
 	n_source = gnm_notebook_page_num_by_label (wbcg->notebook, widget);
-	p_source = gtk_notebook_get_nth_page (wbcg->notebook, n_source);
-	scg = g_object_get_data (G_OBJECT (p_source), SHEET_CONTROL_KEY);
+	scg = wbcg_get_nth_scg (wbcg, n_source);
 
 	gtk_selection_data_set (selection_data, selection_data->target,
 		8, (void *) scg, sizeof (scg));
@@ -740,7 +734,6 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 {
 	Sheet *sheet;
 	SheetControlGUI *new_scg;
-	GtkWidget *child;
 
 	g_return_if_fail (IS_WBC_GTK (wbcg));
 
@@ -758,9 +751,7 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	if (NULL != wbcg->rangesel)
 		scg_rangesel_stop (wbcg->rangesel, TRUE);
 
-	child = gtk_notebook_get_nth_page (notebook, page_num);
-	new_scg = g_object_get_data (G_OBJECT (child), SHEET_CONTROL_KEY);
-
+	new_scg = wbcg_get_nth_scg (wbcg, page_num);
 	cb_direction_change (NULL, NULL, new_scg);
 
 	if (wbcg_is_editing (wbcg) && wbcg_rangesel_possible (wbcg)) {
@@ -1065,10 +1056,8 @@ wbcg_sheet_order_changed (WBCGtk *wbcg)
 	SheetControlGUI **scgs = g_new (SheetControlGUI *, n);
 
 	/* Collect the scgs first as we are moving pages.  */
-	for (i = 0 ; i < n; i++) {
-		GtkWidget *w = gtk_notebook_get_nth_page (nb, i);
-		scgs[i] = g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
-	}
+	for (i = 0 ; i < n; i++)
+		scgs[i] = wbcg_get_nth_scg (wbcg, i);
 
 	for (i = 0 ; i < n; i++) {
 		SheetControlGUI *scg = scgs[i];
@@ -1139,7 +1128,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	gboolean const has_guru = wbc_gtk_get_guru (wbcg) != NULL;
 	gboolean has_filtered_rows = sheet->has_filtered_rows;
 	gboolean edit_object = scg != NULL &&
-		(scg->selected_objects != NULL || scg->new_object != NULL);
+		(scg->selected_objects != NULL || wbcg->new_object != NULL);
 
 	if (!has_filtered_rows) {
 		GSList *ptr = sheet->filters;
@@ -4394,6 +4383,8 @@ wbc_gtk_init (GObject *obj)
 	wbcg->editing_sheet = NULL;
 	wbcg->editing_cell  = NULL;
 
+	wbcg->new_object = NULL;
+
 #warning "why is this here ?"
 	wbcg->current_saver = NULL;
 	wbcg->menu_zone = gtk_vbox_new (TRUE, 0);
@@ -4627,6 +4618,33 @@ wbcg_set_transient (WBCGtk *wbcg, GtkWindow *window)
 	go_gtk_window_set_transient (wbcg_toplevel (wbcg), window);
 }
 
+/**
+ * wbcg_get_nth_scg
+ * @wbcg : #WBCGtk
+ * @i :
+ *
+ * Returns the scg associated with the @i-th tab in @wbcg's notebook.
+ * NOTE : @i != scg->sv->sheet->index_in_wb
+ **/
+SheetControlGUI *
+wbcg_get_nth_scg (WBCGtk *wbcg, int i)
+{
+	SheetControlGUI *scg;
+	GtkWidget *w;
+
+	g_return_val_if_fail (IS_WBC_GTK (wbcg), NULL);
+
+	if (NULL != wbcg->notebook &&
+	    NULL != (w = gtk_notebook_get_nth_page (wbcg->notebook, i)) &&
+	    NULL != (scg = g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY)) &&
+	    NULL != scg->table &&
+	    NULL != scg_sheet (scg) &&
+	    NULL != scg_view (scg)) 
+		return scg;
+
+	return NULL;
+}
+
 #warning merge these and clarfy whether we want the visible scg, or the logical (view) scg
 /**
  * wbcg_focus_cur_scg :
@@ -4641,7 +4659,6 @@ wbcg_set_transient (WBCGtk *wbcg, GtkWindow *window)
 Sheet *
 wbcg_focus_cur_scg (WBCGtk *wbcg)
 {
-	GtkWidget *table;
 	SheetControlGUI *scg;
 
 	g_return_val_if_fail (IS_WBC_GTK (wbcg), NULL);
@@ -4649,9 +4666,8 @@ wbcg_focus_cur_scg (WBCGtk *wbcg)
 	if (wbcg->notebook == NULL)
 		return NULL;
 
-	table = gtk_notebook_get_nth_page (wbcg->notebook,
+	scg = wbcg_get_nth_scg (wbcg,
 		gtk_notebook_get_current_page (wbcg->notebook));
-	scg = g_object_get_data (G_OBJECT (table), SHEET_CONTROL_KEY);
 
 	g_return_val_if_fail (scg != NULL, NULL);
 

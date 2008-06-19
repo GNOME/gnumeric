@@ -565,7 +565,8 @@ gnm_pane_key_press (GtkWidget *widget, GdkEventKey *event)
 	}
 
 	/* Object manipulation */
-	if ((scg->selected_objects != NULL || scg->new_object != NULL)) {
+	if (scg->selected_objects != NULL ||
+	     scg->wbcg->new_object != NULL) {
 		if (wbc_gtk_get_guru (scg->wbcg) == NULL  &&
 		    gnm_pane_object_key_press (pane, event))
 			return TRUE;
