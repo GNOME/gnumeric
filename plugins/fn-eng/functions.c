@@ -654,12 +654,12 @@ static GnmFuncHelp const help_besseli[] = {
 	   "BESSELI function returns the Neumann, Weber or Bessel "
 	   "function.\n\n"
 	   "@x is where the function is evaluated. "
-	   "@y is the order of the Bessel function, if non-integer it is "
-	   "truncated.\n"
+	   "@y is the order of the Bessel function.\n"
 	   "\n"
 	   "* If @x or @y are not numeric a #VALUE! error is returned.\n"
 	   "* If @y < 0 a #NUM! error is returned.\n"
-	   "* This function is Excel compatible.\n"
+	   "* This function extends the Excel function of the same name to "
+	   "non-integer orders.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "BESSELI(0.7,3) equals 0.007367374.\n"
@@ -675,15 +675,23 @@ gnumeric_besseli (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);	/* value to evaluate I_n at. */
 	gnm_float order = value_get_as_float (argv[1]);	/* the order */
+	gnm_float r;
 
 	if (order < 0)
 		return value_new_error_NUM (ei->pos);
 
-	/* It seems that XL uses abs value of x */
-	if (x < 0.)
-		x = -x;
+	/* This, or something like it, ought to be moved into a proper bessel_i.  */
+	if (x < 0) {
+		if (order != gnm_floor (order))
+			return value_new_error_NUM (ei->pos);
+		else if (gnm_fmod (order, 2) == 0)
+			r = bessel_i (-x, order, 1);  /* Even for even order */
+		else
+			r = -bessel_i (-x, order, 1);  /* Odd for odd order */
+	} else
+		r = bessel_i (x, order, 1);
 
-	return value_new_float (bessel_i (x, order, 1.0));
+	return value_new_float (r);
 }
 
 /***************************************************************************/
@@ -697,12 +705,12 @@ static GnmFuncHelp const help_besselk[] = {
 	   "BESSELK function returns the Neumann, Weber or Bessel "
 	   "function. "
 	   "@x is where the function is evaluated. "
-	   "@y is the order of the Bessel function, if non-integer it is "
-	   "truncated.\n"
+	   "@y is the order of the Bessel function.\n"
 	   "\n"
 	   "* If @x or @y are not numeric a #VALUE! error is returned.\n"
 	   "* If @y < 0 a #NUM! error is returned.\n"
-	   "* This function is Excel compatible.\n"
+	   "* This function extends the Excel function of the same name to "
+	   "non-integer orders.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "BESSELK(3,9) equals 397.95880.\n"
@@ -717,9 +725,6 @@ gnumeric_besselk (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);	/* value to evaluate K_n at. */
 	gnm_float order = value_get_as_float (argv[1]);	/* the order */
-
-	if (order < 0)
-		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (bessel_k (x, order, 1.0));
 }
