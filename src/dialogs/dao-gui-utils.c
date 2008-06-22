@@ -83,7 +83,7 @@ dialog_tool_preset_to_range (GenericToolState *state)
  *
  **/
 void
-dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
+dialog_tool_init_outputs (GenericToolState *state, GCallback sensitivity_cb)
 {
 	GtkWidget *dao_box;
 

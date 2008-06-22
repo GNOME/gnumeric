@@ -201,29 +201,7 @@ excel_gb_range_class_init (GBRunObjectClass *klass)
 	 */
 }
 
-GtkType
-excel_gb_range_get_type (void)
-{
-	static GtkType object_type = 0;
-
-	if (!object_type) {
-		static const GtkTypeInfo object_info = {
-			ITEM_NAME,
-			sizeof (ExcelGBRange),
-			sizeof (ExcelGBRangeClass),
-			(GtkClassInitFunc)  excel_gb_range_class_init,
-			(GtkObjectInitFunc) NULL,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		object_type = gtk_type_unique (GBRUN_TYPE_OBJECT, &object_info);
-		g_type_class_peek (object_type);
-	}
-
-	return object_type;
-}
+G_DEFINE_TYPE (ExcelGBRange, excel_gb_range, GBRUN_TYPE_OBJECT)
 
 ExcelGBRange *
 excel_gb_range_new (GBRunEvalContext *ec,

@@ -192,29 +192,7 @@ excel_gb_worksheet_class_init (GBRunObjectClass *klass)
 				   gb_type_string, NAME);
 }
 
-GtkType
-excel_gb_worksheet_get_type (void)
-{
-	static GtkType object_type = 0;
-
-	if (!object_type) {
-		static const GtkTypeInfo object_info = {
-			ITEM_NAME,
-			sizeof (ExcelGBWorksheet),
-			sizeof (ExcelGBWorksheetClass),
-			(GtkClassInitFunc)  excel_gb_worksheet_class_init,
-			(GtkObjectInitFunc) NULL,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		object_type = gtk_type_unique (GBRUN_TYPE_OBJECT, &object_info);
-		g_type_class_peek (object_type);
-	}
-
-	return object_type;
-}
+G_DEFINE_TYPE (ExcelGBWorksheet, excel_gb_worksheet, GBRUN_TYPE_OBJECT)
 
 ExcelGBWorksheet *
 excel_gb_worksheet_new (Sheet *sheet)

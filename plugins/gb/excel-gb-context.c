@@ -24,30 +24,7 @@ excel_gb_context_init (ExcelGBContext *ec)
 {
 }
 
-GtkType
-excel_gb_context_get_type (void)
-{
-	static GtkType eval_type = 0;
-
-	if (!eval_type) {
-		static const GtkTypeInfo eval_info = {
-			"ExcelGBContext",
-			sizeof (ExcelGBContext),
-			sizeof (ExcelGBContextClass),
-			(GtkClassInitFunc) excel_gb_context_class_init,
-			(GtkObjectInitFunc) excel_gb_context_init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		eval_type = gtk_type_unique (GBRUN_TYPE_EVAL_CONTEXT,
-					     &eval_info);
-	}
-
-	return eval_type;
-}
-
+G_DEFINE_TYPE (ExcelGBContext, excel_gb_context, GBRUN_TYPE_EVAL_CONTEXT)
 
 GBEvalContext *
 excel_gb_context_new_control (char       const *module_name,

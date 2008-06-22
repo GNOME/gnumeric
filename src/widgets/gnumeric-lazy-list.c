@@ -217,7 +217,7 @@ lazy_list_tree_model_init (GtkTreeModelIface *iface)
 	iface->iter_parent = lazy_list_iter_parent;
 }
 
-GtkType
+GType
 gnumeric_lazy_list_get_type (void)
 {
 	static GType lazy_list_type = 0;

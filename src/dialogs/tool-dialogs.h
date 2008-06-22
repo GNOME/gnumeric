@@ -60,9 +60,9 @@ gboolean dialog_tool_init (GenericToolState *state,
 			   char const *dialog_name,
 			   char const *error_str,
 			   char const *key,
-			   GtkSignalFunc ok_function, 
-			   GtkSignalFunc close_function, 
-			   GtkSignalFunc sensitivity_cb,
+			   GCallback ok_function, 
+			   GCallback close_function, 
+			   GCallback sensitivity_cb,
 			   GnmExprEntryFlags flags);
 
 #endif

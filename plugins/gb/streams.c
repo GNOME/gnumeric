@@ -92,28 +92,7 @@ gb_ole_stream_init (GBOleStream *ls)
 {
 }
 
-GtkType
-gb_ole_stream_get_type (void)
-{
-	static GtkType lex_type = 0;
-
-	if (!lex_type) {
-		static const GtkTypeInfo lex_info = {
-			"GBOleStream",
-			sizeof (GBOleStream),
-			sizeof (GBOleStreamClass),
-			(GtkClassInitFunc) gb_ole_stream_class_init,
-			(GtkObjectInitFunc) gb_ole_stream_init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		lex_type = gtk_type_unique (GB_TYPE_LEXER_STREAM, &lex_info);
-	}
-
-	return lex_type;
-}
+G_DEFINE_TYPE (GBOleStream, gb_ole_stream, GB_TYPE_LEXER_STREAM)
 
 GBLexerStream *
 gb_ole_stream_new (MsOleVba *vba)

@@ -54,29 +54,7 @@ excel_gb_application_class_init (GBRunObjectClass *klass)
 		WORKSHEETS, GBRUN_PROPERTY_READABLE);
 }
 
-GtkType
-excel_gb_application_get_type (void)
-{
-	static GtkType object_type = 0;
-
-	if (!object_type) {
-		static const GtkTypeInfo object_info = {
-			ITEM_NAME,
-			sizeof (ExcelGBApplication),
-			sizeof (ExcelGBApplicationClass),
-			(GtkClassInitFunc)  excel_gb_application_class_init,
-			(GtkObjectInitFunc) NULL,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		object_type = gtk_type_unique (GBRUN_TYPE_OBJECT, &object_info);
-		g_type_class_peek (object_type);
-	}
-
-	return object_type;
-}
+G_DEFINE_TYPE (ExcelGBApplication, excel_gb_application, GBRUN_TYPE_OBJECT)
 
 ExcelGBApplication *
 excel_gb_application_new (Workbook *wb)

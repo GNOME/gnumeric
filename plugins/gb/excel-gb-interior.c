@@ -279,29 +279,7 @@ excel_gb_interior_class_init (GBRunObjectClass *klass)
 	 */
 }
 
-GtkType
-excel_gb_interior_get_type (void)
-{
-	static GtkType object_type = 0;
-
-	if (!object_type) {
-		static const GtkTypeInfo object_info = {
-			ITEM_NAME,
-			sizeof (ExcelGBInterior),
-			sizeof (ExcelGBInteriorClass),
-			(GtkClassInitFunc)  excel_gb_interior_class_init,
-			(GtkObjectInitFunc) NULL,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		object_type = gtk_type_unique (GBRUN_TYPE_OBJECT, &object_info);
-		g_type_class_peek (object_type);
-	}
-
-	return object_type;
-}
+G_DEFINE_TYPE (ExcelGBIterior, excel_gb_interior, GBRUN_TYPE_OBJECT)
 
 ExcelGBInterior *
 excel_gb_interior_new (Sheet *sheet, GnmRange range)
