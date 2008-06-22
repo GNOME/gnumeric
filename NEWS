@@ -18,6 +18,7 @@ Jody:
 	* Make object insertion more flexible. [#97216]
 	* Add alignment to row/col headers for small scales. [#154687]
 	* Support Some XLM functions commonly used in charting.
+	* Fix xls import of charts in charts.
 
 Morten:
 	* Fix Excel export problem for strings that need quoting.  [#530704]
