@@ -4083,7 +4083,7 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 				g_return_if_fail (perr.err != NULL);
 
 				wb_control_validation_msg (WORKBOOK_CONTROL (scg_wbcg (scg)),
-					VALIDATION_STYLE_PARSE_ERROR, NULL, perr.err->message);
+					VALIDATION_STYLE_INFO, NULL, perr.err->message);
 				parse_error_free (&perr);
 				return;
 			}

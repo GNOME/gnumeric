@@ -1093,7 +1093,7 @@ scg_set_panes (SheetControl *sc)
 					GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 					0, 0);
 				gtk_table_attach (scg->inner_table,
-					GTK_WIDGET (scg->pane[1]->col.canvas),
+					GTK_WIDGET (scg->pane[1]->col.alignment),
 					1, 2, 0, 1,
 					GTK_FILL | GTK_SHRINK,
 					GTK_FILL,
@@ -1127,7 +1127,7 @@ scg_set_panes (SheetControl *sc)
 					GTK_FILL | GTK_SHRINK,
 					0, 0);
 				gtk_table_attach (scg->inner_table,
-					GTK_WIDGET (scg->pane[3]->row.canvas),
+					GTK_WIDGET (scg->pane[3]->row.alignment),
 					0, 1, 1, 2,
 					GTK_FILL | GTK_SHRINK,
 					GTK_FILL,
@@ -1415,12 +1415,12 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		GTK_FILL,
 		GTK_FILL,
 		0, 0);
-	gtk_table_attach (scg->inner_table, GTK_WIDGET (scg->pane[0]->col.canvas),
+	gtk_table_attach (scg->inner_table, GTK_WIDGET (scg->pane[0]->col.alignment),
 		2, 3, 0, 1,
 		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 		GTK_FILL,
 		0, 0);
-	gtk_table_attach (scg->inner_table, GTK_WIDGET (scg->pane[0]->row.canvas),
+	gtk_table_attach (scg->inner_table, GTK_WIDGET (scg->pane[0]->row.alignment),
 		0, 1, 2, 3,
 		GTK_FILL,
 		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
@@ -1632,16 +1632,16 @@ scg_adjust_preferences (SheetControlGUI *scg)
 	SCG_FOREACH_PANE (scg, pane, {
 		if (pane->col.canvas != NULL) {
 			if (sheet->hide_col_header)
-				gtk_widget_hide (GTK_WIDGET (pane->col.canvas));
+				gtk_widget_hide (GTK_WIDGET (pane->col.alignment));
 			else
-				gtk_widget_show (GTK_WIDGET (pane->col.canvas));
+				gtk_widget_show (GTK_WIDGET (pane->col.alignment));
 		}
 
 		if (pane->row.canvas != NULL) {
 			if (sheet->hide_row_header)
-				gtk_widget_hide (GTK_WIDGET (pane->row.canvas));
+				gtk_widget_hide (GTK_WIDGET (pane->row.alignment));
 			else
-				gtk_widget_show (GTK_WIDGET (pane->row.canvas));
+				gtk_widget_show (GTK_WIDGET (pane->row.alignment));
 		}
 	});
 
@@ -1943,12 +1943,13 @@ scg_mode_edit (SheetControlGUI *scg)
 	if (scg->wbcg != NULL) /* Can be NULL during destruction */
 		wbcg_insert_object_clear (scg->wbcg);
 
+	scg_object_unselect (scg, NULL);
+
 	/* During destruction we have already been disconnected
 	 * so don't bother changing the cursor */
 	if (scg->table != NULL &&
 	    scg_sheet (scg) != NULL &&
 	    scg_view (scg) != NULL) {
-		scg_object_unselect (scg, NULL);
 		scg_set_display_cursor (scg);
 		scg_cursor_visible (scg, TRUE);
 	}

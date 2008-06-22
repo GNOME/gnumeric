@@ -16,6 +16,8 @@ Jody:
 	* Fix highlighting of merged cells. [#127415]
 	* Fix PageSetup on windows.
 	* Make object insertion more flexible. [#97216]
+	* Add alignment to row/col headers for small scales. [#154687]
+	* Support Some XLM functions commonly used in charting.
 
 Morten:
 	* Fix Excel export problem for strings that need quoting.  [#530704]

@@ -48,10 +48,7 @@
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <gsf/gsf-impl-utils.h>
 
-#include <gtk/gtkdnd.h>
-#include <gtk/gtkseparatormenuitem.h>
-#include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtklabel.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
 #include <string.h>
@@ -964,6 +961,7 @@ gnm_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 		      gboolean is_col_header)
 {
 	Sheet *sheet;
+	GtkWidget *alignment;
 	FooCanvas *canvas = gnm_simple_canvas_new (scg);
 	FooCanvasGroup *group = FOO_CANVAS_GROUP (canvas->root);
 	FooCanvasItem *item = foo_canvas_item_new (group,
@@ -980,10 +978,14 @@ gnm_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 	if (is_col_header) {
 		pane->col.canvas = canvas;
 		pane->col.item = ITEM_BAR (item);
+		alignment = pane->col.alignment = gtk_alignment_new (0, 1, 1, 0);
 	} else {
 		pane->row.canvas = canvas;
 		pane->row.item = ITEM_BAR (item);
+		alignment = pane->row.alignment = gtk_alignment_new (1, 0, 0, 1);
 	}
+	gtk_container_add (GTK_CONTAINER (alignment), GTK_WIDGET (canvas));
+
 	pane->size_guide.points = NULL;
 	pane->size_guide.start  = NULL;
 	pane->size_guide.guide  = NULL;

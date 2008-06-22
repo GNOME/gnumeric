@@ -5,6 +5,17 @@
 	* src/workbook-control.c: (wb_control_set_view): set the document for
 	the underlying GOControlDoc.
 
+2008-06-21  Jody Goldberg <jody@gnome.org>
+
+	* src/gnm-pane.c (gnm_pane_header_init) : Add a GtkAlignment wrapper
+	  to the col/row headers to avoid problems when scaling to very small
+	  sizes with group buttons. [#154687]
+
+2008-06-21  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_mode_edit) : unselect objects even
+	  during destruction.
+
 2008-06-19  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbcg_error_error_info): Quote markup.  Fixes
