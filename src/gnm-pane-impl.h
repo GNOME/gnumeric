@@ -41,6 +41,7 @@ struct _GnmPane {
 
 	int		 index;
 	struct {
+		GtkWidget *alignment;
 		FooCanvas *canvas;
 		ItemBar   *item;
 	} col, row;
