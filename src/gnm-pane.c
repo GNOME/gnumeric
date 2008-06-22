@@ -2256,8 +2256,8 @@ gnm_pane_expr_cursor_bound_set (GnmPane *pane, GnmRange const *r)
 			FOO_CANVAS_GROUP (FOO_CANVAS (pane)->root),
 			item_cursor_get_type (),
 			"SheetControlGUI",	pane->simple.scg,
-			"style",		ITEM_CURSOR_BLOCK,
-			"color",		"red",
+			"style",		ITEM_CURSOR_EXPR_RANGE,
+			"color",		"blue",
 			NULL);
 
 	item_cursor_bound_set (pane->cursor.expr_range, r);

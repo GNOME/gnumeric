@@ -15,7 +15,7 @@ typedef enum {
 	ITEM_CURSOR_ANTED,
 	ITEM_CURSOR_AUTOFILL,
 	ITEM_CURSOR_DRAG,
-	ITEM_CURSOR_BLOCK
+	ITEM_CURSOR_EXPR_RANGE
 } ItemCursorStyle;
 
 GType item_cursor_get_type (void);

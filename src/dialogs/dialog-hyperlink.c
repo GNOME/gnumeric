@@ -65,6 +65,7 @@ typedef struct {
 	GtkLabel  *type_descriptor;
 	GnmExprEntry *internal_link_ee;
 	GnmHLink  *link;
+	GnmHLink  *src_link;
 	gboolean   is_new;
 } HyperlinkState;
 
@@ -86,7 +87,7 @@ dhl_free (HyperlinkState *state)
 static void
 dhl_set_tip (HyperlinkState* state)
 {
-	const char* tip = gnm_hlink_get_tip (state->link);
+	char const * tip = gnm_hlink_get_tip (state->link);
 
 	if (tip) {
 		GtkWidget *w = glade_xml_get_widget (state->gui, "tip-entry");
@@ -282,8 +283,8 @@ static void
 dhl_set_target (HyperlinkState* state)
 {
 	unsigned i;
-	const char* const target = gnm_hlink_get_target (state->link);
-	const char* type_name;
+	char const * const target = gnm_hlink_get_target (state->link);
+	char const * type_name;
 
 	if (target) {
 		type_name = G_OBJECT_TYPE_NAME (state->link);
@@ -301,7 +302,7 @@ static char *
 dhl_get_target (HyperlinkState *state, gboolean *success)
 {
 	unsigned i;
-	const char *type_name = G_OBJECT_TYPE_NAME (state->link);
+	char const *type_name = G_OBJECT_TYPE_NAME (state->link);
 
 	*success = FALSE;
 	for (i = 0 ; i < G_N_ELEMENTS (type); i++) {
@@ -342,14 +343,14 @@ dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 		gnm_style_set_font_uline (style, UNDERLINE_SINGLE);
 		gnm_style_set_font_color (style, style_color_new_name ("blue"));
 
-		if (state->is_new)
+		if (NULL == state->src_link)
 			cmdname = _("Add Hyperlink");
 		else
 			cmdname = _("Edit Hyperlink");
 		cmd_selection_format (WORKBOOK_CONTROL (state->wbcg), style,
 				      NULL, cmdname);
 		g_free (target);
-	} else if (!state->is_new) {
+	} else if (NULL != state->src_link) {
 		style = gnm_style_new ();
 		gnm_style_set_hlink (style, NULL);
 		cmdname = _("Remove Hyperlink");

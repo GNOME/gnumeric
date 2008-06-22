@@ -271,9 +271,9 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		back          = &gs_white;
 		break;
 
-	case ITEM_CURSOR_BLOCK:
+	case ITEM_CURSOR_EXPR_RANGE:
 		draw_center   = TRUE;
-		draw_thick    = 3;
+		draw_thick    = (item->canvas->current_item == item) ? 3 : 2;
 		draw_xor      = FALSE;
 		break;
 
@@ -1284,13 +1284,25 @@ item_cursor_autofill_event (FooCanvasItem *item, GdkEvent *event)
 }
 
 static gint
+item_cursor_expr_range_event (FooCanvasItem *item, GdkEvent *event)
+{
+	switch (event->type) {
+	case GDK_ENTER_NOTIFY:
+		gnm_widget_set_cursor_type (GTK_WIDGET (item->canvas), GDK_ARROW);
+		/* fall through */
+	case GDK_LEAVE_NOTIFY:
+		foo_canvas_item_request_redraw (item); /* Erase the old cursor */
+		break;
+	default :
+		break;
+	}
+	return FALSE;
+}
+
+static gint
 item_cursor_event (FooCanvasItem *item, GdkEvent *event)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
-
-	/* While editing nothing should be draggable */
-	if (wbcg_is_editing (scg_wbcg (ic->scg)))
-		return TRUE;
 
 #if 0
 	switch (event->type)
@@ -1302,6 +1314,13 @@ item_cursor_event (FooCanvasItem *item, GdkEvent *event)
 	    break;
 	}
 #endif
+	if (ic->style == ITEM_CURSOR_EXPR_RANGE)
+		return item_cursor_expr_range_event (item, event);
+
+	/* While editing nothing should be draggable */
+	if (wbcg_is_editing (scg_wbcg (ic->scg)))
+		return TRUE;
+
 	switch (ic->style) {
 	case ITEM_CURSOR_ANTED:
 		g_warning ("Animated cursors should not receive events, "

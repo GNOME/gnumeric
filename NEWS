@@ -173,6 +173,8 @@ Jody:
 	* Update the .gnumeric schema to handle modern content.  [#499378]
 	* Make xlsx import more defensive against unsupported bits.
 	* Fix xlsx round trip of margins.  [#499377]
+	* .gnumeric i/o for GridColour.
+	* Support enter_moves_dir == NONE.
 
 Morten:
 	* Fix crash in dependency code for named expressions.  [#498347]
