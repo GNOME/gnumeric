@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-12 04:31+0100\n"
-"PO-Revision-Date: 2008-04-13 17:35+0200\n"
+"POT-Creation-Date: 2008-06-21 04:17+0000\n"
+"PO-Revision-Date: 2008-06-22 13:16+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -77,8 +77,7 @@ msgstr ""
 "una opción Europea usando call/put fijada un precio @strike en un activo con "
 "precio @spot.\n"
 "\n"
-"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o "
-"«put»\n"
+"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o «put»\n"
 " @tiempo es el tiempo para el vencimiento de la opción expresado en años\n"
 "@tasa es la tasa de interés libre de riesgo.\n"
 "@volatilidad es la volatilidad anualizada, en porcentaje, del activo o el "
@@ -92,7 +91,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:304
+#: ../plugins/derivatives/options.c:303
 msgid ""
 "@FUNCTION=OPT_BS_DELTA\n"
 "@SYNTAX=OPT_BS_DELTA(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -123,8 +122,7 @@ msgstr ""
 "(La «delta» de una opción es la tasa de cambio de su precio respecto al "
 "precio spot del activo subyacente.)\n"
 "\n"
-"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o "
-"«put»\n"
+"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o «put»\n"
 "@tiempo es el tiempo para el vencimiento de la opción expresado en años\n"
 "@tasa es la tasa de interés libre de riesgo.\n"
 "@volatilidad es la volatilidad anualizada, en porcentaje, del activo o el "
@@ -138,7 +136,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:359
+#: ../plugins/derivatives/options.c:358
 msgid ""
 "@FUNCTION=OPT_BS_GAMMA\n"
 "@SYNTAX=OPT_BS_GAMMA(spot,strike,time,rate,volatility[,cost_of_carry])\n"
@@ -186,7 +184,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA"
 
 # Easy fix
-#: ../plugins/derivatives/options.c:429
+#: ../plugins/derivatives/options.c:428
 msgid ""
 "@FUNCTION=OPT_BS_THETA\n"
 "@SYNTAX=OPT_BS_THETA(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -214,15 +212,14 @@ msgstr ""
 "@FUNCTION=OPT_BS_THETA\n"
 "@SYNTAX=OPT_BS_THETA(indicador_call_put,spot,strike,tiempo,tasa,volatilidad[,"
 "devaluación])\n"
-"@DESCRIPTION=OPT_BS_THETA usa el modelo Black-Scholes para calcular la "
-"«teta» de una opción europea con call/put fijada a precio @strike en un "
-"activo con precio @spot.\n"
+"@DESCRIPTION=OPT_BS_THETA usa el modelo Black-Scholes para calcular la «teta» "
+"de una opción europea con call/put fijada a precio @strike en un activo con "
+"precio @spot.\n"
 "\n"
 "(La «teta» de una opción es la tasa de cambio de su precio respecto al la "
 "fecha de expiración.)\n"
 "\n"
-"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o "
-"«put»\n"
+"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o «put»\n"
 "@tiempo es el tiempo para el vencimiento de la opción expresado en años\n"
 "@tasa es la tasa de interés libre de riesgo a fecha del ejercicio, en tanto "
 "por ciento.\n"
@@ -237,7 +234,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_VEGA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:486
+#: ../plugins/derivatives/options.c:485
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_VEGA\n"
@@ -282,7 +279,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:561
+#: ../plugins/derivatives/options.c:560
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_RHO\n"
@@ -313,8 +310,7 @@ msgstr ""
 "@DESCRIPTION=OPT_BS_RHO usa el modelo Black-Scholes para calcular la «ro» de "
 "una opción europea con marca call / put, @indicador_call_put fijada a un "
 "precio @strike en un activo con precio @spot.\n"
-"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o "
-"«put»\n"
+"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o «put»\n"
 "\n"
 "(La «ro» de una opción es la tasa de cambio de su precio respecto a la tasa "
 "de interés libre de riesgo.)\n"
@@ -333,7 +329,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:629
+#: ../plugins/derivatives/options.c:628
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_CARRYCOST\n"
@@ -372,8 +368,7 @@ msgstr ""
 "(La elasticidad de una opción es la tasa de cambio de su precio respecto a "
 "su coste de ejecución.)\n"
 "\n"
-"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o "
-"«put»\n"
+"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o «put»\n"
 "@tiempo es el tiempo para el vencimiento de la opción expresado en años\n"
 "@tasa es la tasa de interés libre de riesgo a la fecha del ejercicio, en "
 "tanto por ciento.\n"
@@ -388,7 +383,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:701
+#: ../plugins/derivatives/options.c:700
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
@@ -420,8 +415,7 @@ msgstr ""
 "@DESCRIPTION=OPT_GARMAN_KOHLHAGEN valora el precio teórico de una opción "
 "sobre divisas europeas fijada a @strike en un activo con precio @spot.\n"
 "\n"
-"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o "
-"«put»\n"
+"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o «put»\n"
 "@tiempo es el tiempo para el vencimiento de la opción expresado en años\n"
 "@volatilidad es la volatilidad anualizada, en porcentaje, del activo o el "
 "período hasta la fecha del ejercicio. \n"
@@ -438,7 +432,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:772
+#: ../plugins/derivatives/options.c:771
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_FRENCH\n"
@@ -471,8 +465,7 @@ msgstr ""
 "ajustada a la volatilidad del día de la transacción, fijada a @strike en un "
 "activo con precio @spot.\n"
 "\n"
-"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o "
-"«put»\n"
+"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o «put»\n"
 "@volatilidad es la volatilidad anualizada, en porcentaje, del activo o el "
 "periodo hasta la fecha del ejercicio. \n"
 "@tiempo es el número de días de calendario para el ejercicio dividido entre "
@@ -490,7 +483,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:836
+#: ../plugins/derivatives/options.c:835
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_JUMP_DIFF\n"
@@ -518,8 +511,7 @@ msgstr ""
 "@DESCRIPTION=OPT_JUMP_DIFF modeliza el precio teórico de una opción de "
 "acuerdo con el proceso de Difusión de Saltos (Merton).\n"
 "\n"
-"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o "
-"«put»\n"
+"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o «put»\n"
 "@spot es el precio spot del activo\n"
 "@strike es el precio strike (fijado) de la opción\n"
 "@tiempo es el tiempo para el vencimiento de la opción expresado en años\n"
@@ -534,7 +526,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:935
+#: ../plugins/derivatives/options.c:934
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
@@ -570,8 +562,7 @@ msgstr ""
 "v_f,ro_se,ro_sf,ro_ef,kappa_e,kappa_f)\n"
 "@DESCRIPTION=OPT_MILTERSEN_SCHWARTZ modela el precio teórico de opciones en "
 "futuros en mercancías de acuerdo con Miltersen & Schwartz. \n"
-"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o "
-"«put»\n"
+"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o «put»\n"
 "@p_t en un bono de cupón cero con expiración al vencimiento de la opción\n"
 "@f_t es el precio del futuro.\n"
 "@x es el precio fijado (strike).\n"
@@ -595,7 +586,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:1048
+#: ../plugins/derivatives/options.c:1050
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_RGW\n"
@@ -621,8 +612,7 @@ msgstr ""
 "@DESCRIPTION=OPT_RGW modela el precio teórico de una opción americana de "
 "acuerdo con la aproximación Roll-Geske-Whaley donde:\n"
 "\n"
-"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o "
-"«put»\n"
+"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o «put»\n"
 "@spot es el precio spot del activo\n"
 "@strike es el precio strike (fijado) de la opción\n"
 "@t1 es el tiempo para el pago de dividendo\n"
@@ -636,7 +626,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:1105
+#: ../plugins/derivatives/options.c:1107
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_BAW_AMER\n"
@@ -678,7 +668,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:1291
+#: ../plugins/derivatives/options.c:1293
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_BJER_STENS\n"
@@ -706,8 +696,7 @@ msgstr ""
 "@DESCRIPTION=OPT_BJER_STENS modela el precio teórico de opciones americanas "
 "de acuerdo con la técnica de aproximación de Bjerksund & Stensland.\n"
 "\n"
-"@indicador_call_put es «c» o «p» para indicar si la opción es «call» o "
-"«put».\n"
+"@indicador_call_put es «c» o «p» para indicar si la opción es «call» o «put».\n"
 "@spot es el precio «spot» del activo subyacente.\n"
 "@strike es el precio al que se fija la opción.\n"
 "@tiempo es el número de días para el vencimiento de la opción.\n"
@@ -720,7 +709,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:1378
+#: ../plugins/derivatives/options.c:1380
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXEC\n"
@@ -750,8 +739,8 @@ msgstr ""
 "@DESCRIPTION=OPT_EXEC modela el precio teórico de opciones de stock para "
 "ejecutivos (executive stock options).\n"
 "\n"
-"@indicador_call_put es «c» o «p» para indicar si la opción es «call» o "
-"«put» . Uno podría esperar que esto sea siempre una opción call.\n"
+"@indicador_call_put es «c» o «p» para indicar si la opción es «call» o «put» . "
+"Uno podría esperar que esto sea siempre una opción call.\n"
 "@spot es el precio «spot» del activo subyacente.\n"
 "@strike es el precio al que se fija la opción.\n"
 "@tiempo es el número de días para el vencimiento de la opción.\n"
@@ -766,7 +755,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:1429
+#: ../plugins/derivatives/options.c:1431
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_FORWARD_START\n"
@@ -794,8 +783,7 @@ msgstr ""
 "@DESCRIPTION=OPT_FORWARD_START modela el precio teórico de opciones «forward "
 "start» \n"
 "\n"
-"@indicador_call_put es «c» o «p» para indicar si la opción es un «call» o "
-"«put»\n"
+"@indicador_call_put es «c» o «p» para indicar si la opción es un «call» o «put»\n"
 "@spot es el precio «spot» del activo subyacente\n"
 "@alfa es una fracción que establece el precio «strike» en la fecha futura "
 "@tiempo1\n"
@@ -810,7 +798,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:1495
+#: ../plugins/derivatives/options.c:1497
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_TIME_SWITCH\n"
@@ -846,8 +834,7 @@ msgstr ""
 "sea mayor que el precio fijado (para una call) o por debajo de él (para una "
 "put) \n"
 "\n"
-"@indicador_call_put es «c» o «p» para indicar si la opción es un «call» o "
-"«put»\n"
+"@indicador_call_put es «c» o «p» para indicar si la opción es un «call» o «put»\n"
 "@spot es el precio «spot» del activo subyacente\n"
 "@strike es el precio al que la opción se ha fijado\n"
 "@a es la cantidad recibida para cada periodo de tiempo como se explicó "
@@ -864,7 +851,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:1549
+#: ../plugins/derivatives/options.c:1551
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
@@ -892,8 +879,7 @@ msgstr ""
 "@DESCRIPTION=OPT_SIMPLE_CHOOSER modela el precio teórico de opciones de "
 "elección simple.\n"
 "\n"
-"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o "
-"«put».\n"
+"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o «put».\n"
 "@spot es el precio spot del activo.\n"
 "@strike es el precio strike (fijado) de la opción.\n"
 "@tiempo1 es el tiempo en años hasta que el titular elige una opción call o "
@@ -908,7 +894,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:1612
+#: ../plugins/derivatives/options.c:1614
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
@@ -942,8 +928,7 @@ msgstr ""
 "@DESCRIPTION=OPT_COMPLEX_CHOOSER modela el precio teórico de opciones de "
 "elección complejas.\n"
 "\n"
-"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o "
-"«put»\n"
+"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o «put»\n"
 "@spot es el precio spot del activo.\n"
 "@strike_call es el precio al que se ha fijado la opción.\n"
 "@strike_put es el precio al que se ha fijado la opción.\n"
@@ -962,7 +947,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:1729
+#: ../plugins/derivatives/options.c:1731
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_ON_OPTIONS\n"
@@ -1012,7 +997,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:1817
+#: ../plugins/derivatives/options.c:1819
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
@@ -1047,8 +1032,7 @@ msgstr ""
 "periodo inicial, @tiempo1, o su vencimiento extendido hasta @tiempo2 si la "
 "opción agotó el dinero en el @tiempo1 \n"
 "\n"
-"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o "
-"«put»\n"
+"@indicador_call_put es «c» o «p» dependiendo de si la opción es «call» o «put»\n"
 "@spot es el precio spot del activo\n"
 "@strike1 es el precio al que se ha fijado la opción\n"
 "@strike2 es el precio al que se ha fijado la opción\n"
@@ -1063,7 +1047,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:1881
+#: ../plugins/derivatives/options.c:1883
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_2_ASSET_CORRELATION\n"
@@ -1111,7 +1095,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:1938
+#: ../plugins/derivatives/options.c:1940
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_EURO_EXCHANGE\n"
@@ -1154,7 +1138,7 @@ msgstr ""
 "@SEEALSO=OPT_AMER_EXCHANGE, OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, "
 "OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:1985
+#: ../plugins/derivatives/options.c:1987
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_AMER_EXCHANGE\n"
@@ -1196,7 +1180,7 @@ msgstr ""
 "@SEEALSO=OPT_EURO_EXCHANGE, OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, "
 "OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:2030
+#: ../plugins/derivatives/options.c:2032
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_SPREAD_APPROX\n"
@@ -1224,8 +1208,7 @@ msgstr ""
 "@DESCRIPTION=OPT_SPREAD_APPROX modela el precio teórico de una opción "
 "europea en la difusión entre dos contratos futuros.\n"
 "\n"
-"@indicador_call_put es «c» o «p» para indicar si la opción es «call» o "
-"«put» \n"
+"@indicador_call_put es «c» o «p» para indicar si la opción es «call» o «put» \n"
 "@fut_price1 y 2fut_price2 son los frecios de los dos futuros.\n"
 "@strike es el precio al que se fija la opción\n"
 "@tiempo es el número de días para el vencimiento de la opción\n"
@@ -1238,7 +1221,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:2092
+#: ../plugins/derivatives/options.c:2094
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
@@ -1271,8 +1254,7 @@ msgstr ""
 "donde el propietario de la opción puede ejercitar al expirar al precio más "
 "favorable observado durante la vida de la opción del activo subyacente.\n"
 "\n"
-"@indicador_call_put es «c» o «p» para indicar si la opción es un «call» o "
-"«put»\n"
+"@indicador_call_put es «c» o «p» para indicar si la opción es un «call» o «put»\n"
 "@spot_min es el mínimo precio «spot» del activo subyacente observado a lo "
 "largo del tiempo.\n"
 "@spot_max es el máximo precio «spot» del activo subyacente observado a lo "
@@ -1288,7 +1270,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:2162
+#: ../plugins/derivatives/options.c:2164
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
@@ -1322,8 +1304,7 @@ msgstr ""
 "donde el propietario de la opción puede ejercitar al expirar al precio más "
 "favorable observado durante la vida de la opción del activo subyacente. \n"
 "\n"
-"@indicador_call_put es «c» o «p» para indicar si la opción es un «call» o "
-"«put»\n"
+"@indicador_call_put es «c» o «p» para indicar si la opción es un «call» o «put»\n"
 "@spot_min es el mínimo precio «spot» del activo subyacente observado a lo "
 "largo del tiempo.\n"
 "@spot_max es el máximo precio «spot» del activo subyacente observado a lo "
@@ -1339,7 +1320,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
-#: ../plugins/derivatives/options.c:2252
+#: ../plugins/derivatives/options.c:2254
 #, no-c-format
 msgid ""
 "@FUNCTION=OPT_BINOMIAL\n"
@@ -1371,10 +1352,9 @@ msgstr ""
 "@DESCRIPTION=OPT_BINOMIAL modela el precio teórico de opciones al estilo "
 "americano o europeo usando un árbol binomial.\n"
 "\n"
-"@indicador_amer_euro es o «a» o «e» para indicar si la opción se va a "
-"evaluar como una opción de estilo americano o europeo respectivamente\n"
-"@indicador_call_put es «c» o «p» para indicar si la opción es «call» o "
-"«put» \n"
+"@indicador_amer_euro es o «a» o «e» para indicar si la opción se va a evaluar "
+"como una opción de estilo americano o europeo respectivamente\n"
+"@indicador_call_put es «c» o «p» para indicar si la opción es «call» o «put» \n"
 "@spot es el precio «spot» del activo subyacente\n"
 "@strike es el precio al que se fija la opción\n"
 "@tiempo es el número de días para el vencimiento de la opción\n"
@@ -5094,11 +5074,12 @@ msgid ""
 "function.\n"
 "\n"
 "@x is where the function is evaluated. @y is the order of the Bessel "
-"function, if non-integer it is truncated.\n"
+"function.\n"
 "\n"
 "* If @x or @y are not numeric a #VALUE! error is returned.\n"
 "* If @y < 0 a #NUM! error is returned.\n"
-"* This function is Excel compatible.\n"
+"* This function extends the Excel function of the same name to non-integer "
+"orders.\n"
 "\n"
 "@EXAMPLES=\n"
 "BESSELI(0.7,3) equals 0.007367374.\n"
@@ -5110,29 +5091,29 @@ msgstr ""
 "@DESCRIPTION=La función BESSELI devuelve la función de Neumann, Weber o "
 "Bessel. \n"
 "\n"
-"@x es donde se evalúa la función. @y es el orden de la función Bessel, si no "
-"es entero, se trunca.\n"
+"@x es donde se evalúa la función. @y es el orden de la función Bessel.\n"
 "\n"
-"* Si @x ó @y no son numéricos se devuelve un error #VALOR!. \n"
+"* Si @x o @y no son numéricos se devuelve un error #VALOR!. \n"
 "* Si @y < 0, se devuelve un error #NÚM!.\n"
-"* Esta función es compatible con Excel.\n"
+"* Esta función extiende la función Excel del mismo nombre a órdenes sobre no enteros.\n"
 "\n"
 "@EXAMPLES=\n"
 "BESSELI(0.7,3) igual a 0,007367374.\n"
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: ../plugins/fn-eng/functions.c:693
+#: ../plugins/fn-eng/functions.c:701
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
 "@DESCRIPTION=BESSELK function returns the Neumann, Weber or Bessel function. "
 "@x is where the function is evaluated. @y is the order of the Bessel "
-"function, if non-integer it is truncated.\n"
+"function.\n"
 "\n"
 "* If @x or @y are not numeric a #VALUE! error is returned.\n"
 "* If @y < 0 a #NUM! error is returned.\n"
-"* This function is Excel compatible.\n"
+"* This function extends the Excel function of the same name to non-integer "
+"orders.\n"
 "\n"
 "@EXAMPLES=\n"
 "BESSELK(3,9) equals 397.95880.\n"
@@ -5144,19 +5125,18 @@ msgstr ""
 "@DESCRIPTION=La función BESSELK devuelve la función de Neumann, Weber o "
 "Bessel.\n"
 "\n"
-"@x es donde se evalúa la función. @y es el orden de la función Bessel, si no "
-"es un entero se trunca.\n"
+"@x es donde se evalúa la función. @y es el orden de la función Bessel.\n"
 "\n"
 "* Si x o n no son numéricos se devuelve un error #VALOR!.\n"
 "* Si y < 0 se devuelve un error #NÚM!.\n"
-"* Esta función es compatible con Excel.\n"
+"* Esta función extiende la función Excel del mismo nombre a órdenes sobre no enteros.\n"
 "\n"
 "@EXAMPLES=\n"
 "BESSELK(3,9) igual a 397,95880.\n"
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 
-#: ../plugins/fn-eng/functions.c:731
+#: ../plugins/fn-eng/functions.c:736
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -5188,7 +5168,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: ../plugins/fn-eng/functions.c:769
+#: ../plugins/fn-eng/functions.c:774
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -5222,7 +5202,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: ../plugins/fn-eng/functions.c:811
+#: ../plugins/fn-eng/functions.c:816
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -5444,7 +5424,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-eng/functions.c:1228
+#: ../plugins/fn-eng/functions.c:1233
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
@@ -5494,7 +5474,7 @@ msgstr ""
 "1.645 desviaciones estándar de la media.\n"
 "@SEEALSO=ERFC"
 
-#: ../plugins/fn-eng/functions.c:1279
+#: ../plugins/fn-eng/functions.c:1284
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -5529,7 +5509,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ERF"
 
-#: ../plugins/fn-eng/functions.c:1310
+#: ../plugins/fn-eng/functions.c:1315
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -5559,7 +5539,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT, GESTEP"
 
-#: ../plugins/fn-eng/functions.c:1342
+#: ../plugins/fn-eng/functions.c:1347
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -5586,7 +5566,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DELTA"
 
-#: ../plugins/fn-eng/functions.c:1373
+#: ../plugins/fn-eng/functions.c:1378
 msgid ""
 "@FUNCTION=INVSUMINV\n"
 "@SYNTAX=INVSUMINV(x1,x2,...)\n"
@@ -8472,7 +8452,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT"
 
-#: ../plugins/fn-info/functions.c:1264
+#: ../plugins/fn-info/functions.c:1276
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO(type)\n"
@@ -8521,7 +8501,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1372
+#: ../plugins/fn-info/functions.c:1384
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(value)\n"
@@ -8545,7 +8525,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ERROR"
 
-#: ../plugins/fn-info/functions.c:1397
+#: ../plugins/fn-info/functions.c:1409
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(value)\n"
@@ -8569,7 +8549,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NA"
 
-#: ../plugins/fn-info/functions.c:1426
+#: ../plugins/fn-info/functions.c:1438
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
@@ -8594,7 +8574,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1452
+#: ../plugins/fn-info/functions.c:1464
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR.TYPE(value)\n"
@@ -8634,7 +8614,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISERROR"
 
-#: ../plugins/fn-info/functions.c:1494
+#: ../plugins/fn-info/functions.c:1506
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -8658,7 +8638,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISNA"
 
-#: ../plugins/fn-info/functions.c:1519
+#: ../plugins/fn-info/functions.c:1531
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -8678,7 +8658,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISERRO"
 
-#: ../plugins/fn-info/functions.c:1543
+#: ../plugins/fn-info/functions.c:1555
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(value)\n"
@@ -8702,7 +8682,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1568
+#: ../plugins/fn-info/functions.c:1580
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(value)\n"
@@ -8726,7 +8706,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISODD"
 
-#: ../plugins/fn-info/functions.c:1597
+#: ../plugins/fn-info/functions.c:1609
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(value)\n"
@@ -8750,7 +8730,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1622
+#: ../plugins/fn-info/functions.c:1634
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(value)\n"
@@ -8774,7 +8754,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTEXT"
 
-#: ../plugins/fn-info/functions.c:1647
+#: ../plugins/fn-info/functions.c:1659
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -8798,7 +8778,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1672
+#: ../plugins/fn-info/functions.c:1684
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(value)\n"
@@ -8822,7 +8802,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISEVEN"
 
-#: ../plugins/fn-info/functions.c:1701
+#: ../plugins/fn-info/functions.c:1713
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(value)\n"
@@ -8846,7 +8826,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1730
+#: ../plugins/fn-info/functions.c:1742
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -8870,7 +8850,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISNONTEXT"
 
-#: ../plugins/fn-info/functions.c:1755
+#: ../plugins/fn-info/functions.c:1767
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -8896,7 +8876,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1795
+#: ../plugins/fn-info/functions.c:1807
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -8933,7 +8913,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-info/functions.c:1844
+#: ../plugins/fn-info/functions.c:1856
 msgid ""
 "@FUNCTION=GETENV\n"
 "@SYNTAX=GETENV(string)\n"
@@ -9214,7 +9194,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VERDADERO"
 
-#: ../plugins/fn-lookup/functions.c:481
+#: ../plugins/fn-lookup/functions.c:487
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -9273,7 +9253,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMNNUMBER"
 
-#: ../plugins/fn-lookup/functions.c:583
+#: ../plugins/fn-lookup/functions.c:589
 msgid ""
 "@FUNCTION=AREAS\n"
 "@SYNTAX=AREAS(reference)\n"
@@ -9293,7 +9273,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET"
 
-#: ../plugins/fn-lookup/functions.c:662
+#: ../plugins/fn-lookup/functions.c:668
 msgid ""
 "@FUNCTION=CHOOSE\n"
 "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
@@ -9320,7 +9300,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IF"
 
-#: ../plugins/fn-lookup/functions.c:716
+#: ../plugins/fn-lookup/functions.c:722
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
@@ -9357,7 +9337,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HLOOKUP"
 
-#: ../plugins/fn-lookup/functions.c:777
+#: ../plugins/fn-lookup/functions.c:783
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])\n"
@@ -9394,7 +9374,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VLOOKUP"
 
-#: ../plugins/fn-lookup/functions.c:839
+#: ../plugins/fn-lookup/functions.c:845
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1[,vector2])\n"
@@ -9427,7 +9407,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VLOOKUP,HLOOKUP"
 
-#: ../plugins/fn-lookup/functions.c:905
+#: ../plugins/fn-lookup/functions.c:911
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -9471,7 +9451,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOOKUP"
 
-#: ../plugins/fn-lookup/functions.c:963
+#: ../plugins/fn-lookup/functions.c:969
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text[,format])\n"
@@ -9502,7 +9482,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AREAS,INDEX,CELL"
 
-#: ../plugins/fn-lookup/functions.c:1012
+#: ../plugins/fn-lookup/functions.c:1018
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(array[,row, col, area])\n"
@@ -9534,15 +9514,15 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-lookup/functions.c:1098
+#: ../plugins/fn-lookup/functions.c:1106
 msgid "COLUMN:vector of column numbers."
 msgstr "COLUMN: vector de números columna."
 
-#: ../plugins/fn-lookup/functions.c:1099 ../plugins/fn-lookup/functions.c:1278
+#: ../plugins/fn-lookup/functions.c:1107 ../plugins/fn-lookup/functions.c:1286
 msgid "[reference]."
 msgstr "[referencia]."
 
-#: ../plugins/fn-lookup/functions.c:1101
+#: ../plugins/fn-lookup/functions.c:1109
 msgid ""
 "COLUMN function returns a Nx1 array containing the series of integers from "
 "the first column to the last column of @reference.\n"
@@ -9559,19 +9539,19 @@ msgstr ""
 "* Si @reference no es un vector ni una referencia ni un rango, devuelve el "
 "error #VALUE!\n"
 
-#: ../plugins/fn-lookup/functions.c:1108
+#: ../plugins/fn-lookup/functions.c:1116
 msgid "COLUMN(A1:C4) equals {1,2,3}"
 msgstr "COLUMN(A1:C4) equivale a {1,2,3}"
 
-#: ../plugins/fn-lookup/functions.c:1109
+#: ../plugins/fn-lookup/functions.c:1117
 msgid "COLUMN(A:C) equals {1,2,3}"
 msgstr "COLUMN(A:C) equivale a {1,2,3}"
 
-#: ../plugins/fn-lookup/functions.c:1110
+#: ../plugins/fn-lookup/functions.c:1118
 msgid "COLUMN() in G13 equals 7."
 msgstr "COLUMN() en G13 equivale a 7."
 
-#: ../plugins/fn-lookup/functions.c:1151
+#: ../plugins/fn-lookup/functions.c:1159
 msgid ""
 "@FUNCTION=COLUMNNUMBER\n"
 "@SYNTAX=COLUMNNUMBER(name)\n"
@@ -9597,7 +9577,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ADDRESS"
 
-#: ../plugins/fn-lookup/functions.c:1186
+#: ../plugins/fn-lookup/functions.c:1194
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -9625,7 +9605,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: ../plugins/fn-lookup/functions.c:1214
+#: ../plugins/fn-lookup/functions.c:1222
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
@@ -9654,11 +9634,11 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS,INDEX,INDIRECT,ADDRESS"
 
-#: ../plugins/fn-lookup/functions.c:1277
+#: ../plugins/fn-lookup/functions.c:1285
 msgid "ROW:vector of row numbers."
 msgstr "ROW: vector de números fila."
 
-#: ../plugins/fn-lookup/functions.c:1280
+#: ../plugins/fn-lookup/functions.c:1288
 msgid ""
 "ROW function returns a 1xN array containing the series of integers from the "
 "first row to the last row of @reference.\n"
@@ -9675,19 +9655,19 @@ msgstr ""
 "* Si @reference no es un vector ni una referencia ni un rango, devuelve el "
 "error #VALUE!\n"
 
-#: ../plugins/fn-lookup/functions.c:1287
+#: ../plugins/fn-lookup/functions.c:1295
 msgid "ROW(A1:D3) equals {1;2;3}"
 msgstr "ROW(A1:D3) equivale a {1;2;3}"
 
-#: ../plugins/fn-lookup/functions.c:1288
+#: ../plugins/fn-lookup/functions.c:1296
 msgid "ROW(1:3) equals {1;2;3}"
 msgstr "ROW(1:3) equivale a {1;2;3}"
 
-#: ../plugins/fn-lookup/functions.c:1289
+#: ../plugins/fn-lookup/functions.c:1297
 msgid "ROW() in G13 equals 13."
 msgstr "ROW() en G13 equivale a 13."
 
-#: ../plugins/fn-lookup/functions.c:1330
+#: ../plugins/fn-lookup/functions.c:1338
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -9715,7 +9695,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROW"
 
-#: ../plugins/fn-lookup/functions.c:1358
+#: ../plugins/fn-lookup/functions.c:1366
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location[,optional_label])\n"
@@ -9737,7 +9717,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-lookup/functions.c:1386
+#: ../plugins/fn-lookup/functions.c:1394
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -15669,10 +15649,11 @@ msgstr ""
 #: ../plugins/fn-stat/functions.c:3015
 msgid ""
 "@FUNCTION=ZTEST\n"
-"@SYNTAX=ZTEST(ref,x)\n"
+"@SYNTAX=ZTEST(ref,x[,stddev])\n"
 "@DESCRIPTION=ZTEST returns the two-tailed probability of a z-test.\n"
 "\n"
 "@ref is the data set and @x is the value to be tested.\n"
+"@stddev is optionally an assumed standard deviation.\n"
 "\n"
 "* If @ref contains less than two data items ZTEST returns #DIV/0! error.\n"
 "* This function is Excel compatible.\n"
@@ -15685,13 +15666,13 @@ msgid ""
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 msgstr ""
 "@FUNCTION=ZTEST\n"
-"@SYNTAX=ZTEST(ref,x)\n"
+"@SYNTAX=ZTEST(ref,x[,stddev])\n"
 "@DESCRIPTION=ZTEST devuelve la probabilidad de dos colas de una prueba Z.\n"
 "\n"
 "@ref es el conjunto de datos y @x es el valor a ser probado.\n"
+"@stddev es opcional y representa una desviación estándar.\n"
 "\n"
-"* Si @ref contiene menos de dos elementos de datos, ZTEST devuelve el error "
-"#DIV/0!.\n"
+"* Si @ref contiene menos de dos elementos de datos, ZTEST devuelve el error #DIV/0!.\n"
 "* Esta función es compatible con Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -15701,7 +15682,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 
-#: ../plugins/fn-stat/functions.c:3071
+#: ../plugins/fn-stat/functions.c:3086
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -15738,7 +15719,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: ../plugins/fn-stat/functions.c:3109
+#: ../plugins/fn-stat/functions.c:3124
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -15774,7 +15755,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: ../plugins/fn-stat/functions.c:3147
+#: ../plugins/fn-stat/functions.c:3162
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -15810,7 +15791,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MIN,MAXA"
 
-#: ../plugins/fn-stat/functions.c:3185
+#: ../plugins/fn-stat/functions.c:3200
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -15853,7 +15834,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VAR,VARPA"
 
-#: ../plugins/fn-stat/functions.c:3229
+#: ../plugins/fn-stat/functions.c:3244
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -15891,7 +15872,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VARP,VARP"
 
-#: ../plugins/fn-stat/functions.c:3268
+#: ../plugins/fn-stat/functions.c:3283
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -15936,7 +15917,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: ../plugins/fn-stat/functions.c:3313
+#: ../plugins/fn-stat/functions.c:3328
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -15975,7 +15956,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEVA,STDEVP"
 
-#: ../plugins/fn-stat/functions.c:3353
+#: ../plugins/fn-stat/functions.c:3368
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -16016,7 +15997,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 
-#: ../plugins/fn-stat/functions.c:3466
+#: ../plugins/fn-stat/functions.c:3481
 msgid ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
@@ -16052,7 +16033,7 @@ msgstr ""
 "\n"
 "@SEEALSO=QUARTILE"
 
-#: ../plugins/fn-stat/functions.c:3518
+#: ../plugins/fn-stat/functions.c:3533
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -16102,7 +16083,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 
-#: ../plugins/fn-stat/functions.c:3577
+#: ../plugins/fn-stat/functions.c:3592
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -16134,7 +16115,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: ../plugins/fn-stat/functions.c:3642
+#: ../plugins/fn-stat/functions.c:3657
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -16196,7 +16177,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: ../plugins/fn-stat/functions.c:3826
+#: ../plugins/fn-stat/functions.c:3841
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -16231,7 +16212,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-stat/functions.c:3906
+#: ../plugins/fn-stat/functions.c:3921
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -16294,7 +16275,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: ../plugins/fn-stat/functions.c:4169
+#: ../plugins/fn-stat/functions.c:4184
 msgid ""
 "@FUNCTION=LOGREG\n"
 "@SYNTAX=LOGREG(known_y's[,known_x's[,const[,stat]]])\n"
@@ -16360,7 +16341,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGFIT,LINEST,LOGEST"
 
-#: ../plugins/fn-stat/functions.c:4439
+#: ../plugins/fn-stat/functions.c:4454
 msgid ""
 "@FUNCTION=LOGFIT\n"
 "@SYNTAX=LOGFIT(known_y's,known_x's)\n"
@@ -16426,7 +16407,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 
-#: ../plugins/fn-stat/functions.c:4542
+#: ../plugins/fn-stat/functions.c:4557
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's[,new_x's[,const]]])\n"
@@ -16472,7 +16453,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
-#: ../plugins/fn-stat/functions.c:4660
+#: ../plugins/fn-stat/functions.c:4680
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -16531,7 +16512,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GROWTH,TREND"
 
-#: ../plugins/fn-stat/functions.c:4905
+#: ../plugins/fn-stat/functions.c:4925
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -16571,7 +16552,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: ../plugins/fn-stat/functions.c:5020
+#: ../plugins/fn-stat/functions.c:5040
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -16612,7 +16593,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: ../plugins/fn-stat/functions.c:5094
+#: ../plugins/fn-stat/functions.c:5114
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -16651,7 +16632,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
-#: ../plugins/fn-stat/functions.c:5148
+#: ../plugins/fn-stat/functions.c:5168
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -16681,7 +16662,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: ../plugins/fn-stat/functions.c:5196
+#: ../plugins/fn-stat/functions.c:5216
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
@@ -16749,7 +16730,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: ../plugins/fn-stat/functions.c:5302
+#: ../plugins/fn-stat/functions.c:5322
 msgid ""
 "@FUNCTION=CRONBACH\n"
 "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
@@ -16767,7 +16748,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-stat/functions.c:5424
+#: ../plugins/fn-stat/functions.c:5444
 msgid ""
 "@FUNCTION=GEOMDIST\n"
 "@SYNTAX=GEOMDIST(k,p,cum)\n"
@@ -16797,7 +16778,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDGEOM"
 
-#: ../plugins/fn-stat/functions.c:5463
+#: ../plugins/fn-stat/functions.c:5483
 msgid ""
 "@FUNCTION=LOGISTIC\n"
 "@SYNTAX=LOGISTIC(x,a)\n"
@@ -16820,7 +16801,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLOGISTIC"
 
-#: ../plugins/fn-stat/functions.c:5502
+#: ../plugins/fn-stat/functions.c:5522
 msgid ""
 "@FUNCTION=PARETO\n"
 "@SYNTAX=PARETO(x,a,b)\n"
@@ -16842,7 +16823,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDPARETO"
 
-#: ../plugins/fn-stat/functions.c:5543
+#: ../plugins/fn-stat/functions.c:5563
 msgid ""
 "@FUNCTION=RAYLEIGH\n"
 "@SYNTAX=RAYLEIGH(x,sigma)\n"
@@ -16864,7 +16845,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGH"
 
-#: ../plugins/fn-stat/functions.c:5586
+#: ../plugins/fn-stat/functions.c:5606
 msgid ""
 "@FUNCTION=RAYLEIGHTAIL\n"
 "@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
@@ -16887,7 +16868,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGHTAIL"
 
-#: ../plugins/fn-stat/functions.c:5632
+#: ../plugins/fn-stat/functions.c:5652
 msgid ""
 "@FUNCTION=EXPPOWDIST\n"
 "@SYNTAX=EXPPOWDIST(x,a,b)\n"
@@ -16913,7 +16894,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDEXPPOW"
 
-#: ../plugins/fn-stat/functions.c:5671
+#: ../plugins/fn-stat/functions.c:5691
 msgid ""
 "@FUNCTION=LAPLACE\n"
 "@SYNTAX=LAPLACE(x,a)\n"
