@@ -36,6 +36,7 @@
 #include "commands.h"
 #include "application.h"
 #include "xml-io.h"
+#include "sheet.h"
 #include <graph.h>
 
 #include <goffice/graph/gog-graph.h>
@@ -152,6 +153,7 @@ sog_datas_set_sheet (SheetObjectGraph *sog, Sheet *sheet)
 	GSList *ptr = gog_graph_get_data (sog->graph);
 	for (; ptr != NULL ; ptr = ptr->next)
 		sog_data_set_sheet (sog, ptr->data, sheet);
+	g_object_set (sog->graph, "document", ((sheet)? sheet->workbook: NULL), NULL);
 }
 
 static void

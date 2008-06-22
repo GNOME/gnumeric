@@ -412,6 +412,7 @@ wb_control_set_view (WorkbookControl *wbc,
 
 	wbv = (opt_view != NULL) ? opt_view : workbook_view_new (opt_wb);
 	wb_view_attach_control (wbv, wbc);
+	go_doc_control_set_doc (GO_DOC_CONTROL (wbc), GO_DOC (wb_view_get_workbook (wbv)));
 }
 
 void

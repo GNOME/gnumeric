@@ -1,3 +1,10 @@
+2008-06-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-graph.c: (sog_datas_set_sheet): set the workbook
+	as the graph document to support the new image framework.
+	* src/workbook-control.c: (wb_control_set_view): set the document for
+	the underlying GOControlDoc.
+
 2008-06-19  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbcg_error_error_info): Quote markup.  Fixes
