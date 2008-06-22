@@ -657,17 +657,12 @@ static SheetObject *
 ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 {
 	SheetObject *so = NULL;
-	Workbook *wb;
-	ExcelReadSheet *esheet;
 	gpointer label;
 
 	if (obj == NULL)
 		return NULL;
 
 	g_return_val_if_fail (container != NULL, NULL);
-
-	esheet = (ExcelReadSheet *)container;
-	wb = esheet->container.importer->wb;
 
 	switch (obj->excel_type) {
 	case 0x01: /* Line */
@@ -712,13 +707,16 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		break;
 
 	/* ignore combos associateed with filters */
-	case 0x14:
+	case 0x14: {
+		ExcelReadSheet *esheet = (ExcelReadSheet *)container;
+
 		if (!obj->combo_in_autofilter)
 			so = g_object_new (sheet_widget_combo_get_type (), NULL);
 
 		/* ok, there are combos to go with the autofilter it can stay */
 		else if (esheet != NULL)
 			esheet->filter = NULL;
+	}
 	break;
 
 	case 0x19: so = g_object_new (cell_comment_get_type (), NULL);

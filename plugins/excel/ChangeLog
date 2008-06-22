@@ -1,3 +1,8 @@
+2008-06-22  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (chart_realize_obj) : throw in a warning (not used yet).
+	(chart_create_obj) : call out to the container.
+
 2008-06-19  Morten Welinder  <terra@gnome.org>
 
 	* ms-chart.c (end): Fix corrupted-file crash.  [#539178]

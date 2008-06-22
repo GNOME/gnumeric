@@ -3124,13 +3124,15 @@ BC(register_handler)(XLChartHandler const *const handle)
 static gboolean
 chart_realize_obj (MSContainer *container, MSObj *obj)
 {
+	g_warning ("Dropping nested object");
 	return FALSE;
 }
 
 static SheetObject *
 chart_create_obj  (MSContainer *container, MSObj *obj)
 {
-	return NULL;
+	return (NULL != container && NULL != container->parent)
+		? (container->parent->vtbl->create_obj) (container->parent, obj) : NULL;
 }
 
 static GnmExprTop const *
