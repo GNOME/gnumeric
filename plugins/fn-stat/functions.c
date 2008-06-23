@@ -3392,86 +3392,81 @@ static GnmFuncHelp const help_percentrank[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-typedef struct {
-        gnm_float x;
-        gnm_float smaller_x;
-        gnm_float greater_x;
-        int     smaller;
-        int     greater;
-        int     equal;
-} stat_percentrank_t;
-
-static GnmValue *
-callback_function_percentrank (GnmEvalPos const *ep, GnmValue *value,
-			       void *user_data)
-{
-        stat_percentrank_t *p = user_data;
-	gnm_float y;
-
-	if (!VALUE_IS_NUMBER (value))
-		return VALUE_TERMINATE;
-
-	y = value_get_as_float (value);
-
-	if (y < p->x) {
-		p->smaller++;
-		if (p->smaller_x == p->x || p->smaller_x < y)
-			p->smaller_x = y;
-	} else if (y > p->x) {
-		p->greater++;
-		if (p->greater_x == p->x || p->greater_x > y)
-			p->greater_x = y;
-	} else
-		p->equal++;
-
-	return NULL;
-}
-
 static GnmValue *
 gnumeric_percentrank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        stat_percentrank_t p;
-        gnm_float         x, k, pr;
-        int                significance;
-	GnmValue		   *ret;
+	gnm_float *data, x, significance, r;
+	GnmValue *result = NULL;
+	int i, n;
+	int n_equal, n_smaller, n_larger;
+	gnm_float x_larger, x_smaller;
 
+	data = collect_floats_value (argv[0], ei->pos,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     &n, &result);
 	x = value_get_as_float (argv[1]);
+	significance = argv[2] ? value_get_as_float (argv[2]) : 3;
 
-	p.smaller = 0;
-	p.greater = 0;
-	p.equal = 0;
-	p.smaller_x = x;
-	p.greater_x = x;
-	p.x = x;
+	if (result)
+		goto done;
 
-        if (argv[2] == NULL)
-		significance = 3;
-	else {
-		significance = value_get_as_int (argv[2]);
-		if (significance < 1)
-			return value_new_error_NUM (ei->pos);
+	n_equal = n_smaller = n_larger = 0;
+	x_larger = x_smaller = 42;
+	for (i = 0; i < n; i++) {
+		gnm_float y = data[i];
+
+		if (y < x) {
+			if (n_smaller == 0 || x_smaller < y)
+				x_smaller = y;
+			n_smaller++;
+		} else if (y > x) {
+			if (n_larger == 0 || x_larger > y)
+				x_larger = y;
+			n_larger++;
+		} else
+			n_equal++;
 	}
 
-	ret = function_iterate_do_value (ei->pos, (FunctionIterateCB)
-					 callback_function_percentrank,
-					 &p, argv[0],
-					 TRUE, CELL_ITER_IGNORE_BLANK);
+	if (n_smaller + n_equal == 0 || n_larger + n_equal == 0) {
+		result = value_new_error_NA (ei->pos);
+		goto done;
+	}
 
-	if (ret != NULL || (p.smaller + p.equal == 0) ||
-		(p.greater + p.equal == 0))
-		return value_new_error_NUM (ei->pos);
+	if (n == 1)
+		r = 1;
+	else {
+		gnm_float s10;
 
-	if (p.equal == 1)
-		pr = (gnm_float)p.smaller / (p.smaller + p.greater);
-	else if (p.equal == 0) {
-		gnm_float a = (x - p.smaller_x) / (p.greater_x - p.smaller_x);
-		pr = (gnm_float)(p.smaller + a - 1) / (p.greater + p.smaller - 1.0);
-	} else
-		pr = (p.smaller + 0.5 * p.equal) /
-		  (p.smaller + p.equal + p.greater);
+		if (n_equal > 0)
+			r = n_smaller / (gnm_float)(n - 1);
+		else {
+			gnm_float r1 = (n_smaller - 1) / (gnm_float)(n - 1);
+			gnm_float r2 = n_smaller / (gnm_float)(n - 1);
+			r = (r1 * (x_larger - x) +
+			     r2 * (x - x_smaller)) / (x_larger - x_smaller);
+		}
 
-	k = gnm_pow10 (significance);
-	return value_new_float (gnm_fake_trunc (pr * k) / k);
+		/* A strange place to check, but n==1 is special.  */
+		if (significance < 0) {
+			result = value_new_error_NUM (ei->pos);
+			goto done;
+		}
+
+		s10 = gnm_pow10 (-significance);
+		if (s10 <= 0) {
+			result = value_new_error_DIV0 (ei->pos);
+			goto done;
+		}
+
+		r = gnm_fake_trunc (r / s10) * s10;
+	}
+	result = value_new_float (r);
+
+ done:
+	g_free (data);
+	return result;
 }
 
 /***************************************************************************/

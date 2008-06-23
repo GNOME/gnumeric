@@ -46,6 +46,7 @@ Morten:
 	* Fix markup/text confusion.  [#386412]
 	* Fix BESSELI issue.  [#323784]
 	* Fix SLOPE/INTERCEPT critical.  [#539648]
+	* Fix PERCENTRANK.  [#539672]
 
 Seán de Búrca:
 	* Move to tango based icons. [#450444]
