@@ -1,3 +1,14 @@
+gnumeric (1.8.3-2) unstable; urgency=low
+
+  * [debian/control] Reintroduced intltool build dependency.
+  * Updates from SVN gnumeric-1-8 branch:
+    * [src/stf-export.c, ChangeLog, NEWS] (try_auto_date): Don't generate an
+      invalid time format.  Fixes GNOME bugzilla #534514.  Fix detection of
+      fractional seconds.
+    * [po/pl.po, po/ChangeLog]: pl.po: Updated polish translation
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 23 Jun 2008 19:47:36 +0200
+
 gnumeric (1.8.3-1) unstable; urgency=low
 
   * New upstream release.
@@ -868,7 +879,7 @@ gnumeric (1.2.5-1) unstable; urgency=medium
     dh_gconf for schema (de)registration.
   * [debian/control] Bumped debhelper build dependency so we have a working
     dh_gconf; use ${misc:Depends}. Replaced intltool build dependency by
-    libxml-parser-perl  one.
+    libxml-parser-perl one.
 
  -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 19 Jan 2004 08:24:53 +0100
 
