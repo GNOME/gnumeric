@@ -4966,11 +4966,16 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					   COLLECT_IGNORE_STRINGS |
 					   COLLECT_IGNORE_BOOLS,
 					   &nx, &result);
+		if (result)
+			goto out;
 
 		nxs = collect_floats_value (argv[2], ei->pos,
 					    COLLECT_IGNORE_STRINGS |
 					    COLLECT_IGNORE_BOOLS,
 					    &nnx, &result);
+		if (result)
+			goto out;
+
 		if (argv[3] != NULL) {
 			affine = value_get_as_bool (argv[3], &err);
 			if (err) {
@@ -4985,10 +4990,15 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 						   COLLECT_IGNORE_STRINGS |
 						   COLLECT_IGNORE_BOOLS,
 						   &nx, &result);
+			if (result)
+				goto out;
+
 			nxs = collect_floats_value (argv[1], ei->pos,
 						    COLLECT_IGNORE_STRINGS |
 						    COLLECT_IGNORE_BOOLS,
 						    &nnx, &result);
+			if (result)
+				goto out;
 		} else {
 			xs = g_new (gnm_float, ny);
 			for (nx = 0; nx < ny; nx++)
@@ -4998,9 +5008,6 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				nxs[nnx] = nnx + 1;
 		}
 	}
-
-	if (result)
-		goto out;
 
 	if (nx != ny) {
 		result = value_new_error_NUM (ei->pos);

@@ -2,6 +2,7 @@
 
 	* functions.c (gnumeric_percentrank): Handle errors correctly.
 	Don't leak.  Compute the right thing.  Fixes #539672.
+	(gnumeric_growth): Plug leaks.  Fixes #539827.
 
 2008-06-22  Morten Welinder  <terra@gnome.org>
 

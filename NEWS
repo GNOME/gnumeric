@@ -48,6 +48,7 @@ Morten:
 	* Fix SLOPE/INTERCEPT critical.  [#539648]
 	* Fix PERCENTRANK.  [#539672]
 	* Fix UMR in WORKDAY.  [#539808]
+	* Plug leaks in GROWTH.  [#539827]
 
 Seán de Búrca:
 	* Move to tango based icons. [#450444]
