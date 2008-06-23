@@ -20,6 +20,7 @@ Jody:
 	* Support Some XLM functions commonly used in charting.
 	* Fix xls import of charts in charts.
 	* Fix display confusion when reordering away from RTL sheet. [#499910]
+	* Be more careful with corrupt xls records. [#539666]
 
 Morten:
 	* Fix Excel export problem for strings that need quoting.  [#530704]

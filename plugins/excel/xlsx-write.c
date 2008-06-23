@@ -976,9 +976,9 @@ xlsx_write_series_dim (XLSXWriteState *state, GsfXMLOut *xml, GogSeries const *s
 static void
 xlsx_write_chart (XLSXWriteState *state, GsfOutput *chart_part, SheetObject *so)
 {
-	GogGraph const	*graph = sheet_object_graph_get_gog (so);
-	GogObject const	*chart = gog_object_get_child_by_name (GOG_OBJECT (graph), "Chart");
-	GogObject const *plot = gog_object_get_child_by_name (GOG_OBJECT (chart), "Plot");
+	GogGraph const	*graph;
+	GogObject const	*chart;
+	GogObject const *plot;
 	char const *plot_type;
 	GogObject const *obj;
 	GsfXMLOut *xml;

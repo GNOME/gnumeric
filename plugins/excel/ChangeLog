@@ -1,5 +1,10 @@
 2008-06-22  Jody Goldberg <jody@gnome.org>
 
+	* ms-biff.c (ms_biff_query_next) : don't return anything if the record
+	  looks suspicious. [#539666]
+
+2008-06-22  Jody Goldberg <jody@gnome.org>
+
 	* ms-chart.c (chart_realize_obj) : throw in a warning (not used yet).
 	(chart_create_obj) : call out to the container.
 

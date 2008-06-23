@@ -406,6 +406,7 @@ gboolean
 ms_biff_query_next (BiffQuery *q)
 {
 	guint8 const *data;
+	guint16 len;
 
 	g_return_val_if_fail (q != NULL, FALSE);
 
@@ -428,17 +429,20 @@ ms_biff_query_next (BiffQuery *q)
 	if (data == NULL)
 		return FALSE;
 	q->opcode = GSF_LE_GET_GUINT16 (data);
-	q->length = GSF_LE_GET_GUINT16 (data + 2);
+	len = GSF_LE_GET_GUINT16 (data + 2);
+
+	q->data   = NULL;
+	q->length = 0;
 
 	/* no biff record should be larger than around 20,000 */
-	XL_CHECK_CONDITION_VAL (q->length < 20000, FALSE);
+	XL_CHECK_CONDITION_VAL (len < 20000, FALSE);
 
+	q->length = len;
 	if (q->length > 0) {
 		q->data = (guint8 *)gsf_input_read (q->input, q->length, NULL);
 		if (q->data == NULL)
 			return FALSE;
-	} else
-		q->data = NULL;
+	}
 
 	if (q->encryption == MS_BIFF_CRYPTO_RC4) {
 		q->non_decrypted_data_malloced = q->data_malloced;
