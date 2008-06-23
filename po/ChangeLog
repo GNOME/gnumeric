@@ -1,3 +1,7 @@
+2008-06-23  Wadim Dziedzic  <wadimd@svn.gnome.org>
+
+	* pl.po: Fixed bug #528083 in Polish translation
+
 2008-06-21  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation
