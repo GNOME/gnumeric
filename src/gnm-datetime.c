@@ -64,8 +64,10 @@ gboolean
 datetime_value_to_g (GDate *res, GnmValue const *v, GODateConventions const *conv)
 {
 	int serial = datetime_value_to_serial (v, conv);
-	if (serial == 0)
+	if (serial == 0) {
+		g_date_clear (res, 1);
 		return FALSE;
+	}
 	datetime_serial_to_g (res, serial, conv);
 	return g_date_valid (res);
 }

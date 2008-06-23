@@ -47,6 +47,7 @@ Morten:
 	* Fix BESSELI issue.  [#323784]
 	* Fix SLOPE/INTERCEPT critical.  [#539648]
 	* Fix PERCENTRANK.  [#539672]
+	* Fix UMR in WORKDAY.  [#539808]
 
 Seán de Búrca:
 	* Move to tango based icons. [#450444]
