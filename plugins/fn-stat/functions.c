@@ -5141,8 +5141,9 @@ range_intercept (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res
 	gnm_float linres[2];
 	int dim = 1;
 
-	if (gnm_linear_regression ((gnm_float **)&xs, dim,
-			       ys, n, 1, linres, NULL) != REG_ok)
+	if (n <= 0 ||
+	    gnm_linear_regression ((gnm_float **)&xs, dim,
+				   ys, n, 1, linres, NULL) != REG_ok)
 		return 1;
 
 	*res = linres[0];
@@ -5189,8 +5190,9 @@ range_slope (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res)
 	gnm_float linres[2];
 	int dim = 1;
 
-	if (gnm_linear_regression ((gnm_float **)&xs, dim,
-			       ys, n, 1, linres, NULL) != REG_ok)
+	if (n <= 0 ||
+	    gnm_linear_regression ((gnm_float **)&xs, dim,
+				   ys, n, 1, linres, NULL) != REG_ok)
 		return 1;
 
 	*res = linres[1];

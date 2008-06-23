@@ -43,6 +43,7 @@ Morten:
 	* Fix corrupted-xls-file problem.  [#539178]
 	* Fix markup/text confusion.  [#386412]
 	* Fix BESSELI issue.  [#323784]
+	* Fix SLOPE/INTERCEPT critical.  [#539648]
 
 Seán de Búrca:
 	* Move to tango based icons. [#450444]
