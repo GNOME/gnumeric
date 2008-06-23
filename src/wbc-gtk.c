@@ -673,15 +673,17 @@ cb_direction_change (G_GNUC_UNUSED Sheet *null_sheet,
 		     G_GNUC_UNUSED GParamSpec *null_pspec,
 		     SheetControlGUI const *scg)
 {
-	GtkWidget *w = (GtkWidget *)scg->wbcg->notebook;
-	gboolean text_is_rtl = scg->sheet_control.sheet->text_is_rtl;
-	GtkTextDirection dir = text_is_rtl
-		? GTK_TEXT_DIR_RTL
-		: GTK_TEXT_DIR_LTR;
+	if (scg == wbcg_cur_scg (scg->wbcg)) {
+		GtkWidget *w = (GtkWidget *)scg->wbcg->notebook;
+		gboolean text_is_rtl = scg->sheet_control.sheet->text_is_rtl;
+		GtkTextDirection dir = text_is_rtl
+			? GTK_TEXT_DIR_RTL
+			: GTK_TEXT_DIR_LTR;
 
-	if (dir != gtk_widget_get_direction (w))
-		set_dir (w, &dir);
-	g_object_set (scg->hs, "inverted", text_is_rtl, NULL);
+		if (dir != gtk_widget_get_direction (w))
+			set_dir (w, &dir);
+		g_object_set (scg->hs, "inverted", text_is_rtl, NULL);
+	}
 }
 
 static void

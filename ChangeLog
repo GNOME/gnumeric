@@ -1,5 +1,10 @@
 2008-06-22  Jody Goldberg <jody@gnome.org>
 
+	* src/wbc-gtk.c (cb_direction_change) : Only change the direction for
+	  the current scg. [#499910]
+
+2008-06-22  Jody Goldberg <jody@gnome.org>
+
 	* src/gnm-pane.c (gnm_pane_expr_cursor_bound_set) : use blue instead
 	  of red for default range selector cursor.
 	* src/item-cursor.c (item_cursor_expr_range_event) : new.

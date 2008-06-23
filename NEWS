@@ -19,6 +19,7 @@ Jody:
 	* Add alignment to row/col headers for small scales. [#154687]
 	* Support Some XLM functions commonly used in charting.
 	* Fix xls import of charts in charts.
+	* Fix display confusion when reordering away from RTL sheet. [#499910]
 
 Morten:
 	* Fix Excel export problem for strings that need quoting.  [#530704]
