@@ -926,6 +926,9 @@ gnumeric_days360 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	datetime_serial_to_g (&date1, serial1, date_conv);
 	datetime_serial_to_g (&date2, serial2, date_conv);
+	if (!g_date_valid (&date1) || !g_date_valid (&date2))
+		return value_new_error_VALUE (ei->pos);
+
 	return value_new_int (days_between_basis (&date1, &date2, basis));
 }
 
@@ -1261,14 +1264,14 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/* Move to mondays, and check for problems */
 	start_serial = get_serial_weekday (start_serial, &start_offset, conv);
 	end_serial = get_serial_weekday (end_serial, &end_offset, conv);
-	if (start_serial < 0 || end_serial < 0)
+	if (!g_date_valid (&start_date) || start_serial < 0 || end_serial < 0)
                   return value_new_error_NUM (ei->pos);
 
 	res = end_serial - start_serial;
 	res -= ((res/7)*2);	/* Remove weekends */
 
 	if (argv[2] != NULL) {
-		GnmValue const *e =
+		GnmValue *e =
 			value_area_foreach (argv[2], ei->pos,
 					    CELL_ITER_IGNORE_BLANK,
 					    (GnmValueIterFunc)&cb_networkdays_holiday,

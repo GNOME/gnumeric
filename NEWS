@@ -53,6 +53,7 @@ Morten:
 	* Add missing "return" in CODE.
 	* Fix EDATE issue.  [#539868]
 	* Fix RANK crash.  [#540015]
+	* Fix DAYS360 and NETWORKDAYS for invalid dates.  [#540055]
 
 Seán de Búrca:
 	* Move to tango based icons. [#450444]
