@@ -51,6 +51,7 @@ Morten:
 	* Plug leaks in GROWTH.  [#539827]
 	* Plug leak in NETWORKDAYS.
 	* Add missing "return" in CODE.
+	* Fix EDATE issue.  [#539868]
 
 Seán de Búrca:
 	* Move to tango based icons. [#450444]

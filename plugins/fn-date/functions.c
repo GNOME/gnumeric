@@ -455,6 +455,7 @@ gnumeric_edate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float serial = value_get_as_float (argv[0]);
 	gnm_float months = value_get_as_float (argv[1]);
 	GDate date;
+	int m, y;
 
 	if (serial < 0 || serial > INT_MAX)
                   return value_new_error_NUM (ei->pos);
@@ -465,10 +466,16 @@ gnumeric_edate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (!g_date_valid (&date))
                   return value_new_error_VALUE (ei->pos);
 
-	if (months > 0)
-		g_date_add_months (&date, (int)months);
+	m = (int)months;
+	y = g_date_get_year (&date) + m / 12;
+
+	/* Pretest for the benefit of #539868 */
+	if (y > 9999 || y < 1900)
+		g_date_clear (&date, 1);
+	else if (months > 0)
+		g_date_add_months (&date, m);
 	else
-		g_date_subtract_months (&date, (int)-months);
+		g_date_subtract_months (&date, -m);
 
 	if (!g_date_valid (&date) ||
 	    g_date_get_year (&date) < 1900 ||

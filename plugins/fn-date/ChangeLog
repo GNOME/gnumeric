@@ -1,3 +1,8 @@
+2008-06-24  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_edate): Work around glib problem.  Fixes
+	#539868.
+
 2008-06-23  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_networkdays): Plug leak.
