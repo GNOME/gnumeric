@@ -49,6 +49,7 @@ Morten:
 	* Fix PERCENTRANK.  [#539672]
 	* Fix UMR in WORKDAY.  [#539808]
 	* Plug leaks in GROWTH.  [#539827]
+	* Plug leak in NETWORKDAYS.
 
 Seán de Búrca:
 	* Move to tango based icons. [#450444]

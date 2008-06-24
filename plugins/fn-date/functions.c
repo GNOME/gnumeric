@@ -1260,9 +1260,15 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	res = end_serial - start_serial;
 	res -= ((res/7)*2);	/* Remove weekends */
 
-	if (argv[2] != NULL)
-		value_area_foreach (argv[2], ei->pos, CELL_ITER_IGNORE_BLANK,
-			(GnmValueIterFunc) &cb_networkdays_holiday, &close);
+	if (argv[2] != NULL) {
+		GnmValue const *e =
+			value_area_foreach (argv[2], ei->pos,
+					    CELL_ITER_IGNORE_BLANK,
+					    (GnmValueIterFunc)&cb_networkdays_holiday,
+					    &close);
+		if (e)
+			return e;
+	}
 
 	res = res - start_offset + end_offset - close.res;
 
