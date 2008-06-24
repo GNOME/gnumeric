@@ -50,6 +50,7 @@ Morten:
 	* Fix UMR in WORKDAY.  [#539808]
 	* Plug leaks in GROWTH.  [#539827]
 	* Plug leak in NETWORKDAYS.
+	* Add missing "return" in CODE.
 
 Seán de Búrca:
 	* Move to tango based icons. [#450444]

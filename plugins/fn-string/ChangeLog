@@ -1,3 +1,7 @@
+2008-06-23  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_code): Plug leak.
+
 2008-05-04  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.0
