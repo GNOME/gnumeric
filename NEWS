@@ -52,6 +52,7 @@ Morten:
 	* Plug leak in NETWORKDAYS.
 	* Add missing "return" in CODE.
 	* Fix EDATE issue.  [#539868]
+	* Fix RANK crash.  [#540015]
 
 Seán de Búrca:
 	* Move to tango based icons. [#450444]

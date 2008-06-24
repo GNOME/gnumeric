@@ -225,66 +225,33 @@ static GnmFuncHelp const help_rank[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-typedef struct {
-        gnm_float x;
-        int     order;
-        int     rank;
-} stat_rank_t;
-
-static GnmValue *
-cb_rank (GnmCellIter const *iter, gpointer user)
-{
-        stat_rank_t *p = user;
-	GnmCell	    *cell = iter->cell;
-	gnm_float  x;
-
-	gnm_cell_eval (cell);
-	if (cell->value == NULL)
-		return NULL;
-
-	if (!VALUE_IS_NUMBER (cell->value))
-		return NULL;
-	/* FIXME: errors?  bools?  */
-
-	x = value_get_as_float (cell->value);
-
-	if (p->order) {
-		if (x < p->x)
-			p->rank++;
-	} else {
-		if (x > p->x)
-			p->rank++;
-	}
-
-	return NULL;
-}
-
 static GnmValue *
 gnumeric_rank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	stat_rank_t p;
-	GnmValue      *ret;
+	gnm_float *xs;
+	int i, r, n;
+	GnmValue *result = NULL;
+	gnm_float x, order;
 
-	p.x = value_get_as_float (argv[0]);
-	if (argv[2])
-		p.order = value_get_as_int (argv[2]);
-	else
-		p.order = 0;
-	p.rank = 1;
-	ret = sheet_foreach_cell_in_range (
-		eval_sheet (argv[1]->v_range.cell.a.sheet, ei->pos->sheet),
-		CELL_ITER_IGNORE_BLANK,
-		argv[1]->v_range.cell.a.col,
-		argv[1]->v_range.cell.a.row,
-		argv[1]->v_range.cell.b.col,
-		argv[1]->v_range.cell.b.row,
-		cb_rank,
-		&p);
+	x = value_get_as_float (argv[0]);
+	xs = collect_floats_value (argv[1], ei->pos,
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS |
+				   COLLECT_IGNORE_BLANKS,
+				   &n, &result);
+	order = argv[2] ? value_get_as_int (argv[2]) : 0;
 
-	if (ret != NULL)
-		return value_new_error_VALUE (ei->pos);
+	if (result)
+		return result;
 
-	return value_new_int (p.rank);
+	for (i = 0, r = 1; i < n; i++) {
+		gnm_float y = xs[i];
+
+		if (order ? y < x : y > x)
+			r++;
+	}
+
+	return value_new_int (r);
 }
 
 /***************************************************************************/
