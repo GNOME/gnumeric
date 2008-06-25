@@ -1,3 +1,7 @@
+2008-06-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.1
+
 2008-06-24  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_edate): Work around glib problem.  Fixes

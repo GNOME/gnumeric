@@ -1,3 +1,7 @@
+2008-06-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.1
+
 2008-06-22  Jody Goldberg <jody@gnome.org>
 
 	* ms-biff.c (ms_biff_query_next) : don't return anything if the record

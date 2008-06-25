@@ -1,3 +1,7 @@
+2008-06-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.1
+
 2008-05-13  Morten Welinder  <terra@gnome.org>
 
 	* analysis-tools.c (make_cellref): New function to simplify making

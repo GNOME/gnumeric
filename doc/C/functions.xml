@@ -3469,7 +3469,7 @@
       <refsect1>
         <title>Description</title>
         <para><function>BESSELI</function> function returns the Neumann, Weber or Bessel function.</para>
-        <para><parameter>x</parameter> is where the function is evaluated. <parameter>y</parameter> is the order of the Bessel function, if non-integer it is truncated.</para>
+        <para><parameter>x</parameter> is where the function is evaluated. <parameter>y</parameter> is the order of the Bessel function.</para>
         <itemizedlist>
           <listitem>
             <para>If <parameter>x</parameter> or <parameter>y</parameter> are not numeric a #VALUE! error is returned.</para>
@@ -3478,7 +3478,7 @@
             <para>If <parameter>y</parameter> &lt; 0 a #NUM! error is returned.</para>
           </listitem>
           <listitem>
-            <para>This function is Excel compatible.</para>
+            <para>This function extends the Excel function of the same name to non-integer orders.</para>
           </listitem>
         </itemizedlist>
       </refsect1>
@@ -3555,7 +3555,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>BESSELK</function> function returns the Neumann, Weber or Bessel function. <parameter>x</parameter> is where the function is evaluated. <parameter>y</parameter> is the order of the Bessel function, if non-integer it is truncated.</para>
+        <para><function>BESSELK</function> function returns the Neumann, Weber or Bessel function. <parameter>x</parameter> is where the function is evaluated. <parameter>y</parameter> is the order of the Bessel function.</para>
         <itemizedlist>
           <listitem>
             <para>If <parameter>x</parameter> or <parameter>y</parameter> are not numeric a #VALUE! error is returned.</para>
@@ -3564,7 +3564,7 @@
             <para>If <parameter>y</parameter> &lt; 0 a #NUM! error is returned.</para>
           </listitem>
           <listitem>
-            <para>This function is Excel compatible.</para>
+            <para>This function extends the Excel function of the same name to non-integer orders.</para>
           </listitem>
         </itemizedlist>
       </refsect1>
@@ -8537,6 +8537,37 @@
       <refsect1>
         <title>See also</title>
         <para><link linkend="gnumeric-TEXT"><function>TEXT</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-GET.FORMULA">
+      <refmeta>
+        <refentrytitle>
+          <function>GET.FORMULA</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>GET.FORMULA</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>GET.FORMULA</function>(<parameter>cell</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>EXPRESSION returns expression in <parameter>cell</parameter> as a string, or empty if the cell is not an expression.</para>
+      </refsect1>
+      <refsect1>
+        <title>Examples</title>
+        <para/>
+        <para>entering '=<function>GET.FORMULA</function>(A3)' in A2 = empty (assuming there is nothing in A3).</para>
+        <para>entering '=<function>GET.FORMULA</function>(A2)' in A1 = '=<function>GET.FORMULA</function>(A3)'.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-EXPRESSION"><function>EXPRESSION</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -19324,12 +19355,13 @@
         <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>ZTEST</function>(<parameter>ref</parameter>,<parameter>x</parameter>)</synopsis>
+        <synopsis><function>ZTEST</function>(<parameter>ref</parameter>,<parameter>x</parameter>[,<parameter>stddev</parameter>])</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
         <para><function>ZTEST</function> returns the two-tailed probability of a z-test.</para>
         <para><parameter>ref</parameter> is the data set and <parameter>x</parameter> is the value to be tested.</para>
+        <para><parameter>stddev</parameter> is optionally an assumed standard deviation.</para>
         <itemizedlist>
           <listitem>
             <para>If <parameter>ref</parameter> contains less than two data items <function>ZTEST</function> returns #DIV/0! error.</para>

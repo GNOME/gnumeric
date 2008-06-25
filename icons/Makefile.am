@@ -19,6 +19,8 @@ icons_DATA = \
 	gnumeric-about.png	\
 	stf-druid.png
 
+EXTRA_DIST = $(icons_DATA) $(mimeicon_DATA)
+
 gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
 
 install-data-hook: update-icon-cache

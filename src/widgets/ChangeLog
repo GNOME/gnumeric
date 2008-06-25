@@ -1,3 +1,7 @@
+2008-06-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.1
+
 2008-06-16  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (gee_scan_for_range) : When selecting the

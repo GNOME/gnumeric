@@ -1,3 +1,7 @@
+2008-06-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.1
+
 2008-06-17  Jody Goldberg <jody@gnome.org>
 
 	* dialog-printer-setup.c (dialog_printer_setup_done_cb) : Fix page

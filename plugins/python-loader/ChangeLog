@@ -1,3 +1,7 @@
+2008-06-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.1
+
 2008-05-26  Jody Goldberg <jody@gnome.org>
 
 	* python-loader.c : remove NO_IMPORT_PYGOBJECT.  We need one of them.

@@ -1,3 +1,7 @@
+2008-06-25  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.1
+
 2008-06-23  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-datetime.c (datetime_value_to_g): Clear date in case of

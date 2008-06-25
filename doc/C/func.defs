@@ -1396,11 +1396,11 @@ BASE(255,16,4) equals "00FF".
 @SYNTAX=BESSELI(x,y)
 @DESCRIPTION=BESSELI function returns the Neumann, Weber or Bessel function.
 
-@x is where the function is evaluated. @y is the order of the Bessel function, if non-integer it is truncated.
+@x is where the function is evaluated. @y is the order of the Bessel function.
 
 * If @x or @y are not numeric a #VALUE! error is returned.
 * If @y < 0 a #NUM! error is returned.
-* This function is Excel compatible.
+* This function extends the Excel function of the same name to non-integer orders.
 
 @EXAMPLES=
 BESSELI(0.7,3) equals 0.007367374.
@@ -1424,11 +1424,11 @@ BESSELJ(0.89,3) equals 0.013974004.
 @CATEGORY=Engineering
 @FUNCTION=BESSELK
 @SYNTAX=BESSELK(x,y)
-@DESCRIPTION=BESSELK function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the Bessel function, if non-integer it is truncated.
+@DESCRIPTION=BESSELK function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the Bessel function.
 
 * If @x or @y are not numeric a #VALUE! error is returned.
 * If @y < 0 a #NUM! error is returned.
-* This function is Excel compatible.
+* This function extends the Excel function of the same name to non-integer orders.
 
 @EXAMPLES=
 BESSELK(3,9) equals 397.95880.
@@ -3513,6 +3513,16 @@ entering '=EXPRESSION(A3)' in A2 = empty (assuming there is nothing in A3).
 entering '=EXPRESSION(A2)' in A1 = 'EXPRESSION(A3)'.
 
 @SEEALSO=TEXT
+
+@CATEGORY=Information
+@FUNCTION=GET.FORMULA
+@SYNTAX=GET.FORMULA(cell)
+@DESCRIPTION=EXPRESSION returns expression in @cell as a string, or empty if the cell is not an expression.
+@EXAMPLES=
+entering '=GET.FORMULA(A3)' in A2 = empty (assuming there is nothing in A3).
+entering '=GET.FORMULA(A2)' in A1 = '=GET.FORMULA(A3)'.
+
+@SEEALSO=EXPRESSION
 
 @CATEGORY=Information
 @FUNCTION=GETENV
@@ -7253,10 +7263,11 @@ WEIBULL(3,2,4,0) equals 0.213668559.
 
 @CATEGORY=Statistics
 @FUNCTION=ZTEST
-@SYNTAX=ZTEST(ref,x)
+@SYNTAX=ZTEST(ref,x[,stddev])
 @DESCRIPTION=ZTEST returns the two-tailed probability of a z-test.
 
 @ref is the data set and @x is the value to be tested.
+@stddev is optionally an assumed standard deviation.
 
 * If @ref contains less than two data items ZTEST returns #DIV/0! error.
 * This function is Excel compatible.
