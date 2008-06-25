@@ -511,6 +511,9 @@ dependent_queue_recalc (GnmDependent *dep)
 {
 	g_return_if_fail (dep != NULL);
 
+#ifdef DEBUG_EVALUATION
+	g_print ("/* QUEUE (%s) */\n", cell_name (GNM_DEP_TO_CELL (dep)));
+#endif
 	if (!dependent_needs_recalc (dep)) {
 		GSList listrec;
 		listrec.next = NULL;
@@ -1383,7 +1386,8 @@ gnm_cell_eval_content (GnmCell *cell)
 	GnmEvalPos	 pos;
 	int	 max_iteration;
 
-	if (!gnm_cell_has_expr (cell))
+	if (!gnm_cell_has_expr (cell) ||	/* plain cells without expr */
+	    !dependent_is_linked (&cell->base)) /* special case within TABLE */
 		return TRUE;
 
 	/* do this here rather than dependent_eval
@@ -1400,7 +1404,8 @@ gnm_cell_eval_content (GnmCell *cell)
 		GnmParsePos pp;
 		char *str = gnm_expr_top_as_string (cell->base.texpr,
 			parse_pos_init_cell (&pp, cell), gnm_conventions_default);
-		g_print ("{\nEvaluating %s: %s;\n", cell_name (cell), str);
+		g_print ("{\nEvaluating %s!%s: %s;\n",
+			 cell->base.sheet->name_quoted, cell_name (cell), str);
 		g_free (str);
 	}
 #endif

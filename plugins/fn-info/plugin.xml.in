@@ -16,6 +16,7 @@
 				<function name="error"/>
 				<function name="error.type"/>
 				<function name="expression"/>
+				<function name="get.formula"/>
 				<function name="info"/>
 				<function name="isblank"/>
 				<function name="iserr"/>

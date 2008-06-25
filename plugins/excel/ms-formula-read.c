@@ -155,8 +155,8 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 103 */ { "LINKS",		-1, -1, XL_XLM },
 /* 104 */ { "INPUT",		-1, -1, XL_XLM },
 /* 105 */ { "ISREF",		 1,  1, XL_STD,  1, 'V', "R" },	/* This a guess */
-/* 106 */ { "GET.FORMULA",	-1, -1, XL_XLM },
-/* 107 */ { "GET.NAME",		-1, -1, XL_XLM },
+/* 106 */ { "GET.FORMULA",	 1,  1, XL_XLM,  1, 'V', "R" }, /* This is a guess (wallenbach 'function plot 2D') */
+/* 107 */ { "GET.NAME",		 1,  1, XL_XLM,  1, 'V', "R" }, /* This is a guess */
 /* 108 */ { "SET.VALUE",	-1, -1, XL_XLM },
 /* 109 */ { "LOG",		 1,  2, XL_STD, 2, 'V', "VV" },	/* Base is optional */
 

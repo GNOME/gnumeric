@@ -1204,6 +1204,52 @@ gnumeric_expression (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	return value_new_empty ();
 }
+/***************************************************************************/
+
+static GnmFuncHelp const help_get_formula[] = {
+	{ GNM_FUNC_HELP_OLD,
+	F_("@FUNCTION=GET.FORMULA\n"
+	   "@SYNTAX=GET.FORMULA(cell)\n"
+	   "@DESCRIPTION="
+	   "EXPRESSION returns expression in @cell as a string, or "
+	   "empty if the cell is not an expression.\n"
+	   "@EXAMPLES=\n"
+	   "entering '=GET.FORMULA(A3)' in A2 = empty (assuming there is nothing in A3).\n"
+	   "entering '=GET.FORMULA(A2)' in A1 = '=GET.FORMULA(A3)'.\n"
+	   "\n"
+	   "@SEEALSO=EXPRESSION")
+	},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_get_formula (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	GnmValue const * const v = argv[0];
+	if (v->type == VALUE_CELLRANGE) {
+		GnmCell *cell;
+		GnmCellRef const * a = &v->v_range.cell.a;
+		GnmCellRef const * b = &v->v_range.cell.b;
+
+		if (a->col != b->col || a->row != b->row || a->sheet !=b->sheet)
+			return value_new_error_REF (ei->pos);
+
+		cell = sheet_cell_get (eval_sheet (a->sheet, ei->pos->sheet),
+				       a->col, a->row);
+
+		if (cell && gnm_cell_has_expr (cell)) {
+			GnmConventionsOut out;
+			GnmParsePos	  pp;
+			out.accum = g_string_new ("=");
+			out.pp    = parse_pos_init_cell (&pp, cell);
+			out.convs = gnm_conventions_default;
+			gnm_expr_top_as_gstring (cell->base.texpr, &out);
+			return value_new_string_nocopy (g_string_free (out.accum, FALSE));
+		}
+	}
+
+	return value_new_empty ();
+}
 
 
 /***************************************************************************/
@@ -1943,12 +1989,19 @@ GnmFuncDescriptor const info_functions[] = {
 	{ "error",	"s",  N_("text"), help_error,
 	  gnumeric_error, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+
 	{ "expression",	"r",   N_("cell"), help_expression,
 	  gnumeric_expression, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+/* XLM : looks common in charts */
+	{ "get.formula", "r",   N_("cell"), help_get_formula,
+	  gnumeric_get_formula, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+
 	{ "getenv",	"s", N_("string"), help_getenv,
 	  gnumeric_getenv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+
 
         {NULL}
 };

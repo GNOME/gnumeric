@@ -33,6 +33,7 @@
 #include <expr-impl.h>
 #include <sheet.h>
 #include <cell.h>
+#include <cell.h>
 
 /***************************************************************************/
 
@@ -185,8 +186,12 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 			in[x] = sheet_cell_get (ei->pos->sheet, pos.col, pos.row);
 			if (NULL == in[x])
 				in[x] = sheet_cell_fetch (ei->pos->sheet, pos.col, pos.row);
-			else
+			else {
 				val[x] = in[x]->value;
+				if (gnm_cell_has_expr (in[x]) &&
+				    gnm_cell_expr_is_linked (in[x]))
+					dependent_unlink (&in[x]->base);
+			}
 		} else
 			in[x] = NULL;
 	}
@@ -246,6 +251,12 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	}
 	if (NULL != in[2])
 		value_release (in[2]->value);
+	for (x = 0 ; x < 2 ; x++)
+		if (in[x] &&
+		    gnm_cell_has_expr (in[x]) &&
+		    !gnm_cell_expr_is_linked (in[x]))
+			dependent_link (&in[x]->base);
+
 	for (x = 0 ; x < 3 ; x++)
 		if (in[x]) {
 			dependent_queue_recalc (&in[x]->base);

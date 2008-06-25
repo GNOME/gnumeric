@@ -17,6 +17,8 @@ stamp-h*
 Makefile
 xlibtool
 xltmain.sh
+doltcompile
+doltlibtool
 depcomp
 install-sh
 missing
