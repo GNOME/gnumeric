@@ -2,6 +2,7 @@
 
 	* functions.c (gnumeric_eomonth): Work around glib problem.  Fixes
 	#540069.
+	(gnumeric_date): Work around glib issues.
 
 2008-06-25  Jody Goldberg <jody@gnome.org>
 

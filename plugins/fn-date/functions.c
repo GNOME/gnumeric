@@ -126,6 +126,7 @@ gnumeric_date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float day   = value_get_as_float (argv [2]);
 	GDate date;
 	GODateConventions const *conv = DATE_CONV (ei->pos);
+	int y, m, d;
 
 	if (year < 0 || year >= 10000)
 		goto error;
@@ -144,21 +145,28 @@ gnumeric_date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
         g_date_clear (&date, 1);
 
-	g_date_set_dmy (&date, 1, 1, (int)year);
+	y = (int)year;
+	g_date_set_dmy (&date, 1, 1, y);
 	if (!g_date_valid (&date))
 		goto error;
 
-	if ((int)month > 0)
-		g_date_add_months (&date, (int)month - 1);
-	else
-		g_date_subtract_months (&date, 1 - (int)month);
+	m = (int)month;
+	if (y + m / 12 < gnm_date_convention_base (conv))
+		goto error;
+	else if (m > 0)
+		g_date_add_months (&date, m - 1);
+	else if (m < 0)
+		g_date_subtract_months (&date, 1 - m);
 	if (!g_date_valid (&date))
 		goto error;
 
-	if ((int)day > 0)
-                g_date_add_days (&date, (int)day - 1);
-	else
-		g_date_subtract_days (&date, 1 - (int)day);
+	d = (int)day;
+	if (d < 0 && g_date_get_julian (&date) < (unsigned)-d)
+		goto error;
+	else if (d > 0)
+                g_date_add_days (&date, d - 1);
+	else if (d < 0)
+		g_date_subtract_days (&date, 1 - d);
 	if (!g_date_valid (&date))
 		goto error;
 
