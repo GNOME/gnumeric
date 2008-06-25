@@ -1,3 +1,8 @@
+2008-06-25  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_eomonth): Work around glib problem.  Fixes
+	#540069.
+
 2008-06-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.1

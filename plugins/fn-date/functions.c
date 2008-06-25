@@ -472,9 +472,9 @@ gnumeric_edate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/* Pretest for the benefit of #539868 */
 	if (y > 9999 || y < 1900)
 		g_date_clear (&date, 1);
-	else if (months > 0)
+	else if (m > 0)
 		g_date_add_months (&date, m);
-	else
+	else if (m < 0)
 		g_date_subtract_months (&date, -m);
 
 	if (!g_date_valid (&date) ||
@@ -961,6 +961,7 @@ gnumeric_eomonth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float months = argv[1] ? value_get_as_float (argv[1]) : 0;
 	GDate date;
 	GODateConventions const *conv = DATE_CONV (ei->pos);
+	int m, y;
 
 	datetime_value_to_g (&date, argv[0], conv);
 	if (!g_date_valid (&date))
@@ -969,10 +970,16 @@ gnumeric_eomonth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (months > INT_MAX / 2 || -months > INT_MAX / 2)
                   return value_new_error_NUM (ei->pos);
 
-	if (months > 0)
-		g_date_add_months (&date, (int)months);
-	else if (months < 0)
-		g_date_subtract_months (&date, (int)-months);
+	m = (int)months;
+	y = g_date_get_year (&date) + m / 12;
+
+	/* Pretest for the benefit of #539868 */
+	if (y > 9999 || y < 1900)
+		g_date_clear (&date, 1);
+	else if (m > 0)
+		g_date_add_months (&date, m);
+	else if (m < 0)
+		g_date_subtract_months (&date, -m);
 
 	if (!g_date_valid (&date) ||
 	    g_date_get_year (&date) < 1900 ||
