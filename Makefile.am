@@ -8,7 +8,7 @@ change_logs = ChangeLog \
 	OChangeLog-2001-06-26
 
 CLEANFILES = gnumeric.desktop gnumeric.keys
-DISTCLEANFILES = intltool-extract intltool-merge intltool-update $(pkgconfig_DATA)
+DISTCLEANFILES = intltool-extract intltool-merge intltool-update $(pkgconfig_DATA) doltcompile doltlibtool
 
 EXTRA_DIST = \
 	README HACKING NEWS BEVERAGES BUGS MAINTAINERS AUTHORS $(change_logs)	\
