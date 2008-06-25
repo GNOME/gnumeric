@@ -10,3 +10,4 @@
 /usr/share/locale/*/LC_MESSAGES/*.mo
 /usr/share/mime-info/gnumeric.*
 /usr/share/pixmaps/*
+/usr/share/icons/
