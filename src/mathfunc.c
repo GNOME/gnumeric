@@ -3372,6 +3372,9 @@ gnm_float phyper (gnm_float x, gnm_float NR, gnm_float NB, gnm_float n,
 
     if (x < 0)
 	return R_DT_0;
+    /* Warning: the following line is not in R: */
+    if (x >= NR)
+	return R_DT_1;
 
     d  = dhyper (x, NR, NB, n, log_p);
     pd = pdhyper(x, NR, NB, n, log_p);
