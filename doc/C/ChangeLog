@@ -1,3 +1,7 @@
+2008-06-26  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* ssgrep.1: Fixed a typo in roff instruction.
+
 2008-06-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.1
