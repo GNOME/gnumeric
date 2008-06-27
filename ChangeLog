@@ -1,3 +1,11 @@
+2008-06-27  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-datetime.c (gnm_date_add_days, gnm_date_add_months): New
+	functions.
+
+	* src/sheet-autofill.c (afm_compute): Simplify using
+	gnm_date_add_months.
+
 2008-06-25  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (phyper): Short-circuit x>=NR case.  Fixes

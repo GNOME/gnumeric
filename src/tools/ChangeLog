@@ -1,3 +1,10 @@
+2008-06-27  Morten Welinder  <terra@gnome.org>
+
+	* fill-series.c (do_row_filling_wday, do_column_filling_wday):
+	Simplify using gnm_date_add_days.
+	(do_row_filling_month, do_column_filling_month): Simplify using
+	gnm_date_add_months.
+
 2008-06-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.1

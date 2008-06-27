@@ -126,7 +126,6 @@ gnumeric_date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float day   = value_get_as_float (argv [2]);
 	GDate date;
 	GODateConventions const *conv = DATE_CONV (ei->pos);
-	int y, m, d;
 
 	if (year < 0 || year >= 10000)
 		goto error;
@@ -145,32 +144,12 @@ gnumeric_date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
         g_date_clear (&date, 1);
 
-	y = (int)year;
-	g_date_set_dmy (&date, 1, 1, y);
-	if (!g_date_valid (&date))
-		goto error;
+	g_date_set_dmy (&date, 1, 1, (int)year);
+	gnm_date_add_months (&date, (int)month);
+	gnm_date_add_days (&date, (int)day);
 
-	m = (int)month;
-	if (y + m / 12 < gnm_date_convention_base (conv))
-		goto error;
-	else if (m > 0)
-		g_date_add_months (&date, m - 1);
-	else if (m < 0)
-		g_date_subtract_months (&date, 1 - m);
-	if (!g_date_valid (&date))
-		goto error;
-
-	d = (int)day;
-	if (d < 0 && g_date_get_julian (&date) < (unsigned)-d)
-		goto error;
-	else if (d > 0)
-                g_date_add_days (&date, d - 1);
-	else if (d < 0)
-		g_date_subtract_days (&date, 1 - d);
-	if (!g_date_valid (&date))
-		goto error;
-
-	if (g_date_get_year (&date) < gnm_date_convention_base (conv) ||
+	if (!g_date_valid (&date) ||
+	    g_date_get_year (&date) < gnm_date_convention_base (conv) ||
 	    g_date_get_year (&date) >= 11900)
 		goto error;
 
@@ -329,8 +308,8 @@ datedif_opt_yd (GDate *gdate1, GDate *gdate2, int excel_compat)
 
 	day = g_date_get_day (gdate1);
 
-	g_date_add_years (gdate1,
-			  datetime_g_years_between (gdate1, gdate2));
+	gnm_date_add_years (gdate1,
+			    datetime_g_years_between (gdate1, gdate2));
 	/* according to glib.h, feb 29 turns to feb 28 if necessary */
 
 	if (excel_compat) {
@@ -368,8 +347,8 @@ datedif_opt_md (GDate *gdate1, GDate *gdate2, gboolean excel_compat)
 
 	day = g_date_get_day (gdate1);
 
-	g_date_add_months (gdate1,
-			   datetime_g_months_between (gdate1, gdate2));
+	gnm_date_add_months (gdate1,
+			     datetime_g_months_between (gdate1, gdate2));
 	/* according to glib.h, days>28 decrease if necessary */
 
 	if (excel_compat) {
@@ -385,11 +364,11 @@ datedif_opt_md (GDate *gdate1, GDate *gdate2, gboolean excel_compat)
 		g_date_set_year (gdate2, new_year2);
 
 		/* add back the days if they were decreased by
-		   g_date_add_months */
+		   gnm_date_add_months */
 		/* ( i feel this is inferior because it reports e.g.:
 		     datedif(1/31/95,3/1/95,"d") == -2 ) */
-		g_date_add_days (gdate1,
-				 day - g_date_get_day (gdate1));
+		gnm_date_add_days (gdate1,
+				   day - g_date_get_day (gdate1));
 	}
 
 	return g_date_days_between (gdate1, gdate2);
@@ -463,7 +442,6 @@ gnumeric_edate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float serial = value_get_as_float (argv[0]);
 	gnm_float months = value_get_as_float (argv[1]);
 	GDate date;
-	int m, y;
 
 	if (serial < 0 || serial > INT_MAX)
                   return value_new_error_NUM (ei->pos);
@@ -471,19 +449,7 @@ gnumeric_edate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
                   return value_new_error_NUM (ei->pos);
 
 	datetime_serial_to_g (&date, (int)serial, conv);
-	if (!g_date_valid (&date))
-                  return value_new_error_VALUE (ei->pos);
-
-	m = (int)months;
-	y = g_date_get_year (&date) + m / 12;
-
-	/* Pretest for the benefit of #539868 */
-	if (y > 9999 || y < 1900)
-		g_date_clear (&date, 1);
-	else if (m > 0)
-		g_date_add_months (&date, m);
-	else if (m < 0)
-		g_date_subtract_months (&date, -m);
+	gnm_date_add_months (&date, (int)months);
 
 	if (!g_date_valid (&date) ||
 	    g_date_get_year (&date) < 1900 ||
@@ -969,7 +935,6 @@ gnumeric_eomonth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float months = argv[1] ? value_get_as_float (argv[1]) : 0;
 	GDate date;
 	GODateConventions const *conv = DATE_CONV (ei->pos);
-	int m, y;
 
 	datetime_value_to_g (&date, argv[0], conv);
 	if (!g_date_valid (&date))
@@ -978,17 +943,7 @@ gnumeric_eomonth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (months > INT_MAX / 2 || -months > INT_MAX / 2)
                   return value_new_error_NUM (ei->pos);
 
-	m = (int)months;
-	y = g_date_get_year (&date) + m / 12;
-
-	/* Pretest for the benefit of #539868 */
-	if (y > 9999 || y < 1900)
-		g_date_clear (&date, 1);
-	else if (m > 0)
-		g_date_add_months (&date, m);
-	else if (m < 0)
-		g_date_subtract_months (&date, -m);
-
+	gnm_date_add_months (&date, (int)months);
 	if (!g_date_valid (&date) ||
 	    g_date_get_year (&date) < 1900 ||
 	    g_date_get_year (&date) > 9999)

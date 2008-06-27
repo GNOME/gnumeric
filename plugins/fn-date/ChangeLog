@@ -1,3 +1,9 @@
+2008-06-27  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_date, datedif_opt_md, gnumeric_edate,
+	gnumeric_eomonth): Simplify using gnm_date_add_months and
+	gnm_date_add_days.
+
 2008-06-25  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_eomonth): Work around glib problem.  Fixes

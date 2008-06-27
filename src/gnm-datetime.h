@@ -19,6 +19,9 @@ int     annual_year_basis  (GnmValue const *value_date, basis_t basis,
 			    GODateConventions const *date_conv);
 gnm_float yearfrac (GDate const *from, GDate const *to, basis_t basis);
 
+void gnm_date_add_days (GDate *d, int n);
+void gnm_date_add_months (GDate *d, int n);
+void gnm_date_add_years (GDate *d, int n);
 
 G_END_DECLS
 
