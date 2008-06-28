@@ -41,4 +41,4 @@ item_acetate_class_init (FooCanvasItemClass *item_class)
 
 GSF_CLASS (ItemAcetate, item_acetate,
 	   item_acetate_class_init, NULL,
-	   FOO_TYPE_CANVAS_RECT);
+	   FOO_TYPE_CANVAS_RECT)

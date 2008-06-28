@@ -552,4 +552,4 @@ item_edit_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (ItemEdit, item_edit,
 	   item_edit_class_init, item_edit_init,
-	   FOO_TYPE_CANVAS_ITEM);
+	   FOO_TYPE_CANVAS_ITEM)

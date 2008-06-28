@@ -718,4 +718,4 @@ soi_imageable_init (SheetObjectImageableIface *soi_iface)
 GSF_CLASS_FULL (SheetObjectImage, sheet_object_image,
 	   NULL, NULL, gnm_soi_class_init, NULL,
 	   gnm_soi_init, SHEET_OBJECT_TYPE, 0,
-	   GSF_INTERFACE (soi_imageable_init, SHEET_OBJECT_IMAGEABLE_TYPE));
+	   GSF_INTERFACE (soi_imageable_init, SHEET_OBJECT_IMAGEABLE_TYPE))

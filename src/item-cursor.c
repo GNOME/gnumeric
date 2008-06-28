@@ -147,8 +147,8 @@ item_cursor_realize (FooCanvasItem *item)
 	}
 
 	if (ic->style == ITEM_CURSOR_DRAG || ic->style == ITEM_CURSOR_AUTOFILL) {
-		static char const stipple_data [] = { 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa };
-		ic->stipple = gdk_bitmap_create_from_data (window, stipple_data, 8, 8);
+		static unsigned char const stipple_data [] = { 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa, 0x55, 0xaa };
+		ic->stipple = gdk_bitmap_create_from_data (window, (const gchar *)stipple_data, 8, 8);
 	}
 }
 
@@ -1097,7 +1097,6 @@ cb_move_cursor (GnmPane *pane, GnmPaneSlideInfo const *info)
 	int const w = (ic->pos.end.col - ic->pos.start.col);
 	int const h = (ic->pos.end.row - ic->pos.start.row);
 	GnmRange r;
-	Sheet *sheet = ((SheetControl *) (pane->simple.scg))->sheet;
 
 	r.start.col = info->col - ic->col_delta;
 	if (r.start.col < 0)
@@ -1446,4 +1445,4 @@ item_cursor_init (ItemCursor *ic)
 
 GSF_CLASS (ItemCursor, item_cursor,
 	   item_cursor_class_init, item_cursor_init,
-	   FOO_TYPE_CANVAS_ITEM);
+	   FOO_TYPE_CANVAS_ITEM)

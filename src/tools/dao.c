@@ -36,6 +36,7 @@
 #include "style.h"
 #include "sheet-style.h"
 #include "workbook.h"
+#include "workbook-view.h"
 #include "workbook-control.h"
 #include "command-context.h"
 #include "gnm-format.h"

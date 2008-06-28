@@ -142,7 +142,7 @@ sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)				\
 GSF_CLASS (SheetWidget ## n2, sheet_widget_ ## n1,					\
 	   &sheet_widget_ ## n1 ## _class_init,						\
 	   &sheet_widget_ ## n1 ## _init,						\
-	   SHEET_OBJECT_WIDGET_TYPE);
+	   SHEET_OBJECT_WIDGET_TYPE)
 
 typedef SheetObject SheetObjectWidget;
 typedef struct {
@@ -217,7 +217,7 @@ sheet_object_widget_new_view (SheetObject *so, SheetObjectViewContainer *contain
 		"widget", view_widget,
 		"size_pixels", FALSE,
 		NULL);
-	/* g_warning ("%p is widget for so %p", view_widget, so);*/
+	/* g_warning ("%p is widget for so %p", (void *)view_widget, (void *)so);*/
 	gtk_widget_show_all (view_widget);
 	foo_canvas_item_hide (view_item);
 	gnm_pane_widget_register (so, view_widget, view_item);
@@ -250,7 +250,7 @@ sheet_object_widget_init (SheetObjectWidget *sow)
 static GSF_CLASS (SheetObjectWidget, sheet_object_widget,
 		  sheet_object_widget_class_init,
 		  sheet_object_widget_init,
-		  SHEET_OBJECT_TYPE);
+		  SHEET_OBJECT_TYPE)
 
 static WorkbookControl *
 widget_wbc (GtkWidget *widget)
@@ -549,7 +549,7 @@ sheet_widget_button_copy (SheetObject *dst, SheetObject const *src_swb)
 static void
 sheet_widget_button_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
-	// FIXME: markup
+	/* FIXME: markup */
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
 	gsf_xml_out_add_cstr (output, "Label", swb->label);
 }
@@ -735,7 +735,7 @@ adjustment_eval (GnmDependent *dep)
 static void
 adjustment_debug_name (GnmDependent const *dep, GString *target)
 {
-	g_string_append_printf (target, "Adjustment%p", dep);
+	g_string_append_printf (target, "Adjustment%p", (void *)dep);
 }
 
 static DEPENDENT_MAKE_TYPE (adjustment, NULL)
@@ -1194,7 +1194,7 @@ sheet_widget_scrollbar_class_init (SheetObjectWidgetClass *sow_class)
 
 GSF_CLASS (SheetWidgetScrollbar, sheet_widget_scrollbar,
 	   &sheet_widget_scrollbar_class_init, NULL,
-	   SHEET_WIDGET_ADJUSTMENT_TYPE);
+	   SHEET_WIDGET_ADJUSTMENT_TYPE)
 
 /****************************************************************************/
 #define SHEET_WIDGET_SPINBUTTON_TYPE	(sheet_widget_spinbutton_get_type ())
@@ -1229,7 +1229,7 @@ sheet_widget_spinbutton_class_init (SheetObjectWidgetClass *sow_class)
 
 GSF_CLASS (SheetWidgetSpinbutton, sheet_widget_spinbutton,
 	   &sheet_widget_spinbutton_class_init, NULL,
-	   SHEET_WIDGET_ADJUSTMENT_TYPE);
+	   SHEET_WIDGET_ADJUSTMENT_TYPE)
 
 /****************************************************************************/
 #define SHEET_WIDGET_SLIDER_TYPE	(sheet_widget_slider_get_type ())
@@ -1272,7 +1272,7 @@ sheet_widget_slider_class_init (SheetObjectWidgetClass *sow_class)
 
 GSF_CLASS (SheetWidgetSlider, sheet_widget_slider,
 	   &sheet_widget_slider_class_init, NULL,
-	   SHEET_WIDGET_ADJUSTMENT_TYPE);
+	   SHEET_WIDGET_ADJUSTMENT_TYPE)
 
 /****************************************************************************/
 #define SHEET_WIDGET_CHECKBOX_TYPE	(sheet_widget_checkbox_get_type ())
@@ -1376,7 +1376,7 @@ checkbox_eval (GnmDependent *dep)
 static void
 checkbox_debug_name (GnmDependent const *dep, GString *target)
 {
-	g_string_append_printf (target, "Checkbox%p", dep);
+	g_string_append_printf (target, "Checkbox%p", (void *)dep);
 }
 
 static DEPENDENT_MAKE_TYPE (checkbox, NULL)
@@ -1805,7 +1805,8 @@ sheet_widget_toggle_button_class_init (SheetObjectWidgetClass *sow_class)
 
 GSF_CLASS (SheetWidgetToggleButton, sheet_widget_toggle_button,
 	   &sheet_widget_toggle_button_class_init, NULL,
-	   SHEET_WIDGET_CHECKBOX_TYPE);
+	   SHEET_WIDGET_CHECKBOX_TYPE)
+
 /****************************************************************************/
 
 #define SHEET_WIDGET_RADIO_BUTTON_TYPE	(sheet_widget_radio_button_get_type ())
@@ -1843,7 +1844,7 @@ radio_button_eval (GnmDependent *dep)
 static void
 radio_button_debug_name (GnmDependent const *dep, GString *target)
 {
-	g_string_append_printf (target, "RadioButton%p", dep);
+	g_string_append_printf (target, "RadioButton%p", (void *)dep);
 }
 
 static DEPENDENT_MAKE_TYPE (radio_button, NULL)
@@ -2113,7 +2114,7 @@ list_output_eval (GnmDependent *dep)
 static void
 list_output_debug_name (GnmDependent const *dep, GString *target)
 {
-	g_string_append_printf (target, "ListOutput%p", dep);
+	g_string_append_printf (target, "ListOutput%p", (void *)dep);
 }
 
 static DEPENDENT_MAKE_TYPE (list_output, NULL)
@@ -2162,7 +2163,7 @@ list_content_eval (GnmDependent *dep)
 static void
 list_content_debug_name (GnmDependent const *dep, GString *target)
 {
-	g_string_append_printf (target, "ListContent%p", dep);
+	g_string_append_printf (target, "ListContent%p", (void *)dep);
 }
 
 static DEPENDENT_MAKE_TYPE (list_content, NULL)
@@ -2423,7 +2424,7 @@ sheet_widget_list_class_init (SheetObjectWidgetClass *sow_class)
 
 GSF_CLASS (SheetWidgetList, sheet_widget_list,
 	   &sheet_widget_list_class_init, NULL,
-	   SHEET_WIDGET_LIST_BASE_TYPE);
+	   SHEET_WIDGET_LIST_BASE_TYPE)
 
 /****************************************************************************/
 #define SHEET_WIDGET_COMBO_TYPE	(sheet_widget_combo_get_type ())
@@ -2498,7 +2499,8 @@ sheet_widget_combo_class_init (SheetObjectWidgetClass *sow_class)
 
 GSF_CLASS (SheetWidgetCombo, sheet_widget_combo,
 	   &sheet_widget_combo_class_init, NULL,
-	   SHEET_WIDGET_LIST_BASE_TYPE);
+	   SHEET_WIDGET_LIST_BASE_TYPE)
+
 /**************************************************************************/
 
 /**

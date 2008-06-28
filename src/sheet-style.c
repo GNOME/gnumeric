@@ -540,7 +540,7 @@ static void
 cb_tile_pool_leak (gpointer data, gpointer user)
 {
 	CellTile *tile = data;
-	g_printerr ("Leaking tile at %p.\n", tile);
+	g_printerr ("Leaking tile at %p.\n", (void *)tile);
 }
 #endif
 

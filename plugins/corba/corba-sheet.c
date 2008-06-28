@@ -137,7 +137,7 @@ csheet_class_init (GObjectClass *gobject_class)
 BONOBO_TYPE_FUNC_FULL (CorbaSheet,
 		       GNOME_Gnumeric_Sheet,
 		       BONOBO_OBJECT_TYPE,
-		       csheet);
+		       csheet)
 
 /*************************************************************************/
 
@@ -170,7 +170,7 @@ scc_init (SheetControlCORBA *scc)
 }
 
 GSF_CLASS (SheetControlCORBA, sheet_control_corba,
-	   scc_class_init, scc_init, SHEET_CONTROL_TYPE);
+	   scc_class_init, scc_init, SHEET_CONTROL_TYPE)
 
 SheetControl *
 sheet_control_corba_new (SheetView *sv)

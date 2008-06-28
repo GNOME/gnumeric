@@ -3277,7 +3277,7 @@ static void
 cb_cell_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
 {
 	GnmCell const *cell = data;
-	g_printerr ("Leaking cell %p at %s\n", cell, cell_name (cell));
+	g_printerr ("Leaking cell %p at %s\n", (void *)cell, cell_name (cell));
 }
 #endif
 

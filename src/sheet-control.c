@@ -60,7 +60,7 @@ sc_class_init (GObjectClass *object_class)
 }
 
 GSF_CLASS (SheetControl, sheet_control,
-	   sc_class_init, NULL, G_TYPE_OBJECT);
+	   sc_class_init, NULL, G_TYPE_OBJECT)
 
 WorkbookControl *
 sc_wbc (SheetControl const *sc)
@@ -97,9 +97,9 @@ SC_VIRTUAL (redraw_headers,
 SC_VIRTUAL (ant, (SheetControl *sc), (sc))
 SC_VIRTUAL (unant, (SheetControl *sc), (sc))
 
-SC_VIRTUAL (scrollbar_config, (SheetControl const *sc), (sc));
+SC_VIRTUAL (scrollbar_config, (SheetControl const *sc), (sc))
 
-SC_VIRTUAL (mode_edit, (SheetControl *sc), (sc));
+SC_VIRTUAL (mode_edit, (SheetControl *sc), (sc))
 
 SC_VIRTUAL (set_top_left,
 	    (SheetControl *sc, int col, int row),
@@ -109,11 +109,11 @@ SC_VIRTUAL (recompute_visible_region,
 	    (sc, full_recompute))
 SC_VIRTUAL (make_cell_visible,
 	    (SheetControl *sc, int col, int row, gboolean couple_panes),
-	    (sc, col, row, couple_panes));
+	    (sc, col, row, couple_panes))
 
 SC_VIRTUAL (cursor_bound, (SheetControl *sc, GnmRange const *r), (sc, r))
 SC_VIRTUAL (set_panes, (SheetControl *sc), (sc))
 
-SC_VIRTUAL (object_create_view,	(SheetControl *sc, SheetObject *so), (sc, so));
+SC_VIRTUAL (object_create_view,	(SheetControl *sc, SheetObject *so), (sc, so))
 SC_VIRTUAL (scale_changed,	(SheetControl *sc), (sc))
 

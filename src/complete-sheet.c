@@ -140,4 +140,4 @@ complete_sheet_new (Sheet *sheet, int col, int row, CompleteMatchNotifyFn notify
 }
 
 GSF_CLASS (CompleteSheet, complete_sheet,
-	   complete_sheet_class_init, NULL, PARENT_TYPE);
+	   complete_sheet_class_init, NULL, PARENT_TYPE)

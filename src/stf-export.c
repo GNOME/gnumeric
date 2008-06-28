@@ -587,8 +587,8 @@ gnm_stf_file_saver_save (GOFileSaver const *fs, IOContext *context,
 	GnmStfExport *stfe = gnm_stf_get_stfe (G_OBJECT (wb));
 	GsfOutput *dummy_sink;
 
-	// TODO: move this GUI dependent code out of this
-	// filesaver into gui-file.c. After this, remove includes (see above).
+	/* TODO: move this GUI dependent code out of this
+	 * filesaver into gui-file.c. After this, remove includes (see above). */
 	if (IS_WBC_GTK (context->impl)) {
 		gboolean cancelled =
 			stf_export_dialog (WBC_GTK (context->impl), stfe, wb);

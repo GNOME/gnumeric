@@ -162,7 +162,7 @@ xl_read_pivot_cache (XLPivotReadState *s, BiffQuery *q)
 			d (4, gsf_mem_dump (q->data + 2, MIN (q->length, 0xc)););
 
 from OOo, but this seems like a crock.  My tests indicate something else
-// known data types
+/* known data types */
 const sal_uInt16 EXC_SXFIELD_DATA_NONE      = 0x0000;   /// Special state for groupings.
 const sal_uInt16 EXC_SXFIELD_DATA_STR       = 0x0480;   /// Only strings, nothing else.
 const sal_uInt16 EXC_SXFIELD_DATA_INT       = 0x0520;   /// Only integers, opt. with doubles.

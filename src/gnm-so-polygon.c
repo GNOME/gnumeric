@@ -223,7 +223,7 @@ static void
 gnm_so_polygon_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 {
 	/* TODO */
-	return gnm_so_polygon_parent_class->write_xml_sax (so, output);
+	gnm_so_polygon_parent_class->write_xml_sax (so, output);
 }
 
 static void
@@ -351,4 +351,4 @@ gnm_so_polygon_init (GObject *obj)
 
 GSF_CLASS (GnmSOPolygon, gnm_so_polygon,
 	   gnm_so_polygon_class_init, gnm_so_polygon_init,
-	   SHEET_OBJECT_TYPE);
+	   SHEET_OBJECT_TYPE)

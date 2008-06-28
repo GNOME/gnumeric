@@ -559,7 +559,7 @@ typedef enum {
 	STF_CELL_EOF,
 	STF_CELL_EOL,
 	STF_CELL_FIELD_NO_SEP,
-	STF_CELL_FIELD_SEP,
+	STF_CELL_FIELD_SEP
 } StfParseCellRes;
 
 static StfParseCellRes

@@ -1774,13 +1774,13 @@ gnm_style_dump (GnmStyle const *style)
 	if (elem_is_set (style, MSTYLE_CONTENTS_HIDDEN))
 		g_printerr ("\thidden %d\n", style->contents_hidden);
 	if (elem_is_set (style, MSTYLE_VALIDATION))
-		g_printerr ("\tvalidation %p\n", style->validation);
+		g_printerr ("\tvalidation %p\n", (void *)style->validation);
 	if (elem_is_set (style, MSTYLE_HLINK))
-		g_printerr ("\thlink %p\n", style->hlink);
+		g_printerr ("\thlink %p\n", (void *)style->hlink);
 	if (elem_is_set (style, MSTYLE_INPUT_MSG))
-		g_printerr ("\tinput msg %p\n", style->input_msg);
+		g_printerr ("\tinput msg %p\n", (void *)style->input_msg);
 	if (elem_is_set (style, MSTYLE_CONDITIONS))
-		g_printerr ("\tconditions %p\n", style->conditions);
+		g_printerr ("\tconditions %p\n", (void *)style->conditions);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1801,7 +1801,7 @@ static void
 cb_gnm_style_pool_leak (gpointer data, gpointer user)
 {
 	GnmStyle *style = data;
-	g_printerr ("Leaking style at %p.\n", style);
+	g_printerr ("Leaking style at %p.\n", (void *)style);
 	gnm_style_dump (style);
 }
 #endif

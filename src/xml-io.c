@@ -206,7 +206,7 @@ xml_node_get_color (xmlNodePtr node, char const *name)
 {
 	GnmColor *res = NULL;
 	xmlChar *color;
-	int red, green, blue;
+	unsigned red, green, blue;
 
 	color = xmlGetProp (node, CC2XML (name));
 	if (color == NULL)

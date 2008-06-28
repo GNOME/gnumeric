@@ -56,7 +56,7 @@
 
 enum {
 	PROP_0,
-	RECALC_MODE,
+	RECALC_MODE
 };
 enum {
 	SHEET_ORDER_CHANGED,
@@ -1380,4 +1380,4 @@ workbook_sheet_state_diff (const WorkbookSheetState *wss_a, const WorkbookSheetS
 
 GSF_CLASS (Workbook, workbook,
 	   workbook_class_init, workbook_init,
-	   GO_DOC_TYPE);
+	   GO_DOC_TYPE)

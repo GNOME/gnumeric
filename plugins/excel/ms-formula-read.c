@@ -571,7 +571,7 @@ getRefV8 (GnmCellRef *cr,
 static void
 parse_list_push (GnmExprList **list, GnmExpr const *pd)
 {
-	d (5, fprintf (stderr, "Push 0x%p\n", pd););
+	d (5, fprintf (stderr, "Push 0x%p\n", (void *)pd););
 	if (pd == NULL) {
 		g_warning ("FIXME: Pushing nothing onto excel function stack");
 		pd = xl_expr_err (NULL, -1, -1,
@@ -595,7 +595,7 @@ parse_list_pop (GnmExprList **list)
 	if (tmp != NULL) {
 		GnmExpr const *ans = tmp->data;
 		*list = g_slist_remove (*list, ans);
-		d (5, fprintf (stderr, "Pop 0x%p\n", ans););
+		d (5, fprintf (stderr, "Pop 0x%p\n", (void *)ans););
 		return ans;
 	}
 
@@ -1462,7 +1462,7 @@ excel_parse_formula1 (MSContainer const *container,
 				} else
 				{
 					g_warning ("EXCEL: %x (of %x) UNKNOWN name %p.",
-						   name_idx, names ? names->len : 0xffffffff, container);
+						   name_idx, names ? names->len : 0xffffffff, (void *)container);
 					name = gnm_expr_new_constant (
 						value_new_error_NAME (NULL));
 				}
@@ -1595,7 +1595,7 @@ excel_parse_formula1 (MSContainer const *container,
 			if (names == NULL || name_idx < 1 || names->len < name_idx ||
 			    (nexpr = g_ptr_array_index (names, name_idx-1)) == NULL) {
 				g_warning ("EXCEL: %x (of %x) UNKNOWN name %p.",
-					   name_idx, names ? names->len : 0xffffffff, container);
+					   name_idx, names ? names->len : 0xffffffff, (void *)container);
 				name = gnm_expr_new_constant (
 					value_new_error_REF (NULL));
 			} else {

@@ -486,7 +486,7 @@ gnm_rendered_value_recontext (GnmRenderedValue *rv, PangoContext *context)
 	pango_layout_set_auto_dir (layout, pango_layout_get_auto_dir (olayout));
 	pango_layout_set_ellipsize (layout, pango_layout_get_ellipsize (olayout));
 	pango_layout_set_font_description (layout, pango_layout_get_font_description (olayout));
-	// ignore tabs
+	/* ignore tabs */
 
 	/*
 	 * We really want to keep the line breaks, but currently pango

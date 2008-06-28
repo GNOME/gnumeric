@@ -264,7 +264,7 @@ sheet_view_init (GObject *object)
 
 GSF_CLASS (SheetView, sheet_view,
 	   sheet_view_class_init, sheet_view_init,
-	   G_TYPE_OBJECT);
+	   G_TYPE_OBJECT)
 
 SheetView *
 sheet_view_new (Sheet *sheet, WorkbookView *wbv)

@@ -228,7 +228,7 @@ xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, GnmCellPos
 static gboolean
 xml_sax_attr_color (xmlChar const * const *attrs, char const *name, GnmColor **res)
 {
-	int red, green, blue;
+	unsigned int red, green, blue;
 
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);

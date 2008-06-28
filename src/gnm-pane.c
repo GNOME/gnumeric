@@ -948,7 +948,7 @@ gnm_pane_class_init (GnmPaneClass *klass)
 
 GSF_CLASS (GnmPane, gnm_pane,
 	   gnm_pane_class_init, gnm_pane_init,
-	   GNM_SIMPLE_CANVAS_TYPE);
+	   GNM_SIMPLE_CANVAS_TYPE)
 
 static void
 cb_gnm_pane_header_realized (GtkWidget *widget)
@@ -2065,9 +2065,9 @@ gnm_pane_size_guide_start (GnmPane *pane, gboolean vert, int colrow, int width)
 			"width-pixels", 1,
 			NULL);
 	else {
-		static char const dat [] = { 0x22, 0x88, 0x22, 0x88, 0x22, 0x88, 0x22, 0x88 };
+		static unsigned char const dat [] = { 0x22, 0x88, 0x22, 0x88, 0x22, 0x88, 0x22, 0x88 };
 		GdkBitmap *stipple = gdk_bitmap_create_from_data (
-			GTK_WIDGET (pane)->window, dat, 8, 8);
+			GTK_WIDGET (pane)->window, (const gchar *)dat, 8, 8);
 		foo_canvas_item_set (pane->size_guide.guide, "fill-stipple", stipple, NULL);
 		g_object_unref (stipple);
 	}

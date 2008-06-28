@@ -529,7 +529,7 @@ gnm_filter_combo_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (GnmFilterCombo, gnm_filter_combo,
 	   gnm_filter_combo_class_init, gnm_filter_combo_init,
-	   SHEET_OBJECT_TYPE);
+	   SHEET_OBJECT_TYPE)
 
 /*************************************************************************/
 

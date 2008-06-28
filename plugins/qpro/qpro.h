@@ -189,7 +189,7 @@ typedef enum {
 	QPRO_UNDOCUMENTED_1011			= 1011,
 
 	QPRO_LAST_SANE_ID			= 1999,
-	QPRO_UNKNOWN				= 0xdead,
+	QPRO_UNKNOWN				= 0xdead
 } QProRecord;
 
 typedef enum {

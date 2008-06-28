@@ -1133,4 +1133,4 @@ item_bar_class_init (GObjectClass  *gobject_klass)
 
 GSF_CLASS (ItemBar, item_bar,
 	   item_bar_class_init, item_bar_init,
-	   FOO_TYPE_CANVAS_ITEM);
+	   FOO_TYPE_CANVAS_ITEM)

@@ -3396,8 +3396,10 @@ typedef struct {
 } rank_t;
 
 static gint
-rank_compare (const rank_t *a, const rank_t *b)
+cb_rank_compare (const void *va, const void *vb)
 {
+	rank_t const *a = va;
+	rank_t const *b = vb;
         if (a->x < b->x)
                 return 1;
         else if (a->x == b->x)
@@ -3449,7 +3451,7 @@ analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 		}
 
 		qsort (rank, this_data_set->data->len,
-		       sizeof (rank_t), (void *) &rank_compare);
+		       sizeof (rank_t), &cb_rank_compare);
 
 		dao_set_percent (dao, n_data * 4 + 3, 1,
 			     n_data * 4 + 3, this_data_set->data->len);

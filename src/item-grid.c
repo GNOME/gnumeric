@@ -1156,4 +1156,4 @@ item_grid_class_init (GObjectClass *gobject_klass)
 
 GSF_CLASS (ItemGrid, item_grid,
 	   item_grid_class_init, item_grid_init,
-	   FOO_TYPE_CANVAS_ITEM);
+	   FOO_TYPE_CANVAS_ITEM)

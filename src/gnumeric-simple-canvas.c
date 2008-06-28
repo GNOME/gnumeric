@@ -37,7 +37,7 @@ gnm_simple_canvas_class_init (GtkWidgetClass *klass)
 
 GSF_CLASS (GnmSimpleCanvas, gnm_simple_canvas,
 	   gnm_simple_canvas_class_init, NULL,
-	   FOO_TYPE_CANVAS);
+	   FOO_TYPE_CANVAS)
 
 FooCanvas *
 gnm_simple_canvas_new (SheetControlGUI *scg)

@@ -1038,7 +1038,7 @@ static void
 cb_cell_copy_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
 {
 	GnmCellCopy const *cc = data;
-	g_printerr ("Leaking cell copy at %p.\n", cc);
+	g_printerr ("Leaking cell copy at %p.\n", (void *)cc);
 }
 #endif
 

@@ -1359,6 +1359,7 @@ xlsx_chart_solid_fill (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xlsx_draw_color_themed (GsfXMLIn *xin, xmlChar const **attrs)
 {
+#if 0
 	static EnumVal const colors[] = {
 		{ "bg1",	 0 }, /* Background Color 1 */
 		{ "tx1",	 1 }, /* Text Color 1 */
@@ -1379,6 +1380,7 @@ xlsx_draw_color_themed (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "lt2",	16 }, /* Light Color 2 */
 		{ NULL, 0 }
 	};
+#endif
 
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gpointer val = NULL;

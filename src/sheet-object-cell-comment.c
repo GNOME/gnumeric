@@ -346,7 +346,7 @@ cell_comment_init (GnmComment *cc)
 }
 
 GSF_CLASS (GnmComment, cell_comment,
-	   cell_comment_class_init, cell_comment_init, SHEET_OBJECT_TYPE);
+	   cell_comment_class_init, cell_comment_init, SHEET_OBJECT_TYPE)
 
 char const  *
 cell_comment_author_get (GnmComment const *cc)

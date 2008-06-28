@@ -494,4 +494,4 @@ gnm_so_line_init (GObject *obj)
 
 GSF_CLASS (GnmSOLine, gnm_so_line,
 	   gnm_so_line_class_init, gnm_so_line_init,
-	   SHEET_OBJECT_TYPE);
+	   SHEET_OBJECT_TYPE)

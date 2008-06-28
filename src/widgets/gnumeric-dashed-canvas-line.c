@@ -13,8 +13,6 @@
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
-// 				  int x, int y, int width, int height)
-
 static void gnumeric_dashed_canvas_line_draw (FooCanvasItem *item,
 					      GdkDrawable *drawable,
 					      GdkEventExpose *event);

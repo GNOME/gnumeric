@@ -108,7 +108,7 @@ capp_class_init (CorbaApplicationClass *capp)
 static BONOBO_TYPE_FUNC_FULL (CorbaApplication,
 		       GNOME_Gnumeric_Application,
 		       BONOBO_OBJECT_TYPE,
-		       capp);
+		       capp)
 
 /***************************************************************/
 static CorbaApplication *capp = NULL;

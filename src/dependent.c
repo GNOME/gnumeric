@@ -1236,7 +1236,7 @@ name_dep_eval (G_GNUC_UNUSED GnmDependent *dep)
 static void
 name_dep_debug_name (GnmDependent const *dep, GString *target)
 {
-	g_string_append_printf (target, "Name%p", dep);
+	g_string_append_printf (target, "Name%p", (void *)dep);
 }
 
 static void
@@ -1247,7 +1247,7 @@ dynamic_dep_eval (G_GNUC_UNUSED GnmDependent *dep)
 static void
 dynamic_dep_debug_name (GnmDependent const *dep, GString *target)
 {
-	g_string_append_printf (target, "DynamicDep%p", dep);
+	g_string_append_printf (target, "DynamicDep%p", (void *)dep);
 }
 
 void
@@ -2815,7 +2815,6 @@ void
 gnm_dep_container_dump (GnmDepContainer const *deps)
 {
 	int i;
-	Sheet *sheet = NULL;
 
 	g_return_if_fail (deps != NULL);
 
@@ -2862,26 +2861,26 @@ gnm_dep_container_sanity_check (GnmDepContainer const *deps)
 	GHashTable *seenb4;
 
 	if (deps->head && !deps->tail)
-		g_warning ("Dependency container %p has head, but no tail.", deps);
+		g_warning ("Dependency container %p has head, but no tail.", (void *)deps);
 	if (deps->tail && !deps->head)
-		g_warning ("Dependency container %p has tail, but no head.", deps);
+		g_warning ("Dependency container %p has tail, but no head.", (void *)deps);
 	if (deps->head && deps->head->prev_dep)
-		g_warning ("Dependency container %p has head, but not at the beginning.", deps);
+		g_warning ("Dependency container %p has head, but not at the beginning.", (void *)deps);
 	if (deps->tail && deps->tail->next_dep)
-		g_warning ("Dependency container %p has tail, but not at the end.", deps);
+		g_warning ("Dependency container %p has tail, but not at the end.", (void *)deps);
 
 	seenb4 = g_hash_table_new (g_direct_hash, g_direct_equal);
 	for (dep = deps->head; dep; dep = dep->next_dep) {
 		if (dep->prev_dep && (dep->prev_dep->next_dep != dep))
-			g_warning ("Dependency container %p has left double-link failure at %p.", deps, dep);
+			g_warning ("Dependency container %p has left double-link failure at %p.", (void *)deps, (void *)dep);
 		if (dep->next_dep && (dep->next_dep->prev_dep != dep))
-			g_warning ("Dependency container %p has right double-link failure at %p.", deps, dep);
+			g_warning ("Dependency container %p has right double-link failure at %p.", (void *)deps, (void *)dep);
 		if (!dep->next_dep && dep != deps->tail)
-			g_warning ("Dependency container %p ends before its tail.", deps);
+			g_warning ("Dependency container %p ends before its tail.", (void *)deps);
 		if (!dependent_is_linked (dep))
-			g_warning ("Dependency container %p contains unlinked dependency %p.", deps, dep);
+			g_warning ("Dependency container %p contains unlinked dependency %p.", (void *)deps, (void *)dep);
 		if (g_hash_table_lookup (seenb4, dep)) {
-			g_warning ("Dependency container %p is circular.", deps);
+			g_warning ("Dependency container %p is circular.", (void *)deps);
 			break;
 		}
 		g_hash_table_insert (seenb4, (gpointer)dep, (gpointer)dep);

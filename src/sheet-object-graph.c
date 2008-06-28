@@ -541,7 +541,7 @@ GSF_CLASS_FULL (SheetObjectGraph, sheet_object_graph,
 		NULL, NULL, gnm_sog_class_init,NULL,
 		gnm_sog_init, SHEET_OBJECT_TYPE, 0,
 		GSF_INTERFACE (sog_imageable_init, SHEET_OBJECT_IMAGEABLE_TYPE) \
-		GSF_INTERFACE (sog_exportable_init, SHEET_OBJECT_EXPORTABLE_TYPE));
+		GSF_INTERFACE (sog_exportable_init, SHEET_OBJECT_EXPORTABLE_TYPE))
 
 /**
  * sheet_object_graph_new :

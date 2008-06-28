@@ -499,4 +499,4 @@ preview_grid_class_init (GObjectClass *gobject_klass)
 
 GSF_CLASS (PreviewGrid, preview_grid,
 	   preview_grid_class_init, preview_grid_init,
-	   FOO_TYPE_CANVAS_GROUP);
+	   FOO_TYPE_CANVAS_GROUP)

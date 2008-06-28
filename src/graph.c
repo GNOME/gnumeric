@@ -291,7 +291,7 @@ gnm_go_data_scalar_class_init (GObjectClass *gobject_klass)
 static void
 gnm_go_data_scalar_debug_name (GnmDependent const *dep, GString *target)
 {
-	g_string_append_printf (target, "GraphScalar%p", dep);
+	g_string_append_printf (target, "GraphScalar%p", (void *)dep);
 }
 
 static DEPENDENT_MAKE_TYPE (gnm_go_data_scalar, NULL)
@@ -679,7 +679,7 @@ gnm_go_data_vector_class_init (GObjectClass *gobject_klass)
 static void
 gnm_go_data_vector_debug_name (GnmDependent const *dep, GString *target)
 {
-	g_string_append_printf (target, "GraphVector%p", dep);
+	g_string_append_printf (target, "GraphVector%p", (void *)dep);
 }
 static DEPENDENT_MAKE_TYPE (gnm_go_data_vector, NULL)
 
@@ -1080,7 +1080,7 @@ gnm_go_data_matrix_class_init (GObjectClass *gobject_klass)
 static void
 gnm_go_data_matrix_debug_name (GnmDependent const *dep, GString *target)
 {
-	g_string_append_printf (target, "GraphMatrix%p", dep);
+	g_string_append_printf (target, "GraphMatrix%p", (void *)dep);
 }
 static DEPENDENT_MAKE_TYPE (gnm_go_data_matrix, NULL)
 

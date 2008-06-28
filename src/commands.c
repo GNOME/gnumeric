@@ -151,7 +151,7 @@ typedef struct {
 
 static GSF_CLASS (GnmCommand, gnm_command,
 		  NULL, NULL,
-		  G_TYPE_OBJECT);
+		  G_TYPE_OBJECT)
 
 /* Store the real GObject dtor pointer */
 static void (* g_object_dtor) (GObject *object) = NULL;
@@ -190,7 +190,7 @@ func ## _class_init (GnmCommandClass *parent)				\
 }									\
 typedef GnmCommandClass type ## Class;					\
 static GSF_CLASS (type, func,						\
-		  func ## _class_init, NULL, GNM_COMMAND_TYPE);
+		  func ## _class_init, NULL, GNM_COMMAND_TYPE)
 
 /******************************************************************/
 
@@ -802,7 +802,7 @@ cmd_set_text_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 		orig->text, orig->markup);
 #warning validation from workbook-edit
 }
-MAKE_GNM_COMMAND (CmdSetText, cmd_set_text, cmd_set_text_repeat);
+MAKE_GNM_COMMAND (CmdSetText, cmd_set_text, cmd_set_text_repeat)
 
 static gboolean
 cmd_set_text_undo (GnmCommand *cmd, WorkbookControl *wbc)
@@ -1053,7 +1053,7 @@ cmd_area_set_text_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	cmd_area_set_text (wbc, sv,
 		orig->text, orig->as_array);
 }
-MAKE_GNM_COMMAND (CmdAreaSetText, cmd_area_set_text, cmd_area_set_text_repeat);
+MAKE_GNM_COMMAND (CmdAreaSetText, cmd_area_set_text, cmd_area_set_text_repeat)
 
 static gboolean
 cmd_area_set_text_undo (GnmCommand *cmd, WorkbookControl *wbc)
@@ -1291,7 +1291,7 @@ cmd_ins_del_colrow_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	}
 }
 
-MAKE_GNM_COMMAND (CmdInsDelColRow, cmd_ins_del_colrow, cmd_ins_del_colrow_repeat);
+MAKE_GNM_COMMAND (CmdInsDelColRow, cmd_ins_del_colrow, cmd_ins_del_colrow_repeat)
 
 static gboolean
 cmd_ins_del_colrow_undo (GnmCommand *cmd, WorkbookControl *wbc)
@@ -1519,7 +1519,7 @@ cmd_clear_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	CmdClear const *orig = (CmdClear const *) cmd;
 	cmd_selection_clear (wbc, orig->clear_flags);
 }
-MAKE_GNM_COMMAND (CmdClear, cmd_clear, cmd_clear_repeat);
+MAKE_GNM_COMMAND (CmdClear, cmd_clear, cmd_clear_repeat)
 
 static gboolean
 cmd_clear_undo (GnmCommand *cmd, WorkbookControl *wbc)
@@ -1712,7 +1712,7 @@ cmd_format_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 
 	cmd_selection_format (wbc, orig->new_style, orig->borders, NULL);
 }
-MAKE_GNM_COMMAND (CmdFormat, cmd_format, cmd_format_repeat);
+MAKE_GNM_COMMAND (CmdFormat, cmd_format, cmd_format_repeat)
 
 static gboolean
 cmd_format_undo (GnmCommand *cmd,
@@ -1928,7 +1928,7 @@ typedef struct {
 	int		 new_size;
 } CmdResizeColRow;
 
-MAKE_GNM_COMMAND (CmdResizeColRow, cmd_resize_colrow, NULL);
+MAKE_GNM_COMMAND (CmdResizeColRow, cmd_resize_colrow, NULL)
 
 static gboolean
 cmd_resize_colrow_undo (GnmCommand *cmd,
@@ -2058,7 +2058,7 @@ typedef struct {
 	GnmCellRegion *old_contents;
 } CmdSort;
 
-MAKE_GNM_COMMAND (CmdSort, cmd_sort, NULL);
+MAKE_GNM_COMMAND (CmdSort, cmd_sort, NULL)
 
 static void
 cmd_sort_finalize (GObject *cmd)
@@ -2158,7 +2158,7 @@ cmd_colrow_hide_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	CmdColRowHide const *orig = (CmdColRowHide const *) cmd;
 	cmd_selection_colrow_hide (wbc, orig->is_cols, orig->show != NULL);
 }
-MAKE_GNM_COMMAND (CmdColRowHide, cmd_colrow_hide, cmd_colrow_hide_repeat);
+MAKE_GNM_COMMAND (CmdColRowHide, cmd_colrow_hide, cmd_colrow_hide_repeat)
 
 /**
  * cmd_colrow_hide_correct_selection :
@@ -2390,7 +2390,7 @@ cmd_group_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	CmdGroup const *orig = (CmdGroup const *) cmd;
 	cmd_selection_group (wbc, orig->is_cols, orig->group);
 }
-MAKE_GNM_COMMAND (CmdGroup, cmd_group, cmd_group_repeat);
+MAKE_GNM_COMMAND (CmdGroup, cmd_group, cmd_group_repeat)
 
 static gboolean
 cmd_group_undo (GnmCommand *cmd,
@@ -2499,7 +2499,7 @@ typedef struct {
 	GnmCellRegion *deleted_sheet_contents;
 } CmdPasteCut;
 
-MAKE_GNM_COMMAND (CmdPasteCut, cmd_paste_cut, NULL);
+MAKE_GNM_COMMAND (CmdPasteCut, cmd_paste_cut, NULL)
 
 typedef struct {
 	GnmPasteTarget pt;
@@ -2813,7 +2813,7 @@ cmd_paste_copy_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	cmd_paste_copy (wbc, &new_dst,
 		clipboard_copy_range (orig->dst.sheet, &orig->dst.range));
 }
-MAKE_GNM_COMMAND (CmdPasteCopy, cmd_paste_copy, cmd_paste_copy_repeat);
+MAKE_GNM_COMMAND (CmdPasteCopy, cmd_paste_copy, cmd_paste_copy_repeat)
 
 static int
 by_addr (gconstpointer a, gconstpointer b)
@@ -3097,7 +3097,7 @@ cmd_autofill_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	      r->start.row + (orig->end_row - orig->base_row),
 	      orig->inverse_autofill);
 }
-MAKE_GNM_COMMAND (CmdAutofill, cmd_autofill, cmd_autofill_repeat);
+MAKE_GNM_COMMAND (CmdAutofill, cmd_autofill, cmd_autofill_repeat)
 
 static gboolean
 cmd_autofill_undo (GnmCommand *cmd, WorkbookControl *wbc)
@@ -3290,7 +3290,7 @@ cmd_copyrel_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	CmdCopyRel const *orig = (CmdCopyRel const *) cmd;
 	cmd_copyrel (wbc, orig->dx, orig->dy, orig->name);
 }
-MAKE_GNM_COMMAND (CmdCopyRel, cmd_copyrel, cmd_copyrel_repeat);
+MAKE_GNM_COMMAND (CmdCopyRel, cmd_copyrel, cmd_copyrel_repeat)
 
 static gboolean
 cmd_copyrel_undo (GnmCommand *cmd, WorkbookControl *wbc)
@@ -3443,7 +3443,7 @@ cmd_autoformat_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	CmdAutoFormat const *orig = (CmdAutoFormat const *) cmd;
 	cmd_selection_autoformat (wbc, format_template_clone (orig->ft));
 }
-MAKE_GNM_COMMAND (CmdAutoFormat, cmd_autoformat, cmd_autoformat_repeat);
+MAKE_GNM_COMMAND (CmdAutoFormat, cmd_autoformat, cmd_autoformat_repeat)
 
 static gboolean
 cmd_autoformat_undo (GnmCommand *cmd,
@@ -3592,7 +3592,7 @@ cmd_unmerge_cells_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	cmd_unmerge_cells (wbc, sv_sheet (sv), range_list);
 	range_fragment_free (range_list);
 }
-MAKE_GNM_COMMAND (CmdUnmergeCells, cmd_unmerge_cells, cmd_unmerge_cells_repeat);
+MAKE_GNM_COMMAND (CmdUnmergeCells, cmd_unmerge_cells, cmd_unmerge_cells_repeat)
 
 static gboolean
 cmd_unmerge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
@@ -3715,7 +3715,7 @@ typedef struct {
 static void
 cmd_merge_cells_repeat (GnmCommand const *cmd, WorkbookControl *wbc);
 
-MAKE_GNM_COMMAND (CmdMergeCells, cmd_merge_cells, cmd_merge_cells_repeat);
+MAKE_GNM_COMMAND (CmdMergeCells, cmd_merge_cells, cmd_merge_cells_repeat)
 
 static void
 cmd_merge_cells_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
@@ -3886,7 +3886,7 @@ typedef struct {
 	GList *cells;
 } CmdSearchReplace;
 
-MAKE_GNM_COMMAND (CmdSearchReplace, cmd_search_replace, NULL);
+MAKE_GNM_COMMAND (CmdSearchReplace, cmd_search_replace, NULL)
 
 typedef enum { SRI_text, SRI_comment } SearchReplaceItemType;
 
@@ -4261,7 +4261,7 @@ typedef struct {
 	double           old_default;
 } CmdColRowStdSize;
 
-MAKE_GNM_COMMAND (CmdColRowStdSize, cmd_colrow_std_size, NULL);
+MAKE_GNM_COMMAND (CmdColRowStdSize, cmd_colrow_std_size, NULL)
 
 static gboolean
 cmd_colrow_std_size_undo (GnmCommand *cmd,
@@ -4344,7 +4344,7 @@ typedef struct {
 	double          *old_factors;
 } CmdZoom;
 
-MAKE_GNM_COMMAND (CmdZoom, cmd_zoom, NULL);
+MAKE_GNM_COMMAND (CmdZoom, cmd_zoom, NULL)
 
 static gboolean
 cmd_zoom_undo (GnmCommand *cmd,
@@ -4453,7 +4453,7 @@ typedef struct {
 	GArray *location;
 } CmdObjectsDelete;
 
-MAKE_GNM_COMMAND (CmdObjectsDelete, cmd_objects_delete, NULL);
+MAKE_GNM_COMMAND (CmdObjectsDelete, cmd_objects_delete, NULL)
 
 static gboolean
 cmd_objects_delete_redo (GnmCommand *cmd,
@@ -4547,7 +4547,7 @@ typedef struct {
 	gboolean objects_created, first_time;
 } CmdObjectsMove;
 
-MAKE_GNM_COMMAND (CmdObjectsMove, cmd_objects_move, NULL);
+MAKE_GNM_COMMAND (CmdObjectsMove, cmd_objects_move, NULL)
 
 static gboolean
 cmd_objects_move_redo (GnmCommand *cmd,
@@ -4632,7 +4632,7 @@ typedef struct {
 	gboolean  first_time;
 } CmdObjectFormat;
 
-MAKE_GNM_COMMAND (CmdObjectFormat, cmd_object_format, NULL);
+MAKE_GNM_COMMAND (CmdObjectFormat, cmd_object_format, NULL)
 
 static gboolean
 cmd_object_format_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
@@ -4705,7 +4705,7 @@ typedef struct {
 	Sheet *redo_sheet;
 } CmdReorganizeSheets;
 
-MAKE_GNM_COMMAND (CmdReorganizeSheets, cmd_reorganize_sheets, NULL);
+MAKE_GNM_COMMAND (CmdReorganizeSheets, cmd_reorganize_sheets, NULL)
 
 static gboolean
 cmd_reorganize_sheets_undo (GnmCommand *cmd, WorkbookControl *wbc)
@@ -4825,7 +4825,7 @@ typedef struct {
 	gchar		*old_text;
 } CmdSetComment;
 
-MAKE_GNM_COMMAND (CmdSetComment, cmd_set_comment, NULL);
+MAKE_GNM_COMMAND (CmdSetComment, cmd_set_comment, NULL)
 
 static gboolean
 cmd_set_comment_apply (Sheet *sheet, GnmCellPos *pos, char const *text)
@@ -4946,7 +4946,7 @@ typedef struct {
 	GnmCellRegion              *old_contents;
 } CmdAnalysis_Tool;
 
-MAKE_GNM_COMMAND (CmdAnalysis_Tool, cmd_analysis_tool, NULL);
+MAKE_GNM_COMMAND (CmdAnalysis_Tool, cmd_analysis_tool, NULL)
 
 static gboolean
 cmd_analysis_tool_undo (GnmCommand *cmd, WorkbookControl *wbc)
@@ -5145,7 +5145,7 @@ typedef struct {
 	gint n;
 } CmdMergeData;
 
-MAKE_GNM_COMMAND (CmdMergeData, cmd_merge_data, NULL);
+MAKE_GNM_COMMAND (CmdMergeData, cmd_merge_data, NULL)
 
 static void
 cmd_merge_data_delete_sheets (gpointer data, gpointer success)
@@ -5313,7 +5313,7 @@ typedef struct {
 	GSList *removed_names;
 } CmdChangeMetaData;
 
-MAKE_GNM_COMMAND (CmdChangeMetaData, cmd_change_summary, NULL);
+MAKE_GNM_COMMAND (CmdChangeMetaData, cmd_change_summary, NULL)
 
 static gboolean
 cmd_change_summary_undo (GnmCommand *cmd, WorkbookControl *wbc)
@@ -5394,7 +5394,7 @@ typedef struct {
 	gint        changed_positions;
 } CmdObjectRaise;
 
-MAKE_GNM_COMMAND (CmdObjectRaise, cmd_object_raise, NULL);
+MAKE_GNM_COMMAND (CmdObjectRaise, cmd_object_raise, NULL)
 
 static gboolean
 cmd_object_raise_redo (GnmCommand *cmd,
@@ -5482,7 +5482,7 @@ typedef struct {
 	PrintInformation *new_pi;
 } CmdPrintSetup;
 
-MAKE_GNM_COMMAND (CmdPrintSetup, cmd_print_setup, NULL);
+MAKE_GNM_COMMAND (CmdPrintSetup, cmd_print_setup, NULL)
 
 static gboolean
 cmd_print_setup_undo (GnmCommand *cmd, WorkbookControl *wbc)
@@ -5598,7 +5598,7 @@ typedef struct {
 	gboolean	 placeholder;
 } CmdDefineName;
 
-MAKE_GNM_COMMAND (CmdDefineName, cmd_define_name, NULL);
+MAKE_GNM_COMMAND (CmdDefineName, cmd_define_name, NULL)
 
 static gboolean
 cmd_define_name_undo (GnmCommand *cmd,
@@ -5757,7 +5757,7 @@ typedef struct {
 	const GnmExprTop *texpr;
 } CmdRemoveName;
 
-MAKE_GNM_COMMAND (CmdRemoveName, cmd_remove_name, NULL);
+MAKE_GNM_COMMAND (CmdRemoveName, cmd_remove_name, NULL)
 
 static gboolean
 cmd_remove_name_undo (GnmCommand *cmd,
@@ -5844,7 +5844,7 @@ typedef struct {
 	scenario_t     *scenario;
 } CmdScenarioAdd;
 
-MAKE_GNM_COMMAND (CmdScenarioAdd, cmd_scenario_add, NULL);
+MAKE_GNM_COMMAND (CmdScenarioAdd, cmd_scenario_add, NULL)
 
 static gboolean
 cmd_scenario_add_redo (GnmCommand *cmd, WorkbookControl *wbc)
@@ -5906,7 +5906,7 @@ typedef struct {
 	scenario_cmd_t  *sc;
 } CmdScenarioMngr;
 
-MAKE_GNM_COMMAND (CmdScenarioMngr, cmd_scenario_mngr, NULL);
+MAKE_GNM_COMMAND (CmdScenarioMngr, cmd_scenario_mngr, NULL)
 
 static gboolean
 cmd_scenario_mngr_redo (GnmCommand *cmd, WorkbookControl *wbc)
@@ -5983,7 +5983,7 @@ typedef struct {
 	data_shuffling_t *ds;
 } CmdDataShuffle;
 
-MAKE_GNM_COMMAND (CmdDataShuffle, cmd_data_shuffle, NULL);
+MAKE_GNM_COMMAND (CmdDataShuffle, cmd_data_shuffle, NULL)
 
 static gboolean
 cmd_data_shuffle_redo (GnmCommand *cmd, WorkbookControl *wbc)
@@ -6046,7 +6046,7 @@ typedef struct {
 	ColRowStateList *saved_sizes;
 } CmdTextToColumns;
 
-MAKE_GNM_COMMAND (CmdTextToColumns, cmd_text_to_columns, NULL);
+MAKE_GNM_COMMAND (CmdTextToColumns, cmd_text_to_columns, NULL)
 
 static gboolean
 cmd_text_to_columns_impl (GnmCommand *cmd, WorkbookControl *wbc,
@@ -6167,7 +6167,7 @@ typedef struct {
 	GSList	  *nv;
 } CmdSolver;
 
-MAKE_GNM_COMMAND (CmdSolver, cmd_solver, NULL);
+MAKE_GNM_COMMAND (CmdSolver, cmd_solver, NULL)
 
 static gboolean
 cmd_solver_impl (GSList *cell_stack, GSList *value_stack)
@@ -6297,7 +6297,7 @@ typedef struct {
 	GnmValue  *nv;
 } CmdGoalSeek;
 
-MAKE_GNM_COMMAND (CmdGoalSeek, cmd_goal_seek, NULL);
+MAKE_GNM_COMMAND (CmdGoalSeek, cmd_goal_seek, NULL)
 
 static gboolean
 cmd_goal_seek_impl (GnmCell *cell, GnmValue *value)
@@ -6379,7 +6379,7 @@ typedef struct {
 	GnmCellPos	   pos;
 } CmdFreezePanes;
 
-MAKE_GNM_COMMAND (CmdFreezePanes, cmd_freeze_panes, NULL);
+MAKE_GNM_COMMAND (CmdFreezePanes, cmd_freeze_panes, NULL)
 
 static gboolean
 cmd_freeze_panes_undo (GnmCommand *cmd, WorkbookControl *wbc)
@@ -6446,7 +6446,7 @@ typedef struct {
 	GnmTabulateInfo *data;
 } CmdTabulate;
 
-MAKE_GNM_COMMAND (CmdTabulate, cmd_tabulate, NULL);
+MAKE_GNM_COMMAND (CmdTabulate, cmd_tabulate, NULL)
 
 static gint
 cmd_reorganize_sheets_delete_cmp_f (gconstpointer a,
@@ -6537,7 +6537,7 @@ typedef struct {
 	GogGraph *old_graph;
 } CmdSOGraphConfig;
 
-MAKE_GNM_COMMAND (CmdSOGraphConfig, cmd_so_graph_config, NULL);
+MAKE_GNM_COMMAND (CmdSOGraphConfig, cmd_so_graph_config, NULL)
 
 static gboolean
 cmd_so_graph_config_redo (GnmCommand *cmd,
@@ -6604,7 +6604,7 @@ cmd_so_graph_config (WorkbookControl *wbc, SheetObject *so,
 
 typedef GnmCommand CmdToggleRTL;
 
-MAKE_GNM_COMMAND (CmdToggleRTL, cmd_toggle_rtl, NULL);
+MAKE_GNM_COMMAND (CmdToggleRTL, cmd_toggle_rtl, NULL)
 
 static gboolean
 cmd_toggle_rtl_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
@@ -6653,7 +6653,7 @@ typedef struct {
 	GOUndo *undo;
 } CmdSOSetValue;
 
-MAKE_GNM_COMMAND (CmdSOSetValue, cmd_so_set_value, NULL);
+MAKE_GNM_COMMAND (CmdSOSetValue, cmd_so_set_value, NULL)
 
 static gboolean
 cmd_so_set_value_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)

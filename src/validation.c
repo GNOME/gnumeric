@@ -126,7 +126,7 @@ gnm_validation_combo_class_init (GObjectClass *gobject_class)
 typedef SheetObjectClass GnmValidationComboClass;
 GSF_CLASS (GnmValidationCombo, gnm_validation_combo,
 	   gnm_validation_combo_class_init, gnm_validation_combo_init,
-	   SHEET_OBJECT_TYPE);
+	   SHEET_OBJECT_TYPE)
 
 SheetObject *
 gnm_validation_combo_new (GnmValidation const *val, SheetView *sv)

@@ -253,7 +253,7 @@ sheet_object_class_init (GObjectClass *klass)
 
 GSF_CLASS (SheetObject, sheet_object,
 	   sheet_object_class_init, sheet_object_init,
-	   G_TYPE_OBJECT);
+	   G_TYPE_OBJECT)
 
 SheetObjectView *
 sheet_object_get_view (SheetObject const *so, SheetObjectViewContainer *container)

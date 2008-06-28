@@ -782,7 +782,7 @@ workbook_view_class_init (GObjectClass *gobject_class)
 }
 
 GSF_CLASS (WorkbookView, workbook_view,
-	   workbook_view_class_init, NULL, G_TYPE_OBJECT);
+	   workbook_view_class_init, NULL, G_TYPE_OBJECT)
 
 WorkbookView *
 workbook_view_new (Workbook *wb)

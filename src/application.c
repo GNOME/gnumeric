@@ -798,7 +798,7 @@ gnm_app_init (GObject *obj)
 
 GSF_CLASS (GnmApp, gnm_app,
 	   gnm_app_class_init, gnm_app_init,
-	   G_TYPE_OBJECT);
+	   G_TYPE_OBJECT)
 
 /**********************************************************************/
 static GSList *extra_uis = NULL;

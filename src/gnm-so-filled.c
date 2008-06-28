@@ -519,4 +519,4 @@ gnm_so_filled_init (GObject *obj)
 
 GSF_CLASS (GnmSOFilled, gnm_so_filled,
 	   gnm_so_filled_class_init, gnm_so_filled_init,
-	   SHEET_OBJECT_TYPE);
+	   SHEET_OBJECT_TYPE)

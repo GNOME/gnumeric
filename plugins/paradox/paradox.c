@@ -137,7 +137,7 @@ paradox_file_open (GOFileOpener const *fo, IOContext *io_context,
 					char *value;
 					if (0 < PX_get_data_alpha (pxdoc, &data[offset], pxf->px_flen, &value)) {
 						val = value_new_string_nocopy (value);
-//							value_set_fmt (val, field->fmt);
+/*							value_set_fmt (val, field->fmt); */
 					}
 					break;
 				}

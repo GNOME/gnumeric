@@ -109,4 +109,4 @@ complete_class_init (GObjectClass *object_class)
 }
 
 GSF_CLASS (Complete, complete,
-	   &complete_class_init, NULL, PARENT_TYPE);
+	   &complete_class_init, NULL, PARENT_TYPE)

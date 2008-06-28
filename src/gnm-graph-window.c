@@ -65,10 +65,10 @@ typedef enum {
 	CHART_SIZE_150,
 	CHART_SIZE_200,
 	CHART_SIZE_300,
-	CHART_SIZE_500,
+	CHART_SIZE_500
 } ChartSize;
 
-G_DEFINE_TYPE (GnmGraphWindow, gnm_graph_window, GTK_TYPE_WINDOW);
+G_DEFINE_TYPE (GnmGraphWindow, gnm_graph_window, GTK_TYPE_WINDOW)
 #define parent_class gnm_graph_window_parent_class
 
 static void
