@@ -37,6 +37,7 @@
 #include "workbook.h"
 #include "tools.h"
 #include "numbers.h"
+#include "gnm-datetime.h"
 
 #include "mathfunc.h"
 #include "fill-series.h"
@@ -62,10 +63,7 @@ do_row_filling_wday (data_analysis_output_t *dao, fill_series_t *info)
 		wd = g_date_get_weekday (&date);
 		if (wd + (steps % 5) > G_DATE_FRIDAY)
 				days += 2;
-		if (days > 0)
-			g_date_add_days (&date, days);
-		else
-			g_date_subtract_days (&date, - days);
+		gnm_date_add_days (&date, days);
 		
 		dao_set_cell_float (dao, i, 0, 
 				    datetime_g_to_serial (&date, conv));
@@ -92,10 +90,7 @@ do_column_filling_wday (data_analysis_output_t *dao, fill_series_t *info)
 		wd = g_date_get_weekday (&date);
 		if (wd + (steps % 5) > G_DATE_FRIDAY)
 				days += 2;
-		if (days > 0)
-			g_date_add_days (&date, days);
-		else
-			g_date_subtract_days (&date, - days);
+		gnm_date_add_days (&date, days);
 		
 		dao_set_cell_float (dao, 0,i, 
 				    datetime_g_to_serial (&date, conv));
@@ -116,10 +111,7 @@ do_row_filling_month (data_analysis_output_t *dao, fill_series_t *info)
 	
 	for (i = 0; i < info->n; i++) {
 		datetime_serial_to_g (&date, start, conv);
-		if (info->step_value > 0)
-			g_date_add_months (&date, i * info->step_value);
-		else
-			g_date_subtract_months (&date,- i * info->step_value);
+		gnm_date_add_months (&date, i * info->step_value);
 		
 		dao_set_cell_float (dao, i, 0, 
 				    datetime_g_to_serial (&date, conv));
@@ -138,10 +130,7 @@ do_column_filling_month (data_analysis_output_t *dao, fill_series_t *info)
 	
 	for (i = 0; i < info->n; i++) {
 		datetime_serial_to_g (&date, start, conv);
-		if (info->step_value > 0)
-			g_date_add_months (&date, i * info->step_value);
-		else
-			g_date_subtract_months (&date,- i * info->step_value);
+		gnm_date_add_months (&date, i * info->step_value);
 		
 		dao_set_cell_float (dao, 0, i, 
 				    datetime_g_to_serial (&date, conv));
@@ -160,10 +149,7 @@ do_row_filling_year (data_analysis_output_t *dao, fill_series_t *info)
 	
 	for (i = 0; i < info->n; i++) {
 		datetime_serial_to_g (&date, start, conv);
-		if (info->step_value > 0)
-			g_date_add_years (&date, i * info->step_value);
-		else
-			g_date_subtract_years (&date,- i * info->step_value);
+		gnm_date_add_years (&date, i * info->step_value);
 		
 		dao_set_cell_float (dao, i, 0, 
 				    datetime_g_to_serial (&date, conv));
@@ -182,10 +168,7 @@ do_column_filling_year (data_analysis_output_t *dao, fill_series_t *info)
 	
 	for (i = 0; i < info->n; i++) {
 		datetime_serial_to_g (&date, start, conv);
-		if (info->step_value > 0)
-			g_date_add_years (&date, i * info->step_value);
-		else
-			g_date_subtract_years (&date,- i * info->step_value);
+		gnm_date_add_years (&date, i * info->step_value);
 		
 		dao_set_cell_float (dao, 0, i, 
 				    datetime_g_to_serial (&date, conv));

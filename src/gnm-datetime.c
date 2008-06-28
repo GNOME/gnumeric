@@ -64,8 +64,10 @@ gboolean
 datetime_value_to_g (GDate *res, GnmValue const *v, GODateConventions const *conv)
 {
 	int serial = datetime_value_to_serial (v, conv);
-	if (serial == 0)
+	if (serial == 0) {
+		g_date_clear (res, 1);
 		return FALSE;
+	}
 	datetime_serial_to_g (res, serial, conv);
 	return g_date_valid (res);
 }
@@ -133,7 +135,7 @@ yearfrac (GDate const *from, GDate const *to, basis_t basis)
 		int feb29s, years;
 
 		d1 = *from;
-		g_date_add_years (&d1, 1);
+		gnm_date_add_years (&d1, 1);
 		if (g_date_compare (to, &d1) > 0) {
 			/* More than one year.  */
 			years = y2 + 1 - y1;
@@ -168,4 +170,108 @@ yearfrac (GDate const *from, GDate const *to, basis_t basis)
 	}
 
 	return days / peryear;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Like g_date_add_days, but...
+ *
+ * 1. Do not spew criticals.
+ * 2. Number of days is signed.
+ */
+
+void
+gnm_date_add_days (GDate *d, int n)
+{
+	if (!g_date_valid (d))
+		return;
+
+	if (n >= 0) {
+		guint32 lim = 23936166;  /* 31-Dec-65535 */
+		guint32 j = g_date_get_julian (d);
+
+		if (j > lim || (unsigned)n > lim - j)
+			goto bad;
+
+		g_date_add_days (d, n);
+	} else {
+		int m = g_date_get_julian (d) - 1;
+
+		if (m + n <= 0)
+			goto bad;
+
+		g_date_subtract_days (d, -n);
+	}
+
+	return;
+
+ bad:
+	g_date_clear (d, 1);
+}
+
+/* Like g_date_add_months, but...
+ *
+ * 1. Do not spew criticals.
+ * 2. Number of months is signed.
+ */
+void
+gnm_date_add_months (GDate *d, int n)
+{
+	if (!g_date_valid (d))
+		return;
+
+	if (n >= 0) {
+		int m = (65535 - g_date_get_year (d)) * 12 +
+			(12 - g_date_get_month (d));
+
+		if (n > m)
+			goto bad;
+
+		g_date_add_months (d, n);
+	} else {
+		int m = (g_date_get_year (d) - 1) * 12 +
+			(g_date_get_month (d) - 1);
+
+		if (m + n <= 0)
+			goto bad;
+
+		g_date_subtract_months (d, -n);
+	}
+
+	return;
+
+ bad:
+	g_date_clear (d, 1);
+}
+
+/* Like g_date_add_years, but...
+ *
+ * 1. Do not spew criticals.
+ * 2. Number of years is signed.
+ */
+void
+gnm_date_add_years (GDate *d, int n)
+{
+	if (!g_date_valid (d))
+		return;
+
+	if (n >= 0) {
+		int m = 65535 - g_date_get_year (d);
+
+		if (n > m)
+			goto bad;
+
+		g_date_add_years (d, n);
+	} else {
+		int m = g_date_get_year (d) - 1;
+
+		if (m + n <= 0)
+			goto bad;
+
+		g_date_subtract_years (d, -n);
+	}
+
+	return;
+
+ bad:
+	g_date_clear (d, 1);
 }

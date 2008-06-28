@@ -590,10 +590,7 @@ afm_compute (AutoFillerMonth *afm, int n)
 	GDate d = afm->base;
 	GnmValue *v;
 
-	if (afm->nmonths >= 0)
-		g_date_add_months (&d, n * afm->nmonths);
-	else
-		g_date_subtract_months (&d, n * -afm->nmonths);
+	gnm_date_add_months (&d, n * afm->nmonths);
 
 	if (!g_date_valid (&d) || g_date_get_year (&d) > 9999)
 		return NULL;

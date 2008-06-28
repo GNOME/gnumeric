@@ -164,7 +164,7 @@ gnumeric_code (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmValue *res;
 
 	if (*us == 0)
-		value_new_error_VALUE (ei->pos);
+		return value_new_error_VALUE (ei->pos);
 
 	if (*us <= 127)
 		return value_new_int (*us);

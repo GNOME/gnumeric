@@ -242,8 +242,8 @@ cb_tool_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
  **/
 void
 dialog_tool_init_buttons (GenericToolState *state,
-			  GtkSignalFunc ok_function,
-			  GtkSignalFunc close_function)
+			  GCallback ok_function,
+			  GCallback close_function)
 {
 	state->ok_button = glade_xml_get_widget (state->gui, "okbutton");
 	g_signal_connect (G_OBJECT (state->ok_button),
@@ -300,9 +300,9 @@ dialog_tool_init (GenericToolState *state,
 		  char const *dialog_name,
 		  char const *error_str,
 		  char const *key,
-		  GtkSignalFunc ok_function,
-		  GtkSignalFunc close_function,
-		  GtkSignalFunc sensitivity_cb,
+		  GCallback ok_function,
+		  GCallback close_function,
+		  GCallback sensitivity_cb,
 		  GnmExprEntryFlags flags)
 {
 	GtkTable  *table;

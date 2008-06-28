@@ -4,8 +4,19 @@ Jody:
 	* Fix ODS import failure on win32. [#536552]
 
 Morten:
+	* Fix EOMONTH issue.  [#540069]
+	* Fix phyper hang.  [#540211]
 	* Fix text export problem for times with fractional seconds.  [#534514]
 	* Fix openoffice -pedantic problem.  [#540180]
+	* Fix OPT_RGW hang.  [#534132]
+	* Fix BESSELI and BESSELK aborts.  [#534475]
+	* Fix BESSELI issue.  [#323784]
+	* Fix UMR in WORKDAY.  [#539808]
+	* Plug leaks in GROWTH.  [#539827]
+	* Plug leak in NETWORKDAYS.
+	* Add missing "return" in CODE.
+	* Fix EDATE issue.  [#539868]
+	* Fix DAYS360 and NETWORKDAYS for invalid dates.  [#540055]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.3

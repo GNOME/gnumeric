@@ -145,24 +145,11 @@ gnumeric_date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
         g_date_clear (&date, 1);
 
 	g_date_set_dmy (&date, 1, 1, (int)year);
-	if (!g_date_valid (&date))
-		goto error;
+	gnm_date_add_months (&date, (int)month);
+	gnm_date_add_days (&date, (int)day);
 
-	if ((int)month > 0)
-		g_date_add_months (&date, (int)month - 1);
-	else
-		g_date_subtract_months (&date, 1 - (int)month);
-	if (!g_date_valid (&date))
-		goto error;
-
-	if ((int)day > 0)
-                g_date_add_days (&date, (int)day - 1);
-	else
-		g_date_subtract_days (&date, 1 - (int)day);
-	if (!g_date_valid (&date))
-		goto error;
-
-	if (g_date_get_year (&date) < gnm_date_convention_base (conv) ||
+	if (!g_date_valid (&date) ||
+	    g_date_get_year (&date) < gnm_date_convention_base (conv) ||
 	    g_date_get_year (&date) >= 11900)
 		goto error;
 
@@ -321,8 +308,8 @@ datedif_opt_yd (GDate *gdate1, GDate *gdate2, int excel_compat)
 
 	day = g_date_get_day (gdate1);
 
-	g_date_add_years (gdate1,
-			  datetime_g_years_between (gdate1, gdate2));
+	gnm_date_add_years (gdate1,
+			    datetime_g_years_between (gdate1, gdate2));
 	/* according to glib.h, feb 29 turns to feb 28 if necessary */
 
 	if (excel_compat) {
@@ -360,8 +347,8 @@ datedif_opt_md (GDate *gdate1, GDate *gdate2, gboolean excel_compat)
 
 	day = g_date_get_day (gdate1);
 
-	g_date_add_months (gdate1,
-			   datetime_g_months_between (gdate1, gdate2));
+	gnm_date_add_months (gdate1,
+			     datetime_g_months_between (gdate1, gdate2));
 	/* according to glib.h, days>28 decrease if necessary */
 
 	if (excel_compat) {
@@ -377,11 +364,11 @@ datedif_opt_md (GDate *gdate1, GDate *gdate2, gboolean excel_compat)
 		g_date_set_year (gdate2, new_year2);
 
 		/* add back the days if they were decreased by
-		   g_date_add_months */
+		   gnm_date_add_months */
 		/* ( i feel this is inferior because it reports e.g.:
 		     datedif(1/31/95,3/1/95,"d") == -2 ) */
-		g_date_add_days (gdate1,
-				 day - g_date_get_day (gdate1));
+		gnm_date_add_days (gdate1,
+				   day - g_date_get_day (gdate1));
 	}
 
 	return g_date_days_between (gdate1, gdate2);
@@ -462,13 +449,7 @@ gnumeric_edate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
                   return value_new_error_NUM (ei->pos);
 
 	datetime_serial_to_g (&date, (int)serial, conv);
-	if (!g_date_valid (&date))
-                  return value_new_error_VALUE (ei->pos);
-
-	if (months > 0)
-		g_date_add_months (&date, (int)months);
-	else
-		g_date_subtract_months (&date, (int)-months);
+	gnm_date_add_months (&date, (int)months);
 
 	if (!g_date_valid (&date) ||
 	    g_date_get_year (&date) < 1900 ||
@@ -919,6 +900,9 @@ gnumeric_days360 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	datetime_serial_to_g (&date1, serial1, date_conv);
 	datetime_serial_to_g (&date2, serial2, date_conv);
+	if (!g_date_valid (&date1) || !g_date_valid (&date2))
+		return value_new_error_VALUE (ei->pos);
+
 	return value_new_int (days_between_basis (&date1, &date2, basis));
 }
 
@@ -959,11 +943,7 @@ gnumeric_eomonth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (months > INT_MAX / 2 || -months > INT_MAX / 2)
                   return value_new_error_NUM (ei->pos);
 
-	if (months > 0)
-		g_date_add_months (&date, (int)months);
-	else if (months < 0)
-		g_date_subtract_months (&date, (int)-months);
-
+	gnm_date_add_months (&date, (int)months);
 	if (!g_date_valid (&date) ||
 	    g_date_get_year (&date) < 1900 ||
 	    g_date_get_year (&date) > 9999)
@@ -1254,15 +1234,21 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/* Move to mondays, and check for problems */
 	start_serial = get_serial_weekday (start_serial, &start_offset, conv);
 	end_serial = get_serial_weekday (end_serial, &end_offset, conv);
-	if (start_serial < 0 || end_serial < 0)
+	if (!g_date_valid (&start_date) || start_serial < 0 || end_serial < 0)
                   return value_new_error_NUM (ei->pos);
 
 	res = end_serial - start_serial;
 	res -= ((res/7)*2);	/* Remove weekends */
 
-	if (argv[2] != NULL)
-		value_area_foreach (argv[2], ei->pos, CELL_ITER_IGNORE_BLANK,
-			(GnmValueIterFunc) &cb_networkdays_holiday, &close);
+	if (argv[2] != NULL) {
+		GnmValue *e =
+			value_area_foreach (argv[2], ei->pos,
+					    CELL_ITER_IGNORE_BLANK,
+					    (GnmValueIterFunc)&cb_networkdays_holiday,
+					    &close);
+		if (e)
+			return e;
+	}
 
 	res = res - start_offset + end_offset - close.res;
 

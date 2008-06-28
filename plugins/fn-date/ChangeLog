@@ -1,3 +1,22 @@
+2008-06-27  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_date, datedif_opt_md, gnumeric_edate,
+	gnumeric_eomonth): Simplify using gnm_date_add_months and
+	gnm_date_add_days.
+
+2008-06-25  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_eomonth): Work around glib problem.  Fixes
+	#540069.
+	(gnumeric_date): Work around glib issues.
+
+2008-06-24  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_edate): Work around glib problem.  Fixes
+	#539868.
+	(gnumeric_networkdays): Check date validity.
+	(gnumeric_days360): Ditto.  Fixes #540055.
+
 2008-05-24  Morten Welinder <terra@gnome.org>
 
 	* Release 1.8.3

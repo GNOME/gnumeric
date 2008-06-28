@@ -2,7 +2,7 @@
 /*
  * clipboard.c: A temporary store for contents from a worksheet
  *
- * Copyright (C) 2000-2007 Jody Goldberg   (jody@gnome.org)
+ * Copyright (C) 2000-2008 Jody Goldberg   (jody@gnome.org)
  *		 1999      Miguel de Icaza (miguel@gnu.org)
  *
  * This program is free software; you can redistribute it and/or

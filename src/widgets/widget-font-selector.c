@@ -197,7 +197,7 @@ fs_fill_font_name_list (FontSelector *fs)
 
 	g_signal_connect (
 		 G_OBJECT (gtk_tree_view_get_selection (fs->font_name_list)), "changed",
-		 GTK_SIGNAL_FUNC (font_selected), fs);
+		 G_CALLBACK (font_selected), fs);
 }
 
 static char const *styles[] = {
@@ -260,7 +260,7 @@ fs_fill_font_style_list (FontSelector *fs)
 	}
 	g_signal_connect (
 		G_OBJECT (gtk_tree_view_get_selection (fs->font_style_list)), "changed",
-		GTK_SIGNAL_FUNC (style_selected), fs);
+		G_CALLBACK (style_selected), fs);
 }
 
 static void
@@ -349,11 +349,11 @@ fs_fill_font_size_list (FontSelector *fs)
 	}
 	g_signal_connect (
 		G_OBJECT (gtk_tree_view_get_selection (fs->font_size_list)), "changed",
-		GTK_SIGNAL_FUNC (size_selected), fs);
+		G_CALLBACK (size_selected), fs);
 
 	g_signal_connect (
 		G_OBJECT (fs->font_size_entry), "changed",
-		GTK_SIGNAL_FUNC (size_changed), fs);
+		G_CALLBACK (size_changed), fs);
 }
 
 static void
@@ -413,7 +413,7 @@ fs_init (FontSelector *fs)
 
 	g_signal_connect (G_OBJECT (fs->font_preview_canvas),
 		"size-allocate",
-		GTK_SIGNAL_FUNC (canvas_size_changed), fs);
+		G_CALLBACK (canvas_size_changed), fs);
 
 	fs_fill_font_name_list (fs);
 	fs_fill_font_style_list (fs);
