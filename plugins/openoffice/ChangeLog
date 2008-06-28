@@ -1,3 +1,11 @@
+2008-06-28  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (get_dtd): New function.  Fixes #540180.
+
+2008-06-27  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (oo_attr_int) : clear errno before use.  [#536552]
+
 2008-05-24  Morten Welinder <terra@gnome.org>
 
 	* Release 1.8.3

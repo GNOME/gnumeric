@@ -1,7 +1,11 @@
 Gnumeric 1.8.4
 
+Jody:
+	* Fix ODS import failure on win32. [#536552]
+
 Morten:
 	* Fix text export problem for times with fractional seconds.  [#534514]
+	* Fix openoffice -pedantic problem.  [#540180]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.3
