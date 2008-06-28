@@ -224,7 +224,7 @@ typedef struct {
 	} page_breaks;
 } OOParseState;
 
-static GsfXMLInNode const opendoc_content_dtd [];
+static GsfXMLInNode const * get_dtd (void);
 static void oo_chart_style_free (OOChartStyle *pointer);
 
 static gboolean oo_warning (GsfXMLIn *xin, char const *fmt, ...)
@@ -1986,7 +1986,7 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (content != NULL) {
 		GsfXMLInDoc *doc =
-			gsf_xml_in_doc_new (opendoc_content_dtd, gsf_ooo_ns);
+			gsf_xml_in_doc_new (get_dtd (), gsf_ooo_ns);
 		gsf_xml_in_doc_parse (doc, content, state);
 		gsf_xml_in_doc_free (doc);
 		g_object_unref (content);
@@ -2757,6 +2757,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 
 GSF_XML_IN_NODE_END
 };
+
+static GsfXMLInNode const *get_dtd () { return opendoc_content_dtd; }
 
 /****************************************************************************/
 
