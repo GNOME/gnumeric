@@ -290,6 +290,7 @@ oo_attr_int (GsfXMLIn *xin, xmlChar const * const *attrs,
 	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
 		return FALSE;
 
+	errno = 0; /* strtol sets errno, but does not clear it.  */
 	tmp = strtol (CXML2C (attrs[1]), &end, 10);
 	if (*end || errno != 0 || tmp < INT_MIN || tmp > INT_MAX)
 		return oo_warning (xin, "Invalid integer '%s', for '%s'",

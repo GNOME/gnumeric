@@ -13,6 +13,10 @@
 
 2008-06-25  Jody Goldberg <jody@gnome.org>
 
+	* doc/C/Makefile.am : ship ssgrep.1 and gnumeric-C.omf
+
+2008-06-25  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.9.1
 
 2008-06-23  Morten Welinder  <terra@gnome.org>

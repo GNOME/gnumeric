@@ -1,5 +1,9 @@
 Gnumeric 1.9.2
 
+Jody:
+	* Fix distcheck. [#540284]
+	* Fix ODS import failure on win32. [#536552]
+
 Morten:
 	* Fix EOMONTH issue.  [#540069]
 	* Fix phyper hang.  [#540211]
