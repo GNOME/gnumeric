@@ -4,6 +4,7 @@ Jody:
 	* Fix ODS import failure on win32. [#536552]
 
 Morten:
+	* Fix bogus-xls problem.  [#540697]
 	* Fix EOMONTH issue.  [#540069]
 	* Fix phyper hang.  [#540211]
 	* Fix text export problem for times with fractional seconds.  [#534514]
