@@ -9,6 +9,7 @@ Morten:
 	* Fix phyper hang.  [#540211]
 	* Fix openoffice -pedantic problem.  [#540180]
 	* Fix bogus-xls problem.  [#540697]
+	* Fix problems with invalid dates in fn-financial.  [#540690]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.1
