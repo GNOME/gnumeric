@@ -1,3 +1,7 @@
+2008-06-29  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-datetime.c (yearfrac): Guard against invalid dates.
+
 2008-06-27  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-datetime.c (gnm_date_add_days, gnm_date_add_months): New
