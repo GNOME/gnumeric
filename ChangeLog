@@ -1,3 +1,7 @@
+2008-06-29  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-datetime.c (yearfrac): Guard against invalid dates.
+
 2008-05-27  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-export.c (try_auto_date): Don't generate an invalid time

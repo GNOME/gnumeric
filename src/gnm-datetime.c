@@ -118,8 +118,13 @@ annual_year_basis (GnmValue const *value_date, basis_t basis,
 gnm_float
 yearfrac (GDate const *from, GDate const *to, basis_t basis)
 {
-	int days = days_between_basis (from, to, basis);
+	int days;
 	gnm_float peryear;
+
+	if (!g_date_valid (from) || !g_date_valid (to))
+		return gnm_nan;
+
+	days = days_between_basis (from, to, basis);
 
 	if (days < 0) {
 		const GDate *tmp;

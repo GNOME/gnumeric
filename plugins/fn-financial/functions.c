@@ -240,15 +240,22 @@ coupnum (GDate const *settlement, GDate const *maturity,
         int        months;
 	GDate      this_coupondate = *maturity;
 
+	if (!g_date_valid (maturity) || !g_date_valid (settlement))
+		return gnm_nan;
+
 	months = g_date_get_month (maturity) - g_date_get_month (settlement) +
 		12 *
 		(g_date_get_year (maturity) - g_date_get_year  (settlement));
 
-	g_date_subtract_months (&this_coupondate, months);
+	gnm_date_add_months (&this_coupondate, -months);
 
 	if (conv->eom && g_date_is_last_of_month (maturity))
-		while (!g_date_is_last_of_month (&this_coupondate))
-			g_date_add_days (&this_coupondate, 1);
+		while (g_date_valid (&this_coupondate) &&
+		       !g_date_is_last_of_month (&this_coupondate))
+			gnm_date_add_days (&this_coupondate, 1);
+
+	if (!g_date_valid (&this_coupondate))
+		return gnm_nan;
 
 	if (g_date_get_day (settlement) >= g_date_get_day (&this_coupondate))
 		months--;
@@ -2925,8 +2932,14 @@ date_ratio (GDate const *d1, const GDate *d2, const GDate *d3,
 	GDate next_coupon, prev_coupon;
 	gnm_float res;
 
+	if (!g_date_valid (d1) || !g_date_valid (d2) || !g_date_valid (d3))
+		return gnm_nan;
+
 	go_coup_cd (&next_coupon, d1, d3, conv->freq, conv->eom, TRUE);
 	go_coup_cd (&prev_coupon, d1, d3, conv->freq, conv->eom, FALSE);
+
+	if (!g_date_valid (&prev_coupon) || !g_date_valid (&next_coupon))
+		return gnm_nan;
 
 	if (g_date_compare (&next_coupon, d2) >= 0)
 		return days_between_basis (d1, d2, conv->basis) /
@@ -2936,7 +2949,9 @@ date_ratio (GDate const *d1, const GDate *d2, const GDate *d3,
 		go_coupdays (&prev_coupon, &next_coupon, conv);
 	while (1) {
 		prev_coupon = next_coupon;
-		g_date_add_months (&next_coupon, 12 / conv->freq);
+		gnm_date_add_months (&next_coupon, 12 / conv->freq);
+		if (!g_date_valid (&next_coupon))
+			return gnm_nan;
 		if (g_date_compare (&next_coupon, d2) >= 0) {
 			res += days_between_basis (&prev_coupon, d2, conv->basis) /
 				go_coupdays (&prev_coupon, &next_coupon, conv);
@@ -2977,7 +2992,7 @@ calc_oddfprice (const GDate *settlement, const GDate *maturity,
 
 			for (n = 0; 1; n++) {
 				GDate prev_date = d;
-				g_date_add_months (&d, 12 / conv->freq);
+				gnm_date_add_months (&d, 12 / conv->freq);
 				if (g_date_compare (&d, maturity) >= 0) {
 					n += (int)gnm_ceil (days_between_basis (&prev_date, maturity, conv->basis) /
 							    go_coupdays (&prev_date, &d, conv))
@@ -3196,8 +3211,8 @@ calc_oddlprice (const GDate *settlement, const GDate *maturity,
 	gnm_float x1, x2, x3;
 
 	do {
-		g_date_add_months (&d, 12 / conv->freq);
-	} while (g_date_compare (&d, maturity) < 0);
+		gnm_date_add_months (&d, 12 / conv->freq);
+	} while (g_date_valid (&d) && g_date_compare (&d, maturity) < 0);
 
         x1 = date_ratio (last_interest, settlement, &d, conv);
         x2 = date_ratio (last_interest, maturity, &d, conv);
@@ -3291,8 +3306,8 @@ calc_oddlyield (GDate const *settlement, GDate const *maturity,
 	gnm_float x1, x2, x3;
 
 	do {
-		g_date_add_months (&d, 12 / conv->freq);
-	} while (g_date_compare (&d, maturity) < 0);
+		gnm_date_add_months (&d, 12 / conv->freq);
+	} while (g_date_valid (&d) && g_date_compare (&d, maturity) < 0);
 
         x1 = date_ratio (last_interest, settlement, &d, conv);
         x2 = date_ratio (last_interest, maturity, &d, conv);
