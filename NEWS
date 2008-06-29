@@ -8,6 +8,7 @@ Morten:
 	* Fix EOMONTH issue.  [#540069]
 	* Fix phyper hang.  [#540211]
 	* Fix openoffice -pedantic problem.  [#540180]
+	* Fix bogus-xls problem.  [#540697]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.1

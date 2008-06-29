@@ -3231,7 +3231,8 @@ xl_chart_import_trend_line (XLChartReadState *state, XLChartSeries *series)
 static void
 xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 {
-	XLChartSeries *parent = g_ptr_array_index (state->series, series->err_parent);
+	unsigned p = series->err_parent;
+	XLChartSeries *parent;
 	Sheet *sheet;
 	int orig_dim;
 	GogMSDimType msdim;
@@ -3239,6 +3240,9 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 		? "x-errors" : "y-errors";
 	GParamSpec *pspec;
 
+	XL_CHECK_CONDITION (p < state->series->len);
+
+	parent = g_ptr_array_index (state->series, p);
 	XL_CHECK_CONDITION (parent != NULL && parent->series != NULL);
 
 	pspec = g_object_class_find_property (
