@@ -225,66 +225,33 @@ static GnmFuncHelp const help_rank[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-typedef struct {
-        gnm_float x;
-        int     order;
-        int     rank;
-} stat_rank_t;
-
-static GnmValue *
-cb_rank (GnmCellIter const *iter, gpointer user)
-{
-        stat_rank_t *p = user;
-	GnmCell	    *cell = iter->cell;
-	gnm_float  x;
-
-	gnm_cell_eval (cell);
-	if (cell->value == NULL)
-		return NULL;
-
-	if (!VALUE_IS_NUMBER (cell->value))
-		return NULL;
-	/* FIXME: errors?  bools?  */
-
-	x = value_get_as_float (cell->value);
-
-	if (p->order) {
-		if (x < p->x)
-			p->rank++;
-	} else {
-		if (x > p->x)
-			p->rank++;
-	}
-
-	return NULL;
-}
-
 static GnmValue *
 gnumeric_rank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	stat_rank_t p;
-	GnmValue      *ret;
+	gnm_float *xs;
+	int i, r, n;
+	GnmValue *result = NULL;
+	gnm_float x, order;
 
-	p.x = value_get_as_float (argv[0]);
-	if (argv[2])
-		p.order = value_get_as_int (argv[2]);
-	else
-		p.order = 0;
-	p.rank = 1;
-	ret = sheet_foreach_cell_in_range (
-		eval_sheet (argv[1]->v_range.cell.a.sheet, ei->pos->sheet),
-		CELL_ITER_IGNORE_BLANK,
-		argv[1]->v_range.cell.a.col,
-		argv[1]->v_range.cell.a.row,
-		argv[1]->v_range.cell.b.col,
-		argv[1]->v_range.cell.b.row,
-		cb_rank,
-		&p);
+	x = value_get_as_float (argv[0]);
+	xs = collect_floats_value (argv[1], ei->pos,
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS |
+				   COLLECT_IGNORE_BLANKS,
+				   &n, &result);
+	order = argv[2] ? value_get_as_int (argv[2]) : 0;
 
-	if (ret != NULL)
-		return value_new_error_VALUE (ei->pos);
+	if (result)
+		return result;
 
-	return value_new_int (p.rank);
+	for (i = 0, r = 1; i < n; i++) {
+		gnm_float y = xs[i];
+
+		if (order ? y < x : y > x)
+			r++;
+	}
+
+	return value_new_int (r);
 }
 
 /***************************************************************************/
@@ -3013,12 +2980,13 @@ gnumeric_steyx (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_ztest[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=ZTEST\n"
-	   "@SYNTAX=ZTEST(ref,x)\n"
+	   "@SYNTAX=ZTEST(ref,x[,stddev])\n"
 
 	   "@DESCRIPTION="
 	   "ZTEST returns the two-tailed probability of a z-test.\n"
 	   "\n"
 	   "@ref is the data set and @x is the value to be tested.\n"
+	   "@stddev is optionally an assumed standard deviation.\n"
 	   "\n"
 	   "* If @ref contains less than two data items ZTEST "
 	   "returns #DIV/0! error.\n"
@@ -3035,33 +3003,47 @@ static GnmFuncHelp const help_ztest[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-static int
-range_ztest (gnm_float const *xs, int n, gnm_float *res)
-{
-	gnm_float x, s, m;
-
-	if (n < 3)
-		return 1;
-
-	x = xs[--n];
-	if (gnm_range_average (xs, n, &m))
-		return 1;
-	if (gnm_range_stddev_est (xs, n, &s) || s == 0)
-		return 1;
-
-	*res = pnorm (x, m, s / gnm_sqrt (n), TRUE, FALSE);
-	return 0;
-}
-
 static GnmValue *
-gnumeric_ztest (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_ztest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return float_range_function (argc, argv, ei,
-				     range_ztest,
-				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
-				     GNM_ERROR_DIV0);
+	int n;
+	gnm_float *xs;
+	GnmValue *result = NULL;
+	gnm_float x, s, m, p;
+
+	xs = collect_floats_value (argv[0], ei->pos,
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS |
+				   COLLECT_IGNORE_BLANKS,
+				   &n, &result);
+	if (result)
+		goto done;
+
+	x = value_get_as_float (argv[1]);
+
+	if (gnm_range_average (xs, n, &m)) {
+		result = value_new_error_DIV0 (ei->pos);
+		goto done;
+	}
+
+	if (argv[2])
+		s = value_get_as_float (argv[2]);
+	else if (gnm_range_stddev_est (xs, n, &s)) {
+		result = value_new_error_DIV0 (ei->pos);
+		goto done;
+	}
+
+	if (s <= 0) {
+		result = value_new_error_DIV0 (ei->pos);
+		goto done;
+	}
+
+	p = pnorm (x, m, s / gnm_sqrt (n), TRUE, FALSE);
+	result = value_new_float (p);
+
+done:
+	g_free (xs);
+	return result;
 }
 
 /***************************************************************************/
@@ -3377,86 +3359,81 @@ static GnmFuncHelp const help_percentrank[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-typedef struct {
-        gnm_float x;
-        gnm_float smaller_x;
-        gnm_float greater_x;
-        int     smaller;
-        int     greater;
-        int     equal;
-} stat_percentrank_t;
-
-static GnmValue *
-callback_function_percentrank (GnmEvalPos const *ep, GnmValue *value,
-			       void *user_data)
-{
-        stat_percentrank_t *p = user_data;
-	gnm_float y;
-
-	if (!VALUE_IS_NUMBER (value))
-		return VALUE_TERMINATE;
-
-	y = value_get_as_float (value);
-
-	if (y < p->x) {
-		p->smaller++;
-		if (p->smaller_x == p->x || p->smaller_x < y)
-			p->smaller_x = y;
-	} else if (y > p->x) {
-		p->greater++;
-		if (p->greater_x == p->x || p->greater_x > y)
-			p->greater_x = y;
-	} else
-		p->equal++;
-
-	return NULL;
-}
-
 static GnmValue *
 gnumeric_percentrank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        stat_percentrank_t p;
-        gnm_float         x, k, pr;
-        int                significance;
-	GnmValue		   *ret;
+	gnm_float *data, x, significance, r;
+	GnmValue *result = NULL;
+	int i, n;
+	int n_equal, n_smaller, n_larger;
+	gnm_float x_larger, x_smaller;
 
+	data = collect_floats_value (argv[0], ei->pos,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     &n, &result);
 	x = value_get_as_float (argv[1]);
+	significance = argv[2] ? value_get_as_float (argv[2]) : 3;
 
-	p.smaller = 0;
-	p.greater = 0;
-	p.equal = 0;
-	p.smaller_x = x;
-	p.greater_x = x;
-	p.x = x;
+	if (result)
+		goto done;
 
-        if (argv[2] == NULL)
-		significance = 3;
-	else {
-		significance = value_get_as_int (argv[2]);
-		if (significance < 1)
-			return value_new_error_NUM (ei->pos);
+	n_equal = n_smaller = n_larger = 0;
+	x_larger = x_smaller = 42;
+	for (i = 0; i < n; i++) {
+		gnm_float y = data[i];
+
+		if (y < x) {
+			if (n_smaller == 0 || x_smaller < y)
+				x_smaller = y;
+			n_smaller++;
+		} else if (y > x) {
+			if (n_larger == 0 || x_larger > y)
+				x_larger = y;
+			n_larger++;
+		} else
+			n_equal++;
 	}
 
-	ret = function_iterate_do_value (ei->pos, (FunctionIterateCB)
-					 callback_function_percentrank,
-					 &p, argv[0],
-					 TRUE, CELL_ITER_IGNORE_BLANK);
+	if (n_smaller + n_equal == 0 || n_larger + n_equal == 0) {
+		result = value_new_error_NA (ei->pos);
+		goto done;
+	}
 
-	if (ret != NULL || (p.smaller + p.equal == 0) ||
-		(p.greater + p.equal == 0))
-		return value_new_error_NUM (ei->pos);
+	if (n == 1)
+		r = 1;
+	else {
+		gnm_float s10;
 
-	if (p.equal == 1)
-		pr = (gnm_float)p.smaller / (p.smaller + p.greater);
-	else if (p.equal == 0) {
-		gnm_float a = (x - p.smaller_x) / (p.greater_x - p.smaller_x);
-		pr = (gnm_float)(p.smaller + a - 1) / (p.greater + p.smaller - 1.0);
-	} else
-		pr = (p.smaller + 0.5 * p.equal) /
-		  (p.smaller + p.equal + p.greater);
+		if (n_equal > 0)
+			r = n_smaller / (gnm_float)(n - 1);
+		else {
+			gnm_float r1 = (n_smaller - 1) / (gnm_float)(n - 1);
+			gnm_float r2 = n_smaller / (gnm_float)(n - 1);
+			r = (r1 * (x_larger - x) +
+			     r2 * (x - x_smaller)) / (x_larger - x_smaller);
+		}
 
-	k = gnm_pow10 (significance);
-	return value_new_float (gnm_fake_trunc (pr * k) / k);
+		/* A strange place to check, but n==1 is special.  */
+		if (significance < 0) {
+			result = value_new_error_NUM (ei->pos);
+			goto done;
+		}
+
+		s10 = gnm_pow10 (-significance);
+		if (s10 <= 0) {
+			result = value_new_error_DIV0 (ei->pos);
+			goto done;
+		}
+
+		r = gnm_fake_trunc (r / s10) * s10;
+	}
+	result = value_new_float (r);
+
+ done:
+	g_free (data);
+	return result;
 }
 
 /***************************************************************************/
@@ -4956,11 +4933,16 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 					   COLLECT_IGNORE_STRINGS |
 					   COLLECT_IGNORE_BOOLS,
 					   &nx, &result);
+		if (result)
+			goto out;
 
 		nxs = collect_floats_value (argv[2], ei->pos,
 					    COLLECT_IGNORE_STRINGS |
 					    COLLECT_IGNORE_BOOLS,
 					    &nnx, &result);
+		if (result)
+			goto out;
+
 		if (argv[3] != NULL) {
 			affine = value_get_as_bool (argv[3], &err);
 			if (err) {
@@ -4975,10 +4957,15 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 						   COLLECT_IGNORE_STRINGS |
 						   COLLECT_IGNORE_BOOLS,
 						   &nx, &result);
+			if (result)
+				goto out;
+
 			nxs = collect_floats_value (argv[1], ei->pos,
 						    COLLECT_IGNORE_STRINGS |
 						    COLLECT_IGNORE_BOOLS,
 						    &nnx, &result);
+			if (result)
+				goto out;
 		} else {
 			xs = g_new (gnm_float, ny);
 			for (nx = 0; nx < ny; nx++)
@@ -4988,9 +4975,6 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				nxs[nnx] = nnx + 1;
 		}
 	}
-
-	if (result)
-		goto out;
 
 	if (nx != ny) {
 		result = value_new_error_NUM (ei->pos);
@@ -5126,8 +5110,9 @@ range_intercept (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res
 	gnm_float linres[2];
 	int dim = 1;
 
-	if (gnm_linear_regression ((gnm_float **)&xs, dim,
-			       ys, n, 1, linres, NULL) != REG_ok)
+	if (n <= 0 ||
+	    gnm_linear_regression ((gnm_float **)&xs, dim,
+				   ys, n, 1, linres, NULL) != REG_ok)
 		return 1;
 
 	*res = linres[0];
@@ -5174,8 +5159,9 @@ range_slope (gnm_float const *xs, gnm_float const *ys, int n, gnm_float *res)
 	gnm_float linres[2];
 	int dim = 1;
 
-	if (gnm_linear_regression ((gnm_float **)&xs, dim,
-			       ys, n, 1, linres, NULL) != REG_ok)
+	if (n <= 0 ||
+	    gnm_linear_regression ((gnm_float **)&xs, dim,
+				   ys, n, 1, linres, NULL) != REG_ok)
 		return 1;
 
 	*res = linres[1];
@@ -5971,8 +5957,8 @@ GnmFuncDescriptor const stat_functions[] = {
         { "weibull",      "fffb",  N_("x.alpha,beta,cumulative"),
 	  help_weibull, gnumeric_weibull, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "ztest", NULL,      N_("ref,x"),
-	  help_ztest, NULL, gnumeric_ztest, NULL, NULL, NULL,
+	{ "ztest", "Af|f",   N_("ref,x[,stddev]"),
+	  help_ztest, gnumeric_ztest, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
         { "exppowdist", "fff", N_("x,a,b"),         help_exppowdist,

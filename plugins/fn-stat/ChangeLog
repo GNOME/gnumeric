@@ -1,3 +1,24 @@
+2008-06-24  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_rank): Fix crash and error handling.
+	Fixes #540015.
+
+2008-06-23  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_percentrank): Handle errors correctly.
+	Don't leak.  Compute the right thing.  Fixes #539672.
+	(gnumeric_growth): Plug leaks.  Fixes #539827.
+
+2008-06-22  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (range_intercept, range_slope): Check that we have
+	points at all.  [#539648]
+
+2008-06-17  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_ztest): No longer a nodes type function.
+	Handle optional third argument.  Fixes #405958.
+
 2008-05-24  Morten Welinder <terra@gnome.org>
 
 	* Release 1.8.3
