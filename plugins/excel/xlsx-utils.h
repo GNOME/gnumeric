@@ -26,6 +26,15 @@
 
 #include <gnumeric.h>
 
+enum {
+	XL_NS_SS,
+	XL_NS_SS_DRAW,
+	XL_NS_CHART,
+	XL_NS_DRAW,
+	XL_NS_DOC_REL,
+	XL_NS_PKG_REL
+};
+
 GnmConventions *xlsx_conventions_new  (void);
 void		xlsx_conventions_free (GnmConventions *conv);
 

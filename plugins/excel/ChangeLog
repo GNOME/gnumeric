@@ -1,3 +1,9 @@
+2008-06-30  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-read.c (xlsx_CT_PivotCache) : new, read a cache.
+	* xlsx-read-pivot.c : New.
+	* Makefile.am : dist xlsx-read-pivot.c
+
 2008-02-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (chart_write_AI): Do not export non-existing values

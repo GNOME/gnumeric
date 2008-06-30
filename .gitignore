@@ -13,6 +13,7 @@ ltmain.sh
 libtool
 gnumeric-config.h.in
 gnumeric-config.h
+gnumeric-features.h
 stamp-h*
 Makefile
 xlibtool
@@ -47,3 +48,4 @@ libspreadsheet-1.10.pc
 *.ods
 *.xls
 *.xlsx
+doltcompile

@@ -201,15 +201,6 @@ typedef struct {
 	GOFormat	*markup;
 } XLSXStr;
 
-enum {
-	XL_NS_SS,
-	XL_NS_SS_DRAW,
-	XL_NS_CHART,
-	XL_NS_DRAW,
-	XL_NS_DOC_REL,
-	XL_NS_PKG_REL
-};
-
 static GsfXMLInNS const xlsx_ns[] = {
 	GSF_XML_IN_NS (XL_NS_SS,	"http://schemas.openxmlformats.org/spreadsheetml/2006/main"),		  /* Office 12 */
 	GSF_XML_IN_NS (XL_NS_SS,	"http://schemas.openxmlformats.org/spreadsheetml/2006/7/main"),		  /* Office 12 BETA-2 Technical Refresh */
@@ -252,12 +243,20 @@ xlsx_parse_rel_by_id (GsfXMLIn *xin, char const *part_id,
 		      GsfXMLInNode const *dtd,
 		      GsfXMLInNS const *ns)
 {
-	GError *err = gsf_open_pkg_parse_rel_by_id (xin, part_id, dtd, ns);
+	GError *err;
+
+	g_print ("{ /* Parsing  : %s :: %s */\n",
+		 gsf_input_name (gsf_xml_in_get_input (xin)), part_id);
+
+	err = gsf_open_pkg_parse_rel_by_id (xin, part_id, dtd, ns);
 	if (NULL != err) {
 		XLSXReadState *state = (XLSXReadState *)xin->user_state;
 		gnm_io_warning (state->context, "%s", err->message);
 		g_error_free (err);
 	}
+
+	g_print ("} /* DONE : %s :: %s */\n",
+		 gsf_input_name (gsf_xml_in_get_input (xin)), part_id);
 }
 
 /****************************************************************************/
@@ -822,6 +821,11 @@ xlsx_parse_sqref (GsfXMLIn *xin, xmlChar const *refs)
 }
 
 /***********************************************************************/
+
+#include "xlsx-read-pivot.c"
+
+/***********************************************************************/
+/* TO DO MOVE INTO xlsx-read-chart.c */
 
 static void
 xlsx_chart_push_obj (XLSXReadState *state, GogObject *obj)
@@ -2452,6 +2456,23 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_CT_SheetPr (GsfXMLIn *xin, xmlChar const **attrs)
+{
+#if 0
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+    <xsd:attribute name="syncHorizontal" type="xsd:boolean" use="optional" default="false">
+    <xsd:attribute name="syncVertical" type="xsd:boolean" use="optional" default="false">
+    <xsd:attribute name="syncRef" type="ST_Ref" use="optional">
+    <xsd:attribute name="transitionEvaluation" type="xsd:boolean" use="optional" default="false">
+    <xsd:attribute name="transitionEntry" type="xsd:boolean" use="optional" default="false">
+    <xsd:attribute name="published" type="xsd:boolean" use="optional" default="true">
+    <xsd:attribute name="codeName" type="xsd:string" use="optional">
+    <xsd:attribute name="filterMode" type="xsd:boolean" use="optional" default="false">
+    <xsd:attribute name="enableFormatConditionsCalculation" type="xsd:boolean" use="optional" default="true">
+#endif
+}
+
+static void
 xlsx_sheet_tabcolor (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -3364,6 +3385,83 @@ xlsx_CT_Selection (GsfXMLIn *xin, xmlChar const **attrs)
 		g_slist_free (accum);
 	}
 }
+
+static void
+xlsx_CT_PivotSelection (GsfXMLIn *xin, xmlChar const **attrs)
+{
+#if 0
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+    <xsd:attribute name="pane" type="ST_Pane" use="optional" default="topLeft">
+    <xsd:attribute name="showHeader" type="xsd:boolean" default="false">
+    <xsd:attribute name="label" type="xsd:boolean" default="false">
+    <xsd:attribute name="data" type="xsd:boolean" default="false">
+    <xsd:attribute name="extendable" type="xsd:boolean" default="false">
+    <xsd:attribute name="count" type="xsd:unsignedInt" default="0">
+    <xsd:attribute name="axis" type="ST_Axis" use="optional">
+    <xsd:attribute name="dimension" type="xsd:unsignedInt" default="0">
+    <xsd:attribute name="start" type="xsd:unsignedInt" default="0">
+    <xsd:attribute name="min" type="xsd:unsignedInt" default="0">
+    <xsd:attribute name="max" type="xsd:unsignedInt" default="0">
+    <xsd:attribute name="activeRow" type="xsd:unsignedInt" default="0">
+    <xsd:attribute name="activeCol" type="xsd:unsignedInt" default="0">
+    <xsd:attribute name="previousRow" type="xsd:unsignedInt" default="0">
+    <xsd:attribute name="previousCol" type="xsd:unsignedInt" default="0">
+    <xsd:attribute name="click" type="xsd:unsignedInt" default="0">
+    <xsd:attribute ref="r:id" use="optional">
+#endif
+}
+
+static void
+xlsx_CT_PivotArea (GsfXMLIn *xin, xmlChar const **attrs)
+{
+#if 0
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+    <xsd:attribute name="field" use="optional" type="xsd:int">
+    <xsd:attribute name="type" type="ST_PivotAreaType" default="normal">
+    <xsd:attribute name="dataOnly" type="xsd:boolean" default="true">
+    <xsd:attribute name="labelOnly" type="xsd:boolean" default="false">
+    <xsd:attribute name="grandRow" type="xsd:boolean" default="false">
+    <xsd:attribute name="grandCol" type="xsd:boolean" default="false">
+    <xsd:attribute name="cacheIndex" type="xsd:boolean" default="false">
+    <xsd:attribute name="outline" type="xsd:boolean" default="true">
+    <xsd:attribute name="offset" type="ST_Ref">
+    <xsd:attribute name="collapsedLevelsAreSubtotals" type="xsd:boolean" default="false">
+    <xsd:attribute name="axis" type="ST_Axis" use="optional">
+    <xsd:attribute name="fieldPosition" type="xsd:unsignedInt" use="optional">
+#endif
+}
+static void
+xlsx_CT_PivotAreaReferences (GsfXMLIn *xin, xmlChar const **attrs)
+{
+#if 0
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+#endif
+}
+static void
+xlsx_CT_PivotAreaReference (GsfXMLIn *xin, xmlChar const **attrs)
+{
+#if 0
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+    <xsd:attribute name="field" use="optional" type="xsd:unsignedInt">
+    <xsd:attribute name="count" type="xsd:unsignedInt">
+    <xsd:attribute name="selected" type="xsd:boolean" default="true">
+    <xsd:attribute name="byPosition" type="xsd:boolean" default="false">
+    <xsd:attribute name="relative" type="xsd:boolean" default="false">
+    <xsd:attribute name="defaultSubtotal" type="xsd:boolean" default="false">
+    <xsd:attribute name="sumSubtotal" type="xsd:boolean" default="false">
+    <xsd:attribute name="countASubtotal" type="xsd:boolean" default="false">
+    <xsd:attribute name="avgSubtotal" type="xsd:boolean" default="false">
+    <xsd:attribute name="maxSubtotal" type="xsd:boolean" default="false">
+    <xsd:attribute name="minSubtotal" type="xsd:boolean" default="false">
+    <xsd:attribute name="productSubtotal" type="xsd:boolean" default="false">
+    <xsd:attribute name="countSubtotal" type="xsd:boolean" default="false">
+    <xsd:attribute name="stdDevSubtotal" type="xsd:boolean" default="false">
+    <xsd:attribute name="stdDevPSubtotal" type="xsd:boolean" default="false">
+    <xsd:attribute name="varSubtotal" type="xsd:boolean" default="false">
+    <xsd:attribute name="varPSubtotal" type="xsd:boolean" default="false">
+#endif
+}
+
 static void
 xlsx_CT_Pane (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -3481,15 +3579,19 @@ static GsfXMLInNode const xlsx_sheet_dtd[] =
 {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
-  GSF_XML_IN_NODE (SHEET, PROPS, XL_NS_SS, "sheetPr", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (SHEET, PROPS, XL_NS_SS, "sheetPr", GSF_XML_NO_CONTENT, &xlsx_CT_SheetPr, NULL),
     GSF_XML_IN_NODE (PROPS, OUTLINE_PROPS, XL_NS_SS, "outlinePr", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (PROPS, TAB_COLOR, XL_NS_SS, "tabColor", GSF_XML_NO_CONTENT, &xlsx_sheet_tabcolor, NULL),
     GSF_XML_IN_NODE (PROPS, PAGE_SETUP, XL_NS_SS, "pageSetUpPr", GSF_XML_NO_CONTENT, &xlsx_sheet_page_setup, NULL),
   GSF_XML_IN_NODE (SHEET, DIMENSION, XL_NS_SS, "dimension", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (SHEET, VIEWS, XL_NS_SS, "sheetViews", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (VIEWS, VIEW, XL_NS_SS, "sheetView",  GSF_XML_NO_CONTENT, &xlsx_CT_SheetView_begin, &xlsx_CT_SheetView_end),
-      GSF_XML_IN_NODE (VIEW, SELECTION, XL_NS_SS, "selection",  GSF_XML_NO_CONTENT, &xlsx_CT_Selection, NULL),
       GSF_XML_IN_NODE (VIEW, PANE, XL_NS_SS, "pane",  GSF_XML_NO_CONTENT, &xlsx_CT_Pane, NULL),
+      GSF_XML_IN_NODE (VIEW, SELECTION, XL_NS_SS, "selection",  GSF_XML_NO_CONTENT, &xlsx_CT_Selection, NULL),
+      GSF_XML_IN_NODE (VIEW, PIV_SELECTION, XL_NS_SS, "pivotSelection",  GSF_XML_NO_CONTENT, &xlsx_CT_PivotSelection, NULL),
+        GSF_XML_IN_NODE (PIV_SELECTION, PIV_AREA, XL_NS_SS, "pivotArea",  GSF_XML_NO_CONTENT, &xlsx_CT_PivotArea, NULL),
+          GSF_XML_IN_NODE (PIV_AREA, PIV_AREA_REFS, XL_NS_SS, "references",  GSF_XML_NO_CONTENT, &xlsx_CT_PivotAreaReferences, NULL),
+            GSF_XML_IN_NODE (PIV_AREA_REFS, PIV_AREA_REF, XL_NS_SS, "reference",  GSF_XML_NO_CONTENT, &xlsx_CT_PivotAreaReference, NULL),
 
   GSF_XML_IN_NODE (SHEET, DEFAULT_FMT, XL_NS_SS, "sheetFormatPr", GSF_XML_NO_CONTENT, &xlsx_CT_SheetFormatPr, NULL),
 
@@ -3502,8 +3604,13 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
 	GSF_XML_IN_NODE (CELL, VALUE, XL_NS_SS, "v", GSF_XML_CONTENT, NULL, &xlsx_cell_val_end),
 	GSF_XML_IN_NODE (CELL, FMLA, XL_NS_SS,  "f", GSF_XML_CONTENT, &xlsx_cell_expr_begin, &xlsx_cell_expr_end),
 
+  GSF_XML_IN_NODE (SHEET, CALC_PR, XL_NS_SS, "sheetCalcPr", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (SHEET, CT_SortState, XL_NS_SS, "sortState", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (CT_SortState, CT_SortCondition, XL_NS_SS, "sortCondition", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (SHEET, SCENARIOS, XL_NS_SS, "scenarios", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (SCENARIOS, INPUT_CELLS, XL_NS_SS, "inputCells", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (SHEET, PROTECTED_RANGES, XL_NS_SS, "protectedRanges", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (SHEET, PROTECTED_RANGE, XL_NS_SS, "protectedRange", GSF_XML_NO_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE (SHEET, CT_AutoFilter, XL_NS_SS, "autoFilter", GSF_XML_NO_CONTENT,
 		   &xlsx_CT_AutoFilter_begin, &xlsx_CT_AutoFilter_end),
@@ -3571,6 +3678,16 @@ GSF_XML_IN_NODE_END
 };
 
 /****************************************************************************/
+
+static void
+xlsx_CT_PivotCache (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	/*XLSXReadState *state = (XLSXReadState *)xin->user_state; */
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
+			xlsx_parse_rel_by_id (xin, attrs[1],
+				xlsx_pivot_cache_def_dtd, xlsx_ns);
+}
 
 static void
 xlsx_CT_CalcPr (GsfXMLIn *xin, xmlChar const **attrs)
@@ -3686,8 +3803,13 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "workbook", GSF_XML_NO_CONTENT,
   GSF_XML_IN_NODE (WORKBOOK, VERSION, XL_NS_SS,	   "fileVersion", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (WORKBOOK, PROPERTIES, XL_NS_SS, "workbookPr", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (WORKBOOK, CALC_PROPS, XL_NS_SS, "calcPr", GSF_XML_NO_CONTENT, &xlsx_CT_CalcPr, NULL),
+
   GSF_XML_IN_NODE (WORKBOOK, VIEWS,	 XL_NS_SS, "bookViews",	GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (VIEWS,  VIEW,	 XL_NS_SS, "workbookView",  GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (WORKBOOK, CUSTOMWVIEWS, XL_NS_SS, "customWorkbookViews", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (CUSTOMWVIEWS, CUSTOMWVIEW , XL_NS_SS, "customWorkbookView", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (CUSTOMWVIEW, EXTLST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),
+
   GSF_XML_IN_NODE (WORKBOOK, SHEETS,	 XL_NS_SS, "sheets", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (SHEETS, SHEET,	 XL_NS_SS, "sheet", GSF_XML_NO_CONTENT, &xlsx_sheet_begin, NULL),
   GSF_XML_IN_NODE (WORKBOOK, FGROUPS,	 XL_NS_SS, "functionGroups", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -3697,7 +3819,16 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "workbook", GSF_XML_NO_CONTENT,
     GSF_XML_IN_NODE (EXTERNS, EXTERN,	 XL_NS_SS, "externalReference", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (WORKBOOK, NAMES,	 XL_NS_SS, "definedNames", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (NAMES, NAME,	 XL_NS_SS, "definedName", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (WORKBOOK, PIVOTCACHES,      XL_NS_SS, "pivotCaches", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (PIVOTCACHES, PIVOTCACHE,      XL_NS_SS, "pivotCache", GSF_XML_NO_CONTENT, &xlsx_CT_PivotCache, NULL),
+
   GSF_XML_IN_NODE (WORKBOOK, RECOVERY,	 XL_NS_SS, "fileRecoveryPr", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (WORKBOOK, OLESIZE,   XL_NS_SS, "oleSize", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (WORKBOOK, SMARTTAGPR,         XL_NS_SS, "smartTagPr", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (WORKBOOK, SMARTTTYPES,        XL_NS_SS, "smartTagTypes", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (SMARTTTYPES, SMARTTTYPE,      XL_NS_SS, "smartTagType", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (WORKBOOK, WEB_PUB_OBJS,     XL_NS_SS, "webPublishObjects", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (WEB_PUB_OBJS, WEB_PUB_OBJ,  XL_NS_SS, "webPublishObject", GSF_XML_NO_CONTENT, NULL, NULL),
 
 GSF_XML_IN_NODE_END
 };
@@ -4025,6 +4156,20 @@ xlsx_pattern_bg (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+xlsx_CT_GradientFill (GsfXMLIn *xin, xmlChar const **attrs)
+{
+#if 0
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+    <xsd:attribute name="type" type="ST_GradientType" use="optional" default="linear">
+    <xsd:attribute name="degree" type="xsd:double" use="optional" default="0">
+    <xsd:attribute name="left" type="xsd:double" use="optional" default="0">
+    <xsd:attribute name="right" type="xsd:double" use="optional" default="0">
+    <xsd:attribute name="top" type="xsd:double" use="optional" default="0">
+    <xsd:attribute name="bottom" type="xsd:double" use="optional" default="0">
+#endif
+}
+
+static void
 xlsx_border_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static EnumVal const borders[] = {
@@ -4263,7 +4408,7 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
 	GSF_XML_IN_NODE (PATTERN_FILL, PATTERN_FILL_FG,  XL_NS_SS, "fgColor", GSF_XML_NO_CONTENT, &xlsx_pattern_fg, NULL),
 	GSF_XML_IN_NODE (PATTERN_FILL, PATTERN_FILL_BG,  XL_NS_SS, "bgColor", GSF_XML_NO_CONTENT, &xlsx_pattern_bg, NULL),
       GSF_XML_IN_NODE (FILL, IMAGE_FILL, XL_NS_SS, "image", GSF_XML_NO_CONTENT, NULL, NULL),
-      GSF_XML_IN_NODE (FILL, GRADIENT_FILL, XL_NS_SS, "gradient", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (FILL, GRADIENT_FILL, XL_NS_SS, "gradientFill", GSF_XML_NO_CONTENT, &xlsx_CT_GradientFill, NULL),
 	GSF_XML_IN_NODE (GRADIENT_FILL, GRADIENT_STOPS, XL_NS_SS, "stop", GSF_XML_NO_CONTENT, NULL, NULL),
 
   GSF_XML_IN_NODE_FULL (STYLE_INFO, BORDERS, XL_NS_SS, "borders", GSF_XML_NO_CONTENT,
@@ -4536,22 +4681,22 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *context,
 
 	if (NULL != (state.zip = gsf_infile_zip_new (input, NULL))) {
 		/* optional */
-		GsfInput *wb_part = gsf_open_pkg_get_rel_by_type (GSF_INPUT (state.zip),
-			"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument");
+		GsfInput *wb_part = gsf_open_pkg_open_rel_by_type (GSF_INPUT (state.zip),
+			"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument", NULL);
 
 		if (NULL != wb_part) {
 			GsfInput *in;
 
-			in = gsf_open_pkg_get_rel_by_type (wb_part,
-				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings");
+			in = gsf_open_pkg_open_rel_by_type (wb_part,
+				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings", NULL);
 			xlsx_parse_stream (&state, in, xlsx_shared_strings_dtd);
 
-			in = gsf_open_pkg_get_rel_by_type (wb_part,
-				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles");
+			in = gsf_open_pkg_open_rel_by_type (wb_part,
+				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles", NULL);
 			xlsx_parse_stream (&state, in, xlsx_styles_dtd);
 
-			in = gsf_open_pkg_get_rel_by_type (wb_part,
-				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme");
+			in = gsf_open_pkg_open_rel_by_type (wb_part,
+				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme", NULL);
 			xlsx_parse_stream (&state, in, xlsx_theme_dtd);
 
 			xlsx_parse_stream (&state, wb_part, xlsx_workbook_dtd);
