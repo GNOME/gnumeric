@@ -1,3 +1,8 @@
+2008-02-29  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (chart_write_AI): Do not export non-existing values
+	(fixes some criticals, see #519888).
+
 2008-06-29  Morten Welinder  <terra@gnome.org>
 
 	* ms-chart.c (xl_chart_import_error_bar): More checks on parent.

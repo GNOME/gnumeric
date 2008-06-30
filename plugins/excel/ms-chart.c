@@ -4122,30 +4122,32 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 	GSF_LE_SET_GUINT16 (buf+6, 0); /* placeholder length */
 	ms_biff_put_var_write (s->bp, buf, 8);
 
-	if (ref_type == 2) {
-		len = excel_write_formula (s->ewb, texpr,
-			gnm_go_data_get_sheet (dim),
-			0, 0, EXCEL_CALLED_FROM_NAME);
-		ms_biff_put_var_seekto (s->bp, 6);
-		GSF_LE_SET_GUINT16 (lendat, len);
-		ms_biff_put_var_write (s->bp, lendat, 2);
-	} else if (ref_type == 1 && value) {
-		if (n) {
-			XLValue *xlval = g_new0 (XLValue, 1);
-			xlval->series = s->cur_series;
-			xlval->value = value;
-			g_ptr_array_add (s->values[n - 1], xlval);
-		} else {
-			guint dat[2];
-			char *str = (NULL != value && VALUE_IS_STRING (value))
-				? value_get_as_string (value) : go_data_as_str (dim);
+	if (value) {
+		if (ref_type == 2) {
+			len = excel_write_formula (s->ewb, texpr,
+				gnm_go_data_get_sheet (dim),
+				0, 0, EXCEL_CALLED_FROM_NAME);
+			ms_biff_put_var_seekto (s->bp, 6);
+			GSF_LE_SET_GUINT16 (lendat, len);
+			ms_biff_put_var_write (s->bp, lendat, 2);
+		} else if (ref_type == 1 && value) {
+			if (n) {
+				XLValue *xlval = g_new0 (XLValue, 1);
+				xlval->series = s->cur_series;
+				xlval->value = value;
+				g_ptr_array_add (s->values[n - 1], xlval);
+			} else {
+				guint dat[2];
+				char *str = (NULL != value && VALUE_IS_STRING (value))
+					? value_get_as_string (value) : go_data_as_str (dim);
 
-			ms_biff_put_commit (s->bp);
-			ms_biff_put_var_next (s->bp, BIFF_CHART_seriestext);
-			GSF_LE_SET_GUINT16 (dat, 0);
-			ms_biff_put_var_write  (s->bp, (guint8*) dat, 2);
-			excel_write_string (s->bp, STR_ONE_BYTE_LENGTH, str);
-			g_free (str);
+				ms_biff_put_commit (s->bp);
+				ms_biff_put_var_next (s->bp, BIFF_CHART_seriestext);
+				GSF_LE_SET_GUINT16 (dat, 0);
+				ms_biff_put_var_write  (s->bp, (guint8*) dat, 2);
+				excel_write_string (s->bp, STR_ONE_BYTE_LENGTH, str);
+				g_free (str);
+			}
 		}
 	}
 
