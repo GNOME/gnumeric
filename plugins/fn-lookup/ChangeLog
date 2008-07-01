@@ -1,3 +1,8 @@
+2008-07-01  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (find_bound_walk): When reversing direction, handle
+	singleton right.  Fixes #540996.
+
 2008-06-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.1

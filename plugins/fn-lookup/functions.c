@@ -179,19 +179,22 @@ find_bound_walk (int l, int h, int start, gboolean up, gboolean reset)
 		return current;
 	}
 
+ again:
 	if (sup) {
 		current++;
 		if (current > high && sup == started) {
-			current = orig - 1;
+			current = orig;
 			sup = FALSE;
+			goto again;
 		} else if (current > high && sup != started) {
 			return -1;
 		}
 	} else {
 		current--;
 		if (current < low && sup == started) {
-			current = orig + 1;
+			current = orig;
 			sup = TRUE;
+			goto again;
 		} else if (current < low && sup != started) {
 			return -1;
 		}
