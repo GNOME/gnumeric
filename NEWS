@@ -4,10 +4,6 @@ Jody:
 	* Fix ODS import failure on win32. [#536552]
 
 Morten:
-	* Fix bogus-xls problem.  [#540697]
-	* Fix EOMONTH issue.  [#540069]
-	* Fix phyper hang.  [#540211]
-	* Fix problems with invalid dates in fn-financial.  [#540690]
 	* Fix text export problem for times with fractional seconds.  [#534514]
 	* Fix openoffice -pedantic problem.  [#540180]
 	* Fix OPT_RGW hang.  [#534132]
@@ -19,6 +15,11 @@ Morten:
 	* Add missing "return" in CODE.
 	* Fix EDATE issue.  [#539868]
 	* Fix DAYS360 and NETWORKDAYS for invalid dates.  [#540055]
+	* Fix bogus-xls problem.  [#540697]
+	* Fix EOMONTH issue.  [#540069]
+	* Fix phyper hang.  [#540211]
+	* Fix problems with invalid dates in fn-financial.  [#540690]
+	* Fix MATCH problem with singletons.  [#540996]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.3
