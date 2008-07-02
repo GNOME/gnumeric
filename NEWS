@@ -11,6 +11,7 @@ Morten:
 	* Fix bogus-xls problem.  [#540697]
 	* Fix problems with invalid dates in fn-financial.  [#540690]
 	* Fix MATCH problem with singletons.  [#540996]
+	* Fix DDB problems.  [#541158]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.1
