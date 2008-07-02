@@ -1024,8 +1024,7 @@ static GnmValue *
 gnumeric_ddb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float cost, salvage, life, period, factor;
-	gnm_float total;
-	int        i;
+	gnm_float f, prior, dep;
 
 	cost    = value_get_as_float (argv[0]);
 	salvage = value_get_as_float (argv[1]);
@@ -1033,19 +1032,27 @@ gnumeric_ddb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	period  = value_get_as_float (argv[3]);
 	factor  = argv[4] ? value_get_as_float (argv[4]) : 2;
 
-	if (life <= 0)
+	if (cost < 0 || salvage < 0 || life <= 0 ||
+	    period <= 0 || period > life ||
+	    factor <= 0)
 		return value_new_error_NUM (ei->pos);
 
-	total = 0;
-	for (i = 0; i < life - 1; i++) {
-		gnm_float period_dep = (cost - total) * (factor / life);
-		if (period - 1 == i)
-			return value_new_float (period_dep);
-		else
-			total += period_dep;
+	if (salvage >= cost)
+		return value_new_int (0);
+
+	if (period < 1) {
+		period = 1;
+		if (period > life)
+			return value_new_float (cost - salvage);
 	}
 
-	return value_new_float (cost - total - salvage);
+	f = factor / life;
+	prior = -cost * pow1pm1 (-f, period - 1);
+	dep = (cost - prior) * f;
+
+	/* Depreciation cannot exceed book value.  */
+	dep = MIN (dep, MAX (0, cost - prior - salvage));
+	return value_new_float (dep);
 }
 
 /***************************************************************************/

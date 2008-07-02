@@ -1,3 +1,8 @@
+2008-07-02  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_ddb): Use a sane formula for this.  Fix
+	piles of corner cases.  Fixes #541158.
+
 2008-06-29  Morten Welinder  <terra@gnome.org>
 
 	* functions.c: Fix problems with invalid dates.  [#540690]
