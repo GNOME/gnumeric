@@ -733,6 +733,7 @@ xlsx_CT_PCDKPIs (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 #endif
 }
+
 static void
 xlsx_CT_TupleCache (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -740,6 +741,7 @@ xlsx_CT_TupleCache (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 #endif
 }
+
 static void
 xlsx_CT_CalculatedItems (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -747,6 +749,7 @@ xlsx_CT_CalculatedItems (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 #endif
 }
+
 static void
 xlsx_CT_CalculatedMembers (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -754,6 +757,7 @@ xlsx_CT_CalculatedMembers (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 #endif
 }
+
 static void
 xlsx_CT_Dimensions (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -761,6 +765,7 @@ xlsx_CT_Dimensions (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 #endif
 }
+
 static void
 xlsx_CT_MeasureGroups (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -768,6 +773,7 @@ xlsx_CT_MeasureGroups (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 #endif
 }
+
 static void
 xlsx_CT_MeasureDimensionMaps (GsfXMLIn *xin, xmlChar const **attrs)
 {
