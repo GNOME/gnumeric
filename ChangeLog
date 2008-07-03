@@ -1,3 +1,10 @@
+2008-07-02  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : add a test for gsf_open_pkg_foreach_rel to avoid
+	  bumping libgsf version req yet.  It will be updated for the next
+	  STABLE release, but this will give the update time to percolate
+	  through the distros.
+
 2008-06-29  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-datetime.c (yearfrac): Guard against invalid dates.

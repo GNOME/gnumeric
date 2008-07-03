@@ -233,17 +233,24 @@ xlsx_CT_AutoSortScope (GsfXMLIn *xin, xmlChar const **attrs)
 #endif
 }
 
-GsfXMLInNode const xlsx_pivot_table_dtd[] = {
+static void
+xlsx_CT_X (GsfXMLIn *xin, xmlChar const **attrs)
+{
+#if 0
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+#endif
+}
+
+static GsfXMLInNode const xlsx_pivot_table_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, PT_CACHE_DEF, XL_NS_SS, "pivotTableDefinition", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_CT_pivotTableDefinition, NULL, 0),
 
   GSF_XML_IN_NODE (PT_CACHE_DEF, LOCATION, XL_NS_SS, "location", GSF_XML_NO_CONTENT, &xlsx_CT_Location, NULL),
 
-  GSF_XML_IN_NODE (PT_CACHE_DEF, FIELDS, XL_NS_SS, "pivotFields", GSF_XML_NO_CONTENT, &xlsx_CT_Fields, NULL),
-    GSF_XML_IN_NODE (FIELDS, FIELD, XL_NS_SS, "pivotField", GSF_XML_NO_CONTENT, &xlsx_CT_PivotField, NULL),
-      GSF_XML_IN_NODE (PFIELD, FIELD_ITEMS, XL_NS_SS, "items", GSF_XML_NO_CONTENT, &xlsx_CT_Items, NULL),
-        GSF_XML_IN_NODE (FIELD_ITEMS, FIELD_ITEM, XL_NS_SS, "item", GSF_XML_NO_CONTENT, &xlsx_CT_Item, NULL),
-
+  GSF_XML_IN_NODE (PT_CACHE_DEF, PT_FIELDS, XL_NS_SS, "pivotFields", GSF_XML_NO_CONTENT, &xlsx_CT_Fields, NULL),
+    GSF_XML_IN_NODE (PT_FIELDS, PT_FIELD, XL_NS_SS, "pivotField", GSF_XML_NO_CONTENT, &xlsx_CT_PivotField, NULL),
+      GSF_XML_IN_NODE (PT_FIELD, PT_FIELD_ITEMS, XL_NS_SS, "items", GSF_XML_NO_CONTENT, &xlsx_CT_Items, NULL),
+        GSF_XML_IN_NODE (PT_FIELD_ITEMS, PT_FIELD_ITEM, XL_NS_SS, "item", GSF_XML_NO_CONTENT, &xlsx_CT_Item, NULL),
       GSF_XML_IN_NODE (PT_FIELD, PT_FIELD_SORT_SCOPE, XL_NS_SS, "autoSortScope", GSF_XML_NO_CONTENT,
 		       &xlsx_CT_AutoSortScope, NULL),
       GSF_XML_IN_NODE (PT_FIELD, EXTLIST, XL_NS_SS, "extLst", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -260,7 +267,10 @@ GSF_XML_IN_NODE_FULL (START, PT_CACHE_DEF, XL_NS_SS, "pivotTableDefinition", GSF
     GSF_XML_IN_NODE (DATA_FIELDS,   DATA_FIELD, XL_NS_SS, "dataField", GSF_XML_NO_CONTENT, &xlsx_CT_Field, NULL),
 
   GSF_XML_IN_NODE (PT_CACHE_DEF, ROW_ITEMS, XL_NS_SS, "rowItems", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (ROW_ITEMS, ITEM, XL_NS_SS, "i", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (ITEM, ITEM_X,    XL_NS_SS,	"x",	GSF_XML_NO_CONTENT, &xlsx_CT_X, NULL),
   GSF_XML_IN_NODE (PT_CACHE_DEF, COL_ITEMS, XL_NS_SS, "colItems", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (COL_ITEMS, ITEM, XL_NS_SS, "i", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
 
   GSF_XML_IN_NODE (PT_CACHE_DEF, PC_FORMATS, XL_NS_SS, "formats", GSF_XML_NO_CONTENT, NULL, NULL), /* CT_Formats" minOccurs="0 */
   GSF_XML_IN_NODE (PT_CACHE_DEF, PC_CONDITIONALFORMATS, XL_NS_SS, "conditionalFormats", GSF_XML_NO_CONTENT, NULL, NULL), /* CT_ConditionalFormats" minOccurs="0 */
@@ -382,14 +392,6 @@ xlsx_CT_DateTime (GsfXMLIn *xin, xmlChar const **attrs)
 
 static void
 xlsx_CT_Tuples (GsfXMLIn *xin, xmlChar const **attrs)
-{
-#if 0
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-#endif
-}
-
-static void
-xlsx_CT_X (GsfXMLIn *xin, xmlChar const **attrs)
 {
 #if 0
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -774,7 +776,7 @@ xlsx_CT_MeasureDimensionMaps (GsfXMLIn *xin, xmlChar const **attrs)
 #endif
 }
 
-GsfXMLInNode const xlsx_pivot_cache_def_dtd[] = {
+static GsfXMLInNode const xlsx_pivot_cache_def_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, CACHE_DEF, XL_NS_SS, "pivotCacheDefinition", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_CT_pivotCacheDefinition, NULL, 0),
   GSF_XML_IN_NODE (CACHE_DEF, CACHE_SRC, XL_NS_SS,	"cacheSource", GSF_XML_NO_CONTENT, &xlsx_CT_CacheSource, NULL),

@@ -1,3 +1,9 @@
+2008-07-02  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-read.c (xlsx_CT_worksheet) : new.  Looks for related pivot
+	  tables.  If the gsf extension necessary is available.
+	(cb_find_pivots) : new.
+
 2008-06-30  Jody Goldberg <jody@gnome.org>
 
 	* xlsx-read.c (xlsx_CT_PivotCache) : new, read a cache.

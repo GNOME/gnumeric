@@ -245,8 +245,10 @@ xlsx_parse_rel_by_id (GsfXMLIn *xin, char const *part_id,
 {
 	GError *err;
 
+#ifdef DEBUG_PARSER
 	g_print ("{ /* Parsing  : %s :: %s */\n",
 		 gsf_input_name (gsf_xml_in_get_input (xin)), part_id);
+#endif
 
 	err = gsf_open_pkg_parse_rel_by_id (xin, part_id, dtd, ns);
 	if (NULL != err) {
@@ -255,8 +257,10 @@ xlsx_parse_rel_by_id (GsfXMLIn *xin, char const *part_id,
 		g_error_free (err);
 	}
 
+#ifdef DEBUG_PARSER
 	g_print ("} /* DONE : %s :: %s */\n",
 		 gsf_input_name (gsf_xml_in_get_input (xin)), part_id);
+#endif
 }
 
 /****************************************************************************/
@@ -3575,10 +3579,33 @@ xlsx_CT_HyperLinks (GsfXMLIn *xin, xmlChar const **attrs)
 	sheet_style_apply_range	(state->sheet, &r, style);
 }
 
-static GsfXMLInNode const xlsx_sheet_dtd[] =
+#ifdef HAVE_GSF_OPEN_PKG_FOREACH_REL
+static void
+cb_find_pivots (GsfInput *opkg, GsfOpenPkgRel const *rel, gpointer    user_data)
 {
+	XLSXReadState *state = user_data;
+	GsfInput *part_stream;
+	char const *t = gsf_open_pkg_rel_get_type (rel);
+
+	if (NULL != t &&
+	    0 == strcmp (t, "http://schemas.openxmlformats.org/officeDocument/2006/relationships/pivotTable") &&
+	    NULL != (part_stream = gsf_open_pkg_open_rel (opkg, rel, NULL)))
+		xlsx_parse_stream (state, part_stream, xlsx_pivot_table_dtd);
+}
+#endif
+
+static void
+xlsx_CT_worksheet (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+#ifdef HAVE_GSF_OPEN_PKG_FOREACH_REL
+	gsf_open_pkg_foreach_rel (gsf_xml_in_get_input (xin),
+		&cb_find_pivots, (XLSXReadState *)xin->user_state);
+#endif
+}
+
+static GsfXMLInNode const xlsx_sheet_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
-GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, &xlsx_CT_worksheet, 0),
   GSF_XML_IN_NODE (SHEET, PROPS, XL_NS_SS, "sheetPr", GSF_XML_NO_CONTENT, &xlsx_CT_SheetPr, NULL),
     GSF_XML_IN_NODE (PROPS, OUTLINE_PROPS, XL_NS_SS, "outlinePr", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (PROPS, TAB_COLOR, XL_NS_SS, "tabColor", GSF_XML_NO_CONTENT, &xlsx_sheet_tabcolor, NULL),

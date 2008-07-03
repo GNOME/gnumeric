@@ -151,7 +151,7 @@ PKG_PROG_PKG_CONFIG(0.18)
 dnl *****************************
 libspreadsheet_reqs="
 	libgoffice-0.8	>= 0.7.0
-	libgsf-1		>= 1.14.6
+	libgsf-1		>= 1.14.9
 	libxml-2.0		>= 2.4.12
 "
 gnumeric_reqs="$libspreadsheet_reqs
@@ -709,7 +709,7 @@ SAVE_CFLAGS=$CFLAGS
 SAVE_LIBS=$LIBS
 CFLAGS="$CFLAGS $GNUMERIC_CFLAGS"
 LIBS="$GNUMERIC_LIBS $LIBS"
-AC_CHECK_FUNCS(g_date_set_time_t g_slice_alloc gtk_recent_manager_get_default)
+AC_CHECK_FUNCS(g_date_set_time_t g_slice_alloc gtk_recent_manager_get_default gsf_open_pkg_foreach_rel)
 CFLAGS=$SAVE_CFLAGS
 LIBS=$SAVE_LIBS
 
