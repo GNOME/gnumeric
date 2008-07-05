@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-23 18:30+0000\n"
-"PO-Revision-Date: 2008-06-27 14:44+0200\n"
+"POT-Creation-Date: 2008-07-01 19:15+0000\n"
+"PO-Revision-Date: 2008-07-05 13:47+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -328,7 +328,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atributo inesperado %s::%s == «%s»."
 
 #: ../plugins/excel/excel-xml-read.c:1002
-#: ../plugins/openoffice/openoffice-read.c:2981 ../src/xml-sax-read.c:2666
+#: ../plugins/openoffice/openoffice-read.c:2984 ../src/xml-sax-read.c:2666
 msgid "XML document not well formed!"
 msgstr "El documento XML no se encuentra bien definido"
 
@@ -488,131 +488,131 @@ msgstr "MS Excel™ 97/2000/XP"
 msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 msgstr "MS Excel™ 97/2000/XP y 5.0/95"
 
-#: ../plugins/excel/xlsx-read.c:241
+#: ../plugins/excel/xlsx-read.c:232
 #, c-format
 msgid "'%s' is corrupt!"
 msgstr "«%s» está corrompido"
 
-#: ../plugins/excel/xlsx-read.c:322
+#: ../plugins/excel/xlsx-read.c:321
 #, c-format
 msgid "Unknown enum value '%s' for attribute %s"
 msgstr "Valor enumerado «%s» desconocido para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:365 ../plugins/excel/xlsx-read.c:394
+#: ../plugins/excel/xlsx-read.c:364 ../plugins/excel/xlsx-read.c:393
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
 msgstr "El entero «%s» está fuera de rango, para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:369 ../plugins/excel/xlsx-read.c:398
+#: ../plugins/excel/xlsx-read.c:368 ../plugins/excel/xlsx-read.c:397
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
 msgstr "Entero «%s» inválido para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:424
+#: ../plugins/excel/xlsx-read.c:423
 #, c-format
 msgid "Invalid RRGGBB color '%s' for attribute %s"
 msgstr "Color RRGGBB «%s» inválido para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:455
+#: ../plugins/excel/xlsx-read.c:454
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
 msgstr "Número inválido «%s» para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:479
+#: ../plugins/excel/xlsx-read.c:478
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
 msgstr "Posición de celda «%s» inválida para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:498
+#: ../plugins/excel/xlsx-read.c:497
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
 msgstr "Rango inválido «%s» para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:761
+#: ../plugins/excel/xlsx-read.c:760
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr "Id de formato de número «%s» indefinido"
 
-#: ../plugins/excel/xlsx-read.c:1390
+#: ../plugins/excel/xlsx-read.c:1396
 #, c-format
 msgid "Unknown color '%s'"
 msgstr "Color «%s» desconocido"
 
-#: ../plugins/excel/xlsx-read.c:1393
+#: ../plugins/excel/xlsx-read.c:1399
 msgid "Missing theme"
 msgstr "Falta el tema"
 
-#: ../plugins/excel/xlsx-read.c:2005
+#: ../plugins/excel/xlsx-read.c:2011
 msgid "Dropping missing object"
 msgstr "Omitiendo objeto faltante"
 
-#: ../plugins/excel/xlsx-read.c:2023
+#: ../plugins/excel/xlsx-read.c:2029
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
 msgstr "Omitiendo objeto con ancla incompleto %2x"
 
-#: ../plugins/excel/xlsx-read.c:2134
+#: ../plugins/excel/xlsx-read.c:2140
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Color «%s» inválido para el atributo rgb"
 
-#: ../plugins/excel/xlsx-read.c:2157
+#: ../plugins/excel/xlsx-read.c:2163
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr "Registro de estilo indefinido «%d»"
 
-#: ../plugins/excel/xlsx-read.c:2166
+#: ../plugins/excel/xlsx-read.c:2172
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr "Registro de estilo parcial indefinido «%d»"
 
-#: ../plugins/excel/xlsx-read.c:2195
+#: ../plugins/excel/xlsx-read.c:2201
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Referencia sst %s inválida"
 
-#: ../plugins/excel/xlsx-read.c:2316
+#: ../plugins/excel/xlsx-read.c:2322
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Celda inválida %s"
 
-#: ../plugins/excel/xlsx-read.c:2417
+#: ../plugins/excel/xlsx-read.c:2423
 msgid "Ignoring column information that does not specify first or last."
 msgstr "Ignorar la información de columnas que no especifica primero o último."
 
-#: ../plugins/excel/xlsx-read.c:2692
+#: ../plugins/excel/xlsx-read.c:2715
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignorando datos inválidos debido a: %s"
 
-#: ../plugins/excel/xlsx-read.c:3117
+#: ../plugins/excel/xlsx-read.c:3140
 msgid "Undefined"
 msgstr "No definido"
 
-#: ../plugins/excel/xlsx-read.c:3160
+#: ../plugins/excel/xlsx-read.c:3183
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignorando formato condicional no tratado del tipo «%s»"
 
-#: ../plugins/excel/xlsx-read.c:3464
+#: ../plugins/excel/xlsx-read.c:3564
 msgid "Unknown type of hyperlink"
 msgstr "Tipo de hiperenlace desconocido"
 
-#: ../plugins/excel/xlsx-read.c:3633
+#: ../plugins/excel/xlsx-read.c:3752
 msgid "Ignoring a sheet without a name"
 msgstr "Ignorar una hoja sin un nombre"
 
-#: ../plugins/excel/xlsx-read.c:3661
+#: ../plugins/excel/xlsx-read.c:3780
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Para el id de parte para la hoja «%s»"
 
-#: ../plugins/excel/xlsx-read.c:4106
+#: ../plugins/excel/xlsx-read.c:4253
 #, c-format
 msgid "Missing record '%d'"
 msgstr "Falta el registro «%d»"
 
-#: ../plugins/excel/xlsx-read.c:4558
+#: ../plugins/excel/xlsx-read.c:4705
 msgid "No workbook stream found."
 msgstr "No se ha encontrado ningún flujo de libro de cuentas."
 
@@ -711,64 +711,64 @@ msgstr "Funciones de base de datos"
 msgid "Functions looking up values in databases"
 msgstr "Funciones que buscan valores en bases de datos"
 
-#: ../plugins/fn-date/functions.c:1446
+#: ../plugins/fn-date/functions.c:1432
 msgid "year,month,day"
 msgstr "año,mes,día"
 
-#: ../plugins/fn-date/functions.c:1450
+#: ../plugins/fn-date/functions.c:1436
 msgid "date_str"
 msgstr "date_str"
 
-#: ../plugins/fn-date/functions.c:1454
+#: ../plugins/fn-date/functions.c:1440
 msgid "date1,date2,interval"
 msgstr "fecha1,fecha2,intervalo"
 
-#: ../plugins/fn-date/functions.c:1458 ../plugins/fn-date/functions.c:1482
-#: ../plugins/fn-date/functions.c:1510 ../plugins/fn-date/functions.c:1514
-#: ../plugins/fn-date/functions.c:1522 ../plugins/fn-date/functions.c:1526
-#: ../plugins/fn-date/functions.c:1539 ../plugins/fn-date/functions.c:1543
+#: ../plugins/fn-date/functions.c:1444 ../plugins/fn-date/functions.c:1468
+#: ../plugins/fn-date/functions.c:1496 ../plugins/fn-date/functions.c:1500
+#: ../plugins/fn-date/functions.c:1508 ../plugins/fn-date/functions.c:1512
+#: ../plugins/fn-date/functions.c:1525 ../plugins/fn-date/functions.c:1529
 #: ../src/print-info.c:576
 msgid "date"
 msgstr "fecha"
 
-#: ../plugins/fn-date/functions.c:1462
+#: ../plugins/fn-date/functions.c:1448
 msgid "date1,date2,method"
 msgstr "fecha1,fecha2,método"
 
-#: ../plugins/fn-date/functions.c:1466
+#: ../plugins/fn-date/functions.c:1452
 msgid "date,months"
 msgstr "fecha,meses"
 
-#: ../plugins/fn-date/functions.c:1470
+#: ../plugins/fn-date/functions.c:1456
 msgid "start_date,months"
 msgstr "fecha_inicio,meses"
 
-#: ../plugins/fn-date/functions.c:1474 ../plugins/fn-date/functions.c:1478
-#: ../plugins/fn-date/functions.c:1494 ../src/print-info.c:577
+#: ../plugins/fn-date/functions.c:1460 ../plugins/fn-date/functions.c:1464
+#: ../plugins/fn-date/functions.c:1480 ../src/print-info.c:577
 msgid "time"
 msgstr "hora"
 
-#: ../plugins/fn-date/functions.c:1486
+#: ../plugins/fn-date/functions.c:1472
 msgid "start_date,end_date,holidays"
 msgstr "fecha_inicio,fecha_fin,vacaciones"
 
-#: ../plugins/fn-date/functions.c:1498
+#: ../plugins/fn-date/functions.c:1484
 msgid "hours,minutes,seconds"
 msgstr "horas,minutos,segundos"
 
-#: ../plugins/fn-date/functions.c:1502
+#: ../plugins/fn-date/functions.c:1488
 msgid "timetext"
 msgstr "texto de la hora"
 
-#: ../plugins/fn-date/functions.c:1518
+#: ../plugins/fn-date/functions.c:1504
 msgid "date,days,holidays"
 msgstr "fecha,días,vacaciones"
 
-#: ../plugins/fn-date/functions.c:1531
+#: ../plugins/fn-date/functions.c:1517
 msgid "unixtime"
 msgstr "hora Unix"
 
-#: ../plugins/fn-date/functions.c:1535
+#: ../plugins/fn-date/functions.c:1521
 msgid "serial"
 msgstr "serie"
 
@@ -820,7 +820,7 @@ msgstr "Funciones Erlang"
 msgid "Functions to help Erlang Analysis"
 msgstr "Funciones para análisis Erlang"
 
-#: ../plugins/fn-financial/functions.c:4092
+#: ../plugins/fn-financial/functions.c:4107
 msgid "rate,values"
 msgstr "tasa,valores"
 
@@ -838,67 +838,67 @@ msgstr "Cálculos de tasa de interés"
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: ../plugins/fn-info/functions.c:1310 ../plugins/fn-info/functions.c:1326
+#: ../plugins/fn-info/functions.c:1356 ../plugins/fn-info/functions.c:1372
 msgid "Unimplemented"
 msgstr "No implementado"
 
-#: ../plugins/fn-info/functions.c:1334
+#: ../plugins/fn-info/functions.c:1380
 msgid "Unknown version"
 msgstr "Versión desconocida"
 
-#: ../plugins/fn-info/functions.c:1336
+#: ../plugins/fn-info/functions.c:1382
 #, c-format
 msgid "%s version %s"
 msgstr "%s versión %s"
 
-#: ../plugins/fn-info/functions.c:1351
+#: ../plugins/fn-info/functions.c:1397
 #: ../src/dialogs/dialog-cell-format.c:2207
 #: ../src/dialogs/dialog-cell-format.c:2211
 #: ../src/dialogs/dialog-cell-format.c:2219 ../src/wbc-gtk.c:2490
 msgid "Automatic"
 msgstr "Automático"
 
-#: ../plugins/fn-info/functions.c:1351
+#: ../plugins/fn-info/functions.c:1397
 msgid "Manual"
 msgstr "Manual"
 
-#: ../plugins/fn-info/functions.c:1361
+#: ../plugins/fn-info/functions.c:1407
 msgid "Unknown system"
 msgstr "sistema desconocido"
 
-#: ../plugins/fn-info/functions.c:1377
+#: ../plugins/fn-info/functions.c:1423
 msgid "Unknown info_type"
 msgstr "tipo_info desconocido"
 
-#: ../plugins/fn-info/functions.c:1733
+#: ../plugins/fn-info/functions.c:1779
 msgid "Invalid number of arguments"
 msgstr "Número de argumentos inválido"
 
-#: ../plugins/fn-info/functions.c:1886
+#: ../plugins/fn-info/functions.c:1932
 msgid "info_type, cell"
 msgstr "tipo_info, celda"
 
-#: ../plugins/fn-info/functions.c:1889 ../plugins/fn-info/functions.c:1895
-#: ../plugins/fn-info/functions.c:1898 ../plugins/fn-info/functions.c:1901
-#: ../plugins/fn-info/functions.c:1904 ../plugins/fn-info/functions.c:1907
-#: ../plugins/fn-info/functions.c:1910 ../plugins/fn-info/functions.c:1913
-#: ../plugins/fn-info/functions.c:1916 ../plugins/fn-info/functions.c:1919
-#: ../plugins/fn-info/functions.c:1922 ../plugins/fn-info/functions.c:1925
-#: ../plugins/fn-info/functions.c:1928 ../plugins/fn-info/functions.c:1934
+#: ../plugins/fn-info/functions.c:1935 ../plugins/fn-info/functions.c:1941
+#: ../plugins/fn-info/functions.c:1944 ../plugins/fn-info/functions.c:1947
+#: ../plugins/fn-info/functions.c:1950 ../plugins/fn-info/functions.c:1953
+#: ../plugins/fn-info/functions.c:1956 ../plugins/fn-info/functions.c:1959
+#: ../plugins/fn-info/functions.c:1962 ../plugins/fn-info/functions.c:1965
+#: ../plugins/fn-info/functions.c:1968 ../plugins/fn-info/functions.c:1971
+#: ../plugins/fn-info/functions.c:1974 ../plugins/fn-info/functions.c:1980
 #: ../plugins/fn-string/functions.c:1310
 msgid "value"
 msgstr "valor"
 
-#: ../plugins/fn-info/functions.c:1892
+#: ../plugins/fn-info/functions.c:1938
 msgid "info_type"
 msgstr "tipo_info"
 
 #. XL stores this in statistical ?
-#: ../plugins/fn-info/functions.c:1939
+#: ../plugins/fn-info/functions.c:1985
 msgid "range"
 msgstr "rango"
 
-#: ../plugins/fn-info/functions.c:1943 ../plugins/fn-string/functions.c:1253
+#: ../plugins/fn-info/functions.c:1989 ../plugins/fn-string/functions.c:1253
 #: ../plugins/fn-string/functions.c:1256 ../plugins/fn-string/functions.c:1259
 #: ../plugins/fn-string/functions.c:1280 ../plugins/fn-string/functions.c:1283
 #: ../plugins/fn-string/functions.c:1286 ../plugins/fn-string/functions.c:1292
@@ -907,11 +907,13 @@ msgstr "rango"
 msgid "text"
 msgstr "texto"
 
-#: ../plugins/fn-info/functions.c:1946 ../src/print-info.c:580
+#. XLM : looks common in charts
+#: ../plugins/fn-info/functions.c:1993 ../plugins/fn-info/functions.c:1997
+#: ../src/print-info.c:580
 msgid "cell"
 msgstr "celda"
 
-#: ../plugins/fn-info/functions.c:1949 ../plugins/fn-string/functions.c:1244
+#: ../plugins/fn-info/functions.c:2001 ../plugins/fn-string/functions.c:1244
 #: ../src/ssconvert.c:93
 msgid "string"
 msgstr "cadena"
@@ -934,19 +936,19 @@ msgstr "Incoherencia de tipo"
 
 #: ../plugins/fn-logical/functions.c:376 ../plugins/fn-logical/functions.c:380
 #: ../plugins/fn-logical/functions.c:403 ../plugins/fn-math/functions.c:3468
-#: ../plugins/fn-stat/functions.c:5718 ../plugins/fn-stat/functions.c:5722
-#: ../plugins/fn-stat/functions.c:5726 ../plugins/fn-stat/functions.c:5764
-#: ../plugins/fn-stat/functions.c:5767 ../plugins/fn-stat/functions.c:5776
-#: ../plugins/fn-stat/functions.c:5812 ../plugins/fn-stat/functions.c:5826
-#: ../plugins/fn-stat/functions.c:5829 ../plugins/fn-stat/functions.c:5854
-#: ../plugins/fn-stat/functions.c:5858 ../plugins/fn-stat/functions.c:5862
-#: ../plugins/fn-stat/functions.c:5866 ../plugins/fn-stat/functions.c:5870
-#: ../plugins/fn-stat/functions.c:5874 ../plugins/fn-stat/functions.c:5930
-#: ../plugins/fn-stat/functions.c:5934 ../plugins/fn-stat/functions.c:5938
-#: ../plugins/fn-stat/functions.c:5942 ../plugins/fn-stat/functions.c:5971
-#: ../plugins/fn-stat/functions.c:5974 ../plugins/fn-stat/functions.c:5977
-#: ../plugins/fn-stat/functions.c:5980 ../plugins/fn-stat/functions.c:5996
-#: ../src/func-builtin.c:274 ../src/func-builtin.c:280
+#: ../plugins/fn-stat/functions.c:5692 ../plugins/fn-stat/functions.c:5696
+#: ../plugins/fn-stat/functions.c:5700 ../plugins/fn-stat/functions.c:5738
+#: ../plugins/fn-stat/functions.c:5741 ../plugins/fn-stat/functions.c:5750
+#: ../plugins/fn-stat/functions.c:5786 ../plugins/fn-stat/functions.c:5800
+#: ../plugins/fn-stat/functions.c:5803 ../plugins/fn-stat/functions.c:5828
+#: ../plugins/fn-stat/functions.c:5832 ../plugins/fn-stat/functions.c:5836
+#: ../plugins/fn-stat/functions.c:5840 ../plugins/fn-stat/functions.c:5844
+#: ../plugins/fn-stat/functions.c:5848 ../plugins/fn-stat/functions.c:5904
+#: ../plugins/fn-stat/functions.c:5908 ../plugins/fn-stat/functions.c:5912
+#: ../plugins/fn-stat/functions.c:5916 ../plugins/fn-stat/functions.c:5945
+#: ../plugins/fn-stat/functions.c:5948 ../plugins/fn-stat/functions.c:5951
+#: ../plugins/fn-stat/functions.c:5954 ../plugins/fn-stat/functions.c:5970
+#: ../src/func-builtin.c:285 ../src/func-builtin.c:291
 msgid "number,number,"
 msgstr "número,número,"
 
@@ -968,9 +970,9 @@ msgstr "número,número,"
 #: ../plugins/fn-math/functions.c:3456 ../plugins/fn-math/functions.c:3459
 #: ../plugins/fn-math/functions.c:3462 ../plugins/fn-math/functions.c:3465
 #: ../plugins/fn-math/functions.c:3478 ../plugins/fn-math/functions.c:3490
-#: ../plugins/fn-math/functions.c:3493 ../plugins/fn-stat/functions.c:5788
-#: ../plugins/fn-stat/functions.c:5791 ../plugins/fn-stat/functions.c:5809
-#: ../plugins/fn-stat/functions.c:5887 ../plugins/fn-string/functions.c:1247
+#: ../plugins/fn-math/functions.c:3493 ../plugins/fn-stat/functions.c:5762
+#: ../plugins/fn-stat/functions.c:5765 ../plugins/fn-stat/functions.c:5783
+#: ../plugins/fn-stat/functions.c:5861 ../plugins/fn-string/functions.c:1247
 #: ../plugins/fn-string/functions.c:1250
 msgid "number"
 msgstr "número"
@@ -995,56 +997,56 @@ msgstr "Lógica"
 msgid "Logic Functions"
 msgstr "Funciones lógicas"
 
-#: ../plugins/fn-lookup/functions.c:1440
+#: ../plugins/fn-lookup/functions.c:1443
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "num_fila,num_col,num_abs,a1,texto"
 
-#: ../plugins/fn-lookup/functions.c:1443
+#: ../plugins/fn-lookup/functions.c:1446
 msgid "reference"
 msgstr "referencia"
 
-#: ../plugins/fn-lookup/functions.c:1446
+#: ../plugins/fn-lookup/functions.c:1449
 msgid "index,value,"
 msgstr "índice,valor,"
 
-#: ../plugins/fn-lookup/functions.c:1449 ../plugins/fn-lookup/functions.c:1455
-#: ../plugins/fn-lookup/functions.c:1479 ../plugins/fn-lookup/functions.c:1482
+#: ../plugins/fn-lookup/functions.c:1452 ../plugins/fn-lookup/functions.c:1458
+#: ../plugins/fn-lookup/functions.c:1482 ../plugins/fn-lookup/functions.c:1485
 msgid "ref"
 msgstr "ref"
 
-#: ../plugins/fn-lookup/functions.c:1452
+#: ../plugins/fn-lookup/functions.c:1455
 msgid "colname"
 msgstr "nombrecol"
 
-#: ../plugins/fn-lookup/functions.c:1458 ../plugins/fn-lookup/functions.c:1488
+#: ../plugins/fn-lookup/functions.c:1461 ../plugins/fn-lookup/functions.c:1491
 msgid "val,range,col_idx,approx,as_index"
 msgstr "val,rango,índ_col, aprox,como_indice"
 
-#: ../plugins/fn-lookup/functions.c:1461
+#: ../plugins/fn-lookup/functions.c:1464
 msgid "link_location, label"
 msgstr "dirección_enlace, etiqueta"
 
-#: ../plugins/fn-lookup/functions.c:1464
+#: ../plugins/fn-lookup/functions.c:1467
 msgid "ref_string,format"
 msgstr "cad_ref,formato"
 
-#: ../plugins/fn-lookup/functions.c:1467
+#: ../plugins/fn-lookup/functions.c:1470
 msgid "reference,row,col,area"
 msgstr "referencia,fila,col,área"
 
-#: ../plugins/fn-lookup/functions.c:1470
+#: ../plugins/fn-lookup/functions.c:1473
 msgid "val,range,range"
 msgstr "val,rango,rango"
 
-#: ../plugins/fn-lookup/functions.c:1473
+#: ../plugins/fn-lookup/functions.c:1476
 msgid "val,range,approx"
 msgstr "val,rango,aprox"
 
-#: ../plugins/fn-lookup/functions.c:1476
+#: ../plugins/fn-lookup/functions.c:1479
 msgid "ref,row,col,height,width"
 msgstr "ref,fila,col,alto,ancho"
 
-#: ../plugins/fn-lookup/functions.c:1485 ../plugins/fn-math/functions.c:3506
+#: ../plugins/fn-lookup/functions.c:1488 ../plugins/fn-math/functions.c:3506
 msgid "array"
 msgstr "array"
 
@@ -1063,7 +1065,7 @@ msgstr "Funciones de búsqueda"
 #: ../plugins/fn-math/functions.c:2558 ../plugins/fn-math/functions.c:2578
 #: ../plugins/fn-math/functions.c:2674 ../plugins/fn-math/functions.c:2694
 #: ../plugins/fn-math/functions.c:2788 ../plugins/fn-math/functions.c:2808
-#: ../plugins/fn-stat/functions.c:2923 ../plugins/fn-stat/functions.c:2953
+#: ../plugins/fn-stat/functions.c:2890 ../plugins/fn-stat/functions.c:2920
 msgid "Array version not implemented!"
 msgstr "¡La versión de arrays aún no está implementada!"
 
@@ -1087,7 +1089,7 @@ msgstr "rango,criterios"
 msgid "number,significance"
 msgstr "número,significado"
 
-#: ../plugins/fn-math/functions.c:3375 ../plugins/fn-stat/functions.c:5902
+#: ../plugins/fn-math/functions.c:3375 ../plugins/fn-stat/functions.c:5876
 msgid "n,k"
 msgstr "n,k"
 
@@ -1134,8 +1136,8 @@ msgstr "rango,rango,"
 
 #: ../plugins/fn-math/functions.c:3481 ../plugins/fn-math/functions.c:3484
 #: ../plugins/fn-math/functions.c:3487 ../plugins/fn-math/functions.c:3503
-#: ../plugins/fn-stat/functions.c:5761 ../plugins/fn-stat/functions.c:5770
-#: ../plugins/fn-stat/functions.c:5893 ../plugins/fn-stat/functions.c:5949
+#: ../plugins/fn-stat/functions.c:5735 ../plugins/fn-stat/functions.c:5744
+#: ../plugins/fn-stat/functions.c:5867 ../plugins/fn-stat/functions.c:5923
 msgid "array1,array2"
 msgstr "array1,array2"
 
@@ -1151,7 +1153,7 @@ msgstr "Funciones matemáticas"
 msgid "Mathematical Functions"
 msgstr "Funciones matemáticas"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:302
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:313
 msgid "Mathematics"
 msgstr "Matemáticas"
 
@@ -1170,7 +1172,7 @@ msgid "Statistics"
 msgstr "Estadísticas"
 
 #: ../plugins/fn-random/functions.c:1197 ../plugins/fn-random/functions.c:1233
-#: ../plugins/fn-random/functions.c:1251 ../plugins/fn-stat/functions.c:5890
+#: ../plugins/fn-random/functions.c:1251 ../plugins/fn-stat/functions.c:5864
 msgid "p"
 msgstr "p"
 
@@ -1257,185 +1259,185 @@ msgstr "Funciones de números aleatorios"
 msgid "Random Numbers"
 msgstr "Generación de números aleatorios"
 
-#: ../plugins/fn-stat/functions.c:5731 ../plugins/fn-stat/functions.c:5993
+#: ../plugins/fn-stat/functions.c:5705 ../plugins/fn-stat/functions.c:5967
 msgid "k,p"
 msgstr "k,p"
 
-#: ../plugins/fn-stat/functions.c:5735
+#: ../plugins/fn-stat/functions.c:5709
 msgid "x,alpha,beta,a,b"
 msgstr "x,alfa,beta,a,b"
 
-#: ../plugins/fn-stat/functions.c:5738
+#: ../plugins/fn-stat/functions.c:5712
 msgid "p,alpha,beta,a,b"
 msgstr "p,alfa,beta,a,b"
 
-#: ../plugins/fn-stat/functions.c:5741
+#: ../plugins/fn-stat/functions.c:5715
 msgid "n,t,p,c"
 msgstr "n,t,p,c"
 
-#: ../plugins/fn-stat/functions.c:5745
+#: ../plugins/fn-stat/functions.c:5719
 msgid "x,a,cum"
 msgstr "x,a,cum"
 
-#: ../plugins/fn-stat/functions.c:5749
+#: ../plugins/fn-stat/functions.c:5723
 msgid "x,dof"
 msgstr "x,gdl"
 
-#: ../plugins/fn-stat/functions.c:5752 ../plugins/fn-stat/functions.c:5958
+#: ../plugins/fn-stat/functions.c:5726 ../plugins/fn-stat/functions.c:5932
 msgid "p,dof"
 msgstr "p,gdl"
 
-#: ../plugins/fn-stat/functions.c:5755
+#: ../plugins/fn-stat/functions.c:5729
 msgid "act_range,theo_range"
 msgstr "rango_act,rango_teór"
 
-#: ../plugins/fn-stat/functions.c:5758
+#: ../plugins/fn-stat/functions.c:5732
 msgid "x,stddev,size"
 msgstr "x,desvest,tam"
 
-#: ../plugins/fn-stat/functions.c:5773
+#: ../plugins/fn-stat/functions.c:5747
 msgid "trials,p,alpha"
 msgstr "intentos,p,alfa"
 
-#: ../plugins/fn-stat/functions.c:5779
+#: ../plugins/fn-stat/functions.c:5753
 msgid "x,y,cumulative"
 msgstr "x,y,acumulado"
 
-#: ../plugins/fn-stat/functions.c:5782
+#: ../plugins/fn-stat/functions.c:5756
 msgid "x,dof of num,dof of denom"
 msgstr "x,gdl de num,gdl de denom"
 
-#: ../plugins/fn-stat/functions.c:5785
+#: ../plugins/fn-stat/functions.c:5759
 msgid "p,dof of num,dof of denom"
 msgstr "p,gdl de num, gdl de denom"
 
-#: ../plugins/fn-stat/functions.c:5794
+#: ../plugins/fn-stat/functions.c:5768
 msgid "x,known y's,known x's"
 msgstr "x,ys conocidos, xs conocidos"
 
-#: ../plugins/fn-stat/functions.c:5797
+#: ../plugins/fn-stat/functions.c:5771
 msgid "data_array,bins_array"
 msgstr "array_datos,array_bins"
 
-#: ../plugins/fn-stat/functions.c:5800
+#: ../plugins/fn-stat/functions.c:5774
 msgid "arr1,arr2"
 msgstr "vec1,vec2"
 
-#: ../plugins/fn-stat/functions.c:5803
+#: ../plugins/fn-stat/functions.c:5777
 msgid "number,alpha,beta,cum"
 msgstr "número,alfa,beta,acum"
 
-#: ../plugins/fn-stat/functions.c:5806
+#: ../plugins/fn-stat/functions.c:5780
 msgid "number,alpha,beta"
 msgstr "número,alfa,beta"
 
-#: ../plugins/fn-stat/functions.c:5816 ../plugins/fn-stat/functions.c:5961
+#: ../plugins/fn-stat/functions.c:5790 ../plugins/fn-stat/functions.c:5935
 msgid "known_y's,known_x's,new_x's,const"
 msgstr "y_conocido,x_conocido,x_nuevo,const"
 
-#: ../plugins/fn-stat/functions.c:5823
+#: ../plugins/fn-stat/functions.c:5797
 msgid "x,n,M,N,cumulative"
 msgstr "x,n,M,N,acumulado"
 
-#: ../plugins/fn-stat/functions.c:5832 ../plugins/fn-stat/functions.c:5920
+#: ../plugins/fn-stat/functions.c:5806 ../plugins/fn-stat/functions.c:5894
 msgid "values,k,"
 msgstr "valores,k,"
 
-#: ../plugins/fn-stat/functions.c:5836 ../plugins/fn-stat/functions.c:5839
-#: ../plugins/fn-stat/functions.c:5851
+#: ../plugins/fn-stat/functions.c:5810 ../plugins/fn-stat/functions.c:5813
+#: ../plugins/fn-stat/functions.c:5825
 msgid "known_y's,known_x's,const,stat"
 msgstr "y_conocido,x_conocido,const,estad"
 
-#: ../plugins/fn-stat/functions.c:5842 ../plugins/fn-stat/functions.c:5917
-#: ../plugins/fn-stat/functions.c:5946
+#: ../plugins/fn-stat/functions.c:5816 ../plugins/fn-stat/functions.c:5891
+#: ../plugins/fn-stat/functions.c:5920
 msgid "known_y's,known_x's"
 msgstr "y_conocido,x_conocido"
 
-#: ../plugins/fn-stat/functions.c:5845 ../plugins/fn-stat/functions.c:5884
+#: ../plugins/fn-stat/functions.c:5819 ../plugins/fn-stat/functions.c:5858
 msgid "p,mean,stddev"
 msgstr "p,media,desvest"
 
-#: ../plugins/fn-stat/functions.c:5848 ../plugins/fn-stat/functions.c:5924
+#: ../plugins/fn-stat/functions.c:5822 ../plugins/fn-stat/functions.c:5898
 msgid "x,mean,stddev"
 msgstr "x,media,desvest"
 
-#: ../plugins/fn-stat/functions.c:5878
+#: ../plugins/fn-stat/functions.c:5852
 msgid "f,t,p"
 msgstr "f,t,p"
 
-#: ../plugins/fn-stat/functions.c:5881
+#: ../plugins/fn-stat/functions.c:5855
 msgid "x,mean,stddev,cumulative"
 msgstr "x,media,desvest,acumulado"
 
-#: ../plugins/fn-stat/functions.c:5896
+#: ../plugins/fn-stat/functions.c:5870
 msgid "array,k"
 msgstr "array,k"
 
-#: ../plugins/fn-stat/functions.c:5899
+#: ../plugins/fn-stat/functions.c:5873
 msgid "array,x,significance"
 msgstr "array,x,significatividad"
 
-#: ../plugins/fn-stat/functions.c:5905
+#: ../plugins/fn-stat/functions.c:5879
 msgid "x,mean,cumulative"
 msgstr "x,medio,acumulado"
 
-#: ../plugins/fn-stat/functions.c:5908
+#: ../plugins/fn-stat/functions.c:5882
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr "rango_x,rango_prob,límite_inf,límite_sup"
 
-#: ../plugins/fn-stat/functions.c:5911
+#: ../plugins/fn-stat/functions.c:5885
 msgid "array,quart"
 msgstr "array,cuart"
 
-#: ../plugins/fn-stat/functions.c:5927
+#: ../plugins/fn-stat/functions.c:5901
 msgid "array,interval"
 msgstr "array,intervalo"
 
-#: ../plugins/fn-stat/functions.c:5955
+#: ../plugins/fn-stat/functions.c:5929
 msgid "x,dof,tails"
 msgstr "x,gdl,colas"
 
-#: ../plugins/fn-stat/functions.c:5964
+#: ../plugins/fn-stat/functions.c:5938
 msgid "ref,fraction"
 msgstr "ref,fracción"
 
-#: ../plugins/fn-stat/functions.c:5968
+#: ../plugins/fn-stat/functions.c:5942
 msgid "array1,array2,tails,type"
 msgstr "array1,array2,colas,tipo"
 
-#: ../plugins/fn-stat/functions.c:5983
+#: ../plugins/fn-stat/functions.c:5957
 msgid "x.alpha,beta,cumulative"
 msgstr "x,alfa,beta,acumulado"
 
-#: ../plugins/fn-stat/functions.c:5986
+#: ../plugins/fn-stat/functions.c:5960
 msgid "ref,x[,stddev]"
 msgstr "ref,x[,stddev]"
 
-#: ../plugins/fn-stat/functions.c:5990 ../plugins/fn-stat/functions.c:6008
+#: ../plugins/fn-stat/functions.c:5964 ../plugins/fn-stat/functions.c:5982
 msgid "x,a,b"
 msgstr "x,a,b"
 
-#: ../plugins/fn-stat/functions.c:5999
+#: ../plugins/fn-stat/functions.c:5973
 msgid "x"
 msgstr "x"
 
-#: ../plugins/fn-stat/functions.c:6002 ../plugins/fn-stat/functions.c:6005
+#: ../plugins/fn-stat/functions.c:5976 ../plugins/fn-stat/functions.c:5979
 msgid "x,a"
 msgstr "x,a"
 
-#: ../plugins/fn-stat/functions.c:6011
+#: ../plugins/fn-stat/functions.c:5985
 msgid "x,sigma"
 msgstr "x,sigma"
 
-#: ../plugins/fn-stat/functions.c:6014
+#: ../plugins/fn-stat/functions.c:5988
 msgid "x,a,sigma"
 msgstr "x,a,sigma"
 
-#: ../plugins/fn-stat/functions.c:6020
+#: ../plugins/fn-stat/functions.c:5994
 msgid "function_nbr,ref,ref,"
 msgstr "función_nbr,ref,ref,"
 
-#: ../plugins/fn-stat/functions.c:6023
+#: ../plugins/fn-stat/functions.c:5997
 msgid "ref,ref,"
 msgstr "ref,ref,"
 
@@ -1774,7 +1776,7 @@ msgstr "GNU Oleo (*.oleo)"
 msgid "Imports GNU Oleo documents"
 msgstr "Importa documentos GNU Oleo"
 
-#: ../plugins/openoffice/openoffice-read.c:470
+#: ../plugins/openoffice/openoffice-read.c:471
 #, c-format
 msgid ""
 "Unable to parse\n"
@@ -1785,7 +1787,7 @@ msgstr ""
 "\t«%s»\n"
 "debido a «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:704
+#: ../plugins/openoffice/openoffice-read.c:705
 #, c-format
 msgid ""
 "Content past the maxium number of rows supported in this build (%u).  Please "
@@ -1794,55 +1796,55 @@ msgstr ""
 "El contenido excedió el número máximo de filas soportadas en esta "
 "compilación (%u). Por favor recompile con límites mayores."
 
-#: ../plugins/openoffice/openoffice-read.c:880
+#: ../plugins/openoffice/openoffice-read.c:881
 msgid "Missing expression"
 msgstr "Expresión perdida"
 
-#: ../plugins/openoffice/openoffice-read.c:887
+#: ../plugins/openoffice/openoffice-read.c:888
 msgid "Missing expression namespace"
 msgstr "Falta el espacio de nombres de la expresión"
 
-#: ../plugins/openoffice/openoffice-read.c:895
+#: ../plugins/openoffice/openoffice-read.c:896
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "La expresión «%s» no empieza con un carácter reconocido"
 
-#: ../plugins/openoffice/openoffice-read.c:980
+#: ../plugins/openoffice/openoffice-read.c:981
 msgid "Invalid array expression does not specify number of columns."
 msgstr "La expresión del array no indica el número de columnas."
 
-#: ../plugins/openoffice/openoffice-read.c:983
+#: ../plugins/openoffice/openoffice-read.c:984
 msgid "Invalid array expression does not specify number of rows."
 msgstr "La expresión del array no indica el número de filas."
 
-#: ../plugins/openoffice/openoffice-read.c:1561
+#: ../plugins/openoffice/openoffice-read.c:1562
 #, c-format
 msgid "Unknown break type '%s' defaulting to Manual"
 msgstr "Tipo de salto desconocido «%s», cambiando a manual"
 
-#: ../plugins/openoffice/openoffice-read.c:1784
+#: ../plugins/openoffice/openoffice-read.c:1785
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "la expresión «%s» @ «%s» no es una referencia de celda"
 
-#: ../plugins/openoffice/openoffice-read.c:1821
+#: ../plugins/openoffice/openoffice-read.c:1822
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Rango DB «%s» no válido"
 
-#: ../plugins/openoffice/openoffice-read.c:2871
+#: ../plugins/openoffice/openoffice-read.c:2874
 msgid "Unknown mimetype for openoffice file."
 msgstr "Tipo mime desconocido para el archivo openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:2885
+#: ../plugins/openoffice/openoffice-read.c:2888
 msgid "No stream named content.xml found."
 msgstr "No se encontró ningún flujo llamado content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:2893
+#: ../plugins/openoffice/openoffice-read.c:2896
 msgid "No stream named styles.xml found."
 msgstr "No se encontró ningún flujo llamado styles.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:2942
+#: ../plugins/openoffice/openoffice-read.c:2945
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Metadato inválido: «%s»"
@@ -3732,7 +3734,7 @@ msgstr "Pegar en %s"
 
 #. Check arrays or merged regions in src or target regions
 #: ../src/commands.c:3089 ../src/commands.c:3244 ../src/commands.c:3245
-#: ../src/item-cursor.c:1216 ../src/wbc-gtk-actions.c:421
+#: ../src/item-cursor.c:1215 ../src/wbc-gtk-actions.c:421
 msgid "Autofill"
 msgstr "Autollenado"
 
@@ -5678,8 +5680,8 @@ msgid "Mar"
 msgstr "Mar"
 
 #: ../src/dialogs/dialog-autoformat.c:72 ../src/dialogs/dialog-autoformat.c:76
-#: ../src/tools/analysis-tools.c:4178 ../src/tools/analysis-tools.c:4188
-#: ../src/tools/analysis-tools.c:4196
+#: ../src/tools/analysis-tools.c:4180 ../src/tools/analysis-tools.c:4190
+#: ../src/tools/analysis-tools.c:4198
 msgid "Total"
 msgstr "Total"
 
@@ -7868,8 +7870,8 @@ msgstr "D_ía"
 msgid "Date unit:"
 msgstr "Unidad de fecha:"
 
-#: ../src/dialogs/fill-series.glade.h:4 ../src/tools/fill-series.c:405
-#: ../src/tools/fill-series.c:408
+#: ../src/dialogs/fill-series.glade.h:4 ../src/tools/fill-series.c:388
+#: ../src/tools/fill-series.c:391
 msgid "Fill Series"
 msgstr "Series de Llenado"
 
@@ -9536,7 +9538,7 @@ msgstr "La región de destino es muy pequeña, debe tener al menos %d columnas d
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "La región de destino es muy pequeña, debe tener al menos %d filas de alto"
 
-#: ../src/func-builtin.c:41
+#: ../src/func-builtin.c:42
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -9561,7 +9563,7 @@ msgstr ""
 "y 43.  Entonces\n"
 "SUM(A1:A5) es igual a 107."
 
-#: ../src/func-builtin.c:73
+#: ../src/func-builtin.c:74
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -9585,7 +9587,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "PRODUCT(2;5;9) es igual a 90."
 
-#: ../src/func-builtin.c:114
+#: ../src/func-builtin.c:115
 msgid ""
 "@FUNCTION=GNUMERIC_VERSION\n"
 "@SYNTAX=GNUMERIC_VERSION()\n"
@@ -9600,7 +9602,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "GNUMERIC_VERSION()."
 
-#: ../src/func-builtin.c:306
+#: ../src/func-builtin.c:317
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -10009,7 +10011,8 @@ msgstr ""
 "\n"
 "-- El equipo de Gnumeric."
 
-#: ../src/main-application.c:234 ../src/ssconvert.c:366 ../src/ssindex.c:211
+#: ../src/main-application.c:234 ../src/ssconvert.c:366 ../src/ssgrep.c:150
+#: ../src/ssindex.c:211
 #, c-format
 msgid ""
 "%s\n"
@@ -10031,23 +10034,23 @@ msgstr ""
 "Editar texto enriquecido por tanto no funcionará bien. Por favor compruebe\n"
 "con su distribución si está disponible alguna versión corregida de Pango."
 
-#: ../src/mathfunc.c:3870
+#: ../src/mathfunc.c:3873
 msgid "bessel_i allocation error"
 msgstr "error de asignación de bessel_i"
 
-#: ../src/mathfunc.c:3878 ../src/mathfunc.c:3881
+#: ../src/mathfunc.c:3881 ../src/mathfunc.c:3884
 msgid "bessel_i(%"
 msgstr "bessel_i(%"
 
-#: ../src/mathfunc.c:4341
+#: ../src/mathfunc.c:4344
 msgid "bessel_k allocation error"
 msgstr "error de asignación de memoria en bessel_k"
 
-#: ../src/mathfunc.c:4349 ../src/mathfunc.c:4352
+#: ../src/mathfunc.c:4352 ../src/mathfunc.c:4355
 msgid "bessel_k(%"
 msgstr "bessel_k(%"
 
-#: ../src/mathfunc.c:7753
+#: ../src/mathfunc.c:7756
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
@@ -10380,7 +10383,7 @@ msgstr "No cerrar sesión"
 msgid "%dQ"
 msgstr "%dQ"
 
-#: ../src/sheet-autofill.c:917
+#: ../src/sheet-autofill.c:914
 msgid "(empty)"
 msgstr "(vacía)"
 
@@ -10543,11 +10546,11 @@ msgstr "Casilla %d"
 msgid "Clicking checkbox"
 msgstr "Marcar casilla"
 
-#: ../src/sheet-object-widget.c:1857 ../src/wbc-gtk-actions.c:2106
+#: ../src/sheet-object-widget.c:1858 ../src/wbc-gtk-actions.c:2106
 msgid "RadioButton"
 msgstr "RadioButton"
 
-#: ../src/sheet-object-widget.c:2093
+#: ../src/sheet-object-widget.c:2094
 msgid "Clicking in list"
 msgstr "Pulsando en la lista"
 
@@ -10887,7 +10890,7 @@ msgstr "Insertar filas"
 msgid "Delete Rows"
 msgstr "Borrar filas"
 
-#: ../src/ssconvert.c:53 ../src/ssindex.c:48
+#: ../src/ssconvert.c:53 ../src/ssgrep.c:37 ../src/ssindex.c:48
 msgid "Display program version"
 msgstr "Mostrar la versión del programa"
 
@@ -10899,7 +10902,7 @@ msgstr "Opcionalmente especificar una codificación para el contenido importado"
 msgid "ENCODING"
 msgstr "CODIFICACIÓN"
 
-#: ../src/ssconvert.c:69
+#: ../src/ssconvert.c:69 ../src/ssgrep.c:44
 msgid "Optionally specify which importer to use"
 msgstr "Opcionalmente especificar qué importador usar"
 
@@ -11015,6 +11018,30 @@ msgstr ""
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Uso: %s [OPCIÓN…] %s\n"
 
+#: ../src/ssgrep.c:45
+msgid "KEYWORD_FILE"
+msgstr "ARCHIVO_DE_PALABRAS_CLAVE"
+
+#: ../src/ssgrep.c:143 ../src/ssindex.c:204 ../src/ssindex.c:224
+msgid "INFILE..."
+msgstr "ARCHIVO-ENTRADA…"
+
+#: ../src/ssgrep.c:157
+#, c-format
+msgid ""
+"version '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
+msgstr ""
+"versión «%s»\n"
+"datadir := «%s»\n"
+"libdir := «%s»\n"
+
+#: ../src/ssgrep.c:196
+#, c-format
+msgid "Usage: %s [ keyword | -f keywordfile ] FILES...]\n"
+msgstr "Uso: %s [palabra clave | -f archivo de palabras clave] ARCHIVOS...]\n"
+
 #: ../src/ssindex.c:55
 msgid "List MIME types which ssindex is able to read"
 msgstr "Listar los tipos MIME cuyo ssindex se pueda leer"
@@ -11022,10 +11049,6 @@ msgstr "Listar los tipos MIME cuyo ssindex se pueda leer"
 #: ../src/ssindex.c:62
 msgid "Index the given files"
 msgstr "Indexar los archivos dados"
-
-#: ../src/ssindex.c:204 ../src/ssindex.c:224
-msgid "INFILE..."
-msgstr "ARCHIVO-ENTRADA…"
 
 #: ../src/ssindex.c:218
 #, c-format
@@ -11193,13 +11216,13 @@ msgid "Histogram (%s)"
 msgstr "Histograma (%s)"
 
 #: ../src/tools/analysis-tools.c:207 ../src/tools/analysis-tools.c:297
-#: ../src/tools/analysis-tools.c:4122
+#: ../src/tools/analysis-tools.c:4124
 #, c-format
 msgid "Row %i"
 msgstr "Fila %i"
 
 #: ../src/tools/analysis-tools.c:210 ../src/tools/analysis-tools.c:300
-#: ../src/tools/analysis-tools.c:4114
+#: ../src/tools/analysis-tools.c:4116
 #, c-format
 msgid "Column %i"
 msgstr "Columna %i"
@@ -11467,143 +11490,143 @@ msgstr "Desplazamiento promediado (%s)"
 msgid "Exponential Smoothing (%s)"
 msgstr "Suavizado exponencial (%s)"
 
-#: ../src/tools/analysis-tools.c:3427
+#: ../src/tools/analysis-tools.c:3429
 msgid "Point"
 msgstr "Punto"
 
-#: ../src/tools/analysis-tools.c:3429
+#: ../src/tools/analysis-tools.c:3431
 msgid "Rank"
 msgstr "Rango"
 
-#: ../src/tools/analysis-tools.c:3430
+#: ../src/tools/analysis-tools.c:3432
 msgid "Percentile"
 msgstr "Porcentaje"
 
-#: ../src/tools/analysis-tools.c:3490
+#: ../src/tools/analysis-tools.c:3492
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Clasificaciones (%s)"
 
-#: ../src/tools/analysis-tools.c:3502 ../src/tools/analysis-tools.c:3505
+#: ../src/tools/analysis-tools.c:3504 ../src/tools/analysis-tools.c:3507
 msgid "Ranks"
 msgstr "Rango"
 
-#: ../src/tools/analysis-tools.c:3536
+#: ../src/tools/analysis-tools.c:3538
 msgid "Anova: Single Factor"
 msgstr "Anova: un factor"
 
-#: ../src/tools/analysis-tools.c:3537 ../src/tools/analysis-tools.c:4174
+#: ../src/tools/analysis-tools.c:3539 ../src/tools/analysis-tools.c:4176
 #: ../src/tools/simulation.c:335
 msgid "SUMMARY"
 msgstr "RESUMEN"
 
-#: ../src/tools/analysis-tools.c:3540
+#: ../src/tools/analysis-tools.c:3542
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupos/Cuenta/Suma/Promediación/Varianza"
 
-#: ../src/tools/analysis-tools.c:3608
+#: ../src/tools/analysis-tools.c:3610
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/Análisis de varianza/Origen de variación/Entre grupos/Dentro de grupos/Total"
 
-#: ../src/tools/analysis-tools.c:3614 ../src/tools/analysis-tools.c:4024
-#: ../src/tools/analysis-tools.c:4198
+#: ../src/tools/analysis-tools.c:3616 ../src/tools/analysis-tools.c:4026
+#: ../src/tools/analysis-tools.c:4200
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/Suma de cuadrados/Cuadrado medio/Valor P/F crítico"
 
-#: ../src/tools/analysis-tools.c:3825
+#: ../src/tools/analysis-tools.c:3827
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "Factor simple Análisis de varianza (%s)"
 
-#: ../src/tools/analysis-tools.c:3836 ../src/tools/analysis-tools.c:4505
+#: ../src/tools/analysis-tools.c:3838 ../src/tools/analysis-tools.c:4507
 msgid "Anova"
 msgstr "Anova"
 
-#: ../src/tools/analysis-tools.c:3839
+#: ../src/tools/analysis-tools.c:3841
 msgid "Single Factor ANOVA"
 msgstr "Factor simple Análisis de varianza"
 
-#: ../src/tools/analysis-tools.c:3946
+#: ../src/tools/analysis-tools.c:3948
 msgid "The input range contains non-numeric data."
 msgstr "El rango de entrada contiene datos no numéricos."
 
-#: ../src/tools/analysis-tools.c:3954
+#: ../src/tools/analysis-tools.c:3956
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Dos factores sin replicación"
 
-#: ../src/tools/analysis-tools.c:3955
+#: ../src/tools/analysis-tools.c:3957
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/RESUMEN/Cuenta/Suma/Promediación/Varianza"
 
-#: ../src/tools/analysis-tools.c:4018
+#: ../src/tools/analysis-tools.c:4020
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/Análisis de varianza/Origen de variación/Filas/Columnas/Error/Total"
 
-#: ../src/tools/analysis-tools.c:4164
+#: ../src/tools/analysis-tools.c:4166
 msgid "One of the factor combinations does not contain any observations!"
 msgstr "Una de las combinaciones de factores no tiene ninguna observación."
 
 #. We are ready to create the summary table
-#: ../src/tools/analysis-tools.c:4173
+#: ../src/tools/analysis-tools.c:4175
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Dos factores con replicación"
 
-#: ../src/tools/analysis-tools.c:4180
+#: ../src/tools/analysis-tools.c:4182
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Cuenta/Suma/Promediación/Varianza"
 
-#: ../src/tools/analysis-tools.c:4190
+#: ../src/tools/analysis-tools.c:4192
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/Análisis de varianza/Origen de variación/Filas/Columnas/Interacción/Total"
 
-#: ../src/tools/analysis-tools.c:4489
+#: ../src/tools/analysis-tools.c:4491
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr "Análisis de varianza de dos factores (%s), sin replicación"
 
-#: ../src/tools/analysis-tools.c:4490
+#: ../src/tools/analysis-tools.c:4492
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "Análisis de varianza de dos factores (%s),  con replicación"
 
-#: ../src/tools/analysis-tools.c:4508
+#: ../src/tools/analysis-tools.c:4510
 msgid "Two Factor ANOVA"
 msgstr "Análisis de varianza de dos factores"
 
-#: ../src/tools/analysis-tools.c:4597 ../src/tools/solver/reports-write.c:644
+#: ../src/tools/analysis-tools.c:4599 ../src/tools/solver/reports-write.c:644
 msgid "Real"
 msgstr "Real"
 
-#: ../src/tools/analysis-tools.c:4598
+#: ../src/tools/analysis-tools.c:4600
 msgid "Imaginary"
 msgstr "Imaginario"
 
-#: ../src/tools/analysis-tools.c:4658
+#: ../src/tools/analysis-tools.c:4660
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Series de Fourier (%s)"
 
-#: ../src/tools/analysis-tools.c:4670 ../src/tools/analysis-tools.c:4673
+#: ../src/tools/analysis-tools.c:4672 ../src/tools/analysis-tools.c:4675
 msgid "Fourier Series"
 msgstr "Series de Fourier"
 
-#: ../src/tools/dao.c:147
+#: ../src/tools/dao.c:148
 msgid "New Sheet"
 msgstr "Hoja nueva"
 
-#: ../src/tools/dao.c:150
+#: ../src/tools/dao.c:151
 msgid "New Workbook"
 msgstr "Libro de cuentas nuevo"
 
-#: ../src/tools/dao.c:957
+#: ../src/tools/dao.c:958
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: ../src/tools/dao.c:963
+#: ../src/tools/dao.c:964
 msgid "Worksheet:"
 msgstr "Hoja de trabajo:"
 
-#: ../src/tools/dao.c:970
+#: ../src/tools/dao.c:971
 msgid "Report Created: "
 msgstr "Informe creado: "
 
@@ -11611,7 +11634,7 @@ msgstr "Informe creado: "
 msgid "Shuffled"
 msgstr "Aleatorio"
 
-#: ../src/tools/fill-series.c:395
+#: ../src/tools/fill-series.c:378
 #, c-format
 msgid "Fill Series (%s)"
 msgstr "Series de llenado (%s)"
