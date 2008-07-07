@@ -167,6 +167,7 @@ src/sheet-style.c
 src/sheet-view.c
 src/sheet.c
 src/ssconvert.c
+src/ssgrep.c
 src/ssindex.c
 src/stf-export.c
 src/stf-parse.c
