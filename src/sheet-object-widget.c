@@ -560,7 +560,7 @@ sheet_widget_button_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar con
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_eq (attrs[0], "Label"))
-			g_object_set (G_OBJECT (swb), "label", attrs[1], NULL);
+			g_object_set (G_OBJECT (swb), "text", attrs[1], NULL);
 }
 
 static gboolean
