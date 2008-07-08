@@ -1,3 +1,8 @@
+2008-07-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/sheet-object-widget.c: (sheet_widget_button_prep_sax_parser):
+	use the correct property name, i.e. "text" instead of "label".
+
 2008-07-02  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : add a test for gsf_open_pkg_foreach_rel to avoid
