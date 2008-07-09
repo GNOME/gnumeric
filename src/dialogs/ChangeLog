@@ -1,3 +1,8 @@
+2008-07-08  Jody Goldberg <jody@gnome.org>
+
+	* dialog-define-names.c (name_guru_init) : default to absolute
+	  references.
+
 2008-06-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.1

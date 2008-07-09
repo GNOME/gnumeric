@@ -1,3 +1,11 @@
+2008-07-08  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (gee_rangesel_reset) : add a DEFAULT_ABS_REF
+	  flag to init things to absolute.
+	(gee_set_property) : add a flags property.
+	(gee_get_property) : ditto.
+	(gee_class_init) : ditto.
+
 2008-06-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.1

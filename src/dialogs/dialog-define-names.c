@@ -548,7 +548,11 @@ name_guru_init (NameGuruState *state, WBCGtk *wbcg)
 	state->dialog = glade_xml_get_widget (state->gui, "NameGuru");
 	definition_table = GTK_TABLE (glade_xml_get_widget (state->gui, "definition_table"));
 	state->name  = GTK_ENTRY (glade_xml_get_widget (state->gui, "name"));
-	state->expr_entry = gnm_expr_entry_new (state->wbcg, TRUE);
+	state->expr_entry = g_object_new (GNM_EXPR_ENTRY_TYPE,
+			     "flags",	  GNM_EE_SHEET_OPTIONAL | GNM_EE_DEFAULT_ABS_REF,
+			     "with-icon", TRUE,
+			     "scg",	  wbcg_cur_scg (wbcg),
+			     NULL);
 	gtk_table_attach (definition_table, GTK_WIDGET (state->expr_entry),
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,

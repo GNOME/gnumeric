@@ -15,11 +15,12 @@ typedef enum {
 	GNM_EE_SINGLE_RANGE    = 1 << 0,
 	GNM_EE_FORCE_ABS_REF   = 1 << 1, /* takes precedence over FORCE_REL_REF */
 	GNM_EE_FORCE_REL_REF   = 1 << 2,
-	GNM_EE_FULL_COL        = 1 << 3,
-	GNM_EE_FULL_ROW        = 1 << 4,
-	GNM_EE_SHEET_OPTIONAL  = 1 << 5,
-	GNM_EE_FORMULA_ONLY    = 1 << 6,
-	GNM_EE_MASK            = 0x7F
+	GNM_EE_DEFAULT_ABS_REF = 1 << 3, /* lower priority than the _FORCE variants */
+	GNM_EE_FULL_COL        = 1 << 4,
+	GNM_EE_FULL_ROW        = 1 << 5,
+	GNM_EE_SHEET_OPTIONAL  = 1 << 6,
+	GNM_EE_FORMULA_ONLY    = 1 << 7,
+	GNM_EE_MASK            = 0xFF
 } GnmExprEntryFlags;
 
 GType gnm_expr_entry_get_type (void);

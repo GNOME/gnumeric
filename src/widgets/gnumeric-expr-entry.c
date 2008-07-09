@@ -88,6 +88,7 @@ enum {
 	PROP_UPDATE_POLICY,
 	PROP_WITH_ICON,
 	PROP_TEXT,
+	PROP_FLAGS,
 	PROP_SCG,
 	PROP_WBCG
 };
@@ -139,9 +140,10 @@ gee_rangesel_reset (GnmExprEntry *gee)
 	rs->text_start = 0;
 	rs->text_end = 0;
 	memset (&rs->ref, 0, sizeof (GnmRange));
-	if (!(gee->flags & GNM_EE_FORCE_ABS_REF))
-		rs->ref.a.col_relative = rs->ref.b.col_relative =
-			rs->ref.a.row_relative = rs->ref.b.row_relative = TRUE;
+	rs->ref.a.col_relative =
+	rs->ref.b.col_relative =
+	rs->ref.a.row_relative =
+	rs->ref.b.row_relative = ((gee->flags & (GNM_EE_FORCE_ABS_REF|GNM_EE_DEFAULT_ABS_REF)) == 0);
 
 	gee->rangesel.is_valid = FALSE;
 }
@@ -308,6 +310,10 @@ gee_set_property (GObject      *object,
 		gnm_expr_entry_signal_update (gee, FALSE);
 		break;
 
+	case PROP_FLAGS:
+		gnm_expr_entry_set_flags (gee,
+			g_value_get_uint (value), GNM_EE_MASK);
+		break;
 	case PROP_SCG:
 		gnm_expr_entry_set_scg (gee,
 			SHEET_CONTROL_GUI (g_value_get_object (value)));
@@ -337,6 +343,9 @@ gee_get_property (GObject      *object,
 		break;
 	case PROP_TEXT:
 		g_value_set_string (value, gnm_expr_entry_get_text (gee));
+		break;
+	case PROP_FLAGS:
+		g_value_set_uint (value, gee->flags);
 		break;
 	case PROP_SCG:
 		g_value_set_object (value, G_OBJECT (gee->scg));
@@ -700,6 +709,11 @@ gee_class_init (GObjectClass *gobject_class)
 		g_param_spec_string ("text", "Text",
 			"The contents of the entry",
 			"",
+			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_class,
+		PROP_FLAGS,
+		g_param_spec_uint ("flags", NULL, NULL,
+			0, GNM_EE_MASK, 0,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class,
 		PROP_SCG,

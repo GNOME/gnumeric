@@ -3,6 +3,8 @@ Gnumeric 1.9.2
 Jody:
 	* Fix distcheck. [#540284]
 	* Fix ODS import failure on win32. [#536552]
+	* Get closer to a turnkey win32 build. [#534291]
+	* Name guru defaults to absolute references.
 
 Morten:
 	* Fix EOMONTH issue.  [#540069]
