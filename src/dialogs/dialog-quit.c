@@ -161,7 +161,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 
 	if (multiple) {
 		button = go_gtk_dialog_add_button (dialog,
-						   _("Select all"),
+						   _("Select _all"),
 						   GTK_STOCK_SELECT_ALL,
 						   RESPONSE_ALL);
 		go_widget_set_tooltip_text
@@ -172,7 +172,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 				  list);
 
 		button = go_gtk_dialog_add_button (dialog,
-						   _("Clear Selection"),
+						   _("_Clear Selection"),
 						   GTK_STOCK_CLEAR,
 						   RESPONSE_NONE);
 		go_widget_set_tooltip_text
@@ -183,7 +183,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 				  list);
 
 		button = go_gtk_dialog_add_button (dialog,
-						   _("Save Selected"),
+						   _("_Save Selected"),
 						   GTK_STOCK_SAVE,
 						   GTK_RESPONSE_OK);
 		go_widget_set_tooltip_text
@@ -191,7 +191,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 			 _("Save selected documents and then quit"));
 	} else {
 		button = go_gtk_dialog_add_button (dialog,
-						   _("Discard"), 
+						   _("_Discard"), 
 						   GTK_STOCK_DELETE,
 						   GTK_RESPONSE_NO);
 		go_widget_set_tooltip_text (button, _("Discard changes"));
