@@ -1,0 +1,192 @@
+diff -c bzip2.c bzip2.c
+*** bzip2.c	2007-12-09 07:22:06.000000000 -0500
+--- bzip2.c	2008-07-05 21:53:05.000000000 -0400
+***************
+*** 128,134 ****
+  #if BZ_LCCWIN32
+  #   include <io.h>
+  #   include <fcntl.h>
+! #   include <sys\stat.h>
+  
+  #   define NORETURN       /**/
+  #   define PATH_SEP       '\\'
+--- 128,134 ----
+  #if BZ_LCCWIN32
+  #   include <io.h>
+  #   include <fcntl.h>
+! #   include <sys/stat.h>
+  
+  #   define NORETURN       /**/
+  #   define PATH_SEP       '\\'
+diff -c Makefile Makefile
+*** Makefile	2008-02-14 07:39:18.000000000 -0500
+--- Makefile	2008-07-05 22:28:46.000000000 -0400
+***************
+*** 15,31 ****
+  SHELL=/bin/sh
+  
+  # To assist in cross-compiling
+! CC=gcc
+! AR=ar
+! RANLIB=ranlib
+  LDFLAGS=
+  
+  BIGFILES=-D_FILE_OFFSET_BITS=64
+  CFLAGS=-Wall -Winline -O2 -g $(BIGFILES)
+  
+  # Where you want it installed when you do 'make install'
+! PREFIX=/usr/local
+  
+  
+  OBJS= blocksort.o  \
+        huffman.o    \
+--- 15,33 ----
+  SHELL=/bin/sh
+  
+  # To assist in cross-compiling
+! #CC=gcc
+! #AR=ar
+! #RANLIB=ranlib
+  LDFLAGS=
+  
+  BIGFILES=-D_FILE_OFFSET_BITS=64
+  CFLAGS=-Wall -Winline -O2 -g $(BIGFILES)
+  
+  # Where you want it installed when you do 'make install'
+! PREFIX=$(prefix)
+  
++ RC =i586-mingw32msvc-windres
++ RCFLAGS = --define GCC_WINDRES
+  
+  OBJS= blocksort.o  \
+        huffman.o    \
+***************
+*** 33,56 ****
+        randtable.o  \
+        compress.o   \
+        decompress.o \
+        bzlib.o
+  
+! all: libbz2.a bzip2 bzip2recover test
+  
+! bzip2: libbz2.a bzip2.o
+  	$(CC) $(CFLAGS) $(LDFLAGS) -o bzip2 bzip2.o -L. -lbz2
+  
+  bzip2recover: bzip2recover.o
+  	$(CC) $(CFLAGS) $(LDFLAGS) -o bzip2recover bzip2recover.o
+  
+! libbz2.a: $(OBJS)
+! 	rm -f libbz2.a
+! 	$(AR) cq libbz2.a $(OBJS)
+! 	@if ( test -f $(RANLIB) -o -f /usr/bin/ranlib -o \
+! 		-f /bin/ranlib -o -f /usr/ccs/bin/ranlib ) ; then \
+! 		echo $(RANLIB) libbz2.a ; \
+! 		$(RANLIB) libbz2.a ; \
+! 	fi
+  
+  check: test
+  test: bzip2
+--- 35,58 ----
+        randtable.o  \
+        compress.o   \
+        decompress.o \
++       bz2librc.o   \
+        bzlib.o
+  
+! SHAREDLIB = libbz2.dll
+! IMPLIB    = libbz2.lib
+  
+! all: bzip2 bzip2recover test $(SHAREDLIB) $(IMPLIB)
+! 
+! bzip2: libbz2.dll bzip2.o
+  	$(CC) $(CFLAGS) $(LDFLAGS) -o bzip2 bzip2.o -L. -lbz2
+  
+  bzip2recover: bzip2recover.o
+  	$(CC) $(CFLAGS) $(LDFLAGS) -o bzip2recover bzip2recover.o
+  
+! $(IMPLIB): $(SHAREDLIB)
+! 
+! $(SHAREDLIB): $(OBJS)
+! 	$(CC) -shared -o $@ $(OBJS)
+  
+  check: test
+  test: bzip2
+***************
+*** 72,115 ****
+  install: bzip2 bzip2recover
+  	if ( test ! -d $(PREFIX)/bin ) ; then mkdir -p $(PREFIX)/bin ; fi
+  	if ( test ! -d $(PREFIX)/lib ) ; then mkdir -p $(PREFIX)/lib ; fi
+- 	if ( test ! -d $(PREFIX)/man ) ; then mkdir -p $(PREFIX)/man ; fi
+- 	if ( test ! -d $(PREFIX)/man/man1 ) ; then mkdir -p $(PREFIX)/man/man1 ; fi
+  	if ( test ! -d $(PREFIX)/include ) ; then mkdir -p $(PREFIX)/include ; fi
+- 	cp -f bzip2 $(PREFIX)/bin/bzip2
+- 	cp -f bzip2 $(PREFIX)/bin/bunzip2
+- 	cp -f bzip2 $(PREFIX)/bin/bzcat
+- 	cp -f bzip2recover $(PREFIX)/bin/bzip2recover
+- 	chmod a+x $(PREFIX)/bin/bzip2
+- 	chmod a+x $(PREFIX)/bin/bunzip2
+- 	chmod a+x $(PREFIX)/bin/bzcat
+- 	chmod a+x $(PREFIX)/bin/bzip2recover
+- 	cp -f bzip2.1 $(PREFIX)/man/man1
+- 	chmod a+r $(PREFIX)/man/man1/bzip2.1
+  	cp -f bzlib.h $(PREFIX)/include
+  	chmod a+r $(PREFIX)/include/bzlib.h
+! 	cp -f libbz2.a $(PREFIX)/lib
+! 	chmod a+r $(PREFIX)/lib/libbz2.a
+! 	cp -f bzgrep $(PREFIX)/bin/bzgrep
+! 	ln -s -f $(PREFIX)/bin/bzgrep $(PREFIX)/bin/bzegrep
+! 	ln -s -f $(PREFIX)/bin/bzgrep $(PREFIX)/bin/bzfgrep
+! 	chmod a+x $(PREFIX)/bin/bzgrep
+! 	cp -f bzmore $(PREFIX)/bin/bzmore
+! 	ln -s -f $(PREFIX)/bin/bzmore $(PREFIX)/bin/bzless
+! 	chmod a+x $(PREFIX)/bin/bzmore
+! 	cp -f bzdiff $(PREFIX)/bin/bzdiff
+! 	ln -s -f $(PREFIX)/bin/bzdiff $(PREFIX)/bin/bzcmp
+! 	chmod a+x $(PREFIX)/bin/bzdiff
+! 	cp -f bzgrep.1 bzmore.1 bzdiff.1 $(PREFIX)/man/man1
+! 	chmod a+r $(PREFIX)/man/man1/bzgrep.1
+! 	chmod a+r $(PREFIX)/man/man1/bzmore.1
+! 	chmod a+r $(PREFIX)/man/man1/bzdiff.1
+! 	echo ".so man1/bzgrep.1" > $(PREFIX)/man/man1/bzegrep.1
+! 	echo ".so man1/bzgrep.1" > $(PREFIX)/man/man1/bzfgrep.1
+! 	echo ".so man1/bzmore.1" > $(PREFIX)/man/man1/bzless.1
+! 	echo ".so man1/bzdiff.1" > $(PREFIX)/man/man1/bzcmp.1
+  
+  clean: 
+! 	rm -f *.o libbz2.a bzip2 bzip2recover \
+  	sample1.rb2 sample2.rb2 sample3.rb2 \
+  	sample1.tst sample2.tst sample3.tst
+  
+--- 74,87 ----
+  install: bzip2 bzip2recover
+  	if ( test ! -d $(PREFIX)/bin ) ; then mkdir -p $(PREFIX)/bin ; fi
+  	if ( test ! -d $(PREFIX)/lib ) ; then mkdir -p $(PREFIX)/lib ; fi
+  	if ( test ! -d $(PREFIX)/include ) ; then mkdir -p $(PREFIX)/include ; fi
+  	cp -f bzlib.h $(PREFIX)/include
+  	chmod a+r $(PREFIX)/include/bzlib.h
+! 	cp -f libbz2.dll $(PREFIX)/bin
+! 	chmod a+r $(PREFIX)/bin/libbz2.dll
+  
+  clean: 
+! 	rm -f *.o libbz2.dll bzip2 bzip2recover \
+  	sample1.rb2 sample2.rb2 sample3.rb2 \
+  	sample1.tst sample2.tst sample3.tst
+  
+***************
+*** 132,138 ****
+  	$(CC) $(CFLAGS) -c bzip2.c
+  bzip2recover.o: bzip2recover.c
+  	$(CC) $(CFLAGS) -c bzip2recover.c
+! 
+  
+  distclean: clean
+  	rm -f manual.ps manual.html manual.pdf
+--- 104,111 ----
+  	$(CC) $(CFLAGS) -c bzip2.c
+  bzip2recover.o: bzip2recover.c
+  	$(CC) $(CFLAGS) -c bzip2recover.c
+! bz2librc.o: libbz2.rc
+! 	$(RC) $(RCFLAGS) -o $@ $<
+  
+  distclean: clean
+  	rm -f manual.ps manual.html manual.pdf

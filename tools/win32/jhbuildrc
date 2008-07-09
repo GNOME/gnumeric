@@ -48,9 +48,9 @@ for tool in mingw_tools.keys():
 
 #Exporting tool flags enviroment variables
 os.environ['LDFLAGS']	 = ' -mno-cygwin -L'+prefix+'/lib  -no-undefined'
-os.environ['CFLAGS']	 = ' -O0 -g -I'+prefix+'/include -mno-cygwin -mms-bitfields -march=i686 ' 
-os.environ['CPPFLAGS']	 = ' -O0 -g -I'+prefix+'/include -mno-cygwin -mms-bitfields -march=i686'
-os.environ['CXXFLAGS']	 = ' -O0 -g -I'+prefix+'/include -mno-cygwin -mms-bitfields -march=i686 '
+os.environ['CFLAGS']	 = ' -O0 -gstabs -I'+prefix+'/include -mno-cygwin -mms-bitfields -march=i686 ' 
+os.environ['CPPFLAGS']	 = ' -O0 -gstabs -I'+prefix+'/include -mno-cygwin -mms-bitfields -march=i686'
+os.environ['CXXFLAGS']	 = ' -O0 -gstabs -I'+prefix+'/include -mno-cygwin -mms-bitfields -march=i686 '
 os.environ['ARFLAGS']	 = 'rcs'
 os.environ['INSTALL']	 = os.path.expanduser('~/bin/install-check')
 os.environ['ACLOCAL_AMFLAGS'] = ' -I '+prefix+'/share/aclocal'	# for libgnomedb

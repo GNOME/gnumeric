@@ -1,0 +1,136 @@
+diff -cNr win32/Makefile.gcc win32/Makefile.gcc
+*** win32/Makefile.gcc	2003-08-01 23:49:00.000000000 -0400
+--- win32/Makefile.gcc	2008-07-06 10:55:58.000000000 -0400
+***************
+*** 24,37 ****
+  # the DLL name should be changed from "zlib1.dll".
+  
+  STATICLIB = libz.a
+! SHAREDLIB = zlib1.dll
+! IMPLIB    = libzdll.a
+  
+  #LOC = -DASMV
+  #LOC = -DDEBUG -g
+  
+! CC = gcc
+! CFLAGS = $(LOC) -O3 -Wall
+  
+  AS = $(CC)
+  ASFLAGS = $(LOC) -Wall
+--- 24,37 ----
+  # the DLL name should be changed from "zlib1.dll".
+  
+  STATICLIB = libz.a
+! SHAREDLIB = libz.dll
+! IMPLIB    = libz.dll.a
+  
+  #LOC = -DASMV
+  #LOC = -DDEBUG -g
+  
+! #CC = gcc
+! #CFLAGS = $(LOC) -O3 -Wall
+  
+  AS = $(CC)
+  ASFLAGS = $(LOC) -Wall
+***************
+*** 42,63 ****
+  AR = ar
+  ARFLAGS = rcs
+  
+! RC = windres
+  RCFLAGS = --define GCC_WINDRES
+  
+  CP = cp -fp
+  # If GNU install is available, replace $(CP) with install.
+  INSTALL = $(CP)
+  RM = rm -f
+  
+! prefix = /usr/local
+! exec_prefix = $(prefix)
+  
+  OBJS = adler32.o compress.o crc32.o deflate.o gzio.o infback.o \
+         inffast.o inflate.o inftrees.o trees.o uncompr.o zutil.o
+  OBJA =
+  
+! all: $(STATICLIB) $(SHAREDLIB) $(IMPLIB) example minigzip example_d minigzip_d
+  
+  test: example minigzip
+  	./example
+--- 42,67 ----
+  AR = ar
+  ARFLAGS = rcs
+  
+! RC =i586-mingw32msvc-windres
+  RCFLAGS = --define GCC_WINDRES
+  
++ #DLLWRAP = dllwrap
++ 
+  CP = cp -fp
+  # If GNU install is available, replace $(CP) with install.
+  INSTALL = $(CP)
+  RM = rm -f
+  
+! #prefix = /usr/local
+! exec_prefix = $(prefix)/bin
+! INCLUDE_PATH= $(prefix)/include
+! LIBRARY_PATH= $(prefix)/lib
+  
+  OBJS = adler32.o compress.o crc32.o deflate.o gzio.o infback.o \
+         inffast.o inflate.o inftrees.o trees.o uncompr.o zutil.o
+  OBJA =
+  
+! all: $(STATICLIB) $(SHAREDLIB) $(IMPLIB)
+  
+  test: example minigzip
+  	./example
+***************
+*** 76,87 ****
+  $(STATICLIB): $(OBJS) $(OBJA)
+  	$(AR) $(ARFLAGS) $@ $(OBJS) $(OBJA)
+  
+- $(IMPLIB): $(SHAREDLIB)
+  
+! $(SHAREDLIB): win32/zlib.def $(OBJS) $(OBJA) zlibrc.o
+! 	dllwrap --driver-name $(CC) --def win32/zlib.def \
+! 	  --implib $(IMPLIB) -o $@ $(OBJS) $(OBJA) zlibrc.o
+! 	strip $@
+  
+  example: example.o $(STATICLIB)
+  	$(LD) $(LDFLAGS) -o $@ example.o $(STATICLIB)
+--- 80,90 ----
+  $(STATICLIB): $(OBJS) $(OBJA)
+  	$(AR) $(ARFLAGS) $@ $(OBJS) $(OBJA)
+  
+  
+! $(SHAREDLIB) $(IMPLIB): win32/zlib.def $(OBJS) $(OBJA) zlibrc.o
+! 	$(CC) -shared -o $@ $(OBJS) $(OBJA) zlibrc.o
+! 	$(DLLTOOL) --def win32/zlib.def --dllname $(SHAREDLIB) --output-lib $(IMPLIB)
+! 	strip $(SHAREDLIB)
+  
+  example: example.o $(STATICLIB)
+  	$(LD) $(LDFLAGS) -o $@ example.o $(STATICLIB)
+***************
+*** 104,115 ****
+  .PHONY: install uninstall clean
+  
+  install: zlib.h zconf.h $(LIB)
+- 	-@if not exist $(INCLUDE_PATH)/nul mkdir $(INCLUDE_PATH)
+- 	-@if not exist $(LIBRARY_PATH)/nul mkdir $(LIBRARY_PATH)
+  	-$(INSTALL) zlib.h $(INCLUDE_PATH)
+  	-$(INSTALL) zconf.h $(INCLUDE_PATH)
+- 	-$(INSTALL) $(STATICLIB) $(LIBRARY_PATH)
+  	-$(INSTALL) $(IMPLIB) $(LIBRARY_PATH)
+  
+  uninstall:
+  	-$(RM) $(INCLUDE_PATH)/zlib.h
+--- 107,116 ----
+  .PHONY: install uninstall clean
+  
+  install: zlib.h zconf.h $(LIB)
+  	-$(INSTALL) zlib.h $(INCLUDE_PATH)
+  	-$(INSTALL) zconf.h $(INCLUDE_PATH)
+  	-$(INSTALL) $(IMPLIB) $(LIBRARY_PATH)
++ 	-$(INSTALL) $(SHAREDLIB) $(exec_prefix)
+  
+  uninstall:
+  	-$(RM) $(INCLUDE_PATH)/zlib.h

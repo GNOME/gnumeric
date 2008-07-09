@@ -8,7 +8,7 @@ SetCompressor /SOLID lzma
 !define GNM_LONGNAME		"Gnumeric Spreadsheet"
 !define GNM_APPNAME		"Gnumeric Spreadsheet"
 !define GNM_VERSION		"@VERSION@"
-!define GNM_VERSION_TAG		"win32-1"
+!define GNM_VERSION_TAG		"20080707-debug"
 !define GNM_VERSION_FULL	"${GNM_VERSION}-${GNM_VERSION_TAG}"
 !define GNM_UNINST_KEY		"Software\Microsoft\Windows\CurrentVersion\Uninstall\${GNM_NAME}"
 !define GNM_STARTMENU_REG_VAL	"NSIS:StartMenuDir"
@@ -17,8 +17,8 @@ SetCompressor /SOLID lzma
 
 !define GOFFICE_VERSION		"@GOFFICE_VERSION@"
 
-!define GTK_VERSION		"2.10"
-!define GTK_VENDORRC		"14"
+!define GTK_VERSION		"2.13"
+!define GTK_VENDORRC		"4"
 !define GTK_VENDORVERSION	"${GTK_VERSION}.${GTK_VENDORRC}"
 
 ; MUI 1.67 compatible ------
@@ -69,7 +69,7 @@ Var INI_VALUE
 Name "${GNM_LONGNAME} ${GNM_VERSION_FULL}"
 OutFile			"gnumeric-${GNM_VERSION_FULL}.exe"
 Icon			"share\pixmaps\win32-gnumeric.ico"
-InstallDir		"C:\Program Files\${GNM_NAME}"
+InstallDir		"$PROGRAMFILES\${GNM_NAME}"
 InstallDirRegKey	HKLM "Software\GNOME\${GNM_NAME}" "Path"
 ShowInstDetails		hide
 ShowUnInstDetails	show

@@ -6,6 +6,10 @@
 <moduleset>
     <repository type="svn" name="svn.gnome.org" default="yes"
 		href="http://svn.gnome.org/svn/"/>
+    <repository type="tarball" name="gnome.org"
+		href="http://download.gnome.org/sources"/>
+    <repository type="tarball" name="zlib.net"
+		href="http://www.zlib.net"/>
     <repository type="git" name="freedesktop.org"
 		href="git://cgit.freedesktop.org/git"/>
 
@@ -34,6 +38,26 @@
 	    <patch file="&patch_dir;pcre.patch"/>
 	</patches>
     </tarball>
+    <autotools id="gtk-doc">
+	<branch module="gtk-doc/trunk" checkoutdir="gtk-doc"/>
+	<dependencies>
+	</dependencies>
+    </autotools>
+    <autotools id="glib">
+	<branch>
+	    <patches>
+		<!-- APPLY MANUALLY -->
+		<patch file="http://www.gnome.org/~aruiz/gtk+/patches/glib_win32_cachefile.patch.gz"/>
+		<patch file="&patch_dir;glib-goption-disable-localization.patch"/>
+	    </patches>
+	</branch>
+	<dependencies>
+	    <dep package="gettext"/>
+	    <dep package="gtk-doc"/>
+<!--	    <dep package="iconv"/> -->
+	</dependencies>
+    </autotools>
+
     <!--
     <tarball id="glib" version="2.14.6">
 	<source href="http://download.gnome.org/sources/glib/2.14/glib-2.14.6.tar.bz2"
@@ -48,37 +72,21 @@
 	</dependencies>
     </tarball>
     -->
-    <autotools id="gtk-doc">
-	<branch module="gtk-doc/trunk" checkoutdir="gtk-doc"/>
-	<dependencies>
-	</dependencies>
-    </autotools>
-    <autotools id="glib">
-	<branch/>
-	<patches>
-		<patch file="http://www.gnome.org/~aruiz/gtk+/patches/glib_win32_cachefile.patch.gz"/>
-	</patches>
-	<dependencies>
-	    <dep package="gettext"/>
-	    <dep package="gtk-doc"/>
-<!--	    <dep package="iconv"/> -->
-	</dependencies>
-    </autotools>
 
 <!-- Compression -->
-    <tarball id="zlib" version="1.2.3" makeargs="-f win32/Makefile.gcc -e zlib1.dll" makeinstallargs="-f win32/Makefile.gcc -e install">
-	<source href="http://www.zlib.net/zlib-1.2.3.tar.gz"
-		md5sum="debc62758716a169df9f62e6ab2bc634"/>
+    <autotools id="zlib"
+	makeargs="-f win32/Makefile.gcc"
+	makeinstallargs="-f win32/Makefile.gcc -e install">
+	<branch repo="zlib.net" module="zlib-1.2.3.tar.gz"
+		version="1.2.3"
+		md5sum="debc62758716a169df9f62e6ab2bc634">
+	    <patch file="&patch_dir;zlib.patch"/>
+	</branch>
+    </autotools>
+    <tarball id="libbz2" version="1.0.5">
+	<source href="http://www.bzip.org/1.0.5/bzip2-1.0.5.tar.gz"/>
 	<patches>
-	    <patch file="http://www.gnome.org/~aruiz/gtk+/patches/zlib_mingw.patch"/>
-	</patches>
-    </tarball>
-    <tarball id="libbz2" version="1.0.4">
-	<source href="http://www.bzip.org/1.0.4/bzip2-1.0.4.tar.gz"
-		md5sum="fc310b254f6ba5fbb5da018f04533688"/>
-	<patches>
-	    <patch file="&patch_dir;libbz-win32.patch.gz"/>
-	    <patch file="&patch_dir;libbz-configure.patch.gz"/>
+	    <patch file="&patch_dir;libbz2.patch"/>
 	</patches>
     </tarball>
 
@@ -134,9 +142,15 @@
 	</patches>
     </tarball>
 
+    <autotools id="gnome-common">
+	<branch/>
+	<dependencies>
+	</dependencies>
+    </autotools>
     <autotools id="intltool">
 	<branch/>
 	<dependencies>
+	    <dep package="gnome-common"/>
 	</dependencies>
     </autotools>
 
@@ -230,18 +244,18 @@
 	    <dep package="libxml2"/>
 	</dependencies>
     </tarball>
-    <tarball id="libgnomedb" version="trunk">
-	<source href="http://download.gnome.org/sources/libgnomedb/3.1/libgnomedb-3.1.2.tar.bz2"
-		md5sum="9896bd66451c3f1e2bdd1cd79d524348"/>
-	<patches>
+    <autotools id="libgnomedb" version="trunk"
+	autogen-sh="autoreconf">
+	<branch repo="gnome.org" module="libgnomedb/3.1/libgnomedb-3.1.2.tar.bz2"
+		version="3.1.2">
 	    <patch file="&patch_dir;libgnomedb.patch"/>
-	</patches>
+	</branch>
 	<dependencies>
 	    <dep package="intltool"/>
 	    <dep package="libgda"/>
 	    <dep package="gtk+"/>
 	</dependencies>
-    </tarball>
+    </autotools>
 
     <tarball id="pxlib" version="0.6.3">
 	<source href="http://superb-east.dl.sourceforge.net/sourceforge/pxlib/pxlib-0.6.3.tar.gz"
@@ -287,11 +301,12 @@
 	    <dep package="intltool"/>
 	</dependencies>
 	<patches>
-	    <patch file="&patch_dir;goffice.patch"/>
 	</patches>
     </autotools>
     <autotools id="gnumeric" version="trunk">
-	<branch/>
+	<branch>
+	    <patch file="&patch_dir;gnumeric-pending-win32-fixes.patch"/>
+	</branch>
 	<dependencies>
 	    <dep package="goffice"/>
 	</dependencies>
