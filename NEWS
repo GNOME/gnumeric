@@ -5,6 +5,7 @@ Jody:
 	* Fix ODS import failure on win32. [#536552]
 	* Get closer to a turnkey win32 build. [#534291]
 	* Name guru defaults to absolute references.
+	* Add mnemonics to the quit dialog. [#132131]
 
 Morten:
 	* Fix EOMONTH issue.  [#540069]

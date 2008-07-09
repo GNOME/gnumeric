@@ -1,5 +1,7 @@
 2008-07-08  Jody Goldberg <jody@gnome.org>
 
+	* dialog-quit.c (show_quit_dialog) : add mnemonics to the buttons. [#132131]
+
 	* dialog-define-names.c (name_guru_init) : default to absolute
 	  references.
 
