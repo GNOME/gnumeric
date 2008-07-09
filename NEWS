@@ -15,6 +15,7 @@ Morten:
 	* Fix problems with invalid dates in fn-financial.  [#540690]
 	* Fix MATCH problem with singletons.  [#540996]
 	* Fix DDB problems.  [#541158]
+	* Make ssgrep a lot more grep-like.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.1

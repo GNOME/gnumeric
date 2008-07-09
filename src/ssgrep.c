@@ -15,10 +15,14 @@
 #include <goffice/app/io-context.h>
 #include "workbook-view.h"
 #include "workbook.h"
-#include "str.h"
-#include "func.h"
 #include "gutils.h"
 #include "gnm-plugin.h"
+#include "search.h"
+#include "sheet.h"
+#include "cell.h"
+#include "value.h"
+#include "parse-util.h"
+#include "sheet-object-cell-comment.h"
 
 #include <goffice/utils/go-file.h>
 #include <goffice/app/go-cmd-context.h>
@@ -27,102 +31,205 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
+static gboolean ssgrep_locus_values = TRUE;
+static gboolean ssgrep_locus_expressions = TRUE;
+static gboolean ssgrep_locus_results = FALSE;
+static gboolean ssgrep_locus_comments = TRUE;
+static gboolean ssgrep_ignore_case = FALSE;
+static gboolean ssgrep_match_words = FALSE;
+static gboolean ssgrep_quiet = FALSE;
+static gboolean ssgrep_count = FALSE;
+static gboolean ssgrep_print_filenames = (gboolean)2;
+static gboolean ssgrep_print_locus = FALSE;
+static char *ssgrep_pattern = NULL;
+static gboolean ssgrep_recalc = FALSE;
+
 static gboolean ssgrep_show_version = FALSE;
 static char *ssgrep_keyword_file = NULL;
 
+static gboolean ssgrep_error = FALSE;
+static gboolean ssgrep_any_matches = FALSE;
+
 static GOptionEntry const ssgrep_options [] = {
 	{
-		"version", 'v',
+		"count", 'c',
+		0, G_OPTION_ARG_NONE, &ssgrep_count,
+		N_("Only print a count of matches per file"),
+		NULL
+	},
+
+	{
+		"with-filename", 'H',
+		0, G_OPTION_ARG_NONE, &ssgrep_print_filenames,
+		N_("Print the filename for each match"),
+		NULL
+	},
+
+	{
+		"without-filename", 'h',
+		G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &ssgrep_print_filenames,
+		N_("Do not print the filename for each match"),
+		NULL
+	},
+
+	{
+		"ignore-case", 'i',
+		0, G_OPTION_ARG_NONE, &ssgrep_ignore_case,
+		N_("Ignore differences in letter case"),
+		NULL
+	},
+
+	{
+		"print-locus", 'n',
+		0, G_OPTION_ARG_NONE, &ssgrep_print_locus,
+		N_("Print the location of each match"),
+		NULL
+	},
+
+	{
+		"quiet", 'q',
+		0, G_OPTION_ARG_NONE, &ssgrep_quiet,
+		N_("Suppress all normal output"),
+		NULL
+	},
+
+	{
+		"version", 0,
 		0, G_OPTION_ARG_NONE, &ssgrep_show_version,
 		N_("Display program version"),
 		NULL
 	},
 
 	{
+		"word-regexp", 'w',
+		0, G_OPTION_ARG_NONE, &ssgrep_match_words,
+		N_("Match only whole words"),
+		NULL
+	},
+
+	{
 		"keyword-file", 'f',
 		0, G_OPTION_ARG_STRING, &ssgrep_keyword_file,
-		N_("Optionally specify which importer to use"),
+		N_("Get keywords from a file, one per line"),
 		N_("KEYWORD_FILE")
 	},
+
+	{
+		"recalc", 0,
+		0, G_OPTION_ARG_NONE, &ssgrep_recalc,
+		N_("Recalculate all cells before matching values"),
+		NULL
+	},
+
 	/* ---------------------------------------- */
 
 	{ NULL }
 };
 
-typedef struct {
-	GHashTable *targets;
-	gboolean    found;
-	char const *file_name;
-	Workbook   *wb;
-} GrepState;
-
 static void
-cb_check_strings (G_GNUC_UNUSED gpointer key, gpointer str,
-		  gpointer user_data)
+ssgrep (const char *arg, char const *uri, IOContext *ioc)
 {
-	GrepState *state = user_data;
-	char *clean = g_utf8_strdown (key, -1);
-	char const *target = g_hash_table_lookup (state->targets, clean);
+	WorkbookView *wbv;
+	Workbook *wb;
+	GnmSearchReplace *search;
+	GPtrArray *cells;
+	GPtrArray *matches;
 
-	if (NULL != target) {
-		if (!state->found) {
-			g_print ("%s\n", state->file_name);
-			state->found = TRUE;
+	wbv = wb_view_new_from_uri (uri, NULL, ioc, NULL);
+	if (wbv == NULL) {
+		ssgrep_error = TRUE;
+		return;
+	}
+	wb = wb_view_get_workbook (wbv);
+
+	if (ssgrep_recalc && ssgrep_locus_results)
+		workbook_recalc_all (wb);
+
+	search = (GnmSearchReplace*)
+		g_object_new (GNM_SEARCH_REPLACE_TYPE,
+			      "search-text", ssgrep_pattern,
+			      "is-regexp", TRUE,
+			      "ignore-case", ssgrep_ignore_case,
+			      "match-words", ssgrep_match_words,
+			      "search-strings", ssgrep_locus_values,
+			      "search-other-values", ssgrep_locus_values,
+			      "search-expressions", ssgrep_locus_expressions,
+			      "search-expression-results", ssgrep_locus_results,
+			      "search-comments", ssgrep_locus_comments,
+			      "sheet", workbook_sheet_by_index (wb, 0),
+			      "scope", GNM_SRS_WORKBOOK,
+			      NULL);
+
+	cells = gnm_search_collect_cells (search);
+	matches = gnm_search_filter_matching (search, cells);
+
+	if (matches->len > 0)
+		ssgrep_any_matches = TRUE;
+
+	if (ssgrep_quiet) {
+		/* Nothing */
+	} else if (ssgrep_count) {
+		if (ssgrep_print_filenames)
+			g_print ("%s:", arg);
+		g_print ("%u\n", matches->len);
+	} else {
+		unsigned ui;
+		for (ui = 0; ui < matches->len; ui++) {
+			const GnmSearchFilterResult *item = g_ptr_array_index (matches, ui);
+			char *txt = NULL;
+			const char *locus_prefix = "";
+
+			switch (item->locus) {
+			case GNM_SRL_CONTENTS: {
+				GnmCell const *cell =
+					sheet_cell_get (item->ep.sheet,
+							item->ep.eval.col,
+							item->ep.eval.row);
+				txt = gnm_cell_get_entered_text (cell);
+				break;
+			}
+
+			case GNM_SRL_VALUE: {
+				GnmCell const *cell =
+					sheet_cell_get (item->ep.sheet,
+							item->ep.eval.col,
+							item->ep.eval.row);
+				if (cell && cell->value)
+					txt = value_get_as_string (cell->value);
+				break;
+			}
+
+			case GNM_SRL_COMMENT: {
+				GnmComment *comment = sheet_get_comment (item->ep.sheet, &item->ep.eval);
+				txt = g_strdup (cell_comment_text_get (comment));
+				locus_prefix = _("Comment of ");
+				break;
+			}
+			default:
+				; /* Probably should not happen.  */
+			}
+
+			if (ssgrep_print_filenames)
+				g_print ("%s:", arg);
+
+			if (ssgrep_print_locus)
+				g_print ("%s%s!%s:",
+					 locus_prefix,
+					 item->ep.sheet->name_quoted,
+					 cellpos_as_string (&item->ep.eval));
+
+			if (txt) {
+				g_print ("%s\n", txt);
+				g_free (txt);
+			} else
+				g_print ("\n");
 		}
-		g_print ("\t%s : %d (string)\n", target, ((GnmString *)str)->ref_count);
 	}
 
-	g_free (clean);
-}
-
-static void
-cb_check_func (gpointer clean, gpointer orig,
-	       gpointer user_data)
-{
-	GrepState *state = user_data;
-	GnmFunc	  *func = gnm_func_lookup (clean, state->wb);
-	if (NULL != func) {
-		if (!state->found) {
-			g_print ("%s\n", state->file_name);
-			state->found = TRUE;
-		}
-		g_print ("\t%s : %d (func)\n", (char const *)orig, func->ref_count);
-	}
-}
-
-static int
-ssgrep (char const *file_name, IOContext *ioc, GHashTable *targets)
-{
-	int res = 0;
-	char		*str;
-	WorkbookView	*wbv;
-	GrepState	 state;
-
-	str = go_shell_arg_to_uri (file_name);
-	wbv = wb_view_new_from_uri (str, NULL, ioc, NULL);
-	g_free (str);
-
-	if (wbv == NULL)
-		return 1;
-
-	state.wb	= wb_view_get_workbook (wbv);
-	state.targets	= targets;
-	state.file_name = file_name;
-	state.found	= FALSE;
-	gnm_string_foreach (&cb_check_strings, &state);
-	g_hash_table_foreach (targets, &cb_check_func, &state);
-
-	g_object_unref (state.wb);
-
-	return res;
-}
-
-static void
-add_target (GHashTable *targets, char const *target)
-{
-	char *orig = g_strstrip (g_strdup (target));
-	char *clean = g_utf8_strdown (orig, -1);
-	g_hash_table_insert (targets, clean, orig);
+	gnm_search_filter_matching_free (matches);
+	gnm_search_collect_cells_free (cells);
+	g_object_unref (search);
+	g_object_unref (wb);
 }
 
 int
@@ -133,14 +240,13 @@ main (int argc, char const **argv)
 	GOCmdContext	*cc;
 	GOptionContext	*ocontext;
 	GError		*error = NULL;
-	GHashTable	*targets;
-	int		 i, res;
+	int		 i, N;
+	const char *argv_stdin[] = { "fd://1", NULL };
 
 	/* No code before here, we need to init threads */
 	argv = gnm_pre_parse_init (argc, argv);
-	gnm_init (FALSE);
 
-	ocontext = g_option_context_new (_("INFILE..."));
+	ocontext = g_option_context_new (_("PATTERN INFILE..."));
 	g_option_context_add_main_entries (ocontext, ssgrep_options, GETTEXT_PACKAGE);
 	g_option_context_add_group	  (ocontext, gnm_get_option_group ());
 	g_option_context_parse (ocontext, &argc, (gchar ***)&argv, &error);
@@ -148,7 +254,7 @@ main (int argc, char const **argv)
 
 	if (error) {
 		g_printerr (_("%s\nRun '%s --help' to see a full list of available command line options.\n"),
-			    error->message, argv[0]);
+			    error->message, g_get_prgname ());
 		g_error_free (error);
 		return 1;
 	}
@@ -159,44 +265,57 @@ main (int argc, char const **argv)
 		return 0;
 	} 
 
-	targets = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	if (ssgrep_keyword_file) {
+		char *uri = go_shell_arg_to_uri (ssgrep_keyword_file);
 		GsfInput     	 *input;
 		GsfInputTextline *textline;
 		GError       	 *err = NULL;
-		unsigned char	 *line;
+		const unsigned char *line;
+		GString *pat;
 
-		if (NULL == (input = gsf_input_stdio_new (ssgrep_keyword_file, &err))) {
-			g_return_val_if_fail (err != NULL, 1);
+		input = go_file_open (uri, &err);
+		g_free (uri);
 
-			g_printerr ("'%s' error: %s", ssgrep_keyword_file, err->message);
+		if (!input) {
+			g_printerr (_("%s: Cannot read %s: %s\n"),
+				    g_get_prgname (), ssgrep_keyword_file, err->message);
 			g_error_free (err);
 			return 1;
 		}
 
-		if (NULL == (textline = (GsfInputTextline *)gsf_input_textline_new (input))) {
-			g_printerr ("Unable to create a textline");	/* unexpected */
-			return 2;
-		}
-
-		while (NULL != (line = gsf_input_textline_ascii_gets (textline)))
-			add_target (targets, line);
+		textline = (GsfInputTextline *)gsf_input_textline_new (input);
 		g_object_unref (G_OBJECT (input));
 
+		pat = g_string_new (NULL);
+		while (NULL != (line = gsf_input_textline_ascii_gets (textline))) {
+			if (pat->len)
+				g_string_append_c (pat, '|');
+			g_string_append (pat, line);
+		}
+
+		ssgrep_pattern = g_string_free (pat, FALSE);
+
+		g_object_unref (G_OBJECT (textline));
+
 		i = 1;
-	} else if (argc > 2) {
-		add_target (targets, argv[1]);
-		i = 2;
+		N = argc - i;
 	} else {
-		g_hash_table_destroy (targets);
-		targets = NULL;
+		if (argc < 2) {
+			g_printerr (_("%s: Missing pattern\n"), g_get_prgname ());
+			return 1;
+		}
+		ssgrep_pattern = g_strdup (argv[1]);
+		i = 2;
+		N = argc - i;
 	}
 
-	if (NULL == targets) {
-		g_printerr (_("Usage: %s [ keyword | -f keywordfile ] FILES...]\n"),
-			    g_get_prgname ());
-		return 1;
+	if (argv[i] == NULL) {
+		argv = argv_stdin;
+		i = 0;
+		N = 1;
 	}
+
+	gnm_init (FALSE);
 
 	cc = cmd_context_stderr_new ();
 	gnm_plugins_init (GO_CMD_CONTEXT (cc));
@@ -204,16 +323,18 @@ main (int argc, char const **argv)
 		go_plugins_get_available_plugins (), &plugin_errs);
 
 	ioc = gnumeric_io_context_new (cc);
-	gnm_io_context_set_num_files (ioc, argc - 1);
+	gnm_io_context_set_num_files (ioc, N);
 
-	res = 0;
-	for (; i < argc; i++) {
-		char const *file_name = argv[i];
-		gnm_io_context_processing_file (ioc, file_name);
-		res |= ssgrep (file_name, ioc, targets);
+	if (ssgrep_print_filenames == (gboolean)2)
+		ssgrep_print_filenames = (N > 1);
+
+	for (; argv[i]; i++) {
+		const char *arg = argv[i];
+		char *uri = go_shell_arg_to_uri (arg);
+		gnm_io_context_processing_file (ioc, uri);
+		ssgrep (arg, uri, ioc);
+		g_free (uri);
 	}
-
-	g_hash_table_destroy (targets);
 
 	g_object_unref (ioc);
 
@@ -221,5 +342,12 @@ main (int argc, char const **argv)
 	gnm_shutdown ();
 	gnm_pre_parse_shutdown ();
 
-	return res;
+	/* This special case matches what "man grep" says.  */
+	if (ssgrep_quiet && ssgrep_any_matches)
+		return 0;
+
+	if (ssgrep_error)
+		return 2;
+
+	return ssgrep_any_matches ? 0 : 1;
 }

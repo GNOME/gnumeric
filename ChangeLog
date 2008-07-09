@@ -1,3 +1,7 @@
+2008-07-09  Morten Welinder  <terra@gnome.org>
+
+	* src/ssgrep.c (main): Support -q -c -i -w -h -H -n.
+
 2008-07-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/sheet-object-widget.c: (sheet_widget_button_prep_sax_parser):
