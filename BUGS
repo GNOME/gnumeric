@@ -26,6 +26,8 @@ In Progress
 Review
 ------
     - func name translation		{Manny}
+    - merge hdate functions
+    	http://bugzilla.gnome.org/show_bug.cgi?id=153738
 
 Target Features
 ---------------
