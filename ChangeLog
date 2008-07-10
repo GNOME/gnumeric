@@ -1,3 +1,10 @@
+2008-07-10  Morten Welinder  <terra@gnome.org>
+
+	* src/ssgrep.c (main): Support -v and --print-type.
+
+	* src/search.c (gnm_search_filter_matching): Handle new invert
+	flag.
+
 2008-07-09  Morten Welinder  <terra@gnome.org>
 
 	* src/ssgrep.c (main): Support -q -c -i -w -h -H -n -l -L -F.

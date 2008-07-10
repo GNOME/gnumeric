@@ -43,10 +43,11 @@ static gboolean ssgrep_print_filenames = (gboolean)2;
 static gboolean ssgrep_print_matching_filenames = FALSE;
 static gboolean ssgrep_print_nonmatching_filenames = FALSE;
 static gboolean ssgrep_print_locus = FALSE;
+static gboolean ssgrep_print_type = FALSE;
 static char *ssgrep_pattern = NULL;
 static gboolean ssgrep_fixed_strings = FALSE;
 static gboolean ssgrep_recalc = FALSE;
-static gboolean ssgrep_invert_match = FALSE;  /* Unimplemented */
+static gboolean ssgrep_invert_match = FALSE;
 
 static gboolean ssgrep_show_version = FALSE;
 static char *ssgrep_pattern_file = NULL;
@@ -133,6 +134,13 @@ static GOptionEntry const ssgrep_options [] = {
 	},
 
 	{
+		"print-type", 'T',
+		0, G_OPTION_ARG_NONE, &ssgrep_print_type,
+		N_("Print the location type of each match"),
+		NULL
+	},
+
+	{
 		"invert-match", 'v',
 		0, G_OPTION_ARG_NONE, &ssgrep_invert_match,
 		N_("Search for cells that do not match"),
@@ -173,6 +181,7 @@ ssgrep (const char *arg, char const *uri, IOContext *ioc)
 	GnmSearchReplace *search;
 	GPtrArray *cells;
 	GPtrArray *matches;
+	gboolean has_match;
 
 	wbv = wb_view_new_from_uri (uri, NULL, ioc, NULL);
 	if (wbv == NULL) {
@@ -192,10 +201,7 @@ ssgrep (const char *arg, char const *uri, IOContext *ioc)
 		g_object_new (GNM_SEARCH_REPLACE_TYPE,
 			      "search-text", ssgrep_pattern,
 			      "is-regexp", TRUE,
-#if 0
-			      /* This does not exist yet.  */
 			      "invert", ssgrep_invert_match,
-#endif
 			      "ignore-case", ssgrep_ignore_case,
 			      "match-words", ssgrep_match_words,
 			      "search-strings", ssgrep_locus_values,
@@ -209,18 +215,19 @@ ssgrep (const char *arg, char const *uri, IOContext *ioc)
 
 	cells = gnm_search_collect_cells (search);
 	matches = gnm_search_filter_matching (search, cells);
+	has_match = (matches->len > 0);
 
-	if (matches->len > 0)
+	if (has_match)
 		ssgrep_any_matches = TRUE;
 
 	if (ssgrep_quiet) {
 		/* Nothing */
 	} else if (ssgrep_print_nonmatching_filenames) {
-		if (matches->len == 0)
-			g_print ("%s", arg);
+		if (!has_match)
+			g_print ("%s\n", arg);
 	} else if (ssgrep_print_matching_filenames) {
-		if (matches->len > 0)
-			g_print ("%s", arg);
+		if (has_match)
+			g_print ("%s\n", arg);
 	} else if (ssgrep_count) {
 		if (ssgrep_print_filenames)
 			g_print ("%s:", arg);
@@ -230,7 +237,7 @@ ssgrep (const char *arg, char const *uri, IOContext *ioc)
 		for (ui = 0; ui < matches->len; ui++) {
 			const GnmSearchFilterResult *item = g_ptr_array_index (matches, ui);
 			char *txt = NULL;
-			const char *locus_prefix = "";
+			const char *locus_type = "";
 
 			switch (item->locus) {
 			case GNM_SRL_CONTENTS: {
@@ -239,6 +246,7 @@ ssgrep (const char *arg, char const *uri, IOContext *ioc)
 							item->ep.eval.col,
 							item->ep.eval.row);
 				txt = gnm_cell_get_entered_text (cell);
+				locus_type = _("cell");
 				break;
 			}
 
@@ -249,13 +257,14 @@ ssgrep (const char *arg, char const *uri, IOContext *ioc)
 							item->ep.eval.row);
 				if (cell && cell->value)
 					txt = value_get_as_string (cell->value);
+				locus_type = _("result");
 				break;
 			}
 
 			case GNM_SRL_COMMENT: {
 				GnmComment *comment = sheet_get_comment (item->ep.sheet, &item->ep.eval);
 				txt = g_strdup (cell_comment_text_get (comment));
-				locus_prefix = _("Comment of ");
+				locus_type = _("comment");
 				break;
 			}
 			default:
@@ -265,9 +274,11 @@ ssgrep (const char *arg, char const *uri, IOContext *ioc)
 			if (ssgrep_print_filenames)
 				g_print ("%s:", arg);
 
+			if (ssgrep_print_type)
+				g_print ("%s:", locus_type);
+
 			if (ssgrep_print_locus)
-				g_print ("%s%s!%s:",
-					 locus_prefix,
+				g_print ("%s!%s:",
 					 item->ep.sheet->name_quoted,
 					 cellpos_as_string (&item->ep.eval));
 

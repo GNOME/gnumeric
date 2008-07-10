@@ -36,6 +36,7 @@ enum {
 	PROP_SEARCH_EXPRESSIONS,
 	PROP_SEARCH_EXPRESSION_RESULTS,
 	PROP_SEARCH_COMMENTS,
+	PROP_INVERT,
 	PROP_BY_ROW,
 	PROP_QUERY,
 	PROP_REPLACE_KEEP_STRINGS,
@@ -202,21 +203,23 @@ gnm_search_filter_matching (GnmSearchReplace *sr, const GPtrArray *cells)
 
 		found = gnm_search_replace_cell (sr, ep, FALSE, &cell_res);
 		g_free (cell_res.old_text);
-		if (found) {
+		if (cell_res.cell != NULL && found != sr->invert) {
 			GnmSearchFilterResult *item = g_new (GnmSearchFilterResult, 1);
 			item->ep = *ep;
 			item->locus = GNM_SRL_CONTENTS;
 			g_ptr_array_add (result, item);
 		}
 
-		if (gnm_search_replace_value (sr, ep, &value_res)) {
+		found = gnm_search_replace_value (sr, ep, &value_res);
+		if (value_res.cell != NULL && gnm_cell_has_expr (value_res.cell) && found != sr->invert) {
 			GnmSearchFilterResult *item = g_new (GnmSearchFilterResult, 1);
 			item->ep = *ep;
 			item->locus = GNM_SRL_VALUE;
 			g_ptr_array_add (result, item);
 		}
 
-		if (gnm_search_replace_comment (sr, ep, FALSE, &comment_res)) {
+		found = gnm_search_replace_comment (sr, ep, FALSE, &comment_res);
+		if (comment_res.comment != NULL && found != sr->invert) {
 			GnmSearchFilterResult *item = g_new (GnmSearchFilterResult, 1);
 			item->ep = *ep;
 			item->locus = GNM_SRL_COMMENT;
@@ -426,6 +429,9 @@ gnm_search_replace_get_property (GObject     *object,
 	case PROP_SEARCH_COMMENTS:
 		g_value_set_boolean (value, sr->search_comments);
 		break;
+	case PROP_INVERT:
+		g_value_set_boolean (value, sr->invert);
+		break;
 	case PROP_BY_ROW:
 		g_value_set_boolean (value, sr->by_row);
 		break;
@@ -493,6 +499,9 @@ gnm_search_replace_set_property (GObject      *object,
 		break;
 	case PROP_SEARCH_COMMENTS:
 		sr->search_comments = g_value_get_boolean (value);
+		break;
+	case PROP_INVERT:
+		sr->invert = g_value_get_boolean (value);
 		break;
 	case PROP_BY_ROW:
 		sr->by_row = g_value_get_boolean (value);
@@ -584,6 +593,15 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 		 g_param_spec_boolean ("search-comments",
 				       _("Search Comments"),
 				       _("Should cell comments be searched?"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_INVERT,
+		 g_param_spec_boolean ("invert",
+				       _("Invert"),
+				       _("Collect non-matching items"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
