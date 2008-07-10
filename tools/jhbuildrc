@@ -1,24 +1,10 @@
 # -*- mode: python -*-
 
-# edit this file to match your settings and copy it to ~/.jhbuildrc
-
-# if you have a GNOME svn account, uncomment this line
-#repos['svn.gnome.org'] = 'svn+ssh://user@svn.gnome.org/svn/'
-
-
-# what module set should be used.  The default at the moment is 'gnome-2.16',
-# but it can be any of the files in the modulesets directory, or even
-# the URL of a module set file on a web server.
-# moduleset = 'gnome-2.18'
-
 # A list of the modules to build.  Defaults to the Gnome Desktop and
 # developer platform.
-moduleset = '/gnome/src/gnumeric/tools/moduleset'
-#moduleset = checkoutroot = os.path.expanduser('~/gnome/src')
+#moduleset = '/gnome/src/gnumeric/tools/moduleset'
+moduleset = 'http://svn.gnome.org/svn/gnumeric/trunk/tools/moduleset'
 modules = [ 'gnumeric' ]
-
-# what directory should the source be checked out to?
-checkoutroot = os.path.expanduser('~/checkout/gnome2')
 
 # the prefix to configure/install modules to (must have write access)
 prefix		= os.path.expanduser('~/gnome/build')
@@ -29,19 +15,12 @@ checkoutroot	= os.path.expanduser('~/gnome/src')
 addpath('PKG_CONFIG_PATH', os.path.join(os.sep, 'usr', 'lib', 'pkgconfig'))
 addpath('PKG_CONFIG_PATH', os.path.join(os.sep, 'usr', 'share', 'pkgconfig'))
 
-# extra arguments to pass to all autogen.sh scripts
-# to speed up builds of gnome2, try '--disable-static --disable-gtk-doc'
-# it is also possible to set CFLAGS this way, 'CFLAGS="-g -O2"' for example
-#autogenargs=''
-
 # On SMP systems you may use something like this to improve compilation time:
 # be aware that not all modules compile correctly with make -j2
 #make_args = '-j2'
 
-# a alternative install program to use.
-# The included install-check program won't update timestamps if the
-# header hasn't changed
-os.environ['INSTALL'] = os.path.expanduser('~/bin/install-check')
-
 autogenargs += ' --prefix='+prefix 
+# disable gnome-vfs, it is not required for basic builds
 module_autogenargs['libgsf']	= autogenargs + """ --without-gnome-vfs --without-bonobo"""
+# We disabled gnome-vfs in gsf, disable gnome to match
+module_autogenargs['gnumeric']	= autogenargs + """ --without-gnome"""
