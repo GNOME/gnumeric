@@ -1,6 +1,6 @@
 2008-07-09  Morten Welinder  <terra@gnome.org>
 
-	* src/ssgrep.c (main): Support -q -c -i -w -h -H -n.
+	* src/ssgrep.c (main): Support -q -c -i -w -h -H -n -l -L -F.
 
 2008-07-08  Jean Brefort  <jean.brefort@normalesup.org>
 

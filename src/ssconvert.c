@@ -316,6 +316,8 @@ convert (char const *inarg, char const *outarg,
 
 			if (ssconvert_recalc)
 				workbook_recalc_all (wb);
+			else
+				workbook_recalc (wb);
 
 			if (ssconvert_range)
 				setup_range (G_OBJECT (wb),
