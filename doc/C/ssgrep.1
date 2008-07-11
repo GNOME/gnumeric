@@ -2,7 +2,7 @@
 \\$2 \(laURL: \\$1 \(ra\\$3
 ..
 .if \n[.g] .mso www.tmac
-.TH SSGREP 1 "May 2, 2008" gnumeric "GNOME"
+.TH SSGREP 1 "2008-07-11" gnumeric "GNOME"
 .SH NAME
 ssgrep \- search spreadsheets for strings
 
@@ -23,11 +23,56 @@ This program follows the usual GNU command line syntax, with single
 letter options starting with a single dash (`-') and longer options
 starting with two dashes (`--').
 
-.SS "Main options"
+.SS "Options controlling input file handling"
+.TP
+.B \-\-recalc
+Recalculate all cells
+
+.SS "Options controlling patterns and pattern matching"
 .TP
 .B \-f, \-\-keyword\-file=\fIFILE\fR
 The path to a text file containing one key per line
 .TP
+.B \-i, \-\-ignore\-case
+Ignore differences in letter case
+.TP
+.B \-w, \-\-word\-regexp
+Match only whole words
+.TP
+.B \-F, \-\-fixed\-strings
+Pattern is a set of fixed strings
+.TP
+.B \-R, \-\-search\-results
+Search results of expressions too
+.TP
+.B \-v, \-\-invert-match
+Search for cells that do not match
+
+.SS "Options controlling output in general"
+.TP
+.B \-c, \-\-count
+Only print a count of matches per file
+.TP
+.B \-L, \-\-files\-without\-matches
+Print filenames without matches
+.TP
+.B \-l, \-\-files\-with\-matches
+Print filenames with matches
+.TP
+.B \-q, \-\-quiet
+Suppress all normal output
+.TP
+.B \-H, \-\-with\-filename
+Print the filename for each match
+.TP
+.B \-h, \-\-without\-filename
+Do not print the filename for each match
+.TP
+.B \-n, \-\-print\-locus
+Print the location of each match
+.TP
+.B \-T, \-\-print\-type
+Print the location type of each match
 
 .SS "Help options"
 .TP
@@ -39,14 +84,6 @@ Display the supported options
 .TP
 .B \-\-usage
 Display a brief usage message
-
-.SS "Path options"
-.TP
-.B \-L, \-\-lib\-dir=\fISTRING\fR
-Set the root library directory
-.TP
-.B \-D, \-\-data\-dir=\fISTRING\fR
-Adjust the root data directory
 
 .\".SH USAGE
 .SH EXAMPLE
