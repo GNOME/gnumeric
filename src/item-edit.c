@@ -418,12 +418,8 @@ item_edit_dispose (GObject *gobject)
 	item_edit_cursor_blink_stop (ie);
 
 	/* to destroy the feedback ranges */
-	gnm_expr_entry_disable_highlight (
-		wbcg_get_entry_logical (scg_wbcg (ie->scg)));
-#if 0
-	/* Why?  */
-	scg_set_display_cursor (ie->scg);
-#endif
+	SCG_FOREACH_PANE (ie->scg, pane,
+		gnm_pane_expr_cursor_stop (pane););
 
 	if (ie->gfont != NULL) {
 		gnm_font_unref (ie->gfont);

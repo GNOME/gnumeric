@@ -3,6 +3,8 @@ Gnumeric 1.8.4
 Jody:
 	* Fix ODS import failure on win32. [#536552]
 	* Add mnemonics to the quit dialog. [#132131]
+	* Fix range highlighting while editing. [#542439]
+	* Fix highlighting of merged cells. [#127415]
 
 Morten:
 	* Fix text export problem for times with fractional seconds.  [#534514]
