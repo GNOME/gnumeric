@@ -31,4 +31,7 @@ if [ "$RET" = "false" ] ; then
 fi
 
 db_stop
+
+#DEBHELPER#
+
 exit 0
