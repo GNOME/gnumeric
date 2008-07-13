@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-01 19:15+0000\n"
-"PO-Revision-Date: 2008-07-05 13:47+0200\n"
+"POT-Creation-Date: 2008-07-10 15:31+0000\n"
+"PO-Revision-Date: 2008-07-13 23:00+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -493,126 +493,126 @@ msgstr "MS Excel™ 97/2000/XP y 5.0/95"
 msgid "'%s' is corrupt!"
 msgstr "«%s» está corrompido"
 
-#: ../plugins/excel/xlsx-read.c:321
+#: ../plugins/excel/xlsx-read.c:325
 #, c-format
 msgid "Unknown enum value '%s' for attribute %s"
 msgstr "Valor enumerado «%s» desconocido para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:364 ../plugins/excel/xlsx-read.c:393
+#: ../plugins/excel/xlsx-read.c:368 ../plugins/excel/xlsx-read.c:397
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
 msgstr "El entero «%s» está fuera de rango, para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:368 ../plugins/excel/xlsx-read.c:397
+#: ../plugins/excel/xlsx-read.c:372 ../plugins/excel/xlsx-read.c:401
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
 msgstr "Entero «%s» inválido para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:423
+#: ../plugins/excel/xlsx-read.c:427
 #, c-format
 msgid "Invalid RRGGBB color '%s' for attribute %s"
 msgstr "Color RRGGBB «%s» inválido para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:454
+#: ../plugins/excel/xlsx-read.c:458
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
 msgstr "Número inválido «%s» para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:478
+#: ../plugins/excel/xlsx-read.c:482
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
 msgstr "Posición de celda «%s» inválida para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:497
+#: ../plugins/excel/xlsx-read.c:501
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
 msgstr "Rango inválido «%s» para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:760
+#: ../plugins/excel/xlsx-read.c:764
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr "Id de formato de número «%s» indefinido"
 
-#: ../plugins/excel/xlsx-read.c:1396
+#: ../plugins/excel/xlsx-read.c:1400
 #, c-format
 msgid "Unknown color '%s'"
 msgstr "Color «%s» desconocido"
 
-#: ../plugins/excel/xlsx-read.c:1399
+#: ../plugins/excel/xlsx-read.c:1403
 msgid "Missing theme"
 msgstr "Falta el tema"
 
-#: ../plugins/excel/xlsx-read.c:2011
+#: ../plugins/excel/xlsx-read.c:2015
 msgid "Dropping missing object"
 msgstr "Omitiendo objeto faltante"
 
-#: ../plugins/excel/xlsx-read.c:2029
+#: ../plugins/excel/xlsx-read.c:2033
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
 msgstr "Omitiendo objeto con ancla incompleto %2x"
 
-#: ../plugins/excel/xlsx-read.c:2140
+#: ../plugins/excel/xlsx-read.c:2144
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Color «%s» inválido para el atributo rgb"
 
-#: ../plugins/excel/xlsx-read.c:2163
+#: ../plugins/excel/xlsx-read.c:2167
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr "Registro de estilo indefinido «%d»"
 
-#: ../plugins/excel/xlsx-read.c:2172
+#: ../plugins/excel/xlsx-read.c:2176
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr "Registro de estilo parcial indefinido «%d»"
 
-#: ../plugins/excel/xlsx-read.c:2201
+#: ../plugins/excel/xlsx-read.c:2205
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Referencia sst %s inválida"
 
-#: ../plugins/excel/xlsx-read.c:2322
+#: ../plugins/excel/xlsx-read.c:2326
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Celda inválida %s"
 
-#: ../plugins/excel/xlsx-read.c:2423
+#: ../plugins/excel/xlsx-read.c:2427
 msgid "Ignoring column information that does not specify first or last."
 msgstr "Ignorar la información de columnas que no especifica primero o último."
 
-#: ../plugins/excel/xlsx-read.c:2715
+#: ../plugins/excel/xlsx-read.c:2719
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignorando datos inválidos debido a: %s"
 
-#: ../plugins/excel/xlsx-read.c:3140
+#: ../plugins/excel/xlsx-read.c:3144
 msgid "Undefined"
 msgstr "No definido"
 
-#: ../plugins/excel/xlsx-read.c:3183
+#: ../plugins/excel/xlsx-read.c:3187
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignorando formato condicional no tratado del tipo «%s»"
 
-#: ../plugins/excel/xlsx-read.c:3564
+#: ../plugins/excel/xlsx-read.c:3568
 msgid "Unknown type of hyperlink"
 msgstr "Tipo de hiperenlace desconocido"
 
-#: ../plugins/excel/xlsx-read.c:3752
+#: ../plugins/excel/xlsx-read.c:3779
 msgid "Ignoring a sheet without a name"
 msgstr "Ignorar una hoja sin un nombre"
 
-#: ../plugins/excel/xlsx-read.c:3780
+#: ../plugins/excel/xlsx-read.c:3807
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Para el id de parte para la hoja «%s»"
 
-#: ../plugins/excel/xlsx-read.c:4253
+#: ../plugins/excel/xlsx-read.c:4280
 #, c-format
 msgid "Missing record '%d'"
 msgstr "Falta el registro «%d»"
 
-#: ../plugins/excel/xlsx-read.c:4705
+#: ../plugins/excel/xlsx-read.c:4732
 msgid "No workbook stream found."
 msgstr "No se ha encontrado ningún flujo de libro de cuentas."
 
@@ -820,7 +820,7 @@ msgstr "Funciones Erlang"
 msgid "Functions to help Erlang Analysis"
 msgstr "Funciones para análisis Erlang"
 
-#: ../plugins/fn-financial/functions.c:4107
+#: ../plugins/fn-financial/functions.c:4114
 msgid "rate,values"
 msgstr "tasa,valores"
 
@@ -909,7 +909,7 @@ msgstr "texto"
 
 #. XLM : looks common in charts
 #: ../plugins/fn-info/functions.c:1993 ../plugins/fn-info/functions.c:1997
-#: ../src/print-info.c:580
+#: ../src/print-info.c:580 ../src/ssgrep.c:249
 msgid "cell"
 msgstr "celda"
 
@@ -1662,7 +1662,7 @@ msgid "Constraints:"
 msgstr "Restricciones:"
 
 #: ../plugins/mps/mps.c:243 ../src/commands.c:4796 ../src/commands.c:5637
-#: ../src/dialogs/dialog-define-names.c:569
+#: ../src/dialogs/dialog-define-names.c:573
 #: ../src/dialogs/dialog-doc-metadata.c:1214
 #: ../src/dialogs/dialog-formula-guru.c:827
 #: ../src/dialogs/dialog-function-select.c:542
@@ -2334,7 +2334,7 @@ msgstr "Error al abrir archivo xbase."
 #: ../plugins/xbase/boot.c:186 ../src/dialogs/dialog-goto-cell.c:258
 #: ../src/dialogs/dialog-search.c:409 ../src/dialogs/dialog-stf-export.c:562
 #: ../src/dialogs/hf-config.glade.h:18 ../src/dialogs/print.glade.h:37
-#: ../src/print-info.c:493 ../src/search.c:621 ../src/workbook.c:874
+#: ../src/print-info.c:493 ../src/search.c:639 ../src/workbook.c:874
 #: ../src/xml-io.c:2283
 msgid "Sheet"
 msgstr "Hoja"
@@ -5941,7 +5941,7 @@ msgstr "Nombre inválido"
 msgid "Why would you want to define a name to be #NAME?"
 msgstr "¿Por qué quiere definir un nombre como #NAME?"
 
-#: ../src/dialogs/dialog-define-names.c:663
+#: ../src/dialogs/dialog-define-names.c:667
 #: ../src/dialogs/dialog-doc-metadata.c:1499
 #: ../src/dialogs/dialog-paste-names.c:144
 msgid "Could not create the Name Guru."
@@ -6447,33 +6447,33 @@ msgid "Some Documents have not Been Saved"
 msgstr "Algunos documentos no se han guardado"
 
 #: ../src/dialogs/dialog-quit.c:164
-msgid "Select all"
-msgstr "Seleccionar todo"
+msgid "Select _all"
+msgstr "Seleccionar _todo"
 
 #: ../src/dialogs/dialog-quit.c:169
 msgid "Select all documents for saving"
 msgstr "Seleccionar todos los documentos para guardarlos"
 
 #: ../src/dialogs/dialog-quit.c:175
-msgid "Clear Selection"
-msgstr "Limpiar la selección"
+msgid "_Clear Selection"
+msgstr "_Limpiar la selección"
 
 #: ../src/dialogs/dialog-quit.c:180
 msgid "Unselect all documents for saving"
 msgstr "Deseleccionar todos los documentos para guardarlos"
 
 #: ../src/dialogs/dialog-quit.c:186
-msgid "Save Selected"
-msgstr "Guardar seleccionados"
+msgid "_Save Selected"
+msgstr "_Guardar seleccionados"
 
 #: ../src/dialogs/dialog-quit.c:191
 msgid "Save selected documents and then quit"
 msgstr "Guardar los documentos seleccionados y después salir"
 
-#: ../src/dialogs/dialog-quit.c:194 ../src/wbc-gtk.c:1255
-#: ../src/wbc-gtk.c:1262 ../src/wbc-gtk.c:1268
-msgid "Discard"
-msgstr "Descartar"
+#: ../src/dialogs/dialog-quit.c:194 ../src/wbc-gtk.c:2032
+#: ../src/wbc-gtk.c:2037
+msgid "_Discard"
+msgstr "_Descartar"
 
 #: ../src/dialogs/dialog-quit.c:197
 msgid "Discard changes"
@@ -8849,7 +8849,7 @@ msgstr "Expresión reg_ular"
 msgid "Replacing"
 msgstr "Reemplazando"
 
-#: ../src/dialogs/search-replace.glade.h:28 ../src/search.c:630
+#: ../src/dialogs/search-replace.glade.h:28 ../src/search.c:648
 msgid "Scope"
 msgstr "Ámbito"
 
@@ -9974,6 +9974,7 @@ msgid "Dumps the function definitions"
 msgstr "Vacía la definición de las funciones"
 
 #: ../src/main-application.c:92 ../src/main-application.c:98
+#: ../src/ssgrep.c:70
 msgid "FILE"
 msgstr "ARCHIVO"
 
@@ -10011,7 +10012,7 @@ msgstr ""
 "\n"
 "-- El equipo de Gnumeric."
 
-#: ../src/main-application.c:234 ../src/ssconvert.c:366 ../src/ssgrep.c:150
+#: ../src/main-application.c:234 ../src/ssconvert.c:368 ../src/ssgrep.c:320
 #: ../src/ssindex.c:211
 #, c-format
 msgid ""
@@ -10256,91 +10257,99 @@ msgstr "Rango de impresión de Gnumeric"
 msgid "..."
 msgstr "…"
 
-#: ../src/search.c:65
+#: ../src/search.c:66
 msgid "You must specify a range to search."
 msgstr "Debe especificar un rango de búsqueda."
 
-#: ../src/search.c:69
+#: ../src/search.c:70
 msgid "The search range is invalid."
 msgstr "El rango de búsqueda no es válido."
 
-#: ../src/search.c:549
+#: ../src/search.c:558
 msgid "Search Strings"
 msgstr "Buscar cadenas"
 
-#: ../src/search.c:550
+#: ../src/search.c:559
 msgid "Should strings be searched?"
 msgstr "¿Deben buscarse las cadenas?"
 
-#: ../src/search.c:558
+#: ../src/search.c:567
 msgid "Search Other Values"
 msgstr "Buscar otros valores"
 
-#: ../src/search.c:559
+#: ../src/search.c:568
 msgid "Should non-strings be searched?"
 msgstr "¿Deben buscarse las no cadenas?"
 
-#: ../src/search.c:567
+#: ../src/search.c:576
 msgid "Search Expressions"
 msgstr "Buscar expresiones"
 
-#: ../src/search.c:568
+#: ../src/search.c:577
 msgid "Should expressions be searched?"
 msgstr "¿Deben buscarse las expresiones?"
 
-#: ../src/search.c:576
+#: ../src/search.c:585
 msgid "Search Expression Results"
 msgstr "Buscar el resultado de las expresiones"
 
-#: ../src/search.c:577
+#: ../src/search.c:586
 msgid "Should the results of expressions be searched?"
 msgstr "¿Deben buscarse los resultados de las expresiones?"
 
-#: ../src/search.c:585
+#: ../src/search.c:594
 msgid "Search Comments"
 msgstr "Buscar comentarios"
 
-#: ../src/search.c:586
+#: ../src/search.c:595
 msgid "Should cell comments be searched?"
 msgstr "¿Deben buscarse los comentarios de celdas?"
 
-#: ../src/search.c:594
+#: ../src/search.c:603
+msgid "Invert"
+msgstr "Invertir"
+
+#: ../src/search.c:604
+msgid "Collect non-matching items"
+msgstr "Coleccionar los elementos no coincidentes"
+
+#: ../src/search.c:612
 msgid "By Row"
 msgstr "por fila"
 
-#: ../src/search.c:595
+#: ../src/search.c:613
 msgid "Is the search order by row?"
 msgstr "¿Es el orden de búsqueda por fila?"
 
-#: ../src/search.c:603
+#: ../src/search.c:621
 msgid "Query"
 msgstr "Consultar"
 
-#: ../src/search.c:604
+#: ../src/search.c:622
 msgid "Should we query for each replacement?"
 msgstr "¿Se debe consultar para cada reemplazo?"
 
-#: ../src/search.c:612
+#: ../src/search.c:630
 msgid "Keep Strings"
 msgstr "Conservar cadenas"
 
-#: ../src/search.c:613
+#: ../src/search.c:631
 msgid "Should replacement keep strings as strings?"
 msgstr "¿Debería el reemplazo conservar las cadenas como cadenas?"
 
-#: ../src/search.c:622
+#: ../src/search.c:640
 msgid "The sheet in which to search."
 msgstr "La hoja en la que buscar."
 
-#: ../src/search.c:631
+#: ../src/search.c:649
 msgid "Where to search."
 msgstr "Dónde buscar."
 
-#: ../src/search.c:640
+#: ../src/search.c:658
 msgid "Range as Text"
 msgstr "Rango como texto"
 
-#: ../src/search.c:641
+#: ../src/search.c:659
 msgid "The range in which to search."
 msgstr "El rango en el que buscar."
 
@@ -10890,7 +10899,7 @@ msgstr "Insertar filas"
 msgid "Delete Rows"
 msgstr "Borrar filas"
 
-#: ../src/ssconvert.c:53 ../src/ssgrep.c:37 ../src/ssindex.c:48
+#: ../src/ssconvert.c:53 ../src/ssgrep.c:153 ../src/ssindex.c:48
 msgid "Display program version"
 msgstr "Mostrar la versión del programa"
 
@@ -10902,7 +10911,7 @@ msgstr "Opcionalmente especificar una codificación para el contenido importado"
 msgid "ENCODING"
 msgstr "CODIFICACIÓN"
 
-#: ../src/ssconvert.c:69 ../src/ssgrep.c:44
+#: ../src/ssconvert.c:69
 msgid "Optionally specify which importer to use"
 msgstr "Opcionalmente especificar qué importador usar"
 
@@ -10988,7 +10997,7 @@ msgstr ""
 "Importador desconocido «%s».\n"
 "Pruebe con --list-importers para ver una lista de posibilidades.\n"
 
-#: ../src/ssconvert.c:329
+#: ../src/ssconvert.c:331
 #, c-format
 msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
@@ -10998,11 +11007,11 @@ msgstr ""
 "archivo.\n"
 "Sólo se guardará la hoja actual.\n"
 
-#: ../src/ssconvert.c:359 ../src/ssconvert.c:398
+#: ../src/ssconvert.c:361 ../src/ssconvert.c:400
 msgid "INFILE [OUTFILE]"
 msgstr "ARCHIVO-ENTRADA [ARCHIVO-SALIDA]"
 
-#: ../src/ssconvert.c:373
+#: ../src/ssconvert.c:375
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -11013,20 +11022,84 @@ msgstr ""
 "datadir := «%s»\n"
 "libdir := «%s»\n"
 
-#: ../src/ssconvert.c:396 ../src/ssindex.c:222
+#: ../src/ssconvert.c:398 ../src/ssindex.c:222
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Uso: %s [OPCIÓN…] %s\n"
 
-#: ../src/ssgrep.c:45
-msgid "KEYWORD_FILE"
-msgstr "ARCHIVO_DE_PALABRAS_CLAVE"
+#: ../src/ssgrep.c:62
+msgid "Only print a count of matches per file"
+msgstr "Imprimir sólo una cuenta de coincidencias por archivo"
 
-#: ../src/ssgrep.c:143 ../src/ssindex.c:204 ../src/ssindex.c:224
-msgid "INFILE..."
-msgstr "ARCHIVO-ENTRADA…"
+#: ../src/ssgrep.c:69
+msgid "Get patterns from a file, one per line"
+msgstr "Obtener los parámetros de un archivo, uno por línea"
 
-#: ../src/ssgrep.c:157
+#: ../src/ssgrep.c:76
+msgid "Pattern is a set of fixed strings"
+msgstr "El patrón es un juego de cadenas fijas"
+
+#: ../src/ssgrep.c:83
+msgid "Print the filename for each match"
+msgstr "Imprimir el nombre de archivo para cada coincidencia"
+
+#: ../src/ssgrep.c:90
+msgid "Do not print the filename for each match"
+msgstr "No imprimir el nombre de archivo para cada coincidencia"
+
+#: ../src/ssgrep.c:97
+msgid "Ignore differences in letter case"
+msgstr "Ignorar las diferencias de capitalización"
+
+#: ../src/ssgrep.c:104
+msgid "Print filenames with matches"
+msgstr "Imprimir los nombres de archivo con coincidencias"
+
+#: ../src/ssgrep.c:111
+msgid "Print filenames without matches"
+msgstr "Imprimir los nombres de archivo sin coincidencias"
+
+#: ../src/ssgrep.c:118
+msgid "Print the location of each match"
+msgstr "Imprimir la ubicación de cada coincidencia"
+
+#: ../src/ssgrep.c:125
+msgid "Suppress all normal output"
+msgstr "Elimina toda salida normal"
+
+#: ../src/ssgrep.c:132
+msgid "Search results of expressions too"
+msgstr "Buscar también en los resultados de expresiones"
+
+#: ../src/ssgrep.c:139
+msgid "Print the location type of each match"
+msgstr "Imprimir el tipo de ubicación de cada coincidencia"
+
+#: ../src/ssgrep.c:146
+msgid "Search for cells that do not match"
+msgstr "Buscar celdas que no coincidan"
+
+#: ../src/ssgrep.c:160
+msgid "Match only whole words"
+msgstr "Coincidir sólo con palabras completas"
+
+#: ../src/ssgrep.c:167
+msgid "Recalculate all cells"
+msgstr "Recalcular todas las celdas"
+
+#: ../src/ssgrep.c:260
+msgid "result"
+msgstr "resultado"
+
+#: ../src/ssgrep.c:267
+msgid "comment"
+msgstr "comentario"
+
+#: ../src/ssgrep.c:313
+msgid "PATTERN INFILE..."
+msgstr "PATRÓN DE ARCHIVO-ENTRADA…"
+
+#: ../src/ssgrep.c:327
 #, c-format
 msgid ""
 "version '%s'\n"
@@ -11037,10 +11110,15 @@ msgstr ""
 "datadir := «%s»\n"
 "libdir := «%s»\n"
 
-#: ../src/ssgrep.c:196
+#: ../src/ssgrep.c:344
 #, c-format
-msgid "Usage: %s [ keyword | -f keywordfile ] FILES...]\n"
-msgstr "Uso: %s [palabra clave | -f archivo de palabras clave] ARCHIVOS...]\n"
+msgid "%s: Cannot read %s: %s\n"
+msgstr "%s: No se puede leer %s: %s\n"
+
+#: ../src/ssgrep.c:372
+#, c-format
+msgid "%s: Missing pattern\n"
+msgstr "%S: Falta el patrón\n"
 
 #: ../src/ssindex.c:55
 msgid "List MIME types which ssindex is able to read"
@@ -11049,6 +11127,10 @@ msgstr "Listar los tipos MIME cuyo ssindex se pueda leer"
 #: ../src/ssindex.c:62
 msgid "Index the given files"
 msgstr "Indexar los archivos dados"
+
+#: ../src/ssindex.c:204 ../src/ssindex.c:224
+msgid "INFILE..."
+msgstr "ARCHIVO-ENTRADA…"
 
 #: ../src/ssindex.c:218
 #, c-format
@@ -14092,6 +14174,10 @@ msgstr "Si cierra sin guardar, los cambios serán descartados."
 msgid "Discard all"
 msgstr "Descartar todo"
 
+#: ../src/wbc-gtk.c:1255 ../src/wbc-gtk.c:1262 ../src/wbc-gtk.c:1268
+msgid "Discard"
+msgstr "Descartar"
+
 #: ../src/wbc-gtk.c:1257
 msgid "Save all"
 msgstr "Guardar todo"
@@ -14119,10 +14205,6 @@ msgstr "Introducir fórmula…"
 #: ../src/wbc-gtk.c:2031 ../src/wbc-gtk.c:2046
 msgid "_Re-Edit"
 msgstr "_Reeditar"
-
-#: ../src/wbc-gtk.c:2032 ../src/wbc-gtk.c:2037
-msgid "_Discard"
-msgstr "_Descartar"
 
 #: ../src/wbc-gtk.c:2036 ../src/wbc-gtk.c:2047
 msgid "_Accept"
@@ -14280,7 +14362,7 @@ msgstr "(Vacíos…)"
 msgid "(Non Blanks...)"
 msgstr "(No vacíos…)"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1457
+#: ../src/widgets/gnumeric-expr-entry.c:1471
 #, c-format
 msgid "Expecting a single range"
 msgstr "Se espera un rango simple"
