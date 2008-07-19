@@ -132,7 +132,7 @@ Section "Gnumeric (required)" SEC01
     WriteRegStr HKCR "GNOME.Gnumeric"			"" "Gnumeric Spreadsheet"
     WriteRegStr HKCR "GNOME.Gnumeric\shell"		"" "Open"
     WriteRegStr HKCR "GNOME.Gnumeric\DefaultIcon"		"" "${GNM_ROOT}\bin\gnumeric.exe,0"
-    WriteRegStr HKCR "GNOME.Gnumeric\shell\Open\command"	"" '${GNM_ROOT}\bin\gnumeric.exe "%1"'
+    WriteRegStr HKCR "GNOME.Gnumeric\shell\Open\command"	"" '"${GNM_ROOT}\bin\gnumeric.exe" "%1"'
 SectionEnd
 
 #############################################################################

@@ -6,6 +6,7 @@ Jody:
 	* Get closer to a turnkey win32 build. [#534291]
 	* Name guru defaults to absolute references.
 	* Add mnemonics to the quit dialog. [#132131]
+	* Odd renaming of some long file names on windows. [#542872]
 
 Morten:
 	* Fix EOMONTH issue.  [#540069]
