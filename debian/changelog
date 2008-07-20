@@ -1,3 +1,11 @@
+gnumeric (1.9.1-2) experimental; urgency=low
+
+  * UNRELEASED
+  * [debian/po/jp.po] Updated Japanese translation, courtesy of Atsushi
+    Shimono <shimono@mozilla.gr.jp>. (Closes: #490668)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 25 Jun 2008 20:04:08 +0200
+
 gnumeric (1.9.1-1) experimental; urgency=low
 
   * New upstream development release.
