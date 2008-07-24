@@ -474,32 +474,3 @@ gnm_range_mode (gnm_float const *xs, int n, gnm_float *res)
 	*res = mode;
 	return 0;
 }
-
-
-static gint
-float_compare (gnm_float const *a, const gnm_float *b)
-{
-        if (*a < *b)
-                return -1;
-	else if (*a == *b)
-	        return 0;
-	else
-	        return 1;
-}
-
-/* k-th smallest.  Note: k is zero-based.  */
-/* This version may reorder data points.  */
-int
-gnm_range_min_k_nonconst (gnm_float *xs, int n, gnm_float *res, int k)
-{
-	if (k < 0 || k >= n)
-		return 1;
-	if (k == 0)
-		return gnm_range_min (xs, n, res);
-	if (k == n - 1)
-		return gnm_range_max (xs, n, res);
-
-	qsort (xs, n, sizeof (xs[0]), (int (*) (const void *, const void *))&float_compare);
-	*res = xs[k];
-	return 0;
-}

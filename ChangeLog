@@ -1,7 +1,11 @@
+2008-07-23  Morten Welinder  <terra@gnome.org>
+
+	* src/collect.c (collect_floats): When requested, sort.
+
 2008-07-19  Jody Goldberg <jody@gnome.org>
 
-	* tools/win32/gnumeric.nsi.in : enclose the gnumeric path in quotes
-	  too. [#542872]
+	* tools/win32/gnumeric.nsi.in : enclose the gnumeric path in
+	  quotes too. [#542872]
 
 2008-07-10  Morten Welinder  <terra@gnome.org>
 

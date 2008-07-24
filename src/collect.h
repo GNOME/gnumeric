@@ -20,6 +20,9 @@ typedef enum {
 	COLLECT_IGNORE_BLANKS	= 0x1000,
 	COLLECT_IGNORE_SUBTOTAL	= 0x2000,
 
+	COLLECT_SORT            = 0x10000,
+	COLLECT_ORDER_IRRELEVANT = 0x20000,
+
 	/* Not for general usage.  */
 	COLLECT_INFO		= 0x1000000
 } CollectFlags;

@@ -19,8 +19,23 @@
 #include "sheet.h"
 #include "number-match.h"
 #include <goffice/utils/go-glib-extras.h>
+#include <stdlib.h>
 
 /* ------------------------------------------------------------------------- */
+
+static int
+float_compare (const void *a_, const void *b_)
+{
+	gnm_float const *a = a_;
+	gnm_float const *b = b_;
+
+        if (*a < *b)
+                return -1;
+	else if (*a == *b)
+		return 0;
+	else
+		return 1;
+}
 
 typedef struct {
 	guint alloc_count;
@@ -148,6 +163,7 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 	CellIterFlags iter_flags = CELL_ITER_ALL;
 
 	if (info) {
+		g_return_val_if_fail (!(flags & COLLECT_SORT), NULL);
 		flags |= COLLECT_INFO;
 		*info = NULL;
 	} else {
@@ -182,9 +198,14 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 		cl.data = g_new (gnm_float, cl.alloc_count);
 	}
 
+	if (flags & COLLECT_SORT) {
+		qsort (cl.data, cl.count, sizeof (cl.data[0]), float_compare);
+	}
+
 	if (info)
 		*info = cl.info;
 	*n = cl.count;
+
 	return cl.data;
 }
 

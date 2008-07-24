@@ -15,10 +15,9 @@ G_BEGIN_DECLS
 #	define gnm_range_max go_range_maxl
 #	define gnm_range_maxabs go_range_maxabsl
 #	define gnm_range_devsq go_range_devsql
-#	define gnm_range_fractile_inter go_range_fractile_interl
-#	define gnm_range_fractile_inter_nonconst go_range_fractile_inter_nonconstl
+#	define gnm_range_fractile_inter_sorted go_range_fractile_inter_sortedl
 #	define gnm_range_median_inter go_range_median_interl
-#	define gnm_range_median_inter_nonconst go_range_median_inter_nonconstl
+#	define gnm_range_median_inter_sorted go_range_median_inter_sortedl
 #else
 #	define gnm_range_sum go_range_sum
 #	define gnm_range_sumsq go_range_sumsq
@@ -27,10 +26,9 @@ G_BEGIN_DECLS
 #	define gnm_range_max go_range_max
 #	define gnm_range_maxabs go_range_maxabs
 #	define gnm_range_devsq go_range_devsq
-#	define gnm_range_fractile_inter go_range_fractile_inter
-#	define gnm_range_fractile_inter_nonconst go_range_fractile_inter_nonconst
+#	define gnm_range_fractile_inter_sorted go_range_fractile_inter_sorted
 #	define gnm_range_median_inter go_range_median_inter
-#	define gnm_range_median_inter_nonconst go_range_median_inter_nonconst
+#	define gnm_range_median_inter_sorted go_range_median_inter_sorted
 #endif
 
 int gnm_range_count		(gnm_float const *xs, int n, gnm_float *res);
@@ -62,8 +60,6 @@ int gnm_range_rsq_pop	(gnm_float const *xs, const gnm_float *ys, int n, gnm_floa
 int gnm_range_rsq_est	(gnm_float const *xs, const gnm_float *ys, int n, gnm_float *res);
 
 int gnm_range_mode	(gnm_float const *xs, int n, gnm_float *res);
-
-int gnm_range_min_k_nonconst (gnm_float       *xs, int n, gnm_float *res, int k);
 
 G_END_DECLS
 

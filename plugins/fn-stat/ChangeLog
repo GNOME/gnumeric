@@ -1,3 +1,14 @@
+2008-07-23  Morten Welinder  <terra@gnome.org>
+
+	* functions.c: (gnumeric_small, gnumeric_large,
+	gnumeric_percentile, gnumeric_quartile, gnumeric_trimmean): Use
+	new COLLECT_SORT and simplify.
+	(gnumeric_trimmean): Change to an argv function and simplify
+	greatly.
+	(gnumeric_rank, gnumeric_min, gnumeric_max, gnumeric_maxa,
+	gnumeric_mina, gnumeric_percentrank): Use new
+	COLLECT_ORDER_IRRELEVANT.
+
 2008-06-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.1

@@ -17,6 +17,7 @@ Morten:
 	* Fix MATCH problem with singletons.  [#540996]
 	* Fix DDB problems.  [#541158]
 	* Make ssgrep a lot more grep-like.
+	* Unify functions that work on sorted ranges.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.1

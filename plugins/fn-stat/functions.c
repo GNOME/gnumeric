@@ -237,7 +237,8 @@ gnumeric_rank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	xs = collect_floats_value (argv[1], ei->pos,
 				   COLLECT_IGNORE_STRINGS |
 				   COLLECT_IGNORE_BOOLS |
-				   COLLECT_IGNORE_BLANKS,
+				   COLLECT_IGNORE_BLANKS |
+				   COLLECT_ORDER_IRRELEVANT,
 				   &n, &result);
 	order = argv[2] ? value_get_as_int (argv[2]) : 0;
 
@@ -281,39 +282,32 @@ static GnmFuncHelp const help_trimmean[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-static int
-range_trimmean (gnm_float const *xs, int n, gnm_float *res)
-{
-	gnm_float p;
-	int tc, c;
-
-	if (n < 2)
-		return 1;
-
-	p = xs[--n];
-	if (p < 0 || p > 1)
-		return 1;
-
-	tc = gnm_fake_floor ((n * p) / 2);
-	c = n - 2 * tc;
-	if (c == 0)
-		return 1;
-
-	/* OK, so we ignore the constness here.  Tough.  */
-	qsort ((gnm_float *) xs, n, sizeof (xs[0]), (void *) &float_compare);
-
-	return gnm_range_average (xs + tc, c, res);
-}
-
 static GnmValue *
-gnumeric_trimmean (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+gnumeric_trimmean (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return float_range_function (argc, argv, ei,
-				     range_trimmean,
-				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
-				     GNM_ERROR_VALUE);
+	int c, tc, n;
+	GnmValue *result = NULL;
+	gnm_float *xs = collect_floats_value (argv[0], ei->pos,
+					      COLLECT_IGNORE_STRINGS |
+					      COLLECT_IGNORE_BOOLS |
+					      COLLECT_IGNORE_BLANKS |
+					      COLLECT_SORT,
+					      &n, &result);
+	gnm_float p = value_get_as_float (argv[1]);
+	gnm_float res;
+
+	if (result)
+		return result;
+
+	if (p < 0 || p > 1)
+		return value_new_error_VALUE (ei->pos);
+
+	tc = (int)gnm_fake_floor ((n * p) / 2);
+	c = n - 2 * tc;
+	if (gnm_range_average (xs + tc, c, &res))
+		return value_new_error_VALUE (ei->pos);
+
+	return value_new_float (res);
 }
 
 /***************************************************************************/
@@ -869,7 +863,8 @@ gnumeric_min (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     range_min0,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
+				     COLLECT_IGNORE_BLANKS |
+				     COLLECT_ORDER_IRRELEVANT,
 				     GNM_ERROR_VALUE);
 }
 
@@ -913,7 +908,8 @@ gnumeric_max (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     range_max0,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
+				     COLLECT_IGNORE_BLANKS |
+				     COLLECT_ORDER_IRRELEVANT,
 				     GNM_ERROR_VALUE);
 }
 
@@ -2481,10 +2477,11 @@ static GnmValue *
 gnumeric_median (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	return float_range_function (argc, argv, ei,
-				     (float_range_function_t)gnm_range_median_inter_nonconst,
+				     gnm_range_median_inter_sorted,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
+				     COLLECT_IGNORE_BLANKS |
+				     COLLECT_SORT,
 				     GNM_ERROR_NUM);
 }
 
@@ -2628,20 +2625,25 @@ static GnmFuncHelp const help_large[] = {
 static GnmValue *
 gnumeric_large (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	int	   n_vals;
-	gnm_float  val, k;
-	GnmValue  *res = NULL;
-	gnm_float *vals = collect_floats_value (argv[0], ei->pos,
-		COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS | COLLECT_IGNORE_BLANKS,
-		&n_vals, &res);
+	int n;
+	GnmValue *res = NULL;
+	gnm_float *xs = collect_floats_value (argv[0], ei->pos,
+					      COLLECT_IGNORE_STRINGS |
+					      COLLECT_IGNORE_BOOLS |
+					      COLLECT_IGNORE_BLANKS |
+					      COLLECT_SORT,
+					      &n, &res);
+	gnm_float k = value_get_as_float (argv[1]);
 	if (res)
 		return res;
-	if (1. <= (k = value_get_as_float (argv[1])) &&
-	    0 == gnm_range_min_k_nonconst (vals, n_vals, &val, n_vals - gnm_fake_ceil (k)))
-		res = value_new_float (val);
+
+	k = gnm_fake_ceil (k);
+	if (k >= 1 && k <= n)
+		res = value_new_float (xs[n - (int)k]);
 	else
 		res = value_new_error_NUM (ei->pos);
-	g_free (vals);
+
+	g_free (xs);
 	return res;
 }
 
@@ -2680,20 +2682,25 @@ static GnmFuncHelp const help_small[] = {
 static GnmValue *
 gnumeric_small (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	int	   n_vals;
-	gnm_float  val, k;
-	GnmValue  *res = NULL;
-	gnm_float *vals = collect_floats_value (argv[0], ei->pos,
-		COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS | COLLECT_IGNORE_BLANKS,
-		&n_vals, &res);
+	int n;
+	GnmValue *res = NULL;
+	gnm_float *xs = collect_floats_value (argv[0], ei->pos,
+					      COLLECT_IGNORE_STRINGS |
+					      COLLECT_IGNORE_BOOLS |
+					      COLLECT_IGNORE_BLANKS |
+					      COLLECT_SORT,
+					      &n, &res);
+	gnm_float k = value_get_as_float (argv[1]);
 	if (res)
 		return res;
-	if (1. <= (k = value_get_as_float (argv[1])) &&
-	    0 == gnm_range_min_k_nonconst (vals, n_vals, &val, gnm_fake_ceil (k) - 1))
-		res = value_new_float (val);
+
+	k = gnm_fake_ceil (k);
+	if (k >= 1 && k <= n)
+		res = value_new_float (xs[(int)k - 1]);
 	else
 		res = value_new_error_NUM (ei->pos);
-	g_free (vals);
+
+	g_free (xs);
 	return res;
 }
 
@@ -3118,7 +3125,8 @@ gnumeric_maxa (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     gnm_range_max,
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
+				     COLLECT_IGNORE_BLANKS |
+				     COLLECT_ORDER_IRRELEVANT,
 				     GNM_ERROR_VALUE);
 }
 
@@ -3156,7 +3164,8 @@ gnumeric_mina (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     gnm_range_min,
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
+				     COLLECT_IGNORE_BLANKS |
+				     COLLECT_ORDER_IRRELEVANT,
 				     GNM_ERROR_VALUE);
 }
 
@@ -3371,7 +3380,8 @@ gnumeric_percentrank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	data = collect_floats_value (argv[0], ei->pos,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
+				     COLLECT_IGNORE_BLANKS |
+				     COLLECT_ORDER_IRRELEVANT,
 				     &n, &result);
 	x = value_get_as_float (argv[1]);
 	significance = argv[2] ? value_get_as_float (argv[2]) : 3;
@@ -3472,13 +3482,14 @@ gnumeric_percentile (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	data = collect_floats_value (argv[0], ei->pos,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
+				     COLLECT_IGNORE_BLANKS |
+				     COLLECT_SORT,
 				     &n, &result);
 	if (!result) {
 		gnm_float p = value_get_as_float (argv[1]);
 		gnm_float res;
 
-		if (gnm_range_fractile_inter_nonconst (data, n, &res, p))
+		if (gnm_range_fractile_inter_sorted (data, n, &res, p))
 			result = value_new_error_NUM (ei->pos);
 		else
 			result = value_new_float (res);
@@ -3531,13 +3542,14 @@ gnumeric_quartile (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	data = collect_floats_value (argv[0], ei->pos,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
+				     COLLECT_IGNORE_BLANKS |
+				     COLLECT_SORT,
 				     &n, &result);
 	if (!result) {
-		int q = value_get_as_int (argv[1]);
+		gnm_float q = gnm_fake_floor (value_get_as_float (argv[1]));
 		gnm_float res;
 
-		if (gnm_range_fractile_inter_nonconst (data, n, &res, q / 4.0))
+		if (gnm_range_fractile_inter_sorted (data, n, &res, q / 4.0))
 			result = value_new_error_NUM (ei->pos);
 		else
 			result = value_new_float (res);
@@ -5935,8 +5947,8 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "trend",        "A|AAb", N_("known_y's,known_x's,new_x's,const"),
 	  help_trend, gnumeric_trend, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "trimmean", NULL,      N_("ref,fraction"),
-	  help_trimmean, NULL, gnumeric_trimmean, NULL, NULL, NULL,
+	{ "trimmean",     "rf",    N_("ref,fraction"),
+	  help_trimmean, gnumeric_trimmean, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "ttest",        "rrff",   N_("array1,array2,tails,type"),
