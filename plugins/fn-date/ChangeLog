@@ -1,3 +1,7 @@
+2008-07-23  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_date): Bring out the brown bag.
+
 2008-06-27  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_date, datedif_opt_md, gnumeric_edate,

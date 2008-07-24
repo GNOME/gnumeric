@@ -145,8 +145,8 @@ gnumeric_date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
         g_date_clear (&date, 1);
 
 	g_date_set_dmy (&date, 1, 1, (int)year);
-	gnm_date_add_months (&date, (int)month);
-	gnm_date_add_days (&date, (int)day);
+	gnm_date_add_months (&date, (int)month - 1);
+	gnm_date_add_days (&date, (int)day - 1);
 
 	if (!g_date_valid (&date) ||
 	    g_date_get_year (&date) < gnm_date_convention_base (conv) ||
