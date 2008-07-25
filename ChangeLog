@@ -1,3 +1,15 @@
+2008-07-25  Morten Welinder  <terra@gnome.org>
+
+	[Initial patch from Nick Lamb, see bug 69813.]
+
+	* src/expr.h (enum GnmExprOp): Add new GNM_EXPR_OP_PAREN for
+	parentheses.
+
+	* src/parser.y: Create GNM_EXPR_OP_PAREN node.
+
+	* src/auto-format.c (do_af_suggest): Handle GNM_EXPR_OP_PAREN.
+	* src/expr.c (gnm_expr_eval): Ditto.
+
 2008-07-23  Morten Welinder  <terra@gnome.org>
 
 	* src/collect.c (collect_floats): When requested, sort.

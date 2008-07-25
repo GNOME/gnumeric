@@ -10,6 +10,7 @@ G_BEGIN_DECLS
 /* Warning: if you add something here, see do_expr_as_string   ! */
 /* Warning: if you add something here, see ms-formula-write.c  ! */
 typedef enum {
+	GNM_EXPR_OP_PAREN,	/* Parentheses for clarity */
 	GNM_EXPR_OP_EQUAL,	/* Compare value equal */
 	GNM_EXPR_OP_GT,		/* Compare value greather than  */
 	GNM_EXPR_OP_LT,		/* Compare value less than */
@@ -45,7 +46,7 @@ typedef enum {
 	case GNM_EXPR_OP_LTE: case GNM_EXPR_OP_NOT_EQUAL: \
 	case GNM_EXPR_OP_ADD: case GNM_EXPR_OP_SUB: case GNM_EXPR_OP_MULT: case GNM_EXPR_OP_DIV: \
 	case GNM_EXPR_OP_EXP: case GNM_EXPR_OP_CAT
-#define GNM_EXPR_OP_ANY_UNARY GNM_EXPR_OP_UNARY_NEG: case GNM_EXPR_OP_UNARY_PLUS : case GNM_EXPR_OP_PERCENTAGE
+#define GNM_EXPR_OP_ANY_UNARY GNM_EXPR_OP_PAREN: case GNM_EXPR_OP_UNARY_NEG: case GNM_EXPR_OP_UNARY_PLUS: case GNM_EXPR_OP_PERCENTAGE
 
 GnmExpr const *gnm_expr_new_constant	(GnmValue *v);
 GnmExpr const *gnm_expr_new_unary	(GnmExprOp op, GnmExpr const *e);

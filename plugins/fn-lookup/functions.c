@@ -629,11 +629,6 @@ gnumeric_areas (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	case GNM_EXPR_OP_INTERSECT:
 		res = 1;
 		break;
-	case GNM_EXPR_OP_ANY_BINARY:
-	case GNM_EXPR_OP_ANY_UNARY:
-	case GNM_EXPR_OP_ARRAY_CORNER:
-	case GNM_EXPR_OP_ARRAY_ELEM:
-		break;
 
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmValue *v = gnm_expr_eval (expr, ei->pos,
@@ -655,8 +650,12 @@ gnumeric_areas (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 		res = expr->set.argc;
 		break;
 
+	case GNM_EXPR_OP_PAREN:
+		expr = expr->unary.value;
+		goto restart;
+
 	default:
-		g_warning ("unknown expr type.");
+		break;
 	}
 
 	if (res > 0)

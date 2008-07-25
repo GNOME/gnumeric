@@ -755,6 +755,7 @@ static GnmExprOp const unary_ops [] = {
 	GNM_EXPR_OP_UNARY_PLUS,/* 0x12, ptgU_PLUS  */
 	GNM_EXPR_OP_UNARY_NEG,	/* 0x13, ptgU_MINUS */
 	GNM_EXPR_OP_PERCENTAGE,	/* 0x14, ptgPERCENT */
+	GNM_EXPR_OP_PAREN,      /* 0x15, pgtPAREN */
 };
 
 static gboolean
@@ -1049,14 +1050,10 @@ excel_parse_formula1 (MSContainer const *container,
 		case FORMULA_PTG_U_PLUS :
 		case FORMULA_PTG_U_MINUS :
 		case FORMULA_PTG_PERCENT :
+		case FORMULA_PTG_PAREN:
 			parse_list_push (&stack, gnm_expr_new_unary (
 				unary_ops [ptgbase - FORMULA_PTG_U_PLUS],
 				parse_list_pop (&stack)));
-			break;
-
-		case FORMULA_PTG_PAREN:
-/*	  fprintf (stderr, "Ignoring redundant parenthesis ptg\n"); */
-			ptg_length = 0;
 			break;
 
 		case FORMULA_PTG_MISSARG:

@@ -19,6 +19,9 @@ Morten:
 	* Make ssgrep a lot more grep-like.
 	* Unify functions that work on sorted ranges.
 
+Nick Lamb:
+	* Retain ()s.  [#69813]
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.1
 

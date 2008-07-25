@@ -619,7 +619,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		} else {
 			if ($2->next == NULL) {
 				unregister_allocation ($2);
-				$$ = register_expr_allocation ($2->data);
+				$$ = register_expr_allocation (gnm_expr_new_unary (GNM_EXPR_OP_PAREN, $2->data));
 				/* NOTE : free list not content */
 				gnm_expr_list_free ($2);
 			} else {

@@ -1227,6 +1227,9 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		value_release (b);
 		return res;
 
+	case GNM_EXPR_OP_PAREN:
+		return gnm_expr_eval (expr->unary.value, pos, flags);
+
 	case GNM_EXPR_OP_PERCENTAGE:
 	case GNM_EXPR_OP_UNARY_NEG:
 	case GNM_EXPR_OP_UNARY_PLUS:
@@ -1478,6 +1481,7 @@ do_expr_as_string (GnmExpr const *expr, int paren_level,
 		guint8 assoc_left, assoc_right;  /* 0: no, 1: yes.  */
 		guint8 is_prefix;                /* for unary operators */
 	} const operations[] = {
+		{ "",   0, 0, 0, 0 }, /* Parentheses for clarity */
 		{ "=",  1, 1, 0, 0 },
 		{ ">",  1, 1, 0, 0 },
 		{ "<",  1, 1, 0, 0 },

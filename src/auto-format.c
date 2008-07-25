@@ -215,6 +215,7 @@ do_af_suggest (GnmExpr const *expr, GnmEvalPos const *epos, GOFormat **explicit)
 		return *explicit ? AF_EXPLICIT : GNM_FUNC_AUTO_UNKNOWN;
 	}
 
+	case GNM_EXPR_OP_PAREN:
 	case GNM_EXPR_OP_UNARY_NEG:
 	case GNM_EXPR_OP_UNARY_PLUS:
 		return do_af_suggest (expr->unary.value, epos, explicit);
