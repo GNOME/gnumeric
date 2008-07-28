@@ -1,5 +1,8 @@
 Gnumeric 1.8.4
 
+Jean:
+	* Import/export axis ticks labels orientation. [#544935]
+
 Jody:
 	* Fix ODS import failure on win32. [#536552]
 	* Add mnemonics to the quit dialog. [#132131]

@@ -1,3 +1,9 @@
+2008-07-28  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (ai): add a warning, (tick): import text orientation,
+	(chart_write_AI): fix AI export (reverses 2008-02-29 change),
+	(chart_write_axis): export text orientation [#544935].
+
 2008-02-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (chart_write_AI): Do not export non-existing values
