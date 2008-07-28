@@ -1,5 +1,8 @@
 Gnumeric 1.9.2
 
+Jean:
+	* Import/export axis ticks labels orientation. [#544935]
+
 Jody:
 	* Fix distcheck. [#540284]
 	* Fix ODS import failure on win32. [#536552]

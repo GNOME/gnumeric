@@ -308,8 +308,10 @@ BC_R(ai)(XLChartHandler const *handle,
 	XL_CHECK_CONDITION_VAL (q->length - 8 >= length, TRUE);
 
 	/* ignore these for now */
-	if (top_state == BIFF_CHART_text)
+	if (top_state == BIFF_CHART_text) {
+		d (2, g_printerr ("We have non imported data for a text field;\n"););
 		return FALSE;
+	}
 	else if (top_state == BIFF_CHART_trendlimits) {
 		GnmExprTop const *texpr =
 			ms_container_parse_expr (&s->container,
@@ -2202,10 +2204,24 @@ BC_R(tick)(XLChartHandler const *handle,
 			"minor-tick-in",	((minor & 1) ? TRUE : FALSE),
 			"minor-tick-out",	((minor >= 2) ? TRUE : FALSE),
 			NULL);
-	if (!(flags & 0x01)) {
-		BC_R(get_style) (s);
+	BC_R(get_style) (s);
+	if (!(flags & 0x01))
 		s->style->font.color = BC_R(color) (q->data+4, "LabelColour");
+	s->style->text_layout.auto_angle = flags & 0x20;
+	switch (flags & 0x1c) {
+	default:
+		/* not supported */
+	case 0:
+		s->style->text_layout.angle = 0.;
+		break;
+	case 8:
+		s->style->text_layout.angle = 90.;
+		break;
+	case 0x0c:
+		s->style->text_layout.angle = -90.;
+		break;
 	}
+		
 	d (1, {
 	switch (major) {
 	case 0: g_printerr ("no major tick;\n"); break;
@@ -2243,9 +2259,9 @@ BC_R(tick)(XLChartHandler const *handle,
 
 	switch (flags&0x1c) {
 	case 0: g_printerr ("no rotation;\n"); break;
-	case 1: g_printerr ("top to bottom letters upright;\n"); break;
-	case 2: g_printerr ("rotate 90deg counter-clockwise;\n"); break;
-	case 3: g_printerr ("rotate 90deg clockwise;\n"); break;
+	case 4: g_printerr ("top to bottom letters upright;\n"); break;
+	case 8: g_printerr ("rotate 90deg counter-clockwise;\n"); break;
+	case 0x0c: g_printerr ("rotate 90deg clockwise;\n"); break;
 	default : g_printerr ("unknown rotation;\n");
 	}
 
@@ -4122,32 +4138,30 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 	GSF_LE_SET_GUINT16 (buf+6, 0); /* placeholder length */
 	ms_biff_put_var_write (s->bp, buf, 8);
 
-	if (value) {
-		if (ref_type == 2) {
-			len = excel_write_formula (s->ewb, texpr,
-				gnm_go_data_get_sheet (dim),
-				0, 0, EXCEL_CALLED_FROM_NAME);
-			ms_biff_put_var_seekto (s->bp, 6);
-			GSF_LE_SET_GUINT16 (lendat, len);
-			ms_biff_put_var_write (s->bp, lendat, 2);
-		} else if (ref_type == 1 && value) {
-			if (n) {
-				XLValue *xlval = g_new0 (XLValue, 1);
-				xlval->series = s->cur_series;
-				xlval->value = value;
-				g_ptr_array_add (s->values[n - 1], xlval);
-			} else {
-				guint dat[2];
-				char *str = (NULL != value && VALUE_IS_STRING (value))
-					? value_get_as_string (value) : go_data_as_str (dim);
+	if (ref_type == 2 && dim) {
+		len = excel_write_formula (s->ewb, texpr,
+			gnm_go_data_get_sheet (dim),
+			0, 0, EXCEL_CALLED_FROM_NAME);
+		ms_biff_put_var_seekto (s->bp, 6);
+		GSF_LE_SET_GUINT16 (lendat, len);
+		ms_biff_put_var_write (s->bp, lendat, 2);
+	} else if (ref_type == 1 && value) {
+		if (n) {
+			XLValue *xlval = g_new0 (XLValue, 1);
+			xlval->series = s->cur_series;
+			xlval->value = value;
+			g_ptr_array_add (s->values[n - 1], xlval);
+		} else {
+			guint dat[2];
+			char *str = (NULL != value && VALUE_IS_STRING (value))
+				? value_get_as_string (value) : go_data_as_str (dim);
 
-				ms_biff_put_commit (s->bp);
-				ms_biff_put_var_next (s->bp, BIFF_CHART_seriestext);
-				GSF_LE_SET_GUINT16 (dat, 0);
-				ms_biff_put_var_write  (s->bp, (guint8*) dat, 2);
-				excel_write_string (s->bp, STR_ONE_BYTE_LENGTH, str);
-				g_free (str);
-			}
+			ms_biff_put_commit (s->bp);
+			ms_biff_put_var_next (s->bp, BIFF_CHART_seriestext);
+			GSF_LE_SET_GUINT16 (dat, 0);
+			ms_biff_put_var_write  (s->bp, (guint8*) dat, 2);
+			excel_write_string (s->bp, STR_ONE_BYTE_LENGTH, str);
+			g_free (str);
 		}
 	}
 
@@ -4822,7 +4836,13 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		tick_color_index = chart_write_color (s, data+4, style->font.color); /* tick label color */
 		memset (data+8, 0, 16);
 		/* if font is black, set the auto color flag, otherwise, don't set */
-		flags = (style->font.color == RGBA_BLACK)? 0x23: 0x22;
+		flags = (style->font.color == RGBA_BLACK)? 0x03: 0x02;
+		if (style->text_layout.auto_angle)
+			flags |= 0x20;
+		else if (style->text_layout.angle < -45)
+			flags |= 0x0C;
+		else if (style->text_layout.angle > 45)
+			flags |= 0x08;
 		GSF_LE_SET_GUINT16 (data+24, flags);
 		if (s->bp->version >= MS_BIFF_V8) {
 			GSF_LE_SET_GUINT16 (data+26, tick_color_index);
