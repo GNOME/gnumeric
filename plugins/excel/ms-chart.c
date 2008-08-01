@@ -575,10 +575,16 @@ BC_R(axis)(XLChartHandler const *handle,
 		s->xaxis = s->axis;
 	else if (axis_type == 1) {
 		if (s->axis_cross_at_max) {
-			g_object_set (s->axis, "pos-str", "high", NULL);
+			g_object_set (s->axis,
+				      "pos-str", "high",
+				      "cross-axis-id", gog_object_get_id (GOG_OBJECT (s->xaxis)),
+				      NULL);
 			s->axis_cross_at_max = FALSE;
 		} else if (!isnan (s->axis_cross_value)) {
-			g_object_set (s->axis, "pos-str", "cross", NULL);
+			g_object_set (s->axis,
+				      "pos-str", "cross",
+				      "cross-axis-id", gog_object_get_id (GOG_OBJECT (s->xaxis)),
+				      NULL);
 			gog_dataset_set_dim (GOG_DATASET (s->axis), GOG_AXIS_ELEM_CROSS_POINT,
 				go_data_scalar_val_new (s->axis_cross_value), NULL);
 			s->axis_cross_value = go_nan;
@@ -2340,13 +2346,19 @@ BC_R(valuerange)(XLChartHandler const *handle,
 		if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_X)
 			s->axis_cross_at_max = TRUE;
 		else if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_Y && s->xaxis)
-			g_object_set (s->xaxis, "pos-str", "high", NULL);
+			g_object_set (s->xaxis,
+				      "pos-str", "high",
+				      "cross-axis-id", gog_object_get_id (GOG_OBJECT (s->axis)),
+				      NULL);
 		d (1, g_printerr ("Cross over at max value;\n"););
 	} else {
 		if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_X)
 			s->axis_cross_value = cross;
 		else if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_Y && s->xaxis) {
-			g_object_set (s->xaxis, "pos-str", "cross", NULL);
+			g_object_set (s->xaxis,
+				      "pos-str", "cross",
+				      "cross-axis-id", gog_object_get_id (GOG_OBJECT (s->axis)),
+				      NULL);
 			gog_dataset_set_dim (GOG_DATASET (s->xaxis), GOG_AXIS_ELEM_CROSS_POINT,
 				go_data_scalar_val_new (cross), NULL);
 		}

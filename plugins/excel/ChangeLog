@@ -1,3 +1,7 @@
+2008-08-01  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (axis), (valuerange): set the "cross-axis-id" property.
+
 2008-07-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (ai): add a warning, (tick): import text orientation,
