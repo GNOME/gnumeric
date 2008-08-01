@@ -1,10 +1,12 @@
-gnumeric (1.8.3-4) unstable; urgency=low
+gnumeric (1.8.3-4) unstable; urgency=high
 
-  * UNRELEASED
+  * [plugins/fn-date/ChangeLog, plugins/fn-date/functions.c] Pull in fix from
+    SVN gnumeric-1-8 branch for off-by-one errors in DATE function. 
+    (Closes: #492743)
   * [debian/po/jp.po] Updated Japanese translation, courtesy of Atsushi
     Shimono <shimono@mozilla.gr.jp>. (Closes: #490668)
 
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 12 Jul 2008 15:20:19 +0200
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 01 Aug 2008 21:56:40 +0200
 
 gnumeric (1.8.3-3) unstable; urgency=low
 
