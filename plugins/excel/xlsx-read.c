@@ -106,8 +106,9 @@ typedef struct {
 	XLSXAxisType type;
 	GogObjectPosition compass;
 	GogAxisPosition	  cross;
+	char	*cross_id;
 
-	gboolean deleted;	/* TODO how to use this */
+	gboolean deleted;
 } XLSXAxisInfo;
 
 typedef struct {
@@ -959,6 +960,7 @@ static void
 xlsx_axis_info_free (XLSXAxisInfo *info)
 {
 	g_free (info->id);
+	g_free (info->cross_id);
 	if (NULL != info->axis)
 		g_object_unref (info->axis);
 	g_free (info);
@@ -1026,9 +1028,11 @@ static void
 xlsx_axis_delete (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	int del;
+	int del = 0;
 	if (state->axis.info && simple_bool (xin, attrs, &del))
 		state->axis.info->deleted = del;
+	if (state->axis.info && del)
+		g_object_set (state->axis.info->axis, "invisible", TRUE, NULL);
 }
 static void
 xlsx_axis_orientation (GsfXMLIn *xin, xmlChar const **attrs)
@@ -1097,6 +1101,14 @@ xlsx_axis_crosses (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (state->axis.info && simple_enum (xin, attrs, crosses, &cross))
 		state->axis.info->cross = cross;
+}
+
+static void
+xlsx_axis_crossax (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	if (state->axis.info && !strcmp ((char const*) attrs[0], "val"))
+		state->axis.info->cross_id = g_strdup (attrs[1]);
 }
 
 static void
@@ -1658,7 +1670,7 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_POS, XL_NS_CHART, "axPos", GSF_XML_NO_CONTENT, &xlsx_axis_pos, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_TICKLBLPOS, XL_NS_CHART, "tickLblPos", GSF_XML_NO_CONTENT, NULL, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_AUTO, XL_NS_CHART, "auto", GSF_XML_NO_CONTENT, NULL, NULL),
-        GSF_XML_IN_NODE (CAT_AXIS, AXIS_CROSSAX, XL_NS_CHART, "crossAx", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (CAT_AXIS, AXIS_CROSSAX, XL_NS_CHART, "crossAx", GSF_XML_NO_CONTENT, &xlsx_axis_crossax, NULL),
         GSF_XML_IN_NODE (CAT_AXIS, AXIS_CROSSES, XL_NS_CHART, "crosses", GSF_XML_NO_CONTENT, &xlsx_axis_crosses, NULL),
 
         GSF_XML_IN_NODE (CAT_AXIS, CAT_AXIS_LBLALGN, XL_NS_CHART, "lblAlgn", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1915,9 +1927,44 @@ GSF_XML_IN_NODE_END
 
 static void
 cb_axis_set_position (GObject *axis, XLSXAxisInfo *info,
-		      G_GNUC_UNUSED gpointer accum)
+		      XLSXReadState *state)
 {
-	g_object_set (axis, "pos", info->cross, NULL);
+	if (info->deleted) {
+		GSList *l = gog_chart_get_axes (state->chart, gog_axis_get_atype (GOG_AXIS (axis))), *cur;
+		GogAxis *visible = NULL;
+
+		for (cur = l; cur; cur = cur->next) {
+			gboolean invisible;
+			g_object_get (cur->data, "invisible", &invisible, NULL);
+			if (!invisible) {
+				visible = GOG_AXIS (cur->data);
+				break;
+			}
+		}
+		if (visible) {
+			GSList *l1, *cur1;
+
+			l1 = g_slist_copy ((GSList *) gog_axis_contributors (GOG_AXIS (axis)));
+			for (cur1 = l1; cur1; cur1 = cur1->next) {
+				if (IS_GOG_PLOT (cur1->data))
+					gog_plot_set_axis (GOG_PLOT (cur1->data), visible);
+			}
+			g_slist_free (l1);
+			/* now reparent the children of the hidden axis */
+			l1 = gog_object_get_children (GOG_OBJECT (axis), NULL);
+			for (cur1 = l1; cur1; cur1 = cur1->next) {
+				GogObject *obj = GOG_OBJECT (cur1->data);
+				GogObjectRole const *role = obj->role;
+				gog_object_clear_parent (obj);
+				gog_object_set_parent (obj, GOG_OBJECT (visible), role, obj->id);
+			}
+			g_slist_free (l1);
+		}
+	} else {
+		XLSXAxisInfo *cross_info = g_hash_table_lookup (state->axis.by_id, info->cross_id);
+		g_return_if_fail (cross_info != NULL);
+		g_object_set (axis, "pos", info->cross, "cross-axis-id", gog_object_get_id (GOG_OBJECT (cross_info->axis)), NULL);
+	}
 }
 
 static void
@@ -1938,7 +1985,7 @@ xlsx_axis_cleanup (XLSXReadState *state)
 	g_slist_free (list);
 
 	g_hash_table_foreach (state->axis.by_obj,
-		(GHFunc)cb_axis_set_position, NULL);
+		(GHFunc)cb_axis_set_position, state);
 	g_hash_table_destroy (state->axis.by_obj);
 	g_hash_table_destroy (state->axis.by_id);
 	state->axis.by_obj = state->axis.by_id = NULL;
