@@ -57,6 +57,7 @@
 #include <tools/scenarios.h>
 #include <gnumeric-gconf.h>
 
+#include <goffice/app/go-doc.h>
 #include <goffice/app/file.h>
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-gzip.h>
@@ -1269,6 +1270,7 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 	state.convs	= gnm_xml_io_conventions ();
 	state.expr_map  = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state.cell_str  = g_string_new (NULL);
+	go_doc_init_write (GO_DOC (state.wb), state.output);
 
 	locale = gnm_push_C_locale ();
 
@@ -1297,6 +1299,7 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 	xml_write_sheets	    (&state);
 	xml_write_uidata	    (&state);
 	xml_write_calculation	    (&state);
+	go_doc_write (GO_DOC (state.wb), state.output);
 
 	gsf_xml_out_end_element (state.output); /* </Workbook> */
 
@@ -1347,6 +1350,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	GSList       *ptr;
 	GsfOutput    *buf = gsf_output_memory_new ();
 	GnmLocale    *locale;
+	GODoc		 *doc = NULL;
 
 	g_return_val_if_fail (cr != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (cr->origin_sheet), NULL);
@@ -1360,6 +1364,11 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	state.state.cell_str = g_string_new (NULL);
 
 	locale = gnm_push_C_locale ();
+	if (cr->origin_sheet) {
+		/* hoping this always occur */
+		doc = GO_DOC (cr->origin_sheet->workbook);
+		go_doc_init_write (doc, state.state.output);
+	}
 
 	gsf_xml_out_start_element (state.state.output, GNM "ClipboardRange");
 
@@ -1411,6 +1420,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 
 	xml_write_objects (&state.state, cr->objects);
 
+	go_doc_write (doc, state.state.output);
 	gsf_xml_out_end_element (state.state.output); /* </ClipboardRange> */
 
 	gnm_pop_C_locale (locale);

@@ -59,6 +59,7 @@
 #include "gutils.h"
 
 #include <goffice/app/io-context.h>
+#include <goffice/app/go-doc.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/error-info.h>
 #include <goffice/utils/go-glib-extras.h>
@@ -2299,6 +2300,13 @@ handle_delayed_names (XMLSaxParseState *state)
 	state->delayed_names = NULL;
 }
 
+static void
+xml_sax_go_doc (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+	go_doc_read (GO_DOC (state->wb), xin, attrs);
+}
+
 /****************************************************************************/
 
 #define GNM		0
@@ -2478,6 +2486,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALS
   GSF_XML_IN_NODE (WB, WB_VIEW, GNM, "UIData", GSF_XML_NO_CONTENT, &xml_sax_wb_view, NULL),
   GSF_XML_IN_NODE (WB, WB_CALC, GNM, "Calculation", GSF_XML_NO_CONTENT, &xml_sax_calculation, NULL),
   GSF_XML_IN_NODE (WB, WB_DATE, GNM, "DateConvention", GSF_XML_CONTENT, NULL, &xml_sax_old_dateconvention),
+  GSF_XML_IN_NODE (WB, GODOC, -1, "GODoc", GSF_XML_NO_CONTENT, &xml_sax_go_doc, NULL),
   { NULL }
 };
 
@@ -2644,6 +2653,7 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	g_object_ref (input);
 	input = maybe_gunzip (input);
 	input = maybe_convert (input, FALSE);
+	go_doc_init_read (GO_DOC (state.wb), input);
 	gsf_input_seek (input, 0, G_SEEK_SET);
 
 	io_progress_message (state.context, _("Reading file..."));
@@ -2653,6 +2663,7 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	ok = gsf_xml_in_doc_parse (doc, input, &state);
 	handle_delayed_names (&state);
 	gnm_pop_C_locale (locale);
+	go_doc_end_read (GO_DOC (state.wb));
 
 	io_progress_unset (state.context);
 
