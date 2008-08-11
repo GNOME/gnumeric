@@ -1181,6 +1181,7 @@ xml_sax_colrow (GsfXMLIn *xin, xmlChar const **attrs)
 	ColRowInfo *cri = NULL;
 	double size = -1.;
 	int pos, val;
+	int hidden = 0, hard_size = 0, is_collapsed = 0, outline_level = 0;
 	int count = 1;
 	gboolean const is_col = xin->node->user_data.v_bool;
 
@@ -1196,18 +1197,12 @@ xml_sax_colrow (GsfXMLIn *xin, xmlChar const **attrs)
 				? sheet_col_fetch (state->sheet, pos)
 				: sheet_row_fetch (state->sheet, pos);
 		} else {
-			g_return_if_fail (cri != NULL);
-
 			if (gnm_xml_attr_double (attrs, "Unit", &size)) ;
 			else if (gnm_xml_attr_int (attrs, "Count", &count)) ;
-			else if (gnm_xml_attr_int (attrs, "HardSize", &val))
-				cri->hard_size = val;
-			else if (gnm_xml_attr_int (attrs, "Hidden", &val))
-				cri->visible = !val;
-			else if (gnm_xml_attr_int (attrs, "Collapsed", &val))
-				cri->is_collapsed = val;
-			else if (gnm_xml_attr_int (attrs, "OutlineLevel", &val))
-				cri->outline_level = val;
+			else if (gnm_xml_attr_int (attrs, "HardSize", &hard_size)) ;
+			else if (gnm_xml_attr_int (attrs, "Hidden", &hidden)) ;
+			else if (gnm_xml_attr_int (attrs, "Collapsed", &is_collapsed)) ;
+			else if (gnm_xml_attr_int (attrs, "OutlineLevel", &outline_level)) ;
 			else if (gnm_xml_attr_int (attrs, "MarginA", &val))
 				; /* deprecated in 1.7.1 */
 			else if (gnm_xml_attr_int (attrs, "MarginB", &val))
@@ -1218,6 +1213,10 @@ xml_sax_colrow (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	g_return_if_fail (cri != NULL && size > -1.);
+	cri->hard_size = hard_size;
+	cri->visible = !hidden;
+	cri->is_collapsed = is_collapsed;
+	cri->outline_level = outline_level;
 
 	if (is_col) {
 		sheet_col_set_size_pts (state->sheet, pos, size, cri->hard_size);
