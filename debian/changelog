@@ -316,6 +316,54 @@ gnumeric (1.7.0-1) experimental; urgency=low
 
  -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 10 May 2006 21:29:08 +0200
 
+gnumeric (1.6.3-5.1+etch1) stable-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * Backport fix from upstream SVN:
+    - CVE-2008-0668: arbitrary code execution through integer overflow in
+      Excel spreadsheet HLINK handling
+
+ -- Devin Carraway <devin@debian.org>  Sun, 30 Mar 2008 01:02:31 +0000
+
+gnumeric (1.6.3-5) unstable; urgency=low
+
+  * [doc/C/gnumeric.1] Typos/grammar glitches. (Closes: #410249)
+  * [debian/po/it.po] Added, courtesy of Luca Monducci <luca.mo@tiscali.it>.
+    (Closes: #396946)
+  * [debian/po/es.po] Added, courtesy of Carlos Valdivia Yagüe
+    <valyag@dat.etsit.upm.es>. (Closes: #383359)
+  * [debian/po/gl.po] Added, courtesy of Jacobo Tarrio <jtarrio@debian.org>.
+    (Closes: #407955)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 11 Feb 2007 21:18:59 +0100
+
+gnumeric (1.6.3-4) unstable; urgency=low
+
+  * Pulled in core code and translation changes from upstream CVS branch.
+  * Backported packaging improvements from the 1.7.x packages in experimental,
+    including:
+    * Follow new python policy. (Closes: #380831)
+    * [debian/control] Made lists in package descriptions render nicely in
+      aptitude (Closes: #389140)
+  * [debian/po/ja.po] Added, courtesy of Shimono Atsushi
+    <shimono@kwasan.kyoto-u.ac.jp>. (Closes: ##384994).
+  * [debian/gnumeric.mime] Add text/csv in whose favour 
+    text/comma-separated-values has been depreciated in RFC 4180. 
+    (Closes: #394053)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 22 Oct 2006 17:42:30 +0200
+
+gnumeric (1.6.3-3) unstable; urgency=low
+
+  * [debian/po/lt.po] Added, courtesy of Gintautas Miliauskas <gintas@akl.lt>.
+    (Closes: #374319).
+  * [debian/po/pt.po] Added, courtesy of Ricardo Silva <ardoric@gmail.com> via
+    Rui Branco <ruipb@debianpt.org>. (Closes: #378890)
+  * [debian/po/ru.po] Added, courtesy of Yuri Kozlov <kozlov.y@gmail.com>.
+    (Closes: #379367)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon,  7 Aug 2006 21:47:06 +0200
+
 gnumeric (1.6.3-2) unstable; urgency=low
 
   * Sourceful upload; should fix installability on amd64. (Closes: #365691)
