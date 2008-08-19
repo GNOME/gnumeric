@@ -1,3 +1,10 @@
+2008-08-14  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* perl-loader.c (gplp_load_base): Call PERL_SYS_INIT3() prior to
+	perl_parse(), as per perlembed(1). Without this, calling perl_parse()
+	will hang inside pthread_mutex_lock() on the HPPA architecture.
+	See http://bugs.debian.org/486069 for background.
+
 2008-06-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.1
