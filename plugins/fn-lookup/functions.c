@@ -975,20 +975,24 @@ static GnmFuncHelp const help_indirect[] = {
 	   "@DESCRIPTION="
 	   "INDIRECT function returns the contents of the cell pointed to "
 	   "by the @ref_text string. The string specifies a single cell "
-	   "reference the format of which is either A1 or R1C1 style. The "
-	   "style is set by the @format boolean, which defaults to the A1 "
-	   "style.\n"
+	   "reference the format of which is either A1 or R1C1 style. "
+	   "The boolean @format controls how @ref_text is to be interpreted: "
+	   "TRUE (the default) for A1 style and FALSE for R1C1 style.\n"
 	   "\n"
-	   "* If @ref_text is not a valid reference returns #REF! "
+	   "* If @ref_text is not a valid reference in the style controlled "
+	   "by @format, returns #REF! "
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "If A1 contains 3.14 and A2 contains A1, then\n"
+	   "If A1 contains 3.14 and A2 contains \"A1\", then\n"
 	   "INDIRECT(A2) equals 3.14.\n"
 	   "\n"
+	   "If B1 contains 23 and A1 contains \"R1C2\", then\n"
+	   "INDIRECT(A1,FALSE) equals 23.\n"
 	   "@SEEALSO=AREAS,INDEX,CELL")
 	},
 	{ GNM_FUNC_HELP_END }
 };
+
 
 static GnmValue *
 gnumeric_indirect (GnmFuncEvalInfo *ei, GnmValue const * const *args)
