@@ -191,12 +191,15 @@ gplp_load_base (GOPluginLoader *loader, ErrorInfo **ret_error)
 {
 	char *argv[] = { (char*)"", NULL, NULL, NULL };
 	char const *arg;
+	int argc;
 
 	arg = go_plugin_get_dir_name (go_plugin_loader_get_plugin (loader));
 	argv[1] = g_strconcat ("-I", arg, NULL);
 	argv[2] = g_build_filename (arg, "perl_func.pl", NULL);
+	argc = 2;
 
 	if (g_file_test (argv[2], G_FILE_TEST_EXISTS)) {
+		PERL_SYS_INIT3(&argc, &argv, NULL);
 		gnm_perl_interp = perl_alloc ();
 		perl_construct (gnm_perl_interp);
 		perl_parse (gnm_perl_interp, xs_init, 3, argv, NULL);
