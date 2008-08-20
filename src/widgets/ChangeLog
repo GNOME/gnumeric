@@ -1,3 +1,8 @@
+2008-08-19  Jody Goldberg <jody@gnome.org>
+
+	* widget-editable-label.c (el_class_init) : add 'state_changed'
+	  handler. #546981.
+
 2008-07-08  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (gee_rangesel_reset) : add a DEFAULT_ABS_REF

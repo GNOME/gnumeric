@@ -14,6 +14,7 @@ Jody:
 	* Name guru defaults to absolute references.
 	* Add mnemonics to the quit dialog. [#132131]
 	* Odd renaming of some long file names on windows. [#542872]
+	* Fix cusor in tab labels. [#546981]
 
 Morten:
 	* Fix EOMONTH issue.  [#540069]

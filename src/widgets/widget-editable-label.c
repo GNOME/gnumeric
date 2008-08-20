@@ -33,7 +33,7 @@
 
 #include <string.h>
 
-static GtkObjectClass *parent_class = NULL;
+static GtkWidgetClass *parent_class = NULL;
 
 #define EDITABLE_LABEL_CLASS(k) (G_TYPE_CHECK_CLASS_CAST (k), EDITABLE_LABEL_TYPE)
 struct _EditableLabel {
@@ -158,7 +158,7 @@ el_destroy (GtkObject *object)
 
 	el_cancel_editing (el);
 
-	parent_class->destroy (object);
+	((GtkObjectClass *)parent_class)->destroy (object);
 }
 
 static gint
@@ -182,7 +182,7 @@ el_button_press_event (GtkWidget *widget, GdkEventButton *button)
 	if (el->unedited_text == NULL)
 		return FALSE;
 
-	return ((GtkWidgetClass *)parent_class)->button_press_event (widget, button);
+	return parent_class->button_press_event (widget, button);
 }
 
 /*
@@ -203,7 +203,7 @@ el_key_press_event (GtkWidget *w, GdkEventKey *event)
 		return TRUE;
 	}
 
-	return ((GtkWidgetClass *)parent_class)->key_press_event (w, event);
+	return parent_class->key_press_event (w, event);
 }
 
 static void
@@ -213,7 +213,7 @@ el_size_request (GtkWidget *el, GtkRequisition *req)
 	PangoLayoutLine *line;
 	PangoLayout	*layout;
 
-	((GtkWidgetClass *)parent_class)->size_request (el, req);
+	parent_class->size_request (el, req);
 	layout = gtk_entry_get_layout (GTK_ENTRY (el));
 	line = pango_layout_get_lines (layout)->data;
 	pango_layout_line_get_extents (line, NULL, &logical_rect);
@@ -224,8 +224,17 @@ el_size_request (GtkWidget *el, GtkRequisition *req)
 static void
 el_entry_realize (GtkWidget *widget)
 {
-	((GtkWidgetClass *)parent_class)->realize (widget);
+	parent_class->realize (widget);
 	el_set_cursor (GTK_ENTRY (widget), GDK_HAND2);
+}
+
+static void
+el_state_changed (GtkWidget *widget, GtkStateType previous_state)
+{
+	parent_class->state_changed (widget, previous_state);
+	/* GtkEntry::state_changed changes the cursor */
+	if (GTK_WIDGET_REALIZED (widget))
+		el_set_cursor (GTK_ENTRY (widget), GDK_HAND2);
 }
 
 static gint
@@ -259,6 +268,7 @@ el_class_init (GtkObjectClass *object_class)
 	widget_class->size_request	  = el_size_request;
 	widget_class->realize		  = el_entry_realize;
 	widget_class->motion_notify_event = el_motion_notify;
+	widget_class->state_changed	  = el_state_changed;
 
 	el_signals [EDIT_FINISHED] = g_signal_new ("edit_finished",
 		EDITABLE_LABEL_TYPE,
