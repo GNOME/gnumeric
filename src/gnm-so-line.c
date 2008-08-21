@@ -29,6 +29,7 @@
 #include <goffice/utils/go-libxml-extras.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-persist.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -300,7 +301,7 @@ gnm_so_line_read_xml_dom (SheetObject *so, char const *typename,
 		go_arrow_init (&sol->end_arrow, a, b, c);
 
 	if (NULL != (child = e_xml_get_child_by_name (node, "Style"))) /* new version */
-		return !gog_persist_dom_load (GOG_PERSIST (sol->style), child);
+		return !go_persist_dom_load (GO_PERSIST (sol->style), child);
 	/* Old 1.0 and 1.2 */
 	xml_node_get_gocolor (node, "FillColor", &sol->style->line.color);
 	if (xml_node_get_double  (node, "Width", &width))
@@ -325,7 +326,7 @@ gnm_so_line_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 		gsf_xml_out_add_int (output, "Type", 1);
 
 	gsf_xml_out_start_element (output, "Style");
-	gog_persist_sax_save (GOG_PERSIST (sol->style), output);
+	go_persist_sax_save (GO_PERSIST (sol->style), output);
 	gsf_xml_out_end_element (output); /* </Style> */
 }
 
@@ -334,7 +335,7 @@ sol_sax_style (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	SheetObject *so = gnm_xml_in_cur_obj (xin);
 	GnmSOLine *sol = GNM_SO_LINE (so);
-	gog_persist_prep_sax (GOG_PERSIST (sol->style), xin, attrs);
+	go_persist_prep_sax (GO_PERSIST (sol->style), xin, attrs);
 }
 
 static void
