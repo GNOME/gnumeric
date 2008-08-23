@@ -5,6 +5,11 @@
 	* src/gnm-so-line.c: (gnm_so_line_read_xml_dom),
 	(gnm_so_line_write_xml_sax), (sol_sax_style): ditto.
 
+2008-08-20  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.desktop.in : We should really auto generate this.  For now,
+	  add some dbf mime types to see if that helps the ubuntu folk. #542780
+
 2008-08-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/xml-sax-read.c: (xml_sax_colrow): accept any order for attributes
