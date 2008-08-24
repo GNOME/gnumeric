@@ -294,7 +294,11 @@ gnm_pango_context_get (void)
 		if (!fontmap)
 			fontmap = pango_cairo_font_map_new ();
 		pango_cairo_font_map_set_resolution (PANGO_CAIRO_FONT_MAP (fontmap), 96);
+#ifdef HAVE_PANGO_FONT_MAP_CREATE_CONTEXT
+		context = pango_font_map_create_context (PANGO_FONT_MAP (fontmap));
+#else /* deprecated in 1.22.0 */
 		context = pango_cairo_font_map_create_context (PANGO_CAIRO_FONT_MAP (fontmap));
+#endif
 	}
 	pango_context_set_language (context, gtk_get_default_language ());
 	pango_context_set_base_dir (context, PANGO_DIRECTION_LTR);

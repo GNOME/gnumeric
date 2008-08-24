@@ -159,8 +159,8 @@ gnumeric_reqs="$libspreadsheet_reqs
 	gobject-2.0		>= 2.6.0
 	gmodule-2.0		>= 2.6.0
 	gthread-2.0		>= 2.6.0
-	pango			>= 1.8.1
-	pangocairo		>= 1.8.1
+	pango			>= 1.10.0
+	pangocairo		>= 1.10.0
 "
 libspreadsheet_gtk_reqs="
 	libglade-2.0		>= 2.3.6
@@ -709,7 +709,7 @@ SAVE_CFLAGS=$CFLAGS
 SAVE_LIBS=$LIBS
 CFLAGS="$CFLAGS $GNUMERIC_CFLAGS"
 LIBS="$GNUMERIC_LIBS $LIBS"
-AC_CHECK_FUNCS(g_date_set_time_t g_slice_alloc gtk_recent_manager_get_default gsf_open_pkg_foreach_rel)
+AC_CHECK_FUNCS(g_date_set_time_t g_slice_alloc pango_font_map_create_context gtk_recent_manager_get_default gsf_open_pkg_foreach_rel)
 CFLAGS=$SAVE_CFLAGS
 LIBS=$SAVE_LIBS
 

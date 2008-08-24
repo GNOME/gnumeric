@@ -1,3 +1,8 @@
+2008-08-23  Jody Goldberg <jody@gnome.org>
+
+	* src/style.c (gnm_pango_context_get) : handle recent pango
+	  deprecation.
+
 2008-08-21  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-so-filled.c: (gnm_so_filled_read_xml_dom),
