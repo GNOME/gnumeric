@@ -494,7 +494,7 @@ print_page (GtkPrintOperation *operation,
 	
 	if (edge_to_above_footer > footer) {
 		cairo_save (cr);
-		cairo_translate (cr, 0, height + header + footer);
+		cairo_translate (cr, 0, height + (edge_to_below_header - header) + (edge_to_above_footer - footer));
 		print_hf_line (context, cr, sheet, pinfo->footer, TRUE, width, 
 			       pi->hfi);
 		cairo_restore (cr);

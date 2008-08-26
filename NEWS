@@ -1,5 +1,8 @@
 Gnumeric 1.9.2
 
+Andreas:
+	* Fix printing of footer line. [#549247]
+
 Jean:
 	* Import/export axis ticks labels orientation. [#544935]
 	* Fix an attribute order issue while loading. [#547183]
