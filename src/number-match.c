@@ -53,6 +53,9 @@ value_is_error (char const *str)
 {
 	GnmStdError e;
 
+	if (str[0] != '#')
+		return NULL;
+
 	for (e = (GnmStdError)0; e < GNM_ERROR_UNKNOWN; e++)
 		if (0 == strcmp (str, value_error_name (e, TRUE)))
 			return value_new_error_std (NULL, e);
@@ -80,7 +83,7 @@ format_match_simple (char const *text)
 		return value_new_bool (FALSE);
 
 	/* Is it an error?  */
-	if (*text == '#') {
+	{
 		GnmValue *err = value_is_error (text);
 		if (err != NULL)
 			return err;
@@ -1083,6 +1086,8 @@ format_match (char const *text, GOFormat *cur_fmt,
 	case GO_FORMAT_PERCENTAGE:
 	case GO_FORMAT_SCIENTIFIC:
 		v = format_match_decimal_number (text, &fam);
+		if (!v)
+			v = value_is_error (text);
 		if (v)
 			value_set_fmt (v, cur_fmt);
 		return v;
@@ -1097,6 +1102,8 @@ format_match (char const *text, GOFormat *cur_fmt,
 					   TRUE);
 		if (!v)
 			v = format_match_decimal_number (text, &fam);
+		if (!v)
+			v = value_is_error (text);
 		if (v)
 			value_set_fmt (v, cur_fmt);
 		return v;
@@ -1117,6 +1124,8 @@ format_match (char const *text, GOFormat *cur_fmt,
 			v = format_match_time (text, TRUE, prefer_hour, FALSE);
 		if (!v)
 			v = format_match_decimal_number (text, &fam);
+		if (!v)
+			v = value_is_error (text);
 		if (v)
 			value_set_fmt (v, cur_fmt);
 		return v;
@@ -1126,7 +1135,8 @@ format_match (char const *text, GOFormat *cur_fmt,
 		v = format_match_fraction (text, &denlen);
 		if (!v)
 			v = format_match_decimal_number (text, &fam);
-
+		if (!v)
+			v = value_is_error (text);
 		if (v)
 			value_set_fmt (v, cur_fmt);
 		return v;

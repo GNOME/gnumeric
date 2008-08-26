@@ -30,6 +30,7 @@ Morten:
 	* Make ssgrep a lot more grep-like.
 	* Unify functions that work on sorted ranges.
 	* Fix date entry problem.  [#540198]
+	* Fix entry of error constants.  [#546759] 
 
 Nick Lamb:
 	* Retain ()s.  [#69813]
