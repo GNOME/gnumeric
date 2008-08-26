@@ -578,9 +578,9 @@ insert_date_time_common (WBCGtk *wbcg, int what)
 		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 		SheetView *sv = wb_control_cur_sheet_view (wbc);
 		Sheet *sheet = sv_sheet (sv);
-		GnmCell const *cell = sheet_cell_get (sheet,
-						      sv->edit_pos.col,
-						      sv->edit_pos.row);
+		GnmCell const *cell = sheet_cell_fetch (sheet,
+							sv->edit_pos.col,
+							sv->edit_pos.row);
 		GODateConventions const *date_conv =
 			workbook_date_conv (sheet->workbook);
 		GnmValue *v = value_new_float

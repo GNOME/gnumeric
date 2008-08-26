@@ -26,6 +26,7 @@ Morten:
 	* Fix DDB problems.  [#541158]
 	* Make ssgrep a lot more grep-like.
 	* Unify functions that work on sorted ranges.
+	* Fix date entry problem.  [#540198]
 
 Nick Lamb:
 	* Retain ()s.  [#69813]

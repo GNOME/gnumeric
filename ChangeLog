@@ -1,3 +1,9 @@
+2008-08-25  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-actions.c (insert_date_time_common): Make sure cell
+	exists so gnm_format_for_date_editing can get the format.  Fixes
+	#540198.
+
 2008-08-23  Jody Goldberg <jody@gnome.org>
 
 	* src/style.c (gnm_pango_context_get) : handle recent pango
