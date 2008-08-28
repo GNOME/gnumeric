@@ -1,8 +1,1043 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <sect1 id="sect-advanced-analysis-simulation">
   <title>Simulation Analysis</title>
 
-  <para>
-  </para>
+  <sect2 id="sect-advanced-analysis-simulation-intro">
+    <title>Introduction to simulation analysis</title>
+    <para>A simulation is the imitation of the operation of a real-world process or system.  The behavior of a system is studied by generating an artificial history of the system through the use of random numbers.  These numbers are used in the context of a simulation model, which is the mathematical, logical and symbolic representation of the relationships between the objects of interest of the system.  After the model has been validated, the effects of changes in the environment on the system, or the effects of changes in the system on system performance can be predicted using the simulation model.
+    <footnote>
+      <para>Adapted from Banks, Carson, Nelson and Nicol (2001), Discrete-Event System Simulation, 3rd ed.</para>
+    </footnote>
+    </para>
+    <para>Gnumeric includes a facility for performing Monte Carlo Simulation.  Monte Carlo simulation involves the sampling of random numbers to solve a problem where the passage of time plays no substantive role.
+    <footnote>
+      <para>Definition from Law and Kelton (1991), Simulation Modeling &amp; Analysis, 2nd ed, pp. 113.</para>
+    </footnote>  In other words, each sample is not effected by prior samples.  This is in contrast to discrete event simulation or continuous simulation where the results from earlier in the simulation can effect successive samples within a simulation experiment.  The Monte Carlo simulation will be enabled through the use of the Random Number functions as described in <xref linkend="CATEGORY_Random_Numbers"/> and the results presented along with statistics for use in analysis.    
+    <footnote>
+      <para>Gnumeric random numbers are generated using the Mersenne twister MT19937 pseudo-random number generator as implemented in the GNU Scientific Library.</para>
+    </footnote>
+    </para>
+  </sect2>
+  <sect2 id="sect-advanced-analysis-simulation-setup">
+    <title>Setting up the simulation model</title>
+    <para>The remainder of this chapter will illustrate use of the simulation tool using an example from Banks et. al.  
+      <footnote>
+        <para>Adapted from Banks, Carson, Nelson and Nicol (2001), Discrete-Event System Simulation, 3rd ed. pp. 42-45.</para>
+      </footnote> 
+    A classic inventory problem is the newsvendor problem.  A newsvendor buys papers for 33 cents each and sells for 50 cents.  Newspapers not sold are sold as scrap (recycled) for 5 cents.  Newspapers are purchased by the paper seller in bundles of 10.  Demand for newspapers can be categorized as “good,” “fair,” or “poor” with probability 0.35, 0.45 and 0.20 respectively, with each day's demand being independent of prior days.  The problem for the newsvendor is to determine the optimal number of papers to purchase when the day's demand is not yet known.</para>
+    
+    <para>The daily profit equation for the newsvendor is:</para>
+    <informalequation>
+     <alt>Profit = [(Sale revenue) - (Cost) - (Scrap value)]</alt>
+     <mathphrase>Profit = [(Sale revenue) - (Cost) - (Scrap value)]</mathphrase>
+    </informalequation> 
 
+    <para>To set up the model, this example will use two tabs in Gnumeric, a tab labeled 'Profit' to calculate profit, and a tab labeled 'Demand Tables' to store the various tables needed to calculate the demand for any given sampling.</para>
 
+    <para>For the Profit tab, set up the profit tab as in <xref linkend="fig-simulation-example-profit-table" />.</para>
+    
+    <para>At the top of the Profit' tab, the Profit table will be entered .  There are three variables: Sale revenue, Cost and Scrap value, and they take the per unit coefficients of 0.5, 0.33 and 0.05 respectively.  Enter the coefficients in cells B13 through D13.  In cells B12 through D12, enter the equations for sale revenue, cost and Scrap value that are in the list below.  In cell E12, enter the equation for Profit</para>
+    
+    <para>Next, we add the values for the decision variable, which is the amount purchased, and the amount sold.  </para>
+    
+    <itemizedlist>
+      <listitem><para>B12: =B13*min(B16,B20)</para></listitem>
+      <listitem><para>C12: =C13*B16</para></listitem>
+      <listitem><para>D12: =D13*max(0,B16-B20)</para></listitem>
+      <listitem><para>E12: =B12-C12+D12</para></listitem>
+      <listitem><para>B13: 0.5</para></listitem>
+      <listitem><para>C13: 0.33</para></listitem>
+      <listitem><para>D13: 0.05</para></listitem>
+      <listitem><para>B16: 50</para></listitem>
+    </itemizedlist>
+
+    <figure id="fig-simulation-example-profit-table">
+      <title>Profit table for newsvendor example</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/analysis-simulation-profit-ex1.png" format="PNG" />
+          </imageobject>
+          <textobject>
+            <para>
+              This screenshot depicts the profit table from the newsvendor simulation example after the set of entries in cells B12 through E13 and Cell B16 have been filled in.
+            </para>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    
+    <tip>
+      <title> Using SIMTABLE for parameter values.</title>
+      <para>Sometimes, there is a need to try a number of different values for a single parameter. In <xref linkend="sect-advanced-analysis-simulation-simtable" /> the <function>SIMTABLE</function> function will be used to automate the use of a set of values for a parameter such as purchase quantity.  For now, set the purchase quantity to 50 in cell C16.</para>
+    </tip>
+    
+    <para>Next, create the demand tables from which the demand will be generated.  In the tab 'Demand Tables' enter the values of the probability in cells B4 through B6 (B4: 0.35; B5: 0.45; B6: 0.2).  In cells C4, C5 and C6 enter the cumulative probability values (C4: 0.35; C5: 0.8; C6: 1) as shown in <xref linkend="fig-simulation-example-demand-newsday-type" />. </para>
+		
+    <itemizedlist>
+      <listitem><para>B4: 0.35</para></listitem>
+      <listitem><para>B5: 0.45</para></listitem>
+      <listitem><para>B6: 0.2</para></listitem>
+      <listitem><para>C4: 0.35</para></listitem>
+      <listitem><para>C5: 0.8</para></listitem>
+      <listitem><para>C6: 1.0</para></listitem>
+    </itemizedlist>
+			
+    
+    <figure id="fig-simulation-example-demand-newsday-type">
+      <title>Probability distribution for type of newsday</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+              <imagedata fileref="figures/analysis-simulation-demand-ex1.png" format="PNG" />
+          </imageobject>
+          <textobject>
+            <para>
+              Screenshot depicts Demand Tables tab of simulation worksheet with the cells B4 through C6 filled in with probability distribution for type of newsday.
+            </para>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    
+    <para>The next table is the daily demand for newspapers based on the type of news day.  The table Distribution of Newspapers Demanded is in cells A11 through D18 of the Demand Tables worksheet as shown in <xref linkend="table-analysis-simulation-daily-demand"/> and contains the daily demand distribution values.  The cumulative distribution tables in cells A21 through G29, shown in <xref linkend="table-analysis-simulation-cumulative-demand"/> are derived values from the Distribution of Newspapers Demanded using values in the top Distribution of Newspapers demanded table.</para>
+
+    <table frame="all" id="table-analysis-simulation-daily-demand"> 
+      <title>Daily newspaper demand distribution table in Demand Tables worksheet</title>
+      <tgroup cols="4"><tbody>
+
+      <row>
+        <entry>
+          <para/>
+        </entry>
+        <entry>
+          <para><emphasis>A</emphasis></para>
+        </entry>
+        <entry>
+          <para><emphasis>B</emphasis></para>
+        </entry>
+        <entry>
+          <para><emphasis>C</emphasis></para>
+        </entry>
+        <entry>
+          <para><emphasis>D</emphasis></para>
+        </entry>
+      </row>
+
+      <row>
+        <entry>
+          <para><emphasis>11</emphasis></para>
+        </entry>
+        <entry>
+          <para>Demand</para>
+        </entry>
+        <entry>
+          <para>Good</para>
+        </entry>
+        <entry>
+          <para>Fair</para>
+        </entry>
+        <entry>
+          <para>Poor</para>
+        </entry>
+      </row>
+      <row>
+        <entry>
+          <para><emphasis>12</emphasis></para>
+        </entry>
+        <entry>
+          <para>40</para>
+        </entry>
+        <entry>
+          <para>0.03</para>
+        </entry>
+        <entry>
+          <para>0.1</para>
+        </entry>
+        <entry>
+          <para>0.44</para>
+        </entry>
+      </row>
+      <row>
+        <entry>
+          <para><emphasis>13</emphasis></para>
+        </entry>
+        <entry>
+          <para>50</para>
+        </entry>
+        <entry>
+          <para>0.05</para>
+        </entry>
+        <entry>
+          <para>0.18</para>
+        </entry>
+        <entry>
+          <para>0.22</para>
+        </entry>
+      </row>
+      <row>
+        <entry>
+          <para><emphasis>14</emphasis></para>
+        </entry>
+        <entry>
+          <para>60</para>
+        </entry>
+        <entry>
+          <para>0.15</para>
+        </entry>
+        <entry>
+          <para>0.4</para>
+        </entry>
+        <entry>
+          <para>0.16</para>
+        </entry>
+      </row>
+      <row>
+        <entry>
+          <para><emphasis>15</emphasis></para>
+        </entry>
+        <entry>
+          <para>70</para>
+        </entry>
+        <entry>
+          <para>0.2</para>
+        </entry>
+        <entry>
+          <para>0.2</para>
+        </entry>
+        <entry>
+          <para>0.16</para>
+        </entry>
+      </row>
+      <row>
+        <entry>
+          <para><emphasis>16</emphasis></para>
+        </entry>
+        <entry>
+          <para>80</para>
+        </entry>
+        <entry>
+          <para>0.35</para>
+        </entry>
+        <entry>
+          <para>0.08</para>
+        </entry>
+        <entry>
+          <para>0.06</para>
+        </entry>
+      </row>
+      <row>
+        <entry>
+          <para><emphasis>17</emphasis></para>
+        </entry>
+        <entry>
+          <para>90</para>
+        </entry>
+        <entry>
+          <para>0.15</para>
+        </entry>
+        <entry>
+          <para>0.04</para>
+        </entry>
+        <entry>
+          <para>0</para>
+        </entry>
+      </row>
+      <row>
+        <entry>
+          <para><emphasis>18</emphasis></para>
+        </entry>
+        <entry>
+          <para>100</para>
+        </entry>
+        <entry>
+          <para>0.07</para>
+        </entry>
+        <entry>
+          <para>0</para>
+        </entry>
+        <entry>
+          <para>0</para>
+        </entry>
+      </row>
+    </tbody></tgroup>
+    </table>
+
+    
+    <table frame="all" id="table-analysis-simulation-cumulative-demand"> <title>Cumulative demand distribution table in Demand Tables worksheet</title>
+    <tgroup cols="8"><tbody>
+
+      <row>
+        <entry>
+          <para/>
+        </entry>
+        <entry>
+          <para><emphasis>A</emphasis></para>
+        </entry>
+        <entry>
+          <para><emphasis>B</emphasis></para>
+        </entry>
+        <entry>
+          <para><emphasis>C</emphasis></para>
+        </entry>
+        <entry>
+          <para><emphasis>D</emphasis></para>
+        </entry>
+        <entry>
+          <para><emphasis>E</emphasis></para>
+        </entry>
+        <entry>
+          <para><emphasis>F</emphasis></para>
+        </entry>
+        <entry>
+          <para><emphasis>G</emphasis></para>
+        </entry>
+      </row>
+
+  
+      <row>
+        <entry>
+          <para><emphasis>21</emphasis></para>
+        </entry>
+        <entry>
+          <para/>
+        </entry>
+        <entry>
+          Cumulative Distribution
+        </entry>
+        <entry>
+          <para/>
+        </entry>
+        <entry>
+          <para/>
+        </entry>
+        <entry>
+          <para>Values</para>
+        </entry>
+        <entry>
+          <para/>
+        </entry>
+        <entry>
+          <para/>
+        </entry>
+      </row>
+  
+      <row>
+        <entry>
+          <para><emphasis>22</emphasis></para>
+        </entry>
+        <entry>
+          <para>Demand</para>
+        </entry>
+        <entry>
+          <para>Good</para>
+        </entry>
+        <entry>
+          <para>Fair</para>
+        </entry>
+        <entry>
+          <para>Poor</para>
+        </entry>
+        <entry>
+          <para>Good</para>
+        </entry>
+        <entry>
+        <para>Fair</para>
+        </entry>
+        <entry>
+          <para>Poor</para>
+        </entry>    
+      </row>
+  
+      <row>
+        <entry>
+          <para><emphasis>23</emphasis></para>
+        </entry>
+        <entry>
+          <para>40</para>
+        </entry>
+        <entry>
+          <para>0.03</para>
+        </entry>
+        <entry>
+          <para>0.1</para>
+        </entry>
+        <entry>
+          <para>0.44</para>
+        </entry>
+        <entry>
+          <para>0</para>
+        </entry>
+        <entry>
+        <para>0</para>
+        </entry>
+        <entry>
+          <para>0</para>
+        </entry>    
+      </row>
+
+      <row>
+        <entry>
+          <para><emphasis>24</emphasis></para>
+        </entry>
+        <entry>
+          <para>50</para>
+        </entry>
+        <entry>
+          <para>0.08</para>
+        </entry>
+        <entry>
+          <para>0.28</para>
+        </entry>
+        <entry>
+          <para>0.66</para>
+        </entry>
+        <entry>
+          <para>0.03</para>
+        </entry>
+        <entry>
+        <para>0.1</para>
+        </entry>
+        <entry>
+          <para>0.44</para>
+        </entry>
+      </row>
+  
+      <row>
+        <entry>
+          <para><emphasis>25</emphasis></para>
+        </entry>
+        <entry>
+          <para>60</para>
+        </entry>
+        <entry>
+          <para>0.23</para>
+        </entry>
+        <entry>
+          <para>0.68</para>
+        </entry>
+        <entry>
+          <para>0.82</para>
+        </entry>
+        <entry>
+          <para>0.08</para>
+        </entry>
+        <entry>
+        <para>0.28</para>
+        </entry>
+        <entry>
+          <para>0.66</para>
+        </entry>
+      </row>
+
+      <row>
+        <entry>
+          <para><emphasis>26</emphasis></para>
+        </entry>
+        <entry>
+          <para>70</para>
+        </entry>
+        <entry>
+          <para>0.43</para>
+        </entry>
+        <entry>
+          <para>0.88</para>
+        </entry>
+        <entry>
+          <para>0.94</para>
+        </entry>
+        <entry>
+          <para>0.23</para>
+        </entry>
+        <entry>
+        <para>0.68</para>
+        </entry>
+        <entry>
+          <para>0.82</para>
+        </entry>
+      </row>
+
+      <row>
+        <entry>
+          <para><emphasis>27</emphasis></para>
+        </entry>
+        <entry>
+          <para>80</para>
+        </entry>
+        <entry>
+          <para>0.78</para>
+        </entry>
+        <entry>
+          <para>0.96</para>
+        </entry>
+        <entry>
+          <para>1</para>
+        </entry>
+        <entry>
+          <para>0.43</para>
+        </entry>
+        <entry>
+        <para>0.88</para>
+        </entry>
+        <entry>
+          <para>0.94</para>
+        </entry>
+      </row>
+
+      <row>
+        <entry>
+          <para><emphasis>28</emphasis></para>
+        </entry>
+        <entry>
+          <para>90</para>
+        </entry>
+        <entry>
+          <para>0.93</para>
+        </entry>
+        <entry>
+          <para>1</para>
+        </entry>
+        <entry>
+          <para></para>
+        </entry>
+        <entry>
+          <para>0.78</para>
+        </entry>
+        <entry>
+        <para>0.96</para>
+        </entry>
+        <entry>
+          <para>1</para>
+        </entry>
+      </row>
+
+      <row>
+        <entry>
+          <para><emphasis>29</emphasis></para>
+        </entry>
+        <entry>
+          <para>100</para>
+        </entry>
+        <entry>
+          <para>1</para>
+        </entry>
+        <entry>
+          <para></para>
+        </entry>
+        <entry>
+          <para></para>
+        </entry>
+        <entry>
+          <para>0.93</para>
+        </entry>
+        <entry>
+          <para>1</para>
+        </entry>
+        <entry>
+          <para></para>
+        </entry>
+      </row>
+    </tbody></tgroup>
+    </table>
+    
+    <para>When these values are entered, the final results will look like <xref linkend="fig-simulation-example-daily-demand" />.</para>
+    
+    <figure id="fig-simulation-example-daily-demand">
+      <title>Completed probability distribution tables in Demand Tables worksheet</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+              <imagedata fileref="figures/analysis-simulation-demand-ex2.png" format="PNG" />
+          </imageobject>
+          <textobject>
+            <para>
+              Screenshot of Demand tab for the newsvendor example with probability distribution for type of newsday in cells A21 through G29.
+            </para>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    
+    <para>Finally, back in the Profit tab, the demand data will be filled in through the use of references to the Demand Tables tab as shown in <xref linkend="fig-simulation-example-profit-sheet" />. </para>
+
+    <para>In the following cells, enter the equations below in the 'Profit' tab:</para>
+
+    <itemizedlist>
+      <listitem><para>B17: =rand()</para></listitem>
+      <listitem><para>C17: =if(B17&lt;'Demand Tables'!C4,"Good",if(C19&lt;'Demand Tables'!C5,"Fair","Poor"))</para></listitem>
+      <listitem><para>B18: =rand()</para></listitem>
+      <listitem><para>B20: =lookup($C17,$B23:$D23,$B24:$D24)</para></listitem>
+      <listitem><para>B21: =E12</para></listitem>
+      <listitem><para>B24: =lookup(Profit!$B18,'Demand Tables'!E23:E29,'Demand Tables'!$A23:$A29)</para></listitem>
+      <listitem><para>C24: =lookup(Profit!$B18,'Demand Tables'!F23:F29,'Demand Tables'!$A23:$A29)</para></listitem>
+      <listitem><para>D24: =lookup(Profit!$B18,'Demand Tables'!G23:G29,'Demand Tables'!$A23:$A29)</para></listitem>
+    </itemizedlist>
+        
+    <figure id="fig-simulation-example-profit-sheet">
+      <title>Profit table for newsvendor example</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+              <imagedata fileref="figures/analysis-simulation-profit-ex2.png" format="PNG" />
+          </imageobject>
+          <textobject>
+            <para>
+              This screenshot depicts the profit sheet for the newsvendor example after references to demands are included in cells B17 through B21 and cells B24 through D24.
+            </para>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+    
+    <para>When done, the Profit spreadsheet will be setup with a profit equation, decision variables, and random events as shown in <xref linkend="fig-simulation-example-profit-sheet" />.  The <function>rand()</function> functions in cells C17 and C18 return a random value between 0 and 1, which are used by the <function>lookup()</function> functions in cells B20, B24, C24 and D24 to calculate a randomly determined daily demand.  Next, this sheet will be used for analysis through the use of simulation.</para>
+  </sect2>
+  <sect2 id ="sect-advanced-analysis-simulation-running">
+    <title>Running the simulation</title>
+    <para>To run the simulation, from the Gnumeric toolbar, select Tools → Simulation.  In the Risk Simulation dialog box that appears, the first tab is the Variables tab.  There are two entries in the Variables tab:  Input variables and Output variables (<xref linkend="analysis-simulation-variables-dialog" />).</para>
+    
+
+    <figure id="analysis-simulation-variables-dialog">
+      <title>Variables tab in simulation dialog box</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+              <imagedata fileref="figures/analysis-simulation-variables-dialog.png" format="PNG" />
+          </imageobject>
+          <textobject>
+            <para>
+              Screenshot of the simulation dialog with input and output variables filled in for the newsvendor example.
+            </para>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>    
+    
+    <para>Input variables are the cells which hold the functions based on random numbers of the type described in Section A.14.  In this case, they are the cells B17 and B18 in the Profit worksheet, which hold the rand() function.  Later, when the quantity purchased is a parameter set by the <function>SIMTABLE</function> function, cell B16 which holds the purchase quantity will be added to the range of input variables.</para>
+    
+    <para>Output variables are the results of interest, or the dependent variable.  In this case, the dependent variables are the demand and the profit, which are in cells B20 and B21.</para>
+    
+    <para>The next tab is the Options tab .  There are four settings in the options as shown in <xref linkend="fig-analysis-simulation-options-dialog" />. </para>
+    
+    <figure id="fig-analysis-simulation-options-dialog">
+      <title>Options tab in Simulation dialog box for newsvendor simulation example</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+              <imagedata fileref="figures/analysis-simulation-options-dialog.png" format="PNG" />
+          </imageobject>
+          <textobject>
+            <para>
+              Options tab in simulations dialog showing Rounds and number of iterations.
+            </para>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure> 
+    
+    <para>The second pair of options are the number of iterations and the Max time.  In a simulation, each iteration is the equivalent of a sample.  A sample from a random distribution is taken for each of the input values (as specified in the Variables tab) and the resulting output value(s).  The more iterations, the better the estimate of the output value.  However, this also takes more time to run.  A Max time value is specified in seconds where the simulation will end without output if an individual simulation takes longer then the Max time alloted.  If this occurs (see <xref linkend="fig-analysis-simulation-maximumtime-dialog" />), the options are to either increase the Max time value, or decrease the number of iterations.  A more drastic option is to change the model so that fewer calculations or samples of random numbers need to be made.</para>
+    
+    <figure id="fig-analysis-simulation-maximumtime-dialog">
+      <title>Maximum time for simulation exceeded message box</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+              <imagedata fileref="figures/analysis-simulation-maximumtime-dialog.png" format="PNG" />
+          </imageobject>
+          <textobject>
+            <para>
+              Dialog to warn that the maximum time for the simulation was exceeded.
+            </para>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure> 
+    
+    <para>The next tab is the Summary.  There are two boxes in this tab, the Simulation Summary and the Summary of results (see <xref linkend="fig-analysis-simulation-summary-dialog" />).  In simulation summary, there is a description of the simulation parameters.</para>
+    
+    <note> 
+      <para>Due to the random nature of the simulation, the output may vary between simulation runs). </para>
+    </note>
+    
+    <figure id="fig-analysis-simulation-summary-dialog">
+      <title>Summary tab for simulation tool</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+              <imagedata fileref="figures/analysis-simulation-summary-dialog.png" format="PNG" />
+          </imageobject>
+          <textobject>
+            <para>
+              Simulation summary tab inside of simulation dialog box including summary of simulation options and summary of results.
+            </para>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure> 
+    
+    <itemizedlist>
+      <listitem><para>Simulations:  Number of rounds as determined in the Simulation Options box.
+      </para></listitem>
+      <listitem><para>
+      Iterations:  Number of iterations in a single simulation round.
+      </para></listitem>
+      <listitem><para>
+      # input variables:  Number of random numbers sampled for each iteration. 
+      </para></listitem>
+      <listitem><para># output variables:  Number of outputs recorded for simulation</para></listitem>
+      <listitem><para>Runtime: Runtime of simulations in seconds.</para></listitem>
+      <listitem><para>Run on: Date and time simulation was run.</para></listitem>
+    </itemizedlist>
+
+    <para>In the summary of results window, there are summary statistics for each round of the simulation.  If multiple rounds were done, the results of each round can be browsed by using the 'Prev. Sim.' and 'Next Sim.' buttons below the Summary of results box.  For each output and input variable, the summary shows the Min,  Average and the Max value across the iterations for that round of the simulation.  Note that for the input variables, this shows the random number that is the average, max and min.  If the statistics on intermediate values, such as a cost distribution, was desired, these intermediate values should be added to the list of output variables.</para>
+    
+    <para>The last tab is labeled 'Output'.  This tab identifies the location where the output table will be generated.  There are two sets of options, first the Output Placement then Output Formatting as shown in <xref linkend="fig-analysis-simulation-output-dialog" />.</para>
+    
+    <figure id="fig-analysis-simulation-output-dialog">
+      <title>Output options tab for simulation</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+              <imagedata fileref="figures/analysis-simulation-output-dialog.png" format="PNG" />
+          </imageobject>
+          <textobject>
+            <para>
+            Output tab inside of simulation dialog box showing options for output placement and output formatting.
+            </para>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure> 
+    
+    <para>The default output placement is 'New sheet'.  This will create a new sheet in the Gnumeric workbook labeled 'Simulation Report (1)', where '1' can be replaced with another number if a tab labeled 'Simulation Report (1)' already exists.  The option 'New workbook' creates a Gnumeric workbook named 'Book2.gnumeric' with a tab labeled 'Simulation Report.'</para>
+    
+    <para>The third option is to embed the output table into an existing worksheet.  This is done by specifying the 'Output range'.  Note that the output range must be large enough to include the entire table, including heading information.  For a single round this requires 11 rows and 16 columns.  For example, the range Profit!A24:P35 would contain the statistics for one round with the three input variables and two output variables.  As input and output variables change, or the number of rounds of the simulation change, the number of rows required will change.</para>
+    
+    <para>For output formatting, their are four options.</para>
+
+    <itemizedlist>
+      <listitem><para>'Autofit columns' automatically makes each column long enough to include the largest entry in that column.  Note that column 'A' in the resulting spreadsheet used to save run information such as date and time and is kept narrow.</para></listitem>
+      <listitem><para>'Clear output range' is in effect if the Output Placement option chosen is Output range.  It clears the selected cells in the spreadsheet before putting hte output table in its place.</para></listitem>
+      <listitem><para>'Retain output range formatting' retains formatting for cells such as number formatting.</para></listitem>
+      <listitem><para>'Retain output range comments' retains comments that have been placed in output cells.  This is most useful when the input and output variables remained the same.</para></listitem>
+    </itemizedlist>
+    </sect2>
+    <sect2 id="sect-advanced-analysis-simulation-output">
+      <title>Simulation output</title>
+      <para>The simulation output provides statistics on the output and input variables for each round.  The statistics are calculated over the iterations in a single round of the simulation.  These statistics for each variable are:</para>
+      
+      <itemizedlist>
+        <listitem><para>Variable type and name - input variables are labeled as '(Input)'.</para></listitem>
+        <listitem><para>Min – Minimum value of variable among iterations of round.</para></listitem>
+        <listitem><para>Mean – Arithmetic mean of variable among iterations of round.</para></listitem>
+        <listitem><para>Max – Maximum value of variable among all iterations of round.</para></listitem>
+        <listitem><para>Median – Median of variable among iterations of round.</para></listitem>
+        <listitem><para>Mode – Mode value among iterations of round.  For the input variable, this will be “#N/A”.</para></listitem>
+        <listitem><para>Std. Dev. - Standard deviation of the variable.</para></listitem>
+        <listitem><para>Variance – Second moment of variable.</para></listitem>
+        <listitem><para>Skewness -  Third moment of variable.</para></listitem>
+        <listitem><para>Kurtosis – Fourth moment of variable.</para></listitem>
+        <listitem><para>Range – Difference between min and max of variable among iterations of the round.</para></listitem>
+        <listitem><para>Count – Number of iterations in round.</para></listitem>
+        <listitem><para>Confidence (95%) - 95% confidence interval of value, centered on mean.</para></listitem>
+        <listitem><para>Lower Limit (95%) - Lower limit of 95% confidence interval of the value, centered on the mean.</para></listitem>
+        <listitem><para>Upper Limit (95%) - Upper limit of 95% confidence interval of the value, centered on the mean.</para></listitem>
+      </itemizedlist>
+      
+			
+      <figure id="fig-analysis-simulation-report-screen">
+        <title>Simulation output example</title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+                <imagedata fileref="figures/analysis-simulation-report-screen.png" format="PNG" />
+            </imageobject>
+            <textobject>
+              <para>
+              Simulation output spreadsheet including input and output variable statistics.
+              </para>
+            </textobject>
+          </mediaobject>
+        </screenshot>
+      </figure> 
+      
+      <para>The output will include a heading, then a table for each round of the simulation.  Judicious choice of output variables will also include any intermediate values of interest in the simulation in this table.  Each row of the output table has statistics of the values of a variable over the interations of the simulation as shown in <xref linkend="fig-analysis-simulation-report-screen"/>. </para>
+      
+      <para>The output will be of the input variables and the output variables that were variables tab of the Simulation window .  For the input variables, the output will be the statistics of the random variable used in modeling the input variables.  For the output variables, the statistics will be of the output variable.  These statistics, in particular the standard deviation and confidence interval, should be examined to ensure the simulation was at a precision adequate for the purpose.  Some notes on how to use these statistics for refining the simulation design can be found in <xref linkend="sect-advanced-analysis-simulation-iterations"/>. </para>
+
+    </sect2>
+  <sect2 id="sect-advanced-analysis-simulation-simtable">
+    <title>Using SIMTABLE</title>
+    
+    <para>The <function>SIMTABLE</function> function is intended to change a variable in the simulation so that each round of the simulation can be used to evaluate a different scenario.  This automates the use of simulation for what-if questions or to create a set of possible outcomes to a situation.</para>
+    
+    <para>In this example, we will use the <function>SIMTABLE</function> function to find the optimal quantity of newspapers to buy.  For the purchase quantity in our spreadsheet, we will replace '50' with the following formula in Profit!B16:</para>
+    
+    <programlisting>
+    Profit!B16 = SIMTABLE(50,60,70,80,90)
+    </programlisting>
+      
+    <para>Each entry in the list of the <function>SIMTABLE</function> arguments is a value that will be used for the purchased quantity.  Each entry corresponds to one round of simulation, as used in <xref linkend="fig-analysis-simulation-options-dialog" />.  In this example there are 5 entries to the SIMTABLE list, so '5' will be entered into the 'Last Round #' option in the Options tab of the Simulation dialog. </para>
+    
+    <figure id="fig-analysis-simulation-simtable-screen">
+      <title>Simulation output example using SIMTABLE and several rounds </title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+              <imagedata fileref="figures/analysis-simulation-simtable-screen.png" format="PNG" />
+          </imageobject>
+          <textobject>
+            <para>
+            Simulation output example using SIMTABLE and several rounds.
+            </para>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure> 
+    
+    <para>When this simulation is run with 5 rounds, the summary of results  will have one entry for each round, with each round using a different entry from the <function>SIMTABLE</function> function for the purchase quantity.  The results for the various rounds can be previewed using the 'Prev. Sim.' and 'Next Sim.' buttons.  The output also has one table for each round of the simulation.</para>
+    
+    <para>As seen in <xref linkend="fig-analysis-simulation-simtable-screen" />, each value in the original SIMTABLE statement corresponds to a simulation round, with the Purchase Quantity taking on the value from the SIMTABLE list.  The analyst can then record the Profit statistics (mean, variance, skewness, kurtosis, 95% confidence intervals) and determine if the simulation results are of sufficient resolution for the analysts purposes.</para>
+    
+    <para>The use of SIMTABLE to change parameters within the simulation provides a convenient method to do what-if analysis, and analyze the results as a whole.</para>
+  </sect2>
+  
+  <sect2 id="sect-advanced-analysis-simulation-iterations">
+    <title>Determining the number of iterations</title>
+    
+    <para>In simulation, one major question is how many iterations are needed to reach a chosen level of precision in the results.  Simulation as a tool provides an approximation of the actual relationship between the input and output variables.  The precision of the approximation is based on the number of iterations of the simulation done.   More iterations in the sample lead to greater precision.  But the relationship between iterations and precision depends on the relationship between the variables in the precision.  In addition, the analyst must decide which output variable is the variable of interest, and what degree of precision is required.  The next step is to determine a sufficiently large number of iterations
+      <inlineequation>
+        <alt>$R$</alt>
+        <mathphrase>R</mathphrase>
+      </inlineequation> 
+    be used to satisfy:    
+    <informalequation>
+      <alt>\[ P\left(\left|\left(\widehat{\Theta}-\Theta\right)\right| \leq \epsilon \right) \geq 1-\alpha \]</alt>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/analysis-simulation-confidence-interval-equation.png"/>
+        </imageobject>
+        <textobject>
+          <para>The probability that the difference between the actual mean and the sample mean is less than epsilon is 1 - alpha.</para>
+        </textobject>
+      </mediaobject>
+    </informalequation>
+    </para>		
+    <para>Where 
+    <inlineequation> 
+      <alt>$\widehat{\Theta}$ </alt>
+      <mathphrase>&THgr;-hat</mathphrase>
+    </inlineequation> is the estimate of the mean, 
+    <inlineequation>
+      <alt>$\Theta$</alt>
+      <mathphrase>&THgr;</mathphrase>
+    </inlineequation> is the actual mean, &egr; is the specified error, and (1-&agr;) is the probability that the estimate is within &egr; of the actual value (i.e. the (1-&agr;) confidence interval). 
+    Common values of (1-&agr;) are 95% and 99%. 
+    The Simulation Report from Gnumeric includes values for the 95% confidence interval as shown in <xref linkend="fig-analysis-simulation-report-screen" />.
+		</para>
+		
+    <para>The general procedure is as follows:<footnote>
+    <para>Adapted from Banks et. al. Discrete-Event System Simulation, 3rd Edition, pp. 414-416.</para>
+    </footnote>
+    </para>
+		
+    <orderedlist>
+    <listitem><para>Run simulation for a sample of
+    <inlineequation>
+      <alt>$R_0$</alt>
+      <mathphrase> R<subscript>0</subscript></mathphrase>
+    </inlineequation> iterations. 
+    The default value in Gnumeric is 1000, set in the options tab of the Simulation menu, <xref linkend="fig-analysis-simulation-options-dialog"/>. </para></listitem>
+    <listitem><para>Take the sample variance
+    <inlineequation>
+      <alt>$S_0^2$</alt>
+      <mathphrase> S<subscript>0</subscript><superscript>2</superscript></mathphrase>
+    </inlineequation> from the simulation output spreadsheet and determine the sample standard deviation 
+    <inlineequation>
+      <alt>$S_0$</alt>
+      <mathphrase> S<subscript>0</subscript></mathphrase>
+    </inlineequation>
+    (see <xref linkend="fig-analysis-simulation-report-screen" />). </para></listitem>
+    
+    <listitem><para>Using
+    <inlineequation>
+      <alt>$z_{\alpha/2}$</alt>
+      <mathphrase>z<subscript>&agr;/2</subscript></mathphrase>
+    </inlineequation>
+    as the z-value of the 
+    <inlineequation>
+      <alt>$(1-(\alpha/2))$</alt>
+      <mathphrase>(1-(&agr;/2))</mathphrase>
+    </inlineequation> percentile of the standard normal distribution, set the initial estimate of the number of iterations required as the smallest integer 
+    <inlineequation>
+      <alt> $R$</alt>
+      <mathphrase>R</mathphrase>
+    </inlineequation> 
+    such that 
+    <equation><title>Iterations required for simulation</title>
+      <alt> $R \geq \left(\frac{z_{\alpha/2}S_0}{\epsilon}\right)^2$</alt>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/analysis-simulation-interations-equation1.png" format="PNG"/>
+        </imageobject>
+        <textobject>
+          <para> R is greater than equal to z of alpha divided by 2, times standard deviation, divided by epsilon.  Quantity squared.
+          </para>
+        </textobject>
+      </mediaobject>
+    </equation>.  Note that if 
+    <inlineequation>
+      <alt> $R_0$ </alt>
+      <mathphrase>R<subscript>0</subscript></mathphrase>
+    </inlineequation> is small, it would be more appropriate to use the student's t-distribution of 
+    <inlineequation>
+      <alt> $t_{\alpha/2, R_0}$ </alt> 
+      <mathphrase>t<subscript>&agr;/2, R<subscript>0</subscript></subscript></mathphrase>
+    </inlineequation> instead of  
+    <inlineequation>
+      <alt> $z_{\alpha/2}$</alt>
+      <mathphrase>z<subscript>&agr;/2</subscript></mathphrase>
+    </inlineequation>.
+    </para></listitem>
+    
+    </orderedlist>
+    
+    <para>In this example, to estimate the profit to within
+      <inlineequation>
+        <alt>$\epsilon = 0.05$</alt>
+        <mathphrase>&egr;=0.05</mathphrase>
+      </inlineequation>
+        , first run the simulation with 1000 iterations and a purchase quantity of 50 results in the following </para>
+
+    <para>
+      <informaltable frame="all">
+      <tgroup cols="4"><tbody>
+      <row>
+      <entry>
+      <para/>
+      </entry>
+      <entry>
+      <para>Mean</para>
+      </entry>
+      <entry>
+      <para>Variance</para>
+      </entry>
+      <entry>
+      <para>Confidence (95%)</para>
+      </entry>
+      </row>
+      <row>
+      <entry>
+      <para>Demand QUANTITY</para>
+      </entry>
+      <entry>
+      <para>59.19</para>
+      </entry>
+      <entry>
+      <para>152.4</para>
+      </entry>
+      <entry>
+      <para>0.64</para>
+      </entry>
+      </row>
+      <row>
+      <entry>
+      <para>Profit QUANTITY</para>
+      </entry>
+      <entry>
+      <para>7.85</para>
+      </entry>
+      <entry>
+      <para>2.51</para>
+      </entry>
+      <entry>
+      <para>0.08</para>
+      </entry>
+      </row></tbody></tgroup>
+      </informaltable>
+    </para>
+    <para/>
+		
+    <para>Taking the variance of the table, and setting
+      <inlineequation>
+        <alt>$\epsilon = 0.05$</alt>
+        <mathphrase>&egr;=0.05</mathphrase>
+      </inlineequation>
+      and 
+      <inlineequation>
+        <alt>$\alpha = 0.05$</alt>
+        <mathphrase>&agr;=0.05</mathphrase>
+      </inlineequation>, lookup 
+      <inlineequation>
+        <alt>$z_{\alpha/2}$</alt> 
+        <mathphrase>z<subscript>&agr;/2</subscript></mathphrase>
+      </inlineequation> from a standard normal table.  
+      <inlineequation>
+        <alt>$z_{\alpha/2}=1.96$</alt>
+        <mathphrase>z<subscript>&agr;/2=1.96</subscript></mathphrase>
+      </inlineequation> so we have</para>
+    <para/>  
+    <para>
+    <informalequation>
+      <alt> $R \geq \left(\frac{1.96 \times \sqrt{2.51}}{0.05}\right)^2 \geq 3856.8$</alt> 
+      <graphic fileref="figures/analysis-simulation-interations-equation2.png"/>
+    </informalequation>.
+    </para>
+    <para/>
+    <para>Therefore, the minimum number of iterations is 3857.  The simulation can then be re-run with 3857 iterations to create a 95% c.i for profit where 
+    <inlineequation>
+      <alt>$\epsilon \leq 0.05$ </alt>
+      <mathphrase>&egr; &lt;=0.05</mathphrase>
+    </inlineequation>
+         
+    In this example with 3857 iterations, we get the following Simulation Report table: </para>
+    <para/>
+    <informaltable frame="all">
+    <tgroup cols="4"><tbody>
+    <row>
+    <entry>
+    <para/>
+    </entry>
+    <entry>
+    <para>Mean</para>
+    </entry>
+    <entry>
+    <para>Variance</para>
+    </entry>
+    <entry>
+    <para>Confidence (95%)</para>
+    </entry>
+    </row>
+    <row>
+    <entry>
+    <para>Demand QUANTITY</para>
+    </entry>
+    <entry>
+    <para>59.11</para>
+    </entry>
+    <entry>
+    <para>163.9</para>
+    </entry>
+    <entry>
+    <para>0.34</para>
+    </entry>
+    </row>
+    <row>
+    <entry>
+    <para>Profit QUANTITY</para>
+    </entry>
+    <entry>
+    <para>7.72</para>
+    </entry>
+    <entry>
+    <para>2.88</para>
+    </entry>
+    <entry>
+    <para>0.04</para>
+    </entry>
+    </row></tbody></tgroup>
+    </informaltable>
+    <para/>
+    <para>As expected, the 95% Confidence interval for Profit is less than 0.05. For the newsvendor example, the next step would be to look at the confidence intervals of the profit for all values of purchase quantity, and verify that this confidence interval is adequate for the decision to be made.  </para>
+    <para/>
+  <para/></sect2>
 </sect1>

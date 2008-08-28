@@ -7,8 +7,11 @@
 
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" 
 "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
--->
+
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" 
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+-->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
 
   <!ENTITY gnum "<application>Gnumeric</application>">
@@ -38,6 +41,10 @@
   <!ENTITY pound  "GBP">
   <!ENTITY curren  "Currency">
   -->
+  <!-- Character entity to provide greek letters in simulation chapter -->
+  <!ENTITY % iso-grk1 PUBLIC "ISO 8879:1986//ENTITIES Greek Letters//EN//XML"
+           "http://www.oasis-open.org/docbook/xmlcharent/0.3/iso-grk1.ent">
+  %iso-grk1;
 
   <!ENTITY legal                SYSTEM "legal.xml">
 
@@ -171,7 +178,7 @@
       <year>2005</year>
       <year>2004</year>
       <holder>Adrian Custer, Ray Dassen, Jody Goldberg, 
-              Andreas Guelzow.
+              Andreas Guelzow, Louis Luangkesorn.
       </holder> 
     </copyright>
   <!-- translators: uncomment this:
@@ -222,97 +229,102 @@
       <author> 
         <firstname>Eric</firstname>
         <surname>Baudais</surname> 
-        <email>baudais@okstate.edu</email>
+        <!-- email>baudais@chez@okstate.edu</email -->
       </author>
       <author> 
         <firstname>Kevin</firstname>
         <surname>Breit</surname>  
-       <email>mrproper@ximian.com</email>
+       <!-- email>mrproper@chez@ximian.com</email -->
       </author>
       <author> 
         <firstname>Thomas</firstname>
         <surname>Canty</surname> 
-        <email>tommydal@ihug.com.au</email>
+        <!-- email>tommydal@chez@ihug.com.au</email -->
       </author>
       <author> 
         <firstname>Adrian</firstname>
         <surname>Custer</surname> 
-        <email>acuster@gnome.org</email>
+        <!-- email>acuster@chez@gnome.org</email -->
       </author>
       <author> 
         <firstname>Ray</firstname>
         <surname>Dassen</surname> 
-        <email>jdassen@debian.org</email>
+        <!-- email>jdassen@chez@debian.org</email -->
       </author>
       <author>
         <firstname>Jody</firstname>
         <surname>Goldberg</surname> 
-        <email>jody@gnome.org</email>
+        <!-- email>jody@chez@gnome.org</email -->
       </author>
       <author> 
         <firstname>Andreas</firstname>
         <surname>Guelzow</surname> 
-        <email>aguelzow@taliesin.ca</email>
+        <!-- email>aguelzow@chez@taliesin.ca</email -->
       </author>
       <author> 
         <firstname>Jon K.</firstname>
         <surname>Hellan</surname> 
-        <email>hellan@acm.org</email>
+        <!-- email>hellan@chez@acm.org</email -->
       </author>
       <author> 
         <firstname>Miguel</firstname>
         <surname>de Icaza</surname>
-        <email>miguel@gnu.org</email>
+        <!-- email>miguel@chez@gnu.org</email -->
       </author>
       <author> 
         <firstname>Jukka-Pekka</firstname>
         <surname>Iivonen</surname> 
-        <email>jiivonen@hutcs.cs.hut.fi</email>
+        <!-- email>jiivonen@chez@hutcs.cs.hut.fi</email -->
       </author>
       <author> 
         <firstname>Alexander</firstname>
         <surname>Kirillov</surname> 
-        <email>kirillov@math.sunysb.edu</email>
+        <!-- email>kirillov@chez@math.sunysb.edu</email -->
       </author>
       <author> 
         <firstname>Sebastian</firstname>
         <surname>Klost</surname> 
-        <email>sebastian.klost@gmx.de</email>
+        <!-- email>sebastian.klost@chez@gmx.de</email -->
       </author>
       <author> 
         <firstname>Gregory</firstname>
         <surname>Leblanc</surname>
-        <email>gleblanc@linuxweasel.com</email>
+        <!-- email>gleblanc@chez@linuxweasel.com</email -->
+      </author>
+      <author> 
+        <firstname>Louis</firstname>
+        <surname>Luangkesorn</surname>
+        <!-- email>lluang@chez@yahoo.com</email -->
       </author>
       <author> 
         <firstname>Thomas</firstname>
         <surname>Miesbauer</surname> 
-        <email>thomas.miesbauer@web.de</email>
+        <!-- email>thomas.miesbauer@chez@web.de</email -->
       </author>
       <author> 
         <firstname>Wayne</firstname>
         <surname>Schuller</surname>
-        <email>k_wayne@linuxpower.org</email>
+        <!-- email>k_wayne@chez@linuxpower.org</email -->
       </author>
       <author> 
         <firstname>Almer S.</firstname>
         <surname>Tigelaar</surname>
-        <email>almer1@dds.nl</email>
+        <!-- email>almer1@chez@dds.nl</email -->
       </author>
       <author> 
         <firstname>Charles</firstname>
         <surname>Twardy</surname>
-        <email>ctwardy@mail.csse.monash.edu.au</email>
+        <!-- email>ctwardy@chez@mail.csse.monash.edu.au</email -->
       </author>
       <author> 
         <firstname>Aaron</firstname>
         <surname>Weber</surname>
-        <email>aaron@ximian.com</email>
+        <!-- email>aaron@chez@ximian.com</email -->
       </author>
       <author> 
         <firstname>Morten</firstname>
         <surname>Welinder</surname>
-        <email>terra@diku.dk</email>
+        <!-- email>terra@chez@diku.dk</email -->
       </author>
    <!-- This is appropriate place for other contributors: translators,
           maintainers,  etc. Commented out by default.

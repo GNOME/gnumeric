@@ -6,13 +6,11 @@
       <tbody>
       <row>
 	<entry>Miguel de Icaza</entry>
-	<entry>Creator</entry><entry>
-	<email>miguel@gnome.com</email></entry>
+	<entry>Creator</entry>
       </row>
       <row>
 	<entry>Jody Goldberg</entry>
-	<entry>Maintainer</entry><entry>
-	<email>jody@gnome.org</email></entry>
+	<entry>Maintainer</entry>
       </row>
       <row>
 	<entry>Morten Welinder</entry>
