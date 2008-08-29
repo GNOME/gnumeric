@@ -73,7 +73,6 @@
   </para>
 </note>
 
-<!-- TO UN_COMMENT WHEN 1.9 ROLLS AROUND
 <warning>
   <para>
     The 1.9 series of releases are unstable releases meant for
@@ -81,7 +80,6 @@
     release from the 1.8 series.
   </para>
 </warning>
--->
 
 
 <para>
@@ -242,7 +240,6 @@
 </para>
 
 
-<!-- UNCOMMENT WHEN 1.9 is released
 <para>
   <emphasis role="bold">The Gnumeric 1.9 Series of Releases for Developers</emphasis>
 </para>
@@ -276,7 +273,6 @@
       </para>
     </listitem>
 </para>
--->
 
 
 <para>
@@ -344,7 +340,7 @@
 </para>
 
 <para>
-  The 1.6 series of &gnum; includes
+  The 1.6 series of &gnum; included
   numerous improvements over the versions in the 1.4 series.
 
   <itemizedlist>
@@ -403,7 +399,7 @@
 </para>
         
 <para>
-  The 1.4 series of &gnum; include
+  The 1.4 series of &gnum; included
   numerous improvements over the versions in the 1.2 series.
 
   <itemizedlist>
