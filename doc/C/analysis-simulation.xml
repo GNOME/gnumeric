@@ -634,7 +634,7 @@
       </screenshot>
     </figure> 
     
-    <para>The second pair of options are the number of iterations and the Max time.  In a simulation, each iteration is the equivalent of a sample.  A sample from a random distribution is taken for each of the input values (as specified in the Variables tab) and the resulting output value(s).  The more iterations, the better the estimate of the output value.  However, this also takes more time to run.  A Max time value is specified in seconds where the simulation will end without output if an individual simulation takes longer then the Max time alloted.  If this occurs (see <xref linkend="fig-analysis-simulation-maximumtime-dialog" />), the options are to either increase the Max time value, or decrease the number of iterations.  A more drastic option is to change the model so that fewer calculations or samples of random numbers need to be made.</para>
+    <para>The second pair of options are the number of iterations and the Max time.  In a simulation, each iteration is the equivalent of a sample.  A sample from a random distribution is taken for each of the input values (as specified in the Variables tab) and the resulting output value(s).  The more iterations, the better the estimate of the output value.  However, this also takes more time to run.  A Max time value is specified in seconds where the simulation will end without output if an individual simulation takes longer then the Max time allotted.  If this occurs (see <xref linkend="fig-analysis-simulation-maximumtime-dialog" />), the options are to either increase the Max time value, or decrease the number of iterations.  A more drastic option is to change the model so that fewer calculations or samples of random numbers need to be made.</para>
     
     <figure id="fig-analysis-simulation-maximumtime-dialog">
       <title>Maximum time for simulation exceeded message box</title>
@@ -760,7 +760,7 @@
         </screenshot>
       </figure> 
       
-      <para>The output will include a heading, then a table for each round of the simulation.  Judicious choice of output variables will also include any intermediate values of interest in the simulation in this table.  Each row of the output table has statistics of the values of a variable over the interations of the simulation as shown in <xref linkend="fig-analysis-simulation-report-screen"/>. </para>
+      <para>The output will include a heading, then a table for each round of the simulation.  Judicious choice of output variables will also include any intermediate values of interest in the simulation in this table.  Each row of the output table has statistics of the values of a variable over the iterations of the simulation as shown in <xref linkend="fig-analysis-simulation-report-screen"/>. </para>
       
       <para>The output will be of the input variables and the output variables that were variables tab of the Simulation window .  For the input variables, the output will be the statistics of the random variable used in modeling the input variables.  For the output variables, the statistics will be of the output variable.  These statistics, in particular the standard deviation and confidence interval, should be examined to ensure the simulation was at a precision adequate for the purpose.  Some notes on how to use these statistics for refining the simulation design can be found in <xref linkend="sect-advanced-analysis-simulation-iterations"/>. </para>
 
