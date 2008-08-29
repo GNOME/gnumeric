@@ -1,3 +1,8 @@
+2008-08-29  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* dialog-simulation.c (simulation_ok_clicked_cb): Corrected error
+	message for sim.first_round > sim.last_round. [#537669]
+
 2008-07-08  Jody Goldberg <jody@gnome.org>
 
 	* dialog-quit.c (show_quit_dialog) : add mnemonics to the buttons. [#132131]

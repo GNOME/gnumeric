@@ -332,8 +332,9 @@ simulation_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	sim.last_round = gtk_spin_button_get_value (GTK_SPIN_BUTTON (w)) - 1;
 
 	if (sim.first_round > sim.last_round) {
-		err = (gchar *) N_("First round number should be greater or "
-				   "equal than the number of the last round.");
+		err = (gchar *) N_("First round number should be less than or "
+				   "equal to the number of the last round."
+				   );
 		goto out;
 	}
 

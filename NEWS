@@ -9,6 +9,7 @@ Jean:
 
 J.H.M. Dassen (Ray):
 	* Bumped goffice build dependency.
+	* Corrected error message for first_round > last_round. [#537669]
 
 Jody:
 	* Fix distcheck. [#540284]
