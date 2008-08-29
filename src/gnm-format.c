@@ -293,3 +293,38 @@ gnm_format_has_hour (GOFormat const *fmt,
 
 	return go_format_has_hour (fmt);
 }
+
+GOFormat *
+gnm_format_import (const char *fmt,
+		   GnmFormatImportFlags flags)
+{
+	GOFormat *res = go_format_new_from_XL (fmt);
+	size_t len;
+
+	if (!go_format_is_invalid (res))
+		return res;
+
+	len = strlen (fmt);
+	if ((flags & GNM_FORMAT_IMPORT_PATCHUP_INCOMPLETE) &&
+	    len > 0 &&
+	    fmt[len - 1] == '_') {
+		GString *fmt2 = g_string_new (fmt);
+		GOFormat *res2;
+
+		g_string_append_c (fmt2, ')');
+		res2 = go_format_new_from_XL (fmt2->str);
+		g_string_free (fmt2, TRUE);
+
+		if (!go_format_is_invalid (res2)) {
+			go_format_unref (res);
+			return res2;
+		}
+	}
+
+	if (flags & GNM_FORMAT_IMPORT_NULL_INVALID) {
+		go_format_unref (res);
+		res = NULL;
+	}
+
+	return res;
+}

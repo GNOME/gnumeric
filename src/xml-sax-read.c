@@ -53,6 +53,7 @@
 #include "sheet-object-cell-comment.h"
 #include "gnm-so-line.h"
 #include "gnm-so-filled.h"
+#include "gnm-format.h"
 #include "sheet-object-graph.h"
 #include "application.h"
 #include "xml-io.h"
@@ -90,12 +91,12 @@ attr_eq (const xmlChar *a, const char *s)
 static GOFormat *
 make_format (const char *str)
 {
-	GOFormat *res = go_format_new_from_XL (str);
-
-	if (go_format_is_invalid (res)) {
-		g_warning ("Ignoring invalid format [%s]",
-			   go_format_as_XL (res));
-		go_format_unref (res);
+	GOFormat *res =
+		gnm_format_import (str,
+				   GNM_FORMAT_IMPORT_NULL_INVALID |
+				   GNM_FORMAT_IMPORT_PATCHUP_INCOMPLETE);
+	if (!res) {
+		g_warning ("Ignoring invalid format [%s]", str);
 		return NULL;
 	}
 

@@ -1,3 +1,7 @@
+2008-08-29  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_wb_get_fmt): Handle broken 1.6 formats.
+
 2008-08-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* xlsx-read.c: Fixed axis position.

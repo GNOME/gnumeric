@@ -261,12 +261,12 @@ excel_wb_get_fmt (GnmXLImporter *importer, unsigned idx)
 		g_printerr ("Unknown format: 0x%x\n", idx);
 
 	if (ans) {
-		GOFormat *fmt = go_format_new_from_XL (ans);
-
-		if (go_format_is_invalid (fmt)) {
-			g_warning ("Ignoring invalid format [%s]",
-				   go_format_as_XL (fmt));
-			go_format_unref (fmt);
+		GOFormat *fmt =	gnm_format_import
+			(ans,
+			 GNM_FORMAT_IMPORT_NULL_INVALID |
+			 GNM_FORMAT_IMPORT_PATCHUP_INCOMPLETE);
+		if (!fmt) {
+			g_warning ("Ignoring invalid format [%s]", ans);
 			fmt = go_format_general ();
 			go_format_ref (fmt);
 		}

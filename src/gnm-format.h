@@ -45,6 +45,14 @@ GOFormat *gnm_format_for_date_editing (GnmCell const *cell);
 gboolean gnm_format_has_hour (GOFormat const *fmt,
 			      GnmValue const *value);
 
+typedef enum {
+	GNM_FORMAT_IMPORT_NULL_INVALID,
+	GNM_FORMAT_IMPORT_PATCHUP_INCOMPLETE
+} GnmFormatImportFlags;
+
+GOFormat *gnm_format_import (const char *fmt,
+			     GnmFormatImportFlags flags);
+
 /*
  * http://www.unicode.org/charts/PDF/U0080.pdf
  * http://www.unicode.org/charts/PDF/U2000.pdf
