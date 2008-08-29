@@ -1049,19 +1049,18 @@ static GnmFuncHelp const help_opt_rgw[] = {
 	/* xgettext:no-c-format */
 	F_("@FUNCTION=OPT_RGW\n"
 
-	   "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)"
+	   "@SYNTAX=OPT_RGW(spot,strike,t1,t2,rate,d,volatility)"
 	   "\n"
 	   "@DESCRIPTION="
 	   "OPT_RGW models the theoretical price of an american option according to "
 	   "the Roll-Geske-Whaley approximation where: \n"
-	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
 
 	   "@spot is the spot price of the underlying asset.\n"
 	   "@strike is the strike price at which the option is struck.\n"
 	   "@t1 is the time to the dividend payout.\n"
 	   "@t2 is the time to option expiration.\n"
 	   "@rate is the annualized rate of interest.\n"
-	   "@d is the amount of the dividend to be paid.\n"
+	   "@d is the amount of the dividend to be paid expressed in currency.\n"
 	   "@volatility is the annualized rate of volatility of the underlying asset.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -2351,7 +2350,7 @@ GnmFuncDescriptor const derivatives_functions [] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
 	{ "opt_rgw",
-	  "fffffff", N_("call_put_flag, spot, strike, t1, t2, rate, d, volatility"),
+	  "fffffff", N_("spot, strike, t1, t2, rate, d, volatility"),
 	  help_opt_rgw, opt_rgw, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 
