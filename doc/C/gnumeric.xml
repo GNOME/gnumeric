@@ -32,19 +32,32 @@
                              SC,
                              GNU oleo">
 
-  <!-- Some extra enties to help validation -->
-  <!-- Why? These are defined within docbook, no? What tool needs these? -avc -->
-  <!--
-  <!ENTITY mdash  "-">
-  <!ENTITY hellip  "...">
-  <!ENTITY yen    "JPY">
-  <!ENTITY pound  "GBP">
-  <!ENTITY curren  "Currency">
+  <!--	Some extra entities to help validation.
+
+	Even though entities like pound, mdash, and nbsp are defined within
+	DocBook, they are not available by default and need to be imported.
+	Without these imports, xmllint (without dash dash valid) will fail
+	with errors like "parser error : Entity 'nbsp' not defined".
+
+	For details on the entities defined within DocBook, refer to the
+	"DocBook Character Entity Reference" section of "DocBook: The
+	Definitive Guide", http://www.docbook.org/tdg/ .
   -->
+
+  <!-- For mdash, hellip and friends -->
+  <!ENTITY % isopub PUBLIC "ISO 8879:1986//ENTITIES Publishing//EN//XML"
+           "http://www.oasis-open.org/docbook/xmlcharent/0.3/iso-pub.ent">
+  %isopub;
+
+  <!-- For nbsp, pound, yen and friends -->
+  <!ENTITY % isonum PUBLIC "ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN//XML"
+           "http://www.oasis-open.org/docbook/xmlcharent/0.3/iso-num.ent">
+  %isonum;
+
   <!-- Character entity to provide greek letters in simulation chapter -->
-  <!ENTITY % iso-grk1 PUBLIC "ISO 8879:1986//ENTITIES Greek Letters//EN//XML"
+  <!ENTITY % isogrk1 PUBLIC "ISO 8879:1986//ENTITIES Greek Letters//EN//XML"
            "http://www.oasis-open.org/docbook/xmlcharent/0.3/iso-grk1.ent">
-  %iso-grk1;
+  %isogrk1;
 
   <!ENTITY legal                SYSTEM "legal.xml">
 
