@@ -1,3 +1,7 @@
+2008-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.2
+
 2008-08-29  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-format.c (gnm_format_import): Support-function to handle

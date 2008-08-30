@@ -1,3 +1,7 @@
+2008-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.2
+
 2008-06-28  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (get_dtd): New function.  Fixes #540180.

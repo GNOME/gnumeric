@@ -1,3 +1,7 @@
+2008-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.2
+
 2008-06-27  Morten Welinder  <terra@gnome.org>
 
 	* fill-series.c (do_row_filling_wday, do_column_filling_wday):

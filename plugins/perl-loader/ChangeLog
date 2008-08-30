@@ -1,3 +1,7 @@
+2008-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.2
+
 2008-08-14  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* perl-loader.c (gplp_load_base): Call PERL_SYS_INIT3() prior to

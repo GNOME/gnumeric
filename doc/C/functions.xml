@@ -2337,38 +2337,6 @@
       </para>
       </refsect1>
     </refentry>
-    <refentry id="gnumeric-EXECSQL">
-      <refmeta>
-        <refentrytitle>
-          <function>EXECSQL</function>
-        </refentrytitle>
-      </refmeta>
-      <refnamediv>
-        <refname>
-          <function>EXECSQL</function>
-        </refname>
-        <refpurpose/>
-      </refnamediv>
-      <refsynopsisdiv>
-        <synopsis><function>EXECSQL</function>(<parameter>dsn</parameter>,<parameter>username</parameter>,<parameter>password</parameter>,<parameter>sql</parameter>)</synopsis>
-      </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>The <function>EXECSQL</function> function lets you execute a command in a database server, and show the results returned in current sheet. It uses libgda as the means for accessing the databases.</para>
-        <para>For using it, you need first to set up a libgda data source.</para>
-      </refsect1>
-      <refsect1>
-        <title>Examples</title>
-        <para/>
-        <para>To get all the data from the table "Customers" present in the "mydatasource" GDA data source, you would use:</para>
-        <para><function>EXECSQL</function>("mydatasource","username","password","SELECT * FROM customers")</para>
-      </refsect1>
-      <refsect1>
-        <title>See also</title>
-        <para><link linkend="gnumeric-READDBTABLE"><function>READDBTABLE</function></link>.
-      </para>
-      </refsect1>
-    </refentry>
     <refentry id="gnumeric-GETPIVOTDATA">
       <refmeta>
         <refentrytitle>
@@ -2400,38 +2368,6 @@
       <refsect1>
         <title>See also</title>
         <para>
-      </para>
-      </refsect1>
-    </refentry>
-    <refentry id="gnumeric-READDBTABLE">
-      <refmeta>
-        <refentrytitle>
-          <function>READDBTABLE</function>
-        </refentrytitle>
-      </refmeta>
-      <refnamediv>
-        <refname>
-          <function>READDBTABLE</function>
-        </refname>
-        <refpurpose/>
-      </refnamediv>
-      <refsynopsisdiv>
-        <synopsis><function>READDBTABLE</function>(<parameter>dsn</parameter>,<parameter>username</parameter>,<parameter>password</parameter>,<parameter>table</parameter>)</synopsis>
-      </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>The <function>READDBTABLE</function> function lets you get the contents of a table, as stored in a database. For using it, you need first to set up a libgda data source.</para>
-        <para>Note that this function returns all the rows in the given table. If you want to get data from more than one table or want a more precise selection (conditions), use the EXECSQL function.</para>
-      </refsect1>
-      <refsect1>
-        <title>Examples</title>
-        <para/>
-        <para>To get all the data from the table "Customers" present in the "mydatasource" GDA data source, you would use:</para>
-        <para><function>READDBTABLE</function>("mydatasource","username","password","customers")</para>
-      </refsect1>
-      <refsect1>
-        <title>See also</title>
-        <para><link linkend="gnumeric-EXECSQL"><function>EXECSQL</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -7358,18 +7294,17 @@
         <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>OPT_RGW</function>(<parameter>call_put_flag</parameter>,<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>t1</parameter>,<parameter>t2</parameter>,<parameter>rate</parameter>,<parameter>d</parameter>,<parameter>volatility</parameter>)</synopsis>
+        <synopsis><function>OPT_RGW</function>(<parameter>spot</parameter>,<parameter>strike</parameter>,<parameter>t1</parameter>,<parameter>t2</parameter>,<parameter>rate</parameter>,<parameter>d</parameter>,<parameter>volatility</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
         <para><function>OPT_RGW</function> models the theoretical price of an american option according to the Roll-Geske-Whaley approximation where:</para>
-        <para><parameter>call_put_flag</parameter> is 'c' or 'p' to indicate whether the option is a call or a put.</para>
         <para><parameter>spot</parameter> is the spot price of the underlying asset.</para>
         <para><parameter>strike</parameter> is the strike price at which the option is struck.</para>
         <para><parameter>t1</parameter> is the time to the dividend payout.</para>
         <para><parameter>t2</parameter> is the time to option expiration.</para>
         <para><parameter>rate</parameter> is the annualized rate of interest.</para>
-        <para><parameter>d</parameter> is the amount of the dividend to be paid.</para>
+        <para><parameter>d</parameter> is the amount of the dividend to be paid expressed in currency.</para>
         <para><parameter>volatility</parameter> is the annualized rate of volatility of the underlying asset.</para>
       </refsect1>
       <refsect1>
@@ -9806,18 +9741,20 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>INDIRECT</function> function returns the contents of the cell pointed to by the <parameter>ref_text</parameter> string. The string specifies a single cell reference the format of which is either A1 or R1C1 style. The style is set by the <parameter>format</parameter> boolean, which defaults to the A1 style.</para>
+        <para><function>INDIRECT</function> function returns the contents of the cell pointed to by the <parameter>ref_text</parameter> string. The string specifies a single cell reference the format of which is either A1 or R1C1 style. The boolean <parameter>format</parameter> controls how <parameter>ref_text</parameter> is to be interpreted: TRUE (the default) for A1 style and FALSE for R1C1 style.</para>
         <itemizedlist>
           <listitem>
-            <para>If <parameter>ref_text</parameter> is not a valid reference returns #REF!</para>
+            <para>If <parameter>ref_text</parameter> is not a valid reference in the style controlled by <parameter>format</parameter>, returns #REF!</para>
           </listitem>
         </itemizedlist>
       </refsect1>
       <refsect1>
         <title>Examples</title>
         <para/>
-        <para>If A1 contains 3.14 and A2 contains A1, then</para>
+        <para>If A1 contains 3.14 and A2 contains "A1", then</para>
         <para><function>INDIRECT</function>(A2) equals 3.14.</para>
+        <para>If B1 contains 23 and A1 contains "R1C2", then</para>
+        <para><function>INDIRECT</function>(A1,FALSE) equals 23.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>

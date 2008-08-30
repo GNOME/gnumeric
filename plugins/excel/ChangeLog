@@ -1,3 +1,7 @@
+2008-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.2
+
 2008-08-29  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_wb_get_fmt): Handle broken 1.6 formats.

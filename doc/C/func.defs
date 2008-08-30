@@ -1007,16 +1007,6 @@ DVARP(A1:C7, "Salary", A9:B11) equals 41725140.25.
 @SEEALSO=DVAR
 
 @CATEGORY=Database
-@FUNCTION=EXECSQL
-@SYNTAX=EXECSQL(dsn,username,password,sql)
-@DESCRIPTION=The EXECSQL function lets you execute a command in a database server, and show the results returned in current sheet. It uses libgda as the means for accessing the databases.
-For using it, you need first to set up a libgda data source.
-@EXAMPLES=
-To get all the data from the table "Customers" present in the "mydatasource" GDA data source, you would use:
-EXECSQL("mydatasource","username","password","SELECT * FROM customers")
-@SEEALSO=READDBTABLE
-
-@CATEGORY=Database
 @FUNCTION=GETPIVOTDATA
 @SYNTAX=GETPIVOTDATA(pivot_table,field_name)
 @DESCRIPTION=GETPIVOTDATA function fetches summary data from a pivot table. @pivot_table is a cell range containing the pivot table. @field_name is the name of the field of which you want the summary data.
@@ -1026,16 +1016,6 @@ EXECSQL("mydatasource","username","password","SELECT * FROM customers")
 @EXAMPLES=
 
 @SEEALSO=
-
-@CATEGORY=Database
-@FUNCTION=READDBTABLE
-@SYNTAX=READDBTABLE(dsn,username,password,table)
-@DESCRIPTION=The READDBTABLE function lets you get the contents of a table, as stored in a database. For using it, you need first to set up a libgda data source.
-Note that this function returns all the rows in the given table. If you want to get data from more than one table or want a more precise selection (conditions), use the EXECSQL function.
-@EXAMPLES=
-To get all the data from the table "Customers" present in the "mydatasource" GDA data source, you would use:
-READDBTABLE("mydatasource","username","password","customers")
-@SEEALSO=EXECSQL
 
 @CATEGORY=Date/Time
 @FUNCTION=DATE
@@ -3030,15 +3010,14 @@ For common stocks, this would be the dividend yield.
 
 @CATEGORY=Finance
 @FUNCTION=OPT_RGW
-@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)
+@SYNTAX=OPT_RGW(spot,strike,t1,t2,rate,d,volatility)
 @DESCRIPTION=OPT_RGW models the theoretical price of an american option according to the Roll-Geske-Whaley approximation where: 
-@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.
 @spot is the spot price of the underlying asset.
 @strike is the strike price at which the option is struck.
 @t1 is the time to the dividend payout.
 @t2 is the time to option expiration.
 @rate is the annualized rate of interest.
-@d is the amount of the dividend to be paid.
+@d is the amount of the dividend to be paid expressed in currency.
 @volatility is the annualized rate of volatility of the underlying asset.
 
 @EXAMPLES=
@@ -3956,13 +3935,15 @@ HYPERLINK("www.gnome.org","GNOME").
 @CATEGORY=Lookup
 @FUNCTION=INDIRECT
 @SYNTAX=INDIRECT(ref_text[,format])
-@DESCRIPTION=INDIRECT function returns the contents of the cell pointed to by the @ref_text string. The string specifies a single cell reference the format of which is either A1 or R1C1 style. The style is set by the @format boolean, which defaults to the A1 style.
+@DESCRIPTION=INDIRECT function returns the contents of the cell pointed to by the @ref_text string. The string specifies a single cell reference the format of which is either A1 or R1C1 style. The boolean @format controls how @ref_text is to be interpreted: TRUE (the default) for A1 style and FALSE for R1C1 style.
 
-* If @ref_text is not a valid reference returns #REF! 
+* If @ref_text is not a valid reference in the style controlled by @format, returns #REF! 
 @EXAMPLES=
-If A1 contains 3.14 and A2 contains A1, then
+If A1 contains 3.14 and A2 contains "A1", then
 INDIRECT(A2) equals 3.14.
 
+If B1 contains 23 and A1 contains "R1C2", then
+INDIRECT(A1,FALSE) equals 23.
 @SEEALSO=AREAS,INDEX,CELL
 
 @CATEGORY=Lookup
