@@ -3,11 +3,11 @@
 /usr/share/gnumeric/*/autoformat-templates/*/*.xml
 /usr/share/gnumeric/*/autoformat-templates/*/.category
 /usr/share/gnumeric/*/glade/*.glade
-/usr/share/gnumeric/*/glade/*.png
-/usr/share/gnumeric/*/gnome*/ui/*.xml
+# /usr/share/gnumeric/*/glade/*.png
+# /usr/share/gnumeric/*/gnome*/ui/*.xml
 /usr/share/gnumeric/*/idl/*.idl
 /usr/share/gnumeric/*/templates/*.gnumeric
 /usr/share/locale/*/LC_MESSAGES/*.mo
-/usr/share/mime-info/gnumeric.*
+# /usr/share/mime-info/gnumeric.*
 /usr/share/pixmaps/*
 /usr/share/icons/

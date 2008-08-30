@@ -1,10 +1,22 @@
-gnumeric (1.9.1-2) experimental; urgency=low
+gnumeric (1.9.2) experimental; urgency=low
 
-  * UNRELEASED
-  * [debian/po/jp.po] Updated Japanese translation, courtesy of Atsushi
-    Shimono <shimono@mozilla.gr.jp>. (Closes: #490668)
+  * New upstream development release.
+  * [debian/compat] New; updated to current debhelper compatibility level.
+  * [debian/rules] No longer set DH_COMPAT.
+  * [debian/control]
+    * Updated debhelper build dependency.
+    * Bumped libgsf and pango build dependencies per configure.in .
+    * Changed fonts suggestion now that the Liberation fonts are available in
+      main and the Microsoft Corefonts installer package has been renamed.
+      (Closes: #490039)
+    * Cleaned up build dependencies to fix build-depends-on-1-revision lintian
+      warning.
+  * [debian/gnumeric.install, debian/gnumeric-common.install,
+    debian/gnumeric-plugins-extra.install] Dropped some obsoleted patterns;
+    commented out some patterns which have no current matches.
+  * [debian/gnumeric.preinst] Added debhelper token.
 
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 25 Jun 2008 20:04:08 +0200
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat, 30 Aug 2008 16:49:14 +0200
 
 gnumeric (1.9.1-1) experimental; urgency=low
 
@@ -39,12 +51,20 @@ gnumeric (1.9.0-1) experimental; urgency=low
 
  -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 05 May 2008 07:17:09 +0200
 
+gnumeric (1.8.3-5) unstable; urgency=medium
+
+  * [plugins/perl-loader/perl-loader.c] Call PERL_SYS_INIT3() prior to
+    perl_parse as per perlembed(1) so as not to hang on HPPA. 
+    (Closes: #495062).
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 19 Aug 2008 15:57:26 +0200
+
 gnumeric (1.8.3-4) unstable; urgency=high
 
   * [plugins/fn-date/ChangeLog, plugins/fn-date/functions.c] Pull in fix from
     SVN gnumeric-1-8 branch for off-by-one errors in DATE function. 
     (Closes: #492743)
-  * [debian/po/jp.po] Updated Japanese translation, courtesy of Atsushi
+  * [debian/po/ja.po] Updated Japanese translation, courtesy of Atsushi
     Shimono <shimono@mozilla.gr.jp>. (Closes: #490668)
 
  -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 01 Aug 2008 21:56:40 +0200

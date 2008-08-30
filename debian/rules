@@ -15,9 +15,6 @@ endif
 # Uncomment this to turn on verbose mode. 
 #export DH_VERBOSE=1
 
-# This is the debhelper compatability version to use.
-export DH_COMPAT=4
-
 # Try to preserve timestamps as much as possible
 export INSTALL=/usr/bin/install -p
 
