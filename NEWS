@@ -1,3 +1,10 @@
+Gnumeric 1.9.3
+
+Andreas:
+	* Do not print hidden sheets. [#525368]
+
+
+--------------------------------------------------------------------------
 Gnumeric 1.9.2
 
 Andreas:

@@ -1,3 +1,14 @@
+2008-08-25  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
+	Implementation of #525368
+	* src/print.c (PrintingInstance): add button_print_hidden_sheets
+	(compute_pages): Include PRINT_ALL_SHEETS_INCLUDING_HIDDEN and exclude
+	  hidden sheets from  PRINT_ALL_SHEETS. Rewrite  PRINT_SHEET_RANGE
+	(workbook_visible_sheet_count): new
+	(gnm_create_widget_cb): add checkbox
+	(gnm_custom_widget_apply_cb): handle new checkbox
+	* src/print.h (PrintRange): add PRINT_ALL_SHEETS_INCLUDING_HIDDEN
+
 2008-08-30  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : Post release version bump

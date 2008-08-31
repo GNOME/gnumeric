@@ -67,7 +67,7 @@ typedef struct {
 	Sheet *sheet;
 	GtkWidget *button_all_sheets, *button_selected_sheet,
 		*button_spec_sheets;
-	GtkWidget *button_selection, *button_ignore_printarea;
+	GtkWidget *button_selection, *button_ignore_printarea, *button_print_hidden_sheets;
 	GtkWidget *spin_from, *spin_to;
 	PrintRange pr;
 	guint to, from;
@@ -1000,6 +1000,7 @@ compute_pages (GtkPrintOperation *operation,
 	Workbook *wb = pi->wb;
 	guint i;
 	guint n;
+	guint ct;
 
 	switch (pr) {
 	case PRINT_ACTIVE_SHEET:
@@ -1011,20 +1012,38 @@ compute_pages (GtkPrintOperation *operation,
 			Sheet *sheet = workbook_sheet_by_index (wb, i);
 			if (sheet->print_info->do_not_print)
 				continue;
+			if (!sheet_is_visible(sheet))
+				continue;			
 			compute_sheet_pages_add_sheet (pi, sheet,
 						       FALSE, FALSE);
 		}
 		break;
-	case PRINT_SHEET_RANGE:
+	case PRINT_ALL_SHEETS_INCLUDING_HIDDEN:
 		n = workbook_sheet_count (wb);
-		if (to > n)
-			to = n;
-		for (i = from - 1; i < to; i++){
+		for (i = 0; i < n; i++) {
 			Sheet *sheet = workbook_sheet_by_index (wb, i);
 			if (sheet->print_info->do_not_print)
 				continue;
 			compute_sheet_pages_add_sheet (pi, sheet,
 						       FALSE, FALSE);
+		}
+		break;
+	case PRINT_SHEET_RANGE:
+		if (from > to)
+			break;
+		n = workbook_sheet_count (wb);
+		ct = 0;
+		for (i = 0; i < n; i++){
+			Sheet *sheet = workbook_sheet_by_index (wb, i);
+			if (sheet_is_visible(sheet))
+				ct++;
+			else
+				continue;
+			if (sheet->print_info->do_not_print)
+				continue;
+			if ((ct >= from) && (ct <= to))
+				compute_sheet_pages_add_sheet (pi, sheet,
+							       FALSE, FALSE);
 		}
 		break;
 	case PRINT_SHEET_SELECTION:
@@ -1229,6 +1248,21 @@ widget_button_cb (GtkToggleButton *togglebutton, GtkWidget *check)
 	gtk_widget_set_sensitive (check, gtk_toggle_button_get_active (togglebutton));
 }
 
+static guint
+workbook_visible_sheet_count (Workbook *wb)
+{
+	guint i;
+	guint n = workbook_sheet_count (wb);
+	guint count = 0;
+	
+	for (i = 0; i < n; i++) {
+		Sheet *sheet = workbook_sheet_by_index (wb, i);
+		if (sheet_is_visible(sheet))
+			count++;		
+	}	
+	return count;	
+}
+
 static GObject*
 gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 {
@@ -1236,16 +1270,17 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 	GtkWidget *frame, *table;
 	GtkWidget *button_all_sheets, *button_selected_sheet, *button_spec_sheets;
 	GtkWidget *button_selection, *button_ignore_printarea;
+	GtkWidget *button_print_hidden_sheets;
 	GtkWidget *label_from, *label_to;
 	GtkWidget *spin_from, *spin_to;
 	GtkPrintSettings * settings;
-	guint n_sheets = workbook_sheet_count (pi->wb);
+	guint n_sheets = workbook_visible_sheet_count (pi->wb);
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
 	gtk_container_set_border_width (GTK_CONTAINER (frame), 5);
 
-	table = gtk_table_new (7, 6, FALSE);
+	table = gtk_table_new (7, 7, FALSE);
 	gtk_table_set_col_spacing (GTK_TABLE (table), 1,20);
 	gtk_container_add (GTK_CONTAINER (frame), table);
 
@@ -1255,40 +1290,45 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 	gtk_table_attach (GTK_TABLE (table), button_all_sheets, 1, 3, 1, 2,
 			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
 
+	button_print_hidden_sheets  = gtk_check_button_new_with_mnemonic
+		(_("Also print _hidden sheets"));
+	gtk_table_attach (GTK_TABLE (table), button_print_hidden_sheets, 2, 7, 2, 3,
+			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
+
 	button_selected_sheet = gtk_radio_button_new_with_mnemonic_from_widget
 		(GTK_RADIO_BUTTON (button_all_sheets), _("A_ctive workbook sheet"));
-	gtk_table_attach (GTK_TABLE (table), button_selected_sheet, 1, 3, 2, 3,
+	gtk_table_attach (GTK_TABLE (table), button_selected_sheet, 1, 3, 3, 4,
 			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
 
 	button_spec_sheets = gtk_radio_button_new_with_mnemonic_from_widget
 		(GTK_RADIO_BUTTON (button_all_sheets), _("_Workbook sheets:"));
-	gtk_table_attach (GTK_TABLE (table), button_spec_sheets, 1, 3, 5, 6,
+	gtk_table_attach (GTK_TABLE (table), button_spec_sheets, 1, 3, 6, 7,
 			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
 
 	button_selection = gtk_check_button_new_with_mnemonic
 		(_("Current _selection only"));
-	gtk_table_attach (GTK_TABLE (table), button_selection, 2, 7, 3, 4,
+	gtk_table_attach (GTK_TABLE (table), button_selection, 2, 7, 4, 5,
 			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
 
 	button_ignore_printarea  = gtk_check_button_new_with_mnemonic
 		(_("_Ignore defined print area"));
-	gtk_table_attach (GTK_TABLE (table), button_ignore_printarea, 2, 7, 4, 5,
+	gtk_table_attach (GTK_TABLE (table), button_ignore_printarea, 2, 7, 5, 6,
 			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
 
 	label_from = gtk_label_new (_("from:"));
-	gtk_table_attach (GTK_TABLE (table), label_from, 3, 4, 5, 6,
+	gtk_table_attach (GTK_TABLE (table), label_from, 3, 4, 6, 7,
 			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
 
 	spin_from = gtk_spin_button_new_with_range (1, n_sheets, 1);
-	gtk_table_attach (GTK_TABLE (table), spin_from, 4, 5, 5, 6,
+	gtk_table_attach (GTK_TABLE (table), spin_from, 4, 5, 6, 7,
 			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
 
 	label_to = gtk_label_new (_("to:"));
-	gtk_table_attach (GTK_TABLE (table), label_to, 5, 6, 5, 6,
+	gtk_table_attach (GTK_TABLE (table), label_to, 5, 6, 6, 7,
 			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
 
 	spin_to = gtk_spin_button_new_with_range (1, n_sheets, 1);
-	gtk_table_attach (GTK_TABLE (table), spin_to, 6, 7, 5, 6,
+	gtk_table_attach (GTK_TABLE (table), spin_to, 6, 7, 6, 7,
 			  GTK_EXPAND | GTK_FILL,GTK_SHRINK | GTK_FILL,0,0);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_to), n_sheets);
 
@@ -1296,6 +1336,9 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 		G_CALLBACK (widget_button_cb), button_selection);
 	g_signal_connect_after (G_OBJECT (button_selected_sheet), "toggled",
 		G_CALLBACK (widget_button_cb), button_ignore_printarea);
+
+	g_signal_connect_after (G_OBJECT (button_all_sheets), "toggled",
+		G_CALLBACK (widget_button_cb), button_print_hidden_sheets);
 
 	g_signal_connect_after (G_OBJECT (button_spec_sheets), "toggled",
 		G_CALLBACK (widget_button_cb), label_from);
@@ -1330,6 +1373,9 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 		case PRINT_SHEET_RANGE:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_spec_sheets), TRUE);
 			break;
+		case PRINT_ALL_SHEETS_INCLUDING_HIDDEN:
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_print_hidden_sheets), TRUE);
+			/* no break */
 		case PRINT_ALL_SHEETS:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button_all_sheets), TRUE);
 			break;
@@ -1358,6 +1404,7 @@ gnm_create_widget_cb (GtkPrintOperation *operation, gpointer user_data)
 	pi->button_spec_sheets = button_spec_sheets;
 	pi->button_selection = button_selection;
 	pi->button_ignore_printarea = button_ignore_printarea;
+	pi->button_print_hidden_sheets = button_print_hidden_sheets;
 	pi->spin_from = spin_from;
 	pi->spin_to = spin_to;
 
@@ -1391,7 +1438,10 @@ gnm_custom_widget_apply_cb (GtkPrintOperation *operation,
 	pi->to = to;
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pi->button_all_sheets))) {
-		pr = PRINT_ALL_SHEETS;
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pi->button_print_hidden_sheets)))
+			pr = PRINT_ALL_SHEETS_INCLUDING_HIDDEN;
+		else
+			pr = PRINT_ALL_SHEETS;
 	} else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pi->button_spec_sheets))) {
 		pr = PRINT_SHEET_RANGE;
 	} else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pi->button_selected_sheet))) {
