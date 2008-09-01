@@ -817,16 +817,22 @@ stf_parse_general (StfParseOptions_t *parseoptions,
 	GPtrArray *lines;
 	Source_t src;
 	int row;
+	char const *valid_end = data_end;
 
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
 	g_return_val_if_fail (data_end != NULL, NULL);
 	g_return_val_if_fail (stf_parse_options_valid (parseoptions), NULL);
-	g_return_val_if_fail (g_utf8_validate (data, -1, NULL), NULL);
+	g_return_val_if_fail (g_utf8_validate (data, data_end-data, &valid_end), NULL);
 
 	src.chunk = lines_chunk;
 	src.position = data;
 	row = 0;
+
+	if ((data_end-data >= 3) && !strncmp(src.position, "\xEF\xBB\xBF", 3)) {
+		/* Skip over byte-order mark */
+		src.position += 3;
+	}
 
 	lines = g_ptr_array_new ();
 	while (*src.position != '\0' && src.position < data_end) {

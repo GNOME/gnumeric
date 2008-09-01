@@ -485,6 +485,14 @@ csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 			/* isprint might not be true for these: */
 			if (uc == '\n' || uc == '\t' || uc == '\r')
 				continue;
+			/* Also, ignore a byte-order mark which may be used to
+			 * indicate UTF-8; see
+			 * http://en.wikipedia.org/wiki/Byte_Order_Mark for
+			 * background. 
+			 */
+			if (p == header_utf8 && uc == 0x0000FEFF) {
+				continue;
+			}
 			if (!g_unichar_isprint (uc)) {
 				ok = FALSE;
 				break;

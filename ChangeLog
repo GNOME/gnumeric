@@ -1,3 +1,12 @@
+2008-09-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* src/stf.c (csv_tsv_probe), src/stf-parse.c (stf_parse_general):
+	Ignore / skip over byte-order mark. Fixes #549743.
+	* src/stf-parse.c (stf_parse_general): data is arbitrary binary data
+	(may contain nul bytes and need not be nul-terminated); call
+	g_utf8_validate with appropriate parameters to handle arbitrary binary
+	data.
+
 2008-08-25  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	Implementation of #525368
