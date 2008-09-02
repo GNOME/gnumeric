@@ -11,6 +11,7 @@
 #include "gnumeric.h"
 #include "print-cell.h"
 
+#include "application.h"
 #include "dependent.h"
 #include "gnm-format.h"
 #include "style-color.h"
@@ -57,9 +58,11 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 	    double x1, double y1, double width, double height, double h_center)
 {
 	GnmRenderedValue *rv, *cell_rv = cell->rendered_value, *cell_rv100 = NULL;
-	GOColor fore_color;
-	gint x, y;
+	GOColor fore_color, cell_fore_color;
+	gint x, y, cell_x, cell_y;
 	Sheet *sheet = cell->base.sheet;
+	double const scale_h = 72. / gnm_app_display_dpi_get (TRUE);
+	double const scale_v = 72. / gnm_app_display_dpi_get (FALSE);
 
 	/* Get the sizes exclusive of margins and grids */
 	/* Note: +1 because size_pixels includes leading gridline.  */
@@ -107,14 +110,10 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 		gnm_rendered_value_destroy (cell_rv100);
 
 	if (cell_calc_layout (cell, rv, -1,
-			      (int)(width * PANGO_SCALE),
-			      (int)(height * PANGO_SCALE),
+			      (int)(width * PANGO_SCALE / scale_h),
+			      (int)(height * PANGO_SCALE / scale_v),
 			      (int)h_center == -1 ? -1 : (int)(h_center * PANGO_SCALE),
 			      &fore_color, &x, &y)) {
-		double x0 = x1 + (1 + GNM_COL_MARGIN);
-		double y0 = y1 + (1 + GNM_ROW_MARGIN);
-		double px = x1 + x / (double)PANGO_SCALE;
-		double py = y1 - y / (double)PANGO_SCALE;
 
 		/* Clip the printed rectangle */
 		cairo_save (context);
@@ -122,7 +121,7 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 		if (!rv->rotation) {
 			/* We do not clip rotated cells.  */
 			cairo_new_path (context);
-			cairo_rectangle (context, x0 - 1, y0 -1,
+			cairo_rectangle (context, x1 + GNM_COL_MARGIN, y1 + GNM_ROW_MARGIN,
 					 width + 1, height + 1);
 			cairo_clip (context);
 		}
@@ -133,15 +132,16 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 			 UINT_RGBA_G (fore_color) / 255.,
 			 UINT_RGBA_B (fore_color) / 255.);
 
+		cairo_translate (context, x1, y1);
+
 		if (rv->rotation) {
-			cairo_save (context);
-			cairo_translate (context, x1, y1);
+			cairo_scale (context, scale_h, scale_v);
 			cairo_rotate (context, rv->rotation * (-M_PI / 180));
 			cairo_move_to (context, 0.,0.);
 			pango_cairo_show_layout (context, rv->layout);
-			cairo_restore (context);
 		} else {
-			cairo_move_to (context, px, py);
+			cairo_scale (context, scale_h, scale_v);
+			cairo_move_to (context, x / (double)PANGO_SCALE , - y / (double)PANGO_SCALE);
 			pango_cairo_show_layout (context, rv->layout);
 		}
 		cairo_restore(context);

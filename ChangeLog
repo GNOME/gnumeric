@@ -1,3 +1,8 @@
+2008-09-01  Andreas Guelzow  <aguelzow@pyrshep.ca>
+	Partial fix of #153578
+	* src/print-cell.c (print_cell_gtk): adjust for differences between
+	  pixels and points.
+
 2008-09-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* src/stf.c (csv_tsv_probe), src/stf-parse.c (stf_parse_general):
@@ -7,7 +12,7 @@
 	g_utf8_validate with appropriate parameters to handle arbitrary binary
 	data.
 
-2008-08-25  Andreas Guelzow  <aguelzow@pyrshep.ca>
+2008-08-30  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	Implementation of #525368
 	* src/print.c (PrintingInstance): add button_print_hidden_sheets
