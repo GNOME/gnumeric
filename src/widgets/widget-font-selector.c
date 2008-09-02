@@ -386,8 +386,8 @@ fs_init (FontSelector *fs)
 	gnm_style_set_align_h   (fs->mstyle, HALIGN_CENTER);
 	gnm_style_set_font_size (fs->mstyle, 10);
 
-	gtk_box_pack_start_defaults (GTK_BOX (fs),
-		glade_xml_get_widget (fs->gui, "toplevel-table"));
+	gtk_box_pack_start (GTK_BOX (fs),
+		glade_xml_get_widget (fs->gui, "toplevel-table"), TRUE, TRUE, 0);
 
 	fs->font_name_entry  = glade_xml_get_widget (fs->gui, "font-name-entry");
 	fs->font_style_entry = glade_xml_get_widget (fs->gui, "font-style-entry");

@@ -773,7 +773,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 		align = gtk_alignment_new (0.5, 0.5, 0, 0);
 		gtk_container_add (GTK_CONTAINER (align), check);
 		gtk_widget_show_all (align);
-		gtk_box_pack_end_defaults (GTK_BOX (GTK_DIALOG (d)->vbox), align);
+		gtk_box_pack_end (GTK_BOX (GTK_DIALOG (d)->vbox), align, TRUE, TRUE, 0);
 		res = go_gtk_dialog_run (GTK_DIALOG (d), wbcg_toplevel (wbcg));
 
 		switch (res) {

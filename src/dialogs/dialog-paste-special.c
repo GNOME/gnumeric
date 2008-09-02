@@ -205,7 +205,7 @@ dialog_paste_special (WBCGtk *wbcg)
 		g_signal_connect (G_OBJECT (r),
 			"toggled",
 			G_CALLBACK (cb_type_toggle), state);
-		gtk_box_pack_start_defaults (GTK_BOX (f1v), r);
+		gtk_box_pack_start (GTK_BOX (f1v), r, TRUE, TRUE, 0);
 		if (i == 0)
 			first_button = r;
 	}
@@ -219,7 +219,7 @@ dialog_paste_special (WBCGtk *wbcg)
 		g_signal_connect (G_OBJECT (r),
 			"toggled",
 			G_CALLBACK (cb_op_toggle), state);
-		gtk_box_pack_start_defaults (GTK_BOX (op_box), r);
+		gtk_box_pack_start (GTK_BOX (op_box), r, TRUE, TRUE, 0);
 	}
 
 	hbox = gtk_hbox_new (TRUE, 0);
@@ -228,18 +228,18 @@ dialog_paste_special (WBCGtk *wbcg)
 	g_signal_connect (G_OBJECT (state->transpose.btn),
 		"toggled",
 		G_CALLBACK (cb_transpose), state);
-	gtk_box_pack_start_defaults (GTK_BOX (hbox), state->transpose.btn);
+	gtk_box_pack_start (GTK_BOX (hbox), state->transpose.btn, TRUE, TRUE, 0);
 
 	state->skip_blanks.btn = gtk_check_button_new_with_mnemonic (_("Skip _Blanks"));
 	g_signal_connect (G_OBJECT (state->skip_blanks.btn),
 		"toggled",
 		G_CALLBACK (cb_skip_blanks), state);
-	gtk_box_pack_start_defaults (GTK_BOX (hbox), state->skip_blanks.btn);
+	gtk_box_pack_start (GTK_BOX (hbox), state->skip_blanks.btn, TRUE, TRUE, 0);
 
 	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_box_pack_start_defaults (GTK_BOX (vbox), f1);
-	gtk_box_pack_start_defaults (GTK_BOX (vbox), state->op_frame);
-	gtk_box_pack_start_defaults (GTK_BOX (vbox), hbox);
+	gtk_box_pack_start (GTK_BOX (vbox), f1, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), state->op_frame, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 
 	gtk_box_pack_start (GTK_BOX (state->dialog->vbox), vbox, TRUE, TRUE, 0);
 	gtk_widget_show_all (vbox);

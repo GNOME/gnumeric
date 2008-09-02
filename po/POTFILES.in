@@ -53,7 +53,7 @@ plugins/gda/plugin-gda.c
 plugins/gda/plugin.xml.in
 plugins/gnome-db/plugin-gnomedb.c
 plugins/gnome-db/plugin.xml.in
-plugins/gnome-db/ui.xml
+plugins/gnome-db/ui.xml.in
 plugins/gnome-glossary/plugin.xml.in
 plugins/html/html_read.c
 plugins/html/plugin.xml.in
@@ -87,7 +87,7 @@ plugins/python-loader/plugin.xml.in
 plugins/python-loader/py-console.c
 plugins/python-loader/py-gnumeric.c
 plugins/python-loader/python-loader.c
-plugins/python-loader/ui-console-menu.xml
+plugins/python-loader/ui-console-menu.xml.in
 plugins/qpro/plugin.xml.in
 plugins/qpro/qpro-read.c
 plugins/sample_datasource/plugin.xml.in
@@ -97,7 +97,7 @@ plugins/sc/sc.c
 plugins/sylk/plugin.xml.in
 plugins/sylk/sylk-write.c
 plugins/sylk/sylk.c
-plugins/uihello/hello.xml
+plugins/uihello/hello.xml.in
 plugins/uihello/plugin.xml.in
 plugins/uihello/uihello.c
 plugins/xbase/boot.c

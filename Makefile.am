@@ -70,7 +70,7 @@ distcleancheck_listfiles = \
 
 # We are not able to uninstall the scrollkeeper files:
 distuninstallcheck_listfiles = \
-  find . -type f -print -o -path ./var/scrollkeeper -prune
+  find . -type f -print -o -path */var/scrollkeeper -prune
 
 ## If I understand this correctly, this hack is needed only --with-perl:
 if WITH_PERL

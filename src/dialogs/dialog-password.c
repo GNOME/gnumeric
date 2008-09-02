@@ -58,7 +58,7 @@ dialog_get_password (GtkWindow *parent, const char *filename)
 	gtk_box_pack_start (GTK_BOX (hb), image, FALSE, FALSE, 0);
 	vb = gtk_vbox_new (FALSE, 8);
 	gtk_box_pack_start (GTK_BOX (hb), vb, TRUE, TRUE, 6);
-	gtk_box_pack_start_defaults (GTK_BOX (vb), label);
+	gtk_box_pack_start (GTK_BOX (vb), label, TRUE, TRUE, 0);
 	pwb = gtk_hbox_new (FALSE, 8);
 	/* Strange width so that width of primary/secondary text will win. */
 	entry = g_object_new (GTK_TYPE_ENTRY,
@@ -66,7 +66,7 @@ dialog_get_password (GtkWindow *parent, const char *filename)
 			      "width-request", 1, NULL);
 	gtk_box_pack_start (GTK_BOX (pwb), gtk_label_new (_("Password :")),
 			    FALSE, FALSE, 0);
-	gtk_box_pack_start_defaults (GTK_BOX (pwb), entry);
+	gtk_box_pack_start (GTK_BOX (pwb), entry, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vb), pwb, FALSE, FALSE, 0);
 	gtk_widget_show_all (d);
 

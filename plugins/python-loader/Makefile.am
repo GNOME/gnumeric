@@ -9,7 +9,6 @@ AM_CPPFLAGS = \
 gnumeric_plugin_python_loaderdir = $(gnumeric_plugindir)/python-loader
 xmldir = $(gnumeric_plugin_python_loaderdir)
 gnumeric_plugin_python_loader_LTLIBRARIES = python_loader.la
-gnumeric_plugin_python_loader_DATA = ui-console-menu.xml
 
 python_loader_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS) $(GNM_PY_LDFLAGS)  
 python_loader_la_LIBADD = $(GNM_PY_LIBADD)
@@ -30,10 +29,10 @@ python_loader_la_SOURCES = \
 	py-console.h \
 	boot.c
 
-xml_in_files = plugin.xml.in
+xml_in_files = plugin.xml.in ui-console-menu.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
 
-EXTRA_DIST = $(xml_in_files) $(gnumeric_plugin_python_loader_DATA)
+EXTRA_DIST = $(xml_in_files)
 DISTCLEANFILES = $(xml_DATA)

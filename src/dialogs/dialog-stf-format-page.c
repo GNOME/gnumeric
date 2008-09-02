@@ -702,7 +702,8 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 	pagedata->format.column_selection_label   = glade_xml_get_widget (gui, "column_selection_label");
 
 	format_hbox = glade_xml_get_widget (gui, "format_hbox");
-	gtk_box_pack_end_defaults (GTK_BOX (format_hbox), GTK_WIDGET (pagedata->format.format_selector));
+	gtk_box_pack_end (GTK_BOX (format_hbox),
+		GTK_WIDGET (pagedata->format.format_selector), TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET (pagedata->format.format_selector));
 
 	pagedata->format.locale_selector =

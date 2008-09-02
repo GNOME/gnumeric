@@ -938,10 +938,8 @@ gnumeric_message_dialog_new (GtkWindow * parent,
 
 		hbox = gtk_hbox_new (FALSE, 0);
 		gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, TRUE, 0);
-		gtk_box_pack_start_defaults (GTK_BOX (hbox),
-					     label);
-		gtk_box_pack_start_defaults (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-					     hbox);
+		gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
+		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), hbox, TRUE, TRUE, 0);
 
 		gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 		gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);

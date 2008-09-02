@@ -5,5 +5,6 @@ Makefile.in
 *.lo
 *.la
 plugin.xml
+ui.xml
 *.loT
 *.sw*
