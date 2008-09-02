@@ -2,7 +2,7 @@ Gnumeric 1.9.3
 
 Andreas:
 	* Do not print hidden sheets. [#525368]
-	* Print text in points (not pixels). [#153578]
+	* Print wysiwyg. [#153578]
 
 J.H.M. Dassen (Ray):
 	* Understand and ignore byte-order markers for CSV/stf probing and

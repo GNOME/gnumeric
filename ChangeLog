@@ -1,3 +1,9 @@
+2008-09-02  Andreas Guelzow  <aguelzow@pyrshep.ca>
+	Fix of #153578
+	* src/print-cell.c: remove pcontext in whole file 
+	(print_cell_gtk): do not use a new pango context, the old one will
+	  work much better.
+
 2008-09-01  Andreas Guelzow  <aguelzow@pyrshep.ca>
 	Partial fix of #153578
 	* src/print-cell.c (print_cell_gtk): adjust for differences between
