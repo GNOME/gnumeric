@@ -21,6 +21,8 @@
 #include "sheet.h"
 #include "cell.h"
 #include "value.h"
+#include "str.h"
+#include "func.h"
 #include "parse-util.h"
 #include "sheet-object-cell-comment.h"
 
@@ -35,6 +37,7 @@ static gboolean ssgrep_locus_values = TRUE;
 static gboolean ssgrep_locus_expressions = TRUE;
 static gboolean ssgrep_locus_results = FALSE;
 static gboolean ssgrep_locus_comments = TRUE;
+static gboolean ssgrep_locus_scripts = TRUE;
 static gboolean ssgrep_ignore_case = FALSE;
 static gboolean ssgrep_match_words = FALSE;
 static gboolean ssgrep_quiet = FALSE;
@@ -48,6 +51,7 @@ static char *ssgrep_pattern = NULL;
 static gboolean ssgrep_fixed_strings = FALSE;
 static gboolean ssgrep_recalc = FALSE;
 static gboolean ssgrep_invert_match = FALSE;
+static gboolean ssgrep_string_table = FALSE;
 
 static gboolean ssgrep_show_version = FALSE;
 static char *ssgrep_pattern_file = NULL;
@@ -60,6 +64,12 @@ static GOptionEntry const ssgrep_options [] = {
 		"count", 'c',
 		0, G_OPTION_ARG_NONE, &ssgrep_count,
 		N_("Only print a count of matches per file"),
+		NULL
+	},
+	{
+		"string-table-count", 'C',
+		0, G_OPTION_ARG_NONE, &ssgrep_string_table,
+		N_("optimization to search only via the string table, a display a count of the references."),
 		NULL
 	},
 
@@ -173,8 +183,100 @@ static GOptionEntry const ssgrep_options [] = {
 	{ NULL }
 };
 
+typedef struct {
+	Workbook   *wb;
+	GHashTable *targets;
+	GHashTable *results;
+	char const *lc_code;
+} StringTableSearch;
+
 static void
-ssgrep (const char *arg, char const *uri, IOContext *ioc)
+add_result (StringTableSearch *state, char const *clean, unsigned int n)
+{
+	gpointer prev;
+
+	if (NULL == state->results)
+		state->results = g_hash_table_new (g_str_hash, g_str_equal);
+	else if (NULL != (prev = g_hash_table_lookup (state->results, clean)))
+		n += GPOINTER_TO_UINT (prev);
+	g_hash_table_replace (state->results, (gpointer) clean, GUINT_TO_POINTER (n));
+}
+
+static void
+cb_check_strings (G_GNUC_UNUSED gpointer key, gpointer str, gpointer user_data)
+{
+	StringTableSearch *state = user_data;
+	char *clean = g_utf8_strdown (key, -1);
+	char const *orig = g_hash_table_lookup (state->targets, clean);
+	if (NULL != orig)
+		add_result (state, clean, ((GnmString *)str)->ref_count);
+	g_free (clean);
+}
+
+static void
+cb_check_func (gpointer clean, gpointer orig, gpointer user_data)
+{
+	StringTableSearch *state = user_data;
+	GnmFunc	*func = gnm_func_lookup (clean, state->wb);
+	if (NULL != func)
+		add_result (state, clean, func->ref_count);
+}
+
+static void
+cb_find_target_in_module (gpointer clean, gpointer orig, gpointer user_data)
+{
+	StringTableSearch *state = user_data;
+	unsigned n = 0;
+	char const *ptr = state->lc_code;
+
+	while (NULL != (ptr = strstr (ptr, clean))) {
+		n++;
+		ptr++;
+	}
+
+	if (n > 0)
+		add_result (state, clean, n);
+}
+
+static void
+cb_check_module (gpointer name, gpointer code, gpointer user_data)
+{
+	StringTableSearch *state = user_data;
+	state->lc_code = g_utf8_strdown (code, -1);
+	g_hash_table_foreach (state->targets, &cb_find_target_in_module, state);
+	g_free ((gpointer)state->lc_code);
+	state->lc_code = NULL;
+}
+
+static void
+cb_dump_results (gpointer name, gpointer count)
+{
+	g_print ("\t%s : %u\n", (char const *)name, GPOINTER_TO_UINT (count));
+}
+
+static void
+search_string_table (Workbook *wb, char const *file_name, GHashTable *targets)
+{
+	StringTableSearch	 state;
+	GHashTable *modules;
+
+	state.wb	= wb;
+	state.targets	= targets;
+	state.results	= NULL;
+	gnm_string_foreach (&cb_check_strings, &state);
+	g_hash_table_foreach (targets, &cb_check_func, &state);
+
+	if (NULL != (modules = g_object_get_data (G_OBJECT (wb), "VBA")))
+		g_hash_table_foreach (modules, &cb_check_module, &state);
+	if (NULL != state.results) {
+		g_print ("%s\n", file_name);
+		g_hash_table_foreach (state.results, (GHFunc)&cb_dump_results, NULL);
+		g_hash_table_destroy (state.results);
+	}
+}
+
+static void
+ssgrep (const char *arg, char const *uri, IOContext *ioc, GHashTable *targets, char const *pattern)
 {
 	WorkbookView *wbv;
 	Workbook *wb;
@@ -197,6 +299,12 @@ ssgrep (const char *arg, char const *uri, IOContext *ioc)
 			workbook_recalc (wb);
 	}
 
+	if (ssgrep_string_table) {
+		search_string_table (wb, arg, targets);
+		g_object_unref (wb);
+		return;
+	}
+
 	search = (GnmSearchReplace*)
 		g_object_new (GNM_SEARCH_REPLACE_TYPE,
 			      "search-text", ssgrep_pattern,
@@ -209,6 +317,7 @@ ssgrep (const char *arg, char const *uri, IOContext *ioc)
 			      "search-expressions", ssgrep_locus_expressions,
 			      "search-expression-results", ssgrep_locus_results,
 			      "search-comments", ssgrep_locus_comments,
+			      "search-scripts", ssgrep_locus_scripts,
 			      "sheet", workbook_sheet_by_index (wb, 0),
 			      "scope", GNM_SRS_WORKBOOK,
 			      NULL);
@@ -296,9 +405,20 @@ ssgrep (const char *arg, char const *uri, IOContext *ioc)
 	g_object_unref (wb);
 }
 
+/* simple stripped down hash of lower case target, only used for string table
+ * searches */
+static void
+add_target (GHashTable *ssgrep_targets, char const *target)
+{
+	char *orig = g_strstrip (g_strdup (target));
+	char *clean = g_utf8_strdown (orig, -1);
+	g_hash_table_insert (ssgrep_targets, clean, orig);
+}
+
 int
 main (int argc, char const **argv)
 {
+	GHashTable	*ssgrep_targets;
 	ErrorInfo	*plugin_errs;
 	IOContext	*ioc;
 	GOCmdContext	*cc;
@@ -329,6 +449,9 @@ main (int argc, char const **argv)
 		return 0;
 	} 
 
+	gnm_init (FALSE);
+
+	ssgrep_targets = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	if (ssgrep_pattern_file) {
 		char *uri = go_shell_arg_to_uri (ssgrep_pattern_file);
 		GsfInput     	 *input;
@@ -359,6 +482,8 @@ main (int argc, char const **argv)
 				go_regexp_quote (pat, line);
 			else
 				g_string_append (pat, line);
+
+			add_target (ssgrep_targets, line);
 		}
 
 		ssgrep_pattern = g_string_free (pat, FALSE);
@@ -379,6 +504,8 @@ main (int argc, char const **argv)
 			ssgrep_pattern = g_string_free (pat, FALSE);
 		} else
 			ssgrep_pattern = g_strdup (argv[1]);
+		add_target (ssgrep_targets, argv[1]);
+
 		i = 2;
 		N = argc - i;
 	}
@@ -388,8 +515,6 @@ main (int argc, char const **argv)
 		i = 0;
 		N = 1;
 	}
-
-	gnm_init (FALSE);
 
 	cc = cmd_context_stderr_new ();
 	gnm_plugins_init (GO_CMD_CONTEXT (cc));
@@ -406,9 +531,11 @@ main (int argc, char const **argv)
 		const char *arg = argv[i];
 		char *uri = go_shell_arg_to_uri (arg);
 		gnm_io_context_processing_file (ioc, uri);
-		ssgrep (arg, uri, ioc);
+		ssgrep (arg, uri, ioc, ssgrep_targets, ssgrep_pattern);
 		g_free (uri);
 	}
+
+	g_hash_table_destroy (ssgrep_targets);
 
 	g_object_unref (ioc);
 

@@ -33,7 +33,7 @@ plugins/fn-string/plugin.xml.in
 plugins/fn-tsa/plugin.xml.in
 plugins/gda/plugin.xml.in
 plugins/gnome-db/plugin.xml.in
-plugins/gnome-db/ui.xml
+plugins/gnome-db/ui.xml.in
 plugins/gnome-glossary/plugin.xml.in
 plugins/html/plugin.xml.in
 plugins/lotus-123/plugin.xml.in
@@ -48,12 +48,12 @@ plugins/plan-perfect/plugin.xml.in
 plugins/psiconv/plugin.xml.in
 plugins/py-func/plugin.xml.in
 plugins/python-loader/plugin.xml.in
-plugins/python-loader/ui-console-menu.xml
+plugins/python-loader/ui-console-menu.xml.in
 plugins/qpro/plugin.xml.in
 plugins/sample_datasource/plugin.xml.in
 plugins/sc/plugin.xml.in
 plugins/sylk/plugin.xml.in
-plugins/uihello/hello.xml
+plugins/uihello/hello.xml.in
 plugins/uihello/plugin.xml.in
 plugins/xbase/plugin.xml.in
 schemas/gnumeric-dialogs.schemas.in

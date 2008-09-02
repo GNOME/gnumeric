@@ -62,6 +62,7 @@ struct _GnmSearchReplace {
 	gboolean search_expressions;
 	gboolean search_expression_results;
 	gboolean search_comments;
+	gboolean search_scripts;
 	gboolean invert;
 
 	GnmSearchReplaceError error_behaviour;

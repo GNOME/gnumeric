@@ -41,6 +41,7 @@
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
+#include <gsf/gsf-infile-msvba.h>
 #include <gsf/gsf-msole-utils.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-outfile.h>
@@ -138,15 +139,15 @@ excel_read_metadata (GsfDocMetaData *meta_data, GsfInfile *ole, char const *name
 	}
 }
 
-/**
- * excel_file_open
- * @fo:         File opener
- * @context:	IO context
- * @wbv:	Workbook view
- * @input:	Input stream
- *
- * Load en excel workbook.
- **/
+#ifdef SPEW_VBA
+static void
+cb_dump_vba (char const *name, guint8 const *src_code)
+{
+	printf ("<module name=\"%s\">\n<![CDATA[%s]]>\n</module>\n", name, src_code);
+}
+#endif
+
+/* Service entry point */
 void
 excel_file_open (GOFileOpener const *fo, IOContext *context,
                  WorkbookView *wbv, GsfInput *input)
@@ -200,8 +201,24 @@ excel_file_open (GOFileOpener const *fo, IOContext *context,
 	/* See if there are any macros to keep around */
 	stream = gsf_infile_child_by_name (ole, "\01CompObj");
 	if (stream != NULL) {
-		GsfInput *macros = gsf_infile_child_by_name (ole, "_VBA_PROJECT_CUR");
+		GsfInput *macros = gsf_infile_child_by_vname (ole, "_VBA_PROJECT_CUR", "VBA", NULL);
 		if (macros != NULL) {
+			GsfInfile *vba = gsf_infile_msvba_new (GSF_INFILE (macros), NULL);
+			if (NULL != vba) {
+				GHashTable *modules =
+					gsf_infile_msvba_steal_modules (GSF_INFILE_MSVBA (vba));
+				if (NULL != modules) {
+#ifdef SPEW_VBA
+					g_hash_table_foreach (modules,
+						(GHFunc) cb_dump_vba, NULL);
+#endif
+					g_object_set_data_full (G_OBJECT (wb), "VBA",
+						modules, (GDestroyNotify) g_hash_table_destroy);
+				}
+				g_object_unref (G_OBJECT (vba));
+			}
+
+			/* LOOKS BROKEN */
 			g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_COMPOBJ",
 				gsf_structured_blob_read (stream), g_object_unref);
 			g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_MACROS",

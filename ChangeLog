@@ -15,6 +15,17 @@
 	* src/print-cell.c (print_cell_gtk): adjust for differences between
 	  pixels and points.
 
+2008-09-02  Jody Goldberg <jody@gnome.org>
+
+	* src/search.c (gnm_search_replace_class_init) : add a property to be
+	  used to search scripts.  NOT ENABLED yet.
+
+	* src/ssgrep.c (search_string_table) : restore the old logic, and
+	  extend it to agregate multiple matches and to search in VBA code if
+	  available.
+	(ssgrep) : enable search_string_table if -C/--string-table-count is
+	  enabled.
+
 2008-09-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* src/stf.c (csv_tsv_probe), src/stf-parse.c (stf_parse_general):
@@ -75,6 +86,15 @@
 	* src/wbc-gtk-actions.c (insert_date_time_common): Make sure cell
 	exists so gnm_format_for_date_editing can get the format.  Fixes
 	#540198.
+
+2008-08-25  Jody Goldberg <jody@gnome.org>
+
+	* src/ssgrep.c (main) : move the gnm_init up to init goffice and gsf
+	  before opening a file.
+	    *
+2008-08-24  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : Add check for gsf_infile_msvba_steal_modules.
 
 2008-08-23  Jody Goldberg <jody@gnome.org>
 

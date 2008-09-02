@@ -36,6 +36,7 @@ enum {
 	PROP_SEARCH_EXPRESSIONS,
 	PROP_SEARCH_EXPRESSION_RESULTS,
 	PROP_SEARCH_COMMENTS,
+	PROP_SEARCH_SCRIPTS,
 	PROP_INVERT,
 	PROP_BY_ROW,
 	PROP_QUERY,
@@ -429,6 +430,9 @@ gnm_search_replace_get_property (GObject     *object,
 	case PROP_SEARCH_COMMENTS:
 		g_value_set_boolean (value, sr->search_comments);
 		break;
+	case PROP_SEARCH_SCRIPTS:
+		g_value_set_boolean (value, sr->search_scripts);
+		break;
 	case PROP_INVERT:
 		g_value_set_boolean (value, sr->invert);
 		break;
@@ -499,6 +503,9 @@ gnm_search_replace_set_property (GObject      *object,
 		break;
 	case PROP_SEARCH_COMMENTS:
 		sr->search_comments = g_value_get_boolean (value);
+		break;
+	case PROP_SEARCH_SCRIPTS:
+		sr->search_scripts = g_value_get_boolean (value);
 		break;
 	case PROP_INVERT:
 		sr->invert = g_value_get_boolean (value);
@@ -593,6 +600,15 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 		 g_param_spec_boolean ("search-comments",
 				       _("Search Comments"),
 				       _("Should cell comments be searched?"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_SEARCH_SCRIPTS,
+		 g_param_spec_boolean ("search-scripts",
+				       _("Search Scripts"),
+				       _("Should scrips (workbook, and worksheet) be searched?"),
 				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
