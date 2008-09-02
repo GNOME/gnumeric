@@ -1,3 +1,9 @@
+
+2008-09-02  Andreas Guelzow  <aguelzow@pyrshep.ca>
+	Fix of #539734 (slight adjustment to Jean's patch)
+	* src/print-cell.c (print_cell_gtk): anchor the lines of
+	  rotated text correctly.
+
 2008-09-02  Andreas Guelzow  <aguelzow@pyrshep.ca>
 	Fix of #153578
 	* src/print-cell.c: remove pcontext in whole file 

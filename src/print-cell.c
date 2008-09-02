@@ -115,13 +115,26 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 			 UINT_RGBA_G (fore_color) / 255.,
 			 UINT_RGBA_B (fore_color) / 255.);
 
-		cairo_translate (context, x1, y1);
+		cairo_translate (context, x1+0.5, y1);
 
 		if (rv->rotation) {
+			GnmRenderedRotatedValue *rrv = (GnmRenderedRotatedValue *)rv;
+			struct GnmRenderedRotatedValueInfo const *li = rrv->lines;
+			GSList *lines;
+
 			cairo_scale (context, scale_h, scale_v);
-			cairo_rotate (context, rv->rotation * (-M_PI / 180));
 			cairo_move_to (context, 0.,0.);
-			pango_cairo_show_layout (context, rv->layout);
+			for (lines = pango_layout_get_lines (rv->layout);
+			     lines;
+			     lines = lines->next, li++) {
+				cairo_save (context);
+				cairo_move_to (context, PANGO_PIXELS (li->dx), PANGO_PIXELS (li->dy));
+				cairo_rotate (context, rv->rotation * (-M_PI / 180));
+				pango_cairo_show_layout_line (context, lines->data);
+				cairo_restore (context);
+			}
+
+
 		} else {
 			cairo_scale (context, scale_h, scale_v);
 			cairo_move_to (context, x / (double)PANGO_SCALE , - y / (double)PANGO_SCALE);

@@ -4,6 +4,9 @@ Andreas:
 	* Do not print hidden sheets. [#525368]
 	* Print wysiwyg. [#153578]
 
+Jean:
+	* Fix printing of rotated text. [#539734]
+
 J.H.M. Dassen (Ray):
 	* Understand and ignore byte-order markers for CSV/stf probing and
 	  importing. [#549743]
