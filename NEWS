@@ -3,6 +3,9 @@ Gnumeric 1.9.3
 Andreas:
 	* Do not print hidden sheets. [#525368]
 	* Print wysiwyg. [#153578]
+	* Fix column ordering in analysis tools. [#516052]
+	* Make the paired t-test analysis tool use only 
+	  complete pairs. [# 531852]
 
 Jean:
 	* Fix printing of rotated text. [#539734]

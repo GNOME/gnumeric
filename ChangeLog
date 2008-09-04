@@ -1,16 +1,25 @@
+2008-09-02  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
+	Fix of #516052
+	* src/selection.c (sv_selection_apply_in_order): new
+	(selection_to_string): call sv_selection_apply_in_order
+	  rather than sv_selection_apply
 
 2008-09-02  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
 	Fix of #539734 (slight adjustment to Jean's patch)
 	* src/print-cell.c (print_cell_gtk): anchor the lines of
 	  rotated text correctly.
 
 2008-09-02  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
 	Fix of #153578
 	* src/print-cell.c: remove pcontext in whole file 
 	(print_cell_gtk): do not use a new pango context, the old one will
 	  work much better.
 
 2008-09-01  Andreas Guelzow  <aguelzow@pyrshep.ca>
+
 	Partial fix of #153578
 	* src/print-cell.c (print_cell_gtk): adjust for differences between
 	  pixels and points.

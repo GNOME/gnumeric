@@ -1,3 +1,10 @@
+2007-09-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	Fix for #531852.
+	* analysis-tools.c (analysis_tool_ttest_paired_engine_run):
+	  change formulas to ensure we only use data pairs where both 
+	  components are numbers
+
 2008-08-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.2

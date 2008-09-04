@@ -1031,6 +1031,26 @@ cb_range_to_string (SheetView *sv, GnmRange const *r, void *closure)
 	rangeref_as_string (&out, &rr);
 }
 
+static void
+sv_selection_apply_in_order (SheetView *sv, SelectionApplyFunc const func,
+			     void * closure)
+{
+	GSList *l, *reverse;
+	GSList *proposed = NULL;
+
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+
+	reverse = g_slist_copy (sv->selections);
+	reverse = g_slist_reverse (reverse);
+	for (l = reverse; l != NULL; l = l->next) {
+		GnmRange const *ss = l->data;
+
+		(*func) (sv, ss, closure);
+	}
+	g_slist_free (reverse);
+}
+
+
 char *
 selection_to_string (SheetView *sv, gboolean include_sheet_name_prefix)
 {
@@ -1040,8 +1060,7 @@ selection_to_string (SheetView *sv, gboolean include_sheet_name_prefix)
 	res.str = g_string_new (NULL);
 	res.include_sheet_name_prefix = include_sheet_name_prefix;
 
-	/* sv_selection_apply will check all necessary invariants. */
-	sv_selection_apply (sv, &cb_range_to_string, TRUE, &res);
+	sv_selection_apply_in_order (sv, &cb_range_to_string, &res);
 
 	output = res.str->str;
 	g_string_free (res.str, FALSE);

@@ -1662,6 +1662,7 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 {
 	GnmValue *val_1;
 	GnmValue *val_2;
+
 	GnmFunc *fd_count;
 	GnmFunc *fd_mean;
 	GnmFunc *fd_var;
@@ -1669,9 +1670,16 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_abs;
 	GnmFunc *fd_tinv;
 	GnmFunc *fd_correl;
+	GnmFunc *fd_isodd;
+	GnmFunc *fd_isnumber;
+	GnmFunc *fd_if;
+	GnmFunc *fd_sum;
+	
 	GnmExpr const *expr_1;
 	GnmExpr const *expr_2;
 	GnmExpr const *expr_diff;
+	GnmExpr const *expr_ifisnumber;
+	GnmExpr const *expr_ifisoddifisnumber;
 
         dao_set_cell (dao, 0, 0, "");
         set_cell_text_col (dao, 0, 1, _("/Mean"
@@ -1702,6 +1710,14 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 	gnm_func_ref (fd_tdist);
 	fd_abs = gnm_func_lookup ("ABS", NULL);
 	gnm_func_ref (fd_abs);
+	fd_isodd = gnm_func_lookup ("ISODD", NULL);
+	gnm_func_ref (fd_isodd);
+	fd_isnumber = gnm_func_lookup ("ISNUMBER", NULL);
+	gnm_func_ref (fd_isnumber);
+	fd_if = gnm_func_lookup ("IF", NULL);
+	gnm_func_ref (fd_if);
+	fd_sum = gnm_func_lookup ("SUM", NULL);
+	gnm_func_ref (fd_sum);
 
 	val_1 = value_dup (info->base.range_1);
 	val_2 = value_dup (info->base.range_2);
@@ -1749,21 +1765,50 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 	/* Hypothesized Mean Difference */
 	dao_set_cell_float (dao, 1, 5, info->mean_diff);
 
-	/* Observed Mean Difference */
+	/* Some useful expressions for the next field */
+
 	expr_diff = gnm_expr_new_binary (expr_1, GNM_EXPR_OP_SUB, expr_2);
+
+	/* IF (ISNUMBER (area1), 1, 0) * IF (ISNUMBER (area2), 1, 0)  */
+	expr_ifisnumber = gnm_expr_new_binary (gnm_expr_new_funcall3 (
+						       fd_if,
+						       gnm_expr_new_funcall1 (
+							       fd_isnumber,
+							       gnm_expr_copy (expr_1)),
+						       gnm_expr_new_constant (value_new_int (1)),
+						       gnm_expr_new_constant (value_new_int (0))),
+					       GNM_EXPR_OP_MULT, 
+					       gnm_expr_new_funcall3 (
+						       fd_if,
+						       gnm_expr_new_funcall1 (
+							       fd_isnumber,
+							       gnm_expr_copy (expr_2)),
+						       gnm_expr_new_constant (value_new_int (1)),
+						       gnm_expr_new_constant (value_new_int (0)))
+		);
+	/* IF (ISODD (expr_ifisnumber), area1-area2, "NA")*/
+	expr_ifisoddifisnumber = gnm_expr_new_funcall3 (fd_if,
+							gnm_expr_new_funcall1 (fd_isodd,
+									       gnm_expr_copy (expr_ifisnumber)),
+							expr_diff,
+							gnm_expr_new_constant (value_new_string ("NA")));
+
+	/* Observed Mean Difference */
 	dao_set_cell_array_expr (dao, 1, 6,
 				 gnm_expr_new_funcall1 (fd_mean,
-							gnm_expr_copy (expr_diff)));
+							gnm_expr_copy (expr_ifisoddifisnumber)));
 
 	/* Variance of the Differences */
 	dao_set_cell_array_expr (dao, 1, 7,
 				 gnm_expr_new_funcall1 (fd_var,
-							gnm_expr_copy (expr_diff)));
+							expr_ifisoddifisnumber));
 
 	/* df */
 	dao_set_cell_array_expr (dao, 1, 8,
 				 gnm_expr_new_binary
-				 (gnm_expr_new_funcall1 (fd_count, expr_diff),
+				 (gnm_expr_new_funcall1 (
+					 fd_sum, 
+					 expr_ifisnumber),
 				  GNM_EXPR_OP_SUB,
 				  gnm_expr_new_constant (value_new_int (1))));
 	
@@ -1851,6 +1896,10 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 	gnm_func_unref (fd_tinv);
 	gnm_func_unref (fd_tdist);
 	gnm_func_unref (fd_abs);
+	gnm_func_unref (fd_isodd);
+	gnm_func_unref (fd_isnumber);
+	gnm_func_unref (fd_if);
+	gnm_func_unref (fd_sum);
 
 	dao_redraw_respan (dao);
 
