@@ -341,17 +341,9 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	res->numeric_overflow = FALSE;
 
 	if (displayed_formula) {
-		GnmParsePos pp;
-		GnmConventionsOut out;
-
-		out.accum = g_string_new ("=");
-		out.convs = sheet->convs;
-		out.pp    = &pp;
-
-		parse_pos_init_cell (&pp, cell),
-		gnm_expr_top_as_gstring (cell->base.texpr, &out);
-		pango_layout_set_text (layout, out.accum->str, out.accum->len);
-		g_string_free (out.accum, TRUE);
+		char *text = gnm_cell_get_displayed_text (cell);
+		pango_layout_set_text (layout, text, -1);
+		g_free (text);
 		fore = 0;
 		res->might_overflow = FALSE;
 	} else if (sheet->hide_zero && gnm_cell_is_zero (cell)) {

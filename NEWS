@@ -17,6 +17,9 @@ J.H.M. Dassen (Ray):
 	* Understand and ignore byte-order markers for CSV/stf probing and
 	  importing. [#549743]
 
+Morten:
+	* Fix display of array formulas.  [#550902]
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.2
 

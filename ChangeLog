@@ -1,3 +1,11 @@
+2008-09-05  Morten Welinder  <terra@gnome.org>
+
+	* src/cell.c (gnm_cell_get_displayed_text): New function.
+
+	* src/rendered-value.c (gnm_rendered_value_new): Use
+	gnm_cell_get_displayed_text.  Fixes #550902.
+	* src/workbook-view.c (wb_view_edit_line_set): Ditto.
+
 2008-09-02  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	Fix of #516052
