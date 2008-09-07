@@ -83,12 +83,11 @@ GOFormat *gnm_cell_get_format		(GnmCell const *cell);
 void	gnm_cell_set_format		(GnmCell *cell, char const *format);
 
 void	gnm_cell_render_value		(GnmCell *cell, gboolean allow_variable_width);
-int	gnm_cell_rendered_height	(GnmCell const *cell);
-int	gnm_cell_rendered_width		(GnmCell const *cell);	/* excludes offset */
-int	gnm_cell_rendered_offset	(GnmCell const *cell);
-GOColor gnm_cell_get_render_color	(GnmCell const *cell);
-char *	gnm_cell_get_entered_text	(GnmCell const *cell);
-char *  gnm_cell_get_displayed_text     (GnmCell const *cell);
+int	gnm_cell_rendered_height	(GnmCell const * cell);
+int	gnm_cell_rendered_width		(GnmCell const * cell);	/* excludes offset */
+int	gnm_cell_rendered_offset	(GnmCell const * cell);
+GOColor gnm_cell_get_render_color	(GnmCell const * cell);
+char *	gnm_cell_get_entered_text	(GnmCell const * cell);
 char *  gnm_cell_get_rendered_text	(GnmCell *cell);
 
 G_END_DECLS

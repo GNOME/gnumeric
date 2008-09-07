@@ -26,7 +26,6 @@
 #include "sheet-style.h"
 #include "parse-util.h"
 #include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-locale.h>
 
 /**
  * gnm_cell_cleanout :
@@ -562,50 +561,6 @@ gnm_cell_get_entered_text (GnmCell const *cell)
 
 	g_warning ("A cell with no expression, and no value ??");
 	return g_strdup ("<ERROR>");
-}
-
-
-char *
-gnm_cell_get_displayed_text (GnmCell const *cell)
-{
-	if (gnm_cell_has_expr (cell)) {
-		GnmExprTop const *texpr = cell->base.texpr;
-		GnmCell const *corner = NULL;
-		int x = 0, y = 0;
-
-		if (gnm_expr_top_is_array_corner (texpr))
-			corner = cell;
-		else if (gnm_expr_top_is_array_elem (texpr, &x, &y)) {
-			corner = sheet_cell_get
-				(cell->base.sheet,
-				 cell->pos.col - x,
-				 cell->pos.row - y);
-		}
-
-		if (corner) {
-			GnmExprArrayCorner const *ac =
-				gnm_cell_is_array_corner (corner);
-			GnmParsePos pp;
-			GnmConventionsOut out;
-
-			out.accum = g_string_new ("={");
-			out.pp = parse_pos_init_cell (&pp, cell);
-			out.convs = cell->base.sheet->convs;
-
-			gnm_expr_top_as_gstring (cell->base.texpr, &out);
-
-			g_string_append_printf (out.accum,
-						"}(%d%c%d)[%d][%d]",
-						ac->cols,
-						go_locale_get_arg_sep (),
-						ac->rows,
-						x, y);
-
-			return g_string_free (out.accum, FALSE);
-		}
-	}
-
-	return gnm_cell_get_entered_text (cell);
 }
 
 

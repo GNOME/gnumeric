@@ -2953,6 +2953,14 @@ gnm_expr_top_is_array_elem (GnmExprTop const *texpr, int *x, int *y)
 	return TRUE;
 }
 
+gboolean
+gnm_expr_top_is_array (GnmExprTop const *texpr)
+{
+	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
+	return (GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_ELEM ||
+		GNM_EXPR_GET_OPER (texpr->expr) == GNM_EXPR_OP_ARRAY_CORNER);
+}
+
 GnmExprTop const *
 gnm_expr_top_transpose (GnmExprTop const *texpr)
 {

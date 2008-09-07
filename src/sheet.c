@@ -171,16 +171,6 @@ re_render_formulas (Sheet const *sheet)
 }
 
 static void
-sheet_set_display_formulas (Sheet *sheet, gboolean display)
-{
-	display = !!display;
-	if (sheet->display_formulas == display)
-		return;
-	sheet->display_formulas = display;
-	re_render_formulas (sheet);
-}
-
-static void
 sheet_set_conventions (Sheet *sheet, GnmConventions const *convs)
 {
 	if (sheet->convs == convs)
@@ -323,31 +313,49 @@ cb_clear_rendered_cells (gpointer ignored, GnmCell *cell)
 }
 
 static void
-sheet_set_zoom_factor (Sheet *sheet, double factor)
+sheet_scale_changed (Sheet *sheet, gboolean cols_rescaled, gboolean rows_rescaled)
 {
 	struct resize_colrow closure;
 
-	if (fabs (factor - sheet->last_zoom_factor_used) < 1e-6)
-		return;
-	sheet->last_zoom_factor_used = factor;
-
-	/* First, the default styles */
-	colrow_compute_pixels_from_pts (&sheet->rows.default_style, sheet, FALSE);
-	colrow_compute_pixels_from_pts (&sheet->cols.default_style, sheet, TRUE);
+	g_return_if_fail (cols_rescaled || rows_rescaled);
 
 	/* Then every column and row */
-	closure.sheet = sheet;
-	closure.is_cols = TRUE;
-	colrow_foreach (&sheet->cols, 0, gnm_sheet_get_max_cols (sheet) - 1,
-		(ColRowHandler)&cb_colrow_compute_pixels_from_pts, &closure);
-	closure.is_cols = FALSE;
-	colrow_foreach (&sheet->rows, 0, gnm_sheet_get_max_rows (sheet) - 1,
-		(ColRowHandler)&cb_colrow_compute_pixels_from_pts, &closure);
+	if (cols_rescaled) {
+		colrow_compute_pixels_from_pts (&sheet->cols.default_style, sheet, TRUE);
+		closure.sheet = sheet;
+		closure.is_cols = TRUE;
+		colrow_foreach (&sheet->cols, 0, gnm_sheet_get_max_cols (sheet) - 1,
+			(ColRowHandler)&cb_colrow_compute_pixels_from_pts, &closure);
+	}
+	if (rows_rescaled) {
+		colrow_compute_pixels_from_pts (&sheet->rows.default_style, sheet, FALSE);
+		closure.is_cols = FALSE;
+		colrow_foreach (&sheet->rows, 0, gnm_sheet_get_max_rows (sheet) - 1,
+			(ColRowHandler)&cb_colrow_compute_pixels_from_pts, &closure);
+	}
 
 	sheet_cell_foreach (sheet, (GHFunc)&cb_clear_rendered_cells, NULL);
 	SHEET_FOREACH_CONTROL (sheet, view, control, sc_scale_changed (control););
 }
 
+static void
+sheet_set_display_formulas (Sheet *sheet, gboolean display)
+{
+	display = !!display;
+	if (sheet->display_formulas == display)
+		return;
+	sheet->display_formulas = display;
+	sheet_scale_changed (sheet, TRUE, FALSE);
+}
+
+static void
+sheet_set_zoom_factor (Sheet *sheet, double factor)
+{
+	if (fabs (factor - sheet->last_zoom_factor_used) < 1e-6)
+		return;
+	sheet->last_zoom_factor_used = factor;
+	sheet_scale_changed (sheet, TRUE, TRUE);
+}
 
 static void
 gnm_sheet_set_property (GObject *object, guint property_id,
@@ -4495,6 +4503,9 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 		else if (ci->visible)
 			pts += ci->size_pts;
 	}
+
+	if (sheet->display_formulas)
+		pts *= 2.;
 
 	return pts * sign;
 }

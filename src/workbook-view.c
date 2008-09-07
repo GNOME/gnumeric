@@ -54,6 +54,7 @@
 #include <goffice/app/io-context.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-locale.h>
 #include <gsf/gsf.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
@@ -386,12 +387,49 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 	sv = wbv->current_sheet_view;
 	if (sv != NULL) {
 		char *text;
-		GnmCell const *cell = sheet_cell_get (sv->sheet,
+		Sheet *sheet = sv->sheet;
+		GnmCell const *cell = sheet_cell_get (sheet,
 			sv->edit_pos.col, sv->edit_pos.row);
 
-		if (NULL != cell)
-			text = gnm_cell_get_displayed_text (cell);
-		else
+		if (NULL != cell) {
+			text = gnm_cell_get_entered_text (cell);
+
+			if (gnm_cell_has_expr (cell)) {
+				GnmExprTop const *texpr = cell->base.texpr;
+				GnmCell const *corner = NULL;
+				int x = 0, y = 0;
+
+				/*
+				 * If this is part of an array we add '{' '}'
+				 * and size information to the display.  That
+				 * is not actually part of the parsable
+				 * expression, but it is a useful extension to
+				 * the simple '{' '}' that MS excel(tm) uses.
+				 */
+				if (gnm_expr_top_is_array_corner (texpr))
+					corner = cell;
+				else if (gnm_expr_top_is_array_elem (texpr, &x, &y)) {
+					corner = sheet_cell_get
+						(sheet,
+						 cell->pos.col - x,
+						 cell->pos.row - y);
+				}
+
+				if (corner) {
+					GnmExprArrayCorner const *ac = gnm_cell_is_array_corner (corner);
+
+					char *tmp = g_strdup_printf
+						("{%s}(%d%c%d)[%d][%d]",
+						 text,
+						 ac->cols,
+						 go_locale_get_arg_sep (),
+						 ac->rows,
+						 x, y);
+					g_free (text);
+					text = tmp;
+				}
+			}
+		} else
 			text = g_strdup ("");
 
 		if (optional_wbc == NULL) {

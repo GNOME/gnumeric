@@ -263,6 +263,7 @@ gnm_gtk_print_cell_range (GtkPrintContext *print_context, cairo_t *context,
 {
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 	int const dir = sheet->text_is_rtl ? -1 : 1;
+	float const hscale = sheet->display_formulas ? 2 : 1; 
 	int start_row, start_col, end_col, end_row;
 
 	GnmStyleRow sr, next_sr;
@@ -468,10 +469,10 @@ gnm_gtk_print_cell_range (GtkPrintContext *print_context, cairo_t *context,
 			}
 
 			if (dir < 0)
-				x -= ci->size_pts;
+				x -= ci->size_pts * hscale;
 			style = sr.styles [col];
 			print_cell_background_gtk (context, style, col, row, x, y,
-					       ci->size_pts, ri->size_pts);
+						   ci->size_pts * hscale, ri->size_pts);
 
 			/* Is this part of a span?
 			 * 1) There are cells allocated in the row
@@ -479,31 +480,27 @@ gnm_gtk_print_cell_range (GtkPrintContext *print_context, cairo_t *context,
 			 * 2) Look in the rows hash table to see if
 			 *    there is a span descriptor.
 			 */
-			if (NULL == ri->spans || NULL == (span = row_span_get (ri, col)))
-				{
-
+			if (NULL == ri->spans || NULL == (span = row_span_get (ri, col))) {
 				/* no need to draw blanks */
 				GnmCell const *cell = sheet_cell_get (sheet, col, row);
 				if (!gnm_cell_is_empty (cell))
-					print_cell_gtk (cell, style,
-							context,
-							x, y,
-							ci->size_pts, ri->size_pts, -1.);
+					print_cell_gtk (cell, style, context, x, y,
+							ci->size_pts * hscale,
+							ri->size_pts, -1.);
 
 			/* Only draw spaning cells after all the backgrounds
 			 * that we are going to draw have been drawn.  No need
 			 * to draw the edit cell, or blanks.
 			 */
-				}
-				else if (col == span->right || col == end_col) {
+			} else if (col == span->right || col == end_col) {
 				GnmCell const *cell = span->cell;
 				int const start_span_col = span->left;
 				int const end_span_col = span->right;
 				double real_x = x;
 				ColRowInfo const *cell_col =
 					sheet_col_get_info (sheet, cell->pos.col);
-				double center_offset = cell_col->size_pts / 2;
-				double tmp_width = ci->size_pts;
+				double center_offset = cell_col->size_pts * hscale / 2;
+				double tmp_width = ci->size_pts * hscale;
 
 				if (col != cell->pos.col)
 					style = sheet_style_get (sheet,
@@ -540,7 +537,7 @@ gnm_gtk_print_cell_range (GtkPrintContext *print_context, cairo_t *context,
 				sr.vertical [col] = NULL;
 
 			if (dir > 0)
-			x += ci->size_pts;
+				x += ci->size_pts * hscale;
 		}
 		gnm_style_borders_row_print_gtk (prev_vert, &sr,
 					 context, base_x, y, y+ri->size_pts,

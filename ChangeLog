@@ -1,10 +1,16 @@
-2008-09-05  Morten Welinder  <terra@gnome.org>
+2008-09-07  Jody Goldberg <jody@gnome.org>
 
-	* src/cell.c (gnm_cell_get_displayed_text): New function.
+	* src/sheet.c (sheet_scale_changed) : split from.
+	(sheet_set_zoom_factor) : here.
+	(sheet_set_display_formulas) : used here.
 
-	* src/rendered-value.c (gnm_rendered_value_new): Use
-	gnm_cell_get_displayed_text.  Fixes #550902.
-	* src/workbook-view.c (wb_view_edit_line_set): Ditto.
+	* src/print-cell.c (gnm_gtk_print_cell_range) : handle the doubling of
+	  column width during 'display forumla' mode.
+
+	* src/expr.c (gnm_expr_top_is_array) : new.
+
+	* src/rendered-value.c (gnm_rendered_value_new) : Use a simpler syntax
+	  to denote arrays.  The full form used in the entry is too verboase.
 
 2008-09-02  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
