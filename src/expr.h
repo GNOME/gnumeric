@@ -63,6 +63,11 @@ GnmExpr const *gnm_expr_new_funcall3	(GnmFunc *func,
 					 GnmExpr const *arg0,
 					 GnmExpr const *arg1,
 					 GnmExpr const *arg2);
+GnmExpr const *gnm_expr_new_funcall4	(GnmFunc *func,
+					 GnmExpr const *arg0,
+					 GnmExpr const *arg1,
+					 GnmExpr const *arg2,
+					 GnmExpr const *arg3);
 GnmExpr const *gnm_expr_new_name	(GnmNamedExpr *name,
 					 Sheet *sheet_scope, Workbook *wb_scope);
 GnmExpr const *gnm_expr_new_cellref	(GnmCellRef const *cr);

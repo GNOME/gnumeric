@@ -6,6 +6,7 @@ Andreas:
 	* Fix column ordering in analysis tools. [#516052]
 	* Make the paired t-test analysis tool use only 
 	  complete pairs. [# 531852]
+	* Improve regression tool
 
 Jean:
 	* Fix printing of rotated text. [#539734]

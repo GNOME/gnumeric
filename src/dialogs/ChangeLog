@@ -1,3 +1,15 @@
+2008-09-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* regression.glade: remove "group by" buttons and add
+	  warnings label
+	* dialog-analysis-tools.c (regression_tool_calc_*): new
+	(regression_tool_ok_clicked_cb): keep arrays and 
+	  determine group-by from y variable
+	(regression_tool_update_sensitivity_cb): provide reasons
+	  and also check for correct range sizes
+	(dialog_regression): enable choice to enter formulas rather than 
+	  values
+
 2008-08-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.2

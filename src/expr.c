@@ -153,6 +153,21 @@ gnm_expr_new_funcall3 (GnmFunc *func,
 	return gnm_expr_new_funcallv (func, 3, argv);
 }
 
+GnmExpr const *
+gnm_expr_new_funcall4 (GnmFunc *func,
+		       GnmExpr const *arg0,
+		       GnmExpr const *arg1,
+		       GnmExpr const *arg2,
+		       GnmExpr const *arg3)
+{
+	GnmExprConstPtr *argv = g_new (GnmExprConstPtr, 4);
+	argv[0] = arg0;
+	argv[1] = arg1;
+	argv[2] = arg2;
+	argv[3] = arg3;
+	return gnm_expr_new_funcallv (func, 4, argv);
+}
+
 
 /***************************************************************************/
 

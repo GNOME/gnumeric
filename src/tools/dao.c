@@ -307,37 +307,63 @@ dao_cell_is_visible (data_analysis_output_t *dao, int col, int row)
  *
  */
 void 
-dao_set_cell_array_expr (data_analysis_output_t *dao, int col, int row,
-			 GnmExpr const *expr)
+dao_set_array_expr (data_analysis_output_t *dao,
+		    int col, int row, int cols, int rows,
+		    GnmExpr const *expr)
 {
 	GnmExprTop const *texpr;
+	int col_end;
+	int row_end;
 
 	col += dao->offset_col;
 	row += dao->offset_row;
+	col_end = col + cols - 1;
+	row_end = row + rows - 1;
 
 	/* Check that the output is in the given range, but allow singletons
 	 * to expand
 	 */
-	if (dao->type == RangeOutput &&
-	    (dao->cols > 1 || dao->rows > 1) &&
-	    (col >= dao->cols || row >= dao->rows)) {
-		gnm_expr_free (expr);
-	        return;
+	if (dao->type == RangeOutput && (dao->cols > 1 || dao->rows > 1)) {
+		if (col >= dao->cols || row >= dao->rows) {
+			gnm_expr_free (expr);
+			return;
+		}
+		if (col_end >= dao->cols)
+			col_end = dao->cols - 1;
+		if (row_end >= dao->rows)
+			row_end = dao->rows - 1;
 	}
 
 	col += dao->start_col;
 	row += dao->start_row;
-	if (col >= gnm_sheet_get_max_cols (dao->sheet) || row >= gnm_sheet_get_max_rows (dao->sheet)) {
+	col_end += dao->start_col;
+	row_end += dao->start_row;
+	if (col >= gnm_sheet_get_max_cols (dao->sheet) 
+	    || row >= gnm_sheet_get_max_rows (dao->sheet)) {
 		gnm_expr_free (expr);
 		return;
 	}
+	if (col_end >= gnm_sheet_get_max_cols (dao->sheet))
+		col_end = gnm_sheet_get_max_cols (dao->sheet) - 1;
+	if (row_end >= gnm_sheet_get_max_rows (dao->sheet))
+		row_end = gnm_sheet_get_max_rows (dao->sheet) - 1;
 
 	texpr = gnm_expr_top_new (expr);
 	gnm_cell_set_array_formula (dao->sheet, 
-				    col, row, col, row,
+				    col, row, 
+				    col_end, row_end,
 				    texpr);
 }
-
+/*
+ * dao_set_cell_array_expr absorbs the reference for the expr.
+ *
+ */
+void 
+dao_set_cell_array_expr (data_analysis_output_t *dao, int col, int row,
+			 GnmExpr const *expr)
+{
+	dao_set_array_expr (dao, col, row, 1, 1, expr);
+}
 
 /*
  * dao_set_cell_expr absorbs the reference for the expr.
@@ -809,6 +835,32 @@ dao_set_date (data_analysis_output_t *dao, int col1, int row1,
 }
 
 /**
+ * dao_set_format:
+ * @dao:
+ * @col1:
+ * @row1:
+ * @col2:
+ * @row2:
+ * @format:
+ *
+ * set the given cell range to given format
+ *
+ *
+ **/
+void
+dao_set_format (data_analysis_output_t *dao, int col1, int row1,
+		int col2, int row2,
+		char const * format)
+{
+	GnmStyle *mstyle;
+
+	mstyle = gnm_style_new ();
+	gnm_style_set_format_text (mstyle, format);
+	dao_set_style (dao, col1, row1,
+		       col2, row2, mstyle);
+}
+
+/**
  * dao_set_colors:
  * @dao:
  * @col1:
@@ -1058,3 +1110,17 @@ dao_redraw_respan (data_analysis_output_t *dao)
 	dao_convert_to_values (dao);
 	sheet_redraw_range (dao->sheet, &r);
 }
+
+
+GnmExpr const  *
+dao_get_cellref (data_analysis_output_t *dao, int dx, int dy)
+{
+	GnmCellRef r;
+	r.sheet = dao->sheet;
+	r.col = dx + dao->start_col + dao->offset_col;
+	r.col_relative = FALSE;
+	r.row = dy + dao->start_row + dao->offset_row;
+	r.row_relative = FALSE;
+	return gnm_expr_new_cellref (&r);
+}
+

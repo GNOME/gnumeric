@@ -69,6 +69,8 @@ void dao_set_percent          (data_analysis_output_t *dao, int col1, int row1,
 			       int col2, int row2);
 void dao_set_date             (data_analysis_output_t *dao, int col1, int row1,
 			       int col2, int row2);
+void dao_set_format             (data_analysis_output_t *dao, int col1, int row1,
+				 int col2, int row2, char const *format);
 
 void dao_set_colors (data_analysis_output_t *dao, int col1, int row1,
 		     int col2, int row2,
@@ -87,6 +89,9 @@ void dao_set_cell_expr       (data_analysis_output_t *dao, int col, int row,
 			       GnmExpr const *expr);
 void dao_set_cell_array_expr (data_analysis_output_t *dao, int col, int row,
 			      GnmExpr const *expr);
+void dao_set_array_expr (data_analysis_output_t *dao,
+			 int col, int row,  int cols, int rows,
+			 GnmExpr const *expr);
 void dao_set_cell_float       (data_analysis_output_t *dao,
 			       int col, int row, gnm_float v);
 void dao_set_cell_int         (data_analysis_output_t *dao,
@@ -121,6 +126,7 @@ gboolean dao_put_formulas (data_analysis_output_t *dao);
 void dao_convert_to_values (data_analysis_output_t *dao);
 void dao_redraw_respan (data_analysis_output_t *dao);
 
+GnmExpr const *dao_get_cellref (data_analysis_output_t *dao, int dx, int dy);
 
 
 #endif

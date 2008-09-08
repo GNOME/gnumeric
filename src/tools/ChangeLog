@@ -1,4 +1,25 @@
-2007-09-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2008-09-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dao.h (dao_set_format): new
+	(dao_set_array_expr): new
+	(dao_get_cellref): new
+	* dao.c (dao_set_format): new
+	(dao_set_array_expr): new
+	(dao_set_cell_array_expr): use dao_set_array_expr
+	(dao_get_cellref): new
+	* analysis-tools.h (analysis_tools_error_code_t): remove
+	  analysis_tools_REG_invalid_dimensions
+	(analysis_tools_data_regression_t): switch to ftest base
+	* analysis-tools.c (analysis_tools_write_label_ftest): use
+	  cb_adjust_areas
+	(cb_cut_into_rows): ditto
+	(cb_cut_into_cols): ditto
+	(analysis_tool_regression_engine_last_check): deleted
+	(calculate_xdim): new
+	(analysis_tool_regression_engine_run): rewritten
+	(analysis_tool_regression_engine): simplify
+
+2008-09-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	Fix for #531852.
 	* analysis-tools.c (analysis_tool_ttest_paired_engine_run):

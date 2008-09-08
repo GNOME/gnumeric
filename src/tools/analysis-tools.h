@@ -24,8 +24,7 @@ typedef enum {
 	analysis_tools_missing_data,
 	analysis_tools_too_few_cols,
 	analysis_tools_too_few_rows,
-	analysis_tools_replication_invalid,
-	analysis_tools_REG_invalid_dimensions
+	analysis_tools_replication_invalid
 } analysis_tools_error_code_t;
 
 
@@ -143,18 +142,6 @@ gboolean analysis_tool_ranking_engine (data_analysis_output_t *dao, gpointer spe
 				       analysis_tool_engine_t selector, gpointer result);
 
 
-/****************  Regression  ********************/
-
-typedef struct {
-	analysis_tools_data_generic_t base;
-	GnmValue      *y_input;
-	gnm_float alpha;
-	gint       intercept;
-
-} analysis_tools_data_regression_t;
-
-gboolean analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs,
-					   analysis_tool_engine_t selector, gpointer result);
 
 
 /********************************************************************/
@@ -175,6 +162,16 @@ typedef struct {
 gboolean analysis_tool_ftest_engine (data_analysis_output_t *dao, gpointer specs,
 				     analysis_tool_engine_t selector, gpointer result);
 
+/****************  Regression  ********************/
+
+typedef struct {
+	analysis_tools_data_ftest_t base;
+	gint       intercept;
+	group_by_t group_by;
+} analysis_tools_data_regression_t;
+
+gboolean analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs,
+					   analysis_tool_engine_t selector, gpointer result);
 /*********************** TTest paired *****************/
 
 typedef struct {

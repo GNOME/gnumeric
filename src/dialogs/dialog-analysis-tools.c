@@ -335,7 +335,7 @@ dialog_tool_init (GenericToolState *state,
 		table = GTK_TABLE (glade_xml_get_widget (state->gui,
 							 "input-table"));
 		state->input_entry = gnm_expr_entry_new (state->wbcg, TRUE);
-		gnm_expr_entry_set_flags (state->input_entry, flags,
+		gnm_expr_entry_set_flags (state->input_entry, flags | GNM_EE_FORCE_ABS_REF,
 					  GNM_EE_MASK);
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry),
 				  1, 2, 0, 1,
@@ -365,7 +365,7 @@ dialog_tool_init (GenericToolState *state,
 
 		state->input_entry_2 = gnm_expr_entry_new (state->wbcg, TRUE);
 		gnm_expr_entry_set_flags (state->input_entry_2,
-					  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
+					  GNM_EE_SINGLE_RANGE | GNM_EE_FORCE_ABS_REF, GNM_EE_MASK);
 		table = GTK_TABLE (gtk_widget_get_parent (widget));
 
 		this_label_widget = g_list_find_custom
@@ -1909,6 +1909,26 @@ dialog_sampling_tool (WBCGtk *wbcg, Sheet *sheet)
 /*  Begin of Regression tool code */
 /**********************************************/
 
+static gint
+regression_tool_calc_height (GnmValue *val)
+{
+		GnmRange r;
+
+		if (NULL == range_init_value (&r, val))
+			return 0;
+		return range_height (&r);
+}
+
+static gint
+regression_tool_calc_width (GnmValue *val)
+{
+		GnmRange r;
+
+		if (NULL == range_init_value (&r, val))
+			return 0;
+		return range_width (&r);
+}
+
 
 /**
  * regression_tool_ok_clicked_cb:
@@ -1929,6 +1949,7 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkWidget *w;
 	gint err;
 	gnm_float confidence;
+	gint y_h, y_w;
 
 	if (state->base.warning_dialog != NULL)
 		gtk_widget_destroy (state->base.warning_dialog);
@@ -1938,17 +1959,21 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	data->base.wbc = WORKBOOK_CONTROL (state->base.wbcg);
 
-	data->base.input = gnm_expr_entry_parse_as_list (
+	data->base.range_1 = gnm_expr_entry_parse_as_value (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	data->y_input = gnm_expr_entry_parse_as_value
+	data->base.range_2 = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
-	data->base.group_by = gnumeric_glade_group_value (state->base.gui, grouped_by_group);
+
+	y_h = regression_tool_calc_height(data->base.range_2);
+	y_w = regression_tool_calc_width (data->base.range_2);
+
+	data->group_by = (y_h == 1) ? GROUPED_BY_ROW : GROUPED_BY_COL;
 
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	err = entry_to_float (GTK_ENTRY (state->confidence_entry), &confidence, TRUE);
-	data->alpha = 1 - confidence;
+	data->base.alpha = 1 - confidence;
 
 	w = glade_xml_get_widget (state->base.gui, "intercept-button");
 	data->intercept = 1 - gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -1957,35 +1982,18 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			       dao, data, analysis_tool_regression_engine)) {
 		char *text;
 
-		switch ( data->base.err) {
-		case analysis_tools_reported_err_input:
-			gnm_expr_entry_grab_focus
-				(GNM_EXPR_ENTRY (state->base.input_entry),
-				 TRUE);
-			break;
-		case analysis_tools_reported_err:
-			break;
-		case  analysis_tools_REG_invalid_dimensions:
-			error_in_entry ((GenericToolState *) state,
-					GTK_WIDGET (state->base.input_entry),
-			      _("There must be an equal number of entries "
-				"for each variable in the regression."));
-			break;
-		default:
-			text = g_strdup_printf (
-				_("An unexpected error has occurred: %d."), data->base.err);
-			error_in_entry ((GenericToolState *) state,
-					GTK_WIDGET (state->base.input_entry), text);
-			g_free (text);
-			break;
-		}
-		if (data->base.input)
-			range_list_destroy (data->base.input);
-		if (data->y_input)
-			value_release (data->y_input);
+		text = g_strdup_printf (
+			_("An unexpected error has occurred: %d."), data->base.err);
+		error_in_entry ((GenericToolState *) state,
+				GTK_WIDGET (state->base.input_entry), text);
+		g_free (text);
+		
+		if (data->base.range_1)
+			value_release (data->base.range_1);
+		if (data->base.range_2)
+			value_release (data->base.range_2);
 		g_free (dao);
 		g_free (data);
-
 	} else
 		gtk_widget_destroy (state->base.dialog);
 
@@ -2004,35 +2012,91 @@ static void
 regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				       RegressionToolState *state)
 {
-	gboolean ready  = FALSE;
-	gboolean input_1_ready  = FALSE;
-	gboolean input_2_ready  = FALSE;
-	gboolean output_ready  = FALSE;
 	int err;
 	gnm_float confidence;
-        GSList *input_range;
+        GnmValue *input_range;
         GnmValue *input_range_2;
+	gint y_h, y_w;
+	gint x_h, x_w;
 
-        input_range = gnm_expr_entry_parse_as_list (
-		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	input_range_2 = gnm_expr_entry_parse_as_value
-		(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
+	/* Checking Input Range */
+        input_range_2 = gnm_expr_entry_parse_as_value (
+		GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
+	if (input_range_2 == NULL) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The y variable range is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
+	
+	y_h = regression_tool_calc_height(input_range_2);
+	y_w = regression_tool_calc_width (input_range_2);
+	value_release (input_range_2);
+
+	if (y_h == 0 || y_w == 0) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The y variable range is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
+	if (y_h != 1 && y_w != 1) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The y variable range must be a vector (n by 1 or 1 by n)."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
+	if (y_h <= 2 && y_w <= 2) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The y variable range is to small"));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
+
+	input_range = gnm_expr_entry_parse_as_value
+		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+	if (input_range == NULL) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The x variables range is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
+
+	x_h = regression_tool_calc_height(input_range);
+	x_w = regression_tool_calc_width (input_range);
+	value_release (input_range);
+
+	if (x_h == 0 || x_w == 0) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The x variables range is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
+	
+	if ((y_h == 1 && y_w != x_w) || (y_w == 1 && y_h != x_h)) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The sizes of the x variable and y variable ranges do not match."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
 
 	err = entry_to_float (GTK_ENTRY (state->confidence_entry), &confidence, FALSE);
 
-	input_1_ready = (input_range != NULL);
-	input_2_ready = (input_range_2 != NULL);
-	output_ready =  gnm_dao_is_ready (GNM_DAO (state->base.gdao));
+	if (err != 0 || (1 < confidence || confidence < 0)) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The confidence level is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
 
-	ready = input_1_ready &&
-		input_2_ready &&
-		(err == 0) && (1 > confidence ) && (confidence > 0) &&
-		output_ready;
+        if (!gnm_dao_is_ready (GNM_DAO (state->base.gdao))) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The output specification "
+				      "is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);		
+	}
 
-        if (input_range != NULL) range_list_destroy (input_range);
-        if (input_range_2 != NULL) value_release (input_range_2);
-
-	gtk_widget_set_sensitive (state->base.ok_button, ready);
+	gtk_label_set_text (GTK_LABEL (state->base.warning), "");
+	gtk_widget_set_sensitive (state->base.ok_button, TRUE);
 }
 
 /**
@@ -2066,7 +2130,7 @@ dialog_regression_tool (WBCGtk *wbcg, Sheet *sheet)
 			      REGRESSION_KEY,
 			      G_CALLBACK (regression_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (regression_tool_update_sensitivity_cb),
-			      0))
+			      GNM_EE_SINGLE_RANGE))
 		return 0;
 
 	state->confidence_entry = glade_xml_get_widget (state->base.gui, "confidence-entry");
@@ -2077,7 +2141,7 @@ dialog_regression_tool (WBCGtk *wbcg, Sheet *sheet)
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->confidence_entry));
 
-	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);
+	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	regression_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
