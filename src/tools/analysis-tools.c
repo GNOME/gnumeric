@@ -2543,9 +2543,6 @@ analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
 
 	GnmFunc *fd_finv;
 
-	g_warning ("val_1 %s", value_peek_string (val_1));
-	g_warning ("val_2 %s", value_peek_string (val_2));
-
 	fd_finv = gnm_func_lookup ("FINV", NULL);
 	gnm_func_ref (fd_finv);
 
