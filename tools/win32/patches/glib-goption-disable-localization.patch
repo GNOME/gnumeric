@@ -128,3 +128,24 @@ Index: glib/goption.h
  
  void            g_option_context_add_main_entries (GOptionContext      *context,
  						   const GOptionEntry  *entries,
+Index: glib/glib.symbols
+===================================================================
+--- glib/glib.symbols   2008-09-02 11:09:41.000000000 -0400
++++ glib/glib.symbols   2008-09-04 16:57:16.000000000 -0400
+@@ -809,6 +809,7 @@
+ g_option_context_add_main_entries
+ g_option_error_quark
+ g_option_context_free
++g_option_context_get_delocalize
+ g_option_context_get_description
+ g_option_context_get_help_enabled
+ g_option_context_get_ignore_unknown_options
+@@ -816,6 +817,7 @@
+ g_option_context_get_summary
+ g_option_context_new
+ g_option_context_parse
++g_option_context_set_delocalize
+ g_option_context_set_description
+ g_option_context_set_help_enabled
+ g_option_context_set_ignore_unknown_options
+

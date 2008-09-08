@@ -101,13 +101,12 @@ module_autogenargs['pango']	= autogenargs + """ --disable-gtk-doc \
 module_autogenargs['pixman']	= autogenargs + """ --enable-explicit-deps=no \
                                                   --enable-xlib=no \
                                                   --enable-xlib-xrender=no \
-                                                  --enable-win32-font=yes \
-						  --enable-freetype"""
+                                                  --enable-win32-font=yes"""
 module_autogenargs['cairo']	= autogenargs + """ --enable-explicit-deps=no \
                                                   --enable-xlib=no \
                                                   --enable-xlib-xrender=no \
                                                   --enable-win32-font=yes \
-						  --enable-freetype=no \
+						  --enable-ft=no \
 						  --disable-static \
 						  --enable-shared"""
 

@@ -1,7 +1,7 @@
-Index: libgda/gtk-doc.make
+Index: gtk-doc.make
 ===================================================================
---- libgda/gtk-doc.make	(revision 3059)
-+++ libgda/gtk-doc.make	(working copy)
+--- gtk-doc.make	(revision 3059)
++++ gtk-doc.make	(working copy)
 @@ -5,11 +5,11 @@
  ####################################
  

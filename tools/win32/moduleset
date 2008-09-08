@@ -7,28 +7,19 @@
     <repository type="svn" name="svn.gnome.org" default="yes"
 		href="http://svn.gnome.org/svn/"/>
     <repository type="tarball" name="gnome.org"
-		href="http://download.gnome.org/sources"/>
+		href="http://download.gnome.org"/>
     <repository type="tarball" name="zlib.net"
 		href="http://www.zlib.net"/>
     <repository type="git" name="freedesktop.org"
 		href="git://cgit.freedesktop.org/git"/>
 
-<!--
-    <tarball id="iconv" version="1.12">
-	<source href="http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.12.tar.gz"
-	    md5sum="c2be282595751535a618ae0edeb8f648"/>
-    </tarball>
-    -->
- 
     <tarball id="gettext" version="0.17">
 	<source href="ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.17.tar.gz"
 	    md5sum="58a2bc6d39c0ba57823034d55d65d606"/>
 	<patches>
 	    <patch file="http://www.gnome.org/~aruiz/gtk+/patches/gettext_0_17_crossbuild_override_tools_fix.patch"/>
 	</patches>
-	<dependencies>
-<!--	    <dep package="iconv"/> -->
-	</dependencies>
+	<dependencies/>
     </tarball>
 
     <tarball id="pcre" version="7.2">
@@ -43,10 +34,12 @@
 	<dependencies>
 	</dependencies>
     </autotools>
+
+<!--
+		- APPLY MANUALLY -
     <autotools id="glib">
 	<branch>
 	    <patches>
-		<!-- APPLY MANUALLY -->
 		<patch file="http://www.gnome.org/~aruiz/gtk+/patches/glib_win32_cachefile.patch.gz"/>
 		<patch file="&patch_dir;glib-goption-disable-localization.patch"/>
 	    </patches>
@@ -54,24 +47,21 @@
 	<dependencies>
 	    <dep package="gettext"/>
 	    <dep package="gtk-doc"/>
-<!--	    <dep package="iconv"/> -->
+	    <dep package="iconv"/>
 	</dependencies>
     </autotools>
-
-    <!--
-    <tarball id="glib" version="2.14.6">
-	<source href="http://download.gnome.org/sources/glib/2.14/glib-2.14.6.tar.bz2"
-		md5sum="3b340946d6916ee9cbf2c348e7c099f1"/>
+-->
+    <tarball id="glib" version="2.18.0">
+	<source href="http://download.gnome.org/sources/glib/2.18/glib-2.18.0.tar.bz2" />
 	<patches>
 		<patch file="http://www.gnome.org/~aruiz/gtk+/patches/glib_win32_cachefile.patch"/>
 		<patch file="&patch_dir;glib-goption-disable-localization.patch"/>
 	</patches>
 	<dependencies>
 	    <dep package="gettext"/>
-	    <dep package="iconv"/>
+	    <dep package="gtk-doc"/>
 	</dependencies>
     </tarball>
-    -->
 
 <!-- Compression -->
     <autotools id="zlib"
@@ -182,20 +172,6 @@
 	</dependencies>
     </tarball>
 <!--
-    <tarball id="gtk+" version="2.12.9">
-	<source href="http://download.gnome.org/sources/gtk+/2.12/gtk+-2.12.9.tar.bz2"
-		md5sum="33499772fdc3bea569c6d5673e5831b4"/>
-	<patches>
-	</patches>
-
-	<dependencies>
-	    <dep package="glib"/>
-	    <dep package="cairo"/>
-	    <dep package="atk"/>
-	    <dep package="pango"/>
-	</dependencies>
-    </tarball>
-    -->
     <autotools id="gtk+">
 	<branch/>
 	<dependencies>
@@ -206,6 +182,19 @@
 	</dependencies>
     </autotools>
     -->
+
+    <tarball id="gtk+" version="2.14.1">
+	<source href="http://download.gnome.org/sources/gtk+/2.14/gtk+-2.14.1.tar.bz2" />
+	<patches>
+	</patches>
+	<dependencies>
+	    <dep package="glib"/>
+	    <dep package="cairo"/>
+	    <dep package="atk"/>
+	    <dep package="pango"/>
+	</dependencies>
+    </tarball>
+
 
 <!-- glade stack -->
     <tarball id="libxml2" version="2.6.32">
@@ -224,29 +213,31 @@
     </tarball>
 
 <!-- python stack -->
-    <tarball id="pygobject" version="2.12.3">
-	<source href="http://ftp.gnome.org/pub/gnome/sources/pygobject/2.12/pygobject-2.12.3.tar.bz2"
-		md5sum="009986021225b7ea6e0ba848707785af"/>
+    <autotools id="pygobject" version="2.14.2">
+	<branch repo="gnome.org" module="sources/pygobject/2.14/pygobject-2.14.2.tar.bz2"
+		version="3.1.2">
+	    <patch file="&patch_dir;pygobject.patch"/>
+	</branch>
+
 	<dependencies>
 	    <dep package="glib"/>
 	</dependencies>
-	<patches>
-	    <patch file="&patch_dir;pygobject.patch"/>
-	</patches>
-    </tarball>
+    </autotools>
 
-    <tarball id="libgda" version="3.0.2">
-	<source href="http://download.gnome.org/sources/libgda/3.1/libgda-3.1.2.tar.bz2"
-		md5sum="fe299d264ddeb7fbc36276f74f1abfdc"/>
+    <autotools id="libgda" version="3.1.5">
+	<branch repo="gnome.org" module="sources/libgda/3.1/libgda-3.1.5.tar.bz2"
+		version="3.1.5">
+	</branch>
 	<dependencies>
 	    <dep package="intltool"/>
 	    <dep package="glib"/>
 	    <dep package="libxml2"/>
 	</dependencies>
-    </tarball>
-    <autotools id="libgnomedb" version="trunk"
+    </autotools>
+
+    <autotools id="libgnomedb" version="3.1.2"
 	autogen-sh="autoreconf">
-	<branch repo="gnome.org" module="libgnomedb/3.1/libgnomedb-3.1.2.tar.bz2"
+	<branch repo="gnome.org" module="sources/libgnomedb/3.1/libgnomedb-3.1.2.tar.bz2"
 		version="3.1.2">
 	    <patch file="&patch_dir;libgnomedb.patch"/>
 	</branch>
@@ -270,6 +261,7 @@
 	    <patch file="&patch_dir;psiconv.patch"/>
 	</patches>
     </tarball>
+
 <!-- Gnumeric stack -->
     <autotools id="libgsf" version="trunk">
 	<branch/>
@@ -281,13 +273,7 @@
 	    <dep package="intltool"/>
 	</dependencies>
     </autotools>
-    <tarball id="libart_lgpl" version="2.3.19">
-	<source href="http://ftp.gnome.org/Public/gnome/sources/libart_lgpl/2.3/libart_lgpl-2.3.19.tar.bz2"
-		md5sum="ac885805d1918026a18b560f4015bc66"/>
-	<patches>
-	    <patch file="&patch_dir;libart.patch"/>
-	</patches>
-    </tarball>
+
     <autotools id="goffice" version="trunk">
 	<branch/>
 	<dependencies>
@@ -297,7 +283,6 @@
 	    <dep package="libxml2"/>
 	    <dep package="pango"/>
 	    <dep package="libglade"/>
-	    <dep package="libart_lgpl"/>
 	    <dep package="intltool"/>
 	</dependencies>
 	<patches>
