@@ -7333,7 +7333,11 @@ random_gaussian_tail (gnm_float a, gnm_float sigma)
 gnm_float
 random_landau (void)
 {
-	static gnm_float F[982] = {
+	static gnm_float F[983] = {
+		0.0000000, /*
+			    * Add empty element [0] to account for difference 
+			    * between C and Fortran convention for lower bound.
+			    */
 		00.000000, 00.000000, 00.000000, 00.000000, 00.000000,
 		-2.244733, -2.204365, -2.168163, -2.135219, -2.104898,
 		-2.076740, -2.050397, -2.025605, -2.002150, -1.979866,
@@ -7541,10 +7545,6 @@ random_landau (void)
 	U = 1000.0 * X;
 	i = U;
 	U = U - i;
-
-	/* Account for difference between C and Fortran convention for lower
-	 * bound. */
-	I = i - 1;
 
 	if (I >= 70 && I <= 800)
 		RANLAN = F[I] + U * (F[I + 1] - F[I]);

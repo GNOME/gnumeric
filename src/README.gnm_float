@@ -4,7 +4,7 @@ Gnumeric was configured with --with-long-double.
 
 This has some coding style consequences...
 
-1. Don't use (say) "exp"; use "expgnum".  If you simply use "exp",
+1. Don't use (say) "exp"; use "gnm_exp".  If you simply use "exp",
    the argument will be cast from gnm_float to double, thus potentially
    losing precision and the answer will also have reduced range and
    precision.
@@ -31,10 +31,10 @@ This has some coding style consequences...
 
 Don't use...                 Use...
 ---------------------------------------------------
-loggnum (1+x)                log1pgnum (x)
-loggnum (1-x)                log1pgnum (-x)
-expgnum (x * loggnum (y))    powgnum (y, x)
-expgnum (x) - 1              expm1gnum (x)
-1 - expgnum (x)              -expm1gnum (x)
-powgnum (1+x,y)              pow1p (x,y)
-powgnum (1+x,y) - 1          pow1pm1 (x,y)
+gnm_log (1+x)                gnm_log1p (x)
+gnm_log (1-x)                gnm_log1p (-x)
+gnm_exp (x * gnm_log (y))    gnm_pow (y, x)
+gnm_exp (x) - 1              gnm_expm1 (x)
+1 - gnm_exp (x)              -gnm_expm1 (x)
+gnm_pow (1+x,y)              pow1p (x,y)
+gnm_pow (1+x,y) - 1          pow1pm1 (x,y)

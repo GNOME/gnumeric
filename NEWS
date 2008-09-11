@@ -22,6 +22,7 @@ J.H.M. Dassen (Ray):
 
 Morten:
        * Fix display of array formulas.  [#550902]
+       * Fix off-by-one for random_landau.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.2
