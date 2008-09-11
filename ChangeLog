@@ -1,5 +1,7 @@
 2008-09-11  Morten Welinder  <terra@gnome.org>
 
+	* src/print.c (gnm_print_sheet): Fix error check.
+
 	* src/mathfunc.c (random_landau): Fix off-by-one.  I hope.
 
 2008-09-07  Andreas Guelzow  <aguelzow@pyrshep.ca>

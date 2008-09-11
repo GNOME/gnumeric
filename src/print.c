@@ -1558,7 +1558,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 
   if (tmp_file_name) {
 	  char buffer[64 * 1024];
-	  size_t bytes_read;
+	  gssize bytes_read;
 
 	  if (lseek (tmp_file_fd, 0, SEEK_SET) < 0)
 		  bytes_read = -1;
