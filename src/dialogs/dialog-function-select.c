@@ -410,6 +410,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 				text = *end ? end + 1 : end;
 			}
 			ADD_TEXT ("\n");
+			break;
 		}
 		case GNM_FUNC_HELP_END:
 			return;

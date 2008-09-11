@@ -1,3 +1,8 @@
+2008-09-11  Morten Welinder  <terra@gnome.org>
+
+	* dialog-function-select.c (describe_new_style): Add missing
+	break.
+
 2008-09-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	Fix for #360873
