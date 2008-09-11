@@ -2972,7 +2972,16 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	expr_confidence = dao_get_cellref (dao, 5, 15);
 
 	dao_set_cell_comment (dao, 4, 15,
-			      _("Probability of an observation's absolute value being larger than the t-value's"));
+			      _("Probability of an observation's\n"
+				"absolute value being larger than\n"
+				"the t-value's absolute value"));
+	if (!info->intercept)
+		dao_set_cell_comment (dao, 0, 4,
+			      _("This value is not the square of R\n"
+				"but the uncentered version of the\n"
+				"coefficient of determination; that\n"
+				"is, the proportion of the sum of\n"
+				"squares explained by the model."));	
 
 	expr_x = gnm_expr_new_constant (value_dup (val_1));
 	expr_y = gnm_expr_new_constant (value_dup (val_2));

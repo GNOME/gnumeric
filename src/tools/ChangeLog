@@ -1,3 +1,8 @@
+2008-09-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	
+	* analysis-tools.c (analysis_tool_regression_engine_run):
+	add explanatory comment to R^2
+
 2008-09-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dao.h (dao_set_format): new
