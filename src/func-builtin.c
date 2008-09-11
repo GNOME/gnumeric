@@ -163,7 +163,6 @@ gnumeric_table_link (GnmFuncEvalInfo *ei)
 static GnmValue *
 gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
-	GnmExpr const *arg;
 	GnmCell       *in[3], *x_iter, *y_iter;
 	GnmValue      *val[3], *res;
 	GnmCellPos     pos;
@@ -178,7 +177,7 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 		return value_new_error_REF (ei->pos);
 
 	for (x = 0; x < 2 ; x++) {
-		arg = (x < argc) ? argv[x] : NULL;
+		GnmExpr const *arg = argv[x];
 		val[x] = NULL;
 		if (NULL != arg && GNM_EXPR_GET_OPER (arg) == GNM_EXPR_OP_CELLREF) {
 			gnm_cellpos_init_cellref (&pos,
