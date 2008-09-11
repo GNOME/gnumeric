@@ -7,6 +7,7 @@ Andreas:
 	* Make the paired t-test analysis tool use only 
 	  complete pairs. [# 531852]
 	* Improve regression tool
+	* Fix row height and column width dialogs [#360873]
 
 Jean:
 	* Fix printing of rotated text. [#539734]

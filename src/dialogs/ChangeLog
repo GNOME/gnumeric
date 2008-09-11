@@ -1,3 +1,19 @@
+2008-09-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	Fix for #360873
+	* col-width.glade: use points and pixels
+	* row-height.glade: ditto
+	* dialog-col-width.c (ColWidthState): new fields
+	(dialog_col_width_update_points): new
+	(dialog_col_width_button_sensitivity): use int and call 
+	  dialog_col_width_update_points
+	(dialog_col_width_set_value): adjust for zoom factor and return
+	  adjusted value.
+	(dialog_col_width_load_value): use pixels
+	(cb_dialog_col_width_value_changed): ditto
+	(cb_dialog_col_width_apply_clicked): ditto
+	* dialog-row-height.c: corresponding changes to dialog-col-width.c
+
 2008-09-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* regression.glade: remove "group by" buttons and add

@@ -55,11 +55,12 @@ typedef struct {
 	GtkWidget          *cancel_button;
 	GtkWidget          *default_check;
 	GtkWidget          *description;
+	GtkWidget          *points;
 	GtkSpinButton      *spin;
 
 	gboolean           set_default_value;
 
-	gnm_float         orig_value;
+	gint               orig_value;
 	gboolean           orig_is_default;
 	gboolean           orig_some_default;
 	gboolean           orig_all_equal;
@@ -67,9 +68,21 @@ typedef struct {
 } ColWidthState;
 
 static void
+dialog_col_width_update_points (ColWidthState *state)
+{
+	gint value = gtk_spin_button_get_value_as_int (state->spin);
+	double size_points = value *  72./gnm_app_display_dpi_get (FALSE);
+	gchar *pts;
+
+	pts = g_strdup_printf ("%.2f",size_points);
+	gtk_label_set_text (GTK_LABEL (state->points), pts);
+	g_free (pts);
+}
+
+static void
 dialog_col_width_button_sensitivity (ColWidthState *state)
 {
-	gnm_float value = gtk_spin_button_get_value (state->spin);
+	gint value = gtk_spin_button_get_value_as_int (state->spin);
 	gboolean use_default = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->default_check));
 	gboolean changed_info;
@@ -84,6 +97,8 @@ dialog_col_width_button_sensitivity (ColWidthState *state)
 	}
 	gtk_widget_set_sensitive (state->ok_button, changed_info);
 	gtk_widget_set_sensitive (state->apply_button, changed_info);
+
+	dialog_col_width_update_points (state);
 }
 
 static void
@@ -103,24 +118,26 @@ cb_dialog_col_width_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 }
 
 
-static void
-dialog_col_width_set_value (gnm_float value, ColWidthState *state)
+static gint
+dialog_col_width_set_value (gint value, ColWidthState *state)
 {
-	gtk_spin_button_set_value (state->spin, value);
+	gint adj_value = value/state->sheet->last_zoom_factor_used + 0.5;
+	gtk_spin_button_set_value (state->spin, adj_value);
+	return adj_value;
 }
 
 static void
 dialog_col_width_load_value (ColWidthState *state)
 {
 	GSList *l;
-	gnm_float value = 0.0;
+	gint value = 0;
 	state->orig_is_default = TRUE;
 	state->orig_some_default = FALSE;
 	state->orig_all_equal = TRUE;
 
 	state->adjusting = TRUE;
 	if (state->set_default_value) {
-		value = sheet_col_get_default_size_pts (state->sheet);
+		value = sheet_col_get_default_size_pixels (state->sheet);
 	} else {
 		for (l = state->sv->selections; l; l = l->next){
 			GnmRange *ss = l->data;
@@ -132,9 +149,9 @@ dialog_col_width_load_value (ColWidthState *state)
 					state->orig_is_default = FALSE;
 				else
 					state->orig_some_default = TRUE;
-				if (value == 0.0)
-					value = ri->size_pts;
-				else if (value != ri->size_pts){
+				if (value == 0)
+					value = ri->size_pixels;
+				else if (value != ri->size_pixels){
 					/* Values differ, so let the user enter the data */
 					state->orig_all_equal = FALSE;
 				}
@@ -143,11 +160,11 @@ dialog_col_width_load_value (ColWidthState *state)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->default_check),
 					      state->orig_is_default);
 	}
-	state->orig_value = value;
-	dialog_col_width_set_value (value, state);
+	state->orig_value =  dialog_col_width_set_value (value, state);
 	dialog_col_width_button_sensitivity (state);
 	state->adjusting = FALSE;
 }
+
 
 static void
 cb_dialog_col_width_value_changed (G_GNUC_UNUSED GtkSpinButton *spinbutton,
@@ -165,7 +182,7 @@ cb_dialog_col_width_default_check_toggled (GtkToggleButton *togglebutton, ColWid
 	if (!state->adjusting) {
 		if (gtk_toggle_button_get_active (togglebutton)) {
 			state->adjusting = TRUE;
-			dialog_col_width_set_value (sheet_col_get_default_size_pts (state->sheet),
+			dialog_col_width_set_value (sheet_col_get_default_size_pixels (state->sheet),
 						     state);
 			state->adjusting = FALSE;
 		}
@@ -177,17 +194,15 @@ static void
 cb_dialog_col_width_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 				   ColWidthState *state)
 {
-	gnm_float value = gtk_spin_button_get_value (state->spin);
-	double const scale =
-		state->sheet->last_zoom_factor_used *
-		gnm_app_display_dpi_get (FALSE) / 72.;
-	int size_pixels = (int)(value * scale + 0.5);
+	gint value = gtk_spin_button_get_value_as_int (state->spin);
+	int size_pixels = (int)(value * state->sheet->last_zoom_factor_used + 0.5);
 	gboolean use_default = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->default_check));
 
 	if (state->set_default_value) {
+		float points = value * 72./gnm_app_display_dpi_get (FALSE);
 		cmd_colrow_std_size (WORKBOOK_CONTROL (state->wbcg),
-				     state->sheet, TRUE, value);
+				     state->sheet, TRUE, points);
 		dialog_col_width_load_value (state);
 	} else {
 		if (use_default)
@@ -257,6 +272,7 @@ dialog_col_width (WBCGtk *wbcg, gboolean use_default)
 	state->dialog = glade_xml_get_widget (state->gui, "dialog");
 
 	state->description = GTK_WIDGET (glade_xml_get_widget (state->gui, "description"));
+	state->points = GTK_WIDGET (glade_xml_get_widget (state->gui, "pts-label"));
 
 	state->spin  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "spin"));
 	gtk_spin_button_get_adjustment (state->spin)->lower =
