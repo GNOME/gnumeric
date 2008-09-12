@@ -696,7 +696,8 @@ gnumeric_sumif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (r->type != VALUE_CELLRANGE ||
 	    ((sheet = eval_sheet (r->cell.a.sheet, ei->pos->sheet)) != r->cell.b.sheet &&
 	      r->cell.b.sheet != NULL) ||
-	    (!VALUE_IS_NUMBER (argv[1]) && !VALUE_IS_STRING (argv[1])))
+	    (!VALUE_IS_NUMBER (argv[1]) && !VALUE_IS_STRING (argv[1])) ||
+	    (argv[2] != NULL && argv[2]->type != VALUE_CELLRANGE))
 	        return value_new_error_VALUE (ei->pos);
 
 	res.date_conv = sheet ?	workbook_date_conv (sheet->workbook) : NULL;

@@ -1,3 +1,8 @@
+2008-09-12  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_sumif): Check that argv[2] is a range, if
+	it is present.  Fixes #552006.
+
 2008-08-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.2
