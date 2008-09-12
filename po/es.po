@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-10 04:14+0000\n"
-"PO-Revision-Date: 2008-09-10 22:48+0200\n"
+"POT-Creation-Date: 2008-09-11 04:20+0000\n"
+"PO-Revision-Date: 2008-09-12 05:52+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -5726,8 +5726,8 @@ msgid "Mar"
 msgstr "Mar"
 
 #: ../src/dialogs/dialog-autoformat.c:72 ../src/dialogs/dialog-autoformat.c:76
-#: ../src/tools/analysis-tools.c:4357 ../src/tools/analysis-tools.c:4367
-#: ../src/tools/analysis-tools.c:4375
+#: ../src/tools/analysis-tools.c:4366 ../src/tools/analysis-tools.c:4376
+#: ../src/tools/analysis-tools.c:4384
 msgid "Total"
 msgstr "Total"
 
@@ -7905,8 +7905,8 @@ msgstr "Valor:"
 msgid "0.2"
 msgstr "0,2"
 
-#: ../src/dialogs/exp-smoothing.glade.h:3 ../src/tools/analysis-tools.c:3549
-#: ../src/tools/analysis-tools.c:3552
+#: ../src/dialogs/exp-smoothing.glade.h:3 ../src/tools/analysis-tools.c:3558
+#: ../src/tools/analysis-tools.c:3561
 msgid "Exponential Smoothing"
 msgstr "Suavización exponencial"
 
@@ -8386,8 +8386,8 @@ msgstr "3"
 msgid "C_olumns"
 msgstr "C_olumnas"
 
-#: ../src/dialogs/moving-averages.glade.h:6 ../src/tools/analysis-tools.c:3416
-#: ../src/tools/analysis-tools.c:3419
+#: ../src/dialogs/moving-averages.glade.h:6 ../src/tools/analysis-tools.c:3425
+#: ../src/tools/analysis-tools.c:3428
 msgid "Moving Average"
 msgstr "Desplazamiento promediado"
 
@@ -8691,8 +8691,8 @@ msgstr "0,95"
 msgid "Confidence level:"
 msgstr "Nivel de confianza:"
 
-#: ../src/dialogs/regression.glade.h:4 ../src/tools/analysis-tools.c:3294
-#: ../src/tools/analysis-tools.c:3297
+#: ../src/dialogs/regression.glade.h:4 ../src/tools/analysis-tools.c:3303
+#: ../src/tools/analysis-tools.c:3306
 msgid "Regression"
 msgstr "Regresión"
 
@@ -11385,13 +11385,13 @@ msgid "Histogram (%s)"
 msgstr "Histograma (%s)"
 
 #: ../src/tools/analysis-tools.c:228 ../src/tools/analysis-tools.c:318
-#: ../src/tools/analysis-tools.c:3224 ../src/tools/analysis-tools.c:4301
+#: ../src/tools/analysis-tools.c:3233 ../src/tools/analysis-tools.c:4310
 #, c-format
 msgid "Row %i"
 msgstr "Fila %i"
 
 #: ../src/tools/analysis-tools.c:231 ../src/tools/analysis-tools.c:321
-#: ../src/tools/analysis-tools.c:3224 ../src/tools/analysis-tools.c:4293
+#: ../src/tools/analysis-tools.c:3233 ../src/tools/analysis-tools.c:4302
 #, c-format
 msgid "Column %i"
 msgstr "Columna %i"
@@ -11591,150 +11591,166 @@ msgstr "«Superior» 0%"
 
 #: ../src/tools/analysis-tools.c:2975
 msgid ""
-"Probability of an observation's absolute value being larger than the t-"
-"value's"
+"Probability of an observation's\n"
+"absolute value being larger than\n"
+"the t-value's absolute value"
 msgstr ""
-"Probabilidad de que un valor absoluto de una observación se mayor que el "
-"valor t"
+"Probabilidad de que un valor\n"
+"absoluto de una observación\n"
+" sea mayor que el valor t absoluto"
 
-#: ../src/tools/analysis-tools.c:3280
+#: ../src/tools/analysis-tools.c:2980
+msgid ""
+"This value is not the square of R\n"
+"but the uncentered version of the\n"
+"coefficient of determination; that\n"
+"is, the proportion of the sum of\n"
+"squares explained by the model."
+msgstr ""
+"Este valor no es la raíz cuadrada de R\n"
+"pero la versión no centrada del\n"
+"coeficiente de determinación; esto\n"
+"es, la proporción de la suma de\n"
+"los cuadrados explicada por el modelo."
+
+#: ../src/tools/analysis-tools.c:3289
 #, c-format
 msgid "Regression (%s)"
 msgstr "Regresión (%s)"
 
-#: ../src/tools/analysis-tools.c:3341
+#: ../src/tools/analysis-tools.c:3350
 msgid "Standard Error"
 msgstr "Error estándar"
 
-#: ../src/tools/analysis-tools.c:3403
+#: ../src/tools/analysis-tools.c:3412
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Desplazamiento promediado (%s)"
 
-#: ../src/tools/analysis-tools.c:3536
+#: ../src/tools/analysis-tools.c:3545
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "Suavizado exponencial (%s)"
 
-#: ../src/tools/analysis-tools.c:3606
+#: ../src/tools/analysis-tools.c:3615
 msgid "Point"
 msgstr "Punto"
 
-#: ../src/tools/analysis-tools.c:3608
+#: ../src/tools/analysis-tools.c:3617
 msgid "Rank"
 msgstr "Rango"
 
-#: ../src/tools/analysis-tools.c:3609
+#: ../src/tools/analysis-tools.c:3618
 msgid "Percentile"
 msgstr "Porcentaje"
 
-#: ../src/tools/analysis-tools.c:3669
+#: ../src/tools/analysis-tools.c:3678
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Clasificaciones (%s)"
 
-#: ../src/tools/analysis-tools.c:3681 ../src/tools/analysis-tools.c:3684
+#: ../src/tools/analysis-tools.c:3690 ../src/tools/analysis-tools.c:3693
 msgid "Ranks"
 msgstr "Rango"
 
-#: ../src/tools/analysis-tools.c:3715
+#: ../src/tools/analysis-tools.c:3724
 msgid "Anova: Single Factor"
 msgstr "Anova: un factor"
 
-#: ../src/tools/analysis-tools.c:3716 ../src/tools/analysis-tools.c:4353
+#: ../src/tools/analysis-tools.c:3725 ../src/tools/analysis-tools.c:4362
 #: ../src/tools/simulation.c:335
 msgid "SUMMARY"
 msgstr "RESUMEN"
 
-#: ../src/tools/analysis-tools.c:3719
+#: ../src/tools/analysis-tools.c:3728
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupos/Cuenta/Suma/Promediación/Varianza"
 
-#: ../src/tools/analysis-tools.c:3787
+#: ../src/tools/analysis-tools.c:3796
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 "/Análisis de varianza/Origen de variación/Entre grupos/Dentro de grupos/Total"
 
-#: ../src/tools/analysis-tools.c:3793 ../src/tools/analysis-tools.c:4203
-#: ../src/tools/analysis-tools.c:4377
+#: ../src/tools/analysis-tools.c:3802 ../src/tools/analysis-tools.c:4212
+#: ../src/tools/analysis-tools.c:4386
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/Suma de cuadrados/Cuadrado medio/Valor P/F crítico"
 
-#: ../src/tools/analysis-tools.c:4004
+#: ../src/tools/analysis-tools.c:4013
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "Factor simple Análisis de varianza (%s)"
 
-#: ../src/tools/analysis-tools.c:4015 ../src/tools/analysis-tools.c:4684
+#: ../src/tools/analysis-tools.c:4024 ../src/tools/analysis-tools.c:4693
 msgid "Anova"
 msgstr "Anova"
 
-#: ../src/tools/analysis-tools.c:4018
+#: ../src/tools/analysis-tools.c:4027
 msgid "Single Factor ANOVA"
 msgstr "Factor simple Análisis de varianza"
 
-#: ../src/tools/analysis-tools.c:4125
+#: ../src/tools/analysis-tools.c:4134
 msgid "The input range contains non-numeric data."
 msgstr "El rango de entrada contiene datos no numéricos."
 
-#: ../src/tools/analysis-tools.c:4133
+#: ../src/tools/analysis-tools.c:4142
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Dos factores sin replicación"
 
-#: ../src/tools/analysis-tools.c:4134
+#: ../src/tools/analysis-tools.c:4143
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/RESUMEN/Cuenta/Suma/Promediación/Varianza"
 
-#: ../src/tools/analysis-tools.c:4197
+#: ../src/tools/analysis-tools.c:4206
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/Análisis de varianza/Origen de variación/Filas/Columnas/Error/Total"
 
-#: ../src/tools/analysis-tools.c:4343
+#: ../src/tools/analysis-tools.c:4352
 msgid "One of the factor combinations does not contain any observations!"
 msgstr "Una de las combinaciones de factores no tiene ninguna observación."
 
 #. We are ready to create the summary table
-#: ../src/tools/analysis-tools.c:4352
+#: ../src/tools/analysis-tools.c:4361
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Dos factores con replicación"
 
-#: ../src/tools/analysis-tools.c:4359
+#: ../src/tools/analysis-tools.c:4368
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Cuenta/Suma/Promediación/Varianza"
 
-#: ../src/tools/analysis-tools.c:4369
+#: ../src/tools/analysis-tools.c:4378
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr ""
 "/Análisis de varianza/Origen de variación/Filas/Columnas/Interacción/Total"
 
-#: ../src/tools/analysis-tools.c:4668
+#: ../src/tools/analysis-tools.c:4677
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr "Análisis de varianza de dos factores (%s), sin replicación"
 
-#: ../src/tools/analysis-tools.c:4669
+#: ../src/tools/analysis-tools.c:4678
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "Análisis de varianza de dos factores (%s),  con replicación"
 
-#: ../src/tools/analysis-tools.c:4687
+#: ../src/tools/analysis-tools.c:4696
 msgid "Two Factor ANOVA"
 msgstr "Análisis de varianza de dos factores"
 
-#: ../src/tools/analysis-tools.c:4776 ../src/tools/solver/reports-write.c:644
+#: ../src/tools/analysis-tools.c:4785 ../src/tools/solver/reports-write.c:644
 msgid "Real"
 msgstr "Real"
 
-#: ../src/tools/analysis-tools.c:4777
+#: ../src/tools/analysis-tools.c:4786
 msgid "Imaginary"
 msgstr "Imaginario"
 
-#: ../src/tools/analysis-tools.c:4837
+#: ../src/tools/analysis-tools.c:4846
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Series de Fourier (%s)"
 
-#: ../src/tools/analysis-tools.c:4849 ../src/tools/analysis-tools.c:4852
+#: ../src/tools/analysis-tools.c:4858 ../src/tools/analysis-tools.c:4861
 msgid "Fourier Series"
 msgstr "Series de Fourier"
 
