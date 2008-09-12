@@ -583,7 +583,7 @@ stf_export_dialog_sheet_page_init (TextExportState *state)
 
 		gtk_list_store_append (state->sheets.model, &iter);
 		gtk_list_store_set (state->sheets.model, &iter,
-				    STF_EXPORT_COL_EXPORTED,	export,
+				    STF_EXPORT_COL_EXPORTED,	export && !empty,
 				    STF_EXPORT_COL_SHEET_NAME,	sheet->name_quoted,
 				    STF_EXPORT_COL_SHEET,	sheet,
 				    STF_EXPORT_COL_NON_EMPTY,   !empty,

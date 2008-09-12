@@ -8,6 +8,7 @@ Andreas:
 	  complete pairs. [# 531852]
 	* Improve regression tool
 	* Fix row height and column width dialogs [#360873]
+	* Don't force text export of empty sheets [#521726]
 
 Jean:
 	* Fix printing of rotated text. [#539734]

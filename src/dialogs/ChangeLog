@@ -5,6 +5,12 @@
 
 2008-09-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	Fix for #521726
+	* dialog-stf-export.c (stf_export_dialog_sheet_page_init):
+	  Don't export empty sheets!
+
+2008-09-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	Fix for #360873
 	* col-width.glade: use points and pixels
 	* row-height.glade: ditto
