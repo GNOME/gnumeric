@@ -1,5 +1,9 @@
 2008-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-preferences.c (dialog_preferences): rename variable to quieten coverity
+
+2008-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	Fix for #152617
 	* dialog-hyperlink.c (dhl_cb_ok): use is_new rather than src_link
 	  since the latter contain only random info. Use cmd_selection_hyperlink

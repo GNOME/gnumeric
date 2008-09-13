@@ -916,7 +916,7 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 
 	for (i = 0; page_info[i].page_initializer; i++) {
 		const page_info_t *this_page =  &page_info[i];
-		GtkWidget *page =
+		GtkWidget *page_widget =
 			this_page->page_initializer (state, this_page->data,
 						     state->notebook, i);
 		GtkWidget *label = NULL;
@@ -926,7 +926,7 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 							  GTK_ICON_SIZE_BUTTON);
 		else if (this_page->page_name)
 			label = gtk_label_new (this_page->page_name);
-		gtk_notebook_append_page (state->notebook, page, label);
+		gtk_notebook_append_page (state->notebook, page_widget, label);
 		dialog_pref_add_item (state, this_page->page_name, this_page->icon_name, i, this_page->parent_path);
 	}
 
