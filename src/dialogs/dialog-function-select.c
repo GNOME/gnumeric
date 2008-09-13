@@ -460,7 +460,7 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 	GtkTreeIter  iter;
 	GtkTreeModel *model;
 	GnmFuncGroup const * cat;
-	GSList *funcs, *ptr;
+	GSList *funcs = NULL, *ptr;
 	GnmFunc const *func;
 
 	gtk_list_store_clear (state->model_f);
@@ -471,8 +471,8 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 				    -1);
 		if (cat != NULL) {
 			if (cat == GINT_TO_POINTER(-1)) {
+				/*  Show all functions */
 				int i = 0;
-				funcs = NULL;
 
 				while ((cat = gnm_func_group_get_nth (i++)) != NULL)
 					funcs = g_slist_concat (funcs,
@@ -480,39 +480,28 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 
 				funcs = g_slist_sort (funcs,
 						      dialog_function_select_by_name);
-			} else
+			} else 
+				/* Show category cat */
 				funcs = g_slist_sort (g_slist_copy (cat->functions),
 						      dialog_function_select_by_name);
 
-			for (ptr = funcs; ptr; ptr = ptr->next) {
-				func = ptr->data;
-				if (!(func->flags & GNM_FUNC_INTERNAL)) {
-					gtk_list_store_append (state->model_f, &iter);
-					gtk_list_store_set (state->model_f, &iter,
-						FUN_NAME, gnm_func_get_name (func),
-						FUNCTION, func,
-						-1);
-				}
-			}
-			g_slist_free (funcs);
-		} else if (cat == NULL) {
-			for (ptr = state->recent_funcs; ptr != NULL; ptr = ptr->next) {
-				func = ptr->data;
+		} else
+			/* Show recent functions */
+			funcs = state->recent_funcs;
+
+		for (ptr = funcs; ptr; ptr = ptr->next) {
+			func = ptr->data;
+			if (!(func->flags & GNM_FUNC_INTERNAL)) {
 				gtk_list_store_append (state->model_f, &iter);
 				gtk_list_store_set (state->model_f, &iter,
-					FUN_NAME, gnm_func_get_name (func),
-					FUNCTION, func,
-					-1);
+						    FUN_NAME, gnm_func_get_name (func),
+						    FUNCTION, func,
+						    -1);
 			}
-		} else {
-			int i = 0;
-			funcs = NULL;
-
-			while ((cat = gnm_func_group_get_nth (i++)) != NULL)
-				funcs = g_slist_concat (funcs, g_slist_copy (cat->functions));
-
-			funcs = g_slist_sort (funcs, dialog_function_select_by_name);
 		}
+
+		if (funcs != state->recent_funcs)
+			g_slist_free (funcs);
 	}
 }
 

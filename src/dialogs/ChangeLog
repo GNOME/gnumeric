@@ -1,5 +1,10 @@
 2008-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-function-select.c (cb_dialog_function_select_cat_selection_changed):
+	  reorganize and remove dead code.
+
+2008-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-preferences.c (dialog_preferences): rename variable to quieten coverity
 
 2008-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
