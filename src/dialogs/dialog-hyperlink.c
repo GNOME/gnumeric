@@ -65,7 +65,6 @@ typedef struct {
 	GtkLabel  *type_descriptor;
 	GnmExprEntry *internal_link_ee;
 	GnmHLink  *link;
-	GnmHLink  *src_link;
 	gboolean   is_new;
 } HyperlinkState;
 
@@ -343,19 +342,24 @@ dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 		gnm_style_set_font_uline (style, UNDERLINE_SINGLE);
 		gnm_style_set_font_color (style, style_color_new_name ("blue"));
 
-		if (NULL == state->src_link)
+		if (state->is_new) {
 			cmdname = _("Add Hyperlink");
-		else
+			cmd_selection_hyperlink (WORKBOOK_CONTROL (state->wbcg), 
+						 style,
+						 cmdname, target);
+		} else {
 			cmdname = _("Edit Hyperlink");
-		cmd_selection_format (WORKBOOK_CONTROL (state->wbcg), style,
-				      NULL, cmdname);
-		g_free (target);
-	} else if (NULL != state->src_link) {
+			cmd_selection_hyperlink (WORKBOOK_CONTROL (state->wbcg), 
+						 style,
+						 cmdname, NULL);
+			g_free (target);
+		}
+	} else if (!state->is_new) {
 		style = gnm_style_new ();
 		gnm_style_set_hlink (style, NULL);
 		cmdname = _("Remove Hyperlink");
-		cmd_selection_format (WORKBOOK_CONTROL (state->wbcg), style,
-				      NULL, cmdname);
+		cmd_selection_hyperlink (WORKBOOK_CONTROL (state->wbcg), style,
+					 cmdname, NULL);
 	}
 	gtk_widget_destroy (state->dialog);
 }

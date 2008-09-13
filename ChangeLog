@@ -1,3 +1,14 @@
+2008-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	Fix for #152617
+	* commands.h (cmd_selection_hyperlink): new
+	* commands.c (cmd_selection_hyperlink): new
+	(cmd_hyperlink_repeat): new
+	(cmd_hyperlink_undo): new
+	(cmd_hyperlink_redo): new
+	(cmd_hyperlink_finalize): new
+	(cb_cmd_hyperlink_find_cells): new
+
 2008-09-11  Morten Welinder  <terra@gnome.org>
 
 	* src/func-builtin.c (gnumeric_table): Remove dead code.

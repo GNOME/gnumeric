@@ -6714,3 +6714,240 @@ cmd_so_set_value (WorkbookControl *wbc,
 
 	return command_push_undo (wbc, G_OBJECT (me));
 }
+
+/******************************************************************/
+
+#define CMD_HYPERLINK_TYPE        (cmd_hyperlink_get_type ())
+#define CMD_HYPERLINK(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_HYPERLINK_TYPE, CmdHyperlink))
+
+typedef struct {
+	GnmCellPos pos;
+	GnmStyleList *styles;
+} CmdHyperlinkOldStyle;
+
+typedef struct {
+	GnmCommand cmd;
+	GSList	   *selection;
+	GSList	   *old_styles;
+	GnmStyle   *new_style;
+	char       *opt_content;
+	GSList     *cells;
+} CmdHyperlink;
+
+static void
+cmd_hyperlink_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
+{
+	CmdHyperlink const *orig = (CmdHyperlink const *) cmd;
+
+	if (orig->new_style)
+		gnm_style_ref (orig->new_style);
+
+	cmd_selection_hyperlink (wbc, orig->new_style, NULL, g_strdup (orig->opt_content));
+}
+MAKE_GNM_COMMAND (CmdHyperlink, cmd_hyperlink, cmd_hyperlink_repeat)
+
+static gboolean
+cmd_hyperlink_undo (GnmCommand *cmd,
+		 G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdHyperlink *me = CMD_HYPERLINK (cmd);
+	GSList *l;
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	if (me->opt_content != NULL)
+		for (l = me->cells; l; l = l->next) {
+			GnmCell *cell = l->data;
+			sheet_cell_set_value (cell, value_new_empty ());
+		}
+
+	if (me->old_styles) {
+		GSList *rstyles = g_slist_reverse (g_slist_copy (me->old_styles));
+		GSList *rsel = g_slist_reverse (g_slist_copy (me->selection));
+		GSList *l1, *l2;
+
+		for (l1 = rstyles, l2 = rsel; l1; l1 = l1->next, l2 = l2->next) {
+			CmdHyperlinkOldStyle *os = l1->data;
+			GnmRange const *r = l2->data;
+			GnmSpanCalcFlags flags = sheet_style_set_list
+				(me->cmd.sheet,
+				 &os->pos, FALSE, os->styles);
+
+			sheet_range_calc_spans (me->cmd.sheet, r, flags);
+			sheet_flag_style_update_range (me->cmd.sheet, r);
+		}
+
+		sheet_redraw_all (me->cmd.sheet, FALSE);
+		g_slist_free (rstyles);
+		g_slist_free (rsel);
+	}
+
+	select_selection (me->cmd.sheet, me->selection, wbc);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_hyperlink_redo (GnmCommand *cmd, WorkbookControl *wbc)
+{
+	CmdHyperlink *me = CMD_HYPERLINK (cmd);
+	GSList *l;
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	/* Check for locked cells */
+	if (cmd_selection_is_locked_effective (me->cmd.sheet, me->selection,
+					       wbc, _("Changing Hyperlink")))
+		return TRUE;
+
+	for (l = me->selection; l; l = l->next) {
+		GnmRange const *r = l->data;
+
+		if (me->new_style) {
+			gnm_style_ref (me->new_style);
+			sheet_apply_style (me->cmd.sheet, r, me->new_style);
+		}
+
+		sheet_flag_style_update_range (me->cmd.sheet, r);
+	}
+
+	if (me->opt_content != NULL)
+		for (l = me->cells; l; l = l->next) {
+			GnmCell *cell = l->data;
+			sheet_cell_set_value (cell, value_new_string (me->opt_content));
+		}
+
+	
+
+	sheet_redraw_all (me->cmd.sheet, FALSE);
+	sheet_mark_dirty (me->cmd.sheet);
+
+	select_selection (me->cmd.sheet, me->selection, wbc);
+
+	return FALSE;
+}
+
+static void
+cmd_hyperlink_finalize (GObject *cmd)
+{
+	CmdHyperlink *me = CMD_HYPERLINK (cmd);
+
+	if (me->new_style)
+		gnm_style_unref (me->new_style);
+	me->new_style = NULL;
+
+	if (me->old_styles != NULL) {
+		GSList *l;
+
+		for (l = me->old_styles ; l != NULL ; l = g_slist_remove (l, l->data)) {
+			CmdHyperlinkOldStyle *os = l->data;
+
+			style_list_free (os->styles);
+			g_free (os);
+		}
+		me->old_styles = NULL;
+	}
+
+	range_fragment_free (me->selection);
+	me->selection = NULL;
+
+	if (me->opt_content != NULL) {
+		g_free (me->opt_content);
+		me->opt_content = NULL;
+	}
+
+	g_slist_free (me->cells);
+	me->cells = NULL;
+
+	gnm_command_finalize (cmd);
+}
+
+static GnmValue *
+cb_cmd_hyperlink_find_cells (GnmCellIter const *iter, gpointer user)
+{
+	GSList **list = user;
+	GnmCell *cell = iter->cell;
+
+	if (cell == NULL)
+		cell = sheet_cell_fetch (iter->pp.sheet, 
+					 iter->pp.eval.col, 
+					 iter->pp.eval.row);
+
+	if (gnm_cell_is_empty (cell) && 
+	    !gnm_cell_is_nonsingleton_array (cell))
+		*list = g_slist_prepend (*list, cell);
+	return NULL;
+}
+
+
+/**
+ * cmd_selection_hyperlink:
+ * @wbc: the workbook control.
+ * @sheet: the sheet
+ * @style: style to apply to the selection
+ * @opt_translated_name: An optional name to use in place of 'Hyperlink Cells'
+ * @OPT_CONTENT: optional content for otherwise empty cells.
+ *
+ * If borders is non NULL, then the GnmBorder references are passed,
+ * the GnmStyle reference is also passed.
+ *
+ * It absorbs the reference to the style.
+ *
+ * Return value: TRUE if there was a problem
+ **/
+gboolean
+cmd_selection_hyperlink (WorkbookControl *wbc,
+			 GnmStyle *style,
+			 char const *opt_translated_name,
+			 char *opt_content)
+{
+	CmdHyperlink *me;
+	GSList    *l;
+	SheetView *sv = wb_control_cur_sheet_view (wbc);
+
+	me = g_object_new (CMD_HYPERLINK_TYPE, NULL);
+
+	me->selection  = selection_get_ranges (sv, FALSE); /* TRUE ? */
+	me->new_style  = style;
+
+	me->cmd.sheet = sv_sheet (sv);
+	me->cmd.size = 1;  /* Updated below.  */
+
+	me->old_styles = NULL;
+	me->cells = NULL;
+	me->opt_content = opt_content;
+	for (l = me->selection; l; l = l->next) {
+		GnmRange const *sel_r = l->data;
+		GnmRange r = *sel_r;
+		CmdHyperlinkOldStyle *os;
+
+		os = g_new (CmdHyperlinkOldStyle, 1);
+
+		os->styles = sheet_style_get_list (me->cmd.sheet, &r);
+		os->pos = r.start;
+
+		me->cmd.size += g_slist_length (os->styles);
+		me->old_styles = g_slist_append (me->old_styles, os);
+
+		if (opt_content != NULL)
+			sheet_foreach_cell_in_range (me->cmd.sheet, CELL_ITER_ALL,
+						     r.start.col, r.start.row, 
+						     r.end.col, r.end.row,
+						     cb_cmd_hyperlink_find_cells, 
+						     &me->cells);
+		me->cmd.size += g_slist_length (me->cells)/2;
+	}
+
+	if (opt_translated_name == NULL) {
+		char *names = undo_range_list_name (me->cmd.sheet, me->selection);
+
+		me->cmd.cmd_descriptor = g_strdup_printf (_("Changing hyperlink of %s"), names);
+		g_free (names);
+	} else
+		me->cmd.cmd_descriptor = g_strdup (opt_translated_name);
+	
+
+	return command_push_undo (wbc, G_OBJECT (me));
+}
+
+/******************************************************************/

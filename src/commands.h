@@ -69,6 +69,10 @@ gboolean cmd_selection_outline_change	(WorkbookControl *wbc,
 gboolean cmd_selection_group		(WorkbookControl *wbc,
 					 gboolean is_cols, gboolean group);
 gboolean cmd_selection_autoformat	(WorkbookControl *wbc, GnmFormatTemplate *ft);
+gboolean cmd_selection_hyperlink	(WorkbookControl *wbc,
+					 GnmStyle *style,
+					 char const *opt_translated_name,
+					 char *opt_content);
 
 /******************************************************************************************/
 
