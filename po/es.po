@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-11 04:20+0000\n"
-"PO-Revision-Date: 2008-09-12 05:52+0200\n"
+"POT-Creation-Date: 2008-09-14 04:09+0000\n"
+"PO-Revision-Date: 2008-09-14 12:48+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -944,7 +944,7 @@ msgid "Type Mismatch"
 msgstr "Incoherencia de tipo"
 
 #: ../plugins/fn-logical/functions.c:376 ../plugins/fn-logical/functions.c:380
-#: ../plugins/fn-logical/functions.c:403 ../plugins/fn-math/functions.c:3468
+#: ../plugins/fn-logical/functions.c:403 ../plugins/fn-math/functions.c:3469
 #: ../plugins/fn-stat/functions.c:5704 ../plugins/fn-stat/functions.c:5708
 #: ../plugins/fn-stat/functions.c:5712 ../plugins/fn-stat/functions.c:5750
 #: ../plugins/fn-stat/functions.c:5753 ../plugins/fn-stat/functions.c:5762
@@ -957,29 +957,29 @@ msgstr "Incoherencia de tipo"
 #: ../plugins/fn-stat/functions.c:5928 ../plugins/fn-stat/functions.c:5957
 #: ../plugins/fn-stat/functions.c:5960 ../plugins/fn-stat/functions.c:5963
 #: ../plugins/fn-stat/functions.c:5966 ../plugins/fn-stat/functions.c:5982
-#: ../src/func-builtin.c:285 ../src/func-builtin.c:291
+#: ../src/func-builtin.c:284 ../src/func-builtin.c:290
 msgid "number,number,"
 msgstr "número,número,"
 
 #. MS Excel puts this in the engineering functions
-#: ../plugins/fn-logical/functions.c:384 ../plugins/fn-math/functions.c:3300
-#: ../plugins/fn-math/functions.c:3304 ../plugins/fn-math/functions.c:3307
-#: ../plugins/fn-math/functions.c:3310 ../plugins/fn-math/functions.c:3313
-#: ../plugins/fn-math/functions.c:3316 ../plugins/fn-math/functions.c:3319
-#: ../plugins/fn-math/functions.c:3325 ../plugins/fn-math/functions.c:3334
-#: ../plugins/fn-math/functions.c:3343 ../plugins/fn-math/functions.c:3351
-#: ../plugins/fn-math/functions.c:3354 ../plugins/fn-math/functions.c:3357
-#: ../plugins/fn-math/functions.c:3360 ../plugins/fn-math/functions.c:3363
-#: ../plugins/fn-math/functions.c:3368 ../plugins/fn-math/functions.c:3372
-#: ../plugins/fn-math/functions.c:3378 ../plugins/fn-math/functions.c:3388
-#: ../plugins/fn-math/functions.c:3395 ../plugins/fn-math/functions.c:3398
-#: ../plugins/fn-math/functions.c:3404 ../plugins/fn-math/functions.c:3407
-#: ../plugins/fn-math/functions.c:3420 ../plugins/fn-math/functions.c:3426
-#: ../plugins/fn-math/functions.c:3432 ../plugins/fn-math/functions.c:3453
-#: ../plugins/fn-math/functions.c:3456 ../plugins/fn-math/functions.c:3459
-#: ../plugins/fn-math/functions.c:3462 ../plugins/fn-math/functions.c:3465
-#: ../plugins/fn-math/functions.c:3478 ../plugins/fn-math/functions.c:3490
-#: ../plugins/fn-math/functions.c:3493 ../plugins/fn-stat/functions.c:5774
+#: ../plugins/fn-logical/functions.c:384 ../plugins/fn-math/functions.c:3301
+#: ../plugins/fn-math/functions.c:3305 ../plugins/fn-math/functions.c:3308
+#: ../plugins/fn-math/functions.c:3311 ../plugins/fn-math/functions.c:3314
+#: ../plugins/fn-math/functions.c:3317 ../plugins/fn-math/functions.c:3320
+#: ../plugins/fn-math/functions.c:3326 ../plugins/fn-math/functions.c:3335
+#: ../plugins/fn-math/functions.c:3344 ../plugins/fn-math/functions.c:3352
+#: ../plugins/fn-math/functions.c:3355 ../plugins/fn-math/functions.c:3358
+#: ../plugins/fn-math/functions.c:3361 ../plugins/fn-math/functions.c:3364
+#: ../plugins/fn-math/functions.c:3369 ../plugins/fn-math/functions.c:3373
+#: ../plugins/fn-math/functions.c:3379 ../plugins/fn-math/functions.c:3389
+#: ../plugins/fn-math/functions.c:3396 ../plugins/fn-math/functions.c:3399
+#: ../plugins/fn-math/functions.c:3405 ../plugins/fn-math/functions.c:3408
+#: ../plugins/fn-math/functions.c:3421 ../plugins/fn-math/functions.c:3427
+#: ../plugins/fn-math/functions.c:3433 ../plugins/fn-math/functions.c:3454
+#: ../plugins/fn-math/functions.c:3457 ../plugins/fn-math/functions.c:3460
+#: ../plugins/fn-math/functions.c:3463 ../plugins/fn-math/functions.c:3466
+#: ../plugins/fn-math/functions.c:3479 ../plugins/fn-math/functions.c:3491
+#: ../plugins/fn-math/functions.c:3494 ../plugins/fn-stat/functions.c:5774
 #: ../plugins/fn-stat/functions.c:5777 ../plugins/fn-stat/functions.c:5795
 #: ../plugins/fn-stat/functions.c:5873 ../plugins/fn-string/functions.c:1247
 #: ../plugins/fn-string/functions.c:1250
@@ -1055,7 +1055,7 @@ msgstr "val,rango,aprox"
 msgid "ref,row,col,height,width"
 msgstr "ref,fila,col,alto,ancho"
 
-#: ../plugins/fn-lookup/functions.c:1490 ../plugins/fn-math/functions.c:3506
+#: ../plugins/fn-lookup/functions.c:1490 ../plugins/fn-math/functions.c:3507
 msgid "array"
 msgstr "array"
 
@@ -1071,18 +1071,18 @@ msgstr "Búsqueda"
 msgid "Lookup Functions"
 msgstr "Funciones de búsqueda"
 
-#: ../plugins/fn-math/functions.c:2558 ../plugins/fn-math/functions.c:2578
-#: ../plugins/fn-math/functions.c:2674 ../plugins/fn-math/functions.c:2694
-#: ../plugins/fn-math/functions.c:2788 ../plugins/fn-math/functions.c:2808
+#: ../plugins/fn-math/functions.c:2559 ../plugins/fn-math/functions.c:2579
+#: ../plugins/fn-math/functions.c:2675 ../plugins/fn-math/functions.c:2695
+#: ../plugins/fn-math/functions.c:2789 ../plugins/fn-math/functions.c:2809
 #: ../plugins/fn-stat/functions.c:2897 ../plugins/fn-stat/functions.c:2927
 msgid "Array version not implemented!"
 msgstr "¡La versión de arrays aún no está implementada!"
 
-#: ../plugins/fn-math/functions.c:3322
+#: ../plugins/fn-math/functions.c:3323
 msgid "xnum,ynum"
 msgstr "numx,numy"
 
-#: ../plugins/fn-math/functions.c:3328 ../plugins/fn-math/functions.c:3331
+#: ../plugins/fn-math/functions.c:3329 ../plugins/fn-math/functions.c:3332
 #: ../plugins/fn-random/functions.c:1200 ../plugins/fn-random/functions.c:1221
 #: ../plugins/fn-random/functions.c:1227 ../plugins/fn-random/functions.c:1266
 #: ../plugins/fn-random/functions.c:1281 ../plugins/fn-random/functions.c:1284
@@ -1090,67 +1090,67 @@ msgid "a,b"
 msgstr "a,b"
 
 #. MS Excel puts this in statistical
-#: ../plugins/fn-math/functions.c:3339
+#: ../plugins/fn-math/functions.c:3340
 msgid "range,criteria"
 msgstr "rango,criterios"
 
-#: ../plugins/fn-math/functions.c:3347
+#: ../plugins/fn-math/functions.c:3348
 msgid "number,significance"
 msgstr "número,significado"
 
-#: ../plugins/fn-math/functions.c:3375 ../plugins/fn-stat/functions.c:5888
+#: ../plugins/fn-math/functions.c:3376 ../plugins/fn-stat/functions.c:5888
 msgid "n,k"
 msgstr "n,k"
 
-#: ../plugins/fn-math/functions.c:3382
+#: ../plugins/fn-math/functions.c:3383
 msgid "number,number"
 msgstr "número,número"
 
-#: ../plugins/fn-math/functions.c:3401
+#: ../plugins/fn-math/functions.c:3402
 msgid "number,base"
 msgstr "número,base"
 
-#: ../plugins/fn-math/functions.c:3410 ../plugins/fn-math/functions.c:3429
+#: ../plugins/fn-math/functions.c:3411 ../plugins/fn-math/functions.c:3430
 msgid "numerator,denominator"
 msgstr "numerador,denominador"
 
-#: ../plugins/fn-math/functions.c:3413
+#: ../plugins/fn-math/functions.c:3414
 msgid "number,multiple"
 msgstr "número,múltiplo"
 
-#: ../plugins/fn-math/functions.c:3423
+#: ../plugins/fn-math/functions.c:3424
 msgid "base,exponent"
 msgstr "base,exponente"
 
-#: ../plugins/fn-math/functions.c:3435
+#: ../plugins/fn-math/functions.c:3436
 msgid "number,type"
 msgstr "número,tipo"
 
-#: ../plugins/fn-math/functions.c:3438 ../plugins/fn-math/functions.c:3442
-#: ../plugins/fn-math/functions.c:3446 ../plugins/fn-math/functions.c:3496
+#: ../plugins/fn-math/functions.c:3439 ../plugins/fn-math/functions.c:3443
+#: ../plugins/fn-math/functions.c:3447 ../plugins/fn-math/functions.c:3497
 msgid "number,digits"
 msgstr "número,dígitos"
 
-#: ../plugins/fn-math/functions.c:3450
+#: ../plugins/fn-math/functions.c:3451
 msgid "x,n,m,coefficients"
 msgstr "x,n,m,coeficientes"
 
-#: ../plugins/fn-math/functions.c:3472
+#: ../plugins/fn-math/functions.c:3473
 msgid "range,criteria,actual_range"
 msgstr "rango,criterios,rango_actual"
 
-#: ../plugins/fn-math/functions.c:3475
+#: ../plugins/fn-math/functions.c:3476
 msgid "range,range,"
 msgstr "rango,rango,"
 
-#: ../plugins/fn-math/functions.c:3481 ../plugins/fn-math/functions.c:3484
-#: ../plugins/fn-math/functions.c:3487 ../plugins/fn-math/functions.c:3503
+#: ../plugins/fn-math/functions.c:3482 ../plugins/fn-math/functions.c:3485
+#: ../plugins/fn-math/functions.c:3488 ../plugins/fn-math/functions.c:3504
 #: ../plugins/fn-stat/functions.c:5747 ../plugins/fn-stat/functions.c:5756
 #: ../plugins/fn-stat/functions.c:5879 ../plugins/fn-stat/functions.c:5935
 msgid "array1,array2"
 msgstr "array1,array2"
 
-#: ../plugins/fn-math/functions.c:3509 ../plugins/fn-math/functions.c:3513
+#: ../plugins/fn-math/functions.c:3510 ../plugins/fn-math/functions.c:3514
 msgid "array,matrix_type,bandsize"
 msgstr "array,tipo_matriz,tam-banda"
 
@@ -1162,7 +1162,7 @@ msgstr "Funciones matemáticas"
 msgid "Mathematical Functions"
 msgstr "Funciones matemáticas"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:313
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:312
 msgid "Mathematics"
 msgstr "Matemáticas"
 
@@ -1428,7 +1428,8 @@ msgstr "ref,x[,stddev]"
 msgid "x,a,b"
 msgstr "x,a,b"
 
-#: ../plugins/fn-stat/functions.c:5985
+#: ../plugins/fn-stat/functions.c:5985 ../src/dialogs/col-width.glade.h:5
+#: ../src/dialogs/row-height.glade.h:5
 msgid "x"
 msgstr "x"
 
@@ -1676,8 +1677,8 @@ msgstr "Restricciones:"
 #: ../src/dialogs/dialog-define-names.c:573
 #: ../src/dialogs/dialog-doc-metadata.c:1214
 #: ../src/dialogs/dialog-formula-guru.c:827
-#: ../src/dialogs/dialog-function-select.c:542
-#: ../src/dialogs/dialog-function-select.c:564
+#: ../src/dialogs/dialog-function-select.c:532
+#: ../src/dialogs/dialog-function-select.c:554
 #: ../src/dialogs/dialog-paste-names.c:100
 #: ../src/dialogs/dialog-scenarios.c:374
 #: ../src/dialogs/dialog-simulation.c:221 ../src/dialogs/dialog-zoom.c:196
@@ -3949,6 +3950,15 @@ msgstr "Izquierda a derecha"
 msgid "Right to Left"
 msgstr "Derecha a izquierda"
 
+#: ../src/commands.c:6800
+msgid "Changing Hyperlink"
+msgstr "Cambiar hiperenlace"
+
+#: ../src/commands.c:6944
+#, c-format
+msgid "Changing hyperlink of %s"
+msgstr "Cambiando el hiperenlace de %s"
+
 #: ../src/consolidate.c:751
 #, c-format
 msgid "Consolidating to (%s)"
@@ -4827,10 +4837,14 @@ msgid "Column Width"
 msgstr "Anchura de la columna"
 
 #: ../src/dialogs/col-width.glade.h:2
-msgid "_Column width (pt.):"
-msgstr "Anchura de _columna (pt.):"
+msgid "Column width in points:"
+msgstr "Anchura de columna en puntos:"
 
-#: ../src/dialogs/col-width.glade.h:3 ../src/dialogs/row-height.glade.h:3
+#: ../src/dialogs/col-width.glade.h:3
+msgid "_Column width in pixels:"
+msgstr "Anchura de _columna en píxeles:"
+
+#: ../src/dialogs/col-width.glade.h:4 ../src/dialogs/row-height.glade.h:4
 msgid "_Use Default"
 msgstr "_Usar predeterminado"
 
@@ -5935,11 +5949,11 @@ msgstr "Sensible a capitalización"
 msgid "By Value"
 msgstr "Por valor"
 
-#: ../src/dialogs/dialog-col-width.c:221
+#: ../src/dialogs/dialog-col-width.c:236
 msgid "Set standard/default column width"
 msgstr "Cambiar el ancho estándar/predeterminado de columna"
 
-#: ../src/dialogs/dialog-col-width.c:226
+#: ../src/dialogs/dialog-col-width.c:241
 #, c-format
 msgid ""
 "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
@@ -6114,57 +6128,57 @@ msgstr "Celda"
 msgid "Could not create the goto dialog."
 msgstr "No se pudo crear el diálogo ir a."
 
-#: ../src/dialogs/dialog-hyperlink.c:143
+#: ../src/dialogs/dialog-hyperlink.c:142
 msgid "Not a range or name"
 msgstr "No es un rango o nombre"
 
-#: ../src/dialogs/dialog-hyperlink.c:259
+#: ../src/dialogs/dialog-hyperlink.c:258
 msgid "Internal Link"
 msgstr "Enlace interno"
 
-#: ../src/dialogs/dialog-hyperlink.c:261
+#: ../src/dialogs/dialog-hyperlink.c:260
 msgid "Jump to specific cells or named range in the current workbook"
 msgstr ""
 "Saltar a celdas específicas o un rango con nombre en el libro de cuentas "
 "actual"
 
-#: ../src/dialogs/dialog-hyperlink.c:265
+#: ../src/dialogs/dialog-hyperlink.c:264
 msgid "External Link"
 msgstr "Enlace externo"
 
-#: ../src/dialogs/dialog-hyperlink.c:267
+#: ../src/dialogs/dialog-hyperlink.c:266
 msgid "Open an external file with the specified name"
 msgstr "Abre un archivo externo con el nombre especificado"
 
-#: ../src/dialogs/dialog-hyperlink.c:270
+#: ../src/dialogs/dialog-hyperlink.c:269
 msgid "Email Link"
 msgstr "Enlace de correo-e"
 
-#: ../src/dialogs/dialog-hyperlink.c:272
+#: ../src/dialogs/dialog-hyperlink.c:271
 msgid "Prepare an email"
 msgstr "Preparar un correo electrónico"
 
-#: ../src/dialogs/dialog-hyperlink.c:275
+#: ../src/dialogs/dialog-hyperlink.c:274
 msgid "Web Link"
 msgstr "Enlace web"
 
-#: ../src/dialogs/dialog-hyperlink.c:277
+#: ../src/dialogs/dialog-hyperlink.c:276
 msgid "Browse to the specified URL"
 msgstr "Navegar a la URL especificada"
 
-#: ../src/dialogs/dialog-hyperlink.c:347
+#: ../src/dialogs/dialog-hyperlink.c:346
 msgid "Add Hyperlink"
 msgstr "Añadir hiperenlace"
 
-#: ../src/dialogs/dialog-hyperlink.c:349
+#: ../src/dialogs/dialog-hyperlink.c:351
 msgid "Edit Hyperlink"
 msgstr "Editar hiperenlace"
 
-#: ../src/dialogs/dialog-hyperlink.c:356 ../src/sheet-control-gui.c:1759
+#: ../src/dialogs/dialog-hyperlink.c:360 ../src/sheet-control-gui.c:1759
 msgid "Remove Hyperlink"
 msgstr "Eliminar hiperenlace"
 
-#: ../src/dialogs/dialog-hyperlink.c:548
+#: ../src/dialogs/dialog-hyperlink.c:552
 msgid "Could not create the hyperlink dialog."
 msgstr "No se puede crear el diálogo para el hiperenlace."
 
@@ -6796,11 +6810,11 @@ msgstr "Todos los archivos"
 msgid "All files used by Gnumeric"
 msgstr "Todos los archivos que usa Gnumeric"
 
-#: ../src/dialogs/dialog-row-height.c:217
+#: ../src/dialogs/dialog-row-height.c:231
 msgid "Set standard/default row height"
 msgstr "Fija la altura de fila estándar/predeterminada"
 
-#: ../src/dialogs/dialog-row-height.c:222
+#: ../src/dialogs/dialog-row-height.c:236
 #, c-format
 msgid ""
 "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
@@ -8713,8 +8727,12 @@ msgid "Row Height"
 msgstr "Altura de la fila"
 
 #: ../src/dialogs/row-height.glade.h:2
-msgid "_Row height (pt.):"
-msgstr "Altura de la _fila (pt.):"
+msgid "Row height in points:"
+msgstr "Altura de fila en puntos:"
+
+#: ../src/dialogs/row-height.glade.h:3
+msgid "_Row height in pixels:"
+msgstr "Altura de _fila en píxeles:"
 
 #: ../src/dialogs/sampling.glade.h:4
 msgid "N_umber of samples:"
@@ -9663,7 +9681,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "GNUMERIC_VERSION()."
 
-#: ../src/func-builtin.c:317
+#: ../src/func-builtin.c:316
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
