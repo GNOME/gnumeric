@@ -56,7 +56,7 @@ os.environ['INSTALL']	 = os.path.expanduser('~/bin/install-check')
 os.environ['ACLOCAL_AMFLAGS'] = ' -I '+prefix+'/share/aclocal'	# for libgnomedb
 
 os.environ['WINEDEBUG']	 = '-all'
-os.environ['MAKE']	 = 'colormake'
+#os.environ['MAKE']	 = 'colormake'
 
 py_prefix = prefix+'/Python25'
 os.environ['PYTHON']	 = py_prefix+'/python.exe'
@@ -80,7 +80,7 @@ for tool in ('AR', 'RANLIB', 'STRIP', 'AS',
 	autogenargs += ' '+tool+'="'+os.environ[tool]+'" '
 
 #Module specific configure arguments
-module_autogenargs['zlib']    = autogenargs + ' --prefix='+prefix+' --shared'
+module_autogenargs['zlib']    = autogenargs
 module_autogenargs['pcre']    = autogenargs + ' --enable-utf8' + ' --enable-shared'
 module_autogenargs['gettext'] = autogenargs + """ --without-emacs \
 						  --disable-libasprintf \
