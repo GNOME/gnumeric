@@ -1036,7 +1036,6 @@ sv_selection_apply_in_order (SheetView *sv, SelectionApplyFunc const func,
 			     void * closure)
 {
 	GSList *l, *reverse;
-	GSList *proposed = NULL;
 
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 

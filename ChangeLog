@@ -1,3 +1,7 @@
+2008-09-14  Jody Goldberg <jody@gnome.org>
+
+	* src/selection.c (sv_selection_apply_in_order) : suppress warning.
+
 2008-09-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	Fix for #152617
