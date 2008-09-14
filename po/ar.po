@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Arabic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-31 11:07+0100\n"
+"POT-Creation-Date: 2008-09-14 07:36-0400\n"
 "PO-Revision-Date: 2007-04-14 18:49+0100\n"
 "Last-Translator: Djihed Afifi <djihed@gmail.com>\n"
 "Language-Team: Arabeyes <doc@arabeyes.org>\n"
@@ -79,107 +79,107 @@ msgstr "الواجهة"
 msgid "Provides a CORBA scripting interface"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2279 ../plugins/derivatives/options.c:2284
-#: ../plugins/derivatives/options.c:2289 ../plugins/derivatives/options.c:2294
-#: ../plugins/derivatives/options.c:2309
+#: ../plugins/derivatives/options.c:2278 ../plugins/derivatives/options.c:2283
+#: ../plugins/derivatives/options.c:2288 ../plugins/derivatives/options.c:2293
+#: ../plugins/derivatives/options.c:2308
 msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2299 ../plugins/derivatives/options.c:2304
+#: ../plugins/derivatives/options.c:2298 ../plugins/derivatives/options.c:2303
 msgid "spot, strike, time, rate, volatility, cost_of_carry"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2314
+#: ../plugins/derivatives/options.c:2313
 msgid "a, b, rho"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2319
+#: ../plugins/derivatives/options.c:2318
 msgid ""
 "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2324
+#: ../plugins/derivatives/options.c:2323
 msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2329
+#: ../plugins/derivatives/options.c:2328
 msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2334
+#: ../plugins/derivatives/options.c:2333
 msgid ""
 "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2339 ../plugins/derivatives/options.c:2349
+#: ../plugins/derivatives/options.c:2338 ../plugins/derivatives/options.c:2348
 msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2344
+#: ../plugins/derivatives/options.c:2343
 msgid ""
 "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
 "kappa_e, kappa_f)"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2354
-msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
+#: ../plugins/derivatives/options.c:2353
+msgid "spot, strike, t1, t2, rate, d, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2359
+#: ../plugins/derivatives/options.c:2358
 msgid ""
 "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2364
+#: ../plugins/derivatives/options.c:2363
 msgid ""
 "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2369
+#: ../plugins/derivatives/options.c:2368
 msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2374
+#: ../plugins/derivatives/options.c:2373
 msgid ""
 "spot, strike_call, strike_put, time, time_call, time_put, rate, "
 "cost_of_carry, volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2379 ../plugins/derivatives/options.c:2384
+#: ../plugins/derivatives/options.c:2378 ../plugins/derivatives/options.c:2383
 msgid ""
 "type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
 "volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2389
+#: ../plugins/derivatives/options.c:2388
 msgid ""
 "type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
 "cost_of_carry2, rate, volatility1, volatility2, rho"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2394 ../plugins/derivatives/options.c:2399
+#: ../plugins/derivatives/options.c:2393 ../plugins/derivatives/options.c:2398
 msgid ""
 "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
 "volatility2,rho"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2404
+#: ../plugins/derivatives/options.c:2403
 msgid ""
 "call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
 "volatility2,rho"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2409
+#: ../plugins/derivatives/options.c:2408
 msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2414
+#: ../plugins/derivatives/options.c:2413
 msgid ""
 "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
 "volatility"
 msgstr ""
 
-#: ../plugins/derivatives/options.c:2420
+#: ../plugins/derivatives/options.c:2419
 msgid ""
 "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
 "volatility, cost_of_carry"
@@ -202,7 +202,7 @@ msgid "Functions related to financial derivatives"
 msgstr ""
 
 #: ../plugins/dif/dif.c:71 ../plugins/excel/ms-excel-read.c:6574
-#: ../plugins/mps/mps.c:535 ../src/xml-io.c:2704 ../src/xml-sax-read.c:2649
+#: ../plugins/mps/mps.c:535 ../src/xml-io.c:2704 ../src/xml-sax-read.c:2659
 #, fuzzy
 msgid "Reading file..."
 msgstr "إفتح ملف..."
@@ -282,27 +282,27 @@ msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr ""
 
-#: ../plugins/excel/boot.c:186
+#: ../plugins/excel/boot.c:187
 msgid "No Workbook or Book streams found."
 msgstr ""
 
-#: ../plugins/excel/boot.c:239
+#: ../plugins/excel/boot.c:256
 #, fuzzy
 msgid "Preparing to save..."
 msgstr "جاري التحضير للنقل..."
 
-#: ../plugins/excel/boot.c:251
+#: ../plugins/excel/boot.c:268
 #, fuzzy
 msgid "Saving file..."
 msgstr "يجري حفظ العنصر..."
 
-#: ../plugins/excel/excel-xml-read.c:132 ../src/xml-sax-read.c:391
+#: ../plugins/excel/excel-xml-read.c:132 ../src/xml-sax-read.c:393
 #, fuzzy, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "صفة غير متوقّعة '%s' للعنصر '%s'"
 
 #: ../plugins/excel/excel-xml-read.c:1002
-#: ../plugins/openoffice/openoffice-read.c:2984 ../src/xml-sax-read.c:2666
+#: ../plugins/openoffice/openoffice-read.c:2984 ../src/xml-sax-read.c:2677
 #, fuzzy
 msgid "XML document not well formed!"
 msgstr "لم يمكن فتح المستند."
@@ -454,135 +454,135 @@ msgstr ""
 msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:232
+#: ../plugins/excel/xlsx-read.c:233
 #, fuzzy, c-format
 msgid "'%s' is corrupt!"
 msgstr "%s'%s' فارغ"
 
-#: ../plugins/excel/xlsx-read.c:325
+#: ../plugins/excel/xlsx-read.c:326
 #, fuzzy, c-format
 msgid "Unknown enum value '%s' for attribute %s"
 msgstr "قيمة مجهولة \"%s\" للتّوصيف \"%s\" على العنصر <%s>"
 
-#: ../plugins/excel/xlsx-read.c:368 ../plugins/excel/xlsx-read.c:397
+#: ../plugins/excel/xlsx-read.c:369 ../plugins/excel/xlsx-read.c:398
 #, fuzzy, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
 msgstr "العدد الصحيح `%s' كبير أو صغير جدا"
 
-#: ../plugins/excel/xlsx-read.c:372 ../plugins/excel/xlsx-read.c:401
+#: ../plugins/excel/xlsx-read.c:373 ../plugins/excel/xlsx-read.c:402
 #, fuzzy, c-format
 msgid "Invalid integer '%s' for attribute %s"
 msgstr "قيمة '%s' غير مقبولة من أجل %s"
 
-#: ../plugins/excel/xlsx-read.c:427
+#: ../plugins/excel/xlsx-read.c:428
 #, fuzzy, c-format
 msgid "Invalid RRGGBB color '%s' for attribute %s"
 msgstr "قيمة '%s' غير مقبولة من أجل %s"
 
-#: ../plugins/excel/xlsx-read.c:458
+#: ../plugins/excel/xlsx-read.c:459
 #, fuzzy, c-format
 msgid "Invalid number '%s' for attribute %s"
 msgstr "قيمة '%s' غير مقبولة من أجل %s"
 
-#: ../plugins/excel/xlsx-read.c:482
+#: ../plugins/excel/xlsx-read.c:483
 #, fuzzy, c-format
 msgid "Invalid cell position '%s' for attribute %s"
 msgstr "قيمة '%s' غير مقبولة من أجل %s"
 
-#: ../plugins/excel/xlsx-read.c:501
+#: ../plugins/excel/xlsx-read.c:502
 #, fuzzy, c-format
 msgid "Invalid range '%s' for attribute %s"
 msgstr "قيمة '%s' غير مقبولة من أجل %s"
 
-#: ../plugins/excel/xlsx-read.c:764
+#: ../plugins/excel/xlsx-read.c:765
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:1400
+#: ../plugins/excel/xlsx-read.c:1412
 #, fuzzy, c-format
 msgid "Unknown color '%s'"
 msgstr "خطأ مجهول: %s"
 
-#: ../plugins/excel/xlsx-read.c:1403
+#: ../plugins/excel/xlsx-read.c:1415
 #, fuzzy
 msgid "Missing theme"
 msgstr "اسم الملف مفقود."
 
-#: ../plugins/excel/xlsx-read.c:2015
+#: ../plugins/excel/xlsx-read.c:2062
 msgid "Dropping missing object"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:2033
+#: ../plugins/excel/xlsx-read.c:2080
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:2144
+#: ../plugins/excel/xlsx-read.c:2191
 #, fuzzy, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "قيمة '%s' غير مقبولة من أجل %s"
 
-#: ../plugins/excel/xlsx-read.c:2167
+#: ../plugins/excel/xlsx-read.c:2214
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:2176
+#: ../plugins/excel/xlsx-read.c:2223
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:2205
+#: ../plugins/excel/xlsx-read.c:2252
 #, fuzzy, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "استراتجية  غير صحيحة '%s'"
 
-#: ../plugins/excel/xlsx-read.c:2326
+#: ../plugins/excel/xlsx-read.c:2373
 #, fuzzy, c-format
 msgid "Invalid cell %s"
 msgstr "هويّة (id) مفتاح غير صالح: %s"
 
-#: ../plugins/excel/xlsx-read.c:2427
+#: ../plugins/excel/xlsx-read.c:2474
 msgid "Ignoring column information that does not specify first or last."
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:2719
+#: ../plugins/excel/xlsx-read.c:2766
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:3144
+#: ../plugins/excel/xlsx-read.c:3191
 #, fuzzy
 msgid "Undefined"
 msgstr "غير محدّد"
 
-#: ../plugins/excel/xlsx-read.c:3187
+#: ../plugins/excel/xlsx-read.c:3234
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr ""
 
-#: ../plugins/excel/xlsx-read.c:3568
+#: ../plugins/excel/xlsx-read.c:3615
 #, fuzzy
 msgid "Unknown type of hyperlink"
 msgstr "مجموعة مجهولة"
 
-#: ../plugins/excel/xlsx-read.c:3779
+#: ../plugins/excel/xlsx-read.c:3826
 #, fuzzy
 msgid "Ignoring a sheet without a name"
 msgstr "تجاهل عقدة XML باسم `%s': %s"
 
-#: ../plugins/excel/xlsx-read.c:3807
+#: ../plugins/excel/xlsx-read.c:3854
 #, fuzzy, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "معامل %s مفقود"
 
-#: ../plugins/excel/xlsx-read.c:4280
+#: ../plugins/excel/xlsx-read.c:4327
 #, fuzzy, c-format
 msgid "Missing record '%d'"
 msgstr "ملفات مفقودة"
 
-#: ../plugins/excel/xlsx-read.c:4732
+#: ../plugins/excel/xlsx-read.c:4779
 #, fuzzy
 msgid "No workbook stream found."
 msgstr "لا توجد أي نتائج."
@@ -911,7 +911,7 @@ msgstr "نص"
 
 #. XLM : looks common in charts
 #: ../plugins/fn-info/functions.c:1993 ../plugins/fn-info/functions.c:1997
-#: ../src/print-info.c:580 ../src/ssgrep.c:249
+#: ../src/print-info.c:580 ../src/ssgrep.c:358
 msgid "cell"
 msgstr "خلية"
 
@@ -939,7 +939,7 @@ msgid "Type Mismatch"
 msgstr "لخبطة في النوع"
 
 #: ../plugins/fn-logical/functions.c:376 ../plugins/fn-logical/functions.c:380
-#: ../plugins/fn-logical/functions.c:403 ../plugins/fn-math/functions.c:3468
+#: ../plugins/fn-logical/functions.c:403 ../plugins/fn-math/functions.c:3469
 #: ../plugins/fn-stat/functions.c:5704 ../plugins/fn-stat/functions.c:5708
 #: ../plugins/fn-stat/functions.c:5712 ../plugins/fn-stat/functions.c:5750
 #: ../plugins/fn-stat/functions.c:5753 ../plugins/fn-stat/functions.c:5762
@@ -952,30 +952,30 @@ msgstr "لخبطة في النوع"
 #: ../plugins/fn-stat/functions.c:5928 ../plugins/fn-stat/functions.c:5957
 #: ../plugins/fn-stat/functions.c:5960 ../plugins/fn-stat/functions.c:5963
 #: ../plugins/fn-stat/functions.c:5966 ../plugins/fn-stat/functions.c:5982
-#: ../src/func-builtin.c:285 ../src/func-builtin.c:291
+#: ../src/func-builtin.c:284 ../src/func-builtin.c:290
 #, fuzzy
 msgid "number,number,"
 msgstr "رقم فريد"
 
 #. MS Excel puts this in the engineering functions
-#: ../plugins/fn-logical/functions.c:384 ../plugins/fn-math/functions.c:3300
-#: ../plugins/fn-math/functions.c:3304 ../plugins/fn-math/functions.c:3307
-#: ../plugins/fn-math/functions.c:3310 ../plugins/fn-math/functions.c:3313
-#: ../plugins/fn-math/functions.c:3316 ../plugins/fn-math/functions.c:3319
-#: ../plugins/fn-math/functions.c:3325 ../plugins/fn-math/functions.c:3334
-#: ../plugins/fn-math/functions.c:3343 ../plugins/fn-math/functions.c:3351
-#: ../plugins/fn-math/functions.c:3354 ../plugins/fn-math/functions.c:3357
-#: ../plugins/fn-math/functions.c:3360 ../plugins/fn-math/functions.c:3363
-#: ../plugins/fn-math/functions.c:3368 ../plugins/fn-math/functions.c:3372
-#: ../plugins/fn-math/functions.c:3378 ../plugins/fn-math/functions.c:3388
-#: ../plugins/fn-math/functions.c:3395 ../plugins/fn-math/functions.c:3398
-#: ../plugins/fn-math/functions.c:3404 ../plugins/fn-math/functions.c:3407
-#: ../plugins/fn-math/functions.c:3420 ../plugins/fn-math/functions.c:3426
-#: ../plugins/fn-math/functions.c:3432 ../plugins/fn-math/functions.c:3453
-#: ../plugins/fn-math/functions.c:3456 ../plugins/fn-math/functions.c:3459
-#: ../plugins/fn-math/functions.c:3462 ../plugins/fn-math/functions.c:3465
-#: ../plugins/fn-math/functions.c:3478 ../plugins/fn-math/functions.c:3490
-#: ../plugins/fn-math/functions.c:3493 ../plugins/fn-stat/functions.c:5774
+#: ../plugins/fn-logical/functions.c:384 ../plugins/fn-math/functions.c:3301
+#: ../plugins/fn-math/functions.c:3305 ../plugins/fn-math/functions.c:3308
+#: ../plugins/fn-math/functions.c:3311 ../plugins/fn-math/functions.c:3314
+#: ../plugins/fn-math/functions.c:3317 ../plugins/fn-math/functions.c:3320
+#: ../plugins/fn-math/functions.c:3326 ../plugins/fn-math/functions.c:3335
+#: ../plugins/fn-math/functions.c:3344 ../plugins/fn-math/functions.c:3352
+#: ../plugins/fn-math/functions.c:3355 ../plugins/fn-math/functions.c:3358
+#: ../plugins/fn-math/functions.c:3361 ../plugins/fn-math/functions.c:3364
+#: ../plugins/fn-math/functions.c:3369 ../plugins/fn-math/functions.c:3373
+#: ../plugins/fn-math/functions.c:3379 ../plugins/fn-math/functions.c:3389
+#: ../plugins/fn-math/functions.c:3396 ../plugins/fn-math/functions.c:3399
+#: ../plugins/fn-math/functions.c:3405 ../plugins/fn-math/functions.c:3408
+#: ../plugins/fn-math/functions.c:3421 ../plugins/fn-math/functions.c:3427
+#: ../plugins/fn-math/functions.c:3433 ../plugins/fn-math/functions.c:3454
+#: ../plugins/fn-math/functions.c:3457 ../plugins/fn-math/functions.c:3460
+#: ../plugins/fn-math/functions.c:3463 ../plugins/fn-math/functions.c:3466
+#: ../plugins/fn-math/functions.c:3479 ../plugins/fn-math/functions.c:3491
+#: ../plugins/fn-math/functions.c:3494 ../plugins/fn-stat/functions.c:5774
 #: ../plugins/fn-stat/functions.c:5777 ../plugins/fn-stat/functions.c:5795
 #: ../plugins/fn-stat/functions.c:5873 ../plugins/fn-string/functions.c:1247
 #: ../plugins/fn-string/functions.c:1250
@@ -1007,62 +1007,62 @@ msgstr "لغ"
 msgid "Logic Functions"
 msgstr "وظائف ال XML"
 
-#: ../plugins/fn-lookup/functions.c:1442
+#: ../plugins/fn-lookup/functions.c:1445
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1445
+#: ../plugins/fn-lookup/functions.c:1448
 #, fuzzy
 msgid "reference"
 msgstr "تفضيلات"
 
-#: ../plugins/fn-lookup/functions.c:1448
+#: ../plugins/fn-lookup/functions.c:1451
 #, fuzzy
 msgid "index,value,"
 msgstr "اخفي القيمة"
 
-#: ../plugins/fn-lookup/functions.c:1451 ../plugins/fn-lookup/functions.c:1457
-#: ../plugins/fn-lookup/functions.c:1481 ../plugins/fn-lookup/functions.c:1484
+#: ../plugins/fn-lookup/functions.c:1454 ../plugins/fn-lookup/functions.c:1460
+#: ../plugins/fn-lookup/functions.c:1484 ../plugins/fn-lookup/functions.c:1487
 #, fuzzy
 msgid "ref"
 msgstr "NULL"
 
-#: ../plugins/fn-lookup/functions.c:1454
+#: ../plugins/fn-lookup/functions.c:1457
 #, fuzzy
 msgid "colname"
 msgstr "اسم الأيقونة"
 
-#: ../plugins/fn-lookup/functions.c:1460 ../plugins/fn-lookup/functions.c:1490
+#: ../plugins/fn-lookup/functions.c:1463 ../plugins/fn-lookup/functions.c:1493
 msgid "val,range,col_idx,approx,as_index"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1463
+#: ../plugins/fn-lookup/functions.c:1466
 #, fuzzy
 msgid "link_location, label"
 msgstr "جدول الضرب"
 
-#: ../plugins/fn-lookup/functions.c:1466
+#: ../plugins/fn-lookup/functions.c:1469
 #, fuzzy
 msgid "ref_string,format"
 msgstr "نسق مسبق"
 
-#: ../plugins/fn-lookup/functions.c:1469
+#: ../plugins/fn-lookup/functions.c:1472
 msgid "reference,row,col,area"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1472
+#: ../plugins/fn-lookup/functions.c:1475
 msgid "val,range,range"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1475
+#: ../plugins/fn-lookup/functions.c:1478
 msgid "val,range,approx"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1478
+#: ../plugins/fn-lookup/functions.c:1481
 msgid "ref,row,col,height,width"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1487 ../plugins/fn-math/functions.c:3506
+#: ../plugins/fn-lookup/functions.c:1490 ../plugins/fn-math/functions.c:3507
 #, fuzzy
 msgid "array"
 msgstr "مصفوفة"
@@ -1081,19 +1081,19 @@ msgstr "المظهر"
 msgid "Lookup Functions"
 msgstr "وظائف ال XML"
 
-#: ../plugins/fn-math/functions.c:2558 ../plugins/fn-math/functions.c:2578
-#: ../plugins/fn-math/functions.c:2674 ../plugins/fn-math/functions.c:2694
-#: ../plugins/fn-math/functions.c:2788 ../plugins/fn-math/functions.c:2808
+#: ../plugins/fn-math/functions.c:2559 ../plugins/fn-math/functions.c:2579
+#: ../plugins/fn-math/functions.c:2675 ../plugins/fn-math/functions.c:2695
+#: ../plugins/fn-math/functions.c:2789 ../plugins/fn-math/functions.c:2809
 #: ../plugins/fn-stat/functions.c:2897 ../plugins/fn-stat/functions.c:2927
 #, fuzzy
 msgid "Array version not implemented!"
 msgstr "الأمر غير مدمج"
 
-#: ../plugins/fn-math/functions.c:3322
+#: ../plugins/fn-math/functions.c:3323
 msgid "xnum,ynum"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3328 ../plugins/fn-math/functions.c:3331
+#: ../plugins/fn-math/functions.c:3329 ../plugins/fn-math/functions.c:3332
 #: ../plugins/fn-random/functions.c:1200 ../plugins/fn-random/functions.c:1221
 #: ../plugins/fn-random/functions.c:1227 ../plugins/fn-random/functions.c:1266
 #: ../plugins/fn-random/functions.c:1281 ../plugins/fn-random/functions.c:1284
@@ -1102,77 +1102,77 @@ msgid "a,b"
 msgstr "لسان"
 
 #. MS Excel puts this in statistical
-#: ../plugins/fn-math/functions.c:3339
+#: ../plugins/fn-math/functions.c:3340
 #, fuzzy
 msgid "range,criteria"
 msgstr "معايير:"
 
-#: ../plugins/fn-math/functions.c:3347
+#: ../plugins/fn-math/functions.c:3348
 #, fuzzy
 msgid "number,significance"
 msgstr "1 أرقام كسرية"
 
-#: ../plugins/fn-math/functions.c:3375 ../plugins/fn-stat/functions.c:5888
+#: ../plugins/fn-math/functions.c:3376 ../plugins/fn-stat/functions.c:5888
 #, fuzzy
 msgid "n,k"
 msgstr "حبر"
 
-#: ../plugins/fn-math/functions.c:3382
+#: ../plugins/fn-math/functions.c:3383
 #, fuzzy
 msgid "number,number"
 msgstr "رقم فريد"
 
-#: ../plugins/fn-math/functions.c:3401
+#: ../plugins/fn-math/functions.c:3402
 #, fuzzy
 msgid "number,base"
 msgstr "همبرسايد"
 
-#: ../plugins/fn-math/functions.c:3410 ../plugins/fn-math/functions.c:3429
+#: ../plugins/fn-math/functions.c:3411 ../plugins/fn-math/functions.c:3430
 msgid "numerator,denominator"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3413
+#: ../plugins/fn-math/functions.c:3414
 #, fuzzy
 msgid "number,multiple"
 msgstr "متعدد"
 
-#: ../plugins/fn-math/functions.c:3423
+#: ../plugins/fn-math/functions.c:3424
 #, fuzzy
 msgid "base,exponent"
 msgstr "مكوّن مضمّن"
 
-#: ../plugins/fn-math/functions.c:3435
+#: ../plugins/fn-math/functions.c:3436
 #, fuzzy
 msgid "number,type"
 msgstr "عدد، مغاير"
 
-#: ../plugins/fn-math/functions.c:3438 ../plugins/fn-math/functions.c:3442
-#: ../plugins/fn-math/functions.c:3446 ../plugins/fn-math/functions.c:3496
+#: ../plugins/fn-math/functions.c:3439 ../plugins/fn-math/functions.c:3443
+#: ../plugins/fn-math/functions.c:3447 ../plugins/fn-math/functions.c:3497
 #, fuzzy
 msgid "number,digits"
 msgstr "أخضر محمر"
 
-#: ../plugins/fn-math/functions.c:3450
+#: ../plugins/fn-math/functions.c:3451
 msgid "x,n,m,coefficients"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3472
+#: ../plugins/fn-math/functions.c:3473
 msgid "range,criteria,actual_range"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3475
+#: ../plugins/fn-math/functions.c:3476
 #, fuzzy
 msgid "range,range,"
 msgstr "يوسفي"
 
-#: ../plugins/fn-math/functions.c:3481 ../plugins/fn-math/functions.c:3484
-#: ../plugins/fn-math/functions.c:3487 ../plugins/fn-math/functions.c:3503
+#: ../plugins/fn-math/functions.c:3482 ../plugins/fn-math/functions.c:3485
+#: ../plugins/fn-math/functions.c:3488 ../plugins/fn-math/functions.c:3504
 #: ../plugins/fn-stat/functions.c:5747 ../plugins/fn-stat/functions.c:5756
 #: ../plugins/fn-stat/functions.c:5879 ../plugins/fn-stat/functions.c:5935
 msgid "array1,array2"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3509 ../plugins/fn-math/functions.c:3513
+#: ../plugins/fn-math/functions.c:3510 ../plugins/fn-math/functions.c:3514
 msgid "array,matrix_type,bandsize"
 msgstr ""
 
@@ -1186,7 +1186,7 @@ msgstr "دالّات Qt"
 msgid "Mathematical Functions"
 msgstr "دالات التاريخ و الساعة"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:313
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:312
 msgid "Mathematics"
 msgstr "رياضيات"
 
@@ -1477,7 +1477,8 @@ msgstr ""
 msgid "x,a,b"
 msgstr ""
 
-#: ../plugins/fn-stat/functions.c:5985
+#: ../plugins/fn-stat/functions.c:5985 ../src/dialogs/col-width.glade.h:5
+#: ../src/dialogs/row-height.glade.h:5
 #, fuzzy
 msgid "x"
 msgstr "بكسل"
@@ -1745,12 +1746,12 @@ msgstr "ثوابت"
 #: ../src/dialogs/dialog-define-names.c:573
 #: ../src/dialogs/dialog-doc-metadata.c:1214
 #: ../src/dialogs/dialog-formula-guru.c:827
-#: ../src/dialogs/dialog-function-select.c:542
-#: ../src/dialogs/dialog-function-select.c:564
+#: ../src/dialogs/dialog-function-select.c:532
+#: ../src/dialogs/dialog-function-select.c:554
 #: ../src/dialogs/dialog-paste-names.c:100
 #: ../src/dialogs/dialog-scenarios.c:374
 #: ../src/dialogs/dialog-simulation.c:221 ../src/dialogs/dialog-zoom.c:196
-#: ../src/format-template.c:255 ../src/sheet.c:686
+#: ../src/format-template.c:255 ../src/sheet.c:694
 #: ../src/tools/solver/reports-write.c:79
 #: ../src/tools/solver/reports-write.c:101
 #: ../src/tools/solver/reports-write.c:128
@@ -2103,7 +2104,7 @@ msgstr "خطأ Camel: %s"
 msgid "Module name not given."
 msgstr "حبات ثلجية متوسطة"
 
-#: ../plugins/perl-loader/perl-loader.c:209
+#: ../plugins/perl-loader/perl-loader.c:212
 #, fuzzy
 msgid "perl_func.pl doesn't exist."
 msgstr "المجلّد غير موجود"
@@ -2447,7 +2448,7 @@ msgstr "حدث خطأ خلال فتح %s."
 #: ../plugins/xbase/boot.c:186 ../src/dialogs/dialog-goto-cell.c:258
 #: ../src/dialogs/dialog-search.c:409 ../src/dialogs/dialog-stf-export.c:562
 #: ../src/dialogs/hf-config.glade.h:18 ../src/dialogs/print.glade.h:37
-#: ../src/print-info.c:493 ../src/search.c:639 ../src/workbook.c:874
+#: ../src/print-info.c:493 ../src/search.c:655 ../src/workbook.c:874
 #: ../src/xml-io.c:2283
 #, fuzzy
 msgid "Sheet"
@@ -3559,7 +3560,7 @@ msgid "Deleting row %s"
 msgstr "إجتماع - %s"
 
 #. Check for locked cells
-#: ../src/commands.c:1570 ../src/commands.c:1574 ../src/sheet.c:3680
+#: ../src/commands.c:1570 ../src/commands.c:1574 ../src/sheet.c:3688
 #, fuzzy
 msgid "Clear"
 msgstr "ا_مسح"
@@ -3989,6 +3990,16 @@ msgstr "من اليسار إلى اليمين"
 msgid "Right to Left"
 msgstr "من اليمين إلى اليسار"
 
+#: ../src/commands.c:6800
+#, fuzzy
+msgid "Changing Hyperlink"
+msgstr "وصله"
+
+#: ../src/commands.c:6944
+#, fuzzy, c-format
+msgid "Changing hyperlink of %s"
+msgstr "التعديلات في الملف الشخصي %s"
+
 #: ../src/consolidate.c:751
 #, fuzzy, c-format
 msgid "Consolidating to (%s)"
@@ -4056,8 +4067,7 @@ msgstr ""
 #: ../src/dialogs/exp-smoothing.glade.h:4
 #: ../src/dialogs/fourier-analysis.glade.h:2
 #: ../src/dialogs/histogram.glade.h:5 ../src/dialogs/moving-averages.glade.h:4
-#: ../src/dialogs/rank.glade.h:1 ../src/dialogs/regression.glade.h:4
-#: ../src/dialogs/sampling.glade.h:3
+#: ../src/dialogs/rank.glade.h:1 ../src/dialogs/sampling.glade.h:3
 #, fuzzy
 msgid "Grouped by:"
 msgstr "المجموعة:"
@@ -4083,7 +4093,7 @@ msgstr "ألفا:"
 #: ../src/dialogs/covariance.glade.h:5
 #: ../src/dialogs/descriptive-stats.glade.h:14
 #: ../src/dialogs/histogram.glade.h:12 ../src/dialogs/rank.glade.h:7
-#: ../src/dialogs/regression.glade.h:7 ../src/dialogs/sampling.glade.h:10
+#: ../src/dialogs/sampling.glade.h:10
 #, fuzzy
 msgid "_Areas"
 msgstr "ال_عنوان"
@@ -4094,9 +4104,8 @@ msgstr "ال_عنوان"
 #: ../src/dialogs/exp-smoothing.glade.h:8
 #: ../src/dialogs/fourier-analysis.glade.h:6
 #: ../src/dialogs/histogram.glade.h:16 ../src/dialogs/rank.glade.h:9
-#: ../src/dialogs/regression.glade.h:8 ../src/dialogs/sampling.glade.h:11
-#: ../src/dialogs/shuffle.glade.h:5 ../src/wbc-gtk-actions.c:1678
-#: ../src/wbc-gtk-actions.c:1812
+#: ../src/dialogs/sampling.glade.h:11 ../src/dialogs/shuffle.glade.h:5
+#: ../src/wbc-gtk-actions.c:1678 ../src/wbc-gtk-actions.c:1812
 #, fuzzy
 msgid "_Columns"
 msgstr "أ_عمدة:"
@@ -4118,7 +4127,7 @@ msgstr "ال_دخْل:"
 #: ../src/dialogs/fourier-analysis.glade.h:9
 #: ../src/dialogs/histogram.glade.h:18 ../src/dialogs/mean-tests.glade.h:16
 #: ../src/dialogs/moving-averages.glade.h:11 ../src/dialogs/rank.glade.h:11
-#: ../src/dialogs/regression.glade.h:11 ../src/dialogs/sampling.glade.h:14
+#: ../src/dialogs/regression.glade.h:7 ../src/dialogs/sampling.glade.h:14
 #: ../src/dialogs/variance-tests.glade.h:10
 msgid "_Labels"
 msgstr "مل_صقات"
@@ -4131,9 +4140,8 @@ msgstr "مل_صقات"
 #: ../src/dialogs/fourier-analysis.glade.h:10
 #: ../src/dialogs/histogram.glade.h:23
 #: ../src/dialogs/moving-averages.glade.h:12 ../src/dialogs/rank.glade.h:12
-#: ../src/dialogs/regression.glade.h:13 ../src/dialogs/sampling.glade.h:18
-#: ../src/dialogs/shuffle.glade.h:6 ../src/wbc-gtk-actions.c:1675
-#: ../src/wbc-gtk-actions.c:1815
+#: ../src/dialogs/sampling.glade.h:18 ../src/dialogs/shuffle.glade.h:6
+#: ../src/wbc-gtk-actions.c:1675 ../src/wbc-gtk-actions.c:1815
 #, fuzzy
 msgid "_Rows"
 msgstr "ص_فوف:"
@@ -4148,8 +4156,7 @@ msgstr "ص_فوف:"
 #: ../src/dialogs/mean-tests.glade.h:1
 #: ../src/dialogs/moving-averages.glade.h:1
 #: ../src/dialogs/random-generation.glade.h:1
-#: ../src/dialogs/regression.glade.h:1 ../src/dialogs/sampling.glade.h:1
-#: ../src/dialogs/scenario-add.glade.h:1
+#: ../src/dialogs/sampling.glade.h:1 ../src/dialogs/scenario-add.glade.h:1
 #: ../src/dialogs/scenario-manager.glade.h:2
 #: ../src/dialogs/so-checkbox.glade.h:1 ../src/dialogs/so-frame.glade.h:1
 #: ../src/dialogs/solver.glade.h:1 ../src/dialogs/tabulate.glade.h:1
@@ -4959,10 +4966,15 @@ msgstr "عرض العمود"
 
 #: ../src/dialogs/col-width.glade.h:2
 #, fuzzy
-msgid "_Column width (pt.):"
+msgid "Column width in points:"
 msgstr "عرض العمود"
 
-#: ../src/dialogs/col-width.glade.h:3 ../src/dialogs/row-height.glade.h:3
+#: ../src/dialogs/col-width.glade.h:3
+#, fuzzy
+msgid "_Column width in pixels:"
+msgstr "عرض العمود"
+
+#: ../src/dialogs/col-width.glade.h:4 ../src/dialogs/row-height.glade.h:4
 #, fuzzy
 msgid "_Use Default"
 msgstr "استخدم الافترا_ضي"
@@ -5036,14 +5048,14 @@ msgstr "الوظيفة"
 msgid "_Source areas:"
 msgstr "اسم المصدر"
 
-#: ../src/dialogs/correlation.glade.h:1 ../src/tools/analysis-tools.c:829
-#: ../src/tools/analysis-tools.c:832
+#: ../src/dialogs/correlation.glade.h:1 ../src/tools/analysis-tools.c:821
+#: ../src/tools/analysis-tools.c:824
 #, fuzzy
 msgid "Correlation"
 msgstr "العلاقة"
 
-#: ../src/dialogs/covariance.glade.h:1 ../src/tools/analysis-tools.c:883
-#: ../src/tools/analysis-tools.c:886 ../src/wbc-gtk-actions.c:1973
+#: ../src/dialogs/covariance.glade.h:1 ../src/tools/analysis-tools.c:875
+#: ../src/tools/analysis-tools.c:878 ../src/wbc-gtk-actions.c:1973
 #, fuzzy
 msgid "Covariance"
 msgstr "كرواتي"
@@ -5198,7 +5210,7 @@ msgid "Confidence Interval for the _Mean"
 msgstr ""
 
 #: ../src/dialogs/descriptive-stats.glade.h:5
-#: ../src/tools/analysis-tools.c:1270 ../src/tools/analysis-tools.c:1273
+#: ../src/tools/analysis-tools.c:1262 ../src/tools/analysis-tools.c:1265
 #, fuzzy
 msgid "Descriptive Statistics"
 msgstr "قائمة الوصف"
@@ -5701,8 +5713,8 @@ msgstr "لم يُعثر على مفاتيح مطابقة"
 #: ../src/dialogs/dialog-advanced-filter.c:153
 #: ../src/dialogs/dialog-analysis-tools.c:550
 #: ../src/dialogs/dialog-analysis-tools.c:669
-#: ../src/dialogs/dialog-analysis-tools.c:1976
-#: ../src/dialogs/dialog-analysis-tools.c:2833
+#: ../src/dialogs/dialog-analysis-tools.c:1986
+#: ../src/dialogs/dialog-analysis-tools.c:2897
 #, fuzzy, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "حصل خطأ شبكي."
@@ -5714,8 +5726,8 @@ msgstr "لا يمكن إنشاء المحفوظة"
 
 #: ../src/dialogs/dialog-analysis-tools.c:471
 #: ../src/dialogs/dialog-analysis-tools.c:1013
-#: ../src/dialogs/dialog-analysis-tools.c:2660
-#: ../src/dialogs/dialog-analysis-tools.c:2874
+#: ../src/dialogs/dialog-analysis-tools.c:2724
+#: ../src/dialogs/dialog-analysis-tools.c:2938
 #: ../src/dialogs/dialog-shuffle.c:76
 #, fuzzy
 msgid "The input range is invalid."
@@ -5723,8 +5735,9 @@ msgstr "تنسيق الملف غير صحيح."
 
 #: ../src/dialogs/dialog-analysis-tools.c:480
 #: ../src/dialogs/dialog-analysis-tools.c:1064
-#: ../src/dialogs/dialog-analysis-tools.c:2680
-#: ../src/dialogs/dialog-analysis-tools.c:2906
+#: ../src/dialogs/dialog-analysis-tools.c:2093
+#: ../src/dialogs/dialog-analysis-tools.c:2744
+#: ../src/dialogs/dialog-analysis-tools.c:2970
 #, fuzzy
 msgid "The output specification is invalid."
 msgstr "الموقع المحدد غير سليم."
@@ -5813,85 +5826,109 @@ msgstr "لا يمكن انشاء المجلّد المرسل اليه: %s."
 msgid "Could not create the Sampling Tool dialog."
 msgstr "لا يمكن انشاء المجلّد المرسل اليه: %s."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1971
-#: ../src/tools/analysis-tools.c:2841 ../src/tools/analysis-tools.c:2913
-msgid ""
-"There must be an equal number of entries for each variable in the regression."
+#: ../src/dialogs/dialog-analysis-tools.c:2027
+#: ../src/dialogs/dialog-analysis-tools.c:2038
+#, fuzzy
+msgid "The y variable range is invalid."
+msgstr "تنسيق الملف غير صحيح."
+
+#: ../src/dialogs/dialog-analysis-tools.c:2044
+msgid "The y variable range must be a vector (n by 1 or 1 by n)."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:2065
+#: ../src/dialogs/dialog-analysis-tools.c:2050
+#, fuzzy
+msgid "The y variable range is to small"
+msgstr "تنسيق الملف غير صحيح."
+
+#: ../src/dialogs/dialog-analysis-tools.c:2059
+#: ../src/dialogs/dialog-analysis-tools.c:2070
+#, fuzzy
+msgid "The x variables range is invalid."
+msgstr "تنسيق الملف غير صحيح."
+
+#: ../src/dialogs/dialog-analysis-tools.c:2077
+msgid "The sizes of the x variable and y variable ranges do not match."
+msgstr ""
+
+#: ../src/dialogs/dialog-analysis-tools.c:2086
+#, fuzzy
+msgid "The confidence level is invalid."
+msgstr "يجب أن تكون القيمة المئويّة بين 0 و 100، مضمنة"
+
+#: ../src/dialogs/dialog-analysis-tools.c:2129
 #, fuzzy
 msgid "Could not create the Regression Tool dialog."
 msgstr "لا يمكن انشاء المجلّد المرسل اليه: %s."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2193
+#: ../src/dialogs/dialog-analysis-tools.c:2257
 #, fuzzy
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "لا يمكن انشاء المجلّد المرسل اليه: %s."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2326
+#: ../src/dialogs/dialog-analysis-tools.c:2390
 #, fuzzy
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "لم يمكن صنع خيط عمل لإيجاد الفروق"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2537
+#: ../src/dialogs/dialog-analysis-tools.c:2601
 #, fuzzy
 msgid "Could not create the Histogram Tool dialog."
 msgstr "لا يمكن انشاء المجلّد المرسل اليه: %s."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2671
-#: ../src/dialogs/dialog-analysis-tools.c:2885
+#: ../src/dialogs/dialog-analysis-tools.c:2735
+#: ../src/dialogs/dialog-analysis-tools.c:2949
 #, fuzzy
 msgid "The alpha value should be a number between 0 and 1."
 msgstr "الشهر المنتقى (كعدد بين 0 و 11)"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2719
+#: ../src/dialogs/dialog-analysis-tools.c:2783
 #, fuzzy
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "لا يمكن انشاء المجلّد المرسل اليه: %s."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2799
+#: ../src/dialogs/dialog-analysis-tools.c:2863
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:2802
+#: ../src/dialogs/dialog-analysis-tools.c:2866
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:2808
+#: ../src/dialogs/dialog-analysis-tools.c:2872
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:2811
+#: ../src/dialogs/dialog-analysis-tools.c:2875
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:2817
+#: ../src/dialogs/dialog-analysis-tools.c:2881
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:2820
+#: ../src/dialogs/dialog-analysis-tools.c:2884
 msgid "The given input range should contain at least two rows of data."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:2827
+#: ../src/dialogs/dialog-analysis-tools.c:2891
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:2897
+#: ../src/dialogs/dialog-analysis-tools.c:2961
 #, fuzzy
 msgid "The number of rows per sample should be a positive integer."
 msgstr "عدد النماذج لكل بكسل"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2943
+#: ../src/dialogs/dialog-analysis-tools.c:3007
 #, fuzzy
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "لا يمكن انشاء المجلّد المرسل اليه: %s."
@@ -5925,8 +5962,8 @@ msgid "Mar"
 msgstr "الماورية"
 
 #: ../src/dialogs/dialog-autoformat.c:72 ../src/dialogs/dialog-autoformat.c:76
-#: ../src/tools/analysis-tools.c:4180 ../src/tools/analysis-tools.c:4190
-#: ../src/tools/analysis-tools.c:4198
+#: ../src/tools/analysis-tools.c:4366 ../src/tools/analysis-tools.c:4376
+#: ../src/tools/analysis-tools.c:4384
 #, fuzzy
 msgid "Total"
 msgstr "المجموع:"
@@ -6157,11 +6194,11 @@ msgstr "ح_ساس لحالة الأحرف"
 msgid "By Value"
 msgstr "القيمة:"
 
-#: ../src/dialogs/dialog-col-width.c:221
+#: ../src/dialogs/dialog-col-width.c:236
 msgid "Set standard/default column width"
 msgstr ""
 
-#: ../src/dialogs/dialog-col-width.c:226
+#: ../src/dialogs/dialog-col-width.c:241
 #, c-format
 msgid ""
 "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
@@ -6351,66 +6388,66 @@ msgstr "خلية"
 msgid "Could not create the goto dialog."
 msgstr "تعذّر تحديد موقع شعار جنوم."
 
-#: ../src/dialogs/dialog-hyperlink.c:143
+#: ../src/dialogs/dialog-hyperlink.c:142
 #, fuzzy
 msgid "Not a range or name"
 msgstr "غيّر ا_سم المستضيف:"
 
-#: ../src/dialogs/dialog-hyperlink.c:259
+#: ../src/dialogs/dialog-hyperlink.c:258
 #, fuzzy
 msgid "Internal Link"
 msgstr "اسم داخلي"
 
-#: ../src/dialogs/dialog-hyperlink.c:261
+#: ../src/dialogs/dialog-hyperlink.c:260
 msgid "Jump to specific cells or named range in the current workbook"
 msgstr ""
 
-#: ../src/dialogs/dialog-hyperlink.c:265
+#: ../src/dialogs/dialog-hyperlink.c:264
 #, fuzzy
 msgid "External Link"
 msgstr "%s خارجي"
 
-#: ../src/dialogs/dialog-hyperlink.c:267
+#: ../src/dialogs/dialog-hyperlink.c:266
 #, fuzzy
 msgid "Open an external file with the specified name"
 msgstr "ابحث عن ملفات بالوسْم المحدد"
 
-#: ../src/dialogs/dialog-hyperlink.c:270
+#: ../src/dialogs/dialog-hyperlink.c:269
 #, fuzzy
 msgid "Email Link"
 msgstr "قائمة البريد"
 
-#: ../src/dialogs/dialog-hyperlink.c:272
+#: ../src/dialogs/dialog-hyperlink.c:271
 #, fuzzy
 msgid "Prepare an email"
 msgstr "أرسل بريد إلكتروني"
 
-#: ../src/dialogs/dialog-hyperlink.c:275
+#: ../src/dialogs/dialog-hyperlink.c:274
 #, fuzzy
 msgid "Web Link"
 msgstr "افتح الوصلة"
 
-#: ../src/dialogs/dialog-hyperlink.c:277
+#: ../src/dialogs/dialog-hyperlink.c:276
 #, fuzzy
 msgid "Browse to the specified URL"
 msgstr "%s: لم يحدد مُرِحّب."
 
-#: ../src/dialogs/dialog-hyperlink.c:347
+#: ../src/dialogs/dialog-hyperlink.c:346
 #, fuzzy
 msgid "Add Hyperlink"
 msgstr "وصله"
 
-#: ../src/dialogs/dialog-hyperlink.c:349
+#: ../src/dialogs/dialog-hyperlink.c:351
 #, fuzzy
 msgid "Edit Hyperlink"
 msgstr "وصله"
 
-#: ../src/dialogs/dialog-hyperlink.c:356 ../src/sheet-control-gui.c:1759
+#: ../src/dialogs/dialog-hyperlink.c:360 ../src/sheet-control-gui.c:1759
 #, fuzzy
 msgid "Remove Hyperlink"
 msgstr "حذف وصلة"
 
-#: ../src/dialogs/dialog-hyperlink.c:548
+#: ../src/dialogs/dialog-hyperlink.c:552
 #, fuzzy
 msgid "Could not create the hyperlink dialog."
 msgstr "لم أستطع إنشاء نافذة مؤلف."
@@ -7129,12 +7166,12 @@ msgstr "جميع الملفات"
 msgid "All files used by Gnumeric"
 msgstr ""
 
-#: ../src/dialogs/dialog-row-height.c:217
+#: ../src/dialogs/dialog-row-height.c:231
 #, fuzzy
 msgid "Set standard/default row height"
 msgstr "ارتفاع نافِذة الرسائل الإفتراضي"
 
-#: ../src/dialogs/dialog-row-height.c:222
+#: ../src/dialogs/dialog-row-height.c:236
 #, c-format
 msgid ""
 "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
@@ -7355,11 +7392,11 @@ msgstr "اسم ملف غير صالح"
 
 #: ../src/dialogs/dialog-simulation.c:335
 msgid ""
-"First round number should be greater or equal than the number of the last "
+"First round number should be less than or equal to the number of the last "
 "round."
 msgstr ""
 
-#: ../src/dialogs/dialog-simulation.c:426
+#: ../src/dialogs/dialog-simulation.c:427
 #, fuzzy
 msgid "Could not create the Simulation dialog."
 msgstr "لا يمكن انشاء المجلّد المرسل اليه: %s."
@@ -8302,8 +8339,8 @@ msgstr "القيمة:"
 msgid "0.2"
 msgstr "0.0"
 
-#: ../src/dialogs/exp-smoothing.glade.h:3 ../src/tools/analysis-tools.c:3372
-#: ../src/tools/analysis-tools.c:3375
+#: ../src/dialogs/exp-smoothing.glade.h:3 ../src/tools/analysis-tools.c:3558
+#: ../src/tools/analysis-tools.c:3561
 #, fuzzy
 msgid "Exponential Smoothing"
 msgstr "معدل التنقل الأسي:"
@@ -8643,7 +8680,7 @@ msgstr "اي_جاد:"
 msgid "Ma_x:"
 msgstr "فاكس:"
 
-#: ../src/dialogs/histogram.glade.h:10 ../src/dialogs/regression.glade.h:5
+#: ../src/dialogs/histogram.glade.h:10 ../src/dialogs/regression.glade.h:3
 #: ../src/dialogs/sampling.glade.h:5
 msgid "O_ptions"
 msgstr "_خيارات"
@@ -8669,7 +8706,7 @@ msgid "_Chart output"
 msgstr "الخرْج الأ_خير"
 
 #: ../src/dialogs/histogram.glade.h:17 ../src/dialogs/mean-tests.glade.h:14
-#: ../src/dialogs/regression.glade.h:10 ../src/dialogs/sampling.glade.h:12
+#: ../src/dialogs/regression.glade.h:6 ../src/dialogs/sampling.glade.h:12
 #, fuzzy
 msgid "_Input"
 msgstr "ال_دخْل:"
@@ -8680,7 +8717,7 @@ msgid "_N:"
 msgstr "M_SN:"
 
 #: ../src/dialogs/histogram.glade.h:20 ../src/dialogs/mean-tests.glade.h:17
-#: ../src/dialogs/regression.glade.h:12 ../src/dialogs/sampling.glade.h:15
+#: ../src/dialogs/regression.glade.h:8 ../src/dialogs/sampling.glade.h:15
 #, fuzzy
 msgid "_Output"
 msgstr "الخ_رْج:"
@@ -8877,8 +8914,8 @@ msgstr "3"
 msgid "C_olumns"
 msgstr "الأعمدة"
 
-#: ../src/dialogs/moving-averages.glade.h:6 ../src/tools/analysis-tools.c:3239
-#: ../src/tools/analysis-tools.c:3242
+#: ../src/dialogs/moving-averages.glade.h:6 ../src/tools/analysis-tools.c:3425
+#: ../src/tools/analysis-tools.c:3428
 #, fuzzy
 msgid "Moving Average"
 msgstr "متوسط التغير"
@@ -9231,31 +9268,31 @@ msgstr "ال_متوسط"
 msgid "_Top rank"
 msgstr "إلى الخلف"
 
-#: ../src/dialogs/regression.glade.h:2
+#: ../src/dialogs/regression.glade.h:1
 msgid "0.95"
 msgstr ""
 
-#: ../src/dialogs/regression.glade.h:3
+#: ../src/dialogs/regression.glade.h:2
 #, fuzzy
 msgid "Confidence level:"
 msgstr "_خصوصي"
 
-#: ../src/dialogs/regression.glade.h:6 ../src/tools/analysis-tools.c:3117
-#: ../src/tools/analysis-tools.c:3120
+#: ../src/dialogs/regression.glade.h:4 ../src/tools/analysis-tools.c:3303
+#: ../src/tools/analysis-tools.c:3306
 #, fuzzy
 msgid "Regression"
 msgstr "جلسة"
 
-#: ../src/dialogs/regression.glade.h:9
+#: ../src/dialogs/regression.glade.h:5
 msgid "_Force intercept to be zero"
 msgstr ""
 
-#: ../src/dialogs/regression.glade.h:14
+#: ../src/dialogs/regression.glade.h:9
 #, fuzzy
 msgid "_X variables:"
 msgstr "متغيرات"
 
-#: ../src/dialogs/regression.glade.h:15
+#: ../src/dialogs/regression.glade.h:10
 #, fuzzy
 msgid "_Y variable:"
 msgstr "_متوفّر"
@@ -9267,7 +9304,12 @@ msgstr "نمو الارتفاع"
 
 #: ../src/dialogs/row-height.glade.h:2
 #, fuzzy
-msgid "_Row height (pt.):"
+msgid "Row height in points:"
+msgstr "وزن الظل (%)"
+
+#: ../src/dialogs/row-height.glade.h:3
+#, fuzzy
+msgid "_Row height in pixels:"
 msgstr "وزن الظل (%)"
 
 #: ../src/dialogs/sampling.glade.h:4
@@ -9497,7 +9539,7 @@ msgstr "_عبارة منتظمة"
 msgid "Replacing"
 msgstr "العلاقة"
 
-#: ../src/dialogs/search-replace.glade.h:28 ../src/search.c:648
+#: ../src/dialogs/search-replace.glade.h:28 ../src/search.c:664
 msgid "Scope"
 msgstr "المجال"
 
@@ -10244,12 +10286,12 @@ msgstr "{0} موجود في القائمة مسبقاً"
 msgid "'%s' is already defined in workbook"
 msgstr "الشّارة \"%s\" معرفة مسبقاً"
 
-#: ../src/expr.c:765
+#: ../src/expr.c:780
 #, fuzzy
 msgid "Internal type error"
 msgstr "خطأ داخلي"
 
-#: ../src/expr.c:1459
+#: ../src/expr.c:1474
 #, fuzzy
 msgid "Unknown evaluation error"
 msgstr "خطأ ولوج مجهول"
@@ -10330,7 +10372,7 @@ msgid ""
 "GNUMERIC_VERSION()."
 msgstr ""
 
-#: ../src/func-builtin.c:317
+#: ../src/func-builtin.c:316
 #, fuzzy
 msgid "Gnumeric"
 msgstr "رقمي"
@@ -10471,17 +10513,17 @@ msgstr "تنسيق '%s' غير صحيح"
 msgid "File doesn't contain \"%s\" array."
 msgstr "لا يحوي الجهاز '%s' وسيطا."
 
-#: ../src/gnm-so-filled.c:171
+#: ../src/gnm-so-filled.c:172
 #, fuzzy
 msgid "Label Properties"
 msgstr "خصائص الشريط"
 
-#: ../src/gnm-so-filled.c:172
+#: ../src/gnm-so-filled.c:173
 #, fuzzy
 msgid "Filled Object Properties"
 msgstr "خاصيات الجسم"
 
-#: ../src/gnm-so-line.c:158
+#: ../src/gnm-so-line.c:159
 #, fuzzy
 msgid "Line/Arrow Properties"
 msgstr "خصائص المطلق"
@@ -10728,7 +10770,7 @@ msgid "Dumps the function definitions"
 msgstr "إذهب إلى التعريف التالي"
 
 #: ../src/main-application.c:92 ../src/main-application.c:98
-#: ../src/ssgrep.c:70
+#: ../src/ssgrep.c:80
 msgid "FILE"
 msgstr "FILE"
 
@@ -10755,7 +10797,7 @@ msgid ""
 "-- The Gnumeric Team."
 msgstr ""
 
-#: ../src/main-application.c:234 ../src/ssconvert.c:368 ../src/ssgrep.c:320
+#: ../src/main-application.c:234 ../src/ssconvert.c:368 ../src/ssgrep.c:440
 #: ../src/ssindex.c:211
 #, c-format
 msgid ""
@@ -10962,41 +11004,46 @@ msgstr "صدِّر"
 msgid "Print Selection"
 msgstr "تحديد التدرج"
 
-#: ../src/print.c:1254
+#: ../src/print.c:1289
 #, fuzzy
 msgid "_All workbook sheets"
 msgstr "كل الصفحات"
 
-#: ../src/print.c:1259
+#: ../src/print.c:1294
+#, fuzzy
+msgid "Also print _hidden sheets"
+msgstr "طبق التصاريح على الملفات المضمّتة"
+
+#: ../src/print.c:1299
 #, fuzzy
 msgid "A_ctive workbook sheet"
 msgstr "خدمات الشّبكة النّشطة"
 
-#: ../src/print.c:1264
+#: ../src/print.c:1304
 #, fuzzy
 msgid "_Workbook sheets:"
 msgstr "هاتف ال_عمل:"
 
-#: ../src/print.c:1269
+#: ../src/print.c:1309
 #, fuzzy
 msgid "Current _selection only"
 msgstr "المنتقى الحالي"
 
-#: ../src/print.c:1274
+#: ../src/print.c:1314
 msgid "_Ignore defined print area"
 msgstr ""
 
-#: ../src/print.c:1278
+#: ../src/print.c:1318
 #, fuzzy
 msgid "from:"
 msgstr "من"
 
-#: ../src/print.c:1286
+#: ../src/print.c:1326
 #, fuzzy
 msgid "to:"
 msgstr "إلى"
 
-#: ../src/print.c:1486
+#: ../src/print.c:1536
 #, fuzzy
 msgid "Gnumeric Print Range"
 msgstr "نطاق الطباعة"
@@ -11008,115 +11055,125 @@ msgstr "نطاق الطباعة"
 msgid "..."
 msgstr "..."
 
-#: ../src/search.c:66
+#: ../src/search.c:67
 #, fuzzy
 msgid "You must specify a range to search."
 msgstr "يجب تحديد مجلّد."
 
-#: ../src/search.c:70
+#: ../src/search.c:71
 #, fuzzy
 msgid "The search range is invalid."
 msgstr "تنسيق الملف غير صحيح."
 
-#: ../src/search.c:558
+#: ../src/search.c:565
 #, fuzzy
 msgid "Search Strings"
 msgstr "سلسلة البحث"
 
-#: ../src/search.c:559
+#: ../src/search.c:566
 #, fuzzy
 msgid "Should strings be searched?"
 msgstr "خدمة مشاركة المجلدات"
 
-#: ../src/search.c:567
+#: ../src/search.c:574
 #, fuzzy
 msgid "Search Other Values"
 msgstr "ابحث في الويب"
 
-#: ../src/search.c:568
+#: ../src/search.c:575
 msgid "Should non-strings be searched?"
 msgstr ""
 
-#: ../src/search.c:576
+#: ../src/search.c:583
 #, fuzzy
 msgid "Search Expressions"
 msgstr "_عبارة منتظمة"
 
-#: ../src/search.c:577
+#: ../src/search.c:584
 #, fuzzy
 msgid "Should expressions be searched?"
 msgstr "بحث عن تعابير نمطيّة"
 
-#: ../src/search.c:585
+#: ../src/search.c:592
 #, fuzzy
 msgid "Search Expression Results"
 msgstr "نتائج البحث"
 
-#: ../src/search.c:586
+#: ../src/search.c:593
 msgid "Should the results of expressions be searched?"
 msgstr ""
 
-#: ../src/search.c:594
+#: ../src/search.c:601
 #, fuzzy
 msgid "Search Comments"
 msgstr "ابحث عن المستندات"
 
-#: ../src/search.c:595
+#: ../src/search.c:602
 msgid "Should cell comments be searched?"
 msgstr ""
 
-#: ../src/search.c:603
+#: ../src/search.c:610
+#, fuzzy
+msgid "Search Scripts"
+msgstr "سلسلة البحث"
+
+#: ../src/search.c:611
+#, fuzzy
+msgid "Should scrips (workbook, and worksheet) be searched?"
+msgstr "خدمة مشاركة المجلدات"
+
+#: ../src/search.c:619
 #, fuzzy
 msgid "Invert"
 msgstr "أدرج"
 
-#: ../src/search.c:604
+#: ../src/search.c:620
 #, fuzzy
 msgid "Collect non-matching items"
 msgstr "تعذّر إيجاد المتصفح الرئيسي"
 
-#: ../src/search.c:612
+#: ../src/search.c:628
 #, fuzzy
 msgid "By Row"
 msgstr "صف"
 
-#: ../src/search.c:613
+#: ../src/search.c:629
 msgid "Is the search order by row?"
 msgstr ""
 
-#: ../src/search.c:621
+#: ../src/search.c:637
 msgid "Query"
 msgstr "استعلم"
 
-#: ../src/search.c:622
+#: ../src/search.c:638
 msgid "Should we query for each replacement?"
 msgstr ""
 
-#: ../src/search.c:630
+#: ../src/search.c:646
 #, fuzzy
 msgid "Keep Strings"
 msgstr "حلقات المفاتيح"
 
-#: ../src/search.c:631
+#: ../src/search.c:647
 msgid "Should replacement keep strings as strings?"
 msgstr ""
 
-#: ../src/search.c:640
+#: ../src/search.c:656
 #, fuzzy
 msgid "The sheet in which to search."
 msgstr "الشّاشة التي سيعرض عليها المحثّ"
 
-#: ../src/search.c:649
+#: ../src/search.c:665
 #, fuzzy
 msgid "Where to search."
 msgstr "مكان البحث:"
 
-#: ../src/search.c:658
+#: ../src/search.c:674
 #, fuzzy
 msgid "Range as Text"
 msgstr "مجموعة التغييرات"
 
-#: ../src/search.c:659
+#: ../src/search.c:675
 #, fuzzy
 msgid "The range in which to search."
 msgstr "مدير هذا المشروع."
@@ -11414,317 +11471,317 @@ msgstr "ان_سخ"
 msgid "Cut"
 msgstr "قص"
 
-#: ../src/sheet.c:687
+#: ../src/sheet.c:695
 #, fuzzy
 msgid "The name of the sheet."
 msgstr "اسم الخط المنتقى"
 
-#: ../src/sheet.c:692
+#: ../src/sheet.c:700
 msgid "text-is-rtl"
 msgstr ""
 
-#: ../src/sheet.c:693
+#: ../src/sheet.c:701
 #, fuzzy
 msgid "Text goes from right to left."
 msgstr "من اليمين إلى اليسار"
 
-#: ../src/sheet.c:698
+#: ../src/sheet.c:706
 msgid "Visibility"
 msgstr "الرؤية"
 
-#: ../src/sheet.c:699
+#: ../src/sheet.c:707
 msgid "How visible the sheet is."
 msgstr ""
 
-#: ../src/sheet.c:705
+#: ../src/sheet.c:713
 #, fuzzy
 msgid "Display Formulas"
 msgstr "عرض X الذي سيستعمل"
 
-#: ../src/sheet.c:706
+#: ../src/sheet.c:714
 msgid "Control whether formulas are shown instead of values."
 msgstr ""
 
-#: ../src/sheet.c:711
+#: ../src/sheet.c:719
 #, fuzzy
 msgid "Display Zeros"
 msgstr "اعرض الجديد"
 
-#: ../src/sheet.c:712
+#: ../src/sheet.c:720
 msgid "Control whether zeros are shown are blanked out."
 msgstr ""
 
-#: ../src/sheet.c:717
+#: ../src/sheet.c:725
 #, fuzzy
 msgid "Display Grid"
 msgstr "العرض"
 
-#: ../src/sheet.c:718
+#: ../src/sheet.c:726
 #, fuzzy
 msgid "Control whether the grid is shown."
 msgstr "فيما إذا يتم عرض قائمة الصندوق"
 
-#: ../src/sheet.c:723
+#: ../src/sheet.c:731
 #, fuzzy
 msgid "Display Column Headers"
 msgstr "رأس العمود"
 
-#: ../src/sheet.c:724
+#: ../src/sheet.c:732
 #, fuzzy
 msgid "Control whether column headers are shown."
 msgstr "أظهر أزرار رؤوس العمود"
 
-#: ../src/sheet.c:729
+#: ../src/sheet.c:737
 #, fuzzy
 msgid "Display Row Headers"
 msgstr "اعرض أخطاء صفحات الويب"
 
-#: ../src/sheet.c:730
+#: ../src/sheet.c:738
 msgid "Control whether row headers are shown."
 msgstr ""
 
-#: ../src/sheet.c:735
+#: ../src/sheet.c:743
 #, fuzzy
 msgid "Display Outlines"
 msgstr "أسلوب العرض"
 
-#: ../src/sheet.c:736
+#: ../src/sheet.c:744
 msgid "Control whether outlines are shown."
 msgstr ""
 
-#: ../src/sheet.c:741
+#: ../src/sheet.c:749
 #, fuzzy
 msgid "Display Outlines Below"
 msgstr "اعرض مساعدة نوتلس"
 
-#: ../src/sheet.c:742
+#: ../src/sheet.c:750
 msgid "Control whether outline symbols are shown below."
 msgstr ""
 
-#: ../src/sheet.c:747
+#: ../src/sheet.c:755
 #, fuzzy
 msgid "Display Outlines Right"
 msgstr "اعرض صندوق حوار قائمة"
 
-#: ../src/sheet.c:748
+#: ../src/sheet.c:756
 msgid "Control whether outline symbols are shown to the right."
 msgstr ""
 
-#: ../src/sheet.c:754
+#: ../src/sheet.c:762
 #, fuzzy
 msgid "Protected"
 msgstr "مشروع"
 
-#: ../src/sheet.c:755
+#: ../src/sheet.c:763
 msgid "Sheet is protected."
 msgstr ""
 
-#: ../src/sheet.c:758
+#: ../src/sheet.c:766
 msgid "Protected Allow Edit objects"
 msgstr ""
 
-#: ../src/sheet.c:759
+#: ../src/sheet.c:767
 msgid "Allow objects to be edited while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:762
+#: ../src/sheet.c:770
 msgid "Protected allow edit scenarios"
 msgstr ""
 
-#: ../src/sheet.c:763
-msgid "Allow scenarios to be edited while a sheet is protected"
-msgstr ""
-
-#: ../src/sheet.c:766
-#, fuzzy
-msgid "Protected allow cell formatting"
-msgstr "معلومات الطاقة"
-
-#: ../src/sheet.c:767
-msgid "Allow cell format changes while a sheet is protected"
-msgstr ""
-
-#: ../src/sheet.c:770
-#, fuzzy
-msgid "Protected allow column formatting"
-msgstr "معلومات الطاقة"
-
 #: ../src/sheet.c:771
-msgid "Allow column formatting while a sheet is protected"
+msgid "Allow scenarios to be edited while a sheet is protected"
 msgstr ""
 
 #: ../src/sheet.c:774
 #, fuzzy
-msgid "Protected allow row formatting"
-msgstr "المعلومات الشخصية"
+msgid "Protected allow cell formatting"
+msgstr "معلومات الطاقة"
 
 #: ../src/sheet.c:775
-msgid "Allow row formatting while a sheet is protected"
+msgid "Allow cell format changes while a sheet is protected"
 msgstr ""
 
 #: ../src/sheet.c:778
-msgid "Protected allow insert columns"
-msgstr ""
+#, fuzzy
+msgid "Protected allow column formatting"
+msgstr "معلومات الطاقة"
 
 #: ../src/sheet.c:779
-msgid "Allow columns to be inserted while a sheet is protected"
+msgid "Allow column formatting while a sheet is protected"
 msgstr ""
 
 #: ../src/sheet.c:782
-msgid "Protected allow insert rows"
-msgstr ""
+#, fuzzy
+msgid "Protected allow row formatting"
+msgstr "المعلومات الشخصية"
 
 #: ../src/sheet.c:783
-msgid "Allow rows to be inserted while a sheet is protected"
+msgid "Allow row formatting while a sheet is protected"
 msgstr ""
 
 #: ../src/sheet.c:786
-msgid "Protected allow insert hyperlinks"
+msgid "Protected allow insert columns"
 msgstr ""
 
 #: ../src/sheet.c:787
-msgid "Allow hyperlinks to be inserted while a sheet is protected"
+msgid "Allow columns to be inserted while a sheet is protected"
 msgstr ""
 
 #: ../src/sheet.c:790
+msgid "Protected allow insert rows"
+msgstr ""
+
+#: ../src/sheet.c:791
+msgid "Allow rows to be inserted while a sheet is protected"
+msgstr ""
+
+#: ../src/sheet.c:794
+msgid "Protected allow insert hyperlinks"
+msgstr ""
+
+#: ../src/sheet.c:795
+msgid "Allow hyperlinks to be inserted while a sheet is protected"
+msgstr ""
+
+#: ../src/sheet.c:798
 #, fuzzy
 msgid "Protected allow delete columns"
 msgstr "اطرد الحجم المنتقى"
 
-#: ../src/sheet.c:791
+#: ../src/sheet.c:799
 msgid "Allow columns to be deleted while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:794
+#: ../src/sheet.c:802
 msgid "Protected allow delete rows"
 msgstr ""
 
-#: ../src/sheet.c:795
+#: ../src/sheet.c:803
 msgid "Allow rows to be deleted while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:798
+#: ../src/sheet.c:806
 msgid "Protected allow select locked cells"
 msgstr ""
 
-#: ../src/sheet.c:799
+#: ../src/sheet.c:807
 msgid "Allow the user to select locked cells while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:802
+#: ../src/sheet.c:810
 msgid "Protected allow sort ranges"
 msgstr ""
 
-#: ../src/sheet.c:803
+#: ../src/sheet.c:811
 msgid "Allow ranges to be sorted while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:806
+#: ../src/sheet.c:814
 msgid "Protected allow edit auto filters"
 msgstr ""
 
-#: ../src/sheet.c:807
+#: ../src/sheet.c:815
 msgid "Allow auto filters to be edited while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:810
+#: ../src/sheet.c:818
 msgid "Protected allow edit pivottable"
 msgstr ""
 
-#: ../src/sheet.c:811
+#: ../src/sheet.c:819
 msgid "Allow pivottable to be edited  while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:814
+#: ../src/sheet.c:822
 msgid "Protected allow select unlocked cells"
 msgstr ""
 
-#: ../src/sheet.c:815
+#: ../src/sheet.c:823
 msgid "Allow the user to select unlocked cells while a sheet is protected"
 msgstr ""
 
-#: ../src/sheet.c:819
+#: ../src/sheet.c:827
 msgid "Display convention for expressions (default Gnumeric A1)"
 msgstr ""
 
-#: ../src/sheet.c:820
+#: ../src/sheet.c:828
 msgid "How to format displayed expressions, (A1 vs R1C1, function names, ...)"
 msgstr ""
 
 #. convenience wrapper to CONVENTIONS
-#: ../src/sheet.c:824
+#: ../src/sheet.c:832
 msgid "Display convention for expressions as XLS_R1C1 vs default"
 msgstr ""
 
-#: ../src/sheet.c:825
+#: ../src/sheet.c:833
 msgid "How to format displayed expressions, (a convenience api)"
 msgstr ""
 
-#: ../src/sheet.c:831
+#: ../src/sheet.c:839
 #, fuzzy
 msgid "Tab Foreground"
 msgstr "الأمامي"
 
-#: ../src/sheet.c:832
+#: ../src/sheet.c:840
 #, fuzzy
 msgid "The foreground color of the tab."
 msgstr "اللون الأمامي للشبكة."
 
-#: ../src/sheet.c:837
+#: ../src/sheet.c:845
 #, fuzzy
 msgid "Tab Background"
 msgstr "الخلفية"
 
-#: ../src/sheet.c:838
+#: ../src/sheet.c:846
 #, fuzzy
 msgid "The background color of the tab."
 msgstr "لون خلفية المرحِّب."
 
-#: ../src/sheet.c:845
+#: ../src/sheet.c:853
 #, fuzzy
 msgid "Zoom Factor"
 msgstr "معامل التكبير س"
 
-#: ../src/sheet.c:846
+#: ../src/sheet.c:854
 #, fuzzy
 msgid "The level of zoom used for this sheet."
 msgstr "الوحدة التي سستخدم لسرعة الرياح."
 
-#: ../src/sheet.c:2747
+#: ../src/sheet.c:2755
 msgid "Target region contains merged cells"
 msgstr ""
 
-#: ../src/sheet.c:2808
+#: ../src/sheet.c:2816
 #, fuzzy
 msgid "cannot operate on merged cells"
 msgstr "لا يمكن إنشاء الرّسالة: %s"
 
-#: ../src/sheet.c:2818
+#: ../src/sheet.c:2826
 #, fuzzy
 msgid "cannot operate on array formulae"
 msgstr "خطأ في عملية حسابية"
 
-#: ../src/sheet.c:4014
+#: ../src/sheet.c:4022
 #, fuzzy
 msgid "Insert Columns"
 msgstr "أعمدة القوائم"
 
-#: ../src/sheet.c:4090
+#: ../src/sheet.c:4098
 #, fuzzy
 msgid "Delete Columns"
 msgstr "عمود منتقى"
 
-#: ../src/sheet.c:4163
+#: ../src/sheet.c:4171
 #, fuzzy
 msgid "Insert Rows"
 msgstr "ادرج  \"%s\""
 
-#: ../src/sheet.c:4239
+#: ../src/sheet.c:4247
 #, fuzzy
 msgid "Delete Rows"
 msgstr "إحذف %s"
 
-#: ../src/ssconvert.c:53 ../src/ssgrep.c:153 ../src/ssindex.c:48
+#: ../src/ssconvert.c:53 ../src/ssgrep.c:163 ../src/ssindex.c:48
 #, fuzzy
 msgid "Display program version"
 msgstr "نسخة البرنامج"
@@ -11841,86 +11898,92 @@ msgstr ""
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "الإستعمال: orca [OPTION...]"
 
-#: ../src/ssgrep.c:62
+#: ../src/ssgrep.c:66
 msgid "Only print a count of matches per file"
 msgstr ""
 
-#: ../src/ssgrep.c:69
+#: ../src/ssgrep.c:72
+msgid ""
+"optimization to search only via the string table, a display a count of the "
+"references."
+msgstr ""
+
+#: ../src/ssgrep.c:79
 msgid "Get patterns from a file, one per line"
 msgstr ""
 
-#: ../src/ssgrep.c:76
+#: ../src/ssgrep.c:86
 msgid "Pattern is a set of fixed strings"
 msgstr ""
 
-#: ../src/ssgrep.c:83
+#: ../src/ssgrep.c:93
 msgid "Print the filename for each match"
 msgstr ""
 
-#: ../src/ssgrep.c:90
+#: ../src/ssgrep.c:100
 msgid "Do not print the filename for each match"
 msgstr ""
 
-#: ../src/ssgrep.c:97
+#: ../src/ssgrep.c:107
 msgid "Ignore differences in letter case"
 msgstr ""
 
-#: ../src/ssgrep.c:104
+#: ../src/ssgrep.c:114
 msgid "Print filenames with matches"
 msgstr ""
 
-#: ../src/ssgrep.c:111
+#: ../src/ssgrep.c:121
 msgid "Print filenames without matches"
 msgstr ""
 
-#: ../src/ssgrep.c:118
+#: ../src/ssgrep.c:128
 #, fuzzy
 msgid "Print the location of each match"
 msgstr "هيّء الحجم المنتقى"
 
-#: ../src/ssgrep.c:125
+#: ../src/ssgrep.c:135
 msgid "Suppress all normal output"
 msgstr ""
 
-#: ../src/ssgrep.c:132
+#: ../src/ssgrep.c:142
 #, fuzzy
 msgid "Search results of expressions too"
 msgstr "_عبارة منتظمة"
 
-#: ../src/ssgrep.c:139
+#: ../src/ssgrep.c:149
 msgid "Print the location type of each match"
 msgstr ""
 
-#: ../src/ssgrep.c:146
+#: ../src/ssgrep.c:156
 msgid "Search for cells that do not match"
 msgstr ""
 
-#: ../src/ssgrep.c:160
+#: ../src/ssgrep.c:170
 #, fuzzy
 msgid "Match only whole words"
 msgstr "طابق لك_امل الكلمة"
 
-#: ../src/ssgrep.c:167
+#: ../src/ssgrep.c:177
 #, fuzzy
 msgid "Recalculate all cells"
 msgstr "آلة حاسبة"
 
-#: ../src/ssgrep.c:260
+#: ../src/ssgrep.c:369
 #, fuzzy
 msgid "result"
 msgstr "النتائج"
 
-#: ../src/ssgrep.c:267
+#: ../src/ssgrep.c:376
 #, fuzzy
 msgid "comment"
 msgstr "_تعليقات:"
 
-#: ../src/ssgrep.c:313
+#: ../src/ssgrep.c:433
 #, fuzzy
 msgid "PATTERN INFILE..."
 msgstr "ملف..."
 
-#: ../src/ssgrep.c:327
+#: ../src/ssgrep.c:447
 #, c-format
 msgid ""
 "version '%s'\n"
@@ -11928,12 +11991,12 @@ msgid ""
 "libdir := '%s'\n"
 msgstr ""
 
-#: ../src/ssgrep.c:344
+#: ../src/ssgrep.c:467
 #, fuzzy, c-format
 msgid "%s: Cannot read %s: %s\n"
 msgstr "تعذر ايجاد الملف %s\n"
 
-#: ../src/ssgrep.c:372
+#: ../src/ssgrep.c:497
 #, c-format
 msgid "%s: Missing pattern\n"
 msgstr ""
@@ -12017,7 +12080,7 @@ msgstr ""
 msgid "Text (configurable)"
 msgstr "هذا الدِسكلت غير قابل للإعداد"
 
-#: ../src/stf-parse.c:1208
+#: ../src/stf-parse.c:1214
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -12069,17 +12132,17 @@ msgstr "حصل خطأ فادح عند محاولة تحميل السِمة."
 msgid "Error while trying to write CSV file"
 msgstr "فشلت الكتابة إلى ملف الصورة: %s"
 
-#: ../src/stf.c:530
+#: ../src/stf.c:538
 #, fuzzy
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "تنسيق القيم المفصولة بفاصلة (.csv)"
 
-#: ../src/stf.c:538
+#: ../src/stf.c:546
 #, fuzzy
 msgid "Text import (configurable)"
 msgstr "هذا الدِسكلت غير قابل للإعداد"
 
-#: ../src/stf.c:550
+#: ../src/stf.c:558
 #, fuzzy
 msgid "Comma separated values (CSV)"
 msgstr "تنسيق القيم المفصولة بفاصلة (.csv)"
@@ -12133,49 +12196,49 @@ msgstr "متعدد"
 msgid "Histogram (%s)"
 msgstr "الرسم البياني"
 
-#: ../src/tools/analysis-tools.c:207 ../src/tools/analysis-tools.c:297
-#: ../src/tools/analysis-tools.c:4124
+#: ../src/tools/analysis-tools.c:228 ../src/tools/analysis-tools.c:318
+#: ../src/tools/analysis-tools.c:3233 ../src/tools/analysis-tools.c:4310
 #, fuzzy, c-format
 msgid "Row %i"
 msgstr "صف"
 
-#: ../src/tools/analysis-tools.c:210 ../src/tools/analysis-tools.c:300
-#: ../src/tools/analysis-tools.c:4116
+#: ../src/tools/analysis-tools.c:231 ../src/tools/analysis-tools.c:321
+#: ../src/tools/analysis-tools.c:3233 ../src/tools/analysis-tools.c:4302
 #, fuzzy, c-format
 msgid "Column %i"
 msgstr "العمود"
 
-#: ../src/tools/analysis-tools.c:213 ../src/tools/analysis-tools.c:303
+#: ../src/tools/analysis-tools.c:234 ../src/tools/analysis-tools.c:324
 #, fuzzy, c-format
 msgid "Bin %i"
 msgstr "خط الادخال"
 
-#: ../src/tools/analysis-tools.c:217 ../src/tools/analysis-tools.c:307
+#: ../src/tools/analysis-tools.c:238 ../src/tools/analysis-tools.c:328
 #, fuzzy, c-format
 msgid "Area %i"
 msgstr "انشيء %s"
 
-#: ../src/tools/analysis-tools.c:347
+#: ../src/tools/analysis-tools.c:365
 #, fuzzy, c-format
 msgid "Variable %i"
 msgstr "متغيرات"
 
-#: ../src/tools/analysis-tools.c:802
+#: ../src/tools/analysis-tools.c:794
 #, fuzzy
 msgid "Correlations"
 msgstr "تهاني"
 
-#: ../src/tools/analysis-tools.c:813
+#: ../src/tools/analysis-tools.c:805
 #, fuzzy, c-format
 msgid "Correlation (%s)"
 msgstr "يجري إنشاء %s..."
 
-#: ../src/tools/analysis-tools.c:856
+#: ../src/tools/analysis-tools.c:848
 #, fuzzy
 msgid "Covariances"
 msgstr "كورينتيس"
 
-#: ../src/tools/analysis-tools.c:867
+#: ../src/tools/analysis-tools.c:859
 #, c-format
 msgid "Covariance (%s)"
 msgstr ""
@@ -12187,58 +12250,58 @@ msgstr ""
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: ../src/tools/analysis-tools.c:968
+#: ../src/tools/analysis-tools.c:960
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1103
+#: ../src/tools/analysis-tools.c:1095
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1231
+#: ../src/tools/analysis-tools.c:1223
 #, fuzzy, c-format
 msgid "Largest (%d)"
 msgstr "الصفحة %d"
 
-#: ../src/tools/analysis-tools.c:1238
+#: ../src/tools/analysis-tools.c:1230
 #, fuzzy, c-format
 msgid "Smallest (%d)"
 msgstr "%s (%d)"
 
-#: ../src/tools/analysis-tools.c:1255
+#: ../src/tools/analysis-tools.c:1247
 #, fuzzy, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr "إحصائيات المستندات"
 
-#: ../src/tools/analysis-tools.c:1333
+#: ../src/tools/analysis-tools.c:1325
 msgid "The requested sample size is too large for a periodic sample."
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1380
+#: ../src/tools/analysis-tools.c:1372
 #, fuzzy, c-format
 msgid "Sampling (%s)"
 msgstr "حفظ %s"
 
-#: ../src/tools/analysis-tools.c:1392 ../src/tools/analysis-tools.c:1395
+#: ../src/tools/analysis-tools.c:1384 ../src/tools/analysis-tools.c:1387
 msgid "Sample"
 msgstr "عينة"
 
-#: ../src/tools/analysis-tools.c:1433
+#: ../src/tools/analysis-tools.c:1425
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1624
+#: ../src/tools/analysis-tools.c:1616
 #, fuzzy, c-format
 msgid "z-Test (%s)"
 msgstr "%s (%s)"
 
-#: ../src/tools/analysis-tools.c:1634 ../src/tools/analysis-tools.c:1637
+#: ../src/tools/analysis-tools.c:1626 ../src/tools/analysis-tools.c:1629
 #, fuzzy
 msgid "z-Test"
 msgstr "اختبار"
@@ -12250,88 +12313,58 @@ msgid ""
 "tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1867
+#: ../src/tools/analysis-tools.c:1908
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:1877 ../src/tools/analysis-tools.c:1880
-#: ../src/tools/analysis-tools.c:2177 ../src/tools/analysis-tools.c:2180
-#: ../src/tools/analysis-tools.c:2470 ../src/tools/analysis-tools.c:2473
+#: ../src/tools/analysis-tools.c:1918 ../src/tools/analysis-tools.c:1921
+#: ../src/tools/analysis-tools.c:2218 ../src/tools/analysis-tools.c:2221
+#: ../src/tools/analysis-tools.c:2511 ../src/tools/analysis-tools.c:2514
 #, fuzzy
 msgid "t-Test"
 msgstr "اختبار"
 
-#: ../src/tools/analysis-tools.c:1915
+#: ../src/tools/analysis-tools.c:1956
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2167 ../src/tools/analysis-tools.c:2460
+#: ../src/tools/analysis-tools.c:2208 ../src/tools/analysis-tools.c:2501
 #, fuzzy, c-format
 msgid "t-Test (%s)"
 msgstr "%s (%s)"
 
-#: ../src/tools/analysis-tools.c:2212
+#: ../src/tools/analysis-tools.c:2253
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2508 ../src/tools/analysis-tools.c:2759
-#: ../src/tools/analysis-tools.c:2762
+#: ../src/tools/analysis-tools.c:2549 ../src/tools/analysis-tools.c:2800
+#: ../src/tools/analysis-tools.c:2803
 #, fuzzy
 msgid "F-Test"
 msgstr "اختبار"
 
-#: ../src/tools/analysis-tools.c:2510
+#: ../src/tools/analysis-tools.c:2551
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2749
+#: ../src/tools/analysis-tools.c:2790
 #, fuzzy, c-format
 msgid "F-Test (%s)"
 msgstr "%s (%s)"
 
-#: ../src/tools/analysis-tools.c:2835
-#, fuzzy
-msgid "Y Variable"
-msgstr "متغيرات"
-
-#: ../src/tools/analysis-tools.c:2887
+#: ../src/tools/analysis-tools.c:2915
 msgid ""
-"There are too few data points to conduct this regression.\n"
-"There must be at least as many data points as free variables."
-msgstr ""
-
-#: ../src/tools/analysis-tools.c:2895
-msgid ""
-"Two or more of the independent variables are nearly linearly\n"
-"dependent.  All numerical precision was lost in the computation."
-msgstr ""
-
-#: ../src/tools/analysis-tools.c:2903
-msgid ""
-"Two or more of the independent variables are linearly\n"
-"dependent, and the regression cannot be calculated.\n"
-"\n"
-"Remove one of these\n"
-"variables and try the regression again."
-msgstr ""
-
-#. FIXME: virtually all the code above needs to be moved from here into
-#. analysis_tool_regression_engine_last_check
-#. we have to figure out which data we have to trnasfer from
-#. to here
-#: ../src/tools/analysis-tools.c:2930
-msgid ""
-"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
-"Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
+"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
+"Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:2953
@@ -12339,169 +12372,180 @@ msgid "/df/SS/MS/F/Significance of F"
 msgstr ""
 
 #: ../src/tools/analysis-tools.c:2960
-#, c-format
-msgid ""
-"/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
-"%%"
+msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:2977
+#: ../src/tools/analysis-tools.c:2965
+#, fuzzy
+msgid "\"Lower\" 0%"
+msgstr "أدنى:"
+
+#: ../src/tools/analysis-tools.c:2966
+#, fuzzy
+msgid "\"Upper\" 0%"
+msgstr "الأعلى"
+
+#: ../src/tools/analysis-tools.c:2975
 msgid ""
-"Probability of an observation's absolute value being larger than the t-"
-"value's"
+"Probability of an observation's\n"
+"absolute value being larger than\n"
+"the t-value's absolute value"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3085
+#: ../src/tools/analysis-tools.c:2980
 msgid ""
-"Two or more of the independent variables are nearly linearly\n"
-"dependent.  Treat the regression result with great care!"
+"This value is not the square of R\n"
+"but the uncentered version of the\n"
+"coefficient of determination; that\n"
+"is, the proportion of the sum of\n"
+"squares explained by the model."
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3100
+#: ../src/tools/analysis-tools.c:3289
 #, fuzzy, c-format
 msgid "Regression (%s)"
 msgstr "اﻻصدارة %s"
 
-#: ../src/tools/analysis-tools.c:3164
+#: ../src/tools/analysis-tools.c:3350
 #, fuzzy
 msgid "Standard Error"
 msgstr "خطأ iCalendar"
 
-#: ../src/tools/analysis-tools.c:3226
+#: ../src/tools/analysis-tools.c:3412
 #, fuzzy, c-format
 msgid "Moving Average (%s)"
 msgstr "متوسط التغير"
 
-#: ../src/tools/analysis-tools.c:3359
+#: ../src/tools/analysis-tools.c:3545
 #, fuzzy, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "معدل التنقل الأسي:"
 
-#: ../src/tools/analysis-tools.c:3429
+#: ../src/tools/analysis-tools.c:3615
 msgid "Point"
 msgstr "نقطة"
 
-#: ../src/tools/analysis-tools.c:3431
+#: ../src/tools/analysis-tools.c:3617
 #, fuzzy
 msgid "Rank"
 msgstr "رتبة:"
 
-#: ../src/tools/analysis-tools.c:3432
+#: ../src/tools/analysis-tools.c:3618
 #, fuzzy
 msgid "Percentile"
 msgstr "نسبة مئوية:"
 
-#: ../src/tools/analysis-tools.c:3492
+#: ../src/tools/analysis-tools.c:3678
 #, fuzzy, c-format
 msgid "Ranks (%s)"
 msgstr "%s (%s)"
 
-#: ../src/tools/analysis-tools.c:3504 ../src/tools/analysis-tools.c:3507
+#: ../src/tools/analysis-tools.c:3690 ../src/tools/analysis-tools.c:3693
 #, fuzzy
 msgid "Ranks"
 msgstr "رتبة:"
 
-#: ../src/tools/analysis-tools.c:3538
+#: ../src/tools/analysis-tools.c:3724
 msgid "Anova: Single Factor"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3539 ../src/tools/analysis-tools.c:4176
+#: ../src/tools/analysis-tools.c:3725 ../src/tools/analysis-tools.c:4362
 #: ../src/tools/simulation.c:335
 #, fuzzy
 msgid "SUMMARY"
 msgstr "SAR"
 
-#: ../src/tools/analysis-tools.c:3542
+#: ../src/tools/analysis-tools.c:3728
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3610
+#: ../src/tools/analysis-tools.c:3796
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3616 ../src/tools/analysis-tools.c:4026
-#: ../src/tools/analysis-tools.c:4200
+#: ../src/tools/analysis-tools.c:3802 ../src/tools/analysis-tools.c:4212
+#: ../src/tools/analysis-tools.c:4386
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3827
+#: ../src/tools/analysis-tools.c:4013
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3838 ../src/tools/analysis-tools.c:4507
+#: ../src/tools/analysis-tools.c:4024 ../src/tools/analysis-tools.c:4693
 #, fuzzy
 msgid "Anova"
 msgstr "أنغولا"
 
-#: ../src/tools/analysis-tools.c:3841
+#: ../src/tools/analysis-tools.c:4027
 msgid "Single Factor ANOVA"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3948
+#: ../src/tools/analysis-tools.c:4134
 #, fuzzy
 msgid "The input range contains non-numeric data."
 msgstr "يحوي الملف بيانات تالفة."
 
-#: ../src/tools/analysis-tools.c:3956
+#: ../src/tools/analysis-tools.c:4142
 msgid "Anova: Two-Factor Without Replication"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3957
+#: ../src/tools/analysis-tools.c:4143
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4020
+#: ../src/tools/analysis-tools.c:4206
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4166
+#: ../src/tools/analysis-tools.c:4352
 msgid "One of the factor combinations does not contain any observations!"
 msgstr ""
 
 #. We are ready to create the summary table
-#: ../src/tools/analysis-tools.c:4175
+#: ../src/tools/analysis-tools.c:4361
 msgid "Anova: Two-Factor With Replication"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4182
+#: ../src/tools/analysis-tools.c:4368
 msgid "/Count/Sum/Average/Variance"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4192
+#: ../src/tools/analysis-tools.c:4378
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4491
+#: ../src/tools/analysis-tools.c:4677
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4492
+#: ../src/tools/analysis-tools.c:4678
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4510
+#: ../src/tools/analysis-tools.c:4696
 msgid "Two Factor ANOVA"
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:4599 ../src/tools/solver/reports-write.c:644
+#: ../src/tools/analysis-tools.c:4785 ../src/tools/solver/reports-write.c:644
 #, fuzzy
 msgid "Real"
 msgstr "اقرأ"
 
-#: ../src/tools/analysis-tools.c:4600
+#: ../src/tools/analysis-tools.c:4786
 #, fuzzy
 msgid "Imaginary"
 msgstr "ثنائى"
 
-#: ../src/tools/analysis-tools.c:4660
+#: ../src/tools/analysis-tools.c:4846
 #, fuzzy, c-format
 msgid "Fourier Series (%s)"
 msgstr "تجاهل نادل STUN (%s)"
 
-#: ../src/tools/analysis-tools.c:4672 ../src/tools/analysis-tools.c:4675
+#: ../src/tools/analysis-tools.c:4858 ../src/tools/analysis-tools.c:4861
 #, fuzzy
 msgid "Fourier Series"
 msgstr "أربعة جسور"
@@ -12516,17 +12560,17 @@ msgstr "بذرة _جديدة"
 msgid "New Workbook"
 msgstr "نيويورك"
 
-#: ../src/tools/dao.c:958
+#: ../src/tools/dao.c:1010
 #, fuzzy
 msgid "Gnumeric "
 msgstr "7 رقمية"
 
-#: ../src/tools/dao.c:964
+#: ../src/tools/dao.c:1016
 #, fuzzy
 msgid "Worksheet:"
 msgstr "الأسوء:"
 
-#: ../src/tools/dao.c:971
+#: ../src/tools/dao.c:1023
 #, fuzzy
 msgid "Report Created: "
 msgstr "إنشاء"
@@ -15751,7 +15795,7 @@ msgstr "غيٌر وضعية الإظهار"
 msgid "Reorganizing Sheets"
 msgstr "تعلم الشطرنج"
 
-#: ../src/xml-io.c:1687 ../src/xml-sax-read.c:2066
+#: ../src/xml-io.c:1687 ../src/xml-sax-read.c:2067
 #, fuzzy, c-format
 msgid "Unsupported object type '%s'"
 msgstr "نوع ملف غير مدعوم: %s"
@@ -15783,31 +15827,31 @@ msgstr ""
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr ""
 
-#: ../src/xml-sax-read.c:427
+#: ../src/xml-sax-read.c:429
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr ""
 
-#: ../src/xml-sax-read.c:672
+#: ../src/xml-sax-read.c:674
 msgid "File has inconsistent SheetNameIndex element."
 msgstr ""
 
-#: ../src/xml-sax-read.c:1930
+#: ../src/xml-sax-read.c:1931
 #, fuzzy, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "خطأ مجهول: %s"
 
-#: ../src/xml-sax-read.c:1970
+#: ../src/xml-sax-read.c:1971
 #, fuzzy
 msgid "Missing filter type"
 msgstr "اسم الملف مفقود."
 
-#: ../src/xml-sax-read.c:1992
+#: ../src/xml-sax-read.c:1993
 #, fuzzy, c-format
 msgid "Unknown filter type \"%s\""
 msgstr "نوع ملف غير معروف"
 
-#: ../src/xml-sax-read.c:2011
+#: ../src/xml-sax-read.c:2012
 #, fuzzy
 msgid "Invalid filter, missing Area"
 msgstr "اسم ملف غير صالح"
@@ -16022,6 +16066,10 @@ msgstr "تحرير القالب"
 #, fuzzy
 msgid "A simple list template"
 msgstr "الملف فارغ"
+
+#, fuzzy
+#~ msgid "Y Variable"
+#~ msgstr "متغيرات"
 
 #, fuzzy
 #~ msgid "Save the embedded workbook"

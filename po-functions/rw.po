@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-29 14:31-0500\n"
+"POT-Creation-Date: 2008-09-14 07:39-0400\n"
 "PO-Revision-Date: 2005-03-31 20:55-0700\n"
 "Last-Translator: Steve Murphy <murf@e-tools.com>\n"
 "Language-Team: Kinyarwanda <translation-team-rw@lists.sourceforge.net>\n"
@@ -69,7 +69,7 @@ msgstr ""
 "kugirango i Igihe Gihinguranya Kuri i Itariki ni i in Agaciro Bya i "
 "kugirango iyi i Ikigabanywa Umusaruro Agaciro in i Nka Na"
 
-#: ../plugins/derivatives/options.c:304
+#: ../plugins/derivatives/options.c:303
 #, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_DELTA\n"
@@ -97,7 +97,7 @@ msgstr ""
 "Gihinguranya Kuri i Itariki ni i in Agaciro Bya i kugirango iyi i "
 "Ikigabanywa Umusaruro Agaciro in i Nka Na"
 
-#: ../plugins/derivatives/options.c:359
+#: ../plugins/derivatives/options.c:358
 #, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_GAMMA\n"
@@ -130,7 +130,7 @@ msgstr ""
 "Agaciro Bya i kugirango iyi i Ikigabanywa Umusaruro Agaciro Nka i Igipimo "
 "Bya Guhindura>> Bya DELTA Igice: Guhindura>> in"
 
-#: ../plugins/derivatives/options.c:429
+#: ../plugins/derivatives/options.c:428
 #, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_THETA\n"
@@ -164,7 +164,7 @@ msgstr ""
 "Ikigabanywa Umusaruro Agaciro Nka i Igipimo Bya Guhindura>> Bya Ihitamo "
 "Agaciro 25% Iminsi"
 
-#: ../plugins/derivatives/options.c:486
+#: ../plugins/derivatives/options.c:485
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_VEGA\n"
@@ -196,7 +196,7 @@ msgstr ""
 "i kugirango iyi i Ikigabanywa Umusaruro Agaciro Nka i Igipimo Bya "
 "Guhindura>> Bya Ihitamo Agaciro 100"
 
-#: ../plugins/derivatives/options.c:561
+#: ../plugins/derivatives/options.c:560
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_RHO\n"
@@ -229,7 +229,7 @@ msgstr ""
 "Ikigabanywa Umusaruro Agaciro Nka i Igipimo Bya Guhindura>> Bya Ihitamo "
 "Agaciro 100 Guhindura>> in Igipimo"
 
-#: ../plugins/derivatives/options.c:629
+#: ../plugins/derivatives/options.c:628
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_CARRYCOST\n"
@@ -266,7 +266,7 @@ msgstr ""
 "Itariki in Ku ijana ni i in Agaciro Bya i kugirango iyi i Ikigabanywa "
 "Umusaruro Agaciro Nka i Igipimo Bya Guhindura>> Bya Ihitamo Agaciro 100"
 
-#: ../plugins/derivatives/options.c:701
+#: ../plugins/derivatives/options.c:700
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
@@ -299,7 +299,7 @@ msgstr ""
 "Itariki in Ku ijana ni i in Agaciro Bya i kugirango iyi i Ikigabanywa "
 "Umusaruro Agaciro Nka i Igipimo Bya Guhindura>> Bya Ihitamo Agaciro 100"
 
-#: ../plugins/derivatives/options.c:772
+#: ../plugins/derivatives/options.c:771
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FRENCH\n"
@@ -332,7 +332,7 @@ msgstr ""
 "Iminsi Kuri ku Iminsi in i Umwaka Igipimo ni i Kigenga Igipimo ni i in "
 "Agaciro Bya i Kuri i Itariki in Ku ijana iyi i Ikigabanywa Umusaruro"
 
-#: ../plugins/derivatives/options.c:836
+#: ../plugins/derivatives/options.c:835
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_JUMP_DIFF\n"
@@ -360,7 +360,7 @@ msgstr ""
 "in IMYAKA Igipimo ni i Igipimo Bya ni i Bya i lamuda ni Ikitezwe: Umubare "
 "Bya Umwaka Gama ni Bya ku i"
 
-#: ../plugins/derivatives/options.c:935
+#: ../plugins/derivatives/options.c:934
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
@@ -400,21 +400,19 @@ msgstr ""
 "Imbere Igipimo Na i Umusaruro ni i Umuvuduko Bya Impuzandengo- Bya i "
 "Umusaruro ni i Umuvuduko Bya Impuzandengo- Bya i Imbere Igipimo"
 
-#: ../plugins/derivatives/options.c:1048
+#: ../plugins/derivatives/options.c:1050
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_RGW\n"
-"@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)\n"
+"@SYNTAX=OPT_RGW(spot,strike,t1,t2,rate,d,volatility)\n"
 "@DESCRIPTION=OPT_RGW models the theoretical price of an american option "
 "according to the Roll-Geske-Whaley approximation where: \n"
-"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
-"put.\n"
 "@spot is the spot price of the underlying asset.\n"
 "@strike is the strike price at which the option is struck.\n"
 "@t1 is the time to the dividend payout.\n"
 "@t2 is the time to option expiration.\n"
 "@rate is the annualized rate of interest.\n"
-"@d is the amount of the dividend to be paid.\n"
+"@d is the amount of the dividend to be paid expressed in currency.\n"
 "@volatility is the annualized rate of volatility of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -426,7 +424,7 @@ msgstr ""
 "ni ni i Igihe Kuri i Ikigabanywa ni i Igihe Kuri Ihitamo Igipimo ni i "
 "Igipimo Bya D ni i Igiteranyo Bya i Ikigabanywa Kuri ni i Igipimo Bya Bya i"
 
-#: ../plugins/derivatives/options.c:1105
+#: ../plugins/derivatives/options.c:1106
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BAW_AMER\n"
@@ -454,7 +452,7 @@ msgstr ""
 "Igipimo ni i Kigenga Igipimo Bya ni i in Agaciro Bya i kugirango iyi i "
 "Ikigabanywa Umusaruro ni i in Igiciro Bya i"
 
-#: ../plugins/derivatives/options.c:1291
+#: ../plugins/derivatives/options.c:1292
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BJER_STENS\n"
@@ -482,7 +480,7 @@ msgstr ""
 "Igipimo ni i Kigenga Igipimo Bya ni i in Igiciro Bya i ni i in Agaciro Bya i "
 "kugirango iyi i Ikigabanywa Umusaruro"
 
-#: ../plugins/derivatives/options.c:1378
+#: ../plugins/derivatives/options.c:1379
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXEC\n"
@@ -513,7 +511,7 @@ msgstr ""
 "Igiciro Bya i ni i in Agaciro Bya i kugirango iyi i Ikigabanywa Umusaruro "
 "lamuda ni i Simbuka Igipimo kugirango Urugero Amahitamo NIBA i Isosiyeti"
 
-#: ../plugins/derivatives/options.c:1429
+#: ../plugins/derivatives/options.c:1430
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FORWARD_START\n"
@@ -542,7 +540,7 @@ msgstr ""
 "ni i Kigenga Igipimo Bya ni i in Igiciro Bya i ni i in Agaciro Bya i "
 "kugirango iyi i Ikigabanywa Umusaruro"
 
-#: ../plugins/derivatives/options.c:1495
+#: ../plugins/derivatives/options.c:1496
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_TIME_SWITCH\n"
@@ -577,7 +575,7 @@ msgstr ""
 "UMUNSI Nka a Imigabane Bya a Umwaka Igipimo ni i Kigenga Igipimo Bya ni i in "
 "Agaciro Bya i kugirango iyi i Ikigabanywa Umusaruro"
 
-#: ../plugins/derivatives/options.c:1549
+#: ../plugins/derivatives/options.c:1550
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
@@ -605,7 +603,7 @@ msgstr ""
 "i i Ihitamo Yarenze igihe: Igipimo ni i Kigenga Igipimo Bya ni i in Agaciro "
 "Bya i kugirango iyi i Ikigabanywa Umusaruro"
 
-#: ../plugins/derivatives/options.c:1612
+#: ../plugins/derivatives/options.c:1613
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
@@ -642,7 +640,7 @@ msgstr ""
 "ni i Kigenga Igipimo Bya ni i in Agaciro Bya i kugirango iyi i Ikigabanywa "
 "Umusaruro ni i in Igiciro Bya i"
 
-#: ../plugins/derivatives/options.c:1729
+#: ../plugins/derivatives/options.c:1730
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_ON_OPTIONS\n"
@@ -676,7 +674,7 @@ msgstr ""
 "i in Agaciro Bya i Bya i Ihitamo kugirango iyi i Ikigabanywa Umusaruro ni i "
 "in Igiciro Bya i Bya i Ihitamo"
 
-#: ../plugins/derivatives/options.c:1817
+#: ../plugins/derivatives/options.c:1818
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
@@ -711,7 +709,7 @@ msgstr ""
 "y'ubwishyu in IMYAKA NIBA Igipimo ni i Kigenga Igipimo Bya ni i in Agaciro "
 "Bya i kugirango iyi i Ikigabanywa Umusaruro ni i in Igiciro Bya i"
 
-#: ../plugins/derivatives/options.c:1881
+#: ../plugins/derivatives/options.c:1882
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_2_ASSET_CORRELATION\n"
@@ -745,7 +743,7 @@ msgstr ""
 "Igipimo ni i Kigenga Igipimo Bya i in Agaciro Bya i Ikintu kugirango iyi i "
 "Ikigabanywa Umusaruro i in Igiciro Bya i Ikintu"
 
-#: ../plugins/derivatives/options.c:1938
+#: ../plugins/derivatives/options.c:1939
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_EURO_EXCHANGE\n"
@@ -773,7 +771,7 @@ msgstr ""
 "kugirango iyi i Ikigabanywa Umusaruro i in Igiciro Bya i Ikintu ro ni i "
 "hagati i Ikintu"
 
-#: ../plugins/derivatives/options.c:1985
+#: ../plugins/derivatives/options.c:1986
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_AMER_EXCHANGE\n"
@@ -801,7 +799,7 @@ msgstr ""
 "kugirango iyi i Ikigabanywa Umusaruro i in Igiciro Bya i Ikintu ro ni i "
 "hagati i Ikintu"
 
-#: ../plugins/derivatives/options.c:2030
+#: ../plugins/derivatives/options.c:2031
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_SPREAD_APPROX\n"
@@ -828,7 +826,7 @@ msgstr ""
 "Ihitamo ni Igihe ni i Itariki y'ubwishyu Bya i Ihitamo in IMYAKA Igipimo ni "
 "i Kigenga Igipimo Bya i in Igiciro Bya i ro ni i hagati i"
 
-#: ../plugins/derivatives/options.c:2092
+#: ../plugins/derivatives/options.c:2093
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
@@ -861,7 +859,7 @@ msgstr ""
 "ni i Kigenga Igipimo Bya ni i in Agaciro Bya i kugirango iyi i Ikigabanywa "
 "Umusaruro ni i in Igiciro Bya i"
 
-#: ../plugins/derivatives/options.c:2162
+#: ../plugins/derivatives/options.c:2163
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
@@ -895,7 +893,7 @@ msgstr ""
 "Ihitamo in IMYAKA Igipimo ni i Kigenga Igipimo Bya ni i in Agaciro Bya i "
 "kugirango iyi i Ikigabanywa Umusaruro ni i in Igiciro Bya i"
 
-#: ../plugins/derivatives/options.c:2252
+#: ../plugins/derivatives/options.c:2253
 #, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=OPT_BINOMIAL\n"
@@ -1761,7 +1759,7 @@ msgstr ""
 "@i Igiteranyo Bya ITSINDA RY'IMIBARE C Imibare Cyangwa OYA Byemewe ITSINDA "
 "RY'IMIBARE C Imibare Ikosa Umumaro ni 2. 9 j"
 
-#: ../plugins/fn-database/functions.c:269
+#: ../plugins/fn-database/functions.c:280
 #, fuzzy
 msgid ""
 "@FUNCTION=DAVERAGE\n"
@@ -1814,7 +1812,7 @@ msgid ""
 "@SEEALSO=DCOUNT"
 msgstr "@g. 5."
 
-#: ../plugins/fn-database/functions.c:346
+#: ../plugins/fn-database/functions.c:357
 #, fuzzy
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -1866,7 +1864,7 @@ msgid ""
 "@SEEALSO=DAVERAGE"
 msgstr "@g."
 
-#: ../plugins/fn-database/functions.c:422
+#: ../plugins/fn-database/functions.c:433
 #, fuzzy
 msgid ""
 "@FUNCTION=DCOUNTA\n"
@@ -1918,7 +1916,7 @@ msgid ""
 "@SEEALSO=DCOUNT"
 msgstr "@g."
 
-#: ../plugins/fn-database/functions.c:496
+#: ../plugins/fn-database/functions.c:507
 #, fuzzy
 msgid ""
 "@FUNCTION=DGET\n"
@@ -1972,7 +1970,7 @@ msgid ""
 "@SEEALSO=DCOUNT"
 msgstr "@g."
 
-#: ../plugins/fn-database/functions.c:582
+#: ../plugins/fn-database/functions.c:593
 #, fuzzy
 msgid ""
 "@FUNCTION=DMAX\n"
@@ -2024,7 +2022,7 @@ msgid ""
 "@SEEALSO=DMIN"
 msgstr "@g."
 
-#: ../plugins/fn-database/functions.c:660
+#: ../plugins/fn-database/functions.c:671
 #, fuzzy
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -2075,7 +2073,7 @@ msgid ""
 "@SEEALSO=DMAX"
 msgstr "@g."
 
-#: ../plugins/fn-database/functions.c:735
+#: ../plugins/fn-database/functions.c:746
 #, fuzzy
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -2125,7 +2123,7 @@ msgid ""
 "@SEEALSO=DSUM"
 msgstr "@g."
 
-#: ../plugins/fn-database/functions.c:810
+#: ../plugins/fn-database/functions.c:821
 #, fuzzy
 msgid ""
 "@FUNCTION=DSTDEV\n"
@@ -2177,7 +2175,7 @@ msgid ""
 "@SEEALSO=DSTDEVP"
 msgstr "@g."
 
-#: ../plugins/fn-database/functions.c:886
+#: ../plugins/fn-database/functions.c:897
 #, fuzzy
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -2229,7 +2227,7 @@ msgid ""
 "@SEEALSO=DSTDEV"
 msgstr "@g. 5."
 
-#: ../plugins/fn-database/functions.c:962
+#: ../plugins/fn-database/functions.c:973
 #, fuzzy
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -2280,7 +2278,7 @@ msgid ""
 "@SEEALSO=DPRODUCT"
 msgstr "@g."
 
-#: ../plugins/fn-database/functions.c:1038
+#: ../plugins/fn-database/functions.c:1049
 #, fuzzy
 msgid ""
 "@FUNCTION=DVAR\n"
@@ -2332,7 +2330,7 @@ msgid ""
 "@SEEALSO=DVARP"
 msgstr "@g. 5."
 
-#: ../plugins/fn-database/functions.c:1114
+#: ../plugins/fn-database/functions.c:1125
 #, fuzzy
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -2384,7 +2382,7 @@ msgid ""
 "@SEEALSO=DVAR"
 msgstr "@g. 25%."
 
-#: ../plugins/fn-database/functions.c:1190
+#: ../plugins/fn-database/functions.c:1201
 #, fuzzy
 msgid ""
 "@FUNCTION=GETPIVOTDATA\n"
@@ -2428,7 +2426,7 @@ msgstr ""
 "Umwaka A kugirango Iminsi IMYAKA ku IMYAKA ni Kuri IMYAKA i Itariki ni OYA "
 "Byemewe Ikosa Umumaro ni 3."
 
-#: ../plugins/fn-date/functions.c:179
+#: ../plugins/fn-date/functions.c:166
 #, fuzzy
 msgid ""
 "@FUNCTION=UNIX2DATE\n"
@@ -2445,7 +2443,7 @@ msgstr ""
 "@a Igihe a Urupapuro rusesuye Itariki Na Igihe A Igihe ni i Umubare Bya "
 "amasogonda guhera Saa sita zijoro 1."
 
-#: ../plugins/fn-date/functions.c:213
+#: ../plugins/fn-date/functions.c:200
 #, fuzzy
 msgid ""
 "@FUNCTION=DATE2UNIX\n"
@@ -2463,7 +2461,7 @@ msgstr ""
 "@a Urupapuro rusesuye Itariki Na Igihe Umubare a Igihe A Igihe ni i Umubare "
 "Bya amasogonda guhera Saa sita zijoro 1. 01 01"
 
-#: ../plugins/fn-date/functions.c:250
+#: ../plugins/fn-date/functions.c:237
 #, fuzzy
 msgid ""
 "@FUNCTION=DATEVALUE\n"
@@ -2482,7 +2480,7 @@ msgstr ""
 "@i Umubare Bya i Itariki ni i Ikurikiranyanyuguti Kirimo i Itariki Agaciro "
 "ku i Itariki Amatariki Bivuye 1. i 1. Umumaro ni 1. 1. in i"
 
-#: ../plugins/fn-date/functions.c:278
+#: ../plugins/fn-date/functions.c:265
 #, fuzzy
 msgid ""
 "@FUNCTION=DATEDIF\n"
@@ -2517,7 +2515,7 @@ msgstr ""
 "Iminsi hagati i Amatariki OYA i Ikinyuranyo/ Itandukaniro in IMYAKA Umumaro "
 "ni 4. 8 4. D 4. 8 4. Y 3."
 
-#: ../plugins/fn-date/functions.c:430
+#: ../plugins/fn-date/functions.c:417
 #, fuzzy
 msgid ""
 "@FUNCTION=EDATE\n"
@@ -2540,7 +2538,7 @@ msgstr ""
 "Amezi Mbere Umubare Cyangwa Nyuma Umubare i Itariki Amezi ni OYA Umubare "
 "wuzuye ni Umumaro ni 12 2."
 
-#: ../plugins/fn-date/functions.c:485
+#: ../plugins/fn-date/functions.c:466
 #, fuzzy
 msgid ""
 "@FUNCTION=TODAY\n"
@@ -2558,7 +2556,7 @@ msgstr ""
 "@i Umubare kugirango UYUMUNSI i Umubare Bya Iminsi guhera i Bya Bya Umumaro "
 "ni 6 ku UMUNSI"
 
-#: ../plugins/fn-date/functions.c:511
+#: ../plugins/fn-date/functions.c:492
 #, fuzzy
 msgid ""
 "@FUNCTION=NOW\n"
@@ -2586,7 +2584,7 @@ msgstr ""
 "ni ISAHA Iminota Na amasogonda Urugero 0 i Itangiriro Bya i UMUNSI Na 0 5 "
 "saa sita zo ku manwa Umumaro ni"
 
-#: ../plugins/fn-date/functions.c:545
+#: ../plugins/fn-date/functions.c:526
 #, fuzzy
 msgid ""
 "@FUNCTION=TIME\n"
@@ -2602,7 +2600,7 @@ msgid ""
 msgstr ""
 "@amasaha Iminota amasogonda a Imigabane i Igihe Bya UMUNSI Umumaro ni 3. 5 3."
 
-#: ../plugins/fn-date/functions.c:577
+#: ../plugins/fn-date/functions.c:558
 #, fuzzy
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
@@ -2621,7 +2619,7 @@ msgstr ""
 "@a Imigabane i Igihe Bya UMUNSI a Umubare hagati 0 Na 1. Umumaro ni 3. 05 0 "
 "2. 0"
 
-#: ../plugins/fn-date/functions.c:605
+#: ../plugins/fn-date/functions.c:586
 #, fuzzy
 msgid ""
 "@FUNCTION=HOUR\n"
@@ -2647,7 +2645,7 @@ msgstr ""
 "X- Generator: KBabel 1. 0\n"
 "."
 
-#: ../plugins/fn-date/functions.c:642
+#: ../plugins/fn-date/functions.c:623
 #, fuzzy
 msgid ""
 "@FUNCTION=MINUTE\n"
@@ -2668,7 +2666,7 @@ msgstr ""
 "Urutonde 0 Kuri Ibisanzwe Ikurikiranyanyuguti Kuri Umubare Ihindurangero "
 "kugirango Injiza a Itariki Nka a Ikurikiranyanyuguti Umumaro ni 0 5"
 
-#: ../plugins/fn-date/functions.c:679
+#: ../plugins/fn-date/functions.c:660
 #, fuzzy
 msgid ""
 "@FUNCTION=SECOND\n"
@@ -2689,7 +2687,7 @@ msgstr ""
 "Urutonde 0 Kuri Ibisanzwe Ikurikiranyanyuguti Kuri Umubare Ihindurangero "
 "kugirango Injiza a Itariki Nka a Ikurikiranyanyuguti Umumaro ni 0"
 
-#: ../plugins/fn-date/functions.c:716
+#: ../plugins/fn-date/functions.c:697
 #, fuzzy
 msgid ""
 "@FUNCTION=YEAR\n"
@@ -2709,7 +2707,7 @@ msgstr ""
 "Ihindurangero kugirango Injiza a Itariki Nka a Ikurikiranyanyuguti Umumaro "
 "ni 4."
 
-#: ../plugins/fn-date/functions.c:750
+#: ../plugins/fn-date/functions.c:731
 #, fuzzy
 msgid ""
 "@FUNCTION=MONTH\n"
@@ -2729,7 +2727,7 @@ msgstr ""
 "Ihindurangero kugirango Injiza a Itariki Nka a Ikurikiranyanyuguti Umumaro "
 "ni 4. 4."
 
-#: ../plugins/fn-date/functions.c:784
+#: ../plugins/fn-date/functions.c:765
 #, fuzzy
 msgid ""
 "@FUNCTION=DAY\n"
@@ -2749,7 +2747,7 @@ msgstr ""
 "Kuri Umubare Ihindurangero kugirango Injiza a Itariki Nka a "
 "Ikurikiranyanyuguti Umumaro ni 10"
 
-#: ../plugins/fn-date/functions.c:818
+#: ../plugins/fn-date/functions.c:799
 #, fuzzy
 msgid ""
 "@FUNCTION=WEEKDAY\n"
@@ -2777,7 +2775,7 @@ msgstr ""
 "ni 2. 3. ni 0 ni 1. Ibisanzwe Ikurikiranyanyuguti Kuri Umubare Ihindurangero "
 "kugirango Injiza a Itariki Nka a Ikurikiranyanyuguti Umumaro ni 10 5"
 
-#: ../plugins/fn-date/functions.c:872
+#: ../plugins/fn-date/functions.c:853
 #, fuzzy
 msgid ""
 "@FUNCTION=DAYS360 \n"
@@ -2811,7 +2809,7 @@ msgstr ""
 "Ikurikiranyanyuguti Kuri Umubare Ihindurangero kugirango Injiza a Itariki "
 "Nka a Ikurikiranyanyuguti Umumaro ni 2. 3. 4. 2."
 
-#: ../plugins/fn-date/functions.c:929
+#: ../plugins/fn-date/functions.c:913
 #, fuzzy
 msgid ""
 "@FUNCTION=EOMONTH\n"
@@ -2832,7 +2830,7 @@ msgstr ""
 "Itariki itangira NIBA Itariki itangira Cyangwa Amezi Sibyo Umumaro ni A1 "
 "Kirimo 12 21 Hanyuma A1 0 12 A1 5 5 01 Na A1 2. 2."
 
-#: ../plugins/fn-date/functions.c:983
+#: ../plugins/fn-date/functions.c:963
 #, fuzzy
 msgid ""
 "@FUNCTION=WORKDAY\n"
@@ -2854,7 +2852,7 @@ msgstr ""
 "itangira Na Konji in Konji NIBA Itariki itangira Cyangwa Iminsi Sibyo "
 "Umumaro ni 1. 5 1. 5 2."
 
-#: ../plugins/fn-date/functions.c:1156
+#: ../plugins/fn-date/functions.c:1136
 #, fuzzy
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
@@ -2875,7 +2873,7 @@ msgstr ""
 "Konji hagati Itariki itangira Na Itariki irangiza Amatariki in Konji NIBA "
 "Itariki itangira Cyangwa Itariki irangiza Sibyo Umumaro ni 1. 2. 2. 15"
 
-#: ../plugins/fn-date/functions.c:1279
+#: ../plugins/fn-date/functions.c:1265
 #, fuzzy
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
@@ -2899,7 +2897,7 @@ msgstr ""
 "1. Bya i Umwaka Na 1. in Icyumweru Cyangwa Bya i Ibanjirije Umwaka i "
 "Icyumweru Umubare NIBA Itariki ni Sibyo A1 Kirimo 12 21 Hanyuma A1"
 
-#: ../plugins/fn-date/functions.c:1316
+#: ../plugins/fn-date/functions.c:1302
 #, fuzzy
 msgid ""
 "@FUNCTION=ISOYEAR\n"
@@ -2923,7 +2921,7 @@ msgstr ""
 "Umwaka i Umwaka i Icyumweru ni Kuri NIBA Itariki ni Sibyo A1 Kirimo 12 "
 "Hanyuma A1"
 
-#: ../plugins/fn-date/functions.c:1366
+#: ../plugins/fn-date/functions.c:1352
 #, fuzzy
 msgid ""
 "@FUNCTION=WEEKNUM\n"
@@ -2953,7 +2951,7 @@ msgstr ""
 "Umubare ni NIBA Itariki Cyangwa Uburyo ni Sibyo Umumaro ni OYA Gushigikira "
 "Icyumweru Imibare A1 Kirimo 12 21 Hanyuma A1 2."
 
-#: ../plugins/fn-date/functions.c:1414
+#: ../plugins/fn-date/functions.c:1400
 #, fuzzy
 msgid ""
 "@FUNCTION=YEARFRAC\n"
@@ -3259,11 +3257,12 @@ msgid ""
 "function.\n"
 "\n"
 "@x is where the function is evaluated. @y is the order of the Bessel "
-"function, if non-integer it is truncated.\n"
+"function.\n"
 "\n"
 "* If @x or @y are not numeric a #VALUE! error is returned.\n"
 "* If @y < 0 a #NUM! error is returned.\n"
-"* This function is Excel compatible.\n"
+"* This function extends the Excel function of the same name to non-integer "
+"orders.\n"
 "\n"
 "@EXAMPLES=\n"
 "BESSELI(0.7,3) equals 0.007367374.\n"
@@ -3274,18 +3273,19 @@ msgstr ""
 "Umumaro NIBA Umubare wuzuye ni X Cyangwa Y OYA Bikurikije umubare a Ikosa ni "
 "Y 0 a Ikosa ni Umumaro ni 0 7 3. 0"
 
-#: ../plugins/fn-eng/functions.c:693
+#: ../plugins/fn-eng/functions.c:701
 #, fuzzy
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
 "@DESCRIPTION=BESSELK function returns the Neumann, Weber or Bessel function. "
 "@x is where the function is evaluated. @y is the order of the Bessel "
-"function, if non-integer it is truncated.\n"
+"function.\n"
 "\n"
 "* If @x or @y are not numeric a #VALUE! error is returned.\n"
 "* If @y < 0 a #NUM! error is returned.\n"
-"* This function is Excel compatible.\n"
+"* This function extends the Excel function of the same name to non-integer "
+"orders.\n"
 "\n"
 "@EXAMPLES=\n"
 "BESSELK(3,9) equals 397.95880.\n"
@@ -3296,7 +3296,7 @@ msgstr ""
 "Umumaro NIBA Umubare wuzuye ni X Cyangwa Y OYA Bikurikije umubare a Ikosa ni "
 "Y 0 a Ikosa ni Umumaro ni 3. 9"
 
-#: ../plugins/fn-eng/functions.c:731
+#: ../plugins/fn-eng/functions.c:736
 #, fuzzy
 msgid ""
 "@FUNCTION=BESSELJ\n"
@@ -3318,7 +3318,7 @@ msgstr ""
 "Umumaro NIBA Umubare wuzuye ni X Cyangwa Y OYA Bikurikije umubare a Ikosa ni "
 "Y 0 a Ikosa ni Umumaro ni 0 3. 0"
 
-#: ../plugins/fn-eng/functions.c:769
+#: ../plugins/fn-eng/functions.c:774
 #, fuzzy
 msgid ""
 "@FUNCTION=BESSELY\n"
@@ -3342,7 +3342,7 @@ msgstr ""
 "Umumaro NIBA Umubare wuzuye ni X Cyangwa Y OYA Bikurikije umubare a Ikosa ni "
 "Y 0 a Ikosa ni Umumaro ni 4. 2. 0"
 
-#: ../plugins/fn-eng/functions.c:811
+#: ../plugins/fn-eng/functions.c:816
 #, fuzzy
 msgid ""
 "@FUNCTION=CONVERT\n"
@@ -3460,7 +3460,7 @@ msgstr ""
 "Umubare Na ni i Igice: kugirango i Igisubizo Na Bya i Na U Bya Bya i Na "
 "Ikosa Umumaro ni 3. g 5 8 M in 7 9"
 
-#: ../plugins/fn-eng/functions.c:1228
+#: ../plugins/fn-eng/functions.c:1233
 #, fuzzy
 msgid ""
 "@FUNCTION=ERF\n"
@@ -3494,7 +3494,7 @@ msgstr ""
 "Na: a Bisanzwe Ikwirakwiza... a Ku ijana Bya muri 1. Bisanzwe Bya i "
 "Impuzandengo-"
 
-#: ../plugins/fn-eng/functions.c:1279
+#: ../plugins/fn-eng/functions.c:1284
 #, fuzzy
 msgid ""
 "@FUNCTION=ERFC\n"
@@ -3514,7 +3514,7 @@ msgid ""
 "@SEEALSO=ERF"
 msgstr "@5."
 
-#: ../plugins/fn-eng/functions.c:1310
+#: ../plugins/fn-eng/functions.c:1315
 #, fuzzy
 msgid ""
 "@FUNCTION=DELTA\n"
@@ -3534,7 +3534,7 @@ msgstr ""
 "@X Y Umumaro kugirango Mbarika Bya ingingo 1. in Bya Y ni Bitari ngombwa Na "
 "Kuri 0 ni Bikurikije umubare a Ikosa Umumaro ni 0"
 
-#: ../plugins/fn-eng/functions.c:1342
+#: ../plugins/fn-eng/functions.c:1347
 #, fuzzy
 msgid ""
 "@FUNCTION=GESTEP\n"
@@ -3552,7 +3552,7 @@ msgstr ""
 "@X Y Umumaro Igerageza kugirango NIBA X ni Y 1. NIBA ni Na 0 Y ni Bitari "
 "ngombwa Na Kuri 0 ni Bikurikije umubare a Ikosa Umumaro ni 5 4. 1."
 
-#: ../plugins/fn-eng/functions.c:1373
+#: ../plugins/fn-eng/functions.c:1378
 #, fuzzy
 msgid ""
 "@FUNCTION=INVSUMINV\n"
@@ -3635,7 +3635,7 @@ msgid ""
 "@SEEALSO=DIMCIRC, OFFTRAF, PROBBLOCK"
 msgstr "@a Umubare Bya ku a Umubare Bya Na: Bya Serivisi 1. 20"
 
-#: ../plugins/fn-financial/functions.c:346
+#: ../plugins/fn-financial/functions.c:353
 #, fuzzy
 msgid ""
 "@FUNCTION=ACCRINT\n"
@@ -3689,7 +3689,7 @@ msgstr ""
 "Ishingiro 0 Ikosa Ishingiro ni ni Byashyizweho Ishingiro 0 Cyangwa Ishingiro "
 "4. Ikosa Itangwa Itariki ni Nyuma Itura Itariki Cyangwa i Ikosa"
 
-#: ../plugins/fn-financial/functions.c:435
+#: ../plugins/fn-financial/functions.c:442
 #, fuzzy
 msgid ""
 "@FUNCTION=ACCRINTM\n"
@@ -3731,7 +3731,7 @@ msgstr ""
 "Cyangwa Ishingiro 4. Ikosa Itangwa Itariki ni Nyuma Itariki y'ubwishyu "
 "Itariki Cyangwa i Ikosa"
 
-#: ../plugins/fn-financial/functions.c:493
+#: ../plugins/fn-financial/functions.c:500
 #, fuzzy
 msgid ""
 "@FUNCTION=INTRATE\n"
@@ -3779,7 +3779,7 @@ msgstr ""
 "y'ubwishyu Itariki Igishoro Bya 000 Ubwishyu Agaciro ikoresha i Ishingiro i "
 "Igabanya Igipimo ni 1. 0 Cyangwa 6"
 
-#: ../plugins/fn-financial/functions.c:558
+#: ../plugins/fn-financial/functions.c:565
 #, fuzzy
 msgid ""
 "@FUNCTION=RECEIVED\n"
@@ -3820,7 +3820,7 @@ msgstr ""
 "Ishingiro 0 Cyangwa Ishingiro 4. Ikosa Itura Itariki ni Nyuma Itariki "
 "y'ubwishyu Itariki Cyangwa i Ikosa"
 
-#: ../plugins/fn-financial/functions.c:620
+#: ../plugins/fn-financial/functions.c:627
 #, fuzzy
 msgid ""
 "@FUNCTION=PRICEDISC\n"
@@ -3861,7 +3861,7 @@ msgstr ""
 "Ikosa Ishingiro ni ni Byashyizweho Ishingiro 0 Cyangwa Ishingiro 4. Ikosa "
 "Itura Itariki ni Nyuma Itariki y'ubwishyu Itariki Cyangwa i Ikosa"
 
-#: ../plugins/fn-financial/functions.c:677
+#: ../plugins/fn-financial/functions.c:684
 #, fuzzy
 msgid ""
 "@FUNCTION=PRICEMAT\n"
@@ -3902,7 +3902,7 @@ msgstr ""
 "Cyangwa Ishingiro 4. Ikosa Itura Itariki ni Nyuma Itariki y'ubwishyu Itariki "
 "Cyangwa i Ikosa"
 
-#: ../plugins/fn-financial/functions.c:741
+#: ../plugins/fn-financial/functions.c:748
 #, fuzzy
 msgid ""
 "@FUNCTION=DISC\n"
@@ -3943,7 +3943,7 @@ msgstr ""
 "Cyangwa Ishingiro 4. Ikosa Itura Itariki ni Nyuma Itariki y'ubwishyu Itariki "
 "Cyangwa i Ikosa"
 
-#: ../plugins/fn-financial/functions.c:797
+#: ../plugins/fn-financial/functions.c:804
 #, fuzzy
 msgid ""
 "@FUNCTION=EFFECT\n"
@@ -3974,7 +3974,7 @@ msgid ""
 "@SEEALSO=NOMINAL"
 msgstr "@75."
 
-#: ../plugins/fn-financial/functions.c:847
+#: ../plugins/fn-financial/functions.c:854
 #, fuzzy
 msgid ""
 "@FUNCTION=NOMINAL\n"
@@ -4001,7 +4001,7 @@ msgstr ""
 "Nper 1. R 1. Nper 1. R CYUZUYE Nper Umubare Bya kugirango Igipimo 0 Ikosa "
 "Nper 0 Ikosa"
 
-#: ../plugins/fn-financial/functions.c:888
+#: ../plugins/fn-financial/functions.c:895
 #, fuzzy
 msgid ""
 "@FUNCTION=ISPMT\n"
@@ -4015,7 +4015,7 @@ msgid ""
 msgstr ""
 "@Igipimo Nper Agaciro k'iki gihe Umumaro i ku a Igihe 1. Cyangwa Nper Ikosa"
 
-#: ../plugins/fn-financial/functions.c:928
+#: ../plugins/fn-financial/functions.c:935
 #, fuzzy
 msgid ""
 "@FUNCTION=DB\n"
@@ -4043,7 +4043,7 @@ msgstr ""
 "Umubare Bya Amezi in i Itangira Umwaka Bya Ukwezi ni ni Kuri 12 Ikiguzi 0 "
 "Ikosa Ubuzima 0 Ikosa Ibikaneza Ikiguzi 0 Ikosa"
 
-#: ../plugins/fn-financial/functions.c:992
+#: ../plugins/fn-financial/functions.c:999
 #, fuzzy
 msgid ""
 "@FUNCTION=DDB\n"
@@ -4071,7 +4071,7 @@ msgstr ""
 "ni i Igihe kugirango i Kuri Na Umubarwa ni i Umubarwa ku i Umubarwa ni ni "
 "Kuri MAHARAKUBIRI Uburyo Ubuzima 0 Ikosa"
 
-#: ../plugins/fn-financial/functions.c:1048
+#: ../plugins/fn-financial/functions.c:1062
 #, fuzzy
 msgid ""
 "@FUNCTION=SLN\n"
@@ -4105,7 +4105,7 @@ msgstr ""
 "kugirango 0 000 a Ibikaneza Agaciro Bya Na a Ubuzima Bya 10 IMYAKA ni Nka 10 "
 "Garuka i Bya"
 
-#: ../plugins/fn-financial/functions.c:1101
+#: ../plugins/fn-financial/functions.c:1115
 #, fuzzy
 msgid ""
 "@FUNCTION=SYD\n"
@@ -4151,7 +4151,7 @@ msgstr ""
 "Bya Na a Ubuzima Bya IMYAKA Gukoresha $2 i Kuri Kubara i ISEGONDA ikoresha i "
 "Uburyo 200 5 2. 1."
 
-#: ../plugins/fn-financial/functions.c:1162
+#: ../plugins/fn-financial/functions.c:1176
 #, fuzzy
 msgid ""
 "@FUNCTION=DOLLARDE\n"
@@ -4173,7 +4173,7 @@ msgstr ""
 "Umubare ni i Umubare Kuri Imigabane ni i Icyita Bya i Imigabane Imigabane ni "
 "Umubare wuzuye ni Imigabane 0 Ikosa"
 
-#: ../plugins/fn-financial/functions.c:1221
+#: ../plugins/fn-financial/functions.c:1235
 #, fuzzy
 msgid ""
 "@FUNCTION=DOLLARFR\n"
@@ -4191,7 +4191,7 @@ msgstr ""
 "@Imigabane a NYACUMI IDOLARI Igiciro a IDOLARI Igiciro Nka a Imigabane "
 "Imigabane ni Umubare wuzuye ni Imigabane 0 Ikosa"
 
-#: ../plugins/fn-financial/functions.c:1275
+#: ../plugins/fn-financial/functions.c:1289
 #, fuzzy
 msgid ""
 "@FUNCTION=MIRR\n"
@@ -4205,7 +4205,7 @@ msgstr ""
 "@Uduciro igipimo_iyong_igishoro Umumaro i Byahinduwe By'imbere Igipimo Bya "
 "Garuka kugirango a"
 
-#: ../plugins/fn-financial/functions.c:1338
+#: ../plugins/fn-financial/functions.c:1352
 #, fuzzy
 msgid ""
 "@FUNCTION=TBILLEQ\n"
@@ -4230,7 +4230,7 @@ msgstr ""
 "Nyuma Itariki y'ubwishyu Cyangwa i Itariki y'ubwishyu ni Gushyiraho Kuri "
 "KURI Umwaka i Itura Ikosa Igabanya ni Ikosa"
 
-#: ../plugins/fn-financial/functions.c:1389
+#: ../plugins/fn-financial/functions.c:1403
 #, fuzzy
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
@@ -4253,7 +4253,7 @@ msgstr ""
 "y'ubwishyu Cyangwa i Itariki y'ubwishyu ni Gushyiraho Kuri KURI Umwaka i "
 "Itura Ikosa Igabanya ni Ikosa"
 
-#: ../plugins/fn-financial/functions.c:1435
+#: ../plugins/fn-financial/functions.c:1449
 #, fuzzy
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
@@ -4275,7 +4275,7 @@ msgstr ""
 "ni i Igabanya Igipimo Itura ni Nyuma Itariki y'ubwishyu Cyangwa i Itariki "
 "y'ubwishyu ni Gushyiraho Kuri KURI Umwaka i Itura Ikosa ni Ikosa"
 
-#: ../plugins/fn-financial/functions.c:1481
+#: ../plugins/fn-financial/functions.c:1495
 #, fuzzy
 msgid ""
 "@FUNCTION=RATE\n"
@@ -4293,7 +4293,7 @@ msgstr ""
 "@Nper PMT Agaciro k'iki gihe FV Ubwoko Gukeka i Igipimo Bya Igishoro Nper 0 "
 "Ikosa Ubwoko 0 Na Ubwoko 1. Ikosa"
 
-#: ../plugins/fn-financial/functions.c:1597
+#: ../plugins/fn-financial/functions.c:1611
 #, fuzzy
 msgid ""
 "@FUNCTION=IRR\n"
@@ -4323,7 +4323,7 @@ msgstr ""
 "Gukoresha ni kugirango i Bihuye neza Umumaro ni RW i Utudirishya... A1 i "
 "Imibare A1 0"
 
-#: ../plugins/fn-financial/functions.c:1731
+#: ../plugins/fn-financial/functions.c:1745
 #, fuzzy
 msgid ""
 "@FUNCTION=PV\n"
@@ -4344,7 +4344,7 @@ msgstr ""
 "Ryari: i ni Ubwoko 1. Hanyuma i ni ku i Itangiriro Bya i Igihe Ubwoko 0 "
 "Cyangwa ni ku i Impera Bya Igihe"
 
-#: ../plugins/fn-financial/functions.c:1779
+#: ../plugins/fn-financial/functions.c:1793
 #, fuzzy
 msgid ""
 "@FUNCTION=NPV\n"
@@ -4361,7 +4361,7 @@ msgstr ""
 "@Igipimo i Cyuzuye Agaciro Bya Igishoro Ubwishyu Igipimo ni i Igipimo Na i "
 "Ubwishyu i Igenabihe Bya i OYA Gukoresha i Umumaro 0"
 
-#: ../plugins/fn-financial/functions.c:1830
+#: ../plugins/fn-financial/functions.c:1844
 #, fuzzy
 msgid ""
 "@FUNCTION=XNPV\n"
@@ -4383,7 +4383,7 @@ msgstr ""
 "Igipimo ni i Igipimo Na Uduciro i Ubwishyu Uduciro Na Amatariki Umubare Bya "
 "Uduciro i Ikosa"
 
-#: ../plugins/fn-financial/functions.c:1892
+#: ../plugins/fn-financial/functions.c:1906
 #, fuzzy
 msgid ""
 "@FUNCTION=XIRR\n"
@@ -4418,7 +4418,7 @@ msgstr ""
 "RW i Utudirishya... A1 i Imibare Na Na i Utudirishya... i Amatariki 01 15 05 "
 "12 Na 05 1. A1 0"
 
-#: ../plugins/fn-financial/functions.c:2012
+#: ../plugins/fn-financial/functions.c:2026
 #, fuzzy
 msgid ""
 "@FUNCTION=FV\n"
@@ -4441,7 +4441,7 @@ msgstr ""
 "ni i Igihe Agaciro k'iki gihe ni i Agaciro Na Ubwoko ni Ryari: i ni Ubwoko "
 "1. Hanyuma i ni ku i Itangiriro Bya i Igihe Ubwoko 0 ni ku i Impera Bya Igihe"
 
-#: ../plugins/fn-financial/functions.c:2056
+#: ../plugins/fn-financial/functions.c:2070
 #, fuzzy
 msgid ""
 "@FUNCTION=PMT\n"
@@ -4470,7 +4470,7 @@ msgstr ""
 "ni i Ubwoko Bya i 0 ku i Impera Bya i Igihe Na 1. ku i Itangiriro Bya i "
 "Igihe FV ni Kuri Zeru Ubwoko ni Kuri Zeru"
 
-#: ../plugins/fn-financial/functions.c:2099
+#: ../plugins/fn-financial/functions.c:2113
 #, fuzzy
 msgid ""
 "@FUNCTION=IPMT\n"
@@ -4497,7 +4497,7 @@ msgstr ""
 "ni 1. 1. Igiteranyo Bya i Umutahe Bivuye Iheruka FV ni ni Kuri 0 Ubwoko ni "
 "ni Kuri 0"
 
-#: ../plugins/fn-financial/functions.c:2151
+#: ../plugins/fn-financial/functions.c:2165
 #, fuzzy
 msgid ""
 "@FUNCTION=PPMT\n"
@@ -4523,7 +4523,7 @@ msgstr ""
 "kugirango ni BYAKIRIWE ku Igiteranyo Bya kugirango Igihe FV ni ni Kuri 0 "
 "Ubwoko ni ni Kuri 0"
 
-#: ../plugins/fn-financial/functions.c:2207
+#: ../plugins/fn-financial/functions.c:2221
 #, fuzzy
 msgid ""
 "@FUNCTION=NPER\n"
@@ -4554,7 +4554,7 @@ msgstr ""
 "Ku Ntangiriro IMYAKA Kuri MAHARAKUBIRI Igishoro Gukoresha $1 Nka 0 0 0 "
 "MAHARAKUBIRI Mbere i Impera Bya i Umwaka"
 
-#: ../plugins/fn-financial/functions.c:2267
+#: ../plugins/fn-financial/functions.c:2281
 #, fuzzy
 msgid ""
 "@FUNCTION=DURATION\n"
@@ -4592,7 +4592,7 @@ msgstr ""
 "Ikindi 1. 2. Cyangwa 4. Ikosa Ishingiro ni ni Byashyizweho Ishingiro ni OYA "
 "in hagati 0 Na 4. Ikosa ni"
 
-#: ../plugins/fn-financial/functions.c:2329
+#: ../plugins/fn-financial/functions.c:2343
 #, fuzzy
 msgid ""
 "@FUNCTION=G_DURATION\n"
@@ -4611,7 +4611,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV,DURATION,MDURATION"
 msgstr "@g."
 
-#: ../plugins/fn-financial/functions.c:2373
+#: ../plugins/fn-financial/functions.c:2387
 #, fuzzy
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
@@ -4631,7 +4631,7 @@ msgstr ""
 "Agaciro Igenabihe ni Imbonerahamwe Bya Kuri Gukurikiza Igenabihe a Urutonde "
 "Bya Utudirishya... RW i Utudirishya... A1 0 0 0 0 Na 0 A1"
 
-#: ../plugins/fn-financial/functions.c:2420
+#: ../plugins/fn-financial/functions.c:2434
 #, fuzzy
 msgid ""
 "@FUNCTION=EURO\n"
@@ -4665,7 +4665,7 @@ msgstr ""
 "@Ifaranga Kuri a Ifaranga in i Ihuza Ifaranga ni Bya i i Ifaranga ni Ikindi "
 "Bya i hejuru Ikosa 1."
 
-#: ../plugins/fn-financial/functions.c:2530
+#: ../plugins/fn-financial/functions.c:2544
 #, fuzzy
 msgid ""
 "@FUNCTION=EUROCONVERT\n"
@@ -4697,7 +4697,7 @@ msgid ""
 "@SEEALSO=EURO"
 msgstr "@07."
 
-#: ../plugins/fn-financial/functions.c:2580
+#: ../plugins/fn-financial/functions.c:2594
 #, fuzzy
 msgid ""
 "@FUNCTION=PRICE\n"
@@ -4729,7 +4729,7 @@ msgstr ""
 "1. Iminsi 2. Iminsi 3. Iminsi 4. Ubwisubire ni Ikindi 1. 2. Cyangwa 4. Ikosa "
 "Ishingiro ni ni Byashyizweho Ishingiro ni OYA in hagati 0 Na 4. Ikosa ni"
 
-#: ../plugins/fn-financial/functions.c:2647
+#: ../plugins/fn-financial/functions.c:2661
 #, fuzzy
 msgid ""
 "@FUNCTION=YIELD\n"
@@ -4762,7 +4762,7 @@ msgstr ""
 "2. Iminsi 3. Iminsi 4. Ubwisubire ni Ikindi 1. 2. Cyangwa 4. Ikosa Ishingiro "
 "ni ni Byashyizweho Ishingiro ni OYA in hagati 0 Na 4. Ikosa ni"
 
-#: ../plugins/fn-financial/functions.c:2770
+#: ../plugins/fn-financial/functions.c:2784
 #, fuzzy
 msgid ""
 "@FUNCTION=YIELDDISC\n"
@@ -4797,7 +4797,7 @@ msgstr ""
 "Ubwisubire ni Ikindi 1. 2. Cyangwa 4. Ikosa Ishingiro ni ni Byashyizweho "
 "Ishingiro ni OYA in hagati 0 Na 4. Ikosa ni"
 
-#: ../plugins/fn-financial/functions.c:2834
+#: ../plugins/fn-financial/functions.c:2848
 #, fuzzy
 msgid ""
 "@FUNCTION=YIELDMAT\n"
@@ -4833,7 +4833,7 @@ msgstr ""
 "Iminsi 2. Iminsi 3. Iminsi 4. Ishingiro ni ni Byashyizweho Ishingiro ni OYA "
 "in hagati 0 Na 4. Ikosa ni"
 
-#: ../plugins/fn-financial/functions.c:2890
+#: ../plugins/fn-financial/functions.c:2904
 #, fuzzy
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
@@ -4871,7 +4871,7 @@ msgstr ""
 "Iminsi 2. Iminsi 3. Iminsi 4. Ubwisubire ni Ikindi 1. 2. Cyangwa 4. Ikosa "
 "Ishingiro ni ni Byashyizweho Ishingiro ni OYA in hagati 0 Na 4. Ikosa ni"
 
-#: ../plugins/fn-financial/functions.c:3047
+#: ../plugins/fn-financial/functions.c:3069
 #, fuzzy
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
@@ -4907,7 +4907,7 @@ msgstr ""
 "2. Iminsi 3. Iminsi 4. Ubwisubire ni Ikindi 1. 2. Cyangwa 4. Ikosa Ishingiro "
 "ni ni Byashyizweho Ishingiro ni OYA in hagati 0 Na 4. Ikosa ni"
 
-#: ../plugins/fn-financial/functions.c:3158
+#: ../plugins/fn-financial/functions.c:3180
 #, fuzzy
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
@@ -4943,7 +4943,7 @@ msgstr ""
 "Iminsi 2. Iminsi 3. Iminsi 4. Ubwisubire ni Ikindi 1. 2. Cyangwa 4. Ikosa "
 "Ishingiro ni ni Byashyizweho Ishingiro ni OYA in hagati 0 Na 4. Ikosa ni"
 
-#: ../plugins/fn-financial/functions.c:3252
+#: ../plugins/fn-financial/functions.c:3274
 #, fuzzy
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
@@ -4979,7 +4979,7 @@ msgstr ""
 "Iminsi 4. Ubwisubire ni Ikindi 1. 2. Cyangwa 4. Ikosa Ishingiro ni ni "
 "Byashyizweho Ishingiro ni OYA in hagati 0 Na 4. Ikosa ni"
 
-#: ../plugins/fn-financial/functions.c:3346
+#: ../plugins/fn-financial/functions.c:3368
 #, fuzzy
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
@@ -5022,7 +5022,7 @@ msgstr ""
 "Sisitemu Kuri Gukoresha 0 1. Iminsi 2. Iminsi 3. Iminsi 4. Ishingiro ni ni "
 "Byashyizweho Ishingiro ni OYA in hagati 0 Na 4. Ikosa ni 8 12 300 1. 0 14 1."
 
-#: ../plugins/fn-financial/functions.c:3413
+#: ../plugins/fn-financial/functions.c:3435
 #, fuzzy
 msgid ""
 "@FUNCTION=AMORLINC\n"
@@ -5063,7 +5063,7 @@ msgstr ""
 "ni ni Byashyizweho Ishingiro ni OYA in hagati 0 Na 4. Ikosa ni 8 12 300 1. 0 "
 "15 1."
 
-#: ../plugins/fn-financial/functions.c:3475
+#: ../plugins/fn-financial/functions.c:3497
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
@@ -5108,7 +5108,7 @@ msgstr ""
 "ni Sibyo Ikosa Ishingiro ni ni Byashyizweho Ishingiro ni Sibyo Ikosa ni 2. "
 "4. 0 2. 4. 0"
 
-#: ../plugins/fn-financial/functions.c:3523
+#: ../plugins/fn-financial/functions.c:3545
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYS\n"
@@ -5154,7 +5154,7 @@ msgstr ""
 "Ikosa Ishingiro ni ni Byashyizweho Ishingiro ni Sibyo Ikosa ni 2. 4. 0 2. 4. "
 "0 2. 4. 1."
 
-#: ../plugins/fn-financial/functions.c:3572
+#: ../plugins/fn-financial/functions.c:3594
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
@@ -5199,7 +5199,7 @@ msgstr ""
 "Ikosa Ishingiro ni ni Byashyizweho Ishingiro ni Sibyo Ikosa ni 2. 4. 0 2. 4. "
 "0"
 
-#: ../plugins/fn-financial/functions.c:3620
+#: ../plugins/fn-financial/functions.c:3642
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPNCD\n"
@@ -5242,7 +5242,7 @@ msgstr ""
 "Ubwisubire ni Sibyo Ikosa Ishingiro ni ni Byashyizweho Ishingiro ni Sibyo "
 "Ikosa ni 2. 4. 0 2. 4. 0"
 
-#: ../plugins/fn-financial/functions.c:3669
+#: ../plugins/fn-financial/functions.c:3691
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPPCD\n"
@@ -5285,7 +5285,7 @@ msgstr ""
 "Ubwisubire ni Sibyo Ikosa Ishingiro ni ni Byashyizweho Ishingiro ni Sibyo "
 "Ikosa ni 2. 4. 0 2. 4. 0"
 
-#: ../plugins/fn-financial/functions.c:3719
+#: ../plugins/fn-financial/functions.c:3741
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPNUM\n"
@@ -5328,7 +5328,7 @@ msgstr ""
 "Ikosa Ishingiro ni ni Byashyizweho Ishingiro ni OYA in hagati 0 Na 5 Ikosa "
 "ni 2. 4. 0 2. 4. 0"
 
-#: ../plugins/fn-financial/functions.c:3763
+#: ../plugins/fn-financial/functions.c:3785
 #, fuzzy
 msgid ""
 "@FUNCTION=CUMIPMT\n"
@@ -5352,7 +5352,7 @@ msgstr ""
 "Nper 0 Ikosa Agaciro k'iki gihe 0 Ikosa 1. Ikosa Ikosa Nper Ikosa Ubwoko 0 "
 "Na Ubwoko 1. Ikosa"
 
-#: ../plugins/fn-financial/functions.c:3816
+#: ../plugins/fn-financial/functions.c:3838
 #, fuzzy
 msgid ""
 "@FUNCTION=CUMPRINC\n"
@@ -5376,7 +5376,7 @@ msgstr ""
 "Ikosa Nper 0 Ikosa Agaciro k'iki gihe 0 Ikosa 1. Ikosa Ikosa Nper Ikosa "
 "Ubwoko 0 Na Ubwoko 1. Ikosa"
 
-#: ../plugins/fn-financial/functions.c:3869
+#: ../plugins/fn-financial/functions.c:3891
 #, fuzzy
 msgid ""
 "@FUNCTION=MDURATION\n"
@@ -5410,7 +5410,7 @@ msgstr ""
 "Ubwisubire ni Ikindi 1. 2. Cyangwa 4. Ikosa Ishingiro ni ni Byashyizweho "
 "Ishingiro ni Sibyo Ikosa ni"
 
-#: ../plugins/fn-financial/functions.c:3930
+#: ../plugins/fn-financial/functions.c:3952
 #, fuzzy
 msgid ""
 "@FUNCTION=VDB\n"
@@ -5483,7 +5483,24 @@ msgstr ""
 "@Akazu imvugo in Akazu Nka a Ikurikiranyanyuguti Cyangwa ubusa NIBA i Akazu "
 "ni OYA imvugo in ubusa ni in in A1"
 
-#: ../plugins/fn-info/functions.c:1213
+#: ../plugins/fn-info/functions.c:1211
+#, fuzzy
+msgid ""
+"@FUNCTION=GET.FORMULA\n"
+"@SYNTAX=GET.FORMULA(cell)\n"
+"@DESCRIPTION=EXPRESSION returns expression in @cell as a string, or empty if "
+"the cell is not an expression.\n"
+"@EXAMPLES=\n"
+"entering '=GET.FORMULA(A3)' in A2 = empty (assuming there is nothing in "
+"A3).\n"
+"entering '=GET.FORMULA(A2)' in A1 = '=GET.FORMULA(A3)'.\n"
+"\n"
+"@SEEALSO=EXPRESSION"
+msgstr ""
+"@Akazu imvugo in Akazu Nka a Ikurikiranyanyuguti Cyangwa ubusa NIBA i Akazu "
+"ni OYA imvugo in ubusa ni in in A1"
+
+#: ../plugins/fn-info/functions.c:1259
 #, fuzzy
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
@@ -5500,7 +5517,7 @@ msgstr ""
 "@Urutonde i Umubare Bya Ahatanditseho Utudirishya... in a Urutonde Umumaro "
 "ni A1 i Umubare Bya Ahatanditseho Akazu in A1"
 
-#: ../plugins/fn-info/functions.c:1264
+#: ../plugins/fn-info/functions.c:1322
 #, fuzzy
 msgid ""
 "@FUNCTION=INFO\n"
@@ -5534,7 +5551,7 @@ msgstr ""
 "Igiteranyo Ububiko Bihari Umumaro ni bushyinguro Na Inkomoko OYA Sisitemu ku "
 "a Sisitemu"
 
-#: ../plugins/fn-info/functions.c:1372
+#: ../plugins/fn-info/functions.c:1430
 #, fuzzy
 msgid ""
 "@FUNCTION=ISERROR\n"
@@ -5549,7 +5566,7 @@ msgid ""
 "@SEEALSO=ERROR"
 msgstr "@Agaciro a Agaciro NIBA i imvugo Ikosa Umumaro ni"
 
-#: ../plugins/fn-info/functions.c:1397
+#: ../plugins/fn-info/functions.c:1455
 #, fuzzy
 msgid ""
 "@FUNCTION=ISNA\n"
@@ -5564,7 +5581,7 @@ msgid ""
 "@SEEALSO=NA"
 msgstr "@Agaciro NIBA i Agaciro ni i A Ikosa Agaciro Umumaro ni"
 
-#: ../plugins/fn-info/functions.c:1426
+#: ../plugins/fn-info/functions.c:1484
 #, fuzzy
 msgid ""
 "@FUNCTION=ISERR\n"
@@ -5579,7 +5596,7 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr "@Agaciro NIBA i Agaciro ni Ikosa Agaciro A Umumaro ni Garuka"
 
-#: ../plugins/fn-info/functions.c:1452
+#: ../plugins/fn-info/functions.c:1510
 #, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
@@ -5604,7 +5621,7 @@ msgstr ""
 "@Agaciro Ikosa Umubare Kuri i Ikosa Agaciro Ikosa Imibare kugirango Ikosa "
 "Uduciro 0 A Umumaro ni 7"
 
-#: ../plugins/fn-info/functions.c:1494
+#: ../plugins/fn-info/functions.c:1552
 #, fuzzy
 msgid ""
 "@FUNCTION=NA\n"
@@ -5619,7 +5636,7 @@ msgid ""
 "@SEEALSO=ISNA"
 msgstr "@i Ikosa Agaciro A Umumaro ni A Ikosa"
 
-#: ../plugins/fn-info/functions.c:1519
+#: ../plugins/fn-info/functions.c:1577
 #, fuzzy
 msgid ""
 "@FUNCTION=ERROR\n"
@@ -5632,7 +5649,7 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr "@Umwandiko Garuka i Ikosa"
 
-#: ../plugins/fn-info/functions.c:1543
+#: ../plugins/fn-info/functions.c:1601
 #, fuzzy
 msgid ""
 "@FUNCTION=ISBLANK\n"
@@ -5647,7 +5664,7 @@ msgid ""
 "@SEEALSO="
 msgstr "@Agaciro NIBA i Agaciro ni Ahatanditseho Umumaro ni A1"
 
-#: ../plugins/fn-info/functions.c:1568
+#: ../plugins/fn-info/functions.c:1626
 #, fuzzy
 msgid ""
 "@FUNCTION=ISEVEN\n"
@@ -5662,7 +5679,7 @@ msgid ""
 "@SEEALSO=ISODD"
 msgstr "@Agaciro NIBA i Umubare ni ATARIIGIHARWE Umumaro ni 4."
 
-#: ../plugins/fn-info/functions.c:1597
+#: ../plugins/fn-info/functions.c:1655
 #, fuzzy
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
@@ -5678,7 +5695,7 @@ msgid ""
 msgstr ""
 "@Agaciro NIBA i Agaciro ni a Bijyanye n'inyurabwenge Agaciro Umumaro ni A1"
 
-#: ../plugins/fn-info/functions.c:1622
+#: ../plugins/fn-info/functions.c:1680
 #, fuzzy
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
@@ -5693,7 +5710,7 @@ msgid ""
 "@SEEALSO=ISTEXT"
 msgstr "@Agaciro NIBA i Agaciro ni OYA Umwandiko Umumaro ni Umwandiko"
 
-#: ../plugins/fn-info/functions.c:1647
+#: ../plugins/fn-info/functions.c:1705
 #, fuzzy
 msgid ""
 "@FUNCTION=ISNUMBER\n"
@@ -5708,7 +5725,7 @@ msgid ""
 "@SEEALSO="
 msgstr "@Agaciro NIBA i Agaciro ni a Umubare Umumaro ni Umwandiko"
 
-#: ../plugins/fn-info/functions.c:1672
+#: ../plugins/fn-info/functions.c:1730
 #, fuzzy
 msgid ""
 "@FUNCTION=ISODD\n"
@@ -5723,7 +5740,7 @@ msgid ""
 "@SEEALSO=ISEVEN"
 msgstr "@Agaciro NIBA i Umubare ni IGIHARWE Umumaro ni 3."
 
-#: ../plugins/fn-info/functions.c:1701
+#: ../plugins/fn-info/functions.c:1759
 #, fuzzy
 msgid ""
 "@FUNCTION=ISREF\n"
@@ -5738,7 +5755,7 @@ msgid ""
 "@SEEALSO="
 msgstr "@Agaciro NIBA i Agaciro ni a Indango Umumaro ni A1"
 
-#: ../plugins/fn-info/functions.c:1730
+#: ../plugins/fn-info/functions.c:1788
 #, fuzzy
 msgid ""
 "@FUNCTION=ISTEXT\n"
@@ -5753,7 +5770,7 @@ msgid ""
 "@SEEALSO=ISNONTEXT"
 msgstr "@Agaciro NIBA i Agaciro ni Umwandiko Umumaro ni Umwandiko"
 
-#: ../plugins/fn-info/functions.c:1755
+#: ../plugins/fn-info/functions.c:1813
 #, fuzzy
 msgid ""
 "@FUNCTION=N\n"
@@ -5770,7 +5787,7 @@ msgid ""
 msgstr ""
 "@Agaciro a Agaciro Kuri a Umubare Umwandiko Kuri i Zeru Agaciro Umumaro ni"
 
-#: ../plugins/fn-info/functions.c:1795
+#: ../plugins/fn-info/functions.c:1853
 #, fuzzy
 msgid ""
 "@FUNCTION=TYPE\n"
@@ -5793,7 +5810,7 @@ msgstr ""
 "@Agaciro a Umubare i Ibyatanzwe Ubwoko Bya a Agaciro 1. Umumaro ni 3. 1. "
 "Umwandiko 2."
 
-#: ../plugins/fn-info/functions.c:1844
+#: ../plugins/fn-info/functions.c:1902
 #, fuzzy
 msgid ""
 "@FUNCTION=GETENV\n"
@@ -5935,7 +5952,25 @@ msgstr ""
 "a Zeru Agaciro i Igisubizo Bya i imvugo ni i NIBA NIBYO imvugo Kuri i "
 "Agaciro Bya NIBA SIBYO NIBA NIBYO Kuri Na NIBA SIBYO Kuri Umumaro ni"
 
+#: ../plugins/fn-logical/functions.c:309
+msgid "IFERROR:Test for error."
+msgstr ""
+
 #: ../plugins/fn-logical/functions.c:310
+msgid "x:value to test for error."
+msgstr ""
+
+#: ../plugins/fn-logical/functions.c:311
+msgid "y:alternate value."
+msgstr ""
+
+#: ../plugins/fn-logical/functions.c:312
+msgid ""
+"This function returns the first value, unless that is an error, in which "
+"case it returns the second."
+msgstr ""
+
+#: ../plugins/fn-logical/functions.c:327
 #, fuzzy
 msgid ""
 "@FUNCTION=TRUE\n"
@@ -5950,7 +5985,7 @@ msgid ""
 "@SEEALSO=FALSE"
 msgstr "@Icyungo Agaciro NIBYO Umumaro ni"
 
-#: ../plugins/fn-logical/functions.c:335
+#: ../plugins/fn-logical/functions.c:352
 #, fuzzy
 msgid ""
 "@FUNCTION=FALSE\n"
@@ -5965,7 +6000,7 @@ msgid ""
 "@SEEALSO=TRUE"
 msgstr "@Icyungo Agaciro SIBYO Umumaro ni"
 
-#: ../plugins/fn-lookup/functions.c:327
+#: ../plugins/fn-lookup/functions.c:490
 #, fuzzy
 msgid ""
 "@FUNCTION=ADDRESS\n"
@@ -5995,7 +6030,7 @@ msgid ""
 "@SEEALSO=COLUMNNUMBER"
 msgstr "@E. E."
 
-#: ../plugins/fn-lookup/functions.c:429
+#: ../plugins/fn-lookup/functions.c:592
 #, fuzzy
 msgid ""
 "@FUNCTION=AREAS\n"
@@ -6008,7 +6043,7 @@ msgid ""
 "@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET"
 msgstr "@Indango i Umubare Bya Ubuso in Indango A1 3."
 
-#: ../plugins/fn-lookup/functions.c:508
+#: ../plugins/fn-lookup/functions.c:670
 #, fuzzy
 msgid ""
 "@FUNCTION=CHOOSE\n"
@@ -6027,7 +6062,7 @@ msgstr ""
 "Biburungushuye Kuri Umubare wuzuye NIBA ni OYA Umubarendanga 1. Cyangwa "
 "Umubarendanga Umubare Bya Uduciro Ikosa 3."
 
-#: ../plugins/fn-lookup/functions.c:562
+#: ../plugins/fn-lookup/functions.c:724
 #, fuzzy
 msgid ""
 "@FUNCTION=VLOOKUP\n"
@@ -6054,7 +6089,7 @@ msgstr ""
 "a 1. Nta- boneza in Inkingi Inkingi i Urutonde i 0 Nta- boneza i Agaciro "
 "NIBA Inkingi 0 NIBA Inkingi Hanze Urutonde"
 
-#: ../plugins/fn-lookup/functions.c:623
+#: ../plugins/fn-lookup/functions.c:785
 #, fuzzy
 msgid ""
 "@FUNCTION=HLOOKUP\n"
@@ -6081,7 +6116,7 @@ msgstr ""
 "boneza in Urubariro Imbariro i Urutonde i 0 Nta- boneza i Agaciro NIBA "
 "Urubariro 0 NIBA Urubariro Hanze Urutonde"
 
-#: ../plugins/fn-lookup/functions.c:685
+#: ../plugins/fn-lookup/functions.c:847
 #, fuzzy
 msgid ""
 "@FUNCTION=LOOKUP\n"
@@ -6104,7 +6139,7 @@ msgstr ""
 "Hanyuma i Bya i Gushaka ni Gushaka Agaciro i Kinini Agaciro Birutwa Agaciro "
 "Ibyatanzwe bishunguwe Agaciro ni Gitoya i Itangira Agaciro A"
 
-#: ../plugins/fn-lookup/functions.c:751
+#: ../plugins/fn-lookup/functions.c:913
 #, fuzzy
 msgid ""
 "@FUNCTION=MATCH\n"
@@ -6134,25 +6169,29 @@ msgstr ""
 "Ubwoko 0 i Ibyatanzwe in Itondekanya Ubwoko 1. Na Ubwoko 1. i Ibyatanzwe "
 "bishunguwe in a Nyabibiri Gushaka Kuri i Umubarendanga OYA Byabonetse A ni"
 
-#: ../plugins/fn-lookup/functions.c:809
+#: ../plugins/fn-lookup/functions.c:971
 #, fuzzy
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text[,format])\n"
 "@DESCRIPTION=INDIRECT function returns the contents of the cell pointed to "
 "by the @ref_text string. The string specifies a single cell reference the "
-"format of which is either A1 or R1C1 style. The style is set by the @format "
-"boolean, which defaults to the A1 style.\n"
+"format of which is either A1 or R1C1 style. The boolean @format controls how "
+"@ref_text is to be interpreted: TRUE (the default) for A1 style and FALSE "
+"for R1C1 style.\n"
 "\n"
-"* If @ref_text is not a valid reference returns #REF! \n"
+"* If @ref_text is not a valid reference in the style controlled by @format, "
+"returns #REF! \n"
 "@EXAMPLES=\n"
-"If A1 contains 3.14 and A2 contains A1, then\n"
+"If A1 contains 3.14 and A2 contains \"A1\", then\n"
 "INDIRECT(A2) equals 3.14.\n"
 "\n"
+"If B1 contains 23 and A1 contains \"R1C2\", then\n"
+"INDIRECT(A1,FALSE) equals 23.\n"
 "@SEEALSO=AREAS,INDEX,CELL"
 msgstr "@14."
 
-#: ../plugins/fn-lookup/functions.c:858
+#: ../plugins/fn-lookup/functions.c:1023
 #, fuzzy
 msgid ""
 "@FUNCTION=INDEX\n"
@@ -6171,15 +6210,15 @@ msgid ""
 "@SEEALSO="
 msgstr "@1.."
 
-#: ../plugins/fn-lookup/functions.c:944
+#: ../plugins/fn-lookup/functions.c:1111
 msgid "COLUMN:vector of column numbers."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:945 ../plugins/fn-lookup/functions.c:1124
+#: ../plugins/fn-lookup/functions.c:1112 ../plugins/fn-lookup/functions.c:1291
 msgid "[reference]."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:947
+#: ../plugins/fn-lookup/functions.c:1114
 msgid ""
 "COLUMN function returns a Nx1 array containing the series of integers from "
 "the first column to the last column of @reference.\n"
@@ -6189,19 +6228,19 @@ msgid ""
 "#VALUE! error.\n"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:954
+#: ../plugins/fn-lookup/functions.c:1121
 msgid "COLUMN(A1:C4) equals {1,2,3}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:955
+#: ../plugins/fn-lookup/functions.c:1122
 msgid "COLUMN(A:C) equals {1,2,3}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:956
+#: ../plugins/fn-lookup/functions.c:1123
 msgid "COLUMN() in G13 equals 7."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:997
+#: ../plugins/fn-lookup/functions.c:1164
 #, fuzzy
 msgid ""
 "@FUNCTION=COLUMNNUMBER\n"
@@ -6219,7 +6258,7 @@ msgstr ""
 "@Izina: Umumaro Umubare wuzuye Kuri i Inkingi Izina: Nka a "
 "Ikurikiranyanyuguti Izina: ni Sibyo i Ikosa E 5"
 
-#: ../plugins/fn-lookup/functions.c:1032
+#: ../plugins/fn-lookup/functions.c:1199
 #, fuzzy
 msgid ""
 "@FUNCTION=COLUMNS\n"
@@ -6238,7 +6277,7 @@ msgstr ""
 "@Indango Umumaro i Umubare Bya Inkingi in Ubuso Cyangwa Imbonerahamwe "
 "Indango Indango ni Imbonerahamwe a Indango a Urutonde Ikosa 3."
 
-#: ../plugins/fn-lookup/functions.c:1060
+#: ../plugins/fn-lookup/functions.c:1227
 #, fuzzy
 msgid ""
 "@FUNCTION=OFFSET\n"
@@ -6259,11 +6298,11 @@ msgstr ""
 "Ubuhagarike Na Ubugari Ubugari Urutonde ni a Indango a Urutonde Ubuhagarike "
 "Cyangwa Ubugari ni i Ubuhagarike Cyangwa Ubugari Bya i Indango ni"
 
-#: ../plugins/fn-lookup/functions.c:1123
+#: ../plugins/fn-lookup/functions.c:1290
 msgid "ROW:vector of row numbers."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1126
+#: ../plugins/fn-lookup/functions.c:1293
 msgid ""
 "ROW function returns a 1xN array containing the series of integers from the "
 "first row to the last row of @reference.\n"
@@ -6273,19 +6312,19 @@ msgid ""
 "#VALUE! error.\n"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1133
+#: ../plugins/fn-lookup/functions.c:1300
 msgid "ROW(A1:D3) equals {1;2;3}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1134
+#: ../plugins/fn-lookup/functions.c:1301
 msgid "ROW(1:3) equals {1;2;3}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1135
+#: ../plugins/fn-lookup/functions.c:1302
 msgid "ROW() in G13 equals 13."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1176
+#: ../plugins/fn-lookup/functions.c:1343
 #, fuzzy
 msgid ""
 "@FUNCTION=ROWS\n"
@@ -6304,7 +6343,7 @@ msgstr ""
 "@Indango Umumaro i Umubare Bya Imbariro in Ubuso Cyangwa Imbonerahamwe "
 "Indango Indango ni Imbonerahamwe a Indango a Urutonde Ikosa 7"
 
-#: ../plugins/fn-lookup/functions.c:1204
+#: ../plugins/fn-lookup/functions.c:1371
 #, fuzzy
 msgid ""
 "@FUNCTION=HYPERLINK\n"
@@ -6318,7 +6357,7 @@ msgid ""
 "@SEEALSO="
 msgstr "@Umumaro Cyangwa NIBA ni i www org"
 
-#: ../plugins/fn-lookup/functions.c:1232
+#: ../plugins/fn-lookup/functions.c:1399
 #, fuzzy
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
@@ -6590,7 +6629,7 @@ msgstr ""
 "Ibigenderwaho Umumaro ni RW i Utudirishya... A1 Imibare Na A1 3. A1 2. A1 1. "
 "A1 2."
 
-#: ../plugins/fn-math/functions.c:612
+#: ../plugins/fn-math/functions.c:615
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMIF\n"
@@ -6618,7 +6657,7 @@ msgstr ""
 "A1 Imibare Na A1 A1 50% Guteranya+ NIBA i Utudirishya... Imibare 5 3. 2. 6 "
 "Na 7 Hanyuma A1 8"
 
-#: ../plugins/fn-math/functions.c:736
+#: ../plugins/fn-math/functions.c:743
 #, fuzzy
 msgid ""
 "@FUNCTION=CEILING\n"
@@ -6639,7 +6678,7 @@ msgstr ""
 "@X Urugero Umumaro X Hejuru Kuri i Igikubo Bya Urugero X Cyangwa Urugero ni "
 "Bikurikije umubare Ikosa X Na Urugero Ikosa Umumaro ni 2. 1. 3. 3."
 
-#: ../plugins/fn-math/functions.c:777
+#: ../plugins/fn-math/functions.c:784
 #, fuzzy
 msgid ""
 "@FUNCTION=COS\n"
@@ -6656,7 +6695,7 @@ msgid ""
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr "@X Umumaro i Cosinisi Bya X X ni in RADIYA Umumaro ni 0 5 0 1. 0"
 
-#: ../plugins/fn-math/functions.c:804
+#: ../plugins/fn-math/functions.c:811
 #, fuzzy
 msgid ""
 "@FUNCTION=COSH\n"
@@ -6678,7 +6717,7 @@ msgstr ""
 "@X Umumaro i Cosinisi Bya X ni EXP X EXP X 2. X ni in RADIYA Umumaro ni 0 5 "
 "1. 1. 1."
 
-#: ../plugins/fn-math/functions.c:832
+#: ../plugins/fn-math/functions.c:839
 #, fuzzy
 msgid ""
 "@FUNCTION=DEGREES\n"
@@ -6694,7 +6733,7 @@ msgid ""
 "@SEEALSO=RADIANS, PI"
 msgstr "@X i Umubare Bya Dogere Kuri X RADIYA Umumaro ni 2. 5"
 
-#: ../plugins/fn-math/functions.c:859
+#: ../plugins/fn-math/functions.c:866
 #, fuzzy
 msgid ""
 "@FUNCTION=EXP\n"
@@ -6711,7 +6750,7 @@ msgid ""
 msgstr ""
 "@X i Agaciro Bya E i SHINGIRO Bya Kuri i UMWIKUBE Bya X Umumaro ni 2. 7"
 
-#: ../plugins/fn-math/functions.c:885
+#: ../plugins/fn-math/functions.c:892
 #, fuzzy
 msgid ""
 "@FUNCTION=EXPM1\n"
@@ -6725,7 +6764,7 @@ msgid ""
 "@SEEALSO=EXP, LN1P"
 msgstr "@X X 1. Na: i Inzira 0 01 0"
 
-#: ../plugins/fn-math/functions.c:909
+#: ../plugins/fn-math/functions.c:916
 #, fuzzy
 msgid ""
 "@FUNCTION=FACT\n"
@@ -6741,7 +6780,7 @@ msgid ""
 "@SEEALSO="
 msgstr "@X i Fagitoriyeri Bya X X Umumaro ni 3. 6 9"
 
-#: ../plugins/fn-math/functions.c:948
+#: ../plugins/fn-math/functions.c:955
 #, fuzzy
 msgid ""
 "@FUNCTION=BETA\n"
@@ -6759,7 +6798,7 @@ msgid ""
 "@SEEALSO=BETALN,GAMMALN"
 msgstr "@50%."
 
-#: ../plugins/fn-math/functions.c:981
+#: ../plugins/fn-math/functions.c:988
 #, fuzzy
 msgid ""
 "@FUNCTION=BETALN\n"
@@ -6775,7 +6814,7 @@ msgid ""
 "@SEEALSO=BETA,GAMMALN"
 msgstr "@50%."
 
-#: ../plugins/fn-math/functions.c:1013
+#: ../plugins/fn-math/functions.c:1020
 #, fuzzy
 msgid ""
 "@FUNCTION=COMBIN\n"
@@ -6796,40 +6835,40 @@ msgstr ""
 "@N K i Umubare Bya iyi Umumaro ku a Umubare wuzuye Cyangwa a Umubare Ikosa N "
 "ni Birutwa K Ikosa Umumaro ni 8 6 6 2. 15"
 
-#: ../plugins/fn-math/functions.c:1048
+#: ../plugins/fn-math/functions.c:1055
 msgid "FLOOR:rounds down."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1049
+#: ../plugins/fn-math/functions.c:1056
 msgid "x:value."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1050
+#: ../plugins/fn-math/functions.c:1057
 msgid "significance:base multiple (defaults to 1 for @x > 0 and -1 for @x <0)"
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1052
+#: ../plugins/fn-math/functions.c:1059
 msgid ""
 "FLOOR function rounds @x down to the next nearest multiple of @significance."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1054
+#: ../plugins/fn-math/functions.c:1061
 msgid "FLOOR(0.5) equals 0."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1055
+#: ../plugins/fn-math/functions.c:1062
 msgid "FLOOR(5,2) equals 4."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1056
+#: ../plugins/fn-math/functions.c:1063
 msgid "FLOOR(-5,-2) equals -4."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1057
+#: ../plugins/fn-math/functions.c:1064
 msgid "FLOOR(-5,2) equals #NUM!."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:1084
+#: ../plugins/fn-math/functions.c:1091
 #, fuzzy
 msgid ""
 "@FUNCTION=INT\n"
@@ -6846,7 +6885,7 @@ msgid ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 msgstr "@a Umumaro i Kinini Umubare wuzuye ni OYA Umumaro ni 7 2. 7 5 5 6"
 
-#: ../plugins/fn-math/functions.c:1112
+#: ../plugins/fn-math/functions.c:1119
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
@@ -6866,7 +6905,7 @@ msgstr ""
 "@X SHINGIRO i Logaritimu Bya X in i SHINGIRO SHINGIRO Oya SHINGIRO ni i "
 "Logaritimu in SHINGIRO 10 SHINGIRO 0 Na bingana 1. Umumaro ni 2. 0 2."
 
-#: ../plugins/fn-math/functions.c:1149
+#: ../plugins/fn-math/functions.c:1156
 #, fuzzy
 msgid ""
 "@FUNCTION=LN\n"
@@ -6882,7 +6921,7 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr "@X i Logaritimu Bya X X 0 Ikosa Umumaro ni 7 1."
 
-#: ../plugins/fn-math/functions.c:1181
+#: ../plugins/fn-math/functions.c:1188
 #, fuzzy
 msgid ""
 "@FUNCTION=LN1P\n"
@@ -6898,7 +6937,7 @@ msgid ""
 "@SEEALSO=LN, EXPM1"
 msgstr "@X 1. X Na: i Inzira X 1. Ikosa 0 01 0"
 
-#: ../plugins/fn-math/functions.c:1213
+#: ../plugins/fn-math/functions.c:1220
 #, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
@@ -6920,7 +6959,7 @@ msgstr ""
 "@X Y i Agaciro Bya X Kuri i UMWIKUBE Y Byombi X Na Y Kuri 0 Ikosa X 0 Na Y 0 "
 "0 Ikosa X 0 Na Y ni Umubare wuzuye Ikosa Umumaro ni 2. 7 3. 3."
 
-#: ../plugins/fn-math/functions.c:1252
+#: ../plugins/fn-math/functions.c:1259
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG2\n"
@@ -6935,7 +6974,7 @@ msgid ""
 "@SEEALSO=EXP, LOG10, LOG"
 msgstr "@X i SHINGIRO 2. Logaritimu Bya X X 0 Ikosa 10"
 
-#: ../plugins/fn-math/functions.c:1282
+#: ../plugins/fn-math/functions.c:1289
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG10\n"
@@ -6951,7 +6990,7 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr "@X i SHINGIRO 10 Logaritimu Bya X X 0 Ikosa Umumaro ni 7 0"
 
-#: ../plugins/fn-math/functions.c:1313
+#: ../plugins/fn-math/functions.c:1320
 #, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
@@ -6970,7 +7009,7 @@ msgstr ""
 "@Umubare Ikigabanya Umumaro i Ryari: Ikigabanya ni Umubare 0 NIBA Ikigabanya "
 "ni Zeru Umumaro ni 7 2."
 
-#: ../plugins/fn-math/functions.c:1366
+#: ../plugins/fn-math/functions.c:1373
 #, fuzzy
 msgid ""
 "@FUNCTION=RADIANS\n"
@@ -6986,7 +7025,7 @@ msgid ""
 "@SEEALSO=PI,DEGREES"
 msgstr "@X i Umubare Bya RADIYA Kuri X Dogere Umumaro ni 3."
 
-#: ../plugins/fn-math/functions.c:1393
+#: ../plugins/fn-math/functions.c:1400
 #, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
@@ -7002,7 +7041,7 @@ msgid ""
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr "@X Umumaro i Sinisi Bya X X ni in RADIYA Umumaro ni 0 5 0"
 
-#: ../plugins/fn-math/functions.c:1419
+#: ../plugins/fn-math/functions.c:1426
 #, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
@@ -7020,7 +7059,7 @@ msgid ""
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr "@X Umumaro i Sinisi Bya X ni EXP X EXP X 2. Umumaro ni 0 5 0"
 
-#: ../plugins/fn-math/functions.c:1446
+#: ../plugins/fn-math/functions.c:1453
 #, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
@@ -7036,7 +7075,7 @@ msgid ""
 "@SEEALSO=POWER"
 msgstr "@X Umumaro i kare Imizi Bya X X ni Ikosa Umumaro ni 2. 1."
 
-#: ../plugins/fn-math/functions.c:1477
+#: ../plugins/fn-math/functions.c:1484
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMA\n"
@@ -7059,7 +7098,7 @@ msgstr ""
 "Cyangwa i Kuri ni Nka Agaciro Zeru 0 i Kuri ni Nka 1. RW i Utudirishya... A1 "
 "Imibare 15 21 Na A1"
 
-#: ../plugins/fn-math/functions.c:1512
+#: ../plugins/fn-math/functions.c:1519
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMSQ\n"
@@ -7079,7 +7118,7 @@ msgstr ""
 "@i Igiteranyo Bya i kare Bya Byose i Uduciro Na Utudirishya... in i Urutonde "
 "Umumaro ni RW i Utudirishya... A1 Imibare 15 21 Na A1"
 
-#: ../plugins/fn-math/functions.c:1546
+#: ../plugins/fn-math/functions.c:1553
 #, fuzzy
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
@@ -7097,7 +7136,7 @@ msgstr ""
 "@i Bya i Fagitoriyeri Bya a Igiteranyo Bya Uduciro Kuri i IGIKUBO Bya "
 "Umumaro ni 2. 3. 4."
 
-#: ../plugins/fn-math/functions.c:1578
+#: ../plugins/fn-math/functions.c:1585
 #, fuzzy
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
@@ -7115,7 +7154,7 @@ msgstr ""
 "@i IGIKUBO Bya Byose i Uduciro Na Utudirishya... in i Urutonde "
 "Utudirishya... Na i ubusa IGIKUBO ni 1. 2. 5 9"
 
-#: ../plugins/fn-math/functions.c:1609
+#: ../plugins/fn-math/functions.c:1616
 #, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
@@ -7131,7 +7170,7 @@ msgid ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr "@X Umumaro i Tanjante Bya X X ni in RADIYA Umumaro ni 3. 0"
 
-#: ../plugins/fn-math/functions.c:1635
+#: ../plugins/fn-math/functions.c:1642
 #, fuzzy
 msgid ""
 "@FUNCTION=TANH\n"
@@ -7149,7 +7188,7 @@ msgid ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr "@X Umumaro i Tanjante Bya X ni Nka SINH X COSH X Umumaro ni 2. 0"
 
-#: ../plugins/fn-math/functions.c:1661
+#: ../plugins/fn-math/functions.c:1668
 #, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
@@ -7168,7 +7207,7 @@ msgstr ""
 "@Imimaro i Agaciro Bya PI Umumaro ni Na: Oya ingingo Umumaro ni PI Na: a "
 "Ibyerekeye 3."
 
-#: ../plugins/fn-math/functions.c:1689
+#: ../plugins/fn-math/functions.c:1696
 #, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
@@ -7187,7 +7226,7 @@ msgid ""
 "@SEEALSO=INT"
 msgstr "@1.."
 
-#: ../plugins/fn-math/functions.c:1735
+#: ../plugins/fn-math/functions.c:1742
 #, fuzzy
 msgid ""
 "@FUNCTION=EVEN\n"
@@ -7206,7 +7245,7 @@ msgstr ""
 "@Umubare Umumaro i Umubare Biburungushuye Hejuru Kuri i ATARIIGIHARWE "
 "Umubare wuzuye Imibare Biburungushuye Hasi Umumaro ni 5 4. 6 5 4. 6"
 
-#: ../plugins/fn-math/functions.c:1779
+#: ../plugins/fn-math/functions.c:1786
 #, fuzzy
 msgid ""
 "@FUNCTION=ODD\n"
@@ -7225,7 +7264,7 @@ msgstr ""
 "@Umubare Umumaro i Umubare Biburungushuye Hejuru Kuri i IGIHARWE Umubare "
 "wuzuye Imibare Biburungushuye Hasi Umumaro ni 4. 4. 5 4. 4. 5"
 
-#: ../plugins/fn-math/functions.c:1823
+#: ../plugins/fn-math/functions.c:1830
 #, fuzzy
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
@@ -7243,7 +7282,7 @@ msgid ""
 "@SEEALSO=FACT"
 msgstr "@E. X."
 
-#: ../plugins/fn-math/functions.c:1870
+#: ../plugins/fn-math/functions.c:1877
 #, fuzzy
 msgid ""
 "@FUNCTION=FIB\n"
@@ -7261,7 +7300,7 @@ msgstr ""
 "@Umubare Umumaro Imibare Umubare ni OYA Umubare wuzuye ni Umubare ni Cyangwa "
 "Zeru Ikosa 12"
 
-#: ../plugins/fn-math/functions.c:1921
+#: ../plugins/fn-math/functions.c:1928
 #, fuzzy
 msgid ""
 "@FUNCTION=QUOTIENT\n"
@@ -7279,7 +7318,7 @@ msgstr ""
 "@Ikibara Icyita Umumaro i Umubare wuzuye Bya a Ikibara ni i Umubare Na "
 "Icyita ni i Ikigabanya Umumaro ni 5 4."
 
-#: ../plugins/fn-math/functions.c:1954
+#: ../plugins/fn-math/functions.c:1961
 #, fuzzy
 msgid ""
 "@FUNCTION=SIGN\n"
@@ -7299,7 +7338,7 @@ msgstr ""
 "@Umubare Umumaro 1. NIBA i Umubare ni Zeru NIBA i Umubare ni 0 Na 1. NIBA i "
 "Umubare ni Umumaro ni 3. 1. 3. 1. 0 0"
 
-#: ../plugins/fn-math/functions.c:1989
+#: ../plugins/fn-math/functions.c:1996
 #, fuzzy
 msgid ""
 "@FUNCTION=SQRTPI\n"
@@ -7315,7 +7354,7 @@ msgid ""
 "@SEEALSO=PI"
 msgstr "@Umubare Umumaro i kare Imizi Bya a Umubare ku PI Umumaro ni 2. 2."
 
-#: ../plugins/fn-math/functions.c:2020
+#: ../plugins/fn-math/functions.c:2027
 #, fuzzy
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
@@ -7342,7 +7381,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDUP"
 msgstr "@1.. 0."
 
-#: ../plugins/fn-math/functions.c:2057
+#: ../plugins/fn-math/functions.c:2064
 #, fuzzy
 msgid ""
 "@FUNCTION=ROUND\n"
@@ -7368,7 +7407,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr "@2.. 0."
 
-#: ../plugins/fn-math/functions.c:2111
+#: ../plugins/fn-math/functions.c:2118
 #, fuzzy
 msgid ""
 "@FUNCTION=ROUNDUP\n"
@@ -7395,7 +7434,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDDOWN"
 msgstr "@2.. 0."
 
-#: ../plugins/fn-math/functions.c:2172
+#: ../plugins/fn-math/functions.c:2179
 #, fuzzy
 msgid ""
 "@FUNCTION=MROUND\n"
@@ -7415,7 +7454,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr "@8. 12."
 
-#: ../plugins/fn-math/functions.c:2229
+#: ../plugins/fn-math/functions.c:2236
 #, fuzzy
 msgid ""
 "@FUNCTION=ROMAN\n"
@@ -7445,7 +7484,7 @@ msgstr ""
 "Ubwoko 2. ni Birenzeho Ubwoko 1. Na Ubwoko 3. ni Birenzeho Ubwoko 2. 4. ni "
 "Ubwoko Umubare ni Cyangwa Biruta Ikosa Umumaro ni 1. 2. 3. 4."
 
-#: ../plugins/fn-math/functions.c:2494
+#: ../plugins/fn-math/functions.c:2501
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
@@ -7475,7 +7514,7 @@ msgstr ""
 "Umumaro ni RW i Utudirishya... A1 Imibare 15 21 Na Na i Utudirishya... "
 "Imibare Na A1"
 
-#: ../plugins/fn-math/functions.c:2611
+#: ../plugins/fn-math/functions.c:2618
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
@@ -7504,7 +7543,7 @@ msgstr ""
 "ubusa Utudirishya... Na Umubare Bya Ibyatanzwe Utudomo A Ikosa Umumaro ni RW "
 "i Utudirishya... A1 Imibare 15 21 Na Na i Utudirishya... Imibare Na A1"
 
-#: ../plugins/fn-math/functions.c:2725
+#: ../plugins/fn-math/functions.c:2732
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMXMY2\n"
@@ -7533,7 +7572,7 @@ msgstr ""
 "Utudirishya... Na Umubare Bya Ibyatanzwe Utudomo A Ikosa Umumaro ni RW i "
 "Utudirishya... A1 Imibare 15 21 Na Na i Utudirishya... Imibare Na A1"
 
-#: ../plugins/fn-math/functions.c:2841
+#: ../plugins/fn-math/functions.c:2848
 #, fuzzy
 msgid ""
 "@FUNCTION=SERIESSUM\n"
@@ -7558,7 +7597,7 @@ msgstr ""
 "Bya X ni Umumaro ni RW i Utudirishya... A1 Imibare 1. 2. 2. 3. Na 4. 3. 1. "
 "2. A1"
 
-#: ../plugins/fn-math/functions.c:2902
+#: ../plugins/fn-math/functions.c:2909
 #, fuzzy
 msgid ""
 "@FUNCTION=MINVERSE\n"
@@ -7577,7 +7616,7 @@ msgstr ""
 "@Matirise Umumaro i Matirise Bya Matirise Matirise Ikosa Matirise OYA "
 "bingana Umubare Bya Inkingi Na Imbariro Ikosa Umumaro ni"
 
-#: ../plugins/fn-math/functions.c:3047
+#: ../plugins/fn-math/functions.c:3054
 #, fuzzy
 msgid ""
 "@FUNCTION=MMULT\n"
@@ -7595,7 +7634,7 @@ msgstr ""
 "@Umumaro i Matirise IGIKUBO Bya Igisubizo ni Imbonerahamwe Na: i Umubare Bya "
 "Imbariro Nka Na i Umubare Bya Inkingi Nka Umumaro ni"
 
-#: ../plugins/fn-math/functions.c:3123
+#: ../plugins/fn-math/functions.c:3130
 #, fuzzy
 msgid ""
 "@FUNCTION=MDETERM\n"
@@ -7618,27 +7657,27 @@ msgstr ""
 "Inkingi Na Imbariro Ikosa Umumaro ni RW A1 Imibare 2. 3. 7 Na 3. 4. 2. 4. Na "
 "1. 9 4. 3. Na 2. Na 7 3. 6 Na 5 A1"
 
-#: ../plugins/fn-math/functions.c:3172
+#: ../plugins/fn-math/functions.c:3179
 msgid "SUMPRODUCT:Multiplies components and adds the results."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3174
+#: ../plugins/fn-math/functions.c:3181
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3177
+#: ../plugins/fn-math/functions.c:3184
 msgid "If an entry is not numeric, the value zero is used instead."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3178
+#: ../plugins/fn-math/functions.c:3185
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
 msgstr ""
 
-#: ../plugins/fn-math/functions.c:3180
+#: ../plugins/fn-math/functions.c:3187
 msgid ""
 "SUMPRODUCTs arguments are arrays or ranges. Attempting to use A1:A5>0 will "
 "not work, implicit intersection will kick in. Instead use --(A1:A5>0)"
@@ -9101,7 +9140,7 @@ msgid ""
 "@SEEALSO=PERCENTRANK"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:294
+#: ../plugins/fn-stat/functions.c:262
 #, fuzzy
 msgid ""
 "@FUNCTION=TRIMMEAN\n"
@@ -9124,7 +9163,7 @@ msgid ""
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
 msgstr "@1.. 2.."
 
-#: ../plugins/fn-stat/functions.c:356
+#: ../plugins/fn-stat/functions.c:317
 #, fuzzy
 msgid ""
 "@FUNCTION=COVAR\n"
@@ -9143,7 +9182,7 @@ msgid ""
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 msgstr "@7."
 
-#: ../plugins/fn-stat/functions.c:392
+#: ../plugins/fn-stat/functions.c:353
 #, fuzzy
 msgid ""
 "@FUNCTION=CORREL\n"
@@ -9162,7 +9201,7 @@ msgid ""
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 msgstr "@7."
 
-#: ../plugins/fn-stat/functions.c:428
+#: ../plugins/fn-stat/functions.c:389
 #, fuzzy
 msgid ""
 "@FUNCTION=NEGBINOMDIST\n"
@@ -9185,7 +9224,7 @@ msgstr ""
 "Ibyatunganye Na P ni i Imishobokere Bya a Ibyatunganye F Cyangwa T ni a "
 "Umubare wuzuye ni F T 1. 0 Ikosa P 0 Cyangwa P 1. Ikosa Umumaro ni 2. 5 0 0"
 
-#: ../plugins/fn-stat/functions.c:466
+#: ../plugins/fn-stat/functions.c:427
 #, fuzzy
 msgid ""
 "@FUNCTION=NORMSDIST\n"
@@ -9203,7 +9242,7 @@ msgstr ""
 "@X Umumaro i Bisanzwe Bisanzwe Ikwirakwiza... X ni i Agaciro kugirango i "
 "Ikwirakwiza... Umumaro ni 2. 0"
 
-#: ../plugins/fn-stat/functions.c:498
+#: ../plugins/fn-stat/functions.c:459
 #, fuzzy
 msgid ""
 "@FUNCTION=NORMSINV\n"
@@ -9223,7 +9262,7 @@ msgstr ""
 "@P Umumaro i Bya i Bisanzwe Bisanzwe Ikwirakwiza... P ni i Imishobokere Kuri "
 "i Bisanzwe Ikwirakwiza... P 0 Cyangwa P 1. Ikosa Umumaro ni 0 2. 0"
 
-#: ../plugins/fn-stat/functions.c:533
+#: ../plugins/fn-stat/functions.c:494
 #, fuzzy
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
@@ -9246,7 +9285,7 @@ msgstr ""
 "Bisanzwe Bya i Ikwirakwiza... 0 0 Ikosa X 0 Impuzandengo- 0 Cyangwa 0 Ikosa "
 "Umumaro ni 3. 1. 2. 0"
 
-#: ../plugins/fn-stat/functions.c:571
+#: ../plugins/fn-stat/functions.c:532
 #, fuzzy
 msgid ""
 "@FUNCTION=LOGINV\n"
@@ -9269,7 +9308,7 @@ msgstr ""
 "Ikwirakwiza... Na ni i Bisanzwe Bya i Ikwirakwiza... P 0 Cyangwa P 1. "
 "Cyangwa 0 Ikosa Umumaro ni 0 5 2. 3. 7"
 
-#: ../plugins/fn-stat/functions.c:611
+#: ../plugins/fn-stat/functions.c:572
 #, fuzzy
 msgid ""
 "@FUNCTION=FISHERINV\n"
@@ -9286,7 +9325,7 @@ msgid ""
 "@SEEALSO=FISHER"
 msgstr "@X Umumaro i Bya i Ihindurwa ku X X ni Umubare Ikosa Umumaro ni 2. 0"
 
-#: ../plugins/fn-stat/functions.c:641
+#: ../plugins/fn-stat/functions.c:602
 #, fuzzy
 msgid ""
 "@FUNCTION=MODE\n"
@@ -9306,7 +9345,7 @@ msgid ""
 "@SEEALSO=AVERAGE,MEDIAN"
 msgstr "@1.. 4.."
 
-#: ../plugins/fn-stat/functions.c:679
+#: ../plugins/fn-stat/functions.c:640
 #, fuzzy
 msgid ""
 "@FUNCTION=HARMEAN\n"
@@ -9324,7 +9363,7 @@ msgid ""
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:713
+#: ../plugins/fn-stat/functions.c:674
 #, fuzzy
 msgid ""
 "@FUNCTION=GEOMEAN\n"
@@ -9342,7 +9381,7 @@ msgid ""
 "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:746
+#: ../plugins/fn-stat/functions.c:707
 #, fuzzy
 msgid ""
 "@FUNCTION=COUNT\n"
@@ -9360,7 +9399,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:791
+#: ../plugins/fn-stat/functions.c:752
 #, fuzzy
 msgid ""
 "@FUNCTION=COUNTA\n"
@@ -9378,7 +9417,7 @@ msgid ""
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:835
+#: ../plugins/fn-stat/functions.c:796
 #, fuzzy
 msgid ""
 "@FUNCTION=AVERAGE\n"
@@ -9397,7 +9436,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr "@1.. 2.."
 
-#: ../plugins/fn-stat/functions.c:869
+#: ../plugins/fn-stat/functions.c:830
 #, fuzzy
 msgid ""
 "@FUNCTION=MIN\n"
@@ -9416,7 +9455,7 @@ msgid ""
 "@SEEALSO=MAX,ABS"
 msgstr "@1.. 4.."
 
-#: ../plugins/fn-stat/functions.c:913
+#: ../plugins/fn-stat/functions.c:875
 #, fuzzy
 msgid ""
 "@FUNCTION=MAX\n"
@@ -9435,7 +9474,7 @@ msgid ""
 "@SEEALSO=MIN,ABS"
 msgstr "@1.. 1.."
 
-#: ../plugins/fn-stat/functions.c:957
+#: ../plugins/fn-stat/functions.c:920
 #, fuzzy
 msgid ""
 "@FUNCTION=SKEW\n"
@@ -9459,7 +9498,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 msgstr "@g. 1.."
 
-#: ../plugins/fn-stat/functions.c:997
+#: ../plugins/fn-stat/functions.c:960
 #, fuzzy
 msgid ""
 "@FUNCTION=SKEWP\n"
@@ -9477,7 +9516,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:1032
+#: ../plugins/fn-stat/functions.c:995
 #, fuzzy
 msgid ""
 "@FUNCTION=EXPONDIST\n"
@@ -9502,7 +9541,7 @@ msgstr ""
 "@X Y Umumaro i Ikwirakwiza... i Icyungo ni SIBYO Garuka Y EXP Y X EXP Y X X "
 "0 Cyangwa Y 0 iyi Garuka Ikosa Umumaro ni 2. 4. 0 0"
 
-#: ../plugins/fn-stat/functions.c:1072
+#: ../plugins/fn-stat/functions.c:1035
 #, fuzzy
 msgid ""
 "@FUNCTION=BERNOULLI\n"
@@ -9519,7 +9558,7 @@ msgid ""
 "@SEEALSO=RANDBERNOULLI"
 msgstr "@5."
 
-#: ../plugins/fn-stat/functions.c:1117
+#: ../plugins/fn-stat/functions.c:1080
 #, fuzzy
 msgid ""
 "@FUNCTION=GAMMALN\n"
@@ -9539,7 +9578,7 @@ msgstr ""
 "@X Umumaro i Logaritimu Bya i Gama Umumaro X ni Umubare Hanyuma Ikosa X 0 "
 "Hanyuma Ikosa Umumaro ni"
 
-#: ../plugins/fn-stat/functions.c:1157
+#: ../plugins/fn-stat/functions.c:1120
 #, fuzzy
 msgid ""
 "@FUNCTION=GAMMADIST\n"
@@ -9560,7 +9599,7 @@ msgstr ""
 "@X Alufa beta Umumaro i Gama Ikwirakwiza... ni i Gama Umumaro i Imishobokere "
 "Umumaro X 0 Ikosa Alufa 0 Cyangwa beta 0 Ikosa Umumaro ni 1. 2. 3. 0 0"
 
-#: ../plugins/fn-stat/functions.c:1198
+#: ../plugins/fn-stat/functions.c:1161
 #, fuzzy
 msgid ""
 "@FUNCTION=GAMMAINV\n"
@@ -9580,7 +9619,7 @@ msgstr ""
 "@P Alufa beta Umumaro i Bya i Gama Ikwirakwiza... P 0 Cyangwa P 1. Ikosa "
 "Alufa 0 Cyangwa beta 0 Ikosa Umumaro ni 0 2. 4. 4."
 
-#: ../plugins/fn-stat/functions.c:1236
+#: ../plugins/fn-stat/functions.c:1199
 #, fuzzy
 msgid ""
 "@FUNCTION=CHIDIST\n"
@@ -9600,7 +9639,7 @@ msgstr ""
 "@X Umumaro i Imishobokere Bya i ci Ikwirakwiza... ni i Umubare Bya Dogere "
 "Bya ni Umubare wuzuye ni 1. Ikosa Umumaro ni 5 3. 2. 0"
 
-#: ../plugins/fn-stat/functions.c:1272
+#: ../plugins/fn-stat/functions.c:1235
 #, fuzzy
 msgid ""
 "@FUNCTION=CHIINV\n"
@@ -9619,7 +9658,7 @@ msgstr ""
 "@P Umumaro i Bya i Imishobokere Bya i ci Ikwirakwiza... P 0 Cyangwa P 1. "
 "Cyangwa 1. Ikosa Umumaro ni 0 7 1."
 
-#: ../plugins/fn-stat/functions.c:1306
+#: ../plugins/fn-stat/functions.c:1269
 #, fuzzy
 msgid ""
 "@FUNCTION=CHITEST\n"
@@ -9641,7 +9680,7 @@ msgstr ""
 "Ibyatanzwe Utudomo ni a Urutonde Kirimo i Ikitezwe: Uduciro Bya i Ibyatanzwe "
 "Utudomo Umumaro ni"
 
-#: ../plugins/fn-stat/functions.c:1401
+#: ../plugins/fn-stat/functions.c:1364
 #, fuzzy
 msgid ""
 "@FUNCTION=BETADIST\n"
@@ -9665,7 +9704,7 @@ msgstr ""
 "Cyangwa X B Ikosa Alufa 0 Cyangwa beta 0 Ikosa a B Ikosa Umumaro ni 0 12 2. "
 "3. 0"
 
-#: ../plugins/fn-stat/functions.c:1447
+#: ../plugins/fn-stat/functions.c:1410
 #, fuzzy
 msgid ""
 "@FUNCTION=BETAINV\n"
@@ -9691,7 +9730,7 @@ msgstr ""
 "Cyangwa P 1. Ikosa Alufa 0 Cyangwa beta 0 Ikosa a B Ikosa Umumaro ni 0 1. 6 "
 "1. 0"
 
-#: ../plugins/fn-stat/functions.c:1491
+#: ../plugins/fn-stat/functions.c:1454
 #, fuzzy
 msgid ""
 "@FUNCTION=TDIST\n"
@@ -9720,7 +9759,7 @@ msgstr ""
 "Ikwirakwiza... 1. i Ingano Bya i Iburyo: 1. Ikosa ni 1. Cyangwa 2. Ikosa "
 "Umumaro ni kugirango X 2. 5 1. 0 2. 5 1. 0 0 5 2. 1."
 
-#: ../plugins/fn-stat/functions.c:1536
+#: ../plugins/fn-stat/functions.c:1499
 #, fuzzy
 msgid ""
 "@FUNCTION=TINV\n"
@@ -9743,7 +9782,7 @@ msgstr ""
 "@P Umumaro i Bya i T Ikwirakwiza... P 0 Cyangwa P 1. Cyangwa 1. Ikosa "
 "Umumaro ni 0 4. 0"
 
-#: ../plugins/fn-stat/functions.c:1580
+#: ../plugins/fn-stat/functions.c:1543
 #, fuzzy
 msgid ""
 "@FUNCTION=FDIST\n"
@@ -9764,7 +9803,7 @@ msgstr ""
 "@X Umumaro i Imishobokere Ikwirakwiza... ni i Ikibara Dogere Bya Na ni i "
 "Icyita Dogere Bya X 0 Ikosa 1. Cyangwa 1. Ikosa Umumaro ni 2. 5 5 0"
 
-#: ../plugins/fn-stat/functions.c:1617
+#: ../plugins/fn-stat/functions.c:1580
 #, fuzzy
 msgid ""
 "@FUNCTION=LANDAU\n"
@@ -9778,7 +9817,7 @@ msgid ""
 msgstr ""
 "@X i Imishobokere P X ku X kugirango i Ikwirakwiza... ikoresha Uburyo 0"
 
-#: ../plugins/fn-stat/functions.c:1762
+#: ../plugins/fn-stat/functions.c:1725
 #, fuzzy
 msgid ""
 "@FUNCTION=FINV\n"
@@ -9798,7 +9837,7 @@ msgstr ""
 "@P Umumaro i Bya i Imishobokere Ikwirakwiza... P 0 Cyangwa P 1. Ikosa 1. "
 "Cyangwa 1. Ikosa Umumaro ni 0 2. 2. 4. 2."
 
-#: ../plugins/fn-stat/functions.c:1798
+#: ../plugins/fn-stat/functions.c:1761
 #, fuzzy
 msgid ""
 "@FUNCTION=BINOMDIST\n"
@@ -9825,7 +9864,7 @@ msgstr ""
 "0 Kuri N N Cyangwa Amagerageza Umubare wuzuye N 0 Cyangwa Amagerageza 0 "
 "Ikosa N Amagerageza Ikosa P 0 Cyangwa P 1. Ikosa Umumaro ni 3. 5 0 8 0 0"
 
-#: ../plugins/fn-stat/functions.c:1843
+#: ../plugins/fn-stat/functions.c:1806
 #, fuzzy
 msgid ""
 "@FUNCTION=CAUCHY\n"
@@ -9844,7 +9883,7 @@ msgstr ""
 "@X a i Ikwirakwiza... Na: Gupima a ni i Ikwirakwiza... a 0 Ikosa Na Ikosa 0 "
 "1. 0"
 
-#: ../plugins/fn-stat/functions.c:1881
+#: ../plugins/fn-stat/functions.c:1844
 #, fuzzy
 msgid ""
 "@FUNCTION=CRITBINOM\n"
@@ -9866,7 +9905,7 @@ msgid ""
 "@SEEALSO=BINOMDIST"
 msgstr "@50%."
 
-#: ../plugins/fn-stat/functions.c:1921
+#: ../plugins/fn-stat/functions.c:1884
 #, fuzzy
 msgid ""
 "@FUNCTION=PERMUT\n"
@@ -9886,7 +9925,7 @@ msgstr ""
 "@N K Umumaro i Umubare Bya N ni i Umubare Bya Ibintu K ni i Umubare Bya "
 "Ibintu in N 0 Ikosa N K Ikosa Umumaro ni 7 3."
 
-#: ../plugins/fn-stat/functions.c:1957
+#: ../plugins/fn-stat/functions.c:1920
 #, fuzzy
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
@@ -9913,7 +9952,7 @@ msgstr ""
 "Bitari ngombwa ni i Ibumoso: X N Cyangwa ni a Umubare wuzuye ni X N Cyangwa "
 "0 Ikosa X Cyangwa N Ikosa Umumaro ni 1. 2. 3. 10 0"
 
-#: ../plugins/fn-stat/functions.c:2004
+#: ../plugins/fn-stat/functions.c:1967
 #, fuzzy
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
@@ -9936,7 +9975,7 @@ msgstr ""
 "Urugero urwego ni i Bisanzwe Na Ingano ni i Ingano Bya i Urugero Ingano ni "
 "Umubare wuzuye ni Ingano 0 Ikosa Ingano ni 0 0 Ikosa Umumaro ni 0 05 1. 0"
 
-#: ../plugins/fn-stat/functions.c:2042
+#: ../plugins/fn-stat/functions.c:2005
 #, fuzzy
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
@@ -9954,7 +9993,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr "@25%."
 
-#: ../plugins/fn-stat/functions.c:2079
+#: ../plugins/fn-stat/functions.c:2042
 #, fuzzy
 msgid ""
 "@FUNCTION=WEIBULL\n"
@@ -9981,7 +10020,7 @@ msgstr ""
 "beta Alufa Alufa beta Alufa X Alufa 1. EXP X beta Alufa X 0 Ikosa Alufa 0 "
 "Cyangwa beta 0 Ikosa Umumaro ni 3. 2. 4. 0 0"
 
-#: ../plugins/fn-stat/functions.c:2121
+#: ../plugins/fn-stat/functions.c:2084
 #, fuzzy
 msgid ""
 "@FUNCTION=NORMDIST\n"
@@ -10005,7 +10044,7 @@ msgstr ""
 "i Ikwirakwiza... Impuzandengo- ni i Impuzandengo- Bya i Ikwirakwiza... ni i "
 "Bisanzwe ni 0 0 Ikosa Umumaro ni 2. 1. 2. 0 0"
 
-#: ../plugins/fn-stat/functions.c:2167
+#: ../plugins/fn-stat/functions.c:2130
 #, fuzzy
 msgid ""
 "@FUNCTION=NORMINV\n"
@@ -10028,7 +10067,7 @@ msgstr ""
 "Ikwirakwiza... Na ni i Bisanzwe Bya i Ikwirakwiza... P 0 Cyangwa P 1. "
 "Cyangwa 0 Ikosa Umumaro ni 0 2. 3. 4."
 
-#: ../plugins/fn-stat/functions.c:2206
+#: ../plugins/fn-stat/functions.c:2169
 #, fuzzy
 msgid ""
 "@FUNCTION=KURT\n"
@@ -10052,7 +10091,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:2247
+#: ../plugins/fn-stat/functions.c:2210
 #, fuzzy
 msgid ""
 "@FUNCTION=KURTP\n"
@@ -10071,7 +10110,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:2282
+#: ../plugins/fn-stat/functions.c:2245
 #, fuzzy
 msgid ""
 "@FUNCTION=AVEDEV\n"
@@ -10089,7 +10128,7 @@ msgid ""
 "@SEEALSO=STDEV"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:2315
+#: ../plugins/fn-stat/functions.c:2278
 #, fuzzy
 msgid ""
 "@FUNCTION=DEVSQ\n"
@@ -10108,7 +10147,7 @@ msgid ""
 "@SEEALSO=STDEV"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:2350
+#: ../plugins/fn-stat/functions.c:2313
 #, fuzzy
 msgid ""
 "@FUNCTION=FISHER\n"
@@ -10127,7 +10166,7 @@ msgstr ""
 "@X Umumaro i Ihindurwa ku X X ni OYA a Umubare Ikosa X 1. Cyangwa X 1. Ikosa "
 "Umumaro ni 0 0"
 
-#: ../plugins/fn-stat/functions.c:2388
+#: ../plugins/fn-stat/functions.c:2351
 #, fuzzy
 msgid ""
 "@FUNCTION=POISSON\n"
@@ -10151,7 +10190,7 @@ msgstr ""
 "Igiteranyo Bya i Umumaro Bivuye 0 Kuri X X ni a Umubare wuzuye ni X 0 Ikosa "
 "Impuzandengo- 0 i Ikosa Umumaro ni 3. 6 0 0"
 
-#: ../plugins/fn-stat/functions.c:2430
+#: ../plugins/fn-stat/functions.c:2393
 #, fuzzy
 msgid ""
 "@FUNCTION=PEARSON\n"
@@ -10167,7 +10206,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 msgstr "@i Bya Ibyatanzwe Na ubusa Utudirishya... Umumaro ni"
 
-#: ../plugins/fn-stat/functions.c:2458
+#: ../plugins/fn-stat/functions.c:2421
 #, fuzzy
 msgid ""
 "@FUNCTION=RSQ\n"
@@ -10183,7 +10222,7 @@ msgid ""
 "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 msgstr "@i kare Bya i Bya Ibyatanzwe Na ubusa Utudirishya... Umumaro ni"
 
-#: ../plugins/fn-stat/functions.c:2492
+#: ../plugins/fn-stat/functions.c:2455
 #, fuzzy
 msgid ""
 "@FUNCTION=MEDIAN\n"
@@ -10203,7 +10242,7 @@ msgid ""
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SSMEDIAN,SUM"
 msgstr "@1.. 3.."
 
-#: ../plugins/fn-stat/functions.c:2528
+#: ../plugins/fn-stat/functions.c:2492
 #, fuzzy
 msgid ""
 "@FUNCTION=SSMEDIAN\n"
@@ -10226,7 +10265,7 @@ msgid ""
 "@SEEALSO=MEDIAN"
 msgstr "@75."
 
-#: ../plugins/fn-stat/functions.c:2634
+#: ../plugins/fn-stat/functions.c:2598
 #, fuzzy
 msgid ""
 "@FUNCTION=LARGE\n"
@@ -10247,7 +10286,7 @@ msgid ""
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 msgstr "@1.. 9. 3.."
 
-#: ../plugins/fn-stat/functions.c:2685
+#: ../plugins/fn-stat/functions.c:2654
 #, fuzzy
 msgid ""
 "@FUNCTION=SMALL\n"
@@ -10268,7 +10307,7 @@ msgid ""
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 msgstr "@1.. 3.. 9."
 
-#: ../plugins/fn-stat/functions.c:2762
+#: ../plugins/fn-stat/functions.c:2736
 #, fuzzy
 msgid ""
 "@FUNCTION=PROB\n"
@@ -10293,7 +10332,7 @@ msgstr ""
 "ni OYA bingana Kuri 1. Ikosa Agaciro in ni 0 Cyangwa 1. Ikosa Na a Umubare "
 "Bya Ibyatanzwe Ibyinjijwe A Ikosa Umumaro ni"
 
-#: ../plugins/fn-stat/functions.c:2857
+#: ../plugins/fn-stat/functions.c:2831
 #, fuzzy
 msgid ""
 "@FUNCTION=STEYX\n"
@@ -10314,14 +10353,15 @@ msgid ""
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 msgstr "@7."
 
-#: ../plugins/fn-stat/functions.c:3015
+#: ../plugins/fn-stat/functions.c:2989
 #, fuzzy
 msgid ""
 "@FUNCTION=ZTEST\n"
-"@SYNTAX=ZTEST(ref,x)\n"
+"@SYNTAX=ZTEST(ref,x[,stddev])\n"
 "@DESCRIPTION=ZTEST returns the two-tailed probability of a z-test.\n"
 "\n"
 "@ref is the data set and @x is the value to be tested.\n"
+"@stddev is optionally an assumed standard deviation.\n"
 "\n"
 "* If @ref contains less than two data items ZTEST returns #DIV/0! error.\n"
 "* This function is Excel compatible.\n"
@@ -10334,7 +10374,7 @@ msgid ""
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:3071
+#: ../plugins/fn-stat/functions.c:3060
 #, fuzzy
 msgid ""
 "@FUNCTION=AVERAGEA\n"
@@ -10355,7 +10395,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:3109
+#: ../plugins/fn-stat/functions.c:3098
 #, fuzzy
 msgid ""
 "@FUNCTION=MAXA\n"
@@ -10376,7 +10416,7 @@ msgid ""
 "@SEEALSO=MAX,MINA"
 msgstr "@1.. 1.."
 
-#: ../plugins/fn-stat/functions.c:3147
+#: ../plugins/fn-stat/functions.c:3137
 #, fuzzy
 msgid ""
 "@FUNCTION=MINA\n"
@@ -10397,7 +10437,7 @@ msgid ""
 "@SEEALSO=MIN,MAXA"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:3185
+#: ../plugins/fn-stat/functions.c:3176
 #, fuzzy
 msgid ""
 "@FUNCTION=VARA\n"
@@ -10422,7 +10462,7 @@ msgid ""
 "@SEEALSO=VAR,VARPA"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:3229
+#: ../plugins/fn-stat/functions.c:3220
 #, fuzzy
 msgid ""
 "@FUNCTION=VARPA\n"
@@ -10444,7 +10484,7 @@ msgid ""
 "@SEEALSO=VARA,VARP"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:3268
+#: ../plugins/fn-stat/functions.c:3259
 #, fuzzy
 msgid ""
 "@FUNCTION=STDEVA\n"
@@ -10471,7 +10511,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:3313
+#: ../plugins/fn-stat/functions.c:3304
 #, fuzzy
 msgid ""
 "@FUNCTION=STDEVPA\n"
@@ -10494,7 +10534,7 @@ msgid ""
 "@SEEALSO=STDEVA,STDEVP"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:3353
+#: ../plugins/fn-stat/functions.c:3344
 #, fuzzy
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
@@ -10524,7 +10564,7 @@ msgstr ""
 "ni Birutwa i Gitoya Agaciro in Imbonerahamwe Ikosa X OYA BIHUYE Bya i "
 "Uduciro in Imbonerahamwe Cyangwa X Birenzeho Rimwe i Agaciro"
 
-#: ../plugins/fn-stat/functions.c:3466
+#: ../plugins/fn-stat/functions.c:3453
 #, fuzzy
 msgid ""
 "@FUNCTION=PERCENTILE\n"
@@ -10545,7 +10585,7 @@ msgid ""
 "@SEEALSO=QUARTILE"
 msgstr "@1.."
 
-#: ../plugins/fn-stat/functions.c:3518
+#: ../plugins/fn-stat/functions.c:3506
 #, fuzzy
 msgid ""
 "@FUNCTION=QUARTILE\n"
@@ -10573,7 +10613,7 @@ msgid ""
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 msgstr "@1.. 3.."
 
-#: ../plugins/fn-stat/functions.c:3577
+#: ../plugins/fn-stat/functions.c:3566
 #, fuzzy
 msgid ""
 "@FUNCTION=FTEST\n"
@@ -10592,7 +10632,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr "@7."
 
-#: ../plugins/fn-stat/functions.c:3642
+#: ../plugins/fn-stat/functions.c:3631
 #, fuzzy
 msgid ""
 "@FUNCTION=TTEST\n"
@@ -10625,7 +10665,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr "@7."
 
-#: ../plugins/fn-stat/functions.c:3826
+#: ../plugins/fn-stat/functions.c:3815
 #, fuzzy
 msgid ""
 "@FUNCTION=FREQUENCY\n"
@@ -10649,7 +10689,7 @@ msgstr ""
 "Itsinda i Uduciro in i ni ubusa i Umubare Bya Ibyatanzwe Utudomo in Umumaro "
 "ni"
 
-#: ../plugins/fn-stat/functions.c:3906
+#: ../plugins/fn-stat/functions.c:3895
 #, fuzzy
 msgid ""
 "@FUNCTION=LINEST\n"
@@ -10683,7 +10723,7 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr "@E."
 
-#: ../plugins/fn-stat/functions.c:4169
+#: ../plugins/fn-stat/functions.c:4158
 #, fuzzy
 msgid ""
 "@FUNCTION=LOGREG\n"
@@ -10719,7 +10759,7 @@ msgid ""
 "@SEEALSO=LOGFIT,LINEST,LOGEST"
 msgstr "@E."
 
-#: ../plugins/fn-stat/functions.c:4439
+#: ../plugins/fn-stat/functions.c:4428
 #, fuzzy
 msgid ""
 "@FUNCTION=LOGFIT\n"
@@ -10762,7 +10802,7 @@ msgstr ""
 "By'umurongo ku Na Ikosa Bya ni Ubugari Bya X Urutonde Biburungushuye Kuri i "
 "Komeza>> Gitoya 10 Umubare wuzuye Times 0 in i ni OYA i"
 
-#: ../plugins/fn-stat/functions.c:4542
+#: ../plugins/fn-stat/functions.c:4531
 #, fuzzy
 msgid ""
 "@FUNCTION=TREND\n"
@@ -10789,7 +10829,7 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr "@E. 7. 7."
 
-#: ../plugins/fn-stat/functions.c:4660
+#: ../plugins/fn-stat/functions.c:4654
 #, fuzzy
 msgid ""
 "@FUNCTION=LOGEST\n"
@@ -10821,7 +10861,7 @@ msgid ""
 "@SEEALSO=GROWTH,TREND"
 msgstr "@E."
 
-#: ../plugins/fn-stat/functions.c:4905
+#: ../plugins/fn-stat/functions.c:4899
 #, fuzzy
 msgid ""
 "@FUNCTION=GROWTH\n"
@@ -10844,7 +10884,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr "@E."
 
-#: ../plugins/fn-stat/functions.c:5020
+#: ../plugins/fn-stat/functions.c:5021
 #, fuzzy
 msgid ""
 "@FUNCTION=FORECAST\n"
@@ -10867,7 +10907,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr "@7."
 
-#: ../plugins/fn-stat/functions.c:5094
+#: ../plugins/fn-stat/functions.c:5095
 #, fuzzy
 msgid ""
 "@FUNCTION=INTERCEPT\n"
@@ -10889,7 +10929,7 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr "@7."
 
-#: ../plugins/fn-stat/functions.c:5148
+#: ../plugins/fn-stat/functions.c:5150
 #, fuzzy
 msgid ""
 "@FUNCTION=SLOPE\n"
@@ -10907,7 +10947,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr "@7."
 
-#: ../plugins/fn-stat/functions.c:5196
+#: ../plugins/fn-stat/functions.c:5199
 #, fuzzy
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
@@ -10944,7 +10984,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr "@4.."
 
-#: ../plugins/fn-stat/functions.c:5302
+#: ../plugins/fn-stat/functions.c:5305
 #, fuzzy
 msgid ""
 "@FUNCTION=CRONBACH\n"
@@ -10964,7 +11004,7 @@ msgstr ""
 "X- Generator: KBabel 1. 0\n"
 "."
 
-#: ../plugins/fn-stat/functions.c:5424
+#: ../plugins/fn-stat/functions.c:5427
 #, fuzzy
 msgid ""
 "@FUNCTION=GEOMDIST\n"
@@ -10984,7 +11024,7 @@ msgstr ""
 "@K P i Imishobokere P K Bya K Bivuye a Ikwirakwiza... Na: Imishobokere P K 0 "
 "Ikosa P 0 Cyangwa P 1. Ikosa Na Ikosa 2. 10 4."
 
-#: ../plugins/fn-stat/functions.c:5463
+#: ../plugins/fn-stat/functions.c:5466
 #, fuzzy
 msgid ""
 "@FUNCTION=LOGISTIC\n"
@@ -10999,7 +11039,7 @@ msgid ""
 msgstr ""
 "@X a i Imishobokere P X ku X kugirango a Ikwirakwiza... Na: Gupima a 0 4. 1."
 
-#: ../plugins/fn-stat/functions.c:5502
+#: ../plugins/fn-stat/functions.c:5505
 #, fuzzy
 msgid ""
 "@FUNCTION=PARETO\n"
@@ -11015,7 +11055,7 @@ msgstr ""
 "@X a B i Imishobokere P X ku X kugirango a Ikwirakwiza... Na: a Na Gupima B "
 "0 6 1. 2."
 
-#: ../plugins/fn-stat/functions.c:5543
+#: ../plugins/fn-stat/functions.c:5546
 #, fuzzy
 msgid ""
 "@FUNCTION=RAYLEIGH\n"
@@ -11031,7 +11071,7 @@ msgstr ""
 "@X sigima i Imishobokere P X ku X kugirango a Ikwirakwiza... Na: Gupima "
 "sigima 0 4. 1."
 
-#: ../plugins/fn-stat/functions.c:5586
+#: ../plugins/fn-stat/functions.c:5589
 #, fuzzy
 msgid ""
 "@FUNCTION=RAYLEIGHTAIL\n"
@@ -11047,7 +11087,7 @@ msgstr ""
 "@X a sigima i Imishobokere P X ku X kugirango a Ikwirakwiza... Na: Gupima "
 "sigima Na Ntoya a 0 6 0 3. 1."
 
-#: ../plugins/fn-stat/functions.c:5632
+#: ../plugins/fn-stat/functions.c:5635
 #, fuzzy
 msgid ""
 "@FUNCTION=EXPPOWDIST\n"
@@ -11067,7 +11107,7 @@ msgstr ""
 "Ikwirakwiza... kugirango Ryari: a U Umumaro ni Kuri Rimwe i IGIKUBO Kuri "
 "Inyuma Nyuma a Igihe Bya Cyangwa ATARIIGIHARWE 0 4. 1. 2."
 
-#: ../plugins/fn-stat/functions.c:5671
+#: ../plugins/fn-stat/functions.c:5674
 #, fuzzy
 msgid ""
 "@FUNCTION=LAPLACE\n"

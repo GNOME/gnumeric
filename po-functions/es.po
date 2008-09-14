@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-29 15:13+0000\n"
+"POT-Creation-Date: 2008-09-14 07:39-0400\n"
 "PO-Revision-Date: 2008-08-31 16:07+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
@@ -10199,7 +10199,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNTIF,SUM"
 
-#: ../plugins/fn-math/functions.c:742
+#: ../plugins/fn-math/functions.c:743
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x[,significance])\n"
@@ -10233,7 +10233,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, FLOOR, ABS, INT, MOD"
 
-#: ../plugins/fn-math/functions.c:783
+#: ../plugins/fn-math/functions.c:784
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -10260,7 +10260,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: ../plugins/fn-math/functions.c:810
+#: ../plugins/fn-math/functions.c:811
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -10294,7 +10294,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: ../plugins/fn-math/functions.c:838
+#: ../plugins/fn-math/functions.c:839
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -10320,7 +10320,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RADIANS, PI"
 
-#: ../plugins/fn-math/functions.c:865
+#: ../plugins/fn-math/functions.c:866
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -10346,7 +10346,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: ../plugins/fn-math/functions.c:891
+#: ../plugins/fn-math/functions.c:892
 msgid ""
 "@FUNCTION=EXPM1\n"
 "@SYNTAX=EXPM1(x)\n"
@@ -10370,7 +10370,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LN1P"
 
-#: ../plugins/fn-math/functions.c:915
+#: ../plugins/fn-math/functions.c:916
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -10396,7 +10396,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-math/functions.c:954
+#: ../plugins/fn-math/functions.c:955
 msgid ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
@@ -10427,7 +10427,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETALN,GAMMALN"
 
-#: ../plugins/fn-math/functions.c:987
+#: ../plugins/fn-math/functions.c:988
 msgid ""
 "@FUNCTION=BETALN\n"
 "@SYNTAX=BETALN(a,b)\n"
@@ -10455,7 +10455,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETA,GAMMALN"
 
-#: ../plugins/fn-math/functions.c:1019
+#: ../plugins/fn-math/functions.c:1020
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -10487,44 +10487,44 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-math/functions.c:1054
+#: ../plugins/fn-math/functions.c:1055
 msgid "FLOOR:rounds down."
 msgstr "FLOOR: redondea hacia abajo."
 
-#: ../plugins/fn-math/functions.c:1055
+#: ../plugins/fn-math/functions.c:1056
 msgid "x:value."
 msgstr "x:valor."
 
-#: ../plugins/fn-math/functions.c:1056
+#: ../plugins/fn-math/functions.c:1057
 msgid "significance:base multiple (defaults to 1 for @x > 0 and -1 for @x <0)"
 msgstr ""
 "significancia: multiplo de la base (predeterminado a 1 para @x > 0 y -1 para "
 "@x < 0)"
 
-#: ../plugins/fn-math/functions.c:1058
+#: ../plugins/fn-math/functions.c:1059
 msgid ""
 "FLOOR function rounds @x down to the next nearest multiple of @significance."
 msgstr ""
 "La función FLOOR redondea @x hacia abajo al siguente entero múltiplo más "
 "cercano de @significancia"
 
-#: ../plugins/fn-math/functions.c:1060
+#: ../plugins/fn-math/functions.c:1061
 msgid "FLOOR(0.5) equals 0."
 msgstr "FLOOR (0,5) es igual a 0."
 
-#: ../plugins/fn-math/functions.c:1061
+#: ../plugins/fn-math/functions.c:1062
 msgid "FLOOR(5,2) equals 4."
 msgstr "FLOOR(5,2) es igual a 4."
 
-#: ../plugins/fn-math/functions.c:1062
+#: ../plugins/fn-math/functions.c:1063
 msgid "FLOOR(-5,-2) equals -4."
 msgstr "FLOOR(-5,-2) es igual a -4."
 
-#: ../plugins/fn-math/functions.c:1063
+#: ../plugins/fn-math/functions.c:1064
 msgid "FLOOR(-5,2) equals #NUM!."
 msgstr "FLOOR(-5,2) es igual a #NUM!."
 
-#: ../plugins/fn-math/functions.c:1090
+#: ../plugins/fn-math/functions.c:1091
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -10552,7 +10552,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
-#: ../plugins/fn-math/functions.c:1118
+#: ../plugins/fn-math/functions.c:1119
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -10582,7 +10582,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LN, LOG2, LOG10"
 
-#: ../plugins/fn-math/functions.c:1155
+#: ../plugins/fn-math/functions.c:1156
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -10608,7 +10608,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: ../plugins/fn-math/functions.c:1187
+#: ../plugins/fn-math/functions.c:1188
 msgid ""
 "@FUNCTION=LN1P\n"
 "@SYNTAX=LN1P(x)\n"
@@ -10634,7 +10634,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LN, EXPM1"
 
-#: ../plugins/fn-math/functions.c:1219
+#: ../plugins/fn-math/functions.c:1220
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -10667,7 +10667,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP"
 
-#: ../plugins/fn-math/functions.c:1258
+#: ../plugins/fn-math/functions.c:1259
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -10691,7 +10691,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: ../plugins/fn-math/functions.c:1288
+#: ../plugins/fn-math/functions.c:1289
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -10717,7 +10717,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: ../plugins/fn-math/functions.c:1319
+#: ../plugins/fn-math/functions.c:1320
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -10745,7 +10745,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, INT, ABS"
 
-#: ../plugins/fn-math/functions.c:1372
+#: ../plugins/fn-math/functions.c:1373
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -10771,7 +10771,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI,DEGREES"
 
-#: ../plugins/fn-math/functions.c:1399
+#: ../plugins/fn-math/functions.c:1400
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -10796,7 +10796,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: ../plugins/fn-math/functions.c:1425
+#: ../plugins/fn-math/functions.c:1426
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -10826,7 +10826,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: ../plugins/fn-math/functions.c:1452
+#: ../plugins/fn-math/functions.c:1453
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -10852,7 +10852,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POWER"
 
-#: ../plugins/fn-math/functions.c:1483
+#: ../plugins/fn-math/functions.c:1484
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -10884,7 +10884,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: ../plugins/fn-math/functions.c:1518
+#: ../plugins/fn-math/functions.c:1519
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -10914,7 +10914,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: ../plugins/fn-math/functions.c:1552
+#: ../plugins/fn-math/functions.c:1553
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -10940,7 +10940,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM"
 
-#: ../plugins/fn-math/functions.c:1584
+#: ../plugins/fn-math/functions.c:1585
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -10966,7 +10966,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: ../plugins/fn-math/functions.c:1615
+#: ../plugins/fn-math/functions.c:1616
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -10992,7 +10992,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: ../plugins/fn-math/functions.c:1641
+#: ../plugins/fn-math/functions.c:1642
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -11021,7 +11021,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: ../plugins/fn-math/functions.c:1667
+#: ../plugins/fn-math/functions.c:1668
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -11049,7 +11049,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SQRTPI"
 
-#: ../plugins/fn-math/functions.c:1695
+#: ../plugins/fn-math/functions.c:1696
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -11081,7 +11081,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT"
 
-#: ../plugins/fn-math/functions.c:1741
+#: ../plugins/fn-math/functions.c:1742
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -11109,7 +11109,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ODD"
 
-#: ../plugins/fn-math/functions.c:1785
+#: ../plugins/fn-math/functions.c:1786
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -11137,7 +11137,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EVEN"
 
-#: ../plugins/fn-math/functions.c:1829
+#: ../plugins/fn-math/functions.c:1830
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -11167,7 +11167,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FACT"
 
-#: ../plugins/fn-math/functions.c:1876
+#: ../plugins/fn-math/functions.c:1877
 msgid ""
 "@FUNCTION=FIB\n"
 "@SYNTAX=FIB(number)\n"
@@ -11193,7 +11193,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-math/functions.c:1927
+#: ../plugins/fn-math/functions.c:1928
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(numerator,denominator)\n"
@@ -11219,7 +11219,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MOD"
 
-#: ../plugins/fn-math/functions.c:1960
+#: ../plugins/fn-math/functions.c:1961
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -11249,7 +11249,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-math/functions.c:1995
+#: ../plugins/fn-math/functions.c:1996
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -11274,7 +11274,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI"
 
-#: ../plugins/fn-math/functions.c:2026
+#: ../plugins/fn-math/functions.c:2027
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -11320,7 +11320,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDUP"
 
-#: ../plugins/fn-math/functions.c:2063
+#: ../plugins/fn-math/functions.c:2064
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -11367,7 +11367,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
-#: ../plugins/fn-math/functions.c:2117
+#: ../plugins/fn-math/functions.c:2118
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -11415,7 +11415,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
 
-#: ../plugins/fn-math/functions.c:2178
+#: ../plugins/fn-math/functions.c:2179
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -11448,7 +11448,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
-#: ../plugins/fn-math/functions.c:2235
+#: ../plugins/fn-math/functions.c:2236
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -11495,7 +11495,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: ../plugins/fn-math/functions.c:2500
+#: ../plugins/fn-math/functions.c:2501
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -11537,7 +11537,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2PY2"
 
-#: ../plugins/fn-math/functions.c:2617
+#: ../plugins/fn-math/functions.c:2618
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -11579,7 +11579,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
 
-#: ../plugins/fn-math/functions.c:2731
+#: ../plugins/fn-math/functions.c:2732
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -11621,7 +11621,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: ../plugins/fn-math/functions.c:2847
+#: ../plugins/fn-math/functions.c:2848
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -11655,7 +11655,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: ../plugins/fn-math/functions.c:2908
+#: ../plugins/fn-math/functions.c:2909
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -11683,7 +11683,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: ../plugins/fn-math/functions.c:3053
+#: ../plugins/fn-math/functions.c:3054
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -11709,7 +11709,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: ../plugins/fn-math/functions.c:3129
+#: ../plugins/fn-math/functions.c:3130
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -11743,11 +11743,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: ../plugins/fn-math/functions.c:3178
+#: ../plugins/fn-math/functions.c:3179
 msgid "SUMPRODUCT:Multiplies components and adds the results."
 msgstr "SUMPRODUCT:Multiplica componentes y añade el resultado."
 
-#: ../plugins/fn-math/functions.c:3180
+#: ../plugins/fn-math/functions.c:3181
 msgid ""
 "Multiplies corresponding data entries in the given arrays or ranges, and "
 "then returns the sum of those products."
@@ -11755,11 +11755,11 @@ msgstr ""
 "Multiplica las entradas de datos correspondientes in los arrays dados o "
 "rangos y entonces devuelve la suma de esos productos."
 
-#: ../plugins/fn-math/functions.c:3183
+#: ../plugins/fn-math/functions.c:3184
 msgid "If an entry is not numeric, the value zero is used instead."
 msgstr "Si una entrada no es numérica, se usa el valor cero en su lugar."
 
-#: ../plugins/fn-math/functions.c:3184
+#: ../plugins/fn-math/functions.c:3185
 msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
@@ -11767,7 +11767,7 @@ msgstr ""
 "Si los argumentos arrays o el rangos no tienen la misma dimension, devolver "
 "un error #VALOR!"
 
-#: ../plugins/fn-math/functions.c:3186
+#: ../plugins/fn-math/functions.c:3187
 msgid ""
 "SUMPRODUCTs arguments are arrays or ranges. Attempting to use A1:A5>0 will "
 "not work, implicit intersection will kick in. Instead use --(A1:A5>0)"
