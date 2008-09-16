@@ -1,3 +1,9 @@
+2008-09-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-analysis-tools.c (regression_tool_update_sensitivity_cb): add forgotten 
+	  "return"
+	(histogram_tool_update_sensitivity_cb): use warning field in the dialog.
+
 2008-09-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* histogram.glade: redesign

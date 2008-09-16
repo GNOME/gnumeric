@@ -2105,7 +2105,8 @@ regression_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
 				    _("The output specification "
 				      "is invalid."));
-		gtk_widget_set_sensitive (state->base.ok_button, FALSE);		
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
 	}
 
 	gtk_label_set_text (GTK_LABEL (state->base.warning), "");
@@ -2452,26 +2453,47 @@ histogram_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
         GSList *input_range;
         GnmValue *input_range_2 = NULL;
 
-        input_range = gnm_expr_entry_parse_as_list (
-		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+	input_range = gnm_expr_entry_parse_as_list
+		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+	if (input_range == NULL) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The input range is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
+	
+	range_list_destroy (input_range);
 
 	predetermined_bins = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->predetermined_button));
-	if (predetermined_bins)
+	if (predetermined_bins) {
 		input_range_2 =  gnm_expr_entry_parse_as_value
 			(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);
+		if (input_range_2 == NULL) {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("The cutoff range is not valid."));
+			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+			return;		
+		}
+		value_release (input_range_2);
+	} else if (entry_to_int(state->n_entry, &the_n,FALSE) != 0 || the_n <= 0) {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("The number of to be calculated cutoffs is invalid."));
+			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+			return;				
+	}
+		
+        if (!gnm_dao_is_ready (GNM_DAO (state->base.gdao))) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The output specification "
+				      "is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
 
-	input_ready = (input_range != NULL);
-	bin_ready = (predetermined_bins && input_range_2 != NULL) ||
-		(!predetermined_bins && entry_to_int(state->n_entry, &the_n,FALSE) == 0
-			&& the_n > 0);
-	output_ready = gnm_dao_is_ready (GNM_DAO (state->base.gdao));
+	gtk_label_set_text (GTK_LABEL (state->base.warning), "");
+	gtk_widget_set_sensitive (state->base.ok_button, TRUE);
 
-        if (input_range != NULL) range_list_destroy (input_range);
-        if (input_range_2 != NULL) value_release (input_range_2);
-
-	ready = input_ready && bin_ready && output_ready;
-	gtk_widget_set_sensitive (state->base.ok_button, ready);
 	return;
 }
 
