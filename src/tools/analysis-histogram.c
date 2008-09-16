@@ -209,7 +209,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 
 	/* insert formulas for histogram values */
 
-	if (info->bin_type & bintype_p_inf_lower) {
+	if (info->bin_type & bintype_no_inf_lower) {
 		from = GNM_EXPR_OP_LTE;
 		to = GNM_EXPR_OP_GT;
 	} else {

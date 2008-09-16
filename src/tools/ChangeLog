@@ -1,3 +1,8 @@
+2008-09-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-histogram.c (analysis_tool_histogram_engine_run): 
+	  fix typo
+
 2008-09-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-histogram.c: completely rewritten from scratch
