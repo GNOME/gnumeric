@@ -1,5 +1,10 @@
 2008-09-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-histogram.c (analysis_tool_histogram_engine_run):
+	  use 1E99 instead of GNM_MAX to avoid #552464
+	
+2008-09-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-histogram.c (analysis_tool_histogram_engine_run): 
 	  fix typo
 
