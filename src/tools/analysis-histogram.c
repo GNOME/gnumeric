@@ -1,16 +1,14 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
-** analysis-histogram.c
-** 
-** Made by (Solarion)
-** Login   <gnumeric-hacker@digitasaru.net>
-** 
-** Started on  Mon Dec  4 20:37:18 2006 Johnny Q. Hacker
-** Last update Wed Dec  6 20:10:55 2006 Johnny Q. Hacker
-*
- * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
- * (C) Copyright 2002, 2004 by Andreas J. Guelzow  <aguelzow@taliesin.ca>
- * (C) Copyright 2006 by Solarion <gnumeric-hacker@digitasaru.net>
+ * analysis-histogram.c:
+ *
+  * This is a complete reimplementation of the histogram tool in 2008
+ *
+ * Author:
+ *   Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+ *
+ * (C) Copyright 2008 by Andreas J. Guelzow  <aguelzow@pyrshep.ca>
+ *
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,385 +23,308 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- *
- *Original version imported wholesale from analysis-tools.c
  */
 
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
-#include "mathfunc.h"
-#include "func.h"
-#include "expr.h"
-#include "position.h"
-#include "complex.h"
-#include "rangefunc.h"
-#include "tools.h"
-#include "value.h"
-#include "cell.h"
-#include "sheet.h"
-#include "ranges.h"
-#include "style.h"
-#include "regression.h"
-#include "sheet-style.h"
-#include "workbook.h"
-#include "gnm-format.h"
-#include "sheet-object-cell-comment.h"
-#include "workbook-control.h"
-#include "command-context.h"
-#include "analysis-tools.h"
 #include "analysis-histogram.h"
-#include <goffice/utils/go-glib-extras.h>
-
-#include <goffice/utils/go-glib-extras.h>
-
-#include <string.h>
-#include <stdlib.h>
-#include <math.h>
-
-/************* Histogram Tool *********************************************
- *
- * The results are given in a table which can be printed out in a new
- * sheet, in a new workbook, or simply into an existing sheet.
- *
- **/
-
-typedef struct {
-	gnm_float limit;
-	GArray     *counts;
-	char       *label;
-	gboolean   strict;
-	gboolean   first;
-	gboolean   last;
-	gboolean   destroy_label;
-} bin_t;
-
-static gint
-bin_compare (bin_t const *set_a, bin_t const *set_b)
-{
-	gnm_float a, b;
-
-	a = set_a->limit;
-	b = set_b->limit;
-
-        if (a < b)
-                return -1;
-        else if (a == b)
-                return 0;
-        else
-                return 1;
-}
-
-static gint
-bin_pareto_at_i (bin_t const *set_a, bin_t const *set_b, guint index)
-{
-	gnm_float a, b;
-
-	if (set_a->counts->len <= index)
-		return 0;
-
-	a = g_array_index (set_a->counts, gnm_float, index);
-	b = g_array_index (set_b->counts, gnm_float, index);
-
-        if (a > b)
-                return -1;
-        else if (a == b)
-                return bin_pareto_at_i (set_a, set_b, index + 1);
-        else
-                return 1;
-}
-
-static gint
-bin_pareto (bin_t const *set_a, bin_t const *set_b)
-{
-	return bin_pareto_at_i (set_a, set_b, 0);
-}
-
-static void
-destroy_items (gpointer data)
-{
-	if (((bin_t*)data)->label != NULL && ((bin_t*)data)->destroy_label)
-		g_free (((bin_t*)data)->label);
-	g_free (data);
-}
+#include "analysis-tools.h"
+#include "value.h"
+#include "ranges.h"
+#include "expr.h"
+#include "func.h"
+#include "numbers.h"
 
 static gboolean
 analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
-				    analysis_tools_data_histogram_t *info,
-				    GPtrArray **bin_data)
+				    analysis_tools_data_histogram_t *info)
 {
-	GPtrArray *data = NULL;
-	GSList *bin_list = NULL;
-	bin_t  *a_bin;
-	guint  i, j, row, col;
-	GSList * this;
-	gnm_float *this_value;
+	GnmRange range;
+	gint i, i_limit, i_start, i_end, col;
+	GSList *l;
+	GnmExprOp from, to;
+	gint to_col = (info->cumulative) ? 0 : 1;
 
-	data = new_data_set_list (info->input, info->group_by,
-				  TRUE, info->labels, dao->sheet);
+	GnmExpr const *expr_bin = NULL;
 
-/* set up counter structure */
-	if (info->bin != NULL) {
-		for (i=0; i < (*bin_data)->len; i++) {
-			a_bin = g_new (bin_t, 1);
-			a_bin->limit = g_array_index (
-				((data_set_t *)g_ptr_array_index ((*bin_data), i))->data,
-				gnm_float, 0);
-			a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnm_float));
-			a_bin->counts = g_array_set_size (a_bin->counts, data->len);
-			a_bin->label = ((data_set_t *)g_ptr_array_index ((*bin_data), i))->label;
-			a_bin->destroy_label = FALSE;
-			a_bin->last = FALSE;
-			a_bin->first = FALSE;
-			a_bin->strict = FALSE;
-			bin_list = g_slist_prepend (bin_list, a_bin);
-		}
-		bin_list = g_slist_sort (bin_list,
-					 (GCompareFunc) bin_compare);
-	} else {
-		gnm_float skip;
-		gboolean value_set;
-		char        *text;
-		GnmValue       *val;
+	GnmFunc *fd_small;
+	GnmFunc *fd_sum;
+	GnmFunc *fd_if;
+	GnmFunc *fd_index = NULL;
+	GnmFunc *fd_count = NULL;
 
-		if (!info->max_given) {
-			value_set = FALSE;
-			for (i = 0; i < data->len; i++) {
-				GArray * the_data;
-				gnm_float a_max;
-				the_data = ((data_set_t *)(g_ptr_array_index (data, i)))->data;
-				if (0 == gnm_range_max ((gnm_float *)the_data->data, the_data->len,
-						    &a_max)) {
-					if (value_set) {
-						if (a_max > info->max)
-							info->max = a_max;
-					} else {
-						info->max = a_max;
-						value_set = TRUE;
-					}
-				}
-			}
-			if (!value_set)
-				info->max = 0.0;
-		}
-		if (!info->min_given) {
-			value_set = FALSE;
-			for (i = 0; i < data->len; i++) {
-				GArray * the_data;
-				gnm_float a_min;
-				the_data = ((data_set_t *)(g_ptr_array_index (data, i)))->data;
-				if (0 == gnm_range_min ((gnm_float *)the_data->data, the_data->len,
-						    &a_min)) {
-					if (value_set) {
-						if (a_min < info->min)
-							info->min = a_min;
-					} else {
-						info->min = a_min;
-						value_set = TRUE;
-					}
-				}
-			}
-			if (!value_set)
-				info->min = 0.0;
-		}
+	char const *format;
 
-		skip = (info->max - info->min) / info->n;
-		for (i = 0; (int)i < info->n;  i++) {
-			a_bin = g_new (bin_t, 1);
-			a_bin->limit = info->max - i * skip;
-			a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnm_float));
-			a_bin->counts = g_array_set_size (a_bin->counts, data->len);
-			a_bin->label = NULL;
-			a_bin->destroy_label = FALSE;
-			a_bin->last = FALSE;
-			a_bin->first = FALSE;
-			a_bin->strict = FALSE;
-			bin_list = g_slist_prepend (bin_list, a_bin);
-		}
-		a_bin = g_new (bin_t, 1);
-		a_bin->limit = info->min;
-		a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnm_float));
-		a_bin->counts = g_array_set_size (a_bin->counts, data->len);
-		val = value_new_float(info->min);
-		text = format_value (NULL, val, NULL, 10,
-			workbook_date_conv (dao->sheet->workbook));
-		if (text) {
-			a_bin->label = g_strdup_printf (_("<%s"), text);
-			a_bin->destroy_label = TRUE;
-			g_free (text);
-		} else {
-			a_bin->label = _("Too Small");
-			a_bin->destroy_label = FALSE;
-		}
-		if (val)
-			value_release (val);
-		a_bin->last = FALSE;
-		a_bin->first = TRUE;
-		a_bin->strict = TRUE;
-		bin_list = g_slist_prepend (bin_list, a_bin);
-		info->bin_labels = FALSE;
+	fd_small = gnm_func_lookup ("SMALL", NULL);
+	gnm_func_ref (fd_small);
+	fd_sum = gnm_func_lookup ("SUM", NULL);
+	gnm_func_ref (fd_sum);
+	fd_if = gnm_func_lookup ("IF", NULL);
+	gnm_func_ref (fd_if);
+
+	if (info->base.labels) {
+		fd_index = gnm_func_lookup ("INDEX", NULL);
+		gnm_func_ref (fd_index);		
 	}
-	a_bin = g_new (bin_t, 1);
-	a_bin->limit = 0.0;
-	a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnm_float));
-	a_bin->counts = g_array_set_size (a_bin->counts, data->len);
-	a_bin->destroy_label = FALSE;
-	if (info->bin != NULL) {
-		a_bin->label = _("More");
-	} else {
-		char        *text;
-		GnmValue       *val;
+	if (info->percentage) {
+		fd_count = gnm_func_lookup ("COUNT", NULL);
+		gnm_func_ref (fd_count);		
+	}
+	
 
-		val = value_new_float(info->max);
-		text = format_value (NULL, val, NULL, 10,
-			workbook_date_conv (dao->sheet->workbook));
-		if (text) {
-			a_bin->label = g_strdup_printf (_(">%s"), text);
-			a_bin->destroy_label = TRUE;
-			g_free (text);
+	/* General Info */
+
+	dao_set_italic (dao, 0, 0, 0, 0);
+	dao_set_cell (dao, 0, 0, _("Histogram"));
+
+	/* Setting up the bins */
+
+	if (info->predetermined) {
+		range_init_value (&range, info->bin);
+		i_limit = range_height (&range) * range_width (&range);
+	} else {
+		i_limit = info->n;
+	}
+	
+	i_end = i_limit;
+	if (info->bin_type & bintype_p_inf_lower)
+		i_end++;
+	if (info->bin_type & bintype_m_inf_lower)
+		i_end++;
+	dao_set_format  (dao, to_col, 1, to_col, 1, "\"\";\"\"");
+	format = (info->bin_type & bintype_no_inf_upper) ?
+		/* translator note: do not translate the "General" */
+		/* part of the following strings.*/
+		_("\"to below\" * General") : _("\"up to\" * General");
+	dao_set_format  (dao, to_col, 2, to_col, i_end, format);
+
+	if (info->bin_type & bintype_m_inf_lower) {
+		dao_set_cell_expr (dao, to_col, 1, 
+				   gnm_expr_new_constant (value_new_float (-GNM_MAX)));
+		i_start = 2;
+	} else
+		i_start = 1;
+
+	if (info->predetermined) {
+		expr_bin = gnm_expr_new_constant (info->bin);
+		for (i = 0; i < i_limit; i++)
+			dao_set_cell_expr (dao, to_col, i_start + i, 
+					   gnm_expr_new_funcall2 (fd_small,
+								  gnm_expr_copy (expr_bin),
+								  gnm_expr_new_constant 
+								  (value_new_int (i + 1))));
+	} else {
+		GnmValue *val = value_dup (info->base.input->data);
+		GnmExpr const *expr_min;
+		GnmExpr const *expr_max;
+		
+		switch (info->base.group_by) {
+		case GROUPED_BY_ROW:
+			val->v_range.cell.a.col++;
+			break;
+		default:
+			val->v_range.cell.a.row++;
+			break;
+		}
+		
+		if (info->min_given)
+			dao_set_cell_float (dao, to_col, i_start, info->min);
+		else {
+			GnmFunc *fd_min;
+		
+			fd_min = gnm_func_lookup ("MIN", NULL);
+			gnm_func_ref (fd_min);
+			dao_set_cell_expr (dao, to_col, i_start,
+					   gnm_expr_new_funcall1 
+					   (fd_min,
+					    gnm_expr_new_constant (value_dup (val))));
+			gnm_func_unref (fd_min);
+		}
+
+		if (info->max_given)
+			dao_set_cell_float (dao, to_col, i_start + i_limit - 1, info->max);
+		else {
+			GnmFunc *fd_max;
+		
+			fd_max = gnm_func_lookup ("MAX", NULL);
+			gnm_func_ref (fd_max);
+			dao_set_cell_expr (dao, to_col, i_start + i_limit - 1,
+					   gnm_expr_new_funcall1 
+					   (fd_max,
+					    gnm_expr_new_constant (value_dup (val))));
+			gnm_func_unref (fd_max);
+		}
+
+		value_release (val);
+		
+		expr_min = dao_get_cellref (dao, to_col, i_start);
+		expr_max = dao_get_cellref (dao, to_col, i_start + i_limit - 1);
+
+		for (i = 1; i < i_limit - 1; i++)
+			dao_set_cell_expr (dao, to_col, i_start + i, 
+					   gnm_expr_new_binary (gnm_expr_copy (expr_min),
+								GNM_EXPR_OP_ADD,
+								gnm_expr_new_binary 
+								(gnm_expr_new_constant (value_new_int (i)),
+								 GNM_EXPR_OP_MULT,
+								 gnm_expr_new_binary 
+								 (gnm_expr_new_binary 
+								  (gnm_expr_copy (expr_max), 
+								   GNM_EXPR_OP_SUB, 
+								   gnm_expr_copy (expr_min)), 
+								  GNM_EXPR_OP_DIV,
+								  gnm_expr_new_constant (value_new_int (info->n))))));
+		
+		gnm_expr_free (expr_min);
+		gnm_expr_free (expr_max);
+	}
+	
+	if (info->bin_type & bintype_p_inf_lower) {
+		dao_set_format  (dao, to_col, i_end, to_col, i_end, 
+				 _("\"to\" * \"\xe2\x88\x9e\""));
+		dao_set_cell_expr (dao, to_col, i_end, 
+				   gnm_expr_new_constant (value_new_float (GNM_MAX)));
+	}
+
+	/* format the lower end of the bins */
+
+	if (!info->cumulative) {
+		GnmExpr const *expr_cr = make_cellref (1,-1);
+
+		format = (info->bin_type & bintype_no_inf_upper) ?
+			/* translator note: do not translate the "General" part */
+			/* of the following strings.*/
+			_("\"from\" * General") : _("\"above\" * General");
+		dao_set_format  (dao, 0, 2, 0, i_end, format);
+		if (info->bin_type & bintype_m_inf_lower)
+			dao_set_format  (dao, 0, 2, 0, 2, 
+					 _("\"from\" * \"\xe2\x88\x92\xe2\x88\x9e\";"
+					   "\"from\" * \"\xe2\x88\x92\xe2\x88\x9e\""));
+		for (i = 2; i <= i_end; i++)
+			dao_set_cell_expr (dao, 0, i, gnm_expr_copy (expr_cr));
+
+		gnm_expr_free (expr_cr);
+	}
+
+	/* insert formulas for histogram values */
+
+	if (info->bin_type & bintype_p_inf_lower) {
+		from = GNM_EXPR_OP_LTE;
+		to = GNM_EXPR_OP_GT;
+	} else {
+		from = GNM_EXPR_OP_LT;
+		to = GNM_EXPR_OP_GTE;
+	}
+
+	for (l = info->base.input, col = to_col + 1; l; col++, l = l->next) {
+		GnmValue *val = l->data;
+		GnmValue *val_c = NULL;
+		GnmExpr const *expr_count;
+		GnmExpr const *expr_data;
+		GnmExpr const *expr_if_from;
+		GnmExpr const *expr_if_to;
+
+		
+		if (info->base.labels) {
+			val_c = value_dup (val);
+			switch (info->base.group_by) {
+			case GROUPED_BY_ROW:
+				val->v_range.cell.a.col++;
+				break;
+			default:
+				val->v_range.cell.a.row++;
+				break;
+			}
+			dao_set_cell_expr (dao, col, 1,
+					   gnm_expr_new_funcall1 (fd_index, 
+								  gnm_expr_new_constant (val_c)));
+		} else {
+			char const *format;
+			
+			switch (info->base.group_by) {
+			case GROUPED_BY_ROW:
+				format = _("Row %d");
+				break;
+			case GROUPED_BY_COL:
+				format = _("Column %d");
+				break;
+			default:
+				format = _("Area %d");
+				break;				
+			}
+			dao_set_cell_printf (dao, col, 1, format, col - to_col);
+		}
+
+		expr_data = gnm_expr_new_constant (val);
+		expr_if_to = gnm_expr_new_funcall3
+			(fd_if, 
+			 gnm_expr_new_binary 
+			 (gnm_expr_copy (expr_data), 
+			  to, make_cellref (- (col-to_col), 0)),
+			 gnm_expr_new_constant (value_new_int (0)),
+			 gnm_expr_new_constant (value_new_int (1)));
+		
+		if (info->cumulative)
+			expr_count = gnm_expr_new_funcall1
+				(fd_sum, expr_if_to);
+		else {
+			expr_if_from = gnm_expr_new_funcall3
+				(fd_if, 
+				 gnm_expr_new_binary 
+				 (gnm_expr_copy (expr_data), 
+				  from, make_cellref (- col, 0)),
+				 gnm_expr_new_constant (value_new_int (0)),
+				 gnm_expr_new_constant (value_new_int (1)));
+			expr_count = gnm_expr_new_funcall1
+				(fd_sum,
+				 gnm_expr_new_binary (expr_if_from,
+						      GNM_EXPR_OP_MULT,
+						      expr_if_to));
+		}
+
+		if (info->percentage) {
+			dao_set_format  (dao, col, 2, col, i_end, "0.0%");
+			expr_count = gnm_expr_new_binary (expr_count,
+							  GNM_EXPR_OP_DIV,
+							  gnm_expr_new_funcall1 
+							  (fd_count, 
+							   expr_data));
 		} else
-			a_bin->label = _("Too Large");
-		if (val)
-			value_release (val);
-	}
-	a_bin->last = TRUE;
-	a_bin->first = FALSE;
-	a_bin->strict = FALSE;
-	bin_list = g_slist_append (bin_list, a_bin);
+			gnm_expr_free (expr_data);
 
-/* count data */
-	for (i = 0; i < data->len; i++) {
-		GArray * the_data;
-		gnm_float *the_sorted_data;
-
-		the_data = ((data_set_t *)(g_ptr_array_index (data, i)))->data;
-		the_sorted_data =  range_sort ((gnm_float *)(the_data->data), the_data->len);
-
-		this = bin_list;
-		this_value = the_sorted_data;
-
-		for (j = 0; j < the_data->len;) {
-			if ((*this_value < ((bin_t *)this->data)->limit) ||
-			    (*this_value == ((bin_t *)this->data)->limit &&
-			     !((bin_t *)this->data)->strict) ||
-			    (this->next == NULL)){
-				(g_array_index (((bin_t *)this->data)->counts,
-						gnm_float, i))++;
-				j++;
-				this_value++;
-			} else {
-				this = this->next;
-			}
-		}
-		g_free (the_sorted_data);
+		for (i = 2; i <= i_end; i++)
+			dao_set_cell_array_expr (dao, col, i, gnm_expr_copy (expr_count));
+		
+		gnm_expr_free (expr_count);
 	}
 
-/* sort if pareto */
-	if (info->pareto && (data->len > 0))
-		bin_list = g_slist_sort (bin_list,
-					 (GCompareFunc) bin_pareto);
 
-/* print labels */
-	row = info->labels ? 1 : 0;
-	if (!info->bin_labels)
-		dao_set_cell (dao, 0, row, _("Bin"));
+	if (expr_bin != NULL)
+		gnm_expr_free (expr_bin);
 
-	this = bin_list;
-	while (this != NULL) {
-		row++;
-		if (info->bin_labels || ((bin_t *)this->data)->last || ((bin_t *)this->data)->first) {
-			dao_set_cell (dao, 0, row, ((bin_t *)this->data)->label);
-		} else {
-			dao_set_cell_float (dao, 0, row, ((bin_t *)this->data)->limit);
-		}
-		this = this->next;
-	}
-	dao_set_italic (dao, 0, 0, 0, row);
+	gnm_func_unref (fd_small);
+	gnm_func_unref (fd_if);
+	gnm_func_unref (fd_sum);
+	if (fd_index != NULL)
+		gnm_func_unref (fd_index);
+	if (fd_count != NULL)
+		gnm_func_unref (fd_count);
 
-	col = 1;
-	for (i = 0; i < data->len; i++) {
-		guint l_col = col;
-		gnm_float y = 0.0;
-		row = 0;
+	dao_redraw_respan (dao);
 
-		if (info->labels) {
-			dao_set_cell (dao, col, row,
-				  ((data_set_t *)g_ptr_array_index (data, i))->label);
-			row++;
-		}
-		dao_set_cell (dao, col, row, _("Frequency"));
-		if (info->percentage)
-			dao_set_cell (dao, ++l_col, row, _("%"));
-		if (info->cumulative)
-			/* xgettext:no-c-format */
-			dao_set_cell (dao, ++l_col, row, _("Cumulative %"));
-/* print data */
-		this = bin_list;
-		while (this != NULL) {
-			gnm_float x;
-
-			l_col = col;
-			x = g_array_index (((bin_t *)this->data)->counts, gnm_float, i);
-			row ++;
-			dao_set_cell_float (dao, col, row,  x);
-			x /= ((data_set_t *)(g_ptr_array_index (data, i)))->data->len;
-			if (info->percentage) {
-				l_col++;
-				dao_set_percent (dao, l_col, row, l_col, row);
-				dao_set_cell_float (dao, l_col, row, x);
-			}
-			if (info->cumulative) {
-				y += x;
-				l_col++;
-				dao_set_percent (dao, l_col, row, l_col, row);
-				dao_set_cell_float (dao, l_col, row, y);
-			}
-			this = this->next;
-		}
-		col++;
-		if (info->percentage)
-			col++;
-		if (info->cumulative)
-			col++;
-	}
-	dao_set_italic (dao, 0, 0,  col - 1, info->labels ? 1 : 0);
-
-/* finish up */
-	destroy_data_set_list (data);
-	go_slist_free_custom (bin_list, destroy_items);
-
-	if (*bin_data) {
-		destroy_data_set_list (*bin_data);
-		*bin_data = NULL;
-	}
-
-	if (info->chart)
-		g_warning ("TODO : tie this into the graph generator");
 	return FALSE;
 }
 
-static gboolean
-analysis_tool_histogram_engine_check_bins (data_analysis_output_t *dao,
-					   analysis_tools_data_histogram_t *info,
-					   GPtrArray **bin_data_cont)
+
+static gint
+calc_length (GnmValue   *bin)
 {
-	GPtrArray *bin_data = NULL;
-	guint  i;
+	g_return_val_if_fail (bin != NULL, 0);
+	g_return_val_if_fail (bin->type == VALUE_CELLRANGE, 0);
 
-	if (info->bin == NULL)
-		return FALSE;
-
-	bin_data = new_data_set_list (info->bin, GROUPED_BY_BIN,
-				      TRUE, info->bin_labels, dao->sheet);
-	for (i = 0; i < bin_data->len; i++) {
-		if (((data_set_t *)g_ptr_array_index (bin_data, i))->data->len != 1) {
-			destroy_data_set_list (bin_data);
-			return TRUE;
-		}
-	}
-	*bin_data_cont = bin_data;
-
-	return FALSE;
+	return ((bin->v_range.cell.b.col - bin->v_range.cell.a.col + 1) * 
+		(bin->v_range.cell.b.row - bin->v_range.cell.a.row + 1));
 }
 
 gboolean
@@ -417,21 +338,27 @@ analysis_tool_histogram_engine (data_analysis_output_t *dao, gpointer specs,
 		return (dao_command_descriptor (dao, _("Histogram (%s)"), result)
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO:
-		prepare_input_range (&info->input, info->group_by);
-		if (info->bin)
-			prepare_input_range (&info->bin, GROUPED_BY_ROW);
-		dao_adjust (dao,
-			    1 + (1 + (info->cumulative ? 1 : 0) +
-				 (info->percentage ? 1 : 0)) * g_slist_length (info->input),
-			    2 + (info->bin ? (int)g_slist_length (info->bin) : info->n) +
-			    (info->labels ? 1 : 0));
+	{
+		int i, j;
+
+		prepare_input_range (&info->base.input, info->base.group_by);
+
+		i = 1 + ((info->predetermined) ? calc_length (info->bin) : info->n);
+		if (info->bin_type & bintype_p_inf_lower)
+			i++;
+		if (info->bin_type & bintype_m_inf_lower)
+			i++;
+
+		j = g_slist_length (info->base.input) + ((info->cumulative) ? 1 : 2);
+
+		dao_adjust (dao, j, i);
+
 		return FALSE;
+	}
 	case TOOL_ENGINE_CLEAN_UP:
-		range_list_destroy (info->input);
-		range_list_destroy (info->bin);
 		return FALSE;
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
-		return analysis_tool_histogram_engine_check_bins (dao, specs, result);
+		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
 		dao_prepare_output (NULL, dao, _("Histogram"));
 		return FALSE;
@@ -439,7 +366,11 @@ analysis_tool_histogram_engine (data_analysis_output_t *dao, gpointer specs,
 		return dao_format_output (dao, _("Histogram"));
 	case TOOL_ENGINE_PERFORM_CALC:
 	default:
-		return analysis_tool_histogram_engine_run (dao, specs, result);
+		return analysis_tool_histogram_engine_run (dao, specs);
 	}
-	return TRUE;  /* We shouldn't get here */
+	return TRUE;
 }
+
+
+
+

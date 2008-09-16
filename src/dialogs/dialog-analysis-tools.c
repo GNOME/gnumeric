@@ -91,11 +91,24 @@ typedef struct {
 	GenericToolState base;
 	GtkWidget *predetermined_button;
 	GtkWidget *calculated_button;
-	GtkWidget *bin_labels_button;
 	GtkEntry  *n_entry;
 	GtkEntry  *max_entry;
 	GtkEntry  *min_entry;
 } HistogramToolState;
+
+static char const * const bin_type_group[] = {
+	"bintype_no_inf_lower",
+	"bintype_no_inf_upper",
+	"bintype_p_inf_lower",
+	"bintype_p_inf_upper",
+	"bintype_m_inf_lower",
+	"bintype_m_inf_upper",
+	"bintype_pm_inf_lower",
+	"bintype_pm_inf_upper",
+	NULL
+};
+
+
 
 typedef struct {
 	GenericToolState base;
@@ -2483,17 +2496,17 @@ histogram_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data = g_new0 (analysis_tools_data_histogram_t, 1);
 	dao  = parse_output ((GenericToolState *)state, NULL);
 
-	data->input = gnm_expr_entry_parse_as_list (
+	data->base.input = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	data->group_by = gnumeric_glade_group_value (state->base.gui, grouped_by_group);
+	data->base.group_by = gnumeric_glade_group_value (state->base.gui, grouped_by_group);
 
-	if (gtk_toggle_button_get_active (
-		GTK_TOGGLE_BUTTON (state->predetermined_button))) {
+	data->predetermined = gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (state->predetermined_button));
+	if (data->predetermined) {
 		w = glade_xml_get_widget (state->base.gui, "labels_2_button");
-		data->bin_labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-		data->bin = g_slist_prepend (NULL, gnm_expr_entry_parse_as_value
-					     (GNM_EXPR_ENTRY (state->base.input_entry_2),
-					      state->base.sheet));
+		data->bin = gnm_expr_entry_parse_as_value
+			(GNM_EXPR_ENTRY (state->base.input_entry_2),
+			 state->base.sheet);
 	} else {
 		entry_to_int(state->n_entry, &data->n,TRUE);
 		data->max_given = (0 == entry_to_float (state->max_entry,
@@ -2503,23 +2516,21 @@ histogram_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		data->bin = NULL;
 	}
 
+	data->bin_type = gnumeric_glade_group_value (state->base.gui, bin_type_group);
+
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
-	data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-	w = glade_xml_get_widget (state->base.gui, "pareto-button");
-	data->pareto = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = glade_xml_get_widget (state->base.gui, "percentage-button");
 	data->percentage = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = glade_xml_get_widget (state->base.gui, "cum-button");
 	data->cumulative = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-	w = glade_xml_get_widget (state->base.gui, "chart-button");
-	data->chart = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+/* 	w = glade_xml_get_widget (state->base.gui, "chart-button"); */
+/* 	data->chart = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)); */
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			       dao, data, analysis_tool_histogram_engine))
 		gtk_widget_destroy (state->base.dialog);
 
-/*				_("Each row of the bin range should contain one numeric value\n" */
-/*				  "(ignoring the label if applicable).")); */
 	return;
 }
 
@@ -2611,9 +2622,6 @@ dialog_histogram_tool (WBCGtk *wbcg, Sheet *sheet)
 	state->calculated_button = GTK_WIDGET (glade_xml_get_widget
 					       (state->base.gui,
 						"calculated_button"));
-	state->bin_labels_button = GTK_WIDGET (glade_xml_get_widget
-					       (state->base.gui,
-						"labels_2_button"));
 	state->n_entry = GTK_ENTRY(glade_xml_get_widget (state->base.gui,
 							  "n_entry"));
 	state->max_entry = GTK_ENTRY(glade_xml_get_widget (state->base.gui,
@@ -2644,11 +2652,8 @@ dialog_histogram_tool (WBCGtk *wbcg, Sheet *sheet)
 				  GNM_EXPR_ENTRY (state->base.input_entry_2))),
 		"focus-in-event",
 		G_CALLBACK (histogram_tool_set_predetermined), state);
-	g_signal_connect (G_OBJECT (state->bin_labels_button),
-		"toggled",
-		G_CALLBACK (histogram_tool_set_predetermined_on_toggle), state);
 
-	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);
+	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	histogram_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 

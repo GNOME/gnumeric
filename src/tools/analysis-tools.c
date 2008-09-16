@@ -57,7 +57,7 @@
 #include <math.h>
 
 
-static const GnmExpr *
+const GnmExpr *
 make_cellref (int dx, int dy)
 {
 	GnmCellRef r;
@@ -69,6 +69,24 @@ make_cellref (int dx, int dy)
 	return gnm_expr_new_cellref (&r);
 }
 
+
+/*************************************************************************/
+/*
+ *  data_set_t: a data set format (optionally) keeping track of missing
+ *  observations.
+ *
+ */
+typedef struct {
+        GArray  *data;
+	char *label;
+	GSList *missing;
+	gboolean complete;
+	gboolean read_label;
+} data_set_t;
+
+
+static gboolean 
+gnm_check_input_range_list_homogeneity (GSList *input_range);
 
 typedef struct {
 	char *format;
@@ -248,7 +266,7 @@ new_data_set_list (GSList *ranges, group_by_t group_by,
  *  destroy_data_set_list:
  *  @the_list:
  */
-void
+static void
 destroy_data_set_list (GPtrArray * the_list)
 {
 	guint i;

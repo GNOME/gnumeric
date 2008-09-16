@@ -1,3 +1,16 @@
+2008-09-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-histogram.c: completely rewritten from scratch
+	* analysis-histogram.h: completely rewritten from scratch
+	* analysis-tools.h (new_data_set_list): made statis
+	(destroy_data_set_list): made static
+	(gnm_check_input_range_list_homogeneity): made static
+	(make_cellref): made non-static
+	* analysis-tools.c (new_data_set_list): made statis
+	(destroy_data_set_list): made static
+	(gnm_check_input_range_list_homogeneity): made static
+	(make_cellref): made non-static
+
 2008-09-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	
 	* analysis-tools.c (analysis_tool_regression_engine_run):

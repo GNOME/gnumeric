@@ -226,21 +226,7 @@ typedef struct {
 gboolean analysis_tool_anova_two_factor_engine (data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 
-/*THINGS NEEDED FOR THE HISTOGRAM SPLIT-OUT
- *We will almost certainly move these around further later, but for
- *now, getting things to work (and particularly compile) is more
- *important.
- */
-/*
- *  new_data_set_list:
- *  @ranges: GSList *           the data location
- *  @group_by: group_by_t       how to group the data
- *  @ignore_non_num: gboolean   whether simply to ignore non-numerical values
- *  @read_label: gboolean       whether the first entry contains a label
- */
-GPtrArray *
-new_data_set_list (GSList *ranges, group_by_t group_by,
-		   gboolean ignore_non_num, gboolean read_labels, Sheet *sheet);
+/* THINGS NEEDED FOR THE HISTOGRAM SPLIT-OUT */
 
 /*
  *  prepare_input_range:
@@ -248,35 +234,11 @@ new_data_set_list (GSList *ranges, group_by_t group_by,
  *  @group_by:
  *
  */
-void
-prepare_input_range (GSList **input_range, group_by_t group_by);
+void prepare_input_range (GSList **input_range, group_by_t group_by);
 
+const GnmExpr *make_cellref (int dx, int dy);
 
-/*************************************************************************/
-/*
- *  data_set_t: a data set format (optionally) keeping track of missing
- *  observations.
- *
- */
-typedef struct {
-        GArray  *data;
-	char *label;
-	GSList *missing;
-	gboolean complete;
-	gboolean read_label;
-} data_set_t;
-
-/*
- *  destroy_data_set_list:
- *  @the_list:
- */
-void
-destroy_data_set_list (GPtrArray * the_list);
-
-gnm_float *
-range_sort (gnm_float const *xs, int n);
-
-gboolean gnm_check_input_range_list_homogeneity (GSList *input_range);
+gnm_float *range_sort (gnm_float const *xs, int n);
 
 void gnm_fourier_fft (complex_t const *in, int n, int skip,
 					  complex_t **fourier, gboolean inverse);
