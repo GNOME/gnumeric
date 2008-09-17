@@ -31,6 +31,7 @@
 #include "gnumeric.h"
 #include "numbers.h"
 #include "style.h"
+#include <goffice/data/goffice-data.h>
 
 typedef enum {
         NewSheetOutput, NewWorkbookOutput, RangeOutput, InPlaceOutput
@@ -103,6 +104,7 @@ void dao_set_cell_float_na    (data_analysis_output_t *dao, int col, int row,
 			   gboolean is_valid);
 void dao_set_cell_comment (data_analysis_output_t *dao, int col, int row,
 			   char const *comment);
+void dao_set_sheet_object (data_analysis_output_t *dao, int col, int row, SheetObject* so);
 
 void dao_prepare_output       (WorkbookControl *wbc,  
 			       data_analysis_output_t *dao, char const *name);
@@ -126,7 +128,9 @@ gboolean dao_put_formulas (data_analysis_output_t *dao);
 void dao_convert_to_values (data_analysis_output_t *dao);
 void dao_redraw_respan (data_analysis_output_t *dao);
 
-GnmExpr const *dao_get_cellref (data_analysis_output_t *dao, int dx, int dy);
+GnmExpr const *dao_get_cellref  (data_analysis_output_t *dao, int x, int y);
+GnmExpr const *dao_get_rangeref (data_analysis_output_t *dao, int ax, int ay,  int bx, int by);
 
+GOData *dao_go_data_vector (data_analysis_output_t *dao, int ax, int ay,  int bx, int by);
 
 #endif

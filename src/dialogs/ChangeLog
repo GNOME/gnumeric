@@ -1,3 +1,9 @@
+2008-09-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* histogram.glade: enable chart check box
+	* dialog-analysis-tools.c (histogram_tool_ok_clicked_cb): read chart
+	  check box.
+
 2008-09-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tools.c (regression_tool_update_sensitivity_cb): add forgotten 

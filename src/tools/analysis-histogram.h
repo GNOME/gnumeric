@@ -46,6 +46,14 @@ typedef enum {
 	bintype_pm_inf_upper = bintype_m_inf_lower | bintype_p_inf_lower | bintype_no_inf_upper
 } analysis_histogram_bin_type_t;
 
+typedef enum {
+	NO_CHART = 0,
+	HISTOGRAM_CHART,
+	BAR_CHART,
+	COLUMN_CHART
+} chart_t;
+
+
 typedef struct {
 	analysis_tools_data_generic_t base;
 	gboolean   predetermined;
@@ -58,7 +66,7 @@ typedef struct {
 	gint       n;
 	gboolean   percentage;
 	gboolean   cumulative;
-	gboolean   chart;	
+	chart_t   chart;	
 } analysis_tools_data_histogram_t;
 
 gboolean analysis_tool_histogram_engine (data_analysis_output_t *dao, gpointer specs,

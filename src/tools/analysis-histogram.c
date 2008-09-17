@@ -35,6 +35,10 @@
 #include "expr.h"
 #include "func.h"
 #include "numbers.h"
+#include "sheet-object-graph.h"
+#include <goffice/graph/gog-graph.h>
+#include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-chart.h>
 
 static gboolean
 analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
@@ -174,7 +178,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 								   GNM_EXPR_OP_SUB, 
 								   gnm_expr_copy (expr_min)), 
 								  GNM_EXPR_OP_DIV,
-								  gnm_expr_new_constant (value_new_int (info->n))))));
+								  gnm_expr_new_constant (value_new_int (info->n - 1))))));
 		
 		gnm_expr_free (expr_min);
 		gnm_expr_free (expr_max);
@@ -310,6 +314,51 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		gnm_func_unref (fd_index);
 	if (fd_count != NULL)
 		gnm_func_unref (fd_count);
+
+	/* Create Chart if requested */
+
+	switch (info->chart) {
+		SheetObject *so;
+		GogGraph     *graph;
+		GogChart     *chart;
+		GogPlot	     *plot;
+		GogSeries    *series;
+		GOData *limits;
+		GOData *values;
+		int ct;
+
+	case HISTOGRAM_CHART:
+		graph = g_object_new (GOG_GRAPH_TYPE, NULL);
+		chart = GOG_CHART (gog_object_add_by_name (
+					   GOG_OBJECT (graph), "Chart", NULL));
+		plot = gog_plot_new_by_name ("GogHistogramPlot");
+		gog_object_add_by_name (GOG_OBJECT (chart),
+					"Plot", GOG_OBJECT (plot));
+
+		limits = dao_go_data_vector (dao, to_col, i_start, to_col, 
+					     i_start + i_limit - 1);
+
+		for (ct = 1; ct < (col - to_col); ct ++) {
+			g_object_ref (limits);
+			values = dao_go_data_vector (dao, to_col + ct, i_start + 1, 
+						     to_col + ct, i_start + i_limit - 1);
+			
+			series = gog_plot_new_series (plot);
+			gog_series_set_dim (series, 0, limits, NULL);
+			gog_series_set_dim (series, 1, values, NULL);
+		}
+		g_object_unref (limits);
+
+		so = sheet_object_graph_new (graph);
+
+		dao_set_sheet_object (dao, 0, 1, so);
+		break;
+	case BAR_CHART:  /* not yet implemented */
+	case COLUMN_CHART:  /* not yet implemented */
+	case NO_CHART:
+	default:
+		break;
+	}
 
 	dao_redraw_respan (dao);
 

@@ -2546,8 +2546,11 @@ histogram_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->percentage = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = glade_xml_get_widget (state->base.gui, "cum-button");
 	data->cumulative = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-/* 	w = glade_xml_get_widget (state->base.gui, "chart-button"); */
-/* 	data->chart = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)); */
+	w = glade_xml_get_widget (state->base.gui, "chart-button");
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w))) 
+		data->chart = HISTOGRAM_CHART;
+	else
+		data->chart = NO_CHART;
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			       dao, data, analysis_tool_histogram_engine))

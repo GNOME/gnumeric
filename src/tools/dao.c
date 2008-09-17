@@ -42,6 +42,7 @@
 #include "gnm-format.h"
 #include "sheet-object-cell-comment.h"
 #include "style-color.h"
+#include "graph.h"
 #include <goffice/app/go-doc.h>
 
 #include <glib.h>
@@ -1113,14 +1114,61 @@ dao_redraw_respan (data_analysis_output_t *dao)
 
 
 GnmExpr const  *
-dao_get_cellref (data_analysis_output_t *dao, int dx, int dy)
+dao_get_cellref (data_analysis_output_t *dao, int x, int y)
 {
 	GnmCellRef r;
 	r.sheet = dao->sheet;
-	r.col = dx + dao->start_col + dao->offset_col;
+	r.col = x + dao->start_col + dao->offset_col;
 	r.col_relative = FALSE;
-	r.row = dy + dao->start_row + dao->offset_row;
+	r.row = y + dao->start_row + dao->offset_row;
 	r.row_relative = FALSE;
 	return gnm_expr_new_cellref (&r);
 }
 
+GnmExpr const  *
+dao_get_rangeref (data_analysis_output_t *dao, int ax, int ay,  int bx, int by)
+{
+	GnmValue *v;
+	GnmCellRef ar;
+	GnmCellRef br;
+
+	ar.sheet = dao->sheet;
+	ar.col = ax + dao->start_col + dao->offset_col;
+	ar.col_relative = FALSE;
+	ar.row = ay + dao->start_row + dao->offset_row;
+	ar.row_relative = FALSE;
+
+	br.sheet = dao->sheet;
+	br.col = bx + dao->start_col + dao->offset_col;
+	br.col_relative = FALSE;
+	br.row = by + dao->start_row + dao->offset_row;
+	br.row_relative = FALSE;
+
+	v = value_new_cellrange (&ar, &br, 0, 0);
+	return gnm_expr_new_constant (v);
+}
+
+
+void 
+dao_set_sheet_object (data_analysis_output_t *dao, int col, int row, SheetObject* so)
+{
+	SheetObjectAnchor anchor;
+	GnmRange	  anchor_r;
+
+	g_return_if_fail (so != NULL);
+		
+	range_init (&anchor_r, dao->start_col + col, dao->start_row + row,
+		    dao->start_col + dao->cols - 1,
+		    dao->start_row + dao->rows - 1);
+
+	sheet_object_anchor_init (&anchor, &anchor_r, 0, GOD_ANCHOR_DIR_UNKNOWN);
+	sheet_object_set_anchor (so, &anchor);
+	sheet_object_set_sheet (so, dao->sheet);
+	g_object_unref (so);
+}
+
+GOData	*
+dao_go_data_vector (data_analysis_output_t *dao, int ax, int ay,  int bx, int by)
+{
+	return gnm_go_data_vector_new_expr (dao->sheet, gnm_expr_top_new (dao_get_rangeref (dao, ax, ay, bx, by)));
+}

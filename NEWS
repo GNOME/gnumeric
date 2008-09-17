@@ -11,7 +11,7 @@ Andreas:
 	* Don't force text export of empty sheets [#521726]
 	* By default cells with hyperlinks should not be empty [#152617]
 	* Fix command names for hyperlink additions.
-	* Improve histogram tool [#385458]
+	* Improve histogram tool [#385458][#552161]
 
 Jean:
 	* Fix printing of rotated text. [#539734]

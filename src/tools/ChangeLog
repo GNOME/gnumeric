@@ -1,3 +1,16 @@
+2008-09-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-histogram.c (analysis_tool_histogram_engine_run): create
+	  histogram chart if appropriate
+	* analysis-histogram.h (chart_t): new
+	(analysis_tools_data_histogram_t): change field format for chart
+	* dao.h (dao_set_sheet_object): new
+	(dao_get_rangeref): new
+	(dao_go_data_vector): new
+	* dao.c (dao_set_sheet_object): new
+	(dao_get_rangeref): new
+	(dao_go_data_vector): new
+
 2008-09-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-histogram.c (analysis_tool_histogram_engine_run):
