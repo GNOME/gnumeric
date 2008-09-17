@@ -350,6 +350,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		g_object_unref (limits);
 
 		so = sheet_object_graph_new (graph);
+		g_object_unref (graph);
 
 		dao_set_sheet_object (dao, 0, 1, so);
 		break;

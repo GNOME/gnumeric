@@ -1,5 +1,10 @@
 2008-09-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-histogram.c (analysis_tool_histogram_engine_run): unref the
+	  graph after using it. [#552596]
+
+2008-09-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-histogram.c (analysis_tool_histogram_engine_run): create
 	  histogram chart if appropriate
 	* analysis-histogram.h (chart_t): new
