@@ -2664,13 +2664,13 @@ dialog_histogram_tool (WBCGtk *wbcg, Sheet *sheet)
 		"changed",
 		G_CALLBACK (histogram_tool_update_sensitivity_cb), state);
 	g_signal_connect (G_OBJECT (state->n_entry),
-		"focus-in-event",
+		"key-press-event",
 		G_CALLBACK (histogram_tool_set_calculated), state);
 	g_signal_connect (G_OBJECT (state->min_entry),
-		"focus-in-event",
+		"key-press-event",
 		G_CALLBACK (histogram_tool_set_calculated), state);
 	g_signal_connect (G_OBJECT (state->max_entry),
-		"focus-in-event",
+		"key-press-event",
 		G_CALLBACK (histogram_tool_set_calculated), state);
 	g_signal_connect (G_OBJECT
 			  (gnm_expr_entry_get_entry (
