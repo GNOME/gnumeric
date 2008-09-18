@@ -1158,8 +1158,8 @@ dao_set_sheet_object (data_analysis_output_t *dao, int col, int row, SheetObject
 	g_return_if_fail (so != NULL);
 		
 	range_init (&anchor_r, dao->start_col + col, dao->start_row + row,
-		    dao->start_col + dao->cols - 1,
-		    dao->start_row + dao->rows - 1);
+		    dao->start_col + ((dao->cols < 5) ? dao->cols : 5),
+		    dao->start_row + ((dao->rows < 10) ? dao->rows : 10));
 
 	sheet_object_anchor_init (&anchor, &anchor_r, 0, GOD_ANCHOR_DIR_UNKNOWN);
 	sheet_object_set_anchor (so, &anchor);

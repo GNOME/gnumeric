@@ -1,5 +1,13 @@
 2008-09-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* histogram.glade: enable chart buttons and rearrange them
+	* dialog-analysis-tools.c (chart_group): new
+	(histogram_tool_update_sensitivity_cb): remove unused variables
+	(histogram_tool_ok_clicked_cb): handle all chart radio buttons
+	(histogram_tool_set_predetermined_on_toggle): delete
+
+2008-09-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* histogram.glade: move widgets so that opening the 2nd page does not
 	  cause automatic switch to predetermined cutoffs
 	* dialog-analysis-tools.c (dialog_histogram_tool): require keyboard input to

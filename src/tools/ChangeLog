@@ -1,5 +1,11 @@
 2008-09-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dao.c (dao_set_sheet_object): don't make the graph too big
+	* analysis-histogram.c (analysis_tool_histogram_engine_run): handle 
+	  bar and column chart request
+
+2008-09-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-histogram.c (analysis_tool_histogram_engine_run): unref the
 	  graph after using it. [#552596]
 

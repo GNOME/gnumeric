@@ -39,6 +39,9 @@
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-chart.h>
+#include <goffice/graph/gog-plot.h>
+#include <goffice/graph/gog-series.h>
+#include <goffice/utils/go-glib-extras.h>
 
 static gboolean
 analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
@@ -316,49 +319,58 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		gnm_func_unref (fd_count);
 
 	/* Create Chart if requested */
-
-	switch (info->chart) {
+	if (info->chart != NO_CHART) {
 		SheetObject *so;
 		GogGraph     *graph;
 		GogChart     *chart;
 		GogPlot	     *plot;
 		GogSeries    *series;
+		gint limits_start, limits_end, values_start, values_end;
 		GOData *limits;
 		GOData *values;
 		int ct;
-
-	case HISTOGRAM_CHART:
+		
 		graph = g_object_new (GOG_GRAPH_TYPE, NULL);
 		chart = GOG_CHART (gog_object_add_by_name (
-					   GOG_OBJECT (graph), "Chart", NULL));
-		plot = gog_plot_new_by_name ("GogHistogramPlot");
+						   GOG_OBJECT (graph), "Chart", NULL));
+
+		if (info->chart == HISTOGRAM_CHART) {
+			plot = gog_plot_new_by_name ("GogHistogramPlot");
+			limits_start =  i_start;
+			limits_end =  i_start + i_limit - 1;
+			values_start = i_start + 1;
+			values_end = i_start + i_limit - 1;
+		} else {
+			plot = gog_plot_new_by_name ("GogBarColPlot");
+			limits_start =  2;
+			limits_end =  i_end;
+			values_start = 2;
+			values_end = i_end;
+			if (info->chart == BAR_CHART)
+				go_object_toggle (plot, "horizontal");
+		}
+
 		gog_object_add_by_name (GOG_OBJECT (chart),
 					"Plot", GOG_OBJECT (plot));
-
-		limits = dao_go_data_vector (dao, to_col, i_start, to_col, 
-					     i_start + i_limit - 1);
+		
+		limits = dao_go_data_vector (dao, to_col, limits_start, 
+					     to_col, limits_end);
 
 		for (ct = 1; ct < (col - to_col); ct ++) {
 			g_object_ref (limits);
-			values = dao_go_data_vector (dao, to_col + ct, i_start + 1, 
-						     to_col + ct, i_start + i_limit - 1);
+			values = dao_go_data_vector (dao, to_col + ct, values_start, 
+						     to_col + ct, values_end);
 			
 			series = gog_plot_new_series (plot);
 			gog_series_set_dim (series, 0, limits, NULL);
 			gog_series_set_dim (series, 1, values, NULL);
 		}
 		g_object_unref (limits);
-
+		
 		so = sheet_object_graph_new (graph);
 		g_object_unref (graph);
-
+		
 		dao_set_sheet_object (dao, 0, 1, so);
-		break;
-	case BAR_CHART:  /* not yet implemented */
-	case COLUMN_CHART:  /* not yet implemented */
-	case NO_CHART:
-	default:
-		break;
 	}
 
 	dao_redraw_respan (dao);

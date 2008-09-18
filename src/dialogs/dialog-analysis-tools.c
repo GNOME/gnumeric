@@ -108,6 +108,13 @@ static char const * const bin_type_group[] = {
 	NULL
 };
 
+static char const * const chart_group[] = {
+	"nochart-button",
+	"histogram-button",
+	"barchart-button",
+	"columnchart-button",
+	NULL
+};
 
 
 typedef struct {
@@ -2443,11 +2450,6 @@ static void
 histogram_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				      HistogramToolState *state)
 {
-	gboolean ready  = FALSE;
-	gboolean input_ready  = FALSE;
-	gboolean bin_ready  = FALSE;
-	gboolean output_ready  = FALSE;
-
 	int the_n;
 	gboolean predetermined_bins;
         GSList *input_range;
@@ -2539,6 +2541,7 @@ histogram_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	}
 
 	data->bin_type = gnumeric_glade_group_value (state->base.gui, bin_type_group);
+	data->chart = gnumeric_glade_group_value (state->base.gui, chart_group);
 
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
 	data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -2546,11 +2549,6 @@ histogram_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->percentage = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = glade_xml_get_widget (state->base.gui, "cum-button");
 	data->cumulative = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-	w = glade_xml_get_widget (state->base.gui, "chart-button");
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w))) 
-		data->chart = HISTOGRAM_CHART;
-	else
-		data->chart = NO_CHART;
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			       dao, data, analysis_tool_histogram_engine))
@@ -2576,20 +2574,6 @@ histogram_tool_set_predetermined (G_GNUC_UNUSED GtkWidget *widget,
 	    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->predetermined_button), TRUE);
 	    return FALSE;
 }
-
-/**
- * histogram_tool_set_predetermined_on_toggle:
- * @widget:
- * @state:
- *
- **/
-static void
-histogram_tool_set_predetermined_on_toggle (G_GNUC_UNUSED GtkWidget *widget,
-					    HistogramToolState *state)
-{
-	    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->predetermined_button), TRUE);
-}
-
 
 /**
  * histogram_tool_set_calculated:

@@ -17,114 +17,131 @@
             <property name="can_focus">True</property>
             <property name="border_width">5</property>
             <child>
-              <widget class="GtkTable" id="input-table">
+              <widget class="GtkVBox" id="vbox5">
                 <property name="visible">True</property>
-                <property name="border_width">12</property>
-                <property name="n_rows">3</property>
-                <property name="n_columns">2</property>
-                <property name="column_spacing">12</property>
-                <property name="row_spacing">6</property>
+                <child>
+                  <widget class="GtkTable" id="input-table">
+                    <property name="visible">True</property>
+                    <property name="border_width">12</property>
+                    <property name="n_rows">3</property>
+                    <property name="n_columns">2</property>
+                    <property name="column_spacing">12</property>
+                    <property name="row_spacing">6</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="var1-label">
+                        <property name="visible">True</property>
+                        <property name="xalign">0</property>
+                        <property name="xpad">5</property>
+                        <property name="label" translatable="yes">Input _range:</property>
+                        <property name="use_underline">True</property>
+                        <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                      </widget>
+                      <packing>
+                        <property name="x_options">GTK_FILL</property>
+                        <property name="y_options"></property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="label1">
+                        <property name="visible">True</property>
+                        <property name="xalign">0</property>
+                        <property name="xpad">5</property>
+                        <property name="label" translatable="yes">Grouped by:</property>
+                        <property name="justify">GTK_JUSTIFY_CENTER</property>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
+                        <property name="x_options">GTK_FILL</property>
+                        <property name="y_options"></property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkHBox" id="hbox1">
+                        <property name="visible">True</property>
+                        <property name="spacing">12</property>
+                        <property name="homogeneous">True</property>
+                        <child>
+                          <widget class="GtkRadioButton" id="grouped_by_col">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="label" translatable="yes">_Columns</property>
+                            <property name="use_underline">True</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                        </child>
+                        <child>
+                          <widget class="GtkRadioButton" id="grouped_by_row">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="label" translatable="yes">_Rows</property>
+                            <property name="use_underline">True</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                            <property name="group">grouped_by_col</property>
+                          </widget>
+                          <packing>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkRadioButton" id="grouped_by_area">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="label" translatable="yes">_Areas</property>
+                            <property name="use_underline">True</property>
+                            <property name="response_id">0</property>
+                            <property name="active">True</property>
+                            <property name="draw_indicator">True</property>
+                            <property name="group">grouped_by_col</property>
+                          </widget>
+                          <packing>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
+                        <property name="y_options">GTK_FILL</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkCheckButton" id="labels_button">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="label" translatable="yes">_Labels</property>
+                        <property name="use_underline">True</property>
+                        <property name="response_id">0</property>
+                        <property name="draw_indicator">True</property>
+                      </widget>
+                      <packing>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">2</property>
+                        <property name="bottom_attach">3</property>
+                        <property name="x_options">GTK_FILL</property>
+                        <property name="y_options"></property>
+                      </packing>
+                    </child>
+                  </widget>
+                </child>
+                <child>
+                  <widget class="GtkHSeparator" id="hseparator4">
+                    <property name="visible">True</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
                 <child>
                   <placeholder/>
-                </child>
-                <child>
-                  <widget class="GtkCheckButton" id="labels_button">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">_Labels</property>
-                    <property name="use_underline">True</property>
-                    <property name="response_id">0</property>
-                    <property name="draw_indicator">True</property>
-                  </widget>
-                  <packing>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">2</property>
-                    <property name="bottom_attach">3</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkHBox" id="hbox1">
-                    <property name="visible">True</property>
-                    <property name="spacing">12</property>
-                    <property name="homogeneous">True</property>
-                    <child>
-                      <widget class="GtkRadioButton" id="grouped_by_col">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">_Columns</property>
-                        <property name="use_underline">True</property>
-                        <property name="response_id">0</property>
-                        <property name="draw_indicator">True</property>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkRadioButton" id="grouped_by_row">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">_Rows</property>
-                        <property name="use_underline">True</property>
-                        <property name="response_id">0</property>
-                        <property name="draw_indicator">True</property>
-                        <property name="group">grouped_by_col</property>
-                      </widget>
-                      <packing>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkRadioButton" id="grouped_by_area">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">_Areas</property>
-                        <property name="use_underline">True</property>
-                        <property name="response_id">0</property>
-                        <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
-                        <property name="group">grouped_by_col</property>
-                      </widget>
-                      <packing>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">1</property>
-                    <property name="bottom_attach">2</property>
-                    <property name="y_options">GTK_FILL</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkLabel" id="label1">
-                    <property name="visible">True</property>
-                    <property name="xalign">0</property>
-                    <property name="xpad">5</property>
-                    <property name="label" translatable="yes">Grouped by:</property>
-                    <property name="justify">GTK_JUSTIFY_CENTER</property>
-                  </widget>
-                  <packing>
-                    <property name="top_attach">1</property>
-                    <property name="bottom_attach">2</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkLabel" id="var1-label">
-                    <property name="visible">True</property>
-                    <property name="xalign">0</property>
-                    <property name="xpad">5</property>
-                    <property name="label" translatable="yes">Input _range:</property>
-                    <property name="use_underline">True</property>
-                    <property name="justify">GTK_JUSTIFY_RIGHT</property>
-                  </widget>
-                  <packing>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options"></property>
-                  </packing>
                 </child>
               </widget>
             </child>
@@ -158,8 +175,8 @@
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
+                        <property name="top_attach">2</property>
+                        <property name="bottom_attach">3</property>
                         <property name="y_options"></property>
                         <property name="y_padding">2</property>
                       </packing>
@@ -173,8 +190,8 @@
                         <property name="mnemonic_widget">min_entry</property>
                       </widget>
                       <packing>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
+                        <property name="top_attach">2</property>
+                        <property name="bottom_attach">3</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
                         <property name="x_padding">5</property>
@@ -189,8 +206,8 @@
                         <property name="mnemonic_widget">n_entry</property>
                       </widget>
                       <packing>
-                        <property name="top_attach">3</property>
-                        <property name="bottom_attach">4</property>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
                         <property name="x_padding">5</property>
@@ -205,8 +222,8 @@
                         <property name="mnemonic_widget">max_entry</property>
                       </widget>
                       <packing>
-                        <property name="top_attach">2</property>
-                        <property name="bottom_attach">3</property>
+                        <property name="top_attach">3</property>
+                        <property name="bottom_attach">4</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
                         <property name="x_padding">5</property>
@@ -221,8 +238,8 @@
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
-                        <property name="top_attach">3</property>
-                        <property name="bottom_attach">4</property>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
                         <property name="y_options"></property>
                         <property name="y_padding">2</property>
                       </packing>
@@ -236,8 +253,8 @@
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
-                        <property name="top_attach">2</property>
-                        <property name="bottom_attach">3</property>
+                        <property name="top_attach">3</property>
+                        <property name="bottom_attach">4</property>
                         <property name="y_options"></property>
                         <property name="y_padding">2</property>
                       </packing>
@@ -246,7 +263,7 @@
                       <widget class="GtkRadioButton" id="calculated_button">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">_Calculated cutoffs</property>
+                        <property name="label" translatable="yes">C_alculated cutoffs</property>
                         <property name="use_underline">True</property>
                         <property name="response_id">0</property>
                         <property name="active">True</property>
@@ -477,11 +494,10 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label5">
+              <widget class="GtkLabel" id="label6">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">_Bins</property>
                 <property name="use_underline">True</property>
-                <property name="justify">GTK_JUSTIFY_CENTER</property>
               </widget>
               <packing>
                 <property name="type">tab</property>
@@ -495,6 +511,74 @@
                 <property name="border_width">12</property>
                 <property name="spacing">6</property>
                 <child>
+                  <widget class="GtkRadioButton" id="nochart-button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="label" translatable="yes">No chart</property>
+                    <property name="response_id">0</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkRadioButton" id="barchart-button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="label" translatable="yes">Bar chart</property>
+                    <property name="response_id">0</property>
+                    <property name="draw_indicator">True</property>
+                    <property name="group">nochart-button</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkRadioButton" id="columnchart-button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="label" translatable="yes">Column chart</property>
+                    <property name="response_id">0</property>
+                    <property name="draw_indicator">True</property>
+                    <property name="group">nochart-button</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkRadioButton" id="histogram-button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="label" translatable="yes">Histogram chart</property>
+                    <property name="response_id">0</property>
+                    <property name="draw_indicator">True</property>
+                    <property name="group">nochart-button</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkHSeparator" id="hseparator5">
+                    <property name="visible">True</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">4</property>
+                  </packing>
+                </child>
+                <child>
                   <widget class="GtkCheckButton" id="percentage-button">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -506,6 +590,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">5</property>
                   </packing>
                 </child>
                 <child>
@@ -520,92 +605,11 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">1</property>
+                    <property name="position">6</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkCheckButton" id="chart-button">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">_Chart output</property>
-                    <property name="use_underline">True</property>
-                    <property name="response_id">0</property>
-                    <property name="draw_indicator">True</property>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkTable" id="table1">
-                    <property name="visible">True</property>
-                    <property name="n_rows">3</property>
-                    <property name="n_columns">2</property>
-                    <property name="column_spacing">20</property>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <widget class="GtkRadioButton" id="columnchart-button">
-                        <property name="sensitive">False</property>
-                        <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">Column chart</property>
-                        <property name="response_id">0</property>
-                        <property name="draw_indicator">True</property>
-                        <property name="group">barchart-button</property>
-                      </widget>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkRadioButton" id="histogram-button">
-                        <property name="visible">True</property>
-                        <property name="sensitive">False</property>
-                        <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">Histogram chart</property>
-                        <property name="response_id">0</property>
-                        <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
-                        <property name="group">barchart-button</property>
-                      </widget>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="top_attach">2</property>
-                        <property name="bottom_attach">3</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkRadioButton" id="barchart-button">
-                        <property name="sensitive">False</property>
-                        <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">Bar chart</property>
-                        <property name="response_id">0</property>
-                        <property name="draw_indicator">True</property>
-                      </widget>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                      </packing>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">3</property>
-                  </packing>
+                  <placeholder/>
                 </child>
               </widget>
               <packing>
@@ -615,7 +619,7 @@
             <child>
               <widget class="GtkLabel" id="label4">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">O_ptions</property>
+                <property name="label" translatable="yes">_Graphs &amp; Options</property>
                 <property name="use_underline">True</property>
                 <property name="justify">GTK_JUSTIFY_CENTER</property>
               </widget>
@@ -637,10 +641,11 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label6">
+              <widget class="GtkLabel" id="label5">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">_Output</property>
                 <property name="use_underline">True</property>
+                <property name="justify">GTK_JUSTIFY_CENTER</property>
               </widget>
               <packing>
                 <property name="type">tab</property>
