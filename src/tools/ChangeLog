@@ -1,5 +1,10 @@
 2008-09-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-histogram.c (analysis_tool_histogram_engine_run): set the 
+	  x-axis numbering style to avoid the histogram to pick the "";"" style.
+
+2008-09-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dao.c (dao_set_sheet_object): don't make the graph too big
 	* analysis-histogram.c (analysis_tool_histogram_engine_run): handle 
 	  bar and column chart request

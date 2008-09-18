@@ -366,6 +366,16 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 			gog_series_set_dim (series, 1, values, NULL);
 		}
 		g_object_unref (limits);
+
+		if (info->chart == HISTOGRAM_CHART) {
+			GogObject *axis;
+		        axis = gog_object_get_child_by_name (GOG_OBJECT (chart), "X-Axis");
+			go_object_set_property (G_OBJECT (axis), "assigned-format-string-XL",
+						"X-Axis Format", "0.0EE0",
+						NULL, NULL);
+		}
+
+		
 		
 		so = sheet_object_graph_new (graph);
 		g_object_unref (graph);
