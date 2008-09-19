@@ -1,3 +1,10 @@
+2008-09-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	see Bug [#302883]
+	* src/dialogs/print.glade: use stock button for Page Setup dialog
+	* src/dialogs/function-select.glade: use stock button for ok (instead
+	  of insert)
+
 2008-09-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* histogram.glade: enable chart buttons and rearrange them
