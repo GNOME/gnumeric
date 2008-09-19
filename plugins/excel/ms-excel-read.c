@@ -3802,11 +3802,10 @@ office 12 seems to add 8 bytes
 		      "tab-foreground", text_color,
 		      "tab-background", color,
 		      NULL);
-	if (color != NULL) {
-		d (1, fprintf (stderr,"%s tab colour = %04hx:%04hx:%04hx\n",
-			      esheet->sheet->name_unquoted,
-			      color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue););
-	}
+	d (1, fprintf (stderr,"%s tab colour = %04hx:%04hx:%04hx\n",
+		      esheet->sheet->name_unquoted,
+		      color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue););
+
 	style_color_unref (text_color);
 	style_color_unref (color);
 }

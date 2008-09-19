@@ -1,0 +1,20 @@
+#!/bin/sh
+
+GNOME_DIR=/gnome/src			# gnumeric/goffice/libgsf sources
+BUILD_DIR=/local/projects/build		# dir into which to store a build
+
+ANALYSIS_DIR=/local/projects/prevent-linux-4.0.1-db	# the global DB of runs
+COV_DIR=/local/projects/prevent-linux-4.0.1		# where we installed coverity
+
+for proj in libgsf goffice gnumeric; do
+    echo '<<<<<<<<<<<<<<<<<<'
+    echo  "$GNOME_DIR/$proj"
+    echo '------------------'
+    cd  "$GNOME_DIR/$proj"
+    make -k clean 
+    "$COV_DIR/bin/cov-build" --dir "$BUILD_DIR" make -k
+    echo '<<<<<<<<<<<<<<<<<<'
+done
+
+"$COV_DIR/bin/cov-analyze"	  --dir "$BUILD_DIR" --trial --enable-constraint-fpp --enable-callgraph-metrics
+"$COV_DIR/bin/cov-commit-defects" --dir "$BUILD_DIR" --datadir "$ANALYSIS_DIR" --product gnumeric

@@ -11,6 +11,11 @@
 	(cmd_analysis_tool_redo): use the above
 	(cmd_analysis_tool_finalize): handle new fields
 
+2008-09-17  Jody Goldberg <jody@gnome.org>
+
+	* src/mathfunc.c (random_landau) : Use 'I' not 'i' as per original
+	  libgsl code. [Coverity 259].
+
 2008-09-14  Jody Goldberg <jody@gnome.org>
 
 	* src/selection.c (sv_selection_apply_in_order) : suppress warning.
@@ -25,6 +30,11 @@
 	(cmd_hyperlink_redo): new
 	(cmd_hyperlink_finalize): new
 	(cb_cmd_hyperlink_find_cells): new
+
+2008-09-11  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-sax-write.c (gnm_cellregion_to_xml) : add protection.
+	  [Coverity 68]
 
 2008-09-11  Morten Welinder  <terra@gnome.org>
 

@@ -7537,14 +7537,14 @@ random_landau (void)
 		56.123356, 59.103894
 	};
 	gnm_float X, U, V, RANLAN;
-	int I, i;
+	int I;
 
 	do {
 		X = random_01 ();
 	} while (X == 0.0);
 	U = 1000.0 * X;
-	i = U;
-	U = U - i;
+	I = U;
+	U = U - I;
 
 	if (I >= 70 && I <= 800)
 		RANLAN = F[I] + U * (F[I + 1] - F[I]);

@@ -1,3 +1,8 @@
+2008-09-11  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_TAB_COLOR) : no sense checking for NULL.
+	  [Coverity #197]
+
 2008-09-02  Jody Goldberg <jody@gnome.org>
 
 	* boot.c (excel_file_open) : store VBA if it is available

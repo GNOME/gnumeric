@@ -360,17 +360,21 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 					       (cell->value),
 					       10);
 			break;
+
 		case VALUE_STRING:
-		case VALUE_ARRAY:
 		case VALUE_ERROR:
-		case VALUE_CELLRANGE:
-		default:
-			break;
 			gsf_xml_out_add_cstr_unchecked (state->xml,
 							OFFICE "value-type", "string");
 			gsf_xml_out_add_cstr (state->xml,
 					      OFFICE "value",
 					      value_peek_string (cell->value));
+			break;
+
+		case VALUE_ARRAY:
+		case VALUE_CELLRANGE:
+		default:
+			break;
+
 		}
 		gsf_xml_out_start_element (state->xml, TEXT "p");
 		gsf_xml_out_add_cstr (state->xml, NULL, rendered_string);

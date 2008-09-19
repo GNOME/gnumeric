@@ -1350,7 +1350,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	GSList       *ptr;
 	GsfOutput    *buf = gsf_output_memory_new ();
 	GnmLocale    *locale;
-	GODoc		 *doc = NULL;
+	GODoc	     *doc = NULL;
 
 	g_return_val_if_fail (cr != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (cr->origin_sheet), NULL);
@@ -1420,7 +1420,8 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 
 	xml_write_objects (&state.state, cr->objects);
 
-	go_doc_write (doc, state.state.output);
+	if (NULL != doc)
+		go_doc_write (doc, state.state.output);
 	gsf_xml_out_end_element (state.state.output); /* </ClipboardRange> */
 
 	gnm_pop_C_locale (locale);

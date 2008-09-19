@@ -1,3 +1,8 @@
+2008-09-10  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-write.c (odf_write_cell) : why were strings disabled ?
+	  [Coverity #248]
+
 2008-08-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.2

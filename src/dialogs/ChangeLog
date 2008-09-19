@@ -66,6 +66,11 @@
 	* dialog-stf-export.c (stf_export_dialog_sheet_page_init):
 	  Don't export empty sheets!
 
+2008-09-11  Jody Goldberg <jody@gnome.org>
+
+	* dialog-autoformat.c (cb_category_changed) : handle missing name and
+	  selection. [Coverity 70]
+
 2008-09-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	Fix for #360873

@@ -360,15 +360,8 @@ mps_parse_columns (MpsInputContext *ctxt)
 {
 	gchar type[3], n1[10], n2[10], n3[10], v1[20], v2[20];
 
-	while (1) {
-	        if (strncmp (ctxt->line, "COLUMNS", 7) == 0)
-		        break;
-		else
-		        return FALSE;
-
-		if (!mps_get_line (ctxt))
-		        return FALSE;
-	}
+	if (strncmp (ctxt->line, "COLUMNS", 7) != 0)
+		return FALSE;
 
 	while (1) {
 	        if (!mps_get_line (ctxt))

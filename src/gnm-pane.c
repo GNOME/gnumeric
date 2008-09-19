@@ -2497,20 +2497,24 @@ control_point_set_cursor (SheetControlGUI const *scg, FooCanvasItem *ctrl_pt)
 
 	switch (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (ctrl_pt), "index"))) {
 	case 1: invert_v = !invert_v;
+		/* fallthrough */
 	case 6: cursor = invert_v ? GDK_TOP_SIDE : GDK_BOTTOM_SIDE;
 		break;
 
 	case 3: invert_h = !invert_h;
+		/* fallthrough */
 	case 4: cursor = invert_h ? GDK_LEFT_SIDE  : GDK_RIGHT_SIDE;
 		break;
 
 	case 2: invert_h = !invert_h;
+		/* fallthrough */
 	case 0: cursor = invert_v
 			? (invert_h ? GDK_BOTTOM_RIGHT_CORNER : GDK_BOTTOM_LEFT_CORNER)
 			: (invert_h ? GDK_TOP_RIGHT_CORNER : GDK_TOP_LEFT_CORNER);
 		break;
 
 	case 7: invert_h = !invert_h;
+		/* fallthrough */
 	case 5: cursor = invert_v
 			? (invert_h ? GDK_TOP_RIGHT_CORNER : GDK_TOP_LEFT_CORNER)
 			: (invert_h ? GDK_BOTTOM_RIGHT_CORNER : GDK_BOTTOM_LEFT_CORNER);

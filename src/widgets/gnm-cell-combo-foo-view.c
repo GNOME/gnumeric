@@ -157,6 +157,7 @@ cb_ccombo_key_press (GtkWidget *popup, GdkEventKey *event, GtkWidget *list)
 	case GDK_KP_Down :
 	case GDK_Down :
 	case GDK_KP_Up :
+		/* fallthrough */
 	case GDK_Up :
 		if (!(event->state & GDK_MOD1_MASK))
 			return FALSE;

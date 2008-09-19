@@ -352,6 +352,8 @@ setup_color_pickers (FormatState *state,
 		if (0 == (state->conflicts & (1 << MSTYLE_COLOR_PATTERN)))
 			mcolor = gnm_style_get_pattern_color (state->style);
 
+		/* fallthrough */
+
 	case MSTYLE_BORDER_TOP:	/* MSTYLE_BORDER_TOP is abused as representing all borders. */
 		def_sc = sheet_style_get_auto_pattern_color (state->sheet);
 		break;
