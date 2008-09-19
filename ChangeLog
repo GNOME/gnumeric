@@ -1,5 +1,10 @@
 2008-09-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	Fix for #535015
+	* src/hlink.c (gnm_hlink_external_activate): complete code
+
+2008-09-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/commands.c (CmdAnalysis_Tool): add field
 	(cmd_analysis_tool_undo): delete associated sheet objects
 	(cmd_analysis_tool_draw_old_so): new

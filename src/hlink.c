@@ -266,11 +266,15 @@ gnm_hlink_external_activate (GnmHLink *lnk, WorkbookControl *wbc)
 {
 	GError *err = NULL;
 	gboolean res = FALSE;
+	char *cmd;
 
 	if (lnk->target == NULL)
 		return FALSE;
 
-#warning TODO
+	cmd = go_shell_arg_to_uri (lnk->target);
+	err = go_url_show (cmd);
+	g_free (cmd);
+
 	if (err != NULL) {
 		char *msg = g_strdup_printf(_("Unable to open '%s'"), lnk->target);
 		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), msg, err->message);
