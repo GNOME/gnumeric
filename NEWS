@@ -13,6 +13,7 @@ Andreas:
 	* Fix command names for hyperlink additions.
 	* Improve histogram tool [#385458][#552161]
 	* Make external hyperlinks work. [#535015]
+	* Make more dialog buttons obey no-icon request. [#302883]
 
 Jean:
 	* Fix printing of rotated text. [#539734]

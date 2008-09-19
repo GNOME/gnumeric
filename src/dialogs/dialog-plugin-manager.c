@@ -658,6 +658,7 @@ dialog_plugin_manager (WBCGtk *wbcg)
 	GtkWidget *hbox;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *rend;
+	GtkWidget *image = NULL;
 
 	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (IS_WBC_GTK (wbcg));
@@ -679,6 +680,12 @@ dialog_plugin_manager (WBCGtk *wbcg)
 
 	pm_gui->button_activate_all =
 		GTK_BUTTON (glade_xml_get_widget (gui, "button_activate_all"));
+	/* If we add the following image in glade it does */
+        /* not obey gtk-button-images = 0 */
+	image = g_object_ref (gtk_image_new_from_stock (GTK_STOCK_EXECUTE, 
+							GTK_ICON_SIZE_BUTTON));
+	gtk_button_set_image (pm_gui->button_activate_all, image);
+
 	pm_gui->button_rescan_directories = GTK_BUTTON (glade_xml_get_widget
 						    (gui, "button_rescan_directories"));
 	pm_gui->checkbutton_install_new = GTK_CHECK_BUTTON (glade_xml_get_widget
