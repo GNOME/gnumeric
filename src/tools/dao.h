@@ -49,12 +49,16 @@ typedef struct {
 	gboolean                    retain_comments;
 	gboolean                    put_formulas;
 	WorkbookControl             *wbc;
+	GSList                      *sos;
+	gboolean                    omit_so;
+	gboolean                    use_gfree; 
 } data_analysis_output_t;
 
 data_analysis_output_t *dao_init (data_analysis_output_t *dao, 
 				  data_analysis_output_type_t type);
 data_analysis_output_t *dao_load_from_value (data_analysis_output_t *dao,
 					     GnmValue *output_range);
+void dao_free (data_analysis_output_t *dao);
 
 void dao_autofit_columns      (data_analysis_output_t *dao);
 void dao_autofit_these_columns (data_analysis_output_t *dao, int from_col,
@@ -132,5 +136,12 @@ GnmExpr const *dao_get_cellref  (data_analysis_output_t *dao, int x, int y);
 GnmExpr const *dao_get_rangeref (data_analysis_output_t *dao, int ax, int ay,  int bx, int by);
 
 GOData *dao_go_data_vector (data_analysis_output_t *dao, int ax, int ay,  int bx, int by);
+
+
+/* The following 2 functions are intended solely for undo support */
+/* of sheet objects normally created by the dao. */ 
+
+GSList *dao_surrender_so (data_analysis_output_t *dao);
+void    dao_set_omit_so (data_analysis_output_t *dao, gboolean omit);
 
 #endif

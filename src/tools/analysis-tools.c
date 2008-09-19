@@ -684,9 +684,8 @@ write_data (data_analysis_output_t *dao, GArray *data)
 		(CellIterFunc)&cb_write_data, data);
 }
 
-static gboolean
-analysis_tool_generic_clean (G_GNUC_UNUSED data_analysis_output_t *dao,
-			     gpointer specs)
+gboolean
+analysis_tool_generic_clean (gpointer specs)
 {
 	analysis_tools_data_generic_t *info = specs;
 
@@ -832,7 +831,7 @@ analysis_tool_correlation_engine (data_analysis_output_t *dao, gpointer specs,
 			    1 + g_slist_length (info->input));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (dao, specs);
+		return analysis_tool_generic_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
@@ -886,7 +885,7 @@ analysis_tool_covariance_engine (data_analysis_output_t *dao, gpointer specs,
 			    1 + g_slist_length (info->input));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (dao, specs);
+		return analysis_tool_generic_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
@@ -1273,7 +1272,7 @@ analysis_tool_descriptive_engine (data_analysis_output_t *dao, gpointer specs,
 			    (info->kth_smallest ? 4 : 0 ) - 1);
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (dao, specs);
+		return analysis_tool_generic_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
@@ -1395,7 +1394,7 @@ analysis_tool_sampling_engine (data_analysis_output_t *dao, gpointer specs,
 			    1 + info->size);
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (dao, specs);
+		return analysis_tool_generic_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
@@ -3436,7 +3435,7 @@ analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpointer specs
 			    1 + analysis_tool_calc_length (specs));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (dao, specs);
+		return analysis_tool_generic_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
@@ -3569,7 +3568,7 @@ analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao,
 			    1 + analysis_tool_calc_length (specs));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (dao, specs);
+		return analysis_tool_generic_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
@@ -3701,7 +3700,7 @@ analysis_tool_ranking_engine (data_analysis_output_t *dao, gpointer specs,
 			    1 + analysis_tool_calc_length (specs));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (dao, specs);
+		return analysis_tool_generic_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
@@ -4035,7 +4034,7 @@ analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs,
 		dao_adjust (dao, 7, 11 + g_slist_length (info->base.input));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (dao, specs);
+		return analysis_tool_generic_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
@@ -4869,7 +4868,7 @@ analysis_tool_fourier_engine (data_analysis_output_t *dao, gpointer specs,
 			    2 + analysis_tool_fourier_calc_length (specs));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_generic_clean (dao, specs);
+		return analysis_tool_generic_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:

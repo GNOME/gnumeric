@@ -64,8 +64,11 @@ data_analysis_output_t *
 dao_init (data_analysis_output_t *dao,
 	  data_analysis_output_type_t type)
 {
-	if (dao == NULL)
+	if (dao == NULL) {
 		dao = g_new (data_analysis_output_t, 1);
+		dao->use_gfree = TRUE;
+	} else
+		dao->use_gfree = FALSE;
 
 	dao->type              = type;
 	dao->start_col         = 0;
@@ -80,8 +83,19 @@ dao_init (data_analysis_output_t *dao,
 	dao->retain_format     = FALSE;
 	dao->retain_comments   = FALSE;
 	dao->put_formulas      = FALSE;
+	dao->sos               = NULL;
+        dao->omit_so           = FALSE;
 
 	return dao;
+}
+
+void dao_free (data_analysis_output_t *dao)
+{
+	go_slist_free_custom (dao->sos, g_object_unref);
+	dao->sos = NULL;
+
+	if (dao->use_gfree)
+		g_free (dao);
 }
 
 data_analysis_output_t *
@@ -1156,6 +1170,11 @@ dao_set_sheet_object (data_analysis_output_t *dao, int col, int row, SheetObject
 	GnmRange	  anchor_r;
 
 	g_return_if_fail (so != NULL);
+
+	if (dao->omit_so) {
+		g_object_unref (so);
+		return;
+	}
 		
 	range_init (&anchor_r, dao->start_col + col, dao->start_row + row,
 		    dao->start_col + ((dao->cols < 5) ? dao->cols : 5),
@@ -1164,11 +1183,27 @@ dao_set_sheet_object (data_analysis_output_t *dao, int col, int row, SheetObject
 	sheet_object_anchor_init (&anchor, &anchor_r, 0, GOD_ANCHOR_DIR_UNKNOWN);
 	sheet_object_set_anchor (so, &anchor);
 	sheet_object_set_sheet (so, dao->sheet);
-	g_object_unref (so);
+
+	dao->sos = g_slist_prepend (dao->sos, so);
 }
 
 GOData	*
 dao_go_data_vector (data_analysis_output_t *dao, int ax, int ay,  int bx, int by)
 {
 	return gnm_go_data_vector_new_expr (dao->sheet, gnm_expr_top_new (dao_get_rangeref (dao, ax, ay, bx, by)));
+}
+
+GSList *
+dao_surrender_so (data_analysis_output_t *dao)
+{
+	GSList *l = dao->sos;
+	dao->sos = NULL;
+
+	return l; 
+}
+
+void    
+dao_set_omit_so (data_analysis_output_t *dao, gboolean omit)
+{
+	dao->omit_so = omit;
 }

@@ -4942,8 +4942,9 @@ typedef struct {
 
 	ColRowStateList         *col_info;
 	ColRowStateList         *row_info;
-	GnmRange                   old_range;
-	GnmCellRegion              *old_contents;
+	GnmRange                old_range;
+	GnmCellRegion           *old_contents;
+	GSList                  *newSheetObjects;
 } CmdAnalysis_Tool;
 
 MAKE_GNM_COMMAND (CmdAnalysis_Tool, cmd_analysis_tool, NULL)
@@ -4987,11 +4988,21 @@ cmd_analysis_tool_undo (GnmCommand *cmd, WorkbookControl *wbc)
 			dao_set_colrow_state_list (me->dao, FALSE, me->row_info);
 			me->row_info = colrow_state_list_destroy (me->row_info);
 		}
+		if (me->newSheetObjects == NULL)
+			me->newSheetObjects = dao_surrender_so (me->dao);
+		g_slist_foreach (me->newSheetObjects, (GFunc)sheet_object_clear_sheet, NULL);
 		workbook_recalc (me->dao->sheet->workbook);
 		sheet_update (me->dao->sheet);
 	}
 
 	return FALSE;
+}
+
+static void
+cmd_analysis_tool_draw_old_so (SheetObject *so, data_analysis_output_t *dao)
+{
+	g_object_ref (G_OBJECT (so));
+	dao_set_sheet_object (dao, 0, 1, so);
 }
 
 static gboolean
@@ -5033,6 +5044,9 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		break;
 	}
 
+	if (me->newSheetObjects != NULL)
+		dao_set_omit_so (me->dao, TRUE);
+
 	if (me->engine (me->dao, me->specs, TOOL_ENGINE_FORMAT_OUTPUT_RANGE, NULL))
 		return TRUE;
 
@@ -5043,6 +5057,18 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		} else
 			return TRUE;
 	}
+	if (me->newSheetObjects != NULL)
+	{
+		GSList *l = g_slist_reverse 
+			(g_slist_copy (me->newSheetObjects));
+
+		dao_set_omit_so (me->dao, FALSE);
+		g_slist_foreach (l,
+				 (GFunc) cmd_analysis_tool_draw_old_so, 
+				 me->dao);
+		g_slist_free (l);
+	}
+
 	if (continuity) {
 		g_warning ("There shouldn't be any data left in here!");
 	}
@@ -5074,10 +5100,12 @@ cmd_analysis_tool_finalize (GObject *cmd)
 
 	if (me->specs_owned) {
 		g_free (me->specs);
-		g_free (me->dao);
+		dao_free (me->dao);
 	}
 	if (me->old_contents)
 		cellregion_unref (me->old_contents);
+
+	go_slist_free_custom (me->newSheetObjects, g_object_unref);
 
 	gnm_command_finalize (cmd);
 }

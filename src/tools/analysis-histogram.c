@@ -225,7 +225,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 	}
 
 	for (l = info->base.input, col = to_col + 1; l; col++, l = l->next) {
-		GnmValue *val = l->data;
+		GnmValue *val = value_dup ((GnmValue *)l->data);
 		GnmValue *val_c = NULL;
 		GnmExpr const *expr_count;
 		GnmExpr const *expr_data;
@@ -428,7 +428,7 @@ analysis_tool_histogram_engine (data_analysis_output_t *dao, gpointer specs,
 		return FALSE;
 	}
 	case TOOL_ENGINE_CLEAN_UP:
-		return FALSE;
+		return analysis_tool_generic_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:

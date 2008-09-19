@@ -1,3 +1,21 @@
+2008-09-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-histogram.c (analysis_tool_histogram_engine_run): we need to 
+	keep the values around for potential redos.
+	(analysis_tool_histogram_engine): clean up when asked to do so.
+	* analysis-tools.h (analysis_tool_generic_clean): needs to be non-static
+	* analysis-tools.c (analysis_tool_generic_clean): make non-static
+	  and remove unneeded argument. Change all callers.
+	* dao.h (data_analysis_output_t): add fields
+	(dao_free): new
+	(dao_surrender_so): new
+	(dao_set_omit_so): new
+	* dao.c (dao_free): new
+	(dao_surrender_so): new
+	(dao_set_omit_so): new
+	(dao_init): handle new fields
+	(dao_set_sheet_object): don't write sheet objects when omit_so is true.
+
 2008-09-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-histogram.c (analysis_tool_histogram_engine_run): set the 

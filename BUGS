@@ -758,7 +758,7 @@ Architecture Changes
 
 38) Printing
     38.1) cell text wraps differently when printing than
-	  displaying due to scaling differences in font size.
+	  displaying due to scaling differences in font size.   (DONE)
     38.2) explicit page breaks
     38.3) PI:comment_placement
     38.4) PI:display_errors

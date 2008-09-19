@@ -226,14 +226,11 @@ typedef struct {
 gboolean analysis_tool_anova_two_factor_engine (data_analysis_output_t *dao, gpointer specs,
 					   analysis_tool_engine_t selector, gpointer result);
 
-/* THINGS NEEDED FOR THE HISTOGRAM SPLIT-OUT */
+/********************************************************************/
+/* Functions also needed elsewhere.                                 */
 
-/*
- *  prepare_input_range:
- *  @input_range:
- *  @group_by:
- *
- */
+gboolean analysis_tool_generic_clean (gpointer specs);
+
 void prepare_input_range (GSList **input_range, group_by_t group_by);
 
 const GnmExpr *make_cellref (int dx, int dy);
