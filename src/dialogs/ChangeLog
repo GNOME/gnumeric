@@ -1,3 +1,13 @@
+2008-09-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* sampling.glade: add some entry fields and radio buttons, remove
+	  apply button (which worked identically to the ok button).
+	* dialog-analysis-tools.c (SamplingState): add fields
+	(sampling_tool_update_sensitivity_cb): skip apply vutton
+	(sampling_tool_ok_clicked_cb): handle new fields
+	(sampling_method_toggled_cb): ditto
+	(dialog_sampling_tool): ditto
+
 2008-09-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-function-select.c (describe_new_style): also show notes.

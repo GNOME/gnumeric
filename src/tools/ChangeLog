@@ -1,3 +1,11 @@
+2008-09-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.h (analysis_tools_data_sampling_t): add new fields
+	* analysis-tools.c (cb_write_data): delete
+	(write_data): delete
+	(analysis_tool_sampling_engine_run): rewrite completely
+	(analysis_tool_sampling_engine): calculate the correct dao height
+
 2008-09-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-histogram.c (analysis_tool_histogram_engine_run): we need to 

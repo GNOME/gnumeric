@@ -123,7 +123,10 @@ gboolean analysis_tool_fourier_engine (data_analysis_output_t *dao, gpointer spe
 typedef struct {
 	analysis_tools_data_generic_t base;
 	gboolean periodic;
+	gboolean row_major;
+	guint offset;
 	guint size;
+	guint period;
 	guint number;
 } analysis_tools_data_sampling_t;
 

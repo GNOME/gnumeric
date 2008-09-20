@@ -227,7 +227,7 @@ cb_get_data_set_list (gpointer data, gpointer user_data)
  *  @ignore_non_num: gboolean   whether simply to ignore non-numerical values
  *  @read_label: gboolean       whether the first entry contains a label
  */
-GPtrArray *
+static GPtrArray *
 new_data_set_list (GSList *ranges, group_by_t group_by,
 		   gboolean ignore_non_num, gboolean read_labels, Sheet *sheet)
 {
@@ -649,39 +649,6 @@ set_cell_text_row (data_analysis_output_t *dao, int col, int row, const char *te
 		dao_set_cell_value (dao, col++, row, value_new_string (p));
 	}
 	g_free (orig_copy);
-}
-
-#warning 2006/May/31  Review this.  Why are we pulling elements from the front of an array ??
-static GnmValue *
-cb_write_data (GnmCellIter const *iter, GArray* data)
-{
-	gnm_float  x;
-	GnmCell *cell;
-	if (data->len == 0)
-		return VALUE_TERMINATE;
-	if (NULL == (cell = iter->cell))
-		cell = sheet_cell_create (iter->pp.sheet,
-			iter->pp.eval.col, iter->pp.eval.row);
-	x = g_array_index (data, gnm_float, 0);
-	g_array_remove_index (data, 0);
-	sheet_cell_set_value (cell, value_new_float (x));
-	return NULL;
-}
-
-static void
-write_data (data_analysis_output_t *dao, GArray *data)
-{
-	gint st_row = dao->start_row + dao->offset_row;
-	gint end_row = dao->start_row + dao->rows - 1;
-	gint st_col = dao->start_col + dao->offset_col;
-	gint end_col = dao->start_col + dao->offset_col;
-
-	if (dao->cols <= dao->offset_col)
-		return;
-
-	sheet_foreach_cell_in_range (dao->sheet, CELL_ITER_ALL,
-		st_col, st_row, end_col, end_row,
-		(CellIterFunc)&cb_write_data, data);
 }
 
 gboolean
@@ -1306,75 +1273,144 @@ static gboolean
 analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 					 analysis_tools_data_sampling_t *info)
 {
-	GPtrArray *data = NULL;
+	GSList *l;
+	gint col = 0;
+	guint ct;
+	GnmFunc *fd_index = NULL;
+	GnmFunc *fd_randdiscrete = NULL;
+	gint source;
 
-	guint i, j, data_len;
-	guint n_sample;
-	guint n_data;
-	gnm_float x;
-
-	data = new_data_set_list (info->base.input, info->base.group_by,
-				  TRUE, info->base.labels, dao->sheet);
-
-	for (n_data = 0; n_data < data->len; n_data++) {
-		for (n_sample = 0; n_sample < info->number; n_sample++) {
-			GArray * sample = g_array_new (FALSE, FALSE,
-						       sizeof (gnm_float));
-			GArray * this_data = g_array_new (FALSE, FALSE,
-							  sizeof (gnm_float));
-			data_set_t * this_data_set;
-
-			this_data_set = g_ptr_array_index (data, n_data);
-			data_len = this_data_set->data->len;
-
-			dao_set_cell_printf (dao, 0, 0, this_data_set->label);
-			dao_set_italic (dao, 0, 0, 0, 0);
-			dao->offset_row = 1;
-
-			g_array_set_size (this_data, data_len);
-			g_memmove (this_data->data, this_data_set->data->data,
-				   sizeof (gnm_float) * data_len);
-
-			if (info->periodic) {
-				if ((info->size < 0) || (info->size > data_len)) {
-					destroy_data_set_list (data);
-					gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->base.wbc),
-						_("The requested sample size is too large for a periodic sample."));
-					return TRUE;
-				}
-				for (i = info->size - 1; i < data_len; i += info->size) {
-					x = g_array_index (this_data, gnm_float, i);
-					g_array_append_val (sample, x);
-				}
-				write_data (dao, sample);
-			} else {
-				for (i = 0; i < info->size; i++) {
-					guint random_index;
-
-					if (0 == data_len)
-						break;
-					random_index = random_01 () * data_len;
-					if (random_index == data_len)
-						random_index--;
-					x = g_array_index (this_data, gnm_float, random_index);
-					g_array_remove_index_fast (this_data, random_index);
-					g_array_append_val (sample, x);
-					data_len--;
-				}
-				write_data (dao, sample);
-				for (j = i; j < info->size; j++)
-					dao_set_cell_na (dao, 0, j);
-			}
-
-			g_array_free (this_data, TRUE);
-			g_array_free (sample, TRUE);
-      			dao->offset_col++;
-			dao->offset_row = 0;
-		}
+	if (info->base.labels || info->periodic) {
+		fd_index = gnm_func_lookup ("INDEX", NULL);
+		gnm_func_ref (fd_index);		
+	}
+	if (!info->periodic) {
+		fd_randdiscrete = gnm_func_lookup ("RANDDISCRETE", NULL);
+		gnm_func_ref (fd_randdiscrete);				
 	}
 
-	destroy_data_set_list (data);
+	for (l = info->base.input, source = 1; l; l = l->next, source++) {
+		GnmValue *val = value_dup ((GnmValue *)l->data);
+		GnmValue *val_c = NULL;
+		GnmExpr const *expr_title = NULL;
+		GnmExpr const *expr_input = NULL;
+		char const *format = NULL;
+		guint offset = info->periodic ? ((info->offset == 0) ? info->period : info->offset): 0;
 
+
+		if (info->base.labels) {
+			val_c = value_dup (val);
+			switch (info->base.group_by) {
+			case GROUPED_BY_ROW:
+				val->v_range.cell.a.col++;
+				break;
+			case GROUPED_BY_COL:
+				val->v_range.cell.a.row++;
+				break;
+			default:
+				offset++;
+				break;
+			}
+			expr_title = gnm_expr_new_funcall1 (fd_index, 
+							    gnm_expr_new_constant (val_c));
+			for (ct = 0; ct < info->number; ct++)
+				dao_set_cell_expr (dao, col+ct, 0, gnm_expr_copy (expr_title));
+			gnm_expr_free (expr_title);			
+		} else {
+			switch (info->base.group_by) {
+ 			case GROUPED_BY_ROW:
+				format = _("Row %d");
+				break;
+			case GROUPED_BY_COL:
+				format = _("Column %d");
+				break;
+			default:
+				format = _("Area %d");
+				break;			
+			}	
+			for (ct = 0; ct < info->number; ct++)
+				dao_set_cell_printf (dao, col+ct, 0, format, source);
+		}
+			
+		expr_input = gnm_expr_new_constant (value_dup (val));
+		
+		
+		if (info->periodic) {
+			guint i;
+			gint height = value_area_get_height (val, NULL);
+			gint width = value_area_get_width (val, NULL);
+			GnmExpr const *expr_period;
+
+			for (i=0; i < info->size; i++, offset += info->period) {
+				gint x_offset;
+				gint y_offset;
+
+				if (info->row_major) {
+					y_offset = (offset - 1)/width + 1;
+					x_offset = offset - (y_offset - 1) * width; 
+				} else {
+					x_offset = (offset - 1)/height + 1;
+					y_offset = offset - (x_offset - 1) * height; 
+				}
+
+				expr_period = gnm_expr_new_funcall3 
+					(fd_index, gnm_expr_copy (expr_input),
+					 gnm_expr_new_constant (value_new_int (y_offset)),
+					 gnm_expr_new_constant (value_new_int (x_offset)));
+
+				for (ct = 0; ct < info->number; ct += 2)
+					dao_set_cell_expr (dao, col + ct, i + 1, 
+							   gnm_expr_copy (expr_period));
+				gnm_expr_free (expr_period);
+
+				if (info->number > 1) {
+					if (!info->row_major) {
+						y_offset = (offset - 1)/width + 1;
+						x_offset = offset - (y_offset - 1) * width; 
+					} else {
+						x_offset = (offset - 1)/height + 1;
+						y_offset = offset - (x_offset - 1) * height; 
+					}
+					
+					expr_period = gnm_expr_new_funcall3 
+						(fd_index, gnm_expr_copy (expr_input),
+						 gnm_expr_new_constant (value_new_int (y_offset)),
+						 gnm_expr_new_constant (value_new_int (x_offset)));
+					
+					for (ct = 1; ct < info->number; ct += 2)
+						dao_set_cell_expr (dao, col + ct, i + 1, 
+								   gnm_expr_copy (expr_period));
+					gnm_expr_free (expr_period);
+					
+				}
+			}
+			col += info->number;
+		} else {
+			GnmExpr const *expr_random;
+			guint i;
+			
+			expr_random = gnm_expr_new_funcall1 (fd_randdiscrete, 
+							     gnm_expr_copy (expr_input));
+			
+			for (ct = 0; ct < info->number; ct++, col++)
+				for (i=0; i < info->size; i++)
+					dao_set_cell_expr (dao, col, i + 1, 
+							   gnm_expr_copy (expr_random));
+			gnm_expr_free (expr_random);
+		}
+		
+		value_release (val);
+		gnm_expr_free (expr_input);
+		
+	}
+	
+	if (fd_index != NULL)
+		gnm_func_unref (fd_index);
+	if (fd_randdiscrete != NULL)
+		gnm_func_unref (fd_randdiscrete);
+	
+	dao_redraw_respan (dao);
+	
 	return FALSE;
 }
 
@@ -1389,10 +1425,32 @@ analysis_tool_sampling_engine (data_analysis_output_t *dao, gpointer specs,
 		return (dao_command_descriptor (dao, _("Sampling (%s)"), result)
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO:
+	{
+		GSList *l;
+	
 		prepare_input_range (&info->base.input, info->base.group_by);
+
+		if (info->periodic) {
+			info->size = 1;
+			for (l = info->base.input; l; l = l->next) {
+				GnmValue *val = ((GnmValue *)l->data);
+				gint size = (value_area_get_width (val, NULL) *  
+					     value_area_get_height (val, NULL));
+				guint usize = (size > 0) ? size : 1;
+
+				if (info->offset == 0)
+					usize = usize/info->period;
+				else
+					usize = (usize - info->offset)/info->period + 1;
+				if (usize > info->size)
+					info->size = usize;
+			}
+		}
+		
 		dao_adjust (dao, info->number * g_slist_length (info->base.input),
 			    1 + info->size);
 		return FALSE;
+	}
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_generic_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:

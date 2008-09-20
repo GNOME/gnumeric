@@ -152,15 +152,20 @@ typedef struct {
 
 typedef struct {
 	GenericToolState base;
+	GtkWidget *options_table;
+	GtkWidget *method_label;
 	GtkWidget *periodic_button;
 	GtkWidget *random_button;
-	GtkWidget *method_label;
 	GtkWidget *period_label;
 	GtkWidget *random_label;
 	GtkWidget *period_entry;
 	GtkWidget *random_entry;
-	GtkWidget *options_table;
 	GtkWidget *number_entry;
+	GtkWidget *offset_label;
+	GtkWidget *offset_entry;
+	GtkWidget *major_label;
+	GtkWidget *row_major_button;
+	GtkWidget *col_major_button;
 } SamplingState;
 
 typedef struct {
@@ -1742,7 +1747,6 @@ sampling_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 
         if (input_range != NULL) range_list_destroy (input_range);
 
-	gtk_widget_set_sensitive (state->base.apply_button, ready);
 	gtk_widget_set_sensitive (state->base.ok_button, ready);
 }
 
@@ -1779,11 +1783,14 @@ sampling_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
         data->periodic = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->periodic_button));
 
-	if (data->periodic == 1) {
-		err = entry_to_int (GTK_ENTRY (state->period_entry), &data->size, TRUE);
-	} else {
+	if (data->periodic) {
+		err = entry_to_int (GTK_ENTRY (state->period_entry), &data->period, TRUE);
+		err = entry_to_int (GTK_ENTRY (state->offset_entry), &data->offset, TRUE);
+		data->row_major = gtk_toggle_button_get_active 
+			(GTK_TOGGLE_BUTTON (state->row_major_button));	
+	} else
 		err = entry_to_int (GTK_ENTRY (state->random_entry), &data->size, TRUE);
-	}
+
 	err = entry_to_int (GTK_ENTRY (state->number_entry), &data->number, TRUE);
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
@@ -1808,9 +1815,20 @@ sampling_method_toggled_cb (GtkWidget *button, SamplingState *state)
 		gtk_widget_hide (state->random_entry);
 		gtk_widget_show (state->period_label);
 		gtk_widget_show (state->period_entry);
+		gtk_widget_show (state->offset_label);
+		gtk_widget_show (state->offset_entry);
+		gtk_widget_show (state->major_label);
+		gtk_widget_show (state->row_major_button);
+		gtk_widget_show (state->col_major_button);
 	} else {
 		gtk_widget_hide (state->period_label);
 		gtk_widget_hide (state->period_entry);
+		gtk_widget_hide (state->period_entry);
+		gtk_widget_hide (state->offset_label);
+		gtk_widget_hide (state->offset_entry);
+		gtk_widget_hide (state->major_label);
+		gtk_widget_hide (state->row_major_button);
+		gtk_widget_hide (state->col_major_button);
 		gtk_widget_show (state->random_label);
 		gtk_widget_show (state->random_entry);
 	}
@@ -1888,7 +1906,14 @@ dialog_sampling_tool (WBCGtk *wbcg, Sheet *sheet)
 	state->period_entry = glade_xml_get_widget (state->base.gui, "period-entry");
 	state->random_entry = glade_xml_get_widget (state->base.gui, "random-entry");
 	state->number_entry = glade_xml_get_widget (state->base.gui, "number-entry");
+	state->offset_label = glade_xml_get_widget (state->base.gui, "offset-label");
+	state->offset_entry = glade_xml_get_widget (state->base.gui, "offset-entry");
+	state->major_label = glade_xml_get_widget (state->base.gui, "pdir-label");
+	state->row_major_button = glade_xml_get_widget (state->base.gui, "row-major-button");
+	state->col_major_button = glade_xml_get_widget (state->base.gui, "col-major-button");
+
 	int_to_entry (GTK_ENTRY (state->number_entry), 1);
+	int_to_entry (GTK_ENTRY (state->offset_entry), 0);
 
 	g_signal_connect_after (G_OBJECT (state->periodic_button),
 		"toggled",
@@ -1915,7 +1940,7 @@ dialog_sampling_tool (WBCGtk *wbcg, Sheet *sheet)
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->number_entry));
 
-	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);
+	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	sampling_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
