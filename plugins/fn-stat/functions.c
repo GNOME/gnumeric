@@ -3891,41 +3891,16 @@ gnumeric_frequency (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_linest[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=LINEST\n"
-	   "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
-
-	   "@DESCRIPTION="
-	   "LINEST function calculates the ``least squares'' line that best "
-	   "fit to your data in @known_y's.  @known_x's contains the "
-	   "corresponding x's where y=mx+b.\n"
-	   "\n"
-           "LINEST returns an array having two columns and one row.  The "
-           "slope (m) of the regression line y=mx+b is given in the first "
-           "column and the y-intercept (b) in the second.\n"
-	   "\n"
-	   "If @stat is TRUE, extra statistical information will be returned. "
-	   "Extra statistical information is written below the regression "
-	   "line coefficients in the result array.  Extra statistical "
-	   "information consists of four rows of data.  In the first row "
-	   "the standard error values for the coefficients m1, (m2, ...), b "
-	   "are represented.  The second row contains the square of R and "
-	   "the standard error for the y estimate.  The third row contains "
-	   "the F-observed value and the degrees of freedom.  The last row "
-	   "contains the regression sum of squares and the residual sum "
-	   "of squares.\n"
-	   "\n"
-	   "* If @known_x's is omitted, an array {1, 2, 3, ...} is used.\n"
-	   "* If @known_y's and @known_x's have unequal number of data "
-	   "points, LINEST returns #NUM! error.\n"
-	   "* If @const is FALSE, the line will be forced to go through the "
-	   "origin, i.e., b will be zero. The default is TRUE.\n"
-	   "* The default of @stat is FALSE.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=LOGEST,TREND")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("LINEST:multiple linear regression coefficients and statistics.") },
+	{ GNM_FUNC_HELP_ARG, F_("y:vector of values dependent variable.") },
+	{ GNM_FUNC_HELP_ARG, F_("x:array of values of independent variables, defaults to a single vector 1,...,n.") },
+	{ GNM_FUNC_HELP_ARG, F_("affine:if true, the model contains a constant term, defaults to true.") },
+	{ GNM_FUNC_HELP_ARG, F_("stats:if true, some additional statistics is provided, defaults to false") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns an array with the first row giving the regression coefficients for the independent variables x_m, x_(m-1),...,x_2, x_1 followed by the y-intercept if @{affine} is true.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{stats} is true, the second row contains the corresponding standard errors of the regression coefficients. In this case, the third row contains the R^2 value and the standard error for the predicted value. The fourth row contains the observed F value and its degrees of freedom. Finally, the fifth row contains the regression sum of squares and the residual sum of squares.") },
+	{GNM_FUNC_HELP_DESCRIPTION, F_("If @{affine} is false, R^2 is the uncentered version of the coefficient of determination; that is the proportion of the sum of squares explained by the model.")},
+	{GNM_FUNC_HELP_NOTE, F_("If the length of @{y} does not match the corresponding length of @{x}, LINEST returns #NUM!")},
+	{ GNM_FUNC_HELP_SEEALSO, "LOGEST,TREND" },
 	{ GNM_FUNC_HELP_END }
 };
 

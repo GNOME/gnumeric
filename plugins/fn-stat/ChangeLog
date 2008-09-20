@@ -1,3 +1,8 @@
+2008-09-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c: (help_linest): correct desription (and convert 
+	  to new format)
+
 2008-08-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.2
