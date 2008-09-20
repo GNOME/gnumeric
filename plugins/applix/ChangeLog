@@ -1,3 +1,11 @@
+2008-09-19  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_parse_style) : clean up the switch.  There's
+	  no need to use convoluted logic to fallthrough a series of cases
+	  just to share some code. [Coverity 93,92,91]
+	(applix_rangeref_parse) : no point checking invariants. [Klocwork]
+	(applix_parse_style) : already checked in style_ref. [Klocwork]
+
 2009-04-28  Morten Welinder  <terra@gnome.org>
 
 	* applix-read.c (applix_fetch_sheet): Make sheet big enough to

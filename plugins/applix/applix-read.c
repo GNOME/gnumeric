@@ -257,9 +257,6 @@ applix_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *p
 	char const *ptr = start, *tmp1, *tmp2;
 	Workbook *wb = pp->wb;
 
-	g_return_val_if_fail (start != NULL, start);
-	g_return_val_if_fail (pp != NULL, start);
-
 	/* TODO : Does not handle external references */
 
 	ptr = applix_sheetref_parse (start, &res->a.sheet, wb);
@@ -547,7 +544,9 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				sep += 2;
 				break;
 			} else {
+				gboolean get_precision = FALSE;
 				char const *format = NULL;
+
 				switch (*sep) {
 				case 'D' : {
 					int id = 0;
@@ -588,8 +587,8 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					sep = end;
 					break;
 				}
+
 				case 'T' :
-				{
 					switch (sep[1]) {
 					case '0' : format = "hh:mm:ss AM/PM";	break;
 					case '1' : format = "hh:mm AM/PM";	break;
@@ -601,7 +600,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					}
 					sep += 2;
 					break;
-				}
+
 				case 'G' : /* general */
 					gnm_style_set_format (style, go_format_general ());
 
@@ -622,35 +621,22 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 						format_prefix = "$ #,##0";
 
 					format_suffix = "";
+					get_precision = TRUE;
+					break;
 
 				case 'S' : /* scientific */
-					if (!format_suffix)
-						format_suffix = "E+00";
-				case 'P' : /* percentage */
-					if (!format_suffix)
-						format_suffix = "%";
-
-				case 'F' : { /* fixed */
-					static char const *zeros = "000000000";
-					char *format;
-					char const *prec = "", *decimal = "";
-					int n_prec = applix_get_precision (++sep);
-
-					sep++;
-					if (n_prec > 0) {
-						prec = zeros + 9 - n_prec;
-						decimal = ".";
-					}
-
-					if (!format_prefix)
-						format_prefix = "0";
-					format = g_strconcat (format_prefix, decimal, prec,
-							      format_suffix, NULL);
-
-					gnm_style_set_format_text (style, format);
-					g_free (format);
+					format_suffix = "E+00";
+					get_precision = TRUE;
 					break;
-				}
+
+				case 'P' : /* percentage */
+					format_suffix = "%";
+					get_precision = TRUE;
+					break;
+
+				case 'F' : /* fixed */
+					get_precision = TRUE;
+					break;
 
 #if 0
 				/* FIXME : Add these to gnumeric ? */
@@ -668,7 +654,27 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					applix_parse_error (state, "Unknown format '%c'", *sep);
 					return NULL;
 				}
-				if (format)
+
+				if (get_precision) {
+					static char const *zeros = "000000000";
+					char *format;
+					char const *prec = "", *decimal = "";
+					int n_prec = applix_get_precision (++sep);
+
+					sep++;
+					if (n_prec > 0) {
+						prec = zeros + 9 - n_prec;
+						decimal = ".";
+					}
+
+					if (!format_prefix)
+						format_prefix = "0";
+					tmp_format = g_strconcat (format_prefix, decimal, prec,
+								  format_suffix, NULL);
+
+					gnm_style_set_format_text (style, tmp_format);
+					g_free (tmp_format);
+				} else if (NULL != format)
 					gnm_style_set_format_text (style, format);
 			}
 		}
@@ -861,8 +867,6 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 		/* Store the newly parsed style along with its descriptor */
 		g_hash_table_insert (state->styles, g_strdup (start), style);
 	}
-
-	g_return_val_if_fail (style != NULL, NULL);
 
 	*buffer = tmp + 2;
 	gnm_style_ref (style);
