@@ -394,6 +394,14 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 			ADD_TEXT ("\n");
 			break;
 		}
+		case GNM_FUNC_HELP_NOTE: {
+			const char *text = F_(help->text);
+			ADD_TEXT ("\n");
+			ADD_TEXT (_("Note: "));
+			ADD_TEXT (text);
+			ADD_TEXT ("\n");
+			break;
+		}
 		case GNM_FUNC_HELP_SEEALSO: {
 			const char *text = help->text;  /* Not translated */
 

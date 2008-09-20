@@ -1,5 +1,9 @@
 2008-09-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-function-select.c (describe_new_style): also show notes.
+
+2008-09-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	Fix [#302883]
 	* plugin-manager.glade: remove "activate all" icon
 	* dialog-plugin-manager.c (dialog_plugin_manager): add 

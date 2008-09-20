@@ -3891,8 +3891,8 @@ gnumeric_frequency (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_linest[] = {
-	{ GNM_FUNC_HELP_NAME, F_("LINEST:multiple linear regression coefficients and statistics.") },
-	{ GNM_FUNC_HELP_ARG, F_("y:vector of values dependent variable.") },
+	{ GNM_FUNC_HELP_NAME, F_("LINEST:determines multiple linear regression coefficients and statistics.") },
+	{ GNM_FUNC_HELP_ARG, F_("y:vector of values of dependent variable.") },
 	{ GNM_FUNC_HELP_ARG, F_("x:array of values of independent variables, defaults to a single vector 1,...,n.") },
 	{ GNM_FUNC_HELP_ARG, F_("affine:if true, the model contains a constant term, defaults to true.") },
 	{ GNM_FUNC_HELP_ARG, F_("stats:if true, some additional statistics is provided, defaults to false") },
