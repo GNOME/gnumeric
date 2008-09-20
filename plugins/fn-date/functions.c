@@ -1234,7 +1234,7 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/* Move to mondays, and check for problems */
 	start_serial = get_serial_weekday (start_serial, &start_offset, conv);
 	end_serial = get_serial_weekday (end_serial, &end_offset, conv);
-	if (!g_date_valid (&start_date) || start_serial < 0 || end_serial < 0)
+	if (!g_date_valid (&start_date) || start_serial <= 0 || end_serial <= 0)
                   return value_new_error_NUM (ei->pos);
 
 	res = end_serial - start_serial;

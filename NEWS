@@ -33,6 +33,7 @@ Morten:
 	* Fix off-by-one for random_landau.
 	* Fix error check for printing to file.
 	* Fix SUMIF crash.  [#552006]
+	* Fix NETWORKDAYS problem.  [#553047]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.2
