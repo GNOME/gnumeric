@@ -69,6 +69,27 @@ make_cellref (int dx, int dy)
 	return gnm_expr_new_cellref (&r);
 }
 
+static const GnmExpr *
+make_rangeref (int dx0, int dy0, int dx1, int dy1)
+{
+	GnmCellRef a, b;
+	GnmValue *val;
+
+	a.sheet = NULL;
+	a.col = dx0;
+	a.col_relative = TRUE;
+	a.row = dy0;
+	a.row_relative = TRUE;
+	b.sheet = NULL;
+	b.col = dx1;
+	b.col_relative = TRUE;
+	b.row = dy1;
+	b.row_relative = TRUE;
+
+	val = value_new_cellrange_unsafe (&a, &b);
+	return gnm_expr_new_constant (val);
+}
+
 
 /*************************************************************************/
 /*
@@ -3403,76 +3424,146 @@ static gboolean
 analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 					 analysis_tools_data_moving_average_t *info)
 {
-	GPtrArray     *data;
-	guint         dataset;
-	gint          col = 0;
-	gnm_float    *prev, *prev_av;
+	GnmFunc *fd_index = NULL;
+	GnmFunc *fd_average;
+	GnmFunc *fd_offset;
+	GnmFunc *fd_sqrt;
+	GnmFunc *fd_sumxmy2;
+	GSList *l;
+	gint col = 0;
+	gint source;
 
-	data = new_data_set_list (info->base.input, info->base.group_by,
-				  TRUE, info->base.labels, dao->sheet);
-
-	prev = g_new (gnm_float, info->interval);
-	prev_av = g_new (gnm_float, info->interval);
-
-	for (dataset = 0; dataset < data->len; dataset++) {
-		data_set_t    *current;
-		gnm_float    sum;
-		gnm_float    std_err;
-		gint         row;
-		int           add_cursor, del_cursor;
-
-		current = g_ptr_array_index (data, dataset);
-		dao_set_cell_printf (dao, col, 0, current->label);
-		if (info->std_error_flag)
-			dao_set_cell_printf (dao, col + 1, 0, _("Standard Error"));
-
-		add_cursor = del_cursor = 0;
-		sum = 0;
-		std_err = 0;
-
-		for (row = 0; row < info->interval - 1 &&
-			      row < (gint)current->data->len; row++) {
-			prev[add_cursor] = g_array_index
-				(current->data, gnm_float, row);
-			sum += prev[add_cursor];
-			++add_cursor;
-			dao_set_cell_na (dao, col, row + 1);
-			if (info->std_error_flag)
-				dao_set_cell_na (dao, col + 1, row + 1);
-		}
-		for (row = info->interval - 1; row < (gint)current->data->len; row++) {
-			prev[add_cursor] = g_array_index
-				(current->data, gnm_float, row);
-			sum += prev[add_cursor];
-			prev_av[add_cursor] = sum / info->interval;
-			dao_set_cell_float (dao, col, row + 1, prev_av[add_cursor]);
-			sum -= prev[del_cursor];
-			if (info->std_error_flag) {
-				std_err += (prev[add_cursor] - prev_av[add_cursor]) *
-					(prev[add_cursor] - prev_av[add_cursor]);
-				if (row >= 2 * info->interval - 2) {
-					dao_set_cell_float (dao, col + 1, row + 1,
-							gnm_sqrt (std_err / info->interval));
-					std_err -= (prev[del_cursor] - prev_av[del_cursor]) *
-						(prev[del_cursor] - prev_av[del_cursor]);
-				} else {
-					dao_set_cell_na (dao, col + 1, row + 1);
-				}
-			}
-			if (++add_cursor == info->interval)
-				add_cursor = 0;
-			if (++del_cursor == info->interval)
-				del_cursor = 0;
-		}
-		col++;
-		if (info->std_error_flag)
-			col++;
+	if (info->base.labels) {
+		fd_index = gnm_func_lookup ("INDEX", NULL);
+		gnm_func_ref (fd_index);		
 	}
-	dao_set_italic (dao, 0, 0, col - 1, 0);
+	if (info->std_error_flag) {
+		fd_sqrt = gnm_func_lookup ("SQRT", NULL);
+		gnm_func_ref (fd_sqrt);		
+		fd_sumxmy2 = gnm_func_lookup ("SUMXMY2", NULL);
+		gnm_func_ref (fd_sumxmy2);		
+	}
+	fd_average = gnm_func_lookup ("AVERAGE", NULL);
+	gnm_func_ref (fd_average);	
+	fd_offset = gnm_func_lookup ("OFFSET", NULL);
+	gnm_func_ref (fd_offset);	
 
-	destroy_data_set_list (data);
-	g_free (prev);
-	g_free (prev_av);
+	for (l = info->base.input, source = 1; l; l = l->next, col++, source++) {
+		GnmValue *val = value_dup ((GnmValue *)l->data);
+		GnmValue *val_c = NULL;
+		GnmExpr const *expr_title = NULL;
+		GnmExpr const *expr_input = NULL;
+		char const *format = NULL;
+		gint height;
+		gint  x = 0;
+		gint  y = 0;
+		gint  *mover;
+		guint delta_x;
+		guint delta_y;
+		gint row;
+
+		if (info->base.labels) {
+			val_c = value_dup (val);
+			switch (info->base.group_by) {
+			case GROUPED_BY_ROW:
+				val->v_range.cell.a.col++;
+				break;
+			default:
+				val->v_range.cell.a.row++;
+				break;
+			}
+			expr_title = gnm_expr_new_funcall1 (fd_index, 
+							    gnm_expr_new_constant (val_c));
+
+			dao_set_italic (dao, col, 0, col, 0);
+			dao_set_cell_expr (dao, col, 0, expr_title);
+		} else {
+			switch (info->base.group_by) {
+ 			case GROUPED_BY_ROW:
+				format = _("Row %d");
+				break;
+			default:
+				format = _("Column %d");
+				break;
+			}	
+			dao_set_cell_printf (dao, col, 0, format, source);
+		}
+
+		switch (info->base.group_by) {
+		case GROUPED_BY_ROW:
+			height = value_area_get_width (val, NULL);
+			mover = &x;
+			delta_x = info->interval;
+			delta_y = 1;
+			break;
+		default:
+			height = value_area_get_height (val, NULL);
+			mover = &y;
+			delta_y = info->interval;
+			delta_x = 1;
+			break;
+		}	
+
+		expr_input = gnm_expr_new_constant (val);
+
+		(*mover) = 1 - info->interval;
+		for (row = 1; row <= height; row++, (*mover)++) {
+			if ((*mover >= 0) && (*mover < height)) { 
+				GnmExprList *list ;
+				GnmExpr const *expr_offset;
+				
+				list = gnm_expr_list_prepend (NULL, gnm_expr_new_constant (value_new_int (delta_x))); 
+				list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (delta_y))); 
+				list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (x))); 
+				list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (y))); 
+				list = gnm_expr_list_prepend (list, gnm_expr_copy (expr_input));
+				expr_offset = gnm_expr_new_funcall (fd_offset, list);
+				dao_set_cell_expr (dao, col, row, 
+						   gnm_expr_new_funcall1 (fd_average, gnm_expr_copy (expr_offset)));
+				if (info->std_error_flag) {
+					if (*mover > info->interval - 2)
+						dao_set_cell_expr (dao, col + 1, row,
+								   gnm_expr_new_funcall1 
+								   (fd_sqrt,
+								    gnm_expr_new_binary 
+								    (gnm_expr_new_funcall2
+								     (fd_sumxmy2,
+								      expr_offset,
+								      make_rangeref (-1, - info->interval + 1, -1, 0)),
+								     GNM_EXPR_OP_DIV,
+								     gnm_expr_new_constant (value_new_int (info->interval)))));
+					else {
+						dao_set_cell_na (dao, col + 1, row);
+						gnm_expr_free (expr_offset);
+					}
+				} else
+					  gnm_expr_free (expr_offset);
+			} else {
+				dao_set_cell_na (dao, col, row);
+				if (info->std_error_flag)
+					dao_set_cell_na (dao, col + 1, row);
+			}
+		}
+
+		if (info->std_error_flag) {
+			col++;
+			dao_set_italic (dao, col, 0, col, 0);
+			dao_set_cell (dao, col, 0, _("Standard Error"));
+		}
+		
+		gnm_expr_free (expr_input);
+	}
+
+	if (fd_index != NULL)
+		gnm_func_unref (fd_index);
+	if (fd_sqrt != NULL)
+		gnm_func_unref (fd_sqrt);
+	if (fd_sumxmy2 != NULL)
+		gnm_func_unref (fd_sumxmy2);
+	gnm_func_unref (fd_average);
+	gnm_func_unref (fd_offset);
+
+	dao_redraw_respan (dao);
 
 	return FALSE;
 }
