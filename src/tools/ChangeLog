@@ -1,3 +1,8 @@
+2008-09-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.c (analysis_tool_calc_length): count columns when the 
+	  data is grouped in rows.
+
 2008-09-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.h (analysis_tools_data_sampling_t): add new fields
