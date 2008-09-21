@@ -1725,29 +1725,70 @@ static void
 sampling_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				     SamplingState *state)
 {
-	gboolean ready  = FALSE;
-	int periodic, size, number, err_size, err_number;
+	int periodic, size, number, err;
         GSList *input_range;
 
         input_range = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-        periodic = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->periodic_button));
 
-	err_size = entry_to_int
-		(GTK_ENTRY ((periodic == 1) ? state->period_entry
-			    : state->random_entry),
-		 &size, FALSE);
+	if (input_range == NULL) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The input range is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	} else 
+		range_list_destroy (input_range);	
 
-	err_number = entry_to_int (GTK_ENTRY (state->number_entry), &number, FALSE);
+	err = entry_to_int (GTK_ENTRY (state->number_entry), &number, FALSE);
 
-	ready = ((input_range != NULL) &&
-		 (err_size == 0 && size > 0) &&
-		 (err_number == 0 && number > 0) &&
-                 gnm_dao_is_ready (GNM_DAO (state->base.gdao)));
+	if (err != 0 || number < 1) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The requested number of samples is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
+	
+        periodic = gtk_toggle_button_get_active 
+		(GTK_TOGGLE_BUTTON (state->periodic_button));
 
-        if (input_range != NULL) range_list_destroy (input_range);
+	if (periodic) {
+		err = entry_to_int
+			(GTK_ENTRY (state->period_entry), &size, FALSE);
+		if (err != 0 || size < 1) {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("The requested period is invalid."));
+			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+			return;
+		}
+		err = entry_to_int
+			(GTK_ENTRY (state->offset_entry), &number, FALSE);
+		if (err != 0 || number < 0) {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("The requested offset is invalid."));
+			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+			return;
+		}
+	} else {
+		err = entry_to_int
+			(GTK_ENTRY (state->random_entry), &size, FALSE);
+		if (err != 0 || size < 1) {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("The requested sample size is invalid."));
+			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+			return;
+		}
+	}
 
-	gtk_widget_set_sensitive (state->base.ok_button, ready);
+       if (!gnm_dao_is_ready (GNM_DAO (state->base.gdao))) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The output specification "
+				      "is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
+
+       gtk_label_set_text (GTK_LABEL (state->base.warning), "");
+       gtk_widget_set_sensitive (state->base.ok_button, TRUE);
 }
 
 /**
