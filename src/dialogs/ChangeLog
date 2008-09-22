@@ -1,5 +1,10 @@
 2008-09-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-analysis-tools.c (average_tool_update_sensitivity_cb):
+	  use warning field in the dialog
+
+2008-09-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* moving-averages.glade: add new controls
 	* dialog-analysis-tools.c (dialog_average_tool): allow to
 	  request formula output.

@@ -2429,21 +2429,38 @@ static void
 average_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				    AverageToolState *state)
 {
-	gboolean ready  = FALSE;
 	int interval, err;
         GSList *input_range;
 
         input_range = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	err = entry_to_int (GTK_ENTRY (state->interval_entry), &interval, FALSE);
+	if (input_range == NULL) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The input range is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	} else
+		range_list_destroy (input_range);
 
-	ready = ((input_range != NULL) &&
-                 (err == 0 && interval > 0) &&
-                 gnm_dao_is_ready (GNM_DAO (state->base.gdao)));
+		err = entry_to_int (GTK_ENTRY (state->interval_entry), &interval, FALSE);
 
-        if (input_range != NULL) range_list_destroy (input_range);
+		if (err!= 0 || interval <= 0)  {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("The given interval is invalid."));
+			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+			return;
+		}
 
-	gtk_widget_set_sensitive (state->base.ok_button, ready);
+	if (!gnm_dao_is_ready (GNM_DAO (state->base.gdao))) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The output specification "
+				      "is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
+
+	gtk_label_set_text (GTK_LABEL (state->base.warning), "");
+	gtk_widget_set_sensitive (state->base.ok_button, TRUE);
 }
 
 /**
