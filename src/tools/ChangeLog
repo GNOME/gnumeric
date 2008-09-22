@@ -1,5 +1,11 @@
 2008-09-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-tools.h (analysis_tools_data_moving_average_t): new fields
+	* analysis-tools.c (analysis_tool_moving_average_engine_run): handle
+	  offset and possible change in denominator of std error.
+
+2008-09-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-tools.c (make_rangeref): new
 	(analysis_tool_moving_average_engine_run): rewrite completely
 

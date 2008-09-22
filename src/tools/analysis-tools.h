@@ -89,6 +89,8 @@ typedef struct {
 	analysis_tools_data_generic_t base;
 	int interval;
 	int std_error_flag;
+	int df;
+	int offset;
 } analysis_tools_data_moving_average_t;
 
 gboolean analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpointer specs,

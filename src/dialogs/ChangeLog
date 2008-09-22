@@ -1,5 +1,18 @@
 2008-09-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-analysis-tools.c (n_group): new
+	(AverageToolState): new fields
+	(average_tool_ok_clicked_cb): handle new fields
+	(average_tool_update_sensitivity_cb): ditto
+	(average_tool_check_error_cb): new
+	(average_tool_central_cb): new
+	(average_tool_prior_cb): new
+	(average_tool_interval_cb): new
+	(dialog_average_tool): setup new controls
+	* moving-averages.glade: enable controls
+	
+2008-09-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-analysis-tools.c (average_tool_update_sensitivity_cb):
 	  use warning field in the dialog
 

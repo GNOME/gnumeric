@@ -116,6 +116,14 @@ static char const * const chart_group[] = {
 	NULL
 };
 
+static char const * const n_group[] = {
+	"n-button",
+	"nm1-button",
+	"nm2-button",
+	NULL
+};
+
+
 
 typedef struct {
 	GenericToolState base;
@@ -171,6 +179,14 @@ typedef struct {
 typedef struct {
 	GenericToolState base;
 	GtkWidget *interval_entry;
+	GtkWidget *show_std_errors;
+	GtkWidget *n_button;
+	GtkWidget *nm1_button;
+	GtkWidget *nm2_button;
+	GtkWidget *prior_button;
+	GtkWidget *central_button;
+	GtkWidget *offset_button;
+	GtkWidget *offset_spin;
 } AverageToolState;
 
 typedef struct {
@@ -2405,9 +2421,11 @@ average_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	err = entry_to_int (GTK_ENTRY (state->interval_entry), &data->interval, TRUE);
+	err = entry_to_int (GTK_ENTRY (state->offset_spin), &data->offset, TRUE);
 
-	w = glade_xml_get_widget (state->base.gui, "std_errors_button");
-	data->std_error_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	data->std_error_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
+
+	data->df = gnumeric_glade_group_value (state->base.gui, n_group);
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			       dao, data, analysis_tool_moving_average_engine))
@@ -2429,8 +2447,9 @@ static void
 average_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				    AverageToolState *state)
 {
-	int interval, err;
+	int interval, err, offset;
         GSList *input_range;
+	
 
         input_range = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -2442,15 +2461,23 @@ average_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	} else
 		range_list_destroy (input_range);
 
-		err = entry_to_int (GTK_ENTRY (state->interval_entry), &interval, FALSE);
+	err = entry_to_int (GTK_ENTRY (state->interval_entry), &interval, FALSE);
+	if (err!= 0 || interval <= 0)  {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The given interval is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
 
-		if (err!= 0 || interval <= 0)  {
-			gtk_label_set_text (GTK_LABEL (state->base.warning),
-					    _("The given interval is invalid."));
-			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
-			return;
-		}
-
+	err = entry_to_int (GTK_ENTRY (state->offset_spin), &offset, FALSE);
+	if (err!= 0 || offset < 0 || offset > interval)  {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The given offset is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
+	
+	
 	if (!gnm_dao_is_ready (GNM_DAO (state->base.gdao))) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
 				    _("The output specification "
@@ -2462,6 +2489,59 @@ average_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	gtk_label_set_text (GTK_LABEL (state->base.warning), "");
 	gtk_widget_set_sensitive (state->base.ok_button, TRUE);
 }
+
+static void
+average_tool_check_error_cb (G_GNUC_UNUSED GtkToggleButton *togglebutton, gpointer user_data)
+{
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (user_data), TRUE);
+}
+
+static void
+average_tool_central_cb (GtkToggleButton *togglebutton, gpointer user_data)
+{
+	AverageToolState *state = (AverageToolState *)user_data;
+	int interval;
+	int err;
+
+	if (gtk_toggle_button_get_active (togglebutton)) {
+		err = entry_to_int (GTK_ENTRY (state->interval_entry), &interval, TRUE);
+		if (err == 0)
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->offset_spin), (interval/2));
+	}
+}
+
+static void
+average_tool_prior_cb (GtkToggleButton *togglebutton, gpointer user_data)
+{
+	AverageToolState *state = (AverageToolState *)user_data;
+	
+	if (gtk_toggle_button_get_active (togglebutton))
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->offset_spin), 0.0);
+}
+
+static void
+average_tool_interval_cb (G_GNUC_UNUSED GtkWidget *dummy, AverageToolState *state)
+{
+	int interval;
+	int err;
+	
+	err = entry_to_int (GTK_ENTRY (state->interval_entry), &interval, TRUE);
+
+	if (err == 0)
+		gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->offset_spin),
+					   0, interval - 1);
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->central_button)))
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->offset_spin), interval/2);
+}
+
+static void
+average_tool_offset_cb (GtkToggleButton *togglebutton, gpointer user_data)
+{
+	AverageToolState *state = (AverageToolState *)user_data;
+	
+	gtk_widget_set_sensitive (state->offset_spin, gtk_toggle_button_get_active (togglebutton));
+}
+
 
 /**
  * dialog_average_tool:
@@ -2501,9 +2581,44 @@ dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	state->interval_entry = glade_xml_get_widget (state->base.gui, "interval-entry");
 	int_to_entry (GTK_ENTRY (state->interval_entry), 3);
+	state->n_button = glade_xml_get_widget (state->base.gui, "n-button");
+	state->nm1_button = glade_xml_get_widget (state->base.gui, "nm1-button");
+	state->nm2_button = glade_xml_get_widget (state->base.gui, "nm2-button");
+	state->prior_button = glade_xml_get_widget (state->base.gui, "prior-button");
+	state->central_button = glade_xml_get_widget (state->base.gui, "central-button");
+	state->offset_button = glade_xml_get_widget (state->base.gui, "offset-button");
+	state->offset_spin = glade_xml_get_widget (state->base.gui, "offset-spinbutton");
+	state->show_std_errors = glade_xml_get_widget (state->base.gui, "std-errors-button");
+
+	g_signal_connect_after (G_OBJECT (state->n_button),
+		"toggled",
+		G_CALLBACK (average_tool_check_error_cb), state->show_std_errors);
+	g_signal_connect_after (G_OBJECT (state->nm1_button),
+		"toggled",
+		G_CALLBACK (average_tool_check_error_cb), state->show_std_errors);
+	g_signal_connect_after (G_OBJECT (state->nm2_button),
+		"toggled",
+		G_CALLBACK (average_tool_check_error_cb), state->show_std_errors);
+
+	g_signal_connect_after (G_OBJECT (state->prior_button),
+		"toggled",
+		G_CALLBACK (average_tool_prior_cb), state);
+	g_signal_connect_after (G_OBJECT (state->central_button),
+		"toggled",
+		G_CALLBACK (average_tool_central_cb), state);
+	g_signal_connect_after (G_OBJECT (state->offset_button),
+		"toggled",
+		G_CALLBACK (average_tool_offset_cb), state);
+
+	
+
 	g_signal_connect_after (G_OBJECT (state->interval_entry),
 		"changed",
 		G_CALLBACK (average_tool_update_sensitivity_cb), state);
+	g_signal_connect_after (G_OBJECT (state->interval_entry),
+		"changed",
+		G_CALLBACK (average_tool_interval_cb), state);
+
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->interval_entry));
 

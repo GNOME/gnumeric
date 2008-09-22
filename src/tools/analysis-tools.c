@@ -3427,8 +3427,8 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_index = NULL;
 	GnmFunc *fd_average;
 	GnmFunc *fd_offset;
-	GnmFunc *fd_sqrt;
-	GnmFunc *fd_sumxmy2;
+	GnmFunc *fd_sqrt = NULL;
+	GnmFunc *fd_sumxmy2 = NULL;
 	GSList *l;
 	gint col = 0;
 	gint source;
@@ -3506,9 +3506,9 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 
 		expr_input = gnm_expr_new_constant (val);
 
-		(*mover) = 1 - info->interval;
+		(*mover) = 1 - info->interval + info->offset;
 		for (row = 1; row <= height; row++, (*mover)++) {
-			if ((*mover >= 0) && (*mover < height)) { 
+			if ((*mover >= 0) && (*mover + info->interval - 1 < height)) { 
 				GnmExprList *list ;
 				GnmExpr const *expr_offset;
 				
@@ -3531,7 +3531,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 								      expr_offset,
 								      make_rangeref (-1, - info->interval + 1, -1, 0)),
 								     GNM_EXPR_OP_DIV,
-								     gnm_expr_new_constant (value_new_int (info->interval)))));
+								     gnm_expr_new_constant (value_new_int (info->interval - info->df)))));
 					else {
 						dao_set_cell_na (dao, col + 1, row);
 						gnm_expr_free (expr_offset);

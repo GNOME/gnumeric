@@ -218,7 +218,6 @@
                         <child>
                           <widget class="GtkRadioButton" id="nm2-button">
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="label" translatable="yes">n−2</property>
                             <property name="response_id">0</property>
@@ -236,7 +235,6 @@
                         <child>
                           <widget class="GtkRadioButton" id="nm1-button">
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="label" translatable="yes">n−1</property>
                             <property name="response_id">0</property>
@@ -285,7 +283,7 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="std_errors_button">
+                          <widget class="GtkCheckButton" id="std-errors-button">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="label" translatable="yes">_Standard errors</property>
@@ -369,7 +367,6 @@
                         <child>
                           <widget class="GtkRadioButton" id="offset-button">
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="label" translatable="yes">Other offset</property>
                             <property name="response_id">0</property>
@@ -388,7 +385,6 @@
                         <child>
                           <widget class="GtkRadioButton" id="central-button">
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="label" translatable="yes">Central moving average</property>
                             <property name="response_id">0</property>
