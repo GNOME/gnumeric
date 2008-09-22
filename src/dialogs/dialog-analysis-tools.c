@@ -187,6 +187,7 @@ typedef struct {
 	GtkWidget *central_button;
 	GtkWidget *offset_button;
 	GtkWidget *offset_spin;
+	GtkWidget *graph_button;
 } AverageToolState;
 
 typedef struct {
@@ -2424,6 +2425,7 @@ average_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	err = entry_to_int (GTK_ENTRY (state->offset_spin), &data->offset, TRUE);
 
 	data->std_error_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
+	data->show_graph = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->graph_button));
 
 	data->df = gnumeric_glade_group_value (state->base.gui, n_group);
 
@@ -2589,6 +2591,7 @@ dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 	state->offset_button = glade_xml_get_widget (state->base.gui, "offset-button");
 	state->offset_spin = glade_xml_get_widget (state->base.gui, "offset-spinbutton");
 	state->show_std_errors = glade_xml_get_widget (state->base.gui, "std-errors-button");
+	state->graph_button = glade_xml_get_widget (state->base.gui, "graph-check");
 
 	g_signal_connect_after (G_OBJECT (state->n_button),
 		"toggled",

@@ -50,6 +50,13 @@
 #include "sheet-object-cell-comment.h"
 #include "workbook-control.h"
 #include "command-context.h"
+#include "sheet-object-graph.h"
+#include "graph.h"
+#include <goffice/graph/gog-graph.h>
+#include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-chart.h>
+#include <goffice/graph/gog-plot.h>
+#include <goffice/graph/gog-series.h>
 #include <goffice/utils/go-glib-extras.h>
 
 #include <string.h>
@@ -3432,6 +3439,8 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 	GSList *l;
 	gint col = 0;
 	gint source;
+	SheetObject *so = NULL;
+	GogPlot	     *plot = NULL;
 
 	if (info->base.labels) {
 		fd_index = gnm_func_lookup ("INDEX", NULL);
@@ -3446,7 +3455,19 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 	fd_average = gnm_func_lookup ("AVERAGE", NULL);
 	gnm_func_ref (fd_average);	
 	fd_offset = gnm_func_lookup ("OFFSET", NULL);
-	gnm_func_ref (fd_offset);	
+	gnm_func_ref (fd_offset);
+
+	if (info->show_graph) {
+		GogGraph     *graph;
+		GogChart     *chart;
+		
+		graph = g_object_new (GOG_GRAPH_TYPE, NULL);
+		chart = GOG_CHART (gog_object_add_by_name (GOG_OBJECT (graph), "Chart", NULL));
+		plot = gog_plot_new_by_name ("GogLinePlot");
+		gog_object_add_by_name (GOG_OBJECT (chart), "Plot", GOG_OBJECT (plot));
+		so = sheet_object_graph_new (graph);
+		g_object_unref (graph);
+	}
 
 	for (l = info->base.input, source = 1; l; l = l->next, col++, source++) {
 		GnmValue *val = value_dup ((GnmValue *)l->data);
@@ -3461,6 +3482,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 		guint delta_x;
 		guint delta_y;
 		gint row;
+		Sheet *sheet;
 
 		if (info->base.labels) {
 			val_c = value_dup (val);
@@ -3504,7 +3526,23 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 			break;
 		}	
 
+		sheet = val->v_range.cell.a.sheet;
 		expr_input = gnm_expr_new_constant (val);
+
+		if  (plot != NULL) {
+			GogSeries    *series;
+
+			series = gog_plot_new_series (plot);
+			gog_series_set_dim (series, 1, 
+					    gnm_go_data_vector_new_expr (sheet,
+									 gnm_expr_top_new (gnm_expr_copy (expr_input))), 
+					    NULL);
+
+			series = gog_plot_new_series (plot);
+			gog_series_set_dim (series, 1, 
+					    dao_go_data_vector (dao, col, 1, col, height),
+					    NULL);
+		}
 
 		(*mover) = 1 - info->interval + info->offset;
 		for (row = 1; row <= height; row++, (*mover)++) {
@@ -3553,6 +3591,9 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 		
 		gnm_expr_free (expr_input);
 	}
+
+	if (so != NULL)
+		dao_set_sheet_object (dao, 0, 1, so);
 
 	if (fd_index != NULL)
 		gnm_func_unref (fd_index);

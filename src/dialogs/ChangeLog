@@ -1,5 +1,12 @@
 2008-09-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-analysis-tools.c (AverageToolState): new field
+	(average_tool_ok_clicked_cb): handle new field
+	(dialog_average_tool): setup new control
+	* moving-averages.glade: enable graph checkbox
+
+2008-09-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-analysis-tools.c (n_group): new
 	(AverageToolState): new fields
 	(average_tool_ok_clicked_cb): handle new fields

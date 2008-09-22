@@ -34,48 +34,6 @@
                           <placeholder/>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="labels_button">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">_Labels</property>
-                            <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="right_attach">2</property>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
-                            <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"></property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="label1">
-                            <property name="visible">True</property>
-                            <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Grouped by:</property>
-                          </widget>
-                          <packing>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                            <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"></property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="var1-label">
-                            <property name="visible">True</property>
-                            <property name="xalign">0</property>
-                            <property name="label" translatable="yes">_Input range:</property>
-                            <property name="use_underline">True</property>
-                          </widget>
-                          <packing>
-                            <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"></property>
-                          </packing>
-                        </child>
-                        <child>
                           <widget class="GtkHBox" id="hbox1">
                             <property name="visible">True</property>
                             <child>
@@ -113,6 +71,48 @@
                             <property name="y_options"></property>
                           </packing>
                         </child>
+                        <child>
+                          <widget class="GtkLabel" id="var1-label">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">_Input range:</property>
+                            <property name="use_underline">True</property>
+                          </widget>
+                          <packing>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="label1">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">Grouped by:</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="labels_button">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="label" translatable="yes">_Labels</property>
+                            <property name="use_underline">True</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
                       </widget>
                     </child>
                     <child>
@@ -131,18 +131,28 @@
                         <property name="n_rows">4</property>
                         <property name="n_columns">1</property>
                         <child>
-                          <widget class="GtkRadioButton" id="sma-button1">
+                          <widget class="GtkRadioButton" id="sma-button">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="label" translatable="yes">Simple moving average</property>
+                            <property name="response_id">0</property>
+                            <property name="active">True</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                        </child>
+                        <child>
+                          <widget class="GtkRadioButton" id="cma-button">
                             <property name="visible">True</property>
                             <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Spencer's 15-point moving average</property>
+                            <property name="label" translatable="yes">Cumulative moving average</property>
                             <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
                             <property name="group">sma-button</property>
                           </widget>
                           <packing>
-                            <property name="top_attach">3</property>
-                            <property name="bottom_attach">4</property>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
                           </packing>
                         </child>
                         <child>
@@ -161,29 +171,19 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkRadioButton" id="cma-button">
+                          <widget class="GtkRadioButton" id="sma-button1">
                             <property name="visible">True</property>
                             <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Cumulative moving average</property>
+                            <property name="label" translatable="yes">Spencer's 15-point moving average</property>
                             <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
                             <property name="group">sma-button</property>
                           </widget>
                           <packing>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
+                            <property name="top_attach">3</property>
+                            <property name="bottom_attach">4</property>
                           </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkRadioButton" id="sma-button">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Simple moving average</property>
-                            <property name="response_id">0</property>
-                            <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
                         </child>
                       </widget>
                       <packing>
@@ -216,35 +216,56 @@
                         <property name="column_spacing">12</property>
                         <property name="row_spacing">6</property>
                         <child>
-                          <widget class="GtkRadioButton" id="nm2-button">
+                          <widget class="GtkLabel" id="label3">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">n−2</property>
-                            <property name="response_id">0</property>
-                            <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
-                            <property name="group">n-button</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">_Interval:</property>
+                            <property name="use_underline">True</property>
+                            <property name="mnemonic_widget">interval-entry</property>
                           </widget>
                           <packing>
-                            <property name="left_attach">3</property>
-                            <property name="right_attach">4</property>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkRadioButton" id="nm1-button">
+                          <widget class="GtkEntry" id="interval-entry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">n−1</property>
-                            <property name="response_id">0</property>
-                            <property name="active">True</property>
-                            <property name="draw_indicator">True</property>
-                            <property name="group">n-button</property>
+                            <property name="invisible_char">*</property>
+                            <property name="text" translatable="yes">3</property>
+                            <property name="xalign">1</property>
                           </widget>
                           <packing>
-                            <property name="left_attach">2</property>
-                            <property name="right_attach">3</property>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">4</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="std-errors-button">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="label" translatable="yes">_Standard errors</property>
+                            <property name="use_underline">True</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="right_attach">4</property>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="label7">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">Denominator:</property>
+                          </widget>
+                          <packing>
                             <property name="top_attach">2</property>
                             <property name="bottom_attach">3</property>
                             <property name="x_options">GTK_FILL</property>
@@ -270,12 +291,18 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label7">
+                          <widget class="GtkRadioButton" id="nm1-button">
                             <property name="visible">True</property>
-                            <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Denominator:</property>
+                            <property name="can_focus">True</property>
+                            <property name="label" translatable="yes">n−1</property>
+                            <property name="response_id">0</property>
+                            <property name="active">True</property>
+                            <property name="draw_indicator">True</property>
+                            <property name="group">n-button</property>
                           </widget>
                           <packing>
+                            <property name="left_attach">2</property>
+                            <property name="right_attach">3</property>
                             <property name="top_attach">2</property>
                             <property name="bottom_attach">3</property>
                             <property name="x_options">GTK_FILL</property>
@@ -283,47 +310,20 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkCheckButton" id="std-errors-button">
+                          <widget class="GtkRadioButton" id="nm2-button">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">_Standard errors</property>
-                            <property name="use_underline">True</property>
+                            <property name="label" translatable="yes">n−2</property>
                             <property name="response_id">0</property>
+                            <property name="active">True</property>
                             <property name="draw_indicator">True</property>
+                            <property name="group">n-button</property>
                           </widget>
                           <packing>
+                            <property name="left_attach">3</property>
                             <property name="right_attach">4</property>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                            <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"></property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkEntry" id="interval-entry">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">*</property>
-                            <property name="text" translatable="yes">3</property>
-                            <property name="xalign">1</property>
-                          </widget>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">4</property>
-                            <property name="y_options"></property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="label3">
-                            <property name="visible">True</property>
-                            <property name="xalign">0</property>
-                            <property name="label" translatable="yes">_Interval:</property>
-                            <property name="use_underline">True</property>
-                            <property name="mnemonic_widget">interval-entry</property>
-                          </widget>
-                          <packing>
-                            <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"></property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
                           </packing>
                         </child>
                       </widget>
@@ -348,36 +348,16 @@
                           <placeholder/>
                         </child>
                         <child>
-                          <widget class="GtkSpinButton" id="offset-spinbutton">
-                            <property name="visible">True</property>
-                            <property name="sensitive">False</property>
-                            <property name="can_focus">True</property>
-                            <property name="xalign">1</property>
-                            <property name="adjustment">0 0 100 1 10 10</property>
-                            <property name="climb_rate">0.20000000000000001</property>
-                          </widget>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
-                            <property name="top_attach">3</property>
-                            <property name="bottom_attach">4</property>
-                            <property name="y_options"></property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkRadioButton" id="offset-button">
+                          <widget class="GtkRadioButton" id="prior-button">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Other offset</property>
+                            <property name="label" translatable="yes">Prior moving average</property>
                             <property name="response_id">0</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
-                            <property name="group">prior-button</property>
                           </widget>
                           <packing>
                             <property name="right_attach">2</property>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"></property>
                           </packing>
@@ -401,17 +381,37 @@
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkRadioButton" id="prior-button">
+                          <widget class="GtkRadioButton" id="offset-button">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Prior moving average</property>
+                            <property name="label" translatable="yes">Other offset</property>
                             <property name="response_id">0</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
+                            <property name="group">prior-button</property>
                           </widget>
                           <packing>
                             <property name="right_attach">2</property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
                             <property name="x_options">GTK_FILL</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkSpinButton" id="offset-spinbutton">
+                            <property name="visible">True</property>
+                            <property name="sensitive">False</property>
+                            <property name="can_focus">True</property>
+                            <property name="xalign">1</property>
+                            <property name="adjustment">0 0 100 1 10 10</property>
+                            <property name="climb_rate">0.20000000000000001</property>
+                          </widget>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">3</property>
+                            <property name="bottom_attach">4</property>
                             <property name="y_options"></property>
                           </packing>
                         </child>
@@ -440,7 +440,6 @@
                         <child>
                           <widget class="GtkCheckButton" id="graph-check">
                             <property name="visible">True</property>
-                            <property name="sensitive">False</property>
                             <property name="can_focus">True</property>
                             <property name="label" translatable="yes">Include chart</property>
                             <property name="response_id">0</property>
