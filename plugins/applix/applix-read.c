@@ -657,7 +657,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 
 				if (get_precision) {
 					static char const *zeros = "000000000";
-					char *format;
+					char *tmp_format;
 					char const *prec = "", *decimal = "";
 					int n_prec = applix_get_precision (++sep);
 
