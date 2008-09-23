@@ -816,7 +816,7 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_EDIT_PIVOTTABLE,
 		g_param_spec_boolean ("protected-allow-edit-pivottable", _("Protected allow edit pivottable"),
-				      _("Allow pivottable to be edited  while a sheet is protected"),
+				      _("Allow pivottable to be edited while a sheet is protected"),
 				      FALSE, GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class, PROP_PROTECTED_ALLOW_SELECT_UNLOCKED_CELLS,
 		g_param_spec_boolean ("protected-allow-select-unlocked-cells", _("Protected allow select unlocked cells"),

@@ -1,3 +1,8 @@
+2008-09-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	Fix for #55338
+	* src/sheet.c (gnm_sheet_class_init): remove extra space
+	
 2008-09-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	Fix for #535015
