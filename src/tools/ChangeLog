@@ -1,3 +1,8 @@
+2008-09-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.c (analysis_tool_moving_average_engine_run): fix
+	  standard error for non-zero offset
+
 2008-09-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.h (analysis_tools_data_moving_average_t): new field
