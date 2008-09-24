@@ -1,3 +1,15 @@
+2008-09-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* moving-averages.glade: move items
+	* dialog-analysis-tools.c (moving_average_group): new 
+	  group for radio buttons
+	(average_tool_sma_cb): new
+	(average_tool_cma_cb): new
+	(average_tool_wma_cb): new
+	(average_tool_spencer_cb): new
+	(dialog_average_tool): setup new controls
+	(average_tool_ok_clicked_cb): handle new controls
+
 2008-09-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tools.c (AverageToolState): new field

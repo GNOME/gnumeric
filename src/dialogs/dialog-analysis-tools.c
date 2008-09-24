@@ -123,6 +123,14 @@ static char const * const n_group[] = {
 	NULL
 };
 
+static char const * const moving_average_group[] = {
+	"sma-button",
+	"cma-button",
+	"wma-button",
+	"spencer-ma-button",
+	NULL
+};
+
 
 
 typedef struct {
@@ -188,6 +196,10 @@ typedef struct {
 	GtkWidget *offset_button;
 	GtkWidget *offset_spin;
 	GtkWidget *graph_button;
+	GtkWidget *sma_button;
+	GtkWidget *cma_button;
+	GtkWidget *wma_button;
+	GtkWidget *spencer_button;
 } AverageToolState;
 
 typedef struct {
@@ -2428,6 +2440,29 @@ average_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->show_graph = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->graph_button));
 
 	data->df = gnumeric_glade_group_value (state->base.gui, n_group);
+	
+	data->ma_type = gnumeric_glade_group_value (state->base.gui, moving_average_group);
+
+	switch (data->ma_type) {
+	case moving_average_type_sma:
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->central_button))
+		    && (data->interval % 2 == 0))
+			data->ma_type = moving_average_type_central_sma;
+		break;
+	case moving_average_type_cma:
+		data->interval = 0;
+		data->offset = 0;
+		break;
+	case moving_average_type_spencer_ma:
+		data->interval = 0;
+		data->offset = 0;
+		break;
+	case moving_average_type_wma:
+		data->offset = 0;
+		break;
+	default:
+		break;
+	}
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			       dao, data, analysis_tool_moving_average_engine))
@@ -2451,6 +2486,7 @@ average_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 {
 	int interval, err, offset;
         GSList *input_range;
+	moving_average_type_t type;
 	
 
         input_range = gnm_expr_entry_parse_as_list (
@@ -2463,22 +2499,28 @@ average_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	} else
 		range_list_destroy (input_range);
 
-	err = entry_to_int (GTK_ENTRY (state->interval_entry), &interval, FALSE);
-	if (err!= 0 || interval <= 0)  {
-		gtk_label_set_text (GTK_LABEL (state->base.warning),
-				    _("The given interval is invalid."));
-		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
-		return;
+	type = gnumeric_glade_group_value (state->base.gui, moving_average_group);
+
+	if (type == moving_average_type_sma || moving_average_type_wma) {
+		err = entry_to_int (GTK_ENTRY (state->interval_entry), 
+				    &interval, FALSE);
+		if (err!= 0 || interval <= 0)  {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("The given interval is invalid."));
+			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+			return;
+		}
 	}
 
-	err = entry_to_int (GTK_ENTRY (state->offset_spin), &offset, FALSE);
-	if (err!= 0 || offset < 0 || offset > interval)  {
-		gtk_label_set_text (GTK_LABEL (state->base.warning),
-				    _("The given offset is invalid."));
-		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
-		return;
+	if (type == moving_average_type_sma) {
+		err = entry_to_int (GTK_ENTRY (state->offset_spin), &offset, FALSE);
+		if (err!= 0 || offset < 0 || offset > interval)  {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("The given offset is invalid."));
+			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+			return;
+		}
 	}
-	
 	
 	if (!gnm_dao_is_ready (GNM_DAO (state->base.gdao))) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
@@ -2545,6 +2587,64 @@ average_tool_offset_cb (GtkToggleButton *togglebutton, gpointer user_data)
 }
 
 
+static void
+average_tool_sma_cb (GtkToggleButton *togglebutton, gpointer user_data)
+{
+	AverageToolState *state = (AverageToolState *)user_data;
+
+	if (!gtk_toggle_button_get_active (togglebutton))
+		return;
+
+	gtk_widget_set_sensitive (state->prior_button, TRUE);
+	gtk_widget_set_sensitive (state->central_button, TRUE);
+	gtk_widget_set_sensitive (state->offset_button, TRUE);
+	gtk_widget_set_sensitive (state->interval_entry, TRUE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->prior_button), TRUE);
+}
+
+static void
+average_tool_cma_cb (GtkToggleButton *togglebutton, gpointer user_data)
+{
+	AverageToolState *state = (AverageToolState *)user_data;
+
+	if (!gtk_toggle_button_get_active (togglebutton))
+		return;
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->prior_button), TRUE);
+	gtk_widget_set_sensitive (state->prior_button, FALSE);
+	gtk_widget_set_sensitive (state->central_button, FALSE);
+	gtk_widget_set_sensitive (state->offset_button, FALSE);
+	gtk_widget_set_sensitive (state->interval_entry, FALSE);
+}
+
+static void
+average_tool_wma_cb (GtkToggleButton *togglebutton, gpointer user_data)
+{
+	AverageToolState *state = (AverageToolState *)user_data;
+
+	if (!gtk_toggle_button_get_active (togglebutton))
+		return;
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->prior_button), TRUE);
+	gtk_widget_set_sensitive (state->prior_button, FALSE);
+	gtk_widget_set_sensitive (state->central_button, FALSE);
+	gtk_widget_set_sensitive (state->offset_button, FALSE);
+	gtk_widget_set_sensitive (state->interval_entry, TRUE);
+}
+
+static void
+average_tool_spencer_cb (GtkToggleButton *togglebutton, gpointer user_data)
+{
+	AverageToolState *state = (AverageToolState *)user_data;
+
+	if (!gtk_toggle_button_get_active (togglebutton))
+		return;
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->central_button), TRUE);
+	gtk_widget_set_sensitive (state->prior_button, FALSE);
+	gtk_widget_set_sensitive (state->central_button, FALSE);
+	gtk_widget_set_sensitive (state->offset_button, FALSE);
+	gtk_widget_set_sensitive (state->interval_entry, FALSE);
+}
+
 /**
  * dialog_average_tool:
  * @wbcg:
@@ -2592,6 +2692,11 @@ dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 	state->offset_spin = glade_xml_get_widget (state->base.gui, "offset-spinbutton");
 	state->show_std_errors = glade_xml_get_widget (state->base.gui, "std-errors-button");
 	state->graph_button = glade_xml_get_widget (state->base.gui, "graph-check");
+	state->sma_button = glade_xml_get_widget (state->base.gui, "sma-button");
+	state->cma_button = glade_xml_get_widget (state->base.gui, "cma-button");
+	state->wma_button = glade_xml_get_widget (state->base.gui, "wma-button");
+	state->spencer_button = glade_xml_get_widget (state->base.gui, "spencer-ma-button");
+	
 
 	g_signal_connect_after (G_OBJECT (state->n_button),
 		"toggled",
@@ -2613,6 +2718,18 @@ dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 		"toggled",
 		G_CALLBACK (average_tool_offset_cb), state);
 
+	g_signal_connect_after (G_OBJECT (state->sma_button),
+		"toggled",
+		G_CALLBACK (average_tool_sma_cb), state);
+	g_signal_connect_after (G_OBJECT (state->cma_button),
+		"toggled",
+		G_CALLBACK (average_tool_cma_cb), state);
+	g_signal_connect_after (G_OBJECT (state->wma_button),
+		"toggled",
+		G_CALLBACK (average_tool_wma_cb), state);
+	g_signal_connect_after (G_OBJECT (state->spencer_button),
+		"toggled",
+		G_CALLBACK (average_tool_spencer_cb), state);
 	
 
 	g_signal_connect_after (G_OBJECT (state->interval_entry),

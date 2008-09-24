@@ -16,6 +16,7 @@ Andreas:
 	* Make more dialog buttons obey no-icon request. [#302883]
 	* Fix and improve the sampling tool. [#552975]
 	* Improve moving averages tool. [#527489]
+	* Add weighted and cumulative moving averages.
 
 Jean:
 	* Fix printing of rotated text. [#539734]

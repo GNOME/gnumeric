@@ -85,6 +85,14 @@ gboolean analysis_tool_descriptive_engine (data_analysis_output_t *dao, gpointer
 
 /************** Moving Averages **** *************/
 
+typedef enum {
+	moving_average_type_sma = 0,
+	moving_average_type_cma,
+	moving_average_type_wma,
+	moving_average_type_spencer_ma,
+	moving_average_type_central_sma
+} moving_average_type_t;
+
 typedef struct {
 	analysis_tools_data_generic_t base;
 	int interval;
@@ -92,6 +100,7 @@ typedef struct {
 	int df;
 	int offset;
 	gboolean show_graph;
+	moving_average_type_t ma_type;
 } analysis_tools_data_moving_average_t;
 
 gboolean analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpointer specs,
