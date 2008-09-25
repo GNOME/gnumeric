@@ -1,3 +1,11 @@
+2008-09-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.c (analysis_tool_moving_average_engine_run): make
+	  weighted moving averages more silient and add spencer 15 point
+	  moving average
+	(analysis_tool_moving_average_funcall5): new
+	(analysis_tool_moving_average_weighted_av): new
+
 2008-09-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.c (analysis_tool_moving_average_engine_run): fix

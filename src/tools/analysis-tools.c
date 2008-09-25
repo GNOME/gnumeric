@@ -3426,6 +3426,40 @@ analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs,
  *
  **/
 
+static GnmExpr const *
+analysis_tool_moving_average_funcall5 (GnmFunc *fd, GnmExpr const *ex, int y, int x, int dy, int dx)
+{
+	GnmExprList *list;
+	list = gnm_expr_list_prepend (NULL, gnm_expr_new_constant (value_new_int (dx))); 
+	list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (dy))); 
+	list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (x))); 
+	list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (y))); 
+	list = gnm_expr_list_prepend (list, gnm_expr_copy (ex));
+
+	return gnm_expr_new_funcall (fd, list);
+}
+
+static GnmExpr const *
+analysis_tool_moving_average_weighted_av (GnmFunc *fd_sum, GnmFunc *fd_in, GnmExpr const *ex, 
+					  int y, int x, int dy, int dx, int *w)
+{
+	GnmExprList *list = NULL;
+
+	while (*w != 0) {
+		list = gnm_expr_list_prepend 
+			(list, gnm_expr_new_binary 
+			 (gnm_expr_new_constant (value_new_int (*w)),
+			  GNM_EXPR_OP_MULT,
+			  gnm_expr_new_funcall3 (fd_in, gnm_expr_copy (ex),
+						 gnm_expr_new_constant (value_new_int (y)),
+						 gnm_expr_new_constant (value_new_int (x)))));
+		w++;
+		x += dx;
+		y += dy;
+	}
+
+	return gnm_expr_new_funcall (fd_sum, list);
+}
 
 static gboolean
 analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
@@ -3436,7 +3470,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_offset;
 	GnmFunc *fd_sqrt = NULL;
 	GnmFunc *fd_sumxmy2 = NULL;
-	GnmFunc *fd_sumproduct = NULL;
+	GnmFunc *fd_sum = NULL;
 	GSList *l;
 	gint col = 0;
 	gint source;
@@ -3453,9 +3487,9 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 		fd_sumxmy2 = gnm_func_lookup ("SUMXMY2", NULL);
 		gnm_func_ref (fd_sumxmy2);		
 	}
-	if (moving_average_type_wma == info->ma_type) {
-		fd_sumproduct = gnm_func_lookup ("SUMPRODUCT", NULL);
-		gnm_func_ref (fd_sumproduct);		
+	if (moving_average_type_wma == info->ma_type || moving_average_type_spencer_ma == info->ma_type) {
+		fd_sum = gnm_func_lookup ("SUM", NULL);
+		gnm_func_ref (fd_sum);		
 	}
 	fd_average = gnm_func_lookup ("AVERAGE", NULL);
 	gnm_func_ref (fd_average);	
@@ -3559,20 +3593,16 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 				expr_offset_last = expr_offset;
 				expr_offset = NULL;
 				if ((*mover >= 0) && (*mover < height - info->interval + 1)) { 
-					GnmExprList *list ;
-					
-					list = gnm_expr_list_prepend (NULL, gnm_expr_new_constant (value_new_int (delta_x))); 
-					list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (delta_y))); 
-					list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (x))); 
-					list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (y))); 
-					list = gnm_expr_list_prepend (list, gnm_expr_copy (expr_input));
-					expr_offset = gnm_expr_new_funcall1 (fd_average, gnm_expr_new_funcall (fd_offset, list));
+					expr_offset = gnm_expr_new_funcall1 
+						(fd_average, analysis_tool_moving_average_funcall5 
+						 (fd_offset,expr_input, y, x, delta_y, delta_x));
 					
 					if (expr_offset_last == NULL)
 						dao_set_cell_na (dao, col, row);
 					else
-						dao_set_cell_expr (dao, col, row, gnm_expr_new_funcall2 (fd_average, expr_offset_last, 
-													 gnm_expr_copy (expr_offset)));
+						dao_set_cell_expr (dao, col, row, 
+								   gnm_expr_new_funcall2 (fd_average, expr_offset_last, 
+											  gnm_expr_copy (expr_offset)));
 				} else {
 					if (expr_offset_last != NULL) {
 						gnm_expr_free (expr_offset_last);
@@ -3586,17 +3616,13 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 		break;
 		case moving_average_type_cma:
 			for (row = 1; row <= height; row++) {
-				GnmExprList *list ;
 				GnmExpr const *expr_offset;
 
 				*delta_mover = row;
 				
-				list = gnm_expr_list_prepend (NULL, gnm_expr_new_constant (value_new_int (delta_x))); 
-				list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (delta_y))); 
-				list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (x))); 
-				list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (y))); 
-				list = gnm_expr_list_prepend (list, gnm_expr_copy (expr_input));
-				expr_offset = gnm_expr_new_funcall (fd_offset, list);
+				expr_offset = analysis_tool_moving_average_funcall5 
+					 (fd_offset, expr_input, y, x, delta_y, delta_x);
+
 				dao_set_cell_expr (dao, col, row, 
 						   gnm_expr_new_funcall1 (fd_average, expr_offset));
 			}
@@ -3604,59 +3630,70 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 			break;
 		case moving_average_type_wma:
 		{
-			GnmExpr const *expr_row;
-			GnmExpr const *expr_divisor = gnm_expr_new_constant (value_new_int((info->interval * (info->interval + 1))/2));
+			GnmExpr const *expr_divisor = gnm_expr_new_constant 
+				(value_new_int((info->interval * (info->interval + 1))/2));
+			int *w = g_new (int, (info->interval + 1));
+			int i;
 			
-			if (info->base.group_by == GROUPED_BY_ROW) {
-				GnmFunc *fd_column;
-				GnmCellRef a;
-				GnmCellRef b;
-
-				fd_column = gnm_func_lookup ("COLUMN", NULL);
-				gnm_func_ref (fd_column);		
-				gnm_cellref_init (&a, NULL, 0, 0, FALSE);
-				gnm_cellref_init (&b, NULL, info->interval - 1, 0, FALSE);
-				expr_row = gnm_expr_new_funcall1 (fd_column, 
-								  gnm_expr_new_constant (value_new_cellrange_unsafe (&a, &b)));
-				gnm_func_unref (fd_column);
-			} else {
-				GnmFunc *fd_row;
-				GnmCellRef a;
-				GnmCellRef b;
-
-				fd_row = gnm_func_lookup ("ROW", NULL);
-				gnm_func_ref (fd_row);		
-				gnm_cellref_init (&a, NULL, 0, 0, FALSE);
-				gnm_cellref_init (&b, NULL, 0, info->interval - 1, FALSE);
-				expr_row = gnm_expr_new_funcall1 (fd_row, 
-								  gnm_expr_new_constant (value_new_cellrange_unsafe (&a, &b)));
-				gnm_func_unref (fd_row);
-			}
-
-			(*delta_mover) = info->interval;
+			for (i = 0; i < info->interval; i++)
+				w[i] = i+1;
+			w[info->interval] = 0;
+			
+			delta_x = 0;
+			delta_y= 0;
+			(*delta_mover) = 1;
 			(*mover) = 1 - info->interval;
 			for (row = 1; row <= height; row++, (*mover)++) {
 				if ((*mover >= 0) && (*mover < height - info->interval + 1)) { 
-					GnmExprList *list ;
-					GnmExpr const *expr_offset;
+					GnmExpr const *expr_sum;
+
+					expr_sum = analysis_tool_moving_average_weighted_av 
+						(fd_sum, fd_index, expr_input, y+1, x+1, delta_y, delta_x, w);
 					
-					list = gnm_expr_list_prepend (NULL, gnm_expr_new_constant (value_new_int (delta_x)));
-					list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (delta_y)));
-					list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (x)));
-					list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (y)));
-					list = gnm_expr_list_prepend (list, gnm_expr_copy (expr_input));
-					expr_offset = gnm_expr_new_funcall (fd_offset, list);
 					dao_set_cell_expr (dao, col, row, 
 							   gnm_expr_new_binary 
-							   (gnm_expr_new_funcall2 (fd_sumproduct, expr_offset, gnm_expr_copy (expr_row)),
+							   (expr_sum,
 							    GNM_EXPR_OP_DIV,
 							    gnm_expr_copy (expr_divisor)));
 				} else
 					dao_set_cell_na (dao, col, row);
 			}
-			gnm_expr_free (expr_row);
+			g_free (w);
 			gnm_expr_free (expr_divisor);
 			base =  info->interval - 1;
+			delta_x = 1;
+			delta_y= 1;
+		}
+		break;
+		case moving_average_type_spencer_ma:
+		{
+			GnmExpr const *expr_divisor = gnm_expr_new_constant 
+				(value_new_int(-3-6-5+3+21+45+67+74+67+46+21+3-5-6-3));
+			int w[] = {-3, -6, -5, 3, 21, 45, 67, 74, 67, 46, 21, 3, -5, -6, -3, 0};
+			
+			delta_x = 0;
+			delta_y= 0;
+			(*delta_mover) = 1;
+			(*mover) = 1 - info->interval + info->offset;
+			for (row = 1; row <= height; row++, (*mover)++) {
+				if ((*mover >= 0) && (*mover < height - info->interval + 1)) { 
+					GnmExpr const *expr_sum;
+
+					expr_sum = analysis_tool_moving_average_weighted_av 
+						(fd_sum, fd_index, expr_input, y+1, x+1, delta_y, delta_x, w);
+					
+					dao_set_cell_expr (dao, col, row, 
+							   gnm_expr_new_binary 
+							   (expr_sum,
+							    GNM_EXPR_OP_DIV,
+							    gnm_expr_copy (expr_divisor)));
+				} else
+					dao_set_cell_na (dao, col, row);
+			}
+			gnm_expr_free (expr_divisor);
+			base =  info->interval - info->offset - 1;
+			delta_x = 1;
+			delta_y= 1;
 		}
 		break;
 		default:
@@ -3664,15 +3701,10 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 			(*mover) = 1 - info->interval + info->offset;
 			for (row = 1; row <= height; row++, (*mover)++) {
 				if ((*mover >= 0) && (*mover < height - info->interval + 1)) { 
-					GnmExprList *list ;
 					GnmExpr const *expr_offset;
 					
-					list = gnm_expr_list_prepend (NULL, gnm_expr_new_constant (value_new_int (delta_x))); 
-					list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (delta_y))); 
-					list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (x))); 
-					list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (y))); 
-					list = gnm_expr_list_prepend (list, gnm_expr_copy (expr_input));
-					expr_offset = gnm_expr_new_funcall (fd_offset, list);
+					expr_offset = analysis_tool_moving_average_funcall5 
+						(fd_offset, expr_input, y, x, delta_y, delta_x);
 					dao_set_cell_expr (dao, col, row, 
 							   gnm_expr_new_funcall1 (fd_average, expr_offset));
 				} else
@@ -3691,19 +3723,14 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 			for (row = 1; row <= height; row++) {
 				if (row > base && row <= height - info->offset && (row - base - info->df) > 0) { 
 					GnmExpr const *expr_offset;
-					GnmExprList *list ;
 					
 					if (info->base.group_by == GROUPED_BY_ROW)
 						delta_x = row - base;
 					else
 						delta_y = row - base;
 					
-					list = gnm_expr_list_prepend (NULL, gnm_expr_new_constant (value_new_int (delta_x))); 
-					list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (delta_y))); 
-					list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (x))); 
-					list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (y))); 
-					list = gnm_expr_list_prepend (list, gnm_expr_copy (expr_input));
-					expr_offset = gnm_expr_new_funcall (fd_offset, list);
+					expr_offset = analysis_tool_moving_average_funcall5 
+						(fd_offset, expr_input, y, x, delta_y, delta_x);
 					dao_set_cell_expr (dao, col, row,
 							   gnm_expr_new_funcall1 
 							   (fd_sqrt,
@@ -3718,9 +3745,6 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 				} else
 					dao_set_cell_na (dao, col, row);
 			}
-			
-			
-			
 		}
 		
 		gnm_expr_free (expr_input);
@@ -3735,8 +3759,8 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 		gnm_func_unref (fd_sqrt);
 	if (fd_sumxmy2 != NULL)
 		gnm_func_unref (fd_sumxmy2);
-	if (fd_sumproduct != NULL)
-		gnm_func_unref (fd_sumproduct);
+	if (fd_sum != NULL)
+		gnm_func_unref (fd_sum);
 	gnm_func_unref (fd_average);
 	gnm_func_unref (fd_offset);
 

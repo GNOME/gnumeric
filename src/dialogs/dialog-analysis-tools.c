@@ -2454,8 +2454,8 @@ average_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		data->offset = 0;
 		break;
 	case moving_average_type_spencer_ma:
-		data->interval = 0;
-		data->offset = 0;
+		data->interval = 15;
+		data->offset = 7;
 		break;
 	case moving_average_type_wma:
 		data->offset = 0;
@@ -2638,6 +2638,7 @@ average_tool_spencer_cb (GtkToggleButton *togglebutton, gpointer user_data)
 
 	if (!gtk_toggle_button_get_active (togglebutton))
 		return;
+	int_to_entry (GTK_ENTRY (state->interval_entry), 15);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->central_button), TRUE);
 	gtk_widget_set_sensitive (state->prior_button, FALSE);
 	gtk_widget_set_sensitive (state->central_button, FALSE);

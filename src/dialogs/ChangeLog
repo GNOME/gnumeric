@@ -1,3 +1,10 @@
+2008-09-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* moving-averages.glade: enable Spencer radio button
+	* dialog-analysis-tools.c (average_tool_ok_clicked_cb):
+	  set interval and offset for spencer
+	(average_tool_spencer_cb): set interval value
+
 2008-09-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* moving-averages.glade: move items

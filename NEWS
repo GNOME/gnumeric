@@ -17,6 +17,7 @@ Andreas:
 	* Fix and improve the sampling tool. [#552975]
 	* Improve moving averages tool. [#527489]
 	* Add weighted and cumulative moving averages.
+	* Add Spencer's 15-point moving average.
 
 Jean:
 	* Fix printing of rotated text. [#539734]
