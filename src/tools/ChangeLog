@@ -1,14 +1,23 @@
 2008-09-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.h (analysis_tools_data_exponential_smoothing_t): 
+	  add field
+	(exponential_smoothing_type_t): new
+	* analysis-tools.c (analysis_tool_exponential_smoothing_engine_run): 
+	  add handling of Robert's version of simple exponential smoothing
+
+2008-09-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.h (analysis_tools_data_exponential_smoothing_t): 
 	  add fields
+	* analysis-tools.c
 	(analysis_tool_exponential_smoothing_engine_run): rewrite completely
 	(analysis_tool_exponential_smoothing_engine): add two rows
 
 2008-09-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.c (analysis_tool_moving_average_engine_run): make
-	  weighted moving averages more silient and add spencer 15 point
+	  weighted moving averages more resilient and add spencer 15 point
 	  moving average
 	(analysis_tool_moving_average_funcall5): new
 	(analysis_tool_moving_average_weighted_av): new

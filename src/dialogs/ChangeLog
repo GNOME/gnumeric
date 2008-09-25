@@ -1,5 +1,12 @@
 2008-09-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* exp-smoothing.glade: enable "Roberts".
+	* dialog-analysis-tools.c (exp_smoothing_tool_ok_clicked_cb): 
+	  check for type of smoothing
+	(exp_smoothing_group): new
+	
+2008-09-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* exp-smoothing.glade: add controls and reformat
 	* dialog-analysis-tools.c (ExpSmoothToolState): add fields
 	(exp_smoothing_tool_ok_clicked_cb): handle new fields

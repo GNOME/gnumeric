@@ -3854,7 +3854,7 @@ analysis_tool_exponential_smoothing_engine_run (data_analysis_output_t *dao,
 
 	dao_set_italic (dao, 0, 0, 0, 0);
 	dao_set_cell (dao, 0, 0, _("Exponential Smoothing"));
-	dao_set_format  (dao, 0, 1, 0, 1, _("\"\xce\xb1 =\" * 0.000"));
+	dao_set_format  (dao, 0, 1, 0, 1, _("\"\xce\xbb =\" * 0.000"));
 	dao_set_cell_expr (dao, 0, 1, gnm_expr_new_constant (value_new_float (info->damp_fact)));
 	expr_alpha = dao_get_cellref (dao, 0, 1);
 	dao->offset_row = 2;
@@ -3871,7 +3871,7 @@ analysis_tool_exponential_smoothing_engine_run (data_analysis_output_t *dao,
 		gint  *mover;
 		guint delta_x = 1;
 		guint delta_y = 1;
-		gint row, base;
+		gint row, base, se_adj;
 		Sheet *sheet;
 
 		if (info->base.labels) {
@@ -3930,36 +3930,43 @@ analysis_tool_exponential_smoothing_engine_run (data_analysis_output_t *dao,
 					    NULL);
 		}
 
-		{  /*  F(t+1) = F(t) + (1 - damp_fact) * ( A(t) - F(t) ) */
-
-			dao_set_cell_expr (dao, col, 1, 
-					   gnm_expr_new_funcall1 (fd_index, 
-								  gnm_expr_copy (expr_input)));
-			(*mover) = 1;
-			for (row = 2; row <= height; row++, (*mover)++) {
-				GnmExpr const *A;
-				GnmExpr const *F;
-				
-				A = gnm_expr_new_binary (gnm_expr_new_binary (gnm_expr_new_constant 
-									      (value_new_int (1)),
-									      GNM_EXPR_OP_SUB,
-									      gnm_expr_copy (expr_alpha)),
-							 GNM_EXPR_OP_MULT,
-							 gnm_expr_new_funcall3 
-							 (fd_index, 
-							  gnm_expr_copy (expr_input),
-							  gnm_expr_new_constant(value_new_int(y)),
-							  gnm_expr_new_constant(value_new_int(x))));
-				F = gnm_expr_new_binary (gnm_expr_copy (expr_alpha),
-							 GNM_EXPR_OP_MULT,
-							 make_cellref (0, -1));
-				dao_set_cell_expr (dao, col, row, gnm_expr_new_binary (A, GNM_EXPR_OP_ADD, F));
-			}
+		
+		if (info->es_type ==  moving_average_type_ses_r)
+		{  
+                        /*  F(t+1) = F(t) + (1 - damp_fact) * ( A(t+1) - F(t) ) */
+			(*mover) = 2;
 			base = 1;
-
+			se_adj = -1;
+		} else {
+                        /*  F(t+1) = F(t) + (1 - damp_fact) * ( A(t) - F(t) ) */
+			(*mover) = 1;
+			base = 1;
+			se_adj = 0;
 		}
-
-
+			
+		dao_set_cell_expr (dao, col, 1, 
+				   gnm_expr_new_funcall1 (fd_index, 
+							  gnm_expr_copy (expr_input)));
+		for (row = 2; row <= height; row++, (*mover)++) {
+			GnmExpr const *A;
+			GnmExpr const *F;
+			
+			A = gnm_expr_new_binary (gnm_expr_new_binary (gnm_expr_new_constant 
+								      (value_new_int (1)),
+								      GNM_EXPR_OP_SUB,
+								      gnm_expr_copy (expr_alpha)),
+						 GNM_EXPR_OP_MULT,
+						 gnm_expr_new_funcall3 
+						 (fd_index, 
+						  gnm_expr_copy (expr_input),
+						  gnm_expr_new_constant(value_new_int(y)),
+						  gnm_expr_new_constant(value_new_int(x))));
+			F = gnm_expr_new_binary (gnm_expr_copy (expr_alpha),
+						 GNM_EXPR_OP_MULT,
+						 make_cellref (0, -1));
+			dao_set_cell_expr (dao, col, row, gnm_expr_new_binary (A, GNM_EXPR_OP_ADD, F));
+		}
+		
 		if (info->std_error_flag) {
 			col++;
 			dao_set_italic (dao, col, 0, col, 0);
@@ -3986,7 +3993,7 @@ analysis_tool_exponential_smoothing_engine_run (data_analysis_output_t *dao,
 							    (gnm_expr_new_funcall2
 							     (fd_sumxmy2,
 							      expr_offset,
-							      make_rangeref (-1, - row + base + 1, -1, 0)),
+							      make_rangeref (-1, - row + base + se_adj + 1, -1, se_adj)),
 							     GNM_EXPR_OP_DIV,
 							     gnm_expr_new_constant (value_new_int 
 										    (row - base - info->df)))));

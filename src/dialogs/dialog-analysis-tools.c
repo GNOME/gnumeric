@@ -131,6 +131,12 @@ static char const * const moving_average_group[] = {
 	NULL
 };
 
+static char const * const exp_smoothing_group[] = {
+	"ses-h-button",
+	"ses-r-button",
+	NULL
+};
+
 
 
 typedef struct {
@@ -2309,6 +2315,8 @@ exp_smoothing_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->std_error_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
 	data->show_graph = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->graph_button));
 	data->df = gnumeric_glade_group_value (state->base.gui, n_group);
+
+	data->es_type = gnumeric_glade_group_value (state->base.gui, exp_smoothing_group);
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			       dao, data, analysis_tool_exponential_smoothing_engine))
