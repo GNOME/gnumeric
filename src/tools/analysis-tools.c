@@ -3811,92 +3811,205 @@ analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpointer specs
  *
  *    F(t+1) = F(t) + (1 - damp_fact) * ( A(t) - F(t) )
  *
- * The results are given in a table which can be printed out in
- * a new sheet, in a new workbook, or simply into an existing sheet.
- *
- * The stanard errors are calculated using the following formula:
- *
- *                ((A(t-3)-F(t-3))^2 + (A(t-2)-F(t-2))^2 + (A(t-1)-F(t-1))^2))
- *    e(t) = SQRT (----------------------------------------------------------)
- *                (                            3                             )
- *
  */
 
 static gboolean
 analysis_tool_exponential_smoothing_engine_run (data_analysis_output_t *dao,
 						analysis_tools_data_exponential_smoothing_t *info)
 {
-	GPtrArray     *data;
-	guint         dataset;
+	GSList *l;
+	gint col = 0;
+	gint source;
+	SheetObject *so = NULL;
+	GogPlot	     *plot = NULL;
+	GnmFunc *fd_index;
+	GnmFunc *fd_offset;
+	GnmFunc *fd_sqrt = NULL;
+	GnmFunc *fd_sumxmy2 = NULL;
+	GnmExpr const *expr_alpha;
 
-	/* TODO: Standard error output */
-
-	data = new_data_set_list (info->base.input, info->base.group_by,
-				  TRUE, info->base.labels, dao->sheet);
-
-	for (dataset = 0; dataset < data->len; dataset++) {
-		data_set_t    *current;
-		gnm_float    a, f, F[2] = { 0, 0 }, A[2] = { 0, 0 };
-		guint         row;
-
-		current = g_ptr_array_index (data, dataset);
-		dao_set_cell_printf (dao, dataset, 0, current->label);
-		a = f = 0;
-		for (row = 0; row < current->data->len; row++) {
-		        if (row == 0) {
-				/* Cannot forecast for the first data element.
-				 */
-
-				dao_set_cell_na (dao, dataset, row + 1);
-				if (info->std_error_flag)
-				        dao_set_cell_na (dao, dataset + 1,
-							 row + 1);
-			} else if (row == 1) {
-				/* The second forecast is always the first
-				 * data element. */
-				dao_set_cell_float (dao, dataset, row + 1, a);
-				f = a;
-				if (info->std_error_flag)
-				        dao_set_cell_na (dao, dataset + 1,
-							 row + 1);
-			} else {
-			        if (info->std_error_flag) {
-				        gnm_float m1 = a - f;
-					gnm_float m2 = A[0] - F[0];
-					gnm_float m3 = A[1] - F[1];
-
-					if (row < 4)
-					        dao_set_cell_na (dao,
-								 dataset + 1,
-								 row + 1);
-					else
-					        dao_set_cell_float
-						        (dao, dataset + 1,
-							 row + 1,
-							 sqrt ((m1*m1 + m2*m2 +
-								m3*m3) / 3));
-				        A[1] = A[0];
-					A[0] = a;
-					F[1] = F[0];
-					F[0] = f;
-				}
-
-				/*
-				 * F(t+1) = F(t) + (1 - damp_fact) *
-				 *          ( A(t) - F(t) ),
-				 * where A(t) is the t'th data element.
-				 */
-
-				f = f + (1.0 - info->damp_fact) * (a - f);
-				dao_set_cell_float (dao, dataset, row + 1, f);
-
-			}
-			a = g_array_index (current->data, gnm_float, row);
-		}
+	if (info->std_error_flag) {
+		fd_sqrt = gnm_func_lookup ("SQRT", NULL);
+		gnm_func_ref (fd_sqrt);		
+		fd_sumxmy2 = gnm_func_lookup ("SUMXMY2", NULL);
+		gnm_func_ref (fd_sumxmy2);		
 	}
-	dao_set_italic (dao, 0, 0, data->len - 1, 0);
+	fd_index = gnm_func_lookup ("INDEX", NULL);
+	gnm_func_ref (fd_index);		
+	fd_offset = gnm_func_lookup ("OFFSET", NULL);
+	gnm_func_ref (fd_offset);
 
-	destroy_data_set_list (data);
+	if (info->show_graph) {
+		GogGraph     *graph;
+		GogChart     *chart;
+		
+		graph = g_object_new (GOG_GRAPH_TYPE, NULL);
+		chart = GOG_CHART (gog_object_add_by_name (GOG_OBJECT (graph), "Chart", NULL));
+		plot = gog_plot_new_by_name ("GogLinePlot");
+		gog_object_add_by_name (GOG_OBJECT (chart), "Plot", GOG_OBJECT (plot));
+		so = sheet_object_graph_new (graph);
+		g_object_unref (graph);
+	}
+
+
+	dao_set_italic (dao, 0, 0, 0, 0);
+	dao_set_cell (dao, 0, 0, _("Exponential Smoothing"));
+	dao_set_format  (dao, 0, 1, 0, 1, _("\"\xce\xb1 =\" * 0.000"));
+	dao_set_cell_expr (dao, 0, 1, gnm_expr_new_constant (value_new_float (info->damp_fact)));
+	expr_alpha = dao_get_cellref (dao, 0, 1);
+	dao->offset_row = 2;
+
+	for (l = info->base.input, source = 1; l; l = l->next, col++, source++) {
+		GnmValue *val = value_dup ((GnmValue *)l->data);
+		GnmValue *val_c = NULL;
+		GnmExpr const *expr_title = NULL;
+		GnmExpr const *expr_input = NULL;
+		char const *format = NULL;
+		gint height;
+		gint  x = 1;
+		gint  y = 1;
+		gint  *mover;
+		guint delta_x = 1;
+		guint delta_y = 1;
+		gint row, base;
+		Sheet *sheet;
+
+		if (info->base.labels) {
+			val_c = value_dup (val);
+			switch (info->base.group_by) {
+			case GROUPED_BY_ROW:
+				val->v_range.cell.a.col++;
+				break;
+			default:
+				val->v_range.cell.a.row++;
+				break;
+			}
+			expr_title = gnm_expr_new_funcall1 (fd_index, 
+							    gnm_expr_new_constant (val_c));
+
+			dao_set_italic (dao, col, 0, col, 0);
+			dao_set_cell_expr (dao, col, 0, expr_title);
+		} else {
+			switch (info->base.group_by) {
+ 			case GROUPED_BY_ROW:
+				format = _("Row %d");
+				break;
+			default:
+				format = _("Column %d");
+				break;
+			}	
+			dao_set_cell_printf (dao, col, 0, format, source);
+		}
+
+		switch (info->base.group_by) {
+		case GROUPED_BY_ROW:
+			height = value_area_get_width (val, NULL);
+			mover = &x;
+			break;
+		default:
+			height = value_area_get_height (val, NULL);
+			mover = &y;
+			break;
+		}	
+
+		sheet = val->v_range.cell.a.sheet;
+		expr_input = gnm_expr_new_constant (val);
+
+		if  (plot != NULL) {
+			GogSeries    *series;
+
+			series = gog_plot_new_series (plot);
+			gog_series_set_dim (series, 1, 
+					    gnm_go_data_vector_new_expr (sheet,
+									 gnm_expr_top_new (gnm_expr_copy (expr_input))), 
+					    NULL);
+
+			series = gog_plot_new_series (plot);
+			gog_series_set_dim (series, 1, 
+					    dao_go_data_vector (dao, col, 1, col, height),
+					    NULL);
+		}
+
+		{  /*  F(t+1) = F(t) + (1 - damp_fact) * ( A(t) - F(t) ) */
+
+			dao_set_cell_expr (dao, col, 1, 
+					   gnm_expr_new_funcall1 (fd_index, 
+								  gnm_expr_copy (expr_input)));
+			(*mover) = 1;
+			for (row = 2; row <= height; row++, (*mover)++) {
+				GnmExpr const *A;
+				GnmExpr const *F;
+				
+				A = gnm_expr_new_binary (gnm_expr_new_binary (gnm_expr_new_constant 
+									      (value_new_int (1)),
+									      GNM_EXPR_OP_SUB,
+									      gnm_expr_copy (expr_alpha)),
+							 GNM_EXPR_OP_MULT,
+							 gnm_expr_new_funcall3 
+							 (fd_index, 
+							  gnm_expr_copy (expr_input),
+							  gnm_expr_new_constant(value_new_int(y)),
+							  gnm_expr_new_constant(value_new_int(x))));
+				F = gnm_expr_new_binary (gnm_expr_copy (expr_alpha),
+							 GNM_EXPR_OP_MULT,
+							 make_cellref (0, -1));
+				dao_set_cell_expr (dao, col, row, gnm_expr_new_binary (A, GNM_EXPR_OP_ADD, F));
+			}
+			base = 1;
+
+		}
+
+
+		if (info->std_error_flag) {
+			col++;
+			dao_set_italic (dao, col, 0, col, 0);
+			dao_set_cell (dao, col, 0, _("Standard Error"));
+
+			y = 0;
+			x = 0;
+			(*mover) = base;
+			for (row = 1; row <= height; row++) {
+				if (row > base && row <= height && (row - base - info->df) > 0) { 
+					GnmExpr const *expr_offset;
+					
+					if (info->base.group_by == GROUPED_BY_ROW)
+						delta_x = row - base;
+					else
+						delta_y = row - base;
+					
+					expr_offset = analysis_tool_moving_average_funcall5 
+						(fd_offset, expr_input, y, x, delta_y, delta_x);
+					dao_set_cell_expr (dao, col, row,
+							   gnm_expr_new_funcall1 
+							   (fd_sqrt,
+							    gnm_expr_new_binary 
+							    (gnm_expr_new_funcall2
+							     (fd_sumxmy2,
+							      expr_offset,
+							      make_rangeref (-1, - row + base + 1, -1, 0)),
+							     GNM_EXPR_OP_DIV,
+							     gnm_expr_new_constant (value_new_int 
+										    (row - base - info->df)))));
+				} else
+					dao_set_cell_na (dao, col, row);
+			}
+		}
+		
+		gnm_expr_free (expr_input);
+	}
+
+	if (so != NULL)
+		dao_set_sheet_object (dao, 0, 1, so);
+
+	gnm_expr_free (expr_alpha);
+	if (fd_sqrt != NULL)
+		gnm_func_unref (fd_sqrt);
+	if (fd_sumxmy2 != NULL)
+		gnm_func_unref (fd_sumxmy2);
+	gnm_func_unref (fd_offset);
+	gnm_func_unref (fd_index);
+
+	dao_redraw_respan (dao);
 
 	return FALSE;
 }
@@ -3917,7 +4030,7 @@ analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao,
 		prepare_input_range (&info->base.input, info->base.group_by);
 		dao_adjust (dao, (info->std_error_flag ? 2 : 1) *
 			    g_slist_length (info->base.input),
-			    1 + analysis_tool_calc_length (specs));
+			    3 + analysis_tool_calc_length (specs));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_generic_clean (specs);

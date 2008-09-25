@@ -205,6 +205,11 @@ typedef struct {
 typedef struct {
 	GenericToolState base;
         GtkWidget *damping_fact_entry;
+	GtkWidget *show_std_errors;
+	GtkWidget *n_button;
+	GtkWidget *nm1_button;
+	GtkWidget *nm2_button;
+	GtkWidget *graph_button;
 } ExpSmoothToolState;
 
 typedef struct {
@@ -2301,8 +2306,9 @@ exp_smoothing_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	err = entry_to_float (GTK_ENTRY (state->damping_fact_entry), &data->damp_fact, TRUE);
 
-	w = glade_xml_get_widget (state->base.gui, "std_errors_button");
-	data->std_error_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	data->std_error_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
+	data->show_graph = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->graph_button));
+	data->df = gnumeric_glade_group_value (state->base.gui, n_group);
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			       dao, data, analysis_tool_exponential_smoothing_engine))
@@ -2324,22 +2330,44 @@ static void
 exp_smoothing_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 					  ExpSmoothToolState *state)
 {
-	gboolean ready  = FALSE;
 	int err;
 	gnm_float damp_fact;
         GSList *input_range;
 
         input_range = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+	if (input_range == NULL) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The input range is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	} else
+		range_list_destroy (input_range);
+
 	err = entry_to_float (GTK_ENTRY (state->damping_fact_entry), &damp_fact, FALSE);
+	if (err!= 0 || damp_fact < 0 || damp_fact > 1)  {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The given damping factor is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
 
-	ready = ((input_range != NULL) &&
-                 (err == 0 && damp_fact >= 0 && damp_fact <= 1) &&
-                 gnm_dao_is_ready (GNM_DAO (state->base.gdao)));
+	if (!gnm_dao_is_ready (GNM_DAO (state->base.gdao))) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The output specification "
+				      "is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
 
-        if (input_range != NULL) range_list_destroy (input_range);
+	gtk_label_set_text (GTK_LABEL (state->base.warning), "");
+	gtk_widget_set_sensitive (state->base.ok_button, TRUE);
+}
 
-	gtk_widget_set_sensitive (state->base.ok_button, ready);
+static void
+exp_smoothing_tool_check_error_cb (G_GNUC_UNUSED GtkToggleButton *togglebutton, gpointer user_data)
+{
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (user_data), TRUE);
 }
 
 
@@ -2380,15 +2408,32 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 		return 0;
 
 	state->damping_fact_entry = glade_xml_get_widget (state->base.gui,
-							  "damping-fact-entry");
+							  "damping-fact-spin");
 	float_to_entry (GTK_ENTRY (state->damping_fact_entry), 0.2);
+
+	state->n_button = glade_xml_get_widget (state->base.gui, "n-button");
+	state->nm1_button = glade_xml_get_widget (state->base.gui, "nm1-button");
+	state->nm2_button = glade_xml_get_widget (state->base.gui, "nm2-button");
+
+	state->show_std_errors = glade_xml_get_widget (state->base.gui, "std-errors-button");
+	state->graph_button = glade_xml_get_widget (state->base.gui, "graph-check");
+
+	g_signal_connect_after (G_OBJECT (state->n_button),
+		"toggled",
+		G_CALLBACK (exp_smoothing_tool_check_error_cb), state->show_std_errors);
+	g_signal_connect_after (G_OBJECT (state->nm1_button),
+		"toggled",
+		G_CALLBACK (exp_smoothing_tool_check_error_cb), state->show_std_errors);
+	g_signal_connect_after (G_OBJECT (state->nm2_button),
+		"toggled",
+		G_CALLBACK (exp_smoothing_tool_check_error_cb), state->show_std_errors);
 	g_signal_connect_after (G_OBJECT (state->damping_fact_entry),
 		"changed",
 		G_CALLBACK (exp_smoothing_tool_update_sensitivity_cb), state);
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->damping_fact_entry));
 
-	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);
+	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	exp_smoothing_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
@@ -2662,7 +2707,6 @@ dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 	if (wbcg == NULL) {
 		return 1;
 	}
-
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, AVERAGE_KEY))

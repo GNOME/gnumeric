@@ -1,3 +1,13 @@
+2008-09-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* exp-smoothing.glade: add controls and reformat
+	* dialog-analysis-tools.c (ExpSmoothToolState): add fields
+	(exp_smoothing_tool_ok_clicked_cb): handle new fields
+	(exp_smoothing_tool_update_sensitivity_cb): use warning 
+	  field in the dialog
+	(exp_smoothing_tool_check_error_cb): new
+	(dialog_exp_smoothing_tool): setup new controls
+
 2008-09-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* moving-averages.glade: enable Spencer radio button

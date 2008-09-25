@@ -18,6 +18,7 @@ Andreas:
 	* Improve moving averages tool. [#527489]
 	* Add weighted and cumulative moving averages.
 	* Add Spencer's 15-point moving average.
+	* Fix and improve exponential smoothing tool. [#553267]
 
 Jean:
 	* Fix printing of rotated text. [#539734]

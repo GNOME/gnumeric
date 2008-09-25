@@ -113,6 +113,8 @@ typedef struct {
 	analysis_tools_data_generic_t base;
 	gnm_float damp_fact;
 	int std_error_flag;
+	int df;
+	gboolean show_graph;
 } analysis_tools_data_exponential_smoothing_t;
 
 gboolean analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao, gpointer specs,
