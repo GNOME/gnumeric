@@ -134,6 +134,9 @@ static char const * const moving_average_group[] = {
 static char const * const exp_smoothing_group[] = {
 	"ses-h-button",
 	"ses-r-button",
+	"des-button",
+	"ates-button",
+	"mtes-button",
 	NULL
 };
 
@@ -211,11 +214,18 @@ typedef struct {
 typedef struct {
 	GenericToolState base;
         GtkWidget *damping_fact_entry;
+        GtkWidget *g_damping_fact_entry;
+        GtkWidget *s_damping_fact_entry;
 	GtkWidget *show_std_errors;
 	GtkWidget *n_button;
 	GtkWidget *nm1_button;
 	GtkWidget *nm2_button;
 	GtkWidget *graph_button;
+	GtkWidget *ses_h_button;
+	GtkWidget *ses_r_button;
+	GtkWidget *des_button;
+	GtkWidget *ates_button;
+	GtkWidget *mtes_button;
 } ExpSmoothToolState;
 
 typedef struct {
@@ -2311,13 +2321,19 @@ exp_smoothing_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
         data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	err = entry_to_float (GTK_ENTRY (state->damping_fact_entry), &data->damp_fact, TRUE);
+	err = entry_to_float (GTK_ENTRY (state->g_damping_fact_entry), 
+			      &data->g_damp_fact, TRUE);
+	err = entry_to_float (GTK_ENTRY (state->s_damping_fact_entry), 
+			      &data->s_damp_fact, TRUE);
 
-	data->std_error_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
-	data->show_graph = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->graph_button));
+	data->std_error_flag = gtk_toggle_button_get_active 
+		(GTK_TOGGLE_BUTTON (state->show_std_errors));
+	data->show_graph = gtk_toggle_button_get_active 
+		(GTK_TOGGLE_BUTTON (state->graph_button));
 	data->df = gnumeric_glade_group_value (state->base.gui, n_group);
 
 	data->es_type = gnumeric_glade_group_value (state->base.gui, exp_smoothing_group);
-
+	
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			       dao, data, analysis_tool_exponential_smoothing_engine))
 		gtk_widget_destroy (state->base.dialog);
@@ -2352,12 +2368,41 @@ exp_smoothing_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	} else
 		range_list_destroy (input_range);
 
-	err = entry_to_float (GTK_ENTRY (state->damping_fact_entry), &damp_fact, FALSE);
-	if (err!= 0 || damp_fact < 0 || damp_fact > 1)  {
-		gtk_label_set_text (GTK_LABEL (state->base.warning),
-				    _("The given damping factor is invalid."));
+	switch (gnumeric_glade_group_value (state->base.gui, exp_smoothing_group)) {
+	case moving_average_type_mtes:
+	case moving_average_type_ates:
+		err = entry_to_float (GTK_ENTRY (state->s_damping_fact_entry), 
+				      &damp_fact, FALSE);
+		if (err!= 0 || damp_fact < 0 || damp_fact > 1)  {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("The given seasonal damping "
+					      "factor is invalid."));
+			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+			return;
+		}
+		/* no break */
+	case moving_average_type_des:
+		err = entry_to_float (GTK_ENTRY (state->g_damping_fact_entry), 
+				      &damp_fact, FALSE);
+		if (err!= 0 || damp_fact < 0 || damp_fact > 1)  {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("The given growth"
+					      "damping factor is invalid."));
+			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+			return;
+		}
+		/* no break */
+	case moving_average_type_ses_r:
+	case moving_average_type_ses_h:
+		err = entry_to_float (GTK_ENTRY (state->damping_fact_entry), 
+				      &damp_fact, FALSE);
+		if (err!= 0 || damp_fact < 0 || damp_fact > 1)  {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("The given damping factor is invalid."));
 		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 		return;
+		}
+		break;
 	}
 
 	if (!gnm_dao_is_ready (GNM_DAO (state->base.gdao))) {
@@ -2378,6 +2423,51 @@ exp_smoothing_tool_check_error_cb (G_GNUC_UNUSED GtkToggleButton *togglebutton, 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (user_data), TRUE);
 }
 
+
+static void
+exp_smoothing_ses_cb (GtkToggleButton *togglebutton, gpointer user_data)
+{
+	ExpSmoothToolState *state = (ExpSmoothToolState *)user_data;
+
+	if (!gtk_toggle_button_get_active (togglebutton))
+		return;
+
+	gtk_widget_set_sensitive (state->g_damping_fact_entry, FALSE);
+	gtk_widget_set_sensitive (state->s_damping_fact_entry, FALSE);
+	gtk_widget_set_sensitive (state->n_button, TRUE);
+	gtk_widget_set_sensitive (state->nm1_button, TRUE);
+	gtk_widget_set_sensitive (state->nm2_button, TRUE);
+	gtk_widget_set_sensitive (state->show_std_errors, TRUE);
+}
+
+static void
+exp_smoothing_des_cb (GtkToggleButton *togglebutton, gpointer user_data)
+{
+	ExpSmoothToolState *state = (ExpSmoothToolState *)user_data;
+
+	if (!gtk_toggle_button_get_active (togglebutton))
+		return;
+
+	gtk_widget_set_sensitive (state->g_damping_fact_entry, TRUE);
+	gtk_widget_set_sensitive (state->s_damping_fact_entry, FALSE);
+	gtk_widget_set_sensitive (state->n_button, FALSE);
+	gtk_widget_set_sensitive (state->nm1_button, FALSE);
+	gtk_widget_set_sensitive (state->nm2_button, FALSE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->show_std_errors), FALSE);
+	gtk_widget_set_sensitive (state->show_std_errors, FALSE);
+}
+
+static void
+exp_smoothing_tes_cb (GtkToggleButton *togglebutton, gpointer user_data)
+{
+	ExpSmoothToolState *state = (ExpSmoothToolState *)user_data;
+
+	if (!gtk_toggle_button_get_active (togglebutton))
+		return;
+
+	gtk_widget_set_sensitive (state->g_damping_fact_entry, TRUE);
+	gtk_widget_set_sensitive (state->s_damping_fact_entry, TRUE);
+}
 
 /**
  * dialog_exp_smoothing_tool:
@@ -2418,6 +2508,12 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 	state->damping_fact_entry = glade_xml_get_widget (state->base.gui,
 							  "damping-fact-spin");
 	float_to_entry (GTK_ENTRY (state->damping_fact_entry), 0.2);
+	state->g_damping_fact_entry = glade_xml_get_widget (state->base.gui,
+							  "g-damping-fact-spin");
+	float_to_entry (GTK_ENTRY (state->g_damping_fact_entry), 0.2);
+	state->s_damping_fact_entry = glade_xml_get_widget (state->base.gui,
+							  "s-damping-fact-spin");
+	float_to_entry (GTK_ENTRY (state->s_damping_fact_entry), 0.2);
 
 	state->n_button = glade_xml_get_widget (state->base.gui, "n-button");
 	state->nm1_button = glade_xml_get_widget (state->base.gui, "nm1-button");
@@ -2425,6 +2521,12 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	state->show_std_errors = glade_xml_get_widget (state->base.gui, "std-errors-button");
 	state->graph_button = glade_xml_get_widget (state->base.gui, "graph-check");
+	
+	state->ses_h_button = glade_xml_get_widget (state->base.gui, "ses-h-button");
+	state->ses_r_button = glade_xml_get_widget (state->base.gui, "ses-r-button");
+	state->des_button = glade_xml_get_widget (state->base.gui, "des-button");
+	state->ates_button = glade_xml_get_widget (state->base.gui, "ates-button");
+	state->mtes_button = glade_xml_get_widget (state->base.gui, "mtes-button");
 
 	g_signal_connect_after (G_OBJECT (state->n_button),
 		"toggled",
@@ -2438,12 +2540,38 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 	g_signal_connect_after (G_OBJECT (state->damping_fact_entry),
 		"changed",
 		G_CALLBACK (exp_smoothing_tool_update_sensitivity_cb), state);
+
+	g_signal_connect_after (G_OBJECT (state->ses_h_button),
+				"toggled",
+				G_CALLBACK (exp_smoothing_ses_cb), state);
+	g_signal_connect_after (G_OBJECT (state->ses_r_button),
+				"toggled",
+				G_CALLBACK (exp_smoothing_ses_cb), state);
+	g_signal_connect_after (G_OBJECT (state->des_button),
+				"toggled",
+				G_CALLBACK (exp_smoothing_des_cb), state);
+	g_signal_connect_after (G_OBJECT (state->ates_button),
+				"toggled",
+				G_CALLBACK (exp_smoothing_tes_cb), state);
+	g_signal_connect_after (G_OBJECT (state->mtes_button),
+				"toggled",
+				G_CALLBACK (exp_smoothing_tes_cb), state);
+
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->damping_fact_entry));
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+				  GTK_WIDGET (state->g_damping_fact_entry));
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+				  GTK_WIDGET (state->s_damping_fact_entry));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->ses_h_button), TRUE);
+	exp_smoothing_ses_cb (state->ses_h_button, state);
 	exp_smoothing_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
+	
+	gtk_widget_set_sensitive (state->ates_button, FALSE);
+	gtk_widget_set_sensitive (state->mtes_button, FALSE);
 
         return 0;
 }

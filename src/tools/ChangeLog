@@ -1,3 +1,12 @@
+2008-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.h (analysis_tools_data_exponential_smoothing_t): 
+	  add field
+	(exponential_smoothing_type_t): add items
+	* analysis-tools.c (analysis_tool_exponential_smoothing_engine_run): 
+	  add handling of Holt's trend corrected exponential smoothing
+	(analysis_tool_exponential_smoothing_engine): adjust size
+
 2008-09-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.h (analysis_tools_data_exponential_smoothing_t): 

@@ -111,12 +111,17 @@ gboolean analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpoin
 
 typedef enum {
 	moving_average_type_ses_h = 0,
-	moving_average_type_ses_r
+	moving_average_type_ses_r,
+	moving_average_type_des,
+	moving_average_type_ates,
+	moving_average_type_mtes
 } exponential_smoothing_type_t;
 
 typedef struct {
 	analysis_tools_data_generic_t base;
 	gnm_float damp_fact;
+	gnm_float g_damp_fact;
+	gnm_float s_damp_fact;
 	int std_error_flag;
 	int df;
 	gboolean show_graph;

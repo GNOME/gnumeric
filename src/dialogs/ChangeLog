@@ -1,3 +1,18 @@
+2008-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* exp-smoothing.glade: aded controls for Holt's
+	* dialog-analysis-tools.c (exp_smoothing_group):
+	  added more buttons
+	(ExpSmoothToolState): added more fields
+	(exp_smoothing_tool_ok_clicked_cb): retrieve info from
+	  additional fields
+	(exp_smoothing_tool_update_sensitivity_cb): check for 
+	  additional info.
+	(exp_smoothing_ses_cb): new
+	(exp_smoothing_des_cb): new
+	(exp_smoothing_tes_cb): new
+	(dialog_exp_smoothing_tool): setup new controls
+
 2008-09-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* exp-smoothing.glade: enable "Roberts".
