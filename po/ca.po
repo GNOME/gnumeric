@@ -19,14 +19,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-14 07:36-0400\n"
-"PO-Revision-Date: 2008-02-21 01:10+0100\n"
-"Last-Translator: David Planella Molas <david.planella@gmail.com>\n"
+"POT-Creation-Date: 2008-09-27 19:47+0200\n"
+"PO-Revision-Date: 2008-09-08 23:05+0200\n"
+"Last-Translator: David Planella <david.planella@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../gnumeric.desktop.in.h:1
 msgid "Calculation, Analysis, and Visualization of Information"
@@ -142,9 +142,8 @@ msgstr ""
 "rho_ef, kappa_e, kappa_f)"
 
 #: ../plugins/derivatives/options.c:2353
-#, fuzzy
 msgid "spot, strike, t1, t2, rate, d, volatility"
-msgstr "senyalador_crida_posa, preu, valor, t1, t2, taxa, d, volatilitat"
+msgstr "preu, valor, t1, t2, taxa, d, volatilitat"
 
 #: ../plugins/derivatives/options.c:2358
 msgid ""
@@ -240,7 +239,7 @@ msgstr "Subproductes financers"
 msgid "Functions related to financial derivatives"
 msgstr "Les funcions relacionades amb els subproductes financers"
 
-#: ../plugins/dif/dif.c:71 ../plugins/excel/ms-excel-read.c:6574
+#: ../plugins/dif/dif.c:71 ../plugins/excel/ms-excel-read.c:6573
 #: ../plugins/mps/mps.c:535 ../src/xml-io.c:2704 ../src/xml-sax-read.c:2659
 msgid "Reading file..."
 msgstr "S'està llegint el fitxer..."
@@ -342,7 +341,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atribut inesperat %s::%s == «%s»."
 
 #: ../plugins/excel/excel-xml-read.c:1002
-#: ../plugins/openoffice/openoffice-read.c:2984 ../src/xml-sax-read.c:2677
+#: ../plugins/openoffice/openoffice-read.c:2998 ../src/xml-sax-read.c:2677
 msgid "XML document not well formed!"
 msgstr "El document XML està mal format"
 
@@ -386,28 +385,28 @@ msgid "Incorrect expression for name '%s': content will be lost.\n"
 msgstr "Expressió incorrecta per al nom «%s»: es perdrà el contingut.\n"
 
 #: ../plugins/excel/ms-excel-read.c:3337
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "DDE links are not supported yet.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
-"Els enllaços DDE no estan implementats.\n"
+"Els enllaços DDE encara no estan implementats.\n"
 "Es perdrà el nom «%s».\n"
 
 #: ../plugins/excel/ms-excel-read.c:3341
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "OLE links are not supported yet.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
-"Els enllaços OLE no estan implementats.\n"
+"Els enllaços OLE encara no estan implementats.\n"
 "Es perdrà el nom «%s».\n"
 
-#: ../plugins/excel/ms-excel-read.c:5727
+#: ../plugins/excel/ms-excel-read.c:5726
 msgid "external references"
 msgstr "referències externes"
 
-#: ../plugins/excel/ms-excel-read.c:5766
+#: ../plugins/excel/ms-excel-read.c:5765
 msgid "No password supplied"
 msgstr "No s'ha subministrat la contrasenya"
 
@@ -870,9 +869,9 @@ msgid "%s version %s"
 msgstr "%s versió %s"
 
 #: ../plugins/fn-info/functions.c:1397
-#: ../src/dialogs/dialog-cell-format.c:2207
-#: ../src/dialogs/dialog-cell-format.c:2211
-#: ../src/dialogs/dialog-cell-format.c:2219 ../src/wbc-gtk.c:2490
+#: ../src/dialogs/dialog-cell-format.c:2209
+#: ../src/dialogs/dialog-cell-format.c:2213
+#: ../src/dialogs/dialog-cell-format.c:2221 ../src/wbc-gtk.c:2490
 msgid "Automatic"
 msgstr "Automàtic"
 
@@ -954,18 +953,18 @@ msgstr "Discordança de tipus"
 
 #: ../plugins/fn-logical/functions.c:376 ../plugins/fn-logical/functions.c:380
 #: ../plugins/fn-logical/functions.c:403 ../plugins/fn-math/functions.c:3469
-#: ../plugins/fn-stat/functions.c:5704 ../plugins/fn-stat/functions.c:5708
-#: ../plugins/fn-stat/functions.c:5712 ../plugins/fn-stat/functions.c:5750
-#: ../plugins/fn-stat/functions.c:5753 ../plugins/fn-stat/functions.c:5762
-#: ../plugins/fn-stat/functions.c:5798 ../plugins/fn-stat/functions.c:5812
-#: ../plugins/fn-stat/functions.c:5815 ../plugins/fn-stat/functions.c:5840
-#: ../plugins/fn-stat/functions.c:5844 ../plugins/fn-stat/functions.c:5848
-#: ../plugins/fn-stat/functions.c:5852 ../plugins/fn-stat/functions.c:5856
-#: ../plugins/fn-stat/functions.c:5860 ../plugins/fn-stat/functions.c:5916
-#: ../plugins/fn-stat/functions.c:5920 ../plugins/fn-stat/functions.c:5924
-#: ../plugins/fn-stat/functions.c:5928 ../plugins/fn-stat/functions.c:5957
-#: ../plugins/fn-stat/functions.c:5960 ../plugins/fn-stat/functions.c:5963
-#: ../plugins/fn-stat/functions.c:5966 ../plugins/fn-stat/functions.c:5982
+#: ../plugins/fn-stat/functions.c:5679 ../plugins/fn-stat/functions.c:5683
+#: ../plugins/fn-stat/functions.c:5687 ../plugins/fn-stat/functions.c:5725
+#: ../plugins/fn-stat/functions.c:5728 ../plugins/fn-stat/functions.c:5737
+#: ../plugins/fn-stat/functions.c:5773 ../plugins/fn-stat/functions.c:5787
+#: ../plugins/fn-stat/functions.c:5790 ../plugins/fn-stat/functions.c:5815
+#: ../plugins/fn-stat/functions.c:5819 ../plugins/fn-stat/functions.c:5823
+#: ../plugins/fn-stat/functions.c:5827 ../plugins/fn-stat/functions.c:5831
+#: ../plugins/fn-stat/functions.c:5835 ../plugins/fn-stat/functions.c:5891
+#: ../plugins/fn-stat/functions.c:5895 ../plugins/fn-stat/functions.c:5899
+#: ../plugins/fn-stat/functions.c:5903 ../plugins/fn-stat/functions.c:5932
+#: ../plugins/fn-stat/functions.c:5935 ../plugins/fn-stat/functions.c:5938
+#: ../plugins/fn-stat/functions.c:5941 ../plugins/fn-stat/functions.c:5957
 #: ../src/func-builtin.c:284 ../src/func-builtin.c:290
 msgid "number,number,"
 msgstr "nombre,nombre"
@@ -988,9 +987,9 @@ msgstr "nombre,nombre"
 #: ../plugins/fn-math/functions.c:3457 ../plugins/fn-math/functions.c:3460
 #: ../plugins/fn-math/functions.c:3463 ../plugins/fn-math/functions.c:3466
 #: ../plugins/fn-math/functions.c:3479 ../plugins/fn-math/functions.c:3491
-#: ../plugins/fn-math/functions.c:3494 ../plugins/fn-stat/functions.c:5774
-#: ../plugins/fn-stat/functions.c:5777 ../plugins/fn-stat/functions.c:5795
-#: ../plugins/fn-stat/functions.c:5873 ../plugins/fn-string/functions.c:1247
+#: ../plugins/fn-math/functions.c:3494 ../plugins/fn-stat/functions.c:5749
+#: ../plugins/fn-stat/functions.c:5752 ../plugins/fn-stat/functions.c:5770
+#: ../plugins/fn-stat/functions.c:5848 ../plugins/fn-string/functions.c:1247
 #: ../plugins/fn-string/functions.c:1250
 msgid "number"
 msgstr "nombre"
@@ -999,12 +998,9 @@ msgstr "nombre"
 msgid "condition,if true,if false"
 msgstr "condició,si cert,si fals"
 
-# FIXME: crec que es refereix a «interest rate», per la qual cosa
-# també podria ser «tipus,valors» (dpm)
 #: ../plugins/fn-logical/functions.c:392
-#, fuzzy
 msgid "value,value"
-msgstr "taxa,valors"
+msgstr "valor,valor"
 
 #: ../plugins/fn-logical/plugin.xml.in.h:1
 msgid "Functions for manipulating truth values"
@@ -1110,7 +1106,7 @@ msgstr "abast,criteri"
 msgid "number,significance"
 msgstr "nombre,significat"
 
-#: ../plugins/fn-math/functions.c:3376 ../plugins/fn-stat/functions.c:5888
+#: ../plugins/fn-math/functions.c:3376 ../plugins/fn-stat/functions.c:5863
 msgid "n,k"
 msgstr "n,k"
 
@@ -1157,8 +1153,8 @@ msgstr "rang,rang,"
 
 #: ../plugins/fn-math/functions.c:3482 ../plugins/fn-math/functions.c:3485
 #: ../plugins/fn-math/functions.c:3488 ../plugins/fn-math/functions.c:3504
-#: ../plugins/fn-stat/functions.c:5747 ../plugins/fn-stat/functions.c:5756
-#: ../plugins/fn-stat/functions.c:5879 ../plugins/fn-stat/functions.c:5935
+#: ../plugins/fn-stat/functions.c:5722 ../plugins/fn-stat/functions.c:5731
+#: ../plugins/fn-stat/functions.c:5854 ../plugins/fn-stat/functions.c:5910
 msgid "array1,array2"
 msgstr "vector1,vector2"
 
@@ -1195,7 +1191,7 @@ msgid "Statistics"
 msgstr "Estadístiques"
 
 #: ../plugins/fn-random/functions.c:1197 ../plugins/fn-random/functions.c:1233
-#: ../plugins/fn-random/functions.c:1251 ../plugins/fn-stat/functions.c:5876
+#: ../plugins/fn-random/functions.c:1251 ../plugins/fn-stat/functions.c:5851
 msgid "p"
 msgstr "p"
 
@@ -1282,186 +1278,186 @@ msgstr "Funcions de nombres aleatoris"
 msgid "Random Numbers"
 msgstr "Nombres aleatoris"
 
-#: ../plugins/fn-stat/functions.c:5717 ../plugins/fn-stat/functions.c:5979
+#: ../plugins/fn-stat/functions.c:5692 ../plugins/fn-stat/functions.c:5954
 msgid "k,p"
 msgstr "k,p"
 
-#: ../plugins/fn-stat/functions.c:5721
+#: ../plugins/fn-stat/functions.c:5696
 msgid "x,alpha,beta,a,b"
 msgstr "x,alfa,beta,a,b"
 
-#: ../plugins/fn-stat/functions.c:5724
+#: ../plugins/fn-stat/functions.c:5699
 msgid "p,alpha,beta,a,b"
 msgstr "p,alfa,beta,a,b"
 
-#: ../plugins/fn-stat/functions.c:5727
+#: ../plugins/fn-stat/functions.c:5702
 msgid "n,t,p,c"
 msgstr "n,t,p,c"
 
-#: ../plugins/fn-stat/functions.c:5731
+#: ../plugins/fn-stat/functions.c:5706
 msgid "x,a,cum"
 msgstr "x,a,cum"
 
-#: ../plugins/fn-stat/functions.c:5735
+#: ../plugins/fn-stat/functions.c:5710
 msgid "x,dof"
 msgstr "x,dof"
 
-#: ../plugins/fn-stat/functions.c:5738 ../plugins/fn-stat/functions.c:5944
+#: ../plugins/fn-stat/functions.c:5713 ../plugins/fn-stat/functions.c:5919
 msgid "p,dof"
 msgstr "p,dof"
 
-#: ../plugins/fn-stat/functions.c:5741
+#: ../plugins/fn-stat/functions.c:5716
 msgid "act_range,theo_range"
 msgstr "rang_act,range_teo"
 
-#: ../plugins/fn-stat/functions.c:5744
+#: ../plugins/fn-stat/functions.c:5719
 msgid "x,stddev,size"
 msgstr "x,desvest,mida"
 
-#: ../plugins/fn-stat/functions.c:5759
+#: ../plugins/fn-stat/functions.c:5734
 msgid "trials,p,alpha"
 msgstr "proves,p,alpha"
 
-#: ../plugins/fn-stat/functions.c:5765
+#: ../plugins/fn-stat/functions.c:5740
 msgid "x,y,cumulative"
 msgstr "x,y,acumulatiu"
 
-#: ../plugins/fn-stat/functions.c:5768
+#: ../plugins/fn-stat/functions.c:5743
 msgid "x,dof of num,dof of denom"
 msgstr "x, dof del num, dof del denom"
 
-#: ../plugins/fn-stat/functions.c:5771
+#: ../plugins/fn-stat/functions.c:5746
 msgid "p,dof of num,dof of denom"
 msgstr "x, dof del num, dof del denom"
 
-#: ../plugins/fn-stat/functions.c:5780
+#: ../plugins/fn-stat/functions.c:5755
 msgid "x,known y's,known x's"
 msgstr "x,y és conegut,x és conegut"
 
-#: ../plugins/fn-stat/functions.c:5783
+#: ../plugins/fn-stat/functions.c:5758
 msgid "data_array,bins_array"
 msgstr "vector_de_dades,vector_de_binaris"
 
-#: ../plugins/fn-stat/functions.c:5786
+#: ../plugins/fn-stat/functions.c:5761
 msgid "arr1,arr2"
 msgstr "vect1,vect2"
 
-#: ../plugins/fn-stat/functions.c:5789
+#: ../plugins/fn-stat/functions.c:5764
 msgid "number,alpha,beta,cum"
 msgstr "nombre,alpha,beta,cum"
 
-#: ../plugins/fn-stat/functions.c:5792
+#: ../plugins/fn-stat/functions.c:5767
 msgid "number,alpha,beta"
 msgstr "nombre,alpha,beta"
 
-#: ../plugins/fn-stat/functions.c:5802 ../plugins/fn-stat/functions.c:5947
+#: ../plugins/fn-stat/functions.c:5777 ../plugins/fn-stat/functions.c:5922
 msgid "known_y's,known_x's,new_x's,const"
 msgstr "y_coneguda,x_coneguda,nova_x's,const"
 
-#: ../plugins/fn-stat/functions.c:5809
+#: ../plugins/fn-stat/functions.c:5784
 msgid "x,n,M,N,cumulative"
 msgstr "x,n,M,N,acumulatiu"
 
-#: ../plugins/fn-stat/functions.c:5818 ../plugins/fn-stat/functions.c:5906
+#: ../plugins/fn-stat/functions.c:5793 ../plugins/fn-stat/functions.c:5881
 msgid "values,k,"
 msgstr "valors,k,"
 
-#: ../plugins/fn-stat/functions.c:5822 ../plugins/fn-stat/functions.c:5825
-#: ../plugins/fn-stat/functions.c:5837
+#: ../plugins/fn-stat/functions.c:5797 ../plugins/fn-stat/functions.c:5800
+#: ../plugins/fn-stat/functions.c:5812
 msgid "known_y's,known_x's,const,stat"
 msgstr "y_coneguda,x_coneguda,const,stat"
 
-#: ../plugins/fn-stat/functions.c:5828 ../plugins/fn-stat/functions.c:5903
-#: ../plugins/fn-stat/functions.c:5932
+#: ../plugins/fn-stat/functions.c:5803 ../plugins/fn-stat/functions.c:5878
+#: ../plugins/fn-stat/functions.c:5907
 msgid "known_y's,known_x's"
 msgstr "y_coneguda,x_coneguda"
 
-#: ../plugins/fn-stat/functions.c:5831 ../plugins/fn-stat/functions.c:5870
+#: ../plugins/fn-stat/functions.c:5806 ../plugins/fn-stat/functions.c:5845
 msgid "p,mean,stddev"
 msgstr "p,mitjana,desvest"
 
-#: ../plugins/fn-stat/functions.c:5834 ../plugins/fn-stat/functions.c:5910
+#: ../plugins/fn-stat/functions.c:5809 ../plugins/fn-stat/functions.c:5885
 msgid "x,mean,stddev"
 msgstr "x,mitjana,desvest"
 
-#: ../plugins/fn-stat/functions.c:5864
+#: ../plugins/fn-stat/functions.c:5839
 msgid "f,t,p"
 msgstr "f,t,p"
 
-#: ../plugins/fn-stat/functions.c:5867
+#: ../plugins/fn-stat/functions.c:5842
 msgid "x,mean,stddev,cumulative"
 msgstr "x,mitjana,desvest,acumulatiu"
 
-#: ../plugins/fn-stat/functions.c:5882
+#: ../plugins/fn-stat/functions.c:5857
 msgid "array,k"
 msgstr "vector,k"
 
-#: ../plugins/fn-stat/functions.c:5885
+#: ../plugins/fn-stat/functions.c:5860
 msgid "array,x,significance"
 msgstr "vector,x,significació"
 
-#: ../plugins/fn-stat/functions.c:5891
+#: ../plugins/fn-stat/functions.c:5866
 msgid "x,mean,cumulative"
 msgstr "x,mitjana,acumulatiu"
 
-#: ../plugins/fn-stat/functions.c:5894
+#: ../plugins/fn-stat/functions.c:5869
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr "rang_x,rang_prob,límit_inferior,límit_superior"
 
-#: ../plugins/fn-stat/functions.c:5897
+#: ../plugins/fn-stat/functions.c:5872
 msgid "array,quart"
 msgstr "vector,quart"
 
-#: ../plugins/fn-stat/functions.c:5913
+#: ../plugins/fn-stat/functions.c:5888
 msgid "array,interval"
 msgstr "vector,interval"
 
-#: ../plugins/fn-stat/functions.c:5941
+#: ../plugins/fn-stat/functions.c:5916
 msgid "x,dof,tails"
 msgstr "x,dof,cues"
 
-#: ../plugins/fn-stat/functions.c:5950
+#: ../plugins/fn-stat/functions.c:5925
 msgid "ref,fraction"
 msgstr "ref,fracció"
 
-#: ../plugins/fn-stat/functions.c:5954
+#: ../plugins/fn-stat/functions.c:5929
 msgid "array1,array2,tails,type"
 msgstr "llista1,llista2,cues,tipus"
 
-#: ../plugins/fn-stat/functions.c:5969
+#: ../plugins/fn-stat/functions.c:5944
 msgid "x.alpha,beta,cumulative"
 msgstr "x.alpha,beta,acumulatiu"
 
-#: ../plugins/fn-stat/functions.c:5972
+#: ../plugins/fn-stat/functions.c:5947
 msgid "ref,x[,stddev]"
-msgstr ""
+msgstr "ref,x[,stddev]"
 
-#: ../plugins/fn-stat/functions.c:5976 ../plugins/fn-stat/functions.c:5994
+#: ../plugins/fn-stat/functions.c:5951 ../plugins/fn-stat/functions.c:5969
 msgid "x,a,b"
 msgstr "x,a,b"
 
-#: ../plugins/fn-stat/functions.c:5985 ../src/dialogs/col-width.glade.h:5
+#: ../plugins/fn-stat/functions.c:5960 ../src/dialogs/col-width.glade.h:5
 #: ../src/dialogs/row-height.glade.h:5
 msgid "x"
 msgstr "x"
 
-#: ../plugins/fn-stat/functions.c:5988 ../plugins/fn-stat/functions.c:5991
+#: ../plugins/fn-stat/functions.c:5963 ../plugins/fn-stat/functions.c:5966
 msgid "x,a"
 msgstr "x,a"
 
-#: ../plugins/fn-stat/functions.c:5997
+#: ../plugins/fn-stat/functions.c:5972
 msgid "x,sigma"
 msgstr "x,sigma"
 
-#: ../plugins/fn-stat/functions.c:6000
+#: ../plugins/fn-stat/functions.c:5975
 msgid "x,a,sigma"
 msgstr "x,a,sigma"
 
-#: ../plugins/fn-stat/functions.c:6006
+#: ../plugins/fn-stat/functions.c:5981
 msgid "function_nbr,ref,ref,"
 msgstr "funció_nbr,ref,ref,"
 
-#: ../plugins/fn-stat/functions.c:6009
+#: ../plugins/fn-stat/functions.c:5984
 msgid "ref,ref,"
 msgstr "ref,ref,"
 
@@ -1687,12 +1683,12 @@ msgstr "Funció objectiva:"
 msgid "Constraints:"
 msgstr "Restriccions:"
 
-#: ../plugins/mps/mps.c:243 ../src/commands.c:4796 ../src/commands.c:5637
+#: ../plugins/mps/mps.c:243 ../src/commands.c:4796 ../src/commands.c:5665
 #: ../src/dialogs/dialog-define-names.c:573
 #: ../src/dialogs/dialog-doc-metadata.c:1214
 #: ../src/dialogs/dialog-formula-guru.c:827
-#: ../src/dialogs/dialog-function-select.c:532
-#: ../src/dialogs/dialog-function-select.c:554
+#: ../src/dialogs/dialog-function-select.c:540
+#: ../src/dialogs/dialog-function-select.c:562
 #: ../src/dialogs/dialog-paste-names.c:100
 #: ../src/dialogs/dialog-scenarios.c:374
 #: ../src/dialogs/dialog-simulation.c:221 ../src/dialogs/dialog-zoom.c:196
@@ -1737,27 +1733,27 @@ msgstr "Fluix"
 msgid "Error while reading MPS file."
 msgstr "S'ha produït un error en llegir el fitxer MPS."
 
-#: ../plugins/mps/parser.c:552
+#: ../plugins/mps/parser.c:545
 msgid "Problem name was not defined in the file."
 msgstr "El nom del problema no es va definir al fitxer."
 
-#: ../plugins/mps/parser.c:557
+#: ../plugins/mps/parser.c:550
 msgid "Invalid ROWS section in the file."
 msgstr "Secció ROWS no vàlida al fitxer"
 
-#: ../plugins/mps/parser.c:562
+#: ../plugins/mps/parser.c:555
 msgid "Invalid COLUMNS section in the file."
 msgstr "Secció COLUMNS no vàlida al fitxer"
 
-#: ../plugins/mps/parser.c:567
+#: ../plugins/mps/parser.c:560
 msgid "Invalid RHS section in the file."
 msgstr "Secció RHS no vàlida al fitxer"
 
-#: ../plugins/mps/parser.c:572
+#: ../plugins/mps/parser.c:565
 msgid "Invalid RANGES section in the file."
 msgstr "Secció RANGES no vàlida en el fitxer."
 
-#: ../plugins/mps/parser.c:577
+#: ../plugins/mps/parser.c:570
 msgid "Invalid BOUNDS section in the file."
 msgstr "Secció BOUNDS no vàlida al fitxer"
 
@@ -1812,7 +1808,7 @@ msgstr ""
 "   «%s»\n"
 "perquè «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:705
+#: ../plugins/openoffice/openoffice-read.c:723
 #, c-format
 msgid ""
 "Content past the maxium number of rows supported in this build (%u).  Please "
@@ -1821,58 +1817,58 @@ msgstr ""
 "El contingut sobrepassa el nombre màxim de files que permet aquest muntatge "
 "(%u). Recompileu amb uns límits més grans."
 
-#: ../plugins/openoffice/openoffice-read.c:881
+#: ../plugins/openoffice/openoffice-read.c:891
 msgid "Missing expression"
 msgstr "Manca l'expressió"
 
-#: ../plugins/openoffice/openoffice-read.c:888
+#: ../plugins/openoffice/openoffice-read.c:898
 msgid "Missing expression namespace"
 msgstr "Manca l'espai de noms de l'expressió"
 
-#: ../plugins/openoffice/openoffice-read.c:896
+#: ../plugins/openoffice/openoffice-read.c:906
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "L'expressió «%s» no comença amb un caràcter reconegut"
 
-#: ../plugins/openoffice/openoffice-read.c:981
+#: ../plugins/openoffice/openoffice-read.c:995
 msgid "Invalid array expression does not specify number of columns."
 msgstr ""
 "L'expressió de vector és invàlida i no especifica el nombre de columnes."
 
-#: ../plugins/openoffice/openoffice-read.c:984
+#: ../plugins/openoffice/openoffice-read.c:998
 msgid "Invalid array expression does not specify number of rows."
 msgstr "L'expressió de vector és invàlida i no especifica el nombre de files."
 
 # FIXME: break es refereix a final de línia en aquest cas? (dpm)
-#: ../plugins/openoffice/openoffice-read.c:1562
+#: ../plugins/openoffice/openoffice-read.c:1576
 #, c-format
 msgid "Unknown break type '%s' defaulting to Manual"
 msgstr "El tipus de final de línia «%s» és desconegut. S'establirà a manual."
 
-#: ../plugins/openoffice/openoffice-read.c:1785
+#: ../plugins/openoffice/openoffice-read.c:1799
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "l'expressió «%s» a «%s» no és una referència de cel·la"
 
 # FIXME DB = base de dades? (dpm)
-#: ../plugins/openoffice/openoffice-read.c:1822
+#: ../plugins/openoffice/openoffice-read.c:1836
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "El rang de DB «%s» no és vàlid"
 
-#: ../plugins/openoffice/openoffice-read.c:2874
+#: ../plugins/openoffice/openoffice-read.c:2888
 msgid "Unknown mimetype for openoffice file."
 msgstr "Tipus mime desconegut per a un fitxer de l'OpenOffice."
 
-#: ../plugins/openoffice/openoffice-read.c:2888
+#: ../plugins/openoffice/openoffice-read.c:2902
 msgid "No stream named content.xml found."
 msgstr "No s'ha trobat cap flux de dades anomenat content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:2896
+#: ../plugins/openoffice/openoffice-read.c:2910
 msgid "No stream named styles.xml found."
 msgstr "No s'ha trobat cap flux de dades anomenat styles.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:2945
+#: ../plugins/openoffice/openoffice-read.c:2959
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Metadades «%s» no vàlides"
@@ -1911,86 +1907,87 @@ msgstr "El tipus de camp %d no està implementat."
 #. * the memory for the field name.
 #: ../plugins/paradox/paradox.c:330
 msgid "Allocate memory for field definitions."
-msgstr ""
+msgstr "Assigna memòria per a les definicions de camps."
 
 #: ../plugins/paradox/paradox.c:331
-#, fuzzy
 msgid "Cannot allocate memory for field definitions."
-msgstr "No s'ha pogut assignar memòria per al registre."
+msgstr "No s'ha pogut assignar memòria per a les definicions dels camps."
 
 #: ../plugins/paradox/paradox.c:339
 msgid "First line of sheet must contain database specification."
 msgstr ""
+"La primera línia del full ha de contenir l'especificació de la base de dades."
 
+# FIXME: no sé a què es refereix Prec (dpm)
 #: ../plugins/paradox/paradox.c:354
 msgid ""
 "Field specification must be a comma separated value (Name,Type,Size,Prec)."
 msgstr ""
+"L'especificació del camp ha de ser un valor separat per comes (nom, tipus, "
+"mida, prec)."
 
 #: ../plugins/paradox/paradox.c:359
-#, fuzzy
 msgid "Allocate memory for column name."
-msgstr "No s'ha pogut assignar memòria per al registre."
+msgstr "Assigna memòria per al nom de la columna."
 
 #: ../plugins/paradox/paradox.c:360
-#, fuzzy, c-format
+#, c-format
 msgid "Could not allocate memory for %d. field name."
-msgstr "No s'ha pogut assignar memòria per al registre."
+msgstr "No s'ha pogut assignar memòria per al nom del camp %d.."
 
 #: ../plugins/paradox/paradox.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "%d. field specification ended unexpectetly."
-msgstr "$-specification invàlida en el reemplaçament"
+msgstr "L'especificació del camp %d. ha finalitzat de manera inesperada."
 
 #: ../plugins/paradox/paradox.c:375
 #, c-format
 msgid "%d. field specification misses type."
-msgstr ""
+msgstr "Manca el tipus de l'especificació del camp %d.."
 
 #: ../plugins/paradox/paradox.c:443
 #, c-format
 msgid "%d. field type '%c' is unknown."
-msgstr ""
+msgstr "Es desconeix el tipus («%2$c») del camp %1$d.."
 
 #: ../plugins/paradox/paradox.c:454 ../plugins/paradox/paradox.c:464
 msgid "Field specification misses the column size."
-msgstr ""
+msgstr "Manca la mida de la columna de l'especificació del camp."
 
 #: ../plugins/paradox/paradox.c:471
 #, c-format
 msgid ""
 "The remainder '%s' of the specification for field %d is being disregarded."
-msgstr ""
+msgstr "Es descartarà la resta «%s» de l'especificació per al camp %d."
 
 #: ../plugins/paradox/paradox.c:480
-#, fuzzy
 msgid "Could not create output file."
-msgstr "No s'ha pogut crear el diàleg per anar a un lloc."
+msgstr "No s'ha pogut crear el fitxer de sortida."
 
 #: ../plugins/paradox/paradox.c:489
-#, fuzzy
 msgid "Allocate memory for record data."
-msgstr "No s'ha pogut assignar memòria per al registre."
+msgstr "Assigna memòria per a les dades del registre."
 
 #: ../plugins/paradox/paradox.c:490
-#, fuzzy
 msgid "Could not allocate memory for record data."
-msgstr "No s'ha pogut assignar memòria per al registre."
+msgstr "No s'ha pogut assignar memòria per a les dades del registre."
 
 #: ../plugins/paradox/paradox.c:536
 #, c-format
 msgid "Field %d in line %d has possibly been cut off. Data has %d chars."
 msgstr ""
+"Pot ser que s'hagi tallat el camp %d de la línia %d. Les dades contenen %d "
+"caràcters."
 
 #: ../plugins/paradox/paradox.c:545
 #, c-format
 msgid "Field %d in row %d could not be written."
-msgstr ""
+msgstr "No s'ha pogut escriure el camp %d de la fila %d."
 
 #: ../plugins/paradox/paradox.c:582
-#, fuzzy, c-format
+#, c-format
 msgid "Could not write record number %d."
-msgstr "No s'ha pogut crear l'expert en fórmules."
+msgstr "No s'ha pogut escriure el registre número %d."
 
 #: ../plugins/paradox/plugin.xml.in.h:1
 msgid "Imports Paradox files"
@@ -2002,12 +1999,11 @@ msgstr "Paradox"
 
 #: ../plugins/paradox/plugin.xml.in.h:3
 msgid "Paradox database (*.db)"
-msgstr ""
+msgstr "Base de dades Paradox (*.db)"
 
 #: ../plugins/paradox/plugin.xml.in.h:4
-#, fuzzy
 msgid "Paradox database or primary index file (*.db, *.px)"
-msgstr "Base de dades Paradox o fitxer d'índex primari"
+msgstr "Base de dades Paradox o fitxer d'índex primari (*.db, *.px)"
 
 #: ../plugins/perl-func/plugin.xml.in.h:1
 msgid "Perl"
@@ -3752,6 +3748,9 @@ msgid ""
 "It is possible that some dates could be copied\n"
 "incorrectly."
 msgstr ""
+"S'està copiant entre fitxers amb convencions de data diferents.\n"
+"És possible que algunes dates es copiïn de manera\n"
+"incorrecta."
 
 #: ../src/commands.c:2807
 msgid "Paste Copy"
@@ -3841,78 +3840,78 @@ msgstr "Netejar comentari de %s"
 msgid "Setting comment of %s"
 msgstr "Establir comentari de %s"
 
-#: ../src/commands.c:5291
+#: ../src/commands.c:5319
 #, c-format
 msgid "Merging data into %s"
 msgstr "Fusionar dades a %s"
 
-#: ../src/commands.c:5381
+#: ../src/commands.c:5409
 #, c-format
 msgid "Changing workbook properties"
 msgstr "S'estan canviant les propietats del llibre de treball"
 
-#: ../src/commands.c:5455
+#: ../src/commands.c:5483
 msgid "Pull Object to the Front"
 msgstr "Moure objecte al davant de tot"
 
-#: ../src/commands.c:5458
+#: ../src/commands.c:5486
 msgid "Pull Object Forward"
 msgstr "Moure objecte cap a endavant"
 
-#: ../src/commands.c:5461
+#: ../src/commands.c:5489
 msgid "Push Object Backward"
 msgstr "Moure objecte cap a endarrere"
 
-#: ../src/commands.c:5464
+#: ../src/commands.c:5492
 msgid "Push Object to the Back"
 msgstr "Moure objecte al fons de tot"
 
-#: ../src/commands.c:5577
+#: ../src/commands.c:5605
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Configurar pàgina per a %s"
 
-#: ../src/commands.c:5579
+#: ../src/commands.c:5607
 msgid "Page Setup For All Sheets"
 msgstr "Configurar pàgina per a tots els fulls"
 
-#: ../src/commands.c:5695
+#: ../src/commands.c:5723
 msgid "is not allowed as defined name"
 msgstr "no es permet com a nom definit"
 
-#: ../src/commands.c:5702
+#: ../src/commands.c:5730
 msgid "has a circular reference"
 msgstr "té una referència circular"
 
-#: ../src/commands.c:5736
+#: ../src/commands.c:5764
 #, c-format
 msgid "Define Name %s"
 msgstr "Definir el nom %s"
 
-#: ../src/commands.c:5739
+#: ../src/commands.c:5767
 #, c-format
 msgid "Update Name %s"
 msgstr "Actualitzar el nom %s"
 
-#: ../src/commands.c:5832
+#: ../src/commands.c:5860
 #, c-format
 msgid "Remove Name %s"
 msgstr "Suprimeix el nom %s"
 
-#: ../src/commands.c:5894
+#: ../src/commands.c:5922
 msgid "Add scenario"
 msgstr "Afegir escenari"
 
-#: ../src/commands.c:5967
+#: ../src/commands.c:5995
 msgid "Scenario Show"
 msgstr "Mostrar l'escenari"
 
-#: ../src/commands.c:6029
+#: ../src/commands.c:6057
 msgid "Shuffle Data"
 msgstr "Mesclar les dades"
 
 #. FIXME?
-#: ../src/commands.c:6133
+#: ../src/commands.c:6161
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "text (%s) a les columnes (%s)"
@@ -3922,7 +3921,7 @@ msgstr "text (%s) a les columnes (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: ../src/commands.c:6273 ../src/dialogs/solver.glade.h:17
+#: ../src/commands.c:6301 ../src/dialogs/solver.glade.h:17
 #: ../src/tools/solver/reports-write.c:193
 #: ../src/tools/solver/reports-write.c:354
 #: ../src/tools/solver/reports-write.c:484
@@ -3933,34 +3932,34 @@ msgstr "text (%s) a les columnes (%s)"
 msgid "Solver"
 msgstr "Resoledor"
 
-#: ../src/commands.c:6355
+#: ../src/commands.c:6383
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Cercar d'objectius (%s)"
 
-#: ../src/commands.c:6521
+#: ../src/commands.c:6549
 #, c-format
 msgid "Tabulating Dependencies"
 msgstr "Dependències de tabulació"
 
-#: ../src/commands.c:6595
+#: ../src/commands.c:6623
 msgid "Reconfigure Graph"
 msgstr "Reconfigurar el gràfic"
 
-#: ../src/commands.c:6639
+#: ../src/commands.c:6667
 msgid "Left to Right"
 msgstr "Esquerra a dreta"
 
-#: ../src/commands.c:6639
+#: ../src/commands.c:6667
 msgid "Right to Left"
 msgstr "Dreta a esquerra"
 
-#: ../src/commands.c:6800
+#: ../src/commands.c:6828
 #, fuzzy
 msgid "Changing Hyperlink"
 msgstr "Edita l'enllaç"
 
-#: ../src/commands.c:6944
+#: ../src/commands.c:6972
 #, fuzzy, c-format
 msgid "Changing hyperlink of %s"
 msgstr "Canviar format de %s"
@@ -3984,9 +3983,9 @@ msgstr "Filtre avançat"
 #: ../src/dialogs/anova-two.glade.h:4 ../src/dialogs/consolidate.glade.h:5
 #: ../src/dialogs/correlation.glade.h:3 ../src/dialogs/covariance.glade.h:3
 #: ../src/dialogs/descriptive-stats.glade.h:7
-#: ../src/dialogs/exp-smoothing.glade.h:5
+#: ../src/dialogs/exp-smoothing.glade.h:9
 #: ../src/dialogs/fourier-analysis.glade.h:3
-#: ../src/dialogs/moving-averages.glade.h:5 ../src/dialogs/rank.glade.h:2
+#: ../src/dialogs/moving-averages.glade.h:8 ../src/dialogs/rank.glade.h:2
 #: ../src/dialogs/variance-tests.glade.h:3
 msgid "Input"
 msgstr "Entrada"
@@ -3995,9 +3994,10 @@ msgstr "Entrada"
 #: ../src/dialogs/anova-two.glade.h:7 ../src/dialogs/consolidate.glade.h:8
 #: ../src/dialogs/correlation.glade.h:4 ../src/dialogs/covariance.glade.h:4
 #: ../src/dialogs/descriptive-stats.glade.h:10
-#: ../src/dialogs/exp-smoothing.glade.h:7 ../src/dialogs/fill-series.glade.h:6
+#: ../src/dialogs/exp-smoothing.glade.h:12
+#: ../src/dialogs/fill-series.glade.h:6
 #: ../src/dialogs/fourier-analysis.glade.h:5
-#: ../src/dialogs/moving-averages.glade.h:8
+#: ../src/dialogs/moving-averages.glade.h:12
 #: ../src/dialogs/random-generation.glade.h:4 ../src/dialogs/rank.glade.h:4
 #: ../src/dialogs/simulation.glade.h:15
 #: ../src/dialogs/variance-tests.glade.h:4
@@ -4023,17 +4023,19 @@ msgstr "ANOVA - factor únic"
 #: ../src/dialogs/anova-one.glade.h:2 ../src/dialogs/correlation.glade.h:2
 #: ../src/dialogs/covariance.glade.h:2
 #: ../src/dialogs/descriptive-stats.glade.h:6
-#: ../src/dialogs/exp-smoothing.glade.h:4
+#: ../src/dialogs/exp-smoothing.glade.h:5
 #: ../src/dialogs/fourier-analysis.glade.h:2
-#: ../src/dialogs/histogram.glade.h:5 ../src/dialogs/moving-averages.glade.h:4
-#: ../src/dialogs/rank.glade.h:1 ../src/dialogs/sampling.glade.h:3
+#: ../src/dialogs/histogram.glade.h:13
+#: ../src/dialogs/moving-averages.glade.h:6 ../src/dialogs/rank.glade.h:1
+#: ../src/dialogs/sampling.glade.h:4
 msgid "Grouped by:"
 msgstr "Agrupat per:"
 
 #: ../src/dialogs/anova-one.glade.h:4 ../src/dialogs/anova-two.glade.h:6
-#: ../src/dialogs/exp-smoothing.glade.h:6 ../src/dialogs/fill-series.glade.h:5
+#: ../src/dialogs/exp-smoothing.glade.h:11
+#: ../src/dialogs/fill-series.glade.h:5
 #: ../src/dialogs/fourier-analysis.glade.h:4
-#: ../src/dialogs/moving-averages.glade.h:7
+#: ../src/dialogs/moving-averages.glade.h:10
 #: ../src/dialogs/random-generation.glade.h:3 ../src/dialogs/rank.glade.h:3
 #: ../src/dialogs/scenario-manager.glade.h:9
 #: ../src/dialogs/simulation.glade.h:14 ../src/dialogs/solver.glade.h:11
@@ -4049,18 +4051,17 @@ msgstr "_Alfa:"
 #: ../src/dialogs/anova-one.glade.h:7 ../src/dialogs/correlation.glade.h:5
 #: ../src/dialogs/covariance.glade.h:5
 #: ../src/dialogs/descriptive-stats.glade.h:14
-#: ../src/dialogs/histogram.glade.h:12 ../src/dialogs/rank.glade.h:7
-#: ../src/dialogs/sampling.glade.h:10
+#: ../src/dialogs/histogram.glade.h:22 ../src/dialogs/rank.glade.h:7
+#: ../src/dialogs/sampling.glade.h:14
 msgid "_Areas"
 msgstr "_Àrees"
 
 #: ../src/dialogs/anova-one.glade.h:8 ../src/dialogs/colrow.glade.h:2
 #: ../src/dialogs/correlation.glade.h:6 ../src/dialogs/covariance.glade.h:6
 #: ../src/dialogs/descriptive-stats.glade.h:15
-#: ../src/dialogs/exp-smoothing.glade.h:8
 #: ../src/dialogs/fourier-analysis.glade.h:6
-#: ../src/dialogs/histogram.glade.h:16 ../src/dialogs/rank.glade.h:9
-#: ../src/dialogs/sampling.glade.h:11 ../src/dialogs/shuffle.glade.h:5
+#: ../src/dialogs/histogram.glade.h:24 ../src/dialogs/rank.glade.h:9
+#: ../src/dialogs/sampling.glade.h:15 ../src/dialogs/shuffle.glade.h:5
 #: ../src/wbc-gtk-actions.c:1678 ../src/wbc-gtk-actions.c:1812
 msgid "_Columns"
 msgstr "_Columnes"
@@ -4068,20 +4069,20 @@ msgstr "_Columnes"
 #: ../src/dialogs/anova-one.glade.h:9 ../src/dialogs/correlation.glade.h:7
 #: ../src/dialogs/covariance.glade.h:7
 #: ../src/dialogs/descriptive-stats.glade.h:16
-#: ../src/dialogs/exp-smoothing.glade.h:10
+#: ../src/dialogs/exp-smoothing.glade.h:17
 #: ../src/dialogs/fourier-analysis.glade.h:7
-#: ../src/dialogs/moving-averages.glade.h:9 ../src/dialogs/rank.glade.h:10
+#: ../src/dialogs/moving-averages.glade.h:17 ../src/dialogs/rank.glade.h:10
 msgid "_Input range:"
 msgstr "Ran_g d'entrada:"
 
 #: ../src/dialogs/anova-one.glade.h:10 ../src/dialogs/anova-two.glade.h:10
 #: ../src/dialogs/correlation.glade.h:8 ../src/dialogs/covariance.glade.h:8
 #: ../src/dialogs/descriptive-stats.glade.h:18
-#: ../src/dialogs/exp-smoothing.glade.h:11
+#: ../src/dialogs/exp-smoothing.glade.h:18
 #: ../src/dialogs/fourier-analysis.glade.h:9
-#: ../src/dialogs/histogram.glade.h:18 ../src/dialogs/mean-tests.glade.h:16
-#: ../src/dialogs/moving-averages.glade.h:11 ../src/dialogs/rank.glade.h:11
-#: ../src/dialogs/regression.glade.h:7 ../src/dialogs/sampling.glade.h:14
+#: ../src/dialogs/histogram.glade.h:27 ../src/dialogs/mean-tests.glade.h:16
+#: ../src/dialogs/moving-averages.glade.h:19 ../src/dialogs/rank.glade.h:11
+#: ../src/dialogs/regression.glade.h:7 ../src/dialogs/sampling.glade.h:18
 #: ../src/dialogs/variance-tests.glade.h:10
 msgid "_Labels"
 msgstr "_Etiquetes"
@@ -4090,11 +4091,11 @@ msgstr "_Etiquetes"
 #: ../src/dialogs/anova-one.glade.h:11 ../src/dialogs/colrow.glade.h:3
 #: ../src/dialogs/correlation.glade.h:9 ../src/dialogs/covariance.glade.h:9
 #: ../src/dialogs/descriptive-stats.glade.h:19
-#: ../src/dialogs/exp-smoothing.glade.h:12
+#: ../src/dialogs/exp-smoothing.glade.h:19
 #: ../src/dialogs/fourier-analysis.glade.h:10
-#: ../src/dialogs/histogram.glade.h:23
-#: ../src/dialogs/moving-averages.glade.h:12 ../src/dialogs/rank.glade.h:12
-#: ../src/dialogs/sampling.glade.h:18 ../src/dialogs/shuffle.glade.h:6
+#: ../src/dialogs/histogram.glade.h:32
+#: ../src/dialogs/moving-averages.glade.h:20 ../src/dialogs/rank.glade.h:12
+#: ../src/dialogs/sampling.glade.h:22 ../src/dialogs/shuffle.glade.h:6
 #: ../src/wbc-gtk-actions.c:1675 ../src/wbc-gtk-actions.c:1815
 msgid "_Rows"
 msgstr "_Files"
@@ -4103,13 +4104,11 @@ msgstr "_Files"
 #: ../src/dialogs/autofilter-expression.glade.h:14
 #: ../src/dialogs/autoformat.glade.h:1 ../src/dialogs/autosave.glade.h:1
 #: ../src/dialogs/descriptive-stats.glade.h:2
-#: ../src/dialogs/exp-smoothing.glade.h:1 ../src/dialogs/fill-series.glade.h:1
-#: ../src/dialogs/font-sel.glade.h:1 ../src/dialogs/goalseek.glade.h:3
-#: ../src/dialogs/histogram.glade.h:1 ../src/dialogs/hyperlink.glade.h:1
+#: ../src/dialogs/fill-series.glade.h:1 ../src/dialogs/font-sel.glade.h:1
+#: ../src/dialogs/goalseek.glade.h:3 ../src/dialogs/hyperlink.glade.h:1
 #: ../src/dialogs/mean-tests.glade.h:1
-#: ../src/dialogs/moving-averages.glade.h:1
 #: ../src/dialogs/random-generation.glade.h:1
-#: ../src/dialogs/sampling.glade.h:1 ../src/dialogs/scenario-add.glade.h:1
+#: ../src/dialogs/scenario-add.glade.h:1
 #: ../src/dialogs/scenario-manager.glade.h:2
 #: ../src/dialogs/so-checkbox.glade.h:1 ../src/dialogs/so-frame.glade.h:1
 #: ../src/dialogs/solver.glade.h:1 ../src/dialogs/tabulate.glade.h:1
@@ -4129,7 +4128,7 @@ msgstr "1"
 msgid "ANOVA - Two-Factor"
 msgstr "ANOVA - Dos factors"
 
-#: ../src/dialogs/anova-two.glade.h:5 ../src/dialogs/histogram.glade.h:7
+#: ../src/dialogs/anova-two.glade.h:5 ../src/dialogs/histogram.glade.h:16
 msgid "Input _range:"
 msgstr "_Rang d'entrada:"
 
@@ -4476,13 +4475,13 @@ msgstr ""
 "Personalitzat"
 
 #: ../src/dialogs/cell-format.glade.h:33
-#: ../src/dialogs/dialog-cell-format.c:2215 ../src/wbc-gtk.c:2543
+#: ../src/dialogs/dialog-cell-format.c:2217 ../src/wbc-gtk.c:2543
 #: ../src/wbc-gtk.c:2544 ../src/wbc-gtk.c:2553
 msgid "Background"
 msgstr "Fons"
 
 #: ../src/dialogs/cell-format.glade.h:34
-#: ../src/dialogs/dialog-cell-format.c:2207
+#: ../src/dialogs/dialog-cell-format.c:2209
 msgid "Border"
 msgstr "Contorn"
 
@@ -4540,7 +4539,7 @@ msgid "Foreground Solid"
 msgstr "Sòlid en primer pla"
 
 #: ../src/dialogs/cell-format.glade.h:48
-#: ../src/dialogs/dialog-cell-format.c:2144
+#: ../src/dialogs/dialog-cell-format.c:2146
 msgid "Format Cells"
 msgstr "Formata les cel·les"
 
@@ -4931,13 +4930,13 @@ msgstr "_Funció:"
 msgid "_Source areas:"
 msgstr "Àree_s d'origen:"
 
-#: ../src/dialogs/correlation.glade.h:1 ../src/tools/analysis-tools.c:821
-#: ../src/tools/analysis-tools.c:824
+#: ../src/dialogs/correlation.glade.h:1 ../src/tools/analysis-tools.c:835
+#: ../src/tools/analysis-tools.c:838
 msgid "Correlation"
 msgstr "Correlació"
 
-#: ../src/dialogs/covariance.glade.h:1 ../src/tools/analysis-tools.c:875
-#: ../src/tools/analysis-tools.c:878 ../src/wbc-gtk-actions.c:1973
+#: ../src/dialogs/covariance.glade.h:1 ../src/tools/analysis-tools.c:889
+#: ../src/tools/analysis-tools.c:892 ../src/wbc-gtk-actions.c:1973
 msgid "Covariance"
 msgstr "Covariància"
 
@@ -5068,7 +5067,7 @@ msgid "Confidence Interval for the _Mean"
 msgstr "Nivell de confiança per a la _mitjana"
 
 #: ../src/dialogs/descriptive-stats.glade.h:5
-#: ../src/tools/analysis-tools.c:1262 ../src/tools/analysis-tools.c:1265
+#: ../src/tools/analysis-tools.c:1276 ../src/tools/analysis-tools.c:1279
 msgid "Descriptive Statistics"
 msgstr "Estadístiques descriptives"
 
@@ -5508,10 +5507,10 @@ msgid "No matching records were found."
 msgstr "No s'han trobat els registres demanats."
 
 #: ../src/dialogs/dialog-advanced-filter.c:153
-#: ../src/dialogs/dialog-analysis-tools.c:550
-#: ../src/dialogs/dialog-analysis-tools.c:669
-#: ../src/dialogs/dialog-analysis-tools.c:1986
-#: ../src/dialogs/dialog-analysis-tools.c:2897
+#: ../src/dialogs/dialog-analysis-tools.c:625
+#: ../src/dialogs/dialog-analysis-tools.c:744
+#: ../src/dialogs/dialog-analysis-tools.c:2122
+#: ../src/dialogs/dialog-analysis-tools.c:3436
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "S'ha produït un error inesperat: %d."
@@ -5520,71 +5519,79 @@ msgstr "S'ha produït un error inesperat: %d."
 msgid "Could not create the Advanced Filter dialog."
 msgstr "No s'ha pogut crear el diàleg de filtre avançat."
 
-#: ../src/dialogs/dialog-analysis-tools.c:471
-#: ../src/dialogs/dialog-analysis-tools.c:1013
-#: ../src/dialogs/dialog-analysis-tools.c:2724
-#: ../src/dialogs/dialog-analysis-tools.c:2938
+#: ../src/dialogs/dialog-analysis-tools.c:546
+#: ../src/dialogs/dialog-analysis-tools.c:1088
+#: ../src/dialogs/dialog-analysis-tools.c:1786
+#: ../src/dialogs/dialog-analysis-tools.c:2365
+#: ../src/dialogs/dialog-analysis-tools.c:2703
+#: ../src/dialogs/dialog-analysis-tools.c:2987
+#: ../src/dialogs/dialog-analysis-tools.c:3263
+#: ../src/dialogs/dialog-analysis-tools.c:3477
 #: ../src/dialogs/dialog-shuffle.c:76
 msgid "The input range is invalid."
 msgstr "El rang d'entrada és invàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:480
-#: ../src/dialogs/dialog-analysis-tools.c:1064
-#: ../src/dialogs/dialog-analysis-tools.c:2093
-#: ../src/dialogs/dialog-analysis-tools.c:2744
-#: ../src/dialogs/dialog-analysis-tools.c:2970
+#: ../src/dialogs/dialog-analysis-tools.c:555
+#: ../src/dialogs/dialog-analysis-tools.c:1139
+#: ../src/dialogs/dialog-analysis-tools.c:1834
+#: ../src/dialogs/dialog-analysis-tools.c:2229
+#: ../src/dialogs/dialog-analysis-tools.c:2410
+#: ../src/dialogs/dialog-analysis-tools.c:2734
+#: ../src/dialogs/dialog-analysis-tools.c:3015
+#: ../src/dialogs/dialog-analysis-tools.c:3283
+#: ../src/dialogs/dialog-analysis-tools.c:3509
 msgid "The output specification is invalid."
 msgstr "L'especificació de sortida és invàlida."
 
-#: ../src/dialogs/dialog-analysis-tools.c:536
-#: ../src/dialogs/dialog-analysis-tools.c:655
+#: ../src/dialogs/dialog-analysis-tools.c:611
+#: ../src/dialogs/dialog-analysis-tools.c:730
 msgid "The selected input rows must have equal size!"
 msgstr "Les files d'entrada seleccionades han de ser d'igual mida."
 
-#: ../src/dialogs/dialog-analysis-tools.c:541
-#: ../src/dialogs/dialog-analysis-tools.c:660
+#: ../src/dialogs/dialog-analysis-tools.c:616
+#: ../src/dialogs/dialog-analysis-tools.c:735
 msgid "The selected input columns must have equal size!"
 msgstr "Les columnes d'entrada seleccionades han de ser d'igual mida."
 
-#: ../src/dialogs/dialog-analysis-tools.c:546
-#: ../src/dialogs/dialog-analysis-tools.c:665
+#: ../src/dialogs/dialog-analysis-tools.c:621
+#: ../src/dialogs/dialog-analysis-tools.c:740
 msgid "The selected input areas must have equal size!"
 msgstr "Les àrees d'entrada seleccionades han de ser d'igual mida."
 
-#: ../src/dialogs/dialog-analysis-tools.c:593
+#: ../src/dialogs/dialog-analysis-tools.c:668
 msgid "Could not create the Correlation Tool dialog."
 msgstr "No s'ha pogut crear el diàleg d'eina de correlació."
 
-#: ../src/dialogs/dialog-analysis-tools.c:712
+#: ../src/dialogs/dialog-analysis-tools.c:787
 msgid "Could not create the Covariance Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'eina de la covariància."
 
-#: ../src/dialogs/dialog-analysis-tools.c:802
+#: ../src/dialogs/dialog-analysis-tools.c:877
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "No s'ha pogut crear el diàleg de les eines de percentil i de rang."
 
-#: ../src/dialogs/dialog-analysis-tools.c:893
+#: ../src/dialogs/dialog-analysis-tools.c:968
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'eina de l'anàlisi de Fourier."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1022
+#: ../src/dialogs/dialog-analysis-tools.c:1097
 msgid "No statistics are selected."
 msgstr "No s'ha seleccionat cap estadística"
 
-#: ../src/dialogs/dialog-analysis-tools.c:1032
+#: ../src/dialogs/dialog-analysis-tools.c:1107
 msgid "The confidence level should be between 0 and 1."
 msgstr "El nivell de confiança ha d'estar entre 0 i 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1044
-#: ../src/dialogs/dialog-analysis-tools.c:1055
+#: ../src/dialogs/dialog-analysis-tools.c:1119
+#: ../src/dialogs/dialog-analysis-tools.c:1130
 msgid "K must be a positive integer."
 msgstr "K ha de ser un enter positiu."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1104
+#: ../src/dialogs/dialog-analysis-tools.c:1179
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de les eines d'estadística descriptiva."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1249
+#: ../src/dialogs/dialog-analysis-tools.c:1324
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -5592,7 +5599,7 @@ msgstr ""
 "Introduïu una variància\n"
 "de població vàlida per a la variable 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1258
+#: ../src/dialogs/dialog-analysis-tools.c:1333
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -5600,74 +5607,129 @@ msgstr ""
 "Introduïu una variància\n"
 "de població vàlida per a la variable 2."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1474
+#: ../src/dialogs/dialog-analysis-tools.c:1549
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de les eines del test per a la mitjana."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1661
+#: ../src/dialogs/dialog-analysis-tools.c:1736
 msgid "Could not create the FTest Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'eina FTest."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1855
+#: ../src/dialogs/dialog-analysis-tools.c:1796
+#, fuzzy
+msgid "The requested number of samples is invalid."
+msgstr "El rang de llista és invàlid."
+
+#: ../src/dialogs/dialog-analysis-tools.c:1809
+#, fuzzy
+msgid "The requested period is invalid."
+msgstr "El rang de llista és invàlid."
+
+#: ../src/dialogs/dialog-analysis-tools.c:1817
+#, fuzzy
+msgid "The requested offset is invalid."
+msgstr "El rang de llista és invàlid."
+
+#: ../src/dialogs/dialog-analysis-tools.c:1826
+#, fuzzy
+msgid "The requested sample size is invalid."
+msgstr ""
+"La mida de la mostra requerida és massa gran per a una mostra periòdica."
+
+#: ../src/dialogs/dialog-analysis-tools.c:1984
 msgid "Could not create the Sampling Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'eina de mostreig."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2027
-#: ../src/dialogs/dialog-analysis-tools.c:2038
+#: ../src/dialogs/dialog-analysis-tools.c:2163
+#: ../src/dialogs/dialog-analysis-tools.c:2174
 #, fuzzy
 msgid "The y variable range is invalid."
 msgstr "El rang de la variable d'entrada és invàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2044
+#: ../src/dialogs/dialog-analysis-tools.c:2180
 msgid "The y variable range must be a vector (n by 1 or 1 by n)."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:2050
+#: ../src/dialogs/dialog-analysis-tools.c:2186
 #, fuzzy
 msgid "The y variable range is to small"
 msgstr "El rang de la variable d'entrada és invàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2059
-#: ../src/dialogs/dialog-analysis-tools.c:2070
+#: ../src/dialogs/dialog-analysis-tools.c:2195
+#: ../src/dialogs/dialog-analysis-tools.c:2206
 #, fuzzy
 msgid "The x variables range is invalid."
 msgstr "El rang de la variable d'entrada és invàlid."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2077
+#: ../src/dialogs/dialog-analysis-tools.c:2213
 msgid "The sizes of the x variable and y variable ranges do not match."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:2086
+#: ../src/dialogs/dialog-analysis-tools.c:2222
 #, fuzzy
 msgid "The confidence level is invalid."
 msgstr "El nivell de confiança ha d'estar entre 0 i 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2129
+#: ../src/dialogs/dialog-analysis-tools.c:2266
 msgid "Could not create the Regression Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'eina de la regressió."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2257
+#: ../src/dialogs/dialog-analysis-tools.c:2378
+#, fuzzy
+msgid "The given seasonal damping factor is invalid."
+msgstr "El rang de la variable d'entrada és invàlid."
+
+#: ../src/dialogs/dialog-analysis-tools.c:2389
+#, fuzzy
+msgid "The given growthdamping factor is invalid."
+msgstr "El criteri donat és invàlid."
+
+#: ../src/dialogs/dialog-analysis-tools.c:2401
+#, fuzzy
+msgid "The given damping factor is invalid."
+msgstr "El rang d'entrada és invàlid."
+
+#: ../src/dialogs/dialog-analysis-tools.c:2525
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'eina de suavitzat exponencial."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2390
+#: ../src/dialogs/dialog-analysis-tools.c:2716
+#, fuzzy
+msgid "The given interval is invalid."
+msgstr "El criteri donat és invàlid."
+
+#: ../src/dialogs/dialog-analysis-tools.c:2726
+#, fuzzy
+msgid "The given offset is invalid."
+msgstr "El rang d'entrada és invàlid."
+
+#: ../src/dialogs/dialog-analysis-tools.c:2883
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "No s'ha pogut crear el diàleg d'eina de mitjana mòbil."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2601
+#: ../src/dialogs/dialog-analysis-tools.c:3001
+#, fuzzy
+msgid "The cutoff range is not valid."
+msgstr "El rang d'entrada és invàlid."
+
+#: ../src/dialogs/dialog-analysis-tools.c:3008
+msgid "The number of to be calculated cutoffs is invalid."
+msgstr ""
+
+#: ../src/dialogs/dialog-analysis-tools.c:3146
 msgid "Could not create the Histogram Tool dialog."
 msgstr "No s'ha pogut crear el diàleg d'eina de l'histograma."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2735
-#: ../src/dialogs/dialog-analysis-tools.c:2949
+#: ../src/dialogs/dialog-analysis-tools.c:3274
+#: ../src/dialogs/dialog-analysis-tools.c:3488
 msgid "The alpha value should be a number between 0 and 1."
 msgstr "El valor alfa ha de ser un nombre entre 0 i 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2783
+#: ../src/dialogs/dialog-analysis-tools.c:3322
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'Eina ANOVA (factor únic)."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2863
+#: ../src/dialogs/dialog-analysis-tools.c:3402
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -5675,7 +5737,7 @@ msgstr ""
 "El rang d'entrada introduït hauria de contenir almenys dues columnes i dues "
 "files de dades i les etiquetes."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2866
+#: ../src/dialogs/dialog-analysis-tools.c:3405
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
@@ -5683,7 +5745,7 @@ msgstr ""
 "El rang d'entrada introduït hauria de contenir almenys dues columnes i dues "
 "files de dades."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2872
+#: ../src/dialogs/dialog-analysis-tools.c:3411
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -5691,13 +5753,13 @@ msgstr ""
 "El rang d'entrada introduït hauria de contenir almenys dues columnes de "
 "dades i les etiquetes."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2875
+#: ../src/dialogs/dialog-analysis-tools.c:3414
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 "El rang d'entrada introduït hauria de contenir almenys dues columnes de "
 "dades."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2881
+#: ../src/dialogs/dialog-analysis-tools.c:3420
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
@@ -5705,22 +5767,22 @@ msgstr ""
 "El rang d'entrada introduït hauria de contenir almenys dues files de dades i "
 "les etiquetes."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2884
+#: ../src/dialogs/dialog-analysis-tools.c:3423
 msgid "The given input range should contain at least two rows of data."
 msgstr ""
 "El rang d'entrada introduït hauria de contenir almenys dues files de dades."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2891
+#: ../src/dialogs/dialog-analysis-tools.c:3430
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 "El nombre de files de dades ha de ser un múltiple del nombre de la "
 "replicació."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2961
+#: ../src/dialogs/dialog-analysis-tools.c:3500
 msgid "The number of rows per sample should be a positive integer."
 msgstr "El nombre de files per mostra hauria de ser un enter positiu."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3007
+#: ../src/dialogs/dialog-analysis-tools.c:3546
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "No s'ha pogut crear el diàleg de l'eina ANOVA (dos factors)."
 
@@ -5746,8 +5808,8 @@ msgid "Mar"
 msgstr "Mar"
 
 #: ../src/dialogs/dialog-autoformat.c:72 ../src/dialogs/dialog-autoformat.c:76
-#: ../src/tools/analysis-tools.c:4366 ../src/tools/analysis-tools.c:4376
-#: ../src/tools/analysis-tools.c:4384
+#: ../src/tools/analysis-tools.c:5017 ../src/tools/analysis-tools.c:5027
+#: ../src/tools/analysis-tools.c:5035
 msgid "Total"
 msgstr "Total"
 
@@ -5804,6 +5866,7 @@ msgid "2"
 msgstr "2"
 
 #: ../src/dialogs/dialog-autoformat.c:75 ../src/dialogs/mean-tests.glade.h:2
+#: ../src/dialogs/sampling.glade.h:1
 msgid "0"
 msgstr "0"
 
@@ -5827,7 +5890,7 @@ msgstr "37"
 msgid "81"
 msgstr "81"
 
-#: ../src/dialogs/dialog-autoformat.c:632
+#: ../src/dialogs/dialog-autoformat.c:635
 msgid "An error occurred while reading the category list"
 msgstr "S'ha produït un error en llegir la llista de categories"
 
@@ -5848,68 +5911,68 @@ msgstr "Simple"
 msgid "Double"
 msgstr "Doble"
 
-#: ../src/dialogs/dialog-cell-format.c:461 ../src/dialogs/dialog-search.c:156
+#: ../src/dialogs/dialog-cell-format.c:463 ../src/dialogs/dialog-search.c:156
 #: ../src/func.c:935 ../src/wbc-gtk-actions.c:2121
 msgid "Number"
 msgstr "Nombre"
 
-#: ../src/dialogs/dialog-cell-format.c:1635
+#: ../src/dialogs/dialog-cell-format.c:1637
 msgid "Source"
 msgstr "Origen"
 
-#: ../src/dialogs/dialog-cell-format.c:1636
+#: ../src/dialogs/dialog-cell-format.c:1638
 msgid "Criteria"
 msgstr "Criteri"
 
-#: ../src/dialogs/dialog-cell-format.c:1651
-#: ../src/dialogs/dialog-cell-format.c:1660
+#: ../src/dialogs/dialog-cell-format.c:1653
+#: ../src/dialogs/dialog-cell-format.c:1662
 #: ../src/dialogs/so-scrollbar.glade.h:4
 msgid "Min:"
 msgstr "Mínim:"
 
-#: ../src/dialogs/dialog-cell-format.c:1652
-#: ../src/dialogs/dialog-cell-format.c:1664
+#: ../src/dialogs/dialog-cell-format.c:1654
+#: ../src/dialogs/dialog-cell-format.c:1666
 #: ../src/dialogs/so-scrollbar.glade.h:3
 msgid "Max:"
 msgstr "Màxim:"
 
-#: ../src/dialogs/dialog-cell-format.c:1656
+#: ../src/dialogs/dialog-cell-format.c:1658
 msgid "Value:"
 msgstr "Valor:"
 
-#: ../src/dialogs/dialog-cell-format.c:1747
+#: ../src/dialogs/dialog-cell-format.c:1749
 msgid "None          (silently accept invalid input)"
 msgstr "Cap           (l'entrada invàlida s'accepta silenciosament)"
 
-#: ../src/dialogs/dialog-cell-format.c:1755
+#: ../src/dialogs/dialog-cell-format.c:1757
 msgid "Stop            (never allow invalid input)"
 msgstr "Atura           (no es permet l'entrada invàlida)"
 
-#: ../src/dialogs/dialog-cell-format.c:1763
+#: ../src/dialogs/dialog-cell-format.c:1765
 msgid "Warning     (accept/discard invalid input)"
 msgstr "Atenció     (s'accepta/descarta l'entrada invàlida)"
 
-#: ../src/dialogs/dialog-cell-format.c:1771
+#: ../src/dialogs/dialog-cell-format.c:1773
 msgid "Information (allow invalid input)"
 msgstr "Informació    (es permeten entrades invàlides)"
 
-#: ../src/dialogs/dialog-cell-format.c:1966
+#: ../src/dialogs/dialog-cell-format.c:1968
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr ""
 "No es poden fer servir els criteris de validació. Voleu inhabilitar la "
 "validació?"
 
-#: ../src/dialogs/dialog-cell-format.c:2211 ../src/wbc-gtk.c:2203
+#: ../src/dialogs/dialog-cell-format.c:2213 ../src/wbc-gtk.c:2203
 #: ../src/wbc-gtk.c:2327 ../src/wbc-gtk.c:2492 ../src/wbc-gtk.c:2493
 #: ../src/wbc-gtk.c:2504 ../src/wbc-gtk.c:2610 ../src/wbc-gtk.c:2674
 msgid "Foreground"
 msgstr "Primer pla"
 
-#: ../src/dialogs/dialog-cell-format.c:2215 ../src/wbc-gtk.c:2541
+#: ../src/dialogs/dialog-cell-format.c:2217 ../src/wbc-gtk.c:2541
 msgid "Clear Background"
 msgstr "Neteja el fons"
 
-#: ../src/dialogs/dialog-cell-format.c:2219
+#: ../src/dialogs/dialog-cell-format.c:2221
 msgid "Pattern"
 msgstr "Patró"
 
@@ -6069,7 +6132,12 @@ msgstr "Totes les funcions (llista llarga)"
 msgid "Arguments:"
 msgstr "Arguments:"
 
-#: ../src/dialogs/dialog-function-select.c:401
+#: ../src/dialogs/dialog-function-select.c:400
+#, fuzzy
+msgid "Note: "
+msgstr "Nom: "
+
+#: ../src/dialogs/dialog-function-select.c:409
 msgid "See also: "
 msgstr "Vegeu també: "
 
@@ -6363,26 +6431,26 @@ msgstr "S'han produït errors en desactivar el connector «%s»."
 msgid "Error while activating plugin \"%s\"."
 msgstr "S'han produït errors en activar el connector «%s»."
 
-#: ../src/dialogs/dialog-plugin-manager.c:701
+#: ../src/dialogs/dialog-plugin-manager.c:708
 msgid "Active"
 msgstr "Actiu"
 
-#: ../src/dialogs/dialog-plugin-manager.c:706
+#: ../src/dialogs/dialog-plugin-manager.c:713
 msgid "Plugin name"
 msgstr "Nom del connector"
 
-#: ../src/dialogs/dialog-plugin-manager.c:725
+#: ../src/dialogs/dialog-plugin-manager.c:732
 #: ../src/dialogs/doc-meta-data.glade.h:30
 #: ../src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "Descripció"
 
-#: ../src/dialogs/dialog-plugin-manager.c:729 ../src/ssconvert.c:70
+#: ../src/dialogs/dialog-plugin-manager.c:736 ../src/ssconvert.c:70
 #: ../src/ssconvert.c:86
 msgid "ID"
 msgstr "ID"
 
-#: ../src/dialogs/dialog-plugin-manager.c:749
+#: ../src/dialogs/dialog-plugin-manager.c:756
 msgid "Directory"
 msgstr "Directori"
 
@@ -6517,27 +6585,24 @@ msgid "Some Documents have not Been Saved"
 msgstr "No s'han desat alguns documents"
 
 #: ../src/dialogs/dialog-quit.c:164
-#, fuzzy
 msgid "Select _all"
-msgstr "Selecciona'ls tots"
+msgstr "Selecciona'ls _tots"
 
 #: ../src/dialogs/dialog-quit.c:169
 msgid "Select all documents for saving"
 msgstr "Selecciona tots els documents per a desar-los"
 
 #: ../src/dialogs/dialog-quit.c:175
-#, fuzzy
 msgid "_Clear Selection"
-msgstr "Neteja la selecció"
+msgstr "Nete_ja la selecció"
 
 #: ../src/dialogs/dialog-quit.c:180
 msgid "Unselect all documents for saving"
 msgstr "No seleccionis cap document per a desar"
 
 #: ../src/dialogs/dialog-quit.c:186
-#, fuzzy
 msgid "_Save Selected"
-msgstr "Desa els seleccionats"
+msgstr "Desa els se_leccionats"
 
 #: ../src/dialogs/dialog-quit.c:191
 msgid "Save selected documents and then quit"
@@ -7015,12 +7080,11 @@ msgid "Invalid variable range was given"
 msgstr "S'ha proporcionat un rang de variable invàlid"
 
 #: ../src/dialogs/dialog-simulation.c:335
-#, fuzzy
 msgid ""
 "First round number should be less than or equal to the number of the last "
 "round."
 msgstr ""
-"El nombre de la primera ronda ha de ser més gran o igual que el nombre de "
+"El número de la primera ronda ha de ser més gran o igual que el número de "
 "l'última ronda."
 
 #: ../src/dialogs/dialog-simulation.c:427
@@ -7382,6 +7446,8 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-format-page.c:696
 #: ../src/dialogs/dialog-stf-preview.h:24
+#: ../src/tools/analysis-histogram.c:257 ../src/tools/analysis-tools.c:1355
+#: ../src/tools/analysis-tools.c:3548 ../src/tools/analysis-tools.c:3919
 #, c-format
 msgid "Column %d"
 msgstr "Columna %d"
@@ -7927,23 +7993,85 @@ msgstr "Títol:"
 msgid "Value: "
 msgstr "Valor: "
 
-#: ../src/dialogs/exp-smoothing.glade.h:2
-msgid "0.2"
-msgstr "0.2"
+#: ../src/dialogs/exp-smoothing.glade.h:1
+msgid "Additive Holt-Winters exponential smoothing"
+msgstr ""
 
-#: ../src/dialogs/exp-smoothing.glade.h:3 ../src/tools/analysis-tools.c:3558
-#: ../src/tools/analysis-tools.c:3561
+#: ../src/dialogs/exp-smoothing.glade.h:2
+#: ../src/dialogs/moving-averages.glade.h:2
+msgid "C_olumns"
+msgstr "C_olumnes"
+
+#: ../src/dialogs/exp-smoothing.glade.h:3
+#: ../src/dialogs/moving-averages.glade.h:5
+#, fuzzy
+msgid "Denominator:"
+msgstr "Factor _d'esmorteïment:"
+
+#: ../src/dialogs/exp-smoothing.glade.h:4 ../src/tools/analysis-tools.c:3869
+#: ../src/tools/analysis-tools.c:4209 ../src/tools/analysis-tools.c:4212
 msgid "Exponential Smoothing"
 msgstr "Suavitzat exponencial"
 
-#: ../src/dialogs/exp-smoothing.glade.h:9
-msgid "_Damping factor:"
+#: ../src/dialogs/exp-smoothing.glade.h:6
+#, fuzzy
+msgid "Growth damping factor (γ):"
 msgstr "Factor _d'esmorteïment:"
 
+#: ../src/dialogs/exp-smoothing.glade.h:7
+#, fuzzy
+msgid "Holt's trend corrected exponential smoothing"
+msgstr "No s'ha pogut crear el diàleg de l'eina de suavitzat exponencial."
+
+#: ../src/dialogs/exp-smoothing.glade.h:8
+#: ../src/dialogs/moving-averages.glade.h:7
+msgid "Include chart"
+msgstr ""
+
+#: ../src/dialogs/exp-smoothing.glade.h:10
+msgid "Multiplicative Holt-Winters exponential smoothing"
+msgstr ""
+
 #: ../src/dialogs/exp-smoothing.glade.h:13
-#: ../src/dialogs/moving-averages.glade.h:13
+#, fuzzy
+msgid "Seasonal damping factor (δ):"
+msgstr "Factor _d'esmorteïment:"
+
+#: ../src/dialogs/exp-smoothing.glade.h:14
+#, fuzzy
+msgid "Simple exponential smoothing (Hunter, 1986)"
+msgstr "Suavitzat exponencial (%s)"
+
+#: ../src/dialogs/exp-smoothing.glade.h:15
+#, fuzzy
+msgid "Simple exponential smoothing (Roberts, 1959)"
+msgstr "Suavitzat exponencial (%s)"
+
+#: ../src/dialogs/exp-smoothing.glade.h:16
+#, fuzzy
+msgid "_Damping factor (α):"
+msgstr "Factor _d'esmorteïment:"
+
+#: ../src/dialogs/exp-smoothing.glade.h:20
+#: ../src/dialogs/moving-averages.glade.h:21
 msgid "_Standard errors"
 msgstr "Errors e_stàndard"
+
+#: ../src/dialogs/exp-smoothing.glade.h:21
+#: ../src/dialogs/moving-averages.glade.h:22
+#, fuzzy
+msgid "n"
+msgstr "nu"
+
+#: ../src/dialogs/exp-smoothing.glade.h:22
+#: ../src/dialogs/moving-averages.glade.h:23
+msgid "n−1"
+msgstr ""
+
+#: ../src/dialogs/exp-smoothing.glade.h:23
+#: ../src/dialogs/moving-averages.glade.h:24
+msgid "n−2"
+msgstr ""
 
 #: ../src/dialogs/fill-series.glade.h:2
 msgid "D_ay"
@@ -8058,10 +8186,9 @@ msgstr "Selector de funcions"
 msgid "Select a function to insert:"
 msgstr "Seleccioneu una funció per inserir:"
 
-#: ../src/dialogs/function-select.glade.h:6 ../src/wbc-gtk-actions.c:1544
-#: ../src/wbc-gtk-actions.c:1741
-msgid "_Insert"
-msgstr "_Insereix"
+#: ../src/dialogs/function-select.glade.h:6
+msgid "gtk-ok"
+msgstr ""
 
 #: ../src/dialogs/goalseek.glade.h:1
 msgid "(Ma_ximum):"
@@ -8191,72 +8318,124 @@ msgstr "Secció d_reta:"
 msgid "<b>Select a date format:</b>"
 msgstr "<b>Seleccioneu un format de data:</b>"
 
+#: ../src/dialogs/histogram.glade.h:1
+msgid "(−∞,∙), [∙,∙), ⋯, [∙,∙), [∙,∞)"
+msgstr ""
+
 #: ../src/dialogs/histogram.glade.h:2
-msgid "Bin _labels"
-msgstr "_Etiquetes binàries"
+msgid "(−∞,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
+msgstr ""
 
 #: ../src/dialogs/histogram.glade.h:3
-msgid "Bin _range:"
-msgstr "_Rang binari:"
+msgid "(−∞,∙], (∙,∙], ⋯, (∙,∙], (∙,∞)"
+msgstr ""
 
 #: ../src/dialogs/histogram.glade.h:4
-msgid "C_umulative percentages"
+msgid "(−∞,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
+msgstr ""
+
+#: ../src/dialogs/histogram.glade.h:5
+msgid "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∙]"
+msgstr ""
+
+#: ../src/dialogs/histogram.glade.h:6
+msgid "(∙,∙],(∙,∙],⋯,(∙,∙],(∙,∞)"
+msgstr ""
+
+#: ../src/dialogs/histogram.glade.h:7
+#, fuzzy
+msgid "Bar chart"
+msgstr "Gràfics de superfície"
+
+#: ../src/dialogs/histogram.glade.h:8
+#, fuzzy
+msgid "C_alculated cutoffs"
+msgstr "Binaris _calculats"
+
+#: ../src/dialogs/histogram.glade.h:9
+#, fuzzy
+msgid "C_umulative answers"
 msgstr "Percentatges c_umulatius"
 
-#: ../src/dialogs/histogram.glade.h:6 ../src/tools/analysis-histogram.c:436
-#: ../src/tools/analysis-histogram.c:439
+#: ../src/dialogs/histogram.glade.h:10
+#, fuzzy
+msgid "C_utoffs"
+msgstr "Pers_onalitzat"
+
+#: ../src/dialogs/histogram.glade.h:11
+#, fuzzy
+msgid "Column chart"
+msgstr "_Columna major"
+
+#: ../src/dialogs/histogram.glade.h:12
+#, fuzzy
+msgid "Cutoff _range:"
+msgstr "_Rang d'entrada:"
+
+#: ../src/dialogs/histogram.glade.h:14 ../src/tools/analysis-histogram.c:86
+#: ../src/tools/analysis-histogram.c:435 ../src/tools/analysis-histogram.c:438
 msgid "Histogram"
 msgstr "Histograma"
 
-#: ../src/dialogs/histogram.glade.h:8
-msgid "M_in:"
-msgstr "M_ín:"
+#: ../src/dialogs/histogram.glade.h:15
+#, fuzzy
+msgid "Histogram chart"
+msgstr "Histograma"
 
-#: ../src/dialogs/histogram.glade.h:9
-msgid "Ma_x:"
-msgstr "Mà_x:"
+#: ../src/dialogs/histogram.glade.h:17
+#, fuzzy
+msgid "M_inimum cutoff:"
+msgstr "Mínim"
 
-#: ../src/dialogs/histogram.glade.h:10 ../src/dialogs/regression.glade.h:3
-#: ../src/dialogs/sampling.glade.h:5
-msgid "O_ptions"
-msgstr "O_pcions"
+#: ../src/dialogs/histogram.glade.h:18
+#, fuzzy
+msgid "Ma_ximum cutoff:"
+msgstr "(Mà_xim):"
 
-#: ../src/dialogs/histogram.glade.h:11
-msgid "Pareto (_sorted)"
-msgstr "Pareto (_ordenat)"
+#: ../src/dialogs/histogram.glade.h:19
+#, fuzzy
+msgid "No chart"
+msgstr "Nord"
 
-#: ../src/dialogs/histogram.glade.h:13
+#: ../src/dialogs/histogram.glade.h:20
+msgid "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∙)"
+msgstr ""
+
+#: ../src/dialogs/histogram.glade.h:21
+msgid "[∙,∙),[∙,∙),⋯,[∙,∙),[∙,∞)"
+msgstr ""
+
+#: ../src/dialogs/histogram.glade.h:23
 msgid "_Bins"
 msgstr "_Binaris"
 
-#: ../src/dialogs/histogram.glade.h:14
-msgid "_Calculated bins"
-msgstr "Binaris _calculats"
+#: ../src/dialogs/histogram.glade.h:25
+#, fuzzy
+msgid "_Graphs & Options"
+msgstr "Opcions del Gnumeric"
 
-#: ../src/dialogs/histogram.glade.h:15
-msgid "_Chart output"
-msgstr "Sortida de gràfi_c"
-
-#: ../src/dialogs/histogram.glade.h:17 ../src/dialogs/mean-tests.glade.h:14
-#: ../src/dialogs/regression.glade.h:6 ../src/dialogs/sampling.glade.h:12
+#: ../src/dialogs/histogram.glade.h:26 ../src/dialogs/mean-tests.glade.h:14
+#: ../src/dialogs/regression.glade.h:6 ../src/dialogs/sampling.glade.h:16
 msgid "_Input"
 msgstr "_Entrada"
 
-#: ../src/dialogs/histogram.glade.h:19
-msgid "_N:"
-msgstr "_N:"
+#: ../src/dialogs/histogram.glade.h:28
+#, fuzzy
+msgid "_Number of cutoffs:"
+msgstr "Nombre d'iteracions"
 
-#: ../src/dialogs/histogram.glade.h:20 ../src/dialogs/mean-tests.glade.h:17
-#: ../src/dialogs/regression.glade.h:8 ../src/dialogs/sampling.glade.h:15
+#: ../src/dialogs/histogram.glade.h:29 ../src/dialogs/mean-tests.glade.h:17
+#: ../src/dialogs/regression.glade.h:8 ../src/dialogs/sampling.glade.h:19
 msgid "_Output"
 msgstr "S_ortida"
 
-#: ../src/dialogs/histogram.glade.h:21
+#: ../src/dialogs/histogram.glade.h:30
 msgid "_Percentages"
 msgstr "_Percentatges"
 
-#: ../src/dialogs/histogram.glade.h:22
-msgid "_Predetermined bins"
+#: ../src/dialogs/histogram.glade.h:31
+#, fuzzy
+msgid "_Predetermined cutoffs"
 msgstr "Binaris _predeterminats"
 
 #: ../src/dialogs/hyperlink.glade.h:2
@@ -8404,20 +8583,50 @@ msgstr "Fusiona..."
 msgid "_Merge"
 msgstr "Fusio_na"
 
-#: ../src/dialogs/moving-averages.glade.h:2
+#: ../src/dialogs/moving-averages.glade.h:1
 msgid "3"
 msgstr "3"
 
 #: ../src/dialogs/moving-averages.glade.h:3
-msgid "C_olumns"
-msgstr "C_olumnes"
+#, fuzzy
+msgid "Central moving average"
+msgstr "Mitjana mòbil"
 
-#: ../src/dialogs/moving-averages.glade.h:6 ../src/tools/analysis-tools.c:3425
-#: ../src/tools/analysis-tools.c:3428
+#: ../src/dialogs/moving-averages.glade.h:4
+#, fuzzy
+msgid "Cumulative moving average"
+msgstr "Percentatges c_umulatius"
+
+#: ../src/dialogs/moving-averages.glade.h:9 ../src/tools/analysis-tools.c:3794
+#: ../src/tools/analysis-tools.c:3797
 msgid "Moving Average"
 msgstr "Mitjana mòbil"
 
-#: ../src/dialogs/moving-averages.glade.h:10
+#: ../src/dialogs/moving-averages.glade.h:11
+#, fuzzy
+msgid "Other offset"
+msgstr "Altres valors"
+
+#: ../src/dialogs/moving-averages.glade.h:13
+#, fuzzy
+msgid "Prior moving average"
+msgstr "Mitjana mòbil"
+
+#: ../src/dialogs/moving-averages.glade.h:14
+#, fuzzy
+msgid "Simple moving average"
+msgstr "Mitjana mòbil"
+
+#: ../src/dialogs/moving-averages.glade.h:15
+msgid "Spencer's 15-point moving average"
+msgstr ""
+
+#: ../src/dialogs/moving-averages.glade.h:16
+#, fuzzy
+msgid "Weighted moving average"
+msgstr "Mitjana mòbil..."
+
+#: ../src/dialogs/moving-averages.glade.h:18
 msgid "_Interval:"
 msgstr "_Interval:"
 
@@ -8720,8 +8929,12 @@ msgstr "0.95"
 msgid "Confidence level:"
 msgstr "Nivell de confiança:"
 
-#: ../src/dialogs/regression.glade.h:4 ../src/tools/analysis-tools.c:3303
-#: ../src/tools/analysis-tools.c:3306
+#: ../src/dialogs/regression.glade.h:3 ../src/dialogs/sampling.glade.h:6
+msgid "O_ptions"
+msgstr "O_pcions"
+
+#: ../src/dialogs/regression.glade.h:4 ../src/tools/analysis-tools.c:3408
+#: ../src/tools/analysis-tools.c:3411
 msgid "Regression"
 msgstr "Regressió"
 
@@ -8751,35 +8964,54 @@ msgstr "_Alçada de la fila (pts):"
 msgid "_Row height in pixels:"
 msgstr "_Alçada de la fila (pts):"
 
-#: ../src/dialogs/sampling.glade.h:4
+#: ../src/dialogs/sampling.glade.h:3
+#, fuzzy
+msgid "Column major"
+msgstr "_Columna major"
+
+#: ../src/dialogs/sampling.glade.h:5
 msgid "N_umber of samples:"
 msgstr "N_ombre de mostres:"
 
-#: ../src/dialogs/sampling.glade.h:6
+#: ../src/dialogs/sampling.glade.h:7
+msgid "Offset:"
+msgstr ""
+
+#: ../src/dialogs/sampling.glade.h:8
 msgid "Per_iod:"
 msgstr "Pe_ríode:"
 
-#: ../src/dialogs/sampling.glade.h:7
+#: ../src/dialogs/sampling.glade.h:9
+#, fuzzy
+msgid "Primary direction:"
+msgstr "Direcció:"
+
+#: ../src/dialogs/sampling.glade.h:10
+#, fuzzy
+msgid "Row major"
+msgstr "_Fila major"
+
+#: ../src/dialogs/sampling.glade.h:11
 msgid "Sampling"
 msgstr "Mostreig"
 
-#: ../src/dialogs/sampling.glade.h:8
+#: ../src/dialogs/sampling.glade.h:12
 msgid "Sampling method:"
 msgstr "Mètode de mostreig:"
 
-#: ../src/dialogs/sampling.glade.h:9
+#: ../src/dialogs/sampling.glade.h:13
 msgid "Size of sample:"
 msgstr "Mida de la mostra:"
 
-#: ../src/dialogs/sampling.glade.h:13
+#: ../src/dialogs/sampling.glade.h:17
 msgid "_Input range: "
 msgstr "Rang _d'entrada: "
 
-#: ../src/dialogs/sampling.glade.h:16
+#: ../src/dialogs/sampling.glade.h:20
 msgid "_Periodic"
 msgstr "_Periòdic"
 
-#: ../src/dialogs/sampling.glade.h:17
+#: ../src/dialogs/sampling.glade.h:21
 msgid "_Random"
 msgstr "Aleato_ri"
 
@@ -9464,9 +9696,8 @@ msgid "Tabulate Dependency"
 msgstr "Dependència tabulada"
 
 #: ../src/dialogs/tabulate.glade.h:10
-#, fuzzy
 msgid "Tabulation Mode"
-msgstr "Tabulació"
+msgstr "Mode de tabulació"
 
 #: ../src/dialogs/tabulate.glade.h:11
 msgid ""
@@ -9926,7 +10157,7 @@ msgstr "(cap)"
 msgid "Unable to activate the url '%s'"
 msgstr "No es pot activar l'URL «%s»"
 
-#: ../src/hlink.c:275
+#: ../src/hlink.c:279
 #, c-format
 msgid "Unable to open '%s'"
 msgstr "No es pot obrir «%s»"
@@ -10317,9 +10548,8 @@ msgstr "_Tots els fulls del llibre de treball"
 
 # FIXME: No sé ben bé a què es refereix (dpm)
 #: ../src/print.c:1294
-#, fuzzy
 msgid "Also print _hidden sheets"
-msgstr "No imprimeixis amb tots els fulls"
+msgstr "Imprimeix també els fulls o_cults"
 
 #: ../src/print.c:1299
 msgid "A_ctive workbook sheet"
@@ -10405,24 +10635,20 @@ msgid "Should cell comments be searched?"
 msgstr "S'han de cercar els comentaris de les cel·les?"
 
 #: ../src/search.c:610
-#, fuzzy
 msgid "Search Scripts"
-msgstr "Cerca cadenes de caràcters"
+msgstr "Cerca els scripts"
 
 #: ../src/search.c:611
-#, fuzzy
 msgid "Should scrips (workbook, and worksheet) be searched?"
-msgstr "S'han de cercar cadenes de caràcters?"
+msgstr "Si s'han de cercar els escrits (llibre i full de treball)"
 
 #: ../src/search.c:619
-#, fuzzy
 msgid "Invert"
-msgstr "Insereix"
+msgstr "Inverteix"
 
 #: ../src/search.c:620
-#, fuzzy
 msgid "Collect non-matching items"
-msgstr "No s'ha pogut trobar les cometes de tancament corresponents"
+msgstr "Recull els elements no coincidents"
 
 #: ../src/search.c:628
 msgid "By Row"
@@ -10924,7 +11150,8 @@ msgid "Protected allow edit pivottable"
 msgstr "Edició de taules principals en mode protegit"
 
 #: ../src/sheet.c:819
-msgid "Allow pivottable to be edited  while a sheet is protected"
+#, fuzzy
+msgid "Allow pivottable to be edited while a sheet is protected"
 msgstr "Permet editar taules principals en un full protegit"
 
 #: ../src/sheet.c:822
@@ -11139,110 +11366,106 @@ msgstr "Forma d'ús: %s [OPCIÓ...] %s\n"
 
 #: ../src/ssgrep.c:66
 msgid "Only print a count of matches per file"
-msgstr ""
+msgstr "Mostra només un nombre determinat de coincidències per fitxer"
 
+# FIXME: l10n-bug (dpm)
 #: ../src/ssgrep.c:72
 msgid ""
 "optimization to search only via the string table, a display a count of the "
 "references."
 msgstr ""
+"optimització per a cercar només a través de la taula de cadenes, mostra el "
+"nombre de referències."
 
 #: ../src/ssgrep.c:79
 msgid "Get patterns from a file, one per line"
-msgstr ""
+msgstr "Obté els patrons d'un fitxer, un per línia"
 
 #: ../src/ssgrep.c:86
 msgid "Pattern is a set of fixed strings"
-msgstr ""
+msgstr "El patró és un conjunt de cadenes fixes"
 
 #: ../src/ssgrep.c:93
 msgid "Print the filename for each match"
-msgstr ""
+msgstr "Mostra el nom de fitxer de cada coincidència"
 
 #: ../src/ssgrep.c:100
 msgid "Do not print the filename for each match"
-msgstr ""
+msgstr "No mostris el nom de fitxer de cada coincidència"
 
 #: ../src/ssgrep.c:107
-#, fuzzy
 msgid "Ignore differences in letter case"
-msgstr "_Ignora l'àrea d'impressió definida"
+msgstr "Ignora les diferències entre majúscules i minúscules"
 
 #: ../src/ssgrep.c:114
 msgid "Print filenames with matches"
-msgstr ""
+msgstr "Mostra els noms de fitxer amb coincidències"
 
 #: ../src/ssgrep.c:121
 msgid "Print filenames without matches"
-msgstr ""
+msgstr "Mostra els noms de fitxer sense coincidències"
 
 #: ../src/ssgrep.c:128
-#, fuzzy
 msgid "Print the location of each match"
-msgstr "Dóna a la selecció un format de data"
+msgstr "Mostra la ubicació de cada coincidència"
 
 #: ../src/ssgrep.c:135
 msgid "Suppress all normal output"
-msgstr ""
+msgstr "Suprimeix totalment la sortida normal"
 
 #: ../src/ssgrep.c:142
-#, fuzzy
 msgid "Search results of expressions too"
-msgstr "Expressions de cerca"
+msgstr "Cerca també els resultats d'expressions"
 
 #: ../src/ssgrep.c:149
 msgid "Print the location type of each match"
-msgstr ""
+msgstr "Mostra el tipus d'ubicació de cada coincidència"
 
 #: ../src/ssgrep.c:156
 msgid "Search for cells that do not match"
-msgstr ""
+msgstr "Cerca cel·les que no concordin"
 
 #: ../src/ssgrep.c:170
-#, fuzzy
 msgid "Match only whole words"
-msgstr "Concorda amb paraules _senceres"
+msgstr "Concorda només amb paraules senceres"
 
 #: ../src/ssgrep.c:177
-#, fuzzy
 msgid "Recalculate all cells"
-msgstr "Recalcula"
+msgstr "Recalcula totes les cel·les"
 
 #: ../src/ssgrep.c:369
-#, fuzzy
 msgid "result"
-msgstr "Resultat"
+msgstr "resultat"
 
 #: ../src/ssgrep.c:376
-#, fuzzy
 msgid "comment"
-msgstr "comentaris"
+msgstr "comentari"
 
 #: ../src/ssgrep.c:433
-#, fuzzy
 msgid "PATTERN INFILE..."
-msgstr "FITXER-ENTRADA..."
+msgstr "PATRÓ FITXER-ENTRADA..."
 
+# FIXME: s'ha de traduir el «datadir» i «libdir»?
 #: ../src/ssgrep.c:447
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"ssindex versió «%s»\n"
+"versió «%s»\n"
 "datadir := «%s»\n"
 "libdir := «%s»\n"
 
 #: ../src/ssgrep.c:467
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Cannot read %s: %s\n"
-msgstr "No es pot crear el fitxer %s\n"
+msgstr "%s: no es pot llegir %s: %s\n"
 
 #: ../src/ssgrep.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Missing pattern\n"
-msgstr "Manca el tema"
+msgstr "%s: manca el patró\n"
 
 #: ../src/ssindex.c:55
 msgid "List MIME types which ssindex is able to read"
@@ -11380,91 +11603,92 @@ msgstr "Importació de text (personalitzable)"
 msgid "Comma separated values (CSV)"
 msgstr "Valors separats per coma (CSV)"
 
-#: ../src/tools/analysis-histogram.c:231
-#, c-format
-msgid "<%s"
-msgstr "<%s"
+#. translator note: do not translate the "General"
+#. part of the following strings.
+#: ../src/tools/analysis-histogram.c:106
+msgid "\"to below\" * General"
+msgstr ""
 
-#: ../src/tools/analysis-histogram.c:235
-msgid "Too Small"
-msgstr "Massa petit"
+#: ../src/tools/analysis-histogram.c:106
+msgid "\"up to\" * General"
+msgstr ""
 
-#: ../src/tools/analysis-histogram.c:252
-msgid "More"
-msgstr "Més"
+#: ../src/tools/analysis-histogram.c:192
+msgid "\"to\" * \"∞\""
+msgstr ""
 
-#: ../src/tools/analysis-histogram.c:261
-#, c-format
-msgid ">%s"
-msgstr ">%s"
+#. translator note: do not translate the "General" part
+#. of the following strings.
+#: ../src/tools/analysis-histogram.c:205
+#, fuzzy
+msgid "\"from\" * General"
+msgstr "Formata com a general"
 
-#: ../src/tools/analysis-histogram.c:265
-msgid "Too Large"
-msgstr "Massa Gran"
+#: ../src/tools/analysis-histogram.c:205
+msgid "\"above\" * General"
+msgstr ""
 
-#: ../src/tools/analysis-histogram.c:309
-msgid "Bin"
-msgstr "Binari"
+#: ../src/tools/analysis-histogram.c:209
+msgid "\"from\" * \"−∞\";\"from\" * \"−∞\""
+msgstr ""
 
-#: ../src/tools/analysis-histogram.c:334
-msgid "Frequency"
-msgstr "Freqüència"
+#: ../src/tools/analysis-histogram.c:254 ../src/tools/analysis-tools.c:1352
+#: ../src/tools/analysis-tools.c:3545 ../src/tools/analysis-tools.c:3916
+#, fuzzy, c-format
+msgid "Row %d"
+msgstr "Fila %s"
 
-#: ../src/tools/analysis-histogram.c:336
-msgid "%"
-msgstr "%"
+#: ../src/tools/analysis-histogram.c:260 ../src/tools/analysis-tools.c:1358
+#, fuzzy, c-format
+msgid "Area %d"
+msgstr "Àrea %i"
 
-#: ../src/tools/analysis-histogram.c:339
-#, no-c-format
-msgid "Cumulative %"
-msgstr "% acumulat"
-
-#: ../src/tools/analysis-histogram.c:417
+#: ../src/tools/analysis-histogram.c:410
 #, c-format
 msgid "Histogram (%s)"
 msgstr "Histograma (%s)"
 
-#: ../src/tools/analysis-tools.c:228 ../src/tools/analysis-tools.c:318
-#: ../src/tools/analysis-tools.c:3233 ../src/tools/analysis-tools.c:4310
+#: ../src/tools/analysis-tools.c:274 ../src/tools/analysis-tools.c:364
+#: ../src/tools/analysis-tools.c:3338 ../src/tools/analysis-tools.c:4961
 #, c-format
 msgid "Row %i"
 msgstr "Fila %i"
 
-#: ../src/tools/analysis-tools.c:231 ../src/tools/analysis-tools.c:321
-#: ../src/tools/analysis-tools.c:3233 ../src/tools/analysis-tools.c:4302
+#: ../src/tools/analysis-tools.c:277 ../src/tools/analysis-tools.c:367
+#: ../src/tools/analysis-tools.c:3338 ../src/tools/analysis-tools.c:4953
 #, c-format
 msgid "Column %i"
 msgstr "Columna %i"
 
-#: ../src/tools/analysis-tools.c:234 ../src/tools/analysis-tools.c:324
+#: ../src/tools/analysis-tools.c:280 ../src/tools/analysis-tools.c:370
 #, c-format
 msgid "Bin %i"
 msgstr "Binari %i"
 
-#: ../src/tools/analysis-tools.c:238 ../src/tools/analysis-tools.c:328
+#: ../src/tools/analysis-tools.c:284 ../src/tools/analysis-tools.c:374
 #, c-format
 msgid "Area %i"
 msgstr "Àrea %i"
 
-#: ../src/tools/analysis-tools.c:365
+#: ../src/tools/analysis-tools.c:411
 #, c-format
 msgid "Variable %i"
 msgstr "Variable %i"
 
-#: ../src/tools/analysis-tools.c:794
+#: ../src/tools/analysis-tools.c:808
 msgid "Correlations"
 msgstr "Correlacions"
 
-#: ../src/tools/analysis-tools.c:805
+#: ../src/tools/analysis-tools.c:819
 #, c-format
 msgid "Correlation (%s)"
 msgstr "Correlació (%s)"
 
-#: ../src/tools/analysis-tools.c:848
+#: ../src/tools/analysis-tools.c:862
 msgid "Covariances"
 msgstr "Covariàncies"
 
-#: ../src/tools/analysis-tools.c:859
+#: ../src/tools/analysis-tools.c:873
 #, c-format
 msgid "Covariance (%s)"
 msgstr "Covariàncies (%s)"
@@ -11476,7 +11700,7 @@ msgstr "Covariàncies (%s)"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: ../src/tools/analysis-tools.c:960
+#: ../src/tools/analysis-tools.c:974
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -11484,41 +11708,36 @@ msgstr ""
 "/Mitjana/Error estàndard/Mediana/Mode/Desviació estàndard/Variància de "
 "mostra/Curtosi/Esbiaix/Rang/Mínim/Màxim/Suma/Compta"
 
-#: ../src/tools/analysis-tools.c:1095
+#: ../src/tools/analysis-tools.c:1109
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr "/%%%s%%%% CI per a la mitjana de/a"
 
-#: ../src/tools/analysis-tools.c:1223
+#: ../src/tools/analysis-tools.c:1237
 #, c-format
 msgid "Largest (%d)"
 msgstr "Més gran (%d)"
 
-#: ../src/tools/analysis-tools.c:1230
+#: ../src/tools/analysis-tools.c:1244
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Més petit (%d)"
 
-#: ../src/tools/analysis-tools.c:1247
+#: ../src/tools/analysis-tools.c:1261
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr "Estadístiques descriptives (%s)"
 
-#: ../src/tools/analysis-tools.c:1325
-msgid "The requested sample size is too large for a periodic sample."
-msgstr ""
-"La mida de la mostra requerida és massa gran per a una mostra periòdica."
-
-#: ../src/tools/analysis-tools.c:1372
+#: ../src/tools/analysis-tools.c:1455
 #, c-format
 msgid "Sampling (%s)"
 msgstr "Mostreig (%s)"
 
-#: ../src/tools/analysis-tools.c:1384 ../src/tools/analysis-tools.c:1387
+#: ../src/tools/analysis-tools.c:1489 ../src/tools/analysis-tools.c:1492
 msgid "Sample"
 msgstr "Mostra"
 
-#: ../src/tools/analysis-tools.c:1425
+#: ../src/tools/analysis-tools.c:1530
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -11528,16 +11747,16 @@ msgstr ""
 "Diferència mitjana observada/z/P (Z<=z) una cua/z crítica una cua/P (Z<=z) "
 "dues cues/z crítica dues cues"
 
-#: ../src/tools/analysis-tools.c:1616
+#: ../src/tools/analysis-tools.c:1721
 #, c-format
 msgid "z-Test (%s)"
 msgstr "Test-z (%s)"
 
-#: ../src/tools/analysis-tools.c:1626 ../src/tools/analysis-tools.c:1629
+#: ../src/tools/analysis-tools.c:1731 ../src/tools/analysis-tools.c:1734
 msgid "z-Test"
 msgstr "Test-z"
 
-#: ../src/tools/analysis-tools.c:1677
+#: ../src/tools/analysis-tools.c:1782
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
@@ -11548,18 +11767,18 @@ msgstr ""
 "Estadística t/P (T<=t) una cua/t Crítica una cua/P (T<=t) dues cues/t "
 "crítica dues cues"
 
-#: ../src/tools/analysis-tools.c:1908
+#: ../src/tools/analysis-tools.c:2013
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr "Test-t, aparellat (%s)"
 
-#: ../src/tools/analysis-tools.c:1918 ../src/tools/analysis-tools.c:1921
-#: ../src/tools/analysis-tools.c:2218 ../src/tools/analysis-tools.c:2221
-#: ../src/tools/analysis-tools.c:2511 ../src/tools/analysis-tools.c:2514
+#: ../src/tools/analysis-tools.c:2023 ../src/tools/analysis-tools.c:2026
+#: ../src/tools/analysis-tools.c:2323 ../src/tools/analysis-tools.c:2326
+#: ../src/tools/analysis-tools.c:2616 ../src/tools/analysis-tools.c:2619
 msgid "t-Test"
 msgstr "Test-t"
 
-#: ../src/tools/analysis-tools.c:1956
+#: ../src/tools/analysis-tools.c:2061
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -11569,12 +11788,12 @@ msgstr ""
 "hipotètica/Diferència mitjana observada/df/Estadístic t/P (T<=t) una cua/t "
 "crítica una cua/P (T<=t) dues cues/t crítica dues cues"
 
-#: ../src/tools/analysis-tools.c:2208 ../src/tools/analysis-tools.c:2501
+#: ../src/tools/analysis-tools.c:2313 ../src/tools/analysis-tools.c:2606
 #, c-format
 msgid "t-Test (%s)"
 msgstr "Test-t (%s)"
 
-#: ../src/tools/analysis-tools.c:2253
+#: ../src/tools/analysis-tools.c:2358
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -11584,12 +11803,12 @@ msgstr ""
 "mitjana observada /df/Estadística t/P (T<=t) una cua/t crítica una cua/P "
 "(T<=t) dues cues/t crítica dues cues"
 
-#: ../src/tools/analysis-tools.c:2549 ../src/tools/analysis-tools.c:2800
-#: ../src/tools/analysis-tools.c:2803
+#: ../src/tools/analysis-tools.c:2654 ../src/tools/analysis-tools.c:2905
+#: ../src/tools/analysis-tools.c:2908
 msgid "F-Test"
 msgstr "Test-F"
 
-#: ../src/tools/analysis-tools.c:2551
+#: ../src/tools/analysis-tools.c:2656
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -11597,12 +11816,12 @@ msgstr ""
 "/Mitjana/Variància/Observacions/df/F/P (F<=f) cua dreta/F crítica cua dreta/"
 "P (f<=F) cua esquerra/F crítica cua esquerra/P dues cues/F crítica dues cues"
 
-#: ../src/tools/analysis-tools.c:2790
+#: ../src/tools/analysis-tools.c:2895
 #, c-format
 msgid "F-Test (%s)"
 msgstr "Test-F (%s)"
 
-#: ../src/tools/analysis-tools.c:2915
+#: ../src/tools/analysis-tools.c:3020
 #, fuzzy
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
@@ -11612,28 +11831,28 @@ msgstr ""
 "quadràtica ajustada/Error estàndard/Observacions//ANOVA//Regressió/Residual/"
 "Total///Intercepció"
 
-#: ../src/tools/analysis-tools.c:2953
+#: ../src/tools/analysis-tools.c:3058
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/F significativa"
 
-#: ../src/tools/analysis-tools.c:2960
+#: ../src/tools/analysis-tools.c:3065
 #, fuzzy
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
 msgstr ""
 "/Coeficients/Error estàndard/Estadística t/Valor P/Inferior %%0.0%s%%%%/"
 "Superior %%0.0%s%%%%"
 
-#: ../src/tools/analysis-tools.c:2965
+#: ../src/tools/analysis-tools.c:3070
 #, fuzzy
 msgid "\"Lower\" 0%"
 msgstr "Inferior"
 
-#: ../src/tools/analysis-tools.c:2966
+#: ../src/tools/analysis-tools.c:3071
 #, fuzzy
 msgid "\"Upper\" 0%"
 msgstr "Superior"
 
-#: ../src/tools/analysis-tools.c:2975
+#: ../src/tools/analysis-tools.c:3080
 #, fuzzy
 msgid ""
 "Probability of an observation's\n"
@@ -11642,7 +11861,7 @@ msgid ""
 msgstr ""
 "Probablement un valor absolut de l'observació és més gran que els valors de t"
 
-#: ../src/tools/analysis-tools.c:2980
+#: ../src/tools/analysis-tools.c:3085
 msgid ""
 "This value is not the square of R\n"
 "but the uncentered version of the\n"
@@ -11651,162 +11870,171 @@ msgid ""
 "squares explained by the model."
 msgstr ""
 
-#: ../src/tools/analysis-tools.c:3289
+#: ../src/tools/analysis-tools.c:3394
 #, c-format
 msgid "Regression (%s)"
 msgstr "Regressió (%s)"
 
-#: ../src/tools/analysis-tools.c:3350
+#: ../src/tools/analysis-tools.c:3720 ../src/tools/analysis-tools.c:4055
+#: ../src/tools/analysis-tools.c:4116
 msgid "Standard Error"
 msgstr "Error estàndard"
 
-#: ../src/tools/analysis-tools.c:3412
+#: ../src/tools/analysis-tools.c:3781
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Mitjanes mòbils (%s)"
 
-#: ../src/tools/analysis-tools.c:3545
+#: ../src/tools/analysis-tools.c:3870
+msgid "\"α =\" * 0.000"
+msgstr ""
+
+#: ../src/tools/analysis-tools.c:3876
+msgid "\"γ =\" * 0.000"
+msgstr ""
+
+#: ../src/tools/analysis-tools.c:4186
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "Suavitzat exponencial (%s)"
 
-#: ../src/tools/analysis-tools.c:3615
+#: ../src/tools/analysis-tools.c:4266
 msgid "Point"
 msgstr "Punt"
 
-#: ../src/tools/analysis-tools.c:3617
+#: ../src/tools/analysis-tools.c:4268
 msgid "Rank"
 msgstr "Rang"
 
-#: ../src/tools/analysis-tools.c:3618
+#: ../src/tools/analysis-tools.c:4269
 msgid "Percentile"
 msgstr "Percentil"
 
-#: ../src/tools/analysis-tools.c:3678
+#: ../src/tools/analysis-tools.c:4329
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Rangs (%s)"
 
-#: ../src/tools/analysis-tools.c:3690 ../src/tools/analysis-tools.c:3693
+#: ../src/tools/analysis-tools.c:4341 ../src/tools/analysis-tools.c:4344
 msgid "Ranks"
 msgstr "Rangs"
 
-#: ../src/tools/analysis-tools.c:3724
+#: ../src/tools/analysis-tools.c:4375
 msgid "Anova: Single Factor"
 msgstr "Anova: d'un factor"
 
-#: ../src/tools/analysis-tools.c:3725 ../src/tools/analysis-tools.c:4362
+#: ../src/tools/analysis-tools.c:4376 ../src/tools/analysis-tools.c:5013
 #: ../src/tools/simulation.c:335
 msgid "SUMMARY"
 msgstr "Resum"
 
-#: ../src/tools/analysis-tools.c:3728
+#: ../src/tools/analysis-tools.c:4379
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grups/Compta/Suma/Mitjana/Variància"
 
-#: ../src/tools/analysis-tools.c:3796
+#: ../src/tools/analysis-tools.c:4447
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Font de variació/Entre grups/Dins de grups/Total"
 
-#: ../src/tools/analysis-tools.c:3802 ../src/tools/analysis-tools.c:4212
-#: ../src/tools/analysis-tools.c:4386
+#: ../src/tools/analysis-tools.c:4453 ../src/tools/analysis-tools.c:4863
+#: ../src/tools/analysis-tools.c:5037
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/Valor P/F crítica"
 
-#: ../src/tools/analysis-tools.c:4013
+#: ../src/tools/analysis-tools.c:4664
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "Factor Únic ANOVA (%s)"
 
-#: ../src/tools/analysis-tools.c:4024 ../src/tools/analysis-tools.c:4693
+#: ../src/tools/analysis-tools.c:4675 ../src/tools/analysis-tools.c:5344
 msgid "Anova"
 msgstr "Anova"
 
-#: ../src/tools/analysis-tools.c:4027
+#: ../src/tools/analysis-tools.c:4678
 msgid "Single Factor ANOVA"
 msgstr "ANOVA d'un factor"
 
-#: ../src/tools/analysis-tools.c:4134
+#: ../src/tools/analysis-tools.c:4785
 msgid "The input range contains non-numeric data."
 msgstr "L'abast d'entrada conté dades no numèriques."
 
-#: ../src/tools/analysis-tools.c:4142
+#: ../src/tools/analysis-tools.c:4793
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: dos factors sense replicació"
 
-#: ../src/tools/analysis-tools.c:4143
+#: ../src/tools/analysis-tools.c:4794
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/Resum/Compta/Suma/Mitjana/Variància"
 
-#: ../src/tools/analysis-tools.c:4206
+#: ../src/tools/analysis-tools.c:4857
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Font de variació/Files/Columnes/Error/Total"
 
-#: ../src/tools/analysis-tools.c:4352
+#: ../src/tools/analysis-tools.c:5003
 msgid "One of the factor combinations does not contain any observations!"
 msgstr "Una de les combinacions de factors no conté cap observació"
 
 #. We are ready to create the summary table
-#: ../src/tools/analysis-tools.c:4361
+#: ../src/tools/analysis-tools.c:5012
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: dos factors amb replicació"
 
-#: ../src/tools/analysis-tools.c:4368
+#: ../src/tools/analysis-tools.c:5019
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Compta/Suma/Mitjana/Variància"
 
-#: ../src/tools/analysis-tools.c:4378
+#: ../src/tools/analysis-tools.c:5029
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Font de variació/Files/Columnes/Interacció/Sense"
 
-#: ../src/tools/analysis-tools.c:4677
+#: ../src/tools/analysis-tools.c:5328
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr "Dos factors ANOVA (%s), sense replicació"
 
-#: ../src/tools/analysis-tools.c:4678
+#: ../src/tools/analysis-tools.c:5329
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "Dos factors ANOVA (%s), amb replicació"
 
-#: ../src/tools/analysis-tools.c:4696
+#: ../src/tools/analysis-tools.c:5347
 msgid "Two Factor ANOVA"
 msgstr "ANOVA dos factors"
 
-#: ../src/tools/analysis-tools.c:4785 ../src/tools/solver/reports-write.c:644
+#: ../src/tools/analysis-tools.c:5436 ../src/tools/solver/reports-write.c:644
 msgid "Real"
 msgstr "Real"
 
-#: ../src/tools/analysis-tools.c:4786
+#: ../src/tools/analysis-tools.c:5437
 msgid "Imaginary"
 msgstr "Imaginari"
 
-#: ../src/tools/analysis-tools.c:4846
+#: ../src/tools/analysis-tools.c:5497
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Sèries de Fourier (%s)"
 
-#: ../src/tools/analysis-tools.c:4858 ../src/tools/analysis-tools.c:4861
+#: ../src/tools/analysis-tools.c:5509 ../src/tools/analysis-tools.c:5512
 msgid "Fourier Series"
 msgstr "Sèries de Fourier"
 
-#: ../src/tools/dao.c:148
+#: ../src/tools/dao.c:163
 msgid "New Sheet"
 msgstr "Nou Full"
 
-#: ../src/tools/dao.c:151
+#: ../src/tools/dao.c:166
 msgid "New Workbook"
 msgstr "Nou llibre de treball"
 
-#: ../src/tools/dao.c:1010
+#: ../src/tools/dao.c:1025
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: ../src/tools/dao.c:1016
+#: ../src/tools/dao.c:1031
 msgid "Worksheet:"
 msgstr "Full de treball:"
 
-#: ../src/tools/dao.c:1023
+#: ../src/tools/dao.c:1038
 msgid "Report Created: "
 msgstr "Informe creat: "
 
@@ -12681,6 +12909,10 @@ msgstr "_Finestres"
 #: ../src/wbc-gtk-actions.c:1543
 msgid "_Toolbars"
 msgstr "_Barra d'eines"
+
+#: ../src/wbc-gtk-actions.c:1544 ../src/wbc-gtk-actions.c:1741
+msgid "_Insert"
+msgstr "_Insereix"
 
 #: ../src/wbc-gtk-actions.c:1545
 msgid "_Names"
@@ -14881,24 +15113,63 @@ msgstr "Plantilla de llista lila"
 msgid "A simple list template"
 msgstr "Una plantilla de llista senzilla"
 
-#~ msgid "ref,x"
-#~ msgstr "ref,x"
-
-#~ msgid ""
-#~ "This build of Gnumeric can only hold %d rows.  Ignoring the rest of this "
-#~ "file.  You will need a custom build with SHEET_MAX_ROWS increased to read "
-#~ "this file."
-#~ msgstr ""
-#~ "Aquest muntatge del Gnumeric només pot gestionar %d files. S'ignorarà la "
-#~ "resta del fitxer. Necessitareu un muntatge propi amb SHEET_MAX_ROWS "
-#~ "incrementat per a llegir aquest fitxer."
-
 #~ msgid ""
 #~ "There must be an equal number of entries for each variable in the "
 #~ "regression."
 #~ msgstr ""
 #~ "Hi ha d'haver un nombre igual d'entrades per a cada variable de la "
 #~ "regressió."
+
+#~ msgid "0.2"
+#~ msgstr "0.2"
+
+#~ msgid "Bin _labels"
+#~ msgstr "_Etiquetes binàries"
+
+#~ msgid "Bin _range:"
+#~ msgstr "_Rang binari:"
+
+#~ msgid "M_in:"
+#~ msgstr "M_ín:"
+
+#~ msgid "Ma_x:"
+#~ msgstr "Mà_x:"
+
+#~ msgid "Pareto (_sorted)"
+#~ msgstr "Pareto (_ordenat)"
+
+#~ msgid "_Chart output"
+#~ msgstr "Sortida de gràfi_c"
+
+#~ msgid "_N:"
+#~ msgstr "_N:"
+
+#~ msgid "<%s"
+#~ msgstr "<%s"
+
+#~ msgid "Too Small"
+#~ msgstr "Massa petit"
+
+#~ msgid "More"
+#~ msgstr "Més"
+
+#~ msgid ">%s"
+#~ msgstr ">%s"
+
+#~ msgid "Too Large"
+#~ msgstr "Massa Gran"
+
+#~ msgid "Bin"
+#~ msgstr "Binari"
+
+#~ msgid "Frequency"
+#~ msgstr "Freqüència"
+
+#~ msgid "%"
+#~ msgstr "%"
+
+#~ msgid "Cumulative %"
+#~ msgstr "% acumulat"
 
 #~ msgid "Y Variable"
 #~ msgstr "Variable Y"
@@ -14936,6 +15207,18 @@ msgstr "Una plantilla de llista senzilla"
 #~ msgstr ""
 #~ "Dues o més variables independents són quasi linealment\n"
 #~ "dependents. Tracteu la regressió resultant amb molta cura."
+
+#~ msgid "ref,x"
+#~ msgstr "ref,x"
+
+#~ msgid ""
+#~ "This build of Gnumeric can only hold %d rows.  Ignoring the rest of this "
+#~ "file.  You will need a custom build with SHEET_MAX_ROWS increased to read "
+#~ "this file."
+#~ msgstr ""
+#~ "Aquest muntatge del Gnumeric només pot gestionar %d files. S'ignorarà la "
+#~ "resta del fitxer. Necessitareu un muntatge propi amb SHEET_MAX_ROWS "
+#~ "incrementat per a llegir aquest fitxer."
 
 #~ msgid "Invalid '%s' record of length %hd instead of %d"
 #~ msgstr "Registre «%s» invàlid de longitud %hd en comptes de %d"
@@ -16352,9 +16635,6 @@ msgstr "Una plantilla de llista senzilla"
 #~ msgstr "Motor de traçador de contorn"
 
 #~ msgid "Surface Charts"
-#~ msgstr "Gràfics de superfície"
-
-#~ msgid "Surface charts"
 #~ msgstr "Gràfics de superfície"
 
 #~ msgid "% of default size"
