@@ -1,5 +1,11 @@
 2008-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-analysis-tools.c (exp_smoothing_ses_r_cb): new
+	(exp_smoothing_ses_cb): renamed to exp_smoothing_ses_h_cb 
+	  and set appropriate denominator
+	
+2008-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* exp-smoothing.glade: aded controls for Holt's
 	* dialog-analysis-tools.c (exp_smoothing_group):
 	  added more buttons

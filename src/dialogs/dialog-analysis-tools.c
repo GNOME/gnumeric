@@ -2425,9 +2425,10 @@ exp_smoothing_tool_check_error_cb (G_GNUC_UNUSED GtkToggleButton *togglebutton, 
 
 
 static void
-exp_smoothing_ses_cb (GtkToggleButton *togglebutton, gpointer user_data)
+exp_smoothing_ses_h_cb (GtkToggleButton *togglebutton, gpointer user_data)
 {
 	ExpSmoothToolState *state = (ExpSmoothToolState *)user_data;
+	gboolean std_error;
 
 	if (!gtk_toggle_button_get_active (togglebutton))
 		return;
@@ -2438,6 +2439,31 @@ exp_smoothing_ses_cb (GtkToggleButton *togglebutton, gpointer user_data)
 	gtk_widget_set_sensitive (state->nm1_button, TRUE);
 	gtk_widget_set_sensitive (state->nm2_button, TRUE);
 	gtk_widget_set_sensitive (state->show_std_errors, TRUE);
+	
+	std_error = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->n_button), TRUE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->show_std_errors), std_error);	
+}
+
+static void
+exp_smoothing_ses_r_cb (GtkToggleButton *togglebutton, gpointer user_data)
+{
+	ExpSmoothToolState *state = (ExpSmoothToolState *)user_data;
+	gboolean std_error;
+
+	if (!gtk_toggle_button_get_active (togglebutton))
+		return;
+
+	gtk_widget_set_sensitive (state->g_damping_fact_entry, FALSE);
+	gtk_widget_set_sensitive (state->s_damping_fact_entry, FALSE);
+	gtk_widget_set_sensitive (state->n_button, TRUE);
+	gtk_widget_set_sensitive (state->nm1_button, TRUE);
+	gtk_widget_set_sensitive (state->nm2_button, TRUE);
+	gtk_widget_set_sensitive (state->show_std_errors, TRUE);
+	
+	std_error = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->nm1_button), TRUE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->show_std_errors), std_error);	
 }
 
 static void
@@ -2543,10 +2569,10 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	g_signal_connect_after (G_OBJECT (state->ses_h_button),
 				"toggled",
-				G_CALLBACK (exp_smoothing_ses_cb), state);
+				G_CALLBACK (exp_smoothing_ses_h_cb), state);
 	g_signal_connect_after (G_OBJECT (state->ses_r_button),
 				"toggled",
-				G_CALLBACK (exp_smoothing_ses_cb), state);
+				G_CALLBACK (exp_smoothing_ses_r_cb), state);
 	g_signal_connect_after (G_OBJECT (state->des_button),
 				"toggled",
 				G_CALLBACK (exp_smoothing_des_cb), state);
@@ -2566,7 +2592,7 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->ses_h_button), TRUE);
-	exp_smoothing_ses_cb (state->ses_h_button, state);
+	exp_smoothing_ses_h_cb (state->ses_h_button, state);
 	exp_smoothing_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 	
