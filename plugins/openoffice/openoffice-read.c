@@ -594,14 +594,14 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	/* default cell styles are applied only to cells that are specified
 	 * which is a performance nightmare.  Instead we apply the styles to
 	 * the entire column or row and clear the area beyond the extent here. */
-	if (state->extent_style.col < gnm_sheet_get_max_cols (NULL)) {
-		range_init (&r, state->extent_style.col, 0,
+	if ((state->extent_style.col+1) < gnm_sheet_get_max_cols (NULL)) {
+		range_init (&r, state->extent_style.col+1, 0,
 			gnm_sheet_get_max_cols (NULL)-1, gnm_sheet_get_max_rows (NULL)-1);
 		sheet_style_set_range (state->pos.sheet, &r,
 			sheet_style_default (state->pos.sheet));
 	}
-	if (state->extent_style.row < gnm_sheet_get_max_rows (NULL)) {
-		range_init (&r, 0, state->extent_style.row,
+	if ((state->extent_style.row+1) < gnm_sheet_get_max_rows (NULL)) {
+		range_init (&r, 0, state->extent_style.row+1,
 			gnm_sheet_get_max_cols (NULL)-1, gnm_sheet_get_max_rows (NULL)-1);
 		sheet_style_set_range (state->pos.sheet, &r,
 			sheet_style_default (state->pos.sheet));
@@ -642,6 +642,23 @@ oo_col_row_style_apply_breaks (OOParseState *state, OOColRowStyle *cr_style,
 }
 
 static void
+oo_update_data_extent (OOParseState *state, int cols, int rows)
+{
+	if (state->extent_data.col < (state->pos.eval.col + cols - 1))
+		state->extent_data.col = state->pos.eval.col + cols - 1;
+	if (state->extent_data.row < (state->pos.eval.row + rows - 1))
+		state->extent_data.row = state->pos.eval.row + rows - 1;
+}
+static void
+oo_update_style_extent (OOParseState *state, int cols, int rows)
+{
+	if (cols > 0 && state->extent_style.col < (state->pos.eval.col + cols - 1))
+		state->extent_style.col = state->pos.eval.col + cols - 1;
+	if (rows > 0 && state->extent_style.row < (state->pos.eval.row + rows - 1))
+		state->extent_style.row = state->pos.eval.row + rows - 1;
+}
+
+static void
 oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -673,6 +690,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 		r.end.row  = gnm_sheet_get_max_rows (NULL) - 1;
 		gnm_style_ref (style);
 		sheet_style_set_range (state->pos.sheet, &r, style);
+		oo_update_style_extent (state, repeat_count, -1);
 	}
 	if (col_info != NULL) {
 		int const last = state->pos.eval.col + repeat_count;
@@ -728,6 +746,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 		r.end.col  = gnm_sheet_get_max_cols (NULL) - 1;
 		gnm_style_ref (style);
 		sheet_style_set_range (state->pos.sheet, &r, style);
+		oo_update_style_extent (state, -1, repeat_count);
 	}
 
 	if (row_info != NULL){
@@ -849,15 +868,6 @@ oo_expr_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *
 }
 
 static void
-oo_update_data_extent (OOParseState *state, int cols, int rows)
-{
-	if (state->extent_data.col < (state->pos.eval.col + cols - 1))
-		state->extent_data.col = state->pos.eval.col + cols - 1;
-	if (state->extent_data.row < (state->pos.eval.row + rows - 1))
-		state->extent_data.row = state->pos.eval.row + rows - 1;
-}
-
-static void
 oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -961,14 +971,18 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			range_init_cellpos_size (&tmp, &state->pos.eval,
 				state->col_inc, state->row_inc);
 			sheet_style_set_range (state->pos.sheet, &tmp, style);
+			oo_update_style_extent (state, state->col_inc, state->row_inc);
 		} else if (merge_cols > 1 || merge_rows > 1) {
 			range_init_cellpos_size (&tmp, &state->pos.eval,
 				merge_cols, merge_rows);
 			sheet_style_set_range (state->pos.sheet, &tmp, style);
-		} else
+			oo_update_style_extent (state, merge_cols, merge_rows);
+		} else {
 			sheet_style_set_pos (state->pos.sheet,
 				state->pos.eval.col, state->pos.eval.row,
 				style);
+			oo_update_style_extent (state, 1, 1);
+		}
 	}
 	state->content_is_simple = FALSE;
 	if (texpr != NULL) {
@@ -2411,7 +2425,7 @@ GSF_XML_IN_NODE (START, OFFICE_FONTS, OO_NS_OFFICE, "font-face-decls", GSF_XML_N
 GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (OFFICE_STYLES, STYLE, OO_NS_STYLE, "style", GSF_XML_NO_CONTENT, &oo_style, &oo_style_end),
     GSF_XML_IN_NODE (STYLE, TABLE_CELL_PROPS, OO_NS_STYLE,	"table-cell-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
-    GSF_XML_IN_NODE (STYLE, TEXT_PROP, OO_NS_STYLE,		"text-properties", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (STYLE, TEXT_PROP, OO_NS_STYLE,		"text-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
     GSF_XML_IN_NODE (STYLE, PARAGRAPH_PROPS, OO_NS_STYLE,	"paragraph-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
       GSF_XML_IN_NODE (PARAGRAPH_PROPS, PARA_TABS, OO_NS_STYLE,  "tab-stops", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (STYLE, STYLE_PROP, OO_NS_STYLE,		"properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),

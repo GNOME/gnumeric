@@ -1,3 +1,12 @@
+2008-09-26  Jody Goldberg <jody@gnome.org>
+
+	* plugins/openoffice/openoffice-read.c (oo_table_end) : style_extent
+	  has the max col/row with a style set, clear _outside_ that. [#553506]
+	(oo_update_style_extent) : new.
+	(oo_col_start) : called here.
+	(oo_row_start) : here.
+	(oo_cell_start) : and here.
+
 2008-09-10  Jody Goldberg <jody@gnome.org>
 
 	* openoffice-write.c (odf_write_cell) : why were strings disabled ?
