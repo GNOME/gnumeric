@@ -47,6 +47,17 @@ typedef struct {
 } GnmPerlPluginLoader;
 typedef GObjectClass GnmPerlPluginLoaderClass;
 
+static const char help_template_text[] =
+	N_("@FUNCTION=PERL_FUNCTION_TEMPLATE\n"
+	   "@SYNTAX=PERL_FUNCTION_TEMPLATE(value1, value2, ...)\n"
+	   "@DESCRIPTION="
+	   "This is the perl function template. \n");
+
+static GnmFuncHelp help_template[] = {
+	{ GNM_FUNC_HELP_OLD, help_template_text },
+	{ GNM_FUNC_HELP_END }
+};
+
 static GnmValue*
 call_perl_function_args (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
@@ -67,9 +78,19 @@ call_perl_function_args (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	SAVETMPS;
 	PUSHMARK(SP);
 	for (i=0;i<n_args;i++) {
-		gnm_float f = value_get_as_float (args[i]);
-		int i = (int)i;  /* FIXME: someone needs to figure out what this is.  */
-		XPUSHs(sv_2mortal(newSViv(i)));
+		gint arg_int;
+		gchar* arg_text;
+
+		switch(args[i]->type) {
+		case VALUE_STRING:
+			arg_text = value_get_as_string (args[i]);
+			XPUSHs(sv_2mortal(newSVpv(arg_text, strlen(arg_text))));
+			break;
+		default:
+			arg_int = value_get_as_float (args[i]);
+			XPUSHs(sv_2mortal(newSViv(arg_int)));
+			break;
+		}
 	}
 	PUTBACK;
 	call_pv (perl_func, G_EVAL | G_SCALAR);
@@ -154,10 +175,10 @@ gplp_func_desc_load (GOPluginService *service,
 	res->name = g_strdup(name);
 	res->arg_spec = arg_spec;
 	res->arg_names = arg_names;
-#warning FIXME adapt for the new GnmFuncHelp struct.
-#if 0
-	res->help = (const char**)&help_text;
-#endif
+
+	help_template[0].text = help_text ? help_text : help_template_text;
+
+	res->help = g_slice_dup (GnmFuncHelp, help_template);
 	res->fn_args = NULL;
 	res->fn_args = &call_perl_function_args;
 	res->fn_nodes = NULL;

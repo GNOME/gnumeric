@@ -41,6 +41,9 @@ Morten:
 	* Fix SUMIF crash.  [#552006]
 	* Fix NETWORKDAYS problem.  [#553047]
 
+Nakai:
+	* Enable Perl plugin again. [#553939]
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.2
 
