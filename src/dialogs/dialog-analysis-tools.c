@@ -2435,10 +2435,6 @@ exp_smoothing_ses_h_cb (GtkToggleButton *togglebutton, gpointer user_data)
 
 	gtk_widget_set_sensitive (state->g_damping_fact_entry, FALSE);
 	gtk_widget_set_sensitive (state->s_damping_fact_entry, FALSE);
-	gtk_widget_set_sensitive (state->n_button, TRUE);
-	gtk_widget_set_sensitive (state->nm1_button, TRUE);
-	gtk_widget_set_sensitive (state->nm2_button, TRUE);
-	gtk_widget_set_sensitive (state->show_std_errors, TRUE);
 	
 	std_error = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->n_button), TRUE);
@@ -2456,10 +2452,6 @@ exp_smoothing_ses_r_cb (GtkToggleButton *togglebutton, gpointer user_data)
 
 	gtk_widget_set_sensitive (state->g_damping_fact_entry, FALSE);
 	gtk_widget_set_sensitive (state->s_damping_fact_entry, FALSE);
-	gtk_widget_set_sensitive (state->n_button, TRUE);
-	gtk_widget_set_sensitive (state->nm1_button, TRUE);
-	gtk_widget_set_sensitive (state->nm2_button, TRUE);
-	gtk_widget_set_sensitive (state->show_std_errors, TRUE);
 	
 	std_error = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->nm1_button), TRUE);
@@ -2470,29 +2462,35 @@ static void
 exp_smoothing_des_cb (GtkToggleButton *togglebutton, gpointer user_data)
 {
 	ExpSmoothToolState *state = (ExpSmoothToolState *)user_data;
+	gboolean std_error;
 
 	if (!gtk_toggle_button_get_active (togglebutton))
 		return;
 
 	gtk_widget_set_sensitive (state->g_damping_fact_entry, TRUE);
 	gtk_widget_set_sensitive (state->s_damping_fact_entry, FALSE);
-	gtk_widget_set_sensitive (state->n_button, FALSE);
-	gtk_widget_set_sensitive (state->nm1_button, FALSE);
-	gtk_widget_set_sensitive (state->nm2_button, FALSE);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->show_std_errors), FALSE);
-	gtk_widget_set_sensitive (state->show_std_errors, FALSE);
+
+
+	std_error = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->nm2_button), TRUE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->show_std_errors), std_error);	
 }
 
 static void
 exp_smoothing_tes_cb (GtkToggleButton *togglebutton, gpointer user_data)
 {
 	ExpSmoothToolState *state = (ExpSmoothToolState *)user_data;
+	gboolean std_error;
 
 	if (!gtk_toggle_button_get_active (togglebutton))
 		return;
 
 	gtk_widget_set_sensitive (state->g_damping_fact_entry, TRUE);
 	gtk_widget_set_sensitive (state->s_damping_fact_entry, TRUE);
+
+	std_error = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->nm2_button), TRUE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->show_std_errors), std_error);	
 }
 
 /**

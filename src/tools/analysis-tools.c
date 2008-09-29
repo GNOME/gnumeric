@@ -3826,6 +3826,7 @@ analysis_tool_exponential_smoothing_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_offset;
 	GnmFunc *fd_sqrt = NULL;
 	GnmFunc *fd_sumxmy2 = NULL;
+	GnmFunc *fd_sum = NULL;
 	GnmFunc *fd_linest = NULL;
 	GnmFunc *fd_average = NULL;
 	GnmExpr const *expr_alpha = NULL;
@@ -3845,6 +3846,8 @@ analysis_tool_exponential_smoothing_engine_run (data_analysis_output_t *dao,
 	if (info->es_type == moving_average_type_des) {
 		fd_linest = gnm_func_lookup ("LINEST", NULL);
 		gnm_func_ref (fd_linest);				
+		fd_sum = gnm_func_lookup ("SUM", NULL);
+		gnm_func_ref (fd_sum);				
 	}
 
 	fd_index = gnm_func_lookup ("INDEX", NULL);
@@ -3958,66 +3961,138 @@ analysis_tool_exponential_smoothing_engine_run (data_analysis_output_t *dao,
 		switch (info->es_type) {
 		case moving_average_type_des: 
 		{
-			GnmExpr const *expr_linest;
-			
-			x = 1;
-			y = 1;
-			*mover = 5;
-			expr_linest = gnm_expr_new_funcall1
-				(fd_linest, 
-				 analysis_tool_moving_average_funcall5 (fd_offset, expr_input , 0, 0, y, x));
-			dao_set_cell_expr (dao, col, 1, 
-						 gnm_expr_new_funcall3 (fd_index, 
-									gnm_expr_copy (expr_linest),
-									gnm_expr_new_constant (value_new_int (1)),
-									gnm_expr_new_constant (value_new_int (2))));
-			dao_set_cell_expr (dao, col + 1, 1, 
-						 gnm_expr_new_funcall3 (fd_index, 
-									expr_linest,
-									gnm_expr_new_constant (value_new_int (1)),
-									gnm_expr_new_constant (value_new_int (1))));
-
-			x = 1;
-			y = 1;
-			*mover = 1;
-			for (row = 1; row <= height; row++, (*mover)++) {
-				GnmExpr const *LB;
-				GnmExpr const *A;
-				GnmExpr const *LL;
-				GnmExpr const *B;
-				A = gnm_expr_new_binary (gnm_expr_copy (expr_alpha),
-							 GNM_EXPR_OP_MULT,
-							 gnm_expr_new_funcall3 
-							 (fd_index, 
-							  gnm_expr_copy (expr_input),
-							  gnm_expr_new_constant(value_new_int(y)),
-							  gnm_expr_new_constant(value_new_int(x))));
-				LB = gnm_expr_new_binary (gnm_expr_new_binary (gnm_expr_new_constant 
-									       (value_new_int (1)),
-									       GNM_EXPR_OP_SUB,
-									       gnm_expr_copy (expr_alpha)),
-							  GNM_EXPR_OP_MULT,
-							  gnm_expr_new_binary (make_cellref (0, -1),
-									       GNM_EXPR_OP_ADD,
-									       make_cellref (1, -1)));
-				dao_set_cell_expr (dao, col, row + 1, gnm_expr_new_binary (A, GNM_EXPR_OP_ADD, LB));
-
-				LL = gnm_expr_new_binary (gnm_expr_copy (expr_gamma),
-							  GNM_EXPR_OP_MULT,
-							  gnm_expr_new_binary (make_cellref (-1, 0),
-									       GNM_EXPR_OP_SUB,
-									       make_cellref (-1, -1)));
-				B = gnm_expr_new_binary (gnm_expr_new_binary (gnm_expr_new_constant 
-									      (value_new_int (1)),
-									      GNM_EXPR_OP_SUB,
-									      gnm_expr_copy (expr_gamma)),
-							 GNM_EXPR_OP_MULT,
-							 make_cellref (0, -1));
-				dao_set_cell_expr (dao, col + 1, row + 1, gnm_expr_new_binary (LL, GNM_EXPR_OP_ADD, B));
+			if (dao_cell_is_visible (dao, col+1, 1))
+			{
+				GnmExpr const *expr_linest;
+				
+				x = 1;
+				y = 1;
+				*mover = 5;
+				expr_linest = gnm_expr_new_funcall1
+					(fd_linest, 
+					 analysis_tool_moving_average_funcall5 (fd_offset, expr_input , 0, 0, y, x));
+				dao_set_cell_expr (dao, col, 1, 
+						   gnm_expr_new_funcall3 (fd_index, 
+									  gnm_expr_copy (expr_linest),
+									  gnm_expr_new_constant (value_new_int (1)),
+									  gnm_expr_new_constant (value_new_int (2))));
+				dao_set_cell_expr (dao, col + 1, 1, 
+						   gnm_expr_new_funcall3 (fd_index, 
+									  expr_linest,
+									  gnm_expr_new_constant (value_new_int (1)),
+									  gnm_expr_new_constant (value_new_int (1))));
+				
+				x = 1;
+				y = 1;
+				*mover = 1;
+				for (row = 1; row <= height; row++, (*mover)++) {
+					GnmExpr const *LB;
+					GnmExpr const *A;
+					GnmExpr const *LL;
+					GnmExpr const *B;
+					A = gnm_expr_new_binary (gnm_expr_copy (expr_alpha),
+								 GNM_EXPR_OP_MULT,
+								 gnm_expr_new_funcall3 
+								 (fd_index, 
+								  gnm_expr_copy (expr_input),
+								  gnm_expr_new_constant(value_new_int(y)),
+								  gnm_expr_new_constant(value_new_int(x))));
+					LB = gnm_expr_new_binary (gnm_expr_new_binary (gnm_expr_new_constant 
+										       (value_new_int (1)),
+										       GNM_EXPR_OP_SUB,
+										       gnm_expr_copy (expr_alpha)),
+								  GNM_EXPR_OP_MULT,
+								  gnm_expr_new_binary (make_cellref (0, -1),
+										       GNM_EXPR_OP_ADD,
+										       make_cellref (1, -1)));
+					dao_set_cell_expr (dao, col, row + 1, gnm_expr_new_binary (A, GNM_EXPR_OP_ADD, LB));
+					
+					LL = gnm_expr_new_binary (gnm_expr_copy (expr_gamma),
+								  GNM_EXPR_OP_MULT,
+								  gnm_expr_new_binary (make_cellref (-1, 0),
+										       GNM_EXPR_OP_SUB,
+										       make_cellref (-1, -1)));
+					B = gnm_expr_new_binary (gnm_expr_new_binary (gnm_expr_new_constant 
+										      (value_new_int (1)),
+										      GNM_EXPR_OP_SUB,
+										      gnm_expr_copy (expr_gamma)),
+								 GNM_EXPR_OP_MULT,
+								 make_cellref (0, -1));
+					dao_set_cell_expr (dao, col + 1, row + 1, gnm_expr_new_binary (LL, GNM_EXPR_OP_ADD, B));
+				} 
+			} else {
+				dao_set_cell (dao, col, 1, _("Holt's trend corrected exponential\n"
+							     "smoothing requires at least 2\n"
+							     "output columns for each data set."));
+				dao_set_cell_comment (dao, col, 0, _("Holt's trend corrected exponential\n"
+								     "smoothing requires at least 2\n"
+								     "output columns for each data set."));
 			}
+				
 			col++;
+			
+			if (info->std_error_flag) {
+				col++;
+				dao_set_italic (dao, col, 0, col, 0);
+				dao_set_cell (dao, col, 0, _("Standard Error"));
+				
+				y = 0;
+				x = 0;
+				(*mover) = 0;
+				for (row = 1; row <= height+1; row++) {
+					if (row > 1 && (row - 1 - info->df) > 0) { 
+						GnmExpr const *expr_offset;
+						
+						if (info->base.group_by == GROUPED_BY_ROW)
+							delta_x = row - 1;
+						else
+							delta_y = row - 1;
+						
+						expr_offset = analysis_tool_moving_average_funcall5 
+							(fd_offset, expr_input, y, x, delta_y, delta_x);
+#if 0
+						/* this would be preferred but doesn't work currently */
+						dao_set_cell_array_expr (dao, col, row,
+									 gnm_expr_new_funcall1 
+									 (fd_sqrt,
+									  gnm_expr_new_binary 
+									  (gnm_expr_new_funcall2
+									   (fd_sumxmy2,
+									    expr_offset,
+									    gnm_expr_new_binary(make_rangeref (-2, 1 - row, -2, -1),
+												GNM_EXPR_OP_ADD,		
+												make_rangeref (-1, 1 - row, -1, -1))),
+									   GNM_EXPR_OP_DIV,
+									   gnm_expr_new_constant (value_new_int 
+												  (row - 1 - info->df)))));
+#else
+						/* fd_sum is specific to this code */
+						dao_set_cell_array_expr (dao, col, row, 
+									  gnm_expr_new_funcall1 
+									 (fd_sqrt,
+									  gnm_expr_new_binary 
+									  (gnm_expr_new_funcall1
+									   (fd_sum,
+									    gnm_expr_new_binary 
+									    (gnm_expr_new_binary 
+									     (expr_offset,
+									      GNM_EXPR_OP_SUB,
+									      gnm_expr_new_binary 
+									      (make_rangeref (-2, 1 - row, -2, -1),
+									       GNM_EXPR_OP_ADD,
+										      make_rangeref (-1, 1 - row, -1, -1))),
+									     GNM_EXPR_OP_EXP,
+									     gnm_expr_new_constant (value_new_int (2)))),
+									    GNM_EXPR_OP_DIV,
+									    gnm_expr_new_constant (value_new_int 
+												   (row - 1 - info->df)))));
+#endif
+					} else
+						dao_set_cell_na (dao, col, row);
+				}
+			}
 		}
-			break;
+		break;
 		case moving_average_type_ses_r:
 				/*  F(t+1) = F(t) + damp_fact * ( A(t+1) - F(t) ) */
 
@@ -4162,6 +4237,8 @@ analysis_tool_exponential_smoothing_engine_run (data_analysis_output_t *dao,
 		gnm_func_unref (fd_sumxmy2);
 	if (fd_linest != NULL)
 		gnm_func_unref (fd_linest);
+	if (fd_sum != NULL)
+		gnm_func_unref (fd_sum);
 	if (fd_average != NULL)
 		gnm_func_unref (fd_average);
 	gnm_func_unref (fd_offset);

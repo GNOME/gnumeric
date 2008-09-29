@@ -1,3 +1,11 @@
+2008-09-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-analysis-tools.c (exp_smoothing_ses_h_cb): no need to
+	  resensitize buttons
+	(exp_smoothing_ses_r_cb): do not desensitize buttons
+	(exp_smoothing_des_cb): ditto and switch denominator when 
+	  selected
+
 2008-09-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tools.c (exp_smoothing_ses_r_cb): new
