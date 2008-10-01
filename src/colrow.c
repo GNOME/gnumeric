@@ -304,20 +304,17 @@ colrow_get_index_list (int first, int last, ColRowIndexList *list)
 	return list;
 }
 
-ColRowStateList	*
-colrow_make_state (G_GNUC_UNUSED Sheet *sheet, int count,
-		   float size_pts, gboolean hard_size,
-		   int outline_level)
+static void
+colrow_set_single_state (ColRowState *state,
+			 Sheet *sheet, int i, gboolean is_cols)
 {
-	ColRowRLEState  *rles = g_new0 (ColRowRLEState, 1);
-	rles->length = count;
-	rles->state.size_pts	  = size_pts;
-	rles->state.outline_level = outline_level;
-	rles->state.is_collapsed  = FALSE;
-	rles->state.hard_size	  = hard_size;
-	rles->state.visible	  = TRUE;
-	rles->state.is_default	  = FALSE;
-	return g_slist_prepend (NULL, rles);
+	ColRowInfo const *info = sheet_colrow_get_info (sheet, i, is_cols);
+	state->is_default = colrow_is_default (info);
+	state->size_pts	= info->size_pts;
+	state->outline_level = info->outline_level;
+	state->is_collapsed = info->is_collapsed;
+	state->hard_size = info->hard_size;
+	state->visible = info->visible;
 }
 
 ColRowStateList *
@@ -325,29 +322,18 @@ colrow_get_states (Sheet *sheet, gboolean is_cols, int first, int last)
 {
 	ColRowStateList *list = NULL;
 	ColRowRLEState  *rles;
-	/* gcc is wrong run_state is always initialized */
-	ColRowState	 run_state, cur_state;
-	int              i, run_length = 0;
+	ColRowState	 run_state;
+	int              i, run_length;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (first <= last, NULL);
 
-	for (i = first; i <= last; ++i) {
-		ColRowInfo const *info = sheet_colrow_get_info (sheet, i, is_cols);
+	colrow_set_single_state (&run_state, sheet, first, is_cols);
+	run_length = 1;
 
-		cur_state.is_default	= colrow_is_default (info);
-		cur_state.size_pts	= info->size_pts;
-		cur_state.outline_level = info->outline_level;
-		cur_state.is_collapsed	= info->is_collapsed;
-		cur_state.hard_size	= info->hard_size;
-		cur_state.visible	= info->visible;
-
-		/* Initialize the run_size in the first loop */
-		if (run_length == 0) {
-			run_state = cur_state;
-			run_length = 1;
-			continue;
-		}
+	for (i = first + 1; i <= last; ++i) {
+		ColRowState cur_state;
+		colrow_set_single_state (&cur_state, sheet, i, is_cols);
 
 		/* If state changed, start a new block */
 		if (cur_state.is_default    != run_state.is_default ||
@@ -356,7 +342,7 @@ colrow_get_states (Sheet *sheet, gboolean is_cols, int first, int last)
 		    cur_state.is_collapsed  != run_state.is_collapsed ||
 		    cur_state.hard_size	    != run_state.hard_size ||
 		    cur_state.visible	    != run_state.visible) {
-			rles         = g_new0 (ColRowRLEState, 1);
+			rles = g_new (ColRowRLEState, 1);
 			rles->length = run_length;
 			rles->state  = run_state;
 			list = g_slist_prepend (list, rles);
@@ -368,12 +354,10 @@ colrow_get_states (Sheet *sheet, gboolean is_cols, int first, int last)
 	}
 
 	/* Store the final run */
-	if (run_length > 0) {
-		rles         = g_new0 (ColRowRLEState, 1);
-		rles->length = run_length;
-		rles->state  = run_state;
-		list = g_slist_prepend (list, rles);
-	}
+	rles = g_new (ColRowRLEState, 1);
+	rles->length = run_length;
+	rles->state = run_state;
+	list = g_slist_prepend (list, rles);
 
 	return g_slist_reverse (list);
 }

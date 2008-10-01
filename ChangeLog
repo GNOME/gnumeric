@@ -1,3 +1,7 @@
+2008-09-30  Morten Welinder  <terra@gnome.org>
+
+	* src/colrow.c (colrow_make_state): Remove.
+
 2008-09-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	Fix for #55338
