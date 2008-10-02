@@ -1,5 +1,10 @@
 2008-10-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-exp-smoothing.c (attach_series): change argument type to
+	  remove warning. Include graph.h.
+
+2008-10-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-tools.c: move smoothing code from here to
 	* analysis-exp-smoothing.c: new
 	* analysis-tools.h: move smoothing code from here to

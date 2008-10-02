@@ -33,6 +33,7 @@
 #include "value.h"
 #include "ranges.h"
 #include "expr.h"
+#include "graph.h"
 #include "func.h"
 #include "numbers.h"
 #include "sheet-object-graph.h"
@@ -72,7 +73,7 @@ create_line_plot (GogPlot **plot, SheetObject **so)
 }
 
 static void
-attach_series (GogPlot *plot, GnmExpr const *expr)
+attach_series (GogPlot *plot, GOData *expr)
 {
 	GogSeries    *series;
 	
