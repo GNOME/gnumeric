@@ -1,3 +1,8 @@
+2008-10-01  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_sumx2my2, gnumeric_sumx2py2,
+	gnumeric_sumxmy2): Use float_range_function2.  Fixes #554040.
+
 2008-09-12  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_sumif): Check that argv[2] is a range, if

@@ -43,33 +43,6 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-typedef struct {
-        GSList *list;
-        int    num;
-} math_sums_t;
-
-static GnmValue *
-callback_function_sumxy (GnmCellIter const *iter, gpointer user)
-{
-	GnmCell *cell;
-	if (NULL == (cell = iter->cell))
-	        return NULL;
-	gnm_cell_eval (cell);
-
-	if (VALUE_IS_NUMBER (cell->value)) {
-		math_sums_t *mm = user;
-		gnm_float *p = g_new (gnm_float, 1);
-		*p = value_get_as_float (cell->value);
-		mm->list = g_slist_append (mm->list, p);
-		mm->num++;
-
-		return NULL;
-	} else if (VALUE_IS_ERROR (cell->value))
-		return VALUE_TERMINATE;  /* FIXME: This is probably wrong.  */
-	else
-		return NULL;
-}
-
 /***************************************************************************/
 
 static GnmFuncHelp const help_gcd[] = {
@@ -2524,91 +2497,31 @@ static GnmFuncHelp const help_sumx2my2[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
+static int
+gnm_range_sumx2my2 (gnm_float const *xs, const gnm_float *ys,
+		    int n, gnm_float *res)
+{
+	gnm_float s = 0;
+	int i;
+
+	for (i = 0; i < n; i++)
+		s += xs[i] * xs[i] - ys[i] * ys[i];
+
+	*res = s;
+	return 0;
+}
+
+
 static GnmValue *
 gnumeric_sumx2my2 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        GnmValue const *values_x = argv[0];
-        GnmValue const *values_y = argv[1];
-	math_sums_t items_x, items_y;
-	GnmValue      *ret;
-	gnm_float  sum;
-	GSList     *list1, *list2;
-
-	items_x.num  = 0;
-	items_x.list = NULL;
-	items_y.num  = 0;
-	items_y.list = NULL;
-
-        if (values_x->type == VALUE_CELLRANGE) {
-		ret = sheet_foreach_cell_in_range (
-			eval_sheet (ei->pos->sheet, ei->pos->sheet),
-			CELL_ITER_ALL,
-			values_x->v_range.cell.a.col,
-			values_x->v_range.cell.a.row,
-			values_x->v_range.cell.b.col,
-			values_x->v_range.cell.b.row,
-			callback_function_sumxy,
-			&items_x);
-
-		if (ret != NULL) {
-		        ret = value_new_error_VALUE (ei->pos);
-			goto out;
-		}
-	} else {
-		ret = value_new_error (ei->pos,
-				       _("Array version not implemented!"));
-		goto out;
-	}
-
-        if (values_y->type == VALUE_CELLRANGE) {
-		ret = sheet_foreach_cell_in_range (
-			eval_sheet (ei->pos->sheet, ei->pos->sheet),
-			CELL_ITER_ALL,
-			values_y->v_range.cell.a.col,
-			values_y->v_range.cell.a.row,
-			values_y->v_range.cell.b.col,
-			values_y->v_range.cell.b.row,
-			callback_function_sumxy,
-			&items_y);
-		if (ret != NULL) {
-		        ret = value_new_error_VALUE (ei->pos);
-			goto out;
-		}
-	} else {
-		ret = value_new_error (ei->pos,
-				       _("Array version not implemented!"));
-		goto out;
-	}
-
-	if (items_x.num != items_y.num) {
-		ret = value_new_error_NA (ei->pos);
-		goto out;
-	}
-
-	list1 = items_x.list;
-	list2 = items_y.list;
-	sum = 0;
-	while (list1 != NULL) {
-	        gnm_float x, y;
-
-		x = *((gnm_float *) list1->data);
-		y = *((gnm_float *) list2->data);
-		sum += x * x - y * y;
-		list1 = list1->next;
-		list2 = list2->next;
-	}
-	ret = value_new_float (sum);
-
- out:
-	for (list1 = items_x.list; list1; list1 = list1->next)
-		g_free (list1->data);
-	g_slist_free (items_x.list);
-
-	for (list2 = items_y.list; list2; list2 = list2->next)
-		g_free (list2->data);
-	g_slist_free (items_y.list);
-
-	return ret;
+	return float_range_function2 (argv[0], argv[1],
+				      ei,
+				      gnm_range_sumx2my2,
+				      COLLECT_IGNORE_BLANKS |
+				      COLLECT_IGNORE_STRINGS |
+				      COLLECT_IGNORE_BOOLS,
+				      GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -2641,91 +2554,33 @@ static GnmFuncHelp const help_sumx2py2[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
+static int
+gnm_range_sumx2py2 (gnm_float const *xs, const gnm_float *ys,
+		    int n, gnm_float *res)
+{
+	gnm_float s = 0;
+	int i;
+
+	for (i = 0; i < n; i++)
+		s += xs[i] * xs[i] + ys[i] * ys[i];
+
+	*res = s;
+	return 0;
+}
+
 static GnmValue *
 gnumeric_sumx2py2 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        GnmValue const *values_x = argv[0];
-        GnmValue const *values_y = argv[1];
-	math_sums_t items_x, items_y;
-	GnmValue      *ret;
-	gnm_float  sum;
-	GSList     *list1, *list2;
-
-	items_x.num  = 0;
-	items_x.list = NULL;
-	items_y.num  = 0;
-	items_y.list = NULL;
-
-        if (values_x->type == VALUE_CELLRANGE) {
-		ret = sheet_foreach_cell_in_range (
-			eval_sheet (ei->pos->sheet, ei->pos->sheet),
-			CELL_ITER_ALL, /* include empties so that the lists align */
-			values_x->v_range.cell.a.col,
-			values_x->v_range.cell.a.row,
-			values_x->v_range.cell.b.col,
-			values_x->v_range.cell.b.row,
-			callback_function_sumxy,
-			&items_x);
-		if (ret != NULL) {
-		        ret = value_new_error_VALUE (ei->pos);
-			goto out;
-		}
-	} else {
-		ret = value_new_error (ei->pos,
-				       _("Array version not implemented!"));
-		goto out;
-	}
-
-        if (values_y->type == VALUE_CELLRANGE) {
-		ret = sheet_foreach_cell_in_range (
-			eval_sheet (ei->pos->sheet, ei->pos->sheet),
-			CELL_ITER_ALL, /* include empties so that the lists align */
-			values_y->v_range.cell.a.col,
-			values_y->v_range.cell.a.row,
-			values_y->v_range.cell.b.col,
-			values_y->v_range.cell.b.row,
-			callback_function_sumxy,
-			&items_y);
-		if (ret != NULL) {
-			ret = value_new_error_VALUE (ei->pos);
-			goto out;
-		}
-	} else {
-		ret = value_new_error (ei->pos,
-				       _("Array version not implemented!"));
-		goto out;
-	}
-
-	if (items_x.num != items_y.num) {
-		ret = value_new_error_NA (ei->pos);
-		goto out;
-	}
-
-	list1 = items_x.list;
-	list2 = items_y.list;
-	sum = 0;
-	while (list1 != NULL) {
-	        gnm_float x, y;
-
-		x = *((gnm_float *) list1->data);
-		y = *((gnm_float *) list2->data);
-		sum += x * x + y * y;
-		list1 = list1->next;
-		list2 = list2->next;
-	}
-	ret = value_new_float (sum);
-
- out:
-	for (list1 = items_x.list; list1; list1 = list1->next)
-		g_free (list1->data);
-	g_slist_free (items_x.list);
-
-	for (list2 = items_y.list; list2; list2 = list2->next)
-		g_free (list2->data);
-	g_slist_free (items_y.list);
-
-	return ret;
+	return float_range_function2 (argv[0], argv[1],
+				      ei,
+				      gnm_range_sumx2py2,
+				      COLLECT_IGNORE_BLANKS |
+				      COLLECT_IGNORE_STRINGS |
+				      COLLECT_IGNORE_BOOLS,
+				      GNM_ERROR_VALUE);
 }
+
+/***************************************************************************/
 
 static GnmFuncHelp const help_sumxmy2[] = {
 	{ GNM_FUNC_HELP_OLD,
@@ -2755,90 +2610,32 @@ static GnmFuncHelp const help_sumxmy2[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
+static int
+gnm_range_sumxmy2 (gnm_float const *xs, const gnm_float *ys,
+		   int n, gnm_float *res)
+{
+	gnm_float s = 0;
+	int i;
+
+	for (i = 0; i < n; i++) {
+		gnm_float d = (xs[i] - ys[i]);
+		s += d * d;
+	}
+
+	*res = s;
+	return 0;
+}
+
 static GnmValue *
 gnumeric_sumxmy2 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        GnmValue const *values_x = argv[0];
-        GnmValue const *values_y = argv[1];
-	math_sums_t items_x, items_y;
-	GnmValue      *ret;
-	gnm_float  sum;
-	GSList     *list1, *list2;
-
-	items_x.num  = 0;
-	items_x.list = NULL;
-	items_y.num  = 0;
-	items_y.list = NULL;
-
-        if (values_x->type == VALUE_CELLRANGE) {
-		ret = sheet_foreach_cell_in_range (
-			eval_sheet (ei->pos->sheet, ei->pos->sheet),
-			CELL_ITER_ALL, /* include empties so that the lists align */
-			values_x->v_range.cell.a.col,
-			values_x->v_range.cell.a.row,
-			values_x->v_range.cell.b.col,
-			values_x->v_range.cell.b.row,
-			callback_function_sumxy,
-			&items_x);
-		if (ret != NULL) {
-		        ret = value_new_error_VALUE (ei->pos);
-			goto out;
-		}
-	} else {
-		ret = value_new_error (ei->pos,
-				       _("Array version not implemented!"));
-		goto out;
-	}
-
-        if (values_y->type == VALUE_CELLRANGE) {
-		ret = sheet_foreach_cell_in_range (
-			eval_sheet (ei->pos->sheet, ei->pos->sheet),
-			CELL_ITER_ALL, /* include empties so that the lists align */
-			values_y->v_range.cell.a.col,
-			values_y->v_range.cell.a.row,
-			values_y->v_range.cell.b.col,
-			values_y->v_range.cell.b.row,
-			callback_function_sumxy,
-			&items_y);
-		if (ret != NULL) {
-		        ret = value_new_error_VALUE (ei->pos);
-			goto out;
-		}
-	} else {
-		ret = value_new_error (ei->pos,
-				       _("Array version not implemented!"));
-		goto out;
-	}
-
-	if (items_x.num != items_y.num) {
-	        ret = value_new_error_NA (ei->pos);
-		goto out;
-	}
-
-	list1 = items_x.list;
-	list2 = items_y.list;
-	sum = 0;
-	while (list1 != NULL) {
-	        gnm_float x, y;
-
-		x = *((gnm_float *) list1->data);
-		y = *((gnm_float *) list2->data);
-		sum += (x - y) * (x - y);
-		list1 = list1->next;
-		list2 = list2->next;
-	}
-	ret = value_new_float (sum);
-
- out:
-	for (list1 = items_x.list; list1; list1 = list1->next)
-		g_free (list1->data);
-	g_slist_free (items_x.list);
-
-	for (list2 = items_y.list; list2; list2 = list2->next)
-		g_free (list2->data);
-	g_slist_free (items_y.list);
-
-	return ret;
+	return float_range_function2 (argv[0], argv[1],
+				      ei,
+				      gnm_range_sumxmy2,
+				      COLLECT_IGNORE_BLANKS |
+				      COLLECT_IGNORE_STRINGS |
+				      COLLECT_IGNORE_BOOLS,
+				      GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/

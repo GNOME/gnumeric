@@ -40,6 +40,7 @@ Morten:
 	* Fix error check for printing to file.
 	* Fix SUMIF crash.  [#552006]
 	* Fix NETWORKDAYS problem.  [#553047]
+	* Bring SUMX2MY2, SUMX2PY2, and SUMXMY2 into 21st century.  [#554040]
 
 Nakai:
 	* Enable Perl plugin again. [#553939]
