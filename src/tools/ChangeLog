@@ -1,3 +1,7 @@
+2008-10-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dao.c: include goffice/utils/go-glib-extras.h
+
 2008-10-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-exp-smoothing.c (attach_series): change argument type to

@@ -44,6 +44,7 @@
 #include "style-color.h"
 #include "graph.h"
 #include <goffice/app/go-doc.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #include <glib.h>
 #include <glib/gi18n-lib.h>
