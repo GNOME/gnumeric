@@ -29,6 +29,7 @@
 #include "dialogs.h"
 #include "analysis-tools.h"
 #include "analysis-histogram.h"
+#include "analysis-exp-smoothing.h"
 
 #include <workbook.h>
 #include <workbook-control.h>
@@ -2369,8 +2370,8 @@ exp_smoothing_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		range_list_destroy (input_range);
 
 	switch (gnumeric_glade_group_value (state->base.gui, exp_smoothing_group)) {
-	case moving_average_type_mtes:
-	case moving_average_type_ates:
+	case exp_smoothing_type_mtes:
+	case exp_smoothing_type_ates:
 		err = entry_to_float (GTK_ENTRY (state->s_damping_fact_entry), 
 				      &damp_fact, FALSE);
 		if (err!= 0 || damp_fact < 0 || damp_fact > 1)  {
@@ -2381,7 +2382,7 @@ exp_smoothing_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 			return;
 		}
 		/* no break */
-	case moving_average_type_des:
+	case exp_smoothing_type_des:
 		err = entry_to_float (GTK_ENTRY (state->g_damping_fact_entry), 
 				      &damp_fact, FALSE);
 		if (err!= 0 || damp_fact < 0 || damp_fact > 1)  {
@@ -2392,8 +2393,8 @@ exp_smoothing_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 			return;
 		}
 		/* no break */
-	case moving_average_type_ses_r:
-	case moving_average_type_ses_h:
+	case exp_smoothing_type_ses_r:
+	case exp_smoothing_type_ses_h:
 		err = entry_to_float (GTK_ENTRY (state->damping_fact_entry), 
 				      &damp_fact, FALSE);
 		if (err!= 0 || damp_fact < 0 || damp_fact > 1)  {
@@ -2590,7 +2591,7 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->ses_h_button), TRUE);
-	exp_smoothing_ses_h_cb (state->ses_h_button, state);
+	exp_smoothing_ses_h_cb (GTK_TOGGLE_BUTTON (state->ses_h_button), state);
 	exp_smoothing_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 	

@@ -1,3 +1,12 @@
+2008-10-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.c: move smoothing code from here to
+	* analysis-exp-smoothing.c: new
+	* analysis-tools.h: move smoothing code from here to
+	* analysis-exp-smoothing.h: new
+	* dao.c (dao_set_sheet_object): use up to 20 rows
+	* Makefile.am: add analysis-exp-smoothing.[ch]
+	
 2008-09-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.c (analysis_tool_exponential_smoothing_engine_run):

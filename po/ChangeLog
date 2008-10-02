@@ -1,3 +1,7 @@
+2008-10-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* POTFILES.in: added src/tools/analysis-exp-smoothing.[ch]
+
 2008-09-27  Gil Forcada  <gforcada@gnome.org>
 
 	* ca.po: Updated Catalan translation by David Planella.

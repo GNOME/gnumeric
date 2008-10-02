@@ -1,3 +1,9 @@
+2008-10-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-analysis-tools.c: rename moving_average_type_*es to
+	  exp_smoothing_type_*es throughout. Also include
+	  analysis-exp-smoothing.h
+
 2008-09-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tools.c (exp_smoothing_ses_h_cb): no need to

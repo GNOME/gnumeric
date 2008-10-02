@@ -107,31 +107,6 @@ gboolean analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpoin
 					      analysis_tool_engine_t selector, gpointer result);
 
 
-/************** Exponential Smoothing  *************/
-
-typedef enum {
-	moving_average_type_ses_h = 0,
-	moving_average_type_ses_r,
-	moving_average_type_des,
-	moving_average_type_ates,
-	moving_average_type_mtes
-} exponential_smoothing_type_t;
-
-typedef struct {
-	analysis_tools_data_generic_t base;
-	gnm_float damp_fact;
-	gnm_float g_damp_fact;
-	gnm_float s_damp_fact;
-	int std_error_flag;
-	int df;
-	gboolean show_graph;
-	exponential_smoothing_type_t es_type;
-} analysis_tools_data_exponential_smoothing_t;
-
-gboolean analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao, gpointer specs,
-					   analysis_tool_engine_t selector, gpointer result);
-
-
 /************** Fourier Analysis **** *************/
 
 typedef struct {
@@ -259,9 +234,12 @@ gboolean analysis_tool_anova_two_factor_engine (data_analysis_output_t *dao, gpo
 
 gboolean analysis_tool_generic_clean (gpointer specs);
 
+int analysis_tool_calc_length (analysis_tools_data_generic_t *info);
+
 void prepare_input_range (GSList **input_range, group_by_t group_by);
 
 const GnmExpr *make_cellref (int dx, int dy);
+const GnmExpr *make_rangeref (int dx0, int dy0, int dx1, int dy1);
 
 gnm_float *range_sort (gnm_float const *xs, int n);
 
