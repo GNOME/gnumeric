@@ -675,7 +675,6 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 	SheetObject *so = NULL;
 	GogPlot	     *plot = NULL;
 	GnmFunc *fd_index;
-	GnmFunc *fd_offset;
 	GnmFunc *fd_linest;
 	GnmFunc *fd_average;
 	GnmFunc *fd_if;
@@ -683,7 +682,6 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 	GnmFunc *fd_row;
 	GnmFunc *fd_sqrt = NULL;
 	GnmFunc *fd_sumxmy2 = NULL;
-	GnmFunc *fd_sum = NULL;
 	GnmExpr const *expr_alpha = NULL;
 	GnmExpr const *expr_gamma = NULL;
 	GnmExpr const *expr_delta = NULL;
@@ -693,16 +691,12 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 		gnm_func_ref (fd_sqrt);		
 		fd_sumxmy2 = gnm_func_lookup ("SUMXMY2", NULL);
 		gnm_func_ref (fd_sumxmy2);		
-		fd_sum = gnm_func_lookup ("SUM", NULL);
-		gnm_func_ref (fd_sum);		
 	}
 		
 	fd_linest = gnm_func_lookup ("LINEST", NULL);
 	gnm_func_ref (fd_linest);				
 	fd_index = gnm_func_lookup ("INDEX", NULL);
 	gnm_func_ref (fd_index);		
-	fd_offset = gnm_func_lookup ("OFFSET", NULL);
-	gnm_func_ref (fd_offset);
 	fd_average = gnm_func_lookup ("AVERAGE", NULL);
 	gnm_func_ref (fd_average);
 	fd_if = gnm_func_lookup ("IF", NULL);
@@ -974,8 +968,339 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 		gnm_func_unref (fd_sqrt);
 	if (fd_sumxmy2 != NULL)
 		gnm_func_unref (fd_sumxmy2);
-	if (fd_sum != NULL)
-		gnm_func_unref (fd_sum);
+	gnm_func_unref (fd_linest);
+	gnm_func_unref (fd_index);
+	gnm_func_unref (fd_average);
+	gnm_func_unref (fd_if);
+	gnm_func_unref (fd_mod);
+	gnm_func_unref (fd_row);
+
+	dao_redraw_respan (dao);
+
+	return FALSE;
+}
+
+static gboolean
+analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao,
+						     analysis_tools_data_exponential_smoothing_t *info)
+{
+	GSList *l;
+	gint col = 0, time, maxheight;
+	gint source;
+	SheetObject *so = NULL;
+	GogPlot	     *plot = NULL;
+	GnmFunc *fd_index;
+	GnmFunc *fd_offset;
+	GnmFunc *fd_linest;
+	GnmFunc *fd_average;
+	GnmFunc *fd_if;
+	GnmFunc *fd_mod;
+	GnmFunc *fd_row;
+	GnmFunc *fd_sqrt = NULL;
+	GnmFunc *fd_sumsq = NULL;
+	GnmExpr const *expr_alpha = NULL;
+	GnmExpr const *expr_gamma = NULL;
+	GnmExpr const *expr_delta = NULL;
+
+	if (info->std_error_flag) {
+		fd_sqrt = gnm_func_lookup ("SQRT", NULL);
+		gnm_func_ref (fd_sqrt);		
+		fd_sumsq = gnm_func_lookup ("SUMSQ", NULL);
+		gnm_func_ref (fd_sumsq);		
+	}
+		
+	fd_linest = gnm_func_lookup ("LINEST", NULL);
+	gnm_func_ref (fd_linest);				
+	fd_index = gnm_func_lookup ("INDEX", NULL);
+	gnm_func_ref (fd_index);		
+	fd_offset = gnm_func_lookup ("OFFSET", NULL);
+	gnm_func_ref (fd_offset);
+	fd_average = gnm_func_lookup ("AVERAGE", NULL);
+	gnm_func_ref (fd_average);
+	fd_if = gnm_func_lookup ("IF", NULL);
+	gnm_func_ref (fd_if);
+	fd_mod = gnm_func_lookup ("mod", NULL);
+	gnm_func_ref (fd_mod);
+	fd_row = gnm_func_lookup ("row", NULL);
+	gnm_func_ref (fd_row);
+
+	if (info->show_graph)
+		create_line_plot (&plot, &so);
+
+	dao_set_italic (dao, 0, 0, 0, 0);
+	dao_set_cell (dao, 0, 0, _("Exponential Smoothing"));
+
+	dao_set_format  (dao, 2, 0, 2, 0, _("\"\xce\xb1 =\" * 0.000"));
+	dao_set_cell_expr (dao, 2, 0, gnm_expr_new_constant (value_new_float (info->damp_fact)));
+	expr_alpha = dao_get_cellref (dao, 2, 0);
+	
+	dao_set_format  (dao, 3, 0, 3, 0, _("\"\xce\xb3 =\" * 0.000"));
+	dao_set_cell_expr (dao, 3, 0, gnm_expr_new_constant (value_new_float (info->g_damp_fact)));
+	expr_gamma = dao_get_cellref (dao, 3, 0);
+
+	dao_set_format  (dao, 4, 0, 4, 0, _("\"\xce\xb4 =\" * 0.000"));
+	dao_set_cell_expr (dao, 4, 0, gnm_expr_new_constant (value_new_float (info->s_damp_fact)));
+	expr_delta = dao_get_cellref (dao, 4, 0);
+
+	dao_set_italic (dao, 0, 2, 0, 2);
+	dao_set_cell (dao, 0, 2, _("Time"));
+
+	maxheight = analysis_tool_calc_length (&info->base);
+
+	dao->offset_row = 2 + info->s_period;
+
+	for (time = 1 - info->s_period; time <= maxheight; time++)
+		dao_set_cell_int (dao, 0, time, time);
+
+	dao->offset_col = 1;
+
+	for (l = info->base.input, source = 1; l; l = l->next, source++) {
+		GnmValue *val = value_dup ((GnmValue *)l->data);
+		GnmValue *val_c = NULL;
+		GnmExpr const *expr_title = NULL;
+		GnmExpr const *expr_input = NULL;
+		GnmExpr const *expr_index = NULL;
+		GnmExpr const *expr_linest;
+		GnmExpr const *expr_level;
+		GnmExpr const *expr_trend;
+		GnmExpr const *expr_season;
+		GnmExpr const *expr_season_est;
+		GnmExpr const *expr_data;
+		GnmExpr const *expr_linest_intercept;
+		GnmExpr const *expr_linest_slope;
+		gint height, starting_length;
+
+		if (dao_cell_is_visible (dao, col+3, 1))
+		{
+			dao_set_italic (dao, col + 1, -info->s_period, col + 3, -info->s_period);
+			set_cell_text_row (dao, col + 1, -info->s_period, _("/Level"
+									    "/Trend"
+									    "/Seasonal Adjustment"));
+			
+			if (info->base.labels) {
+				val_c = value_dup (val);
+				switch (info->base.group_by) {
+				case GROUPED_BY_ROW:
+					val->v_range.cell.a.col++;
+					break;
+				default:
+					val->v_range.cell.a.row++;
+					break;
+				}
+				expr_title = gnm_expr_new_funcall1 (fd_index,
+								    gnm_expr_new_constant (val_c));
+				
+				dao_set_italic (dao, col,  -info->s_period, col,  -info->s_period);
+				dao_set_cell_expr (dao, col,  -info->s_period, expr_title);
+			} else
+				dao_set_cell_printf
+					(dao, col,  -info->s_period,
+					 (info->base.group_by ? _("Row %d") : _("Column %d")),
+					 source);
+			
+			
+			switch (info->base.group_by) {
+			case GROUPED_BY_ROW:
+				height = value_area_get_width (val, NULL);
+				expr_input = gnm_expr_new_constant (val);
+				expr_index = gnm_expr_new_funcall3 (fd_index, gnm_expr_copy (expr_input),
+								    gnm_expr_new_constant (value_new_int (1)), 
+								    make_cellref (-1 - col, 0));
+				break;
+			default:
+				height = value_area_get_height (val, NULL);
+				expr_input = gnm_expr_new_constant (val);
+				expr_index = gnm_expr_new_funcall3 (fd_index, gnm_expr_copy (expr_input),
+								    make_cellref (-1 - col, 0), 
+								    gnm_expr_new_constant (value_new_int (1)));
+				break;
+			}
+			starting_length = 4 * info->s_period;
+			if (starting_length > height)
+				starting_length = height;
+			expr_data = dao_get_rangeref (dao, col, 1, col, height);
+			expr_linest = gnm_expr_new_funcall1
+				(fd_linest, 
+				 analysis_tool_exp_smoothing_funcall5 (fd_offset, expr_data, 0, 0, starting_length, 1));
+			dao_set_cell_expr (dao, col+1, 0,
+					   gnm_expr_new_funcall3 (fd_index,
+								  gnm_expr_copy (expr_linest),
+								  gnm_expr_new_constant (value_new_int (1)),
+								  gnm_expr_new_constant (value_new_int (2))));
+			expr_linest_intercept = dao_get_cellref (dao, col + 1, 0);
+			dao_set_cell_expr (dao, col + 2, 0,
+					   gnm_expr_new_funcall3 (fd_index,
+								  expr_linest,
+								  gnm_expr_new_constant (value_new_int (1)),
+								  gnm_expr_new_constant (value_new_int (1))));
+			expr_linest_slope = dao_get_cellref (dao, col + 2, 0);
+			expr_level = gnm_expr_new_binary (gnm_expr_new_binary 
+							  (gnm_expr_copy (expr_alpha),
+							   GNM_EXPR_OP_MULT,
+							   gnm_expr_new_binary 
+							   (make_cellref (-1,0),
+							    GNM_EXPR_OP_DIV,
+							    make_cellref (2,-info->s_period))),
+							  GNM_EXPR_OP_ADD,
+							  gnm_expr_new_binary 
+							  (gnm_expr_new_binary 
+							   (gnm_expr_new_constant (value_new_int (1)),
+							    GNM_EXPR_OP_SUB,
+							    gnm_expr_copy (expr_alpha)),
+							   GNM_EXPR_OP_MULT,
+							   gnm_expr_new_binary 
+							   (make_cellref (0,-1),
+							    GNM_EXPR_OP_ADD,
+							    make_cellref (1,-1))));
+			expr_trend = gnm_expr_new_binary (gnm_expr_new_binary 
+							  (gnm_expr_copy (expr_gamma),
+							   GNM_EXPR_OP_MULT,
+							   gnm_expr_new_binary 
+							   (make_cellref (-1,0),
+							    GNM_EXPR_OP_SUB,
+							    make_cellref (-1,-1))),
+							  GNM_EXPR_OP_ADD,
+							  gnm_expr_new_binary 
+							  (gnm_expr_new_binary 
+							   (gnm_expr_new_constant (value_new_int (1)),
+							    GNM_EXPR_OP_SUB,
+							    gnm_expr_copy (expr_gamma)),
+							   GNM_EXPR_OP_MULT,
+							   make_cellref (0,-1)));
+			expr_season = gnm_expr_new_binary (gnm_expr_new_binary 
+							  (gnm_expr_copy (expr_delta),
+							   GNM_EXPR_OP_MULT,
+							   gnm_expr_new_binary 
+							   (make_cellref (-3,0),
+							    GNM_EXPR_OP_DIV,
+							    make_cellref (-2,0))),
+							  GNM_EXPR_OP_ADD,
+							  gnm_expr_new_binary 
+							  (gnm_expr_new_binary 
+							   (gnm_expr_new_constant (value_new_int (1)),
+							    GNM_EXPR_OP_SUB,
+							    gnm_expr_copy (expr_delta)),
+							   GNM_EXPR_OP_MULT,
+							   make_cellref (0,-info->s_period)));
+			
+			for (time = 1; time <= maxheight; time++) {
+				dao_set_cell_expr (dao, col, time, gnm_expr_copy (expr_index));
+				dao_set_cell_expr (dao, col+1, time, gnm_expr_copy (expr_level));
+				dao_set_cell_expr (dao, col+2, time, gnm_expr_copy (expr_trend));
+				dao_set_cell_expr (dao, col+3, time, gnm_expr_copy (expr_season));
+			}
+			gnm_expr_free (expr_index);
+			gnm_expr_free (expr_level);
+			gnm_expr_free (expr_trend);
+			gnm_expr_free (expr_season);
+			
+			if (plot != NULL) {
+				attach_series (plot, dao_go_data_vector (dao, col, 1, col, height));
+				attach_series (plot, dao_go_data_vector (dao, col+1, 1, col+1, height));
+			}
+
+			/* We still need to calculate the estimates for the seasonal adjustment. */
+
+/* 			expr_season_est = gnm_expr_new_funcall1  */
+/* 				(fd_average, */
+/* 				 gnm_expr_new_funcall3 */
+/* 				 (fd_if, */
+/* 				  gnm_expr_new_binary  */
+/* 				  (gnm_expr_new_funcall2 */
+/* 				   (fd_mod, */
+/* 				    gnm_expr_new_binary  */
+/* 				    (gnm_expr_new_funcall1 */
+/* 				     (fd_row,  */
+/* 				      gnm_expr_copy (expr_data)), */
+/* 				     GNM_EXPR_OP_SUB, */
+/* 				     gnm_expr_new_funcall (fd_row, NULL)), */
+/* 				    gnm_expr_new_constant (value_new_int (info->s_period))), */
+/* 				   GNM_EXPR_OP_EQUAL, */
+/* 				   gnm_expr_new_constant (value_new_int (0))), */
+/* 				  gnm_expr_new_binary */
+/* 				  (expr_data, */
+/* 				   GNM_EXPR_OP_SUB, */
+/* 					  gnm_expr_new_binary */
+/* 				  (expr_linest_intercept, */
+/* 				   GNM_EXPR_OP_ADD, */
+/* 				   gnm_expr_new_binary */
+/* 				   (dao_get_rangeref (dao, -1, 1, -1, height), */
+/* 				    GNM_EXPR_OP_MULT, */
+/* 				    expr_linest_slope))), */
+/* 				  gnm_expr_new_constant (value_new_string ("NA")))); */
+
+			gnm_expr_free (expr_linest_INTERCEPT);			
+			gnm_expr_free (expr_linest_slope);
+			gnm_expr_free (expr_data);
+			expr_season_est = gnm_expr_new_constant (value_new_int (1));
+			
+			for (time = 0; time > -info->s_period; time--)
+				dao_set_cell_array_expr (dao, col+3, time, gnm_expr_copy (expr_season_est));
+
+			gnm_expr_free (expr_season_est);
+		} else {
+			dao_set_cell (dao, col, 0, _("The multiplicative Holt-Winters exponential\n"
+						     "smoothing method requires at least 4\n"
+						     "output columns for each data set."));
+			dao_set_cell_comment (dao, col, 0, _("The multiplicative Holt-Winters exponential\n"
+							     "smoothing method requires at least 4\n"
+							     "output columns for each data set."));
+		}
+		
+		col += 4;
+		if (info->std_error_flag) {
+			int row;
+
+			dao_set_italic (dao, col, - info->s_period, col, - info->s_period);
+			dao_set_cell (dao, col, - info->s_period, _("Standard Error"));
+			
+			for (row = 1; row <= height; row++) {
+				if (row > 1 && (row - info->df) > 0) {
+					GnmExpr const *expr_stderr;
+					GnmExpr const *expr_denom;
+
+					expr_denom =  gnm_expr_new_binary
+						(gnm_expr_new_binary
+						 (make_rangeref (-2, - row, -2, -1),
+						  GNM_EXPR_OP_ADD,
+						  make_rangeref (-3, - row, -3, -1)),
+						 GNM_EXPR_OP_MULT,
+						 make_rangeref (-1, 1 - row - info->s_period, 
+								-1,  - info->s_period));
+					expr_stderr = gnm_expr_new_funcall1
+						(fd_sqrt,
+						 gnm_expr_new_binary
+						 (gnm_expr_new_funcall1
+						  (fd_sumsq,
+						   gnm_expr_new_binary
+						   (gnm_expr_new_binary
+						    (make_rangeref (-4, 1 - row, -4, 0),
+						     GNM_EXPR_OP_SUB,
+						     gnm_expr_copy (expr_denom)),
+						    GNM_EXPR_OP_DIV,
+						    expr_denom)),
+						  GNM_EXPR_OP_DIV,
+						  gnm_expr_new_constant (value_new_int
+									 (row - info->df))));
+					dao_set_cell_array_expr (dao, col, row, expr_stderr);
+				} else
+					dao_set_cell_na (dao, col, row);
+			}
+			col++;
+		}
+		gnm_expr_free (expr_input);
+	}
+
+	if (so != NULL)
+		dao_set_sheet_object (dao, 0, 1, so);
+
+	gnm_expr_free (expr_alpha);
+	gnm_expr_free (expr_gamma);
+	gnm_expr_free (expr_delta);
+	if (fd_sqrt != NULL)
+		gnm_func_unref (fd_sqrt);
+	if (fd_sumsq != NULL)
+		gnm_func_unref (fd_sumsq);
 	gnm_func_unref (fd_linest);
 	gnm_func_unref (fd_offset);
 	gnm_func_unref (fd_index);
@@ -988,7 +1313,6 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 
 	return FALSE;
 }
-
 
 gboolean
 analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao,
@@ -1016,7 +1340,8 @@ analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao,
 			n++;
 			m++;
 		}
-		if (info->es_type == exp_smoothing_type_ates) {
+		if (info->es_type == exp_smoothing_type_ates ||
+		    info->es_type == exp_smoothing_type_mtes) {
 			n += 4;
 			m += info->s_period;
 		}
@@ -1035,6 +1360,8 @@ analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao,
 	case TOOL_ENGINE_PERFORM_CALC:
 	default:
 		switch (info->es_type) {
+		case exp_smoothing_type_mtes:
+			return analysis_tool_exponential_smoothing_engine_mtes_run (dao, specs);
 		case exp_smoothing_type_ates:
 			return analysis_tool_exponential_smoothing_engine_ates_run (dao, specs);
 		case exp_smoothing_type_des:

@@ -2454,6 +2454,7 @@ exp_smoothing_ses_h_cb (GtkToggleButton *togglebutton, gpointer user_data)
 
 	gtk_widget_set_sensitive (state->g_damping_fact_entry, FALSE);
 	gtk_widget_set_sensitive (state->s_damping_fact_entry, FALSE);
+	gtk_widget_set_sensitive (state->s_period_entry, FALSE);
 	
 	std_error = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->n_button), TRUE);
@@ -2471,6 +2472,7 @@ exp_smoothing_ses_r_cb (GtkToggleButton *togglebutton, gpointer user_data)
 
 	gtk_widget_set_sensitive (state->g_damping_fact_entry, FALSE);
 	gtk_widget_set_sensitive (state->s_damping_fact_entry, FALSE);
+	gtk_widget_set_sensitive (state->s_period_entry, FALSE);
 	
 	std_error = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->nm1_button), TRUE);
@@ -2488,7 +2490,7 @@ exp_smoothing_des_cb (GtkToggleButton *togglebutton, gpointer user_data)
 
 	gtk_widget_set_sensitive (state->g_damping_fact_entry, TRUE);
 	gtk_widget_set_sensitive (state->s_damping_fact_entry, FALSE);
-
+	gtk_widget_set_sensitive (state->s_period_entry, FALSE);
 
 	std_error = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->nm2_button), TRUE);
@@ -2506,6 +2508,7 @@ exp_smoothing_tes_cb (GtkToggleButton *togglebutton, gpointer user_data)
 
 	gtk_widget_set_sensitive (state->g_damping_fact_entry, TRUE);
 	gtk_widget_set_sensitive (state->s_damping_fact_entry, TRUE);
+	gtk_widget_set_sensitive (state->s_period_entry, TRUE);
 
 	std_error = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->show_std_errors));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->nm3_button), TRUE);
@@ -2622,8 +2625,6 @@ dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 	exp_smoothing_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 	
-	gtk_widget_set_sensitive (state->mtes_button, FALSE);
-
         return 0;
 }
 

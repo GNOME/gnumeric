@@ -1,3 +1,8 @@
+2008-10-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-analysis-tools.c (exp_smoothing_*_cb): adjust sensitivity
+	  of seasonal period spin button
+
 2008-10-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tools.c (dialog_tool_init): use

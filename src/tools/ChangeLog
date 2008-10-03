@@ -1,3 +1,12 @@
+2008-10-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-exp-smoothing.c 
+	(analysis_tool_exponential_smoothing_engine_mtes_run): new
+	(analysis_tool_exponential_smoothing_engine): call
+	  analysis_tool_exponential_smoothing_engine_mtes_run
+	(analysis_tool_exponential_smoothing_engine_ates_run): drop
+	  unnecessary functions.
+
 2008-10-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	Fix for #554591
