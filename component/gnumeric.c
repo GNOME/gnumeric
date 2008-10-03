@@ -30,15 +30,23 @@
 #include <application.h>
 #include <cell.h>
 #include <cell-draw.h>
+#include <cellspan.h>
 #include <colrow.h>
+#include <gutils.h>
 #include <print-cell.h>
+#include <ranges.h>
 #include <rendered-value.h>
 #include <workbook-view.h>
-#include <workbook-control-gui-priv.h>
+#include <wbc-gtk-impl.h>
 #include <workbook.h>
 #include <selection.h>
 #include <sheet.h>
+#include <sheet-merge.h>
 #include <sheet-object-impl.h>
+#include <sheet-style.h>
+#include <style-border.h>
+#include <style-color.h>
+#include <print-cell.h>
 #include <sheet-object.h>
 #include <command-context.h>
 #include <command-context-stderr.h>
@@ -149,210 +157,15 @@ go_gnm_component_set_data (GOComponent *component)
 }
 
 static void
-cell_render_cairo (cairo_t *cairo, GnmCell *cell,
-		   ColRowInfo const *ci, ColRowInfo const *ri)
-{
-	GOColor fore_color;
-	int x, y;
-	GnmRenderedValue *rv = cell->rendered_value;
-
-	int width  = ci->size_pixels - (GNM_COL_MARGIN + GNM_COL_MARGIN + 1);
-	int height = ri->size_pixels - (GNM_ROW_MARGIN + GNM_ROW_MARGIN + 1);
-	int h_center = -1;
-	int x1 = 1 + GNM_COL_MARGIN;
-	int y1 = 1 + GNM_ROW_MARGIN;
-
-	if (!rv) {
-		gnm_cell_render_value (cell, FALSE);
-		rv = cell->rendered_value;
-	}
-
-	if (cell_calc_layout (cell, rv, +1,
-			width * PANGO_SCALE,
-			height * PANGO_SCALE,
-			h_center == -1 ? -1 : (h_center * PANGO_SCALE),
-			&fore_color, &x, &y)) {
-		cairo_new_path (cairo);
-		cairo_move_to (cairo, x1, y1);
-		cairo_line_to (cairo, x1 + width, y1);
-		cairo_line_to (cairo, x1 + width, y1 + height);
-		cairo_line_to (cairo, x1, y1 + height);
-		cairo_close_path (cairo);
-		cairo_clip (cairo);
-
-		cairo_set_source_rgb (cairo, UINT_RGBA_R(fore_color), UINT_RGBA_G(fore_color),  UINT_RGBA_B(fore_color));
-		if (rv->rotation) {
-			GnmRenderedRotatedValue *rrv = (GnmRenderedRotatedValue *)rv;
-			struct GnmRenderedRotatedValueInfo const *li = rrv->lines;
-			GSList *lines;
-			cairo_matrix_t m;
-			m.xx = rrv->rotmat.xx;
-			m.xy = rrv->rotmat.xy;
-			m.yx = rrv->rotmat.yx;
-			m.yy = rrv->rotmat.yy;
-			m.x0 = rrv->rotmat.x0;
-			m.y0 = rrv->rotmat.y0;
-
-			for (lines = pango_layout_get_lines (rv->layout);
-					lines;
-					lines = lines->next, li++) {
-				cairo_save (cairo);
-				cairo_move_to (cairo, PANGO_PIXELS (x + li->dx), PANGO_PIXELS (y + li->dy));
-				cairo_transform (cairo, &m);
-				pango_cairo_show_layout_line (cairo, lines->data);
-				cairo_restore (cairo);
-			}
-		} else {
-			cairo_move_to (cairo, x / PANGO_SCALE, y / PANGO_SCALE);
-			pango_cairo_show_layout (cairo, rv->layout);
-		}
-	}
-}
-
-static void
-go_gnm_component_draw (GOComponent *component, int width_pixels, int height_pixels)
-{
-	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
-	int col, row;
-	cairo_t *cairo;
-	GnmCell *cell;
-	double xoffset = 0., yoffset;
-	GSList *l;
-	SheetObject *so;
-	SheetObjectAnchor const *anchor;
-	ColRowInfo const *ci;
-	ColRowInfo const *ri;
-	GOImage *image;
-
-	if (gognm->wv == NULL)
-		return;
-	if (gognm->sheet == NULL)
-		return;
-	gdk_pixbuf_fill (component->pixbuf, 0);
-	image = go_image_new_from_pixbuf (component->pixbuf);
-	cairo = go_image_get_cairo (image);
-	cairo_scale (cairo, ((double) width_pixels) / gognm->width, ((double) height_pixels) / gognm->height);
-	for (col = gognm->col_start; col <= gognm->col_end; col++) {
-		ci = sheet_col_get_info (gognm->sheet, col);
-		if (!ci->visible)
-			continue;
-		yoffset = 0.;
-		for (row = gognm->row_start; row <= gognm->row_end; row++) {
-			ri = sheet_row_get_info (gognm->sheet, row);
-			if (!ri->visible)
-				continue;
-			cell = sheet_cell_get (gognm->sheet, col, row);
-			if (cell) {
-				cairo_save (cairo);
-				cairo_translate (cairo, xoffset, yoffset);
-				cairo_scale (cairo,
-					72. / gnm_app_display_dpi_get (TRUE),
-					72. / gnm_app_display_dpi_get (FALSE));
-				cell_render_cairo (cairo, cell, ci, ri);
-				cairo_restore (cairo);
-			}
-			yoffset += sheet_row_get_distance_pts (gognm->sheet, row, row + 1);
-		}
-		xoffset += sheet_col_get_distance_pts (gognm->sheet, col, col + 1);
-	}
-	/* Now render objects */
-	l = gognm->sheet->sheet_objects;
-	while (l) {
-		so = SHEET_OBJECT (l->data);
-		anchor = sheet_object_get_anchor (so);
-		/* test if the object overlaps the exposed range */
-		if ((anchor->cell_bound.start.col <= gognm->col_end) &&
-			(anchor->cell_bound.end.col >= gognm->col_start) &&
-			(anchor->cell_bound.start.row <= gognm->row_end) &&
-			(anchor->cell_bound.end.row >= gognm->row_start)) {
-			/* translate the origin to start cell of object */
-			xoffset = sheet_col_get_distance_pts (gognm->sheet, gognm->col_start,
-				anchor->cell_bound.start.col);
-			yoffset = sheet_row_get_distance_pts (gognm->sheet, gognm->row_start,
-				anchor->cell_bound.start.row);
-			cairo_save (cairo);
-			cairo_translate (cairo, xoffset, yoffset);
-			sheet_object_draw_cairo (so, (gpointer) cairo, TRUE);
-			cairo_restore (cairo);
-		}
-		l = l->next;
-	}
-	cairo_destroy (cairo);
-	go_image_get_pixbuf (image);
-	g_object_unref (image);
-}
-
-#if 0
-static void
-go_gnm_component_print (GOComponent *component, GnomePrintContext *gpc,
-												double width, double height)
+go_gnm_component_render (GOComponent *component, cairo_t *cr, double width_pixels, double height_pixels)
 {
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	GnmRange range;
-	GSList *l;
-	SheetObject *so;
-	SheetObjectAnchor const *anchor;
-	if (gognm->sheet == NULL)
-		return;
-	range.start.row = gognm->row_start;
-	range.start.col = gognm->col_start;
-	range.end.row = gognm->row_end;
-	range.end.col = gognm->col_end;
-	gnm_print_cell_range (gpc, gognm->sheet, &range, 0., height, TRUE);
-	/* Now print objects */
-	l = gognm->sheet->sheet_objects;
-	gnome_print_gsave (gpc);
-	gnome_print_translate (gpc, 0., height);
-	while (l) {
-		so = SHEET_OBJECT (l->data);
-		anchor = sheet_object_get_anchor (so);
-		/* test if the object overlaps the exposed range */
-		if ((anchor->cell_bound.start.col <= gognm->col_end) &&
-			(anchor->cell_bound.end.col >= gognm->col_start) &&
-			(anchor->cell_bound.start.row <= gognm->row_end) &&
-			(anchor->cell_bound.end.row >= gognm->row_start)) {
-			double xoffset = 0., yoffset, x = 0., y = 0., cell_width, cell_height;
-			/* translate the origin to start cell of object */
-			xoffset = sheet_col_get_distance_pts (gognm->sheet, gognm->col_start,
-				anchor->cell_bound.start.col);
-			yoffset = sheet_row_get_distance_pts (gognm->sheet, gognm->row_start,
-				anchor->cell_bound.start.row);
-			width = sheet_col_get_distance_pts (so->sheet,
-						anchor->cell_bound.start.col,
-						anchor->cell_bound.end.col + 1);
-			height = sheet_row_get_distance_pts (so->sheet,
-						anchor->cell_bound.start.row,
-						anchor->cell_bound.end.row + 1);
-			cell_width = sheet_col_get_distance_pts (so->sheet,
-						anchor->cell_bound.start.col,
-						anchor->cell_bound.start.col + 1);
-			cell_height = sheet_row_get_distance_pts (so->sheet,
-						anchor->cell_bound.start.row,
-						anchor->cell_bound.start.row + 1);
-			x = cell_width * anchor->offset[0];
-			width -= x;	
-			y = cell_height * anchor->offset[1];
-			height -= y;
-			cell_width = sheet_col_get_distance_pts (so->sheet,
-						anchor->cell_bound.end.col,
-						anchor->cell_bound.end.col + 1);
-			cell_height = sheet_row_get_distance_pts (so->sheet,
-						anchor->cell_bound.end.row,
-						anchor->cell_bound.end.row + 1);
-			width -= cell_width * (1. - anchor->offset[2]);
-			height -= cell_height * (1 - anchor->offset[3]);
 
-			gnome_print_gsave (gpc);
-			gnome_print_translate (gpc, xoffset + x, - yoffset - y);
-			sheet_object_print (so, gpc, width, height);
-			gnome_print_grestore (gpc);
-		}
-		l = l->next;
-	}
-	gnome_print_grestore (gpc);
+	range_init (&range, gognm->col_start, gognm->row_start, gognm->col_end, gognm->row_end);
+	cairo_scale (cr, ((double) width_pixels) / gognm->width, ((double) height_pixels) / gognm->height);
+	gnm_gtk_print_cell_range (NULL, cr, gognm->sheet, &range, 0., 0., TRUE);
 }
-
-#endif
 
 static void
 cb_gognm_save (GtkAction *a, WBCGtk *wbcg)
@@ -375,14 +188,14 @@ cb_editor_destroyed (GOGnmComponent *gognm)
 	gognm->edited = NULL;
 }
 
-static gboolean
+static GtkWindow*
 go_gnm_component_edit (GOComponent *component)
 {
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	WorkbookView *wv;
 	if (gognm->edited) {
-		gdk_window_raise (wbcg_toplevel (gognm->edited)->window);
-		return TRUE;
+		gdk_window_raise (gtk_widget_get_parent_window (GTK_WIDGET (wbcg_toplevel (gognm->edited))));
+		return wbcg_toplevel (gognm->edited);
 	}
 	if (!gognm->wv) {
 		component->ascent = 0.;
@@ -400,13 +213,13 @@ go_gnm_component_edit (GOComponent *component)
 	}
 	uifilename =  "Gnumeric-embed.xml";
 	gognm->edited = wbc_gtk_new (wv, NULL, NULL, NULL);
-	gtk_action_group_add_actions (wbcg->actions,
-		actions, G_N_ELEMENTS (actions), wbcg);
+	gtk_action_group_add_actions (gognm->edited->actions,
+		actions, G_N_ELEMENTS (actions), gognm->edited);
 
 	g_object_set_data (G_OBJECT (gognm->edited), "component", gognm);
 	g_signal_connect_swapped (gognm->edited->toplevel, "destroy",
 		G_CALLBACK (cb_editor_destroyed), gognm);
-	return TRUE;
+	return wbcg_toplevel (gognm->edited);
 }
 
 static void
@@ -447,7 +260,7 @@ go_gnm_component_class_init (GOComponentClass *klass)
 
 	klass->get_data = go_gnm_component_get_data;
 	klass->set_data = go_gnm_component_set_data;
-	klass->draw = go_gnm_component_draw;
+	klass->render = go_gnm_component_render;
 	klass->edit = go_gnm_component_edit;
 }
 
@@ -471,6 +284,8 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	module = go_plugin_get_type_module (plugin);
 	go_gnm_component_register_type (module);
 	gnm_init (FALSE);
+	if (!gnm_sys_data_dir ())
+		gutils_init ();
 	dir_list = go_slist_create (
 		g_build_filename (gnm_sys_lib_dir (), PLUGIN_SUBDIR, NULL),
 		(gnm_usr_dir () == NULL ? NULL :

@@ -1,3 +1,9 @@
+2008-10-03  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* Makefile.am: reimplemented the gnumeric goffice component.
+	* component/gnumeric.c: ditto.
+	* configure.in: ditto.
+
 2008-09-30  Morten Welinder  <terra@gnome.org>
 
 	* src/colrow.c (colrow_make_state): Remove.

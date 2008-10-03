@@ -1019,10 +1019,8 @@ AC_SUBST(MONO_LIBS)
 dnl **************************************************
 dnl * Goffice component stuff
 dnl **************************************************
-GOFFICE_PLUGINS_DIR=`pkg-config --variable=GOffice_plugins_dir $libgoffice`
+GOFFICE_PLUGINS_DIR=`pkg-config --variable=PluginDir libgoffice-0.8`
 AC_SUBST(GOFFICE_PLUGINS_DIR)
-GOFFICE_VERSION=`pkg-config --modversion $libgoffice`
-AC_SUBST(GOFFICE_VERSION)
 
 dnl **************************************************
 dnl * Config defaults (Must be after bonobo)
@@ -1127,6 +1125,7 @@ templates/autoformat/Makefile
 test/Makefile
 tools/Makefile
 tools/win32/gnumeric.nsi
+component/Makefile
 ])
 
 echo "

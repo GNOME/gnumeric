@@ -27,6 +27,7 @@ Andreas:
 Jean:
 	* Fix printing of rotated text. [#539734]
 	* Fix leakage in histogram tool. [#552596]
+	* Reimplemented the goffice component.
 
 Jody:
 	* Extend ssgrep to search VBA too.
