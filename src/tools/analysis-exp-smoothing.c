@@ -53,7 +53,7 @@ analysis_tool_exp_smoothing_funcall5 (GnmFunc *fd, GnmExpr const *ex, int y, int
 	list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (dy))); 
 	list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (x))); 
 	list = gnm_expr_list_prepend (list, gnm_expr_new_constant (value_new_int (y))); 
-	list = gnm_expr_list_prepend (list, gnm_expr_copy (ex));
+	list = gnm_expr_list_prepend (list, ex);
 
 	return gnm_expr_new_funcall (fd, list);
 }
@@ -220,7 +220,7 @@ analysis_tool_exponential_smoothing_engine_ses_h_run (data_analysis_output_t *da
 						delta_y = row - 1;
 					
 					expr_offset = analysis_tool_exp_smoothing_funcall5 
-						(fd_offset, expr_input, y, x, delta_y, delta_x);
+						(fd_offset, gnm_expr_copy (expr_input), y, x, delta_y, delta_x);
 					dao_set_cell_expr (dao, col, row,
 							   gnm_expr_new_funcall1 
 							   (fd_sqrt,
@@ -358,7 +358,7 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (data_analysis_output_t *da
 		*mover = 5;
 		dao_set_cell_expr (dao, col, 1, gnm_expr_new_funcall1
 				   (fd_average, 
-				    analysis_tool_exp_smoothing_funcall5 (fd_offset, expr_input , 0, 0, y, x)));
+				    analysis_tool_exp_smoothing_funcall5 (fd_offset, gnm_expr_copy (expr_input), 0, 0, y, x)));
 		x = 1;
 		y = 1;
 		(*mover) = 1;
@@ -400,7 +400,7 @@ analysis_tool_exponential_smoothing_engine_ses_r_run (data_analysis_output_t *da
 						delta_y = row - 1;
 					
 					expr_offset = analysis_tool_exp_smoothing_funcall5 
-						(fd_offset, expr_input, y, x, delta_y, delta_x);
+						(fd_offset, gnm_expr_copy (expr_input), y, x, delta_y, delta_x);
 					dao_set_cell_expr (dao, col, row,
 							   gnm_expr_new_funcall1 
 							   (fd_sqrt,
@@ -547,7 +547,7 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 			*mover = 5;
 			expr_linest = gnm_expr_new_funcall1
 				(fd_linest, 
-				 analysis_tool_exp_smoothing_funcall5 (fd_offset, expr_input , 0, 0, y, x));
+				 analysis_tool_exp_smoothing_funcall5 (fd_offset, gnm_expr_copy (expr_input), 0, 0, y, x));
 			dao_set_cell_expr (dao, col, 1, 
 					   gnm_expr_new_funcall3 (fd_index, 
 								  gnm_expr_copy (expr_linest),
@@ -624,7 +624,7 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 						delta_y = row - 1;
 					
 					expr_offset = analysis_tool_exp_smoothing_funcall5 
-						(fd_offset, expr_input, y, x, delta_y, delta_x);
+						(fd_offset, gnm_expr_copy (expr_input), y, x, delta_y, delta_x);
 
 					dao_set_cell_expr (dao, col, row,
 								 gnm_expr_new_funcall1 
@@ -1118,10 +1118,10 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 			starting_length = 4 * info->s_period;
 			if (starting_length > height)
 				starting_length = height;
-			expr_data = dao_get_rangeref (dao, col, 1, col, height);
-			expr_linest = gnm_expr_new_funcall1
-				(fd_linest, 
-				 analysis_tool_exp_smoothing_funcall5 (fd_offset, expr_data, 0, 0, starting_length, 1));
+			expr_data = analysis_tool_exp_smoothing_funcall5 (fd_offset,
+									  dao_get_rangeref (dao, col, 1, col, height), 
+									  0, 0, starting_length, 1);
+			expr_linest = gnm_expr_new_funcall1 (fd_linest, gnm_expr_copy (expr_data));
 			dao_set_cell_expr (dao, col+1, 0,
 					   gnm_expr_new_funcall3 (fd_index,
 								  gnm_expr_copy (expr_linest),
@@ -1200,40 +1200,38 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 			}
 
 			/* We still need to calculate the estimates for the seasonal adjustment. */
+			/* = average(if(mod(row(expr_data)-row(),4)=0,expr_data/($E$7+$F$7*$C$8:$C$23),"NA")) */
 
-/* 			expr_season_est = gnm_expr_new_funcall1  */
-/* 				(fd_average, */
-/* 				 gnm_expr_new_funcall3 */
-/* 				 (fd_if, */
-/* 				  gnm_expr_new_binary  */
-/* 				  (gnm_expr_new_funcall2 */
-/* 				   (fd_mod, */
-/* 				    gnm_expr_new_binary  */
-/* 				    (gnm_expr_new_funcall1 */
-/* 				     (fd_row,  */
-/* 				      gnm_expr_copy (expr_data)), */
-/* 				     GNM_EXPR_OP_SUB, */
-/* 				     gnm_expr_new_funcall (fd_row, NULL)), */
-/* 				    gnm_expr_new_constant (value_new_int (info->s_period))), */
-/* 				   GNM_EXPR_OP_EQUAL, */
-/* 				   gnm_expr_new_constant (value_new_int (0))), */
-/* 				  gnm_expr_new_binary */
-/* 				  (expr_data, */
-/* 				   GNM_EXPR_OP_SUB, */
-/* 					  gnm_expr_new_binary */
-/* 				  (expr_linest_intercept, */
-/* 				   GNM_EXPR_OP_ADD, */
-/* 				   gnm_expr_new_binary */
-/* 				   (dao_get_rangeref (dao, -1, 1, -1, height), */
-/* 				    GNM_EXPR_OP_MULT, */
-/* 				    expr_linest_slope))), */
-/* 				  gnm_expr_new_constant (value_new_string ("NA")))); */
+			expr_season_est = gnm_expr_new_funcall1
+				(fd_average,
+				 gnm_expr_new_funcall3
+				 (fd_if,
+				  gnm_expr_new_binary
+				  (gnm_expr_new_funcall2
+				   (fd_mod,
+				    gnm_expr_new_binary
+				    (gnm_expr_new_funcall1
+				     (fd_row,
+				      gnm_expr_copy (expr_data)),
+				     GNM_EXPR_OP_SUB,
+				     gnm_expr_new_funcall (fd_row, NULL)),
+				    gnm_expr_new_constant (value_new_int (info->s_period))),
+				   GNM_EXPR_OP_EQUAL,
+				   gnm_expr_new_constant (value_new_int (0))),
+				  gnm_expr_new_binary
+				  (expr_data,
+				   GNM_EXPR_OP_DIV,
+					  gnm_expr_new_binary
+				  (expr_linest_intercept,
+				   GNM_EXPR_OP_ADD,
+				   gnm_expr_new_binary
+				   (analysis_tool_exp_smoothing_funcall5 
+				    (fd_offset, dao_get_rangeref 
+				     (dao, -1, 1, -1, height), 0, 0, starting_length, 1),
+				    GNM_EXPR_OP_MULT,
+				    expr_linest_slope))),
+				  gnm_expr_new_constant (value_new_string ("NA"))));
 
-			gnm_expr_free (expr_linest_intercept);			
-			gnm_expr_free (expr_linest_slope);
-			gnm_expr_free (expr_data);
-			expr_season_est = gnm_expr_new_constant (value_new_int (1));
-			
 			for (time = 0; time > -info->s_period; time--)
 				dao_set_cell_array_expr (dao, col+3, time, gnm_expr_copy (expr_season_est));
 

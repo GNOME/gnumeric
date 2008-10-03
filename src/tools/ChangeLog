@@ -1,3 +1,10 @@
+2008-10-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-exp-smoothing.c 
+	(analysis_tool_exponential_smoothing_engine_mtes_run): improved
+	  estimate for seasonal adjustments
+	(analysis_tool_exp_smoothing_funcall5): don't copy ex, change all callers
+
 2008-10-03  Jody Goldberg <jody@gnome.org>
 
 	* analysis-exp-smoothing.c
