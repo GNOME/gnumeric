@@ -597,7 +597,7 @@ summary_cb (int col, int row, GnmValue *v, summary_cb_t *p)
 	
 		/* Insert row number into the hash table. */
 		r  = g_new (int, 1);
-		*r = row;
+		*r = p->row;
 		g_hash_table_insert (p->names, tmp, r);
 		
 		/* Increment the nbr of rows. */

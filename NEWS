@@ -21,6 +21,7 @@ Andreas:
 	* Fix and improve exponential smoothing tool. [#553267]
 	* Added Holt's trend corrected exponential smoothing. [#385467]
 	* Added additive Holt-Winters exponential smoothing.
+	* Fix scenario report shift. [#554591]
 
 Jean:
 	* Fix printing of rotated text. [#539734]

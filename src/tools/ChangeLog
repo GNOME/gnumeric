@@ -1,5 +1,10 @@
 2008-10-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	Fix for #554591
+	* scenarios.c (summary_cb): save the row number of the table.
+
+2008-10-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-exp-smoothing.h 
 	(analysis_tools_data_exponential_smoothing_t): add field
 	* analysis-exp-smoothing.c (attach_series): this should not
