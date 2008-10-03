@@ -51,8 +51,8 @@
 	</dependencies>
     </autotools>
 -->
-    <tarball id="glib" version="2.18.0">
-	<source href="http://download.gnome.org/sources/glib/2.18/glib-2.18.0.tar.bz2" />
+    <tarball id="glib" version="2.18.1">
+	<source href="http://download.gnome.org/sources/glib/2.18/glib-2.18.1.tar.bz2" />
 	<patches>
 		<patch file="http://www.gnome.org/~aruiz/gtk+/patches/glib_win32_cachefile.patch"/>
 		<patch file="&patch_dir;glib-goption-disable-localization.patch"/>
@@ -183,8 +183,8 @@
     </autotools>
     -->
 
-    <tarball id="gtk+" version="2.14.1">
-	<source href="http://download.gnome.org/sources/gtk+/2.14/gtk+-2.14.1.tar.bz2" />
+    <tarball id="gtk+" version="2.14.3">
+	<source href="http://download.gnome.org/sources/gtk+/2.14/gtk+-2.14.3.tar.bz2" />
 	<patches>
 	</patches>
 	<dependencies>
