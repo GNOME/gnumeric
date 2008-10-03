@@ -1,5 +1,11 @@
 2008-10-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	Fix for #553342
+	* src/workbook-view.c (wb_view_selection_desc): add translator
+	  comments
+	
+2008-10-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	Fix for #554818
 	* src/stf.c (stf_text_to_columns): don't use markup
 	  in the error message

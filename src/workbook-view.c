@@ -352,10 +352,13 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 			int cols = r->end.col - r->start.col + 1;
 
 			if (rows == gnm_sheet_get_max_rows (sv->sheet))
+        /* Translators: "%dC" is a very short format to indicate the number of full columns */
 				snprintf (buffer, sizeof (buffer), _("%dC"), cols);
 			else if (cols == gnm_sheet_get_max_cols (sv->sheet))
+        /* Translators: "%dR" is a very short format to indicate the number of full rows */
 				snprintf (buffer, sizeof (buffer), _("%dR"), rows);
 			else
+        /* Translators: "%dR x %dC" is a very short format to indicate the number of rows and columns */
 				snprintf (buffer, sizeof (buffer), _("%dR x %dC"),
 					  rows, cols);
 		}
