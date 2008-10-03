@@ -1,3 +1,9 @@
+2008-10-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	Fix for #554818
+	* src/stf.c (stf_text_to_columns): don't use markup
+	  in the error message
+
 2008-10-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* Makefile.am: reimplemented the gnumeric goffice component.

@@ -23,6 +23,7 @@ Andreas:
 	* Added additive Holt-Winters exponential smoothing.
 	* Fix scenario report shift. [#554591]
 	* Added multiplicative Holt-Winters exponential smoothing.
+	* Fix minor bugs. [#554818]
 
 Jean:
 	* Fix printing of rotated text. [#539734]

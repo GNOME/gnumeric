@@ -273,7 +273,7 @@ stf_text_to_columns (WorkbookControl *wbc, GOCmdContext *cc)
 		return;
 	if (range_width	(src) > 1) {
 		go_cmd_context_error (cc, g_error_new (go_error_invalid (), 0,
-			_("Only one column of <b>input</b> data can be parsed at a time")));
+			_("Only one column of input data can be parsed at a time")));
 		return;
 	}
 
