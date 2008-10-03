@@ -20,6 +20,7 @@ Andreas:
 	* Add Spencer's 15-point moving average.
 	* Fix and improve exponential smoothing tool. [#553267]
 	* Added Holt's trend corrected exponential smoothing. [#385467]
+	* Added additive Holt-Winters exponential smoothing.
 
 Jean:
 	* Fix printing of rotated text. [#539734]

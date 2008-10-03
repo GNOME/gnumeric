@@ -657,7 +657,7 @@ set_cell_text_col (data_analysis_output_t *dao, int col, int row, const char *te
 /*
  * Set a row of text from a string like "/first/second/third" or "|foo|bar|baz".
  */
-static void
+void
 set_cell_text_row (data_analysis_output_t *dao, int col, int row, const char *text)
 {
 	gboolean leave = 0;
@@ -719,6 +719,8 @@ int analysis_tool_calc_length (analysis_tools_data_generic_t *info)
 		if (given_length > result)
 			result = given_length;
 	}
+	if (info->labels)
+		result--;
 	return result;
 }
 

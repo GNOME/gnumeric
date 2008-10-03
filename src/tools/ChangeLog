@@ -1,5 +1,19 @@
 2008-10-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-exp-smoothing.h 
+	(analysis_tools_data_exponential_smoothing_t): add field
+	* analysis-exp-smoothing.c (attach_series): this should not
+	  be called without a plot. Check for null plot before every call
+	  to avoid creating unnecessary expressions
+	(analysis_tool_exponential_smoothing_engine_ates_run): new
+	(analysis_tool_exponential_smoothing_engine): call 
+	  analysis_tool_exponential_smoothing_engine_ates_run if appropriate
+	* analysis-tools.h (set_cell_text_row): new
+	* analysis-tools.c (set_cell_text_row): make non-static
+	(analysis_tool_calc_length): account for labels
+
+2008-10-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dao.c: include goffice/utils/go-glib-extras.h
 
 2008-10-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>

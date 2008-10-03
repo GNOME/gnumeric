@@ -48,6 +48,7 @@ typedef struct {
 	gnm_float damp_fact;
 	gnm_float g_damp_fact;
 	gnm_float s_damp_fact;
+	int s_period;
 	int std_error_flag;
 	int df;
 	gboolean show_graph;
