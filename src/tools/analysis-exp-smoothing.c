@@ -1229,7 +1229,7 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 /* 				    expr_linest_slope))), */
 /* 				  gnm_expr_new_constant (value_new_string ("NA")))); */
 
-			gnm_expr_free (expr_linest_INTERCEPT);			
+			gnm_expr_free (expr_linest_intercept);			
 			gnm_expr_free (expr_linest_slope);
 			gnm_expr_free (expr_data);
 			expr_season_est = gnm_expr_new_constant (value_new_int (1));
