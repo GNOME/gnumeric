@@ -475,6 +475,10 @@ dialog_tool_init (GenericToolState *state,
 
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog), key);
 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), state->wbcg,
+					   GNM_DIALOG_DESTROY_SHEET_REMOVED | 
+					   GNM_DIALOG_DESTROY_SHEET_RENAMED);
+
 	return FALSE;
 
  dialog_tool_init_error:

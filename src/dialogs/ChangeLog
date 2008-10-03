@@ -1,5 +1,10 @@
 2008-10-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-analysis-tools.c (dialog_tool_init): use
+	  gnm_dialog_setup_destroy_handlers
+
+2008-10-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* exp-smoothing.glade: added seasonal period entry
 	* dialog-analysis-tools.c (exp_smoothing_tool_update_sensitivity_cb):
 	  handle seasonal period
