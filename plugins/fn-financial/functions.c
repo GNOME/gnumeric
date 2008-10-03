@@ -1935,66 +1935,47 @@ static GnmFuncHelp const help_xirr[] = {
 };
 
 typedef struct {
-        int     n;
-        gnm_float *values;
-        gnm_float *dates;
+        int n;
+        const gnm_float *values;
+        const gnm_float *dates;
 } gnumeric_xirr_t;
 
 static GoalSeekStatus
 xirr_npv (gnm_float rate, gnm_float *y, void *user_data)
 {
-	gnumeric_xirr_t *p = user_data;
-	gnm_float *values, *dates, sum;
-        int i, n;
+	const gnumeric_xirr_t *p = user_data;
+	gnm_float sum = 0;
+        int i;
 
-	values = p->values;
-	dates = p->dates;
-	n = p->n;
-
-	sum = 0;
-	for (i = 0; i < n; i++) {
-		gnm_float d = dates[i] - dates[0];
+	for (i = 0; i < p->n; i++) {
+		gnm_float d = p->dates[i] - p->dates[0];
 
 		if (d < 0)
 			return GOAL_SEEK_ERROR;
-		sum += values[i] / pow1p (rate, d / 365.0);
+		sum += p->values[i] / pow1p (rate, d / 365.0);
 	}
 
 	*y = sum;
 	return GOAL_SEEK_OK;
 }
 
-static GnmValue *
-gnumeric_xirr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+static int
+gnm_range_xirr (gnm_float const *xs, const gnm_float *ys,
+		int n, gnm_float *res, gpointer user)
 {
-	GoalSeekData    data;
-	GoalSeekStatus  status;
-	GnmValue           *result = NULL;
 	gnumeric_xirr_t p;
-	gnm_float      rate0;
-	int             n, d_n;
+	gnm_float rate0 = *(gnm_float *)user;
+	GoalSeekData data;
+	GoalSeekStatus status;
+
+	p.dates = ys;
+	p.values = xs;
+	p.n = n;
 
 	goal_seek_initialize (&data);
 	data.xmin = -1;
 	data.xmax = MIN (1000, data.xmax);
 
-	rate0 = argv[2] ? value_get_as_float (argv[2]) : 0.1;
-
-	p.values = collect_floats_value (argv[0], ei->pos,
-					 COLLECT_COERCE_STRINGS,
-					 &n, &result);
-	p.dates = NULL;
-
-	if (result != NULL)
-		goto out;
-
-	p.dates = collect_floats_value (argv[1], ei->pos,
-					COLLECT_COERCE_STRINGS,
-					&d_n, &result);
-	if (result != NULL)
-		goto out;
-
-	p.n = n;
 	status = goal_seek_newton (&xirr_npv, NULL, &data, &p, rate0);
 	if (status != GOAL_SEEK_OK) {
 		int i;
@@ -2007,16 +1988,30 @@ gnumeric_xirr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		}
 	}
 
-	if (status == GOAL_SEEK_OK)
-		result = value_new_float (data.root);
-	else
-		result = value_new_error_NUM (ei->pos);
+	if (status == GOAL_SEEK_OK) {
+		*res = data.root;
+		return 0;
+	}
 
- out:
-	g_free (p.values);
-	g_free (p.dates);
+	return 1;
+}
 
-	return result;
+
+static GnmValue *
+gnumeric_xirr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float rate0 = argv[2] ? value_get_as_float (argv[2]) : 0.1;
+
+	/* Strings in a constant array need to be coerced -- finfuns.xls  */
+	/* FIXME: check strings in ranges and weep.  */
+	return float_range_function2d (argv[0], argv[1],
+				       ei,
+				       gnm_range_xirr,
+				       COLLECT_IGNORE_BLANKS |
+				       COLLECT_COERCE_STRINGS |
+				       COLLECT_IGNORE_BOOLS,
+				       GNM_ERROR_VALUE,
+				       &rate0);
 }
 
 /***************************************************************************/

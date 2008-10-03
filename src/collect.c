@@ -342,11 +342,12 @@ gnm_strip_missing (GArray *data, GSList *missing)
 }
 
 GnmValue *
-float_range_function2 (GnmValue const *val0, GnmValue const *val1,
-		       GnmFuncEvalInfo *ei,
-		       float_range_function2_t func,
-		       CollectFlags flags,
-		       GnmStdError func_error)
+float_range_function2d (GnmValue const *val0, GnmValue const *val1,
+			GnmFuncEvalInfo *ei,
+			float_range_function2d_t func,
+			CollectFlags flags,
+			GnmStdError func_error,
+			gpointer data)
 {
 	gnm_float *vals0, *vals1;
 	int n0, n1;
@@ -403,7 +404,7 @@ float_range_function2 (GnmValue const *val0, GnmValue const *val1,
 			}
 		}
 
-		if (func (vals0, vals1, n0, &fres))
+		if (func (vals0, vals1, n0, &fres, data))
 			res = value_new_error_std (ei->pos, func_error);
 		else
 			res = value_new_float (fres);
@@ -412,6 +413,20 @@ float_range_function2 (GnmValue const *val0, GnmValue const *val1,
 	g_free (vals0);
 	g_free (vals1);
 	return res;
+}
+
+GnmValue *
+float_range_function2 (GnmValue const *val0, GnmValue const *val1,
+		       GnmFuncEvalInfo *ei,
+		       float_range_function2_t func,
+		       CollectFlags flags,
+		       GnmStdError func_error)
+{
+	return float_range_function2d (val0, val1, ei,
+				       (float_range_function2d_t)func,
+				       flags,
+				       func_error,
+				       NULL);
 }
 
 /* ------------------------------------------------------------------------- */

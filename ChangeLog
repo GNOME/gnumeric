@@ -1,3 +1,9 @@
+2008-10-03  Morten Welinder  <terra@gnome.org>
+
+	* src/collect.c (float_range_function2d): New function.
+	(float_range_function2): Implement in terms on
+	float_range_function2d.
+
 2008-10-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	Fix for #553342
