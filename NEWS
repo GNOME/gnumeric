@@ -28,6 +28,7 @@ Andreas:
 Jean:
 	* Fix printing of rotated text. [#539734]
 	* Fix leakage in histogram tool. [#552596]
+	* Fix horizontal position of sheet objects in print. [#554993]
 	* Reimplemented the goffice component.
 
 Jody:

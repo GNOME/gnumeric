@@ -8,8 +8,7 @@
 
 G_BEGIN_DECLS
 
-void gnm_gtk_print_cell_range (GtkPrintContext *print_context,
-			       cairo_t *context,
+void gnm_gtk_print_cell_range (cairo_t *context,
 			       Sheet const *sheet, GnmRange *range,
 			       double base_x, double base_y,
 			       gboolean hide_grid);

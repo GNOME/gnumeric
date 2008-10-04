@@ -167,30 +167,15 @@ go_gnm_component_render (GOComponent *component, cairo_t *cr, double width_pixel
 	SheetObjectAnchor const *anchor;
 
 	range_init (&range, gognm->col_start, gognm->row_start, gognm->col_end, gognm->row_end);
+	cairo_save (cr);
+	cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
 	cairo_scale (cr, ((double) width_pixels) / gognm->width, ((double) height_pixels) / gognm->height);
-	gnm_gtk_print_cell_range (NULL, cr, gognm->sheet, &range, 0., 0., TRUE);
+	cairo_rectangle (cr, 0., 0., gognm->width, gognm->height);
+	cairo_clip (cr); /* not sure it is necessary */
+	gnm_gtk_print_cell_range (cr, gognm->sheet, &range, 0., 0., TRUE);
 	/* Now render objects */
-	l = gognm->sheet->sheet_objects;
-	while (l) {
-		so = SHEET_OBJECT (l->data);
-		anchor = sheet_object_get_anchor (so);
-		/* test if the object overlaps the exposed range */
-		if ((anchor->cell_bound.start.col <= gognm->col_end) &&
-			(anchor->cell_bound.end.col >= gognm->col_start) &&
-			(anchor->cell_bound.start.row <= gognm->row_end) &&
-			(anchor->cell_bound.end.row >= gognm->row_start)) {
-			/* translate the origin to start cell of object */
-			xoffset = sheet_col_get_distance_pts (gognm->sheet, gognm->col_start,
-				anchor->cell_bound.start.col);
-			yoffset = sheet_row_get_distance_pts (gognm->sheet, gognm->row_start,
-				anchor->cell_bound.start.row);
-			cairo_save (cr);
-			cairo_translate (cr, xoffset, yoffset);
-			sheet_object_draw_cairo (so, cr, TRUE);
-			cairo_restore (cr);
-		}
-		l = l->next;
-	}
+	gnm_print_sheet_objects (cr, gognm->sheet, &range, 0., 0.);
+	cairo_restore (cr);
 }
 
 static void

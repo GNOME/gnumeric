@@ -118,18 +118,16 @@ printing_instance_delete (PrintingInstance *pi)
 	g_free (pi);
 }
 
-static void
-print_sheet_objects (GtkPrintContext   *context,
-		     cairo_t *cr,
-		     Sheet const *sheet,
-		     GnmRange *range,
-		     double base_x, double base_y)
+void
+gnm_print_sheet_objects (cairo_t *cr,
+			 Sheet const *sheet,
+			 GnmRange *range,
+			 double base_x, double base_y)
 {
 	GSList *ptr, *objects;
 	double width, height;
 
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (context != NULL);
 	g_return_if_fail (cr != NULL);
 	g_return_if_fail (range != NULL);
 
@@ -164,22 +162,22 @@ print_sheet_objects (GtkPrintContext   *context,
 		/* move to top left */
 		if (sheet->text_is_rtl) {
 			double tr_x, tr_y;
-			tr_x =  base_x
+			tr_x =  base_x - 0.5 /* because of leading gridline */
 				- sheet_col_get_distance_pts (sheet, 0, r->end.col+1)
 				+ sheet_col_get_distance_pts (sheet, 0,
 							      range->start.col);
-			tr_y = - base_y
+			tr_y =  base_y + 0.5
 				+ sheet_row_get_distance_pts (sheet, 0, r->start.row)
 				- sheet_row_get_distance_pts (sheet, 0,
 							      range->start.row);
 			cairo_translate (cr, tr_x, tr_y);
 		} else
 			cairo_translate (cr,
-					 - base_x
+					 base_x + 0.5
 					 + sheet_col_get_distance_pts (sheet, 0, r->start.col)
 					 - sheet_col_get_distance_pts (sheet, 0,
 								       range->start.col),
-					 - base_y
+					 base_y + 0.5
 					 + sheet_row_get_distance_pts (sheet, 0, r->start.row)
 					 - sheet_row_get_distance_pts (sheet, 0,
 								       range->start.row));
@@ -199,9 +197,9 @@ print_page_cells (GtkPrintContext   *context, PrintingInstance * pi,
 		  double base_x, double base_y)
 {	PrintInformation const *pinfo = sheet->print_info;
 
-	gnm_gtk_print_cell_range (context, cr, sheet, range,
+	gnm_gtk_print_cell_range (cr, sheet, range,
 				  base_x, base_y, !pinfo->print_grid_lines);
-	print_sheet_objects (context, cr, sheet, range, base_x, base_y);
+	gnm_print_sheet_objects (cr, sheet, range, base_x, base_y);
 }
 
 static void

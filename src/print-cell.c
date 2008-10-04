@@ -256,7 +256,7 @@ merged_col_cmp (GnmRange const *a, GnmRange const *b)
 
 
 void
-gnm_gtk_print_cell_range (GtkPrintContext *print_context, cairo_t *context,
+gnm_gtk_print_cell_range (cairo_t *context,
 			  Sheet const *sheet, GnmRange *range,
 			  double base_x, double base_y,
 			  gboolean hide_grid)

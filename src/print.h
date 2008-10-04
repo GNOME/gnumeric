@@ -4,6 +4,7 @@
 
 #include "gnumeric.h"
 #include <gsf/gsf-output.h>
+#include <cairo.h>
 
 G_BEGIN_DECLS
 
@@ -24,6 +25,11 @@ typedef enum {
 void gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 		      gboolean preview, PrintRange default_range,
 		      GsfOutput *export_dst);
+
+void gnm_print_sheet_objects (cairo_t *cr,
+			      Sheet const *sheet,
+			      GnmRange *range,
+			      double base_x, double base_y);
 
 /* Internal */
 extern gboolean gnm_print_debug;

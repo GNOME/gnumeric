@@ -1,5 +1,16 @@
 2008-10-04  Jean Brefort  <jean.brefort@normalesup.org>
 
+	* component/gnumeric.c: render sheet objects using
+	gnm_print_sheet_objects, and fixed cap for cell borders.
+	* src/print-cell.c: removed the unused GtkPrintContext* argument.
+	* src/print-cell.h: ditto.
+	* src/print.c: renamed print_sheet_objects to gnm_print_sheet_objects,
+	made it public, removed the unused GtkPrintContext* argument, and
+	fixed objects position in layout (#554993).
+	* src/print.h: ditto.
+
+2008-10-04  Jean Brefort  <jean.brefort@normalesup.org>
+
 	* component/gnumeric.c: (go_gnm_component_render): also render sheet
 	objects.
 
