@@ -1,3 +1,8 @@
+2008-10-04  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* component/gnumeric.c: (go_gnm_component_render): also render sheet
+	objects.
+
 2008-10-03  Morten Welinder  <terra@gnome.org>
 
 	* src/collect.c (float_range_function2d): New function.
