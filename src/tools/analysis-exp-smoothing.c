@@ -1065,10 +1065,12 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 		GnmExpr const *expr_trend;
 		GnmExpr const *expr_season;
 		GnmExpr const *expr_season_est;
+		GnmExpr const *expr_season_denom;
 		GnmExpr const *expr_data;
 		GnmExpr const *expr_linest_intercept;
 		GnmExpr const *expr_linest_slope;
-		gint height, starting_length;
+		gint height, starting_length, i;
+		GnmExprList *args = NULL;
 
 		if (dao_cell_is_visible (dao, col+3, 1))
 		{
@@ -1201,6 +1203,39 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 
 			/* We still need to calculate the estimates for the seasonal adjustment. */
 			/* = average(if(mod(row(expr_data)-row(),4)=0,expr_data/($E$7+$F$7*$C$8:$C$23),"NA")) */
+			for (i = 0; i<info->s_period; i++) {
+				expr_season_est = gnm_expr_new_funcall1
+					(fd_average,
+					 gnm_expr_new_funcall3
+					 (fd_if,
+					  gnm_expr_new_binary
+					  (gnm_expr_new_funcall2
+					   (fd_mod,
+					    gnm_expr_new_binary
+					    (gnm_expr_new_funcall1
+					     (fd_row,
+					      gnm_expr_copy (expr_data)),
+					     GNM_EXPR_OP_SUB,
+					     gnm_expr_new_constant (value_new_int (i))),
+					    gnm_expr_new_constant (value_new_int (info->s_period))),
+					   GNM_EXPR_OP_EQUAL,
+					   gnm_expr_new_constant (value_new_int (0))),
+					  gnm_expr_new_binary
+					  (gnm_expr_copy (expr_data),
+					   GNM_EXPR_OP_DIV,
+					   gnm_expr_new_binary
+					   (gnm_expr_copy (expr_linest_intercept),
+					    GNM_EXPR_OP_ADD,
+					    gnm_expr_new_binary
+					    (analysis_tool_exp_smoothing_funcall5 
+					     (fd_offset, dao_get_rangeref 
+					      (dao, -1, 1, -1, height), 0, 0, starting_length, 1),
+					     GNM_EXPR_OP_MULT,
+					     gnm_expr_copy (expr_linest_slope)))),
+					  gnm_expr_new_constant (value_new_string ("NA"))));
+				args = gnm_expr_list_prepend (args, expr_season_est);
+			}
+			expr_season_denom = gnm_expr_new_funcall (fd_average, args);
 
 			expr_season_est = gnm_expr_new_funcall1
 				(fd_average,
@@ -1221,16 +1256,20 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 				  gnm_expr_new_binary
 				  (expr_data,
 				   GNM_EXPR_OP_DIV,
-					  gnm_expr_new_binary
-				  (expr_linest_intercept,
-				   GNM_EXPR_OP_ADD,
 				   gnm_expr_new_binary
-				   (analysis_tool_exp_smoothing_funcall5 
-				    (fd_offset, dao_get_rangeref 
-				     (dao, -1, 1, -1, height), 0, 0, starting_length, 1),
-				    GNM_EXPR_OP_MULT,
-				    expr_linest_slope))),
+				   (expr_linest_intercept,
+				    GNM_EXPR_OP_ADD,
+				    gnm_expr_new_binary
+				    (analysis_tool_exp_smoothing_funcall5 
+				     (fd_offset, dao_get_rangeref 
+				      (dao, -1, 1, -1, height), 0, 0, starting_length, 1),
+				     GNM_EXPR_OP_MULT,
+				     expr_linest_slope))),
 				  gnm_expr_new_constant (value_new_string ("NA"))));
+			
+			expr_season_est = gnm_expr_new_binary (expr_season_est, 
+							       GNM_EXPR_OP_DIV,
+							       expr_season_denom);
 
 			for (time = 0; time > -info->s_period; time--)
 				dao_set_cell_array_expr (dao, col+3, time, gnm_expr_copy (expr_season_est));
