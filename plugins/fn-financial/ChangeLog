@@ -1,3 +1,7 @@
+2008-10-07  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_xirr): Booleans should cause an error.
+
 2008-10-03  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_xirr): Use float_range_function2d to

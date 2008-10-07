@@ -2002,14 +2002,11 @@ gnumeric_xirr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float rate0 = argv[2] ? value_get_as_float (argv[2]) : 0.1;
 
-	/* Strings in a constant array need to be coerced -- finfuns.xls  */
-	/* FIXME: check strings in ranges and weep.  */
 	return float_range_function2d (argv[0], argv[1],
 				       ei,
 				       gnm_range_xirr,
 				       COLLECT_IGNORE_BLANKS |
-				       COLLECT_COERCE_STRINGS |
-				       COLLECT_IGNORE_BOOLS,
+				       COLLECT_COERCE_STRINGS,
 				       GNM_ERROR_VALUE,
 				       &rate0);
 }
