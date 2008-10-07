@@ -1,3 +1,13 @@
+2008-10-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* C/figures/analysistools-exp-smoothing-a-holt-winters-formula.png: new
+	* C/figures/analysistools-exp-smoothing-holt-formula.png
+	* C/figures/analysistools-exp-smoothing-hunter-formula.png
+	* C/figures/analysistools-exp-smoothing-m-holt-winters-formula.png
+	* C/figures/analysistools-exp-smoothing-roberts-formula.png
+	* C/figures/Makefile.am: add above files
+	* C/analysis-statistical.xml: Add to exponential smoothing description.
+
 2008-08-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.2
