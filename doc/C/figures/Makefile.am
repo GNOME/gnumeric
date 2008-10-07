@@ -20,6 +20,11 @@ EXTRA_DIST = \
      analysistools-descstats-ex1-options.png \
      analysistools-descstats-ex2.png \
      analysistools-descstats.png \
+     analysistools-exp-smoothing-a-holt-winters-formula.png \
+     analysistools-exp-smoothing-holt-formula.png \
+     analysistools-exp-smoothing-hunter-formula.png \
+     analysistools-exp-smoothing-m-holt-winters-formula.png \ 
+     analysistools-exp-smoothing-roberts-formula.png \
      analysistools-fourier-formula.png \
      analysistools-fourier.png \
      analysistools-ftest-ex1.png \

@@ -36,13 +36,31 @@
     one of the radio buttons inside the <guilabel>Output</guilabel>
     frame. If you have chosen <quote><guibutton>Output
     Range</guibutton></quote> you must also enter a single range in
-    the entry field.
+    the entry field. 
   </para>
 
   <para>Select the <guilabel>Autofit
     Columns</guilabel> option to automatically adjust the widths of
     the columns in the output range.
   </para> 
+
+  <para>You will normally want to select the <guilabel>Clear
+    Output Range</guilabel> option, since otherwise some of the cells with 
+    exisiting content will remain in the output range.
+  </para> 
+
+  <para> The <guilabel>Retain Output Range Formatting</guilabel> and 
+    <guilabel>Retain Output Range Comments</guilabel> options are useful 
+    if you have already preformatted the output range.
+  </para>
+
+  <para>Most analysis tools also provide a choice whether
+    they will enter formulas or just values in the cells. By default 
+    Gnumeric will usually enter formulas. These formulas will automatically
+    reevaluate when the data change. For some tools, the formulas also
+    permit modofication of certain parameters. 
+  </para> 
+  
 
   <note>
     <para>
@@ -640,13 +658,37 @@
   </figure>
 
      <para>The Exponential Smoothing tool performs the exponential
-     smoothing for the given set or sets of values.  Each value in the
-     smoothed set is predicted based on the forecast for the prior
-     period.  The formula to calculate the forecast is: 
-     F(t+1) = F(t) + (1 - <guilabel>dampingFactor</guilabel>) 
-     * (A(t) - F(t)), 
-     where <parameter>A(t)</parameter> is the <parameter>t</parameter>th
-     value in the original data set.</para>
+       smoothing for the given set or sets of values. It provides the choice of 5
+       different exponential smoothing methods: 
+     </para>
+     <itemizedlist>
+     <listitem>
+       <para>Simple exponential smoothing according to (Hunter, 1968).</para>
+     </listitem>
+     <listitem>
+       <para>Simple exponential smoothing according to (Roberts, 1959).</para>
+     </listitem>
+     <listitem>
+       <para>Holt's trend corrected exponential smoothing (occasionally also 
+	 referred to as double exponential smoothing)</para>
+     </listitem>
+     <listitem>
+       <para>Additive Holt-Winters exponential smoothing</para>
+     </listitem>
+     <listitem>
+       <para>Multiplicative Holt-Winters exponential smoothing (occasionally also 
+	 referred to as triple exponential smoothing)</para>
+     </listitem>
+     </itemizedlist>
+
+     <para>Since the kind of options available depend on the type of exponential 
+       smoothing desired, you can choose the type on the <quote><guilabel>Input
+       </guilabel></quote>
+       page.
+     </para>
+
+     <sect3 id="exp-smoothing-tool-common">
+ <title>Common Options of the Exponential Smoothing Tool</title>
 
      <para>Specify the cells containing the datasets in the <quote><guilabel>Input
      Range</guilabel></quote> entry. The entered range or ranges are grouped into 
@@ -655,6 +697,40 @@
      <para>If you have labels
      in the first cell of each data set, select the
      <quote><guilabel>Labels</guilabel></quote> option.</para>
+
+     <para> If you select the <quote><guilabel>Include chart</guilabel></quote> 
+       option, Gnumeric
+       will also create a chart showing both the data and correcponding smoothed 
+       values.
+     </para>
+     </sect3>
+
+  <sect3 id="exp-smoothing-tool-hunter">
+ <title>Exponential Smoothing according to Hunter</title>
+
+    <para>  Each value in the
+     smoothed set is predicted based on the forecast for the prior
+     period.  The formula is given in <xref linkend="exp-smoothing-tool-formula-hunter" />.
+     Alpha is the value given as <quote><guilabel>Damping factor</guilabel></quote>.
+     <parameter>y<subscript>t</subscript></parameter> is the <parameter>t</parameter>th
+     value in the original data set and <parameter>l<subscript>t</subscript></parameter>
+     the corresponding smoothed value.</para>
+
+  <figure id="exp-smoothing-tool-formula-hunter">
+    <title>Exponential Smoothing Formula According To Hunter</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-exp-smoothing-hunter-formula.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>The formula used in exponential smoothing according to Hunter.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
 
      <para>Specify prior forecast adjustment value in the
      <quote><guilabel>Damping factor</guilabel></quote> entry.  
@@ -701,7 +777,84 @@
            </mediaobject>
     </screenshot>
   </figure>
+  </sect3>
 
+  <sect3 id="exp-smoothing-tool-roberts">
+<title>Exponential Smoothing according to Roberts</title>
+
+  <figure id="exp-smoothing-tool-formula-roberts">
+    <title>Exponential Smoothing Formula According To Roberts</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-exp-smoothing-roberts-formula.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>The formula used in exponential smoothing according to Roberts.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  </sect3>
+
+  <sect3 id="exp-smoothing-tool-holt">
+<title>Holt's Trend Corrected Exponential Smoothing</title>
+
+  <figure id="exp-smoothing-tool-formula-holt">
+    <title>Formulae Of Holt's Trend Corrected Exponential Smoothing</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-exp-smoothing-holt-formula.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>The formulae used in Holt's trend corrected exponential smoothing.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  </sect3>
+
+  <sect3 id="exp-smoothing-tool-additive-holt-winters">
+<title>Additive Holt-Winters Method</title>
+
+  <figure id="exp-smoothing-tool-formula-a-holt-winters">
+    <title>Exponential Smoothing Formulae Of The Additive Holt-Winters Method</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-exp-smoothing-a-holt-winters-formula.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>The formulae used in the additive Holt-Winters Method.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  </sect3>
+
+  <sect3 id="exp-smoothing-tool-multiplicative-holt-winters">
+<title>Multiplicative Holt-Winters Method</title>
+
+  <figure id="exp-smoothing-tool-formula-m-holt-winters">
+    <title>Exponential Smoothing Formulae Of The Multiplicative Holt-Winters Method</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-exp-smoothing-m-holt-winters-formula.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>The formulae used in the multiplivative Holt-Winters Method</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  </sect3>
+  
   </sect2>
 
   <sect2 id="fourier-analysis-tool">
