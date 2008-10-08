@@ -1,3 +1,14 @@
+2008-10-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* C/figures/analysistools-exp-smoothing-a-holt-winters-stderr.png: new
+	* C/figures/analysistools-exp-smoothing-m-holt-winters-stderr.png: new
+	* C/figures/analysistools-exp-smoothing-hunter-stderr.png: new
+	* C/figures/analysistools-exp-smoothing-roberts-stderr.png: new
+	* C/figures/analysistools-exp-smoothing-holt-stderr.png: new
+	* C/figures/Makefile.am: add above files
+	* C/analysis-statistical.xml: Add info on standard error for 
+	  exponential smoothing
+
 2008-10-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* C/figures/analysistools-exp-smoothing-a-holt-winters-formula.png: new
