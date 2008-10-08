@@ -51,16 +51,17 @@ GNM_NOCONFIGURE=$NOCONFIGURE
 NOCONFIGURE=1
 . $gnome_autogen
 
-# We have our own copy of Makefile.in.in, grabbed from CVS on Mar 16, 2005,
-# plus some patches.  One of the reasons why we need a local copy is that
-# we generate po-functions/Makefile.in.in from it, which is commited to
-# CVS, so this file cannot depend on the versions of the tools which the
+# We have our own copy of Makefile.in.in generated October 2008.
+# One of the reasons why we need a local copy is that
+# we generate po-functions/Makefile.in.in from it, which is committed to
+# SVN, so this file cannot depend on the versions of the tools which the
 # developers have installed.
 #
 printbold "Creating po/Makefile.in.in and po-functions/Makefile.in.in."
 rm -f $srcdir/po/Makefile.in.in $srcdir/po-functions/Makefile.in.in
 cp $srcdir/po/Makefile.in.in.own $srcdir/po/Makefile.in.in
 sed '/^\(GETTEXT_PACKAGE\|subdir\) =/s/[ 	]*$/-functions/
+s|$(srcdir)/LINGUAS|$(top_srcdir)/po/LINGUAS|g
 /^GETTEXT_PACKAGE =/a\
 XGETTEXT_KEYWORDS = --keyword --keyword=F_
 ' $srcdir/po/Makefile.in.in >$srcdir/po-functions/Makefile.in.in

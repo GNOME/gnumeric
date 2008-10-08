@@ -57,7 +57,7 @@ AM_MAINTAINER_MODE
 AC_DISABLE_STATIC
 
 dnl We use the XGETTEXT_KEYWORDS variable, thus we need intltool >= 0.29:
-AC_PROG_INTLTOOL([0.29])
+IT_PROG_INTLTOOL([0.35.0])
 
 if test `expr gnumeric_version_major % 2` -eq 1; then
     AC_MSG_NOTICE([NOTE: This is a development release])
@@ -614,20 +614,6 @@ AC_ARG_ENABLE(plugins,
 ])
 AM_CONDITIONAL(PLUGIN_LIST_GIVEN, $plugin_list_given)
 AC_SUBST(PLUGIN_LIST)
-
-
-# i18n stuff
-ifelse([
-
-  TRANSLATORS:
-  Please note that gnumeric has both po/ and po-functions/ directories.
-  If you add a new language to ALL_LINGUAS, please make sure that both
-  po/ and po-functions/ have .po files that correspond to your language.
-  If you only add one to po/, the build will break in po-functions/.
-])
-# "id" can go back when there is a po-function translation too.
-# "zh_HK" can go back when there is a po-function translation too.
-AC_SUBST(ALL_LINGUAS, "am ar az bg ca cs da de dz el en_CA en_GB es et fi fr ga gl he hr hu it ja ko lt lv mk ml mr ms nb ne nl nn oc pl pt pt_BR ro ru rw sk sr sr@Latn sv te tr uk vi zh_CN zh_TW")
 
 POFILES_FULL=
 for lang in $ALL_LINGUAS; do

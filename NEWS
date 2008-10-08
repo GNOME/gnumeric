@@ -48,6 +48,7 @@ Morten:
 	* Fix NETWORKDAYS problem.  [#553047]
 	* Bring SUMX2MY2, SUMX2PY2, and SUMXMY2 into 21st century.  [#554040]
 	* Fix XIRR problem with missing data.  [#554732]
+	* Switch to LINGUAS file.  [#554348]
 
 Nakai:
 	* Enable Perl plugin again. [#553939]
