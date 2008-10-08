@@ -26,7 +26,7 @@ EXTRA_DIST = \
      analysistools-exp-smoothing-holt-stderr.png \
      analysistools-exp-smoothing-hunter-formula.png \
      analysistools-exp-smoothing-hunter-stderr.png \
-     analysistools-exp-smoothing-m-holt-winters-formula.png \ 
+     analysistools-exp-smoothing-m-holt-winters-formula.png \
      analysistools-exp-smoothing-m-holt-winters-stderr.png \
      analysistools-exp-smoothing-roberts-formula.png \
      analysistools-exp-smoothing-roberts-stderr.png \
