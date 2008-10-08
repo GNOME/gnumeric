@@ -1,5 +1,9 @@
 2008-10-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* C/analysis-statistical.xml: Corrections
+
+2008-10-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* C/figures/analysistools-exp-smoothing-a-holt-winters-stderr.png: new
 	* C/figures/analysistools-exp-smoothing-m-holt-winters-stderr.png: new
 	* C/figures/analysistools-exp-smoothing-hunter-stderr.png: new

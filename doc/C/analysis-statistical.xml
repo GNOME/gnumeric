@@ -737,8 +737,11 @@
      A value, for example, between 0.2 and 0.3 represents 20 to 30 percent error
      adjustment in the prior forecast.</para>
 
-     <para>To have the standard errors output as well, press the
-     checkbutton on before starting the tool check the <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is given in  <xref linkend="exp-smoothing-tool-formula-hunter-stderr" />.  The denominator can be adjusted by selecting the appropriate radio button.</para>
+     <para>To have the standard errors output as well, check the 
+       <quote><guilabel>Standard error</guilabel></quote> check box. The formula 
+       used is given in  <xref linkend="exp-smoothing-tool-formula-hunter-stderr" />.  
+       The denominator can be adjusted by selecting the appropriate radio button.
+     </para>
 
 
   <figure id="exp-smoothing-tool-formula-hunter-stderr">
@@ -750,7 +753,9 @@
                   format="PNG" />
             </imageobject>
             <textobject>
-              <phrase>The formula used to calculate the standard error of exponential smoothing according to Hunter</phrase>
+              <phrase>The formula used to calculate the standard error of exponential 
+		smoothing according to Hunter
+	      </phrase>
             </textobject>
            </mediaobject>
     </screenshot>
@@ -812,9 +817,11 @@
     </screenshot>
   </figure>
 
-     <para>To have the standard errors output as well, press the
-     checkbutton on before starting the tool check the <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is given in  <xref linkend="exp-smoothing-tool-formula-roberts-stderr" />.  The denominator can be adjusted by selecting the appropriate radio button.</para>
-
+     <para>To have the standard errors output as well, check the 
+       <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is 
+       given in  <xref linkend="exp-smoothing-tool-formula-roberts-stderr" />.  The 
+       denominator can be adjusted by selecting the appropriate radio button.
+     </para>
 
   <figure id="exp-smoothing-tool-formula-roberts-stderr">
     <title>The Standard Error Formula For Exponential Smoothing According To Roberts</title>
@@ -825,7 +832,9 @@
                   format="PNG" />
             </imageobject>
             <textobject>
-              <phrase>The formula used to calculate the standard error of exponential smoothing according to Roberts</phrase>
+              <phrase>The formula used to calculate the standard error of exponential 
+		smoothing according to Roberts
+	      </phrase>
             </textobject>
            </mediaobject>
     </screenshot>
@@ -850,9 +859,11 @@
     </screenshot>
   </figure>
 
-     <para>To have the standard errors output as well, press the
-     checkbutton on before starting the tool check the <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is given in  <xref linkend="exp-smoothing-tool-formula-holt-stderr" />.  The denominator can be adjusted by selecting the appropriate radio button.</para>
-
+     <para>To have the standard errors output as well, check the 
+       <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is 
+       given in  <xref linkend="exp-smoothing-tool-formula-holt-stderr" />.  The 
+       denominator can be adjusted by selecting the appropriate radio button.
+     </para>
 
   <figure id="exp-smoothing-tool-formula-holt-stderr">
     <title>The Standard Error Formula For Holt's Trend Corrected Exponential Smoothing</title>
@@ -863,7 +874,9 @@
                   format="PNG" />
             </imageobject>
             <textobject>
-              <phrase>The formula used to calculate the standard error for Holt's trend corrected exponential smoothing.</phrase>
+              <phrase>The formula used to calculate the standard error for Holt's trend
+		corrected exponential smoothing.
+	      </phrase>
             </textobject>
            </mediaobject>
     </screenshot>
@@ -888,9 +901,11 @@
     </screenshot>
   </figure>
 
-     <para>To have the standard errors output as well, press the
-     checkbutton on before starting the tool check the <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is given in  <xref linkend="exp-smoothing-tool-formula-a-holt-winters-stderr" />.  The denominator can be adjusted by selecting the appropriate radio button.</para>
-
+     <para>To have the standard errors output as well, check the 
+       <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is 
+       given in  <xref linkend="exp-smoothing-tool-formula-a-holt-winters-stderr" />.  
+       The denominator can be adjusted by selecting the appropriate radio button.
+     </para>
 
   <figure id="exp-smoothing-tool-formula-a-holt-winters-stderr">
     <title>The Standard Error Formula Of The Additive Holt-Winters Method</title>
@@ -901,7 +916,9 @@
                   format="PNG" />
             </imageobject>
             <textobject>
-              <phrase>The formula used to calculate the standard error in the additive Holt-Winters Method</phrase>
+              <phrase>The formula used to calculate the standard error in the additive 
+		Holt-Winters Method
+	      </phrase>
             </textobject>
            </mediaobject>
     </screenshot>
@@ -926,9 +943,11 @@
     </screenshot>
   </figure>
 
-     <para>To have the standard errors output as well, press the
-     checkbutton on before starting the tool check the <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is given in  <xref linkend="exp-smoothing-tool-formula-m-holt-winters-stderr" />.  The denominator can be adjusted by selecting the appropriate radio button.</para>
-
+  <para>To have the standard errors output as well, check the 
+    <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is given in  
+    <xref linkend="exp-smoothing-tool-formula-m-holt-winters-stderr" />.  The denominator 
+    can be adjusted by selecting the appropriate radio button.
+  </para>
 
   <figure id="exp-smoothing-tool-formula-m-holt-winters-stderr">
     <title>The Standard Error Formula Of The Multiplicative Holt-Winters Method</title>
@@ -939,7 +958,9 @@
                   format="PNG" />
             </imageobject>
             <textobject>
-              <phrase>The formula used to calculate the standard error in the multiplivative Holt-Winters Method</phrase>
+              <phrase>The formula used to calculate the standard error in the multiplivative 
+		Holt-Winters Method
+	      </phrase>
             </textobject>
            </mediaobject>
     </screenshot>
