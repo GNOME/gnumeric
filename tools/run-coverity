@@ -12,7 +12,7 @@ for proj in libgsf goffice gnumeric; do
     echo '------------------'
     cd  "$GNOME_DIR/$proj"
     make -k clean 
-    "$COV_DIR/bin/cov-build" --dir "$BUILD_DIR" make -k
+    "$COV_DIR/bin/cov-build" --dir "$BUILD_DIR" make -k CC=gcc
     echo '<<<<<<<<<<<<<<<<<<'
 done
 
