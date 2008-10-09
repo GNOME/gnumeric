@@ -35,6 +35,7 @@ Jody:
 	* Extend ssgrep to search VBA too.
 	* Add column width doubling in 'display formula' mode.
 	* Fix OO.o style import. [#553506]
+	* Support XLSX themed colours. [#555687]
 
 J.H.M. Dassen (Ray):
 	* Understand and ignore byte-order markers for CSV/stf probing and

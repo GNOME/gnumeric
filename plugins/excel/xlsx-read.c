@@ -147,6 +147,8 @@ typedef struct {
 	GnmStyleBorderType  border_style;
 	GnmColor	*border_color;
 
+	GHashTable	*theme_colors_by_name;
+
 	GPtrArray	*collection;	/* utility for the shared collection handlers */
 	unsigned	 count;
 	XLSXPanePos	 pane_pos;
@@ -194,8 +196,6 @@ typedef struct {
 		GHashTable *by_obj;
 		XLSXAxisInfo *info;
 	} axis;
-
-	GHashTable *theme_colors;
 } XLSXReadState;
 typedef struct {
 	GnmString	*str;
@@ -570,8 +570,8 @@ static struct {
 	{153, 51,  0}, {153, 51,102}, { 51, 51,153}, { 51, 51, 51}
 };
 
-static GnmColor *
-indexed_color (gint idx)
+static GOColor
+indexed_color (XLSXReadState *state, gint idx)
 {
 	/* NOTE: not documented but seems close
 	 * If you find a normative reference please forward it.
@@ -588,26 +588,28 @@ indexed_color (gint idx)
 	 */
 
 	if (idx == 1 || idx == 65)
-		return style_color_white ();
+		return RGBA_WHITE;
 	switch (idx) {
 	case 0:   /* black */
 	case 64 : /* system text ? */
 	case 81 : /* tooltip text */
 	case 0x7fff : /* system text ? */
-		return style_color_black ();
+		return RGBA_BLACK;
+
 	case 1 :  /* white */
 	case 65 : /* system back ? */
-		return style_color_white ();
+		return RGBA_WHITE;
 
 	case 80 : /* tooltip background */
-		return style_color_new_gdk (&gs_yellow);
+		return RGBA_YELLOW;
 
-	case 2 : return style_color_new_i8 (0xff,    0,    0); /* red */
-	case 3 : return style_color_new_i8 (   0, 0xff,    0); /* green */
-	case 4 : return style_color_new_i8 (   0,    0, 0xff); /* blue */
-	case 5 : return style_color_new_i8 (0xff, 0xff,    0); /* yellow */
-	case 6 : return style_color_new_i8 (0xff,    0, 0xff); /* magenta */
-	case 7 : return style_color_new_i8 (   0, 0xff, 0xff); /* cyan */
+	case 2 : return RGBA_RED;
+	case 3 : return RGBA_GREEN;
+	case 4 : return RGBA_BLUE;
+	case 5 : return RGBA_YELLOW;
+	case 6 : return RGBA_VIOLET;
+	case 7 : return RGBA_CYAN;
+
 	default :
 		 break;
 	}
@@ -616,13 +618,47 @@ indexed_color (gint idx)
 	if (idx < 0 || (int) G_N_ELEMENTS (excel_default_palette_v8) <= idx) {
 		g_warning ("EXCEL: color index (%d) is out of range (8..%d). Defaulting to black",
 			   idx + 8, (int)G_N_ELEMENTS (excel_default_palette_v8) + 8);
-		return style_color_black ();
+		return RGBA_BLACK;
 	}
 
 	/* TODO cache and ref */
-	return style_color_new_i8 (excel_default_palette_v8[idx].r,
-				   excel_default_palette_v8[idx].g,
-				   excel_default_palette_v8[idx].b);
+	return RGBA_TO_UINT (excel_default_palette_v8[idx].r,
+			     excel_default_palette_v8[idx].g,
+			     excel_default_palette_v8[idx].b, 0xff);
+}
+static GOColor
+themed_color (GsfXMLIn *xin, gint idx)
+{
+	static char const * const theme_elements [] = {
+		"lt1",	"dk1", "lt2", "dk2",
+		"accent1", "accent2", "accent3", "accent4", "accent5", "accent6",
+		"hlink", "folHlink"
+	};
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+
+	/* MAGIC :
+	 * looks like the indicies map to hard coded names rather than the
+	 * order in the file.  Indeed the order in the file seems wrong
+	 * it inverts the first to pairs
+	 * 	1,0,3,2, 4,5,6.....
+	 * see:	http://openxmldeveloper.org/forums/thread/1306.aspx
+	 * OOo seems to do something similar
+	 *
+	 * I'll make the assumption we should work by name rather than
+	 * index. */
+	if (idx >= 0 && idx < (int) G_N_ELEMENTS (theme_elements)) {
+		gpointer color = g_hash_table_lookup (state->theme_colors_by_name,
+						      theme_elements [idx]);
+		if (NULL != color)
+			return GPOINTER_TO_UINT (color);
+
+		xlsx_warning (xin, _("Unknown theme color %d"), idx);
+	} else {
+		xlsx_warning (xin, "Color index (%d) is out of range (0..%d). Defaulting to black",
+			      idx, (int) G_N_ELEMENTS (theme_elements));
+	}
+
+	return RGBA_BLACK;
 }
 
 static GOFormat *
@@ -1404,15 +1440,12 @@ xlsx_draw_color_themed (GsfXMLIn *xin, xmlChar const **attrs)
 
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gpointer val = NULL;
-	if (NULL != state->theme_colors) {
-		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-			if (0 == strcmp (attrs[0], "val")) {
-				val = g_hash_table_lookup (state->theme_colors, attrs[1]);
-				if (NULL == val)
-					xlsx_warning (xin, _("Unknown color '%s'"), attrs[1]);
-			}
-	} else
-		xlsx_warning (xin, _("Missing theme"));
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "val")) {
+			val = g_hash_table_lookup (state->theme_colors_by_name, attrs[1]);
+			if (NULL == val)
+				xlsx_warning (xin, _("Unknown color '%s'"), attrs[1]);
+		}
 
 	state->gocolor = GPOINTER_TO_UINT (val);
 }
@@ -2178,33 +2211,144 @@ GSF_XML_IN_NODE_END
 
 /***********************************************************************/
 
+/* RGBMAX, HLSMAX must each fit in a byte. */ 
+/* HLSMAX BEST IF DIVISIBLE BY 6 */ 
+#define  HLSMAX   240 /* H,L, and S vary over 0-HLSMAX */ 
+#define  RGBMAX   255 /* R,G, and B vary over 0-RGBMAX */ 
+
+/* Hue is undefined if Saturation is 0 (grey-scale) */ 
+/* This value determines where the Hue scrollbar is */ 
+/* initially set for achromatic colors */ 
+#define UNDEFINED (HLSMAX*2/3)
+
+/* utility routine for HLStoRGB */ 
+static int
+hue_to_color (int m1, int m2, int h)
+{
+	if (h < 0)
+		h += HLSMAX;
+	if (h > HLSMAX)
+		h -= HLSMAX;
+
+	/* return r,g, or b value from this tridrant */ 
+	if (h < (HLSMAX/6))
+		return m1 + (((m2 - m1)*h + (HLSMAX/12))/(HLSMAX/6));
+	if (h < (HLSMAX/2))
+		return m2;
+	if (h < ((HLSMAX*2)/3))
+		return m1 + (((m2 - m1)*(((HLSMAX*2)/3)-h)+(HLSMAX/12))/(HLSMAX/6));
+
+	return m1;
+}
+
+static GOColor
+apply_tint (GOColor orig, float tint)
+{
+	int r = UINT_RGBA_R (orig);
+	int g = UINT_RGBA_G (orig);
+	int b = UINT_RGBA_B (orig);
+	int a = UINT_RGBA_A (orig);
+	int maxC = b, minC = b, delta, sum, h, l, s, m1, m2;
+
+	if (fabs (tint) < .005)
+		return orig;
+
+	maxC = MAX (MAX (r,g),b);
+	minC = MIN (MIN (r,g),b);
+	l = (((maxC + minC)*HLSMAX) + RGBMAX)/(2*RGBMAX);
+
+	delta = maxC - minC;
+	sum   = maxC + minC;
+	if (delta != 0) {
+		if (l <= (HLSMAX/2))
+			s = ( (delta*HLSMAX) + (sum/2) ) / sum;
+		else
+			s = ( (delta*HLSMAX) + ((2*RGBMAX - sum)/2) ) / (2*RGBMAX - sum);
+
+		if (r == maxC)
+			h =                ((g - b) * HLSMAX) / (6 * delta);
+		else if (g == maxC)
+			h = (  HLSMAX/3) + ((b - r) * HLSMAX) / (6 * delta);
+		else if (b == maxC)
+			h = (2*HLSMAX/3) + ((r - g) * HLSMAX) / (6 * delta);
+
+		if (h < 0)
+			h += HLSMAX;
+		else if (h >= HLSMAX)
+			h -= HLSMAX;
+	} else {
+		h = 0;
+		s = 0;
+	}
+
+	if (tint < 0.)
+		l = l * (1. + tint);
+	else
+		l = l * (1. - tint) + (HLSMAX - HLSMAX * (1.0 - tint));
+
+	if (s == 0) {            /* achromatic case */ 
+		r = (l * RGBMAX) / HLSMAX;
+		return RGBA_TO_UINT(r, r, r, a);
+	}
+
+	if (l <= (HLSMAX/2))
+		m2 = (l*(HLSMAX + s) + (HLSMAX/2))/HLSMAX;
+	else
+		m2 = l + s - ((l*s) + (HLSMAX/2))/HLSMAX;
+	m1 = 2*l - m2;
+
+	r = (hue_to_color (m1, m2, h + (HLSMAX/3))*RGBMAX + (HLSMAX/2)) / HLSMAX;
+	g = (hue_to_color (m1, m2, h             )*RGBMAX + (HLSMAX/2)) / HLSMAX;
+	b = (hue_to_color (m1, m2, h - (HLSMAX/3))*RGBMAX + (HLSMAX/2)) / HLSMAX;
+
+	return RGBA_TO_UINT(r,g,b,a);
+}
+				
 static GnmColor *
 elem_color (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 	int indx;
-	guint a, r, g, b;
+	GOColor c;
+	double tint = 0.;
+	gboolean has_color = FALSE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (0 == strcmp (attrs[0], "rgb")) {
+			guint a, r, g, b;
 			if (4 != sscanf (attrs[1], "%02x%02x%02x%02x", &a, &r, &g, &b)) {
 				xlsx_warning (xin,
 					_("Invalid color '%s' for attribute rgb"),
 					attrs[1]);
 				return NULL;
 			}
-
-			return style_color_new_i8 (r, g, b);
-		} else if (attr_int (xin, attrs, "indexed", &indx))
-			return indexed_color (indx);
-#if 0
-	"type"	opt rgb {auto, icv, rgb, theme }
-	"val"	opt ??
-	"tint"	opt 0.
-#endif
+			has_color = TRUE;
+			c = RGBA_TO_UINT(r,g,b,a);
+		} else if (attr_int (xin, attrs, "indexed", &indx)) {
+			has_color = TRUE;
+			c = indexed_color (state, indx);
+		} else if (attr_int (xin, attrs, "theme", &indx)) {
+			has_color = TRUE;
+			c = themed_color (xin, indx);
+		} else if (attr_float (xin, attrs, "tint", &tint))
+			tint = CLAMP (tint, -1., 1.);
 	}
-	return NULL;
+
+	if (!has_color)
+		return NULL;
+	c = apply_tint (c, tint);
+	return style_color_new_go (c);
 }
 
+static GnmStyle *
+xlsx_get_style_xf (GsfXMLIn *xin, int xf)
+{
+	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
+	if (0 <= xf && NULL != state->style_xfs && xf < (int)state->style_xfs->len)
+		return g_ptr_array_index (state->style_xfs, xf);
+	xlsx_warning (xin, _("Undefined style record '%d'"), xf);
+	return NULL;
+}
 static GnmStyle *
 xlsx_get_xf (GsfXMLIn *xin, int xf)
 {
@@ -3359,7 +3503,7 @@ xlsx_CT_SheetView_begin (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (!defaultGridColor && grid_color_index >= 0)
 		sheet_style_set_auto_pattern_color (state->sheet,
-			indexed_color (grid_color_index));
+			style_color_new_go (indexed_color (state, grid_color_index)));
 	if (tabSelected)
 		wb_view_sheet_focus (state->wb_view, state->sheet);
 }
@@ -4118,7 +4262,6 @@ xlsx_font_color (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmColor *color = elem_color (xin, attrs);
-
 	if (NULL != color)
 		gnm_style_set_font_color (state->style_accum, color);
 }
@@ -4206,27 +4349,16 @@ xlsx_pattern_fg (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmColor *color = elem_color (xin, attrs);
-
-	if (NULL != color) {
-		if (gnm_style_is_element_set (state->style_accum, MSTYLE_COLOR_PATTERN) &&
-		    gnm_style_get_pattern (state->style_accum) == 1)
-			gnm_style_set_back_color (state->style_accum, color);
-		else
-			gnm_style_set_pattern_color (state->style_accum, color);
-	}
+	if (NULL != color)
+		gnm_style_set_back_color (state->style_accum, color);
 }
 static void
 xlsx_pattern_bg (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmColor *color = elem_color (xin, attrs);
-	if (NULL != color) {
-		if (!gnm_style_is_element_set (state->style_accum, MSTYLE_COLOR_PATTERN) ||
-		    gnm_style_get_pattern (state->style_accum) != 1)
-			gnm_style_set_back_color (state->style_accum, color);
-		else
-			gnm_style_set_pattern_color (state->style_accum, color);
-	}
+	if (NULL != color)
+		gnm_style_set_pattern_color (state->style_accum, color);
 }
 
 static void
@@ -4277,8 +4409,12 @@ static void
 xlsx_border_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GnmBorder *border;
 	GnmStyleBorderLocation const loc = xin->node->user_data.v_int;
-	GnmBorder *border = gnm_style_border_fetch (state->border_style,
+       
+	if (NULL == state->border_color)
+		state->border_color = style_color_black ();
+	border = gnm_style_border_fetch (state->border_style,
 		state->border_color, gnm_style_border_get_orientation (loc));
 	gnm_style_set_border (state->style_accum,
 		GNM_STYLE_BORDER_LOCATION_TO_STYLE_ELEMENT (loc),
@@ -4299,7 +4435,9 @@ static void
 xlsx_xf_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GnmStyle *style = gnm_style_new_default ();
+	GnmStyle *accum = gnm_style_new ();
+	GnmStyle *parent = NULL;
+	GnmStyle *result;
 	GPtrArray *elem = NULL;
 	int indx;
 
@@ -4307,30 +4445,42 @@ xlsx_xf_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		if (0 == strcmp (attrs[0], "numFmtId")) {
 			GOFormat *fmt = xlsx_get_num_fmt (xin, attrs[1]);
 			if (NULL != fmt)
-				gnm_style_set_format (style, fmt);
+				gnm_style_set_format (accum, fmt);
 		} else if (attr_int (xin, attrs, "fontId", &indx))
 			elem = state->fonts;
 		else if (attr_int (xin, attrs, "fillId", &indx))
 			elem = state->fills;
 		else if (attr_int (xin, attrs, "borderId", &indx))
 			elem = state->borders;
+		else if (attr_int (xin, attrs, "xfId", &indx))
+			parent = xlsx_get_style_xf (xin, indx);
 
 		if (NULL != elem) {
-			GnmStyle *existing = NULL;
+			GnmStyle const *component = NULL;
 			if (0 <= indx && indx < (int)elem->len)
-				existing = g_ptr_array_index (elem, indx);
-			if (NULL != existing) {
-				GnmStyle *merged = gnm_style_new_merged (existing, style);
-				gnm_style_unref (style);
-				style = merged;
+				component = g_ptr_array_index (elem, indx);
+			if (NULL != component) {
+#if 0
+				gnm_style_merge (accum, component);
+#else
+				GnmStyle *merged = gnm_style_new_merged (accum, component);
+				gnm_style_unref (accum);
+				accum = merged;
+#endif
 			} else
-				xlsx_warning (xin, _("Missing record '%d'"), indx);
+				xlsx_warning (xin, "Missing record '%d' for %s", indx, attrs[0]);
 			elem = NULL;
 		}
 	}
-	state->style_accum = style;
+	if (NULL == parent) {
+		result = gnm_style_new_default ();
+		gnm_style_merge (result, accum);
+	} else
+		result = gnm_style_new_merged (parent, accum);
+	gnm_style_unref (accum);
+
+	state->style_accum = result;
 #if 0
-		"xfId"			parent style ??
 		"quotePrefix"			??
 
 		"applyNumberFormat"
@@ -4422,7 +4572,7 @@ xlsx_cell_style (GsfXMLIn *xin, xmlChar const **attrs)
 	/* cellStyle name="Normal" xfId="0" builtinId="0" */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_int (xin, attrs, "xfId", &tmp))
-			style = xlsx_get_xf (xin, tmp);
+			style = xlsx_get_style_xf (xin, tmp);
 		else if (0 == strcmp (attrs[0], "name"))
 			name = attrs[1];
 		else if (0 == strcmp (attrs[0], "builtinId"))
@@ -4559,7 +4709,7 @@ xlsx_theme_color_sys (GsfXMLIn *xin, xmlChar const **attrs)
 	GOColor c;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_gocolor (xin, attrs, "lastClr", &c)) {
-			g_hash_table_replace (state->theme_colors,
+			g_hash_table_replace (state->theme_colors_by_name,
 				g_strdup (((GsfXMLInNode *)xin->node_stack->data)->name),
 				GUINT_TO_POINTER (c));
 		}
@@ -4571,22 +4721,15 @@ xlsx_theme_color_rgb (GsfXMLIn *xin, xmlChar const **attrs)
 	GOColor c;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_gocolor (xin, attrs, "val", &c)) {
-			g_hash_table_replace (state->theme_colors,
+			g_hash_table_replace (state->theme_colors_by_name,
 				g_strdup (((GsfXMLInNode *)xin->node_stack->data)->name),
 				GUINT_TO_POINTER (c));
 		}
 }
-static void
-xlsx_theme_start (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	state->theme_colors = g_hash_table_new_full (g_str_hash, g_str_equal,
-		(GDestroyNotify)g_free, NULL);
-}
 
 static GsfXMLInNode const xlsx_theme_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
-GSF_XML_IN_NODE_FULL (START, THEME, XL_NS_DRAW, "theme", GSF_XML_NO_CONTENT, FALSE, TRUE, &xlsx_theme_start, NULL, 0),
+GSF_XML_IN_NODE_FULL (START, THEME, XL_NS_DRAW, "theme", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
   GSF_XML_IN_NODE (THEME, ELEMENTS, XL_NS_DRAW, "themeElements", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (ELEMENTS, COLOR_SCHEME, XL_NS_DRAW, "clrScheme", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (COLOR_SCHEME, dk1, XL_NS_DRAW, "dk1", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -4749,7 +4892,8 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *context,
 	state.num_fmts = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify)g_free, (GDestroyNotify) go_format_unref);
 	state.convs = xlsx_conventions_new ();
-	state.theme_colors = NULL;
+	state.theme_colors_by_name = g_hash_table_new_full (g_str_hash, g_str_equal,
+		(GDestroyNotify)g_free, NULL);
 
 	locale = gnm_push_C_locale ();
 
@@ -4766,12 +4910,12 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *context,
 			xlsx_parse_stream (&state, in, xlsx_shared_strings_dtd);
 
 			in = gsf_open_pkg_open_rel_by_type (wb_part,
-				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles", NULL);
-			xlsx_parse_stream (&state, in, xlsx_styles_dtd);
-
-			in = gsf_open_pkg_open_rel_by_type (wb_part,
 				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme", NULL);
 			xlsx_parse_stream (&state, in, xlsx_theme_dtd);
+
+			in = gsf_open_pkg_open_rel_by_type (wb_part,
+				"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles", NULL);
+			xlsx_parse_stream (&state, in, xlsx_styles_dtd);
 
 			xlsx_parse_stream (&state, wb_part, xlsx_workbook_dtd);
 		} else
@@ -4804,8 +4948,7 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *context,
 	xlsx_style_array_free (state.style_xfs);
 	xlsx_style_array_free (state.dxfs);
 	xlsx_style_array_free (state.table_styles);
-	if (state.theme_colors)
-		g_hash_table_destroy (state.theme_colors);
+	g_hash_table_destroy (state.theme_colors_by_name);
 
 	workbook_set_saveinfo (state.wb, FILE_FL_AUTO,
 		go_file_saver_for_id ("Gnumeric_Excel:xlsx"));
@@ -4817,7 +4960,6 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *context,
  *	- column widths : Don't use hard coded font size
  *	- share colours
  *	- conditional formats
- *		: why do we need to flip fg and bg for solid in xf but not for dxf
  *		: other condition types
  *		: check binary operators
  *

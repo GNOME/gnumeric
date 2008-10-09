@@ -1,7 +1,14 @@
+
 2008-10-08  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Call IT_PO_SUBDIR for po-functions.
 	* autogen.sh: Don't try to distribute po-functions/LINGUAS
+
+2008-10-09  Jody Goldberg <jody@gnome.org>
+
+	* src/mstyle.c (gnm_style_new_merged) : support merging incomplete
+	  styles, and clean up the docs.
+	(gnm_style_merge) : avoid problems if someone does something silly.
 
 2008-10-07  Morten Welinder  <terra@gnome.org>
 

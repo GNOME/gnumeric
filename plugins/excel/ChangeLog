@@ -1,3 +1,20 @@
+2008-10-09  Jody Goldberg <jody@gnome.org>
+
+	* xlsx-read.c (indexed_color) : return a GOColor.
+	(themed_color) : new.  Has some magic to use the theme indicies as
+	  lookups into a hard coded map.
+	(xlsx_draw_color_themed) : simplified, the theme_colors_by_name is always defined.
+	(hue_to_color) : new.
+	(apply_tint) : new.  Could be moved into goffice.
+	(elem_color) : handle tints, and themes.
+	(xlsx_get_style_xf) : new.
+	(xlsx_pattern_fg) : drop the magic pattern based inversion.
+	(xlsx_pattern_bg) : ditto.
+	(xlsx_border_end) : add protection.
+	(xlsx_xf_begin) : merge parent styles when available.
+	(xlsx_cell_style) : it is an index into the style_xfs, not the cell_xfs.
+	(xlsx_file_open) : read themes before styles.
+
 2008-09-11  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_TAB_COLOR) : no sense checking for NULL.
