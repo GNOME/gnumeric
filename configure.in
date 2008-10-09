@@ -56,8 +56,9 @@ AM_MAINTAINER_MODE
 # Make --disable-static the default
 AC_DISABLE_STATIC
 
-dnl We use the XGETTEXT_KEYWORDS variable, thus we need intltool >= 0.29:
+dnl We use a LINGUAS file, so we need intltool >= 0.35:
 IT_PROG_INTLTOOL([0.35.0])
+IT_PO_SUBDIR(po-functions)
 
 if test `expr gnumeric_version_major % 2` -eq 1; then
     AC_MSG_NOTICE([NOTE: This is a development release])
@@ -666,9 +667,9 @@ sed <$srcdir/po-functions/POTFILES.in -e '/^#/d' -e 's/^[[].*[]] *//' \
         sed -e '$!s/$/ \\/' >po-functions/POTFILES
 ]
 dnl Finally, register for creation of po-functions/Makefile:
+dnl We do not currently do anything here.
 AC_CONFIG_COMMANDS(po-functions/Makefile,
-  [sed -e "/POTFILES =/r po-functions/POTFILES" \
-	po-functions/Makefile.in > po-functions/Makefile])
+  [cp po-functions/Makefile.in po-functions/Makefile])
 
 SAVE_LIBS="$LIBS"
 LIBS="$LIBS $GNUMERIC_LIBS"

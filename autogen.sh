@@ -64,6 +64,7 @@ sed '/^\(GETTEXT_PACKAGE\|subdir\) =/s/[ 	]*$/-functions/
 s|$(srcdir)/LINGUAS|$(top_srcdir)/po/LINGUAS|g
 /^GETTEXT_PACKAGE =/a\
 XGETTEXT_KEYWORDS = --keyword --keyword=F_
+/^EXTRA_DISTFILES/s/ LINGUAS//
 ' $srcdir/po/Makefile.in.in >$srcdir/po-functions/Makefile.in.in
 
 printbold "Creating po-functions/POTFILES.{in,skip}."

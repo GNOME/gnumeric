@@ -1,3 +1,8 @@
+2008-10-08  Morten Welinder  <terra@gnome.org>
+
+	* configure.in: Call IT_PO_SUBDIR for po-functions.
+	* autogen.sh: Don't try to distribute po-functions/LINGUAS
+
 2008-10-07  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: switch to new LINGUAS scheme.  Fixes #554348.
