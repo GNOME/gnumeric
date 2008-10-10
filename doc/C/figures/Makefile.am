@@ -60,6 +60,8 @@ EXTRA_DIST = \
      analysistools-sampling.png \
      analysistools-smoothing-ex1.png \
      analysistools-smoothing-ex2.png \
+     analysistools-smoothing-ex3.png \
+     analysistools-smoothing-ex4.png \
      analysistools-smoothing.png \
      analysistools-tools.png \
      analysistools-ttest-equal-ex1.png \

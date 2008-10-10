@@ -711,7 +711,7 @@
     <para>  Each value in the
      smoothed set is predicted based on the forecast for the prior
      period.  The formula is given in <xref linkend="exp-smoothing-tool-formula-hunter" />.
-     Alpha is the value given as <quote><guilabel>Damping factor</guilabel></quote>.
+     &#x03b1; is the value given as <quote><guilabel>Damping factor</guilabel></quote>.
      <parameter>y<subscript>t</subscript></parameter> is the <parameter>t</parameter>th
      value in the original data set and <parameter>l<subscript>t</subscript></parameter>
      the corresponding smoothed value.</para>
@@ -737,10 +737,18 @@
      A value, for example, between 0.2 and 0.3 represents 20 to 30 percent error
      adjustment in the prior forecast.</para>
 
+     <note><para>
+	 If you choose to have the tool enter formulas rather than values into the output region, 
+	 then you can modify the damping factor &#x03b1; even after you executed the tool. 
+     </para></note>
+
      <para>To have the standard errors output as well, check the 
        <quote><guilabel>Standard error</guilabel></quote> check box. The formula 
        used is given in  <xref linkend="exp-smoothing-tool-formula-hunter-stderr" />.  
-       The denominator can be adjusted by selecting the appropriate radio button.
+       The denominator can be adjusted by selecting the appropriate radio button. Since 
+       there are <parameter>t&#x2212;1</parameter> terms in the sum of the denominator, 
+       selecting <quote><guilabel>n&#x2212;1</guilabel></quote> means that the denominator 
+       will be <parameter>t&#x2212;2</parameter>.
      </para>
 
 
@@ -761,7 +769,12 @@
     </screenshot>
   </figure>
  
-   <figure id="smoothing-example-1">
+  <example id="usingsmoothingtool"><title>Using the Exponential Smoothing Tool</title>
+     <para><xref linkend="smoothing-example-1" /> shows some example data, <xref linkend="smoothing-example-2" /> the selected options and 
+     <xref linkend="smoothing-example-3" /> the corresponding output.
+     </para>
+</example>
+  <figure id="smoothing-example-1">
     <title>Some Example Data for the Exponential Smoothing Tool</title>
     <screenshot>
 	<mediaobject>
@@ -776,13 +789,22 @@
            </mediaobject>
     </screenshot>
   </figure>
- <example id="usingsmoothingtool"><title>Using the Exponential Smoothing Tool</title>
-     <para><xref linkend="smoothing-example-1" /> shows some example data and 
-     <xref linkend="smoothing-example-2" /> the corresponding output.
-     </para>
-</example>
-  <figure id="smoothing-example-2">
-    <title>Exponential Smoothing Tool Output</title>
+   <figure id="smoothing-example-2">
+    <title>The Options for the Exponential Smoothing Tool</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-smoothing-ex3.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the options tab of the exponential smoothing tool.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  <figure id="smoothing-example-3">
+    <title>Exponential Smoothing Tool Output (Hunter)</title>
     <screenshot>
 	<mediaobject>
             <imageobject>
@@ -791,7 +813,7 @@
             </imageobject>
             <textobject>
               <phrase>An image of the output of an exponential
-              smoothing analysis.</phrase>
+              smoothing analysis according to Hunter.</phrase>
             </textobject>
            </mediaobject>
     </screenshot>
@@ -840,6 +862,37 @@
     </screenshot>
   </figure>
   </sect3>
+
+  <example id="usingsmoothingtool-roberts"><title>Using the Exponential Smoothing Tool</title>
+     <para> 
+     <xref linkend="smoothing-example-4" /> shows example output for the exponential smoothing
+     tool using the formula according to Roberts. Cell A4 contains the estimated level at time 0.
+     the tool will use the average of the first 5 observations for this estimate.
+     </para>
+</example>
+
+
+     <note><para>
+	 If you choose to have the tool enter formulas rather than values into the output region, 
+	 then you can modify both the damping factor &#x03b1; and the estimated level at time 0
+	 after you executed the tool. 
+     </para></note>
+
+  <figure id="smoothing-example-4">
+    <title>Exponential Smoothing Tool Output (Roberts)</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-smoothing-ex4.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output of an exponential
+              smoothing analysis according to Roberts.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
 
   <sect3 id="exp-smoothing-tool-holt">
 <title>Holt's Trend Corrected Exponential Smoothing</title>

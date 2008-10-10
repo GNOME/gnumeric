@@ -1,3 +1,13 @@
+2008-10-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* C/figures/analysistools-smoothing.png
+	* C/figures/doc/C/figures/analysistools-smoothing-ex1.png: updated
+	* C/figures/doc/C/figures/analysistools-smoothing-ex2.png: updated
+	* C/figures/doc/C/figures/analysistools-smoothing-ex3.png: new
+	* C/figures/doc/C/figures/analysistools-smoothing-ex4.png: new
+	* C/figures/Makefile.am: add above files
+	* C/analysis-statistical.xml: Update example of exp smoothing
+	
 2008-10-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* C/analysis-statistical.xml: Corrections
