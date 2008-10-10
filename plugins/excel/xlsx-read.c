@@ -4345,19 +4345,22 @@ xlsx_pattern (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_style_set_pattern (state->style_accum, val);
 }
 static void
-xlsx_pattern_fg (GsfXMLIn *xin, xmlChar const **attrs)
+xlsx_pattern_fg_bg (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	/* MAGIC :
+	 * Looks like pattern background and forground colours are inverted for
+	 * dxfs with solid fills for no apparent reason. */
+	gboolean const invert = state->style_accum_partial 
+		&& gnm_style_is_element_set (state->style_accum, MSTYLE_PATTERN)
+		&& (1 == gnm_style_get_pattern (state->style_accum));
 	GnmColor *color = elem_color (xin, attrs);
-	if (NULL != color)
+	if (NULL == color)
+		return;
+
+	if (xin->node->user_data.v_int ^ invert)
 		gnm_style_set_back_color (state->style_accum, color);
-}
-static void
-xlsx_pattern_bg (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GnmColor *color = elem_color (xin, attrs);
-	if (NULL != color)
+	else
 		gnm_style_set_pattern_color (state->style_accum, color);
 }
 
@@ -4629,8 +4632,10 @@ GSF_XML_IN_NODE_FULL (START, STYLE_INFO, XL_NS_SS, "styleSheet", GSF_XML_NO_CONT
 			FALSE, FALSE, &xlsx_collection_begin, &xlsx_collection_end, XLSX_COLLECT_FILLS),
     GSF_XML_IN_NODE (FILLS, FILL, XL_NS_SS, "fill", GSF_XML_NO_CONTENT, &xlsx_col_elem_begin, &xlsx_col_elem_end),
       GSF_XML_IN_NODE (FILL, PATTERN_FILL, XL_NS_SS, "patternFill", GSF_XML_NO_CONTENT, &xlsx_pattern, NULL),
-	GSF_XML_IN_NODE (PATTERN_FILL, PATTERN_FILL_FG,  XL_NS_SS, "fgColor", GSF_XML_NO_CONTENT, &xlsx_pattern_fg, NULL),
-	GSF_XML_IN_NODE (PATTERN_FILL, PATTERN_FILL_BG,  XL_NS_SS, "bgColor", GSF_XML_NO_CONTENT, &xlsx_pattern_bg, NULL),
+	GSF_XML_IN_NODE_FULL (PATTERN_FILL, PATTERN_FILL_FG,  XL_NS_SS, "fgColor", GSF_XML_NO_CONTENT,
+			      FALSE, FALSE, &xlsx_pattern_fg_bg, NULL, TRUE),
+	GSF_XML_IN_NODE_FULL (PATTERN_FILL, PATTERN_FILL_BG,  XL_NS_SS, "bgColor", GSF_XML_NO_CONTENT,
+			      FALSE, FALSE, &xlsx_pattern_fg_bg, NULL, FALSE),
       GSF_XML_IN_NODE (FILL, IMAGE_FILL, XL_NS_SS, "image", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (FILL, GRADIENT_FILL, XL_NS_SS, "gradientFill", GSF_XML_NO_CONTENT, &xlsx_CT_GradientFill, NULL),
 	GSF_XML_IN_NODE (GRADIENT_FILL, GRADIENT_STOPS, XL_NS_SS, "stop", GSF_XML_NO_CONTENT, NULL, NULL),

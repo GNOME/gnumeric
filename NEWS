@@ -36,6 +36,7 @@ Jody:
 	* Add column width doubling in 'display formula' mode.
 	* Fix OO.o style import. [#553506]
 	* Support XLSX themed colours. [#555687]
+	* Restore the undocumented magic for solid fills in XLSX conditions.
 
 J.H.M. Dassen (Ray):
 	* Understand and ignore byte-order markers for CSV/stf probing and

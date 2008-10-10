@@ -1,5 +1,11 @@
 2008-10-09  Jody Goldberg <jody@gnome.org>
 
+	* xlsx-read.c (xlsx_pattern_fg_bg) : merge _fg and _bg and
+	  restore/comment on why there seems to be a need for magic in the
+	  case of conditional formats.
+
+2008-10-09  Jody Goldberg <jody@gnome.org>
+
 	* xlsx-read.c (indexed_color) : return a GOColor.
 	(themed_color) : new.  Has some magic to use the theme indicies as
 	  lookups into a hard coded map.
