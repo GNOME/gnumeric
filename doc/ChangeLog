@@ -1,5 +1,14 @@
 2008-10-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* C/figures/doc/C/figures/analysistools-smoothing-ex5.png: new
+	* C/figures/doc/C/figures/analysistools-smoothing-ex6.png: new
+	* C/figures/doc/C/figures/analysistools-smoothing-ex7.png: new
+	* C/figures/doc/C/figures/analysistools-smoothing-ex8.png: new
+	* C/figures/Makefile.am: add above files
+	* C/analysis-statistical.xml: Update explanations for exp smoothing
+	
+2008-10-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* C/figures/analysistools-smoothing.png
 	* C/figures/doc/C/figures/analysistools-smoothing-ex1.png: updated
 	* C/figures/doc/C/figures/analysistools-smoothing-ex2.png: updated

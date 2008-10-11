@@ -62,6 +62,10 @@ EXTRA_DIST = \
      analysistools-smoothing-ex2.png \
      analysistools-smoothing-ex3.png \
      analysistools-smoothing-ex4.png \
+     analysistools-smoothing-ex5.png \
+     analysistools-smoothing-ex6.png \
+     analysistools-smoothing-ex7.png \
+     analysistools-smoothing-ex8.png \
      analysistools-smoothing.png \
      analysistools-tools.png \
      analysistools-ttest-equal-ex1.png \

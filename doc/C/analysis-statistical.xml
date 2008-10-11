@@ -706,11 +706,11 @@
      </sect3>
 
   <sect3 id="exp-smoothing-tool-hunter">
- <title>Exponential Smoothing according to Hunter</title>
+ <title>Exponential Smoothing According to Hunter</title>
 
     <para>  Each value in the
      smoothed set is predicted based on the forecast for the prior
-     period.  The formula is given in <xref linkend="exp-smoothing-tool-formula-hunter" />.
+     period.  The formula is given in <xref linkend="exp-smoothing-tool-formula-hunter" />. 
      &#x03b1; is the value given as <quote><guilabel>Damping factor</guilabel></quote>.
      <parameter>y<subscript>t</subscript></parameter> is the <parameter>t</parameter>th
      value in the original data set and <parameter>l<subscript>t</subscript></parameter>
@@ -731,11 +731,9 @@
     </screenshot>
   </figure>
 
-
-     <para>Specify prior forecast adjustment value in the
-     <quote><guilabel>Damping factor</guilabel></quote> entry.  
-     A value, for example, between 0.2 and 0.3 represents 20 to 30 percent error
-     adjustment in the prior forecast.</para>
+     <para>For example, a value for &#x03b1;  between 0.2 and 0.3 represents 20 to 30 percent error
+       adjustment in the prior forecast.
+     </para>
 
      <note><para>
 	 If you choose to have the tool enter formulas rather than values into the output region, 
@@ -769,7 +767,12 @@
     </screenshot>
   </figure>
  
-  <example id="usingsmoothingtool"><title>Using the Exponential Smoothing Tool</title>
+   <para>If you check the <quote><guilabel>Include chart</guilabel></quote> check box, a line
+    graph showing the observations <parameter>y<subscript>t</subscript></parameter> and the 
+    predicted values <parameter>l<subscript>t</subscript></parameter> will also be created.
+  </para>
+
+ <example id="usingsmoothingtool"><title>Using the Exponential Smoothing Tool</title>
      <para><xref linkend="smoothing-example-1" /> shows some example data, <xref linkend="smoothing-example-2" /> the selected options and 
      <xref linkend="smoothing-example-3" /> the corresponding output.
      </para>
@@ -822,7 +825,27 @@
   </sect3>
 
   <sect3 id="exp-smoothing-tool-roberts">
-<title>Exponential Smoothing according to Roberts</title>
+<title>Exponential Smoothing According to Roberts</title>
+
+  <para>The simple exponential smoothing method according to Roberts is used for 
+    forecasting a time series without a trend or seasonal pattern, but for which 
+    the level is nevertheless slowly changing over time. The predicted values are 
+    calculated according to the formula given in 
+    <xref linkend="exp-smoothing-tool-formula-roberts" />. &#x03b1; is the value 
+    given as <quote><guilabel>Damping factor</guilabel></quote>.
+    <parameter>y<subscript>t</subscript></parameter> is the <parameter>t</parameter>th
+    value in the original data set and <parameter>l<subscript>t</subscript></parameter>
+    the predicted value. <parameter>l<subscript>0</subscript></parameter> is the 
+    predicted value at time 0 and must be estimated. This tool uses the average 
+    value of the first 5 observations as estimate.  
+  </para>
+
+     <note><para>
+	 If you choose to have the tool enter formulas rather than values into 
+	 the output region, 
+	 then you can modify the damping factor &#x03b1; and the estimated value
+	 at time 0 after executing the tool. 
+     </para></note>
 
   <figure id="exp-smoothing-tool-formula-roberts">
     <title>Exponential Smoothing Formula According To Roberts</title>
@@ -863,20 +886,21 @@
   </figure>
   </sect3>
 
+  <para>If you check the <quote><guilabel>Include chart</guilabel></quote> check box, a line
+    graph showing the observations <parameter>y<subscript>t</subscript></parameter> and the 
+    predicted values <parameter>l<subscript>t</subscript></parameter> will also be created.
+  </para>
+
   <example id="usingsmoothingtool-roberts"><title>Using the Exponential Smoothing Tool</title>
      <para> 
      <xref linkend="smoothing-example-4" /> shows example output for the exponential smoothing
      tool using the formula according to Roberts. Cell A4 contains the estimated level at time 0.
-     the tool will use the average of the first 5 observations for this estimate.
+     If you requested to have formulas rather than values entered into the sheet, then changing 
+     the estimate in A4 and/or the value for &#x03b1; in A2 will result in an immediate change to 
+     the predicted values.
      </para>
 </example>
 
-
-     <note><para>
-	 If you choose to have the tool enter formulas rather than values into the output region, 
-	 then you can modify both the damping factor &#x03b1; and the estimated level at time 0
-	 after you executed the tool. 
-     </para></note>
 
   <figure id="smoothing-example-4">
     <title>Exponential Smoothing Tool Output (Roberts)</title>
@@ -897,6 +921,24 @@
   <sect3 id="exp-smoothing-tool-holt">
 <title>Holt's Trend Corrected Exponential Smoothing</title>
 
+  <para>Holt's trend corrected exponential smoothing is appropriate when both the level and the growth rate of a time series are changing. (If the time series has a fixed growth rate and therefore exhibits a linear trend, a linear regression model is more appropriate.) 
+  </para>
+
+  <para><parameter>y<subscript>t</subscript></parameter> is the true value at time 
+    <parameter>t</parameter>, <parameter>l<subscript>t</subscript></parameter>
+    is the estimated level at time <parameter>t</parameter> and <parameter>b<subscript>t
+    </subscript></parameter>
+    is the estimated growth rate at time <parameter>t</parameter>. We use the two smoothing equations
+    given in <xref linkend="exp-smoothing-tool-formula-holt" /> to update our estimates.
+    &#x03b1; is the value 
+    given as <quote><guilabel>Damping factor</guilabel></quote> and &#x03b3; is the value 
+    given as <quote><guilabel>Growth damping factor</guilabel></quote>. 
+  </para>
+
+  <para>This tool obtains initial (time 0) estimates for the level and growth rate by performing
+    a linear regression using the first 5 data values.
+  </para>
+
   <figure id="exp-smoothing-tool-formula-holt">
     <title>Formulae Of Holt's Trend Corrected Exponential Smoothing</title>
     <screenshot>
@@ -911,6 +953,14 @@
            </mediaobject>
     </screenshot>
   </figure>
+
+     <note><para>
+	 If you choose to have the tool enter formulas rather than values into 
+	 the output region, 
+	 then you can modify the damping factors &#x03b1; and &#x03b3; as well as the estimated level and growth rate
+	 at time 0 after executing the tool. 
+     </para></note>
+
 
      <para>To have the standard errors output as well, check the 
        <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is 
@@ -936,10 +986,78 @@
   </figure>
   </sect3>
 
+  <para>If you check the <quote><guilabel>Include chart</guilabel></quote> check box, a line
+    graph showing the observations <parameter>y<subscript>t</subscript></parameter> and the 
+    estimated level values <parameter>l<subscript>t</subscript></parameter> will also be created.
+  </para>
+
+  <example id="usingsmoothingtool-holt"><title>Using the Exponential Smoothing Tool</title>
+     <para> 
+     <xref linkend="smoothing-example-5" /> shows example output for Holt's trend corrected 
+     exponential smoothing. Cell A4 contains the estimated level at time 0 and B4 the estimated 
+     growth rate at time 0.
+     If you requested to have formulas rather than values entered into the sheet, then changing 
+     the estimates in A4, B4, the values for &#x03b1; in A2 and/or for &#x03b3; in B2 will result 
+     in an immediate change to 
+     the predicted values.
+     </para>
+</example>
+
+
+  <figure id="smoothing-example-5">
+    <title>Exponential Smoothing Tool Output (Holt's)</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-smoothing-ex5.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output of Holt's trend corrected exponential
+              smoothing.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+
   <sect3 id="exp-smoothing-tool-additive-holt-winters">
 <title>Additive Holt-Winters Method</title>
 
-  <figure id="exp-smoothing-tool-formula-a-holt-winters">
+  <para>The additive Holt-Winters method of exponential smoothing is appropriate when a time 
+    series with a linear trend has an additive seasonal pattern for which the level, the growth 
+    rate and the seasonal pattern may be changing. An additive seasonal pattern is a pattern in 
+    which the seasonal variation can be explained by the addition of a seasonal constant 
+    (although we allow for this constant to change slowly.) 
+  </para>
+
+   <para><parameter>y<subscript>t</subscript></parameter> is the true value at time 
+    <parameter>t</parameter>, <parameter>l<subscript>t</subscript></parameter>
+    is the estimated level at time <parameter>t</parameter>, <parameter>b<subscript>t
+    </subscript></parameter>
+    is the estimated growth rate at time <parameter>t</parameter> and <parameter>s<subscript>t
+    </subscript></parameter>
+    is the estimated seasonal adjustment for time <parameter>t</parameter>.
+    We use the three smoothing equations
+    given in <xref linkend="exp-smoothing-tool-formula-a-holt-winters" /> to update our estimates.
+    &#x03b1; is the value 
+    given as <quote><guilabel>Damping factor</guilabel></quote>, &#x03b3; is the value 
+    given as <quote><guilabel>Growth damping factor</guilabel></quote> and &#x03b4; is the value 
+    given as <quote><guilabel>Seasonal damping factor</guilabel></quote>. <parameter>L</parameter>
+    is the value 
+    given as <quote><guilabel>Seasonal period</guilabel></quote>. If your data consist of monthly 
+    values, then  <parameter>L</parameter> should be 12, if it consist of quarterly values then 
+    <parameter>L</parameter> should be 4.
+  </para>
+
+  <para>This tool obtains initial (time 0) estimates for the level and growth rate by performing
+    a linear regression using all data values. It obtains estimates 
+    for the seasonal adjustments by averaging the appropriate seasonal differences from values 
+    predicted by linear regression alone.  
+  </para>
+
+
+ <figure id="exp-smoothing-tool-formula-a-holt-winters">
     <title>Exponential Smoothing Formulae Of The Additive Holt-Winters Method</title>
     <screenshot>
 	<mediaobject>
@@ -953,6 +1071,13 @@
            </mediaobject>
     </screenshot>
   </figure>
+
+     <note><para>
+	 If you choose to have the tool enter formulas rather than values into 
+	 the output region, 
+	 then you can modify the damping factors &#x03b1;, &#x03b3;  and  &#x03b4; as well as all
+	 estimates after executing the tool. 
+     </para></note>
 
      <para>To have the standard errors output as well, check the 
        <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is 
@@ -976,10 +1101,93 @@
            </mediaobject>
     </screenshot>
   </figure>
+
+   <para>If you check the <quote><guilabel>Include chart</guilabel></quote> check box, a line
+    graph showing the observations <parameter>y<subscript>t</subscript></parameter> and the 
+    estimated level values <parameter>l<subscript>t</subscript></parameter> will also be created.
+  </para>
+
+ <example id="usingsmoothingtool-ahw"><title>Using the Exponential Smoothing Tool</title>
+     <para> 
+     <xref linkend="smoothing-example-6" /> shows the options' tab of the exponential smoothing 
+     tool for the additive Holt-Winters method. The data is expected to have a seasonal period 
+     of 4 (this would for example happen if we have a data value for each quarter of a year). 
+     <xref linkend="smoothing-example-7" /> shows the corresponding example output for the
+     additive Holt-Winters method. Cell C7 contains the estimated level at time 0, D7 the 
+     estimated growth rate at time 0, and E4 to E7 the initial seasonal adjustments for each 
+     of the 4 seasons preceding our data time period.
+     If you requested to have formulas rather than values entered into the sheet, then changing
+     any of these estimates, the values for &#x03b1; in A2, for &#x03b3; in B2 and/or for &#x03b4; 
+     in C2 will result in an immediate change to the estimated values.
+     </para>
+</example>
+
+  <figure id="smoothing-example-6">
+    <title>Exponential Smoothing Tool Options (Additive Holt-Winters))</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-smoothing-ex6.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the options' tab for the additive Holt-Winters method.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+  <figure id="smoothing-example-7">
+    <title>Exponential Smoothing Tool Output (Additive Holt-Winters)</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-smoothing-ex7.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output of the additive Holt-Winters method.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
     </sect3>
 
   <sect3 id="exp-smoothing-tool-multiplicative-holt-winters">
 <title>Multiplicative Holt-Winters Method</title>
+
+  <para>The multiplicative Holt-Winters method of exponential smoothing is appropriate when a time 
+    series with a linear trend has a multiplicative seasonal pattern for which the level, the growth 
+    rate and the seasonal pattern may be changing. A multiplicative seasonal pattern is a pattern in 
+    which the seasonal variation can be explained by the multiplication of a seasonal constant 
+    (although we allow for this constant to change slowly.) 
+  </para>
+
+   <para><parameter>y<subscript>t</subscript></parameter> is the true value at time 
+    <parameter>t</parameter>, <parameter>l<subscript>t</subscript></parameter>
+    is the estimated level at time <parameter>t</parameter>, <parameter>b<subscript>t
+    </subscript></parameter>
+    is the estimated growth rate at time <parameter>t</parameter> and <parameter>s<subscript>t
+    </subscript></parameter>
+    is the estimated seasonal adjustment for time <parameter>t</parameter>.
+    We use the three smoothing equations
+    given in <xref linkend="exp-smoothing-tool-formula-m-holt-winters" /> to update our estimates.
+    &#x03b1; is the value 
+    given as <quote><guilabel>Damping factor</guilabel></quote>, &#x03b3; is the value 
+    given as <quote><guilabel>Growth damping factor</guilabel></quote> and &#x03b4; is the value 
+    given as <quote><guilabel>Seasonal damping factor</guilabel></quote>. <parameter>L</parameter>
+    is the value 
+    given as <quote><guilabel>Seasonal period</guilabel></quote>. If your data consist of monthly 
+    values, then  <parameter>L</parameter> should be 12, if it consist of quarterly values then 
+    <parameter>L</parameter> should be 4.
+  </para>
+
+  <para>This tool obtains initial (time 0) estimates for the level and growth rate by performing
+    a linear regression using the data values of the first 4 seasonal periods. It obtains estimates 
+    for the seasonal adjustments by averaging the appropriate seasonal differences from values 
+    predicted by linear regression alone during the first 4 seasonal periods.  
+  </para>
 
   <figure id="exp-smoothing-tool-formula-m-holt-winters">
     <title>Exponential Smoothing Formulae Of The Multiplicative Holt-Winters Method</title>
@@ -995,6 +1203,13 @@
            </mediaobject>
     </screenshot>
   </figure>
+
+     <note><para>
+	 If you choose to have the tool enter formulas rather than values into 
+	 the output region, 
+	 then you can modify the damping factors &#x03b1;, &#x03b3;  and  &#x03b4; as well as all
+	 estimates after executing the tool. 
+     </para></note>
 
   <para>To have the standard errors output as well, check the 
     <quote><guilabel>Standard error</guilabel></quote> check box. The formula used is given in  
@@ -1018,6 +1233,39 @@
            </mediaobject>
     </screenshot>
   </figure>
+
+  <para>If you check the <quote><guilabel>Include chart</guilabel></quote> check box, a line
+    graph showing the observations <parameter>y<subscript>t</subscript></parameter> and the 
+    estimated level values <parameter>l<subscript>t</subscript></parameter> will also be created.
+  </para>
+
+  <example id="usingsmoothingtool-mhw"><title>Using the Exponential Smoothing Tool</title>
+     <para> 
+     <xref linkend="smoothing-example-8" /> shows the example output for the
+     multiplicative Holt-Winters method, assuming 4 seasons. Cell C7 contains the estimated level 
+     at time 0, D7 the estimated growth rate at time 0, and E4 to E7 the initial seasonal 
+     adjustments for each of the 4 seasons preceding our data time period.
+     If you requested to have formulas rather than values entered into the sheet, then changing
+     any of these estimates, the values for &#x03b1; in A2, for &#x03b3; in B2 and/or for &#x03b4; 
+     in C2 will result in an immediate change to the estimated values.
+     </para>
+</example>
+
+ <figure id="smoothing-example-8">
+    <title>Exponential Smoothing Tool Output (Multiplicative Holt-Winters)</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-smoothing-ex8.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output of the multiplicative Holt-Winters method.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
   </sect3>
   
   </sect2>
