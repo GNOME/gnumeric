@@ -36,9 +36,13 @@ EXTRA_DIST = \
      analysistools-ftest-ex2.png \
      analysistools-ftest.png \
      analysistools-histogram-bins.png \
+     analysistools-histogram-cutoffs.png \
      analysistools-histogram-ex1.png \
      analysistools-histogram-ex2.png \
      analysistools-histogram-ex3.png \
+     analysistools-histogram-ex4.png \
+     analysistools-histogram-ex5.png \
+     analysistools-histogram-graphs.png \
      analysistools-histogram.png \
      analysistools-moving-average-ex1.png \
      analysistools-moving-average-ex2.png \

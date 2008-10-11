@@ -1,3 +1,17 @@
+2008-10-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* C/figures/analysistools-histogram-cutoffs.png: new
+	* C/figures/analysistools-histogram-ex4.png: new
+	* C/figures/analysistools-histogram-ex5.png: new
+	* C/figures/analysistools-histogram-graphs.png: new
+	* C/figures/Makefile.am: add above files
+	* C/figures/analysistools-histogram-bins.png: updated
+	* C/figures/analysistools-histogram-ex1.png: updated
+	* C/figures/analysistools-histogram.png: updated
+	* C/figures/analysistools-histogram-ex2.png: updated
+	* C/figures/analysistools-histogram-ex3.png: updated
+	* C/analysis-statistical.xml: Update explanations for histograms
+
 2008-10-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* C/figures/doc/C/figures/analysistools-smoothing-ex5.png: new

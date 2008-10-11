@@ -14,7 +14,7 @@
   <figure id="fig-statistical-analysistools">
     <title>Statistical Analysis Tools </title>
     <screenshot>
-      <screeninfo>Gnumeric's Data Analysis Tools</screeninfo>
+      <screeninfo>&gnum;'s Data Analysis Tools</screeninfo>
       <mediaobject>
         <imageobject>
           <imagedata fileref="figures/analysistools-tools.png" 
@@ -56,7 +56,7 @@
 
   <para>Most analysis tools also provide a choice whether
     they will enter formulas or just values in the cells. By default 
-    Gnumeric will usually enter formulas. These formulas will automatically
+    &gnum; will usually enter formulas. These formulas will automatically
     reevaluate when the data change. For some tools, the formulas also
     permit modofication of certain parameters. 
   </para> 
@@ -699,7 +699,7 @@
      <quote><guilabel>Labels</guilabel></quote> option.</para>
 
      <para> If you select the <quote><guilabel>Include chart</guilabel></quote> 
-       option, Gnumeric
+       option, &gnum;
        will also create a chart showing both the data and correcponding smoothed 
        values.
      </para>
@@ -1434,6 +1434,12 @@
      <title>Introduction</title>
      
 
+    <para> The histogram tool can be used to create histograms or frequency tables for 
+      numerical data. Using this tool you can define intervals, or <quote>bins</quote>. 
+      The toll determine how many data points belong to each bin and present this number 
+      numerically as well as graphically.
+    </para>
+    
   <figure id="histogram-tool-dialog">
     <title>Histogram Tool Dialog</title>
     <screenshot>
@@ -1450,14 +1456,8 @@
     </screenshot>
   </figure>
 
-     <para>
-     The histogram calculates several kinds of histograms for one or more 
-     variables. The types of histogram created are determined by the options
-     selected.  
-     </para>
-
      <para>As shown in <xref linkend="histogram-tool-dialog" />, the
-     histogram dialog has four tabs. We will introduce them in
+     histogram dialog has five tabs. We will introduce them in
      sequence.</para>
   </sect3>
 
@@ -1465,23 +1465,63 @@
      <title>The <quote><guilabel>Input</guilabel></quote> Tab</title>
 
      <para>The <quote><guilabel>Input</guilabel></quote> tab contains
-     the field specifying the data to be used for the
-     histogram.</para>
+       the field specifying the data to be used for the
+       histogram.</para>
      <para>
-     The <quote><guilabel>Input Range</guilabel></quote> entry
-     contains a single range or a list of ranges, that can be grouped
-     into variables by rows, columns, or areas. The
-     <quote><guilabel>Bin Range</guilabel></quote> entry contains a
-     single range of cutoff values. Both ranges may also include
-     labels.
+       The <quote><guilabel>Input Range</guilabel></quote> entry
+       contains a single range or a list of ranges, that can be grouped
+       into variables by rows, columns, or areas.
      </para>
      <para>If the first row or column of the given input ranges, or
-     the first field of each area contains labels, the
-     <quote><guibutton>Input Labels</guibutton></quote> option should
-     be selected.
+       the first field of each area contains labels, the
+       <quote><guibutton>Labels</guibutton></quote> option should
+       be selected.
+       If the input is grouped by areas and the top left cell contains a label, the
+       other cells in the first row are being ignored.
      </para>
-
   </sect3>
+  
+  <sect3 id="histogram-tool-cutoffsstab">
+     <title>The <quote><guilabel>Cutoffs</guilabel></quote> Tab</title>
+  <figure id="histogram-tool-dialog-cutoffs">
+    <title>Histogram Tool Dialog <quote><guilabel>Cutoffs</guilabel></quote> Tab</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-histogram-cutoffs.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the dialog to generate various
+              histograms open to the "Cutoffs" tab.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+  <para>The cutoffs for the histogram can either be predetermined by data 
+    contained in your workbook or calculated by the histogram tool.  These cutoffs 
+    determine bins as defined
+    by the delection on the <quote><guilabel>Bins</guilabel></quote> tab.
+  </para>
+
+  <para>Select the <quote><guilabel>Predetermined Cutoffs</guilabel></quote> option to specify 
+    data on your worksheet in the <quote><guilabel>Cutoff Range:</guilabel></quote> entry. The 
+    values in this range will be used as cutoffs <parameter>c<subscript>1</subscript></parameter>,
+    <parameter>c<subscript>2</subscript></parameter>, and so on 
+    to  <parameter>c<subscript>n</subscript></parameter>.
+  </para> 
+
+  <para>Select the <quote><guilabel>Calculated Cutoffs</guilabel></quote> option to have the 
+    cutoffs determined by the tool. Enter the desired number of cutoofs in the 
+    <quote><guilabel>Number of Cutoffs</guilabel></quote> entry. It is strongly recommended 
+    (but optional) that you 
+    specify the minimum and maximum cutoffs in the <quote><guilabel>Minimum cutoff</guilabel></quote>
+    and <quote><guilabel>Maximum cutoff</guilabel></quote> entries. If the minimum or maximum
+    cutoff is not specified, the tool will use the minimum and/or maximum of the current data. 
+  </para>
+  </sect3>
+  
   <sect3 id="histogram-tool-binstab">
      <title>The <quote><guilabel>Bins</guilabel></quote> Tab</title>
   <figure id="histogram-tool-dialog-bins">
@@ -1500,46 +1540,69 @@
     </screenshot>
   </figure>
 
-  <para>The bins (or classes) for the histogram can either be predetermined by data 
-  contained in your workbook or calculated by the histogram tool.</para>
-
-  <para>Select the <quote><guilabel>Predetermined Bins</guilabel></quote> option to specify 
-  data on your worksheet in the <quote><guilabel>Bin Range:</guilabel></quote> entry. The
-  range should consist of a single column or two columns (the first one containing labels). If the 
-  first column of the bin range contains labels, select the <quote><guibutton>Bin 
-  Labels</guibutton></quote> option. The values in the last column are used as separators between adjacent bins.</para> 
-
-  <para>Select the <quote><guilabel>Calculated Bins</guilabel></quote> option to have the 
-  bins determined by the tool. Enter the desired number of bins in the 
-  <quote><guilabel>N:</guilabel></quote> entry. It is recommended (but optional) that you 
-  specify the minimum and maximum cutoffs in the <quote><guilabel>Min:</guilabel></quote>
-  and <quote><guilabel>Max:</guilabel></quote> entries.</para>
-  </sect3>
+  <para> The bins tab is used to determine how the cutoffs <parameter>c<subscript>1</subscript></parameter>,
+    <parameter>c<subscript>2</subscript></parameter>, and so on 
+    to  <parameter>c<subscript>n</subscript></parameter> are translated into bins. Specifically, 
+    it has to be determined whether first and/or last bins reaching from %#x2212;%#x221e; to 
+    <parameter>c<subscript>1</subscript></parameter> and from 
+    <parameter>c<subscript>n</subscript></parameter> to %#x221e; are added and whetehr data points that much
+    curoffs exactly are included in the bin to the right or the left.
+  </para>
+  <para> For example the option  
+    <quote><guilabel>[%#x2219;,%#x2219;),[%#x2219;,%#x2219;),%#x22ef,
+	[%#x2219;,%#x2219;),[%#x2219;,%#x221e;)
+    </guilabel></quote>
+    indicates that the first bin starts at the first cutoff while the last bin ends at %#x22ef. Moreover,
+    each cutoff value belongs to the bin on its right.
+  </para>
+    </sect3>
 
   <sect3 id="histogram-tool-optionstab">
-     <title>The <quote><guilabel>Options</guilabel></quote> Tab</title>
+     <title>The <quote><guilabel>Graphs &amp; Options</guilabel></quote> Tab</title>
+ <figure id="histogram-tool-dialog-options">
+    <title>Histogram Tool Dialog <quote><guilabel>Graphs &amp; Options Tab</guilabel></quote></title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-histogram-graphs.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the dialog to generate various
+              histograms open to the "Graphs &amp; Options" tab.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
 
-     <para> The options in the options tab modify the appearance of the histogram:</para>
+     <para> The options in the graphs and options tab specify any graph to be created and modify 
+       the appearance of the histogram:</para>
+
      <itemizedlist>
      <listitem>
-     <para> The <quote><guibutton>Pareto</guibutton></quote> option causes the bins to be 
-     sorted by decreasing 
-     frequency of the first variable.
+     <para> The <quote><guibutton>No chart</guibutton></quote> option causes the chart to be omitted.
      </para>
      </listitem>
      <listitem>
-     <para> The <quote><guibutton>Percentages</guibutton></quote> option adds a histogram in terms 
-     of 
-     percentages rather than frequencies.
+     <para> The <quote><guibutton>Bar chart</guibutton></quote> option causes a bar chart to be 
+       added to the histogram. For each bin, the bar chart shows a horizontal bar indicating the frequency.
+     </para>
+     <para> The <quote><guibutton>Column chart</guibutton></quote> option causes a column chart to be 
+       added to the histogram. For each bin, the column chart shows a vertical bar indicating the frequency.
+     </para>
+     <para> The <quote><guibutton>Histogram chart</guibutton></quote> option causes a histogram chart to be 
+       added to the histogram. For each bin, the histogram chart shows a vertical bar indicating the density 
+       (that is the frequency divided by the width of the bin).
      </para>
      </listitem>
      <listitem>
-     <para> The <quote><guibutton>Cumulative Percentages</guibutton></quote> option adds a 
-     cumulative histogram.
+     <para> The <quote><guibutton>Percentages</guibutton></quote> option causes the frequencies to be 
+       expressed as percentages. 
      </para>
      </listitem>
      <listitem>
-     <para> The <quote><guibutton>Chart</guibutton></quote> option is not implemented.
+     <para> The <quote><guibutton>Cumulative percentages</guibutton></quote> option causes a cumulative 
+       frequency table to be created.  
      </para>
      </listitem>
      </itemizedlist>
@@ -1577,43 +1640,25 @@
       </screenshot>
     </figure>
 
-    <figure id="histogram-example-3">
-      <title>Specifying Bins</title>
-      <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-histogram-ex3.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of selecting the bins for the example
-              data used with the histogram tool.</phrase>
-            </textobject>
-           </mediaobject>
-      </screenshot>
-    </figure>
-
     <example id="usinghistogramtool">
       <title>Using the Histogram Tool</title>
 
       <para>
-        For example, you want to calculate a histogram and a
-        cumulative histogram in percentages for a the number of
+        For example, you want to calculate a histogram for the number of
         successes in several sequences of trials. The numbers of
-        successes are recorded in column A and the classes of interest
-        in column D with labels in column C (see <xref
-        linkend="histogram-example-1" />).
+        successes are recorded in column A and the cutoffs of interest
+        in column C (see <xref linkend="histogram-example-1" />).
       </para>
 
       <orderedlist>
         <listitem>
           <para>
-            Enter A1:A21 in the <quote><guilabel>Input
+            Enter A1:A31 in the <quote><guilabel>Input
             Range:</guilabel></quote> entry of the
             <quote><guilabel>Input</guilabel></quote> tab by typing
             this directly into the entry or clicking in the entry
             field and then selecting that range on the sheet. In the
-            latter case the entry will also contain the sheet
+            latter case the entry may also contain the sheet
             name. 
           </para>
         </listitem>
@@ -1626,26 +1671,34 @@
             </para>
         </listitem> 
         <listitem><para> Select the
-            <quote><guibutton>Input Labels</guibutton></quote> option
+            <quote><guibutton>Labels</guibutton></quote> option
             since the first cell of the Input Range contains a
             label.</para>
         </listitem>
-        <listitem><para> Enter C1:D5 in
-            the <quote><guilabel>Bin Range:</guilabel></quote> entry
-            of the <quote><guilabel>Bins</guilabel></quote> tab. The
-            <quote><guilabel>Predetermined Bins</guilabel></quote>
+	
+        <listitem><para> Enter C2:C5 in
+            the <quote><guilabel>Cutoff Range:</guilabel></quote> entry
+            of the <quote><guilabel>Cutoffs</guilabel></quote> tab. The
+            <quote><guilabel>Predetermined Cutoffs</guilabel></quote>
             option will now also be selected (see <xref
-            linkend="histogram-example-3" />). </para>
+            linkend="histogram-example-2" />). </para>
         </listitem>
-         <listitem><para> Select the <quote><guibutton>Bin
-            Labels</guibutton></quote> option since the first column
-            of the Bin Range contains labels.  </para>
+        <listitem><para> In the  <quote><guilabel>Bins</guilabel></quote> tab 
+	    select the second option since we want to add two bins reaching to %#x2213;%#x221e and 
+	    we want to count each cutoff value in the bin to its right (see <xref
+            linkend="histogram-example-3" />).</para>
         </listitem>
         <listitem><para> Select the
-            <quote><guibutton>Percentage</guibutton></quote> and
-            <quote><guibutton>Cumulative
-            Percentages</guibutton></quote> options of the
-            <quote><guilabel>Options</guilabel></quote> tab.
+            <quote><guibutton>Percentage</guibutton></quote> option of the
+            <quote><guilabel>Graphs &amp;Options</guilabel></quote> tab to have
+	    the frequencies expressed as percentages.
+            </para>
+        </listitem>
+        <listitem><para> Select the
+            <quote><guibutton>Column Chart</guibutton></quote> option of the
+            <quote><guilabel>Graphs &amp;Options</guilabel></quote> tab to have
+	    a column chart added to the histogram (see <xref
+            linkend="histogram-example-4" />).
             </para>
         </listitem>
         <listitem>
@@ -1660,14 +1713,65 @@
         </listitem>
       </orderedlist>
      <para> The results are shown in 
-     <xref linkend="histogram-example-2" />.</para>
+       <xref linkend="histogram-example-5" />. Note that the graph will by default appear on top 
+       of the histogram table. It usually needs to be moved in to proper position. That has
+       already been done here.
+     </para>
  </example>
-  <figure id="histogram-example-2">
+ 
+
+    <figure id="histogram-example-2">
+      <title>Histogram Tool: Specifying Cutoffs</title>
+      <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-histogram-ex2.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of selecting the cutoffss for the example
+              data used with the histogram tool.</phrase>
+            </textobject>
+           </mediaobject>
+      </screenshot>
+    </figure>
+
+ <figure id="histogram-example-3">
+    <title>Histogram Tool: Specifying Bins</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-histogram-ex3.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of selecting a certain bins type.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+ <figure id="histogram-example-4">
+    <title>Histogram Tool: Specifying Options</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-histogram-ex4.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of speciffying the required options.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+
+ <figure id="histogram-example-5">
     <title>Histogram Tool Output</title>
     <screenshot>
 	<mediaobject>
             <imageobject>
-              <imagedata fileref="figures/analysistools-histogram-ex2.png" 
+              <imagedata fileref="figures/analysistools-histogram-ex5.png" 
                   format="PNG" />
             </imageobject>
             <textobject>
