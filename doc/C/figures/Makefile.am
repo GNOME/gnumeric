@@ -46,7 +46,12 @@ EXTRA_DIST = \
      analysistools-histogram.png \
      analysistools-moving-average-ex1.png \
      analysistools-moving-average-ex2.png \
+     analysistools-moving-average-ex3.png \
      analysistools-moving-average.png \
+     analysistools-moving-average-options.png \
+     analysistools-moving-average-formula-central.png \
+     analysistools-moving-average-formula-spencer.png \
+     analysistools-moving-average-formula-weighted.png \
      analysistools-outputoptions.png \
      analysistools-random-ex1.png \
      analysistools-random-ex2.png \

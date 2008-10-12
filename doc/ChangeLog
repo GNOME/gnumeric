@@ -1,5 +1,19 @@
 2008-10-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* C/figures/analysistools-moving-average-options.png: new
+	* C/figures/analysistools-moving-average-formula-central.png: new
+	* C/figures/analysistools-moving-average-ex3.png: new
+	* C/figures/analysistools-moving-average-formula-spencer.png: new
+	* C/figures/analysistools-moving-average-formula-weighted.png: new
+	* C/figures/Makefile.am: add above files
+	* C/figures/analysistools-moving-average-ex1.png: updated
+	* C/figures/analysistools-moving-average-ex2.png: updated
+	* C/figures/analysistools-moving-average.png: updated
+	* C/analysis-statistical.xml: Update explanations for moving
+	  averages
+
+2008-10-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* C/figures/analysistools-histogram-cutoffs.png: new
 	* C/figures/analysistools-histogram-ex4.png: new
 	* C/figures/analysistools-histogram-ex5.png: new

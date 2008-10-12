@@ -1819,54 +1819,243 @@
      select the <quote><guilabel>Labels</guilabel></quote>
      option.</para>
 
-     <para>Specify the <quote><guilabel>Interval</guilabel></quote>
-     for the moving average.  The interval <parameter>i</parameter> is
-     the number of consecutive values to be included in each moving
-     average.</para>
-
-     <para>The results are given in one column for each dataset Each
-     row represents the moving average of the corresponding row or
-     column in the input range.  The moving average cannot be
-     calculated for the first <parameter>k</parameter> rows in the
-     input range where <parameter>k</parameter> is smaller than the
-     given interval <parameter>i</parameter>.</para>
-
-   <figure id="moving-example-1">
-    <title>Some Example Data for the Moving Average Tool</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-moving-average-ex1.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of some example data for use with the
-              moving average analysis tool.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
- <example id="usingmovingtool"><title>Using the Moving Average Tool</title>
-     <para><xref linkend="moving-example-1" /> shows some example data and 
-     <xref linkend="moving-example-2" /> the corresponding output.
+     <para>Choose the type of moving average you would like to calculate. The tool can
+       determine 4 types of moving averages:
      </para>
-</example>
-  <figure id="moving-example-2">
-    <title>Moving Averages Tool Output</title>
+     <orderedlist>
+       <listitem><para>
+	   Simple moving average
+       </para></listitem>
+       <listitem><para>
+	   Cumulative moving average
+       </para></listitem>
+       <listitem><para>
+	   Weighted moving average
+       </para></listitem>
+       <listitem><para>
+	   Spencer's 15 point moving average
+       </para></listitem>
+     </orderedlist>
+
+  <figure id="moving-tool-dialog-options">
+    <title>
+      Moving Average Tool Dialog: The 
+      <quote><guilabel>Options</guilabel></quote> Tab
+    </title>
     <screenshot>
 	<mediaobject>
             <imageobject>
-              <imagedata fileref="figures/analysistools-moving-average-ex2.png" 
+              <imagedata fileref="figures/analysistools-moving-average-options.png" 
                   format="PNG" />
             </imageobject>
             <textobject>
-              <phrase>An image of the output from the moving average
-              analysis tool.</phrase>
+              <phrase>An image of the <quote><guilabel>Options</guilabel></quote> 
+		tab of the moving average
+		analysis tool.</phrase>
             </textobject>
            </mediaobject>
     </screenshot>
   </figure>
+
+  <para>Specify the <quote><guilabel>Interval</guilabel></quote>
+    for the moving average.  The interval <parameter>i</parameter> is
+    the number of consecutive values to be included in each moving
+    average. This options is only available for the simple and weighted 
+    moving averages.
+  </para>
+
+  <para>Check the <quote><guilabel>Standard errors</guilabel></quote>
+    checkbox if you would also like the standard error to be calculated.  
+    Since there is no general agreement on the denominator for the standard 
+    error you can choose the appropriate radio button.
+  </para>
+
+  <para>In the case of the simple moving average, you can also choose between 
+    a prior moving average and a central moving average, or you may even specify 
+    any other desired offset.
+  </para>
+     <orderedlist>
+       <listitem><para>
+	   <quote><guilabel>Prior moving average</guilabel></quote>: Each average 
+	   takes into account the current observation and teh most recent prior 
+	   observations for a total of <parameter>i</parameter> observations.
+       </para></listitem>
+       <listitem><para>
+	   <quote><guilabel>Central moving average</guilabel></quote>
+	   with <parameter>i</parameter> being odd: Each average 
+	   takes into account the current observation and the same number of most recent prior 
+	   observations and closest future observations for a total of 
+	   <parameter>i</parameter> observations.
+       </para></listitem>
+       <listitem><para>
+	   <quote><guilabel>Central moving average</guilabel></quote>
+	   with <parameter>i</parameter> being even:
+	   This is calculated according to the formula given in 
+	   <xref linkend="moving-formula-central" />. 
+	   <parameter>a<subscript>t</subscript></parameter> is the moving average
+	   at time <parameter>t</parameter> and 
+	   <parameter>y<subscript>t</subscript></parameter> is the observation at
+	   time <parameter>t</parameter>.
+       </para></listitem>
+       <listitem><para>
+	   <quote><guilabel>Other offset</guilabel></quote>: If the offset is 0,
+	   this is just the prior moving average. Otherwise the offset indicates 
+	   the number of closest future observations to include in the average. 
+	   Correspondingly, the number of most recent past observations is decreased.
+       </para></listitem>
+     </orderedlist>
+
+       <figure id="moving-formula-central">
+	 <title>Formula For The Central Moving Average With Even Interval</title>
+	 <screenshot>
+	   <mediaobject>
+             <imageobject>
+               <imagedata fileref="figures/analysistools-moving-average-formula-central.png" 
+			  format="PNG" />
+             </imageobject>
+             <textobject>
+               <phrase>The formula for the central moving average if the interval 
+		 length is even.</phrase>
+             </textobject>
+           </mediaobject>
+	 </screenshot>
+       </figure>
+
+
+  <para>The results are given in one column for each dataset (with a second 
+    column added if you have chosen standard errors to be calculated). Each
+    row represents the moving average of the corresponding row or
+    column in the input range.  Depending on the type of average and 
+    the offset, the moving average cannot be
+    calculated for the first rows in the
+    input range.
+  </para>
+
+     <sect3 id="moving-averages-simple">
+       <title>Simple Moving Average</title>
+       <para>
+	 A simple moving average is the unweighted average of a collection of 
+	 observations. Exactly which observations are included depends on whether 
+	 a prior or central moving average is calculated.  
+       </para>
+     </sect3>
+     <sect3 id="moving-averages-cumulative">
+       <title>Cumulative Moving Average</title>
+       A cumulative moving average is a prior moving average in which the current 
+       and all prior observations are included.
+     </sect3>
+     <sect3 id="moving-averages-weighted">
+       <title>Weighted Moving Average</title>
+       A weighted moving average with an interval <parameter>i</parameter> is a prior 
+       moving average calculated according to formula 
+       <xref linkend="moving-formula-central" />. 
+       <parameter>a<subscript>t</subscript></parameter> is the moving average
+       at time <parameter>t</parameter> and 
+       <parameter>y<subscript>t</subscript></parameter> is the observation at
+       time <parameter>t</parameter>.
+     </sect3>
+
+       <figure id="moving-averages-weighted">
+	 <title>Formula For The Weighted Moving Average With Interval 
+	   <parameter>i</parameter></title>
+	 <screenshot>
+	   <mediaobject>
+             <imageobject>
+               <imagedata fileref="figures/analysistools-moving-average-formula-weighted.png" 
+			  format="PNG" />
+             </imageobject>
+             <textobject>
+               <phrase>The formula for the weighted moving average if the interval 
+		 length is <parameter>i</parameter>.</phrase>
+             </textobject>
+           </mediaobject>
+	 </screenshot>
+       </figure>
+     
+
+     <sect3 id="moving-averages-spencer">
+       <title>Spencer's 15 Point Moving Average</title>
+       <para>Spencer's 15 point moving average is a central moving average calculated 
+	 according to formula 
+       </para>
+       <xref linkend="moving-formula-spencer" />. 
+       <parameter>a<subscript>t</subscript></parameter> is the moving average
+       at time <parameter>t</parameter> and 
+       <parameter>y<subscript>t</subscript></parameter> is the observation at
+       time <parameter>t</parameter>.
+     </sect3>
+
+       <figure id="moving-formula-spencer">
+	 <title>Formula For Spencer's 15 Point Moving Average</title>
+	 <screenshot>
+	   <mediaobject>
+             <imageobject>
+               <imagedata fileref="figures/analysistools-moving-average-formula-spencer.png" 
+			  format="PNG" />
+             </imageobject>
+             <textobject>
+               <phrase>The formula for the Spencer's 15 point moving average.</phrase>
+             </textobject>
+           </mediaobject>
+	 </screenshot>
+       </figure>
+
+     <sect3 id="moving-averages-example">
+       <title>A Moving Average Example</title>
+       <figure id="moving-example-1">
+	 <title>Some Example Data for the Moving Average Tool</title>
+	 <screenshot>
+	   <mediaobject>
+             <imageobject>
+               <imagedata fileref="figures/analysistools-moving-average-ex1.png" 
+			  format="PNG" />
+             </imageobject>
+             <textobject>
+               <phrase>An image of some example data for use with the
+		 moving average analysis tool.</phrase>
+             </textobject>
+           </mediaobject>
+	 </screenshot>
+       </figure>
+       <example id="usingmovingtool"><title>Using the Moving Average Tool</title>
+	 <para><xref linkend="moving-example-1" /> shows some example data,  
+	   <xref linkend="moving-example-2" /> shows the option settings, and 
+	   <xref linkend="moving-example-3" /> the corresponding output.
+	 </para>
+       </example>
+       <figure id="moving-example-2">
+	 <title>Moving Averages Tool Options</title>
+	 <screenshot>
+	   <mediaobject>
+             <imageobject>
+               <imagedata fileref="figures/analysistools-moving-average-ex2.png" 
+			  format="PNG" />
+             </imageobject>
+             <textobject>
+               <phrase>An image of the option settings of the moving averages 
+		 example.</phrase>
+             </textobject>
+           </mediaobject>
+	 </screenshot>
+       </figure>
+       <figure id="moving-example-3">
+	 <title>Moving Averages Tool Output</title>
+	 <screenshot>
+	   <mediaobject>
+             <imageobject>
+               <imagedata fileref="figures/analysistools-moving-average-ex3.png" 
+			  format="PNG" />
+             </imageobject>
+             <textobject>
+               <phrase>An image of the output from the moving average
+		 analysis tool.</phrase>
+             </textobject>
+           </mediaobject>
+	 </screenshot>
+       </figure>
+     </sect3>
   </sect2>
+  
 
   <sect2 id="rank-and-percentile-tool">
      <title>Rank and Percentile Tool</title>
