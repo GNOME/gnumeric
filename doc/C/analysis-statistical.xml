@@ -46,7 +46,7 @@
 
   <para>You will normally want to select the <guilabel>Clear
     Output Range</guilabel> option, since otherwise some of the cells with 
-    exisiting content will remain in the output range.
+    existing content will remain in the output range.
   </para> 
 
   <para> The <guilabel>Retain Output Range Formatting</guilabel> and 
@@ -58,7 +58,7 @@
     they will enter formulas or just values in the cells. By default 
     &gnum; will usually enter formulas. These formulas will automatically
     reevaluate when the data change. For some tools, the formulas also
-    permit modofication of certain parameters. 
+    permit modification of certain parameters. 
   </para> 
   
 
@@ -700,7 +700,7 @@
 
      <para> If you select the <quote><guilabel>Include chart</guilabel></quote> 
        option, &gnum;
-       will also create a chart showing both the data and correcponding smoothed 
+       will also create a chart showing both the data and corresponding smoothed 
        values.
      </para>
      </sect3>
@@ -1198,7 +1198,7 @@
                   format="PNG" />
             </imageobject>
             <textobject>
-              <phrase>The formulae used in the multiplivative Holt-Winters Method</phrase>
+              <phrase>The formulae used in the multiplicative Holt-Winters Method</phrase>
             </textobject>
            </mediaobject>
     </screenshot>
@@ -1226,7 +1226,7 @@
                   format="PNG" />
             </imageobject>
             <textobject>
-              <phrase>The formula used to calculate the standard error in the multiplivative 
+              <phrase>The formula used to calculate the standard error in the multiplicative 
 		Holt-Winters Method
 	      </phrase>
             </textobject>
@@ -1502,7 +1502,7 @@
   <para>The cutoffs for the histogram can either be predetermined by data 
     contained in your workbook or calculated by the histogram tool.  These cutoffs 
     determine bins as defined
-    by the delection on the <quote><guilabel>Bins</guilabel></quote> tab.
+    by the selection on the <quote><guilabel>Bins</guilabel></quote> tab.
   </para>
 
   <para>Select the <quote><guilabel>Predetermined Cutoffs</guilabel></quote> option to specify 
@@ -1513,7 +1513,7 @@
   </para> 
 
   <para>Select the <quote><guilabel>Calculated Cutoffs</guilabel></quote> option to have the 
-    cutoffs determined by the tool. Enter the desired number of cutoofs in the 
+    cutoffs determined by the tool. Enter the desired number of cutoffs in the 
     <quote><guilabel>Number of Cutoffs</guilabel></quote> entry. It is strongly recommended 
     (but optional) that you 
     specify the minimum and maximum cutoffs in the <quote><guilabel>Minimum cutoff</guilabel></quote>
@@ -1545,8 +1545,8 @@
     to  <parameter>c<subscript>n</subscript></parameter> are translated into bins. Specifically, 
     it has to be determined whether first and/or last bins reaching from %#x2212;%#x221e; to 
     <parameter>c<subscript>1</subscript></parameter> and from 
-    <parameter>c<subscript>n</subscript></parameter> to %#x221e; are added and whetehr data points that much
-    curoffs exactly are included in the bin to the right or the left.
+    <parameter>c<subscript>n</subscript></parameter> to %#x221e; are added and whether data points that much
+    cutoffs exactly are included in the bin to the right or the left.
   </para>
   <para> For example the option  
     <quote><guilabel>[%#x2219;,%#x2219;),[%#x2219;,%#x2219;),%#x22ef,
@@ -1729,7 +1729,7 @@
                   format="PNG" />
             </imageobject>
             <textobject>
-              <phrase>An image of selecting the cutoffss for the example
+              <phrase>An image of selecting the cutoffs for the example
               data used with the histogram tool.</phrase>
             </textobject>
            </mediaobject>
@@ -1760,7 +1760,7 @@
                   format="PNG" />
             </imageobject>
             <textobject>
-              <phrase>An image of speciffying the required options.</phrase>
+              <phrase>An image of specifying the required options.</phrase>
             </textobject>
            </mediaobject>
     </screenshot>

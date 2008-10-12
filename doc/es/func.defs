@@ -1817,7 +1817,7 @@ HYPGEOMDIST(1,2,3,10) equals 0.4666667.
 
 @FUNCTION=IF
 @SYNTAX=IF(condition[,if-true,if-false])
-@DESCRIPTION=Use the IF statement to evaluate conditionally other expressions IF evaluates @condition.  If @condition returns a non-zero value the result of the IF expression is the @if-true expression, otherwise IF evaluates to the value of @if-false. If ommitted @if-true defaults to TRUE and @if-false to FALSE.
+@DESCRIPTION=Use the IF statement to evaluate conditionally other expressions IF evaluates @condition.  If @condition returns a non-zero value the result of the IF expression is the @if-true expression, otherwise IF evaluates to the value of @if-false. If omitted @if-true defaults to TRUE and @if-false to FALSE.
 This function is Excel compatible. 
 @EXAMPLES=
 IF(FALSE,TRUE,FALSE) equals FALSE.

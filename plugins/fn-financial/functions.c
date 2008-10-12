@@ -1497,7 +1497,7 @@ static GnmFuncHelp const help_rate[] = {
 	   "@DESCRIPTION="
 	   "RATE calculates the rate of an investment.\n"
 	   "\n"
-	   "* If @pmt is ommitted it defaults to 0\n"
+	   "* If @pmt is omitted it defaults to 0\n"
 	   "* If @nper <= 0, RATE returns #NUM! error.\n"
 	   "* If @type != 0 and @type != 1, RATE returns #VALUE! error.\n"
 	   "\n"

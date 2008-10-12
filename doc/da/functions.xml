@@ -6066,7 +6066,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>OPT_BJERSTENS</function> models the theoretical price of american options according to the Bjerksund &amp; Stensland approximation technique.</para>
+        <para><function>OPT_BJERSTENS</function> models the theoretical price of American options according to the Bjerksund &amp; Stensland approximation technique.</para>
         <para><parameter>call_put_flag</parameter> is c or p to indicate whether the option is a call or a put</para>
         <para><parameter>spot</parameter> is the spot price of the underlying asset</para>
         <para><parameter>strike</parameter> is the strike price at which the option is struck</para>
@@ -6791,7 +6791,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>OPT_RGW</function> models the theoretical price of an american option according to the Roll-Geske-Whaley approximation where:</para>
+        <para><function>OPT_RGW</function> models the theoretical price of an American option according to the Roll-Geske-Whaley approximation where:</para>
         <para><parameter>call_put_flag</parameter> is c or p to indicate whether the option is a call or a put</para>
         <para><parameter>spot</parameter> is the spot price of the underlying asset</para>
         <para><parameter>strike</parameter> is the strike price at which the option is struck</para>

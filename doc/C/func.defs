@@ -2673,7 +2673,7 @@ The payoff for a put is max (@strike2 - @spot2, 0) if @spot1 < @strike1 or 0 oth
 @CATEGORY=Finance
 @FUNCTION=OPT_BJER_STENS
 @SYNTAX=OPT_BJER_STENS(call_put_flag,spot,strike,time,rate,volatility[,cost_of_carry])
-@DESCRIPTION=OPT_BJER_STENS models the theoretical price of american options according to the Bjerksund & Stensland approximation technique.
+@DESCRIPTION=OPT_BJER_STENS models the theoretical price of American options according to the Bjerksund & Stensland approximation technique.
 @call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.
 @spot is the spot price of the underlying asset.
 @strike is the strike price at which the option is struck.
@@ -3011,7 +3011,7 @@ For common stocks, this would be the dividend yield.
 @CATEGORY=Finance
 @FUNCTION=OPT_RGW
 @SYNTAX=OPT_RGW(spot,strike,t1,t2,rate,d,volatility)
-@DESCRIPTION=OPT_RGW models the theoretical price of an american option according to the Roll-Geske-Whaley approximation where: 
+@DESCRIPTION=OPT_RGW models the theoretical price of an American option according to the Roll-Geske-Whaley approximation where: 
 @spot is the spot price of the underlying asset.
 @strike is the strike price at which the option is struck.
 @t1 is the time to the dividend payout.
@@ -3193,7 +3193,7 @@ IPMT(per) = amount of interest for period @per
 @SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])
 @DESCRIPTION=RATE calculates the rate of an investment.
 
-* If @pmt is ommitted it defaults to 0
+* If @pmt is omitted it defaults to 0
 * If @nper <= 0, RATE returns #NUM! error.
 * If @type != 0 and @type != 1, RATE returns #VALUE! error.
 

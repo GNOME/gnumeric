@@ -93,14 +93,14 @@
                   <phrase>A thin cross pointer</phrase>
                 </textobject>
               </inlinemediaobject>
-              The crosshair pointer:
+              The cross hair pointer:
       </term>
       <listitem>
         <para>
-          The crosshair pointer can be used to change the cell
+          The cross hair pointer can be used to change the cell
           selection area. The pointer appears when the mouse pointer is
           placed over the handle box, the black square at the lower
-          right hand side of the selection. When the crosshair pointer
+          right hand side of the selection. When the cross hair pointer
           appear, the selection can be altered by clicking the
           left-hand mouse button and dragging the handle to a new
           position. The cross hair pointer can also be used to insert a

@@ -136,7 +136,7 @@
     <!-- ************* -->
     <varlistentry>
       <term><guilabel>General</guilabel></term>
-      <listitem><para>	A swiss army knife of a format.  It will attempt
+      <listitem><para>	A Swiss army knife of a format.  It will attempt
 	  to display a value it the 'best' way possible.
 	  The choice of format depends on the size of the cell
 	  and &gnum;

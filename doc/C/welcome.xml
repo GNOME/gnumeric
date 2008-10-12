@@ -377,7 +377,7 @@
       <para>
 	  Our "Windows" port is now mature enough for everyday use. We have
 	  improved the theming support of our custom widgets, so Gnumeric now
-	  looks and feels slighly more like a native application. The build
+	  looks and feels slightly more like a native application. The build
 	  might still have a few rough edges, but those are being worked on.
       </para>
     </listitem>

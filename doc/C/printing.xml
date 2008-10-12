@@ -112,7 +112,7 @@
     In the <guimenuitem>Job</guimenuitem> tab you may change the <guilabel>priority
     </guilabel> or add <guilabel>billing information</guilabel> to the print job. Also 
     you can choose to add a <guilabel>cover page</guilabel> in front or after the 
-    printed worksheets. Finally you can decide wheter your job should be printed
+    printed worksheets. Finally you can decide whether your job should be printed
     right now or at a defined point in time.
 
     <important>
@@ -156,9 +156,9 @@
   </figure>
 
   <para>
-    The <guimenuitem>Finishing</guimenuitem> tab lets decide wheter you want
-    a blank <guilabel>seperation sheet</guilabel> after every page, after the whole 
-    job or no seperation sheet at all.
+    The <guimenuitem>Finishing</guimenuitem> tab lets decide whether you want
+    a blank <guilabel>separation sheet</guilabel> after every page, after the whole 
+    job or no separation sheet at all.
   </para>
  </sect2>
 
@@ -269,7 +269,7 @@
    </figure>
 
    <para>
-   Select the scale applyed while printing. You can choose between
+   Select the scale applied while printing. You can choose between
    <guilabel>no scaling</guilabel>, a <guilabel>fixed scaling</guilabel> or 
    <guilabel>automatic scaling</guilabel> to fit the workbook to a defined 
    number of paper sheets.
@@ -310,7 +310,7 @@
    the area you want to change. Insert a user-defined text or just select one 
    or several of the given options. When selecting <guibutton>time</guibutton> 
    and/or <guibutton>date</guibutton> you may choose the format by clicking on 
-   the arrow next to the symbol and click on  the prefered option. Beside the 
+   the arrow next to the symbol and click on  the preferred option. Beside the 
    according <guibutton>page</guibutton> number, the number of total <guibutton>
    pages</guibutton> and the name of the according worksheet, you may also insert 
    the <guibutton>file</guibutton> name and/or <guibutton>path</guibutton>. 

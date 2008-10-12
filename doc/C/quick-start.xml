@@ -533,7 +533,7 @@ c:\Program Files\Gnome-Office\gnumeric
       assign to the cell and the appropriate data format in which to
       display this data value. Because this process is quite complex,
       you may occasionally need to actively select these
-      parameters of the cells, which we explaine in <xref
+      parameters of the cells, which we explain in <xref
       linkend="quick-format" /> below. The next two sections explain
       how to get data into a cell, first by moving the selection box
       to a desired cell and then by typing the data.
@@ -1515,7 +1515,7 @@ c:\Program Files\Gnome-Office\gnumeric
 <!--TODO: update button label from "OK" to "Graph"-->
           <para>
             Click on the "Ok" button. This will make the druid
-            disappear and leave the mouse cursor as a thin crosshair.
+            disappear and leave the mouse cursor as a thin cross hair.
           </para>
         </step>
 

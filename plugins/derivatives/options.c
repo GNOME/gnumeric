@@ -1052,7 +1052,7 @@ static GnmFuncHelp const help_opt_rgw[] = {
 	   "@SYNTAX=OPT_RGW(spot,strike,t1,t2,rate,d,volatility)"
 	   "\n"
 	   "@DESCRIPTION="
-	   "OPT_RGW models the theoretical price of an american option according to "
+	   "OPT_RGW models the theoretical price of an American option according to "
 	   "the Roll-Geske-Whaley approximation where: \n"
 
 	   "@spot is the spot price of the underlying asset.\n"
@@ -1294,7 +1294,7 @@ static GnmFuncHelp const help_opt_bjer_stens[] = {
 	   "@SYNTAX=OPT_BJER_STENS(call_put_flag,spot,strike,time,rate,"
 	   "volatility[,cost_of_carry])\n"
 	   "@DESCRIPTION="
-	   "OPT_BJER_STENS models the theoretical price of american options "
+	   "OPT_BJER_STENS models the theoretical price of American options "
 	   "according to the Bjerksund & Stensland approximation technique.\n"
 	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
 	   "@spot is the spot price of the underlying asset.\n"
