@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-26 05:56+0000\n"
-"PO-Revision-Date: 2008-09-27 11:54+0200\n"
+"POT-Creation-Date: 2008-10-12 14:17+0000\n"
+"PO-Revision-Date: 2008-10-12 16:37+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -336,7 +336,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atributo inesperado %s::%s == «%s»."
 
 #: ../plugins/excel/excel-xml-read.c:1002
-#: ../plugins/openoffice/openoffice-read.c:2984 ../src/xml-sax-read.c:2677
+#: ../plugins/openoffice/openoffice-read.c:2998 ../src/xml-sax-read.c:2677
 msgid "XML document not well formed!"
 msgstr "El documento XML no se encuentra bien definido"
 
@@ -537,91 +537,87 @@ msgstr "Posición de celda «%s» inválida para el atributo %s"
 msgid "Invalid range '%s' for attribute %s"
 msgstr "Rango inválido «%s» para el atributo %s"
 
-#: ../plugins/excel/xlsx-read.c:765
+#: ../plugins/excel/xlsx-read.c:655
+#, c-format
+msgid "Unknown theme color %d"
+msgstr "Tema de color %d desconocido"
+
+#: ../plugins/excel/xlsx-read.c:801
 #, c-format
 msgid "Undefined number format id '%s'"
 msgstr "Id de formato de número «%s» indefinido"
 
-#: ../plugins/excel/xlsx-read.c:1412
+#: ../plugins/excel/xlsx-read.c:1447
 #, c-format
 msgid "Unknown color '%s'"
 msgstr "Color «%s» desconocido"
 
-#: ../plugins/excel/xlsx-read.c:1415
-msgid "Missing theme"
-msgstr "Falta el tema"
-
-#: ../plugins/excel/xlsx-read.c:2062
+#: ../plugins/excel/xlsx-read.c:2095
 msgid "Dropping missing object"
 msgstr "Omitiendo objeto faltante"
 
-#: ../plugins/excel/xlsx-read.c:2080
+#: ../plugins/excel/xlsx-read.c:2113
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
 msgstr "Omitiendo objeto con ancla incompleto %2x"
 
-#: ../plugins/excel/xlsx-read.c:2191
+#: ../plugins/excel/xlsx-read.c:2321
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
 msgstr "Color «%s» inválido para el atributo rgb"
 
-#: ../plugins/excel/xlsx-read.c:2214
+#: ../plugins/excel/xlsx-read.c:2349 ../plugins/excel/xlsx-read.c:2358
 #, c-format
 msgid "Undefined style record '%d'"
 msgstr "Registro de estilo indefinido «%d»"
 
-#: ../plugins/excel/xlsx-read.c:2223
+#: ../plugins/excel/xlsx-read.c:2367
 #, c-format
 msgid "Undefined partial style record '%d'"
 msgstr "Registro de estilo parcial indefinido «%d»"
 
-#: ../plugins/excel/xlsx-read.c:2252
+#: ../plugins/excel/xlsx-read.c:2396
 #, c-format
 msgid "Invalid sst ref '%s'"
 msgstr "Referencia sst %s inválida"
 
-#: ../plugins/excel/xlsx-read.c:2373
+#: ../plugins/excel/xlsx-read.c:2517
 #, c-format
 msgid "Invalid cell %s"
 msgstr "Celda inválida %s"
 
-#: ../plugins/excel/xlsx-read.c:2474
+#: ../plugins/excel/xlsx-read.c:2618
 msgid "Ignoring column information that does not specify first or last."
 msgstr "Ignorar la información de columnas que no especifica primero o último."
 
-#: ../plugins/excel/xlsx-read.c:2766
+#: ../plugins/excel/xlsx-read.c:2910
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignorando datos inválidos debido a: %s"
 
-#: ../plugins/excel/xlsx-read.c:3191
+#: ../plugins/excel/xlsx-read.c:3335
 msgid "Undefined"
 msgstr "No definido"
 
-#: ../plugins/excel/xlsx-read.c:3234
+#: ../plugins/excel/xlsx-read.c:3378
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignorando formato condicional no tratado del tipo «%s»"
 
-#: ../plugins/excel/xlsx-read.c:3615
+#: ../plugins/excel/xlsx-read.c:3759
 msgid "Unknown type of hyperlink"
 msgstr "Tipo de hiperenlace desconocido"
 
-#: ../plugins/excel/xlsx-read.c:3826
+#: ../plugins/excel/xlsx-read.c:3970
 msgid "Ignoring a sheet without a name"
 msgstr "Ignorar una hoja sin un nombre"
 
-#: ../plugins/excel/xlsx-read.c:3854
+#: ../plugins/excel/xlsx-read.c:3998
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Para el id de parte para la hoja «%s»"
 
-#: ../plugins/excel/xlsx-read.c:4327
-#, c-format
-msgid "Missing record '%d'"
-msgstr "Falta el registro «%d»"
-
-#: ../plugins/excel/xlsx-read.c:4779
+#: ../plugins/excel/xlsx-read.c:4928
 msgid "No workbook stream found."
 msgstr "No se ha encontrado ningún flujo de libro de cuentas."
 
@@ -829,7 +825,7 @@ msgstr "Funciones Erlang"
 msgid "Functions to help Erlang Analysis"
 msgstr "Funciones para análisis Erlang"
 
-#: ../plugins/fn-financial/functions.c:4114
+#: ../plugins/fn-financial/functions.c:4106
 msgid "rate,values"
 msgstr "tasa,valores"
 
@@ -944,7 +940,7 @@ msgid "Type Mismatch"
 msgstr "Incoherencia de tipo"
 
 #: ../plugins/fn-logical/functions.c:376 ../plugins/fn-logical/functions.c:380
-#: ../plugins/fn-logical/functions.c:403 ../plugins/fn-math/functions.c:3469
+#: ../plugins/fn-logical/functions.c:403 ../plugins/fn-math/functions.c:3266
 #: ../plugins/fn-stat/functions.c:5679 ../plugins/fn-stat/functions.c:5683
 #: ../plugins/fn-stat/functions.c:5687 ../plugins/fn-stat/functions.c:5725
 #: ../plugins/fn-stat/functions.c:5728 ../plugins/fn-stat/functions.c:5737
@@ -962,24 +958,24 @@ msgid "number,number,"
 msgstr "número,número,"
 
 #. MS Excel puts this in the engineering functions
-#: ../plugins/fn-logical/functions.c:384 ../plugins/fn-math/functions.c:3301
-#: ../plugins/fn-math/functions.c:3305 ../plugins/fn-math/functions.c:3308
-#: ../plugins/fn-math/functions.c:3311 ../plugins/fn-math/functions.c:3314
-#: ../plugins/fn-math/functions.c:3317 ../plugins/fn-math/functions.c:3320
-#: ../plugins/fn-math/functions.c:3326 ../plugins/fn-math/functions.c:3335
-#: ../plugins/fn-math/functions.c:3344 ../plugins/fn-math/functions.c:3352
-#: ../plugins/fn-math/functions.c:3355 ../plugins/fn-math/functions.c:3358
-#: ../plugins/fn-math/functions.c:3361 ../plugins/fn-math/functions.c:3364
-#: ../plugins/fn-math/functions.c:3369 ../plugins/fn-math/functions.c:3373
-#: ../plugins/fn-math/functions.c:3379 ../plugins/fn-math/functions.c:3389
-#: ../plugins/fn-math/functions.c:3396 ../plugins/fn-math/functions.c:3399
-#: ../plugins/fn-math/functions.c:3405 ../plugins/fn-math/functions.c:3408
-#: ../plugins/fn-math/functions.c:3421 ../plugins/fn-math/functions.c:3427
-#: ../plugins/fn-math/functions.c:3433 ../plugins/fn-math/functions.c:3454
-#: ../plugins/fn-math/functions.c:3457 ../plugins/fn-math/functions.c:3460
-#: ../plugins/fn-math/functions.c:3463 ../plugins/fn-math/functions.c:3466
-#: ../plugins/fn-math/functions.c:3479 ../plugins/fn-math/functions.c:3491
-#: ../plugins/fn-math/functions.c:3494 ../plugins/fn-stat/functions.c:5749
+#: ../plugins/fn-logical/functions.c:384 ../plugins/fn-math/functions.c:3098
+#: ../plugins/fn-math/functions.c:3102 ../plugins/fn-math/functions.c:3105
+#: ../plugins/fn-math/functions.c:3108 ../plugins/fn-math/functions.c:3111
+#: ../plugins/fn-math/functions.c:3114 ../plugins/fn-math/functions.c:3117
+#: ../plugins/fn-math/functions.c:3123 ../plugins/fn-math/functions.c:3132
+#: ../plugins/fn-math/functions.c:3141 ../plugins/fn-math/functions.c:3149
+#: ../plugins/fn-math/functions.c:3152 ../plugins/fn-math/functions.c:3155
+#: ../plugins/fn-math/functions.c:3158 ../plugins/fn-math/functions.c:3161
+#: ../plugins/fn-math/functions.c:3166 ../plugins/fn-math/functions.c:3170
+#: ../plugins/fn-math/functions.c:3176 ../plugins/fn-math/functions.c:3186
+#: ../plugins/fn-math/functions.c:3193 ../plugins/fn-math/functions.c:3196
+#: ../plugins/fn-math/functions.c:3202 ../plugins/fn-math/functions.c:3205
+#: ../plugins/fn-math/functions.c:3218 ../plugins/fn-math/functions.c:3224
+#: ../plugins/fn-math/functions.c:3230 ../plugins/fn-math/functions.c:3251
+#: ../plugins/fn-math/functions.c:3254 ../plugins/fn-math/functions.c:3257
+#: ../plugins/fn-math/functions.c:3260 ../plugins/fn-math/functions.c:3263
+#: ../plugins/fn-math/functions.c:3276 ../plugins/fn-math/functions.c:3288
+#: ../plugins/fn-math/functions.c:3291 ../plugins/fn-stat/functions.c:5749
 #: ../plugins/fn-stat/functions.c:5752 ../plugins/fn-stat/functions.c:5770
 #: ../plugins/fn-stat/functions.c:5848 ../plugins/fn-string/functions.c:1247
 #: ../plugins/fn-string/functions.c:1250
@@ -1055,7 +1051,7 @@ msgstr "val,rango,aprox"
 msgid "ref,row,col,height,width"
 msgstr "ref,fila,col,alto,ancho"
 
-#: ../plugins/fn-lookup/functions.c:1490 ../plugins/fn-math/functions.c:3507
+#: ../plugins/fn-lookup/functions.c:1490 ../plugins/fn-math/functions.c:3304
 msgid "array"
 msgstr "array"
 
@@ -1071,18 +1067,11 @@ msgstr "Búsqueda"
 msgid "Lookup Functions"
 msgstr "Funciones de búsqueda"
 
-#: ../plugins/fn-math/functions.c:2559 ../plugins/fn-math/functions.c:2579
-#: ../plugins/fn-math/functions.c:2675 ../plugins/fn-math/functions.c:2695
-#: ../plugins/fn-math/functions.c:2789 ../plugins/fn-math/functions.c:2809
-#: ../plugins/fn-stat/functions.c:2897 ../plugins/fn-stat/functions.c:2927
-msgid "Array version not implemented!"
-msgstr "¡La versión de arrays aún no está implementada!"
-
-#: ../plugins/fn-math/functions.c:3323
+#: ../plugins/fn-math/functions.c:3120
 msgid "xnum,ynum"
 msgstr "numx,numy"
 
-#: ../plugins/fn-math/functions.c:3329 ../plugins/fn-math/functions.c:3332
+#: ../plugins/fn-math/functions.c:3126 ../plugins/fn-math/functions.c:3129
 #: ../plugins/fn-random/functions.c:1200 ../plugins/fn-random/functions.c:1221
 #: ../plugins/fn-random/functions.c:1227 ../plugins/fn-random/functions.c:1266
 #: ../plugins/fn-random/functions.c:1281 ../plugins/fn-random/functions.c:1284
@@ -1090,67 +1079,67 @@ msgid "a,b"
 msgstr "a,b"
 
 #. MS Excel puts this in statistical
-#: ../plugins/fn-math/functions.c:3340
+#: ../plugins/fn-math/functions.c:3137
 msgid "range,criteria"
 msgstr "rango,criterios"
 
-#: ../plugins/fn-math/functions.c:3348
+#: ../plugins/fn-math/functions.c:3145
 msgid "number,significance"
 msgstr "número,significado"
 
-#: ../plugins/fn-math/functions.c:3376 ../plugins/fn-stat/functions.c:5863
+#: ../plugins/fn-math/functions.c:3173 ../plugins/fn-stat/functions.c:5863
 msgid "n,k"
 msgstr "n,k"
 
-#: ../plugins/fn-math/functions.c:3383
+#: ../plugins/fn-math/functions.c:3180
 msgid "number,number"
 msgstr "número,número"
 
-#: ../plugins/fn-math/functions.c:3402
+#: ../plugins/fn-math/functions.c:3199
 msgid "number,base"
 msgstr "número,base"
 
-#: ../plugins/fn-math/functions.c:3411 ../plugins/fn-math/functions.c:3430
+#: ../plugins/fn-math/functions.c:3208 ../plugins/fn-math/functions.c:3227
 msgid "numerator,denominator"
 msgstr "numerador,denominador"
 
-#: ../plugins/fn-math/functions.c:3414
+#: ../plugins/fn-math/functions.c:3211
 msgid "number,multiple"
 msgstr "número,múltiplo"
 
-#: ../plugins/fn-math/functions.c:3424
+#: ../plugins/fn-math/functions.c:3221
 msgid "base,exponent"
 msgstr "base,exponente"
 
-#: ../plugins/fn-math/functions.c:3436
+#: ../plugins/fn-math/functions.c:3233
 msgid "number,type"
 msgstr "número,tipo"
 
-#: ../plugins/fn-math/functions.c:3439 ../plugins/fn-math/functions.c:3443
-#: ../plugins/fn-math/functions.c:3447 ../plugins/fn-math/functions.c:3497
+#: ../plugins/fn-math/functions.c:3236 ../plugins/fn-math/functions.c:3240
+#: ../plugins/fn-math/functions.c:3244 ../plugins/fn-math/functions.c:3294
 msgid "number,digits"
 msgstr "número,dígitos"
 
-#: ../plugins/fn-math/functions.c:3451
+#: ../plugins/fn-math/functions.c:3248
 msgid "x,n,m,coefficients"
 msgstr "x,n,m,coeficientes"
 
-#: ../plugins/fn-math/functions.c:3473
+#: ../plugins/fn-math/functions.c:3270
 msgid "range,criteria,actual_range"
 msgstr "rango,criterios,rango_actual"
 
-#: ../plugins/fn-math/functions.c:3476
+#: ../plugins/fn-math/functions.c:3273
 msgid "range,range,"
 msgstr "rango,rango,"
 
-#: ../plugins/fn-math/functions.c:3482 ../plugins/fn-math/functions.c:3485
-#: ../plugins/fn-math/functions.c:3488 ../plugins/fn-math/functions.c:3504
+#: ../plugins/fn-math/functions.c:3279 ../plugins/fn-math/functions.c:3282
+#: ../plugins/fn-math/functions.c:3285 ../plugins/fn-math/functions.c:3301
 #: ../plugins/fn-stat/functions.c:5722 ../plugins/fn-stat/functions.c:5731
 #: ../plugins/fn-stat/functions.c:5854 ../plugins/fn-stat/functions.c:5910
 msgid "array1,array2"
 msgstr "array1,array2"
 
-#: ../plugins/fn-math/functions.c:3510 ../plugins/fn-math/functions.c:3514
+#: ../plugins/fn-math/functions.c:3307 ../plugins/fn-math/functions.c:3311
 msgid "array,matrix_type,bandsize"
 msgstr "array,tipo_matriz,tam-banda"
 
@@ -1269,6 +1258,10 @@ msgstr "Funciones de números aleatorios"
 #: ../src/tools/random-generator.c:674 ../src/tools/random-generator.c:677
 msgid "Random Numbers"
 msgstr "Generación de números aleatorios"
+
+#: ../plugins/fn-stat/functions.c:2897 ../plugins/fn-stat/functions.c:2927
+msgid "Array version not implemented!"
+msgstr "¡La versión de arrays aún no está implementada!"
 
 #: ../plugins/fn-stat/functions.c:5692 ../plugins/fn-stat/functions.c:5954
 msgid "k,p"
@@ -1799,7 +1792,7 @@ msgstr ""
 "\t«%s»\n"
 "debido a «%s»"
 
-#: ../plugins/openoffice/openoffice-read.c:705
+#: ../plugins/openoffice/openoffice-read.c:723
 #, c-format
 msgid ""
 "Content past the maxium number of rows supported in this build (%u).  Please "
@@ -1808,55 +1801,55 @@ msgstr ""
 "El contenido excedió el número máximo de filas soportadas en esta "
 "compilación (%u). Por favor recompile con límites mayores."
 
-#: ../plugins/openoffice/openoffice-read.c:881
+#: ../plugins/openoffice/openoffice-read.c:891
 msgid "Missing expression"
 msgstr "Expresión perdida"
 
-#: ../plugins/openoffice/openoffice-read.c:888
+#: ../plugins/openoffice/openoffice-read.c:898
 msgid "Missing expression namespace"
 msgstr "Falta el espacio de nombres de la expresión"
 
-#: ../plugins/openoffice/openoffice-read.c:896
+#: ../plugins/openoffice/openoffice-read.c:906
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "La expresión «%s» no empieza con un carácter reconocido"
 
-#: ../plugins/openoffice/openoffice-read.c:981
+#: ../plugins/openoffice/openoffice-read.c:995
 msgid "Invalid array expression does not specify number of columns."
 msgstr "La expresión del array no indica el número de columnas."
 
-#: ../plugins/openoffice/openoffice-read.c:984
+#: ../plugins/openoffice/openoffice-read.c:998
 msgid "Invalid array expression does not specify number of rows."
 msgstr "La expresión del array no indica el número de filas."
 
-#: ../plugins/openoffice/openoffice-read.c:1562
+#: ../plugins/openoffice/openoffice-read.c:1576
 #, c-format
 msgid "Unknown break type '%s' defaulting to Manual"
 msgstr "Tipo de salto desconocido «%s», cambiando a manual"
 
-#: ../plugins/openoffice/openoffice-read.c:1785
+#: ../plugins/openoffice/openoffice-read.c:1799
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "la expresión «%s» @ «%s» no es una referencia de celda"
 
-#: ../plugins/openoffice/openoffice-read.c:1822
+#: ../plugins/openoffice/openoffice-read.c:1836
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Rango DB «%s» no válido"
 
-#: ../plugins/openoffice/openoffice-read.c:2874
+#: ../plugins/openoffice/openoffice-read.c:2888
 msgid "Unknown mimetype for openoffice file."
 msgstr "Tipo mime desconocido para el archivo openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:2888
+#: ../plugins/openoffice/openoffice-read.c:2902
 msgid "No stream named content.xml found."
 msgstr "No se encontró ningún flujo llamado content.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:2896
+#: ../plugins/openoffice/openoffice-read.c:2910
 msgid "No stream named styles.xml found."
 msgstr "No se encontró ningún flujo llamado styles.xml."
 
-#: ../plugins/openoffice/openoffice-read.c:2945
+#: ../plugins/openoffice/openoffice-read.c:2959
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Metadato inválido: «%s»"
@@ -2008,21 +2001,28 @@ msgstr ""
 "Complemento de muestra de Perl que proporciona algunas funciones (inútiles) "
 "de ejemplo."
 
-#: ../plugins/perl-loader/perl-loader.c:81
+#: ../plugins/perl-loader/perl-loader.c:51
+msgid ""
+"@FUNCTION=PERL_FUNCTION_TEMPLATE\n"
+"@SYNTAX=PERL_FUNCTION_TEMPLATE(value1, value2, ...)\n"
+"@DESCRIPTION=This is the perl function template. \n"
+msgstr ""
+
+#: ../plugins/perl-loader/perl-loader.c:102
 msgid "Perl error: "
 msgstr "Error de Perl: "
 
-#: ../plugins/perl-loader/perl-loader.c:121
-#: ../plugins/perl-loader/perl-loader.c:140
+#: ../plugins/perl-loader/perl-loader.c:142
+#: ../plugins/perl-loader/perl-loader.c:161
 #, c-format
 msgid "Perl error: %s\n"
 msgstr "Error Perl: %s\n"
 
-#: ../plugins/perl-loader/perl-loader.c:185
+#: ../plugins/perl-loader/perl-loader.c:206
 msgid "Module name not given."
 msgstr "No se ha dado el nombre del modulo."
 
-#: ../plugins/perl-loader/perl-loader.c:212
+#: ../plugins/perl-loader/perl-loader.c:233
 msgid "perl_func.pl doesn't exist."
 msgstr "perl_func.pl no existe."
 
@@ -4064,7 +4064,7 @@ msgstr "Co_lumnas"
 #: ../src/dialogs/anova-one.glade.h:9 ../src/dialogs/correlation.glade.h:7
 #: ../src/dialogs/covariance.glade.h:7
 #: ../src/dialogs/descriptive-stats.glade.h:16
-#: ../src/dialogs/exp-smoothing.glade.h:17
+#: ../src/dialogs/exp-smoothing.glade.h:18
 #: ../src/dialogs/fourier-analysis.glade.h:7
 #: ../src/dialogs/moving-averages.glade.h:17 ../src/dialogs/rank.glade.h:10
 msgid "_Input range:"
@@ -4073,7 +4073,7 @@ msgstr "Rango de _entrada:"
 #: ../src/dialogs/anova-one.glade.h:10 ../src/dialogs/anova-two.glade.h:10
 #: ../src/dialogs/correlation.glade.h:8 ../src/dialogs/covariance.glade.h:8
 #: ../src/dialogs/descriptive-stats.glade.h:18
-#: ../src/dialogs/exp-smoothing.glade.h:18
+#: ../src/dialogs/exp-smoothing.glade.h:19
 #: ../src/dialogs/fourier-analysis.glade.h:9
 #: ../src/dialogs/histogram.glade.h:27 ../src/dialogs/mean-tests.glade.h:16
 #: ../src/dialogs/moving-averages.glade.h:19 ../src/dialogs/rank.glade.h:11
@@ -4086,7 +4086,7 @@ msgstr "E_tiquetas"
 #: ../src/dialogs/anova-one.glade.h:11 ../src/dialogs/colrow.glade.h:3
 #: ../src/dialogs/correlation.glade.h:9 ../src/dialogs/covariance.glade.h:9
 #: ../src/dialogs/descriptive-stats.glade.h:19
-#: ../src/dialogs/exp-smoothing.glade.h:19
+#: ../src/dialogs/exp-smoothing.glade.h:20
 #: ../src/dialogs/fourier-analysis.glade.h:10
 #: ../src/dialogs/histogram.glade.h:32
 #: ../src/dialogs/moving-averages.glade.h:20 ../src/dialogs/rank.glade.h:12
@@ -4924,13 +4924,13 @@ msgstr "_Función:"
 msgid "_Source areas:"
 msgstr "Áreas de _origen:"
 
-#: ../src/dialogs/correlation.glade.h:1 ../src/tools/analysis-tools.c:835
-#: ../src/tools/analysis-tools.c:838
+#: ../src/dialogs/correlation.glade.h:1 ../src/tools/analysis-tools.c:836
+#: ../src/tools/analysis-tools.c:839
 msgid "Correlation"
 msgstr "Correlación"
 
-#: ../src/dialogs/covariance.glade.h:1 ../src/tools/analysis-tools.c:889
-#: ../src/tools/analysis-tools.c:892 ../src/wbc-gtk-actions.c:1973
+#: ../src/dialogs/covariance.glade.h:1 ../src/tools/analysis-tools.c:890
+#: ../src/tools/analysis-tools.c:893 ../src/wbc-gtk-actions.c:1973
 msgid "Covariance"
 msgstr "Covarianza"
 
@@ -5059,7 +5059,7 @@ msgid "Confidence Interval for the _Mean"
 msgstr "Intervalo de confianza para la _media"
 
 #: ../src/dialogs/descriptive-stats.glade.h:5
-#: ../src/tools/analysis-tools.c:1276 ../src/tools/analysis-tools.c:1279
+#: ../src/tools/analysis-tools.c:1277 ../src/tools/analysis-tools.c:1280
 msgid "Descriptive Statistics"
 msgstr "Estadística descriptiva"
 
@@ -5497,10 +5497,10 @@ msgid "No matching records were found."
 msgstr "No se encontraron registros coincidentes."
 
 #: ../src/dialogs/dialog-advanced-filter.c:153
-#: ../src/dialogs/dialog-analysis-tools.c:625
-#: ../src/dialogs/dialog-analysis-tools.c:744
-#: ../src/dialogs/dialog-analysis-tools.c:2122
-#: ../src/dialogs/dialog-analysis-tools.c:3410
+#: ../src/dialogs/dialog-analysis-tools.c:633
+#: ../src/dialogs/dialog-analysis-tools.c:752
+#: ../src/dialogs/dialog-analysis-tools.c:2130
+#: ../src/dialogs/dialog-analysis-tools.c:3462
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Ha ocurrido un error inesperado: %d."
@@ -5509,82 +5509,82 @@ msgstr "Ha ocurrido un error inesperado: %d."
 msgid "Could not create the Advanced Filter dialog."
 msgstr "No se pudo crear el diálogo de «Filtrado avanzado»."
 
-#: ../src/dialogs/dialog-analysis-tools.c:546
-#: ../src/dialogs/dialog-analysis-tools.c:1088
-#: ../src/dialogs/dialog-analysis-tools.c:1786
-#: ../src/dialogs/dialog-analysis-tools.c:2365
-#: ../src/dialogs/dialog-analysis-tools.c:2677
-#: ../src/dialogs/dialog-analysis-tools.c:2961
-#: ../src/dialogs/dialog-analysis-tools.c:3237
-#: ../src/dialogs/dialog-analysis-tools.c:3451
+#: ../src/dialogs/dialog-analysis-tools.c:554
+#: ../src/dialogs/dialog-analysis-tools.c:1096
+#: ../src/dialogs/dialog-analysis-tools.c:1794
+#: ../src/dialogs/dialog-analysis-tools.c:2375
+#: ../src/dialogs/dialog-analysis-tools.c:2729
+#: ../src/dialogs/dialog-analysis-tools.c:3013
+#: ../src/dialogs/dialog-analysis-tools.c:3289
+#: ../src/dialogs/dialog-analysis-tools.c:3503
 #: ../src/dialogs/dialog-shuffle.c:76
 msgid "The input range is invalid."
 msgstr "El rango de entrada no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:555
-#: ../src/dialogs/dialog-analysis-tools.c:1139
-#: ../src/dialogs/dialog-analysis-tools.c:1834
-#: ../src/dialogs/dialog-analysis-tools.c:2229
-#: ../src/dialogs/dialog-analysis-tools.c:2410
-#: ../src/dialogs/dialog-analysis-tools.c:2708
-#: ../src/dialogs/dialog-analysis-tools.c:2989
-#: ../src/dialogs/dialog-analysis-tools.c:3257
-#: ../src/dialogs/dialog-analysis-tools.c:3483
+#: ../src/dialogs/dialog-analysis-tools.c:563
+#: ../src/dialogs/dialog-analysis-tools.c:1147
+#: ../src/dialogs/dialog-analysis-tools.c:1842
+#: ../src/dialogs/dialog-analysis-tools.c:2237
+#: ../src/dialogs/dialog-analysis-tools.c:2429
+#: ../src/dialogs/dialog-analysis-tools.c:2760
+#: ../src/dialogs/dialog-analysis-tools.c:3041
+#: ../src/dialogs/dialog-analysis-tools.c:3309
+#: ../src/dialogs/dialog-analysis-tools.c:3535
 msgid "The output specification is invalid."
 msgstr "La especificación de salida no es válida."
 
-#: ../src/dialogs/dialog-analysis-tools.c:611
-#: ../src/dialogs/dialog-analysis-tools.c:730
+#: ../src/dialogs/dialog-analysis-tools.c:619
+#: ../src/dialogs/dialog-analysis-tools.c:738
 msgid "The selected input rows must have equal size!"
 msgstr "Las filas de entrada seleccionadas deben ser de igual tamaño."
 
-#: ../src/dialogs/dialog-analysis-tools.c:616
-#: ../src/dialogs/dialog-analysis-tools.c:735
+#: ../src/dialogs/dialog-analysis-tools.c:624
+#: ../src/dialogs/dialog-analysis-tools.c:743
 msgid "The selected input columns must have equal size!"
 msgstr "Las columnas de entrada seleccionadas deben tener igual tamaño."
 
-#: ../src/dialogs/dialog-analysis-tools.c:621
-#: ../src/dialogs/dialog-analysis-tools.c:740
+#: ../src/dialogs/dialog-analysis-tools.c:629
+#: ../src/dialogs/dialog-analysis-tools.c:748
 msgid "The selected input areas must have equal size!"
 msgstr "Las áreas de entrada seleccionadas deben tener igual tamaño."
 
-#: ../src/dialogs/dialog-analysis-tools.c:668
+#: ../src/dialogs/dialog-analysis-tools.c:676
 msgid "Could not create the Correlation Tool dialog."
 msgstr "No se puede crear el diálogo para la Herramienta de Correlación."
 
-#: ../src/dialogs/dialog-analysis-tools.c:787
+#: ../src/dialogs/dialog-analysis-tools.c:795
 msgid "Could not create the Covariance Tool dialog."
 msgstr "No se puede crear el diálogo para la Herramienta de Covarianza."
 
-#: ../src/dialogs/dialog-analysis-tools.c:877
+#: ../src/dialogs/dialog-analysis-tools.c:885
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr ""
 "No se puede crear el diálogo para las Herramientas de Rangos y Percentiles."
 
-#: ../src/dialogs/dialog-analysis-tools.c:968
+#: ../src/dialogs/dialog-analysis-tools.c:976
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr ""
 "No se puede crear el diálogo para la Herramienta de Análisis de Fourier."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1097
+#: ../src/dialogs/dialog-analysis-tools.c:1105
 msgid "No statistics are selected."
 msgstr "No se ha seleccionado ninguna estadística."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1107
+#: ../src/dialogs/dialog-analysis-tools.c:1115
 msgid "The confidence level should be between 0 and 1."
 msgstr "El nivel de confianza debe estar entre 0 y 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1119
-#: ../src/dialogs/dialog-analysis-tools.c:1130
+#: ../src/dialogs/dialog-analysis-tools.c:1127
+#: ../src/dialogs/dialog-analysis-tools.c:1138
 msgid "K must be a positive integer."
 msgstr "K debe ser un entero positivo."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1179
+#: ../src/dialogs/dialog-analysis-tools.c:1187
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr ""
 "No se puede crear el diálogo para la Herramienta de Estadística Descriptiva."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1324
+#: ../src/dialogs/dialog-analysis-tools.c:1332
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -5592,7 +5592,7 @@ msgstr ""
 "Debe introducir una varianza\n"
 "de población válida para la variable 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1333
+#: ../src/dialogs/dialog-analysis-tools.c:1341
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -5600,124 +5600,127 @@ msgstr ""
 "Debe introducir una varianza\n"
 "de población válida para la variable 2."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1549
+#: ../src/dialogs/dialog-analysis-tools.c:1557
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "No se puede crear el diálogo para la Herramienta de Prueba de Medias."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1736
+#: ../src/dialogs/dialog-analysis-tools.c:1744
 msgid "Could not create the FTest Tool dialog."
 msgstr "No se puede crear el diálogo para la Herramienta de Prueba-F."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1796
+#: ../src/dialogs/dialog-analysis-tools.c:1804
 msgid "The requested number of samples is invalid."
 msgstr "El número solicitado de muestras no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1809
+#: ../src/dialogs/dialog-analysis-tools.c:1817
 msgid "The requested period is invalid."
 msgstr "El periodo solicitado no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1817
+#: ../src/dialogs/dialog-analysis-tools.c:1825
 msgid "The requested offset is invalid."
 msgstr "El desplazamiento solicitado no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1826
+#: ../src/dialogs/dialog-analysis-tools.c:1834
 msgid "The requested sample size is invalid."
 msgstr "El tamaño de la muestra solicitada no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:1984
+#: ../src/dialogs/dialog-analysis-tools.c:1992
 msgid "Could not create the Sampling Tool dialog."
 msgstr "No se puede crear el diálogo para la Herramienta de Muestreo."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2163
-#: ../src/dialogs/dialog-analysis-tools.c:2174
+#: ../src/dialogs/dialog-analysis-tools.c:2171
+#: ../src/dialogs/dialog-analysis-tools.c:2182
 msgid "The y variable range is invalid."
 msgstr "El rango variable y no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2180
+#: ../src/dialogs/dialog-analysis-tools.c:2188
 msgid "The y variable range must be a vector (n by 1 or 1 by n)."
 msgstr "La variable y debe ser una matriz (n por 1 o 1 por n)."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2186
+#: ../src/dialogs/dialog-analysis-tools.c:2194
 msgid "The y variable range is to small"
 msgstr "El rango variable de y no es demasiado pequelo"
 
-#: ../src/dialogs/dialog-analysis-tools.c:2195
-#: ../src/dialogs/dialog-analysis-tools.c:2206
+#: ../src/dialogs/dialog-analysis-tools.c:2203
+#: ../src/dialogs/dialog-analysis-tools.c:2214
 msgid "The x variables range is invalid."
 msgstr "El rango variable x no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2213
+#: ../src/dialogs/dialog-analysis-tools.c:2221
 msgid "The sizes of the x variable and y variable ranges do not match."
 msgstr "Los tamaños de las variables x e y no coinciden."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2222
+#: ../src/dialogs/dialog-analysis-tools.c:2230
 msgid "The confidence level is invalid."
 msgstr "El nivel de confianza no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2266
+#: ../src/dialogs/dialog-analysis-tools.c:2274
 msgid "Could not create the Regression Tool dialog."
 msgstr "No se puede crear el diálogo para la Herramienta de Regresión."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2378
+#: ../src/dialogs/dialog-analysis-tools.c:2388
 msgid "The given seasonal damping factor is invalid."
 msgstr "El rango variable de entrada no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2389
+#: ../src/dialogs/dialog-analysis-tools.c:2397
+#, fuzzy
+msgid "The given seasonal period is invalid."
+msgstr "El rango variable de entrada no es válido."
+
+#: ../src/dialogs/dialog-analysis-tools.c:2408
 #, fuzzy
 msgid "The given growthdamping factor is invalid."
 msgstr "Los criterios dados no son válidos."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2401
+#: ../src/dialogs/dialog-analysis-tools.c:2420
 #, fuzzy
 msgid "The given damping factor is invalid."
 msgstr "El rango de entrada no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2499
+#: ../src/dialogs/dialog-analysis-tools.c:2545
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr ""
 "No se ha podido crear el diálogo de la Herramienta de Suavizado Exponencial."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2690
-#, fuzzy
+#: ../src/dialogs/dialog-analysis-tools.c:2742
 msgid "The given interval is invalid."
-msgstr "Los criterios dados no son válidos."
+msgstr "El intervalo proporcionado no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2700
-#, fuzzy
+#: ../src/dialogs/dialog-analysis-tools.c:2752
 msgid "The given offset is invalid."
-msgstr "El rango de entrada no es válido."
+msgstr "El desplazamiento proporcionado no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2857
+#: ../src/dialogs/dialog-analysis-tools.c:2909
 msgid "Could not create the Moving Average Tool dialog."
 msgstr ""
 "No se puede crear el diálogo para la Herramienta de Desplazamiento "
 "Promediado."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2975
+#: ../src/dialogs/dialog-analysis-tools.c:3027
 #, fuzzy
 msgid "The cutoff range is not valid."
 msgstr "El rango de entrada no es válido."
 
-#: ../src/dialogs/dialog-analysis-tools.c:2982
+#: ../src/dialogs/dialog-analysis-tools.c:3034
 msgid "The number of to be calculated cutoffs is invalid."
 msgstr ""
 
-#: ../src/dialogs/dialog-analysis-tools.c:3120
+#: ../src/dialogs/dialog-analysis-tools.c:3172
 msgid "Could not create the Histogram Tool dialog."
 msgstr "No se puede crear el diálogo para la herramienta de histograma."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3248
-#: ../src/dialogs/dialog-analysis-tools.c:3462
+#: ../src/dialogs/dialog-analysis-tools.c:3300
+#: ../src/dialogs/dialog-analysis-tools.c:3514
 msgid "The alpha value should be a number between 0 and 1."
 msgstr "El valor alfa debería ser un número entre 0 y 1."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3296
+#: ../src/dialogs/dialog-analysis-tools.c:3348
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr ""
 "No se puede crear el diálogo para la herramienta de análisis de varianza (un "
 "factor)."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3376
+#: ../src/dialogs/dialog-analysis-tools.c:3428
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -5725,7 +5728,7 @@ msgstr ""
 "El rango de entrada dado debe contener al menos dos columnas y dos filas de "
 "datos y la etiquetas."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3379
+#: ../src/dialogs/dialog-analysis-tools.c:3431
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
@@ -5733,7 +5736,7 @@ msgstr ""
 "El rango de entrada dado debe contener al menos dos columnas y dos filas de "
 "datos."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3385
+#: ../src/dialogs/dialog-analysis-tools.c:3437
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -5741,13 +5744,13 @@ msgstr ""
 "El rango de entrada dado debe contener al menos dos o más columnas de datos "
 "y las etiquetas."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3388
+#: ../src/dialogs/dialog-analysis-tools.c:3440
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 "El rango de entrada dado debe contener al menos dos o más columnas de datos "
 "y las etiquetas."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3394
+#: ../src/dialogs/dialog-analysis-tools.c:3446
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
@@ -5755,20 +5758,20 @@ msgstr ""
 "El rango de entrada dado debe contener al menos dos filas de datos y las "
 "etiquetas."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3397
+#: ../src/dialogs/dialog-analysis-tools.c:3449
 msgid "The given input range should contain at least two rows of data."
 msgstr "El rango de entrada dado debe contener al menos dos filas de datos."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3404
+#: ../src/dialogs/dialog-analysis-tools.c:3456
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 "El número de filas de datos debe ser múltiplo del número de replicación."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3474
+#: ../src/dialogs/dialog-analysis-tools.c:3526
 msgid "The number of rows per sample should be a positive integer."
 msgstr "El número de filas por muestra debe ser un entero positivo."
 
-#: ../src/dialogs/dialog-analysis-tools.c:3520
+#: ../src/dialogs/dialog-analysis-tools.c:3572
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr ""
 "No se puede crear el diálogo para la herramienta análisis de varianza (dos "
@@ -5797,8 +5800,8 @@ msgid "Mar"
 msgstr "Mar"
 
 #: ../src/dialogs/dialog-autoformat.c:72 ../src/dialogs/dialog-autoformat.c:76
-#: ../src/tools/analysis-tools.c:4951 ../src/tools/analysis-tools.c:4961
-#: ../src/tools/analysis-tools.c:4969
+#: ../src/tools/analysis-tools.c:4603 ../src/tools/analysis-tools.c:4613
+#: ../src/tools/analysis-tools.c:4621
 msgid "Total"
 msgstr "Total"
 
@@ -7429,8 +7432,13 @@ msgstr "Si se selecciona esta casilla, la columna será importada a Gnumeric."
 
 #: ../src/dialogs/dialog-stf-format-page.c:696
 #: ../src/dialogs/dialog-stf-preview.h:24
-#: ../src/tools/analysis-histogram.c:257 ../src/tools/analysis-tools.c:1355
-#: ../src/tools/analysis-tools.c:3548 ../src/tools/analysis-tools.c:3913
+#: ../src/tools/analysis-exp-smoothing.c:156
+#: ../src/tools/analysis-exp-smoothing.c:331
+#: ../src/tools/analysis-exp-smoothing.c:518
+#: ../src/tools/analysis-exp-smoothing.c:780
+#: ../src/tools/analysis-exp-smoothing.c:1100
+#: ../src/tools/analysis-histogram.c:257 ../src/tools/analysis-tools.c:1356
+#: ../src/tools/analysis-tools.c:3549
 #, c-format
 msgid "Column %d"
 msgstr "Columna %d"
@@ -7993,8 +8001,14 @@ msgstr "C_olumnas"
 msgid "Denominator:"
 msgstr "Denominador:"
 
-#: ../src/dialogs/exp-smoothing.glade.h:4 ../src/tools/analysis-tools.c:3863
-#: ../src/tools/analysis-tools.c:4143 ../src/tools/analysis-tools.c:4146
+#: ../src/dialogs/exp-smoothing.glade.h:4
+#: ../src/tools/analysis-exp-smoothing.c:117
+#: ../src/tools/analysis-exp-smoothing.c:292
+#: ../src/tools/analysis-exp-smoothing.c:474
+#: ../src/tools/analysis-exp-smoothing.c:713
+#: ../src/tools/analysis-exp-smoothing.c:1031
+#: ../src/tools/analysis-exp-smoothing.c:1393
+#: ../src/tools/analysis-exp-smoothing.c:1396
 msgid "Exponential Smoothing"
 msgstr "Suavización exponencial"
 
@@ -8023,36 +8037,44 @@ msgid "Seasonal damping factor (δ):"
 msgstr "Factor de _amortiguación estacional (α):"
 
 #: ../src/dialogs/exp-smoothing.glade.h:14
+msgid "Seasonal period:"
+msgstr "Periodo estacional:"
+
+#: ../src/dialogs/exp-smoothing.glade.h:15
 msgid "Simple exponential smoothing (Hunter, 1986)"
 msgstr "Suavizado exponencial simple (Hunter, 1986)"
 
-#: ../src/dialogs/exp-smoothing.glade.h:15
+#: ../src/dialogs/exp-smoothing.glade.h:16
 msgid "Simple exponential smoothing (Roberts, 1959)"
 msgstr "Suavizado exponencial simple (Hunter, 1959)"
 
-#: ../src/dialogs/exp-smoothing.glade.h:16
+#: ../src/dialogs/exp-smoothing.glade.h:17
 msgid "_Damping factor (α):"
 msgstr "Factor de _amortiguación (α):"
 
-#: ../src/dialogs/exp-smoothing.glade.h:20
+#: ../src/dialogs/exp-smoothing.glade.h:21
 #: ../src/dialogs/moving-averages.glade.h:21
 msgid "_Standard errors"
 msgstr "Errores e_stándar"
 
-#: ../src/dialogs/exp-smoothing.glade.h:21
+#: ../src/dialogs/exp-smoothing.glade.h:22
 #: ../src/dialogs/moving-averages.glade.h:22
 msgid "n"
 msgstr "n"
 
-#: ../src/dialogs/exp-smoothing.glade.h:22
+#: ../src/dialogs/exp-smoothing.glade.h:23
 #: ../src/dialogs/moving-averages.glade.h:23
 msgid "n−1"
 msgstr "n−1"
 
-#: ../src/dialogs/exp-smoothing.glade.h:23
+#: ../src/dialogs/exp-smoothing.glade.h:24
 #: ../src/dialogs/moving-averages.glade.h:24
 msgid "n−2"
 msgstr "n−2"
+
+#: ../src/dialogs/exp-smoothing.glade.h:25
+msgid "n−3"
+msgstr "n−3"
 
 #: ../src/dialogs/fill-series.glade.h:2
 msgid "D_ay"
@@ -8279,7 +8301,9 @@ msgstr "Páginas"
 msgid "Path"
 msgstr "Ruta"
 
-#: ../src/dialogs/hf-config.glade.h:19 ../src/wbc-gtk-actions.c:2139
+#: ../src/dialogs/hf-config.glade.h:19
+#: ../src/tools/analysis-exp-smoothing.c:728
+#: ../src/tools/analysis-exp-smoothing.c:1046 ../src/wbc-gtk-actions.c:2139
 msgid "Time"
 msgstr "Hora"
 
@@ -8333,9 +8357,8 @@ msgid "C_alculated cutoffs"
 msgstr "Binarios _calculados"
 
 #: ../src/dialogs/histogram.glade.h:9
-#, fuzzy
 msgid "C_umulative answers"
-msgstr "Porcentajes ac_umulados"
+msgstr "Respuestas ac_umulativas"
 
 #: ../src/dialogs/histogram.glade.h:10
 #, fuzzy
@@ -8573,15 +8596,14 @@ msgstr "Desplazamiento promediado"
 msgid "Cumulative moving average"
 msgstr "Porcentajes ac_umulados"
 
-#: ../src/dialogs/moving-averages.glade.h:9 ../src/tools/analysis-tools.c:3794
-#: ../src/tools/analysis-tools.c:3797
+#: ../src/dialogs/moving-averages.glade.h:9 ../src/tools/analysis-tools.c:3795
+#: ../src/tools/analysis-tools.c:3798
 msgid "Moving Average"
 msgstr "Desplazamiento promediado"
 
 #: ../src/dialogs/moving-averages.glade.h:11
-#, fuzzy
 msgid "Other offset"
-msgstr "Otros valores"
+msgstr "Otro desplazamiento"
 
 #: ../src/dialogs/moving-averages.glade.h:13
 #, fuzzy
@@ -8906,8 +8928,8 @@ msgstr "Nivel de confianza:"
 msgid "O_ptions"
 msgstr "O_pciones"
 
-#: ../src/dialogs/regression.glade.h:4 ../src/tools/analysis-tools.c:3408
-#: ../src/tools/analysis-tools.c:3411
+#: ../src/dialogs/regression.glade.h:4 ../src/tools/analysis-tools.c:3409
+#: ../src/tools/analysis-tools.c:3412
 msgid "Regression"
 msgstr "Regresión"
 
@@ -8953,9 +8975,8 @@ msgid "Per_iod:"
 msgstr "_Período:"
 
 #: ../src/dialogs/sampling.glade.h:9
-#, fuzzy
 msgid "Primary direction:"
-msgstr "Dirección:"
+msgstr "Dirección primaria:"
 
 #: ../src/dialogs/sampling.glade.h:10
 #, fuzzy
@@ -9979,7 +10000,7 @@ msgstr "300%"
 msgid "500%"
 msgstr "500%"
 
-#: ../src/gnm-pane.c:1980
+#: ../src/gnm-pane.c:1992
 #, c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -10516,43 +10537,43 @@ msgstr "Opción no válida para exportar en pdf"
 msgid "PDF export"
 msgstr "Exportar a PDF"
 
-#: ../src/print.c:911
+#: ../src/print.c:909
 msgid "Print Selection"
 msgstr "Selección de impresión"
 
-#: ../src/print.c:1289
+#: ../src/print.c:1287
 msgid "_All workbook sheets"
 msgstr "_Todas las hojas del libro de cuentas"
 
-#: ../src/print.c:1294
+#: ../src/print.c:1292
 msgid "Also print _hidden sheets"
 msgstr "Imprimir también las hojas _ocultas"
 
-#: ../src/print.c:1299
+#: ../src/print.c:1297
 msgid "A_ctive workbook sheet"
 msgstr "Hoja a_ctiva del libro de cuentas"
 
-#: ../src/print.c:1304
+#: ../src/print.c:1302
 msgid "_Workbook sheets:"
 msgstr "Hojas del _libro de cuentas"
 
-#: ../src/print.c:1309
+#: ../src/print.c:1307
 msgid "Current _selection only"
 msgstr "Sólo la _selección actual"
 
-#: ../src/print.c:1314
+#: ../src/print.c:1312
 msgid "_Ignore defined print area"
 msgstr "_Ignorar el área de impresión definido"
 
-#: ../src/print.c:1318
+#: ../src/print.c:1316
 msgid "from:"
 msgstr "de:"
 
-#: ../src/print.c:1326
+#: ../src/print.c:1324
 msgid "to:"
 msgstr "a:"
 
-#: ../src/print.c:1536
+#: ../src/print.c:1534
 msgid "Gnumeric Print Range"
 msgstr "Rango de impresión de Gnumeric"
 
@@ -11535,8 +11556,8 @@ msgid "Text to Columns"
 msgstr "Texto a columnas"
 
 #: ../src/stf.c:276
-#, c-format
-msgid "Only one column of <b>input</b> data can be parsed at a time"
+#, fuzzy, c-format
+msgid "Only one column of input data can be parsed at a time"
 msgstr "Sólo se puede analizar a la vez una columna de datos de <b>entrada</b>"
 
 #: ../src/stf.c:301
@@ -11579,6 +11600,82 @@ msgstr "Importar texto (configurable)"
 msgid "Comma separated values (CSV)"
 msgstr "Valores separados por comas (CSV)"
 
+#: ../src/tools/analysis-exp-smoothing.c:118
+#: ../src/tools/analysis-exp-smoothing.c:293
+#: ../src/tools/analysis-exp-smoothing.c:476
+#: ../src/tools/analysis-exp-smoothing.c:715
+#: ../src/tools/analysis-exp-smoothing.c:1033
+msgid "\"α =\" * 0.000"
+msgstr "«α =» * 0.000"
+
+#: ../src/tools/analysis-exp-smoothing.c:156
+#: ../src/tools/analysis-exp-smoothing.c:331
+#: ../src/tools/analysis-exp-smoothing.c:518
+#: ../src/tools/analysis-exp-smoothing.c:780
+#: ../src/tools/analysis-exp-smoothing.c:1100
+#: ../src/tools/analysis-histogram.c:254 ../src/tools/analysis-tools.c:1353
+#: ../src/tools/analysis-tools.c:3546
+#, c-format
+msgid "Row %d"
+msgstr "Fila %d"
+
+#: ../src/tools/analysis-exp-smoothing.c:208
+#: ../src/tools/analysis-exp-smoothing.c:388
+#: ../src/tools/analysis-exp-smoothing.c:612
+#: ../src/tools/analysis-exp-smoothing.c:929
+#: ../src/tools/analysis-exp-smoothing.c:1292
+#: ../src/tools/analysis-tools.c:3721
+msgid "Standard Error"
+msgstr "Error estándar"
+
+#: ../src/tools/analysis-exp-smoothing.c:480
+#: ../src/tools/analysis-exp-smoothing.c:719
+#: ../src/tools/analysis-exp-smoothing.c:1037
+msgid "\"γ =\" * 0.000"
+msgstr "«γ =» * 0.000"
+
+#: ../src/tools/analysis-exp-smoothing.c:599
+#: ../src/tools/analysis-exp-smoothing.c:602
+#, fuzzy
+msgid ""
+"Holt's trend corrected exponential\n"
+"smoothing requires at least 2\n"
+"output columns for each data set."
+msgstr ""
+"No se ha podido crear el diálogo de la Herramienta de Suavizado Exponencial."
+
+#: ../src/tools/analysis-exp-smoothing.c:723
+#: ../src/tools/analysis-exp-smoothing.c:1041
+#, fuzzy
+msgid "\"δ =\" * 0.000"
+msgstr "«α =» * 0.000"
+
+#: ../src/tools/analysis-exp-smoothing.c:758
+#: ../src/tools/analysis-exp-smoothing.c:1078
+msgid "/Level/Trend/Seasonal Adjustment"
+msgstr ""
+
+#: ../src/tools/analysis-exp-smoothing.c:916
+#: ../src/tools/analysis-exp-smoothing.c:919
+msgid ""
+"The additive Holt-Winters exponential\n"
+"smoothing method requires at least 4\n"
+"output columns for each data set."
+msgstr ""
+
+#: ../src/tools/analysis-exp-smoothing.c:1279
+#: ../src/tools/analysis-exp-smoothing.c:1282
+msgid ""
+"The multiplicative Holt-Winters exponential\n"
+"smoothing method requires at least 4\n"
+"output columns for each data set."
+msgstr ""
+
+#: ../src/tools/analysis-exp-smoothing.c:1365
+#, c-format
+msgid "Exponential Smoothing (%s)"
+msgstr "Suavizado exponencial (%s)"
+
 #. translator note: do not translate the "General"
 #. part of the following strings.
 #: ../src/tools/analysis-histogram.c:106
@@ -11608,13 +11705,7 @@ msgstr ""
 msgid "\"from\" * \"−∞\";\"from\" * \"−∞\""
 msgstr ""
 
-#: ../src/tools/analysis-histogram.c:254 ../src/tools/analysis-tools.c:1352
-#: ../src/tools/analysis-tools.c:3545 ../src/tools/analysis-tools.c:3910
-#, c-format
-msgid "Row %d"
-msgstr "Fila %d"
-
-#: ../src/tools/analysis-histogram.c:260 ../src/tools/analysis-tools.c:1358
+#: ../src/tools/analysis-histogram.c:260 ../src/tools/analysis-tools.c:1359
 #, c-format
 msgid "Area %d"
 msgstr "Área %d"
@@ -11625,13 +11716,13 @@ msgid "Histogram (%s)"
 msgstr "Histograma (%s)"
 
 #: ../src/tools/analysis-tools.c:274 ../src/tools/analysis-tools.c:364
-#: ../src/tools/analysis-tools.c:3338 ../src/tools/analysis-tools.c:4895
+#: ../src/tools/analysis-tools.c:3339 ../src/tools/analysis-tools.c:4547
 #, c-format
 msgid "Row %i"
 msgstr "Fila %i"
 
 #: ../src/tools/analysis-tools.c:277 ../src/tools/analysis-tools.c:367
-#: ../src/tools/analysis-tools.c:3338 ../src/tools/analysis-tools.c:4887
+#: ../src/tools/analysis-tools.c:3339 ../src/tools/analysis-tools.c:4539
 #, c-format
 msgid "Column %i"
 msgstr "Columna %i"
@@ -11651,20 +11742,20 @@ msgstr "Área %i"
 msgid "Variable %i"
 msgstr "Variable %i"
 
-#: ../src/tools/analysis-tools.c:808
+#: ../src/tools/analysis-tools.c:809
 msgid "Correlations"
 msgstr "Correlaciones"
 
-#: ../src/tools/analysis-tools.c:819
+#: ../src/tools/analysis-tools.c:820
 #, c-format
 msgid "Correlation (%s)"
 msgstr "Correlación (%s)"
 
-#: ../src/tools/analysis-tools.c:862
+#: ../src/tools/analysis-tools.c:863
 msgid "Covariances"
 msgstr "Covarianzas"
 
-#: ../src/tools/analysis-tools.c:873
+#: ../src/tools/analysis-tools.c:874
 #, c-format
 msgid "Covariance (%s)"
 msgstr "Covarianza (%s)"
@@ -11676,7 +11767,7 @@ msgstr "Covarianza (%s)"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: ../src/tools/analysis-tools.c:974
+#: ../src/tools/analysis-tools.c:975
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -11684,36 +11775,36 @@ msgstr ""
 "/Media/Error estándar/Mediana/Moda/Desviación estándar/Varianza de la "
 "muestra/Curtosis/Desviación/Rango/Mínimo/Máximo/Suma/Cuenta"
 
-#: ../src/tools/analysis-tools.c:1109
+#: ../src/tools/analysis-tools.c:1110
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr "/%%%s%%%% CI para la media de/a"
 
-#: ../src/tools/analysis-tools.c:1237
+#: ../src/tools/analysis-tools.c:1238
 #, c-format
 msgid "Largest (%d)"
 msgstr "El mayor (%d)"
 
-#: ../src/tools/analysis-tools.c:1244
+#: ../src/tools/analysis-tools.c:1245
 #, c-format
 msgid "Smallest (%d)"
 msgstr "El menor (%d)"
 
-#: ../src/tools/analysis-tools.c:1261
+#: ../src/tools/analysis-tools.c:1262
 #, c-format
 msgid "Descriptive Statistics (%s)"
 msgstr "Estadística descriptiva (%s)"
 
-#: ../src/tools/analysis-tools.c:1455
+#: ../src/tools/analysis-tools.c:1456
 #, c-format
 msgid "Sampling (%s)"
 msgstr "Muestreo (%s)"
 
-#: ../src/tools/analysis-tools.c:1489 ../src/tools/analysis-tools.c:1492
+#: ../src/tools/analysis-tools.c:1490 ../src/tools/analysis-tools.c:1493
 msgid "Sample"
 msgstr "Ejemplo"
 
-#: ../src/tools/analysis-tools.c:1530
+#: ../src/tools/analysis-tools.c:1531
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -11723,16 +11814,16 @@ msgstr ""
 "hipótesis/Diferencia de la media observada/z/P (Z<=z) - una cola/z crítico - "
 "una cola/P (Z<=z) - dos colas/z crítico - dos colas"
 
-#: ../src/tools/analysis-tools.c:1721
+#: ../src/tools/analysis-tools.c:1722
 #, c-format
 msgid "z-Test (%s)"
 msgstr "Prueba-z (%s)"
 
-#: ../src/tools/analysis-tools.c:1731 ../src/tools/analysis-tools.c:1734
+#: ../src/tools/analysis-tools.c:1732 ../src/tools/analysis-tools.c:1735
 msgid "z-Test"
 msgstr "Prueba-z"
 
-#: ../src/tools/analysis-tools.c:1782
+#: ../src/tools/analysis-tools.c:1783
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
@@ -11743,18 +11834,18 @@ msgstr ""
 "Stat/P (T<=t) - una cola/t crítico - una cola/ P (T<=t) - dos colas/t "
 "crítico - dos colas"
 
-#: ../src/tools/analysis-tools.c:2013
+#: ../src/tools/analysis-tools.c:2014
 #, c-format
 msgid "t-Test, paired (%s)"
 msgstr "Prueba-t, emparejado (%s)"
 
-#: ../src/tools/analysis-tools.c:2023 ../src/tools/analysis-tools.c:2026
-#: ../src/tools/analysis-tools.c:2323 ../src/tools/analysis-tools.c:2326
-#: ../src/tools/analysis-tools.c:2616 ../src/tools/analysis-tools.c:2619
+#: ../src/tools/analysis-tools.c:2024 ../src/tools/analysis-tools.c:2027
+#: ../src/tools/analysis-tools.c:2324 ../src/tools/analysis-tools.c:2327
+#: ../src/tools/analysis-tools.c:2617 ../src/tools/analysis-tools.c:2620
 msgid "t-Test"
 msgstr "Prueba-t"
 
-#: ../src/tools/analysis-tools.c:2061
+#: ../src/tools/analysis-tools.c:2062
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -11764,12 +11855,12 @@ msgstr ""
 "hipótesis/Media observada/df/t Stat/P (T<=t) - una cola/t crítico - una "
 "cola/ P (T<=t) - dos colas/t crítico - dos colas"
 
-#: ../src/tools/analysis-tools.c:2313 ../src/tools/analysis-tools.c:2606
+#: ../src/tools/analysis-tools.c:2314 ../src/tools/analysis-tools.c:2607
 #, c-format
 msgid "t-Test (%s)"
 msgstr "Prueba-t (%s)"
 
-#: ../src/tools/analysis-tools.c:2358
+#: ../src/tools/analysis-tools.c:2359
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -11779,12 +11870,12 @@ msgstr ""
 "Diferencia de la medias observada/df/t Stat/P (T<=t) - una cola/t crítico - "
 "una cola/ P (T<=t) - dos colas/t crítico - dos colas"
 
-#: ../src/tools/analysis-tools.c:2654 ../src/tools/analysis-tools.c:2905
-#: ../src/tools/analysis-tools.c:2908
+#: ../src/tools/analysis-tools.c:2655 ../src/tools/analysis-tools.c:2906
+#: ../src/tools/analysis-tools.c:2909
 msgid "F-Test"
 msgstr "Prueba-F"
 
-#: ../src/tools/analysis-tools.c:2656
+#: ../src/tools/analysis-tools.c:2657
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -11793,12 +11884,12 @@ msgstr ""
 "derecha/ P (f<=F) - cola izquierda/F crítico - colas izquierda/P dos colas/F "
 "crítico - dos colas"
 
-#: ../src/tools/analysis-tools.c:2895
+#: ../src/tools/analysis-tools.c:2896
 #, c-format
 msgid "F-Test (%s)"
 msgstr "Prueba-F (%s)"
 
-#: ../src/tools/analysis-tools.c:3020
+#: ../src/tools/analysis-tools.c:3021
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
 "Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -11807,23 +11898,23 @@ msgstr ""
 "estándar/Cuadrado R ajustado/Observaciones//Análisis de varianza//Regresión/"
 "Residual/Total///Interceptar"
 
-#: ../src/tools/analysis-tools.c:3058
+#: ../src/tools/analysis-tools.c:3059
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/Suma de los cuadrados/Media cuadrática/F/Significancia de F"
 
-#: ../src/tools/analysis-tools.c:3065
+#: ../src/tools/analysis-tools.c:3066
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
 msgstr "/Coeficientes/Error estándar/Estadísticas-t/Valor-P"
 
-#: ../src/tools/analysis-tools.c:3070
+#: ../src/tools/analysis-tools.c:3071
 msgid "\"Lower\" 0%"
 msgstr "«Inferior» 0%"
 
-#: ../src/tools/analysis-tools.c:3071
+#: ../src/tools/analysis-tools.c:3072
 msgid "\"Upper\" 0%"
 msgstr "«Superior» 0%"
 
-#: ../src/tools/analysis-tools.c:3080
+#: ../src/tools/analysis-tools.c:3081
 msgid ""
 "Probability of an observation's\n"
 "absolute value being larger than\n"
@@ -11833,7 +11924,7 @@ msgstr ""
 "absoluto de una observación\n"
 " sea mayor que el valor t absoluto"
 
-#: ../src/tools/analysis-tools.c:3085
+#: ../src/tools/analysis-tools.c:3086
 msgid ""
 "This value is not the square of R\n"
 "but the uncentered version of the\n"
@@ -11847,172 +11938,155 @@ msgstr ""
 "es, la proporción de la suma de\n"
 "los cuadrados explicada por el modelo."
 
-#: ../src/tools/analysis-tools.c:3394
+#: ../src/tools/analysis-tools.c:3395
 #, c-format
 msgid "Regression (%s)"
 msgstr "Regresión (%s)"
 
-#: ../src/tools/analysis-tools.c:3720 ../src/tools/analysis-tools.c:4057
-msgid "Standard Error"
-msgstr "Error estándar"
-
-#: ../src/tools/analysis-tools.c:3781
+#: ../src/tools/analysis-tools.c:3782
 #, c-format
 msgid "Moving Average (%s)"
 msgstr "Desplazamiento promediado (%s)"
 
-#: ../src/tools/analysis-tools.c:3864
-msgid "\"α =\" * 0.000"
-msgstr "«α =» * 0.000"
-
-#: ../src/tools/analysis-tools.c:3870
-msgid "\"γ =\" * 0.000"
-msgstr "«γ =» * 0.000"
-
-#: ../src/tools/analysis-tools.c:4123
-#, c-format
-msgid "Exponential Smoothing (%s)"
-msgstr "Suavizado exponencial (%s)"
-
-#: ../src/tools/analysis-tools.c:4200
+#: ../src/tools/analysis-tools.c:3852
 msgid "Point"
 msgstr "Punto"
 
-#: ../src/tools/analysis-tools.c:4202
+#: ../src/tools/analysis-tools.c:3854
 msgid "Rank"
 msgstr "Rango"
 
-#: ../src/tools/analysis-tools.c:4203
+#: ../src/tools/analysis-tools.c:3855
 msgid "Percentile"
 msgstr "Porcentaje"
 
-#: ../src/tools/analysis-tools.c:4263
+#: ../src/tools/analysis-tools.c:3915
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Clasificaciones (%s)"
 
-#: ../src/tools/analysis-tools.c:4275 ../src/tools/analysis-tools.c:4278
+#: ../src/tools/analysis-tools.c:3927 ../src/tools/analysis-tools.c:3930
 msgid "Ranks"
 msgstr "Rango"
 
-#: ../src/tools/analysis-tools.c:4309
+#: ../src/tools/analysis-tools.c:3961
 msgid "Anova: Single Factor"
 msgstr "Anova: un factor"
 
-#: ../src/tools/analysis-tools.c:4310 ../src/tools/analysis-tools.c:4947
+#: ../src/tools/analysis-tools.c:3962 ../src/tools/analysis-tools.c:4599
 #: ../src/tools/simulation.c:335
 msgid "SUMMARY"
 msgstr "RESUMEN"
 
-#: ../src/tools/analysis-tools.c:4313
+#: ../src/tools/analysis-tools.c:3965
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupos/Cuenta/Suma/Promediación/Varianza"
 
-#: ../src/tools/analysis-tools.c:4381
+#: ../src/tools/analysis-tools.c:4033
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 "/Análisis de varianza/Origen de variación/Entre grupos/Dentro de grupos/Total"
 
-#: ../src/tools/analysis-tools.c:4387 ../src/tools/analysis-tools.c:4797
-#: ../src/tools/analysis-tools.c:4971
+#: ../src/tools/analysis-tools.c:4039 ../src/tools/analysis-tools.c:4449
+#: ../src/tools/analysis-tools.c:4623
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/Suma de cuadrados/Cuadrado medio/Valor P/F crítico"
 
-#: ../src/tools/analysis-tools.c:4598
+#: ../src/tools/analysis-tools.c:4250
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "Factor simple Análisis de varianza (%s)"
 
-#: ../src/tools/analysis-tools.c:4609 ../src/tools/analysis-tools.c:5278
+#: ../src/tools/analysis-tools.c:4261 ../src/tools/analysis-tools.c:4930
 msgid "Anova"
 msgstr "Anova"
 
-#: ../src/tools/analysis-tools.c:4612
+#: ../src/tools/analysis-tools.c:4264
 msgid "Single Factor ANOVA"
 msgstr "Factor simple Análisis de varianza"
 
-#: ../src/tools/analysis-tools.c:4719
+#: ../src/tools/analysis-tools.c:4371
 msgid "The input range contains non-numeric data."
 msgstr "El rango de entrada contiene datos no numéricos."
 
-#: ../src/tools/analysis-tools.c:4727
+#: ../src/tools/analysis-tools.c:4379
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Dos factores sin replicación"
 
-#: ../src/tools/analysis-tools.c:4728
+#: ../src/tools/analysis-tools.c:4380
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/RESUMEN/Cuenta/Suma/Promediación/Varianza"
 
-#: ../src/tools/analysis-tools.c:4791
+#: ../src/tools/analysis-tools.c:4443
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/Análisis de varianza/Origen de variación/Filas/Columnas/Error/Total"
 
-#: ../src/tools/analysis-tools.c:4937
+#: ../src/tools/analysis-tools.c:4589
 msgid "One of the factor combinations does not contain any observations!"
 msgstr "Una de las combinaciones de factores no tiene ninguna observación."
 
 #. We are ready to create the summary table
-#: ../src/tools/analysis-tools.c:4946
+#: ../src/tools/analysis-tools.c:4598
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Dos factores con replicación"
 
-#: ../src/tools/analysis-tools.c:4953
+#: ../src/tools/analysis-tools.c:4605
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Cuenta/Suma/Promediación/Varianza"
 
-#: ../src/tools/analysis-tools.c:4963
+#: ../src/tools/analysis-tools.c:4615
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr ""
 "/Análisis de varianza/Origen de variación/Filas/Columnas/Interacción/Total"
 
-#: ../src/tools/analysis-tools.c:5262
+#: ../src/tools/analysis-tools.c:4914
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr "Análisis de varianza de dos factores (%s), sin replicación"
 
-#: ../src/tools/analysis-tools.c:5263
+#: ../src/tools/analysis-tools.c:4915
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "Análisis de varianza de dos factores (%s),  con replicación"
 
-#: ../src/tools/analysis-tools.c:5281
+#: ../src/tools/analysis-tools.c:4933
 msgid "Two Factor ANOVA"
 msgstr "Análisis de varianza de dos factores"
 
-#: ../src/tools/analysis-tools.c:5370 ../src/tools/solver/reports-write.c:644
+#: ../src/tools/analysis-tools.c:5022 ../src/tools/solver/reports-write.c:644
 msgid "Real"
 msgstr "Real"
 
-#: ../src/tools/analysis-tools.c:5371
+#: ../src/tools/analysis-tools.c:5023
 msgid "Imaginary"
 msgstr "Imaginario"
 
-#: ../src/tools/analysis-tools.c:5431
+#: ../src/tools/analysis-tools.c:5083
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Series de Fourier (%s)"
 
-#: ../src/tools/analysis-tools.c:5443 ../src/tools/analysis-tools.c:5446
+#: ../src/tools/analysis-tools.c:5095 ../src/tools/analysis-tools.c:5098
 msgid "Fourier Series"
 msgstr "Series de Fourier"
 
-#: ../src/tools/dao.c:163
+#: ../src/tools/dao.c:164
 msgid "New Sheet"
 msgstr "Hoja nueva"
 
-#: ../src/tools/dao.c:166
+#: ../src/tools/dao.c:167
 msgid "New Workbook"
 msgstr "Libro de cuentas nuevo"
 
-#: ../src/tools/dao.c:1025
+#: ../src/tools/dao.c:1026
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: ../src/tools/dao.c:1031
+#: ../src/tools/dao.c:1032
 msgid "Worksheet:"
 msgstr "Hoja de trabajo:"
 
-#: ../src/tools/dao.c:1038
+#: ../src/tools/dao.c:1039
 msgid "Report Created: "
 msgstr "Informe creado: "
 
@@ -13915,7 +13989,7 @@ msgstr "Importa texto desde un archivo"
 
 #. Standard Toolbar
 #: ../src/wbc-gtk-actions.c:2052 ../src/wbc-gtk.c:3692
-#: ../src/workbook-view.c:817
+#: ../src/workbook-view.c:820
 msgid "Sum"
 msgstr "Suma"
 
@@ -14712,80 +14786,83 @@ msgstr "Dirección"
 msgid "The workbook view being controlled."
 msgstr "La vista del libro de cuentas que se está controlando."
 
-#: ../src/workbook-view.c:355
+#. Translators: "%dC" is a very short format to indicate the number of full columns
+#: ../src/workbook-view.c:356
 #, c-format
 msgid "%dC"
 msgstr "%dC"
 
-#: ../src/workbook-view.c:357
+#. Translators: "%dR" is a very short format to indicate the number of full rows
+#: ../src/workbook-view.c:359
 #, c-format
 msgid "%dR"
 msgstr "%dR"
 
-#: ../src/workbook-view.c:359
+#. Translators: "%dR x %dC" is a very short format to indicate the number of rows and columns
+#: ../src/workbook-view.c:362
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: ../src/workbook-view.c:749
+#: ../src/workbook-view.c:752
 msgid "Auto-expression function"
 msgstr "Función de autoexpresión"
 
-#: ../src/workbook-view.c:750
+#: ../src/workbook-view.c:753
 msgid "The automatically computed sheet function."
 msgstr "La función de hoja automáticamente computada."
 
-#: ../src/workbook-view.c:757
+#: ../src/workbook-view.c:760
 msgid "Auto-expression description"
 msgstr "Descripción de autoexpresión"
 
-#: ../src/workbook-view.c:758
+#: ../src/workbook-view.c:761
 msgid "Description of the automatically computed sheet function."
 msgstr "Descripción de la función de hoja automáticamente computada."
 
-#: ../src/workbook-view.c:766
+#: ../src/workbook-view.c:769
 msgid "Auto-expression maximum precision"
 msgstr "Máxima precisión de la autoexpresión"
 
-#: ../src/workbook-view.c:767
+#: ../src/workbook-view.c:770
 msgid "Use maximum available precision for auto-expressions"
 msgstr "Usar la precisión máxima disponible para las autoexpresiones"
 
-#: ../src/workbook-view.c:775
+#: ../src/workbook-view.c:778
 msgid "Auto-expression text"
 msgstr "Texto de autoexpresión"
 
-#: ../src/workbook-view.c:776
+#: ../src/workbook-view.c:779
 msgid "Displayed text for the automatically computed sheet function."
 msgstr "Texto mostrado para la función de hoja automáticamente computada."
 
-#: ../src/workbook-view.c:855
+#: ../src/workbook-view.c:858
 msgid "An unexplained error happened while saving."
 msgstr "Ocurrió un error inexplicable mientras se guardaba."
 
-#: ../src/workbook-view.c:871
+#: ../src/workbook-view.c:874
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "No se puede abrir «%s» para escritura: %s"
 
-#: ../src/workbook-view.c:875
+#: ../src/workbook-view.c:878
 #, c-format
 msgid "Can't open '%s' for writing"
 msgstr "No se puede abrir «%s» para escritura"
 
-#: ../src/workbook-view.c:970 ../src/workbook-view.c:1150
+#: ../src/workbook-view.c:973 ../src/workbook-view.c:1153
 msgid "Default file saver is not available."
 msgstr "No se encuentra disponible el guardador de archivos preestablecido."
 
-#: ../src/workbook-view.c:1091
+#: ../src/workbook-view.c:1094
 msgid "Failed to create temporary file for sending."
 msgstr "No se puede crear archivo temporal para el envío."
 
-#: ../src/workbook-view.c:1244
+#: ../src/workbook-view.c:1247
 msgid "Unsupported file format."
 msgstr "Formato de archivo no soportado."
 
-#: ../src/workbook-view.c:1294
+#: ../src/workbook-view.c:1297
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Ocurrió un error no explicado mientras se abría %s"
@@ -15096,6 +15173,12 @@ msgstr "Una plantilla de lista lila"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Una plantilla de lista simple"
+
+#~ msgid "Missing theme"
+#~ msgstr "Falta el tema"
+
+#~ msgid "Missing record '%d'"
+#~ msgstr "Falta el registro «%d»"
 
 #~ msgid "0.2"
 #~ msgstr "0,2"
