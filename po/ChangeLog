@@ -1,3 +1,8 @@
+2008-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* POTFILES.in: added src/tools/analysis-frequency.c and 
+	  src/dialogs/dialog-analysis-tool-frequency.c
+
 2008-10-12  Jorge Gonzalez  <jorgegonz@svn.gnome.org>   
 
 	* es.po: Updated Spanish translation

@@ -21,6 +21,8 @@ noinst_LTLIBRARIES = libtools.la
 libtools_la_SOURCES =					\
 	analysis-exp-smoothing.c			\
 	analysis-exp-smoothing.h			\
+	analysis-frequency.c				\
+	analysis-frequency.h				\
 	analysis-histogram.c				\
 	analysis-histogram.h				\
 	analysis-tools.c				\

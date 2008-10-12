@@ -1,3 +1,12 @@
+2008-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* frequency.glade: new
+	* dialog-analysis-tool-frequency.c: new
+	* dialogs.h (dialog_frequency_tool): new
+	* Makefile.am: added frequency.glade and 
+	  dialog-analysis-tool-frequency.c
+	* help.h (GNUMERIC_HELP_LINK_FREQUENCY): new
+
 2008-10-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tools.c (exp_smoothing_*_cb): adjust sensitivity

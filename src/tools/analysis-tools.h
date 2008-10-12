@@ -248,5 +248,7 @@ void gnm_fourier_fft (complex_t const *in, int n, int skip,
 
 void set_cell_text_row (data_analysis_output_t *dao, 
 			int col, int row, const char *text);
+void set_cell_text_col (data_analysis_output_t *dao, 
+			int col, int row, const char *text);
 
 #endif

@@ -173,7 +173,10 @@
           <menuitem action="ToolsAverage"/>
         </menu>
         <menuitem action="ToolsFourier"/>
-        <menuitem action="ToolsHistogram"/>
+        <menu name="ToolFrequencies" action="MenuToolFrequencies">
+          <menuitem action="ToolsFrequency"/>
+          <menuitem action="ToolsHistogram"/>
+        </menu>
         <menuitem action="ToolsRanking"/>
         <menuitem action="ToolsRegression"/>
         <menuitem action="ToolsSampling"/>

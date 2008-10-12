@@ -26,6 +26,7 @@ base_files =					\
 	dialog-about.c				\
 	dialog-advanced-filter.c		\
 	dialog-analysis-tools.c			\
+	dialog-analysis-tool-frequency.c	\
 	dialog-autocorrect.c			\
 	dialog-autofilter.c			\
 	dialog-autoformat.c			\
@@ -115,6 +116,7 @@ glade_DATA = 				\
 	font-sel.glade			\
 	formula-guru.glade		\
 	fourier-analysis.glade		\
+	frequency.glade			\
 	function-select.glade 		\
 	goalseek.glade			\
 	goto.glade			\

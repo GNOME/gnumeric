@@ -728,6 +728,7 @@ static GNM_ACTION_DEF (cb_tools_desc_statistics) { dialog_descriptive_stat_tool 
 static GNM_ACTION_DEF (cb_tools_exp_smoothing)	{ dialog_exp_smoothing_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_average)	{ dialog_average_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_fourier)	{ dialog_fourier_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_frequency)	{ dialog_frequency_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_histogram)	{ dialog_histogram_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_ranking)	{ dialog_ranking_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_regression)	{ dialog_regression_tool (wbcg, wbcg_cur_sheet (wbcg)); }
@@ -1553,6 +1554,7 @@ static GtkActionEntry const permanent_actions[] = {
 		{ "MenuToolStatisticalAnalysis",	NULL,	N_("Statistical Anal_ysis") },
 		{ "MenuANOVA",	NULL,	N_("_ANOVA") },
 		{ "MenuToolForecast",	NULL,	N_("F_orecast") },
+		{ "MenuToolFrequencies",	NULL,	N_("Fre_quency Tables") },
 		{ "MenuToolTTest",	NULL,	N_("Two _Means") },
 	{ "MenuData",		NULL, N_("_Data") },
 		{ "MenuFilter",		NULL,	N_("_Filter") },
@@ -1948,6 +1950,14 @@ static GtkActionEntry const actions[] = {
 		NULL, N_("Moving average..."),
 		G_CALLBACK (cb_tools_average) },
 
+/* Tools -> Frequency Tables */
+	{ "ToolsFrequency", NULL, N_("Fre_quency Tables..."),
+		NULL, N_("Frequency tables for non-numeric data"),
+		G_CALLBACK (cb_tools_frequency) },
+	{ "ToolsHistogram", NULL, N_("_Histogram..."),
+		NULL, N_("Various frequency tables for numeric data"),
+		G_CALLBACK (cb_tools_histogram) },
+	
 /* Tools -> Two Means */
 	{ "ToolTTestPaired", NULL, N_("_Paired Samples: T-Test..."),
 		NULL, N_("Comparing two population means for two paired samples: t-test..."),
@@ -1978,9 +1988,6 @@ static GtkActionEntry const actions[] = {
 	{ "ToolsFourier", NULL, N_("_Fourier Analysis..."),
 		NULL, N_("Fourier Analysis"),
 		G_CALLBACK (cb_tools_fourier) },
-	{ "ToolsHistogram", NULL, N_("_Histogram..."),
-		NULL, N_("Various frequency tables"),
-		G_CALLBACK (cb_tools_histogram) },
 	{ "ToolsRanking", NULL, N_("Ranks And _Percentiles..."),
 		NULL, N_("Ranks, placements and percentiles"),
 		G_CALLBACK (cb_tools_ranking) },

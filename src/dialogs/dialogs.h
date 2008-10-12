@@ -87,6 +87,7 @@ int dialog_ranking_tool		 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_anova_single_factor_tool (WBCGtk *wbcg, Sheet *sheet);
 int dialog_anova_two_factor_tool (WBCGtk *wbcg, Sheet *sheet);
 int dialog_histogram_tool	 (WBCGtk *wbcg, Sheet *sheet);
+int dialog_frequency_tool	 (WBCGtk *wbcg, Sheet *sheet);
 
 typedef enum {
 	TTEST_PAIRED = 1,

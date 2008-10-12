@@ -25,6 +25,7 @@ Andreas:
 	* Added multiplicative Holt-Winters exponential smoothing.
 	* Fix minor bugs. [#554818] [#553342]
 	* Update some of the analysis tools documentation.
+	* Add non-numeric frequency tables tool. [#134166]
 
 Jean:
 	* Fix printing of rotated text. [#539734]

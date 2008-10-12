@@ -631,7 +631,7 @@ range_sort (gnm_float const *xs, int n)
 /*
  * Set a column of text from a string like "/first/second/third" or "|foo|bar|baz".
  */
-static void
+void
 set_cell_text_col (data_analysis_output_t *dao, int col, int row, const char *text)
 {
 	gboolean leave = FALSE;

@@ -1,3 +1,10 @@
+2008-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* component/Gnumeric-embed.xml.in: added frequency tool menu item
+	* src/GNOME_Gnumeric-gtk.xml.in: ditto
+	* src/HILDON_Gnumeric-gtk.xml.in: ditto
+	* src/wbc-gtk-actions.c: added ToolsFrequency
+
 2008-10-10  Jody Goldberg <jody@gnome.org>
 
 	* src/gnm-pane.c (cb_gnm_pane_preedit_changed) :

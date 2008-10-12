@@ -146,6 +146,9 @@
 #define GNUMERIC_HELP_LINK_ANOVA_SINGLE_FACTOR "sect-analysis-statistical"
 #define GNUMERIC_HELP_LINK_ANOVA_TWO_FACTOR "sect-analysis-statistical"
 
+/* dialog-analysis-tool-frequency.c */
+#define GNUMERIC_HELP_LINK_FREQUENCY "sect-analysis-statistical"
+
 /* dialog-consolidate.c     */
 #define GNUMERIC_HELP_LINK_CONSOLIDATE ""
 

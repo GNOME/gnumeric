@@ -1,3 +1,10 @@
+2008-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.h (set_cell_text_col): new
+	* analysis-tools.c (set_cell_text_col): make non-static
+	* analysis-frequency.[ch]: new
+	* Makefile.am: added analysis-frequency.[ch]
+
 2008-10-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-exp-smoothing.c 
