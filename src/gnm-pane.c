@@ -585,11 +585,15 @@ gnm_pane_key_press (GtkWidget *widget, GdkEventKey *event)
 		event->keyval == GDK_KP_Decimal ||
 		event->keyval == GDK_KP_Separator;
 
-	if (gtk_im_context_filter_keypress (pane->im_context,event))
+	if (gtk_im_context_filter_keypress (pane->im_context, event))
 		return TRUE;
-	pane->reseting_im = TRUE;
+
+	/* in gtk-2.8 something changed.  gtk_im_context_reset started
+	 * triggering a pre-edit-changed.  We'd end up start and finishing an
+	 * empty edit every time the cursor moved */
+	pane->im_block_edit_start = TRUE;
 	gtk_im_context_reset (pane->im_context);
-	pane->reseting_im = FALSE;
+	pane->im_block_edit_start = FALSE;
 
 	if (gnm_pane_key_mode_sheet (pane, event, allow_rangesel))
 		return TRUE;
@@ -606,7 +610,7 @@ gnm_pane_key_release (GtkWidget *widget, GdkEventKey *event)
 	if (pane->simple.scg->grab_stack > 0)
 		return TRUE;
 
-	if (gtk_im_context_filter_keypress (pane->im_context,event))
+	if (gtk_im_context_filter_keypress (pane->im_context, event))
 		return TRUE;
 	/*
 	 * The status_region normally displays the current edit_pos
@@ -626,7 +630,17 @@ static gint
 gnm_pane_focus_in (GtkWidget *widget, GdkEventFocus *event)
 {
 #ifndef GNM_USE_HILDON
+	/* The first call to focus-in was sometimes the first thing to init the
+	 * imcontext.  In which case the im_context_focus_in would fire a
+	 * preedit-changed, and we would start editing. */
+	GnmPane *pane = GNM_PANE (widget);
+	if (pane->im_first_focus)
+		pane->im_block_edit_start = TRUE;
 	gtk_im_context_focus_in (GNM_PANE (widget)->im_context);
+	if (pane->im_first_focus) {
+		pane->im_first_focus = FALSE;
+		pane->im_block_edit_start = FALSE;
+	}
 #endif
 	return (*GTK_WIDGET_CLASS (parent_klass)->focus_in_event) (widget, event);
 }
@@ -731,10 +745,7 @@ cb_gnm_pane_preedit_changed (GtkIMContext *context, GnmPane *pane)
 		pango_attr_list_unref (pane->preedit_attrs);
 	gtk_im_context_get_preedit_string (pane->im_context, &preedit_string, &pane->preedit_attrs, &cursor_pos);
 
-	/* in gtk-2.8 something changed.  gtk_im_context_reset started
-	 * triggering a pre-edit-changed.  We'd end up start and finishing an
-	 * empty edit every time the cursor moved */
-	if (!pane->reseting_im &&
+	if (!pane->im_block_edit_start &&
 	    !wbcg_is_editing (wbcg) && !wbcg_edit_start (wbcg, TRUE, TRUE)) {
 		gtk_im_context_reset (pane->im_context);
 		pane->preedit_length = 0;
@@ -909,8 +920,9 @@ gnm_pane_init (GnmPane *pane)
 
 	pane->im_context = gtk_im_multicontext_new ();
 	pane->preedit_length = 0;
-	pane->preedit_attrs = NULL;
-	pane->reseting_im = FALSE;
+	pane->preedit_attrs    = NULL;
+	pane->im_block_edit_start = FALSE;
+	pane->im_first_focus = TRUE;
 
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_DEFAULT);

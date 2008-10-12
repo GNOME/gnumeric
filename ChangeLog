@@ -1,3 +1,11 @@
+2008-10-10  Jody Goldberg <jody@gnome.org>
+
+	* src/gnm-pane.c (cb_gnm_pane_preedit_changed) :
+	  s/reseting_im/im_block_edit_start/ to clarify the intent, and to
+	  reuse it for the initial focus problem.
+	(gnm_pane_key_press) : move the explainitory comment here, where we
+	  toggle im_block_edit_start rather than below when it happens.
+	(gnm_pane_focus_in) : use it here too with the new im_first_focus.
 
 2008-10-08  Morten Welinder  <terra@gnome.org>
 
