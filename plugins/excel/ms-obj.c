@@ -1242,7 +1242,10 @@ ms_read_OBJ (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs)
 		printf ("{ /* OBJ start */\n");
 #endif
 	obj = ms_obj_new (attrs);
-	errors = (c->importer->ver >= MS_BIFF_V8)
+	/* When called from escher (@attrs != NULL) use the biff8 variant.
+	 * When embdedded directly in the stream (@attrs == NULL) the OBJ
+	 * record appears to be in the old format. (#546887) */
+	errors = (NULL != attrs)
 		? ms_obj_read_biff8_obj (q, c, obj)
 		: ms_obj_read_pre_biff8_obj (q, c, obj);
 

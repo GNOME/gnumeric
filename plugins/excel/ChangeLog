@@ -1,3 +1,8 @@
+2008-10-13  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_read_OBJ) : standalone OBJ records outside escher
+	  groups appear to use the old style. [#546887]
+
 2008-10-09  Jody Goldberg <jody@gnome.org>
 
 	* xlsx-read.c (xlsx_pattern_fg_bg) : merge _fg and _bg and
