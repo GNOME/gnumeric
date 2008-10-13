@@ -183,6 +183,8 @@ frequency_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->base.labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = glade_xml_get_widget (state->base.gui, "percentage-button");
 	data->percentage = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	w = glade_xml_get_widget (state->base.gui, "exact-button");
+	data->exact = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet,
 			       dao, data, analysis_tool_frequency_engine))

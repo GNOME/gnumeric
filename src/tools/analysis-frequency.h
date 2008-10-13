@@ -48,6 +48,7 @@ typedef struct {
 	gnm_float min;
 	gint       n;
 	gboolean   percentage;
+	gboolean   exact;
 	chart_freq_t   chart;	
 } analysis_tools_data_frequency_t;
 

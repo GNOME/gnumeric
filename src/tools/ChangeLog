@@ -1,5 +1,11 @@
 2008-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-frequency.c (analysis_tool_frequency_engine_run): use
+	  EXACT if requested and copy the categories preserving blankness.
+	* analysis-frequency.c (analysis_tools_data_frequency_t): add field
+	
+2008-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-tools.h (set_cell_text_col): new
 	* analysis-tools.c (set_cell_text_col): make non-static
 	* analysis-frequency.[ch]: new

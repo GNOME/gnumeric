@@ -51,8 +51,10 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_sum;
 	GnmFunc *fd_if;
 	GnmFunc *fd_index;
+	GnmFunc *fd_isblank;
 	GnmFunc *fd_rows = NULL;
 	GnmFunc *fd_columns = NULL;
+	GnmFunc *fd_exact = NULL;
 
 	fd_sum = gnm_func_lookup ("SUM", NULL);
 	gnm_func_ref (fd_sum);
@@ -60,7 +62,13 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 	gnm_func_ref (fd_if);
 	fd_index = gnm_func_lookup ("INDEX", NULL);
 	gnm_func_ref (fd_index);
+	fd_isblank = gnm_func_lookup ("ISBLANK", NULL);
+	gnm_func_ref (fd_isblank);
 	
+	if (info->exact) {
+		fd_exact = gnm_func_lookup ("EXACT", NULL);
+		gnm_func_ref (fd_exact);
+	}
 	if (info->percentage) {
 		fd_rows = gnm_func_lookup ("ROWS", NULL);
 		gnm_func_ref (fd_rows);
@@ -88,13 +96,24 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 		expr_bin = gnm_expr_new_constant (info->bin);
 
 		for (i = 1; i <= i_h_limit; i++)
-			for (j = 1; j <= i_w_limit; j++)
+			for (j = 1; j <= i_w_limit; j++) {
+				GnmExpr const *expr_index;
+
+				expr_index =  gnm_expr_new_funcall3
+					(fd_index,
+					 gnm_expr_copy (expr_bin),
+					 gnm_expr_new_constant (value_new_int (i)),
+					 gnm_expr_new_constant (value_new_int (j)));
+				
 				dao_set_cell_expr (dao, 0, row++,
 						   gnm_expr_new_funcall3
-						   (fd_index,
-						    gnm_expr_copy (expr_bin),
-						    gnm_expr_new_constant (value_new_int (i)),
-						    gnm_expr_new_constant (value_new_int (j))));
+						   (fd_if,
+						    gnm_expr_new_funcall1
+						    (fd_isblank,
+						     gnm_expr_copy (expr_index)),
+						    gnm_expr_new_constant (value_new_string ("")),
+						    expr_index));
+			}
 		gnm_expr_free (expr_bin);
 	} else {
 		i_limit = info->n;
@@ -140,14 +159,21 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 		}
 
 		expr_data = gnm_expr_new_constant (val);
-		expr_if = gnm_expr_new_funcall3
-			(fd_if,
-			 gnm_expr_new_binary
-			 (gnm_expr_copy (expr_data),
-			  GNM_EXPR_OP_EQUAL, make_cellref (- col, 0)),
-			 gnm_expr_new_constant (value_new_int (1)),
-			 gnm_expr_new_constant (value_new_int (0)));
-		expr_count = gnm_expr_new_funcall1 (fd_sum, expr_if);
+		
+		if (info->exact)
+			expr_if = gnm_expr_new_funcall2 
+				(fd_exact, gnm_expr_copy (expr_data), 
+				 make_cellref (- col, 0));
+		else
+			expr_if = gnm_expr_new_binary
+				(gnm_expr_copy (expr_data),
+				 GNM_EXPR_OP_EQUAL, make_cellref (- col, 0));
+
+		expr_count = gnm_expr_new_funcall1 (fd_sum,  
+						    gnm_expr_new_funcall3
+						    (fd_if, expr_if,
+						     gnm_expr_new_constant (value_new_int (1)),
+						     gnm_expr_new_constant (value_new_int (0))));
 
 		if (info->percentage) {
 			dao_set_format  (dao, col, 2, col, i_limit + 2, "0.0%");
@@ -171,10 +197,13 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 	gnm_func_unref (fd_if);
 	gnm_func_unref (fd_sum);
 	gnm_func_unref (fd_index);
+	gnm_func_unref (fd_isblank);
 	if (fd_rows != NULL)
 		gnm_func_unref (fd_rows);
 	if (fd_columns != NULL)
 		gnm_func_unref (fd_columns);
+	if (fd_exact != NULL)
+		gnm_func_unref (fd_exact);
 
 	/* Create Chart if requested */
 	if (info->chart != NO_CHART) {

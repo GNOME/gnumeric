@@ -1,5 +1,11 @@
 2008-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* frequency.glade: add exact button
+	* dialog-analysis-tool-frequency.c (frequency_tool_ok_clicked_cb):
+	  handle exact button
+	
+2008-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* frequency.glade: new
 	* dialog-analysis-tool-frequency.c: new
 	* dialogs.h (dialog_frequency_tool): new
