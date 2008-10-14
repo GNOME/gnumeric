@@ -43,7 +43,7 @@ gutils_init (void)
 {
 	char const *home_dir;
 #ifdef G_OS_WIN32
-	gchar *dir = g_win32_get_package_installation_directory (NULL, NULL);
+	gchar *dir = g_win32_get_package_installation_directory_of_module (NULL);
 	gnumeric_lib_dir = g_build_filename (dir, "lib",
 					     "gnumeric", GNM_VERSION_FULL,
 					     NULL);

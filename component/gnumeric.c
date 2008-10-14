@@ -280,7 +280,6 @@ GSF_DYNAMIC_CLASS (GOGnmComponent, go_gnm_component,
 	GO_COMPONENT_TYPE)
 
 /*************************************************************************************/
-extern GType gnm_plugin_loader_module_get_type (void);
 
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)

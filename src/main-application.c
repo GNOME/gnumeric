@@ -328,6 +328,11 @@ main (int argc, char const **argv)
 	IOContext *ioc;
 	WorkbookView *wbv;
 	GSList *wbcgs_to_kill = NULL;
+
+#ifdef G_OS_WIN32
+	gboolean has_console;
+#endif
+
 #ifdef GNM_USE_HILDON
 	osso_context_t * osso_context;
 #endif
@@ -336,7 +341,7 @@ main (int argc, char const **argv)
 	argv = gnm_pre_parse_init (argc, argv);
 
 #ifdef G_OS_WIN32
-	gboolean has_console = FALSE;
+	has_console = FALSE;
 	{
 		typedef BOOL (CALLBACK* LPFNATTACHCONSOLE)(DWORD);
 		LPFNATTACHCONSOLE MyAttachConsole;

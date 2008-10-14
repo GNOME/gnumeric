@@ -12,6 +12,10 @@
 
 G_BEGIN_DECLS
 
+#define GNM_PLUGIN_LOADER_MODULE_TYPE (gnm_plugin_loader_module_get_type ())
+#define GNM_PLUGIN_LOADER_MODULE(o)  (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_LOADER_MODULE_TYPE, GnmPluginLoaderModule))
+GType gnm_plugin_loader_module_get_type (void);
+
 #define GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE  (plugin_service_function_group_get_type ())
 #define GNM_PLUGIN_SERVICE_FUNCTION_GROUP(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE, PluginServiceFunctionGroup))
 #define IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE))

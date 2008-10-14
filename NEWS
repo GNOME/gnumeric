@@ -41,6 +41,7 @@ Jody:
 	* Restore the undocumented magic for solid fills in XLSX conditions.
 	* Work around gtk behavior change in IMContext initialization.
 	* XLS : support anachronistic objs in newer versions. [#546887]
+	* WIN32 : build fixes
 
 J.H.M. Dassen (Ray):
 	* Understand and ignore byte-order markers for CSV/stf probing and

@@ -1,3 +1,15 @@
+2008-10-14  Jody Goldberg <jody@gnome.org>
+
+	* src/main-application.c (main) : warning suppression on win32.
+
+	* src/gutils.c (gutils_init) : replace deprecated function
+	  g_win32_get_package_installation_directory with
+	  g_win32_get_package_installation_directory_of_module
+
+	* src/gnm-plugin.h (gnm_plugin_loader_module_get_type) : make public.
+
+	* component/gnumeric.c : do not add magic 'extern' references.
+
 2008-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* component/Gnumeric-embed.xml.in: added frequency tool menu item

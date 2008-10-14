@@ -436,10 +436,6 @@ GSF_CLASS (PluginServiceUI, plugin_service_ui,
 typedef GOPluginLoaderModule	  GnmPluginLoaderModule;
 typedef GOPluginLoaderModuleClass GnmPluginLoaderModuleClass;
 
-#define GNM_PLUGIN_LOADER_MODULE_TYPE (gnm_plugin_loader_module_get_type ())
-#define GNM_PLUGIN_LOADER_MODULE(o)  (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_LOADER_MODULE_TYPE, GnmPluginLoaderModule))
-GType gnm_plugin_loader_module_get_type (void);
-
 /*
  * Service - function_group
  */
