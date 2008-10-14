@@ -64,8 +64,8 @@ call_perl_function_args (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	GnmFunc const *fndef;
 	gint min_n_args, max_n_args, n_args;
 	gint i;
-	gchar *perl_func = NULL;
-	GnmValue* result = NULL;
+	gchar *perl_func;
+	GnmValue* result;
 	dSP;
 
 	fndef = ei->func_call->func;
@@ -77,20 +77,9 @@ call_perl_function_args (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	ENTER;
 	SAVETMPS;
 	PUSHMARK(SP);
-	for (i=0;i<n_args;i++) {
-		gint arg_int;
-		gchar* arg_text;
-
-		switch(args[i]->type) {
-		case VALUE_STRING:
-			arg_text = value_get_as_string (args[i]);
-			XPUSHs(sv_2mortal(newSVpv(arg_text, strlen(arg_text))));
-			break;
-		default:
-			arg_int = value_get_as_float (args[i]);
-			XPUSHs(sv_2mortal(newSViv(arg_int)));
-			break;
-		}
+	for (i = 0; i < n_args; i++) {
+		SV* sv = value2perl (args[i]);
+		XPUSHs(sv_2mortal(sv));
 	}
 	PUTBACK;
 	call_pv (perl_func, G_EVAL | G_SCALAR);

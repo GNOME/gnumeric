@@ -1,0 +1,3 @@
+2008-10-12  Yukihiro Nakai <nakai@gnome.gr.jp>
+
+	* plugin-xml.in: Add perl-sed

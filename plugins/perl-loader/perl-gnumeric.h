@@ -33,7 +33,7 @@ typedef FILE * OutputStream;
 #include <value.h>
 #include <str.h>
 
-SV* value2perl(GnmValue *v);
+SV* value2perl(const GnmValue *v);
 GnmValue* perl2value(SV *sv);
 GnmValue* marshal_func (GnmFuncEvalInfo *ei, GnmValue *argv[]);
 

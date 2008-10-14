@@ -1,7 +1,7 @@
 #include "perl-gnumeric.h"
 
 SV *
-value2perl(GnmValue *v)
+value2perl(const GnmValue *v)
 {
     SV *sv;
 
@@ -36,13 +36,10 @@ perl2value(SV *sv)
 	v = value_new_float ((gnm_float) SvNV(sv));
     else if (SvPOK(sv)) {
 	STRLEN size;
-	gchar *s,*tmp;
+	gchar *tmp;
 
 	tmp = SvPV(sv, size);
-
-	s = g_strndup (tmp, size);
-	v = value_new_string (s);
-	g_free (s);
+	v = value_new_string_nocopy (g_strndup (tmp, size));
     }
 
     return v;

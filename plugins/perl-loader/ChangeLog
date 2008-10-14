@@ -1,3 +1,12 @@
+2008-10-14  Morten Welinder  <terra@gnome.org>
+
+	* perl-gnumeric.c (value2perl): Constify.
+	(perl2value): Avoid double copy.
+
+2008-10-12  Yukihiro Nakai <nakai@gnome.gr.jp>
+
+	* perl-loader.c: use value2perl() to get GnmValue
+
 2008-09-26  Yukihiro Nakai <nakai@gnome.gr.jp>
 
 	* perl-loader.c: Enable again
