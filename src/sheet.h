@@ -254,6 +254,9 @@ gboolean sheet_range_has_heading     (Sheet const *sheet, GnmRange const *src,
 				      gboolean top, gboolean ignore_styles);
 
 
+void gnm_sheet_foreach_name (Sheet const *sheet, GHFunc func, gpointer data);
+
+
 /* Redraw */
 #define sheet_is_visible(_sheet) ((_sheet)->visibility == GNM_SHEET_VISIBILITY_VISIBLE)
 void     sheet_redraw_all       (Sheet const *sheet, gboolean header);

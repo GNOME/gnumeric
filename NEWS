@@ -56,6 +56,7 @@ Morten:
 	* Bring SUMX2MY2, SUMX2PY2, and SUMXMY2 into 21st century.  [#554040]
 	* Fix XIRR problem with missing data.  [#554732]
 	* Switch to LINGUAS file.  [#554348]
+	* Fix problems with saving undefined names.  [#554325]
 
 Nakai:
 	* Enable Perl plugin again. [#553939]

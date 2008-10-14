@@ -58,6 +58,9 @@ GPtrArray  *workbook_cells               (Workbook *wb, gboolean comments,
 					  GnmSheetVisibility vis);
 GSList     *workbook_local_functions	 (Workbook const *wb);
 
+void workbook_foreach_name (Workbook const *wb, GHFunc func, gpointer data);
+
+
 /* Calculation */
 void     workbook_recalc                 (Workbook *wb);	/* in eval.c */
 void     workbook_recalc_all             (Workbook *wb);	/* in eval.c */

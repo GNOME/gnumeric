@@ -5269,3 +5269,12 @@ sheet_range_has_heading (Sheet const *sheet, GnmRange const *src,
 
 	return FALSE;
 }
+
+void
+gnm_sheet_foreach_name (Sheet const *sheet, GHFunc func, gpointer data)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+
+	if (sheet->names)
+		gnm_named_expr_collection_foreach (sheet->names, func, data);
+}

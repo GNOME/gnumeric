@@ -1571,8 +1571,12 @@ excel_write_NAME (G_GNUC_UNUSED gpointer key,
 		excel_write_string (ewb->bp, STR_NO_LENGTH, name);
 	}
 
-	expr_len = excel_write_formula (ewb, nexpr->texpr,
-		nexpr->pos.sheet, 0, 0, EXCEL_CALLED_FROM_NAME);
+	if (expr_name_is_placeholder (nexpr))
+		expr_len = 0;
+	else
+		expr_len = excel_write_formula (ewb, nexpr->texpr,
+						nexpr->pos.sheet, 0, 0,
+						EXCEL_CALLED_FROM_NAME);
 	ms_biff_put_var_seekto (ewb->bp, 4);
 	GSF_LE_SET_GUINT16 (data, expr_len);
 	ms_biff_put_var_write (ewb->bp, data, 2);
@@ -5225,20 +5229,7 @@ excel_write_WRITEACCESS (BiffPut *bp)
 static void
 excel_foreach_name (ExcelWriteState *ewb, GHFunc func)
 {
-	Workbook const *wb = ewb->base.wb;
-	Sheet const *sheet;
-	unsigned i, num_sheets = workbook_sheet_count (wb);
-
-	if (wb->names != NULL) {
-		g_hash_table_foreach (wb->names->names, func, ewb);
-	}
-	for (i = 0; i < num_sheets; i++) {
-		sheet = workbook_sheet_by_index (wb, i);
-		if (sheet->names != NULL) {
-			g_hash_table_foreach (sheet->names->names,
-				func, ewb);
-		}
-	}
+	workbook_foreach_name (ewb->base.wb, func, ewb);
 }
 
 static void

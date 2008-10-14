@@ -1,3 +1,13 @@
+2008-10-02  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_write_NAME): Don't write a formula for
+	place-holders.
+
+2008-10-01  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_foreach_name): Use new
+	workbook_foreach_name.
+
 2008-10-13  Jody Goldberg <jody@gnome.org>
 
 	* ms-obj.c (ms_read_OBJ) : standalone OBJ records outside escher

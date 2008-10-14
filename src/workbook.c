@@ -551,6 +551,20 @@ workbook_local_functions (Workbook const *wb)
 	return NULL;
 }
 
+void
+workbook_foreach_name (Workbook const *wb, GHFunc func, gpointer data)
+{
+	g_return_if_fail (IS_WORKBOOK (wb));
+
+	if (wb->names)
+		gnm_named_expr_collection_foreach (wb->names, func, data);
+
+	WORKBOOK_FOREACH_SHEET (wb, sheet, {
+		gnm_sheet_foreach_name (sheet, func, data);
+	});
+}
+
+
 gboolean
 workbook_enable_recursive_dirty (Workbook *wb, gboolean enable)
 {

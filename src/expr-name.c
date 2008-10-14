@@ -297,6 +297,16 @@ gnm_named_expr_collection_check (GnmNamedExprCollection *scope,
 	return user.res;
 }
 
+/* Iterate over all names, including placeholders.  */
+void
+gnm_named_expr_collection_foreach (GnmNamedExprCollection *names,
+				   GHFunc func,
+				   gpointer data)
+{
+	g_hash_table_foreach (names->names, func, data);
+	g_hash_table_foreach (names->placeholders, func, data);
+}
+
 /******************************************************************************/
 
 /**

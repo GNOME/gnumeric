@@ -72,6 +72,9 @@ struct _GnmNamedExprCollection {
 void gnm_named_expr_collection_free (GnmNamedExprCollection *names);
 void gnm_named_expr_collection_unlink (GnmNamedExprCollection *names);
 void gnm_named_expr_collection_relink (GnmNamedExprCollection *names);
+void gnm_named_expr_collection_foreach (GnmNamedExprCollection *names,
+					GHFunc func,
+					gpointer data);
 
 GnmNamedExpr *gnm_named_expr_collection_lookup (GnmNamedExprCollection const *scope,
 						char const *name);
