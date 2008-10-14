@@ -1,3 +1,8 @@
+2008-10-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* component/gnumeric.c: cleaned includes list and removed unused
+	local variables.
+
 2008-10-14  Jody Goldberg <jody@gnome.org>
 
 	* src/main-application.c (main) : warning suppression on win32.

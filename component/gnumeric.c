@@ -3,7 +3,7 @@
  * Gnumeric GOffice component
  * gnumeric.c
  *
- * Copyright (C) 2006-2007
+ * Copyright (C) 2006-2008
  *
  * Developed by Jean Bréfort <jean.brefort@normalesup.org>
  *
@@ -25,31 +25,17 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <libgnumeric.h>
+#include <gnm-plugin.h>
 #include <gnumeric-gconf.h>
-#include <application.h>
-#include <cell.h>
-#include <cell-draw.h>
-#include <cellspan.h>
-#include <colrow.h>
 #include <gutils.h>
 #include <print-cell.h>
+#include <print.h>
 #include <ranges.h>
-#include <rendered-value.h>
-#include <workbook-view.h>
-#include <wbc-gtk-impl.h>
-#include <workbook.h>
 #include <selection.h>
 #include <sheet.h>
-#include <sheet-merge.h>
-#include <sheet-object-impl.h>
-#include <sheet-style.h>
-#include <style-border.h>
-#include <style-color.h>
-#include <print-cell.h>
-#include <sheet-object.h>
-#include <command-context.h>
-#include <command-context-stderr.h>
+#include <wbc-gtk-impl.h>
+#include <workbook-view.h>
+#include <workbook.h>
 
 #include <goffice/app/io-context.h>
 #include <goffice/component/goffice-component.h>
@@ -60,7 +46,6 @@
 #include <goffice/utils/go-image.h>
 #include <goffice/app/go-cmd-context.h>
 #include <goffice/app/module-plugin-defs.h>
-
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
@@ -161,10 +146,6 @@ go_gnm_component_render (GOComponent *component, cairo_t *cr, double width_pixel
 {
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	GnmRange range;
-	double xoffset = 0., yoffset;
-	GSList *l;
-	SheetObject *so;
-	SheetObjectAnchor const *anchor;
 
 	range_init (&range, gognm->col_start, gognm->row_start, gognm->col_end, gognm->row_end);
 	cairo_save (cr);
