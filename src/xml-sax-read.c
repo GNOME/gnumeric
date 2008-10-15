@@ -1244,7 +1244,11 @@ xml_sax_style_region_start (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->style_range_init == FALSE);
 	g_return_if_fail (state->style == NULL);
 
-	state->style = gnm_style_new_default ();
+	state->style = (state->version >= GNM_XML_V6 ||
+			state->version <= GNM_XML_V2)
+		? gnm_style_new_default ()
+		: gnm_style_new ();
+
 	state->style_range_init =
 		xml_sax_attr_range (attrs, &state->style_range);
 }
@@ -1258,7 +1262,12 @@ xml_sax_style_region_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (state->style != NULL);
 	g_return_if_fail (state->sheet != NULL);
 
-	sheet_style_set_range (state->sheet, &state->style_range, state->style);
+	if (state->version >= GNM_XML_V6 || state->version <= GNM_XML_V2)
+		sheet_style_set_range (state->sheet, &state->style_range,
+				       state->style);
+	else
+		sheet_style_apply_range (state->sheet, &state->style_range,
+					 state->style);
 
 	state->style_range_init = FALSE;
 	state->style = NULL;
