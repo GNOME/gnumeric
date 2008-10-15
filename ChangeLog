@@ -1,3 +1,9 @@
+2008-10-15  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_style_region_start) : always init the
+	  full style just in case some ancient file comes along. [#555933]
+	Add a stub for PrintUnit while we are here.
+
 2008-10-01  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (gnm_sheet_foreach_name): New function.

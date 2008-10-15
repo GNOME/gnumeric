@@ -1244,10 +1244,7 @@ xml_sax_style_region_start (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->style_range_init == FALSE);
 	g_return_if_fail (state->style == NULL);
 
-	state->style = (state->version >= GNM_XML_V6 ||
-			state->version <= GNM_XML_V2)
-		? gnm_style_new_default ()
-		: gnm_style_new ();
+	state->style = gnm_style_new_default ();
 	state->style_range_init =
 		xml_sax_attr_range (attrs, &state->style_range);
 }
@@ -2370,6 +2367,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALS
 	  GSF_XML_IN_NODE_FULL (SHEET_NAMED_EXPR, SHEET_NAMED_EXPR_POSITION, GNM, "position", GSF_XML_CONTENT, FALSE, FALSE, NULL, &xml_sax_named_expr_prop, 2),
 
       GSF_XML_IN_NODE (SHEET, SHEET_PRINTINFO, GNM, "PrintInformation", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (SHEET_PRINTINFO, SHEET_PRINTUNIT, GNM, "PrintUnit", GSF_XML_NO_CONTENT, NULL, NULL),	/* ignore ancient field */
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_MARGINS, GNM, "Margins", GSF_XML_NO_CONTENT, NULL, NULL),
 	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_TOP,    GNM, "top",	  GSF_XML_CONTENT, FALSE, FALSE, &xml_sax_print_margins, NULL, 0),
 	  GSF_XML_IN_NODE_FULL (PRINT_MARGINS, PRINT_MARGIN_BOTTOM, GNM, "bottom",GSF_XML_CONTENT, FALSE, FALSE, &xml_sax_print_margins, NULL, 1),
