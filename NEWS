@@ -42,6 +42,7 @@ Jody:
 	* Work around gtk behavior change in IMContext initialization.
 	* XLS : support anachronistic objs in newer versions. [#546887]
 	* WIN32 : build fixes
+	* WIN32 : Fix Decimal keypad character. [#555522]
 
 J.H.M. Dassen (Ray):
 	* Understand and ignore byte-order markers for CSV/stf probing and

@@ -1,0 +1,19 @@
+2008-10-14  Jody Goldberg <jody@gnome.org>
+
+	Bug 555522 : KP_Decimal is not locale specific.
+
+	* gdk/win32/gdkkeys-win32.c (handle_special) : Add missing VK_DECIMAL.
+
+Index: gdk/win32/gdkkeys-win32.c
+===================================================================
+--- gdk/win32/gdkkeys-win32.c	(revision 21622)
++++ gdk/win32/gdkkeys-win32.c	(working copy)
+@@ -151,6 +151,8 @@
+       *ksymp = GDK_KP_Separator; break;
+     case VK_SUBTRACT:
+       *ksymp = GDK_KP_Subtract; break;
++    case VK_DECIMAL:
++      *ksymp = GDK_KP_Decimal; break;
+     case VK_DIVIDE:
+       *ksymp = GDK_KP_Divide; break;
+     case VK_NUMPAD0:

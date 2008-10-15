@@ -183,18 +183,18 @@
     </autotools>
     -->
 
-    <tarball id="gtk+" version="2.14.3">
-	<source href="http://download.gnome.org/sources/gtk+/2.14/gtk+-2.14.3.tar.bz2" />
-	<patches>
-	</patches>
+    <autotools id="gtk+" version="2.14.3">
+	<branch repo="gnome.org" module="sources/gtk+/2.14/gtk+-2.14.3.tar.bz2"
+		version="2.14.3">
+	    <patch file="&patch_dir;gtk-VK_DECIMAL.patch"/>
+	</branch>
 	<dependencies>
 	    <dep package="glib"/>
 	    <dep package="cairo"/>
 	    <dep package="atk"/>
 	    <dep package="pango"/>
 	</dependencies>
-    </tarball>
-
+    </autotools>
 
 <!-- glade stack -->
     <tarball id="libxml2" version="2.6.32">
@@ -213,7 +213,7 @@
     </tarball>
 
 <!-- python stack -->
-    <autotools id="pygobject" version="2.14.2">
+    <autotools id="pygobject" version="3.1.2">
 	<branch repo="gnome.org" module="sources/pygobject/2.14/pygobject-2.14.2.tar.bz2"
 		version="3.1.2">
 	    <patch file="&patch_dir;pygobject.patch"/>
