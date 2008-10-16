@@ -90,7 +90,11 @@ kaplan_meier_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
         GnmValue *input_range;
         GnmValue *input_range_2 = NULL;
 	int height, width;
+
+	censorship = gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (state->censorship_button));
 	
+	gtk_widget_set_sensitive (state->tick_button, censorship);
 
 	input_range = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
@@ -113,8 +117,6 @@ kaplan_meier_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		return;
 	}
 
-	censorship = gtk_toggle_button_get_active (
-		GTK_TOGGLE_BUTTON (state->censorship_button));
 	if (censorship) {
 		input_range_2 =  gnm_expr_entry_parse_as_value
 			(GNM_EXPR_ENTRY (state->base.input_entry_2), state->base.sheet);

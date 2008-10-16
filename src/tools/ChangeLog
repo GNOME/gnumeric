@@ -1,5 +1,11 @@
 2008-10-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-kaplan-meier.c (analysis_tool_kaplan_meier_engine_run):
+	  include censorship ticks in the graph if requested
+	(analysis_tool_kaplan_meier_engine): adjust width for censures column
+	
+2008-10-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-kaplan-meier.c: new
 	* analysis-kaplan-meier.h: new
 	* Makefile.am: add analysis-kaplan-meier.[ch]

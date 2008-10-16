@@ -1,5 +1,12 @@
 2008-10-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* kaplan-meier.glade: enable ticks button
+	* dialog-analysis-tool-kaplan-meier.c 
+	(kaplan_meier_tool_update_sensitivity_cb): disable ticks
+	  button when we do not have censorship info
+	
+2008-10-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* kaplan-meier.glade: new
 	* dialog-analysis-tool-kaplan-meier.c: new
 	* Makefile.am: add kaplan-meier.glade and

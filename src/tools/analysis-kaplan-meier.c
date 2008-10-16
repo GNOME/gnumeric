@@ -50,6 +50,8 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 				    analysis_tools_data_kaplan_meier_t *info)
 {
 	int rows, row;
+	int std_err_col = info->censored ? 5 : 4;
+	int prob_col = info->censored ? 4 : 3;
 
 	GnmExpr const *expr_data;
 	GnmExpr const *expr_censor;
@@ -57,6 +59,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 	GnmExpr const *expr_time;
 	GnmExpr const *expr_at_risk;
 	GnmExpr const *expr_deaths;
+	GnmExpr const *expr_censures = NULL;
 	GnmExpr const *expr_prob_zero;
 	GnmExpr const *expr_prob;
 	GnmExpr const *expr_std_err = NULL;
@@ -87,15 +90,23 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 	dao_set_italic (dao, 0, 0, 0, 0);
 	dao_set_cell (dao, 0, 0, _("Kaplan-Meier"));
 
-	dao_set_italic (dao, 0, 1, 3, 1);
-	set_cell_text_row (dao, 0, 1, 
-			   "/Time"
-			   "/At Risk"
-			   "/Deaths"
-			   "/Probability");
+	dao_set_italic (dao, 0, 1, prob_col, 1);
+	if (info->censored) 
+		set_cell_text_row (dao, 0, 1, 
+				   "/Time"
+				   "/At Risk"
+				   "/Deaths"
+				   "/Censures"
+				   "/Probability");
+	else
+		set_cell_text_row (dao, 0, 1, 
+				   "/Time"
+				   "/At Risk"
+				   "/Deaths"
+				   "/Probability");
 	if (info->std_err) {
-		dao_set_italic (dao, 4, 1, 4, 1);
-		dao_set_cell (dao, 4, 1, "Standard Error"); 
+		dao_set_italic (dao, std_err_col, 1, std_err_col, 1);
+		dao_set_cell (dao, std_err_col, 1, "Standard Error"); 
 	}
 
 	expr_data = gnm_expr_new_constant (value_dup (info->base.range_1));
@@ -138,11 +149,36 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 						 gnm_expr_new_funcall3 
 						 (fd_if,
 						  gnm_expr_new_binary
-						  (expr_censor,
+						  (gnm_expr_copy (expr_censor),
 						   GNM_EXPR_OP_EQUAL,
 						   gnm_expr_new_constant (value_new_int (info->censor_mark))),
 						  gnm_expr_new_constant (value_new_int (0)),
 						  gnm_expr_new_constant (value_new_int (1))))));
+		expr_censures =  gnm_expr_new_funcall3 
+			(fd_if,
+			 gnm_expr_new_binary (make_cellref (-1, 0),
+					      GNM_EXPR_OP_EQUAL,
+					      gnm_expr_new_constant (value_new_string (""))),
+			 gnm_expr_new_constant (value_new_string ("")),
+			 gnm_expr_new_funcall1 (fd_sum,
+						gnm_expr_new_binary
+						(gnm_expr_new_funcall3 
+						 (fd_if,
+						  gnm_expr_new_binary
+						  (gnm_expr_copy (expr_data),
+						   GNM_EXPR_OP_EQUAL,
+						   make_cellref (-3, 0)),
+						  gnm_expr_new_constant (value_new_int (1)),
+						  gnm_expr_new_constant (value_new_int (0))),
+						 GNM_EXPR_OP_MULT,
+						 gnm_expr_new_funcall3 
+						 (fd_if,
+						  gnm_expr_new_binary
+						  (expr_censor,
+						   GNM_EXPR_OP_EQUAL,
+						   gnm_expr_new_constant (value_new_int (info->censor_mark))),
+						  gnm_expr_new_constant (value_new_int (1)),
+						  gnm_expr_new_constant (value_new_int (0))))));
 	} else
 		expr_deaths = gnm_expr_new_funcall3 
 			(fd_if,
@@ -176,14 +212,14 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 					   gnm_expr_new_constant (value_new_string ("")),
 					   expr_small);
 	
-	expr_prob_zero = gnm_expr_new_binary (gnm_expr_new_binary (make_cellref (-2, 0),
+	expr_prob_zero = gnm_expr_new_binary (gnm_expr_new_binary (make_cellref (1 - prob_col, 0),
 								   GNM_EXPR_OP_SUB,
-								   make_cellref (-1, 0)),
+								   make_cellref (2 - prob_col, 0)),
 					      GNM_EXPR_OP_DIV,
-					      make_cellref (-2, 0));
+					      make_cellref (1 - prob_col, 0));
 	expr_prob = gnm_expr_new_funcall3 (fd_if,
 					   gnm_expr_new_binary
-					   (make_cellref (-1, 0),
+					   (make_cellref (2 - prob_col, 0),
 					    GNM_EXPR_OP_EQUAL,
 					    gnm_expr_new_constant (value_new_string (""))),
 					   gnm_expr_new_constant (value_new_string ("")),
@@ -204,36 +240,45 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 									   (fd_sqrt,
 									    gnm_expr_new_binary 
 									    (gnm_expr_new_binary 
-									     (gnm_expr_new_constant (value_new_int (1)),
+									     (gnm_expr_new_constant 
+									      (value_new_int (1)),
 									      GNM_EXPR_OP_SUB,
 									      make_cellref (-1, 0)),
 									     GNM_EXPR_OP_DIV,
-									     make_cellref (-3, 0)))));
+									     make_cellref 
+									     (1 - std_err_col, 0)))));
 
-		dao_set_format  (dao, 4, 2, 4, rows + 1, "0.0000");
-		dao_set_cell_expr (dao, 4, 2, gnm_expr_copy (expr_std_err));
+		dao_set_format  (dao, std_err_col, 2, std_err_col, rows + 1, "0.0000");
+		dao_set_cell_expr (dao, std_err_col, 2, gnm_expr_copy (expr_std_err));
 	}
 
-	dao_set_format  (dao, 3, 2, 3, rows + 1, "0.00%");
+	dao_set_format  (dao, prob_col, 2, prob_col, rows + 1, "0.00%");
 
 	dao_set_cell_int (dao, 0, 2, 0);
 	dao_set_cell_array_expr (dao, 1, 2, gnm_expr_copy (expr_at_risk)); 	
 	dao_set_cell_array_expr (dao, 2, 2, gnm_expr_copy (expr_deaths)); 	
-	dao_set_cell_expr (dao, 3, 2, expr_prob_zero);
+	dao_set_cell_expr (dao, prob_col, 2, expr_prob_zero);
+
+	if (expr_censures != NULL)
+		dao_set_cell_array_expr (dao, 3, 2, gnm_expr_copy (expr_censures));
 
 	for (row = 1; row < rows; row++) {
 		dao_set_cell_array_expr (dao, 0, 2+row, gnm_expr_copy (expr_time)); 	
 		dao_set_cell_array_expr (dao, 1, 2+row, gnm_expr_copy (expr_at_risk)); 	
 		dao_set_cell_array_expr (dao, 2, 2+row, gnm_expr_copy (expr_deaths)); 	
-		dao_set_cell_array_expr (dao, 3, 2+row, gnm_expr_copy (expr_prob)); 
+		dao_set_cell_array_expr (dao, prob_col, 2+row, gnm_expr_copy (expr_prob)); 
+		if (expr_censures != NULL)
+			dao_set_cell_array_expr (dao, 3, 2+row, gnm_expr_copy (expr_censures));
 		if (info->std_err)
-			dao_set_cell_expr (dao, 4, 2+row, gnm_expr_copy (expr_std_err));
+			dao_set_cell_expr (dao, std_err_col, 2+row, gnm_expr_copy (expr_std_err));
 	}
 
 	gnm_expr_free (expr_time);
 	gnm_expr_free (expr_at_risk);
 	gnm_expr_free (expr_deaths);
 	gnm_expr_free (expr_prob);
+	if (expr_censures != NULL)
+		gnm_expr_free (expr_censures);
 	if (expr_std_err != NULL)
 		gnm_expr_free (expr_std_err);
 	
@@ -268,7 +313,10 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 					"Plot", GOG_OBJECT (plot));
 		
 		times = dao_go_data_vector (dao, 0, 2, 0, 1+rows);
-		probabilities = dao_go_data_vector (dao, 3, 2, 3, 1+rows);
+		probabilities = dao_go_data_vector (dao, prob_col, 2, prob_col, 1+rows);
+
+		if (info->censored && info->ticks)
+			g_object_ref (times);
 			
 		series = gog_plot_new_series (plot);
 		gog_series_set_dim (series, 0, times, NULL);
@@ -278,6 +326,32 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 		style->marker.auto_shape = FALSE;
 		go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
 		gog_styled_object_set_style (GOG_STYLED_OBJECT (series), style);
+
+		if (info->censored && info->ticks) {
+			GOData *censures;
+			GnmExpr const *expr;
+
+			expr = gnm_expr_new_binary 
+				(gnm_expr_new_binary (dao_get_rangeref (dao, prob_col, 2, prob_col, 1+rows),
+						      GNM_EXPR_OP_DIV,
+						      dao_get_rangeref (dao, 3, 2, 3, 1+rows)),
+				 GNM_EXPR_OP_MULT,
+				 dao_get_rangeref (dao, 3, 2, 3, 1+rows));
+			
+			censures = gnm_go_data_vector_new_expr (dao->sheet, gnm_expr_top_new (expr));
+
+			series = gog_plot_new_series (plot);
+			gog_series_set_dim (series, 0, times, NULL);
+			gog_series_set_dim (series, 1, censures, NULL);
+
+			style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
+			style->marker.auto_shape = FALSE;
+			go_marker_set_shape (style->marker.mark, GO_MARKER_TRIANGLE_DOWN);
+			style->line.dash_type = GO_LINE_NONE;
+			style->line.auto_dash = FALSE;
+			style->line.width = 0;
+			gog_styled_object_set_style (GOG_STYLED_OBJECT (series), style);
+		}
 
 		so = sheet_object_graph_new (graph);
 		g_object_unref (graph);
@@ -304,7 +378,7 @@ analysis_tool_kaplan_meier_engine (data_analysis_output_t *dao, gpointer specs,
 						result) 
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO:
-		dao_adjust (dao, info->std_err ? 5 : 4, 
+		dao_adjust (dao, (info->std_err ? 5 : 4) + (info->censored ? 1 : 0), 
 			    info->base.range_1->v_range.cell.b.row 
 			    - info->base.range_1->v_range.cell.a.row + 3);
 		return FALSE;
