@@ -1,3 +1,16 @@
+2008-10-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-kaplan-meier.c: new
+	* analysis-kaplan-meier.h: new
+	* Makefile.am: add analysis-kaplan-meier.[ch]
+	* analysis-tools.h: rename analysis_tools_data_ftest_t to
+	  analysis_tools_data_generic_b_t throughout
+	(analysis_tool_generic_b_clean): new
+	* analysis-tools.c: rename analysis_tools_data_ftest_t to
+	  analysis_tools_data_generic_b_t throughout
+	(analysis_tool_ftest_clean): rename to analysis_tool_generic_b_clean
+	  and remove unused first argument, change all callers
+
 2008-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-frequency.c (analysis_tool_frequency_engine_run): use

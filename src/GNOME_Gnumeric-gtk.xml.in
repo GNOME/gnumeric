@@ -177,6 +177,7 @@
           <menuitem action="ToolsFrequency"/>
           <menuitem action="ToolsHistogram"/>
         </menu>
+        <menuitem action="ToolsKaplanMeier"/>
         <menuitem action="ToolsRanking"/>
         <menuitem action="ToolsRegression"/>
         <menuitem action="ToolsSampling"/>

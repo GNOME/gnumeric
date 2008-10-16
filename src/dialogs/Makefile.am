@@ -27,6 +27,7 @@ base_files =					\
 	dialog-advanced-filter.c		\
 	dialog-analysis-tools.c			\
 	dialog-analysis-tool-frequency.c	\
+	dialog-analysis-tool-kaplan-meier.c	\
 	dialog-autocorrect.c			\
 	dialog-autofilter.c			\
 	dialog-autoformat.c			\
@@ -125,6 +126,7 @@ glade_DATA = 				\
 	histogram.glade			\
 	hyperlink.glade			\
 	insert-cells.glade		\
+	kaplan-meier.glade		\
 	mean-tests.glade		\
 	merge.glade			\
 	moving-averages.glade		\

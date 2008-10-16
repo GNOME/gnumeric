@@ -160,7 +160,7 @@ typedef struct {
 	GnmValue *range_2;
 	gboolean   labels;
 	gnm_float alpha;
-} analysis_tools_data_ftest_t;
+} analysis_tools_data_generic_b_t;
 
 gboolean analysis_tool_ftest_engine (data_analysis_output_t *dao, gpointer specs,
 				     analysis_tool_engine_t selector, gpointer result);
@@ -168,7 +168,7 @@ gboolean analysis_tool_ftest_engine (data_analysis_output_t *dao, gpointer specs
 /****************  Regression  ********************/
 
 typedef struct {
-	analysis_tools_data_ftest_t base;
+	analysis_tools_data_generic_b_t base;
 	gint       intercept;
 	group_by_t group_by;
 } analysis_tools_data_regression_t;
@@ -178,7 +178,7 @@ gboolean analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer 
 /*********************** TTest paired *****************/
 
 typedef struct {
-	analysis_tools_data_ftest_t base;
+	analysis_tools_data_generic_b_t base;
 	gnm_float mean_diff;
 	gnm_float var1;
 	gnm_float var2;
@@ -233,6 +233,7 @@ gboolean analysis_tool_anova_two_factor_engine (data_analysis_output_t *dao, gpo
 /* Functions also needed elsewhere.                                 */
 
 gboolean analysis_tool_generic_clean (gpointer specs);
+gboolean analysis_tool_generic_b_clean (gpointer specs);
 
 int analysis_tool_calc_length (analysis_tools_data_generic_t *info);
 

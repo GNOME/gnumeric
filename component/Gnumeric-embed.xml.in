@@ -169,10 +169,11 @@
           <menuitem action="ToolsAverage"/>
         </menu>
         <menuitem action="ToolsFourier"/>
-        <menu name="ToolForecast" action="MenuToolFrequencies">
+        <menu name="ToolFrequencies" action="MenuToolFrequencies">
           <menuitem action="ToolsFrequency"/>
           <menuitem action="ToolsHistogram"/>
 	</menu>
+        <menuitem action="ToolsKaplanMeier"/>
         <menuitem action="ToolsRanking"/>
         <menuitem action="ToolsRegression"/>
         <menuitem action="ToolsSampling"/>

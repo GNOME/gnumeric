@@ -689,11 +689,10 @@ analysis_tool_generic_clean (gpointer specs)
 	return FALSE;
 }
 
-static gboolean
-analysis_tool_ftest_clean (G_GNUC_UNUSED data_analysis_output_t *dao,
-			   gpointer specs)
+gboolean
+analysis_tool_generic_b_clean (gpointer specs)
 {
-	analysis_tools_data_ftest_t *info = specs;
+	analysis_tools_data_generic_b_t *info = specs;
 
 	value_release (info->range_1);
 	info->range_1 = NULL;
@@ -1725,7 +1724,7 @@ analysis_tool_ztest_engine (data_analysis_output_t *dao, gpointer specs,
 		dao_adjust (dao, 3, 11);
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_ftest_clean (dao, specs);
+		return analysis_tool_generic_b_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
@@ -2017,7 +2016,7 @@ analysis_tool_ttest_paired_engine (data_analysis_output_t *dao, gpointer specs,
 		dao_adjust (dao, 3, 14);
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_ftest_clean (dao, specs);
+		return analysis_tool_generic_b_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
@@ -2317,7 +2316,7 @@ analysis_tool_ttest_eqvar_engine (data_analysis_output_t *dao, gpointer specs,
 		dao_adjust (dao, 3, 13);
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_ftest_clean (dao, specs);
+		return analysis_tool_generic_b_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
@@ -2610,7 +2609,7 @@ analysis_tool_ttest_neqvar_engine (data_analysis_output_t *dao, gpointer specs,
 		dao_adjust (dao, 3, 12);
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_ftest_clean (dao, specs);
+		return analysis_tool_generic_b_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
@@ -2638,7 +2637,7 @@ analysis_tool_ttest_neqvar_engine (data_analysis_output_t *dao, gpointer specs,
  */
 static gboolean
 analysis_tool_ftest_engine_run (data_analysis_output_t *dao,
-				analysis_tools_data_ftest_t *info)
+				analysis_tools_data_generic_b_t *info)
 {
 	GnmValue *val_1 = value_dup (info->range_1);
 	GnmValue *val_2 = value_dup (info->range_2);
@@ -2899,7 +2898,7 @@ analysis_tool_ftest_engine (data_analysis_output_t *dao, gpointer specs,
 		dao_adjust (dao, 3, 12);
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_ftest_clean (dao, specs);
+		return analysis_tool_generic_b_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
@@ -3402,7 +3401,7 @@ analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs,
 		return FALSE;
 	}
 	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_ftest_clean (dao, specs);
+		return analysis_tool_generic_b_clean (specs);
 	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
 		return FALSE;
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:

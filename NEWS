@@ -26,6 +26,7 @@ Andreas:
 	* Fix minor bugs. [#554818] [#553342]
 	* Update some of the analysis tools documentation.
 	* Add non-numeric frequency tables tool. [#134166]
+	* Add basic Kaplan-Meier Estimates Tool. [#453765]
 
 Jean:
 	* Fix printing of rotated text. [#539734]

@@ -1641,12 +1641,12 @@ ftest_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			  FTestToolState *state)
 {
 	data_analysis_output_t  *dao;
-	analysis_tools_data_ftest_t  *data;
+	analysis_tools_data_generic_b_t  *data;
 
 	GtkWidget *w;
 	gint err;
 
-	data = g_new0 (analysis_tools_data_ftest_t, 1);
+	data = g_new0 (analysis_tools_data_generic_b_t, 1);
 	dao  = parse_output ((GenericToolState *)state, NULL);
 
 	data->wbc = WORKBOOK_CONTROL (state->base.wbcg);

@@ -730,6 +730,7 @@ static GNM_ACTION_DEF (cb_tools_average)	{ dialog_average_tool (wbcg, wbcg_cur_s
 static GNM_ACTION_DEF (cb_tools_fourier)	{ dialog_fourier_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_frequency)	{ dialog_frequency_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_histogram)	{ dialog_histogram_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_kaplan_meier)	{ dialog_kaplan_meier_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_ranking)	{ dialog_ranking_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_regression)	{ dialog_regression_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_sampling)	{ dialog_sampling_tool (wbcg, wbcg_cur_sheet (wbcg)); }
@@ -2000,6 +2001,9 @@ static GtkActionEntry const actions[] = {
 	{ "ToolsFTest", NULL, N_("_Two Variances: FTest..."),
 		NULL, N_("Comparing two population variances"),
 		G_CALLBACK (cb_tools_ftest) },
+	{ "ToolsKaplanMeier", NULL, N_("_Kaplan-Meier Estimates..."),
+		NULL, N_("Creation of Kaplan-Meier Survival Curves"),
+		G_CALLBACK (cb_tools_kaplan_meier) },
 
 /* Data */
 	{ "DataSort", GTK_STOCK_SORT_ASCENDING, N_("_Sort..."),

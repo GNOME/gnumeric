@@ -1,3 +1,14 @@
+2008-10-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* kaplan-meier.glade: new
+	* dialog-analysis-tool-kaplan-meier.c: new
+	* Makefile.am: add kaplan-meier.glade and
+	  dialog-analysis-tool-kaplan-meier.c
+	* help.h (GNUMERIC_HELP_LINK_KAPLAN_MEIER): new
+	* dialogs.h (dialog_kaplan_meier_tool): new
+	* dialog-analysis-tools.c: rename analysis_tools_data_ftest_t
+	  to analysis_tools_data_generic_b_t throughout
+	
 2008-10-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* frequency.glade: desensitize not-yet implemented option

@@ -182,7 +182,8 @@
           <menuitem action="ToolsFrequency"/>
           <menuitem action="ToolsHistogram"/>
 	</menu>
-         <menuitem action="ToolsRanking"/>
+        <menuitem action="ToolsKaplanMeier"/>
+        <menuitem action="ToolsRanking"/>
         <menuitem action="ToolsRegression"/>
         <menuitem action="ToolsSampling"/>
         <menu name="ToolTTest" action="MenuToolTTest">
