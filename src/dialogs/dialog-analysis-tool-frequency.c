@@ -292,7 +292,7 @@ dialog_frequency_tool (WBCGtk *wbcg, Sheet *sheet)
 	frequency_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
-	gtk_widget_set_sensitive (state->n_entry, FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->n_entry), FALSE);
 	gtk_widget_set_sensitive (state->calculated_button, FALSE);
 
         return 0;
