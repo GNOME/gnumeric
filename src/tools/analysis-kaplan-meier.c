@@ -35,6 +35,7 @@
 #include "func.h"
 #include "numbers.h"
 #include "sheet-object-graph.h"
+#include "graph.h"
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-chart.h>
