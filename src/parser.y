@@ -667,8 +667,8 @@ exp:	  CONSTANT 	{ $$ = $1; }
 			$$ = register_expr_allocation (gnm_expr_new_name (nexpr, NULL, $1));
 		} else {
 			report_err (state, g_error_new (1, PERR_UNKNOWN_NAME,
-				_("Name '%s' does not exist in sheet '%s'"),
-						name, pos.sheet->name_quoted),
+				_("Name '%s' does not exist in workbook"),
+							name),
 				state->ptr, strlen (name));
 			YYERROR;
 		}
