@@ -716,7 +716,7 @@
 
     <itemizedlist>
       <listitem><para>'Autofit columns' automatically makes each column long enough to include the largest entry in that column.  Note that column 'A' in the resulting spreadsheet used to save run information such as date and time and is kept narrow.</para></listitem>
-      <listitem><para>'Clear output range' is in effect if the Output Placement option chosen is Output range.  It clears the selected cells in the spreadsheet before putting hte output table in its place.</para></listitem>
+      <listitem><para>'Clear output range' is in effect if the Output Placement option chosen is Output range.  It clears the selected cells in the spreadsheet before putting the output table in its place.</para></listitem>
       <listitem><para>'Retain output range formatting' retains formatting for cells such as number formatting.</para></listitem>
       <listitem><para>'Retain output range comments' retains comments that have been placed in output cells.  This is most useful when the input and output variables remained the same.</para></listitem>
     </itemizedlist>
