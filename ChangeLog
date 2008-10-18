@@ -1,3 +1,9 @@
+2008-10-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/item-cursor.c (item_cursor_target_region_ok): delete
+	(item_cursor_do_action): don't bother to call 
+	  item_cursor_target_region_ok
+
 2008-10-18  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-clipboard.c (set_clipman_targets): Plug leak.

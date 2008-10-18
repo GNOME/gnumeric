@@ -28,6 +28,7 @@ Andreas:
 	* Add non-numeric frequency tables tool. [#134166]
 	* Add basic Kaplan-Meier Estimates Tool. [#453765]
 	* Fix scrolling issue in function selector. [#556718]
+	* Delete cell overwrite dialog. [#556773]
 
 Jean:
 	* Fix printing of rotated text. [#539734]

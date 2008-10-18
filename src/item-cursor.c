@@ -898,25 +898,6 @@ item_cursor_selection_event (FooCanvasItem *item, GdkEvent *event)
 	}
 }
 
-static gboolean
-item_cursor_target_region_ok (ItemCursor *ic)
-{
-	FooCanvasItem *gci = FOO_CANVAS_ITEM (ic);
-
-	g_return_val_if_fail (gci != NULL, FALSE);
-	g_return_val_if_fail (gci->canvas != NULL, FALSE);
-
-	if (sv_is_region_empty_or_selected (scg_view (ic->scg), &ic->pos))
-		return TRUE;
-
-	return go_gtk_query_yes_no
-		(wbcg_toplevel (scg_wbcg (ic->scg)),
-		 TRUE,
-		 _("The cells dragged will overwrite the contents of the\n"
-		   "existing cells in that range.  Do you want me to replace\n"
-		   "the contents in this region?"));
-}
-
 typedef enum {
 	ACTION_NONE = 1,
 	ACTION_MOVE_CELLS,
@@ -939,7 +920,7 @@ item_cursor_do_action (ItemCursor *ic, ActionType action)
 
 	g_return_if_fail (ic != NULL);
 
-	if (action == ACTION_NONE || !item_cursor_target_region_ok (ic)) {
+	if (action == ACTION_NONE) {
 		scg_special_cursor_stop	(ic->scg);
 		return;
 	}
