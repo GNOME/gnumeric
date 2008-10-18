@@ -1,3 +1,8 @@
+2008-10-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-statistical.xml: add Frequency Tool and Kaplan Meier Estimate
+	  Tool stubs
+
 2008-09-30  Jody Goldberg <jody@gnome.org>
 
 	* files-formats.xml : update link to xbase format info [#554419]
