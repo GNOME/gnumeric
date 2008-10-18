@@ -1,3 +1,7 @@
+2008-10-18  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-clipboard.c (set_clipman_targets): Plug leak.
+
 2008-10-17  Morten Welinder  <terra@gnome.org>
 
 	* src/parser.y (workbook names): Fix cut-and-paste problem in

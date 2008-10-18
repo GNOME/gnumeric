@@ -62,6 +62,7 @@ Morten:
 	* Switch to LINGUAS file.  [#554348]
 	* Fix problems with saving undefined names.  [#554325]
 	* Fix parser crash.  [Part of #552750]
+	* Fix clipboard leak.
 
 Nakai:
 	* Enable Perl plugin again. [#553939]

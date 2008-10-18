@@ -878,7 +878,7 @@ set_clipman_targets (GdkDisplay *disp, GtkTargetEntry *targets, int n_targets)
 	};
 	int n_whitelist = G_N_ELEMENTS (clipman_whitelist);
 	int n_allowed;
-	GtkTargetList *tl = gtk_target_list_new(NULL, 0);
+	GtkTargetList *tl = gtk_target_list_new (NULL, 0);
 	GtkTargetEntry *t, *wt, *t_allowed;
 
 	for (t = targets; t - targets < n_targets; t++) {
@@ -892,8 +892,9 @@ set_clipman_targets (GdkDisplay *disp, GtkTargetEntry *targets, int n_targets)
 			}
 		}
 	}
-	
+
 	t_allowed = gtk_target_table_new_from_list (tl, &n_allowed);
+	gtk_target_list_unref (tl);
 
 	gtk_clipboard_set_can_store (
 			gtk_clipboard_get_for_display (
