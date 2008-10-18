@@ -36,7 +36,6 @@ Target Features
 - load/save of external references
 - all the merged cell singleton bugs
 - scripting
-- Save as ps
 
 Short term goals
 ----------------

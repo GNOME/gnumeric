@@ -1,3 +1,11 @@
+2008-10-18  Jody Goldberg <jody@gnome.org>
+
+	* tools/win32/moduleset : use the latestest shiniest glib/gtk
+
+	* configure.in : add a GOFFICE_API_VER for use in the .pc file.
+	* libspreadsheet.pc.in : drop the old mising LIBGOFFICE variables, and
+	  use the new tidy ones.
+
 2008-10-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/item-cursor.c (item_cursor_target_region_ok): delete

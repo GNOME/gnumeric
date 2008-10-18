@@ -144,6 +144,16 @@ AC_SUBST(Z_LIBS)
 CPPFLAGS=${_cppflags}
 LDFLAGS=${_ldflags}
 
+dnl **********
+dnl * Goffice 
+dnl **********
+# Goffice releases are parallel installable, which do we depend on
+GOFFICE_API_VER="0.8"
+AC_SUBST(GOFFICE_API_VER)
+# Components
+GOFFICE_PLUGINS_DIR=`pkg-config --variable=PluginDir libgoffice-0.8`
+AC_SUBST(GOFFICE_PLUGINS_DIR)
+
 dnl PKG_PROG_PKG_CONFIG is expanded just before the first occurrence of
 dnl PKG_CHECK_MODULES.  Since this is inside an `if,' it can escape
 dnl execution.  Thus we need an explicit call:
@@ -151,7 +161,7 @@ PKG_PROG_PKG_CONFIG(0.18)
 
 dnl *****************************
 libspreadsheet_reqs="
-	libgoffice-0.8		>= 0.7.1
+	libgoffice-${GOFFICE_API_VER}	>= 0.7.2
 	libgsf-1		>= 1.14.9
 	libxml-2.0		>= 2.4.12
 "
@@ -1002,12 +1012,6 @@ AM_CONDITIONAL(WITH_MONO, test "x$with_mono" = "xyes")
 AC_SUBST(MONO_CFLAGS)
 AC_SUBST(MONO_LIBS)
 ])
-
-dnl **************************************************
-dnl * Goffice component stuff
-dnl **************************************************
-GOFFICE_PLUGINS_DIR=`pkg-config --variable=PluginDir libgoffice-0.8`
-AC_SUBST(GOFFICE_PLUGINS_DIR)
 
 dnl **************************************************
 dnl * Config defaults (Must be after bonobo)
