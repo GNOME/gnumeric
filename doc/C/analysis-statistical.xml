@@ -1364,7 +1364,7 @@
      <orderedlist>
        <listitem><para>
 	   <quote><guilabel>Prior moving average</guilabel></quote>: Each average 
-	   takes into account the current observation and teh most recent prior 
+	   takes into account the current observation and the most recent prior 
 	   observations for a total of <parameter>i</parameter> observations.
        </para></listitem>
        <listitem><para>
@@ -1705,12 +1705,12 @@
   <sect2 id="frequencies-tools">
       <title>Frequency Tables</title>
       <para>
-	&gnum; provides two types of frequncies tables:
+	&gnum; provides two types of frequencies tables:
       </para>
      <itemizedlist>
      <listitem><para>The frequency table tools is primarily useful for non-numeric data 
 	 (data of nominal and ordinal level of measurement). It allows to determine 
-	 frequencies forr given values.
+	 frequencies for given values.
      </para></listitem>
      <listitem><para> The histogram tool is useful for numeric data that is supposed to be 
 	 classified into a certain number of intervals. These intervals can be either 
