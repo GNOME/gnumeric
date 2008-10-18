@@ -27,6 +27,7 @@ Andreas:
 	* Update some of the analysis tools documentation.
 	* Add non-numeric frequency tables tool. [#134166]
 	* Add basic Kaplan-Meier Estimates Tool. [#453765]
+	* Fix scrolling issue in function selector. [#556718]
 
 Jean:
 	* Fix printing of rotated text. [#539734]

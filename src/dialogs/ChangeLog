@@ -1,3 +1,16 @@
+2008-10-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* function-select.glade: we should not have a viewport
+	  around the textview
+	* dialog-function-select.c (dialog_function_select_init):
+	  set a mark at the beginning ot the textview
+	(cb_dialog_function_select_cat_selection_changed): scroll to
+	  top of function list
+	(cb_dialog_function_select_fun_selection_changed): scroll to
+	  top of description
+	(FunctionSelectState): store the textview not the buffer (and change
+	  the accesses to the buffer throughout)
+
 2008-10-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* kaplan-meier.glade: enable ticks button

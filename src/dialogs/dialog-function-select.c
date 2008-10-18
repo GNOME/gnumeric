@@ -64,7 +64,7 @@ typedef struct {
 	GtkTreeView   *treeview;
 	GtkListStore  *model_f;
 	GtkTreeView   *treeview_f;
-	GtkTextBuffer   *description;
+	GtkTextView   *description_view;
 
 	GSList *recent_funcs;
 
@@ -439,8 +439,15 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 	GtkTreeIter  iter;
 	GtkTreeModel *model;
 	GnmFunc const *func;
+	GtkTextBuffer *description;
+	GtkTextMark *mark;
 
-	gtk_text_buffer_set_text (state->description, "", 0);
+	description =  gtk_text_view_get_buffer (state->description_view);
+
+	mark = gtk_text_buffer_get_mark (description, "start-mark");
+	gtk_text_view_scroll_to_mark (state->description_view, mark,
+				      0.1, TRUE, 0.0, 0.0);
+	gtk_text_buffer_set_text (description, "", 0);
 
 	if (gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
 		gtk_tree_model_get (model, &iter,
@@ -450,11 +457,12 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 		gnm_func_load_if_stub ((GnmFunc *)func);
 
 		if (func->help == NULL)
-			gtk_text_buffer_set_text (state->description, "?", -1);
+			gtk_text_buffer_set_text (description, "?", -1);
 		else if (func->help[0].type == GNM_FUNC_HELP_OLD)
-			describe_old_style (state->description, func);
+			describe_old_style (description, func);
 		else
-			describe_new_style (state->description, func);
+			describe_new_style (description, func);
+
 		gtk_widget_set_sensitive (state->ok_button, TRUE);
 	} else {
 		gtk_widget_set_sensitive (state->ok_button, FALSE);
@@ -508,6 +516,8 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 			}
 		}
 
+		gtk_tree_view_scroll_to_point (state->treeview_f, 0, 0);
+
 		if (funcs != state->recent_funcs)
 			g_slist_free (funcs);
 	}
@@ -519,7 +529,8 @@ dialog_function_select_init (FunctionSelectState *state)
 	GtkWidget *scrolled;
 	GtkTreeViewColumn *column;
 	GtkTreeSelection *selection;
-	GtkTextView *textview;
+	GtkTextIter where;
+	GtkTextBuffer *description;
 
 	dialog_function_load_recent_funcs (state);
 
@@ -572,8 +583,10 @@ dialog_function_select_init (FunctionSelectState *state)
 	gtk_paned_set_position (GTK_PANED (glade_xml_get_widget
 					   (state->gui, "vpaned1")), 300);
 
-	textview = GTK_TEXT_VIEW (glade_xml_get_widget (state->gui, "description"));
-	state->description =  gtk_text_view_get_buffer (textview);
+	state->description_view = GTK_TEXT_VIEW (glade_xml_get_widget (state->gui, "description"));
+	description = gtk_text_view_get_buffer (state->description_view);
+	gtk_text_buffer_get_start_iter (description, &where);
+	gtk_text_buffer_create_mark (description, "start-mark", &where, TRUE);
 
 	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
 	gtk_widget_set_sensitive (state->ok_button, FALSE);

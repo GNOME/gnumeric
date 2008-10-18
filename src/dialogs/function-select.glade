@@ -114,16 +114,11 @@
                     <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                     <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
                     <child>
-                      <widget class="GtkViewport" id="viewport1">
+                      <widget class="GtkTextView" id="description">
                         <property name="visible">True</property>
-                        <child>
-                          <widget class="GtkTextView" id="description">
-                            <property name="visible">True</property>
-                            <property name="editable">False</property>
-                            <property name="wrap_mode">GTK_WRAP_WORD</property>
-                            <property name="cursor_visible">False</property>
-                          </widget>
-                        </child>
+                        <property name="editable">False</property>
+                        <property name="wrap_mode">GTK_WRAP_WORD</property>
+                        <property name="cursor_visible">False</property>
                       </widget>
                     </child>
                   </widget>
