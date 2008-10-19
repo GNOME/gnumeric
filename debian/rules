@@ -182,7 +182,7 @@ install: build
 		scrollkeeper_localstate_dir=/var/lib/scrollkeeper
 
 	# Plugins are not intended as stand-alone executables
-	find `pwd`/debian/tmp/usr/lib/gnumeric/*/plugins -type f -print0 | xargs -0 chmod a-x
+	find `pwd`/debian/tmp/usr/lib/*/*/plugins -type f -print0 | xargs -0 chmod a-x
 
 	# Remove unwanted files: static libraries and documentation sources
 	find `pwd`/debian/tmp/usr/ -name '*.a' -print0 | xargs -0 rm -f

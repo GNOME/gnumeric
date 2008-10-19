@@ -1,3 +1,17 @@
+gnumeric (1.9.3-1) experimental; urgency=low
+
+  * New upstream development release. Upstream changes include:
+    * Print wysiwyg. (Closes: #180378)
+  * Fixed version numbering.
+  * [debian/rules] Fix permissions of plugins under /usr/lib/goffice as well.
+  * [debian/gnumeric.install] Install the plugins under /usr/lib/goffice as
+    well.
+  * [debian/control]
+    * Updated goffice build dependency per configure.in .
+    * Change the Recommends: evince to evince | evince-gtk. (Closes: 501897)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 19 Oct 2008 17:45:44 +0200
+
 gnumeric (1.9.2) experimental; urgency=low
 
   * New upstream development release.

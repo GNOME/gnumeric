@@ -3,6 +3,9 @@
 /usr/bin/ssconvert*
 /usr/bin/ssgrep*
 /usr/bin/ssindex*
+/usr/lib/goffice/*/plugins/*/*.la
+/usr/lib/goffice/*/plugins/*/*.so
+/usr/lib/goffice/*/plugins/*/*.xml
 # /usr/lib/gnumeric/*/plugins/*/*.glade
 /usr/lib/gnumeric/*/plugins/*/*.la
 /usr/lib/gnumeric/*/plugins/*/*.so
@@ -11,5 +14,6 @@
 /usr/lib/libspreadsheet.so
 /usr/lib/gnumeric/*/include/gnumeric-features.h
 /usr/share/gnumeric/*/GNOME_Gnumeric-gtk.xml
+/usr/share/gnumeric/*/Gnumeric-embed.xml
 # /usr/share/gnumeric/*/Gnumeric-embed.xml
 /usr/share/man/man*/*
