@@ -4746,6 +4746,41 @@
       </para>
       </refsect1>
     </refentry>
+    <refentry id="gnumeric-atl_last">
+      <refmeta>
+        <refentrytitle>
+          <function>atl_last</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>atl_last</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis>ATL_LAST (<parameter>tag</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>ATL_LAST is a sample implemention of a real time data source. It takes a string tag and monitors the named pipe /tmp/atl for changes to the value of that tag.</para>
+        <itemizedlist>
+          <listitem>
+            <para>This is not intended to be generally enabled and is OFF by default.</para>
+          </listitem>
+        </itemizedlist>
+      </refsect1>
+      <refsect1>
+        <title>Examples</title>
+        <para/>
+        <para>ATL_LAST("IBM")</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para>
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-COUPDAYBS">
       <refmeta>
         <refentrytitle>
@@ -15770,31 +15805,15 @@
         <refpurpose/>
       </refnamediv>
       <refsynopsisdiv>
-        <synopsis><function>LINEST</function>(<parameter>known_y</parameter>'s[,<parameter>known_x</parameter>'s[,<parameter>const</parameter>[,<parameter>stat</parameter>]]])</synopsis>
+        <synopsis><function>LINEST</function>(<parameter>y</parameter>,<parameter>x</parameter>,<parameter>affine</parameter>,<parameter>stats</parameter>)</synopsis>
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>LINEST</function> function calculates the ``least squares'' line that best fit to your data in <parameter>known_y</parameter>'s.  <parameter>known_x</parameter>'s contains the corresponding x's where y=mx+b.</para>
-        <para><function>LINEST</function> returns an array having two columns and one row.  The slope (m) of the regression line y=mx+b is given in the first column and the y-intercept (b) in the second.</para>
-        <para>If <parameter>stat</parameter> is TRUE, extra statistical information will be returned. Extra statistical information is written below the regression line coefficients in the result array.  Extra statistical information consists of four rows of data.  In the first row the standard error values for the coefficients m1, (m2, ...), b are represented.  The second row contains the square of R and the standard error for the y estimate.  The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares.</para>
-        <itemizedlist>
-          <listitem>
-            <para>If <parameter>known_x</parameter>'s is omitted, an array {1, 2, 3, ...} is used.</para>
-          </listitem>
-          <listitem>
-            <para>If <parameter>known_y</parameter>'s and <parameter>known_x</parameter>'s have unequal number of data points, <function>LINEST</function> returns #NUM! error.</para>
-          </listitem>
-          <listitem>
-            <para>If <parameter>const</parameter> is FALSE, the line will be forced to go through the origin, i.e., b will be zero. The default is TRUE.</para>
-          </listitem>
-          <listitem>
-            <para>The default of <parameter>stat</parameter> is FALSE.</para>
-          </listitem>
-        </itemizedlist>
-      </refsect1>
-      <refsect1>
-        <title>Examples</title>
-        <para/>
+        <para>This function returns an array with the first row giving the regression coefficients for the independent variables x_m, x_(m-1),...,x_2, x_1 followed by the y-intercept if <parameter>affine</parameter> is true.</para>
+        <para><parameter>y</parameter>: vector of values of dependent variable.</para>
+        <para><parameter>x</parameter>: array of values of independent variables, defaults to a single vector 1,...,n.</para>
+        <para><parameter>affine</parameter>: if true, the model contains a constant term, defaults to true.</para>
+        <para><parameter>stats</parameter>: if true, some additional statistics is provided, defaults to false</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -20299,6 +20318,117 @@
         <para><link linkend="gnumeric-DOLLAR"><function>DOLLAR</function></link>,
         <link linkend="gnumeric-FIXED"><function>FIXED</function></link>,
         <link linkend="gnumeric-TEXT"><function>TEXT</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+  </sect1>
+  <sect1 id="CATEGORY_Time_Series_Analysis">
+    <title>Time Series Analysis</title>
+    <refentry id="gnumeric-INTERPOLATION">
+      <refmeta>
+        <refentrytitle>
+          <function>INTERPOLATION</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>INTERPOLATION</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>INTERPOLATION</function>(<parameter>abscissas</parameter>,<parameter>ordinates</parameter>,<parameter>targets</parameter>[,<parameter>interpolation</parameter>])</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para/>
+        <para><function>INTERPOLATION</function> returns interpolated values corresponding</para>
+        <para>to the given abscissa targets as a one column matrix.</para>
+        <para><parameter>abscissas</parameter> are the absicssas of the data to interpolate.</para>
+        <para><parameter>ordinates</parameter> are the ordinates of the data to interpolate.</para>
+        <itemizedlist>
+          <listitem>
+            <para>Strings and empty cells in <parameter>abscissas</parameter> and <parameter>ordinates</parameter> are simply ignored.</para>
+          </listitem>
+        </itemizedlist>
+        <para><parameter>targets</parameter> are the abscissas of the interpolated data. If several data</para>
+        <para>are provided, they must be in the same column, in consecutive cells</para>
+        <para><parameter>interpolation</parameter> is the method to be used for the interpolation;</para>
+        <para>possible values are:</para>
+        <para>- 0: linear;</para>
+        <para>- 1: linear with averaging;</para>
+        <para>- 2: staircase;</para>
+        <para>- 3: staircase with averaging;</para>
+        <para>- 4: natural cubic spline;</para>
+        <para>- 5: natural cubic spline with averaging.</para>
+        <para>If an averaging method is used, the number of returned values</para>
+        <para>is one less than the number of targets since the evaluation is made by</para>
+        <para>averaging the interpolation over the interval between two consecutive data;</para>
+        <para>in that case, the targets values must be given in increasing order.</para>
+      </refsect1>
+      <refsect1>
+        <title>Examples</title>
+        <para/>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-PERIODOGRAM"><function>PERIODOGRAM</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-PERIODOGRAM">
+      <refmeta>
+        <refentrytitle>
+          <function>PERIODOGRAM</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>PERIODOGRAM</function>
+        </refname>
+        <refpurpose/>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>PERIODOGRAM</function>(<parameter>ordinates</parameter>,<parameter/>[filter,<parameter/>[abscissas,<parameter/>[interpolation,<parameter/>[number]]]])</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para/>
+        <para>periodogram returns the periodogram of the data</para>
+        <para>as a one column matrix.</para>
+        <para><parameter>ordinates</parameter> are the ordinates of the data to interpolate.</para>
+        <para><parameter>filter</parameter> gives the window function to  be used. Possible values are:</para>
+        <para>- 0: no filter (rectangular window);</para>
+        <para>- 1: Bartlett (triangular window);</para>
+        <para>- 2: Hahn (cosine window);</para>
+        <para>- 3: Welch (parabolic window);</para>
+        <para><parameter>abscissas</parameter> are the absicssas of the data to interpolate. If no</para>
+        <para>abscissa is given, it is supposed that the data absicssas are regularly</para>
+        <para>spaced. Otherwise, an interpolation method will be used to evaluate</para>
+        <para>regularly spaced data.</para>
+        <itemizedlist>
+          <listitem>
+            <para>Strings and empty cells in <parameter>abscissas</parameter> and <parameter>ordinates</parameter> are simply ignored.</para>
+          </listitem>
+        </itemizedlist>
+        <para><parameter>interpolation</parameter> is the method to be used for the interpolation;</para>
+        <para>possible values are:</para>
+        <para>- 0: linear;</para>
+        <para>- 1: linear with averaging;</para>
+        <para>- 2: staircase;</para>
+        <para>- 3: staircase with averaging;</para>
+        <para>- 4: natural cubic spline;</para>
+        <para>- 5: natural cubic spline with averaging.</para>
+        <para><parameter>number</parameter> is the number of interpolated data to be used. If not given,</para>
+        <para>a default number is automatically evaluated.</para>
+      </refsect1>
+      <refsect1>
+        <title>Examples</title>
+        <para/>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-INTERPOLATION"><function>INTERPOLATION</function></link>.
       </para>
       </refsect1>
     </refentry>

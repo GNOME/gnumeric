@@ -1,3 +1,7 @@
+2008-10-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.3
+
 2008-10-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* function-select.glade: we should not have a viewport

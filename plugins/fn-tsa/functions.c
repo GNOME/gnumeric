@@ -318,11 +318,11 @@ spline_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 
 static GnmFuncHelp const help_interpolation[] = {
 	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=interpolation\n"
-	   "@SYNTAX=interpolation(abscissas,ordinates,targets[,interpolation])\n"
+	F_("@FUNCTION=INTERPOLATION\n"
+	   "@SYNTAX=INTERPOLATION(abscissas,ordinates,targets[,interpolation])\n"
 
 	   "@DESCRIPTION= \n"
-	   "interpolation returns interpolated values corresponding\n"
+	   "INTERPOLATION returns interpolated values corresponding\n"
 	   "to the given abscissa targets as a one column matrix.\n"
 	   "\n"
 	   "@abscissas are the absicssas of the data to interpolate.\n"
@@ -342,7 +342,10 @@ static GnmFuncHelp const help_interpolation[] = {
 	   "If an averaging method is used, the number of returned values\n"
 	   "is one less than the number of targets since the evaluation is made by\n"
 	   "averaging the interpolation over the interval between two consecutive data;\n"
-	   "in that case, the targets values must be given in increasing order.")
+	   "in that case, the targets values must be given in increasing order.\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=PERIODOGRAM")
 	},
 	{ GNM_FUNC_HELP_END }
 };
@@ -604,8 +607,8 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_periodogram[] = {
 	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=periodogram\n"
-	   "@SYNTAX=periodogram(ordinates,[filter,[abscissas,[interpolation,[number]]]])\n"
+	F_("@FUNCTION=PERIODOGRAM\n"
+	   "@SYNTAX=PERIODOGRAM(ordinates,[filter,[abscissas,[interpolation,[number]]]])\n"
 
 	   "@DESCRIPTION= \n"
 	   "periodogram returns the periodogram of the data\n"
@@ -631,7 +634,10 @@ static GnmFuncHelp const help_periodogram[] = {
 	   "- 4: natural cubic spline;\n"
 	   "- 5: natural cubic spline with averaging.\n"
 	   "@number is the number of interpolated data to be used. If not given,\n"
-	   "a default number is automatically evaluated.\n")
+	   "a default number is automatically evaluated.\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=INTERPOLATION")
 	},
 	{ GNM_FUNC_HELP_END }
 };

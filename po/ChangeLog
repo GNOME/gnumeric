@@ -1,3 +1,7 @@
+2008-10-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.9.3
+
 2008-10-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* POTFILES.in: added  src/tools/analysis-kaplan-meier.c and

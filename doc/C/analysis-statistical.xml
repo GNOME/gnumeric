@@ -1428,8 +1428,8 @@
      </sect4>
      <sect4 id="moving-averages-cumulative">
        <title>Cumulative Moving Average</title>
-       A cumulative moving average is a prior moving average in which the current 
-       and all prior observations are included.
+       <para>A cumulative moving average is a prior moving average in which the current 
+       and all prior observations are included.</para>
      </sect4>
      <sect4 id="moving-averages-weighted">
        <title>Weighted Moving Average</title>
@@ -1442,7 +1442,7 @@
 	 time <parameter>t</parameter>.
        </para>
 
-       <figure id="moving-averages-weighted">
+       <figure id="moving-averages-weighted-formula">
 	 <title>Formula For The Weighted Moving Average With Interval 
 	   <parameter>i</parameter></title>
 	 <screenshot>
@@ -1720,7 +1720,7 @@
 
     <sect3 id="frequency-tool">
       <title>Frequency Tables Tool</title>
-
+      <para/>
     </sect3>
 
   <sect3 id="histogram-tool">
@@ -2081,9 +2081,10 @@
   </sect3>
   </sect2>
 
-<sect2 id="kaplan-meier-tool">
-     <title>Kaplan Meier Estimates Tool</title>
- </sect2>
+  <sect2 id="kaplan-meier-tool">
+      <title>Kaplan Meier Estimates Tool</title>
+      <para/>
+  </sect2>
 
    
 

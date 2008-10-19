@@ -1,5 +1,9 @@
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.9.3
+
+2008-10-18  Jody Goldberg <jody@gnome.org>
+
 	* tools/win32/moduleset : use the latestest shiniest glib/gtk
 
 	* configure.in : add a GOFFICE_API_VER for use in the .pc file.

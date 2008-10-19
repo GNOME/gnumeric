@@ -3897,8 +3897,8 @@ static GnmFuncHelp const help_linest[] = {
 	{ GNM_FUNC_HELP_ARG, F_("affine:if true, the model contains a constant term, defaults to true.") },
 	{ GNM_FUNC_HELP_ARG, F_("stats:if true, some additional statistics is provided, defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns an array with the first row giving the regression coefficients for the independent variables x_m, x_(m-1),...,x_2, x_1 followed by the y-intercept if @{affine} is true.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{stats} is true, the second row contains the corresponding standard errors of the regression coefficients. In this case, the third row contains the R^2 value and the standard error for the predicted value. The fourth row contains the observed F value and its degrees of freedom. Finally, the fifth row contains the regression sum of squares and the residual sum of squares.") },
-	{GNM_FUNC_HELP_DESCRIPTION, F_("If @{affine} is false, R^2 is the uncentered version of the coefficient of determination; that is the proportion of the sum of squares explained by the model.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{stats} is true, the second row contains the corresponding standard errors of the regression coefficients. In this case, the third row contains the R^2 value and the standard error for the predicted value. The fourth row contains the observed F value and its degrees of freedom. Finally, the fifth row contains the regression sum of squares and the residual sum of squares.") },
+	{GNM_FUNC_HELP_NOTE, F_("If @{affine} is false, R^2 is the uncentered version of the coefficient of determination; that is the proportion of the sum of squares explained by the model.")},
 	{GNM_FUNC_HELP_NOTE, F_("If the length of @{y} does not match the corresponding length of @{x}, LINEST returns #NUM!")},
 	{ GNM_FUNC_HELP_SEEALSO, "LOGEST,TREND" },
 	{ GNM_FUNC_HELP_END }
