@@ -1,5 +1,8 @@
 Gnumeric 1.9.4
 
+Andreas:
+	* Change sheet manage dialog into an instant-apply dialog	
+
 Jody:
 	* Display top-left when selecting a rel ref to a merged region.
 

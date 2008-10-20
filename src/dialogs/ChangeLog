@@ -1,3 +1,35 @@
+2008-10-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* sheet-order.glade: redesigned for instant-apply
+	* dialog-sheet-order.c (SheetManager): new fields
+	(cb_color_changed_fore): apply immediately
+	(cb_color_changed_back): apply immediately
+	(cb_toggled_lock): apply immediately
+	(cb_toggled_direction): apply immediately
+	(cb_toggled_visible): apply immediately
+	(cb_add_clicked): apply immediately
+	(cb_delete_clicked): apply immediately
+	(cb_selection_changed): handle changed buttons
+	(create_sheet_list): new
+	(set_sheet_info_at_iter): new
+	(populate_sheet_list): split out create_sheet_list and
+	  set_sheet_info_at_iter
+	(cb_append_clicked): new
+	(verify_validity): remove unused flags and reduce to checking 
+	  names
+	(cb_apply_names_clicked): new
+	(cb_ok_clicked): deleted
+	(cb_sheet_order_destroy): adjust for changed fields
+	(dialog_sheet_order_update_sheet_order): ditto
+	(cb_sheet_order_changed): we always want to update the dialog
+	(dialog_sheet_order_changed): new
+	(cb_dialog_order_changed): new
+	(dialog_sheet_order_changed_idle_handler): we need to use this
+	  idle handler to wait for the liststore to be completed. The
+	  signal arrives too early
+	(cb_dialog_order_changed_by_insertion): new
+	(dialog_sheet_order): handle new buttons
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.3
