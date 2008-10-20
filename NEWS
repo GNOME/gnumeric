@@ -2,7 +2,8 @@ Gnumeric 1.9.4
 
 Andreas:
 	* Change sheet manage dialog into an instant-apply dialog
-	* Implemented sheet duplication in manage sheet dialog [#128160]	
+	* Implemented sheet duplication in manage sheet dialog [#128160]
+	* Do not allow the last sheet to be deleted [#557083]	
 
 Jody:
 	* Display top-left when selecting a rel ref to a merged region.

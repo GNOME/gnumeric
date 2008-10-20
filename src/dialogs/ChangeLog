@@ -1,3 +1,11 @@
+2008-10-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-sheet-order.c (cb_selection_changed): only enable
+	  delete button if there are at least 2 sheets [#557083]
+	(cb_duplicate_clicked): call cb_selection_changed
+	(cb_append_clicked): call cb_selection_changed
+	(cb_add_clicked): call cb_selection_changed
+
 2008-10-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-sheet-order.c (cb_selection_changed): enable

@@ -268,7 +268,9 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 
 	gtk_widget_set_sensitive (state->ccombo_back, TRUE);
 	gtk_widget_set_sensitive (state->ccombo_fore, TRUE);
-	gtk_widget_set_sensitive (state->delete_btn, TRUE);
+	gtk_widget_set_sensitive 
+	  (state->delete_btn, 
+	   gtk_tree_model_iter_n_children(GTK_TREE_MODEL (state->model), NULL)>1);
 	gtk_widget_set_sensitive (state->add_btn, TRUE);
 	gtk_widget_set_sensitive (state->duplicate_btn, TRUE);
 
@@ -702,6 +704,7 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 
 	set_sheet_info_at_iter (state, &iter, sheet);
 	
+	cb_selection_changed (NULL, state);
 }
 
 static void
@@ -730,6 +733,8 @@ cb_append_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	g_signal_handler_unblock (state->model, state->model_row_insertion_listener);
 	
 	set_sheet_info_at_iter (state, &iter, sheet);
+
+	cb_selection_changed (NULL, state);
 }
 
 static void
@@ -769,6 +774,8 @@ cb_duplicate_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 
 	set_sheet_info_at_iter (state, &iter, new_sheet);
 	g_object_unref (new_sheet);	
+
+	cb_selection_changed (NULL, state);
 }
 
 static void
