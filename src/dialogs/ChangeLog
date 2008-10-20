@@ -1,5 +1,11 @@
 2008-10-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-sheet-order.c (cb_sheet_order_cnt_visible): new
+	(sheet_order_cnt_visible): new
+	(cb_toggled_visible): At least one sheet must remain visible!
+
+2008-10-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* sheet-order.glade: redesigned for instant-apply
 	* dialog-sheet-order.c (SheetManager): new fields
 	(cb_color_changed_fore): apply immediately

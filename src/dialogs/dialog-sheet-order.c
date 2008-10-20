@@ -370,6 +370,32 @@ cb_toggled_direction (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	cmd_reorganize_sheets (wbc, old_state, this_sheet);
 }
 
+
+static gboolean
+cb_sheet_order_cnt_visible (GtkTreeModel *model,
+			    GtkTreePath *path,
+			    GtkTreeIter *iter,
+			    gpointer data)
+{
+	int *i = data;
+	gboolean is_visible;
+
+	gtk_tree_model_get (model, iter, 
+			    SHEET_VISIBLE, &is_visible, 
+			    -1);
+	return (is_visible && (++(*i)>1));
+}
+
+static gint
+sheet_order_cnt_visible (SheetManager *state)
+{
+	gint i = 0;
+	gtk_tree_model_foreach (GTK_TREE_MODEL (state->model),
+				cb_sheet_order_cnt_visible,
+				&i);
+	return i;
+}
+
 static void
 cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 		 gchar                 *path_string,
@@ -385,32 +411,38 @@ cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 
-	/* FIXME: _("At least one sheet must remain visible!") */
+	if (!gtk_tree_model_get_iter (model, &iter, path)) {
+		g_warning ("Did not get a valid iterator");
+		gtk_tree_path_free (path);
+		return;
+	}
 
-	if (gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_model_get (model, &iter, 
-				    SHEET_VISIBLE, &is_visible, 
-				    SHEET_POINTER, &this_sheet,
+	gtk_tree_model_get (model, &iter, 
+			    SHEET_VISIBLE, &is_visible, 
+			    SHEET_POINTER, &this_sheet,
+			    -1);
+	
+	if (is_visible) {
+		if (sheet_order_cnt_visible (state) <= 1) {
+			go_gtk_notice_dialog (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
+					      _("At least one sheet must remain visible!"));
+			gtk_tree_path_free (path);
+			return;
+		}
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+				    SHEET_VISIBLE, FALSE,
+				    SHEET_VISIBLE_IMAGE, NULL,
 				    -1);
 		
-		if (is_visible) {
-			gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-					    SHEET_VISIBLE, FALSE,
-					    SHEET_VISIBLE_IMAGE, NULL,
-					    -1);
-			
-		} else {
-			gtk_list_store_set (GTK_LIST_STORE (model), &iter,
-					    SHEET_VISIBLE, TRUE,
-					    SHEET_VISIBLE_IMAGE, 
-					    state->image_visible,
-					    -1);
-		}
 	} else {
-		g_warning ("Did not get a valid iterator");
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+				    SHEET_VISIBLE, TRUE,
+				    SHEET_VISIBLE_IMAGE, 
+				    state->image_visible,
+				    -1);
 	}
 	gtk_tree_path_free (path);
-
+	
 	old_state = workbook_sheet_state_new (wb);
 	g_object_set (this_sheet,
 		      "visibility", 
