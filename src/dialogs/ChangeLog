@@ -1,5 +1,12 @@
 2008-10-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-sheet-order.c (cb_selection_changed): enable
+	  duplicate button
+	(dialog_sheet_order): ditto
+	(cb_duplicate_clicked): implement
+	
+2008-10-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-sheet-order.c (cb_sheet_order_cnt_visible): new
 	(sheet_order_cnt_visible): new
 	(cb_toggled_visible): At least one sheet must remain visible!

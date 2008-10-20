@@ -240,8 +240,6 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 	GdkColor *fore, *back;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->sheet_list);
 
-	gtk_widget_set_sensitive (state->duplicate_btn, FALSE);
-
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
 		gtk_widget_set_sensitive (state->up_btn, FALSE);
 		gtk_widget_set_sensitive (state->down_btn, FALSE);
@@ -249,6 +247,7 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 		gtk_widget_set_sensitive (state->ccombo_back, FALSE);
 		gtk_widget_set_sensitive (state->ccombo_fore, FALSE);
 		gtk_widget_set_sensitive (state->add_btn, FALSE);
+		gtk_widget_set_sensitive (state->duplicate_btn, FALSE);
 		return;
 	}
 
@@ -271,6 +270,7 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 	gtk_widget_set_sensitive (state->ccombo_fore, TRUE);
 	gtk_widget_set_sensitive (state->delete_btn, TRUE);
 	gtk_widget_set_sensitive (state->add_btn, TRUE);
+	gtk_widget_set_sensitive (state->duplicate_btn, TRUE);
 
 	has_iter = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (state->model), &iter);
 	g_return_if_fail (has_iter);
@@ -734,10 +734,41 @@ cb_append_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 
 static void
 cb_duplicate_clicked (G_GNUC_UNUSED GtkWidget *ignore,
-		      G_GNUC_UNUSED SheetManager *state)
+		      SheetManager *state)
 {
-#warning implement this
-	g_warning ("'Duplicate' not implemented.");
+	GtkTreeIter sel_iter, iter;
+	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheet_list);
+	WorkbookSheetState *old_state;
+	int index;
+	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	Workbook *wb = wb_control_get_workbook (wbc);
+	Sheet *new_sheet, *this_sheet;
+
+	if (!gtk_tree_selection_get_selected (selection, NULL, &sel_iter)) {
+		g_warning ("No selection!");
+	}
+	
+	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &sel_iter, 
+			    SHEET_POINTER, &this_sheet,
+			    -1);
+
+	g_signal_handler_block (G_OBJECT (wb),
+				state->sheet_order_changed_listener);
+	old_state = workbook_sheet_state_new (wb);
+	index = this_sheet->index_in_wb;
+	new_sheet = sheet_dup (this_sheet);
+	workbook_sheet_attach_at_pos (wb, new_sheet, index + 1);
+	g_signal_emit_by_name (G_OBJECT (wb), "sheet_added", 0);
+	cmd_reorganize_sheets (wbc, old_state, NULL);
+	g_signal_handler_unblock (G_OBJECT (wb),
+				state->sheet_order_changed_listener);
+
+	g_signal_handler_block (state->model, state->model_row_insertion_listener);
+	gtk_list_store_insert_after (state->model, &iter, &sel_iter);
+	g_signal_handler_unblock (state->model, state->model_row_insertion_listener);
+
+	set_sheet_info_at_iter (state, &iter, new_sheet);
+	g_object_unref (new_sheet);	
 }
 
 static void
@@ -1182,7 +1213,6 @@ dialog_sheet_order (WBCGtk *wbcg)
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_SHEET_MANAGER);
 
-	gtk_widget_set_sensitive (state->duplicate_btn, FALSE);
 	gtk_widget_set_sensitive (state->sort_asc_btn, FALSE);
 	gtk_widget_set_sensitive (state->sort_desc_btn, FALSE);
 	gtk_widget_set_sensitive (state->undo_btn, FALSE);
