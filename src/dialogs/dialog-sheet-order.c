@@ -788,11 +788,19 @@ cb_delete_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	WorkbookSheetState *old_state;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
+	gboolean is_visible;
 
 	if (gtk_tree_selection_get_selected (selection, NULL, &sel_iter)) {
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &sel_iter,
 				    SHEET_POINTER, &sheet,
+				    SHEET_VISIBLE, &is_visible,
 				    -1);
+		if (is_visible && sheet_order_cnt_visible (state) <= 1) {
+			go_gtk_notice_dialog (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
+					      _("At least one sheet must remain visible!"));
+			return;
+		}
+
 		gtk_list_store_remove (state->model, &sel_iter);
 		g_signal_handler_block (G_OBJECT (wb),
 					state->sheet_order_changed_listener);
