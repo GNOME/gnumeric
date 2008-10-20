@@ -1,3 +1,9 @@
+2008-10-19  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (gee_prepare_range) : fix the rationalization
+	  of merges.   The rangeref can be using relative references coming
+	  in, normalize it first.
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.3

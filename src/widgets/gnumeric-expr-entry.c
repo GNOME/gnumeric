@@ -760,6 +760,7 @@ GSF_CLASS_FULL (GnmExprEntry, gnm_expr_entry,
  * @dst :
  *
  * Adjust @dst as necessary to conform to @gee's requirements
+ * Produces the _logical_ range, a merge is displayed as only the topleft.
  **/
 static void
 gee_prepare_range (GnmExprEntry const *gee, GnmRangeRef *dst)
@@ -768,6 +769,8 @@ gee_prepare_range (GnmExprEntry const *gee, GnmRangeRef *dst)
 
 	*dst = rs->ref;
 
+	if (dst->a.sheet == NULL && !(gee->flags & GNM_EE_SHEET_OPTIONAL))
+		dst->a.sheet = gee->sheet;
 	if (gee->flags & GNM_EE_FULL_ROW) {
 		dst->a.col = 0;
 		dst->b.col = gnm_sheet_get_max_cols (gee->sheet) - 1;
@@ -779,22 +782,18 @@ gee_prepare_range (GnmExprEntry const *gee, GnmRangeRef *dst)
 
 	/* special case a single merge to be only corner */
 	if (!(gee->flags & (GNM_EE_FULL_ROW|GNM_EE_FULL_COL))) {
+		GnmEvalPos ep;
+		GnmRange r;
 		GnmRange const *merge;
-		GnmCellPos  corner;
-
-		corner.col = MIN (dst->a.col, dst->b.col);
-		corner.row = MIN (dst->a.row, dst->b.row);
-		merge = gnm_sheet_merge_is_corner (gee->sheet, &corner);
-		if (merge != NULL &&
-		    merge->end.col == MAX (dst->a.col, dst->b.col) &&
-		    merge->end.row == MAX (dst->a.row, dst->b.row)) {
-			dst->b.col = dst->a.col;
-			dst->b.row = dst->a.row;
-		}
+		Sheet *start_sheet, *end_sheet;
+		gnm_rangeref_normalize(dst,
+			eval_pos_init_pos (&ep, gee->sheet, &gee->pp.eval),
+			&start_sheet, &end_sheet,
+			&r);
+		merge = gnm_sheet_merge_is_corner (gee->sheet, &r.start);
+		if (merge != NULL && range_equal (merge, &r))
+			dst->b = dst->a;
 	}
-
-	if (dst->a.sheet == NULL && !(gee->flags & GNM_EE_SHEET_OPTIONAL))
-		dst->a.sheet = gee->sheet;
 }
 
 static char *
