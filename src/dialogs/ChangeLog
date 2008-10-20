@@ -1,5 +1,21 @@
 2008-10-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-sheet-order.c (SheetManager): add new listener
+	  fields
+	(workbook_signals_block): new
+	(workbook_signals_unblock): new
+	  replace all g_signal_handler_[un]block referring to 
+	  sheet_order_changed_listener with calls to the two above
+	(cb_sheet_order_destroy): destroy the two new listeners
+	(dialog_sheet_order_update_sheet_order): the dialog
+	  and the true number of sheets may not match temporarily if 
+	  a sheet was just added or deleted.
+	(cb_sheet_deleted): new
+	(cb_sheet_added): new
+	(dialog_sheet_order): setup new listeners
+
+2008-10-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-sheet-order.c (cb_delete_clicked): make sure at 
 	  least one sheet is still visible
 

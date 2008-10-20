@@ -87,6 +87,9 @@ typedef struct {
 	gboolean initial_colors_set;
 
 	gulong sheet_order_changed_listener;
+	gulong sheet_added_listener;
+	gulong sheet_deleted_listener;
+
 	gulong model_selection_changed_listener;
 	gulong model_row_insertion_listener;
 } SheetManager;
@@ -105,6 +108,34 @@ enum {
 	SHEET_DIRECTION_IMAGE,
 	NUM_COLMNS
 };
+
+static void
+workbook_signals_block (SheetManager *state)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	Workbook *wb = wb_control_get_workbook (wbc);
+
+	g_signal_handler_block (G_OBJECT (wb),
+				state->sheet_order_changed_listener);
+	g_signal_handler_block (G_OBJECT (wb),
+				state->sheet_added_listener);
+	g_signal_handler_block (G_OBJECT (wb),
+				state->sheet_deleted_listener);
+}
+
+static void
+workbook_signals_unblock (SheetManager *state)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	Workbook *wb = wb_control_get_workbook (wbc);
+
+	g_signal_handler_unblock (G_OBJECT (wb),
+				state->sheet_order_changed_listener);
+	g_signal_handler_unblock (G_OBJECT (wb),
+				state->sheet_added_listener);
+	g_signal_handler_unblock (G_OBJECT (wb),
+				state->sheet_deleted_listener);
+}
 
 static void
 cb_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
@@ -682,15 +713,13 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 		index = this_sheet->index_in_wb;
 	}
 
-	g_signal_handler_block (G_OBJECT (wb),
-				state->sheet_order_changed_listener);
+	workbook_signals_block (state);
 
 	old_state = workbook_sheet_state_new (wb);
 	workbook_sheet_add (wb, index);
 	cmd_reorganize_sheets (wbc, old_state, NULL);
 
-	g_signal_handler_unblock (G_OBJECT (wb),
-				state->sheet_order_changed_listener);
+	workbook_signals_unblock (state);
 
 	g_signal_handler_block (state->model, state->model_row_insertion_listener);
 	if (index == -1) {
@@ -716,15 +745,13 @@ cb_append_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	GtkTreeIter iter;
 	Sheet *sheet;
 
-	g_signal_handler_block (G_OBJECT (wb),
-				state->sheet_order_changed_listener);
+	workbook_signals_block (state);
 
 	old_state = workbook_sheet_state_new (wb);
 	workbook_sheet_add (wb, -1);
 	cmd_reorganize_sheets (wbc, old_state, NULL);
 
-	g_signal_handler_unblock (G_OBJECT (wb),
-				state->sheet_order_changed_listener);
+	workbook_signals_unblock (state);
 
 	sheet = workbook_sheet_by_index (wb, workbook_sheet_count (wb) - 1);
 	
@@ -757,16 +784,16 @@ cb_duplicate_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 			    SHEET_POINTER, &this_sheet,
 			    -1);
 
-	g_signal_handler_block (G_OBJECT (wb),
-				state->sheet_order_changed_listener);
+	workbook_signals_block (state);
+
 	old_state = workbook_sheet_state_new (wb);
 	index = this_sheet->index_in_wb;
 	new_sheet = sheet_dup (this_sheet);
 	workbook_sheet_attach_at_pos (wb, new_sheet, index + 1);
 	g_signal_emit_by_name (G_OBJECT (wb), "sheet_added", 0);
 	cmd_reorganize_sheets (wbc, old_state, NULL);
-	g_signal_handler_unblock (G_OBJECT (wb),
-				state->sheet_order_changed_listener);
+
+	workbook_signals_unblock (state);
 
 	g_signal_handler_block (state->model, state->model_row_insertion_listener);
 	gtk_list_store_insert_after (state->model, &iter, &sel_iter);
@@ -802,15 +829,14 @@ cb_delete_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 		}
 
 		gtk_list_store_remove (state->model, &sel_iter);
-		g_signal_handler_block (G_OBJECT (wb),
-					state->sheet_order_changed_listener);
+
+		workbook_signals_block (state);
 		
 		old_state = workbook_sheet_state_new (wb);
 		workbook_sheet_delete (sheet);
 		cmd_reorganize_sheets (wbc, old_state, NULL);
 
-		g_signal_handler_unblock (G_OBJECT (wb),
-					  state->sheet_order_changed_listener);
+		workbook_signals_unblock (state);
 		
 		cb_selection_changed (NULL, state);
 	}
@@ -890,8 +916,7 @@ cb_apply_names_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 		return;
 
 	/* Stop listening to changes in the sheet order. */
-	g_signal_handler_block (G_OBJECT (wb),
-				state->sheet_order_changed_listener);
+	workbook_signals_block (state);
 
 	old_state = workbook_sheet_state_new (wb);
 	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
@@ -920,8 +945,7 @@ cb_apply_names_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	
 	cmd_reorganize_sheets (wbc, old_state, NULL);
 
-	g_signal_handler_unblock (G_OBJECT (wb),
-				  state->sheet_order_changed_listener);
+	workbook_signals_unblock (state);
 }
 
 static void
@@ -933,6 +957,12 @@ cb_sheet_order_destroy (SheetManager *state)
 	if (state->sheet_order_changed_listener)
 		g_signal_handler_disconnect (G_OBJECT (wb),
 					     state->sheet_order_changed_listener);
+	if (state->sheet_added_listener)
+		g_signal_handler_disconnect (G_OBJECT (wb),
+					     state->sheet_added_listener);
+	if (state->sheet_deleted_listener)
+		g_signal_handler_disconnect (G_OBJECT (wb),
+					     state->sheet_deleted_listener);
 
 	if (state->model != NULL) {
 		g_object_unref (G_OBJECT (state->model));
@@ -978,7 +1008,12 @@ dialog_sheet_order_update_sheet_order (SheetManager *state)
 
 	n_sheets = workbook_sheet_count (wb);
 	n_children = gtk_tree_model_iter_n_children (model, NULL);
-	g_return_if_fail (n_sheets == n_children);
+
+	if (n_sheets != n_children) {
+	  /* This signal also occurs when sheets are added or deleted. We handle this */
+	  /* when those signals arrive.                                               */
+	  return;
+	}
 
 	for (i = 0; i < n_sheets; i++) {
 		sheet_wb = workbook_sheet_by_index (wb, i);
@@ -1046,6 +1081,18 @@ cb_sheet_order_changed (Workbook *wb, SheetManager *state)
 	dialog_sheet_order_update_sheet_order (state);
 }
 
+static void
+cb_sheet_deleted (Workbook *wb, SheetManager *state)
+{
+	populate_sheet_list (state);
+}
+
+static void
+cb_sheet_added (Workbook *wb, SheetManager *state)
+{
+	populate_sheet_list (state);
+}
+
 
 
 static void                
@@ -1057,8 +1104,7 @@ dialog_sheet_order_changed (SheetManager *state)
 	GtkTreeIter this_iter;
 	gint n = 0, changes = 0;
 
-	g_signal_handler_block (G_OBJECT (wb),
-				state->sheet_order_changed_listener);
+	workbook_signals_block (state);
 
 	old_state = workbook_sheet_state_new (wb);
 	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
@@ -1079,8 +1125,7 @@ dialog_sheet_order_changed (SheetManager *state)
 	else 
 		workbook_sheet_state_free (old_state);	
 
-	g_signal_handler_unblock (G_OBJECT (wb),
-				  state->sheet_order_changed_listener);
+	workbook_signals_unblock (state);
 }
 
 static void                
@@ -1182,6 +1227,12 @@ dialog_sheet_order (WBCGtk *wbcg)
 	/* Listen for changes in the sheet order. */
 	state->sheet_order_changed_listener = g_signal_connect (G_OBJECT (wb),
 		"sheet_order_changed", G_CALLBACK (cb_sheet_order_changed),
+		state);
+	state->sheet_added_listener = g_signal_connect (G_OBJECT (wb),
+		"sheet_added", G_CALLBACK (cb_sheet_added),
+		state);
+	state->sheet_deleted_listener = g_signal_connect (G_OBJECT (wb),
+		"sheet_deleted", G_CALLBACK (cb_sheet_deleted),
 		state);
 
 	table = GTK_TABLE (glade_xml_get_widget (gui,"sheet_order_buttons_table"));
