@@ -8,6 +8,9 @@ Andreas:
 Jody:
 	* Display top-left when selecting a rel ref to a merged region.
 
+Morten:
+	* Fix XLS import crash.  [#557077]
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.3
 

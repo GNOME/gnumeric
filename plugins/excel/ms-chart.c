@@ -2571,7 +2571,10 @@ BC_R(end)(XLChartHandler const *handle,
 				l = l->next;
 			}
 			g_slist_free (axisZ);
+
 			/* examine the first series to retreive categories */
+			if (s->series->len == 0)
+				goto not_a_matrix;
 			eseries = g_ptr_array_index (s->series, 0);
 			style = eseries->style;
 			if (!IS_GO_DATA_VECTOR (eseries->data [GOG_MS_DIM_CATEGORIES].data))

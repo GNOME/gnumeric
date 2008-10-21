@@ -1,3 +1,8 @@
+2008-10-21  Morten Welinder  <terra@gnome.org>
+
+	* ms-chart.c (BC_R(end)): Don't look first series if there are no
+	series.  Fixes #557077.
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.3
