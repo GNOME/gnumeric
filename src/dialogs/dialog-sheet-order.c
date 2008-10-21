@@ -75,6 +75,7 @@ typedef struct {
 	GtkWidget *cancel_btn;
 	GtkWidget *ccombo_back;
 	GtkWidget *ccombo_fore;
+	GtkWidget *warning;
 
 	GdkPixbuf *image_padlock;
 	GdkPixbuf *image_padlock_no;
@@ -108,6 +109,9 @@ enum {
 	SHEET_DIRECTION_IMAGE,
 	NUM_COLMNS
 };
+
+static char *verify_validity (SheetManager *state, gboolean *pchanged);
+
 
 static void
 workbook_signals_block (SheetManager *state)
@@ -145,6 +149,8 @@ cb_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 {
 	GtkTreeIter iter;
 	GtkTreePath *path;
+	gboolean changed = FALSE;
+	char *error;
 
 	path = gtk_tree_path_new_from_string (path_string);
 
@@ -157,6 +163,17 @@ cb_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 	}
 
 	gtk_tree_path_free (path);
+
+	error = verify_validity (state, &changed);
+
+	if (error != NULL) {
+		gtk_widget_set_sensitive (state->apply_names_btn, FALSE);
+		gtk_label_set_text (GTK_LABEL (state->warning), error);
+	} else {
+		gtk_widget_set_sensitive (state->apply_names_btn, changed);
+		gtk_label_set_markup (GTK_LABEL (state->warning), 
+				      changed ? _("<b>Note:</b> A sheet name change is pending.") : "");
+	}
 }
 
 static gboolean
@@ -404,29 +421,49 @@ cb_toggled_direction (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 }
 
 
+typedef struct {
+	int i;
+	SheetManager *state;
+} SheetManager_Vis_Counter;
+
 static gboolean
 cb_sheet_order_cnt_visible (GtkTreeModel *model,
 			    GtkTreePath *path,
 			    GtkTreeIter *iter,
 			    gpointer data)
 {
-	int *i = data;
+	SheetManager_Vis_Counter *svc = data;
 	gboolean is_visible;
+	Sheet *this_sheet;
 
 	gtk_tree_model_get (model, iter, 
 			    SHEET_VISIBLE, &is_visible, 
+			    SHEET_POINTER, &this_sheet,
 			    -1);
-	return (is_visible && (++(*i)>1));
+	if (is_visible != (this_sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE)) {
+		gtk_list_store_set (GTK_LIST_STORE (model), iter,
+				    SHEET_VISIBLE, (this_sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE),
+				    SHEET_VISIBLE_IMAGE, (this_sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE
+							  ? svc->state->image_visible
+							  : NULL),
+				    -1);
+		is_visible = (this_sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE);
+	}
+	
+	if (is_visible)
+		(svc->i)++;
+
+	return FALSE;
 }
 
 static gint
 sheet_order_cnt_visible (SheetManager *state)
 {
-	gint i = 0;
+	SheetManager_Vis_Counter data = {0, state};
 	gtk_tree_model_foreach (GTK_TREE_MODEL (state->model),
 				cb_sheet_order_cnt_visible,
-				&i);
-	return i;
+				&data);
+	return data.i;
 }
 
 static void
@@ -443,6 +480,7 @@ cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	WorkbookSheetState *old_state;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
+	int cnt;
 
 	if (!gtk_tree_model_get_iter (model, &iter, path)) {
 		g_warning ("Did not get a valid iterator");
@@ -456,11 +494,19 @@ cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 			    -1);
 	
 	if (is_visible) {
-		if (sheet_order_cnt_visible (state) <= 1) {
-			go_gtk_notice_dialog (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
-					      _("At least one sheet must remain visible!"));
-			gtk_tree_path_free (path);
-			return;
+		cnt = sheet_order_cnt_visible (state);
+		if (cnt <= 1) {
+			/* Note: sheet_order_cnt_visible may have changed whether this sheet is indeed */
+			/* so we should not post a warning message if the sheet has become invisible.  */
+			gtk_tree_model_get (model, &iter, 
+					    SHEET_VISIBLE, &is_visible, 
+					    -1);
+			if (is_visible) {
+				go_gtk_notice_dialog (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
+						      _("At least one sheet must remain visible!"));
+				gtk_tree_path_free (path);
+				return;
+			}
 		}
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 				    SHEET_VISIBLE, FALSE,
@@ -816,13 +862,15 @@ cb_delete_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 	gboolean is_visible;
+	int cnt;
 
 	if (gtk_tree_selection_get_selected (selection, NULL, &sel_iter)) {
+		cnt = sheet_order_cnt_visible (state);
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &sel_iter,
 				    SHEET_POINTER, &sheet,
 				    SHEET_VISIBLE, &is_visible,
 				    -1);
-		if (is_visible && sheet_order_cnt_visible (state) <= 1) {
+		if (is_visible && cnt <= 1) {
 			go_gtk_notice_dialog (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
 					      _("At least one sheet must remain visible!"));
 			return;
@@ -873,8 +921,8 @@ verify_validity (SheetManager *state, gboolean *pchanged)
 
 		new_name2 = g_utf8_casefold (*new_name != 0 ? new_name : old_name, -1);
 		if (g_hash_table_lookup (names, new_name2)) {
-			result = g_strdup_printf (_("There is more than one sheet named \"%s\""),
-						  new_name);
+			result = g_strdup_printf (_("You may not call more than one sheet \"%s\"."),
+						  *new_name != 0 ? new_name : old_name);
 			g_free (new_name2);
 		} else
 			g_hash_table_insert (names, new_name2, new_name2);
@@ -898,22 +946,9 @@ cb_apply_names_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
-	char *error;
-	gboolean changed;
 	WorkbookSheetState *old_state;
 	GtkTreeIter this_iter;
 	gint n = 0;
-
-	error = verify_validity (state, &changed);
-	if (error) {
-		go_gtk_notice_dialog (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
-				      "%s", error);
-		g_free (error);
-		return;
-	}
-
-	if (!changed)
-		return;
 
 	/* Stop listening to changes in the sheet order. */
 	workbook_signals_block (state);
@@ -1191,6 +1226,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 	state->gui = gui;
 	state->wbcg = wbcg;
 	state->dialog     = glade_xml_get_widget (gui, "sheet-order-dialog");
+	state->warning     = glade_xml_get_widget (gui, "warning");
 	state->up_btn     = glade_xml_get_widget (gui, "up_button");
 	state->down_btn   = glade_xml_get_widget (gui, "down_button");
 	state->add_btn   = glade_xml_get_widget (gui, "add_button");
@@ -1282,6 +1318,8 @@ dialog_sheet_order (WBCGtk *wbcg)
 	gtk_widget_set_sensitive (state->sort_asc_btn, FALSE);
 	gtk_widget_set_sensitive (state->sort_desc_btn, FALSE);
 	gtk_widget_set_sensitive (state->undo_btn, FALSE);
+
+	gtk_widget_set_sensitive (state->apply_names_btn, FALSE);
 
 	/* a candidate for merging into attach guru */
 	wbc_gtk_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));

@@ -1,5 +1,21 @@
 2008-10-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-sheet-order.c (cb_name_edited): enable "apply names"
+	  button as appropriate
+	(verify_validity): show the correct name
+	(cb_apply_names_clicked): do not use a dialog
+	(cb_sheet_order_cnt_visible): make sure that the model contains 
+	   up-to-date information
+	(sheet_order_cnt_visible): we need to pass the state to 
+	  cb_sheet_order_cnt_visible
+	(cb_toggled_visible): don't show a warning if this sheet
+	  is already invisible
+	(cb_delete_clicked): don't delete the last visible sheet. Note
+	  that sheet_order_cnt_visible may change the visibility
+	  of this sheet.
+
+2008-10-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-sheet-order.c (SheetManager): add new listener
 	  fields
 	(workbook_signals_block): new
