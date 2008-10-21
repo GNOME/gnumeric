@@ -35,6 +35,10 @@
 #include <wbc-gtk.h>
 #include <workbook-view.h>
 #include <workbook.h>
+
+/* We shouldn't need workbook-priv.h but we need to know whether undo commands are pending */
+#include <workbook-priv.h>
+
 #include <sheet.h>
 #include <style-color.h>
 #include <commands.h>
@@ -114,6 +118,13 @@ static char *verify_validity (SheetManager *state, gboolean *pchanged);
 
 
 static void
+update_undo (SheetManager *state, WorkbookControl *wbc)
+{
+
+	gtk_widget_set_sensitive (state->undo_btn, TRUE);
+}
+
+static void
 workbook_signals_block (SheetManager *state)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
@@ -152,17 +163,16 @@ cb_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 	gboolean changed = FALSE;
 	char *error;
 
-	path = gtk_tree_path_new_from_string (path_string);
-
-	if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), 
-				     &iter, path)) {
-		gtk_list_store_set (state->model, &iter, 
-				    SHEET_NEW_NAME, new_text, -1);
-	} else {
-		g_warning ("Did not get a valid iterator");
+	if (cell != NULL) {
+		path = gtk_tree_path_new_from_string (path_string);
+		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->model), 
+					     &iter, path))
+			gtk_list_store_set (state->model, &iter, 
+					    SHEET_NEW_NAME, new_text, -1);
+		else
+			g_warning ("Did not get a valid iterator");
+		gtk_tree_path_free (path);
 	}
-
-	gtk_tree_path_free (path);
 
 	error = verify_validity (state, &changed);
 
@@ -226,6 +236,7 @@ cb_color_changed_fore (G_GNUC_UNUSED GOComboColor *go_combo_color,
 		style_color_unref (gnm_color);
 
 		cmd_reorganize_sheets (wbc, old_state, this_sheet);
+		update_undo (state, wbc);
 	}
 }
 
@@ -271,6 +282,7 @@ cb_color_changed_back (G_GNUC_UNUSED GOComboColor *go_combo_color,
 		style_color_unref (gnm_color);
 
 		cmd_reorganize_sheets (wbc, old_state, this_sheet);
+		update_undo (state, wbc);
 	}
 }
 
@@ -380,6 +392,7 @@ cb_toggled_lock (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 		      "protected", !is_locked,
 		      NULL);
 	cmd_reorganize_sheets (wbc, old_state, this_sheet);
+	update_undo (state, wbc);
 }
 
 static void
@@ -418,6 +431,7 @@ cb_toggled_direction (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 		      "text-is-rtl", !is_rtl,
 		      NULL);
 	cmd_reorganize_sheets (wbc, old_state, this_sheet);
+	update_undo (state, wbc);
 }
 
 
@@ -530,6 +544,7 @@ cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 		      NULL);
 
 	cmd_reorganize_sheets (wbc, old_state, this_sheet);
+	update_undo (state, wbc);
 }
 
 static void
@@ -682,6 +697,7 @@ populate_sheet_list (SheetManager *state)
 		g_signal_handler_block (state->model, state->model_row_insertion_listener);
 
 	gtk_list_store_clear (state->model);
+	gtk_label_set_text (GTK_LABEL (state->warning), "");
 
 	for (i = 0 ; i < n ; i++) {
 		Sheet *sheet = workbook_sheet_by_index (wb, i);
@@ -764,6 +780,7 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	old_state = workbook_sheet_state_new (wb);
 	workbook_sheet_add (wb, index);
 	cmd_reorganize_sheets (wbc, old_state, NULL);
+	update_undo (state, wbc);
 
 	workbook_signals_unblock (state);
 
@@ -796,6 +813,7 @@ cb_append_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	old_state = workbook_sheet_state_new (wb);
 	workbook_sheet_add (wb, -1);
 	cmd_reorganize_sheets (wbc, old_state, NULL);
+	update_undo (state, wbc);
 
 	workbook_signals_unblock (state);
 
@@ -838,6 +856,7 @@ cb_duplicate_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	workbook_sheet_attach_at_pos (wb, new_sheet, index + 1);
 	g_signal_emit_by_name (G_OBJECT (wb), "sheet_added", 0);
 	cmd_reorganize_sheets (wbc, old_state, NULL);
+	update_undo (state, wbc);
 
 	workbook_signals_unblock (state);
 
@@ -883,10 +902,12 @@ cb_delete_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 		old_state = workbook_sheet_state_new (wb);
 		workbook_sheet_delete (sheet);
 		cmd_reorganize_sheets (wbc, old_state, NULL);
+		update_undo (state, wbc);
 
 		workbook_signals_unblock (state);
 		
 		cb_selection_changed (NULL, state);
+		cb_name_edited (NULL, NULL, NULL, state);
 	}
 }
 
@@ -979,6 +1000,8 @@ cb_apply_names_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	}
 	
 	cmd_reorganize_sheets (wbc, old_state, NULL);
+	gtk_label_set_text (GTK_LABEL (state->warning), "");
+	update_undo (state, wbc);
 
 	workbook_signals_unblock (state);
 }
@@ -1155,9 +1178,10 @@ dialog_sheet_order_changed (SheetManager *state)
 		n++;
 	}
 
-	if (changes > 0) 
+	if (changes > 0) {
 		cmd_reorganize_sheets (wbc, old_state, NULL);
-	else 
+		update_undo (state, wbc);
+	} else 
 		workbook_sheet_state_free (old_state);	
 
 	workbook_signals_unblock (state);
@@ -1192,6 +1216,17 @@ cb_dialog_order_changed_by_insertion (G_GNUC_UNUSED GtkListStore *model,
 			 state, NULL);
 }
 
+static void
+cb_undo_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	Workbook *wb = wb_control_get_workbook (wbc);
+
+	command_undo (wbc);
+	gtk_widget_set_sensitive (state->undo_btn, wb->undo_commands != NULL);
+
+	populate_sheet_list (state);
+}
 
 
 void
@@ -1304,6 +1339,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 	CONNECT (state->delete_btn, "clicked", cb_delete_clicked);
 	CONNECT (state->apply_names_btn, "clicked", cb_apply_names_clicked);
 	CONNECT (state->cancel_btn, "clicked", cb_cancel_clicked);
+	CONNECT (state->undo_btn, "clicked", cb_undo_clicked);
 	CONNECT (state->ccombo_back, "color_changed", cb_color_changed_back);
 	CONNECT (state->ccombo_fore, "color_changed", cb_color_changed_fore);
 	CONNECT (state->model, "rows-reordered", cb_dialog_order_changed);
@@ -1317,8 +1353,8 @@ dialog_sheet_order (WBCGtk *wbcg)
 
 	gtk_widget_set_sensitive (state->sort_asc_btn, FALSE);
 	gtk_widget_set_sensitive (state->sort_desc_btn, FALSE);
-	gtk_widget_set_sensitive (state->undo_btn, FALSE);
 
+	gtk_widget_set_sensitive (state->undo_btn, wb->undo_commands != NULL);
 	gtk_widget_set_sensitive (state->apply_names_btn, FALSE);
 
 	/* a candidate for merging into attach guru */

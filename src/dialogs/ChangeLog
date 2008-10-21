@@ -1,5 +1,15 @@
 2008-10-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-sheet-order.c (cb_name_edited): if cell is NULL this is
+	  called for verification only
+	(update_undo): new, call after every cmd_reorganize_sheets in this
+	  file
+	(cb_delete_clicked): reverify the "new names"
+	(cb_undo_clicked): new
+	(dialog_sheet_order): hookup and enable the undo button
+
+2008-10-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-sheet-order.c (cb_name_edited): enable "apply names"
 	  button as appropriate
 	(verify_validity): show the correct name
