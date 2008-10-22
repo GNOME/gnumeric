@@ -1,3 +1,8 @@
+2008-10-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* functions.c: (spline_interpolation), (spline_averaging): do not
+	use a NULL GOCSpline struct. See #557442.
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.3
