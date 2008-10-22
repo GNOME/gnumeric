@@ -2,8 +2,10 @@ Gnumeric 1.9.4
 
 Andreas:
 	* Change sheet manage dialog into an instant-apply dialog
-	* Implemented sheet duplication in manage sheet dialog [#128160]
+	* Implemented sheet duplication in manage sheets dialog [#128160]
 	* Allow for undos in the manage sheet dialog
+	* Permit lexicographic sorting by sheet names in the manage sheets
+	  dialog [#527076]
 
 Jody:
 	* Display top-left when selecting a rel ref to a merged region.

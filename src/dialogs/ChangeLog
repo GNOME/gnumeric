@@ -1,3 +1,13 @@
+2008-10-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-sheet-order.c (gtmff_compare_func): new
+	(gtmff_asc): new
+	(sort_asc_desc): new
+	(cb_asc): new
+	(cb_desc): new
+	(cb_selection_changed): enable/disable the sort buttons
+	(dialog_sheet_order): hookup and enable the sort buttons
+
 2008-10-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-sheet-order.c (cb_name_edited): if cell is NULL this is

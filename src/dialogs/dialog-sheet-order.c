@@ -115,6 +115,7 @@ enum {
 };
 
 static char *verify_validity (SheetManager *state, gboolean *pchanged);
+static void dialog_sheet_order_update_sheet_order (SheetManager *state);
 
 
 static void
@@ -153,7 +154,7 @@ workbook_signals_unblock (SheetManager *state)
 }
 
 static void
-cb_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
+cb_name_edited (GtkCellRendererText *cell,
 	gchar               *path_string,
 	gchar               *new_text,
         SheetManager        *state)
@@ -184,6 +185,102 @@ cb_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 		gtk_label_set_markup (GTK_LABEL (state->warning), 
 				      changed ? _("<b>Note:</b> A sheet name change is pending.") : "");
 	}
+}
+
+
+typedef struct {
+	char *key;
+	int i;
+} gtmff_sort_t;
+
+static gint
+gtmff_compare_func (gconstpointer a, gconstpointer b)
+{
+	gtmff_sort_t const *pa = a, *pb = b;
+
+	return strcmp (pa->key, pb->key);
+}
+
+
+static gboolean
+gtmff_asc (GtkTreeModel *model, GtkTreePath *path,
+	   GtkTreeIter *iter, gpointer data)
+{
+	GSList **l = data;
+	Sheet *this_sheet;
+	char *name;
+	gtmff_sort_t *ptr;
+	
+
+	ptr = g_new (gtmff_sort_t, 1);
+	gtk_tree_model_get (model, iter, 
+			    SHEET_POINTER, &this_sheet,
+			    SHEET_NAME, &name,
+			    -1);
+	ptr->i = this_sheet->index_in_wb;
+	ptr->key = g_utf8_collate_key_for_filename (name, -1);
+
+	*l = g_slist_insert_sorted (*l, ptr, (GCompareFunc) gtmff_compare_func); 
+
+	return FALSE;
+}
+
+static void
+sort_asc_desc (SheetManager *state, gboolean asc)
+{
+	WorkbookSheetState *old_state;
+	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+	Workbook *wb = wb_control_get_workbook (wbc);
+	GSList *l = NULL, *l_tmp;
+	gint n = 0;
+
+	gtk_tree_model_foreach (GTK_TREE_MODEL (state->model), gtmff_asc, &l);
+
+	if (!asc)
+		l = g_slist_reverse (l);
+
+	workbook_signals_block (state);
+
+	old_state = workbook_sheet_state_new (wb);
+
+	for (l_tmp = l; l_tmp != NULL; l_tmp = l_tmp->next) {
+		gtmff_sort_t *ptr = l_tmp->data;
+		GtkTreeIter iter;
+		Sheet *sheet;
+		
+		gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
+						&iter, NULL, ptr->i);
+		g_free (ptr->key);
+		g_free (ptr);
+		l_tmp->data = NULL;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
+				    SHEET_POINTER, &sheet,
+				    -1);
+		workbook_sheet_move (sheet, n - sheet->index_in_wb);
+		n++;
+	}
+	g_slist_free (l);
+
+	/* Now we change the list store  */
+	dialog_sheet_order_update_sheet_order (state);
+	
+	cmd_reorganize_sheets (wbc, old_state, NULL);
+	update_undo (state, wbc);
+
+	workbook_signals_unblock (state);
+}
+
+static void
+cb_asc (G_GNUC_UNUSED GtkWidget *w, SheetManager *state)
+{
+	sort_asc_desc (state, TRUE);
+}
+
+static void
+cb_desc (G_GNUC_UNUSED GtkWidget *w, SheetManager *state)
+{
+	sort_asc_desc (state, FALSE);
 }
 
 static gboolean
@@ -300,6 +397,11 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 	GdkColor *fore, *back;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->sheet_list);
 
+	gboolean multiple = gtk_tree_model_iter_n_children(GTK_TREE_MODEL (state->model), NULL) > 1;
+
+	gtk_widget_set_sensitive (state->sort_asc_btn, multiple);
+	gtk_widget_set_sensitive (state->sort_desc_btn, multiple);
+
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
 		gtk_widget_set_sensitive (state->up_btn, FALSE);
 		gtk_widget_set_sensitive (state->down_btn, FALSE);
@@ -328,9 +430,7 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 
 	gtk_widget_set_sensitive (state->ccombo_back, TRUE);
 	gtk_widget_set_sensitive (state->ccombo_fore, TRUE);
-	gtk_widget_set_sensitive 
-	  (state->delete_btn, 
-	   gtk_tree_model_iter_n_children(GTK_TREE_MODEL (state->model), NULL)>1);
+	gtk_widget_set_sensitive (state->delete_btn, multiple);
 	gtk_widget_set_sensitive (state->add_btn, TRUE);
 	gtk_widget_set_sensitive (state->duplicate_btn, TRUE);
 
@@ -1333,6 +1433,8 @@ dialog_sheet_order (WBCGtk *wbcg)
 #define CONNECT(o,s,c) g_signal_connect(G_OBJECT(o),s,G_CALLBACK(c),state)
 	CONNECT (state->up_btn, "clicked", cb_up);
 	CONNECT (state->down_btn, "clicked", cb_down);
+	CONNECT (state->sort_asc_btn, "clicked", cb_asc);
+	CONNECT (state->sort_desc_btn, "clicked", cb_desc);
 	CONNECT (state->add_btn, "clicked", cb_add_clicked);
 	CONNECT (state->append_btn, "clicked", cb_append_clicked);
 	CONNECT (state->duplicate_btn, "clicked", cb_duplicate_clicked);
@@ -1350,9 +1452,6 @@ dialog_sheet_order (WBCGtk *wbcg)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_SHEET_MANAGER);
-
-	gtk_widget_set_sensitive (state->sort_asc_btn, FALSE);
-	gtk_widget_set_sensitive (state->sort_desc_btn, FALSE);
 
 	gtk_widget_set_sensitive (state->undo_btn, wb->undo_commands != NULL);
 	gtk_widget_set_sensitive (state->apply_names_btn, FALSE);
