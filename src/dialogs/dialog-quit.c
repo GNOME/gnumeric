@@ -82,6 +82,7 @@ url_renderer_func (GtkTreeViewColumn *tree_column,
 	g_object_set (cell, "markup", markup, NULL);
 	g_free (markup);
 	g_free (shortname);
+	g_free (filename);
 }
 
 static void
