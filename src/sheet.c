@@ -57,6 +57,7 @@
 #include "solver.h"
 #include "hlink.h"
 #include "sheet-filter.h"
+#include "sheet-filter-combo.h"
 #include "scenarios.h"
 #include "cell-draw.h"
 #include <goffice/utils/go-glib-extras.h>
@@ -4101,6 +4102,9 @@ sheet_delete_cols (Sheet *sheet, int col, int count,
 	/* 1. Delete the columns (and their cells) */
 	for (i = col + count ; --i >= col; )
 		sheet_col_destroy (sheet, i, TRUE);
+
+	/* Brutally discard auto filter objects.  Collect the rest for undo.  */
+	sheet_objects_clear (sheet, &reloc_info.origin, GNM_FILTER_COMBO_TYPE, NULL);
 	sheet_objects_clear (sheet, &reloc_info.origin, G_TYPE_NONE, pundo);
 
 	/*
@@ -4250,6 +4254,9 @@ sheet_delete_rows (Sheet *sheet, int row, int count,
 	/* 1. Delete the rows (and their content) */
 	for (i = row + count ; --i >= row; )
 		sheet_row_destroy (sheet, i, TRUE);
+
+	/* Brutally discard auto filter objects.  Collect the rest for undo.  */
+	sheet_objects_clear (sheet, &reloc_info.origin, GNM_FILTER_COMBO_TYPE, NULL);
 	sheet_objects_clear (sheet, &reloc_info.origin, G_TYPE_NONE, pundo);
 
 	/*

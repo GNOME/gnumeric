@@ -1,5 +1,9 @@
 2008-10-23  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (sheet_delete_cols, sheet_delete_rows): Make sure
+	auto-filter objects do not get kept by sheet object undo.  This
+	fixes the crash in #557591.
+
 	* src/sheet-filter.c (gnm_sheet_filter_insdel_colrow): Insert new
 	filters left-to-right so anchors get set right.  Fixes #557237.
 	Avoid expensive updates if no filter changes.

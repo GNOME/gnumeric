@@ -14,6 +14,7 @@ Morten:
 	* Fix XLS import crash.  [#557077]
 	* Fix inter-process paste crash.  [#556561]
 	* Fix problem with auto filter after column insert.   [#557237]
+	* Fix undo problem with auto filters' combos.  [Part of #557591]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3
