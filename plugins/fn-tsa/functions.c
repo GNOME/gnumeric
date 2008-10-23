@@ -275,6 +275,8 @@ spline_interpolation (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 	int i;
 	struct GnmCSpline *sp = gnm_cspline_init (absc, ord, nb_knots,
 				   GO_CSPLINE_NATURAL, 0., 0.);
+	if (!sp)
+		return NULL;
 	if (go_range_increasing (targets, nb_targets))
 		res = gnm_cspline_get_values (sp, targets, nb_targets);
 	else {
@@ -299,6 +301,8 @@ spline_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 		return NULL;
 	sp = gnm_cspline_init (absc, ord, nb_knots,
 				   GO_CSPLINE_NATURAL, 0., 0.);
+	if (!sp)
+		return NULL;
 	res = gnm_cspline_get_integrals (sp, targets, nb_targets);
 	imax = nb_targets - 1;
 	for (i = 0; i < imax; i++)
@@ -518,7 +522,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		break;
 	}
 
-	if (n0 != n1 || n0 == 0 || n2==0) {
+	if (n0 != n1 || n0 == 0 || n2 <= 0) {
 		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 		for (i = 0; i < nb; i++)
 			if (values[i])
