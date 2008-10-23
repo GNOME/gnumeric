@@ -525,7 +525,8 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		break;
 	}
 
-	if (n0 != n1 || n0 == 0 || n2==0) {
+printf("n0=%d n1=%d n2=%d\n",n0,n1,n2);
+	if (n0 != n1 || n0 == 0 || n2 <= 0) {
 		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 		for (i = 0; i < nb; i++)
 			if (values[i])

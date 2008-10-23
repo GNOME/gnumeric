@@ -1,3 +1,8 @@
+2008-10-23  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* functions.c: (gnumeric_interpolation): return an error when the number
+	of targets is negative (not only when it is nul). [#557515]
+
 2008-10-22  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* functions.c: (spline_interpolation), (spline_averaging): do not
