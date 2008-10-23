@@ -854,29 +854,34 @@ gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 				int start, int count)
 {
 	GSList *ptr, *filters;
-	GnmFilter *filter;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
 	filters = g_slist_copy (sheet->filters);
 	for (ptr = filters; ptr != NULL ; ptr = ptr->next) {
-		filter = ptr->data;
+		GnmFilter *filter = ptr->data;
 
 		if (is_cols) {
 			if (start > filter->r.end.col)	/* a */
 				continue;
+
+			sheet->priv->filters_changed = TRUE;
+
 			if (is_insert) {
+				/* INSERTING COLUMNS */
 				filter->r.end.col += count;
 				/* inserting in the middle of a filter adds
 				 * fields.  Everything else just moves it */
 				if (start > filter->r.start.col &&
 				    start <= filter->r.end.col) {
-					while (count--)
+					int i;
+					for (i = 0; i < count; i++)
 						gnm_filter_add_field (filter,
-							start - filter->r.start.col + count);
+							start - filter->r.start.col + i);
 				} else
 					filter->r.start.col += count;
 			} else {
+				/* REMOVING COLUMNS */
 				int start_del = start - filter->r.start.col;
 				int end_del   = start_del + count;
 				if (start_del <= 0) {
@@ -903,11 +908,16 @@ gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 		} else {
 			if (start > filter->r.end.row)
 				continue;
+
+			sheet->priv->filters_changed = TRUE;
+
 			if (is_insert) {
+				/* INSERTING ROWS */
 				filter->r.end.row += count;
 				if (start < filter->r.start.row)
 					filter->r.start.row += count;
 			} else {
+				/* REMOVING ROWS */
 				if (start <= filter->r.start.row) {
 					filter->r.end.row -= count;
 					if ((start+count) > filter->r.start.row)
@@ -933,7 +943,6 @@ gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 			gnm_filter_free (filter);
 		}
 	}
-	if (filters != NULL)
-		sheet->priv->filters_changed = TRUE;
+
 	g_slist_free (filters);
 }

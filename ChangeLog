@@ -1,3 +1,16 @@
+2008-10-23  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-filter.c (gnm_sheet_filter_insdel_colrow): Insert new
+	filters left-to-right so anchors get set right.  Fixes #557237.
+	Avoid expensive updates if no filter changes.
+
+2008-10-22  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-io.c (xml_cellregion_read): Copy the string.  It need
+	not be null terminated.  Assign ctxt->sheet.
+	(xml_read_sheet_object): New argument, assign, to explicitly
+	control whether to assign the object to the sheet.  Fixes #556561.
+
 2008-10-19  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : version bump.
