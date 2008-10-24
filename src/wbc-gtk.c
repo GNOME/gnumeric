@@ -3964,6 +3964,8 @@ wbc_gtk_set_property (GObject *object, guint property_id,
 	}
 }
 
+#define UNREF_OBJ(f) do { if (wbcg->f) { g_object_unref (wbcg->f); wbcg->f = NULL; } } while (0)
+
 static void
 wbc_gtk_finalize (GObject *obj)
 {
@@ -3971,17 +3973,37 @@ wbc_gtk_finalize (GObject *obj)
 
 	if (wbcg->idle_update_style_feedback != 0)
 		g_source_remove (wbcg->idle_update_style_feedback);
+
 	if (wbcg->file_history.merge_id != 0)
 		gtk_ui_manager_remove_ui (wbcg->ui, wbcg->file_history.merge_id);
-	if (wbcg->file_history.actions != NULL)
-		g_object_unref (wbcg->file_history.actions);
+	UNREF_OBJ (file_history.actions);
+
 	if (wbcg->toolbar.merge_id != 0)
 		gtk_ui_manager_remove_ui (wbcg->ui, wbcg->toolbar.merge_id);
-	if (wbcg->toolbar.actions != NULL)
-		g_object_unref (wbcg->toolbar.actions);
-	g_object_unref (wbcg->ui);
+	UNREF_OBJ (toolbar.actions);
+
+	if (wbcg->windows.merge_id != 0)
+		gtk_ui_manager_remove_ui (wbcg->ui, wbcg->windows.merge_id);
+	UNREF_OBJ (windows.actions);
 
 	g_hash_table_destroy (wbcg->custom_uis);
+
+	UNREF_OBJ (zoom);
+	UNREF_OBJ (borders);
+	UNREF_OBJ (fore_color);
+	UNREF_OBJ (back_color);
+	UNREF_OBJ (font_name);
+	UNREF_OBJ (font_size);
+	UNREF_OBJ (redo_haction);
+	UNREF_OBJ (redo_vaction);
+	UNREF_OBJ (undo_haction);
+	UNREF_OBJ (undo_vaction);
+	UNREF_OBJ (halignment);
+	UNREF_OBJ (valignment);
+	UNREF_OBJ (actions);
+	UNREF_OBJ (permanent_actions);
+	UNREF_OBJ (font_actions);
+	UNREF_OBJ (ui);
 
 	/* Disconnect signals that would attempt to change things during
 	 * destruction.
@@ -4011,19 +4033,13 @@ wbc_gtk_finalize (GObject *obj)
 		wbcg->font_desc = NULL;
 	}
 
-	if (wbcg->auto_expr_label) {
-		g_object_unref (wbcg->auto_expr_label);
-		wbcg->auto_expr_label = NULL;
-	}
+	UNREF_OBJ (auto_expr_label);
 
 	g_hash_table_destroy (wbcg->visibility_widgets);
 	g_hash_table_destroy (wbcg->toggle_for_fullscreen);
 
 #ifdef GNM_USE_HILDON
-	if (wbcg->hildon_prog != NULL) {
-		g_object_unref (wbcg->hildon_prog);
-		wbcg->hildon_prog = NULL;
-	}
+	UNREF_OBJ (hildon_prog);
 #endif
 
 	g_free (wbcg->preferred_geometry);
@@ -4031,6 +4047,8 @@ wbc_gtk_finalize (GObject *obj)
 
 	parent_class->finalize (obj);
 }
+
+#undef UNREF_OBJ
 
 /***************************************************************************/
 

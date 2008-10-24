@@ -1,3 +1,7 @@
+2008-10-24  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbc_gtk_finalize): Massive leak fix.
+
 2008-10-23  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (schedule_reapply_filters): New function.
