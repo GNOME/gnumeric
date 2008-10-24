@@ -1,3 +1,8 @@
+2008-10-24  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_randdiscrete): Simplify and fix crash
+	#557682.
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.3

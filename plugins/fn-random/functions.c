@@ -129,112 +129,72 @@ static GnmFuncHelp const help_randdiscrete[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-typedef struct {
-	gnm_float *prob;
-	int        ind;
-	gnm_float x;
-	gnm_float cum;
-	int        x_ind;
-	GnmValue      *res;
-} randdiscrete_t;
-
-static GnmValue *
-cb_randdiscrete (GnmCellIter const *iter, gpointer user)
-{
-	randdiscrete_t *p = (randdiscrete_t *) user;
-	GnmCell *cell = iter->cell;
-
-	if (p->res != NULL)
-		return NULL;
-
-	if (p->prob) {
-		if (p->x <= p->prob [p->ind] + p->cum) {
-			if (cell != NULL) {
-				gnm_cell_eval (cell);
-				p->res = value_dup (cell->value);
-			} else
-				p->res = value_new_empty ();
-		} else
-			p->cum += p->prob [p->ind];
-	} else if (p->ind == p->x_ind) {
-		if (cell != NULL) {
-			gnm_cell_eval (cell);
-			p->res = value_dup (cell->value);
-		} else
-			p->res = value_new_empty ();
-	}
-	(p->ind)++;
-
-	return NULL;
-}
-
 static GnmValue *
 gnumeric_randdiscrete (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        GnmValue const *value_range = argv[0];
-	GnmValue const *prob_range  = argv[1];
-	GnmValue       *ret;
-	int             cols, rows;
-	randdiscrete_t  rd;
+	GnmValue *res = NULL;
+	gnm_float *values = NULL;
+	gnm_float *probs = NULL;
+	int nv, np, i;
+	gnm_float p;
 
-	rd.prob  = NULL;
-	rd.ind   = 0;
-	rd.cum   = 0;
-	rd.res   = NULL;
-	rd.x_ind = 0;
+	values = collect_floats_value (argv[0], ei->pos,
+				       COLLECT_IGNORE_STRINGS |
+				       COLLECT_IGNORE_BOOLS |
+				       COLLECT_IGNORE_BLANKS,
+				       &nv, &res);
+	if (res)
+		goto out;
 
-	if (value_range->type != VALUE_CELLRANGE ||
-	    (prob_range != NULL && prob_range->type != VALUE_CELLRANGE))
-		return value_new_error_VALUE (ei->pos);
-
-	cols = value_range->v_range.cell.b.col
-		- value_range->v_range.cell.a.col + 1;
-	rows = value_range->v_range.cell.b.row
-		- value_range->v_range.cell.a.row + 1;
-
-	rd.x = random_01 ();
-
-	if (prob_range) {
-		int        n;
-		gnm_float sum;
-
-		if (prob_range->v_range.cell.b.col
-		    - prob_range->v_range.cell.a.col + 1 != cols
-		    || prob_range->v_range.cell.b.row
-		    - prob_range->v_range.cell.a.row + 1 != rows)
-			return value_new_error_NUM (ei->pos);
-
-		rd.prob = collect_floats_value (prob_range, ei->pos, 0, &n,
-						&ret);
-
-		/* Check that the cumulative probability equals to one. */
-		go_range_sum (rd.prob, n, &sum);
-		if (sum != 1) {
-			g_free (rd.prob);
-			return value_new_error_NUM (ei->pos);
-		}
+	if (argv[1]) {
+		probs = collect_floats_value (argv[1], ei->pos,
+					      COLLECT_IGNORE_STRINGS |
+					      COLLECT_IGNORE_BOOLS |
+					      COLLECT_IGNORE_BLANKS,
+					      &np, &res);
+		if (res)
+			goto out;
 	} else
-		rd.x_ind = rd.x * cols * rows;
+		np = nv;
 
-	ret = sheet_foreach_cell_in_range
-		(eval_sheet (value_range->v_range.cell.a.sheet, ei->pos->sheet),
-		 CELL_ITER_ALL,
-		 value_range->v_range.cell.a.col,
-		 value_range->v_range.cell.a.row,
-		 value_range->v_range.cell.b.col,
-		 value_range->v_range.cell.b.row,
-		 cb_randdiscrete,
-		 &rd);
+	if (nv < 1 || nv != np)
+		goto error;
 
-	g_free (rd.prob);
+	if (probs) {
+		gnm_float pmin, psum;
 
-	if (ret != NULL) {
-		g_free (rd.res);
-		return value_new_error_VALUE (ei->pos);
+		gnm_range_min (probs, np, &pmin);
+		if (pmin < 0)
+			goto error;
+
+		gnm_range_sum (probs, np, &psum);
+		if (gnm_abs (psum - 1) > 1e-10)
+			goto error;
 	}
 
-	return rd.res;
+	p = random_01 ();
+	if (probs) {
+		for (i = 0; i < np; i++) {
+			p -= probs[i];
+			if (p < 0)
+				break;
+		}
+	} else {
+		/* Uniform.  */
+		i = (int)gnm_floor (p * nv);
+	}
 
+	/* MIN is needed because of the sum grace.  */
+	res = value_new_float (values[MIN (i, nv - 1)]);
+
+ out:
+	g_free (values);
+	g_free (probs);
+	return res;
+
+ error:
+	res = value_new_error_NUM (ei->pos);
+	goto out;
 }
 
 /***************************************************************************/

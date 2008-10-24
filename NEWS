@@ -16,6 +16,8 @@ Morten:
 	* Fix undo problem with auto filters.  [#557591]
 	* Remove the effect on an auto filter when its column is removed.
 	* Plug leaks.
+	* Remove the effect on an auto filter column when removed.
+	* Fix RANDDISCRETE crash.  [#557682]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3
