@@ -1244,7 +1244,7 @@ xml_sax_style_region_start (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->style_range_init == FALSE);
 	g_return_if_fail (state->style == NULL);
 
-	state->style = (state->version >= GNM_XML_V6 ||
+	state->style = (1 || state->version >= GNM_XML_V6 ||
 			state->version <= GNM_XML_V2)
 		? gnm_style_new_default ()
 		: gnm_style_new ();
@@ -1331,6 +1331,25 @@ xml_sax_style_start (GsfXMLIn *xin, xmlChar const **attrs)
 			; /* ignore old useless attribute */
 		else
 			unknown_attr (xin, attrs);
+	}
+
+	/*
+	 * Old versions of Gnumeric evidently do not set all the attributes.
+	 * http://bugzilla.gnome.org/show_bug.cgi?id=555933
+	 */
+	if (!gnm_style_is_element_set (state->style, MSTYLE_COLOR_BACK)) {
+		colour = style_color_white ();
+		gnm_style_set_back_color (state->style, colour);
+	}
+
+	if (!gnm_style_is_element_set (state->style, MSTYLE_FONT_COLOR)) {
+		colour = style_color_black ();
+		gnm_style_set_font_color (state->style, colour);
+	}
+
+	if (!gnm_style_is_element_set (state->style, MSTYLE_COLOR_PATTERN)) {
+		colour = style_color_black ();
+		gnm_style_set_pattern_color (state->style, colour);
 	}
 }
 

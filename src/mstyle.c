@@ -104,13 +104,13 @@ gnm_style_update (GnmStyle *style)
 	if (style->conditions != NULL)
 		style->cond_styles = gnm_style_conditions_overlay (style->conditions, style);
 
-	if (!style->color.back->is_auto)
+	if (style->color.back && !style->color.back->is_auto)
 		hash ^= GPOINTER_TO_UINT (style->color.back);
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
-	if (!style->color.pattern->is_auto)
+	if (style->color.pattern && !style->color.pattern->is_auto)
 		hash ^= GPOINTER_TO_UINT (style->color.pattern);
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
-	if (!style->color.font->is_auto)
+	if (style->color.font && !style->color.font->is_auto)
 		hash ^= GPOINTER_TO_UINT (style->color.font);
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
 

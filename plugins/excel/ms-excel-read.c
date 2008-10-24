@@ -2887,7 +2887,7 @@ excel_sheet_destroy (ExcelReadSheet *esheet)
 	 * objects */
 	if (esheet->filter != NULL) {
 		gnm_filter_remove (esheet->filter);
-		gnm_filter_free (esheet->filter);
+		gnm_filter_unref (esheet->filter);
 		esheet->filter = NULL;
 	}
 

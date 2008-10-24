@@ -3490,7 +3490,7 @@ sheet_destroy_contents (Sheet *sheet)
 	/* Save these because they are going to get zeroed. */
 	int const max_col = sheet->cols.max_used;
 	int const max_row = sheet->rows.max_used;
-
+	GSList *filters;
 	int i;
 	gpointer tmp;
 
@@ -3502,8 +3502,10 @@ sheet_destroy_contents (Sheet *sheet)
 		return;
 
 	/* These contain SheetObjects, remove them first */
-	go_slist_free_custom (sheet->filters, (GFreeFunc)gnm_filter_free);
-	sheet->filters = NULL;
+	filters = g_slist_copy (sheet->filters);
+	g_slist_foreach (filters, (GFunc)gnm_filter_remove, NULL);
+	g_slist_foreach (filters, (GFunc)gnm_filter_unref, NULL);
+	g_slist_free (filters);
 
 	if (sheet->sheet_objects) {
 		/* The list is changed as we remove */
@@ -3885,7 +3887,7 @@ sheet_colrow_insert_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 	sheet_colrow_set_collapse (sheet, is_cols, pos);
 	sheet_colrow_set_collapse (sheet, is_cols, pos + count);
 	sheet_colrow_set_collapse (sheet, is_cols, colrow_max (is_cols, sheet));
-	gnm_sheet_filter_insdel_colrow (sheet, is_cols, TRUE, pos, count);
+	gnm_sheet_filter_insdel_colrow (sheet, is_cols, TRUE, pos, count, pundo);
 
 	/* WARNING WARNING WARNING
 	 * This is bad practice and should not really be here.
@@ -3909,7 +3911,7 @@ sheet_colrow_delete_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 	sheet_colrow_insdel_finish (rinfo, is_cols, pos, pundo);
 	sheet_colrow_set_collapse (sheet, is_cols, pos);
 	sheet_colrow_set_collapse (sheet, is_cols, end);
-	gnm_sheet_filter_insdel_colrow (sheet, is_cols, FALSE, pos, count);
+	gnm_sheet_filter_insdel_colrow (sheet, is_cols, FALSE, pos, count, pundo);
 
 	/* WARNING WARNING WARNING
 	 * This is bad practice and should not really be here.
@@ -3986,6 +3988,23 @@ add_undo_op (GOUndo **pundo, gboolean is_cols,
 	combine_undo (pundo, u);
 }
 
+static void
+schedule_reapply_filters (Sheet *sheet, GOUndo **pundo)
+{
+	GSList *l;
+
+	if (!pundo)
+		return;
+
+	for (l = sheet->filters; l; l = l->next) {
+		GnmFilter *filter = l->data;
+		GOUndo *u = go_undo_unary_new
+			(gnm_filter_ref (filter),
+			 (GOUndoUnaryFunc)gnm_filter_reapply,
+			 (GFreeFunc)gnm_filter_unref);
+		*pundo = go_undo_combine (*pundo, u);
+	}
+}
 
 /**
  * sheet_insert_cols:
@@ -4008,11 +4027,14 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count > 0, TRUE);
 
+	if (pundo) *pundo = NULL;
+	schedule_reapply_filters (sheet, pundo);
+
 	if (pundo) {
 		int last = first + (count - 1);
 		GnmRange r;
 		range_init_cols (&r, first, last);
-		*pundo = clipboard_copy_range_undo (sheet, &r);
+		combine_undo (pundo, clipboard_copy_range_undo (sheet, &r));
 		states = colrow_get_states (sheet, TRUE, first, last);
 	}
 
@@ -4076,11 +4098,14 @@ sheet_delete_cols (Sheet *sheet, int col, int count,
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count > 0, TRUE);
 
+	if (pundo) *pundo = NULL;
+	schedule_reapply_filters (sheet, pundo);
+
 	if (pundo) {
 		int last = col + (count - 1);
 		GnmRange r;
 		range_init_cols (&r, col, last);
-		*pundo = clipboard_copy_range_undo (sheet, &r);
+		combine_undo (pundo, clipboard_copy_range_undo (sheet, &r));
 		states = colrow_get_states (sheet, TRUE, col, last);
 	}
 
@@ -4160,11 +4185,14 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count > 0, TRUE);
 
+	if (pundo) *pundo = NULL;
+	schedule_reapply_filters (sheet, pundo);
+
 	if (pundo) {
 		int last = first + (count - 1);
 		GnmRange r;
 		range_init_rows (&r, first, last);
-		*pundo = clipboard_copy_range_undo (sheet, &r);
+		combine_undo (pundo, clipboard_copy_range_undo (sheet, &r));
 		states = colrow_get_states (sheet, FALSE, first, last);
 	}
 
@@ -4228,11 +4256,14 @@ sheet_delete_rows (Sheet *sheet, int row, int count,
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count > 0, TRUE);
 
+	if (pundo) *pundo = NULL;
+	schedule_reapply_filters (sheet, pundo);
+
 	if (pundo) {
 		int last = row + (count - 1);
 		GnmRange r;
 		range_init_rows (&r, row, last);
-		*pundo = clipboard_copy_range_undo (sheet, &r);
+		combine_undo (pundo, clipboard_copy_range_undo (sheet, &r));
 		states = colrow_get_states (sheet, FALSE, row, last);
 	}
 

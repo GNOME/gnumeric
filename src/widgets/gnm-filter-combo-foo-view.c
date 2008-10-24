@@ -44,13 +44,6 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
-static int
-fcombo_index (GnmFilterCombo const *fcombo)
-{
-	return fcombo->parent.anchor.cell_bound.start.col
-		- fcombo->filter->r.start.col;
-}
-
 static void
 fcombo_activate (SheetObject *so, GtkWidget *popup, GtkTreeView *list,
 		 WBCGtk *wbcg)
@@ -68,7 +61,7 @@ fcombo_activate (SheetObject *so, GtkWidget *popup, GtkTreeView *list,
 				    2, &type, 3, &v,
 				    -1);
 
-		field_num = fcombo_index (fcombo);
+		field_num = gnm_filter_combo_index (fcombo);
 		switch (type) {
 		case  0:
 			cond = gnm_filter_condition_new_single (
@@ -159,7 +152,7 @@ fcombo_fill_model (SheetObject *so,  GtkTreePath **clip, GtkTreePath **select)
 	GtkTreeIter	 iter;
 	GtkListStore *model;
 	GPtrArray    *sorted = g_ptr_array_new ();
-	unsigned i, field_num = fcombo_index (fcombo);
+	unsigned i, field_num = gnm_filter_combo_index (fcombo);
 	gboolean is_custom = FALSE;
 	GnmValue const *v;
 	GnmValue const *cur_val = NULL;
@@ -199,7 +192,10 @@ fcombo_fill_model (SheetObject *so,  GtkTreePath **clip, GtkTreePath **select)
 	 * The cleanest way to do that is to create a temporary sheet, apply
 	 * all of the other conditions to it and use that as the source of visibility. */
 	if (filter->fields->len > 1) {
-		filtered_sheet = sheet_new (uc.src_sheet->workbook, "_DummyFilterPopulate");
+		Workbook *wb = uc.src_sheet->workbook;
+		char *name = workbook_sheet_get_free_name (wb, "DummyFilterPopulate", FALSE, FALSE);
+		filtered_sheet = sheet_new (wb, name);
+		g_free (name);
 		for (i = 0 ; i < filter->fields->len ; i++)
 			if (i != field_num)
 				gnm_filter_combo_apply (g_ptr_array_index (filter->fields, i),

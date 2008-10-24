@@ -1,5 +1,22 @@
 2008-10-23  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (schedule_reapply_filters): New function.
+	(sheet_insert_cols, sheet_insert_rows, sheet_delete_cols,
+	sheet_delete_rows): Make sure filters get reapplied on undo after
+	we put the contents back in.
+
+	* src/sheet-filter.c (gnm_filter_condition_free): Rename from
+	gnm_filter_condition_unref.  Actually free the condition.  Make
+	static.
+	(gnm_filter_condition_dup): Make static.
+	(gnm_filter_combo_index): New function.
+	(gnm_filter_add_field): Hold onto a reference to the fcombo.
+	(gnm_filter_free): Free the fcombo reference.
+	(gnm_sheet_filter_insdel_colrow): Handle fcombo references.
+	Reapply filter when fields are removed.,
+	(gnm_filter_reapply, gnm_filter_update_active): Extract from
+	gnm_filter_set_condition.
+
 	* src/sheet.c (sheet_delete_cols, sheet_delete_rows): Make sure
 	auto-filter objects do not get kept by sheet object undo.  This
 	fixes the crash in #557591.

@@ -773,7 +773,7 @@ static GNM_ACTION_DEF (cb_auto_filter)
 	} else {
 		/* keep distinct to simplify undo/redo later */
 		gnm_filter_remove (filter);
-		gnm_filter_free (filter);
+		gnm_filter_unref (filter);
 	}
 	/* ensure that the colour changes on the filtered row headers */
 	sheet_redraw_all (sv->sheet, TRUE);

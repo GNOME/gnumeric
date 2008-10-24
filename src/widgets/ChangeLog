@@ -1,3 +1,10 @@
+2008-10-23  Morten Welinder  <terra@gnome.org>
+
+	* gnm-filter-combo-foo-view.c (fcombo_fill_model): Make sure the
+	fake sheet's name does not collide with an existing sheet.  Just
+	in case.
+	(fcombo_activate, fcombo_fill_model): Use gnm_filter_combo_index.
+
 2008-10-19  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (gee_prepare_range) : fix the rationalization

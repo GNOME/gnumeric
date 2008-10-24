@@ -20,6 +20,8 @@ typedef struct {
 GType gnm_filter_combo_get_type (void);
 void  gnm_filter_combo_apply    (GnmFilterCombo *fcombo, Sheet *target_sheet);
 
+int   gnm_filter_combo_index    (GnmFilterCombo *fcombo);
+
 G_END_DECLS
 
 #endif /* _GNM_SHEET_FILTER_COMBO_H_ */

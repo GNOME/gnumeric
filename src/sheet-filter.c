@@ -94,7 +94,7 @@ gnm_filter_condition_new_bucket (gboolean top, gboolean absolute, float n)
 	return res;
 }
 
-GnmFilterCondition *
+static GnmFilterCondition *
 gnm_filter_condition_dup (GnmFilterCondition const *src)
 {
 	GnmFilterCondition *dst;
@@ -112,14 +112,17 @@ gnm_filter_condition_dup (GnmFilterCondition const *src)
 	return dst;
 }
 
-void
-gnm_filter_condition_unref (GnmFilterCondition *cond)
+static void
+gnm_filter_condition_free (GnmFilterCondition *cond)
 {
-	g_return_if_fail (cond != NULL);
+	if (cond == NULL)
+		return;
+
 	if (cond->value[0] != NULL)
 		value_release (cond->value[0]);
 	if (cond->value[1] != NULL)
 		value_release (cond->value[1]);
+	g_free (cond);
 }
 
 /*****************************************************************************/
@@ -365,6 +368,16 @@ cb_hide_unwanted_percentage (GnmCellIter const *iter,
 }
 /*****************************************************************************/
 
+int
+gnm_filter_combo_index (GnmFilterCombo *fcombo)
+{
+	g_return_val_if_fail (IS_GNM_FILTER_COMBO (fcombo), 0);
+
+	return (sheet_object_get_range (SHEET_OBJECT (fcombo))->start.col -
+		fcombo->filter->r.start.col);
+}
+
+
 /**
  * gnm_filter_combo_apply :
  * @fcombo : #GnmFilterCombo
@@ -483,10 +496,10 @@ gnm_filter_combo_finalize (GObject *object)
 {
 	GnmFilterCombo *fcombo = GNM_FILTER_COMBO (object);
 	GObjectClass *parent;
-	if (fcombo->cond != NULL) {
-		gnm_filter_condition_unref (fcombo->cond);
-		fcombo->cond = NULL;
-	}
+
+	gnm_filter_condition_free (fcombo->cond);
+	fcombo->cond = NULL;
+
 	parent = g_type_class_peek (SHEET_OBJECT_TYPE);
 	parent->finalize (object);
 }
@@ -537,7 +550,7 @@ static void
 gnm_filter_add_field (GnmFilter *filter, int i)
 {
 	/* pretend to fill the cell, then clip the X start later */
-	static float const a_offsets [4] = { .0, .0, 1., 1. };
+	static float const a_offsets[4] = { .0, .0, 1., 1. };
 	int n;
 	GnmRange tmp;
 	SheetObjectAnchor anchor;
@@ -554,10 +567,25 @@ gnm_filter_add_field (GnmFilter *filter, int i)
 	g_ptr_array_add (filter->fields, NULL);
 	for (n = filter->fields->len; --n > i ; )
 		g_ptr_array_index (filter->fields, n) =
-			g_ptr_array_index (filter->fields, n-1);
+			g_ptr_array_index (filter->fields, n - 1);
 	g_ptr_array_index (filter->fields, n) = fcombo;
-	g_object_unref (G_OBJECT (fcombo));
+	/* We hold a reference to fcombo */
 }
+
+static void
+gnm_filter_attach (GnmFilter *filter, Sheet *sheet)
+{
+	g_return_if_fail (filter != NULL);
+	g_return_if_fail (filter->sheet == NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	gnm_filter_ref (filter);
+
+	filter->sheet = sheet;
+	sheet->filters = g_slist_prepend (sheet->filters, filter);
+	sheet->priv->filters_changed = TRUE;
+}
+
 
 /**
  * gnm_filter_new :
@@ -576,17 +604,16 @@ gnm_filter_new (Sheet *sheet, GnmRange const *r)
 	g_return_val_if_fail (r != NULL, NULL);
 
 	filter = g_new0 (GnmFilter, 1);
-	filter->sheet = sheet;
 
 	filter->is_active = FALSE;
 	filter->r = *r;
 	filter->fields = g_ptr_array_new ();
 
+	/* This creates the initial ref.  */
+	gnm_filter_attach (filter, sheet);
+
 	for (i = 0 ; i < range_width (r); i++)
 		gnm_filter_add_field (filter, i);
-
-	sheet->filters = g_slist_prepend (sheet->filters, filter);
-	sheet->priv->filters_changed = TRUE;
 
 	return filter;
 }
@@ -608,11 +635,13 @@ gnm_filter_dup (GnmFilter const *src, Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	dst = g_new0 (GnmFilter, 1);
-	dst->sheet = sheet;
 
 	dst->is_active = src->is_active;
 	dst->r = src->r;
 	dst->fields = g_ptr_array_new ();
+
+	/* This creates the initial ref.  */
+	gnm_filter_attach (dst, sheet);
 
 	for (i = 0 ; i < range_width (&dst->r); i++) {
 		gnm_filter_add_field (dst, i);
@@ -622,20 +651,33 @@ gnm_filter_dup (GnmFilter const *src, Sheet *sheet)
 			FALSE);
 	}
 
-	sheet->filters = g_slist_prepend (sheet->filters, dst);
-	sheet->priv->filters_changed = TRUE;
-
 	return dst;
 }
+
+GnmFilter *
+gnm_filter_ref (GnmFilter *filter)
+{
+	g_return_val_if_fail (filter != NULL, NULL);
+	filter->ref_count++;
+	return filter;
+}
+
 void
-gnm_filter_free	(GnmFilter *filter)
+gnm_filter_unref (GnmFilter *filter)
 {
 	unsigned i;
 
 	g_return_if_fail (filter != NULL);
 
-	for (i = 0 ; i < filter->fields->len ; i++)
-		sheet_object_clear_sheet (g_ptr_array_index (filter->fields, i));
+	filter->ref_count--;
+	if (filter->ref_count > 0)
+		return;
+
+	for (i = 0 ; i < filter->fields->len ; i++) {
+		SheetObject *so = g_ptr_array_index (filter->fields, i);
+		sheet_object_clear_sheet (so);
+		g_object_unref (so);
+	}
 	g_ptr_array_free (filter->fields, TRUE);
 
 	filter->fields = NULL;
@@ -661,6 +703,7 @@ gnm_filter_remove (GnmFilter *filter)
 			colrow_set_visibility (sheet, FALSE, TRUE, i, i);
 		}
 	}
+	filter->sheet = NULL;
 }
 
 /**
@@ -681,6 +724,43 @@ gnm_filter_get_condition (GnmFilter const *filter, unsigned i)
 	return fcombo->cond;
 }
 
+void
+gnm_filter_reapply (GnmFilter *filter)
+{
+	unsigned i;
+
+	colrow_set_visibility (filter->sheet, FALSE, TRUE,
+			       filter->r.start.row + 1, filter->r.end.row);
+	for (i = 0 ; i < filter->fields->len ; i++)
+		gnm_filter_combo_apply (g_ptr_array_index (filter->fields, i),
+					filter->sheet);
+}
+
+static void
+gnm_filter_update_active (GnmFilter *filter)
+{
+	unsigned i;
+	gboolean old_active = filter->is_active;
+
+	filter->is_active = FALSE;
+	for (i = 0 ; i < filter->fields->len ; i++) {
+		GnmFilterCombo *fcombo = g_ptr_array_index (filter->fields, i);
+		if (fcombo->cond != NULL) {
+			filter->is_active = TRUE;
+			break;
+		}
+	}
+
+	if (filter->is_active != old_active) {
+		int r;
+		for (r = filter->r.start.row; ++r <= filter->r.end.row ; ) {
+			ColRowInfo *ri = sheet_row_fetch (filter->sheet, r);
+			ri->in_filter = filter->is_active;
+		}
+	}
+}
+
+
 /**
  * gnm_filter_set_condition :
  * @filter :
@@ -699,9 +779,7 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 			  gboolean apply)
 {
 	GnmFilterCombo *fcombo;
-	gboolean set_infilter = FALSE;
 	gboolean existing_cond = FALSE;
-	int r;
 
 	g_return_if_fail (filter != NULL);
 	g_return_if_fail (i < filter->fields->len);
@@ -710,52 +788,26 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 
 	if (fcombo->cond != NULL) {
 		existing_cond = TRUE;
-		gnm_filter_condition_unref (fcombo->cond);
+		gnm_filter_condition_free (fcombo->cond);
 	}
 	fcombo->cond = cond;
 	g_signal_emit (G_OBJECT (fcombo), signals [COND_CHANGED], 0);
 
 	if (apply) {
 		/* if there was an existing cond then we need to do
-		 * 1) unfilter everything
-		 * 2) reapply all the filters
-		 * This is because we do record what elements this particular
-		 * field filtered
+		 * redo the whole filter.
+		 * This is because we do not record what elements this
+		 * particular field filtered
 		 */
-		if (existing_cond) {
-			colrow_set_visibility (filter->sheet, FALSE, TRUE,
-				filter->r.start.row + 1, filter->r.end.row);
-			for (i = 0 ; i < filter->fields->len ; i++)
-				gnm_filter_combo_apply (g_ptr_array_index (filter->fields, i),
-					filter->sheet);
-		} else
+		if (existing_cond)
+			gnm_filter_reapply (filter);
+		else
 			/* When adding a new cond all we need to do is
 			 * apply that filter */
 			gnm_filter_combo_apply (fcombo, filter->sheet);
 	}
 
-	/* set the activity flag and potentially activate the
-	 * in_filter flags in the rows */
-	if (cond == NULL) {
-		for (i = 0 ; i < filter->fields->len ; i++) {
-			fcombo = g_ptr_array_index (filter->fields, i);
-			if (fcombo->cond != NULL)
-				break;
-		}
-		if (i >= filter->fields->len) {
-			filter->is_active = FALSE;
-			set_infilter = TRUE;
-		}
-	} else if (!filter->is_active) {
-		filter->is_active = TRUE;
-		set_infilter = TRUE;
-	}
-
-	if (set_infilter)
-		for (r = filter->r.start.row; ++r <= filter->r.end.row ; ) {
-			ColRowInfo *ri = sheet_row_fetch (filter->sheet, r);
-			ri->in_filter = filter->is_active;
-		}
+	gnm_filter_update_active (filter);
 }
 
 /**
@@ -838,6 +890,49 @@ gnm_sheet_filter_guess_region (Sheet *sheet, GnmRange *region)
 	}
 }
 
+struct cb_remove_col_undo {
+	unsigned col;
+	GnmFilterCondition *cond;
+};
+
+static void
+cb_remove_col_undo_free (struct cb_remove_col_undo *r)
+{
+	gnm_filter_condition_free (r->cond);
+	g_free (r);
+}
+
+static void
+cb_remove_col_undo (GnmFilter *filter, struct cb_remove_col_undo *r, gpointer data)
+{
+	while (filter->fields->len <= r->col)
+		gnm_filter_add_field (filter, filter->fields->len);
+	gnm_filter_set_condition (filter, r->col,
+				  gnm_filter_condition_dup (r->cond),
+				  FALSE);
+}
+
+static void
+remove_col (GnmFilter *filter, unsigned col, GOUndo **pundo)
+{
+	GnmFilterCombo *fcombo = g_ptr_array_index (filter->fields, col);
+	if (pundo) {
+		struct cb_remove_col_undo *r = g_new (struct cb_remove_col_undo, 1);
+		GOUndo *u;
+
+		r->col = col;
+		r->cond = gnm_filter_condition_dup (fcombo->cond);
+		u = go_undo_binary_new
+			(gnm_filter_ref (filter), r,
+			 (GOUndoBinaryFunc)cb_remove_col_undo,
+			 (GFreeFunc)gnm_filter_unref,
+			 (GFreeFunc)cb_remove_col_undo_free);
+		*pundo = go_undo_combine (*pundo, u);
+	}
+	g_object_unref (fcombo);
+	g_ptr_array_remove_index (filter->fields, col);
+}
+
 /**
  * gnm_sheet_filter_insdel_colrow :
  * @sheet :
@@ -845,13 +940,15 @@ gnm_sheet_filter_guess_region (Sheet *sheet, GnmRange *region)
  * @is_insert :
  * @start :
  * @count :
+ * @pundo : location to store undo closures.
  *
  * Adjust filters as necessary to handle col/row insertions and deletions
  **/
 void
 gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 				gboolean is_cols, gboolean is_insert,
-				int start, int count)
+				int start, int count,
+				GOUndo **pundo)
 {
 	GSList *ptr, *filters;
 
@@ -860,6 +957,8 @@ gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 	filters = g_slist_copy (sheet->filters);
 	for (ptr = filters; ptr != NULL ; ptr = ptr->next) {
 		GnmFilter *filter = ptr->data;
+		gboolean kill_filter = FALSE;
+		gboolean reapply_filter = FALSE;
 
 		if (is_cols) {
 			if (start > filter->r.end.col)	/* a */
@@ -900,10 +999,13 @@ gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 				}
 
 				if (filter->r.end.col < filter->r.start.col)
-					filter = NULL;
-				else
-					while (end_del-- > start_del)
-						g_ptr_array_remove_index (filter->fields, end_del);
+					kill_filter = TRUE;
+				else {
+					while (end_del-- > start_del) {
+						remove_col (filter, end_del, pundo);
+						reapply_filter = TRUE;
+					}
+				}
 			}
 		} else {
 			if (start > filter->r.end.row)
@@ -920,27 +1022,46 @@ gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 				/* REMOVING ROWS */
 				if (start <= filter->r.start.row) {
 					filter->r.end.row -= count;
-					if ((start+count) > filter->r.start.row)
+					if (start + count > filter->r.start.row)
 						/* delete if the dropdowns are wiped */
 						filter->r.start.row = filter->r.end.row + 1;
 					else
 						filter->r.start.row -= count;
-				} else if ((start+count) > filter->r.end.row)
+				} else if (start + count > filter->r.end.row)
 					filter->r.end.row = start -1;
 				else
 					filter->r.end.row -= count;
 
 				if (filter->r.end.row < filter->r.start.row)
-					filter = NULL;
+					kill_filter = TRUE;
 			}
 		}
 
-		if (filter == NULL) {
-			filter = ptr->data; /* we used it as a flag */
+		if (kill_filter) {
+			/*
+			 * Empty the filter as we need fresh combo boxes
+			 * if we undo.
+			 */
+			while (filter->fields->len)
+				remove_col (filter,
+					    filter->fields->len - 1,
+					    pundo);
+
 			gnm_filter_remove (filter);
-			/* the objects are already gone */
-			g_ptr_array_set_size (filter->fields, 0);
-			gnm_filter_free (filter);
+
+			if (pundo) {
+				GOUndo *u = go_undo_binary_new
+					(gnm_filter_ref (filter),
+					 sheet,
+					 (GOUndoBinaryFunc)gnm_filter_attach,
+					 (GFreeFunc)gnm_filter_unref,
+					 NULL);
+				*pundo = go_undo_combine (*pundo, u);
+			}
+			gnm_filter_unref (filter);
+		} else if (reapply_filter) {
+			gnm_filter_update_active (filter);
+			gnm_filter_reapply (filter);
 		}
 	}
 
