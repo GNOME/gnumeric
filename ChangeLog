@@ -1,6 +1,8 @@
 2008-10-24  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbc_gtk_finalize): Massive leak fix.
+	* configure.in (libspreadsheet_reqs): Bump goffice req to avoid
+	criticals.
 
 2008-10-23  Morten Welinder  <terra@gnome.org>
 
