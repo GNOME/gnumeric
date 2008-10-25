@@ -496,7 +496,11 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			g_slist_free (missing1);
 			g_free (vals0);
 			g_free (vals1);
-			return error;
+			for (i = 0; i < nb; i++) {
+				if (values[i])
+					value_release (values[i]);
+			}
+			return value_new_error_VALUE (ei->pos);
 		}
 	} else
 		interp = INTERPOLATION_LINEAR;

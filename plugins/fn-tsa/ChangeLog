@@ -1,3 +1,8 @@
+2008-10-25  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* functions.c: (gnumeric_interpolation): fixed leak in
+	interpolation. [#5577788]
+
 2008-10-23  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* functions.c: (gnumeric_interpolation): return an error when the number
