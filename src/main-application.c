@@ -505,10 +505,16 @@ main (int argc, char const **argv)
 
 	gnm_pre_parse_shutdown ();
 
+	/*
+	 * This helps finding leaks.  We might want it in developent
+	 * only.
+	 */
+	if (with_gui && (GNM_VERSION_MAJOR & 1)) {
+		GSList *displays = gdk_display_manager_list_displays
+			(gdk_display_manager_get ());
+		g_slist_foreach (displays, (GFunc)gdk_display_close, NULL);
+		g_slist_free (displays);
+	}
+
 	return 0;
 }
-
-#if 0
-/* A handy way of telling valgrind to produce good leak reports.  */
-gboolean g_module_close (GModule *module) { return FALSE; }
-#endif

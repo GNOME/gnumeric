@@ -1,3 +1,10 @@
+2008-10-25  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c (main): Close all displays on exit.
+
+	* src/gnumeric-gconf.c (gnm_conf_shutdown): Free more, zero whole
+	prefs, NULL gnm_app_prefs.
+
 2008-10-24  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbc_gtk_finalize): Massive leak fix.

@@ -37,6 +37,7 @@
 #include <goffice/utils/go-locale.h>
 #include <value.h>
 #include <number-match.h>
+#include <string.h>
 
 static GnmAppPrefs prefs;
 GnmAppPrefs const *gnm_app_prefs = &prefs;
@@ -373,28 +374,35 @@ gnm_conf_init (gboolean fast)
 void
 gnm_conf_shutdown (void)
 {
-	if (prefs.printer_decoration_font) {
+	if (prefs.printer_decoration_font)
 		gnm_style_unref (prefs.printer_decoration_font);
-		prefs.printer_decoration_font = NULL;
-	}
+
 	g_hash_table_destroy (prefs.toolbars);
 	g_hash_table_destroy (prefs.toolbar_positions);
 
 	go_slist_free_custom ((GSList *)prefs.plugin_file_states,
 			      (GFreeFunc)g_free);
-	prefs.plugin_file_states = NULL;
 
-	if (prefs.print_settings != NULL) {
+	if (prefs.print_settings != NULL)
 		g_object_unref (prefs.print_settings);
-		prefs.print_settings = NULL;
-	}
-	if (prefs.page_setup != NULL) {
-		g_object_unref (prefs.page_setup);
-		prefs.page_setup = NULL;
-	}
 
+	if (prefs.page_setup != NULL)
+		g_object_unref (prefs.page_setup);
+
+	/* the const in the header is just a safety net */
+	g_free ((char *) prefs.default_font.name);
+
+	/* the const_cast is ok, the const in the header is just to keep
+	 * people for doing stupid things */
+	go_slist_free_custom ((GSList *)prefs.recent_funcs, g_free);
+
+	g_free (prefs.print_repeat_top);
+	g_free (prefs.print_repeat_left);
 
 	go_conf_free_node (root);
+
+	memset (&prefs, 0, sizeof (prefs));
+	gnm_app_prefs = NULL;
 }
 
 GOConfNode *
