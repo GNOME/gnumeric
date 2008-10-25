@@ -1720,47 +1720,198 @@
 
     <sect3 id="frequency-tool">
       <title>Frequency Tables Tool</title>
-      <para/>
-    </sect3>
 
-  <sect3 id="histogram-tool">
-     <title>Histogram Tool</title>
+      <sect4 id="frequency-tool-intro">
+	<title>Introduction</title>
+	
+	<para> The frequency tool can be used to create frequency tables for 
+	  non-numerical data.  It presents this table 
+	  numerically as well as graphically.
+	</para>
+	
+	<note><para>
+	    If your data are numeric and you want to accumulate  whole intervals of values into
+	    frequency counts then this tool is not appropriate. In that case you may 
+	    want to use the histogram table tool described in section <xref linkend="histogram-tool" />.
+	</para></note>
+	
+	<figure id="frequency-tool-dialog">
+	  <title>Frequency Tool Dialog</title>
+	  <screenshot>
+	    <mediaobject>
+              <imageobject>
+		<imagedata fileref="figures/analysistools-frequency.png" 
+			   format="PNG" />
+              </imageobject>
+              <textobject>
+		<phrase>An image of the dialog to generate various
+		  frequency tables open to the "Input" tab.</phrase>
+              </textobject>
+            </mediaobject>
+	  </screenshot>
+	</figure>
+	
+	<para>As shown in <xref linkend="frequency-tool-dialog" />, the
+	  frequency table dialog has four tabs. We will introduce them in
+	  sequence.
+	</para>
+      </sect4>
+      
+      <sect4 id="frequency-tool-inputtab">
+	<title>The <quote><guilabel>Input</guilabel></quote> Tab</title>
+	
+	<para>The <quote><guilabel>Input</guilabel></quote> tab shown in 
+	  <xref linkend="frequency-tool-dialog" /> contains
+	  the field specifying the data to be used for the
+	  histogram.</para>
+	<para>
+	  The <quote><guilabel>Input Range</guilabel></quote> entry
+	  contains a single range or a list of ranges, that can be grouped
+	  into variables by rows, columns, or areas.
+	</para>
+	<para>If the first row or column of the given input ranges, or
+	  the first field of each area contains labels, the
+	  <quote><guibutton>Labels</guibutton></quote> option should
+	  be selected.
+	  If the input is grouped by areas and the top left cell contains a label, the
+	  other cells in the first row are being ignored.
+	</para>
+      </sect4>
+      
+      <sect4 id="frequency-tool-catstab">
+	<title>The <quote><guilabel>Categories</guilabel></quote> Tab</title>
+	
+	<para>The <quote><guilabel>Categories</guilabel></quote> tab permits the specification
+	  of a range that contains the possible values that are supposed to be counted in the 
+	  input range.
+	</para>
+	
+	<note><para>The <quote><guilabel>automatic categories</guilabel></quote> option is 
+	    disabled since it is not yet implemented.
+	</para></note>
 
-  <sect4 id="histogram-tool-intro">
-     <title>Introduction</title>
-     
+	<figure id="frequency-tool-dialog-cats">
+	  <title>Frequency Tool Dialog Categories Tab</title>
+	  <screenshot>
+	    <mediaobject>
+              <imageobject>
+		<imagedata fileref="figures/analysistools-frequency-cats.png" 
+			   format="PNG" />
+              </imageobject>
+              <textobject>
+		<phrase>An image of the dialog to generate various
+		  frequency tables open to the "Categories" tab.</phrase>
+              </textobject>
+            </mediaobject>
+	  </screenshot>
+	</figure>
+      </sect4>
+      
+      
+      <sect4 id="frequency-tool-catstab">
+	<title>The <quote><guilabel>Graphs &amp;  Options</guilabel></quote> Tab</title>
+	
+	<para>The <quote><guilabel>Graphs &amp;  Options</guilabel></quote> tab allows various 
+	  options to be set. In the top half of the tab you can choose whether you would like 
+	  a graph to be created. If you choose to have a graph created you can specify whether 
+	  you would like to see a bar chart or a column chart. 	
+	</para>
+	<para>In the bottom part of the tab you 
+	  can select the  <quote><guilabel>percentages</guilabel></quote> option. This option 
+	  replaces the frequency counts with percentages.
+	</para>
+	<note><para>If the categories range contains repeated values, then the percentages may
+	    add up to more than 100%. If the the categories range does not contain all values that 
+	    occur in the input range, the percentages may sum to less than 100%.
+	</para></note>
+	<para>The <quote><guilabel>Use exact comparisons</guilabel></quote> checkbox determines how 
+	  category values and input range values are compared. If it is checked then the function 
+	  <function>EXACT</function> is used for the comparison. If it isn't checked then simple
+	  equality is used. In this latter case, empty cells and cells containing the numerical 
+	  value 0 are considered equal. As a consequence you usually want that checkbox to be selected. 
+	</para>
+	
 
-    <para> The histogram tool can be used to create histograms or frequency tables for 
-      numerical data. Using this tool you can define intervals, or <quote>bins</quote>. 
-      The toll determine how many data points belong to each bin and present this number 
-      numerically as well as graphically.
-    </para>
-    
-  <figure id="histogram-tool-dialog">
-    <title>Histogram Tool Dialog</title>
-    <screenshot>
-	<mediaobject>
+	<figure id="frequency-tool-dialog-graphs">
+	  <title>Frequency Tool Dialog Graphs &amp;  Options Tab</title>
+	  <screenshot>
+	    <mediaobject>
+              <imageobject>
+		<imagedata fileref="figures/analysistools-frequency-graphs.png" 
+			   format="PNG" />
+              </imageobject>
+              <textobject>
+		<phrase>An image of the dialog to generate various
+		  frequency tables open to the "Graphs &amp;  Options" tab.</phrase>
+              </textobject>
+            </mediaobject>
+	  </screenshot>
+	</figure>
+      </sect4>
+      
+      
+      <figure id="frequency-tool-results">
+	<title>Frequency Tool Results</title>
+	<screenshot>
+	  <mediaobject>
             <imageobject>
-              <imagedata fileref="figures/analysistools-histogram.png" 
-                  format="PNG" />
+              <imagedata fileref="figures/analysistools-frequency-results.png" 
+			 format="PNG" />
             </imageobject>
             <textobject>
-              <phrase>An image of the dialog to generate various
-              histograms open to the "Input" tab.</phrase>
+              <phrase>Sample results of the frquencies tool.</phrase>
             </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
-
-     <para>As shown in <xref linkend="histogram-tool-dialog" />, the
-     histogram dialog has five tabs. We will introduce them in
-     sequence.</para>
-  </sect4>
+          </mediaobject>
+	</screenshot>
+      </figure>
+      
+    </sect3>
+    
+    <sect3 id="histogram-tool">
+      <title>Histogram Tool</title>
+      
+      <sect4 id="histogram-tool-intro">
+	<title>Introduction</title>
+	
+	
+	<para> The histogram tool can be used to create histograms or frequency tables for 
+	  numerical data. Using this tool you can define intervals, or <quote>bins</quote>. 
+	  The tool determines how many data points belong to each bin and presents this number 
+	  numerically as well as graphically.
+	</para>
+	
+	<note><para>
+	    If your data are non-numeric this tool is not appropriate. In that case you may 
+	    want to use the frequency table tool described in section <xref linkend="frequency-tool" />.
+	</para></note>
+	
+	<figure id="histogram-tool-dialog">
+	  <title>Histogram Tool Dialog</title>
+	  <screenshot>
+	    <mediaobject>
+              <imageobject>
+		<imagedata fileref="figures/analysistools-histogram.png" 
+			   format="PNG" />
+              </imageobject>
+              <textobject>
+		<phrase>An image of the dialog to generate various
+		  histograms open to the "Input" tab.</phrase>
+              </textobject>
+            </mediaobject>
+	  </screenshot>
+	</figure>
+	
+	<para>As shown in <xref linkend="histogram-tool-dialog" />, the
+	  histogram dialog has five tabs. We will introduce them in
+	  sequence.
+	</para>
+      </sect4>
 
   <sect4 id="histogram-tool-inputtab">
      <title>The <quote><guilabel>Input</guilabel></quote> Tab</title>
 
-     <para>The <quote><guilabel>Input</guilabel></quote> tab contains
+     <para>The <quote><guilabel>Input</guilabel></quote> tab shown in 
+       <xref linkend="histogram-tool-dialog" /> contains
        the field specifying the data to be used for the
        histogram.</para>
      <para>
