@@ -1804,7 +1804,7 @@ msgstr "Kan inte läsa \"%s\" på grund av \"%s\""
 #: ../plugins/openoffice/openoffice-read.c:705
 #, c-format
 msgid ""
-"Content past the maxium number of rows supported in this build (%u).  Please "
+"Content past the maximum number of rows supported in this build (%u).  Please "
 "recompile with larger limits."
 msgstr ""
 

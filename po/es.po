@@ -1795,7 +1795,7 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:723
 #, c-format
 msgid ""
-"Content past the maxium number of rows supported in this build (%u).  Please "
+"Content past the maximum number of rows supported in this build (%u).  Please "
 "recompile with larger limits."
 msgstr ""
 "El contenido excedió el número máximo de filas soportadas en esta "

@@ -1771,7 +1771,7 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:705
 #, c-format
 msgid ""
-"Content past the maxium number of rows supported in this build (%u).  Please "
+"Content past the maximum number of rows supported in this build (%u).  Please "
 "recompile with larger limits."
 msgstr ""
 "A tartalom túllépte a program lefordított változata által támogatott sorok "

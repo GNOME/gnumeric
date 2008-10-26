@@ -720,7 +720,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->pos.eval.col = 0;
 
 	if (state->pos.eval.row >= gnm_sheet_get_max_rows (NULL)) {
-		oo_warning (xin, _("Content past the maxium number of rows supported in this build (%u).  Please recompile with larger limits."), gnm_sheet_get_max_rows (NULL));
+		oo_warning (xin, _("Content past the maximum number of rows supported in this build (%u).  Please recompile with larger limits."), gnm_sheet_get_max_rows (NULL));
 		state->row_inc = 0;
 		return;
 	}
