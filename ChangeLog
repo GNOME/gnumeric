@@ -1,5 +1,7 @@
 2008-10-25  Morten Welinder  <terra@gnome.org>
 
+	* src/gnumeric-gconf.c (gnm_conf_shutdown): Free even more.
+
 	* src/main-application.c (main): Close all displays on exit.
 
 	* src/gnumeric-gconf.c (gnm_conf_shutdown): Free more, zero whole

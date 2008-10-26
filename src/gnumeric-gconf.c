@@ -399,6 +399,9 @@ gnm_conf_shutdown (void)
 	g_free (prefs.print_repeat_top);
 	g_free (prefs.print_repeat_left);
 
+	g_free (prefs.autoformat.usr_dir);
+	g_free (prefs.autoformat.sys_dir);
+
 	go_conf_free_node (root);
 
 	memset (&prefs, 0, sizeof (prefs));
