@@ -1,5 +1,14 @@
 2008-10-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* figures/analysistools-kaplan.png: new
+	* figures/analysistools-kaplan-options.png: new
+	* figures/analysistools-kaplan-ex1.png: new
+	* figures/analysistools-kaplan-ex2.png: new
+	* figures/Makefile.am: add analysistools-kaplan*.png
+	  and /analysistools-frequency*.png
+
+2008-10-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-statistical.xml: add Frequency Tool description
 	* figures/analysistools-frequency-cats.png: new
 	* figures/analysistools-frequency-results.png: new

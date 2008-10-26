@@ -32,6 +32,10 @@ EXTRA_DIST = \
      analysistools-exp-smoothing-roberts-stderr.png \
      analysistools-fourier-formula.png \
      analysistools-fourier.png \
+     analysistools-frequency-cats.png \
+     analysistools-frequency-results.png \
+     analysistools-frequency-graphs.png \
+     analysistools-frequency.png \
      analysistools-ftest-ex1.png \
      analysistools-ftest-ex2.png \
      analysistools-ftest.png \
@@ -44,6 +48,10 @@ EXTRA_DIST = \
      analysistools-histogram-ex5.png \
      analysistools-histogram-graphs.png \
      analysistools-histogram.png \
+     analysistools-kaplan.png \
+     analysistools-kaplan-ex1.png \
+     analysistools-kaplan-ex2.png \
+     analysistools-kaplan-options.png \
      analysistools-moving-average-ex1.png \
      analysistools-moving-average-ex2.png \
      analysistools-moving-average-ex3.png \
