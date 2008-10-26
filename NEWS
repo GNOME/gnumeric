@@ -18,6 +18,7 @@ Morten:
 	* Plug leaks.
 	* Remove the effect on an auto filter column when removed.
 	* Fix RANDDISCRETE crash.  [#557682]
+	* Fix SUMIF issues.  [#557782]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

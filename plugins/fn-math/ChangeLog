@@ -1,3 +1,10 @@
+2008-10-26  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (struct SumIfClosure): store column and row offsets
+	in ints, not in a GnmCellPos.
+	(gnumeric_sumif): Normalize ranges.  Fixes #557782.  I doubt the
+	previous code worked with one range absolute, the other relative.
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.3

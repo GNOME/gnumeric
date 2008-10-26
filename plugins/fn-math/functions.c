@@ -32,6 +32,7 @@
 #include <collect.h>
 #include <value.h>
 #include <expr.h>
+#include <position.h>
 #include <regression.h>
 #include <gnm-i18n.h>
 
@@ -615,7 +616,7 @@ typedef struct {
 	GODateConventions const *date_conv;
 
 	Sheet		*target_sheet;
-	GnmCellPos	 offset;
+	int              offset_col, offset_row;
 	gnm_float	 sum;
 } SumIfClosure;
 
@@ -631,8 +632,8 @@ cb_sumif (GnmCellIter const *iter, SumIfClosure *res)
 	    (res->test) (cell->value, res->test_value, res->date_conv)) {
 		if (NULL != res->target_sheet) {
 			cell = sheet_cell_get (res->target_sheet,
-				iter->pp.eval.col + res->offset.col,
-				iter->pp.eval.row + res->offset.row);
+				iter->pp.eval.col + res->offset_col,
+				iter->pp.eval.row + res->offset_row);
 			if (cell != NULL) {
 				gnm_cell_eval (cell);
 				switch (cell->value->type) {
@@ -655,53 +656,51 @@ cb_sumif (GnmCellIter const *iter, SumIfClosure *res)
 static GnmValue *
 gnumeric_sumif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        GnmValueRange const *r = &argv[0]->v_range;
-	Sheet		*sheet;
-	GnmValue        *problem;
-	CellIterFlags	 iter_flags;
-	SumIfClosure	 res;
-	int		 tmp, col_end, row_end;
+	GnmRange rs;
+	Sheet *start_sheet, *end_sheet;
+	SumIfClosure res;
+	GnmValue *problem;
+	CellIterFlags iter_flags;
 
 	/* XL has some limitations on @range that we currently emulate, but do
 	 * not need to.
 	 * 1) @range must be a range, arrays are not supported
 	 * 2) @range can not be 3d */
-	if (r->type != VALUE_CELLRANGE ||
-	    ((sheet = eval_sheet (r->cell.a.sheet, ei->pos->sheet)) != r->cell.b.sheet &&
-	      r->cell.b.sheet != NULL) ||
+	if (argv[0]->type != VALUE_CELLRANGE ||
 	    (!VALUE_IS_NUMBER (argv[1]) && !VALUE_IS_STRING (argv[1])) ||
 	    (argv[2] != NULL && argv[2]->type != VALUE_CELLRANGE))
 	        return value_new_error_VALUE (ei->pos);
 
-	res.date_conv = sheet ?	workbook_date_conv (sheet->workbook) : NULL;
+	gnm_rangeref_normalize (&argv[0]->v_range.cell, ei->pos,
+				&start_sheet, &end_sheet,
+				&rs);
+	if (start_sheet != end_sheet)
+		return value_new_error_VALUE (ei->pos);
 
-	col_end = r->cell.b.col;
-	row_end = r->cell.b.row;
-	if (NULL != argv[2]) {
-		GnmValueRange const *target = &argv[2]->v_range;
-		res.target_sheet = eval_sheet (target->cell.a.sheet, ei->pos->sheet);
-		if (target->cell.b.sheet && res.target_sheet != target->cell.b.sheet)
+	res.date_conv = workbook_date_conv (start_sheet->workbook);
+
+	if (argv[2]) {
+		GnmRange ra;
+		/* See 557782.  */
+		gnm_rangeref_normalize (&argv[2]->v_range.cell, ei->pos,
+					&res.target_sheet, &end_sheet,
+					&ra);
+		if (res.target_sheet != end_sheet)
 			return value_new_error_VALUE (ei->pos);
-		res.offset.col = target->cell.a.col - r->cell.a.col;
-		res.offset.row = target->cell.a.row - r->cell.a.row;
 
-		/* no need to search items with no value */
-		tmp = target->cell.b.col - target->cell.a.col;
-		if (tmp < (r->cell.b.col - r->cell.a.col))
-			col_end = r->cell.a.col + tmp;
-		tmp = target->cell.b.row - target->cell.a.row;
-		if (tmp < (r->cell.b.row - r->cell.a.row))
-			row_end = r->cell.a.row + tmp;
+		res.offset_col = ra.start.col - rs.start.col;
+		res.offset_row = ra.start.row - rs.start.row;
 	} else
 		res.target_sheet = NULL;
 
 	res.sum = 0.;
 	parse_criteria (argv[1], &res.test, &res.test_value, &iter_flags,
-		workbook_date_conv (ei->pos->sheet->workbook));
+			res.date_conv);
 #warning 2006/May/31  Why do we not filter non-existent as a flag, rather than checking for NULL in cb_sumif
-	problem = sheet_foreach_cell_in_range (sheet, iter_flags,
-		r->cell.a.col, r->cell.a.row, col_end, row_end,
-		(CellIterFunc) &cb_sumif, &res);
+	problem = sheet_foreach_cell_in_range
+		(start_sheet, iter_flags,
+		 rs.start.col, rs.start.row, rs.end.col, rs.end.row,
+		 (CellIterFunc) &cb_sumif, &res);
 	value_release (res.test_value);
 
 	if (NULL != problem)
