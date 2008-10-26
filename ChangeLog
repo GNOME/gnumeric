@@ -1,3 +1,8 @@
+2008-10-26  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (cmd_hyperlink_finalize): Don't check for NULL
+	before g_free.
+
 2008-10-25  Morten Welinder  <terra@gnome.org>
 
 	* src/gnumeric-gconf.c (gnm_conf_shutdown): Free even more.

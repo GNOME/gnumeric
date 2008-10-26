@@ -6879,10 +6879,7 @@ cmd_hyperlink_finalize (GObject *cmd)
 	range_fragment_free (me->selection);
 	me->selection = NULL;
 
-	if (me->opt_content != NULL) {
-		g_free (me->opt_content);
-		me->opt_content = NULL;
-	}
+	g_free (me->opt_content);
 
 	g_slist_free (me->cells);
 	me->cells = NULL;
