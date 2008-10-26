@@ -272,7 +272,7 @@ static GnmFuncHelp const help_atl_last[] = {
 	F_("@FUNCTION=atl_last\n"
 	   "@SYNTAX=ATL_LAST (tag)\n"
 	   "@DESCRIPTION="
-	   "ATL_LAST is a sample implemention of a real time data source. "
+	   "ATL_LAST is a sample implementation of a real time data source. "
 	   "It takes a string tag and monitors the named pipe /tmp/atl "
 	   "for changes to the value of that tag.\n"
 	   "\n"
