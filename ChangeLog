@@ -1,3 +1,8 @@
+2008-10-28  Morten Welinder  <terra@gnome.org>
+
+	* src/style.c (gnm_font_shutdown): Workaround for 558100 and
+	558254.  Thanks to Hib Eris and Behdad for debugging.
+
 2008-10-26  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_hyperlink_finalize): Don't check for NULL
