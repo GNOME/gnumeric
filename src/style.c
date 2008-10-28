@@ -380,17 +380,6 @@ gnm_font_shutdown (void)
 	g_free (gnumeric_default_font_name);
 	gnumeric_default_font_name = NULL;
 
-	if (fontmap) {
-		/*
-		 * Workaround for bug #143542 (PangoFT2Fontmap leak).
-		 * See also bug #148997 (Text layer rendering leaks font file
-		 * descriptor).
-		 */
-		pango_ft2_font_map_substitute_changed (PANGO_FT2_FONT_MAP (fontmap));
-		g_object_unref (fontmap);
-		fontmap = NULL;
-	}
-
 	/* Make a list of the fonts, then unref them.  */
 	g_hash_table_foreach (style_font_hash, (GHFunc) list_cached_fonts, &fonts);
 	for (tmp = fonts; tmp; tmp = tmp->next) {
@@ -408,6 +397,19 @@ gnm_font_shutdown (void)
 	g_hash_table_foreach (style_font_negative_hash, (GHFunc) delete_neg_font, NULL);
 	g_hash_table_destroy (style_font_negative_hash);
 	style_font_negative_hash = NULL;
+
+	if (fontmap) {
+		/*
+		 * Workaround for bug #143542 (PangoFT2Fontmap leak).
+		 * See also bug #148997 (Text layer rendering leaks font file
+		 * descriptor).
+		 */
+		pango_ft2_font_map_substitute_changed (PANGO_FT2_FONT_MAP (fontmap));
+
+		/* Do this late -- see bugs 558100 and 558254.  */
+		g_object_unref (fontmap);
+		fontmap = NULL;
+	}
 }
 
 /**

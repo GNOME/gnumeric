@@ -1,3 +1,8 @@
+2008-10-28  Morten Welinder  <terra@gnome.org>
+
+	* src/style.c (gnm_font_shutdown): Workaround for 558100 and
+	558254.  Thanks to Hib Eris and Behdad for debugging.
+
 2008-08-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/xml-sax-read.c: (xml_sax_colrow): accept any order for attributes
