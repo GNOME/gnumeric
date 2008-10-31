@@ -1403,7 +1403,7 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 		an error condition if it is not the case */
 		/* selections are in reverse order so walk them backwards */
 		GSList const *ptr = g_slist_last (sv->selections);
-		GnmRange vector = *((GnmRange const *)ptr->data);
+		GnmRange vector = *((GnmRange const *) ptr->data);
 		int start_row = vector.start.row;
 		int start_col = vector.start.col;
 		int end_row = vector.end.row;
@@ -1411,28 +1411,32 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 		/* check if we need X and Y axis labels */
 		if (desc->series.num_dim > 1) {
 			/* first row will be used as X labels */
-			start_row ++;
-			if (desc->series.num_dim > 2) {
+			if (end_row > start_row) {
+				vector.start.row = vector.end.row  = start_row;
+				vector.start.col = (start_col < end_col)? start_col + 1: start_col;
+				vector.end.col = end_col;
+				/* we assume that there are at most three dims (X, Y and Z) */
+				gog_series_set_dim (series, 0,
+					gnm_go_data_vector_new_expr (sheet,
+						gnm_expr_top_new_constant (
+							value_new_cellrange_r (sheet, &vector))), NULL);
+				start_row ++;
+			}
+			if (desc->series.num_dim > 2 && start_col < end_col) {
 				/* first column will be used as Y labels */
-				start_col ++;
 				vector.start.row = start_row;
-				vector.start.col = vector.end.col = start_col - 1;
+				vector.end.row = end_row;
+				vector.start.col = vector.end.col = start_col;
 				gog_series_set_dim (series, cur_dim - 1,
 					gnm_go_data_vector_new_expr (sheet,
 						gnm_expr_top_new_constant (
 							value_new_cellrange_r (sheet, &vector))), NULL);
+				start_col ++;
 			}
-			vector.start.row = vector.end.row  = start_row - 1;
-			vector.start.col = start_col;
-			vector.end.col = end_col;
-			/* we assume that there are at most three dims (X, Y and Z) */
-			gog_series_set_dim (series, 0,
-				gnm_go_data_vector_new_expr (sheet,
-					gnm_expr_top_new_constant (
-						value_new_cellrange_r (sheet, &vector))), NULL);
 		}
 		vector.start.row = start_row;
-		vector.end.row = end_row;
+		vector.start.col = start_col;
+		vector.end.col = end_col;
 		gog_series_set_dim (series, cur_dim,
 			gnm_go_data_matrix_new_expr (sheet,
 				gnm_expr_top_new_constant (

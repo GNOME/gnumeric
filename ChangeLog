@@ -1,3 +1,8 @@
+2008-10-31  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/selection.c: (sv_selection_to_plot): fix selection for contour
+	 and surface plots.
+
 2008-10-28  Morten Welinder  <terra@gnome.org>
 
 	* src/style.c (gnm_font_shutdown): Workaround for 558100 and
