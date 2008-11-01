@@ -53,7 +53,6 @@
 #include <libgnome/gnome-program.h>
 #include <libgnome/gnome-init.h>
 #include <libgnomeui/gnome-ui-init.h>
-#include <libgnomeui/gnome-authentication-manager.h>
 #endif
 
 #ifdef GNM_USE_HILDON
@@ -170,6 +169,24 @@ gnumeric_arg_shutdown (void)
 	}
 }
 
+/* If something links in the authentication manager, initialize it.  */
+static void
+call_gnome_authentication_manager_init (void)
+{
+	GModule *self = g_module_open (NULL, 0);
+	gboolean ok;
+	gpointer gami = NULL;
+	void (*_gnome_authentication_manager_init) (void);
+
+	if (!self) return;
+	ok = g_module_symbol (self, "gnome_authentication_manager_init", &gami);
+	g_module_close (self);
+	if (!ok || gami == NULL) return;
+
+	_gnome_authentication_manager_init = (void (*) (void))gami;
+	_gnome_authentication_manager_init ();
+}
+
 static void
 gnumeric_arg_parse (int argc, char **argv)
 {
@@ -239,9 +256,7 @@ gnumeric_arg_parse (int argc, char **argv)
 
 	if (!funcdump) {
 		gtk_init (&argc, &argv);
-#ifdef GNM_WITH_GNOME
-		gnome_authentication_manager_init ();
-#endif
+		call_gnome_authentication_manager_init ();
 	}
 }
 
