@@ -4131,8 +4131,7 @@ excel_read_GUTS (BiffQuery *q, ExcelReadSheet *esheet)
 	sheet_colrow_gutter (esheet->sheet, FALSE, row_gut);
 }
 
-/* Map a BIFF4 SETUP paper size number to the equivalent libgnomeprint paper
- * name or width and height.
+/*
  * This mapping was derived from http://sc.openoffice.org/excelfileformat.pdf
  * and from the documentation for the Spreadsheet::WriteExcel perl module
  * (http://freshmeat.net/projects/writeexcel/).
