@@ -63,10 +63,6 @@
 #include <goffice/app/go-plugin-loader-module.h>
 #include <glade/glade.h>
 
-#ifdef GNM_WITH_GNOME
-#include <libgnomevfs/gnome-vfs-init.h>
-#endif
-
 #ifdef HAVE_SYS_RESOURCE_H
 #include <sys/resource.h>
 #endif
@@ -246,12 +242,28 @@ gnumeric_check_for_components (void)
 }
 #endif
 
+/* If something links in gnome-vfs, be kind and initialize it.  */
+static void
+call_gnome_vfs_init (void)
+{
+	GModule *self = g_module_open (NULL, 0);
+	gboolean ok;
+	gpointer gvi = NULL;
+	gboolean (*_gnome_vfs_init) (void);
+
+	if (!self) return;
+	ok = g_module_symbol (self, "gnome_vfs_init", &gvi);
+	g_module_close (self);
+	if (!ok || gvi == NULL) return;
+
+	_gnome_vfs_init = (gboolean (*) (void))gvi;
+	_gnome_vfs_init ();
+}
+
 void
 gnm_init (gboolean fast)
 {
-#if defined (GNM_WITH_GNOME) || defined (GNM_USE_HILDON)
-	gnome_vfs_init ();
-#endif
+	call_gnome_vfs_init ();
 
 	libgoffice_init ();
 	plugin_service_define ("function_group",

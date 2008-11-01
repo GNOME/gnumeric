@@ -1,3 +1,8 @@
+2008-11-01  Morten Welinder  <terra@gnome.org>
+
+	* src/libgnumeric.c (call_gnome_vfs_init): Call gnome_vfs_init
+	only if someone linked it in.
+
 2008-10-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/selection.c: (sv_selection_to_plot): fix selection for contour
