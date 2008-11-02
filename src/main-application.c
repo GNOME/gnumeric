@@ -35,6 +35,7 @@
 #include "sheet.h"
 #include "gutils.h"
 #include "gnm-plugin.h"
+#include "application.h"
 
 #include <gtk/gtkmain.h>
 #include <glib/gstdio.h>
@@ -335,6 +336,18 @@ check_pango_attr_list_splice_bug (void)
 			     "with your distribution if a fixed Pango library is available."));
 }
 
+static void
+cb_workbook_removed (void)
+{
+	if (gnm_app_workbook_list () == NULL) {
+#ifdef GNM_WITH_GNOME
+		bonobo_main_quit ();
+#else
+		gtk_main_quit ();
+#endif
+	}
+}
+
 int
 main (int argc, char const **argv)
 {
@@ -475,8 +488,6 @@ main (int argc, char const **argv)
 			wbc_gtk_new (NULL,
 				workbook_new_with_sheets (n_of_sheets),
 				NULL, NULL);
-			/* cheesy attempt to keep the ui from freezing during load */
-			handle_paint_events ();
 		}
 
 		if (immediate_exit_flag) {
@@ -484,9 +495,16 @@ main (int argc, char const **argv)
 			for (l = wbcgs_to_kill; l; l = l->next)
 				g_idle_add ((GSourceFunc)cb_kill_wbcg, l->data);
 		} else {
-			warn_about_ancient_gnumerics (g_get_prgname(), ioc);
+			if (GNM_VERSION_MAJOR & 1)
+				warn_about_ancient_gnumerics (g_get_prgname(),
+							      ioc);
 		}
 		g_object_unref (ioc);
+
+		g_signal_connect (gnm_app_get_app (),
+				  "workbook_removed",
+				  G_CALLBACK (cb_workbook_removed),
+				  NULL);
 
 		g_idle_add ((GSourceFunc)pathetic_qt_workaround, NULL);
 #ifdef GNM_WITH_GNOME

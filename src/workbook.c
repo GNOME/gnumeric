@@ -40,14 +40,6 @@
 #include <goffice/utils/go-file.h>
 #include <goffice/utils/go-glib-extras.h>
 
-#ifdef GNM_WITH_GTK
-#ifdef GNM_WITH_GNOME
-#include <bonobo/bonobo-main.h>
-#else
-#include <gtk/gtkmain.h> /* for gtk_main_quit */
-#endif
-#endif /* GNM_WITH_GTK */
-
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
@@ -160,15 +152,6 @@ workbook_finalize (GObject *obj)
 	g_ptr_array_free (wb->sheets, TRUE);
 	wb->sheets = NULL;
 
-	/* this has no business being here */
-#ifdef GNM_WITH_GTK
-	if (initial_workbook_open_complete && gnm_app_workbook_list () == NULL)
-#ifdef GNM_WITH_GNOME
-		bonobo_main_quit ();
-#else
-		gtk_main_quit ();
-#endif
-#endif
 	workbook_parent_class->finalize (obj);
 }
 

@@ -1,3 +1,13 @@
+2008-11-02  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c (main): Add a signal handler on the
+	application object to terminate the mainloop when the last
+	workbook is removed.  Also, only warn about ancient non-stable
+	Gnumeric binaries.
+
+	* src/workbook.c (workbook_finalize): Don't try to terminate the
+	mainloop here.
+
 2008-11-01  Morten Welinder  <terra@gnome.org>
 
 	* src/main-application.c (call_gnome_authentication_manager_init):
