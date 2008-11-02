@@ -421,7 +421,6 @@ uninstall-hook:
 # what the build
 EXTRA_DIST = \
 	gnm-marshalers.list			\
-	main-component.c			\
 	README.gnm_float			\
 	gnumeric.rc gnm-i18n.h			\
 	GNOME_Gnumeric-gtk.xml.in		\
@@ -448,19 +447,3 @@ endif
 ##	$(GNOMEUI_LIBS)			\
 ##	$(GNOME_XML_LIB) 		\
 ##	$(INTLLIBS)
-
-## Bonobo requires things to be in a subdir of this form
-##bonobo_component_uidir=$(gnumeric_datadir)/gnome-2.0/ui
-##bonobo_component_ui_DATA = GNOME_Gnumeric.xml GNOME_Gnumeric_Component.xml
-##if ENABLE_BONOBO_COMPONENT
-##libexec_PROGRAMS = gnumeric-component
-##gnumeric_component_SOURCES =			\
-##	$(GNUMERIC_SOURCE)			\
-##	main-component.c
-##
-##gnumeric_component_LDADD = $(gnumeric_LDADD)
-##
-##gnumeric_component_LDFLAGS = -export-dynamic
-##
-##gnumeric_component_app_libs = $(gnumeric_app_libs)
-##endif

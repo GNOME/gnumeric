@@ -22,10 +22,6 @@
 #include <goffice/app/io-context.h>
 
 #include <gtk/gtkmain.h>
-#ifdef GNM_WITH_GNOME
-#include <bonobo/bonobo-main.h>
-#include <bonobo/bonobo-ui-main.h>
-#endif
 
 #define TEST_STEPS	50
 #define STEP_SIZE	40
@@ -79,12 +75,6 @@ main (int argc, char const **argv)
 	wbc = wbc_gtk_new (NULL, workbook_new_with_sheets (1), NULL, NULL);
 
 	g_idle_add (cb_exercise_pango, wbc);
-
-#ifdef GNM_WITH_GNOME
-	bonobo_main ();
-#else
-	gtk_main ();
-#endif
 
 	gnm_shutdown ();
 	gnm_pre_parse_shutdown ();
