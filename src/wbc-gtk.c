@@ -1815,33 +1815,6 @@ show_gui (WBCGtk *wbcg)
 	return FALSE;
 }
 
-#if 0
-static void
-wbcg_drag_data_get (GtkWidget          *widget,
-		    GdkDragContext     *context,
-		    GtkSelectionData   *selection_data,
-		    guint               info,
-		    guint               time,
-		    WorkbookControl    *wbcg)
-{
-	Workbook *wb    = wb_control_get_workbook (wbc);
-	Sheet	 *sheet = wb_control_cur_sheet (wbc);
-	BonoboMoniker *moniker;
-	char *s;
-
-	moniker = bonobo_moniker_new ();
-	bonobo_moniker_set_server (moniker,
-		"IDL:GNOME:Gnumeric:Workbook:1.0",
-		wb->filename);
-	bonobo_moniker_append_item_name (moniker,
-		sheet->name_quoted);
-
-	s = bonobo_moniker_get_as_string (moniker);
-	gtk_object_destroy (GTK_OBJECT (moniker));
-	gtk_selection_data_set (selection_data, selection_data->target, 8, s, strlen (s)+1);
-}
-#endif
-
 static GtkWidget *
 wbcg_get_label_for_position (WBCGtk *wbcg, GtkWidget *source,
 			     gint x)
@@ -4446,10 +4419,6 @@ wbc_gtk_init (GObject *obj)
 
 	gtk_window_set_title (wbcg_toplevel (wbcg), "Gnumeric");
 	gtk_window_set_wmclass (wbcg_toplevel (wbcg), "Gnumeric", "Gnumeric");
-
-#if 0
-	bonobo_dock_set_client_area (BONOBO_DOCK (wbcg->dock), wbcg->table);
-#endif
 
 	hbox = gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), wbcg->toolbar_zones[GTK_POS_LEFT], FALSE, TRUE, 0);
