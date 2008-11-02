@@ -180,11 +180,11 @@ libspreadsheet_gtk_reqs="
 
 gnumeric_gtk_reqs="$libspreadsheet_gtk_reqs"
 libspreadsheet_gnome_reqs="
-	libgnomeui-2.0		>= 2.0.0
 	gconf-2.0
 	libbonobo-2.0		>= 2.2.0
 "
 gnumeric_gnome_reqs="$libspreadsheet_gnome_reqs
+	libgnomeui-2.0		>= 2.0.0
 	libbonoboui-2.0		>= 2.2.0
 	libgnome-2.0		>= 2.0.0
 	libgsf-gnome-1		>= 1.14.2

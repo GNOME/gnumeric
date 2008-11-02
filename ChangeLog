@@ -1,5 +1,8 @@
 2008-11-02  Morten Welinder  <terra@gnome.org>
 
+	* configure.in (gnumeric_gnome_reqs): libgnomeui is a gnome dep,
+	not a gtk dep.
+
 	* src/main-application.c (main): Add a signal handler on the
 	application object to terminate the mainloop when the last
 	workbook is removed.  Also, only warn about ancient non-stable
