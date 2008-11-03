@@ -595,6 +595,47 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 							 make_cellref (0, -1));
 				dao_set_cell_expr (dao, col + 1, row + 1, gnm_expr_new_binary (LL, GNM_EXPR_OP_ADD, B));
 			} 
+		
+			col++;
+			
+			if (info->std_error_flag) {
+				col++;
+				dao_set_italic (dao, col, 0, col, 0);
+				dao_set_cell (dao, col, 0, _("Standard Error"));
+				
+				y = 0;
+				x = 0;
+				(*mover) = 0;
+				for (row = 1; row <= height+1; row++) {
+					if (row > 1 && (row - 1 - info->df) > 0) { 
+						GnmExpr const *expr_offset;
+						
+						if (info->base.group_by == GROUPED_BY_ROW)
+							delta_x = row - 1;
+						else
+							delta_y = row - 1;
+						
+						expr_offset = analysis_tool_exp_smoothing_funcall5 
+							(fd_offset, gnm_expr_copy (expr_input), y, x, delta_y, delta_x);
+						
+						dao_set_cell_expr (dao, col, row,
+								   gnm_expr_new_funcall1 
+								   (fd_sqrt,
+								    gnm_expr_new_binary 
+								    (gnm_expr_new_funcall2
+								     (fd_sumxmy2,
+								      expr_offset,
+								      gnm_expr_new_binary(make_rangeref (-2, 1 - row, -2, -1),
+											  GNM_EXPR_OP_ADD,		
+											  make_rangeref (-1, 1 - row, -1, -1))),
+								     GNM_EXPR_OP_DIV,
+								     gnm_expr_new_constant (value_new_int 
+											    (row - 1 - info->df)))));
+					} else
+						dao_set_cell_na (dao, col, row);
+				}
+			}
+			gnm_expr_free (expr_input);
 		} else {
 			dao_set_cell (dao, col, 1, _("Holt's trend corrected exponential\n"
 						     "smoothing requires at least 2\n"
@@ -602,53 +643,13 @@ analysis_tool_exponential_smoothing_engine_des_run (data_analysis_output_t *dao,
 			dao_set_cell_comment (dao, col, 0, _("Holt's trend corrected exponential\n"
 							     "smoothing requires at least 2\n"
 							     "output columns for each data set."));
+			value_release (val);
 		}
-		
-		col++;
-			
-		if (info->std_error_flag) {
-			col++;
-			dao_set_italic (dao, col, 0, col, 0);
-			dao_set_cell (dao, col, 0, _("Standard Error"));
-			
-			y = 0;
-			x = 0;
-			(*mover) = 0;
-			for (row = 1; row <= height+1; row++) {
-				if (row > 1 && (row - 1 - info->df) > 0) { 
-					GnmExpr const *expr_offset;
-					
-					if (info->base.group_by == GROUPED_BY_ROW)
-						delta_x = row - 1;
-					else
-						delta_y = row - 1;
-					
-					expr_offset = analysis_tool_exp_smoothing_funcall5 
-						(fd_offset, gnm_expr_copy (expr_input), y, x, delta_y, delta_x);
-
-					dao_set_cell_expr (dao, col, row,
-								 gnm_expr_new_funcall1 
-								 (fd_sqrt,
-								  gnm_expr_new_binary 
-								  (gnm_expr_new_funcall2
-								   (fd_sumxmy2,
-								    expr_offset,
-								    gnm_expr_new_binary(make_rangeref (-2, 1 - row, -2, -1),
-											GNM_EXPR_OP_ADD,		
-											make_rangeref (-1, 1 - row, -1, -1))),
-								   GNM_EXPR_OP_DIV,
-								   gnm_expr_new_constant (value_new_int 
-											  (row - 1 - info->df)))));
-				} else
-					dao_set_cell_na (dao, col, row);
-			}
-		}
-		gnm_expr_free (expr_input);
 	}
-
+	
 	if (so != NULL)
 		dao_set_sheet_object (dao, 0, 1, so);
-
+	
 	gnm_expr_free (expr_alpha);
 	gnm_expr_free (expr_gamma);
 	if (fd_sqrt != NULL)
@@ -912,6 +913,42 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 				dao_set_cell_array_expr (dao, col+3, time, gnm_expr_copy (expr_season_est));
 
 			gnm_expr_free (expr_season_est);
+		
+			col += 4;
+			if (info->std_error_flag) {
+				int row;
+				
+				dao_set_italic (dao, col, - info->s_period, col, - info->s_period);
+				dao_set_cell (dao, col, - info->s_period, _("Standard Error"));
+				
+				for (row = 1; row <= height; row++) {
+					if (row > 1 && (row - info->df) > 0) {
+						GnmExpr const *expr_stderr;
+						
+						expr_stderr = gnm_expr_new_funcall1
+							(fd_sqrt,
+							 gnm_expr_new_binary
+							 (gnm_expr_new_funcall2
+							  (fd_sumxmy2,
+							   make_rangeref (-4, 1 - row, -4, 0),
+							   gnm_expr_new_binary
+							   (make_rangeref (-1, 1 - row - info->s_period, 
+									   -1,  - info->s_period),
+							    GNM_EXPR_OP_ADD,
+							    gnm_expr_new_binary
+							    (make_rangeref (-2, - row, -2, -1),
+							     GNM_EXPR_OP_ADD,
+							     make_rangeref (-3, - row, -3, -1)))),
+							  GNM_EXPR_OP_DIV,
+							  gnm_expr_new_constant (value_new_int
+										 (row - info->df))));
+						dao_set_cell_expr (dao, col, row, expr_stderr);
+					} else
+						dao_set_cell_na (dao, col, row);
+				}
+				col++;
+			}
+			gnm_expr_free (expr_input);
 		} else {
 			dao_set_cell (dao, col, 0, _("The additive Holt-Winters exponential\n"
 						     "smoothing method requires at least 4\n"
@@ -919,43 +956,8 @@ analysis_tool_exponential_smoothing_engine_ates_run (data_analysis_output_t *dao
 			dao_set_cell_comment (dao, col, 0, _("The additive Holt-Winters exponential\n"
 							     "smoothing method requires at least 4\n"
 							     "output columns for each data set."));
+			value_release (val);
 		}
-		
-		col += 4;
-		if (info->std_error_flag) {
-			int row;
-
-			dao_set_italic (dao, col, - info->s_period, col, - info->s_period);
-			dao_set_cell (dao, col, - info->s_period, _("Standard Error"));
-			
-			for (row = 1; row <= height; row++) {
-				if (row > 1 && (row - info->df) > 0) {
-					GnmExpr const *expr_stderr;
-
-					expr_stderr = gnm_expr_new_funcall1
-						(fd_sqrt,
-						 gnm_expr_new_binary
-						 (gnm_expr_new_funcall2
-						  (fd_sumxmy2,
-						   make_rangeref (-4, 1 - row, -4, 0),
-						   gnm_expr_new_binary
-						   (make_rangeref (-1, 1 - row - info->s_period, 
-								   -1,  - info->s_period),
-						    GNM_EXPR_OP_ADD,
-						    gnm_expr_new_binary
-						    (make_rangeref (-2, - row, -2, -1),
-						     GNM_EXPR_OP_ADD,
-						     make_rangeref (-3, - row, -3, -1)))),
-						  GNM_EXPR_OP_DIV,
-						  gnm_expr_new_constant (value_new_int
-									 (row - info->df))));
-					dao_set_cell_expr (dao, col, row, expr_stderr);
-				} else
-					dao_set_cell_na (dao, col, row);
-			}
-			col++;
-		}
-		gnm_expr_free (expr_input);
 	}
 
 	if (so != NULL)
@@ -1275,6 +1277,48 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 				dao_set_cell_array_expr (dao, col+3, time, gnm_expr_copy (expr_season_est));
 
 			gnm_expr_free (expr_season_est);
+			col += 4;
+			if (info->std_error_flag) {
+				int row;
+				
+				dao_set_italic (dao, col, - info->s_period, col, - info->s_period);
+				dao_set_cell (dao, col, - info->s_period, _("Standard Error"));
+				
+				for (row = 1; row <= height; row++) {
+					if (row > 1 && (row - info->df) > 0) {
+						GnmExpr const *expr_stderr;
+						GnmExpr const *expr_denom;
+						
+						expr_denom =  gnm_expr_new_binary
+							(gnm_expr_new_binary
+							 (make_rangeref (-2, - row, -2, -1),
+							  GNM_EXPR_OP_ADD,
+							  make_rangeref (-3, - row, -3, -1)),
+							 GNM_EXPR_OP_MULT,
+							 make_rangeref (-1, 1 - row - info->s_period, 
+									-1,  - info->s_period));
+						expr_stderr = gnm_expr_new_funcall1
+							(fd_sqrt,
+							 gnm_expr_new_binary
+							 (gnm_expr_new_funcall1
+							  (fd_sumsq,
+							   gnm_expr_new_binary
+							   (gnm_expr_new_binary
+							    (make_rangeref (-4, 1 - row, -4, 0),
+							     GNM_EXPR_OP_SUB,
+							     gnm_expr_copy (expr_denom)),
+							    GNM_EXPR_OP_DIV,
+							    expr_denom)),
+							  GNM_EXPR_OP_DIV,
+							  gnm_expr_new_constant (value_new_int
+										 (row - info->df))));
+						dao_set_cell_array_expr (dao, col, row, expr_stderr);
+					} else
+						dao_set_cell_na (dao, col, row);
+				}
+				col++;
+			}
+			gnm_expr_free (expr_input);
 		} else {
 			dao_set_cell (dao, col, 0, _("The multiplicative Holt-Winters exponential\n"
 						     "smoothing method requires at least 4\n"
@@ -1282,50 +1326,9 @@ analysis_tool_exponential_smoothing_engine_mtes_run (data_analysis_output_t *dao
 			dao_set_cell_comment (dao, col, 0, _("The multiplicative Holt-Winters exponential\n"
 							     "smoothing method requires at least 4\n"
 							     "output columns for each data set."));
+			value_release (val);
 		}
 		
-		col += 4;
-		if (info->std_error_flag) {
-			int row;
-
-			dao_set_italic (dao, col, - info->s_period, col, - info->s_period);
-			dao_set_cell (dao, col, - info->s_period, _("Standard Error"));
-			
-			for (row = 1; row <= height; row++) {
-				if (row > 1 && (row - info->df) > 0) {
-					GnmExpr const *expr_stderr;
-					GnmExpr const *expr_denom;
-
-					expr_denom =  gnm_expr_new_binary
-						(gnm_expr_new_binary
-						 (make_rangeref (-2, - row, -2, -1),
-						  GNM_EXPR_OP_ADD,
-						  make_rangeref (-3, - row, -3, -1)),
-						 GNM_EXPR_OP_MULT,
-						 make_rangeref (-1, 1 - row - info->s_period, 
-								-1,  - info->s_period));
-					expr_stderr = gnm_expr_new_funcall1
-						(fd_sqrt,
-						 gnm_expr_new_binary
-						 (gnm_expr_new_funcall1
-						  (fd_sumsq,
-						   gnm_expr_new_binary
-						   (gnm_expr_new_binary
-						    (make_rangeref (-4, 1 - row, -4, 0),
-						     GNM_EXPR_OP_SUB,
-						     gnm_expr_copy (expr_denom)),
-						    GNM_EXPR_OP_DIV,
-						    expr_denom)),
-						  GNM_EXPR_OP_DIV,
-						  gnm_expr_new_constant (value_new_int
-									 (row - info->df))));
-					dao_set_cell_array_expr (dao, col, row, expr_stderr);
-				} else
-					dao_set_cell_na (dao, col, row);
-			}
-			col++;
-		}
-		gnm_expr_free (expr_input);
 	}
 
 	if (so != NULL)

@@ -1,3 +1,11 @@
+2008-11-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-exp-smoothing.c 
+	(analysis_tool_exponential_smoothing_engine_des_run): only output
+	  standard errors if we also output the analysis, plug leak
+	(analysis_tool_exponential_smoothing_engine_ates_run): ditto
+	(analysis_tool_exponential_smoothing_engine_mtes_run): ditto
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.3
