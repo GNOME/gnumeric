@@ -870,40 +870,79 @@ static GnmValue *
 gnumeric_lookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	int index = -1;
-	GnmValue const *result = args[2];
-	int width = value_area_get_width (args[1], ei->pos);
-	int height = value_area_get_height (args[1], ei->pos);
+	GnmValue const *v = args[0];
+	GnmValue const *area = args[1];
+	GnmValue const *lookup = args[2];
+	GnmValue *result, *xlookup = NULL;
+	gboolean vertical_search = (value_area_get_width (area, ei->pos) <
+				    value_area_get_height (area, ei->pos));
+	gboolean vertical_lookup;
+	gboolean is_cellrange;
 
-	if (!find_type_valid (args[0]))
+	if (!find_type_valid (v))
 		return value_new_error_NA (ei->pos);
 
-	if (result) {
-		int width = value_area_get_width (result, ei->pos);
-		int height = value_area_get_height (result, ei->pos);
+	if (lookup) {
+		int width = value_area_get_width (lookup, ei->pos);
+		int height = value_area_get_height (lookup, ei->pos);
 
 		if (width > 1 && height > 1) {
 			return value_new_error_NA (ei->pos);
 		}
+
+		vertical_lookup = (width < height);
+		is_cellrange = (lookup->type == VALUE_CELLRANGE);
+#if 0
+		if (is_cellrange) {
+			GnmRange r;
+			/*
+			 * Extend the lookup range all the way.  This is utterly
+			 * insane, but Excel really does reach beyond the stated
+			 * range.
+			 */
+			range_init_value (&r, lookup, &ei->pos->eval);
+			range_normalize (&r);
+			if (vertical_lookup)
+				r.end.row = gnm_sheet_get_max_rows (ei->pos->sheet) - 1;
+			else
+				r.end.col = gnm_sheet_get_max_cols (ei->pos->sheet) - 1;
+
+			lookup = xlookup = value_new_cellrange_r (ei->pos->sheet, &r);
+		}
+#endif
 	} else {
-		result = args[1];
+		lookup = area;
+		vertical_lookup = vertical_search;
+		is_cellrange = FALSE;  /* Doesn't matter.  */
 	}
 
-	index = find_index_bisection (ei, args[0], args[1], 1,
-				      width > height ? FALSE : TRUE);
+	index = find_index_bisection (ei, v, area, 1, vertical_search);
 
 	if (index >= 0) {
-	        GnmValue const *v = NULL;
-		int width = value_area_get_width (result, ei->pos);
-		int height = value_area_get_height (result, ei->pos);
+		int width = value_area_get_width (lookup, ei->pos);
+		int height = value_area_get_height (lookup, ei->pos);
+		int x, y;
 
-		if (width > height)
-			v = value_area_fetch_x_y (result, index, height - 1, ei->pos);
+		if (vertical_lookup)
+			x = width - 1, y = index;
 		else
-			v = value_area_fetch_x_y (result, width - 1, index, ei->pos);
-		return value_dup (v);
-	}
+			x = index, y = height - 1;
 
-	return value_new_error_NA (ei->pos);
+		if (x < width && y < height)
+			result = value_dup (value_area_fetch_x_y (lookup, x, y, ei->pos));
+		else if (is_cellrange)
+			/* We went off the sheet.  */
+			result = value_new_int (0);
+		else
+			/* We went outside an array.  */
+			result = value_new_error_NA (ei->pos);
+	} else
+		result = value_new_error_NA (ei->pos);
+
+	if (xlookup)
+		value_release (xlookup);
+
+	return result;
 }
 
 /***************************************************************************/
