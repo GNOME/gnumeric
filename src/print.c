@@ -1513,7 +1513,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 
 	  tmp_file_fd = g_file_open_tmp ("pdfXXXXXX", &tmp_file_name, &err);
 	  if (err) {
-		  gsf_output_set_error (export_dst, 0, err->message);
+		  gsf_output_set_error (export_dst, 0, "%s", err->message);
 		  g_error_free (err);
 		  goto out;
 	  }
@@ -1570,7 +1570,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 		  if (!gsf_output_error (export_dst))
 			  gsf_output_set_error (export_dst,
 						g_file_error_from_errno (save_errno),
-						g_strerror (save_errno));
+						"%s", g_strerror (save_errno));
 	  }
   }
 

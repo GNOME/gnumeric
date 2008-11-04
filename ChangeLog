@@ -1,5 +1,7 @@
 2008-11-04  Morten Welinder  <terra@gnome.org>
 
+	* */*.c: Fix problem with formats. Patch from Hib Eris, #559291.
+
 	* src/wbc-gtk.c (toolbar_context_menu): Deal with the
 	non-handle-bar case.  Patch from Hib Eris, #559249.
 

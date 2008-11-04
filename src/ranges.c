@@ -199,7 +199,7 @@ range_dump (GnmRange const *src, char const *suffix)
 		g_printerr (":%s%s",
 			col_name (src->end.col),
 			row_name (src->end.row));
-	g_printerr (suffix);
+	g_printerr ("%s", suffix);
 }
 
 #ifdef RANGE_DEBUG

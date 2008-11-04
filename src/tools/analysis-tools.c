@@ -744,7 +744,7 @@ analysis_tool_table (data_analysis_output_t *dao,
 
 	guint col, row;
 
-	dao_set_cell_printf (dao, 0, 0, title);
+	dao_set_cell_printf (dao, 0, 0, "%s", title);
 	dao_set_italic (dao, 0, 0, 0, 0);
 
 	fd = gnm_func_lookup (functionname, NULL);
@@ -5017,7 +5017,7 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 		for (i = given_length; i < desired_length; i++)
 			current->data = g_array_append_val (current->data, zero_val);
 
-		dao_set_cell_printf (dao, col, 0, current->label);
+		dao_set_cell_printf (dao, col, 0, "%s", current->label);
 		dao_set_cell_printf (dao, col, 1, _("Real"));
 		dao_set_cell_printf (dao, col + 1, 1, _("Imaginary"));
 

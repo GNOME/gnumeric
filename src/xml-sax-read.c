@@ -2295,7 +2295,7 @@ handle_delayed_names (XMLSaxParseState *state)
 		if (texpr)
 			expr_name_set_expr (nexpr, texpr);
 		else
-			gnm_io_warning (state->context, perr.err->message);
+			gnm_io_warning (state->context, "%s", perr.err->message);
 
 		parse_error_free (&perr);
 		g_free (expr_str);

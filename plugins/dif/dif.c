@@ -235,14 +235,14 @@ dif_parse_data (DifInputContext *ctxt)
 				msg = g_strdup_printf (
 				      _("Unknown data value \"%s\" at line %d. Ignoring."),
 				      ctxt->line, ctxt->line_no);
-				g_warning (msg);
+				g_warning ("%s", msg);
 				g_free (msg);
 			}
 		} else {
 			msg = g_strdup_printf (
 			      _("Unknown value type %d at line %d. Ignoring."),
 			      val_type, ctxt->line_no);
-			g_warning (msg);
+			g_warning ("%s", msg);
 			g_free (msg);
 			(void) dif_get_line (ctxt);
 		}

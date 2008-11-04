@@ -667,7 +667,7 @@ cb_set_export_option (const char *key, const char *value,
 	errtxt = _("Invalid option for stf exporter");
 error:
 	if (err)
-		*err = g_error_new (go_error_invalid (), 0, errtxt);
+		*err = g_error_new (go_error_invalid (), 0, "%s", errtxt);
 
 	return TRUE;
 }

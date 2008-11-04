@@ -3245,7 +3245,7 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 			       texpr,
 			       &err, link_to_container, stub);
 	if (nexpr == NULL) {
-		gnm_io_warning (importer->context, err);
+		gnm_io_warning (importer->context, "%s", err);
 		g_free (err);
 		return NULL;
 	}

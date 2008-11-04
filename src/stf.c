@@ -391,7 +391,7 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 					 GTK_MESSAGE_WARNING,
 					 msg);
 			else
-				g_warning (msg);
+				g_warning ("%s", msg);
 #if 0
 				go_cmd_context_error_import
 					(GO_CMD_CONTEXT (context),

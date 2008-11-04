@@ -9,6 +9,7 @@ Andreas:
 
 Hib Eris:
 	* Fix problems with toolbars when no handle bar present.  [#559249]
+	* Fix problems with formats.  [#559291]
 
 Jody:
 	* Display top-left when selecting a rel ref to a merged region.

@@ -931,7 +931,7 @@ gnumeric_message_dialog_new (GtkWindow * parent,
 							   primary_message);
 			}
 		} else {
-			message = g_strdup_printf (secondary_message);
+			message = g_strdup_printf ("%s", secondary_message);
 		}
 		label = gtk_label_new (message);
 		g_free (message);

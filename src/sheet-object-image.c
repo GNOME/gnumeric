@@ -294,7 +294,7 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 		}
 
 		if (err != NULL) {
-			g_warning (err-> message);
+			g_warning ("%s", err->message);
 			g_error_free (err);
 			err = NULL;
 		} else {

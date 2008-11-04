@@ -2026,7 +2026,7 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 
 	dialog = gtk_message_dialog_new (wbcg_toplevel (wbcg),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
-		type, GTK_BUTTONS_NONE, msg);
+		type, GTK_BUTTONS_NONE, "%s", msg);
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
 		btn0, GTK_RESPONSE_YES,
 		btn1, GTK_RESPONSE_NO,

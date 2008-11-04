@@ -131,7 +131,7 @@ excel_read_metadata (GsfDocMetaData *meta_data, GsfInfile *ole, char const *name
 	if (stream != NULL) {
 		GError *err = gsf_msole_metadata_read (stream, meta_data);
 		if (err != NULL) {
-			gnm_io_warning (context, err->message);
+			gnm_io_warning (context, "%s", err->message);
 			g_error_free (err);
 		}
 
