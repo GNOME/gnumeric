@@ -3086,18 +3086,18 @@ cb_tcm_reattach (GtkWidget *widget, GtkHandleBox *hdlbox)
 }
 
 static void
-cb_tcm_hide (GtkWidget *widget, GtkHandleBox *hdlbox)
+cb_tcm_hide (GtkWidget *widget, GtkWidget *box)
 {
-	if (hdlbox->child_detached)
-		cb_tcm_reattach (widget, hdlbox);
-	gtk_widget_hide (GTK_WIDGET (hdlbox));
+	if (GTK_IS_HANDLE_BOX (box) && GTK_HANDLE_BOX (box)->child_detached)
+		cb_tcm_reattach (widget, GTK_HANDLE_BOX (box));
+	gtk_widget_hide (box);
 }
 
 static void
 toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEventButton *event_button)
 {
-	GtkHandleBox *hdlbox = GTK_HANDLE_BOX (GTK_WIDGET (tb)->parent);
-	GtkWidget *zone = GTK_WIDGET (hdlbox)->parent;
+	GtkWidget *box = GTK_WIDGET (tb)->parent;
+	GtkWidget *zone = GTK_WIDGET (box)->parent;
 	GtkWidget *menu = gtk_menu_new ();
 	GtkWidget *item;
 
@@ -3110,12 +3110,12 @@ toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEventButton *event_button)
 		{ N_("Display to the right of sheets"), GTK_POS_RIGHT }
 	};
 
-	if (hdlbox->child_detached) {
+	if (GTK_IS_HANDLE_BOX (box) && GTK_HANDLE_BOX (box)->child_detached) {
 		item = gtk_menu_item_new_with_label (_("Reattach to main window"));
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 		g_signal_connect (G_OBJECT (item), "activate",
 				  G_CALLBACK (cb_tcm_reattach),
-				  hdlbox);
+				  box);
 	} else {
 		size_t ui;
 		GSList *group = NULL;
@@ -3147,7 +3147,7 @@ toolbar_context_menu (GtkToolbar *tb, WBCGtk *gtk, GdkEventButton *event_button)
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	g_signal_connect (G_OBJECT (item), "activate",
 			  G_CALLBACK (cb_tcm_hide),
-			  hdlbox);
+			  box);
 
 	gtk_widget_show_all (menu);
 	gnumeric_popup_menu (GTK_MENU (menu), event_button);

@@ -7,6 +7,9 @@ Andreas:
 	* Permit lexicographic sorting by sheet names in the manage sheets
 	  dialog [#527076]
 
+Hib Eris:
+	* Fix problems with toolbars when no handle bar present.  [#559249]
+
 Jody:
 	* Display top-left when selecting a rel ref to a merged region.
 
