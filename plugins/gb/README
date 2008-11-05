@@ -1,8 +1,0 @@
- 
-	This code should cope with very simply Visual Basic macros
-that do not make use of manipulating any sort of OLE2 object such
-as Application, Workbook, Sheet etc. This leaves you only the built
-in functions.
-
-	To test the plugin copy gnumeric.gbp and main.gbp to your
-home directory. Then insert the formula =demo() into any cell.

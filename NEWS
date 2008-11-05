@@ -25,6 +25,7 @@ Morten:
 	* Fix SUMIF issues.  [#557782]
 	* Fix LOOKUP critical.  [#559005]
 	* Fix GROWTH/TREND crash.  [#559363]
+	* Make non-gnome the default.  [#558840]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3
