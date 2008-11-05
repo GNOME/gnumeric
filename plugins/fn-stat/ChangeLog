@@ -1,3 +1,8 @@
+2008-11-05  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_growth, gnumeric_trend): Fix crasher
+	#559363.
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.3

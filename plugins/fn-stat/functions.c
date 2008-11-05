@@ -4602,6 +4602,11 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		goto out;
 	}
 
+	if (nnx <= 0) {
+		result = value_new_error_VALUE (ei->pos);
+		goto out;
+	}
+
 	dim = 1;
 
 	if (gnm_linear_regression (&xs, dim, ys, nx, affine, linres, NULL) !=
@@ -4965,6 +4970,11 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (nx != ny) {
 		result = value_new_error_NUM (ei->pos);
+		goto out;
+	}
+
+	if (nnx <= 0) {
+		result = value_new_error_VALUE (ei->pos);
 		goto out;
 	}
 
