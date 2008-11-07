@@ -2235,8 +2235,109 @@
   <sect2 id="kaplan-meier-tool">
       <title>Kaplan Meier Estimates Tool</title>
       <para/>
-  </sect2>
 
+  <sect3 id="kaplan-meier-tool-inputtab">
+     <title>The <quote><guilabel>Input</guilabel></quote> Tab</title>
+
+     <para>The <quote><guilabel>Input</guilabel></quote> tab shown in 
+       <xref linkend="kaplan-meier-tool-dialog" /> contains
+       the field specifying the data to be used for the
+       histogram.</para>
+
+ <figure id="kaplan-meier-tool-dialog">
+    <title>Kaplan-Meier Tool Dialog</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-kaplan.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output from the histogram
+              analysis tool.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  </sect3>
+
+  <sect3 id="kaplan-meier-tool-optionstab">
+     <title>The <quote><guilabel>Options</guilabel></quote> Tab</title>
+
+ <figure id="kaplan-meier-tool-dialog-options">
+    <title>Kaplan-Meier Tool Dialog Options Tab</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-kaplan-options.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output from the histogram
+              analysis tool.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+  </sect3>
+
+  <sect3 id="kaplan-meier-tool-outputtab">
+     <title>The <quote><guilabel>Output</guilabel></quote> Tab</title>
+
+      <para>
+        The Output tab contains the standard output options and fields
+        described at the beginning of <xref linkend="sect-analysis-statistical" />.
+      </para>
+  </sect3>
+
+  <sect3 id="kaplan-meier-tool-example">
+    <title>A Kaplan-Meier Example</title>
+    
+    <example id="usingkaplan-meiertool">
+      <title>Using the Kaplan-Meier Tool</title>
+      <para>
+        For example, suppose you want to calculate Kaplan-Meier Estimates 
+	for data as given in <xref linkend="histogram-example-1" />.
+      </para>
+
+  <figure id="kaplan-meier-tool-example-1">
+    <title>Kaplan-Meier Tool Example Input</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-kaplan-ex1.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output from the histogramdata and input 
+              tab of the Kaplan-Meier analysis tool.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+ 
+ <figure id="kaplan-meier-tool-tool-example-2">
+    <title>Kaplan-Meier Tool Example Output</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-kaplan-ex2.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the output of the Kaplan-Meier
+              analysis tool.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
+       
+    </example>
+    
+  </sect3>
+  
+  </sect2>
+  
    
 
   <sect2 id="rank-and-percentile-tool">
