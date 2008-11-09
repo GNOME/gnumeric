@@ -357,6 +357,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 		 "weight", PANGO_WEIGHT_BOLD,
 		 NULL);
 	gboolean seen_args = FALSE;
+	gboolean seen_examples = FALSE;
 
 	gtk_text_buffer_get_end_iter (description, &ti);
 
@@ -402,6 +403,20 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 			const char *text = F_(help->text);
 			ADD_TEXT ("\n");
 			ADD_TEXT (_("Note: "));
+			ADD_TEXT_WITH_ARGS (text);
+			ADD_TEXT ("\n");
+			break;
+		}
+		case GNM_FUNC_HELP_EXAMPLES: {
+			const char *text = help->text;
+
+			if (!seen_examples) {
+				seen_examples = TRUE;
+				ADD_TEXT ("\n");
+				ADD_TEXT (_("Examples:"));
+				ADD_TEXT ("\n");
+			}
+
 			ADD_TEXT_WITH_ARGS (text);
 			ADD_TEXT ("\n");
 			break;

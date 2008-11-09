@@ -1,5 +1,9 @@
 2008-11-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	(describe_new_style): include examples
+
+2008-11-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-function-select.c (dialog_function_select_search_cat_func): new
 	(dialog_function_select_search_func): new
 	(dialog_function_select_find_func): new
