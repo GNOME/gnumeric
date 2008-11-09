@@ -79,6 +79,7 @@ enum {
 enum {
 	FUN_NAME,
 	FUNCTION,
+	FUNCTION_CAT,
 	NUM_COLUMNS
 };
 
@@ -676,6 +677,7 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 	GnmFuncGroup const * cat;
 	GSList *funcs = NULL, *ptr;
 	GnmFunc const *func;
+	gboolean cat_specific = FALSE;
 
 	gtk_list_store_clear (state->model_f);
 
@@ -694,11 +696,12 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 
 				funcs = g_slist_sort (funcs,
 						      dialog_function_select_by_name);
-			} else 
+			} else {
 				/* Show category cat */
 				funcs = g_slist_sort (g_slist_copy (cat->functions),
 						      dialog_function_select_by_name);
-
+				cat_specific = TRUE;
+			}
 		} else
 			/* Show recent functions */
 			funcs = state->recent_funcs;
@@ -709,6 +712,8 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 				gtk_list_store_append (state->model_f, &iter);
 				gtk_list_store_set (state->model_f, &iter,
 						    FUN_NAME, gnm_func_get_name (func),
+						    FUNCTION_CAT, 
+						    cat_specific ? "" : _(func->fn_group->display_name->str),
 						    FUNCTION, func,
 						    -1);
 			}
@@ -759,7 +764,7 @@ dialog_function_select_init (FunctionSelectState *state)
 
 	/* Set-up second treeview */
 	scrolled = glade_xml_get_widget (state->gui, "scrolled_list");
-	state->model_f = gtk_list_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_POINTER);
+	state->model_f = gtk_list_store_new (NUM_COLUMNS, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_STRING);
 	state->treeview_f = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model_f)));
 	selection = gtk_tree_view_get_selection (state->treeview_f);
@@ -771,6 +776,11 @@ dialog_function_select_init (FunctionSelectState *state)
 	column = gtk_tree_view_column_new_with_attributes (_("Name"),
 							   gtk_cell_renderer_text_new (),
 							   "text", FUN_NAME, NULL);
+	gtk_tree_view_column_set_sort_column_id (column, FUN_NAME);
+	gtk_tree_view_append_column (state->treeview_f, column);
+	column = gtk_tree_view_column_new_with_attributes (_("Name"),
+							   gtk_cell_renderer_text_new (),
+							   "text", FUNCTION_CAT, NULL);
 	gtk_tree_view_column_set_sort_column_id (column, FUN_NAME);
 	gtk_tree_view_append_column (state->treeview_f, column);
 

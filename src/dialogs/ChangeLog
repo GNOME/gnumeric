@@ -1,5 +1,11 @@
 2008-11-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	(cb_dialog_function_select_cat_selection_changed): include category name
+	  in lists if they are not category specific
+	(dialog_function_select_init): add category column to functiojn store
+	
+2008-11-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	(describe_new_style): include examples
 
 2008-11-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
