@@ -3148,7 +3148,7 @@ static GnmFuncHelp const help_linest[] = {
 					"of determination; "
 					"that is the proportion of the sum of squares explained by the model.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If the length of @{y} does not match the corresponding length of @{x}, "
-				 "this function  returns a #NUM! error")},
+				 "this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_SEEALSO, "LOGEST,TREND" },
 	{ GNM_FUNC_HELP_END }
 };

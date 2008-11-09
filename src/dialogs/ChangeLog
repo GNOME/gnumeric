@@ -1,3 +1,7 @@
+2008-11-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-function-select.c (describe_new_style): handle @{}
+
 2008-10-23  Morten Welinder  <terra@gnome.org>
 
 	* dialog-quit.c (url_renderer_func): Plug leak.

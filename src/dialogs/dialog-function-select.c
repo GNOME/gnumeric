@@ -341,6 +341,9 @@ describe_old_style (GtkTextBuffer *description, GnmFunc const *func)
 #define ADD_LTEXT(text,len) gtk_text_buffer_insert (description, &ti, (text), (len))
 #define ADD_TEXT(text) ADD_LTEXT((text),-1)
 #define ADD_BOLD_TEXT(text,len) gtk_text_buffer_insert_with_tags (description, &ti, (text), (len), bold, NULL)
+#define ADD_TEXT_WITH_ARGS(text) { const char *t = text; while (*t) { const char *at = strstr (t, "@{"); \
+			if (at == NULL) { ADD_TEXT(t); break;} ADD_LTEXT(t, at - t); t = at + 2; at = strchr (t,'}'); \
+			if (at != NULL) { ADD_BOLD_TEXT(t, at - t); t = at + 1; } else {ADD_TEXT (t); break;}}} 
 
 static void
 describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
@@ -365,7 +368,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 				break;
 			ADD_BOLD_TEXT (text, colon - text);
 			ADD_TEXT (": ");
-			ADD_TEXT (colon + 1);
+			ADD_TEXT_WITH_ARGS (colon + 1);
 			ADD_TEXT ("\n\n");
 			break;
 		}
@@ -390,7 +393,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 		case GNM_FUNC_HELP_DESCRIPTION: {
 			const char *text = F_(help->text);
 			ADD_TEXT ("\n");
-			ADD_TEXT (text);
+			ADD_TEXT_WITH_ARGS (text);
 			ADD_TEXT ("\n");
 			break;
 		}
@@ -398,7 +401,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 			const char *text = F_(help->text);
 			ADD_TEXT ("\n");
 			ADD_TEXT (_("Note: "));
-			ADD_TEXT (text);
+			ADD_TEXT_WITH_ARGS (text);
 			ADD_TEXT ("\n");
 			break;
 		}
