@@ -1848,7 +1848,7 @@ static GnmFuncHelp const help_poisson[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{mean} <= 0 POISSON returns the #NUM! error.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("POISSON(3,6,0) equals 0.089235078.")},
-	{ GNM_FUNC_HELP_SEEALSO, ("NORMDIST, WEIBULL")},
+	{ GNM_FUNC_HELP_SEEALSO, ("NORMDIST,WEIBULL")},
 	{ GNM_FUNC_HELP_END }
 };
 

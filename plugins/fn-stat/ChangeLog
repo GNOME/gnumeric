@@ -1,5 +1,9 @@
 2008-11-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c: fix WEIBULL see-also
+	
+2008-11-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c: convert all function descriptions to the new format
 
 2008-11-05  Morten Welinder  <terra@gnome.org>
