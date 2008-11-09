@@ -3,7 +3,7 @@
  * fn-stat.c:  Built in statistical functions and functions registration
  *
  * Authors:
- *   Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
+ *   Jukka-Pekka Iivonen <jiivonenhutcs.cs.hut.fi>
  *   Michael Meeks <micheal@ximian.com>
  *   Morten Welinder <terra@gnome.org>
  *
@@ -38,12 +38,13 @@
 #include <gnm-i18n.h>
 #include <goffice/app/go-plugin.h>
 #include <gnm-plugin.h>
-
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
 
 GNM_PLUGIN_MODULE_HEADER;
+
+#define HELP_DESCRIPTION_TEXT_INCLUSION { GNM_FUNC_HELP_DESCRIPTION, F_("Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.")}
 
 /***************************************************************************/
 
@@ -61,21 +62,13 @@ float_compare (gnm_float const *a, gnm_float const *b)
 /***************************************************************************/
 
 static GnmFuncHelp const help_varp[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=VARP\n"
-	   "@SYNTAX=VARP(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "VARP calculates the variance of an entire population.\n"
-	   "VARP is also known as the N-variance.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "VARP(A1:A5) equals 94.112.\n"
-	   "\n"
-	   "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("VARP:variance of an entire population")},
+	{ GNM_FUNC_HELP_ARG, F_("b1:first cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("b2:second cell area")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("VARP is also known as the N-variance.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain number 11.4, 17.3, 21.3, 25.9, and 40.1.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then VARP(A1:A5) equals 94.112")},
+	{ GNM_FUNC_HELP_SEEALSO, ("AVERAGE,DVAR,DVARP,STDEV,VAR")},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -93,26 +86,15 @@ gnumeric_varp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_var[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=VAR\n"
-	   "@SYNTAX=VAR(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "VAR calculates sample variance of the given sample. "
-	   "To get the true variance of a complete population use VARP.\n"
-	   "VAR is also known as the N-1-variance. Under reasonable "
-	   "conditions, it is the maximum-likelihood estimator for the "
-	   "true variance.\n"
-	   "\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "VAR(A1:A5) equals 117.64.\n"
-	   "\n"
-	   "@SEEALSO=VARP,STDEV")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("VAR:sample variance of the given sample")},
+	{ GNM_FUNC_HELP_ARG, F_("b1:first cell area")},   
+	{ GNM_FUNC_HELP_ARG, F_("b2:second cell area")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("VAR is also known as the N-1-variance. Under reasonable conditions, it is the maximum-likelihood estimator for the "
+	   "true variance.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then VAR(A1:A5) equals 117.64.")},
+	{ GNM_FUNC_HELP_SEEALSO, ("VARP,STDEV")},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -130,28 +112,17 @@ gnumeric_var (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_stdev[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=STDEV\n"
-	   "@SYNTAX=STDEV(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "STDEV returns the sample standard deviation of the given sample.\n"
-	   "To obtain the population standard deviation of a whole population "
-	   "use STDEVP.\n"
-	   "STDEV is also known as the N-1-standard deviation.\n"
-	   "Under reasonable "
-	   "conditions, it is the maximum-likelihood estimator for the "
-	   "true population standard deviation.\n"
-	   "\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "STDEV(A1:A5) equals 10.84619749.\n"
-	   "\n"
-	   "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("STDEV:sample standard deviation of the given sample")},
+	{ GNM_FUNC_HELP_ARG, F_("b1:first cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("b2:second cell area")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("STDEV is also known as the N-1-standard deviation. "
+					"Under reasonable conditions, it is the maximum-likelihood "
+					"estimator for the true population standard deviation.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("To obtain the population standard deviation of a whole population use STDEVP.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then STDEV(A1:A5) equals 10.84619749.")},
+	{ GNM_FUNC_HELP_SEEALSO, ("AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR")},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -169,23 +140,14 @@ gnumeric_stdev (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_stdevp[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=STDEVP\n"
-	   "@SYNTAX=STDEVP(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "STDEVP returns the population standard deviation of the given "
-	   "population. \n"
-	   "This is also known as the N-standard deviation\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "STDEVP(A1:A5) equals 9.701133954.\n"
-	   "\n"
-	   "@SEEALSO=STDEV,STDEVA,STDEVPA")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("STDEVP:population standard deviation of the given population")},
+	{ GNM_FUNC_HELP_ARG, F_("b1:first cell area")},	
+	{ GNM_FUNC_HELP_ARG, F_("b2:second cell area")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This is also known as the N-standard deviation")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then STDEVP(A1:A5) equals 9.701133954.")},	
+	{ GNM_FUNC_HELP_SEEALSO, ("STDEV,STDEVA,STDEVPA")},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -203,25 +165,14 @@ gnumeric_stdevp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_rank[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=RANK\n"
-	   "@SYNTAX=RANK(x,ref[,order])\n"
-
-	   "@DESCRIPTION="
-	   "RANK returns the rank of a number in a list of numbers.  @x is "
-	   "the number whose rank you want to find, @ref is the list of "
-	   "numbers, and @order specifies how to rank numbers.  If @order is "
-	   "0, numbers are ranked in descending order, otherwise numbers are "
-	   "ranked in ascending order.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "RANK(17.3,A1:A5) equals 4.\n"
-	   "\n"
-	   "@SEEALSO=PERCENTRANK")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("RANK:rank of a number in a list of numbers")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number whose rank you want to find")},
+	{ GNM_FUNC_HELP_ARG, F_("ref:list of numbers")},
+	{ GNM_FUNC_HELP_ARG, F_("order:If this is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then RANK(17.3,A1:A5) equals 4.")},
+	{ GNM_FUNC_HELP_SEEALSO, ("PERCENTRANK")},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -258,28 +209,17 @@ gnumeric_rank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_trimmean[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TRIMMEAN\n"
-	   "@SYNTAX=TRIMMEAN(ref,fraction)\n"
 
-	   "@DESCRIPTION="
-	   "TRIMMEAN returns the mean of the interior of a data set. @ref "
-	   "is the list of numbers whose mean you want to calculate and "
-	   "@fraction is the fraction of the data set excluded from the mean. "
-	   "For example, if @fraction=0.2 and the data set contains 40 "
-	   "numbers, 8 numbers are trimmed from the data set (40 x 0.2): the "
-	   "4 largest and the 4 smallest.  To avoid a bias, the number of points "
-	   "to be excluded is always rounded down to the nearest even number.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "TRIMMEAN(A1:A5,0.2) equals 23.2.\n"
-	   "\n"
-	   "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("TRIMMEAN:mean of the interior of a data set")},
+	{ GNM_FUNC_HELP_ARG, F_("ref:list of numbers whose mean you want to calculate")},
+	{ GNM_FUNC_HELP_ARG, F_("fraction:fraction of the data set excluded from the mean")},	
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{fraction}=0.2 and the data set contains 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2): "
+					"the 4 largest and the 4 smallest. To avoid a bias, the number of points to be excluded is always rounded down to the nearest even number.")},	
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then TRIMMEAN(A1:A5,0.2) equals 23.2 and TRIMMEAN(A1:A5,0.4) equals 21.5.")},
+	{ GNM_FUNC_HELP_SEEALSO, ("AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE")},
+	{ GNM_FUNC_HELP_END }	
 };
 
 static GnmValue *
@@ -313,24 +253,16 @@ gnumeric_trimmean (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_covar[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=COVAR\n"
-	   "@SYNTAX=COVAR(array1,array2)\n"
-
-	   "@DESCRIPTION="
-	   "COVAR returns the covariance of two data sets.\n"
-	   "\n"
-	   "* Strings and empty cells are simply ignored.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	{ GNM_FUNC_HELP_NAME, F_("COVAR:covariance of two data sets")},
+	{ GNM_FUNC_HELP_ARG, F_("array1:first data set")},
+	{ GNM_FUNC_HELP_ARG, F_("array2:set data set")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 	   "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
-	   "B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then\n"
-	   "COVAR(A1:A5,B1:B5) equals 65.858.\n"
-	   "\n"
-	   "@SEEALSO=CORREL,FISHER,FISHERINV")
-	},
+	   "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then COVAR(A1:A5,B1:B5) equals 65.858.") },
+	{ GNM_FUNC_HELP_SEEALSO, "CORREL,FISHER,FISHERINV"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -349,24 +281,16 @@ gnumeric_covar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_correl[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=CORREL\n"
-	   "@SYNTAX=CORREL(array1,array2)\n"
-
-	   "@DESCRIPTION="
-	   "CORREL returns the correlation coefficient of two data sets.\n"
-	   "\n"
-	   "* Strings and empty cells are simply ignored.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	{ GNM_FUNC_HELP_NAME, F_("CORREL:Pearson correlation coefficient of two data sets")},
+	{ GNM_FUNC_HELP_ARG, F_("array1:first data set")},
+	{ GNM_FUNC_HELP_ARG, F_("array2:second data set")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 	   "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
-	   "B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then\n"
-	   "CORREL(A1:A5,B1:B5) equals 0.996124788.\n"
-	   "\n"
-	   "@SEEALSO=COVAR,FISHER,FISHERINV")
-	},
+	   "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then CORREL(A1:A5,B1:B5) equals 0.996124788.") },
+	{ GNM_FUNC_HELP_SEEALSO, "COVAR,FISHER,FISHERINV"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -385,25 +309,16 @@ gnumeric_correl (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_negbinomdist[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=NEGBINOMDIST\n"
-	   "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
-
-	   "@DESCRIPTION="
-	   "NEGBINOMDIST function returns the negative binomial "
-	   "distribution. @f is the number of failures, @t is the threshold "
-	   "number of successes, and @p is the probability of a success.\n"
-	   "\n"
-	   "* If @f or @t is a non-integer it is truncated.\n"
-	   "* If (@f + @t -1) <= 0 NEGBINOMDIST returns #NUM! error.\n"
-	   "* If @p < 0 or @p > 1 NEGBINOMDIST returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "NEGBINOMDIST(2,5,0.55) equals 0.152872629.\n"
-	   "\n"
-	   "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("NEGBINOMDIST:probability mass function of the negative binomial distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("f:number of failures")},
+	{ GNM_FUNC_HELP_ARG, F_("t:threshold number of successes")},
+	{ GNM_FUNC_HELP_ARG, F_("p:probability of a success")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{f} or @{t} is a non-integer it is truncated.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If (@{f} + @{t} -1) <= 0 this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this functions returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("NEGBINOMDIST(2,5,0.55) equals 0.152872629.") },
+	{ GNM_FUNC_HELP_SEEALSO, "BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -423,22 +338,11 @@ gnumeric_negbinomdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_normsdist[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=NORMSDIST\n"
-           "@SYNTAX=NORMSDIST(x)\n"
-
-           "@DESCRIPTION="
-           "NORMSDIST function returns the standard normal cumulative "
-	   "distribution. @x is the value for which you want the "
-	   "distribution.\n"
-	   "\n"
-	   "* This function is Excel compatible.\n"
-           "\n"
-	   "@EXAMPLES=\n"
-	   "NORMSDIST(2) equals 0.977249868.\n"
-	   "\n"
-           "@SEEALSO=NORMDIST")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("NORMSDIST:cumulative desnity function of the standard normal distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("NORMSDIST(2) equals 0.977249868.") },
+	{ GNM_FUNC_HELP_SEEALSO, "NORMDIST"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -455,22 +359,12 @@ gnumeric_normsdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_normsinv[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=NORMSINV\n"
-           "@SYNTAX=NORMSINV(p)\n"
-
-           "@DESCRIPTION="
-           "NORMSINV function returns the inverse of the standard normal "
-	   "cumulative distribution. @p is the given probability "
-	   "corresponding to the normal distribution.\n\n"
-	   "* If @p < 0 or @p > 1 NORMSINV returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-           "\n"
-	   "@EXAMPLES=\n"
-	   "NORMSINV(0.2) equals -0.841621234.\n"
-	   "\n"
-           "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("NORMSINV:inverse of the cumulative desnity function of the standard normal distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("p:given probability")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("NORMSINV(0.2) equals -0.841621234.") },
+	{ GNM_FUNC_HELP_SEEALSO, "NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -490,25 +384,15 @@ gnumeric_normsinv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_lognormdist[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=LOGNORMDIST\n"
-           "@SYNTAX=LOGNORMDIST(x,mean,stddev)\n"
-
-           "@DESCRIPTION="
-           "LOGNORMDIST function returns the lognormal distribution. "
-	   "@x is the value for which you want the distribution, @mean is "
-	   "the mean of the distribution, and @stddev is the standard "
-	   "deviation of the distribution.\n\n"
-	   "* If @stddev = 0 LOGNORMDIST returns #DIV/0! error.\n"
-	   "* If @x <= 0, @mean < 0 or @stddev < 0 LOGNORMDIST returns #NUM! "
-	   "error.\n"
-           "* This function is Excel compatible.\n"
-           "\n"
-	   "@EXAMPLES=\n"
-	   "LOGNORMDIST(3,1,2) equals 0.519662338.\n"
-	   "\n"
-           "@SEEALSO=NORMDIST")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("LOGNORMDIST:cumulative distribution function of the lognormal distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("mean:mean")},
+	{ GNM_FUNC_HELP_ARG, F_("stddev:standard deviation")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{stddev} = 0 LOGNORMDIST returns a #DIV/0! error.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} <= 0, @{mean} < 0 or @{stddev} <= 0 this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("LOGNORMDIST(3,1,2) equals 0.519662338.") },
+	{ GNM_FUNC_HELP_SEEALSO, "NORMDIST"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -528,25 +412,14 @@ gnumeric_lognormdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_loginv[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=LOGINV\n"
-           "@SYNTAX=LOGINV(p,mean,stddev)\n"
-
-           "@DESCRIPTION="
-           "LOGINV function returns the inverse of the lognormal "
-	   "cumulative distribution. @p is the given probability "
-	   "corresponding to the normal distribution, @mean is the "
-	   "arithmetic mean of the distribution, and @stddev is the "
-	   "standard deviation of the distribution.\n"
-           "\n"
-	   "* If @p < 0 or @p > 1 or @stddev <= 0 LOGINV returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "LOGINV(0.5,2,3) equals 7.389056099.\n"
-	   "\n"
-           "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("LOGINV:inverse of the cumulative distribution function of the lognormal distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("p:probability")},
+	{ GNM_FUNC_HELP_ARG, F_("mean:mean")},
+	{ GNM_FUNC_HELP_ARG, F_("stddev:standard deviation")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("LOGINV(0.5,2,3) equals 7.389056099.")},
+	{ GNM_FUNC_HELP_SEEALSO, ("EXP,LN,LOG,LOG10,LOGNORMDIST")},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -568,22 +441,12 @@ gnumeric_loginv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_fisherinv[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=FISHERINV\n"
-           "@SYNTAX=FISHERINV(x)\n"
-
-           "@DESCRIPTION="
-           "FISHERINV function returns the inverse of the Fisher "
-	   "transformation at @x.\n"
-           "\n"
-           "* If @x is non-number FISHERINV returns #VALUE! error.\n"
-	   "* This function is Excel compatible.\n"
-           "\n"
-	   "@EXAMPLES=\n"
-	   "FISHERINV(2) equals 0.96402758.\n"
-	   "\n"
-           "@SEEALSO=FISHER")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("FISHERINV:inverse of the Fisher transformation")},
+	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is a non-number this function returns a #VALUE! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("FISHERINV(2) equals 0.96402758.") },
+	{ GNM_FUNC_HELP_SEEALSO, "FISHER"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -598,27 +461,15 @@ gnumeric_fisherinv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_mode[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=MODE\n"
-           "@SYNTAX=MODE(n1, n2, ...)\n"
-
-           "@DESCRIPTION="
-           "MODE returns the most common number of the data set. If the data "
-	   "set has many most common numbers MODE returns the first one of "
-	   "them.\n"
-           "\n"
-           "* Strings and empty cells are simply ignored.\n"
-	   "* If the data set does not contain any duplicates MODE returns "
-           "#N/A error.\n"
-	   "* This function is Excel compatible.\n"
-           "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 11.4, 25.9, and 40.1.  Then\n"
-	   "MODE(A1:A5) equals 11.4.\n"
-	   "\n"
-           "@SEEALSO=AVERAGE,MEDIAN")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("MODE:first most common number in the dataset")},
+	{ GNM_FUNC_HELP_ARG, F_("n1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("n2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If the data set does not contain any duplicates this function returns a #N/A error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 11.4, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MODE(A1:A5) equals 11.4.") },
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,MEDIAN"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -636,23 +487,14 @@ gnumeric_mode (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_harmean[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=HARMEAN\n"
-	   "@SYNTAX=HARMEAN(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "HARMEAN returns the harmonic mean of the N data points "
-	   "(that is, N divided by the sum of the inverses of "
-	   "the data points).\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "HARMEAN(A1:A5) equals 19.529814427.\n"
-	   "\n"
-	   "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("HARMEAN:harmonic mean")},
+	{ GNM_FUNC_HELP_ARG, F_("b1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("b2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The harmonic mean of N data points is  N divided by the sum of the reciprocals of the data points).")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then HARMEAN(A1:A5) equals 19.529814427.") },
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -670,22 +512,14 @@ gnumeric_harmean (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_geomean[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=GEOMEAN\n"
-	   "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "GEOMEAN returns the geometric mean of the given arguments. "
-	   "This is equal to the Nth root of the product of the terms.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "GEOMEAN(A1:A5) equals 21.279182482.\n"
-	   "\n"
-	   "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("GEOMEAN:geometric mean")},
+	{ GNM_FUNC_HELP_ARG, F_("b1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("b2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The geometric mean is equal to the Nth root of the product of the N values.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then GEOMEAN(A1:A5) equals 21.279182482.") },
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -703,22 +537,13 @@ gnumeric_geomean (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_count[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=COUNT\n"
-	   "@SYNTAX=COUNT(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "COUNT returns the total number of integer or floating point "
-	   "arguments passed.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "COUNT(A1:A5) equals 5.\n"
-	   "\n"
-	   "@SEEALSO=AVERAGE")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("COUNT:total number of integer or floating point arguments passed")},
+	{ GNM_FUNC_HELP_ARG, F_("b1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("b2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then COUNT(A1:A5) equals 5.") },
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -748,23 +573,13 @@ gnumeric_count (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_counta[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=COUNTA\n"
-           "@SYNTAX=COUNTA(b1, b2, ...)\n"
-
-           "@DESCRIPTION="
-           "COUNTA returns the number of arguments passed not including "
-	   "empty cells.\n\n"
-	   "* This function is Excel compatible.\n"
-           "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "and strings 11.4, \"missing\", \"missing\", 25.9, and 40.1.  "
-	   "Then\n"
-	   "COUNTA(A1:A5) equals 5.\n"
-	   "\n"
-           "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("COUNTA:number of arguments passed not including empty cells")},
+	{ GNM_FUNC_HELP_ARG, F_("b1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("b2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, \"missing\", \"missing\", 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then COUNTA(A1:A5) equals 5.") },
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -792,23 +607,13 @@ gnumeric_counta (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_average[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=AVERAGE\n"
-	   "@SYNTAX=AVERAGE(value1, value2,...)\n"
-
-	   "@DESCRIPTION="
-	   "AVERAGE computes the average of all the values and cells "
-	   "referenced in the argument list.  This is equivalent to the "
-	   "sum of the arguments divided by the count of the arguments.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "AVERAGE(A1:A5) equals 23.2.\n"
-	   "\n"
-	   "@SEEALSO=SUM, COUNT")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("AVERAGE:average of all the numeric values and cells")},
+	{ GNM_FUNC_HELP_ARG, F_("value1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("value2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then AVERAGE(A1:A5) equals 23.2.")},
+	{ GNM_FUNC_HELP_SEEALSO, ("SUM, COUNT")},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -826,23 +631,13 @@ gnumeric_average (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_min[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=MIN\n"
-	   "@SYNTAX=MIN(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "MIN returns the value of the element of the values passed "
-	   "that has the smallest value, with negative numbers considered "
-	   "smaller than positive numbers.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "MIN(A1:A5) equals 11.4.\n"
-	   "\n"
-	   "@SEEALSO=MAX,ABS")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("MIN:smallest value, with negative numbers considered smaller than positive numbers")},
+	{ GNM_FUNC_HELP_ARG, F_("b1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("b2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MIN(A1:A5) equals 11.4.") },
+	{ GNM_FUNC_HELP_SEEALSO, "MAX,ABS"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -871,23 +666,13 @@ gnumeric_min (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_max[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=MAX\n"
-	   "@SYNTAX=MAX(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "MAX returns the value of the element of the values passed "
-	   "that has the largest value, with negative numbers considered "
-	   "smaller than positive numbers.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "MAX(A1:A5) equals 40.1.\n"
-	   "\n"
-	   "@SEEALSO=MIN,ABS")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("MAX:largest value, with negative numbers considered smaller than positive numbers.")},
+	{ GNM_FUNC_HELP_ARG, F_("b1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("b2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MAX(A1:A5) equals 40.1.") },
+	{ GNM_FUNC_HELP_SEEALSO, "MIN,ABS"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -916,29 +701,18 @@ gnumeric_max (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_skew[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SKEW\n"
-	   "@SYNTAX=SKEW(n1, n2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "SKEW returns an unbiased estimate for skewness of a distribution.\n"
-	   "\n"
-	   "Note, that this is only meaningful if the underlying "
-	   "distribution really has a third moment.  The skewness of a "
-	   "symmetric (e.g., normal) distribution is zero.\n"
-           "\n"
-	   "* Strings and empty cells are simply ignored.\n"
-	   "* If less than three numbers are given, SKEW returns #DIV/0! "
-	   "error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "SKEW(A1:A5) equals 0.976798268.\n"
-	   "\n"
-	   "@SEEALSO=AVERAGE,VAR,SKEWP,KURT")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("SKEW:unbiased estimate for skewness of a distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("n1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("n2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
+	{ GNM_FUNC_HELP_NOTE, F_("This is only meaningful if the underlying "
+				 "distribution really has a third moment.  The skewness of a "
+				 "symmetric (e.g., normal) distribution is zero.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If less than three numbers are given, this function returns a #DIV/0! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SKEW(A1:A5) equals 0.976798268.") },
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,VAR,SKEWP,KURT"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -956,24 +730,14 @@ gnumeric_skew (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_skewp[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SKEWP\n"
-	   "@SYNTAX=SKEWP(n1, n2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "SKEWP returns the population skewness of a data set.\n"
-	   "\n"
-	   "* Strings and empty cells are simply ignored.\n"
-	   "* If less than two numbers are given, SKEWP returns #DIV/0! "
-	   "error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "SKEWP(A1:A5) equals 0.655256198.\n"
-	   "\n"
-	   "@SEEALSO=AVERAGE,VARP,SKEW,KURTP")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("SKEWP:population skewness of a data set")},
+	{ GNM_FUNC_HELP_ARG, F_("n1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("n2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If less than two numbers are given, SKEWP returns a #DIV/0! error.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SKEWP(A1:A5) equals 0.655256198.") },
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,VARP,SKEW,KURTP"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -991,24 +755,17 @@ gnumeric_skewp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_expondist[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=EXPONDIST\n"
-	   "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
-
-	   "@DESCRIPTION="
-	   "EXPONDIST function returns the exponential distribution. "
-	   "If the @cumulative boolean is false it will return:\n\n\t"
-	   "@y * exp (-@y*@x),\n\notherwise it will return\n\n\t"
-	   "1 - exp (-@y*@x).\n"
-	   "\n"
-	   "* If @x < 0 or @y <= 0 this will return an error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "EXPONDIST(2,4,0) equals 0.001341851.\n"
-	   "\n"
-	   "@SEEALSO=POISSON")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("EXPONDIST:(cumulative)density function of the exponential distribution")},
+	   { GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("y:scale parameter")},
+	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{cumulative} is false it will return:\t"
+	   "@{y} * exp (-@{y}*@{x}),otherwise it will return\t"
+	   "1 - exp (-@{y}*@{x}).")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 or @{y} <= 0 this will return an error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("EXPONDIST(2,4,0) equals 0.001341851.") },
+	{ GNM_FUNC_HELP_SEEALSO, "POISSON"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1031,22 +788,13 @@ gnumeric_expondist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_bernoulli[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=BERNOULLI\n"
-           "@SYNTAX=BERNOULLI(k,p)\n"
-
-           "@DESCRIPTION="
-           "BERNOULLI returns the probability p(k) of obtaining @k "
-	   "from a Bernoulli distribution with probability parameter @p.\n"
-           "\n"
-           "* If @k != 0 and @k != 1 BERNOULLI returns #NUM! error.\n"
-           "* If @p < 0 or @p > 1 BERNOULLI returns #NUM! error.\n"
-	   "\n"
-           "@EXAMPLES=\n"
-           "BERNOULLI(0,0.5).\n"
-           "\n"
-           "@SEEALSO=RANDBERNOULLI")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("BERNOULLI:probability mass function of a Bernoulli distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("k:")},
+	{ GNM_FUNC_HELP_ARG, F_("p:probability of success")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{k} != 0 and @{k} != 1 this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("BERNOULLI(0,0.5).") },
+	{ GNM_FUNC_HELP_SEEALSO, "RANDBERNOULLI"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1076,23 +824,13 @@ gnumeric_bernoulli (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_gammaln[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=GAMMALN\n"
-	   "@SYNTAX=GAMMALN(x)\n"
-
-	   "@DESCRIPTION="
-	   "GAMMALN function returns the natural logarithm of the "
-	   "gamma function.\n"
-	   "\n"
-	   "* If @x is non-number then GAMMALN returns #VALUE! error.\n"
-	   "* If @x <= 0 then GAMMALN returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "GAMMALN(23) equals 48.471181352.\n"
-	   "\n"
-	   "@SEEALSO=POISSON")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("GAMMALN:natural logarithm of the gamma function.")},
+	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is non-number then this function returns a #VALUE! error.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} <= 0 then this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("GAMMALN(23) equals 48.471181352.") },
+	{ GNM_FUNC_HELP_SEEALSO, "POISSON"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1116,24 +854,16 @@ gnumeric_gammaln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_gammadist[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=GAMMADIST\n"
-	   "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
-
-	   "@DESCRIPTION="
-	   "GAMMADIST function returns the gamma distribution. If @cum "
-	   "is TRUE, GAMMADIST returns the incomplete gamma function, "
-	   "otherwise it returns the probability mass function.\n"
-	   "\n"
-	   "* If @x < 0 GAMMADIST returns #NUM! error.\n"
-	   "* If @alpha <= 0 or @beta <= 0, GAMMADIST returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "GAMMADIST(1,2,3,0) equals 0.07961459.\n"
-	   "\n"
-	   "@SEEALSO=GAMMAINV")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("GAMMADIST:(cumulative) density function of the gamma distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("alpha:scale parameter")},
+	{ GNM_FUNC_HELP_ARG, F_("beta:scale parameter")},
+	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("GAMMADIST(1,2,3,0) equals 0.07961459.") },
+	{ GNM_FUNC_HELP_SEEALSO, "GAMMAINV"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1157,23 +887,15 @@ gnumeric_gammadist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_gammainv[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=GAMMAINV\n"
-           "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
-
-           "@DESCRIPTION="
-           "GAMMAINV function returns the inverse of the cumulative "
-	   "gamma distribution.\n"
-           "\n"
-	   "* If @p < 0 or @p > 1 GAMMAINV returns #NUM! error.\n"
-	   "* If @alpha <= 0 or @beta <= 0 GAMMAINV returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "GAMMAINV(0.34,2,4) equals 4.829093908.\n"
-	   "\n"
-           "@SEEALSO=GAMMADIST")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("GAMMAINV:inverse of the cumulative gamma distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("p:probability")},
+	{ GNM_FUNC_HELP_ARG, F_("alpha:scale parameter")},
+	{ GNM_FUNC_HELP_ARG, F_("beta:scale parameter")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0 this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("GAMMAINV(0.34,2,4) equals 4.829093908.") },
+	{ GNM_FUNC_HELP_SEEALSO, "GAMMADIST"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1195,24 +917,15 @@ gnumeric_gammainv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_chidist[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=CHIDIST\n"
-	   "@SYNTAX=CHIDIST(x,dof)\n"
-
-	   "@DESCRIPTION="
-	   "CHIDIST function returns the one-tailed probability of the "
-	   "chi-squared distribution. @dof is the number of degrees of "
-	   "freedom.\n"
-	   "\n"
-	   "* If @dof is non-integer it is truncated.\n"
-	   "* If @dof < 1 CHIDIST returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "CHIDIST(5.3,2) equals 0.070651213.\n"
-	   "\n"
-	   "@SEEALSO=CHIINV,CHITEST")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("CHIDIST:survival function of the chi-squared distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("dof:number of degrees of freedom")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{dof} is non-integer it is truncated.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{dof} < 1 this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("CHIDIST(5.3,2) equals 0.070651213.") },
+	{ GNM_FUNC_HELP_SEEALSO, "CHIINV,CHITEST"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1231,22 +944,14 @@ gnumeric_chidist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_chiinv[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=CHIINV\n"
-           "@SYNTAX=CHIINV(p,dof)\n"
-
-           "@DESCRIPTION="
-           "CHIINV function returns the inverse of the one-tailed "
-	   "probability of the chi-squared distribution.\n"
-           "\n"
-	   "* If @p < 0 or @p > 1 or @dof < 1 CHIINV returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "CHIINV(0.98,7) equals 1.564293004.\n"
-	   "\n"
-           "@SEEALSO=CHIDIST,CHITEST")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("CHIINV:inverse of the survival function of the chi-squared distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("p:probability")},
+	{ GNM_FUNC_HELP_ARG, F_("dof:number of degrees of freedom")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("CHIINV(0.98,7) equals 1.564293004.") },
+	{ GNM_FUNC_HELP_SEEALSO, "CHIDIST,CHITEST"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1265,23 +970,13 @@ gnumeric_chiinv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_chitest[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=CHITEST\n"
-           "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
-
-           "@DESCRIPTION="
-           "CHITEST function returns the test for independence of "
-	   "chi-squared distribution.\n"
-           "\n"
-	   "@actual_range is a range that contains the observed data points. "
-	   "@theoretical_range is a range that contains the expected values "
-	   "of the data points.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-           "@SEEALSO=CHIDIST,CHIINV")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("CHITEST:p value of the Goodness of Fit Test")},
+	{ GNM_FUNC_HELP_ARG, F_("actual_range:observed data")},
+	{ GNM_FUNC_HELP_ARG, F_("theoretical_range:expected values")},
+	{ GNM_FUNC_HELP_NOTE, F_("If the actual range is not an n by 1 or 1 by n range, "
+				 "the returned value appears to have no sensible meaning.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_SEEALSO, "CHIDIST,CHIINV"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1360,27 +1055,18 @@ gnumeric_chitest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_betadist[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=BETADIST\n"
-	   "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
-
-	   "@DESCRIPTION="
-	   "BETADIST function returns the cumulative beta distribution. @a "
-	   "is the optional lower bound of @x and @b is the optional upper "
-	   "bound of @x."
-	   "\n"
-	   "* If @a is not given, BETADIST uses 0.\n"
-	   "* If @b is not given, BETADIST uses 1.\n"
-	   "* If @x < @a or @x > @b BETADIST returns #NUM! error.\n"
-	   "* If @alpha <= 0 or @beta <= 0, BETADIST returns #NUM! error.\n"
-	   "* If @a >= @b BETADIST returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "BETADIST(0.12,2,3) equals 0.07319808.\n"
-	   "\n"
-	   "@SEEALSO=BETAINV")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("BETADIST:cumulative distribution function of the beta distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("alpha:scale parameter")},
+	{ GNM_FUNC_HELP_ARG, F_("beta:scale parameter")},
+	{ GNM_FUNC_HELP_ARG, F_("a:optional lower bound, defaults to 0")},
+	{ GNM_FUNC_HELP_ARG, F_("b:optional upper bound, defaults to 1")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < @{a} or @{x} > @{b} this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{a} >= @{b} this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("BETADIST(0.12,2,3) equals 0.07319808.") },
+	{ GNM_FUNC_HELP_SEEALSO, "BETAINV"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1403,30 +1089,21 @@ gnumeric_betadist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
-/* Note: Excel's BETAINV returns #NUM! for various values where it
+/* Note: Excel's this function returns a #NUM! for various values where it
    simply gives up computing the result.  */
 static GnmFuncHelp const help_betainv[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=BETAINV\n"
-	   "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
-
-	   "@DESCRIPTION="
-	   "BETAINV function returns the inverse of cumulative beta "
-	   "distribution.  @a is the optional lower bound of @x and @b "
-	   "is the optional upper bound of @x.\n"
-	   "\n"
-	   "* If @a is not given, BETAINV uses 0.\n"
-	   "* If @b is not given, BETAINV uses 1.\n"
-	   "* If @p < 0 or @p > 1 BETAINV returns #NUM! error.\n"
-	   "* If @alpha <= 0 or @beta <= 0, BETAINV returns #NUM! error.\n"
-	   "* If @a >= @b BETAINV returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "BETAINV(0.45,1.6,1) equals 0.607096629.\n"
-	   "\n"
-	   "@SEEALSO=BETADIST")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("BETAINV:inverse of the cumulative distribution function of the beta distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("p:probability")},
+	{ GNM_FUNC_HELP_ARG, F_("alpha:scale parameter")},
+	{ GNM_FUNC_HELP_ARG, F_("beta:scale parameter")},
+	{ GNM_FUNC_HELP_ARG, F_("a:optional lower bound, defaults to 0")},
+	{ GNM_FUNC_HELP_ARG, F_("b:optional upper bound, defaults to 1")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{a} >= @{b} this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("BETAINV(0.45,1.6,1) equals 0.607096629.") },
+	{ GNM_FUNC_HELP_SEEALSO, "BETADIST"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1450,31 +1127,22 @@ gnumeric_betainv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_tdist[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TDIST\n"
-	   "@SYNTAX=TDIST(x,dof,tails)\n"
-
-	   "@DESCRIPTION="
-	   "TDIST function returns the Student's t-distribution. @dof is "
-	   "the degree of freedom and @tails is 1 or 2 depending on whether "
-	   "you want one-tailed or two-tailed distribution.\n"
-	   "@tails = 1 returns the size of the right tail.\n"
-	   "\n"
-	   "* If @dof < 1 TDIST returns #NUM! error.\n"
-	   "* If @tails is neither 1 or 2 TDIST returns #NUM! error.\n"
-	   "* This function is Excel compatible for non-negative @x.\n"
-	   "\n"
-	   "Warning: the parameterization of this function is different from "
+	{ GNM_FUNC_HELP_NAME, F_("TDIST:survival function of the Student t-distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("dof:number of degrees of freedom")},
+	{ GNM_FUNC_HELP_ARG, F_("tails:1 or 2. If this is 2, @{x} is replaced by the absolute value and "
+				"the returned value is multiplied by 2")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{dof} < 1 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{tails} is neither 1 or 2 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("The parameterization of this function is different from "
 	   "what is used for, e.g., NORMSDIST.  This is a common source of "
-	   "mistakes, but necessary for compatibility.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "TDIST(2,5,1) equals 0.050969739.\n"
-	   "TDIST(-2,5,1) equals 0.949030261.\n"
-	   "TDIST(0,5,2) equals 1.\n"
-	   "\n"
-	   "@SEEALSO=TINV,TTEST")
-	},
+	   "mistakes, but necessary for compatibility.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible for non-negative @{x}.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("TDIST(2,5,1) equals 0.050969739.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("TDIST(-2,5,1) equals 0.949030261.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("TDIST(0,5,2) equals 1.") },
+	{ GNM_FUNC_HELP_SEEALSO, "TINV,TTEST"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1495,26 +1163,17 @@ gnumeric_tdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_tinv[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=TINV\n"
-           "@SYNTAX=TINV(p,dof)\n"
-
-           "@DESCRIPTION="
-           "TINV function returns the inverse of the two-tailed Student's "
-	   "t-distribution.\n"
-           "\n"
-	   "* If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "Warning: the parameterization of this function is different from "
+	{ GNM_FUNC_HELP_NAME, F_("TINV:inverse of the survival function of the Student t-distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("p:probability")},
+	{ GNM_FUNC_HELP_ARG, F_("dof:number of degrees of freedom")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },	
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_NOTE, F_("The parameterization of this function is different from "
 	   "what is used for, e.g., NORMSINV.  This is a common source of "
-	   "mistakes, but necessary for compatibility.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "TINV(0.4,32) equals 0.852998454.\n"
-	   "\n"
-           "@SEEALSO=TDIST,TTEST")
-	},
+	   "mistakes, but necessary for compatibility.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("TINV(0.4,32) equals 0.852998454.") },
+	{ GNM_FUNC_HELP_SEEALSO, "TDIST,TTEST"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1539,24 +1198,16 @@ gnumeric_tinv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_fdist[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=FDIST\n"
-	   "@SYNTAX=FDIST(x,dof1,dof2)\n"
-
-	   "@DESCRIPTION="
-	   "FDIST function returns the F probability distribution. @dof1 "
-	   "is the numerator degrees of freedom and @dof2 is the denominator "
-	   "degrees of freedom.\n"
-	   "\n"
-	   "* If @x < 0 FDIST returns #NUM! error.\n"
-	   "* If @dof1 < 1 or @dof2 < 1, FDIST returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "FDIST(2,5,5) equals 0.232511319.\n"
-	   "\n"
-	   "@SEEALSO=FINV")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("FDIST:survival function of the F distribution")},
+	   { GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("dof1:numerator degrees of freedom")},
+	{ GNM_FUNC_HELP_ARG, F_("dof2:denominator degrees of freedom")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{dof1} < 1 or @{dof2} < 1, this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("FDIST(2,5,5) equals 0.232511319.") },
+	{ GNM_FUNC_HELP_SEEALSO, "FINV"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1576,19 +1227,10 @@ gnumeric_fdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_landau[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=LANDAU\n"
-           "@SYNTAX=LANDAU(x)\n"
-
-           "@DESCRIPTION="
-           "LANDAU returns the probability density p(x) at @x for the "
-	   "Landau distribution using an approximation method. "
-           "\n"
-           "@EXAMPLES=\n"
-           "LANDAU(0.34).\n"
-           "\n"
-           "@SEEALSO=RANDLANDAU")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("LANDAU:approximate probability density function of the Landau distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("LANDAU(0.34).") },
+	{ GNM_FUNC_HELP_SEEALSO, "RANDLANDAU"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1721,23 +1363,16 @@ gnumeric_landau (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_finv[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=FINV\n"
-           "@SYNTAX=FINV(p,dof1,dof2)\n"
-
-           "@DESCRIPTION="
-           "FINV function returns the inverse of the F probability "
-	   "distribution.\n"
-           "\n"
-	   "* If @p < 0 or @p > 1 FINV returns #NUM! error.\n"
-	   "* If @dof1 < 1 or @dof2 < 1 FINV returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "FINV(0.2,2,4) equals 2.472135955.\n"
-	   "\n"
-           "@SEEALSO=FDIST")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("FINV:inverse of the survival function of the F distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("p:probability")},
+	{ GNM_FUNC_HELP_ARG, F_("dof1:numerator degrees of freedom")},
+	{ GNM_FUNC_HELP_ARG, F_("dof2:denomiantor degrees of freedom")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },	
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{dof1} < 1 or @{dof2} < 1 this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("FINV(0.2,2,4) equals 2.472135955.") },
+	{ GNM_FUNC_HELP_SEEALSO, "FDIST"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1757,28 +1392,18 @@ gnumeric_finv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_binomdist[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=BINOMDIST\n"
-	   "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
-
-	   "@DESCRIPTION="
-	   "BINOMDIST function returns the binomial distribution. "
-	   "@n is the number of successes, @trials is the total number of "
-           "independent trials, @p is the probability of success in trials, "
-           "and @cumulative describes whether to return the sum of the "
-           "binomial function from 0 to @n.\n"
-	   "\n"
-	   "* If @n or @trials are non-integer they are truncated.\n"
-	   "* If @n < 0 or @trials < 0 BINOMDIST returns #NUM! error.\n"
-	   "* If @n > @trials BINOMDIST returns #NUM! error.\n"
-	   "* If @p < 0 or @p > 1 BINOMDIST returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "BINOMDIST(3,5,0.8,0) equals 0.2048.\n"
-	   "\n"
-	   "@SEEALSO=POISSON")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("BINOMDIST:(cumulative) probability mass function of the binomial distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("n:number of successes")},
+	{ GNM_FUNC_HELP_ARG, F_("trials:number of trials")},
+	{ GNM_FUNC_HELP_ARG, F_("p:probability of success in each trial")},
+	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the mass function or the cumulative distribution function")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{n} or @{trials} are non-integer they are truncated.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{n} < 0 or @{trials} < 0 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{n} > @{trials} this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("BINOMDIST(3,5,0.8,0) equals 0.2048.") },
+	{ GNM_FUNC_HELP_SEEALSO, "POISSON"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1802,22 +1427,15 @@ gnumeric_binomdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_cauchy[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=CAUCHY\n"
-           "@SYNTAX=CAUCHY(x,a,cum)\n"
-
-           "@DESCRIPTION="
-           "CAUCHY returns the Cauchy distribution with scale parameter @a. "
-	   "If @cum is TRUE, CAUCHY returns the cumulative distribution.\n"
-           "\n"
-           "* If @a < 0 CAUCHY returns #NUM! error.\n"
-           "* If @cum != TRUE and @cum != FALSE CAUCHY returns #VALUE! error.\n"
-	   "\n"
-           "@EXAMPLES=\n"
-           "CAUCHY(0.43,1,TRUE) returns 0.370735.\n"
-           "\n"
-           "@SEEALSO=RANDCAUCHY")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("CAUCHY:(cumulative) probability density function of the Cauchy, "
+				 "Lorentz or Breit-Wigner distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("a:scale parameter")},
+	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{a} < 0 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{cumulative} is neither TRUE nor FALSE this function returns a #VALUE! error.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("CAUCHY(0.43,1,TRUE) returns 0.370735.") },
+	{ GNM_FUNC_HELP_SEEALSO, "RANDCAUCHY"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1840,27 +1458,17 @@ gnumeric_cauchy (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_critbinom[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=CRITBINOM\n"
-           "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
-
-           "@DESCRIPTION="
-           "CRITBINOM function returns the smallest value for which the "
-           "cumulative is greater than or equal to a given value. "
-           "@n is the number of trials, @p is the probability of success in "
-           "trials, and @alpha is the criterion value.\n"
-           "\n"
-           "* If @trials is a non-integer it is truncated.\n"
-           "* If @trials < 0 CRITBINOM returns #NUM! error.\n"
-           "* If @p < 0 or @p > 1 CRITBINOM returns #NUM! error.\n"
-           "* If @alpha < 0 or @alpha > 1 CRITBINOM returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-           "\n"
-	   "@EXAMPLES=\n"
-	   "CRITBINOM(10,0.5,0.75) equals 6.\n"
-	   "\n"
-           "@SEEALSO=BINOMDIST")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("CRITBINOM:right-tailed critical value of the binomial distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("trials:number of trials")},
+	{ GNM_FUNC_HELP_ARG, F_("p:probability of success in each trial")},
+	{ GNM_FUNC_HELP_ARG, F_("alpha:significance level (area of the tail)")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{trials} is a non-integer it is truncated.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{trials} < 0 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} < 0 or @{alpha} > 1 this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("CRITBINOM(10,0.5,0.75) equals 6.") },
+	{ GNM_FUNC_HELP_SEEALSO, "BINOMDIST"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1880,24 +1488,14 @@ gnumeric_critbinom (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_permut[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=PERMUT\n"
-	   "@SYNTAX=PERMUT(n,k)\n"
-
-	   "@DESCRIPTION="
-	   "PERMUT function returns the number of permutations. "
-           "@n is the number of objects, @k is the number of objects in each "
-           "permutation.\n"
-	   "\n"
-	   "* If @n = 0 PERMUT returns #NUM! error.\n"
-	   "* If @n < @k PERMUT returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "PERMUT(7,3) equals 210.\n"
-	   "\n"
-	   "@SEEALSO=COMBIN")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("PERMUT:number of @{k}-permutations of a @{n}-set")},
+	{ GNM_FUNC_HELP_ARG, F_("n:size of the base set")},
+	{ GNM_FUNC_HELP_ARG, F_("k:number of elements in each permutation")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{n} = 0 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{n} < @{k} this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("PERMUT(7,3) equals 7 times 6 times 5 = 210.") },
+	{ GNM_FUNC_HELP_SEEALSO, "COMBIN"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1916,29 +1514,18 @@ gnumeric_permut (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_hypgeomdist[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=HYPGEOMDIST\n"
-	   "@SYNTAX=HYPGEOMDIST(x,n,M,N[,cumulative])\n"
-
-	   "@DESCRIPTION="
-	   "HYPGEOMDIST function returns the hypergeometric distribution. "
-	   "@x is the number of successes in the sample, @n is the number "
-           "of trials, @M is the number of successes overall, and @N is the "
-           "population size.\n"
-	   "\n"
-	   "If the optional argument @cumulative is TRUE, the cumulative "
-	   "left tail will be returned.\n"
-	   "\n"
-	   "* If @x,@n,@M or @N is a non-integer it is truncated.\n"
-	   "* If @x,@n,@M or @N < 0 HYPGEOMDIST returns #NUM! error.\n"
-	   "* If @x > @M or @n > @N HYPGEOMDIST returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "HYPGEOMDIST(1,2,3,10) equals 0.4666667.\n"
-	   "\n"
-	   "@SEEALSO=BINOMDIST,POISSON")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("HYPGEOMDIST:(cumulative) probability mass function of the hypergeometric distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number of successes")},
+	{ GNM_FUNC_HELP_ARG, F_("n:sample size")},
+	{ GNM_FUNC_HELP_ARG, F_("M:number of possible successes in the population")},
+	{ GNM_FUNC_HELP_ARG, F_("N:population size")},
+	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the mass function or the cumulative distribution function")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x},@{n},@{M} or @{N} is a non-integer it is truncated.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x},@{n},@{M} or @{N} < 0 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} > @{M} or @{n} > @{N} this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("HYPGEOMDIST(1,2,3,10) equals 0.4666667.") },
+	{ GNM_FUNC_HELP_SEEALSO, "BINOMDIST,POISSON"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1963,25 +1550,17 @@ gnumeric_hypgeomdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_confidence[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=CONFIDENCE\n"
-	   "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
-
-	   "@DESCRIPTION="
-	   "CONFIDENCE function returns the confidence interval for a "
-	   "mean. @x is the significance level, @stddev is the population "
-	   "standard deviation, and @size is the size of the sample.\n"
-	   "\n"
-	   "* If @size is non-integer it is truncated.\n"
-	   "* If @size < 0 CONFIDENCE returns #NUM! error.\n"
-	   "* If @size is 0 CONFIDENCE returns #DIV/0! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "CONFIDENCE(0.05,1,33) equals 0.341185936.\n"
-	   "\n"
-	   "@SEEALSO=AVERAGE")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("CONFIDENCE:margin of error of a confidence interval for the population mean")},
+	{ GNM_FUNC_HELP_ARG, F_("alpha:significance level")},
+	{ GNM_FUNC_HELP_ARG, F_("stddev:population standard deviation")},
+	{ GNM_FUNC_HELP_ARG, F_("size:sample size")},
+	{ GNM_FUNC_HELP_NOTE, F_("This function requires the usually unknown population standard deviation.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{size} is non-integer it is truncated.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{size} < 0 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{size} is 0 this function returns a #DIV/0! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("CONFIDENCE(0.05,1,33) equals 0.341185936.") },
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2001,24 +1580,14 @@ gnumeric_confidence (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_standardize[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=STANDARDIZE\n"
-	   "@SYNTAX=STANDARDIZE(x,mean,stddev)\n"
-
-	   "@DESCRIPTION="
-	   "STANDARDIZE function returns a normalized value. "
-	   "@x is the number to be normalized, @mean is the mean of the "
-	   "distribution, @stddev is the standard deviation of the "
-	   "distribution.\n"
-	   "\n"
-	   "* If @stddev is 0 STANDARDIZE returns #DIV/0! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "STANDARDIZE(3,2,4) equals 0.25.\n"
-	   "\n"
-	   "@SEEALSO=AVERAGE")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("STANDARDIZE:z-score of a value")},
+	{ GNM_FUNC_HELP_ARG, F_("x:value")},
+	{ GNM_FUNC_HELP_ARG, F_("mean:mean of the original distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("stddev:standard deviation of the original distribution")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{stddev} is 0 this function returns a #DIV/0! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("STANDARDIZE(3,2,4) equals 0.25.") },
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2038,25 +1607,19 @@ gnumeric_standardize (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_weibull[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=WEIBULL\n"
-           "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
-
-           "@DESCRIPTION="
-           "WEIBULL function returns the Weibull distribution. "
-           "If the @cumulative boolean is true it will return:\n\n\t"
-           "1 - exp (-(@x/@beta)^@alpha),\n\notherwise it will return\n\n\t"
-           "(@alpha/@beta^@alpha) * @x^(@alpha-1) * exp(-(@x/@beta^@alpha)).\n"
-           "\n"
-           "* If @x < 0 WEIBULL returns #NUM! error.\n"
-           "* If @alpha <= 0 or @beta <= 0 WEIBULL returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-           "\n"
-	   "@EXAMPLES=\n"
-	   "WEIBULL(3,2,4,0) equals 0.213668559.\n"
-	   "\n"
-           "@SEEALSO=POISSON")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("WEIBULL:(cumulative) probability density function of the Weibull distribution")},
+           { GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("alpha:scale parameter")},
+	{ GNM_FUNC_HELP_ARG, F_("beta:scale parameter")},
+	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If the @{cumulative} boolean is true it will return: "
+           "1 - exp (-(@{x}/@{beta})^@{alpha}),otherwise it will return "
+           "(@{alpha}/@{beta}^@{alpha}) * @{x}^(@{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha})).") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0 this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("WEIBULL(3,2,4,0) equals 0.213668559.") },
+	{ GNM_FUNC_HELP_SEEALSO, "POISSON"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2080,28 +1643,15 @@ gnumeric_weibull (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_normdist[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=NORMDIST\n"
-           "@SYNTAX=NORMDIST(x,mean,stddev,cumulative)\n"
-
-           "@DESCRIPTION="
-	   "The NORMDIST function returns the value of the probability "
-	   "density function or the cumulative distribution function "
-	   "for the normal distribution with the mean given by @mean, "
-	   "and the standard deviation given by @stddev. If @cumulative "
-	   "is FALSE, NORMDIST returns the value of the probability "
-	   "density function at the value @x. If @cumulative is TRUE, "
-	   "NORMDIST returns the value of the cumulative distribution "
-	   "function at @x.\n"
-           "\n"
-           "* If @stddev is 0 NORMDIST returns #DIV/0! error.\n"
-	   "* This function is Excel compatible.\n"
-           "\n"
-	   "@EXAMPLES=\n"
-	   "NORMDIST(2,1,2,0) equals 0.176032663.\n"
-	   "\n"
-           "@SEEALSO=POISSON")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("NORMDIST:(cumulative) probability density function of a normal distribution")},
+           { GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("mean:mean of the distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("stddev:standard deviation of the distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{stddev} is 0 this function returns a #DIV/0! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("NORMDIST(2,1,2,0) equals 0.176032663.") },
+	{ GNM_FUNC_HELP_SEEALSO, "POISSON"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2126,25 +1676,14 @@ gnumeric_normdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_norminv[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=NORMINV\n"
-           "@SYNTAX=NORMINV(p,mean,stddev)\n"
-
-           "@DESCRIPTION="
-           "NORMINV function returns the inverse of the normal "
-	   "cumulative distribution. @p is the given probability "
-	   "corresponding to the normal distribution, @mean is the "
-	   "arithmetic mean of the distribution, and @stddev is the "
-	   "standard deviation of the distribution.\n"
-           "\n"
-	   "* If @p < 0 or @p > 1 or @stddev <= 0 NORMINV returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "NORMINV(0.76,2,3) equals 4.118907689.\n"
-	   "\n"
-           "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("NORMINV:inverse of the cumulative distribution function of a normal distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("p:probability")},
+	{ GNM_FUNC_HELP_ARG, F_("mean:mean of the distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("stddev:standard deviation of the distribution")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("NORMINV(0.76,2,3) equals 4.118907689.") },
+	{ GNM_FUNC_HELP_SEEALSO, "NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2165,30 +1704,20 @@ gnumeric_norminv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_kurt[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=KURT\n"
-           "@SYNTAX=KURT(n1, n2, ...)\n"
-
-           "@DESCRIPTION="
-           "KURT returns an unbiased estimate of the kurtosis of a data set."
-           "\n"
-	   "Note, that this is only meaningful if the underlying "
+	{ GNM_FUNC_HELP_NAME, F_("KURT:unbiased estimate of the kurtosis of a data set.")},
+	{ GNM_FUNC_HELP_ARG, F_("n1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("n2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.") },
+	{ GNM_FUNC_HELP_NOTE, F_("This is only meaningful if the underlying "
 	   "distribution really has a fourth moment.  The kurtosis is "
 	   "offset by three such that a normal distribution will have zero "
-	   "kurtosis.\n"
-           "\n"
-           "* Strings and empty cells are simply ignored.\n"
-           "* If fewer than four numbers are given or all of them are equal "
-           "KURT returns #DIV/0! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "KURT(A1:A5) equals 1.234546305.\n"
-	   "\n"
-           "@SEEALSO=AVERAGE,VAR,SKEW,KURTP")
-	},
+	   "kurtosis.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If fewer than four numbers are given or all of them are equal "
+				 "this function returns a #DIV/0! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then KURT(A1:A5) equals 1.234546305.") },
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,VAR,SKEW,KURTP"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2206,24 +1735,15 @@ gnumeric_kurt (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_kurtp[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=KURTP\n"
-           "@SYNTAX=KURTP(n1, n2, ...)\n"
-
-           "@DESCRIPTION="
-           "KURTP returns the population kurtosis of a data set.\n"
-           "\n"
-           "* Strings and empty cells are simply ignored.\n"
-           "* If fewer than two numbers are given or all of them are equal "
-           "KURTP returns #DIV/0! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "KURTP(A1:A5) equals -0.691363424.\n"
-	   "\n"
-           "@SEEALSO=AVERAGE,VARP,SKEWP,KURT")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("KURTP:population kurtosis of a data set")},
+	{ GNM_FUNC_HELP_ARG, F_("n1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("n2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If fewer than two numbers are given or all of them are equal "
+           "this function returns a #DIV/0! error.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then KURTP(A1:A5) equals -0.691363424.") },
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,VARP,SKEWP,KURT"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2241,22 +1761,13 @@ gnumeric_kurtp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_avedev[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=AVEDEV\n"
-           "@SYNTAX=AVEDEV(n1, n2, ...)\n"
-
-           "@DESCRIPTION="
-           "AVEDEV returns the average of the absolute deviations of a data "
-	   "set from their mean.\n\n"
-	   "* This function is Excel compatible.\n"
-           "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "AVEDEV(A1:A5) equals 7.84.\n"
-	   "\n"
-           "@SEEALSO=STDEV")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("AVEDEV:average of the absolute deviations of a data set")},
+	{ GNM_FUNC_HELP_ARG, F_("n1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("n2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then AVEDEV(A1:A5) equals 7.84.") },
+	{ GNM_FUNC_HELP_SEEALSO, "STDEV"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2274,24 +1785,14 @@ gnumeric_avedev (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_devsq[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=DEVSQ\n"
-           "@SYNTAX=DEVSQ(n1, n2, ...)\n"
-
-           "@DESCRIPTION="
-           "DEVSQ returns the sum of squares of deviations of a data set from "
-           "the sample mean.\n"
-           "\n"
-           "* Strings and empty cells are simply ignored.\n"
-	   "* This function is Excel compatible.\n"
-           "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "DEVSQ(A1:A5) equals 470.56.\n"
-	   "\n"
-           "@SEEALSO=STDEV")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("DEVSQ:sum of squares of deviations of a data set")},
+	{ GNM_FUNC_HELP_ARG, F_("n1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("n2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then DEVSQ(A1:A5) equals 470.56.") },
+	{ GNM_FUNC_HELP_SEEALSO, "STDEV"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2309,22 +1810,13 @@ gnumeric_devsq (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_fisher[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=FISHER\n"
-           "@SYNTAX=FISHER(x)\n"
-
-           "@DESCRIPTION="
-           "FISHER function returns the Fisher transformation at @x.\n"
-           "\n"
-           "* If @x is not a number, FISHER returns #VALUE! error.\n"
-           "* If @x <= -1 or @x >= 1, FISHER returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-           "\n"
-	   "@EXAMPLES=\n"
-	   "FISHER(0.332) equals 0.345074339.\n"
-	   "\n"
-           "@SEEALSO=SKEW")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("FISHER:Fisher transformation")},
+           { GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is not a number, this function returns a #VALUE! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} <= -1 or @{x} >= 1, this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("FISHER(0.332) equals 0.345074339.") },
+	{ GNM_FUNC_HELP_SEEALSO, "SKEW"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2347,26 +1839,16 @@ gnumeric_fisher (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_poisson[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=POISSON\n"
-	   "@SYNTAX=POISSON(x,mean,cumulative)\n"
-
-	   "@DESCRIPTION="
-	   "POISSON function returns the Poisson distribution. "
-	   "@x is the number of events, @mean is the expected numeric value "
-	   "@cumulative describes whether to return the sum of the "
-	   "Poisson function from 0 to @x.\n"
-	   "\n"
-	   "* If @x is a non-integer it is truncated.\n"
-	   "* If @x < 0 POISSON returns #NUM! error.\n"
-	   "* If @mean <= 0 POISSON returns the #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "POISSON(3,6,0) equals 0.089235078.\n"
-	   "\n"
-	   "@SEEALSO=NORMDIST, WEIBULL")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("POISSON:(cumulative) probability mass function of the Poisson distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number of events")},
+	{ GNM_FUNC_HELP_ARG, F_("mean:mean of the distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the mass function or the cumulative distribution function")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is a non-integer it is truncated.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{mean} <= 0 POISSON returns the #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("POISSON(3,6,0) equals 0.089235078.")},
+	{ GNM_FUNC_HELP_SEEALSO, ("NORMDIST, WEIBULL")},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2389,21 +1871,12 @@ gnumeric_poisson (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_pearson[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=PEARSON\n"
-	   "@SYNTAX=PEARSON(array1,array2)\n"
-
-	   "@DESCRIPTION="
-	   "PEARSON returns the Pearson correlation coefficient of two data "
-	   "sets.\n"
-	   "\n"
-	   "* Strings and empty cells are simply ignored.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("PEARSON:Pearson correlation coefficient of the paired set of data")},
+	{ GNM_FUNC_HELP_ARG, F_("array1:first component values")},
+	{ GNM_FUNC_HELP_ARG, F_("array2:second component values")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_SEEALSO, "INTERCEPT,LINEST,RSQ,SLOPE,STEYX"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2417,22 +1890,12 @@ gnumeric_pearson (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_rsq[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=RSQ\n"
-	   "@SYNTAX=RSQ(array1,array2)\n"
-
-	   "@DESCRIPTION="
-	   "RSQ returns the square of the Pearson correlation coefficient "
-	   "of two data sets.\n"
-	   "\n"
-	   "* Strings and empty cells are simply ignored.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,"
-	   "STEYX,TREND")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("RSQ:square of the Pearson correlation coefficient of the paired set of data")},
+	{ GNM_FUNC_HELP_ARG, F_("array1:first component values")},
+	{ GNM_FUNC_HELP_ARG, F_("array2:second component values")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_SEEALSO, ("CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND")},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2451,25 +1914,16 @@ gnumeric_rsq (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_median[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=MEDIAN\n"
-           "@SYNTAX=MEDIAN(n1, n2, ...)\n"
-
-           "@DESCRIPTION="
-           "MEDIAN returns the median of the given data set.\n"
-           "\n"
-           "* Strings and empty cells are simply ignored.\n"
-	   "* If even numbers are given MEDIAN returns the average of the two "
-	   "numbers in the middle.\n"
-	   "* This function is Excel compatible.\n"
-           "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "MEDIAN(A1:A5) equals 21.3.\n"
-	   "\n"
-           "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SSMEDIAN,SUM")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("MEDIAN:median of a data set")},
+	{ GNM_FUNC_HELP_ARG, F_("n1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("n2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If even numbers are given MEDIAN returns the average of the two "
+	   "numbers in the center.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MEDIAN(A1:A5) equals 21.3.") },
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SSMEDIAN,SUM"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2488,31 +1942,18 @@ gnumeric_median (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ssmedian[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SSMEDIAN\n"
-	   "@SYNTAX=SSMEDIAN(array[,interval)]\n"
-
-	   "@DESCRIPTION="
-	   "The SSMEDIAN function returns the median "
-	   "for grouped data as commonly determined in "
-	   "the social sciences. "
-	   "The data points given in @array are assumed to be the result of "
-	   "grouping data "
-	   "into intervals of length @interval\n"
-	   "\n"
-	   "* If @interval is not given, SSMEDIAN uses 1.\n"
-	   "* If @array is empty, SSMEDIAN returns #NUM! error.\n"
-	   "* If @interval <= 0, SSMEDIAN returns #NUM! error.\n"
-	   "* SSMEDIAN does not check whether the data points are "
-	   "at least @interval apart.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, A3 contain numbers "
-	   "7, 8, 8.  Then\n"
-	   "SSMEDIAN(A1:A3, 1) equals 7.75.\n"
-	   "\n"
-	   "@SEEALSO=MEDIAN")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("SSMEDIAN:median for grouped data as commonly determined in the social sciences")},
+	{ GNM_FUNC_HELP_ARG, F_("array:data set")},
+	{ GNM_FUNC_HELP_ARG, F_("interval:length of each grouping interval, defaults to 1")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The data points given in @{array} are assumed to be the result of "
+	   "grouping data into intervals of length @{interval}") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{array} is empty, this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{interval} <= 0, this function returns a #NUM! error."
+	   "SSMEDIAN does not check whether the data points are "
+	   "at least @{interval} apart.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, A3 contain numbers 7, 8, 8.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SSMEDIAN(A1:A3, 1) equals 7.75.") },
+	{ GNM_FUNC_HELP_SEEALSO, "MEDIAN"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2594,26 +2035,18 @@ gnumeric_ssmedian (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_large[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=LARGE\n"
-	   "@SYNTAX=LARGE(n, k)\n"
-
-	   "@DESCRIPTION="
-	   "LARGE returns the k-th largest value in a data set.\n"
-	   "\n"
-	   "* If data set is empty LARGE returns #NUM! error.\n"
-	   "* If @k <= 0 or @k is greater than the number of data items given "
-	   "LARGE returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "LARGE(A1:A5,2) equals 25.9.\n"
-	   "LARGE(A1:A5,4) equals 17.3.\n"
-	   "\n"
-	   "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("LARGE:@{k}-th largest value in a data set")},
+	{ GNM_FUNC_HELP_ARG, F_("data:data set")},
+	{ GNM_FUNC_HELP_ARG, F_("k:which value to find")},
+	{ GNM_FUNC_HELP_NOTE, F_("If data set is empty this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{k} <= 0 or @{k} is greater than the number of data items given "
+				 "this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
+				     "11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then LARGE(A1:A5,2) equals 25.9."
+				     "LARGE(A1:A5,4) equals 17.3.") },
+	{ GNM_FUNC_HELP_SEEALSO, "PERCENTILE,PERCENTRANK,QUARTILE,SMALL"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2650,26 +2083,18 @@ gnumeric_large (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_small[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SMALL\n"
-	   "@SYNTAX=SMALL(n, k)\n"
-
-	   "@DESCRIPTION="
-	   "SMALL returns the k-th smallest value in a data set.\n"
-	   "\n"
-	   "* If data set is empty SMALL returns #NUM! error.\n"
-	   "* If @k <= 0 or @k is greater than the number of data items given "
-	   "SMALL returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "SMALL(A1:A5,2) equals 17.3.\n"
-	   "SMALL(A1:A5,4) equals 25.9.\n"
-	   "\n"
-	   "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("SMALL: @{k}-th smallest value in a data set.")},
+	{ GNM_FUNC_HELP_ARG, F_("data:data set")},
+	{ GNM_FUNC_HELP_ARG, F_("k:which value to find")},
+	{ GNM_FUNC_HELP_NOTE, F_("If data set is empty this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{k} <= 0 or @{k} is greater than the number of data items given "
+				 "this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
+				     "11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SMALL(A1:A5,2) equals 17.3."
+				     "SMALL(A1:A5,4) equals 25.9.") },
+	{ GNM_FUNC_HELP_SEEALSO, "PERCENTILE,PERCENTRANK,QUARTILE,LARGE"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2732,28 +2157,19 @@ cb_list (GnmCellIter const *iter, gpointer user)
 /***************************************************************************/
 
 static GnmFuncHelp const help_prob[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=PROB\n"
-	   "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
-
-	   "@DESCRIPTION="
-	   "PROB function returns the probability that values in a range or "
-	   "an array are between two limits. If @upper_limit is not "
-	   "given, PROB returns the probability that values in @x_range "
-	   "are equal to @lower_limit.\n"
-	   "\n"
-	   "* If the sum of the probabilities in @prob_range is not equal to 1 "
-	   "PROB returns #NUM! error.\n"
-	   "* If any value in @prob_range is <=0 or > 1, PROB returns #NUM! "
-	   "error.\n"
-	   "* If @x_range and @prob_range contain a different number of data "
-	   "entries, PROB returns #N/A error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=BINOMDIST,CRITBINOM")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("PROB:probability of an interval for a discrete (and finite) probability distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x_range:possible values")},
+	{ GNM_FUNC_HELP_ARG, F_("prob_range:probabilities of the corresponding values")},
+	{ GNM_FUNC_HELP_ARG, F_("lower_limit:lower interval limit")},
+	{ GNM_FUNC_HELP_ARG, F_("upper_limit:upper interval limit, defaults to @{lower_limit}")},
+	{ GNM_FUNC_HELP_NOTE, F_("If the sum of the probabilities in @{prob_range} is not equal to 1 "
+				 "this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If any value in @{prob_range} is <=0 or > 1, this function returns a #NUM! "
+				 "error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x_range} and @{prob_range} contain a different number of data "
+				 "entries, this function returns a #N/A error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_SEEALSO, "BINOMDIST,CRITBINOM"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2827,26 +2243,17 @@ gnumeric_prob (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_steyx[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=STEYX\n"
-	   "@SYNTAX=STEYX(known_y's,known_x's)\n"
-
-	   "@DESCRIPTION="
-	   "STEYX function returns the standard error of the predicted "
-	   "y-value for each x in the regression.\n"
-	   "\n"
-	   "* If @known_y's and @known_x's are empty or have a different "
-	   "number of arguments then STEYX returns #N/A error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
-	   "B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then\n"
-	   "STEYX(A1:A5,B1:B5) equals 1.101509979.\n"
-	   "\n"
-	   "@SEEALSO=PEARSON,RSQ,SLOPE")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("STEYX:standard error of the predicted y-value in the regression")},
+	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{known_y}'s and @{known_x}'s are empty or have a different "
+				 "number of arguments then this function returns a #N/A error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
+				     "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
+				     "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then STEYX(A1:A5,B1:B5) equals 1.101509979.") },
+	{ GNM_FUNC_HELP_SEEALSO, "PEARSON,RSQ,SLOPE"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2985,28 +2392,17 @@ gnumeric_steyx (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ztest[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ZTEST\n"
-	   "@SYNTAX=ZTEST(ref,x[,stddev])\n"
-
-	   "@DESCRIPTION="
-	   "ZTEST returns the two-tailed probability of a z-test.\n"
-	   "\n"
-	   "@ref is the data set and @x is the value to be tested.\n"
-	   "@stddev is optionally an assumed standard deviation.\n"
-	   "\n"
-	   "* If @ref contains less than two data items ZTEST "
-	   "returns #DIV/0! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "ZTEST(A1:A5,20) equals 0.254717826.\n"
-	   "\n"
-	   "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,"
-	   "STANDARDIZE")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("ZTEST:p-value of a 2-tailed z-test for a population mean")},
+	{ GNM_FUNC_HELP_ARG, F_("ref:data set")},
+	{ GNM_FUNC_HELP_ARG, F_("x:mean as given in the null hypothesis")},
+	{ GNM_FUNC_HELP_ARG, F_("stddev:population stadard deviation, defaults to the sample standard deviation")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{ref} contains less than two data items ZTEST "
+				 "returns #DIV/0! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
+				     "11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then ZTEST(A1:A5,20) equals 0.254717826.")},
+	{ GNM_FUNC_HELP_SEEALSO, ("CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE")},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3056,27 +2452,14 @@ done:
 /***************************************************************************/
 
 static GnmFuncHelp const help_averagea[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=AVERAGEA\n"
-	   "@SYNTAX=AVERAGEA(number1,number2,...)\n"
-
-	   "@DESCRIPTION="
-	   "AVERAGEA returns the average of the given arguments.  Numbers, "
-	   "text and logical values are included in the calculation too. "
-	   "If the cell contains text or the argument evaluates to FALSE, "
-	   "it is counted as value zero (0).  If the argument evaluates to "
-	   "TRUE, it is counted as one (1).  Note that empty cells are not "
-	   "counted.\n"
-	   "\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
-	   "AVERAGEA(A1:A5) equals 18.94.\n"
-	   "\n"
-	   "@SEEALSO=AVERAGE")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("AVERAGEA:average of all the values and cells")},
+	{ GNM_FUNC_HELP_ARG, F_("value1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("value2:second value")},
+	HELP_DESCRIPTION_TEXT_INCLUSION,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then AVERAGEA(A1:A5) equals 18.94.") },
+	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3094,27 +2477,15 @@ gnumeric_averagea (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_maxa[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=MAXA\n"
-	   "@SYNTAX=MAXA(number1,number2,...)\n"
-
-	   "@DESCRIPTION="
-	   "MAXA returns the largest value of the given arguments.  Numbers, "
-	   "text and logical values are included in the calculation too. "
-	   "If the cell contains text or the argument evaluates to FALSE, "
-	   "it is counted as value zero (0).  If the argument evaluates to "
-	   "TRUE, it is counted as one (1).  Note that empty cells are not "
-	   "counted.\n"
-	   "\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
-	   "MAXA(A1:A5) equals 40.1.\n"
-	   "\n"
-	   "@SEEALSO=MAX,MINA")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("MAXA:largest value, with negative numbers considered smaller than positive numbers.")},
+	{ GNM_FUNC_HELP_ARG, F_("b1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("b2:second value")},
+	HELP_DESCRIPTION_TEXT_INCLUSION,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
+				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MAXA(A1:A5) equals 40.1.") },
+	{ GNM_FUNC_HELP_SEEALSO, "MAX,MINA"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3133,27 +2504,15 @@ gnumeric_maxa (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_mina[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=MINA\n"
-	   "@SYNTAX=MINA(number1,number2,...)\n"
-
-	   "@DESCRIPTION="
-	   "MINA returns the smallest value of the given arguments.  Numbers, "
-	   "text and logical values are included in the calculation too. "
-	   "If the cell contains text or the argument evaluates to FALSE, "
-	   "it is counted as value zero (0).  If the argument evaluates to "
-	   "TRUE, it is counted as one (1).  Note that empty cells are not "
-	   "counted.\n"
-	   "\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
-	   "MINA(A1:A5) equals 0.\n"
-	   "\n"
-	   "@SEEALSO=MIN,MAXA")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("MINA:smallest value, with negative numbers considered smaller than positive numbers")},
+	{ GNM_FUNC_HELP_ARG, F_("b1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("b2:second value")},
+	HELP_DESCRIPTION_TEXT_INCLUSION,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
+				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MINA(A1:A5) equals 0.") },
+	{ GNM_FUNC_HELP_SEEALSO, "MIN,MAXA"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3172,33 +2531,19 @@ gnumeric_mina (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_vara[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=VARA\n"
-	   "@SYNTAX=VARA(number1,number2,...)\n"
-
-	   "@DESCRIPTION="
-	   "VARA calculates sample variance of the given sample.\n"
-	   "To get the true variance of a complete population use VARPA.\n"
-	   "VARA is also known as the N-1-variance.\n"
-	   "Under reasonable "
-	   "conditions, it is the maximum-likelihood estimator for the "
-	   "true variance.\n"
-	   "Numbers, text "
-	   "and logical values are included in the calculation too. "
-	   "If the cell contains text or the argument evaluates "
-	   "to FALSE, it is counted as value zero (0).  If the "
-	   "argument evaluates to TRUE, it is counted as one (1).  Note "
-	   "that empty cells are not counted.\n"
-	   "\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
-	   "VARA(A1:A5) equals 228.613.\n"
-	   "\n"
-	   "@SEEALSO=VAR,VARPA")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("VARA:sample variance of the given sample")},
+	{ GNM_FUNC_HELP_ARG, F_("b1:first cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("b2:second cell area")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("VARA is also known as the N-1-variance. Under reasonable "
+					"conditions, it is the maximum-likelihood estimator for the "
+					"true variance")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("To get the true variance of a complete population use VARPA.") },
+	HELP_DESCRIPTION_TEXT_INCLUSION,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
+				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then VARA(A1:A5) equals 228.613.") },
+	{ GNM_FUNC_HELP_SEEALSO, "VAR,VARPA"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3216,28 +2561,16 @@ gnumeric_vara (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_varpa[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=VARPA\n"
-	   "@SYNTAX=VARPA(number1,number2,...)\n"
-
-	   "@DESCRIPTION="
-	   "VARPA calculates the variance of an entire population.\n"
-	   "VARPA is also known as the N-variance.\n"
-	   "Numbers, text and logical values are included in the "
-	   "calculation too.  If the cell contains text or the argument "
-	   "evaluates to FALSE, it is counted as value zero (0).  If the "
-	   "argument evaluates to TRUE, it is counted as one (1).  Note "
-	   "that empty cells are not counted.\n"
-	   "\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
-	   "VARPA(A1:A5) equals 182.8904.\n"
-	   "\n"
-	   "@SEEALSO=VARA,VARP")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("VARPA:variance of an entire population")},
+	{ GNM_FUNC_HELP_ARG, F_("b1:first cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("b2:second cell area")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("VARPA is also known as the N-variance.") },
+	HELP_DESCRIPTION_TEXT_INCLUSION,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
+				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then VARPA(A1:A5) equals 182.8904.") },
+	{ GNM_FUNC_HELP_SEEALSO, "VARA,VARP"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3255,34 +2588,22 @@ gnumeric_varpa (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_stdeva[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=STDEVA\n"
-	   "@SYNTAX=STDEVA(number1,number2,...)\n"
-
-	   "@DESCRIPTION="
-	   "STDEVA returns the sample standard deviation of the given "
-	   "sample.\n"
-	   "To obtain the population standard deviation of a whole population "
-	   "use STDEVPA.\n"
-	   "STDEVA is also known as the N-1-standard deviation.\n"
-	   "Under reasonable "
-	   "conditions, it is the maximum-likelihood estimator for the "
-	   "true population standard deviation.\n"
-	   "Numbers, text and logical values are included in the calculation "
-	   "too.  If the cell contains text or the argument evaluates to "
-	   "FALSE, it is counted as value zero (0).  If the argument "
-	   "evaluates to TRUE, it is counted as one (1).  Note that empty "
-	   "cells are not counted.\n"
-	   "\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
-	   "STDEVA(A1:A5) equals 15.119953704.\n"
-	   "\n"
-	   "@SEEALSO=STDEV,STDEVPA")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("STDEVA:sample standard deviation of the given "
+	   "sample.")},
+	{ GNM_FUNC_HELP_ARG, F_("b1:first cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("b2:second cell area")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("STDEVA is also known as the N-1-standard deviation. "
+					"Under reasonable "
+					"conditions, it is the maximum-likelihood estimator for the "
+					"true population standard deviation.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("To obtain the population standard deviation of a whole population "
+					"use STDEVPA.")},
+	HELP_DESCRIPTION_TEXT_INCLUSION,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
+				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then STDEVA(A1:A5) equals 15.119953704.") },
+	{ GNM_FUNC_HELP_SEEALSO, "STDEV,STDEVPA"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3300,29 +2621,16 @@ gnumeric_stdeva (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_stdevpa[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=STDEVPA\n"
-	   "@SYNTAX=STDEVPA(number1,number2,...)\n"
-
-	   "@DESCRIPTION="
-	   "STDEVPA returns the population standard deviation of an entire "
-	   "population.\n"
-	   "This is also known as the N-standard deviation\n"
-	   "Numbers, text and logical values are included in "
-	   "the calculation too.  If the cell contains text or the argument "
-	   "evaluates to FALSE, it is counted as value zero (0).  If the "
-	   "argument evaluates to TRUE, it is counted as one (1).  Note "
-	   "that empty cells are not counted.\n"
-	   "\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
-	   "STDEVPA(A1:A5) equals 13.523697719.\n"
-	   "\n"
-	   "@SEEALSO=STDEVA,STDEVP")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("STDEVPA:population standard deviation of an entire population.")},
+	{ GNM_FUNC_HELP_ARG, F_("b1:first cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("b2:second cell area")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This is also known as the N-standard deviation")},
+	HELP_DESCRIPTION_TEXT_INCLUSION,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
+				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then STDEVPA(A1:A5) equals 13.523697719.") },
+	{ GNM_FUNC_HELP_SEEALSO, "STDEVA,STDEVP"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3340,31 +2648,19 @@ gnumeric_stdevpa (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_percentrank[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=PERCENTRANK\n"
-	   "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
-
-	   "@DESCRIPTION="
-	   "PERCENTRANK function returns the rank of a data point in a data "
-	   "set.  @array is the range of numeric values, @x is the data "
-	   "point which you want to rank, and the optional @significance "
-	   "specifies the number of significant digits for the returned "
-	   "value, truncating the remainder.  If @significance is omitted, "
-	   "PERCENTRANK uses three digits.\n"
-	   "\n"
-	   "* If @array contains no data points, PERCENTRANK returns #NUM! "
-	   "error.\n"
-	   "* If @significance is less than one, PERCENTRANK returns #NUM! "
-	   "error.\n"
-	   "* If @x exceeds the largest value or is less than the smallest "
-	   "value in @array, PERCENTRANK returns #NUM! error.\n"
-	   "* If @x does not match any of the values in @array or @x matches "
-	   "more than once, PERCENTRANK interpolates the returned value.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("PERCENTRANK:rank of a data point in a data set.")},
+	{ GNM_FUNC_HELP_ARG, F_("array:range of numeric values")},
+	{ GNM_FUNC_HELP_ARG, F_("x:data point to be ranked")},
+	{ GNM_FUNC_HELP_ARG, F_("significance:number of significant digits, defaults to 3")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{array} contains no data points, this function returns a #NUM! "
+				 "error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{significance} is less than one, this function returns a #NUM! "
+				 "error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} exceeds the largest value or is less than the smallest "
+				 "value in @{array}, this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} does not match any of the values in @{array} or @{x} matches "
+				 "more than once, this function interpolates the returned value.") },
+	{ GNM_FUNC_HELP_SEEALSO, "LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3449,26 +2745,15 @@ gnumeric_percentrank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_percentile[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=PERCENTILE\n"
-	   "@SYNTAX=PERCENTILE(array,k)\n"
-
-	   "@DESCRIPTION="
-	   "PERCENTILE function returns the 100*@k-th percentile "
-	   "of the given data points (that is, a number x such "
-	   "that a fraction @k of the data points are less than x).\n"
-	   "\n"
-	   "* If @array is empty, PERCENTILE returns #NUM! error.\n"
-	   "* If @k < 0 or @k > 1, PERCENTILE returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "PERCENTILE(A1:A5,0.42) equals 20.02.\n"
-	   "\n"
-	   "@SEEALSO=QUARTILE")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("PERCENTILE:determines the  100*@{k}-th percentile of the given data points")},
+	{ GNM_FUNC_HELP_ARG, F_("array:data points")},
+	{ GNM_FUNC_HELP_ARG, F_("k:which percentile to calculate")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{array} is empty, this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{k} < 0 or @{k} > 1, this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then PERCENTILE(A1:A5,0.42) equals 20.02.") },
+	{ GNM_FUNC_HELP_SEEALSO, "QUARTILE"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3502,33 +2787,17 @@ gnumeric_percentile (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_quartile[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=QUARTILE\n"
-	   "@SYNTAX=QUARTILE(array,quart)\n"
-
-	   "@DESCRIPTION="
-	   "QUARTILE function returns the quartile of the given data "
-	   "points.\n"
-	   "\n"
-	   "If @quart is equal to: QUARTILE returns:\n"
-	   "0                      the smallest value of @array.\n"
-	   "1                      the first quartile\n"
-	   "2                      the second quartile\n"
-	   "3                      the third quartile\n"
-	   "4                      the largest value of @array.\n"
-	   "\n"
-	   "* If @array is empty, QUARTILE returns #NUM! error.\n"
-	   "* If @quart < 0 or @quart > 4, QUARTILE returns #NUM! error.\n"
-	   "* If @quart is not an integer, it is truncated.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
-	   "QUARTILE(A1:A5,1) equals 17.3.\n"
-	   "\n"
-	   "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("QUARTILE:calculates the @{k}-th quartile of the data points")},
+	{ GNM_FUNC_HELP_ARG, F_("array:data points")},
+	{ GNM_FUNC_HELP_ARG, F_("quart:A number from 0 to 4, indicating which quartile to calculate. "
+				"A value of 0 causes the smallest value of @{array} to be returned.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{array} is empty, this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{quart} is not an integer, it is truncated.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then QUARTILE(A1:A5,1) equals 17.3.") },
+	{ GNM_FUNC_HELP_SEEALSO, "LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3562,24 +2831,16 @@ gnumeric_quartile (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ftest[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=FTEST\n"
-	   "@SYNTAX=FTEST(array1,array2)\n"
-
-	   "@DESCRIPTION="
-	   "FTEST function returns the two-tailed probability that the "
-	   "variances in the given two data sets are not significantly "
-	   "different.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
-	   "B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then\n"
-	   "FTEST(A1:A5,B1:B5) equals 0.510815017.\n"
-	   "\n"
-	   "@SEEALSO=FDIST,FINV")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("FTEST:p-value for the two-tailed hypothesis test comparing the "
+				 "variances of two populations")},
+	{ GNM_FUNC_HELP_ARG, F_("array1:sample from the first population")},
+	{ GNM_FUNC_HELP_ARG, F_("array2:sample from the second population")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
+				     "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
+				     "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then FTEST(A1:A5,B1:B5) equals 0.510815017.") },
+	{ GNM_FUNC_HELP_SEEALSO, "FDIST,FINV"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3627,40 +2888,28 @@ out:
 /***************************************************************************/
 
 static GnmFuncHelp const help_ttest[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TTEST\n"
-	   "@SYNTAX=TTEST(array1,array2,tails,type)\n"
-
-	   "@DESCRIPTION="
-	   "TTEST function returns the probability of a Student's t-Test. "
-	   "\n"
-	   "@array1 is the first data set and @array2 is the second data "
-	   "set.  If @tails is one, TTEST uses the one-tailed distribution "
-	   "and if @tails is two, TTEST uses the two-tailed distribution.  "
-	   "@type determines the kind of the test:\n\n"
-	   "\t1  Paired test\n"
-	   "\t2  Two-sample equal variance\n"
-	   "\t3  Two-sample unequal variance\n"
-	   "\n"
-	   "* If the data sets contain a different number of data points and "
-	   "the test is paired (@type one), TTEST returns the #N/A error.\n"
-	   "* @tails and @type are truncated to integers.\n"
-	   "* If @tails is not one or two, TTEST returns #NUM! error.\n"
-	   "* If @type is any other than one, two, or three, TTEST returns "
-	   "#NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
-	   "B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then\n"
-	   "TTEST(A1:A5,B1:B5,1,1) equals 0.003127619.\n"
-	   "TTEST(A1:A5,B1:B5,2,1) equals 0.006255239.\n"
-	   "TTEST(A1:A5,B1:B5,1,2) equals 0.111804322.\n"
-	   "TTEST(A1:A5,B1:B5,1,3) equals 0.113821797.\n"
-	   "\n"
-	   "@SEEALSO=FDIST,FINV")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("TTEST:p-value for a hypothesis test comparing the means of two populations using"
+				 "the Student t-distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("array1:sample from the first population")},
+	{ GNM_FUNC_HELP_ARG, F_("array2:sample from the second population")},
+	{ GNM_FUNC_HELP_ARG, F_("tails:number of tails to consider")},
+	{ GNM_FUNC_HELP_ARG, F_("type:Type of test to perform. 1 indicates a test for paired variables, "
+				"2 a test of unpaired variables with equal variances, and "
+				"3 a test of unpaired variables with unequal variances")},
+	{ GNM_FUNC_HELP_NOTE, F_("If the data sets contain a different number of data points and "
+				 "the test is paired (@{type} one), TTEST returns the #N/A error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("@{tails} and @{type} are truncated to integers.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{tails} is not one or two, this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{type} is any other than one, two, or three, this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
+				     "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
+				     "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then TTEST(A1:A5,B1:B5,1,1) equals 0.003127619."
+				     "TTEST(A1:A5,B1:B5,2,1) equals 0.006255239."
+				     "TTEST(A1:A5,B1:B5,1,2) equals 0.111804322."
+				     "TTEST(A1:A5,B1:B5,1,3) equals 0.113821797.") },
+	{ GNM_FUNC_HELP_SEEALSO, "FDIST,FINV"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3811,25 +3060,14 @@ gnumeric_ttest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_frequency[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=FREQUENCY\n"
-	   "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
-
-	   "@DESCRIPTION="
-	   "FREQUENCY function counts how often given values occur within a "
-	   "range of values.  The results are given as an array.\n"
-	   "\n"
-	   "@data_array is a data array for which you want to count the "
-	   "frequencies.  @bin_array is an array containing the intervals "
-	   "into which you want to group the values in data_array.  If the "
-	   "@bin_array is empty, FREQUENCY returns the number of data points "
-	   "in @data_array.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("FREQUENCY:calculates a frequency table")},
+	{ GNM_FUNC_HELP_ARG, F_("data_array:data values")},
+	{ GNM_FUNC_HELP_ARG, F_("bins_array:array of cutoff values")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The results are given as an array.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If the @{bin_array} is empty, this function "
+					"returns the number of data points "
+					"in @{data_array}.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3896,10 +3134,21 @@ static GnmFuncHelp const help_linest[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:array of values of independent variables, defaults to a single vector 1,...,n.") },
 	{ GNM_FUNC_HELP_ARG, F_("affine:if true, the model contains a constant term, defaults to true.") },
 	{ GNM_FUNC_HELP_ARG, F_("stats:if true, some additional statistics is provided, defaults to false") },
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns an array with the first row giving the regression coefficients for the independent variables x_m, x_(m-1),...,x_2, x_1 followed by the y-intercept if @{affine} is true.")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @{stats} is true, the second row contains the corresponding standard errors of the regression coefficients. In this case, the third row contains the R^2 value and the standard error for the predicted value. The fourth row contains the observed F value and its degrees of freedom. Finally, the fifth row contains the regression sum of squares and the residual sum of squares.") },
-	{GNM_FUNC_HELP_NOTE, F_("If @{affine} is false, R^2 is the uncentered version of the coefficient of determination; that is the proportion of the sum of squares explained by the model.")},
-	{GNM_FUNC_HELP_NOTE, F_("If the length of @{y} does not match the corresponding length of @{x}, LINEST returns #NUM!")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns an array with the first row giving the regression "
+					"coefficients for the independent variables "
+					"x_m, x_(m-1),...,x_2, x_1 followed by the y-intercept if @{affine} is true.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{stats} is true, the second row contains the corresponding standard "
+					"errors of the regression coefficients."
+					"In this case, the third row contains the R^2 value and the standard error "
+					"for the predicted value. "
+					"The fourth row contains the observed F value and its degrees of freedom. "
+					"Finally, the fifth row contains the regression sum of squares and the "
+					"residual sum of squares.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{affine} is false, R^2 is the uncentered version of the coefficient "
+					"of determination; "
+					"that is the proportion of the sum of squares explained by the model.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If the length of @{y} does not match the corresponding length of @{x}, "
+				 "this function  returns a #NUM! error")},
 	{ GNM_FUNC_HELP_SEEALSO, "LOGEST,TREND" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -4129,43 +3378,32 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_logreg[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=LOGREG\n"
-	   "@SYNTAX=LOGREG(known_y's[,known_x's[,const[,stat]]])\n"
-
-	   "@DESCRIPTION="
-	   "LOGREG function transforms your x's to z=ln(x) and "
-	   "applies the ``least squares'' method to fit the linear equation\n"
-           "y = m * z + b \n"
-	   "to your y's and z's --- equivalent to fitting the equation\n"
-	   "y = m * ln(x) + b \n"
-	   "to y's and x's. \n"
-	   "\n"
-	   "If @known_x's is omitted, an array {1, 2, 3, ...} is used. "
-           "LOGREG returns an array having two columns and one row. "
-           "m is given in the first column and b in the second. \n"
-	   "\n"
-	   "If @known_y's and @known_x's have unequal number of data points, "
-	   "LOGREG returns #NUM! error.\n"
-	   "\n"
-	   "If @const is FALSE, the curve will be forced to go through "
-	   "[1; 0], i.e., b will be zero. The default is TRUE.\n"
-	   "\n"
-	   "If @stat is TRUE, extra statistical information will be returned "
-	   "which applies to the state AFTER transformation to z. "
-	   "Extra statistical information is written below m and b in the "
-	   "result array.  Extra statistical information consists of four "
-	   "rows of data.  In the first row the standard error values for the "
-	   "coefficients m, b are represented.  The second row "
-	   "contains the square of R and the standard error for the y "
-	   "estimate. The third row contains the F-observed value and the "
-	   "degrees of freedom.  The last row contains the regression sum "
-	   "of squares and the residual sum of squares."
-	   "The default of @stat is FALSE.\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=LOGFIT,LINEST,LOGEST")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("LOGREG:calculates a logarithmic regression")},
+	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.")},
+	{ GNM_FUNC_HELP_ARG, F_("const:If this is FALSE, the curve will be forced to go through "
+				"[1; 0], i.e., b will be zero. The default is TRUE.")},
+	{ GNM_FUNC_HELP_ARG, F_("stat:If @{stat} is TRUE, extra statistical information will be returned; defaults to FALSE.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("LOGREG function transforms your x's to z=ln(x) and "
+					"applies the ``least squares'' method to fit the linear equation "
+					"y = m * z + b "
+					"to your y's and z's --- equivalent to fitting the equation "
+					"y = m * ln(x) + b "
+					"to y's and x's. "
+					"LOGREG returns an array having two columns and one row. "
+					"m is given in the first column and b in the second. ") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("Any extra statistical information is written below m and b in the "
+					"result array.  This extra statistical information consists of four "
+					"rows of data:  In the first row the standard error values for the "
+					"coefficients m, b are given.  The second row "
+					"contains the square of R and the standard error for the y "
+					"estimate. The third row contains the F-observed value and the "
+					"degrees of freedom.  The last row contains the regression sum "
+					"of squares and the residual sum of squares."
+					"The default of @{stat} is FALSE.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{known_y}'s and @{known_x}'s have unequal number of data points, "
+				 "this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_SEEALSO, "LOGFIT,LINEST,LOGEST"},
 	{ GNM_FUNC_HELP_END }
 };
 /* The following is a copy of "gnumeric_linest" of Gnumeric version 1.1.9
@@ -4399,41 +3637,33 @@ gnumeric_logreg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_logfit[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=LOGFIT\n"
-	   "@SYNTAX=LOGFIT(known_y's,known_x's)\n"
-
-	   "@DESCRIPTION="
+	{ GNM_FUNC_HELP_NAME, F_("LOGFIT:logarithmic least square fit (using a trial and error method)")},
+	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_(
 	   "LOGFIT function applies the ``least squares'' method to fit "
-	   "the logarithmic equation\n"
-	   "y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 \n"
+	   "the logarithmic equation"
+	   "y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 "
 	   "to your data. The graph of the equation is a logarithmic curve "
 	   "moved horizontally by c and possibly mirrored across the y-axis "
-	   "(if sign = -1).\n"
-	   "\n"
-	   "LOGFIT returns an array having five columns and one row. "
-	   "`Sign' is given in the first column, `a', `b', and `c' are "
-	   "given in columns 2 to 4. Column 5 holds the sum of squared "
-	   "residuals.\n"
-	   "\n"
-	   "An error is returned when there are less than 3 different x's "
-	   "or y's, or when the shape of the point cloud is too different "
-	   "from a ``logarithmic'' one.\n"
-	   "\n"
-	   "You can use the above formula \n"
-	   "= a + b * ln(sign * (x - c)) \n"
-	   "or rearrange it to \n"
-	   "= (exp((y - a) / b)) / sign + c \n"
-	   "to compute unknown y's or x's, respectively. \n"
-	   "\n"
-	   "Technically, this is non-linear fitting by trial-and-error. "
-	   "The accuracy of `c' is: width of x-range -> rounded to the "
-	   "next smaller (10^integer), times 0.000001. There might be cases "
-	   "in which the returned fit is not the best possible.\n"
-           "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=LOGREG,LINEST,LOGEST")
-	},
+	   "(if sign = -1).")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("LOGFIT returns an array having five columns and one row. "
+					"`Sign' is given in the first column, `a', `b', and `c' are "
+					"given in columns 2 to 4. Column 5 holds the sum of squared "
+					"residuals.")},
+	{ GNM_FUNC_HELP_NOTE, F_("An error is returned when there are less than 3 different x's "
+				 "or y's, or when the shape of the point cloud is too different "
+				 "from a ``logarithmic'' one.")},
+	{ GNM_FUNC_HELP_NOTE, F_("You can use the above formula "
+				 "= a + b * ln(sign * (x - c)) "
+				 "or rearrange it to "
+				 "= (exp((y - a) / b)) / sign + c "
+				 "to compute unknown y's or x's, respectively. ")},
+	{ GNM_FUNC_HELP_NOTE, F_("This is non-linear fitting by trial-and-error. "
+				 "The accuracy of `c' is: width of x-range -> rounded to the "
+				 "next smaller (10^integer), times 0.000001. There might be cases "
+				 "in which the returned fit is not the best possible.") },
+	{ GNM_FUNC_HELP_SEEALSO, "LOGREG,LINEST,LOGEST"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -4502,34 +3732,18 @@ numbers */
 /***************************************************************************/
 
 static GnmFuncHelp const help_trend[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TREND\n"
-	   "@SYNTAX=TREND(known_y's[,known_x's[,new_x's[,const]]])\n"
-
-	   "@DESCRIPTION="
-	   "TREND function estimates future values of a given data set "
-	   "using the ``least squares'' line that best fit to your data. "
-	   "@known_y's is the y-values where y=mx+b and @known_x's contains "
-	   "the corresponding x-values.  @new_x's contains the x-values for "
-	   "which you want to estimate the y-values. If @const is FALSE, "
-	   "the line will be forced to go through the "
-           "origin, i.e., b will be zero.\n"
-	   "\n"
-	   "* If @known_x's is omitted, an array {1, 2, 3, ...} is used.\n"
-	   "* If @new_x's is omitted, it is assumed to be the same as "
-	   "@known_x's.\n"
-	   "* If @const is omitted, it is assumed to be TRUE.\n"
-	   "* If @known_y's and @known_x's have unequal number of data points, "
-	   "TREND returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
-	   "B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then\n"
-	   "TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}.\n"
-	   "\n"
-	   "@SEEALSO=LINEST")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("TREND:estimates future values of a given data set using a least squares approximation")},
+	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.")},
+	{ GNM_FUNC_HELP_ARG, F_("new_x's: x-values for which you want to estimate the y-values; defaults to @{known_x}'s")},
+	{ GNM_FUNC_HELP_ARG, F_("const:if this is false the line will be forced to go through the origin; defaults to TRUE")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{known_y}'s and @{known_x}'s have unequal number of data points, "
+				 "this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
+				     "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
+				     "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}.") },
+	{ GNM_FUNC_HELP_SEEALSO, "LINEST"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -4587,7 +3801,7 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				xs[nx] = nx + 1;
 		}
 
-		/* @new_x's is assumed to be the same as @known_x's */
+		/* @{new_x}'s is assumed to be the same as @{known_x}'s */
 		nnx = nx;
 		nxs = g_memdup (xs, nnx * sizeof (*xs));
 	}
@@ -4599,11 +3813,6 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (nx != ny) {
 		result = value_new_error_NUM (ei->pos);
-		goto out;
-	}
-
-	if (nnx <= 0) {
-		result = value_new_error_VALUE (ei->pos);
 		goto out;
 	}
 
@@ -4630,38 +3839,27 @@ gnumeric_trend (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_logest[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=LOGEST\n"
-	   "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
-
-	   "@DESCRIPTION="
-	   "LOGEST function applies the ``least squares'' method to fit "
-	   "an exponential curve of the form\n\n\t"
-	   "y = b * m{1}^x{1} * m{2}^x{2}... to your data.\n"
-	   "\n"
-	   "If @stat is TRUE, extra statistical information will be returned. "
-	   "Extra statistical information is written below the regression "
-	   "line coefficients in the result array.  Extra statistical "
-	   "information consists of four rows of data.  In the first row "
-	   "the standard error values for the coefficients m1, (m2, ...), b "
-	   "are represented.  The second row contains the square of R and "
-	   "the standard error for the y estimate.  The third row contains "
-	   "the F-observed value and the degrees of freedom.  The last row "
-	   "contains the regression sum of squares and the residual sum "
-	   "of squares.\n"
-	   "\n"
-	   "* If @known_x's is omitted, an array {1, 2, 3, ...} is used. "
-	   "LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }.\n"
-	   "* If @known_y's and @known_x's have unequal number of data points, "
-	   "LOGEST returns #NUM! error.\n"
-	   "* If @const is FALSE, the line will be forced to go through (0,1),"
-	   "i.e., b will be one.  The default is TRUE.\n"
-	   "* The default of @stat is FALSE.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=GROWTH,TREND")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("LOGEST:exponential least square fit")},
+	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.")},
+	{ GNM_FUNC_HELP_ARG, F_("const:if this is false the line will be forced to go through (0,1); defaults to TRUE")},
+	{ GNM_FUNC_HELP_ARG, F_("stat:If @{stat} is TRUE, extra statistical information will be returned; defaults to FALSE.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("LOGEST function applies the ``least squares'' method to fit "
+					"an exponential curve of the form\t"
+					"y = b * m{1}^x{1} * m{2}^x{2}... to your data.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }.") },
+	{ GNM_FUNC_HELP_NOTE, F_("Extra statistical information is written below the regression "
+				 "line coefficients in the result array.  Extra statistical "
+				 "information consists of four rows of data.  In the first row "
+				 "the standard error values for the coefficients m1, (m2, ...), b "
+				 "are represented.  The second row contains the square of R and "
+				 "the standard error for the y estimate.  The third row contains "
+				 "the F-observed value and the degrees of freedom.  The last row "
+				 "contains the regression sum of squares and the residual sum "
+				 "of squares.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{known_y}'s and @{known_x}'s have unequal number of data points, "
+				 "this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_SEEALSO, "GROWTH,TREND"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -4875,30 +4073,19 @@ gnumeric_logest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_growth[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=GROWTH\n"
-	   "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
-
-	   "@DESCRIPTION="
-	   "GROWTH function applies the ``least squares'' method to fit an "
-	   "exponential curve to your data and predicts the exponential "
-	   "growth by using this curve. "
-	   "\n"
-	   "GROWTH returns an array having one column and a row for each "
-	   "data point in @new_x.\n"
-	   "\n"
-	   "* If @known_x's is omitted, an array {1, 2, 3, ...} is used.\n"
-	   "* If @new_x's is omitted, it is assumed to be the same as "
-	   "@known_x's.\n"
-	   "* If @known_y's and @known_x's have unequal number of data points, "
-	   "GROWTH returns #NUM! error.\n"
-	   "* If @const is FALSE, the line will be forced to go through the "
-	   "origin, i.e., b will be zero. The default is TRUE.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=LOGEST,GROWTH,TREND")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("GROWTH: predicts the exponential growth")},
+	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.")},
+	{ GNM_FUNC_HELP_ARG, F_("new_x's:x-values for which you want to estimate the y-values; defaults to @{known_x}'s")},
+	{ GNM_FUNC_HELP_ARG, F_("const:if this is false the line will be forced to go through the origin; defaults to TRUE")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("GROWTH function applies the ``least squares'' method to fit an "
+					"exponential curve to your data and predicts the exponential "
+					"growth by using this curve.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("GROWTH returns an array having one column and a row for each "
+					"data point in @{new_x}.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{known_y}'s and @{known_x}'s have unequal number of data points, "
+				 "this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_SEEALSO, "LOGEST,GROWTH,TREND"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -4943,7 +4130,7 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			}
 		}
 	} else {
-		/* @new_x's is assumed to be the same as @known_x's */
+		/* @{new_x}'s is assumed to be the same as @{known_x}'s */
 		if (argv[1] != NULL) {
 			xs = collect_floats_value (argv[1], ei->pos,
 						   COLLECT_IGNORE_STRINGS |
@@ -4973,11 +4160,6 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		goto out;
 	}
 
-	if (nnx <= 0) {
-		result = value_new_error_VALUE (ei->pos);
-		goto out;
-	}
-
 	dim = 1;
 
 	if (gnm_exponential_regression (&xs, dim,
@@ -5002,29 +4184,23 @@ gnumeric_growth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_forecast[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=FORECAST\n"
-	   "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
-
-	   "@DESCRIPTION="
-	   "FORECAST function estimates a future value according to "
-	   "existing values using simple linear regression.  The estimated "
-	   "future value is a y-value for a given x-value (@x).\n"
-	   "\n"
-	   "* If @known_x or @known_y contains no data entries or different "
-	   "number of data entries, FORECAST returns #N/A error.\n"
-	   "* If the variance of the @known_x is zero, FORECAST returns #DIV/0 "
-	   "error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
-	   "B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then\n"
-	   "FORECAST(7,A1:A5,B1:B5) equals -10.859397661.\n"
-	   "\n"
-	   "@SEEALSO=INTERCEPT,TREND")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("FORECAST:estimates a future value according to existing values "
+				 "using simple linear regression")},
+	{ GNM_FUNC_HELP_ARG, F_("x:x-value whose matching y-value should be forecast")},
+	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function estimates a future value according to "
+					"existing values using simple linear regression.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{known_x} or @{known_y} contains no data entries or different "
+				 "number of data entries, this function returns a #N/A error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If the variance of the @{known_x} is zero, this function returns a #DIV/0 "
+				 "error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
+				     "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
+				     "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then FORECAST(7,A1:A5,B1:B5) equals -10.859397661.") },
+	{ GNM_FUNC_HELP_SEEALSO, "INTERCEPT,TREND"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -5076,28 +4252,19 @@ gnumeric_forecast (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_intercept[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=INTERCEPT\n"
-	   "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
-
-	   "@DESCRIPTION="
-	   "INTERCEPT function calculates the point where the linear "
-	   "regression line intersects the y-axis.\n"
-	   "\n"
-	   "* If @known_x or @known_y contains no data entries or different "
-	   "number of data entries, INTERCEPT returns #N/A error.\n"
-	   "* If the variance of the @known_x is zero, INTERCEPT returns "
-	   "#DIV/0 error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
-	   "B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then\n"
-	   "INTERCEPT(A1:A5,B1:B5) equals -20.785117212.\n"
-	   "\n"
-	   "@SEEALSO=FORECAST,TREND")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("INTERCEPT:calculates the intercept of a linear regression line")},
+	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{known_x} or @{known_y} contains no data entries or different "
+				 "number of data entries, this function returns a #N/A error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If the variance of the @{known_x} is zero, this function returns "
+				 "#DIV/0 error.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
+				     "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
+				     "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then INTERCEPT(A1:A5,B1:B5) equals -20.785117212.") },
+	{ GNM_FUNC_HELP_SEEALSO, "FORECAST,TREND"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -5131,22 +4298,19 @@ gnumeric_intercept (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_slope[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SLOPE\n"
-	   "@SYNTAX=SLOPE(known_y's,known_x's)\n"
-
-	   "@DESCRIPTION="
-	   "SLOPE returns the slope of the linear regression line.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
-	   "B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then\n"
-	   "SLOPE(A1:A5,B1:B5) equals 1.417959936.\n"
-	   "\n"
-	   "@SEEALSO=STDEV,STDEVPA")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("SLOPE:calculates the slope of a linear regression line")},
+	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
+	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{known_x} or @{known_y} contains no data entries or different "
+				 "number of data entries, this function returns a #N/A error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If the variance of the @{known_x} is zero, this function returns "
+				 "#DIV/0 error.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
+				     "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
+				     "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SLOPE(A1:A5,B1:B5) equals 1.417959936.") },
+	{ GNM_FUNC_HELP_SEEALSO, "STDEV,STDEVPA"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -5180,39 +4344,30 @@ gnumeric_slope (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_subtotal[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SUBTOTAL\n"
-	   "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
-
-	   "@DESCRIPTION="
-	   "SUBTOTAL function returns a subtotal of given list of arguments. "
-	   "@function_nbr is the number that specifies which function to use "
-	   "in calculating the subtotal.\n\n"
-	   "The following functions are available:\n\n"
-	   "\t1   AVERAGE\n"
-	   "\t2   COUNT\n"
-	   "\t3   COUNTA\n"
-	   "\t4   MAX\n"
-	   "\t5   MIN\n"
-	   "\t6   PRODUCT\n"
-	   "\t7   STDEV\n"
-	   "\t8   STDEVP\n"
-	   "\t9   SUM\n"
-	   "\t10   VAR\n"
-	   "\t11   VARP\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "23, 27, 28, 33, and 39.  Then\n"
-	   "SUBTOTAL(1,A1:A5) equals 30.\n"
-	   "SUBTOTAL(6,A1:A5) equals 22378356.\n"
-	   "SUBTOTAL(7,A1:A5) equals 6.164414003.\n"
-	   "SUBTOTAL(9,A1:A5) equals 150.\n"
-	   "SUBTOTAL(11,A1:A5) equals 30.4.\n"
-	   "\n"
-	   "@SEEALSO=COUNT,SUM")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("SUBTOTAL:calculates a subtotal of the given list of arguments")},
+	{ GNM_FUNC_HELP_ARG, F_("function_nbr:determines which function to use according to the following table:\n"
+				"\t1   AVERAGE\n"
+				"\t2   COUNT\n"
+				"\t3   COUNTA\n"
+				"\t4   MAX\n"
+				"\t5   MIN\n"
+				"\t6   PRODUCT\n"
+				"\t7   STDEV\n"
+				"\t8   STDEVP\n"
+				"\t9   SUM\n"
+				"\t10   VAR\n"
+				"\t11   VARP"
+			)},
+	{ GNM_FUNC_HELP_ARG, F_("ref1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("ref2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, and 39.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SUBTOTAL(1,A1:A5) equals 30."
+				     "SUBTOTAL(6,A1:A5) equals 22378356."
+				     "SUBTOTAL(7,A1:A5) equals 6.164414003."
+				     "SUBTOTAL(9,A1:A5) equals 150."
+				     "SUBTOTAL(11,A1:A5) equals 30.4.") },
+	{ GNM_FUNC_HELP_SEEALSO, "COUNT,SUM"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -5286,19 +4441,9 @@ gnumeric_subtotal (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_cronbach[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=CRONBACH\n"
-	   "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
-
-	   "@DESCRIPTION="
-	   "CRONBACH returns Cronbach's alpha for the given cases."
-	   "\n"
-	   "@ref1 is a data set, @ref2 the second data set, etc.."
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("CRONBACH:Cronbach's alpha")},
+	{ GNM_FUNC_HELP_ARG, F_("ref1:first data set")},
+	{ GNM_FUNC_HELP_ARG, F_("ref2:second data set")},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -5408,23 +4553,15 @@ gnumeric_cronbach (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_geomdist[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=GEOMDIST\n"
-           "@SYNTAX=GEOMDIST(k,p,cum)\n"
-
-           "@DESCRIPTION="
-           "GEOMDIST returns the probability p(k) of obtaining @k from a "
-	   "geometric distribution with probability parameter @p.\n"
-           "\n"
-           "* If @k < 0 GEOMDIST returns #NUM! error.\n"
-           "* If @p < 0 or @p > 1 GEOMDIST returns #NUM! error.\n"
-           "* If @cum != TRUE and @cum != FALSE GEOMDIST returns #NUM! error.\n"
-	   "\n"
-           "@EXAMPLES=\n"
-           "GEOMDIST(2,10.4,TRUE).\n"
-           "\n"
-           "@SEEALSO=RANDGEOM")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("GEOMDIST:(cumulative) probability mass function of the hypergeometric distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("k:number of trials")},
+	{ GNM_FUNC_HELP_ARG, F_("p:probability of success in any trial")},
+	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the mass function or the cumulative distribution function")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{k} < 0 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{cumulative} is neither TRUE nor FALSE this function returns a #VALUE! error.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("GEOMDIST(2,10.4,TRUE).") },
+	{ GNM_FUNC_HELP_SEEALSO, "RANDGEOM"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -5447,19 +4584,11 @@ gnumeric_geomdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_logistic[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=LOGISTIC\n"
-           "@SYNTAX=LOGISTIC(x,a)\n"
-
-           "@DESCRIPTION="
-           "LOGISTIC returns the probability density p(x) at @x for a "
-	   "logistic distribution with scale parameter @a.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "LOGISTIC(0.4,1).\n"
-           "\n"
-           "@SEEALSO=RANDLOGISTIC")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("LOGISTIC:probability density function of the logistic distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("a:scale parameter")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("LOGISTIC(0.4,1).") },
+	{ GNM_FUNC_HELP_SEEALSO, "RANDLOGISTIC"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -5486,19 +4615,12 @@ gnumeric_logistic (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_pareto[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=PARETO\n"
-           "@SYNTAX=PARETO(x,a,b)\n"
-
-           "@DESCRIPTION="
-           "PARETO returns the probability density p(x) at @x for a "
-	   "Pareto distribution with exponent @a and scale @b.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "PARETO(0.6,1,2).\n"
-           "\n"
-           "@SEEALSO=RANDPARETO")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("PARETO:probability density function of the pareto distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("a:exponent")},
+	{ GNM_FUNC_HELP_ARG, F_("b:scale parameter")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("PARETO(0.6,1,2).") },
+	{ GNM_FUNC_HELP_SEEALSO, "RANDPARETO"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -5527,19 +4649,11 @@ gnumeric_pareto (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_rayleigh[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RAYLEIGH\n"
-           "@SYNTAX=RAYLEIGH(x,sigma)\n"
-
-           "@DESCRIPTION="
-           "RAYLEIGH returns the probability density p(x) at @x for a "
-	   "Rayleigh distribution with scale parameter @sigma.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RAYLEIGH(0.4,1).\n"
-           "\n"
-           "@SEEALSO=RANDRAYLEIGH")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("RAYLEIGH:probability density function of the Rayleigh distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("sigma:scale parameter")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("RAYLEIGH(0.4,1).") },
+	{ GNM_FUNC_HELP_SEEALSO, "RANDRAYLEIGH"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -5570,20 +4684,12 @@ gnumeric_rayleigh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_rayleightail[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RAYLEIGHTAIL\n"
-           "@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
-
-           "@DESCRIPTION="
-           "RAYLEIGHTAIL returns the probability density p(x) at @x for "
-	   "a Rayleigh tail distribution with scale parameter @sigma and "
-	   "lower limit @a.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RAYLEIGHTAIL(0.6,0.3,1).\n"
-           "\n"
-           "@SEEALSO=RANDRAYLEIGHTAIL")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("RAYLEIGHTAIL:probability density function of the Rayleigh tail distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("a:lower limit")},
+	{ GNM_FUNC_HELP_ARG, F_("sigma:scale parameter")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("RAYLEIGHTAIL(0.6,0.3,1)") },
+	{ GNM_FUNC_HELP_SEEALSO, "RANDRAYLEIGHTAIL"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -5616,23 +4722,18 @@ gnumeric_rayleightail (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_exppowdist[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=EXPPOWDIST\n"
-           "@SYNTAX=EXPPOWDIST(x,a,b)\n"
-
-           "@DESCRIPTION="
-           "EXPPOWDIST returns the probability density p(x) at @x for "
-	   "Exponential Power distribution with scale parameter @a and "
-	   "exponent @b.\n"
-           "This distribution has been recommended for lifetime analysis "
-	   "when a U-shaped hazard function is desired. "
-	   "This corresponds to rapid failure once the product starts to "
-	   "wear out after a period of steady or even improving reliability.\n"
-           "@EXAMPLES=\n"
-           "EXPPOWDIST(0.4,1,2).\n"
-           "\n"
-           "@SEEALSO=RANDEXPPOW")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("EXPPOWDIST: the probability density function of the "
+				 "Exponential Power distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("a:scale parameter")},
+	{ GNM_FUNC_HELP_ARG, F_("b:scale parameter")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_(
+			"This distribution has been recommended for lifetime analysis "
+			"when a U-shaped hazard function is desired. "
+			"This corresponds to rapid failure once the product starts to "
+			"wear out after a period of steady or even improving reliability.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("EXPPOWDIST(0.4,1,2)") },
+	{ GNM_FUNC_HELP_SEEALSO, "RANDEXPPOW"},
 	{ GNM_FUNC_HELP_END }
 };
 /* Part of help text quoted from the PEXPDF manpage of the DATAPLOT program
@@ -5655,19 +4756,11 @@ gnumeric_exppowdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_laplace[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=LAPLACE\n"
-           "@SYNTAX=LAPLACE(x,a)\n"
-
-           "@DESCRIPTION="
-           "LAPLACE returns the probability density p(x) at @x for "
-	   "Laplace distribution with mean @a. "
-           "\n"
-           "@EXAMPLES=\n"
-           "LAPLACE(0.4,1).\n"
-           "\n"
-           "@SEEALSO=RANDLAPLACE")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("LAPLACE:probability density function of the Laplace distribution")},
+	{ GNM_FUNC_HELP_ARG, F_("x:")},
+	{ GNM_FUNC_HELP_ARG, F_("a:mean")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("LAPLACE(0.4,1)") },
+	{ GNM_FUNC_HELP_SEEALSO, "RANDLAPLACE"},
 	{ GNM_FUNC_HELP_END }
 };
 
