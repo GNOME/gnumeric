@@ -6,6 +6,7 @@ Andreas:
 	* Allow for undos in the manage sheet dialog
 	* Permit lexicographic sorting by sheet names in the manage sheets
 	  dialog [#527076]
+	* Add functional seealso links in the function browser
 
 Hib Eris:
 	* Fix problems with toolbars when no handle bar present.  [#559249]

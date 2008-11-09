@@ -341,6 +341,7 @@ describe_old_style (GtkTextBuffer *description, GnmFunc const *func)
 #define ADD_LTEXT(text,len) gtk_text_buffer_insert (description, &ti, (text), (len))
 #define ADD_TEXT(text) ADD_LTEXT((text),-1)
 #define ADD_BOLD_TEXT(text,len) gtk_text_buffer_insert_with_tags (description, &ti, (text), (len), bold, NULL)
+#define ADD_LINK_TEXT(text,len) gtk_text_buffer_insert_with_tags (description, &ti, (text), (len), link, NULL)
 #define ADD_TEXT_WITH_ARGS(text) { const char *t = text; while (*t) { const char *at = strstr (t, "@{"); \
 			if (at == NULL) { ADD_TEXT(t); break;} ADD_LTEXT(t, at - t); t = at + 2; at = strchr (t,'}'); \
 			if (at != NULL) { ADD_BOLD_TEXT(t, at - t); t = at + 1; } else {ADD_TEXT (t); break;}}} 
@@ -407,18 +408,31 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 		}
 		case GNM_FUNC_HELP_SEEALSO: {
 			const char *text = help->text;  /* Not translated */
+			const char *pre = _("See also: ");
+			GtkTextTag *link = NULL;
+
+			link = gtk_text_tag_table_lookup 
+				(gtk_text_buffer_get_tag_table (description), "LINK");
+
+			if (link == NULL)
+				link =gtk_text_buffer_create_tag
+					(description, "LINK",
+					 "underline", PANGO_UNDERLINE_SINGLE,
+					 "foreground", "#0000ff",
+					 NULL);
 
 			ADD_TEXT ("\n");
-			ADD_TEXT (_("See also: "));
 
 			while (*text) {
 				const char *end = strchr (text, ',');
 				if (!end) end = text + strlen (text);
 
-				ADD_LTEXT (text, end - text);
-				ADD_TEXT (", ");
+				ADD_TEXT (pre);
+				ADD_LINK_TEXT (text, end - text);
 
 				text = *end ? end + 1 : end;
+
+				pre = _(", ");
 			}
 			ADD_TEXT ("\n");
 			break;
@@ -431,9 +445,175 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 	}
 }
 
+#undef ADD_TEXT_WITH_ARGS
 #undef ADD_TEXT
 #undef ADD_LTEXT
 #undef ADD_BOLD_TEXT
+#undef ADD_LINK_TEXT
+
+typedef struct {
+	GnmFuncGroup const * cat;
+	GnmFunc    *fd;
+	FunctionSelectState *state;
+	GtkTreeIter *iter;
+} dialog_function_select_find_func_t;
+
+static gboolean
+dialog_function_select_search_cat_func (GtkTreeModel *model,
+					GtkTreePath *path,
+					GtkTreeIter *iter,
+					gpointer dt)
+{
+	GnmFuncGroup const * cat;
+	dialog_function_select_find_func_t *data = dt;
+
+	gtk_tree_model_get (model, iter,
+			    CATEGORY, &cat,
+			    -1);
+	if (cat == data->cat) {
+		data->iter = gtk_tree_iter_copy (iter);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+static gboolean
+dialog_function_select_search_func (GtkTreeModel *model,
+				    GtkTreePath *path,
+				    GtkTreeIter *iter,
+				    gpointer dt)
+{
+	GnmFunc* fd;
+	dialog_function_select_find_func_t *data = dt;
+
+	gtk_tree_model_get (model, iter,
+			    FUNCTION, &fd,
+			    -1);
+	if (fd == data->fd) {
+		data->iter = gtk_tree_iter_copy (iter);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+static void
+dialog_function_select_find_func (FunctionSelectState *state, char* name)
+{
+	GnmFunc    *fd;
+
+	if (name == NULL)
+		return;
+	
+	fd = gnm_func_lookup (name, state->wb);
+	if (fd != NULL) {
+		dialog_function_select_find_func_t data;
+
+		data.cat = fd->fn_group;
+		data.state = state;
+		data.iter = NULL;
+		
+		gtk_tree_model_foreach (GTK_TREE_MODEL (state->model),
+					dialog_function_select_search_cat_func,
+					&data);
+		if (data.iter != NULL) {
+			GtkTreeSelection *selection = gtk_tree_view_get_selection 
+				(state->treeview);
+			GtkTreePath *path;
+
+			gtk_tree_selection_select_iter (selection,
+                                                        data.iter);
+			path = gtk_tree_model_get_path (GTK_TREE_MODEL (state->model),
+                                                        data.iter);
+			gtk_tree_view_scroll_to_cell (state->treeview, path,
+						      NULL, FALSE, 0., 0.);
+			gtk_tree_path_free (path);
+			gtk_tree_iter_free (data.iter);
+			data.iter = NULL;
+			data.fd = fd;
+
+			gtk_tree_model_foreach (GTK_TREE_MODEL (state->model_f),
+					dialog_function_select_search_func,
+					&data);
+			if (data.iter != NULL) {
+				selection = gtk_tree_view_get_selection 
+					(state->treeview_f);
+				
+				gtk_tree_selection_select_iter (selection,
+								data.iter);
+				path = gtk_tree_model_get_path (GTK_TREE_MODEL (state->model_f),
+								data.iter);
+				gtk_tree_view_scroll_to_cell (state->treeview_f, path,
+							      NULL, FALSE, 0., 0.);
+				gtk_tree_path_free (path);
+				gtk_tree_iter_free (data.iter);
+				data.iter = NULL;
+			} else
+				g_warning ("Function %s was not found in its category", name);
+
+		} else
+			g_warning ("Category of function %s was not found", name);
+	} else
+		g_warning ("Function %s was not found", name);
+} 
+
+typedef struct {
+	FunctionSelectState *state;
+	gchar * name;
+} cb_dialog_function_select_idle_handler_t;
+
+static gboolean
+cb_dialog_function_select_idle_handler (gpointer dt)
+{
+	cb_dialog_function_select_idle_handler_t *data = dt;
+
+	dialog_function_select_find_func (data->state, data->name);
+
+	g_free (data->name);
+	g_free (data);
+
+	return FALSE;
+}
+
+static void                
+cb_description_clicked (GtkTextBuffer *textbuffer,
+			GtkTextIter   *location,
+			GtkTextMark   *mark,
+			FunctionSelectState *state) 
+{
+	const char * mark_name;
+	GtkTextTag *link;
+	GtkTextIter   *start;
+	GtkTextIter   *end;
+	cb_dialog_function_select_idle_handler_t *data;
+
+	if ((mark == NULL) || ((mark_name = gtk_text_mark_get_name (mark)) == NULL) 
+	    || (strcmp(mark_name, "selection_bound") != 0))
+		return;
+
+	link = gtk_text_tag_table_lookup 
+		(gtk_text_buffer_get_tag_table (textbuffer), "LINK");
+
+	if ((link == NULL) || !gtk_text_iter_has_tag (location, link))
+		return;
+
+	start = gtk_text_iter_copy (location);
+	end = gtk_text_iter_copy (location);
+
+	if (!gtk_text_iter_begins_tag (start, link))
+		gtk_text_iter_backward_to_tag_toggle (start, link);
+	if (!gtk_text_iter_ends_tag (end, link))
+		gtk_text_iter_forward_to_tag_toggle (end, link);
+
+	data = g_new(cb_dialog_function_select_idle_handler_t, 1);
+
+	data->name = gtk_text_buffer_get_text (textbuffer, start, end, FALSE);
+	gtk_text_iter_free (start);
+	gtk_text_iter_free (end);
+	data->state = state;
+
+	g_idle_add_full (G_PRIORITY_HIGH_IDLE, cb_dialog_function_select_idle_handler,
+			 data, NULL);
+}
 
 static void
 cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection,
@@ -590,6 +770,10 @@ dialog_function_select_init (FunctionSelectState *state)
 	description = gtk_text_view_get_buffer (state->description_view);
 	gtk_text_buffer_get_start_iter (description, &where);
 	gtk_text_buffer_create_mark (description, "start-mark", &where, TRUE);
+	
+	g_signal_connect_after (G_OBJECT (description),
+		"mark-set",
+		G_CALLBACK (cb_description_clicked), state);	
 
 	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
 	gtk_widget_set_sensitive (state->ok_button, FALSE);

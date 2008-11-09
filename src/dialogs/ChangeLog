@@ -1,3 +1,13 @@
+2008-11-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-function-select.c (dialog_function_select_search_cat_func): new
+	(dialog_function_select_search_func): new
+	(dialog_function_select_find_func): new
+	(cb_dialog_function_select_idle_handler): new
+	(cb_description_clicked): new
+	(dialog_function_select_init): hookup cb_description_clicked
+	(describe_new_style): create seealso links
+
 2008-11-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-function-select.c (describe_new_style): handle @{}
