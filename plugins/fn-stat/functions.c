@@ -63,8 +63,8 @@ float_compare (gnm_float const *a, gnm_float const *b)
 
 static GnmFuncHelp const help_varp[] = {
 	{ GNM_FUNC_HELP_NAME, F_("VARP:variance of an entire population")},
-	{ GNM_FUNC_HELP_ARG, F_("b1:first cell area")},
-	{ GNM_FUNC_HELP_ARG, F_("b2:second cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("VARP is also known as the N-variance.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain number 11.4, 17.3, 21.3, 25.9, and 40.1.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then VARP(A1:A5) equals 94.112")},
@@ -87,8 +87,8 @@ gnumeric_varp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_var[] = {
 	{ GNM_FUNC_HELP_NAME, F_("VAR:sample variance of the given sample")},
-	{ GNM_FUNC_HELP_ARG, F_("b1:first cell area")},   
-	{ GNM_FUNC_HELP_ARG, F_("b2:second cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},   
+	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("VAR is also known as the N-1-variance. Under reasonable conditions, it is the maximum-likelihood estimator for the "
 	   "true variance.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.")},
@@ -113,8 +113,8 @@ gnumeric_var (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_stdev[] = {
 	{ GNM_FUNC_HELP_NAME, F_("STDEV:sample standard deviation of the given sample")},
-	{ GNM_FUNC_HELP_ARG, F_("b1:first cell area")},
-	{ GNM_FUNC_HELP_ARG, F_("b2:second cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("STDEV is also known as the N-1-standard deviation. "
 					"Under reasonable conditions, it is the maximum-likelihood "
 					"estimator for the true population standard deviation.")},
@@ -141,8 +141,8 @@ gnumeric_stdev (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_stdevp[] = {
 	{ GNM_FUNC_HELP_NAME, F_("STDEVP:population standard deviation of the given population")},
-	{ GNM_FUNC_HELP_ARG, F_("b1:first cell area")},	
-	{ GNM_FUNC_HELP_ARG, F_("b2:second cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},	
+	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This is also known as the N-standard deviation")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
@@ -338,7 +338,7 @@ gnumeric_negbinomdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_normsdist[] = {
-	{ GNM_FUNC_HELP_NAME, F_("NORMSDIST:cumulative desnity function of the standard normal distribution")},
+	{ GNM_FUNC_HELP_NAME, F_("NORMSDIST:cumulative density function of the standard normal distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("NORMSDIST(2) equals 0.977249868.") },
@@ -462,8 +462,8 @@ gnumeric_fisherinv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_mode[] = {
 	{ GNM_FUNC_HELP_NAME, F_("MODE:first most common number in the dataset")},
-	{ GNM_FUNC_HELP_ARG, F_("n1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("n2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("If the data set does not contain any duplicates this function returns a #N/A error.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
@@ -488,8 +488,8 @@ gnumeric_mode (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_harmean[] = {
 	{ GNM_FUNC_HELP_NAME, F_("HARMEAN:harmonic mean")},
-	{ GNM_FUNC_HELP_ARG, F_("b1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("b2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The harmonic mean of N data points is  N divided by the sum of the reciprocals of the data points).")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
@@ -513,8 +513,8 @@ gnumeric_harmean (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_geomean[] = {
 	{ GNM_FUNC_HELP_NAME, F_("GEOMEAN:geometric mean")},
-	{ GNM_FUNC_HELP_ARG, F_("b1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("b2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The geometric mean is equal to the Nth root of the product of the N values.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
@@ -538,8 +538,8 @@ gnumeric_geomean (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_count[] = {
 	{ GNM_FUNC_HELP_NAME, F_("COUNT:total number of integer or floating point arguments passed")},
-	{ GNM_FUNC_HELP_ARG, F_("b1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("b2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then COUNT(A1:A5) equals 5.") },
@@ -574,8 +574,8 @@ gnumeric_count (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_counta[] = {
 	{ GNM_FUNC_HELP_NAME, F_("COUNTA:number of arguments passed not including empty cells")},
-	{ GNM_FUNC_HELP_ARG, F_("b1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("b2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, \"missing\", \"missing\", 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then COUNTA(A1:A5) equals 5.") },
@@ -608,8 +608,8 @@ gnumeric_counta (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_average[] = {
 	{ GNM_FUNC_HELP_NAME, F_("AVERAGE:average of all the numeric values and cells")},
-	{ GNM_FUNC_HELP_ARG, F_("value1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("value2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then AVERAGE(A1:A5) equals 23.2.")},
@@ -632,8 +632,8 @@ gnumeric_average (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_min[] = {
 	{ GNM_FUNC_HELP_NAME, F_("MIN:smallest value, with negative numbers considered smaller than positive numbers")},
-	{ GNM_FUNC_HELP_ARG, F_("b1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("b2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MIN(A1:A5) equals 11.4.") },
@@ -667,8 +667,8 @@ gnumeric_min (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_max[] = {
 	{ GNM_FUNC_HELP_NAME, F_("MAX:largest value, with negative numbers considered smaller than positive numbers.")},
-	{ GNM_FUNC_HELP_ARG, F_("b1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("b2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MAX(A1:A5) equals 40.1.") },
@@ -702,8 +702,8 @@ gnumeric_max (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_skew[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SKEW:unbiased estimate for skewness of a distribution")},
-	{ GNM_FUNC_HELP_ARG, F_("n1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("n2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
 	{ GNM_FUNC_HELP_NOTE, F_("This is only meaningful if the underlying "
 				 "distribution really has a third moment.  The skewness of a "
@@ -731,8 +731,8 @@ gnumeric_skew (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_skewp[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SKEWP:population skewness of a data set")},
-	{ GNM_FUNC_HELP_ARG, F_("n1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("n2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If less than two numbers are given, SKEWP returns a #DIV/0! error.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
@@ -1200,11 +1200,11 @@ gnumeric_tinv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_fdist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("FDIST:survival function of the F distribution")},
 	   { GNM_FUNC_HELP_ARG, F_("x:")},
-	{ GNM_FUNC_HELP_ARG, F_("dof1:numerator degrees of freedom")},
-	{ GNM_FUNC_HELP_ARG, F_("dof2:denominator degrees of freedom")},
+	{ GNM_FUNC_HELP_ARG, F_("dof_of_num:numerator degrees of freedom")},
+	{ GNM_FUNC_HELP_ARG, F_("dof_of_denom:denominator degrees of freedom")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 this function returns a #NUM! error.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{dof1} < 1 or @{dof2} < 1, this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{dof_of_num} < 1 or @{dof_of_denom} < 1, this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("FDIST(2,5,5) equals 0.232511319.") },
 	{ GNM_FUNC_HELP_SEEALSO, "FINV"},
@@ -1365,11 +1365,11 @@ gnumeric_landau (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_finv[] = {
 	{ GNM_FUNC_HELP_NAME, F_("FINV:inverse of the survival function of the F distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("p:probability")},
-	{ GNM_FUNC_HELP_ARG, F_("dof1:numerator degrees of freedom")},
-	{ GNM_FUNC_HELP_ARG, F_("dof2:denomiantor degrees of freedom")},
+	{ GNM_FUNC_HELP_ARG, F_("dof_of_num:numerator degrees of freedom")},
+	{ GNM_FUNC_HELP_ARG, F_("dof_of_denom:denomiantor degrees of freedom")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },	
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{dof1} < 1 or @{dof2} < 1 this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{dof_of_num} < 1 or @{dof_of_denom} < 1 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("FINV(0.2,2,4) equals 2.472135955.") },
 	{ GNM_FUNC_HELP_SEEALSO, "FDIST"},
@@ -1705,8 +1705,8 @@ gnumeric_norminv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_kurt[] = {
 	{ GNM_FUNC_HELP_NAME, F_("KURT:unbiased estimate of the kurtosis of a data set.")},
-	{ GNM_FUNC_HELP_ARG, F_("n1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("n2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.") },
 	{ GNM_FUNC_HELP_NOTE, F_("This is only meaningful if the underlying "
 	   "distribution really has a fourth moment.  The kurtosis is "
@@ -1736,8 +1736,8 @@ gnumeric_kurt (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_kurtp[] = {
 	{ GNM_FUNC_HELP_NAME, F_("KURTP:population kurtosis of a data set")},
-	{ GNM_FUNC_HELP_ARG, F_("n1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("n2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If fewer than two numbers are given or all of them are equal "
            "this function returns a #DIV/0! error.") },
@@ -1762,8 +1762,8 @@ gnumeric_kurtp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_avedev[] = {
 	{ GNM_FUNC_HELP_NAME, F_("AVEDEV:average of the absolute deviations of a data set")},
-	{ GNM_FUNC_HELP_ARG, F_("n1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("n2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then AVEDEV(A1:A5) equals 7.84.") },
@@ -1786,8 +1786,8 @@ gnumeric_avedev (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_devsq[] = {
 	{ GNM_FUNC_HELP_NAME, F_("DEVSQ:sum of squares of deviations of a data set")},
-	{ GNM_FUNC_HELP_ARG, F_("n1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("n2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
@@ -1915,8 +1915,8 @@ gnumeric_rsq (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_median[] = {
 	{ GNM_FUNC_HELP_NAME, F_("MEDIAN:median of a data set")},
-	{ GNM_FUNC_HELP_ARG, F_("n1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("n2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If even numbers are given MEDIAN returns the average of the two "
 	   "numbers in the center.")},
@@ -2453,8 +2453,8 @@ done:
 
 static GnmFuncHelp const help_averagea[] = {
 	{ GNM_FUNC_HELP_NAME, F_("AVERAGEA:average of all the values and cells")},
-	{ GNM_FUNC_HELP_ARG, F_("value1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("value2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	HELP_DESCRIPTION_TEXT_INCLUSION,
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.") },
@@ -2478,8 +2478,8 @@ gnumeric_averagea (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_maxa[] = {
 	{ GNM_FUNC_HELP_NAME, F_("MAXA:largest value, with negative numbers considered smaller than positive numbers.")},
-	{ GNM_FUNC_HELP_ARG, F_("b1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("b2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	HELP_DESCRIPTION_TEXT_INCLUSION,
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -2505,8 +2505,8 @@ gnumeric_maxa (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_mina[] = {
 	{ GNM_FUNC_HELP_NAME, F_("MINA:smallest value, with negative numbers considered smaller than positive numbers")},
-	{ GNM_FUNC_HELP_ARG, F_("b1:first value")},
-	{ GNM_FUNC_HELP_ARG, F_("b2:second value")},
+	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
+	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	HELP_DESCRIPTION_TEXT_INCLUSION,
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -2532,8 +2532,8 @@ gnumeric_mina (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_vara[] = {
 	{ GNM_FUNC_HELP_NAME, F_("VARA:sample variance of the given sample")},
-	{ GNM_FUNC_HELP_ARG, F_("b1:first cell area")},
-	{ GNM_FUNC_HELP_ARG, F_("b2:second cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("VARA is also known as the N-1-variance. Under reasonable "
 					"conditions, it is the maximum-likelihood estimator for the "
 					"true variance")},
@@ -2562,8 +2562,8 @@ gnumeric_vara (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_varpa[] = {
 	{ GNM_FUNC_HELP_NAME, F_("VARPA:variance of an entire population")},
-	{ GNM_FUNC_HELP_ARG, F_("b1:first cell area")},
-	{ GNM_FUNC_HELP_ARG, F_("b2:second cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("VARPA is also known as the N-variance.") },
 	HELP_DESCRIPTION_TEXT_INCLUSION,
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
@@ -2590,8 +2590,8 @@ gnumeric_varpa (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 static GnmFuncHelp const help_stdeva[] = {
 	{ GNM_FUNC_HELP_NAME, F_("STDEVA:sample standard deviation of the given "
 	   "sample.")},
-	{ GNM_FUNC_HELP_ARG, F_("b1:first cell area")},
-	{ GNM_FUNC_HELP_ARG, F_("b2:second cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("STDEVA is also known as the N-1-standard deviation. "
 					"Under reasonable "
 					"conditions, it is the maximum-likelihood estimator for the "
@@ -2622,8 +2622,8 @@ gnumeric_stdeva (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_stdevpa[] = {
 	{ GNM_FUNC_HELP_NAME, F_("STDEVPA:population standard deviation of an entire population.")},
-	{ GNM_FUNC_HELP_ARG, F_("b1:first cell area")},
-	{ GNM_FUNC_HELP_ARG, F_("b2:second cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},
+	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This is also known as the N-standard deviation")},
 	HELP_DESCRIPTION_TEXT_INCLUSION,
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
@@ -3130,8 +3130,8 @@ gnumeric_frequency (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_linest[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LINEST:determines multiple linear regression coefficients and statistics.") },
-	{ GNM_FUNC_HELP_ARG, F_("y:vector of values of dependent variable.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:array of values of independent variables, defaults to a single vector 1,...,n.") },
+	{ GNM_FUNC_HELP_ARG, F_("known_y's:vector of values of dependent variable.") },
+	{ GNM_FUNC_HELP_ARG, F_("known_x's:array of values of independent variables, defaults to a single vector 1,...,n.") },
 	{ GNM_FUNC_HELP_ARG, F_("affine:if true, the model contains a constant term, defaults to true.") },
 	{ GNM_FUNC_HELP_ARG, F_("stats:if true, some additional statistics is provided, defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns an array with the first row giving the regression "
@@ -3147,7 +3147,7 @@ static GnmFuncHelp const help_linest[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{affine} is false, R^2 is the uncentered version of the coefficient "
 					"of determination; "
 					"that is the proportion of the sum of squares explained by the model.")},
-	{ GNM_FUNC_HELP_NOTE, F_("If the length of @{y} does not match the corresponding length of @{x}, "
+	{ GNM_FUNC_HELP_NOTE, F_("If the length of @{known_y's} does not match the corresponding length of @{known_x's}, "
 				 "this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_SEEALSO, "LOGEST,TREND" },
 	{ GNM_FUNC_HELP_END }
@@ -3737,7 +3737,7 @@ static GnmFuncHelp const help_trend[] = {
 	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.")},
 	{ GNM_FUNC_HELP_ARG, F_("new_x's: x-values for which you want to estimate the y-values; defaults to @{known_x}'s")},
 	{ GNM_FUNC_HELP_ARG, F_("const:if this is false the line will be forced to go through the origin; defaults to TRUE")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @{known_y}'s and @{known_x}'s have unequal number of data points, "
+	{ GNM_FUNC_HELP_NOTE, F_("If @{known_y's} and @{known_x's} have unequal number of data points, "
 				 "this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 				     "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
@@ -4779,15 +4779,15 @@ gnumeric_laplace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 GnmFuncDescriptor const stat_functions[] = {
-        { "avedev", NULL,      N_("number,number,"),
+        { "avedev", NULL,      N_("number1,number2,"),
 	  help_avedev, NULL, gnumeric_avedev, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "average", NULL,      N_("number,number,"),
+	{ "average", NULL,      N_("number1,number2,"),
 	  help_average, NULL, gnumeric_average, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "averagea", NULL,      N_("number,number,"),
+	{ "averagea", NULL,      N_("number1,number2,"),
 	  help_averagea, NULL, gnumeric_averagea, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -4802,11 +4802,11 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "betainv",      "fff|ff", N_("p,alpha,beta,a,b"),
 	  help_betainv, gnumeric_betainv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "binomdist",    "fffb", N_("n,t,p,c"),
+	{ "binomdist",    "fffb", N_("n,trials,p,cumulative"),
 	  help_binomdist, gnumeric_binomdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
-        { "cauchy", "ffb", N_("x,a,cum"),   help_cauchy,
+        { "cauchy", "ffb", N_("x,a,cumulative"),   help_cauchy,
 	  gnumeric_cauchy, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
@@ -4816,7 +4816,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "chiinv",       "ff",  N_("p,dof"),
 	  help_chiinv, gnumeric_chiinv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "chitest",      "AA",  N_("act_range,theo_range"),
+	{ "chitest",      "AA",  N_("actual_range,theoretical_range"),
 	  help_chitest, gnumeric_chitest, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "confidence",   "fff",  N_("x,stddev,size"),
@@ -4825,10 +4825,10 @@ GnmFuncDescriptor const stat_functions[] = {
         { "correl",       "AA",   N_("array1,array2"),
 	  help_correl, gnumeric_correl, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "count", NULL,      N_("number,number,"),
+	{ "count", NULL,      N_("number1,number2,"),
 	  help_count, NULL, gnumeric_count, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "counta", NULL,      N_("number,number,"),
+	{ "counta", NULL,      N_("number1,number2,"),
 	  help_counta, NULL, gnumeric_counta, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "covar",        "AA",   N_("array1,array2"),
@@ -4837,67 +4837,67 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "critbinom",    "fff",  N_("trials,p,alpha"),
 	  help_critbinom, gnumeric_critbinom, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "devsq", NULL,      N_("number,number,"),
+        { "devsq", NULL,      N_("number1,number2,"),
 	  help_devsq, NULL, gnumeric_devsq, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "expondist",    "ffb",  N_("x,y,cumulative"),
 	  help_expondist, gnumeric_expondist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "fdist",        "fff",  N_("x,dof of num,dof of denom"),
+	{ "fdist",        "fff",  N_("x,dof_of_num,dof_of_denom"),
 	  help_fdist, gnumeric_fdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "finv",         "fff",  N_("p,dof of num,dof of denom"),
+	{ "finv",         "fff",  N_("p,dof_of_num,dof_of_denom"),
 	  help_finv, gnumeric_finv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "fisher",       "f",    N_("number"),
+        { "fisher",       "f",    N_("x"),
 	  help_fisher, gnumeric_fisher, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "fisherinv",    "f",    N_("number"),
+        { "fisherinv",    "f",    N_("x"),
 	  help_fisherinv, gnumeric_fisherinv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "forecast",     "frr",   N_("x,known y's,known x's"),
+        { "forecast",     "frr",   N_("x,known_y's,known_x's"),
 	  help_forecast, gnumeric_forecast, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "frequency",    "AA", N_("data_array,bins_array"),
 	  help_frequency, gnumeric_frequency, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "ftest",        "rr",   N_("arr1,arr2"),
+	{ "ftest",        "rr",   N_("array1,array2"),
 	  help_ftest, gnumeric_ftest, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "gammadist",    "fffb", N_("number,alpha,beta,cum"),
+	{ "gammadist",    "fffb", N_("x,alpha,beta,cumulative"),
 	  help_gammadist, gnumeric_gammadist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "gammainv",     "fff",   N_("number,alpha,beta"),
+	{ "gammainv",     "fff",   N_("p,alpha,beta"),
 	  help_gammainv, gnumeric_gammainv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "gammaln",      "f",    N_("number"),
+	{ "gammaln",      "f",    N_("x"),
 	  help_gammaln, gnumeric_gammaln, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "geomean", NULL,      N_("number,number,"),
+	{ "geomean", NULL,      N_("number1,number2,"),
 	  help_geomean, NULL, gnumeric_geomean, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "growth",       "A|AAb", N_("known_y's,known_x's,new_x's,const"),
 	  help_growth, gnumeric_growth, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "harmean", NULL,      "",
+	{ "harmean", NULL,      "number1,number2,",
 	  help_harmean, NULL, gnumeric_harmean, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "hypgeomdist",  "ffff|b", N_("x,n,M,N,cumulative"),
 	  help_hypgeomdist, gnumeric_hypgeomdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "intercept",    "AA",   N_("number,number,"),
+        { "intercept",    "AA",   N_("known_y's,known_x's"),
 	  help_intercept, gnumeric_intercept, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "kurt", NULL,      N_("number,number,"),
+        { "kurt", NULL,      N_("number1,number2,"),
 	  help_kurt, NULL, gnumeric_kurt, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "large", "Af",      N_("values,k,"),
+	{ "large", "Af",      N_("data,k,"),
 	  help_large, gnumeric_large, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "linest",       "A|Abb",  N_("known_y's,known_x's,const,stat"),
+	{ "linest",       "A|Abb",  N_("known_y's,known_x's,affine,stat"),
 	  help_linest, gnumeric_linest, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "logest",       "A|Abb",  N_("known_y's,known_x's,const,stat"),
@@ -4915,27 +4915,27 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "logreg",       "A|Abb",  N_("known_y's,known_x's,const,stat"),
 	  help_logreg, gnumeric_logreg, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "max", NULL,      N_("number,number,"),
+	{ "max", NULL,      N_("number1,number2,"),
 	  help_max, NULL, gnumeric_max, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "maxa", NULL,      N_("number,number,"),
+	{ "maxa", NULL,      N_("number1,number2,"),
 	  help_maxa, NULL, gnumeric_maxa, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "median", NULL,      N_("number,number,"),
+	{ "median", NULL,      N_("number1,number2,"),
 	  help_median, NULL, gnumeric_median, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "min", NULL,      N_("number,number,"),
+	{ "min", NULL,      N_("number1,number2,"),
 	  help_min, NULL, gnumeric_min, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "mina", NULL,      N_("number,number,"),
+	{ "mina", NULL,      N_("number1,number2,"),
 	  help_mina, NULL, gnumeric_mina, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "mode", NULL,      N_("number,number,"),
+	{ "mode", NULL,      N_("number1,number2,"),
 	  help_mode, NULL, gnumeric_mode, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -4948,7 +4948,7 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "norminv",      "fff",  N_("p,mean,stddev"),
 	  help_norminv, gnumeric_norminv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "normsdist",    "f",  N_("number"),
+	{ "normsdist",    "f",  N_("x"),
 	  help_normsdist, gnumeric_normsdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "normsinv",     "f",  N_("p"),
@@ -4975,13 +4975,13 @@ GnmFuncDescriptor const stat_functions[] = {
         { "quartile",     "Af",   N_("array,quart"),
 	  help_quartile, gnumeric_quartile, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "rank",         "fr|f",      "",
+	{ "rank",         "fr|f",      "x,ref,order",
 	  help_rank, gnumeric_rank, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "slope",        "AA", N_("known_y's,known_x's"),
 	  help_slope, gnumeric_slope, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "small", "Af",      N_("values,k,"),
+	{ "small", "Af",      N_("data,k,"),
 	  help_small, gnumeric_small, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -4991,19 +4991,19 @@ GnmFuncDescriptor const stat_functions[] = {
         { "ssmedian",   "A|f",  N_("array,interval"),
 	  help_ssmedian, gnumeric_ssmedian, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "stdev", NULL,      N_("number,number,"),
+	{ "stdev", NULL,      N_("area1,area2,"),
 	  help_stdev, NULL, gnumeric_stdev, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "stdeva", NULL,      N_("number,number,"),
+	{ "stdeva", NULL,      N_("area1,area2,"),
 	  help_stdeva, NULL, gnumeric_stdeva, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "stdevp", NULL,      N_("number,number,"),
+	{ "stdevp", NULL,      N_("area1,area2,"),
 	  help_stdevp, NULL, gnumeric_stdevp, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "stdevpa", NULL,      N_("number,number,"),
+	{ "stdevpa", NULL,      N_("area1,area2,"),
 	  help_stdevpa, NULL, gnumeric_stdevpa, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -5013,7 +5013,7 @@ GnmFuncDescriptor const stat_functions[] = {
         { "rsq",          "AA",   N_("array1,array2"),
 	  help_rsq, gnumeric_rsq, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "skew", NULL,      "",
+	{ "skew", NULL,      "number1,number2,",
 	  help_skew, NULL, gnumeric_skew, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "tdist",        "fff",    N_("x,dof,tails"),
@@ -5032,16 +5032,16 @@ GnmFuncDescriptor const stat_functions[] = {
 	{ "ttest",        "rrff",   N_("array1,array2,tails,type"),
 	  help_ttest, gnumeric_ttest, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "var", NULL,      N_("number,number,"),
+	{ "var", NULL,      N_("area1,area2,"),
 	  help_var, NULL, gnumeric_var, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "vara", NULL,      N_("number,number,"),
+	{ "vara", NULL,      N_("area1,area2,"),
 	  help_vara, NULL, gnumeric_vara, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "varp", NULL,      N_("number,number,"),
+	{ "varp", NULL,      N_("area1,area2,"),
 	  help_varp, NULL, gnumeric_varp, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "varpa", NULL,      N_("number,number,"),
+	{ "varpa", NULL,      N_("area1,area2,"),
 	  help_varpa, NULL, gnumeric_varpa, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "weibull",      "fffb",  N_("x.alpha,beta,cumulative"),
@@ -5054,10 +5054,10 @@ GnmFuncDescriptor const stat_functions[] = {
         { "exppowdist", "fff", N_("x,a,b"),         help_exppowdist,
 	  gnumeric_exppowdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "geomdist", "ffb", N_("k,p"),    help_geomdist,
+        { "geomdist", "ffb", N_("k,p,cumulative"),    help_geomdist,
 	  gnumeric_geomdist, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "kurtp", NULL,      N_("number,number,"),
+        { "kurtp", NULL,      N_("number1,number2,"),
 	  help_kurtp, NULL, gnumeric_kurtp, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "landau", "f", N_("x"), help_landau,
@@ -5078,13 +5078,13 @@ GnmFuncDescriptor const stat_functions[] = {
         { "rayleightail", "fff", N_("x,a,sigma"), help_rayleightail,
 	  gnumeric_rayleightail, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "skewp", NULL,      "",
+	{ "skewp", NULL,      "number1,number2,",
 	  help_skewp, NULL, gnumeric_skewp, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "subtotal", NULL,  N_("function_nbr,ref,ref,"),
+	{ "subtotal", NULL,  N_("function_nbr,ref1,ref2,"),
 	  help_subtotal,    NULL, gnumeric_subtotal, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "cronbach", NULL,      N_("ref,ref,"),
+	{ "cronbach", NULL,      N_("ref1,ref2,"),
 	  help_cronbach, NULL, gnumeric_cronbach, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
