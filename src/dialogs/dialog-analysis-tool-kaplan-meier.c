@@ -62,18 +62,12 @@
 typedef struct {
 	GenericToolState base;
 	GtkWidget *censorship_button;
-	GtkWidget *censorship_button_zero;
-	GtkWidget *censorship_button_one;
+	GtkWidget *censor_spin_from;
+	GtkWidget *censor_spin_to;
 	GtkWidget *graph_button;
 	GtkWidget *tick_button;
 	GtkWidget *std_error_button;
 } KaplanMeierToolState;
-
-static char const * const censor_mark_group[] = {
-	"censor-button-0",
-	"censor-button-1",
-	NULL
-};
 
 /**
  * kaplan_meier_tool_update_sensitivity_cb:
@@ -196,8 +190,9 @@ kaplan_meier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	else
 		data->base.range_2 = NULL;
 
-	data->censor_mark = gnumeric_glade_group_value (state->base.gui, 
-							censor_mark_group);
+	data->censor_mark = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (state->censor_spin_from));
+	data->censor_mark_to = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (state->censor_spin_to));
+
 	data->chart = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->graph_button));
 	data->ticks = gtk_toggle_button_get_active (
@@ -242,6 +237,16 @@ kaplan_meier_tool_set_censorship_cb (G_GNUC_UNUSED GtkWidget *widget,
 				     KaplanMeierToolState *state)
 {
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->censorship_button), TRUE);
+	return FALSE;
+}
+static gboolean
+kaplan_meier_tool_set_censor_from_cb (G_GNUC_UNUSED GtkWidget *dummy,
+				KaplanMeierToolState *state)
+{
+	gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->censor_spin_to), 
+				   gtk_spin_button_get_value (GTK_SPIN_BUTTON (state->censor_spin_from)),G_MAXSHORT);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->censorship_button), TRUE);
+	
 	return FALSE;
 }
 static gboolean
@@ -292,12 +297,14 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 	state->censorship_button = GTK_WIDGET (glade_xml_get_widget
 						  (state->base.gui,
 						   "censor-button"));
-	state->censorship_button_zero = GTK_WIDGET (glade_xml_get_widget
-						    (state->base.gui,
-						     "censor-button-0"));
-	state->censorship_button_one = GTK_WIDGET (glade_xml_get_widget
-						   (state->base.gui,
-						    "censor-button-1"));
+	state->censor_spin_from = GTK_WIDGET (glade_xml_get_widget
+					      (state->base.gui,
+					       "censored-spinbutton1"));
+	gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->censor_spin_from), 0.,G_MAXSHORT);
+	state->censor_spin_to = GTK_WIDGET (glade_xml_get_widget
+					    (state->base.gui,
+					     "censored-spinbutton2"));
+	gtk_spin_button_set_range (GTK_SPIN_BUTTON (state->censor_spin_to), 0.,G_MAXSHORT);
 	state->graph_button = GTK_WIDGET (glade_xml_get_widget
 						  (state->base.gui,
 						   "graph-button"));
@@ -319,11 +326,11 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 	g_signal_connect_after (G_OBJECT (state->tick_button),
 		"toggled",
 		G_CALLBACK (kaplan_meier_tool_set_graph_cb), state);
-	g_signal_connect_after (G_OBJECT (state->censorship_button_zero),
-		"toggled",
-		G_CALLBACK (kaplan_meier_tool_set_censor_cb), state);
-	g_signal_connect_after (G_OBJECT (state->censorship_button_one),
-		"toggled",
+	g_signal_connect_after (G_OBJECT (state->censor_spin_from),
+		"value-changed",
+		G_CALLBACK (kaplan_meier_tool_set_censor_from_cb), state);
+	g_signal_connect_after (G_OBJECT (state->censor_spin_to),
+		"value-changed",
 		G_CALLBACK (kaplan_meier_tool_set_censor_cb), state);
 	g_signal_connect (G_OBJECT
 			  (gnm_expr_entry_get_entry (

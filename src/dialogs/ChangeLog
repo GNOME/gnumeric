@@ -1,12 +1,23 @@
+2008-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* kaplan-meier.glade: change radio buttons into spin buttons
+	* dialog-analysis-tool-kaplan-meier.c (KaplanMeierToolState):
+	  change fields
+	(censor_mark_group): delete
+	(kaplan_meier_tool_ok_clicked_cb): read spin buttons rather than
+	  radio buttons
+	(kaplan_meier_tool_set_censor_from_cb): new
+	(dialog_kaplan_meier_tool): setup spin buttons
+
 2008-11-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	(cb_dialog_function_select_cat_selection_changed): include category name
-	  in lists if they are not category specific
+	* dialog-function-select.c (cb_dialog_function_select_cat_selection_changed): 
+	  include category name in lists if they are not category specific
 	(dialog_function_select_init): add category column to functiojn store
 	
 2008-11-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	(describe_new_style): include examples
+	* dialog-function-select.c (describe_new_style): include examples
 
 2008-11-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

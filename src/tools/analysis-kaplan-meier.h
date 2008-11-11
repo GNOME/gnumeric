@@ -48,6 +48,7 @@ typedef struct {
 	analysis_tools_data_generic_b_t base;
 	gboolean censored;
 	int censor_mark;
+	int censor_mark_to;
 	gboolean chart;
 	gboolean ticks;
 	gboolean std_err;

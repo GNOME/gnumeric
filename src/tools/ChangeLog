@@ -1,3 +1,9 @@
+2008-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-kaplan-meier.c (analysis_tool_kaplan_meier_engine_run): 
+	  handle a range of censor marks
+	* analysis-kaplan-meier.h (analysis_tools_data_kaplan_meier_t): add field
+
 2008-11-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-exp-smoothing.c 

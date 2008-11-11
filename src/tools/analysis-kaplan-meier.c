@@ -55,7 +55,6 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 	int prob_col = info->censored ? 4 : 3;
 
 	GnmExpr const *expr_data;
-	GnmExpr const *expr_censor;
 	GnmExpr const *expr_small;
 	GnmExpr const *expr_time;
 	GnmExpr const *expr_at_risk;
@@ -129,7 +128,38 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 					 gnm_expr_new_constant (value_new_int (1)))));
 
 	if (info->censored) {
-		expr_censor = gnm_expr_new_constant (value_dup (info->base.range_2));
+		GnmExpr const *expr_censor;
+
+		if (info->censor_mark == info->censor_mark_to)
+			expr_censor = gnm_expr_new_funcall3 
+				(fd_if,
+				 gnm_expr_new_binary
+				 (gnm_expr_new_constant (value_dup (info->base.range_2)),
+				  GNM_EXPR_OP_EQUAL,
+				  gnm_expr_new_constant (value_new_int (info->censor_mark))),
+				 gnm_expr_new_constant (value_new_int (1)),
+				 gnm_expr_new_constant (value_new_int (0)));
+		else
+			expr_censor = gnm_expr_new_binary 
+				(gnm_expr_new_funcall3 
+				 (fd_if,
+				  gnm_expr_new_binary
+				  (gnm_expr_new_constant (value_dup (info->base.range_2)),
+				   GNM_EXPR_OP_GTE,
+				   gnm_expr_new_constant (value_new_int (info->censor_mark))),
+				  gnm_expr_new_constant (value_new_int (1)),
+				  gnm_expr_new_constant (value_new_int (0))),
+				 GNM_EXPR_OP_MULT,
+				 gnm_expr_new_funcall3 
+				 (fd_if,
+				  gnm_expr_new_binary
+				  (gnm_expr_new_constant (value_dup (info->base.range_2)),
+				   GNM_EXPR_OP_LTE,
+				   gnm_expr_new_constant (value_new_int (info->censor_mark_to))),
+				  gnm_expr_new_constant (value_new_int (1)),
+				  gnm_expr_new_constant (value_new_int (0))));
+			
+
 		expr_deaths = gnm_expr_new_funcall3 
 			(fd_if,
 			 gnm_expr_new_binary (make_cellref (-1, 0),
@@ -147,14 +177,10 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 						  gnm_expr_new_constant (value_new_int (1)),
 						  gnm_expr_new_constant (value_new_int (0))),
 						 GNM_EXPR_OP_MULT,
-						 gnm_expr_new_funcall3 
-						 (fd_if,
-						  gnm_expr_new_binary
-						  (gnm_expr_copy (expr_censor),
-						   GNM_EXPR_OP_EQUAL,
-						   gnm_expr_new_constant (value_new_int (info->censor_mark))),
-						  gnm_expr_new_constant (value_new_int (0)),
-						  gnm_expr_new_constant (value_new_int (1))))));
+						 gnm_expr_new_binary 
+						 (gnm_expr_new_constant (value_new_int (1)),
+						  GNM_EXPR_OP_SUB,
+						  gnm_expr_copy (expr_censor)))));
 		expr_censures =  gnm_expr_new_funcall3 
 			(fd_if,
 			 gnm_expr_new_binary (make_cellref (-1, 0),
@@ -172,14 +198,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 						  gnm_expr_new_constant (value_new_int (1)),
 						  gnm_expr_new_constant (value_new_int (0))),
 						 GNM_EXPR_OP_MULT,
-						 gnm_expr_new_funcall3 
-						 (fd_if,
-						  gnm_expr_new_binary
-						  (expr_censor,
-						   GNM_EXPR_OP_EQUAL,
-						   gnm_expr_new_constant (value_new_int (info->censor_mark))),
-						  gnm_expr_new_constant (value_new_int (1)),
-						  gnm_expr_new_constant (value_new_int (0))))));
+						 expr_censor)));
 	} else
 		expr_deaths = gnm_expr_new_funcall3 
 			(fd_if,
