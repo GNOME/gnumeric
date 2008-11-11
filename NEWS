@@ -12,6 +12,9 @@ Hib Eris:
 	* Fix problems with toolbars when no handle bar present.  [#559249]
 	* Fix problems with formats.  [#559291]
 
+Jean:
+	* Fix crash when exporting an empty contour plot to .xls. [#557027]
+
 Jody:
 	* Display top-left when selecting a rel ref to a merged region.
 

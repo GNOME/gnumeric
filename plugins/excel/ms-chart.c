@@ -266,10 +266,19 @@ BC_R(3d)(XLChartHandler const *handle,
 
 		g_return_val_if_fail (zero == 0, FALSE); /* just warn for now */
 
-		if (s->plot == NULL && s->is_surface)
+		if (s->plot == NULL && s->is_surface) {
 			s->is_contour = elevation == 90 && distance == 0;
+			if (s->chart != NULL && !s->is_contour) {
+				GogObject *box = gog_object_get_child_by_name (GOG_OBJECT (s->chart), "3D-Box");
+				if (!box)
+					box = gog_object_add_by_name (GOG_OBJECT (s->chart), "3D-Box", NULL);
+				g_object_set (G_OBJECT (box), "theta", fabs (elevation), NULL);
+				/* FIXME: use other parameters */
+			}
+		}
 		/* at this point, we don't know if data can be converted to a
 		gnumeric matrix, so we cannot create the plot here. */
+
 
 	d (1, {
 		g_printerr ("Rot = %hu\n", rotation);
@@ -5028,6 +5037,18 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 			0 == strcmp (type, "XLContourPlot")) {
 		ms_biff_put_2byte (s->bp, BIFF_CHART_surf, 1); /* we always use color fill at the moment */
 		chart_write_3d (s, 0, 90, 0, 100, 100, 150, 0x05, 0); /* these are default xl values */
+	} else if (0 == strcmp (type, "GogSurfacePlot") ||
+			0 == strcmp (type, "XLSurfacePlot")) {
+		guint16 rotation = 0, elevation = 90, distance = 0, height = 100, depth = 100, gap = 150;
+		guint8 flags = 0x05, zero = 0;
+		int psi, theta, phi, fov;
+		GogObject *box = gog_object_get_child_by_name (s->chart, "3D-Box");
+
+		g_object_get (G_OBJECT (box), "psi", &psi, "theta", &theta, "phi", &phi, "fov", &fov, NULL);
+		elevation = (guint16) theta; /* FIXME: theta might be as large as 180 */
+/* TODO: evaluate the other parameters */
+		ms_biff_put_2byte (s->bp, BIFF_CHART_surf, 1); /* we always use color fill at the moment */
+		chart_write_3d (s, rotation, elevation, distance, height, depth, gap, flags, zero);
 	} else {
 		g_warning ("unexpected plot type %s", type);
 	}
@@ -5668,26 +5689,40 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 	/* dump the associated series (skip any that we are dropping */
 	for (ptr = sets; ptr != NULL ; ptr = ptr->next) {
 		for (plots = ((XLAxisSet *)ptr->data)->plots ; plots != NULL ; plots = plots->next) {
-			if (0 != strcmp (G_OBJECT_TYPE_NAME (plots->data), "GogContourPlot")) {
-				for (series = gog_plot_get_series (plots->data) ; series != NULL ; series = series->next)
-					num_series += chart_write_series (&state, series->data, num_series);
-			} else {
-				/* we should have only one series there */
-				GogSeries *ser = GOG_SERIES (gog_plot_get_series (plots->data)->data);
-				/* create an equivalent XLContourPlot and save its series */
-				if (ser != NULL) {
-					gboolean as_col, s_as_col;
-					gboolean s_is_rc, mat_is_rc;
-					GnmExprTop const *stexpr;
-					GnmExprTop const *mattexpr;
-					GnmValue const *sval, *matval;
-					GnmValue *val;
-					GogSeries *serbuf;
-					GnmRange vector, svec;
-					int i, j, m, n, sn, cur = 0, scur = 0;
+			/* first test if the plot uses a matrix or not */
+			gboolean has_matrix = FALSE;
+			GogPlotDesc const *desc = gog_plot_description (GOG_PLOT (plots->data));
+			int n = 0, m;
+			if (!desc) /* this should not happen, but ... */
+				continue;
+			for (m = 0; m < (int) desc->series.num_dim; m++)
+				if (desc->series.dim[m].val_type == GOG_DIM_MATRIX) {
+					n = m;
+					has_matrix = TRUE;
+					break; /* hopefully there is only one matrix */
+				}
+			if (!has_matrix) {
+  				for (series = gog_plot_get_series (plots->data) ; series != NULL ; series = series->next)
+  					num_series += chart_write_series (&state, series->data, num_series);
+			} else if (n == 2) { /* surfaces and countours have the matrix as third data, other
+						plot types that might use matrices will probably not be exportable
+						to any of excel formats */
+  				/* we should have only one series there */
+  				GogSeries *ser = GOG_SERIES (gog_plot_get_series (plots->data)->data);
+  				/* create an equivalent XLContourPlot and save its series */
+  				if (ser != NULL) {
+					gboolean as_col, s_as_col = FALSE;
+					gboolean s_is_rc = FALSE, mat_is_rc;
+					GnmExprTop const *stexpr = NULL;
+  					GnmExprTop const *mattexpr;
+					GnmValue const *sval = NULL, *matval;
+  					GnmValue *val;
+  					GogSeries *serbuf;
+  					GnmRange vector, svec;
+					int i, j, sn = 0, cur = 0, scur = 0;
 					GOData *s, *c, *mat = ser->values[2].data;
 					GODataMatrixSize size = go_data_matrix_get_size (GO_DATA_MATRIX (mat));
-					GogPlot *plotbuf = (GogPlot*) gog_plot_new_by_name ("XLContourPlot");
+					GogPlot *plotbuf = (GogPlot*) gog_plot_new_by_name ((0 == strcmp (G_OBJECT_TYPE_NAME (plots->data), "GogContourPlot"))? "XLContourPlot": "XLSurfacePlot");
 					Sheet *sheet = sheet_object_get_sheet (so);
 					g_object_get (G_OBJECT (plots->data), "transposed", &as_col, NULL);
 					mattexpr = gnm_go_data_get_expr (mat);
@@ -5704,9 +5739,11 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 						c = ser->values[0].data;
 						s = ser->values[1].data;
 					}
-					sn = go_data_vector_get_len (GO_DATA_VECTOR (s));
-					stexpr = gnm_go_data_get_expr (s);
-					s_is_rc = gnm_expr_top_is_rangeref (stexpr);
+					if (s) {
+						sn = go_data_vector_get_len (GO_DATA_VECTOR (s));
+						stexpr = gnm_go_data_get_expr (s);
+						s_is_rc = gnm_expr_top_is_rangeref (stexpr);
+					}
 					if (mat_is_rc) {
 						if (as_col) {
 							vector.start.row = matval->v_range.cell.a.row;
@@ -5719,19 +5756,21 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 						}
 					} else {
 					}
-					if (s_is_rc) {
-						sval = gnm_expr_top_get_range (stexpr);
-						s_as_col = sval->v_range.cell.a.col == sval->v_range.cell.b.col;
-						if (s_as_col) {
-							svec.start.col = svec.end.col = sval->v_range.cell.a.col;
-							scur = sval->v_range.cell.a.row;
+					if (s) {
+						if (s_is_rc) {
+							sval = gnm_expr_top_get_range (stexpr);
+							s_as_col = sval->v_range.cell.a.col == sval->v_range.cell.b.col;
+							if (s_as_col) {
+								svec.start.col = svec.end.col = sval->v_range.cell.a.col;
+								scur = sval->v_range.cell.a.row;
+							} else {
+								svec.start.row = svec.end.row = sval->v_range.cell.a.row;
+								scur = sval->v_range.cell.a.col;
+							}
 						} else {
-							svec.start.row = svec.end.row = sval->v_range.cell.a.row;
-							scur = sval->v_range.cell.a.col;
+							sval = gnm_expr_top_get_constant (stexpr);						
+							s_as_col = sval->v_array.y > sval->v_array.x;
 						}
-					} else {
-						sval = gnm_expr_top_get_constant (stexpr);
-						s_as_col = sval->v_array.y > sval->v_array.x;
 					}
 					n = (as_col)? size.columns: size.rows;
 					if (!mat_is_rc)
@@ -5740,9 +5779,11 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 						m = 0;
 					for (i = 0; i < n; i++) {
 						serbuf = gog_plot_new_series (plotbuf);
-						g_object_ref (c);
-						gog_series_set_dim (serbuf, 0, c, NULL);
-						if (i < sn) {
+						if (c) {
+							g_object_ref (c);
+							gog_series_set_dim (serbuf, 0, c, NULL);
+						}
+						if (s && (i < sn)) {
 							if (s_is_rc) {
 								if (s_as_col)
 									svec.start.row = svec.end.row = scur++;
@@ -5783,7 +5824,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 					}
 					if (mat_is_rc)
 						value_release ((GnmValue*) matval);
-					if (s_is_rc)
+					if (s && s_is_rc)
 						value_release ((GnmValue*) sval);
 					for (series = gog_plot_get_series (plotbuf) ; series != NULL ; series = series->next)
 						num_series += chart_write_series (&state, series->data, num_series);

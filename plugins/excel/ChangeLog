@@ -1,3 +1,9 @@
+2008-11-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (3d), (chart_write_plot): some work on 3d import/export,
+	(ms_excel_chart_write): fixed segfault when exporting an empty contour
+	plot. [#557027]
+
 2008-10-21  Morten Welinder  <terra@gnome.org>
 
 	* ms-chart.c (BC_R(end)): Don't look first series if there are no
@@ -32,7 +38,7 @@
 
 	* xlsx-read.c (indexed_color) : return a GOColor.
 	(themed_color) : new.  Has some magic to use the theme indicies as
-	  lookups into a hard coded map.
+	  lookups into a hard coded map.d 
 	(xlsx_draw_color_themed) : simplified, the theme_colors_by_name is always defined.
 	(hue_to_color) : new.
 	(apply_tint) : new.  Could be moved into goffice.
