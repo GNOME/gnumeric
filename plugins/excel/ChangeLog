@@ -1,3 +1,8 @@
+2008-11-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (ms_excel_chart_write): fixed segfault when exporting
+	an empty contour plot. [#557027]
+
 2008-07-28  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (ai): add a warning, (tick): import text orientation,
