@@ -52,10 +52,7 @@
 
 #include <glade/glade.h>
 #include <string.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtklabel.h>
+#include <gtk/gtk.h>
 
 #define KAPLAN_MEIER_KEY      "analysistools-kaplan-meier-dialog"
 
@@ -66,8 +63,26 @@ typedef struct {
 	GtkWidget *censor_spin_to;
 	GtkWidget *graph_button;
 	GtkWidget *tick_button;
+	GtkWidget *add_group_button;
+	GtkWidget *remove_group_button;
 	GtkWidget *std_error_button;
+	GtkWidget *groups_check;
+	GtkWidget *groups_table;
+	GnmExprEntry *groups_input;
+	GtkTreeView *groups_treeview;
+	GtkListStore *groups_list;
 } KaplanMeierToolState;
+
+enum
+{
+     GROUP_NAME,
+     GROUP_FROM,
+     GROUP_TO,
+     GROUP_ADJUSTMENT_FROM,
+     GROUP_ADJUSTMENT_TO,
+     GROUP_COLUMNS
+};
+
 
 /**
  * kaplan_meier_tool_update_sensitivity_cb:
@@ -81,12 +96,15 @@ kaplan_meier_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				      KaplanMeierToolState *state)
 {
 	gboolean censorship;
+	gboolean groups;
         GnmValue *input_range;
         GnmValue *input_range_2 = NULL;
 	int height, width;
 
 	censorship = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->censorship_button));
+	groups = gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (state->groups_check));
 	
 	gtk_widget_set_sensitive (state->tick_button, censorship);
 
@@ -138,6 +156,34 @@ kaplan_meier_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 
 		value_release (input_range_2);
 	}
+
+	if (groups) {
+		input_range_2 =  gnm_expr_entry_parse_as_value
+			(GNM_EXPR_ENTRY (state->groups_input), state->base.sheet);
+		
+		if (input_range_2 == NULL) {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("The groups column is not valid."));
+			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+			return;
+		}
+		if (input_range_2->v_range.cell.b.col != input_range_2->v_range.cell.a.col) {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("The groups column should be part of a single column."));
+			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+			value_release (input_range_2);
+			return;
+		} 
+		if (input_range_2->v_range.cell.b.row - input_range_2->v_range.cell.a.row != height) {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("The groups and time columns should have the same height."));
+			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+			value_release (input_range_2);
+			return;
+		}
+
+		value_release (input_range_2);
+	}
 		
         if (!gnm_dao_is_ready (GNM_DAO (state->base.gdao))) {
 		gtk_label_set_text (GTK_LABEL (state->base.warning),
@@ -151,6 +197,37 @@ kaplan_meier_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	gtk_widget_set_sensitive (state->base.ok_button, TRUE);
 
 	return;
+}
+
+static gboolean 
+kaplan_meier_tool_get_groups_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
+				 gpointer data)
+{
+	GSList **list = data;
+	analysis_tools_kaplan_meier_group_t *group_item = g_new0 (analysis_tools_kaplan_meier_group_t, 1);
+	
+	gtk_tree_model_get (model, iter,
+			    GROUP_NAME, &(group_item->name),
+			    GROUP_FROM, &(group_item->group_from),
+			    GROUP_TO, &(group_item->group_to),	    
+			    -1);
+	*list = g_slist_prepend (*list, group_item);
+
+	return FALSE;
+}
+
+static GSList *
+kaplan_meier_tool_get_groups (KaplanMeierToolState *state)
+{
+	GSList *list = NULL;
+	
+	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->groups_check)))
+		return NULL;
+
+	gtk_tree_model_foreach (GTK_TREE_MODEL (state->groups_list),
+				kaplan_meier_tool_get_groups_cb,
+				&list);
+	return g_slist_reverse (list);
 }
 
 /**
@@ -192,6 +269,10 @@ kaplan_meier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	data->censor_mark = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (state->censor_spin_from));
 	data->censor_mark_to = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (state->censor_spin_to));
+
+	data->group_list = kaplan_meier_tool_get_groups (state);
+	data->range_3 = ((data->group_list == NULL) ? NULL : gnm_expr_entry_parse_as_value
+			 (GNM_EXPR_ENTRY (state->groups_input), state->base.sheet)); 
 
 	data->chart = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->graph_button));
@@ -239,6 +320,17 @@ kaplan_meier_tool_set_censorship_cb (G_GNUC_UNUSED GtkWidget *widget,
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->censorship_button), TRUE);
 	return FALSE;
 }
+
+static gboolean
+kaplan_meier_tool_set_groups_cb (G_GNUC_UNUSED GtkWidget *widget,
+				 G_GNUC_UNUSED GdkEventFocus *event,
+				 KaplanMeierToolState *state)
+{
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->groups_check), TRUE);
+	return FALSE;
+}
+
+
 static gboolean
 kaplan_meier_tool_set_censor_from_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				KaplanMeierToolState *state)
@@ -258,6 +350,226 @@ kaplan_meier_tool_set_censor_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	return FALSE;
 }
 
+static void
+cb_group_name_edited (GtkCellRendererText *cell,
+		      gchar               *path_string,
+		      gchar               *new_text,
+		      KaplanMeierToolState *state)
+{
+	GtkTreeIter iter;
+	GtkTreePath *path;
+
+	if (cell != NULL) {
+		path = gtk_tree_path_new_from_string (path_string);
+		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->groups_list), 
+					     &iter, path))
+			gtk_list_store_set (state->groups_list, &iter, 
+					    GROUP_NAME, new_text, -1);
+		else
+			g_warning ("Did not get a valid iterator");
+		gtk_tree_path_free (path);
+	}
+}
+
+static void
+cb_change_to (GtkCellRendererText *cell,
+	      gchar               *path_string,
+	      gchar               *new_text,
+	      KaplanMeierToolState *state)
+{
+	GtkTreeIter iter;
+	GtkTreePath *path;
+	guint val = (guint) (atoi (new_text));
+
+	if (cell != NULL) {
+		path = gtk_tree_path_new_from_string (path_string);
+		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->groups_list), 
+					     &iter, path))
+			gtk_list_store_set (state->groups_list, &iter, 
+					    GROUP_TO, val, -1);
+		else
+			g_warning ("Did not get a valid iterator");
+		gtk_tree_path_free (path);
+	}
+}
+
+static void
+cb_change_from (GtkCellRendererText *cell,
+	      gchar               *path_string,
+	      gchar               *new_text,
+	      KaplanMeierToolState *state)
+{
+	if (cell != NULL) {
+		GtkTreeIter iter;
+		GtkTreePath *path;
+		guint val = (guint) (atoi (new_text));
+		guint old_to;
+		GtkObject *adjustment_to;
+   
+
+		path = gtk_tree_path_new_from_string (path_string);
+		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->groups_list), 
+					     &iter, path))
+			gtk_list_store_set (state->groups_list, &iter, 
+					    GROUP_FROM, val,
+					    -1);
+		else
+			g_warning ("Did not get a valid iterator");
+		gtk_tree_path_free (path);
+
+		gtk_tree_model_get (GTK_TREE_MODEL (state->groups_list), &iter, 
+				    GROUP_TO, &old_to, 
+				    GROUP_ADJUSTMENT_TO, &adjustment_to,
+				    -1);
+
+		if (old_to < val)
+			gtk_list_store_set (state->groups_list, &iter, 
+					    GROUP_TO, val,
+					    -1);
+		g_object_set (G_OBJECT (adjustment_to), "lower", (gdouble) val, NULL);
+			
+	}
+}
+
+static void
+cb_selection_changed (GtkTreeSelection *selection,
+		      KaplanMeierToolState *state)
+{
+	gtk_widget_set_sensitive (state->remove_group_button, 
+				  gtk_tree_selection_get_selected (selection, NULL, NULL));
+}
+
+static void
+kaplan_meier_tool_update_groups_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
+				      KaplanMeierToolState *state)
+{
+	gboolean groups = gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (state->groups_check));
+	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->groups_treeview);
+
+	gtk_widget_set_sensitive (state->add_group_button, groups);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->groups_treeview), groups);
+
+	if (groups)
+		cb_selection_changed (selection, state);
+	else {
+		gtk_tree_selection_unselect_all (selection);
+		gtk_widget_set_sensitive (state->remove_group_button, FALSE);
+	}
+}
+
+static void
+dialog_kaplan_meier_tool_treeview_add_item  (KaplanMeierToolState *state, guint i)
+{
+		GtkTreeIter iter;
+		char * name = g_strdup_printf (_("Group %d"), i);
+		GtkObject *adjustment_to = gtk_adjustment_new (0, 0, G_MAXUSHORT, 1, 1, 1);
+		GtkObject *adjustment_from = gtk_adjustment_new (0, 0, G_MAXUSHORT, 1, 1, 1);
+		gtk_list_store_append (state->groups_list, &iter);
+		gtk_list_store_set (state->groups_list, &iter,
+				    GROUP_NAME, name,
+				    GROUP_FROM, (uint) i,
+				    GROUP_TO, (uint) i,
+				    GROUP_ADJUSTMENT_FROM, adjustment_from,
+				    GROUP_ADJUSTMENT_TO, adjustment_to,
+				    -1);
+		g_free (name);	
+}
+
+static void
+dialog_kaplan_meier_tool_setup_treeview (KaplanMeierToolState *state)
+{
+	guint i;
+	GtkCellRenderer *renderer;
+	GtkWidget *scrolled = glade_xml_get_widget (state->base.gui, "groups-scrolled");
+	GtkTreeSelection  *selection;
+
+	state->groups_treeview = GTK_TREE_VIEW (glade_xml_get_widget
+						(state->base.gui,
+						 "groups-tree"));
+	state->groups_list = gtk_list_store_new (GROUP_COLUMNS, 
+						 G_TYPE_STRING, G_TYPE_UINT, G_TYPE_UINT, G_TYPE_OBJECT, G_TYPE_OBJECT);
+	state->groups_treeview = GTK_TREE_VIEW (gtk_tree_view_new_with_model
+						(GTK_TREE_MODEL (state->groups_list)));
+	selection = gtk_tree_view_get_selection (state->groups_treeview);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
+
+	for (i = 0; i<2; i++)
+		dialog_kaplan_meier_tool_treeview_add_item (state, i);
+
+	g_signal_connect (selection,
+			  "changed",
+			  G_CALLBACK (cb_selection_changed), state);
+
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (G_OBJECT (renderer),
+		      "editable", TRUE,
+		      NULL);
+	gtk_tree_view_insert_column_with_attributes (state->groups_treeview,
+						     -1, _("Group"),
+						     renderer,
+						     "text", GROUP_NAME, 
+						     NULL);
+	g_signal_connect (G_OBJECT (renderer), "edited",
+			  G_CALLBACK (cb_group_name_edited), state);
+
+	renderer = gtk_cell_renderer_spin_new ();
+
+	g_object_set (G_OBJECT (renderer), "editable", TRUE, "xalign", 1.0, 
+		      "digits", 0, NULL);
+	g_signal_connect (G_OBJECT (renderer), "edited",
+			  G_CALLBACK (cb_change_from), state);
+	gtk_tree_view_insert_column_with_attributes (state->groups_treeview,
+						     -1, _("From"),
+						     renderer,
+						     "text", GROUP_FROM,
+						     "adjustment", GROUP_ADJUSTMENT_FROM,
+						     NULL);
+
+	renderer = gtk_cell_renderer_spin_new ();
+	g_object_set (G_OBJECT (renderer), "editable", TRUE, "xalign", 1.0,
+		      "digits", 0, NULL);
+	g_signal_connect (G_OBJECT (renderer), "edited",
+			  G_CALLBACK (cb_change_to), state);
+	gtk_tree_view_insert_column_with_attributes (state->groups_treeview,
+						     -1, _("To"),
+						     renderer,
+						     "text", GROUP_TO,
+						     "adjustment", GROUP_ADJUSTMENT_TO,
+						     NULL);
+
+	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->groups_treeview));
+
+	cb_selection_changed (selection, state);
+}
+
+static gboolean
+kaplan_meier_tool_add_group_cb (G_GNUC_UNUSED GtkWidget *dummy,
+				KaplanMeierToolState *state)
+{
+	dialog_kaplan_meier_tool_treeview_add_item 
+		(state, gtk_tree_model_iter_n_children (GTK_TREE_MODEL (state->groups_list),
+                                                        NULL));
+	return FALSE;
+}
+
+static gboolean
+kaplan_meier_tool_remove_group_cb (G_GNUC_UNUSED GtkWidget *dummy,
+				KaplanMeierToolState *state)
+{
+	GtkTreeSelection  *selection;
+	GtkTreeIter iter;
+
+	selection = gtk_tree_view_get_selection (state->groups_treeview);
+
+	if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
+		gtk_list_store_remove ( state->groups_list, &iter);
+	}
+
+	return FALSE;
+}
+
+
 /**
  * dialog_kaplan_meier_tool:
  * @wbcg:
@@ -270,6 +582,7 @@ int
 dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         KaplanMeierToolState *state;
+	GtkWidget *widget;
 
 	if (wbcg == NULL) {
 		return 1;
@@ -311,9 +624,33 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 	state->tick_button = GTK_WIDGET (glade_xml_get_widget
 						  (state->base.gui,
 						   "tick-button"));
+	state->add_group_button = GTK_WIDGET (glade_xml_get_widget
+						  (state->base.gui,
+						   "add-button"));
+	state->remove_group_button = GTK_WIDGET (glade_xml_get_widget
+						  (state->base.gui,
+						   "remove-button"));
 	state->std_error_button = GTK_WIDGET (glade_xml_get_widget
 						  (state->base.gui,
 						   "std-error-button"));
+
+	state->groups_check = GTK_WIDGET (glade_xml_get_widget
+						  (state->base.gui,
+						   "groups-check"));
+	state->groups_table = GTK_WIDGET (glade_xml_get_widget
+						  (state->base.gui,
+						   "groups-table"));
+	state->groups_input = gnm_expr_entry_new (state->base.wbcg, TRUE);
+	gnm_expr_entry_set_flags (state->groups_input, GNM_EE_FORCE_ABS_REF,
+				  GNM_EE_MASK);
+	gtk_table_attach (GTK_TABLE (state->groups_table), GTK_WIDGET (state->groups_input),
+			  1, 3, 0, 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+
+	dialog_kaplan_meier_tool_setup_treeview (state);
+
+	g_signal_connect_after (G_OBJECT (state->groups_check),
+		"toggled",
+		G_CALLBACK (kaplan_meier_tool_update_sensitivity_cb), state);
 	g_signal_connect_after (G_OBJECT (state->censorship_button),
 		"toggled",
 		G_CALLBACK (kaplan_meier_tool_update_sensitivity_cb), state);
@@ -323,9 +660,23 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 	g_signal_connect_after (G_OBJECT (state->std_error_button),
 		"toggled",
 		G_CALLBACK (kaplan_meier_tool_update_sensitivity_cb), state);
+	g_signal_connect_after (G_OBJECT (state->groups_input),
+				"changed",
+				G_CALLBACK (kaplan_meier_tool_update_sensitivity_cb),
+				state);
+
+	g_signal_connect_after (G_OBJECT (state->groups_check),
+		"toggled",
+		G_CALLBACK (kaplan_meier_tool_update_groups_sensitivity_cb), state);
 	g_signal_connect_after (G_OBJECT (state->tick_button),
 		"toggled",
 		G_CALLBACK (kaplan_meier_tool_set_graph_cb), state);
+	g_signal_connect_after (G_OBJECT (state->add_group_button),
+		"clicked",
+		G_CALLBACK (kaplan_meier_tool_add_group_cb), state);
+	g_signal_connect_after (G_OBJECT (state->remove_group_button),
+		"clicked",
+		G_CALLBACK (kaplan_meier_tool_remove_group_cb), state);
 	g_signal_connect_after (G_OBJECT (state->censor_spin_from),
 		"value-changed",
 		G_CALLBACK (kaplan_meier_tool_set_censor_from_cb), state);
@@ -335,12 +686,28 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 	g_signal_connect (G_OBJECT
 			  (gnm_expr_entry_get_entry (
 				  GNM_EXPR_ENTRY (state->base.input_entry_2))),
-		"focus-in-event",
-		G_CALLBACK (kaplan_meier_tool_set_censorship_cb), state);
+			  "focus-in-event",
+			  G_CALLBACK (kaplan_meier_tool_set_censorship_cb), state);
+	g_signal_connect (G_OBJECT
+			  (gnm_expr_entry_get_entry (
+				  GNM_EXPR_ENTRY (state->groups_input))),
+			  "focus-in-event",
+			  G_CALLBACK (kaplan_meier_tool_set_groups_cb), state);
+
+	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
+					  GTK_WIDGET (state->groups_input));
+
+	widget = glade_xml_get_widget (state->base.gui, "groups-label");
+	gtk_label_set_mnemonic_widget (GTK_LABEL (widget),
+				       GTK_WIDGET (state->groups_input));
+	go_atk_setup_label (widget, GTK_WIDGET (state->groups_input));
 
 	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	kaplan_meier_tool_update_sensitivity_cb (NULL, state);
+	kaplan_meier_tool_update_groups_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
+
+	gtk_widget_show_all (GTK_WIDGET (state->base.dialog));
 
         return 0;
 }

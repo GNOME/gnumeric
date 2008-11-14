@@ -411,13 +411,21 @@ dialog_tool_init (GenericToolState *state,
 	if (widget == NULL) {
 		state->input_entry = NULL;
 	} else {
-		table = GTK_TABLE (glade_xml_get_widget (state->gui,
-							 "input-table"));
+		GList *this_label_widget;
+		GtkTableChild *tchild;
+
+		table = GTK_TABLE (gtk_widget_get_parent (widget));
 		state->input_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 		gnm_expr_entry_set_flags (state->input_entry, flags | GNM_EE_FORCE_ABS_REF,
 					  GNM_EE_MASK);
+
+		this_label_widget = g_list_find_custom
+		  (table->children, widget, (GCompareFunc) dialog_tool_cmp);
+		tchild = (GtkTableChild *)(this_label_widget->data);
+
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry),
-				  1, 2, 0, 1,
+				  tchild->right_attach, tchild->right_attach + 1, 
+				  tchild->top_attach, tchild->bottom_attach,
 				  GTK_EXPAND | GTK_FILL, 0,
 				  0, 0);
 		g_signal_connect_after (G_OBJECT (state->input_entry),
@@ -452,9 +460,10 @@ dialog_tool_init (GenericToolState *state,
 		tchild = (GtkTableChild *)(this_label_widget->data);
 
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
-			  1, 2, tchild->top_attach, tchild->bottom_attach,
-			  GTK_EXPAND | GTK_FILL, 0,
-			  0, 0);
+				  tchild->right_attach, tchild->right_attach + 1, 
+				  tchild->top_attach, tchild->bottom_attach,
+				  GTK_EXPAND | GTK_FILL, 0,
+				  0, 0);
 		g_signal_connect_after (G_OBJECT (state->input_entry_2),
 					"changed",
 					G_CALLBACK (sensitivity_cb), state);

@@ -33,7 +33,6 @@
 #include "tools.h"
 #include "analysis-tools.h"
 
-
 /* typedef struct { */
 /* 	analysis_tools_error_code_t err; */
 /* 	WorkbookControl *wbc; */
@@ -41,18 +40,26 @@
 /* 	GnmValue *range_2; */
 /* 	gboolean   labels; */
 /* 	gnm_float alpha; */
-/* } analysis_tools_data_ftest_t; */
-
+/* } analysis_tools_data_generic_b_t; */
 
 typedef struct {
 	analysis_tools_data_generic_b_t base;
+	GnmValue *range_3;
 	gboolean censored;
 	int censor_mark;
 	int censor_mark_to;
 	gboolean chart;
 	gboolean ticks;
 	gboolean std_err;
+	GSList *group_list;
 } analysis_tools_data_kaplan_meier_t;
+
+typedef struct {
+	char *name;
+	guint group_from;
+	guint group_to;
+} analysis_tools_kaplan_meier_group_t;
+
 
 gboolean analysis_tool_kaplan_meier_engine (data_analysis_output_t *dao, 
 					    gpointer specs,

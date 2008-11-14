@@ -7,7 +7,8 @@ Andreas:
 	* Permit lexicographic sorting by sheet names in the manage sheets
 	  dialog [#527076]
 	* Add functional seealso links in the function browser
-	* Allow ranges of censor marks in Kaplan-Meier tool [#558582]
+	* Allow ranges of censor marks in Kaplan-Meier tool and
+	  multiple groups [#558582]
 
 Hib Eris:
 	* Fix problems with toolbars when no handle bar present.  [#559249]

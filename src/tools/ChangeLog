@@ -1,3 +1,13 @@
+2008-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-kaplan-meier.c (analysis_tool_kaplan_meier_engine_run):
+	  handle multiple groups
+	(analysis_tool_kaplan_meier_clear_gl_cb): new
+	(analysis_tool_kaplan_meier_engine): properly dispose of all data
+	* analysis-kaplan-meier.h (analysis_tools_data_kaplan_meier_t): add 
+	  new fields
+	(analysis_tools_kaplan_meier_group_t): new
+	
 2008-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-kaplan-meier.c (analysis_tool_kaplan_meier_engine_run): 

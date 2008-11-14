@@ -1,5 +1,24 @@
 2008-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* kaplan-meier.glade: add groups tab
+	* dialog-analysis-tool-kaplan-meier.c (KaplanMeierToolState): add new
+	  fields 
+	(kaplan_meier_tool_update_sensitivity_cb): handle new tab
+	(kaplan_meier_tool_get_groups_cb): new
+	(kaplan_meier_tool_get_groups): new
+	(kaplan_meier_tool_ok_clicked_cb): handle new tab
+	(cb_group_name_edited): new
+	(cb_change_from): new
+	(cb_selection_changed): new
+	(kaplan_meier_tool_update_groups_sensitivity_cb): new
+	(dialog_kaplan_meier_tool_treeview_add_item): new
+	(dialog_kaplan_meier_tool_setup_treeview): new
+	(kaplan_meier_tool_add_group_cb): new
+	(kaplan_meier_tool_remove_group_cb): new
+	(dialog_kaplan_meier_tool): handle new tab
+
+2008-11-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* kaplan-meier.glade: change radio buttons into spin buttons
 	* dialog-analysis-tool-kaplan-meier.c (KaplanMeierToolState):
 	  change fields
