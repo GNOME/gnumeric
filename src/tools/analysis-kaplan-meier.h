@@ -51,6 +51,7 @@ typedef struct {
 	gboolean chart;
 	gboolean ticks;
 	gboolean std_err;
+	gboolean median;
 	GSList *group_list;
 } analysis_tools_data_kaplan_meier_t;
 

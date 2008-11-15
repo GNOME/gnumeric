@@ -1,3 +1,12 @@
+2008-11-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-kaplan-meier.c (analysis_tool_kaplan_meier_engine_run):
+	  calculate median survival times
+	(analysis_tool_kaplan_meier_engine): properly dispose of all data
+	  and adjust dao size for median output
+	* analysis-kaplan-meier.h (analysis_tools_data_kaplan_meier_t): add 
+	  new field
+
 2008-11-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-kaplan-meier.c (analysis_tool_kaplan_meier_engine_run):

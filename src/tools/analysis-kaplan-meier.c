@@ -74,6 +74,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_small;
 	GnmFunc *fd_sum;
 	GnmFunc *fd_sqrt = NULL;
+	GnmFunc *fd_min = NULL;
 
 	GogGraph     *graph;
 	GogPlot	     *plot;
@@ -94,6 +95,10 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 	if (info->std_err) {
 		fd_sqrt = gnm_func_lookup ("SQRT", NULL);
 		gnm_func_ref (fd_sqrt);
+	}
+	if (info->median) {
+		fd_min = gnm_func_lookup ("MIN", NULL);
+		gnm_func_ref (fd_min);
 	}
 
 	rows =  info->base.range_1->v_range.cell.b.row 
@@ -465,6 +470,58 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 		dao_set_sheet_object (dao, 0, 1, so);
 	}	
 
+	if (info->median) {
+		dao_set_italic (dao, 1, 1, 1, 1);
+		dao_set_cell (dao, 1, 1, _("Median:"));
+		
+		dao->offset_col += 2;
+		gl = info->group_list;
+
+		for (i = 0; i < repetitions; i++) {
+			gint prob_dx = - (repetitions - i)* (colspan - 1) - 1;
+			gint times_dx = - colspan * repetitions - i - 3;
+			GnmExpr const *expr_median;
+
+			dao_set_italic (dao, 0, 0, 0, 0);
+			
+			if (gl != NULL && gl->data != NULL) {
+				analysis_tools_kaplan_meier_group_t *gd = gl->data;
+				if (gd->name != NULL) {
+					dao_set_cell (dao, 0, 0, gd->name);
+				}
+				gl = gl->next;
+			}
+
+			expr_prob = gnm_expr_new_binary
+				(gnm_expr_new_funcall3 
+				 (fd_if,
+				  gnm_expr_new_binary
+				  (make_rangeref(prob_dx, 1, prob_dx, rows),
+				   GNM_EXPR_OP_GT,
+				   gnm_expr_new_constant (value_new_float (0.5))),
+				  gnm_expr_new_constant (value_new_string ("NA")),
+				  gnm_expr_new_constant (value_new_int (1))),
+				 GNM_EXPR_OP_MULT,
+				 make_rangeref (times_dx, 1, times_dx, rows));
+			
+			expr_median =  gnm_expr_new_funcall1
+				(fd_min,
+				 gnm_expr_new_funcall3 
+				 (fd_if,
+				  gnm_expr_new_funcall1
+				  (fd_iserror,
+				   gnm_expr_copy (expr_prob)),
+				  gnm_expr_new_constant (value_new_string ("NA")),
+				  expr_prob));
+			
+			dao_set_cell_array_expr (dao, 0, 1,expr_median);
+			
+			dao->offset_col += 1;
+		}
+	}
+	
+
+
 	gnm_expr_free (expr_data);
 	if (expr_group_data != NULL)
 		gnm_expr_free (expr_group_data);
@@ -475,6 +532,8 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 	gnm_func_unref (fd_sum);
 	if (fd_sqrt != NULL)
 		gnm_func_unref (fd_sqrt);
+	if (fd_min != NULL)
+		gnm_func_unref (fd_min);
 
 	dao_redraw_respan (dao);
 
@@ -498,6 +557,7 @@ analysis_tool_kaplan_meier_engine (data_analysis_output_t *dao, gpointer specs,
 {
 	analysis_tools_data_kaplan_meier_t *info = specs;
 	int multiple;
+	int median;
 
 	switch (selector) {
 	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
@@ -507,13 +567,16 @@ analysis_tool_kaplan_meier_engine (data_analysis_output_t *dao, gpointer specs,
 			== NULL);
 	case TOOL_ENGINE_UPDATE_DAO:
 		multiple = ((info->group_list == NULL) ? 1 :  g_slist_length (info->group_list));
-		dao_adjust (dao, 1 + multiple * ((info->std_err ? 4 : 3) + (info->censored ? 1 : 0)), 
+		median   = (info->median ? (2 + multiple) : 0);
+		dao_adjust (dao, median + 1 + multiple * ((info->std_err ? 4 : 3) + (info->censored ? 1 : 0)), 
 			    info->base.range_1->v_range.cell.b.row 
 			    - info->base.range_1->v_range.cell.a.row + 3);
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		value_release (info->range_3);
-		info->range_3 = NULL;
+		if (info->range_3) {
+			value_release (info->range_3);
+			info->range_3 = NULL;
+		}
 		g_slist_foreach (info->group_list, analysis_tool_kaplan_meier_clear_gl_cb, NULL);
 		g_slist_free (info->group_list);
 		info->group_list = NULL;

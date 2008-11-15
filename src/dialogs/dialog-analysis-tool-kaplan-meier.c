@@ -274,6 +274,10 @@ kaplan_meier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->range_3 = ((data->group_list == NULL) ? NULL : gnm_expr_entry_parse_as_value
 			 (GNM_EXPR_ENTRY (state->groups_input), state->base.sheet)); 
 
+	data->median = gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (glade_xml_get_widget
+				   (state->base.gui,
+				    "median-button")));
 	data->chart = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->graph_button));
 	data->ticks = gtk_toggle_button_get_active (
