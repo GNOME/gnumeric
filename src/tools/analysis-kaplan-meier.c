@@ -57,6 +57,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 			   : g_slist_length (info->group_list));
 	int colspan = ((info->std_err ? 4 : 3) + (info->censored ? 1 : 0));
 	int i;
+	int logrank_test_y_offset = 0;
 
 	GnmExpr const *expr_data;
 	GnmExpr const *expr_group_data = NULL;
@@ -478,6 +479,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 		gl = info->group_list;
 
 		for (i = 0; i < repetitions; i++) {
+			/* the next involves (colspan-1) since the median field moves to the right. */
 			gint prob_dx = - (repetitions - i)* (colspan - 1) - 1;
 			gint times_dx = - colspan * repetitions - i - 3;
 			GnmExpr const *expr_median;
@@ -518,7 +520,104 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 			
 			dao->offset_col += 1;
 		}
+		logrank_test_y_offset = 5;
+		dao->offset_col -= (2 + repetitions);
 	}
+
+	if (info->logrank_test) {		
+		GnmFunc *fd_chidist;
+		GnmExpr const *expr_statistics = gnm_expr_new_constant (value_new_int (0));
+		GnmExpr const *expr_p;
+		GnmExpr const *expr_n_total = gnm_expr_new_constant (value_new_int (0));
+		GnmExpr const *expr_death_total = gnm_expr_new_constant (value_new_int (0));
+
+		fd_chidist = gnm_func_lookup ("CHIDIST", NULL);
+		gnm_func_ref (fd_chidist);
+
+		dao_set_italic (dao, 1, logrank_test_y_offset, 1, logrank_test_y_offset+3);
+		set_cell_text_col (dao, 1, logrank_test_y_offset, 
+				   _("/Log-Rank Test:"
+				     "/Statistics:"
+				     "/Degrees of Freedom:"
+				     "/p-Value:"));
+		
+		/* Test Statistics */
+		for (i = 0; i < repetitions; i++) {
+			gint atrisk_dx = - (repetitions - i)* colspan - 2;
+			expr_n_total = gnm_expr_new_binary 
+				(expr_n_total, GNM_EXPR_OP_ADD, 
+				 make_rangeref ( atrisk_dx, 
+						 - logrank_test_y_offset + 1, 
+						 atrisk_dx, 
+						 - logrank_test_y_offset + rows));
+			expr_death_total = gnm_expr_new_binary 
+				(expr_death_total, GNM_EXPR_OP_ADD, 
+				 make_rangeref ( atrisk_dx + 1, 
+						 - logrank_test_y_offset + 1, 
+						 atrisk_dx + 1, 
+						 - logrank_test_y_offset + rows));
+		}
+
+		for (i = 0; i < repetitions; i++) {
+			GnmExpr const *expr_expect;
+			gint atrisk_dx = - (repetitions - i)* colspan - 2;
+
+			expr_expect = gnm_expr_new_binary 
+				(gnm_expr_new_binary 
+				 (gnm_expr_copy (expr_death_total),
+				  GNM_EXPR_OP_MULT,
+				  make_rangeref (atrisk_dx, 
+						 - logrank_test_y_offset + 1, 
+						 atrisk_dx, 
+						 - logrank_test_y_offset + rows)), 
+				 GNM_EXPR_OP_DIV, 
+				 gnm_expr_copy (expr_n_total));
+			
+			expr_expect = gnm_expr_new_funcall3 (
+				fd_if,
+				gnm_expr_new_funcall1 (fd_iserror,
+						       gnm_expr_copy (expr_expect)),
+				gnm_expr_new_constant (value_new_int (0)),
+				expr_expect);
+			expr_expect = gnm_expr_new_funcall1 (fd_sum,
+							     expr_expect);
+			expr_expect = gnm_expr_new_binary (
+				gnm_expr_new_binary (
+					gnm_expr_new_binary (
+						gnm_expr_new_funcall1 (
+							fd_sum,
+							make_rangeref 
+							(atrisk_dx + 1, 
+							 - logrank_test_y_offset + 1, 
+							 atrisk_dx + 1, 
+							 - logrank_test_y_offset + rows)),
+						GNM_EXPR_OP_SUB,
+						gnm_expr_copy (expr_expect)),
+					GNM_EXPR_OP_EXP,
+					gnm_expr_new_constant (value_new_int (2))),
+				GNM_EXPR_OP_DIV,
+				expr_expect);
+			expr_statistics =  gnm_expr_new_binary (
+				expr_statistics, GNM_EXPR_OP_ADD, expr_expect);
+		}
+		gnm_expr_free (expr_n_total);					
+		gnm_expr_free (expr_death_total);					
+
+		dao_set_cell_array_expr (dao, 2, logrank_test_y_offset + 1, expr_statistics);
+
+		/* Degree of Freedoms */
+		dao_set_cell_int (dao, 2, logrank_test_y_offset + 2, repetitions - 1);
+
+		/* p Value */
+		expr_p = gnm_expr_new_funcall2 (fd_chidist,
+						make_cellref (0,-2),
+						make_cellref (0,-1));
+		dao_set_cell_expr (dao, 2, logrank_test_y_offset + 3, expr_p);
+		
+		gnm_func_unref (fd_chidist);		
+	}
+
+	
 	
 
 
@@ -568,6 +667,8 @@ analysis_tool_kaplan_meier_engine (data_analysis_output_t *dao, gpointer specs,
 	case TOOL_ENGINE_UPDATE_DAO:
 		multiple = ((info->group_list == NULL) ? 1 :  g_slist_length (info->group_list));
 		median   = (info->median ? (2 + multiple) : 0);
+		if (median == 0 && info->logrank_test)
+			median = 3;
 		dao_adjust (dao, median + 1 + multiple * ((info->std_err ? 4 : 3) + (info->censored ? 1 : 0)), 
 			    info->base.range_1->v_range.cell.b.row 
 			    - info->base.range_1->v_range.cell.a.row + 3);

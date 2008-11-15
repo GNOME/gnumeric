@@ -62,6 +62,7 @@ typedef struct {
 	GtkWidget *censor_spin_from;
 	GtkWidget *censor_spin_to;
 	GtkWidget *graph_button;
+	GtkWidget *logrank_button;
 	GtkWidget *tick_button;
 	GtkWidget *add_group_button;
 	GtkWidget *remove_group_button;
@@ -271,8 +272,15 @@ kaplan_meier_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	data->censor_mark_to = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (state->censor_spin_to));
 
 	data->group_list = kaplan_meier_tool_get_groups (state);
-	data->range_3 = ((data->group_list == NULL) ? NULL : gnm_expr_entry_parse_as_value
-			 (GNM_EXPR_ENTRY (state->groups_input), state->base.sheet)); 
+	if (data->group_list == NULL) {
+		data->range_3 = NULL;
+		data->logrank_test = FALSE;
+	} else {
+		data->range_3 = gnm_expr_entry_parse_as_value
+			(GNM_EXPR_ENTRY (state->groups_input), state->base.sheet);
+		data->logrank_test = gtk_toggle_button_get_active (
+			GTK_TOGGLE_BUTTON (state->logrank_button));
+	}
 
 	data->median = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (glade_xml_get_widget
@@ -454,11 +462,13 @@ kaplan_meier_tool_update_groups_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	gtk_widget_set_sensitive (state->add_group_button, groups);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->groups_treeview), groups);
 
-	if (groups)
+	if (groups) {
 		cb_selection_changed (selection, state);
-	else {
+		gtk_widget_set_sensitive (state->logrank_button, TRUE);
+	} else {
 		gtk_tree_selection_unselect_all (selection);
 		gtk_widget_set_sensitive (state->remove_group_button, FALSE);
+		gtk_widget_set_sensitive (state->logrank_button, FALSE);
 	}
 }
 
@@ -637,6 +647,9 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 	state->std_error_button = GTK_WIDGET (glade_xml_get_widget
 						  (state->base.gui,
 						   "std-error-button"));
+	state->logrank_button = GTK_WIDGET (glade_xml_get_widget
+						  (state->base.gui,
+						   "logrank-button"));
 
 	state->groups_check = GTK_WIDGET (glade_xml_get_widget
 						  (state->base.gui,
