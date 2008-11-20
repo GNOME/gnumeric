@@ -33,7 +33,7 @@ Morten:
 	* Fix LOOKUP critical.  [#559005]
 	* Fix GROWTH/TREND crash.  [#559363]
 	* Make non-gnome the default.  [#558840]
-	* Disallow deleting last visible sheet.
+	* Disallow deleting last visible sheet.  [#557153]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3
