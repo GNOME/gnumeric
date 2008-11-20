@@ -1,3 +1,10 @@
+2008-11-20  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbcg_menu_state_sheet_count,
+	sheet_menu_label_run): Count visible sheets only.
+	(cb_sheet_visibility_change): Attach with wbcg as data and call
+	wbcg_menu_state_sheet_count.
+
 2008-11-05  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Remove check for gcc 2.96.  Remove gb support.

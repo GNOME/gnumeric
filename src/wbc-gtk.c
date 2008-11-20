@@ -106,6 +106,23 @@ gint wbc_gtk_debug_expr_share = 0;
 
 /****************************************************************************/
 
+static int
+gnm_notebook_get_n_visible (GtkNotebook *nb)
+{
+	int count = 0;
+	GList *l, *children = gtk_container_get_children (GTK_CONTAINER (nb));
+
+	for (l = children; l; l = l->next) {
+		GtkWidget *child = l->data;
+		if (GTK_WIDGET_VISIBLE (child))
+			count++;
+	}
+
+	g_list_free (children);
+
+	return count;
+}
+
 static void
 wbc_gtk_set_action_sensitivity (WBCGtk const *wbcg,
 				char const *action, gboolean sensitive)
@@ -400,8 +417,6 @@ static void cb_sheets_rename (SheetControlGUI *scg) { editable_label_start_editi
 static void
 sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 {
-	SheetControl *sc = (SheetControl *) scg;
-
 	struct {
 		char const *text;
 		void (*function) (SheetControlGUI *scg);
@@ -418,12 +433,13 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 
 	unsigned int i;
 	GtkWidget *item, *menu = gtk_menu_new ();
+	gboolean has_multiple = gnm_notebook_get_n_visible (scg->wbcg->notebook) > 1;
 
 	for (i = 0; i < G_N_ELEMENTS (sheet_label_context_actions); i++){
 		char const *text = sheet_label_context_actions[i].text;
 		gboolean req_multiple_sheets = sheet_label_context_actions [i].req_multiple_sheets;
 		gboolean inactive =
-			(req_multiple_sheets && workbook_sheet_count (sc->sheet->workbook) < 2) ||
+			(req_multiple_sheets && !has_multiple) ||
 			wbc_gtk_get_guru (scg_wbcg (scg)) != NULL;
 
 		if (text != NULL) {
@@ -862,7 +878,7 @@ wbc_gtk_hildon_set_action_sensitive (WBCGtk      *wbcg,
 static void
 wbcg_menu_state_sheet_count (WBCGtk *wbcg)
 {
-	int const sheet_count = g_list_length (wbcg->notebook->children);
+	int const sheet_count = gnm_notebook_get_n_visible (wbcg->notebook);
 	/* Should we enable commands requiring multiple sheets */
 	gboolean const multi_sheet = (sheet_count > 1);
 
@@ -896,12 +912,15 @@ cb_toggle_menu_item_changed (Sheet *sheet,
 static void
 cb_sheet_visibility_change (Sheet *sheet,
 			    G_GNUC_UNUSED GParamSpec *pspec,
-			    GtkWidget *w)
+			    WBCGtk *wbcg)
 {
+	GtkWidget *w = gtk_notebook_get_nth_page (wbcg->notebook, sheet->index_in_wb);
 	if (sheet_is_visible (sheet))
 		gtk_widget_show (w);
 	else
 		gtk_widget_hide (w);
+
+	wbcg_menu_state_sheet_count (wbcg);
 }
 
 static void
@@ -916,7 +935,7 @@ disconnect_sheet_signals (WBCGtk *wbcg, Sheet *sheet, gboolean focus_signals_onl
 
 		if (!focus_signals_only) {
 			g_signal_handlers_disconnect_by_func (sheet, cb_sheet_tab_change, scg->label);
-			g_signal_handlers_disconnect_by_func (sheet, cb_sheet_visibility_change, scg->table);
+			g_signal_handlers_disconnect_by_func (sheet, cb_sheet_visibility_change, wbcg);
 		}
 	}
 }
@@ -978,7 +997,7 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	if (!visible)
 		gtk_widget_hide (GTK_WIDGET (scg->table));
 	g_object_connect (G_OBJECT (sheet),
-			  "signal::notify::visibility", cb_sheet_visibility_change, scg->table,
+			  "signal::notify::visibility", cb_sheet_visibility_change, wbcg,
 			  "signal::notify::name", cb_sheet_tab_change, scg->label,
 			  "signal::notify::tab-foreground", cb_sheet_tab_change, scg->label,
 			  "signal::notify::tab-background", cb_sheet_tab_change, scg->label,
