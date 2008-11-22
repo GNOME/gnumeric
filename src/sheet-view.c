@@ -142,7 +142,6 @@ sv_attach_control (SheetView *sv, SheetControl *sc)
 		sv->controls = g_ptr_array_new ();
 	g_ptr_array_add (sv->controls, sc);
 	sc->view  = sv;
-	sc->sheet = sv_sheet (sv); /* convenient */
 	sv_init_sc (sv, sc);
 }
 
@@ -206,7 +205,7 @@ sv_real_dispose (GObject *object)
 			g_object_unref (G_OBJECT (control));
 		});
 		if (sv->controls != NULL)
-			g_warning ("Unexpected left over controls");
+			g_warning ("Unexpected left-over controls");
 	}
 
 	if (sv->sheet) {

@@ -393,8 +393,11 @@ update_after_action (Sheet *sheet, WorkbookControl *wbc)
 		if (sheet->workbook == wb_control_get_workbook (wbc))
 			WORKBOOK_VIEW_FOREACH_CONTROL (wb_control_view (wbc), control,
 				  wb_control_sheet_focus (control, sheet););
-	} else if (wbc != NULL)
-		sheet_update (wb_control_cur_sheet (wbc));
+	} else if (wbc != NULL) {
+		Sheet *sheet = wb_control_cur_sheet (wbc);
+		if (sheet)
+			sheet_update (sheet);
+	}
 }
 
 

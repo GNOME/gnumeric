@@ -171,8 +171,8 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 {
 	SheetControlGUI *scg = pane->simple.scg;
 	SheetControl *sc = (SheetControl *) scg;
-	Sheet *sheet = sc->sheet;
 	SheetView *sv = sc->view;
+	Sheet *sheet = sv->sheet;
 	WBCGtk *wbcg = scg->wbcg;
 	gboolean delayed_movement = FALSE;
 	gboolean jump_to_bounds = event->state & GDK_CONTROL_MASK;
@@ -1415,14 +1415,12 @@ gnm_pane_redraw_range (GnmPane *pane, GnmRange const *r)
 	SheetControlGUI *scg;
 	int x1, y1, x2, y2;
 	GnmRange tmp;
-	SheetControl *sc;
 	Sheet *sheet;
 
 	g_return_if_fail (IS_GNM_PANE (pane));
 
 	scg = pane->simple.scg;
-	sc = (SheetControl *) scg;
-	sheet = sc->sheet;
+	sheet = scg_sheet (scg);
 
 	if ((r->end.col < pane->first.col) ||
 	    (r->end.row < pane->first.row) ||
@@ -1512,11 +1510,9 @@ cb_pane_sliding (GnmPane *pane)
 	GnmPane *pane3 = scg_pane (pane->simple.scg, 3);
 	gboolean slide_x = FALSE, slide_y = FALSE;
 	int col = -1, row = -1;
-	gboolean text_is_rtl = pane->simple.scg->sheet_control.sheet->text_is_rtl;
+	Sheet *sheet = 	scg_sheet (pane->simple.scg);
+	gboolean text_is_rtl = sheet->text_is_rtl;
 	GnmPaneSlideInfo info;
-	Sheet *sheet = 	((SheetControl *) pane->simple.scg)->sheet;
-
-
 
 #if 0
 	g_warning ("slide: %d, %d", pane->sliding_dx, pane->sliding_dy);
@@ -1690,7 +1686,7 @@ gnm_pane_handle_motion (GnmPane *pane,
 	g_return_val_if_fail (event != NULL, FALSE);
 	g_return_val_if_fail (slide_handler != NULL, FALSE);
 
-	text_is_rtl = pane->simple.scg->sheet_control.sheet->text_is_rtl;
+	text_is_rtl = scg_sheet (pane->simple.scg)->text_is_rtl;
 
 	/* NOTE : work around a bug in gtk's use of X.
 	 * When dragging past the right edge of the sheet in rtl mode
@@ -1860,7 +1856,7 @@ gnm_pane_window_to_coord (GnmPane *pane,
 	double const scale = 1. / FOO_CANVAS (pane)->pixels_per_unit;
 	y += pane->first_offset.row;
 
-	if (pane->simple.scg->sheet_control.sheet->text_is_rtl)
+	if (scg_sheet (pane->simple.scg)->text_is_rtl)
 		x = x - GTK_WIDGET (pane)->allocation.width - 1 - pane->first_offset.col;
 	else
 		x += pane->first_offset.col;
@@ -2029,7 +2025,7 @@ gnm_pane_size_guide_start (GnmPane *pane, gboolean vert, int colrow, int width)
 	g_return_if_fail (pane->size_guide.points == NULL);
 
 	scg = pane->simple.scg;
-	text_is_rtl = scg->sheet_control.sheet->text_is_rtl;
+	text_is_rtl = scg_sheet (scg)->text_is_rtl;
 	zoom = FOO_CANVAS (pane)->pixels_per_unit;
 
 	points = pane->size_guide.points = foo_canvas_points_new (2);
@@ -2122,7 +2118,7 @@ gnm_pane_size_guide_motion (GnmPane *pane, gboolean vert, int guide_pos)
 	double const	 scale	    = 1. / resize_guide->canvas->pixels_per_unit;
 
 	if (vert) {
-		gboolean text_is_rtl = pane->simple.scg->sheet_control.sheet->text_is_rtl;
+		gboolean text_is_rtl = scg_sheet (pane->simple.scg)->text_is_rtl;
 		points->coords [0] = points->coords [2] = scale *
 			(text_is_rtl ? -guide_pos : guide_pos);
 	} else
@@ -2360,7 +2356,7 @@ cb_slide_handler (GnmPane *pane, GnmPaneSlideInfo const *info)
 	y = scg_colrow_distance_get (scg, FALSE, pane->first.row, info->row);
 	y += pane->first_offset.row;
 
-	if (scg->sheet_control.sheet->text_is_rtl)
+	if (scg_sheet (scg)->text_is_rtl)
 		x *= -1;
 
 	gnm_pane_object_move (pane, info->user_data,

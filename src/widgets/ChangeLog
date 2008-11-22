@@ -1,3 +1,9 @@
+2008-11-22  Morten Welinder  <terra@gnome.org>
+
+	* widget-editable-label.c (el_size_request): Simplify.
+	(cb_el_changed): Removed.  Hook up gtk_widget_queue_resize
+	directly.
+
 2008-10-23  Morten Welinder  <terra@gnome.org>
 
 	* gnm-filter-combo-foo-view.c (fcombo_fill_model): Make sure the

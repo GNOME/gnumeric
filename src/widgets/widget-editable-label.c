@@ -209,14 +209,12 @@ el_key_press_event (GtkWidget *w, GdkEventKey *event)
 static void
 el_size_request (GtkWidget *el, GtkRequisition *req)
 {
-	PangoRectangle	 logical_rect;
-	PangoLayoutLine *line;
-	PangoLayout	*layout;
+	PangoRectangle logical_rect;
+	PangoLayout *layout;
 
 	parent_class->size_request (el, req);
 	layout = gtk_entry_get_layout (GTK_ENTRY (el));
-	line = pango_layout_get_lines (layout)->data;
-	pango_layout_line_get_extents (line, NULL, &logical_rect);
+	pango_layout_get_extents (layout, NULL, &logical_rect);
 
 	req->width = logical_rect.width / PANGO_SCALE + 2 * 2;
 }
@@ -280,18 +278,13 @@ el_class_init (GtkObjectClass *object_class)
 }
 
 static void
-cb_el_changed (GtkWidget *w, G_GNUC_UNUSED gpointer ignored)
-{
-	gtk_widget_queue_resize	(w);
-}
-
-static void
 el_init (GObject *obj)
 {
 	EditableLabel *el = EDITABLE_LABEL (obj);
 	el->editable = TRUE;
 	el->set_cursor_after_motion = FALSE;
-	g_signal_connect (obj, "changed", G_CALLBACK (cb_el_changed), NULL);
+	g_signal_connect (obj, "changed",
+			  G_CALLBACK (gtk_widget_queue_resize), NULL);
 }
 
 GSF_CLASS (EditableLabel, editable_label,

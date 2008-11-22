@@ -100,7 +100,7 @@ scg_view (SheetControlGUI const *scg)
 Sheet *
 scg_sheet (SheetControlGUI const *scg)
 {
-	return scg->sheet_control.sheet;
+	return sc_sheet ((SheetControl *)scg);
 }
 
 WorkbookControl *
@@ -451,8 +451,8 @@ scg_scrollbar_config (SheetControl const *sc)
 	GtkAdjustment *va = scg->va;
 	GtkAdjustment *ha = scg->ha;
 	GnmPane *pane = scg_pane (scg, 0);
-	Sheet const    *sheet = sc->sheet;
-	SheetView const*sv = sc->view;
+	SheetView const *sv = sc->view;
+	Sheet const *sheet = sv->sheet;
 	int const last_col = pane->last_full.col;
 	int const last_row = pane->last_full.row;
 	int max_col = last_col;
@@ -680,8 +680,6 @@ cb_table_destroy (SheetControlGUI *scg)
 static void
 scg_init (SheetControlGUI *scg)
 {
-	scg->sheet_control.sheet = NULL;
-
 	scg->comment.selected = NULL;
 	scg->comment.item = NULL;
 	scg->comment.timer = -1;
@@ -745,7 +743,7 @@ gnm_pane_set_left_col (GnmPane *pane, int new_first_col)
 {
 	Sheet *sheet;
 	g_return_if_fail (pane != NULL);
-	sheet = ((SheetControl*) pane->simple.scg)->sheet;
+	sheet = scg_sheet (pane->simple.scg);
 	g_return_if_fail (0 <= new_first_col && new_first_col < gnm_sheet_get_max_cols (sheet));
 
 	if (pane->first.col != new_first_col) {
@@ -809,7 +807,7 @@ gnm_pane_set_top_row (GnmPane *pane, int new_first_row)
 {
 	Sheet *sheet;
 	g_return_if_fail (pane != NULL);
-	sheet = ((SheetControl*) pane->simple.scg)->sheet;
+	sheet = scg_sheet (pane->simple.scg);
 	g_return_if_fail (0 <= new_first_row && new_first_row < gnm_sheet_get_max_rows (sheet));
 
 	if (pane->first.row != new_first_row) {
@@ -918,7 +916,7 @@ gnm_pane_make_cell_visible (GnmPane *pane, int col, int row,
 	if (!GTK_WIDGET_REALIZED (pane))
 		return;
 
-	sheet = ((SheetControl *) pane->simple.scg)->sheet;
+	sheet = scg_sheet (pane->simple.scg);
 	g_return_if_fail (col >= 0);
 	g_return_if_fail (row >= 0);
 	g_return_if_fail (col < gnm_sheet_get_max_cols (sheet));
@@ -1693,7 +1691,7 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 	SheetControlGUI *scg = user_data;
 	SheetControl	*sc = (SheetControl *) scg;
 	SheetView	*sv = sc->view;
-	Sheet		*sheet = sc->sheet;
+	Sheet		*sheet = sv->sheet;
 	WBCGtk *wbcg = scg->wbcg;
 	WorkbookControl *wbc = sc->wbc;
 
@@ -2551,7 +2549,7 @@ int
 scg_colrow_distance_get (SheetControlGUI const *scg, gboolean is_cols,
 			 int from, int to)
 {
-	SheetControl *sc = (SheetControl *) scg;
+	Sheet *sheet = scg_sheet (scg);
 	ColRowCollection const *collection;
 	int default_size;
 	int i, pixels = 0;
@@ -2570,10 +2568,10 @@ scg_colrow_distance_get (SheetControlGUI const *scg, gboolean is_cols,
 
 	if (is_cols) {
 		g_return_val_if_fail (to <= gnm_sheet_get_max_cols (sc->sheet), 1);
-		collection = &sc->sheet->cols;
+		collection = &sheet->cols;
 	} else {
 		g_return_val_if_fail (to <= gnm_sheet_get_max_rows (sc->sheet), 1);
-		collection = &sc->sheet->rows;
+		collection = &sheet->rows;
 	}
 
 	/* Do not use col_row_foreach, it ignores empties.
@@ -3015,7 +3013,7 @@ scg_scale_changed (SheetControl *sc)
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	z = sc->sheet->last_zoom_factor_used;
+	z = scg_sheet (scg)->last_zoom_factor_used;
 
 	SCG_FOREACH_PANE (scg, pane, {
 		if (pane->col.canvas != NULL)
@@ -3579,7 +3577,7 @@ void
 scg_delete_sheet_if_possible (SheetControlGUI *scg)
 {
 	SheetControl *sc = (SheetControl *) scg;
-	Sheet *sheet = sc->sheet;
+	Sheet *sheet = scg_sheet (scg);
 	Workbook *wb = sheet->workbook;
 
 	/* If this is the last sheet left, ignore the request */

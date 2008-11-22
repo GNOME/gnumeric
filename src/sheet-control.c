@@ -23,6 +23,7 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "sheet-control-priv.h"
+#include "sheet-view.h"
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -73,7 +74,7 @@ Sheet *
 sc_sheet (SheetControl const *sc)
 {
 	g_return_val_if_fail (IS_SHEET_CONTROL (sc), NULL);
-	return sc->sheet;
+	return sc->view ? sc->view->sheet : NULL;
 }
 
 SheetView *

@@ -113,7 +113,7 @@ void gnm_pane_window_to_coord   (GnmPane *pane,
  * Convert an x position from world coordinates to canvas coordinates,
  * taking into account sheet right to left text setting.
  */
-#define gnm_pane_x_w2c(pane,x) 	((pane)->simple.scg->sheet_control.sheet->text_is_rtl) ? \
+#define gnm_pane_x_w2c(pane,x) 	(scg_sheet ((pane)->simple.scg)->text_is_rtl) ? \
 	gnm_foo_canvas_x_w2c ((FooCanvas *) (pane), (x)) : (x)
 
 G_END_DECLS

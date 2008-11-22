@@ -691,7 +691,7 @@ cb_direction_change (G_GNUC_UNUSED Sheet *null_sheet,
 {
 	if (scg == wbcg_cur_scg (scg->wbcg)) {
 		GtkWidget *w = (GtkWidget *)scg->wbcg->notebook;
-		gboolean text_is_rtl = scg->sheet_control.sheet->text_is_rtl;
+		gboolean text_is_rtl = scg_sheet (scg)->text_is_rtl;
 		GtkTextDirection dir = text_is_rtl
 			? GTK_TEXT_DIR_RTL
 			: GTK_TEXT_DIR_LTR;
@@ -1082,7 +1082,7 @@ wbcg_sheet_order_changed (WBCGtk *wbcg)
 
 	for (i = 0 ; i < n; i++) {
 		SheetControlGUI *scg = scgs[i];
-		Sheet *sheet = ((SheetControl *)scg)->sheet;
+		Sheet *sheet = scg_sheet (scg);
 		gtk_notebook_reorder_child (nb,
 					    GTK_WIDGET (scg->table),
 					    sheet->index_in_wb);
