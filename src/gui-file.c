@@ -528,7 +528,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 	}
 
 	if (wbcg2) {
-		GtkWidget *nb = GTK_WIDGET (wbcg2->notebook);
+		GtkWidget *nb = GTK_WIDGET (wbcg2->notebook_area);
 		wb_view_preferred_size (wb_view,
 					nb->allocation.width,
 					nb->allocation.height);
@@ -565,7 +565,7 @@ gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 		wbcg_find_for_workbook (wb, wbcg, NULL, NULL);
 
 	if (wbcg2) {
-		GtkWidget *nb = GTK_WIDGET (wbcg2->notebook);
+		GtkWidget *nb = GTK_WIDGET (wbcg2->notebook_area);
 		wb_view_preferred_size (wb_view,
 					nb->allocation.width,
 					nb->allocation.height);

@@ -1,3 +1,7 @@
+2008-11-23  Morten Welinder  <terra@gnome.org>
+
+	* gnm-notebook.[ch]: New files.
+
 2008-11-22  Morten Welinder  <terra@gnome.org>
 
 	* widget-editable-label.c (el_size_request): Simplify.

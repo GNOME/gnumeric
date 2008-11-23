@@ -998,7 +998,7 @@ wbcg_insert_object (WBCGtk *wbcg, SheetObject *so)
 	wbcg_insert_object_clear (wbcg);
 	wbcg->new_object = so;
 
-	npages = gtk_notebook_get_n_pages (wbcg->notebook);
+	npages = wbcg_get_n_scg (wbcg);
 	for (i = 0; i < npages; i++)
 		if (NULL != (scg = wbcg_get_nth_scg (wbcg, i))) {
 			scg_object_unselect (scg, NULL);
@@ -1030,7 +1030,7 @@ wbcg_insert_object_clear (WBCGtk *wbcg)
 		g_object_unref (G_OBJECT (wbcg->new_object));
 		wbcg->new_object = NULL;
 
-		npages = gtk_notebook_get_n_pages (wbcg->notebook);
+		npages = wbcg_get_n_scg (wbcg);
 		for (i = 0; i < npages; i++)
 			if (NULL != (scg = wbcg_get_nth_scg (wbcg, i)))
 				scg_cursor_visible (scg, TRUE);

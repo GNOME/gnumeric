@@ -53,11 +53,13 @@
 #include "ranges.h"
 #include "xml-sax.h"
 #include "xml-io.h"
+#include "style-color.h"
 
 #include "gnm-pane-impl.h"
 #include "item-bar.h"
 #include "item-cursor.h"
 #include "widgets/gnumeric-expr-entry.h"
+#include "widgets/widget-editable-label.h"
 
 #include <goffice/utils/go-file.h>
 #include <goffice/utils/go-glib-extras.h>
@@ -654,7 +656,10 @@ cb_table_destroy (SheetControlGUI *scg)
 	SheetControl *sc = (SheetControl *) scg;
 	int i;
 
-	scg->table = NULL;
+	if (scg->table) {
+		g_object_unref (scg->table);
+		scg->table = NULL;
+	}
 
 	scg_mode_edit (scg);	/* finish any object edits */
 	scg_unant (sc);		/* Make sure that everything is unanted */
@@ -1458,6 +1463,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		G_CALLBACK (cb_hscrollbar_adjust_bounds), sheet);
 
 	scg->table = GTK_TABLE (gtk_table_new (4, 4, FALSE));
+	g_object_ref (scg->table);
 	gtk_table_attach (scg->table, GTK_WIDGET (scg->inner_table),
 		0, 1, 0, 1,
 		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
@@ -1511,6 +1517,12 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		 "signal::notify::display-outlines-right", cb_scg_redraw_resize, scg,
 		 NULL);
 
+	scg->label = editable_label_new
+		(sheet->name_unquoted,
+		 sheet->tab_color ? &sheet->tab_color->gdk_color : NULL,
+		 sheet->tab_text_color ? &sheet->tab_text_color->gdk_color : NULL);
+	g_object_ref (scg->label);
+
 	return scg;
 }
 
@@ -1560,7 +1572,13 @@ scg_finalize (GObject *object)
 
 	if (scg->table) {
 		gtk_object_destroy (GTK_OBJECT (scg->table));
-		scg->table =NULL;
+		g_object_unref (scg->table);
+		scg->table = NULL;
+	}
+
+	if (scg->label) {
+		g_object_unref (scg->label);
+		scg->label = NULL;
 	}
 
 	if (scg->wbcg != NULL)
@@ -3589,4 +3607,3 @@ scg_delete_sheet_if_possible (SheetControlGUI *scg)
 		cmd_reorganize_sheets (wbc, old_state, sheet);
 	}
 }
-

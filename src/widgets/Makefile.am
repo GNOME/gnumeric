@@ -13,6 +13,8 @@ libwidgets_la_SOURCES =				\
 	gnm-dao.h				\
 	gnm-format-sel.c			\
 	gnm-format-sel.h			\
+	gnm-notebook.c				\
+	gnm-notebook.h				\
 	widget-editable-label.c			\
 	widget-editable-label.h			\
 	widget-font-selector.c			\

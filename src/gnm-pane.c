@@ -279,7 +279,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 	case GDK_KP_Page_Up:
 	case GDK_Page_Up:
 		if ((event->state & GDK_CONTROL_MASK) != 0)
-			gtk_notebook_prev_page (wbcg->notebook);
+			gnm_notebook_prev_page (wbcg->bnotebook);
 		else if ((event->state & GDK_MOD1_MASK) == 0) {
 			delayed_movement = TRUE;
 			scg_queue_movement (scg, movefn,
@@ -296,7 +296,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 	case GDK_KP_Page_Down:
 	case GDK_Page_Down:
 		if ((event->state & GDK_CONTROL_MASK) != 0)
-			gtk_notebook_next_page (wbcg->notebook);
+			gnm_notebook_next_page (wbcg->bnotebook);
 		else if ((event->state & GDK_MOD1_MASK) == 0) {
 			delayed_movement = TRUE;
 			scg_queue_movement (scg, movefn,

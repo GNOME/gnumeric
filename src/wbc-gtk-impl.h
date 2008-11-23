@@ -7,10 +7,10 @@
 #include "workbook-control-priv.h"
 #include "style.h"
 #include "widgets/gnumeric-expr-entry.h"
+#include "widgets/gnm-notebook.h"
 
 #include <goffice/app/file.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkuimanager.h>
+#include <gtk/gtk.h>
 #include <goffice/gtk/go-action-combo-stack.h>
 #include <goffice/gtk/go-action-combo-color.h>
 #include <goffice/gtk/go-action-combo-text.h>
@@ -28,7 +28,19 @@ struct _WBCGtk {
 #ifdef GNM_USE_HILDON
 	HildonProgram *hildon_prog;
 #endif
-	GtkNotebook *notebook;
+
+	/* The area that contains the sheet and the sheet tabs.  */
+	GtkWidget   *notebook_area;
+
+	/* The notebook that contains the sheets.  */
+	GtkNotebook *snotebook;
+
+	/* The notebook that contains the sheet tabs.  */
+	GnmNotebook *bnotebook;
+
+	/* The GtkPaned that contains the sheet tabs and the status area.  */
+	GtkPaned    *tabs_paned;
+
 	GtkWidget   *progress_bar;
 
 	struct {
@@ -84,6 +96,7 @@ struct _WBCGtk {
 
 	GOFileSaver *current_saver;
 
+	SheetControlGUI *active_scg;
 	gulong sig_view_changed;
 	gulong sig_auto_expr_text;
 	gulong sig_sheet_order, sig_notify_uri, sig_notify_dirty;

@@ -1,3 +1,26 @@
+2008-11-23  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbcg_sheet_add): Add a SHEET_CONTROL_KEY for the
+	labels too.
+	(get_scg): New function to retrieve and scg for a tab label or
+	sheet table widget.  Simplify drag handling code using this.
+	(wbcg_sheet_remove_all): Make sure disconnection happens for sheet
+	signals, even when we shut down the wbcg.
+	(wbcg_set_direction): Split from cb_direction_change.  Change
+	direct callers of cb_direction_change to use wbcg_set_direction.
+	(wbcg_sheet_add): Don't init scg->label here.
+	(wbcg_set_end_mode): Translate "END".
+	(wbcg_get_n_scg): New function.
+
+	* src/sheet-control-gui.c (sheet_control_gui_new): Keep a ref for
+	->table and ->label.  Init ->label here.
+	(scg_finalize): Unref here.
+
+	* src/wbc-gtk-impl.h (struct _WBCGtk): Add a paned for sheet tabs
+	and the progress bar.  Split notebook into ->snotebook (for the
+	sheet tables) and ->bnotebook for the tabs.  Make the latter a
+	GnmNotebook.  All users changed accordingly.
+
 2008-11-22  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-control-priv.h (struct _SheetControl): Remove sheet
