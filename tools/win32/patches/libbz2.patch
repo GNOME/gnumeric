@@ -1,6 +1,6 @@
-diff -c bzip2.c bzip2.c
-*** bzip2.c	2007-12-09 07:22:06.000000000 -0500
---- bzip2.c	2008-07-05 21:53:05.000000000 -0400
+diff -rc bzip2-1.0.5/bzip2.c bzip2-1.0.5-patched/bzip2.c
+*** bzip2-1.0.5/bzip2.c	Sun Dec  9 07:22:06 2007
+--- bzip2-1.0.5-patched/bzip2.c	Sat Jul  5 22:34:59 2008
 ***************
 *** 128,134 ****
   #if BZ_LCCWIN32
@@ -18,9 +18,9 @@ diff -c bzip2.c bzip2.c
   
   #   define NORETURN       /**/
   #   define PATH_SEP       '\\'
-diff -c Makefile Makefile
-*** Makefile	2008-02-14 07:39:18.000000000 -0500
---- Makefile	2008-07-05 22:28:46.000000000 -0400
+diff -rc bzip2-1.0.5/Makefile bzip2-1.0.5-patched/Makefile
+*** bzip2-1.0.5/Makefile	Thu Feb 14 07:39:18 2008
+--- bzip2-1.0.5-patched/Makefile	Sun Nov 23 13:36:52 2008
 ***************
 *** 15,31 ****
   SHELL=/bin/sh
@@ -70,7 +70,7 @@ diff -c Makefile Makefile
 ! all: libbz2.a bzip2 bzip2recover test
   
 ! bzip2: libbz2.a bzip2.o
-  	$(CC) $(CFLAGS) $(LDFLAGS) -o bzip2 bzip2.o -L. -lbz2
+! 	$(CC) $(CFLAGS) $(LDFLAGS) -o bzip2 bzip2.o -L. -lbz2
   
   bzip2recover: bzip2recover.o
   	$(CC) $(CFLAGS) $(LDFLAGS) -o bzip2recover bzip2recover.o
@@ -94,20 +94,20 @@ diff -c Makefile Makefile
         bzlib.o
   
 ! SHAREDLIB = libbz2.dll
-! IMPLIB    = libbz2.lib
+! IMPLIB    = libbz2.dll.a
   
 ! all: bzip2 bzip2recover test $(SHAREDLIB) $(IMPLIB)
 ! 
 ! bzip2: libbz2.dll bzip2.o
-  	$(CC) $(CFLAGS) $(LDFLAGS) -o bzip2 bzip2.o -L. -lbz2
+! 	$(CC) $(CFLAGS) $(LDFLAGS) -o bzip2 bzip2.o -L. $(IMPLIB)
   
   bzip2recover: bzip2recover.o
   	$(CC) $(CFLAGS) $(LDFLAGS) -o bzip2recover bzip2recover.o
   
 ! $(IMPLIB): $(SHAREDLIB)
 ! 
-! $(SHAREDLIB): $(OBJS)
-! 	$(CC) -shared -o $@ $(OBJS)
+! $(SHAREDLIB) $(IMPLIB): $(OBJS)
+! 	$(CC) -shared -Wl,--out-implib -Wl,$(IMPLIB) -o $@ $(OBJS)
   
   check: test
   test: bzip2
@@ -157,18 +157,20 @@ diff -c Makefile Makefile
   	sample1.rb2 sample2.rb2 sample3.rb2 \
   	sample1.tst sample2.tst sample3.tst
   
---- 74,87 ----
+--- 74,89 ----
   install: bzip2 bzip2recover
   	if ( test ! -d $(PREFIX)/bin ) ; then mkdir -p $(PREFIX)/bin ; fi
   	if ( test ! -d $(PREFIX)/lib ) ; then mkdir -p $(PREFIX)/lib ; fi
   	if ( test ! -d $(PREFIX)/include ) ; then mkdir -p $(PREFIX)/include ; fi
   	cp -f bzlib.h $(PREFIX)/include
   	chmod a+r $(PREFIX)/include/bzlib.h
-! 	cp -f libbz2.dll $(PREFIX)/bin
-! 	chmod a+r $(PREFIX)/bin/libbz2.dll
+! 	cp -f $(SHAREDLIB) $(PREFIX)/bin
+! 	chmod a+r $(PREFIX)/bin/$(SHAREDLIB)
+! 	cp -f $(IMPLIB) $(PREFIX)/lib
+! 	chmod a+r $(PREFIX)/lib/$(IMPLIB)
   
   clean: 
-! 	rm -f *.o libbz2.dll bzip2 bzip2recover \
+! 	rm -f *.o libbz2.dll* bzip2 bzip2recover \
   	sample1.rb2 sample2.rb2 sample3.rb2 \
   	sample1.tst sample2.tst sample3.tst
   
@@ -181,7 +183,7 @@ diff -c Makefile Makefile
   
   distclean: clean
   	rm -f manual.ps manual.html manual.pdf
---- 104,111 ----
+--- 106,113 ----
   	$(CC) $(CFLAGS) -c bzip2.c
   bzip2recover.o: bzip2recover.c
   	$(CC) $(CFLAGS) -c bzip2recover.c

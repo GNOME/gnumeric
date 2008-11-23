@@ -770,7 +770,7 @@ Architecture Changes
 41) win32
     41.1) Fix preview [#533795]
     41.2) python installation [#549387]
-    41.3) libbz2 not found for libgsf
+    41.3) libbz2 not found for libgsf				(DONE)
     41.4) hhmap
 	41.4.1) how to generate
 	41.4.2) include in the installer
