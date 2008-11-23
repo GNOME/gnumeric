@@ -35,7 +35,7 @@ Morten:
 	* Make non-gnome the default.  [#558840]
 	* Disallow deleting last visible sheet.  [#557153]
 	* Merge the sheet tabs into the status bar.  [#561733]
-	* Fix potential crashes in multi-view mode.
+	* Fix crash in multi-view mode.  [#562053]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3
