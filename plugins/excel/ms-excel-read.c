@@ -645,8 +645,8 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		break;
 
 	default:
-		g_warning ("EXCEL: unhandled excel object of type %s (0x%x) id = %d.",
-			   obj->excel_type_name, obj->excel_type, obj->id);
+		d (2, fprintf (stderr, "EXCEL: unhandled excel object of type %s (0x%x) id = %d.",
+			       obj->excel_type_name, obj->excel_type, obj->id););
 		return TRUE;
 	}
 
@@ -886,8 +886,8 @@ excel_read_string_header (guint8 const *data, guint32 maxlen,
 		*post_data_len += len_ext_rst;
 		len += 4;
 
-		g_warning ("Extended string support unimplemented; "
-			   "ignoring %u bytes\n", len_ext_rst);
+		d (4, fprintf (stderr, "Extended string support unimplemented; "
+			       "ignoring %u bytes\n", len_ext_rst););
 	}
 
 	return len;
