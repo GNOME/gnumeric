@@ -37,6 +37,7 @@ gboolean     gnm_app_use_transition_keys  (void);
 void         gnm_app_set_transition_keys  (gboolean);
 gboolean     gnm_app_live_scrolling	  (void);
 int	     gnm_app_auto_expr_recalc_lag (void);
+gboolean     gnm_app_detachable_toolbars  (void);
 
 double	     gnm_app_display_dpi_get	  (gboolean horizontal);
 double	     gnm_app_dpi_to_pixels	  (void);

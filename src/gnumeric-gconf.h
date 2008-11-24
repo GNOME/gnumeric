@@ -91,6 +91,7 @@ typedef struct {
 	gboolean	 transition_keys;
 
 	gboolean	 live_scrolling;
+	gboolean         detachable_toolbars;
 	GHashTable      *toolbars;
 	GHashTable      *toolbar_positions;
 	gint		 recalc_lag;

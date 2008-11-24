@@ -3428,11 +3428,8 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 #else
 		GtkWidget *box;
 		GtkPositionType pos = gnm_gconf_get_toolbar_position (name);
-		gboolean toolbars_can_detach = TRUE;
-#ifdef GNM_WITH_GNOME
-		toolbars_can_detach = go_conf_get_bool (NULL, "/desktop/gnome/interface/toolbar_detachable");
-#endif
-		if (toolbars_can_detach) {
+
+		if (gnm_app_detachable_toolbars ()) {
 			box = gtk_handle_box_new ();
 			g_object_connect (box,
 				"signal::child_attached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (TRUE),

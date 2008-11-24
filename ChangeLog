@@ -1,3 +1,13 @@
+2008-11-24  Morten Welinder  <terra@gnome.org>
+
+	* src/application.c (gnm_app_detachable_toolbars): New function.
+
+	* src/wbc-gtk.c (cb_add_menus_toolbars): Use
+	gnm_app_detachable_toolbars.
+
+	* src/gnumeric-gconf.c (gnm_conf_init_essential): Setup
+	->detachable_toolbars.
+
 2008-11-23  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbcg_sheet_add): Add a SHEET_CONTROL_KEY for the

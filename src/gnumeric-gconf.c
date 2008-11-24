@@ -197,6 +197,13 @@ gnm_conf_init_essential (void)
 		  node, GNM_CONF_GUI_ED_AUTOCOMPLETE, TRUE);
 	prefs.live_scrolling = go_conf_load_bool (
 		  node, GNM_CONF_GUI_ED_LIVESCROLLING, TRUE);
+	prefs.detachable_toolbars =
+#ifdef WIN32
+		FALSE;
+#else
+		go_conf_get_bool
+		(NULL, "/desktop/gnome/interface/toolbar_detachable");
+#endif
 	prefs.toolbars = g_hash_table_new_full
 		(g_str_hash, g_str_equal,
 		 (GDestroyNotify)g_free,
