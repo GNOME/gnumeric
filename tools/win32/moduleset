@@ -74,7 +74,7 @@
     <tarball id="libbz2" version="1.0.5">
 	<source href="http://www.bzip.org/1.0.5/bzip2-1.0.5.tar.gz"/>
 	<patches>
-	    <patch file="&patch_dir;libbz2.patch"/>
+	    <patch file="&patch_dir;libbz2.patch" strip="1"/>
 	</patches>
     </tarball>
 

@@ -1,26 +1,6 @@
-diff -rc bzip2-1.0.5/bzip2.c bzip2-1.0.5-patched/bzip2.c
-*** bzip2-1.0.5/bzip2.c	Sun Dec  9 07:22:06 2007
---- bzip2-1.0.5-patched/bzip2.c	Sat Jul  5 22:34:59 2008
-***************
-*** 128,134 ****
-  #if BZ_LCCWIN32
-  #   include <io.h>
-  #   include <fcntl.h>
-! #   include <sys\stat.h>
-  
-  #   define NORETURN       /**/
-  #   define PATH_SEP       '\\'
---- 128,134 ----
-  #if BZ_LCCWIN32
-  #   include <io.h>
-  #   include <fcntl.h>
-! #   include <sys/stat.h>
-  
-  #   define NORETURN       /**/
-  #   define PATH_SEP       '\\'
-diff -rc bzip2-1.0.5/Makefile bzip2-1.0.5-patched/Makefile
+diff -crN bzip2-1.0.5/Makefile bzip2-1.0.5-patched/Makefile
 *** bzip2-1.0.5/Makefile	Thu Feb 14 07:39:18 2008
---- bzip2-1.0.5-patched/Makefile	Sun Nov 23 13:36:52 2008
+--- bzip2-1.0.5-patched/Makefile	Sun Nov 23 17:57:14 2008
 ***************
 *** 15,31 ****
   SHELL=/bin/sh
@@ -192,3 +172,68 @@ diff -rc bzip2-1.0.5/Makefile bzip2-1.0.5-patched/Makefile
   
   distclean: clean
   	rm -f manual.ps manual.html manual.pdf
+diff -crN bzip2-1.0.5/bzip2.c bzip2-1.0.5-patched/bzip2.c
+*** bzip2-1.0.5/bzip2.c	Sun Dec  9 07:22:06 2007
+--- bzip2-1.0.5-patched/bzip2.c	Sun Nov 23 17:57:14 2008
+***************
+*** 128,134 ****
+  #if BZ_LCCWIN32
+  #   include <io.h>
+  #   include <fcntl.h>
+! #   include <sys\stat.h>
+  
+  #   define NORETURN       /**/
+  #   define PATH_SEP       '\\'
+--- 128,134 ----
+  #if BZ_LCCWIN32
+  #   include <io.h>
+  #   include <fcntl.h>
+! #   include <sys/stat.h>
+  
+  #   define NORETURN       /**/
+  #   define PATH_SEP       '\\'
+diff -crN bzip2-1.0.5/libbz2.rc bzip2-1.0.5-patched/libbz2.rc
+*** bzip2-1.0.5/libbz2.rc	Wed Dec 31 19:00:00 1969
+--- bzip2-1.0.5-patched/libbz2.rc	Sun Nov 23 18:18:09 2008
+***************
+*** 0 ****
+--- 1,39 ----
++ #include <windows.h>
++ 
++ #ifdef GCC_WINDRES
++ VS_VERSION_INFO		VERSIONINFO
++ #else
++ VS_VERSION_INFO		VERSIONINFO	MOVEABLE IMPURE LOADONCALL DISCARDABLE
++ #endif
++   FILEVERSION		1,0,5,0
++   PRODUCTVERSION	1,0,5,0
++   FILEFLAGSMASK		VS_FFI_FILEFLAGSMASK
++ #ifdef _DEBUG
++   FILEFLAGS		1
++ #else
++   FILEFLAGS		0
++ #endif
++   FILEOS		VOS_DOS_WINDOWS32
++   FILETYPE		VFT_DLL
++   FILESUBTYPE		0	// not used
++ BEGIN
++   BLOCK "StringFileInfo"
++   BEGIN
++     BLOCK "040904E4"
++     //language ID = U.S. English, char set = Windows, Multilingual
++     BEGIN
++       VALUE "FileDescription",	"bzip2 data compression library\0"
++       VALUE "FileVersion",	"1.0.5\0"
++       VALUE "InternalName",	"libbz2.dll\0"
++       VALUE "LegalCopyright",	"(C) 1996-2007 Julian Seward <jseward@bzip.org>\0"
++       VALUE "OriginalFilename",	"libbz2.dll\0"
++       VALUE "ProductName",	"libbz2\0"
++       VALUE "ProductVersion",	"1.0.5\0"
++       VALUE "Comments","DLL support by Alessandro Iacopetti & Gilles Vollant\0"
++     END
++   END
++   BLOCK "VarFileInfo"
++   BEGIN
++     VALUE "Translation", 0x0409, 1252
++   END
++ END
