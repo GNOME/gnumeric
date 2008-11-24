@@ -1183,7 +1183,7 @@ gnumeric_search (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (start < 1 || start >= INT_MAX)
 		return value_new_error_VALUE (ei->pos);
-	// Make istart zero-based.  */
+	/* Make istart zero-based.  */
 	istart = (int)(start - 1);
 
 	for (i = istart, hay2 = haystack; i > 0; i--) {

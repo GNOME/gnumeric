@@ -568,7 +568,7 @@ sheet_widget_button_read_xml_dom (SheetObject *so, char const *typename,
 				  XmlParseContext const *context,
 				  xmlNodePtr tree)
 {
-	// FIXME: markup
+	/* FIXME: markup */
 	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (so);
 	gchar *label = (gchar *)xmlGetProp (tree, (xmlChar *)"Label");
 
