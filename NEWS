@@ -21,6 +21,9 @@ Jean:
 Jody:
 	* Display top-left when selecting a rel ref to a merged region.
 
+Lutz Mueller:
+	* Enable drag of whole sheets to other applications.  [#523033]
+
 Morten:
 	* Fix XLS import crash.  [#557077]
 	* Fix problem with auto filter after column insert.   [#557237]

@@ -1,3 +1,16 @@
+2008-11-26  Morten Welinder  <terra@gnome.org>
+
+	Enable drag of whole sheets to other apps.  #523033, initial patch
+	by Lutz Mueller.
+
+	* src/wbc-gtk.c (cb_sheet_label_drag_data_get): Use
+	scg_drag_data_get.
+	(wbcg_sheet_add): Add more drag types.
+
+	* src/sheet-control-gui.c (scg_drag_send_text): New function.
+	(scg_drag_data_get): Protect against null scg->selected_objects.
+	(scg_drag_data_get): Handle UTF8_STRING.
+
 2008-11-24  Morten Welinder  <terra@gnome.org>
 
 	* src/application.c (gnm_app_detachable_toolbars): New function.

@@ -520,8 +520,7 @@ cb_sheet_label_drag_data_get (GtkWidget *widget, GdkDragContext *context,
 	SheetControlGUI *scg = get_scg (widget);
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	gtk_selection_data_set (selection_data, selection_data->target,
-				8, (void *) scg, sizeof (scg));
+	scg_drag_data_get (scg, selection_data);
 }
 
 static void
@@ -823,7 +822,7 @@ cb_notebook_switch_page (G_GNUC_UNUSED GtkNotebook *notebook_,
 
 	/* if we are not selecting a range for an expression update */
 	sheet = wbcg_focus_cur_scg (wbcg);
-	if (sheet != wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg))) {
+	if (sheet != wbcg_cur_sheet (wbcg)) {
 		wbcg_update_menu_feedback (wbcg, sheet);
 		sheet_flag_status_update_range (sheet, NULL);
 		sheet_update (sheet);
@@ -1095,7 +1094,14 @@ static void
 wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 {
 	static GtkTargetEntry const drag_types[] = {
-		{ (char *) "GNUMERIC_SHEET", GTK_TARGET_SAME_APP, TARGET_SHEET }
+		{ (char *)"GNUMERIC_SHEET", GTK_TARGET_SAME_APP, TARGET_SHEET },
+		{ (char *)"UTF8_STRING", 0, 0 },
+		{ (char *)"image/svg+xml", 0, 0 },
+		{ (char *)"image/x-wmf", 0, 0 },
+		{ (char *)"image/x-emf", 0, 0 },
+		{ (char *)"image/png", 0, 0 },
+		{ (char *)"image/jpeg", 0, 0 },
+		{ (char *)"image/bmp", 0, 0 }
 	};
 
 	WBCGtk *wbcg = (WBCGtk *)wbc;
@@ -1824,8 +1830,7 @@ cb_realize (GtkWindow *toplevel, WBCGtk *wbcg)
 	 */
 	if (wbcg->snotebook) {
 		wbcg_focus_cur_scg (wbcg);
-		wbcg_update_menu_feedback (wbcg,
-			wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)));
+		wbcg_update_menu_feedback (wbcg, wbcg_cur_sheet (wbcg));
 	}
 }
 
@@ -2006,7 +2011,7 @@ show_gui (WBCGtk *wbcg)
 	gtk_widget_show (GTK_WIDGET (wbcg_toplevel (wbcg)));
 
 	/* rehide headers if necessary */
-	if (NULL != scg && wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)))
+	if (NULL != scg && wbcg_cur_sheet (wbcg))
 		scg_adjust_preferences (scg);
 
 	return FALSE;

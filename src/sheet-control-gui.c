@@ -3569,11 +3569,29 @@ scg_drag_send_clipboard_objects (SheetControl *sc,
 	cellregion_unref (content);
 }
 
+static void
+scg_drag_send_text (SheetControlGUI *scg, GtkSelectionData *sd)
+{
+	Sheet *sheet = scg_sheet (scg);
+	Workbook *wb = sheet->workbook;
+	GnmRange range = sheet_get_extent (sheet, TRUE);
+	GnmCellRegion *reg = clipboard_copy_range (sheet, &range);
+	GString *s = cellregion_to_string (reg, TRUE, workbook_date_conv (wb));
+
+	cellregion_unref (reg);
+	if (!s)
+		return;
+	gtk_selection_data_set (sd, sd->target, 8, s->str, s->len);
+	g_string_free (s, TRUE);
+}
+
 void
 scg_drag_data_get (SheetControlGUI *scg, GtkSelectionData *selection_data)
 {
 	gchar *target_name = gdk_atom_name (selection_data->target);
-	GSList *objects = go_hash_keys (scg->selected_objects);
+	GSList *objects = scg->selected_objects
+		? go_hash_keys (scg->selected_objects)
+		: NULL;
 
 	if (strcmp (target_name, "GNUMERIC_SAME_PROC") == 0)
 		/* Set dummy selection for process internal dnd */
@@ -3586,6 +3604,8 @@ scg_drag_data_get (SheetControlGUI *scg, GtkSelectionData *selection_data)
 		scg_drag_send_graph (scg, selection_data, objects, target_name);
 	else if (strncmp (target_name, "image/", 6) == 0)
 		scg_drag_send_image (scg, selection_data, objects, target_name);
+	else if (strcmp (target_name, "UTF8_STRING") == 0)
+		scg_drag_send_text (scg, selection_data);
 
 	g_free (target_name);
 	g_slist_free (objects);
