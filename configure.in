@@ -176,7 +176,6 @@ with_win32=no
 case $host_os in
 mingw* | pw32* | cygwin*)
     with_win32=yes
-    GNUMERIC_PLUGIN_LDFLAGS="-no-undefined $GNUMERIC_LIBS -Wl,--enable-runtime-pseudo-relo,--export-all-symbols \$(top_builddir)/src/libspreadsheet.la -s"
     ;;
 esac
 
@@ -259,7 +258,11 @@ AM_CONDITIONAL(WITH_WIN32, test $with_win32 = yes)
 AM_CONDITIONAL(WITH_NATIVE_WIN32, test $with_native_win32 = yes)
 AM_CONDITIONAL(CROSS_COMPILING, test x"$cross_compiling" != xno)
 
-GNUMERIC_PLUGIN_LDFLAGS="-avoid-version $GNUMERIC_PLUGIN_LDFLAGS"
+if test "x$with_win32" = "xyes"; then
+    GNUMERIC_PLUGIN_LDFLAGS="-avoid-version -no-undefined $GNUMERIC_LIBS -Wl,--enable-runtime-pseudo-relo,--export-all-symbols \$(top_builddir)/src/libspreadsheet.la -s"
+else
+    GNUMERIC_PLUGIN_LDFLAGS="-avoid-version"
+fi
 AC_SUBST(GNUMERIC_PLUGIN_LDFLAGS)
 
 dnl disable for in stable release, enable for development series

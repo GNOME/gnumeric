@@ -11,6 +11,11 @@
 	(scg_drag_data_get): Protect against null scg->selected_objects.
 	(scg_drag_data_get): Handle UTF8_STRING.
 
+2008-11-26  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : Define GNUMERIC_PLUGIN_LDFLAGS after
+	  GNUMERIC_LIBS is defined.
+
 2008-11-24  Morten Welinder  <terra@gnome.org>
 
 	* src/application.c (gnm_app_detachable_toolbars): New function.
