@@ -1,5 +1,8 @@
 Gnumeric 1.8.4
 
+Henry Law:
+	* Fix dependency problem with constructed ranges.  [#562363]
+
 Jean:
 	* Import/export axis ticks labels orientation. [#544935]
 	* Fix an attribute order issue while loading. [#547183]
@@ -253,6 +256,9 @@ Andreas:
 
 Götz Waschk:
 	* Fix paradox plugin compilation.  [#489030]
+
+Henry Law:
+	* Fix dependency problem with constructed ranges.  [#562363]
 
 Hib Eris:
 	* ssconvert export options.  (Code butchered by Morten.)  [#170767]

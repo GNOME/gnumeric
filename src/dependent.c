@@ -1021,6 +1021,8 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 	g_return_val_if_fail (tree != NULL, DEPENDENT_NO_FLAG);
 
 	switch (GNM_EXPR_GET_OPER (tree)) {
+	case GNM_EXPR_OP_RANGE_CTOR:  /* See #562363 */
+	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
 		return  link_expr_dep (ep, tree->binary.value_a) |
 			link_expr_dep (ep, tree->binary.value_b);
@@ -1095,9 +1097,6 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 			res |= link_expr_dep (ep, tree->set.argv[i]);
 		return res;
 	}
-	case GNM_EXPR_OP_RANGE_CTOR:
-	case GNM_EXPR_OP_INTERSECT:
-		return DEPENDENT_NO_FLAG; /* handled at run time */
 
 #ifndef DEBUG_SWITCH_ENUM
 	default:
@@ -1111,6 +1110,8 @@ static void
 unlink_expr_dep (GnmDependent *dep, GnmExpr const *tree)
 {
 	switch (GNM_EXPR_GET_OPER (tree)) {
+	case GNM_EXPR_OP_RANGE_CTOR:  /* See #562363 */
+	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
 		unlink_expr_dep (dep, tree->binary.value_a);
 		unlink_expr_dep (dep, tree->binary.value_b);
@@ -1182,10 +1183,6 @@ unlink_expr_dep (GnmDependent *dep, GnmExpr const *tree)
 			unlink_expr_dep (dep, tree->set.argv[i]);
 		return;
 	}
-
-	case GNM_EXPR_OP_RANGE_CTOR:
-	case GNM_EXPR_OP_INTERSECT:
-		return;
 
 #ifndef DEBUG_SWITCH_ENUM
 	default:

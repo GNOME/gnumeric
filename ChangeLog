@@ -1,3 +1,9 @@
+2008-11-26  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (link_expr_dep): Treat GNM_EXPR_OP_RANGE_CTOR
+	and GNM_EXPR_OP_INTERSECT as any other binary operator.  Fixes
+	#562363.
+
 2008-10-28  Morten Welinder  <terra@gnome.org>
 
 	* src/style.c (gnm_font_shutdown): Workaround for 558100 and
