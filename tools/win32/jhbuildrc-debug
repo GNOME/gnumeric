@@ -126,5 +126,5 @@ module_autogenargs['psiconv']	= autogenargs + """ --disable-xhtml-docs \
 module_autogenargs['libglade']	= autogenargs
 module_autogenargs['pygobject']	= autogenargs
 module_autogenargs['libgsf']	= autogenargs + """ --without-gnome-vfs --without-bonobo"""
-module_autogenargs['goffice']	= autogenargs
+module_autogenargs['goffice']	= autogenargs + """ --without-gconf"""
 module_autogenargs['gnumeric']	= autogenargs
