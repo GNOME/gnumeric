@@ -482,8 +482,8 @@ dialog_kaplan_meier_tool_treeview_add_item  (KaplanMeierToolState *state, guint 
 		gtk_list_store_append (state->groups_list, &iter);
 		gtk_list_store_set (state->groups_list, &iter,
 				    GROUP_NAME, name,
-				    GROUP_FROM, (uint) i,
-				    GROUP_TO, (uint) i,
+				    GROUP_FROM, (guint) i,
+				    GROUP_TO, (guint) i,
 				    GROUP_ADJUSTMENT_FROM, adjustment_from,
 				    GROUP_ADJUSTMENT_TO, adjustment_to,
 				    -1);
