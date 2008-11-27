@@ -512,7 +512,7 @@ dependent_queue_recalc (GnmDependent *dep)
 	g_return_if_fail (dep != NULL);
 
 #ifdef DEBUG_EVALUATION
-	g_print ("/* QUEUE (%s) */\n", cell_name (GNM_DEP_TO_CELL (dep)));
+	g_printerr ("/* QUEUE (%s) */\n", cell_name (GNM_DEP_TO_CELL (dep)));
 #endif
 	if (!dependent_needs_recalc (dep)) {
 		GSList listrec;
@@ -599,12 +599,12 @@ micro_hash_many_resize (MicroHash *hash_table, int new_nbuckets)
 			}
 		}
 
-		g_print ("resize %p: %d [%d %.1f %.0f%%]\n",
-			 hash_table,
-			 new_nbuckets,
-			 hash_table->num_elements,
-			 (double)totlen / nonzero,
-			 100.0 * totlen / capacity);
+		g_printerr ("resize %p: %d [%d %.1f %.0f%%]\n",
+			    hash_table,
+			    new_nbuckets,
+			    hash_table->num_elements,
+			    (double)totlen / nonzero,
+			    100.0 * totlen / capacity);
 	}
 #endif
 }
@@ -1024,9 +1024,11 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 	g_return_val_if_fail (tree != NULL, DEPENDENT_NO_FLAG);
 
 	switch (GNM_EXPR_GET_OPER (tree)) {
+	case GNM_EXPR_OP_RANGE_CTOR:  /* See #562363 */
+	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
-		return  link_expr_dep (ep, tree->binary.value_a) |
-			link_expr_dep (ep, tree->binary.value_b);
+		return link_expr_dep (ep, tree->binary.value_a) |
+		       link_expr_dep (ep, tree->binary.value_b);
 	case GNM_EXPR_OP_ANY_UNARY:
 		return link_expr_dep (ep, tree->unary.value);
 	case GNM_EXPR_OP_CELLREF:
@@ -1098,10 +1100,6 @@ link_expr_dep (GnmEvalPos *ep, GnmExpr const *tree)
 			res |= link_expr_dep (ep, tree->set.argv[i]);
 		return res;
 	}
-	case GNM_EXPR_OP_RANGE_CTOR:
-	case GNM_EXPR_OP_INTERSECT:
-		return DEPENDENT_NO_FLAG; /* handled at run time */
-
 #ifndef DEBUG_SWITCH_ENUM
 	default:
 		g_assert_not_reached ();
@@ -1114,6 +1112,8 @@ static void
 unlink_expr_dep (GnmDependent *dep, GnmExpr const *tree)
 {
 	switch (GNM_EXPR_GET_OPER (tree)) {
+	case GNM_EXPR_OP_RANGE_CTOR:  /* See #562363 */
+	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
 		unlink_expr_dep (dep, tree->binary.value_a);
 		unlink_expr_dep (dep, tree->binary.value_b);
@@ -1185,10 +1185,6 @@ unlink_expr_dep (GnmDependent *dep, GnmExpr const *tree)
 			unlink_expr_dep (dep, tree->set.argv[i]);
 		return;
 	}
-
-	case GNM_EXPR_OP_RANGE_CTOR:
-	case GNM_EXPR_OP_INTERSECT:
-		return;
 
 #ifndef DEBUG_SWITCH_ENUM
 	default:
@@ -1404,8 +1400,9 @@ gnm_cell_eval_content (GnmCell *cell)
 		GnmParsePos pp;
 		char *str = gnm_expr_top_as_string (cell->base.texpr,
 			parse_pos_init_cell (&pp, cell), gnm_conventions_default);
-		g_print ("{\nEvaluating %s!%s: %s;\n",
-			 cell->base.sheet->name_quoted, cell_name (cell), str);
+		g_printerr ("{\nEvaluating %s!%s: %s;\n",
+			    cell->base.sheet->name_quoted, cell_name (cell),
+			    str);
 		g_free (str);
 	}
 #endif
@@ -1418,7 +1415,7 @@ gnm_cell_eval_content (GnmCell *cell)
 		/* but not the first bottom */
 		if (cell->base.flags & DEPENDENT_BEING_ITERATED) {
 #ifdef DEBUG_EVALUATION
-			g_print ("}; /* already-iterate (%d) */\n", iterating == NULL);
+			g_printerr ("}; /* already-iterate (%d) */\n", iterating == NULL);
 #endif
 			return iterating == NULL;
 		}
@@ -1462,7 +1459,8 @@ iterate :
 		char *valtxt = v
 			? value_get_as_string (v)
 			: g_strdup ("NULL");
-		g_print ("Evaluation(%d) %s := %s\n", max_iteration, cell_name (cell), valtxt);
+		g_printerr ("Evaluation(%d) %s := %s\n",
+			    max_iteration, cell_name (cell), valtxt);
 		g_free (valtxt);
 	}
 #endif
@@ -1518,7 +1516,7 @@ iterate :
 		iterating = NULL;
 
 #ifdef DEBUG_EVALUATION
-	g_print ("} (%d)\n", iterating == NULL);
+	g_printerr ("} (%d)\n", iterating == NULL);
 #endif
 	cell->base.flags &= ~DEPENDENT_BEING_CALCULATED;
 	return iterating == NULL;
@@ -1601,7 +1599,7 @@ cb_search_rangedeps (gpointer key, G_GNUC_UNUSED gpointer value,
 	/* When things get slow this is a good test to enable */
 	static int counter = 0;
 	if ((++counter % 100000) == 0)
-		g_print ("%d\n", counter / 100000);
+		g_printerr ("%d\n", counter / 100000);
 #endif
 
 	if (range_contains (range, c->col, c->row)) {
@@ -2701,7 +2699,7 @@ dump_range_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 	});
 	g_string_append_c (target, ')');
 
-	g_print ("%s\n", target->str);
+	g_printerr ("%s\n", target->str);
 	g_string_free (target, TRUE);
 }
 
@@ -2725,7 +2723,7 @@ dump_single_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 		dependent_debug_name (dep, target);
 	});
 
-	g_print ("%s\n", target->str);
+	g_printerr ("%s\n", target->str);
 	g_string_free (target, TRUE);
 }
 
@@ -2769,7 +2767,7 @@ dump_dynamic_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 	}
 
 	g_string_append (out.accum, "] }");
-	g_print ("%s\n", out.accum->str);
+	g_printerr ("%s\n", out.accum->str);
 	g_string_free (out.accum, TRUE);
 }
 
@@ -2801,7 +2799,7 @@ dump_name_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 		g_hash_table_foreach (nexpr->dependents, cb_dump_name_dep, target);
 	g_string_append (target, "]");
 
-	g_print ("%s\n", target->str);
+	g_printerr ("%s\n", target->str);
 	g_string_free (target, TRUE);
 }
 
@@ -2823,32 +2821,32 @@ gnm_dep_container_dump (GnmDepContainer const *deps)
 	for (i = BUCKET_LAST; i >= 0 ; i--) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL && g_hash_table_size (hash) > 0) {
-			g_print ("  Bucket %d (%d-%d): Range hash size %d: range over which cells in list depend\n",
-				 i,
-				 BUCKET_START_ROW (i),
-				 BUCKET_END_ROW (i),
-				 g_hash_table_size (hash));
+			g_printerr ("  Bucket %d (%d-%d): Range hash size %d: range over which cells in list depend\n",
+				    i,
+				    BUCKET_START_ROW (i),
+				    BUCKET_END_ROW (i),
+				    g_hash_table_size (hash));
 			g_hash_table_foreach (hash,
 					      dump_range_dep, NULL);
 		}
 	}
 
 	if (deps->single_hash && g_hash_table_size (deps->single_hash) > 0) {
-		g_print ("  Single hash size %d: cell on which list of cells depend\n",
-			 g_hash_table_size (deps->single_hash));
+		g_printerr ("  Single hash size %d: cell on which list of cells depend\n",
+			    g_hash_table_size (deps->single_hash));
 		g_hash_table_foreach (deps->single_hash,
 				      dump_single_dep, NULL);
 	}
 
 	if (deps->dynamic_deps && g_hash_table_size (deps->dynamic_deps) > 0) {
-		g_print ("  Dynamic hash size %d: cells that depend on dynamic dependencies\n",
-			 g_hash_table_size (deps->dynamic_deps));
+		g_printerr ("  Dynamic hash size %d: cells that depend on dynamic dependencies\n",
+			    g_hash_table_size (deps->dynamic_deps));
 		g_hash_table_foreach (deps->dynamic_deps,
 				      dump_dynamic_dep, NULL);
 	}
 
 	if (deps->referencing_names && g_hash_table_size (deps->referencing_names) > 0) {
-		g_print ("  Names whose expressions reference this sheet mapped to dependencies\n");
+		g_printerr ("  Names whose expressions reference this sheet mapped to dependencies\n");
 		g_hash_table_foreach (deps->referencing_names,
 				      dump_name_dep, NULL);
 	}

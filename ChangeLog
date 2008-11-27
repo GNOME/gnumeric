@@ -1,5 +1,9 @@
 2008-11-26  Morten Welinder  <terra@gnome.org>
 
+	* src/dependent.c (link_expr_dep): Treat GNM_EXPR_OP_RANGE_CTOR
+	and GNM_EXPR_OP_INTERSECT as any other binary operator.  Fixes
+	#562363.
+
 	Enable drag of whole sheets to other apps.  #523033, initial patch
 	by Lutz Mueller.
 
