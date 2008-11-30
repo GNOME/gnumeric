@@ -1292,7 +1292,7 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 	WBCGtk *wbcg = (WBCGtk *)wbc;
 
 	if (wbcg->snotebook != NULL) {
-		GtkWidget *tmp = GTK_WIDGET (wbcg->snotebook);
+		GtkNotebook *tmp = wbcg->snotebook;
 		GList *l, *all = get_all_scgs (wbcg);
 
 		/* Clear notebook to disable updates as focus changes for pages
@@ -1305,11 +1305,14 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 		for (l = all; l; l = l->next) {
 			SheetControlGUI *scg = l->data;
 			disconnect_sheet_signals (scg);
+
+			gtk_widget_destroy (GTK_WIDGET (scg->label));
+			gtk_widget_destroy (GTK_WIDGET (scg->table));
 		}
 
 		g_list_free (all);
 
-		gtk_widget_destroy (tmp);
+		wbcg->snotebook = tmp;
 	}
 }
 

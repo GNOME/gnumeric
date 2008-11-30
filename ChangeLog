@@ -1,3 +1,9 @@
+2008-11-30  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbcg_sheet_remove_all): Don't destroy the
+	notebook -- we will need it later when we replace a pristine
+	workbook with a new.  Fixes #562662.
+
 2008-11-26  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (link_expr_dep): Treat GNM_EXPR_OP_RANGE_CTOR
