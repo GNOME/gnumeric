@@ -1,5 +1,7 @@
+# This file is basically not maintained.  Use as inspiration only.
+
 # conditional features selected using --with <foo> or --without <foo>
-%{!?_with_bonobo:	%{!?_without_bonobo: %define _without_bonobo --without-bonobo}}
+%{!?_with_gnome:	%{!?_without_gnome: %define _without_gnome --without-gnome}}
 %{!?_with_gda:		%{!?_without_gda: %define _without_gda --without-gda}}
 %{!?_with_guile:	%{!?_without_guile: %define _without_guile --without-guile}}
 %{!?_with_long_double:	%{!?_without_long_double: %define _without_long_double --without-long-double}}
@@ -22,12 +24,11 @@ BuildRequires:	libgsf-devel		>= 1.14.6
 BuildRequires:	gtk2-devel		>= 2.10.0
 BuildRequires:	libxml2-devel		>= 2.4.12
 BuildRequires:	libglade2-devel		>= 2.3.6
+%if %{?_with_gnome:1}%{!?_with_gnome:0}
 BuildRequires:	libgnome-devel		>= 2.0.0
 BuildRequires:	libgnomeui-devel	>= 2.0.0
-# What about libart requirement?
-%if %{?_with_bonobo:1}%{!?_with_bonobo:0}
-BuildRequires: libbonobo-devel		>= 2.0.0
-BuildRequires: libbonoboui-devel	>= 2.0.0
+BuildRequires:  libbonobo-devel		>= 2.0.0
+BuildRequires:  libbonoboui-devel	>= 2.0.0
 %endif
 %{?_with_gda:BuildRequires:	libgda-devel		>= 1.0.1}
 %{?_with_guile:BuildRequires:	guile-devel		>= 1.5}
@@ -59,7 +60,7 @@ OpenOffice, planperfect).
 
 %build
 %configure \
-  %{?_with_bonobo} %{?_without_bonobo} \
+  %{?_with_gnome} %{?_without_gnome} \
   %{?_with_gda} %{?_without_gda} \
   %{?_with_guile} %{?_without_guile} \
   %{?_with_long_double} %{?_without_long_double} \
