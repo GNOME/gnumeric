@@ -43,6 +43,7 @@ Morten:
 	* Disallow deleting last visible sheet.  [#557153]
 	* Merge the sheet tabs into the status bar.  [#561733]
 	* Fix crash in multi-view mode.  [#562053]
+	* Introduce explicit () on parsing -2^2.  [#115941]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

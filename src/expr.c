@@ -1539,10 +1539,14 @@ do_expr_as_string (GnmExpr const *expr, int paren_level,
 			prec - operations[op].assoc_left, out);
 
 		/*
-		 * Avoid getting "-2^2".  We want to make sure files do not contain
-		 * that construct as we might later change precedence.
+		 * Avoid getting "-2^2".  We want to make sure files do not
+		 * contain that construct as we might later change precedence.
 		 *
 		 * Always produce either "-(2^2)" or "(-2)^2".
+		 *
+		 * Note, that the parser introduces an explicit parenthesis in
+		 * this case also, so parsed expressions should not be
+		 * affected by the code here.
 		 */
 		if (op == GNM_EXPR_OP_EXP &&
 		    (target->str[prelen] == '-' || target->str[prelen] == '+')) {

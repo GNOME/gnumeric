@@ -1,3 +1,9 @@
+2008-12-02  Morten Welinder  <terra@gnome.org>
+
+	* src/parser.y (is_signed): New function.
+	(yylex/^): If left side is negated, as a parenthesis.
+	Fixes last part of #115941.
+
 2008-11-30  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbcg_sheet_remove_all): Don't destroy the

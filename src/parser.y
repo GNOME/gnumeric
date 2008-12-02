@@ -231,6 +231,23 @@ report_err (ParserState *state, GError *err,
 		g_error_free (err);
 }
 
+static gboolean
+is_signed (const GnmExpr *expr)
+{
+	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_UNARY_NEG)
+		return TRUE;
+
+	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_UNARY_PLUS)
+		return TRUE;
+
+	if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT) {
+		GnmValue const *v = expr->constant.value;
+		return VALUE_IS_FLOAT (v) && value_get_as_float (v) < 0;
+	}
+
+	return FALSE;
+}
+
 /* Handle -cst for use in arrays.  Don't handle other types here.  */
 static GnmExpr *
 fold_negative_constant (GnmExpr *expr)
@@ -584,7 +601,16 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	| exp '-' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_SUB,	$3); }
 	| exp '*' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_MULT,	$3); }
 	| exp '/' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_DIV,	$3); }
-	| exp '^' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_EXP,	$3); }
+	| exp '^' exp	{
+		GnmExpr *l = $1;
+
+		/* See bug 115941 */
+		if (is_signed (l)) {
+			l = build_unary_op (GNM_EXPR_OP_PAREN, l);
+		}
+
+		$$ = build_binop (l, GNM_EXPR_OP_EXP, $3);
+	}
 	| exp '&' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_CAT,	$3); }
 	| exp '=' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_EQUAL,	$3); }
 	| exp '<' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_LT,		$3); }
