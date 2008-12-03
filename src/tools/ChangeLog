@@ -1,3 +1,8 @@
+2008-12-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.c (analysis_tool_regression_engine_run): add the name
+	  of the response variable and make the variable names more flexible 
+
 2008-11-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-kaplan-meier.c (analysis_tool_kaplan_meier_engine_run):

@@ -41,6 +41,7 @@
 #include "cell.h"
 #include "sheet.h"
 #include "ranges.h"
+#include "parse-util.h"
 #include "style.h"
 #include "regression.h"
 #include "sheet-style.h"
@@ -2995,6 +2996,13 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_tdist;
 	GnmFunc *fd_tinv;
 	GnmFunc *fd_transpose;
+	GnmFunc *fd_concatenate = NULL;
+	GnmFunc *fd_cell = NULL;
+	GnmFunc *fd_offset = NULL;
+
+	char const *str = ((info->group_by == GROUPED_BY_ROW) ? "row" : "col");
+	char const *label = ((info->group_by == GROUPED_BY_ROW) ? _("Row") 
+			     : _("Column"));
 
 	fd_linest = gnm_func_lookup ("LINEST", NULL);
 	gnm_func_ref (fd_linest);
@@ -3012,6 +3020,14 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	gnm_func_ref (fd_tinv);
 	fd_transpose = gnm_func_lookup ("TRANSPOSE", NULL);
 	gnm_func_ref (fd_transpose);
+	if (!info->base.labels) {
+		fd_concatenate = gnm_func_lookup ("CONCATENATE", NULL);
+		gnm_func_ref (fd_concatenate);
+		fd_cell = gnm_func_lookup ("CELL", NULL);
+		gnm_func_ref (fd_cell);
+		fd_offset = gnm_func_lookup ("OFFSET", NULL);
+		gnm_func_ref (fd_offset);
+	}
 
 	cb_adjust_areas (val_1, NULL);
 	cb_adjust_areas (val_2, NULL);
@@ -3034,8 +3050,14 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 					"/"
 					"/"
 					"/Intercept"));
+	dao_set_italic (dao, 2, 0, 3, 0);
+ 	dao_set_cell (dao, 2, 0, _("Response Variable:"));
 
 	if (info->base.labels) {
+		
+		dao_set_cell_expr (dao, 3, 0, 
+				   gnm_expr_new_funcall1 (fd_index, gnm_expr_new_constant (value_dup (val_2))));
+		
 		val_1_cp =  value_dup (val_1);
 		val_2_cp =  value_dup (val_2);
 		if (info->group_by == GROUPED_BY_ROW) {
@@ -3052,6 +3074,13 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 					    (fd_transpose,
 					     gnm_expr_new_constant (value_dup (val_1_cp))));
 		}
+	} else {
+		dao_set_cell_expr (dao, 3, 0, gnm_expr_new_funcall3
+				   (fd_concatenate, gnm_expr_new_constant (value_new_string (label)),
+				    gnm_expr_new_constant (value_new_string (" ")),
+				    gnm_expr_new_funcall2 (fd_cell, 
+							   gnm_expr_new_constant (value_new_string (str)), 
+							   gnm_expr_new_constant (value_dup (val_2)))));
 	}
 
 	dao_set_italic (dao, 1, 10, 5, 10);
@@ -3332,10 +3361,28 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	dao->offset_row += 17;
 
 	for (i = 0; i < xdim; i++) {
-		if (!info->base.labels)
-			dao_set_cell_printf (dao, 0, i,
-					     (info->group_by == GROUPED_BY_ROW) ?  
-					     _("Row %i") :  _("Column %i"), i + 1);
+		if (!info->base.labels) {
+			GnmExpr const *expr_offset;
+
+			if (info->group_by == GROUPED_BY_ROW) 
+				expr_offset = gnm_expr_new_funcall3
+					(fd_offset, gnm_expr_new_constant (value_dup (val_1)),
+					 gnm_expr_new_constant (value_new_int (i)),
+					 gnm_expr_new_constant (value_new_int (0)));
+			else
+				expr_offset = gnm_expr_new_funcall3
+					(fd_offset, gnm_expr_new_constant (value_dup (val_1)),
+					 gnm_expr_new_constant (value_new_int (0)),
+					 gnm_expr_new_constant (value_new_int (i)));
+
+			dao_set_cell_expr (dao, 0, i, gnm_expr_new_funcall3
+					   (fd_concatenate, gnm_expr_new_constant (value_new_string (label)),
+					    gnm_expr_new_constant (value_new_string (" ")),
+					    gnm_expr_new_funcall2 
+					    (fd_cell,
+					     gnm_expr_new_constant (value_new_string (str)), 
+					     expr_offset)));
+		}
 		
 		dao_set_cell_array_expr (dao, 1, i, 
 					 gnm_expr_new_funcall3 
@@ -3377,6 +3424,12 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	gnm_func_unref (fd_tdist);
 	gnm_func_unref (fd_tinv);
 	gnm_func_unref (fd_transpose);
+	if (fd_concatenate != NULL)
+		gnm_func_unref (fd_concatenate);
+	if (fd_cell != NULL)
+		gnm_func_unref (fd_cell);
+	if (fd_offset != NULL)
+		gnm_func_unref (fd_offset);
 
 	dao_redraw_respan (dao);
 

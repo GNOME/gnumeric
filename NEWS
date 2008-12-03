@@ -10,6 +10,8 @@ Andreas:
 	* Allow ranges of censor marks in Kaplan-Meier tool and
 	  multiple groups. Output median survival times. [#558582]
 	* Add Log-Rank Test to Kaplan-Meier tool. [#558582]
+	* Add the name of the response variable to the regression tool
+	  output [#400019]
 
 Henry Law:
 	* Fix dependency problem with constructed ranges.  [#562363]
