@@ -402,10 +402,7 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 	GnmInputMsg const *im;
 	GnmStyleConditions const *sc;
 	GnmStyleCond const *cond;
-	GnmBorder const *border;
 	GnmStyleBorderType t;
-	GnmParsePos    pp;
-	char	   *tmp;
 	unsigned i;
 	gboolean started;
 
@@ -485,6 +482,9 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 
 	if (gnm_style_is_element_set (style, MSTYLE_VALIDATION) &&
 	    NULL != (v = gnm_style_get_validation (style))) {
+		GnmParsePos pp;
+		char *tmp;
+
 		gsf_xml_out_start_element (state->output, GNM "Validation");
 		gsf_xml_out_add_int (state->output, "Style", v->style);
 		gsf_xml_out_add_int (state->output, "Type", v->type);
@@ -510,6 +510,7 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 			gsf_xml_out_add_cstr (state->output, "Message", v->msg->str);
 
 		parse_pos_init_sheet (&pp, (Sheet *)state->sheet);
+
 		if (v->texpr[0] != NULL &&
 		    (tmp = gnm_expr_top_as_string (v->texpr[0], &pp, state->convs)) != NULL) {
 			gsf_xml_out_simple_element (state->output, GNM "Expression0", tmp);
@@ -537,12 +538,15 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS) &&
 	    NULL != (sc = gnm_style_get_conditions (style))) {
 		GArray const *conds = gnm_style_conditions_details (sc);
-		if (conds != NULL)
+		if (conds != NULL) {
+			char *tmp;
+			GnmParsePos pp;
+			parse_pos_init_sheet (&pp, (Sheet *)state->sheet);
+
 			for (i = 0 ; i < conds->len ; i++) {
 				cond = &g_array_index (conds, GnmStyleCond, i);
 				gsf_xml_out_start_element (state->output, GNM "Condition");
 				gsf_xml_out_add_int (state->output, "Operator", cond->op);
-				parse_pos_init_sheet (&pp, (Sheet *)state->sheet);
 				if (cond->texpr[0] != NULL &&
 				    (tmp = gnm_expr_top_as_string (cond->texpr[0], &pp, state->convs)) != NULL) {
 					gsf_xml_out_simple_element (state->output, GNM "Expression0", tmp);
@@ -556,10 +560,12 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 				xml_write_style (state, cond->overlay);
 				gsf_xml_out_end_element (state->output); /* </Condition> */
 			}
+		}
 	}
 
 	started = FALSE;
-	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++)
+	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
+		GnmBorder const *border;
 		if (gnm_style_is_element_set (style, i) &&
 		    NULL != (border = gnm_style_get_border (style, i)) &&
 		    GNM_STYLE_BORDER_NONE != (t = border->line_type)) {
@@ -576,6 +582,7 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 				gnm_xml_out_add_color (state->output, "Color", col);
 			gsf_xml_out_end_element (state->output);
 		}
+	}
 	if (started)
 		gsf_xml_out_end_element (state->output);
 
@@ -1357,7 +1364,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 
 	state.state.wb_view = NULL;
 	state.state.wb = NULL;
-	state.state.sheet = NULL;
+	state.state.sheet = cr->origin_sheet;
 	state.state.output = gsf_xml_out_new (buf);
 	state.state.convs = gnm_xml_io_conventions ();
 	state.state.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);

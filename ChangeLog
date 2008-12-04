@@ -1,3 +1,13 @@
+2008-12-04  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-write.c (gnm_cellregion_to_xml): Set state.sheet so
+	we can init parse positions later.
+
+	* src/xml-io.c (xml_cellregion_read): Copy the string.  It need
+	not be null terminated.  Assign ctxt->sheet.
+	(xml_read_sheet_object): New argument, assign, to explicitly
+	control whether to assign the object to the sheet.  Fixes #556561.
+
 2008-12-02  Morten Welinder  <terra@gnome.org>
 
 	* src/parser.y (is_signed): New function.

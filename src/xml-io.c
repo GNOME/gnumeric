@@ -1647,7 +1647,8 @@ xml_read_scenarios (XmlParseContext *ctxt, xmlNodePtr tree)
 }
 
 static SheetObject *
-xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
+xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree,
+		       Sheet *sheet)
 {
 	char *tmp;
 	int tmp_int;
@@ -1747,8 +1748,8 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
 		so->anchor.base.direction = GOD_ANCHOR_DIR_UNKNOWN;
 
 	/* Do not assign to a sheet when extracting a cell region */
-	if (NULL != ctxt->sheet) {
-		sheet_object_set_sheet (so, ctxt->sheet);
+	if (sheet) {
+		sheet_object_set_sheet (so, sheet);
 		g_object_unref (G_OBJECT (so));
 	}
 	return so;
@@ -1990,7 +1991,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 		xmlNodePtr object = child->xmlChildrenNode;
 		for (; object != NULL ; object = object->next)
 			if (!xmlIsBlankNode (object))
-				xml_read_sheet_object (ctxt, object);
+				xml_read_sheet_object (ctxt, object, ctxt->sheet);
 	}
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("Cells"));
@@ -2142,12 +2143,15 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, const char *buffer, int
 	GnmLocale       *locale;
 	int dummy;
 	xmlChar *dateconvstr;
+	char *buffer_copy;
 
 	g_return_val_if_fail (buffer != NULL, NULL);
 
 	locale = gnm_push_C_locale ();
 
-	doc = xmlParseDoc (CC2XML (buffer));
+	buffer_copy = g_strndup (buffer, length);
+	doc = xmlParseDoc (CC2XML (buffer_copy));
+	g_free (buffer_copy);
 
 	if (doc == NULL) {
 		go_cmd_context_error_import (GO_CMD_CONTEXT (wbc),
@@ -2162,10 +2166,10 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, const char *buffer, int
 		goto err;
 	}
 
-	/* ctxt->sheet must == NULL or copying objects will break */
 	ctxt = xml_parse_ctx_new (doc, NULL, NULL);
-	cr = cellregion_new (NULL);
+	ctxt->sheet = sheet;
 
+	cr = cellregion_new (NULL);
 	xml_node_get_int (clipboard, "Cols", &cr->cols);
 	xml_node_get_int (clipboard, "Rows", &cr->rows);
 	xml_node_get_int (clipboard, "BaseCol", &cr->base.col);
@@ -2214,7 +2218,7 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, const char *buffer, int
 		for (l = l->xmlChildrenNode; l != NULL ; l = l->next)
 			if (!xmlIsBlankNode (l))
 				cr->objects = g_slist_prepend (cr->objects,
-							       xml_read_sheet_object (ctxt, l));
+							       xml_read_sheet_object (ctxt, l, NULL));
 
 	xml_parse_ctx_destroy (ctxt);
 	xmlFreeDoc (doc);
