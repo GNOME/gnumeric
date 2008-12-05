@@ -1,3 +1,9 @@
+2008-12-05  Morten Welinder  <terra@gnome.org>
+
+	* gnm-notebook.c (gnm_notebook_expose): Set a paint region around
+	the sub-expose so tabs won't extend into the scrollbar even if the
+	notebook theme draws more than we ask for.
+
 2008-11-23  Morten Welinder  <terra@gnome.org>
 
 	* gnm-notebook.[ch]: New files.

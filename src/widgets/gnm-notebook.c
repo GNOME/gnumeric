@@ -110,7 +110,9 @@ gnm_notebook_expose (GtkWidget      *widget,
 		gdk_region_destroy (eve->region);
 		eve->region = reg;
 
+		gdk_window_begin_paint_region (eve->window, reg);
 		res = ((GtkWidgetClass *)gnm_notebook_parent_class)->expose_event (widget, eve);
+		gdk_window_end_paint (eve->window);
 	}
 
 	gdk_event_free (ev);
