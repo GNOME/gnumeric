@@ -272,7 +272,7 @@ BC_R(3d)(XLChartHandler const *handle,
 				GogObject *box = gog_object_get_child_by_name (GOG_OBJECT (s->chart), "3D-Box");
 				if (!box)
 					box = gog_object_add_by_name (GOG_OBJECT (s->chart), "3D-Box", NULL);
-				g_object_set (G_OBJECT (box), "theta", fabs (elevation), NULL);
+				g_object_set (G_OBJECT (box), "theta", ((elevation > 0)? elevation: -elevation), NULL);
 				/* FIXME: use other parameters */
 			}
 		}

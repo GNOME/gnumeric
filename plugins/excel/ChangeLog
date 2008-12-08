@@ -1,3 +1,7 @@
+2008-12-08  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (3d): use an int for an integer property, not a double.
+
 2008-11-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (3d), (chart_write_plot): some work on 3d import/export,
