@@ -194,7 +194,7 @@ gnumeric_rank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	order = argv[2] ? value_get_as_int (argv[2]) : 0;
 
 	if (result)
-		return result;
+		goto out;
 
 	for (i = 0, r = 1; i < n; i++) {
 		gnm_float y = xs[i];
@@ -203,7 +203,12 @@ gnumeric_rank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			r++;
 	}
 
-	return value_new_int (r);
+	result = value_new_int (r);
+
+ out:
+	g_free (xs);
+
+	return result;
 }
 
 /***************************************************************************/
@@ -237,17 +242,23 @@ gnumeric_trimmean (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float res;
 
 	if (result)
-		return result;
+		goto out;
 
-	if (p < 0 || p > 1)
-		return value_new_error_VALUE (ei->pos);
+	if (p < 0 || p > 1) {
+		result = value_new_error_VALUE (ei->pos);
+		goto out;
+	}
 
 	tc = (int)gnm_fake_floor ((n * p) / 2);
 	c = n - 2 * tc;
 	if (gnm_range_average (xs + tc, c, &res))
-		return value_new_error_VALUE (ei->pos);
+		result = value_new_error_VALUE (ei->pos);
+	else
+		result = value_new_float (res);
 
-	return value_new_float (res);
+	g_free (xs);
+ out:
+	return result;
 }
 
 /***************************************************************************/

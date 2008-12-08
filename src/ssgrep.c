@@ -13,6 +13,7 @@
 #include <goffice/app/go-plugin.h>
 #include "command-context-stderr.h"
 #include <goffice/app/io-context.h>
+#include <goffice/app/error-info.h>
 #include "workbook-view.h"
 #include "workbook.h"
 #include "gutils.h"
@@ -520,6 +521,10 @@ main (int argc, char const **argv)
 	gnm_plugins_init (GO_CMD_CONTEXT (cc));
 	go_plugin_db_activate_plugin_list (
 		go_plugins_get_available_plugins (), &plugin_errs);
+	if (plugin_errs) {
+		/* FIXME: What do we want to do here? */
+		error_info_free (plugin_errs);
+	}
 
 	ioc = gnumeric_io_context_new (cc);
 	gnm_io_context_set_num_files (ioc, N);

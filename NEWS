@@ -47,6 +47,9 @@ Morten:
 	* Fix crash in multi-view mode.  [#562053]
 	* Introduce explicit () on parsing -2^2.  [#115941]
 	* Fix inter-process paste crash.  [#556561]
+	* Plug leak in TRIMMEAN.
+	* Plug leak in RANK.
+	* Plug leaks in ssindex, ssgrep, and ssconvert.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

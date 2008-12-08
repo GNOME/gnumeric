@@ -371,9 +371,12 @@ plugin_service_ui_activate (GOPluginService *service, ErrorInfo **ret_error)
 		go_plugin_get_dir_name (service->plugin),
 		service_ui->file_name, NULL);
 	if (!g_file_get_contents (full_file_name, &xml_ui, NULL, &err)) {
-		*ret_error = error_info_new_printf (
-		             _("Cannot read UI description from XML file %s."),
-		             full_file_name);
+		*ret_error = error_info_new_printf
+			(_("Cannot read UI description from XML file %s: %s"),
+			 full_file_name,
+			 err ? err->message : "?");
+		if (err)
+			g_error_free (err);
 		g_free (full_file_name);
 		return;
 	}

@@ -1,3 +1,11 @@
+2008-12-08  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-plugin.c (plugin_service_ui_activate): Plug leak.
+
+	* src/ssgrep.c (main): Plug leak.
+	* src/ssconvert.c (main): Plug leak.
+	* src/ssindex.c (main): Plug leak.
+
 2008-12-04  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-write.c (gnm_cellregion_to_xml): Set state.sheet so

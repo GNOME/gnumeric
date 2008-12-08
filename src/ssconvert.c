@@ -25,6 +25,7 @@
 #include <dialogs/dialogs.h>
 #include <goffice/app/file.h>
 #include <goffice/app/io-context.h>
+#include <goffice/app/error-info.h>
 #include <goffice/app/go-doc.h>
 #include <goffice/app/go-cmd-context.h>
 #include <goffice/utils/go-file.h>
@@ -383,6 +384,10 @@ main (int argc, char const **argv)
 	gnm_plugins_init (GO_CMD_CONTEXT (cc));
 	go_plugin_db_activate_plugin_list (
 		go_plugins_get_available_plugins (), &plugin_errs);
+	if (plugin_errs) {
+		/* FIXME: What do we want to do here? */
+		error_info_free (plugin_errs);
+	}
 
 	if (ssconvert_list_exporters)
 		list_them (&go_get_file_savers,

@@ -1,3 +1,8 @@
+2008-12-08  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_trimmean): Plug leak.
+	(gnumeric_rank): Plug leak.
+
 2008-11-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c: make arguments names in function description consistent with
