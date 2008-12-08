@@ -384,6 +384,12 @@ gnm_conf_shutdown (void)
 	if (prefs.printer_decoration_font)
 		gnm_style_unref (prefs.printer_decoration_font);
 
+	go_slist_free_custom ((GSList *)prefs.printer_header, g_free);
+	go_slist_free_custom ((GSList *)prefs.printer_header_formats_left, g_free);
+	go_slist_free_custom ((GSList *)prefs.printer_header_formats_middle, g_free);
+	go_slist_free_custom ((GSList *)prefs.printer_header_formats_right, g_free);
+	go_slist_free_custom ((GSList *)prefs.printer_footer, g_free);
+
 	g_hash_table_destroy (prefs.toolbars);
 	g_hash_table_destroy (prefs.toolbar_positions);
 
@@ -402,6 +408,11 @@ gnm_conf_shutdown (void)
 	/* the const_cast is ok, the const in the header is just to keep
 	 * people for doing stupid things */
 	go_slist_free_custom ((GSList *)prefs.recent_funcs, g_free);
+
+	go_slist_free_custom ((GSList *)prefs.plugin_extra_dirs, g_free);
+	go_slist_free_custom ((GSList *)prefs.active_plugins, g_free);
+
+	go_slist_free_custom ((GSList *)prefs.autoformat.extra_dirs, g_free);
 
 	g_free (prefs.print_repeat_top);
 	g_free (prefs.print_repeat_left);
@@ -496,6 +507,7 @@ gnm_gconf_set_page_setup (GtkPageSetup *setup)
 		 gtk_page_setup_get_right_margin (setup, GTK_UNIT_POINTS));
 }
 
+/* Note: takes ownership of argument.  */
 void
 gnm_gconf_set_plugin_file_states (GSList *list)
 {
@@ -510,6 +522,7 @@ gnm_gconf_set_plugin_file_states (GSList *list)
 	go_conf_set_str_list (root, PLUGIN_GCONF_DIR "/" PLUGIN_GCONF_FILE_STATES, list);
 }
 
+/* Note: takes ownership of argument.  */
 void
 gnm_gconf_set_plugin_extra_dirs (GSList *list)
 {
@@ -523,6 +536,7 @@ gnm_gconf_set_plugin_extra_dirs (GSList *list)
 	go_conf_set_str_list (root, PLUGIN_GCONF_DIR "/" PLUGIN_GCONF_EXTRA_DIRS, list);
 }
 
+/* Note: argument is unchanged.  */
 void
 gnm_gconf_set_active_plugins (GSList *list)
 {
@@ -535,6 +549,7 @@ gnm_gconf_set_activate_new_plugins (gboolean val)
 	go_conf_set_bool (root, PLUGIN_GCONF_DIR "/" PLUGIN_GCONF_ACTIVATE_NEW, val);
 }
 
+/* Note: takes ownership of argument.  */
 void
 gnm_gconf_set_recent_funcs (GSList *list)
 {

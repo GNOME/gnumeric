@@ -1,5 +1,7 @@
 2008-12-08  Morten Welinder  <terra@gnome.org>
 
+	* src/gnumeric-gconf.c (gnm_conf_shutdown): Plug leaks.
+
 	* src/gnm-plugin.c (plugin_service_ui_activate): Plug leak.
 
 	* src/ssgrep.c (main): Plug leak.

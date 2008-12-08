@@ -15,6 +15,20 @@
 }
 
 {
+   ORBit_gconf_ping_writev_i686_v2
+   Memcheck:Param
+   writev(vector[...])
+   fun:*
+   fun:*
+   fun:link_connection_writev
+   fun:giop_send_buffer_write
+   fun:*
+   fun:ORBit_small_invoke_stub
+   fun:ConfigServer_ping
+   fun:gconf_activate_server
+}
+
+{
    ORBit_gconf_ping_writev_i686_sym
    Memcheck:Param
    writev(vector[...])
@@ -274,6 +288,16 @@
    fun:g_slice_alloc
    fun:g_slice_alloc0
    fun:*
+   fun:gtk_paper_size_new
+}
+
+{
+   Leak/gtk_page_setup_copy2
+   Memcheck:Leak
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:g_slice_alloc0
    fun:gtk_paper_size_new
 }
 

@@ -251,7 +251,7 @@ sub test_valgrind {
     my ($cmd,$uselibtool) = @_;
 
     local %ENV;
-    $ENV{'G_DEBUG'} .= ':gc-friendly';
+    $ENV{'G_DEBUG'} .= ':gc-friendly:resident-modules';
     $ENV{'G_SLICE'} = 'always-malloc';
     delete $ENV{'VALGRIND_OPTS'};
 
