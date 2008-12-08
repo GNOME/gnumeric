@@ -354,3 +354,16 @@
    fun:*
    fun:g_type_init
 }
+
+{
+   Leak/CORBA_ORB_init
+   Memcheck:Leak
+   fun:calloc
+   fun:g_malloc0
+   fun:*
+   fun:*
+   fun:g_type_init_with_debug_flags
+   fun:link_init
+   fun:giop_init
+   fun:CORBA_ORB_init
+}

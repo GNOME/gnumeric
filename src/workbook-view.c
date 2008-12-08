@@ -681,6 +681,7 @@ wb_view_detach_from_workbook (WorkbookView *wbv)
 	if (wbv->wb) {
 		workbook_detach_view (wbv);
 		wbv->wb = NULL;
+		wbv->current_sheet = NULL;
 	}
 }
 
