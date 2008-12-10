@@ -4,7 +4,7 @@
 <glade-interface>
   <widget class="GtkDialog" id="sheet-order-dialog">
     <property name="border_width">12</property>
-    <property name="title" translatable="yes">Manage Sheets...</property>
+    <property name="title" translatable="yes">Manage Sheets</property>
     <property name="window_position">GTK_WIN_POS_MOUSE</property>
     <property name="default_width">500</property>
     <property name="default_height">200</property>
