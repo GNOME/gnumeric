@@ -1,3 +1,10 @@
+2008-12-09  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (wbcg_sheet_remove_all): Kill the current scg
+	last.
+	(wbc_gtk_setup_icons): Shut down the icon factory on exit.
+	(add_icon): Plug leaks.
+
 2008-12-08  Morten Welinder  <terra@gnome.org>
 
 	* src/gnumeric-gconf.c (gnm_conf_shutdown): Plug leaks.

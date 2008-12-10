@@ -1294,6 +1294,7 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 	if (wbcg->snotebook != NULL) {
 		GtkNotebook *tmp = wbcg->snotebook;
 		GList *l, *all = get_all_scgs (wbcg);
+		SheetControlGUI *current = wbcg_cur_scg (wbcg);
 
 		/* Clear notebook to disable updates as focus changes for pages
 		 * during destruction */
@@ -1305,12 +1306,19 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 		for (l = all; l; l = l->next) {
 			SheetControlGUI *scg = l->data;
 			disconnect_sheet_signals (scg);
-
-			gtk_widget_destroy (GTK_WIDGET (scg->label));
-			gtk_widget_destroy (GTK_WIDGET (scg->table));
+			if (scg != current) {
+				gtk_widget_destroy (GTK_WIDGET (scg->label));
+				gtk_widget_destroy (GTK_WIDGET (scg->table));
+			}
 		}
 
 		g_list_free (all);
+
+		/* Do current scg last.  */
+		if (current) {
+			gtk_widget_destroy (GTK_WIDGET (current->label));
+			gtk_widget_destroy (GTK_WIDGET (current->table));
+		}
 
 		wbcg->snotebook = tmp;
 	}
