@@ -3676,10 +3676,13 @@ add_icon (GtkIconFactory *factory,
 	GtkIconSource *src = gtk_icon_source_new ();
 
 	if (scalable_data != NULL) {
+		GdkPixbuf *pix =
+			gdk_pixbuf_new_from_inline (-1, scalable_data,
+						    FALSE, NULL);
 		gtk_icon_source_set_size_wildcarded (src, TRUE);
-		gtk_icon_source_set_pixbuf (src,
-			gdk_pixbuf_new_from_inline (-1, scalable_data, FALSE, NULL));
+		gtk_icon_source_set_pixbuf (src, pix);
 		gtk_icon_set_add_source (set, src);	/* copies the src */
+		g_object_unref (pix);
 	}
 
 	/*
@@ -3687,11 +3690,14 @@ add_icon (GtkIconFactory *factory,
 	 * catching style changes kills things like bug 302902.
 	 */
 	if (scalable_data == NULL && sized_data != NULL) {
+		GdkPixbuf *pix =
+			gdk_pixbuf_new_from_inline (-1, sized_data,
+						    FALSE, NULL);
 		gtk_icon_source_set_size (src, GTK_ICON_SIZE_MENU);
 		gtk_icon_source_set_size_wildcarded (src, FALSE);
-		gtk_icon_source_set_pixbuf (src,
-			gdk_pixbuf_new_from_inline (-1, sized_data, FALSE, NULL));
+		gtk_icon_source_set_pixbuf (src, pix);
 		gtk_icon_set_add_source (set, src);	/* copies the src */
+		g_object_unref (pix);
 	}
 
 	gtk_icon_factory_add (factory, stock_id, set);	/* keeps reference to set */
@@ -3820,6 +3826,9 @@ wbc_gtk_setup_icons (void)
 				  entry[ui].sized_data,
 				  entry[ui].stock_id);
 		gtk_icon_factory_add_default (factory);
+		g_object_set_data_full (gnm_app_get_app (),
+					"icon-factory", factory,
+					(GDestroyNotify)gtk_icon_factory_remove_default);
 		g_object_unref (G_OBJECT (factory));
 		done = TRUE;
 	}
