@@ -1,3 +1,8 @@
+2008-12-11  Morten Welinder  <terra@gnome.org>
+
+	* src/parser.y (unregister_allocation): Check the whole stack if
+	we have to.  Fixes #564077.
+
 2008-12-09  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbcg_sheet_remove_all): Kill the current scg

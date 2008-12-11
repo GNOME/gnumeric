@@ -147,7 +147,7 @@ register_allocation (gpointer data, ParseDeallocator freer)
 static void
 unregister_allocation (void const *data)
 {
-	int pos;
+	int i, pos;
 
 	/* It's handy to be able to register and unregister NULLs.  */
 	if (!data)
@@ -166,18 +166,17 @@ unregister_allocation (void const *data)
 	 * The first "00" is registered before the second division is
 	 * reduced.
 	 *
-	 * This isn't a big deal -- we will just look at the entry just below
+	 * Another example is 564077 where we deallocate out of order.
+	 *
+	 * This isn't a big deal -- we will just look at the entries below
 	 * the top.
 	 */
-	pos -= 2;
-	if (pos >= 0 && data == g_ptr_array_index (deallocate_stack, pos)) {
-		g_ptr_array_index (deallocate_stack, pos) =
-			g_ptr_array_index (deallocate_stack, pos + 2);
-		g_ptr_array_index (deallocate_stack, pos + 1) =
-			g_ptr_array_index (deallocate_stack, pos + 3);
-
-		g_ptr_array_set_size (deallocate_stack, pos + 2);
-		return;
+	for (i = pos - 2; i >= 0; i -= 2) {
+		if (data == g_ptr_array_index (deallocate_stack, i)) {
+			g_ptr_array_remove_index (deallocate_stack, i);
+			g_ptr_array_remove_index (deallocate_stack, i);
+			return;
+		}
 	}
 
 	g_warning ("Unbalanced allocation registration");
