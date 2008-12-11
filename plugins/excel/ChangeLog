@@ -1,3 +1,8 @@
+2008-12-11  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (map_pattern_to_xl): Throw in some translations
+	of Gnumeric-specific patterns.  Fixes #564078.
+
 2008-12-08  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (3d): use an int for an integer property, not a double.

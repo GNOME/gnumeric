@@ -50,6 +50,7 @@ Morten:
 	* Plug leak in TRIMMEAN.
 	* Plug leak in RANK.
 	* Plug leaks in ssindex, ssgrep, and ssconvert.
+	* Fix export of Gnumeric-specific patterns to xls.  [#564078]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

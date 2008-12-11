@@ -23,6 +23,7 @@
 #include "ms-biff.h"
 #include "excel.h"
 #include "ranges.h"
+#include "pattern.h"
 #include "sheet-filter.h"
 #include "ms-excel-write.h"
 #include "ms-excel-xf.h"
@@ -168,11 +169,14 @@ go_color_to_bgr (GOColor const c)
 static int
 map_pattern_to_xl (int i)
 {
-	static int const map_to_excel[] = {
+	static int const map_to_excel[GNUMERIC_SHEET_PATTERNS + 1] = {
 		 0,
 		 1,  3,  2,  4, 17, 18,
 		 5,  6,  8,  7,  9, 10,
-		11, 12, 13, 14, 15, 16
+		11, 12, 13, 14, 15, 16,
+		 /* The above are XL patterns.  We have a few more.  */
+		 12,  5, 4, 4, 3,
+		 1, 2
 	};
 
 	/* Default to Solid if out of range */
