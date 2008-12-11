@@ -17,7 +17,6 @@
         <child>
           <widget class="GtkHBox" id="hbox1">
             <property name="visible">True</property>
-            <property name="border_width">5</property>
             <property name="spacing">6</property>
             <child>
               <widget class="GtkScrolledWindow" id="scrolled">
@@ -27,6 +26,7 @@
                 <property name="can_focus">False</property>
                 <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                 <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+                <property name="shadow_type">GTK_SHADOW_IN</property>
               </widget>
             </child>
             <child>
@@ -43,11 +43,109 @@
                   <placeholder/>
                 </child>
                 <child>
-                  <widget class="GtkButton" id="append_button">
+                  <widget class="GtkButton" id="up_button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="label">gtk-go-up</property>
+                    <property name="use_stock">True</property>
+                    <property name="xalign">0</property>
+                    <property name="response_id">0</property>
+                  </widget>
+                </child>
+                <child>
+                  <widget class="GtkButton" id="down_button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="label">gtk-go-down</property>
+                    <property name="use_stock">True</property>
+                    <property name="xalign">0</property>
+                    <property name="response_id">0</property>
+                  </widget>
+                  <packing>
+                    <property name="top_attach">1</property>
+                    <property name="bottom_attach">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkButton" id="sort-asc-button">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="label" translatable="yes">A_ppend</property>
+                    <property name="label" translatable="yes">gtk-sort-ascending</property>
+                    <property name="use_stock">True</property>
+                    <property name="xalign">0</property>
+                    <property name="response_id">0</property>
+                  </widget>
+                  <packing>
+                    <property name="top_attach">2</property>
+                    <property name="bottom_attach">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkButton" id="sort-desc-button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="label" translatable="yes">gtk-sort-descending</property>
+                    <property name="use_stock">True</property>
+                    <property name="xalign">0</property>
+                    <property name="response_id">0</property>
+                  </widget>
+                  <packing>
+                    <property name="top_attach">3</property>
+                    <property name="bottom_attach">4</property>
+                    <property name="x_options">GTK_FILL</property>
+                    <property name="y_options">GTK_FILL</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkHSeparator" id="hseparator1">
+                    <property name="visible">True</property>
+                  </widget>
+                  <packing>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">5</property>
+                    <property name="bottom_attach">6</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkButton" id="ok_button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="can_default">True</property>
+                    <property name="has_default">True</property>
+                    <property name="label">Apply _Name Changes</property>
+                    <property name="use_underline">True</property>
+                    <property name="xalign">0</property>
+                    <property name="response_id">0</property>
+                  </widget>
+                  <packing>
+                    <property name="top_attach">6</property>
+                    <property name="bottom_attach">7</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkButton" id="undo-button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="label" translatable="yes">gtk-undo</property>
+                    <property name="use_stock">True</property>
+                    <property name="xalign">0</property>
+                    <property name="response_id">0</property>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">6</property>
+                    <property name="bottom_attach">7</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkButton" id="add_button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="label">_Insert</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="response_id">0</property>
@@ -55,8 +153,23 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
-                    <property name="top_attach">1</property>
-                    <property name="bottom_attach">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkButton" id="delete_button">
+                    <property name="width_request">90</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="label">gtk-remove</property>
+                    <property name="use_stock">True</property>
+                    <property name="xalign">0</property>
+                    <property name="response_id">0</property>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">2</property>
+                    <property name="bottom_attach">3</property>
                   </packing>
                 </child>
                 <child>
@@ -79,27 +192,11 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkButton" id="delete_button">
-                    <property name="width_request">90</property>
+                  <widget class="GtkButton" id="append_button">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="label">gtk-remove</property>
-                    <property name="use_stock">True</property>
-                    <property name="xalign">0</property>
-                    <property name="response_id">0</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">2</property>
-                    <property name="bottom_attach">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="add_button">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="label">_Insert</property>
+                    <property name="receives_default">True</property>
+                    <property name="label" translatable="yes">A_ppend</property>
                     <property name="use_underline">True</property>
                     <property name="xalign">0</property>
                     <property name="response_id">0</property>
@@ -107,106 +204,9 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="undo-button">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="label" translatable="yes">gtk-undo</property>
-                    <property name="use_stock">True</property>
-                    <property name="xalign">0</property>
-                    <property name="response_id">0</property>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">6</property>
-                    <property name="bottom_attach">7</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="ok_button">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="can_default">True</property>
-                    <property name="has_default">True</property>
-                    <property name="label">Apply _Name Changes</property>
-                    <property name="use_underline">True</property>
-                    <property name="xalign">0</property>
-                    <property name="response_id">0</property>
-                  </widget>
-                  <packing>
-                    <property name="top_attach">6</property>
-                    <property name="bottom_attach">7</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkHSeparator" id="hseparator1">
-                    <property name="visible">True</property>
-                  </widget>
-                  <packing>
-                    <property name="right_attach">2</property>
-                    <property name="top_attach">5</property>
-                    <property name="bottom_attach">6</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="sort-desc-button">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="label" translatable="yes">gtk-sort-descending</property>
-                    <property name="use_stock">True</property>
-                    <property name="xalign">0</property>
-                    <property name="response_id">0</property>
-                  </widget>
-                  <packing>
-                    <property name="top_attach">3</property>
-                    <property name="bottom_attach">4</property>
-                    <property name="x_options">GTK_FILL</property>
-                    <property name="y_options">GTK_FILL</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="sort-asc-button">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="label" translatable="yes">gtk-sort-ascending</property>
-                    <property name="use_stock">True</property>
-                    <property name="xalign">0</property>
-                    <property name="response_id">0</property>
-                  </widget>
-                  <packing>
-                    <property name="top_attach">2</property>
-                    <property name="bottom_attach">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="down_button">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="label">gtk-go-down</property>
-                    <property name="use_stock">True</property>
-                    <property name="xalign">0</property>
-                    <property name="response_id">0</property>
-                  </widget>
-                  <packing>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
                   </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="up_button">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="label">gtk-go-up</property>
-                    <property name="use_stock">True</property>
-                    <property name="xalign">0</property>
-                    <property name="response_id">0</property>
-                  </widget>
                 </child>
               </widget>
               <packing>

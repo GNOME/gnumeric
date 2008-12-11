@@ -1,3 +1,7 @@
+2008-12-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* sheet-order.glade: reduce margin and add border to scrolled window
+
 2008-11-26  Jody Goldberg <jody@gnome.org>
 
 	* dialog-analysis-tool-kaplan-meier.c : s/int/guint/ to
