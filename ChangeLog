@@ -1,5 +1,8 @@
 2008-12-11  Morten Welinder  <terra@gnome.org>
 
+	* src/application.c (cb_flag_windows_changed): Don't send the
+	signal if Elvis has left the building.
+
 	* src/parser.y (unregister_allocation): Check the whole stack if
 	we have to.  Fixes #564077.
 

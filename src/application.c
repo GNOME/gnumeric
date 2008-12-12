@@ -861,7 +861,8 @@ static gint windows_update_timer = -1;
 static gboolean
 cb_flag_windows_changed (void)
 {
-	g_signal_emit (G_OBJECT (app), signals [WINDOW_LIST_CHANGED], 0);
+	if (app)
+		g_signal_emit (G_OBJECT (app), signals[WINDOW_LIST_CHANGED], 0);
 	windows_update_timer = -1;
 	return FALSE;
 }
