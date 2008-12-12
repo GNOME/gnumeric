@@ -92,6 +92,27 @@ two_way_table_free (TwoWayTable *table)
 	g_free (table);
 }
 
+static void
+two_way_table_dump (const TwoWayTable *table)
+{
+	size_t ui;
+
+	g_printerr ("Table at %p has "
+		    "unique_keys.size=%d; "
+		    "all_keys.size=%d; "
+		    "idx_to_key.size=%d\n",
+		    table,
+		    g_hash_table_size (table->unique_keys),
+		    g_hash_table_size (table->all_keys),
+		    table->idx_to_key->len);
+
+	for (ui = 0; ui < table->idx_to_key->len; ui++) {
+		gpointer key = g_ptr_array_index (table->idx_to_key, ui);
+		g_printerr ("%p => %d %d\n", key, (int)ui,
+			    two_way_table_key_to_idx (table, key));
+	}
+}
+
 /**
  * two_way_table_put
  * @table  Table
@@ -139,6 +160,8 @@ two_way_table_put (TwoWayTable const *table, gpointer key,
 	if (apf)
 		apf (key, addit, index, closure);
 
+	if (0) two_way_table_dump (table);
+
 	return index;
 }
 
@@ -155,6 +178,7 @@ void
 two_way_table_move (TwoWayTable const *table, gint dst_idx, gint src_idx)
 {
 	gpointer key_to_forget, key_to_move;
+	size_t ui;
 
 	key_to_forget = two_way_table_idx_to_key (table, dst_idx);
 	key_to_move   = two_way_table_idx_to_key (table, src_idx);
@@ -167,11 +191,26 @@ two_way_table_move (TwoWayTable const *table, gint dst_idx, gint src_idx)
 	dst_idx += table->base;
 	src_idx += table->base;
 	g_hash_table_insert (table->all_keys, key_to_move,
-		GINT_TO_POINTER (dst_idx + table->base + 1));
+			     GINT_TO_POINTER (dst_idx + table->base + 1));
 	g_hash_table_insert (table->unique_keys, key_to_move,
-		GINT_TO_POINTER (dst_idx + table->base + 1));
-	g_ptr_array_index   (table->idx_to_key, dst_idx) = key_to_move;
-	g_ptr_array_index   (table->idx_to_key, src_idx) = (gpointer)0xdeadbeef; /* poison */
+			     GINT_TO_POINTER (dst_idx + table->base + 1));
+	g_ptr_array_index (table->idx_to_key, dst_idx) = key_to_move;
+
+	if (table->idx_to_key->len - 1 == (size_t)src_idx)
+		g_ptr_array_set_size (table->idx_to_key, src_idx);
+	else
+		g_ptr_array_index (table->idx_to_key, src_idx) =
+			(gpointer)0xdeadbeef; /* poison */
+
+	for (ui = 0; ui < table->idx_to_key->len; ui++) {
+		if (g_ptr_array_index (table->idx_to_key, ui) == key_to_forget) {
+			g_hash_table_insert (table->unique_keys, key_to_forget,
+					     GINT_TO_POINTER (ui + 1));
+			break;
+		}
+	}
+
+	if (0) two_way_table_dump (table);
 }
 
 /**

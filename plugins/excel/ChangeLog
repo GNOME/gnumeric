@@ -1,3 +1,8 @@
+2008-12-12  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-util.c (two_way_table_move): Make sure we keep
+	unique_keys correct.  See #564078.
+
 2008-12-11  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (map_pattern_to_xl): Throw in some translations

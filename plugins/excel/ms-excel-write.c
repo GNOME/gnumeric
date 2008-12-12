@@ -1842,9 +1842,9 @@ gather_palette (XLExportBase *xle)
 		for (j = upper_limit - 1; j > 1; j--) {
 			if (!xle->pal.entry_in_use[j]) {
 				/* Replace table entry with color. */
-				d (2, fprintf (stderr, "Custom color %d (0x%x)"
-						" moved to unused index %d\n",
-					      i, color, j););
+				d (2, g_printerr ("Custom color %d (0x%x)"
+					    " moved to unused index %d\n",
+						  i, color, j););
 				two_way_table_move (twt, j, i);
 				upper_limit = j;
 				xle->pal.entry_in_use[j] = TRUE;
