@@ -1420,3 +1420,87 @@ stf_parse_options_guess (char const *data)
 
 	return res;
 }
+
+
+StfParseOptions_t *
+stf_parse_options_guess_csv (char const *data)
+{
+	StfParseOptions_t *res;
+	GStringChunk *lines_chunk;
+	GPtrArray *lines;
+	char *sep = NULL;
+	char const *quoteline = NULL;
+	int pass;
+	gunichar stringind = '"';
+
+	g_return_val_if_fail (data != NULL, NULL);
+
+	res = stf_parse_options_new ();
+	stf_parse_options_set_type (res, PARSE_TYPE_CSV);
+	stf_parse_options_set_trim_spaces (res, TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
+	stf_parse_options_csv_set_indicator_2x_is_single (res, TRUE);
+	stf_parse_options_csv_set_duplicates (res, FALSE);
+	stf_parse_options_csv_set_trim_seps (res, FALSE);
+	stf_parse_options_csv_set_stringindicator (res, stringind);
+
+	lines_chunk = g_string_chunk_new (100 * 1024);
+	lines = stf_parse_lines (res, lines_chunk, data, 1000, FALSE);
+
+	/*
+	 * Find a line containing a quote; skip first line unless it is
+	 * the only one.  Prefer a line with the quote first.
+	 */
+	for (pass = 1; !quoteline && pass <= 2; pass++) {
+		size_t lno;
+		for (lno = MIN (1, lines->len - 1);
+		     !quoteline && lno < lines->len;
+		     lno++) {
+			GPtrArray *boxline = g_ptr_array_index (lines, lno);
+			const char *line = g_ptr_array_index (boxline, 0);
+			switch (pass) {
+			case 1:
+				if (g_utf8_get_char (line) == stringind)
+					quoteline = line;
+				break;
+			case 2:
+				if (g_utf8_strchr (line, -1, stringind))
+					quoteline = line;
+				break;
+			}
+		}
+	}
+
+	if (quoteline) {
+		const char *p0 = g_utf8_strchr (quoteline, -1, stringind);
+		const char *p = p0;
+
+		do {
+			p = g_utf8_next_char (p);
+		} while (*p && g_utf8_get_char (p) != stringind);
+		if (*p) p = g_utf8_next_char (p);
+		while (*p && g_unichar_isspace (g_utf8_get_char (p)))
+			p = g_utf8_next_char (p);
+		if (*p) {
+			/* Use the character after the quote.  */
+			sep = g_strndup (p, g_utf8_next_char (p) - p);
+		} else {
+			/* Try to use character before the quote.  */
+			while (p0 > quoteline && !sep) {
+				p = p0;
+				p0 = g_utf8_prev_char (p0);
+				if (!g_unichar_isspace (g_utf8_get_char (p0)))
+					sep = g_strndup (p0, p - p0);
+			}
+		}
+	}
+
+	if (!sep)
+		sep = g_strdup (",");
+	stf_parse_options_csv_set_separators (res, sep, NULL);
+	g_free (sep);
+
+	stf_parse_general_free (lines);
+	g_string_chunk_free (lines_chunk);
+
+	return res;
+}

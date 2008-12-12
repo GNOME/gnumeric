@@ -34,6 +34,7 @@
 #include "mstyle.h"
 #include <goffice/app/io-context-priv.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/app/go-doc.h>
 #include "command-context.h"
 #include "wbc-gtk.h"
 #include "workbook-view.h"
@@ -347,6 +348,7 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 	char *data, *utf8data;
 	size_t data_len;
 	StfParseOptions_t *po;
+	const char *gsfname;
 
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (wbv != NULL);
@@ -365,12 +367,26 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 		return;
 	}
 
-        po = stf_parse_options_guess (utf8data);
+	/*
+	 * Try to get the filename we're reading from.  This is not a
+	 * great way.
+	 */
+	gsfname = gsf_input_name (input);
 
-	name = g_path_get_basename (gsf_input_name (input));
+	{
+		const char *ext = gsf_extension_pointer (gsfname);
+		gboolean iscsv = ext && strcasecmp (ext, "csv") == 0;
+		if (iscsv)
+			po = stf_parse_options_guess_csv (utf8data);
+		else
+			po = stf_parse_options_guess (utf8data);
+	}
+
+	name = g_path_get_basename (gsfname);
 	sheet = sheet_new (book, name);
 	g_free (name);
 	workbook_sheet_attach (book, sheet);
+
 
 	if (stf_parse_sheet (po, utf8data, NULL, sheet, 0, 0)) {
 		workbook_recalc_all (book);

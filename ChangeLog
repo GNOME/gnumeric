@@ -1,3 +1,10 @@
+2008-12-12  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_parse_options_guess_csv): New function.
+
+	* src/stf.c (stf_read_workbook_auto_csvtab): If the filename
+	suggest a scv file, use stf_parse_options_guess_csv.
+
 2008-12-11  Morten Welinder  <terra@gnome.org>
 
 	* src/application.c (cb_flag_windows_changed): Don't send the
