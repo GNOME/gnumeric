@@ -77,6 +77,7 @@ typedef struct {
 	GtkWidget *sort_desc_btn;
 	GtkWidget *undo_btn;
 	GtkWidget *cancel_btn;
+	GtkWidget *advanced_check;
 	GtkWidget *ccombo_back;
 	GtkWidget *ccombo_fore;
 	GtkWidget *warning;
@@ -90,6 +91,8 @@ typedef struct {
 	GdkPixbuf *image_visible;
 
 	gboolean initial_colors_set;
+
+	GtkTreeViewColumn *dir_column;
 
 	gulong sheet_order_changed_listener;
 	gulong sheet_added_listener;
@@ -708,7 +711,9 @@ create_sheet_list (SheetManager *state)
 		 "active", SHEET_DIRECTION,
 		 "pixbuf", SHEET_DIRECTION_IMAGE,
 		 NULL);
+	gtk_tree_view_column_set_visible (column, FALSE);
 	gtk_tree_view_append_column (state->sheet_list, column);
+	state->dir_column = column;
 
 	column = gtk_tree_view_column_new_with_attributes (_("Current Name"),
 					      gnumeric_cell_renderer_text_new (),
@@ -1328,6 +1333,16 @@ cb_undo_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	populate_sheet_list (state);
 }
 
+static void
+cb_adv_check_toggled (G_GNUC_UNUSED GtkToggleButton *ignored, 
+		      SheetManager *state)
+{
+	gboolean visible = gtk_toggle_button_get_active 
+		(GTK_TOGGLE_BUTTON (state->advanced_check));
+
+	gtk_tree_view_column_set_visible (state->dir_column, visible);
+}
+
 
 void
 dialog_sheet_order (WBCGtk *wbcg)
@@ -1374,6 +1389,7 @@ dialog_sheet_order (WBCGtk *wbcg)
 	state->sort_desc_btn  = glade_xml_get_widget (gui, "sort-desc-button");
 	state->undo_btn  = glade_xml_get_widget (gui, "undo-button");	
 	state->cancel_btn  = glade_xml_get_widget (gui, "cancel_button");
+	state->advanced_check  = glade_xml_get_widget (gui, "advanced-check");
 	state->initial_colors_set = FALSE;
 	state->image_padlock =  gtk_widget_render_icon (state->dialog,
                                              "Gnumeric_Protection_Yes",
@@ -1442,12 +1458,15 @@ dialog_sheet_order (WBCGtk *wbcg)
 	CONNECT (state->apply_names_btn, "clicked", cb_apply_names_clicked);
 	CONNECT (state->cancel_btn, "clicked", cb_cancel_clicked);
 	CONNECT (state->undo_btn, "clicked", cb_undo_clicked);
+	CONNECT (state->advanced_check, "toggled", cb_adv_check_toggled);
 	CONNECT (state->ccombo_back, "color_changed", cb_color_changed_back);
 	CONNECT (state->ccombo_fore, "color_changed", cb_color_changed_fore);
 	CONNECT (state->model, "rows-reordered", cb_dialog_order_changed);
 	state->model_row_insertion_listener =
 		CONNECT (state->model, "row-inserted", cb_dialog_order_changed_by_insertion);
 #undef CONNECT
+
+	cb_adv_check_toggled (NULL, state);
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),

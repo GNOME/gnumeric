@@ -1,3 +1,9 @@
+2008-12-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* sheet-order.glade: add checkbox
+	* dialog-sheet-order.c (cb_adv_check_toggled): new
+	(dialog_sheet_order): hook up cb_adv_check_toggled
+	
 2008-12-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* sheet-order.glade: reduce margin and add border to scrolled window

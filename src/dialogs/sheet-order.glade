@@ -221,11 +221,24 @@
           </packing>
         </child>
         <child>
+          <widget class="GtkCheckButton" id="advanced-check">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="label" translatable="yes">_Show advanced sheet properties</property>
+            <property name="use_underline">True</property>
+            <property name="response_id">0</property>
+            <property name="draw_indicator">True</property>
+          </widget>
+          <packing>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
           <widget class="GtkLabel" id="warning">
             <property name="visible">True</property>
           </widget>
           <packing>
-            <property name="position">2</property>
+            <property name="position">3</property>
           </packing>
         </child>
         <child internal-child="action_area">
