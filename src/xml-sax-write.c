@@ -1214,6 +1214,20 @@ xml_write_date_conventions_as_attr (GnmOutputXML *state,
 }
 
 static void
+xml_write_number_system (GnmOutputXML *state)
+{
+	/*
+	 * These numbers define how to interpret decimal values in the
+	 * file.  They are not yet used, but should be used when the
+	 * number system of the loading Gnumeric is different from the
+	 * number system of the saving Gnumeric.
+	 */
+	gsf_xml_out_add_int (state->output, "FloatRadix", FLT_RADIX);
+	gsf_xml_out_add_int (state->output, "FloatDigits", GNM_MANT_DIG);
+}
+
+
+static void
 xml_write_calculation (GnmOutputXML *state)
 {
 	gsf_xml_out_start_element (state->output, GNM "Calculation");
@@ -1227,6 +1241,7 @@ xml_write_calculation (GnmOutputXML *state)
 		"IterationTolerance",	state->wb->iteration.tolerance, -1);
 	xml_write_date_conventions_as_attr (state,
 					    workbook_date_conv (state->wb));
+	xml_write_number_system (state);
 	gsf_xml_out_end_element (state->output); /* </gnm:Calculation> */
 }
 
@@ -1305,12 +1320,12 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 	xml_write_attributes	    (&state);
 	xml_write_meta_data	    (&state);
 	xml_write_conventions	    (&state);	/* DEPRECATED, moved to Calculation */
+	xml_write_calculation	    (&state);
 	xml_write_sheet_names	    (&state);
 	xml_write_named_expressions (&state, state.wb->names);
 	xml_write_geometry	    (&state);
 	xml_write_sheets	    (&state);
 	xml_write_uidata	    (&state);
-	xml_write_calculation	    (&state);
 	go_doc_write (GO_DOC (state.wb), state.output);
 
 	gsf_xml_out_end_element (state.output); /* </Workbook> */
@@ -1399,6 +1414,7 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 		xml_write_date_conventions_as_attr
 			(&state.state,
 			 workbook_date_conv (cr->origin_sheet->workbook));
+	xml_write_number_system (&state.state);
 	if (cr->not_as_contents)
 		gsf_xml_out_add_bool (state.state.output, "NotAsContent", TRUE);
 

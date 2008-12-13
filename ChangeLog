@@ -1,5 +1,12 @@
 2008-12-13  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-sax-write.c (xml_write_number_system): New function to
+	dump information on the number system used.
+	(xml_write_calculation): Call xml_write_number_system.
+	(gnm_cellregion_to_xml): Call xml_write_number_system.
+	(gnm_xml_file_save): Move call to xml_write_calculation before the
+	sheets.
+
 	* src/parse-util.c (gnm_conventions_new_full): Default value
 	GNM_DIG for new field output.decimal_digits.
 
