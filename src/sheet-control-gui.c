@@ -600,8 +600,10 @@ cb_select_all_btn_expose (GtkWidget *widget, GdkEventExpose *event, SheetControl
 			    widget->style->bg_gc[GTK_STATE_ACTIVE],
 			    TRUE,
 			    offset + 1, 1, widget->allocation.width - 1, widget->allocation.height - 1);
+	/* The widget parameters could be NULL, but if so some themes would emit a warning.
+	 * (Murrine is known to do this: http://bugzilla.gnome.org/show_bug.cgi?id=564410). */
 	gtk_paint_shadow (widget->style, widget->window, GTK_STATE_NORMAL, GTK_SHADOW_OUT,
-			  NULL, NULL, "GnmItemBarCell",
+			  NULL, widget, "GnmItemBarCell",
 			  offset, 0, widget->allocation.width + 1, widget->allocation.height + 1);
 }
 

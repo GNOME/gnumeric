@@ -1,3 +1,10 @@
+2008-12-13  Emmanuel Pacaud <emmanuel@gnome.org>
+
+	Add a workaround for the murrine theme warnings.
+
+	* src/item-bar.c (ib_draw_cell): here.
+	* src/sheet-control-gui.c (cb_select_all_btn_expose): here.
+
 2008-12-13  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-write.c (xml_write_number_system): New function to

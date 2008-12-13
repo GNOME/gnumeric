@@ -298,8 +298,11 @@ ib_draw_cell (ItemBar const * const ib, GdkDrawable *drawable,
 
 	gdk_draw_rectangle (drawable, gc, TRUE,
 		rect->x + 1, rect->y + 1, rect->width - 1, rect->height - 1);
+
+	/* The widget parameters could be NULL, but if so some themes would emit a warning.
+	 * (Murrine is known to do this: http://bugzilla.gnome.org/show_bug.cgi?id=564410). */
 	gtk_paint_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
-			  NULL, NULL, "GnmItemBarCell",
+			  NULL, canvas, "GnmItemBarCell",
 			  rect->x, rect->y, rect->width + 1, rect->height + 1);
 
 	g_return_if_fail (font != NULL);
