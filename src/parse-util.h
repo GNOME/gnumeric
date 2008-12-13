@@ -158,6 +158,8 @@ struct _GnmConventions {
 
 /* Export specific functions ----------------------------------- */
 	struct {
+		int decimal_digits;
+
 		gboolean translated;
 
 		void (*string)	  (GnmConventionsOut *out,

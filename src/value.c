@@ -875,7 +875,8 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 		return;
 
 	case VALUE_FLOAT:
-		g_string_append_printf (target, "%.*" GNM_FORMAT_g, GNM_DIG,
+		g_string_append_printf (target, "%.*" GNM_FORMAT_g,
+					conv->output.decimal_digits,
 					v->v_float.val);
 		return;
 

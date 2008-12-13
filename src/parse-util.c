@@ -1360,6 +1360,7 @@ gnm_conventions_new_full (unsigned size)
 	convs->input.name		= std_name_parser;
 	convs->input.func		= std_func_map;
 
+	convs->output.decimal_digits	= GNM_DIG;
 	convs->output.translated	= TRUE;
 	convs->output.string		= std_output_string;
 	convs->output.name		= std_expr_name_handler;

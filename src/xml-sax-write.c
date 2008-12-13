@@ -1234,6 +1234,7 @@ GnmConventions *
 gnm_xml_io_conventions (void)
 {
 	GnmConventions *res = gnm_conventions_new ();
+	gnm_float l10;
 
 	res->decimal_sep_dot	= TRUE;
 	res->input.range_ref	= rangeref_parse;
@@ -1243,6 +1244,10 @@ gnm_xml_io_conventions (void)
 	res->array_col_sep	= ',';
 	res->array_row_sep	= ';';
 	res->output.translated	= FALSE;
+
+	l10 = gnm_log10 (FLT_RADIX);
+	res->output.decimal_digits = (int)gnm_ceil (GNM_MANT_DIG * l10) +
+		(l10 == (int)l10 ? 0 : 1);
 
 	return res;
 }

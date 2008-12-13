@@ -52,6 +52,7 @@ Morten:
 	* Plug leaks in ssindex, ssgrep, and ssconvert.
 	* Fix export of Gnumeric-specific patterns to xls.  [#564078]
 	* Improve guess of csv parsing parameters.  [#498912]
+	* Fix problem with saving huge values.  [#552464]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

@@ -1,5 +1,15 @@
 2008-12-13  Morten Welinder  <terra@gnome.org>
 
+	* src/parse-util.c (gnm_conventions_new_full): Default value
+	GNM_DIG for new field output.decimal_digits.
+
+	* src/value.c (value_get_as_gstring): Use number of digits from
+	output.decimal_digits.
+
+	* src/xml-sax-write.c (gnm_xml_io_conventions): Increase the
+	number of decimal digits used for output to avoid rounding errors
+	and overflow.  Fixes #552464.
+
 	* src/xml-sax-read.c (xml_sax_cell_content): Turn expressions that
 	do not parse into strings.
 
