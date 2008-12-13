@@ -108,7 +108,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 
 	if (info->bin_type & bintype_m_inf_lower) {
 		dao_set_cell_expr (dao, to_col, 1, 
-				   gnm_expr_new_constant (value_new_float (-1E99)));
+				   gnm_expr_new_constant (value_new_float (-GNM_MAX)));
 		i_start = 2;
 	} else
 		i_start = 1;
@@ -191,7 +191,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		dao_set_format  (dao, to_col, i_end, to_col, i_end, 
 				 _("\"to\" * \"\xe2\x88\x9e\""));
 		dao_set_cell_expr (dao, to_col, i_end, 
-				   gnm_expr_new_constant (value_new_float (1E99)));
+				   gnm_expr_new_constant (value_new_float (GNM_MAX)));
 	}
 
 	/* format the lower end of the bins */

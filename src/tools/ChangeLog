@@ -1,3 +1,7 @@
+2008-12-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-histogram.c (analysis_tool_histogram_engine_run): use GNM_MAX
+
 2008-12-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.c (analysis_tool_regression_engine_run): add the name
