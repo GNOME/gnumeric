@@ -1857,15 +1857,26 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			} else {
 				const char *expr_start = gnm_expr_char_start_p (content);
 				if (expr_start && *expr_start) {
+					GnmParseError perr;
 					GnmParsePos pos;
-					GnmExprTop const *texpr =
-						gnm_expr_parse_str (expr_start,
+					GnmExprTop const *texpr;
+
+					parse_error_init (&perr);
+					texpr = gnm_expr_parse_str (expr_start,
 								    parse_pos_init_cell (&pos, cell),
 								    GNM_EXPR_PARSE_DEFAULT,
 								    state->convs,
-								    NULL);
-					gnm_cell_set_expr (cell, texpr);
-					gnm_expr_top_unref (texpr);
+								    &perr);
+					if (texpr) {
+						gnm_cell_set_expr (cell, texpr);
+						gnm_expr_top_unref (texpr);
+					} else {
+						g_warning ("Unparsable expression for %s: %s\n",
+							   cell_name (cell),
+							   content);
+						gnm_cell_set_value (cell, value_new_string (content));
+					}
+					parse_error_free (&perr);
 				} else
 					gnm_cell_set_text (cell, content);
 			}

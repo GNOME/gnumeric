@@ -1,3 +1,8 @@
+2008-12-13  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_cell_content): Turn expressions that
+	do not parse into strings.
+
 2008-12-12  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_options_guess_csv): New function.
