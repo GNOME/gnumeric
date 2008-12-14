@@ -25,7 +25,7 @@
 
 #include <pango/pangocairo.h>
 #include <gdk/gdkpango.h>
-#include <gtk/gtkmain.h>
+#include <gtk/gtk.h>
 #include <string.h>
 #include <goffice/utils/go-font.h>
 

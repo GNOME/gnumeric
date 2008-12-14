@@ -9,9 +9,7 @@
 #include <gnumeric-config.h>
 #include <goffice/utils/go-glib-extras.h>
 
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gnumeric.h>
 #include <gui-util.h>
@@ -21,7 +19,7 @@
 #include "py-interpreter-selector.h"
 
 #include <string.h>
-#include <gtk/gtkversion.h>
+#include <gtk/gtk.h>
 #include <glib.h>
 
 struct _GnmPyInterpreterSelector {

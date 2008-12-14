@@ -33,8 +33,7 @@
 #include <wbc-gtk.h>
 
 #include <glade/glade.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtktogglebutton.h>
+#include <gtk/gtk.h>
 
 #define COL_ROW_DIALOG_KEY "col-row-dialog"
 

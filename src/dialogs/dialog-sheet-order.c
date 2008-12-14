@@ -49,12 +49,7 @@
 #include <goffice/gtk/go-combo-color.h>
 
 #include <glade/glade.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtkicontheme.h>
-#include <gtk/gtkbox.h>
+#include <gtk/gtk.h>
 #include <string.h>
 
 #define SHEET_ORDER_KEY          "sheet-order-dialog"

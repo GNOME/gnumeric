@@ -7,16 +7,6 @@
 
 #include <glib/gi18n-lib.h>
 
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtklayout.h>
-#include <gtk/gtktoolbar.h>
-#include <gtk/gtktoolbutton.h>
-#include <gtk/gtktoolitem.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkwindow.h>
-
 #include <goffice/gtk/go-graph-widget.h>
 
 #define ZOOM_IN(x) *x = CLAMP(*x+1, ZOOM_LEVEL_25, ZOOM_LEVEL_200)

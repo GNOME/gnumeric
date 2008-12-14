@@ -50,11 +50,7 @@
 #include <widgets/gnm-dao.h>
 
 #include <glade/glade.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtk.h>
 #include <string.h>
 
 

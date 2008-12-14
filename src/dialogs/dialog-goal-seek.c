@@ -47,8 +47,7 @@
 #include <mathfunc.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <selection.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtktable.h>
+#include <gtk/gtk.h>
 
 #include <math.h>
 #include <string.h>

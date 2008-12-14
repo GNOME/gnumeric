@@ -32,8 +32,7 @@
 #include <goffice/utils/go-file.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
-#include <gtk/gtkfilefilter.h>
-#include <gtk/gtkrecentmanager.h>
+#include <gtk/gtk.h>
 
 #define GNM_APP(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_APP_TYPE, GnmApp))
 #define GNM_APP_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST((k),	 GNM_APP_TYPE, GnmAppClass))

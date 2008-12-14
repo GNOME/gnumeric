@@ -44,19 +44,7 @@
 #include <goffice/gtk/goffice-gtk.h>
 
 #include <glade/glade.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkcellrenderertoggle.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkfilechooserdialog.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtktextbuffer.h>
-#include <gtk/gtktextview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtktreestore.h>
-#include <gtk/gtktreeview.h>
+#include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <string.h>

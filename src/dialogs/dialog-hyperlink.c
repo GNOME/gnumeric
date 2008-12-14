@@ -39,16 +39,7 @@
 #include <wbc-gtk.h>
 #include <goffice/utils/go-file.h>
 
-#include <gtk/gtkbox.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtksizegroup.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkcellrendererpixbuf.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 
 #include <string.h>

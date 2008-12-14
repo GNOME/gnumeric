@@ -54,10 +54,7 @@
 
 #include <glade/glade.h>
 #include <string.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtklabel.h>
+#include <gtk/gtk.h>
 
 /**********************************************/
 /*  Generic guru items */

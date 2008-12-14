@@ -46,15 +46,6 @@
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-text.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <glade/glade.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtkcelllayout.h>
-#include <gtk/gtkcellrenderertext.h>
-/*#include <gtk/gtkmenuitem.h>*/
 #include <gdk/gdkkeysyms.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-format.h>

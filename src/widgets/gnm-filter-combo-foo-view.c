@@ -39,8 +39,7 @@
 #include <goffice/utils/regutf8.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtkarrow.h>
-#include <gtk/gtktreeselection.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 

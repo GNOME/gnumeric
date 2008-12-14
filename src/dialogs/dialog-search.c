@@ -44,13 +44,7 @@
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnumeric-lazy-list.h>
 #include <glade/glade.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtktable.h>
+#include <gtk/gtk.h>
 #include <string.h>
 
 enum {

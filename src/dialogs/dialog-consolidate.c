@@ -41,12 +41,7 @@
 #include <wbc-gtk.h>
 #include <dao-gui-utils.h>
 #include <tools/dao.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrendererpixbuf.h>
-#include <gtk/gtkliststore.h>
+#include <gtk/gtk.h>
 
 #include <string.h>
 

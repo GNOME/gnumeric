@@ -38,9 +38,7 @@
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <goffice/data/go-data-simple.h>
 #include <goffice/utils/go-color.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkdialog.h>
+#include <gtk/gtk.h>
 
 #define ABOUT_KEY          "about-dialog"
 

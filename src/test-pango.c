@@ -21,7 +21,7 @@
 
 #include <goffice/app/io-context.h>
 
-#include <gtk/gtkmain.h>
+#include <gtk/gtk.h>
 
 #define TEST_STEPS	50
 #define STEP_SIZE	40

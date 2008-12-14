@@ -41,12 +41,7 @@
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <glade/glade.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkliststore.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtk.h>
 
 #define MERGE_KEY            "merge-dialog"
 

@@ -48,9 +48,7 @@
 #include "sheet-style.h"
 #include "style-color.h"
 
-#include <gtk/gtktable.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkradiobutton.h>
+#include <gtk/gtk.h>
 #include <string.h>
 
 #define TABULATE_KEY "tabulate-dialog"

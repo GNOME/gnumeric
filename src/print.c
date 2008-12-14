@@ -42,13 +42,7 @@
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-glib-extras.h>
 
-#include <gtk/gtkprintoperation.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkradiobutton.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtklabel.h>
+#include <gtk/gtk.h>
 
 #include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>

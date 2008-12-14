@@ -27,7 +27,7 @@
 #include <gui-util.h>
 #include <sheet.h>
 #include <workbook.h>
-#include <gtk/gtkframe.h>
+#include <gtk/gtk.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <string.h>
 

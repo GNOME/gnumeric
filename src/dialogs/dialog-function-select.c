@@ -39,12 +39,7 @@
 
 #include <gsf/gsf-impl-utils.h>
 #include <glade/glade.h>
-#include <gtk/gtktreestore.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkcellrenderertext.h>
-#include <gtk/gtkpaned.h>
-#include <gtk/gtkliststore.h>
+#include <gtk/gtk.h>
 #include <string.h>
 
 #undef F_

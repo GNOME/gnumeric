@@ -32,9 +32,7 @@
 #include "sheet-object.h"
 #include <goffice/app/go-cmd-context.h>
 #include <goffice/graph/gog-style.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkbox.h>
+#include <gtk/gtk.h>
 
 typedef struct {
 	GObject			*so;

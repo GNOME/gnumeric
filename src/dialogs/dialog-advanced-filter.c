@@ -39,8 +39,7 @@
 #include <wbc-gtk.h>
 
 #include <glade/glade.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtktogglebutton.h>
+#include <gtk/gtk.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnm-dao.h>
 #include "filter.h"

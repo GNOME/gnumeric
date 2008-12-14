@@ -25,7 +25,7 @@
 #include "dialog-stf.h"
 #include <gui-util.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 
 /*************************************************************************************************
  * MISC UTILITY FUNCTIONS

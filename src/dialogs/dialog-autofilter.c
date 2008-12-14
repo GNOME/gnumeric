@@ -36,9 +36,7 @@
 #include <number-match.h>
 
 #include <glade/glade.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkspinbutton.h>
+#include <gtk/gtk.h>
 #include <string.h>
 
 typedef struct {

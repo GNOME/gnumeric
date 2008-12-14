@@ -38,12 +38,7 @@
 #include <workbook-view.h>
 
 #include <wbc-gtk.h>
-#include <gtk/gtktreestore.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtk.h>
 
 #define GOTO_KEY "goto-dialog"
 

@@ -31,13 +31,7 @@
 #include <dependent.h>
 #include <cmd-edit.h>
 
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkradiobutton.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkhbox.h>
+#include <gtk/gtk.h>
 
 typedef struct {
 	WBCGtk *wbcg;

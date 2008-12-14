@@ -34,10 +34,7 @@
 #include "selection.h"
 #include <widgets/gnm-dao.h>
 
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkbox.h>
+#include <gtk/gtk.h>
 
 char const * const output_group[] = {
 	"newsheet-button",

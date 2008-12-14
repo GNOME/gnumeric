@@ -71,9 +71,7 @@
 #include <goffice/utils/go-glib-extras.h>
 
 #include "widgets/widget-editable-label.h"
-#include <gtk/gtkactiongroup.h>
-#include <gtk/gtktoggleaction.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-input.h>
 #include <string.h>

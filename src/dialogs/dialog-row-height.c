@@ -38,9 +38,7 @@
 #include <workbook-cmd-format.h>
 
 #include <glade/glade.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtklabel.h>
+#include <gtk/gtk.h>
 
 #define ROW_HEIGHT_DIALOG_KEY "row-height-dialog"
 

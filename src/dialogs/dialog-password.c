@@ -1,12 +1,5 @@
 #include <gnumeric-config.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkenums.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkstock.h>
-#include <gtk/gtkvbox.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include "dialogs.h"
 

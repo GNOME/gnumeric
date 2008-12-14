@@ -28,8 +28,7 @@
 #include <gui-util.h>
 #include <wbc-gtk.h>
 
-#include <gtk/gtkradiobutton.h>
-#include <gtk/gtkbox.h>
+#include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 
 #define VIEW_DIALOG_KEY "view-dialog"
