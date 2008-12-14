@@ -7,8 +7,7 @@
 #include "workbook-control.h"
 #include "widgets/gnumeric-expr-entry.h"
 
-#include <gtk/gtkwindow.h>
-#include <gtk/gtktoggleaction.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

@@ -26,8 +26,7 @@
 #include <style-color.h>
 #include <gnm-marshalers.h>
 
-#include <gtk/gtkentry.h>
-#include <gtk/gtkmain.h>
+#include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>
 

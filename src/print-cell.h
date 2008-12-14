@@ -4,7 +4,7 @@
 
 #include "gnumeric.h"
 #include <cairo.h>
-#include <gtk/gtkprintcontext.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

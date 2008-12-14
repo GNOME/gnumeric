@@ -4,7 +4,7 @@
 
 #include <stdarg.h>
 #include "gui-gnumeric.h"
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 #include <goffice/app/io-context.h>
 
 G_BEGIN_DECLS

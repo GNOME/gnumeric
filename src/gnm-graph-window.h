@@ -2,7 +2,7 @@
 #ifndef _GNM_GRAPH_WINDOW_H_
 # define _GNM_GRAPH_WINDOW_H_
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <goffice/graph/gog-graph.h>
 
 G_BEGIN_DECLS

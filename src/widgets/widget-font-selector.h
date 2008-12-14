@@ -4,7 +4,7 @@
 #include <gui-gnumeric.h>
 #include <style.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 
 #define FONT_SELECTOR_TYPE        (font_selector_get_type ())
 #define FONT_SELECTOR(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), FONT_SELECTOR_TYPE, FontSelector))

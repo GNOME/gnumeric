@@ -3,7 +3,7 @@
 # define _GNM_SHEET_OBJECT_H_
 
 #include "gnumeric.h"
-#include <gtk/gtkselection.h>
+#include <gtk/gtk.h>
 #include <gsf/gsf-output.h>
 #include <goffice/utils/go-undo.h>
 

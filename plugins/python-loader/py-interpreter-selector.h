@@ -2,7 +2,7 @@
 #define PY_INTERPRETER_SELECTOR
 
 #include <glib.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <gnumeric.h>
 #include <goffice/app/error-info.h>
 #include "gnm-py-interpreter.h"

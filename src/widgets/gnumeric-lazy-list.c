@@ -3,7 +3,7 @@
 #include <glib/gi18n-lib.h>
 #include <gnm-marshalers.h>
 
-#include <gtk/gtktreemodel.h>
+#include <gtk/gtk.h>
 
 static GObjectClass *lazy_list_parent_class = NULL;
 

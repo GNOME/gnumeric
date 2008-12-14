@@ -3,7 +3,7 @@
 # define _GNM_PRINT_INFO_H_
 
 #include "gnumeric.h"
-#include <gtk/gtkpagesetup.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

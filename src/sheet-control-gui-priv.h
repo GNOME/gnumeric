@@ -5,8 +5,7 @@
 #include "sheet-control-gui.h"
 #include "sheet-control-priv.h"
 #include "sheet-object.h"
-#include <gtk/gtktable.h>
-#include <gtk/gtkpaned.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

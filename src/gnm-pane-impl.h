@@ -4,7 +4,7 @@
 
 #include <src/gnm-pane.h>
 #include <src/gnumeric-simple-canvas.h>
-#include <gtk/gtkimmulticontext.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

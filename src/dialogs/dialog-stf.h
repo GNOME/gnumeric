@@ -8,11 +8,7 @@
 #include <goffice/gtk/go-locale-sel.h>
 #include <goffice/gtk/go-format-sel.h>
 
-#include <gtk/gtkradiobutton.h>
-#include <gtk/gtkspinbutton.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtknotebook.h>
+#include <gtk/gtk.h>
 
 /* for the main_page */
 typedef struct {

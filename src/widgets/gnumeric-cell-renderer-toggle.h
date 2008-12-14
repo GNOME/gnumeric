@@ -23,7 +23,7 @@
 #ifndef __GNUMERIC_CELL_RENDERER_TOGGLE_H__
 #define __GNUMERIC_CELL_RENDERER_TOGGLE_H__
 
-#include <gtk/gtkcellrenderertoggle.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

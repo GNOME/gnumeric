@@ -2,9 +2,7 @@
 #define GNM_CELL_COMBO_FOO_VIEW_IMPL_H
 
 #include "gui-gnumeric.h"
-#include <gtk/gtkwidget.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtkliststore.h>
+#include <gtk/gtk.h>
 
 typedef struct _GnmCComboFooView GnmCComboFooView;
 typedef struct {

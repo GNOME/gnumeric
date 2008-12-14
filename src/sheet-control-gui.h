@@ -4,8 +4,7 @@
 
 #include "gui-gnumeric.h"
 #include "sheet-control.h"
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkselection.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

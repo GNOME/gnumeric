@@ -28,10 +28,6 @@
 
 #include <goffice/gtk/goffice-gtk.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtkcombobox.h>
-#include <gtk/gtktable.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtktogglebutton.h>
 #include <glib/gi18n-lib.h>
 
 struct  _GnmDao {

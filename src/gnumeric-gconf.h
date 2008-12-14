@@ -9,7 +9,7 @@
 #include <libgnumeric.h>
 #include <goffice/app/go-conf.h>
 #include <goffice/utils/go-geometry.h>
-#include <gtk/gtkprintsettings.h>
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

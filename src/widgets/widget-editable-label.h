@@ -3,7 +3,7 @@
 
 G_BEGIN_DECLS
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 #define EDITABLE_LABEL_TYPE     (editable_label_get_type ())
 #define EDITABLE_LABEL(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), EDITABLE_LABEL_TYPE, EditableLabel))
