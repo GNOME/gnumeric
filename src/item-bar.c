@@ -25,7 +25,7 @@
 #include "commands.h"
 
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtklabel.h>
+#include <gtk/gtk.h>
 #define GNUMERIC_ITEM "BAR"
 #include "item-debug.h"
 

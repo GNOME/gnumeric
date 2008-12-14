@@ -33,8 +33,7 @@
 #include "gui-util.h"
 #include "sheet-autofill.h"
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 #include <goffice/app/go-cmd-context-impl.h>
 #define GNUMERIC_ITEM "CURSOR"
 #include "item-debug.h"

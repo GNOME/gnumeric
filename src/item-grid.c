@@ -41,10 +41,7 @@
 #include "gui-util.h"
 
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
-#include <gtk/gtkdnd.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkicontheme.h>
+#include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 #include <string.h>

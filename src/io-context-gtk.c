@@ -21,15 +21,7 @@
 #include "pixmaps/gnumeric-stock-pixbufs.h"
 
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmessagedialog.h>
-#include <gtk/gtkprogressbar.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkimage.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtkicontheme.h>
+#include <gtk/gtk.h>
 #include <stdlib.h>
 #include <string.h>
 

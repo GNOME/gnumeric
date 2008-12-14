@@ -50,8 +50,7 @@
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
 
-#include <gtk/gtkactiongroup.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 
 #include <glib/gi18n-lib.h>
 #include <cairo.h>
