@@ -1,3 +1,7 @@
+2008-12-14  Morten Welinder  <terra@gnome.org>
+
+	* check-gtk-includes: New program.
+
 2008-12-10  Morten Welinder  <terra@gnome.org>
 
 	* check-finalizers (pass2): Check also unrealize calls.

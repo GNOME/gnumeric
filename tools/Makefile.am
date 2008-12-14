@@ -11,4 +11,4 @@ if WITH_NATIVE_WIN32
     gconf_schemas_to_win32_reg_LDADD = $(GNUMERIC_LIBS)
 endif
 
-EXTRA_DIST = dumpdef.pl check-gfrees check-null-false-returns
+EXTRA_DIST = dumpdef.pl check-gfrees check-gtk-includes check-null-false-returns
