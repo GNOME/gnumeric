@@ -37,7 +37,7 @@
 #include "gnm-plugin.h"
 #include "application.h"
 
-#include <gtk/gtkmain.h>
+#include <gtk/gtk.h>
 #include <glib/gstdio.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/app/go-cmd-context.h>
@@ -348,6 +348,7 @@ cb_workbook_removed (void)
 	}
 }
 
+
 int
 main (int argc, char const **argv)
 {
@@ -543,7 +544,13 @@ main (int argc, char const **argv)
 	 * only.
 	 */
 	if (with_gui && (GNM_VERSION_MAJOR & 1)) {
-		GSList *displays = gdk_display_manager_list_displays
+		GSList *displays;
+
+		gdk_flush();
+		while (g_main_context_iteration (NULL, FALSE))
+			;/* nothing */
+
+		displays = gdk_display_manager_list_displays
 			(gdk_display_manager_get ());
 		g_slist_foreach (displays, (GFunc)gdk_display_close, NULL);
 		g_slist_free (displays);
