@@ -9,6 +9,7 @@
 #include <goffice/app/error-info.h>
 #include "numbers.h"
 #include <goffice/gtk/goffice-gtk.h>
+#include <gtk/gtk.h>
 #include <glade/glade-xml.h>
 
 G_BEGIN_DECLS
