@@ -55,6 +55,7 @@ Morten:
 	* Fix problem with saving huge values.  [#552464]
 	* Dump information about number system into xml.
 	* Improve sc import.  Not sure why.  [#564495]
+	* Fix date overflow problem.  [#564502]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

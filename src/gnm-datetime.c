@@ -29,7 +29,7 @@
 #include "gnm-datetime.h"
 #include "number-match.h"
 
-gnm_float
+static gnm_float
 datetime_value_to_serial_raw (GnmValue const *v, GODateConventions const *conv)
 {
 	gnm_float serial;
@@ -44,7 +44,7 @@ datetime_value_to_serial_raw (GnmValue const *v, GODateConventions const *conv)
 			serial = value_get_as_float (conversion);
 			value_release (conversion);
 		} else
-			serial = 0;
+			serial = G_MAXINT;
 	}
 	return serial;
 }
@@ -54,8 +54,10 @@ datetime_value_to_serial_raw (GnmValue const *v, GODateConventions const *conv)
 int
 datetime_value_to_serial (GnmValue const *v, GODateConventions const *conv)
 {
-	return datetime_serial_raw_to_serial (
-		datetime_value_to_serial_raw (v, conv));
+	double serial = datetime_value_to_serial_raw (v, conv);
+	if (serial >= G_MAXINT || serial < G_MININT)
+		return G_MAXINT;
+	return datetime_serial_raw_to_serial (serial);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -64,7 +66,7 @@ gboolean
 datetime_value_to_g (GDate *res, GnmValue const *v, GODateConventions const *conv)
 {
 	int serial = datetime_value_to_serial (v, conv);
-	if (serial == 0) {
+	if (serial == G_MAXINT) {
 		g_date_clear (res, 1);
 		return FALSE;
 	}
