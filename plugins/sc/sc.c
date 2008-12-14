@@ -27,6 +27,7 @@
 #include "style.h"
 #include "sheet.h"
 #include "expr.h"
+#include "expr-name.h"
 #include "func.h"
 
 #include <gsf/gsf-input.h>
@@ -103,37 +104,62 @@ err_out:
 }
 
 
-static void
-sc_parse_coord (char const **strdata, GnmCellPos *pos)
+static gboolean
+sc_parse_coord (ScParseState *state, char const **strdata, GnmCellPos *pos)
 {
 	char const *s = *strdata, *eq;
 	int len = strlen (s);
 	char tmpstr[16];
 	size_t tmplen;
+	GnmNamedExpr *nexpr;
+	GnmParsePos pp;
+	GnmValue *v;
 
-	g_return_if_fail (strdata);
+	g_return_val_if_fail (strdata, FALSE);
 
 	eq = strstr (s, " = ");
 	if (!eq)
-		return;
+		return FALSE;
 
 	tmplen = eq - s;
 	if (tmplen >= sizeof (tmpstr))
-		return;
+		return FALSE;
 
 	memcpy (tmpstr, s, tmplen);
 	tmpstr [tmplen] = 0;
 
-	if (!sc_cellname_to_coords (tmpstr, pos))
-		return;
+	/* It ought to be a cellref.  */
+	if (sc_cellname_to_coords (tmpstr, pos)) {
+		g_return_val_if_fail (pos->col >= 0, FALSE);
+		g_return_val_if_fail (pos->row >= 0, FALSE);
 
-	g_return_if_fail (pos->col >= 0);
-	g_return_if_fail (pos->row >= 0);
+		if ((eq - s + 1 + 3) > len)
+			return FALSE;
 
-	if ((eq - s + 1 + 3) > len)
-		return;
+		*strdata = eq + 3;
+		return TRUE;
+	}
 
-	*strdata = eq + 3;
+	/* But it could be a named expression of the same kind.  */
+
+	parse_pos_init (&pp, NULL, state->sheet, 0, 0);
+	nexpr = expr_name_lookup (&pp, tmpstr);
+	if (nexpr && (v = gnm_expr_top_get_range (nexpr->texpr))) {
+		if (v->type == VALUE_CELLRANGE) {
+			GnmEvalPos ep;
+			const GnmCellRef *cr = &v->v_range.cell.a;
+
+			eval_pos_init_sheet (&ep, state->sheet);
+			pos->col = gnm_cellref_get_col (cr, &ep);
+			pos->row = gnm_cellref_get_row (cr, &ep);
+			value_release (v);
+			return TRUE;
+		}
+
+		value_release (v);
+	}
+
+	return FALSE;
 }
 
 
@@ -314,28 +340,15 @@ sc_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 	return tmp2;
 }
 
-
-static gboolean
-sc_parse_let (ScParseState *state, char const *cmd, char const *str,
-	      GnmCellPos const *pos)
+static GnmExprTop const *
+sc_parse_expr (ScParseState *state, const char *str, GnmParsePos *pp)
 {
 	GnmExprTop const *texpr;
-	GnmCell *cell;
-	GnmParsePos pp;
-	GnmValue const *v;
 	const char *p1;
-	gboolean infunc;
+	gboolean infunc = FALSE;
 	GString *exprstr;
 
-	g_return_val_if_fail (cmd, FALSE);
-	g_return_val_if_fail (str, FALSE);
-
-	cell = sheet_cell_fetch (state->sheet, pos->col, pos->row);
-	if (!cell)
-		return FALSE;
-
 	exprstr = g_string_sized_new (500);
-	infunc = FALSE;
 	for (p1 = str; *p1; p1++) {
 		char c = *p1;
 		if (infunc) {
@@ -351,11 +364,34 @@ sc_parse_let (ScParseState *state, char const *cmd, char const *str,
 	if (infunc)
 		g_string_append_len (exprstr, "()", 2);
 
-	texpr = gnm_expr_parse_str (exprstr->str,
-			parse_pos_init_cell (&pp, cell),
-			GNM_EXPR_PARSE_DEFAULT,
-			state->convs, NULL);
+	texpr = gnm_expr_parse_str (exprstr->str, pp,
+				    GNM_EXPR_PARSE_DEFAULT,
+				    state->convs, NULL);
 	g_string_free (exprstr, TRUE);
+
+	return texpr;
+}
+
+
+static gboolean
+sc_parse_let (ScParseState *state, char const *cmd, char const *str,
+	      GnmCellPos const *pos)
+{
+	GnmExprTop const *texpr;
+	GnmCell *cell;
+	GnmParsePos pp;
+	GnmValue const *v;
+
+	g_return_val_if_fail (cmd, FALSE);
+	g_return_val_if_fail (str, FALSE);
+
+	cell = sheet_cell_fetch (state->sheet, pos->col, pos->row);
+	if (!cell)
+		return FALSE;
+
+	texpr = sc_parse_expr (state, str,
+			       parse_pos_init_cell (&pp, cell));
+
 	if (!texpr) {
 		g_warning ("cannot parse cmd='%s', str='%s', col=%d, row=%d.",
 			   cmd, str, pos->col, pos->row);
@@ -374,6 +410,40 @@ sc_parse_let (ScParseState *state, char const *cmd, char const *str,
 	return TRUE;
 }
 
+static gboolean
+sc_parse_define (ScParseState *state, char const *cmd, char const *str,
+		 GnmCellPos const *dummy_pos)
+{
+	GnmParsePos pp;
+	GString *name = g_string_new (NULL);
+	char *errstr = NULL;
+	GnmNamedExpr *nexpr;
+	gboolean res = FALSE;
+	GnmExprTop const *texpr;
+
+	str = go_strunescape (name, str);
+	if (!str)
+		goto out;
+	while (g_ascii_isspace (*str))
+		str++;
+	texpr = sc_parse_expr (state, str,
+			       parse_pos_init (&pp, NULL, state->sheet, 0, 0));
+	if (!texpr) {
+		g_warning ("cannot parse cmd='%s', str='%s'.", cmd, str);
+		goto out;
+	}
+
+	nexpr = expr_name_add (&pp, name->str, texpr, &errstr, TRUE, NULL);
+	if (!nexpr)
+		goto out;
+
+	res = TRUE;
+
+out:
+	g_string_free (name, TRUE);
+	g_free (errstr);
+	return res;
+}
 
 typedef struct {
 	char const *name;
@@ -384,10 +454,11 @@ typedef struct {
 } sc_cmd_t;
 
 static sc_cmd_t const sc_cmd_list[] = {
-	{ "leftstring", 10,	sc_parse_label,	TRUE },
-	{ "rightstring", 11,	sc_parse_label,	TRUE },
-	{ "label", 5,		sc_parse_label,	TRUE },
-	{ "let", 3,		sc_parse_let,	TRUE },
+	{ "leftstring", 10,	sc_parse_label,	 TRUE },
+	{ "rightstring", 11,	sc_parse_label,	 TRUE },
+	{ "label", 5,		sc_parse_label,	 TRUE },
+	{ "let", 3,		sc_parse_let,	 TRUE },
+	{ "define", 6,          sc_parse_define, FALSE },
 	{ NULL, 0, NULL, 0 },
 };
 
@@ -418,8 +489,13 @@ sc_parse_line (ScParseState *state, char *buf)
 			GnmCellPos pos = { -1, -1 };
 			char const *strdata = space;
 
-			if (cmd->have_coord)
-				sc_parse_coord (&strdata, &pos);
+			if (cmd->have_coord) {
+				if (!sc_parse_coord (state, &strdata, &pos)) {
+					g_printerr ("Cannot parse %s\n",
+						    buf);
+					return FALSE;
+				}
+			}
 
 			cmd->handler (state, cmd->name, strdata, &pos);
 			return TRUE;
@@ -439,6 +515,8 @@ static ErrorInfo *
 sc_parse_sheet (ScParseState *state)
 {
 	unsigned char *data;
+	ErrorInfo *res = NULL;
+
 	while ((data = gsf_input_textline_ascii_gets (state->textline)) != NULL) {
 		char *utf8data;
 
@@ -447,14 +525,15 @@ sc_parse_sheet (ScParseState *state)
 						 NULL, NULL, NULL);
 
 		if (g_ascii_isalpha (*data) && !sc_parse_line (state, utf8data)) {
-			g_free (utf8data);
-			return error_info_new_str (_("Error parsing line"));
+			if (!res)
+				res = error_info_new_str
+					(_("Error parsing line"));
 		}
 
 		g_free (utf8data);
 	}
 
-	return NULL;
+	return res;
 }
 
 static GnmExpr const *
