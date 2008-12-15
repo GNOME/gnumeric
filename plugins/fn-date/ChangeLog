@@ -1,3 +1,7 @@
+2008-12-15  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_unix2date): check for overflow.
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.3

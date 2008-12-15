@@ -8,6 +8,7 @@
 
 G_BEGIN_DECLS
 
+gnm_float datetime_value_to_serial_raw (GnmValue const *v, GODateConventions const *conv);
 
 /* These are date-only, no time.  */
 gboolean datetime_value_to_g		(GDate *res, GnmValue const *v, GODateConventions const *conv);

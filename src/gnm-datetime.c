@@ -29,7 +29,7 @@
 #include "gnm-datetime.h"
 #include "number-match.h"
 
-static gnm_float
+gnm_float
 datetime_value_to_serial_raw (GnmValue const *v, GODateConventions const *conv)
 {
 	gnm_float serial;
