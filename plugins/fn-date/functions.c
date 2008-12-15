@@ -718,12 +718,12 @@ static GnmFuncHelp const help_year[] = {
 static GnmValue *
 gnumeric_year (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	int res = 1900;
 	GDate date;
 
 	if (datetime_value_to_g (&date, argv[0], DATE_CONV (ei->pos)))
-		res = g_date_get_year (&date);
-	return value_new_int (res);
+		return value_new_int (g_date_get_year (&date));
+	else
+		return value_new_error_NUM (ei->pos);
 }
 
 /***************************************************************************/
@@ -752,12 +752,12 @@ static GnmFuncHelp const help_month[] = {
 static GnmValue *
 gnumeric_month (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	int res = 1;
 	GDate date;
 
 	if (datetime_value_to_g (&date, argv[0], DATE_CONV (ei->pos)))
-		res = g_date_get_month (&date);
-	return value_new_int (res);
+		return value_new_int (g_date_get_month (&date));
+	else
+		return value_new_error_NUM (ei->pos);
 }
 
 /***************************************************************************/
@@ -786,12 +786,12 @@ static GnmFuncHelp const help_day[] = {
 static GnmValue *
 gnumeric_day (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	int res = 1;
 	GDate date;
 
 	if (datetime_value_to_g (&date, argv[0], DATE_CONV (ei->pos)))
-		res = g_date_get_day (&date);
-	return value_new_int (res);
+		return value_new_int (g_date_get_day (&date));
+	else
+		return value_new_error_NUM (ei->pos);
 }
 
 /***************************************************************************/
@@ -832,17 +832,17 @@ gnumeric_weekday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float method = argv[1] ? value_get_as_float (argv[1]) : 1;
 
 	if (method < 1 || method >= 4)
-		return value_new_error_VALUE (ei->pos);
+		return value_new_error_NUM (ei->pos);
 
 	if (!datetime_value_to_g (&date, argv[0], DATE_CONV (ei->pos)))
-		return value_new_error_VALUE (ei->pos);
+		return value_new_error_NUM (ei->pos);
 
 	switch ((int)method) {
 	case 1: res = (g_date_get_weekday (&date) % 7) + 1; break;
 	case 2: res = (g_date_get_weekday (&date) + 6) % 7 + 1; break;
 	case 3: res = (g_date_get_weekday (&date) + 6) % 7; break;
 	default:
-		return value_new_error_VALUE (ei->pos);
+		return value_new_error_NUM (ei->pos);
 	}
 
 	return value_new_int (res);

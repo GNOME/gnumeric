@@ -57,6 +57,7 @@ Morten:
 	* Improve sc import.  Not sure why.  [#564495]
 	* Fix date overflow problem.  [#564502]
 	* Fix XLS import critical.  [#564499]
+	* Sanitize error cases for DAY, MONTH, YEAR.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

@@ -2,6 +2,9 @@
 
 	* functions.c (gnumeric_unix2date): check for overflow.
 	(float_to_secs): Handle negative values.  Range check arguments.
+	(gnumeric_month, gnumeric_year, gnumeric_day): Return an error in
+	case of error.  What a concept!
+	(gnumeric_weekday): Use #NUM! error for compatibility.
 
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
