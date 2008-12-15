@@ -8,6 +8,8 @@
 
 G_BEGIN_DECLS
 
+gboolean gnm_datetime_allow_negative (void);
+
 gnm_float datetime_value_to_serial_raw (GnmValue const *v, GODateConventions const *conv);
 
 /* These are date-only, no time.  */

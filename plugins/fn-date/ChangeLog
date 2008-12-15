@@ -1,6 +1,7 @@
 2008-12-15  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_unix2date): check for overflow.
+	(float_to_secs): Handle negative values.  Range check arguments.
 
 2008-10-18  Jody Goldberg <jody@gnome.org>
 

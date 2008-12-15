@@ -70,12 +70,15 @@ value_get_basis (const GnmValue *v, int defalt)
 }
 
 static int
-float_to_secs (gnm_float d)
+float_to_secs (GnmValue const *v, GODateConventions const *conv)
 {
 	int secs;
+	gnm_float d = datetime_value_to_serial_raw (v, conv);
+	if (d == G_MAXINT)
+		return -1;
 
-	/* Ok, we have a positive number.  Add epsilon before we scale
-	   and translate because otherwise it will not be enough.  */
+	/* Add epsilon before we scale and translate because otherwise it
+	   will not be enough.  */
 	d = gnm_add_epsilon (d);
 
 	/* Get the number down between 0 and 1 before we scale.  */
@@ -611,14 +614,12 @@ static GnmFuncHelp const help_hour[] = {
 static GnmValue *
 gnumeric_hour (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float d = value_get_as_float (argv[0]);
+	int secs = float_to_secs (argv[0], DATE_CONV (ei->pos));
 
-	if (d < 0)
+	if (secs < 0)
 		return value_new_error_NUM (ei->pos);
-	else {
-		int secs = float_to_secs (d);
+	else
 		return value_new_int (secs / 3600);
-	}
 }
 
 /***************************************************************************/
@@ -648,14 +649,12 @@ static GnmFuncHelp const help_minute[] = {
 static GnmValue *
 gnumeric_minute (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float d = value_get_as_float (argv[0]);
+	int secs = float_to_secs (argv[0], DATE_CONV (ei->pos));
 
-	if (d < 0)
+	if (secs < 0)
 		return value_new_error_NUM (ei->pos);
-	else {
-		int secs = float_to_secs (d);
+	else
 		return value_new_int (secs / 60 % 60);
-	}
 }
 
 /***************************************************************************/
@@ -685,14 +684,12 @@ static GnmFuncHelp const help_second[] = {
 static GnmValue *
 gnumeric_second (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float d = value_get_as_float (argv[0]);
+	int secs = float_to_secs (argv[0], DATE_CONV (ei->pos));
 
-	if (d < 0)
+	if (secs < 0)
 		return value_new_error_NUM (ei->pos);
-	else {
-		int secs = float_to_secs (d);
+	else
 		return value_new_int (secs % 60);
-	}
 }
 
 /***************************************************************************/

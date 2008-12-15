@@ -26,8 +26,36 @@
 #include <gnumeric-config.h>
 #include <goffice/utils/go-format.h>
 #include "value.h"
+#include <string.h>
 #include "gnm-datetime.h"
+#include "gnm-format.h"
 #include "number-match.h"
+
+/*
+ * Figure out whether the format engine in goffice allows negative values
+ * or (as XL) considers them errors.
+ */
+gboolean
+gnm_datetime_allow_negative (void)
+{
+	static int allow = -1;
+
+	if (allow == -1) {
+		GOFormat *fmt = go_format_new_from_XL ("yyyy-mm-dd");
+		GnmValue *v = value_new_int (-42);
+		GODateConventions const *conv =
+			go_date_conv_from_str ("Lotus:1900");
+		char *text = format_value (fmt, v, NULL, -1, conv);
+
+		allow = (strcmp (text, "1899-11-19") == 0);
+		
+		value_release (v);
+		go_format_unref (fmt);
+		g_free (text);
+	}
+
+	return (gboolean)allow;
+}
 
 gnm_float
 datetime_value_to_serial_raw (GnmValue const *v, GODateConventions const *conv)
@@ -46,6 +74,10 @@ datetime_value_to_serial_raw (GnmValue const *v, GODateConventions const *conv)
 		} else
 			serial = G_MAXINT;
 	}
+
+	if (serial < 0 && !gnm_datetime_allow_negative ())
+		serial = G_MAXINT;
+
 	return serial;
 }
 
