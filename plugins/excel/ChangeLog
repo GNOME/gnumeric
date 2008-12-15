@@ -1,3 +1,8 @@
+2008-12-15  Morten Welinder  <terra@gnome.org>
+
+	* ms-chart.c (BC_R): Don't use g_return_val_if_fail for data
+	dependent errors.  Fixes #564499.
+
 2008-12-12  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-util.c (two_way_table_move): Make sure we keep

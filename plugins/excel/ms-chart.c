@@ -2742,7 +2742,7 @@ not_a_matrix:
 			}
 		}
 
-		g_return_val_if_fail (s->plot != NULL, TRUE);
+		XL_CHECK_CONDITION_VAL (s->plot != NULL, TRUE);
 
 		/*
 		 * Check whether the chart already contains a plot and, if so,
