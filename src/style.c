@@ -24,7 +24,7 @@
 #include "gnumeric-gconf.h"
 
 #include <pango/pangocairo.h>
-#include <gdk/gdkpango.h>
+#include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <string.h>
 #include <goffice/utils/go-font.h>

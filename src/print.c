@@ -46,7 +46,7 @@
 
 #include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
-#include <glib/gfileutils.h>
+#include <glib.h>
 
 #include <unistd.h>
 #include <errno.h>
