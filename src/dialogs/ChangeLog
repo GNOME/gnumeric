@@ -1,3 +1,8 @@
+2008-12-18  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-preview.c (stf_preview_new): Display vertical grid
+	lines.
+
 2008-12-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* sheet-order.glade: add checkbox

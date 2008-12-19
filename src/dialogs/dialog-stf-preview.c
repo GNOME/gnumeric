@@ -104,6 +104,8 @@ stf_preview_new (GtkWidget *data_container,
 	ll = gnumeric_lazy_list_new (render_get_value, renderdata, 0, 1, G_TYPE_STRING);
 	renderdata->tree_view =
 		GTK_TREE_VIEW (gtk_tree_view_new_with_model (GTK_TREE_MODEL (ll)));
+	gtk_tree_view_set_grid_lines (renderdata->tree_view,
+				      GTK_TREE_VIEW_GRID_LINES_VERTICAL);
 	g_object_ref (renderdata->tree_view);
 	g_object_unref (ll);
 
@@ -197,7 +199,7 @@ stf_preview_set_lines (RenderData_t *renderdata,
 
 	/*
 	 * If we are making large changes we need to hide the treeview
-	 * because performance other wise suffers a lot.
+	 * because performance otherwise suffers a lot.
 	 */
 	hidden = GTK_WIDGET_VISIBLE (GTK_WIDGET (renderdata->tree_view)) &&
 		(colcount < renderdata->colcount - 1 ||
