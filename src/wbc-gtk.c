@@ -4866,6 +4866,8 @@ wbc_gtk_init (GObject *obj)
 	wbc_gtk_set_toggle_action_state (wbcg, "ViewSheets", FALSE);
 	wbc_gtk_set_toggle_action_state (wbcg, "ViewStatusbar", FALSE);
 #endif
+
+	wbcg_set_autosave_time (wbcg, gnm_app_prefs->autosave_time);
 }
 
 GSF_CLASS_FULL (WBCGtk, wbc_gtk, NULL, NULL, wbc_gtk_class_init, NULL,

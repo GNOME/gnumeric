@@ -100,6 +100,7 @@ G_BEGIN_DECLS
 #define GNM_CONF_WORKBOOK_NSHEETS	"core/workbook/n-sheet"
 #define GNM_CONF_WORKBOOK_NROWS		"core/workbook/n-rows"
 #define GNM_CONF_WORKBOOK_NCOLS		"core/workbook/n-cols"
+#define GNM_CONF_WORKBOOK_AUTOSAVE_TIME	"core/workbook/autosave_time"
 
 #define GNM_CONF_GUI_DIR		"core/gui"
 #define GNM_CONF_GUI_RES_H		"screen/horizontaldpi"

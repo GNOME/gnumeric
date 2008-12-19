@@ -191,6 +191,8 @@ gnm_conf_init_essential (void)
 		root, GNM_CONF_WORKBOOK_NCOLS, GNM_MIN_COLS, GNM_MAX_COLS, GNM_DEFAULT_COLS);
 	gnm_sheet_suggest_size (&prefs.col_number,
 				&prefs.row_number);
+	prefs.autosave_time = go_conf_load_int (
+		root, GNM_CONF_WORKBOOK_AUTOSAVE_TIME, 0, 365*24*60*60, 0);
 	prefs.horizontal_window_fraction = go_conf_load_double (
 		  node, GNM_CONF_GUI_WINDOW_X, .1, 1., .6);
 	prefs.vertical_window_fraction = go_conf_load_double (
@@ -841,6 +843,15 @@ gnm_gconf_set_workbook_nsheets (gint val)
 		val = 1;
 	prefs.initial_sheet_number = val;
 	go_conf_set_int (root, GNM_CONF_WORKBOOK_NSHEETS, val);
+}
+void
+gnm_gconf_set_workbook_autosave_time (gint val)
+
+{
+	if (val < 0)
+		val = 0;
+	prefs.autosave_time = val;
+	go_conf_set_int (root, GNM_CONF_WORKBOOK_AUTOSAVE_TIME, val);
 }
 
 void

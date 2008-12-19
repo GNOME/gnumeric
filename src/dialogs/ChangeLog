@@ -1,3 +1,8 @@
+2009-04-28  Jody Goldberg <jody@gnome.org>
+
+	* dialog-preferences.c (pref_window_page_initializer) : entry for
+	  default autosave setting.
+
 2009-04-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-so-styled.c (cb_dialog_so_styled_text_widget_changed): retrieve

@@ -1,3 +1,9 @@
+2009-04-28  Jody Goldberg <jody@gnome.org>
+
+	* src/wbc-gtk.c (wbc_gtk_init) : use the pref for autosave.
+	* src/gnumeric-gconf.c (gnm_conf_init_essential) : load it here.
+	(gnm_gconf_set_workbook_autosave_time) : new.
+
 2009-04-28  Morten Welinder  <terra@gnome.org>
 
 	* src/parse-util.c (std_expr_name_handler): Handle shadowed global

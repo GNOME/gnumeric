@@ -605,6 +605,10 @@ pref_window_page_initializer (PrefState *state,
 				gnm_gconf_set_workbook_ncols,
 				_("Default Number of Columns in a Sheet"));
 
+	int_pref_create_widget (state->root, GNM_CONF_WORKBOOK_AUTOSAVE_TIME,
+				page, row++, 0, 0, 365*24*60*60, 60, 
+				gnm_gconf_set_workbook_autosave_time,
+				_("Default autosave frequency in seconds"));
 	bool_pref_create_widget (node, GNM_CONF_GUI_ED_LIVESCROLLING,
 				 page, row++, 
 				 gnm_gconf_set_gui_livescrolling,
