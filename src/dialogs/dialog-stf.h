@@ -54,6 +54,8 @@ typedef struct {
 	/* Page members that are created at run-time */
 	RenderData_t  *renderdata;
 	int            context_col, context_dx;  
+	int            ruler_x;
+	GdkGC         *ruler_gc;
 } FixedInfo_t;
 
 /* for the format_page */

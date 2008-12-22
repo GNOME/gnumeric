@@ -80,15 +80,34 @@ static GnumericPopupMenuElement const popup_elements[] = {
 	{ NULL, NULL, 0, 0, 0 },
 };
 
+static int
+calc_char_index (RenderData_t *renderdata, int col, int *dx)
+{
+	GtkCellRenderer *cell =	stf_preview_get_cell_renderer (renderdata, col);
+	PangoLayout *layout;
+	PangoFontDescription *font_desc;
+	int ci, width;
+
+	g_object_get (G_OBJECT (cell), "font_desc", &font_desc, NULL);
+	layout = gtk_widget_create_pango_layout (GTK_WIDGET (renderdata->tree_view), "x");
+	pango_layout_set_font_description (layout, font_desc);
+	pango_layout_get_pixel_size (layout, &width, NULL);
+	g_object_unref (layout);
+	pango_font_description_free (font_desc);
+
+	if (width < 1) width = 1;
+	ci = (dx < 0) ? 0 : (*dx + width / 2) / width;
+	*dx -= ci * width;
+
+	return ci;
+}
+
 
 static gboolean
 make_new_column (StfDialogData *pagedata, int col, int dx, gboolean test_only)
 {
-	PangoLayout *layout;
-	PangoFontDescription *font_desc;
-	int charindex, width;
+	int charindex;
 	RenderData_t *renderdata = pagedata->fixed.renderdata;
-	GtkCellRenderer *cell =	stf_preview_get_cell_renderer (renderdata, col);
 	int colstart, colend;
 
 	colstart = (col == 0)
@@ -96,14 +115,7 @@ make_new_column (StfDialogData *pagedata, int col, int dx, gboolean test_only)
 		: stf_parse_options_fixed_splitpositions_nth (pagedata->parseoptions, col - 1);
 	colend = stf_parse_options_fixed_splitpositions_nth (pagedata->parseoptions, col);
 
-	g_object_get (G_OBJECT (cell), "font_desc", &font_desc, NULL);
-	layout = gtk_widget_create_pango_layout (GTK_WIDGET (renderdata->tree_view), "x");
-	pango_layout_set_font_description (layout, font_desc);
-	pango_layout_get_pixel_size (layout, &width, NULL);
-	if (width < 1) width = 1;
-	charindex = colstart + (dx + width / 2) / width;
-	g_object_unref (layout);
-	pango_font_description_free (font_desc);
+	charindex = colstart + calc_char_index (renderdata, col, &dx);
 
 	if (charindex <= colstart || (colend != -1 && charindex >= colend))
 		return FALSE;
@@ -446,6 +458,100 @@ stf_dialog_fixed_page_prepare (StfDialogData *pagedata)
 	fixed_page_update_preview (pagedata);
 }
 
+static void
+queue_redraw (GtkWidget *widget, int x)
+{
+	int hh, xo;
+
+	if (x < 0)
+		return;
+
+	gtk_tree_view_convert_bin_window_to_widget_coords
+		(GTK_TREE_VIEW (widget), 0, 0, &xo, &hh);
+
+	gtk_widget_queue_draw_area (widget,
+				    x + xo, hh,
+				    1, widget->allocation.height - hh);
+}
+
+
+static gboolean
+cb_treeview_motion (GtkWidget *widget,
+		    GdkEventMotion *event,
+		    StfDialogData *pagedata)
+{
+	int x = (int)event->x;
+	int col, dx;
+	RenderData_t *renderdata = pagedata->fixed.renderdata;
+	int old_ruler_x = pagedata->fixed.ruler_x;
+	int colstart, colend, colwidth;
+	gpointer user;
+
+	pagedata->fixed.ruler_x = -1;
+
+	/* We get events from the buttons too.  Translate x.  */
+	gdk_window_get_user_data (event->window, &user);
+	if (GTK_IS_BUTTON (user)) {
+		int ewx;
+		gdk_window_get_position (event->window, &ewx, NULL);
+		x += ewx;
+	}
+
+	stf_preview_find_column (renderdata, x, &col, &dx);
+
+	colstart = (col == 0)
+		? 0
+		: stf_parse_options_fixed_splitpositions_nth (pagedata->parseoptions, col - 1);
+	colend = stf_parse_options_fixed_splitpositions_nth (pagedata->parseoptions, col);
+	colwidth = (colend == -1) ? G_MAXINT : colend - colstart;
+
+	if (col >= 0 && col < renderdata->colcount) {
+		int ci = calc_char_index (renderdata, col, &dx);
+		if (ci <= colwidth)
+			pagedata->fixed.ruler_x = x - dx - 1;
+	}
+
+	gdk_event_request_motions (event);
+
+	if (pagedata->fixed.ruler_x == old_ruler_x)
+		return FALSE;
+
+	queue_redraw (widget, old_ruler_x);
+	queue_redraw (widget, pagedata->fixed.ruler_x);
+
+	return FALSE;
+}
+
+
+static gboolean
+cb_treeview_expose (GtkWidget *widget,
+		    GdkEventMotion *event,
+		    StfDialogData *pagedata)
+{
+	int ruler_x = pagedata->fixed.ruler_x;
+	GdkGCValues values;
+	GdkGC *gc;
+
+	if (ruler_x < 0)
+		return FALSE;
+
+	gc = gdk_gc_new (event->window);
+
+	values.foreground.red = 0xffff;
+	values.foreground.green = 0;
+	values.foreground.blue = 0;
+	gdk_rgb_find_color (gdk_gc_get_colormap (gc), &values.foreground);
+	values.fill = GDK_SOLID;
+	gdk_gc_set_values (gc, &values, GDK_GC_FILL | GDK_GC_FOREGROUND);
+
+	gdk_draw_line (event->window, gc,
+		       ruler_x, 0,
+		       ruler_x, widget->allocation.height);
+	g_object_unref (gc);
+
+	return FALSE;
+}
+
 /*************************************************************************************************
  * FIXED EXPORTED FUNCTIONS
  *************************************************************************************************/
@@ -467,6 +573,7 @@ stf_dialog_fixed_page_cleanup (StfDialogData *pagedata)
 void
 stf_dialog_fixed_page_init (GladeXML *gui, StfDialogData *pagedata)
 {
+	RenderData_t *renderdata;
 
 	g_return_if_fail (gui != NULL);
 	g_return_if_fail (pagedata != NULL);
@@ -477,9 +584,10 @@ stf_dialog_fixed_page_init (GladeXML *gui, StfDialogData *pagedata)
 	pagedata->fixed.fixed_data_container =          (glade_xml_get_widget (gui, "fixed_data_container"));
 
 	/* Set properties */
-	pagedata->fixed.renderdata    =
+	renderdata = pagedata->fixed.renderdata =
 		stf_preview_new (pagedata->fixed.fixed_data_container,
 				 NULL);
+	pagedata->fixed.ruler_x = -1;
 
 	/* Connect signals */
 	g_signal_connect (G_OBJECT (pagedata->fixed.fixed_clear),
@@ -488,7 +596,13 @@ stf_dialog_fixed_page_init (GladeXML *gui, StfDialogData *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->fixed.fixed_auto),
 		"clicked",
 		G_CALLBACK (fixed_page_auto_clicked), pagedata);
-	g_signal_connect (G_OBJECT (pagedata->fixed.renderdata->tree_view),
+	g_signal_connect (G_OBJECT (renderdata->tree_view),
 		"button_press_event",
 		 G_CALLBACK (cb_treeview_button_press), pagedata);
+	g_signal_connect (G_OBJECT (renderdata->tree_view),
+		"motion_notify_event",
+		 G_CALLBACK (cb_treeview_motion), pagedata);
+	g_signal_connect_after (G_OBJECT (renderdata->tree_view),
+		"expose_event",
+		 G_CALLBACK (cb_treeview_expose), pagedata);
 }

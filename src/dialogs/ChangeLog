@@ -1,5 +1,9 @@
 2008-12-22  Morten Welinder  <terra@gnome.org>
 
+	* dialog-stf-fixed-page.c (cb_treeview_motion,
+	cb_treeview_expose): New handlers for adding a ruler to the
+	treeview.
+
 	* dialog-stf-preview.c (stf_preview_find_column): Return *dx
 	return values.
 
