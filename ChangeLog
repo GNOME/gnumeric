@@ -1,3 +1,13 @@
+2008-12-19  Morten Welinder  <terra@gnome.org>
+
+	* src/search.c (gnm_search_replace_query_fail,
+	gnm_search_replace_query_cell, gnm_search_replace_query_comment):
+	New functions to hide the details of how to query.
+
+	* src/commands.c (cmd_search_replace_do_cell): Simplify using
+	gnm_search_replace_query_fail, gnm_search_replace_query_cell, and
+	gnm_search_replace_query_comment.
+
 2008-12-15  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-datetime.c (gnm_datetime_allow_negative): New function.

@@ -381,6 +381,44 @@ gnm_search_replace_value (GnmSearchReplace *sr,
 
 /* ------------------------------------------------------------------------- */
 
+void
+gnm_search_replace_query_fail (GnmSearchReplace *sr,
+			       const GnmSearchReplaceCellResult *res)
+{
+	if (!sr->query_func)
+		return;
+
+	sr->query_func (GNM_SRQ_FAIL, sr,
+			res->cell, res->old_text, res->new_text);
+}
+
+int
+gnm_search_replace_query_cell (GnmSearchReplace *sr,
+			       const GnmSearchReplaceCellResult *res)
+{
+	if (!sr->query || !sr->query_func)
+		return GTK_RESPONSE_YES;
+
+	return sr->query_func (GNM_SRQ_QUERY, sr,
+			       res->cell, res->old_text, res->new_text);
+}
+
+
+int
+gnm_search_replace_query_comment (GnmSearchReplace *sr,
+				  const GnmEvalPos *ep,
+				  const GnmSearchReplaceCommentResult *res)
+{
+	if (!sr->query || !sr->query_func)
+		return GTK_RESPONSE_YES;
+
+	return sr->query_func (GNM_SRQ_QUERY_COMMENT, sr,
+			       ep->sheet, &ep->eval,
+			       res->old_text, res->new_text);
+}
+
+/* ------------------------------------------------------------------------- */
+
 GType
 gnm_search_replace_scope_get_type (void)
 {

@@ -4027,12 +4027,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 
 		if (err) {
 			if (test_run) {
-				if (sr->query_func)
-					sr->query_func (GNM_SRQ_FAIL,
-							sr,
-							cell_res.cell,
-							cell_res.old_text,
-							cell_res.new_text);
+				gnm_search_replace_query_fail (sr, &cell_res);
 				g_free (cell_res.old_text);
 				g_free (cell_res.new_text);
 				return TRUE;
@@ -4074,19 +4069,14 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 		}
 
 		if (!err && !test_run) {
-			gboolean doit = TRUE;
-			if (sr->query && sr->query_func) {
-				int res = sr->query_func (GNM_SRQ_QUERY,
-							  sr,
-							  cell_res.cell,
-							  cell_res.old_text,
-							  cell_res.new_text);
-				if (res == GTK_RESPONSE_CANCEL) {
-					g_free (cell_res.old_text);
-					g_free (cell_res.new_text);
-					return TRUE;
-				}
-				doit = (res == GTK_RESPONSE_YES);
+			int res = gnm_search_replace_query_cell
+				(sr, &cell_res);
+			gboolean doit = (res == GTK_RESPONSE_YES);
+
+			if (res == GTK_RESPONSE_CANCEL) {
+				g_free (cell_res.old_text);
+				g_free (cell_res.new_text);
+				return TRUE;
 			}
 
 			if (doit) {
@@ -4108,22 +4098,11 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 		g_free (cell_res.old_text);
 	}
 
-	if (!test_run && gnm_search_replace_comment (sr, ep, TRUE, &comment_res)) {
-		gboolean doit = TRUE;
-
-		if (sr->query && sr->query_func) {
-			int res = sr->query_func (GNM_SRQ_QUERY_COMMENT,
-						  sr,
-						  ep->sheet,
-						  &ep->eval,
-						  comment_res.old_text,
-						  comment_res.new_text);
-			if (res == GTK_RESPONSE_CANCEL) {
-				g_free (comment_res.new_text);
-				return TRUE;
-			}
-			doit = (res == GTK_RESPONSE_YES);
-		}
+	if (!test_run &&
+	    gnm_search_replace_comment (sr, ep, TRUE, &comment_res)) {
+		int res = gnm_search_replace_query_comment
+			(sr, ep, &comment_res);
+		gboolean doit = (res == GTK_RESPONSE_YES);
 
 		if (doit) {
 			SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
@@ -4134,8 +4113,11 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 			me->cells = g_list_prepend (me->cells, sri);
 
 			cell_comment_text_set (comment_res.comment, comment_res.new_text);
-		} else
+		} else {
 			g_free (comment_res.new_text);
+			if (res == GTK_RESPONSE_CANCEL)
+				return TRUE;
+		}
 	}
 
 	return FALSE;

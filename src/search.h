@@ -132,6 +132,16 @@ gboolean gnm_search_replace_value (GnmSearchReplace *sr,
 				   GnmEvalPos const *ep,
 				   GnmSearchReplaceValueResult *res);
 
+void gnm_search_replace_query_fail (GnmSearchReplace *sr,
+				    const GnmSearchReplaceCellResult *res);
+
+int gnm_search_replace_query_cell (GnmSearchReplace *sr,
+				   const GnmSearchReplaceCellResult *res);
+
+int gnm_search_replace_query_comment (GnmSearchReplace *sr,
+				      const GnmEvalPos *ep,
+				      const GnmSearchReplaceCommentResult *res);
+
 G_END_DECLS
 
 #endif /* _GNM_SEARCH_H_ */
