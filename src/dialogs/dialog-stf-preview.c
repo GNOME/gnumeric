@@ -311,6 +311,8 @@ stf_preview_find_column (RenderData_t *renderdata, int x, int *pcol, int *dx)
 {
 	int col;
 
+	*dx = 0;
+
 	/* Figure out what column we pressed in.  */
 	for (col = 0; 1; col++) {
 		GtkWidget *w;
@@ -326,5 +328,4 @@ stf_preview_find_column (RenderData_t *renderdata, int x, int *pcol, int *dx)
 	}
 
 	*pcol = col;
-	*dx = 0;
 }

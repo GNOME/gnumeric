@@ -58,6 +58,7 @@ Morten:
 	* Fix date overflow problem.  [#564502]
 	* Fix XLS import critical.  [#564499]
 	* Sanitize error cases for DAY, MONTH, YEAR.
+	* Fix column-split problem with fixed-width stf import.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3
