@@ -1,5 +1,14 @@
 2008-12-22  Morten Welinder  <terra@gnome.org>
 
+	* solver.glade, simulation.glade, row-height.glade,
+	dialog-stf.glade, print.glade, so-scrollbar.glade,
+	anova-one.glade, anova-two.glade, col-width.glade,
+	descriptive-stats.glade, cell-format.glade, dialog-zoom.glade,
+	exp-smoothing.glade, kaplan-meier.glade, moving-averages.glade:
+	Don't use deprecated page size in SpinButtons.
+
+2008-12-22  Morten Welinder  <terra@gnome.org>
+
 	* dialog-stf-fixed-page.c (cb_treeview_motion,
 	cb_treeview_expose): New handlers for adding a ruler to the
 	treeview.
