@@ -59,6 +59,7 @@ Morten:
 	* Fix XLS import critical.  [#564499]
 	* Sanitize error cases for DAY, MONTH, YEAR.
 	* Fix column-split problem with fixed-width stf import.
+	* Fix problem with deprecated gtk+ stuff in glade files.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

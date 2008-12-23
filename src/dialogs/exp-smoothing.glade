@@ -246,7 +246,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="xalign">1</property>
-                            <property name="adjustment">0.20000000000000001 0 1 0.01 0.10000000000000001 0.10000000000000001</property>
+                            <property name="adjustment">0.20000000000000001 0 1 0.01 0.10000000000000001 0</property>
                             <property name="digits">3</property>
                             <property name="numeric">True</property>
                           </widget>
@@ -262,7 +262,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="xalign">1</property>
-                            <property name="adjustment">0.20000000000000001 0 1 0.01 0.10000000000000001 0.10000000000000001</property>
+                            <property name="adjustment">0.20000000000000001 0 1 0.01 0.10000000000000001 0</property>
                             <property name="digits">3</property>
                             <property name="numeric">True</property>
                           </widget>
@@ -292,7 +292,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="xalign">1</property>
-                            <property name="adjustment">0.20000000000000001 0 1 0.01 0.10000000000000001 0.10000000000000001</property>
+                            <property name="adjustment">0.20000000000000001 0 1 0.01 0.10000000000000001 0</property>
                             <property name="digits">3</property>
                             <property name="numeric">True</property>
                           </widget>
@@ -332,7 +332,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="xalign">1</property>
-                            <property name="adjustment">12 2 4096 1 10 10</property>
+                            <property name="adjustment">12 2 4096 1 10 0</property>
                             <property name="snap_to_ticks">True</property>
                             <property name="numeric">True</property>
                           </widget>
