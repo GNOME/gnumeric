@@ -1,7 +1,13 @@
+2008-12-22  Morten Welinder  <terra@gnome.org>
+
+	* analysis-histogram.c (make_hist_expr): New function to generate
+	expressions and avoid using huge constants in the place of
+	infinite values.  Solves potential portability problem.
+
 2008-12-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* analysis-histogram.c (analysis_tool_histogram_engine_run): set GNM_MAX 
-	  as value not expression
+	* analysis-histogram.c (analysis_tool_histogram_engine_run): set
+	  GNM_MAX as value not expression
 
 2008-12-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

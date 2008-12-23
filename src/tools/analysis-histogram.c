@@ -43,6 +43,73 @@
 #include <goffice/graph/gog-series.h>
 #include <goffice/utils/go-glib-extras.h>
 
+static GnmExpr const *
+make_hist_expr (analysis_tools_data_histogram_t *info,
+		int col, GnmValue *val,
+		gboolean fromminf, gboolean topinf)
+{
+	GnmExpr const *expr;
+	GnmExpr const *expr_data;
+	GnmExpr const *expr_if_to, *expr_if_from;
+	GnmExprOp from, to;
+	GnmFunc *fd_if = gnm_func_lookup ("IF", NULL);
+	GnmFunc *fd_sum = gnm_func_lookup ("SUM", NULL);
+	GnmFunc *fd_count = gnm_func_lookup ("COUNT", NULL);
+	gint to_col = (info->cumulative) ? 0 : 1;
+
+	if (info->bin_type & bintype_no_inf_lower) {
+		from = GNM_EXPR_OP_LTE;
+		to = GNM_EXPR_OP_GT;
+	} else {
+		from = GNM_EXPR_OP_LT;
+		to = GNM_EXPR_OP_GTE;
+	}
+
+	expr_data = gnm_expr_new_constant (value_dup (val));
+	if (fromminf)
+		expr_if_to = gnm_expr_new_constant (value_new_int (1));
+	else
+		expr_if_to = gnm_expr_new_funcall3
+			(fd_if, 
+			 gnm_expr_new_binary 
+			 (gnm_expr_copy (expr_data), 
+			  to, make_cellref (- (col-to_col), 0)),
+			 gnm_expr_new_constant (value_new_int (0)),
+			 gnm_expr_new_constant (value_new_int (1)));
+
+	if (info->cumulative)
+		expr = gnm_expr_new_funcall1 (fd_sum, expr_if_to);
+	else {
+		GnmExpr const *one = gnm_expr_new_constant (value_new_int (1));
+		if (topinf)
+			expr_if_from = one;
+		else
+			expr_if_from = gnm_expr_new_funcall3
+				(fd_if, 
+				 gnm_expr_new_binary 
+				 (gnm_expr_copy (expr_data), 
+				  from, make_cellref (- col, 0)),
+				 gnm_expr_new_constant (value_new_int (0)),
+				 one);
+		expr = gnm_expr_new_funcall1
+			(fd_sum,
+			 gnm_expr_new_binary (expr_if_from,
+					      GNM_EXPR_OP_MULT,
+					      expr_if_to));
+	}
+
+	if (info->percentage)
+		expr = gnm_expr_new_binary (expr,
+					    GNM_EXPR_OP_DIV,
+					    gnm_expr_new_funcall1 
+					    (fd_count, 
+					     expr_data));
+
+	gnm_expr_free (expr_data);
+
+	return expr;
+}
+
 static gboolean
 analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 				    analysis_tools_data_histogram_t *info)
@@ -50,33 +117,21 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 	GnmRange range;
 	gint i, i_limit, i_start, i_end, col;
 	GSList *l;
-	GnmExprOp from, to;
 	gint to_col = (info->cumulative) ? 0 : 1;
 
 	GnmExpr const *expr_bin = NULL;
 
 	GnmFunc *fd_small;
-	GnmFunc *fd_sum;
-	GnmFunc *fd_if;
 	GnmFunc *fd_index = NULL;
-	GnmFunc *fd_count = NULL;
 
 	char const *format;
 
 	fd_small = gnm_func_lookup ("SMALL", NULL);
 	gnm_func_ref (fd_small);
-	fd_sum = gnm_func_lookup ("SUM", NULL);
-	gnm_func_ref (fd_sum);
-	fd_if = gnm_func_lookup ("IF", NULL);
-	gnm_func_ref (fd_if);
 
 	if (info->base.labels) {
 		fd_index = gnm_func_lookup ("INDEX", NULL);
 		gnm_func_ref (fd_index);		
-	}
-	if (info->percentage) {
-		fd_count = gnm_func_lookup ("COUNT", NULL);
-		gnm_func_ref (fd_count);		
 	}
 	
 
@@ -214,22 +269,9 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 
 	/* insert formulas for histogram values */
 
-	if (info->bin_type & bintype_no_inf_lower) {
-		from = GNM_EXPR_OP_LTE;
-		to = GNM_EXPR_OP_GT;
-	} else {
-		from = GNM_EXPR_OP_LT;
-		to = GNM_EXPR_OP_GTE;
-	}
-
 	for (l = info->base.input, col = to_col + 1; l; col++, l = l->next) {
-		GnmValue *val = value_dup ((GnmValue *)l->data);
+		GnmValue *val = l->data;
 		GnmValue *val_c = NULL;
-		GnmExpr const *expr_count;
-		GnmExpr const *expr_data;
-		GnmExpr const *expr_if_from;
-		GnmExpr const *expr_if_to;
-
 		
 		if (info->base.labels) {
 			val_c = value_dup (val);
@@ -261,47 +303,19 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 			dao_set_cell_printf (dao, col, 1, format, col - to_col);
 		}
 
-		expr_data = gnm_expr_new_constant (val);
-		expr_if_to = gnm_expr_new_funcall3
-			(fd_if, 
-			 gnm_expr_new_binary 
-			 (gnm_expr_copy (expr_data), 
-			  to, make_cellref (- (col-to_col), 0)),
-			 gnm_expr_new_constant (value_new_int (0)),
-			 gnm_expr_new_constant (value_new_int (1)));
-		
-		if (info->cumulative)
-			expr_count = gnm_expr_new_funcall1
-				(fd_sum, expr_if_to);
-		else {
-			expr_if_from = gnm_expr_new_funcall3
-				(fd_if, 
-				 gnm_expr_new_binary 
-				 (gnm_expr_copy (expr_data), 
-				  from, make_cellref (- col, 0)),
-				 gnm_expr_new_constant (value_new_int (0)),
-				 gnm_expr_new_constant (value_new_int (1)));
-			expr_count = gnm_expr_new_funcall1
-				(fd_sum,
-				 gnm_expr_new_binary (expr_if_from,
-						      GNM_EXPR_OP_MULT,
-						      expr_if_to));
+		if (info->percentage)
+			dao_set_format (dao, col, 2, col, i_end, "0.0%");
+
+		for (i = 2; i <= i_end; i++) {
+			gboolean fromminf = (i == 2) &&
+				(info->bin_type & bintype_m_inf_lower);
+			gboolean topinf = (i == i_end) &&
+				(info->bin_type & bintype_p_inf_lower);
+			dao_set_cell_array_expr
+				(dao, col, i,
+				 make_hist_expr (info, col, val, 
+						 fromminf, topinf));
 		}
-
-		if (info->percentage) {
-			dao_set_format  (dao, col, 2, col, i_end, "0.0%");
-			expr_count = gnm_expr_new_binary (expr_count,
-							  GNM_EXPR_OP_DIV,
-							  gnm_expr_new_funcall1 
-							  (fd_count, 
-							   expr_data));
-		} else
-			gnm_expr_free (expr_data);
-
-		for (i = 2; i <= i_end; i++)
-			dao_set_cell_array_expr (dao, col, i, gnm_expr_copy (expr_count));
-		
-		gnm_expr_free (expr_count);
 	}
 
 
@@ -309,12 +323,8 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		gnm_expr_free (expr_bin);
 
 	gnm_func_unref (fd_small);
-	gnm_func_unref (fd_if);
-	gnm_func_unref (fd_sum);
 	if (fd_index != NULL)
 		gnm_func_unref (fd_index);
-	if (fd_count != NULL)
-		gnm_func_unref (fd_count);
 
 	/* Create Chart if requested */
 	if (info->chart != NO_CHART) {
