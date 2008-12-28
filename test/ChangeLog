@@ -1,3 +1,8 @@
+2008-12-28  Morten Welinder  <terra@gnome.org>
+
+	* GnumericTest.pm (test_valgrind): Skip test if valgrind is not
+	found.
+
 2008-12-14  Morten Welinder  <terra@gnome.org>
 
 	* t8103-gtk.pl: New test.

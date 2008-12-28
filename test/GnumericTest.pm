@@ -261,6 +261,7 @@ sub test_valgrind {
     &junkfile ($outfile);
 
     my $valhelp = `valgrind --help 2>&1`;
+    &report_skip ("Valgrind is not available") unless defined $valhelp;
     die "Problem running valgrind.\n" unless $valhelp =~ /log-file/;
 
     $cmd = "--gen-suppressions=all $cmd";

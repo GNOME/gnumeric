@@ -7,6 +7,8 @@ use GnumericTest;
 
 # We get hit by a bitfield error on old Valgrinds.
 my $valgrind_version = `valgrind --version 2>&1`;
+&GnumericTest::report_skip ("Valgrind is not available")
+    unless defined $valgrind_version;
 my ($ma,$mi,$rv) = $valgrind_version =~ /^valgrind-?\s*(\d+)\.(\d+)\.(\d+)/;
 &GnumericTest::report_skip ("Valgrind is missing or too old")
     unless (($ma || 0) * 1000 + ($mi || 0)) * 1000 + ($rv || 0) > 3001001;
