@@ -1,7 +1,11 @@
 2008-12-28  Morten Welinder  <terra@gnome.org>
 
+	* t9999-epilogue.pl: If we haven't installed Gnumeric [to the
+	prefix that gconftool-2 was built with] then we're in trouble with
+	things like default fontname.
+
 	* GnumericTest.pm (test_valgrind): Skip test if valgrind is not
-	found.
+	found.  Don't totally clear out the environment.
 
 2008-12-14  Morten Welinder  <terra@gnome.org>
 

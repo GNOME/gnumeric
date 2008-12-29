@@ -25,9 +25,11 @@ print STDERR "Warning: you have a ~/.valgrindrc file that might affect tests.\n"
 
 # ----------------------------------------
 
-my $deffont = `gconftool-2 -g /apps/gnumeric/core/defaultfont/name`;
+my $deffont = `gconftool-2 -g /apps/gnumeric/core/defaultfont/name 2>/dev/null`;
 chomp $deffont;
-if ($deffont ne 'Sans') {
+if ($deffont eq '') {
+    print STDERR "Warning: the default font is not set.\n";
+} elsif ($deffont ne 'Sans') {
     print STDERR "Warning: the default font is \"$deffont\", not \"Sans\".  This may affect tests.\n";
 }
 
