@@ -7,7 +7,7 @@ use GnumericTest;
 
 &message ("Warnings about things that might affect tests.");
 
-my $HOME = exists $ENV{'HOME'};
+my $HOME = $ENV{'HOME'};
 
 # ----------------------------------------
 
