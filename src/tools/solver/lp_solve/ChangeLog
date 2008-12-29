@@ -1,3 +1,8 @@
+2008-12-29  Morten Welinder  <terra@gnome.org>
+
+	* lp_solve.c (blockWriteAMAT): Patch format-security
+	warnings.  (All false alarms.)
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.3

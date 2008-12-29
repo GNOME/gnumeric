@@ -15905,7 +15905,7 @@ static void blockWriteINT(FILE *output, const char *label, int *myvector, int fi
 {
   int i, k = 0;
 
-  fprintf(output, label);
+  fprintf(output, "%s", label);
   fprintf(output, "\n");
   for(i = first; i <= last; i++) {
     fprintf(output, " %5d", myvector[i]);
@@ -15924,7 +15924,7 @@ static void blockWriteBOOL(FILE *output, const char *label, gboolean *myvector, 
 {
   int i, k = 0;
 
-  fprintf(output, label);
+  fprintf(output, "%s", label);
   fprintf(output, "\n");
   for(i = first; i <= last; i++) {
     if(asRaw)
@@ -15946,7 +15946,7 @@ static void blockWriteREAL(FILE *output, const char *label, gnm_float *myvector,
 {
   int i, k = 0;
 
-  fprintf(output, label);
+  fprintf(output, "%s", label);
   fprintf(output, "\n");
   for(i = first; i <= last; i++) {
     fprintf(output, " %18g", myvector[i]);
@@ -38276,7 +38276,7 @@ static void blockWriteAMAT(FILE *output, const char *label, lprec* lp, int first
   if(last < 0)
     last = lp->rows;
 
-  fprintf(output, label);
+  fprintf(output, "%s", label);
   fprintf(output, "\n");
 
   if(first == 0) {
