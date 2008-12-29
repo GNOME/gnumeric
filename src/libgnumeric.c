@@ -198,6 +198,7 @@ gnm_pre_parse_init (int argc, gchar const **argv)
 #endif
 
 	g_thread_init (NULL);
+	g_type_init ();
 
 	/* On win32 argv contains 'ansi' encoded args.  We need to manually
 	 * pull in the real versions and convert them to utf-8 */

@@ -1,3 +1,8 @@
+2008-12-28  Morten Welinder  <terra@gnome.org>
+
+	* src/libgnumeric.c (gnm_pre_parse_init): Call g_type_init here
+	too.  libgoffice_init currently assumes it indirectly.
+
 2008-12-19  Morten Welinder  <terra@gnome.org>
 
 	* src/search.c (gnm_search_replace_query_fail,
