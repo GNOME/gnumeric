@@ -32,7 +32,7 @@
 GNM_PLUGIN_MODULE_HEADER;
 
 #ifdef PX_MEMORY_DEBUGGING
-static void gn_errorhandler (pxdoc_t *p, int error, const char *str, void *data) { g_warning (str); }
+static void gn_errorhandler (pxdoc_t *p, int error, const char *str, void *data) { g_warning ("%s", str); }
 #else
 static void *gn_malloc	(pxdoc_t *p, size_t len, const char *caller)		{ return ((void *) g_malloc (len)); }
 static void *gn_realloc (pxdoc_t *p, void *mem, size_t len, const char *caller)	{ return ((void *) g_realloc ((gpointer) mem, len)); }
