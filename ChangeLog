@@ -1,3 +1,8 @@
+2008-12-30  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c (main): Conditionalize closing of
+	displays.  Set GNM_DEBUG=close-displays.
+
 2008-12-28  Morten Welinder  <terra@gnome.org>
 
 	* src/libgnumeric.c (gnm_pre_parse_init): Call g_type_init here

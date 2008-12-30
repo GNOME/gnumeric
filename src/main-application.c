@@ -348,6 +348,33 @@ cb_workbook_removed (void)
 	}
 }
 
+enum {
+	GNM_DEBUG_CLOSE_DISPLAY = 1
+};
+
+static gboolean
+debug_flags (guint test)
+{
+	static guint flags;
+	static gboolean inited = FALSE;
+
+	if (!inited) {
+		/* not static */
+		const GDebugKey keys[] = {
+			{ (char*)"close-displays", GNM_DEBUG_CLOSE_DISPLAY },
+		};
+
+		const char *val = g_getenv ("GNM_DEBUG");
+		flags = val
+			? g_parse_debug_string (val, keys, G_N_ELEMENTS (keys))
+			: 0;
+
+		inited = TRUE;
+	}
+
+	return (flags & test) != 0;
+}
+
 
 int
 main (int argc, char const **argv)
@@ -543,7 +570,7 @@ main (int argc, char const **argv)
 	 * This helps finding leaks.  We might want it in developent
 	 * only.
 	 */
-	if (with_gui && (GNM_VERSION_MAJOR & 1)) {
+	if (with_gui && debug_flags (GNM_DEBUG_CLOSE_DISPLAY)) {
 		GSList *displays;
 
 		gdk_flush();
