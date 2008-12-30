@@ -1,3 +1,8 @@
+2008-12-30  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* python-loader.c: (gplp_func_file_probe): add a format string to
+	a g_warning call.
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.3

@@ -229,7 +229,7 @@ gplp_func_file_probe (GOFileOpener const *fo, GOPluginService *service,
 	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
 	input_wrapper = pygobject_new (G_OBJECT (input));
 	if (input_wrapper == NULL) {
-		g_warning (py_exc_to_string ());
+		g_warning ("%s", py_exc_to_string ());
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 	}
 	if (input_wrapper != NULL &&
