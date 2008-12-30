@@ -20,7 +20,7 @@ You need:				Debian package name
 	libgoffice	>= 0.7.3	libgoffice-0-5-dev
 	libglade	>= 2.3.6	libglade2-dev
 	gnome-xml   	>= 2.4.12	libxml2-dev
-	pango		>= 1.8.1	libpango1.0-dev
+	pango		>= 1.12.0	libpango1.0-dev
 	NOTE: gnome-xml is also known as libxml
 
 Optionally:

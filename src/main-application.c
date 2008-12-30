@@ -304,39 +304,6 @@ pathetic_qt_workaround (void)
 
 
 static void
-check_pango_attr_list_splice_bug (void)
-{
-	PangoAttrList *l1 = pango_attr_list_new ();
-	PangoAttrList *l2 = pango_attr_list_new ();
-	PangoAttribute *a = pango_attr_weight_new (1000);
-	PangoAttrIterator *it;
-	gboolean buggy;
-
-	a->start_index = 4;
-	a->end_index = 5;
-	pango_attr_list_insert (l1, a);
-
-	pango_attr_list_splice (l1, l2, 0, 1);
-	pango_attr_list_unref (l2);
-
-	it = pango_attr_list_get_iterator (l1);
-	if (pango_attr_iterator_next (it)) {
-		gint s, e;
-		pango_attr_iterator_range (it, &s, &e);
-		buggy = (s != 5 || e != 6);
-	} else
-		buggy = TRUE;
-	pango_attr_iterator_destroy (it);
-	pango_attr_list_unref (l1);
-
-	if (buggy)
-		g_warning (_("The Pango library present on your system is buggy, see\n"
-			     "http://bugzilla.gnome.org/show_bug.cgi?id=316054\n"
-			     "Editing rich text therefore does not work well.  Please check\n"
-			     "with your distribution if a fixed Pango library is available."));
-}
-
-static void
 cb_workbook_removed (void)
 {
 	if (gnm_app_workbook_list () == NULL) {
@@ -426,7 +393,6 @@ main (int argc, char const **argv)
 	with_gui = !func_def_file && !func_state_file && !split_funcdocs;
 
 	if (with_gui) {
-		check_pango_attr_list_splice_bug ();
 		gnm_session_init (argv[0]);
 	}
 

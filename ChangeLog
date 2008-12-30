@@ -1,5 +1,8 @@
 2008-12-30  Morten Welinder  <terra@gnome.org>
 
+	* configure.in (LIBS): Up pango requirement modestly.
+	* src/main-application.c (main): Drop check for old pango bug.
+
 	* src/main-application.c (main): Conditionalize closing of
 	displays.  Set GNM_DEBUG=close-displays.
 
