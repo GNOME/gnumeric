@@ -6,6 +6,7 @@
 #
 # "id" can go back when there is a po-function translation too.
 # "zh_HK" can go back when there is a po-function translation too.
+# "gu" can go back when there is a po-function translation too.
 #
 am
 ar
@@ -25,7 +26,6 @@ fi
 fr
 ga
 gl
-gu
 he
 hr
 hu
