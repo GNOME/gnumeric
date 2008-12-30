@@ -96,6 +96,7 @@ scg_pane (SheetControlGUI *scg, int p)
 SheetView *
 scg_view (SheetControlGUI const *scg)
 {
+	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
 	return scg->sheet_control.view;
 }
 
@@ -108,6 +109,7 @@ scg_sheet (SheetControlGUI const *scg)
 WorkbookControl *
 scg_wbc (SheetControlGUI const *scg)
 {
+	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
 	return scg->sheet_control.wbc;
 }
 
