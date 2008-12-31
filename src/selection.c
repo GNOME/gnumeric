@@ -1369,6 +1369,8 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 	GogPlot *plot = go_plot;
 	GogPlotDesc const *desc;
 	GogSeries *series;
+	GogGraph *graph = gog_object_get_graph (GOG_OBJECT (go_plot));
+	GraphDataClosure *data = g_object_get_data (G_OBJECT (graph), "data-closure");
 	gboolean is_string_vec, first_series = TRUE, first_value_dim = TRUE;
 	unsigned i, count, cur_dim = 0, num_series = 1;
 	gboolean has_header, as_cols;
@@ -1386,7 +1388,7 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 	}
 
 	/* Excel docs claim that rows == cols uses rows */
-	default_to_cols = (num_cols < num_rows);
+	default_to_cols = (!data || data->colrowmode == 0)? (num_cols < num_rows): data->colrowmode == 1;
 
 	desc = gog_plot_description (plot);
 	series = gog_plot_new_series (plot);
@@ -1484,6 +1486,11 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 			/* skip over shared dimensions already assigned */
 			while (cur_dim < desc->series.num_dim &&
 			       !first_series && desc->series.dim[cur_dim].is_shared)
+				++cur_dim;
+
+			/* skip over index series if shared */
+			while (data->share_x && cur_dim < desc->series.num_dim &&
+			       !first_series && desc->series.dim[cur_dim].val_type == GOG_DIM_INDEX)
 				++cur_dim;
 
 			while (cur_dim < desc->series.num_dim && desc->series.dim[cur_dim].priority == GOG_SERIES_ERRORS)

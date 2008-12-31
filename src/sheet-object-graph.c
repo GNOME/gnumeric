@@ -42,6 +42,7 @@
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-object-xml.h>
+#include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-data-set.h>
 #include <goffice/graph/gog-renderer.h>
@@ -617,12 +618,77 @@ cb_graph_guru_done (WBCGtk *wbcg)
 	wbcg_edit_finish (wbcg, WBC_EDIT_REJECT, NULL);
 }
 
+static void
+cb_graph_data_closure_done (GraphDataClosure *data)
+{
+	if (data->obj)
+		g_object_set_data (data->obj,"data-closure", NULL);
+	g_free (data);
+}
+
+static void
+cb_selection_mode_changed (GtkComboBox *box, GraphDataClosure *data)
+{
+	GogObject *graph = (GogObject *) g_object_get_data (data->obj, "graph");
+	data->colrowmode = gtk_combo_box_get_active (box);
+	if (graph) {
+		GogObject *gobj = gog_object_get_child_by_name (graph, "Chart");
+		gobj = gog_object_get_child_by_name (gobj, "Plot");
+		if (!gobj)
+			return;
+		gog_plot_clear_series (GOG_PLOT (gobj));
+		gog_data_allocator_allocate (data->dalloc, GOG_PLOT (gobj));
+	}
+}
+
+static void
+cb_shared_mode_changed (GtkToggleButton *btn, GraphDataClosure *data)
+{
+	GogObject *graph = (GogObject *) g_object_get_data (data->obj, "graph");
+	data->share_x = gtk_toggle_button_get_active (btn);
+	if (graph) {
+		GogObject *gobj = gog_object_get_child_by_name (graph, "Chart");
+		gobj = gog_object_get_child_by_name (gobj, "Plot");
+		if (!gobj)
+			return;
+		gog_plot_clear_series (GOG_PLOT (gobj));
+		gog_data_allocator_allocate (data->dalloc, GOG_PLOT (gobj));
+	}
+}
+
 void
 sheet_object_graph_guru (WBCGtk *wbcg, GogGraph *graph,
 			 GClosure *closure)
 {
 	GtkWidget *dialog = gog_guru (graph, GOG_DATA_ALLOCATOR (wbcg),
 		GO_CMD_CONTEXT (wbcg), closure);
+	if (!graph) {
+		GraphDataClosure *data = (GraphDataClosure *) g_new0 (GraphDataClosure, 1);
+		GtkWidget *custom = gtk_table_new (2, 2, FALSE), *w;
+		GObject *object;
+
+		data->dalloc = GOG_DATA_ALLOCATOR (wbcg);
+		g_object_set (custom, "row-spacing", 6, "column-spacing", 12, NULL);
+		w = gtk_label_new (_("Series as:"));
+		g_object_set (w, "xalign", 0., NULL);
+		gtk_table_attach (GTK_TABLE (custom), w, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+		w = gtk_combo_box_new_text ();
+		gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Auto"));
+		gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Columns"));
+		gtk_combo_box_append_text (GTK_COMBO_BOX (w), _("Rows"));
+		gtk_combo_box_set_active (GTK_COMBO_BOX (w), 0);
+		g_signal_connect (G_OBJECT (w), "changed", G_CALLBACK (cb_selection_mode_changed), data);
+		gtk_table_attach (GTK_TABLE (custom), w, 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+		w = gtk_check_button_new_with_label (_("Use first series as shared abscissa"));
+		g_signal_connect (G_OBJECT (w), "toggled", G_CALLBACK (cb_shared_mode_changed), data);
+		gtk_table_attach (GTK_TABLE (custom), w, 0, 2, 1, 2, GTK_FILL, GTK_FILL, 0, 0);
+		data->obj = G_OBJECT (custom);
+		gog_guru_add_custom_widget (dialog, custom);
+		object = (GObject*) g_object_get_data (data->obj, "graph");
+		if (object)
+			g_object_set_data (object, "data-closure", data);
+		g_object_set_data_full (G_OBJECT (custom), "data-closure", data, (GDestroyNotify) cb_graph_data_closure_done);
+	}
 	gnumeric_init_help_button (
 		gog_guru_get_help_button (dialog),
 		"sect-graphics-plots");

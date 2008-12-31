@@ -40,6 +40,14 @@ typedef struct _GnmGODataMatrix GnmGODataMatrix;
 GType	 gnm_go_data_matrix_get_type  (void);
 GOData	*gnm_go_data_matrix_new_expr  (Sheet *sheet, GnmExprTop const *texpr);
 
+/* closure for data allocation */
+typedef struct {
+	int colrowmode; /* 0 = auto; 1 = columns; 2 = rows */
+	gboolean share_x;
+	GObject *obj;
+	GogDataAllocator *dalloc;
+} GraphDataClosure;
+
 G_END_DECLS
 
 #endif /* _GNM_GRAPH_H_ */

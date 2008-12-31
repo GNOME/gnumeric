@@ -22,6 +22,8 @@ Hib Eris:
 
 Jean:
 	* Fix crash when exporting an empty contour plot to .xls.  [#557027]
+	* Add widgets in the graph guru first page to allow finer selection
+	of data.
 
 Jody:
 	* Display top-left when selecting a rel ref to a merged region.
