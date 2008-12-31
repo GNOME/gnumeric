@@ -1,14 +1,14 @@
-# translation of gnumeric.HEAD.po to Gujarati
+# translation of gnumeric.HEAD.gu.po to Gujarati
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Sweta Kothari <swkothar@redhat.com>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric.HEAD\n"
+"Project-Id-Version: gnumeric.HEAD.gu\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&component=general\n"
-"POT-Creation-Date: 2008-12-30 02:23+0000\n"
-"PO-Revision-Date: 2008-12-30 17:45+0530\n"
+"POT-Creation-Date: 2008-12-31 06:37+0000\n"
+"PO-Revision-Date: 2008-12-31 12:15+0530\n"
 "Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgid "Calculation, Analysis, and Visualization of Information"
 msgstr ""
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:427
+#: ../gnumeric.desktop.in.h:2 ../src/main-application.c:420
 msgid "Gnumeric Spreadsheet"
 msgstr ""
 
@@ -69,7 +69,7 @@ msgstr ""
 
 #: ../plugins/corba/plugin.xml.in.h:1
 msgid "CORBA Interface"
-msgstr ""
+msgstr "CORBA ઇન્ટરફેસ"
 
 #: ../plugins/corba/plugin.xml.in.h:2
 msgid "Provides a CORBA scripting interface"
@@ -194,7 +194,7 @@ msgstr ""
 #: ../plugins/dif/dif.c:71 ../plugins/excel/ms-excel-read.c:6572
 #: ../plugins/mps/mps.c:535 ../src/xml-io.c:2708 ../src/xml-sax-read.c:2677
 msgid "Reading file..."
-msgstr ""
+msgstr "ફાઇલ ને વાંચી રહ્યા છે..."
 
 #: ../plugins/dif/dif.c:175
 #, c-format
@@ -247,11 +247,11 @@ msgstr ""
 #: ../plugins/dif/dif.c:315 ../plugins/paradox/paradox.c:315
 #: ../plugins/sylk/sylk-write.c:235
 msgid "Cannot get default sheet."
-msgstr ""
+msgstr "મૂળભૂત શીટ મેળવી શકાતુ નથી."
 
 #: ../plugins/dif/dif.c:367
 msgid "Error while saving DIF file."
-msgstr ""
+msgstr "જ્યારે DIF ફાઇલ ને સંગ્રહ કરી રહ્યા હોય ત્યારે ભૂલ."
 
 #: ../plugins/dif/plugin.xml.in.h:1
 msgid "Data Interchange Format (*.dif)"
@@ -5937,7 +5937,7 @@ msgstr ""
 msgid "Edit Hyperlink"
 msgstr ""
 
-#: ../src/dialogs/dialog-hyperlink.c:351 ../src/sheet-control-gui.c:1777
+#: ../src/dialogs/dialog-hyperlink.c:351 ../src/sheet-control-gui.c:1779
 msgid "Remove Hyperlink"
 msgstr ""
 
@@ -9730,7 +9730,7 @@ msgstr ""
 msgid "_Move"
 msgstr ""
 
-#: ../src/item-cursor.c:995 ../src/sheet-control-gui.c:1808
+#: ../src/item-cursor.c:995 ../src/sheet-control-gui.c:1810
 msgid "_Copy"
 msgstr ""
 
@@ -9863,14 +9863,6 @@ msgstr ""
 msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
-msgstr ""
-
-#: ../src/main-application.c:333
-msgid ""
-"The Pango library present on your system is buggy, see\n"
-"http://bugzilla.gnome.org/show_bug.cgi?id=316054\n"
-"Editing rich text therefore does not work well.  Please check\n"
-"with your distribution if a fixed Pango library is available."
 msgstr ""
 
 #: ../src/mathfunc.c:3873
@@ -10249,15 +10241,15 @@ msgstr ""
 msgid "(empty)"
 msgstr ""
 
-#: ../src/sheet-control-gui.c:1806
+#: ../src/sheet-control-gui.c:1808
 msgid "Cu_t"
 msgstr ""
 
-#: ../src/sheet-control-gui.c:1810
+#: ../src/sheet-control-gui.c:1812
 msgid "_Paste"
 msgstr ""
 
-#: ../src/sheet-control-gui.c:1812
+#: ../src/sheet-control-gui.c:1814
 msgid "Paste _Special"
 msgstr ""
 
@@ -10268,88 +10260,88 @@ msgstr ""
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: ../src/sheet-control-gui.c:1824
+#: ../src/sheet-control-gui.c:1826
 msgid "_Insert Cells..."
 msgstr ""
 
-#: ../src/sheet-control-gui.c:1826
+#: ../src/sheet-control-gui.c:1828
 msgid "_Delete Cells..."
 msgstr ""
 
-#: ../src/sheet-control-gui.c:1828
+#: ../src/sheet-control-gui.c:1830
 msgid "_Insert Column(s)"
 msgstr ""
 
-#: ../src/sheet-control-gui.c:1830
+#: ../src/sheet-control-gui.c:1832
 msgid "_Delete Column(s)"
 msgstr ""
 
-#: ../src/sheet-control-gui.c:1832
+#: ../src/sheet-control-gui.c:1834
 msgid "_Insert Row(s)"
 msgstr ""
 
-#: ../src/sheet-control-gui.c:1834
+#: ../src/sheet-control-gui.c:1836
 msgid "_Delete Row(s)"
 msgstr ""
 
-#: ../src/sheet-control-gui.c:1837
+#: ../src/sheet-control-gui.c:1839
 msgid "Clear Co_ntents"
 msgstr ""
 
-#: ../src/sheet-control-gui.c:1839
+#: ../src/sheet-control-gui.c:1841
 msgid "Edit Co_mment..."
 msgstr ""
 
-#: ../src/sheet-control-gui.c:1845
+#: ../src/sheet-control-gui.c:1847
 msgid "_Format Cells..."
 msgstr ""
 
 #. Column specific (Note some labels duplicate row labels)
-#: ../src/sheet-control-gui.c:1849
+#: ../src/sheet-control-gui.c:1851
 msgid "Column _Width..."
 msgstr ""
 
-#: ../src/sheet-control-gui.c:1851 ../src/sheet-control-gui.c:1859
+#: ../src/sheet-control-gui.c:1853 ../src/sheet-control-gui.c:1861
 #: ../src/wbc-gtk-actions.c:1880 ../src/wbc-gtk-actions.c:1897
 msgid "_Hide"
 msgstr ""
 
-#: ../src/sheet-control-gui.c:1853 ../src/sheet-control-gui.c:1861
+#: ../src/sheet-control-gui.c:1855 ../src/sheet-control-gui.c:1863
 #: ../src/wbc-gtk-actions.c:1883 ../src/wbc-gtk-actions.c:1900
 msgid "_Unhide"
 msgstr ""
 
 #. Row specific (Note some labels duplicate col labels)
-#: ../src/sheet-control-gui.c:1857
+#: ../src/sheet-control-gui.c:1859
 msgid "_Row Height..."
 msgstr ""
 
-#: ../src/sheet-control-gui.c:1864
+#: ../src/sheet-control-gui.c:1866
 msgid "_Hyperlink"
 msgstr ""
 
-#: ../src/sheet-control-gui.c:1867
+#: ../src/sheet-control-gui.c:1869
 msgid "Edit _Hyperlink"
 msgstr ""
 
-#: ../src/sheet-control-gui.c:1870
+#: ../src/sheet-control-gui.c:1872
 msgid "_Remove Hyperlink"
 msgstr ""
 
 #. This is somewhat cheesy and should use ngettext
-#: ../src/sheet-control-gui.c:2329
+#: ../src/sheet-control-gui.c:2331
 msgid "Duplicate Object"
 msgstr ""
 
-#: ../src/sheet-control-gui.c:2329
+#: ../src/sheet-control-gui.c:2331
 msgid "Insert Object"
 msgstr ""
 
-#: ../src/sheet-control-gui.c:2330
+#: ../src/sheet-control-gui.c:2332
 msgid "Move Object"
 msgstr ""
 
-#: ../src/sheet-control-gui.c:2330
+#: ../src/sheet-control-gui.c:2332
 msgid "Resize Object"
 msgstr ""
 
