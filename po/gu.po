@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnumeric.HEAD.gu\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&component=general\n"
 "POT-Creation-Date: 2008-12-31 06:37+0000\n"
-"PO-Revision-Date: 2008-12-31 12:15+0530\n"
+"PO-Revision-Date: 2008-12-31 17:23+0530\n"
 "Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
@@ -24,24 +24,24 @@ msgstr ""
 #. Keep in sync with .desktop file
 #: ../gnumeric.desktop.in.h:2 ../src/main-application.c:420
 msgid "Gnumeric Spreadsheet"
-msgstr ""
+msgstr "Gnumeric સ્પ્રેડશીટ"
 
 #: ../gnumeric.desktop.in.h:3
 msgid "Spreadsheet"
-msgstr ""
+msgstr "સ્પ્રેડશીટ"
 
 #: ../plugins/applix/applix-read.c:126
 msgid "Parse error while reading Applix file."
-msgstr ""
+msgstr "જ્યારે Applix ફાઇલને વાંચી રહ્યા હોય ત્યારે ભૂલ."
 
 #: ../plugins/applix/applix-read.c:329
 msgid "Missing characters for character encoding"
-msgstr ""
+msgstr "અક્ષર ડિકોડીંગ માટે ગેરહાજર અક્ષરો"
 
 #: ../plugins/applix/applix-read.c:333
 #, c-format
 msgid "Invalid characters for encoding '%c%c'"
-msgstr ""
+msgstr "એનકોડીંગ '%c%c' માટે અયોગ્ય અક્ષરો"
 
 #: ../plugins/applix/applix-read.c:1196
 #, c-format
@@ -54,14 +54,16 @@ msgid ""
 "%s!%s : unable to parse '%s'\n"
 "     %s"
 msgstr ""
+"%s!%s : '%s' નું પદચ્છેદન કરવામાં અસમર્થ\n"
+"     %s"
 
 #: ../plugins/applix/plugin.xml.in.h:1
 msgid "Applix"
-msgstr ""
+msgstr "Applix"
 
 #: ../plugins/applix/plugin.xml.in.h:2
 msgid "Applix (*.as)"
-msgstr ""
+msgstr "Applix (*.as)"
 
 #: ../plugins/applix/plugin.xml.in.h:3
 msgid "Imports version 4.[234] spreadsheets"
@@ -73,7 +75,7 @@ msgstr "CORBA ઇન્ટરફેસ"
 
 #: ../plugins/corba/plugin.xml.in.h:2
 msgid "Provides a CORBA scripting interface"
-msgstr ""
+msgstr "CORBA સ્ક્રિપ્ટીંગ ઇન્ટરફેસ ને પૂરો પાડો"
 
 #: ../plugins/derivatives/options.c:2278 ../plugins/derivatives/options.c:2283
 #: ../plugins/derivatives/options.c:2288 ../plugins/derivatives/options.c:2293
@@ -87,7 +89,7 @@ msgstr ""
 
 #: ../plugins/derivatives/options.c:2313
 msgid "a, b, rho"
-msgstr ""
+msgstr "a, b, rho"
 
 #: ../plugins/derivatives/options.c:2318
 msgid "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
@@ -181,7 +183,7 @@ msgstr ""
 #: ../plugins/fn-financial/plugin.xml.in.h:1
 #: ../plugins/sample_datasource/plugin.xml.in.h:2
 msgid "Finance"
-msgstr ""
+msgstr "નાણાં"
 
 #: ../plugins/derivatives/plugin.xml.in.h:2
 msgid "Financial Derivatives"
@@ -242,7 +244,7 @@ msgstr ""
 
 #: ../plugins/dif/dif.c:294
 msgid "Error while reading DIF file."
-msgstr ""
+msgstr "જ્યારે DIF ફાઇલને વાંચવા દરમ્યાન ભૂલ."
 
 #: ../plugins/dif/dif.c:315 ../plugins/paradox/paradox.c:315
 #: ../plugins/sylk/sylk-write.c:235
@@ -8260,11 +8262,11 @@ msgstr ""
 
 #: ../src/dialogs/plugin-manager.glade.h:9
 msgid "_Activate All"
-msgstr ""
+msgstr "બધાને સક્રિય કરો (_A)"
 
 #: ../src/dialogs/preferences.glade.h:1
 msgid "Gnumeric Preferences"
-msgstr ""
+msgstr "Gnumeric પસંદગીઓ"
 
 #: ../src/dialogs/print.glade.h:2
 #, no-c-format
@@ -8293,7 +8295,7 @@ msgstr ""
 
 #: ../src/dialogs/print.glade.h:8
 msgid "<b>Print</b>"
-msgstr ""
+msgstr "<b>છાપો</b>"
 
 #: ../src/dialogs/print.glade.h:9
 msgid "<b>Scale</b>"
@@ -8321,11 +8323,11 @@ msgstr ""
 
 #: ../src/dialogs/print.glade.h:15
 msgid "Co_mments:"
-msgstr ""
+msgstr "ટિપ્પણીઓ (_m):"
 
 #: ../src/dialogs/print.glade.h:16
 msgid "Configure"
-msgstr ""
+msgstr "રૂપરેખાંકિત કરો"
 
 #: ../src/dialogs/print.glade.h:17
 msgid "Do not print with all sheets"
@@ -8505,7 +8507,7 @@ msgstr ""
 
 #: ../src/dialogs/regression.glade.h:1
 msgid "0.95"
-msgstr ""
+msgstr "૦.૯૫"
 
 #: ../src/dialogs/regression.glade.h:2
 msgid "Confidence level:"
@@ -8513,7 +8515,7 @@ msgstr ""
 
 #: ../src/dialogs/regression.glade.h:3 ../src/dialogs/sampling.glade.h:6
 msgid "O_ptions"
-msgstr ""
+msgstr "વિકલ્પો (_p)"
 
 #: ../src/dialogs/regression.glade.h:4 ../src/tools/analysis-tools.c:3461
 #: ../src/tools/analysis-tools.c:3464
@@ -8672,7 +8674,7 @@ msgstr ""
 
 #: ../src/dialogs/search-replace.glade.h:7
 msgid "By"
-msgstr ""
+msgstr "દ્દારા"
 
 #: ../src/dialogs/search-replace.glade.h:8
 msgid "Create =ERROR(\"...\")"
@@ -8958,7 +8960,7 @@ msgstr ""
 
 #: ../src/dialogs/search.glade.h:37
 msgid "_Results"
-msgstr ""
+msgstr "પરિણામો (_R)"
 
 #: ../src/dialogs/search.glade.h:39
 msgid "_Search for:"
@@ -9006,7 +9008,7 @@ msgstr ""
 
 #: ../src/dialogs/shuffle.glade.h:4
 msgid "_Area"
-msgstr ""
+msgstr "વિસ્તાર (_A)"
 
 #: ../src/dialogs/simulation.glade.h:1
 msgid ""
@@ -9016,7 +9018,7 @@ msgstr ""
 
 #: ../src/dialogs/simulation.glade.h:3
 msgid "   <span weight=\"bold\">Limits</span>"
-msgstr ""
+msgstr "   <span weight=\"bold\">મર્યાદાઓ</span>"
 
 #: ../src/dialogs/simulation.glade.h:4
 msgid "<b>Simulation summary:</b>"
@@ -9040,7 +9042,7 @@ msgstr ""
 
 #: ../src/dialogs/simulation.glade.h:9
 msgid "Input variables:"
-msgstr ""
+msgstr "ઇનપુટ ચલો:"
 
 #: ../src/dialogs/simulation.glade.h:10
 msgid "Iterations:"
@@ -9060,7 +9062,7 @@ msgstr ""
 
 #: ../src/dialogs/simulation.glade.h:16
 msgid "Output variables:"
-msgstr ""
+msgstr "આઉટપુટ ચલો"
 
 #: ../src/dialogs/simulation.glade.h:17
 msgid "Prev. Sim."
@@ -9073,7 +9075,7 @@ msgstr ""
 
 #: ../src/dialogs/simulation.glade.h:19
 msgid "Summary"
-msgstr ""
+msgstr "સારાંશ"
 
 #.
 #. * Fill in the labels of `Problem Size' section.
@@ -9081,15 +9083,15 @@ msgstr ""
 #: ../src/dialogs/simulation.glade.h:20
 #: ../src/tools/solver/reports-write.c:568
 msgid "Variables"
-msgstr ""
+msgstr "ચલો"
 
 #: ../src/dialogs/so-checkbox.glade.h:2
 msgid "Checkbox Properties"
-msgstr ""
+msgstr "ચેકબોક્સનાં ગુણધર્મો"
 
 #: ../src/dialogs/so-checkbox.glade.h:3 ../src/dialogs/so-frame.glade.h:3
 msgid "Label:"
-msgstr ""
+msgstr "લેબલ:"
 
 #: ../src/dialogs/so-checkbox.glade.h:4 ../src/dialogs/so-scrollbar.glade.h:2
 msgid "Link to:"
@@ -9097,11 +9099,11 @@ msgstr ""
 
 #: ../src/dialogs/so-frame.glade.h:2
 msgid "Frame Properties"
-msgstr ""
+msgstr "ફ્રેમનાં ગુણધર્મો"
 
 #: ../src/dialogs/so-list.glade.h:1
 msgid "List Properties"
-msgstr ""
+msgstr "યાદી નાં ગુણધર્મો"
 
 #: ../src/dialogs/so-list.glade.h:2
 msgid "_Content :"
@@ -9109,7 +9111,7 @@ msgstr ""
 
 #: ../src/dialogs/so-list.glade.h:3
 msgid "_Link :"
-msgstr ""
+msgstr "કડી (_L) :"
 
 #: ../src/dialogs/so-scrollbar.glade.h:1
 msgid "Increment:"
@@ -9160,15 +9162,15 @@ msgstr ""
 
 #: ../src/dialogs/solver.glade.h:10
 msgid "Model"
-msgstr ""
+msgstr "મોડેલ"
 
 #: ../src/dialogs/solver.glade.h:12
 msgid "P_rogram"
-msgstr ""
+msgstr "પ્રક્રિયા (_r)"
 
 #: ../src/dialogs/solver.glade.h:13
 msgid "Parameters"
-msgstr ""
+msgstr "પરિમાણો"
 
 #: ../src/dialogs/solver.glade.h:14
 msgid "Reports"
@@ -9244,7 +9246,7 @@ msgstr ""
 
 #: ../src/dialogs/solver.glade.h:34
 msgid "_Type:"
-msgstr ""
+msgstr "પ્રકાર (_T):"
 
 #: ../src/dialogs/solver.glade.h:35
 msgid ""
@@ -9254,6 +9256,11 @@ msgid ""
 "Int\n"
 "Bool\n"
 msgstr ""
+"≤\n"
+"≥\n"
+"=\n"
+"Int\n"
+"Bool\n"
 
 #: ../src/dialogs/tabulate.glade.h:3
 msgid "Dependency cells"
@@ -9277,7 +9284,7 @@ msgstr ""
 
 #: ../src/dialogs/tabulate.glade.h:8
 msgid "Step"
-msgstr ""
+msgstr "પગલુ"
 
 #: ../src/dialogs/tabulate.glade.h:9
 msgid "Tabulate Dependency"
@@ -9301,7 +9308,7 @@ msgstr ""
 
 #: ../src/dialogs/variance-tests.glade.h:5
 msgid "Test"
-msgstr ""
+msgstr "ચકાસો"
 
 #: ../src/dialogs/variance-tests.glade.h:6
 msgid "Testing Equality of 2 Variances (F-Test)"
@@ -9309,7 +9316,7 @@ msgstr ""
 
 #: ../src/dialogs/view.glade.h:3
 msgid "<b>Location</b>"
-msgstr ""
+msgstr "<b>સ્થાન</b>"
 
 #: ../src/dialogs/view.glade.h:4
 msgid "Create New View"
@@ -9337,7 +9344,7 @@ msgstr ""
 
 #: ../src/dialogs/workbook-attr.glade.h:4
 msgid "Calculation"
-msgstr ""
+msgstr "ગણતરી"
 
 #: ../src/dialogs/workbook-attr.glade.h:5
 msgid "Format Workbook"
@@ -9357,7 +9364,7 @@ msgstr ""
 
 #: ../src/dialogs/workbook-attr.glade.h:9
 msgid "Pa_ssword:"
-msgstr ""
+msgstr "પાસવર્ડ (_s):"
 
 #: ../src/dialogs/workbook-attr.glade.h:11
 msgid "Recalculation:"
@@ -9485,12 +9492,12 @@ msgstr ""
 
 #: ../src/func-builtin.c:316
 msgid "Gnumeric"
-msgstr ""
+msgstr "Gnumeric"
 
 #: ../src/func.c:234
 #, c-format
 msgid "Cannot create file %s\n"
-msgstr ""
+msgstr "ફાઇલ %s ને બનાવી શકાતી નથી\n"
 
 #: ../src/func.c:553
 msgid "Function implementation not available."
@@ -9510,7 +9517,7 @@ msgstr ""
 
 #: ../src/func.c:943
 msgid "Area"
-msgstr ""
+msgstr "વિસ્તાર"
 
 #: ../src/func.c:945
 msgid "Scalar, Blank, or Error"
@@ -9523,7 +9530,7 @@ msgstr ""
 #. Missing values will be NULL.
 #: ../src/func.c:950
 msgid "Any"
-msgstr ""
+msgstr "કોઇપણ"
 
 #: ../src/gnm-graph-window.c:182
 msgid "Fit"
@@ -9539,27 +9546,27 @@ msgstr ""
 
 #: ../src/gnm-graph-window.c:186
 msgid "100%"
-msgstr ""
+msgstr "૧૦૦%"
 
 #: ../src/gnm-graph-window.c:187
 msgid "125%"
-msgstr ""
+msgstr "૧૨૫%"
 
 #: ../src/gnm-graph-window.c:188
 msgid "150%"
-msgstr ""
+msgstr "૧૫૦%"
 
 #: ../src/gnm-graph-window.c:189
 msgid "200%"
-msgstr ""
+msgstr "૨૦૦%"
 
 #: ../src/gnm-graph-window.c:190
 msgid "300%"
-msgstr ""
+msgstr "૩૦૦%"
 
 #: ../src/gnm-graph-window.c:191
 msgid "500%"
-msgstr ""
+msgstr "૫૦૦%"
 
 #: ../src/gnm-pane.c:1988
 #, c-format
@@ -9567,6 +9574,8 @@ msgid ""
 "%.1f x %.1f pts\n"
 "%d x %d pixels"
 msgstr ""
+"%.1f x %.1f pts\n"
+"%d x %d pixels"
 
 #: ../src/gnm-plugin.c:118
 msgid "Missing function category name."
@@ -9589,7 +9598,7 @@ msgstr[1] ""
 
 #: ../src/gnm-plugin.c:326
 msgid "Missing file name."
-msgstr ""
+msgstr "ગુમ થયેલ ફાઇલ નામ."
 
 #: ../src/gnm-plugin.c:375
 #, c-format
@@ -9615,7 +9624,7 @@ msgstr ""
 
 #: ../src/gnm-so-filled.c:172
 msgid "Label Properties"
-msgstr ""
+msgstr "લેબલનાં ગુણધર્મો"
 
 #: ../src/gnm-so-filled.c:173
 msgid "Filled Object Properties"
@@ -9631,7 +9640,7 @@ msgstr ""
 
 #: ../src/gui-clipboard.c:159
 msgid "clipboard"
-msgstr ""
+msgstr "ક્લિપબોર્ડ"
 
 #: ../src/gui-file.c:80
 msgid "Automatically detected"
@@ -9645,19 +9654,19 @@ msgstr ""
 
 #: ../src/gui-file.c:187
 msgid "Simpl_e"
-msgstr ""
+msgstr "સરળ (_e)"
 
 #: ../src/gui-file.c:218
 msgid "Load file"
-msgstr ""
+msgstr "ફાઇલને લોડ કરો"
 
 #: ../src/gui-file.c:244 ../src/gui-file.c:409
 msgid "Select a file"
-msgstr ""
+msgstr "ફાઇલ ને પસંદ કરો"
 
 #: ../src/gui-file.c:275 ../src/gui-file.c:425
 msgid "All Files"
-msgstr ""
+msgstr "બધી ફાઇલો"
 
 #: ../src/gui-file.c:280 ../src/gui-file.c:430
 msgid "Spreadsheets"
@@ -9728,11 +9737,11 @@ msgstr ""
 
 #: ../src/item-cursor.c:992
 msgid "_Move"
-msgstr ""
+msgstr "ખસેડો (_M)"
 
 #: ../src/item-cursor.c:995 ../src/sheet-control-gui.c:1810
 msgid "_Copy"
-msgstr ""
+msgstr "નકલ કરો (_C)"
 
 #: ../src/item-cursor.c:998
 msgid "Copy _Formats"
@@ -9760,19 +9769,19 @@ msgstr ""
 
 #: ../src/item-cursor.c:1016
 msgid "C_ancel"
-msgstr ""
+msgstr "દૂર કરો (_a)"
 
 #: ../src/libgnumeric.c:84
 msgid "Display Gnumeric's version"
-msgstr ""
+msgstr "Gnumeric ની આવૃત્તિને દર્શાવો"
 
 #: ../src/libgnumeric.c:93
 msgid "Set the root library directory"
-msgstr ""
+msgstr "રુટ લાઇબ્રેરી ડિરેક્ટરીને સુયોજિત કરો"
 
 #: ../src/libgnumeric.c:94 ../src/libgnumeric.c:100
 msgid "DIR"
-msgstr ""
+msgstr "DIR"
 
 #: ../src/libgnumeric.c:99
 msgid "Adjust the root data directory"
@@ -9784,7 +9793,7 @@ msgstr ""
 
 #: ../src/libgnumeric.c:109 ../src/libgnumeric.c:115 ../src/libgnumeric.c:121
 msgid "LEVEL"
-msgstr ""
+msgstr "સ્તર"
 
 #: ../src/libgnumeric.c:114
 msgid "Enables some debugging functions for expression sharing"
@@ -9804,11 +9813,11 @@ msgstr ""
 
 #: ../src/libgnumeric.c:158
 msgid "Gnumeric Options"
-msgstr ""
+msgstr "Gnumeric વિકલ્પો"
 
 #: ../src/libgnumeric.c:158
 msgid "Show Gnumeric Options"
-msgstr ""
+msgstr "Gnumeric વિકલ્પો ને બતાવો"
 
 #: ../src/main-application.c:76
 msgid "Specify the size and location of the initial window"
@@ -9816,7 +9825,7 @@ msgstr ""
 
 #: ../src/main-application.c:77
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
-msgstr ""
+msgstr "WIDTHxHEIGHT+XOFF+YOFF"
 
 #: ../src/main-application.c:80
 msgid "Don't show splash screen"
@@ -9994,39 +10003,39 @@ msgstr ""
 #: ../src/print-info.c:167 ../src/print-info.c:168 ../src/print-info.c:169
 #: ../src/print-info.c:171 ../src/print-info.c:279
 msgid "&[TAB]"
-msgstr ""
+msgstr "&[TAB]"
 
 #: ../src/print-info.c:169 ../src/print-info.c:170 ../src/print-info.c:171
 msgid "&[DATE]"
-msgstr ""
+msgstr "&[DATE]"
 
 #: ../src/print-info.c:553
 msgid "File Name"
-msgstr ""
+msgstr "ફાઇલ નામ"
 
 #: ../src/print-info.c:565
 msgid "Path "
-msgstr ""
+msgstr "પાથ "
 
 #: ../src/print-info.c:573
 msgid "tab"
-msgstr ""
+msgstr "ટેબ"
 
 #: ../src/print-info.c:574
 msgid "page"
-msgstr ""
+msgstr "પાનું"
 
 #: ../src/print-info.c:575
 msgid "pages"
-msgstr ""
+msgstr "પાનાંઓ"
 
 #: ../src/print-info.c:578
 msgid "file"
-msgstr ""
+msgstr "ફાઇલ"
 
 #: ../src/print-info.c:579
 msgid "path"
-msgstr ""
+msgstr "પાથ"
 
 #: ../src/print-info.c:742 ../src/stf-export.c:627
 #, c-format
@@ -10045,7 +10054,7 @@ msgstr ""
 
 #: ../src/print-info.c:796
 msgid "PDF export"
-msgstr ""
+msgstr "PDF નિકાસ"
 
 #: ../src/print.c:903
 msgid "Print Selection"
@@ -10092,7 +10101,7 @@ msgstr ""
 #.
 #: ../src/ranges.c:1039
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: ../src/search.c:67
 msgid "You must specify a range to search."
@@ -10136,7 +10145,7 @@ msgstr ""
 
 #: ../src/search.c:639
 msgid "Search Comments"
-msgstr ""
+msgstr "ટિપ્પણીઓ ને શોધો"
 
 #: ../src/search.c:640
 msgid "Should cell comments be searched?"
@@ -10144,7 +10153,7 @@ msgstr ""
 
 #: ../src/search.c:648
 msgid "Search Scripts"
-msgstr ""
+msgstr "સ્ક્રિપ્ટો ને શોધો"
 
 #: ../src/search.c:649
 msgid "Should scrips (workbook, and worksheet) be searched?"
@@ -10218,11 +10227,11 @@ msgstr ""
 
 #: ../src/session.c:126
 msgid "Do not save any"
-msgstr ""
+msgstr "કોઇપણ રીતે સંગ્રહ કરો નહિં"
 
 #: ../src/session.c:128 ../src/session.c:131
 msgid "Do not save"
-msgstr ""
+msgstr "સંગ્રહ કરો નહિં"
 
 #: ../src/session.c:133
 msgid "Do not log out"
@@ -10235,19 +10244,19 @@ msgstr ""
 #: ../src/sheet-autofill.c:63
 #, c-format
 msgid "%dQ"
-msgstr ""
+msgstr "%dQ"
 
 #: ../src/sheet-autofill.c:914
 msgid "(empty)"
-msgstr ""
+msgstr "(ખાલી)"
 
 #: ../src/sheet-control-gui.c:1808
 msgid "Cu_t"
-msgstr ""
+msgstr "કાપો (_t)"
 
 #: ../src/sheet-control-gui.c:1812
 msgid "_Paste"
-msgstr ""
+msgstr "ચોંટાડો (_P)"
 
 #: ../src/sheet-control-gui.c:1814
 msgid "Paste _Special"
@@ -10286,11 +10295,11 @@ msgstr ""
 
 #: ../src/sheet-control-gui.c:1839
 msgid "Clear Co_ntents"
-msgstr ""
+msgstr "સમાવિષ્ટોને સાપ કરો (_n)"
 
 #: ../src/sheet-control-gui.c:1841
 msgid "Edit Co_mment..."
-msgstr ""
+msgstr "ટિપ્પણીમાં ફેરફાર કરો (_m)..."
 
 #: ../src/sheet-control-gui.c:1847
 msgid "_Format Cells..."
@@ -10299,12 +10308,12 @@ msgstr ""
 #. Column specific (Note some labels duplicate row labels)
 #: ../src/sheet-control-gui.c:1851
 msgid "Column _Width..."
-msgstr ""
+msgstr "સ્તંભની પહોળાઇ (_W)..."
 
 #: ../src/sheet-control-gui.c:1853 ../src/sheet-control-gui.c:1861
 #: ../src/wbc-gtk-actions.c:1880 ../src/wbc-gtk-actions.c:1897
 msgid "_Hide"
-msgstr ""
+msgstr "છુપાડો (_H)"
 
 #: ../src/sheet-control-gui.c:1855 ../src/sheet-control-gui.c:1863
 #: ../src/wbc-gtk-actions.c:1883 ../src/wbc-gtk-actions.c:1900
@@ -10331,19 +10340,19 @@ msgstr ""
 #. This is somewhat cheesy and should use ngettext
 #: ../src/sheet-control-gui.c:2331
 msgid "Duplicate Object"
-msgstr ""
+msgstr "ઓબ્જેક્ટની નકલ કરો"
 
 #: ../src/sheet-control-gui.c:2331
 msgid "Insert Object"
-msgstr ""
+msgstr "ઓબ્જેક્ટ ને દાખલ કરો"
 
 #: ../src/sheet-control-gui.c:2332
 msgid "Move Object"
-msgstr ""
+msgstr "ઓબ્જેક્ટ ને ખસેડો"
 
 #: ../src/sheet-control-gui.c:2332
 msgid "Resize Object"
-msgstr ""
+msgstr "ઓબ્જેક્ટ નું ફરીથી માપ કરો"
 
 #. Format toolbar
 #: ../src/sheet-merge.c:74 ../src/wbc-gtk-actions.c:2120
@@ -10364,24 +10373,24 @@ msgstr ""
 
 #: ../src/sheet-object-graph.c:330
 msgid "_Save as Image"
-msgstr ""
+msgstr "ઇમેજ તરીકે સંગ્રહ કરો (_S)"
 
 #: ../src/sheet-object-graph.c:331
 msgid "Open in _New Window"
-msgstr ""
+msgstr "નવી વિન્ડો માં ખોલો (_N)"
 
 #: ../src/sheet-object-image.c:463
 msgid "_Save as image"
-msgstr ""
+msgstr "ઇમેજ તરીકે સંગ્રહ કરો (_S)"
 
 #: ../src/sheet-object-widget.c:280 ../src/wbc-gtk-actions.c:2079
 msgid "Frame"
-msgstr ""
+msgstr "ફ્રેમ"
 
 #: ../src/sheet-object-widget.c:512 ../src/wbc-gtk-actions.c:2112
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
-msgstr ""
+msgstr "બટન"
 
 #. FIXME: This text sucks:
 #: ../src/sheet-object-widget.c:786
@@ -10416,7 +10425,7 @@ msgstr ""
 
 #: ../src/sheet-object.c:125
 msgid "_Order"
-msgstr ""
+msgstr "ક્રમમાં (_O)"
 
 #: ../src/sheet-object.c:126
 msgid "Pul_l to Front"
@@ -10445,11 +10454,11 @@ msgstr ""
 
 #: ../src/sheet-view.c:382
 msgid "Copy"
-msgstr ""
+msgstr "નકલ કરો"
 
 #: ../src/sheet-view.c:407 ../src/sheet-view.c:410
 msgid "Cut"
-msgstr ""
+msgstr "કાપો"
 
 #: ../src/sheet.c:696
 msgid "The name of the sheet."
@@ -10537,11 +10546,11 @@ msgstr ""
 
 #: ../src/sheet.c:763
 msgid "Protected"
-msgstr ""
+msgstr "સુરક્ષિત"
 
 #: ../src/sheet.c:764
 msgid "Sheet is protected."
-msgstr ""
+msgstr "શીટ સુરક્ષિત થયેલ છે."
 
 #: ../src/sheet.c:767
 msgid "Protected Allow Edit objects"
@@ -10718,23 +10727,23 @@ msgstr ""
 
 #: ../src/sheet.c:4045
 msgid "Insert Columns"
-msgstr ""
+msgstr "સ્તંભોને દાખલ કરો"
 
 #: ../src/sheet.c:4124
 msgid "Delete Columns"
-msgstr ""
+msgstr "સ્તંભોને કાઢી નાખો"
 
 #: ../src/sheet.c:4203
 msgid "Insert Rows"
-msgstr ""
+msgstr "હારમાળાઓને દાખલ કરો"
 
 #: ../src/sheet.c:4282
 msgid "Delete Rows"
-msgstr ""
+msgstr "હારમાળાઓને કાઢી નાંખો"
 
 #: ../src/ssconvert.c:54 ../src/ssgrep.c:164 ../src/ssindex.c:49
 msgid "Display program version"
-msgstr ""
+msgstr "પ્રક્રિયા આવૃત્તિને દર્શાવો"
 
 #: ../src/ssconvert.c:63 ../src/ssindex.c:70
 msgid "Optionally specify an encoding for imported content"
@@ -10903,7 +10912,7 @@ msgstr ""
 
 #: ../src/ssgrep.c:171
 msgid "Match only whole words"
-msgstr ""
+msgstr "ફક્ત આખા શબ્દોને બંધબેસાડો"
 
 #: ../src/ssgrep.c:178
 msgid "Recalculate all cells"
@@ -10911,11 +10920,11 @@ msgstr ""
 
 #: ../src/ssgrep.c:370
 msgid "result"
-msgstr ""
+msgstr "પરિણામ"
 
 #: ../src/ssgrep.c:377
 msgid "comment"
-msgstr ""
+msgstr "ટિપ્પણી"
 
 #: ../src/ssgrep.c:434
 msgid "PATTERN INFILE..."
@@ -10928,6 +10937,9 @@ msgid ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
+"version '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
 
 #: ../src/ssgrep.c:468
 #, c-format
@@ -10945,7 +10957,7 @@ msgstr ""
 
 #: ../src/ssindex.c:63
 msgid "Index the given files"
-msgstr ""
+msgstr "આપેલ ફાઇલ માં અનુક્રમણિકા"
 
 #: ../src/ssindex.c:205 ../src/ssindex.c:225
 msgid "INFILE..."
@@ -10958,10 +10970,13 @@ msgid ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
+"ssindex version '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
 
 #: ../src/stf-export.c:517
 msgid "Character set"
-msgstr ""
+msgstr "અક્ષર સુયોજન"
 
 #: ../src/stf-export.c:518
 msgid "The character encoding of the output."
@@ -10989,7 +11004,7 @@ msgstr ""
 
 #: ../src/stf-export.c:608
 msgid "Error while trying to export file as text"
-msgstr ""
+msgstr "જ્યારે લખાણ તરીકે ફાઇલ ને નિકાસ કરવાનો પ્રયત્ન કરતા હોય ત્યારે ભૂલ"
 
 #: ../src/stf-export.c:645
 msgid "eol must be one of unix, mac, and windows"
@@ -11006,7 +11021,7 @@ msgstr ""
 
 #: ../src/stf-export.c:692
 msgid "Text (configurable)"
-msgstr ""
+msgstr "લખાણ (રૂપરેખાંકિત થયેલ)"
 
 #: ../src/stf-parse.c:1214
 msgid ""
@@ -11016,11 +11031,11 @@ msgstr ""
 
 #: ../src/stf.c:116
 msgid "Error while trying to read file"
-msgstr ""
+msgstr "જ્યારે ફાઇલ વાંચવાને પ્રયત્ન કરી રહ્યા હોય ત્યારે ભૂલ"
 
 #: ../src/stf.c:272 ../src/stf.c:307
 msgid "Text to Columns"
-msgstr ""
+msgstr "સ્તંભોમાં લખાણ"
 
 #: ../src/stf.c:277
 #, c-format
@@ -11029,15 +11044,15 @@ msgstr ""
 
 #: ../src/stf.c:302
 msgid "There is no data to convert"
-msgstr ""
+msgstr "રૂપાંતર કરવા માટે માહિતી નથી"
 
 #: ../src/stf.c:322
 msgid "Error while trying to parse data into sheet"
-msgstr ""
+msgstr "જ્યારે શીટ માં માહિતી ને પદચ્છેદન કરવાનો પ્રયત્ન કરી રહ્યા હોય ત્યારે ભૂલ"
 
 #: ../src/stf.c:366
 msgid "That file is not in the given encoding."
-msgstr ""
+msgstr "પેલી ફાઇલ આપેલ એનકોડીંગ માં નથી."
 
 #: ../src/stf.c:396
 msgid ""
@@ -11047,11 +11062,11 @@ msgstr ""
 
 #: ../src/stf.c:420
 msgid "Parse error while trying to parse data into sheet"
-msgstr ""
+msgstr "શીટમાં માહિતીને પદચ્છેદન કરવાનું પ્રયત્ન કરતા હોય ત્યારે પદચ્છેદન ભૂલ"
 
 #: ../src/stf.c:454
 msgid "Error while trying to write CSV file"
-msgstr ""
+msgstr "જ્યારે CSV ફાઇલ ને લખવાનો પ્રયત્ન કરતા હોય ત્યારે ભૂલ"
 
 #: ../src/stf.c:554
 msgid "Comma or tab separated values (CSV/TSV)"
@@ -11071,7 +11086,7 @@ msgstr ""
 #: ../src/tools/analysis-exp-smoothing.c:716
 #: ../src/tools/analysis-exp-smoothing.c:1035
 msgid "\"α =\" * 0.000"
-msgstr ""
+msgstr "\"α =\" * 0.000"
 
 #: ../src/tools/analysis-exp-smoothing.c:156
 #: ../src/tools/analysis-exp-smoothing.c:331
@@ -11091,13 +11106,13 @@ msgstr ""
 #: ../src/tools/analysis-exp-smoothing.c:1285
 #: ../src/tools/analysis-kaplan-meier.c:221 ../src/tools/analysis-tools.c:3773
 msgid "Standard Error"
-msgstr ""
+msgstr "મૂળભૂત ભૂલ"
 
 #: ../src/tools/analysis-exp-smoothing.c:480
 #: ../src/tools/analysis-exp-smoothing.c:720
 #: ../src/tools/analysis-exp-smoothing.c:1039
 msgid "\"γ =\" * 0.000"
-msgstr ""
+msgstr "\"γ =\" * 0.000"
 
 #: ../src/tools/analysis-exp-smoothing.c:640
 #: ../src/tools/analysis-exp-smoothing.c:643
@@ -11110,7 +11125,7 @@ msgstr ""
 #: ../src/tools/analysis-exp-smoothing.c:724
 #: ../src/tools/analysis-exp-smoothing.c:1043
 msgid "\"δ =\" * 0.000"
-msgstr ""
+msgstr "\"δ =\" * 0.000"
 
 #: ../src/tools/analysis-exp-smoothing.c:759
 #: ../src/tools/analysis-exp-smoothing.c:1080
@@ -11230,7 +11245,7 @@ msgstr ""
 #: ../src/tools/analysis-tools.c:4591
 #, c-format
 msgid "Column %i"
-msgstr ""
+msgstr "સ્તંભ %i"
 
 #: ../src/tools/analysis-tools.c:281 ../src/tools/analysis-tools.c:371
 #, c-format
@@ -11240,12 +11255,12 @@ msgstr ""
 #: ../src/tools/analysis-tools.c:285 ../src/tools/analysis-tools.c:375
 #, c-format
 msgid "Area %i"
-msgstr ""
+msgstr "વિસ્તાર %i"
 
 #: ../src/tools/analysis-tools.c:412
 #, c-format
 msgid "Variable %i"
-msgstr ""
+msgstr "ચલ %i"
 
 #: ../src/tools/analysis-tools.c:809
 msgid "Correlations"
@@ -11305,7 +11320,7 @@ msgstr ""
 
 #: ../src/tools/analysis-tools.c:1490 ../src/tools/analysis-tools.c:1493
 msgid "Sample"
-msgstr ""
+msgstr "નમૂનો"
 
 #: ../src/tools/analysis-tools.c:1531
 msgid ""
@@ -11339,7 +11354,7 @@ msgstr ""
 #: ../src/tools/analysis-tools.c:2324 ../src/tools/analysis-tools.c:2327
 #: ../src/tools/analysis-tools.c:2617 ../src/tools/analysis-tools.c:2620
 msgid "t-Test"
-msgstr ""
+msgstr "t-Test"
 
 #: ../src/tools/analysis-tools.c:2062
 msgid ""
@@ -11351,7 +11366,7 @@ msgstr ""
 #: ../src/tools/analysis-tools.c:2314 ../src/tools/analysis-tools.c:2607
 #, c-format
 msgid "t-Test (%s)"
-msgstr ""
+msgstr "t-Test (%s)"
 
 #: ../src/tools/analysis-tools.c:2359
 msgid ""
@@ -11374,15 +11389,15 @@ msgstr ""
 #: ../src/tools/analysis-tools.c:2896
 #, c-format
 msgid "F-Test (%s)"
-msgstr ""
+msgstr "F-Test (%s)"
 
 #: ../src/tools/analysis-tools.c:3004
 msgid "Row"
-msgstr ""
+msgstr "હારમાળા"
 
 #: ../src/tools/analysis-tools.c:3005
 msgid "Column"
-msgstr ""
+msgstr "સ્તંભ"
 
 #: ../src/tools/analysis-tools.c:3036
 msgid ""
@@ -11438,7 +11453,7 @@ msgstr ""
 
 #: ../src/tools/analysis-tools.c:3904
 msgid "Point"
-msgstr ""
+msgstr "બિંદુ"
 
 #: ../src/tools/analysis-tools.c:3906
 msgid "Rank"
@@ -11464,7 +11479,7 @@ msgstr ""
 #: ../src/tools/analysis-tools.c:4014 ../src/tools/analysis-tools.c:4651
 #: ../src/tools/simulation.c:335
 msgid "SUMMARY"
-msgstr ""
+msgstr "સારાંશ"
 
 #: ../src/tools/analysis-tools.c:4017
 msgid "/Groups/Count/Sum/Average/Variance"
@@ -11477,7 +11492,7 @@ msgstr ""
 #: ../src/tools/analysis-tools.c:4091 ../src/tools/analysis-tools.c:4501
 #: ../src/tools/analysis-tools.c:4675
 msgid "/SS/df/MS/F/P-value/F critical"
-msgstr ""
+msgstr "/SS/df/MS/F/P-value/F critical"
 
 #: ../src/tools/analysis-tools.c:4302
 #, c-format
@@ -11558,19 +11573,19 @@ msgstr ""
 
 #: ../src/tools/dao.c:164
 msgid "New Sheet"
-msgstr ""
+msgstr "નવી શીટ"
 
 #: ../src/tools/dao.c:167
 msgid "New Workbook"
-msgstr ""
+msgstr "નવી વર્કબુક"
 
 #: ../src/tools/dao.c:1026
 msgid "Gnumeric "
-msgstr ""
+msgstr "Gnumeric "
 
 #: ../src/tools/dao.c:1032
 msgid "Worksheet:"
-msgstr ""
+msgstr "વર્કશીટ:"
 
 #: ../src/tools/dao.c:1039
 msgid "Report Created: "
@@ -11621,7 +11636,7 @@ msgstr ""
 #. Titles.
 #: ../src/tools/scenarios.c:690
 msgid "Current Values"
-msgstr ""
+msgstr "હાલની કિંમતો"
 
 #: ../src/tools/scenarios.c:691
 msgid "Changing Cells:"
@@ -11653,11 +11668,11 @@ msgstr ""
 
 #: ../src/tools/simulation.c:250
 msgid "Mode"
-msgstr ""
+msgstr "સ્થિતિ"
 
 #: ../src/tools/simulation.c:251
 msgid "Std. Dev."
-msgstr ""
+msgstr "Std. Dev."
 
 #: ../src/tools/simulation.c:252
 msgid "Variance"
@@ -11677,7 +11692,7 @@ msgstr ""
 
 #: ../src/tools/simulation.c:256 ../src/wbc-gtk.c:3902
 msgid "Count"
-msgstr ""
+msgstr "ગણતરી"
 
 #: ../src/tools/simulation.c:257
 msgid "Confidence (95 %)"
@@ -11715,7 +11730,7 @@ msgstr ""
 #: ../src/tools/solver/reports-write.c:80
 #: ../src/tools/solver/reports-write.c:102
 msgid "Original Value"
-msgstr ""
+msgstr "મૂળભૂત કિંમત"
 
 #: ../src/tools/solver/reports-write.c:81
 #: ../src/tools/solver/reports-write.c:103
@@ -11733,7 +11748,7 @@ msgstr ""
 #: ../src/tools/solver/reports-write.c:131
 #: ../src/tools/solver/reports-write.c:516
 msgid "Status"
-msgstr ""
+msgstr "સ્થિતિ"
 
 #. Set `Status' column
 #. FIXME
@@ -11779,11 +11794,11 @@ msgstr ""
 #: ../src/tools/solver/reports-write.c:228
 #: ../src/tools/solver/reports-write.c:274
 msgid "Final"
-msgstr ""
+msgstr "છેલ્લુ"
 
 #: ../src/tools/solver/reports-write.c:229
 msgid "Reduced"
-msgstr ""
+msgstr "ઘટાડેલ"
 
 #: ../src/tools/solver/reports-write.c:230
 msgid "Objective"
@@ -11794,11 +11809,11 @@ msgstr ""
 #: ../src/tools/solver/reports-write.c:277
 #: ../src/tools/solver/reports-write.c:278
 msgid "Allowable"
-msgstr ""
+msgstr "પરવાનગી આપેલ"
 
 #: ../src/tools/solver/reports-write.c:237
 msgid "Cost"
-msgstr ""
+msgstr "કિંમત"
 
 #: ../src/tools/solver/reports-write.c:238
 msgid "Coefficient"
@@ -11807,16 +11822,16 @@ msgstr ""
 #: ../src/tools/solver/reports-write.c:239
 #: ../src/tools/solver/reports-write.c:285
 msgid "Increase"
-msgstr ""
+msgstr "વધારો"
 
 #: ../src/tools/solver/reports-write.c:240
 #: ../src/tools/solver/reports-write.c:286
 msgid "Decrease"
-msgstr ""
+msgstr "ઘટાડો"
 
 #: ../src/tools/solver/reports-write.c:275
 msgid "Shadow"
-msgstr ""
+msgstr "છાંયડો"
 
 #: ../src/tools/solver/reports-write.c:276
 msgid "Constraint"
@@ -11824,7 +11839,7 @@ msgstr ""
 
 #: ../src/tools/solver/reports-write.c:283
 msgid "Price"
-msgstr ""
+msgstr "કિંમત"
 
 #: ../src/tools/solver/reports-write.c:284
 msgid "R.H. Side"
@@ -11847,7 +11862,7 @@ msgstr ""
 #: ../src/tools/solver/reports-write.c:404
 #: ../src/tools/solver/reports-write.c:409
 msgid "Target"
-msgstr ""
+msgstr "લક્ષ્ય"
 
 #: ../src/tools/solver/reports-write.c:398
 msgid "Adjustable"
@@ -11860,7 +11875,7 @@ msgstr ""
 #: ../src/tools/solver/reports-write.c:405
 #: ../src/tools/solver/reports-write.c:410
 msgid "Limit"
-msgstr ""
+msgstr "મર્યાદા"
 
 #: ../src/tools/solver/reports-write.c:408
 msgid "Upper"
@@ -11929,7 +11944,7 @@ msgstr ""
 
 #: ../src/tools/solver/reports-write.c:598
 msgid "Elements"
-msgstr ""
+msgstr "ઘટકો"
 
 #: ../src/tools/solver/reports-write.c:599
 #: ../src/tools/solver/reports-write.c:601
@@ -11938,7 +11953,7 @@ msgstr ""
 
 #: ../src/tools/solver/reports-write.c:602
 msgid "Obj. fn"
-msgstr ""
+msgstr "Obj. fn"
 
 #: ../src/tools/solver/reports-write.c:604
 msgid "Ratio"
@@ -11949,11 +11964,11 @@ msgstr ""
 #.
 #: ../src/tools/solver/reports-write.c:642
 msgid "User"
-msgstr ""
+msgstr "વપરાશકર્તા"
 
 #: ../src/tools/solver/reports-write.c:643
 msgid "System"
-msgstr ""
+msgstr "સિસ્ટમ"
 
 #: ../src/tools/solver/reports-write.c:645
 msgid "Time (sec.)"
@@ -11964,15 +11979,15 @@ msgstr ""
 #.
 #: ../src/tools/solver/reports-write.c:665
 msgid "CPU Model"
-msgstr ""
+msgstr "CPU મોડલ"
 
 #: ../src/tools/solver/reports-write.c:666
 msgid "CPU MHz"
-msgstr ""
+msgstr "CPU MHz"
 
 #: ../src/tools/solver/reports-write.c:667
 msgid "OS"
-msgstr ""
+msgstr "OS"
 
 #: ../src/tools/solver/reports-write.c:698
 msgid "Algorithm:"
@@ -12006,16 +12021,16 @@ msgstr ""
 
 #: ../src/tools/solver/reports-write.c:722
 msgid "Yes"
-msgstr ""
+msgstr "હા"
 
 #: ../src/tools/solver/reports-write.c:724
 msgid "No"
-msgstr ""
+msgstr "ના"
 
 #. Fill in other titles.
 #: ../src/tools/solver/reports-write.c:746
 msgid "General Information"
-msgstr ""
+msgstr "સામાન્ય જાણકારી"
 
 #: ../src/tools/solver/reports-write.c:747
 msgid "Problem Size"
@@ -12031,7 +12046,7 @@ msgstr ""
 
 #: ../src/tools/solver/reports-write.c:750
 msgid "System Information"
-msgstr ""
+msgstr "સિસ્ટમ જાણકારી"
 
 #: ../src/tools/solver/reports-write.c:766
 #: ../src/tools/solver/reports-write.c:907
@@ -12044,11 +12059,11 @@ msgstr ""
 
 #: ../src/tools/solver/reports-write.c:912
 msgid "Minimize"
-msgstr ""
+msgstr "ન્યૂનત્તમ"
 
 #: ../src/tools/solver/reports-write.c:915
 msgid "Maximize"
-msgstr ""
+msgstr "મહત્તમ"
 
 #: ../src/tools/solver/reports-write.c:918
 msgid "Equal to"
@@ -12117,11 +12132,11 @@ msgstr ""
 #. Note: no entry for VALIDATION_OP_NONE
 #: ../src/validation.c:71
 msgid "Between"
-msgstr ""
+msgstr "વચ્ચે"
 
 #: ../src/validation.c:72
 msgid "Not_Between"
-msgstr ""
+msgstr "વચ્ચે નથી (_B)"
 
 #: ../src/validation.c:73
 msgid "Equal"
@@ -12177,22 +12192,22 @@ msgstr ""
 #: ../src/validation.c:395
 #, c-format
 msgid "'%s' is not an integer"
-msgstr ""
+msgstr "'%s' એ ઇટિંજર નથી"
 
 #: ../src/validation.c:405
 #, c-format
 msgid "'%s' is not a valid date"
-msgstr ""
+msgstr "'%s' એ યોગ્ય તારીખ નથી"
 
 #: ../src/validation.c:427
 #, c-format
 msgid "%s does not contain the new value."
-msgstr ""
+msgstr "%s એ નવી કિંમત ને સમાવતુ નથી."
 
 #: ../src/validation.c:461
 #, c-format
 msgid "%s is not true."
-msgstr ""
+msgstr "%s એ સાચુ નથી."
 
 #: ../src/validation.c:498
 #, c-format
@@ -12201,31 +12216,31 @@ msgstr ""
 
 #: ../src/value.c:70
 msgid "#NULL!"
-msgstr ""
+msgstr "#NULL!"
 
 #: ../src/value.c:71
 msgid "#DIV/0!"
-msgstr ""
+msgstr "#DIV/0!"
 
 #: ../src/value.c:72
 msgid "#VALUE!"
-msgstr ""
+msgstr "#VALUE!"
 
 #: ../src/value.c:73
 msgid "#REF!"
-msgstr ""
+msgstr "#REF!"
 
 #: ../src/value.c:74
 msgid "#NAME?"
-msgstr ""
+msgstr "#NAME?"
 
 #: ../src/value.c:75
 msgid "#NUM!"
-msgstr ""
+msgstr "#NUM!"
 
 #: ../src/value.c:76
 msgid "#N/A"
-msgstr ""
+msgstr "#N/A"
 
 #. File->PrintArea
 #: ../src/wbc-gtk-actions.c:106 ../src/wbc-gtk-actions.c:1651
@@ -12264,11 +12279,11 @@ msgstr ""
 #.
 #: ../src/wbc-gtk-actions.c:659
 msgid "Insert rows"
-msgstr ""
+msgstr "હારમાળાઓ ને દાખલ કરો"
 
 #: ../src/wbc-gtk-actions.c:676
 msgid "Insert columns"
-msgstr ""
+msgstr "સ્તંભોને દાખલ કરો"
 
 #: ../src/wbc-gtk-actions.c:755
 msgid "Add Filter"
@@ -12280,15 +12295,15 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:767
 msgid "Requires more than 1 row"
-msgstr ""
+msgstr "૧ હારમાળા કરતા વધારે જરૂરી છે"
 
 #: ../src/wbc-gtk-actions.c:798 ../src/wbc-gtk-actions.c:817
 msgid "Show Detail"
-msgstr ""
+msgstr "વિગતો ને બતાવો"
 
 #: ../src/wbc-gtk-actions.c:798 ../src/wbc-gtk-actions.c:817
 msgid "Hide Detail"
-msgstr ""
+msgstr "વિગતોને છુપાડો"
 
 #: ../src/wbc-gtk-actions.c:805
 msgid "can only be performed on an existing group"
@@ -12296,7 +12311,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:844
 msgid "Ungroup"
-msgstr ""
+msgstr "જૂથ વગરનું"
 
 #: ../src/wbc-gtk-actions.c:992
 msgid "Sort"
@@ -12312,19 +12327,19 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1242
 msgid "Set Font Style"
-msgstr ""
+msgstr "ફોન્ટ શૈલી ને સુયોજિત કરો"
 
 #: ../src/wbc-gtk-actions.c:1274
 msgid "Format as General"
-msgstr ""
+msgstr "સામાન્ય રીતે બંધારણ"
 
 #: ../src/wbc-gtk-actions.c:1280
 msgid "Format as Number"
-msgstr ""
+msgstr "નંબર પ્રમાણે બંધારણ"
 
 #: ../src/wbc-gtk-actions.c:1287
 msgid "Format as Currency"
-msgstr ""
+msgstr "ચલણ પ્રમાણે બંધારણ "
 
 #: ../src/wbc-gtk-actions.c:1294
 msgid "Format as Accounting"
@@ -12332,23 +12347,23 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1301 ../src/wbc-gtk-actions.c:1308
 msgid "Format as Percentage"
-msgstr ""
+msgstr "ટકાવારી પ્રમાણે બંધારણ"
 
 #: ../src/wbc-gtk-actions.c:1316
 msgid "Format as Time"
-msgstr ""
+msgstr "સમય પ્રમાણે બંધારણ"
 
 #: ../src/wbc-gtk-actions.c:1323
 msgid "Format as Date"
-msgstr ""
+msgstr "તારીખ પ્રમાણે બંધારણ "
 
 #: ../src/wbc-gtk-actions.c:1347
 msgid "Add Borders"
-msgstr ""
+msgstr "કિનારીઓ ને ઉમેરો"
 
 #: ../src/wbc-gtk-actions.c:1347
 msgid "Remove borders"
-msgstr ""
+msgstr "કિનારીઓ ને દૂર કરો"
 
 #: ../src/wbc-gtk-actions.c:1463
 msgid "Increase precision"
@@ -12364,15 +12379,15 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1476
 msgid "Copy down"
-msgstr ""
+msgstr "નીચેથી નકલ કરો"
 
 #: ../src/wbc-gtk-actions.c:1482
 msgid "Copy right"
-msgstr ""
+msgstr "જમણેથી નકલ કરો"
 
 #: ../src/wbc-gtk-actions.c:1533
 msgid "_File"
-msgstr ""
+msgstr "ફાઇલ (_F)"
 
 #: ../src/wbc-gtk-actions.c:1534
 msgid "Print Area"
@@ -12380,27 +12395,27 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1535
 msgid "_Edit"
-msgstr ""
+msgstr "ફેરફાર કરો (_E)"
 
 #: ../src/wbc-gtk-actions.c:1536
 msgid "C_lear"
-msgstr ""
+msgstr "સાફ કરો (_l)"
 
 #: ../src/wbc-gtk-actions.c:1537
 msgid "_Delete"
-msgstr ""
+msgstr "કાઢી નાંખો (_D)"
 
 #: ../src/wbc-gtk-actions.c:1538
 msgid "S_heet"
-msgstr ""
+msgstr "શીટ (_h)"
 
 #: ../src/wbc-gtk-actions.c:1539
 msgid "_Select"
-msgstr ""
+msgstr "પસંદ કરો (_S)"
 
 #: ../src/wbc-gtk-actions.c:1540
 msgid "F_ill"
-msgstr ""
+msgstr "ભરો (_i)"
 
 #: ../src/wbc-gtk-actions.c:1541
 msgid "_View"
@@ -12408,19 +12423,19 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1542
 msgid "_Windows"
-msgstr ""
+msgstr "વિન્ડો (_W)"
 
 #: ../src/wbc-gtk-actions.c:1543
 msgid "_Toolbars"
-msgstr ""
+msgstr "સાધનપટ્ટીઓ (_T)"
 
 #: ../src/wbc-gtk-actions.c:1544 ../src/wbc-gtk-actions.c:1742
 msgid "_Insert"
-msgstr ""
+msgstr "દાખલ કરો (_I)"
 
 #: ../src/wbc-gtk-actions.c:1545
 msgid "_Names"
-msgstr ""
+msgstr "નામો (_N)"
 
 #: ../src/wbc-gtk-actions.c:1546
 msgid "S_pecial"
@@ -12428,20 +12443,20 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1547
 msgid "F_ormat"
-msgstr ""
+msgstr "બંધારણ (_o)"
 
 #: ../src/wbc-gtk-actions.c:1548
 msgid "C_olumn"
-msgstr ""
+msgstr "સ્તંભ (_o)"
 
 #. ICK A DUPLICATE : we have no way to override a label on one proxy
 #: ../src/wbc-gtk-actions.c:1550 ../src/wbc-gtk-actions.c:1746
 msgid "_Sheet"
-msgstr ""
+msgstr "શીટ (_S)"
 
 #: ../src/wbc-gtk-actions.c:1551
 msgid "_Tools"
-msgstr ""
+msgstr "સાધનો (_T)"
 
 #: ../src/wbc-gtk-actions.c:1552
 msgid "Sce_narios"
@@ -12469,7 +12484,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1558
 msgid "_Data"
-msgstr ""
+msgstr "માહિતી (_D)"
 
 #: ../src/wbc-gtk-actions.c:1559
 msgid "_Filter"
@@ -12481,23 +12496,23 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1561
 msgid "Get External _Data"
-msgstr ""
+msgstr "બહારની માહિતી ને મેળવો (_D)"
 
 #: ../src/wbc-gtk-actions.c:1562
 msgid "_Help"
-msgstr ""
+msgstr "મદદ (_H)"
 
 #: ../src/wbc-gtk-actions.c:1565
 msgid "Save the current workbook"
-msgstr ""
+msgstr "હાલની વર્કબુક ને સંગ્રહો"
 
 #: ../src/wbc-gtk-actions.c:1568
 msgid "Save the current workbook with a different name"
-msgstr ""
+msgstr "વિવિધ નામ સાથે હાલની વર્કબુકને સંગ્રહ કરો"
 
 #: ../src/wbc-gtk-actions.c:1571
 msgid "Close the current file"
-msgstr ""
+msgstr "હાલની ફાઇલને બંધ કરો "
 
 #: ../src/wbc-gtk-actions.c:1574
 msgid "Quit the application"
@@ -12505,15 +12520,15 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1578
 msgid "Cut the selection"
-msgstr ""
+msgstr "પસંદગી ને કાપો"
 
 #: ../src/wbc-gtk-actions.c:1581
 msgid "Copy the selection"
-msgstr ""
+msgstr "પસંદગીના નકલ કરો"
 
 #: ../src/wbc-gtk-actions.c:1584
 msgid "Paste the clipboard"
-msgstr ""
+msgstr "ક્લિપબોર્ડ ને ચોંટાડો"
 
 #: ../src/wbc-gtk-actions.c:1586 ../src/wbc-gtk.c:1419
 msgid "_Undo"
@@ -12533,7 +12548,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1593 ../src/wbc-gtk-actions.c:1671
 msgid "_Contents"
-msgstr ""
+msgstr "સમાવિષ્ટો (_C)"
 
 #: ../src/wbc-gtk-actions.c:1594
 msgid "Open a viewer for Gnumeric's documentation"
@@ -12541,11 +12556,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1596
 msgid "Gnumeric on the _Web"
-msgstr ""
+msgstr "વેબ પર Gnumeric (_W)"
 
 #: ../src/wbc-gtk-actions.c:1597
 msgid "Browse to Gnumeric's website"
-msgstr ""
+msgstr "Gnumeric ની વેબસાઇટ ને બ્રાઉઝ કરો"
 
 #: ../src/wbc-gtk-actions.c:1599
 msgid "_Live Assistance"
@@ -12553,31 +12568,31 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1600
 msgid "See if anyone is available to answer questions"
-msgstr ""
+msgstr "જુઓ જો કોઇપણ પ્રશ્ર્નોનાં જવાબ આપવા માટે ઉપલ્બધ છે"
 
 #: ../src/wbc-gtk-actions.c:1602
 msgid "Report a _Problem"
-msgstr ""
+msgstr "સમસ્યાનો અહેવાલ આપો (_P)"
 
 #: ../src/wbc-gtk-actions.c:1603
 msgid "Report problem"
-msgstr ""
+msgstr "સમસ્યાનો અહેવાલ આપો"
 
 #: ../src/wbc-gtk-actions.c:1605
 msgid "_About"
-msgstr ""
+msgstr "વિશે (_A)"
 
 #: ../src/wbc-gtk-actions.c:1606
 msgid "About this application"
-msgstr ""
+msgstr "આ કાર્યક્રમ વિશે"
 
 #: ../src/wbc-gtk-actions.c:1623
 msgid "Create a new workbook"
-msgstr ""
+msgstr "નવી વર્કબુક ને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:1626
 msgid "Open a file"
-msgstr ""
+msgstr "ફાઇલ ને ખોલો"
 
 #: ../src/wbc-gtk-actions.c:1628
 msgid "Sen_d To..."
@@ -12585,27 +12600,27 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1629
 msgid "Send the current file via email"
-msgstr ""
+msgstr "ઇમેઇલ દ્દારા હાલની ફાઇલને મોકલો"
 
 #: ../src/wbc-gtk-actions.c:1631
 msgid "Page Set_up..."
-msgstr ""
+msgstr "પાનું સુયોજિત કરો (_u)..."
 
 #: ../src/wbc-gtk-actions.c:1632
 msgid "Setup the page settings for your current printer"
-msgstr ""
+msgstr "તમારા હાલનાં પ્રિન્ટર માટે પાનાંની સુયોજનાઓ ને સુયોજિત કરો"
 
 #: ../src/wbc-gtk-actions.c:1635
 msgid "Print preview"
-msgstr ""
+msgstr "પૂર્વદર્શન ને છાપો"
 
 #: ../src/wbc-gtk-actions.c:1638
 msgid "Print the current file"
-msgstr ""
+msgstr "હાલની ફાઇલને છાપો "
 
 #: ../src/wbc-gtk-actions.c:1640
 msgid "Proper_ties..."
-msgstr ""
+msgstr "ગુણધર્મો (_t)..."
 
 #: ../src/wbc-gtk-actions.c:1641
 msgid "Edit descriptive information"
@@ -12613,15 +12628,15 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1643
 msgid "Pre_ferences..."
-msgstr ""
+msgstr "પસંદગીઓ (_f)..."
 
 #: ../src/wbc-gtk-actions.c:1644
 msgid "Change Gnumeric Preferences"
-msgstr ""
+msgstr "Gnumeric પસંદગીઓને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:1646
 msgid "Full _History..."
-msgstr ""
+msgstr "સંપૂર્ણ ઇતિહાસ (_H)..."
 
 #: ../src/wbc-gtk-actions.c:1647
 msgid "Access previously used file"
@@ -12685,23 +12700,23 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1704
 msgid "Select _Column"
-msgstr ""
+msgstr "સ્તંભ ને પસંદ કરો (_C)"
 
 #: ../src/wbc-gtk-actions.c:1705
 msgid "Select an entire column"
-msgstr ""
+msgstr "આખા સ્તંભ ને પસંદ કરો"
 
 #: ../src/wbc-gtk-actions.c:1707
 msgid "Select _Row"
-msgstr ""
+msgstr "હારમાળાને પસંદ કરો (_R)"
 
 #: ../src/wbc-gtk-actions.c:1708
 msgid "Select an entire row"
-msgstr ""
+msgstr "આખી હારમાળાને પસંદ કરો"
 
 #: ../src/wbc-gtk-actions.c:1711
 msgid "Select Arra_y"
-msgstr ""
+msgstr "એરે ને પસંદ કરો (_y)"
 
 #: ../src/wbc-gtk-actions.c:1712
 msgid "Select an array of cells"
@@ -12717,7 +12732,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1717
 msgid "Select _Inputs"
-msgstr ""
+msgstr "ઇનપુટો ને પસંદ કરો (_I)"
 
 #: ../src/wbc-gtk-actions.c:1718
 msgid "Select all the cells are used by the current edit cell"
@@ -12767,15 +12782,15 @@ msgstr ""
 #. Edit -> Sheet
 #: ../src/wbc-gtk-actions.c:1739
 msgid "_Manage Sheets..."
-msgstr ""
+msgstr "શીટોને સંચાલિત કરો (_M)..."
 
 #: ../src/wbc-gtk-actions.c:1740
 msgid "Manage the sheets in this workbook"
-msgstr ""
+msgstr "આ વર્કબુક માં શીટોને સંચાલિત કરો"
 
 #: ../src/wbc-gtk-actions.c:1743 ../src/wbc-gtk-actions.c:1747
 msgid "Insert a new sheet"
-msgstr ""
+msgstr "નવી શીટને દાખલ કરો"
 
 #: ../src/wbc-gtk-actions.c:1749
 msgid "_Append"
@@ -12783,19 +12798,19 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1750
 msgid "Append a new sheet"
-msgstr ""
+msgstr "નવી શીટ ને જોડો"
 
 #: ../src/wbc-gtk-actions.c:1752
 msgid "_Duplicate"
-msgstr ""
+msgstr "નકલ (_D)"
 
 #: ../src/wbc-gtk-actions.c:1753
 msgid "Make a copy of the current sheet"
-msgstr ""
+msgstr "હાલની શીટની નકલ બનાવો"
 
 #: ../src/wbc-gtk-actions.c:1755
 msgid "_Remove"
-msgstr ""
+msgstr "દૂર કરો (_R)"
 
 #: ../src/wbc-gtk-actions.c:1756
 msgid "Irrevocably remove an entire sheet"
@@ -12803,11 +12818,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1758
 msgid "Re_name"
-msgstr ""
+msgstr "ફરી નામ આપો (_n)"
 
 #: ../src/wbc-gtk-actions.c:1759
 msgid "Rename the current sheet"
-msgstr ""
+msgstr "હાલની શીટનું ફરી નામ આપો"
 
 #. Edit
 #: ../src/wbc-gtk-actions.c:1763
@@ -12828,7 +12843,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1770
 msgid "Co_mment..."
-msgstr ""
+msgstr "ટિપ્પણી (_m)..."
 
 #: ../src/wbc-gtk-actions.c:1771
 msgid "Edit the selected cell's comment"
@@ -12836,15 +12851,15 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1774
 msgid "_Find..."
-msgstr ""
+msgstr "શોધો (_F)..."
 
 #: ../src/wbc-gtk-actions.c:1775
 msgid "Search for something"
-msgstr ""
+msgstr "કંઇક માટે શોધો"
 
 #: ../src/wbc-gtk-actions.c:1777
 msgid "R_eplace..."
-msgstr ""
+msgstr "બદલો (_e)..."
 
 #: ../src/wbc-gtk-actions.c:1778
 msgid "Search for something and replace it with something else"
@@ -12860,7 +12875,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1784
 msgid "Recalculate"
-msgstr ""
+msgstr "ફરી ગણતરી કરો"
 
 #: ../src/wbc-gtk-actions.c:1785
 msgid "Recalculate the spreadsheet"
@@ -12913,27 +12928,27 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1814
 msgid "Insert new columns"
-msgstr ""
+msgstr "નવા સ્તંભોને દાખલ કરો"
 
 #: ../src/wbc-gtk-actions.c:1817
 msgid "Insert new rows"
-msgstr ""
+msgstr "નવી હારમાળાને દાખલ કરો"
 
 #: ../src/wbc-gtk-actions.c:1820
 msgid "C_hart..."
-msgstr ""
+msgstr "આલેખ (_h)..."
 
 #: ../src/wbc-gtk-actions.c:1821
 msgid "Insert a Chart"
-msgstr ""
+msgstr "આલેખ ને દાખલ કરો"
 
 #: ../src/wbc-gtk-actions.c:1823
 msgid "_Image..."
-msgstr ""
+msgstr "ઇમેજ (_I)..."
 
 #: ../src/wbc-gtk-actions.c:1824
 msgid "Insert an image"
-msgstr ""
+msgstr "ઇમેજ ને દાખલ કરો"
 
 #: ../src/wbc-gtk-actions.c:1827
 msgid "Hyper_link..."
@@ -12946,7 +12961,7 @@ msgstr ""
 #. Insert -> Special
 #: ../src/wbc-gtk-actions.c:1831
 msgid "Current _date"
-msgstr ""
+msgstr "હાલની તારીખ (_d)"
 
 #: ../src/wbc-gtk-actions.c:1832
 msgid "Insert the current date into the selected cell(s)"
@@ -12954,7 +12969,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1835
 msgid "Current _time"
-msgstr ""
+msgstr "હાલનો સમય (_t)"
 
 #: ../src/wbc-gtk-actions.c:1836
 msgid "Insert the current time into the selected cell(s)"
@@ -12962,7 +12977,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1839
 msgid "Current d_ate and time"
-msgstr ""
+msgstr "હાલની તારીખ અને સમય (_a)"
 
 #: ../src/wbc-gtk-actions.c:1840
 msgid "Insert the current date and time into the selected cell(s)"
@@ -12971,15 +12986,15 @@ msgstr ""
 #. Insert -> Name
 #: ../src/wbc-gtk-actions.c:1844
 msgid "_Define..."
-msgstr ""
+msgstr "વ્યાખ્યાયિત કરો (_D)..."
 
 #: ../src/wbc-gtk-actions.c:1845
 msgid "Edit sheet and workbook names"
-msgstr ""
+msgstr "શીટ અને વર્કબુક નામો માં ફેરફાર કરો"
 
 #: ../src/wbc-gtk-actions.c:1848
 msgid "Paste the definition of a name or names"
-msgstr ""
+msgstr "નામ અથવા નામો ની વ્યાખ્યા ને ચોંટાડો"
 
 #: ../src/wbc-gtk-actions.c:1851
 msgid "_Auto generate names..."
@@ -12987,7 +13002,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1852
 msgid "Use the current selection to create names"
-msgstr ""
+msgstr "નામો ને બનાવવા માટે હાલાની પસંદગી ને વાપરો"
 
 #. Format
 #: ../src/wbc-gtk-actions.c:1857
@@ -13000,15 +13015,15 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1860
 msgid "_Workbook..."
-msgstr ""
+msgstr "વર્કબુક (_W)..."
 
 #: ../src/wbc-gtk-actions.c:1861
 msgid "Modify the workbook attributes"
-msgstr ""
+msgstr "વર્કબુક ગુણધર્મો ને બદલો"
 
 #: ../src/wbc-gtk-actions.c:1863
 msgid "_Gnumeric..."
-msgstr ""
+msgstr "Gnumeric (_G)..."
 
 #: ../src/wbc-gtk-actions.c:1864
 msgid "Edit the Gnumeric Preferences"
@@ -13024,7 +13039,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1869
 msgid "Direction"
-msgstr ""
+msgstr "દિશા"
 
 #: ../src/wbc-gtk-actions.c:1870
 msgid "Toggle sheet direction, left-to-right vs right-to-left"
@@ -13033,11 +13048,11 @@ msgstr ""
 #. Format -> Col
 #: ../src/wbc-gtk-actions.c:1874
 msgid "_Width..."
-msgstr ""
+msgstr "પહોળાઇ (_W)..."
 
 #: ../src/wbc-gtk-actions.c:1875
 msgid "Change width of the selected columns"
-msgstr ""
+msgstr "પસંદ થયેલ સ્તંભોની પહોળાઇ ને બદલો"
 
 #: ../src/wbc-gtk-actions.c:1877 ../src/wbc-gtk-actions.c:1894
 msgid "_Auto fit selection"
@@ -13049,7 +13064,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1881
 msgid "Hide the selected columns"
-msgstr ""
+msgstr "પસંદ થયેલ સ્તંભોને છુપોડો"
 
 #: ../src/wbc-gtk-actions.c:1884
 msgid "Make any hidden columns in the selection visible"
@@ -13057,16 +13072,16 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1886
 msgid "_Standard Width"
-msgstr ""
+msgstr "મૂળભૂત પહોળાઇ (_S)"
 
 #: ../src/wbc-gtk-actions.c:1887
 msgid "Change the default column width"
-msgstr ""
+msgstr "મૂળભૂત સ્તંભની પહોળાઇને બદલો"
 
 #. Format -> Row
 #: ../src/wbc-gtk-actions.c:1891
 msgid "H_eight..."
-msgstr ""
+msgstr "ઊંચાઇ (_e)..."
 
 #: ../src/wbc-gtk-actions.c:1892
 msgid "Change height of the selected rows"
@@ -13078,7 +13093,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1898
 msgid "Hide the selected rows"
-msgstr ""
+msgstr "પસંદ થયેલ હારમાળાને છુપાડો"
 
 #: ../src/wbc-gtk-actions.c:1901
 msgid "Make any hidden rows in the selection visible"
@@ -13086,7 +13101,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1903
 msgid "_Standard Height"
-msgstr ""
+msgstr "મૂળભૂત ઊંચાઇ (_S)"
 
 #: ../src/wbc-gtk-actions.c:1904
 msgid "Change the default row height"
@@ -13095,11 +13110,11 @@ msgstr ""
 #. Tools
 #: ../src/wbc-gtk-actions.c:1908
 msgid "_Plug-ins..."
-msgstr ""
+msgstr "પ્લગઇનો (_P)..."
 
 #: ../src/wbc-gtk-actions.c:1909
 msgid "Manage available plugin modules"
-msgstr ""
+msgstr "ઉપલ્બધ પ્લગઇન મોડ્યુલો ને સંચાલિત કરો"
 
 #: ../src/wbc-gtk-actions.c:1911
 msgid "Auto _Correct..."
@@ -13111,7 +13126,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1914
 msgid "_Auto Save..."
-msgstr ""
+msgstr "આપોઆપ સંગ્રહ કરો (_A)..."
 
 #: ../src/wbc-gtk-actions.c:1915
 msgid "Automatically save the current document at regular intervals"
@@ -13146,7 +13161,7 @@ msgstr ""
 #. Tools -> Scenarios
 #: ../src/wbc-gtk-actions.c:1929
 msgid "_View..."
-msgstr ""
+msgstr "બતાવો (_V)..."
 
 #: ../src/wbc-gtk-actions.c:1930
 msgid "View, delete and report different scenarios"
@@ -13154,7 +13169,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1932
 msgid "_Add..."
-msgstr ""
+msgstr "ઉમેરો (_A)..."
 
 #: ../src/wbc-gtk-actions.c:1933
 msgid "Add a new scenario"
@@ -13342,7 +13357,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2016
 msgid "T_ext to Columns..."
-msgstr ""
+msgstr "સ્તંભો માં લખાણ (_e)..."
 
 #: ../src/wbc-gtk-actions.c:2017
 msgid "Parse the text in the selection into data"
@@ -13358,7 +13373,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2022
 msgid "_Table..."
-msgstr ""
+msgstr "કોષ્ટક (_T)..."
 
 #: ../src/wbc-gtk-actions.c:2023
 msgid "Create a Data Table to evaluate a function with multiple inputs"
@@ -13375,7 +13390,7 @@ msgstr ""
 #. Data -> Outline
 #: ../src/wbc-gtk-actions.c:2032
 msgid "_Hide Detail"
-msgstr ""
+msgstr "વિગતો ને છુપાડો (_H)"
 
 #: ../src/wbc-gtk-actions.c:2033
 msgid "Collapse an outline group"
@@ -13383,7 +13398,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2035
 msgid "_Show Detail"
-msgstr ""
+msgstr "વિગતો ને બતાવો (_S)"
 
 #: ../src/wbc-gtk-actions.c:2036
 msgid "Uncollapse an outline group"
@@ -13391,7 +13406,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2038
 msgid "_Group..."
-msgstr ""
+msgstr "જૂથ (_G)..."
 
 #: ../src/wbc-gtk-actions.c:2039
 msgid "Add an outline group"
@@ -13399,7 +13414,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2041
 msgid "_Ungroup..."
-msgstr ""
+msgstr "જૂથ વગરનું (_U)..."
 
 #: ../src/wbc-gtk-actions.c:2042
 msgid "Remove an outline group"
@@ -13412,11 +13427,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2047
 msgid "Add or remove a filter"
-msgstr ""
+msgstr "ફિલ્ટરને ઉમેરો અથવા દૂર કરો"
 
 #: ../src/wbc-gtk-actions.c:2049
 msgid "_Show All"
-msgstr ""
+msgstr "બધુ બતાવો (_S)"
 
 #: ../src/wbc-gtk-actions.c:2050
 msgid "Show all filtered and hidden rows"
@@ -13433,17 +13448,17 @@ msgstr ""
 #. Data -> External
 #: ../src/wbc-gtk-actions.c:2056
 msgid "Import _Text File..."
-msgstr ""
+msgstr "લખાણ ફાઇલ ને આયાત કરો (_T)..."
 
 #: ../src/wbc-gtk-actions.c:2057
 msgid "Import the text from a file"
-msgstr ""
+msgstr "ફાઇલ માંથી લખાણ ને આયાત કરો"
 
 #. Standard Toolbar
 #: ../src/wbc-gtk-actions.c:2061 ../src/wbc-gtk.c:3898
 #: ../src/workbook-view.c:821
 msgid "Sum"
-msgstr ""
+msgstr "સરવાળો"
 
 #: ../src/wbc-gtk-actions.c:2062
 msgid "Sum into the current cell"
@@ -13472,31 +13487,31 @@ msgstr ""
 #. Object Toolbar
 #: ../src/wbc-gtk-actions.c:2076
 msgid "Label"
-msgstr ""
+msgstr "લેબલ"
 
 #: ../src/wbc-gtk-actions.c:2077
 msgid "Create a label"
-msgstr ""
+msgstr "લેબલ ને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:2080
 msgid "Create a frame"
-msgstr ""
+msgstr "ફ્રેમ ને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:2082
 msgid "Checkbox"
-msgstr ""
+msgstr "ચેકબોક્સ"
 
 #: ../src/wbc-gtk-actions.c:2083
 msgid "Create a checkbox"
-msgstr ""
+msgstr "ચેકબોક્સ ને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:2085
 msgid "Scrollbar"
-msgstr ""
+msgstr "સ્ક્રોલબાર"
 
 #: ../src/wbc-gtk-actions.c:2086
 msgid "Create a scrollbar"
-msgstr ""
+msgstr "સ્ક્રોલબાર ને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:2088
 msgid "Slider"
@@ -13517,39 +13532,39 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2094
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:3
 msgid "List"
-msgstr ""
+msgstr "યાદી"
 
 #: ../src/wbc-gtk-actions.c:2095
 msgid "Create a list"
-msgstr ""
+msgstr "યાદી ને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:2097
 msgid "Combo Box"
-msgstr ""
+msgstr "કોમ્બો બોક્સ"
 
 #: ../src/wbc-gtk-actions.c:2098
 msgid "Create a combo box"
-msgstr ""
+msgstr "કોમ્બો બોક્સ ને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:2101
 msgid "Create a line object"
-msgstr ""
+msgstr "લીટી ઓબ્જેક્ટ ને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:2103
 msgid "Arrow"
-msgstr ""
+msgstr "તીર"
 
 #: ../src/wbc-gtk-actions.c:2104
 msgid "Create an arrow object"
-msgstr ""
+msgstr "તીર ઓબ્જેક્ટ ને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:2106
 msgid "Rectangle"
-msgstr ""
+msgstr "લંબચોરસ"
 
 #: ../src/wbc-gtk-actions.c:2107
 msgid "Create a rectangle object"
-msgstr ""
+msgstr "લંબચોરસ ઓબ્જેક્ટને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:2109
 msgid "Ellipse"
@@ -13561,7 +13576,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2113
 msgid "Create a button"
-msgstr ""
+msgstr "બટનને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:2116
 msgid "Create a radio button"
@@ -13589,7 +13604,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2133
 msgid "Currency"
-msgstr ""
+msgstr "ચલણ"
 
 #: ../src/wbc-gtk-actions.c:2134
 msgid "Format the selection as currency"
@@ -13609,23 +13624,23 @@ msgstr "ટકાવારી"
 
 #: ../src/wbc-gtk-actions.c:2140
 msgid "Format the selection as percentage"
-msgstr ""
+msgstr "ટકાવારી પ્રમાણે પસંદ કરેલનું બંધારણ"
 
 #: ../src/wbc-gtk-actions.c:2142
 msgid "Scientific"
-msgstr ""
+msgstr "વૈજ્ઞાનિક"
 
 #: ../src/wbc-gtk-actions.c:2143
 msgid "Format the selection as scientific"
-msgstr ""
+msgstr "વૈજ્ઞાનિક રીતે પસંદ કરેલાનું બંધારણ"
 
 #: ../src/wbc-gtk-actions.c:2146
 msgid "Format the selection as date"
-msgstr ""
+msgstr "તારીખ પ્રમાણે પસંદ કરેલ નું બંધારણ"
 
 #: ../src/wbc-gtk-actions.c:2149
 msgid "Format the selection as time"
-msgstr ""
+msgstr "સમય પ્રમાણે પસંદ કરેલ નું બંધારણ"
 
 #: ../src/wbc-gtk-actions.c:2151
 msgid "AddBorders"
@@ -13645,7 +13660,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2158
 msgid "Thousands Separator"
-msgstr ""
+msgstr "હજારો વિભાજક"
 
 #: ../src/wbc-gtk-actions.c:2159
 msgid "Set the format of the selected cells to include a thousands separator"
@@ -13653,7 +13668,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2161
 msgid "Increase Precision"
-msgstr ""
+msgstr "ચોકસાઇથી વધારો"
 
 #: ../src/wbc-gtk-actions.c:2162
 msgid "Increase the number of decimals displayed"
@@ -13661,7 +13676,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2164
 msgid "Decrease Precision"
-msgstr ""
+msgstr "ચોકસાઇથી ઘટાડો"
 
 #: ../src/wbc-gtk-actions.c:2165
 msgid "Decrease the number of decimals displayed"
@@ -13709,7 +13724,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2217
 msgid "Hide _Zeros"
-msgstr ""
+msgstr "શૂન્યો ને છુપોડો (_Z)"
 
 #: ../src/wbc-gtk-actions.c:2218
 msgid "Toggle whether or not to display zeros as blanks"
@@ -13725,7 +13740,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2223
 msgid "Hide _Column Headers"
-msgstr ""
+msgstr "હેડરોના સ્તંભ ને છુપાડો (_C)"
 
 #: ../src/wbc-gtk-actions.c:2224
 msgid "Toggle whether or not to display column headers"
@@ -13733,7 +13748,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2226
 msgid "Hide _Row Headers"
-msgstr ""
+msgstr "હેડરોની હારમાળા ને છુપાડો (_R)"
 
 #: ../src/wbc-gtk-actions.c:2227
 msgid "Toggle whether or not to display row headers"
@@ -13742,7 +13757,7 @@ msgstr ""
 #. TODO : Make this a sub menu when we have more convention types
 #: ../src/wbc-gtk-actions.c:2231
 msgid "Use R1C1 N_otation "
-msgstr ""
+msgstr "R1C1 સંકેત ને વાપરો (_o)"
 
 #: ../src/wbc-gtk-actions.c:2232
 msgid "Display addresses as R1C1 or A1"
@@ -13814,7 +13829,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2267
 msgid "View _Statusbar"
-msgstr ""
+msgstr "સ્થિતિદર્શકપટ્ટી ને બતાવો (_S)"
 
 #: ../src/wbc-gtk-actions.c:2268
 msgid "Toggle visibility of statusbar"
@@ -13830,21 +13845,21 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2279
 msgid "_Bold"
-msgstr ""
+msgstr "બોલ્ડ (_B)"
 
 #. ALSO "<control>2"
 #: ../src/wbc-gtk-actions.c:2280 ../src/widgets/widget-font-selector.c:205
 msgid "Bold"
-msgstr ""
+msgstr "બોલ્ડ"
 
 #: ../src/wbc-gtk-actions.c:2282
 msgid "_Italic"
-msgstr ""
+msgstr "ઇટાલિક (_I)"
 
 #. ALSO "<control>3"
 #: ../src/wbc-gtk-actions.c:2283 ../src/widgets/widget-font-selector.c:207
 msgid "Italic"
-msgstr ""
+msgstr "ઇટાલિક"
 
 #: ../src/wbc-gtk-actions.c:2285
 msgid "_Underline"
@@ -13892,7 +13907,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2307
 msgid "Fill Horizontally"
-msgstr ""
+msgstr "સમાંતર રીતે ભરો"
 
 #: ../src/wbc-gtk-actions.c:2308
 msgid "Justify Horizontally"
@@ -13918,7 +13933,7 @@ msgstr ""
 #: ../src/wbc-gtk-edit.c:735
 #, c-format
 msgid "%s!%s is locked"
-msgstr ""
+msgstr "%s!%s એ તાળુ થયેલ છે"
 
 #: ../src/wbc-gtk-edit.c:739
 msgid "Unprotect the workbook to enable editing."
@@ -13944,19 +13959,19 @@ msgstr "બંધારણ ને દૂર કરો"
 
 #: ../src/wbc-gtk-edit.c:770
 msgid "Show this dialog next time."
-msgstr ""
+msgstr "આ સંવાદને પછીથી બતાવો."
 
 #: ../src/wbc-gtk.c:426
 msgid "Manage sheets..."
-msgstr ""
+msgstr "શીટોને સંચાલિત કરો..."
 
 #: ../src/wbc-gtk.c:429
 msgid "Append"
-msgstr ""
+msgstr "જોડવુ"
 
 #: ../src/wbc-gtk.c:430
 msgid "Duplicate"
-msgstr ""
+msgstr "નકલી"
 
 #: ../src/wbc-gtk.c:431
 msgid "Remove"
@@ -13968,7 +13983,7 @@ msgstr "ફરીથી નામ આપો"
 
 #: ../src/wbc-gtk.c:1282
 msgid " : Gnumeric"
-msgstr ""
+msgstr " : Gnumeric"
 
 #: ../src/wbc-gtk.c:1392
 msgid "Un_freeze Panes"
@@ -13984,32 +13999,32 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:1406
 msgid "Remove a filter"
-msgstr ""
+msgstr "ફિલ્ટરને દૂર કરો"
 
 #: ../src/wbc-gtk.c:1407
 msgid "Add a filter"
-msgstr ""
+msgstr "ફિલ્ટર ને ઉમેરો"
 
 #: ../src/wbc-gtk.c:1448
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
-msgstr ""
+msgstr "બંધ કરતા પહેલા વર્કબુક '%s' માં બદલાવો ને સંગ્રહો?"
 
 #: ../src/wbc-gtk.c:1453
 msgid "Save changes to workbook before closing?"
-msgstr ""
+msgstr "બંધ કરતા પહેલા વર્કબુકમાં બદલાવો ને સંગ્રહો?"
 
 #: ../src/wbc-gtk.c:1460
 msgid "If you close without saving, changes will be discarded."
-msgstr ""
+msgstr "જો તમે સંગ્રહ કર્યા વગર બંધ કરો તો, બદલાવોને કાઢી નાંખેલ હશે."
 
 #: ../src/wbc-gtk.c:1466
 msgid "Discard all"
-msgstr ""
+msgstr "બધુ કાઢી નાખો"
 
 #: ../src/wbc-gtk.c:1468 ../src/wbc-gtk.c:1475 ../src/wbc-gtk.c:1481
 msgid "Discard"
-msgstr ""
+msgstr "કાઢી નાંખો"
 
 #: ../src/wbc-gtk.c:1470
 msgid "Save all"
@@ -14029,7 +14044,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:2172
 msgid "Cancel change"
-msgstr ""
+msgstr "બદલાવ ને કાઢી નાંખો"
 
 #: ../src/wbc-gtk.c:2176
 msgid "Accept change"
@@ -14041,7 +14056,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:2231 ../src/wbc-gtk.c:2246
 msgid "_Re-Edit"
-msgstr ""
+msgstr "ફરીથી ફેરફાર કરો (_R)"
 
 #: ../src/wbc-gtk.c:2236 ../src/wbc-gtk.c:2247
 msgid "_Accept"
@@ -14053,7 +14068,7 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:2415
 msgid "Clear Borders"
-msgstr ""
+msgstr "કિનારીઓને સાફ કરો"
 
 #: ../src/wbc-gtk.c:2418
 msgid "All Borders"
@@ -14069,11 +14084,11 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:2423
 msgid "Double Bottom"
-msgstr ""
+msgstr "બમણો નીચેનો ભાગ"
 
 #: ../src/wbc-gtk.c:2424
 msgid "Thick Bottom"
-msgstr ""
+msgstr "નીચેનો ભાગ ઝાડો"
 
 #: ../src/wbc-gtk.c:2426
 msgid "Top and Bottom"
@@ -14097,7 +14112,7 @@ msgstr "સીમાઓ"
 
 #: ../src/wbc-gtk.c:2679
 msgid "Set Foreground Color"
-msgstr ""
+msgstr "અગ્ર ભાગનાં રંગ ને સુયોજિત કરો"
 
 #. Set background to NONE
 #: ../src/wbc-gtk.c:2734
@@ -14131,19 +14146,19 @@ msgstr ""
 
 #: ../src/wbc-gtk.c:3335
 msgid "Display above sheets"
-msgstr ""
+msgstr "ઉપરની શીટો ને દર્શાવો"
 
 #: ../src/wbc-gtk.c:3336
 msgid "Display to the left of sheets"
-msgstr ""
+msgstr "શીટો ને ડાબી બાજુ દર્શાવો"
 
 #: ../src/wbc-gtk.c:3337
 msgid "Display to the right of sheets"
-msgstr ""
+msgstr "શીટો ને જમણી બાજુ દર્શાવો"
 
 #: ../src/wbc-gtk.c:3341
 msgid "Reattach to main window"
-msgstr ""
+msgstr "મુખ્ય વિન્ડો માં ફરી જોડો"
 
 #: ../src/wbc-gtk.c:3373
 msgid "Hide"
@@ -14152,11 +14167,11 @@ msgstr "છુપાડો"
 #: ../src/wbc-gtk.c:3435
 #, c-format
 msgid "Show/Hide toolbar %s"
-msgstr ""
+msgstr "સાધનપટ્ટી %s ને બતાવો/છુપોડો"
 
 #: ../src/wbc-gtk.c:3946
 msgid "Use maximum precision"
-msgstr ""
+msgstr "મહત્તમ ચોકસાઇને વાપરો"
 
 #: ../src/wbc-gtk.c:4059
 #, c-format
@@ -14165,19 +14180,19 @@ msgstr "ખોલો %s"
 
 #: ../src/wbc-gtk.c:4545
 msgid "Autosave prompt"
-msgstr ""
+msgstr "આપોઆપ સંગ્રહ કરવા માટે પ્રોમ્પ્ટ"
 
 #: ../src/wbc-gtk.c:4546
 msgid "Ask about autosave?"
-msgstr ""
+msgstr "આપોઆપ સંગ્રહ કરવા વિશે પૂછો?"
 
 #: ../src/wbc-gtk.c:4552
 msgid "Autosave time in seconds"
-msgstr ""
+msgstr "સેકંડો માં આપોઆપ સંગ્રહ નો સમય"
 
 #: ../src/wbc-gtk.c:4553
 msgid "Seconds before autosave"
-msgstr ""
+msgstr "આપોઆપ સંગ્રહ કરવા પહેલા સેકંડો"
 
 #: ../src/widgets/gnm-filter-combo-foo-view.c:163
 msgid "(All)"
@@ -14206,7 +14221,7 @@ msgstr ""
 
 #: ../src/widgets/widget-font-selector.c:206
 msgid "Bold italic"
-msgstr ""
+msgstr "બોલ્ડ ઇટાલિક"
 
 #: ../src/workbook-cmd-format.c:79
 msgid "Increase Indent"
@@ -14222,7 +14237,7 @@ msgstr "નામ ને વ્યાખ્યાયિત કરો"
 
 #: ../src/workbook-control.c:240
 msgid "Cannot jump to an invisible sheet"
-msgstr ""
+msgstr "અદ્રશ્ય શીટ પર કૂદી શકાતુ નથી"
 
 #: ../src/workbook-control.c:294
 msgid "Address"
@@ -14298,11 +14313,11 @@ msgstr "લખવા માટે '%s' ને ખોલી શકાતુ ન�
 
 #: ../src/workbook-view.c:974 ../src/workbook-view.c:1154
 msgid "Default file saver is not available."
-msgstr ""
+msgstr "મૂળભૂત ફાઇલ સેવર ઉપલ્બધ નથી."
 
 #: ../src/workbook-view.c:1095
 msgid "Failed to create temporary file for sending."
-msgstr ""
+msgstr "મોકલવા માટે કામચલાઉ ફાઇલને બનાવવામાં નિષ્ફળતા."
 
 #: ../src/workbook-view.c:1248
 msgid "Unsupported file format."
@@ -14385,15 +14400,15 @@ msgstr ""
 
 #: ../src/xml-io.c:2165
 msgid "Clipboard is in unknown format"
-msgstr ""
+msgstr "ક્લિપબોર્ડ એ અજ્ઞાત બંધારણ છે"
 
 #: ../src/xml-io.c:2395
 msgid "Processing file..."
-msgstr ""
+msgstr "ફાઇલને પ્રક્રિયા કરી રહ્યા છે..."
 
 #: ../src/xml-io.c:2756
 msgid "The file is not a Gnumeric Workbook file"
-msgstr ""
+msgstr "ફાઇલ એ Gnumeric વર્કબુક ફાઇલ નથી"
 
 #: ../src/xml-io.c:2785
 msgid "Gnumeric XML (*.gnumeric) Old slow importer"
@@ -14401,7 +14416,7 @@ msgstr ""
 
 #: ../src/xml-io.c:2791 ../src/xml-io.c:2797
 msgid "Gnumeric XML (*.gnumeric)"
-msgstr ""
+msgstr "Gnumeric XML (*.gnumeric)"
 
 #: ../src/xml-sax-read.c:429
 #, c-format
@@ -14458,11 +14473,11 @@ msgstr ""
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:1
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:2
 msgid "Gnumeric Team"
-msgstr ""
+msgstr "Gnumeric જૂથ"
 
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:1
 msgid "A 3D list template"
-msgstr ""
+msgstr "3D યાદી ટેમ્પલેટ"
 
 #: ../templates/autoformat/autoformat.Classical.cool.xml.in.h:1
 msgid "Cool"
@@ -14488,7 +14503,7 @@ msgstr ""
 
 #: ../templates/autoformat/autoformat.Classical.trendy.xml.in.h:3
 msgid "Trendy"
-msgstr ""
+msgstr "આધુનિક"
 
 #: ../templates/autoformat/autoformat.Colourful.banana.xml.in.h:1
 msgid "A banana coloured template"
@@ -14496,7 +14511,7 @@ msgstr ""
 
 #: ../templates/autoformat/autoformat.Colourful.banana.xml.in.h:2
 msgid "Banana"
-msgstr "કેળુ"
+msgstr ""
 
 #: ../templates/autoformat/autoformat.Colourful.black.xml.in.h:1
 msgid "Black"
@@ -14504,7 +14519,7 @@ msgstr "કાળો"
 
 #: ../templates/autoformat/autoformat.Colourful.black.xml.in.h:3
 msgid "Template with a black background"
-msgstr ""
+msgstr "કાળી પૂર્વભૂમિકા સાથે ટેમ્પલેટ"
 
 #: ../templates/autoformat/autoformat.Colourful.blue.xml.in.h:1
 msgid "A colourful template with mainly blue and teal colours"
@@ -14516,19 +14531,19 @@ msgstr "વાદળી"
 
 #: ../templates/autoformat/autoformat.Colourful.orange.xml.in.h:2
 msgid "Orange"
-msgstr ""
+msgstr "નારંગી રંગ"
 
 #: ../templates/autoformat/autoformat.Colourful.orange.xml.in.h:3
 msgid "Orange template"
-msgstr ""
+msgstr "નારંગી રંગનું ટેમ્પલેટ"
 
 #: ../templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:2
 msgid "Template with vanilla colour"
-msgstr ""
+msgstr "વેનિલા રંગ સાથે ટેમ્પલેટ"
 
 #: ../templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:3
 msgid "Vanilla"
-msgstr ""
+msgstr "વેનિલા"
 
 #: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:3
 msgid "Simple financial template"
@@ -14552,7 +14567,7 @@ msgstr "Ice"
 
 #: ../templates/autoformat/autoformat.Financial.modern.xml.in.h:2
 msgid "Modern"
-msgstr ""
+msgstr "આધુનિક"
 
 #: ../templates/autoformat/autoformat.Financial.modern.xml.in.h:3
 msgid "Modern style with financial formatting"
@@ -14560,11 +14575,11 @@ msgstr ""
 
 #: ../templates/autoformat/autoformat.Financial.purple.xml.in.h:1
 msgid "Financial template with purple borders"
-msgstr ""
+msgstr "પર્પલ સીમાઓ સાથે નાણાં ટેમ્પલેટ"
 
 #: ../templates/autoformat/autoformat.Financial.purple.xml.in.h:3
 msgid "Purple"
-msgstr ""
+msgstr "પર્પલ"
 
 #: ../templates/autoformat/autoformat.General.advanced.xml.in.h:2
 msgid "An advanced colorless template"
@@ -14597,11 +14612,11 @@ msgstr ""
 
 #: ../templates/autoformat/autoformat.List.basic.xml.in.h:1
 msgid "A basic list"
-msgstr ""
+msgstr "મૂળભૂત યાદી"
 
 #: ../templates/autoformat/autoformat.List.green.xml.in.h:1
 msgid "A green list template"
-msgstr ""
+msgstr "લીલુ યાદી ટેમ્પલેટ"
 
 #: ../templates/autoformat/autoformat.List.green.xml.in.h:3
 msgid "Green"
@@ -14609,13 +14624,13 @@ msgstr "લીલુ"
 
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:2
 msgid "Lila"
-msgstr ""
+msgstr "Lila"
 
 #: ../templates/autoformat/autoformat.List.lila.xml.in.h:3
 msgid "Lila list template"
-msgstr ""
+msgstr "લીલા યાદી ટેમ્પલેટ"
 
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
-msgstr ""
+msgstr "સાદી યાદીની ટેમ્પલેટ"
 
