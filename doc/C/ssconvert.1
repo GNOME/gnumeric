@@ -2,7 +2,7 @@
 \\$2 \(laURL: \\$1 \(ra\\$3
 ..
 .if \n[.g] .mso www.tmac
-.TH SSCONVERT 1 "September 27, 2003" gnumeric "GNOME"
+.TH SSCONVERT 1 "2009-01-02" gnumeric "GNOME"
 .SH NAME
 ssconvert \- a command line spreadsheet format converter
 
@@ -44,6 +44,13 @@ Specify which exporter to use; see below for a list.  This is only
 necessary when the right encoding does not follow from the output file
 name.
 .TP
+.B \-O, \-\-export\-options=\fIoptionsstring\fR
+Specify parameters for the chosen exporter.
+\fIoptionsstring\fR is a list of \fIparameter\fR=\fIvalue\fR pairs, separated
+by spaces.
+The parameter names and values allowed are specific to the exporter and are
+documented below. Multiple parameters can be specified
+.TP
 .B \-\-recalc
 Recalculate all formulas before writing.
 
@@ -66,70 +73,160 @@ Adjust the root data directory
 .SH LIST OF IMPORTANT IDS
 .TP
 Gnumeric_XmlIO:sax
-Gnumeric XML file format
+Gnumeric's XML file format
 .TP
-Gnumeric_Excel:excel_dsf   
-MS Excel (tm) 97/2000/XP & 5.0/95
+Gnumeric_Excel:excel_dsf
+Microsoft Excel (tm) 97/2000/XP & 5.0/95 format
+.TP
+Gnumeric_Excel:xlsx
+Microsoft Excel (tm) 2007 ("Office Open XML",
+.URL "http://en.wikipedia.org/wiki/XLSX" "OOXML"
+) format
 .TP
 Gnumeric_pdf:pdf_assistant
 Portable Document Format
 .TP
-Gnumeric_stf:stf_csv 
+Gnumeric_stf:stf_assistant
+Text export (configurable) (*.txt)
+.TP
+Gnumeric_stf:stf_csv
 Comma Separated Values
 
 .SH LIST OF LESS IMPORTANT IDS
 .TP
+.\"Gnumeric_GnomeGlossary:po    | Gnome Glossary PO file format
 Gnumeric_sylk:sylk
-Multiplan
+.URL "http://en.wikipedia.org/wiki/SYmbolic_LinK_(SYLK)" "SYmbolic LinK (SYLK)"
+or Multiplan format.
 .TP
-Gnumeric_Excel:xlsx
-MS Excel (tm) 2007
+Gnumeric_Excel:excel_biff8
+Microsoft Excel (tm) 97/2000/XP format
 .TP
-Gnumeric_Excel:excel_biff8 
-MS Excel (tm) 97/2000/XP
+Gnumeric_Excel:excel_biff7
+Microsoft Excel (tm) 5.0/95 format
 .TP
-Gnumeric_Excel:excel_biff7 
-MS Excel (tm) 5.0/95
+Gnumeric_dif:dif
+.URL "http://en.wikipedia.org/wiki/Data_Interchange_Format" "Data Interchange Format"
+(*.dif)
 .TP
-Gnumeric_dif:dif           
-Data Interchange Format (*.dif)
+Gnumeric_html:roff
+.URL "http://en.wikipedia.org/wiki/Troff" "TROFF"
+(*.me) format.
 .TP
-Gnumeric_html:roff         
-TROFF (*.me)
-.TP
-Gnumeric_html:latex_table        
+Gnumeric_html:latex_table
 LaTeX 2e (*.tex) table fragment
 .TP
-Gnumeric_html:latex        
+Gnumeric_html:latex
 LaTeX 2e (*.tex)
 .TP
-Gnumeric_html:xhtml_range  
+Gnumeric_html:xhtml_range
 XHTML range - for export to clipboard
 .TP
-Gnumeric_html:xhtml        
+Gnumeric_html:xhtml
 XHTML (*.html)
 .TP
-Gnumeric_html:html40frag   
+Gnumeric_html:html40frag
 HTML (*.html) fragment
 .TP
-Gnumeric_html:html40       
+Gnumeric_html:html40
 HTML 4.0 (*.html)
 .TP
-Gnumeric_html:html32       
+Gnumeric_html:html32
 HTML 3.2 (*.html)
 .TP
 Gnumeric_OpenCalc:openoffice
-OpenDocument/OpenOffice (*.ods)
+.URL "http://en.wikipedia.org/wiki/OpenDocument" "OpenDocument"
+or
+.URL "http://en.wikipedia.org/wiki/OpenOffice.org_Calc" "OpenOffice Calc"
+(*.ods) format
 .TP
-Gnumeric_stf:stf_assistant           
-Text export (configurable)
+Gnumeric_paradox:paradox
+.URL "http://en.wikipedia.org/wiki/Paradox_(database)" "Paradox database"
+(*.db) format
+
+.SH OPTIONS FOR THE PORTABLE DOCUMENT FORMAT (*.pdf) EXPORTER
+
+.TP
+sheet
+Name of the workbook sheet to operate on.
+
+.TP
+paper
+Paper size. Valid values include "\fBA4\fR" for ISO A4 and
+"\fBna_letter_8.5x11in\fR" for US Letter.
+.\" FIXME Is there a convenient way to list all valid paper sizes?
+.\" It looks like at least the values from plugins/excel/ms-excel-read.c's
+.\" paper_size_table[] are supported.
+
+.SH OPTIONS FOR THE CONFIGURABLE TEXT (*.txt) EXPORTER
+
+.TP
+sheet
+Name of the workbook sheet to operate on.
+
+.TP
+eol
+End Of Line convention; how lines are terminated.
+"\fBunix\fR" for linefeed,
+"\fBmac\fR" for carriage return;
+"\fBwindows\fR" for carriage return plus linefeed.
+
+.TP
+charset
+The character encoding of the output. Defaults to UTF-8.
+
+.TP
+locale
+
+.TP
+quote
+The character or string used for quoting fields. Defaults to "\fB\\"\fR"
+(quotation mark / double quote).
+
+.TP
+separator
+The string used to separate fields. Defaults to space.
+
+.TP
+format
+Acceptable values: 
+"\fBautomatic\fR", 
+"\fBraw\fR", or 
+"\fBpreserve\fR".
+
+.TP
+transliterate-mode
+How to handle characters that cannot be represented in the chosen output
+character set.
+Acceptable values:
+"\fBtransliterate\fR", or 
+"\fBescape\fR".
+
+.TP
+quoting-mode
+When does data need to be quoted? 
+"\fBnever\fR",
+"\fBauto\fR" (puts quotes where needed), or 
+"\fBalways\fR". Defaults to "\fBnever\fR".
+
+.TP
+quoting-on-whitespace
+Controls whether initial or terminal whitespace forces quoting. Defaults to
+\fBTRUE\fR.
+
 
 .\".SH USAGE
-.SH EXAMPLE
-To convert the gnumeric file \fIfoo.gnumeric\fR to a Microsoft Excel(TM) file
+.SH EXAMPLES
+To convert the gnumeric file \fIfoo.gnumeric\fR to a Microsoft Excel(TM)
+format file
 \fIfoo.xls\fR:
 .PP
 \fBssconvert\fR \fB\-\-export\-type=\fRGnumeric_Excel:excel_dsf\fR \fIfoo.gnumeric\fR \fIfoo.xls\fR
+.PP
+To convert an Excel format file \fIstatfuns.xls\fR to a text file,
+specifying the semicolon as the separator character:
+.PP
+\fBssconvert\fR \fB-O 'separator=; format=raw'\fR \fIsamples/excel/statfuns.xls\fR \fIstatfuns.txt\fR
 .PP
 
 .\".SH ENVIRONMENT
@@ -137,16 +234,16 @@ To convert the gnumeric file \fIfoo.gnumeric\fR to a Microsoft Excel(TM) file
 .\".SH SECURITY
 .\".SH CONFORMING TO
 .\".SH NOTES
-.SH BUGS
-
-\fBssconvert\fR is a recent addition to Gnumeric. Its main limitation is
-that there is currently no provision for importer or exporter specific flags.
+.\".SH BUGS
+.\"
+.\"\fBssconvert\fR is a recent addition to Gnumeric. Its main limitation is
+.\"that there is currently no provision for importer or exporter specific flags.
 
 .SH LICENSE
 
 \fBssconvert\fR is licensed under the terms of the General Public
 License (GPL), version 2. For information on this license look at the
-source code that came with the software or see the 
+source code that came with the software or see the
 .URL "http://www.gnu.org" "GNU project page" .
 
 .SH COPYRIGHT
@@ -156,7 +253,7 @@ by the individual authors as is documented in the source code.
 
 .SH AUTHOR
 
-\fBssconvert\fR's primary author is Jody Goldberg <jody@gnome.org>; 
+\fBssconvert\fR's primary author is Jody Goldberg <jody@gnome.org>;
 \fBssconvert\fR builds on the \fBgnumeric\fR codebase.
 
 The initial version of this manpage was written by J.H.M. Dassen (Ray)
