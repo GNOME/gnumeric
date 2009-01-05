@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Sweta Kothari <swkothar@redhat.com>, 2008.
+# Sweta Kothari <swkothar@redhat.com>, 2008, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.gu\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric&component=general\n"
-"POT-Creation-Date: 2008-12-31 06:37+0000\n"
-"PO-Revision-Date: 2008-12-31 17:23+0530\n"
+"POT-Creation-Date: 2008-12-31 18:26+0000\n"
+"PO-Revision-Date: 2009-01-05 14:13+0530\n"
 "Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
@@ -257,72 +257,72 @@ msgstr "જ્યારે DIF ફાઇલ ને સંગ્રહ કરી 
 
 #: ../plugins/dif/plugin.xml.in.h:1
 msgid "Data Interchange Format (*.dif)"
-msgstr ""
+msgstr "Data Interchange Format (*.dif)"
 
 #: ../plugins/dif/plugin.xml.in.h:2
 msgid "Data Interchange Format (DIF) module"
-msgstr ""
+msgstr "Data Interchange Format (DIF) મોડ્યુલ"
 
 #: ../plugins/dif/plugin.xml.in.h:3
 msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
-msgstr ""
+msgstr "Data Interchange Format (*.dif) માં સંગ્રહ થયેલ જાણકારીને લખો અને વાંચો"
 
 #: ../plugins/excel/boot.c:187
 msgid "No Workbook or Book streams found."
-msgstr ""
+msgstr "વર્કબુક અથવા બુક સ્ટ્રીમ ને શોધાયુ નથી."
 
 #: ../plugins/excel/boot.c:256
 msgid "Preparing to save..."
-msgstr ""
+msgstr "સંગ્રહ કરવા માટે તૈયારી કરી રહ્યા છે..."
 
 #: ../plugins/excel/boot.c:268
 msgid "Saving file..."
-msgstr ""
+msgstr "ફાઇલ નો સંગ્રહ કરી રહ્યા છે..."
 
 #: ../plugins/excel/excel-xml-read.c:132 ../src/xml-sax-read.c:393
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
-msgstr ""
+msgstr "અનિચ્છનીય ગુણધર્મ %s::%s == '%s'."
 
 #: ../plugins/excel/excel-xml-read.c:1002
 #: ../plugins/openoffice/openoffice-read.c:2998 ../src/xml-sax-read.c:2695
 msgid "XML document not well formed!"
-msgstr ""
+msgstr "XML દસ્તાવેજ સારી રીતે ગોઠવાયેલ નથી!"
 
 #: ../plugins/excel/ms-excel-read.c:1261 ../src/value.c:77
 msgid "#UNKNOWN!"
-msgstr ""
+msgstr "#UNKNOWN!"
 
 #: ../plugins/excel/ms-excel-read.c:1344 ../plugins/excel/ms-excel-read.c:1355
 #: ../plugins/oleo/oleo.c:230 ../plugins/psiconv/psiconv-read.c:545
 #, c-format
 msgid "Sheet%d"
-msgstr ""
+msgstr "શીટ%d"
 
 #: ../plugins/excel/ms-excel-read.c:1359
 #, c-format
 msgid "Macro%d"
-msgstr ""
+msgstr "મેક્રો%d"
 
 #: ../plugins/excel/ms-excel-read.c:1363
 #, c-format
 msgid "Chart%d"
-msgstr ""
+msgstr "નક્ષો%d"
 
 #: ../plugins/excel/ms-excel-read.c:1366
 #, c-format
 msgid "Module%d"
-msgstr ""
+msgstr "મોડ્યુલ%d"
 
 #: ../plugins/excel/ms-excel-read.c:3229
 #, c-format
 msgid "Failure parsing name '%s'"
-msgstr ""
+msgstr "નામ '%s' ને પદચ્છેદન કરવા દરમ્યાન નિષ્ફળતા"
 
 #: ../plugins/excel/ms-excel-read.c:3332
 #, c-format
 msgid "Incorrect expression for name '%s': content will be lost.\n"
-msgstr ""
+msgstr "નામ '%s' માટે અયોગ્ય ઉચ્ચારણ: સમાવિષ્ટ ગુમ થઇ જશે.\n"
 
 #: ../plugins/excel/ms-excel-read.c:3337
 #, c-format
@@ -330,6 +330,8 @@ msgid ""
 "DDE links are not supported yet.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
+"DDE કડીઓ હજુ આધારભૂત નથી.\n"
+"નામ '%s' ગુમ થઇ જશે.\n"
 
 #: ../plugins/excel/ms-excel-read.c:3341
 #, c-format
@@ -337,14 +339,16 @@ msgid ""
 "OLE links are not supported yet.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
+"OLE કડીઓ હજુ આધારભૂત નથી.\n"
+"નામ '%s' એ ગુમ થયેલ હશે.\n"
 
 #: ../plugins/excel/ms-excel-read.c:5725
 msgid "external references"
-msgstr ""
+msgstr "બહારનાં સંદર્ભો"
 
 #: ../plugins/excel/ms-excel-read.c:5764
 msgid "No password supplied"
-msgstr ""
+msgstr "પાસવર્ડ પૂરો પાડેલ નથી"
 
 #: ../plugins/excel/ms-excel-write.c:223
 #, c-format
@@ -377,15 +381,15 @@ msgstr ""
 
 #: ../plugins/excel/ms-excel-write.c:5714
 msgid "Couldn't open stream 'Book' for writing\n"
-msgstr ""
+msgstr "લખવા માટે સ્ટ્રીમ 'ચોપડી' ને ખોલી શકાતી નથી\n"
 
 #: ../plugins/excel/ms-excel-write.c:5734
 msgid "Couldn't open stream 'Workbook' for writing\n"
-msgstr ""
+msgstr "લખવા માટે સ્ટ્રીમ 'વર્કબુક' ને ખોલી શકાતી નથી\n"
 
 #: ../plugins/excel/ms-formula-read.c:656
 msgid "Broken function"
-msgstr ""
+msgstr "વિધેય તૂટેલ છે"
 
 #: ../plugins/excel/ms-formula-write.c:535
 #, c-format
@@ -394,23 +398,23 @@ msgstr ""
 
 #: ../plugins/excel/plugin.xml.in.h:1
 msgid "Imports/Exports MS Excel (tm) files"
-msgstr ""
+msgstr "MS Excel (tm) ફાઇલો ને આયાત/નિકાસ કરો"
 
 #: ../plugins/excel/plugin.xml.in.h:2
 msgid "MS Excel (tm)"
-msgstr ""
+msgstr "MS Excel (tm)"
 
 #: ../plugins/excel/plugin.xml.in.h:3
 msgid "MS Excel (tm) (*.xls)"
-msgstr ""
+msgstr "MS Excel (tm) (*.xls)"
 
 #: ../plugins/excel/plugin.xml.in.h:4
 msgid "MS Excel (tm) 2003 SpreadsheetML"
-msgstr ""
+msgstr "MS Excel (tm) 2003 SpreadsheetML"
 
 #: ../plugins/excel/plugin.xml.in.h:5
 msgid "MS Excel (tm) 2007"
-msgstr ""
+msgstr "MS Excel (tm) 2007"
 
 #: ../plugins/excel/plugin.xml.in.h:6
 msgid "MS Excel (tm) 5.0/95"
@@ -427,57 +431,57 @@ msgstr "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
 #: ../plugins/excel/xlsx-read.c:233
 #, c-format
 msgid "'%s' is corrupt!"
-msgstr ""
+msgstr "'%s' એ બગડેલ છે!"
 
 #: ../plugins/excel/xlsx-read.c:326
 #, c-format
 msgid "Unknown enum value '%s' for attribute %s"
-msgstr ""
+msgstr "ગુણધર્મ %s માટે અજ્ઞાત enum કિંમત '%s'"
 
 #: ../plugins/excel/xlsx-read.c:369 ../plugins/excel/xlsx-read.c:398
 #, c-format
 msgid "Integer '%s' is out of range, for attribute %s"
-msgstr ""
+msgstr "ગુણધર્મ %s માટે ઇન્ટીજર '%s' એ સીમાની બહાર છે"
 
 #: ../plugins/excel/xlsx-read.c:373 ../plugins/excel/xlsx-read.c:402
 #, c-format
 msgid "Invalid integer '%s' for attribute %s"
-msgstr ""
+msgstr "ગુણધર્મ %s માટે અયોગ્ય ઇન્ટીજર '%s'"
 
 #: ../plugins/excel/xlsx-read.c:428
 #, c-format
 msgid "Invalid RRGGBB color '%s' for attribute %s"
-msgstr ""
+msgstr "ગુણધર્મ %s માટે અયોગ્ય RRGGBB રંગ '%s'"
 
 #: ../plugins/excel/xlsx-read.c:459
 #, c-format
 msgid "Invalid number '%s' for attribute %s"
-msgstr ""
+msgstr "ગુણધર્મ %s માટે અયોગ્ય નંબર '%s'"
 
 #: ../plugins/excel/xlsx-read.c:483
 #, c-format
 msgid "Invalid cell position '%s' for attribute %s"
-msgstr ""
+msgstr "ગુણધર્મ %s માટે અયોગ્ય શેલ નું સ્થાન '%s'"
 
 #: ../plugins/excel/xlsx-read.c:502
 #, c-format
 msgid "Invalid range '%s' for attribute %s"
-msgstr ""
+msgstr "ગુણધર્મ %s માટે અયોગ્ય સીમા '%s'"
 
 #: ../plugins/excel/xlsx-read.c:655
 #, c-format
 msgid "Unknown theme color %d"
-msgstr ""
+msgstr "અજ્ઞાત થીમ રંગ %d"
 
 #: ../plugins/excel/xlsx-read.c:801
 #, c-format
 msgid "Undefined number format id '%s'"
-msgstr ""
+msgstr "અવ્યાખ્યાયિત નંબર બંધારણ id '%s'"
 
 #: ../plugins/excel/xlsx-read.c:1447
 #, c-format
 msgid "Unknown color '%s'"
-msgstr ""
+msgstr "અજ્ઞાત રંગ '%s'"
 
 #: ../plugins/excel/xlsx-read.c:2095
 msgid "Dropping missing object"
@@ -491,12 +495,12 @@ msgstr ""
 #: ../plugins/excel/xlsx-read.c:2321
 #, c-format
 msgid "Invalid color '%s' for attribute rgb"
-msgstr ""
+msgstr "ગુણધર્મ rgb માટે અયોગ્ય રંગ '%s'"
 
 #: ../plugins/excel/xlsx-read.c:2349 ../plugins/excel/xlsx-read.c:2358
 #, c-format
 msgid "Undefined style record '%d'"
-msgstr ""
+msgstr "અવ્યાખ્યાયિત શૈલી રેકોર્ડ '%d'"
 
 #: ../plugins/excel/xlsx-read.c:2367
 #, c-format
@@ -506,12 +510,12 @@ msgstr ""
 #: ../plugins/excel/xlsx-read.c:2396
 #, c-format
 msgid "Invalid sst ref '%s'"
-msgstr ""
+msgstr "અયોગ્ય sst ref '%s'"
 
 #: ../plugins/excel/xlsx-read.c:2517
 #, c-format
 msgid "Invalid cell %s"
-msgstr ""
+msgstr "અયોગ્ય શેલ %s"
 
 #: ../plugins/excel/xlsx-read.c:2618
 msgid "Ignoring column information that does not specify first or last."
@@ -524,7 +528,7 @@ msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:3335
 msgid "Undefined"
-msgstr ""
+msgstr "અવ્યાખ્યાયિત થયેલ"
 
 #: ../plugins/excel/xlsx-read.c:3378
 #, c-format
@@ -533,24 +537,24 @@ msgstr ""
 
 #: ../plugins/excel/xlsx-read.c:3759
 msgid "Unknown type of hyperlink"
-msgstr ""
+msgstr "હાઇપરકડીનો અજ્ઞાત પ્રકાર"
 
 #: ../plugins/excel/xlsx-read.c:3970
 msgid "Ignoring a sheet without a name"
-msgstr ""
+msgstr "નામ વગર અવગણેલી શીટ"
 
 #: ../plugins/excel/xlsx-read.c:3998
 #, c-format
 msgid "Missing part-id for sheet '%s'"
-msgstr ""
+msgstr "શીટ '%s' માટે ગેરહાજર part-id"
 
 #: ../plugins/excel/xlsx-read.c:4928
 msgid "No workbook stream found."
-msgstr ""
+msgstr "વર્કબુક સ્ટ્રીમ શોધાઇ નથી."
 
 #: ../plugins/fn-complex/functions.c:1607
 msgid "real,im,suffix"
-msgstr ""
+msgstr "real,im,suffix"
 
 #: ../plugins/fn-complex/functions.c:1610
 #: ../plugins/fn-complex/functions.c:1613
@@ -589,7 +593,7 @@ msgstr ""
 #: ../plugins/fn-complex/functions.c:1728
 #: ../plugins/fn-complex/functions.c:1731
 msgid "inumber"
-msgstr ""
+msgstr "inumber"
 
 #: ../plugins/fn-complex/functions.c:1625
 #: ../plugins/fn-complex/functions.c:1640
@@ -597,19 +601,19 @@ msgstr ""
 #: ../plugins/fn-complex/functions.c:1655
 #: ../plugins/fn-complex/functions.c:1668
 msgid "inumber,inumber"
-msgstr ""
+msgstr "inumber,inumber"
 
 #: ../plugins/fn-complex/plugin.xml.in.h:1
 msgid "Complex"
-msgstr ""
+msgstr "જટિલ"
 
 #: ../plugins/fn-complex/plugin.xml.in.h:2
 msgid "Complex Functions"
-msgstr ""
+msgstr "જટિલ વિધેયો"
 
 #: ../plugins/fn-complex/plugin.xml.in.h:3
 msgid "Functions for complex numbers"
-msgstr ""
+msgstr "જટિલ નંબરો માટે વિધેયો"
 
 #: ../plugins/fn-database/functions.c:1248
 #: ../plugins/fn-database/functions.c:1251
@@ -633,11 +637,11 @@ msgstr ""
 
 #: ../plugins/fn-database/plugin.xml.in.h:1 ../plugins/gda/plugin.xml.in.h:1
 msgid "Database"
-msgstr ""
+msgstr "ડેટાબેઝ"
 
 #: ../plugins/fn-database/plugin.xml.in.h:2
 msgid "Database Functions"
-msgstr ""
+msgstr "ડેટાબેઝ વિધેયો"
 
 #: ../plugins/fn-database/plugin.xml.in.h:3
 msgid "Functions looking up values in databases"
@@ -645,11 +649,11 @@ msgstr ""
 
 #: ../plugins/fn-date/functions.c:1434
 msgid "year,month,day"
-msgstr ""
+msgstr "વર્ષ,મહિનો,દિવસ"
 
 #: ../plugins/fn-date/functions.c:1438
 msgid "date_str"
-msgstr ""
+msgstr "date_str"
 
 #: ../plugins/fn-date/functions.c:1442
 msgid "date1,date2,interval"
@@ -718,11 +722,11 @@ msgstr ""
 
 #: ../plugins/fn-eng/plugin.xml.in.h:1
 msgid "Engineering"
-msgstr ""
+msgstr "ઇજનેરી"
 
 #: ../plugins/fn-eng/plugin.xml.in.h:2
 msgid "Engineering Functions"
-msgstr ""
+msgstr "ઇજનેરી વિધેયો"
 
 #: ../plugins/fn-eng/plugin.xml.in.h:3
 msgid "Functions for complex numbers, base conversions, and more"
@@ -742,11 +746,11 @@ msgstr ""
 
 #: ../plugins/fn-erlang/plugin.xml.in.h:1
 msgid "Erlang"
-msgstr ""
+msgstr "Erlang"
 
 #: ../plugins/fn-erlang/plugin.xml.in.h:2
 msgid "Erlang Functions"
-msgstr ""
+msgstr "Erlang વિધેયો"
 
 #: ../plugins/fn-erlang/plugin.xml.in.h:3
 msgid "Functions to help Erlang Analysis"
@@ -7150,7 +7154,7 @@ msgstr ""
 msgid "Column selection"
 msgstr ""
 
-#: ../src/dialogs/dialog-stf.glade.h:15
+#: ../src/dialogs/dialog-stf.glade.h:15 ../src/sheet-object-graph.c:677
 msgid "Columns"
 msgstr ""
 
@@ -10366,18 +10370,34 @@ msgid ""
 "%s!%s"
 msgstr ""
 
-#: ../src/sheet-object-graph.c:246 ../src/sheet-object-image.c:410
+#: ../src/sheet-object-graph.c:247 ../src/sheet-object-image.c:410
 #, c-format
 msgid "Unknown failure while saving image"
 msgstr ""
 
-#: ../src/sheet-object-graph.c:330
+#: ../src/sheet-object-graph.c:331
 msgid "_Save as Image"
 msgstr "ઇમેજ તરીકે સંગ્રહ કરો (_S)"
 
-#: ../src/sheet-object-graph.c:331
+#: ../src/sheet-object-graph.c:332
 msgid "Open in _New Window"
 msgstr "નવી વિન્ડો માં ખોલો (_N)"
+
+#: ../src/sheet-object-graph.c:672
+msgid "Series as:"
+msgstr ""
+
+#: ../src/sheet-object-graph.c:676
+msgid "Auto"
+msgstr "સ્વયં"
+
+#: ../src/sheet-object-graph.c:678
+msgid "Rows"
+msgstr "હારમાળાઓ"
+
+#: ../src/sheet-object-graph.c:682
+msgid "Use first series as shared abscissa"
+msgstr ""
 
 #: ../src/sheet-object-image.c:463
 msgid "_Save as image"
@@ -10395,25 +10415,25 @@ msgstr "બટન"
 #. FIXME: This text sucks:
 #: ../src/sheet-object-widget.c:786
 msgid "Change widget"
-msgstr ""
+msgstr "વિજેટ ને બદલો"
 
 #: ../src/sheet-object-widget.c:1392
 #, c-format
 msgid "CheckBox %d"
-msgstr ""
+msgstr "ચેકબોક્સ %d"
 
 #. FIXME: This text sucks:
 #: ../src/sheet-object-widget.c:1459
 msgid "Clicking checkbox"
-msgstr ""
+msgstr "ચેકબોક્સ પર ક્લિક કરી રહ્યા છે"
 
 #: ../src/sheet-object-widget.c:1858 ../src/wbc-gtk-actions.c:2115
 msgid "RadioButton"
-msgstr ""
+msgstr "રેડિયોબટન"
 
 #: ../src/sheet-object-widget.c:2094
 msgid "Clicking in list"
-msgstr ""
+msgstr "યાદી માં ક્લિક કરી રહ્યા છે"
 
 #: ../src/sheet-object.c:68
 msgid "Snap object to grid"
@@ -10462,7 +10482,7 @@ msgstr "કાપો"
 
 #: ../src/sheet.c:696
 msgid "The name of the sheet."
-msgstr ""
+msgstr "શીટનું નામ."
 
 #: ../src/sheet.c:701
 msgid "text-is-rtl"
@@ -10470,11 +10490,11 @@ msgstr ""
 
 #: ../src/sheet.c:702
 msgid "Text goes from right to left."
-msgstr ""
+msgstr "લખાણ એ જમણે થી ડાબી બાજુ જાય છે."
 
 #: ../src/sheet.c:707
 msgid "Visibility"
-msgstr ""
+msgstr "દ્રશ્યતા"
 
 #: ../src/sheet.c:708
 msgid "How visible the sheet is."
@@ -10482,7 +10502,7 @@ msgstr ""
 
 #: ../src/sheet.c:714
 msgid "Display Formulas"
-msgstr ""
+msgstr "સૂત્રો ને દર્શાવો"
 
 #: ../src/sheet.c:715
 msgid "Control whether formulas are shown instead of values."
@@ -10490,7 +10510,7 @@ msgstr ""
 
 #: ../src/sheet.c:720
 msgid "Display Zeros"
-msgstr ""
+msgstr "શૂન્યો ને દર્શાવો"
 
 #: ../src/sheet.c:721
 msgid "Control whether zeros are shown are blanked out."
@@ -10498,7 +10518,7 @@ msgstr ""
 
 #: ../src/sheet.c:726
 msgid "Display Grid"
-msgstr ""
+msgstr "ગ્રીડ ને દર્શાવો"
 
 #: ../src/sheet.c:727
 msgid "Control whether the grid is shown."
@@ -10506,7 +10526,7 @@ msgstr ""
 
 #: ../src/sheet.c:732
 msgid "Display Column Headers"
-msgstr ""
+msgstr "સ્તંભ હેડરો ને દર્શાવો"
 
 #: ../src/sheet.c:733
 msgid "Control whether column headers are shown."
@@ -10514,7 +10534,7 @@ msgstr ""
 
 #: ../src/sheet.c:738
 msgid "Display Row Headers"
-msgstr ""
+msgstr "હારમાળા નાં હેડરો ને દર્શાવો"
 
 #: ../src/sheet.c:739
 msgid "Control whether row headers are shown."
@@ -10723,7 +10743,7 @@ msgstr ""
 
 #: ../src/sheet.c:2827
 msgid "cannot operate on array formulae"
-msgstr ""
+msgstr "એરે સૂત્ર પર ચાલુ કરી શકાતુ નથી"
 
 #: ../src/sheet.c:4045
 msgid "Insert Columns"
@@ -10771,7 +10791,7 @@ msgstr ""
 
 #: ../src/ssconvert.c:100
 msgid "List the available exporters"
-msgstr ""
+msgstr "ઉપલ્બધ નિકાસકર્તાઓની યાદી કરો"
 
 #: ../src/ssconvert.c:107
 msgid ""
@@ -10785,7 +10805,7 @@ msgstr ""
 
 #: ../src/ssconvert.c:125
 msgid "The range to export"
-msgstr ""
+msgstr "આયાત કરવા માટે મર્યાદા"
 
 #: ../src/ssconvert.c:132
 msgid "Goal seek areas"
@@ -10793,7 +10813,7 @@ msgstr ""
 
 #: ../src/ssconvert.c:185
 msgid "Cannot parse export options."
-msgstr ""
+msgstr "નિકાસ વિકલ્પો ને પદચ્છેદન કરી શકાતુ નથી."
 
 #: ../src/ssconvert.c:191
 #, c-format
@@ -10837,7 +10857,7 @@ msgstr ""
 
 #: ../src/ssconvert.c:362 ../src/ssconvert.c:405
 msgid "INFILE [OUTFILE]"
-msgstr ""
+msgstr "INFILE [OUTFILE]"
 
 #: ../src/ssconvert.c:376
 #, c-format
@@ -10850,7 +10870,7 @@ msgstr ""
 #: ../src/ssconvert.c:403 ../src/ssindex.c:223
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
-msgstr ""
+msgstr "વપરાશ: %s [OPTION...] %s\n"
 
 #: ../src/ssgrep.c:67
 msgid "Only print a count of matches per file"
@@ -10884,15 +10904,15 @@ msgstr ""
 
 #: ../src/ssgrep.c:115
 msgid "Print filenames with matches"
-msgstr ""
+msgstr "બંધબેસતાઓની સાથે ફાઇલનામો ને છાપો"
 
 #: ../src/ssgrep.c:122
 msgid "Print filenames without matches"
-msgstr ""
+msgstr "સુમેળ વગર ફાઇલનામો ને છાપો"
 
 #: ../src/ssgrep.c:129
 msgid "Print the location of each match"
-msgstr ""
+msgstr "દરેક સુમેળના સ્થાન ને છાપો"
 
 #: ../src/ssgrep.c:136
 msgid "Suppress all normal output"
@@ -10916,7 +10936,7 @@ msgstr "ફક્ત આખા શબ્દોને બંધબેસાડો
 
 #: ../src/ssgrep.c:178
 msgid "Recalculate all cells"
-msgstr ""
+msgstr "બધા શેલો ની ફરીથા ગણતરી કરો"
 
 #: ../src/ssgrep.c:370
 msgid "result"
@@ -10928,7 +10948,7 @@ msgstr "ટિપ્પણી"
 
 #: ../src/ssgrep.c:434
 msgid "PATTERN INFILE..."
-msgstr ""
+msgstr "PATTERN INFILE..."
 
 #: ../src/ssgrep.c:448
 #, c-format
@@ -10944,7 +10964,7 @@ msgstr ""
 #: ../src/ssgrep.c:468
 #, c-format
 msgid "%s: Cannot read %s: %s\n"
-msgstr ""
+msgstr "%s: %s ને વાંચી શકાતુ નથી: %s\n"
 
 #: ../src/ssgrep.c:498
 #, c-format
@@ -13207,12 +13227,12 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1949
 msgid "Moving average..."
-msgstr ""
+msgstr "સરેરાશ ને ખસેડી રહ્યા છે..."
 
 #. Tools -> Frequency Tables
 #: ../src/wbc-gtk-actions.c:1953
 msgid "Fre_quency Tables..."
-msgstr ""
+msgstr "આવૃત્તિ કોષ્ટકો (_q)..."
 
 #: ../src/wbc-gtk-actions.c:1954
 msgid "Frequency tables for non-numeric data"
@@ -13220,7 +13240,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:1956
 msgid "_Histogram..."
-msgstr ""
+msgstr "હિસ્ટોગ્રામ (_H)..."
 
 #: ../src/wbc-gtk-actions.c:1957
 msgid "Various frequency tables for numeric data"
@@ -13324,20 +13344,20 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2002
 msgid "_Kaplan-Meier Estimates..."
-msgstr ""
+msgstr "Kaplan-Meier Estimates (_K)..."
 
 #: ../src/wbc-gtk-actions.c:2003
 msgid "Creation of Kaplan-Meier Survival Curves"
-msgstr ""
+msgstr "Kaplan-Meier Survival Curves ની બનાવટ"
 
 #. Data
 #: ../src/wbc-gtk-actions.c:2007
 msgid "_Sort..."
-msgstr ""
+msgstr "ક્રમમાં ગોઠવો (_S)..."
 
 #: ../src/wbc-gtk-actions.c:2008
 msgid "Sort the selected region"
-msgstr ""
+msgstr "પસંદ થયેલ વિસ્તાર ને ક્રમમાં ગોઠવો"
 
 #: ../src/wbc-gtk-actions.c:2010
 msgid "Sh_uffle..."
@@ -13365,7 +13385,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2019
 msgid "_Consolidate..."
-msgstr ""
+msgstr "સંયુક્ત કરો (_C)..."
 
 #: ../src/wbc-gtk-actions.c:2020
 msgid "Consolidate regions using a function"
@@ -13381,11 +13401,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2026
 msgid "_Data Slice..."
-msgstr ""
+msgstr "માહિતી નો હિસ્સો (_D)..."
 
 #: ../src/wbc-gtk-actions.c:2027
 msgid "Create a Data Slice"
-msgstr ""
+msgstr "માહિતીનાં હિસ્સા ને બનાવો"
 
 #. Data -> Outline
 #: ../src/wbc-gtk-actions.c:2032
@@ -13410,7 +13430,7 @@ msgstr "જૂથ (_G)..."
 
 #: ../src/wbc-gtk-actions.c:2039
 msgid "Add an outline group"
-msgstr ""
+msgstr "રૂપરેખા જૂથ ને ઉમેરો"
 
 #: ../src/wbc-gtk-actions.c:2041
 msgid "_Ungroup..."
@@ -13418,12 +13438,12 @@ msgstr "જૂથ વગરનું (_U)..."
 
 #: ../src/wbc-gtk-actions.c:2042
 msgid "Remove an outline group"
-msgstr ""
+msgstr "રૂપરેખા જૂથ ને દૂર કરો"
 
 #. Data -> Filter
 #: ../src/wbc-gtk-actions.c:2046 ../src/wbc-gtk.c:1404
 msgid "Add _Auto Filter"
-msgstr ""
+msgstr "સ્વયં ફિલ્ટરને ઉમેરો (_A)"
 
 #: ../src/wbc-gtk-actions.c:2047
 msgid "Add or remove a filter"
@@ -13435,7 +13455,7 @@ msgstr "બધુ બતાવો (_S)"
 
 #: ../src/wbc-gtk-actions.c:2050
 msgid "Show all filtered and hidden rows"
-msgstr ""
+msgstr "બધા ફિલ્ટર થયેલ અને છુપાયેલ હારમાળાઓને બતાવો"
 
 #: ../src/wbc-gtk-actions.c:2052
 msgid "Advanced _Filter..."
@@ -13515,11 +13535,11 @@ msgstr "સ્ક્રોલબાર ને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:2088
 msgid "Slider"
-msgstr ""
+msgstr "સ્લાઇડર"
 
 #: ../src/wbc-gtk-actions.c:2089
 msgid "Create a slider"
-msgstr ""
+msgstr "સ્લાઇડર ને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:2091
 msgid "SpinButton"
@@ -13527,7 +13547,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2092
 msgid "Create a spin button"
-msgstr ""
+msgstr "સ્પીન બટનને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:2094
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:3
@@ -13568,11 +13588,11 @@ msgstr "લંબચોરસ ઓબ્જેક્ટને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:2109
 msgid "Ellipse"
-msgstr ""
+msgstr "અંડાકૃતિ"
 
 #: ../src/wbc-gtk-actions.c:2110
 msgid "Create an ellipse object"
-msgstr ""
+msgstr "અંડાકૃતિ ઓબ્જેક્ટને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:2113
 msgid "Create a button"
@@ -13580,7 +13600,7 @@ msgstr "બટનને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:2116
 msgid "Create a radio button"
-msgstr ""
+msgstr "રેડિયો બટન ને બનાવો"
 
 #: ../src/wbc-gtk-actions.c:2121
 msgid "Merge a range of cells"
@@ -13596,11 +13616,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2128
 msgid "Format the selection as General"
-msgstr ""
+msgstr "સામાન્ય રીતે પસંદ કરેલ બંધારણ"
 
 #: ../src/wbc-gtk-actions.c:2131
 msgid "Format the selection as numbers"
-msgstr ""
+msgstr "નંબરો તરીકે પસંદ કરેલ બંધારણ"
 
 #: ../src/wbc-gtk-actions.c:2133
 msgid "Currency"
@@ -13608,11 +13628,11 @@ msgstr "ચલણ"
 
 #: ../src/wbc-gtk-actions.c:2134
 msgid "Format the selection as currency"
-msgstr ""
+msgstr "ચલણ તરીકે પસંદ કરંલ બંધારણ"
 
 #: ../src/wbc-gtk-actions.c:2136
 msgid "Accounting"
-msgstr ""
+msgstr "ગણતરી"
 
 #: ../src/wbc-gtk-actions.c:2137
 msgid "Format the selection as accounting"
@@ -13716,7 +13736,7 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2214
 msgid "Display _Formulas"
-msgstr ""
+msgstr "સૂત્રોને દર્શાવો (_F)"
 
 #: ../src/wbc-gtk-actions.c:2215
 msgid "Display the value of a formula or the formula itself"
@@ -13761,15 +13781,15 @@ msgstr "R1C1 સંકેત ને વાપરો (_o)"
 
 #: ../src/wbc-gtk-actions.c:2232
 msgid "Display addresses as R1C1 or A1"
-msgstr ""
+msgstr "R1C1 અથવા A1 તરીકે સરનામાંઓને દર્શાવો"
 
 #: ../src/wbc-gtk-actions.c:2236
 msgid "_Left Align"
-msgstr ""
+msgstr "ડાબે ગોઠવો (_L)"
 
 #: ../src/wbc-gtk-actions.c:2237 ../src/wbc-gtk-actions.c:2304
 msgid "Align left"
-msgstr ""
+msgstr "ડાબે ગોઠવો"
 
 #: ../src/wbc-gtk-actions.c:2239
 msgid "_Center"
@@ -13781,11 +13801,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2242
 msgid "_Right Align"
-msgstr ""
+msgstr "જમણે ગોઠવો (_R)"
 
 #: ../src/wbc-gtk-actions.c:2243 ../src/wbc-gtk-actions.c:2306
 msgid "Align right"
-msgstr ""
+msgstr "જમણે ગોઠવો"
 
 #: ../src/wbc-gtk-actions.c:2245
 msgid "_Center Across Selection"
@@ -13805,11 +13825,11 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2257
 msgid "Align _Top"
-msgstr ""
+msgstr "ઊંચે ગોઠવો (_T)"
 
 #: ../src/wbc-gtk-actions.c:2258 ../src/wbc-gtk-actions.c:2316
 msgid "Align Top"
-msgstr ""
+msgstr "ઊંચે ગોઠવો"
 
 #: ../src/wbc-gtk-actions.c:2260
 msgid "_Vertically Center"
@@ -13899,11 +13919,11 @@ msgstr ""
 #. from icon theme
 #: ../src/wbc-gtk-actions.c:2297
 msgid "Subscrip_t"
-msgstr ""
+msgstr "સબ્સ્ક્રિપ્ટ (_t)"
 
 #: ../src/wbc-gtk-actions.c:2298
 msgid "Subscript"
-msgstr ""
+msgstr "સબ્સ્ક્રિપ્ટ"
 
 #: ../src/wbc-gtk-actions.c:2307
 msgid "Fill Horizontally"
@@ -13924,7 +13944,7 @@ msgstr ""
 #: ../src/wbc-gtk-actions.c:2341 ../src/wbc-gtk-actions.c:2342
 #: ../src/wbc-gtk-actions.c:2345 ../src/wbc-gtk-actions.c:2360
 msgid "Horizontal Alignment"
-msgstr ""
+msgstr "આડી રીતે ગોઠવણી"
 
 #: ../src/wbc-gtk-actions.c:2356 ../src/wbc-gtk-actions.c:2357
 msgid "Vertical Alignment"
@@ -14052,7 +14072,7 @@ msgstr "બદલાવ ને સ્વીકારો"
 
 #: ../src/wbc-gtk.c:2180
 msgid "Enter formula..."
-msgstr ""
+msgstr "સૂત્ર ને દાખલ કરો..."
 
 #: ../src/wbc-gtk.c:2231 ../src/wbc-gtk.c:2246
 msgid "_Re-Edit"
@@ -14080,7 +14100,7 @@ msgstr "બહારની સીમાઓ"
 
 #: ../src/wbc-gtk.c:2420
 msgid "Thick Outside Borders"
-msgstr ""
+msgstr "ઝાડી બહારની સીમાઓ"
 
 #: ../src/wbc-gtk.c:2423
 msgid "Double Bottom"
@@ -14092,15 +14112,15 @@ msgstr "નીચેનો ભાગ ઝાડો"
 
 #: ../src/wbc-gtk.c:2426
 msgid "Top and Bottom"
-msgstr ""
+msgstr "ઊંચુ અને તળિયુ"
 
 #: ../src/wbc-gtk.c:2427
 msgid "Top and Double Bottom"
-msgstr ""
+msgstr "ઊંચુ અને બમણું તળિયુ"
 
 #: ../src/wbc-gtk.c:2428
 msgid "Top and Thick Bottom"
-msgstr ""
+msgstr "ઊંચુ અને ઝાડુ તળિયુ"
 
 #: ../src/wbc-gtk.c:2513
 msgid "Set Borders"
@@ -14225,11 +14245,11 @@ msgstr "બોલ્ડ ઇટાલિક"
 
 #: ../src/workbook-cmd-format.c:79
 msgid "Increase Indent"
-msgstr ""
+msgstr "ખાંચાને વધારો"
 
 #: ../src/workbook-cmd-format.c:96
 msgid "Decrease Indent"
-msgstr ""
+msgstr "ખાંચા ને ઘટાડો"
 
 #: ../src/workbook-control.c:207
 msgid "Define Name"
@@ -14245,7 +14265,7 @@ msgstr "સરનામું"
 
 #: ../src/workbook-control.c:383
 msgid "The workbook view being controlled."
-msgstr ""
+msgstr "વર્કબુક દેખાવ ને નિયંત્રણ કરી દેવામાં આવ્યો છે."
 
 #. Translators: "%dC" is a very short format to indicate the number of full columns
 #: ../src/workbook-view.c:356
@@ -14335,7 +14355,7 @@ msgstr ""
 #: ../src/workbook.c:296
 #, c-format
 msgid "Book%d.%s"
-msgstr ""
+msgstr "ચોપડી%d.%s"
 
 #: ../src/workbook.c:1342
 msgid "Renaming sheet"
@@ -14425,29 +14445,29 @@ msgstr ""
 
 #: ../src/xml-sax-read.c:674
 msgid "File has inconsistent SheetNameIndex element."
-msgstr ""
+msgstr "ફાઇલ પાસે અસુસંગત SheetNameIndex ઘટક છે."
 
 #: ../src/xml-sax-read.c:1948
 #, c-format
 msgid "Unknown filter operator \"%s\""
-msgstr ""
+msgstr "અજ્ઞાત ફિલ્ટર ઓપરેટર \"%s\""
 
 #: ../src/xml-sax-read.c:1988
 msgid "Missing filter type"
-msgstr ""
+msgstr "ગુમ થયેલ ફિલ્ટર પ્રકાર"
 
 #: ../src/xml-sax-read.c:2010
 #, c-format
 msgid "Unknown filter type \"%s\""
-msgstr ""
+msgstr "અજ્ઞાત ફિલ્ટર પ્રકાર \"%s\""
 
 #: ../src/xml-sax-read.c:2029
 msgid "Invalid filter, missing Area"
-msgstr ""
+msgstr "અયોગ્ય ફિલ્ટર, ગુમ થયેલ વિસ્તાર"
 
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:1
 msgid "A button like template"
-msgstr ""
+msgstr "બટન કે ટેમ્પલેટ જેવુ"
 
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:3
 #: ../templates/autoformat/autoformat.3D.list.xml.in.h:2
@@ -14547,7 +14567,7 @@ msgstr "વેનિલા"
 
 #: ../templates/autoformat/autoformat.Financial.basic.xml.in.h:3
 msgid "Simple financial template"
-msgstr ""
+msgstr "સાદુ નાણાકીય ટેમ્પલેટ"
 
 #: ../templates/autoformat/autoformat.Financial.desert.xml.in.h:1
 msgid "Desert"
