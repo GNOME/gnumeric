@@ -13,6 +13,11 @@ my ($ma,$mi,$rv) = $valgrind_version =~ /^valgrind-?\s*(\d+)\.(\d+)\.(\d+)/;
 &GnumericTest::report_skip ("Valgrind is missing or too old")
     unless (($ma || 0) * 1000 + ($mi || 0)) * 1000 + ($rv || 0) > 3001001;
 
+my $cairo = `pkg-config --modversion cairo 2>/dev/null`;
+chomp $cairo;
+&GnumericTest::report_skip ("Cairo version $cairo is buggy")
+    if $cairo eq '1.8.0';
+
 &message ("Check the pdf exporter with valgrind -- part 1.");
 my $src = "$samples/excel/statfuns.xls";
 &GnumericTest::report_skip ("file $src does not exist") unless -r $src;

@@ -1,3 +1,7 @@
+2009-01-06  Morten Welinder  <terra@gnome.org>
+
+	* t8003-valgrind-pdf.pl: Skip if Cairo is 1.8.0.
+
 2008-12-28  Morten Welinder  <terra@gnome.org>
 
 	* t9999-epilogue.pl: If we haven't installed Gnumeric [to the
