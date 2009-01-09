@@ -653,7 +653,7 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 		return NULL;
 
 	default :
-		return format_value (format, v, NULL, 8, date_conv);
+		return format_value (format, v, NULL, -1, date_conv);
 	}
 }
 

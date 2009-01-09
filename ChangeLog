@@ -1,3 +1,8 @@
+2009-01-09  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c: (gnm_go_data_vector_get_str): set -1 as format length.
+	[#552721]
+
 2008-12-31  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.h: add widgets to force using rows/columns as chart series,
