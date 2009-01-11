@@ -683,7 +683,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 	case GNM_EXPR_OP_ANY_BINARY :
 		if (target_type != XL_ARRAY)
 			target_type = XL_VAL;
-
+		/* Fall through.  */
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT: {
 		int const prec = operations[op].prec;
@@ -794,7 +794,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 		write_node (pd, expr->unary.value, operations[op].prec,
 			(target_type != XL_ARRAY) ? XL_VAL : XL_ARRAY);
 		push_guint8 (pd, operations[op].xl_op);
-		if (prec <= paren_level)
+		if (op != GNM_EXPR_OP_PAREN && prec <= paren_level)
 			push_guint8 (pd, FORMULA_PTG_PAREN);
 		break;
 	}
