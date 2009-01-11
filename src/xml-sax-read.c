@@ -252,6 +252,9 @@ static gboolean
 xml_sax_attr_range (xmlChar const * const *attrs, GnmRange *res)
 {
 	int flags = 0;
+
+	g_return_val_if_fail (attrs != NULL, FALSE);
+
 	for (; attrs[0] && attrs[1] ; attrs += 2)
 		if (gnm_xml_attr_int (attrs, "startCol", &res->start.col))
 			flags |= 0x1;
@@ -1243,6 +1246,11 @@ xml_sax_style_region_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	g_return_if_fail (state->style_range_init == FALSE);
 	g_return_if_fail (state->style == NULL);
+
+	if (attrs == NULL) {
+		g_warning ("Invalid tag: gnm:StyleRegion start tag without attributes");
+		return;
+	}
 
 	state->style = (state->version >= GNM_XML_V6 ||
 			state->version <= GNM_XML_V2)
