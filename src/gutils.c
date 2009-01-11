@@ -56,8 +56,13 @@ gutils_init (void)
 	g_free (dir);
 #else
 	const char *argv0 = g_get_prgname ();
+	size_t l0 = argv0 ? strlen (argv0) : 0;
 	char *base = argv0 ? g_path_get_basename (argv0) : NULL;
-	gboolean running_in_tree = base && strncmp (base, "lt-", 3) == 0;
+	const char *suff = "/.libs/gnumeric";
+	size_t lsuff = strlen (suff);
+	gboolean running_in_tree =
+		(l0 > lsuff && strcmp (argv0 + l0 - lsuff, suff) == 0) ||
+		(base && strncmp (base, "lt-", 3) == 0);
 
 	g_free (base);
 	if (running_in_tree) {
