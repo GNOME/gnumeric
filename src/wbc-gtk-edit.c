@@ -134,7 +134,8 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 		char const *txt = wbcg_edit_get_display_text (wbcg);
 		GnmStyle const *mstyle = sheet_style_get (sheet, sv->edit_pos.col, sv->edit_pos.row);
 		char const *expr_txt = NULL;
-		GOFormat *fmt = gnm_cell_get_format (sheet_cell_fetch (sheet, sv->edit_pos.col, sv->edit_pos.row));
+		GOFormat const *fmt =
+			gnm_cell_get_format (sheet_cell_fetch (sheet, sv->edit_pos.col, sv->edit_pos.row));
 
 		GnmValue *value = format_match (txt, fmt,
 						workbook_date_conv (sheet->workbook));
@@ -901,7 +902,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 			gtk_entry_set_text (wbcg_get_entry (wbcg), text);
 
 		if (cell->value != NULL) {
-			GOFormat *fmt = VALUE_FMT (cell->value);
+			GOFormat const *fmt = VALUE_FMT (cell->value);
 			if (fmt != NULL && go_format_is_markup (fmt)) {
 				PangoAttrList *markup =
 					pango_attr_list_copy ((PangoAttrList *)go_format_get_markup (fmt));

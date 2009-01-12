@@ -175,7 +175,7 @@ afa_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 			af->status = AFS_READY;
 		}
 		if (VALUE_FMT (value))
-			afa->format = go_format_ref (VALUE_FMT (value));
+			afa->format = go_format_ref ((GOFormat *)VALUE_FMT (value));
 		break;
 	case 1:
 		afa->step = f - afa->base;
@@ -559,7 +559,7 @@ afm_teach_cell (AutoFiller *af, const GnmCell *cell, int n)
 
 	if (n == 0) {
 		if (VALUE_FMT (value))
-			afm->format = go_format_ref (VALUE_FMT (value));
+			afm->format = go_format_ref ((GOFormat *)VALUE_FMT (value));
 		afm->base = d;
 	} else {
 		int year = g_date_get_year (&d);

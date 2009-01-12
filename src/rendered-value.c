@@ -363,7 +363,7 @@ gnm_rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		res->might_overflow = FALSE;
 	} else {
 		int col_width = -1;
-		GOFormat *format = gnm_style_get_format (mstyle);
+		GOFormat const *format = gnm_style_get_format (mstyle);
 		GODateConventions const *date_conv = sheet->workbook
 			? workbook_date_conv (sheet->workbook)
 			: NULL;

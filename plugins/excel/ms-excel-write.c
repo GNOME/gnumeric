@@ -2452,7 +2452,7 @@ static void
 cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 {
 	GnmStyle const *style;
-	GOFormat *fmt;
+	GOFormat const *fmt;
 	gboolean use_sst;
 
 	if (gnm_cell_has_expr (cell) || cell->value == NULL)

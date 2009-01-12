@@ -565,7 +565,7 @@ gnm_cell_get_entered_text (GnmCell const *cell)
 			}
 			return g_strconcat ("\'", tmp, NULL);
 		} else {
-			GOFormat *fmt = gnm_cell_get_format (cell);
+			GOFormat const *fmt = gnm_cell_get_format (cell);
 			return format_value (fmt, v, NULL, -1,	date_conv);
 		}
 	}
@@ -635,10 +635,10 @@ gnm_cell_get_style (GnmCell const *cell)
  * Get the display format.  If the assigned format is General,
  * the format of the value will be used.
  **/
-GOFormat *
+GOFormat const *
 gnm_cell_get_format (GnmCell const *cell)
 {
-	GOFormat *fmt;
+	GOFormat const *fmt;
 
 	g_return_val_if_fail (cell != NULL, go_format_general ());
 

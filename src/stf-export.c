@@ -212,7 +212,7 @@ stf_export_cell (GnmStfExport *stfe, GnmCell *cell)
 			if (cell->value) {
 				GODateConventions const *date_conv =
 					workbook_date_conv (cell->base.sheet->workbook);
-				GOFormat *format = gnm_cell_get_format (cell);
+				GOFormat const *format = gnm_cell_get_format (cell);
 				text = tmp = try_auto_date (cell->value, format, date_conv);
 				if (!text)
 					text = value_peek_string (cell->value);

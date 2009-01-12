@@ -203,7 +203,7 @@ void	    parse_text_value_or_expr (GnmParsePos const *pos,
 				      char const *text,
 				      GnmValue **val,
 				      GnmExprTop const **texpr,
-				      GOFormat *current_format,
+				      GOFormat const *current_format,
 				      GODateConventions const *date_conv);
 
 GString	*gnm_expr_conv_quote (GnmConventions const *conv, char const *str);

@@ -752,7 +752,7 @@ gnm_expr_char_start_p (char const * c)
 void
 parse_text_value_or_expr (GnmParsePos const *pos, char const *text,
 			  GnmValue **val, GnmExprTop const **texpr,
-			  GOFormat *cur_fmt,
+			  GOFormat const *cur_fmt,
 			  GODateConventions const *date_conv)
 {
 	char const *expr_start;

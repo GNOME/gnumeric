@@ -1186,16 +1186,16 @@ gnm_style_get_font_size (GnmStyle const *style)
 }
 
 void
-gnm_style_set_format (GnmStyle *style, GOFormat *format)
+gnm_style_set_format (GnmStyle *style, GOFormat const *format)
 {
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (format != NULL);
 
 	elem_changed (style, MSTYLE_FORMAT);
-	go_format_ref (format);
+	go_format_ref ((GOFormat *)format);
 	elem_clear_contents (style, MSTYLE_FORMAT);
 	elem_set (style, MSTYLE_FORMAT);
-	style->format = format;
+	style->format = (GOFormat *)format;
 }
 
 /*

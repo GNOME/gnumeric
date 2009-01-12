@@ -117,7 +117,7 @@ float        gnm_style_get_font_size	   (GnmStyle const *style);
 GnmFont     *gnm_style_get_font		   (GnmStyle const *style,
 					    PangoContext *context,
 					    float zoom);
-void         gnm_style_set_format	   (GnmStyle *style, GOFormat *fmt);
+void         gnm_style_set_format	   (GnmStyle *style, GOFormat const *fmt);
 void         gnm_style_set_format_text	   (GnmStyle *style, char const *fmt);
 GOFormat    *gnm_style_get_format	   (GnmStyle const *style);
 void         gnm_style_set_align_h	   (GnmStyle *style, GnmHAlign a);

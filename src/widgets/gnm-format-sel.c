@@ -26,7 +26,7 @@ static char *
 cb_generate_preview (GOFormatSel *gfs, GOColor *c)
 {
 	GnmValue const *v = g_object_get_data (G_OBJECT (gfs), "value");
-	GOFormat *fmt = go_format_sel_get_fmt (gfs);
+	GOFormat const *fmt = go_format_sel_get_fmt (gfs);
 
 	if (NULL == v)
 		return NULL;

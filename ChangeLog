@@ -1,5 +1,20 @@
 2009-01-12  Morten Welinder  <terra@gnome.org>
 
+	* src/expr.c (gnm_expr_eval): Set value format properly.
+
+	* src/value.h (VALUE_FMT): Make result const and an r-value.  All
+	users changed as needed.
+	* src/number-match.h (format_match, format_match_number): Make the
+	cur_fmt argument const.
+	* src/mstyle.c (gnm_style_set_format): Make the format argument
+	const.
+	* src/parse-util.c (parse_text_value_or_expr): Make the cur_fmt
+	argument const.
+	* src/cell.c (gnm_cell_get_format): Make the result const.  All
+	callers changed as needed.
+
+2009-01-12  Morten Welinder  <terra@gnome.org>
+
 	* src/cell.c (gnm_cell_get_entered_text): Apply cell format as
 	well as value format.  Applying only value format is certainly
 	wrong.

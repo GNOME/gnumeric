@@ -744,7 +744,7 @@ format_match_datetime (char const *text,
 	if (*text) {
 		GnmValue *v = format_match_time (text, FALSE,
 						 TRUE, add_format);
-		GOFormat *fmt;
+		GOFormat const *fmt;
 		if (!v)
 			return NULL;
 		time_val = value_get_as_float (v);
@@ -1061,7 +1061,7 @@ set_money_format (GnmValue *v)
  * format.  The caller is responsible for releasing the resulting value.
  **/
 GnmValue *
-format_match (char const *text, GOFormat *cur_fmt,
+format_match (char const *text, GOFormat const *cur_fmt,
 	      GODateConventions const *date_conv)
 {
 	GOFormatFamily fam;
@@ -1217,7 +1217,7 @@ format_match (char const *text, GOFormat *cur_fmt,
  * resulting value.  Will ONLY return numbers.
  */
 GnmValue *
-format_match_number (char const *text, GOFormat *cur_fmt,
+format_match_number (char const *text, GOFormat const *cur_fmt,
 		     GODateConventions const *date_conv)
 {
 	GnmValue *res = format_match (text, cur_fmt, date_conv);

@@ -64,6 +64,8 @@ Morten:
 	* Fix column-split problem with fixed-width stf import.
 	* Fix problem with deprecated gtk+ stuff in glade files.
 	* Fix xls export problem generating extra ()s.  [#567380]
+	* Constify usage of GOFormats.
+	* Fix inconsistentcy in searching with respect to formats.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

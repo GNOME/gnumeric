@@ -239,7 +239,7 @@ wb_view_style_feedback (WorkbookView *wbv)
 	SheetView *sv;
 	GnmStyle const *style;
 	GnmValidation const *val;
-	GOFormat *fmt_style, *fmt_cell;
+	GOFormat const *fmt_style, *fmt_cell;
 	GnmCell *cell;
 	gboolean update_controls = TRUE;
 

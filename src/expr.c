@@ -1283,8 +1283,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			res = negate_value (a);
 		else {
 			res = value_new_float (value_get_as_float (a) / 100);
-			VALUE_FMT (res) = go_format_default_percentage ();
-			go_format_ref (VALUE_FMT (res));
+			value_set_fmt (res, go_format_default_percentage ());
 		}
 		value_release (a);
 		return res;
