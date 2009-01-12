@@ -526,7 +526,12 @@ gnm_cell_get_render_color (GnmCell const *cell)
 char *
 gnm_cell_get_entered_text (GnmCell const *cell)
 {
+	GnmValue const *v;
+	Sheet *sheet;
+
 	g_return_val_if_fail (cell != NULL, NULL);
+
+	sheet = cell->base.sheet;
 
 	if (gnm_cell_has_expr (cell)) {
 		GnmParsePos pp;
@@ -534,29 +539,35 @@ gnm_cell_get_entered_text (GnmCell const *cell)
 
 		out.accum = g_string_new ("=");
 		out.pp = parse_pos_init_cell (&pp, cell);
-		out.convs = cell->base.sheet->convs;
+		out.convs = sheet->convs;
 
 		gnm_expr_top_as_gstring (cell->base.texpr, &out);
 		return g_string_free (out.accum, FALSE);
 	}
 
-	if (cell->value != NULL) {
-		if (VALUE_IS_STRING (cell->value)) {
+	v = cell->value;
+	if (v != NULL) {
+		GODateConventions const *date_conv =
+			workbook_date_conv (sheet->workbook);
+
+		if (VALUE_IS_STRING (v)) {
 			/* Try to be reasonably smart about adding a leading quote */
-			char const *tmp = cell->value->v_str.val->str;
+			char const *tmp = value_peek_string (v);
 
 			if (tmp[0] != '\'' && !gnm_expr_char_start_p (tmp)) {
-				GnmValue *val = format_match_number (tmp,
-					gnm_cell_get_format	(cell),
-					workbook_date_conv (cell->base.sheet->workbook));
+				GnmValue *val = format_match_number
+					(tmp,
+					 gnm_cell_get_format (cell),
+					 date_conv);
 				if (val == NULL)
 					return g_strdup (tmp);
 				value_release (val);
 			}
 			return g_strconcat ("\'", tmp, NULL);
+		} else {
+			GOFormat *fmt = gnm_cell_get_format (cell);
+			return format_value (fmt, v, NULL, -1,	date_conv);
 		}
-		return format_value (NULL, cell->value, NULL, -1,
-			workbook_date_conv (cell->base.sheet->workbook));
 	}
 
 	g_warning ("A cell with no expression, and no value ??");

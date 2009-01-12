@@ -1,3 +1,9 @@
+2009-01-12  Morten Welinder  <terra@gnome.org>
+
+	* src/cell.c (gnm_cell_get_entered_text): Apply cell format as
+	well as value format.  Applying only value format is certainly
+	wrong.
+
 2009-01-11  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (gutils_init): Make detection of in-tree running
