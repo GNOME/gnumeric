@@ -1,3 +1,8 @@
+2009-01-12  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_col_start): Handle column-count
+	discrepancies.
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.3

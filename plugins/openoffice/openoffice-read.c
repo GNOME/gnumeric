@@ -693,7 +693,12 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 		oo_update_style_extent (state, repeat_count, -1);
 	}
 	if (col_info != NULL) {
-		int const last = state->pos.eval.col + repeat_count;
+		int theend = gnm_sheet_get_max_cols (state->pos.sheet);
+		int last = state->pos.eval.col + repeat_count;
+		if (last > theend) {
+			g_warning ("Ignoring column information beyond the range we can handle.");
+			last = theend;
+		}
 		for (i = state->pos.eval.col ; i < last; i++ ) {
 			/* I can not find a listing for the default but will
 			 * assume it is TRUE to keep the files rational */
