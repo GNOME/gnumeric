@@ -66,6 +66,7 @@ Morten:
 	* Fix xls export problem generating extra ()s.  [#567380]
 	* Constify usage of GOFormats.
 	* Fix inconsistentcy in searching with respect to formats.
+	* Fix issue with BASE.   [#567252]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

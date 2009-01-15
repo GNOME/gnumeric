@@ -1,3 +1,10 @@
+2009-01-15  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (val_to_base): Introduce new flag, V2B_NUMBER, to
+	determine if an integer result is desired.  Fixes #567252.
+	(gnumeric_bin2dec, gnumeric_oct2dec, gnumeric_hex2dec): Use flag
+	here.
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.3

@@ -54,6 +54,7 @@ typedef enum {
 	V2B_STRINGS_0XH = 2,            /* Allow "4444h" and "0xABCD".  */
 	V2B_STRINGS_MAXLEN = 4,         /* Impose 10 character input length.  */
 	V2B_STRINGS_BLANK_ZERO = 8,     /* Treat "" as "0".  */
+	V2B_NUMBER = 16,                /* Wants a number, not a string.  */
 	V2B_KILLME
 } Val2BaseFlags;
 
@@ -160,7 +161,7 @@ val_to_base (GnmFuncEvalInfo *ei,
 	if (v >= b10 / 2) /* N's complement */
 		v = v - b10;
 
-	if (dest_base == 10)
+	if (flags & V2B_NUMBER)
 		return value_new_int (v);
 
 	if (v < 0) {
@@ -262,7 +263,9 @@ gnumeric_bin2dec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return val_to_base (ei, argv[0], NULL,
 			    2, 10,
 			    0, GNM_const(1111111111.0),
-			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
+			    V2B_STRINGS_MAXLEN |
+			    V2B_STRINGS_BLANK_ZERO |
+			    V2B_NUMBER);
 }
 
 /***************************************************************************/
@@ -483,7 +486,9 @@ gnumeric_oct2dec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return val_to_base (ei, argv[0], NULL,
 			    8, 10,
 			    0, GNM_const(7777777777.0),
-			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
+			    V2B_STRINGS_MAXLEN |
+			    V2B_STRINGS_BLANK_ZERO |
+			    V2B_NUMBER);
 }
 
 /***************************************************************************/
@@ -640,7 +645,9 @@ gnumeric_hex2dec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return val_to_base (ei, argv[0], NULL,
 			    16, 10,
 			    0, GNM_const(9999999999.0),
-			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
+			    V2B_STRINGS_MAXLEN |
+			    V2B_STRINGS_BLANK_ZERO |
+			    V2B_NUMBER);
 }
 
 /***************************************************************************/
