@@ -1,3 +1,8 @@
+2009-01-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (axesused): Don't use g_return_val_if_fail for data
+	dependent errors. 
+
 2009-01-11  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-write.c (write_node): Don't introduce parentheses

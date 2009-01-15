@@ -554,7 +554,7 @@ BC_R(axesused)(XLChartHandler const *handle,
 	       XLChartReadState *s, BiffQuery *q)
 {
 	guint16 const num_axis = GSF_LE_GET_GUINT16 (q->data);
-	g_return_val_if_fail(1 <= num_axis && num_axis <= 2, TRUE);
+	XL_CHECK_CONDITION_VAL(1 <= num_axis && num_axis <= 2, TRUE);
 	d (0, g_printerr ("There are %hu axis.\n", num_axis););
 	return FALSE;
 }
