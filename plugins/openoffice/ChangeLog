@@ -1,3 +1,8 @@
+2009-01-15  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (ooo1_content_dtd): Handle a bit more to
+	silence file from bug 567389 a bit.
+
 2009-01-12  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_col_start): Handle column-count
