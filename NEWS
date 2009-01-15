@@ -67,6 +67,7 @@ Morten:
 	* Constify usage of GOFormats.
 	* Fix inconsistentcy in searching with respect to formats.
 	* Fix issue with BASE.   [#567252]
+	* Fix XLS import criticals.  [#567823]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3
