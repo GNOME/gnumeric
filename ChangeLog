@@ -1,3 +1,8 @@
+2009-01-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-pane.c: (cb_sheet_object_canvas_event): do not select an
+	existing sheet object when creating a new graph. [#151789]
+
 2009-01-12  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (gnm_expr_eval): Set value format properly.

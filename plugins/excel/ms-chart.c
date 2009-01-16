@@ -4137,19 +4137,28 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 	unsigned len;
 	GnmExprTop const *texpr = NULL;
 	GnmValue const *value = NULL;
+	gboolean need_release = FALSE;
 
 	if (dim != NULL) {
-		texpr = gnm_go_data_get_expr (dim);
-		if ((value = gnm_expr_top_get_range (texpr)) != NULL) {
-			GType const t = G_OBJECT_TYPE (dim);
-			value_release ((GnmValue*) value);
-			value = NULL;
-			/* the following condition should always be true */
-			if (t == GNM_GO_DATA_SCALAR_TYPE ||
-			    t == GNM_GO_DATA_VECTOR_TYPE)
-				ref_type = 2;
-		} else if ((value = gnm_expr_top_get_constant (texpr)))
+		if (IS_GNM_GO_DATA_SCALAR (dim) || IS_GNM_GO_DATA_VECTOR (dim)) {
+			texpr = gnm_go_data_get_expr (dim);
+			if ((value = gnm_expr_top_get_range (texpr)) != NULL) {
+				GType const t = G_OBJECT_TYPE (dim);
+				value_release ((GnmValue*) value);
+				value = NULL;
+				/* the following condition should always be true */
+				if (t == GNM_GO_DATA_SCALAR_TYPE ||
+				    t == GNM_GO_DATA_VECTOR_TYPE)
+					ref_type = 2;
+			} else if ((value = gnm_expr_top_get_constant (texpr)))
+				ref_type = 1;
+		} else {
+			char *str = go_data_as_str (dim);
 			ref_type = 1;
+			value = value_new_string (str);
+			g_free (str);
+			need_release = TRUE;
+		}
 	}
 	ms_biff_put_var_next (s->bp, BIFF_CHART_ai);
 	GSF_LE_SET_GUINT8  (buf+0, n);
@@ -4187,6 +4196,8 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 			excel_write_string (s->bp, STR_ONE_BYTE_LENGTH, str);
 			g_free (str);
 		}
+		if (need_release)
+			value_release ((GnmValue *) value);
 	}
 
 	ms_biff_put_commit (s->bp);
@@ -5150,8 +5161,14 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 	XLAxisSet *axis_set;
 	GogObject const *legend = gog_object_get_child_by_name (s->chart, "Legend");
 	GogObject const *label;
+	unsigned num = g_slist_length (sets);
 
-	ms_biff_put_2byte (s->bp, BIFF_CHART_axesused, g_slist_length (sets));
+	if (num == 0)
+		return;
+	if (num > 2)
+		num = 2; /* excel does not support more that 2. */
+
+	ms_biff_put_2byte (s->bp, BIFF_CHART_axesused, MIN (g_slist_length (sets), 2));
 	for (sptr = sets; sptr != NULL ; sptr = sptr->next) {
 		data = ms_biff_put_len_next (s->bp, BIFF_CHART_axisparent, 4*4 + 2);
 		/* pick arbitrary position, this sort of info is in the view  */

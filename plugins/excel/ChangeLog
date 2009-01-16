@@ -1,3 +1,8 @@
+2009-01-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (chart_write_AI): support GOData simple instances [#567953],
+	(chart_write_axis_sets): do not write invalid AXESUSED field, see #567823.
+
 2009-01-15  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_DELTA): Check tolerance.  Fixes

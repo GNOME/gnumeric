@@ -2955,6 +2955,11 @@ cb_sheet_object_canvas_event (FooCanvasItem *view, GdkEvent *event,
 {
 	GnmPane	*pane = GNM_PANE (view->canvas);
 
+	if (scg_wbcg(GNM_SIMPLE_CANVAS (view->canvas)->scg)->new_object) {
+		ItemGrid *grid = GNM_PANE (view->canvas)->grid;
+		return FOO_CANVAS_ITEM_GET_CLASS (grid)->event (FOO_CANVAS_ITEM (grid), event);
+	}
+
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), FALSE);
 
 	switch (event->type) {
