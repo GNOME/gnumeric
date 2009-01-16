@@ -1,3 +1,9 @@
+2009-01-16  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gnumeric-doc.make (omffile): The OMF file is needed for
+	yelp/gnome-help to find the documentation. Install it on non-Windows
+	generally, not just for GNOME-enabled builds.
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.3
