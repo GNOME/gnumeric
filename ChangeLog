@@ -1,3 +1,7 @@
+2009-01-16  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (gnumeric_reqs): Require glib 2.10.
+
 2009-01-16  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-pane.c: (cb_sheet_object_canvas_event): do not select an
