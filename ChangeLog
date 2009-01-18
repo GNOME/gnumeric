@@ -1,5 +1,9 @@
 2009-01-18  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : post release bump
+
+2009-01-18  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.8.4
 
 2009-01-11  J.H.M. Dassen (Ray) <jdassen@debian.org>
