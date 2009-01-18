@@ -1,3 +1,7 @@
+2009-01-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.4
+
 2008-06-24  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_rank): Fix crash and error handling.

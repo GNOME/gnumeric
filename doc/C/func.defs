@@ -1376,11 +1376,11 @@ BASE(255,16,4) equals "00FF".
 @SYNTAX=BESSELI(x,y)
 @DESCRIPTION=BESSELI function returns the Neumann, Weber or Bessel function.
 
-@x is where the function is evaluated. @y is the order of the Bessel function, if non-integer it is truncated.
+@x is where the function is evaluated. @y is the order of the Bessel function.
 
 * If @x or @y are not numeric a #VALUE! error is returned.
 * If @y < 0 a #NUM! error is returned.
-* This function is Excel compatible.
+* This function extends the Excel function of the same name to non-integer orders.
 
 @EXAMPLES=
 BESSELI(0.7,3) equals 0.007367374.
@@ -1404,11 +1404,11 @@ BESSELJ(0.89,3) equals 0.013974004.
 @CATEGORY=Engineering
 @FUNCTION=BESSELK
 @SYNTAX=BESSELK(x,y)
-@DESCRIPTION=BESSELK function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the Bessel function, if non-integer it is truncated.
+@DESCRIPTION=BESSELK function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the Bessel function.
 
 * If @x or @y are not numeric a #VALUE! error is returned.
 * If @y < 0 a #NUM! error is returned.
-* This function is Excel compatible.
+* This function extends the Excel function of the same name to non-integer orders.
 
 @EXAMPLES=
 BESSELK(3,9) equals 397.95880.
@@ -1932,6 +1932,17 @@ Named for AMORtissement LINeaire Comptabilite.
 AMORLINC(2400,DATE(1998,8,19),DATE(1998,12,31),300,1,0.15,1) = 360
 
 @SEEALSO=AMORDEGRC
+
+@CATEGORY=Finance
+@FUNCTION=atl_last
+@SYNTAX=ATL_LAST (tag)
+@DESCRIPTION=ATL_LAST is a sample implemention of a real time data source. It takes a string tag and monitors the named pipe /tmp/atl for changes to the value of that tag.
+
+* This is not intended to be generally enabled and is OFF by default.
+
+@EXAMPLES=
+ATL_LAST("IBM")
+@SEEALSO=
 
 @CATEGORY=Finance
 @FUNCTION=COUPDAYBS
@@ -3926,13 +3937,15 @@ HYPERLINK("www.gnome.org","GNOME").
 @CATEGORY=Lookup
 @FUNCTION=INDIRECT
 @SYNTAX=INDIRECT(ref_text[,format])
-@DESCRIPTION=INDIRECT function returns the contents of the cell pointed to by the @ref_text string. The string specifies a single cell reference the format of which is either A1 or R1C1 style. The style is set by the @format boolean, which defaults to the A1 style.
+@DESCRIPTION=INDIRECT function returns the contents of the cell pointed to by the @ref_text string. The string specifies a single cell reference the format of which is either A1 or R1C1 style. The boolean @format controls how @ref_text is to be interpreted: TRUE (the default) for A1 style and FALSE for R1C1 style.
 
-* If @ref_text is not a valid reference returns #REF! 
+* If @ref_text is not a valid reference in the style controlled by @format, returns #REF! 
 @EXAMPLES=
-If A1 contains 3.14 and A2 contains A1, then
+If A1 contains 3.14 and A2 contains "A1", then
 INDIRECT(A2) equals 3.14.
 
+If B1 contains 23 and A1 contains "R1C2", then
+INDIRECT(A1,FALSE) equals 23.
 @SEEALSO=AREAS,INDEX,CELL
 
 @CATEGORY=Lookup
@@ -7233,10 +7246,11 @@ WEIBULL(3,2,4,0) equals 0.213668559.
 
 @CATEGORY=Statistics
 @FUNCTION=ZTEST
-@SYNTAX=ZTEST(ref,x)
+@SYNTAX=ZTEST(ref,x[,stddev])
 @DESCRIPTION=ZTEST returns the two-tailed probability of a z-test.
 
 @ref is the data set and @x is the value to be tested.
+@stddev is optionally an assumed standard deviation.
 
 * If @ref contains less than two data items ZTEST returns #DIV/0! error.
 * This function is Excel compatible.
@@ -7573,4 +7587,60 @@ UPPER("cancelled") equals "CANCELLED".
 VALUE("$1,000") equals 1000.
 
 @SEEALSO=DOLLAR, FIXED, TEXT
+
+@CATEGORY=Time Series Analysis
+@FUNCTION=interpolation
+@SYNTAX=interpolation(abscissas,ordinates,targets[,interpolation])
+@DESCRIPTION= 
+interpolation returns interpolated values corresponding
+to the given abscissa targets as a one column matrix.
+
+@abscissas are the absicssas of the data to interpolate.
+@ordinates are the ordinates of the data to interpolate.
+* Strings and empty cells in @abscissas and @ordinates are simply ignored.
+@targets are the abscissas of the interpolated data. If several data
+are provided, they must be in the same column, in consecutive cells
+@interpolation is the method to be used for the interpolation;
+possible values are:
+- 0: linear;
+- 1: linear with averaging;
+- 2: staircase;
+- 3: staircase with averaging;
+- 4: natural cubic spline;
+- 5: natural cubic spline with averaging.
+
+If an averaging method is used, the number of returned values
+is one less than the number of targets since the evaluation is made by
+averaging the interpolation over the interval between two consecutive data;
+in that case, the targets values must be given in increasing order.
+
+@CATEGORY=Time Series Analysis
+@FUNCTION=periodogram
+@SYNTAX=periodogram(ordinates,[filter,[abscissas,[interpolation,[number]]]])
+@DESCRIPTION= 
+periodogram returns the periodogram of the data
+as a one column matrix.
+
+@ordinates are the ordinates of the data to interpolate.
+@filter gives the window function to  be used. Possible values are:
+- 0: no filter (rectangular window);
+- 1: Bartlett (triangular window);
+- 2: Hahn (cosine window);
+- 3: Welch (parabolic window);
+@abscissas are the absicssas of the data to interpolate. If no
+abscissa is given, it is supposed that the data absicssas are regularly
+spaced. Otherwise, an interpolation method will be used to evaluate
+regularly spaced data.
+* Strings and empty cells in @abscissas and @ordinates are simply ignored.
+@interpolation is the method to be used for the interpolation;
+possible values are:
+- 0: linear;
+- 1: linear with averaging;
+- 2: staircase;
+- 3: staircase with averaging;
+- 4: natural cubic spline;
+- 5: natural cubic spline with averaging.
+@number is the number of interpolated data to be used. If not given,
+a default number is automatically evaluated.
+
 

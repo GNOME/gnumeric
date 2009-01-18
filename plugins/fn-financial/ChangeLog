@@ -1,3 +1,7 @@
+2009-01-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.4
+
 2008-07-02  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_ddb): Use a sane formula for this.  Fix

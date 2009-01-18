@@ -1,3 +1,7 @@
+2009-01-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.4
+
 2008-11-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c: (ms_excel_chart_write): fixed segfault when exporting

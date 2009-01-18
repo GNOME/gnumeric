@@ -1,3 +1,7 @@
+2009-01-18  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.8.4
+
 2008-09-26  Jody Goldberg <jody@gnome.org>
 
 	* plugins/openoffice/openoffice-read.c (oo_table_end) : style_extent
