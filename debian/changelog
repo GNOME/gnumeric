@@ -1,3 +1,20 @@
+gnumeric (1.8.4-1) unstable; urgency=low
+
+  * New upstream stable release.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 18 Jan 2009 20:30:30 +0100
+
+gnumeric (1.8.3-6) unstable; urgency=medium
+
+  * [NEWS, plugins/excel/ChangeLog, plugins/excel/ms-chart.c]: Pull in fixes
+    from SVN gnumeric-1-8 branch for issues affecting Excel charts
+    import/export (bugzilla.gnome.org #544935, #557027). (Closes: #509281)
+  * [ChangeLog, src/xml-sax-read.c] Pull in fix from SVN gnumeric-1-8 branch
+    to not crash on old gnumeric files which have gnm:StyleRegion tags
+    without attributes in them. (Closes: #510929)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 11 Jan 2009 16:19:33 +0100
+
 gnumeric (1.8.3-5) unstable; urgency=medium
 
   * [plugins/perl-loader/perl-loader.c] Call PERL_SYS_INIT3() prior to
