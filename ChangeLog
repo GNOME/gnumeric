@@ -1,5 +1,9 @@
 2009-01-20  Morten Welinder  <terra@gnome.org>
 
+	* src/dependent.c (dependent_eval): Clear GNM_CELL_HAS_NEW_EXPR
+	here.  Otherwise expressions loaded from files will appear to have
+	new expressions even after they were recalculated.
+
 	* src/func.c (function_call_with_exprs): If we are not doing
 	implicit iteration, use gnumeric_if instead of gnumeric_if2.
 	Fixes #326595.

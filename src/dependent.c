@@ -446,6 +446,8 @@ dependent_queue_recalc_main (GSList *work)
 	 * We treat work as a stack.
 	 */
 
+	g_printerr ("work has %d elements\n", g_slist_length (work));
+
 	while (work) {
 		GnmDependent *dep = work->data;
 		int const t = dependent_type (dep);
@@ -456,6 +458,10 @@ dependent_queue_recalc_main (GSList *work)
 		g_slist_free_1 (list);
 
 		if (t == DEPENDENT_CELL) {
+			int dummy = 0 && (g_printerr ("cell %s flags %x\n",
+						 cell_name (GNM_DEP_TO_CELL (dep)),
+						 dep->flags),
+				     0);
 			GSList *deps = cell_list_deps (GNM_DEP_TO_CELL (dep));
 			GSList *waste = NULL;
 			GSList *next;
@@ -1550,6 +1556,8 @@ dependent_eval (GnmDependent *dep)
 
 		/* This should always be the top of the stack */
 		g_return_if_fail (finished);
+
+		dep->flags &= ~GNM_CELL_HAS_NEW_EXPR;
 	}
 
 	/* Don't clear flag until after in case we iterate */
@@ -1650,9 +1658,12 @@ cell_foreach_dep (GnmCell const *cell, DepFunc func, gpointer user)
 	if (!cell->base.sheet->deps)
 		return;
 
+	g_printerr ("A\n");
 	cell_foreach_range_dep (cell, func, user);
+	g_printerr ("B\n");
 	cell_foreach_single_dep (cell->base.sheet, cell->pos.col, cell->pos.row,
 				 func, user);
+	g_printerr ("C\n");
 }
 
 static void
