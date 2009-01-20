@@ -8,6 +8,8 @@ G_BEGIN_DECLS
 
 GnmValue *gnumeric_sum     (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv);
 GnmValue *gnumeric_product (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv);
+GnmValue *gnumeric_if      (GnmFuncEvalInfo *ei, GnmValue const * const *args);
+GnmValue *gnumeric_if2     (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv);
 
 void func_builtin_init (void);
 void func_builtin_shutdown (void);

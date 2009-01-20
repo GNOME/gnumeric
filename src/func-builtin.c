@@ -272,10 +272,86 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 	return res;
 }
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_if[] = {
+	{ GNM_FUNC_HELP_NAME, N_("IF:conditional expression.") },
+	{ GNM_FUNC_HELP_ARG, N_("cond:condition.") },
+	{ GNM_FUNC_HELP_ARG, N_("trueval:value to use if condition is true.") },
+	{ GNM_FUNC_HELP_ARG, N_("falseval:value to use if condition is false.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, N_("This function first evaluates the condition.  If the result is true, it will then evaluate and return the second argument.  Otherwise, it will evaluate and return the last argument.") },
+	{ GNM_FUNC_HELP_SEEALSO, "AND,OR,XOR,NOT,IFERROR" },
+	{ GNM_FUNC_HELP_END }
+};
+
+GnmValue *
+gnumeric_if (GnmFuncEvalInfo *ei, GnmValue const * const *args)
+{
+	gboolean err;
+	int res = value_get_as_bool (args[0], &err) ? 1 : 2;
+
+	if (args[res])
+		return value_dup (args[res]);
+
+	if (ei->func_call->argc < res + 1)
+		/* arg-not-there: default to TRUE/FALSE.  */
+		return value_new_bool (res == 1);
+	else
+		/* arg blank: default to 0.  */
+		return value_new_int (0);
+}
+
+
+GnmValue *
+gnumeric_if2 (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
+{
+	gboolean err;
+	int i, branch;
+	GnmValue *args[3];
+	GnmValue *res;
+
+	g_return_val_if_fail (argc >= 1 && argc <= 3,
+			      value_new_error_VALUE (ei->pos));
+
+	/*
+	 * In this version of IF, we evaluate the arguments ourselves,
+	 * the call the regular IF.  However, arguments we do not need
+	 * we do not evaluate.
+	 *
+	 * IF is sometimes used to avoid expensive calculations.  Always
+	 * computing both branches destroys that intent.  See bug 326595.
+	 */
+
+	/* Evaluate condition.  */
+	res = gnm_expr_eval (argv[0], ei->pos, 0);
+	if (VALUE_IS_ERROR (res))
+		return res;
+	args[0] = res;
+
+	branch = value_get_as_bool (args[0], &err) ? 1 : 2;
+	for (i = 1; i <= 2; i++) {
+		args[i] = argc > i
+			? (branch == i ?
+			   gnm_expr_eval (argv[branch], ei->pos, 0)
+			   : value_new_empty ())
+			: NULL;
+	}
+
+	res = gnumeric_if (ei, (GnmValue const * const *)args);
+
+	for (i = 0; i <= 2; i++)
+		if (args[i])
+			value_release (args[i]);
+
+	return res;
+}
+
 /***************************************************************************/
 
 static GnmFuncGroup *math_group = NULL;
 static GnmFuncGroup *gnumeric_group = NULL;
+static GnmFuncGroup *logic_group = NULL;
 
 void
 func_builtin_init (void)
@@ -306,6 +382,12 @@ func_builtin_init (void)
 			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
 			GNM_FUNC_TEST_STATUS_EXHAUSTIVE
 		},
+		{	"if", "b|EE", N_("condition,if true,if false"),
+			help_if, gnumeric_if, NULL,
+			NULL, NULL, NULL,
+			GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_SECOND,
+			GNM_FUNC_IMPL_STATUS_COMPLETE,
+			GNM_FUNC_TEST_STATUS_BASIC },
 		{ NULL }
 	};
 
@@ -316,6 +398,9 @@ func_builtin_init (void)
 	gnumeric_group = gnm_func_group_fetch (N_("Gnumeric"));
 	gnm_func_add (gnumeric_group, builtins + 2);
 	gnm_func_add (gnumeric_group, builtins + 3);
+
+	logic_group = gnm_func_group_fetch (N_("Logic"));
+	gnm_func_add (logic_group, builtins + 4);
 }
 
 static void
@@ -332,4 +417,5 @@ func_builtin_shutdown (void)
 {
 	shutdown_cat (math_group);
 	shutdown_cat (gnumeric_group);
+	shutdown_cat (logic_group);
 }

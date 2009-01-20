@@ -1,3 +1,13 @@
+2009-01-20  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (function_call_with_exprs): If we are not doing
+	implicit iteration, use gnumeric_if instead of gnumeric_if2.
+	Fixes #326595.
+
+	* src/func-builtin.c (gnumeric_if): Import from fn-logical.
+	Change help to new style.
+	(gnumeric_if2): Variant that takes the argument un-eval'd.
+
 2009-01-16  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (gnumeric_reqs): Require glib 2.10.

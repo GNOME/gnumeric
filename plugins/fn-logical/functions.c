@@ -264,47 +264,6 @@ gnumeric_xor (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 /***************************************************************************/
 
-static GnmFuncHelp const help_if[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=IF\n"
-	   "@SYNTAX=IF(condition[,if-true,if-false])\n"
-
-	   "@DESCRIPTION="
-	   "IF function can be used to evaluate conditionally other "
-	   "expressions. IF evaluates @condition.  If @condition returns a "
-	   "non-zero value the result of the IF expression is the @if-true "
-	   "expression, otherwise IF evaluates to the value of @if-false.\n"
-	   "\n"
-	   "* If omitted @if-true defaults to TRUE and @if-false to FALSE.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "IF(FALSE,TRUE,FALSE) equals FALSE.\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
-	{ GNM_FUNC_HELP_END }
-};
-
-static GnmValue *
-gnumeric_if (GnmFuncEvalInfo *ei, GnmValue const * const *args)
-{
-	gboolean err;
-	int res = value_get_as_bool (args[0], &err) ? 1 : 2;
-
-	if (args[res])
-		return value_dup (args[res]);
-
-	if (ei->func_call->argc < res + 1)
-		/* arg-not-there: default to TRUE/FALSE.  */
-		return value_new_bool (res == 1);
-	else
-		/* arg blank: default to 0.  */
-		return value_new_int (0);
-}
-
-/***************************************************************************/
-
 static GnmFuncHelp const help_iferror[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IFERROR:Test for error.") },
 	{ GNM_FUNC_HELP_ARG, F_("x:value to test for error.") },
@@ -384,10 +343,6 @@ GnmFuncDescriptor const logical_functions[] = {
 	{ "not", "b", N_("number"), help_not, gnumeric_not,
 	  NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
-	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "if", "b|EE", N_("condition,if true,if false"), help_if,
-	  gnumeric_if, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_SECOND,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "iferror", "EE", N_("value,value"), help_iferror,
 	  gnumeric_iferror, NULL, NULL, NULL, NULL,

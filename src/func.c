@@ -1010,6 +1010,8 @@ free_values (GnmValue **values, int top)
 			value_release (values [i]);
 }
 
+/* ------------------------------------------------------------------------- */
+
 /**
  * function_call_with_exprs:
  * @ei: EvalInfo containing valid fn_def!
@@ -1052,6 +1054,11 @@ function_call_with_exprs (GnmFuncEvalInfo *ei, GnmExprEvalFlags flags)
 	iter_count = (ei->pos->array != NULL &&
 		      (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR))
 		? 0 : -1;
+
+	/* Optimization for IF when implicit iteration is not used.  */
+	if (ei->func_call->func->fn.args.func == gnumeric_if &&
+	    iter_count == -1)
+		return gnumeric_if2 (ei, argc, argv);
 
 	for (i = 0; i < argc; i++) {
 		char arg_type = fn_def->fn.args.arg_types[i];

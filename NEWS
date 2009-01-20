@@ -72,6 +72,7 @@ Morten:
 	* Fix inconsistentcy in searching with respect to formats.
 	* Fix issue with BASE.   [#567252]
 	* Fix XLS import criticals.  [#567823]
+	* Don't evaluate both branches of IF.  [#326595]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3
