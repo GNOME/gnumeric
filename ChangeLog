@@ -1,3 +1,8 @@
+2009-01-22  Morten Welinder  <terra@gnome.org>
+
+	* src/commands.c (select_range): If the sheet and wbc are for
+	different workbooks, do nothing.  Fixes #568634.
+
 2009-01-20  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (dependent_eval): Clear GNM_CELL_HAS_NEW_EXPR

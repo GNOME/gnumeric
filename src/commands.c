@@ -313,9 +313,18 @@ cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,
 static void
 select_range (Sheet *sheet, const GnmRange *r, WorkbookControl *wbc)
 {
-	SheetView *sv = sheet_get_view (sheet, wb_control_view (wbc));
+	SheetView *sv;
+
+	if (sheet->workbook != wb_control_get_workbook (wbc)) {
+		/*
+		 * We could try to pick a random wbc for the sheet's
+		 * workbook.  But not right now.
+		 */
+		return;
+	}
 
 	wb_control_sheet_focus (wbc, sheet);
+	sv = sheet_get_view (sheet, wb_control_view (wbc));
 	sv_selection_reset (sv);
 	sv_selection_add_range (sv, r);
 	sv_make_cell_visible (sv, r->start.col, r->start.row, FALSE);
