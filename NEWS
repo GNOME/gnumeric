@@ -76,6 +76,7 @@ Morten:
 	* Fix undo crash for inter-workbook operations.  [#568634]
 	* Fix crash and criticals in dbf import.  [#568454]
 	* Fix colour problem in LaTeX export.  [#568860]
+	* Fix loop while loading lotus file.  [#568917]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

@@ -544,14 +544,17 @@ lotus_parse_formula_old (LotusState *state, GnmParsePos *orig,
 		case 0x14:
 			/* FIXME: Check if we need bit version.  */
 			handle_named_func (&stack, orig, "AND", NULL, 2);
+			i++;
 			break;
 		case 0x15:
 			/* FIXME: Check if we need bit version.  */
 			handle_named_func (&stack, orig, "OR", NULL, 2);
+			i++;
 			break;
 		case 0x16:
 			/* FIXME: Check if we need bit version.  */
 			handle_named_func (&stack, orig, "NOT", NULL, 1);
+			i++;
 			break;
 		case 0x17: HANDLE_UNARY (GNM_EXPR_OP_UNARY_PLUS);
 
@@ -591,6 +594,7 @@ lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 	guint i;
 	gboolean done = FALSE;
 	gboolean uses_snum = (state->version <= LOTUS_VERSION_123V4);
+	GnmExprTop const *res;
 
 	for (i = 0; i < len && !done;) {
 		switch (data[i]) {
@@ -698,12 +702,15 @@ lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 		case LOTUS_FORMULA_OP_AND:
 			/* FIXME: Check if we need bit versions.  */
 			handle_named_func (&stack, orig, "AND", NULL, 2);
+			i++;
 			break;
 		case LOTUS_FORMULA_OP_OR:
 			handle_named_func (&stack, orig, "OR", NULL, 2);
+			i++;
 			break;
 		case LOTUS_FORMULA_OP_NOT:
 			handle_named_func (&stack, orig, "NOT", NULL, 1);
+			i++;
 			break;
 
 		case LOTUS_FORMULA_SPLFUNC: {
@@ -744,10 +751,15 @@ lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 		}
 	}
 
-	if (gnm_expr_list_length (stack) != 1)
+	res = stack ? gnm_expr_top_new (parse_list_pop (&stack, orig)) : NULL;
+	if (stack) {
 		g_warning ("%s: args remain on stack",
 			   cell_coord_name (orig->eval.col, orig->eval.row));
-	return gnm_expr_top_new (parse_list_pop (&stack, orig));
+		while (stack)
+			gnm_expr_free (parse_list_pop (&stack, orig));
+	}
+
+	return res;
 }
 
 

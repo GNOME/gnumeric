@@ -1,3 +1,8 @@
+2009-01-23  Morten Welinder  <terra@gnome.org>
+
+	* lotus-formula.c (lotus_parse_formula_new): Fix looping while
+	parsing AND/OR/NOT nodes.  Fixes #568917.
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.3
