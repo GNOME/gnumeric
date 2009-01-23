@@ -1,3 +1,10 @@
+2009-01-23  Morten Welinder  <terra@gnome.org>
+
+	* boot.c (xbase_file_open): Handle NULL value.
+	(xbase_field_as_value): Handle bogus dates, including 00000000.
+
+	* xbase.c (xbase_field_new): Fix ref-counting.
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.3

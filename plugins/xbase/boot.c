@@ -24,6 +24,7 @@
 #include <goffice/utils/datetime.h>
 #include <glib/gi18n-lib.h>
 #include <stdlib.h>
+#include <string.h>
 
 GNM_PLUGIN_MODULE_HEADER;
 
@@ -124,7 +125,10 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 	case 'D': {
 		/* double check that the date is stored according to spec */
 		int year, month, day;
-		if (sscanf (s, "%4d%2d%2d", &year, &month, &day) == 3) {
+		if (strcmp (s, "00000000") == 0)
+			return NULL;
+		if (sscanf (s, "%4d%2d%2d", &year, &month, &day) == 3 &&
+		    g_date_valid_dmy (day, month, year)) {
 			GDate *date = g_date_new_dmy (day, month, year);
 			/* Use default date convention */
 			val = value_new_int (datetime_g_to_serial (date, NULL));
@@ -210,9 +214,11 @@ xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
 			break;
 		}
 		for (i = 0; i < file->fields ; i++) {
-			field = record->file->format [i];
+			field = record->file->format[i];
 			val = xbase_field_as_value (
 				record_get_field (record, i), field, file);
+			if (!val)
+				continue;
 			cell = sheet_cell_fetch (sheet, i, row);
 			value_set_fmt (val, field->fmt);
 			gnm_cell_set_value (cell, val);

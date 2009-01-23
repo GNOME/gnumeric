@@ -242,7 +242,9 @@ xbase_field_new (XBfile *file)
 	} else
 		field->pos = 0;
 
-	field->fmt = (field->type == 'D') ? go_format_default_date () : NULL;
+	field->fmt = (field->type == 'D')
+		? go_format_ref (go_format_default_date ())
+		: NULL;
 
 	return field; /* FIXME: use more of buf if needed ? */
 }

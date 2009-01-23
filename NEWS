@@ -74,6 +74,7 @@ Morten:
 	* Fix XLS import criticals.  [#567823]
 	* Don't evaluate both branches of IF.  [#326595]
 	* Fix undo crash for inter-workbook operations.  [#568634]
+	* Fix crash and criticals in dbf import.  [#568454]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3
