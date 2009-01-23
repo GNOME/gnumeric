@@ -988,7 +988,7 @@ latex2e_write_multicolumn_cell (GsfOutput *output, GnmCell *cell, int start_col,
 			char *locale;
 			locale = setlocale (LC_NUMERIC, "C");
 			gsf_output_printf (output, "{\\color[rgb]{%.2f,%.2f,%.2f} ",
-				 (double)r/65535, (double)g/65535, (double)b/65535);
+					   r/255.0, g/255.0, b/255.0);
 			locale = setlocale (LC_NUMERIC, locale);
 		}
 

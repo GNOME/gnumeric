@@ -75,6 +75,7 @@ Morten:
 	* Don't evaluate both branches of IF.  [#326595]
 	* Fix undo crash for inter-workbook operations.  [#568634]
 	* Fix crash and criticals in dbf import.  [#568454]
+	* Fix colour problem in LaTeX export.  [#568860]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

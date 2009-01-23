@@ -1,3 +1,8 @@
+2009-01-23  Morten Welinder  <terra@gnome.org>
+
+	* latex.c (latex2e_write_multicolumn_cell): Fix scale of colour
+	components.  Fixes #568860.
+
 2008-10-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.9.3
