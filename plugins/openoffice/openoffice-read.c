@@ -821,6 +821,9 @@ two_quotes :
 			ptr = tmp1 + 1;
 		}
 
+		if (name[0] == 0)
+			return start;
+
 		/* OpenCalc does not pre-declare its sheets, but it does have a
 		 * nice unambiguous format.  So if we find a name that has not
 		 * been added yet add it.  Reorder below. */
