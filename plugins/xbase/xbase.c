@@ -144,50 +144,91 @@ xbase_read_header (XBfile *x, ErrorInfo **ret_error)
 		*ret_error = error_info_new_str (_("Failed to read DBF header."));
 		return;
 	}
+
 	switch (hdr[0]) { /* FIXME: assuming dBASE III+, not IV */
-	case 0x02: fprintf (stderr, "FoxBASE\n"); break;
-	case 0x03: fprintf (stderr, "FoxBASE+/dBASE III PLUS, no memo\n"); break;
-	case 0x30: fprintf (stderr, "Visual FoxPro\n"); break;
-	case 0x43: fprintf (stderr, "dBASE IV SQL table files, no memo\n"); break;
-	case 0x63: fprintf (stderr, "dBASE IV SQL system files, no memo\n"); break;
-	case 0x83: fprintf (stderr, "FoxBASE+/dBASE III PLUS, with memo\n"); break;
-	case 0x8B: fprintf (stderr, "dBASE IV with memo\n"); break;
-	case 0xCB: fprintf (stderr, "dBASE IV SQL table files, with memo\n"); break;
-	case 0xF5: fprintf (stderr, "FoxPro 2.x (or earlier) with memo\n"); break;
-	case 0xFB: fprintf (stderr, "FoxBASE\n"); break;
+	case 0x02:
+#if XBASE_DEBUG > 0
+		g_printerr ("FoxBASE\n");
+#endif
+		break;
+	case 0x03:
+#if XBASE_DEBUG > 0
+		g_printerr ("FoxBASE+/dBASE III PLUS, no memo\n");
+#endif
+		break;
+	case 0x30:
+#if XBASE_DEBUG > 0
+		g_printerr ("Visual FoxPro\n");
+#endif
+		break;
+	case 0x43:
+#if XBASE_DEBUG > 0
+		g_printerr ("dBASE IV SQL table files, no memo\n");
+#endif
+		break;
+	case 0x63:
+#if XBASE_DEBUG > 0
+		g_printerr ("dBASE IV SQL system files, no memo\n");
+#endif
+		break;
+	case 0x83:
+#if XBASE_DEBUG > 0
+		g_printerr ("FoxBASE+/dBASE III PLUS, with memo\n");
+#endif
+		break;
+	case 0x8B:
+#if XBASE_DEBUG > 0
+		g_printerr ("dBASE IV with memo\n");
+#endif
+		break;
+	case 0xCB:
+#if XBASE_DEBUG > 0
+		g_printerr ("dBASE IV SQL table files, with memo\n");
+#endif
+		break;
+	case 0xF5:
+#if XBASE_DEBUG > 0
+		g_printerr ("FoxPro 2.x (or earlier) with memo\n");
+#endif
+		break;
+	case 0xFB:
+#if XBASE_DEBUG > 0
+		g_printerr ("FoxBASE\n");
+#endif
+		break;
 	default:
-		fprintf (stderr, "unknown 0x%hhx\n", hdr[0]);
+		g_printerr ("unknown 0x%hhx\n", hdr[0]);
 	}
 
-	x->records     = GSF_LE_GET_GUINT32 (hdr + 4);
+	x->records     = GSF_LE_GET_GUINT32 (hdr + 4) + 1;
 	x->headerlen   = GSF_LE_GET_GUINT16 (hdr + 8);
 	x->fieldlen    = GSF_LE_GET_GUINT16 (hdr + 10);
 #if XBASE_DEBUG > 0
-	fprintf (stderr, "Last update (YY/MM/DD):\t%2hhd/%2hhd/%2hhd\n",hdr[1],hdr[2],hdr[3]); /* Y2K ?!? */
-	fprintf (stderr, "Records:\t%u\n", x->records);
-	fprintf (stderr, "Header length:\t%u\n", x->headerlen);
-	fprintf (stderr, "Record length:\t%u\n", x->fieldlen);
-	fprintf (stderr, "Reserved:\t%d\n", GSF_LE_GET_GUINT16 (hdr + 12));
-	fprintf (stderr, "Incomplete transaction:\t%hhd\n", hdr[14]);
-	fprintf (stderr, "Encryption flag:\t%d\n", hdr[15]);
-	fprintf (stderr, "Free record thread:\t%u\n", GSF_LE_GET_GUINT32 (hdr + 16));
-	fprintf (stderr, "Reserved (multi-user):\t%" G_GINT64_FORMAT "\n",
+	g_printerr ("Last update (YY/MM/DD):\t%2hhd/%2hhd/%2hhd\n",hdr[1],hdr[2],hdr[3]); /* Y2K ?!? */
+	g_printerr ("Records:\t%u\n", x->records);
+	g_printerr ("Header length:\t%u\n", x->headerlen);
+	g_printerr ("Record length:\t%u\n", x->fieldlen);
+	g_printerr ("Reserved:\t%d\n", GSF_LE_GET_GUINT16 (hdr + 12));
+	g_printerr ("Incomplete transaction:\t%hhd\n", hdr[14]);
+	g_printerr ("Encryption flag:\t%d\n", hdr[15]);
+	g_printerr ("Free record thread:\t%u\n", GSF_LE_GET_GUINT32 (hdr + 16));
+	g_printerr ("Reserved (multi-user):\t%" G_GINT64_FORMAT "\n",
 		 GSF_LE_GET_GUINT64(hdr + 20));
-	fprintf (stderr, "MDX flag:\t%d\n", hdr[28]); /* FIXME: decode */
-	fprintf (stderr, "Reserved:\t%d\n", GSF_LE_GET_GUINT16 (hdr + 30));
-	fprintf (stderr, "Language driver (code page):\t");
+	g_printerr ("MDX flag:\t%d\n", hdr[28]); /* FIXME: decode */
+	g_printerr ("Reserved:\t%d\n", GSF_LE_GET_GUINT16 (hdr + 30));
+	g_printerr ("Language driver (code page):\t");
 #endif
 	x->char_map = (GIConv)-1;
 	for (i = 0; codepages[i].id != 0 ; i++)
 		if (codepages[i].id == hdr[29]) {
 			x->char_map = gsf_msole_iconv_open_for_import (codepages[i].codepage);
-			d (1, fprintf (stderr, "%s (%d)\n",
+			d (1, g_printerr ("%s (%d)\n",
 				       codepages[i].name, codepages[i].codepage););
 			break;
 		}
 	if (x->char_map == (GIConv)-1) {
 #if XBASE_DEBUG > 0
-		fprintf (stderr, "unknown 0x%x\n!\n", hdr[29]);
+		g_printerr ("unknown 0x%x\n!\n", hdr[29]);
 #endif
 		g_warning ("File has unknown or missing code page information (%x)",
 			   hdr[29]);
@@ -218,7 +259,7 @@ xbase_field_new (XBfile *file)
 	}
 #if XBASE_DEBUG > 0
 	buf[32] = 0;
-	fprintf (stderr, "Field:\t'%s'\n", buf);
+	g_printerr ("Field:\t'%s'\n", buf);
 #endif
 
 	field = g_new (XBfield, 1);
@@ -230,11 +271,11 @@ xbase_field_new (XBfile *file)
 		g_warning ("Unrecognised field type '%c'", field->type);
 #if XBASE_DEBUG > 0
 	else
-		fprintf (stderr, "Type:\t%c (%s)\n", field->type,
+		g_printerr ("Type:\t%c (%s)\n", field->type,
 			field_type_descriptions [p-field_types]);
-	fprintf (stderr, "Data address:\t0x%.8X\n", GSF_LE_GET_GUINT32 (buf + 12));
-	fprintf (stderr, "Length:\t%d\n", field->len);
-	fprintf (stderr, "Decimal count:\t%d\n", buf[17]);
+	g_printerr ("Data address:\t0x%.8X\n", GSF_LE_GET_GUINT32 (buf + 12));
+	g_printerr ("Length:\t%d\n", field->len);
+	g_printerr ("Decimal count:\t%d\n", buf[17]);
 #endif
 	if (file->fields) {
 		XBfield *tmp = file->format[file->fields-1];
