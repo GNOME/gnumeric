@@ -2,6 +2,8 @@
 
 	* lotus-formula.c (lotus_parse_formula_new): Fix looping while
 	parsing AND/OR/NOT nodes.  Fixes #568917.
+	(lotus_parse_formula_old, lotus_parse_formula_new): Plug leak in
+	error case.
 
 2008-10-18  Jody Goldberg <jody@gnome.org>
 

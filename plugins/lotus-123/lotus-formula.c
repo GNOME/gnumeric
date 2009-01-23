@@ -485,6 +485,7 @@ lotus_parse_formula_old (LotusState *state, GnmParsePos *orig,
 	guint     i;
 	GnmCellRef   a, b;
 	gboolean done = FALSE;
+	GnmExprTop const *res;
 
 	for (i = 0; (i < len) && !done;) {
 		switch (data[i]) {
@@ -563,10 +564,15 @@ lotus_parse_formula_old (LotusState *state, GnmParsePos *orig,
 		}
 	}
 
-	if (gnm_expr_list_length (stack) != 1)
+	res = stack ? gnm_expr_top_new (parse_list_pop (&stack, orig)) : NULL;
+	if (stack) {
 		g_warning ("%s: args remain on stack",
 			   cell_coord_name (orig->eval.col, orig->eval.row));
-	return gnm_expr_top_new (parse_list_pop (&stack, orig));
+		while (stack)
+			gnm_expr_free (parse_list_pop (&stack, orig));
+	}
+
+	return res;
 }
 
 static void
