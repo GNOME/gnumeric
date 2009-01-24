@@ -38,6 +38,35 @@ static char *gnumeric_icon_dir;
 static char *gnumeric_locale_dir;
 static char *gnumeric_usr_dir;
 
+static gboolean
+running_in_tree (void)
+{
+	const char *argv0 = g_get_prgname ();
+
+	if (!argv0)
+		return FALSE;
+
+	/* Sometime we see, e.g., "lt-gnumeric" as basename.  */
+	{
+		char *base = g_path_get_basename (argv0);
+		gboolean has_lt_prefix = (strncmp (base, "lt-", 3) == 0);
+		g_free (base);
+		if (has_lt_prefix)
+			return TRUE;
+	}
+
+	/* Look for ".libs" as final path element.  */
+	{
+		const char *dotlibs = strstr (argv0, ".libs/");
+		if (dotlibs &&
+		    (dotlibs == argv0 || G_IS_DIR_SEPARATOR (dotlibs[-1])) &&
+		    strchr (dotlibs + 6, G_DIR_SEPARATOR) == NULL)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
 void
 gutils_init (void)
 {
@@ -55,17 +84,8 @@ gutils_init (void)
 	gnumeric_locale_dir = g_build_filename (dir, "share", "locale", NULL);
 	g_free (dir);
 #else
-	const char *argv0 = g_get_prgname ();
-	size_t l0 = argv0 ? strlen (argv0) : 0;
-	char *base = argv0 ? g_path_get_basename (argv0) : NULL;
-	const char *suff = "/.libs/gnumeric";
-	size_t lsuff = strlen (suff);
-	gboolean running_in_tree =
-		(l0 > lsuff && strcmp (argv0 + l0 - lsuff, suff) == 0) ||
-		(base && strncmp (base, "lt-", 3) == 0);
-
-	g_free (base);
-	if (running_in_tree) {
+	if (running_in_tree ()) {
+		const char *argv0 = g_get_prgname ();
 		char *dotlibs = g_path_get_dirname (argv0);
 		char *top = g_build_filename (dotlibs, "..", "../", NULL);
 		char *plugins = g_build_filename (top, PLUGIN_SUBDIR, NULL);
@@ -76,6 +96,7 @@ gutils_init (void)
 		g_free (top);
 		g_free (plugins);
 		g_free (dotlibs);
+		if (0) g_printerr ("Running in-tree\n");
 	}
 
 	if (!gnumeric_lib_dir)

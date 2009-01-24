@@ -1,3 +1,8 @@
+2009-01-24  Morten Welinder  <terra@gnome.org>
+
+	* src/gutils.c (running_in_tree): Make this a separate function.
+	Fix for ssconvert and friends.
+
 2009-01-22  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (select_range): If the sheet and wbc are for
