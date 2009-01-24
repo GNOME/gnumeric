@@ -1,7 +1,14 @@
+2009-01-23  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_sheet_write_block): Handle the case of a
+	missing cell better.  Partially fixes #568929.
+
 2009-01-16  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* ms-chart.c: (chart_write_AI): support GOData simple instances [#567953],
-	(chart_write_axis_sets): do not write invalid AXESUSED field, see #567823.
+	* ms-chart.c: (chart_write_AI): support GOData simple
+	instances [#567953],
+	(chart_write_axis_sets): do not write invalid AXESUSED field, see
+	#567823.
 
 2009-01-15  Morten Welinder  <terra@gnome.org>
 
