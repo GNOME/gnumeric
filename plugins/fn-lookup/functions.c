@@ -43,6 +43,7 @@
 #include <gnm-i18n.h>
 
 #include <goffice/app/go-plugin.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <gnm-plugin.h>
 
 #include <string.h>
@@ -50,63 +51,93 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-static GHashTable *lookup_string_cache;
-static GHashTable *lookup_float_cache;
+/* -------------------------------------------------------------------------- */
+
+static GStringChunk *lookup_string_pool;
+static GOMemChunk *lookup_float_pool;
+static GHashTable *linear_lookup_string_cache;
+static GHashTable *linear_lookup_float_cache;
 
 static void
 clear_caches (void)
 {
-	if (lookup_string_cache) {
-		g_hash_table_destroy (lookup_string_cache);
-		lookup_string_cache = NULL;
-	}
-	if (lookup_float_cache) {
-		g_hash_table_destroy (lookup_float_cache);
-		lookup_float_cache = NULL;
-	}
+	if (!lookup_string_pool)
+		return;
+
+	g_hash_table_destroy (linear_lookup_string_cache);
+	linear_lookup_string_cache = NULL;
+
+	g_hash_table_destroy (linear_lookup_float_cache);
+	linear_lookup_float_cache = NULL;
+
+	g_string_chunk_free (lookup_string_pool);
+	lookup_string_pool = NULL;
+
+	go_mem_chunk_destroy (lookup_float_pool, TRUE);
+	lookup_float_pool = NULL;
 }
 
+static void
+create_caches (void)
+{
+	if (lookup_string_pool)
+		return;
+
+	lookup_string_pool = g_string_chunk_new (100 * 1024);
+
+	lookup_float_pool =
+		go_mem_chunk_new ("lookup float pool",
+				  sizeof (gnm_float),
+				  sizeof (gnm_float) * 1000);
+
+	linear_lookup_string_cache = g_hash_table_new_full
+		((GHashFunc)gnm_sheet_range_hash,
+		 (GEqualFunc)gnm_sheet_range_equal,
+		 (GDestroyNotify)gnm_sheet_range_free,
+		 (GDestroyNotify)g_hash_table_destroy);
+	linear_lookup_float_cache = g_hash_table_new_full
+		((GHashFunc)gnm_sheet_range_hash,
+		 (GEqualFunc)gnm_sheet_range_equal,
+		 (GDestroyNotify)gnm_sheet_range_free,
+		 (GDestroyNotify)g_hash_table_destroy);
+}
+
+/* -------------------------------------------------------------------------- */
+
 static GHashTable *
-get_cache (GnmFuncEvalInfo *ei, GnmValue const *data, gboolean stringp)
+get_linear_lookup_cache (GnmFuncEvalInfo *ei,
+			 GnmValue const *data, gboolean stringp,
+			 gboolean *brand_new)
 {
 	GnmSheetRange sr;
 	GHashTable *h, *cache;
 	Sheet *end_sheet;
 	GnmRangeRef const *rr;
 
+	/* FIXME: Any good reason this shouldn't work for arrays?  */
 	if (data->type != VALUE_CELLRANGE)
 		return NULL;
 	rr = value_get_rangeref (data);
 
         gnm_rangeref_normalize (rr, ei->pos, &sr.sheet, &end_sheet, &sr.range);
+	/* FIXME: Any good reason this shouldn't work for 3D?  */
 	if (sr.sheet != end_sheet)
 		return NULL;
 
-	if (!lookup_string_cache) {
-		lookup_string_cache = g_hash_table_new_full
-			((GHashFunc)gnm_sheet_range_hash,
-			 (GEqualFunc)gnm_sheet_range_equal,
-			 (GDestroyNotify)gnm_sheet_range_free,
-			 (GDestroyNotify)g_hash_table_destroy);
-		lookup_float_cache = g_hash_table_new_full
-			((GHashFunc)gnm_sheet_range_hash,
-			 (GEqualFunc)gnm_sheet_range_equal,
-			 (GDestroyNotify)gnm_sheet_range_free,
-			 (GDestroyNotify)g_hash_table_destroy);
-	}
+	create_caches ();
 
-	cache = stringp ? lookup_string_cache : lookup_float_cache;
+	cache = stringp
+		? linear_lookup_string_cache
+		: linear_lookup_float_cache;
 
 	h = g_hash_table_lookup (cache, &sr);
-	if (!h) {
+	*brand_new = (h == NULL);
+	if (*brand_new) {
 		if (stringp)
-			h = g_hash_table_new_full (g_str_hash,
-						   g_str_equal,
-						   g_free, NULL);
+			h = g_hash_table_new (g_str_hash, g_str_equal);
 		else
-			h = g_hash_table_new_full ((GHashFunc)gnm_float_hash,
-						   (GEqualFunc)gnm_float_equal,
-						   g_free, NULL);
+			h = g_hash_table_new ((GHashFunc)gnm_float_hash,
+					      (GEqualFunc)gnm_float_equal);
 		g_hash_table_insert (cache, gnm_sheet_range_dup (&sr), h);
 	}
 
@@ -127,14 +158,16 @@ find_type_valid (GnmValue const *find)
 static gboolean
 find_compare_type_valid (GnmValue const *find, GnmValue const *val)
 {
-	if (!val) {
+	if (!val)
 		return FALSE;
-	}
 
-	if ((VALUE_IS_NUMBER (find) && VALUE_IS_NUMBER (val)) ||
-	    (find->type == val->type)) {
+	if (find->type == val->type)
 		return TRUE;
-	}
+
+	/* FIXME: what about number vs. bool?  */
+
+	if (VALUE_IS_NUMBER (find) && VALUE_IS_NUMBER (val))
+		return TRUE;
 
 	return FALSE;
 }
@@ -223,40 +256,39 @@ get_elem (GnmValue const *data, guint ui,
 
 static int
 find_index_linear_equal_string (GnmFuncEvalInfo *ei,
-				const char *s, GnmValue const *data,
+				GnmValue const *find, GnmValue const *data,
 				gboolean vertical)
 {
 	GHashTable *h;
 	gpointer pres;
 	char *sc;
-	gboolean found;
+	gboolean found, brand_new;
 
-	h = get_cache (ei, data, TRUE);
+	h = get_linear_lookup_cache (ei, data, TRUE, &brand_new);
 	if (!h)
 		return -2;
 
-	/* We need to do this early before calls to value_peek_string gets
-	   called too often.  */
-	sc = g_utf8_casefold (s, -1);
-
-	if (g_hash_table_size (h) == 0) {
+	if (brand_new) {
 		int lp, length = calc_length (data, ei->pos, vertical);
 
 		for (lp = 0; lp < length; lp++) {
 			GnmValue const *v = get_elem (data, lp, ei->pos, vertical);
 			char *vc;
 
-			if (!v || !VALUE_IS_STRING (v))
+			if (!find_compare_type_valid (find, v))
 				continue;
 
 			vc = g_utf8_casefold (value_peek_string (v), -1);
-			if (g_hash_table_lookup_extended (h, vc, NULL, NULL))
-				g_free (vc);
-			else
-				g_hash_table_insert (h, vc, GINT_TO_POINTER (lp));
+			if (!g_hash_table_lookup_extended (h, vc, NULL, NULL)) {
+				char *sc = g_string_chunk_insert (lookup_string_pool, vc);
+				g_hash_table_insert (h, sc, GINT_TO_POINTER (lp));
+			}
+
+			g_free (vc);
 		}
 	}
 
+	sc = g_utf8_casefold (value_peek_string (find), -1);
 	found = g_hash_table_lookup_extended (h, sc, NULL, &pres);
 	g_free (sc);
 
@@ -265,37 +297,39 @@ find_index_linear_equal_string (GnmFuncEvalInfo *ei,
 
 static int
 find_index_linear_equal_float (GnmFuncEvalInfo *ei,
-			       gnm_float f, GnmValue const *data,
+			       GnmValue const *find, GnmValue const *data,
 			       gboolean vertical)
 {
 	GHashTable *h;
 	gpointer pres;
-	gboolean found;
+	gnm_float f;
+	gboolean found, brand_new;
 
-	h = get_cache (ei, data, FALSE);
+	h = get_linear_lookup_cache (ei, data, FALSE, &brand_new);
 	if (!h)
 		return -2;
 
-	if (g_hash_table_size (h) == 0) {
+	if (brand_new) {
 		int lp, length = calc_length (data, ei->pos, vertical);
 
 		for (lp = 0; lp < length; lp++) {
 			GnmValue const *v = get_elem (data, lp, ei->pos, vertical);
 			gnm_float f2;
 
-			if (!v || !VALUE_IS_NUMBER (v))
+			if (!find_compare_type_valid (find, v))
 				continue;
 
 			f2 = value_get_as_float (v);
 
-			if (!g_hash_table_lookup_extended (h, &f2, NULL, NULL))
-				g_hash_table_insert
-					(h,
-					 g_memdup (&f2, sizeof (f2)),
-					 GINT_TO_POINTER (lp));
+			if (!g_hash_table_lookup_extended (h, &f2, NULL, NULL)) {
+				gnm_float *fp = go_mem_chunk_alloc (lookup_float_pool);
+				*fp = f2;
+				g_hash_table_insert (h, fp, GINT_TO_POINTER (lp));
+			}
 		}
 	}
 
+	f = value_get_as_float (find);
 	found = g_hash_table_lookup_extended (h, &f, NULL, &pres);
 
 	return found ? GPOINTER_TO_INT (pres) : -1;
@@ -304,22 +338,19 @@ find_index_linear_equal_float (GnmFuncEvalInfo *ei,
 static int
 find_index_linear (GnmFuncEvalInfo *ei,
 		   GnmValue const *find, GnmValue const *data,
-		   gint type, gboolean vertical)
+		   gboolean vertical)
 {
-	GnmValue const *index_val = NULL;
 	GnmValDiff comp;
 	int length, lp, index = -1;
 
-	if (VALUE_IS_STRING (find) && type == 0) {
-		const char *s = value_peek_string (find);
-		int i = find_index_linear_equal_string (ei, s, data, vertical);
+	if (VALUE_IS_STRING (find)) {
+		int i = find_index_linear_equal_string (ei, find, data, vertical);
 		if (i != -2)
 			return i;
 	}
 
-	if (VALUE_IS_NUMBER (find) && type == 0) {
-		gnm_float f = value_get_as_float (find);
-		int i = find_index_linear_equal_float (ei, f, data, vertical);
+	if (VALUE_IS_NUMBER (find)) {
+		int i = find_index_linear_equal_float (ei, find, data, vertical);
 		if (i != -2)
 			return i;
 	}
@@ -336,33 +367,8 @@ find_index_linear (GnmFuncEvalInfo *ei,
 
 		comp = value_compare (find, v, FALSE);
 
-		if (type >= 1 && comp == IS_GREATER) {
-			GnmValDiff comp = TYPE_MISMATCH;
-
-			if (index >= 0) {
-				comp = value_compare (v, index_val, FALSE);
-			}
-
-			if (index < 0 ||
-			    (index >= 0 && comp == IS_GREATER)) {
-				index = lp;
-				index_val = v;
-			}
-		} else if (type <= -1 && comp == IS_LESS) {
-			GnmValDiff comp = TYPE_MISMATCH;
-
-			if (index >= 0) {
-				comp = value_compare (v, index_val, FALSE);
-			}
-
-			if (index < 0 ||
-			    (index >= 0 && comp == IS_LESS)) {
-				index = lp;
-				index_val = v;
-			}
-		} else if (comp == IS_EQUAL) {
+		if (comp == IS_EQUAL)
 			return lp;
-		}
 	}
 
 	return index;
@@ -763,7 +769,7 @@ gnumeric_vlookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		? value_get_as_checked_bool (args [3]) : TRUE;
 	index = approx
 		? find_index_bisection (ei, args[0], args[1], 1, TRUE)
-		: find_index_linear (ei, args[0], args[1], 0, TRUE);
+		: find_index_linear (ei, args[0], args[1], TRUE);
 	if (args[4] != NULL && value_get_as_checked_bool (args [4]))
 		return value_new_int (index);
 
@@ -825,7 +831,7 @@ gnumeric_hlookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		? value_get_as_checked_bool (args [3]) : TRUE;
 	index = approx
 		? find_index_bisection (ei, args[0], args[1], 1, FALSE)
-		: find_index_linear (ei, args[0], args[1], 0, FALSE);
+		: find_index_linear (ei, args[0], args[1], FALSE);
 	if (args[4] != NULL && value_get_as_checked_bool (args [4]))
 		return value_new_int (index);
 
@@ -992,7 +998,7 @@ gnumeric_match (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	type = VALUE_IS_EMPTY (args[2]) ? 1 : value_get_as_int (args[2]);
 
 	if (type == 0)
-		index = find_index_linear (ei, args[0], args[1], type,
+		index = find_index_linear (ei, args[0], args[1],
 					   width > 1 ? FALSE : TRUE);
 	else
 		index = find_index_bisection (ei, args[0], args[1], type,

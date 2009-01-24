@@ -1,3 +1,14 @@
+2009-01-24  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (find_index_linear): Eliminate "type" argument since
+	it is always zero.  Simplify.
+	(get_linear_lookup_cache): Use pools for strings and floats so we
+	don't have to free individual cache members.
+	(get_linear_lookup_cache): Take new argument, "brand_new", so
+	caller doesn't have to use hash size hack.  All callers fixed.
+	(find_index_linear_equal_float): Change to take needle as
+	GnmValue, so we can use find_compare_type_valid.  Callers changed.
+
 2008-11-03  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_lookup): Fix critical.  (#559005)
