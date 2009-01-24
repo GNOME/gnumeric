@@ -600,7 +600,13 @@ compute_group (Sheet const *sheet,
 	/* FIXME : Find a way to inform the user that one of the rows/cols does
 	 * not fit on a page
 	 */
-	g_return_val_if_fail (count > 0, 1);
+
+	if (count ==0) {
+		g_warning (_("Even one cell is too large for this page."));
+
+		/* If we do not return at least one we are going into an infinite loop! */
+		return 1;
+	}
 
 	return count;
 }

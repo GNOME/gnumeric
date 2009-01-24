@@ -1,3 +1,8 @@
+2009-01-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print.c (compute_group): use g_warning rather than 
+	g_return_val_if_fail. Fixes 568991.
+
 2009-01-24  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (running_in_tree): Make this a separate function.
