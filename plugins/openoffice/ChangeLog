@@ -1,3 +1,8 @@
+2009-01-26  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_table_start): Handle missing style.  Fixes
+	part of #568994.
+
 2009-01-23  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_cellref_parse): Don't try to create empty

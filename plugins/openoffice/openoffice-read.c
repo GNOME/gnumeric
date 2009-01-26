@@ -525,10 +525,11 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 				state->sheet_order, state->pos.sheet);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))  {
 			OOSheetStyle const *style = g_hash_table_lookup (state->styles.sheet, attrs[1]);
-			g_object_set (state->pos.sheet,
-				"visibility", style->visibility,
-				"text-is-rtl", style->is_rtl,
-				NULL);
+			if (style)
+				g_object_set (state->pos.sheet,
+					      "visibility", style->visibility,
+					      "text-is-rtl", style->is_rtl,
+					      NULL);
 		}
 }
 
