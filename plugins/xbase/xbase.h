@@ -33,6 +33,7 @@ XBrecord *record_new  (XBfile *file);
 gboolean  record_seek (XBrecord *record, int whence, gsf_off_t row);
 void      record_free (XBrecord *record);
 gchar	*record_get_field (XBrecord const *record, guint num);
+gboolean  record_deleted (XBrecord *record);
 
 XBfile *xbase_open (GsfInput *input, ErrorInfo **ret_error);
 void    xbase_close (XBfile *file);

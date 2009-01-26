@@ -82,6 +82,7 @@ Morten:
 	* Fix performance problem in dependency tracking given large
 	number of large ranges.  [#567389]
 	* Fix VLOOKUP and HLOOKUP for bools.
+	* Fix problem reading slightly-corrupted dbf file.  [#568454]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

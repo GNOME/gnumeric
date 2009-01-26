@@ -72,10 +72,10 @@ record_seek (XBrecord *record, int whence, gsf_off_t row)
 		g_warning("record_seek: invalid whence (%d)", whence);
 		return FALSE;
 	}
-	if (offset < 1 || offset > (int)record->file->records)
+	if (offset < 1 || offset > (gsf_off_t)record->file->records)
 		return FALSE;
 	record->row = offset;
-	offset = (offset-1) * record->file->fieldlen + record->file->headerlen + 1;
+	offset = (offset-1) * record->file->fieldlen + record->file->headerlen;
 	return !gsf_input_seek (record->file->input, offset, G_SEEK_SET) &&
 	    gsf_input_read (record->file->input, record->file->fieldlen, record->data) != NULL;
 }
@@ -98,7 +98,13 @@ record_get_field (XBrecord const *record, guint num)
 {
 	if (num >= record->file->fields)
 		return NULL;
-	return (gchar *)record->data + record->file->format [num]->pos;
+	return (gchar *)record->data + record->file->format[num]->pos + 1;
+}
+
+gboolean
+record_deleted (XBrecord *record)
+{
+	return record->data[0] == 0x2a;
 }
 
 static void
@@ -200,7 +206,7 @@ xbase_read_header (XBfile *x, ErrorInfo **ret_error)
 		g_printerr ("unknown 0x%hhx\n", hdr[0]);
 	}
 
-	x->records     = GSF_LE_GET_GUINT32 (hdr + 4) + 1;
+	x->records     = GSF_LE_GET_GUINT32 (hdr + 4);
 	x->headerlen   = GSF_LE_GET_GUINT16 (hdr + 8);
 	x->fieldlen    = GSF_LE_GET_GUINT16 (hdr + 10);
 #if XBASE_DEBUG > 0

@@ -1,3 +1,12 @@
+2009-01-26  Morten Welinder  <terra@gnome.org>
+
+	* xbase.c (record_deleted): New function.
+	(record_seek): Start from beginning of record, not +1.  Therefore
+	we will no longer depend on terminating 0x1a.
+	(record_get_field): Make up for record_seek change.
+
+	* boot.c (xbase_file_open): Handle deleted records.
+
 2009-01-23  Morten Welinder  <terra@gnome.org>
 
 	* boot.c (xbase_file_open): Handle NULL value.
