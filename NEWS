@@ -81,6 +81,7 @@ Morten:
 	* Fix loop while loading lotus file.  [#568917]
 	* Fix performance problem in dependency tracking given large
 	number of large ranges.  [#567389]
+	* Fix VLOOKUP and HLOOKUP for bools.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

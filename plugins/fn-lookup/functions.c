@@ -57,6 +57,7 @@ static GStringChunk *lookup_string_pool;
 static GOMemChunk *lookup_float_pool;
 static GHashTable *linear_lookup_string_cache;
 static GHashTable *linear_lookup_float_cache;
+static GHashTable *linear_lookup_bool_cache;
 
 static void
 clear_caches (void)
@@ -69,6 +70,9 @@ clear_caches (void)
 
 	g_hash_table_destroy (linear_lookup_float_cache);
 	linear_lookup_float_cache = NULL;
+
+	g_hash_table_destroy (linear_lookup_bool_cache);
+	linear_lookup_bool_cache = NULL;
 
 	g_string_chunk_free (lookup_string_pool);
 	lookup_string_pool = NULL;
@@ -100,13 +104,18 @@ create_caches (void)
 		 (GEqualFunc)gnm_sheet_range_equal,
 		 (GDestroyNotify)gnm_sheet_range_free,
 		 (GDestroyNotify)g_hash_table_destroy);
+	linear_lookup_bool_cache = g_hash_table_new_full
+		((GHashFunc)gnm_sheet_range_hash,
+		 (GEqualFunc)gnm_sheet_range_equal,
+		 (GDestroyNotify)gnm_sheet_range_free,
+		 (GDestroyNotify)g_hash_table_destroy);
 }
 
 /* -------------------------------------------------------------------------- */
 
 static GHashTable *
 get_linear_lookup_cache (GnmFuncEvalInfo *ei,
-			 GnmValue const *data, gboolean stringp,
+			 GnmValue const *data, GnmValueType datatype,
 			 gboolean *brand_new)
 {
 	GnmSheetRange sr;
@@ -126,14 +135,19 @@ get_linear_lookup_cache (GnmFuncEvalInfo *ei,
 
 	create_caches ();
 
-	cache = stringp
-		? linear_lookup_string_cache
-		: linear_lookup_float_cache;
+	switch (datatype) {
+	case VALUE_STRING: cache = linear_lookup_string_cache; break;
+	case VALUE_FLOAT: cache = linear_lookup_float_cache; break;
+	case VALUE_BOOLEAN: cache = linear_lookup_bool_cache; break;
+	default:
+		g_assert_not_reached ();
+		return NULL;
+	}
 
 	h = g_hash_table_lookup (cache, &sr);
 	*brand_new = (h == NULL);
 	if (*brand_new) {
-		if (stringp)
+		if (datatype == VALUE_STRING)
 			h = g_hash_table_new (g_str_hash, g_str_equal);
 		else
 			h = g_hash_table_new ((GHashFunc)gnm_float_hash,
@@ -164,10 +178,7 @@ find_compare_type_valid (GnmValue const *find, GnmValue const *val)
 	if (find->type == val->type)
 		return TRUE;
 
-	/* FIXME: what about number vs. bool?  */
-
-	if (VALUE_IS_NUMBER (find) && VALUE_IS_NUMBER (val))
-		return TRUE;
+	/* Note: floats do not match bools.  */
 
 	return FALSE;
 }
@@ -264,7 +275,7 @@ find_index_linear_equal_string (GnmFuncEvalInfo *ei,
 	char *sc;
 	gboolean found, brand_new;
 
-	h = get_linear_lookup_cache (ei, data, TRUE, &brand_new);
+	h = get_linear_lookup_cache (ei, data, VALUE_STRING, &brand_new);
 	if (!h)
 		return -2;
 
@@ -305,7 +316,7 @@ find_index_linear_equal_float (GnmFuncEvalInfo *ei,
 	gnm_float f;
 	gboolean found, brand_new;
 
-	h = get_linear_lookup_cache (ei, data, FALSE, &brand_new);
+	h = get_linear_lookup_cache (ei, data, find->type, &brand_new);
 	if (!h)
 		return -2;
 

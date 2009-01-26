@@ -1,3 +1,10 @@
+2009-01-26  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (find_compare_type_valid): Floats should not match
+	bools.
+	(get_linear_lookup_cache): Create a separate cache for looking up
+	bools.
+
 2009-01-24  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (find_index_linear): Eliminate "type" argument since
