@@ -2833,10 +2833,10 @@ gnm_dep_container_dump (GnmDepContainer const *deps)
 	for (i = BUCKET_LAST; i >= 0 ; i--) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL && g_hash_table_size (hash) > 0) {
-			g_printerr ("  Bucket %d (%d-%d): Range hash size %d: range over which cells in list depend\n",
+			g_printerr ("  Bucket %d (rows %d-%d): Range hash size %d: range over which cells in list depend\n",
 				    i,
-				    BUCKET_START_ROW (i),
-				    BUCKET_END_ROW (i),
+				    BUCKET_START_ROW (i) + 1,
+				    BUCKET_END_ROW (i) + 1,
 				    g_hash_table_size (hash));
 			g_hash_table_foreach (hash,
 					      dump_range_dep, NULL);
