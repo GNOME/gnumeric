@@ -900,17 +900,21 @@ link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 {
 	int i = BUCKET_OF_ROW (r->range.start.row);
 	int const end = BUCKET_OF_ROW (r->range.end.row);
+	DependencyRange r2 = *r;
 
 	for ( ; i <= end; i++) {
-		/* Look it up */
 		DependencyRange *result;
+
+		/* Restrict range to bucket.  */
+		r2.range.start.row = MAX (r->range.start.row, BUCKET_START_ROW (i));
+		r2.range.end.row = MIN (r->range.end.row, BUCKET_END_ROW (i));
 
 		if (deps->range_hash[i] == NULL)
 			deps->range_hash[i] = g_hash_table_new (
 				(GHashFunc)  deprange_hash,
 				(GEqualFunc) deprange_equal);
 		else {
-			result = g_hash_table_lookup (deps->range_hash[i], r);
+			result = g_hash_table_lookup (deps->range_hash[i], &r2);
 			if (result) {
 				/* Inserts if it is not already there */
 				micro_hash_insert (&result->deps, dep);
@@ -920,7 +924,7 @@ link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 
 		/* Create a new DependencyRange structure */
 		result = go_mem_chunk_alloc (deps->range_pool);
-		*result = *r;
+		*result = r2;
 		micro_hash_init (&result->deps, dep);
 		g_hash_table_insert (deps->range_hash[i], result, result);
 	}
@@ -932,13 +936,19 @@ unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 {
 	int i = BUCKET_OF_ROW (r->range.start.row);
 	int const end = BUCKET_OF_ROW (r->range.end.row);
+	DependencyRange r2 = *r;
 
 	if (!deps)
 		return;
 
 	for ( ; i <= end; i++) {
-		DependencyRange *result =
-			g_hash_table_lookup (deps->range_hash[i], r);
+		DependencyRange *result;
+
+		/* Restrict range to bucket.  */
+		r2.range.start.row = MAX (r->range.start.row, BUCKET_START_ROW (i));
+		r2.range.end.row = MIN (r->range.end.row, BUCKET_END_ROW (i));
+
+		result = g_hash_table_lookup (deps->range_hash[i], &r2);
 		if (result) {
 			micro_hash_remove (&result->deps, dep);
 			if (micro_hash_is_empty (&result->deps)) {

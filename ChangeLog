@@ -1,3 +1,11 @@
+2009-01-25  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (link_range_dep, unlink_range_dep): Restrict the
+	range that goes into the bucket to the intersection of the source
+	range and the bucket area.  This improves dependency search
+	efficiency markedly when a large number of large ranges are in
+	play.  Fixes performance part of #567389.
+
 2009-01-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print.c (compute_group): use g_warning rather than 
