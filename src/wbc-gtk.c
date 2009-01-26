@@ -197,6 +197,27 @@ wbcg_get_scg (WBCGtk *wbcg, Sheet *sheet)
 	return NULL;
 }
 
+static SheetControlGUI *
+get_scg (const GtkWidget *w)
+{
+	return g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
+}
+
+static GSList *
+get_all_scgs (WBCGtk *wbcg)
+{
+	int i, n = gtk_notebook_get_n_pages (wbcg->snotebook);
+	GSList *l = NULL;
+
+	for (i = 0; i < n; i++) {
+		GtkWidget *w = gtk_notebook_get_nth_page (wbcg->snotebook, i);
+		SheetControlGUI *scg = get_scg (w);
+		l = g_slist_prepend (l, scg);
+	}
+
+	return g_slist_reverse (l);
+}
+
 /* Autosave */
 
 static gboolean
@@ -409,6 +430,16 @@ wbcg_clone_sheet (GtkWidget *unused, WBCGtk *wbcg)
 	g_object_unref (new_sheet);
 }
 
+static void
+cb_show_sheet (SheetControlGUI *scg)
+{
+	WBCGtk *wbcg = scg->wbcg;
+	int page_number = gtk_notebook_page_num (wbcg->snotebook,
+						 GTK_WIDGET (scg->table));
+	gnm_notebook_set_current_page (wbcg->bnotebook, page_number);
+}
+
+
 
 static void cb_sheets_manage (SheetControlGUI *scg) { dialog_sheet_order (scg->wbcg); }
 static void cb_sheets_insert (SheetControlGUI *scg) { wbcg_insert_sheet (NULL, scg->wbcg); }
@@ -435,6 +466,7 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 	unsigned int i;
 	GtkWidget *item, *menu = gtk_menu_new ();
 	gboolean has_multiple = gnm_notebook_get_n_visible (scg->wbcg->bnotebook) > 1;
+	gboolean scrollable;
 
 	for (i = 0; i < G_N_ELEMENTS (sheet_label_context_actions); i++){
 		char const *text = sheet_label_context_actions[i].text;
@@ -453,6 +485,30 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 		gtk_widget_set_sensitive (item, !inactive);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 		gtk_widget_show (item);
+	}
+
+	g_object_get (scg->wbcg->bnotebook, "scrollable", &scrollable, NULL);
+	if (scrollable) {
+		GSList *l, *scgs = get_all_scgs (scg->wbcg);
+
+		item = gtk_separator_menu_item_new ();
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+		gtk_widget_show (item);
+
+		for (l = scgs; l; l = l->next) {
+			SheetControlGUI *scg1 = l->data;
+			Sheet *sheet = scg_sheet (scg1);
+			if (!sheet_is_visible (sheet))
+				continue;
+
+			item = gtk_menu_item_new_with_label (sheet->name_unquoted);
+			g_signal_connect_swapped (G_OBJECT (item), "activate",
+						  G_CALLBACK (cb_show_sheet), scg1);
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+			gtk_widget_show (item);
+		}
+
+		g_slist_free (scgs);
 	}
 
 	gnumeric_popup_menu (GTK_MENU (menu), event);
@@ -489,27 +545,6 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 	}
 
 	return FALSE;
-}
-
-static SheetControlGUI *
-get_scg (const GtkWidget *w)
-{
-	return g_object_get_data (G_OBJECT (w), SHEET_CONTROL_KEY);
-}
-
-static GList *
-get_all_scgs (WBCGtk *wbcg)
-{
-	int i, n = gtk_notebook_get_n_pages (wbcg->snotebook);
-	GList *l = NULL;
-
-	for (i = 0; i < n; i++) {
-		GtkWidget *w = gtk_notebook_get_nth_page (wbcg->snotebook, i);
-		SheetControlGUI *scg = get_scg (w);
-		l = g_list_prepend (l, scg);
-	}
-
-	return g_list_reverse (l);
 }
 
 static void
@@ -1252,11 +1287,11 @@ by_sheet_index (gconstpointer a, gconstpointer b)
 static void
 wbcg_sheet_order_changed (WBCGtk *wbcg)
 {
-	GList *l, *scgs = get_all_scgs (wbcg);
+	GSList *l, *scgs = get_all_scgs (wbcg);
 	int i;
 
 	/* Reorder all tabs so they end up in index_in_wb order. */
-	scgs = g_list_sort (scgs, by_sheet_index);
+	scgs = g_slist_sort (scgs, by_sheet_index);
 
 	for (i = 0, l = scgs; l; l = l->next, i++) {
 		SheetControlGUI *scg = l->data;
@@ -1268,7 +1303,7 @@ wbcg_sheet_order_changed (WBCGtk *wbcg)
 				       i);
 	}
 
-	g_list_free (scgs);
+	g_slist_free (scgs);
 }
 
 static void
@@ -1293,7 +1328,7 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 
 	if (wbcg->snotebook != NULL) {
 		GtkNotebook *tmp = wbcg->snotebook;
-		GList *l, *all = get_all_scgs (wbcg);
+		GSList *l, *all = get_all_scgs (wbcg);
 		SheetControlGUI *current = wbcg_cur_scg (wbcg);
 
 		/* Clear notebook to disable updates as focus changes for pages
@@ -1312,7 +1347,7 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 			}
 		}
 
-		g_list_free (all);
+		g_slist_free (all);
 
 		/* Do current scg last.  */
 		if (current) {

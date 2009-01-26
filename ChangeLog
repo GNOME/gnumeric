@@ -1,3 +1,8 @@
+2009-01-26  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (sheet_menu_label_run): If there are more sheets
+	than we can show, put a list of sheets into the menu.
+
 2009-01-25  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (link_range_dep, unlink_range_dep): Restrict the
