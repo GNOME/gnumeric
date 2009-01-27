@@ -163,12 +163,10 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 		return value_new_int (tmp);
 	}
 	default: {
-			char str[27];
-			snprintf (str, 27, "Field type '%c' unsupported",
-				  field->type);
-			g_free (s);
-			return value_new_string (str);
-		}
+		char *s = g_strdup_printf ("Field type '0x%02x' unsupported",
+					   field->type);
+		return value_new_string_nocopy (s);
+	}
 	}
 }
 
