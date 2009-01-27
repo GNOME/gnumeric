@@ -773,21 +773,21 @@ gnumeric_vlookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		return value_new_error_NA (ei->pos);
 	if (col_idx <= 0)
 		return value_new_error_VALUE (ei->pos);
-	if (col_idx > value_area_get_width (args [1], ei->pos))
+	if (col_idx > value_area_get_width (args[1], ei->pos))
 		return value_new_error_REF (ei->pos);
 
 	approx = (args[3] != NULL)
-		? value_get_as_checked_bool (args [3]) : TRUE;
+		? value_get_as_checked_bool (args[3]) : TRUE;
 	index = approx
 		? find_index_bisection (ei, args[0], args[1], 1, TRUE)
 		: find_index_linear (ei, args[0], args[1], TRUE);
-	if (args[4] != NULL && value_get_as_checked_bool (args [4]))
+	if (args[4] != NULL && value_get_as_checked_bool (args[4]))
 		return value_new_int (index);
 
 	if (index >= 0) {
 	        GnmValue const *v;
 
-		v = value_area_fetch_x_y (args [1], col_idx-1, index, ei->pos);
+		v = value_area_fetch_x_y (args[1], col_idx-1, index, ei->pos);
 		g_return_val_if_fail (v != NULL, NULL);
 		return value_dup (v);
 	}
@@ -835,15 +835,15 @@ gnumeric_hlookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		return value_new_error_NA (ei->pos);
 	if (row_idx <= 0)
 		return value_new_error_VALUE (ei->pos);
-	if (row_idx > value_area_get_height (args [1], ei->pos))
+	if (row_idx > value_area_get_height (args[1], ei->pos))
 		return value_new_error_REF (ei->pos);
 
 	approx = (args[3] != NULL)
-		? value_get_as_checked_bool (args [3]) : TRUE;
+		? value_get_as_checked_bool (args[3]) : TRUE;
 	index = approx
 		? find_index_bisection (ei, args[0], args[1], 1, FALSE)
 		: find_index_linear (ei, args[0], args[1], FALSE);
-	if (args[4] != NULL && value_get_as_checked_bool (args [4]))
+	if (args[4] != NULL && value_get_as_checked_bool (args[4]))
 		return value_new_int (index);
 
 	if (index >= 0) {
@@ -1273,7 +1273,7 @@ static GnmFuncHelp const help_columns[] = {
 static GnmValue *
 gnumeric_columns (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	return value_new_int (value_area_get_width (args [0], ei->pos));
+	return value_new_int (value_area_get_width (args[0], ei->pos));
 }
 
 /***************************************************************************/
@@ -1417,7 +1417,7 @@ static GnmFuncHelp const help_rows[] = {
 static GnmValue *
 gnumeric_rows (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	return value_new_int (value_area_get_height (args [0], ei->pos));
+	return value_new_int (value_area_get_height (args[0], ei->pos));
 }
 
 /***************************************************************************/
