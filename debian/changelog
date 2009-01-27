@@ -1,3 +1,12 @@
+gnumeric (1.8.4-2) unstable; urgency=high
+
+  * [po/Makefile.in.in] Added a "dummy" definition text for POTFILES to
+    prevent the definition of CATALOGS from being eaten when
+    build/po/Makefile is generated; this brings the translations back.
+    (Closes: #513199)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 27 Jan 2009 19:11:11 +0100
+
 gnumeric (1.8.4-1) unstable; urgency=low
 
   * New upstream stable release.
