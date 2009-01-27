@@ -74,6 +74,14 @@ xb_setdouble (guint8 *p, double d)
 
 #endif
 
+#define CHECK_LENGTH(_l) do {						\
+	if (field->len != (_l)) {					\
+		g_warning ("Invalid field length.  File is probably corrupted."); \
+		g_free (s);						\
+		return NULL;						\
+	}								\
+} while (0)
+
 static GnmValue *
 xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 {
@@ -126,9 +134,9 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 		/* double check that the date is stored according to spec */
 		int year, month, day;
 		if (strcmp (s, "00000000") == 0)
-			return NULL;
-		if (sscanf (s, "%4d%2d%2d", &year, &month, &day) == 3 &&
-		    g_date_valid_dmy (day, month, year)) {
+			val = NULL;
+		else if (sscanf (s, "%4d%2d%2d", &year, &month, &day) == 3 &&
+			 g_date_valid_dmy (day, month, year)) {
 			GDate *date = g_date_new_dmy (day, month, year);
 			/* Use default date convention */
 			val = value_new_int (datetime_g_to_serial (date, NULL));
@@ -143,7 +151,7 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 		g_free (s);
 		return val;
 	case 'F':
-		g_return_val_if_fail (sizeof (double) == field->len, value_new_float (0.));
+		CHECK_LENGTH (sizeof (double));
 		val = value_new_float (XB_GETDOUBLE (s));
 		g_free (s);
 		return val;
@@ -151,7 +159,7 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 		gint64 tmp = GINT32_FROM_LE (*(gint64 *)s);
 		g_free (s);
 		g_warning ("FIXME: \"BINARY\" field type doesn't work");
-		g_return_val_if_fail (sizeof(tmp) == field->len, value_new_int (0));
+		CHECK_LENGTH (sizeof (tmp));
 		return value_new_int (tmp);
 	}
 	default: {
@@ -163,6 +171,8 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 		}
 	}
 }
+
+#undef CHECK_LENGTH
 
 void
 xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
