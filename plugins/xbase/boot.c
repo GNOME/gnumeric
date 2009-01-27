@@ -20,8 +20,9 @@
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/error-info.h>
-#include <gnm-plugin.h>
 #include <goffice/utils/datetime.h>
+#include <gsf/gsf-utils.h>
+#include <gnm-plugin.h>
 #include <glib/gi18n-lib.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,48 +32,6 @@ GNM_PLUGIN_MODULE_HEADER;
 void xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
                       WorkbookView *wb_view, GsfInput *input);
 
-#if G_BYTE_ORDER == G_LITTLE_ENDIAN
-
-#     define XB_GETDOUBLE(p)   (*((double*)(p)))
-#if 0
-#     define XB_SETDOUBLE(p,q) (*((double*)(p))=(q))
-#endif
-
-#else
-
-#     define XB_GETDOUBLE(p)   (xb_getdouble(p))
-#if 0
-#     define XB_SETDOUBLE(p,q) (xb_setdouble(p,q))
-#endif
-
-static double
-xb_getdouble (guint8 const *p)
-{
-    double d;
-    int i;
-    guint8 *t = (guint8 *)&d;
-    int sd = sizeof (d);
-
-    for (i = 0; i < sd; i++)
-      t[i] = p[sd - 1 - i];
-
-    return d;
-}
-
-#if 0
-static void
-xb_setdouble (guint8 *p, double d)
-{
-    int i;
-    guint8 *t = (guint8 *)&d;
-    int sd = sizeof (d);
-
-    for (i = 0; i < sd; i++)
-	    p[sd - 1 - i] = t[i];
-}
-#endif
-
-#endif
 
 #define CHECK_LENGTH(_l) do {						\
 	if (field->len != (_l)) {					\
@@ -122,13 +81,11 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 			return value_new_bool (FALSE);
 		case '?': case ' ':
 			g_free (s);
-			return value_new_string ("Uninitialised boolean");
-		default: {
-				char str[20];
-				snprintf (str, 20, "Invalid logical '%c'", s[0]);
-				g_free (s);
-				return value_new_string (str);
-			}
+			return NULL;
+		default:
+			g_warning ("Invalid logical value.  File is probably corrupted.");
+			g_free (s);
+			return NULL;
 		}
 	case 'D': {
 		/* double check that the date is stored according to spec */
@@ -147,20 +104,20 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 		return val;
 	}
 	case 'I':
-		val = value_new_int (GINT32_FROM_LE (*(gint32 *)s));
+		val = value_new_int (GSF_LE_GET_GINT32 (s));
 		g_free (s);
 		return val;
 	case 'F':
 		CHECK_LENGTH (sizeof (double));
-		val = value_new_float (XB_GETDOUBLE (s));
+		val = value_new_float (GSF_LE_GET_DOUBLE (s));
 		g_free (s);
 		return val;
 	case 'B': {
-		gint64 tmp = GINT32_FROM_LE (*(gint64 *)s);
-		g_free (s);
+		gint64 tmp = GSF_LE_GET_GINT64 (s);
 		g_warning ("FIXME: \"BINARY\" field type doesn't work");
 		CHECK_LENGTH (sizeof (tmp));
-		return value_new_int (tmp);
+		g_free (s);
+		return value_new_float (tmp);
 	}
 	default: {
 		char *s = g_strdup_printf ("Field type '0x%02x' unsupported",

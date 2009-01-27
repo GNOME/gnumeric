@@ -1,3 +1,8 @@
+2009-01-27  Morten Welinder  <terra@gnome.org>
+
+	* boot.c (xbase_field_as_value): Fix double free.  Avoid unaligned
+	access.  Fix loading doubles on ARM.
+
 2009-01-26  Morten Welinder  <terra@gnome.org>
 
 	* boot.c (xbase_field_as_value): Don't leak.  Report file errors
