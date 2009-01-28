@@ -1,3 +1,15 @@
+2009-01-28  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (create_caches): Create caches for the bisection
+	case too.
+	(clear_caches): Destroy those.
+	(get_bisection_lookup_cache): New function.
+	(get_linear_lookup_cache): Change cache key to a GnmValue so we
+	can handle arrays too.
+	(find_bound_walk): Delete.
+	(find_index_linear): We no longer need the fallback code.
+	(find_index_bisection): Pre-load, pre-process, and cache the data.
+
 2009-01-26  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (find_compare_type_valid): Floats should not match

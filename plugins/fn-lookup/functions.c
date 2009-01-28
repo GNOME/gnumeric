@@ -53,11 +53,61 @@ GNM_PLUGIN_MODULE_HEADER;
 
 /* -------------------------------------------------------------------------- */
 
+typedef struct {
+	int index;
+	union {
+		const char *str;
+		gnm_float f;
+	} u;
+} LookupBisectionCacheItemElem;
+
+typedef struct {
+	int n;
+	LookupBisectionCacheItemElem *data;
+} LookupBisectionCacheItem;
+
+static void
+lookup_bisection_cache_item_free (LookupBisectionCacheItem *item)
+{
+	g_free (item->data);
+	g_free (item);
+}
+
+static int
+bisection_compare_string (const void *a_, const void *b_)
+{
+	const LookupBisectionCacheItemElem *a = a_;
+	const LookupBisectionCacheItemElem *b = b_;
+	return g_utf8_collate (a->u.str, b->u.str);
+}
+
+static int
+bisection_compare_float (const void *a_, const void *b_)
+{
+	const LookupBisectionCacheItemElem *a = a_;
+	const LookupBisectionCacheItemElem *b = b_;
+	int res;
+
+	if (a->u.f < b->u.f)
+		res = -1;
+	else if (a->u.f > b->u.f)
+		res = +1;
+	else
+		res = 0;
+	return res;
+}
+
+/* -------------------------------------------------------------------------- */
+
 static GStringChunk *lookup_string_pool;
 static GOMemChunk *lookup_float_pool;
 static GHashTable *linear_lookup_string_cache;
 static GHashTable *linear_lookup_float_cache;
 static GHashTable *linear_lookup_bool_cache;
+static GHashTable *bisection_lookup_string_cache;
+static GHashTable *bisection_lookup_float_cache;
+static GHashTable *bisection_lookup_bool_cache;
+
 
 static void
 clear_caches (void)
@@ -73,6 +123,15 @@ clear_caches (void)
 
 	g_hash_table_destroy (linear_lookup_bool_cache);
 	linear_lookup_bool_cache = NULL;
+
+	g_hash_table_destroy (bisection_lookup_string_cache);
+	bisection_lookup_string_cache = NULL;
+
+	g_hash_table_destroy (bisection_lookup_float_cache);
+	bisection_lookup_float_cache = NULL;
+
+	g_hash_table_destroy (bisection_lookup_bool_cache);
+	bisection_lookup_bool_cache = NULL;
 
 	g_string_chunk_free (lookup_string_pool);
 	lookup_string_pool = NULL;
@@ -95,20 +154,37 @@ create_caches (void)
 				  sizeof (gnm_float) * 1000);
 
 	linear_lookup_string_cache = g_hash_table_new_full
-		((GHashFunc)gnm_sheet_range_hash,
-		 (GEqualFunc)gnm_sheet_range_equal,
-		 (GDestroyNotify)gnm_sheet_range_free,
+		((GHashFunc)value_hash,
+		 (GEqualFunc)value_equal,
+		 (GDestroyNotify)value_release,
 		 (GDestroyNotify)g_hash_table_destroy);
 	linear_lookup_float_cache = g_hash_table_new_full
-		((GHashFunc)gnm_sheet_range_hash,
-		 (GEqualFunc)gnm_sheet_range_equal,
-		 (GDestroyNotify)gnm_sheet_range_free,
+		((GHashFunc)value_hash,
+		 (GEqualFunc)value_equal,
+		 (GDestroyNotify)value_release,
 		 (GDestroyNotify)g_hash_table_destroy);
 	linear_lookup_bool_cache = g_hash_table_new_full
-		((GHashFunc)gnm_sheet_range_hash,
-		 (GEqualFunc)gnm_sheet_range_equal,
-		 (GDestroyNotify)gnm_sheet_range_free,
+		((GHashFunc)value_hash,
+		 (GEqualFunc)value_equal,
+		 (GDestroyNotify)value_release,
 		 (GDestroyNotify)g_hash_table_destroy);
+
+	bisection_lookup_string_cache = g_hash_table_new_full
+		((GHashFunc)value_hash,
+		 (GEqualFunc)value_equal,
+		 (GDestroyNotify)value_release,
+		 (GDestroyNotify)lookup_bisection_cache_item_free);
+	bisection_lookup_float_cache = g_hash_table_new_full
+		((GHashFunc)value_hash,
+		 (GEqualFunc)value_equal,
+		 (GDestroyNotify)value_release,
+		 (GDestroyNotify)lookup_bisection_cache_item_free);
+	bisection_lookup_bool_cache = g_hash_table_new_full
+		((GHashFunc)value_hash,
+		 (GEqualFunc)value_equal,
+		 (GDestroyNotify)value_release,
+		 (GDestroyNotify)lookup_bisection_cache_item_free);
+
 }
 
 /* -------------------------------------------------------------------------- */
@@ -118,20 +194,11 @@ get_linear_lookup_cache (GnmFuncEvalInfo *ei,
 			 GnmValue const *data, GnmValueType datatype,
 			 gboolean *brand_new)
 {
-	GnmSheetRange sr;
+	GnmValue const *key;
+	GnmValue *key_copy = NULL;
 	GHashTable *h, *cache;
-	Sheet *end_sheet;
-	GnmRangeRef const *rr;
 
-	/* FIXME: Any good reason this shouldn't work for arrays?  */
-	if (data->type != VALUE_CELLRANGE)
-		return NULL;
-	rr = value_get_rangeref (data);
-
-        gnm_rangeref_normalize (rr, ei->pos, &sr.sheet, &end_sheet, &sr.range);
-	/* FIXME: Any good reason this shouldn't work for 3D?  */
-	if (sr.sheet != end_sheet)
-		return NULL;
+	*brand_new = FALSE;
 
 	create_caches ();
 
@@ -144,16 +211,93 @@ get_linear_lookup_cache (GnmFuncEvalInfo *ei,
 		return NULL;
 	}
 
-	h = g_hash_table_lookup (cache, &sr);
-	*brand_new = (h == NULL);
-	if (*brand_new) {
+	switch (data->type) {
+	case VALUE_CELLRANGE: {
+		GnmSheetRange sr;
+		GnmRangeRef const *rr = value_get_rangeref (data);
+		Sheet *end_sheet;
+		gnm_rangeref_normalize (rr, ei->pos, &sr.sheet, &end_sheet,
+					&sr.range);
+		if (sr.sheet != end_sheet)
+			return NULL; /* 3D */
+
+		key = key_copy = value_new_cellrange_r (sr.sheet, &sr.range);
+		break;
+	}
+	case VALUE_ARRAY:
+		key = data;
+		break;
+	default:
+		return NULL;
+	}
+
+	h = g_hash_table_lookup (cache, key);
+	if (h == NULL) {
+		*brand_new = TRUE;
 		if (datatype == VALUE_STRING)
 			h = g_hash_table_new (g_str_hash, g_str_equal);
 		else
 			h = g_hash_table_new ((GHashFunc)gnm_float_hash,
 					      (GEqualFunc)gnm_float_equal);
-		g_hash_table_insert (cache, gnm_sheet_range_dup (&sr), h);
+		if (!key_copy) key_copy = value_dup (key);
+		g_hash_table_insert (cache, key_copy, h);
+	} else if (key_copy)
+		value_release (key_copy);
+
+	return h;
+}
+
+static LookupBisectionCacheItem *
+get_bisection_lookup_cache (GnmFuncEvalInfo *ei,
+			    GnmValue const *data, GnmValueType datatype,
+			    gboolean *brand_new)
+{
+	GnmValue const *key;
+	GnmValue *key_copy = NULL;
+	GHashTable *cache;
+	LookupBisectionCacheItem *h;
+
+	*brand_new = FALSE;
+
+	create_caches ();
+
+	switch (datatype) {
+	case VALUE_STRING: cache = bisection_lookup_string_cache; break;
+	case VALUE_FLOAT: cache = bisection_lookup_float_cache; break;
+	case VALUE_BOOLEAN: cache = bisection_lookup_bool_cache; break;
+	default:
+		g_assert_not_reached ();
+		return NULL;
 	}
+
+	switch (data->type) {
+	case VALUE_CELLRANGE: {
+		GnmSheetRange sr;
+		GnmRangeRef const *rr = value_get_rangeref (data);
+		Sheet *end_sheet;
+		gnm_rangeref_normalize (rr, ei->pos, &sr.sheet, &end_sheet,
+					&sr.range);
+		if (sr.sheet != end_sheet)
+			return NULL; /* 3D */
+
+		key = key_copy = value_new_cellrange_r (sr.sheet, &sr.range);
+		break;
+	}
+	case VALUE_ARRAY:
+		key = data;
+		break;
+	default:
+		return NULL;
+	}
+
+	h = g_hash_table_lookup (cache, key);
+	if (h == NULL) {
+		*brand_new = TRUE;
+		h = g_new0 (LookupBisectionCacheItem, 1);
+		if (!key_copy) key_copy = value_dup (key);
+		g_hash_table_insert (cache, key_copy, h);
+	} else if (key_copy)
+		value_release (key_copy);
 
 	return h;
 }
@@ -183,68 +327,7 @@ find_compare_type_valid (GnmValue const *find, GnmValue const *val)
 	return FALSE;
 }
 
-/**
- * find_bound_walk:
- * @l: lower bound
- * @h: upper bound
- * @start: starting point
- * @up: is first step incrementing
- * @reset: reset static values
- *
- * This function takes and upper and lower integer bound
- * and then walks that range starting with the given
- * starting point.  The walk is done by incrementing or
- * decrementing the starting point (based on the up value)
- * until the upper or lower bound is reached.  At this
- * point the step is reversed and the values move to the
- * opposite boundary (not repeating any values of course)
- *
- * Return value: the next value in the range
- **/
-static int
-find_bound_walk (int l, int h, int start, gboolean up, gboolean reset)
-{
-	static int low, high, current, orig;
-	static gboolean sup, started;
-
-	g_return_val_if_fail (l >= 0, -1);
-	g_return_val_if_fail (h >= 0, -1);
-	g_return_val_if_fail (h >= l, -1);
-	g_return_val_if_fail (start >= l, -1);
-	g_return_val_if_fail (start <= h, -1);
-
-	if (reset) {
-		low = l;
-		high = h;
-		current = start;
-		orig = start;
-		sup = up;
-		started = up;
-		return current;
-	}
-
- again:
-	if (sup) {
-		current++;
-		if (current > high && sup == started) {
-			current = orig;
-			sup = FALSE;
-			goto again;
-		} else if (current > high && sup != started) {
-			return -1;
-		}
-	} else {
-		current--;
-		if (current < low && sup == started) {
-			current = orig;
-			sup = TRUE;
-			goto again;
-		} else if (current < low && sup != started) {
-			return -1;
-		}
-	}
-	return current;
-}
+/* -------------------------------------------------------------------------- */
 
 static int
 calc_length (GnmValue const *data, GnmEvalPos const *ep, gboolean vertical)
@@ -265,6 +348,9 @@ get_elem (GnmValue const *data, guint ui,
 		return value_area_fetch_x_y (data, ui, 0, ep);
 }
 
+enum { LOOKUP_NOT_THERE = -1, LOOKUP_DATA_ERROR = -2 };
+
+
 static int
 find_index_linear_equal_string (GnmFuncEvalInfo *ei,
 				GnmValue const *find, GnmValue const *data,
@@ -277,7 +363,7 @@ find_index_linear_equal_string (GnmFuncEvalInfo *ei,
 
 	h = get_linear_lookup_cache (ei, data, VALUE_STRING, &brand_new);
 	if (!h)
-		return -2;
+		return LOOKUP_DATA_ERROR;
 
 	if (brand_new) {
 		int lp, length = calc_length (data, ei->pos, vertical);
@@ -303,7 +389,7 @@ find_index_linear_equal_string (GnmFuncEvalInfo *ei,
 	found = g_hash_table_lookup_extended (h, sc, NULL, &pres);
 	g_free (sc);
 
-	return found ? GPOINTER_TO_INT (pres) : -1;
+	return found ? GPOINTER_TO_INT (pres) : LOOKUP_NOT_THERE;
 }
 
 static int
@@ -316,9 +402,10 @@ find_index_linear_equal_float (GnmFuncEvalInfo *ei,
 	gnm_float f;
 	gboolean found, brand_new;
 
+	/* This handles floats and bools, but with separate caches.  */
 	h = get_linear_lookup_cache (ei, data, find->type, &brand_new);
 	if (!h)
-		return -2;
+		return LOOKUP_DATA_ERROR;
 
 	if (brand_new) {
 		int lp, length = calc_length (data, ei->pos, vertical);
@@ -343,7 +430,7 @@ find_index_linear_equal_float (GnmFuncEvalInfo *ei,
 	f = value_get_as_float (find);
 	found = g_hash_table_lookup_extended (h, &f, NULL, &pres);
 
-	return found ? GPOINTER_TO_INT (pres) : -1;
+	return found ? GPOINTER_TO_INT (pres) : LOOKUP_NOT_THERE;
 }
 
 static int
@@ -351,153 +438,133 @@ find_index_linear (GnmFuncEvalInfo *ei,
 		   GnmValue const *find, GnmValue const *data,
 		   gboolean vertical)
 {
-	GnmValDiff comp;
-	int length, lp, index = -1;
+	if (VALUE_IS_STRING (find))
+		return find_index_linear_equal_string
+			(ei, find, data, vertical);
 
-	if (VALUE_IS_STRING (find)) {
-		int i = find_index_linear_equal_string (ei, find, data, vertical);
-		if (i != -2)
-			return i;
-	}
+	if (VALUE_IS_NUMBER (find))
+		return find_index_linear_equal_float
+			(ei, find, data, vertical);
 
-	if (VALUE_IS_NUMBER (find)) {
-		int i = find_index_linear_equal_float (ei, find, data, vertical);
-		if (i != -2)
-			return i;
-	}
-
-	length = calc_length (data, ei->pos, vertical);
-
-	for (lp = 0; lp < length; lp++) {
-		GnmValue const *v = get_elem (data, lp, ei->pos, vertical);
-
-		g_return_val_if_fail (v != NULL, -1);
-
-		if (!find_compare_type_valid (find, v))
-			continue;
-
-		comp = value_compare (find, v, FALSE);
-
-		if (comp == IS_EQUAL)
-			return lp;
-	}
-
-	return index;
+	/* I don't think we can get here.  */
+	return LOOKUP_DATA_ERROR;
 }
+
+#undef DEBUG_BISECTION
 
 static int
 find_index_bisection (GnmFuncEvalInfo *ei,
 		      GnmValue const *find, GnmValue const *data,
 		      gint type, gboolean vertical)
 {
-	GnmValDiff comp = TYPE_MISMATCH;
-	int high, low = 0, prev = -1, mid = -1;
+	int high, low, lastlow, res;
+	gboolean brand_new;
+	LookupBisectionCacheItem *bc;
+	gboolean stringp;
+	int (*comparer) (const void *,const void *);
+	LookupBisectionCacheItemElem key;
 
-	high = calc_length (data, ei->pos, vertical) - 1;
+	bc = get_bisection_lookup_cache (ei, data, find->type, &brand_new);
+	if (!bc)
+		return LOOKUP_DATA_ERROR;
 
-	if (high < low) {
-		return -1;
+	stringp = (find->type == VALUE_STRING);
+	comparer = stringp ? bisection_compare_string : bisection_compare_float;
+
+	if (brand_new) {
+		int lp, length = calc_length (data, ei->pos, vertical);
+
+		bc->data = g_new (LookupBisectionCacheItemElem, length + 1);
+
+		for (lp = 0; lp < length; lp++) {
+			GnmValue const *v = get_elem (data, lp, ei->pos, vertical);
+			if (!find_compare_type_valid (find, v))
+				continue;
+
+			if (stringp) {
+				char *vc = g_utf8_casefold (value_peek_string (v), -1);
+				bc->data[bc->n].u.str = g_string_chunk_insert (lookup_string_pool, vc);
+				g_free (vc);
+			} else
+				bc->data[bc->n].u.f = value_get_as_float (v);
+
+			bc->data[bc->n].index = lp;
+			bc->n++;
+		}
+
+		bc->data = g_renew (LookupBisectionCacheItemElem,
+				    bc->data,
+				    bc->n);
 	}
 
+#ifdef DEBUG_BISECTION
+	g_printerr ("find=%s\n", value_peek_string (find));
+#endif
+
+	if (stringp) {
+		char *vc = g_utf8_casefold (value_peek_string (find), -1);
+		key.u.str = g_string_chunk_insert (lookup_string_pool, vc);
+		g_free (vc);
+	} else {
+#ifdef DEBUG_BISECTION
+		int lp;
+		for (lp = 0; lp < bc->n; lp++) {
+			g_printerr ("Data %d: %g\n", lp, bc->data[lp].u.f);
+		}
+#endif
+		key.u.f = value_get_as_float (find);
+	}
+
+	lastlow = LOOKUP_NOT_THERE;
+	low = 0;
+	high = bc->n - 1;
 	while (low <= high) {
-		GnmValue const *v = NULL;
-		int start;
-
-		if ((type >= 1) != (comp == IS_LESS)) {
-			prev = mid;
+		int mid = (low + high) / 2;
+		int c = comparer (&key, bc->data + mid);
+#ifdef DEBUG_BISECTION
+		if (!stringp) {
+			g_printerr ("Comparing to #%d %g: %d\n",
+				    mid, bc->data[mid].u.f, c);
 		}
-
-		mid = ((low + high) / 2);
-		mid = find_bound_walk (low, high, mid,
-				       type >= 0 ? TRUE : FALSE, TRUE);
-
-		start = mid;
-
-		/*
-		 * Excel handles type mismatches by skipping first one
-		 * way then the other (if necessary) to find a valid
-		 * value.  The initial direction depends on the search
-		 * type.
-		 */
-		while (!find_compare_type_valid (find, v) && mid != -1) {
-			gboolean rev = FALSE;
-
-			v = get_elem (data, mid, ei->pos, vertical);
-
-			if (find_compare_type_valid (find, v))
-				break;
-
-			mid = find_bound_walk (0, 0, 0, FALSE, FALSE);
-
-			if (!rev && type >= 0 && mid < start) {
-				high = mid;
-				rev = TRUE;
-			} else if (!rev && type < 0 && mid > start) {
-				low = mid;
-				rev = TRUE;
-			}
-		}
-
-		/*
-		 * If we couldn't find another entry in the range
-		 * with an appropriate type, return the best previous
-		 * value
-		 */
-		if (mid == -1 && ((type >= 1) != (comp == IS_LESS))) {
-			return prev;
-		} else if (mid == -1) {
-			return -1;
-		}
-
-		comp = value_compare (find, v, FALSE);
-
-		if (type >= 1 && comp == IS_GREATER) {
-			low = mid + 1;
-		} else if (type >= 1 && comp == IS_LESS) {
-			high = mid - 1;
-		} else if (type <= -1 && comp == IS_GREATER) {
-			high = mid - 1;
-		} else if (type <= -1 && comp == IS_LESS) {
-			low = mid + 1;
-		} else if (comp == IS_EQUAL) {
-			/* This is due to excel, it does a
-			 * linear search after the bisection search
-			 * to find either the first or last value
-			 * that is equal.
+#endif
+		if (c == 0) {
+			/*
+			 * For some sick reason, XLS wants to take the first
+			 * or last match, depending on type.  We could put
+			 * this into the cache if we wanted to.
 			 */
-			while ((type <= -1 && mid > low) ||
-			       (type >= 0 && mid < high)) {
-				int adj = 0;
-
-				if (type >= 0) {
-					adj = mid + 1;
-				} else {
-					adj = mid - 1;
-				}
-
-				v = get_elem (data, adj, ei->pos, vertical);
-
-				g_return_val_if_fail (v != NULL, -1);
-
-				if (!find_compare_type_valid (find, v))
-					break;
-
-				comp = value_compare (find, v, FALSE);
-				if (comp != IS_EQUAL)
-					break;
-
-				mid = adj;
-			}
-			return mid;
+			int dir = (type > 0 ? +1 : -1);
+			while (mid + dir > 0 &&
+			       mid + dir < bc->n &&
+			       comparer (&key, bc->data + (mid + dir)) == 0)
+				mid += dir;
+			return bc->data[mid].index;
+		}
+		if (type < 0)
+			c = -c; /* Reverse sorted data.  */
+		if (c > 0) {
+			lastlow = mid;
+			low = mid + 1;
+		} else {
+			high = mid - 1;
 		}
 	}
 
-	/* Try and return a reasonable value */
-	if ((type >= 1) != (comp == IS_LESS)) {
-		return mid;
-	}
+	if (type == 0)
+		res = LOOKUP_NOT_THERE;
+	else
+		res = lastlow;
 
-	return prev;
+#ifdef DEBUG_BISECTION
+	g_printerr ("res=%d\n", res);
+#endif
+	if (res >= 0)
+		res = bc->data[res].index;
+#ifdef DEBUG_BISECTION
+	g_printerr ("   index=%d\n", res);
+#endif
+
+	return res;
 }
 
 /***************************************************************************/
@@ -764,7 +831,7 @@ static GnmFuncHelp const help_vlookup[] = {
 static GnmValue *
 gnumeric_vlookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	int      col_idx, index = -1;
+	int col_idx, index = -1;
 	gboolean approx;
 
 	col_idx = value_get_as_int (args[2]);
@@ -776,11 +843,13 @@ gnumeric_vlookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	if (col_idx > value_area_get_width (args[1], ei->pos))
 		return value_new_error_REF (ei->pos);
 
-	approx = (args[3] != NULL)
-		? value_get_as_checked_bool (args[3]) : TRUE;
+	approx = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
 	index = approx
 		? find_index_bisection (ei, args[0], args[1], 1, TRUE)
 		: find_index_linear (ei, args[0], args[1], TRUE);
+	if (index == LOOKUP_DATA_ERROR)
+		return value_new_error_VALUE (ei->pos);  /* 3D */
+
 	if (args[4] != NULL && value_get_as_checked_bool (args[4]))
 		return value_new_int (index);
 
@@ -838,11 +907,13 @@ gnumeric_hlookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	if (row_idx > value_area_get_height (args[1], ei->pos))
 		return value_new_error_REF (ei->pos);
 
-	approx = (args[3] != NULL)
-		? value_get_as_checked_bool (args[3]) : TRUE;
+	approx = args[3] ? value_get_as_checked_bool (args[3]) : TRUE;
 	index = approx
 		? find_index_bisection (ei, args[0], args[1], 1, FALSE)
 		: find_index_linear (ei, args[0], args[1], FALSE);
+	if (index == LOOKUP_DATA_ERROR)
+		return value_new_error_VALUE (ei->pos);  /* 3D */
+
 	if (args[4] != NULL && value_get_as_checked_bool (args[4]))
 		return value_new_int (index);
 
@@ -999,25 +1070,33 @@ gnumeric_match (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	int type, index = -1;
 	int width = value_area_get_width (args[1], ei->pos);
 	int height = value_area_get_height (args[1], ei->pos);
+	gboolean vertical;
 
 	if (!find_type_valid (args[0]))
 		return value_new_error_NA (ei->pos);
 
 	if (width > 1 && height > 1)
 		return value_new_error_NA (ei->pos);
+	vertical = (width > 1 ? FALSE : TRUE);
 
 	type = VALUE_IS_EMPTY (args[2]) ? 1 : value_get_as_int (args[2]);
 
+	/*
+	 * FIXME: if type==0 and type is string, we ought to do some kind
+	 * of match with "*" and "?".
+	 */
 	if (type == 0)
 		index = find_index_linear (ei, args[0], args[1],
-					   width > 1 ? FALSE : TRUE);
+					   vertical);
 	else
 		index = find_index_bisection (ei, args[0], args[1], type,
-					      width > 1 ? FALSE : TRUE);
+					      vertical);
 
-	if (index >= 0)
-	        return value_new_int (index+1);
-	return value_new_error_NA (ei->pos);
+	switch (index) {
+	case LOOKUP_DATA_ERROR: return value_new_error_VALUE (ei->pos);
+	case LOOKUP_NOT_THERE: return value_new_error_NA (ei->pos);
+	default: return value_new_int (index + 1);
+	}
 }
 
 /***************************************************************************/
