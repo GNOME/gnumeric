@@ -163,15 +163,6 @@ gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags)
 
 	while (*pattern) {
 		switch (*pattern) {
-		case '~':
-			pattern++;
-			if (*pattern == '*')
-				g_string_append (res, "\\*");
-			else
-				g_string_append_c (res, *pattern);
-			if (*pattern) pattern++;
-			break;
-
 		case '*':
 			g_string_append (res, ".*");
 			pattern++;
@@ -182,6 +173,9 @@ gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags)
 			pattern++;
 			break;
 
+		case '~':
+			pattern++;
+			/* Fall through */
 		default:
 			pattern = go_regexp_quote1 (res, pattern);
 		}

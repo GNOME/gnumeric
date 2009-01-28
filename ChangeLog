@@ -1,3 +1,7 @@
+2009-01-28  Morten Welinder  <terra@gnome.org>
+
+	* src/gutils.c (gnm_regcomp_XL): Simplify and fixing quoting of ?.
+
 2009-01-26  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (sheet_menu_label_run): If there are more sheets
