@@ -1,3 +1,9 @@
+2009-01-29  Jon K Hellan  <hellan@acm.org>
+
+	* gnm-py-interpreter.c (gnm_py_interpreter_new): Work around
+	security vulnerability in Python by making argv start with
+	"/dev/null". CVE-2009-0318. #569648.
+
 2006-03-19  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.6.3
