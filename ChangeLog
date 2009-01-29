@@ -1,3 +1,8 @@
+2009-01-29  Morten Welinder  <terra@gnome.org>
+
+	* src/parse-util.c (rangeref_parse): Fix parsing problem for
+	"a12:indirect(...)".  Fixes #569730.
+
 2009-01-29  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/selection.c: (sv_selection_to_plot): really share x values.

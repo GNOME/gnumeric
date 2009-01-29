@@ -1103,27 +1103,29 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 	if (res->a.row_relative)
 		res->a.row -= pp->eval.row;
 
-	/* prepare as if it's a singleton, in case we want to fall back */
-	res->b.col = res->a.col;
-	res->b.row = res->a.row;
-	res->b.col_relative = res->a.col_relative;
-	res->b.row_relative = res->a.row_relative;
-	if (*tmp2 != ':')
-		return tmp2;
-
 	ptr = tmp2;
+	if (*ptr != ':')
+		goto singleton;
+
 	tmp1 = col_parse (ptr+1, &res->b.col, &res->b.col_relative);
 	if (!tmp1)
-		return ptr;	/* strange, but valid singleton */
+		goto singleton;	/* strange, but valid singleton */
 	tmp2 = row_parse (tmp1, &res->b.row, &res->b.row_relative);
 	if (!tmp2)
-		return ptr;	/* strange, but valid singleton */
+		goto singleton;	/* strange, but valid singleton */
 
 	if (res->b.col_relative)
 		res->b.col -= pp->eval.col;
 	if (res->b.row_relative)
 		res->b.row -= pp->eval.row;
 	return tmp2;
+
+ singleton:
+	res->b.col = res->a.col;
+	res->b.row = res->a.row;
+	res->b.col_relative = res->a.col_relative;
+	res->b.row_relative = res->a.row_relative;
+	return ptr;
 }
 
 #if 0

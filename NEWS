@@ -89,8 +89,9 @@ Morten:
 	* Fix problem reading slightly-corrupted dbf file.  [#568454]
 	* If we overflow the sheet tab area, put list in context menu.
 	* Fix ods load crash.  [#568994]
-	* Uses caches for bisection cases of VLOOKUP/HLOOKUP/LOOKUP/MATCH
+	* Use caches for bisection cases of VLOOKUP/HLOOKUP/LOOKUP/MATCH
 	too.  Fix issues with bools versus floats.
+	* Fix parsing problem for constructed ranges.  [#569730]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3
