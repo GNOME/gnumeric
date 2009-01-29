@@ -457,7 +457,7 @@ latex2e_write_file_header(GsfOutput *output)
 	if (gnm_app_prefs->latex_use_utf8)
 		gsf_output_puts (output,
 "%%    \\usepackage{ucs}                                            %%\n"
-"%%    \\usepackage[utf8]{inputenc}                                 %%\n"
+"%%    \\usepackage[utf8x]{inputenc}                                 %%\n"
 			);
 	else
 		gsf_output_puts (output,
@@ -511,7 +511,7 @@ latex2e_write_file_header(GsfOutput *output)
 	if (gnm_app_prefs->latex_use_utf8)
 		gsf_output_puts (output,
 "       \\usepackage{ucs}\n"
-"       \\usepackage[utf8]{inputenc}\n"
+"       \\usepackage[utf8x]{inputenc}\n"
 			);
 	else
 		gsf_output_puts (output,

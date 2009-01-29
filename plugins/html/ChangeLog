@@ -1,3 +1,7 @@
+2009-01-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	* latex.c (latex2e_write_file_header): use utf8x package of ucs
+	rather than utf8. Fixes 569476.
+
 2009-01-23  Morten Welinder  <terra@gnome.org>
 
 	* latex.c (latex2e_write_multicolumn_cell): Fix scale of colour
