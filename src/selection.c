@@ -1374,6 +1374,7 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 	gboolean is_string_vec, first_series = TRUE, first_value_dim = TRUE;
 	unsigned i, count, cur_dim = 0, num_series = 1;
 	gboolean has_header, as_cols;
+	GOData *shared_x = NULL;
 
 	gboolean default_to_cols;
 
@@ -1490,8 +1491,13 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 
 			/* skip over index series if shared */
 			while (data->share_x && cur_dim < desc->series.num_dim &&
-			       !first_series && desc->series.dim[cur_dim].val_type == GOG_DIM_INDEX)
+			       !first_series && desc->series.dim[cur_dim].val_type == GOG_DIM_INDEX) {
+				if (shared_x) {
+					g_object_ref (shared_x);
+					gog_series_set_dim (series, cur_dim, shared_x, NULL);
+				}
 				++cur_dim;
+			}
 
 			while (cur_dim < desc->series.num_dim && desc->series.dim[cur_dim].priority == GOG_SERIES_ERRORS)
 				++cur_dim;
@@ -1507,10 +1513,16 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 				cur_dim++;
 			}
 
-			gog_series_set_dim (series, cur_dim,
-				gnm_go_data_vector_new_expr (sheet,
-					gnm_expr_top_new_constant (
-						value_new_cellrange_r (sheet, &vector))), NULL);
+			if (data->share_x && first_series && desc->series.dim[cur_dim].val_type == GOG_DIM_INDEX) {
+				shared_x = gnm_go_data_vector_new_expr (sheet,
+						gnm_expr_top_new_constant (
+						value_new_cellrange_r (sheet, &vector)));
+				gog_series_set_dim (series, cur_dim, shared_x, NULL);
+			} else
+				gog_series_set_dim (series, cur_dim,
+					gnm_go_data_vector_new_expr (sheet,
+						gnm_expr_top_new_constant (
+							value_new_cellrange_r (sheet, &vector))), NULL);
 
 			if (has_header && first_value_dim &&
 			    desc->series.dim[cur_dim].val_type == GOG_DIM_VALUE) {
