@@ -79,7 +79,7 @@ gnm_py_interpreter_class_init (GObjectClass *gobject_class)
 		G_TYPE_NONE, 0);
 }
 
-static char *plugin_argv[] = {(char *) "gnumeric", NULL};
+static char *plugin_argv[] = {(char *) "/dev/null/python/is/buggy/gnumeric", NULL};
 
 GnmPyInterpreter *
 gnm_py_interpreter_new (GOPlugin *plugin)
