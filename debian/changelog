@@ -1,3 +1,21 @@
+gnumeric (1.8.4-4) unstable; urgency=low
+
+  * UNRELEASED
+  * Corrected the bug number in the changelog entry for 1.8.4-3. 569648 is
+    the upstream bug number; 513418 the Debian one.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 29 Jan 2009 15:50:12 +0100
+
+gnumeric (1.8.4-3) unstable; urgency=high
+
+  * [plugins/python-loader/gnm-py-interpreter.c,
+    plugins/python-loader/ChangeLog] Pull in fix from SVN gnumeric-1-8
+    branch to deal with CVE-2009-0318, an untrusted search path vulnerability
+    which affected the python-loader plugin which is part of the
+    gnumeric-plugins-extra package. (Closes: #513418)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 29 Jan 2009 15:50:12 +0100
+
 gnumeric (1.8.4-2) unstable; urgency=high
 
   * [po/Makefile.in.in] Added a "dummy" definition text for POTFILES to
