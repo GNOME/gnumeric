@@ -79,7 +79,7 @@ gnm_py_interpreter_class_init (GObjectClass *gobject_class)
 		G_TYPE_NONE, 0);
 }
 
-static char *plugin_argv[] = {(char *) "gnumeric", NULL};
+static char *plugin_argv[] = {(char *) "/dev/null/python/is/buggy/gnumeric", NULL};
 
 GnmPyInterpreter *
 gnm_py_interpreter_new (GOPlugin *plugin)
@@ -101,6 +101,7 @@ gnm_py_interpreter_new (GOPlugin *plugin)
 	interpreter->plugin = plugin;
 
 	PySys_SetArgv (G_N_ELEMENTS (plugin_argv) - 1, plugin_argv);
+	PyRun_SimpleString("import sys; print sys.path");
 	py_initgnumeric (interpreter);
 
 	return interpreter;

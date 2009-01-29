@@ -37,6 +37,9 @@ Jody:
 	* Display top-left when selecting a rel ref to a merged region.
 	* Win32 fixed.
 
+Jon Kåre:
+        * Work around vulnerability in Python.  [#569648]
+
 Lutz Mueller:
 	* Enable drag of whole sheets to other applications.  [#523033]
 
