@@ -1,5 +1,8 @@
 2009-01-29  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (cb_add_custom_ui): Handle merge failure.  Work
+	around bug #569724.
+
 	* src/parse-util.c (rangeref_parse): Fix parsing problem for
 	"a12:indirect(...)".  Fixes #569730.
 

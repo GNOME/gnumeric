@@ -92,6 +92,7 @@ Morten:
 	* Use caches for bisection cases of VLOOKUP/HLOOKUP/LOOKUP/MATCH
 	too.  Fix issues with bools versus floats.
 	* Fix parsing problem for constructed ranges.  [#569730]
+	* Fix plugin menu merging.  [#569724]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

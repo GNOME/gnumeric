@@ -1725,9 +1725,9 @@ cb_workbook_debug_info (WBCGtk *wbcg)
 	if (wbc_gtk_debug_expr_share > 0) {
 		GnmExprSharer *es = workbook_share_expressions (wb, FALSE);
 
-		g_print ("Expression sharer results:\n"
-			 "Nodes in: %d, nodes stored: %d, nodes killed: %d.\n",
-			 es->nodes_in, es->nodes_stored, es->nodes_killed);
+		g_printerr ("Expression sharer results:\n"
+			    "Nodes in: %d, nodes stored: %d, nodes killed: %d.\n",
+			    es->nodes_in, es->nodes_stored, es->nodes_killed);
 		gnm_expr_sharer_destroy (es);
 	}
 }
@@ -3232,17 +3232,19 @@ static void
 cb_add_custom_ui (G_GNUC_UNUSED GnmApp *app,
 		  GnmAppExtraUI *extra_ui, WBCGtk *gtk)
 {
-	GtkActionEntry   entry;
 	CustomUIHandle  *details;
 	GSList		*ptr;
-	GnmAction	*action;
-	GtkAction       *res;
+	GError          *error = NULL;
+	const char *ui_substr;
 
 	details = g_new0 (CustomUIHandle, 1);
 	details->actions = gtk_action_group_new ("DummyName");
 
 	for (ptr = extra_ui->actions; ptr != NULL ; ptr = ptr->next) {
-		action = ptr->data;
+		GnmAction *action = ptr->data;
+		GtkAction *res;
+		GtkActionEntry entry;
+
 		entry.name = action->id;
 		entry.stock_id = action->icon_name;
 		entry.label = action->label;
@@ -3255,10 +3257,28 @@ cb_add_custom_ui (G_GNUC_UNUSED GnmApp *app,
 		g_object_set_data (G_OBJECT (res), "ExtraUI", extra_ui);
 	}
 	gtk_ui_manager_insert_action_group (gtk->ui, details->actions, 0);
-	details->merge_id = gtk_ui_manager_add_ui_from_string (gtk->ui,
-		extra_ui->layout, -1, NULL);
 
-	g_hash_table_insert (gtk->custom_uis, extra_ui, details);
+	ui_substr = strstr (extra_ui->layout, "<ui>");
+	if (ui_substr == extra_ui->layout)
+		ui_substr = NULL;
+
+	details->merge_id = gtk_ui_manager_add_ui_from_string
+		(gtk->ui, extra_ui->layout, -1, ui_substr ? NULL : &error);
+	if (details->merge_id == 0 && ui_substr) {
+		/* Work around bug 569724.  */
+		details->merge_id = gtk_ui_manager_add_ui_from_string
+			(gtk->ui, ui_substr, -1, &error);
+	}
+
+	if (error) {
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
+		gtk_ui_manager_remove_action_group (gtk->ui, details->actions);
+		g_object_unref (details->actions);
+		g_free (details);
+	} else {
+		g_hash_table_insert (gtk->custom_uis, extra_ui, details);
+	}
 }
 static void
 cb_remove_custom_ui (G_GNUC_UNUSED GnmApp *app,
