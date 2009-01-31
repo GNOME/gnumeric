@@ -93,6 +93,7 @@ Morten:
 	too.  Fix issues with bools versus floats.
 	* Fix parsing problem for constructed ranges.  [#569730]
 	* Fix plugin menu merging.  [#569724]
+	* Improve handling of 3D ranges.  [#569372]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

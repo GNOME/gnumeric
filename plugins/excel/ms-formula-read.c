@@ -1012,14 +1012,21 @@ excel_parse_formula1 (MSContainer const *container,
 		case FORMULA_PTG_EQUAL :
 		case FORMULA_PTG_GTE : case FORMULA_PTG_GT :
 		case FORMULA_PTG_NOT_EQUAL :
-		case FORMULA_PTG_INTERSECT :
-		case FORMULA_PTG_RANGE : {
+		case FORMULA_PTG_INTERSECT : {
 			GnmExpr const *r = parse_list_pop (&stack);
 			GnmExpr const *l = parse_list_pop (&stack);
 			parse_list_push (&stack, gnm_expr_new_binary (
 				l,
 				binary_ops [ptgbase - FORMULA_PTG_ADD],
 				r));
+			break;
+		}
+
+		case FORMULA_PTG_RANGE : {
+			GnmExpr const *r = parse_list_pop (&stack);
+			GnmExpr const *l = parse_list_pop (&stack);
+			parse_list_push (&stack,
+					 gnm_expr_new_range_ctor (l, r));
 			break;
 		}
 

@@ -388,6 +388,8 @@ build_array (GSList *cols)
 static GnmExpr *
 build_range_ctor (GnmExpr *l, GnmExpr *r, GnmExpr *validate)
 {
+	if (!l || !r) return NULL;
+
 	if (validate != NULL) {
 		if (GNM_EXPR_GET_OPER (validate) != GNM_EXPR_OP_CELLREF ||
 		    validate->cellref.ref.sheet != NULL) {
@@ -397,7 +399,10 @@ build_range_ctor (GnmExpr *l, GnmExpr *r, GnmExpr *validate)
 			return NULL;
 		    }
 	}
-	return build_binop (l, GNM_EXPR_OP_RANGE_CTOR, r);
+
+	unregister_allocation (r);
+	unregister_allocation (l);
+	return register_expr_allocation (gnm_expr_new_range_ctor (l, r));
 }
 
 /*
@@ -788,7 +793,8 @@ cellref:  RANGEREF { $$ = $1; }
 		if ($$ == NULL) { YYERROR; }
 	}
 	| RANGEREF RANGE_SEP RANGEREF {
-		$$ = build_binop ($1, GNM_EXPR_OP_RANGE_CTOR, $3);
+		$$ = build_range_ctor ($1, $3, NULL);
+		if ($$ == NULL) { YYERROR; }
 	}
 	;
 

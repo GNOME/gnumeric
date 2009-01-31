@@ -1,3 +1,10 @@
+2009-01-31  Morten Welinder  <terra@gnome.org>
+
+	* src/parser.y (build_range_ctor): Use gnm_expr_new_range_ctor,
+	not build_binop.
+
+	* src/expr.c (gnm_expr_new_range_ctor): New function.
+
 2009-01-30  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Change the help strings not to have curly braces in

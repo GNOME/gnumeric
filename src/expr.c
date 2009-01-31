@@ -317,6 +317,40 @@ gnm_expr_new_set (GnmExprList *set)
 
 /***************************************************************************/
 
+/**
+ * gnm_expr_new_range_ctor:
+ * @l: start range
+ * @r: end range
+ *
+ * This function builds a range constructor or something simpler,
+ * but equivalent, if the arguments allow it. 
+ *
+ * Note: this takes ownership of @l and @r and may delete them.
+ **/
+GnmExpr const *
+gnm_expr_new_range_ctor (GnmExpr const *l, GnmExpr const *r)
+{
+	GnmValue *v;
+
+	g_return_val_if_fail (l != NULL, NULL);
+	g_return_val_if_fail (r != NULL, NULL);
+
+	if (GNM_EXPR_GET_OPER (l) != GNM_EXPR_OP_CELLREF)
+		goto fallback;
+	if (GNM_EXPR_GET_OPER (r) != GNM_EXPR_OP_CELLREF)
+		goto fallback;
+
+	v = value_new_cellrange_unsafe (&l->cellref.ref, &r->cellref.ref);
+	gnm_expr_free (l);
+	gnm_expr_free (r);
+	return gnm_expr_new_constant (v);
+
+ fallback:
+	return gnm_expr_new_binary (l, GNM_EXPR_OP_RANGE_CTOR, r);
+}
+
+/***************************************************************************/
+
 GnmExpr const *
 gnm_expr_copy (GnmExpr const *expr)
 {

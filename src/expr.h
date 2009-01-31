@@ -72,6 +72,7 @@ GnmExpr const *gnm_expr_new_name	(GnmNamedExpr *name,
 					 Sheet *sheet_scope, Workbook *wb_scope);
 GnmExpr const *gnm_expr_new_cellref	(GnmCellRef const *cr);
 GnmExpr const *gnm_expr_new_set		(GnmExprList *args);
+GnmExpr const *gnm_expr_new_range_ctor  (GnmExpr const *l, GnmExpr const *r);
 
 GnmValue      *gnm_expr_get_range    (GnmExpr const *expr);
 GnmFunc       *gnm_expr_get_func_def (GnmExpr const *expr);
