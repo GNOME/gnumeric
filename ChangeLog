@@ -1,3 +1,7 @@
+2009-01-30  Diego E. Flameeyes Pettenò   <flameeyes@gentoo.org>
+
+	* configure.in: Fix help strings.  (#569842)
+
 2009-01-29  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_add_custom_ui): Handle merge failure.  Work

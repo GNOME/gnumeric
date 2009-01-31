@@ -91,7 +91,7 @@ _cppflags="${CPPFLAGS}"
 _ldflags="${LDFLAGS}"
 
 AC_ARG_WITH(zlib,
-	[[  --with-zlib=DIR       use libz in DIR]],
+	AS_HELP_STRING([--with-zlib=DIR], [use libz in DIR]),
 	[case $withval in
 	 yes|no) ;;
 	 *)	Z_DIR=$withval
@@ -184,7 +184,7 @@ dnl *******************
 dnl Should we use gtk ?
 dnl *******************
 gnumeric_with_gtk=true
-AC_ARG_WITH(gtk, [--without-gtk    Build without UI])
+AC_ARG_WITH(gtk, AS_HELP_STRING([--without-gtk], [Build without UI]))
 if test "x$with_gtk" = xno; then
 	ui_msg="None (Gtk disabled by request)"
 	gnumeric_with_gtk=false
@@ -210,7 +210,7 @@ if test "x$gnumeric_with_gtk" = xtrue -a "x$with_win32" = xno ; then
 
 	ui_msg="Gtk+ (Gnome disabled)"
 	AC_ARG_WITH(gnome,
-		[--{with,without}-gnome    Use GNOME extensions],
+		AS_HELP_STRING([--{with,without}-gnome], [Use GNOME extensions]),
 		if test "x$withval" == xyes; then
 			ui_msg="Gnome"
 			gnumeric_with_gnome=true
@@ -288,7 +288,7 @@ dnl ==============================================
 dnl Maemo/Hildon based User Interface
 
 AC_ARG_ENABLE(hildon,
-	AC_HELP_STRING([--enable-hildon],[Build with Maemo/Hildon support]),
+	AS_HELP_STRING([--enable-hildon],[Build with Maemo/Hildon support]),
     enable_hildon="$enableval",
     enable_hildon=no)
 
@@ -386,17 +386,17 @@ fi
 AC_SUBST(WARN_CFLAGS)
 
 AC_ARG_ENABLE(ssconvert,
-  [--disable-ssconvert		Do not build ssconvert (command line spreadsheet conversion tool)],
+  AS_HELP_STRING([--disable-ssconvert], [Do not build ssconvert (command line spreadsheet conversion tool)]),
   [], [enable_ssconvert=yes])
 AM_CONDITIONAL(ENABLE_SSCONVERT, test x"$enable_ssconvert" = xyes)
 
 AC_ARG_ENABLE(ssindex,
-  [--disable-ssindex		Do not build ssindex (spreadsheet indexer for beagle)],
+  AS_HELP_STRING([--disable-ssindex], [Do not build ssindex (spreadsheet indexer for beagle)]),
   [], [enable_ssindex=yes])
 AM_CONDITIONAL(ENABLE_SSINDEX, test x"$enable_ssindex" = xyes)
 
 AC_ARG_ENABLE(ssgrep,
-  [--disable-ssgrep		Do not build ssgrep (search for supplied strings in spreadsheet)],
+  AS_HELP_STRING([--disable-ssgrep], [Do not build ssgrep (search for supplied strings in spreadsheet)]),
   [], [enable_ssgrep=yes])
 AM_CONDITIONAL(ENABLE_SSGREP, test x"$enable_ssgrep" = xyes)
 
@@ -407,7 +407,7 @@ try_gda=true
 gda_msg=yes
 gnomedb_msg=no
 AC_ARG_WITH(gda,
-	[--{with,without}-gda      Compile the Gnome Database Access plugin],
+	AS_HELP_STRING([--{with,without}-gda], [Compile the Gnome Database Access plugin]),
 	if test "x$withval" != xyes; then
 		try_gda=false
 		gda_msg="Disabled by request"
@@ -494,7 +494,7 @@ try_guile=false
 guile_msg="disabled pending some guile developer interest"
 enable_guile=false
 AC_ARG_WITH(guile,
-	[--{with,without}-guile    Compile with Guile support or without it],
+	AS_HELP_STRING([--{with,without}-guile], [Compile with Guile support or without it]),
 	if test "x$withval" = xyes; then
 		try_guile=true
 	fi
@@ -520,7 +520,7 @@ dnl * psiconv support
 dnl **************************************************
 
 AC_ARG_WITH(psiconv,
-	[--{with,without}-psiconv  Compile with Psiconv support or without it])
+	AS_HELP_STRING([--{with,without}-psiconv], [Compile with Psiconv support or without it]))
 AC_ARG_VAR(PSICONV_CONFIG, [The psiconv-config executable.])
 if test "x$with_psiconv" != xno; then
     AC_CHECK_PROG(PSICONV_CONFIG,psiconv-config,psiconv-config)
@@ -549,7 +549,7 @@ AC_SUBST(PSICONV_CFLAGS)
 try_paradox=true
 enable_paradox=false
 AC_ARG_WITH(paradox,
-	[--{with,without}-paradox  Compile with Paradox support or without it],
+	AS_HELP_STRING([--{with,without}-paradox], [Compile with Paradox support or without it]),
 	if test "x$withval" = xno; then
 		try_paradox=false
 	fi
@@ -569,7 +569,7 @@ AM_CONDITIONAL(WITH_PARADOX, $enable_paradox)
 AC_SUBST(PARADOX_LIBS)
 AC_SUBST(PARADOX_CFLAGS)
 
-AC_ARG_ENABLE(solver, [--disable-solver  Don't compile the solver])
+AC_ARG_ENABLE(solver, AS_HELP_STRING([--disable-solver], [Don't compile the solver]))
 if test "x$enable_solver" = xno; then
 	enable_solver=false
 else
@@ -581,7 +581,7 @@ AM_CONDITIONAL(ENABLE_SOLVER, $enable_solver)
 plugin_list_given=false
 PLUGIN_LIST=""
 AC_ARG_ENABLE(plugins,
-	[--enable-plugins="text html"  Compile only the listed plugins],
+	AS_HELP_STRING([--enable-plugins="text html"], [Compile only the listed plugins]),
 	[plugin_list_given=true
 	 test "x$enableval" != xno && PLUGIN_LIST=$enableval
 ])
@@ -686,7 +686,7 @@ AC_CHECK_FUNCS(lgamma)
 AC_C_LONG_DOUBLE
 float_msg=double
 AC_ARG_WITH(long_double,
-	[--{with,without}-long-double		Use long double for floating point],
+	AS_HELP_STRING([--{with,without}-long-double], [Use long double for floating point]),
 	[if test "x$withval" = xyes; then
 		SAVE_CFLAGS="$CFLAGS"
 		SAVE_LIBS="$LIBS"
@@ -758,7 +758,7 @@ dnl **************************************************
 want_perl=auto
 have_perl=no
 perl_reason=""
-AC_ARG_WITH(perl, [--{with,without}-perl   Compile the Perl plugin loader],
+AC_ARG_WITH(perl, AS_HELP_STRING([--{with,without}-perl], [Compile the Perl plugin loader]),
 	[case $withval in
 	yes) want_perl=yes;;
 	no) want_perl=no;;
@@ -837,7 +837,7 @@ GNM_PY_CFLAGS=
 GNM_PY_LDFLAGS=
 GNM_PY_LIBADD=
 
-AC_ARG_WITH(python, [--{with,without}-python   Compile the Python plugin loader])
+AC_ARG_WITH(python, AS_HELP_STRING([--{with,without}-python], [Compile the Python plugin loader]))
 AC_ARG_VAR(PYTHON, [The Python executable.])
 case $with_python in
 yes|no) ;;
@@ -959,7 +959,7 @@ dnl **************************************************
 with_mono=no
 mono_msg="disabled, still experimental"
 
-AC_ARG_WITH(mono, [--{with,without}-mono     Compile the mono scripting engine])
+AC_ARG_WITH(mono, AS_HELP_STRING([--{with,without}-mono], [Compile the mono scripting engine]))
 case $with_mono in
 no)	mono_msg="Disabled by request";;
 *)
