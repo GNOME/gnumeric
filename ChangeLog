@@ -1,3 +1,9 @@
+2009-01-30  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: Change the help strings not to have curly braces in
+	them ("--{with,without}-foo") as this caused newer versions of aclocal
+	to fail.
+
 2009-01-30  Diego E. Flameeyes Pettenò   <flameeyes@gentoo.org>
 
 	* configure.in: Fix help strings.  (#569842)

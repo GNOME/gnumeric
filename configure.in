@@ -210,7 +210,7 @@ if test "x$gnumeric_with_gtk" = xtrue -a "x$with_win32" = xno ; then
 
 	ui_msg="Gtk+ (Gnome disabled)"
 	AC_ARG_WITH(gnome,
-		AS_HELP_STRING([--{with,without}-gnome], [Use GNOME extensions]),
+		AS_HELP_STRING([--with-gnome], [Use GNOME extensions]),
 		if test "x$withval" == xyes; then
 			ui_msg="Gnome"
 			gnumeric_with_gnome=true
@@ -407,7 +407,7 @@ try_gda=true
 gda_msg=yes
 gnomedb_msg=no
 AC_ARG_WITH(gda,
-	AS_HELP_STRING([--{with,without}-gda], [Compile the Gnome Database Access plugin]),
+	AS_HELP_STRING([--with-gda], [Compile the Gnome Database Access plugin]),
 	if test "x$withval" != xyes; then
 		try_gda=false
 		gda_msg="Disabled by request"
@@ -494,7 +494,7 @@ try_guile=false
 guile_msg="disabled pending some guile developer interest"
 enable_guile=false
 AC_ARG_WITH(guile,
-	AS_HELP_STRING([--{with,without}-guile], [Compile with Guile support or without it]),
+	AS_HELP_STRING([--with-guile], [Compile with Guile support or without it]),
 	if test "x$withval" = xyes; then
 		try_guile=true
 	fi
@@ -520,7 +520,7 @@ dnl * psiconv support
 dnl **************************************************
 
 AC_ARG_WITH(psiconv,
-	AS_HELP_STRING([--{with,without}-psiconv], [Compile with Psiconv support or without it]))
+	AS_HELP_STRING([--without-psiconv], [Compile without Psiconv support]))
 AC_ARG_VAR(PSICONV_CONFIG, [The psiconv-config executable.])
 if test "x$with_psiconv" != xno; then
     AC_CHECK_PROG(PSICONV_CONFIG,psiconv-config,psiconv-config)
@@ -549,7 +549,7 @@ AC_SUBST(PSICONV_CFLAGS)
 try_paradox=true
 enable_paradox=false
 AC_ARG_WITH(paradox,
-	AS_HELP_STRING([--{with,without}-paradox], [Compile with Paradox support or without it]),
+	AS_HELP_STRING([--without-paradox], [Compile without Paradox support]),
 	if test "x$withval" = xno; then
 		try_paradox=false
 	fi
@@ -686,7 +686,7 @@ AC_CHECK_FUNCS(lgamma)
 AC_C_LONG_DOUBLE
 float_msg=double
 AC_ARG_WITH(long_double,
-	AS_HELP_STRING([--{with,without}-long-double], [Use long double for floating point]),
+	AS_HELP_STRING([--with-long-double], [Use long double for floating point]),
 	[if test "x$withval" = xyes; then
 		SAVE_CFLAGS="$CFLAGS"
 		SAVE_LIBS="$LIBS"
@@ -758,7 +758,7 @@ dnl **************************************************
 want_perl=auto
 have_perl=no
 perl_reason=""
-AC_ARG_WITH(perl, AS_HELP_STRING([--{with,without}-perl], [Compile the Perl plugin loader]),
+AC_ARG_WITH(perl, AS_HELP_STRING([--without-perl], [Do not build the Perl plugin loader]),
 	[case $withval in
 	yes) want_perl=yes;;
 	no) want_perl=no;;
@@ -837,7 +837,7 @@ GNM_PY_CFLAGS=
 GNM_PY_LDFLAGS=
 GNM_PY_LIBADD=
 
-AC_ARG_WITH(python, AS_HELP_STRING([--{with,without}-python], [Compile the Python plugin loader]))
+AC_ARG_WITH(python, AS_HELP_STRING([--without-python], [Do not build the Python plugin loader]))
 AC_ARG_VAR(PYTHON, [The Python executable.])
 case $with_python in
 yes|no) ;;
@@ -959,7 +959,7 @@ dnl **************************************************
 with_mono=no
 mono_msg="disabled, still experimental"
 
-AC_ARG_WITH(mono, AS_HELP_STRING([--{with,without}-mono], [Compile the mono scripting engine]))
+AC_ARG_WITH(mono, AS_HELP_STRING([--with-mono], [Compile the mono scripting engine]))
 case $with_mono in
 no)	mono_msg="Disabled by request";;
 *)
