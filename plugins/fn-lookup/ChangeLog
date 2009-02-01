@@ -1,3 +1,7 @@
+2009-02-01  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (get_elem): Don't turn empties into 0.
+
 2009-01-28  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (create_caches): Create caches for the bisection

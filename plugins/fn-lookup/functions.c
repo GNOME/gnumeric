@@ -343,9 +343,9 @@ get_elem (GnmValue const *data, guint ui,
 	  GnmEvalPos const *ep, gboolean vertical)
 {
 	if (vertical)
-		return value_area_fetch_x_y (data, 0, ui, ep);
+		return value_area_get_x_y (data, 0, ui, ep);
 	else
-		return value_area_fetch_x_y (data, ui, 0, ep);
+		return value_area_get_x_y (data, ui, 0, ep);
 }
 
 enum { LOOKUP_NOT_THERE = -1, LOOKUP_DATA_ERROR = -2 };
