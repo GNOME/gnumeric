@@ -39,6 +39,7 @@
 #include <application.h>
 #include <expr-name.h>
 #include <mathfunc.h>
+#include <gutils.h>
 #include <parse-util.h>
 #include <gnm-i18n.h>
 
@@ -450,6 +451,30 @@ find_index_linear (GnmFuncEvalInfo *ei,
 	return LOOKUP_DATA_ERROR;
 }
 
+
+static int
+wildcard_string_match (const char *key, LookupBisectionCacheItem *bc)
+{
+	GORegexp rx;
+	GORegmatch rm;
+	int i, res = LOOKUP_NOT_THERE;
+
+	if (gnm_regcomp_XL (&rx, key, REG_ICASE, TRUE) != REG_OK) {
+		g_warning ("Unexpected regcomp result");
+		return LOOKUP_DATA_ERROR;
+	}
+
+	for (i = 0; i < bc->n; i++) {
+		if (go_regexec (&rx, bc->data[i].u.str, 1, &rm, 0) == REG_OK) {
+			res = i;
+			break;
+		}
+	}
+
+	go_regfree (&rx);
+	return res;
+}
+
 #undef DEBUG_BISECTION
 
 static int
@@ -500,6 +525,9 @@ find_index_bisection (GnmFuncEvalInfo *ei,
 #ifdef DEBUG_BISECTION
 	g_printerr ("find=%s\n", value_peek_string (find));
 #endif
+
+	if (type == 0)
+		return wildcard_string_match (value_peek_string (find), bc);
 
 	if (stringp) {
 		char *vc = g_utf8_casefold (value_peek_string (find), -1);
@@ -1071,8 +1099,10 @@ gnumeric_match (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	int width = value_area_get_width (args[1], ei->pos);
 	int height = value_area_get_height (args[1], ei->pos);
 	gboolean vertical;
+	GnmValue const *find = args[0];
+	gboolean is_string_match = FALSE;
 
-	if (!find_type_valid (args[0]))
+	if (!find_type_valid (find))
 		return value_new_error_NA (ei->pos);
 
 	if (width > 1 && height > 1)
@@ -1081,15 +1111,21 @@ gnumeric_match (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 	type = VALUE_IS_EMPTY (args[2]) ? 1 : value_get_as_int (args[2]);
 
-	/*
-	 * FIXME: if type==0 and type is string, we ought to do some kind
-	 * of match with "*" and "?".
-	 */
-	if (type == 0)
-		index = find_index_linear (ei, args[0], args[1],
-					   vertical);
+	if (type == 0 && VALUE_IS_STRING (find)) {
+		const char *s = value_peek_string (find);
+		while (*s) {
+			if (*s == '*' || *s == '?' || *s == '~') {
+				is_string_match = TRUE;
+				break;
+			}
+			s++;
+		}
+	}
+
+	if (type == 0 && !is_string_match)
+		index = find_index_linear (ei, find, args[1], vertical);
 	else
-		index = find_index_bisection (ei, args[0], args[1], type,
+		index = find_index_bisection (ei, find, args[1], type,
 					      vertical);
 
 	switch (index) {

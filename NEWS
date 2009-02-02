@@ -95,6 +95,7 @@ Morten:
 	* Fix plugin menu merging.  [#569724]
 	* Improve handling of 3D ranges.  [#569372]
 	* For VLOOKUP and friends, do not turn empties into zeroes.  [#567389]
+	* Implement MATCH for wildcards.  [#570139]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

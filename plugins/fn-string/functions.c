@@ -1192,7 +1192,7 @@ gnumeric_search (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		hay2 = g_utf8_next_char (hay2);
 	}
 
-	if (gnm_regcomp_XL (&r, needle, REG_ICASE) == REG_OK) {
+	if (gnm_regcomp_XL (&r, needle, REG_ICASE, FALSE) == REG_OK) {
 		GORegmatch rm;
 
 		switch (go_regexec (&r, hay2, 1, &rm, 0)) {

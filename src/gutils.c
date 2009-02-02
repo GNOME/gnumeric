@@ -156,10 +156,14 @@ gnm_usr_dir (void)
 }
 
 int
-gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags)
+gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags,
+		gboolean full)
 {
 	GString *res = g_string_new (NULL);
 	int retval;
+
+	if (full)
+		g_string_append_c (res, '^');
 
 	while (*pattern) {
 		switch (*pattern) {
@@ -180,6 +184,9 @@ gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags)
 			pattern = go_regexp_quote1 (res, pattern);
 		}
 	}
+
+	if (full)
+		g_string_append_c (res, '$');
 
 	retval = go_regcomp (preg, res->str, cflags);
 	g_string_free (res, TRUE);

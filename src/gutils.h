@@ -19,7 +19,8 @@ char const *gnm_usr_dir	       (void);
 
 #define PLUGIN_SUBDIR "plugins"
 
-int gnm_regcomp_XL (GORegexp *preg, char const *pattern, int cflags);
+int gnm_regcomp_XL (GORegexp *preg, char const *pattern,
+		    int cflags, gboolean full);
 
 /* Locale utilities */
 typedef struct _GnmLocale GnmLocale;

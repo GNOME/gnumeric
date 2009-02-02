@@ -1,3 +1,11 @@
+2009-02-02  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (wildcard_string_match): New function.
+	(find_index_bisection): Call wildcard_string_match for the type=0
+	case.
+	(gnumeric_match): For the type=0 string case, use
+	find_index_bisection if there are any wildcards.
+
 2009-02-01  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (get_elem): Don't turn empties into 0.

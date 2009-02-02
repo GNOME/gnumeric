@@ -1,3 +1,9 @@
+2009-02-02  Morten Welinder  <terra@gnome.org>
+
+	* src/gutils.c (gnm_regcomp_XL): Take new argument "full" for
+	indicating that the match must be for the full string.  All
+	callers changed.
+
 2009-01-31  Morten Welinder  <terra@gnome.org>
 
 	* src/parser.y (build_range_ctor): Use gnm_expr_new_range_ctor,

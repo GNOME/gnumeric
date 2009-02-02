@@ -149,7 +149,7 @@ filter_expr_init (FilterExpr *fexpr, unsigned i,
 			workbook_date_conv (filter->sheet->workbook);
 
 		if ((op == GNM_FILTER_OP_EQUAL || op == GNM_FILTER_OP_NOT_EQUAL) &&
-		    gnm_regcomp_XL (fexpr->regexp + i, str, REG_ICASE) == REG_OK) {
+		    gnm_regcomp_XL (fexpr->regexp + i, str, REG_ICASE, TRUE) == REG_OK) {
 			fexpr->val[i] = NULL;
 			return;
 		}
