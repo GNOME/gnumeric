@@ -96,6 +96,8 @@ Morten:
 	* Improve handling of 3D ranges.  [#569372]
 	* For VLOOKUP and friends, do not turn empties into zeroes.  [#567389]
 	* Implement MATCH for wildcards.  [#570139]
+	* Fix problem with functions docs in locales without encoding
+	information.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

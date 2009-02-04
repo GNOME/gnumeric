@@ -389,6 +389,7 @@ main (int argc, char const **argv)
 
 	gnumeric_arg_parse (argc, (char **)argv);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	bind_textdomain_codeset (GETTEXT_PACKAGE "-functions", "UTF-8");
 
 	with_gui = !func_def_file && !func_state_file && !split_funcdocs;
 

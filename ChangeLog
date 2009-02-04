@@ -1,3 +1,8 @@
+2009-02-04  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c (main): Set UTF-8 for gnumeric-functions
+	too.
+
 2009-02-02  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (gnm_regcomp_XL): Take new argument "full" for
