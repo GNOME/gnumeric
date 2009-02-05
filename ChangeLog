@@ -1,3 +1,8 @@
+2009-02-05  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-clipboard.c (x_targets_received): Activate debugging
+	code, see http://bugzilla.gnome.org/show_bug.cgi?id=564166#c4
+
 2009-02-04  Morten Welinder  <terra@gnome.org>
 
 	* src/main-application.c (main): Set UTF-8 for gnumeric-functions

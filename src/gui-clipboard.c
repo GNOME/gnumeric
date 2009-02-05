@@ -397,7 +397,7 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
  */
 static void
 x_targets_received (GtkClipboard *clipboard, GdkAtom *targets,
-		      gint n_targets, gpointer closure)
+		    gint n_targets, gpointer closure)
 {
 	GnmGtkClipboardCtxt *ctxt = closure;
 	GdkAtom table_atom = GDK_NONE;
@@ -433,10 +433,13 @@ x_targets_received (GtkClipboard *clipboard, GdkAtom *targets,
 		return;
 	}
 
-#if 0
-	for (j = 0; j < n_targets && table_atom == GDK_NONE; j++)
-		puts (gdk_atom_name (targets[j]));
-#endif
+	if (debug_clipboard ()) {
+		int j;
+
+		for (j = 0; j < n_targets && table_atom == GDK_NONE; j++)
+			g_printerr ("Clipboard target %d is %s\n",
+				    j, gdk_atom_name (targets[j]));
+	}
 
 	/* The data is a list of atoms */
 	/* Find the best table format offered */
