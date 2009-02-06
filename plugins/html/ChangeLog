@@ -1,3 +1,8 @@
+2009-02-06  Jon K Hellan  <hellan@acm.org>
+
+	* html_read.c (html_file_open): Detect unmarked UTF16LE more
+	robustly.
+
 2009-01-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	* latex.c (latex2e_write_file_header): use utf8x package of ucs
 	rather than utf8. Fixes 569476.

@@ -510,9 +510,11 @@ html_file_open (GOFileOpener const *fo, IOContext *io_context,
 			case XML_CHAR_ENCODING_NONE:
 				bomlen = 0;
 				/* Try to detect unmarked UTF16LE
-				   (Firefox drag data) */
-				if (buf[0] >= 0x20 && buf[1] == 0 &&
-				    buf[2] >= 0x20 && buf[3] == 0)
+				   (Firefox Windows clipboard, drag data all platforms) */
+				if ((buf[0] >= 0x20 || g_ascii_isspace(buf[0])) && 
+				    buf[1] == 0 &&
+				    (buf[2] >= 0x20 || g_ascii_isspace(buf[2])) &&
+				    buf[3] == 0)
 					enc =  XML_CHAR_ENCODING_UTF16LE;
 				break;
 			default:
