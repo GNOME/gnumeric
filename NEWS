@@ -39,6 +39,7 @@ Jody:
 
 Jon Kåre:
         * Work around vulnerability in Python.  [#569648]
+	* Improve encoding detection on html paste.  [Part of #564166]
 
 Lutz Mueller:
 	* Enable drag of whole sheets to other applications.  [#523033]
