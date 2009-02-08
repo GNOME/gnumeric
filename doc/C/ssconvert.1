@@ -16,7 +16,7 @@ between various spreadsheet file formats. It is a companion utility to
 project.
 
 \fBssconvert\fR accepts either file names or URIs as \fIinfile\fR
-\fIoutfile\fR.  The special URIs \fIfd://0\fR and \fIfd://1\fR can be
+\fIoutfile\fR. The special URIs \fIfd://0\fR and \fIfd://1\fR can be
 used for standard input and standard output respectively.
 
 
@@ -29,19 +29,15 @@ starting with two dashes (`--').
 
 .SS "Main options"
 .TP
+.B \-\-recalc
+Recalculate all formulas before writing.
+.TP
 .B \-\-list\-exporters
-List the available exporters (file formats)
-.TP
-.B \-\-list\-importers
-List the available importers (file formats)
-.TP
-.B \-E, \-\-import\-encoding=\fISTRING\fR
-Specify an encoding for imported content.  This is only necessary when
-the right encoding does not follow from the input file name.
+List the available exporters (file formats).
 .TP
 .B \-T, \-\-export\-type=\fIID\fR
-Specify which exporter to use; see below for a list.  This is only
-necessary when the right encoding does not follow from the output file
+Specify which exporter to use; see below for a list. This is only
+necessary when the right format does not follow from the output file
 name.
 .TP
 .B \-O, \-\-export\-options=\fIoptionsstring\fR
@@ -51,24 +47,31 @@ by spaces.
 The parameter names and values allowed are specific to the exporter and are
 documented below. Multiple parameters can be specified
 .TP
-.B \-\-recalc
-Recalculate all formulas before writing.
+.B \-\-list\-importers
+List the available importers (file formats).
+.B \-T, \-\-import\-type=\fIID\fR
+Specify which importer to use; see below for a list. This is only
+necessary when the right format does not follow from the input file
+name.
+.TP
+.B \-E, \-\-import\-encoding=\fISTRING\fR
+Specify an encoding for imported content.
 
 .SS "Help options"
 .TP
 .B \-v, \-\-version
-Display ssconvert's version
+Display ssconvert's version.
 .TP
 .B \-h, \-\-help, \-\-usage
-Display a brief usage message
+Display a brief usage message.
 
 .SS "Path options"
 .TP
 .B \-L, \-\-lib\-dir=STRING
-Set the root library directory
+Set the root library directory.
 .TP
 .B \-D, \-\-data\-dir=STRING
-Adjust the root data directory
+Adjust the root data directory.
 
 .SH LIST OF IMPORTANT IDS
 .TP
@@ -97,7 +100,7 @@ Comma Separated Values
 .\"Gnumeric_GnomeGlossary:po    | Gnome Glossary PO file format
 Gnumeric_sylk:sylk
 .URL "http://en.wikipedia.org/wiki/SYmbolic_LinK_(SYLK)" "SYmbolic LinK (SYLK)"
-or Multiplan format.
+or Multiplan format
 .TP
 Gnumeric_Excel:excel_biff8
 Microsoft Excel (tm) 97/2000/XP format
@@ -221,7 +224,13 @@ To convert the gnumeric file \fIfoo.gnumeric\fR to a Microsoft Excel(TM)
 format file
 \fIfoo.xls\fR:
 .PP
-\fBssconvert\fR \fB\-\-export\-type=\fRGnumeric_Excel:excel_dsf\fR \fIfoo.gnumeric\fR \fIfoo.xls\fR
+\fBssconvert\fR \fIfoo.gnumeric\fR \fIfoo.xls\fR
+.PP
+The export format can be specified explicitly, to override the default
+(which is based on the file extension):
+.PP
+\fBssconvert\fR \fB\-\-export\-type=\fRGnumeric_stf:stf_csv\fR \fIfoo.xls\fR
+\fIfoo.txt\fR
 .PP
 To convert an Excel format file \fIstatfuns.xls\fR to a text file,
 specifying the semicolon as the separator character:
