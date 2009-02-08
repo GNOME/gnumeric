@@ -42,6 +42,15 @@ gnumeric (1.8.3-6) unstable; urgency=medium
 
  -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 11 Jan 2009 16:19:33 +0100
 
+gnumeric (1.8.3-5+lenny1) testing-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * Fix insecure search path vulnerability due to how python handles sys.path
+    by sanitizing sys.path after calling PySys_SetArgv
+    (CVE-2009-0318; Closes: #513418).
+
+ -- Nico Golde <nion@debian.org>  Fri, 06 Feb 2009 19:24:06 +0100
+
 gnumeric (1.8.3-5) unstable; urgency=medium
 
   * [plugins/perl-loader/perl-loader.c] Call PERL_SYS_INIT3() prior to
