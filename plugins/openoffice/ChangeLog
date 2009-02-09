@@ -1,3 +1,8 @@
+2009-02-09  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_cell_start): Handle "of" expression
+	namespace same as "oooc".  Fixes 570890.
+
 2009-01-26  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_table_start): Handle missing style.  Fixes

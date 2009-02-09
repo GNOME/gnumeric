@@ -99,6 +99,7 @@ Morten:
 	* Implement MATCH for wildcards.  [#570139]
 	* Fix problem with functions docs in locales without encoding
 	information.
+	* Work around a ODF spec. problem in OOo import.  [#570890]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

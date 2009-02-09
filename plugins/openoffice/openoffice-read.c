@@ -903,11 +903,14 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 			expr_string = CXML2C (attrs[1]);
 			if (state->ver == OOO_VER_OPENDOC) {
-				if (strncmp (expr_string, "oooc:", 5)) {
-					oo_warning (xin, _("Missing expression namespace"));
+				if (strncmp (expr_string, "oooc:", 5) == 0)
+					expr_string += 5;
+				else if (strncmp (expr_string, "of:", 3) == 0)
+					expr_string += 3;
+				else {
+					oo_warning (xin, _("Missing or unknown expression namespace: %s"), expr_string);
 					continue;
 				}
-				expr_string += 5;
 			}
 
 			expr_string = gnm_expr_char_start_p (expr_string);
