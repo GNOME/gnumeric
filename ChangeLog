@@ -1,3 +1,10 @@
+2009-02-10  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric.desktop.in (MimeType): Do not advertise deprecated
+	comma-separated-values mime type.  Fixes #571073.
+
+	* src/stf.c (stf_init): Ditto.
+
 2009-02-05  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-clipboard.c (x_targets_received): Activate debugging

@@ -538,13 +538,12 @@ stf_init (void)
 		g_strdup ("txt"),
 		NULL);
 	GSList *mimes = go_slist_create (
-		g_strdup ("application/csv"),
 		g_strdup ("application/tab-separated-values"),
 		g_strdup ("text/comma-separated-values"),
 		g_strdup ("text/csv"),
+		g_strdup ("text/x-csv"),
 		g_strdup ("text/spreadsheet"),
 		g_strdup ("text/tab-separated-values"),
-		g_strdup ("text/x-comma-separated-values"),
 		NULL);
 	GOFileSaver *saver;
 	GOFileOpener *opener;
