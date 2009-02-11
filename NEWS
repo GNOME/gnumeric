@@ -102,6 +102,7 @@ Morten:
 	* Work around a ODF spec. problem in OOo import.  [#570890]
 	* Advertise fewer aliases for text/csv.  [#571073]
 	* Fix Windows extra-Gnumeric paste problem.  [#564166]
+	* Fix csv import problem with "-OINK".  [#571129]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

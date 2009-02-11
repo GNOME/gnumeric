@@ -34,6 +34,7 @@
 #include "workbook.h"
 #include "cell.h"
 #include "sheet.h"
+#include "expr.h"
 #include "clipboard.h"
 #include "sheet-style.h"
 #include "value.h"
@@ -1174,6 +1175,46 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions,
  *               functions into something meaningful (== application specific)
  *******************************************************************************************************/
 
+/*
+ * This is more or less as gnm_cell_set_text, except...
+ * 1. Unknown names are not allowed.
+ * 2. Only '=' can start an expression.
+ */
+
+static void
+stf_cell_set_text (GnmCell *cell, char const *text)
+{
+	GnmExprTop const *texpr;
+	GnmValue *val;
+	GOFormat *fmt = gnm_style_get_format (gnm_cell_get_style (cell));
+	const GODateConventions *date_conv =
+		workbook_date_conv (cell->base.sheet->workbook);
+
+	if (*text == '=' && text[1] != 0) {
+		GnmExprParseFlags flags =
+			GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_INVALID;
+		const char *expr_start = text + 1;
+		GnmParsePos pos;
+		val = NULL;
+		parse_pos_init_cell (&pos, cell);
+		texpr = gnm_expr_parse_str (expr_start, &pos, flags,
+					    NULL, NULL);
+	} else {
+		texpr = NULL;
+		val = format_match (text, fmt, date_conv);
+	}
+
+	if (!val && !texpr)
+		val = value_new_string (text);
+
+	if (val)
+		gnm_cell_set_value (cell, val);
+	else {
+		gnm_cell_set_expr (cell, texpr);
+		gnm_expr_top_unref (texpr);
+	}
+}
+
 gboolean
 stf_parse_sheet (StfParseOptions_t *parseoptions,
 		 char const *data, char const *data_end,
@@ -1219,7 +1260,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 				} else {
 					char const *text = g_ptr_array_index (line, lcol);
 					if (text && *text)
-						gnm_cell_set_text (
+						stf_cell_set_text (
 							sheet_cell_fetch (sheet, col, row),
 							text);
 				}

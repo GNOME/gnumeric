@@ -1,5 +1,9 @@
 2009-02-11  Morten Welinder  <terra@gnome.org>
 
+	* src/stf-parse.c (stf_cell_set_text): New function.
+	(stf_parse_sheet): Use stf_cell_set_text, not gnm_cell_set_text.
+	Fixes #571129.
+
 	* src/gui-clipboard.c (table_content_received): Check both windows
 	and unix versions of target atoms.  Fixes #564166.
 
