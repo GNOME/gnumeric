@@ -2690,11 +2690,22 @@ gnm_dep_container_new (Sheet *sheet)
  */
 
 static void
-dump_range_dep (gpointer key, G_GNUC_UNUSED gpointer value,
-		G_GNUC_UNUSED gpointer closure)
+dependent_debug_name_for_sheet (GnmDependent const *dep, Sheet *sheet,
+				GString *target)
+{
+	if (sheet && sheet == dep->sheet && dependent_is_cell (dep))
+		g_string_append (target, cell_name (GNM_DEP_TO_CELL (dep)));
+	else
+		dependent_debug_name (dep, target);
+}
+
+
+static void
+dump_range_dep (gpointer key, G_GNUC_UNUSED gpointer value, gpointer sheet_)
 {
 	DependencyRange const *deprange = key;
 	GnmRange const *range = &(deprange->range);
+	Sheet *sheet = sheet_;
 	GString *target = g_string_sized_new (10000);
 	gboolean first = TRUE;
 
@@ -2707,7 +2718,7 @@ dump_range_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 			first = FALSE;
 		else
 			g_string_append (target, ", ");
-		dependent_debug_name (dep, target);
+		dependent_debug_name_for_sheet (dep, sheet, target);
 	});
 	g_string_append_c (target, ')');
 
@@ -2716,10 +2727,10 @@ dump_range_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 }
 
 static void
-dump_single_dep (gpointer key, G_GNUC_UNUSED gpointer value,
-		 G_GNUC_UNUSED gpointer closure)
+dump_single_dep (gpointer key, G_GNUC_UNUSED gpointer value, gpointer sheet_)
 {
 	DependencySingle *depsingle = key;
+	Sheet *sheet = sheet_;
 	GString *target = g_string_sized_new (10000);
 	gboolean first = TRUE;
 
@@ -2732,7 +2743,7 @@ dump_single_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 			first = FALSE;
 		else
 			g_string_append (target, ", ");
-		dependent_debug_name (dep, target);
+		dependent_debug_name_for_sheet (dep, sheet, target);
 	});
 
 	g_printerr ("%s\n", target->str);
@@ -2822,7 +2833,8 @@ dump_name_dep (gpointer key, G_GNUC_UNUSED gpointer value,
  * A useful utility for checking the state of the dependency data structures.
  */
 void
-gnm_dep_container_dump (GnmDepContainer const *deps)
+gnm_dep_container_dump (GnmDepContainer const *deps,
+			Sheet *sheet)
 {
 	int i;
 
@@ -2839,7 +2851,8 @@ gnm_dep_container_dump (GnmDepContainer const *deps)
 				    BUCKET_END_ROW (i) + 1,
 				    g_hash_table_size (hash));
 			g_hash_table_foreach (hash,
-					      dump_range_dep, NULL);
+					      dump_range_dep,
+					      sheet);
 		}
 	}
 
@@ -2847,7 +2860,8 @@ gnm_dep_container_dump (GnmDepContainer const *deps)
 		g_printerr ("  Single hash size %d: cell on which list of cells depend\n",
 			    g_hash_table_size (deps->single_hash));
 		g_hash_table_foreach (deps->single_hash,
-				      dump_single_dep, NULL);
+				      dump_single_dep,
+				      sheet);
 	}
 
 	if (deps->dynamic_deps && g_hash_table_size (deps->dynamic_deps) > 0) {

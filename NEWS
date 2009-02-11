@@ -104,6 +104,7 @@ Morten:
 	* Fix Windows extra-Gnumeric paste problem.  [#564166]
 	* Fix csv import problem with "-OINK".  [#571129]
 	* Make sure ()s do not take up stack space during eval.
+	* Make dependency debug output a little easier to read.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

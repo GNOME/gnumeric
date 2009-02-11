@@ -1,5 +1,10 @@
 2009-02-11  Morten Welinder  <terra@gnome.org>
 
+	* src/dependent.c (gnm_dep_container_dump): Take sheet too, so
+	redundant sheet names in output can be suppressed.
+	(dump_single_dep, dump_range_dep): Ditto.
+	(dependent_debug_name_for_sheet): New function.
+
 	* src/expr.c (gnm_expr_eval): Make sure parentheses do not take up
 	stack space.
 
