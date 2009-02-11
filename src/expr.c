@@ -1122,10 +1122,26 @@ gnm_expr_range_op (GnmExpr const *expr, GnmEvalPos const *ep,
 	gnm_rangeref_normalize (&a_ref, ep, &a_start, &a_end, &a_range);
 	gnm_rangeref_normalize (&b_ref, ep, &b_start, &b_end, &b_range);
 
-	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_INTERSECT)
+	switch (GNM_EXPR_GET_OPER (expr)) {
+	case GNM_EXPR_OP_RANGE_CTOR:
 		res_range = range_union (&a_range, &b_range);
-	else if (!range_intersection  (&res_range, &a_range, &b_range))
-		return value_new_error_NULL (ep);
+		break;		
+	case GNM_EXPR_OP_INTERSECT:
+		/* 3D references not allowed.  */
+		if (a_start != a_end || b_start != b_end)
+			return value_new_error_VALUE (ep);
+
+		/* Must be same sheet.  */
+		if (a_start != b_start)
+			return value_new_error_VALUE (ep);
+
+		if (!range_intersection  (&res_range, &a_range, &b_range))
+			return value_new_error_NULL (ep);
+		break;
+	default:
+		g_assert_not_reached ();
+		return NULL;
+	}
 
 	res = value_new_cellrange_r (a_start, &res_range);
 	dependent_add_dynamic_dep (ep->dep, &res->v_range.cell);
@@ -1156,6 +1172,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	g_return_val_if_fail (expr != NULL, handle_empty (NULL, flags));
 	g_return_val_if_fail (pos != NULL, handle_empty (NULL, flags));
 
+ retry:
 	switch (GNM_EXPR_GET_OPER (expr)){
 	case GNM_EXPR_OP_EQUAL:
 	case GNM_EXPR_OP_NOT_EQUAL:
@@ -1277,7 +1294,9 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		return res;
 
 	case GNM_EXPR_OP_PAREN:
-		return gnm_expr_eval (expr->unary.value, pos, flags);
+		/* Avoid recursive call to save stack.  */
+		expr = expr->unary.value;
+		goto retry;
 
 	case GNM_EXPR_OP_PERCENTAGE:
 	case GNM_EXPR_OP_UNARY_NEG:

@@ -1,5 +1,8 @@
 2009-02-11  Morten Welinder  <terra@gnome.org>
 
+	* src/expr.c (gnm_expr_eval): Make sure parentheses do not take up
+	stack space.
+
 	* src/stf-parse.c (stf_cell_set_text): New function.
 	(stf_parse_sheet): Use stf_cell_set_text, not gnm_cell_set_text.
 	Fixes #571129.
