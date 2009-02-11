@@ -87,9 +87,18 @@ typedef struct {
 #define BIFF3_ATOM_NAME	"Biff3"
 #define BIFF_ATOM_NAME	"Biff"
 
-#define HTML_ATOM_NAME "text/html"
+#define HTML_ATOM_NAME_UNIX "text/html"
+#define HTML_ATOM_NAME_WINDOWS "HTML Format"
+#ifdef G_OS_WIN32
+#define HTML_ATOM_NAME HTML_ATOM_NAME_WINDOWS
+#else
+#define HTML_ATOM_NAME HTML_ATOM_NAME_UNIX
+#endif
+
 #define OOO_ATOM_NAME "application/x-openoffice;windows_formatname=\"Star Embed Source (XML)\""
 #define OOO11_ATOM_NAME "application/x-openoffice-embed-source-xml;windows_formatname=\"Star Embed Source (XML)\""
+#define OOO_ATOM_NAME_WINDOWS "Star Embed Source (XML)"
+
 #define UTF8_ATOM_NAME "UTF8_STRING"
 #define CTEXT_ATOM_NAME "COMPOUND_TEXT"
 #define STRING_ATOM_NAME "STRING"
@@ -342,12 +351,14 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		/* The data is the gnumeric specific XML interchange format */
 		content = xml_cellregion_read (wbc, pt->sheet,
 					       (const char *)sel->data, sel->length);
-	} else if ((sel->target == gdk_atom_intern (OOO_ATOM_NAME, FALSE)) ||
-		   (sel->target == gdk_atom_intern (OOO11_ATOM_NAME, FALSE))) {
+	} else if (sel->target == gdk_atom_intern (OOO_ATOM_NAME, FALSE) ||
+		   sel->target == gdk_atom_intern (OOO_ATOM_NAME_WINDOWS, FALSE) ||
+		   sel->target == gdk_atom_intern (OOO11_ATOM_NAME, FALSE)) {
 		content = table_cellregion_read (wbc, "Gnumeric_OpenCalc:openoffice",
 						 pt, sel->data,
 						 sel->length);
-	} else if (sel->target == gdk_atom_intern (HTML_ATOM_NAME, FALSE)) {
+	} else if (sel->target == gdk_atom_intern (HTML_ATOM_NAME_UNIX, FALSE) ||
+		   sel->target == gdk_atom_intern (HTML_ATOM_NAME_WINDOWS, FALSE)) {
 		content = table_cellregion_read (wbc, "Gnumeric_html:html",
 						 pt, sel->data,
 						 sel->length);
@@ -415,8 +426,10 @@ x_targets_received (GtkClipboard *clipboard, GdkAtom *targets,
 
 		OOO_ATOM_NAME,
 		OOO11_ATOM_NAME,
+		OOO_ATOM_NAME_WINDOWS,
 
-		HTML_ATOM_NAME,
+		HTML_ATOM_NAME_UNIX,
+		HTML_ATOM_NAME_WINDOWS,
 		NULL
 	};
 	static char const *string_fmts [] = {
@@ -436,7 +449,7 @@ x_targets_received (GtkClipboard *clipboard, GdkAtom *targets,
 	if (debug_clipboard ()) {
 		int j;
 
-		for (j = 0; j < n_targets && table_atom == GDK_NONE; j++)
+		for (j = 0; j < n_targets; j++)
 			g_printerr ("Clipboard target %d is %s\n",
 				    j, gdk_atom_name (targets[j]));
 	}
@@ -869,7 +882,7 @@ set_clipman_targets (GdkDisplay *disp, GtkTargetEntry *targets, int n_targets)
 {
 	static GtkTargetEntry clipman_whitelist[] = {
 		{ (char *) GNUMERIC_ATOM_NAME, 0, GNUMERIC_ATOM_INFO },
-		{ (char *)"text/html", 0, 0 },
+		{ (char *) HTML_ATOM_NAME, 0, 0 },
 		{ (char *)"UTF8_STRING", 0, 0 },
 		{ (char *)"application/x-goffice-graph", 0, 0 },
 		{ (char *)"image/svg+xml", 0, 0 },
@@ -922,7 +935,7 @@ x_claim_clipboard (WBCGtk *wbcg)
 
 	static GtkTargetEntry const table_targets[] = {
 		{ (char *) GNUMERIC_ATOM_NAME, 0, GNUMERIC_ATOM_INFO },
-		{ (char *)"text/html", 0, 0 },
+		{ (char *) HTML_ATOM_NAME, 0, 0 },
 		{ (char *)"UTF8_STRING", 0, 0 },
 		{ (char *)"COMPOUND_TEXT", 0, 0 },
 		{ (char *)"STRING", 0, 0 },
