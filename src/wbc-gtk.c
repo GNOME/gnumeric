@@ -1719,7 +1719,7 @@ cb_workbook_debug_info (WBCGtk *wbcg)
 	if (wbc_gtk_debug_deps > 0) {
 		WORKBOOK_FOREACH_SHEET (wb, sheet,
 			g_printerr ("Dependencies for %s:\n", sheet->name_unquoted);
-			gnm_dep_container_dump (sheet->deps););
+			gnm_dep_container_dump (sheet->deps, sheet););
 	}
 
 	if (wbc_gtk_debug_expr_share > 0) {
