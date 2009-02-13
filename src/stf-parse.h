@@ -53,6 +53,7 @@ typedef struct {
 	gboolean             cols_exceeded;         /* This is set to TRUE if */
 	                                            /* we tried to import more than */
 	                                            /* SHEET_MAX_COLS columns */
+	gboolean             rows_exceeded;         /* Ditto rows.  */
 } StfParseOptions_t;
 
 /* CREATION/DESTRUCTION of stf options struct */

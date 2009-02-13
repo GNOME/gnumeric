@@ -1,3 +1,10 @@
+2009-02-13  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_parse_general): Flag row overflow.
+
+	* src/stf.c (stf_read_workbook_auto_csvtab): Check for row
+	overflow too.  Fixes #517603.
+
 2009-02-11  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (gnm_dep_container_dump): Take sheet too, so

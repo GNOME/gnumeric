@@ -391,11 +391,10 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 	if (stf_parse_sheet (po, utf8data, NULL, sheet, 0, 0)) {
 		workbook_recalc_all (book);
 		sheet_queue_respan (sheet, 0, gnm_sheet_get_max_rows (sheet)-1);
-		if (po->cols_exceeded) {
+		if (po->cols_exceeded || po->rows_exceeded) {
 			const char *msg =
-				_("Some columns of data were"
-				  " dropped since they exceeded"
-				  " the available sheet size.");
+				_("Some data did not fit on the sheet and was dropped.");
+
 			/*
 			 * Using go_cmd_context_error_import will destroy the
 			 * successfully imported portion.  We ought to have a

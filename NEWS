@@ -105,6 +105,7 @@ Morten:
 	* Fix csv import problem with "-OINK".  [#571129]
 	* Make sure ()s do not take up stack space during eval.
 	* Make dependency debug output a little easier to read.
+	* Warn when we drop csv rows.  [#571603]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

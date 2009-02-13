@@ -164,6 +164,7 @@ stf_parse_options_new (void)
 	parseoptions->formats = NULL;
 
 	parseoptions->cols_exceeded = FALSE;
+	parseoptions->rows_exceeded = FALSE;
 
 	return parseoptions;
 }
@@ -839,6 +840,11 @@ stf_parse_general (StfParseOptions_t *parseoptions,
 	while (*src.position != '\0' && src.position < data_end) {
 		GPtrArray *line;
 
+		if (row == gnm_sheet_get_max_rows (NULL)) {
+			parseoptions->rows_exceeded = TRUE;
+			break;
+		}
+
 		line = parseoptions->parsetype == PARSE_TYPE_CSV
 			? stf_parse_csv_line (&src, parseoptions)
 			: stf_parse_fixed_line (&src, parseoptions);
@@ -846,9 +852,7 @@ stf_parse_general (StfParseOptions_t *parseoptions,
 		g_ptr_array_add (lines, line);
 		if (parseoptions->parsetype != PARSE_TYPE_CSV)
 			src.position += compare_terminator (src.position, parseoptions);
-
-		if (++row == gnm_sheet_get_max_rows (NULL))
-			break;
+		row++;
 	}
 
 	return lines;
