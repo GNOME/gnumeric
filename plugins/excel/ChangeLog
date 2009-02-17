@@ -1,3 +1,8 @@
+2009-02-17  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-read.c (excel_func_desc): Rename entry 92 back to
+	"SERIES" hoping that won't break anything.  Fixes #572127.
+
 2009-01-31  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-read.c (excel_parse_formula1): Use

@@ -140,7 +140,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 
 /* 90 */  { "DEREF",		-1, -1, XL_XLM },
 /* 91 */  { "WINDOWS",		-1, -1, XL_XLM },
-/* 92 */  { "SERIESSUM",	 4,  4, XL_STD,  4, 'V', "VVVA" },	/* Renamed from SERIES */
+/* 92 */  { "SERIES",	         4,  4, XL_STD,  4, 'V', "VVVA" },  /* See bug #572127 */
 /* 93 */  { "DOCUMENTS",	-1, -1, XL_XLM },
 /* 94 */  { "ACTIVE.CELL",	-1, -1, XL_XLM },
 /* 95 */  { "SELECTION",	-1, -1, XL_XLM },

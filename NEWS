@@ -107,6 +107,7 @@ Morten:
 	* Make dependency debug output a little easier to read.
 	* Warn when we drop csv rows.  [#571603]
 	* Fix SERIESSUM.
+	* Fix xls export of SERIESSUM.  [#572127]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3
