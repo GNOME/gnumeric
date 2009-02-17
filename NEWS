@@ -106,6 +106,7 @@ Morten:
 	* Make sure ()s do not take up stack space during eval.
 	* Make dependency debug output a little easier to read.
 	* Warn when we drop csv rows.  [#571603]
+	* Fix SERIESSUM.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

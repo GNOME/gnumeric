@@ -2662,40 +2662,46 @@ static GnmFuncHelp const help_seriessum[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-static int
-range_seriessum (gnm_float const *xs, int n, gnm_float *res)
+static GnmValue *
+gnumeric_seriessum (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	if (n >= 3) {
-		gnm_float x = xs[0];
-		gnm_float N = xs[1];
-		gnm_float m = xs[2];
-		gnm_float sum = 0;
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float n = value_get_as_float (argv[1]);
+	gnm_float m = value_get_as_float (argv[2]);
+	GnmValue *result = NULL;
+	int N;
+	/* Treat blanks as 0; err on bools or strings.  */
+	gnm_float *data =
+		collect_floats_value (argv[3], ei->pos, 0, &N, &result);
 
+	if (result)
+		goto done;
+
+	if (x == 0) {
+		if (n <= 0 || n + (N - 1) * m <= 0)
+			result = value_new_error_NUM (ei->pos);
+		else
+			result = value_new_float (0);
+	} else {
 		gnm_float x_m = gnm_pow (x, m);
-		gnm_float xpow = gnm_pow (x, N);
+		gnm_float sum = 0;
 		int i;
+		x = gnm_pow (x, n);
 
-		for (i = 3; i < n; i++) {
-			sum += xs[i] * xpow;
-			xpow *= x_m;
+		for (i = 0; i < N; i++) {
+			sum += data[i] * x;
+			x *= x_m;
 		}
 
-		*res = sum;
-		return 0;
-	} else
-		return 1;
-}
+		if (gnm_finite (sum))
+			result = value_new_float (sum);
+		else
+			result = value_new_error_NUM (ei->pos);
+	}
 
-
-static GnmValue *
-gnumeric_seriessum (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
-{
-	return float_range_function (argc, argv, ei,
-				     range_seriessum,
-				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
-				     GNM_ERROR_NUM);
+ done:
+	g_free (data);
+	return result;
 }
 
 /***************************************************************************/
@@ -3244,8 +3250,8 @@ GnmFuncDescriptor const math_functions[] = {
 	  gnumeric_roundup, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "seriessum", NULL, N_("x,n,m,coefficients"), help_seriessum,
-	  NULL, gnumeric_seriessum, NULL, NULL, NULL,
+	{ "seriessum", "fffA", N_("x,n,m,coefficients"), help_seriessum,
+	  gnumeric_seriessum, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "sign",    "f", N_("number"),    help_sign,
 	  gnumeric_sign, NULL, NULL, NULL, NULL,

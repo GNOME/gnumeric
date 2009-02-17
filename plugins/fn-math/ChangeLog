@@ -1,3 +1,9 @@
+2009-02-17  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_seriessum): This should not be a vararg
+	function.  Fix handling of x==0.  Fix handling of blanks, bools,
+	and strings.
+
 2008-10-26  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (struct SumIfClosure): store column and row offsets
