@@ -92,20 +92,6 @@ fs_modify_style (FontSelector *fs, GnmStyle *modification)
 	gnm_style_unref (original);
 }
 
-/*
- * We cannot moveto a list element until it is mapped.
- */
-/*static void
-list_mapped (GtkWidget *widget, G_GNUC_UNUSED gpointer user_data)
-{
-	GtkCList * clist = GTK_CLIST (widget);
-	int row = 0;
-	if (clist->selection)
-		row = GPOINTER_TO_UINT (clist->selection->data);
-	if (!gtk_clist_row_is_visible (clist, row))
-		gtk_clist_moveto (clist, row, 0, 0.5, 0.0);
-}*/
-
 static void
 cb_list_adjust (GtkTreeView* view)
 {

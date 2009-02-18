@@ -103,7 +103,6 @@ gnm_notebook_expose (GtkWidget      *widget,
 	int res = FALSE;
 
 	alc.y += gnb->dummy_height;
-	alc.height -= gnb->dummy_height;
 	if (gdk_rectangle_intersect (&alc, &eve->area, &eve->area)) {
 		GdkRegion *reg = gdk_region_rectangle (&eve->area);
 		gdk_region_intersect (reg, eve->region);

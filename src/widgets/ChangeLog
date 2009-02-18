@@ -1,3 +1,8 @@
+2009-02-18  Morten Welinder  <terra@gnome.org>
+
+	* widget-font-selector.c (cb_list_adjust): Remove commented-out
+	code using symbols the deprecation police did not like.
+
 2008-12-05  Morten Welinder  <terra@gnome.org>
 
 	* gnm-notebook.c (gnm_notebook_expose): Set a paint region around
