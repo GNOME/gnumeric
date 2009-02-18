@@ -103,6 +103,7 @@ typedef struct {
 } ExcelFunc;
 
 extern ExcelFuncDesc const excel_func_desc[];
+extern GHashTable *excel_func_by_name;
 extern int excel_func_desc_size;
 
 #endif /* GNM_EXCEL_FORMULA_TYPES_H */

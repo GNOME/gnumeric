@@ -1,3 +1,11 @@
+2009-02-18  Morten Welinder  <terra@gnome.org>
+
+	* ms-formula-write.c (do_excel_write_prep_expr): Use
+	excel_func_by_name hash table instead of linear search.
+
+	* ms-excel-read.c (excel_read_init): Set up new hash table
+	excel_func_by_name.
+
 2009-02-17  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-read.c (excel_func_desc): Rename entry 92 back to

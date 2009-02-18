@@ -469,8 +469,8 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 379 */ { "RTD",		 2,  5, XL_STD, 1, 'V', "V" },
 /* 380 */ { "ISHYPERLINK",       1,  1, XL_STD, 1, 'V', "V" }
 };
-
 int excel_func_desc_size = G_N_ELEMENTS (excel_func_desc);
+GHashTable *excel_func_by_name = NULL;
 
 static GnmExpr const *
 xl_expr_err (ExcelReadSheet const *esheet, int col, int row,

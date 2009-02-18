@@ -35,6 +35,7 @@
 #include "ms-excel-util.h"
 #include "ms-excel-xf.h"
 #include "ms-pivot.h"
+#include "formula-types.h"
 
 #include <workbook.h>
 #include <workbook-view.h>
@@ -6771,13 +6772,27 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view, GsfInput *input,
 void
 excel_read_init (void)
 {
+	int i;
+
 	excel_builtin_formats [0x0e] = go_format_builtins [GO_FORMAT_DATE][0];
 	excel_builtin_formats [0x0f] = go_format_builtins [GO_FORMAT_DATE][2];
 	excel_builtin_formats [0x10] = go_format_builtins [GO_FORMAT_DATE][4];
 	excel_builtin_formats [0x16] = go_format_builtins [GO_FORMAT_DATE][20];
+
+	excel_func_by_name = g_hash_table_new (g_str_hash, g_str_equal);
+	for (i = 0; i < excel_func_desc_size; i++) {
+		const ExcelFuncDesc *efd = excel_func_desc + i;
+		const char *name = efd->name;
+		g_assert (g_hash_table_lookup (excel_func_by_name, name) ==
+			  NULL);
+		g_hash_table_insert (excel_func_by_name,
+				     (gpointer)name,
+				     (gpointer)efd);
+	}
 }
 
 void
 excel_read_cleanup (void)
 {
+	g_hash_table_destroy (excel_func_by_name);
 }

@@ -109,27 +109,22 @@ do_excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 			return;
 
 		ef = g_new (ExcelFunc, 1);
-		if (!(func->flags & (GNM_FUNC_IS_PLACEHOLDER|GNM_FUNC_IS_WORKBOOK_LOCAL))) {
-			for (i = 0; i < excel_func_desc_size; i++)
-				if (!g_ascii_strcasecmp (excel_func_desc[i].name, func->name)) {
-					ef->efunc = excel_func_desc + i;
-					ef->idx = i;
-					ef->macro_name = NULL;
-					break;
-				}
-		} else
-			i = excel_func_desc_size;
+		ef->efunc = (func->flags & (GNM_FUNC_IS_PLACEHOLDER |
+					    GNM_FUNC_IS_WORKBOOK_LOCAL))
+			? NULL
+			: g_hash_table_lookup (excel_func_by_name,
+					       func->name);
 
-		if (i >= excel_func_desc_size) {
-			ef->efunc = NULL;
-			if (func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL) {
-				ef->macro_name = g_strdup (func->name);
-				ef->idx = -1;
-			} else {
-				g_ptr_array_add (ewb->externnames, func);
-				ef->macro_name = NULL;
-				ef->idx = ewb->externnames->len;
-			}
+		if (ef->efunc) {
+			ef->idx = ef->efunc - excel_func_desc;
+			ef->macro_name = NULL;
+		} else if (func->flags & GNM_FUNC_IS_WORKBOOK_LOCAL) {
+			ef->macro_name = g_strdup (func->name);
+			ef->idx = -1;
+		} else {
+			g_ptr_array_add (ewb->externnames, func);
+			ef->macro_name = NULL;
+			ef->idx = ewb->externnames->len;
 		}
 		g_hash_table_insert (ewb->function_map, func, ef);
 		break;
