@@ -1,5 +1,10 @@
 2009-02-19  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (set_toolbar_style_for_position): The GTK+
+	busy-bodies have deprecated gtk_toolbar_set_orientation in favour
+	of gtk_orientable_set_orientation.  Attempt (blindly!) to switch
+	if we have gtk_orientable_set_orientation.
+
 	* configure.in (with_corba): Disable.  Fixes #572356.
 
 	* src/colrow.c (colrow_reset_defaults): Toughen this up a bit to

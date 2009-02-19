@@ -3312,7 +3312,12 @@ set_toolbar_style_for_position (GtkToolbar *tb, GtkPositionType pos)
 		GTK_ORIENTATION_HORIZONTAL, GTK_ORIENTATION_HORIZONTAL
 	};
 
+#ifdef HAVE_GTK_ORIENTABLE_SET_ORIENTATION
+	gtk_orientable_set_orientation (GTK_ORIENTABLE (tb),
+					orientations[pos]);
+#else
 	gtk_toolbar_set_orientation (tb, orientations[pos]);
+#endif
 
 	if (GTK_IS_HANDLE_BOX (box)) {
 		static const GtkPositionType hdlpos[] = {
