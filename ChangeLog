@@ -1,3 +1,8 @@
+2009-02-19  Morten Welinder  <terra@gnome.org>
+
+	* src/colrow.c (colrow_reset_defaults): Toughen this up a bit to
+	avoid situations like 568010.
+
 2009-02-13  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_general): Flag row overflow.

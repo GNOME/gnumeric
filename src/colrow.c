@@ -1169,6 +1169,11 @@ colrow_reset_defaults (Sheet *sheet, gboolean is_cols,
 	int const end = colrow_max (is_cols, sheet);
 	int inner, inner_start, inner_last, i;
 
+	if (maxima >= end) {
+		g_warning ("In colrow_reset_defaults, someone set maxima to %d >= %d", maxima, end);
+		maxima = end - 1;
+	}
+
 	i = COLROW_SEGMENT_START(maxima);
 	inner_start = maxima - i;
 	for ( ; i < end ; i += COLROW_SEGMENT_SIZE) {
