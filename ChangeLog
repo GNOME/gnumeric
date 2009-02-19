@@ -1,5 +1,8 @@
 2009-02-19  Morten Welinder  <terra@gnome.org>
 
+	* src/ssconvert.c (convert): Don't complain over multiple sheets
+	when there is only one.  Fixes #572448.
+
 	* src/wbc-gtk.c (set_toolbar_style_for_position): The GTK+
 	busy-bodies have deprecated gtk_toolbar_set_orientation in favour
 	of gtk_orientable_set_orientation.  Attempt (blindly!) to switch
