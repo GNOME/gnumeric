@@ -332,19 +332,8 @@ if test "x${gnumeric_with_gnome}" = xtrue; then
 	dnl *************
 	dnl Corba support
 	dnl *************
-	PKG_CHECK_MODULES(CORBA_LIBS,
-		[ORBit-2.0 >= 2.4.2
-		libbonobo-2.0 >= 2.0.0
-		bonobo-activation-2.0 >= 1.0.2],
-		[with_corba=true],
-		[with_corba=false])
-	if test "x$with_corba" = xtrue ; then
-		ORBIT="`$PKG_CONFIG --variable=orbit_idl ORBit-2.0`"
-		BONOBO_IDL_DIR="`$PKG_CONFIG --variable=idldir libbonobo-2.0`"
-		BONOBO_ACTIVATION_IDL_DIR="`$PKG_CONFIG --variable=idldir bonobo-activation-2.0`"
-		ORBIT_IDL="${ORBIT} -I${BONOBO_IDL_DIR} -I${BONOBO_ACTIVATION_IDL_DIR}"
-		AC_SUBST(ORBIT_IDL)
-	fi
+
+	dnl disabled -- hasn't worked for years.
 fi
 AM_CONDITIONAL(WITH_CORBA, $with_corba)
 

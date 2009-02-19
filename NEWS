@@ -108,6 +108,7 @@ Morten:
 	* Warn when we drop csv rows.  [#571603]
 	* Fix SERIESSUM.
 	* Fix xls export of SERIESSUM.  [#572127]
+	* Disable non-functional corba plugin.  [#572356]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3
