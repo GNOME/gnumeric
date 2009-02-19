@@ -109,6 +109,7 @@ Morten:
 	* Fix SERIESSUM.
 	* Fix xls export of SERIESSUM.  [#572127]
 	* Disable non-functional corba plugin.  [#572356]
+	* Handle GTK+ deprecation issues.  [#572240]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3
