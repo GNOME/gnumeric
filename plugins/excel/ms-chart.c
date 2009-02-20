@@ -3171,8 +3171,11 @@ chart_realize_obj (MSContainer *container, MSObj *obj)
 static SheetObject *
 chart_create_obj  (MSContainer *container, MSObj *obj)
 {
-	return (NULL != container && NULL != container->parent)
-		? (container->parent->vtbl->create_obj) (container->parent, obj) : NULL;
+	return (container &&
+		container->parent &&
+		container->parent->vtbl->create_obj)
+		? container->parent->vtbl->create_obj (container->parent, obj)
+		: NULL;
 }
 
 static GnmExprTop const *

@@ -1272,7 +1272,7 @@ ms_read_OBJ (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs)
 #endif
 
 	if (c->vtbl->create_obj != NULL)
-		obj->gnum_obj = (*c->vtbl->create_obj) (c, obj);
+		obj->gnum_obj = c->vtbl->create_obj (c, obj);
 
 	/* Chart, There should be a BOF next */
 	if (obj->excel_type == 0x5) {

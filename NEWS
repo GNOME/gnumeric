@@ -112,6 +112,7 @@ Morten:
 	* Handle GTK+ deprecation issues.  [#572240]
 	* When ssconvert-ing a single-sheet workbook, don't complain the
 	exporter can handle only a single sheet.  [#572448]
+	* Fix xls crash for bogus file.  [#572515]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.3

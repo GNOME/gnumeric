@@ -1,3 +1,7 @@
+2009-02-20  Morten Welinder  <terra@gnome.org>
+
+	* ms-chart.c (chart_create_obj): Bullet proof.
+
 2009-02-18  Morten Welinder  <terra@gnome.org>
 
 	* ms-formula-write.c (do_excel_write_prep_expr): Use
