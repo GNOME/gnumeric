@@ -1,3 +1,8 @@
+2009-02-20  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_colrow_reset_defaults): Call
+	colrow_reset_defaults with the right column/row.  Fixes #568010.
+
 2009-02-09  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_cell_start): Handle "of" expression
