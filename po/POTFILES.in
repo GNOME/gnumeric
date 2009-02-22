@@ -205,6 +205,7 @@ src/dialogs/fill-series.glade
 src/dialogs/font-sel.glade
 src/dialogs/formula-guru.glade
 src/dialogs/fourier-analysis.glade
+src/dialogs/frequency.glade
 src/dialogs/function-select.glade
 src/dialogs/goalseek.glade
 src/dialogs/goto.glade
@@ -213,6 +214,7 @@ src/dialogs/hf-dt-format.glade
 src/dialogs/histogram.glade
 src/dialogs/hyperlink.glade
 src/dialogs/insert-cells.glade
+src/dialogs/kaplan-meier.glade
 src/dialogs/mean-tests.glade
 src/dialogs/merge.glade
 src/dialogs/moving-averages.glade
