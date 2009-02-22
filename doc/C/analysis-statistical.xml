@@ -1850,21 +1850,23 @@
       </sect4>
       
       
-      <figure id="frequency-tool-results">
+      <sect4 id="frequency-tool-results-sect">
 	<title>Frequency Tool Results</title>
-	<screenshot>
-	  <mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-frequency-results.png" 
-			 format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>Sample results of the frequencies tool.</phrase>
-            </textobject>
-          </mediaobject>
-	</screenshot>
-      </figure>
-      
+	<figure id="frequency-tool-results">
+	  <title>Frequency Tool Results</title>
+	  <screenshot>
+	    <mediaobject>
+	      <imageobject>
+		<imagedata fileref="figures/analysistools-frequency-results.png" 
+			   format="PNG" />
+	      </imageobject>
+	      <textobject>
+		<phrase>Sample results of the frequencies tool.</phrase>
+	      </textobject>
+	    </mediaobject>
+	  </screenshot>
+	</figure>
+      </sect4>
     </sect3>
     
     <sect3 id="histogram-tool">
@@ -2300,37 +2302,37 @@
 	for data as given in <xref linkend="histogram-example-1" />.
       </para>
 
-  <figure id="kaplan-meier-tool-example-1">
-    <title>Kaplan-Meier Tool Example Input</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-kaplan-ex1.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the output from the histogramdata and input 
-              tab of the Kaplan-Meier analysis tool.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
+<!--      <figure id="kaplan-meier-tool-example-1">
+	<title>Kaplan-Meier Tool Example Input</title> -->
+	<screenshot>
+	    <mediaobject>
+		<imageobject>
+		  <imagedata fileref="figures/analysistools-kaplan-ex1.png" 
+		      format="PNG" />
+		</imageobject>
+		<textobject>
+		  <phrase>An image of the output from the histogramdata and input 
+		  tab of the Kaplan-Meier analysis tool.</phrase>
+		</textobject>
+	       </mediaobject>
+	</screenshot>
+<!--      </figure> -->
  
- <figure id="kaplan-meier-tool-tool-example-2">
-    <title>Kaplan-Meier Tool Example Output</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/analysistools-kaplan-ex2.png" 
-                  format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the output of the Kaplan-Meier
-              analysis tool.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>
+<!--      <figure id="kaplan-meier-tool-tool-example-2">
+	 <title>Kaplan-Meier Tool Example Output</title> -->
+	 <screenshot>
+	     <mediaobject>
+		 <imageobject>
+		   <imagedata fileref="figures/analysistools-kaplan-ex2.png" 
+		       format="PNG" />
+		 </imageobject>
+		 <textobject>
+		   <phrase>An image of the output of the Kaplan-Meier
+		   analysis tool.</phrase>
+		 </textobject>
+		</mediaobject>
+	 </screenshot>
+<!--       </figure> -->
        
     </example>
     
