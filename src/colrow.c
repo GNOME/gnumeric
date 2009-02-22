@@ -1159,8 +1159,7 @@ colrow_get_global_outline (Sheet const *sheet, gboolean is_cols, int depth,
  * and replace them with the default.
  **/
 void
-colrow_reset_defaults (Sheet *sheet, gboolean is_cols,
-		       int maxima)
+colrow_reset_defaults (Sheet *sheet, gboolean is_cols, int maxima)
 {
 	ColRowCollection *infos = is_cols ? &sheet->cols : &sheet->rows;
 	ColRowInfo const *default_cri = &infos->default_style;
@@ -1173,6 +1172,9 @@ colrow_reset_defaults (Sheet *sheet, gboolean is_cols,
 		g_warning ("In colrow_reset_defaults, someone set maxima to %d >= %d", maxima, end);
 		maxima = end - 1;
 	}
+
+	/* From here on, maxima is the first unused.  */
+	maxima++;
 
 	i = COLROW_SEGMENT_START(maxima);
 	inner_start = maxima - i;
@@ -1195,5 +1197,5 @@ colrow_reset_defaults (Sheet *sheet, gboolean is_cols,
 		}
 		inner_start = 0;
 	}
-	infos->max_used = maxima;
+	infos->max_used = maxima - 1;
 }

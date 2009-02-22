@@ -1,3 +1,7 @@
+2009-02-21  Morten Welinder  <terra@gnome.org>
+
+	* src/colrow.c (colrow_reset_defaults): Retry this mess.
+
 2009-02-19  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (convert): Don't complain over multiple sheets
