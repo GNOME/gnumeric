@@ -1,3 +1,7 @@
+2009-02-22  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.4
+
 2008-12-14  Morten Welinder  <terra@gnome.org>
 
 	* sc.c (sc_parse_sheet): Continue after error.

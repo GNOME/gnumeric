@@ -1,3 +1,7 @@
+2009-02-22  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.4
+
 2009-02-18  Morten Welinder  <terra@gnome.org>
 
 	* widget-font-selector.c (cb_list_adjust): Remove commented-out

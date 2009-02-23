@@ -1,3 +1,7 @@
+2009-02-22  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.4
+
 2009-01-23  Morten Welinder  <terra@gnome.org>
 
 	* lotus-formula.c (lotus_parse_formula_new): Fix looping while

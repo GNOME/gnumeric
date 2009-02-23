@@ -1,3 +1,7 @@
+2009-02-22  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.4
+
 2009-01-27  Morten Welinder  <terra@gnome.org>
 
 	* boot.c (xbase_field_as_value): Fix double free.  Avoid unaligned

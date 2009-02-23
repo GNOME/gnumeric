@@ -1,3 +1,7 @@
+2009-02-22  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.4
+
 2009-01-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* solver.glade: move add and replace constraints button next to 

@@ -1934,17 +1934,6 @@ AMORLINC(2400,DATE(1998,8,19),DATE(1998,12,31),300,1,0.15,1) = 360
 @SEEALSO=AMORDEGRC
 
 @CATEGORY=Finance
-@FUNCTION=atl_last
-@SYNTAX=ATL_LAST (tag)
-@DESCRIPTION=ATL_LAST is a sample implemention of a real time data source. It takes a string tag and monitors the named pipe /tmp/atl for changes to the value of that tag.
-
-* This is not intended to be generally enabled and is OFF by default.
-
-@EXAMPLES=
-ATL_LAST("IBM")
-@SEEALSO=
-
-@CATEGORY=Finance
 @FUNCTION=COUPDAYBS
 @SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis,eom])
 @DESCRIPTION=COUPDAYBS returns the number of days from the beginning of the coupon period to the settlement date.
@@ -3754,16 +3743,12 @@ FALSE() equals FALSE.
 
 @CATEGORY=Logic
 @FUNCTION=IF
-@SYNTAX=IF(condition[,if-true,if-false])
-@DESCRIPTION=IF function can be used to evaluate conditionally other expressions. IF evaluates @condition.  If @condition returns a non-zero value the result of the IF expression is the @if-true expression, otherwise IF evaluates to the value of @if-false.
-
-* If omitted @if-true defaults to TRUE and @if-false to FALSE.
-* This function is Excel compatible.
-
-@EXAMPLES=
-IF(FALSE,TRUE,FALSE) equals FALSE.
-
-@SEEALSO=
+@SYNTAX=IF(cond,trueval,falseval)
+@DESCRIPTION=This function first evaluates the condition.  If the result is true, it will then evaluate and return the second argument.  Otherwise, it will evaluate and return the last argument.
+@{cond}: condition.
+@{trueval}: value to use if condition is true.
+@{falseval}: value to use if condition is false.
+@SEEALSO=AND,OR,XOR,NOT,IFERROR
 
 @CATEGORY=Logic
 @FUNCTION=IFERROR
@@ -5420,954 +5405,663 @@ SIMTABLE(223,225,227,229) returns 227 on the simulation round #3.
 
 @CATEGORY=Statistics
 @FUNCTION=AVEDEV
-@SYNTAX=AVEDEV(n1, n2, ...)
-@DESCRIPTION=AVEDEV returns the average of the absolute deviations of a data set from their mean.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-AVEDEV(A1:A5) equals 7.84.
-
+@SYNTAX=AVEDEV(number1,number2)
+@DESCRIPTION=This function is Excel compatible.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=STDEV
 
 @CATEGORY=Statistics
 @FUNCTION=AVERAGE
-@SYNTAX=AVERAGE(value1, value2,...)
-@DESCRIPTION=AVERAGE computes the average of all the values and cells referenced in the argument list.  This is equivalent to the sum of the arguments divided by the count of the arguments.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-AVERAGE(A1:A5) equals 23.2.
-
+@SYNTAX=AVERAGE(number1,number2)
+@DESCRIPTION=This function is Excel compatible.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=SUM, COUNT
 
 @CATEGORY=Statistics
 @FUNCTION=AVERAGEA
-@SYNTAX=AVERAGEA(number1,number2,...)
-@DESCRIPTION=AVERAGEA returns the average of the given arguments.  Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then
-AVERAGEA(A1:A5) equals 18.94.
-
+@SYNTAX=AVERAGEA(number1,number2)
+@DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
+@{number1}: first value
+@{number2}: second value
+@SYNTAX=AVERAGEA(number1,number2))
+@DESCRIPTION=This function is Excel compatible.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=AVERAGE
 
 @CATEGORY=Statistics
 @FUNCTION=BERNOULLI
-@SYNTAX=BERNOULLI(k,p)
-@DESCRIPTION=BERNOULLI returns the probability p(k) of obtaining @k from a Bernoulli distribution with probability parameter @p.
-
-* If @k != 0 and @k != 1 BERNOULLI returns #NUM! error.
-* If @p < 0 or @p > 1 BERNOULLI returns #NUM! error.
-
-@EXAMPLES=
-BERNOULLI(0,0.5).
-
 @SEEALSO=RANDBERNOULLI
 
 @CATEGORY=Statistics
 @FUNCTION=BETADIST
-@SYNTAX=BETADIST(x,alpha,beta[,a,b])
-@DESCRIPTION=BETADIST function returns the cumulative beta distribution. @a is the optional lower bound of @x and @b is the optional upper bound of @x.
-* If @a is not given, BETADIST uses 0.
-* If @b is not given, BETADIST uses 1.
-* If @x < @a or @x > @b BETADIST returns #NUM! error.
-* If @alpha <= 0 or @beta <= 0, BETADIST returns #NUM! error.
-* If @a >= @b BETADIST returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-BETADIST(0.12,2,3) equals 0.07319808.
-
+@SYNTAX=BETADIST(x,alpha,beta,a,b)
+@DESCRIPTION=This function is Excel compatible.
+@{x}: 
+@{alpha}: scale parameter
+@{beta}: scale parameter
+@{a}: optional lower bound, defaults to 0
+@{b}: optional upper bound, defaults to 1
 @SEEALSO=BETAINV
 
 @CATEGORY=Statistics
 @FUNCTION=BETAINV
-@SYNTAX=BETAINV(p,alpha,beta[,a,b])
-@DESCRIPTION=BETAINV function returns the inverse of cumulative beta distribution.  @a is the optional lower bound of @x and @b is the optional upper bound of @x.
-
-* If @a is not given, BETAINV uses 0.
-* If @b is not given, BETAINV uses 1.
-* If @p < 0 or @p > 1 BETAINV returns #NUM! error.
-* If @alpha <= 0 or @beta <= 0, BETAINV returns #NUM! error.
-* If @a >= @b BETAINV returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-BETAINV(0.45,1.6,1) equals 0.607096629.
-
+@SYNTAX=BETAINV(p,alpha,beta,a,b)
+@DESCRIPTION=This function is Excel compatible.
+@{p}: probability
+@{alpha}: scale parameter
+@{beta}: scale parameter
+@{a}: optional lower bound, defaults to 0
+@{b}: optional upper bound, defaults to 1
 @SEEALSO=BETADIST
 
 @CATEGORY=Statistics
 @FUNCTION=BINOMDIST
 @SYNTAX=BINOMDIST(n,trials,p,cumulative)
-@DESCRIPTION=BINOMDIST function returns the binomial distribution. @n is the number of successes, @trials is the total number of independent trials, @p is the probability of success in trials, and @cumulative describes whether to return the sum of the binomial function from 0 to @n.
-
-* If @n or @trials are non-integer they are truncated.
-* If @n < 0 or @trials < 0 BINOMDIST returns #NUM! error.
-* If @n > @trials BINOMDIST returns #NUM! error.
-* If @p < 0 or @p > 1 BINOMDIST returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-BINOMDIST(3,5,0.8,0) equals 0.2048.
-
+@DESCRIPTION=This function is Excel compatible.
+@{n}: number of successes
+@{trials}: number of trials
+@{p}: probability of success in each trial
+@{cumulative}: whether to evaluate the mass function or the cumulative distribution function
 @SEEALSO=POISSON
 
 @CATEGORY=Statistics
 @FUNCTION=CAUCHY
-@SYNTAX=CAUCHY(x,a,cum)
-@DESCRIPTION=CAUCHY returns the Cauchy distribution with scale parameter @a. If @cum is TRUE, CAUCHY returns the cumulative distribution.
-
-* If @a < 0 CAUCHY returns #NUM! error.
-* If @cum != TRUE and @cum != FALSE CAUCHY returns #VALUE! error.
-
-@EXAMPLES=
-CAUCHY(0.43,1,TRUE) returns 0.370735.
-
 @SEEALSO=RANDCAUCHY
 
 @CATEGORY=Statistics
 @FUNCTION=CHIDIST
 @SYNTAX=CHIDIST(x,dof)
-@DESCRIPTION=CHIDIST function returns the one-tailed probability of the chi-squared distribution. @dof is the number of degrees of freedom.
-
-* If @dof is non-integer it is truncated.
-* If @dof < 1 CHIDIST returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-CHIDIST(5.3,2) equals 0.070651213.
-
+@DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
+@{x}: 
+@{dof}: number of degrees of freedom
+@SYNTAX=CHIDIST(x,dof))
+@DESCRIPTION=This function is Excel compatible.
+@{x}: 
+@{dof}: number of degrees of freedom
 @SEEALSO=CHIINV,CHITEST
 
 @CATEGORY=Statistics
 @FUNCTION=CHIINV
 @SYNTAX=CHIINV(p,dof)
-@DESCRIPTION=CHIINV function returns the inverse of the one-tailed probability of the chi-squared distribution.
-
-* If @p < 0 or @p > 1 or @dof < 1 CHIINV returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-CHIINV(0.98,7) equals 1.564293004.
-
+@DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
+@{p}: probability
+@{dof}: number of degrees of freedom
+@SYNTAX=CHIINV(p,dof))
+@DESCRIPTION=This function is Excel compatible.
+@{p}: probability
+@{dof}: number of degrees of freedom
 @SEEALSO=CHIDIST,CHITEST
 
 @CATEGORY=Statistics
 @FUNCTION=CHITEST
 @SYNTAX=CHITEST(actual_range,theoretical_range)
-@DESCRIPTION=CHITEST function returns the test for independence of chi-squared distribution.
-
-@actual_range is a range that contains the observed data points. @theoretical_range is a range that contains the expected values of the data points.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-
+@DESCRIPTION=This function is Excel compatible.
+@{actual_range}: observed data
+@{theoretical_range}: expected values
 @SEEALSO=CHIDIST,CHIINV
 
 @CATEGORY=Statistics
 @FUNCTION=CONFIDENCE
-@SYNTAX=CONFIDENCE(x,stddev,size)
-@DESCRIPTION=CONFIDENCE function returns the confidence interval for a mean. @x is the significance level, @stddev is the population standard deviation, and @size is the size of the sample.
-
-* If @size is non-integer it is truncated.
-* If @size < 0 CONFIDENCE returns #NUM! error.
-* If @size is 0 CONFIDENCE returns #DIV/0! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-CONFIDENCE(0.05,1,33) equals 0.341185936.
-
+@SYNTAX=CONFIDENCE(alpha,stddev,size)
+@DESCRIPTION=This function is Excel compatible.
+@{alpha}: significance level
+@{stddev}: population standard deviation
+@{size}: sample size
 @SEEALSO=AVERAGE
 
 @CATEGORY=Statistics
 @FUNCTION=CORREL
 @SYNTAX=CORREL(array1,array2)
-@DESCRIPTION=CORREL returns the correlation coefficient of two data sets.
-
-* Strings and empty cells are simply ignored.
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
-CORREL(A1:A5,B1:B5) equals 0.996124788.
-
+@DESCRIPTION=Strings and empty cells are simply ignored.
+@{array1}: first data set
+@{array2}: second data set
+@SYNTAX=CORREL(array1,array2))
+@DESCRIPTION=This function is Excel compatible.
+@{array1}: first data set
+@{array2}: second data set
 @SEEALSO=COVAR,FISHER,FISHERINV
 
 @CATEGORY=Statistics
 @FUNCTION=COUNT
-@SYNTAX=COUNT(b1, b2, ...)
-@DESCRIPTION=COUNT returns the total number of integer or floating point arguments passed.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-COUNT(A1:A5) equals 5.
-
+@SYNTAX=COUNT(number1,number2)
+@DESCRIPTION=This function is Excel compatible.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=AVERAGE
 
 @CATEGORY=Statistics
 @FUNCTION=COUNTA
-@SYNTAX=COUNTA(b1, b2, ...)
-@DESCRIPTION=COUNTA returns the number of arguments passed not including empty cells.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, "missing", "missing", 25.9, and 40.1.  Then
-COUNTA(A1:A5) equals 5.
-
+@SYNTAX=COUNTA(number1,number2)
+@DESCRIPTION=This function is Excel compatible.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM
 
 @CATEGORY=Statistics
 @FUNCTION=COVAR
 @SYNTAX=COVAR(array1,array2)
-@DESCRIPTION=COVAR returns the covariance of two data sets.
-
-* Strings and empty cells are simply ignored.
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
-COVAR(A1:A5,B1:B5) equals 65.858.
-
+@DESCRIPTION=Strings and empty cells are simply ignored.
+@{array1}: first data set
+@{array2}: set data set
+@SYNTAX=COVAR(array1,array2))
+@DESCRIPTION=This function is Excel compatible.
+@{array1}: first data set
+@{array2}: set data set
 @SEEALSO=CORREL,FISHER,FISHERINV
 
 @CATEGORY=Statistics
 @FUNCTION=CRITBINOM
 @SYNTAX=CRITBINOM(trials,p,alpha)
-@DESCRIPTION=CRITBINOM function returns the smallest value for which the cumulative is greater than or equal to a given value. @n is the number of trials, @p is the probability of success in trials, and @alpha is the criterion value.
-
-* If @trials is a non-integer it is truncated.
-* If @trials < 0 CRITBINOM returns #NUM! error.
-* If @p < 0 or @p > 1 CRITBINOM returns #NUM! error.
-* If @alpha < 0 or @alpha > 1 CRITBINOM returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-CRITBINOM(10,0.5,0.75) equals 6.
-
+@DESCRIPTION=This function is Excel compatible.
+@{trials}: number of trials
+@{p}: probability of success in each trial
+@{alpha}: significance level (area of the tail)
 @SEEALSO=BINOMDIST
 
 @CATEGORY=Statistics
 @FUNCTION=CRONBACH
-@SYNTAX=CRONBACH(ref1,ref2,...)
-@DESCRIPTION=CRONBACH returns Cronbach's alpha for the given cases.
-@ref1 is a data set, @ref2 the second data set, etc..
-@EXAMPLES=
-
-@SEEALSO=
 
 @CATEGORY=Statistics
 @FUNCTION=DEVSQ
-@SYNTAX=DEVSQ(n1, n2, ...)
-@DESCRIPTION=DEVSQ returns the sum of squares of deviations of a data set from the sample mean.
-
-* Strings and empty cells are simply ignored.
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-DEVSQ(A1:A5) equals 470.56.
-
+@SYNTAX=DEVSQ(number1,number2)
+@DESCRIPTION=Strings and empty cells are simply ignored.
+@{number1}: first value
+@{number2}: second value
+@SYNTAX=DEVSQ(number1,number2))
+@DESCRIPTION=This function is Excel compatible.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=STDEV
 
 @CATEGORY=Statistics
 @FUNCTION=EXPONDIST
 @SYNTAX=EXPONDIST(x,y,cumulative)
-@DESCRIPTION=EXPONDIST function returns the exponential distribution. If the @cumulative boolean is false it will return:
-
-	@y * exp (-@y*@x),
-
-otherwise it will return
-
-	1 - exp (-@y*@x).
-
-* If @x < 0 or @y <= 0 this will return an error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-EXPONDIST(2,4,0) equals 0.001341851.
-
+@DESCRIPTION=If @{cumulative} is false it will return:	@{y} * exp (-@{y}*@{x}),otherwise it will return	1 - exp (-@{y}*@{x}).
+@{x}: 
+@{y}: scale parameter
+@{cumulative}: whether to evaluate the density function or the cumulative distribution function
+@SYNTAX=EXPONDIST(x,y,cumulative))
+@DESCRIPTION=This function is Excel compatible.
+@{x}: 
+@{y}: scale parameter
+@{cumulative}: whether to evaluate the density function or the cumulative distribution function
 @SEEALSO=POISSON
 
 @CATEGORY=Statistics
 @FUNCTION=EXPPOWDIST
 @SYNTAX=EXPPOWDIST(x,a,b)
-@DESCRIPTION=EXPPOWDIST returns the probability density p(x) at @x for Exponential Power distribution with scale parameter @a and exponent @b.
-This distribution has been recommended for lifetime analysis when a U-shaped hazard function is desired. This corresponds to rapid failure once the product starts to wear out after a period of steady or even improving reliability.
-@EXAMPLES=
-EXPPOWDIST(0.4,1,2).
-
+@DESCRIPTION=This distribution has been recommended for lifetime analysis when a U-shaped hazard function is desired. This corresponds to rapid failure once the product starts to wear out after a period of steady or even improving reliability.
+@{x}: 
+@{a}: scale parameter
+@{b}: scale parameter
 @SEEALSO=RANDEXPPOW
 
 @CATEGORY=Statistics
 @FUNCTION=FDIST
-@SYNTAX=FDIST(x,dof1,dof2)
-@DESCRIPTION=FDIST function returns the F probability distribution. @dof1 is the numerator degrees of freedom and @dof2 is the denominator degrees of freedom.
-
-* If @x < 0 FDIST returns #NUM! error.
-* If @dof1 < 1 or @dof2 < 1, FDIST returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-FDIST(2,5,5) equals 0.232511319.
-
+@SYNTAX=FDIST(x,dof_of_num,dof_of_denom)
+@DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
+@{x}: 
+@{dof_of_num}: numerator degrees of freedom
+@{dof_of_denom}: denominator degrees of freedom
+@SYNTAX=FDIST(x,dof_of_num,dof_of_denom))
+@DESCRIPTION=This function is Excel compatible.
+@{x}: 
+@{dof_of_num}: numerator degrees of freedom
+@{dof_of_denom}: denominator degrees of freedom
 @SEEALSO=FINV
 
 @CATEGORY=Statistics
 @FUNCTION=FINV
-@SYNTAX=FINV(p,dof1,dof2)
-@DESCRIPTION=FINV function returns the inverse of the F probability distribution.
-
-* If @p < 0 or @p > 1 FINV returns #NUM! error.
-* If @dof1 < 1 or @dof2 < 1 FINV returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-FINV(0.2,2,4) equals 2.472135955.
-
+@SYNTAX=FINV(p,dof_of_num,dof_of_denom)
+@DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
+@{p}: probability
+@{dof_of_num}: numerator degrees of freedom
+@{dof_of_denom}: denomiantor degrees of freedom
+@SYNTAX=FINV(p,dof_of_num,dof_of_denom))
+@DESCRIPTION=This function is Excel compatible.
+@{p}: probability
+@{dof_of_num}: numerator degrees of freedom
+@{dof_of_denom}: denomiantor degrees of freedom
 @SEEALSO=FDIST
 
 @CATEGORY=Statistics
 @FUNCTION=FISHER
 @SYNTAX=FISHER(x)
-@DESCRIPTION=FISHER function returns the Fisher transformation at @x.
-
-* If @x is not a number, FISHER returns #VALUE! error.
-* If @x <= -1 or @x >= 1, FISHER returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-FISHER(0.332) equals 0.345074339.
-
+@DESCRIPTION=This function is Excel compatible.
+@{x}: 
 @SEEALSO=SKEW
 
 @CATEGORY=Statistics
 @FUNCTION=FISHERINV
 @SYNTAX=FISHERINV(x)
-@DESCRIPTION=FISHERINV function returns the inverse of the Fisher transformation at @x.
-
-* If @x is non-number FISHERINV returns #VALUE! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-FISHERINV(2) equals 0.96402758.
-
+@DESCRIPTION=This function is Excel compatible.
+@{x}: 
 @SEEALSO=FISHER
 
 @CATEGORY=Statistics
 @FUNCTION=FORECAST
 @SYNTAX=FORECAST(x,known_y's,known_x's)
-@DESCRIPTION=FORECAST function estimates a future value according to existing values using simple linear regression.  The estimated future value is a y-value for a given x-value (@x).
-
-* If @known_x or @known_y contains no data entries or different number of data entries, FORECAST returns #N/A error.
-* If the variance of the @known_x is zero, FORECAST returns #DIV/0 error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
-FORECAST(7,A1:A5,B1:B5) equals -10.859397661.
-
+@DESCRIPTION=This function estimates a future value according to existing values using simple linear regression.
+@{x}: x-value whose matching y-value should be forecast
+@{known_y's}: known y-values
+@{known_x's}: known x-values
+@SYNTAX=FORECAST(x,known_y's,known_x's))
+@DESCRIPTION=This function is Excel compatible.
+@{x}: x-value whose matching y-value should be forecast
+@{known_y's}: known y-values
+@{known_x's}: known x-values
 @SEEALSO=INTERCEPT,TREND
 
 @CATEGORY=Statistics
 @FUNCTION=FREQUENCY
 @SYNTAX=FREQUENCY(data_array,bins_array)
-@DESCRIPTION=FREQUENCY function counts how often given values occur within a range of values.  The results are given as an array.
-
-@data_array is a data array for which you want to count the frequencies.  @bin_array is an array containing the intervals into which you want to group the values in data_array.  If the @bin_array is empty, FREQUENCY returns the number of data points in @data_array.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-
-@SEEALSO=
+@DESCRIPTION=The results are given as an array.
+@{data_array}: data values
+@{bins_array}: array of cutoff values
+@SYNTAX=FREQUENCY(data_array,bins_array))
+@DESCRIPTION=If the @{bin_array} is empty, this function returns the number of data points in @{data_array}.
+@{data_array}: data values
+@{bins_array}: array of cutoff values
+@SYNTAX=FREQUENCY(data_array,bins_array)))
+@DESCRIPTION=This function is Excel compatible.
+@{data_array}: data values
+@{bins_array}: array of cutoff values
 
 @CATEGORY=Statistics
 @FUNCTION=FTEST
 @SYNTAX=FTEST(array1,array2)
-@DESCRIPTION=FTEST function returns the two-tailed probability that the variances in the given two data sets are not significantly different.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
-FTEST(A1:A5,B1:B5) equals 0.510815017.
-
+@DESCRIPTION=This function is Excel compatible.
+@{array1}: sample from the first population
+@{array2}: sample from the second population
 @SEEALSO=FDIST,FINV
 
 @CATEGORY=Statistics
 @FUNCTION=GAMMADIST
-@SYNTAX=GAMMADIST(x,alpha,beta,cum)
-@DESCRIPTION=GAMMADIST function returns the gamma distribution. If @cum is TRUE, GAMMADIST returns the incomplete gamma function, otherwise it returns the probability mass function.
-
-* If @x < 0 GAMMADIST returns #NUM! error.
-* If @alpha <= 0 or @beta <= 0, GAMMADIST returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-GAMMADIST(1,2,3,0) equals 0.07961459.
-
+@SYNTAX=GAMMADIST(x,alpha,beta,cumulative)
+@DESCRIPTION=This function is Excel compatible.
+@{x}: 
+@{alpha}: scale parameter
+@{beta}: scale parameter
+@{cumulative}: whether to evaluate the density function or the cumulative distribution function
 @SEEALSO=GAMMAINV
 
 @CATEGORY=Statistics
 @FUNCTION=GAMMAINV
 @SYNTAX=GAMMAINV(p,alpha,beta)
-@DESCRIPTION=GAMMAINV function returns the inverse of the cumulative gamma distribution.
-
-* If @p < 0 or @p > 1 GAMMAINV returns #NUM! error.
-* If @alpha <= 0 or @beta <= 0 GAMMAINV returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-GAMMAINV(0.34,2,4) equals 4.829093908.
-
+@DESCRIPTION=This function is Excel compatible.
+@{p}: probability
+@{alpha}: scale parameter
+@{beta}: scale parameter
 @SEEALSO=GAMMADIST
 
 @CATEGORY=Statistics
 @FUNCTION=GAMMALN
 @SYNTAX=GAMMALN(x)
-@DESCRIPTION=GAMMALN function returns the natural logarithm of the gamma function.
-
-* If @x is non-number then GAMMALN returns #VALUE! error.
-* If @x <= 0 then GAMMALN returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-GAMMALN(23) equals 48.471181352.
-
+@DESCRIPTION=This function is Excel compatible.
+@{x}: 
 @SEEALSO=POISSON
 
 @CATEGORY=Statistics
 @FUNCTION=GEOMDIST
-@SYNTAX=GEOMDIST(k,p,cum)
-@DESCRIPTION=GEOMDIST returns the probability p(k) of obtaining @k from a geometric distribution with probability parameter @p.
-
-* If @k < 0 GEOMDIST returns #NUM! error.
-* If @p < 0 or @p > 1 GEOMDIST returns #NUM! error.
-* If @cum != TRUE and @cum != FALSE GEOMDIST returns #NUM! error.
-
-@EXAMPLES=
-GEOMDIST(2,10.4,TRUE).
-
 @SEEALSO=RANDGEOM
 
 @CATEGORY=Statistics
 @FUNCTION=GEOMEAN
-@SYNTAX=GEOMEAN(b1, b2, ...)
-@DESCRIPTION=GEOMEAN returns the geometric mean of the given arguments. This is equal to the Nth root of the product of the terms.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-GEOMEAN(A1:A5) equals 21.279182482.
-
+@SYNTAX=GEOMEAN(number1,number2)
+@DESCRIPTION=The geometric mean is equal to the Nth root of the product of the N values.
+@{number1}: first value
+@{number2}: second value
+@SYNTAX=GEOMEAN(number1,number2))
+@DESCRIPTION=This function is Excel compatible.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN
 
 @CATEGORY=Statistics
 @FUNCTION=GROWTH
-@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])
-@DESCRIPTION=GROWTH function applies the ``least squares'' method to fit an exponential curve to your data and predicts the exponential growth by using this curve. 
-GROWTH returns an array having one column and a row for each data point in @new_x.
-
-* If @known_x's is omitted, an array {1, 2, 3, ...} is used.
-* If @new_x's is omitted, it is assumed to be the same as @known_x's.
-* If @known_y's and @known_x's have unequal number of data points, GROWTH returns #NUM! error.
-* If @const is FALSE, the line will be forced to go through the origin, i.e., b will be zero. The default is TRUE.
-
-@EXAMPLES=
-
+@SYNTAX=GROWTH(known_y's,known_x's,new_x's,const)
+@DESCRIPTION=GROWTH function applies the ``least squares'' method to fit an exponential curve to your data and predicts the exponential growth by using this curve.
+@{known_y's}: known y-values
+@{known_x's}: known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.
+@{new_x's}: x-values for which you want to estimate the y-values; defaults to @{known_x}'s
+@{const}: if this is false the line will be forced to go through the origin; defaults to TRUE
+@SYNTAX=GROWTH(known_y's,known_x's,new_x's,const))
+@DESCRIPTION=GROWTH returns an array having one column and a row for each data point in @{new_x}.
+@{known_y's}: known y-values
+@{known_x's}: known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.
+@{new_x's}: x-values for which you want to estimate the y-values; defaults to @{known_x}'s
+@{const}: if this is false the line will be forced to go through the origin; defaults to TRUE
 @SEEALSO=LOGEST,GROWTH,TREND
 
 @CATEGORY=Statistics
 @FUNCTION=HARMEAN
-@SYNTAX=HARMEAN(b1, b2, ...)
-@DESCRIPTION=HARMEAN returns the harmonic mean of the N data points (that is, N divided by the sum of the inverses of the data points).
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-HARMEAN(A1:A5) equals 19.529814427.
-
+@SYNTAX=HARMEAN(number1,number2)
+@DESCRIPTION=The harmonic mean of N data points is  N divided by the sum of the reciprocals of the data points).
+@{number1}: first value
+@{number2}: second value
+@SYNTAX=HARMEAN(number1,number2))
+@DESCRIPTION=This function is Excel compatible.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN
 
 @CATEGORY=Statistics
 @FUNCTION=HYPGEOMDIST
-@SYNTAX=HYPGEOMDIST(x,n,M,N[,cumulative])
-@DESCRIPTION=HYPGEOMDIST function returns the hypergeometric distribution. @x is the number of successes in the sample, @n is the number of trials, @M is the number of successes overall, and @N is the population size.
-
-If the optional argument @cumulative is TRUE, the cumulative left tail will be returned.
-
-* If @x,@n,@M or @N is a non-integer it is truncated.
-* If @x,@n,@M or @N < 0 HYPGEOMDIST returns #NUM! error.
-* If @x > @M or @n > @N HYPGEOMDIST returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-HYPGEOMDIST(1,2,3,10) equals 0.4666667.
-
+@SYNTAX=HYPGEOMDIST(x,n,M,N,cumulative)
+@DESCRIPTION=This function is Excel compatible.
+@{x}: number of successes
+@{n}: sample size
+@{M}: number of possible successes in the population
+@{N}: population size
+@{cumulative}: whether to evaluate the mass function or the cumulative distribution function
 @SEEALSO=BINOMDIST,POISSON
 
 @CATEGORY=Statistics
 @FUNCTION=INTERCEPT
 @SYNTAX=INTERCEPT(known_y's,known_x's)
-@DESCRIPTION=INTERCEPT function calculates the point where the linear regression line intersects the y-axis.
-
-* If @known_x or @known_y contains no data entries or different number of data entries, INTERCEPT returns #N/A error.
-* If the variance of the @known_x is zero, INTERCEPT returns #DIV/0 error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
-INTERCEPT(A1:A5,B1:B5) equals -20.785117212.
-
+@DESCRIPTION=This function is Excel compatible.
+@{known_y's}: known y-values
+@{known_x's}: known x-values
 @SEEALSO=FORECAST,TREND
 
 @CATEGORY=Statistics
 @FUNCTION=KURT
-@SYNTAX=KURT(n1, n2, ...)
-@DESCRIPTION=KURT returns an unbiased estimate of the kurtosis of a data set.
-Note, that this is only meaningful if the underlying distribution really has a fourth moment.  The kurtosis is offset by three such that a normal distribution will have zero kurtosis.
-
-* Strings and empty cells are simply ignored.
-* If fewer than four numbers are given or all of them are equal KURT returns #DIV/0! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-KURT(A1:A5) equals 1.234546305.
-
+@SYNTAX=KURT(number1,number2)
+@DESCRIPTION=Strings and empty cells are simply ignored.
+@{number1}: first value
+@{number2}: second value
+@SYNTAX=KURT(number1,number2))
+@DESCRIPTION=This function is Excel compatible.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=AVERAGE,VAR,SKEW,KURTP
 
 @CATEGORY=Statistics
 @FUNCTION=KURTP
-@SYNTAX=KURTP(n1, n2, ...)
-@DESCRIPTION=KURTP returns the population kurtosis of a data set.
-
-* Strings and empty cells are simply ignored.
-* If fewer than two numbers are given or all of them are equal KURTP returns #DIV/0! error.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-KURTP(A1:A5) equals -0.691363424.
-
+@SYNTAX=KURTP(number1,number2)
+@DESCRIPTION=Strings and empty cells are simply ignored.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=AVERAGE,VARP,SKEWP,KURT
 
 @CATEGORY=Statistics
 @FUNCTION=LANDAU
-@SYNTAX=LANDAU(x)
-@DESCRIPTION=LANDAU returns the probability density p(x) at @x for the Landau distribution using an approximation method. 
-@EXAMPLES=
-LANDAU(0.34).
-
 @SEEALSO=RANDLANDAU
 
 @CATEGORY=Statistics
 @FUNCTION=LAPLACE
-@SYNTAX=LAPLACE(x,a)
-@DESCRIPTION=LAPLACE returns the probability density p(x) at @x for Laplace distribution with mean @a. 
-@EXAMPLES=
-LAPLACE(0.4,1).
-
 @SEEALSO=RANDLAPLACE
 
 @CATEGORY=Statistics
 @FUNCTION=LARGE
-@SYNTAX=LARGE(n, k)
-@DESCRIPTION=LARGE returns the k-th largest value in a data set.
-
-* If data set is empty LARGE returns #NUM! error.
-* If @k <= 0 or @k is greater than the number of data items given LARGE returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-LARGE(A1:A5,2) equals 25.9.
-LARGE(A1:A5,4) equals 17.3.
-
+@SYNTAX=LARGE(data,k)
+@DESCRIPTION=This function is Excel compatible.
+@{data}: data set
+@{k}: which value to find
 @SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL
 
 @CATEGORY=Statistics
 @FUNCTION=LINEST
-@SYNTAX=LINEST(y,x,affine,stats)
+@SYNTAX=LINEST(known_y's,known_x's,affine,stats)
 @DESCRIPTION=This function returns an array with the first row giving the regression coefficients for the independent variables x_m, x_(m-1),...,x_2, x_1 followed by the y-intercept if @{affine} is true.
-@{y}: vector of values of dependent variable.
-@{x}: array of values of independent variables, defaults to a single vector 1,...,n.
+@{known_y's}: vector of values of dependent variable.
+@{known_x's}: array of values of independent variables, defaults to a single vector 1,...,n.
+@{affine}: if true, the model contains a constant term, defaults to true.
+@{stats}: if true, some additional statistics is provided, defaults to false
+@SYNTAX=LINEST(known_y's,known_x's,affine,stats))
+@DESCRIPTION=If @{stats} is true, the second row contains the corresponding standard errors of the regression coefficients.In this case, the third row contains the R^2 value and the standard error for the predicted value. The fourth row contains the observed F value and its degrees of freedom. Finally, the fifth row contains the regression sum of squares and the residual sum of squares.
+@{known_y's}: vector of values of dependent variable.
+@{known_x's}: array of values of independent variables, defaults to a single vector 1,...,n.
+@{affine}: if true, the model contains a constant term, defaults to true.
+@{stats}: if true, some additional statistics is provided, defaults to false
+@SYNTAX=LINEST(known_y's,known_x's,affine,stats)))
+@DESCRIPTION=If @{affine} is false, R^2 is the uncentered version of the coefficient of determination; that is the proportion of the sum of squares explained by the model.
+@{known_y's}: vector of values of dependent variable.
+@{known_x's}: array of values of independent variables, defaults to a single vector 1,...,n.
 @{affine}: if true, the model contains a constant term, defaults to true.
 @{stats}: if true, some additional statistics is provided, defaults to false
 @SEEALSO=LOGEST,TREND
 
 @CATEGORY=Statistics
 @FUNCTION=LOGEST
-@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])
-@DESCRIPTION=LOGEST function applies the ``least squares'' method to fit an exponential curve of the form
-
-	y = b * m{1}^x{1} * m{2}^x{2}... to your data.
-
-If @stat is TRUE, extra statistical information will be returned. Extra statistical information is written below the regression line coefficients in the result array.  Extra statistical information consists of four rows of data.  In the first row the standard error values for the coefficients m1, (m2, ...), b are represented.  The second row contains the square of R and the standard error for the y estimate.  The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares.
-
-* If @known_x's is omitted, an array {1, 2, 3, ...} is used. LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }.
-* If @known_y's and @known_x's have unequal number of data points, LOGEST returns #NUM! error.
-* If @const is FALSE, the line will be forced to go through (0,1),i.e., b will be one.  The default is TRUE.
-* The default of @stat is FALSE.
-
-@EXAMPLES=
-
+@SYNTAX=LOGEST(known_y's,known_x's,const,stat)
+@DESCRIPTION=LOGEST function applies the ``least squares'' method to fit an exponential curve of the form	y = b * m{1}^x{1} * m{2}^x{2}... to your data.
+@{known_y's}: known y-values
+@{known_x's}: known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.
+@{const}: if this is false the line will be forced to go through (0,1); defaults to TRUE
+@{stat}: If @{stat} is TRUE, extra statistical information will be returned; defaults to FALSE.
+@SYNTAX=LOGEST(known_y's,known_x's,const,stat))
+@DESCRIPTION=LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }.
+@{known_y's}: known y-values
+@{known_x's}: known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.
+@{const}: if this is false the line will be forced to go through (0,1); defaults to TRUE
+@{stat}: If @{stat} is TRUE, extra statistical information will be returned; defaults to FALSE.
 @SEEALSO=GROWTH,TREND
 
 @CATEGORY=Statistics
 @FUNCTION=LOGFIT
 @SYNTAX=LOGFIT(known_y's,known_x's)
-@DESCRIPTION=LOGFIT function applies the ``least squares'' method to fit the logarithmic equation
-y = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 
-to your data. The graph of the equation is a logarithmic curve moved horizontally by c and possibly mirrored across the y-axis (if sign = -1).
-
-LOGFIT returns an array having five columns and one row. `Sign' is given in the first column, `a', `b', and `c' are given in columns 2 to 4. Column 5 holds the sum of squared residuals.
-
-An error is returned when there are less than 3 different x's or y's, or when the shape of the point cloud is too different from a ``logarithmic'' one.
-
-You can use the above formula 
-= a + b * ln(sign * (x - c)) 
-or rearrange it to 
-= (exp((y - a) / b)) / sign + c 
-to compute unknown y's or x's, respectively. 
-
-Technically, this is non-linear fitting by trial-and-error. The accuracy of `c' is: width of x-range -> rounded to the next smaller (10^integer), times 0.000001. There might be cases in which the returned fit is not the best possible.
-@EXAMPLES=
-
+@DESCRIPTION=LOGFIT function applies the ``least squares'' method to fit the logarithmic equationy = a + b * ln(sign * (x - c)) ,   sign = +1 or -1 to your data. The graph of the equation is a logarithmic curve moved horizontally by c and possibly mirrored across the y-axis (if sign = -1).
+@{known_y's}: known y-values
+@{known_x's}: known x-values
+@SYNTAX=LOGFIT(known_y's,known_x's))
+@DESCRIPTION=LOGFIT returns an array having five columns and one row. `Sign' is given in the first column, `a', `b', and `c' are given in columns 2 to 4. Column 5 holds the sum of squared residuals.
+@{known_y's}: known y-values
+@{known_x's}: known x-values
 @SEEALSO=LOGREG,LINEST,LOGEST
 
 @CATEGORY=Statistics
 @FUNCTION=LOGINV
 @SYNTAX=LOGINV(p,mean,stddev)
-@DESCRIPTION=LOGINV function returns the inverse of the lognormal cumulative distribution. @p is the given probability corresponding to the normal distribution, @mean is the arithmetic mean of the distribution, and @stddev is the standard deviation of the distribution.
-
-* If @p < 0 or @p > 1 or @stddev <= 0 LOGINV returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-LOGINV(0.5,2,3) equals 7.389056099.
-
+@DESCRIPTION=This function is Excel compatible.
+@{p}: probability
+@{mean}: mean
+@{stddev}: standard deviation
 @SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST
 
 @CATEGORY=Statistics
 @FUNCTION=LOGISTIC
-@SYNTAX=LOGISTIC(x,a)
-@DESCRIPTION=LOGISTIC returns the probability density p(x) at @x for a logistic distribution with scale parameter @a.
-
-@EXAMPLES=
-LOGISTIC(0.4,1).
-
 @SEEALSO=RANDLOGISTIC
 
 @CATEGORY=Statistics
 @FUNCTION=LOGNORMDIST
 @SYNTAX=LOGNORMDIST(x,mean,stddev)
-@DESCRIPTION=LOGNORMDIST function returns the lognormal distribution. @x is the value for which you want the distribution, @mean is the mean of the distribution, and @stddev is the standard deviation of the distribution.
-
-* If @stddev = 0 LOGNORMDIST returns #DIV/0! error.
-* If @x <= 0, @mean < 0 or @stddev < 0 LOGNORMDIST returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-LOGNORMDIST(3,1,2) equals 0.519662338.
-
+@DESCRIPTION=This function is Excel compatible.
+@{x}: 
+@{mean}: mean
+@{stddev}: standard deviation
 @SEEALSO=NORMDIST
 
 @CATEGORY=Statistics
 @FUNCTION=LOGREG
-@SYNTAX=LOGREG(known_y's[,known_x's[,const[,stat]]])
-@DESCRIPTION=LOGREG function transforms your x's to z=ln(x) and applies the ``least squares'' method to fit the linear equation
-y = m * z + b 
-to your y's and z's --- equivalent to fitting the equation
-y = m * ln(x) + b 
-to y's and x's. 
-
-If @known_x's is omitted, an array {1, 2, 3, ...} is used. LOGREG returns an array having two columns and one row. m is given in the first column and b in the second. 
-
-If @known_y's and @known_x's have unequal number of data points, LOGREG returns #NUM! error.
-
-If @const is FALSE, the curve will be forced to go through [1; 0], i.e., b will be zero. The default is TRUE.
-
-If @stat is TRUE, extra statistical information will be returned which applies to the state AFTER transformation to z. Extra statistical information is written below m and b in the result array.  Extra statistical information consists of four rows of data.  In the first row the standard error values for the coefficients m, b are represented.  The second row contains the square of R and the standard error for the y estimate. The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares.The default of @stat is FALSE.
-@EXAMPLES=
-
+@SYNTAX=LOGREG(known_y's,known_x's,const,stat)
+@DESCRIPTION=LOGREG function transforms your x's to z=ln(x) and applies the ``least squares'' method to fit the linear equation y = m * z + b to your y's and z's --- equivalent to fitting the equation y = m * ln(x) + b to y's and x's. LOGREG returns an array having two columns and one row. m is given in the first column and b in the second. 
+@{known_y's}: known y-values
+@{known_x's}: known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.
+@{const}: If this is FALSE, the curve will be forced to go through [1; 0], i.e., b will be zero. The default is TRUE.
+@{stat}: If @{stat} is TRUE, extra statistical information will be returned; defaults to FALSE.
+@SYNTAX=LOGREG(known_y's,known_x's,const,stat))
+@DESCRIPTION=Any extra statistical information is written below m and b in the result array.  This extra statistical information consists of four rows of data:  In the first row the standard error values for the coefficients m, b are given.  The second row contains the square of R and the standard error for the y estimate. The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares.The default of @{stat} is FALSE.
+@{known_y's}: known y-values
+@{known_x's}: known x-values; if @{known_x}'s is omitted, an array {1, 2, 3, ...} is used.
+@{const}: If this is FALSE, the curve will be forced to go through [1; 0], i.e., b will be zero. The default is TRUE.
+@{stat}: If @{stat} is TRUE, extra statistical information will be returned; defaults to FALSE.
 @SEEALSO=LOGFIT,LINEST,LOGEST
 
 @CATEGORY=Statistics
 @FUNCTION=MAX
-@SYNTAX=MAX(b1, b2, ...)
-@DESCRIPTION=MAX returns the value of the element of the values passed that has the largest value, with negative numbers considered smaller than positive numbers.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-MAX(A1:A5) equals 40.1.
-
+@SYNTAX=MAX(number1,number2)
+@DESCRIPTION=This function is Excel compatible.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=MIN,ABS
 
 @CATEGORY=Statistics
 @FUNCTION=MAXA
-@SYNTAX=MAXA(number1,number2,...)
-@DESCRIPTION=MAXA returns the largest value of the given arguments.  Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then
-MAXA(A1:A5) equals 40.1.
-
+@SYNTAX=MAXA(number1,number2)
+@DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
+@{number1}: first value
+@{number2}: second value
+@SYNTAX=MAXA(number1,number2))
+@DESCRIPTION=This function is Excel compatible.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=MAX,MINA
 
 @CATEGORY=Statistics
 @FUNCTION=MEDIAN
-@SYNTAX=MEDIAN(n1, n2, ...)
-@DESCRIPTION=MEDIAN returns the median of the given data set.
-
-* Strings and empty cells are simply ignored.
-* If even numbers are given MEDIAN returns the average of the two numbers in the middle.
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-MEDIAN(A1:A5) equals 21.3.
-
+@SYNTAX=MEDIAN(number1,number2)
+@DESCRIPTION=Strings and empty cells are simply ignored.
+@{number1}: first value
+@{number2}: second value
+@SYNTAX=MEDIAN(number1,number2))
+@DESCRIPTION=This function is Excel compatible.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SSMEDIAN,SUM
 
 @CATEGORY=Statistics
 @FUNCTION=MIN
-@SYNTAX=MIN(b1, b2, ...)
-@DESCRIPTION=MIN returns the value of the element of the values passed that has the smallest value, with negative numbers considered smaller than positive numbers.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-MIN(A1:A5) equals 11.4.
-
+@SYNTAX=MIN(number1,number2)
+@DESCRIPTION=This function is Excel compatible.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=MAX,ABS
 
 @CATEGORY=Statistics
 @FUNCTION=MINA
-@SYNTAX=MINA(number1,number2,...)
-@DESCRIPTION=MINA returns the smallest value of the given arguments.  Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then
-MINA(A1:A5) equals 0.
-
+@SYNTAX=MINA(number1,number2)
+@DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
+@{number1}: first value
+@{number2}: second value
+@SYNTAX=MINA(number1,number2))
+@DESCRIPTION=This function is Excel compatible.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=MIN,MAXA
 
 @CATEGORY=Statistics
 @FUNCTION=MODE
-@SYNTAX=MODE(n1, n2, ...)
-@DESCRIPTION=MODE returns the most common number of the data set. If the data set has many most common numbers MODE returns the first one of them.
-
-* Strings and empty cells are simply ignored.
-* If the data set does not contain any duplicates MODE returns #N/A error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 11.4, 25.9, and 40.1.  Then
-MODE(A1:A5) equals 11.4.
-
+@SYNTAX=MODE(number1,number2)
+@DESCRIPTION=Strings and empty cells are simply ignored.
+@{number1}: first value
+@{number2}: second value
+@SYNTAX=MODE(number1,number2))
+@DESCRIPTION=If the data set does not contain any duplicates this function returns a #N/A error.
+@{number1}: first value
+@{number2}: second value
+@SYNTAX=MODE(number1,number2)))
+@DESCRIPTION=This function is Excel compatible.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=AVERAGE,MEDIAN
 
 @CATEGORY=Statistics
 @FUNCTION=NEGBINOMDIST
 @SYNTAX=NEGBINOMDIST(f,t,p)
-@DESCRIPTION=NEGBINOMDIST function returns the negative binomial distribution. @f is the number of failures, @t is the threshold number of successes, and @p is the probability of a success.
-
-* If @f or @t is a non-integer it is truncated.
-* If (@f + @t -1) <= 0 NEGBINOMDIST returns #NUM! error.
-* If @p < 0 or @p > 1 NEGBINOMDIST returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-NEGBINOMDIST(2,5,0.55) equals 0.152872629.
-
+@DESCRIPTION=This function is Excel compatible.
+@{f}: number of failures
+@{t}: threshold number of successes
+@{p}: probability of a success
 @SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT
 
 @CATEGORY=Statistics
 @FUNCTION=NORMDIST
 @SYNTAX=NORMDIST(x,mean,stddev,cumulative)
-@DESCRIPTION=The NORMDIST function returns the value of the probability density function or the cumulative distribution function for the normal distribution with the mean given by @mean, and the standard deviation given by @stddev. If @cumulative is FALSE, NORMDIST returns the value of the probability density function at the value @x. If @cumulative is TRUE, NORMDIST returns the value of the cumulative distribution function at @x.
-
-* If @stddev is 0 NORMDIST returns #DIV/0! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-NORMDIST(2,1,2,0) equals 0.176032663.
-
+@DESCRIPTION=This function is Excel compatible.
+@{x}: 
+@{mean}: mean of the distribution
+@{stddev}: standard deviation of the distribution
+@{cumulative}: whether to evaluate the density function or the cumulative distribution function
 @SEEALSO=POISSON
 
 @CATEGORY=Statistics
 @FUNCTION=NORMINV
 @SYNTAX=NORMINV(p,mean,stddev)
-@DESCRIPTION=NORMINV function returns the inverse of the normal cumulative distribution. @p is the given probability corresponding to the normal distribution, @mean is the arithmetic mean of the distribution, and @stddev is the standard deviation of the distribution.
-
-* If @p < 0 or @p > 1 or @stddev <= 0 NORMINV returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-NORMINV(0.76,2,3) equals 4.118907689.
-
+@DESCRIPTION=This function is Excel compatible.
+@{p}: probability
+@{mean}: mean of the distribution
+@{stddev}: standard deviation of the distribution
 @SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST
 
 @CATEGORY=Statistics
 @FUNCTION=NORMSDIST
 @SYNTAX=NORMSDIST(x)
-@DESCRIPTION=NORMSDIST function returns the standard normal cumulative distribution. @x is the value for which you want the distribution.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-NORMSDIST(2) equals 0.977249868.
-
+@DESCRIPTION=This function is Excel compatible.
+@{x}: 
 @SEEALSO=NORMDIST
 
 @CATEGORY=Statistics
 @FUNCTION=NORMSINV
 @SYNTAX=NORMSINV(p)
-@DESCRIPTION=NORMSINV function returns the inverse of the standard normal cumulative distribution. @p is the given probability corresponding to the normal distribution.
-
-* If @p < 0 or @p > 1 NORMSINV returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-NORMSINV(0.2) equals -0.841621234.
-
+@DESCRIPTION=This function is Excel compatible.
+@{p}: given probability
 @SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST
 
 @CATEGORY=Statistics
 @FUNCTION=PARETO
-@SYNTAX=PARETO(x,a,b)
-@DESCRIPTION=PARETO returns the probability density p(x) at @x for a Pareto distribution with exponent @a and scale @b.
-
-@EXAMPLES=
-PARETO(0.6,1,2).
-
 @SEEALSO=RANDPARETO
 
 @CATEGORY=Statistics
 @FUNCTION=PEARSON
 @SYNTAX=PEARSON(array1,array2)
-@DESCRIPTION=PEARSON returns the Pearson correlation coefficient of two data sets.
-
-* Strings and empty cells are simply ignored.
-* This function is Excel compatible.
-
-@EXAMPLES=
-
+@DESCRIPTION=Strings and empty cells are simply ignored.
+@{array1}: first component values
+@{array2}: second component values
+@SYNTAX=PEARSON(array1,array2))
+@DESCRIPTION=This function is Excel compatible.
+@{array1}: first component values
+@{array2}: second component values
 @SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX
 
 @CATEGORY=Statistics
 @FUNCTION=PERCENTILE
 @SYNTAX=PERCENTILE(array,k)
-@DESCRIPTION=PERCENTILE function returns the 100*@k-th percentile of the given data points (that is, a number x such that a fraction @k of the data points are less than x).
-
-* If @array is empty, PERCENTILE returns #NUM! error.
-* If @k < 0 or @k > 1, PERCENTILE returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-PERCENTILE(A1:A5,0.42) equals 20.02.
-
+@DESCRIPTION=This function is Excel compatible.
+@{array}: data points
+@{k}: which percentile to calculate
 @SEEALSO=QUARTILE
 
 @CATEGORY=Statistics
 @FUNCTION=PERCENTRANK
-@SYNTAX=PERCENTRANK(array,x[,significance])
-@DESCRIPTION=PERCENTRANK function returns the rank of a data point in a data set.  @array is the range of numeric values, @x is the data point which you want to rank, and the optional @significance specifies the number of significant digits for the returned value, truncating the remainder.  If @significance is omitted, PERCENTRANK uses three digits.
-
-* If @array contains no data points, PERCENTRANK returns #NUM! error.
-* If @significance is less than one, PERCENTRANK returns #NUM! error.
-* If @x exceeds the largest value or is less than the smallest value in @array, PERCENTRANK returns #NUM! error.
-* If @x does not match any of the values in @array or @x matches more than once, PERCENTRANK interpolates the returned value.
-
-@EXAMPLES=
-
 @SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL
 
 @CATEGORY=Statistics
 @FUNCTION=PERMUT
 @SYNTAX=PERMUT(n,k)
-@DESCRIPTION=PERMUT function returns the number of permutations. @n is the number of objects, @k is the number of objects in each permutation.
-
-* If @n = 0 PERMUT returns #NUM! error.
-* If @n < @k PERMUT returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-PERMUT(7,3) equals 210.
-
+@DESCRIPTION=This function is Excel compatible.
+@{n}: size of the base set
+@{k}: number of elements in each permutation
 @SEEALSO=COMBIN
 
 @CATEGORY=Statistics
 @FUNCTION=POISSON
 @SYNTAX=POISSON(x,mean,cumulative)
-@DESCRIPTION=POISSON function returns the Poisson distribution. @x is the number of events, @mean is the expected numeric value @cumulative describes whether to return the sum of the Poisson function from 0 to @x.
-
-* If @x is a non-integer it is truncated.
-* If @x < 0 POISSON returns #NUM! error.
-* If @mean <= 0 POISSON returns the #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-POISSON(3,6,0) equals 0.089235078.
-
-@SEEALSO=NORMDIST, WEIBULL
+@DESCRIPTION=This function is Excel compatible.
+@{x}: number of events
+@{mean}: mean of the distribution
+@{cumulative}: whether to evaluate the mass function or the cumulative distribution function
+@SEEALSO=NORMDIST,WEIBULL
 
 @CATEGORY=Statistics
 @FUNCTION=PROB
-@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])
-@DESCRIPTION=PROB function returns the probability that values in a range or an array are between two limits. If @upper_limit is not given, PROB returns the probability that values in @x_range are equal to @lower_limit.
-
-* If the sum of the probabilities in @prob_range is not equal to 1 PROB returns #NUM! error.
-* If any value in @prob_range is <=0 or > 1, PROB returns #NUM! error.
-* If @x_range and @prob_range contain a different number of data entries, PROB returns #N/A error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-
+@SYNTAX=PROB(x_range,prob_range,lower_limit,upper_limit)
+@DESCRIPTION=This function is Excel compatible.
+@{x_range}: possible values
+@{prob_range}: probabilities of the corresponding values
+@{lower_limit}: lower interval limit
+@{upper_limit}: upper interval limit, defaults to @{lower_limit}
 @SEEALSO=BINOMDIST,CRITBINOM
 
 @CATEGORY=Statistics
 @FUNCTION=QUARTILE
 @SYNTAX=QUARTILE(array,quart)
-@DESCRIPTION=QUARTILE function returns the quartile of the given data points.
-
-If @quart is equal to: QUARTILE returns:
-0                      the smallest value of @array.
-1                      the first quartile
-2                      the second quartile
-3                      the third quartile
-4                      the largest value of @array.
-
-* If @array is empty, QUARTILE returns #NUM! error.
-* If @quart < 0 or @quart > 4, QUARTILE returns #NUM! error.
-* If @quart is not an integer, it is truncated.
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-QUARTILE(A1:A5,1) equals 17.3.
-
+@DESCRIPTION=This function is Excel compatible.
+@{array}: data points
+@{quart}: A number from 0 to 4, indicating which quartile to calculate. A value of 0 causes the smallest value of @{array} to be returned.
 @SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL
 
 @CATEGORY=Statistics
@@ -6840,221 +6534,163 @@ QUARTILE(A1:A5,1) equals 17.3.
 
 @CATEGORY=Statistics
 @FUNCTION=RANK
-@SYNTAX=RANK(x,ref[,order])
-@DESCRIPTION=RANK returns the rank of a number in a list of numbers.  @x is the number whose rank you want to find, @ref is the list of numbers, and @order specifies how to rank numbers.  If @order is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-RANK(17.3,A1:A5) equals 4.
-
+@SYNTAX=RANK(x,ref,order)
+@DESCRIPTION=This function is Excel compatible.
+@{x}: number whose rank you want to find
+@{ref}: list of numbers
+@{order}: If this is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order.
 @SEEALSO=PERCENTRANK
 
 @CATEGORY=Statistics
 @FUNCTION=RAYLEIGH
-@SYNTAX=RAYLEIGH(x,sigma)
-@DESCRIPTION=RAYLEIGH returns the probability density p(x) at @x for a Rayleigh distribution with scale parameter @sigma.
-
-@EXAMPLES=
-RAYLEIGH(0.4,1).
-
 @SEEALSO=RANDRAYLEIGH
 
 @CATEGORY=Statistics
 @FUNCTION=RAYLEIGHTAIL
-@SYNTAX=RAYLEIGHTAIL(x,a,sigma)
-@DESCRIPTION=RAYLEIGHTAIL returns the probability density p(x) at @x for a Rayleigh tail distribution with scale parameter @sigma and lower limit @a.
-
-@EXAMPLES=
-RAYLEIGHTAIL(0.6,0.3,1).
-
 @SEEALSO=RANDRAYLEIGHTAIL
 
 @CATEGORY=Statistics
 @FUNCTION=RSQ
 @SYNTAX=RSQ(array1,array2)
-@DESCRIPTION=RSQ returns the square of the Pearson correlation coefficient of two data sets.
-
-* Strings and empty cells are simply ignored.
-* This function is Excel compatible.
-
-@EXAMPLES=
-
+@DESCRIPTION=Strings and empty cells are simply ignored.
+@{array1}: first component values
+@{array2}: second component values
+@SYNTAX=RSQ(array1,array2))
+@DESCRIPTION=This function is Excel compatible.
+@{array1}: first component values
+@{array2}: second component values
 @SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND
 
 @CATEGORY=Statistics
 @FUNCTION=SKEW
-@SYNTAX=SKEW(n1, n2, ...)
-@DESCRIPTION=SKEW returns an unbiased estimate for skewness of a distribution.
-
-Note, that this is only meaningful if the underlying distribution really has a third moment.  The skewness of a symmetric (e.g., normal) distribution is zero.
-
-* Strings and empty cells are simply ignored.
-* If less than three numbers are given, SKEW returns #DIV/0! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-SKEW(A1:A5) equals 0.976798268.
-
+@SYNTAX=SKEW(number1,number2)
+@DESCRIPTION=Strings and empty cells are simply ignored.
+@{number1}: first value
+@{number2}: second value
+@SYNTAX=SKEW(number1,number2))
+@DESCRIPTION=This function is Excel compatible.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=AVERAGE,VAR,SKEWP,KURT
 
 @CATEGORY=Statistics
 @FUNCTION=SKEWP
-@SYNTAX=SKEWP(n1, n2, ...)
-@DESCRIPTION=SKEWP returns the population skewness of a data set.
-
-* Strings and empty cells are simply ignored.
-* If less than two numbers are given, SKEWP returns #DIV/0! error.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-SKEWP(A1:A5) equals 0.655256198.
-
+@SYNTAX=SKEWP(number1,number2)
+@DESCRIPTION=Strings and empty cells are simply ignored.
+@{number1}: first value
+@{number2}: second value
 @SEEALSO=AVERAGE,VARP,SKEW,KURTP
 
 @CATEGORY=Statistics
 @FUNCTION=SLOPE
 @SYNTAX=SLOPE(known_y's,known_x's)
-@DESCRIPTION=SLOPE returns the slope of the linear regression line.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
-SLOPE(A1:A5,B1:B5) equals 1.417959936.
-
+@DESCRIPTION=This function is Excel compatible.
+@{known_y's}: known y-values
+@{known_x's}: known x-values
 @SEEALSO=STDEV,STDEVPA
 
 @CATEGORY=Statistics
 @FUNCTION=SMALL
-@SYNTAX=SMALL(n, k)
-@DESCRIPTION=SMALL returns the k-th smallest value in a data set.
-
-* If data set is empty SMALL returns #NUM! error.
-* If @k <= 0 or @k is greater than the number of data items given SMALL returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-SMALL(A1:A5,2) equals 17.3.
-SMALL(A1:A5,4) equals 25.9.
-
+@SYNTAX=SMALL(data,k)
+@DESCRIPTION=This function is Excel compatible.
+@{data}: data set
+@{k}: which value to find
 @SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE
 
 @CATEGORY=Statistics
 @FUNCTION=SSMEDIAN
-@SYNTAX=SSMEDIAN(array[,interval)]
-@DESCRIPTION=The SSMEDIAN function returns the median for grouped data as commonly determined in the social sciences. The data points given in @array are assumed to be the result of grouping data into intervals of length @interval
-
-* If @interval is not given, SSMEDIAN uses 1.
-* If @array is empty, SSMEDIAN returns #NUM! error.
-* If @interval <= 0, SSMEDIAN returns #NUM! error.
-* SSMEDIAN does not check whether the data points are at least @interval apart.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, A3 contain numbers 7, 8, 8.  Then
-SSMEDIAN(A1:A3, 1) equals 7.75.
-
+@SYNTAX=SSMEDIAN(array,interval)
+@DESCRIPTION=The data points given in @{array} are assumed to be the result of grouping data into intervals of length @{interval}
+@{array}: data set
+@{interval}: length of each grouping interval, defaults to 1
 @SEEALSO=MEDIAN
 
 @CATEGORY=Statistics
 @FUNCTION=STANDARDIZE
 @SYNTAX=STANDARDIZE(x,mean,stddev)
-@DESCRIPTION=STANDARDIZE function returns a normalized value. @x is the number to be normalized, @mean is the mean of the distribution, @stddev is the standard deviation of the distribution.
-
-* If @stddev is 0 STANDARDIZE returns #DIV/0! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-STANDARDIZE(3,2,4) equals 0.25.
-
+@DESCRIPTION=This function is Excel compatible.
+@{x}: value
+@{mean}: mean of the original distribution
+@{stddev}: standard deviation of the original distribution
 @SEEALSO=AVERAGE
 
 @CATEGORY=Statistics
 @FUNCTION=STDEV
-@SYNTAX=STDEV(b1, b2, ...)
-@DESCRIPTION=STDEV returns the sample standard deviation of the given sample.
-To obtain the population standard deviation of a whole population use STDEVP.
-STDEV is also known as the N-1-standard deviation.
-Under reasonable conditions, it is the maximum-likelihood estimator for the true population standard deviation.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-STDEV(A1:A5) equals 10.84619749.
-
+@SYNTAX=STDEV(area1,area2)
+@DESCRIPTION=STDEV is also known as the N-1-standard deviation. Under reasonable conditions, it is the maximum-likelihood estimator for the true population standard deviation.
+@{area1}: first cell area
+@{area2}: second cell area
+@SYNTAX=STDEV(area1,area2))
+@DESCRIPTION=To obtain the population standard deviation of a whole population use STDEVP.
+@{area1}: first cell area
+@{area2}: second cell area
+@SYNTAX=STDEV(area1,area2)))
+@DESCRIPTION=This function is Excel compatible.
+@{area1}: first cell area
+@{area2}: second cell area
 @SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR
 
 @CATEGORY=Statistics
 @FUNCTION=STDEVA
-@SYNTAX=STDEVA(number1,number2,...)
-@DESCRIPTION=STDEVA returns the sample standard deviation of the given sample.
-To obtain the population standard deviation of a whole population use STDEVPA.
-STDEVA is also known as the N-1-standard deviation.
-Under reasonable conditions, it is the maximum-likelihood estimator for the true population standard deviation.
-Numbers, text and logical values are included in the calculation too.  If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then
-STDEVA(A1:A5) equals 15.119953704.
-
+@SYNTAX=STDEVA(area1,area2)
+@DESCRIPTION=STDEVA is also known as the N-1-standard deviation. Under reasonable conditions, it is the maximum-likelihood estimator for the true population standard deviation.
+@{area1}: first cell area
+@{area2}: second cell area
+@SYNTAX=STDEVA(area1,area2))
+@DESCRIPTION=To obtain the population standard deviation of a whole population use STDEVPA.
+@{area1}: first cell area
+@{area2}: second cell area
+@SYNTAX=STDEVA(area1,area2)))
+@DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
+@{area1}: first cell area
+@{area2}: second cell area
+@SYNTAX=STDEVA(area1,area2))))
+@DESCRIPTION=This function is Excel compatible.
+@{area1}: first cell area
+@{area2}: second cell area
 @SEEALSO=STDEV,STDEVPA
 
 @CATEGORY=Statistics
 @FUNCTION=STDEVP
-@SYNTAX=STDEVP(b1, b2, ...)
-@DESCRIPTION=STDEVP returns the population standard deviation of the given population. 
-This is also known as the N-standard deviation
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-STDEVP(A1:A5) equals 9.701133954.
-
+@SYNTAX=STDEVP(area1,area2)
+@DESCRIPTION=This is also known as the N-standard deviation
+@{area1}: first cell area
+@{area2}: second cell area
+@SYNTAX=STDEVP(area1,area2))
+@DESCRIPTION=This function is Excel compatible.
+@{area1}: first cell area
+@{area2}: second cell area
 @SEEALSO=STDEV,STDEVA,STDEVPA
 
 @CATEGORY=Statistics
 @FUNCTION=STDEVPA
-@SYNTAX=STDEVPA(number1,number2,...)
-@DESCRIPTION=STDEVPA returns the population standard deviation of an entire population.
-This is also known as the N-standard deviation
-Numbers, text and logical values are included in the calculation too.  If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then
-STDEVPA(A1:A5) equals 13.523697719.
-
+@SYNTAX=STDEVPA(area1,area2)
+@DESCRIPTION=This is also known as the N-standard deviation
+@{area1}: first cell area
+@{area2}: second cell area
+@SYNTAX=STDEVPA(area1,area2))
+@DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
+@{area1}: first cell area
+@{area2}: second cell area
+@SYNTAX=STDEVPA(area1,area2)))
+@DESCRIPTION=This function is Excel compatible.
+@{area1}: first cell area
+@{area2}: second cell area
 @SEEALSO=STDEVA,STDEVP
 
 @CATEGORY=Statistics
 @FUNCTION=STEYX
 @SYNTAX=STEYX(known_y's,known_x's)
-@DESCRIPTION=STEYX function returns the standard error of the predicted y-value for each x in the regression.
-
-* If @known_y's and @known_x's are empty or have a different number of arguments then STEYX returns #N/A error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
-STEYX(A1:A5,B1:B5) equals 1.101509979.
-
+@DESCRIPTION=This function is Excel compatible.
+@{known_y's}: known y-values
+@{known_x's}: known x-values
 @SEEALSO=PEARSON,RSQ,SLOPE
 
 @CATEGORY=Statistics
 @FUNCTION=SUBTOTAL
-@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)
-@DESCRIPTION=SUBTOTAL function returns a subtotal of given list of arguments. @function_nbr is the number that specifies which function to use in calculating the subtotal.
-
-The following functions are available:
-
+@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2)
+@DESCRIPTION=This function is Excel compatible.
+@{function_nbr}: determines which function to use according to the following table:
 	1   AVERAGE
 	2   COUNT
 	3   COUNTA
@@ -7066,200 +6702,141 @@ The following functions are available:
 	9   SUM
 	10   VAR
 	11   VARP
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, and 39.  Then
-SUBTOTAL(1,A1:A5) equals 30.
-SUBTOTAL(6,A1:A5) equals 22378356.
-SUBTOTAL(7,A1:A5) equals 6.164414003.
-SUBTOTAL(9,A1:A5) equals 150.
-SUBTOTAL(11,A1:A5) equals 30.4.
-
+@{ref1}: first value
+@{ref2}: second value
 @SEEALSO=COUNT,SUM
 
 @CATEGORY=Statistics
 @FUNCTION=TDIST
 @SYNTAX=TDIST(x,dof,tails)
-@DESCRIPTION=TDIST function returns the Student's t-distribution. @dof is the degree of freedom and @tails is 1 or 2 depending on whether you want one-tailed or two-tailed distribution.
-@tails = 1 returns the size of the right tail.
-
-* If @dof < 1 TDIST returns #NUM! error.
-* If @tails is neither 1 or 2 TDIST returns #NUM! error.
-* This function is Excel compatible for non-negative @x.
-
-Warning: the parameterization of this function is different from what is used for, e.g., NORMSDIST.  This is a common source of mistakes, but necessary for compatibility.
-
-@EXAMPLES=
-TDIST(2,5,1) equals 0.050969739.
-TDIST(-2,5,1) equals 0.949030261.
-TDIST(0,5,2) equals 1.
-
+@DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
+@{x}: 
+@{dof}: number of degrees of freedom
+@{tails}: 1 or 2. If this is 2, @{x} is replaced by the absolute value and the returned value is multiplied by 2
+@SYNTAX=TDIST(x,dof,tails))
+@DESCRIPTION=This function is Excel compatible for non-negative @{x}.
+@{x}: 
+@{dof}: number of degrees of freedom
+@{tails}: 1 or 2. If this is 2, @{x} is replaced by the absolute value and the returned value is multiplied by 2
 @SEEALSO=TINV,TTEST
 
 @CATEGORY=Statistics
 @FUNCTION=TINV
 @SYNTAX=TINV(p,dof)
-@DESCRIPTION=TINV function returns the inverse of the two-tailed Student's t-distribution.
-
-* If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error.
-* This function is Excel compatible.
-
-Warning: the parameterization of this function is different from what is used for, e.g., NORMSINV.  This is a common source of mistakes, but necessary for compatibility.
-
-@EXAMPLES=
-TINV(0.4,32) equals 0.852998454.
-
+@DESCRIPTION=The survival function is 1 minus the cumulative distribution function.
+@{p}: probability
+@{dof}: number of degrees of freedom
+@SYNTAX=TINV(p,dof))
+@DESCRIPTION=This function is Excel compatible.
+@{p}: probability
+@{dof}: number of degrees of freedom
 @SEEALSO=TDIST,TTEST
 
 @CATEGORY=Statistics
 @FUNCTION=TREND
-@SYNTAX=TREND(known_y's[,known_x's[,new_x's[,const]]])
-@DESCRIPTION=TREND function estimates future values of a given data set using the ``least squares'' line that best fit to your data. @known_y's is the y-values where y=mx+b and @known_x's contains the corresponding x-values.  @new_x's contains the x-values for which you want to estimate the y-values. If @const is FALSE, the line will be forced to go through the origin, i.e., b will be zero.
-
-* If @known_x's is omitted, an array {1, 2, 3, ...} is used.
-* If @new_x's is omitted, it is assumed to be the same as @known_x's.
-* If @const is omitted, it is assumed to be TRUE.
-* If @known_y's and @known_x's have unequal number of data points, TREND returns #NUM! error.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
-TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}.
-
 @SEEALSO=LINEST
 
 @CATEGORY=Statistics
 @FUNCTION=TRIMMEAN
 @SYNTAX=TRIMMEAN(ref,fraction)
-@DESCRIPTION=TRIMMEAN returns the mean of the interior of a data set. @ref is the list of numbers whose mean you want to calculate and @fraction is the fraction of the data set excluded from the mean. For example, if @fraction=0.2 and the data set contains 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2): the 4 largest and the 4 smallest.  To avoid a bias, the number of points to be excluded is always rounded down to the nearest even number.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-TRIMMEAN(A1:A5,0.2) equals 23.2.
-
+@DESCRIPTION=If @{fraction}=0.2 and the data set contains 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2): the 4 largest and the 4 smallest. To avoid a bias, the number of points to be excluded is always rounded down to the nearest even number.
+@{ref}: list of numbers whose mean you want to calculate
+@{fraction}: fraction of the data set excluded from the mean
+@SYNTAX=TRIMMEAN(ref,fraction))
+@DESCRIPTION=This function is Excel compatible.
+@{ref}: list of numbers whose mean you want to calculate
+@{fraction}: fraction of the data set excluded from the mean
 @SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE
 
 @CATEGORY=Statistics
 @FUNCTION=TTEST
 @SYNTAX=TTEST(array1,array2,tails,type)
-@DESCRIPTION=TTEST function returns the probability of a Student's t-Test. 
-@array1 is the first data set and @array2 is the second data set.  If @tails is one, TTEST uses the one-tailed distribution and if @tails is two, TTEST uses the two-tailed distribution.  @type determines the kind of the test:
-
-	1  Paired test
-	2  Two-sample equal variance
-	3  Two-sample unequal variance
-
-* If the data sets contain a different number of data points and the test is paired (@type one), TTEST returns the #N/A error.
-* @tails and @type are truncated to integers.
-* If @tails is not one or two, TTEST returns #NUM! error.
-* If @type is any other than one, two, or three, TTEST returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
-TTEST(A1:A5,B1:B5,1,1) equals 0.003127619.
-TTEST(A1:A5,B1:B5,2,1) equals 0.006255239.
-TTEST(A1:A5,B1:B5,1,2) equals 0.111804322.
-TTEST(A1:A5,B1:B5,1,3) equals 0.113821797.
-
+@DESCRIPTION=This function is Excel compatible.
+@{array1}: sample from the first population
+@{array2}: sample from the second population
+@{tails}: number of tails to consider
+@{type}: Type of test to perform. 1 indicates a test for paired variables, 2 a test of unpaired variables with equal variances, and 3 a test of unpaired variables with unequal variances
 @SEEALSO=FDIST,FINV
 
 @CATEGORY=Statistics
 @FUNCTION=VAR
-@SYNTAX=VAR(b1, b2, ...)
-@DESCRIPTION=VAR calculates sample variance of the given sample. To get the true variance of a complete population use VARP.
-VAR is also known as the N-1-variance. Under reasonable conditions, it is the maximum-likelihood estimator for the true variance.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-VAR(A1:A5) equals 117.64.
-
+@SYNTAX=VAR(area1,area2)
+@DESCRIPTION=VAR is also known as the N-1-variance. Under reasonable conditions, it is the maximum-likelihood estimator for the true variance.
+@{area1}: first cell area
+@{area2}: second cell area
+@SYNTAX=VAR(area1,area2))
+@DESCRIPTION=This function is Excel compatible.
+@{area1}: first cell area
+@{area2}: second cell area
 @SEEALSO=VARP,STDEV
 
 @CATEGORY=Statistics
 @FUNCTION=VARA
-@SYNTAX=VARA(number1,number2,...)
-@DESCRIPTION=VARA calculates sample variance of the given sample.
-To get the true variance of a complete population use VARPA.
-VARA is also known as the N-1-variance.
-Under reasonable conditions, it is the maximum-likelihood estimator for the true variance.
-Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then
-VARA(A1:A5) equals 228.613.
-
+@SYNTAX=VARA(area1,area2)
+@DESCRIPTION=VARA is also known as the N-1-variance. Under reasonable conditions, it is the maximum-likelihood estimator for the true variance
+@{area1}: first cell area
+@{area2}: second cell area
+@SYNTAX=VARA(area1,area2))
+@DESCRIPTION=To get the true variance of a complete population use VARPA.
+@{area1}: first cell area
+@{area2}: second cell area
+@SYNTAX=VARA(area1,area2)))
+@DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
+@{area1}: first cell area
+@{area2}: second cell area
+@SYNTAX=VARA(area1,area2))))
+@DESCRIPTION=This function is Excel compatible.
+@{area1}: first cell area
+@{area2}: second cell area
 @SEEALSO=VAR,VARPA
 
 @CATEGORY=Statistics
 @FUNCTION=VARP
-@SYNTAX=VARP(b1, b2, ...)
-@DESCRIPTION=VARP calculates the variance of an entire population.
-VARP is also known as the N-variance.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-VARP(A1:A5) equals 94.112.
-
+@SYNTAX=VARP(area1,area2)
+@DESCRIPTION=VARP is also known as the N-variance.
+@{area1}: first cell area
+@{area2}: second cell area
 @SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR
 
 @CATEGORY=Statistics
 @FUNCTION=VARPA
-@SYNTAX=VARPA(number1,number2,...)
-@DESCRIPTION=VARPA calculates the variance of an entire population.
-VARPA is also known as the N-variance.
-Numbers, text and logical values are included in the calculation too.  If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then
-VARPA(A1:A5) equals 182.8904.
-
+@SYNTAX=VARPA(area1,area2)
+@DESCRIPTION=VARPA is also known as the N-variance.
+@{area1}: first cell area
+@{area2}: second cell area
+@SYNTAX=VARPA(area1,area2))
+@DESCRIPTION=Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it is counted as one (1). Note that empty cells are not counted.
+@{area1}: first cell area
+@{area2}: second cell area
+@SYNTAX=VARPA(area1,area2)))
+@DESCRIPTION=This function is Excel compatible.
+@{area1}: first cell area
+@{area2}: second cell area
 @SEEALSO=VARA,VARP
 
 @CATEGORY=Statistics
 @FUNCTION=WEIBULL
 @SYNTAX=WEIBULL(x,alpha,beta,cumulative)
-@DESCRIPTION=WEIBULL function returns the Weibull distribution. If the @cumulative boolean is true it will return:
-
-	1 - exp (-(@x/@beta)^@alpha),
-
-otherwise it will return
-
-	(@alpha/@beta^@alpha) * @x^(@alpha-1) * exp(-(@x/@beta^@alpha)).
-
-* If @x < 0 WEIBULL returns #NUM! error.
-* If @alpha <= 0 or @beta <= 0 WEIBULL returns #NUM! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-WEIBULL(3,2,4,0) equals 0.213668559.
-
+@DESCRIPTION=If the @{cumulative} boolean is true it will return: 1 - exp (-(@{x}/@{beta})^@{alpha}),otherwise it will return (@{alpha}/@{beta}^@{alpha}) * @{x}^(@{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha})).
+@{x}: 
+@{alpha}: scale parameter
+@{beta}: scale parameter
+@{cumulative}: whether to evaluate the density function or the cumulative distribution function
+@SYNTAX=WEIBULL(x,alpha,beta,cumulative))
+@DESCRIPTION=This function is Excel compatible.
+@{x}: 
+@{alpha}: scale parameter
+@{beta}: scale parameter
+@{cumulative}: whether to evaluate the density function or the cumulative distribution function
 @SEEALSO=POISSON
 
 @CATEGORY=Statistics
 @FUNCTION=ZTEST
-@SYNTAX=ZTEST(ref,x[,stddev])
-@DESCRIPTION=ZTEST returns the two-tailed probability of a z-test.
-
-@ref is the data set and @x is the value to be tested.
-@stddev is optionally an assumed standard deviation.
-
-* If @ref contains less than two data items ZTEST returns #DIV/0! error.
-* This function is Excel compatible.
-
-@EXAMPLES=
-Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
-ZTEST(A1:A5,20) equals 0.254717826.
-
+@SYNTAX=ZTEST(ref,x,stddev)
+@DESCRIPTION=This function is Excel compatible.
+@{ref}: data set
+@{x}: mean as given in the null hypothesis
+@{stddev}: population stadard deviation, defaults to the sample standard deviation
 @SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE
 
 @CATEGORY=String
@@ -7588,65 +7165,4 @@ UPPER("cancelled") equals "CANCELLED".
 VALUE("$1,000") equals 1000.
 
 @SEEALSO=DOLLAR, FIXED, TEXT
-
-@CATEGORY=Time Series Analysis
-@FUNCTION=INTERPOLATION
-@SYNTAX=INTERPOLATION(abscissas,ordinates,targets[,interpolation])
-@DESCRIPTION= 
-INTERPOLATION returns interpolated values corresponding
-to the given abscissa targets as a one column matrix.
-
-@abscissas are the absicssas of the data to interpolate.
-@ordinates are the ordinates of the data to interpolate.
-* Strings and empty cells in @abscissas and @ordinates are simply ignored.
-@targets are the abscissas of the interpolated data. If several data
-are provided, they must be in the same column, in consecutive cells
-@interpolation is the method to be used for the interpolation;
-possible values are:
-- 0: linear;
-- 1: linear with averaging;
-- 2: staircase;
-- 3: staircase with averaging;
-- 4: natural cubic spline;
-- 5: natural cubic spline with averaging.
-
-If an averaging method is used, the number of returned values
-is one less than the number of targets since the evaluation is made by
-averaging the interpolation over the interval between two consecutive data;
-in that case, the targets values must be given in increasing order.
-@EXAMPLES=
-
-@SEEALSO=PERIODOGRAM
-
-@CATEGORY=Time Series Analysis
-@FUNCTION=PERIODOGRAM
-@SYNTAX=PERIODOGRAM(ordinates,[filter,[abscissas,[interpolation,[number]]]])
-@DESCRIPTION= 
-periodogram returns the periodogram of the data
-as a one column matrix.
-
-@ordinates are the ordinates of the data to interpolate.
-@filter gives the window function to  be used. Possible values are:
-- 0: no filter (rectangular window);
-- 1: Bartlett (triangular window);
-- 2: Hahn (cosine window);
-- 3: Welch (parabolic window);
-@abscissas are the absicssas of the data to interpolate. If no
-abscissa is given, it is supposed that the data absicssas are regularly
-spaced. Otherwise, an interpolation method will be used to evaluate
-regularly spaced data.
-* Strings and empty cells in @abscissas and @ordinates are simply ignored.
-@interpolation is the method to be used for the interpolation;
-possible values are:
-- 0: linear;
-- 1: linear with averaging;
-- 2: staircase;
-- 3: staircase with averaging;
-- 4: natural cubic spline;
-- 5: natural cubic spline with averaging.
-@number is the number of interpolated data to be used. If not given,
-a default number is automatically evaluated.
-@EXAMPLES=
-
-@SEEALSO=INTERPOLATION
 
