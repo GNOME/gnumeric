@@ -1,3 +1,8 @@
+2009-02-22  Morten Welinder  <terra@gnome.org>
+
+	* t81*.pl: Skip if checker is not available, such as in distcheck
+	tree.
+
 2009-01-06  Morten Welinder  <terra@gnome.org>
 
 	* t8003-valgrind-pdf.pl: Skip if Cairo is 1.8.0.
