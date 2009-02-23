@@ -1,4 +1,4 @@
-/etc/gconf/schemas/*.schemas
+#/etc/gconf/schemas/*.schemas
 /usr/bin/gnumeric*
 /usr/bin/ssconvert*
 /usr/bin/ssgrep*

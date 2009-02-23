@@ -1,3 +1,28 @@
+gnumeric (1.9.4-1) unstable; urgency=low
+
+  * New upstream development release. Uploading to unstable now that lenny
+    has been released. Upstream changes include:
+    * Fix for CVE-2009-0318, an untrusted search path vulnerability which
+      affected the python-loader plugin which is part of the
+      gnumeric-plugins-extra package. (Closes: #569648)
+    * ssconvert(1) now documents the options for --export-options and has a
+      simpler example to start with. (Closes: #406920, 511958)
+    * gnumeric(1) now mentions ssconvert in SEE ALSO. (Closes: 511957)
+    * Fix problem with functions docs in locales without encoding information.
+      (Closes: #514127)
+  * [debian/control] Updated glib, goffice and pango build dependencies,
+    dropped gconf build dependency per configure.in . Dropped bonobo,
+    libgnomeui, libgnome, libgsf-gnome build dependencies as we follow the
+    new upstream default of a non-GNOME build. (Closes: #399323)
+  * [debian/gnumeric.install] Removed gconf schemas which are no longer
+    built.
+  * [debian/gnumeric-common.install] Removed pattern for idl files as they
+    are no longer built.
+  * [debian/gnumeric.mime] Removed entry for obsolete, unofficial type
+    text/x-comma-separated-values.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 23 Feb 2009 12:44:03 +0100
+
 gnumeric (1.9.3-1) experimental; urgency=low
 
   * New upstream development release. Upstream changes include:
@@ -8,7 +33,7 @@ gnumeric (1.9.3-1) experimental; urgency=low
     well.
   * [debian/control]
     * Updated goffice build dependency per configure.in .
-    * Change the Recommends: evince to evince | evince-gtk. (Closes: 501897)
+    * Change the Recommends: evince to evince | evince-gtk. (Closes: #501897)
 
  -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 19 Oct 2008 17:45:44 +0200
 
@@ -64,6 +89,51 @@ gnumeric (1.9.0-1) experimental; urgency=low
   * [debian/gnumeric.install] Include ssgrep.
 
  -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 05 May 2008 07:17:09 +0200
+
+gnumeric (1.8.4-3) unstable; urgency=high
+
+  * [plugins/python-loader/gnm-py-interpreter.c,
+    plugins/python-loader/ChangeLog] Pull in fix from SVN gnumeric-1-8
+    branch to deal with CVE-2009-0318, an untrusted search path vulnerability
+    which affected the python-loader plugin which is part of the
+    gnumeric-plugins-extra package. (Closes: #513418)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 29 Jan 2009 15:50:12 +0100
+
+gnumeric (1.8.4-2) unstable; urgency=high
+
+  * [po/Makefile.in.in] Added a "dummy" definition text for POTFILES to
+    prevent the definition of CATALOGS from being eaten when
+    build/po/Makefile is generated; this brings the translations back.
+    (Closes: #513199)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 27 Jan 2009 19:11:11 +0100
+
+gnumeric (1.8.4-1) unstable; urgency=low
+
+  * New upstream stable release.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 18 Jan 2009 20:30:30 +0100
+
+gnumeric (1.8.3-6) unstable; urgency=medium
+
+  * [NEWS, plugins/excel/ChangeLog, plugins/excel/ms-chart.c]: Pull in fixes
+    from SVN gnumeric-1-8 branch for issues affecting Excel charts
+    import/export (bugzilla.gnome.org #544935, #557027). (Closes: #509281)
+  * [ChangeLog, src/xml-sax-read.c] Pull in fix from SVN gnumeric-1-8 branch
+    to not crash on old gnumeric files which have gnm:StyleRegion tags
+    without attributes in them. (Closes: #510929)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 11 Jan 2009 16:19:33 +0100
+
+gnumeric (1.8.3-5+lenny1) testing-security; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * Fix insecure search path vulnerability due to how python handles sys.path
+    by sanitizing sys.path after calling PySys_SetArgv
+    (CVE-2009-0318; Closes: #513418).
+
+ -- Nico Golde <nion@debian.org>  Fri, 06 Feb 2009 19:24:06 +0100
 
 gnumeric (1.8.3-5) unstable; urgency=medium
 
@@ -387,6 +457,16 @@ gnumeric (1.7.0-1) experimental; urgency=low
   * [debian/gnumeric.mime] Updated.
 
  -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 10 May 2006 21:29:08 +0200
+
+gnumeric (1.6.3-5.1+etch2) stable-proposed-updates; urgency=medium
+
+  * [plugins/python-loader/gnm-py-interpreter.c,
+    plugins/python-loader/ChangeLog] Pull in fix from SVN gnumeric-1-6
+    branch to deal with CVE-2009-0318, an untrusted search path vulnerability
+    which affected the python-loader plugin which is part of the
+    gnumeric-plugins-extra package. (Closes: #513418)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu, 29 Jan 2009 21:20:17 +0100
 
 gnumeric (1.6.3-5.1+etch1) stable-security; urgency=high
 

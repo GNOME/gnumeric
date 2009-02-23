@@ -1,6 +1,5 @@
 application/x-gnumeric; gnumeric '%s'; edit=gnumeric '%s'; compose=gnumeric '%s'; description="Gnumeric spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.gnumeric
 text/csv; gnumeric '%s'; edit=gnumeric '%s'; description="Comma Separated Values"; test=test -n "$DISPLAY"; nametemplate=%s.csv
-text/x-comma-separated-values; gnumeric '%s'; edit=gnumeric '%s'; description="Comma Separated Values"; test=test -n "$DISPLAY"; nametemplate=%s.csv
 application/vnd.ms-excel; gnumeric '%s'; edit=gnumeric '%s'; description="MS Excel spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.xls
 application/x-excel; gnumeric '%s'; edit=gnumeric '%s'; description="MS Excel spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.xls
 application/x-ms-excel; gnumeric '%s'; edit=gnumeric '%s'; description="MS Excel spreadsheet"; test=test -n "$DISPLAY"; nametemplate=%s.xls

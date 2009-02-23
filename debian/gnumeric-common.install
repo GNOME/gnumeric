@@ -5,7 +5,7 @@
 /usr/share/gnumeric/*/glade/*.glade
 # /usr/share/gnumeric/*/glade/*.png
 # /usr/share/gnumeric/*/gnome*/ui/*.xml
-/usr/share/gnumeric/*/idl/*.idl
+# /usr/share/gnumeric/*/idl/*.idl
 /usr/share/gnumeric/*/templates/*.gnumeric
 /usr/share/locale/*/LC_MESSAGES/*.mo
 # /usr/share/mime-info/gnumeric.*
