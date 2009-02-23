@@ -34,8 +34,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-23 17:09+0100\n"
-"PO-Revision-Date: 2009-02-23 17:58+0100\n"
+"POT-Creation-Date: 2009-02-23 18:00+0100\n"
+"PO-Revision-Date: 2009-02-23 18:02+0100\n"
 "Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2575,11 +2575,11 @@ msgstr "Liste aktiver Plugins."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:35
 msgid "List of Extra Autoformat Directories."
-msgstr "Liste zusätzlicher Auto-Formatierung-Verzeichnisse."
+msgstr "Liste zusätzlicher Auto-Formatierung-Ordner."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:36
 msgid "List of Extra Plugin Directories."
-msgstr "Liste zusätzlicher Plugin-Verzeichnisse."
+msgstr "Liste zusätzlicher Plugin-Ordner."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:37
 msgid "List of First Letter Exceptions"
@@ -2727,7 +2727,7 @@ msgstr ""
 #: ../schemas/gnumeric-dialogs.schemas.in.h:63
 msgid "This directory contains the pre-installed autoformat templates."
 msgstr ""
-"Dieses Verzeichnis enthält die vorinstallierten Vorlagen für die Auto-"
+"Dieser Ordner enthält die vorinstallierten Vorlagen für die Auto-"
 "Formatierung."
 
 #: ../schemas/gnumeric-dialogs.schemas.in.h:64
@@ -6576,7 +6576,7 @@ msgstr "Lüc_ken überspringen"
 
 #: ../src/dialogs/dialog-plugin-manager.c:276
 msgid "Select Directory"
-msgstr "Verzeichnis wählen"
+msgstr "Ordner wählen"
 
 #: ../src/dialogs/dialog-plugin-manager.c:397
 msgid "Plugin dependencies"
@@ -6648,7 +6648,7 @@ msgstr "Kennung"
 
 #: ../src/dialogs/dialog-plugin-manager.c:744
 msgid "Directory"
-msgstr "Verzeichnis"
+msgstr "Ordner"
 
 #: ../src/dialogs/dialog-preferences.c:507
 msgid "Length of Undo Descriptors"
@@ -9051,7 +9051,7 @@ msgstr "_Neue Plugins sofort aktivieren"
 
 #: ../src/dialogs/plugin-manager.glade.h:2
 msgid "Directories"
-msgstr "Verzeichnisse"
+msgstr "Ordner"
 
 #: ../src/dialogs/plugin-manager.glade.h:3
 msgid "Do _not activate this plugin next time I start Gnumeric"
@@ -9071,7 +9071,7 @@ msgstr "Plugin-Verwaltung"
 
 #: ../src/dialogs/plugin-manager.glade.h:7
 msgid "Plugin directory:"
-msgstr "Plugin-Verzeichnis:"
+msgstr "Plugin-Ordner:"
 
 #: ../src/dialogs/plugin-manager.glade.h:8
 msgid ""
