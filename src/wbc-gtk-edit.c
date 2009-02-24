@@ -812,7 +812,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 			 */
 			set_text = TRUE;
 		} else if (!gnm_cell_has_expr (cell) && VALUE_IS_FLOAT (cell->value)) {
-			GOFormat *fmt = gnm_cell_get_format (cell);
+			GOFormat const *fmt = gnm_cell_get_format (cell);
 			gnm_float f = value_get_as_float (cell->value);
 
 			switch (go_format_get_family (fmt)) {
