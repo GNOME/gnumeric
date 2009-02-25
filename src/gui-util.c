@@ -464,7 +464,8 @@ gnumeric_position_tooltip (GtkWidget *tip, int horizontal)
 	int  x, y;
 
 	gtk_widget_size_request (tip, &req);
-	gdk_window_get_pointer (NULL, &x, &y, NULL);
+	gdk_window_get_pointer (gdk_screen_get_root_window (gtk_widget_get_screen (tip)),
+				&x, &y, NULL);
 
 	if (horizontal){
 		x -= req.width / 2;
