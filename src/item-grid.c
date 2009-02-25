@@ -966,7 +966,8 @@ cb_cursor_come_to_rest (ItemGrid *ig)
 		g_return_val_if_fail (link == ig->cur_link, FALSE);
 
 		if (ig->tip == NULL && strlen (tiptext) > 0) {
-			ig->tip = gnumeric_create_tooltip ();
+			GdkScreen *screen = gtk_window_get_screen (wbcg_toplevel (scg_wbcg (ig->scg)));
+			ig->tip = gnumeric_create_tooltip (screen);
 			gtk_label_set_text (GTK_LABEL (ig->tip), tiptext);
 			gnumeric_position_tooltip (ig->tip, TRUE);
 			gtk_widget_show_all (gtk_widget_get_toplevel (ig->tip));

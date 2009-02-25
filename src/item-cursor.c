@@ -1061,7 +1061,8 @@ static void
 item_cursor_tip_setlabel (ItemCursor *ic, char const *text)
 {
 	if (ic->tip == NULL) {
-		ic->tip = gnumeric_create_tooltip ();
+		GdkScreen *screen = gtk_window_get_screen (wbcg_toplevel (scg_wbcg (ic->scg)));
+		ic->tip = gnumeric_create_tooltip (screen);
 		gnumeric_position_tooltip (ic->tip, TRUE);
 		gtk_widget_show_all (gtk_widget_get_toplevel (ic->tip));
 	}

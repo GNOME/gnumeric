@@ -39,7 +39,7 @@ void gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event);
  * Pseudo-tool-tip support code.
  */
 void        gnumeric_position_tooltip (GtkWidget *tip, int horizontal);
-GtkWidget  *gnumeric_create_tooltip (void);
+GtkWidget  *gnumeric_create_tooltip (GdkScreen *screen);
 
 GladeXML   *gnm_glade_xml_new (GOCmdContext *cc, char const *gladefile,
 			       char const *root, char const *domain);

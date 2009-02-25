@@ -617,6 +617,8 @@ cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
 
 	/* Create the arrow. */
 	arrow = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_window_set_screen (GTK_WINDOW (arrow),
+			       gtk_widget_get_screen (widget));
 	gtk_widget_realize (arrow);
 	pixbuf = gtk_icon_theme_load_icon (
 		gtk_icon_theme_get_for_screen (gtk_widget_get_screen (widget)),

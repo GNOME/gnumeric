@@ -427,7 +427,7 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 
 
 GtkWidget *
-gnumeric_create_tooltip (void)
+gnumeric_create_tooltip (GdkScreen *screen)
 {
 	GtkWidget *tip, *label, *frame;
 	static GtkRcStyle*rc_style = NULL;
@@ -443,6 +443,7 @@ gnumeric_create_tooltip (void)
 	}
 
 	tip = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_window_set_screen (GTK_WINDOW (tip), screen);
 	if (rc_style != NULL)
 		gtk_widget_modify_style (tip, rc_style);
 

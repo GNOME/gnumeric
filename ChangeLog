@@ -1,3 +1,19 @@
+2009-02-24  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (gnumeric_create_tooltip): Add extra screen
+	argument so we can pop up on the right screen.  All callers
+	changed.
+
+	* src/gnm-pane.c (gnm_pane_display_obj_size_tip): Make this
+	multihead safe.
+
+	* src/wbc-gtk.c (cb_sheet_label_drag_begin): Pop up the arrow on
+	the right screen.
+
+	* src/sheet-control-gui.c (scg_comment_display): Pop up the cell
+	comment on the right screen and at coordinates relating to that
+	screen.
+
 2009-02-22  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post release version bump

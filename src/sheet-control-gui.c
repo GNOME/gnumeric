@@ -2474,9 +2474,13 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc)
 		GtkWidget *text, *frame;
 		GtkTextBuffer *buffer;
 		GtkTextIter iter;
+		GtkWindow *toplevel = wbcg_toplevel (scg_wbcg (scg));
+		GdkScreen *screen = gtk_window_get_screen (toplevel);
 
 		scg->comment.item = gtk_window_new (GTK_WINDOW_POPUP);
-		gdk_window_get_pointer (NULL, &x, &y, NULL);
+		gtk_window_set_screen (GTK_WINDOW (scg->comment.item), screen);
+		gdk_window_get_pointer (gdk_screen_get_root_window (screen),
+					&x, &y, NULL);
 		gtk_window_move (GTK_WINDOW (scg->comment.item), x+10, y+10);
 
 		text = gtk_text_view_new ();
