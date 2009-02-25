@@ -3354,13 +3354,12 @@ scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
 	if (source_scg == scg) {
 		GdkWindow *window;
 		GdkModifierType mask;
-		int xp, yp;
 		int xx = x, yy = y;
 		int origin_x = 0, origin_y = 0;
 		gboolean make_dup;
 
 		window = gtk_widget_get_parent_window (GTK_WIDGET (pane));
-		gdk_window_get_pointer (window, &xp, &yp, &mask);
+		gdk_window_get_pointer (window, NULL, NULL, &mask);
 		make_dup = ((mask & GDK_CONTROL_MASK) != 0);
 
 		/* When copying objects, we have to create a copy of current selection.

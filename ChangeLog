@@ -1,5 +1,8 @@
 2009-02-25  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-control-gui.c (scg_drag_receive_same_process): Make it
+	clear we are only getting the modifier mask.
+
 	* src/gui-util.c (gnumeric_position_tooltip): Make this multihead
 	safe too.
 
