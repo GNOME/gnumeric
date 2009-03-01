@@ -4,6 +4,7 @@ Morten:
 	* Fix multihead issues with cell comments.
 	* Fix multihead issue with sheet reordering.
 	* Fix multihead issues with tooltips.
+	* Fix PFACTOR to handle huge factors.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.4

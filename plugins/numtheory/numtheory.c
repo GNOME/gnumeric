@@ -51,7 +51,7 @@ intpow (int p, int v)
 }
 
 #define PTABLE_CHUNK 64
-#define ITHPRIME_LIMIT (1 << 20)
+#define ITHPRIME_LIMIT (1 << 30)
 static gint *prime_table = NULL;
 
 /* Calculate the i-th prime.  Returns TRUE on error.  */
@@ -424,7 +424,7 @@ gnumeric_isprime (GnmFuncEvalInfo *ei, GnmValue const * const *args)
  *    0 (n <= 1)
  *    smallest prime facter
  */
-static int
+static guint64
 prime_factor (guint64 n)
 {
 	int i = 1, p = 2;
@@ -437,6 +437,7 @@ prime_factor (guint64 n)
 			return -1;
 		if (n % p == 0)
 			return p;
+
 	}
 
 	return n;
@@ -461,7 +462,7 @@ static GnmValue *
 gnumeric_pfactor (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float n = gnm_floor (value_get_as_float (args[0]));
-	int p;
+	guint64 p;
 
 	if (n < 2)
 		return value_new_error_VALUE (ei->pos);
@@ -473,7 +474,7 @@ gnumeric_pfactor (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	if (p < 0)
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 
-	return value_new_int (p);
+	return value_new_float (p);
 }
 
 /* ------------------------------------------------------------------------- */
