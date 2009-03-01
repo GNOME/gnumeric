@@ -155,7 +155,7 @@ gnumeric_reqs="$libspreadsheet_reqs
 "
 libspreadsheet_gtk_reqs="
 	libglade-2.0		>= 2.3.6
-	gtk+-2.0		>= 2.10.0
+	gtk+-2.0		>= 2.12.0
 "
 
 gnumeric_gtk_reqs="$libspreadsheet_gtk_reqs"

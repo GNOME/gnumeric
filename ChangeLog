@@ -1,3 +1,8 @@
+2009-02-28  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (gtk+): Require 2.12 for
+	gtk_tree_view_convert_bin_window_to_widget_coords.
+
 2009-02-25  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-control-gui.c (scg_drag_receive_same_process): Make it
