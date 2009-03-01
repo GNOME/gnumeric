@@ -51,7 +51,7 @@ intpow (int p, int v)
 }
 
 #define PTABLE_CHUNK 64
-#define ITHPRIME_LIMIT (1 << 30)
+#define ITHPRIME_LIMIT (1 << 20)
 static gint *prime_table = NULL;
 
 /* Calculate the i-th prime.  Returns TRUE on error.  */
