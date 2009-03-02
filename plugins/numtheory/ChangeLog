@@ -1,5 +1,9 @@
 2009-03-01  Morten Welinder  <terra@gnome.org>
 
+	* numtheory.c: Increase range of allowed input.
+
+2009-03-01  Morten Welinder  <terra@gnome.org>
+
 	* numtheory.c (prime_factor): Change result type to guint64.
 	(gnumeric_pfactor): Keep factor in guint64, not int.
 

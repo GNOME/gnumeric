@@ -33,14 +33,26 @@ GNM_PLUGIN_MODULE_HEADER;
 
 #define OUT_OF_BOUNDS "#LIMIT!"
 
+/*
+ * The largest integer i, such at all integers {0,...,i} can be accurately
+ * represented in a gnm_float _and_ in a guint64.  (For regular "double",
+ * the latter part is irrelevant.)
+ */
 static const double bit_max = MIN (1 / GNM_EPSILON, (gnm_float)G_MAXUINT64);
 
 /* ------------------------------------------------------------------------- */
 
-static int
+static GnmValue *
+value_new_guint64 (guint64 n)
+{
+	return value_new_float (n);
+}
+
+
+static guint64
 intpow (int p, int v)
 {
-	int temp;
+	guint64 temp;
 
 	if (v == 0) return 1;
 	if (v == 1) return p;
@@ -50,13 +62,12 @@ intpow (int p, int v)
 	return (v % 2) ? temp * p : temp;
 }
 
-#define PTABLE_CHUNK 64
-#define ITHPRIME_LIMIT (1 << 20)
+#define ITHPRIME_LIMIT (1 << 22)
 static gint *prime_table = NULL;
 
 /* Calculate the i-th prime.  Returns TRUE on error.  */
 static gboolean
-ithprime (int i, int *res)
+ithprime (int i, guint64 *res)
 {
 	static int computed = 0;
 	static int allocated = 0;
@@ -68,8 +79,8 @@ ithprime (int i, int *res)
 		int candidate;
 
 		if (i > allocated) {
-			g_assert (PTABLE_CHUNK >= 2);
-			allocated = MAX (i, allocated + PTABLE_CHUNK);
+			allocated = MAX (i, 2 * allocated + 100);
+			allocated = MIN (allocated, ITHPRIME_LIMIT);
 			prime_table = g_renew (int, prime_table, allocated);
 			if (computed == 0) {
 				prime_table[computed++] = 2;
@@ -107,10 +118,11 @@ ithprime (int i, int *res)
  * Returns TRUE on error.
  */
 static gboolean
-walk_factorization (int n, void *data,
-		    void (*walk_term) (int p, int v, void *data))
+walk_factorization (guint64 n, void *data,
+		    void (*walk_term) (guint64 p, int v, void *data))
 {
-	int index = 1, p = 2, v;
+	int index = 1, v;
+	guint64 p = 2;
 
 	while (n > 1 && p * p <= n) {
 		if (ithprime (index, &p))
@@ -144,10 +156,10 @@ walk_factorization (int n, void *data,
 /*
  * Returns -1 (out of bounds), or #primes <= n
  */
-static int
-compute_nt_pi (int n)
+static gint64
+compute_nt_pi (guint64 n)
 {
-	int lower = 2, upper = 4, mid, p = 7;
+	guint64 lower = 2, upper = 4, mid, p = 7;
 
 	if (n <= 1)
 		return 0;
@@ -184,12 +196,13 @@ compute_nt_pi (int n)
 static int
 isprime (guint64 n)
 {
-	int i = 1, p = 2;
+	int i = 1;
+	guint64 p = 2;
 
 	if (n <= 1)
 		return 0;
 
-	for (i = 1; (guint64)p * (guint64)p <= n; i++) {
+	for (i = 1; p * p <= n; i++) {
 		if (ithprime (i, &p))
 			return -1;
 		if (n % p == 0)
@@ -216,24 +229,25 @@ static GnmFuncHelp const help_phi[] = {
 };
 
 static void
-walk_for_phi (int p, int v, void *data)
+walk_for_phi (guint64 p, int v, void *data_)
 {
-	*((int *)data) *= intpow (p, v - 1) * (p - 1);
+	guint64 *data = data_;
+	*data *= intpow (p, v - 1) * (p - 1);
 }
 
 static GnmValue *
 gnumeric_phi (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	int phi = 1;
+	guint64 phi = 1;
 	gnm_float n = gnm_floor (value_get_as_float (args[0]));
 
-	if (n < 1 || n > INT_MAX)
+	if (n < 1 || n > bit_max)
 		return value_new_error_NUM (ei->pos);
 
-	if (walk_factorization ((int)n, &phi, walk_for_phi))
+	if (walk_factorization ((guint64)n, &phi, walk_for_phi))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 
-	return value_new_int (phi);
+	return value_new_guint64 (phi);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -258,9 +272,10 @@ static GnmFuncHelp const help_nt_mu[] = {
 };
 
 static void
-walk_for_mu (int p, int v, void *data)
+walk_for_mu (guint64 p, int v, void *data_)
 {
-	*((int *)data) = (v >= 2) ?  0 : - *((int *)data) ;
+	int *data = data_;
+	*data = (v >= 2) ?  0 : -*data;
 }
 
 static GnmValue *
@@ -269,10 +284,10 @@ gnumeric_nt_mu (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	int mu = 1;
 	gnm_float n = gnm_floor (value_get_as_float (args[0]));
 
-	if (n < 1 || n > INT_MAX)
+	if (n < 1 || n > bit_max)
 		return value_new_error_NUM (ei->pos);
 
-	if (walk_factorization ((int)n, &mu, walk_for_mu))
+	if (walk_factorization ((guint64)n, &mu, walk_for_mu))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 
 	return value_new_int (mu);
@@ -295,9 +310,10 @@ static GnmFuncHelp const help_d[] = {
 };
 
 static void
-walk_for_d (int p, int v, void *data)
+walk_for_d (guint64 p, int v, void *data_)
 {
-	* (int *) data *= (v + 1);
+	int *data = data_;
+	*data *= (v + 1);
 }
 
 static GnmValue *
@@ -306,10 +322,10 @@ gnumeric_d (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	int d = 1;
 	gnm_float n = gnm_floor (value_get_as_float (args[0]));
 
-	if (n < 1 || n > INT_MAX)
+	if (n < 1 || n > bit_max)
 		return value_new_error_NUM (ei->pos);
 
-	if (walk_factorization ((int)n, &d, walk_for_d))
+	if (walk_factorization ((guint64)n, &d, walk_for_d))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 
 	return value_new_int (d);
@@ -331,25 +347,25 @@ static GnmFuncHelp const help_sigma[] = {
 };
 
 static void
-walk_for_sigma (int p, int v, void *data)
+walk_for_sigma (guint64 p, int v, void *data_)
 {
-	* (int *) data *=
-		  ( v == 1 ? p + 1 : (intpow (p, v + 1) - 1) / (p - 1) );
+	guint64 *data = data_;
+	*data *= ( v == 1 ? p + 1 : (intpow (p, v + 1) - 1) / (p - 1) );
 }
 
 static GnmValue *
 gnumeric_sigma (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	int sigma = 1;
+	guint64 sigma = 1;
 	gnm_float n = gnm_floor (value_get_as_float (args[0]));
 
-	if (n < 1 || n > INT_MAX)
+	if (n < 1 || n > bit_max)
 		return value_new_error_NUM (ei->pos);
 
-	if (walk_factorization ((int)n, &sigma, walk_for_sigma))
+	if (walk_factorization ((guint64)n, &sigma, walk_for_sigma))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 
-	return value_new_int (sigma);
+	return value_new_guint64 (sigma);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -370,7 +386,7 @@ static GnmFuncHelp const help_ithprime[] = {
 static GnmValue *
 gnumeric_ithprime (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	int p;
+	guint64 p;
 	gnm_float i = gnm_floor (value_get_as_float (args[0]));
 
 	if (i < 1 || i > INT_MAX)
@@ -379,7 +395,7 @@ gnumeric_ithprime (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	if (ithprime ((int)i, &p))
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 
-	return value_new_int (p);
+	return value_new_guint64 (p);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -420,21 +436,21 @@ gnumeric_isprime (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 /*
  * Returns
- *   -1 (out of bounds)
- *    0 (n <= 1)
+ *    0 (n <= 1) or (out of bounds)
  *    smallest prime facter
  */
 static guint64
 prime_factor (guint64 n)
 {
-	int i = 1, p = 2;
+	int i = 1;
+	guint64 p = 2;
 
 	if (n <= 1)
 		return 0;
 
-	for (i = 1; (guint64)p * (guint64)p <= n; i++) {
+	for (i = 1; p * p <= n; i++) {
 		if (ithprime (i, &p))
-			return -1;
+			return 0;
 		if (n % p == 0)
 			return p;
 
@@ -462,16 +478,16 @@ static GnmValue *
 gnumeric_pfactor (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float n = gnm_floor (value_get_as_float (args[0]));
-	guint64 p;
+	gint64 p;
 
 	if (n < 2)
 		return value_new_error_VALUE (ei->pos);
 	if (n > bit_max)
-		p = -1;
+		p = 0;
 	else
 		p = prime_factor ((guint64)n);
 
-	if (p < 0)
+	if (p == 0)
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
 
 	return value_new_float (p);
@@ -497,14 +513,14 @@ static GnmValue *
 gnumeric_nt_pi (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	gnm_float n = gnm_floor (value_get_as_float (args[0]));
-	int pi;
+	gint64 pi;
 
 	if (n < 0)
 		pi = 0;
-	else if (n > INT_MAX)
+	else if (n > bit_max)
 		pi = -1;
 	else
-		pi = compute_nt_pi (n);
+		pi = compute_nt_pi ((guint64)n);
 
 	if (pi == -1)
 		return value_new_error (ei->pos, OUT_OF_BOUNDS);
