@@ -1,5 +1,8 @@
 Gnumeric 1.9.5
 
+Andreas
+	* Fix style critical on latex export [#574125]
+
 Morten:
 	* Fix multihead issues with cell comments.
 	* Fix multihead issue with sheet reordering.

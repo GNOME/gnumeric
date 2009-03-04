@@ -2295,15 +2295,8 @@
   <sect3 id="kaplan-meier-tool-example">
     <title>A Kaplan-Meier Example</title>
     
-    <example id="usingkaplan-meiertool">
-      <title>Using the Kaplan-Meier Tool</title>
-      <para>
-        For example, suppose you want to calculate Kaplan-Meier Estimates 
-	for data as given in <xref linkend="histogram-example-1" />.
-      </para>
-
-<!--      <figure id="kaplan-meier-tool-example-1">
-	<title>Kaplan-Meier Tool Example Input</title> -->
+      <figure id="kaplan-meier-tool-example-1">
+	<title>Kaplan-Meier Tool Example Input</title>
 	<screenshot>
 	    <mediaobject>
 		<imageobject>
@@ -2316,10 +2309,10 @@
 		</textobject>
 	       </mediaobject>
 	</screenshot>
-<!--      </figure> -->
+      </figure>
  
-<!--      <figure id="kaplan-meier-tool-tool-example-2">
-	 <title>Kaplan-Meier Tool Example Output</title> -->
+      <figure id="kaplan-meier-tool-tool-example-2">
+	 <title>Kaplan-Meier Tool Example Output</title>
 	 <screenshot>
 	     <mediaobject>
 		 <imageobject>
@@ -2332,8 +2325,15 @@
 		 </textobject>
 		</mediaobject>
 	 </screenshot>
-<!--       </figure> -->
-       
+       </figure>
+
+    <example id="usingkaplan-meiertool">
+      <title>Using the Kaplan-Meier Tool</title>
+      <para>
+        For example, suppose you want to calculate Kaplan-Meier Estimates 
+	for data as given in <xref linkend="kaplan-meier-tool-example-1" />.
+      </para>
+
     </example>
     
   </sect3>

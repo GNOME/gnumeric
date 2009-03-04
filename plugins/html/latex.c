@@ -1351,14 +1351,18 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 	/* We need to check for horizontal borders at the bottom  of  the last  row */
 	clines = g_new0 (GnmStyleBorderType, total_range.end.col - total_range.start.col + 1);
 	needs_hline = FALSE;
-	length = num_cols;
-	this_clines = clines;
-	for (col = total_range.start.col; col <= total_range.end.col; col++) {
-		needs_hline = latex2e_find_hhlines (this_clines, length,  col, row,
-						    current_sheet, MSTYLE_BORDER_TOP)
-			|| needs_hline;
-		this_clines ++;
-		length--;
+	/* In case that we are at the very bottom of the sheet we can not */
+	/* check on the next line! */
+	if (row > colrow_max (FALSE, current_sheet)) {
+		length = num_cols;
+		this_clines = clines;
+		for (col = total_range.start.col; col <= total_range.end.col; col++) {
+			needs_hline = latex2e_find_hhlines (this_clines, length,  col, row,
+							    current_sheet, MSTYLE_BORDER_TOP)
+				|| needs_hline;
+			this_clines ++;
+			length--;
+		}
 	}
 	length = num_cols;
 	this_clines = clines;
