@@ -1751,24 +1751,20 @@ sheet_get_printarea	(Sheet const *sheet,
 {
 	static GnmRange const dummy = { { 0,0 }, { 0,0 } };
 	GnmRange r;
-	GnmRange print_area;
-	GnmRange intersect;
 
 	g_return_val_if_fail (IS_SHEET (sheet), dummy);
 
+	if (!ignore_printarea) {
+		r = sheet_get_nominal_printarea (sheet);
+		if (!range_is_full (&r, TRUE) || !range_is_full (&r, FALSE))
+			return r;
+	}
+	
 	r = sheet_get_extent (sheet, TRUE);
 	if (include_styles)
 		sheet_style_get_extent (sheet, &r, NULL);
 
-	if (ignore_printarea)
-		return r;
-
-	print_area = sheet_get_nominal_printarea (sheet);
-
-	if (range_intersection (&intersect, &r, &print_area))
-		return intersect;
-
-	return dummy;
+	return r;
 }
 
 struct cb_fit {

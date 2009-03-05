@@ -1,3 +1,9 @@
+2009-03-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet.c (sheet_get_printarea): If the print area has been set 
+	  to something other than the full sheet, always use the whole
+	  print area.
+
 2009-02-28  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (gtk+): Require 2.12 for

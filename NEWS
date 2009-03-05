@@ -2,6 +2,8 @@ Gnumeric 1.9.5
 
 Andreas
 	* Fix style critical on latex export [#574125]
+	* Always print the whole printarea even if it has no
+	  content or style. [#554116] [#572818]
 
 Morten:
 	* Fix multihead issues with cell comments.
