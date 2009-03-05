@@ -1353,7 +1353,7 @@ latex_file_save (GOFileSaver const *fs, IOContext *io_context,
 	needs_hline = FALSE;
 	/* In case that we are at the very bottom of the sheet we can not */
 	/* check on the next line! */
-	if (row > colrow_max (FALSE, current_sheet)) {
+	if (row < colrow_max (FALSE, current_sheet)) {
 		length = num_cols;
 		this_clines = clines;
 		for (col = total_range.start.col; col <= total_range.end.col; col++) {

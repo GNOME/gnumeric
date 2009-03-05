@@ -1,5 +1,10 @@
 2009-03-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	
+	* latex.c (latex_file_save): the previous correction used an 
+	  inverted comparison.
+
+2009-03-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	
 	* latex.c (latex_file_save): don't access styles for cells 
 	  beyond the sheet! Fixes 574125
 
