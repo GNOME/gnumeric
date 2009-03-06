@@ -966,7 +966,7 @@ char *
 function_def_get_arg_name (GnmFunc const *fn_def, int arg_idx)
 {
 	const char *start, *end;
-	char *translated_arguments;
+	const char *translated_arguments;
 	gunichar uc;
 	char delimiter[7];
 
@@ -978,7 +978,9 @@ function_def_get_arg_name (GnmFunc const *fn_def, int arg_idx)
 	if (!fn_def->arg_names)
 		return NULL;
 
-	translated_arguments = _(fn_def->arg_names);
+	translated_arguments = (strlen (fn_def->arg_names)>0 
+				? _(fn_def->arg_names)
+				: fn_def->arg_names);
 	uc = (strcmp (translated_arguments, fn_def->arg_names) == 0)
 		? ','
 		: go_locale_get_arg_sep ();

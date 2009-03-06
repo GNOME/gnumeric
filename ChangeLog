@@ -1,3 +1,8 @@
+2009-03-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/func.c (function_def_get_arg_name): don't translate an
+	  empty argument name since you wouldn't get what you expect.
+
 2009-03-05  Morten Welinder  <terra@gnome.org>
 
 	* src/item-cursor.c (struct _ItemCursor): Track last (x,y) for
