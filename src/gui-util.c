@@ -427,7 +427,7 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 
 
 GtkWidget *
-gnumeric_create_tooltip (GdkScreen *screen)
+gnumeric_create_tooltip (GtkWidget *ref_widget)
 {
 	GtkWidget *tip, *label, *frame;
 	static GtkRcStyle*rc_style = NULL;
@@ -443,7 +443,7 @@ gnumeric_create_tooltip (GdkScreen *screen)
 	}
 
 	tip = gtk_window_new (GTK_WINDOW_POPUP);
-	gtk_window_set_screen (GTK_WINDOW (tip), screen);
+	gtk_window_set_screen (GTK_WINDOW (tip), gtk_widget_get_screen (ref_widget));
 	if (rc_style != NULL)
 		gtk_widget_modify_style (tip, rc_style);
 
@@ -458,29 +458,26 @@ gnumeric_create_tooltip (GdkScreen *screen)
 }
 
 void
-gnumeric_position_tooltip (GtkWidget *tip, int horizontal)
+gnumeric_position_tooltip (GtkWidget *tip, int px, int py, gboolean horizontal)
 {
 	GtkRequisition req;
-	int  x, y;
 
 	gtk_widget_size_request (tip, &req);
-	gdk_window_get_pointer (gdk_screen_get_root_window (gtk_widget_get_screen (tip)),
-				&x, &y, NULL);
 
 	if (horizontal){
-		x -= req.width / 2;
-		y -= req.height + 20;
+		px -= req.width / 2;
+		py -= req.height + 20;
 	} else {
-		x -= req.width + 20;
-		y -= req.height / 2;
+		px -= req.width + 20;
+		py -= req.height / 2;
 	}
 
-	if (x < 0)
-		x = 0;
-	if (y < 0)
-		y = 0;
+	if (px < 0)
+		px = 0;
+	if (py < 0)
+		py = 0;
 
-	gtk_window_move (GTK_WINDOW (gtk_widget_get_toplevel (tip)), x, y);
+	gtk_window_move (GTK_WINDOW (gtk_widget_get_toplevel (tip)), px, py);
 }
 
 /**

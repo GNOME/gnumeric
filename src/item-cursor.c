@@ -72,6 +72,7 @@ struct _ItemCursor {
 	int   base_x, base_y;
 	GnmRange autofill_src;
 	int   autofill_hsize, autofill_vsize;
+	gint last_x, last_y;
 
 	/* cursor outline in canvas coords, the bounding box (Item::[xy][01])
 	 * is slightly larger ) */
@@ -1061,9 +1062,13 @@ static void
 item_cursor_tip_setlabel (ItemCursor *ic, char const *text)
 {
 	if (ic->tip == NULL) {
-		GdkScreen *screen = gtk_window_get_screen (wbcg_toplevel (scg_wbcg (ic->scg)));
-		ic->tip = gnumeric_create_tooltip (screen);
-		gnumeric_position_tooltip (ic->tip, TRUE);
+		GtkWidget *cw = GTK_WIDGET (FOO_CANVAS_ITEM (ic)->canvas);
+		int wx, wy;
+		gdk_window_get_origin (cw->window, &wx, &wy);
+		ic->tip = gnumeric_create_tooltip (cw);
+		gnumeric_position_tooltip (ic->tip,
+					   wx + ic->last_x,
+					   wy + ic->last_y, TRUE);
 		gtk_widget_show_all (gtk_widget_get_toplevel (ic->tip));
 	}
 
@@ -1294,6 +1299,15 @@ item_cursor_event (FooCanvasItem *item, GdkEvent *event)
 	    break;
 	}
 #endif
+	switch (event->type) {
+	case GDK_MOTION_NOTIFY:
+		ic->last_x = event->motion.x;
+		ic->last_y = event->motion.y;
+		break;
+	default:
+		;
+	}
+
 	if (ic->style == ITEM_CURSOR_EXPR_RANGE)
 		return item_cursor_expr_range_event (item, event);
 
@@ -1412,6 +1426,9 @@ item_cursor_init (ItemCursor *ic)
 	ic->tip = NULL;
 	ic->last_tip_pos.col = -1;
 	ic->last_tip_pos.row = -1;
+
+	ic->last_x = 0;
+	ic->last_y = 0;
 
 	ic->style = ITEM_CURSOR_SELECTION;
 	ic->gc = NULL;

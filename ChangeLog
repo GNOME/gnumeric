@@ -1,3 +1,19 @@
+2009-03-05  Morten Welinder  <terra@gnome.org>
+
+	* src/item-cursor.c (struct _ItemCursor): Track last (x,y) for
+	mouse.
+	(item_cursor_event): Set (x,y).
+	(item_cursor_tip_setlabel): Use (x,y) for position.
+
+	* src/item-grid.c (struct _ItemGrid): Track last (x,y) for mouse.
+	(cb_cursor_come_to_rest): Use last (x,y) to position the tip.
+
+	* src/gui-util.c (gnumeric_create_tooltip): Take a reference
+	widget instead of a GdkScreen.  All callers changed.
+	(gnumeric_position_tooltip): Get position as argument instead of
+	asking where the mouse cursor is by the time we get here.  All
+	callers changed.
+
 2009-03-04  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet.c (sheet_get_printarea): If the print area has been set 

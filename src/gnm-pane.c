@@ -1969,11 +1969,12 @@ gnm_pane_display_obj_size_tip (GnmPane *pane, SheetObject const *so)
 	g_return_if_fail (so != NULL);
 
 	if (pane->size_tip == NULL) {
+		GtkWidget *cw = GTK_WIDGET (pane);
 		GtkWidget *top;
 		int x, y;
-		GdkScreen *screen = gtk_window_get_screen (wbcg_toplevel (scg_wbcg (scg)));
+		GdkScreen *screen = gtk_widget_get_screen (cw);
 
-		pane->size_tip = gnumeric_create_tooltip (screen);
+		pane->size_tip = gnumeric_create_tooltip (cw);
 		top = gtk_widget_get_toplevel (pane->size_tip);
 		/* do not use gnumeric_position_tooltip because it places the tip
 		 * too close to the mouse and generates LEAVE events */
