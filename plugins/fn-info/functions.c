@@ -170,7 +170,7 @@ gnumeric_cell (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	const Sheet *sheet = eval_sheet (ref->sheet, ei->pos->sheet);
 
 	/*
-	 * CELL translates it's keywords (ick)
+	 * CELL translates its keywords (ick)
 	  adresse	- address
 	  colonne	- col
 	  contenu	- contents
