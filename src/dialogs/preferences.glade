@@ -7,7 +7,7 @@
     <property name="title" translatable="yes">Gnumeric Preferences</property>
     <property name="default_width">350</property>
     <property name="default_height">300</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
+    <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">

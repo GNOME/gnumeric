@@ -3,6 +3,10 @@ Gnumeric 1.8.5
 Jon Kåre:
         * Work around vulnerability in Python. CVE-2009-0318 [#569648]
 
+Morten:
+	* Fix problem with dialogs not showing up in fullscreen mode.
+	[#574602]
+
 --------------------------------------------------------------------------
 Gnumeric 1.8.4
 
