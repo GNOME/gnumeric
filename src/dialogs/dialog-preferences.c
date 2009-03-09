@@ -866,7 +866,7 @@ dialog_preferences (WBCGtk *wbcg, gint page)
 	state = g_new0 (PrefState, 1);
 	state->root = gnm_conf_get_root ();
 	state->gui = gui;
-	state->dialog     = glade_xml_get_widget (gui, "preferences");
+	state->dialog = glade_xml_get_widget (gui, "preferences");
 	state->notebook = (GtkNotebook*)glade_xml_get_widget (gui, "notebook");
 
 	state->view = GTK_TREE_VIEW(glade_xml_get_widget (gui, "itemlist"));

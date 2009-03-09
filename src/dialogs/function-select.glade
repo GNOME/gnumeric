@@ -7,7 +7,7 @@
     <property name="height_request">550</property>
     <property name="border_width">6</property>
     <property name="title" translatable="yes">Function Selector</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
+    <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
