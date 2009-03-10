@@ -13,6 +13,7 @@ Morten:
 	* Fix PFACTOR to handle huge factors.
 	* Fix problem with dialogs not showing up in fullscreen mode.
 	[#574602]
+	* Fix desktop file to always specify that we take URIs.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.4

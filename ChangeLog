@@ -1,3 +1,7 @@
+2009-03-10  Morten Welinder  <terra@gnome.org>
+
+	* Makefile.am (gnumeric.desktop): Always use URIs.  Fixes #574816.
+
 2009-03-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/func.c (function_def_get_arg_name): don't translate an
