@@ -1,3 +1,9 @@
+2009-03-10  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (ms_biff_bof_data_new): Handle BIFF_BOF_v8
+	records indicating MS_BIFF_V2/MS_BIFF_V3/MS_BIFF_V4 files.  (And
+	indicating broken tools too, of course.)
+
 2009-02-22  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.4

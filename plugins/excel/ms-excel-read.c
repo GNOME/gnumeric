@@ -1283,11 +1283,25 @@ ms_biff_bof_data_new (BiffQuery *q)
 			});
 
 			switch (GSF_LE_GET_GUINT16 (q->non_decrypted_data)) {
-			case 0x0600: ans->version = MS_BIFF_V8;
-				     break;
+			case 0x0600:
+				ans->version = MS_BIFF_V8;
+				break;
 			case 0x0500: /* * OR ebiff7: FIXME ? !  */
-				     ans->version = MS_BIFF_V7;
-				     break;
+				ans->version = MS_BIFF_V7;
+				break;
+			/* The following are non-standard records written
+			   by buggy tools.  Taken from OO docs.  */
+			case 0x0400:
+				ans->version = MS_BIFF_V4;
+				break;
+			case 0x0300:
+				ans->version = MS_BIFF_V3;
+				break;
+			case 0x0200:
+			case 0x0007:
+			case 0x0000:
+				ans->version = MS_BIFF_V2;
+				break;
 			default:
 				g_printerr ("Unknown BIFF sub-number 0x%X in BOF %x\n",
 					 GSF_LE_GET_GUINT16 (q->non_decrypted_data), q->opcode);
