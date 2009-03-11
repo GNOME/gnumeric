@@ -1,3 +1,8 @@
+2009-03-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print-cell.c (print_cell_gtk): shift rotated text into the 
+	  correct position! Fixes #574813
+
 2009-03-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.h (cmd_so_set_value): add Sheet* argument. 

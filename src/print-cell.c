@@ -128,7 +128,9 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 			     lines;
 			     lines = lines->next, li++) {
 				cairo_save (context);
-				cairo_move_to (context, PANGO_PIXELS (li->dx), PANGO_PIXELS (li->dy));
+				cairo_move_to (context, 
+					       PANGO_PIXELS (x + li->dx), 
+					       PANGO_PIXELS (- y + li->dy));
 				cairo_rotate (context, rv->rotation * (-M_PI / 180));
 				pango_cairo_show_layout_line (context, lines->data);
 				cairo_restore (context);
