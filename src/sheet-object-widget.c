@@ -784,7 +784,8 @@ cb_adjustment_widget_value_changed (GtkWidget *widget,
 		cmd_so_set_value (widget_wbc (widget),
 				  /* FIXME: This text sucks:  */
 				  _("Change widget"),
-				  &ref, value_new_int (new_val));
+				  &ref, value_new_int (new_val),
+				  sheet_object_get_sheet (SHEET_OBJECT (swa)));
 		swa->being_updated = FALSE;
 	}
 }
@@ -1457,7 +1458,8 @@ cb_checkbox_toggled (GtkToggleButton *button, SheetWidgetCheckbox *swc)
 		cmd_so_set_value (widget_wbc (GTK_WIDGET (button)),
 				  /* FIXME: This text sucks:  */
 				  _("Clicking checkbox"),
-				  &ref, value_new_bool (new_val));
+				  &ref, value_new_bool (new_val),
+				  sheet_object_get_sheet (SHEET_OBJECT (swc)));
 	}
 }
 
@@ -2092,7 +2094,8 @@ sheet_widget_list_base_set_selection (SheetWidgetListBase *swl, int selection,
 		    sheet_widget_list_base_get_ref (swl, &ref, TRUE) != NULL)
 			cmd_so_set_value (wbc,
 				_("Clicking in list"),
-				&ref, value_new_int (swl->selection));
+					  &ref, value_new_int (swl->selection),
+					  sheet_object_get_sheet (SHEET_OBJECT (swl)));
 
 		g_signal_emit (G_OBJECT (swl),
 			list_base_signals [LIST_BASE_SELECTION_CHANGED], 0);

@@ -162,7 +162,8 @@ gboolean cmd_toggle_rtl (WorkbookControl *wbc, Sheet *sheet);
 gboolean cmd_so_set_value (WorkbookControl *wbc,
 			   const char *text,
 			   const GnmCellRef *pref,
-			   GnmValue *new_val);
+			   GnmValue *new_val,
+			   Sheet *sheet);
 
 G_END_DECLS
 

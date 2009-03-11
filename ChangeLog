@@ -1,3 +1,14 @@
+2009-03-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.h (cmd_so_set_value): add Sheet* argument. 
+	  Fixes #574734
+
+	* src/commands.c (cmd_so_set_value): use new Sheet* argument
+	  that gives the sheet of the widget rather than the sheet of the
+	  associated cell
+
+	* src/sheet-object-widget.c: adjust all callers of cmd_so_set_value
+
 2009-03-10  Morten Welinder  <terra@gnome.org>
 
 	* Makefile.am (gnumeric.desktop): Always use URIs.  Fixes #574816.

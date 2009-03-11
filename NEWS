@@ -5,6 +5,7 @@ Andreas
 	* Always print the whole printarea even if it has no
 	  content or style. [#554116] [#572818]
 	* Fix translation of argument names for empty names.
+	* Don't switch sheets when widgets are adjusted. [#574734]
 
 Morten:
 	* Fix multihead issues with cell comments.

@@ -6716,7 +6716,8 @@ gboolean
 cmd_so_set_value (WorkbookControl *wbc,
 		  const char *text,
 		  const GnmCellRef *pref,
-		  GnmValue *new_val)
+		  GnmValue *new_val,
+		  Sheet *sheet)
 {
 	CmdSOSetValue *me;
 	GnmRange r;
@@ -6727,7 +6728,7 @@ cmd_so_set_value (WorkbookControl *wbc,
 	r.start.row = r.end.row = pref->row;
 
 	me = g_object_new (CMD_SO_SET_VALUE_TYPE, NULL);
-	me->cmd.sheet = pref->sheet;
+	me->cmd.sheet = sheet;
 	me->cmd.size = 1;
 	me->cmd.cmd_descriptor = g_strdup (text);
 	me->ref = *pref;
