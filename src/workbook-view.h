@@ -87,7 +87,8 @@ gboolean wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs,
 gboolean wb_view_save	 (WorkbookView *wbv, GOCmdContext *cc);
 void	 wbv_save_to_output (WorkbookView *wbv, GOFileSaver const *fs,
 			     GsfOutput *output, IOContext *io_context);
-gboolean wb_view_sendto	 (WorkbookView *wbv, GOCmdContext *cc);
+void     wb_view_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
+			      char const *uri, IOContext *io_context);
 
 WorkbookView *wb_view_new_from_input  (GsfInput *input,
 				       GOFileOpener const *optional_format,

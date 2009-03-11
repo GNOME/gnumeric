@@ -1,3 +1,12 @@
+2009-03-11  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-actions.c (cb_file_sendto): Import from
+	wb_view_sendto and use go_gtk_url_show.  Plug leak.
+
+	* src/workbook-view.c (wb_view_save_to_uri): Rename from
+	wbv_save_to_uri and make public.
+	(wb_view_sendto): Remove.
+
 2009-03-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print-cell.c (print_cell_gtk): shift rotated text into the 

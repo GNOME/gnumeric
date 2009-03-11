@@ -862,9 +862,9 @@ wbv_save_to_output (WorkbookView *wbv, GOFileSaver const *fs,
 		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context), msg);
 }
 
-static void
-wbv_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
-		 char const *uri, IOContext *io_context)
+void
+wb_view_save_to_uri (WorkbookView *wbv, GOFileSaver const *fs,
+		     char const *uri, IOContext *io_context)
 {
 	char   *msg = NULL;
 	GError *err = NULL;
@@ -920,7 +920,7 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 	io_context = gnumeric_io_context_new (context);
 
 	go_cmd_context_set_sensitive (context, FALSE);
-	wbv_save_to_uri (wbv, fs, uri, io_context);
+	wb_view_save_to_uri (wbv, fs, uri, io_context);
 	go_cmd_context_set_sensitive (context, TRUE);
 
 	has_error   = gnumeric_io_error_occurred (io_context);
@@ -974,7 +974,7 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 			_("Default file saver is not available."));
 	else {
 		char const *uri = go_doc_get_uri (GO_DOC (wb));
-		wbv_save_to_uri (wbv, fs, uri, io_context);
+		wb_view_save_to_uri (wbv, fs, uri, io_context);
 	}
 
 	has_error   = gnumeric_io_error_occurred (io_context);
@@ -988,179 +988,6 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 	g_object_unref (wb);
 
 	return !has_error;
-}
-
-#ifndef GNM_WITH_GNOME
-static void
-gnm_mailto_url_show (char const *url, char const *working_dir, GError **err)
-{
-#ifdef G_OS_WIN32
-	ShellExecute (NULL, "open", url, NULL, working_dir, SW_SHOWNORMAL);
-	return;
-#else
-	static struct {
-		char const *app;
-		char const *arg;
-	} const fallback_mailers[] = {
-		{ "evolution",			NULL },
-		{ "evolution-1.6",		NULL },
-		{ "evolution-1.5",		NULL },
-		{ "evolution-1.4",		NULL },
-		{ "balsa",			"-m" },
-		{ "kmail",			NULL },
-		{ "mozilla",			"-mail" }
-	};
-	unsigned i;
-
-	for (i = 0 ; i < G_N_ELEMENTS (fallback_mailers); i++) {
-		char const *app = fallback_mailers[i].app;
-		if (g_find_program_in_path (app)) {
-			char *argv[4];
-			argv[0] = (char *)app;
-			if (fallback_mailers [i].arg == NULL) {
-				argv[1] = (char *)url;
-				argv[2] = NULL;
-			} else {
-				argv[1] = (char *)fallback_mailers[i].arg;
-				argv[2] = (char *)url;
-				argv[3] = NULL;
-			}
-			g_spawn_async (working_dir,
-				       argv, NULL, G_SPAWN_SEARCH_PATH,
-				       NULL, NULL, NULL, err);
-			return;
-		}
-	}
-
-	if (err)
-		*err = g_error_new (go_error_invalid (), 0,
-				    "Missing handler for mailto URLs.");
-#endif
-}
-#endif
-
-static gboolean
-cb_cleanup_sendto (gpointer path)
-{
-	char *dir = g_path_get_dirname (path);
-	g_unlink (path); g_free (path);	/* the attachment */
-	g_rmdir (dir); g_free (dir);	/* the tempdir */
-	return FALSE;
-}
-
-gboolean
-wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
-{
-	gboolean problem = FALSE;
-	IOContext	*io_context;
-	Workbook	*wb;
-	GOFileSaver	*fs;
-
-	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
-	g_return_val_if_fail (IS_GO_CMD_CONTEXT (context), FALSE);
-
-	wb = wb_view_get_workbook (wbv);
-	g_object_ref (wb);
-	fs = workbook_get_file_saver (wb);
-	if (fs == NULL)
-		fs = go_file_saver_get_default ();
-
-	io_context = gnumeric_io_context_new (context);
-	if (fs != NULL) {
-		char *template, *full_name, *uri;
-		char *basename = g_path_get_basename (go_doc_get_uri (GO_DOC (wb)));
-
-#define GNM_SEND_DIR	".gnm-sendto-"
-#ifdef HAVE_MKDTEMP
-		template = g_build_filename (g_get_tmp_dir (),
-			GNM_SEND_DIR "XXXXXX", NULL);
-		problem = (mkdtemp (template) == NULL);
-#else
-		while (1) {
-			char *dirname = g_strdup_printf
-				("%s%ld-%08d",
-				 GNM_SEND_DIR,
-				 (long)getpid (),
-				 (int)(1e8 * random_01 ()));
-			template = g_build_filename (g_get_tmp_dir (), dirname, NULL);
-			g_free (dirname);
-
-			if (g_mkdir (template, 0700) == 0) {
-				problem = FALSE;
-				break;
-			}
-
-			if (errno != EEXIST) {
-				go_cmd_context_error_export (GO_CMD_CONTEXT (io_context),
-					_("Failed to create temporary file for sending."));
-				gnumeric_io_error_display (io_context);
-				problem = TRUE;
-				break;
-			}
-		}
-#endif
-
-		if (problem) {
-			g_free (template);
-			goto out;
-		}
-
-		full_name = g_build_filename (template, basename, NULL);
-		g_free (basename);
-		uri = go_filename_to_uri (full_name);
-
-		wbv_save_to_uri (wbv, fs, uri, io_context);
-
-		if (gnumeric_io_error_occurred (io_context) ||
-		    gnumeric_io_warning_occurred (io_context))
-			gnumeric_io_error_display (io_context);
-
-		if (gnumeric_io_error_occurred (io_context)) {
-			problem = TRUE;
-		} else {
-/****************************************************************
- * This code does not belong here
- * move to goffice
- **/
-			/* mutt does not handle urls with no destination
-			 * so pick something to arbitrary */
-			GError *err = NULL;
-			char *url, *tmp = go_url_encode (full_name, 0);
-			url = g_strdup_printf ("mailto:someone?attach=%s", tmp);
-			g_free (tmp);
-#ifdef GNM_WITH_GNOME
-			go_url_show (url);
-#else
-			gnm_mailto_url_show (url, template, &err);
-#endif
-			if (err != NULL) {
-				go_cmd_context_error (GO_CMD_CONTEXT (io_context), err);
-				g_error_free (err);
-				gnumeric_io_error_display (io_context);
-				problem = TRUE;
-			}
-			g_free (url);
-		}
-		g_free (template);
-
-		/*
-		 * We wait a while before we clean up to ensure the file is
-		 * loaded by the mailer.
-		 */
-		g_timeout_add (1000 * 10, cb_cleanup_sendto, full_name);
-		g_free (uri);
-	} else {
-		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context),
-			_("Default file saver is not available."));
-		gnumeric_io_error_display (io_context);
-		problem = TRUE;
-	}
-
- out:
-	g_object_unref (G_OBJECT (io_context));
-	g_object_unref (wb);
-
-	return !problem;
 }
 
 WorkbookView *

@@ -75,6 +75,22 @@
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-input.h>
 #include <string.h>
+#include <glib/gstdio.h>
+
+static gboolean
+cb_cleanup_sendto (gpointer path)
+{
+	char *dir = g_path_get_dirname (path);
+
+	g_unlink (path);
+	g_free (path);	/* the attachment */
+
+	g_rmdir (dir);
+	g_free (dir);	/* the tempdir */
+
+	return FALSE;
+}
+
 
 static GNM_ACTION_DEF (cb_file_new)
 {
@@ -88,8 +104,118 @@ static GNM_ACTION_DEF (cb_file_new)
 static GNM_ACTION_DEF (cb_file_open)	{ gui_file_open (wbcg, NULL); }
 static GNM_ACTION_DEF (cb_file_save)	{ gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg))); }
 static GNM_ACTION_DEF (cb_file_save_as)	{ gui_file_save_as (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg))); }
-static GNM_ACTION_DEF (cb_file_sendto)	{
-	wb_view_sendto (wb_control_view (WORKBOOK_CONTROL (wbcg)), GO_CMD_CONTEXT (wbcg)); }
+
+static GNM_ACTION_DEF (cb_file_sendto) {
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	WorkbookView *wbv = wb_control_view (wbc);
+	GOCmdContext *gcc = GO_CMD_CONTEXT (wbcg);
+	gboolean problem = FALSE;
+	IOContext *io_context;
+	Workbook *wb;
+	GOFileSaver *fs;
+
+	wb = wb_control_get_workbook (wbc);
+	g_object_ref (wb);
+	fs = workbook_get_file_saver (wb);
+	if (fs == NULL)
+		fs = go_file_saver_get_default ();
+
+	io_context = gnumeric_io_context_new (gcc);
+	if (fs != NULL) {
+		char *template, *full_name, *uri;
+		char *basename = g_path_get_basename (go_doc_get_uri (GO_DOC (wb)));
+
+#define GNM_SEND_DIR	".gnm-sendto-"
+#ifdef HAVE_MKDTEMP
+		template = g_build_filename (g_get_tmp_dir (),
+			GNM_SEND_DIR "XXXXXX", NULL);
+		problem = (mkdtemp (template) == NULL);
+#else
+		while (1) {
+			char *dirname = g_strdup_printf
+				("%s%ld-%08d",
+				 GNM_SEND_DIR,
+				 (long)getpid (),
+				 (int)(1e8 * random_01 ()));
+			template = g_build_filename (g_get_tmp_dir (), dirname, NULL);
+			g_free (dirname);
+
+			if (g_mkdir (template, 0700) == 0) {
+				problem = FALSE;
+				break;
+			}
+
+			if (errno != EEXIST) {
+				go_cmd_context_error_export (gcc,
+					_("Failed to create temporary file for sending."));
+				gnumeric_io_error_display (io_context);
+				problem = TRUE;
+				break;
+			}
+		}
+#endif
+
+		if (problem) {
+			g_free (template);
+			goto out;
+		}
+
+		full_name = g_build_filename (template, basename, NULL);
+		g_free (basename);
+		uri = go_filename_to_uri (full_name);
+
+		wb_view_save_to_uri (wbv, fs, uri, io_context);
+
+		if (gnumeric_io_error_occurred (io_context) ||
+		    gnumeric_io_warning_occurred (io_context))
+			gnumeric_io_error_display (io_context);
+
+		if (gnumeric_io_error_occurred (io_context)) {
+			problem = TRUE;
+		} else {
+			/* mutt does not handle urls with no destination
+			 * so pick something to arbitrary */
+			GError *err;
+			GdkScreen *screen = gtk_window_get_screen (wbcg_toplevel (wbcg));
+			char *url, *tmp = go_url_encode (full_name, 0);
+			url = g_strdup_printf ("mailto:someone?attach=%s", tmp);
+			g_free (tmp);
+
+			err = go_gtk_url_show (url, screen);
+
+			if (err != NULL) {
+				go_cmd_context_error (GO_CMD_CONTEXT (io_context), err);
+				g_error_free (err);
+				gnumeric_io_error_display (io_context);
+				problem = TRUE;
+			}
+		}
+		g_free (template);
+		g_free (uri);
+
+		if (problem) {
+			cb_cleanup_sendto (full_name);
+		} else {
+			/*
+			 * We wait a while before we clean up to ensure the file is
+			 * loaded by the mailer.
+			 */
+			g_timeout_add (1000 * 10, cb_cleanup_sendto, full_name);
+		}
+	} else {
+		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context),
+			_("Default file saver is not available."));
+		gnumeric_io_error_display (io_context);
+		problem = TRUE;
+	}
+
+ out:
+	g_object_unref (io_context);
+	g_object_unref (wb);
+
+	/* What do we do with "problem"? */
+}
+
 static GNM_ACTION_DEF (cb_file_page_setup)
 {
 	dialog_printer_setup (wbcg, wbcg_cur_sheet (wbcg));
