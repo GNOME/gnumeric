@@ -3603,7 +3603,10 @@ scg_drag_data_get (SheetControlGUI *scg, GtkSelectionData *selection_data)
 	if (strcmp (target_name, "GNUMERIC_SAME_PROC") == 0)
 		/* Set dummy selection for process internal dnd */
 		gtk_selection_data_set (selection_data, selection_data->target,
-			8, (const guint8 *)"", 1);
+					8, (const guint8 *)"", 1);
+	else if (strcmp (target_name, "GNUMERIC_SHEET") == 0)
+		gtk_selection_data_set (selection_data, selection_data->target,
+					8, (void *)scg, sizeof (scg));
 	else if (strcmp (target_name, "application/x-gnumeric") == 0)
 		scg_drag_send_clipboard_objects (SHEET_CONTROL (scg),
 			selection_data, objects);

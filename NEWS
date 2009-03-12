@@ -19,6 +19,7 @@ Morten:
 	* Fix problem with dialogs not showing up in fullscreen mode.
 	[#574602]
 	* Fix desktop file to always specify that we take URIs.
+	* Fix sheet-ordering by dragging.  [#574763]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.4

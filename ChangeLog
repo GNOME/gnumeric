@@ -1,3 +1,9 @@
+2009-03-12  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-control-gui.c (scg_drag_data_get): Handle
+	GNUMERIC_SHEET target too.  Fixes #574763, caused by patch from
+	#523033.
+
 2009-03-11  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk-actions.c (cb_file_sendto): Import from
