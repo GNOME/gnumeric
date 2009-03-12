@@ -9,7 +9,7 @@ Andreas
 	* Fix printing of rotated text (negative angles or non-default 
 	  alignment). [#574813]
 	* Remove crash potential under goto and cell-format dialog with 
-	  multiple views. Part of [#364291]
+	  multiple views.  [Part of #364291]
 
 Morten:
 	* Fix multihead issues with cell comments.
@@ -20,6 +20,8 @@ Morten:
 	[#574602]
 	* Fix desktop file to always specify that we take URIs.
 	* Fix sheet-ordering by dragging.  [#574763]
+	* Fix potential crash for cell comment dialog with multiple views.
+	[Part of #364291]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.4

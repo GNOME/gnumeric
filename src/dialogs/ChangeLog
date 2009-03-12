@@ -1,3 +1,8 @@
+2009-03-12  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-comment.c (dialog_cell_comment): setup destroy
+	handler if the current sheet is deleted.
+
 2008-03-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-cell-format.c (fmt_dialog_impl) setup destroy handler
