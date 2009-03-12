@@ -2869,17 +2869,19 @@ determine_oo_version (GsfInfile *zip, OOVer def)
 	 * potential of any funny business */
 	size = MIN (gsf_input_size (mimetype), 2048);
 	header = gsf_input_read (mimetype, size, NULL);
-	g_object_unref (mimetype);
 
 	if (header) {
 		unsigned ui;
 
 		for (ui = 0 ; ui < G_N_ELEMENTS (OOVersions) ; ui++)
 			if (size == strlen (OOVersions[ui].mime_type) &&
-			    !memcmp (OOVersions[ui].mime_type, header, size))
+			    !memcmp (OOVersions[ui].mime_type, header, size)) {
+				g_object_unref (mimetype);
 				return OOVersions[ui].version;
+			}
 	}
 
+	g_object_unref (mimetype);
 	return OOO_VER_UNKNOWN;
 }
 
