@@ -55,6 +55,10 @@ typedef struct {
 	GtkTreeStore  *model;
 	GtkTreeView   *treeview;
 	GtkTreeSelection   *selection;
+
+	gulong sheet_order_changed_listener;
+	gulong sheet_added_listener;
+	gulong sheet_deleted_listener;
 } GotoState;
 
 enum {
@@ -68,6 +72,16 @@ enum {
 static void
 cb_dialog_goto_free (GotoState  *state)
 {
+	if (state->sheet_order_changed_listener)
+		g_signal_handler_disconnect (G_OBJECT (state->wb),
+					     state->sheet_order_changed_listener);
+	if (state->sheet_added_listener)
+		g_signal_handler_disconnect (G_OBJECT (state->wb),
+					     state->sheet_added_listener);
+	if (state->sheet_deleted_listener)
+		g_signal_handler_disconnect (G_OBJECT (state->wb),
+					     state->sheet_deleted_listener);
+
 	if (state->gui != NULL)
 		g_object_unref (G_OBJECT (state->gui));
 	if (state->model != NULL)
@@ -211,6 +225,27 @@ cb_dialog_goto_selection_changed (GtkTreeSelection *the_selection, GotoState *st
 }
 
 
+static void
+cb_sheet_order_changed (Workbook *wb, GotoState *state)
+{
+	dialog_goto_load_names (state);
+}
+
+static void
+cb_sheet_deleted (Workbook *wb, GotoState *state)
+{
+	dialog_goto_load_names (state);
+	cb_dialog_goto_update_sensitivity (NULL, state);
+}
+
+static void
+cb_sheet_added (Workbook *wb, GotoState *state)
+{
+	dialog_goto_load_names (state);
+	cb_dialog_goto_update_sensitivity (NULL, state);
+}
+
+
 /**
  * dialog_init:
  * @state:
@@ -265,6 +300,17 @@ dialog_goto_init (GotoState *state)
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->treeview));
 	dialog_goto_load_names (state);
 	/* Finished set-up of treeview */
+
+	/* Listen for sheet changes */
+	state->sheet_order_changed_listener = g_signal_connect (G_OBJECT (state->wb),
+		"sheet_order_changed", G_CALLBACK (cb_sheet_order_changed),
+		state);
+	state->sheet_added_listener = g_signal_connect (G_OBJECT (state->wb),
+		"sheet_added", G_CALLBACK (cb_sheet_added),
+		state);
+	state->sheet_deleted_listener = g_signal_connect (G_OBJECT (state->wb),
+		"sheet_deleted", G_CALLBACK (cb_sheet_deleted),
+		state);
 
 	state->close_button  = glade_xml_get_widget (state->gui, "close_button");
 	g_signal_connect (G_OBJECT (state->close_button),

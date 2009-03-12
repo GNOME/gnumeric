@@ -8,6 +8,8 @@ Andreas
 	* Don't switch sheets when widgets are adjusted. [#574734]
 	* Fix printing of rotated text (negative angles or non-default 
 	  alignment). [#574813]
+	* Remove crash potential under goto dialog with multiple views.
+	  Part of [#364291]
 
 Morten:
 	* Fix multihead issues with cell comments.
