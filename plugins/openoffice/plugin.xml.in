@@ -8,7 +8,7 @@
 		<attribute name="module_file" value="openoffice"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="openoffice" priority="1" probe="FALSE">
+		<service type="file_opener" id="openoffice" priority="1" probe="TRUE">
 			<information>
 				<_description>Open/Star Calc (*.sxc, *.ods)</_description>
 			</information>

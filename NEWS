@@ -23,6 +23,9 @@ Morten:
 	* Fix potential crash for cell comment dialog with multiple views.
 	[Part of #364291]
 
+Sum1:
+	* Implement OOO probing.  [#574381]
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.4
 

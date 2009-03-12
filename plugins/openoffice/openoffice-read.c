@@ -2853,6 +2853,37 @@ oo_conventions_new (void)
 	return conv;
 }
 
+static OOVer
+determine_oo_version (GsfInfile *zip, OOVer def)
+{
+	char const *header;
+	size_t size;
+	GsfInput *mimetype = gsf_infile_child_by_name (zip, "mimetype");
+	if (!mimetype) {
+		/* Really old versions had no mimetype.  Allow that, except
+		   in the probe.  */
+		return def;
+	}
+
+	/* pick arbitrary size limit of 2k for the mimetype to avoid
+	 * potential of any funny business */
+	size = MIN (gsf_input_size (mimetype), 2048);
+	header = gsf_input_read (mimetype, size, NULL);
+	g_object_unref (mimetype);
+
+	if (header) {
+		unsigned ui;
+
+		for (ui = 0 ; ui < G_N_ELEMENTS (OOVersions) ; ui++)
+			if (size == strlen (OOVersions[ui].mime_type) &&
+			    !memcmp (OOVersions[ui].mime_type, header, size))
+				return OOVersions[ui].version;
+	}
+
+	return OOO_VER_UNKNOWN;
+}
+
+
 void
 openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input);
@@ -2863,7 +2894,6 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	GsfXMLInDoc	*doc;
 	GsfInput	*content = NULL;
 	GsfInput	*styles = NULL;
-	GsfInput	*mimetype = NULL;
 	GsfDocMetaData	*meta_data;
 	GsfInfile	*zip;
 	GnmLocale	*locale;
@@ -2880,34 +2910,14 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		return;
 	}
 
-	mimetype = gsf_infile_child_by_name (zip, "mimetype");
-	if (mimetype != NULL) {
-		/* pick arbitrary size limit of 2k for the mimetype to avoid
-		 * potential of any funny business */
-		gsf_off_t size = MIN (gsf_input_size (mimetype), 2048);
-		char const *header = gsf_input_read (mimetype, size, NULL);
-		unsigned i;
-
-		state.ver = OOO_VER_UNKNOWN;
-		if (header)
-			for (i = 0 ; i < G_N_ELEMENTS (OOVersions) ; i++)
-				if (!strncmp (OOVersions[i].mime_type, header, size)) {
-					state.ver = OOVersions[i].version;
-					break;
-				}
-		if (state.ver == OOO_VER_UNKNOWN) {
-			/* TODO : include the unknown type in the message when
-			 * we move the error handling into the importer object */
-			go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
-				_("Unknown mimetype for openoffice file."));
-			g_object_unref (mimetype);
-			g_object_unref (zip);
-			return;
-		}
-		g_object_unref (mimetype);
-	} else {
-		/* OO.o v1.x files did not include mimetype */
-		state.ver = OOO_VER_1;
+	state.ver = determine_oo_version (zip, OOO_VER_1);
+	if (state.ver == OOO_VER_UNKNOWN) {
+		/* TODO : include the unknown type in the message when
+		 * we move the error handling into the importer object */
+		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
+					     _("Unknown mimetype for openoffice file."));
+		g_object_unref (zip);
+		return;
 	}
 
 	content = gsf_infile_child_by_name (zip, "content.xml");
@@ -3032,3 +3042,22 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	gnm_pop_C_locale (locale);
 }
 
+gboolean
+openoffice_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
+
+gboolean
+openoffice_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+{
+	GsfInfile	*zip;
+	OOVer           ver;
+
+	zip = gsf_infile_zip_new (input, NULL);
+	if (zip == NULL)
+		return FALSE;
+
+	ver = determine_oo_version (zip, OOO_VER_UNKNOWN);
+
+	g_object_unref (zip);
+
+	return ver != OOO_VER_UNKNOWN;
+}

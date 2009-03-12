@@ -1,3 +1,9 @@
+2009-03-12  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (determine_oo_version): New function factored
+	out from openoffice_file_open.
+	(openoffice_file_probe): New function.
+
 2009-02-22  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.4
