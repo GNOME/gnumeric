@@ -1,3 +1,18 @@
+2009-03-13  Morten Welinder  <terra@gnome.org>
+
+	* boot.c (lotus_file_open): Initialize new state member
+	sheet_area_error.
+
+	* lotus.c (insert_value): Protect against NULL cell.
+	(lotus_read_new): Protect against NULL cell four times.  Fixes
+	#575190.
+	(insert_value): Add new state argument.  Plug leak.
+	(lotus_cell_fetch): New wrapper for sheet_cell_fetch so we can
+	produce dignified error messages.
+
+	* lotus-formula.c (lotus_parse_formula): If we get a NULL formula,
+	turn it into #VALUE!
+
 2009-02-22  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.4

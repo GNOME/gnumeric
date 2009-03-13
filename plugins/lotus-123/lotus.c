@@ -1454,22 +1454,44 @@ lotus_rldb_apply (LotusRLDB *rldb, int type, LotusState *state)
 /* ------------------------------------------------------------------------- */
 
 static GnmCell *
-insert_value (Sheet *sheet, guint32 col, guint32 row, GnmValue *val)
+lotus_cell_fetch (LotusState *state, Sheet *sheet, guint32 col, guint32 row)
+{
+	if (col >= gnm_sheet_get_max_cols (sheet) ||
+	    row >= gnm_sheet_get_max_rows (sheet)) {
+		if (!state->sheet_area_error) {
+			state->sheet_area_error = TRUE;
+			g_warning ("File is most likely corrupted.\n"
+				   "(It claims to contain a cell outside the range Gnumeric can handle.)");
+		}
+
+		return NULL;
+	}
+
+	return sheet_cell_fetch (sheet, col, row);
+}
+
+
+
+static GnmCell *
+insert_value (LotusState *state, Sheet *sheet, guint32 col, guint32 row, GnmValue *val)
 {
 	GnmCell *cell;
 
 	g_return_val_if_fail (val != NULL, NULL);
 	g_return_val_if_fail (sheet != NULL, NULL);
 
-	cell = sheet_cell_fetch (sheet, col, row);
+	cell = lotus_cell_fetch (state, sheet, col, row);
 
-	gnm_cell_set_value (cell, val);
-
+	if (cell) {
+		gnm_cell_set_value (cell, val);
 #if LOTUS_DEBUG > 0
-	printf ("Inserting value at %s:\n",
-		cell_name (cell));
-	value_dump (val);
+		printf ("Inserting value at %s:\n",
+			cell_name (cell));
+		value_dump (val);
 #endif
+	} else
+		value_release (val);
+
 	return cell;
 }
 
@@ -1518,7 +1540,7 @@ lotus_read_old (LotusState *state, record_t *r)
 			int i = GSF_LE_GET_GUINT16 (r->data + 1);
 			int j = GSF_LE_GET_GUINT16 (r->data + 3);
 
-			cell = insert_value (state->sheet, i, j, v);
+			cell = insert_value (state, state->sheet, i, j, v);
 			if (cell)
 				cell_set_format_from_lotus_format (cell, fmt);
 			break;
@@ -1529,7 +1551,7 @@ lotus_read_old (LotusState *state, record_t *r)
 			int i = GSF_LE_GET_GUINT16 (r->data + 1);
 			int j = GSF_LE_GET_GUINT16 (r->data + 3);
 
-			cell = insert_value (state->sheet, i, j, v);
+			cell = insert_value (state, state->sheet, i, j, v);
 			if (cell)
 				cell_set_format_from_lotus_format (cell, fmt);
 			break;
@@ -1541,7 +1563,7 @@ lotus_read_old (LotusState *state, record_t *r)
 			guint8 fmt = GSF_LE_GET_GUINT8 (r->data);
 			int i = GSF_LE_GET_GUINT16 (r->data + 1);
 			int j = GSF_LE_GET_GUINT16 (r->data + 3);
-			cell = insert_value (state->sheet, i, j, v);
+			cell = insert_value (state, state->sheet, i, j, v);
 			if (cell)
 				cell_set_format_from_lotus_format (cell, fmt);
 			break;
@@ -1580,11 +1602,13 @@ lotus_read_old (LotusState *state, record_t *r)
 					v = value_new_error_VALUE (NULL);
 			} else
 				v = lotus_value (gsf_le_get_double (r->data + 5));
-			cell = sheet_cell_fetch (state->sheet, col, row);
-			gnm_cell_set_expr_and_value (cell, texpr, v, TRUE);
-
+			cell = lotus_cell_fetch (state, state->sheet, col, row);
+			if (cell) {
+				gnm_cell_set_expr_and_value (cell, texpr, v, TRUE);
+				cell_set_format_from_lotus_format (cell, fmt);
+			} else
+				value_release (v);
 			gnm_expr_top_unref (texpr);
-			cell_set_format_from_lotus_format (cell, fmt);
 			break;
 		}
 
@@ -1878,7 +1902,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
 			GnmValue *v = value_new_error_VALUE (NULL);
-			(void)insert_value (sheet, col, row, v);
+			(void)insert_value (state, sheet, col, row, v);
 			break;
 		}
 
@@ -1887,7 +1911,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
 			GnmValue *v = value_new_error_NA (NULL);
-			(void)insert_value (sheet, col, row, v);
+			(void)insert_value (state, sheet, col, row, v);
 			break;
 		}
 
@@ -1898,7 +1922,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			int col = r->data[3];
 /*			gchar format_prefix = *(r->data + ofs + 4);*/
 			GnmValue *v = lotus_new_string (r->data + 5, state->lmbcs_group);
-			(void)insert_value (sheet, col, row, v);
+			(void)insert_value (state, sheet, col, row, v);
 			break;
 		}
 
@@ -1907,7 +1931,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
 			GnmValue *v = lotus_lnumber (r, 4);
-			(void)insert_value (sheet, col, row, v);
+			(void)insert_value (state, sheet, col, row, v);
 			break;
 		}
 
@@ -1916,7 +1940,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
 			GnmValue *v = lotus_smallnum (GSF_LE_GET_GINT16 (r->data + 4));
-			(void)insert_value (sheet, col, row, v);
+			(void)insert_value (state, sheet, col, row, v);
 			break;
 		}
 
@@ -2057,7 +2081,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
 			GnmValue *val = lotus_unpack_number (GSF_LE_GET_GUINT32 (r->data + 4));
-			(void)insert_value (sheet, col, row, val);
+			(void)insert_value (state, sheet, col, row, val);
 			break;
 		}
 
@@ -2094,8 +2118,11 @@ lotus_read_new (LotusState *state, record_t *r)
 			texpr = lotus_parse_formula (state, &pp,
 						     r->data + 12,
 						     r->len - 12);
-			cell = sheet_cell_fetch (sheet, col, row);
-			gnm_cell_set_expr_and_value (cell, texpr, curval, TRUE);
+			cell = lotus_cell_fetch (state, sheet, col, row);
+			if (cell)
+				gnm_cell_set_expr_and_value (cell, texpr, curval, TRUE);
+			else
+				value_release (curval);
 
 			gnm_expr_top_unref (texpr);
 			break;
@@ -2117,8 +2144,11 @@ lotus_read_new (LotusState *state, record_t *r)
 			texpr = lotus_parse_formula (state, &pp,
 						     r->data + 14,
 						     r->len - 14);
-			cell = sheet_cell_fetch (sheet, col, row);
-			gnm_cell_set_expr_and_value (cell, texpr, curval, TRUE);
+			cell = lotus_cell_fetch (state, sheet, col, row);
+			if (cell)
+				gnm_cell_set_expr_and_value (cell, texpr, curval, TRUE);
+			else
+				value_release (curval);
 
 			gnm_expr_top_unref (texpr);
 			break;

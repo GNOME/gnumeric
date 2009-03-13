@@ -777,6 +777,9 @@ lotus_parse_formula (LotusState *state, GnmParsePos *pos,
 		? lotus_parse_formula_new (state, pos, data, len)
 		: lotus_parse_formula_old (state, pos, data, len);
 
+	if (!result)
+		result = gnm_expr_top_new_constant (value_new_error_VALUE (NULL));
+
 #if FORMULA_DEBUG > 0
 	{
 		char *txt = gnm_expr_top_as_string (result, pos, gnm_conventions_default);

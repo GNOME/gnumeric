@@ -24,6 +24,7 @@ typedef struct {
 	guint8          lmbcs_group;
 
         GHashTable      *style_pool;
+	gboolean        sheet_area_error;
 } LotusState;
 
 Sheet	 *lotus_get_sheet  (Workbook *wb, int i);

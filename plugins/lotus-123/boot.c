@@ -79,6 +79,7 @@ lotus_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.wbv	 = wb_view;
 	state.wb	 = wb_view_get_workbook (wb_view);
 	state.sheet	 = NULL;
+	state.sheet_area_error = FALSE;
 
 	if (!lotus_read (&state))
 		gnumeric_io_error_string (io_context,
