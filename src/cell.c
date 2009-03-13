@@ -665,10 +665,12 @@ void
 gnm_cell_set_format (GnmCell *cell, char const *format)
 {
 	GnmRange r;
-	GnmStyle *mstyle = gnm_style_new ();
+	GnmStyle *mstyle;
 
-	g_return_if_fail (mstyle != NULL);
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (format != NULL);
 
+	mstyle = gnm_style_new ();
 	gnm_style_set_format_text (mstyle, format);
 
 	r.start = r.end = cell->pos;

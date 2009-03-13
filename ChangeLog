@@ -1,3 +1,7 @@
+2009-03-13  Morten Welinder  <terra@gnome.org>
+
+	* src/cell.c (gnm_cell_set_format): Improve precondition.
+
 2009-03-12  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-control-gui.c (scg_drag_data_get): Handle
