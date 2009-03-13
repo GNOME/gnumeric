@@ -1,5 +1,11 @@
 2009-03-13  Morten Welinder  <terra@gnome.org>
 
+	* src/number-match.c (frob_slashes): New function to replace
+	hardcoded slashes with whatever the locale uses for date
+	separation.
+	(format_match_datetime): Call frob_slashes as needed.  Free
+	date_format as needed.
+
 	* src/cell.c (gnm_cell_set_format): Improve precondition.
 
 2009-03-12  Morten Welinder  <terra@gnome.org>

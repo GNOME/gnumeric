@@ -451,6 +451,50 @@ valid_hms (gnm_float h, gnm_float m, gnm_float s, gboolean allow_elapsed)
 		s >= 0 && s < 60;
 }
 
+/*
+ * Change slashes to whatever the locale uses for date separation.
+ *
+ * We aren't doing this completely right: a locale might use 24/12-1999 and
+ * we'll just use the slash.
+ */
+static char *
+frob_slashes (const char *fmt)
+{
+	const GString *df = go_locale_get_date_format();
+	GString *res = g_string_new (NULL);
+	gunichar date_sep = '/';
+	const char *s;
+
+	/* If it wasn't so hacky, this should go to go-locale.c  */
+	for (s = df->str; *s; s++) {
+		switch (*s) {
+		case 'd': case 'm': case 'y':
+			while (g_ascii_isalpha (*s))
+				s++;
+			while (g_unichar_isspace (g_utf8_get_char (s)))
+				s = g_utf8_next_char (s);
+			if (*s != ',' &&
+			    g_unichar_ispunct (g_utf8_get_char (s))) {
+				date_sep = g_utf8_get_char (s);
+				s = "";
+			}
+			break;
+		default:
+			; /* Nothing */
+		}
+	}	
+
+	while (*fmt) {
+		if (*fmt == '/') {
+			g_string_append_unichar (res, date_sep);
+		} else
+			g_string_append_c (res, *fmt);
+		fmt++;
+	}
+
+	return g_string_free (res, FALSE);
+}
+
 
 #define DO_SIGN(sign,uc,action)					\
 	{							\
@@ -592,8 +636,8 @@ format_match_datetime (char const *text,
 	GORegmatch match[31];
 	gunichar uc;
 	int dig1;
-	char const *date_format = NULL;
-	GnmValue *v = NULL;
+	char *date_format = NULL;
+	GnmValue *res = NULL;
 	const char *time_format = NULL;
 
 	if (lc_time != datetime_locale.lc_time &&
@@ -618,7 +662,7 @@ format_match_datetime (char const *text,
 		day = handle_day (text, match + 27);
 		year = handle_year (text, match + 30);
 		if (g_date_valid_dmy (day, month, year)) {
-			date_format = "mmm/dd/yyyy";
+			date_format = frob_slashes ("mmm/dd/yyyy");
 			text += match[0].rm_eo;
 			goto got_date;
 		}
@@ -634,7 +678,7 @@ format_match_datetime (char const *text,
 		if (month == -1) month = find_month (&match[4 + 12]);
 		year = handle_year (text, match + 30);
 		if (g_date_valid_dmy (day, month, year)) {
-			date_format = "d-mmm-yyyy";
+			date_format = g_strdup ("d-mmm-yyyy");
 			text += match[0].rm_eo;
 			goto got_date;
 		}
@@ -648,7 +692,7 @@ format_match_datetime (char const *text,
 		month = handle_month (text, match + 2);
 		day = handle_day (text, match + 3);
 		if (g_date_valid_dmy (day, month, year)) {
-			date_format = "yyyy-mmm-dd";
+			date_format = g_strdup ("yyyy-mmm-dd");
 			text += match[3].rm_eo;
 			if (*text == ':')
 				text++;
@@ -664,14 +708,14 @@ format_match_datetime (char const *text,
 		month = handle_month (text, match + 2);
 		day = handle_day (text, match + 3);
 		if (g_date_valid_dmy (day, month, year)) {
-			date_format = "yyyy-mmm-dd";
+			date_format = g_strdup ("yyyy-mmm-dd");
 			text += match[0].rm_eo;
 			goto got_date;
 		}
 	}
 
 	/* ^(\d+)[-/.](\d+)[-/.](\d+)\b */
-	/*  1         2         3       */
+	/*  1         2         3   */
 	if (dig1 >= 0 &&
 	    go_regexec (&datetime_locale.re_mmddyyyy, text, G_N_ELEMENTS (match), match, 0) == 0) {
 		if (month_before_day) {
@@ -683,9 +727,9 @@ format_match_datetime (char const *text,
 		}
 		year = handle_year (text, match + 3);
 		if (g_date_valid_dmy (day, month, year)) {
-			date_format = month_before_day
-				? "m/d/yyyy"
-				: "d/m/yyyy";
+			date_format = frob_slashes (month_before_day
+						    ? "m/d/yyyy"
+						    : "d/m/yyyy");
 			text += match[0].rm_eo;
 			goto got_date;
 		}
@@ -706,22 +750,22 @@ format_match_datetime (char const *text,
 			year = handle_year (text, match + 1);
 			month = handle_month (text, match + 3);
 			day = 1;
-			date_format = "yyyy/m";
+			date_format = g_strdup ("yyyy/m");
 		} else if (match[3].rm_eo - match[3].rm_so == 4) {
 			month = handle_month (text, match + 1);
 			year = handle_year (text, match + 3);
 			day = 1;
-			date_format = "m/yyyy";
+			date_format = g_strdup ("m/yyyy");
 		} else if (good_ddmmsep && month_before_day) {
 			month = handle_month (text, match + 1);
 			day = handle_day (text, match + 3);
 			year = current_year ();
-			date_format = "m/d/yyyy";
+			date_format = frob_slashes ("m/d/yyyy");
 		} else if (good_ddmmsep) {
 			month = handle_month (text, match + 3);
 			day = handle_day (text, match + 1);
 			year = current_year ();
-			date_format = "d/m/yyyy";
+			date_format = frob_slashes ("d/m/yyyy");
 		} else
 			year = month = day = -1;
 		if (g_date_valid_dmy (day, month, year)) {
@@ -736,7 +780,7 @@ format_match_datetime (char const *text,
 	g_date_clear (&date, 1);
 	g_date_set_dmy (&date, day, month, year);
 	if (!g_date_valid (&date))
-		return NULL;
+		goto out;
 	date_val = datetime_g_to_serial (&date, date_conv);
 
 	SKIP_SPACES (text);
@@ -746,7 +790,7 @@ format_match_datetime (char const *text,
 						 TRUE, add_format);
 		GOFormat const *fmt;
 		if (!v)
-			return NULL;
+			goto out;
 		time_val = value_get_as_float (v);
 		fmt = VALUE_FMT (v);
 		if (fmt)
@@ -755,7 +799,7 @@ format_match_datetime (char const *text,
 	} else
 		time_val = 0;
 
-	v = value_new_float (date_val + time_val);
+	res = value_new_float (date_val + time_val);
 	if (add_format) {
 		GOFormat *fmt;
 		if (time_format) {
@@ -767,11 +811,13 @@ format_match_datetime (char const *text,
 			g_free (format);
 		} else
 			fmt = go_format_new_from_XL (date_format);
-		value_set_fmt (v, fmt);
+		value_set_fmt (res, fmt);
 		go_format_unref (fmt);
 	}
 
-	return v;
+ out:
+	g_free (date_format);
+	return res;
 }
 
 /*
