@@ -363,7 +363,7 @@ plugin_service_ui_activate (GOPluginService *service, ErrorInfo **ret_error)
 	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
 	GError *err = NULL;
 	char *full_file_name;
-	char *xml_ui;
+	char *xml_ui, *group_name;
 	char const *textdomain;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
@@ -380,9 +380,11 @@ plugin_service_ui_activate (GOPluginService *service, ErrorInfo **ret_error)
 	g_free (full_file_name);
 
 	textdomain = go_plugin_get_textdomain (service->plugin);
-	service_ui->layout_id = gnm_app_add_extra_ui (
+	group_name = g_strconcat (go_plugin_get_id (service->plugin), service->id, NULL);
+	service_ui->layout_id = gnm_app_add_extra_ui (group_name,
 		service_ui->actions,
 		xml_ui, textdomain, service);
+	g_free (group_name);
 	service->is_active = TRUE;
 }
 

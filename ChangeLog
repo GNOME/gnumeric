@@ -1,3 +1,14 @@
+2009-03-13  Jody Goldberg <jody@gnome.org>
+
+	* src/gnm-pane.c (gnm_pane_realize) : clear the 'im_block_edit_start' flag.
+	(gnm_pane_unrealize) : set the flag.
+
+	* src/application.c (gnm_app_add_extra_ui) : take a group name.
+	(gnm_app_remove_extra_ui) : patch minor leak.
+	* src/gnm-plugin.c (plugin_service_ui_activate) : use the supplied
+	  group name rather than a static name that is shared between all
+	  custom ui.
+
 2009-01-18  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

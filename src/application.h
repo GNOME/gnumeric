@@ -79,6 +79,7 @@ struct _GnmAction {
 	GnmActionHandler	handler;
 };
 typedef struct {
+	char const *group_name;
 	GSList	   *actions;
 	char	   *layout;
 	char const *domain;
@@ -90,7 +91,8 @@ GnmAction *gnm_action_new  (char const *name, char const *label,
 			    GnmActionHandler handler);
 void	   gnm_action_free (GnmAction *action);
 
-GnmAppExtraUI *gnm_app_add_extra_ui (GSList *actions, char *layout,
+GnmAppExtraUI *gnm_app_add_extra_ui (char const *group_name,
+				     GSList *actions, char *layout,
 				     char const *domain,
 				     gpointer user_data);
 void	   gnm_app_remove_extra_ui  (GnmAppExtraUI *extra_ui);

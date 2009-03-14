@@ -3010,7 +3010,7 @@ cb_add_custom_ui (G_GNUC_UNUSED GnmApp *app,
 	GtkAction       *res;
 
 	details = g_new0 (CustomUIHandle, 1);
-	details->actions = gtk_action_group_new ("DummyName");
+	details->actions = gtk_action_group_new (extra_ui->group_name);
 
 	for (ptr = extra_ui->actions; ptr != NULL ; ptr = ptr->next) {
 		action = ptr->data;

@@ -815,12 +815,14 @@ gnm_action_free (GnmAction *action)
 }
 
 GnmAppExtraUI *
-gnm_app_add_extra_ui (GSList *actions, char *layout,
+gnm_app_add_extra_ui (char const *group_name,
+		      GSList *actions, char *layout,
 		      char const *domain,
 		      gpointer user_data)
 {
 	GnmAppExtraUI *extra_ui = g_new0 (GnmAppExtraUI, 1);
 	extra_uis = g_slist_prepend (extra_uis, extra_ui);
+	extra_ui->group_name = g_strdup (group_name);
 	extra_ui->actions = actions;
 	extra_ui->layout = layout;
 	extra_ui->user_data = user_data;
@@ -832,6 +834,8 @@ void
 gnm_app_remove_extra_ui (GnmAppExtraUI *extra_ui)
 {
 	g_signal_emit (G_OBJECT (app), signals [CUSTOM_UI_REMOVED], 0, extra_ui);
+	g_free (extra_ui->group_name);
+	g_free (extra_ui);
 }
 
 void

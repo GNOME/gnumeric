@@ -1,5 +1,8 @@
 Gnumeric 1.8.5
 
+Jody:
+	* Work around semantic changes in gtk-2.16.
+
 Jon Kåre:
         * Work around vulnerability in Python. CVE-2009-0318 [#569648]
 

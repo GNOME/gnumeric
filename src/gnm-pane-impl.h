@@ -30,14 +30,13 @@ struct _GnmPane {
 	gboolean   sliding_adjacent_h, sliding_adjacent_v;
 
 	/*  IM */
-	guint      reseting_im :1;	/* quick hack to keep gtk_im_context_reset from starting an edit */
+	guint im_block_edit_start :1; /* see gnm_pane_key_press for details */
+	guint im_first_focus	  :1; /* see gnm_pane_init for details */
 	guint      preedit_length;
 	GtkIMContext  *im_context;
 	PangoAttrList *preedit_attrs;
+
 	gboolean insert_decimal;
-
-
-
 
 	int		 index;
 	struct {
