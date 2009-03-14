@@ -13,6 +13,7 @@ Andreas
 
 Jody:
 	* Work around semantic changes in gtk-2.16.
+	* rename sr@Latn -> sr@latin
 
 Morten:
 	* Fix multihead issues with cell comments.

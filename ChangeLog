@@ -1,3 +1,8 @@
+2009-03-13  Jody Goldberg <jody@gnome.org>
+
+	* po/LINGUAS : rename sr@Latn -> sr@latin to maintain compatibility
+	  with gtk and simplify win32 packaging.
+
 2009-03-13  Morten Welinder  <terra@gnome.org>
 
 	* src/number-match.c (frob_slashes): New function to replace
