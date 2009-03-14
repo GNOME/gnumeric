@@ -476,13 +476,14 @@ frob_slashes (const char *fmt)
 			if (*s != ',' &&
 			    g_unichar_ispunct (g_utf8_get_char (s))) {
 				date_sep = g_utf8_get_char (s);
-				s = "";
+				goto got_date_sep;
 			}
 			break;
 		default:
 			; /* Nothing */
 		}
-	}	
+	}
+got_date_sep:
 
 	while (*fmt) {
 		if (*fmt == '/') {
