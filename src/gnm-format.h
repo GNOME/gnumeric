@@ -40,6 +40,8 @@ int gnm_format_is_time_for_value (GOFormat const *fmt,
 int gnm_format_month_before_day (GOFormat const *fmt,
 				 GnmValue const *value);
 
+char *gnm_format_frob_slashes (const char *s);
+
 GOFormat *gnm_format_for_date_editing (GnmCell const *cell);
 
 gboolean gnm_format_has_hour (GOFormat const *fmt,

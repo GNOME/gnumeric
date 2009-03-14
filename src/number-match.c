@@ -451,52 +451,6 @@ valid_hms (gnm_float h, gnm_float m, gnm_float s, gboolean allow_elapsed)
 		s >= 0 && s < 60;
 }
 
-/*
- * Change slashes to whatever the locale uses for date separation.
- *
- * We aren't doing this completely right: a locale might use 24/12-1999 and
- * we'll just use the slash.
- */
-static char *
-frob_slashes (const char *fmt)
-{
-	const GString *df = go_locale_get_date_format();
-	GString *res = g_string_new (NULL);
-	gunichar date_sep = '/';
-	const char *s;
-
-	/* If it wasn't so hacky, this should go to go-locale.c  */
-	for (s = df->str; *s; s++) {
-		switch (*s) {
-		case 'd': case 'm': case 'y':
-			while (g_ascii_isalpha (*s))
-				s++;
-			while (g_unichar_isspace (g_utf8_get_char (s)))
-				s = g_utf8_next_char (s);
-			if (*s != ',' &&
-			    g_unichar_ispunct (g_utf8_get_char (s))) {
-				date_sep = g_utf8_get_char (s);
-				goto got_date_sep;
-			}
-			break;
-		default:
-			; /* Nothing */
-		}
-	}
-got_date_sep:
-
-	while (*fmt) {
-		if (*fmt == '/') {
-			g_string_append_unichar (res, date_sep);
-		} else
-			g_string_append_c (res, *fmt);
-		fmt++;
-	}
-
-	return g_string_free (res, FALSE);
-}
-
-
 #define DO_SIGN(sign,uc,action)					\
 	{							\
 		if (uc == '-' || uc == UNICODE_MINUS_SIGN_C) {	\
@@ -663,7 +617,7 @@ format_match_datetime (char const *text,
 		day = handle_day (text, match + 27);
 		year = handle_year (text, match + 30);
 		if (g_date_valid_dmy (day, month, year)) {
-			date_format = frob_slashes ("mmm/dd/yyyy");
+			date_format = gnm_format_frob_slashes ("mmm/dd/yyyy");
 			text += match[0].rm_eo;
 			goto got_date;
 		}
@@ -728,9 +682,9 @@ format_match_datetime (char const *text,
 		}
 		year = handle_year (text, match + 3);
 		if (g_date_valid_dmy (day, month, year)) {
-			date_format = frob_slashes (month_before_day
-						    ? "m/d/yyyy"
-						    : "d/m/yyyy");
+			date_format = gnm_format_frob_slashes (month_before_day
+							       ? "m/d/yyyy"
+							       : "d/m/yyyy");
 			text += match[0].rm_eo;
 			goto got_date;
 		}
@@ -761,12 +715,12 @@ format_match_datetime (char const *text,
 			month = handle_month (text, match + 1);
 			day = handle_day (text, match + 3);
 			year = current_year ();
-			date_format = frob_slashes ("m/d/yyyy");
+			date_format = gnm_format_frob_slashes ("m/d/yyyy");
 		} else if (good_ddmmsep) {
 			month = handle_month (text, match + 3);
 			day = handle_day (text, match + 1);
 			year = current_year ();
-			date_format = frob_slashes ("d/m/yyyy");
+			date_format = gnm_format_frob_slashes ("d/m/yyyy");
 		} else
 			year = month = day = -1;
 		if (g_date_valid_dmy (day, month, year)) {

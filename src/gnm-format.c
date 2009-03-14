@@ -270,17 +270,76 @@ gnm_format_month_before_day (GOFormat const *fmt,
 GOFormat *
 gnm_format_for_date_editing (GnmCell const *cell)
 {
+	char *fmttxt;
+	GOFormat *fmt;
 	int mbd = cell
 		? gnm_format_month_before_day (gnm_cell_get_format (cell),
 					       cell->value)
 		: go_locale_month_before_day ();
 
 	switch (mbd) {
-	case 0: return go_format_new_from_XL ("d/m/yyyy");
+	case 0:
+		fmttxt = gnm_format_frob_slashes ("d/m/yyyy");
+		break;
 	default:
-	case 1: return go_format_new_from_XL ("m/d/yyyy");
-	case 2: return go_format_new_from_XL ("yyyy-m-d");
+	case 1:
+		fmttxt = gnm_format_frob_slashes ("m/d/yyyy");
+		break;
+	case 2:
+		fmttxt = gnm_format_frob_slashes ("yyyy-m-d");
+		break;
 	}
+
+	fmt = go_format_new_from_XL (fmttxt);
+	g_free (fmttxt);
+	return fmt;
+}
+
+/*
+ * Change slashes to whatever the locale uses for date separation.
+ * Note: this operates on strings, not GOFormats.
+ *
+ * We aren't doing this completely right: a locale might use 24/12-1999 and
+ * we'll just use the slash.
+ *
+ * If it wasn't so hacky, this should go to go-locale.c
+ */
+char *
+gnm_format_frob_slashes (const char *fmt)
+{
+	const GString *df = go_locale_get_date_format();
+	GString *res = g_string_new (NULL);
+	gunichar date_sep = '/';
+	const char *s;
+
+	for (s = df->str; *s; s++) {
+		switch (*s) {
+		case 'd': case 'm': case 'y':
+			while (g_ascii_isalpha (*s))
+				s++;
+			while (g_unichar_isspace (g_utf8_get_char (s)))
+				s = g_utf8_next_char (s);
+			if (*s != ',' &&
+			    g_unichar_ispunct (g_utf8_get_char (s))) {
+				date_sep = g_utf8_get_char (s);
+				goto got_date_sep;
+			}
+			break;
+		default:
+			; /* Nothing */
+		}
+	}
+got_date_sep:
+
+	while (*fmt) {
+		if (*fmt == '/') {
+			g_string_append_unichar (res, date_sep);
+		} else
+			g_string_append_c (res, *fmt);
+		fmt++;
+	}
+
+	return g_string_free (res, FALSE);
 }
 
 

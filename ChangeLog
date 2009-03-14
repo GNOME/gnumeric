@@ -1,3 +1,11 @@
+2009-03-14  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-format.c (gnm_format_frob_slashes): Import from
+	number-match and make public.  Rename from frob_slashes.  All
+	callers changed.
+	(gnm_format_for_date_editing): Change slashes to whatever the
+	locale uses.
+
 2009-03-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/ssgrep.c (string-table-count): correct option description
@@ -5,8 +13,8 @@
 
 2009-03-14  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* configure.in: check if goffice uses gconf and make gconf use independent
-	from the with-gnome option. [#574813]
+	* configure.in: check if goffice uses gconf and make gconf use
+	independent from the with-gnome option. [#574813]
 	* schemas/Makefile.am: ditto.
 
 2009-03-13  Jody Goldberg <jody@gnome.org>
