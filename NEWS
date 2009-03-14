@@ -10,6 +10,7 @@ Andreas
 	  alignment). [#574813]
 	* Remove crash potential under goto and cell-format dialog with 
 	  multiple views.  [Part of #364291]
+	* Fis some strings. [#575360]
 
 Jean:
 	* Make gconf use independent from the with-gnome option. [#574813]

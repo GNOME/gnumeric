@@ -1,5 +1,13 @@
 2008-03-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	[#575360]
+	* kaplan-meier.glade: stock button names should not be translated
+	* function-select.glade: ditto
+	* sheet-order.glade: ditto
+	* doc-meta-data.glade: don't include unneccessary translatable labels
+
+2008-03-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-cell-format.c (fmt_dialog_impl) use 
 	  GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED instead of 
 	  GNM_DIALOG_DESTROY_SHEET_REMOVED

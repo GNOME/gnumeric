@@ -70,7 +70,7 @@ static GOptionEntry const ssgrep_options [] = {
 	{
 		"string-table-count", 'C',
 		0, G_OPTION_ARG_NONE, &ssgrep_string_table,
-		N_("optimization to search only via the string table, a display a count of the references."),
+		N_("Search only via the string table, display a count of the references."),
 		NULL
 	},
 
