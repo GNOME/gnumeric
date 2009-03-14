@@ -2112,6 +2112,11 @@ excel_font_from_go_font (XLExportBase *ewb, GOFont const *font)
 
 	efont = g_new (ExcelWriteFont, 1);
 	efont->font_name	= pango_font_description_get_family (font->desc);
+	if (!efont->font_name) {
+		/* Shouldn't happen, but don't crash.   575318*/
+		efont->font_name = "Sans";
+	}
+
 	efont->font_name_copy	= NULL;
 	efont->size_pts		= (double) pango_font_description_get_size (font->desc) / PANGO_SCALE;
 	efont->is_bold		= pango_font_description_get_weight (font->desc) > PANGO_WEIGHT_NORMAL;
