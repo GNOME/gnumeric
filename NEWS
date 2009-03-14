@@ -29,6 +29,7 @@ Morten:
 	* Fix lotus importer crash.  [#575190]
 	* Improve entry of date for locales not using slashes.  [Part of #33229]
 	* Fix xls writing crash.  [Part of #575318]
+	* Fix criticals in xls export for comments without author.
 
 Sum1:
 	* Implement OOO probing.  [#574381]

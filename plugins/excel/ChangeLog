@@ -2,6 +2,7 @@
 
 	* ms-excel-write.c (excel_font_from_go_font): Don't crash if the
 	font descriptor lacks a family.  Part of #575318.
+	(cb_NOTE_v8): If there is no author, just use the empty string.
 
 2009-03-10  Morten Welinder  <terra@gnome.org>
 

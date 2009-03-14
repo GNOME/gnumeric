@@ -4788,8 +4788,11 @@ static void
 cb_NOTE_v8 (SheetObject const *so, gconstpointer id, BiffPut *bp)
 {
 	SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
-	char const  *author = cell_comment_author_get (CELL_COMMENT (so));
+	char const *author = cell_comment_author_get (CELL_COMMENT (so));
 	guint8 buf [4 * 2];
+
+	if (!author)
+		author = "";
 
 	ms_biff_put_var_next (bp,  BIFF_NOTE);
 	GSF_LE_SET_GUINT16 (buf + 0, anchor->cell_bound.start.row);
