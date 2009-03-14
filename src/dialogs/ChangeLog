@@ -1,3 +1,9 @@
+2008-03-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-cell-format.c (fmt_dialog_impl) use 
+	  GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED instead of 
+	  GNM_DIALOG_DESTROY_SHEET_REMOVED
+
 2009-03-12  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-comment.c (dialog_cell_comment): setup destroy

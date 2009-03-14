@@ -2301,7 +2301,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	gtk_notebook_set_scrollable (state->notebook, TRUE);
 
 	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (dialog), state->wbcg,
-					   GNM_DIALOG_DESTROY_SHEET_REMOVED);
+					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 	
 	/* Ok, edit events from now on are real */
 	state->enable_edit = TRUE;
