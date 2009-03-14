@@ -306,17 +306,16 @@ AM_CONDITIONAL(USE_HILDON, test "x$HAVE_HILDON" = xyes)
 AC_SUBST(HILDON_CFLAGS)
 AC_SUBST(HILDON_LIBS)
 
-dnl ==============================================
-dnl GNOME Specific extensions
-
 dnl The following conditional is set in AM_GCONF_SOURCE_2.
 dnl Because we may skip its execution, we have to set a default here.
 m4_pattern_allow([^AM_GCONF_SOURCE_2$])
 AM_CONDITIONAL([GCONF_SCHEMAS_INSTALL], [false])
 
-with_corba=false
-if test "x${gnumeric_with_gnome}" = xtrue; then
-
+dnl *******************
+dnl Do we need gconf ?
+dnl *******************
+gnumeric_with_gconf=false
+if test ! -z "`echo $GNUMERIC_CFLAGS|grep gconf`"; then
 	dnl ==============================================
 	dnl Special GConf section  (stolen from libgnome)
 	dnl ==============================================
@@ -328,13 +327,11 @@ if test "x${gnumeric_with_gnome}" = xtrue; then
 		AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
 	fi
 	AM_GCONF_SOURCE_2
-
-	dnl *************
-	dnl Corba support
-	dnl *************
-
-	dnl disabled -- hasn't worked for years.
+	gnumeric_with_gconf=true
 fi
+AM_CONDITIONAL(WITH_GCONF, $gnumeric_with_gconf)
+
+with_corba=false
 AM_CONDITIONAL(WITH_CORBA, $with_corba)
 
 

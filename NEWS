@@ -11,6 +11,9 @@ Andreas
 	* Remove crash potential under goto and cell-format dialog with 
 	  multiple views.  [Part of #364291]
 
+Jean:
+	* Make gconf use independent from the with-gnome option. [#574813]
+
 Jody:
 	* Work around semantic changes in gtk-2.16.
 	* rename sr@Latn -> sr@latin

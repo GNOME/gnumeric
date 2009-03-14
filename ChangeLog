@@ -1,3 +1,9 @@
+2009-03-14  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: check if goffice uses gconf and make gconf use independent
+	from the with-gnome option. [#574813]
+	* schemas/Makefile.am: ditto.
+
 2009-03-13  Jody Goldberg <jody@gnome.org>
 
 	* po/LINGUAS : rename sr@Latn -> sr@latin to maintain compatibility
