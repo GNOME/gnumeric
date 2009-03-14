@@ -657,6 +657,8 @@ gnm_pane_realize (GtkWidget *w)
 {
 	GtkStyle  *style;
 
+	GNM_PANE (w)->im_block_edit_start = FALSE;
+
 	if (GTK_WIDGET_CLASS (parent_klass)->realize)
 		(*GTK_WIDGET_CLASS (parent_klass)->realize) (w);
 
@@ -679,8 +681,10 @@ gnm_pane_unrealize (GtkWidget *widget)
 	pane = GNM_PANE (widget);
 	g_return_if_fail (pane != NULL);
 
-	if (pane->im_context)
+	if (pane->im_context) {
+		pane->im_block_edit_start = TRUE;
 		gtk_im_context_set_client_window (pane->im_context, NULL);
+	}
 
 	(*GTK_WIDGET_CLASS (parent_klass)->unrealize)(widget);
 }

@@ -11,6 +11,9 @@ Andreas
 	* Remove crash potential under goto and cell-format dialog with 
 	  multiple views.  [Part of #364291]
 
+Jody:
+	* Work around semantic changes in gtk-2.16.
+
 Morten:
 	* Fix multihead issues with cell comments.
 	* Fix multihead issue with sheet reordering.
