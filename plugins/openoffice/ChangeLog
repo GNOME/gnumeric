@@ -1,3 +1,8 @@
+2009-03-15  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* openoffice-read.c: (oo_plot_area): Fixed null pointer crash in
+	oo_plot_area(). [#575403]
+
 2009-03-12  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (determine_oo_version): New function factored

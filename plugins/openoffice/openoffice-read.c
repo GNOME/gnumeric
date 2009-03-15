@@ -2190,7 +2190,8 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.plot = gog_plot_new_by_name (type);
 	gog_object_add_by_name (GOG_OBJECT (state->chart.chart),
 		"Plot", GOG_OBJECT (state->chart.plot));
-	oo_prop_list_apply (style->plot_props, G_OBJECT (state->chart.plot));
+	if (style)
+		oo_prop_list_apply (style->plot_props, G_OBJECT (state->chart.plot));
 }
 
 static void
