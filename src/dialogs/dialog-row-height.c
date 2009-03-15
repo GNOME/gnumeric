@@ -297,6 +297,10 @@ dialog_row_height (WBCGtk *wbcg, gboolean use_default)
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_dialog_row_height_destroy);
 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), 
+					   state->wbcg,
+					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
+
 	dialog_row_height_set_mode (use_default, state);
 	dialog_row_height_load_value (state);
 

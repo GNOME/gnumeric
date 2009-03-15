@@ -302,6 +302,9 @@ dialog_col_width (WBCGtk *wbcg, gboolean use_default)
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_COL_WIDTH);
 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), 
+					   state->wbcg,
+					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
 	dialog_col_width_set_mode (use_default, state);
 	dialog_col_width_load_value (state);
 

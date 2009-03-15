@@ -1,3 +1,9 @@
+2008-03-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-row-height.c (dialog_row_height): setup destroy handler
+	  if the current sheet is deleted.
+	* dialog-col-width.c (dialog_col_width): ditto
+
 2008-03-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	[#575360]

@@ -8,9 +8,9 @@ Andreas
 	* Don't switch sheets when widgets are adjusted. [#574734]
 	* Fix printing of rotated text (negative angles or non-default 
 	  alignment). [#574813]
-	* Remove crash potential under goto and cell-format dialog with 
-	  multiple views.  [Part of #364291]
-	* Fis some strings. [#575360]
+	* Remove crash potential for various dialogs with multiple views.  
+	  [#364291]
+	* Fix some strings. [#575360]
 
 Jean:
 	* Make gconf use independent from the with-gnome option. [#574813]
