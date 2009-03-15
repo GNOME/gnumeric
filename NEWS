@@ -1,6 +1,6 @@
 Gnumeric 1.9.5
 
-Andreas
+Andreas:
 	* Fix style critical on latex export [#574125]
 	* Always print the whole printarea even if it has no
 	  content or style. [#554116] [#572818]
@@ -35,6 +35,7 @@ Morten:
 	* Make date edit use the date separator of the locale.  [Part of #33229]
 	* Fix xls writing crash.  [Part of #575318]
 	* Fix criticals in xls export for comments without author.
+	* Fix crash while loading broken xls.  [#575393]
 
 Sum1:
 	* Implement OOO probing.  [#574381]

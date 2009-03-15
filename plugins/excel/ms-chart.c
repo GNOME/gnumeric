@@ -3413,6 +3413,8 @@ ms_excel_chart_read_NUMBER (BiffQuery *q, XLChartReadState *state, size_t ofs)
 		return;
 
 	if (series->data[state->cur_role].value != NULL) {
+		XL_CHECK_CONDITION (row < (guint)series->data[state->cur_role].num_elements);
+
 		value_release (series->data[state->cur_role].value->vals[0][row]);
 		series->data[state->cur_role].value->vals[0][row] = value_new_float (val);
 	}
@@ -3445,6 +3447,8 @@ ms_excel_chart_read_LABEL (BiffQuery *q, XLChartReadState *state)
 	label = excel_biff_text_2 (state->container.importer, q, 6);
 	if (label != NULL  &&
 	    series->data[state->cur_role].value != NULL) {
+		XL_CHECK_CONDITION (row < (guint)series->data[state->cur_role].num_elements);
+
 		value_release (series->data[state->cur_role].value->vals[0][row]);
 		series->data[state->cur_role].value->vals[0][row] = value_new_string (label);
 	}
