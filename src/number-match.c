@@ -1160,15 +1160,9 @@ format_match (char const *text, GOFormat const *cur_fmt,
 		case GO_FORMAT_CURRENCY:
 			set_money_format (v);
 			break;
-		case GO_FORMAT_ACCOUNTING: {
-			GOFormat *fmt =
-				go_format_new_from_XL
-				(go_format_builtins[fam][2]);
-			value_set_fmt (v, fmt);
-			go_format_unref (fmt);
+		case GO_FORMAT_ACCOUNTING:
+			value_set_fmt (v, go_format_default_accounting ());
 			break;
-		}
-
 		default:
 			; /* Nothing */
 		}

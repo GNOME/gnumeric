@@ -1,5 +1,8 @@
 2009-03-15  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (excel_read_init): Do not localize formats 14,
+	15, 16, and 22.
+
 	* ms-chart.c (ms_excel_chart_read_NUMBER,
 	ms_excel_chart_read_LABEL): Add extra sanity check.  Fixes #575393.
 

@@ -1410,15 +1410,14 @@ static GNM_ACTION_DEF (cb_format_as_number)
 static GNM_ACTION_DEF (cb_format_as_currency)
 {
 	GOFormat *fmt = go_format_new_from_XL (go_format_builtins[GO_FORMAT_CURRENCY][0]);
-	apply_number_format (wbcg, fmt, _("Format as Currency"));
 	go_format_unref (fmt);
 }
 
 static GNM_ACTION_DEF (cb_format_as_accounting)
 {
-	GOFormat *fmt = go_format_new_from_XL (go_format_builtins[GO_FORMAT_ACCOUNTING][2]);
-	apply_number_format (wbcg, fmt, _("Format as Accounting"));
-	go_format_unref (fmt);
+	apply_number_format (wbcg,
+			     go_format_default_accounting (),
+			     _("Format as Accounting"));
 }
 
 static GNM_ACTION_DEF (cb_format_as_percentage)

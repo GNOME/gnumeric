@@ -159,15 +159,15 @@ char const *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
 /* 0x0b */	"0.00E+00",
 /* 0x0c */	"# ?/?",
 /* 0x0d */	"# ?" "?/?" "?",  /* Don't accidentally use trigraph.  */
-/* 0x0e		"m/d/yy" */ NULL,	/* locale specific, set in */
-/* 0x0f		"d-mmm-yy", */ NULL,	/* excel_read_init */
-/* 0x10		"d-mmm", */ NULL,
+/* 0x0e	*/	"m/d/yy",
+/* 0x0f	*/	"d-mmm-yy",
+/* 0x10	*/	"d-mmm",
 /* 0x11 */	"mmm-yy",
 /* 0x12 */	"h:mm AM/PM",
 /* 0x13 */	"h:mm:ss AM/PM",
 /* 0x14 */	"h:mm",
 /* 0x15 */	"h:mm:ss",
-/* 0x16		"m/d/yy h:mm", */ NULL,
+/* 0x16	*/	"m/d/yy h:mm",
 /* 0x17 */	NULL, /* 0x17-0x24 reserved for intl versions */
 /* 0x18 */	NULL,
 /* 0x19 */	NULL,
@@ -6788,10 +6788,25 @@ excel_read_init (void)
 {
 	int i;
 
-	excel_builtin_formats [0x0e] = go_format_builtins [GO_FORMAT_DATE][0];
-	excel_builtin_formats [0x0f] = go_format_builtins [GO_FORMAT_DATE][2];
-	excel_builtin_formats [0x10] = go_format_builtins [GO_FORMAT_DATE][4];
-	excel_builtin_formats [0x16] = go_format_builtins [GO_FORMAT_DATE][20];
+#if 0
+	/*
+	 * All the references I can find say this is wrong.
+	 *
+	 * http://openiso.org/Ecma/376/Part4/3.8.30
+	 * http://www.roseindia.net/java/poi/setFullListDataFormat.shtml
+	 * https://svn.apache.org/repos/asf/poi/trunk/src/java/org/apache/poi/hssf/usermodel/HSSFDataFormat.java
+	 *
+	 * WARNING: if it becomes necessary to reinstate, make sure not to
+	 * access gXXo_format_builtins anymore.  Its content will change
+	 * going forward.
+	 *
+	 * ("XX" to fool grep.)
+	 */	
+	excel_builtin_formats[0x0e] = gXXo_format_builtins [GO_FORMAT_DATE][0];
+	excel_builtin_formats[0x0f] = gXXo_format_builtins [GO_FORMAT_DATE][2];
+	excel_builtin_formats[0x10] = gXXo_format_builtins [GO_FORMAT_DATE][4];
+	excel_builtin_formats[0x16] = gXXo_format_builtins [GO_FORMAT_DATE][20];
+#endif
 
 	excel_func_by_name = g_hash_table_new (g_str_hash, g_str_equal);
 	for (i = 0; i < excel_func_desc_size; i++) {
