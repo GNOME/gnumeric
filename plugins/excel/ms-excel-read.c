@@ -70,6 +70,7 @@
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-doc.h>
 #include <goffice/utils/go-font.h>
+#include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/graph/gog-style.h>
@@ -6787,26 +6788,12 @@ void
 excel_read_init (void)
 {
 	int i;
+	int mbd = go_locale_month_before_day ();
 
-#if 0
-	/*
-	 * All the references I can find say this is wrong.
-	 *
-	 * http://openiso.org/Ecma/376/Part4/3.8.30
-	 * http://www.roseindia.net/java/poi/setFullListDataFormat.shtml
-	 * https://svn.apache.org/repos/asf/poi/trunk/src/java/org/apache/poi/hssf/usermodel/HSSFDataFormat.java
-	 *
-	 * WARNING: if it becomes necessary to reinstate, make sure not to
-	 * access gXXo_format_builtins anymore.  Its content will change
-	 * going forward.
-	 *
-	 * ("XX" to fool grep.)
-	 */	
-	excel_builtin_formats[0x0e] = gXXo_format_builtins [GO_FORMAT_DATE][0];
-	excel_builtin_formats[0x0f] = gXXo_format_builtins [GO_FORMAT_DATE][2];
-	excel_builtin_formats[0x10] = gXXo_format_builtins [GO_FORMAT_DATE][4];
-	excel_builtin_formats[0x16] = gXXo_format_builtins [GO_FORMAT_DATE][20];
-#endif
+	excel_builtin_formats[0x0e] = mbd ? "m/d/yy" : "d/m/yy";
+	excel_builtin_formats[0x0f] = mbd ? "d-mmm-yy" : "mmm-d-yy";
+	excel_builtin_formats[0x10] = mbd ? "d-mmm" : "mmm-d";
+	excel_builtin_formats[0x16] = mbd ? "m/d/yy h:mm" : "d/m/yy h:mm";
 
 	excel_func_by_name = g_hash_table_new (g_str_hash, g_str_equal);
 	for (i = 0; i < excel_func_desc_size; i++) {

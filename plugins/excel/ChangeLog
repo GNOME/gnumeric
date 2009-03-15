@@ -1,5 +1,10 @@
 2009-03-15  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (excel_read_init): Reinstate, but without
+	looking at go_format_builtins.
+
+2009-03-15  Morten Welinder  <terra@gnome.org>
+
 	* ms-excel-read.c (excel_read_init): Do not localize formats 14,
 	15, 16, and 22.
 
