@@ -494,6 +494,10 @@ dhl_init (HyperlinkState *state)
 		G_CALLBACK (dhl_cb_menu_changed),
 		state);
 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), 
+					   state->wbcg,
+					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
+	
 	return FALSE;
 }
 

@@ -163,6 +163,10 @@ dialog_delete_cells (WBCGtk *wbcg)
 	g_signal_connect (G_OBJECT (w), "clicked",
 		G_CALLBACK (cb_delete_cell_cancel_clicked), state);
 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), 
+					   state->wbcg,
+					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
+
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "helpbutton"),
 		GNUMERIC_HELP_LINK_DELETE_CELLS);

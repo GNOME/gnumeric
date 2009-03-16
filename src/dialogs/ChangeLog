@@ -1,3 +1,11 @@
+2008-03-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-delete-cells.c (dialog_delete_cells): setup destroy handler
+	  if the current sheet is deleted.
+	* dialog-hyperlink.c (dhl_init): ditto
+	* dialog-paste-special (dialog_paste_special): ditto
+	* dialog-merge.c (dialog_merge): ditto
+
 2008-03-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-autofilter.c (dialog_auto_filter): setup destroy handler

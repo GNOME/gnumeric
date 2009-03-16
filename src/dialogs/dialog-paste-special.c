@@ -239,6 +239,10 @@ dialog_paste_special (WBCGtk *wbcg)
 	gtk_widget_show_all (vbox);
 	gtk_widget_grab_focus (first_button);
 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), 
+					   state->wbcg,
+					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);	
+
 	/* a candidate for merging into attach guru */
 	g_signal_connect (G_OBJECT (state->dialog), "response",
 		G_CALLBACK (cb_paste_special_response), state);

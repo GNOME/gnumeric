@@ -433,6 +433,10 @@ dialog_merge (WBCGtk *wbcg)
 		"clicked",
 		G_CALLBACK (cb_merge_cancel_clicked), state);
 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), 
+					   state->wbcg,
+					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
+
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_DATA_MERGE);
