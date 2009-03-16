@@ -38,6 +38,8 @@ Morten:
 	* Fix criticals in xls export for comments without author.
 	* Fix crash while loading broken xls.  [#575393]
 	* Fix string problem with broken xls.  [#575452]
+	* Improve date entry for locales that end abbreviated month names
+	with punctuation.
 
 Sum1:
 	* Implement OOO probing.  [#574381]

@@ -1,3 +1,9 @@
+2009-03-16  Morten Welinder  <terra@gnome.org>
+
+	* src/number-match.c (datetime_locale_setup): Handle the nb_NO
+	case where abbreviated months end in a period by making that
+	period optional on entry.
+
 2009-03-15  Morten Welinder  <terra@gnome.org>
 
 	* src/number-match.c (format_match): Use

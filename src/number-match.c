@@ -184,6 +184,9 @@ datetime_locale_setup (char const *lc_time)
 		g_string_append_c (p_MMM, '(');
 		s = go_date_month_name (m, TRUE);
 		go_regexp_quote (p_MMM, s);
+		/* nb_NO actually adds a "." for these abbreviations.  */
+		if (g_unichar_ispunct (g_utf8_get_char (g_utf8_prev_char (p_MMM->str + p_MMM->len))))
+			g_string_append_c (p_MMM, '?');
 		g_free (s);
 		g_string_append_c (p_MMM, ')');
 	}
