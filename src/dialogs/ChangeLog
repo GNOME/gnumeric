@@ -1,5 +1,12 @@
 2008-03-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-autofilter.c (dialog_auto_filter): setup destroy handler
+	  if the current sheet is deleted.
+	* dialog-cell-sort.c (dialog_init): ditto
+	* dialog-printer-setup.c (dialog_printer_setup): ditto
+
+2008-03-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-row-height.c (dialog_row_height): setup destroy handler
 	  if the current sheet is deleted.
 	* dialog-col-width.c (dialog_col_width): ditto

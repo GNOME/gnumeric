@@ -311,6 +311,10 @@ dialog_auto_filter (WBCGtk *wbcg,
 		is_expr ? GNUMERIC_HELP_LINK_AUTOFILTER_CUSTOM :
 		GNUMERIC_HELP_LINK_AUTOFILTER_TOP_TEN);
 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), 
+					   state->wbcg,
+					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
+
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_autofilter_destroy);

@@ -1050,6 +1050,10 @@ dialog_init (SortFlowState *state)
 			  "clicked",
 			  G_CALLBACK (cb_dialog_cancel_clicked), state);
 
+	gnm_dialog_setup_destroy_handlers (GTK_DIALOG (state->dialog), 
+					   state->wbcg,
+					   GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED);
+
 	/* Finish dialog signals */
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),
