@@ -964,6 +964,7 @@ excel_get_text (GnmXLImporter const *importer,
 	}
 
 	str_len_bytes = (use_utf16 ? 2 : 1) * length;
+
 	if (*byte_length > maxlen) {
 		*byte_length = maxlen;
 		length = 0;
@@ -1082,12 +1083,24 @@ excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet,
 
 		txo_run.accum = pango_attr_list_new ();
 		while (n > 0) {
+			guint16 o,l;
+
 			n -= 4;
-			txo_run.first = g_utf8_offset_to_pointer (str,
-				GSF_LE_GET_GUINT16 (ptr + n)) - str;
-			pango_attr_list_filter (ms_container_get_markup (
-				c, GSF_LE_GET_GUINT16 (ptr + n + 2)),
-				(PangoAttrFilterFunc) append_markup, &txo_run);
+
+			o = GSF_LE_GET_GUINT16 (ptr + n);
+			l = GSF_LE_GET_GUINT16 (ptr + n + 2);
+			XL_CHECK_CONDITION_VAL (o + l < str_len,
+						(pango_attr_list_unref (txo_run.accum),
+						 NULL));
+
+			txo_run.first = g_utf8_offset_to_pointer (str, o) - str;
+			XL_CHECK_CONDITION_VAL (txo_run.first < txo_run.last,
+						(pango_attr_list_unref (txo_run.accum),
+						 NULL));
+
+			pango_attr_list_filter (ms_container_get_markup (c, l),
+						(PangoAttrFilterFunc) append_markup,
+						&txo_run);
 			txo_run.last = txo_run.first;
 		}
 	} else {
@@ -5819,8 +5832,7 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 	if (txt != NULL) {
 		GOFormat *fmt = NULL;
 		if (has_markup)
-			fmt = excel_read_LABEL_markup (q, esheet,
-						       txt, str_len);
+			fmt = excel_read_LABEL_markup (q, esheet, txt, strlen (txt));
 
 		/* might free txt, do not do this until after parsing markup */
 		v = value_new_string_nocopy (txt);

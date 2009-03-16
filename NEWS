@@ -37,6 +37,7 @@ Morten:
 	* Fix xls writing crash.  [Part of #575318]
 	* Fix criticals in xls export for comments without author.
 	* Fix crash while loading broken xls.  [#575393]
+	* Fix string problem with broken xls.  [#575452]
 
 Sum1:
 	* Implement OOO probing.  [#574381]

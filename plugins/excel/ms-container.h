@@ -66,7 +66,7 @@ Sheet		*ms_container_sheet	  (MSContainer const *c);
 GOFormat	*ms_container_get_fmt	  (MSContainer const *c, unsigned indx);
 PangoAttrList	*ms_container_get_markup  (MSContainer const *c, unsigned indx);
 PangoAttrList	*ms_container_read_markup (MSContainer const *c,
-					   guint8 const *data, int txo_len,
+					   guint8 const *data, size_t txo_len,
 					   char const *str);
 
 #endif /* GNM_EXCEL_CONTAINER_H */

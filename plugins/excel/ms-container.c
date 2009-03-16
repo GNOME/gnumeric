@@ -15,6 +15,7 @@
 #include "ms-container.h"
 #include "ms-escher.h"
 #include "ms-obj.h"
+#include "ms-excel-util.h"
 
 #include <expr-name.h>
 #include <str.h>
@@ -252,22 +253,35 @@ append_txorun (PangoAttribute *src, TXORun *run)
 	pango_attr_list_change (run->accum, dst);
 	return FALSE;
 }
+
 PangoAttrList *
 ms_container_read_markup (MSContainer const *c,
-			  guint8 const *data, int txo_len, char const *str)
+			  guint8 const *data, size_t txo_len,
+			  char const *str)
 {
 	TXORun txo_run;
+	size_t str_len;
 
 	g_return_val_if_fail (txo_len >= 16, NULL); /* min two records */
+
+	str_len = g_utf8_strlen (str, -1);
 
 	txo_run.last = G_MAXINT;
 	txo_run.accum = pango_attr_list_new ();
 	for (txo_len -= 16 ; txo_len >= 0 ; txo_len -= 8) {
-		txo_run.first = g_utf8_offset_to_pointer (str,
-			GSF_LE_GET_GUINT16 (data + txo_len)) - str;
-		pango_attr_list_filter (ms_container_get_markup (
-			c, GSF_LE_GET_GUINT16 (data + txo_len + 2)),
-			(PangoAttrFilterFunc) append_txorun, &txo_run);
+		guint16 o = GSF_LE_GET_GUINT16 (data + txo_len);
+		guint16 l = GSF_LE_GET_GUINT16 (data + txo_len + 2);
+		XL_CHECK_CONDITION_VAL (o + l < str_len,
+					(pango_attr_list_unref (txo_run.accum),
+					 NULL));
+
+		txo_run.first = g_utf8_offset_to_pointer (str, o) - str;
+		XL_CHECK_CONDITION_VAL (txo_run.first < txo_run.last,
+					(pango_attr_list_unref (txo_run.accum), NULL));
+					
+		pango_attr_list_filter (ms_container_get_markup (c, l),
+					(PangoAttrFilterFunc) append_txorun,
+					&txo_run);
 		txo_run.last = txo_run.first;
 	}
 	return txo_run.accum;

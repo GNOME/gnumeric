@@ -1,3 +1,9 @@
+2009-03-16  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_LABEL_markup): Verify that offsets
+	are sane.
+	(excel_read_LABEL_markup): Ditto.  Fixes #575452.
+
 2009-03-15  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_init): Reinstate, but without

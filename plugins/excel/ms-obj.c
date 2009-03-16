@@ -442,7 +442,8 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 	if (continue_seen) {
 		if (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
 			ms_biff_query_next (q);
-			*markup = ms_container_read_markup (c, q->data, q->length, text);
+			*markup = ms_container_read_markup (c, q->data, q->length,
+							    text);
 		} else {
 			g_warning ("Unusual, TXO text with no formatting has 0x%x @ 0x%x", op, q->streamPos);
 		}
@@ -565,7 +566,8 @@ read_pre_biff8_read_text (BiffQuery *q, MSContainer *c, MSObj *obj,
 		ms_obj_attr_new_ptr (MS_OBJ_ATTR_TEXT, str));
 
 	if (NULL != markup_data) {
-		markup = ms_container_read_markup (c, markup_data->data, markup_data->len, str);
+		markup = ms_container_read_markup (c, markup_data->data, markup_data->len,
+						   str);
 		g_byte_array_free (markup_data, TRUE);
 	} else if (txo_len > 0) {
 		remaining = q->data + q->length - first;
@@ -581,10 +583,12 @@ read_pre_biff8_read_text (BiffQuery *q, MSContainer *c, MSObj *obj,
 				txo_len -= q->length;
 			}
 			first = q->data + txo_len;
-			markup = ms_container_read_markup (c, accum->data, accum->len, str);
+			markup = ms_container_read_markup (c, accum->data, accum->len,
+							   str);
 			g_byte_array_free (accum, TRUE);
 		} else {
-			markup = ms_container_read_markup (c, first, txo_len, str);
+			markup = ms_container_read_markup (c, first, txo_len,
+							   str);
 			first += txo_len;
 		}
 	}
