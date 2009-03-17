@@ -853,11 +853,8 @@ gnumeric_text (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmValue *res, *match = NULL;
 	GnmValue const *v  = argv[0];
-	GOFormat *fmt;
 	GODateConventions const *conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
-	GString *str;
-	GOFormatNumberError err;
 	char *lfmt;
 
 	/* Why do we have to do these here?  */
@@ -869,17 +866,23 @@ gnumeric_text (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		v = value_zero;
 
 	lfmt = go_format_str_delocalize (value_peek_string (argv[1]));
-	fmt = go_format_new_from_XL (lfmt);
-	g_free (lfmt);
-	str = g_string_sized_new (80);
-	err = format_value_gstring (str, fmt, v, NULL, -1, conv);
-	if (err) {
-		g_string_free (str, TRUE);
-		res = value_new_error_VALUE (ei->pos);
+	if (lfmt) {
+		GOFormat *fmt = go_format_new_from_XL (lfmt);
+		GString *str = g_string_sized_new (80);
+		GOFormatNumberError err;
+
+		g_free (lfmt);
+		err = format_value_gstring (str, fmt, v, NULL, -1, conv);
+		if (err) {
+			g_string_free (str, TRUE);
+			res = value_new_error_VALUE (ei->pos);
+		} else {
+			res = value_new_string_nocopy (g_string_free (str, FALSE));
+		}
+		go_format_unref (fmt);
 	} else {
-		res = value_new_string_nocopy (g_string_free (str, FALSE));
+		res = value_new_error_VALUE (ei->pos);
 	}
-	go_format_unref (fmt);
 
 	if (match != NULL)
 		value_release (match);
