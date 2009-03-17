@@ -487,11 +487,12 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 		gtk_widget_show (item);
 	}
 
-	g_object_get (scg->wbcg->bnotebook, "scrollable", &scrollable, NULL);
-	if (scrollable) {
+	if (1) {
 		GSList *l, *scgs = get_all_scgs (scg->wbcg);
+		GtkWidget *submenu = gtk_menu_new ();
 
-		item = gtk_separator_menu_item_new ();
+		item = gtk_menu_item_new_with_label (_("Select"));
+		gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), submenu);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 		gtk_widget_show (item);
 
@@ -504,7 +505,7 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 			item = gtk_menu_item_new_with_label (sheet->name_unquoted);
 			g_signal_connect_swapped (G_OBJECT (item), "activate",
 						  G_CALLBACK (cb_show_sheet), scg1);
-			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+			gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
 			gtk_widget_show (item);
 		}
 

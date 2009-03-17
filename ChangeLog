@@ -1,3 +1,8 @@
+2009-03-17  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (sheet_menu_label_run): Toss the sheets into a
+	submenu and display it regardless of how many sheets we have.
+
 2009-03-16  Morten Welinder  <terra@gnome.org>
 
 	* src/number-match.c (datetime_locale_setup): Handle the nb_NO
