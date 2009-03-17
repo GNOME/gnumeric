@@ -1934,7 +1934,7 @@ oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 		case GNM_FILTER_OP_BOTTOM_N:
 		case GNM_FILTER_OP_TOP_N_PERCENT:
 		case GNM_FILTER_OP_TOP_N:
-			if (VALUE_IS_NUMBER(v))
+			if (v && VALUE_IS_NUMBER(v))
 				cond = gnm_filter_condition_new_bucket (
 					0 == (op & GNM_FILTER_OP_BOTTOM_MASK),
 					0 == (op & GNM_FILTER_OP_PERCENT_MASK),

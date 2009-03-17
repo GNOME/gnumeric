@@ -1,3 +1,7 @@
+2009-03-17  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_filter_cond): Fix crash #575600.
+
 2009-03-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* openoffice-read.c: (oo_plot_area): Fixed null pointer crash in
