@@ -1,3 +1,7 @@
+2009-03-18  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (oo_cellref_parse): Handle sheet name #REF!
+
 2009-03-17  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_filter_cond): Fix crash #575600.

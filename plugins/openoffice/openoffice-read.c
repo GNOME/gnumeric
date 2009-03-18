@@ -831,8 +831,13 @@ two_quotes :
 		 * been added yet add it.  Reorder below. */
 		ref->sheet = workbook_sheet_by_name (pp->wb, name);
 		if (ref->sheet == NULL) {
-			ref->sheet = sheet_new (pp->wb, name);
-			workbook_sheet_attach (pp->wb, ref->sheet);
+			if (strcmp (name, "#REF!") == 0) {
+				g_warning ("Ignoring reference to sheet %s", name);
+				ref->sheet = NULL;
+			} else {
+				ref->sheet = sheet_new (pp->wb, name);
+				workbook_sheet_attach (pp->wb, ref->sheet);
+			}
 		}
 	} else {
 		ptr++; /* local ref */
@@ -3008,6 +3013,24 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		/* get the sheet in the right order (in case something was
 		 * created out of order implictly) */
 		state.sheet_order = g_slist_reverse (state.sheet_order);
+#if 0
+		{
+			GSList *l;
+			g_printerr ("Order we desire:\n");
+			for (l = state.sheet_order; l; l = l->next) {
+				Sheet *sheet = l->data;
+				g_printerr ("Sheet %s\n", sheet->name_unquoted);
+			}
+		}
+		{
+			GList *l;
+			g_printerr ("Order we have:\n");
+			for (l = workbook_sheets (state.pos.wb); l; l = l->next) {
+				Sheet *sheet = l->data;
+				g_printerr ("Sheet %s\n", sheet->name_unquoted);
+			}
+		}
+#endif
 		workbook_sheet_reorder (state.pos.wb, state.sheet_order);
 		g_slist_free (state.sheet_order);
 
