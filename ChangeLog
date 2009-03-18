@@ -1,5 +1,8 @@
 2009-03-17  Morten Welinder  <terra@gnome.org>
 
+	* src/main-application.c (main): Reconnect the no-splash and
+	no-warnings flags.
+
 	* src/wbc-gtk.c (sheet_menu_label_run): Toss the sheets into a
 	submenu and display it regardless of how many sheets we have.
 

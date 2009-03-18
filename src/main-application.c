@@ -400,7 +400,11 @@ main (int argc, char const **argv)
 	gnm_init (TRUE);
 
 	if (with_gui) {
-		ioc = IO_CONTEXT (g_object_new (TYPE_IO_CONTEXT_GTK, NULL));
+		ioc = IO_CONTEXT
+			(g_object_new (TYPE_IO_CONTEXT_GTK,
+				       "show-splash", !gnumeric_no_splash,
+				       "show-warnings", !gnumeric_no_warnings,
+				       NULL));
 		handle_paint_events ();
 		pathetic_qt_workaround ();
 	} else {
