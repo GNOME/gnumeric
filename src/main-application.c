@@ -123,42 +123,6 @@ handle_paint_events (void)
 		gtk_main_iteration_do (FALSE);
 }
 
-static void
-warn_about_ancient_gnumerics (char const *binary, IOContext *ioc)
-{
-	struct stat buf;
-	time_t now = time (NULL);
-	int days = 180;
-	char const *sep;
-
-	if (!binary)
-		return;
-
-	for (sep = binary; *sep; sep++)
-		if (G_IS_DIR_SEPARATOR (*sep))
-			break;
-
-	if (binary &&
-	    *sep &&
-	    g_stat (binary, &buf) != -1 &&
-	    buf.st_mtime != -1 &&
-	    now - buf.st_mtime > days * 24 * 60 * 60) {
-		handle_paint_events ();
-
-		go_cmd_context_error_system (GO_CMD_CONTEXT (ioc),
-			_("Thank you for using Gnumeric!\n"
-			  "\n"
-			  "The version of Gnumeric you are using is quite old\n"
-			  "by now.  It is likely that many bugs have been fixed\n"
-			  "and that new features have been added in the meantime.\n"
-			  "\n"
-			  "Please consider upgrading before reporting any bugs.\n"
-			  "Consult http://www.gnome.org/projects/gnumeric/ for details.\n"
-			  "\n"
-			  "-- The Gnumeric Team."));
-	}
-}
-
 static GObject *program = NULL;
 
 static void
@@ -493,10 +457,6 @@ main (int argc, char const **argv)
 			GSList *l;
 			for (l = wbcgs_to_kill; l; l = l->next)
 				g_idle_add ((GSourceFunc)cb_kill_wbcg, l->data);
-		} else {
-			if (GNM_VERSION_MAJOR & 1)
-				warn_about_ancient_gnumerics (g_get_prgname(),
-							      ioc);
 		}
 		g_object_unref (ioc);
 

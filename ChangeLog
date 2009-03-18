@@ -1,3 +1,8 @@
+2009-03-18  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c (warn_about_ancient_gnumerics): Remove --
+	it last served a useful purpose 6-8 years ago.
+
 2009-03-17  Morten Welinder  <terra@gnome.org>
 
 	* src/main-application.c (main): Reconnect the no-splash and
