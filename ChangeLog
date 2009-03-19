@@ -1,3 +1,8 @@
+2009-03-19  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (gnumeric_reqs): Require glib 2.12 for
+	g_hash_table_remove_all.
+
 2009-03-18  Morten Welinder  <terra@gnome.org>
 
 	* src/main-application.c (warn_about_ancient_gnumerics): Remove --

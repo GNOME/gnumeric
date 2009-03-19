@@ -1242,15 +1242,17 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 		break;
 
 	case OO_STYLE_CHART:
+		state->chart.plot_type = OO_PLOT_UNKNOWN;
 		if (name != NULL){
 			cur_style = g_new0(OOChartStyle, 1);
 			cur_style->axis_props = NULL;
 			cur_style->plot_props = NULL;
 			state->chart.cur_graph_style = cur_style;
-			state->chart.plot_type = OO_PLOT_UNKNOWN;
 			g_hash_table_replace (state->chart.graph_styles,
 					      g_strdup (name),
 					      state->chart.cur_graph_style);
+		} else {
+			state->chart.cur_graph_style = NULL;
 		}
 		break;
 	default:
@@ -2057,11 +2059,10 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	g_print ("END %s\n", name);
 #endif
 
-	g_hash_table_destroy (state->chart.graph_styles);
-	state->chart.graph_styles = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) oo_chart_style_free);
+	if (state->cur_style_type == OO_STYLE_CHART)
+		state->cur_style_type = OO_STYLE_UNKNOWN;
+	state->chart.cur_graph_style = NULL;
+	g_hash_table_remove_all (state->chart.graph_styles);
 }
 
 static void

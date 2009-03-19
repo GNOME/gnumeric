@@ -2,6 +2,8 @@
 
 	* openoffice-read.c (various): Protect against going outside our
 	supported sheet size.  Fixes #575843.
+	(od_draw_object): Clear out cur_style_type and cur_graph_style as
+	appropriate.  Fixes #575981.
 
 2009-03-18  Morten Welinder  <terra@gnome.org>
 
