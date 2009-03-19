@@ -1,3 +1,8 @@
+2009-03-19  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (various): Protect against going outside our
+	supported sheet size.  Fixes #575843.
+
 2009-03-18  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_cellref_parse): Handle sheet name #REF!

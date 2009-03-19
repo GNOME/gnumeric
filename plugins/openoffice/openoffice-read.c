@@ -581,6 +581,7 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmRange r;
+	int max_cols, max_rows;
 
 	if (NULL != state->page_breaks.h) {
 		print_info_set_breaks (state->pos.sheet->print_info,
@@ -593,20 +594,23 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		state->page_breaks.v = NULL;
 	}
 
+	max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
+	max_rows = gnm_sheet_get_max_rows (state->pos.sheet);
+
 	/* default cell styles are applied only to cells that are specified
 	 * which is a performance nightmare.  Instead we apply the styles to
 	 * the entire column or row and clear the area beyond the extent here. */
-	if ((state->extent_style.col+1) < gnm_sheet_get_max_cols (NULL)) {
-		range_init (&r, state->extent_style.col+1, 0,
-			gnm_sheet_get_max_cols (NULL)-1, gnm_sheet_get_max_rows (NULL)-1);
+	if (state->extent_style.col + 1 < max_cols) {
+		range_init (&r, state->extent_style.col + 1, 0,
+			    max_cols - 1, max_rows - 1);
 		sheet_style_set_range (state->pos.sheet, &r,
-			sheet_style_default (state->pos.sheet));
+				       sheet_style_default (state->pos.sheet));
 	}
-	if ((state->extent_style.row+1) < gnm_sheet_get_max_rows (NULL)) {
+	if (state->extent_style.row + 1 < max_rows) {
 		range_init (&r, 0, state->extent_style.row+1,
-			gnm_sheet_get_max_cols (NULL)-1, gnm_sheet_get_max_rows (NULL)-1);
+			    max_cols - 1, max_rows - 1);
 		sheet_style_set_range (state->pos.sheet, &r,
-			sheet_style_default (state->pos.sheet));
+				       sheet_style_default (state->pos.sheet));
 	}
 
 	oo_colrow_reset_defaults (state, TRUE);
@@ -689,7 +693,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 		r.start.col = state->pos.eval.col;
 		r.end.col   = state->pos.eval.col + repeat_count - 1;
 		r.start.row = 0;
-		r.end.row  = gnm_sheet_get_max_rows (NULL) - 1;
+		r.end.row  = gnm_sheet_get_last_row (state->pos.sheet);
 		gnm_style_ref (style);
 		sheet_style_set_range (state->pos.sheet, &r, style);
 		oo_update_style_extent (state, repeat_count, -1);
@@ -723,11 +727,12 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmStyle *style = NULL;
 	int	  i, repeat_count = 1;
 	gboolean  hidden = FALSE;
+	int max_rows = gnm_sheet_get_max_rows (state->pos.sheet);
 
 	state->pos.eval.col = 0;
 
-	if (state->pos.eval.row >= gnm_sheet_get_max_rows (NULL)) {
-		oo_warning (xin, _("Content past the maximum number of rows supported in this build (%u).  Please recompile with larger limits."), gnm_sheet_get_max_rows (NULL));
+	if (state->pos.eval.row >= max_rows) {
+		oo_warning (xin, _("Content past the maximum number of rows supported in this build (%u).  Please recompile with larger limits."), max_rows);
 		state->row_inc = 0;
 		return;
 	}
@@ -750,7 +755,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 		r.start.row = state->pos.eval.row;
 		r.end.row   = state->pos.eval.row + repeat_count - 1;
 		r.start.col = 0;
-		r.end.col  = gnm_sheet_get_max_cols (NULL) - 1;
+		r.end.col  = gnm_sheet_get_last_col (state->pos.sheet);
 		gnm_style_ref (style);
 		sheet_style_set_range (state->pos.sheet, &r, style);
 		oo_update_style_extent (state, -1, repeat_count);
@@ -895,6 +900,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmStyle *style = NULL;
 	char const *expr_string;
 	GnmRange tmp;
+	int max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
+	int max_rows = gnm_sheet_get_max_rows (state->pos.sheet);
 
 	state->col_inc = 1;
 	state->content_is_error = FALSE;
@@ -983,6 +990,18 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 	}
 
+	if (state->pos.eval.col >= max_cols ||
+	    state->pos.eval.row >= max_rows) {
+		if (texpr)
+			gnm_expr_top_unref (texpr);
+		if (val)
+			value_release (val);
+		return;
+	}
+
+	merge_cols = MIN (merge_cols, max_cols - state->pos.eval.col);
+	merge_rows = MIN (merge_rows, max_rows - state->pos.eval.row);
+
 	if (style != NULL) {
 		gnm_style_ref (style);
 		if (state->col_inc > 1 || state->row_inc > 1) {
@@ -992,7 +1011,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			oo_update_style_extent (state, state->col_inc, state->row_inc);
 		} else if (merge_cols > 1 || merge_rows > 1) {
 			range_init_cellpos_size (&tmp, &state->pos.eval,
-				merge_cols, merge_rows);
+						 merge_cols, merge_rows);
 			sheet_style_set_range (state->pos.sheet, &tmp, style);
 			oo_update_style_extent (state, merge_cols, merge_rows);
 		} else {
@@ -1002,10 +1021,12 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			oo_update_style_extent (state, 1, 1);
 		}
 	}
+
 	state->content_is_simple = FALSE;
 	if (texpr != NULL) {
 		GnmCell *cell = sheet_cell_fetch (state->pos.sheet,
-			state->pos.eval.col, state->pos.eval.row);
+						  state->pos.eval.col,
+						  state->pos.eval.row);
 
 		if (array_cols > 0 || array_rows > 0) {
 			if (array_cols <= 0) {
@@ -1026,7 +1047,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		} else {
 			if (val != NULL)
 				gnm_cell_set_expr_and_value (cell, texpr, val,
-							 TRUE);
+							     TRUE);
 			else
 				gnm_cell_set_expr (cell, texpr);
 			gnm_expr_top_unref (texpr);
@@ -1048,7 +1069,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (merge_cols > 1 || merge_rows > 1) {
 		range_init_cellpos_size (&tmp, &state->pos.eval,
-			merge_cols, merge_rows);
+					 merge_cols, merge_rows);
 		gnm_sheet_merge_add (state->pos.sheet, &tmp, FALSE, NULL);
 	}
 }
@@ -1084,9 +1105,18 @@ oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 
 	if (state->content_is_simple || state->content_is_error) {
+		int max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
+		int max_rows = gnm_sheet_get_max_rows (state->pos.sheet);
 		GnmValue *v;
-		GnmCell *cell = sheet_cell_fetch (state->pos.sheet,
-			state->pos.eval.col, state->pos.eval.row);
+		GnmCell *cell;
+
+		if (state->pos.eval.col >= max_cols ||
+		    state->pos.eval.row >= max_rows)
+			return;
+
+		cell = sheet_cell_fetch (state->pos.sheet,
+					 state->pos.eval.col,
+					 state->pos.eval.row);
 
 		if (state->content_is_simple)
 			/* embedded newlines stored as a series of <p> */

@@ -40,7 +40,7 @@ Morten:
 	* Fix string problem with broken xls.  [#575452]
 	* Improve date entry for locales that end abbreviated month names
 	with punctuation.
-	* Fix ODS crash.  [#575600]
+	* Fix ODS crashes.  [#575600, 575843]
 
 Sum1:
 	* Implement OOO probing.  [#574381]
