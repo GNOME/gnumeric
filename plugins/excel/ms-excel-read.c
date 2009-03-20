@@ -1091,13 +1091,11 @@ excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet,
 			o = GSF_LE_GET_GUINT16 (ptr + n);
 			l = GSF_LE_GET_GUINT16 (ptr + n + 2);
 			XL_CHECK_CONDITION_VAL (o + l <= str_len,
-						(pango_attr_list_unref (txo_run.accum),
-						 NULL));
+						go_format_new_markup (txo_run.accum, FALSE));
 
 			txo_run.first = g_utf8_offset_to_pointer (str, o) - str;
 			XL_CHECK_CONDITION_VAL (txo_run.first < txo_run.last,
-						(pango_attr_list_unref (txo_run.accum),
-						 NULL));
+						go_format_new_markup (txo_run.accum, FALSE));
 
 			pango_attr_list_filter (ms_container_get_markup (c, l),
 						(PangoAttrFilterFunc) append_markup,
