@@ -466,7 +466,6 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 	unsigned int i;
 	GtkWidget *item, *menu = gtk_menu_new ();
 	gboolean has_multiple = gnm_notebook_get_n_visible (scg->wbcg->bnotebook) > 1;
-	gboolean scrollable;
 
 	for (i = 0; i < G_N_ELEMENTS (sheet_label_context_actions); i++){
 		char const *text = sheet_label_context_actions[i].text;
