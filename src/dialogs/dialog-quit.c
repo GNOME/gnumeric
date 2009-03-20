@@ -220,6 +220,7 @@ show_quit_dialog (GList *dirty, WBCGtk *wbcg)
 	gtk_dialog_set_default_response (dialog, GTK_RESPONSE_OK);
 
 	tree = (GtkTreeView *)gtk_tree_view_new ();
+	gtk_tree_view_set_enable_search (tree, FALSE);
 	gtk_container_add (GTK_CONTAINER (scrollw), GTK_WIDGET (tree));
 	gtk_tree_view_set_model (tree, GTK_TREE_MODEL (list));
 
