@@ -288,8 +288,9 @@ wb_view_style_feedback (WorkbookView *wbv)
 		GnmRange corner;
 		GnmRange const *r;
 
-		if (NULL == (r = gnm_sheet_merge_contains_pos (sv->sheet, &sv->edit_pos)))
-			r = range_init_cellpos_size (&corner, &sv->edit_pos, 1, 1);
+		r = gnm_sheet_merge_contains_pos (sv->sheet, &sv->edit_pos);
+		if (r == NULL)
+			r = range_init_cellpos (&corner, &sv->edit_pos);
 		wbv->validation_combo = gnm_validation_combo_new (val, sv);
 		sheet_object_anchor_init (&anchor, r, a_offsets,
 			GOD_ANCHOR_DIR_DOWN_RIGHT);
