@@ -70,6 +70,7 @@
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-doc.h>
 #include <goffice/utils/go-font.h>
+#include <goffice/utils/go-format.h>
 #include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/go-glib-extras.h>
@@ -6796,16 +6797,29 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view, GsfInput *input,
 }
 
 
+static GSList *formats;
+
 void
 excel_read_init (void)
 {
 	int i;
 	int mbd = go_locale_month_before_day ();
+	GOFormat *fmt;
 
-	excel_builtin_formats[0x0e] = mbd ? "m/d/yy" : "d/m/yy";
-	excel_builtin_formats[0x0f] = mbd ? "d-mmm-yy" : "mmm-d-yy";
+	fmt = go_format_new_magic (GO_FORMAT_MAGIC_SHORT_DATE);
+	formats = g_slist_prepend (formats, fmt);
+	excel_builtin_formats[0x0e] = go_format_as_XL (fmt);
+
+	fmt = go_format_new_magic (GO_FORMAT_MAGIC_MEDIUM_DATE);
+	formats = g_slist_prepend (formats, fmt);
+	excel_builtin_formats[0x0f] = go_format_as_XL (fmt);
+
+	/* Doesn't seem to have a name.  */
 	excel_builtin_formats[0x10] = mbd ? "d-mmm" : "mmm-d";
-	excel_builtin_formats[0x16] = mbd ? "m/d/yy h:mm" : "d/m/yy h:mm";
+
+	fmt = go_format_new_magic (GO_FORMAT_MAGIC_SHORT_DATETIME);
+	formats = g_slist_prepend (formats, fmt);
+	excel_builtin_formats[0x16] = go_format_as_XL (fmt);
 
 	excel_func_by_name = g_hash_table_new (g_str_hash, g_str_equal);
 	for (i = 0; i < excel_func_desc_size; i++) {
@@ -6823,4 +6837,8 @@ void
 excel_read_cleanup (void)
 {
 	g_hash_table_destroy (excel_func_by_name);
+	excel_func_by_name = NULL;
+
+	go_slist_free_custom (formats, (GFreeFunc)go_format_unref);
+	formats = NULL;
 }

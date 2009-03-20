@@ -41,6 +41,8 @@ Morten:
 	* Improve date entry for locales that end abbreviated month names
 	with punctuation.
 	* Fix ODS crashes.  [#575600] [#575843] [#575981]
+	* Use goffice magic formats for certain date and time formats so we
+	can persist them in .gnumeric.
 
 Sum1:
 	* Implement OOO probing.  [#574381]
