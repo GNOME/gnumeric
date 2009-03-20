@@ -1,5 +1,12 @@
 2009-03-20  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (excel_read_LABEL_markup): Fix sanity check
+	off-by-one.
+
+	* ms-container.c (ms_container_read_markup): Fix termination
+	condition.  #576112.
+	(ms_container_read_markup): Fix sanity check off-by-one.
+
 	* ms-excel-read.c (excel_read_init): Use magic formats for 0x0e,
 	0x0f, and 0x16.  Keep the nameless magic for 0x10.
 

@@ -268,10 +268,10 @@ ms_container_read_markup (MSContainer const *c,
 
 	txo_run.last = G_MAXINT;
 	txo_run.accum = pango_attr_list_new ();
-	for (txo_len -= 16 ; txo_len >= 0 ; txo_len -= 8) {
+	for (txo_len -= 16 ; (gssize)txo_len >= 0 ; txo_len -= 8) {
 		guint16 o = GSF_LE_GET_GUINT16 (data + txo_len);
 		guint16 l = GSF_LE_GET_GUINT16 (data + txo_len + 2);
-		XL_CHECK_CONDITION_VAL (o + l < str_len,
+		XL_CHECK_CONDITION_VAL (o + l <= str_len,
 					(pango_attr_list_unref (txo_run.accum),
 					 NULL));
 

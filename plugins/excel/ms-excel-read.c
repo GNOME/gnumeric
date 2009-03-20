@@ -1090,7 +1090,7 @@ excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet,
 
 			o = GSF_LE_GET_GUINT16 (ptr + n);
 			l = GSF_LE_GET_GUINT16 (ptr + n + 2);
-			XL_CHECK_CONDITION_VAL (o + l < str_len,
+			XL_CHECK_CONDITION_VAL (o + l <= str_len,
 						(pango_attr_list_unref (txo_run.accum),
 						 NULL));
 
