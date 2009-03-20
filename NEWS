@@ -43,6 +43,7 @@ Morten:
 	* Fix ODS crashes.  [#575600] [#575843] [#575981]
 	* Use goffice magic formats for certain date and time formats so we
 	can persist them in .gnumeric.
+	* Fix setting of radio button objects' text.
 
 Sum1:
 	* Implement OOO probing.  [#574381]

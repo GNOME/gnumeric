@@ -1324,7 +1324,7 @@ sheet_widget_checkbox_set_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case SOC_PROP_TEXT:
 		sheet_widget_checkbox_set_label (SHEET_OBJECT (swc),
-					       g_value_get_string (value));
+						 g_value_get_string (value));
 		break;
 	case SOC_PROP_MARKUP:
 #if 0
@@ -1475,8 +1475,8 @@ sheet_widget_checkbox_create_widget (SheetObjectWidget *sow)
 	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), swc->value);
 	g_signal_connect (G_OBJECT (button),
-		"toggled",
-		G_CALLBACK (cb_checkbox_toggled), swc);
+			  "toggled",
+			  G_CALLBACK (cb_checkbox_toggled), swc);
 
 	return button;
 }
@@ -1891,10 +1891,13 @@ sheet_widget_radio_button_toggled (GtkToggleButton *button,
 static GtkWidget *
 sheet_widget_radio_button_create_widget (SheetObjectWidget *sow)
 {
-	GtkWidget *w = gtk_radio_button_new_with_label (NULL, "RadioButton");
+	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (sow);
+	/* FIXME: NULL group?  */
+	GtkWidget *w = gtk_radio_button_new_with_label (NULL,
+							swrb->label);
 	g_signal_connect (G_OBJECT (w),
-		"toggled",
-		G_CALLBACK (sheet_widget_radio_button_toggled), sow);
+			  "toggled",
+			  G_CALLBACK (sheet_widget_radio_button_toggled), sow);
 	return w;
 }
 
@@ -1964,10 +1967,10 @@ sheet_widget_radio_button_get_property (GObject *obj, guint param_id,
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (obj);
 
 	switch (param_id) {
-	case SOC_PROP_TEXT:
+	case SOR_PROP_TEXT:
 		g_value_set_string (value, swrb->label);
 		break;
-	case SOC_PROP_MARKUP:
+	case SOR_PROP_MARKUP:
 		g_value_set_boxed (value, NULL); /* swrb->markup */
 		break;
 	default :
@@ -1983,14 +1986,14 @@ sheet_widget_radio_button_set_property (GObject *obj, guint param_id,
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (obj);
 
 	switch (param_id) {
-	case SOC_PROP_TEXT:
+	case SOR_PROP_TEXT:
 		sheet_widget_radio_button_set_label (SHEET_OBJECT (swrb),
-			g_value_get_string (value));
+						     g_value_get_string (value));
 		break;
-	case SOC_PROP_MARKUP:
+	case SOR_PROP_MARKUP:
 #if 0
-		sheet_widget_radio_button_set_markup (SHEET_OBJECT (swc),
-			g_value_peek_pointer (value));
+		sheet_widget_radio_button_set_markup (SHEET_OBJECT (swrb),
+						      g_value_peek_pointer (value));
 #endif
 		break;
 	default:
@@ -2016,7 +2019,7 @@ SOW_MAKE_TYPE (radio_button, RadioButton,
 				g_param_spec_string ("text", NULL, NULL, NULL,
 						     GSF_PARAM_STATIC | G_PARAM_READWRITE));
 		       g_object_class_install_property
-			       (object_class, SOC_PROP_MARKUP,
+			       (object_class, SOR_PROP_MARKUP,
 				g_param_spec_boxed ("markup", NULL, NULL, PANGO_TYPE_ATTR_LIST,
 						    GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	       })
