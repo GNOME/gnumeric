@@ -5,6 +5,10 @@
 	(sheet_widget_adjustment_get_ref, sheet_widget_checkbox_get_ref,
 	sheet_widget_list_base_get_ref): Remove.
 	(so_get_ref): New generic function replacing the above.
+	(sheet_widget_adjustment_clear_sheet, sheet_widget_checkbox_clear_sheet,
+	sheet_widget_radio_button_clear_sheet, sheet_widget_list_base_clear_sheet):
+	Remove.
+	(so_clear_sheet): New generic function replacing the above.
 
 2009-03-19  Morten Welinder  <terra@gnome.org>
 

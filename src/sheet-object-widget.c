@@ -78,7 +78,7 @@ cb_so_get_ref (GnmDependent *dep, SheetObject *so, gpointer user)
 }
 
 static GnmCellRef *
-so_get_ref (SheetObject *so, GnmCellRef *res, gboolean force_sheet)
+so_get_ref (SheetObject const *so, GnmCellRef *res, gboolean force_sheet)
 {
 	GnmValue *target;
 	GnmDependent *dep = NULL;
@@ -86,7 +86,7 @@ so_get_ref (SheetObject *so, GnmCellRef *res, gboolean force_sheet)
 	g_return_val_if_fail (so != NULL, NULL);
 
 	/* Let's hope there's just one.  */
-	sheet_object_foreach_dep (so, cb_so_get_ref, &dep);
+	sheet_object_foreach_dep ((SheetObject*)so, cb_so_get_ref, &dep);
 	g_return_val_if_fail (dep, NULL);
 
 	if (dep->texpr == NULL)
@@ -102,6 +102,22 @@ so_get_ref (SheetObject *so, GnmCellRef *res, gboolean force_sheet)
 	if (force_sheet && res->sheet == NULL)
 		res->sheet = sheet_object_get_sheet (so);
 	return res;
+}
+
+static void
+cb_so_clear_sheet (GnmDependent *dep, SheetObject *so, gpointer user)
+{
+	if (dependent_is_linked (dep))
+		dependent_unlink (dep);
+	dep->sheet = NULL;
+}
+
+static gboolean
+so_clear_sheet (SheetObject *so)
+{
+	/* Note: This implements sheet_object_clear_sheet.  */
+	sheet_object_foreach_dep (so, cb_so_clear_sheet, NULL);
+	return FALSE;
 }
 
 
@@ -1045,17 +1061,6 @@ sheet_widget_adjustment_set_sheet (SheetObject *so, Sheet *sheet)
 	return FALSE;
 }
 
-static gboolean
-sheet_widget_adjustment_clear_sheet (SheetObject *so)
-{
-	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
-
-	if (dependent_is_linked (&swa->dep))
-		dependent_unlink (&swa->dep);
-	swa->dep.sheet = NULL;
-	return FALSE;
-}
-
 static void
 sheet_widget_adjustment_foreach_dep (SheetObject *so,
 				     SheetObjectForeachDepFunc func,
@@ -1156,7 +1161,7 @@ sheet_widget_adjustment_create_widget (SheetObjectWidget *sow)
 SOW_MAKE_TYPE (adjustment, Adjustment,
 	       sheet_widget_adjustment_user_config,
 	       sheet_widget_adjustment_set_sheet,
-	       sheet_widget_adjustment_clear_sheet,
+	       so_clear_sheet,
 	       sheet_widget_adjustment_foreach_dep,
 	       sheet_widget_adjustment_copy,
 	       sheet_widget_adjustment_read_xml_dom,
@@ -1654,17 +1659,6 @@ sheet_widget_checkbox_set_sheet (SheetObject *so, Sheet *sheet)
 	return FALSE;
 }
 
-static gboolean
-sheet_widget_checkbox_clear_sheet (SheetObject *so)
-{
-	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
-
-	if (dependent_is_linked (&swc->dep))
-		dependent_unlink (&swc->dep);
-	swc->dep.sheet = NULL;
-	return FALSE;
-}
-
 static void
 sheet_widget_checkbox_foreach_dep (SheetObject *so,
 				   SheetObjectForeachDepFunc func,
@@ -1755,7 +1749,7 @@ sheet_widget_checkbox_set_label	(SheetObject *so, char const *str)
 SOW_MAKE_TYPE (checkbox, Checkbox,
 	       sheet_widget_checkbox_user_config,
 	       sheet_widget_checkbox_set_sheet,
-	       sheet_widget_checkbox_clear_sheet,
+	       so_clear_sheet,
 	       sheet_widget_checkbox_foreach_dep,
 	       sheet_widget_checkbox_copy,
 	       sheet_widget_checkbox_read_xml_dom,
@@ -1901,19 +1895,6 @@ sheet_widget_radio_button_set_sheet (SheetObject *so, Sheet *sheet)
 	return FALSE;
 }
 
-static gboolean
-sheet_widget_radio_button_clear_sheet (SheetObject *so)
-{
-	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
-
-	g_return_val_if_fail (swrb != NULL, TRUE);
-
-	if (dependent_is_linked (&swrb->dep))
-		dependent_unlink (&swrb->dep);
-	swrb->dep.sheet = NULL;
-	return FALSE;
-}
-
 static void
 sheet_widget_radio_button_foreach_dep (SheetObject *so,
 				       SheetObjectForeachDepFunc func,
@@ -1995,7 +1976,7 @@ sheet_widget_radio_button_set_property (GObject *obj, guint param_id,
 SOW_MAKE_TYPE (radio_button, RadioButton,
 	       NULL,
 	       sheet_widget_radio_button_set_sheet,
-	       sheet_widget_radio_button_clear_sheet,
+	       so_clear_sheet,
 	       sheet_widget_radio_button_foreach_dep,
 	       NULL,
 	       NULL,
@@ -2191,21 +2172,6 @@ sheet_widget_list_base_set_sheet (SheetObject *so, Sheet *sheet)
 	return FALSE;
 }
 
-static gboolean
-sheet_widget_list_base_clear_sheet (SheetObject *so)
-{
-	SheetWidgetListBase *swl = SHEET_WIDGET_LIST_BASE (so);
-
-	g_return_val_if_fail (swl != NULL, TRUE);
-
-	if (dependent_is_linked (&swl->content_dep))
-		dependent_unlink (&swl->content_dep);
-	if (dependent_is_linked (&swl->output_dep))
-		dependent_unlink (&swl->output_dep);
-	swl->content_dep.sheet = swl->output_dep.sheet = NULL;
-	return FALSE;
-}
-
 static void
 sheet_widget_list_base_foreach_dep (SheetObject *so,
 				    SheetObjectForeachDepFunc func,
@@ -2259,7 +2225,7 @@ sheet_widget_list_base_create_widget (SheetObjectWidget *sow)
 SOW_MAKE_TYPE (list_base, ListBase,
 	       sheet_widget_list_base_user_config,
 	       sheet_widget_list_base_set_sheet,
-	       sheet_widget_list_base_clear_sheet,
+	       so_clear_sheet,
 	       sheet_widget_list_base_foreach_dep,
 	       NULL,
 	       sheet_widget_list_base_read_xml_dom,
