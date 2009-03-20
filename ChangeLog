@@ -2,6 +2,9 @@
 
 	* src/sheet-object-widget.c (sheet_widget_radio_button_create_widget):
 	Set label.
+	(sheet_widget_adjustment_get_ref, sheet_widget_checkbox_get_ref,
+	sheet_widget_list_base_get_ref): Remove.
+	(so_get_ref): New generic function replacing the above.
 
 2009-03-19  Morten Welinder  <terra@gnome.org>
 

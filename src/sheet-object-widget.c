@@ -71,6 +71,41 @@ attr_eq (const xmlChar *a, const char *s)
 /****************************************************************************/
 
 static void
+cb_so_get_ref (GnmDependent *dep, SheetObject *so, gpointer user)
+{
+	GnmDependent **pdep = user;
+	*pdep = dep;
+}
+
+static GnmCellRef *
+so_get_ref (SheetObject *so, GnmCellRef *res, gboolean force_sheet)
+{
+	GnmValue *target;
+	GnmDependent *dep = NULL;
+
+	g_return_val_if_fail (so != NULL, NULL);
+
+	/* Let's hope there's just one.  */
+	sheet_object_foreach_dep (so, cb_so_get_ref, &dep);
+	g_return_val_if_fail (dep, NULL);
+
+	if (dep->texpr == NULL)
+		return NULL;
+
+	target = gnm_expr_top_get_range (dep->texpr);
+	if (target == NULL)
+		return NULL;
+
+	*res = target->v_range.cell.a;
+	value_release (target);
+
+	if (force_sheet && res->sheet == NULL)
+		res->sheet = sheet_object_get_sheet (so);
+	return res;
+}
+
+
+static void
 so_widget_view_destroy (SheetObjectView *sov)
 {
 	gtk_object_destroy (GTK_OBJECT (sov));
@@ -740,28 +775,6 @@ adjustment_debug_name (GnmDependent const *dep, GString *target)
 
 static DEPENDENT_MAKE_TYPE (adjustment, NULL)
 
-static GnmCellRef *
-sheet_widget_adjustment_get_ref (SheetWidgetAdjustment const *swa,
-				GnmCellRef *res, gboolean force_sheet)
-{
-	GnmValue *target;
-	g_return_val_if_fail (swa != NULL, NULL);
-
-	if (swa->dep.texpr == NULL)
-		return NULL;
-
-	target = gnm_expr_top_get_range (swa->dep.texpr);
-	if (target == NULL)
-		return NULL;
-
-	*res = target->v_range.cell.a;
-	value_release (target);
-
-	if (force_sheet && res->sheet == NULL)
-		res->sheet = sheet_object_get_sheet (SHEET_OBJECT (swa));
-	return res;
-}
-
 static void
 cb_adjustment_widget_value_changed (GtkWidget *widget,
 				    SheetWidgetAdjustment *swa)
@@ -771,7 +784,7 @@ cb_adjustment_widget_value_changed (GtkWidget *widget,
 	if (swa->being_updated)
 		return;
 
-	if (sheet_widget_adjustment_get_ref (swa, &ref, TRUE) != NULL) {
+	if (so_get_ref (SHEET_OBJECT (swa), &ref, TRUE) != NULL) {
 		GnmCell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
 		/* TODO : add more control for precision, XL is stupid */
 		int new_val = gnm_fake_round (swa->adjustment->value);
@@ -841,8 +854,7 @@ sheet_widget_adjustment_copy (SheetObject *dst, SheetObject const *src)
 	GtkAdjustment *dst_adjust, *src_adjust;
 	GnmCellRef ref;
 
-	sheet_widget_adjustment_init_full (dst_swa,
-		sheet_widget_adjustment_get_ref (src_swa, &ref, FALSE));
+	sheet_widget_adjustment_init_full (dst_swa, so_get_ref (src, &ref, FALSE));
 	dst_adjust = dst_swa->adjustment;
 	src_adjust = src_swa->adjustment;
 
@@ -1421,28 +1433,6 @@ sheet_widget_checkbox_finalize (GObject *obj)
 	sheet_object_widget_class->finalize (obj);
 }
 
-static GnmCellRef *
-sheet_widget_checkbox_get_ref (SheetWidgetCheckbox const *swc,
-			       GnmCellRef *res, gboolean force_sheet)
-{
-	GnmValue *target;
-	g_return_val_if_fail (swc != NULL, NULL);
-
-	if (swc->dep.texpr == NULL)
-		return NULL;
-
-	target = gnm_expr_top_get_range (swc->dep.texpr);
-	if (target == NULL)
-		return NULL;
-
-	*res = target->v_range.cell.a;
-	value_release (target);
-
-	if (force_sheet && res->sheet == NULL)
-		res->sheet = sheet_object_get_sheet (SHEET_OBJECT (swc));
-	return res;
-}
-
 static void
 cb_checkbox_toggled (GtkToggleButton *button, SheetWidgetCheckbox *swc)
 {
@@ -1453,7 +1443,7 @@ cb_checkbox_toggled (GtkToggleButton *button, SheetWidgetCheckbox *swc)
 	swc->value = gtk_toggle_button_get_active (button);
 	sheet_widget_checkbox_set_active (swc);
 
-	if (sheet_widget_checkbox_get_ref (swc, &ref, TRUE) != NULL) {
+	if (so_get_ref (SHEET_OBJECT (swc), &ref, TRUE) != NULL) {
 		gboolean new_val = gtk_toggle_button_get_active (button);
 		cmd_so_set_value (widget_wbc (GTK_WIDGET (button)),
 				  /* FIXME: This text sucks:  */
@@ -1488,8 +1478,8 @@ sheet_widget_checkbox_copy (SheetObject *dst, SheetObject const *src)
 	SheetWidgetCheckbox       *dst_swc = SHEET_WIDGET_CHECKBOX (dst);
 	GnmCellRef ref;
 	sheet_widget_checkbox_init_full (dst_swc,
-		sheet_widget_checkbox_get_ref (src_swc, &ref, FALSE),
-		src_swc->label);
+					 so_get_ref (src, &ref, FALSE),
+					 src_swc->label);
 	dst_swc->value = src_swc->value;
 }
 
@@ -2055,29 +2045,6 @@ enum {
 static guint list_base_signals [LIST_BASE_LAST_SIGNAL] = { 0 };
 static GType sheet_widget_list_base_get_type (void);
 
-static GnmCellRef *
-sheet_widget_list_base_get_ref (SheetWidgetListBase const *swl,
-				GnmCellRef *res, gboolean force_sheet)
-{
-	GnmValue *target;
-
-	g_return_val_if_fail (swl != NULL, NULL);
-
-	if (swl->output_dep.texpr == NULL)
-		return NULL;
-
-	target = gnm_expr_top_get_range (swl->output_dep.texpr);
-	if (target == NULL)
-		return NULL;
-
-	*res = target->v_range.cell.a;
-	value_release (target);
-
-	if (force_sheet && res->sheet == NULL)
-		res->sheet = sheet_object_get_sheet (SHEET_OBJECT (swl));
-	return res;
-}
-
 static void
 sheet_widget_list_base_set_selection (SheetWidgetListBase *swl, int selection,
 				      WorkbookControl *wbc)
@@ -2094,7 +2061,7 @@ sheet_widget_list_base_set_selection (SheetWidgetListBase *swl, int selection,
 	if (swl->selection != selection) {
 		swl->selection = selection;
 		if (NULL!= wbc &&
-		    sheet_widget_list_base_get_ref (swl, &ref, TRUE) != NULL)
+		    so_get_ref (SHEET_OBJECT (swl), &ref, TRUE) != NULL)
 			cmd_so_set_value (wbc,
 				_("Clicking in list"),
 					  &ref, value_new_int (swl->selection),
