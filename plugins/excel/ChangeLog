@@ -1,3 +1,7 @@
+2009-03-22  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.5
+
 2009-03-20  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_LABEL_markup): Fix sanity check

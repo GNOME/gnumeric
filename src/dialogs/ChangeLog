@@ -1,3 +1,7 @@
+2009-03-22  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.5
+
 2008-03-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-delete-cells.c (dialog_delete_cells): setup destroy handler

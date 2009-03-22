@@ -1,3 +1,7 @@
+2009-03-22  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.5
+
 2009-03-17  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_text): Handle failing
