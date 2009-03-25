@@ -1,3 +1,11 @@
+2009-03-25  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-format.c (gnm_format_is_time_for_value): Simplify.
+
+	* src/stf-export.c (try_auto_date): Check validity of date.
+	Handle elapsed times.  Sneakily also handle negative date serials
+	if goffice does.
+
 2009-03-22  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Post-release bump.

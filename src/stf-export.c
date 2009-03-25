@@ -35,6 +35,7 @@
 #include "cell.h"
 #include "value.h"
 #include "gnm-format.h"
+#include "gnm-datetime.h"
 #include <gsf/gsf-output-iconv.h>
 #include <gsf/gsf-output-memory.h>
 #include <gsf/gsf-impl-utils.h>
@@ -145,29 +146,32 @@ try_auto_date (GnmValue *value, const GOFormat *format,
 	GOFormat *actual;
 	char *res;
 	gboolean needs_date, needs_time, needs_frac_sec;
-	gboolean is_date, is_time;
+	gboolean is_date;
+	int is_time;
 	GString *xlfmt;
+	GDate date;
 
-	is_date = gnm_format_is_date_for_value (format, value) > 0;
-	is_time = gnm_format_is_time_for_value (format, value) > 0;
+	format = gnm_format_specialize (format, value);
+	is_date = go_format_is_date (format) > 0;
+	is_time = go_format_is_time (format);
 
-	if (!is_date && !is_time)
+	if (!is_date && is_time <= 0)
 		return NULL;
 
-	if (!VALUE_IS_NUMBER (value))
+	/* We don't want to coerce strings.  */
+	if (!VALUE_IS_FLOAT (value))
 		return NULL;
+
+	/* Verify that the date is valid.  */
+	if (!datetime_value_to_g (&date, value, date_conv))
+		return NULL;
+
 	v = value_get_as_float (value);
-	if (v >= 2958466)
-		return NULL;  /* Year 10000 or beyond.  */
-
-#warning "We need to deal with this when fixing #509720"
-	if (v < 0)
-		return NULL;
 	vr = gnm_fake_round (v);
 	vs = (24 * 60 * 60) * gnm_abs (v - vr);
 
-	needs_date = is_date || v >= 1;
-	needs_time = is_time || gnm_abs (v - vr) > 1e-9;
+	needs_date = is_time < 2 && (is_date || gnm_abs (v) >= 1);
+	needs_time = is_time > 0 || gnm_abs (v - vr) > 1e-9;
 	needs_frac_sec = needs_time && gnm_abs (vs - gnm_fake_round (vs)) >= 0.5e-3;
 
 	xlfmt = g_string_new (NULL);
@@ -175,7 +179,10 @@ try_auto_date (GnmValue *value, const GOFormat *format,
 	if (needs_time) {
 		if (needs_date)
 			g_string_append_c (xlfmt, ' ');
-		g_string_append (xlfmt, "hh:mm:ss");
+		if (is_time == 2)
+			g_string_append (xlfmt, "[h]:mm:ss");
+		else
+			g_string_append (xlfmt, "hh:mm:ss");
 		if (needs_frac_sec)
 			g_string_append (xlfmt, ".000");
 	}

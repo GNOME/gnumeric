@@ -248,7 +248,7 @@ gnm_format_is_time_for_value (GOFormat const *fmt,
 	if (value)
 		fmt = gnm_format_specialize (fmt, value);
 
-	return (go_format_get_family (fmt) == GO_FORMAT_TIME);
+	return go_format_is_time (fmt);
 }
 
 int

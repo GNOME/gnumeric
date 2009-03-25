@@ -1,5 +1,8 @@
 Gnumeric 1.9.6
 
+Morten:
+	* Handle elapsed time formats better on text export.
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.5
 
