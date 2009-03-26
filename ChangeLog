@@ -1,3 +1,10 @@
+2009-03-26  Morten Welinder  <terra@gnome.org>
+
+	* src/gnm-plugin.c (plugin_service_ui_activate): Free layout here.
+
+	* src/application.c (gnm_app_add_extra_ui): constify layout and copy it.
+	(gnm_app_remove_extra_ui): Destroy layout here.
+
 2009-03-25  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-format.c (gnm_format_is_time_for_value): Simplify.

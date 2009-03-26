@@ -388,6 +388,7 @@ plugin_service_ui_activate (GOPluginService *service, ErrorInfo **ret_error)
 		service_ui->actions,
 		xml_ui, textdomain, service);
 	g_free (group_name);
+	g_free (xml_ui);
 	service->is_active = TRUE;
 }
 
