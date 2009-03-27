@@ -21,7 +21,7 @@ Andreas:
 
 Jean:
 	* Make gconf use independent from the with-gnome option. [#574813]
-	* Fixed  null pointer crash inoo_plot_area(). [#575403]
+	* Fixed  null pointer crash in oo_plot_area(). [#575403]
 
 Jody:
 	* Work around semantic changes in gtk-2.16.
