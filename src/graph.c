@@ -43,7 +43,7 @@
 
 static GnmDependent *gnm_go_data_get_dep (GOData const *obj);
 
-static  GOData *
+static GOData *
 gnm_go_data_dup (GOData const *src)
 {
 	GOData *dst = g_object_new (G_OBJECT_TYPE (src), NULL);
@@ -423,6 +423,7 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 }
 
 struct assign_closure {
+	const GODateConventions *date_conv;
 	double minimum, maximum;
 	double *vals;
 	unsigned last;
@@ -449,7 +450,7 @@ cb_assign_val (GnmCellIter const *iter, struct assign_closure *dat)
 	dat->last = dat->i;
 	if (VALUE_IS_STRING (v)) {
 		v = format_match_number (v->v_str.val->str, NULL,
-			workbook_date_conv (iter->pp.wb));
+					 dat->date_conv);
 		if (v == NULL) {
 			dat->vals[dat->i++] = gnm_pinf;
 			return NULL;
@@ -486,6 +487,8 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 		dat->base.flags |= GO_DATA_CACHE_IS_VALID;
 		return;
 	}
+
+	closure.date_conv = workbook_date_conv (vec->dep.sheet->workbook);
 
 	if (dat->values == NULL)
 		dat->values = g_new (double, dat->len);
@@ -537,8 +540,9 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 				vals[len] = go_nan;
 				continue;
 			} else if (VALUE_IS_STRING (v)) {
-				GnmValue *tmp = format_match_number (v->v_str.val->str, NULL,
-						workbook_date_conv (vec->dep.sheet->workbook));
+				GnmValue *tmp = format_match_number
+					(v->v_str.val->str, NULL,
+					 closure.date_conv);
 				if (tmp == NULL) {
 					vals[len] = go_nan;
 					continue;
@@ -555,8 +559,9 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 		break;
 
 	case VALUE_STRING :
-		v = format_match_number (vec->val->v_str.val->str, NULL,
-			workbook_date_conv (vec->dep.sheet->workbook));
+		v = format_match_number (value_peek_string (vec->val),
+					 NULL,
+					 closure.date_conv);
 		if (v != NULL) {
 			minimum = maximum = vals[0] = value_get_as_float (v);
 			value_release (v);
@@ -614,7 +619,7 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 	GnmValue const *v;
 	GnmEvalPos ep;
 	GOFormat const *format = NULL;
-	GODateConventions const *date_conv = NULL;
+	GODateConventions const *date_conv;
 
 	if (vec->val == NULL)
 		gnm_go_data_vector_load_len (dat);
@@ -623,6 +628,8 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 
 	v = vec->val;
 	eval_pos_init_dep (&ep, &vec->dep);
+	date_conv = ep.sheet ? workbook_date_conv (ep.sheet->workbook) : NULL;
+
 	if (v->type == VALUE_CELLRANGE) {
 		Sheet *start_sheet, *end_sheet;
 		GnmCell  *cell;
@@ -640,7 +647,6 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 		gnm_cell_eval (cell);
 		v = cell->value;
 		format = gnm_cell_get_format (cell);
-		date_conv = workbook_date_conv (start_sheet->workbook);
 	} else if (v->type == VALUE_ARRAY)
 		v = vec->as_col
 			? value_area_get_x_y (v, 0, i, &ep)
@@ -817,6 +823,7 @@ gnm_go_data_matrix_load_size (GODataMatrix *dat)
 }
 
 struct assign_matrix_closure {
+	const GODateConventions *date_conv;
 	double minimum, maximum;
 	double *vals;
 	int first_row, first_col;
@@ -856,8 +863,8 @@ cb_assign_matrix_val (GnmCellIter const *iter,
 		dat->last_col = dat->col;
 
 	if (VALUE_IS_STRING (v)) {
-		v = format_match_number (v->v_str.val->str, NULL,
-			workbook_date_conv (iter->pp.wb));
+		v = format_match_number (value_peek_string (v), NULL,
+					 dat->date_conv);
 		if (v == NULL) {
 			dat->vals[dat->row * dat->columns + dat->col] = go_nan;
 			/* may be go_pinf should be more appropriate? */
@@ -896,6 +903,8 @@ gnm_go_data_matrix_load_values (GODataMatrix *dat)
 		dat->base.flags |= GO_DATA_CACHE_IS_VALID;
 		return;
 	}
+
+	closure.date_conv = workbook_date_conv (mat->dep.sheet->workbook);
 
 	if (dat->values == NULL)
 		dat->values = g_new (double, size.rows * size.columns);
@@ -940,8 +949,9 @@ gnm_go_data_matrix_load_values (GODataMatrix *dat)
 					vals[row * size.columns + col] = go_nan;
 					continue;
 				} else if (VALUE_IS_STRING (v)) {
-					GnmValue *tmp = format_match_number (v->v_str.val->str, NULL,
-							workbook_date_conv (mat->dep.sheet->workbook));
+					GnmValue *tmp = format_match_number
+						(value_peek_string (v), NULL,
+						 closure.date_conv);
 					if (tmp == NULL) {
 						vals[cur] = go_nan;
 						continue;
@@ -960,8 +970,9 @@ gnm_go_data_matrix_load_values (GODataMatrix *dat)
 		break;
 
 	case VALUE_STRING :
-		v = format_match_number (mat->val->v_str.val->str, NULL,
-			workbook_date_conv (mat->dep.sheet->workbook));
+		v = format_match_number (value_peek_string (mat->val),
+					 NULL,
+					 closure.date_conv);
 		if (v != NULL) {
 			vals[0] = value_get_as_float (v);
 			minimum = maximum = go_nan;
@@ -1019,7 +1030,7 @@ gnm_go_data_matrix_get_str (GODataMatrix *dat, unsigned i, unsigned j)
 	GnmValue const *v;
 	GnmEvalPos ep;
 	GOFormat const *format = NULL;
-	GODateConventions const *date_conv = NULL;
+	GODateConventions const *date_conv;
 
 	if (mat->val == NULL)
 		gnm_go_data_matrix_load_size (dat);
@@ -1028,13 +1039,15 @@ gnm_go_data_matrix_get_str (GODataMatrix *dat, unsigned i, unsigned j)
 
 	v = mat->val;
 	eval_pos_init_dep (&ep, &mat->dep);
+	date_conv = ep.sheet ? workbook_date_conv (ep.sheet->workbook) : NULL;
+
 	if (v->type == VALUE_CELLRANGE) {
 		Sheet *start_sheet, *end_sheet;
 		GnmCell  *cell;
 		GnmRange  r;
 
 		gnm_rangeref_normalize (&v->v_range.cell, &ep,
-			&start_sheet, &end_sheet, &r);
+					&start_sheet, &end_sheet, &r);
 		r.start.row += i;
 		r.start.col += j;
 		cell = sheet_cell_get (start_sheet, r.start.col, r.start.row);
@@ -1043,7 +1056,6 @@ gnm_go_data_matrix_get_str (GODataMatrix *dat, unsigned i, unsigned j)
 		gnm_cell_eval (cell);
 		v = cell->value;
 		format = gnm_cell_get_format (cell);
-		date_conv = workbook_date_conv (start_sheet->workbook);
 	} else if (v->type == VALUE_ARRAY)
 		v = value_area_get_x_y (v, i, j, &ep);
 
@@ -1054,7 +1066,7 @@ gnm_go_data_matrix_get_str (GODataMatrix *dat, unsigned i, unsigned j)
 		return NULL;
 
 	default :
-		return format_value (format, v, NULL, 8, date_conv);
+		return format_value (format, v, NULL, -1, date_conv);
 	}
 }
 
