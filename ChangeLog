@@ -1,3 +1,8 @@
+2009-03-28  Morten Welinder  <terra@gnome.org>
+
+	* src/graph.c: Stop accessing private members of values.  Use
+	value_peek_string instead.
+
 2009-03-27  Morten Welinder  <terra@gnome.org>
 
 	* src/graph.c: Improve handling of date conversions.

@@ -29,7 +29,6 @@
 #include "mathfunc.h"
 #include "sheet.h"
 #include "workbook.h"
-#include "str.h"
 #include "position.h"
 #include "gnm-format.h"
 #include "auto-format.h"
@@ -74,10 +73,7 @@ gnm_go_data_eq (GOData const *data_a, GOData const *data_b)
 	if (a->texpr == NULL && b->texpr == NULL) {
 		char const *str_a = g_object_get_data (G_OBJECT (data_a), "from-str");
 		char const *str_b = g_object_get_data (G_OBJECT (data_b), "from-str");
-
-		if (str_a != NULL && str_b != NULL)
-			return 0 == strcmp (str_a, str_b);
-		return FALSE;
+		return go_str_compare (str_a, str_b) == 0;
 	}
 
 	return gnm_expr_top_equal (a->texpr, b->texpr);
@@ -110,7 +106,7 @@ gnm_go_data_as_str (GOData const *dat)
 		gnm_conventions_default);
 }
 
-static  gboolean
+static gboolean
 gnm_go_data_from_str (GOData *dat, char const *str)
 {
 	GnmExprTop const *texpr;
@@ -449,7 +445,7 @@ cb_assign_val (GnmCellIter const *iter, struct assign_closure *dat)
 
 	dat->last = dat->i;
 	if (VALUE_IS_STRING (v)) {
-		v = format_match_number (v->v_str.val->str, NULL,
+		v = format_match_number (value_peek_string (v), NULL,
 					 dat->date_conv);
 		if (v == NULL) {
 			dat->vals[dat->i++] = gnm_pinf;
@@ -541,7 +537,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 				continue;
 			} else if (VALUE_IS_STRING (v)) {
 				GnmValue *tmp = format_match_number
-					(v->v_str.val->str, NULL,
+					(value_peek_string (v), NULL,
 					 closure.date_conv);
 				if (tmp == NULL) {
 					vals[len] = go_nan;
