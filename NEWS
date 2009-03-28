@@ -3,6 +3,7 @@ Gnumeric 1.9.6
 Morten:
 	* Handle elapsed time formats better on text export.
 	* Plug leak.
+	* Improve XIRR a bit.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.5
