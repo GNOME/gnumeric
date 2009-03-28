@@ -45,7 +45,7 @@ html :
 	    --stringparam db.chunk.basename	"gnumeric"		\
 	    --stringparam db.chunk.extension	".shtml"		\
 	    --stringparam db2html.css.file	"gnumeric-doc.css"	\
-	    $(datadir)/xml/gnome/xslt/docbook/html/db2html.xsl		\
+	    /usr/share/xml/gnome/xslt/docbook/html/db2html.xsl		\
 	    $(srcdir)/gnumeric.xml
 
 validate :
