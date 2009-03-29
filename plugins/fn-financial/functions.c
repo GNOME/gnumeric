@@ -1981,17 +1981,12 @@ gnm_range_xirr (gnm_float const *xs, const gnm_float *ys,
 		double r;
 		int i;
 
+		/* This is likely to be on the left side of the root. */
+		(void)goal_seek_point (&xirr_npv, &data, &p, -1);
+
 		for (i = 1; i <= 1024; i += i) {
 			(void)goal_seek_point (&xirr_npv, &data, &p, -1 + 10.0 / (i + 9));
 			(void)goal_seek_point (&xirr_npv, &data, &p, i);
-			status = goal_seek_bisection (&xirr_npv, &data, &p);
-			if (status == GOAL_SEEK_OK)
-				break;
-		}
-
-		/* Try insanely close to -1.  */
-		for (r = GNM_EPSILON; r < 0.02; r *= 2) {
-			(void)goal_seek_point (&xirr_npv, &data, &p, -1 + r);
 			status = goal_seek_bisection (&xirr_npv, &data, &p);
 			if (status == GOAL_SEEK_OK)
 				break;

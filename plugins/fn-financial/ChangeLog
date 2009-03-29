@@ -1,7 +1,6 @@
 2009-03-28  Morten Welinder  <terra@gnome.org>
 
-	* functions.c (gnm_range_xirr): Try insanely close to -1 if all
-	else fails.
+	* functions.c (gnm_range_xirr): Try -1 too.
 
 2009-03-22  Morten Welinder <terra@gnome.org>
 
