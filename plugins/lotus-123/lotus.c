@@ -784,6 +784,8 @@ typedef struct {
 	guint8 const *data;
 } record_t;
 
+static GnmValue *lotus_get_strval (const record_t *r, int ofs, int def_group);
+
 static void
 report_record_size_error (LotusState *state, record_t *r)
 {
@@ -828,9 +830,14 @@ record_next (record_t *r)
 	r->type = GSF_LE_GET_GUINT16 (header);
 	r->len  = GSF_LE_GET_GUINT16 (header + 2);
 
-	r->data = (r->len == 0
-		   ? (void *)""
-		   : gsf_input_read (r->input, r->len, NULL));
+	if (r->len) {
+		r->data = gsf_input_read (r->input, r->len, NULL);
+		if (!r->data) {
+			g_printerr ("Truncated record.  File is probably corrupted.\n");
+			r->len = 0;
+		}
+	} else
+		r->data = NULL;
 
 #if LOTUS_DEBUG > 0
 	g_print ("Record 0x%x length 0x%x\n", r->type, r->len);
@@ -1558,8 +1565,8 @@ lotus_read_old (LotusState *state, record_t *r)
 		}
 		case LOTUS_LABEL: CHECK_RECORD_SIZE (>= 7) {
 			/* one of '\', '''', '"', '^' */
-/*			gchar format_prefix = *(r->data + 1 + 4);*/
-			GnmValue *v = lotus_new_string (r->data + 6, state->lmbcs_group);
+			/* gchar format_prefix = *(r->data + 1 + 4);*/
+			GnmValue *v = lotus_get_strval (r, 6, state->lmbcs_group);
 			guint8 fmt = GSF_LE_GET_GUINT8 (r->data);
 			int i = GSF_LE_GET_GUINT16 (r->data + 1);
 			int j = GSF_LE_GET_GUINT16 (r->data + 3);
@@ -1597,7 +1604,7 @@ lotus_read_old (LotusState *state, record_t *r)
 				 */
 				if (LOTUS_STRING == record_peek_next (r)) {
 					record_next (r);
-					v = lotus_new_string (r->data + 5, state->lmbcs_group);
+					v = lotus_get_strval (r, 5, state->lmbcs_group);
 				} else
 					v = value_new_error_VALUE (NULL);
 			} else
@@ -1858,10 +1865,17 @@ lotus_get_lmbcs (char const *data, int maxlen, int def_group)
 static char *
 lotus_get_cstr (const record_t *r, int ofs, int def_group)
 {
-	if (ofs >= r->len)
+	if (ofs < 0 || ofs >= r->len)
 		return NULL;
 	else
 		return lotus_get_lmbcs (r->data + ofs, r->len - ofs, def_group);
+}
+
+GnmValue *
+lotus_get_strval (const record_t *r, int ofs, int def_group)
+{
+	char *s = lotus_get_cstr (r, ofs, def_group);
+	return s ? value_new_string_nocopy (s) : value_new_empty ();
 }
 
 GnmValue *
@@ -1921,7 +1935,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
 /*			gchar format_prefix = *(r->data + ofs + 4);*/
-			GnmValue *v = lotus_new_string (r->data + 5, state->lmbcs_group);
+			GnmValue *v = lotus_get_strval (r, 5, state->lmbcs_group);
 			(void)insert_value (state, sheet, col, row, v);
 			break;
 		}

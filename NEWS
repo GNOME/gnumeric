@@ -6,6 +6,7 @@ Morten:
 	* Fix mps loading crash.  [#577138]
 	* Improve XIRR a bit.
 	* Fix Applix loading crash.  [#577145]
+	* Fix Lotus loading crash.  [#577156]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.5

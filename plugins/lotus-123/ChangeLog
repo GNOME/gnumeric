@@ -1,3 +1,11 @@
+2009-03-28  Morten Welinder  <terra@gnome.org>
+
+	* lotus.c (lotus_get_cstr): Catch negative offsets, just in case.
+	(record_next): Catch if we get a partial record.
+	(lotus_get_strval): New function.
+	(lotus_read_old, lotus_read_new): Use lotus_get_strval.  Fixes
+	#577156.
+
 2009-03-22  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.5
