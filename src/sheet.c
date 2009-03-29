@@ -4827,6 +4827,8 @@ sheet_row_get_default_size_pixels (Sheet const *sheet)
 void
 sheet_row_set_default_size_pts (Sheet *sheet, double height_pts)
 {
+	g_return_if_fail (IS_SHEET (sheet));
+
 	sheet_colrow_default_calc (sheet, height_pts, FALSE, TRUE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->reposition_objects.row = 0;
@@ -4834,6 +4836,8 @@ sheet_row_set_default_size_pts (Sheet *sheet, double height_pts)
 void
 sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels)
 {
+	g_return_if_fail (IS_SHEET (sheet));
+
 	sheet_colrow_default_calc (sheet, height_pixels, FALSE, FALSE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->reposition_objects.row = 0;

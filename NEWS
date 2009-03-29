@@ -5,6 +5,7 @@ Morten:
 	* Plug leak.
 	* Fix mps loading crash.  [#577138]
 	* Improve XIRR a bit.
+	* Fix Applix loading crash.  [#577145]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.5

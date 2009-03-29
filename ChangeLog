@@ -1,5 +1,9 @@
 2009-03-28  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (sheet_row_set_default_size_pixels,
+	sheet_row_set_default_size_pts): Add preconditions like in the
+	_col_ counterparts.  Fixes #577145.
+
 	* src/graph.c: Stop accessing private members of values.  Use
 	value_peek_string instead.
 
