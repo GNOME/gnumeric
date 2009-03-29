@@ -65,18 +65,19 @@ GNM_PLUGIN_MODULE_HEADER;
  */
 
 /* Writes a string into a cell. */
-static inline void
+static void
 mps_set_cell (Sheet *sheet, int col, int row, const gchar *str)
 {
-        gnm_cell_set_value (sheet_cell_fetch (sheet, col, row),
-			value_new_string (str));
+	GnmCell *cell = sheet_cell_fetch (sheet, col, row);
+	gnm_cell_set_value (cell, value_new_string (str));
 }
 
 /* Writes a float into a cell. */
-static inline void
+static void
 mps_set_cell_float (Sheet *sheet, int col, int row, const gnm_float f)
 {
-        gnm_cell_set_value (sheet_cell_fetch (sheet, col, row), value_new_float (f));
+	GnmCell *cell = sheet_cell_fetch (sheet, col, row);
+        gnm_cell_set_value (cell, value_new_float (f));
 }
 
 static void
@@ -297,12 +298,15 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	else
 		ecol = CONSTRAINT_COL + MAX_COL - 1;
 	for (i = 0; i < ctxt->n_cols; i++) {
-		  mps_set_cell_float (sh, VARIABLE_COL + i % MAX_COL,
-				      VARIABLE_ROW + (i / MAX_COL), 0.0);
-		  mps_set_cell_float (sh, VARIABLE_COL + i % MAX_COL,
-				      VARIABLE_ROW + n_rows_per_fn
-				      + (i / MAX_COL) + 1,
-		           ctxt->matrix[ctxt->objective_row->index][i]);
+		int col = VARIABLE_COL + i % MAX_COL;
+		mps_set_cell_float (sh, col,
+				    VARIABLE_ROW + (i / MAX_COL), 0.0);
+		mps_set_cell_float (sh, col,
+				    VARIABLE_ROW + n_rows_per_fn
+				    + (i / MAX_COL) + 1,
+				    ctxt->objective_row
+				    ? ctxt->matrix[ctxt->objective_row->index][i]
+				    : 0);
 	}
 
 	/*
@@ -455,6 +459,10 @@ mps_create_sheet (MpsInputContext *ctxt, WorkbookView *wbv)
 	gint             i;
 	int              n_rows_per_fn;
 	SolverParameters *param = sh->solver_parameters;
+	const char *row_name =
+		ctxt->objective_row
+		? ctxt->objective_row->name
+		: "-";
 
 	n_rows_per_fn = (ctxt->n_cols + MAX_COL - 1) / MAX_COL;
 	mps_prepare (wbv, ctxt);
@@ -466,12 +474,12 @@ mps_create_sheet (MpsInputContext *ctxt, WorkbookView *wbv)
 	if (ctxt->n_cols < MAX_COL)
 		mps_set_cell (sh, VARIABLE_COL - 1,
 			      VARIABLE_ROW + 1 + n_rows_per_fn,
-			      ctxt->objective_row->name);
+			      row_name);
 	else {
 		for (i = 0; i < n_rows_per_fn; i++) {
 			GString *buf = g_string_new (NULL);
 			g_string_append_printf (buf, "%s (R[%d])",
-					   ctxt->objective_row->name, i+1);
+						row_name, i + 1);
 			mps_set_cell (sh, VARIABLE_COL - 1,
 				      VARIABLE_ROW + 1 + i + n_rows_per_fn,
 				      buf->str);
