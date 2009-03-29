@@ -1,3 +1,8 @@
+2009-03-29  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (sheet_menu_label_run): Simplify and add sorted
+	sheet menu too.
+
 2009-03-28  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_row_set_default_size_pixels,
