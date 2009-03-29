@@ -1,3 +1,11 @@
+gnumeric (1.9.5-1) unstable; urgency=low
+
+  * New upstream development release.
+  * [debian/control] Bumped glib, gtk and goffice build dependencies as per
+    configure.in .
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 29 Mar 2009 20:15:19 +0200
+
 gnumeric (1.9.4-1) unstable; urgency=low
 
   * New upstream development release. Uploading to unstable now that lenny
