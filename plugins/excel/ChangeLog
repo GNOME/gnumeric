@@ -1,5 +1,8 @@
 2009-03-30  Morten Welinder  <terra@gnome.org>
 
+	* ms-chart.c (ms_excel_chart_read): Add sanity check.  Fixes
+	#577351.
+
 	* ms-excel-read.c (excel_read_IMDATA): Add sanity check.  Fixes
 	#577348.
 

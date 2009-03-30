@@ -3604,6 +3604,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 		case BIFF_WINDOW2_v0 :
 		case BIFF_WINDOW2_v2 :
 			if (full_page != NULL && BC_R(ver)(&state) > MS_BIFF_V2 &&
+			    q->length >= 2 &&
 			    GSF_LE_GET_GUINT16 (q->data + 0) & 0x0400)
 				wb_view_sheet_focus (container->importer->wbv, full_page);
 			break;
