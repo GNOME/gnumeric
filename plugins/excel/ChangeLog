@@ -1,3 +1,11 @@
+2009-03-30  Morten Welinder  <terra@gnome.org>
+
+	* ms-container.c (ms_container_get_blip): Add sanity check.  Fixes
+	#577260.
+
+	* ms-excel-read.c (excel_read_MULBLANK): Add sanity checks.  Fixes
+	#577259.
+
 2009-03-29  Morten Welinder  <terra@gnome.org>
 
 	* ms-obj.c (ms_read_TXO): Add sanity check.

@@ -4409,11 +4409,14 @@ static void
 excel_read_MULBLANK (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	/* This is an educated guess, docs are not terribly clear */
-	int firstcol = XL_GETCOL (q);
-	int const row = XL_GETROW (q);
+	int firstcol, lastcol, row;
 	guint8 const *ptr = (q->data + q->length - 2);
-	int lastcol = GSF_LE_GET_GUINT16 (ptr);
 	int i, range_end, prev_xf, xf_index;
+
+	XL_CHECK_CONDITION (q->length >= 6);
+	firstcol = XL_GETCOL (q);
+	row = XL_GETROW (q);
+	lastcol = GSF_LE_GET_GUINT16 (ptr);
 	d (0, {
 		fprintf (stderr,"Cells in row %d are blank starting at col %s until col ",
 			row + 1, col_name (firstcol));
@@ -4426,6 +4429,7 @@ excel_read_MULBLANK (BiffQuery *q, ExcelReadSheet *esheet)
 		firstcol = lastcol;
 		lastcol = tmp;
 	}
+	XL_CHECK_CONDITION (q->length >= 4u + 2u * (lastcol - firstcol + 1));
 
 	range_end = i = lastcol;
 	prev_xf = -1;

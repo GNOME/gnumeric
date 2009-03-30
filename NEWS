@@ -7,7 +7,7 @@ Morten:
 	* Improve XIRR a bit.
 	* Fix Applix loading crash.  [#577145]
 	* Fix Lotus loading crash.  [#577156]
-	* Fix XLS loading crash.  [#577208, #577205]
+	* Fix XLS loading crashes.  [#577205, #577208, #577259, #577260]
 	* Add sorted sheet list to tab menu.
 
 --------------------------------------------------------------------------
