@@ -3972,12 +3972,14 @@ excel_read_os2bmp (BiffQuery *q, guint32 image_len)
 GdkPixbuf *
 excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 {
-	guint16 op;
-	guint32 image_len = GSF_LE_GET_GUINT32 (q->data + 4);
+	guint32 image_len;
+	GdkPixbuf *pixbuf = NULL;
+	guint16 format;
 
-	GdkPixbuf	*pixbuf = NULL;
+	XL_CHECK_CONDITION_VAL (q->length >= 8, NULL);
 
-	guint16 const format   = GSF_LE_GET_GUINT16 (q->data);
+	format = GSF_LE_GET_GUINT16 (q->data);
+	image_len = GSF_LE_GET_GUINT32 (q->data + 4);
 
 	switch (format) {
 	case 0x2: break;	/* Windows metafile/Mac pict */
@@ -3992,6 +3994,7 @@ excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 
 	/* Dump formats which weren't handled above to file */
 	if (format != 0x9) {
+		guint16 op;
 		static int count = 0;
 		FILE *f = NULL;
 		char *file_name;

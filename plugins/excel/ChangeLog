@@ -1,5 +1,8 @@
 2009-03-30  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (excel_read_IMDATA): Add sanity check.  Fixes
+	#577348.
+
 	* ms-container.c (ms_container_get_blip): Add sanity check.  Fixes
 	#577260.
 
