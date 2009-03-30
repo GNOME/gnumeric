@@ -1348,11 +1348,16 @@ static gboolean
 BC_R(lineformat)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+8);
-	guint16 pattern = GSF_LE_GET_GUINT16 (q->data+4);
+	guint16 flags;
+	guint16 pattern;
+
+	XL_CHECK_CONDITION_VAL (q->length >= (BC_R(ver)(s) >= MS_BIFF_V8 ? 12 : 10), FALSE);
+
+	flags = GSF_LE_GET_GUINT16 (q->data + 8);
+	pattern = GSF_LE_GET_GUINT16 (q->data + 4);
 
 	BC_R(get_style) (s);
-	switch (GSF_LE_GET_GINT16 (q->data+6)) {
+	switch (GSF_LE_GET_GINT16 (q->data + 6)) {
 	default :
 	case -1 : s->style->line.width = 0; /* hairline */
 		break;
@@ -1374,7 +1379,7 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	s->style->line.dash_type = xl_pattern_to_line_type (pattern);
 
 	if (BC_R(ver)(s) >= MS_BIFF_V8 && s->currentSeries != NULL) {
-		guint16 const fore = GSF_LE_GET_GUINT16 (q->data+10);
+		guint16 const fore = GSF_LE_GET_GUINT16 (q->data + 10);
 		d (0, g_printerr ("color index == %hd.\n", fore););
 		/* Excel assumes that the color is automatic if it is the same
 		as the automatic one whatever the auto flag value is */
