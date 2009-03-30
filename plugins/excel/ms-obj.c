@@ -405,16 +405,21 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 		"At bottom", "Verticaly justified"
 	};
 
-	guint16 const options     = GSF_LE_GET_GUINT16 (q->data);
-	guint16 const orient      = GSF_LE_GET_GUINT16 (q->data + 2);
-	guint16	      text_len    = GSF_LE_GET_GUINT16 (q->data + 10);
-/*	guint16 const num_formats = GSF_LE_GET_GUINT16 (q->data + 12);*/
-	int const halign = (options >> 1) & 0x7;
-	int const valign = (options >> 4) & 0x7;
-	char         *text;
-	guint16       op;
+	guint16 options, orient, text_len;
+	int halign, valign;
+	char *text;
+	guint16 op;
 	GString *accum;
 	gboolean continue_seen = FALSE;
+
+	XL_CHECK_CONDITION_VAL (q->length >= 14, g_strdup (""));
+
+	options = GSF_LE_GET_GUINT16 (q->data);
+	orient = GSF_LE_GET_GUINT16 (q->data + 2);
+	text_len = GSF_LE_GET_GUINT16 (q->data + 10);
+/*	guint16 const num_formats = GSF_LE_GET_GUINT16 (q->data + 12);*/
+	halign = (options >> 1) & 0x7;
+	valign = (options >> 4) & 0x7;
 
 	*markup = NULL;
 	if (text_len == 0)
@@ -426,7 +431,8 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 		guint maxlen;
 
 		continue_seen = TRUE;
-		ms_biff_query_next (q);
+		if (q->length == 0)
+			continue;
 
 		use_utf16 = q->data[0] != 0;
 		maxlen = use_utf16 ? q->length / 2 : q->length-1;

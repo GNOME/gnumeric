@@ -1,5 +1,11 @@
 2009-03-29  Morten Welinder  <terra@gnome.org>
 
+	* ms-obj.c (ms_read_TXO): Add sanity check.
+
+	* ms-biff.c (ms_biff_query_peek_next): Read the length field too
+	and make sure there's enough left to read the data.  Fixes
+	#577205.
+
 	* ms-chart.c (lineformat): Add sanity check.  Fixes #577208.
 
 2009-03-22  Morten Welinder <terra@gnome.org>

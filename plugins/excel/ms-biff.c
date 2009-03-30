@@ -385,18 +385,19 @@ gboolean
 ms_biff_query_peek_next (BiffQuery *q, guint16 *opcode)
 {
 	guint8 const *data;
+	guint16 len;
 
 	g_return_val_if_fail (opcode != NULL, FALSE);
 	g_return_val_if_fail (q != NULL, FALSE);
 
-	data = gsf_input_read (q->input, 2, NULL);
+	data = gsf_input_read (q->input, 4, NULL);
 	if (data == NULL)
 		return FALSE;
 	*opcode = GSF_LE_GET_GUINT16 (data);
+	len = GSF_LE_GET_GUINT16 (data + 2);
+	gsf_input_seek (q->input, -4, G_SEEK_CUR);
 
-	gsf_input_seek (q->input, -2, G_SEEK_CUR);
-
-	return TRUE;
+	return gsf_input_remaining (q->input) >= 4 + len;
 }
 
 /**
