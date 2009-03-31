@@ -625,8 +625,12 @@ static guint8 const *
 read_pre_biff8_read_name_and_fmla (BiffQuery *q, MSContainer *c, MSObj *obj,
 				   gboolean has_name, unsigned offset)
 {
-	guint8 const *data = q->data + offset;
-	gboolean const fmla_len = GSF_LE_GET_GUINT16 (q->data+26);
+	guint8 const *data;
+	gboolean fmla_len;
+
+	XL_CHECK_CONDITION_VAL (q->length >= offset, NULL);
+	data = q->data + offset;
+	fmla_len = GSF_LE_GET_GUINT16 (q->data+26);
 
 	if (has_name) {
 		guint8 const *last = q->data + q->length;
@@ -653,12 +657,16 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 	guint16 peek_op, tmp, len;
 	unsigned txo_len, if_empty;
 	guint8 const *data;
-	gboolean const has_name = GSF_LE_GET_GUINT16 (q->data+30) != 0; /* undocumented */
+	gboolean has_name;
+	guint8 *anchor;
 
+	XL_CHECK_CONDITION_VAL (q->length >= 32, TRUE);
+
+	has_name = GSF_LE_GET_GUINT16 (q->data+30) != 0; /* undocumented */
 #if 0
 	guint16 const flags = GSF_LE_GET_GUINT16(q->data+8);
 #endif
-	guint8 *anchor = g_malloc (MS_ANCHOR_SIZE);
+	anchor = g_malloc (MS_ANCHOR_SIZE);
 	memcpy (anchor, q->data+8, MS_ANCHOR_SIZE);
 	ms_obj_attr_bag_insert (obj->attrs,
 		ms_obj_attr_new_ptr (MS_OBJ_ATTR_ANCHOR, anchor));
@@ -670,7 +678,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 	case 0: /* group */
 		break;
 	case 1: /* line */
-		g_return_val_if_fail (q->data + 41 <= last, TRUE);
+		XL_CHECK_CONDITION_VAL (q->data + 41 <= last, TRUE);
 		tmp = GSF_LE_GET_GUINT8 (q->data+38) & 0x0F;
 		if (tmp > 0)
 			ms_obj_attr_bag_insert (obj->attrs,
@@ -698,7 +706,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 	case 3: /* oval */
 	case 4: /* arc */
 	case 6: /* textbox */
-		g_return_val_if_fail (q->data + 36 <= last, TRUE);
+		XL_CHECK_CONDITION_VAL (q->data + 36 <= last, TRUE);
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_FILL_BACKGROUND,
 				0x80000000 | GSF_LE_GET_GUINT8 (q->data+34)));
