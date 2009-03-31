@@ -1,5 +1,8 @@
 2009-03-31  Morten Welinder  <terra@gnome.org>
 
+	* ms-excel-read.c (excel_read_MERGECELLS): Fix sanity check.
+	Fixes #577503.
+
 	* ms-chart.c (ms_excel_chart_read): Leak less on errors.
 	(BC_R(scatter)): Add sanity check for V8 case.  Fixes #577400.
 

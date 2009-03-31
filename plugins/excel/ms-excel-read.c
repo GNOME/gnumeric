@@ -4477,11 +4477,13 @@ excel_read_range (GnmRange *r, guint8 const *data)
 static void
 excel_read_MERGECELLS (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	int num_merged = GSF_LE_GET_GUINT16 (q->data);
+	int num_merged;
 	guint8 const *data = q->data + 2;
 	GnmRange r;
 	GSList *overlap;
 
+	XL_CHECK_CONDITION (q->length >= 2);
+	num_merged = GSF_LE_GET_GUINT16 (q->data);
 	XL_CHECK_CONDITION (q->length == (unsigned int)(2 + 8 * num_merged));
 
 	while (num_merged-- > 0) {
