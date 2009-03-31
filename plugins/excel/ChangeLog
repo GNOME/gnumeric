@@ -1,5 +1,9 @@
 2009-03-31  Morten Welinder  <terra@gnome.org>
 
+	* xlsx-write.c: Partial fix for #168875.
+	* ms-excel-read.c: Ditto.
+	* ms-excel-write.c: Ditto.
+
 	* ms-obj.c (read_pre_biff8_read_name_and_fmla): Add sanity checks.
 	(ms_obj_read_pre_biff8_obj): Add and fix sanity checks.  Fixes
 	#577504.

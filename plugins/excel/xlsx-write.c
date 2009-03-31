@@ -223,8 +223,8 @@ xlsx_write_styles (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part)
 	g_object_unref (part);
 }
 
-#define XLSX_MAX_COLS	SHEET_MAX_COLS	/* (2^14) */
-#define XLSX_MAX_ROWS	SHEET_MAX_ROWS	/* (2^20) */
+#define XLSX_MAX_COLS	gnm_sheet_get_max_cols (state->sheet)	/* default is (2^14) */
+#define XLSX_MAX_ROWS	gnm_sheet_get_max_rows (state->sheet)	/* default is (2^20) */
 
 static void
 xlsx_write_sheet_view (GsfXMLOut *xml, SheetView const *sv)
@@ -1253,12 +1253,12 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	GnmRange  extent;
 	GSList   *charts;
 	char const *chart_drawing_rel_id = NULL;
-	GnmStyle *col_styles [MIN (XLSX_MAX_COLS, SHEET_MAX_COLS)];
+	GnmStyle **col_styles = g_new (GnmStyle*, MIN (XLSX_MAX_COLS, gnm_sheet_get_max_cols (state->sheet)));
 
 	state->sheet = workbook_sheet_by_index (state->base.wb, i);
 	excel_sheet_extent (state->sheet, &extent, col_styles,
-		MIN (XLSX_MAX_COLS, SHEET_MAX_COLS),
-		MIN (XLSX_MAX_ROWS, SHEET_MAX_ROWS), state->io_context);
+		MIN (XLSX_MAX_COLS, gnm_sheet_get_max_cols (state->sheet)),
+		MIN (XLSX_MAX_ROWS, gnm_sheet_get_max_rows (state->sheet)), state->io_context);
 
 	charts = sheet_objects_get (state->sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
 	if (NULL != charts) {
@@ -1323,6 +1323,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	gsf_output_close (sheet_part);
 	g_object_unref (sheet_part);
 	g_free (name);
+	g_free (col_styles);
 
 	return rId;
 }

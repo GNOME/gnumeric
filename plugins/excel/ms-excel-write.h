@@ -45,8 +45,8 @@ typedef struct {
 	unsigned	 streamPos;
 	guint32		 boundsheetPos;
 	gint32		 max_col, max_row;
-	guint16		 col_xf    [SHEET_MAX_COLS];
-	GnmStyle	*col_style [SHEET_MAX_COLS];
+	guint16		*col_xf;
+	GnmStyle	**col_style;
 	GnmStyleList	*conditions, *hlinks, *validations;
 	GSList          *blips, *textboxes;
 	GHashTable	*comments;

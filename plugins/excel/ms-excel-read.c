@@ -282,7 +282,7 @@ excel_wb_get_fmt (GnmXLImporter *importer, unsigned idx)
 static GnmCell *
 excel_cell_fetch (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	unsigned col, row;
+	guint16 col, row;
 	Sheet *sheet = esheet->sheet;
 
 	XL_CHECK_CONDITION_VAL (q->length >= 4, NULL);
@@ -795,7 +795,9 @@ excel_sheet_new (GnmXLImporter *importer, char const *sheet_name, GnmSheetType t
 
 	sheet = workbook_sheet_by_name (importer->wb, sheet_name);
 	if (sheet == NULL) {
-		sheet = sheet_new_with_type (importer->wb, sheet_name, type);
+		sheet = sheet_new_with_type (importer->wb, sheet_name, type,
+					     gnm_sheet_get_max_cols (NULL),
+					     gnm_sheet_get_max_rows (NULL));
 		workbook_sheet_attach (importer->wb, sheet);
 		d (1, fprintf (stderr,"Adding sheet '%s'\n", sheet_name););
 	}
@@ -2002,7 +2004,7 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 static BiffXFData const *
 excel_set_xf (ExcelReadSheet *esheet, BiffQuery *q)
 {
-	unsigned col, row;
+	guint16 col, row;
 	BiffXFData const *xf;
 	GnmStyle *mstyle;
 	Sheet *sheet = esheet->sheet;
@@ -2815,7 +2817,7 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	GnmCellPos pos;
 	Sheet *sheet = esheet->sheet;
-	unsigned row, col;
+	guint16 row, col;
 
 	XL_CHECK_CONDITION (q->length >= 4);
 

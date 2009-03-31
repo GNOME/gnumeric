@@ -4690,12 +4690,13 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 	int col, row, max_row, max_col = esheet->max_col;
 	unsigned  ri_start [2]; /* Row info start */
 	unsigned *rc_start;	/* Row cells start */
-	guint16   xf_list [SHEET_MAX_COLS];
+	guint16   *xf_list;
 	GnmRange  r;
 	Sheet		*sheet = esheet->gnum_sheet;
 	TwoWayTable *twt = esheet->ewb->base.xf.two_way_table;
 	gboolean has_content = FALSE;
 
+	xf_list = g_new (gint16, gnm_sheet_get_max_cols (esheet->gnum_sheet));
 	if (nrows > esheet->max_row - (int) begin) /* Incomplete final block? */
 		nrows = esheet->max_row - (int) begin;
 	max_row = begin + nrows - 1;
@@ -4766,6 +4767,8 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 
 	excel_sheet_write_DBCELL (esheet, ri_start, rc_start,
 				  has_content ? nrows : 0, dbcells);
+
+	g_free (xf_list);
 
 	return row - 1;
 }
@@ -4993,6 +4996,8 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 	g_return_val_if_fail (sheet, NULL);
 	g_return_val_if_fail (ewb, NULL);
 
+	esheet->col_xf = g_new (guint16, gnm_sheet_max_cols);
+	esheet->col_style = g_new (GnmStyle*, gnm_sheet_max_cols);
 	excel_sheet_extent (sheet, &extent, esheet->col_style,
 		XLS_MaxCol, maxrows, ewb->io_context);
 
@@ -5061,6 +5066,8 @@ excel_sheet_free (ExcelWriteSheet *esheet)
 	style_list_free (esheet->conditions);
 	style_list_free (esheet->hlinks);
 	style_list_free (esheet->validations);
+	g_free (esheet->col_style);
+	g_free (esheet->col_xf);
 	g_free (esheet);
 }
 
