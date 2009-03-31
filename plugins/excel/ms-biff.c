@@ -439,7 +439,7 @@ ms_biff_query_next (BiffQuery *q)
 	XL_CHECK_CONDITION_VAL (len < 20000, FALSE);
 
 	if (len > 0) {
-		q->data = (guint8 *)gsf_input_read (q->input, q->length, NULL);
+		q->data = (guint8 *)gsf_input_read (q->input, len, NULL);
 		if (q->data == NULL)
 			return FALSE;
 	}
