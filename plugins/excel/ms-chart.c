@@ -99,6 +99,7 @@ typedef struct {
 typedef struct {
 	MSContainer	 container;
 
+	gboolean        error;
 	GArray		*stack;
 	MsBiffVersion	 ver;
 	guint32		 prev_opcode;
@@ -1750,7 +1751,11 @@ BC_R(scatter)(XLChartHandler const *handle,
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 
 	if (BC_R(ver)(s) >= MS_BIFF_V8) {
-		guint16 const flags = GSF_LE_GET_GUINT16 (q->data+4);
+		guint16 flags;
+
+		XL_CHECK_CONDITION_VAL (q->length >= 6, TRUE);
+
+		flags = GSF_LE_GET_GUINT16 (q->data + 4);
 
 		/* Has bubbles */
 		if (flags & 0x01) {
@@ -3504,6 +3509,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 	state.axis_cross_value = go_nan;
 	state.xaxis = NULL;
 	state.interpolation = GO_LINE_INTERPOLATION_LINEAR;
+	state.error = FALSE;
 
 	if (NULL != (state.sog = sog)) {
 		state.graph = sheet_object_graph_get_gog (sog);
@@ -3569,7 +3575,8 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 		case BIFF_EOF:
 			done = TRUE;
 			d (0, g_printerr ("}; /* CHART */\n"););
-			g_return_val_if_fail(state.stack->len == 0, TRUE);
+			if (state.stack->len > 0)
+				state.error = TRUE;
 			break;
 
 		case BIFF_PROTECT:
@@ -3642,7 +3649,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 	}
 
 	/* If there was no grid in the stream remove the automatic grid */
-	if (state.chart != NULL && !state.has_a_grid) {
+	if (!state.error && state.chart != NULL && !state.has_a_grid) {
 		GogGrid *grid = gog_chart_get_grid (state.chart);
 		if (grid != NULL) {
 			gog_object_clear_parent (GOG_OBJECT (grid));
@@ -3650,7 +3657,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 		}
 	}
 
-	for (i = state.series->len; i-- > 0 ; ) {
+	for (i = state.series->len; !state.error && i-- > 0 ; ) {
 		int j;
 		XLChartSeries *series = g_ptr_array_index (state.series, i);
 
@@ -3693,6 +3700,14 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 
 	g_array_free (state.stack, TRUE);
 	ms_container_finalize (&state.container);
+
+	if (state.error) {
+		if (state.graph) {
+			g_object_unref (state.graph);
+			state.graph = NULL;
+		}
+		state.chart = NULL;
+	}
 
 	if (state.chart) {
 		/* try to replace hidden axes by visible ones when possible */
@@ -3737,7 +3752,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 		}
 	}
 
-	if (full_page != NULL) {
+	if (!state.error && full_page != NULL) {
 		static GnmRange const fixed_size = { { 1, 1 }, { 12, 32 } };
 		SheetObjectAnchor anchor;
 		sheet_object_anchor_init (&anchor, &fixed_size, NULL,
@@ -3752,8 +3767,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 	if (state.default_plot_style != NULL)
 		g_object_unref (state.default_plot_style);
 
-
-	return FALSE;
+	return state.error;
 }
 
 /* A wrapper which reads and checks the BOF record then calls ms_excel_chart_read */
