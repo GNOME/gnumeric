@@ -1,3 +1,8 @@
+2009-03-30  Morten Welinder  <terra@gnome.org>
+
+	* lotus-formula.c (lotus_placeholder): Lookup name, just in case
+	we have already added a placeholder.
+
 2009-03-28  Morten Welinder  <terra@gnome.org>
 
 	* lotus.c (lotus_get_cstr): Catch negative offsets, just in case.
