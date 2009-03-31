@@ -4774,13 +4774,19 @@ excel_read_CF_border (GnmStyleCond *cond, ExcelReadSheet *esheet,
 static void
 excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 {
-	guint8 const type	= GSF_LE_GET_GUINT8  (q->data + 0);
-	guint8 const op		= GSF_LE_GET_GUINT8  (q->data + 1);
-	guint16 const expr0_len	= GSF_LE_GET_GUINT16 (q->data + 2);
-	guint16 const expr1_len	= GSF_LE_GET_GUINT16 (q->data + 4);
-	guint32 const flags	= GSF_LE_GET_GUINT32 (q->data + 6);
+	guint8 type, op;
+	guint16 expr0_len,expr1_len;
+	guint32 flags;
 	unsigned offset;
-	GnmStyleCond	cond;
+	GnmStyleCond cond;
+
+	XL_CHECK_CONDITION (q->length >= 12);
+
+	type = GSF_LE_GET_GUINT8 (q->data + 0);
+	op = GSF_LE_GET_GUINT8 (q->data + 1);
+	expr0_len = GSF_LE_GET_GUINT16 (q->data + 2);
+	expr1_len = GSF_LE_GET_GUINT16 (q->data + 4);
+	flags = GSF_LE_GET_GUINT32 (q->data + 6);
 
 	d (1, {
 		gsf_mem_dump (q->data+6, 6);
@@ -4857,6 +4863,8 @@ excel_read_CF (BiffQuery *q, ExcelReadSheet *esheet, GnmStyleConditions *sc)
 		guint32 size, colour;
 		guint8  tmp8, font_flags;
 		guint8 const *data = q->data + offset + 64;
+
+		XL_CHECK_CONDITION (q->length >= 64 + 54);
 
 		if (0xFFFFFFFF != (size = GSF_LE_GET_GUINT32 (data)))
 			gnm_style_set_font_size	(cond.overlay, size / 20.);

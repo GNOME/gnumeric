@@ -438,12 +438,12 @@ ms_biff_query_next (BiffQuery *q)
 	/* no biff record should be larger than around 20,000 */
 	XL_CHECK_CONDITION_VAL (len < 20000, FALSE);
 
-	q->length = len;
-	if (q->length > 0) {
+	if (len > 0) {
 		q->data = (guint8 *)gsf_input_read (q->input, q->length, NULL);
 		if (q->data == NULL)
 			return FALSE;
 	}
+	q->length = len;
 
 	if (q->encryption == MS_BIFF_CRYPTO_RC4) {
 		q->non_decrypted_data_malloced = q->data_malloced;

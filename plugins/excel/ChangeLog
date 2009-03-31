@@ -1,3 +1,11 @@
+2009-03-31  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_CF): Add sanity checks.  Fixes
+	#577399.
+
+	* ms-biff.c (ms_biff_query_next): If the read fails, make sure
+	->length is zero to match the NULL ->data.
+
 2009-03-30  Morten Welinder  <terra@gnome.org>
 
 	* ms-chart.c (ms_excel_chart_read): Add sanity check.  Fixes
