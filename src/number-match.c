@@ -24,7 +24,6 @@
 #include "gnm-format.h"
 #include "value.h"
 #include "mathfunc.h"
-#include "str.h"
 #include "numbers.h"
 #include <goffice/utils/regutf8.h>
 #include <goffice/utils/datetime.h>

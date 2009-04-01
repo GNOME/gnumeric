@@ -29,12 +29,12 @@
  * attributes, and the comments on their behviour are.  Hence he holds partial
  * copyright on the CELL implementation.
  */
+
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <func.h>
 #include <parse-util.h>
 #include <cell.h>
-#include <str.h>
 #include <ranges.h>
 #include <sheet.h>
 #include <workbook.h>

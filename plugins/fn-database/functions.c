@@ -20,17 +20,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <func.h>
 
 #include <parse-util.h>
-#include <str.h>
 #include <cell.h>
 #include <sheet.h>
 #include <workbook.h>
 #include <value.h>
-#include <number-match.h>
 #include <collect.h>
 #include <rangefunc.h>
 #include <gnm-i18n.h>

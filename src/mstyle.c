@@ -17,6 +17,7 @@
 #include "style-conditions.h"
 #include "application.h"
 #include "gutils.h"
+#include "str.h"
 #include "gnumeric-gconf.h"
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-font.h>

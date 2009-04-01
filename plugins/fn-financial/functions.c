@@ -30,7 +30,6 @@
 #include <tools/goal-seek.h>
 #include <collect.h>
 #include <value.h>
-#include <str.h>
 #include <mathfunc.h>
 #include <gnm-format.h>
 #include <workbook.h>

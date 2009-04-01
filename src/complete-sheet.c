@@ -16,7 +16,6 @@
 
 #include "sheet.h"
 #include "cell.h"
-#include "str.h"
 #include "value.h"
 #include "parse-util.h"
 

@@ -129,7 +129,7 @@ name_guru_in_list (NameGuruState *state, char const *name,
 
 		g_return_val_if_fail (nexpr != NULL, NULL);
 		g_return_val_if_fail (nexpr->name != NULL, NULL);
-		g_return_val_if_fail (nexpr->name->str != NULL, NULL);
+		g_return_val_if_fail (expr_name_name (nexpr) != NULL, NULL);
 
 		if (ignore_placeholders && expr_name_is_placeholder (nexpr))
 			continue;
@@ -137,7 +137,7 @@ name_guru_in_list (NameGuruState *state, char const *name,
 			continue;
 
 		/* no need for UTF-8 or collation magic, just equality */
-		if (strcmp (name, nexpr->name->str) == 0)
+		if (strcmp (name, expr_name_name (nexpr)) == 0)
 			return nexpr;
 	}
 
@@ -153,7 +153,7 @@ name_guru_set_expr (NameGuruState *state, GnmNamedExpr *nexpr)
 				 gnm_conventions_default);
 		gnm_expr_entry_load_from_text  (state->expr_entry, txt);
 		g_free (txt);
-		gtk_entry_set_text (state->name, nexpr->name->str);
+		gtk_entry_set_text (state->name, expr_name_name (nexpr));
 	} else {
 		gnm_expr_entry_load_from_text (state->expr_entry, "");
 		gtk_entry_set_text (state->name, "");
@@ -211,7 +211,7 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 		
 		if (nexpr != NULL ) 
 			switchscope = !nexpr->is_permanent && 
-				(NULL == name_guru_in_list (state, nexpr->name->str, 
+				(NULL == name_guru_in_list (state, expr_name_name (nexpr), 
 						TRUE, (nexpr->pos.sheet == NULL)));   
 	}
 
@@ -265,13 +265,16 @@ name_guru_populate_list (NameGuruState *state)
 		if (nexpr->pos.sheet != NULL) {
 			char *name = g_strdup_printf ("%s!%s",
 						      nexpr->pos.sheet->name_unquoted,
-						      nexpr->name->str);
+						      expr_name_name (nexpr));
 			gtk_list_store_set (state->model,
 					    &iter, 0, name, 1, nexpr, -1);
 			g_free (name);
 		} else
 			gtk_list_store_set (state->model,
-					    &iter, 0, nexpr->name->str, 1, nexpr, -1);
+					    &iter,
+					    0, expr_name_name (nexpr),
+					    1, nexpr,
+					    -1);
 	}
 	name_guru_update_sensitivity (state, TRUE);
 }
@@ -311,7 +314,7 @@ cb_name_guru_select_name (G_GNUC_UNUSED GtkTreeSelection *ignored,
 
 	g_return_if_fail (nexpr != NULL);
 	g_return_if_fail (nexpr->name != NULL);
-	g_return_if_fail (nexpr->name->str != NULL);
+	g_return_if_fail (expr_name_name (nexpr) != NULL);
 
 	state->cur_name = nexpr;
 

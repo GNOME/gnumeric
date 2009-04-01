@@ -3,7 +3,6 @@
 # define _GNM_VALIDATION_H_
 
 #include "gnumeric.h"
-#include "str.h"
 
 G_BEGIN_DECLS
 

@@ -27,7 +27,6 @@
 
 #include <parse-util.h>
 #include <complex.h>
-#include <str.h>
 #include <value.h>
 #include <mathfunc.h>
 #include <collect.h>

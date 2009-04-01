@@ -33,6 +33,7 @@
 #include "sheet.h"
 #include "cell.h"
 #include "value.h"
+#include "str.h"
 #include "workbook-control.h"
 #include "parse-util.h"
 

@@ -17,7 +17,6 @@
 #include "expr-impl.h"
 #include "rendered-value.h"
 #include "value.h"
-#include "str.h"
 #include "style.h"
 #include "ranges.h"
 #include "gnm-format.h"
@@ -348,7 +347,8 @@ gboolean
 gnm_cell_is_blank (GnmCell const * cell)
 {
 	return gnm_cell_is_empty (cell) ||
-		(VALUE_IS_STRING (cell->value) && *(cell->value->v_str.val->str) == '\0');
+		(VALUE_IS_STRING (cell->value) &&
+		 *value_peek_string (cell->value) == '\0');
 }
 
 GnmValue *

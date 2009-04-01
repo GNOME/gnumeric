@@ -142,12 +142,12 @@ cb_load_names (G_GNUC_UNUSED gpointer key,
 	if (nexpr->pos.sheet != NULL)
 		expr_name = g_strdup_printf ("%s!%s",
 					     nexpr->pos.sheet->name_unquoted,
-					     nexpr->name->str);
+					     expr_name_name (nexpr));
 	gtk_tree_store_set (user->state->model, &iter,
-		ITEM_NAME,	expr_name ? expr_name : nexpr->name->str,
-		SHEET_POINTER,	nexpr->pos.sheet,
-		EXPRESSION,	nexpr,
-		-1);
+			    ITEM_NAME, expr_name ? expr_name : expr_name_name (nexpr),
+			    SHEET_POINTER, nexpr->pos.sheet,
+			    EXPRESSION,	nexpr,
+			    -1);
 	g_free (expr_name);
 }
 

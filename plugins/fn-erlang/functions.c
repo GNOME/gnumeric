@@ -28,7 +28,6 @@
 #include <gnumeric.h>
 #include <func.h>
 #include <parse-util.h>
-#include <str.h>
 #include <cell.h>
 #include <value.h>
 #include <mathfunc.h>

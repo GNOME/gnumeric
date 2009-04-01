@@ -27,7 +27,6 @@
 #include "help.h"
 
 #include <expr.h>
-#include <str.h>
 #include <expr-name.h>
 #include <sheet.h>
 #include <sheet-view.h>

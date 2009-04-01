@@ -33,6 +33,7 @@
 #include "gnm-format.h"
 #include "cell.h"
 #include "position.h"
+#include "str.h"
 #include "expr.h"
 #include "expr-name.h"
 #include "print-info.h"

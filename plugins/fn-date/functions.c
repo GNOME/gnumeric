@@ -26,7 +26,6 @@
 #include <func.h>
 
 #include <parse-util.h>
-#include <str.h>
 #include <cell.h>
 #include <gnm-datetime.h>
 #include <value.h>

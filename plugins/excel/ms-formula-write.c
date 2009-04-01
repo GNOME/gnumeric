@@ -29,7 +29,6 @@
 #include <expr.h>
 #include <expr-impl.h>
 #include <expr-name.h>
-#include <str.h>
 #include <parse-util.h>
 #include <goffice/app/io-context.h>
 
@@ -742,7 +741,7 @@ write_node (PolishData *pd, GnmExpr const *expr, int paren_level,
 		}
 
 		case VALUE_STRING:
-			write_string (pd, v->v_str.val->str);
+			write_string (pd, value_peek_string (v));
 			break;
 
 		case VALUE_CELLRANGE:

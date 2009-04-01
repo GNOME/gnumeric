@@ -633,6 +633,13 @@ expr_name_remove (GnmNamedExpr *nexpr)
 		nexpr->name->str);
 }
 
+const char *
+expr_name_name (GnmNamedExpr const *nexpr)
+{
+	g_return_val_if_fail (nexpr != NULL, NULL);
+	return nexpr->name->str;
+}
+
 /**
  * expr_name_as_string :
  * @nexpr :

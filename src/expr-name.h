@@ -41,6 +41,7 @@ void	 expr_name_unref      (GnmNamedExpr *nexpr);
 void     expr_name_remove     (GnmNamedExpr *nexpr);
 GnmValue*expr_name_eval       (GnmNamedExpr const *ne, GnmEvalPos const *ep,
 			       GnmExprEvalFlags flags);
+const char *expr_name_name    (GnmNamedExpr const *nexpr);
 char    *expr_name_as_string  (GnmNamedExpr const *ne, GnmParsePos const *pp,
 			       GnmConventions const *fmt);
 char    *expr_name_set_scope  (GnmNamedExpr *ne, Sheet *sheet);

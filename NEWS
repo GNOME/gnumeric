@@ -11,6 +11,8 @@ Morten:
 	[#577348] [#577351] [#577399] [#577400] [#577503] [#577504]
 	* Add sorted sheet list to tab menu.
 	* Fix criticals during Lotus load.
+	* Clean up Sheet object.
+	* Clean up str.h usage.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.5

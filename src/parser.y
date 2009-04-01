@@ -16,6 +16,7 @@
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "number-match.h"
+#include "str.h"
 #include "expr.h"
 #include "expr-impl.h"
 #include "expr-name.h"
@@ -27,7 +28,6 @@
 #include "gutils.h"
 #include "style.h"
 #include "value.h"
-#include "str.h"
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/app/go-doc.h>
 #include <goffice/utils/go-locale.h>
@@ -457,7 +457,7 @@ build_set (GnmExprList *list)
 static GnmExpr *
 parse_string_as_value (GnmExpr *str)
 {
-	GnmValue *v = format_match_simple (str->constant.value->v_str.val->str);
+	GnmValue *v = format_match_simple (value_peek_string (str->constant.value));
 
 	if (v != NULL) {
 		unregister_allocation (str);
@@ -478,7 +478,7 @@ static GnmExpr *
 parser_simple_val_or_name (GnmExpr *str_expr)
 {
 	GnmExpr const *res;
-	char const *str = str_expr->constant.value->v_str.val->str;
+	char const *str = value_peek_string (str_expr->constant.value);
 	GnmValue *v = format_match_simple (str);
 
 	/* if it is not a simple value see if it is a name */
@@ -513,7 +513,7 @@ parser_simple_val_or_name (GnmExpr *str_expr)
 static Sheet *
 parser_sheet_by_name (Workbook *wb, GnmExpr *name_expr)
 {
-	char const *name = name_expr->constant.value->v_str.val->str;
+	char const *name = value_peek_string (name_expr->constant.value);
 	Sheet *sheet = NULL;
 
 	if (wb == NULL)
@@ -668,7 +668,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	| function
 	| sheetref STRING {
 		GnmNamedExpr *nexpr = NULL;
-		char const *name = $2->constant.value->v_str.val->str;
+		char const *name = value_peek_string ($2->constant.value);
 		GnmParsePos pos = *state->pos;
 
 		pos.sheet = $1;
@@ -686,7 +686,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	}
 	| workbookref STRING {
 		GnmNamedExpr *nexpr = NULL;
-		char const *name = $2->constant.value->v_str.val->str;
+		char const *name = value_peek_string ($2->constant.value);
 		GnmParsePos pos = *state->pos;
 
 		pos.sheet = NULL;
@@ -706,7 +706,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	;
 
 function : STRING '(' arg_list ')' {
-		char const *name = $1->constant.value->v_str.val->str;
+		char const *name = value_peek_string ($1->constant.value);
 		GnmExpr const *f_call = (*state->convs->input.func) (
 			state->convs, state->pos->wb, name, $3);
 
@@ -727,7 +727,7 @@ string_opt_quote : STRING
 		 ;
 
 workbookref : '[' string_opt_quote ']'  {
-		char const *wb_name = $2->constant.value->v_str.val->str;
+		char const *wb_name = value_peek_string ($2->constant.value);
 		Workbook *ref_wb = state->pos
 			? (state->pos->wb
 			   ? state->pos->wb

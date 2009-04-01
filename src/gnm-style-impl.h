@@ -2,7 +2,6 @@
 #ifndef _GNM_STYLE_IMPL_H_
 # define _GNM_STYLE_IMPL_H_
 
-#include "str.h"
 #include "style-border.h"
 #include "style-color.h"
 #include "style-font.h"

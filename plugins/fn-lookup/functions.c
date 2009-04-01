@@ -30,7 +30,6 @@
 #include <parse-util.h>
 #include <dependent.h>
 #include <cell.h>
-#include <str.h>
 #include <sheet.h>
 #include <value.h>
 #include <ranges.h>

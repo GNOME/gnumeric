@@ -1216,7 +1216,7 @@ std_expr_name_handler (GnmConventionsOut *out, GnmExprName const *name)
 		g_string_append_unichar (target, out->convs->sheet_name_sep);
 	}
 
-	g_string_append (target, thename->name->str);
+	g_string_append (target, expr_name_name (thename));
 }
 
 static void

@@ -54,6 +54,7 @@
 #include <input-msg.h>
 #include <parse-util.h>	/* for cell_name */
 #include <ranges.h>
+#include <str.h>
 #include <expr.h>
 #include <expr-name.h>
 #include <value.h>

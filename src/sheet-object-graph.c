@@ -26,7 +26,6 @@
 
 #include "gnm-pane-impl.h"
 #include "sheet-control-gui.h"
-#include "str.h"
 #include "gui-util.h"
 #include "gui-file.h"
 #include "gnm-graph-window.h"

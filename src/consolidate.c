@@ -33,7 +33,6 @@
 #include "selection.h"
 #include "sheet.h"
 #include "value.h"
-#include "str.h"
 #include "workbook.h"
 #include "workbook-control.h"
 

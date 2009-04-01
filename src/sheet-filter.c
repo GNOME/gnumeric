@@ -32,7 +32,6 @@
 #include "value.h"
 #include "gnm-format.h"
 #include "ranges.h"
-#include "str.h"
 #include "number-match.h"
 #include "gutils.h"
 #include "sheet-object.h"

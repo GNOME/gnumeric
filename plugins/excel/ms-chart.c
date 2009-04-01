@@ -25,7 +25,6 @@
 #include <value.h>
 #include <gutils.h>
 #include <graph.h>
-#include <str.h>
 #include <style-color.h>
 #include <sheet-object-graph.h>
 #include <workbook-view.h>
@@ -5409,7 +5408,7 @@ chart_write_siindex (XLChartWriteState *s, guint msdim)
 				GSF_LE_SET_GUINT16 (dat + 4, 0);
 				ms_biff_put_var_write  (s->bp, (guint8*) dat, 6);
 				excel_write_string (s->bp, STR_TWO_BYTE_LENGTH,
-					value->v_str.val->str);
+						    value_peek_string (value));
 				ms_biff_put_commit (s->bp);
 				continue;
 			default:

@@ -30,7 +30,6 @@
 #include "sheet-view.h"
 #include "sheet-merge.h"
 #include "sheet-style.h"
-#include "str.h"
 #include "gnm-format.h"
 #include "func.h"
 #include "expr.h"

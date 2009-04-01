@@ -18,7 +18,6 @@
 #include "ms-excel-util.h"
 
 #include <expr-name.h>
-#include <str.h>
 #include <value.h>
 
 #include <gsf/gsf-utils.h>

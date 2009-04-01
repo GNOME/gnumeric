@@ -1,5 +1,10 @@
 2009-04-01  Morten Welinder  <terra@gnome.org>
 
+	* src/expr-name.c (expr_name_name): New function.
+	* */*.c: don't include str.h unless we have to.
+
+2009-04-01  Morten Welinder  <terra@gnome.org>
+
 	* src/sheet.c (gnm_sheet_class_init): Install new workbook
 	property.
 	(gnm_sheet_get_max_rows, gnm_sheet_get_max_cols): Complain if

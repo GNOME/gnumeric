@@ -29,7 +29,6 @@
 #include "sheet-style.h"
 #include "sheet-merge.h"
 #include "rendered-value.h"
-#include "str.h"
 #include "cell-draw.h"
 
 #include <string.h>

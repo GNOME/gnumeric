@@ -5787,7 +5787,7 @@ cmd_remove_name_undo (GnmCommand *cmd,
 {
 	CmdRemoveName *me = CMD_REMOVE_NAME (cmd);
 	GnmNamedExpr *nexpr =
-		expr_name_add (&me->nexpr->pos, me->nexpr->name->str,
+		expr_name_add (&me->nexpr->pos, expr_name_name (me->nexpr),
 			       me->texpr, NULL, TRUE, NULL);
 	if (nexpr) {
 		me->texpr = NULL;
@@ -5851,7 +5851,8 @@ cmd_remove_name (WorkbookControl *wbc, GnmNamedExpr *nexpr)
 	me->texpr = NULL;
 	me->cmd.sheet = wb_control_cur_sheet (wbc);
 	me->cmd.size = 1;
-	me->cmd.cmd_descriptor = g_strdup_printf (_("Remove Name %s"), nexpr->name->str);
+	me->cmd.cmd_descriptor = g_strdup_printf (_("Remove Name %s"),
+						  expr_name_name (nexpr));
 
 	return command_push_undo (wbc, G_OBJECT (me));
 }

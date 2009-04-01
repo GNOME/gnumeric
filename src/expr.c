@@ -30,7 +30,6 @@
 #include "func.h"
 #include "cell.h"
 #include "sheet.h"
-#include "str.h"
 #include "value.h"
 #include "parse-util.h"
 #include "ranges.h"
@@ -838,7 +837,7 @@ cb_bin_arith (GnmEvalPos const *ep, GnmValue const *a, GnmValue const *b,
 	if (VALUE_IS_EMPTY (a))
 		a = va = (GnmValue *)value_zero;
 	else if (VALUE_IS_STRING (a)) {
-		va = format_match_number (a->v_str.val->str, NULL,
+		va = format_match_number (value_peek_string (a), NULL,
 			workbook_date_conv (ep->sheet->workbook));
 		if (va == NULL)
 			return value_new_error_VALUE (ep);
@@ -849,7 +848,7 @@ cb_bin_arith (GnmEvalPos const *ep, GnmValue const *a, GnmValue const *b,
 	if (VALUE_IS_EMPTY (b))
 		b = vb = (GnmValue *)value_zero;
 	else if (VALUE_IS_STRING (b)) {
-		vb = format_match_number (b->v_str.val->str, NULL,
+		vb = format_match_number (value_peek_string (b), NULL,
 			workbook_date_conv (ep->sheet->workbook));
 		if (vb == NULL) {
 			if (va != a)
@@ -1237,7 +1236,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 		/* 2) #!VALUE error if A is not a number */
 		if (VALUE_IS_STRING (a)) {
-			GnmValue *tmp = format_match_number (a->v_str.val->str, NULL,
+			GnmValue *tmp = format_match_number (value_peek_string (a), NULL,
 				workbook_date_conv (pos->sheet->workbook));
 
 			value_release (a);
@@ -1247,7 +1246,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		} else if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY) {
 			b = gnm_expr_eval (expr->binary.value_b, pos, flags);
 			if (VALUE_IS_STRING (b)) {
-				res = format_match_number (b->v_str.val->str, NULL,
+				res = format_match_number (value_peek_string (b), NULL,
 					workbook_date_conv (pos->sheet->workbook));
 				value_release (b);
 				b = (res == NULL) ? value_new_error_VALUE (pos) : res;
@@ -1269,7 +1268,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 		/* 4) #!VALUE error if B is not a number */
 		if (VALUE_IS_STRING (b)) {
-			GnmValue *tmp = format_match_number (b->v_str.val->str, NULL,
+			GnmValue *tmp = format_match_number (value_peek_string (b), NULL,
 				workbook_date_conv (pos->sheet->workbook));
 
 			value_release (b);
@@ -1312,7 +1311,7 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 
 		/* 2) #!VALUE error if A is not a number */
 		if (VALUE_IS_STRING (a)) {
-			GnmValue *tmp = format_match_number (a->v_str.val->str, NULL,
+			GnmValue *tmp = format_match_number (value_peek_string (a), NULL,
 				workbook_date_conv (pos->sheet->workbook));
 
 			value_release (a);
@@ -2047,7 +2046,7 @@ gnm_expr_relocate (GnmExpr const *expr, RelocInfoInternal const *rinfo)
 				parse_pos_init_sheet (&pos, rinfo->details->target_sheet);
 
 				/* If the name is not available in the new scope explicitly scope it */
-				new_nexpr = expr_name_lookup (&pos, nexpr->name->str);
+				new_nexpr = expr_name_lookup (&pos, expr_name_name (nexpr));
 				if (new_nexpr == NULL) {
 					if (nexpr->pos.sheet != NULL)
 						return gnm_expr_new_name (nexpr, nexpr->pos.sheet, NULL);

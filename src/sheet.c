@@ -5070,7 +5070,7 @@ sheet_dup_names (Sheet const *src, Sheet *dst)
 	/* Pass 1: add placeholders.  */
 	for (l = names; l; l = l->next) {
 		GnmNamedExpr *src_nexpr = l->data;
-		char const *name = src_nexpr->name->str;
+		char const *name = expr_name_name (src_nexpr);
 		GnmNamedExpr *dst_nexpr =
 			gnm_named_expr_collection_lookup (dst->names, name);
 		GnmExprTop const *texpr;
@@ -5085,7 +5085,7 @@ sheet_dup_names (Sheet const *src, Sheet *dst)
 	/* Pass 2: assign the right expression.  */
 	for (l = names; l; l = l->next) {
 		GnmNamedExpr *src_nexpr = l->data;
-		char const *name = src_nexpr->name->str;
+		char const *name = expr_name_name (src_nexpr);
 		GnmNamedExpr *dst_nexpr =
 			gnm_named_expr_collection_lookup (dst->names, name);
 		GnmExprTop const *texpr;

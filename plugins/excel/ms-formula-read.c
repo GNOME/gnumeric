@@ -22,7 +22,6 @@
 #include <value.h>
 #include <expr-impl.h>
 #include <expr-name.h>
-#include <str.h>
 #include <parse-util.h>
 #include <sheet.h>
 #include <workbook.h>
@@ -643,9 +642,9 @@ make_function (GnmExprList **stack, int fn_idx, int numargs, Workbook *wb)
 		if (tmp != NULL) {
 			if (GNM_EXPR_GET_OPER (tmp) == GNM_EXPR_OP_CONSTANT &&
 			    VALUE_IS_STRING (tmp->constant.value))
-				f_name = tmp->constant.value->v_str.val->str;
+				f_name = value_peek_string (tmp->constant.value);
 			else if (GNM_EXPR_GET_OPER (tmp) == GNM_EXPR_OP_NAME)
-				f_name = tmp->name.name->name->str;
+				f_name = expr_name_name (tmp->name.name);
 		}
 
 		if (f_name == NULL) {
