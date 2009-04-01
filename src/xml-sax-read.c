@@ -478,7 +478,7 @@ xml_sax_wb_sheetsize (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gnm_xml_attr_int (attrs, "gnm:Cols", &state->sheet_cols))
 			; /* Nothing more */
-		else if (gnm_xml_attr_int (attrs, "gnm:Rows", &state->sheet_cols))
+		else if (gnm_xml_attr_int (attrs, "gnm:Rows", &state->sheet_rows))
 			; /* Nothing more */
 		else
 			unknown_attr (xin, attrs);
@@ -490,14 +490,16 @@ xml_sax_wb_sheetname (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	char const *name = xin->content->str;
+	Workbook *wb = state->wb;
 
 	g_return_if_fail (name != NULL);
 
-	if (NULL == workbook_sheet_by_name (state->wb, name))
-		workbook_sheet_attach (state->wb,
-			sheet_new_with_size (state->wb, name,
-					     state->sheet_cols,
-					     state->sheet_rows));
+	if (NULL == workbook_sheet_by_name (wb, name)) {
+		Sheet *sheet = sheet_new_with_size (wb, name,
+						    state->sheet_cols,
+						    state->sheet_rows);
+		workbook_sheet_attach (wb, sheet);
+	}
 }
 
 static void

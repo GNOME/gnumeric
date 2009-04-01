@@ -1,5 +1,8 @@
 2009-04-01  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-sax-read.c (xml_sax_wb_sheetsize): Set the right
+	attribute.
+
 	* src/sheet.c (sheet_new_with_type): Move most of this into a
 	constructor.
 	(gnm_sheet_class_init): Install new property "sheet-type".
