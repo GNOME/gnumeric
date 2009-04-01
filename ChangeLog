@@ -1,3 +1,9 @@
+2009-04-01  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_new_with_type): Move most of this into a
+	constructor.
+	(gnm_sheet_class_init): Install new property "sheet-type".
+
 2009-03-29  Morten Welinder  <terra@gnome.org>
 
 	* */*.[ch]: Install variable-sheet-size patch from 168875.  (Work

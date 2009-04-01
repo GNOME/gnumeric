@@ -85,6 +85,7 @@ typedef Sheet GnmSheet;
 
 enum {
 	PROP_0,
+	PROP_SHEET_TYPE,
 	PROP_NAME,
 	PROP_RTL,
 	PROP_VISIBILITY,
@@ -283,12 +284,12 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 
 		parse_pos_init_sheet (&pp, sheet);
 		nexpr = expr_name_lookup (&pp, "Sheet_Title");
-
-		if (nexpr != NULL)
-			expr_name_set_expr (nexpr,
-					    gnm_expr_top_new_constant
-					    (value_new_string
-					     (sheet->name_unquoted)));
+		if (nexpr) {
+			GnmExprTop const *texpr =
+				gnm_expr_top_new_constant
+				(value_new_string (sheet->name_unquoted));
+			expr_name_set_expr (nexpr, texpr);
+		}
 	}
 }
 
@@ -368,6 +369,9 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 	Sheet *sheet = (Sheet *)object;
 
 	switch (property_id) {
+	case PROP_SHEET_TYPE:
+		sheet->sheet_type = g_value_get_enum (value);
+		break;
 	case PROP_NAME:
 		sheet_set_name (sheet, g_value_get_string (value));
 		break;
@@ -475,9 +479,11 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 		sheet_set_zoom_factor (sheet, g_value_get_double (value));
 		break;
 	case PROP_COLUMNS:
+		/* Construction-time only */
 		sheet->max_cols = g_value_get_int (value);
 		break;
 	case PROP_ROWS:
+		/* Construction-time only */
 		sheet->max_rows = g_value_get_int (value);
 		break;
 	default:
@@ -493,6 +499,9 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 	Sheet *sheet = (Sheet *)object;
 
 	switch (property_id) {
+	case PROP_SHEET_TYPE:
+		g_value_set_enum (value, sheet->sheet_type);
+		break;
 	case PROP_NAME:
 		g_value_set_string (value, sheet->name_unquoted);
 		break;
@@ -604,6 +613,70 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 	}
 }
 
+static GObject *
+gnm_sheet_constructor (GType type,
+		       guint n_construct_properties,
+		       GObjectConstructParam *construct_params)
+{
+	GObject *obj;
+	Sheet *sheet;
+	
+	obj = parent_class->constructor (type, n_construct_properties,
+					 construct_params);
+	sheet = SHEET (obj);
+
+	/* Now sheet_type, max_cols, and max_rows have been set.  */
+
+	sheet->priv->reposition_objects.col = sheet->max_cols;
+	g_ptr_array_set_size (sheet->cols.info,
+			      COLROW_SEGMENT_INDEX (sheet->max_cols - 1) + 1);
+
+	sheet->priv->reposition_objects.row = sheet->max_rows;
+	g_ptr_array_set_size (sheet->rows.info,
+			      COLROW_SEGMENT_INDEX (sheet->max_rows - 1) + 1);
+
+	range_init_full_sheet (&sheet->priv->unhidden_region);
+	sheet_style_init (sheet);
+
+	sheet->deps = gnm_dep_container_new (sheet);
+
+	switch (sheet->sheet_type) {
+	case GNM_SHEET_XLM:
+		sheet->display_formulas = TRUE;
+		break;
+	case GNM_SHEET_OBJECT:
+		sheet->hide_grid = TRUE;
+		sheet->hide_col_header = sheet->hide_row_header = TRUE;
+		colrow_compute_pixels_from_pts (&sheet->rows.default_style, sheet, FALSE);
+		colrow_compute_pixels_from_pts (&sheet->cols.default_style, sheet, TRUE);
+		break;
+	case GNM_SHEET_DATA: {
+		/* We have to add permanent names */
+		GnmRange r;
+		GnmExprTop const *texpr;
+
+		if (sheet->name_unquoted)
+			texpr =	gnm_expr_top_new_constant
+				(value_new_string (sheet->name_unquoted));
+		else
+			texpr = gnm_expr_top_new_constant
+				(value_new_error_REF (NULL));
+		expr_name_perm_add (sheet, "Sheet_Title",
+				    texpr, FALSE);
+
+		range_init_full_sheet (&r);
+		texpr = gnm_expr_top_new_constant (value_new_cellrange_r (sheet, &r));
+		expr_name_perm_add (sheet, "Print_Area",
+				    texpr, TRUE);
+		break;
+	}
+	default:
+		g_assert_not_reached ();
+	}
+
+	return obj;
+}
+
 static void
 gnm_sheet_init (Sheet *sheet)
 {
@@ -630,6 +703,7 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->protected_allow.edit_pivottable		= FALSE;
 	sheet->protected_allow.select_unlocked_cells	=TRUE;
 
+	sheet->hide_zero = FALSE;
 	sheet->display_outlines = TRUE;
 	sheet->outline_symbols_below = TRUE;
 	sheet->outline_symbols_right = TRUE;
@@ -648,9 +722,11 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->solver_parameters = solver_param_new ();
 
 	sheet->cols.max_used = -1;
+	sheet->cols.info = g_ptr_array_new ();
 	sheet_col_set_default_size_pts (sheet, 48);
 
 	sheet->rows.max_used = -1;
+	sheet->rows.info = g_ptr_array_new ();
 	sheet_row_set_default_size_pts (sheet, 12.75);
 
 	sheet->print_info = print_info_new (FALSE);
@@ -666,7 +742,6 @@ gnm_sheet_init (Sheet *sheet)
 
 	/* Init preferences */
 	sheet->convs = gnm_conventions_default;
-	sheet->hide_zero = FALSE;
 
 	/* FIXME: probably not here.  */
 	/* See also gtk_widget_create_pango_context ().  */
@@ -676,17 +751,15 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->priv->enable_showhide_detail = TRUE;
 
 	sheet->names = NULL;
-	sheet->convs = gnm_conventions_default;
-
 	sheet->style_data = NULL;
+
+	sheet->index_in_wb = -1;
 
 	/*
 	 * "zoom-factor" is a construction parameter and will thus
 	 * override this.
 	 */
 	sheet->last_zoom_factor_used = -1;
-
-	sheet->deps	 = gnm_dep_container_new (sheet);
 }
 
 static void
@@ -697,7 +770,16 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 	gobject_class->set_property	= gnm_sheet_set_property;
 	gobject_class->get_property	= gnm_sheet_get_property;
 	gobject_class->finalize         = gnm_sheet_finalize;
+	gobject_class->constructor      = gnm_sheet_constructor;
 
+        g_object_class_install_property (gobject_class, PROP_SHEET_TYPE,
+		 g_param_spec_enum ("sheet-type", _("Sheet Type"),
+				    _("How type of sheet this is."),
+				    GNM_SHEET_TYPE_TYPE,
+				    GNM_SHEET_DATA,
+				    GSF_PARAM_STATIC |
+				    G_PARAM_READWRITE |
+				    G_PARAM_CONSTRUCT_ONLY));
         g_object_class_install_property (gobject_class, PROP_NAME,
 		 g_param_spec_string ("name", _("Name"),
 				      _("The name of the sheet."),
@@ -897,6 +979,22 @@ GSF_CLASS (GnmSheet, gnm_sheet,
 /* ------------------------------------------------------------------------- */
 
 GType
+gnm_sheet_type_get_type (void)
+{
+  static GType etype = 0;
+  if (etype == 0) {
+	  static const GEnumValue values[] = {
+		  { GNM_SHEET_DATA,   (char *)"GNM_SHEET_DATA",   (char *)"data"   },
+		  { GNM_SHEET_OBJECT, (char *)"GNM_SHEET_OBJECT", (char *)"object" },
+		  { GNM_SHEET_XLM,    (char *)"GNM_SHEET_XLM",    (char *)"xlm"    },
+		  { 0, NULL, NULL }
+	  };
+	  etype = g_enum_register_static ("GnmSheetType", values);
+  }
+  return etype;
+}
+
+GType
 gnm_sheet_visibility_get_type (void)
 {
   static GType etype = 0;
@@ -934,56 +1032,14 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type, int colu
 
 	sheet = g_object_new (GNM_SHEET_TYPE,
 			      "zoom-factor", (double)gnm_app_prefs->zoom,
-			      "columns", columns, "rows", rows, NULL);
+			      "columns", columns,
+			      "rows", rows,
+			      "name", name,
+			      "sheet-type", type,
+			      NULL);
 
-	sheet_style_init (sheet);
-	sheet->priv->reposition_objects.row = gnm_sheet_get_max_rows (sheet);
-	sheet->priv->reposition_objects.col = gnm_sheet_get_max_cols (sheet);
-	range_init_full_sheet (&sheet->priv->unhidden_region);
-	g_ptr_array_set_size (sheet->cols.info = g_ptr_array_new (),
-			      COLROW_SEGMENT_INDEX (gnm_sheet_get_max_cols (sheet) - 1) + 1);
-	g_ptr_array_set_size (sheet->rows.info = g_ptr_array_new (),
-			      COLROW_SEGMENT_INDEX (gnm_sheet_get_max_rows (sheet) - 1) + 1);
-	sheet->deps	 = gnm_dep_container_new (sheet);
-	sheet->index_in_wb = -1;
 	sheet->workbook = wb;
-	sheet->name_unquoted = g_strdup (name);
-	sheet->name_quoted = g_string_free (gnm_expr_conv_quote (
-		gnm_conventions_default, name), FALSE);
-	sheet->name_unquoted_collate_key =
-		g_utf8_collate_key (sheet->name_unquoted, -1);
-	sheet->name_case_insensitive =
-		g_utf8_casefold (sheet->name_unquoted, -1);
-	sheet->sheet_type = type;
 
-	sheet->display_formulas = (type == GNM_SHEET_XLM);
-	sheet->hide_grid =
-	sheet->hide_col_header =
-	sheet->hide_row_header = (type == GNM_SHEET_OBJECT);
-
-	if (type == GNM_SHEET_OBJECT) {
-		colrow_compute_pixels_from_pts (&sheet->rows.default_style, sheet, FALSE);
-		colrow_compute_pixels_from_pts (&sheet->cols.default_style, sheet, TRUE);
-	}
-
-	if (type == GNM_SHEET_DATA) {
-		/* We have to add permanent names */
-		{
-			expr_name_perm_add (sheet, "Sheet_Title",
-				    gnm_expr_top_new_constant (value_new_string (sheet->name_unquoted)),
-				    FALSE);
-		}
-		{
-			GnmRange r;
-			range_init_full_sheet (&r);
-			expr_name_perm_add (sheet, "Print_Area",
-				gnm_expr_top_new_constant (value_new_cellrange_r (sheet, &r)),
-				TRUE);
-		}
-	}
-
-	sheet->max_cols = columns;
-	sheet->max_rows = rows;
 	return sheet;
 }
 

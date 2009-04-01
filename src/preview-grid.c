@@ -452,9 +452,10 @@ preview_grid_init (PreviewGrid *pg)
 	item->x2 = 0;
 	item->y2 = 0;
 
-	pg->sheet = g_object_new (GNM_SHEET_TYPE, NULL);
-	pg->sheet->index_in_wb = -1;
-	pg->sheet->workbook = NULL;
+	pg->sheet = g_object_new (GNM_SHEET_TYPE,
+				  "rows", 256,
+				  "columns", 256,
+				  NULL);
 	pg->gridlines = FALSE;
 	pg->defaults.col_width = 64;
 	pg->defaults.row_height = 17;

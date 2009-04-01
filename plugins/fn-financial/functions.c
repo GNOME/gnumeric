@@ -1978,7 +1978,6 @@ gnm_range_xirr (gnm_float const *xs, const gnm_float *ys,
 
 	status = goal_seek_newton (&xirr_npv, NULL, &data, &p, rate0);
 	if (status != GOAL_SEEK_OK) {
-		double r;
 		int i;
 
 		/* This is likely to be on the left side of the root. */

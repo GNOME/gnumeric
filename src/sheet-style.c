@@ -1962,7 +1962,7 @@ sheet_style_get_extent (Sheet const *sheet, GnmRange *res,
 	GnmRange r;
 
 	if (most_common_in_cols != NULL) {
-		unsigned i;
+		int i;
 		for (i = 0; i < gnm_sheet_get_max_cols (sheet); i++)
 			most_common_in_cols[i] = sheet_style_most_common_in_col (sheet, i);
 	}

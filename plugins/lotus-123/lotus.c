@@ -1463,8 +1463,8 @@ lotus_rldb_apply (LotusRLDB *rldb, int type, LotusState *state)
 static GnmCell *
 lotus_cell_fetch (LotusState *state, Sheet *sheet, guint32 col, guint32 row)
 {
-	if (col >= gnm_sheet_get_max_cols (sheet) ||
-	    row >= gnm_sheet_get_max_rows (sheet)) {
+	if (col >= (unsigned)gnm_sheet_get_max_cols (sheet) ||
+	    row >= (unsigned)gnm_sheet_get_max_rows (sheet)) {
 		if (!state->sheet_area_error) {
 			state->sheet_area_error = TRUE;
 			g_warning ("File is most likely corrupted.\n"

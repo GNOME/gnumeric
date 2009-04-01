@@ -80,7 +80,7 @@ struct _GnmAction {
 	GnmActionHandler	handler;
 };
 typedef struct {
-	char const *group_name;
+	char *group_name;
 	GSList	   *actions;
 	char	   *layout;
 	char const *domain;
