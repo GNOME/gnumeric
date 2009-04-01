@@ -47,7 +47,7 @@ attr_eq (const xmlChar *a, const char *s)
 	return !strcmp (CXML2C (a), s);
 }
 
-#define ROW_COL_KEY(row,col) GINT_TO_POINTER (row * SHEET_MAX_COLS + col)
+#define ROW_COL_KEY(row,col) GINT_TO_POINTER (row * gnm_sheet_get_max_cols (sheet) + col)
 
 /******************************************************************************
  * FormatTemplateMember - Getters/setters and creation
@@ -66,7 +66,7 @@ format_template_member_new (void)
 	TemplateMember *member;
 
 	/* Sanity check for ROW_COL_KEY.  */
-	g_assert (INT_MAX / SHEET_MAX_COLS > SHEET_MAX_ROWS);
+	g_assert (INT_MAX / gnm_sheet_get_max_cols (NULL) > gnm_sheet_get_max_rows (NULL));
 
 	member = g_new (TemplateMember, 1);
 
@@ -966,6 +966,7 @@ static void
 cb_format_hash_style (GnmFormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, GHashTable *table)
 {
 	int row, col;
+	Sheet *sheet = NULL;
 
 	/*
 	 * Filter out undesired elements
@@ -1029,6 +1030,7 @@ format_template_recalc_hash (GnmFormatTemplate *ft)
 GnmStyle *
 format_template_get_style (GnmFormatTemplate *ft, int row, int col)
 {
+	Sheet *sheet = NULL;
 	g_return_val_if_fail (ft != NULL, NULL);
 	g_return_val_if_fail (ft->table != NULL, NULL);
 

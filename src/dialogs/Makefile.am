@@ -83,7 +83,9 @@ base_files =					\
 	dialog-zoom.c				\
 	dialogs.h				\
 	tool-dialogs.h				\
-	dialog-printer-setup.c
+	dialog-printer-setup.c	\
+	dialog-new-sheet.c	\
+	dialog-new-sheet.h
 
 gladedir   = $(gnumeric_datadir)/glade
 glade_DATA = 				\
@@ -154,6 +156,7 @@ glade_DATA = 				\
 	variance-tests.glade		\
 	view.glade			\
 	workbook-attr.glade		\
-	print.glade
+	print.glade	\
+	new-sheet.glade
 
 EXTRA_DIST = $(glade_DATA)

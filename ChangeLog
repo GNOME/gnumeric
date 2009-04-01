@@ -1,5 +1,11 @@
 2009-03-29  Morten Welinder  <terra@gnome.org>
 
+	* */*.[ch]: Install variable-sheet-size patch from 168875.  (Work
+	of Jean with help from Andreas and me.)  Note: all gui parts of
+	are turned off for now.  Search for GNUMERIC_VARIABLE_SHEET_SIZE.
+
+2009-03-29  Morten Welinder  <terra@gnome.org>
+
 	* src/wbc-gtk.c (sheet_menu_label_run): Simplify and add sorted
 	sheet menu too.
 

@@ -1871,6 +1871,12 @@ static GtkActionEntry const actions[] = {
 	{ "SheetInsert", NULL, N_("_Sheet"),
 		NULL, N_("Insert a new sheet"),
 		G_CALLBACK (wbcg_insert_sheet) },
+#ifdef GNUMERIC_VARIABLE_SHEET_SIZE
+	/* Not yet... */
+	{ "SheetSizedInsert", NULL, N_("Sheet with si_ze..."),
+		NULL, N_("Insert a new sheet with a specific size"),
+		G_CALLBACK (wbcg_insert_sized_sheet) },
+#endif
 	{ "InsertSheetAtEnd", NULL, N_("_Append"),
 		NULL, N_("Append a new sheet"),
 		G_CALLBACK (wbcg_append_sheet) },

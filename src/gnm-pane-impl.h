@@ -8,8 +8,8 @@
 
 G_BEGIN_DECLS
 
-#define GNM_PANE_MAX_X 1000000
-#define GNM_PANE_MAX_Y 6000000
+#define GNM_PANE_MAX_X 1600000
+#define GNM_PANE_MAX_Y 1536000000
 
 struct _GnmPane {
 	GnmSimpleCanvas simple;

@@ -868,8 +868,15 @@ workbook_sheet_attach (Workbook *wb, Sheet *new_sheet)
 Sheet *
 workbook_sheet_add (Workbook *wb, int pos)
 {
+	return workbook_sheet_add_sized (wb, pos,
+					 GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
+}
+
+Sheet *
+workbook_sheet_add_sized (Workbook *wb, int pos, int columns, int rows)
+{
 	char *name = workbook_sheet_get_free_name (wb, _("Sheet"), TRUE, FALSE);
-	Sheet *new_sheet = sheet_new (wb, name);
+	Sheet *new_sheet = sheet_new_with_size (wb, name, columns, rows);
 	g_free (name);
 
 	if (pos == -1)

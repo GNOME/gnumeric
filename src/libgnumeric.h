@@ -30,6 +30,8 @@ GNM_VAR_DECL gboolean	initial_workbook_open_complete;
 /* Internal */
 int gnm_dump_func_defs (char const* filename, int dump_type); /* changes as needed */
 
+GNM_VAR_DECL int gnm_sheet_max_rows, gnm_sheet_max_cols;
+
 G_END_DECLS
 
 #endif /* _GNM_LIBGNUMERIC_H_ */

@@ -1083,6 +1083,7 @@ cb_move_cursor (GnmPane *pane, GnmPaneSlideInfo const *info)
 	int const w = (ic->pos.end.col - ic->pos.start.col);
 	int const h = (ic->pos.end.row - ic->pos.start.row);
 	GnmRange r;
+	Sheet *sheet = scg_sheet (pane->simple.scg);
 
 	r.start.col = info->col - ic->col_delta;
 	if (r.start.col < 0)

@@ -732,7 +732,6 @@ bar_set_left_col (GnmPane *pane, int new_first_col)
 	FooCanvas *colc;
 	int col_offset;
 
-	g_return_val_if_fail (0 <= new_first_col && new_first_col < gnm_sheet_get_max_cols (sheet), 0);
 
 	col_offset = pane->first_offset.col +=
 		scg_colrow_distance_get (pane->simple.scg, TRUE, pane->first.col, new_first_col);
@@ -797,8 +796,6 @@ bar_set_top_row (GnmPane *pane, int new_first_row)
 {
 	FooCanvas *rowc;
 	int row_offset;
-
-	g_return_val_if_fail (0 <= new_first_row && new_first_row < gnm_sheet_get_max_rows (sheet), 0);
 
 	row_offset = pane->first_offset.row +=
 		scg_colrow_distance_get (pane->simple.scg, FALSE, pane->first.row, new_first_row);
@@ -865,12 +862,18 @@ gnm_pane_set_top_left (GnmPane *pane,
 	gboolean changed = FALSE;
 	int col_offset, row_offset;
 
+	g_return_if_fail (0 <= col && 
+			  col < gnm_sheet_get_max_cols (scg_sheet (pane->simple.scg)));
+	g_return_if_fail (0 <= row && 
+			  row < gnm_sheet_get_max_rows (scg_sheet (pane->simple.scg)));
+
 	if (pane->first.col != col || force_scroll) {
 		if (force_scroll) {
 			/* Clear the offsets in case col/row size changed */
 			pane->first_offset.col = 0;
 			pane->first.col = 0;
 		}
+
 		col_offset = bar_set_left_col (pane, col);
 		changed = TRUE;
 	} else {
@@ -1077,17 +1080,18 @@ static void
 scg_set_panes (SheetControl *sc)
 {
 	SheetControlGUI *scg = (SheetControlGUI *) sc;
-	gboolean const being_frozen = sv_is_frozen (sc->view);
+	SheetView	*sv = sc->view;
+	gboolean const being_frozen = sv_is_frozen (sv);
 
 	if (being_frozen) {
-		GnmCellPos const *tl = &sc->view->frozen_top_left;
-		GnmCellPos const *br = &sc->view->unfrozen_top_left;
+		GnmCellPos const *tl = &sv->frozen_top_left;
+		GnmCellPos const *br = &sv->unfrozen_top_left;
 		gboolean const freeze_h = br->col > tl->col;
 		gboolean const freeze_v = br->row > tl->row;
 
 		gnm_pane_bound_set (scg->pane[0],
 			br->col, br->row,
-			gnm_sheet_get_max_cols (sc->sheet) - 1, gnm_sheet_get_max_rows (sc->sheet) - 1);
+			gnm_sheet_get_max_cols (sv->sheet) - 1, gnm_sheet_get_max_rows (sv->sheet) - 1);
 
 		if (freeze_h) {
 			scg->active_panes = 2;
@@ -1107,7 +1111,7 @@ scg_set_panes (SheetControl *sc)
 					0, 0);
 			}
 			gnm_pane_bound_set (scg->pane[1],
-				tl->col, br->row, br->col - 1, gnm_sheet_get_max_rows (sc->sheet) - 1);
+				tl->col, br->row, br->col - 1, gnm_sheet_get_max_rows (sv->sheet) - 1);
 		}
 		if (freeze_h && freeze_v) {
 			scg->active_panes = 4;
@@ -1141,7 +1145,7 @@ scg_set_panes (SheetControl *sc)
 					0, 0);
 			}
 			gnm_pane_bound_set (scg->pane[3],
-				br->col, tl->row, gnm_sheet_get_max_cols (sc->sheet) - 1, br->row - 1);
+				br->col, tl->row, gnm_sheet_get_max_cols (sv->sheet) - 1, br->row - 1);
 		}
 	} else {
 		int i;
@@ -1153,7 +1157,7 @@ scg_set_panes (SheetControl *sc)
 
 		scg->active_panes = 1;
 		gnm_pane_bound_set (scg->pane[0],
-			0, 0, gnm_sheet_get_max_cols (sc->sheet) - 1, gnm_sheet_get_max_rows (sc->sheet) - 1);
+			0, 0, gnm_sheet_get_max_cols (sv->sheet) - 1, gnm_sheet_get_max_rows (sv->sheet) - 1);
 	}
 
 	gtk_widget_show_all (GTK_WIDGET (scg->inner_table));
@@ -2593,10 +2597,10 @@ scg_colrow_distance_get (SheetControlGUI const *scg, gboolean is_cols,
 	g_return_val_if_fail (from >= 0, 1);
 
 	if (is_cols) {
-		g_return_val_if_fail (to <= gnm_sheet_get_max_cols (sc->sheet), 1);
+		g_return_val_if_fail (to <= gnm_sheet_get_max_cols (sheet), 1);
 		collection = &sheet->cols;
 	} else {
-		g_return_val_if_fail (to <= gnm_sheet_get_max_rows (sc->sheet), 1);
+		g_return_val_if_fail (to <= gnm_sheet_get_max_rows (sheet), 1);
 		collection = &sheet->rows;
 	}
 
@@ -2803,12 +2807,12 @@ scg_rangesel_extend_to (SheetControlGUI *scg, int col, int row)
 
 	if (col < 0) {
 		base_col = 0;
-		col = gnm_sheet_get_max_cols (((SheetControl*) scg)->sheet) - 1;
+		col = gnm_sheet_get_max_cols (scg_sheet (scg)) - 1;
 	} else
 		base_col = scg->rangesel.base_corner.col;
 	if (row < 0) {
 		base_row = 0;
-		row = gnm_sheet_get_max_rows (((SheetControl*) scg)->sheet) - 1;
+		row = gnm_sheet_get_max_rows (scg_sheet (scg)) - 1;
 	} else
 		base_row = scg->rangesel.base_corner.row;
 

@@ -1707,9 +1707,9 @@ gnm_pane_handle_motion (GnmPane *pane,
 	 * fetched.*/
 	if (text_is_rtl &&
 	    event->x < (-64000 / pane->simple.canvas.pixels_per_unit)) {
-#if SHEET_MAX_COLS > 700 /* a guestimate */
-#warning WARNING We need a better solution to the rtl event kludge with SHEET_MAX_COLS so large
-#endif
+/*#if SHEET_MAX_COLS > 700*/ /* a guestimate */
+#warning WARNING We need a better solution to the rtl event kludge with gnm_sheet_get_max_cols (sheet) so large
+/*#endif*/
 		foo_canvas_w2c (canvas, event->x + 65536, event->y, &x, &y);
 	} else
 		foo_canvas_w2c (canvas, event->x, event->y, &x, &y);

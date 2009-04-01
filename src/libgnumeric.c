@@ -71,6 +71,9 @@
 /* TODO : get rid of this monstrosity */
 gboolean initial_workbook_open_complete = FALSE;
 
+int gnm_sheet_max_rows = GNM_DEFAULT_ROWS;
+int gnm_sheet_max_cols = GNM_DEFAULT_COLS;
+
 static gboolean param_show_version = FALSE;
 static char *param_lib_dir  = NULL;
 static char *param_data_dir = NULL;

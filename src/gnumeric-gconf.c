@@ -184,6 +184,16 @@ gnm_conf_init_essential (void)
 		node, GNM_CONF_GUI_RES_V, 10., 1000., 96.);
 	prefs.initial_sheet_number = go_conf_load_int (
 		root, GNM_CONF_WORKBOOK_NSHEETS, 1, 64, 3);
+	prefs.row_number = go_conf_load_int (
+		root, GNM_CONF_WORKBOOK_NROWS, GNM_DEFAULT_ROWS, GNM_MAX_ROWS, GNM_DEFAULT_ROWS);
+	while (gnm_sheet_max_rows < prefs.row_number && gnm_sheet_max_rows < GNM_MAX_ROWS)
+		gnm_sheet_max_rows <<= 1;
+	prefs.row_number = gnm_sheet_max_rows;
+	prefs.col_number = go_conf_load_int (
+		root, GNM_CONF_WORKBOOK_NCOLS, GNM_DEFAULT_COLS, GNM_MAX_COLS, GNM_DEFAULT_COLS);
+	while (gnm_sheet_max_cols < prefs.col_number && gnm_sheet_max_cols < GNM_MAX_COLS)
+		gnm_sheet_max_cols <<= 1;
+	prefs.col_number = gnm_sheet_max_cols;
 	prefs.horizontal_window_fraction = go_conf_load_double (
 		  node, GNM_CONF_GUI_WINDOW_X, .1, 1., .6);
 	prefs.vertical_window_fraction = go_conf_load_double (
@@ -834,6 +844,24 @@ gnm_gconf_set_workbook_nsheets (gint val)
 		val = 1;
 	prefs.initial_sheet_number = val;
 	go_conf_set_int (root, GNM_CONF_WORKBOOK_NSHEETS, val);
+}
+
+void
+gnm_gconf_set_workbook_nrows (gint val)
+{
+	int n = GNM_DEFAULT_ROWS;
+	while (n < val && n < GNM_MAX_ROWS)
+		n <<= 1;
+	go_conf_set_int (root, GNM_CONF_WORKBOOK_NROWS, n);
+}
+
+void
+gnm_gconf_set_workbook_ncols (gint val)
+{
+	int n = GNM_DEFAULT_COLS;
+	while (n < val && n < GNM_MAX_COLS)
+		n <<= 1;
+	go_conf_set_int (root, GNM_CONF_WORKBOOK_NCOLS, n);
 }
 
 void

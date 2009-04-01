@@ -29,7 +29,7 @@
 #include <gsf/gsf-msole-utils.h>
 #include <string.h>
 
-#define LOTUS_DEBUG 0
+#define LOTUS_DEBUG 1
 #undef DEBUG_RLDB
 #undef DEBUG_STYLE
 #undef DEBUG_FORMAT
@@ -2307,6 +2307,7 @@ lotus_read_new (LotusState *state, record_t *r)
 
 		case LOTUS_CALCORDER:
 		case LOTUS_USER_RANGE:
+		case LOTUS_SYSTEMRANGE:
 		case LOTUS_ZEROFORCE:
 		case LOTUS_SORTKEY_DIR:
 		case LOTUS_DTLABELMISC:

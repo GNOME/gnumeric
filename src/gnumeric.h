@@ -8,9 +8,12 @@
 
 G_BEGIN_DECLS
 
-#define SHEET_MAX_ROWS		(16*16*16*16)	/* 0, 1, ... */
-#define SHEET_MAX_COLS		(4*4*4*4)	/* 0, 1, ... */
-
+/* really used rows and columns should not exceed these values (TILE_TOP_LEVEL
+ can't exceed 5 currently) */
+#define GNM_DEFAULT_ROWS 0x10000
+#define GNM_MAX_ROWS 0x1000000
+#define GNM_DEFAULT_COLS 0x100
+#define GNM_MAX_COLS 0x1000
 /*
  * Note: more than 364238 columns will introduce a column named TRUE.
  */

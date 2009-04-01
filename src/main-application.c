@@ -68,6 +68,8 @@ static gchar  *func_def_file = NULL;
 static gchar  *func_state_file = NULL;
 static gchar  *geometry = NULL;
 static gchar **startup_files;
+static int rows = 0;
+static int cols = 0;
 
 static const GOptionEntry gnumeric_options [] = {
 	/*********************************
@@ -82,6 +84,16 @@ static const GOptionEntry gnumeric_options [] = {
 		N_("Don't display warning dialogs when importing"),
 		NULL
 	},
+#ifdef GNUMERIC_VARIABLE_SHEET_SIZE
+	{ "rows", 'r', 0, G_OPTION_ARG_INT, &rows,
+		N_("Minimum number of rows"),
+		NULL
+	},
+	{ "cols", 'c', 0, G_OPTION_ARG_INT, &cols,
+		N_("Minimum number of columns"),
+		NULL
+	},
+#endif
 
 	/*********************************
 	 * Hidden Actions */
@@ -384,6 +396,10 @@ main (int argc, char const **argv)
 		return gnm_dump_func_defs (func_def_file, 1);
 	if (split_funcdocs)
 		return gnm_dump_func_defs (NULL, 2);
+	while ((gnm_sheet_max_cols < cols) && (gnm_sheet_max_cols < GNM_MAX_COLS))
+		gnm_sheet_max_cols <<= 1;
+	while ((gnm_sheet_max_rows < rows) && (gnm_sheet_max_rows < GNM_MAX_ROWS))
+		gnm_sheet_max_rows <<= 1;
 
 	/* Keep in sync with .desktop file */
 	g_set_application_name (_("Gnumeric Spreadsheet"));

@@ -112,6 +112,32 @@
         <long>The number of sheets initially created in a new workbook.</long>
         </locale>
       </schema>
+       <schema>
+        <key>/schemas/apps/gnumeric/core/workbook/n-rows</key>
+        <applyto>/apps/gnumeric/core/workbook/n-rows</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	    <default>65536</default>
+        <locale name="C">
+        <short>Default Number of rows in a sheet</short>
+        <long>The number of rows in each sheet. This setting will be used
+		only in a new gnumeric session. Whatever value is given here, the real
+		number of rows will be a power of 2 between 65539 and 16777216.</long>
+        </locale>
+      </schema>
+       <schema>
+        <key>/schemas/apps/gnumeric/core/workbook/n-cols</key>
+        <applyto>/apps/gnumeric/core/workbook/n-cols</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	    <default>256</default>
+        <locale name="C">
+        <short>Default Number of columnss in a sheet</short>
+        <long>The number of columns in each sheet. This setting will be used
+		only in a new gnumeric session. Whatever value is given here, the real
+		number of columns will be a power of 2 between 256 and 4096.</long>
+        </locale>
+      </schema>
       <schema>
         <key>/schemas/apps/gnumeric/core/gui/screen/horizontaldpi</key>
         <applyto>/apps/gnumeric/core/gui/screen/horizontaldpi</applyto>

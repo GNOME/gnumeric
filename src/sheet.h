@@ -102,6 +102,12 @@ struct _Sheet {
 
 	/* This needs to move elsewhere and get shared.  */
 	PangoContext *context;
+
+	/* Size related data */
+	int max_rows, max_cols;
+	/* tile related data */
+	int tile_top_level, max_width, max_height;
+	gboolean partial_row, partial_col;
 };
 
 #define GNM_SHEET_TYPE	(gnm_sheet_get_type ())
@@ -111,13 +117,14 @@ struct _Sheet {
 GType     gnm_sheet_get_type	 (void);
 
 Sheet    *sheet_new		 (Workbook *wb, char const *name);
+Sheet    *sheet_new_with_size	 (Workbook *wb, char const *name, int columns, int rows);
 Sheet    *sheet_new_with_type	 (Workbook *wb, char const *name,
-				  GnmSheetType type);
+				  GnmSheetType type, int columns, int rows);
 Sheet    *sheet_dup		 (Sheet const *source_sheet);
 void      sheet_destroy_contents (Sheet *sheet);
 
-#define gnm_sheet_get_max_cols(sheet) SHEET_MAX_COLS
-#define gnm_sheet_get_max_rows(sheet) SHEET_MAX_ROWS
+int gnm_sheet_get_max_rows (Sheet const *sheet);
+int gnm_sheet_get_max_cols (Sheet const *sheet);
 #define gnm_sheet_get_last_col(sheet) (gnm_sheet_get_max_cols(sheet) - 1)
 #define gnm_sheet_get_last_row(sheet) (gnm_sheet_get_max_rows(sheet) - 1)
 
@@ -314,7 +321,6 @@ gboolean  sheet_delete_rows (Sheet *sheet, int row, int count,
 			     GOUndo **pundo, GOCmdContext *cc);
 void      sheet_move_range   (GnmExprRelocateInfo const *rinfo,
 			      GOUndo **pundo, GOCmdContext *cc);
-
 
 typedef enum {
 	CLEAR_VALUES	   = 0x01,

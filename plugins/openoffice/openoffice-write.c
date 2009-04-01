@@ -403,10 +403,10 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 static void
 odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 {
-	GnmStyle *col_styles [SHEET_MAX_COLS];
-	GnmRange  extent;
 	int max_cols = gnm_sheet_get_max_cols (sheet);
 	int max_rows = gnm_sheet_get_max_rows (sheet);
+	GnmStyle **col_styles = g_new (GnmStyle *, max_cols);
+	GnmRange  extent;
 	int i, col, row;
 	int null_cell;
 	int covered_cell;
@@ -486,6 +486,7 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 	}
 
 	go_slist_free_custom (sheet_merges, g_free);
+	g_free (col_styles);
 }
 
 static void

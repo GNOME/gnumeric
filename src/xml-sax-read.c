@@ -471,8 +471,9 @@ xml_sax_wb_sheetsize (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 
-	state->sheet_cols = gnm_sheet_get_max_cols (NULL);
-	state->sheet_rows = gnm_sheet_get_max_rows (NULL);
+	/* Defaults for legacy files.  */
+	state->sheet_cols = 256;
+	state->sheet_rows = 65536;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gnm_xml_attr_int (attrs, "gnm:Cols", &state->sheet_cols))
@@ -493,7 +494,10 @@ xml_sax_wb_sheetname (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (name != NULL);
 
 	if (NULL == workbook_sheet_by_name (state->wb, name))
-		workbook_sheet_attach (state->wb, sheet_new (state->wb, name));
+		workbook_sheet_attach (state->wb,
+			sheet_new_with_size (state->wb, name,
+					     state->sheet_cols,
+					     state->sheet_rows));
 }
 
 static void

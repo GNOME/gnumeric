@@ -119,7 +119,10 @@ enum {
 
 	PROP_TAB_FOREGROUND,
 	PROP_TAB_BACKGROUND,
-	PROP_ZOOM_FACTOR
+	PROP_ZOOM_FACTOR,
+
+	PROP_COLUMNS,
+	PROP_ROWS
 };
 
 static void gnm_sheet_finalize (GObject *obj);
@@ -471,6 +474,12 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 	case PROP_ZOOM_FACTOR:
 		sheet_set_zoom_factor (sheet, g_value_get_double (value));
 		break;
+	case PROP_COLUMNS:
+		sheet->max_cols = g_value_get_int (value);
+		break;
+	case PROP_ROWS:
+		sheet->max_rows = g_value_get_int (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -583,6 +592,12 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 	case PROP_ZOOM_FACTOR:
 		g_value_set_double (value, sheet->last_zoom_factor_used);
 		break;
+	case PROP_COLUMNS:
+		g_value_set_int (value, sheet->max_cols);
+		break;
+	case PROP_ROWS:
+		g_value_set_int (value, sheet->max_rows);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -598,10 +613,6 @@ gnm_sheet_init (Sheet *sheet)
 	/* Init, focus, and load handle setting these if/when necessary */
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
-	sheet->priv->reposition_objects.row = gnm_sheet_get_max_rows (sheet);
-	sheet->priv->reposition_objects.col = gnm_sheet_get_max_cols (sheet);
-
-	range_init_full_sheet (&sheet->priv->unhidden_region);
 
 	sheet->is_protected = FALSE;
 	sheet->protected_allow.edit_scenarios		= FALSE;
@@ -637,13 +648,9 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->solver_parameters = solver_param_new ();
 
 	sheet->cols.max_used = -1;
-	g_ptr_array_set_size (sheet->cols.info = g_ptr_array_new (),
-			      COLROW_SEGMENT_INDEX (gnm_sheet_get_max_cols (sheet) - 1) + 1);
 	sheet_col_set_default_size_pts (sheet, 48);
 
 	sheet->rows.max_used = -1;
-	g_ptr_array_set_size (sheet->rows.info = g_ptr_array_new (),
-			      COLROW_SEGMENT_INDEX (gnm_sheet_get_max_rows (sheet) - 1) + 1);
 	sheet_row_set_default_size_pts (sheet, 12.75);
 
 	sheet->print_info = print_info_new (FALSE);
@@ -671,7 +678,7 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->names = NULL;
 	sheet->convs = gnm_conventions_default;
 
-	sheet_style_init (sheet);
+	sheet->style_data = NULL;
 
 	/*
 	 * "zoom-factor" is a construction parameter and will thus
@@ -859,6 +866,20 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 				      G_PARAM_CONSTRUCT |
 				      G_PARAM_READWRITE));
 
+	g_object_class_install_property (gobject_class, PROP_COLUMNS,
+		g_param_spec_int ("columns", 
+			_("Columns"),
+			_("Columns number in the sheet"),
+			0, GNM_MAX_COLS, GNM_DEFAULT_COLS, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (gobject_class, PROP_ROWS,
+		g_param_spec_int ("rows", 
+			_("Rows"),
+			_("Rows number in the sheet"),
+			0, GNM_MAX_ROWS, GNM_DEFAULT_ROWS, 
+			GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+
 	signals[DETACHED_FROM_WORKBOOK] = g_signal_new
 		("detached_from_workbook",
 		 GNM_SHEET_TYPE,
@@ -902,17 +923,28 @@ gnm_sheet_visibility_get_type (void)
  * The type can not be changed later
  **/
 Sheet *
-sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type)
+sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type, int columns, int rows)
 {
 	Sheet  *sheet;
 
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
+	g_return_val_if_fail (columns <= GNM_MAX_COLS, NULL);
+	g_return_val_if_fail (rows <= GNM_MAX_ROWS, NULL);
 
 	sheet = g_object_new (GNM_SHEET_TYPE,
 			      "zoom-factor", (double)gnm_app_prefs->zoom,
-			      NULL);
+			      "columns", columns, "rows", rows, NULL);
 
+	sheet_style_init (sheet);
+	sheet->priv->reposition_objects.row = gnm_sheet_get_max_rows (sheet);
+	sheet->priv->reposition_objects.col = gnm_sheet_get_max_cols (sheet);
+	range_init_full_sheet (&sheet->priv->unhidden_region);
+	g_ptr_array_set_size (sheet->cols.info = g_ptr_array_new (),
+			      COLROW_SEGMENT_INDEX (gnm_sheet_get_max_cols (sheet) - 1) + 1);
+	g_ptr_array_set_size (sheet->rows.info = g_ptr_array_new (),
+			      COLROW_SEGMENT_INDEX (gnm_sheet_get_max_rows (sheet) - 1) + 1);
+	sheet->deps	 = gnm_dep_container_new (sheet);
 	sheet->index_in_wb = -1;
 	sheet->workbook = wb;
 	sheet->name_unquoted = g_strdup (name);
@@ -950,6 +982,8 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type)
 		}
 	}
 
+	sheet->max_cols = columns;
+	sheet->max_rows = rows;
 	return sheet;
 }
 
@@ -964,7 +998,25 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type)
 Sheet *
 sheet_new (Workbook *wb, char const *name)
 {
-	return sheet_new_with_type (wb, name, GNM_SHEET_DATA);
+	return sheet_new_with_type (wb, name, GNM_SHEET_DATA,
+				    gnm_sheet_get_max_cols (NULL),
+				    gnm_sheet_get_max_rows (NULL));
+}
+
+/**
+ * sheet_new_with_size :
+ * @wb      : #Workbook
+ * @name    : An unquoted name in utf8
+ * @columns : The requested columns number.
+ * @rows    : The requested rows number.
+ *
+ * Create a new Sheet of type SHEET_DATA, and associate it with @wb.
+ * The type can not be changed later
+ **/
+Sheet *
+sheet_new_with_size (Workbook *wb, char const *name, int columns, int rows)
+{
+	return sheet_new_with_type (wb, name, GNM_SHEET_DATA, columns, rows);
 }
 
 /****************************************************************************/
@@ -4833,6 +4885,7 @@ sheet_row_set_default_size_pts (Sheet *sheet, double height_pts)
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->reposition_objects.row = 0;
 }
+
 void
 sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels)
 {
@@ -5315,4 +5368,16 @@ gnm_sheet_foreach_name (Sheet const *sheet, GHFunc func, gpointer data)
 
 	if (sheet->names)
 		gnm_named_expr_collection_foreach (sheet->names, func, data);
+}
+
+int
+gnm_sheet_get_max_rows (Sheet const *sheet)
+{
+	return (sheet)? sheet->max_rows: gnm_sheet_max_rows;
+}
+
+int
+gnm_sheet_get_max_cols (Sheet const *sheet)
+{
+	return (sheet)? sheet->max_cols:  gnm_sheet_max_cols;
 }

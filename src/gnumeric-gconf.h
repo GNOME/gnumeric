@@ -40,6 +40,8 @@ typedef struct {
 	gint		 undo_max_number;
 
 	gint		 initial_sheet_number;
+	gint		 row_number;
+	gint		 col_number;
 	float		 horizontal_window_fraction;
 	float		 vertical_window_fraction;
 	float		 zoom;
@@ -189,6 +191,8 @@ void     gnm_gconf_set_sort_ascending (gboolean value);
 
 /* workbook */
 void     gnm_gconf_set_workbook_nsheets (gint value);
+void     gnm_gconf_set_workbook_nrows (gint value);
+void     gnm_gconf_set_workbook_ncols (gint value);
 void     gnm_gconf_set_unfocused_rs (gboolean value);
 
 /* function selector and formula guru */

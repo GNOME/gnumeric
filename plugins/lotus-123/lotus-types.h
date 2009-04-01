@@ -40,6 +40,7 @@
 
 /* Stuff observed in new formats only: */
 #define LOTUS_USER_RANGE             0x9
+#define LOTUS_SYSTEMRANGE            0xa
 #define LOTUS_ZEROFORCE              0xb
 #define LOTUS_SORTKEY_DIR            0xc
 #define LOTUS_ERRCELL                0x14

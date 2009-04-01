@@ -55,6 +55,7 @@
 #include "gnm-pane-impl.h"
 #include "graph.h"
 #include "selection.h"
+#include "dialogs/dialog-new-sheet.h"
 
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-data-set.h>
@@ -402,6 +403,52 @@ wbcg_insert_sheet (GtkWidget *unused, WBCGtk *wbcg)
 	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
 	workbook_sheet_add (wb, sheet->index_in_wb);
 	cmd_reorganize_sheets (wbc, old_state, sheet);
+}
+
+void
+wbcg_insert_sized_sheet (GtkWidget *unused, WBCGtk *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	Workbook *wb = sheet->workbook;
+	WorkbookSheetState *old_state;
+	struct NewSheetState state;
+	GtkWidget *w;
+	state.columns = gnm_sheet_get_max_cols (sheet);
+	state.rows = gnm_sheet_get_max_rows (sheet);
+	state.position = 1;
+	state.name = workbook_sheet_get_free_name (wb, _("Sheet"), TRUE, FALSE);
+	state.activate = TRUE;
+	w = dialog_new_sheet (wbcg, &state);
+	if (gtk_dialog_run (GTK_DIALOG (w)) == GTK_RESPONSE_OK) {
+		int index;
+		Sheet *new_sheet;
+		switch (state.position) {
+		case 0:
+			index = 0;
+			break;
+		case 1:
+			index = sheet->index_in_wb;
+			break;
+		case 2:
+			index = sheet->index_in_wb + 1;
+			break;
+		case 3:
+			index = workbook_sheet_count (wb);
+			break;
+		default:
+			index = sheet->index_in_wb;
+			break;
+		}
+		old_state = workbook_sheet_state_new (wb);
+		new_sheet = workbook_sheet_add_sized (wb, index, state.columns, state.rows);
+		cmd_reorganize_sheets (wbc, old_state, sheet);
+		if (state.name && strlen (state.name))
+			g_object_set (new_sheet, "name", state.name, NULL);
+		if (state.activate)
+			wb_control_sheet_focus (wbc, new_sheet);
+	}
+	gtk_widget_destroy (w);
 }
 
 void
@@ -2213,7 +2260,7 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 	len = go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg))),
 		GTK_WIDGET (entry)->style->font_desc,
-		cell_coord_name (gnm_sheet_get_max_cols (NULL) - 1, gnm_sheet_get_max_rows (NULL) - 1));
+		cell_coord_name (GNM_MAX_COLS - 1, GNM_MAX_ROWS - 1));
 	/*
 	 * Add a little extra since font might be proportional and since
 	 * we also put user defined names there.
