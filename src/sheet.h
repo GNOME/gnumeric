@@ -28,6 +28,7 @@ struct _Sheet {
 	int         index_in_wb;
 	Workbook    *workbook;
 	gboolean    being_invalidated;
+	gboolean    being_constructed;
 
 	GOUndoGroup *revive;
 

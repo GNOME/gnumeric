@@ -86,6 +86,7 @@ typedef Sheet GnmSheet;
 enum {
 	PROP_0,
 	PROP_SHEET_TYPE,
+	PROP_WORKBOOK,
 	PROP_NAME,
 	PROP_RTL,
 	PROP_VISIBILITY,
@@ -247,7 +248,7 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 		g_free (sucker_name);
 	}
 
-	attached = wb != NULL && /* not strictly needed */
+	attached = wb != NULL &&
 		sheet->index_in_wb != -1 &&
 		sheet->name_case_insensitive;
 
@@ -277,7 +278,8 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 				     sheet->name_case_insensitive,
 				     sheet);
 
-	if (sheet->sheet_type == GNM_SHEET_DATA) {
+	if (!sheet->being_constructed &&
+	    sheet->sheet_type == GNM_SHEET_DATA) {
 		/* We have to fix the Sheet_Title name */
 		GnmNamedExpr *nexpr;
 		GnmParsePos pp;
@@ -350,7 +352,8 @@ sheet_set_display_formulas (Sheet *sheet, gboolean display)
 	if (sheet->display_formulas == display)
 		return;
 	sheet->display_formulas = display;
-	sheet_scale_changed (sheet, TRUE, FALSE);
+	if (!sheet->being_constructed)
+		sheet_scale_changed (sheet, TRUE, FALSE);
 }
 
 static void
@@ -359,7 +362,8 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 	if (fabs (factor - sheet->last_zoom_factor_used) < 1e-6)
 		return;
 	sheet->last_zoom_factor_used = factor;
-	sheet_scale_changed (sheet, TRUE, TRUE);
+	if (!sheet->being_constructed)
+		sheet_scale_changed (sheet, TRUE, TRUE);
 }
 
 static void
@@ -370,7 +374,12 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 
 	switch (property_id) {
 	case PROP_SHEET_TYPE:
+		/* Construction-time only */
 		sheet->sheet_type = g_value_get_enum (value);
+		break;
+	case PROP_WORKBOOK:
+		/* Construction-time only */
+		sheet->workbook = g_value_get_object (value);
 		break;
 	case PROP_NAME:
 		sheet_set_name (sheet, g_value_get_string (value));
@@ -502,6 +511,9 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 	case PROP_SHEET_TYPE:
 		g_value_set_enum (value, sheet->sheet_type);
 		break;
+	case PROP_WORKBOOK:
+		g_value_set_object (value, sheet->workbook);
+		break;
 	case PROP_NAME:
 		g_value_set_string (value, sheet->name_unquoted);
 		break;
@@ -626,6 +638,7 @@ gnm_sheet_constructor (GType type,
 	sheet = SHEET (obj);
 
 	/* Now sheet_type, max_cols, and max_rows have been set.  */
+	sheet->being_constructed = FALSE;
 
 	sheet->priv->reposition_objects.col = sheet->max_cols;
 	g_ptr_array_set_size (sheet->cols.info,
@@ -674,6 +687,8 @@ gnm_sheet_constructor (GType type,
 		g_assert_not_reached ();
 	}
 
+	sheet_scale_changed (sheet, TRUE, TRUE);
+
 	return obj;
 }
 
@@ -681,6 +696,8 @@ static void
 gnm_sheet_init (Sheet *sheet)
 {
 	sheet->priv = g_new0 (SheetPrivate, 1);
+	sheet->being_constructed = TRUE;
+
 	sheet->sheet_views = g_ptr_array_new ();
 
 	/* Init, focus, and load handle setting these if/when necessary */
@@ -697,11 +714,11 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->protected_allow.insert_hyperlinks	= FALSE;
 	sheet->protected_allow.delete_columns		= FALSE;
 	sheet->protected_allow.delete_rows		= FALSE;
-	sheet->protected_allow.select_locked_cells	=TRUE;
+	sheet->protected_allow.select_locked_cells	= TRUE;
 	sheet->protected_allow.sort_ranges		= FALSE;
 	sheet->protected_allow.edit_auto_filters	= FALSE;
 	sheet->protected_allow.edit_pivottable		= FALSE;
-	sheet->protected_allow.select_unlocked_cells	=TRUE;
+	sheet->protected_allow.select_unlocked_cells	= TRUE;
 
 	sheet->hide_zero = FALSE;
 	sheet->display_outlines = TRUE;
@@ -780,6 +797,14 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 				    GSF_PARAM_STATIC |
 				    G_PARAM_READWRITE |
 				    G_PARAM_CONSTRUCT_ONLY));
+	g_object_class_install_property (gobject_class, PROP_WORKBOOK,
+		g_param_spec_object ("workbook",
+				     _("Parent workbook"),
+				     _("The workbook in which this sheet lives"),
+				     WORKBOOK_TYPE,
+				     GSF_PARAM_STATIC |
+				     G_PARAM_READWRITE |
+				     G_PARAM_CONSTRUCT_ONLY));
         g_object_class_install_property (gobject_class, PROP_NAME,
 		 g_param_spec_string ("name", _("Name"),
 				      _("The name of the sheet."),
@@ -1013,17 +1038,20 @@ gnm_sheet_visibility_get_type (void)
 /* ------------------------------------------------------------------------- */
 /**
  * sheet_new_with_type :
- * @wb    : #Workbook
- * @name  : An unquoted name in utf8
- * @type  : @GnmSheetType
+ * @wb      : #Workbook
+ * @name    : An unquoted name
+ * @type    : @GnmSheetType
+ * @columns : The number of columns for the sheet
+ * @rows    : The number of rows for the sheet
  *
  * Create a new Sheet of type @type, and associate it with @wb.
- * The type can not be changed later
+ * The type cannot be changed later.
  **/
 Sheet *
-sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type, int columns, int rows)
+sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type,
+		     int columns, int rows)
 {
-	Sheet  *sheet;
+	Sheet *sheet;
 
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
@@ -1031,14 +1059,13 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type, int colu
 	g_return_val_if_fail (rows <= GNM_MAX_ROWS, NULL);
 
 	sheet = g_object_new (GNM_SHEET_TYPE,
-			      "zoom-factor", (double)gnm_app_prefs->zoom,
+			      "workbook", wb,
+			      "sheet-type", type,
 			      "columns", columns,
 			      "rows", rows,
 			      "name", name,
-			      "sheet-type", type,
+			      "zoom-factor", (double)gnm_app_prefs->zoom,
 			      NULL);
-
-	sheet->workbook = wb;
 
 	return sheet;
 }
@@ -5156,12 +5183,13 @@ sheet_dup (Sheet const *src)
 	char *name;
 
 	g_return_val_if_fail (IS_SHEET (src), NULL);
-	g_return_val_if_fail (src->workbook !=NULL, NULL);
+	g_return_val_if_fail (src->workbook != NULL, NULL);
 
 	wb = src->workbook;
 	name = workbook_sheet_get_free_name (wb, src->name_unquoted,
 					     TRUE, TRUE);
-	dst = sheet_new (wb, name);
+	dst = sheet_new_with_type (wb, name, src->sheet_type,
+				   src->max_cols, src->max_rows);
 	g_free (name);
 
 	dst->protected_allow = src->protected_allow;
@@ -5429,11 +5457,27 @@ gnm_sheet_foreach_name (Sheet const *sheet, GHFunc func, gpointer data)
 int
 gnm_sheet_get_max_rows (Sheet const *sheet)
 {
-	return (sheet)? sheet->max_rows: gnm_sheet_max_rows;
+	if (G_UNLIKELY (!sheet)) {
+		/* FIXME: This needs to go.  */
+		return gnm_sheet_max_rows;
+	}
+
+	if (G_UNLIKELY (sheet->being_constructed))
+		g_warning ("Access to sheet size during construction!");
+
+	return sheet->max_rows;
 }
 
 int
 gnm_sheet_get_max_cols (Sheet const *sheet)
 {
-	return (sheet)? sheet->max_cols:  gnm_sheet_max_cols;
+	if (G_UNLIKELY (!sheet)) {
+		/* FIXME: This needs to go.  */
+		return gnm_sheet_max_cols;
+	}
+
+	if (G_UNLIKELY (sheet->being_constructed))
+		g_warning ("Access to sheet size during construction!");
+
+	return sheet->max_cols;
 }
