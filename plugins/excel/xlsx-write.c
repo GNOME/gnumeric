@@ -1253,9 +1253,11 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	GnmRange  extent;
 	GSList   *charts;
 	char const *chart_drawing_rel_id = NULL;
-	GnmStyle **col_styles = g_new (GnmStyle*, MIN (XLSX_MAX_COLS, gnm_sheet_get_max_cols (state->sheet)));
+	GnmStyle **col_styles;
 
 	state->sheet = workbook_sheet_by_index (state->base.wb, i);
+	col_styles = g_new (GnmStyle*, MIN (XLSX_MAX_COLS,
+					    gnm_sheet_get_max_cols (state->sheet)));
 	excel_sheet_extent (state->sheet, &extent, col_styles,
 		MIN (XLSX_MAX_COLS, gnm_sheet_get_max_cols (state->sheet)),
 		MIN (XLSX_MAX_ROWS, gnm_sheet_get_max_rows (state->sheet)), state->io_context);
