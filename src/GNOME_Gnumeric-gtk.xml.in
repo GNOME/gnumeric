@@ -97,7 +97,7 @@
       <menuitem action="InsertColumns"/>
       <menuitem action="InsertRows"/>
       <menuitem action="SheetInsert"/>
-<!--  <menuitem action="SheetSizedInsert"/> -->
+      <menuitem action="SheetSizedInsert"/>
       <separator/>
       <menuitem action="ChartGuru"/>
 <!-- These don't work yet for Gnome 2 

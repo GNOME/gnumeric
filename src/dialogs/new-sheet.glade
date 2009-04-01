@@ -78,7 +78,7 @@
                   <widget class="GtkSpinButton" id="rows">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="adjustment">65536 1 16777216 8192 65536 65536</property>
+                    <property name="adjustment">65536 1 16777216 8192 65536 0</property>
                   </widget>
                   <packing>
                     <property name="left_attach">1</property>
@@ -91,7 +91,7 @@
                   <widget class="GtkSpinButton" id="columns">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="adjustment">256 1 4096 64 256 256</property>
+                    <property name="adjustment">256 1 4096 64 256 0</property>
                   </widget>
                   <packing>
                     <property name="left_attach">1</property>

@@ -89,7 +89,7 @@ static const GOptionEntry gnumeric_options [] = {
 		N_("Minimum number of rows"),
 		NULL
 	},
-	{ "cols", 'c', 0, G_OPTION_ARG_INT, &cols,
+	{ "columns", 'c', 0, G_OPTION_ARG_INT, &cols,
 		N_("Minimum number of columns"),
 		NULL
 	},
@@ -396,9 +396,22 @@ main (int argc, char const **argv)
 		return gnm_dump_func_defs (func_def_file, 1);
 	if (split_funcdocs)
 		return gnm_dump_func_defs (NULL, 2);
-	while ((gnm_sheet_max_cols < cols) && (gnm_sheet_max_cols < GNM_MAX_COLS))
+
+	if (g_getenv ("GNUMERIC_SHEET_SIZE") == NULL &&
+	    (cols || rows)) {
+		g_printerr ("The \"columns\" and \"rows\" options are not enabled yet.\n");
+		cols = rows = 0;
+	}
+
+	/*
+	 * Increase gnm_sheet_max_(cols|rows) by factors of two until they are
+	 *  big enough to hold the requested number of rows.
+	 */
+	while (gnm_sheet_max_cols < cols &&
+	       gnm_sheet_max_cols <= GNM_MAX_COLS / 2)
 		gnm_sheet_max_cols <<= 1;
-	while ((gnm_sheet_max_rows < rows) && (gnm_sheet_max_rows < GNM_MAX_ROWS))
+	while (gnm_sheet_max_rows < rows &&
+	       gnm_sheet_max_rows <= GNM_MAX_ROWS / 2)
 		gnm_sheet_max_rows <<= 1;
 
 	/* Keep in sync with .desktop file */

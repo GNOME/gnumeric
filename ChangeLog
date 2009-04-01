@@ -1,5 +1,11 @@
 2009-04-01  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbc_gtk_init): Disabled SheetSizedInsert as
+	appropriately.
+
+	* src/main-application.c (main): Complain if --rows or --columns
+	are disabled.
+
 	* src/sheet-style.c (cb_style_list_add_node): Fix type confusion
 	for user pointer.  Fixes #577561.
 
