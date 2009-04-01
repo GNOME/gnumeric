@@ -1151,15 +1151,18 @@ xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *object
 	drawing_part = gsf_outfile_new_child_full (state->drawing.dir, name, FALSE,
 		"content-type", "application/vnd.openxmlformats-officedocument.drawing+xml",
 		NULL);
+	g_free (name);
+
 	rId = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (drawing_part),
 		GSF_OUTFILE_OPEN_PKG (sheet_part), ns_rel_draw);
 
 	obj = objects = g_slist_reverse (objects);
 	for (obj = objects ; obj != NULL ; obj = obj->next) {
-		name = g_strdup_printf ("chart%u.xml", state->chart.count++);
+		char *name = g_strdup_printf ("chart%u.xml", state->chart.count++);
 		chart_part = gsf_outfile_new_child_full (state->chart.dir, name, FALSE,
 			"content-type", "application/vnd.openxmlformats-officedocument.drawingml.chart+xml",
 			NULL);
+		g_free (name);
 		rId1 = gsf_outfile_open_pkg_relate (GSF_OUTFILE_OPEN_PKG (chart_part),
 			GSF_OUTFILE_OPEN_PKG (drawing_part), ns_rel_chart);
 

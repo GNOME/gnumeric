@@ -1,6 +1,7 @@
 2009-04-01  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write.c (xlsx_write_sheet): Fix access to ->sheet.
+	(xlsx_write_objects): Plug leak.
 
 2009-03-31  Morten Welinder  <terra@gnome.org>
 
