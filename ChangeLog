@@ -1,5 +1,8 @@
 2009-04-01  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-style.c (cb_style_list_add_node): Fix type confusion
+	for user pointer.  Fixes #577561.
+
 	* src/expr-name.c (expr_name_name): New function.
 	* */*.c: don't include str.h unless we have to.
 

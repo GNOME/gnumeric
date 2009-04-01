@@ -2003,25 +2003,20 @@ style_region_free (GnmStyleRegion *sr)
 typedef struct {
 	GHashTable *cache;
 	gboolean (*style_equal) (GnmStyle const *a, GnmStyle const *b);
-} StyleListMerge;
-
-struct add_node_closure {
 	Sheet const *sheet;
-	StyleListMerge *mi;
-};
+} StyleListMerge;
 
 static void
 cb_style_list_add_node (GnmStyle *style,
 			int corner_col, int corner_row, int width, int height,
-			GnmRange const *apply_to, gpointer user)
+			GnmRange const *apply_to, gpointer user_)
 {
-	StyleListMerge *mi = ((struct add_node_closure*) user)->mi;
+	StyleListMerge *mi = user_;
 	GnmStyleRegion *sr = NULL;
-	GnmCellPos	key;
+	GnmCellPos key;
 	GnmRange range;
-	/* FIXME we need a real Sheet here */
-	Sheet const *sheet = ((struct add_node_closure*) user)->sheet;
-	
+	Sheet const *sheet = mi->sheet;
+
 	range.start.col = corner_col;
 	range.start.row = corner_row;
 	range.end.col = corner_col + width - 1;
@@ -2146,17 +2141,14 @@ sheet_style_get_list (Sheet const *sheet, GnmRange const *r)
 {
 	GnmStyleList *res = NULL;
 	StyleListMerge mi;
-	struct add_node_closure cl;
 
 	mi.style_equal = gnm_style_equal;
 	mi.cache = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
 				     (GCompareFunc)&gnm_cellpos_equal);
-	cl.mi = &mi;
-	cl.sheet = sheet;
-
+	mi.sheet = sheet;
 	foreach_tile (sheet->style_data->styles,
 		      sheet->tile_top_level, 0, 0, r,
-		      cb_style_list_add_node, &cl);
+		      cb_style_list_add_node, &mi);
 #ifdef DEBUG_STYLE_LIST
 	g_printerr ("=========\n");
 #endif
@@ -2203,6 +2195,7 @@ sheet_style_collect_conditions (Sheet const *sheet, GnmRange const *r)
 	mi.style_equal = style_conditions_equal;
 	mi.cache = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
 				     (GCompareFunc)&gnm_cellpos_equal);
+	mi.sheet = sheet;
 
 	foreach_tile (sheet->style_data->styles,
 		      sheet->tile_top_level, 0, 0, r,
@@ -2253,6 +2246,7 @@ sheet_style_collect_hlinks (Sheet const *sheet, GnmRange const *r)
 	mi.style_equal = style_hlink_equal;
 	mi.cache = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
 				     (GCompareFunc)&gnm_cellpos_equal);
+	mi.sheet = sheet;
 
 	foreach_tile (sheet->style_data->styles,
 		      sheet->tile_top_level, 0, 0, r,
@@ -2306,6 +2300,7 @@ sheet_style_collect_validations (Sheet const *sheet, GnmRange const *r)
 	mi.style_equal = style_validation_equal;
 	mi.cache = g_hash_table_new ((GHashFunc)&gnm_cellpos_hash,
 				     (GCompareFunc)&gnm_cellpos_equal);
+	mi.sheet = sheet;
 
 	foreach_tile (sheet->style_data->styles,
 		      sheet->tile_top_level, 0, 0, r,
