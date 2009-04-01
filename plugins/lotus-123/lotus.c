@@ -29,7 +29,7 @@
 #include <gsf/gsf-msole-utils.h>
 #include <string.h>
 
-#define LOTUS_DEBUG 1
+#define LOTUS_DEBUG 0
 #undef DEBUG_RLDB
 #undef DEBUG_STYLE
 #undef DEBUG_FORMAT
