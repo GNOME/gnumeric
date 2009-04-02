@@ -1,3 +1,8 @@
+2009-04-02  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_sheet_new): Limit maxcols to what we
+	actually have.  Fixes #577758.
+
 2009-04-01  Morten Welinder  <terra@gnome.org>
 
 	* xlsx-write.c (xlsx_write_sheet): Fix access to ->sheet.

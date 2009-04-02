@@ -4988,7 +4988,8 @@ static ExcelWriteSheet *
 excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 		 gboolean biff7, gboolean biff8)
 {
-	int const maxrows = biff7 ? XLS_MaxRow_V7 : XLS_MaxRow_V8;
+	int const maxrows = MIN (biff7 ? XLS_MaxRow_V7 : XLS_MaxRow_V8,
+				 gnm_sheet_get_max_rows (sheet));
 	ExcelWriteSheet *esheet = g_new0 (ExcelWriteSheet, 1);
 	GnmRange extent;
 	GSList *objs, *img;
