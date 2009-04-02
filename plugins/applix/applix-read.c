@@ -172,21 +172,23 @@ applix_parse_value (char *buf, char **follow)
 #define APPLIX_SHEET_MAX_COLS 702
 
 static gboolean
-valid_col (int c)
+valid_col (Sheet const *sheet, int c)
 {
-	return c >= 0 && c < gnm_sheet_get_max_cols (NULL);
+	return c >= 0 && c < gnm_sheet_get_max_cols (sheet);
 }
 
 static gboolean
-valid_row (int r)
+valid_row (Sheet const *sheet, int r)
 {
-	return r >= 0 && r < gnm_sheet_get_max_rows (NULL);
+	return r >= 0 && r < gnm_sheet_get_max_rows (sheet);
 }
 
 static gboolean
-valid_cellpos (const GnmCellPos *cpos)
+valid_cellpos (Sheet const *sheet, const GnmCellPos *cpos)
 {
-	return valid_col (cpos->col) && valid_row (cpos->row);
+	return (sheet &&
+		valid_col (sheet, cpos->col) &&
+		valid_row (sheet, cpos->row));
 }
 
 static char const *
@@ -910,7 +912,7 @@ applix_fetch_sheet (ApplixReadState *state, char const *name)
 	Sheet *sheet = workbook_sheet_by_name (state->wb, name);
 
 	if (sheet == NULL) {
-	  sheet = sheet_new (state->wb, name, 256, 65536);
+	  sheet = sheet_new (state->wb, name, GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
 		workbook_sheet_attach (state->wb, sheet);
 		g_object_set (sheet, "zoom-factor", state->zoom / 100.0, NULL);
 		sheet_flag_recompute_spans (sheet);
@@ -1007,13 +1009,13 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 		if (!a_strncmp (buffer, "View Top Left: ")) {
 			GnmCellPos pos;
 			if (applix_parse_cellref (state, buffer+15, &sheet, &pos, ':') &&
-			    valid_cellpos (&pos))
+			    valid_cellpos (sheet, &pos))
 				sv_set_initial_top_left (sheet_get_view (sheet, state->wb_view),
 							 pos.col, pos.row);
 		} else if (!a_strncmp (buffer, "View Open Cell: ")) {
 			GnmCellPos pos;
 			if (applix_parse_cellref (state, buffer+16, &sheet, &pos, ':') &&
-			    valid_cellpos (&pos))
+			    valid_cellpos (sheet, &pos))
 				sv_selection_set (sheet_get_view (sheet, state->wb_view),
 						  &pos, pos.col, pos.row, pos.col, pos.row);
 		} else if (!a_strncmp (buffer, "View Default Column Width ")) {
@@ -1117,7 +1119,7 @@ applix_read_cells (ApplixReadState *state)
 			return applix_parse_error (state, "Expression did not specify target cell");
 		}
 
-		if (!valid_cellpos (&pos)) {
+		if (!valid_cellpos (sheet, &pos)) {
 			gnm_style_unref (style);
 			g_warning ("Ignoring sheet contents beyond allowed range.");
 			continue;
@@ -1179,7 +1181,8 @@ applix_read_cells (ApplixReadState *state)
 						continue;
 					}
 
-					if (!valid_cellpos (&r.start) || !valid_cellpos (&r.end)) {
+					if (!valid_cellpos (start_sheet, &r.start) ||
+					    !valid_cellpos (end_sheet, &r.end)) {
 						g_warning ("Ignoring sheet contents beyond allowed range.");
 						continue;
 					}
@@ -1555,7 +1558,7 @@ applix_read_impl (ApplixReadState *state)
 
 	/* We only need the sheet, the visible cell, and edit pos are already set */
 	if (applix_parse_cellref (state, cur_cell_addr, &sheet, &pos, ':') &&
-	    valid_cellpos (&pos) && sheet)
+	    valid_cellpos (sheet, &pos))
 		wb_view_sheet_focus (state->wb_view, sheet);
 
 	return 0;

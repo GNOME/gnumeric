@@ -1,5 +1,8 @@
 2009-04-02  Morten Welinder  <terra@gnome.org>
 
+	* src/format-template.c (format_template_new): Switch hash key to
+	GnmCellPos so we can handle large sheets.
+
 	* src/workbook.c (workbook_sheet_add): Require a size.  All
 	callers changed.
 	(workbook_sheet_add_size): Remove.  Map all callers to

@@ -1006,9 +1006,9 @@ cell_tile_apply_pos (CellTile **tile, int level,
 	CellTileType type;
 
 	g_return_if_fail (col >= 0);
-	g_return_if_fail (col < gnm_sheet_get_max_cols (NULL));
+	g_return_if_fail (col < gnm_sheet_get_max_cols (rs->sheet));
 	g_return_if_fail (row >= 0);
-	g_return_if_fail (row < gnm_sheet_get_max_rows (NULL));
+	g_return_if_fail (row < gnm_sheet_get_max_rows (rs->sheet));
 
 tail_recursion :
 	g_return_if_fail (TILE_TOP_LEVEL >= level && level >= 0);

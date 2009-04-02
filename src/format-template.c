@@ -47,7 +47,7 @@ attr_eq (const xmlChar *a, const char *s)
 	return !strcmp (CXML2C (a), s);
 }
 
-#define ROW_COL_KEY(row,col) GINT_TO_POINTER (row * gnm_sheet_get_max_cols (sheet) + col)
+#define ROW_COL_KEY(row,col) GINT_TO_POINTER ((guint)row * (guint)GNM_MAX_COLS + (guint)col)
 
 /******************************************************************************
  * FormatTemplateMember - Getters/setters and creation
@@ -64,9 +64,6 @@ TemplateMember *
 format_template_member_new (void)
 {
 	TemplateMember *member;
-
-	/* Sanity check for ROW_COL_KEY.  */
-	g_assert (INT_MAX / gnm_sheet_get_max_cols (NULL) > gnm_sheet_get_max_rows (NULL));
 
 	member = g_new (TemplateMember, 1);
 
@@ -269,7 +266,10 @@ format_template_new (void)
 	ft->edges.top    = TRUE;
 	ft->edges.bottom = TRUE;
 
-	ft->table     = g_hash_table_new_full (NULL, NULL, NULL, (GDestroyNotify)gnm_style_unref);
+	ft->table = g_hash_table_new_full ((GHashFunc)gnm_cellpos_hash,
+					   (GEqualFunc)gnm_cellpos_equal,
+					   (GDestroyNotify)g_free,
+					   (GDestroyNotify)gnm_style_unref);
 	ft->invalidate_hash = TRUE;
 
 	range_init (&ft->dimension, 0,0,0,0);
@@ -891,7 +891,8 @@ gnm_auto_fmt_filter_edges (GnmFormatTemplate const *origft)
  *
  **/
 static void
-format_template_calculate (GnmFormatTemplate *origft, GnmRange const *r, PCalcCallback pc, gpointer cb_data)
+format_template_calculate (GnmFormatTemplate *origft, GnmRange const *r,
+			   PCalcCallback pc, gpointer cb_data)
 {
 	GnmFormatTemplate *ft = origft;
 	GSList *ptr;
@@ -963,10 +964,10 @@ format_template_calculate (GnmFormatTemplate *origft, GnmRange const *r, PCalcCa
  ******************************************************************************/
 
 static void
-cb_format_hash_style (GnmFormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, GHashTable *table)
+cb_format_hash_style (GnmFormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, gpointer user)
 {
+	GHashTable *table = user;
 	int row, col;
-	Sheet *sheet = NULL;
 
 	/*
 	 * Filter out undesired elements
@@ -974,9 +975,14 @@ cb_format_hash_style (GnmFormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, GHas
 	mstyle = format_template_filter_style (ft, mstyle, TRUE);
 
 	for (row = r->start.row; row <= r->end.row; row++)
-		for (col = r->start.col; col <= r->end.col; col++)
-			g_hash_table_insert (table, ROW_COL_KEY (row, col),
-				gnm_style_dup (mstyle));
+		for (col = r->start.col; col <= r->end.col; col++) {
+			GnmCellPos key;
+			key.col = col;
+			key.row = row;
+			g_hash_table_insert (table,
+					     g_memdup (&key, sizeof (key)),
+					     gnm_style_dup (mstyle));
+		}
 
 	/*
 	 * Unref here, the hashtable will take care of its own
@@ -998,7 +1004,7 @@ format_template_recalc_hash (GnmFormatTemplate *ft)
 
 	g_return_if_fail (ft != NULL);
 
-	g_hash_table_foreach_remove (ft->table, (GHRFunc)g_direct_hash /* :-) */, NULL);
+	g_hash_table_remove_all (ft->table);
 
 	r = ft->dimension;
 
@@ -1010,7 +1016,7 @@ format_template_recalc_hash (GnmFormatTemplate *ft)
 		return;
 	}
 
-	format_template_calculate (ft, &r, (PCalcCallback) cb_format_hash_style, ft->table);
+	format_template_calculate (ft, &r, cb_format_hash_style, ft->table);
 }
 
 /**
@@ -1030,7 +1036,8 @@ format_template_recalc_hash (GnmFormatTemplate *ft)
 GnmStyle *
 format_template_get_style (GnmFormatTemplate *ft, int row, int col)
 {
-	Sheet *sheet = NULL;
+	GnmCellPos key;
+
 	g_return_val_if_fail (ft != NULL, NULL);
 	g_return_val_if_fail (ft->table != NULL, NULL);
 
@@ -1043,7 +1050,9 @@ format_template_get_style (GnmFormatTemplate *ft, int row, int col)
 		format_template_recalc_hash (ft);
 	}
 
-	return g_hash_table_lookup (ft->table, ROW_COL_KEY (row, col));
+	key.col = col;
+	key.row = row;
+	return g_hash_table_lookup (ft->table, &key);
 }
 
 
@@ -1053,8 +1062,10 @@ format_template_get_style (GnmFormatTemplate *ft, int row, int col)
  ******************************************************************************/
 
 static void
-cb_format_sheet_style (GnmFormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, Sheet *sheet)
+cb_format_sheet_style (GnmFormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, gpointer user)
 {
+	Sheet *sheet = user;
+
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (r != NULL);
 	g_return_if_fail (mstyle != NULL);
@@ -1103,7 +1114,7 @@ format_template_apply_to_sheet_regions (GnmFormatTemplate *ft, Sheet *sheet, GSL
 {
 	for (; regions != NULL ; regions = regions->next)
 		format_template_calculate (ft, regions->data,
-			(PCalcCallback) cb_format_sheet_style, sheet);
+					   cb_format_sheet_style, sheet);
 }
 
 /******************************************************************************

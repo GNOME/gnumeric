@@ -129,6 +129,23 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 
 #undef CHECK_LENGTH
 
+static void
+create_header (Sheet *sheet, XBfile *file)
+{
+	unsigned ui;
+	GnmRange r;
+	GnmStyle *bold = gnm_style_new ();
+
+	for (ui = 0 ; ui < file->fields ; ui++) {
+		GnmCell *cell = sheet_cell_fetch (sheet, ui, 0);
+		gnm_cell_set_text (cell, file->format[ui]->name);
+	}
+
+	gnm_style_set_font_bold (bold, TRUE);
+	range_init (&r, 0, 0, file->fields - 1, 0);
+	sheet_style_apply_range	(sheet, &r, bold);
+}
+
 void
 xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
                  WorkbookView *wb_view, GsfInput *input)
@@ -136,13 +153,10 @@ xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
 	Workbook  *wb;
 	XBfile	  *file;
 	XBrecord  *record;
-	char	  *name;
 	Sheet	  *sheet = NULL;
-	GnmCell	  *cell;
-	GnmValue	  *val;
-	XBfield	  *field;
 	ErrorInfo *open_error;
-	guint row, i;
+	guint cols, rows;
+	int pass;
 
 	if ((file = xbase_open (input, &open_error)) == NULL) {
 		gnumeric_io_error_info_set (io_context, error_info_new_str_with_details (
@@ -151,50 +165,57 @@ xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
 		return;
 	}
 
+	cols = GNM_DEFAULT_COLS;
+	while (cols < file->fields)
+		cols *= 2;
+
+	rows = GNM_DEFAULT_ROWS;
 	wb = wb_view_get_workbook (wb_view);
-	name = workbook_sheet_get_free_name (wb, _("Sheet"), FALSE, TRUE);
-	sheet = sheet_new (wb, name, 256, 65536);
-	g_free (name);
-	workbook_sheet_attach (wb, sheet);
 
-	i = 0;
-	for (i = 0 ; i < file->fields ; i++) {
-		cell = sheet_cell_fetch (sheet, i, 0);
-		gnm_cell_set_text (cell, file->format [i]->name);
-	}
-	{
-		GnmRange r;
-		GnmStyle *bold = gnm_style_new ();
-		gnm_style_set_font_bold (bold, TRUE);
-		sheet_style_apply_range	(sheet,
-			range_init (&r, 0, 0, file->fields-1, 0), bold);
-	}
+	for (pass = 1; pass <= 2; pass++) {
+		Sheet *sheet = NULL;
+		unsigned int row = 0;
 
-	record = record_new (file);
-	row = 1;
-	do {
-		gboolean deleted = record_deleted (record);
-		if (deleted)
-			continue;
-		if (row >= (unsigned)gnm_sheet_get_max_rows (sheet)) {
-			/* FIXME: either we need to add new rows, if posible
-			or create a larger sheet*/
-			break;
+		if (pass == 2) {
+			sheet = workbook_sheet_add (wb, -1, cols, rows);
+			create_header (sheet, file);
 		}
-		for (i = 0; i < file->fields ; i++) {
-			field = record->file->format[i];
-			val = xbase_field_as_value (
-				record_get_field (record, i), field, file);
-			if (!val)
+
+		record = record_new (file);
+		do {
+			unsigned ui;
+			gboolean deleted = record_deleted (record);
+			if (deleted)
 				continue;
-			cell = sheet_cell_fetch (sheet, i, row);
-			value_set_fmt (val, field->fmt);
-			gnm_cell_set_value (cell, val);
-		}
-		row++;
-	} while (record_seek (record, SEEK_CUR, 1));
 
-	record_free (record);
+			if (pass == 1) {
+				if (row >= rows) {
+					if (rows == GNM_MAX_ROWS)
+						break;
+					rows *= 2;
+				}
+				row++;
+				continue;
+			}
+
+			row++;
+			for (ui = 0; ui < file->fields; ui++) {
+				GnmCell *cell;
+				XBfield *field = record->file->format[ui];
+				GnmValue *val = xbase_field_as_value
+					(record_get_field (record, ui),
+					 field, file);
+				if (!val)
+					continue;
+
+				cell = sheet_cell_fetch (sheet, ui, row);
+				value_set_fmt (val, field->fmt);
+				gnm_cell_set_value (cell, val);
+			}
+		} while (record_seek (record, SEEK_CUR, 1));
+		record_free (record);
+	}
+
 	xbase_close (file);
 
 	sheet_flag_recompute_spans (sheet);

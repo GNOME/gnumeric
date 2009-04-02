@@ -1,3 +1,7 @@
+2009-04-02  Morten Welinder  <terra@gnome.org>
+
+	* boot.c (xbase_file_open): Allocate a sheet as big as needed.
+
 2009-03-22  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.5

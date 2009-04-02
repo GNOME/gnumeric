@@ -1211,7 +1211,8 @@ lotus_rldb_walk_2d (LotusRLDB *rldb2,
 	guint si, cri;
 	LotusRLDB *rldb1, *rldb0;
 	const GString *data;
-	int max = iscol ? gnm_sheet_get_max_cols (NULL) : gnm_sheet_get_max_rows (NULL);
+	Sheet *ref_sheet = workbook_sheet_by_index (state->wb, 0);
+	int max = iscol ? gnm_sheet_get_max_cols (ref_sheet) : gnm_sheet_get_max_rows (ref_sheet);
 	int start, end;
 	Sheet *sheet;
 

@@ -273,7 +273,7 @@ sc_parse_cell_name_list (Sheet *sheet, char const *cell_name_str,
 
 
 static char const *
-sc_row_parse (char const *str, int *res, unsigned char *relative)
+sc_row_parse (char const *str, Sheet *sheet, int *res, unsigned char *relative)
 {
 	char const *end, *ptr = str;
 	long int row;
@@ -292,7 +292,7 @@ sc_row_parse (char const *str, int *res, unsigned char *relative)
 	row = strtol (ptr, (char **)&end, 10);
 	if (ptr != end &&
 	    !g_unichar_isalnum (g_utf8_get_char (end)) && *end != '_' &&
-	    0 <= row && row  < gnm_sheet_get_max_rows (NULL)) {
+	    0 <= row && row < gnm_sheet_get_max_rows (sheet)) {
 		*res = row;
 		return end;
 	} else
@@ -313,7 +313,7 @@ sc_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 	tmp1 = col_parse (ptr, &res->a.col, &res->a.col_relative);
 	if (!tmp1)
 		return start;
-	tmp2 = sc_row_parse (tmp1, &res->a.row, &res->a.row_relative);
+	tmp2 = sc_row_parse (tmp1, pp->sheet, &res->a.row, &res->a.row_relative);
 	if (!tmp2)
 		return start;
 	if (res->a.col_relative)
@@ -330,7 +330,7 @@ sc_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 	tmp1 = col_parse (start+1, &res->b.col, &res->b.col_relative);
 	if (!tmp1)
 		return start;
-	tmp2 = sc_row_parse (tmp1, &res->b.row, &res->b.row_relative);
+	tmp2 = sc_row_parse (tmp1, pp->sheet, &res->b.row, &res->b.row_relative);
 	if (!tmp2)
 		return start;
 	if (res->b.col_relative)

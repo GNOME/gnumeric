@@ -300,7 +300,7 @@ XBfile *
 xbase_open (GsfInput *input, ErrorInfo **ret_error)
 {
 	XBfile *ans;
-	XBfield *field;
+	guint allocated = GNM_DEFAULT_COLS;
 
 	*ret_error = NULL;
 
@@ -314,12 +314,18 @@ xbase_open (GsfInput *input, ErrorInfo **ret_error)
 	}
 
 	ans->fields = 0;
-	ans->format = NULL;
-	while (ans->fields < (gnm_sheet_get_max_cols (NULL)-1) && (field = xbase_field_new (ans)) != NULL) {
-		ans->format = g_renew (XBfield *, ans->format, ans->fields + 1);
-		/* FIXME: allocate number of field formats from file size? */
+	ans->format = g_new (XBfield *, allocated);
+	while (ans->fields < GNM_MAX_COLS) {
+		XBfield *field = xbase_field_new (ans);
+		if (!field)
+			break;
+		if (ans->fields == allocated) {
+			allocated *= 2;
+			ans->format = g_renew (XBfield *, ans->format, allocated);
+		}
 		ans->format[ans->fields++] = field;
 	}
+
 	return ans;
 }
 
