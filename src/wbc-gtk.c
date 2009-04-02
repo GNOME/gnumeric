@@ -1313,16 +1313,18 @@ wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 		int n = gtk_notebook_page_num (wbcg->snotebook,
 					       GTK_WIDGET (scg->table));
 		gnm_notebook_set_current_page (wbcg->bnotebook, n);
-	}
 
-	if (wbcg->rangesel == NULL)
-		gnm_expr_entry_set_scg (wbcg->edit_line.entry, scg);
+		if (wbcg->rangesel == NULL)
+			gnm_expr_entry_set_scg (wbcg->edit_line.entry, scg);
+	}
 
 	disconnect_sheet_focus_signals (wbcg);
 
 	if (sheet) {
 		wbcg_update_menu_feedback (wbcg, sheet);
-		wbcg_set_direction (scg);
+		
+		if (scg) 
+			wbcg_set_direction (scg);
 
 #if 0
 		g_printerr ("Connecting for %s with scg=%p\n", sheet->name_unquoted, scg);

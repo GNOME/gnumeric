@@ -306,7 +306,7 @@ int_pref_create_widget (GOConfNode *node, char const *key, GtkWidget *table,
 			gint_conf_setter_t setter, char const *default_label)
 {
 	GtkWidget *w = gtk_spin_button_new (GTK_ADJUSTMENT (
-		gtk_adjustment_new (val, from, to, step, step, step)),
+		gtk_adjustment_new (val, from, to, step, step, 0)),
 		1, 0);
 	int_pref_conf_to_widget (node, key, GTK_SPIN_BUTTON (w));
 	gtk_table_attach (GTK_TABLE (table), w,
@@ -349,7 +349,7 @@ double_pref_create_widget (GOConfNode *node, char const *key, GtkWidget *table,
 			   char const *default_label)
 {
 	GtkWidget *w =  gtk_spin_button_new (GTK_ADJUSTMENT (
-		gtk_adjustment_new (val, from, to, step, step, step)),
+		gtk_adjustment_new (val, from, to, step, step, 0)),
 		1, digits);
 	double_pref_conf_to_widget (node, key, GTK_SPIN_BUTTON (w));
 	gtk_table_attach (GTK_TABLE (table), w,

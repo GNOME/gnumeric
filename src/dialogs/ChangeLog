@@ -1,8 +1,14 @@
+2009-04-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-preferences.c (double_pref_create_widget): setting a
+	  non-zero pagesize for the adjustment of a spinbutton is deprecated.
+	(int_pref_create_widget): ditto
+
 2009-03-22  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.5
 
-2008-03-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2009-03-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-delete-cells.c (dialog_delete_cells): setup destroy handler
 	  if the current sheet is deleted.
@@ -10,20 +16,20 @@
 	* dialog-paste-special (dialog_paste_special): ditto
 	* dialog-merge.c (dialog_merge): ditto
 
-2008-03-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2009-03-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-autofilter.c (dialog_auto_filter): setup destroy handler
 	  if the current sheet is deleted.
 	* dialog-cell-sort.c (dialog_init): ditto
 	* dialog-printer-setup.c (dialog_printer_setup): ditto
 
-2008-03-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2009-03-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-row-height.c (dialog_row_height): setup destroy handler
 	  if the current sheet is deleted.
 	* dialog-col-width.c (dialog_col_width): ditto
 
-2008-03-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2009-03-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	[#575360]
 	* kaplan-meier.glade: stock button names should not be translated
@@ -31,7 +37,7 @@
 	* sheet-order.glade: ditto
 	* doc-meta-data.glade: don't include unneccessary translatable labels
 
-2008-03-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2009-03-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-cell-format.c (fmt_dialog_impl) use 
 	  GNM_DIALOG_DESTROY_CURRENT_SHEET_REMOVED instead of 
@@ -42,12 +48,12 @@
 	* dialog-cell-comment.c (dialog_cell_comment): setup destroy
 	handler if the current sheet is deleted.
 
-2008-03-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2009-03-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-cell-format.c (fmt_dialog_impl) setup destroy handler
 	  if a sheet is deleted.
 
-2008-03-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2009-03-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-goto-cell.c (GotoState): fields added
 	(cb_dialog_goto_free): disconnect handlers

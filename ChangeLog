@@ -1,3 +1,7 @@
+2009-04-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/wbc-gtk.c (wbcg_sheet_focus): scg might be NULL 
+	
 2009-04-01  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbc_gtk_init): Disabled SheetSizedInsert as
