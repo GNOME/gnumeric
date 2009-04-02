@@ -1,5 +1,10 @@
 2009-04-02  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook.c (workbook_sheet_add): Require a size.  All
+	callers changed.
+	(workbook_sheet_add_size): Remove.  Map all callers to
+	workbook_sheet_add.
+
 	* src/sheet.c (sheet_new): Require a size.  All callers changed.
 	Note: some callers need to be fixed to provide the right size.
 	(sheet_new_with_size): Remove.  All callers mapped to sheet_new.

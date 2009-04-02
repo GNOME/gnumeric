@@ -864,21 +864,22 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	WorkbookSheetState *old_state;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
-	Sheet *sheet;
+	Sheet *sheet, *old_sheet = NULL;
 
 	if (gtk_tree_selection_get_selected (selection, NULL, &sel_iter)) {
-		Sheet *this_sheet;
-
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &sel_iter, 
-				    SHEET_POINTER, &this_sheet,
+				    SHEET_POINTER, &old_sheet,
 				    -1);
-		index = this_sheet->index_in_wb;
-	}
+		index = old_sheet->index_in_wb;
+	} else
+		old_sheet = workbook_sheet_by_index (wb, 0);
 
 	workbook_signals_block (state);
 
 	old_state = workbook_sheet_state_new (wb);
-	workbook_sheet_add (wb, index);
+	workbook_sheet_add (wb, index,
+			    gnm_sheet_get_max_cols (old_sheet),
+			    gnm_sheet_get_max_rows (old_sheet));
 	cmd_reorganize_sheets (wbc, old_state, NULL);
 	update_undo (state, wbc);
 
@@ -906,12 +907,15 @@ cb_append_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 	Workbook *wb = wb_control_get_workbook (wbc);
 	GtkTreeIter iter;
-	Sheet *sheet;
+	Sheet *sheet, *old_sheet;
 
 	workbook_signals_block (state);
 
 	old_state = workbook_sheet_state_new (wb);
-	workbook_sheet_add (wb, -1);
+	old_sheet = workbook_sheet_by_index (wb, 0);
+	workbook_sheet_add (wb, -1,
+			    gnm_sheet_get_max_cols (old_sheet),
+			    gnm_sheet_get_max_rows (old_sheet));
 	cmd_reorganize_sheets (wbc, old_state, NULL);
 	update_undo (state, wbc);
 

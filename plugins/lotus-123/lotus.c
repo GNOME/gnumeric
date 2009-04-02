@@ -1509,7 +1509,7 @@ attach_sheet (Workbook *wb, int idx)
 	 * Yes, I do mean col_name.  Use that as an easy proxy for
 	 * naming the sheets similarly to lotus.
 	 */
-	Sheet *sheet = sheet_new (wb, col_name (idx), 256, 65536);
+	Sheet *sheet = sheet_new (wb, col_name (idx), GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
 
 	/*
 	 * In case nothing forces a spanning, do it here so that any new
@@ -1633,7 +1633,7 @@ lotus_get_sheet (Workbook *wb, int i)
 	g_return_val_if_fail (i >= 0 && i <= 255, NULL);
 
 	while (i >= workbook_sheet_count (wb))
-		workbook_sheet_add (wb, -1);
+		workbook_sheet_add (wb, -1, GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
 
 	return workbook_sheet_by_index (wb, i);
 }

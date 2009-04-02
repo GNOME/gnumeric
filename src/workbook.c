@@ -359,7 +359,7 @@ workbook_new_with_sheets (int sheet_count)
 {
 	Workbook *wb = workbook_new ();
 	while (sheet_count-- > 0)
-		workbook_sheet_add (wb, -1);
+		workbook_sheet_add (wb, -1, GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
 	go_doc_set_dirty (GO_DOC (wb), FALSE);
 	GO_DOC (wb)->pristine = TRUE;
 	return wb;
@@ -866,14 +866,7 @@ workbook_sheet_attach (Workbook *wb, Sheet *new_sheet)
  * returned is not ref'd.  (The ref belongs to the workbook.)
  */
 Sheet *
-workbook_sheet_add (Workbook *wb, int pos)
-{
-	return workbook_sheet_add_sized (wb, pos,
-					 GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
-}
-
-Sheet *
-workbook_sheet_add_sized (Workbook *wb, int pos, int columns, int rows)
+workbook_sheet_add (Workbook *wb, int pos, int columns, int rows)
 {
 	char *name = workbook_sheet_get_free_name (wb, _("Sheet"), TRUE, FALSE);
 	Sheet *new_sheet = sheet_new (wb, name, columns, rows);

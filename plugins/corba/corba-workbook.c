@@ -119,7 +119,7 @@ cworkbook_sheet_add (PortableServer_Servant servant, CORBA_char const *name, COR
 {
         WorkbookControl *wbcc = (WorkbookControl *)wbcc_from_servant (servant);
 	Workbook *wb = wb_control_get_workbook (wbcc);
-	Sheet *sheet = workbook_sheet_add (wb, -1);
+	Sheet *sheet = workbook_sheet_add (wb, -1, GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
 
 	SHEET_FOREACH_CONTROL(sheet, sv, sc, {
 		if (wbcc == sc_wbc (sc))

@@ -70,11 +70,11 @@ html_get_sheet (char const *name, Workbook *wb)
 	if (name) {
 		sheet = workbook_sheet_by_name (wb, name);
 		if (sheet == NULL) {
-		  sheet = sheet_new (wb, name, 256, 65536);
+			sheet = sheet_new (wb, name, GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
 			workbook_sheet_attach (wb, sheet);
 		}
 	} else
-		sheet = workbook_sheet_add (wb, -1);
+		sheet = workbook_sheet_add (wb, -1, GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
 	return sheet;
 }
 

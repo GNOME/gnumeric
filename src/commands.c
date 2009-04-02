@@ -5219,7 +5219,9 @@ cmd_merge_data_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	for (i = 0; i < me->n; i++) {
 		Sheet *new_sheet;
 
-		new_sheet = workbook_sheet_add (me->sheet->workbook, -1);
+		new_sheet = workbook_sheet_add (me->sheet->workbook, -1,
+						gnm_sheet_get_max_cols (me->sheet),
+						gnm_sheet_get_max_rows (me->sheet));
 		me->sheet_list = g_slist_prepend (me->sheet_list, new_sheet);
 
 		colrow_set_states (new_sheet, TRUE, target_range.start.col, state_col);

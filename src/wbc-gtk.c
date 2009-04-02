@@ -402,9 +402,9 @@ wbcg_insert_sheet (GtkWidget *unused, WBCGtk *wbcg)
 	Workbook *wb = sheet->workbook;
 	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
 	/* Use same size as current sheet.  */
-	workbook_sheet_add_sized (wb, sheet->index_in_wb,
-				  gnm_sheet_get_max_cols (sheet),
-				  gnm_sheet_get_max_rows (sheet));
+	workbook_sheet_add (wb, sheet->index_in_wb,
+			    gnm_sheet_get_max_cols (sheet),
+			    gnm_sheet_get_max_rows (sheet));
 	cmd_reorganize_sheets (wbc, old_state, sheet);
 }
 
@@ -444,7 +444,7 @@ wbcg_insert_sized_sheet (GtkWidget *unused, WBCGtk *wbcg)
 			break;
 		}
 		old_state = workbook_sheet_state_new (wb);
-		new_sheet = workbook_sheet_add_sized (wb, index, state.columns, state.rows);
+		new_sheet = workbook_sheet_add (wb, index, state.columns, state.rows);
 		cmd_reorganize_sheets (wbc, old_state, sheet);
 		if (state.name && strlen (state.name))
 			g_object_set (new_sheet, "name", state.name, NULL);
@@ -462,9 +462,9 @@ wbcg_append_sheet (GtkWidget *unused, WBCGtk *wbcg)
 	Workbook *wb = sheet->workbook;
 	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
 	/* Use same size as current sheet.  */
-	workbook_sheet_add_sized (wb, -1,
-				  gnm_sheet_get_max_cols (sheet),
-				  gnm_sheet_get_max_rows (sheet));
+	workbook_sheet_add (wb, -1,
+			    gnm_sheet_get_max_cols (sheet),
+			    gnm_sheet_get_max_rows (sheet));
 	cmd_reorganize_sheets (wbc, old_state, sheet);
 }
 
@@ -477,7 +477,7 @@ wbcg_clone_sheet (GtkWidget *unused, WBCGtk *wbcg)
 	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
 	Sheet *new_sheet = sheet_dup (sheet);
 	workbook_sheet_attach_at_pos (wb, new_sheet, sheet->index_in_wb + 1);
-	/* See workbook_sheet_add_sized:  */
+	/* See workbook_sheet_add:  */
 	g_signal_emit_by_name (G_OBJECT (wb), "sheet_added", 0);
 	cmd_reorganize_sheets (wbc, old_state, sheet);
 	g_object_unref (new_sheet);
