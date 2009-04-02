@@ -2880,7 +2880,7 @@ gnm_expr_top_relocate_sheet (GnmExprTop const *texpr,
 	rinfo.origin_sheet = (Sheet *)src;
 	rinfo.target_sheet = (Sheet *)dst;
 	rinfo.col_offset = rinfo.row_offset = 0;
-	range_init_full_sheet (&rinfo.origin);
+	range_init_full_sheet (&rinfo.origin, src);
 	/* Not sure what sheet to use, but it doesn't seem to matter.  */
 	parse_pos_init_sheet (&rinfo.pos, rinfo.target_sheet);
 

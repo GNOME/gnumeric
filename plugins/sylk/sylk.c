@@ -653,8 +653,8 @@ sylk_rtd_f_parse (SylkReader *state, char *str)
 	} else if (NULL != style) {
 		if (is_default_style) {
 			GnmRange r;
-			sheet_style_apply_range (state->pp.sheet,
-				range_init_full_sheet (&r), style);
+			range_init_full_sheet (&r, state->pp.sheet);
+			sheet_style_apply_range (state->pp.sheet, &r, style);
 		} else
 			sheet_style_apply_pos (state->pp.sheet,
 				state->pp.eval.col, state->pp.eval.row, style);

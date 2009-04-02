@@ -33,12 +33,12 @@
 #undef RANGE_DEBUG
 
 GnmRange *
-range_init_full_sheet (GnmRange *r)
+range_init_full_sheet (GnmRange *r, Sheet *sheet)
 {
 	r->start.col = 0;
 	r->start.row = 0;
-	r->end.col = G_MAXINT / 2;
-	r->end.row = G_MAXINT / 2;
+	r->end.col = gnm_sheet_get_last_col (sheet);
+	r->end.row = gnm_sheet_get_last_row (sheet);
 	return r;
 }
 

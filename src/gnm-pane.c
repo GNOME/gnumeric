@@ -519,7 +519,7 @@ gnm_pane_colrow_key_press (SheetControlGUI *scg, GdkEventKey *event,
 	if (event->state & GDK_SHIFT_MASK) {
 		if (event->state & GDK_CONTROL_MASK)	/* full sheet */
 			/* TODO : How to handle ctrl-A too ? */
-			range_init_full_sheet (&target);
+			range_init_full_sheet (&target, sv->sheet);
 		else {					/* full row */
 			target.start.col = 0;
 			target.end.col = gnm_sheet_get_max_cols (sv->sheet) - 1;

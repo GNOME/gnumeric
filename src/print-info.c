@@ -680,7 +680,8 @@ hf_render_info_new (void)
 	hfi = g_new0 (HFRenderInfo, 1);
 	hfi->date_time = value_new_float (
 		datetime_timet_to_serial_raw (time (NULL), NULL));
-	range_init_full_sheet (&hfi->page_area);
+#warning "FIXME: We cannot use NULL here."
+	range_init_full_sheet (&hfi->page_area, NULL);
 	hfi->top_repeating.col = 0;
 	hfi->top_repeating.row = 0;
 

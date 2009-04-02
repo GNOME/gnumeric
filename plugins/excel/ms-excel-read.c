@@ -6118,8 +6118,8 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 			excel_get_xf (esheet, 15));
 		if (mstyle != NULL) {
 			GnmRange r;
-			sheet_style_set_range (esheet->sheet,
-				range_init_full_sheet (&r), mstyle);
+			range_init_full_sheet (&r, esheet->sheet);
+			sheet_style_set_range (esheet->sheet, &r, mstyle);
 		}
 	}
 

@@ -142,7 +142,9 @@ sheet_set_direction (Sheet *sheet, gboolean text_is_rtl)
 
 	sheet->text_is_rtl = text_is_rtl;
 	sheet->priv->reposition_objects.col = 0;
-	sheet_range_calc_spans (sheet, range_init_full_sheet (&r), GNM_SPANCALC_RE_RENDER);
+	sheet_range_calc_spans (sheet,
+				range_init_full_sheet (&r, sheet),
+				GNM_SPANCALC_RE_RENDER);
 }
 
 static void
@@ -648,7 +650,7 @@ gnm_sheet_constructor (GType type,
 	g_ptr_array_set_size (sheet->rows.info,
 			      COLROW_SEGMENT_INDEX (sheet->max_rows - 1) + 1);
 
-	range_init_full_sheet (&sheet->priv->unhidden_region);
+	range_init_full_sheet (&sheet->priv->unhidden_region, sheet);
 	sheet_style_init (sheet);
 
 	sheet->deps = gnm_dep_container_new (sheet);
@@ -677,7 +679,7 @@ gnm_sheet_constructor (GType type,
 		expr_name_perm_add (sheet, "Sheet_Title",
 				    texpr, FALSE);
 
-		range_init_full_sheet (&r);
+		range_init_full_sheet (&r, sheet);
 		texpr = gnm_expr_top_new_constant (value_new_cellrange_r (sheet, &r));
 		expr_name_perm_add (sheet, "Print_Area",
 				    texpr, TRUE);
@@ -1825,7 +1827,7 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 }
 
 GnmRange
-sheet_get_nominal_printarea	(Sheet const *sheet)
+sheet_get_nominal_printarea (Sheet const *sheet)
 {
 	GnmNamedExpr *nexpr;
 	GnmParsePos pos;
@@ -1833,7 +1835,7 @@ sheet_get_nominal_printarea	(Sheet const *sheet)
 	GnmRangeRef const *r_ref;
 	GnmRange print_area;
 
-	range_init_full_sheet (&print_area);
+	range_init_full_sheet (&print_area, sheet);
 
 	g_return_val_if_fail (IS_SHEET (sheet), print_area);
 
@@ -2194,9 +2196,11 @@ sheet_range_set_text (GnmParsePos const *pos, GnmRange const *r, char const *str
 		NULL /* TODO : Use edit_pos format ?? */,
 		workbook_date_conv (pos->sheet->workbook));
 
-	if (closure.texpr)
+	if (closure.texpr) {
+		range_init_full_sheet (&closure.expr_bound, pos->sheet);
 		gnm_expr_top_get_boundingbox (closure.texpr,
-			range_init_full_sheet (&closure.expr_bound));
+					      &closure.expr_bound);
+	}
 
 	/* Store the parsed result creating any cells necessary */
 	sheet_foreach_cell_in_range (pos->sheet, CELL_ITER_ALL,
@@ -3268,7 +3272,7 @@ sheet_cells (Sheet *sheet, gboolean comments)
 		GnmRange r;
 		GSList *scomments, *ptr;
 
-		range_init_full_sheet (&r);
+		range_init_full_sheet (&r, sheet);
 		scomments = sheet_objects_get (sheet, &r, CELL_COMMENT_TYPE);
 		for (ptr = scomments; ptr; ptr = ptr->next) {
 			GnmComment *c = ptr->data;
@@ -5041,7 +5045,7 @@ sheet_dup_styles (Sheet const *src, Sheet *dst)
 	sheet_style_set_auto_pattern_color (
 		dst, sheet_style_get_auto_pattern_color (src));
 
-	styles = sheet_style_get_list (src, range_init_full_sheet (&r));
+	styles = sheet_style_get_list (src, range_init_full_sheet (&r, src));
 	sheet_style_set_list (dst, &corner, FALSE, styles);
 	style_list_free	(styles);
 }

@@ -1102,7 +1102,10 @@ item_grid_init (ItemGrid *ig)
 
 	ig->selecting = ITEM_GRID_NO_SELECTION;
 	ig->gc.fill = ig->gc.cell = ig->gc.empty = ig->gc.bound = NULL;
-	range_init_full_sheet (&ig->bound);
+	/* We need something at least as big as any sheet.  */
+	ig->bound.start.col = ig->bound.start.row = 0;
+	ig->bound.end.col = GNM_MAX_COLS - 1;
+	ig->bound.end.row = GNM_MAX_ROWS - 1;
 	ig->cursor_timer = 0;
 	ig->cur_link = NULL;
 	ig->tip_timer = 0;

@@ -1970,8 +1970,9 @@ sheet_style_get_extent (Sheet const *sheet, GnmRange *res,
 	/* This could easily be optimized */
 	data.res = res;
 	data.most_common_in_cols = most_common_in_cols;
+	range_init_full_sheet (&r, sheet);
 	foreach_tile (sheet->style_data->styles,
-		      sheet->tile_top_level, 0, 0, range_init_full_sheet(&r),
+		      sheet->tile_top_level, 0, 0, &r,
 		      cb_style_extent, &data);
 }
 

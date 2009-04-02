@@ -1,3 +1,8 @@
+2009-04-02  Morten Welinder  <terra@gnome.org>
+
+	* src/ranges.c (range_init_full_sheet): Take a sheet argument.
+	All callers changed.  Fixes #577675.
+
 2009-04-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk.c (wbcg_sheet_focus): scg might be NULL 

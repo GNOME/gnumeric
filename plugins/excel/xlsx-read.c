@@ -4005,8 +4005,8 @@ xlsx_wb_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		if (NULL != (style = g_hash_table_lookup(state->cell_styles, "0"))) {
 			GnmRange r;
 			gnm_style_ref (style);
-			sheet_style_set_range (state->sheet,
-				range_init_full_sheet (&r), style);
+			range_init_full_sheet (&r, state->sheet);
+			sheet_style_set_range (state->sheet, &r, style);
 		}
 
 		xlsx_parse_rel_by_id (xin, part_id, xlsx_sheet_dtd, xlsx_ns);
