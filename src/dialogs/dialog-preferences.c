@@ -595,16 +595,18 @@ pref_window_page_initializer (PrefState *state,
 				page, row++, 1, 1, 64, 1, 
 				gnm_gconf_set_workbook_nsheets,
 				_("Default Number of Sheets"));
-#ifdef GNUMERIC_VARIABLE_SHEET_SIZE
-	int_pref_create_widget (state->root, GNM_CONF_WORKBOOK_NROWS,
-				page, row++, GNM_DEFAULT_ROWS, GNM_DEFAULT_ROWS, GNM_MAX_ROWS, GNM_DEFAULT_ROWS, 
-				gnm_gconf_set_workbook_nrows,
-				_("Number of rows in a sheet"));
-	int_pref_create_widget (state->root, GNM_CONF_WORKBOOK_NCOLS,
-				page, row++, GNM_DEFAULT_COLS, GNM_DEFAULT_COLS, GNM_MAX_COLS, GNM_DEFAULT_COLS, 
-				gnm_gconf_set_workbook_ncols,
-				_("Number of columns in a sheet"));
-#endif
+
+	if (g_getenv ("GNUMERIC_SHEET_SIZE")) {
+		int_pref_create_widget (state->root, GNM_CONF_WORKBOOK_NROWS,
+					page, row++, GNM_DEFAULT_ROWS, GNM_DEFAULT_ROWS, GNM_MAX_ROWS, GNM_DEFAULT_ROWS, 
+					gnm_gconf_set_workbook_nrows,
+					_("Number of rows in a sheet"));
+		int_pref_create_widget (state->root, GNM_CONF_WORKBOOK_NCOLS,
+					page, row++, GNM_DEFAULT_COLS, GNM_DEFAULT_COLS, GNM_MAX_COLS, GNM_DEFAULT_COLS, 
+					gnm_gconf_set_workbook_ncols,
+					_("Number of columns in a sheet"));
+	}
+
 	bool_pref_create_widget (node, GNM_CONF_GUI_ED_LIVESCROLLING,
 				 page, row++, 
 				 gnm_gconf_set_gui_livescrolling,
