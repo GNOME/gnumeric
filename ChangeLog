@@ -1,5 +1,7 @@
 2009-04-02  Morten Welinder  <terra@gnome.org>
 
+	* src/ranges.c (range_clip_to_finite): Use the sheet.
+
 	* src/format-template.c (format_template_new): Switch hash key to
 	GnmCellPos so we can handle large sheets.
 
