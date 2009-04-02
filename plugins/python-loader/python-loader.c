@@ -260,7 +260,7 @@ gplp_func_file_open (GOFileOpener const *fo,
 		     GsfInput *input)
 {
 	ServiceLoaderDataFileOpener *loader_data;
-	Sheet *sheet;
+	Sheet *sheet, *old_sheet;
 	PyObject *open_result = NULL;
 	PyObject *input_wrapper;
 
@@ -268,9 +268,13 @@ gplp_func_file_open (GOFileOpener const *fo,
 	g_return_if_fail (input != NULL);
 	g_return_if_fail (_PyGObject_API != NULL);
 
+	old_sheet = wb_view_cur_sheet (wb_view);
+
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
-	sheet = sheet_new (wb_view_get_workbook (wb_view), _("Some name"));
+	sheet = sheet_new (wb_view_get_workbook (wb_view), _("Some name"),
+			   gnm_sheet_get_max_cols (old_sheet),
+			   gnm_sheet_get_max_rows (old_sheet));
 	input_wrapper = pygobject_new (G_OBJECT (input));
 	if (input_wrapper != NULL) {
 		 /* wrapping adds a reference */

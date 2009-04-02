@@ -70,7 +70,7 @@ html_get_sheet (char const *name, Workbook *wb)
 	if (name) {
 		sheet = workbook_sheet_by_name (wb, name);
 		if (sheet == NULL) {
-			sheet = sheet_new (wb, name);
+		  sheet = sheet_new (wb, name, 256, 65536);
 			workbook_sheet_attach (wb, sheet);
 		}
 	} else

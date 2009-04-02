@@ -496,9 +496,9 @@ xml_sax_wb_sheetname (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (name != NULL);
 
 	if (NULL == workbook_sheet_by_name (wb, name)) {
-		Sheet *sheet = sheet_new_with_size (wb, name,
-						    state->sheet_cols,
-						    state->sheet_rows);
+		Sheet *sheet = sheet_new (wb, name,
+					  state->sheet_cols,
+					  state->sheet_rows);
 		workbook_sheet_attach (wb, sheet);
 	}
 }
@@ -674,6 +674,8 @@ xml_sax_sheet_name (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	Sheet *sheet;
+	int columns = 256;
+	int rows = 65536;
 
 	char const * content = xin->content->str;
 	g_return_if_fail (state->sheet == NULL);
@@ -686,11 +688,12 @@ xml_sax_sheet_name (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		if (!sheet) {
 			gnumeric_io_error_string (state->context,
 				_("File has inconsistent SheetNameIndex element."));
-			sheet = sheet_new (state->wb, content);
+			sheet = sheet_new (state->wb, content,
+					   columns, rows);
 			workbook_sheet_attach (state->wb, sheet);
 		}
 	} else {
-		sheet = sheet_new (state->wb, content);
+		sheet = sheet_new (state->wb, content, columns, rows);
 		workbook_sheet_attach (state->wb, sheet);
 	}
 	state->sheet = sheet;

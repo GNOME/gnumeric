@@ -1930,7 +1930,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	sheet = workbook_sheet_by_name (ctxt->wb, CXML2C (val));
 	if (sheet == NULL)
-		sheet = sheet_new (ctxt->wb, CXML2C (val));
+		sheet = sheet_new (ctxt->wb, CXML2C (val), 256, 65536);
 	xmlFree (val);
 	if (sheet == NULL)
 		return NULL;
@@ -2292,7 +2292,7 @@ xml_sheet_create (XmlParseContext *ctxt, xmlNodePtr node)
 		g_return_if_fail (name != NULL);
 
 		workbook_sheet_attach (ctxt->wb,
-				       sheet_new (ctxt->wb, CXML2C (name)));
+				       sheet_new (ctxt->wb, CXML2C (name), 256, 65536));
 		xmlFree (name);
 	}
 }

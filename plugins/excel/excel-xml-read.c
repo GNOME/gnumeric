@@ -795,7 +795,8 @@ xl_xml_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 		g_return_if_fail (state->sheet == NULL);
 		state->sheet =  workbook_sheet_by_name (state->wb, name);
 		if (state->sheet == NULL) {
-			state->sheet = sheet_new (state->wb, name);
+		  state->sheet = sheet_new (state->wb, name,
+					    256, 65536);  /* FIXME */
 			workbook_sheet_attach (state->wb, state->sheet);
 		}
 

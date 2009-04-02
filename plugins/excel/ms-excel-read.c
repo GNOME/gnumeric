@@ -797,8 +797,10 @@ excel_sheet_new (GnmXLImporter *importer, char const *sheet_name, GnmSheetType t
 	sheet = workbook_sheet_by_name (importer->wb, sheet_name);
 	if (sheet == NULL) {
 		sheet = sheet_new_with_type (importer->wb, sheet_name, type,
-					     gnm_sheet_get_max_cols (NULL),
-					     gnm_sheet_get_max_rows (NULL));
+					     XLS_MaxCol,
+					     (importer->ver >= MS_BIFF_V8
+					      ? XLS_MaxRow_V8
+					      : XLS_MaxRow_V7));
 		workbook_sheet_attach (importer->wb, sheet);
 		d (1, fprintf (stderr,"Adding sheet '%s'\n", sheet_name););
 	}
@@ -5751,7 +5753,10 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 				}
 
 				if (sheet == NULL) {
-					sheet = sheet_new (container->importer->wb, name);
+					sheet = sheet_new (container->importer->wb,
+							   name,
+							   XLS_MaxCol,
+							   XLS_MaxRow_V7);
 					workbook_sheet_attach (container->importer->wb, sheet);
 				}
 			}

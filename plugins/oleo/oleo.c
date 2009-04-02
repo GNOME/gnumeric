@@ -228,7 +228,7 @@ static Sheet *
 oleo_new_sheet (Workbook *wb, int idx)
 {
 	char  *sheet_name = g_strdup_printf (_("Sheet%d"), idx);
-	Sheet *sheet = sheet_new (wb, sheet_name);
+	Sheet *sheet = sheet_new (wb, sheet_name, 256, 65536);
 	g_free (sheet_name);
 	workbook_sheet_attach (wb, sheet);
 

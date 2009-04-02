@@ -820,7 +820,7 @@ sylk_file_open (GOFileOpener const *fo,
 		name = g_strdup ("Sheet");
 	}
 
-	state.pp.sheet = sheet_new (state.pp.wb, name);
+	state.pp.sheet = sheet_new (state.pp.wb, name, 256, 65536);
 	workbook_sheet_attach (state.pp.wb, state.pp.sheet);
 	g_free (name);
 

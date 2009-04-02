@@ -84,7 +84,6 @@ static const GOptionEntry gnumeric_options [] = {
 		N_("Don't display warning dialogs when importing"),
 		NULL
 	},
-#ifdef GNUMERIC_VARIABLE_SHEET_SIZE
 	{ "rows", 'r', 0, G_OPTION_ARG_INT, &rows,
 		N_("Minimum number of rows"),
 		NULL
@@ -93,7 +92,6 @@ static const GOptionEntry gnumeric_options [] = {
 		N_("Minimum number of columns"),
 		NULL
 	},
-#endif
 
 	/*********************************
 	 * Hidden Actions */

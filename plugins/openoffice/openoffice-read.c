@@ -515,7 +515,7 @@ oo_table_start (GsfXMLIn *xin, xmlChar const **attrs)
 			char const *name = CXML2C (attrs[1]);
 			state->pos.sheet = workbook_sheet_by_name (state->pos.wb, name);
 			if (NULL == state->pos.sheet) {
-				state->pos.sheet = sheet_new (state->pos.wb, name);
+				state->pos.sheet = sheet_new (state->pos.wb, name, 256, 65536);
 				workbook_sheet_attach (state->pos.wb, state->pos.sheet);
 			}
 
@@ -840,7 +840,10 @@ two_quotes :
 				g_warning ("Ignoring reference to sheet %s", name);
 				ref->sheet = NULL;
 			} else {
-				ref->sheet = sheet_new (pp->wb, name);
+				Sheet *old_sheet = workbook_sheet_by_index (pp->wb, 0);
+				ref->sheet = sheet_new (pp->wb, name,
+							gnm_sheet_get_max_cols (old_sheet),
+							gnm_sheet_get_max_rows (old_sheet));
 				workbook_sheet_attach (pp->wb, ref->sheet);
 			}
 		}

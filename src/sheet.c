@@ -1075,23 +1075,7 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type,
 /**
  * sheet_new :
  * @wb    : #Workbook
- * @name  : An unquoted name in utf8
- *
- * Create a new Sheet of type SHEET_DATA, and associate it with @wb.
- * The type can not be changed later
- **/
-Sheet *
-sheet_new (Workbook *wb, char const *name)
-{
-	return sheet_new_with_type (wb, name, GNM_SHEET_DATA,
-				    gnm_sheet_get_max_cols (NULL),
-				    gnm_sheet_get_max_rows (NULL));
-}
-
-/**
- * sheet_new_with_size :
- * @wb      : #Workbook
- * @name    : An unquoted name in utf8
+ * @name  : The name for the sheet (unquoted).
  * @columns : The requested columns number.
  * @rows    : The requested rows number.
  *
@@ -1099,7 +1083,7 @@ sheet_new (Workbook *wb, char const *name)
  * The type can not be changed later
  **/
 Sheet *
-sheet_new_with_size (Workbook *wb, char const *name, int columns, int rows)
+sheet_new (Workbook *wb, char const *name, int columns, int rows)
 {
 	return sheet_new_with_type (wb, name, GNM_SHEET_DATA, columns, rows);
 }

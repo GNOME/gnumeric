@@ -225,6 +225,7 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 		    const char *name)
 {
 	char *unique_name;
+	Sheet *old_sheet = wb_control_cur_sheet (wbc);
 
 	if (wbc)
 		dao->wbc = wbc;
@@ -235,18 +236,18 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 		unique_name = workbook_sheet_get_free_name
 			(wb, name_with_counter, FALSE, TRUE);
 		g_free (name_with_counter);
-	        dao->sheet = sheet_new (wb, unique_name);
+		dao->rows = gnm_sheet_get_max_rows (old_sheet);
+		dao->cols = gnm_sheet_get_max_cols (old_sheet);
+	        dao->sheet = sheet_new (wb, unique_name, dao->cols, dao->rows);
 		g_free (unique_name);
 		dao->start_col = dao->start_row = 0;
-		dao->rows = gnm_sheet_get_max_rows (dao->sheet);
-		dao->cols = gnm_sheet_get_max_cols (dao->sheet);
 		workbook_sheet_attach (wb, dao->sheet);
 	} else if (dao->type == NewWorkbookOutput) {
 		Workbook *wb = workbook_new ();
-		dao->sheet = sheet_new (wb, name);
+		dao->rows = gnm_sheet_get_max_rows (old_sheet);
+		dao->cols = gnm_sheet_get_max_cols (old_sheet);
+		dao->sheet = sheet_new (wb, name, dao->cols, dao->rows);
 		dao->start_col = dao->start_row = 0;
-		dao->rows = gnm_sheet_get_max_rows (dao->sheet);
-		dao->cols = gnm_sheet_get_max_cols (dao->sheet);
 		workbook_sheet_attach (wb, dao->sheet);
 		dao->wbc = wb_control_wrapper_new (dao->wbc, NULL, wb, NULL);
 	}

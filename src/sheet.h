@@ -119,8 +119,7 @@ struct _Sheet {
 #define GNM_SHEET_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GNM_SHEET_TYPE, GnmSheetClass))
 GType     gnm_sheet_get_type	 (void);
 
-Sheet    *sheet_new		 (Workbook *wb, char const *name);
-Sheet    *sheet_new_with_size	 (Workbook *wb, char const *name, int columns, int rows);
+Sheet    *sheet_new		 (Workbook *wb, char const *name, int columns, int rows);
 Sheet    *sheet_new_with_type	 (Workbook *wb, char const *name,
 				  GnmSheetType type, int columns, int rows);
 Sheet    *sheet_dup		 (Sheet const *source_sheet);

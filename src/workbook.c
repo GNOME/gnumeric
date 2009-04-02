@@ -876,7 +876,7 @@ Sheet *
 workbook_sheet_add_sized (Workbook *wb, int pos, int columns, int rows)
 {
 	char *name = workbook_sheet_get_free_name (wb, _("Sheet"), TRUE, FALSE);
-	Sheet *new_sheet = sheet_new_with_size (wb, name, columns, rows);
+	Sheet *new_sheet = sheet_new (wb, name, columns, rows);
 	g_free (name);
 
 	if (pos == -1)

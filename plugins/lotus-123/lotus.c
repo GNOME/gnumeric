@@ -1509,7 +1509,7 @@ attach_sheet (Workbook *wb, int idx)
 	 * Yes, I do mean col_name.  Use that as an easy proxy for
 	 * naming the sheets similarly to lotus.
 	 */
-	Sheet *sheet = sheet_new (wb, col_name (idx));
+	Sheet *sheet = sheet_new (wb, col_name (idx), 256, 65536);
 
 	/*
 	 * In case nothing forces a spanning, do it here so that any new

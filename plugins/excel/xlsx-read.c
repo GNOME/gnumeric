@@ -3974,7 +3974,7 @@ xlsx_sheet_begin (GsfXMLIn *xin, xmlChar const **attrs)
 
 	sheet =  workbook_sheet_by_name (state->wb, name);
 	if (NULL == sheet) {
-		sheet = sheet_new (state->wb, name);
+		sheet = sheet_new (state->wb, name, 256, 65536);  /* FIXME! */
 		workbook_sheet_attach (state->wb, sheet);
 	}
 

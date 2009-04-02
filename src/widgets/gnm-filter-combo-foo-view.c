@@ -193,7 +193,9 @@ fcombo_fill_model (SheetObject *so,  GtkTreePath **clip, GtkTreePath **select)
 	if (filter->fields->len > 1) {
 		Workbook *wb = uc.src_sheet->workbook;
 		char *name = workbook_sheet_get_free_name (wb, "DummyFilterPopulate", FALSE, FALSE);
-		filtered_sheet = sheet_new (wb, name);
+		filtered_sheet = sheet_new (wb, name,
+					    gnm_sheet_get_max_cols (uc.src_sheet),
+					    gnm_sheet_get_max_rows (uc.src_sheet));
 		g_free (name);
 		for (i = 0 ; i < filter->fields->len ; i++)
 			if (i != field_num)

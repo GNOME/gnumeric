@@ -79,6 +79,7 @@ do_tabulation (WorkbookControl *wbc,
 	       GnmTabulateInfo *data)
 {
 	Workbook *wb = wb_control_get_workbook (wbc);
+	Sheet *old_sheet = wb_control_cur_sheet (wbc);
 	GSList *sheet_idx = NULL;
 	Sheet *sheet = NULL;
 	gboolean sheetdim = (!data->with_coordinates && data->dims >= 3);
@@ -100,10 +101,10 @@ do_tabulation (WorkbookControl *wbc,
 
 			counts[i] = 1 + gnm_fake_floor ((data->maxima[i] - data->minima[i]) / data->steps[i]);
 			/* Silently truncate at the edges.  */
-			if (!data->with_coordinates && i == 0 && counts[i] > gnm_sheet_get_max_cols (sheet) - 1) {
-				counts[i] = gnm_sheet_get_max_cols (sheet) - 1;
-			} else if (!data->with_coordinates && i == 1 && counts[i] > gnm_sheet_get_max_rows (sheet) - 1) {
-				counts[i] = gnm_sheet_get_max_rows (sheet) - 1;
+			if (!data->with_coordinates && i == 0 && counts[i] > gnm_sheet_get_max_cols (old_sheet) - 1) {
+				counts[i] = gnm_sheet_get_max_cols (old_sheet) - 1;
+			} else if (!data->with_coordinates && i == 1 && counts[i] > gnm_sheet_get_max_rows (old_sheet) - 1) {
+				counts[i] = gnm_sheet_get_max_rows (old_sheet) - 1;
 			}
 		}
 	}
@@ -126,7 +127,10 @@ do_tabulation (WorkbookControl *wbc,
 
 			g_free (base_name);
 			value_release (v);
-			sheet = sheets[i] = sheet_new (wb, unique_name);
+			sheet = sheets[i] =
+			  sheet_new (wb, unique_name,
+				     gnm_sheet_get_max_cols (old_sheet),
+				     gnm_sheet_get_max_rows (old_sheet));
 			g_free (unique_name);
 			workbook_sheet_attach (wb, sheet);
 			sheet_idx = g_slist_prepend (sheet_idx, 
@@ -139,7 +143,9 @@ do_tabulation (WorkbookControl *wbc,
 			workbook_sheet_get_free_name (wb,
 						      _("Tabulation"),
 						      FALSE, FALSE);
-	        sheet = sheet_new (wb, unique_name);
+	        sheet = sheet_new (wb, unique_name,
+				   gnm_sheet_get_max_cols (old_sheet),
+				   gnm_sheet_get_max_rows (old_sheet));
 		g_free (unique_name);
 		workbook_sheet_attach (wb, sheet);
 		sheet_idx = g_slist_prepend (sheet_idx, 

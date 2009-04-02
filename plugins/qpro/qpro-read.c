@@ -711,7 +711,7 @@ qpro_read_sheet (QProReadState *state)
 
 	/* We can use col_name as a quick proxy for the defaul q-pro sheet names */
 	char const *def_name = col_name (workbook_sheet_count (state->wb));
-	Sheet *sheet = sheet_new (state->wb, def_name);
+	Sheet *sheet = sheet_new (state->wb, def_name, 256, 65536);
 
 	state->cur_sheet = sheet;
 	workbook_sheet_attach (state->wb, sheet);

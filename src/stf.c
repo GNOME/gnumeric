@@ -181,7 +181,7 @@ stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
 	char *name, *nameutf8;
 	char *data;
 	size_t data_len;
-	Sheet *sheet;
+	Sheet *sheet, *old_sheet;
 	Workbook *book;
 
 	/* FIXME : how to do this cleanly ? */
@@ -204,7 +204,10 @@ stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
 
 	/* Add Sheet */
 	book = wb_view_get_workbook (wbv);
-	sheet = sheet_new (book, nameutf8);
+	old_sheet = wb_view_cur_sheet (wbv);
+	sheet = sheet_new (book, nameutf8,
+			   gnm_sheet_get_max_cols (old_sheet),
+			   gnm_sheet_get_max_rows (old_sheet));
 	workbook_sheet_attach (book, sheet);
 
 	dialogresult = stf_dialog (WBC_GTK (context->impl),
@@ -342,7 +345,7 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 			       IOContext *context,
 			       gpointer wbv, GsfInput *input)
 {
-	Sheet *sheet;
+	Sheet *sheet, *old_sheet;
 	Workbook *book;
 	char *name;
 	char *data, *utf8data;
@@ -354,6 +357,8 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 	g_return_if_fail (wbv != NULL);
 
 	book = wb_view_get_workbook (wbv);
+	old_sheet = wb_view_cur_sheet (wbv);
+
 	data = stf_preparse (GO_CMD_CONTEXT (context), input, &data_len);
 	if (!data)
 		return;
@@ -383,7 +388,9 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 	}
 
 	name = g_path_get_basename (gsfname);
-	sheet = sheet_new (book, name);
+	sheet = sheet_new (book, name,
+			   gnm_sheet_get_max_cols (old_sheet),
+			   gnm_sheet_get_max_rows (old_sheet));
 	g_free (name);
 	workbook_sheet_attach (book, sheet);
 
