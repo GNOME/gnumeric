@@ -51,7 +51,7 @@ paradox_file_open (GOFileOpener const *fo, IOContext *io_context,
 	pxfield_t	*pxf;
 	char	*data;
 	char	  *name;
-	Sheet	  *sheet = NULL;
+	Sheet	  *sheet;
 	GnmCell	  *cell;
 	GnmValue	  *val = NULL;
 	ErrorInfo *open_error = NULL;

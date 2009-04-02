@@ -173,7 +173,6 @@ xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
 	wb = wb_view_get_workbook (wb_view);
 
 	for (pass = 1; pass <= 2; pass++) {
-		Sheet *sheet = NULL;
 		unsigned int row = 0;
 
 		if (pass == 2) {

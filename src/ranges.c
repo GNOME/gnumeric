@@ -169,7 +169,7 @@ range_list_destroy (GSList *ranges)
 char const *
 range_as_string (GnmRange const *src)
 {
-	static char buffer[(2 + 4 * sizeof (long)) * 2 + 1];
+	static char buffer[(6 + 4 * sizeof (long)) * 2 + 1];
 
 	g_return_val_if_fail (src != NULL, "");
 

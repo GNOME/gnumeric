@@ -1709,7 +1709,7 @@ py_Workbook_sheets (py_Workbook_object *self, PyObject *args)
 static PyObject *
 py_Workbook_sheet_add (py_Workbook_object *self, PyObject *args)
 {
-	Sheet *sheet = NULL;
+	Sheet *sheet;
 	char *name = NULL;
 	int   insert_before = -1;
 
