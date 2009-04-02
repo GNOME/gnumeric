@@ -4168,7 +4168,7 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 	if (pundo) {
 		int last = first + (count - 1);
 		GnmRange r;
-		range_init_cols (&r, first, last);
+		range_init_cols (&r, sheet, first, last);
 		combine_undo (pundo, clipboard_copy_range_undo (sheet, &r));
 		states = colrow_get_states (sheet, TRUE, first, last);
 	}
@@ -4239,7 +4239,7 @@ sheet_delete_cols (Sheet *sheet, int col, int count,
 	if (pundo) {
 		int last = col + (count - 1);
 		GnmRange r;
-		range_init_cols (&r, col, last);
+		range_init_cols (&r, sheet, col, last);
 		combine_undo (pundo, clipboard_copy_range_undo (sheet, &r));
 		states = colrow_get_states (sheet, TRUE, col, last);
 	}
@@ -4326,7 +4326,7 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 	if (pundo) {
 		int last = first + (count - 1);
 		GnmRange r;
-		range_init_rows (&r, first, last);
+		range_init_rows (&r, sheet, first, last);
 		combine_undo (pundo, clipboard_copy_range_undo (sheet, &r));
 		states = colrow_get_states (sheet, FALSE, first, last);
 	}
@@ -4397,7 +4397,7 @@ sheet_delete_rows (Sheet *sheet, int row, int count,
 	if (pundo) {
 		int last = row + (count - 1);
 		GnmRange r;
-		range_init_rows (&r, row, last);
+		range_init_rows (&r, sheet, row, last);
 		combine_undo (pundo, clipboard_copy_range_undo (sheet, &r));
 		states = colrow_get_states (sheet, FALSE, row, last);
 	}

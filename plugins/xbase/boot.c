@@ -176,7 +176,7 @@ xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
 		gboolean deleted = record_deleted (record);
 		if (deleted)
 			continue;
-		if (row >= gnm_sheet_get_max_rows (sheet)) {
+		if (row >= (unsigned)gnm_sheet_get_max_rows (sheet)) {
 			/* FIXME: either we need to add new rows, if posible
 			or create a larger sheet*/
 			break;

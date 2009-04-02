@@ -1258,9 +1258,9 @@ sv_selection_walk_step (SheetView *sv, gboolean forward, gboolean horizontal)
 		     sv->sheet->protected_allow.select_unlocked_cells))
 			range_init_full_sheet (&bound, sv->sheet);
 		else if (horizontal)
-			range_init_rows (&bound, ss->start.row, ss->start.row);
+			range_init_rows (&bound, sv->sheet, ss->start.row, ss->start.row);
 		else
-			range_init_cols (&bound, ss->start.col, ss->start.col);
+			range_init_cols (&bound, sv->sheet, ss->start.col, ss->start.col);
 
 		/* Ignore attempts to move outside the boundary region */
 		if (!walk_boundaries (sv, &bound, forward, horizontal,

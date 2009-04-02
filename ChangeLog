@@ -1,7 +1,8 @@
 2009-04-02  Morten Welinder  <terra@gnome.org>
 
-	* src/ranges.c (range_init_full_sheet): Take a sheet argument.
-	All callers changed.  Fixes #577675.
+	* src/ranges.c (range_init_full_sheet, range_init_cols,
+	range_init_rows): Take a sheet argument.  All callers changed.
+	Fixes #577675.
 
 2009-04-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

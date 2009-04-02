@@ -1088,7 +1088,8 @@ void
 sheet_style_set_col (Sheet *sheet, int col, GnmStyle *style)
 {
 	GnmRange r;
-	sheet_style_set_range (sheet, range_init_cols (&r, col, col), style);
+	range_init_cols (&r, sheet, col, col);
+	sheet_style_set_range (sheet, &r, style);
 }
 
 /**
@@ -1107,7 +1108,8 @@ void
 sheet_style_apply_col (Sheet *sheet, int col, GnmStyle *pstyle)
 {
 	GnmRange r;
-	sheet_style_apply_range (sheet, range_init_cols (&r, col, col), pstyle);
+	range_init_cols (&r, sheet, col, col);
+	sheet_style_apply_range (sheet, &r, pstyle);
 }
 
 /**
@@ -1126,7 +1128,8 @@ void
 sheet_style_set_row (Sheet  *sheet, int row, GnmStyle *style)
 {
 	GnmRange r;
-	sheet_style_set_range (sheet, range_init_rows (&r, row, row), style);
+	range_init_rows (&r, sheet, row, row);
+	sheet_style_set_range (sheet, &r, style);
 }
 
 /**
@@ -1145,7 +1148,8 @@ void
 sheet_style_apply_row (Sheet  *sheet, int row, GnmStyle *pstyle)
 {
 	GnmRange r;
-	sheet_style_apply_range (sheet, range_init_rows (&r, row, row), pstyle);
+	range_init_rows (&r, sheet, row, row);
+	sheet_style_apply_range (sheet, &r, pstyle);
 }
 
 /**
@@ -1861,8 +1865,8 @@ sheet_style_insert_colrow (GnmExprRelocateInfo const *rinfo)
 		if (row < 0)
 			row = 0;
 		corner.col = 0;
-		styles = sheet_style_get_list (rinfo->origin_sheet,
-					       range_init_rows (&r, row, row));
+		range_init_rows (&r, rinfo->origin_sheet, row, row);
+		styles = sheet_style_get_list (rinfo->origin_sheet, &r);
 		if (o > 0)
 			for (ptr = styles ; ptr != NULL ; ptr = ptr->next)
 				((GnmStyleRegion *)ptr->data)->range.end.row = o;
@@ -2448,7 +2452,7 @@ sheet_style_most_common_in_col (Sheet const *sheet, int col)
 	GHashTable *accumulator;
 	GnmRange       r;
 
-	range_init_cols (&r, col, col);
+	range_init_cols (&r, sheet, col, col);
 	accumulator = g_hash_table_new (gnm_style_hash, (GCompareFunc) gnm_style_equal);
 	foreach_tile (sheet->style_data->styles,
 		      sheet->tile_top_level, 0, 0, &r,

@@ -58,9 +58,11 @@ guint gnm_range_hash (const GnmRange *r);
 #define range_valid(r)          ((r)->start.col <= (r)->end.col && \
 				 (r)->start.row <= (r)->end.row)
 
-GnmRange   *range_init_full_sheet   (GnmRange *r, Sheet *sheet);
-GnmRange   *range_init_cols   	    (GnmRange *r, int start_col, int end_col);
-GnmRange   *range_init_rows         (GnmRange *r, int start_row, int end_row);
+GnmRange   *range_init_full_sheet   (GnmRange *r, Sheet const *sheet);
+GnmRange   *range_init_cols   	    (GnmRange *r, Sheet const *sheet,
+				     int start_col, int end_col);
+GnmRange   *range_init_rows         (GnmRange *r, Sheet const *sheet,
+				     int start_row, int end_row);
 GnmRange   *range_init_rangeref	    (GnmRange *r, GnmRangeRef const *rr);
 GnmRange   *range_init_value	    (GnmRange *r, GnmValue const *v);
 GnmRange   *range_init_cellpos	    (GnmRange *r, GnmCellPos const *pos);

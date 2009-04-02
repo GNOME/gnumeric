@@ -1424,7 +1424,7 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 		? colrow_max (is_cols, sheet) - count
 		: index;
 	last = first + count - 1;
-	(is_cols ? range_init_cols : range_init_rows) (&r, first, last);
+	(is_cols ? range_init_cols : range_init_rows) (&r, sheet, first, last);
 
 	/* Check for array subdivision */
 	if (sheet_range_splits_region (sheet, &r, NULL, GO_CMD_CONTEXT (wbc),

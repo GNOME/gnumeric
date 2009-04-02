@@ -33,7 +33,7 @@
 #undef RANGE_DEBUG
 
 GnmRange *
-range_init_full_sheet (GnmRange *r, Sheet *sheet)
+range_init_full_sheet (GnmRange *r, Sheet const *sheet)
 {
 	r->start.col = 0;
 	r->start.row = 0;
@@ -43,21 +43,21 @@ range_init_full_sheet (GnmRange *r, Sheet *sheet)
 }
 
 GnmRange *
-range_init_cols (GnmRange *r, int start_col, int end_col)
+range_init_cols (GnmRange *r, Sheet const *sheet, int start_col, int end_col)
 {
 	r->start.col = start_col;
 	r->start.row = 0;
 	r->end.col = end_col;
-	r->end.row = gnm_sheet_get_max_rows (NULL) - 1;
+	r->end.row = gnm_sheet_get_last_row (sheet);
 	return r;
 }
 
 GnmRange *
-range_init_rows (GnmRange *r, int start_row, int end_row)
+range_init_rows (GnmRange *r, Sheet const *sheet, int start_row, int end_row)
 {
 	r->start.col = 0;
 	r->start.row = start_row;
-	r->end.col = gnm_sheet_get_max_cols (NULL) - 1;
+	r->end.col = gnm_sheet_get_last_col (sheet);
 	r->end.row = end_row;
 	return r;
 }
