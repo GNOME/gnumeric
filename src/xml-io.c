@@ -2453,8 +2453,12 @@ xml_workbook_read (IOContext *context,
 		if (xml_node_get_double (child, "IterationTolerance", &d))
 			workbook_iteration_tolerance (ctxt->wb, d);
 		if (NULL != (str = xml_node_get_cstr (child, "DateConvention"))) {
-			workbook_set_1904 (ctxt->wb,
-				strcmp (str, "Apple:1904") == 0);
+			GODateConventions const *date_conv =
+				go_date_conv_from_str (CXML2C (str));
+			if (date_conv)
+				workbook_set_date_conv (ctxt->wb, date_conv);
+			else
+				g_printerr ("Ignoring invalid date conventions.\n");
 			xmlFree (str);
 		}
 	}

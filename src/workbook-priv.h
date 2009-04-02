@@ -37,7 +37,7 @@ struct _Workbook {
 		double   tolerance;
 	} iteration;
 	gboolean recalc_auto;
-	GODateConventions date_conv;
+	GODateConventions const *date_conv;
 
 	gboolean during_destruction;
 	gboolean being_reordered;

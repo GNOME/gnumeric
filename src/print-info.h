@@ -111,6 +111,7 @@ typedef struct {
 	int       page;
 	int       pages;
 	GnmValue *date_time;
+	GODateConventions const *date_conv;
 	GnmRange  page_area;
 	GnmCellPos top_repeating;
 } HFRenderInfo;

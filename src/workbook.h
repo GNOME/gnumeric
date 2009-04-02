@@ -73,7 +73,8 @@ void     workbook_iteration_max_number	 (Workbook *wb, int max_number);
 void     workbook_iteration_tolerance	 (Workbook *wb, double tolerance);
 
 GODateConventions const *workbook_date_conv (Workbook const *wb);
-gboolean workbook_set_1904 (Workbook *wb, gboolean flag);
+void workbook_set_date_conv (Workbook *wb, GODateConventions const *date_conv);
+void workbook_set_1904 (Workbook *wb, gboolean base1904);
 
 void workbook_attach_view (WorkbookView *wbv);
 void workbook_detach_view (WorkbookView *wbv);

@@ -65,6 +65,7 @@
 #include <goffice/app/error-info.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-format.h>
+#include <goffice/utils/datetime.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
@@ -543,8 +544,12 @@ xml_sax_calculation (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gnm_xml_attr_double (attrs, "IterationTolerance", &d))
 			workbook_iteration_tolerance (state->wb, d);
 		else if (strcmp (CXML2C (attrs[0]), "DateConvention") == 0) {
-			workbook_set_1904 (state->wb,
-				strcmp (attrs[1], "Apple:1904") == 0);
+			GODateConventions const *date_conv =
+				go_date_conv_from_str (CXML2C (attrs[1]));
+			if (date_conv)
+				workbook_set_date_conv (state->wb, date_conv);
+			else
+				g_printerr ("Ignoring invalid date conventions.\n");
 		} else
 			unknown_attr (xin, attrs);
 }

@@ -1,5 +1,13 @@
 2009-04-02  Morten Welinder  <terra@gnome.org>
 
+	* src/print-info.c (render_timestamp_with_format): Renamed form
+	render_value_with_format.  Date convention issues fixed.
+
+	* src/workbook.c (workbook_set_date_conv): New function.
+
+	* src/xml-sax-read.c (xml_sax_calculation): Use
+	workbook_set_date_conv.
+
 	* src/ranges.c (range_init_full_sheet, range_init_cols,
 	range_init_rows): Take a sheet argument.  All callers changed.
 	Fixes #577675.

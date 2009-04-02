@@ -177,7 +177,7 @@ workbook_init (GObject *object)
 	wb->iteration.tolerance = .001;
 	wb->recalc_auto = TRUE;
 
-	wb->date_conv.use_1904 = FALSE;
+	workbook_set_1904 (wb, FALSE);
 
 	wb->file_format_level = FILE_FL_NEW;
 	wb->file_saver        = NULL;
@@ -1134,42 +1134,43 @@ workbook_sheet_reorder (Workbook *wb, GSList *new_order)
 }
 
 /**
- * workbook_uses_1904 :
- * @wb :
+ * workbook_date_conv :
+ * @wb : Workbook
  *
- * Does @wb use the 1904 date convention ?  This could be expanded to return a
- * locale-ish type object to get passed around.  However, since we use libc for
- * some of the formatting and parsing we can not get around setting the actual
- * locale globally and there is not much that I can think of to put in here for
- * now.  Hence I'll leave it as a boolean.
+ * Returns: the date convention in effect for the workbook.
  **/
 GODateConventions const *
 workbook_date_conv (Workbook const *wb)
 {
 	g_return_val_if_fail (wb != NULL, NULL);
-	return &wb->date_conv;
+	return wb->date_conv;
 }
 
 /**
- * workbook_set_1904 :
- * @wb :
- * @flag : new value
+ * workbook_set_date_conv :
+ * @wb : worknook
+ * @date_conv : new date convention
  *
- * Sets the 1904 flag to @flag and returns the old value.
+ * Sets the date convention @date_conv.
  * NOTE : THIS IS NOT A SMART ROUTINE.  If you want to actually change this
  * We'll need to recalc and rerender everything.  That will need to be done
  * externally.
  **/
-gboolean
-workbook_set_1904 (Workbook *wb, gboolean flag)
+void
+workbook_set_date_conv (Workbook *wb, GODateConventions const *date_conv)
 {
-	gboolean old_val;
+	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (date_conv != NULL);
 
-	g_return_val_if_fail (IS_WORKBOOK (wb), FALSE);
+	wb->date_conv = date_conv;
+}
 
-	old_val = wb->date_conv.use_1904;
-	wb->date_conv.use_1904 = flag;
-	return old_val;
+void
+workbook_set_1904 (Workbook *wb, gboolean base1904)
+{
+	GODateConventions const *date_conv =
+		go_date_conv_from_str (base1904 ? "Apple:1904" : "Lotus:1900");
+	workbook_set_date_conv (wb, date_conv);
 }
 
 /* ------------------------------------------------------------------------- */

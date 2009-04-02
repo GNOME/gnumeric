@@ -506,13 +506,14 @@ render_pages (GString *target, HFRenderInfo *info, char const *args)
 }
 
 static void
-render_value_with_format (GString *target, char const *number_format, HFRenderInfo *info)
+render_timestamp_with_format (GString *target, char const *number_format, HFRenderInfo *info)
 {
 	GOFormat *format;
 
-	/* TODO : Check this assumption.  Is it a localized format ?? */
+	/* TODO : Check this assumption.  Is it a localized format? */
 	format = go_format_new_from_XL (number_format);
-	format_value_gstring (target, format, info->date_time, NULL, -1, NULL);
+	format_value_gstring (target, format, info->date_time,
+			      NULL, -1, info->date_conv);
 	go_format_unref (format);
 }
 
@@ -526,7 +527,7 @@ render_date (GString *target, HFRenderInfo *info, char const *args)
 	else
 		date_format = "dd-mmm-yyyy";
 
-	render_value_with_format (target, date_format, info);
+	render_timestamp_with_format (target, date_format, info);
 }
 
 static void
@@ -538,7 +539,7 @@ render_time (GString *target, HFRenderInfo *info, char const *args)
 		time_format = args;
 	else
 		time_format = "hh:mm";
-	render_value_with_format (target, time_format, info);
+	render_timestamp_with_format (target, time_format, info);
 }
 
 static void
@@ -678,10 +679,11 @@ hf_render_info_new (void)
 	HFRenderInfo *hfi;
 
 	hfi = g_new0 (HFRenderInfo, 1);
-	hfi->date_time = value_new_float (
-		datetime_timet_to_serial_raw (time (NULL), NULL));
-#warning "FIXME: We cannot use NULL here."
-	range_init_full_sheet (&hfi->page_area, NULL);
+	hfi->date_conv = go_date_conv_from_str ("Lotus:1900");
+	hfi->date_time = value_new_float
+		(datetime_timet_to_serial_raw (time (NULL), hfi->date_conv));
+	/* It doesn't appear like the end is accessed.  */
+	range_init (&hfi->page_area, 0, 0, G_MAXINT / 2, G_MAXINT / 2);
 	hfi->top_repeating.col = 0;
 	hfi->top_repeating.row = 0;
 
