@@ -4,6 +4,9 @@
 	
 2009-04-01  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbcg_append_sheet, wbcg_insert_sheet): Use size
+	of active sheet.
+
 	* src/wbc-gtk.c (wbc_gtk_init): Disabled SheetSizedInsert as
 	appropriately.
 

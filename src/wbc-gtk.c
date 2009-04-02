@@ -401,7 +401,10 @@ wbcg_insert_sheet (GtkWidget *unused, WBCGtk *wbcg)
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	Workbook *wb = sheet->workbook;
 	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
-	workbook_sheet_add (wb, sheet->index_in_wb);
+	/* Use same size as current sheet.  */
+	workbook_sheet_add_sized (wb, sheet->index_in_wb,
+				  gnm_sheet_get_max_cols (sheet),
+				  gnm_sheet_get_max_rows (sheet));
 	cmd_reorganize_sheets (wbc, old_state, sheet);
 }
 
@@ -458,7 +461,10 @@ wbcg_append_sheet (GtkWidget *unused, WBCGtk *wbcg)
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	Workbook *wb = sheet->workbook;
 	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
-	workbook_sheet_add (wb, -1);
+	/* Use same size as current sheet.  */
+	workbook_sheet_add_sized (wb, -1,
+				  gnm_sheet_get_max_cols (sheet),
+				  gnm_sheet_get_max_rows (sheet));
 	cmd_reorganize_sheets (wbc, old_state, sheet);
 }
 
@@ -471,7 +477,7 @@ wbcg_clone_sheet (GtkWidget *unused, WBCGtk *wbcg)
 	WorkbookSheetState *old_state = workbook_sheet_state_new (wb);
 	Sheet *new_sheet = sheet_dup (sheet);
 	workbook_sheet_attach_at_pos (wb, new_sheet, sheet->index_in_wb + 1);
-	/* See workbook_sheet_add:  */
+	/* See workbook_sheet_add_sized:  */
 	g_signal_emit_by_name (G_OBJECT (wb), "sheet_added", 0);
 	cmd_reorganize_sheets (wbc, old_state, sheet);
 	g_object_unref (new_sheet);
