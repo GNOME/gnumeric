@@ -1038,6 +1038,25 @@ gnm_sheet_visibility_get_type (void)
 }
 
 /* ------------------------------------------------------------------------- */
+
+gboolean
+gnm_sheet_suggest_size (int *cols, int *rows)
+{
+	gboolean bad = (*cols > GNM_MAX_COLS || *rows > GNM_MAX_ROWS);
+	int c = GNM_DEFAULT_COLS;
+	int r = GNM_DEFAULT_ROWS;
+
+	while (c < *cols && c < GNM_MAX_COLS)
+		c *= 2;
+	*cols = c;
+
+	while (r < *rows && r < GNM_MAX_ROWS)
+		r *= 2;
+	*rows = r;
+
+	return bad;
+}
+
 /**
  * sheet_new_with_type :
  * @wb      : #Workbook

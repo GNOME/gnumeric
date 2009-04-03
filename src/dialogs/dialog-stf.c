@@ -318,6 +318,7 @@ stf_dialog (WBCGtk *wbcg,
 		dialogresult->encoding = pagedata.encoding;
 		pagedata.encoding = NULL;
 
+		dialogresult->colcount = pagedata.format.col_import_count;
 		dialogresult->rowcount = pagedata.rowcount;
 
 		dialogresult->parseoptions = pagedata.parseoptions;

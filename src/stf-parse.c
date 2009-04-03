@@ -88,12 +88,6 @@ my_garray_len (GArray const *a)
 	return (int)a->len;
 }
 
-static inline int
-my_gptrarray_len (GPtrArray const *a)
-{
-	return (int)a->len;
-}
-
 static int
 compare_terminator (char const *s, StfParseOptions_t *parseoptions)
 {
@@ -840,7 +834,7 @@ stf_parse_general (StfParseOptions_t *parseoptions,
 	while (*src.position != '\0' && src.position < data_end) {
 		GPtrArray *line;
 
-		if (row == gnm_sheet_get_max_rows (NULL)) {
+		if (row == GNM_MAX_ROWS) {
 			parseoptions->rows_exceeded = TRUE;
 			break;
 		}
@@ -1224,11 +1218,12 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 		 char const *data, char const *data_end,
 		 Sheet *sheet, int start_col, int start_row)
 {
-	int row, col;
-	unsigned int lrow, lcol;
+	int row;
+	unsigned int lrow;
 	GODateConventions const *date_conv;
 	GStringChunk *lines_chunk;
-	GPtrArray *lines, *line;
+	GPtrArray *lines;
+	gboolean result = TRUE;
 
 	SETUP_LOCALE_SWITCH;
 
@@ -1236,46 +1231,71 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	g_return_val_if_fail (data != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
-	START_LOCALE_SWITCH;
-
 	date_conv = workbook_date_conv (sheet->workbook);
 
 	if (!data_end)
 		data_end = data + strlen (data);
+
 	lines_chunk = g_string_chunk_new (100 * 1024);
 	lines = stf_parse_general (parseoptions, lines_chunk, data, data_end);
 	if (lines == NULL)
-		return FALSE;
-	for (row = start_row, lrow = 0; lrow < lines->len ; row++, lrow++) {
+		result = FALSE;
+
+	START_LOCALE_SWITCH;
+	for (row = start_row, lrow = 0;
+	     result && lrow < lines->len;
+	     row++, lrow++) {
+		GPtrArray *line;
+		int col;
+		unsigned int lcol;
+
+		if (row >= gnm_sheet_get_max_rows (sheet)) {
+			if (!parseoptions->rows_exceeded) {
+				/* FIXME: What locale?  */
+				g_warning (_("There are more rows of data than "
+					     "there is room for in the sheet.  Extra "
+					     "rows will be ignored."));
+				parseoptions->rows_exceeded = TRUE;
+			}
+			break;
+		}
+
 		col = start_col;
 		line = g_ptr_array_index (lines, lrow);
 
-		for (lcol = 0; lcol < line->len; lcol++)
-			if (parseoptions->col_import_array == NULL ||
-			    parseoptions->col_import_array_len <= lcol ||
-			    parseoptions->col_import_array[lcol]) {
-				if (col >= gnm_sheet_get_max_cols (sheet)) {
-					if (!parseoptions->cols_exceeded) {
-						g_warning (_("There are more columns of data than "
-							     "there is room for in the sheet.  Extra "
-							     "columns will be ignored."));
-						parseoptions->cols_exceeded = TRUE;
-					}
-				} else {
-					char const *text = g_ptr_array_index (line, lcol);
-					if (text && *text)
-						stf_cell_set_text (
-							sheet_cell_fetch (sheet, col, row),
-							text);
-				}
-				col++;
-			}
-	}
+		for (lcol = 0; lcol < line->len; lcol++) {
+			gboolean want_col =
+				(parseoptions->col_import_array == NULL ||
+				 parseoptions->col_import_array_len <= lcol ||
+				 parseoptions->col_import_array[lcol]);
+			if (!want_col)
+				continue;
 
-	stf_parse_general_free (lines);
-	g_string_chunk_free (lines_chunk);
+			if (col >= gnm_sheet_get_max_cols (sheet)) {
+				if (!parseoptions->cols_exceeded) {
+					/* FIXME: What locale?  */
+					g_warning (_("There are more columns of data than "
+						     "there is room for in the sheet.  Extra "
+						     "columns will be ignored."));
+					parseoptions->cols_exceeded = TRUE;
+				}
+				break;
+			} else {
+				char const *text = g_ptr_array_index (line, lcol);
+				if (text && *text) {
+					GnmCell *cell = sheet_cell_fetch (sheet, col, row);
+					stf_cell_set_text (cell, text);
+				}
+			}
+			col++;
+		}
+	}
 	END_LOCALE_SWITCH;
-	return TRUE;
+
+	if (lines)
+		stf_parse_general_free (lines);
+	g_string_chunk_free (lines_chunk);
+	return result;
 }
 
 GnmCellRegion *

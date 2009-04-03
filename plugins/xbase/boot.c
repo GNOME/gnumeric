@@ -155,7 +155,7 @@ xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
 	XBrecord  *record;
 	Sheet	  *sheet = NULL;
 	ErrorInfo *open_error;
-	guint cols, rows;
+	int rows = GNM_MAX_ROWS;
 	int pass;
 
 	if ((file = xbase_open (input, &open_error)) == NULL) {
@@ -165,17 +165,15 @@ xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
 		return;
 	}
 
-	cols = GNM_DEFAULT_COLS;
-	while (cols < file->fields)
-		cols *= 2;
-
-	rows = GNM_DEFAULT_ROWS;
+	rows = 0;
 	wb = wb_view_get_workbook (wb_view);
 
 	for (pass = 1; pass <= 2; pass++) {
-		unsigned int row = 0;
+		int row = 0;
 
 		if (pass == 2) {
+			int cols = file->fields;
+			gnm_sheet_suggest_size (&cols, &rows);
 			sheet = workbook_sheet_add (wb, -1, cols, rows);
 			create_header (sheet, file);
 		}
@@ -187,17 +185,13 @@ xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
 			if (deleted)
 				continue;
 
-			if (pass == 1) {
-				if (row >= rows) {
-					if (rows == GNM_MAX_ROWS)
-						break;
-					rows *= 2;
-				}
-				row++;
-				continue;
-			}
+			if (row >= rows)
+				break;
 
 			row++;
+			if (pass == 1)
+				continue;
+
 			for (ui = 0; ui < file->fields; ui++) {
 				GnmCell *cell;
 				XBfield *field = record->file->format[ui];
@@ -213,6 +207,7 @@ xbase_file_open (GOFileOpener const *fo, IOContext *io_context,
 			}
 		} while (record_seek (record, SEEK_CUR, 1));
 		record_free (record);
+		rows = row;
 	}
 
 	xbase_close (file);

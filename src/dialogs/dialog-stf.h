@@ -129,6 +129,7 @@ typedef struct {
 
 	char              *text;          /* Decoded text.  */
 	int                rowcount;      /* Number of resulting rows.  */
+	int                colcount;      /* Number of resulting rows.  */
 	StfParseOptions_t *parseoptions;  /* parse options */
 } DialogStfResult_t;
 

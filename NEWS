@@ -1,5 +1,8 @@
 Gnumeric 1.9.6
 
+Jean:
+	* Variable sheet sizes.
+
 Morten:
 	* Handle elapsed time formats better on text export.
 	* Plug leak.
@@ -13,6 +16,8 @@ Morten:
 	* Fix criticals during Lotus load.
 	* Clean up Sheet object.
 	* Clean up str.h usage.
+	* Load csv and txt files into sheets as big as needed.  [Part of
+	#168875]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.5

@@ -149,7 +149,7 @@ main_page_import_range_changed (StfDialogData *data)
 	}
 
 	stoplimit = MIN ((int)renderdata->lines->len,
-			 startrow + (gnm_sheet_get_max_rows (NULL) - 1));
+			 startrow + (GNM_MAX_ROWS - 1));
 	if (stoprow > stoplimit) {
 		stoprow = stoplimit;
 		gtk_spin_button_set_value (data->main.main_stoprow, stoprow);

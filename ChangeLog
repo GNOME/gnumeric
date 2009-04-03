@@ -1,5 +1,11 @@
 2009-04-03  Morten Welinder  <terra@gnome.org>
 
+	* src/stf.c (stf_read_workbook_auto_csvtab, stf_read_workbook):
+	Create sheet as big as needed.
+
+	* src/stf-parse.c (stf_parse_sheet): Handle failure without
+	messing up the locale.
+
 	* src/ranges.c (range_make_full, range_ensure_sanity,
 	range_transpose, range_is_full, range_translate): Take sheet
 	argument for size.  All callers changed.

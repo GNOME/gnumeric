@@ -177,7 +177,7 @@ cb_col_check_clicked (GtkToggleButton *togglebutton, gpointer _i)
 		pagedata->format.col_import_count--;
 		format_page_update_column_selection (pagedata);
 	} else {
-		if (pagedata->format.col_import_count < gnm_sheet_get_max_cols (NULL)) {
+		if (pagedata->format.col_import_count < GNM_MAX_COLS) {
 			pagedata->format.col_import_array[i] = TRUE;
 			pagedata->format.col_import_count++;
 			format_page_update_column_selection (pagedata);
@@ -185,8 +185,8 @@ cb_col_check_clicked (GtkToggleButton *togglebutton, gpointer _i)
 			char *msg = g_strdup_printf( 
 				ngettext("A maximum of %d column can be imported.",
 					 "A maximum of %d columns can be imported.",
-					 gnm_sheet_get_max_cols (NULL)), 
-				gnm_sheet_get_max_cols (NULL));
+					 GNM_MAX_COLS), 
+				GNM_MAX_COLS);
 			gtk_toggle_button_set_active (togglebutton, FALSE);
 			go_gtk_notice_dialog (GTK_WINDOW (pagedata->dialog),
 					 GTK_MESSAGE_WARNING, msg);
@@ -210,8 +210,8 @@ check_columns_for_import (StfDialogData *pagedata, int from, int to)
 		if (!pagedata->format.col_import_array[i]) {
 			GtkTreeViewColumn* column = stf_preview_get_column (pagedata->format.renderdata, i);
 			GtkWidget *w = g_object_get_data (G_OBJECT (column), "checkbox");
-			if (!(pagedata->format.col_import_count < gnm_sheet_get_max_cols (NULL)))
-				return;
+			if (pagedata->format.col_import_count >= GNM_MAX_COLS)
+				break;
 			gtk_widget_hide (w);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 			/* Note this caused a signal to be send that sets the */
@@ -498,7 +498,7 @@ format_page_update_preview (StfDialogData *pagedata)
 			pagedata->format.col_import_count++;
 	for (i = old_part; 
 	     i < pagedata->format.col_import_array_len; i++) 
-		if (pagedata->format.col_import_count < gnm_sheet_get_max_cols (NULL)) {
+		if (pagedata->format.col_import_count < GNM_MAX_COLS) {
 			pagedata->format.col_import_array[i] = TRUE;
 			pagedata->format.col_import_count++;
 		} else {
@@ -510,7 +510,7 @@ format_page_update_preview (StfDialogData *pagedata)
 	if (old_part < renderdata->colcount)
 		msg = g_strdup_printf 
 			(_("A maximum of %d columns can be imported."), 
-			 gnm_sheet_get_max_cols (NULL));
+			 GNM_MAX_COLS);
 
 	for (i = old_part; i < renderdata->colcount; i++) {
 		GtkTreeViewColumn *column =

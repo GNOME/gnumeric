@@ -178,11 +178,9 @@ stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
 		   IOContext *context, gpointer wbv, GsfInput *input)
 {
 	DialogStfResult_t *dialogresult = NULL;
-	char *name, *nameutf8;
-	char *data;
+	char *name, *nameutf8 = NULL;
+	char *data = NULL;
 	size_t data_len;
-	Sheet *sheet, *old_sheet;
-	Workbook *book;
 
 	/* FIXME : how to do this cleanly ? */
 	if (!IS_WBC_GTK (context->impl))
@@ -193,37 +191,37 @@ stf_read_workbook (GOFileOpener const *fo,  gchar const *enc,
 	g_free (name);
 	if (!nameutf8) {
 		g_warning ("Failed to convert filename to UTF-8.  This shouldn't happen here.");
-		return;
+		goto out;
 	}
 
 	data = stf_preparse (GO_CMD_CONTEXT (context), input, &data_len);
-	if (!data) {
-		g_free (nameutf8);
-		return;
-	}
-
-	/* Add Sheet */
-	book = wb_view_get_workbook (wbv);
-	old_sheet = wb_view_cur_sheet (wbv);
-	sheet = sheet_new (book, nameutf8,
-			   gnm_sheet_get_max_cols (old_sheet),
-			   gnm_sheet_get_max_rows (old_sheet));
-	workbook_sheet_attach (book, sheet);
+	if (!data)
+		goto out;
 
 	dialogresult = stf_dialog (WBC_GTK (context->impl),
 				   enc, FALSE, NULL, FALSE,
 				   nameutf8, data, data_len);
-	if (dialogresult != NULL && stf_store_results (dialogresult, sheet, 0, 0)) {
-		workbook_recalc_all (book);
-		sheet_queue_respan (sheet, 0, gnm_sheet_get_max_rows (sheet)-1);
-	} else {
-		/* the user has cancelled */
-                /* the caller should notice that we have no sheets */
-		workbook_sheet_delete (sheet);
+	if (dialogresult != NULL) {
+		Workbook *book = wb_view_get_workbook (wbv);
+		int cols = dialogresult->colcount, rows = dialogresult->rowcount;
+		Sheet *sheet;
+
+		gnm_sheet_suggest_size (&cols, &rows);
+		sheet = sheet_new (book, nameutf8, cols, rows);
+		workbook_sheet_attach (book, sheet);
+		if (stf_store_results (dialogresult, sheet, 0, 0)) {
+			workbook_recalc_all (book);
+			sheet_queue_respan (sheet, 0, gnm_sheet_get_last_row (sheet));
+		} else {
+			/* the user has cancelled */
+			/* the caller should notice that we have no sheets */
+			workbook_sheet_delete (sheet);
+		}
 	}
 
-	g_free (data);
+ out:
 	g_free (nameutf8);
+	g_free (data);
 	if (dialogresult != NULL)
 		stf_dialog_result_free (dialogresult);
 }
@@ -352,6 +350,9 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 	size_t data_len;
 	StfParseOptions_t *po;
 	const char *gsfname;
+	int cols, rows, i;
+	GStringChunk *lines_chunk;
+	GPtrArray *lines;
 
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (wbv != NULL);
@@ -387,17 +388,27 @@ stf_read_workbook_auto_csvtab (GOFileOpener const *fo, gchar const *enc,
 			po = stf_parse_options_guess (utf8data);
 	}
 
+	lines_chunk = g_string_chunk_new (100 * 1024);
+	lines = stf_parse_general (po, lines_chunk,
+				   utf8data, utf8data + strlen (utf8data));
+	rows = lines->len;
+	cols = 0;
+	for (i = 0; i < rows; i++) {
+		GPtrArray *line = g_ptr_array_index (lines, i);
+		cols = MAX (cols, (int)line->len);
+	}
+	gnm_sheet_suggest_size (&cols, &rows);
+	stf_parse_general_free (lines);
+	g_string_chunk_free (lines_chunk);
+
 	name = g_path_get_basename (gsfname);
-	sheet = sheet_new (book, name,
-			   gnm_sheet_get_max_cols (old_sheet),
-			   gnm_sheet_get_max_rows (old_sheet));
+	sheet = sheet_new (book, name, cols, rows);
 	g_free (name);
 	workbook_sheet_attach (book, sheet);
 
-
 	if (stf_parse_sheet (po, utf8data, NULL, sheet, 0, 0)) {
 		workbook_recalc_all (book);
-		sheet_queue_respan (sheet, 0, gnm_sheet_get_max_rows (sheet)-1);
+		sheet_queue_respan (sheet, 0, gnm_sheet_get_last_row (sheet));
 		if (po->cols_exceeded || po->rows_exceeded) {
 			const char *msg =
 				_("Some data did not fit on the sheet and was dropped.");
