@@ -1925,7 +1925,7 @@ reloc_cellrange (RelocInfoInternal const *rinfo, GnmValueRange const *v)
 	if (reloc_range (rinfo->details, start_sheet, end_sheet, &r) ||
 	    rinfo->from_inside) {
 		GnmRangeRef res = v->cell;
-		range_make_full (&r, full_col, full_row);
+		range_make_full (&r, end_sheet, full_col, full_row);
 		if (reloc_restore_cellref (rinfo, start_sheet, &r.start, &res.a) ||
 		    reloc_restore_cellref (rinfo, end_sheet,   &r.end,   &res.b))
 			return gnm_expr_new_constant (value_new_error_REF (NULL));

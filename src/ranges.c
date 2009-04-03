@@ -590,12 +590,13 @@ range_is_full (GnmRange const *r, gboolean horiz)
  * @full_row : Make @r a full row ref  (_column_ [0..MAX))
  **/
 void
-range_make_full	(GnmRange *r, gboolean full_col, gboolean full_row)
+range_make_full	(GnmRange *r, Sheet const *sheet,
+		 gboolean full_col, gboolean full_row)
 {
 	if (full_col)
-		r->start.row = 0, r->end.row = gnm_sheet_get_max_rows (NULL) - 1;
+		r->start.row = 0, r->end.row = gnm_sheet_get_last_row (sheet);
 	if (full_row)
-		r->start.col = 0, r->end.col = gnm_sheet_get_max_cols (NULL) - 1;
+		r->start.col = 0, r->end.col = gnm_sheet_get_last_col (sheet);
 }
 
 /**
