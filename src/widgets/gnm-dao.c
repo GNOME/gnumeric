@@ -294,7 +294,7 @@ gnm_dao_get_data (GnmDao *gdao, data_analysis_output_t **dao)
 		switch (grp_val) {
 		case 0:
 		default:
-			*dao = dao_init (*dao, NewSheetOutput);
+			*dao = dao_init_new_sheet (*dao);
 			break;
 		case 1:
 			*dao = dao_init (*dao, NewWorkbookOutput);

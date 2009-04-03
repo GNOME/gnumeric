@@ -616,7 +616,7 @@ scenario_summary_res_cells (WorkbookControl *wbc, GSList *results,
 	int        i, j, col, tmp_row = 4 + cb->row;
 	GnmRange      r;
 
-	dao_init (&dao, NewSheetOutput);
+	dao_init_new_sheet (&dao);
 	dao.sheet = cb->sheet;
 
 	dao_set_cell (&cb->dao, 0, 3 + cb->row++, _("Result Cells:"));
@@ -684,7 +684,7 @@ scenario_summary (WorkbookControl *wbc,
 	GList        *scenarios = sheet->scenarios;
 
 	/* Initialize: Currently only new sheet output supported. */
-	dao_init (&cb.dao, NewSheetOutput);
+	dao_init_new_sheet (&cb.dao);
 	dao_prepare_output (wbc, &cb.dao, _("Scenario Summary"));
 
 	/* Titles. */

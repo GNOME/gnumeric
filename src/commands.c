@@ -5942,7 +5942,7 @@ cmd_scenario_mngr_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	CmdScenarioMngr *me = CMD_SCENARIO_MNGR (cmd);
 	data_analysis_output_t dao;
 
-	dao_init (&dao, NewSheetOutput);
+	dao_init_new_sheet (&dao);
 	dao.sheet = me->cmd.sheet;
 	scenario_free (me->sc->undo);
 	me->sc->undo = scenario_show (wbc, me->sc->redo, NULL, &dao);
@@ -5958,7 +5958,7 @@ cmd_scenario_mngr_undo (GnmCommand *cmd,
 	scenario_t      *tmp;
 	data_analysis_output_t dao;
 
-	dao_init (&dao, NewSheetOutput);
+	dao_init_new_sheet (&dao);
 	dao.sheet = me->cmd.sheet;
 	tmp = scenario_copy (me->sc->undo, dao.sheet);
 	scenario_show (wbc, NULL, tmp, &dao);
@@ -5994,7 +5994,7 @@ cmd_scenario_mngr (WorkbookControl *wbc, scenario_cmd_t *sc, Sheet *sheet)
 	me->cmd.size  = 1;
 	me->cmd.cmd_descriptor = g_strdup (_("Scenario Show"));
 
-	dao_init (&dao, NewSheetOutput);
+	dao_init_new_sheet (&dao);
 	dao.sheet = me->cmd.sheet;
 	me->sc->redo = scenario_show (wbc, me->sc->undo, NULL, &dao);
 

@@ -76,8 +76,8 @@ dao_init (data_analysis_output_t *dao,
 	dao->start_row         = 0;
 	dao->offset_col        = 0;
 	dao->offset_row        = 0;
-	dao->cols              = gnm_sheet_get_max_cols (NULL);
-	dao->rows              = gnm_sheet_get_max_rows (NULL);
+	dao->cols              = 1;  /* Fixed in dao_prepare_output */
+	dao->rows              = 1;
 	dao->sheet             = NULL;
 	dao->autofit_flag      = TRUE;
 	dao->clear_outputrange = TRUE;
@@ -88,6 +88,12 @@ dao_init (data_analysis_output_t *dao,
         dao->omit_so           = FALSE;
 
 	return dao;
+}
+
+data_analysis_output_t *
+dao_init_new_sheet (data_analysis_output_t *dao)
+{
+	return dao_init (dao, NewSheetOutput);
 }
 
 void dao_free (data_analysis_output_t *dao)
@@ -225,12 +231,12 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 		    const char *name)
 {
 	char *unique_name;
-	Sheet *old_sheet = wb_control_cur_sheet (wbc);
 
 	if (wbc)
 		dao->wbc = wbc;
 
 	if (dao->type == NewSheetOutput) {
+		Sheet *old_sheet = wb_control_cur_sheet (dao->wbc);
 		Workbook *wb = wb_control_get_workbook (dao->wbc);
 		char *name_with_counter = g_strdup_printf ("%s (1)", name);
 		unique_name = workbook_sheet_get_free_name
@@ -243,6 +249,7 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 		dao->start_col = dao->start_row = 0;
 		workbook_sheet_attach (wb, dao->sheet);
 	} else if (dao->type == NewWorkbookOutput) {
+		Sheet *old_sheet = wb_control_cur_sheet (dao->wbc);
 		Workbook *wb = workbook_new ();
 		dao->rows = gnm_sheet_get_max_rows (old_sheet);
 		dao->cols = gnm_sheet_get_max_cols (old_sheet);

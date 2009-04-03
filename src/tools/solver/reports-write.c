@@ -61,7 +61,7 @@ solver_answer_report (WorkbookControl *wbc,
 	GnmCell                   *cell;
 	int                    i, vars;
 
-	dao_init (&dao, NewSheetOutput);
+	dao_init_new_sheet (&dao);
         dao_prepare_output (wbc, &dao, _("Answer Report"));
 
 	dao.sheet->hide_grid = TRUE;
@@ -210,7 +210,7 @@ solver_sensitivity_report (WorkbookControl *wbc,
 	GnmCell                   *cell;
 	int                    i, vars;
 
-	dao_init (&dao, NewSheetOutput);
+	dao_init_new_sheet (&dao);
         dao_prepare_output (wbc, &dao, _("Sensitivity Report"));
 
 	dao.sheet->hide_grid = TRUE;
@@ -371,7 +371,7 @@ solver_limits_report (WorkbookControl *wbc,
 	GnmCell                   *cell;
 	int                    vars, i;
 
-	dao_init (&dao, NewSheetOutput);
+	dao_init_new_sheet (&dao);
         dao_prepare_output (wbc, &dao, _("Limits Report"));
 
 	dao.sheet->hide_grid = TRUE;
@@ -498,7 +498,7 @@ solver_performance_report (WorkbookControl *wbc,
 	int                    mat_size, i;
 	GnmValue              *v;
 
-	dao_init (&dao, NewSheetOutput);
+	dao_init_new_sheet (&dao);
         dao_prepare_output (wbc, &dao, _("Performance Report"));
 
 	dao.sheet->hide_grid = TRUE;
@@ -762,7 +762,7 @@ solver_program_report (WorkbookControl *wbc,
         data_analysis_output_t dao;
 	int                    i, col, row, max_col, n, vars;
 
-	dao_init (&dao, NewSheetOutput);
+	dao_init_new_sheet (&dao);
         dao_prepare_output (wbc, &dao, _("Program Report"));
 
 	dao.sheet->hide_grid = TRUE;
@@ -941,7 +941,7 @@ solver_dual_program_report (WorkbookControl *wbc,
 {
         data_analysis_output_t dao;
 
-	dao_init (&dao, NewSheetOutput);
+	dao_init_new_sheet (&dao);
         dao_prepare_output (wbc, &dao, _("Dual Program Report"));
 
 	dao.sheet->hide_grid = TRUE;

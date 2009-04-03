@@ -163,7 +163,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	comment = g_strdup (gtk_text_buffer_get_text (buf, &start, &end,
 						      FALSE));
 
-	dao_init (&dao, NewSheetOutput);
+	dao_init_new_sheet (&dao);
 	dao.sheet = state->base.sheet;
 
 	wbc = WORKBOOK_CONTROL (state->base.wbcg);
@@ -415,7 +415,7 @@ scenarios_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	scenario_cmd_t         *cmd = g_new (scenario_cmd_t, 1);
 
 	if (state->scenario_state->current) {
-		dao_init (&dao, NewSheetOutput);
+		dao_init_new_sheet (&dao);
 		dao.sheet = state->base.sheet;
 		wbc = WORKBOOK_CONTROL (state->base.wbcg);
 
@@ -442,7 +442,7 @@ restore_old_values (ScenariosState *state)
 	if (state->scenario_state->old_values == NULL)
 		return;
 	wbc = WORKBOOK_CONTROL (state->base.wbcg);
-	dao_init (&dao, NewSheetOutput);
+	dao_init_new_sheet (&dao);
 	dao.sheet = state->base.sheet;
 	scenario_show (wbc, NULL,
 		       (scenario_t *) state->scenario_state->old_values,
@@ -502,7 +502,7 @@ scenarios_show_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	selection = gtk_tree_view_get_selection
 	        (GTK_TREE_VIEW (state->scenario_state->scenarios_treeview));
-	dao_init (&dao, NewSheetOutput);
+	dao_init_new_sheet (&dao);
 	dao.sheet = state->base.sheet;
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
 		return;
@@ -536,7 +536,7 @@ scenarios_delete_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	selection = gtk_tree_view_get_selection
 	        (GTK_TREE_VIEW (state->scenario_state->scenarios_treeview));
-	dao_init (&dao, NewSheetOutput);
+	dao_init_new_sheet (&dao);
 	dao.sheet = state->base.sheet;
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
 		return;

@@ -1,3 +1,7 @@
+2009-04-03  Morten Welinder  <terra@gnome.org>
+
+	* dao.c (dao_init_new_sheet): New shorthand.  Use everywhere.
+
 2009-03-22  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.5

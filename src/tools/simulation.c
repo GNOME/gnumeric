@@ -96,7 +96,7 @@ eval_inputs_list (simulation_t *sim, gnm_float **outputs, int iter,
 		}
 
 		if (outputs)
-			outputs [i++][iter] = value_get_as_float (cell->value);
+			outputs[i++][iter] = value_get_as_float (cell->value);
 	}
 
 	return NULL;
@@ -122,7 +122,7 @@ eval_outputs_list (simulation_t *sim, gnm_float **outputs, int iter,
 		}
 
 		if (outputs)
-			outputs [i++][iter] = value_get_as_float (cell->value);
+			outputs[i++][iter] = value_get_as_float (cell->value);
 	}
 
 	return NULL;
@@ -148,78 +148,78 @@ create_stats (simulation_t *sim, gnm_float **outputs, simstats_t *stats)
 
 	/* Initialize. */
 	for (i = 0; i < sim->n_vars; i++)
-		stats->errmask [i] = 0;
+		stats->errmask[i] = 0;
 
 	/* Calculate stats. */
 	for (i = 0; i < sim->n_vars; i++) {
 		/* Min */
-		error = gnm_range_min (outputs [i], sim->n_iterations, &x);
-		stats->min [i] = x;
+		error = gnm_range_min (outputs[i], sim->n_iterations, &x);
+		stats->min[i] = x;
 
 		/* Mean */
-		error = gnm_range_average (outputs [i], sim->n_iterations, &x);
-		stats->mean [i] = x;
+		error = gnm_range_average (outputs[i], sim->n_iterations, &x);
+		stats->mean[i] = x;
 
 		/* Max */
-		error = gnm_range_max (outputs [i], sim->n_iterations, &x);
-		stats->max [i] = x;
+		error = gnm_range_max (outputs[i], sim->n_iterations, &x);
+		stats->max[i] = x;
 
 		/* Median */
-		error = gnm_range_median_inter (outputs [i], sim->n_iterations,
+		error = gnm_range_median_inter (outputs[i], sim->n_iterations,
 					    &x);
 		if (error)
-			stats->errmask [i] |= MedianErr;
+			stats->errmask[i] |= MedianErr;
 		else
-			stats->median [i] = x;
+			stats->median[i] = x;
 
 		/* Mode */
-		error = gnm_range_mode (outputs [i], sim->n_iterations, &x);
+		error = gnm_range_mode (outputs[i], sim->n_iterations, &x);
 		if (error)
-			stats->errmask [i] |= ModeErr;
+			stats->errmask[i] |= ModeErr;
 		else
-			stats->mode [i] = x;
+			stats->mode[i] = x;
 
 		/* Standard deviation */
-		error = gnm_range_stddev_pop (outputs [i], sim->n_iterations, &x);
+		error = gnm_range_stddev_pop (outputs[i], sim->n_iterations, &x);
 		if (error)
-			stats->errmask [i] |= VarErr;
+			stats->errmask[i] |= VarErr;
 		else
-			stats->stddev [i] = x;
+			stats->stddev[i] = x;
 
 		/* Variance */
-		error = gnm_range_var_pop (outputs [i], sim->n_iterations, &x);
+		error = gnm_range_var_pop (outputs[i], sim->n_iterations, &x);
 		if (error)
-			stats->errmask [i] |= VarErr;
+			stats->errmask[i] |= VarErr;
 		else
-			stats->var [i] = x;
+			stats->var[i] = x;
 
 		/* Skewness */
-		error = gnm_range_skew_est (outputs [i], sim->n_iterations, &x);
+		error = gnm_range_skew_est (outputs[i], sim->n_iterations, &x);
 		if (error)
-			stats->errmask [i] |= SkewErr;
+			stats->errmask[i] |= SkewErr;
 		else
-			stats->skew [i] = x;
+			stats->skew[i] = x;
 
 		/* Kurtosis */
-		error = gnm_range_kurtosis_m3_est (outputs [i], sim->n_iterations,
+		error = gnm_range_kurtosis_m3_est (outputs[i], sim->n_iterations,
 					       &x);
 		if (error)
-			stats->errmask [i] |= KurtosisErr;
+			stats->errmask[i] |= KurtosisErr;
 		else
-			stats->kurtosis [i] = x;
+			stats->kurtosis[i] = x;
 
 		/* Range */
-		stats->range [i] = stats->max [i] - stats->min [i];
+		stats->range[i] = stats->max[i] - stats->min[i];
 
 		/* Confidence (95%) */
-		stats->confidence [i] = -qnorm (0.05, 0, 1, TRUE, FALSE)
-			* (stats->stddev [i] / gnm_sqrt (sim->n_iterations));
+		stats->confidence[i] = -qnorm (0.05, 0, 1, TRUE, FALSE)
+			* (stats->stddev[i] / gnm_sqrt (sim->n_iterations));
 
 		/* Lower Confidence (95%) */
-		stats->lower [i] = stats->mean [i] - stats->confidence [i] / 2;
+		stats->lower[i] = stats->mean[i] - stats->confidence[i] / 2;
 
 		/* upper Confidence (95%) */
-		stats->upper [i] = stats->mean [i] + stats->confidence [i] / 2;
+		stats->upper[i] = stats->mean[i] + stats->confidence[i] / 2;
 	}
 }
 
@@ -233,7 +233,7 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t **stats,
 
 	dao_prepare_output (wbc, dao, _("Simulation Report"));
 	if (dao->type == NewSheetOutput || dao->type == NewWorkbookOutput)
-		dao->sheet->hide_grid = TRUE;
+		g_object_set (dao->sheet, "display-grid", FALSE, NULL);
 
 	/*
 	 * Set this to fool the autofit_column function.  (It will be
@@ -261,50 +261,50 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t **stats,
 
 		for (i = 0; i < sim->n_vars; i++) {
 			dao_set_cell (dao, 1, i + 7 + n * rinc,
-				      sim->cellnames [i]);
+				      sim->cellnames[i]);
 			dao_set_bold (dao, 1, i + 7 + n * rinc, 1,
 				      i + 7 + n * rinc);
 			dao_set_cell_float (dao, 2, i + 7 + n * rinc,
-					    stats [t]->min [i]);
+					    stats[t]->min[i]);
 			dao_set_cell_float (dao, 3, i + 7 + n * rinc,
-					    stats [t]->mean [i]);
+					    stats[t]->mean[i]);
 			dao_set_cell_float (dao, 4, i + 7 + n * rinc,
-					    stats [t]->max [i]);
+					    stats[t]->max[i]);
 			dao_set_cell_float (dao, 5, i + 7 + n * rinc,
-					    stats [t]->median [i]);
+					    stats[t]->median[i]);
 			dao_set_cell_float_na
-				(dao, 6, i + 7 + n * rinc, stats [t]->mode [i],
-				 ! (stats [t]->errmask [i] & ModeErr));
+				(dao, 6, i + 7 + n * rinc, stats[t]->mode[i],
+				 ! (stats[t]->errmask[i] & ModeErr));
 			dao_set_cell_float_na
 				(dao, 7, i + 7 + n * rinc,
-				 stats [t]->stddev [i],
-				 ! (stats [t]->errmask [i] & StddevErr));
+				 stats[t]->stddev[i],
+				 ! (stats[t]->errmask[i] & StddevErr));
 			dao_set_cell_float_na
-				(dao, 8, i + 7 + n * rinc, stats [t]->var [i],
-				 ! (stats [t]->errmask [i] & VarErr));
+				(dao, 8, i + 7 + n * rinc, stats[t]->var[i],
+				 ! (stats[t]->errmask[i] & VarErr));
 			dao_set_cell_float_na
-				(dao, 9, i + 7 + n * rinc, stats [t]->skew [i],
-				 ! (stats [t]->errmask [i] & SkewErr));
+				(dao, 9, i + 7 + n * rinc, stats[t]->skew[i],
+				 ! (stats[t]->errmask[i] & SkewErr));
 			dao_set_cell_float_na
 				(dao, 10, i + 7 + n * rinc,
-				 stats [t]->kurtosis [i],
-				 ! (stats [t]->errmask [i] & KurtosisErr));
+				 stats[t]->kurtosis[i],
+				 ! (stats[t]->errmask[i] & KurtosisErr));
 			dao_set_cell_float (dao, 11, i + 7 + n * rinc,
-					    stats [t]->range [i]);
+					    stats[t]->range[i]);
 			dao_set_cell_float (dao, 12, i + 7 + n * rinc,
 					    sim->n_iterations);
 			dao_set_cell_float_na
 				(dao, 13, i + 7 + n * rinc,
-				 stats [t]->confidence [i],
-				 ! (stats [t]->errmask [i] & StddevErr));
+				 stats[t]->confidence[i],
+				 ! (stats[t]->errmask[i] & StddevErr));
 			dao_set_cell_float_na
 				(dao, 14, i + 7 + n * rinc,
-				 stats [t]->lower [i],
-				 ! (stats [t]->errmask [i] & StddevErr));
+				 stats[t]->lower[i],
+				 ! (stats[t]->errmask[i] & StddevErr));
 			dao_set_cell_float_na
 				(dao, 15, i + 7 + n * rinc,
-				 stats [t]->upper [i],
-				 ! (stats [t]->errmask [i] & StddevErr));
+				 stats[t]->upper[i],
+				 ! (stats[t]->errmask[i] & StddevErr));
 		}
 	}
 
@@ -365,19 +365,19 @@ simulation_tool (WorkbookControl        *wbc,
 	sim->cellnames = g_new (gchar *, sim->n_vars);
 	outputs        = g_new (gnm_float *, sim->n_vars);
 	for (i = 0; i < sim->n_vars; i++)
-		outputs [i] = g_new (gnm_float, sim->n_iterations);
+		outputs[i] = g_new (gnm_float, sim->n_iterations);
 
 	stats     = g_new (simstats_t *, sim->last_round + 1);
 	for (i = 0; i <= sim->last_round; i++) {
-		stats [i] = g_new (simstats_t, 1);
-		init_stats (stats [i], sim);
+		stats[i] = g_new (simstats_t, 1);
+		init_stats (stats[i], sim);
 	}
 
 	i = 0;
 	for (cur = sim->list_outputs; cur != NULL; cur = cur->next) {
 		GnmCell *cell = (GnmCell *) cur->data;
 
-		sim->cellnames [i++] =
+		sim->cellnames[i++] =
 			(gchar *) dao_find_name (sheet, cell->pos.col,
 						 cell->pos.row);
 	}
@@ -388,7 +388,7 @@ simulation_tool (WorkbookControl        *wbc,
 		gchar *prefix = _("(Input) ");
 		gchar *buf = g_strdup_printf ("%s %s", prefix, tmp);
 		g_free (tmp);
-		sim->cellnames [i++] = buf;
+		sim->cellnames[i++] = buf;
 	}
 
 	/* Run the simulations. */
@@ -409,7 +409,7 @@ simulation_tool (WorkbookControl        *wbc,
 			if (err != NULL)
 				goto out;
 		}
-		create_stats (sim, outputs, stats [round]);
+		create_stats (sim, outputs, stats[round]);
 	}
  out:
 	sheet->simulation_round = 0;
@@ -418,7 +418,7 @@ simulation_tool (WorkbookControl        *wbc,
 
 	/* Free results storage. */
 	for (i = 0; i < sim->n_vars; i++)
-		g_free (outputs [i]);
+		g_free (outputs[i]);
 	g_free (outputs);
 
 	if (err == NULL) {
@@ -441,17 +441,16 @@ simulation_tool_destroy (simulation_t *sim)
 	if (sim == NULL)
 		return;
 
-
 	/* Free statistics storage. */
 	for (i = 0; i <= sim->last_round; i++)
-		free_stats (sim->stats [i], sim);
+		free_stats (sim->stats[i], sim);
 
 	g_free (sim->stats);
 
 
 	/* Free the names of the cells. */
 	for (i = 0; i < sim->n_vars; i++)
-		g_free (sim->cellnames [i]);
+		g_free (sim->cellnames[i]);
 
 	g_free (sim->cellnames);
 }
