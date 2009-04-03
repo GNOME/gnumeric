@@ -2562,6 +2562,7 @@ cmd_paste_cut_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	reverse.origin_sheet = me->info.target_sheet;
 	reverse.origin = me->info.origin;
 	range_translate (&reverse.origin,
+			 me->info.origin_sheet,  /* FIXME: What sheet? */
 			 me->info.col_offset,
 			 me->info.row_offset);
 	reverse.col_offset = -me->info.col_offset;
@@ -2619,7 +2620,8 @@ cmd_paste_cut_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me->paste_contents == NULL, TRUE);
 
 	tmp = me->info.origin;
-	range_translate (&tmp, me->info.col_offset, me->info.row_offset);
+	range_translate (&tmp, me->info.origin_sheet,  /* FIXME: What sheet? */
+			 me->info.col_offset, me->info.row_offset);
 	range_normalize (&tmp);
 
 	g_return_val_if_fail (range_is_sane (&tmp), TRUE);
@@ -2726,7 +2728,8 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 	g_return_val_if_fail (info != NULL, TRUE);
 
 	r = info->origin;
-	if (range_translate (&r, info->col_offset, info->row_offset)) {
+	if (range_translate (&r, info->target_sheet,
+			     info->col_offset, info->row_offset)) {
 
 		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), descriptor,
 					_("is beyond sheet boundaries"));
@@ -3053,7 +3056,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 	}
 
 	/* Use translate to do a quiet sanity check */
-	if (range_translate (&me->dst.range, 0, 0)) {
+	if (range_translate (&me->dst.range, pt->sheet, 0, 0)) {
 		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),
 					me->cmd.cmd_descriptor,
 					_("is beyond sheet boundaries"));

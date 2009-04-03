@@ -288,7 +288,7 @@ stf_text_to_columns (WorkbookControl *wbc, GOCmdContext *cc)
 #warning Add UI for this
 	target_sheet = src_sheet;
 	target = *src;
-	range_translate (&target, 1, 0);
+	range_translate (&target, target_sheet, 1, 0);
 
 	buf = gsf_output_memory_new ();
 	sheet_foreach_cell_in_range (src_sheet,

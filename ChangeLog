@@ -1,7 +1,11 @@
 2009-04-03  Morten Welinder  <terra@gnome.org>
 
-	* src/ranges.c (range_make_full): Take sheet argument for size.
-	Caller changed.
+	* src/ranges.c (range_make_full, range_ensure_sanity,
+	range_transpose, range_is_full, range_translate): Take sheet
+	argument for size.  All callers changed.
+
+	* src/xml-io.c (xml_node_get_range): Take sheet argument for size.
+	All caller changeds.
 
 2009-04-02  Morten Welinder  <terra@gnome.org>
 

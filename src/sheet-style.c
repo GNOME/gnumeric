@@ -2348,9 +2348,9 @@ sheet_style_set_list (Sheet *sheet, GnmCellPos const *corner,
 		GnmStyleRegion const *sr = l->data;
 		GnmRange              r  = sr->range;
 
-		range_translate (&r, +corner->col, +corner->row);
+		range_translate (&r, sheet, +corner->col, +corner->row);
 		if (transpose)
-			range_transpose (&r, corner);
+			range_transpose (&r, sheet, corner);
 
 		gnm_style_ref (sr->style);
 		sheet_style_set_range (sheet, &r, sr->style);

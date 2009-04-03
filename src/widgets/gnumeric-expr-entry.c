@@ -1305,9 +1305,9 @@ gnm_expr_entry_load_from_range (GnmExprEntry *gee,
 	g_return_val_if_fail (r != NULL, FALSE);
 
 	needs_change =  (gee->flags & GNM_EE_FULL_COL &&
-			 !range_is_full (r, TRUE)) ||
+			 !range_is_full (r, sheet, TRUE)) ||
 			(gee->flags & GNM_EE_FULL_ROW &&
-			 !range_is_full (r, FALSE));
+			 !range_is_full (r, sheet, FALSE));
 
 	rs = &gee->rangesel;
 	ref = rs->ref;

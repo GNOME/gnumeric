@@ -77,7 +77,7 @@ void        range_list_destroy      (GSList *ranges);
 int	    range_width		(GnmRange const *r);
 int	    range_height	(GnmRange const *r);
 gboolean    range_is_singleton  (GnmRange const *r);
-gboolean    range_is_full	(GnmRange const *r, gboolean horiz);
+gboolean    range_is_full	(GnmRange const *r, Sheet const *sheet, gboolean horiz);
 void        range_make_full	(GnmRange *r, Sheet const *sheet,
 				 gboolean full_col, gboolean full_row);
 void        range_clip_to_finite(GnmRange *range, Sheet *sheet);
@@ -87,10 +87,12 @@ gboolean    range_intersection  (GnmRange *r,
 				 GnmRange const *b);
 void        range_normalize     (GnmRange *src);
 GnmRange    range_union         (GnmRange const *a, GnmRange const *b);
-void        range_ensure_sanity (GnmRange *range);
+void        range_ensure_sanity (GnmRange *range, Sheet const *sheet);
 gboolean    range_is_sane	(GnmRange const *range);
-gboolean    range_translate     (GnmRange *range, int col_offset, int row_offset);
-gboolean    range_transpose     (GnmRange *range, GnmCellPos const *origin);
+gboolean    range_translate     (GnmRange *range, Sheet const *sheet,
+				 int col_offset, int row_offset);
+gboolean    range_transpose     (GnmRange *range, Sheet const *sheet,
+				 GnmCellPos const *origin);
 
 char const *range_as_string	(GnmRange const *r);
 void        range_dump		(GnmRange const *r, char const *suffix);

@@ -258,7 +258,7 @@ xml_node_get_print_margin (xmlNodePtr node, double *points, GtkUnit *unit)
 }
 
 static gboolean
-xml_node_get_range (xmlNodePtr tree, GnmRange *r)
+xml_node_get_range (xmlNodePtr tree, GnmRange *r, Sheet const *sheet)
 {
 	gboolean res =
 	    xml_node_get_int (tree, "startCol", &r->start.col) &&
@@ -267,7 +267,7 @@ xml_node_get_range (xmlNodePtr tree, GnmRange *r)
 	    xml_node_get_int (tree, "endRow",   &r->end.row);
 
 	/* Older versions of gnumeric had some boundary problems */
-	range_ensure_sanity (r);
+	range_ensure_sanity (r, sheet);
 
 	return res;
 }
@@ -288,7 +288,7 @@ xml_read_selection_info (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	sv_selection_reset (sv);
 	for (sel = selections->xmlChildrenNode; sel; sel = sel->next)
-		if (!xmlIsBlankNode (sel) && xml_node_get_range (sel, &r))
+		if (!xmlIsBlankNode (sel) && xml_node_get_range (sel, &r, ctxt->sheet))
 			sv_selection_add_range (sv, &r);
 
 	if (xml_node_get_int (selections, "CursorCol", &pos.col) &&
@@ -1024,7 +1024,7 @@ xml_read_style_region_ex (XmlParseContext *ctxt, xmlNodePtr tree, GnmRange *rang
 			    tree->name);
 		return NULL;
 	}
-	xml_node_get_range (tree, range);
+	xml_node_get_range (tree, range, ctxt->sheet);
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("Style"));
 	if (child)

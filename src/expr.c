@@ -1919,8 +1919,8 @@ reloc_cellrange (RelocInfoInternal const *rinfo, GnmValueRange const *v)
 	if (NULL == v->cell.b.sheet)
 		end_sheet = start_sheet;
 
-	full_col = range_is_full (&r, FALSE);
-	full_row = range_is_full (&r, TRUE);
+	full_col = range_is_full (&r, start_sheet, FALSE);
+	full_row = range_is_full (&r, start_sheet, TRUE);
 
 	if (reloc_range (rinfo->details, start_sheet, end_sheet, &r) ||
 	    rinfo->from_inside) {

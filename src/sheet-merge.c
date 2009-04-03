@@ -315,7 +315,7 @@ gnm_sheet_merge_relocate (GnmExprRelocateInfo const *ri)
 	g_return_if_fail (IS_SHEET (ri->target_sheet));
 
 	dest = ri->origin;
-	range_translate (&dest, ri->col_offset, ri->row_offset);
+	range_translate (&dest, ri->target_sheet, ri->col_offset, ri->row_offset);
 	change_sheets = (ri->origin_sheet != ri->target_sheet);
 
 	/* Clear the destination range on the target sheet */
@@ -337,7 +337,8 @@ gnm_sheet_merge_relocate (GnmExprRelocateInfo const *ri)
 
 			/* Toss any merges that would be clipped. */
 			gnm_sheet_merge_remove (ri->origin_sheet, r, NULL);
-			if (!range_translate (&tmp, ri->col_offset, ri->row_offset))
+			if (!range_translate (&tmp, ri->target_sheet,
+					      ri->col_offset, ri->row_offset))
 				to_move = g_slist_prepend (to_move, range_dup (&tmp));
 		} else if (!change_sheets &&
 			   range_contains (&dest, r->start.col, r->start.row))

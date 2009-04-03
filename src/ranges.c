@@ -567,6 +567,7 @@ range_is_singleton (GnmRange const *r)
 /**
  * range_is_full :
  * @r    : the range.
+ * @sheet : the sheet in which @r lives
  * @horiz : TRUE to check for a horizontal full ref (_cols_ [0..MAX))
  *
  * This determines whether @r completely spans a sheet
@@ -575,17 +576,20 @@ range_is_singleton (GnmRange const *r)
  * Return value: TRUE if it is infinite else FALSE
  **/
 gboolean
-range_is_full (GnmRange const *r, gboolean horiz)
+range_is_full (GnmRange const *r, Sheet const *sheet, gboolean horiz)
 {
 	if (horiz)
-		return (r->start.col <= 0 && r->end.col >= gnm_sheet_get_max_cols (NULL) - 1);
+		return (r->start.col <= 0 &&
+			r->end.col >= gnm_sheet_get_last_col (sheet));
 	else
-		return (r->start.row <= 0 && r->end.row >= gnm_sheet_get_max_rows (NULL) - 1);
+		return (r->start.row <= 0 &&
+			r->end.row >= gnm_sheet_get_last_row (sheet));
 }
 
 /**
  * range_make_full:
  * @r: the range.
+ * @sheet : the sheet in which @r lives
  * @full_col : Make @r a full column  ref (_row_ [0..MAX))
  * @full_row : Make @r a full row ref  (_column_ [0..MAX))
  **/
@@ -602,7 +606,7 @@ range_make_full	(GnmRange *r, Sheet const *sheet,
 /**
  * range_clip_to_finite :
  * @range :
- * @sheet :
+ * @sheet : the sheet in which @range lives
  *
  * Clip the range to the area of the sheet with content.
  * WARNING THIS IS EXPENSIVE!
@@ -640,6 +644,7 @@ range_height (GnmRange const *r)
 /**
  * range_translate:
  * @range:
+ * @sheet : the sheet in which @range lives
  * @col_offset:
  * @row_offset:
  *
@@ -648,7 +653,7 @@ range_height (GnmRange const *r)
  * return TRUE if the range is no longer valid.
  **/
 gboolean
-range_translate (GnmRange *range, int col_offset, int row_offset)
+range_translate (GnmRange *range, Sheet const *sheet, int col_offset, int row_offset)
 {
 	/*
 	 * FIXME: we should probably check for overflow without actually
@@ -660,10 +665,10 @@ range_translate (GnmRange *range, int col_offset, int row_offset)
 	range->end.row   += row_offset;
 
 	/* check for completely out of bounds */
-	if (range->start.col >= gnm_sheet_get_max_cols (NULL) || range->start.col < 0 ||
-	    range->start.row >= gnm_sheet_get_max_rows (NULL) || range->start.row < 0 ||
-	    range->end.col >= gnm_sheet_get_max_cols (NULL) || range->end.col < 0 ||
-	    range->end.row >= gnm_sheet_get_max_rows (NULL) || range->end.row < 0)
+	if (range->start.col >= gnm_sheet_get_max_cols (sheet) || range->start.col < 0 ||
+	    range->start.row >= gnm_sheet_get_max_rows (sheet) || range->start.row < 0 ||
+	    range->end.col >= gnm_sheet_get_max_cols (sheet) || range->end.col < 0 ||
+	    range->end.row >= gnm_sheet_get_max_rows (sheet) || range->end.row < 0)
 		return TRUE;
 
 	return FALSE;
@@ -672,21 +677,19 @@ range_translate (GnmRange *range, int col_offset, int row_offset)
 /**
  * range_ensure_sanity :
  * @range : the range to check
+ * @sheet : the sheet in which @range lives
  *
  * Silently clip a range to ensure that it does not contain areas
  * outside the valid bounds.  Does NOT fix inverted ranges.
  **/
 void
-range_ensure_sanity (GnmRange *range)
+range_ensure_sanity (GnmRange *range, Sheet const *sheet)
 {
-	if (range->start.col < 0)
-		range->start.col = 0;
-	if (range->end.col >= gnm_sheet_get_max_cols (NULL))
-		range->end.col = gnm_sheet_get_max_cols (NULL)-1;
-	if (range->start.row < 0)
-		range->start.row = 0;
-	if (range->end.row >= gnm_sheet_get_max_rows (NULL))
-		range->end.row = gnm_sheet_get_max_rows (NULL)-1;
+	range->start.col = MAX (0, range->start.col);
+	range->end.col = MIN (range->end.col, gnm_sheet_get_last_col (sheet));
+
+	range->start.row = MAX (0, range->start.row);
+	range->end.row = MIN (range->end.row, gnm_sheet_get_last_row (sheet));
 }
 
 /**
@@ -712,6 +715,7 @@ range_is_sane (GnmRange const *range)
 /**
  * range_transpose:
  * @range: The range.
+ * @sheet : the sheet in which @range lives
  * @boundary: The box to transpose inside
  *
  *   Effectively mirrors the ranges in 'boundary' around a
@@ -720,11 +724,13 @@ range_is_sane (GnmRange const *range)
  * Return value: whether we clipped the range.
  **/
 gboolean
-range_transpose (GnmRange *range, GnmCellPos const *origin)
+range_transpose (GnmRange *range, Sheet const *sheet, GnmCellPos const *origin)
 {
 	gboolean clipped = FALSE;
-	GnmRange    src;
-	int      t;
+	GnmRange src;
+	int t;
+	int last_col = gnm_sheet_get_last_col (sheet);
+	int last_row = gnm_sheet_get_last_row (sheet);
 
 	g_return_val_if_fail (range != NULL, TRUE);
 
@@ -732,9 +738,9 @@ range_transpose (GnmRange *range, GnmCellPos const *origin)
 
 	/* Start col */
 	t = origin->col + (src.start.row - origin->row);
-	if (t > gnm_sheet_get_max_cols (NULL) - 1) {
+	if (t > last_col) {
 		clipped = TRUE;
-		range->start.col = gnm_sheet_get_max_cols (NULL) - 1;
+		range->start.col = last_col;
 	} else if (t < 0) {
 		clipped = TRUE;
 		range->start.col = 0;
@@ -743,9 +749,9 @@ range_transpose (GnmRange *range, GnmCellPos const *origin)
 
 	/* Start row */
 	t = origin->row + (src.start.col - origin->col);
-	if (t > gnm_sheet_get_max_cols (NULL) - 1) {
+	if (t > last_row) {
 		clipped = TRUE;
-		range->start.row = gnm_sheet_get_max_rows (NULL) - 1;
+		range->start.row = last_row;
 	} else if (t < 0) {
 		clipped = TRUE;
 		range->start.row = 0;
@@ -755,9 +761,9 @@ range_transpose (GnmRange *range, GnmCellPos const *origin)
 
 	/* End col */
 	t = origin->col + (src.end.row - origin->row);
-	if (t > gnm_sheet_get_max_cols (NULL) - 1) {
+	if (t > last_col) {
 		clipped = TRUE;
-		range->end.col = gnm_sheet_get_max_cols (NULL) - 1;
+		range->end.col = last_col;
 	} else if (t < 0) {
 		clipped = TRUE;
 		range->end.col = 0;
@@ -766,9 +772,9 @@ range_transpose (GnmRange *range, GnmCellPos const *origin)
 
 	/* End row */
 	t = origin->row + (src.end.col - origin->col);
-	if (t > gnm_sheet_get_max_cols (NULL) - 1) {
+	if (t > last_row) {
 		clipped = TRUE;
-		range->end.row = gnm_sheet_get_max_rows (NULL) - 1;
+		range->end.row = last_row;
 	} else if (t < 0) {
 		clipped = TRUE;
 		range->end.row = 0;

@@ -1860,7 +1860,7 @@ sheet_get_nominal_printarea (Sheet const *sheet)
 		print_area.start.row = row;
 	}
 
-	range_ensure_sanity (&print_area);
+	range_ensure_sanity (&print_area, sheet);
 	
 	return print_area;
 }
@@ -1877,7 +1877,8 @@ sheet_get_printarea	(Sheet const *sheet,
 
 	if (!ignore_printarea) {
 		r = sheet_get_nominal_printarea (sheet);
-		if (!range_is_full (&r, TRUE) || !range_is_full (&r, FALSE))
+		if (!range_is_full (&r, sheet, TRUE) ||
+		    !range_is_full (&r, sheet, FALSE))
 			return r;
 	}
 	
@@ -4469,8 +4470,8 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 			  rinfo->row_offset != 0);
 
 	dst = rinfo->origin;
-	out_of_range = range_translate (&dst,
-		rinfo->col_offset, rinfo->row_offset);
+	out_of_range = range_translate (&dst, rinfo->target_sheet,
+					rinfo->col_offset, rinfo->row_offset);
 
 	/* Redraw the src region in case anything was spanning */
 	sheet_redraw_range (rinfo->origin_sheet, &rinfo->origin);
@@ -4596,8 +4597,9 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 	/* 9. Update the data structures of the tools */
 	if (rinfo->origin_sheet == rinfo->target_sheet)
 		scenarios_move_range (rinfo->origin_sheet->scenarios,
-				     &rinfo->origin, rinfo->col_offset,
-				     rinfo->row_offset);
+				      rinfo->origin_sheet,
+				      &rinfo->origin, rinfo->col_offset,
+				      rinfo->row_offset);
 }
 
 static void

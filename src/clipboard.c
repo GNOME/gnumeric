@@ -287,9 +287,9 @@ paste_object (GnmPasteTarget const *pt, SheetObject const *src, int left, int to
 		GnmCellPos origin;
 		origin.col = 0;
 		origin.row = 0;
-		range_transpose (&tmp.cell_bound, &origin);
+		range_transpose (&tmp.cell_bound, pt->sheet, &origin);
 	}
-	range_translate (&tmp.cell_bound, left, top);
+	range_translate (&tmp.cell_bound, pt->sheet, left, top);
 	sheet_object_set_anchor (dst, &tmp);
 	sheet_object_set_sheet (dst, pt->sheet);
 	g_object_unref (dst);
@@ -494,7 +494,7 @@ clipboard_paste_region (GnmCellRegion const *cr,
 						x = tmp.start.col; tmp.start.col = tmp.start.row;  tmp.start.row = x;
 						x = tmp.end.col; tmp.end.col = tmp.end.row;  tmp.end.row = x;
 					}
-					if (!range_translate (&tmp, left, top))
+					if (!range_translate (&tmp, pt->sheet, left, top))
 						gnm_sheet_merge_add (pt->sheet, &tmp, TRUE, cc);
 				}
 			}
@@ -566,7 +566,8 @@ cb_dup_objects (SheetObject const *src, GnmCellRegion *cr)
 	if (dst != NULL) {
 		SheetObjectAnchor tmp;
 		sheet_object_anchor_assign (&tmp, sheet_object_get_anchor (src));
-		range_translate (&tmp.cell_bound, - cr->base.col, - cr->base.row);
+		range_translate (&tmp.cell_bound, sheet_object_get_sheet (src),
+				 - cr->base.col, - cr->base.row);
 		sheet_object_set_anchor (dst, &tmp);
 		cr->objects = g_slist_prepend (cr->objects, dst);
 	}
@@ -591,7 +592,6 @@ clipboard_copy_range (Sheet *sheet, GnmRange const *r)
 	cr->base = r->start;
 	cr->cols = range_width (r);
 	cr->rows = range_height (r);
-	cr->rows = range_height (r);
 	cr->col_state = colrow_get_states (sheet,
 		TRUE,  r->start.col, r->end.col);
 	cr->row_state = colrow_get_states (sheet,
@@ -610,7 +610,7 @@ clipboard_copy_range (Sheet *sheet, GnmRange const *r)
 	merged = gnm_sheet_merge_get_overlap (sheet, r);
 	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 		GnmRange *tmp = range_dup (ptr->data);
-		range_translate (tmp, -r->start.col, -r->start.row);
+		range_translate (tmp, sheet, -r->start.col, -r->start.row);
 		cr->merged = g_slist_prepend (cr->merged, tmp);
 	}
 	g_slist_free (merged);
@@ -689,7 +689,7 @@ clipboard_copy_obj (Sheet *sheet, GSList *objects)
 
 			sheet_object_anchor_assign (&tmp_anchor, anchor);
 			r = &tmp_anchor.cell_bound;
-			range_translate (r,
+			range_translate (r, sheet,
 				-MIN (r->start.col, r->end.col),
 				-MIN (r->start.row, r->end.row));
 			sheet_object_set_anchor (so, &tmp_anchor);

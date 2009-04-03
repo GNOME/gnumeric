@@ -940,6 +940,7 @@ hide_show_detail (WBCGtk *wbcg, gboolean show)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
+	Sheet const *sheet = sv_sheet (sv);
 	char const *operation = show ? _("Show Detail") : _("Hide Detail");
 	GnmRange const *r = selection_first_range (sv,
 		GO_CMD_CONTEXT (wbc), operation);
@@ -950,8 +951,8 @@ hide_show_detail (WBCGtk *wbcg, gboolean show)
 		return;
 
 	/* Do we need to ask the user what he/she wants to group/ungroup? */
-	if (range_is_full (r, TRUE) ^ range_is_full (r, FALSE))
-		is_cols = !range_is_full (r, TRUE);
+	if (range_is_full (r, sheet, TRUE) ^ range_is_full (r, sheet, FALSE))
+		is_cols = !range_is_full (r, sheet, TRUE);
 	else {
 		dialog_col_row (wbcg, operation,
 			(ColRowCallback_t) hide_show_detail_real,
@@ -967,6 +968,7 @@ group_ungroup_colrow (WBCGtk *wbcg, gboolean group)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
+	Sheet const *sheet = sv_sheet (sv);
 	char const *operation = group ? _("Group") : _("Ungroup");
 	GnmRange const *r = selection_first_range (sv,
 		GO_CMD_CONTEXT (wbc), operation);
@@ -977,8 +979,8 @@ group_ungroup_colrow (WBCGtk *wbcg, gboolean group)
 		return;
 
 	/* Do we need to ask the user what he/she wants to group/ungroup? */
-	if (range_is_full (r, TRUE) ^ range_is_full (r, FALSE))
-		is_cols = !range_is_full (r, TRUE);
+	if (range_is_full (r, sheet, TRUE) ^ range_is_full (r, sheet, FALSE))
+		is_cols = !range_is_full (r, sheet, TRUE);
 	else {
 		dialog_col_row (wbcg, operation,
 			(ColRowCallback_t) cmd_selection_group,

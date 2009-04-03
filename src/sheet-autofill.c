@@ -1143,7 +1143,7 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton,
 			if (merges[k]) {
 				GnmRange r = *merges[k];
 				int ofs = (i / region_size) * region_size;
-				range_translate (&r,
+				range_translate (&r, sheet,
 						 ofs * col_inc,
 						 ofs * row_inc);
 				gnm_sheet_merge_add (sheet, &r, FALSE, NULL);

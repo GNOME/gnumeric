@@ -538,9 +538,9 @@ set_menu_flags:
 	for (list = sv->selections; list && (do_cols || do_rows); list = list->next) {
 		GnmRange const *r = list->data;
 
-		if (do_cols && range_is_full (r, TRUE))
+		if (do_cols && range_is_full (r, sv->sheet, TRUE))
 			do_cols = FALSE;
-		if (do_rows && range_is_full (r, FALSE))
+		if (do_rows && range_is_full (r, sv->sheet, FALSE))
 			do_rows = FALSE;
 	}
 	sv_menu_enable_insert (sv, do_cols, do_rows);

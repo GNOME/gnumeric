@@ -735,7 +735,8 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 	g_return_if_fail (IS_SHEET (rinfo->target_sheet));
 
 	dest = rinfo->origin;
-	clear = range_translate (&dest, rinfo->col_offset, rinfo->row_offset);
+	clear = range_translate (&dest, rinfo->target_sheet,
+				 rinfo->col_offset, rinfo->row_offset);
 	change_sheets = (rinfo->origin_sheet != rinfo->target_sheet);
 
 	/* Clear the destination range on the target sheet */
@@ -762,7 +763,8 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update,
 		if (range_contains (&rinfo->origin, r.start.col, r.start.row)) {
 			/* FIXME : just moving the range is insufficent for all anchor types */
 			/* Toss any objects that would be clipped. */
-			if (range_translate (&r, rinfo->col_offset, rinfo->row_offset)) {
+			if (range_translate (&r, rinfo->origin_sheet,
+					     rinfo->col_offset, rinfo->row_offset)) {
 				clear_sheet (so, pundo);
 				continue;
 			}

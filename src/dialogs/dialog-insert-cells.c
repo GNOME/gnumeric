@@ -117,6 +117,7 @@ dialog_insert_cells (WBCGtk *wbcg)
 	InsertCellState *state;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView       *sv = wb_control_cur_sheet_view (wbc);
+	Sheet *sheet = sv_sheet (sv);
 	GnmRange const *sel;
 	int  cols, rows;
 
@@ -127,12 +128,12 @@ dialog_insert_cells (WBCGtk *wbcg)
 	cols = sel->end.col - sel->start.col + 1;
 	rows = sel->end.row - sel->start.row + 1;
 
-	if (range_is_full (sel, FALSE)) {
-		cmd_insert_cols (wbc, sv_sheet (sv), sel->start.col, cols);
+	if (range_is_full (sel, sheet, FALSE)) {
+		cmd_insert_cols (wbc, sheet, sel->start.col, cols);
 		return;
 	}
-	if (range_is_full (sel, TRUE)) {
-		cmd_insert_rows (wbc, sv_sheet (sv), sel->start.row, rows);
+	if (range_is_full (sel, sheet, TRUE)) {
+		cmd_insert_rows (wbc, sheet, sel->start.row, rows);
 		return;
 	}
 
