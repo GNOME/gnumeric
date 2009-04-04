@@ -1354,7 +1354,8 @@ gnumeric_columnnumber (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	char const *name = value_peek_string (args[0]);
 	int colno;
 	unsigned char relative;
-	char const *after = col_parse (name, &colno, &relative);
+	char const *after = col_parse (name, ei->pos->sheet,
+				       &colno, &relative);
 
 	if (after == NULL || *after)
 		return value_new_error_VALUE (ei->pos);

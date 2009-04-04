@@ -9,11 +9,13 @@ G_BEGIN_DECLS
 
 char const *col_name  (int col);
 char const *cols_name (int start_col, int end_col);
-char const *col_parse (char const *str, int *res, unsigned char *relative);
+char const *col_parse (char const *str, Sheet const *sheet,
+		       int *res, unsigned char *relative);
 
 char const *row_name  (int row);
 char const *rows_name (int start_row, int end_col);
-char const *row_parse (char const *str, int *res, unsigned char *relative);
+char const *row_parse (char const *str, Sheet const *sheet,
+		       int *res, unsigned char *relative);
 
 char const *cellpos_as_string	(GnmCellPos const *pos);
 char const *cellpos_parse	(char const *cell_str, GnmCellPos *res,

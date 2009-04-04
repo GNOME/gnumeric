@@ -310,7 +310,8 @@ sc_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 	g_return_val_if_fail (pp != NULL, start);
 
 	res->a.sheet = NULL;
-	tmp1 = col_parse (ptr, &res->a.col, &res->a.col_relative);
+	tmp1 = col_parse (ptr, pp->sheet,
+			  &res->a.col, &res->a.col_relative);
 	if (!tmp1)
 		return start;
 	tmp2 = sc_row_parse (tmp1, pp->sheet, &res->a.row, &res->a.row_relative);
@@ -327,7 +328,8 @@ sc_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 		return tmp2;
 
 	start = tmp2;
-	tmp1 = col_parse (start+1, &res->b.col, &res->b.col_relative);
+	tmp1 = col_parse (start+1, pp->sheet,
+			  &res->b.col, &res->b.col_relative);
 	if (!tmp1)
 		return start;
 	tmp2 = sc_row_parse (tmp1, pp->sheet, &res->b.row, &res->b.row_relative);

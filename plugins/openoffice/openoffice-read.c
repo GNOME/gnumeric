@@ -852,10 +852,10 @@ two_quotes :
 		ref->sheet = NULL;
 	}
 
-	tmp1 = col_parse (ptr, &ref->col, &ref->col_relative);
+	tmp1 = col_parse (ptr, pp->sheet, &ref->col, &ref->col_relative);
 	if (!tmp1)
 		return start;
-	tmp2 = row_parse (tmp1, &ref->row, &ref->row_relative);
+	tmp2 = row_parse (tmp1, pp->sheet, &ref->row, &ref->row_relative);
 	if (!tmp2)
 		return start;
 

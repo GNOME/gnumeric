@@ -214,7 +214,8 @@ applix_col_parse (char const *str, int *res, unsigned char *relative)
 }
 
 static char const *
-applix_cellpos_parse (char const *cell_str, GnmCellPos *res, gboolean strict)
+applix_cellpos_parse (char const *cell_str, Sheet const *sheet,
+		      GnmCellPos *res, gboolean strict)
 {
 	unsigned char dummy_relative;
 
@@ -222,7 +223,8 @@ applix_cellpos_parse (char const *cell_str, GnmCellPos *res, gboolean strict)
 	if (!cell_str)
 		return NULL;
 
-	cell_str = row_parse (cell_str, &res->row, &dummy_relative);
+	cell_str = row_parse (cell_str, sheet,
+			      &res->row, &dummy_relative);
 	if (!cell_str)
 		return NULL;
 
@@ -270,10 +272,10 @@ applix_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *p
 	if (ptr == NULL)
 		return start; /* TODO error unknown sheet */
 	if (*ptr == ':') ptr++;
-	tmp1 = col_parse (ptr, &res->a.col, &res->a.col_relative);
+	tmp1 = col_parse (ptr, pp->sheet, &res->a.col, &res->a.col_relative);
 	if (!tmp1)
 		return start;
-	tmp2 = row_parse (tmp1, &res->a.row, &res->a.row_relative);
+	tmp2 = row_parse (tmp1, pp->sheet, &res->a.row, &res->a.row_relative);
 	if (!tmp2)
 		return start;
 	if (res->a.col_relative)
@@ -290,10 +292,10 @@ applix_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *p
 	if (ptr == NULL)
 		return start; /* TODO error unknown sheet */
 	if (*ptr == ':') ptr++;
-	tmp1 = col_parse (ptr, &res->b.col, &res->b.col_relative);
+	tmp1 = col_parse (ptr, pp->sheet, &res->b.col, &res->b.col_relative);
 	if (!tmp1)
 		return start;
-	tmp2 = row_parse (tmp1, &res->b.row, &res->b.row_relative);
+	tmp2 = row_parse (tmp1, pp->sheet, &res->b.row, &res->b.row_relative);
 	if (!tmp2)
 		return start;
 	if (res->b.col_relative)
@@ -950,7 +952,8 @@ applix_parse_cellref (ApplixReadState *state, unsigned char *buffer,
 
 	/* Get cell addr */
 	if (*sheet) {
-		buffer = (unsigned char *)applix_cellpos_parse (buffer, pos, FALSE);
+		buffer = (unsigned char *)applix_cellpos_parse
+			(buffer, *sheet, pos, FALSE);
 		if (buffer)
 			return buffer;
 	}
@@ -1067,7 +1070,7 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 			unsigned char dummy;
 
 			do {
-				ptr = col_parse (tmp = ptr + 1, &col, &dummy);
+				ptr = col_parse (tmp = ptr + 1, sheet, &col, &dummy);
 				if (!ptr || *ptr != ':')
 					return applix_parse_error (state, "Invalid column");
 				width = a_strtol (tmp = ptr + 1, (char **)&ptr);

@@ -1,3 +1,13 @@
+2009-04-04  Morten Welinder  <terra@gnome.org>
+
+	* src/parse-util.c (col_parse, row_parse, cellref_a1_get,
+	r1c1_get_index, cellref_r1c1_get): Take sheet argument.  All
+	callers fixed.
+
+	* src/libgnumeric.c (gnm_sheet_max_cols, gnm_sheet_max_rows):
+	Remove.  All uses were wrong anyway.
+	(libspreadsheet_options): Remove --columns and --rows.
+
 2009-04-03  Morten Welinder  <terra@gnome.org>
 
 	* src/stf.c (stf_read_workbook_auto_csvtab, stf_read_workbook):
