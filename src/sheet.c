@@ -1039,22 +1039,50 @@ gnm_sheet_visibility_get_type (void)
 
 /* ------------------------------------------------------------------------- */
 
+static gboolean
+powerof2 (int i)
+{
+	return i > 0 && (i & (i - 1)) == 0;
+}
+
 gboolean
+gnm_sheet_valid_size (int cols, int rows)
+{
+	return (cols >= GNM_MIN_COLS &&
+		cols <= GNM_MAX_COLS &&
+		powerof2 (cols) &&
+		rows >= GNM_MIN_ROWS &&
+		rows <= GNM_MAX_ROWS &&
+		powerof2 (rows) &&
+		0x80000000u / (unsigned)(cols / 2) >= (unsigned)rows);
+}
+
+void
 gnm_sheet_suggest_size (int *cols, int *rows)
 {
-	gboolean bad = (*cols > GNM_MAX_COLS || *rows > GNM_MAX_ROWS);
 	int c = GNM_DEFAULT_COLS;
 	int r = GNM_DEFAULT_ROWS;
 
 	while (c < *cols && c < GNM_MAX_COLS)
 		c *= 2;
-	*cols = c;
 
 	while (r < *rows && r < GNM_MAX_ROWS)
 		r *= 2;
-	*rows = r;
 
-	return bad;
+	while (!gnm_sheet_valid_size (c, r)) {
+		/* Darn!  Too large.  */
+		if (*cols >= GNM_MIN_COLS && c > GNM_MIN_COLS)
+			c /= 2;
+		else if (*rows >= GNM_MIN_ROWS && r > GNM_MIN_ROWS)
+			r /= 2;
+		else if (c > GNM_MIN_COLS)
+			c /= 2;
+		else
+			r /= 2;
+	}
+
+	*cols = c;
+	*rows = r;
 }
 
 /**
@@ -1076,8 +1104,7 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type,
 
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
-	g_return_val_if_fail (columns <= GNM_MAX_COLS, NULL);
-	g_return_val_if_fail (rows <= GNM_MAX_ROWS, NULL);
+	g_return_val_if_fail (gnm_sheet_valid_size (columns, rows), NULL);
 
 	sheet = g_object_new (GNM_SHEET_TYPE,
 			      "workbook", wb,

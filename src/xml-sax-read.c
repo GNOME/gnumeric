@@ -496,9 +496,17 @@ xml_sax_wb_sheetname (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (name != NULL);
 
 	if (NULL == workbook_sheet_by_name (wb, name)) {
-		Sheet *sheet = sheet_new (wb, name,
-					  state->sheet_cols,
-					  state->sheet_rows);
+		Sheet *sheet;
+
+		if (!gnm_sheet_valid_size (state->sheet_cols,
+					   state->sheet_rows)) {
+			gnm_sheet_suggest_size (&state->sheet_cols,
+						&state->sheet_rows);
+		}
+
+		sheet = sheet_new (wb, name,
+				   state->sheet_cols,
+				   state->sheet_rows);
 		workbook_sheet_attach (wb, sheet);
 	}
 }
