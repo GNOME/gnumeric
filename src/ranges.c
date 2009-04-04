@@ -128,9 +128,9 @@ range_init (GnmRange *r, int start_col, int start_row,
  * Returns TRUE on success.
  **/
 gboolean
-range_parse (GnmRange *r, char const *text)
+range_parse (GnmRange *r, char const *text, Sheet const *sheet)
 {
-	text = cellpos_parse (text, &r->start, FALSE);
+	text = cellpos_parse (text, sheet, &r->start, FALSE);
 	if (!text)
 		return FALSE;
 
@@ -142,7 +142,7 @@ range_parse (GnmRange *r, char const *text)
 	if (*text != ':')
 		return FALSE;
 
-	text = cellpos_parse (text + 1, &r->end, TRUE);
+	text = cellpos_parse (text + 1, sheet, &r->end, TRUE);
 	return text != NULL;
 }
 

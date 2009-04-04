@@ -468,6 +468,7 @@ attr_pos (GsfXMLIn *xin, xmlChar const **attrs,
 	  char const *target,
 	  GnmCellPos *res)
 {
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	char const *end;
 	GnmCellPos tmp;
 
@@ -478,7 +479,7 @@ attr_pos (GsfXMLIn *xin, xmlChar const **attrs,
 	if (strcmp (attrs[0], target))
 		return FALSE;
 
-	end = cellpos_parse (attrs[1], &tmp, TRUE);
+	end = cellpos_parse (attrs[1], state->sheet, &tmp, TRUE);
 	if (NULL == end || *end != '\0')
 		return xlsx_warning (xin,
 			_("Invalid cell position '%s' for attribute %s"),
@@ -492,6 +493,8 @@ attr_range (GsfXMLIn *xin, xmlChar const **attrs,
 	    char const *target,
 	    GnmRange *res)
 {
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
@@ -499,7 +502,7 @@ attr_range (GsfXMLIn *xin, xmlChar const **attrs,
 	if (strcmp (attrs[0], target))
 		return FALSE;
 
-	if (!range_parse (res, attrs[1]))
+	if (!range_parse (res, attrs[1], state->sheet))
 		xlsx_warning (xin, _("Invalid range '%s' for attribute %s"),
 			attrs[1], target);
 	return TRUE;
@@ -834,12 +837,13 @@ xlsx_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
 static GSList *
 xlsx_parse_sqref (GsfXMLIn *xin, xmlChar const *refs)
 {
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmRange  r;
 	xmlChar const *tmp;
 	GSList	 *res = NULL;
 
 	while (NULL != refs && *refs) {
-		if (NULL == (tmp = cellpos_parse (refs, &r.start, FALSE))) {
+		if (NULL == (tmp = cellpos_parse (refs, state->sheet, &r.start, FALSE))) {
 			xlsx_warning (xin, "unable to parse reference list '%s'", refs);
 			return res;
 		}
@@ -848,7 +852,7 @@ xlsx_parse_sqref (GsfXMLIn *xin, xmlChar const *refs)
 		if (*refs == '\0' || *refs == ' ')
 			r.end = r.start;
 		else if (*refs != ':' ||
-			 NULL == (tmp = cellpos_parse (refs + 1, &r.end, FALSE))) {
+			 NULL == (tmp = cellpos_parse (refs + 1, state->sheet, &r.end, FALSE))) {
 			xlsx_warning (xin, "unable to parse reference list '%s'", refs);
 			return res;
 		}
@@ -3549,13 +3553,13 @@ xlsx_CT_Selection (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 
 	for (i = 0 ; NULL != refs && *refs ; i++) {
-		if (NULL == (refs = cellpos_parse (refs, &r.start, FALSE)))
+		if (NULL == (refs = cellpos_parse (refs, state->sheet, &r.start, FALSE)))
 			return;
 
 		if (*refs == '\0' || *refs == ' ')
 			r.end = r.start;
 		else if (*refs != ':' ||
-			 NULL == (refs = cellpos_parse (refs + 1, &r.end, FALSE)))
+			 NULL == (refs = cellpos_parse (refs + 1, state->sheet, &r.end, FALSE)))
 			return;
 
 		if (i == 0)

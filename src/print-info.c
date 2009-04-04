@@ -150,7 +150,8 @@ print_info_free (PrintInformation *pi)
 static gboolean
 load_range (char const *str, GnmRange *r)
 {
-	return ((str != NULL) &&  range_parse (r, str));
+#warning "We cannot use NULL here"
+	return str && range_parse (r, str, NULL);
 }
 
 static void

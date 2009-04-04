@@ -605,17 +605,18 @@ cellref_r1c1_get (GnmCellRef *out, Sheet const *sheet,
  * Return value: a pointer to the character following the cellref.
  **/
 char const *
-cellref_parse (GnmCellRef *out, char const *in, GnmCellPos const *pos)
+cellref_parse (GnmCellRef *out, Sheet const *sheet,
+	       char const *in, GnmCellPos const *pos)
 {
 	char const *res;
 
 	g_return_val_if_fail (in != NULL, NULL);
 	g_return_val_if_fail (out != NULL, NULL);
 
-	res = cellref_a1_get (out, FIXME_SHEET, in, pos);
+	res = cellref_a1_get (out, sheet, in, pos);
 	if (res != NULL)
 		return res;
-	return cellref_r1c1_get (out, FIXME_SHEET, in, pos);
+	return cellref_r1c1_get (out, sheet, in, pos);
 }
 
 /****************************************************************************/
@@ -686,16 +687,17 @@ cell_name (GnmCell const *cell)
  * (In the strict case, that would be a pointer to the \0 or NULL.)
  */
 char const *
-cellpos_parse (char const *cell_str, GnmCellPos *res, gboolean strict)
+cellpos_parse (char const *cell_str, Sheet const *sheet,
+	       GnmCellPos *res, gboolean strict)
 {
 	unsigned char dummy_relative;
 
-	cell_str = col_parse (cell_str, FIXME_SHEET,
+	cell_str = col_parse (cell_str, sheet,
 			      &res->col, &dummy_relative);
 	if (!cell_str)
 		return NULL;
 
-	cell_str = row_parse (cell_str, FIXME_SHEET,
+	cell_str = row_parse (cell_str, sheet,
 			      &res->row, &dummy_relative);
 	if (!cell_str)
 		return NULL;
@@ -1100,7 +1102,7 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 				  &res->a.row, &res->a.row_relative);
 		if (!tmp1 || *tmp1++ != ':') /* row only requires : even for singleton */
 			return start;
-		tmp2 = row_parse (tmp1, FIXME_SHEET,
+		tmp2 = row_parse (tmp1, res->a.sheet,
 				  &res->b.row, &res->b.row_relative);
 		if (!tmp2)
 			return start;
@@ -1464,6 +1466,7 @@ test_row_stuff (void)
 static void
 test_cellpos_stuff (void)
 {
+	/* Warning: out of date */
 	GnmCellPos cp;
 	char const *end, *str;
 

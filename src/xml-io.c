@@ -227,7 +227,8 @@ xml_node_set_color (xmlNodePtr node, char const *name, GnmColor const *val)
 }
 
 static gboolean
-xml_node_get_cellpos (xmlNodePtr node, char const *name, GnmCellPos *val)
+xml_node_get_cellpos (xmlNodePtr node, char const *name,
+		      GnmCellPos *val, Sheet const *sheet)
 {
 	xmlChar *buf;
 	gboolean res;
@@ -235,7 +236,7 @@ xml_node_get_cellpos (xmlNodePtr node, char const *name, GnmCellPos *val)
 	buf = xml_node_get_cstr (node, name);
 	if (val == NULL)
 		return FALSE;
-	res = cellpos_parse (CXML2C (buf), val, TRUE) != NULL;
+	res = cellpos_parse (CXML2C (buf), sheet, val, TRUE) != NULL;
 	xmlFree (buf);
 	return res;
 }
@@ -374,7 +375,7 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 			xmlChar *pos_txt = xml_node_get_cstr (position, NULL);
 			if (pos_txt != NULL) {
 				GnmCellRef tmp;
-				char const *res = cellref_parse (&tmp, CXML2C (pos_txt), &pp.eval);
+				char const *res = cellref_parse (&tmp, sheet, CXML2C (pos_txt), &pp.eval);
 				if (res != NULL && *res == '\0') {
 					pp.eval.col = tmp.col;
 					pp.eval.row = tmp.row;
@@ -561,7 +562,7 @@ xml_read_print_repeat_range (XmlParseContext *ctxt, xmlNodePtr tree,
 
 		if (s) {
 			GnmRange r;
-			if (range_parse (&r, CXML2C (s))) {
+			if (range_parse (&r, CXML2C (s), ctxt->sheet)) {
 				range->range = r;
 				range->use   = TRUE;
 			}
@@ -1340,7 +1341,8 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 static void
 xml_read_sheet_layout (XmlParseContext *ctxt, xmlNodePtr tree)
 {
-	SheetView *sv = sheet_get_view (ctxt->sheet, ctxt->wb_view);
+	Sheet *sheet = ctxt->sheet;
+	SheetView *sv = sheet_get_view (sheet, ctxt->wb_view);
 	xmlNodePtr child;
 	GnmCellPos tmp, frozen_tl, unfrozen_tl;
 
@@ -1349,13 +1351,13 @@ xml_read_sheet_layout (XmlParseContext *ctxt, xmlNodePtr tree)
 		return;
 
 	/* The top left cell in pane[0] */
-	if (xml_node_get_cellpos (tree, "TopLeft", &tmp))
+	if (xml_node_get_cellpos (tree, "TopLeft", &tmp, sheet))
 		sv_set_initial_top_left (sv, tmp.col, tmp.row);
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("FreezePanes"));
 	if (child != NULL &&
-	    xml_node_get_cellpos (child, "FrozenTopLeft", &frozen_tl) &&
-	    xml_node_get_cellpos (child, "UnfrozenTopLeft", &unfrozen_tl))
+	    xml_node_get_cellpos (child, "FrozenTopLeft", &frozen_tl, sheet) &&
+	    xml_node_get_cellpos (child, "UnfrozenTopLeft", &unfrozen_tl, sheet))
 		sv_freeze_panes (sv, &frozen_tl, &unfrozen_tl);
 }
 
@@ -1478,7 +1480,7 @@ xml_read_sheet_filters (XmlParseContext *ctxt, xmlNode const *container)
 		area = xml_node_get_cstr (filter_node, "Area");
 		if (area == NULL)
 			continue;
-		if (range_parse (&r, CXML2C (area))) {
+		if (range_parse (&r, CXML2C (area), ctxt->sheet)) {
 			filter = gnm_filter_new (ctxt->sheet, &r);
 			for (field = filter_node->xmlChildrenNode; field != NULL; field = field->next)
 				if (!xmlIsBlankNode (field))
@@ -1710,7 +1712,7 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree,
 	tmp = (char *) xmlGetProp (tree, (xmlChar *)"ObjectBound");
 	if (tmp != NULL) {
 		GnmRange r;
-		if (range_parse (&r, tmp)) {
+		if (range_parse (&r, tmp, ctxt->sheet)) {
 			/* Patch problems introduced in some 1.7.x versions that stored
 			 * comments in merged cells with the full rectangle of the merged cell
 			 * rather than just the top left corner */
@@ -1769,7 +1771,7 @@ xml_read_merged_regions (XmlParseContext const *ctxt, xmlNodePtr sheet)
 			xmlChar *content = xml_node_get_cstr (region, NULL);
 			GnmRange r;
 			if (content != NULL) {
-				if (range_parse (&r, CXML2C (content)))
+				if (range_parse (&r, CXML2C (content), ctxt->sheet))
 					gnm_sheet_merge_add (ctxt->sheet, &r, FALSE, NULL);
 				xmlFree (content);
 			}
@@ -2201,7 +2203,7 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, const char *buffer, int
 			if (!xmlIsBlankNode (l)) {
 				GnmRange r;
 				xmlChar *content = (char *)xmlNodeGetContent (l);
-				if (range_parse (&r, CXML2C (content)))
+				if (range_parse (&r, CXML2C (content), ctxt->sheet))
 					cr->merged = g_slist_prepend (cr->merged,
 								      range_dup (&r));
 				xmlFree (content);

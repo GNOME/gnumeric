@@ -52,7 +52,8 @@ expr_name_validate (const char *name)
 		return FALSE;
 
 	/* What about R1C1?  */
-	if (cellpos_parse (name, &cp, TRUE))
+#warning "We cannot use NULL here"
+	if (cellpos_parse (name, NULL, &cp, TRUE))
 		return FALSE;
 
 	/* Hmm...   Now what?  */

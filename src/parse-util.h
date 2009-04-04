@@ -18,13 +18,13 @@ char const *row_parse (char const *str, Sheet const *sheet,
 		       int *res, unsigned char *relative);
 
 char const *cellpos_as_string	(GnmCellPos const *pos);
-char const *cellpos_parse	(char const *cell_str, GnmCellPos *res,
-				 gboolean strict);
+char const *cellpos_parse	(char const *cell_str, Sheet const *sheet,
+				 GnmCellPos *res, gboolean strict);
 void        cellref_as_string   (GnmConventionsOut *out,
 				 GnmCellRef const *cell_ref,
 				 gboolean no_sheetname);
-char const *cellref_parse	(GnmCellRef *out, char const *in,
-				 GnmCellPos const *pos);
+char const *cellref_parse	(GnmCellRef *out, Sheet const *sheet,
+				 char const *in, GnmCellPos const *pos);
 
 void        rangeref_as_string  (GnmConventionsOut *out,
 				 GnmRangeRef const *ref);

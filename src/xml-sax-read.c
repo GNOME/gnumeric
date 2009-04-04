@@ -211,7 +211,7 @@ xml_sax_attr_enum (xmlChar const * const *attrs,
 
 
 static gboolean
-xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, GnmCellPos *val)
+xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, GnmCellPos *val, Sheet const *sheet)
 {
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
@@ -220,7 +220,7 @@ xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, GnmCellPos
 	if (strcmp (CXML2C (attrs[0]), name))
 		return FALSE;
 
-	if (cellpos_parse (CXML2C (attrs[1]), val, TRUE) == NULL) {
+	if (cellpos_parse (CXML2C (attrs[1]), sheet, val, TRUE) == NULL) {
 		g_warning ("Invalid attribute '%s', expected cellpos, received '%s'",
 			   name, attrs[1]);
 		return FALSE;
@@ -1017,8 +1017,10 @@ xml_sax_repeat_top (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (!strcmp (CXML2C (attrs[0]), "value"))
-			pi->repeat_top.use = range_parse
-				(&pi->repeat_top.range, CXML2C (attrs[1]));
+			pi->repeat_top.use =
+				range_parse (&pi->repeat_top.range,
+					     CXML2C (attrs[1]),
+					     state->sheet);
 }
 
 static void
@@ -1034,8 +1036,10 @@ xml_sax_repeat_left (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (!strcmp (CXML2C (attrs[0]), "value"))
-			pi->repeat_left.use = range_parse
-				(&pi->repeat_left.range, CXML2C (attrs[1]));
+			pi->repeat_left.use =
+				range_parse (&pi->repeat_left.range,
+					     CXML2C (attrs[1]),
+					     state->sheet);
 }
 
 static void
@@ -1151,7 +1155,7 @@ xml_sax_sheet_layout (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmCellPos tmp;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (xml_sax_attr_cellpos (attrs, "TopLeft", &tmp))
+		if (xml_sax_attr_cellpos (attrs, "TopLeft", &tmp, state->sheet))
 			sv_set_initial_top_left (
 				sheet_get_view (state->sheet, state->wb_view),
 				tmp.col, tmp.row);
@@ -1168,9 +1172,9 @@ xml_sax_sheet_freezepanes (GsfXMLIn *xin, xmlChar const **attrs)
 	int flags = 0;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (xml_sax_attr_cellpos (attrs, "FrozenTopLeft", &frozen_tl))
+		if (xml_sax_attr_cellpos (attrs, "FrozenTopLeft", &frozen_tl, state->sheet))
 			flags |= 1;
-		else if (xml_sax_attr_cellpos (attrs, "UnfrozenTopLeft", &unfrozen_tl))
+		else if (xml_sax_attr_cellpos (attrs, "UnfrozenTopLeft", &unfrozen_tl, state->sheet))
 			flags |= 2;
 		else
 			unknown_attr (xin, attrs);
@@ -1957,7 +1961,7 @@ xml_sax_merge (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GnmRange r;
 	g_return_if_fail (xin->content->len > 0);
 
-	if (range_parse (&r, xin->content->str))
+	if (range_parse (&r, xin->content->str, state->sheet))
 		gnm_sheet_merge_add (state->sheet, &r, FALSE,
 			GO_CMD_CONTEXT (state->context));
 }
@@ -2053,7 +2057,8 @@ xml_sax_filter_start (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->filter == NULL);
 
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2)
-		if (attr_eq (attrs[i], "Area") && range_parse (&r, CXML2C (attrs[i + 1])))
+		if (attr_eq (attrs[i], "Area") &&
+		    range_parse (&r, CXML2C (attrs[i + 1]), state->sheet))
 			state->filter = gnm_filter_new (state->sheet, &r);
 	if (NULL == state->filter)
 		gnm_io_warning (state->context, _("Invalid filter, missing Area"));
@@ -2135,7 +2140,7 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2) {
 		if (attr_eq (attrs[i], "ObjectBound"))
-			range_parse (&anchor_r, CXML2C (attrs[i + 1]));
+			range_parse (&anchor_r, CXML2C (attrs[i + 1]), state->sheet);
 		else if (attr_eq (attrs[i], "ObjectOffset") &&
 			4 == sscanf (CXML2C (attrs[i + 1]), "%g %g %g %g",
 				     f_tmp + 0, f_tmp + 1, f_tmp + 2, f_tmp + 3))
@@ -2216,7 +2221,8 @@ xml_sax_named_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	parse_pos_init (pos, state->wb, state->sheet, 0, 0);
 	if (state->name.position) {
 		GnmCellRef tmp;
-		char const *res = cellref_parse (&tmp, state->name.position, &pos->eval);
+		char const *res = cellref_parse (&tmp, state->sheet,
+						 state->name.position, &pos->eval);
 		if (res != NULL && *res == '\0') {
 			pos->eval.col = tmp.col;
 			pos->eval.row = tmp.row;
