@@ -5495,7 +5495,7 @@ gnm_sheet_get_max_rows (Sheet const *sheet)
 {
 	if (G_UNLIKELY (!sheet)) {
 		/* FIXME: This needs to go.  */
-		return gnm_sheet_max_rows;
+		return GNM_DEFAULT_ROWS;
 	}
 
 	if (G_UNLIKELY (sheet->being_constructed))
@@ -5509,7 +5509,7 @@ gnm_sheet_get_max_cols (Sheet const *sheet)
 {
 	if (G_UNLIKELY (!sheet)) {
 		/* FIXME: This needs to go.  */
-		return gnm_sheet_max_cols;
+		return GNM_DEFAULT_COLS;
 	}
 
 	if (G_UNLIKELY (sheet->being_constructed))

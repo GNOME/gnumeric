@@ -185,15 +185,11 @@ gnm_conf_init_essential (void)
 	prefs.initial_sheet_number = go_conf_load_int (
 		root, GNM_CONF_WORKBOOK_NSHEETS, 1, 64, 3);
 	prefs.row_number = go_conf_load_int (
-		root, GNM_CONF_WORKBOOK_NROWS, GNM_DEFAULT_ROWS, GNM_MAX_ROWS, GNM_DEFAULT_ROWS);
-	while (gnm_sheet_max_rows < prefs.row_number && gnm_sheet_max_rows < GNM_MAX_ROWS)
-		gnm_sheet_max_rows <<= 1;
-	prefs.row_number = gnm_sheet_max_rows;
+		root, GNM_CONF_WORKBOOK_NROWS, GNM_MIN_ROWS, GNM_MAX_ROWS, GNM_DEFAULT_ROWS);
 	prefs.col_number = go_conf_load_int (
-		root, GNM_CONF_WORKBOOK_NCOLS, GNM_DEFAULT_COLS, GNM_MAX_COLS, GNM_DEFAULT_COLS);
-	while (gnm_sheet_max_cols < prefs.col_number && gnm_sheet_max_cols < GNM_MAX_COLS)
-		gnm_sheet_max_cols <<= 1;
-	prefs.col_number = gnm_sheet_max_cols;
+		root, GNM_CONF_WORKBOOK_NCOLS, GNM_MIN_COLS, GNM_MAX_COLS, GNM_DEFAULT_COLS);
+	gnm_sheet_suggest_size (&prefs.col_number,
+				&prefs.row_number);
 	prefs.horizontal_window_fraction = go_conf_load_double (
 		  node, GNM_CONF_GUI_WINDOW_X, .1, 1., .6);
 	prefs.vertical_window_fraction = go_conf_load_double (

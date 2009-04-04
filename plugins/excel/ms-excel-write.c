@@ -252,7 +252,7 @@ excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
 			break;
 		}
 	/* include collapsed or hidden rows */
-	for (i = XLS_MaxCol ; i-- > extent->end.col ; )
+	for (i = maxcols ; i-- > extent->end.col ; )
 		if (!colrow_is_empty (sheet_col_get (sheet, i))) {
 			extent->end.col = i;
 			break;
@@ -4990,6 +4990,8 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 {
 	int const maxrows = MIN (biff7 ? XLS_MaxRow_V7 : XLS_MaxRow_V8,
 				 gnm_sheet_get_max_rows (sheet));
+	int const maxcols = MIN (XLS_MaxCol,
+				 gnm_sheet_get_max_cols (sheet));
 	ExcelWriteSheet *esheet = g_new0 (ExcelWriteSheet, 1);
 	GnmRange extent;
 	GSList *objs, *img;
@@ -4997,10 +4999,10 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 	g_return_val_if_fail (sheet, NULL);
 	g_return_val_if_fail (ewb, NULL);
 
-	esheet->col_xf = g_new (guint16, gnm_sheet_max_cols);
-	esheet->col_style = g_new (GnmStyle*, gnm_sheet_max_cols);
+	esheet->col_xf = g_new (guint16, gnm_sheet_get_max_cols (sheet));
+	esheet->col_style = g_new (GnmStyle*, gnm_sheet_get_max_cols (sheet));
 	excel_sheet_extent (sheet, &extent, esheet->col_style,
-		XLS_MaxCol, maxrows, ewb->io_context);
+			    maxcols, maxrows, ewb->io_context);
 
 	esheet->gnum_sheet = sheet;
 	esheet->streamPos  = 0x0deadbee;

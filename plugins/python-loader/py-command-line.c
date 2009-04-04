@@ -60,8 +60,9 @@ gnm_py_command_line_keypress (GnmPyCommandLine *cline, GdkEventKey *event, gpoin
 			cline->history = g_list_append (NULL, g_strdup (text));
 			cline->history_tail = cline->history;
 		} else if (text[0] != '\0' && strcmp (text, cline->history_tail->data) != 0) {
-			g_list_append (cline->history_tail, g_strdup (text));
-			cline->history_tail = cline->history_tail->next;
+			cline->history_tail =
+				g_list_append (cline->history_tail,
+					       g_strdup (text))->next;
 		}
 		if (cline->history_size == MAX_HISTORY_SIZE) {
 			g_free (cline->history->data);
