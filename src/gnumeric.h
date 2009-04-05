@@ -10,7 +10,7 @@ G_BEGIN_DECLS
 
 /* Individual maxima for the dimensions.  See also gnm_sheet_valid_size.  */
 #define GNM_MAX_ROWS 0x1000000
-#define GNM_MAX_COLS 0x1000
+#define GNM_MAX_COLS 0x4000
 
 /* Standard size */
 #define GNM_DEFAULT_COLS 0x100

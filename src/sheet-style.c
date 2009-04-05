@@ -445,9 +445,9 @@ sheet_style_init (Sheet *sheet)
 	int l = 0, w = TILE_SIZE_COL, h = TILE_SIZE_ROW;
 
 	/* some simple sanity checks */
+	g_return_if_fail (IS_SHEET (sheet));
 	g_assert (gnm_sheet_get_max_cols (sheet) <= GNM_MAX_COLS);
 	g_assert (gnm_sheet_get_max_rows (sheet) <= GNM_MAX_ROWS);
-	g_return_if_fail (IS_SHEET (sheet));
 
 	while (w < gnm_sheet_get_max_cols (sheet)) {
 		w *= TILE_SIZE_COL;
@@ -459,10 +459,8 @@ sheet_style_init (Sheet *sheet)
 	}
 	if (l > sheet->tile_top_level)
 		sheet->tile_top_level = l;
-	h = 16;
-	w = 4;
-	sheet->max_height = 1;
-	sheet->max_width = 1;
+	h = TILE_SIZE_ROW;
+	w = TILE_SIZE_COL;
 	for (l = 0 ; l < sheet->tile_top_level; l++) {
 		h *= TILE_SIZE_ROW;
 		w *= TILE_SIZE_COL;

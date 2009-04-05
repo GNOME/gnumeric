@@ -1,3 +1,8 @@
+2009-04-04  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric.h : bump GNM_MAX_COLS to accomodate XL2007.
+	* src/sheet-style.c (sheet_style_init) : Use TILE_SIZE_ to init.
+
 2009-04-04  Morten Welinder  <terra@gnome.org>
 
 	* src/parse-util.c (col_parse, row_parse, cellref_a1_get,
