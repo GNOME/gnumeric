@@ -3,6 +3,10 @@ Gnumeric 1.9.6
 Jean:
 	* Variable sheet sizes.
 
+Jody:
+	* Improve xml probing for 2003-spreadsheetml.
+	* More 2003-spreadsheetml formats.
+
 Morten:
 	* Handle elapsed time formats better on text export.
 	* Plug leak.
