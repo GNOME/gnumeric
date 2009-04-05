@@ -705,11 +705,12 @@ xl_xml_num_interior (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xl_xml_num_fmt (GsfXMLIn *xin, xmlChar const **attrs)
 {
-#if 0
-	static EnumVal const named_format [] = {
-		{ "General"		},
-		{ "General Number"		},
-		{ "General Date"		},
+	static struct {
+		const char *name;
+		const char *format;
+	} named_format [] = {
+		{ "General Number"	},
+		{ "General Date"	},
 		{ "Long Date"		},
 		{ "Medium Date"		},
 		{ "Short Date"		},
@@ -717,7 +718,7 @@ xl_xml_num_fmt (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "Medium Time"		},
 		{ "Short Time"		},
 		{ "Currency"		},
-		{ "Euro Currency"		},
+		{ "Euro Currency"	},
 		{ "Fixed"		},
 		{ "Standard"		},
 		{ "Percent"		},
