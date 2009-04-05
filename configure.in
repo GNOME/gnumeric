@@ -400,11 +400,11 @@ AC_ARG_WITH(gda,
 	fi
 )
 if test "$try_gda" = true; then
-	PKG_CHECK_MODULES(GDA, [libgda-3.0 >= 3.1.1],
+	PKG_CHECK_MODULES(GDA, [libgda-4.0 >= 3.99.6],
 		[gda_msg=yes],
 		[gda_msg="NO.  libgda problem"])
 	if test "$gda_msg" = yes; then
-		PKG_CHECK_MODULES(GNOMEDB, [libgnomedb-3.0 >= 3.0.1],
+		PKG_CHECK_MODULES(GNOMEDB, [libgnomedb-4.0 >= 3.99.6],
 			[gnomedb_msg="yes"],
 			[gnomedb_msg="NO. libgnomedb problem"])
 		if test "$gnomedb_msg" = yes; then

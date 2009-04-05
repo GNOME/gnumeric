@@ -13,7 +13,7 @@ view_data_sources (GnmAction const *action, WorkbookControl *wbc)
 {
 	char *argv[2];
 
-	argv[0] = (char *) "gnome-database-properties-3.0";
+	argv[0] = (char *) "gnome-database-properties-4.0";
 	argv[1] = NULL;
 	if (!g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, NULL)) {
 		char *msg = g_strdup_printf (

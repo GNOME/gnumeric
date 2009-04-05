@@ -1,3 +1,8 @@
+2009-04-05  Jody Goldberg <jody@gnome.org>
+
+	From: Vivien Malerba <vmalerba@gmail.com>
+	* configure.in : bump to libgda4.
+
 2009-04-04  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric.h : bump GNM_MAX_COLS to accomodate XL2007.

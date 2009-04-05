@@ -22,6 +22,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <libgda/libgda.h>
+#include <sql-parser/gda-sql-parser.h>
 #include <string.h>
 #ifdef HAVE_LIBGNOMEDB
 #include <libgnomedb/gnome-db-login-dialog.h>
@@ -43,7 +44,6 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
-static GdaClient  *connection_pool = NULL;
 static gboolean    libgda_init_done = FALSE;
 static GHashTable *cnc_hash = NULL;
 
@@ -57,9 +57,10 @@ gnm_value_new_from_gda (GValue const *gval,
 	if (NULL == gval)
 		return value_new_empty ();
 
-	g_return_val_if_fail (G_IS_VALUE (gval), value_new_empty ());
-
 	t = G_VALUE_TYPE (gval);
+	if (t == GDA_TYPE_NULL)
+		return value_new_empty ();
+
 	if (t == GDA_TYPE_SHORT)
 		return value_new_int (gda_value_get_short (gval));
 	if (t == GDA_TYPE_USHORT)
@@ -164,10 +165,13 @@ display_recordset (GdaDataModel *recset, GnmFuncEvalInfo *ei)
 	array = value_new_array_empty (fieldcount, rowcount);
 	for (row = 0; row < rowcount; row++) {
 		for (col = 0; col < fieldcount; col++) {
+			const GValue *cv;
+			cv = gda_data_model_get_value_at (recset, col, row, NULL);
+			if (!cv)
+				return value_new_error (ei->pos, _("Can't obtain data"));
 			value_array_set (array, col, row,
-				gnm_value_new_from_gda (
-					gda_data_model_get_value_at (recset, col, row),
-					date_conv));
+					 gnm_value_new_from_gda (cv,
+								 date_conv));
 		}
 	}
 
@@ -233,14 +237,9 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 	GError *error = NULL;
 
 	/* initialize connection pool if first time */
-	if (!GDA_IS_CLIENT (connection_pool)) {
-		if (!libgda_init_done) {
-			gda_init (NULL, NULL, 0, NULL);
-			libgda_init_done = TRUE;
-		}
-		connection_pool = gda_client_new ();
-		if (!connection_pool)
-			return NULL;
+	if (!libgda_init_done) {
+		gda_init ();
+		libgda_init_done = TRUE;
 	}
 
 	/* try to find a cnc object if we already have one */
@@ -261,10 +260,11 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 
 	if (!cnc) {
 		CncKey *key;
+		gchar *auth, *tmp1, *tmp2;
 
 #ifdef HAVE_LIBGNOMEDB
 		GtkWidget    *dialog =
-			gnome_db_login_dialog_new (_("Database Connection"));
+			gnome_db_login_dialog_new (_("Database Connection"), NULL); /* FIXME: pass a pointer to parent window */
 		GnomeDbLogin *login =
 			gnome_db_login_dialog_get_login_widget (GNOME_DB_LOGIN_DIALOG (dialog));
 
@@ -288,7 +288,12 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 		real_password = g_strdup (password);
 #endif
 
-		cnc = gda_client_open_connection (connection_pool, real_dsn, real_user, real_password, options, &error);
+		tmp1 = gda_rfc1738_encode (real_user);
+		tmp2 = gda_rfc1738_encode (real_password);
+		auth = g_strdup_printf ("USERNAME=%s;PASSWORD=%s", tmp1, tmp2);
+		g_free (tmp1);
+		g_free (tmp2);
+		cnc = gda_connection_open_from_dsn (real_dsn, auth, options, &error);
 		if (!cnc) {
 			g_warning ("Libgda error: %s\n", error->message);
 			g_error_free (error);
@@ -297,6 +302,7 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
 		g_free (real_dsn);
 		g_free (real_user);
 		g_free (real_password);
+		g_free (auth);
 
 		key = g_new0 (CncKey, 1);
 		if (dsn)
@@ -337,16 +343,17 @@ static GnmFuncHelp const help_execSQL[] = {
 static GnmValue *
 gnumeric_execSQL (GnmFuncEvalInfo *ei, GnmValue const  * const *args)
 {
-	GnmValue*         ret;
+	GnmValue*      ret;
 	gchar*         dsn_name;
 	gchar*         user_name;
 	gchar*         password;
 	gchar*         sql;
 	GdaConnection* cnc;
 	GdaDataModel*  recset;
-	GList*         recset_list;
-	GdaCommand*    cmd;
+	GdaStatement*  stmt;
 	GError*        error = NULL;
+	GdaSqlParser  *parser;
+	const gchar   *remain;
 
 	dsn_name = value_get_as_string (args[0]);
 	user_name = value_get_as_string (args[1]);
@@ -361,17 +368,27 @@ gnumeric_execSQL (GnmFuncEvalInfo *ei, GnmValue const  * const *args)
 	}
 
 	/* execute command */
-	cmd = gda_command_new (sql, GDA_COMMAND_TYPE_SQL, 0);
-	recset_list = gda_connection_execute_command (cnc, cmd, NULL, &error);
-	gda_command_free (cmd);
-	if (recset_list) {
-		recset = (GdaDataModel *) recset_list->data;
-		if (!GDA_IS_DATA_MODEL (recset))
-			ret = value_new_error (ei->pos, _("Error: no recordsets were returned"));
-		else
-			ret = display_recordset (recset, ei);
+	parser = gda_connection_create_parser (cnc);
+	if (!parser)
+		parser = gda_sql_parser_new ();
+	stmt = gda_sql_parser_parse_string (parser, sql, &remain, &error);
+	g_object_unref (parser);
+	if (!stmt) {
+		ret = value_new_error (ei->pos, error->message);
+		g_error_free (error);
+		return ret;
+	}
 
-		go_list_free_custom (recset_list, g_object_unref);
+	if (remain) {
+		g_object_unref (stmt);
+		return value_new_error (ei->pos, _("More than one statement in SQL string"));
+	}
+		
+	recset = gda_connection_statement_execute_select (cnc, stmt, NULL, &error);
+	g_object_unref (stmt);
+	if (recset) {
+		ret = display_recordset (recset, ei);
+		g_object_unref (recset);
 	} else {
 		if (error) {
 			ret = value_new_error (ei->pos, error->message);
@@ -419,9 +436,11 @@ gnumeric_readDBTable (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	gchar*         table;
 	GdaConnection* cnc;
 	GdaDataModel*  recset;
-	GList*         recset_list;
-	GdaCommand*    cmd;
+	GdaStatement*  stmt;
 	GError*        error = NULL;
+	GdaSqlParser  *parser;
+	const gchar   *remain;
+	gchar         *sql;
 
 	dsn_name = value_get_as_string (args[0]);
 	user_name = value_get_as_string (args[1]);
@@ -436,17 +455,30 @@ gnumeric_readDBTable (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	}
 
 	/* execute command */
-	cmd = gda_command_new (table, GDA_COMMAND_TYPE_TABLE, 0);
-	recset_list = gda_connection_execute_command (cnc, cmd, NULL, &error);
-	gda_command_free (cmd);
-	if (recset_list) {
-		recset = (GdaDataModel *) recset_list->data;
-		if (!GDA_IS_DATA_MODEL (recset))
-			ret = value_new_error (ei->pos, _("Error: no recordsets were returned"));
-		else
-			ret = display_recordset (recset, ei);
+	parser = gda_connection_create_parser (cnc);
+	if (!parser)
+		parser = gda_sql_parser_new ();
+	sql = g_strdup_printf ("SELECT * FROM %s", table); /* FIXME: create statement from API */
+	stmt = gda_sql_parser_parse_string (parser, sql, &remain, &error);
+	g_free (sql);
+	g_object_unref (parser);
+	if (!stmt) {
+		ret = value_new_error (ei->pos, error->message);
+		g_error_free (error);
+		return ret;
+	}
 
-		go_list_free_custom (recset_list, g_object_unref);
+	if (remain) {
+		g_object_unref (stmt);
+		return value_new_error (ei->pos, _("More than one statement in SQL string"));
+	}
+
+	recset = gda_connection_statement_execute_select (cnc, stmt, NULL, &error);
+	g_object_unref (stmt);
+	
+	if (recset) {
+		ret = display_recordset (recset, ei);
+		g_object_unref (recset);
 	} else {
 		if (error) {
 			ret = value_new_error (ei->pos, error->message);
@@ -461,11 +493,9 @@ gnumeric_readDBTable (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
-	/* close the connection pool */
-	if (GDA_IS_CLIENT (connection_pool)) {
-		g_object_unref (G_OBJECT (connection_pool));
-		connection_pool = NULL;
-	}
+	/* nothing to do */
+	g_hash_table_destroy (cnc_hash);
+	cnc_hash = NULL;
 }
 
 GnmFuncDescriptor gdaif_functions[] = {

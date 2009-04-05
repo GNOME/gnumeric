@@ -23,6 +23,9 @@ Morten:
 	* Load csv and txt files into sheets as big as needed.  [Part of
 	#168875]
 
+Vivien Malerba:
+	* Move to libgda4.
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.5
 
