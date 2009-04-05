@@ -706,23 +706,29 @@ static void
 xl_xml_num_fmt (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static struct {
-		const char *name;
-		const char *format;
-	} named_format [] = {
-		{ "General Number"      "General" },
-		{ "General Date"        "m/d/yyyy h:mm" },
-		{ "Long Date"           "d-mmm-yy" },
-		{ "Medium Date"         "d-mmm-yy" },
-		{ "Short Date"          "m/d/yyyy" },	/* marked as locale specific */
-		{ "Long Time"           "h:mm:ss AM/PM" },
-		{ "Medium Time"         "h:mm AM/PM" },
-		{ "Short Time"          "h:mm" },
-		{ "Currency"       	"$#,##0.00_);[Red](#,##0.00)" },
-		{ "Euro Currency"      	"[$EUR-2]#,##0.00_);[Red](#,##0.00)" },
-		{ "Fixed"               "0.00" },
-		{ "Standard"            "#,##0.00" },	/* number, 2dig, +sep */
-		{ "Percent"             "0.00%" },	/* std percent */
-		{ "Scientific"          "0.00E+00" },	/* std scientific */
+		char const *name;
+		GOFormatMagic id;
+	} named_magic_formats [] = {
+		{ "General Date",        GO_FORMAT_MAGIC_SHORT_DATETIME },
+		{ "Long Date",           GO_FORMAT_MAGIC_LONG_DATE },
+		{ "Medium Date",         GO_FORMAT_MAGIC_MEDIUM_DATE },
+		{ "Short Date",          GO_FORMAT_MAGIC_SHORT_DATE },
+		{ "Long Time",           GO_FORMAT_MAGIC_LONG_TIME },
+		{ "Medium Time",         GO_FORMAT_MAGIC_MEDIUM_TIME },
+		{ "Short Time",          GO_FORMAT_MAGIC_SHORT_TIME },
+		{ NULL, 0 }
+	};
+	static struct {
+		char const *name;
+		char const *format;
+	} named_formats [] = {
+		{ "General Number",     "General" },
+		{ "Currency",       	"$#,##0.00_);[Red](#,##0.00)" },
+		{ "Euro Currency",     	"[$EUR-2]#,##0.00_);[Red](#,##0.00)" },
+		{ "Fixed",              "0.00" },
+		{ "Standard",           "#,##0.00" },	/* number, 2dig, +sep */
+		{ "Percent",            "0.00%" },	/* std percent */
+		{ "Scientific",         "0.00E+00" },	/* std scientific */
 		{ "Yes/No",		"\"Yes\";\"Yes\";\"No\"" },
 		{ "True/False",		"\"True\";\"True\";\"False\"" },
 		{ "On/Off",		"\"On\";\"On\";\"Off\"" },
@@ -732,20 +738,19 @@ xl_xml_num_fmt (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "Format")) {
 			GOFormat *fmt = NULL;
+			int i;
 
-			if (!strcmp (attrs[1], "Percent"))
-				fmt = go_format_default_percentage ();
-			else if (!strcmp (attrs[1], "Short Time"))
-				fmt = go_format_default_time ();
+			for (i = 0 ; named_formats[i].name ; i++)
+				if (0 == strcmp (attrs[1], named_formats[i].name))
+					fmt = go_format_new_from_XL (named_formats[i].format);
 
 			if (NULL != fmt)
-				go_format_ref (fmt);
-			else if (!strcmp (attrs[1], "Fixed"))
-				fmt = go_format_new_from_XL ("0.00");
-			else
+				for (i = 0 ; named_magic_formats[i].name ; i++)
+					if (0 == strcmp (attrs[1], named_magic_formats[i].name))
+						fmt = go_format_new_magic (named_magic_formats[i].id);
+
+			if (NULL != fmt)
 				fmt = go_format_new_from_XL (attrs[1]);
-
-
 			gnm_style_set_format (state->style, fmt);
 			go_format_unref (fmt);
 		} else
