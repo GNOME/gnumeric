@@ -1014,16 +1014,32 @@
   <entry><literal>.wk1</literal> / <literal>.wks</literal></entry> 
 </row>
 <row>
-  <entry><link linkend="file-format-excel">Microsoft Excel</link></entry>
+  <entry><link linkend="file-format-excel-binary-old">Microsoft Excel
+  Old Binary</link></entry>
   <entry><literal>.xls</literal></entry> 
 </row>
 <row>
-  <entry><link linkend="file-format-multiplan">Multiplan SYLK</link></entry>
-  <entry><literal>none / .slk</literal></entry> 
+  <entry><link linkend="file-format-excel-binary-new">Microsoft Excel New Binary</link></entry>
+  <entry><literal>.xls</literal></entry> 
 </row>
 <row>
-  <entry><link linkend="file-format-ooo">OpenOffice.Org / StarOffice</link></entry>
-  <entry><literal>.sxc</literal></entry> 
+  <entry><link linkend="file-format-excel-oldxml">Microsoft Excel
+  2003 XML</link></entry>
+  <entry><literal>.xls</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-excel-binary-new">Microsoft Excel
+  Office Open XML</link></entry>
+  <entry><literal>.xlsx</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-odf">OpenOffice.Org / StarOffice (OASIS ODF/IS26300)</link></entry>
+  <entry><literal>.ods</literal> / <literal>.odt</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-sxc">OpenOffice.Org / StarOffice
+  Old Format</link></entry>
+  <entry><literal>.sxc</literal> / <literal>.stc</literal></entry> 
 </row>
 <row>
   <entry><link linkend="file-format-planperfect">Plan Perfect</link></entry>
@@ -1036,6 +1052,10 @@
 <row>
   <entry><link linkend="file-format-sc">SC/XSpread</link></entry>
   <entry>none / .<literal>sc</literal></entry> 
+</row>
+<row>
+  <entry><link linkend="file-format-sylk">Mutiplan (SYLK)</link></entry>
+  <entry> <literal>.sylk</literal> / <literal>.slk</literal></entry> 
 </row>
 <row>
   <entry><link linkend="file-format-tab">Tab Separated Values</link></entry>

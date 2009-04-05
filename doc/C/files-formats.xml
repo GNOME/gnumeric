@@ -20,6 +20,7 @@
   <entry align="left">Extension</entry>
   <entry align="left">Open</entry>
   <entry align="left">Save</entry>
+  <entry align="left">MIME type</entry>
 </row>
 </thead>
 <tbody>
@@ -28,77 +29,128 @@
   <entry><literal>.gnumeric</literal> / <literal>.gnm</literal></entry> 
   <entry>YES</entry>
   <entry>YES</entry>
+  <entry>application/x-gnumeric</entry>
 </row>
 <row>
   <entry><link linkend="file-format-applix">Applix</link></entry>
   <entry><literal>.as</literal></entry> 
   <entry>YES</entry>
   <entry></entry>
+  <entry>application/x-applix-spreadsheet</entry>
 </row>
 <row>
   <entry><link linkend="file-format-csv">Comma Separated Values</link></entry>
   <entry><literal>.csv</literal></entry> 
   <entry>YES</entry>
   <entry>YES</entry>
+  <entry>text/plain</entry>
 </row>
 <row>
   <entry><link linkend="file-format-dif">Data Interchange Format</link></entry>
   <entry><literal>.dif</literal></entry> 
   <entry>YES</entry>
   <entry>YES</entry>
+  <entry></entry>
 </row>
 <row>
   <entry><link linkend="file-format-oleo">GNU Oleo</link></entry>
- <entry><literal>.oleo</literal></entry> 
+  <entry><literal>.oleo</literal></entry> 
   <entry>YES</entry>
   <entry></entry>
+  <entry>application/x-oleo</entry>
 </row>
 <row>
   <entry><link linkend="file-format-html">HTML</link></entry>
   <entry><literal>.html</literal> / <literal>.htm</literal></entry> 
   <entry>YES</entry>
   <entry>YES</entry>
+  <entry>text/html</entry>
 </row>
 <row>
   <entry><link linkend="file-format-latex">LaTeX</link></entry>
   <entry><literal>.tex</literal></entry> 
   <entry></entry>
   <entry>YES</entry>
+  <entry>text/x-tex</entry>
 </row>
 <row>
   <entry><link linkend="file-format-mps">Linear and Integer Program</link></entry>
   <entry>none / <literal>.mps</literal></entry> 
   <entry>YES</entry>
   <entry></entry>
+  <entry>application/x-mps</entry>
 </row>
 <row>
   <entry><link linkend="file-format-lotus">Lotus 1-2-3</link></entry>
   <entry><literal>.wk1</literal> / <literal>.wks</literal></entry> 
   <entry>YES</entry>
   <entry></entry>
+  <entry>application/vnd.lotus-1-2-3, application/x-123</entry>
 </row>
 <row>
-  <entry><link linkend="file-format-excel">Microsoft Excel</link></entry>
-  <entry><literal>.xls</literal></entry> 
-  <entry>YES</entry>
-  <entry>YES</entry>
-</row>
-<row>
-  <entry><link linkend="file-format-multiplan">Multiplan SYLK</link></entry>
-  <entry><literal>none / .slk</literal></entry> 
+  <entry><link linkend="file-format-excel-binary-old">Microsoft Excel Old Binary Format
+  (versions 2 - 5)</link></entry>
+  <entry><literal>.xls</literal> / <literal>.xlt</literal> / <literal>.xlw</literal></entry> 
   <entry>YES</entry>
   <entry></entry>
+  <entry>application/vnd.ms-excel</entry>
 </row>
 <row>
-  <entry><link linkend="file-format-ooo">OpenOffice.Org / StarOffice</link></entry>
-  <entry><literal>.sxc</literal></entry> 
+  <entry><link linkend="file-format-excel-binary-new">Microsoft Excel Binary Format
+  (Excel 95 - 2003)</link></entry>
+  <entry><literal>.xls</literal> / <literal>.xlt</literal> / <literal>.xlw</literal></entry> 
   <entry>YES</entry>
   <entry>YES</entry>
+  <entry>application/vnd.ms-excel</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-excel-oldxml">Microsoft Excel 2003 SpreadsheetML</link></entry>
+  <entry><literal>.xlsx</literal></entry> 
+  <entry>YES</entry>
+  <entry>YES (incomplete)</entry>
+  <entry>application/vnd.ms-excel</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-excel-moox">Microsoft Office Open SpreadsheetML (MOOX/ECMA376/ISO29500)</link></entry>
+  <entry><literal>.xlsx</literal></entry> 
+  <entry>YES</entry>
+  <entry>YES (incomplete)</entry>
+  <entry>application/vnd.ms-excel</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-sxc">OpenOffice.Org / StarOffice
+  Old Format</link></entry>
+  <literal>.sxc</literal> / <literal>.stc</literal></entry> 
+  <entry>YES</entry>
+  <entry>YES (incomplete)</entry>
+  <entry>application/vnd.sun.xml.calc</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-odf">OpenOffice.Org / StarOffice (OASIS ODF/IS26300)</link></entry>
+  <entry><literal>.ods</literal> / <literal>.odt</literal> / <literal>.sxc</literal> / <literal>.stc</literal></entry> 
+  <entry>YES</entry>
+  <entry>YES (incomplete)</entry>
+  <entry>application/vnd.oasis.opendocument.spreadsheet</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-paradox">Paradox Database</link></entry>
+  <entry><literal>.px</literal> / <literal>.db</literal></entry> 
+  <entry>YES</entry>
+  <entry>YES</entry>
+  <entry></entry>
 </row>
 <row>
   <entry><link linkend="file-format-planperfect">Plan Perfect</link></entry>
   <entry><literal>.pln</literal></entry> 
   <entry>YES</entry>
+  <entry></entry>
+  <entry>application/x-planperfect</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-psiconv">Psion 5 Sheet Files</link></entry>
+  <entry><literal>.psisheet</literal></entry> 
+  <entry>YES</entry>
+  <entry></entry>
   <entry></entry>
 </row>
 <row>
@@ -106,54 +158,71 @@
   <entry><literal>.ps</literal> / <literal>.eps</literal></entry> 
   <entry></entry>
   <entry>YES</entry>
+  <entry>application/postscript</entry>
 </row>
 <row>
   <entry><link linkend="file-format-pdf">PDF</link></entry>
   <entry><literal>.pdf</literal></entry> 
   <entry></entry>
   <entry>YES</entry>
+  <entry>application/pdf</entry>
 </row>
 <row>
   <entry><link linkend="file-format-qpro">Quattro Pro</link></entry>
   <entry><literal>.wb1</literal> / <literal>.wb2</literal> / <literal>.wb3</literal></entry> 
   <entry>YES</entry>
   <entry></entry>
+  <entry>application/x-quattropro, application/x-quattro-pro</entry>
 </row>
 <row>
   <entry><link linkend="file-format-sc">SC/XSpread</link></entry>
   <entry>none / .<literal>sc</literal></entry> 
   <entry>YES</entry>
   <entry></entry>
+  <entry>application/x-sc</entry>
+</row>
+<row>
+  <entry><link linkend="file-format-sylk">Mutiplan (SYLK)</link></entry>
+  <entry> <literal>.sylk</literal> / <literal>.slk</literal></entry> 
+  <entry>YES</entry>
+  <entry>YES</entry>
+  <entry>application/x-sylk</entry>
 </row>
 <row>
   <entry><link linkend="file-format-tab">Tab Separated Values</link></entry>
   <entry><literal>.tsv</literal> / <literal>.tab</literal></entry> 
   <entry>YES</entry>
   <entry>YES</entry>
+  <entry>text/plain</entry>
 </row>
 <row>
   <entry><link linkend="file-format-text">Text Formats</link></entry>
   <entry><literal>.txt</literal> / <literal>.text</literal></entry> 
   <entry>YES</entry>
   <entry>YES</entry>
+  <entry>text/plain</entry>
 </row>
 <row>
   <entry><link linkend="file-format-troff">TROFF</link></entry>
   <entry><literal>.me</literal></entry> 
   <entry></entry>
   <entry>YES</entry>
+  <entry>application/x-troff</entry>
 </row>
 <row>
   <entry><link linkend="file-format-xbase">Xbase</link></entry>
   <entry><literal>.dbf</literal></entry> 
   <entry>YES</entry>
   <entry></entry>
+  <entry>application/dbase, application/dbf, application/x-dbase,
+  application/x-dbf, application/x-xbase, zz-application/zz-winassoc-dbf</entry>
 </row>
 <row>
   <entry><link linkend="file-format-xhtml">XHTML</link></entry>
   <entry><literal>.xhtml</literal> / <literal>.html</literal></entry> 
   <entry></entry>
   <entry>YES</entry>
+  <entry>application/xhtml+xml</entry>
 </row>
 </tbody>
 </tgroup>
@@ -348,6 +417,12 @@
 	    http://www.jfree.org/jworkbook/gnumeric-xml.pdf</ulink></literal>.
 	  </para>
 
+	    An outdated PDF document discussing the &gnum; file format
+	    which should provide a useful starting point was developed
+	    by the JWorkbook project. The file can be downloaded from
+	    <literal><ulink type="http"
+	    url="http://www.jfree.org/jworkbook/download/gnumeric-xml.pdf">
+	    http://www.jfree.org/jworkbook/download/gnumeric-xml.pdf</ulink></literal>.
 
 
 	</listitem>
@@ -389,13 +464,9 @@ gunzip Book1.text.gz
           <para>
 	    XML manipulation tools can be used to transform &gnum;
             files and access the data they contain, since the file
-            format is XML. The file can be validated by a Document
-            Type Definition document. Each &gnum; file format version
-            has its own DTD.
-<!-- TODO: get link to gnumeric DTD
-            These are available via the Internet
-            at <uri>http://www.gnome.org/projects/gnumeric/v10.dtd</uri>.
- -->
+	    format is XML. The file can be validated by an XML Schema
+	    Definition (XSD) .  These are available via the Internet
+            at <uri>http://svn.gnome.org/svn/gnumeric/trunk/gnumeric.xsd</uri>.
           </para>
 
 	  <para>
@@ -499,7 +570,7 @@ gunzip Book1.text.gz
             <application>Applix</application> format, files can be
             exported to to <application>Applixware</application> can
             be performed using the <link
-            linkend="file-format-excel">Excel</link>&nbsp;file format.
+            linkend="file-format-excel-binary-new">Excel</link>&nbsp;file format.
 	  </para>
 	</listitem>
       </varlistentry>
@@ -529,13 +600,6 @@ gunzip Book1.text.gz
 
 
   </sect2>
-
-
-
-
-
-
-
 
 
 
@@ -1563,8 +1627,354 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 
 
 
-  <sect2 id="file-format-excel">
-    <title>Microsoft Excel File Format</title>
+  <sect2 id="file-format-excel-binary-old">
+    <title>Microsoft Excel Old Binary File Format</title>
+
+    <para>
+      The Microsoft Excel<trademark/>&nbsp;Old Binary file format is a binary file
+      format used by the <application>Excel</application> program in
+      the <application>Office</application> suite between versions 2
+      and 5. The format is a
+      common format supported to various extents by most spreadsheets
+      although it is incompletely documented. The &gnum; project has
+      reversed engineered all of the core features of the format.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>Excel</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.xls</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>Microsoft <application>Excel</application>,
+	           Microsoft <application>Office</application>,
+		   and many other spreadsheets </entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Both</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'MS Excel (tm)' plugin.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    These are binary file formats.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    A number of other programs are able to process files in
+	    the Microsoft Excel file format.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+  <sect2 id="file-format-excel-binary-new">
+    <title>Microsoft Excel New Binary File Format</title>
+
+    <para>
+      The Microsoft Excel<trademark/>&nbsp;New Binary file format is a binary file
+      format used by the <application>Excel</application> program in
+      the <application>Office</application> suite between versions 95
+      and 2003. The format is a
+      common format supported to various extents by most spreadsheets
+      although it is incompletely documented. The &gnum; project has
+      reversed engineered all of the core features of the format.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>Excel</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.xls</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>Microsoft <application>Excel</application>,
+	           Microsoft <application>Office</application>,
+		   and many other spreadsheets </entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Both</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'MS Excel (tm)' plugin.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    These are binary file formats.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    A number of other programs are able to process files in
+	    the Microsoft Excel file format.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+  <sect2 id="file-format-excel-oldxml">
+    <title>Microsoft Excel 2003 XML File Format</title>
+
+    <para>
+      Microsoft Exce<trademark/> 2003 shipped with a file format
+      called SpreadsheetML.  This file is XML.  It is not very common,
+      but its core features are supported.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>Excel</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.xlsx</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>Microsoft <application>Excel</application>,
+	           Microsoft <application>Office</application>,
+		   and many other spreadsheets </entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Both</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'MS Excel (tm)' plugin.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    These are zip files containing SpreadsheetML files and
+	    binary files.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    This file format is not very widespread and therefore
+	    support by 3rd-party applications is limited.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+  <sect2 id="file-format-excel-moox">
+    <title>Microsoft Excel Office Open XML SpreadsheetML</title>
+
+    <para>
+      Microsoft Office<trademark/> 2007 shipped with a new set of file
+      formats, namely the Microsoft Office Open XML SpreadsheetML
+      format.  This format is a semi-open standard based around a
+      zipped XML file.  Microsoft Office Open XML SpreadsheetML is
+      mostly standardized in ECMA 376 and ISO 29500.  This
+      implementation is covered under the Open Specification Promise
+      and therefore does not infringe upon Microsoft patents.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>Excel</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.xls</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry>Microsoft <application>Excel</application>,
+	           Microsoft <application>Office</application>,
+		   and many other spreadsheets </entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Both</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Most core features of the format are supported.
+	  </para>
+
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'MS Excel (tm)' plugin.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Format Details</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    These are zip files containing SpreadsheetML files and
+	    binary files.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    A number of other programs are able to process files in
+	    the Microsoft Excel file format.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
+
+  <sect2 id="file-format-excel-xml">
+    <title>Microsoft Excel XML</title>
 
     <para>
       The Microsoft Excel<trademark/>&nbsp;file format is a binary file
@@ -1622,7 +2032,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  <warning>
 	    <para>
 	      &gnum; does not support the very old file formats used by
-	      Excel<trademark/>&nbsp;versions prior to Excel<trademark/> 5.0.
+	      Excel<trademark/>&nbsp;versions prior to Excel<trademark/> 2.0.
 	    </para>
 	  </warning>
 
@@ -1648,7 +2058,6 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 
 	</listitem>
       </varlistentry>
-
       <varlistentry>
         <term>
 	  <emphasis role="bold">Plugin</emphasis>
@@ -1697,7 +2106,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 
 
 
-  <sect2 id="file-format-multiplan">
+  <sect2 id="file-format-sylk">
     <title>Multiplan SYLK File Format</title>
 
     <para>
@@ -1782,16 +2191,8 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
   </sect2>
 
 
-
-
-
-
-
-
-
-<!-- TODO: split or explain the three OOo formats OASIS/sxc/sxw -->
-  <sect2 id="file-format-ooo">
-    <title>OpenOffice.org XML File Format</title>
+  <sect2 id="file-format-odf">
+    <title>OpenOffice.org XML File Format (aka ODF or OASIS)</title>
 
     <para>
       The OpenOffice.org XML file format is zip archive including
@@ -1811,13 +2212,13 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	    <entry>
 	      <emphasis role="bold">Name:</emphasis>
 	    </entry>
-	    <entry>OASIS XML, OpenOffice.org XML, StarOffice</entry>
+	    <entry>ODF, OASIS XML, OpenOffice.org XML, StarOffice</entry>
 	  </row>
 	  <row>
 	    <entry>
 	      <emphasis role="bold">Extensions:</emphasis>
 	    </entry>
-	    <entry>.sxc</entry>
+	    <entry>.ods</entry>
 	  </row>
 	  <row>
 	    <entry>
@@ -1903,7 +2304,13 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	  <para>
 	    Files in this format can be imported and modified by the
 	    <application>OpenOffice.org Calc</application> spreadsheet
-	    or may be modified through XML processing.
+	    or may be modified through XML processing. 
+	    </para>
+	  <para>
+	    Other software
+            supports ODF, e.g. KOffice, although some portions of the
+	    specification have yet to be standardized and/or ratified
+	    and can therefore lead to incompatibilities.
 	  </para>
 	</listitem>
       </varlistentry>
@@ -1913,6 +2320,91 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 
   </sect2>
 
+  <sect2 id="file-format-sxc">
+    <title>OpenOffice.org Old File Format</title>
+
+    <para>
+      OpenOffice.org originally shipped with a file format that has
+      served as a basis for the new OASIS-standardized file format.
+      This file format is deprecated.
+    </para>
+
+    <para>
+      &gnum; can both open and save files in this format and plans to
+      continue to support this format in the future.
+    </para>
+
+    <informaltable frame='all'>
+      <tgroup cols='2' align='left' colsep='1' rowsep='1'>
+        <tbody>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Name:</emphasis>
+	    </entry>
+	    <entry>OpenOffice.org/StarOffice file format</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Extensions:</emphasis>
+	    </entry>
+	    <entry>.sxw</entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Compatible Programs:</emphasis>
+            </entry>
+	    <entry><application>OpenOffice.org Calc</application>,
+	           <application>StarCalc</application></entry>
+	  </row>
+	  <row>
+	    <entry>
+	      <emphasis role="bold">Open / Save:</emphasis>
+	    </entry>
+	    <entry>Both</entry>
+	  </row>
+	</tbody>
+      </tgroup>
+    </informaltable>
+
+    <variablelist>
+      <!-- <title></title> -->
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Limitations</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Plugin</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    Supported by the 'OpenCalc/StarCalc' plugin.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>
+	  <emphasis role="bold">Further Processing</emphasis>
+	</term>
+	<listitem>
+	  <para>
+	    This file format is deprecated and is not widely used.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+    </variablelist>
+
+
+  </sect2>
 
 
 
