@@ -1,9 +1,9 @@
 /* vim: set sw=8: */
 
 /*
- * excel-xml-read.c : Read MS Excel's xml
+ * excel-xml-read.c : Read MS Excel 2003 SpreadsheetML 
  *
- * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2003-2008 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -41,6 +41,7 @@
 #include "command-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
+#include "xml-io.h"
 #include <goffice/app/error-info.h>
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-plugin.h>
@@ -48,6 +49,7 @@
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
+#include <gsf/gsf-utils.h>
 #include <gmodule.h>
 #include <glib/gi18n-lib.h>
 #include <stdlib.h>
@@ -703,10 +705,34 @@ xl_xml_num_interior (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xl_xml_num_fmt (GsfXMLIn *xin, xmlChar const **attrs)
 {
+#if 0
+	static EnumVal const named_format [] = {
+		{ "General"		},
+		{ "General Number"		},
+		{ "General Date"		},
+		{ "Long Date"		},
+		{ "Medium Date"		},
+		{ "Short Date"		},
+		{ "Long Time"		},
+		{ "Medium Time"		},
+		{ "Short Time"		},
+		{ "Currency"		},
+		{ "Euro Currency"		},
+		{ "Fixed"		},
+		{ "Standard"		},
+		{ "Percent"		},
+		{ "Scientific"		},
+		{ "Yes/No"		},
+		{ "True/False"		},
+		{ "On/Off"		},
+		{ NULL, 0 }
+	};
+#endif
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "Format")) {
 			GOFormat *fmt = NULL;
+
 			if (!strcmp (attrs[1], "Percent"))
 				fmt = go_format_default_percentage ();
 			else if (!strcmp (attrs[1], "Short Time"))
@@ -718,6 +744,8 @@ xl_xml_num_fmt (GsfXMLIn *xin, xmlChar const **attrs)
 				fmt = go_format_new_from_XL ("0.00");
 			else
 				fmt = go_format_new_from_XL (attrs[1]);
+
+
 			gnm_style_set_format (state->style, fmt);
 			go_format_unref (fmt);
 		} else
@@ -980,6 +1008,39 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", GSF_XML_NO_CONTENT,
 G_MODULE_EXPORT void
 excel_xml_file_open (GOFileOpener const *fo, IOContext *context,
 		     WorkbookView *wbv, GsfInput *input);
+
+G_MODULE_EXPORT gboolean
+excel_xml_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
+
+static gboolean
+xl_xml_probe_start_element (const xmlChar *name,
+			    G_GNUC_UNUSED const xmlChar *prefix,
+			    const xmlChar *URI,
+			    G_GNUC_UNUSED int nb_namespaces,
+			    G_GNUC_UNUSED const xmlChar **namespaces,
+			    G_GNUC_UNUSED int nb_attributes,
+			    G_GNUC_UNUSED int nb_defaulted,
+			    G_GNUC_UNUSED const xmlChar **attributes)
+{
+	/* starts with <Workbook> in namespace "schemas-microsoft-com:office:spreadsheet" */
+	return 0 == strcmp (name, "Workbook") &&
+		NULL != URI &&
+		NULL != strstr (URI, "schemas-microsoft-com:office:spreadsheet");
+}
+
+gboolean
+excel_xml_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+{
+	if (pl == FILE_PROBE_FILE_NAME) {
+		char const *ext;
+		char const *name = gsf_input_name (input);
+		return  NULL != name &&
+			NULL != (ext = gsf_extension_pointer (name)) &&
+			0 == g_ascii_strcasecmp (ext, "xml");
+	}
+
+	return gsf_xml_probe (input, &xl_xml_probe_start_element);
+}
 
 void
 excel_xml_file_open (GOFileOpener const *fo, IOContext *io_context,

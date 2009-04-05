@@ -57,7 +57,7 @@
 		</service>
 
 		<!-- IMPORT partial format spreadsheetml from 2003  -->
-		<service type="file_opener" id="excel_xml" priority="1" probe="FALSE">
+		<service type="file_opener" id="excel_xml" priority="1" probe="TRUE">
 			<information>
 				<_description>MS Excel (tm) 2003 SpreadsheetML</_description>
 			</information>

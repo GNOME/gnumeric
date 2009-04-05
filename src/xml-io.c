@@ -2567,35 +2567,7 @@ maybe_convert (GsfInput *input, gboolean quiet)
 	}
 }
 
-/* We parse and do some limited validation of the XML file, if this passes,
- * then we return TRUE
- */
-
-typedef enum {
-	XML_PROBE_STATE_PROBING,
-	XML_PROBE_STATE_ERR,
-	XML_PROBE_STATE_SUCCESS
-} GnmXMLProbeState;
-
-static void
-xml_probe_start_element (GnmXMLProbeState *state, xmlChar const *name, xmlChar const **atts)
-{
-	int len = strlen (name);
-
-	*state = XML_PROBE_STATE_ERR;
-	if (len < 8)
-		return;
-	if (strcmp (name+len-8, "Workbook"))
-		return;
-	/* Do we want to get fancy and check namespace ? */
-	*state = XML_PROBE_STATE_SUCCESS;
-}
-
-static void
-xml_probe_problem (GnmXMLProbeState *state, char const *msg, ...)
-{
-	*state = XML_PROBE_STATE_ERR;
-}
+/**************************************************************************/
 
 static IOContext *io_context = NULL;
 static void
@@ -2626,15 +2598,120 @@ xml_dom_read_error (gpointer state, char const *fmt, ...)
 		gnumeric_io_error_info_set (io_context, ei);
 }
 
+/**************************************************************************/
+/* We parse and do some limited validation of the XML file, if this passes,
+ * then we return TRUE
+ */
+typedef struct {
+	GsfXMLProbeFunc	func;
+	gboolean success;
+} GsfXMLProbeState;
 
-static xmlSAXHandler xml_sax_prober;
+static void
+gsf_xml_probe_error (GsfXMLProbeState *state, char const *msg, ...)
+{
+	state->func = NULL;
+	state->success = FALSE;
+}
+static void
+gsf_xml_probe_element (GsfXMLProbeState *state,
+		       const xmlChar *name,
+		       const xmlChar *prefix,
+		       const xmlChar *URI,
+		       int nb_namespaces,
+		       const xmlChar **namespaces,
+		       int nb_attributes,
+		       int nb_defaulted,
+		       const xmlChar **attributes)
+{
+	state->success = (state->func) (name, prefix, URI, nb_namespaces, namespaces,
+					nb_attributes, nb_defaulted, attributes);
+	state->func = NULL;
+}
+
+gboolean
+gsf_xml_probe (GsfInput *input, GsfXMLProbeFunc func)
+{
+	static xmlSAXHandler gsf_xml_prober = {
+		NULL, /* internalSubset */
+		NULL, /* isStandalone */
+		NULL, /* hasInternalSubset */
+		NULL, /* hasExternalSubset */
+		NULL, /* resolveEntity */
+		NULL, /* getEntity */
+		NULL, /* entityDecl */
+		NULL, /* notationDecl */
+		NULL, /* attributeDecl */
+		NULL, /* elementDecl */
+		NULL, /* unparsedEntityDecl */
+		NULL, /* setDocumentLocator */
+		NULL, /* startDocument */
+		NULL, /* endDocument */
+		NULL, /* startElement */
+		NULL, /* endElement */
+		NULL, /* reference */
+		NULL, /* characters */
+		NULL, /* ignorableWhitespace */
+		NULL, /* processingInstruction */
+		NULL, /* comment */
+		NULL, /* xmlParserWarning */
+		(errorSAXFunc) &gsf_xml_probe_error, /* error */
+		(errorSAXFunc) &gsf_xml_probe_error, /* fatalError */
+		NULL, /* getParameterEntity */
+		NULL, /* cdataBlock; */
+		NULL, /* externalSubset; */
+		XML_SAX2_MAGIC,
+		NULL,
+		(startElementNsSAX2Func) &gsf_xml_probe_element, /* startElementNs */
+		NULL, /* endElementNs */
+		NULL  /* xmlStructuredErrorFunc */
+	};
+	GsfXMLProbeState probe_state = { func, FALSE };
+	xmlParserCtxt *parse_context;
+	char const *buf;
+
+	if (gsf_input_seek (input, 0, G_SEEK_SET))
+		return FALSE;
+
+	g_object_ref (input);
+	input = maybe_gunzip (input);
+	input = maybe_convert (input, TRUE);
+	gsf_input_seek (input, 0, G_SEEK_SET);
+
+	buf = gsf_input_read (input, 4, NULL);
+	if (NULL != buf ) {
+		parse_context = xmlCreatePushParserCtxt (&gsf_xml_prober, &probe_state,
+			(char *)buf, 4, gsf_input_name (input));
+		if (NULL != parse_context) {
+			while (NULL != probe_state.func &&
+			       NULL != (buf = gsf_input_read (input, 1, NULL)))
+				xmlParseChunk (parse_context, (char *)buf, 1, 0);
+		}
+		xmlFreeParserCtxt (parse_context);
+	}
+	g_object_unref (input);
+
+	return probe_state.success;
+}
+
+/**************************************************************************/
+
+static gboolean
+gnm_xml_probe_element (const xmlChar *name,
+		       G_GNUC_UNUSED const xmlChar *prefix,
+		       const xmlChar *URI,
+		       G_GNUC_UNUSED int nb_namespaces,
+		       G_GNUC_UNUSED const xmlChar **namespaces,
+		       G_GNUC_UNUSED int nb_attributes,
+		       G_GNUC_UNUSED int nb_defaulted,
+		       G_GNUC_UNUSED const xmlChar **attributes)
+{
+	return 0 == strcmp (name, "Workbook") &&
+		NULL != URI && NULL != strstr (URI, "gnumeric");
+}
 static gboolean
 xml_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
-	xmlParserCtxt *parse_context;
-	GnmXMLProbeState is_gnumeric_xml = XML_PROBE_STATE_PROBING;
-	char const *buf;
-
 	if (pl == FILE_PROBE_FILE_NAME) {
 		char const *name = gsf_input_name (input);
 		int len;
@@ -2652,39 +2729,10 @@ xml_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 			(g_ascii_strcasecmp (name, "gnumeric") == 0 ||
 			 g_ascii_strcasecmp (name, "xml") == 0));
 	}
-
-/* probe by content */
-	if (gsf_input_seek (input, 0, G_SEEK_SET))
-		return FALSE;
-
-	g_object_ref (input);
-	input = maybe_gunzip (input);
-	input = maybe_convert (input, TRUE);
-	gsf_input_seek (input, 0, G_SEEK_SET);
-
-	buf = gsf_input_read (input, 4, NULL);
-	if (buf == NULL)
-		goto unref_input;
-	parse_context = xmlCreatePushParserCtxt (&xml_sax_prober, &is_gnumeric_xml,
-		(char *)buf, 4, gsf_input_name (input));
-	if (parse_context == NULL)
-		goto unref_input;
-
-	do {
-		buf = gsf_input_read (input, 1, NULL);
-		if (buf != NULL)
-			xmlParseChunk (parse_context, (char *)buf, 1, 0);
-		else
-			is_gnumeric_xml = XML_PROBE_STATE_ERR;
-	} while (is_gnumeric_xml == XML_PROBE_STATE_PROBING);
-
-	xmlFreeParserCtxt (parse_context);
-
-unref_input:
-	g_object_unref (input);
-
-	return is_gnumeric_xml == XML_PROBE_STATE_SUCCESS;
+	/* probe by content */
+	return gsf_xml_probe (input, &gnm_xml_probe_element);
 }
+/**************************************************************************/
 
 /*
  * Open an XML file and read a Workbook
@@ -2780,11 +2828,6 @@ xml_init (void)
 	GOFileSaver *saver;
 	GSList *suffixes = go_slist_create (g_strdup ("gnumeric"), g_strdup ("xml"), NULL);
 	GSList *mimes = go_slist_create (g_strdup ("application/x-gnumeric"), NULL);
-	xml_sax_prober.comment    = NULL;
-	xml_sax_prober.warning    = NULL;
-	xml_sax_prober.error      = (errorSAXFunc) xml_probe_problem;
-	xml_sax_prober.fatalError = (fatalErrorSAXFunc) xml_probe_problem;
-	xml_sax_prober.startElement = (startElementSAXFunc) xml_probe_start_element;
 #warning REMOVE for 2.0
 	go_file_opener_register (go_file_opener_new (
 		"Gnumeric_XmlIO:dom",

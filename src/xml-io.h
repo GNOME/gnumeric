@@ -68,6 +68,19 @@ Sheet	    *gnm_xml_in_cur_sheet (GsfXMLIn const *xin);
 
 GnmConventions *gnm_xml_io_conventions (void);
 
+/********************************************************/
+
+typedef gboolean (*GsfXMLProbeFunc) (const xmlChar *name,
+				     const xmlChar *prefix,
+				     const xmlChar *URI,
+				     int nb_namespaces,
+				     const xmlChar **namespaces,
+				     int nb_attributes,
+				     int nb_defaulted,
+				     const xmlChar **attributes);
+gboolean gsf_xml_probe (GsfInput *input,
+			GsfXMLProbeFunc startElement);
+
 G_END_DECLS
 
 #endif /* _GNM_XML_IO_H_ */

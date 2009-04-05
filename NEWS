@@ -109,6 +109,8 @@ Jean:
 Jody:
 	* Display top-left when selecting a rel ref to a merged region.
 	* Win32 fixed.
+	* Make .gnumeric xml probe smarter.
+	* Add probe routine for MS Excel (tm) 2003 SpreadsheetML.
 
 Jon Kåre:
         * Work around vulnerability in Python.  [#569648]

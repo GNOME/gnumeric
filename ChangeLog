@@ -600,6 +600,15 @@
 	* src/parser.y (unregister_allocation): Check the whole stack if
 	we have to.  Fixes #564077.
 
+2008-12-10  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_probe) : split out the content test into ...
+	(gsf_xml_probe) : here.  Then generalize it a bit and use the SAX2
+			  startElement routine to handle name spaces.
+	(gnm_xml_probe_element) : handle the .gnumeric specific checks here.
+	    1) root element == Workbook
+	    2) Workbook is in a namespace that contains 'gnumeric'
+
 2008-12-09  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbcg_sheet_remove_all): Kill the current scg
