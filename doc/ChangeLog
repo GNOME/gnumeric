@@ -1,3 +1,11 @@
+2009-04-06  Jody Goldberg <jody@gnome.org>
+	From Joseph Pingenot <trelane@digitasaru.net>
+
+	* doc/C/files-formats.xml :
+	* doc/C/files-opening.xml :
+	* doc/C/files-saving.xml : Update the docs on various supported
+	  formats.
+
 2009-04-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.6

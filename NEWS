@@ -42,6 +42,9 @@ Jody:
 John Rea:
         * new calendar template
 
+Joseph Pingenot:
+       * Update the file format documentation.
+
 Morten:
 	* Handle elapsed time formats better on text export.
 	* Plug leak.
