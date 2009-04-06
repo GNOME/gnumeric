@@ -1,3 +1,11 @@
+2009-04-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-sheet-order.c (SheetManager): added fields
+	(set_sheet_info_at_iter): set row and col max columns
+	(create_sheet_list): handle row and col max columns
+	(dialog_sheet_order_update_sheet_order): ditto
+	(cb_adv_check_toggled): ditto
+
 2009-04-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-preferences.c (double_pref_create_widget): setting a

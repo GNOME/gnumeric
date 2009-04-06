@@ -1,5 +1,8 @@
 Gnumeric 1.9.6
 
+Andreas:
+	* Show sheet sizes in manage sheet dialog
+
 Jean:
 	* Variable sheet sizes.
 

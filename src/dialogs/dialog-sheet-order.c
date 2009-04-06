@@ -88,6 +88,8 @@ typedef struct {
 	gboolean initial_colors_set;
 
 	GtkTreeViewColumn *dir_column;
+	GtkTreeViewColumn *row_max_column;
+	GtkTreeViewColumn *col_max_column;
 
 	gulong sheet_order_changed_listener;
 	gulong sheet_added_listener;
@@ -102,6 +104,8 @@ enum {
 	SHEET_LOCK_IMAGE,
 	SHEET_VISIBLE,
 	SHEET_VISIBLE_IMAGE,
+	SHEET_ROW_MAX,
+	SHEET_COL_MAX,
 	SHEET_NAME,
 	SHEET_NEW_NAME,
 	SHEET_POINTER,
@@ -109,7 +113,7 @@ enum {
 	FOREGROUND_COLOUR,
 	SHEET_DIRECTION,
 	SHEET_DIRECTION_IMAGE,
-	NUM_COLMNS
+	NUM_COLUMNS
 };
 
 static char *verify_validity (SheetManager *state, gboolean *pchanged);
@@ -653,11 +657,13 @@ create_sheet_list (SheetManager *state)
 	GtkWidget *scrolled = glade_xml_get_widget (state->gui, "scrolled");
 	GtkCellRenderer *renderer;
 
-	state->model = gtk_list_store_new (NUM_COLMNS,
+	state->model = gtk_list_store_new (NUM_COLUMNS,
 					   G_TYPE_BOOLEAN,
 					   GDK_TYPE_PIXBUF,
 					   G_TYPE_BOOLEAN,
 					   GDK_TYPE_PIXBUF,
+					   G_TYPE_INT,
+					   G_TYPE_INT,
 					   G_TYPE_STRING,
 					   G_TYPE_STRING,
 					   G_TYPE_POINTER,
@@ -709,6 +715,25 @@ create_sheet_list (SheetManager *state)
 	gtk_tree_view_column_set_visible (column, FALSE);
 	gtk_tree_view_append_column (state->sheet_list, column);
 	state->dir_column = column;
+
+	column = gtk_tree_view_column_new_with_attributes
+		(_("Rows"),
+		 gnumeric_cell_renderer_text_new (),
+		 "text", SHEET_ROW_MAX,
+		 NULL);
+	gtk_tree_view_column_set_visible (column, FALSE);
+	gtk_tree_view_append_column (state->sheet_list, column);
+	state->row_max_column = column;
+
+	renderer = gnumeric_cell_renderer_toggle_new ();
+	column = gtk_tree_view_column_new_with_attributes
+		(_("Cols"),
+		 gnumeric_cell_renderer_text_new (),
+		 "text", SHEET_COL_MAX,
+		 NULL);
+	gtk_tree_view_column_set_visible (column, FALSE);
+	gtk_tree_view_append_column (state->sheet_list, column);
+	state->col_max_column = column;
 
 	column = gtk_tree_view_column_new_with_attributes (_("Current Name"),
 					      gnumeric_cell_renderer_text_new (),
@@ -764,6 +789,8 @@ set_sheet_info_at_iter (SheetManager *state, GtkTreeIter *iter, Sheet *sheet)
 			    SHEET_VISIBLE_IMAGE, (sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE
 						  ? state->image_visible
 						  : NULL),
+			    SHEET_ROW_MAX, gnm_sheet_get_max_rows (sheet),
+			    SHEET_COL_MAX, gnm_sheet_get_max_cols (sheet),
 			    SHEET_NAME, sheet->name_unquoted,
 			    SHEET_NEW_NAME, "",
 			    SHEET_POINTER, sheet,
@@ -1159,6 +1186,7 @@ dialog_sheet_order_update_sheet_order (SheetManager *state)
 	gboolean is_locked;
 	gboolean is_visible;
 	gboolean is_rtl;
+	int row_max, col_max;
 	GdkColor *back, *fore;
 	GtkTreeIter iter;
 	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (state->wbcg));
@@ -1195,15 +1223,17 @@ dialog_sheet_order_update_sheet_order (SheetManager *state)
 			break;
 		selected = gtk_tree_selection_iter_is_selected (sel, &iter);
 		gtk_tree_model_get (model, &iter,
-			SHEET_LOCKED, &is_locked,
-			SHEET_VISIBLE, &is_visible,
-			SHEET_NAME, &name,
-			SHEET_NEW_NAME, &new_name,
-			SHEET_POINTER, &sheet_model,
-			BACKGROUND_COLOUR, &back,
-			FOREGROUND_COLOUR, &fore,
-			SHEET_DIRECTION, &is_rtl,
-			-1);
+				    SHEET_LOCKED, &is_locked,
+				    SHEET_VISIBLE, &is_visible,
+				    SHEET_ROW_MAX, &row_max,
+				    SHEET_COL_MAX, &col_max,
+				    SHEET_NAME, &name,
+				    SHEET_NEW_NAME, &new_name,
+				    SHEET_POINTER, &sheet_model,
+				    BACKGROUND_COLOUR, &back,
+				    FOREGROUND_COLOUR, &fore,
+				    SHEET_DIRECTION, &is_rtl,
+				    -1);
 		gtk_list_store_remove (state->model, &iter);
 		g_signal_handler_block (state->model, state->model_row_insertion_listener);
 		gtk_list_store_insert (state->model, &iter, i);
@@ -1215,6 +1245,8 @@ dialog_sheet_order_update_sheet_order (SheetManager *state)
 				    SHEET_VISIBLE, is_visible,
 				    SHEET_VISIBLE_IMAGE, is_visible ?
 				    state->image_visible : NULL,
+				    SHEET_ROW_MAX, row_max,
+				    SHEET_COL_MAX, col_max,
 				    SHEET_NAME, name,
 				    SHEET_NEW_NAME, new_name,
 				    SHEET_POINTER, sheet_model,
@@ -1340,6 +1372,8 @@ cb_adv_check_toggled (G_GNUC_UNUSED GtkToggleButton *ignored,
 		(GTK_TOGGLE_BUTTON (state->advanced_check));
 
 	gtk_tree_view_column_set_visible (state->dir_column, visible);
+	gtk_tree_view_column_set_visible (state->col_max_column, visible);
+	gtk_tree_view_column_set_visible (state->row_max_column, visible);
 }
 
 
