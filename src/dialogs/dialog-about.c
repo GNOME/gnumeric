@@ -274,7 +274,7 @@ dialog_about (WBCGtk *wbcg)
 	g_object_set_data_full (G_OBJECT (state->about),
 		"state", state, (GDestroyNotify)gnm_about_state_free);
 
-	state->graph = g_object_new (GOG_GRAPH_TYPE, NULL);
+	state->graph = g_object_new (GOG_TYPE_GRAPH, NULL);
 	gog_graph_set_size (GOG_GRAPH (state->graph), 4 * 72.0, 4 * 72.0);
 	GOG_STYLED_OBJECT (state->graph)->style->fill.type = GOG_FILL_STYLE_GRADIENT;
 	GOG_STYLED_OBJECT (state->graph)->style->fill.pattern.back = 0xFFFF99FF;
@@ -384,7 +384,7 @@ dialog_about (WBCGtk *wbcg)
 	foo_canvas_scroll_to (FOO_CANVAS (state->canvas), 0, 0);
 
 	state->ctrl = foo_canvas_item_new (foo_canvas_root (FOO_CANVAS (state->canvas)),
-			GOG_CONTROL_FOOCANVAS_TYPE,
+			GOG_TYPE_CONTROL_FOOCANVAS,
 			"model", state->graph,
 			NULL);
 	g_object_connect (state->canvas,

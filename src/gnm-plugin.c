@@ -49,7 +49,7 @@ plugin_service_function_group_finalize (GObject *obj)
 	go_slist_free_custom (service_function_group->function_name_list, g_free);
 	service_function_group->function_name_list = NULL;
 
-	parent_class = g_type_class_peek (GO_PLUGIN_SERVICE_TYPE);
+	parent_class = g_type_class_peek (GO_TYPE_PLUGIN_SERVICE);
 	parent_class->finalize (obj);
 }
 
@@ -245,7 +245,7 @@ plugin_service_function_group_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (PluginServiceFunctionGroup, plugin_service_function_group,
            plugin_service_function_group_class_init, plugin_service_function_group_init,
-           GO_PLUGIN_SERVICE_SIMPLE_TYPE)
+           GO_TYPE_PLUGIN_SERVICE_SIMPLE)
 
 /****************************************************************************/
 
@@ -284,7 +284,7 @@ plugin_service_ui_finalize (GObject *obj)
 	go_slist_free_custom (service_ui->actions, (GFreeFunc)gnm_action_free);
 	service_ui->actions = NULL;
 
-	parent_class = g_type_class_peek (GO_PLUGIN_SERVICE_TYPE);
+	parent_class = g_type_class_peek (GO_TYPE_PLUGIN_SERVICE);
 	parent_class->finalize (obj);
 }
 
@@ -432,7 +432,7 @@ plugin_service_ui_class_init (GObjectClass *gobject_class)
 
 GSF_CLASS (PluginServiceUI, plugin_service_ui,
            plugin_service_ui_class_init, plugin_service_ui_init,
-           GO_PLUGIN_SERVICE_TYPE)
+           GO_TYPE_PLUGIN_SERVICE)
 
 /****************************************************************************/
 
@@ -644,8 +644,8 @@ go_plugin_loader_module_iface_init (GOPluginLoaderClass *iface)
 
 GSF_CLASS_FULL (GnmPluginLoaderModule, gnm_plugin_loader_module,
            NULL, NULL, NULL, NULL,
-           NULL, GO_PLUGIN_LOADER_MODULE_TYPE, 0,
-	   GSF_INTERFACE (go_plugin_loader_module_iface_init, GO_PLUGIN_LOADER_TYPE))
+           NULL, GO_TYPE_PLUGIN_LOADER_MODULE, 0,
+	   GSF_INTERFACE (go_plugin_loader_module_iface_init, GO_TYPE_PLUGIN_LOADER))
 
 /****************************************************************************/
 

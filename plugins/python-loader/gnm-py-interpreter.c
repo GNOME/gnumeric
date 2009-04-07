@@ -87,7 +87,7 @@ gnm_py_interpreter_new (GOPlugin *plugin)
 	GnmPyInterpreter *interpreter;
 	PyThreadState *py_thread_state;
 
-	g_return_val_if_fail (plugin == NULL || IS_GO_PLUGIN (plugin), NULL);
+	g_return_val_if_fail (plugin == NULL || GO_IS_PLUGIN (plugin), NULL);
 
 	if (plugin != NULL) {
 		py_thread_state = Py_NewInterpreter ();

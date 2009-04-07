@@ -702,7 +702,7 @@ pref_tool_page_initializer (PrefState *state,
 	enum_pref_create_widget (state->root,
 				 GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_ENTER_MOVES_DIR,
 				 page, row++, 
-				 GO_DIRECTION_TYPE,
+				 GO_TYPE_DIRECTION,
 				 (enum_conf_setter_t) gnm_gconf_set_enter_moves_dir,
 				 _("Enter _Moves Selection"));
 	bool_pref_create_widget (state->root,

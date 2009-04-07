@@ -667,7 +667,7 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 			}
 			break;
 		case 1: {
-			GogObject *GridLine = GOG_OBJECT (g_object_new (GOG_GRID_LINE_TYPE,
+			GogObject *GridLine = GOG_OBJECT (g_object_new (GOG_TYPE_GRID_LINE,
 							NULL));
 			gog_object_add_by_name (GOG_OBJECT (s->axis), "MajorGrid", GridLine);
 			if (check_style (s->style, "axis major grid"))
@@ -675,7 +675,7 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 			break;
 		}
 		case 2: {
-			GogObject *GridLine = GOG_OBJECT (g_object_new (GOG_GRID_LINE_TYPE,
+			GogObject *GridLine = GOG_OBJECT (g_object_new (GOG_TYPE_GRID_LINE,
 							NULL));
 			gog_object_add_by_name (GOG_OBJECT (s->axis), "MinorGrid", GridLine);
 			if (check_style (s->style, "axis minor grid"))
@@ -2595,7 +2595,7 @@ BC_R(end)(XLChartHandler const *handle,
 				goto not_a_matrix;
 			eseries = g_ptr_array_index (s->series, 0);
 			style = eseries->style;
-			if (!IS_GO_DATA_VECTOR (eseries->data [GOG_MS_DIM_CATEGORIES].data))
+			if (!GO_IS_DATA_VECTOR (eseries->data [GOG_MS_DIM_CATEGORIES].data))
 				goto not_a_matrix;
 			cat_expr = gnm_go_data_get_expr (eseries->data [GOG_MS_DIM_CATEGORIES].data);
 			if (!gnm_expr_top_is_rangeref (cat_expr))
@@ -2628,7 +2628,7 @@ BC_R(end)(XLChartHandler const *handle,
 				if (eseries->chart_group != s->plot_counter)
 					continue;
 				cur = eseries->data [GOG_MS_DIM_LABELS].data;
-				if (!cur || !IS_GO_DATA_SCALAR (cur)) {
+				if (!cur || !GO_IS_DATA_SCALAR (cur)) {
 					is_matrix = FALSE;
 					break;
 				}
@@ -2652,7 +2652,7 @@ BC_R(end)(XLChartHandler const *handle,
 					break;
 				}
 				cur = eseries->data [GOG_MS_DIM_VALUES].data;
-				if (!cur || !IS_GO_DATA_VECTOR (cur)) {
+				if (!cur || !GO_IS_DATA_VECTOR (cur)) {
 					is_matrix = FALSE;
 					break;
 				}
@@ -2759,7 +2759,7 @@ not_a_matrix:
 		 */
 		{
 			GogAxisSet axis_set = gog_chart_get_axis_set (s->chart);
-			GogAxisSet plot_axis_set = G_TYPE_INSTANCE_GET_CLASS ((s->plot), GOG_PLOT_TYPE, GogPlotClass)->axis_set;
+			GogAxisSet plot_axis_set = G_TYPE_INSTANCE_GET_CLASS ((s->plot), GOG_TYPE_PLOT, GogPlotClass)->axis_set;
 
 			if (axis_set != GOG_AXIS_SET_UNKNOWN &&
 			    (axis_set & GOG_AXIS_SET_FUNDAMENTAL & ~plot_axis_set)) {
@@ -3238,7 +3238,7 @@ xl_chart_import_trend_line (XLChartReadState *state, XLChartSeries *series)
 		break;
 	}
 	if (rc) {
-		if (IS_GOG_REG_CURVE (rc)) {
+		if (GOG_IS_REG_CURVE (rc)) {
 			sheet = ms_container_sheet (state->container.parent);
 			g_object_set (G_OBJECT (rc),
 				"affine", series->reg_intercept != 0.,
@@ -3322,7 +3322,7 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 			      prop_name, &error_bar,
 			      NULL);
 		if (!error_bar) {
-			error_bar = g_object_new (GOG_ERROR_BAR_TYPE, NULL);
+			error_bar = g_object_new (GOG_TYPE_ERROR_BAR, NULL);
 			error_bar->display = GOG_ERROR_BAR_DISPLAY_NONE;
 		}
 		error_bar->display |= (series->err_type & 1)
@@ -3731,7 +3731,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 
 				l1 = g_slist_copy ((GSList *) gog_axis_contributors (hidden));
 				for (cur1 = l1; cur1; cur1 = cur1->next) {
-					if (IS_GOG_PLOT (cur1->data))
+					if (GOG_IS_PLOT (cur1->data))
 						gog_plot_set_axis (GOG_PLOT (cur1->data), visible);
 				}
 				g_slist_free (l1);
@@ -4298,12 +4298,12 @@ store_dim (GogSeries const *series, GogMSDimType t,
 	if (dat == NULL) {
 		count = default_count;
 		type = 1; /* numeric */
-	} else if (IS_GO_DATA_SCALAR (dat)) {
+	} else if (GO_IS_DATA_SCALAR (dat)) {
 		/* cheesy test to see if the content is strings or numbers */
 		double tmp = go_data_scalar_get_value (GO_DATA_SCALAR (dat));
 		type = gnm_finite (tmp) ? 1 : 3;
 		count = 1;
-	} else if (IS_GO_DATA_VECTOR (dat)) {
+	} else if (GO_IS_DATA_VECTOR (dat)) {
 		count = go_data_vector_get_len (GO_DATA_VECTOR (dat));
 		if (count > 0) {
 			/* cheesy test to see if the content is strings or numbers */
@@ -4385,9 +4385,9 @@ chart_write_error_bar (XLChartWriteState *s, GogErrorBar *bar, unsigned n,
 
 	if (bar->type == GOG_ERROR_BAR_TYPE_NONE)
 		return FALSE;
-	if (!IS_GO_DATA (vec))
+	if (!GO_IS_DATA (vec))
 		vec = GO_DATA_VECTOR (bar->series->values[bar->error_i].data);
-	if (!IS_GO_DATA (vec)) /* if still no data, do not save */
+	if (!GO_IS_DATA (vec)) /* if still no data, do not save */
 		return FALSE;
 	length = go_data_vector_get_len (vec);
 	if (length == 1)
@@ -4534,7 +4534,7 @@ chart_write_trend_line (XLChartWriteState *s, GogTrendLine *rc, unsigned n, unsi
 	data = ms_biff_put_len_next (s->bp, BIFF_CHART_serauxtrend, 28);
 	GSF_LE_SET_GUINT8  (data+0, type);
 	GSF_LE_SET_GUINT8  (data+1, (guint8) order);
-	if (IS_GOG_REG_CURVE (rc)) {
+	if (GOG_IS_REG_CURVE (rc)) {
 		g_object_get (G_OBJECT (rc), "affine", &affine,
 				"skip-invalid", &skip_invalid, NULL);
 		eqn = gog_object_get_child_by_name (GOG_OBJECT (rc), "Equation");
@@ -4552,7 +4552,7 @@ chart_write_trend_line (XLChartWriteState *s, GogTrendLine *rc, unsigned n, unsi
 	ms_biff_put_commit (s->bp);
 
 	/* now write our stuff */
-	if (IS_GOG_REG_CURVE (rc)) {
+	if (GOG_IS_REG_CURVE (rc)) {
 		/*
 			data+0 == min, #NA if not set
 			data+8 == max, #NA if not set
@@ -5468,7 +5468,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 
 	/* TODO : create a null renderer class for use in sizing things */
 	sheet_object_position_pts_get (so, pos);
-	renderer  = g_object_new (GOG_RENDERER_TYPE,
+	renderer  = g_object_new (GOG_TYPE_RENDERER,
 				  "model", state.graph,
 				  NULL);
 	gog_renderer_update (renderer, pos[2] - pos[0], pos[3] - pos[1]);

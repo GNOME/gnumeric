@@ -469,7 +469,7 @@ gnm_so_line_class_init (GObjectClass *gobject_class)
 #endif /* GNM_WITH_GTK */
 
         g_object_class_install_property (gobject_class, SOL_PROP_STYLE,
-                 g_param_spec_object ("style", NULL, NULL, GOG_STYLE_TYPE,
+                 g_param_spec_object ("style", NULL, NULL, GOG_TYPE_STYLE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, SOL_PROP_START_ARROW,
                  g_param_spec_pointer ("start-arrow", NULL, NULL,

@@ -26,7 +26,7 @@
 
 #include <glib/gi18n-lib.h>
 
-#define CC_CLASS(o) (G_TYPE_INSTANCE_GET_INTERFACE ((o), GO_CMD_CONTEXT_TYPE, GOCmdContextClass))
+#define CC_CLASS(o) (G_TYPE_INSTANCE_GET_INTERFACE ((o), GO_TYPE_CMD_CONTEXT, GOCmdContextClass))
 
 static GError *
 format_message (GQuark id, char const *message)

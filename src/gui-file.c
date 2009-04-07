@@ -78,7 +78,7 @@ make_format_chooser (GList *list, GtkComboBox *combo)
 
 		if (!l->data)
 			descr = _("Automatically detected");
-		else if (IS_GO_FILE_OPENER (l->data))
+		else if (GO_IS_FILE_OPENER (l->data))
 			descr = go_file_opener_get_description (
 						GO_FILE_OPENER (l->data));
 		else
@@ -164,7 +164,7 @@ file_opener_find_by_id (GList *openers, char const *id)
 		return 0;
 
 	for (l = openers; l != NULL; l = l->next, i++) {
-		if (IS_GO_FILE_OPENER (l->data) &&
+		if (GO_IS_FILE_OPENER (l->data) &&
 		    strcmp (id, go_file_opener_get_id(l->data)) == 0)
 			return i;
 	}

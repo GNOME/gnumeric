@@ -414,7 +414,7 @@ icg_init (IOContextGtk *icg)
 GSF_CLASS_FULL (IOContextGtk, io_context_gtk,
 		NULL, NULL, icg_class_init, NULL,
 		icg_init, TYPE_IO_CONTEXT, 0,
-		GSF_INTERFACE (icg_gnm_cmd_context_init, GO_CMD_CONTEXT_TYPE))
+		GSF_INTERFACE (icg_gnm_cmd_context_init, GO_TYPE_CMD_CONTEXT))
 
 void
 icg_set_transient_for (IOContextGtk *icg, GtkWindow *parent_window)

@@ -77,9 +77,9 @@ typedef struct {
 
 typedef GOComponentClass GOGnmComponentClass;
 
-#define GO_GNM_COMPONENT_TYPE	(go_gnm_component_get_type ())
-#define GO_GNM_COMPONENT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_GNM_COMPONENT_TYPE, GOGnmComponent))
-#define GO_IS_GNM_COMPONENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_GNM_COMPONENT_TYPE))
+#define GO_TYPE_GNM_COMPONENT	(go_gnm_component_get_type ())
+#define GO_GNM_COMPONENT(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GO_TYPE_GNM_COMPONENT, GOGnmComponent))
+#define GO_IS_GNM_COMPONENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GO_TYPE_GNM_COMPONENT))
 
 GType go_gnm_component_get_type (void);
 
@@ -257,7 +257,7 @@ go_gnm_component_class_init (GOComponentClass *klass)
 
 GSF_DYNAMIC_CLASS (GOGnmComponent, go_gnm_component,
 	go_gnm_component_class_init, go_gnm_component_init,
-	GO_COMPONENT_TYPE)
+	GO_TYPE_COMPONENT)
 
 /*************************************************************************************/
 

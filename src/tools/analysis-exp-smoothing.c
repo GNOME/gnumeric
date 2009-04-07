@@ -64,7 +64,7 @@ create_line_plot (GogPlot **plot, SheetObject **so)
 		GogGraph     *graph;
 		GogChart     *chart;
 		
-		graph = g_object_new (GOG_GRAPH_TYPE, NULL);
+		graph = g_object_new (GOG_TYPE_GRAPH, NULL);
 		chart = GOG_CHART (gog_object_add_by_name (GOG_OBJECT (graph), "Chart", NULL));
 		*plot = gog_plot_new_by_name ("GogLinePlot");
 		gog_object_add_by_name (GOG_OBJECT (chart), "Plot", GOG_OBJECT (*plot));

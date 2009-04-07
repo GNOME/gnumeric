@@ -5768,7 +5768,7 @@ extract_gog_object_style (XLExportBase *ewb, GogObject *obj)
 {
 	GSList *ptr = obj->children;
 
-	if (IS_GOG_STYLED_OBJECT (obj)) {
+	if (GOG_IS_STYLED_OBJECT (obj)) {
 		GogStyle const *style = GOG_STYLED_OBJECT (obj)->style;
 		if (style->interesting_fields & GOG_STYLE_OUTLINE)
 			put_color_go_color (ewb, style->outline.color);
@@ -5795,7 +5795,7 @@ extract_gog_object_style (XLExportBase *ewb, GogObject *obj)
 		if (style->interesting_fields & GOG_STYLE_FONT)
 			excel_font_from_go_font (ewb, style->font.font);
 	}
-	if (IS_GOG_AXIS (obj)) {
+	if (GOG_IS_AXIS (obj)) {
 		char *fmt_str;
 		g_object_get (G_OBJECT (obj), "assigned-format-string-XL", &fmt_str, NULL);
 		if (fmt_str != NULL) {

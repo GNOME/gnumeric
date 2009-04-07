@@ -43,7 +43,7 @@ typedef enum {
 typedef  int (*GnmSearchReplaceQueryFunc) (GnmSearchReplaceQuery q, GnmSearchReplace *sr, ...);
 
 struct _GnmSearchReplace {
-	GoSearchReplace base;
+	GOSearchReplace base;
 
 	GnmSearchReplaceScope scope;
 	char *range_text;

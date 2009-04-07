@@ -1041,7 +1041,7 @@ static void
 xlsx_axis_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	state->axis.obj	 = g_object_new (GOG_AXIS_TYPE, NULL);
+	state->axis.obj	 = g_object_new (GOG_TYPE_AXIS, NULL);
 	state->axis.type = xin->node->user_data.v_int;
 	state->axis.info = NULL;
 	xlsx_chart_push_obj (state, GOG_OBJECT (state->axis.obj));
@@ -1357,7 +1357,7 @@ xlsx_chart_style_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->cur_obj &&
-	    IS_GOG_STYLED_OBJECT (state->cur_obj) &&
+	    GOG_IS_STYLED_OBJECT (state->cur_obj) &&
 	    NULL == state->marker) {
 		g_return_if_fail (state->cur_style == NULL);
 		state->cur_style = gog_style_dup (
@@ -1567,7 +1567,7 @@ static void
 xlsx_chart_marker_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (NULL != state->cur_obj && IS_GOG_STYLED_OBJECT (state->cur_obj)) {
+	if (NULL != state->cur_obj && GOG_IS_STYLED_OBJECT (state->cur_obj)) {
 		GogStyle *style = gog_styled_object_get_style (
 			GOG_STYLED_OBJECT (state->cur_obj));
 		if (state->marker_symbol != GO_MARKER_MAX) {
@@ -1984,7 +1984,7 @@ cb_axis_set_position (GObject *axis, XLSXAxisInfo *info,
 
 			l1 = g_slist_copy ((GSList *) gog_axis_contributors (GOG_AXIS (axis)));
 			for (cur1 = l1; cur1; cur1 = cur1->next) {
-				if (IS_GOG_PLOT (cur1->data))
+				if (GOG_IS_PLOT (cur1->data))
 					gog_plot_set_axis (GOG_PLOT (cur1->data), visible);
 			}
 			g_slist_free (l1);
@@ -2013,7 +2013,7 @@ xlsx_axis_cleanup (XLSXReadState *state)
 	/* clean out axis that were auto created */
 	list = gog_object_get_children (GOG_OBJECT (state->chart), NULL);
 	for (ptr = list; ptr != NULL ; ptr = ptr->next)
-		if (IS_GOG_AXIS (ptr->data) &&
+		if (GOG_IS_AXIS (ptr->data) &&
 		    NULL == g_hash_table_lookup (state->axis.by_obj, ptr->data)) {
 			if (gog_object_is_deletable (GOG_OBJECT (ptr->data))) {
 				gog_object_clear_parent	(GOG_OBJECT (ptr->data));

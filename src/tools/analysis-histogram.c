@@ -338,7 +338,7 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		GOData *values;
 		int ct;
 		
-		graph = g_object_new (GOG_GRAPH_TYPE, NULL);
+		graph = g_object_new (GOG_TYPE_GRAPH, NULL);
 		chart = GOG_CHART (gog_object_add_by_name (
 						   GOG_OBJECT (graph), "Chart", NULL));
 

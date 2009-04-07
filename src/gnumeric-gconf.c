@@ -198,7 +198,7 @@ gnm_conf_init_essential (void)
 		  node, GNM_CONF_GUI_ZOOM, .1, 5., 1.);
 	prefs.enter_moves_dir = go_conf_load_enum (
 		  node, GNM_CONF_GUI_ED_ENTER_MOVES_DIR,
-		  GO_DIRECTION_TYPE, GO_DIRECTION_DOWN);
+		  GO_TYPE_DIRECTION, GO_DIRECTION_DOWN);
 	prefs.auto_complete = go_conf_load_bool (
 		  node, GNM_CONF_GUI_ED_AUTOCOMPLETE, TRUE);
 	prefs.live_scrolling = go_conf_load_bool (
@@ -1072,7 +1072,7 @@ gnm_gconf_set_enter_moves_dir (GODirection val)
 {
 	prefs.enter_moves_dir = val;
 	go_conf_set_enum (
-		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_ENTER_MOVES_DIR, GO_DIRECTION_TYPE, val);
+		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_ENTER_MOVES_DIR, GO_TYPE_DIRECTION, val);
 }
 
 void

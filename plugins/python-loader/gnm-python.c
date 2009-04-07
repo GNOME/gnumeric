@@ -206,7 +206,7 @@ gnm_python_new_interpreter (GnmPython *gpy, GOPlugin *plugin)
 	GnmPyInterpreter *interpreter;
 
 	g_return_val_if_fail (IS_GNM_PYTHON (gpy), NULL);
-	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
+	g_return_val_if_fail (GO_IS_PLUGIN (plugin), NULL);
 
 	interpreter = gnm_py_interpreter_new (plugin);
 	GO_SLIST_PREPEND (gpy->interpreters, interpreter);

@@ -26,7 +26,7 @@
 static GObjectClass *parent_class;
 
 typedef struct {
-	GoSearchReplaceClass base_class;
+	GOSearchReplaceClass base_class;
 } GnmSearchReplaceClass;
 
 enum {
@@ -719,4 +719,4 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 /* ------------------------------------------------------------------------- */
 
 GSF_CLASS (GnmSearchReplace, gnm_search_replace,
-	   gnm_search_replace_class_init, gnm_search_replace_init, GO_SEARCH_REPLACE_TYPE)
+	   gnm_search_replace_class_init, gnm_search_replace_init, GO_TYPE_SEARCH_REPLACE)

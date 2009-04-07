@@ -38,7 +38,7 @@ cb_generate_preview (GOFormatSel *gfs, GOColor *c)
 GtkWidget *
 gnm_format_sel_new (void)
 {
-	GObject *w = g_object_new (GO_FORMAT_SEL_TYPE, NULL);
+	GObject *w = g_object_new (GO_TYPE_FORMAT_SEL, NULL);
 	g_signal_connect (w, "generate-preview",
 		G_CALLBACK (cb_generate_preview), NULL);
 	return GTK_WIDGET (w);
@@ -47,7 +47,7 @@ gnm_format_sel_new (void)
 void
 gnm_format_sel_set_value (GOFormatSel *gfs, GnmValue const *value)
 {
-  	g_return_if_fail (IS_GO_FORMAT_SEL (gfs));
+  	g_return_if_fail (GO_IS_FORMAT_SEL (gfs));
 	g_return_if_fail (value != NULL);
 
 	g_object_set_data_full (G_OBJECT (gfs),

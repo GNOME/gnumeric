@@ -1,3 +1,13 @@
+2009-04-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
+
+	Adapt to the naming consistency fix in goffice.
+
+	/\bGO_([A-Z,_)*]_TYPE\b/GO_TYPE_$1/
+	/\bGOG_([A-Z,_)*]_TYPE\b/GOG_TYPE_$1/
+	/\bGo([A-Z])/GO$1/
+	/\bIS_GO_/GO_IS_/
+	/\bIS_GOG_/GOG_IS_/
+
 2009-04-05  Jody Goldberg <jody@gnome.org>
 
 	From: Vivien Malerba <vmalerba@gmail.com>

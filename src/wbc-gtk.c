@@ -4909,8 +4909,8 @@ wbc_gtk_init (GObject *obj)
 
 GSF_CLASS_FULL (WBCGtk, wbc_gtk, NULL, NULL, wbc_gtk_class_init, NULL,
 	wbc_gtk_init, WORKBOOK_CONTROL_TYPE, 0,
-	GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GOG_DATA_ALLOCATOR_TYPE);
-	GSF_INTERFACE (wbcg_gnm_cmd_context_init, GO_CMD_CONTEXT_TYPE))
+	GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GOG_TYPE_DATA_ALLOCATOR);
+	GSF_INTERFACE (wbcg_gnm_cmd_context_init, GO_TYPE_CMD_CONTEXT))
 
 /******************************************************************************/
 

@@ -327,7 +327,7 @@ gnm_so_polygon_class_init (GObjectClass *gobject_class)
 	so_class->draw_cairo	= gnm_so_polygon_draw_cairo;
 
         g_object_class_install_property (gobject_class, SOP_PROP_STYLE,
-                 g_param_spec_object ("style", NULL, NULL, GOG_STYLE_TYPE,
+                 g_param_spec_object ("style", NULL, NULL, GOG_TYPE_STYLE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, SOP_PROP_POINTS,
                  g_param_spec_pointer ("points", NULL, NULL,

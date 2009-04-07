@@ -302,7 +302,7 @@ gnm_go_data_scalar_init (GObject *obj)
 
 GSF_CLASS (GnmGODataScalar, gnm_go_data_scalar,
 	   gnm_go_data_scalar_class_init, gnm_go_data_scalar_init,
-	   GO_DATA_SCALAR_TYPE)
+	   GO_TYPE_DATA_SCALAR)
 
 GOData *
 gnm_go_data_scalar_new_expr (Sheet *sheet, GnmExprTop const *texpr)
@@ -695,7 +695,7 @@ gnm_go_data_vector_init (GObject *obj)
 
 GSF_CLASS (GnmGODataVector, gnm_go_data_vector,
 	   gnm_go_data_vector_class_init, gnm_go_data_vector_init,
-	   GO_DATA_VECTOR_TYPE)
+	   GO_TYPE_DATA_VECTOR)
 
 GOData *
 gnm_go_data_vector_new_expr (Sheet *sheet, GnmExprTop const *texpr)
@@ -1102,7 +1102,7 @@ gnm_go_data_matrix_init (GObject *obj)
 
 GSF_CLASS (GnmGODataMatrix, gnm_go_data_matrix,
 	   gnm_go_data_matrix_class_init, gnm_go_data_matrix_init,
-	   GO_DATA_MATRIX_TYPE)
+	   GO_TYPE_DATA_MATRIX)
 
 GOData *
 gnm_go_data_matrix_new_expr (Sheet *sheet, GnmExprTop const *texpr)

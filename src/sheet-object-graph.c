@@ -100,7 +100,7 @@ typedef GogControlFooCanvas		SOGraphFooView;
 typedef GogControlFooCanvasClass	SOGraphFooViewClass;
 static GSF_CLASS_FULL (SOGraphFooView, so_graph_foo_view,
 	NULL, NULL, NULL, NULL,
-	NULL, GOG_CONTROL_FOOCANVAS_TYPE, 0,
+	NULL, GOG_TYPE_CONTROL_FOOCANVAS, 0,
 	GSF_INTERFACE (so_graph_foo_view_init, SHEET_OBJECT_VIEW_TYPE))
 
 /****************************************************************************/
@@ -585,7 +585,7 @@ sheet_object_graph_set_gog (SheetObject *so, GogGraph *graph)
 
 		g_object_ref (G_OBJECT (graph));
 	} else
-		graph = g_object_new (GOG_GRAPH_TYPE, NULL);
+		graph = g_object_new (GOG_TYPE_GRAPH, NULL);
 
 	if (sog->graph != NULL) {
 		g_signal_handler_disconnect (sog->graph, sog->add_sig);

@@ -62,7 +62,7 @@ static GObjectClass *workbook_parent_class;
 static void
 cb_saver_finalize (Workbook *wb, GOFileSaver *saver)
 {
-	g_return_if_fail (IS_GO_FILE_SAVER (saver));
+	g_return_if_fail (GO_IS_FILE_SAVER (saver));
 	g_return_if_fail (IS_WORKBOOK (wb));
 	g_return_if_fail (wb->file_saver == saver);
 	wb->file_saver = NULL;
@@ -1378,4 +1378,4 @@ workbook_sheet_state_diff (const WorkbookSheetState *wss_a, const WorkbookSheetS
 
 GSF_CLASS (Workbook, workbook,
 	   workbook_class_init, workbook_init,
-	   GO_DOC_TYPE)
+	   GO_TYPE_DOC)

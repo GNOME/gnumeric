@@ -65,7 +65,7 @@ url_renderer_func (GtkTreeViewColumn *tree_column,
 	gtk_tree_model_get (model, iter,
 			    QUIT_COL_DOC, &doc,
 			    -1);
-	g_return_if_fail (IS_GO_DOC (doc));
+	g_return_if_fail (GO_IS_DOC (doc));
 
 	uri = go_doc_get_uri (doc);
 	filename = go_filename_from_uri (uri);

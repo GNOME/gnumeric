@@ -316,7 +316,7 @@ GSF_CLASS_FULL (WorkbookControlCORBA, workbook_control_corba,
 		NULL, NULL, wbcc_class_init, NULL,
 		wbcc_init,  WORKBOOK_CONTROL_TYPE, 0,
 		GSF_INTERFACE (wbcc_gnm_cmd_context_init,
-			       GO_CMD_CONTEXT_TYPE))
+			       GO_TYPE_CMD_CONTEXT))
 
 WorkbookControl *
 workbook_control_corba_new (WorkbookView *optional_view,

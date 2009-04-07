@@ -911,9 +911,9 @@ wb_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 	gboolean has_error, has_warning;
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
-	g_return_val_if_fail (IS_GO_FILE_SAVER (fs), FALSE);
+	g_return_val_if_fail (GO_IS_FILE_SAVER (fs), FALSE);
 	g_return_val_if_fail (uri != NULL, FALSE);
-	g_return_val_if_fail (IS_GO_CMD_CONTEXT (context), FALSE);
+	g_return_val_if_fail (GO_IS_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_get_workbook (wbv);
 	g_object_ref (wb);
@@ -959,7 +959,7 @@ wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 	gboolean has_error, has_warning;
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
-	g_return_val_if_fail (IS_GO_CMD_CONTEXT (context), FALSE);
+	g_return_val_if_fail (GO_IS_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_get_workbook (wbv);
 	g_object_ref (wb);
@@ -1000,7 +1000,7 @@ wb_view_new_from_input  (GsfInput *input,
 
 	g_return_val_if_fail (GSF_IS_INPUT(input), NULL);
 	g_return_val_if_fail (optional_fmt == NULL ||
-			      IS_GO_FILE_OPENER (optional_fmt), NULL);
+			      GO_IS_FILE_OPENER (optional_fmt), NULL);
 
 	/* NOTE : we could support gzipped anything here if we wanted to
 	 * by adding a wrapper, but there is no framework for remembering that

@@ -6605,8 +6605,8 @@ cmd_so_graph_config (WorkbookControl *wbc, SheetObject *so,
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
 	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPH (so), TRUE);
-	g_return_val_if_fail (IS_GOG_GRAPH (n_graph), TRUE);
-	g_return_val_if_fail (IS_GOG_GRAPH (o_graph), TRUE);
+	g_return_val_if_fail (GOG_IS_GRAPH (n_graph), TRUE);
+	g_return_val_if_fail (GOG_IS_GRAPH (o_graph), TRUE);
 
 	me = g_object_new (CMD_SO_GRAPH_CONFIG_TYPE, NULL);
 

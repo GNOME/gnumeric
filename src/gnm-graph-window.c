@@ -84,7 +84,7 @@ update_graph_sizing_mode (GnmGraphWindow *window)
 	GOGraphWidgetSizeMode size_mode;
 	ChartSize size;
 
-	g_assert (IS_GO_GRAPH_WIDGET (window->graph));
+	g_assert (GO_IS_GRAPH_WIDGET (window->graph));
 
 	obey_ratio = FALSE;
 
@@ -259,7 +259,7 @@ gnm_graph_window_set_graph (GnmGraphWindow *window,
 
 	if (graph != NULL) {
 		graph = gog_graph_dup (graph);
-		window->graph = g_object_new (GO_GRAPH_WIDGET_TYPE,
+		window->graph = g_object_new (GO_TYPE_GRAPH_WIDGET,
 					      "graph", graph,
 					      "hres", gnm_app_display_dpi_get (TRUE),
 					      "vres", gnm_app_display_dpi_get (FALSE),
@@ -289,7 +289,7 @@ gnm_graph_window_new (GogGraph *graph,
 {
 	GtkWidget *ret;
 
-	g_return_val_if_fail (IS_GOG_GRAPH (graph), NULL);
+	g_return_val_if_fail (GOG_IS_GRAPH (graph), NULL);
 
 	ret = g_object_new (gnm_graph_window_get_type (), NULL);
 	gnm_graph_window_set_graph (GNM_GRAPH_WINDOW (ret), graph, graph_width, graph_height);

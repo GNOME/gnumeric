@@ -112,7 +112,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 	if (info->chart) {
 		GogChart     *chart;
 		
-		graph = g_object_new (GOG_GRAPH_TYPE, NULL);
+		graph = g_object_new (GOG_TYPE_GRAPH, NULL);
 		chart = GOG_CHART (gog_object_add_by_name (
 						   GOG_OBJECT (graph), "Chart", NULL));
 
