@@ -1,3 +1,9 @@
+2009-04-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+	for:  John Rea
+	
+	* templates/english/calendar.gnumeric: new
+	* templates/english/Makefile.am: added above file
+
 2009-04-06  Emmanuel Pacaud <emmanuel.pacaud@lapp.in2p3.fr>
 
 	Adapt to the naming consistency fix in goffice.
