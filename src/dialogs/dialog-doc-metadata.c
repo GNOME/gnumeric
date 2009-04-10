@@ -30,6 +30,7 @@
 #include <gui-util.h>
 #include <parse-util.h>
 #include <value.h>
+#include <commands.h>
 
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-meta-names.h>
@@ -567,7 +568,8 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 	if (link != NULL)
 		gsf_doc_prop_set_link (doc_prop, g_strdup (link));
 
-	gsf_doc_meta_data_store (state->metadata, doc_prop);
+	cmd_change_meta_data (WORKBOOK_CONTROL (state->wbcg), 
+			      g_slist_prepend (NULL, doc_prop), NULL);
 }
 
 /**
@@ -667,83 +669,99 @@ dialog_doc_metadata_set_prop (DialogDocMetaData *state,
 /**
  * CALLBACKS for 'Description' page entries 
  **/
-static void
+static gboolean
 cb_dialog_doc_metadata_title_changed (GtkEntry          *entry,
+				      GdkEventFocus *event,
 				      DialogDocMetaData *state)
 {
 	dialog_doc_metadata_set_prop (state,
 				      GSF_META_NAME_TITLE,
 				      gtk_entry_get_text (entry),
 				      NULL);
+	return FALSE;
 }
 
-static void
+static gboolean
 cb_dialog_doc_metadata_subject_changed (GtkEntry          *entry,
+					GdkEventFocus *event,
 					DialogDocMetaData *state)
 {
 	dialog_doc_metadata_set_prop (state,
 				      GSF_META_NAME_SUBJECT,
 				      gtk_entry_get_text (entry),
 				      NULL);
+	return FALSE;
 }
 
-static void
+static gboolean
 cb_dialog_doc_metadata_author_changed (GtkEntry          *entry,
+				       GdkEventFocus *event,
 				       DialogDocMetaData *state)
 {
 	dialog_doc_metadata_set_prop (state,
 				      GSF_META_NAME_INITIAL_CREATOR,
 				      gtk_entry_get_text (entry),
 				      NULL);
+	return FALSE;
 }
 
-static void
+static gboolean
 cb_dialog_doc_metadata_manager_changed (GtkEntry          *entry,
+					GdkEventFocus *event,
 					DialogDocMetaData *state)
 {
 	dialog_doc_metadata_set_prop (state,
 				      GSF_META_NAME_MANAGER,
 				      gtk_entry_get_text (entry),
 				      NULL);
+	return FALSE;
 }
 
-static void
+static gboolean
 cb_dialog_doc_metadata_company_changed (GtkEntry          *entry,
+					GdkEventFocus *event,
 					DialogDocMetaData *state)
 {
 	dialog_doc_metadata_set_prop (state,
 				      GSF_META_NAME_COMPANY,
 				      gtk_entry_get_text (entry),
 				      NULL);
+	return FALSE;
 }
 
-static void
+static gboolean
 cb_dialog_doc_metadata_category_changed (GtkEntry          *entry,
+					 GdkEventFocus *event,
 					 DialogDocMetaData *state)
 {
 	dialog_doc_metadata_set_prop (state,
 				      GSF_META_NAME_CATEGORY,
 				      gtk_entry_get_text (entry),
 				      NULL);
+	return FALSE;
 }
 
-static void
+static gboolean
 cb_dialog_doc_metadata_keywords_changed (GtkEntry          *entry,
+					 GdkEventFocus *event,
 					 DialogDocMetaData *state)
 {
 	dialog_doc_metadata_set_prop (state,
 				      GSF_META_NAME_KEYWORDS,
 				      gtk_entry_get_text (entry),
 				      NULL);
+	return FALSE;
 }
 
-static void
-cb_dialog_doc_metadata_comments_changed (GtkTextBuffer     *buffer,
+static gboolean
+cb_dialog_doc_metadata_comments_changed (GtkTextView     *view,
+					 GdkEventFocus *event,
 					 DialogDocMetaData *state)
 {
 	GtkTextIter start_iter;
 	GtkTextIter end_iter;
 	gchar *text;
+	GtkTextBuffer     *buffer = gtk_text_view_get_buffer (view);
 
 	gtk_text_buffer_get_start_iter (buffer, &start_iter);
 	gtk_text_buffer_get_end_iter   (buffer, &end_iter);
@@ -754,6 +772,7 @@ cb_dialog_doc_metadata_comments_changed (GtkTextBuffer     *buffer,
 				      GSF_META_NAME_DESCRIPTION,
 				      text,
 				      NULL);
+	return FALSE;
 }
 
 /**
@@ -773,42 +792,42 @@ dialog_doc_metadata_init_description_page (DialogDocMetaData *state)
 
 	/* Set up the signals */
 	g_signal_connect (G_OBJECT (state->title),
-			  "changed",
+			  "focus-out-event",
 			  G_CALLBACK (cb_dialog_doc_metadata_title_changed),
 			  state);
 
 	g_signal_connect (G_OBJECT (state->subject),
-			  "changed",
+			  "focus-out-event",
 			  G_CALLBACK (cb_dialog_doc_metadata_subject_changed),
 			  state);
 
 	g_signal_connect (G_OBJECT (state->author),
-			  "changed",
+			  "focus-out-event",
 			  G_CALLBACK (cb_dialog_doc_metadata_author_changed),
 			  state);
 
 	g_signal_connect (G_OBJECT (state->manager),
-			  "changed",
+			  "focus-out-event",
 			  G_CALLBACK (cb_dialog_doc_metadata_manager_changed),
 			  state);
 
 	g_signal_connect (G_OBJECT (state->company),
-			  "changed",
+			  "focus-out-event",
 			  G_CALLBACK (cb_dialog_doc_metadata_company_changed),
 			  state);
 
 	g_signal_connect (G_OBJECT (state->category),
-			  "changed",
+			  "focus-out-event",
 			  G_CALLBACK (cb_dialog_doc_metadata_category_changed),
 			  state);
 
 	g_signal_connect (G_OBJECT (state->keywords),
-			  "changed",
+			  "focus-out-event",
 			  G_CALLBACK (cb_dialog_doc_metadata_keywords_changed),
 			  state);
 
-	g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (state->comments)),
-			  "changed",
+	g_signal_connect (G_OBJECT (state->comments),
+			  "focus-out-event",
 			  G_CALLBACK (cb_dialog_doc_metadata_comments_changed),
 			  state);
 }
@@ -970,7 +989,8 @@ cb_dialog_doc_metadata_remove_clicked (GtkWidget         *remove_bt,
 					 NULL);
 
 	/* Remove property from GsfMetadata */
-	gsf_doc_meta_data_remove (state->metadata, g_value_get_string (prop_name));
+	cmd_change_meta_data (WORKBOOK_CONTROL (state->wbcg), NULL, 
+			      g_slist_prepend (NULL, g_value_dup_string (prop_name)));
 	
 	/* Remove from Tree View */
 	gtk_tree_store_remove (state->properties_store,
@@ -1395,22 +1415,9 @@ dialog_doc_metadata_init (DialogDocMetaData *state,
 	state->wbcg     = wbcg;
 	state->wb       = wb_control_get_workbook (WORKBOOK_CONTROL(wbcg));
 	state->doc      = GO_DOC (state->wb);
-	state->metadata = g_object_get_data (G_OBJECT (state->wb), "GsfDocMetaData");
+	state->metadata = go_doc_get_meta_data (wb_control_get_doc (WORKBOOK_CONTROL (state->wbcg)));
 
-	/* If workbook's metadata is NULL, create it! */
-	if (state->metadata  == NULL) {
-		state->metadata = gsf_doc_meta_data_new ();
-
-		if (state->metadata == NULL) {
-			/* Do something panicky! */
-			return TRUE;
-		}
-
-		/* Set the metadata pointer in workbook */
-		g_object_set_data (G_OBJECT (state->wb),
-				   "GsfDocMetaData",
-				   G_OBJECT (state->metadata));
-	}
+	g_return_val_if_fail (state->metadata  != NULL, TRUE);
 
 	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 					"doc-meta-data.glade", 
@@ -1496,7 +1503,7 @@ dialog_doc_metadata_new (WBCGtk *wbcg)
 	if (dialog_doc_metadata_init (state, wbcg)) {
 		go_gtk_notice_dialog (wbcg_toplevel (wbcg),
 				      GTK_MESSAGE_ERROR,
-				      _("Could not create the Name Guru."));
+				      _("Could not create the Properties dialog."));
 
 		g_free (state);
 		return;

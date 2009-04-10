@@ -1,3 +1,19 @@
+2009-04-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-doc-metadata.c (cb_dialog_doc_metadata_title_changed): change to
+	  focus-out-event signal handler
+	(cb_dialog_doc_metadata_subject_changed): ditto
+	(cb_dialog_doc_metadata_author_changed): ditto
+	(cb_dialog_doc_metadata_manager_changed): ditto
+	(cb_dialog_doc_metadata_company_changed): ditto
+	(cb_dialog_doc_metadata_category_changed): ditto
+	(cb_dialog_doc_metadata_keywords_changed): ditto
+	(cb_dialog_doc_metadata_comments_changed): ditto
+	(dialog_doc_metadata_init_description_page): change signals
+	(cb_dialog_doc_metadata_remove_clicked): call cmd_change_meta_data
+	(dialog_doc_metadata_set_gsf_prop): call cmd_change_meta_data
+	(dialog_doc_metadata_init): retrieve the correct metadata structure
+	
 2009-04-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-sheet-order.c (SheetManager): added fields
