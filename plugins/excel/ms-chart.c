@@ -38,7 +38,6 @@
 #include <goffice/graph/gog-series-impl.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-styled-object.h>
-#include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-plot-engine.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-error-bar.h>
@@ -51,6 +50,8 @@
 #include <goffice/utils/go-pattern.h>
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/utils/go-styled-object.h>
 
 #include <gsf/gsf-utils.h>
 #include <math.h>
@@ -90,7 +91,7 @@ typedef struct {
 	GogMSDimType extra_dim;
 	int chart_group;
 	gboolean  has_legend;
-	GogStyle *style;
+	GOStyle *style;
 	GHashTable *singletons;
 	GOLineInterpolation interpolation;
 } XLChartSeries;
@@ -108,12 +109,12 @@ typedef struct {
 	GogChart	*chart;
 	GogObject	*legend;
 	GogPlot		*plot;
-	GogStyle	*default_plot_style;
+	GOStyle		*default_plot_style;
 	GogObject	*axis, *xaxis;
 	guint8		axislineflags;
-	GogStyle	*style;
-	GogStyle	*chartline_style[3];
-	GogStyle	*dropbar_style;
+	GOStyle		*style;
+	GOStyle		*chartline_style[3];
+	GOStyle		*dropbar_style;
 
 	int		 style_element;
 	int		 cur_role;
@@ -150,7 +151,7 @@ struct _XLChartHandler {
 #define BC_R(n)	BC(read_ ## n)
 
 static gboolean
-check_style (GogStyle *style, char const *object)
+check_style (GOStyle *style, char const *object)
 {
 	if (style == NULL) {
 		g_warning ("File is most likely corrupted.\n"
@@ -201,7 +202,7 @@ static void
 BC_R(get_style) (XLChartReadState *s)
 {
 	if (s->style == NULL)
-		s->style = gog_style_new ();
+		s->style = go_style_new ();
 }
 
 static int
@@ -487,7 +488,7 @@ BC_R(areaformat)(XLChartHandler const *handle,
 #endif
 	BC_R(get_style) (s);
 	if (pattern > 0) {
-		s->style->fill.type = GOG_FILL_STYLE_PATTERN;
+		s->style->fill.type = GO_STYLE_FILL_PATTERN;
 		s->style->fill.auto_back = auto_format;
 		s->style->fill.invert_if_negative = invert_if_negative;
 		s->style->fill.pattern.pattern = pattern - 1;
@@ -499,14 +500,14 @@ BC_R(areaformat)(XLChartHandler const *handle,
 			s->style->fill.pattern.back = tmp;
 		}
 	} else if (auto_format) {
-		s->style->fill.type = GOG_FILL_STYLE_PATTERN;
+		s->style->fill.type = GO_STYLE_FILL_PATTERN;
 		s->style->fill.auto_back = TRUE;
 		s->style->fill.invert_if_negative = invert_if_negative;
 		s->style->fill.pattern.pattern = 0;
 		s->style->fill.pattern.fore =
 		s->style->fill.pattern.back = 0;
 	} else {
-		s->style->fill.type = GOG_FILL_STYLE_NONE;
+		s->style->fill.type = GO_STYLE_FILL_NONE;
 		s->style->fill.auto_type = FALSE;
 	}
 
@@ -671,7 +672,7 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 							NULL));
 			gog_object_add_by_name (GOG_OBJECT (s->axis), "MajorGrid", GridLine);
 			if (check_style (s->style, "axis major grid"))
-				gog_styled_object_set_style (GOG_STYLED_OBJECT (GridLine), s->style);
+				go_styled_object_set_style (GO_STYLED_OBJECT (GridLine), s->style);
 			break;
 		}
 		case 2: {
@@ -679,7 +680,7 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 							NULL));
 			gog_object_add_by_name (GOG_OBJECT (s->axis), "MinorGrid", GridLine);
 			if (check_style (s->style, "axis minor grid"))
-				gog_styled_object_set_style (GOG_STYLED_OBJECT (GridLine), s->style);
+				go_styled_object_set_style (GO_STYLED_OBJECT (GridLine), s->style);
 			break;
 		}
 		case 3: {
@@ -1052,7 +1053,7 @@ BC_R(fontx)(XLChartHandler const *handle,
 	gfont = excel_font_get_gofont (font);
 	go_font_ref (gfont);
 	BC_R(get_style) (s);
-	gog_style_set_font (s->style, gfont);
+	go_style_set_font (s->style, gfont);
 	d (2, g_printerr ("apply font %s;", go_font_as_str (gfont)););
 	return FALSE;
 }
@@ -1130,7 +1131,7 @@ BC_R(gelframe) (XLChartHandler const *handle,
 		return FALSE;
 	}
 
-	s->style->fill.type = GOG_FILL_STYLE_GRADIENT;
+	s->style->fill.type = GO_STYLE_FILL_GRADIENT;
 	s->style->fill.auto_type = FALSE;
 	s->style->fill.auto_fore = FALSE;
 	s->style->fill.auto_back = FALSE;
@@ -1157,7 +1158,7 @@ BC_R(gelframe) (XLChartHandler const *handle,
 		case 0x0100 : brightness = 0. + frac/512.; break;
 		case 0x0200 : brightness = 1. - frac/512.; break;
 		}
-		gog_style_set_fill_brightness (s->style, (1. - brightness) * 100.);
+		go_style_set_fill_brightness (s->style, (1. - brightness) * 100.);
 		d (1, g_printerr ("%x : frac = %u, flag = 0x%hx ::: %f",
 			       fill_back_color, frac, fill_back_color & 0xff00, brightness););
 	}
@@ -1463,7 +1464,7 @@ BC_R(markerformat)(XLChartHandler const *handle,
 		s->style->marker.auto_outline_color =
 			s->style->marker.auto_fill_color = auto_marker;
 
-	gog_style_set_marker (s->style, marker);
+	go_style_set_marker (s->style, marker);
 
 	return FALSE;
 }
@@ -1539,7 +1540,7 @@ BC_R(objectlink)(XLChartHandler const *handle,
 		 g_printerr ("ERROR : TEXT is linked to undocumented object\n");
 	}});
 	if (NULL != label && NULL != s->style)
-		gog_styled_object_set_style (GOG_STYLED_OBJECT (label), s->style);
+		go_styled_object_set_style (GO_STYLED_OBJECT (label), s->style);
 	return FALSE;
 }
 
@@ -2419,7 +2420,7 @@ XL_gog_series_set_dim (GogSeries *series, GogMSDimType ms_type, GOData *val)
 }
 
 static void
-cb_store_singletons (gpointer indx, GogStyle *style, GogObject *series)
+cb_store_singletons (gpointer indx, GOStyle *style, GogObject *series)
 {
 	GogObject *singleton = gog_object_add_by_name (series, "Point", NULL);
 	if (singleton != NULL) {
@@ -2454,7 +2455,7 @@ object_swap_children (GogObject *a, GogObject *b, char const *name)
 	GogObjectRole const *role;
 	GSList *children_a, *children_b, *ptr;
 	GogObject *obj;
-	GogStyle *style;
+	GOStyle *style;
 	role = gog_object_find_role_by_name (a, name);
 	g_return_if_fail (role);
 	children_a = gog_object_get_children (a, role);
@@ -2462,11 +2463,11 @@ object_swap_children (GogObject *a, GogObject *b, char const *name)
 	ptr = children_a;
 	while (ptr) {
 		obj = GOG_OBJECT (ptr->data);
-		style = gog_style_dup (
-			gog_styled_object_get_style (GOG_STYLED_OBJECT (obj)));
+		style = go_style_dup (
+			go_styled_object_get_style (GO_STYLED_OBJECT (obj)));
 		gog_object_clear_parent (obj);
 		gog_object_add_by_role (b, role, obj);
-		gog_styled_object_set_style (GOG_STYLED_OBJECT (obj), style);
+		go_styled_object_set_style (GO_STYLED_OBJECT (obj), style);
 		g_object_unref (style);
 		ptr = ptr->next;
 	}
@@ -2474,11 +2475,11 @@ object_swap_children (GogObject *a, GogObject *b, char const *name)
 	ptr = children_b;
 	while (ptr) {
 		obj = GOG_OBJECT (ptr->data);
-		style = gog_style_dup (
-			gog_styled_object_get_style (GOG_STYLED_OBJECT (obj)));
+		style = go_style_dup (
+			go_styled_object_get_style (GO_STYLED_OBJECT (obj)));
 		gog_object_clear_parent (obj);
 		gog_object_add_by_role (a, role, obj);
-		gog_styled_object_set_style (GOG_STYLED_OBJECT (obj), style);
+		go_styled_object_set_style (GO_STYLED_OBJECT (obj), style);
 		g_object_unref (style);
 		ptr = ptr->next;
 	}
@@ -2554,7 +2555,7 @@ BC_R(end)(XLChartHandler const *handle,
 		unsigned i, j;
 		XLChartSeries *eseries;
 		GogSeries     *series;
-		GogStyle      *style;
+		GOStyle      *style;
 		gboolean	   plot_has_lines = FALSE, plot_has_marks = FALSE;
 
 		/* check series now and create 3d plot if necessary */
@@ -2798,7 +2799,7 @@ not_a_matrix:
 
 		if (s->default_plot_style != NULL) {
 			char const *type = G_OBJECT_TYPE_NAME (s->plot);
-			GogStyle const *style = s->default_plot_style;
+			GOStyle const *style = s->default_plot_style;
 
 			if (type != NULL && style->marker.mark != NULL &&
 			    (!strcmp (type, "GogXYPlot") ||
@@ -2967,7 +2968,7 @@ not_a_matrix:
 			if (horizontal) {
 				GogAxis	*x = gog_plot_get_axis (s->plot, GOG_AXIS_X);
 				GogAxis	*y = gog_plot_get_axis (s->plot, GOG_AXIS_Y);
-				GogStyle *x_style, *y_style;
+				GOStyle *x_style, *y_style;
 				int i;
 				for (i = 0 ; i < GOG_AXIS_ELEM_MAX_ENTRY ; i++)
 					xl_axis_swap_elem (x, y, i);
@@ -3276,7 +3277,7 @@ xl_chart_import_trend_line (XLChartReadState *state, XLChartSeries *series)
 		gog_object_add_by_name (GOG_OBJECT (parent->series),
 			"Trend line", GOG_OBJECT (rc));
 		if (series->style)
-			gog_styled_object_set_style (GOG_STYLED_OBJECT (rc), series->style);
+			go_styled_object_set_style (GO_STYLED_OBJECT (rc), series->style);
 	}
 }
 
@@ -3332,7 +3333,7 @@ xl_chart_import_error_bar (XLChartReadState *state, XLChartSeries *series)
 			error_bar->width = 0;
 		if (check_style (series->style, "error bar")) {
 			g_object_unref (error_bar->style);
-			error_bar->style = gog_style_dup (series->style);
+			error_bar->style = go_style_dup (series->style);
 		}
 		switch (series->err_src) {
 		case 1: {
@@ -3515,10 +3516,10 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 		state.chart = GOG_CHART (gog_object_add_by_name (GOG_OBJECT (state.graph), "Chart", NULL));
 
 		if (NULL != full_page) {
-			GogStyle *style = gog_style_new ();
+			GOStyle *style = go_style_new ();
 			style->outline.width = 0;
 			style->outline.dash_type = GO_LINE_NONE;
-			style->fill.type = GOG_FILL_STYLE_NONE;
+			style->fill.type = GO_STYLE_FILL_NONE;
 			g_object_set (G_OBJECT (state.graph), "style", style, NULL);
 			g_object_set (G_OBJECT (state.chart), "style", style, NULL);
 			g_object_unref (style);
@@ -3830,7 +3831,7 @@ typedef struct {
 	gboolean has_dropbar;
 	gboolean has_hilow;
 	gboolean is_stock;
-	GogStyle *dp_style, *hl_style;
+	GOStyle *dp_style, *hl_style;
 	guint16 dp_width;
 	GogAxis *primary_axis[GOG_AXIS_TYPES];
 } XLChartWriteState;
@@ -3882,7 +3883,7 @@ chart_write_color (XLChartWriteState *s, guint8 *data, GOColor c)
 }
 
 static void
-chart_write_AREAFORMAT (XLChartWriteState *s, GogStyle const *style, gboolean disable_auto)
+chart_write_AREAFORMAT (XLChartWriteState *s, GOStyle const *style, gboolean disable_auto)
 {
 	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_areaformat,
 		(s->bp->version >= MS_BIFF_V8) ? 16: 12);
@@ -3893,14 +3894,14 @@ chart_write_AREAFORMAT (XLChartWriteState *s, GogStyle const *style, gboolean di
 		switch (style->fill.type) {
 		default :
 			g_warning ("invalid fill type, saving as none");
-		case GOG_FILL_STYLE_IMAGE:
+		case GO_STYLE_FILL_IMAGE:
 #warning export images
-		case GOG_FILL_STYLE_NONE:
+		case GO_STYLE_FILL_NONE:
 			pat = 0;
 			fore = RGBA_WHITE;
 			back = RGBA_WHITE;
 			break;
-		case GOG_FILL_STYLE_PATTERN: {
+		case GO_STYLE_FILL_PATTERN: {
 			pat = style->fill.pattern.pattern + 1;
 			if (pat == 1) {
 				back = style->fill.pattern.fore;
@@ -3911,7 +3912,7 @@ chart_write_AREAFORMAT (XLChartWriteState *s, GogStyle const *style, gboolean di
 			}
 			break;
 		}
-		case GOG_FILL_STYLE_GRADIENT:
+		case GO_STYLE_FILL_GRADIENT:
 			pat = 1;
 			fore = back = style->fill.pattern.fore;
 #warning export gradients
@@ -3940,7 +3941,7 @@ chart_write_AREAFORMAT (XLChartWriteState *s, GogStyle const *style, gboolean di
 }
 
 static void
-chart_write_LINEFORMAT (XLChartWriteState *s, GogStyleLine const *lstyle,
+chart_write_LINEFORMAT (XLChartWriteState *s, GOStyleLine const *lstyle,
 			gboolean draw_ticks, gboolean clear_lines_for_null)
 {
 	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_lineformat,
@@ -3997,7 +3998,7 @@ chart_write_SERFMT (XLChartWriteState *s, GOLineInterpolation interpolation)
 }
 
 static void
-chart_write_MARKERFORMAT (XLChartWriteState *s, GogStyle const *style,
+chart_write_MARKERFORMAT (XLChartWriteState *s, GOStyle const *style,
 			  gboolean clear_marks_for_null)
 {
 	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_markerformat,
@@ -4230,7 +4231,7 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 }
 
 static void
-chart_write_text (XLChartWriteState *s, GOData const *src, GogStyledObject const *obj, int purpose)
+chart_write_text (XLChartWriteState *s, GOData const *src, GOStyledObject const *obj, int purpose)
 {
 	static guint8 const default_text[] = {
 		2,		/* halign = center */
@@ -4253,7 +4254,7 @@ chart_write_text (XLChartWriteState *s, GOData const *src, GogStyledObject const
 	guint8 *data;
 	guint16 color_index = 0x4d;
 	unsigned const len = (s->bp->version >= MS_BIFF_V8) ? 32: 26;
-	GogStyle *style = (obj)? gog_styled_object_get_style (GOG_STYLED_OBJECT (obj)): NULL;
+	GOStyle *style = (obj)? go_styled_object_get_style (GO_STYLED_OBJECT (obj)): NULL;
 
 	/* TEXT */
 	data = ms_biff_put_len_next (s->bp, BIFF_CHART_text, len);
@@ -4323,22 +4324,22 @@ store_dim (GogSeries const *series, GogMSDimType t,
 }
 
 static gboolean
-style_is_completely_auto (GogStyle const *style)
+style_is_completely_auto (GOStyle const *style)
 {
-	if ((style->interesting_fields & GOG_STYLE_OUTLINE) &&
+	if ((style->interesting_fields & GO_STYLE_OUTLINE) &&
 	    (!style->outline.auto_color || !style->outline.auto_dash ||
 		(style->outline.width != 0.)))
 		return FALSE;
-	if ((style->interesting_fields & GOG_STYLE_FILL)) {
-		if (style->fill.type != GOG_FILL_STYLE_PATTERN ||
+	if ((style->interesting_fields & GO_STYLE_FILL)) {
+		if (style->fill.type != GO_STYLE_FILL_PATTERN ||
 		    !style->fill.auto_back)
 			return FALSE;
 	}
-	if ((style->interesting_fields & GOG_STYLE_LINE) &&
+	if ((style->interesting_fields & GO_STYLE_LINE) &&
 	    (!style->line.auto_color || !style->line.auto_dash ||
 		(style->line.width != 0.)))
 		return FALSE;
-	if ((style->interesting_fields & GOG_STYLE_MARKER)) {
+	if ((style->interesting_fields & GO_STYLE_MARKER)) {
 		if (!style->marker.auto_shape ||
 		    !style->marker.auto_outline_color ||
 		    !style->marker.auto_fill_color)
@@ -4348,7 +4349,7 @@ style_is_completely_auto (GogStyle const *style)
 }
 
 static void
-chart_write_style (XLChartWriteState *s, GogStyle const *style,
+chart_write_style (XLChartWriteState *s, GOStyle const *style,
 		   guint16 indx, unsigned n, unsigned v, float separation,
 		   GOLineInterpolation interpolation)
 {
@@ -4356,7 +4357,7 @@ chart_write_style (XLChartWriteState *s, GogStyle const *style,
 	chart_write_BEGIN (s);
 	ms_biff_put_2byte (s->bp, BIFF_CHART_3dbarshape, 0); /* box */
 	if (!style_is_completely_auto (style) || interpolation == GO_LINE_INTERPOLATION_SPLINE) {
-		if ((style->interesting_fields & GOG_STYLE_LINE)) {
+		if ((style->interesting_fields & GO_STYLE_LINE)) {
 			chart_write_LINEFORMAT (s, &style->line, FALSE, FALSE);
 			chart_write_SERFMT (s, interpolation);
 		} else
@@ -4745,7 +4746,7 @@ static void
 chart_write_frame (XLChartWriteState *s, GogObject const *frame,
 		   gboolean calc_size, gboolean disable_auto)
 {
-	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (frame));
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (frame));
 	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_frame, 4);
 	GSF_LE_SET_GUINT16 (data + 0, 0); /* 0 == std/no border, 4 == shadow */
 	GSF_LE_SET_GUINT16 (data + 2, (0x2 | (calc_size ? 1 : 0)));
@@ -4862,7 +4863,7 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		ms_biff_put_commit (s->bp);
 	}
 	if (axis != NULL) {
-		GogStyle *style = GOG_STYLED_OBJECT (axis)->style;
+		GOStyle *style = GOG_STYLED_OBJECT (axis)->style;
 		int font;
 		data = ms_biff_put_len_next (s->bp, BIFF_CHART_tick,
 			(s->bp->version >= MS_BIFF_V8) ? 30 : 26);
@@ -4935,7 +4936,7 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 						FALSE, FALSE);
 		}
 	} else {
-		GogStyleLine line_style;
+		GOStyleLine line_style;
 		line_style.width = 0.;
 		line_style.dash_type = GO_LINE_NONE;
 		line_style.auto_dash = FALSE;
@@ -5112,7 +5113,7 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 }
 
 static void
-chart_write_CHARTLINE (XLChartWriteState *s, guint16 type, GogStyle *style)
+chart_write_CHARTLINE (XLChartWriteState *s, guint16 type, GOStyle *style)
 {
 	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_chartline, 2);
 	GSF_LE_SET_GUINT16 (data + 0, type);
@@ -5350,7 +5351,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 				GOData *text = gog_dataset_get_dim (GOG_DATASET (label), 0);
 				if (text != NULL) {
 					chart_write_text (s, text,
-						GOG_STYLED_OBJECT (label), 3);
+						GO_STYLED_OBJECT (label), 3);
 				}
 			}
 		}
@@ -5360,7 +5361,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 				GOData *text = gog_dataset_get_dim (GOG_DATASET (label), 0);
 				if (text != NULL) {
 					chart_write_text (s, text,
-						GOG_STYLED_OBJECT (label), 2);
+						GO_STYLED_OBJECT (label), 2);
 				}
 			}
 		}
@@ -5543,7 +5544,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 			/* drop bars concern the first and last series in an xl line plot so
 			we must create a new plot and take only one series */
 			GogSeries *orig, *first, *last;
-			GogStyle *style;
+			GOStyle *style;
 			if (state.has_dropbar) {
 				g_free (axis_set);
 				continue;
@@ -5566,8 +5567,8 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 					state.is_stock = TRUE;
 			}
 			orig = GOG_SERIES (gog_plot_get_series (cur_plot)->data);
-			state.dp_style = gog_style_dup (
-					gog_styled_object_get_style (GOG_STYLED_OBJECT (orig)));
+			state.dp_style = go_style_dup (
+					go_styled_object_get_style (GO_STYLED_OBJECT (orig)));
 			g_object_get (cur_plot, "gap_percentage", &state.dp_width, NULL);
 			first = gog_plot_new_series (state.line_plot);
 			gog_series_set_dim (first, -1,
@@ -5580,7 +5581,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 					go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), 1)),
 			&error);
 			if (!state.is_stock) {
-				style = gog_styled_object_get_style (GOG_STYLED_OBJECT (first));
+				style = go_styled_object_get_style (GO_STYLED_OBJECT (first));
 				/* FIXME: change this code when series lines are available ! */
 				style->line.auto_dash = FALSE;
 				style->line.auto_color = FALSE;
@@ -5600,7 +5601,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 					go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), 2)),
 					&error);
 			if (!state.is_stock) {
-				style = gog_styled_object_get_style (GOG_STYLED_OBJECT (first));
+				style = go_styled_object_get_style (GO_STYLED_OBJECT (first));
 				/* FIXME: change this code when series lines are available ! */
 				style->line.auto_dash = FALSE;
 				style->line.auto_color = FALSE;
@@ -5620,7 +5621,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 		} else if (0 == strcmp (G_OBJECT_TYPE_NAME (cur_plot), "GogMinMaxPlot")) {
 			/* same comment as for dropbars */
 			GogSeries *orig, *high, *low;
-			GogStyle *style;
+			GOStyle *style;
 			if (state.has_hilow) {
 				g_free (axis_set);
 				continue;
@@ -5642,8 +5643,8 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 					state.is_stock = TRUE;
 			}
 			orig = GOG_SERIES (gog_plot_get_series (cur_plot)->data);
-			state.hl_style = gog_style_dup (
-					gog_styled_object_get_style (GOG_STYLED_OBJECT (orig)));
+			state.hl_style = go_style_dup (
+					go_styled_object_get_style (GO_STYLED_OBJECT (orig)));
 			high = gog_plot_new_series (state.line_plot);
 			gog_series_set_dim (high, -1,
 					go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), -1)),
@@ -5655,7 +5656,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 					go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), 1)),
 			&error);
 			if (!state.is_stock) {
-				style = gog_styled_object_get_style (GOG_STYLED_OBJECT (high));
+				style = go_styled_object_get_style (GO_STYLED_OBJECT (high));
 				/* FIXME: change this code when series lines are available ! */
 				style->line.auto_dash = FALSE;
 				style->line.auto_color = FALSE;
@@ -5675,7 +5676,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 					go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), 2)),
 					&error);
 			if (!state.is_stock) {
-				style = gog_styled_object_get_style (GOG_STYLED_OBJECT (low));
+				style = go_styled_object_get_style (GO_STYLED_OBJECT (low));
 				/* FIXME: change this code when series lines are available ! */
 				style->line.auto_dash = FALSE;
 				style->line.auto_color = FALSE;
@@ -5702,8 +5703,8 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 					gog_series_set_dim (new, 1,
 							go_data_dup (gog_dataset_get_dim (GOG_DATASET (orig), 1)),
 							&error);
-					gog_styled_object_set_style (GOG_STYLED_OBJECT (new),
-							gog_styled_object_get_style (GOG_STYLED_OBJECT (orig)));
+					go_styled_object_set_style (GO_STYLED_OBJECT (new),
+							go_styled_object_get_style (GO_STYLED_OBJECT (orig)));
 				}
 				cur_plot = NULL;
 			}
@@ -5900,7 +5901,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 		GOData *text = gog_dataset_get_dim (GOG_DATASET (label), 0);
 		if (text != NULL) {
 			chart_write_text (&state, text,
-				GOG_STYLED_OBJECT (label), 1);
+				GO_STYLED_OBJECT (label), 1);
 		}
 	}
 

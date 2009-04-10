@@ -27,9 +27,9 @@
 #include "xml-io.h"
 
 #include <goffice/utils/go-libxml-extras.h>
-#include <goffice/graph/gog-style.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-persist.h>
+#include <goffice/utils/go-style.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -73,7 +73,7 @@ go_arrow_copy (GOArrow *dst, GOArrow const *src)
 typedef struct {
 	SheetObject base;
 
-	GogStyle *style;
+	GOStyle *style;
 	GOArrow	  start_arrow, end_arrow;
 } GnmSOLine;
 typedef SheetObjectClass GnmSOLineClass;
@@ -94,7 +94,7 @@ so_line_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 {
 	FooCanvasItem	*view = FOO_CANVAS_ITEM (sov);
 	SheetObject	*so = sheet_object_view_get_so (sov);
-	GogStyleLine const *style = &GNM_SO_LINE (so)->style->line;
+	GOStyleLine const *style = &GNM_SO_LINE (so)->style->line;
 
 	sheet_object_direction_set (so, coords);
 
@@ -133,11 +133,11 @@ enum {
         SOL_PROP_IS_ARROW
 };
 
-static GogStyle *
+static GOStyle *
 sol_default_style (void)
 {
-	GogStyle *res = gog_style_new ();
-	res->interesting_fields = GOG_STYLE_LINE;
+	GOStyle *res = go_style_new ();
+	res->interesting_fields = GO_STYLE_LINE;
 	res->line.width   = 0; /* hairline */
 	res->line.color   = RGBA_BLACK;
 	res->line.dash_type = GO_LINE_SOLID; /* anything but 0 */
@@ -164,7 +164,7 @@ cb_gnm_so_line_changed (GnmSOLine const *sol,
 			G_GNUC_UNUSED GParamSpec *pspec,
 			FooCanvasItem *item)
 {
-	GogStyleLine const *style = &sol->style->line;
+	GOStyleLine const *style = &sol->style->line;
 	GdkColor buf, *gdk = NULL;
 
 	if (style->color != 0 && style->width >= 0 && style->dash_type != GO_LINE_NONE)
@@ -210,7 +210,7 @@ gnm_so_line_draw_cairo (SheetObject const *so, cairo_t *cr,
 			double width, double height)
 {
 	GnmSOLine *sol = GNM_SO_LINE (so);
-	GogStyleLine const *style = &sol->style->line;
+	GOStyleLine const *style = &sol->style->line;
 	double x1, y1, x2, y2;
 
 	if (style->color == 0 || style->width < 0 || style->dash_type == GO_LINE_NONE)
@@ -377,7 +377,7 @@ gnm_so_line_copy (SheetObject *dst, SheetObject const *src)
 	GnmSOLine   *new_sol = GNM_SO_LINE (dst);
 
 	g_object_unref (new_sol->style);
-	new_sol->style = gog_style_dup (sol->style);
+	new_sol->style = go_style_dup (sol->style);
 	go_arrow_copy (&new_sol->start_arrow, &sol->start_arrow);
 	go_arrow_copy (&new_sol->end_arrow, &sol->end_arrow);
 }
@@ -391,7 +391,7 @@ gnm_so_line_set_property (GObject *obj, guint param_id,
 	case SOL_PROP_STYLE:
 		g_object_unref (sol->style);
 		sol->style = g_object_ref (g_value_get_object (value));
-		sol->style->interesting_fields = GOG_STYLE_LINE;
+		sol->style->interesting_fields = GO_STYLE_LINE;
 		break;
 	case SOL_PROP_START_ARROW:
 		go_arrow_copy (&sol->start_arrow, g_value_get_pointer (value));
@@ -469,7 +469,7 @@ gnm_so_line_class_init (GObjectClass *gobject_class)
 #endif /* GNM_WITH_GTK */
 
         g_object_class_install_property (gobject_class, SOL_PROP_STYLE,
-                 g_param_spec_object ("style", NULL, NULL, GOG_TYPE_STYLE,
+                 g_param_spec_object ("style", NULL, NULL, GO_TYPE_STYLE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, SOL_PROP_START_ARROW,
                  g_param_spec_pointer ("start-arrow", NULL, NULL,

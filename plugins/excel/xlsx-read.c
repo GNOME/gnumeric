@@ -56,13 +56,14 @@
 #include <goffice/utils/datetime.h>
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/utils/go-styled-object.h>
 #include <goffice/data/go-data-simple.h>
 
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-series.h>
-#include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-data-set.h>
 
 #include <gsf/gsf-libxml.h>
@@ -181,7 +182,7 @@ typedef struct {
 	int		  dim_type;
 	GogObject	 *series_pt;
 	gboolean	  series_pt_has_index;
-	GogStyle	 *cur_style;
+	GOStyle	 *cur_style;
 	GOColor		  gocolor;
 	GOMarker	 *marker;
 	GOMarkerShape	  marker_symbol;
@@ -1360,8 +1361,8 @@ xlsx_chart_style_start (GsfXMLIn *xin, xmlChar const **attrs)
 	    GOG_IS_STYLED_OBJECT (state->cur_obj) &&
 	    NULL == state->marker) {
 		g_return_if_fail (state->cur_style == NULL);
-		state->cur_style = gog_style_dup (
-			gog_styled_object_get_style (GOG_STYLED_OBJECT (state->cur_obj)));
+		state->cur_style = go_style_dup (
+			go_styled_object_get_style (GO_STYLED_OBJECT (state->cur_obj)));
 	}
 }
 static void
@@ -1370,7 +1371,7 @@ xlsx_chart_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
 
 	if (NULL != state->cur_style) {
-		gog_styled_object_set_style (GOG_STYLED_OBJECT (state->cur_obj),
+		go_styled_object_set_style (GO_STYLED_OBJECT (state->cur_obj),
 			state->cur_style);
 		g_object_unref (state->cur_style);
 		state->cur_style = NULL;
@@ -1380,14 +1381,14 @@ static void
 xlsx_style_line_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	state->sp_type |= GOG_STYLE_LINE;
+	state->sp_type |= GO_STYLE_LINE;
 }
 
 static void
 xlsx_style_line_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState	*state = (XLSXReadState *)xin->user_state;
-	state->sp_type &= ~GOG_STYLE_LINE;
+	state->sp_type &= ~GO_STYLE_LINE;
 }
 
 static void
@@ -1397,8 +1398,8 @@ xlsx_chart_no_fill (GsfXMLIn *xin, xmlChar const **attrs)
 	if (NULL != state->marker)
 		;
 	else if (NULL != state->cur_style) {
-		if (!(state->sp_type & GOG_STYLE_LINE)) {
-			state->cur_style->fill.type = GOG_FILL_STYLE_NONE;
+		if (!(state->sp_type & GO_STYLE_LINE)) {
+			state->cur_style->fill.type = GO_STYLE_FILL_NONE;
 			state->cur_style->fill.auto_type = FALSE;
 		}
 	}
@@ -1410,8 +1411,8 @@ xlsx_chart_solid_fill (GsfXMLIn *xin, xmlChar const **attrs)
 	if (NULL != state->marker)
 		;
 	else if (NULL != state->cur_style) {
-		if (!(state->sp_type & GOG_STYLE_LINE)) {
-			state->cur_style->fill.type = GOG_FILL_STYLE_PATTERN;
+		if (!(state->sp_type & GO_STYLE_LINE)) {
+			state->cur_style->fill.type = GO_STYLE_FILL_PATTERN;
 			state->cur_style->fill.auto_type = FALSE;
 		}
 	}
@@ -1484,7 +1485,7 @@ xlsx_draw_color_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (NULL != state->marker)
 		go_marker_set_fill_color (state->marker, state->gocolor);
 	else if (NULL != state->cur_style) {
-		if (state->sp_type & GOG_STYLE_LINE) {
+		if (state->sp_type & GO_STYLE_LINE) {
 			state->cur_style->line.color = state->gocolor;
 			state->cur_style->line.auto_color = FALSE;
 		} else {
@@ -1522,7 +1523,7 @@ xlsx_draw_line_dash (GsfXMLIn *xin, xmlChar const **attrs)
 	if (NULL != state->marker)
 		; /* what goes here ?*/
 	else if (NULL != state->cur_style) {
-		if (state->sp_type & GOG_STYLE_LINE) {
+		if (state->sp_type & GO_STYLE_LINE) {
 			state->cur_style->line.auto_dash = FALSE;
 			state->cur_style->line.dash_type = dash;
 			state->cur_style->outline.auto_dash = FALSE;
@@ -1568,13 +1569,13 @@ xlsx_chart_marker_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != state->cur_obj && GOG_IS_STYLED_OBJECT (state->cur_obj)) {
-		GogStyle *style = gog_styled_object_get_style (
-			GOG_STYLED_OBJECT (state->cur_obj));
+		GOStyle *style = go_styled_object_get_style (
+			GO_STYLED_OBJECT (state->cur_obj));
 		if (state->marker_symbol != GO_MARKER_MAX) {
 			style->marker.auto_shape = FALSE;
 			go_marker_set_shape (state->marker, state->marker_symbol);
 		}
-		gog_style_set_marker (style, state->marker);
+		go_style_set_marker (style, state->marker);
 		state->marker = NULL;
 	}
 }

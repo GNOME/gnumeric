@@ -1,7 +1,7 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * dialog-so-styled.c: Pref dialog for objects with a GogStyle 'style' property
+ * dialog-so-styled.c: Pref dialog for objects with a GOStyle 'style' property
  *
  * Copyright (C) 2004 Jody Goldberg (jody@gnome.org)
  *
@@ -31,13 +31,13 @@
 #include "commands.h"
 #include "sheet-object.h"
 #include <goffice/app/go-cmd-context.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
 #include <gtk/gtk.h>
 
 typedef struct {
 	GObject			*so;
 	WBCGtk	*wbcg;
-	GogStyle		*orig_style;
+	GOStyle		*orig_style;
 } DialogSOStyled;
 
 #define GNM_SO_STYLED_KEY "gnm-so-styled-key"
@@ -69,7 +69,7 @@ cb_dialog_so_styled_response (GtkWidget *dialog,
 
 void
 dialog_so_styled (WBCGtk *wbcg,
-		  GObject *so, GogStyle *orig, GogStyle *default_style,
+		  GObject *so, GOStyle *orig, GOStyle *default_style,
 		  char const *title)
 {
 	DialogSOStyled *state;
@@ -82,7 +82,7 @@ dialog_so_styled (WBCGtk *wbcg,
 	state = g_new0 (DialogSOStyled, 1);
 	state->so    = G_OBJECT (so);
 	state->wbcg  = wbcg;
-	state->orig_style = gog_style_dup (orig);
+	state->orig_style = go_style_dup (orig);
 	dialog = gtk_dialog_new_with_buttons (title,
 		wbcg_toplevel (state->wbcg),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -98,7 +98,7 @@ dialog_so_styled (WBCGtk *wbcg,
 		NULL);
 
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		gog_style_get_editor (orig, default_style,
+		go_style_get_editor (orig, default_style,
 			GO_CMD_CONTEXT (wbcg), G_OBJECT (so)),
 		TRUE, TRUE, TRUE);
 	g_object_unref (default_style);

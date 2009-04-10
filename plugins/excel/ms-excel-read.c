@@ -75,7 +75,7 @@
 #include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/go-glib-extras.h>
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
@@ -468,7 +468,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	GODrawingAnchorDir direction;
 	SheetObjectAnchor anchor;
 	SheetObject *so;
-	GogStyle *style;
+	GOStyle *style;
 
 	if (obj == NULL)
 		return TRUE;
@@ -520,7 +520,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 
 	case 0x01: /* Line */
 	case 0x04: /* Arc */
-		style = gog_style_new ();
+		style = go_style_new ();
 		style->line.color = ms_sheet_map_color (esheet, obj,
 			MS_OBJ_ATTR_OUTLINE_COLOR, RGBA_BLACK);
 		style->line.width = ms_obj_attr_get_uint (obj->attrs,
@@ -541,7 +541,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	case 0x03: /* oval */
 	case 0x06: /* TextBox */
 	case 0x0E: /* Label */
-		style = gog_style_new ();
+		style = go_style_new ();
 		style->outline.color = ms_sheet_map_color (esheet, obj,
 			MS_OBJ_ATTR_OUTLINE_COLOR, RGBA_BLACK);
 		style->outline.width = ms_obj_attr_get_uint (obj->attrs,
@@ -553,7 +553,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		style->fill.pattern.fore = ms_sheet_map_color (esheet, obj,
 			MS_OBJ_ATTR_FILL_BACKGROUND, RGBA_BLACK);
 		style->fill.type = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_UNFILLED)
-			? GOG_FILL_STYLE_NONE : GOG_FILL_STYLE_PATTERN;
+			? GO_STYLE_FILL_NONE : GO_STYLE_FILL_PATTERN;
 
 		g_object_set (G_OBJECT (so), "style", style, NULL);
 		g_object_unref (style);

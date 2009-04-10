@@ -1,3 +1,7 @@
+2009-04-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* analysis-kaplan-meier.c: fixed after GogStyle -> GOStyle rename.
+
 2009-04-03  Morten Welinder  <terra@gnome.org>
 
 	* dao.c (dao_init_new_sheet): New shorthand.  Use everywhere.

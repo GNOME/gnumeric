@@ -29,7 +29,6 @@
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-styled-object.h>
-#include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-plot.h>
@@ -38,6 +37,7 @@
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <goffice/data/go-data-simple.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-style.h>
 #include <gtk/gtk.h>
 
 #define ABOUT_KEY          "about-dialog"
@@ -186,7 +186,7 @@ typedef struct {
 	GtkWidget *canvas;
 	FooCanvasItem *ctrl;
 	GogObject *graph;
-	GogStyle  *contributor_style;
+	GOStyle   *contributor_style;
 	GOData *contribs_data, *individual_data, *contributor_name;
 
 	guint	 timer;
@@ -276,15 +276,15 @@ dialog_about (WBCGtk *wbcg)
 
 	state->graph = g_object_new (GOG_TYPE_GRAPH, NULL);
 	gog_graph_set_size (GOG_GRAPH (state->graph), 4 * 72.0, 4 * 72.0);
-	GOG_STYLED_OBJECT (state->graph)->style->fill.type = GOG_FILL_STYLE_GRADIENT;
+	GOG_STYLED_OBJECT (state->graph)->style->fill.type = GO_STYLE_FILL_GRADIENT;
 	GOG_STYLED_OBJECT (state->graph)->style->fill.pattern.back = 0xFFFF99FF;
 	GOG_STYLED_OBJECT (state->graph)->style->fill.gradient.dir = GO_GRADIENT_W_TO_E_MIRRORED;
 	GOG_STYLED_OBJECT (state->graph)->style->outline.width = 0; /* hairline */
 	GOG_STYLED_OBJECT (state->graph)->style->outline.color = RGBA_BLACK;
-	gog_style_set_fill_brightness (
+	go_style_set_fill_brightness (
 		GOG_STYLED_OBJECT (state->graph)->style, 70.);
 #if 0
-	gog_style_set_fill_image_filename (GOG_STYLED_OBJECT (state->graph)->style,
+	go_style_set_fill_image_filename (GOG_STYLED_OBJECT (state->graph)->style,
 		g_build_filename (gnm_icon_dir (), "gnumeric-about.png", NULL));
 #endif
 
@@ -292,7 +292,7 @@ dialog_about (WBCGtk *wbcg)
 	chart = gog_object_add_by_name (state->graph, "Chart", NULL);
 	GOG_STYLED_OBJECT (chart)->style->outline.dash_type = GO_LINE_NONE;
 	GOG_STYLED_OBJECT (chart)->style->outline.auto_dash = FALSE;
-	GOG_STYLED_OBJECT (chart)->style->fill.type = GOG_FILL_STYLE_NONE;
+	GOG_STYLED_OBJECT (chart)->style->fill.type = GO_STYLE_FILL_NONE;
 	plot = gog_plot_new_by_name ("GogBarColPlot");
 	if (!plot) {
 		/* This can happen if plugins are not available.  */
@@ -314,9 +314,9 @@ dialog_about (WBCGtk *wbcg)
 	gog_series_set_dim (series, 1, state->individual_data, NULL);
 	GOG_STYLED_OBJECT (series)->style->outline.dash_type = GO_LINE_NONE;
 	GOG_STYLED_OBJECT (series)->style->outline.auto_dash = FALSE;
-	GOG_STYLED_OBJECT (series)->style->fill.type = GOG_FILL_STYLE_GRADIENT;
+	GOG_STYLED_OBJECT (series)->style->fill.type = GO_STYLE_FILL_GRADIENT;
 	GOG_STYLED_OBJECT (series)->style->fill.gradient.dir = GO_GRADIENT_N_TO_S_MIRRORED;
-	gog_style_set_fill_brightness (
+	go_style_set_fill_brightness (
 		GOG_STYLED_OBJECT (series)->style, 70.);
 
 	/* hide the X-axis */
@@ -330,7 +330,7 @@ dialog_about (WBCGtk *wbcg)
 	GOG_STYLED_OBJECT (tmp)->style->line.auto_dash = FALSE;
 	tmp = gog_object_get_child_by_role (chart,
 		gog_object_find_role_by_name (chart, "Y-Axis"));
-	gog_style_set_font_desc (GOG_STYLED_OBJECT (tmp)->style,
+	go_style_set_font_desc (GOG_STYLED_OBJECT (tmp)->style,
 		pango_font_description_from_string ("Sans 10"));
 
 	tmp = gog_object_add_by_name (chart, "Title", NULL);
@@ -339,14 +339,14 @@ dialog_about (WBCGtk *wbcg)
 	state->contributor_name = go_data_scalar_str_new ("", FALSE);
 	gog_dataset_set_dim (GOG_DATASET (tmp), 0, state->contributor_name, NULL);
 	state->contributor_style = GOG_STYLED_OBJECT (tmp)->style;
-	gog_style_set_font_desc (GOG_STYLED_OBJECT (tmp)->style,
+	go_style_set_font_desc (GOG_STYLED_OBJECT (tmp)->style,
 		pango_font_description_from_string ("Sans Bold 10"));
 
 	/* A pie of the cumulative contributions */
 	chart = gog_object_add_by_name (state->graph, "Chart", NULL);
 	GOG_STYLED_OBJECT (chart)->style->outline.dash_type = GO_LINE_NONE;
 	GOG_STYLED_OBJECT (chart)->style->outline.auto_dash = FALSE;
-	GOG_STYLED_OBJECT (chart)->style->fill.type = GOG_FILL_STYLE_NONE;
+	GOG_STYLED_OBJECT (chart)->style->fill.type = GO_STYLE_FILL_NONE;
 	gog_chart_set_position  (GOG_CHART (chart), 1, 0, 1, 1);
 	plot = gog_plot_new_by_name ("GogPiePlot");
 	if (!plot) {
@@ -362,9 +362,9 @@ dialog_about (WBCGtk *wbcg)
 	gog_series_set_dim (series, 1, state->contribs_data, NULL);
 	GOG_STYLED_OBJECT (series)->style->outline.dash_type = GO_LINE_NONE;
 	GOG_STYLED_OBJECT (series)->style->outline.auto_dash = FALSE;
-	GOG_STYLED_OBJECT (series)->style->fill.type = GOG_FILL_STYLE_GRADIENT;
+	GOG_STYLED_OBJECT (series)->style->fill.type = GO_STYLE_FILL_GRADIENT;
 	GOG_STYLED_OBJECT (series)->style->fill.gradient.dir = GO_GRADIENT_NW_TO_SE;
-	gog_style_set_fill_brightness (
+	go_style_set_fill_brightness (
 		GOG_STYLED_OBJECT (series)->style, 70.);
 
 	tmp = gog_object_add_by_name (state->graph, "Title", NULL);
@@ -376,7 +376,7 @@ dialog_about (WBCGtk *wbcg)
 			"Copyright \xc2\xa9 2001-2007 Jody Goldberg\n"
 			"Copyright \xc2\xa9 1998-2000 Miguel de Icaza", FALSE),
 		NULL);
-	gog_style_set_font_desc (GOG_STYLED_OBJECT (tmp)->style,
+	go_style_set_font_desc (GOG_STYLED_OBJECT (tmp)->style,
 		pango_font_description_from_string ("Sans Bold 12"));
 
 	state->canvas = foo_canvas_new ();

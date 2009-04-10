@@ -1,3 +1,9 @@
+2009-04-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-about.c: fixed after GogStyle -> GOStyle rename.
+	* dialog-so-styled.c: ditto
+	* dialogs.h: ditto
+
 2009-04-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-doc-metadata.c (cb_dialog_doc_metadata_title_changed): change to

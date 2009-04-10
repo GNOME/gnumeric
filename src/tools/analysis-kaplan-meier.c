@@ -41,10 +41,10 @@
 #include <goffice/graph/gog-chart.h>
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-series.h>
-#include <goffice/graph/gog-style.h>
-#include <goffice/graph/gog-styled-object.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-style.h>
+#include <goffice/utils/go-styled-object.h>
 
 static gboolean
 analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
@@ -413,7 +413,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 		if (info->chart) {
 			GogSeries    *series;
 			GOData *probabilities;
-			GogStyle  *style;
+			GOStyle  *style;
 			
 			probabilities = dao_go_data_vector (dao, prob_col, 2, prob_col, 1+rows);
 			
@@ -422,10 +422,10 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 			gog_series_set_dim (series, 0, times, NULL);
 			gog_series_set_dim (series, 1, probabilities, NULL);
 			
-			style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
+			style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
 			style->marker.auto_shape = FALSE;
 			go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
-			gog_styled_object_set_style (GOG_STYLED_OBJECT (series), style);
+			go_styled_object_set_style (GO_STYLED_OBJECT (series), style);
 			
 			if (info->censored && info->ticks) {
 				GOData *censures;
@@ -445,13 +445,13 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 				gog_series_set_dim (series, 0, times, NULL);
 				gog_series_set_dim (series, 1, censures, NULL);
 				
-				style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
+				style = go_styled_object_get_style (GO_STYLED_OBJECT (series));
 				style->marker.auto_shape = FALSE;
 				go_marker_set_shape (style->marker.mark, GO_MARKER_TRIANGLE_DOWN);
 				style->line.dash_type = GO_LINE_NONE;
 				style->line.auto_dash = FALSE;
 				style->line.width = 0;
-				gog_styled_object_set_style (GOG_STYLED_OBJECT (series), style);
+				go_styled_object_set_style (GO_STYLED_OBJECT (series), style);
 			}
 		}
 

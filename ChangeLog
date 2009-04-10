@@ -1,3 +1,9 @@
+2009-04-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/gnm-so-filled.c: fixed after GogStyle -> GOStyle rename.
+	* src/gnm-so-line.c: ditto.
+	* src/gnm-so-polygon.c: ditto.
+
 2009-04-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for:  John Rea
 	

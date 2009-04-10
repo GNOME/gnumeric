@@ -1,3 +1,10 @@
+2009-04-10  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: fixed after GogStyle -> GOStyle rename.
+	* ms-excel-read.c: ditto.
+	* ms-excel-write.c: ditto.
+	* xlsx-read.c: ditto.
+
 2009-04-02  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_sheet_new): Limit maxcols to what we

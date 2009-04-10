@@ -27,8 +27,8 @@
 #include "xml-io.h"
 
 #include <goffice/utils/go-libxml-extras.h>
-#include <goffice/graph/gog-style.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-style.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -47,7 +47,7 @@ attr_eq (const xmlChar *a, const char *s)
 
 typedef struct {
 	SheetObject base;
-	GogStyle *style;
+	GOStyle *style;
 	GArray	 *points;
 } GnmSOPolygon;
 typedef SheetObjectClass GnmSOPolygonClass;
@@ -121,15 +121,15 @@ enum {
 	SOP_PROP_POINTS
 };
 
-static GogStyle *
+static GOStyle *
 sop_default_style (void)
 {
-	GogStyle *res = gog_style_new ();
-	res->interesting_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
+	GOStyle *res = go_style_new ();
+	res->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
 	res->outline.width = 0; /* hairline */
 	res->outline.color = RGBA_BLACK;
 	res->outline.dash_type = GO_LINE_SOLID; /* anything but 0 */
-	res->fill.type = GOG_FILL_STYLE_PATTERN;
+	res->fill.type = GO_STYLE_FILL_PATTERN;
 	go_pattern_set_solid (&res->fill.pattern, RGBA_WHITE);
 	return res;
 }
@@ -141,7 +141,7 @@ sop_default_style (void)
 static void
 cb_gnm_so_polygon_style_changed (FooCanvasItem *view, GnmSOPolygon const *sop)
 {
-	GogStyle const *style = sop->style;
+	GOStyle const *style = sop->style;
 	GdkColor outline_buf, *outline_gdk = NULL;
 	GdkColor fill_buf, *fill_gdk = NULL;
 
@@ -150,7 +150,7 @@ cb_gnm_so_polygon_style_changed (FooCanvasItem *view, GnmSOPolygon const *sop)
 	    style->outline.dash_type != GO_LINE_NONE)
 		outline_gdk = go_color_to_gdk (style->outline.color, &outline_buf);
 
-	if (style->fill.type != GOG_FILL_STYLE_NONE)
+	if (style->fill.type != GO_STYLE_FILL_NONE)
 		fill_gdk = go_color_to_gdk (style->fill.pattern.back, &fill_buf);
 
 	if (style->outline.width > 0.)	/* in pts */
@@ -246,13 +246,13 @@ gnm_so_polygon_set_property (GObject *obj, guint param_id,
 {
 	GnmSOPolygon *sop = GNM_SO_POLYGON (obj);
 	GArray *points;
-	GogStyle *style;
+	GOStyle *style;
 
 	switch (param_id) {
 	case SOP_PROP_STYLE:
 		style = sop->style;
 		sop->style = g_object_ref (g_value_get_object (value));
-		sop->style->interesting_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
+		sop->style->interesting_fields = GO_STYLE_OUTLINE | GO_STYLE_FILL;
 		g_object_unref (style);
 		break;
 	case SOP_PROP_POINTS:
@@ -327,7 +327,7 @@ gnm_so_polygon_class_init (GObjectClass *gobject_class)
 	so_class->draw_cairo	= gnm_so_polygon_draw_cairo;
 
         g_object_class_install_property (gobject_class, SOP_PROP_STYLE,
-                 g_param_spec_object ("style", NULL, NULL, GOG_TYPE_STYLE,
+                 g_param_spec_object ("style", NULL, NULL, GO_TYPE_STYLE,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, SOP_PROP_POINTS,
                  g_param_spec_pointer ("points", NULL, NULL,

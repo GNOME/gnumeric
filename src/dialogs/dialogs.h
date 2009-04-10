@@ -3,7 +3,7 @@
 
 #include "gui-gnumeric.h"
 #include "consolidate.h"
-#include <goffice/graph/gog-style.h>
+#include <goffice/utils/go-style.h>
 
 typedef enum {
 	FD_CURRENT = -1,
@@ -106,7 +106,7 @@ void    dialog_recent_used (WBCGtk *wbcg);
 
 void	dialog_new_view (WBCGtk *wbcg);
 void	dialog_so_styled (WBCGtk *wbcg, GObject *so,
-			  GogStyle *orig, GogStyle *default_style,
+			  GOStyle *orig, GOStyle *default_style,
 			  char const *title);
 void	dialog_so_list	 (WBCGtk *wbcg, GObject *so);
 

@@ -67,12 +67,12 @@
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-styled-object.h>
-#include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-style.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-outfile.h>
@@ -5769,30 +5769,30 @@ extract_gog_object_style (XLExportBase *ewb, GogObject *obj)
 	GSList *ptr = obj->children;
 
 	if (GOG_IS_STYLED_OBJECT (obj)) {
-		GogStyle const *style = GOG_STYLED_OBJECT (obj)->style;
-		if (style->interesting_fields & GOG_STYLE_OUTLINE)
+		GOStyle const *style = GOG_STYLED_OBJECT (obj)->style;
+		if (style->interesting_fields & GO_STYLE_OUTLINE)
 			put_color_go_color (ewb, style->outline.color);
-		else if (style->interesting_fields & GOG_STYLE_LINE)
+		else if (style->interesting_fields & GO_STYLE_LINE)
 			put_color_go_color (ewb, style->line.color);
-		if (style->interesting_fields & GOG_STYLE_FILL)
+		if (style->interesting_fields & GO_STYLE_FILL)
 			switch (style->fill.type) {
 			default :
-			case GOG_FILL_STYLE_NONE :
-			case GOG_FILL_STYLE_IMAGE :
+			case GO_STYLE_FILL_NONE :
+			case GO_STYLE_FILL_IMAGE :
 				break;
-			case GOG_FILL_STYLE_PATTERN :
+			case GO_STYLE_FILL_PATTERN :
 				put_color_go_color (ewb, style->fill.pattern.fore);
 				put_color_go_color (ewb, style->fill.pattern.back);
 				break;
-			case GOG_FILL_STYLE_GRADIENT :
+			case GO_STYLE_FILL_GRADIENT :
 				put_color_go_color (ewb, style->fill.pattern.fore);
 			}
-		if (style->interesting_fields & GOG_STYLE_MARKER) {
+		if (style->interesting_fields & GO_STYLE_MARKER) {
 			put_color_go_color (ewb, go_marker_get_outline_color (style->marker.mark));
 			put_color_go_color (ewb, go_marker_get_fill_color (style->marker.mark));
 		}
 
-		if (style->interesting_fields & GOG_STYLE_FONT)
+		if (style->interesting_fields & GO_STYLE_FONT)
 			excel_font_from_go_font (ewb, style->font.font);
 	}
 	if (GOG_IS_AXIS (obj)) {
