@@ -63,7 +63,6 @@
 			</information>
 			<suffixes>
 				<suffix>xml</suffix>
-				<suffix>sml</suffix> <!-- bogus.  necessary until we have better xml sniffing -->
 			</suffixes>
 		</service>
 

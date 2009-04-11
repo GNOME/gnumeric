@@ -34,6 +34,14 @@
 	* ms-excel-write.c: ditto.
 	* xlsx-read.c: ditto.
 
+2009-04-11  Jody Goldberg <jody@gnome.org>
+
+	* plugin.xml.in : get rid of bogus .sml suffix now that we have
+	  probing.
+	* excel-xml-read.c : accept title and description in metadata
+	(xl_xml_col_start) : only assign width > 0.
+	(xl_xml_num_fmt) : fix previous patch.
+
 2009-04-02  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_sheet_new): Limit maxcols to what we

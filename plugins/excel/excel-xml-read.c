@@ -324,7 +324,7 @@ xl_xml_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 		gnm_style_ref (style);
 		sheet_style_set_range (state->sheet, &r, style);
 	}
-	if (width >= 0.)
+	if (width > 0.)
 		for (tmp = 0 ; tmp < span ; tmp++)
 			sheet_col_set_size_pts (state->sheet,
 				state->pos.col + tmp, width, !auto_fit);
@@ -744,12 +744,12 @@ xl_xml_num_fmt (GsfXMLIn *xin, xmlChar const **attrs)
 				if (0 == strcmp (attrs[1], named_formats[i].name))
 					fmt = go_format_new_from_XL (named_formats[i].format);
 
-			if (NULL != fmt)
+			if (NULL == fmt)
 				for (i = 0 ; named_magic_formats[i].name ; i++)
 					if (0 == strcmp (attrs[1], named_magic_formats[i].name))
 						fmt = go_format_new_magic (named_magic_formats[i].id);
 
-			if (NULL != fmt)
+			if (NULL == fmt)
 				fmt = go_format_new_from_XL (attrs[1]);
 			gnm_style_set_format (state->style, fmt);
 			go_format_unref (fmt);
@@ -933,6 +933,9 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "Workbook", GSF_XML_NO_CONTENT,
     GSF_XML_IN_NODE (DOC_PROP, PROP_LAST_SAVED,	 XL_NS_O, "LastSaved",  GSF_XML_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (DOC_PROP, PROP_COMPANY,	 XL_NS_O, "Company",    GSF_XML_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (DOC_PROP, PROP_VERSION,	 XL_NS_O, "Version",    GSF_XML_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (DOC_PROP, PROP_TITLE,      XL_NS_O, "Title",      GSF_XML_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (DOC_PROP, PROP_DESCRIPTION, XL_NS_O, "Description",GSF_XML_CONTENT, NULL, NULL),
+
   GSF_XML_IN_NODE (WORKBOOK, DOC_SETTINGS, XL_NS_O, "OfficeDocumentSettings", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (DOC_SETTINGS, DOC_COLORS, XL_NS_O, "Colors", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (DOC_COLORS, DOC_COLOR,  XL_NS_O, "Color", GSF_XML_NO_CONTENT, NULL, NULL),
