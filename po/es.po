@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&component=general\n"
 "POT-Creation-Date: 2009-04-03 18:06+0000\n"
-"PO-Revision-Date: 2009-04-04 13:29+0200\n"
+"PO-Revision-Date: 2009-04-13 07:17+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -9792,7 +9792,7 @@ msgstr "Listar propiedades"
 
 #: ../src/dialogs/so-list.glade.h:2
 msgid "_Content :"
-msgstr "_Índice:"
+msgstr "Índ_ice:"
 
 #: ../src/dialogs/so-list.glade.h:3
 msgid "_Link :"
@@ -13497,7 +13497,7 @@ msgstr "Rehacer la última operación deshecha"
 
 #: ../src/wbc-gtk-actions.c:1720 ../src/wbc-gtk-actions.c:1798
 msgid "_Contents"
-msgstr "_Índice"
+msgstr "Índ_ice"
 
 #: ../src/wbc-gtk-actions.c:1721
 msgid "Open a viewer for Gnumeric's documentation"
