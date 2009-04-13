@@ -1,3 +1,8 @@
+2009-04-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-doc-metadata.c (dialog_doc_metadata_set_gsf_prop): avoid unneccessary
+	property changes
+	
 2009-04-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* dialog-about.c: fixed after GogStyle -> GOStyle rename.

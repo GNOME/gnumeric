@@ -547,9 +547,52 @@ dialog_doc_metadata_set_gsf_prop (DialogDocMetaData *state,
 				  const gchar       *value,
 				  const gchar       *link)
 {
+	GsfDocProp *existing_prop = NULL;
 	GsfDocProp *doc_prop;
+	GValue     *existing_value = NULL;
+	char const *existing_link  = NULL;
 	GValue     *doc_prop_value;
 	GType       val_type;
+
+	existing_prop = gsf_doc_meta_data_lookup (state->metadata, name);
+	if (existing_prop != NULL) {
+		existing_value = (GValue *) gsf_doc_prop_get_val (existing_prop);
+		existing_link  = gsf_doc_prop_get_link (existing_prop);
+	}
+
+	if (((value == NULL) || (*value == 0)) &&
+	    ((link == NULL) || (*link == 0))) {
+		if ((existing_prop == NULL) || ((existing_value == NULL) && (existing_link == NULL)))
+			return;
+		else {
+			cmd_change_meta_data (WORKBOOK_CONTROL (state->wbcg), NULL,
+					      g_slist_prepend (NULL, g_strdup (name)));
+			return;
+		}
+	}
+
+	if (existing_prop != NULL) {
+		gboolean    link_changed;
+		gboolean    value_changed = TRUE;
+		
+		link_changed = ((link != NULL && *link != 0) && !(existing_link != NULL && *existing_link != 0))
+			|| (!(link != NULL && *link != 0) && (existing_link != NULL && *existing_link != 0)) 
+			|| !((link == NULL && existing_link == NULL) || (0 == strcmp (link, existing_link)));
+		if (existing_value == NULL)
+			value_changed = ((value != NULL) && (*value != 0));
+		else if (G_VALUE_HOLDS_STRING (existing_value)) {
+			char const * existing_val_str = g_value_get_string (existing_value);
+			value_changed = ((existing_val_str == NULL || *existing_val_str == 0) &&
+					 !(value == NULL || *value == 0)) ||
+				(!(existing_val_str == NULL || *existing_val_str == 0) &&
+				 (value == NULL || *value == 0)) ||
+				!((existing_val_str == NULL && value == NULL) || 
+				  0 == strcmp (existing_val_str, value));
+			if (!link_changed && !value_changed)
+				return;
+		}
+	}
+
 	
 	/* Create a new GsfDocProp */
 	doc_prop = gsf_doc_prop_new (g_strdup (name));
