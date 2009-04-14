@@ -4,6 +4,7 @@ Andreas:
 	* Show sheet sizes in manage sheet dialog
 	* Write metadata from the property dialog to the files
 	* Complete the list sheet object configuration dialog [#578557]
+	* Make frame label changes undoable
 
 Jean:
 	* Variable sheet sizes.

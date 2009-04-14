@@ -40,6 +40,7 @@ void sheet_widget_button_set_label	 (SheetObject *so, char const *str);
 void sheet_widget_radio_button_set_label (SheetObject *so, char const *str);
 
 void sheet_widget_button_set_markup      (SheetObject *so, PangoAttrList *markup);
+void sheet_widget_frame_set_label        (SheetObject *so, char const *str);
 
 G_END_DECLS
 

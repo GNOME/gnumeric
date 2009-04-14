@@ -7055,3 +7055,77 @@ cmd_so_set_links (WorkbookControl *wbc,
 
 	return command_push_undo (wbc, G_OBJECT (me));
 }
+
+/******************************************************************/
+
+
+
+#define CMD_SO_SET_FRAME_LABEL_TYPE (cmd_so_set_frame_label_get_type ())
+#define CMD_SO_SET_FRAME_LABEL(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SO_SET_FRAME_LABEL_TYPE, CmdSOSetFrameLabel))
+
+typedef struct {
+	GnmCommand cmd;
+	SheetObject *so;
+	char *old_label;
+	char *new_label;
+} CmdSOSetFrameLabel;
+
+MAKE_GNM_COMMAND (CmdSOSetFrameLabel, cmd_so_set_frame_label, NULL)
+
+static gboolean
+cmd_so_set_frame_label_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdSOSetFrameLabel *me = CMD_SO_SET_FRAME_LABEL (cmd);
+
+	sheet_widget_frame_set_label (me->so, me->new_label);	
+
+	return FALSE;
+}
+
+static gboolean
+cmd_so_set_frame_label_undo (GnmCommand *cmd, G_GNUC_UNUSED  WorkbookControl *wbc)
+{
+	CmdSOSetFrameLabel *me = CMD_SO_SET_FRAME_LABEL (cmd);
+
+	sheet_widget_frame_set_label (me->so, me->old_label);
+
+	return FALSE;
+}
+
+static void
+cmd_so_set_frame_label_finalize (GObject *cmd)
+{
+	CmdSOSetFrameLabel *me = CMD_SO_SET_FRAME_LABEL (cmd);
+	
+	if (me->old_label) {
+		g_free (me->old_label);
+		me->old_label = NULL;
+	}
+	if (me->new_label) {
+		g_free (me->new_label);
+		me->new_label = NULL;
+	}
+	gnm_command_finalize (cmd);
+}
+
+gboolean
+cmd_so_set_frame_label (WorkbookControl *wbc,
+			SheetObject *so, 
+			char *old_label, char *new_label )
+{
+	CmdSOSetFrameLabel *me;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+
+	me = g_object_new (CMD_SO_SET_FRAME_LABEL_TYPE, NULL);
+	me->cmd.sheet = sheet_object_get_sheet (so);
+	me->cmd.size = 1;
+	me->cmd.cmd_descriptor = g_strdup (_("Set frame label."));
+	me->so = so;
+	me->old_label = old_label;
+	me->new_label = new_label;
+
+	return command_push_undo (wbc, G_OBJECT (me));
+}
+
+/******************************************************************/

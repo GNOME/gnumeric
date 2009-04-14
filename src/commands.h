@@ -90,18 +90,6 @@ gboolean cmd_colrow_std_size    (WorkbookControl *wbc, Sheet *sheet,
 
 gboolean cmd_zoom               (WorkbookControl *wbc, GSList *sheets, double factor);
 
-gboolean cmd_objects_delete	(WorkbookControl *wbc, GSList *objects,
-				 char const *name);
-gboolean cmd_objects_move	(WorkbookControl *wbc,
-				 GSList *objects, GSList *anchors,
-				 gboolean objects_created, char const *name);
-gboolean cmd_object_format	(WorkbookControl *wbc, SheetObject *so,
-				 gpointer orig_style);
-
-gboolean cmd_reorganize_sheets  (WorkbookControl *wbc,
-				 WorkbookSheetState *old_state,
-				 Sheet *undo_sheet);
-
 gboolean cmd_rename_sheet	(WorkbookControl *wbc, Sheet *sheet,
 				 char const *new_name);
 
@@ -122,14 +110,6 @@ gboolean cmd_define_name	(WorkbookControl *wbc, char const *name,
 				 GnmExprTop const *texpr,
 				 char const *descriptor);
 gboolean cmd_remove_name        (WorkbookControl *wbc, GnmNamedExpr *nexpr);
-
-typedef enum  {
-	cmd_object_pull_to_front,
-	cmd_object_pull_forward ,
-	cmd_object_push_backward,
-	cmd_object_push_to_back
-} CmdObjectRaiseSelector;
-gboolean cmd_object_raise (WorkbookControl *wbc, SheetObject *so, CmdObjectRaiseSelector dir);
 
 /* FIXME: figure out how to resolve these better.  */
 struct _scenario_t;
@@ -155,10 +135,32 @@ gboolean cmd_goal_seek (WorkbookControl *wbc,
 
 gboolean cmd_tabulate (WorkbookControl *wbc, gpointer data);
 
+gboolean cmd_toggle_rtl (WorkbookControl *wbc, Sheet *sheet);
+
+/**************************  Sheet Objects **************************************/
+
+gboolean cmd_objects_delete	(WorkbookControl *wbc, GSList *objects,
+				 char const *name);
+gboolean cmd_objects_move	(WorkbookControl *wbc,
+				 GSList *objects, GSList *anchors,
+				 gboolean objects_created, char const *name);
+gboolean cmd_object_format	(WorkbookControl *wbc, SheetObject *so,
+				 gpointer orig_style);
+
+gboolean cmd_reorganize_sheets  (WorkbookControl *wbc,
+				 WorkbookSheetState *old_state,
+				 Sheet *undo_sheet);
+
 gboolean cmd_so_graph_config (WorkbookControl *wbc, SheetObject *sog,
                               GObject *n_graph, GObject *o_graph);
 
-gboolean cmd_toggle_rtl (WorkbookControl *wbc, Sheet *sheet);
+typedef enum  {
+	cmd_object_pull_to_front,
+	cmd_object_pull_forward ,
+	cmd_object_push_backward,
+	cmd_object_push_to_back
+} CmdObjectRaiseSelector;
+gboolean cmd_object_raise (WorkbookControl *wbc, SheetObject *so, CmdObjectRaiseSelector dir);
 
 gboolean cmd_so_set_value (WorkbookControl *wbc,
 			   const char *text,
@@ -168,6 +170,11 @@ gboolean cmd_so_set_value (WorkbookControl *wbc,
 
 gboolean cmd_so_set_links (WorkbookControl *wbc, SheetObject *so, 
 			   GnmExprTop const *output, GnmExprTop const *content);
+
+gboolean cmd_so_set_frame_label (WorkbookControl *wbc, SheetObject *so, 
+				 char *old_label, char *new_label);
+
+/********************************************************************************/
 
 G_END_DECLS
 

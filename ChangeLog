@@ -1,3 +1,16 @@
+2009-04-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_so_set_frame_label_redo): new
+	(cmd_so_set_frame_label_undo): new
+	(cmd_so_set_frame_label_finalize): new
+	(cmd_so_set_frame_label): new
+	* src/commands.h (cmd_so_set_frame_label): new
+	* src/sheet-object-widget.c (sheet_widget_frame_set_label): new
+	(cb_frame_config_ok_clicked): call cmd_so_set_frame_label
+	(cb_frame_config_cancel_clicked): use sheet_widget_frame_set_label
+	(cb_frame_label_changed): ditto
+	* src/sheet-object-widget.h (sheet_widget_frame_set_label): new
+
 2009-04-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (gboolean cmd_so_set_links): new

@@ -425,44 +425,48 @@ cb_frame_config_destroy (FrameConfigState *state)
 static void
 cb_frame_config_ok_clicked (GtkWidget *button, FrameConfigState *state)
 {
+	gchar const *text = gtk_entry_get_text(GTK_ENTRY(state->label));
+
+	cmd_so_set_frame_label (WORKBOOK_CONTROL (state->wbcg), SHEET_OBJECT (state->swf), 
+				g_strdup (state->old_label), g_strdup (text));
 	gtk_widget_destroy (state->dialog);
+}
+
+void
+sheet_widget_frame_set_label (SheetObject *so, char const* str)
+{
+	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (so);
+	GList *ptr;
+
+	str = str ? str : "";
+	
+	if (swf->label)
+		g_free (swf->label);
+	swf->label = g_strdup (str);
+
+	for (ptr = swf->sow.realized_list; ptr != NULL; ptr = ptr->next) {
+		gtk_frame_set_label
+			(GTK_FRAME (FOO_CANVAS_WIDGET (ptr->data)->widget),
+			 str);
+	}	
 }
 
 static void
 cb_frame_config_cancel_clicked (GtkWidget *button, FrameConfigState *state)
 {
-	GList *ptr;
-	SheetWidgetFrame *swf = state->swf;
-
-	g_free (swf->label);
-
-	swf->label = g_strdup (state->old_label);
-	for (ptr = swf->sow.realized_list; ptr != NULL ; ptr = ptr->next)
-		gtk_frame_set_label
-			(GTK_FRAME (FOO_CANVAS_WIDGET (ptr->data)->widget),
-			 state->old_label);
+	sheet_widget_frame_set_label (SHEET_OBJECT (state->swf), state->old_label);
 
 	gtk_widget_destroy (state->dialog);
 }
 
+
 static void
 cb_frame_label_changed (GtkWidget *entry, FrameConfigState *state)
 {
-	GList *ptr;
-	SheetWidgetFrame *swf;
 	gchar const *text;
 
 	text = gtk_entry_get_text(GTK_ENTRY(entry));
-	swf = state->swf;
-
-	g_free (swf->label);
-	swf->label = g_strdup (text);
-
-	for (ptr = swf->sow.realized_list; ptr != NULL; ptr = ptr->next) {
-		gtk_frame_set_label
-			(GTK_FRAME (FOO_CANVAS_WIDGET (ptr->data)->widget),
-			 text);
-	}
+	sheet_widget_frame_set_label (SHEET_OBJECT (state->swf), text);
 }
 
 static void
