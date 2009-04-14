@@ -1,3 +1,15 @@
+2009-04-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (gboolean cmd_so_set_links): new
+	(CmdSOSetLink): new
+	(cmd_so_set_links_redo): new
+	(cmd_so_set_links_undo): new
+	(cmd_so_set_links_finalize): new
+	* src/commands.h (gboolean cmd_so_set_links): new
+	* src/sheet-object-widget.c (list_content_eval): permit dep->texpr to
+	  be NULL.
+	(sheet_widget_list_base_set_links): empty the list as necessary
+
 2009-04-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-so-filled.c: fixed after GogStyle -> GOStyle rename.

@@ -157,6 +157,7 @@ gboolean cmd_tabulate (WorkbookControl *wbc, gpointer data);
 
 gboolean cmd_so_graph_config (WorkbookControl *wbc, SheetObject *sog,
                               GObject *n_graph, GObject *o_graph);
+
 gboolean cmd_toggle_rtl (WorkbookControl *wbc, Sheet *sheet);
 
 gboolean cmd_so_set_value (WorkbookControl *wbc,
@@ -164,6 +165,9 @@ gboolean cmd_so_set_value (WorkbookControl *wbc,
 			   const GnmCellRef *pref,
 			   GnmValue *new_val,
 			   Sheet *sheet);
+
+gboolean cmd_so_set_links (WorkbookControl *wbc, SheetObject *so, 
+			   GnmExprTop const *output, GnmExprTop const *content);
 
 G_END_DECLS
 

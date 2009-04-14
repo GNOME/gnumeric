@@ -3,6 +3,7 @@ Gnumeric 1.9.6
 Andreas:
 	* Show sheet sizes in manage sheet dialog
 	* Write metadata from the property dialog to the files
+	* Complete the list sheet object configuration dialog [#578557]
 
 Jean:
 	* Variable sheet sizes.

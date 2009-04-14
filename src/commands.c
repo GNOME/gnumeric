@@ -6977,3 +6977,81 @@ cmd_selection_hyperlink (WorkbookControl *wbc,
 }
 
 /******************************************************************/
+
+
+#define CMD_SO_SET_LINKS_TYPE (cmd_so_set_links_get_type ())
+#define CMD_SO_SET_LINKS(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SO_SET_LINKS_TYPE, CmdSOSetLink))
+
+typedef struct {
+	GnmCommand cmd;
+	SheetObject *so;
+	GnmExprTop const *output;
+	GnmExprTop const *content;
+} CmdSOSetLink;
+
+MAKE_GNM_COMMAND (CmdSOSetLink, cmd_so_set_links, NULL)
+
+static gboolean
+cmd_so_set_links_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdSOSetLink *me = CMD_SO_SET_LINKS (cmd);
+	GnmExprTop const *old_output;
+	GnmExprTop const *old_content;
+
+	old_content = sheet_widget_list_base_get_content_dep (me->so)->texpr;
+	if (old_content)
+		gnm_expr_top_ref (old_content);
+	old_output = sheet_widget_list_base_get_result_dep (me->so)->texpr;
+	if (old_output)
+		gnm_expr_top_ref (old_output);
+
+	sheet_widget_list_base_set_links
+		(me->so, me->output, me->content);
+	if (me->output)
+		gnm_expr_top_unref (me->output);
+	if (me->content)
+		gnm_expr_top_unref (me->content);
+	me->output = old_output;
+	me->content = old_content;
+
+	return FALSE;
+}
+
+static gboolean
+cmd_so_set_links_undo (GnmCommand *cmd, G_GNUC_UNUSED  WorkbookControl *wbc)
+{
+	return cmd_so_set_links_redo (cmd, wbc);
+}
+
+static void
+cmd_so_set_links_finalize (GObject *cmd)
+{
+	CmdSOSetLink *me = CMD_SO_SET_LINKS (cmd);
+	
+	if (me->output)
+		gnm_expr_top_unref (me->output);
+	if (me->content)
+		gnm_expr_top_unref (me->content);
+	gnm_command_finalize (cmd);
+}
+
+gboolean
+cmd_so_set_links (WorkbookControl *wbc,
+		  SheetObject *so, 
+		  GnmExprTop const *output, 
+		  GnmExprTop const *content)
+{
+	CmdSOSetLink *me;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+
+	me = g_object_new (CMD_SO_SET_LINKS_TYPE, NULL);
+	me->cmd.sheet = sheet_object_get_sheet (so);
+	me->cmd.size = 1;
+	me->cmd.cmd_descriptor = g_strdup (_("Set cell references."));
+	me->so = so;
+	me->output = output;
+	me->content = content;
+
+	return command_push_undo (wbc, G_OBJECT (me));
+}

@@ -2096,17 +2096,21 @@ list_content_eval (GnmDependent *dep)
 {
 	SheetWidgetListBase *swl = DEP_TO_LIST_BASE_CONTENT (dep);
 	GnmEvalPos ep;
-	GnmValue *v = gnm_expr_top_eval (dep->texpr,
-		eval_pos_init_dep (&ep, dep),
-		GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
+	GnmValue *v = NULL;
 	GtkListStore *model;
 
-	if (NULL == v)
-		return;
+	if (dep->texpr != NULL) {
+		v = gnm_expr_top_eval (dep->texpr,
+				       eval_pos_init_dep (&ep, dep),
+				       GNM_EXPR_EVAL_PERMIT_NON_SCALAR | 
+				       GNM_EXPR_EVAL_PERMIT_EMPTY);
+	}
 	model = gtk_list_store_new (1, G_TYPE_STRING);
-	value_area_foreach (v, &ep, CELL_ITER_ALL,
-		 (GnmValueIterFunc) cb_collect, model);
-	value_release (v);
+	if ((dep != NULL) && (v != NULL)) {
+		value_area_foreach (v, &ep, CELL_ITER_ALL,
+				    (GnmValueIterFunc) cb_collect, model);
+		value_release (v);
+	}
 
 	if (NULL != swl->model)
 		g_object_unref (G_OBJECT (swl->model));
@@ -2260,11 +2264,11 @@ sheet_widget_list_base_set_links (SheetObject *so,
 	if (NULL != output)
 		dependent_link (&swl->output_dep);
 	dependent_set_expr (&swl->content_dep, content);
-	if (NULL != content) {
+	if (NULL != content)
 		dependent_link (&swl->content_dep);
-		list_content_eval (&swl->content_dep); /* populate the list */
-	}
+	list_content_eval (&swl->content_dep); /* populate the list */
 }
+
 GnmDependent const *
 sheet_widget_list_base_get_result_dep  (SheetObject const *so)
 {

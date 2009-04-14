@@ -1,5 +1,11 @@
 2009-04-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-so-list.c (cb_so_list_response): handle ok response
+	* dialog-function-select.c (dialog_function_select_init): connect sheet destroy
+	  handler
+
+2009-04-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-doc-metadata.c (dialog_doc_metadata_set_gsf_prop): avoid unneccessary
 	property changes
 	
