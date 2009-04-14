@@ -13291,7 +13291,7 @@ msgstr "_Groupe et contour"
 
 #: ../src/wbc-gtk-actions.c:1687
 msgid "Get External _Data"
-msgstr "Obtention de données _externes"
+msgstr "Obtention de données e_xternes"
 
 #: ../src/wbc-gtk-actions.c:1688
 msgid "_Help"
