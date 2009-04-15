@@ -431,6 +431,7 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 		guint maxlen;
 
 		continue_seen = TRUE;
+		ms_biff_query_next (q);
 		if (q->length == 0)
 			continue;
 

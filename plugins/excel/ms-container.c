@@ -262,7 +262,8 @@ ms_container_read_markup (MSContainer const *c,
 	TXORun txo_run;
 	size_t str_len;
 
-	g_return_val_if_fail (txo_len >= 16, NULL); /* min two records */
+	XL_CHECK_CONDITION_VAL (txo_len >= 16,
+				pango_attr_list_new ()); /* min two records */
 
 	str_len = g_utf8_strlen (str, -1);
 
