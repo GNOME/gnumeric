@@ -1,3 +1,14 @@
+2009-04-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.h (cmd_so_set_checkbox): new
+	* src/commands.c (cmd_so_set_checkbox): new
+	(cmd_so_set_checkbox_redo): new
+	(cmd_so_set_checkbox_undo): new
+	(cmd_so_set_checkbox_finalize): new
+	* src/sheet-object-widget.h (sheet_widget_checkbox_get_link): new
+	* src/sheet-object-widget.c (sheet_widget_checkbox_get_link): new
+	(cb_checkbox_config_ok_clicked): call cmd_so_set_checkbox
+
 2009-04-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.c (cmd_so_set_frame_label_redo): new

@@ -7048,7 +7048,7 @@ cmd_so_set_links (WorkbookControl *wbc,
 	me = g_object_new (CMD_SO_SET_LINKS_TYPE, NULL);
 	me->cmd.sheet = sheet_object_get_sheet (so);
 	me->cmd.size = 1;
-	me->cmd.cmd_descriptor = g_strdup (_("Set cell references."));
+	me->cmd.cmd_descriptor = g_strdup (_("Configure List"));
 	me->so = so;
 	me->output = output;
 	me->content = content;
@@ -7120,7 +7120,7 @@ cmd_so_set_frame_label (WorkbookControl *wbc,
 	me = g_object_new (CMD_SO_SET_FRAME_LABEL_TYPE, NULL);
 	me->cmd.sheet = sheet_object_get_sheet (so);
 	me->cmd.size = 1;
-	me->cmd.cmd_descriptor = g_strdup (_("Set frame label."));
+	me->cmd.cmd_descriptor = g_strdup (_("Set Frame Label"));
 	me->so = so;
 	me->old_label = old_label;
 	me->new_label = new_label;
@@ -7129,3 +7129,80 @@ cmd_so_set_frame_label (WorkbookControl *wbc,
 }
 
 /******************************************************************/
+#define CMD_SO_SET_CHECKBOX_TYPE (cmd_so_set_checkbox_get_type ())
+#define CMD_SO_SET_CHECKBOX(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SO_SET_CHECKBOX_TYPE, CmdSOSetCheckbox))
+
+typedef struct {
+	GnmCommand cmd;
+	SheetObject *so;
+	GnmExprTop const *new_link;
+	GnmExprTop const *old_link;
+	char *old_label;
+	char *new_label;
+} CmdSOSetCheckbox;
+
+MAKE_GNM_COMMAND (CmdSOSetCheckbox, cmd_so_set_checkbox, NULL)
+
+static gboolean
+cmd_so_set_checkbox_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdSOSetCheckbox *me = CMD_SO_SET_CHECKBOX (cmd);
+
+	sheet_widget_checkbox_set_link (me->so, me->new_link);
+	sheet_widget_checkbox_set_label (me->so, me->new_label);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_so_set_checkbox_undo (GnmCommand *cmd, G_GNUC_UNUSED  WorkbookControl *wbc)
+{
+	CmdSOSetCheckbox *me = CMD_SO_SET_CHECKBOX (cmd);
+
+	sheet_widget_checkbox_set_link (me->so, me->old_link);
+	sheet_widget_checkbox_set_label (me->so, me->old_label);
+
+	return FALSE;
+}
+
+static void
+cmd_so_set_checkbox_finalize (GObject *cmd)
+{
+	CmdSOSetCheckbox *me = CMD_SO_SET_CHECKBOX (cmd);
+	
+	if (me->new_link)
+		gnm_expr_top_unref (me->new_link);
+	if (me->old_link)
+		gnm_expr_top_unref (me->old_link);
+	if (me->old_label)
+		g_free (me->old_label);
+	if (me->new_label)
+		g_free (me->new_label);
+	gnm_command_finalize (cmd);
+}
+
+gboolean
+cmd_so_set_checkbox (WorkbookControl *wbc,
+		     SheetObject *so, GnmExprTop const *link, 
+		     char *old_label, char *new_label)
+{
+	CmdSOSetCheckbox *me;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+
+	me = g_object_new (CMD_SO_SET_CHECKBOX_TYPE, NULL);
+	me->cmd.sheet = sheet_object_get_sheet (so);
+	me->cmd.size = 1;
+	me->cmd.cmd_descriptor = g_strdup (_("Configure Checkbox"));
+	me->so = so;
+	me->new_link = link;
+	me->old_label = old_label;
+	me->new_label = new_label;
+
+	me->old_link = sheet_widget_checkbox_get_link (so);
+
+	return command_push_undo (wbc, G_OBJECT (me));
+}
+
+/******************************************************************/
+

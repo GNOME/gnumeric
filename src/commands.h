@@ -174,6 +174,10 @@ gboolean cmd_so_set_links (WorkbookControl *wbc, SheetObject *so,
 gboolean cmd_so_set_frame_label (WorkbookControl *wbc, SheetObject *so, 
 				 char *old_label, char *new_label);
 
+gboolean cmd_so_set_checkbox (WorkbookControl *wbc, SheetObject *so, 
+			      GnmExprTop const *link, char *old_label, char *new_label);
+
+
 /********************************************************************************/
 
 G_END_DECLS

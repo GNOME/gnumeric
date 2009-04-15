@@ -1552,11 +1552,10 @@ cb_checkbox_config_ok_clicked (GtkWidget *button, CheckboxConfigState *state)
 	GnmExprTop const *texpr = gnm_expr_entry_parse (state->expression,
 		parse_pos_init_sheet (&pp, so->sheet),
 		NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
-	if (texpr != NULL) {
-		dependent_set_expr (&state->swc->dep, texpr);
-		dependent_link (&state->swc->dep);
-		gnm_expr_top_unref (texpr);
-	}
+	gchar const *text = gtk_entry_get_text(GTK_ENTRY(state->label));
+
+	cmd_so_set_checkbox (WORKBOOK_CONTROL (state->wbcg), so, 
+			     texpr, g_strdup (state->old_label), g_strdup (text));
 
 	gtk_widget_destroy (state->dialog);
 }
@@ -1728,6 +1727,19 @@ sheet_widget_checkbox_set_link (SheetObject *so, GnmExprTop const *texpr)
 	if (NULL != texpr)
 		dependent_link (&swc->dep);
 }
+
+GnmExprTop const *
+sheet_widget_checkbox_get_link	 (SheetObject *so)
+{
+	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
+	GnmExprTop const *texpr = swc->dep.texpr;
+	
+	if (texpr)
+		gnm_expr_top_ref (texpr);
+
+	return texpr;
+}
+
 
 void
 sheet_widget_checkbox_set_label	(SheetObject *so, char const *str)
