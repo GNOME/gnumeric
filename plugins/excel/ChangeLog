@@ -1,3 +1,7 @@
+2009-04-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c: (get_style): create a GogStyle object, not a GOStyle.
+
 2009-04-15  Morten Welinder  <terra@gnome.org>
 
 	* ms-obj.c (ms_read_TXO): Fix text problem.  [#578878]

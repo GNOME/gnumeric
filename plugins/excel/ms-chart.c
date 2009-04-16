@@ -202,7 +202,7 @@ static void
 BC_R(get_style) (XLChartReadState *s)
 {
 	if (s->style == NULL)
-		s->style = go_style_new ();
+		s->style = g_object_new (g_type_from_name ("GogStyle"), NULL);
 }
 
 static int
