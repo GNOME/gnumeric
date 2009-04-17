@@ -1361,18 +1361,22 @@ gnm_expr_entry_get_rangesel (GnmExprEntry const *gee,
 	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
 
 	gee_prepare_range (gee, &ref);
-	if (r != NULL) {
-		gnm_cellpos_init_cellref (&r->start, &ref.a, &gee->pp.eval);
-		gnm_cellpos_init_cellref (&r->end, &ref.b, &gee->pp.eval);
-		range_normalize (r);
-	}
+
+	ref.a.sheet = eval_sheet (rs->ref.a.sheet, gee->sheet);
+	ref.b.sheet = eval_sheet (rs->ref.b.sheet, ref.a.sheet);
 
 	/* TODO : does not handle 3d, neither does this interface
 	 * should probably scrap the interface in favour of returning a
 	 * rangeref.
 	 */
-	if (sheet != NULL)
-		*sheet = eval_sheet (rs->ref.a.sheet, gee->sheet);
+	if (sheet)
+		*sheet = ref.a.sheet;
+
+	if (r != NULL) {
+		gnm_cellpos_init_cellref (&r->start, &ref.a, &gee->pp.eval);
+		gnm_cellpos_init_cellref (&r->end, &ref.b, &gee->pp.eval);
+		range_normalize (r);
+	}
 
 	return rs->is_valid;
 }

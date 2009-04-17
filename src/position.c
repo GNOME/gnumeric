@@ -393,15 +393,18 @@ void
 gnm_rangeref_normalize (GnmRangeRef const *ref, GnmEvalPos const *ep,
 			Sheet **start_sheet, Sheet **end_sheet, GnmRange *dest)
 {
+	GnmRangeRef r;
+
 	g_return_if_fail (ref != NULL);
 	g_return_if_fail (ep != NULL);
 
-	gnm_cellpos_init_cellref (&dest->start, &ref->a, &ep->eval);
-	gnm_cellpos_init_cellref (&dest->end, &ref->b, &ep->eval);
-	range_normalize (dest);
+	r = *ref;
+	r.a.sheet = *start_sheet = eval_sheet (r.a.sheet, ep->sheet);
+	r.b.sheet = *end_sheet   = eval_sheet (r.b.sheet, *start_sheet);
 
-	*start_sheet = eval_sheet (ref->a.sheet, ep->sheet);
-	*end_sheet   = eval_sheet (ref->b.sheet, *start_sheet);
+	gnm_cellpos_init_cellref (&dest->start, &r.a, &ep->eval);
+	gnm_cellpos_init_cellref (&dest->end, &r.b, &ep->eval);
+	range_normalize (dest);
 }
 
 guint

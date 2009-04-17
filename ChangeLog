@@ -3,6 +3,8 @@
 	* src/position.c (gnm_cellpos_hash, gnm_cellref_hash,
 	gnm_rangeref_hash): Improve these in light on variable-size
 	sheets.
+	(gnm_rangeref_normalize): : Evaluate sheets early so we can ship them
+	to gnm_cellpos_init_cellref.
 
 2009-04-16  Morten Welinder  <terra@gnome.org>
 
