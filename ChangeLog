@@ -1,3 +1,20 @@
+2009-04-16  Morten Welinder  <terra@gnome.org>
+
+	* src/parse-util.c (col_parse, row_parse): Handle MAGIC_MAX_SHEET.
+	(std_sheet_name_quote): Use MAGIC_MAX_SHEET to query any possible
+	sheet.
+	(MAGIC_MAX_SHEET): Define locally.
+
+	* src/sheet-view.c (sv_set_edit_pos): Don't do anything -- not
+	even checks on position -- if the new position is the same as the
+	old one.  If we do change, make sure we have a sheet.
+
+	* src/sheet.c (gnm_sheet_get_max_rows, gnm_sheet_get_max_cols):
+	Complain if sheet is NULL.
+
+	* src/selection.c (sheet_selection_set_internal): If we don't have
+	a sheet yet, don't enable insert/delete.
+
 2009-04-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.h (cmd_so_set_checkbox): new

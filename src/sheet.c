@@ -5494,6 +5494,7 @@ int
 gnm_sheet_get_max_rows (Sheet const *sheet)
 {
 	if (G_UNLIKELY (!sheet)) {
+		g_warning ("NULL sheet in gnm_sheet_get_max_rows!");
 		/* FIXME: This needs to go.  */
 		return GNM_DEFAULT_ROWS;
 	}
@@ -5508,6 +5509,7 @@ int
 gnm_sheet_get_max_cols (Sheet const *sheet)
 {
 	if (G_UNLIKELY (!sheet)) {
+		g_warning ("NULL sheet in gnm_sheet_get_max_cols!");
 		/* FIXME: This needs to go.  */
 		return GNM_DEFAULT_COLS;
 	}

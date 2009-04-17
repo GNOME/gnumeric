@@ -47,7 +47,11 @@
 #include <glib.h>
 #include <string.h>
 
-#define FIXME_SHEET NULL
+/*
+ * This constant should not escape this file.  It represents a sheet whose
+ * dimensions are maximal in all directions.
+ */
+#define MAGIC_MAX_SHEET ((Sheet*)GUINT_TO_POINTER(1))
 
 static void
 col_name_internal (GString *target, int col)
@@ -117,7 +121,9 @@ col_parse (char const *str, Sheet const *sheet,
 {
 	char const *ptr, *start = str;
 	int col = -1;
-	int max = gnm_sheet_get_max_cols (sheet);
+	int max = (sheet == MAGIC_MAX_SHEET)
+		? GNM_MAX_COLS
+		: gnm_sheet_get_max_cols (sheet);
 
 	if (!(*relative = (*start != '$')))
 		start++;
@@ -179,7 +185,9 @@ row_parse (char const *str, Sheet const *sheet,
 {
 	char const *end, *ptr = str;
 	long int row;
-	int max = gnm_sheet_get_max_rows (sheet);
+	int max = (sheet == MAGIC_MAX_SHEET)
+		? GNM_MAX_ROWS
+		: gnm_sheet_get_max_rows (sheet);
 
 	if (!(*relative = (*ptr != '$')))
 		ptr++;
@@ -1257,13 +1265,13 @@ std_sheet_name_quote (GnmConventions const *convs,
 
 		int col, row;
 		unsigned char col_relative, row_relative;
-		if (!col_parse (str, FIXME_SHEET, &col, &col_relative))
+		if (!col_parse (str, MAGIC_MAX_SHEET, &col, &col_relative))
 			goto unquoted;
 
 		p = str + nletters;
 		while (*p == '0')
 			p++, ndigits--;
-		if (!row_parse (p, FIXME_SHEET, &row, &row_relative))
+		if (!row_parse (p, MAGIC_MAX_SHEET, &row, &row_relative))
 			goto unquoted;
 
 		goto quoted;

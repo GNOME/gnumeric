@@ -534,7 +534,7 @@ set_menu_flags:
 	 * whole row, a whole column or the whole sheet and de-activate
 	 * insert row/cols and the flags accordingly.
 	 */
-	do_rows = do_cols = TRUE;
+	do_rows = do_cols = (sv->sheet != NULL);
 	for (list = sv->selections; list && (do_cols || do_rows); list = list->next) {
 		GnmRange const *r = list->data;
 

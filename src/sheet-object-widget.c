@@ -427,7 +427,8 @@ cb_frame_config_ok_clicked (GtkWidget *button, FrameConfigState *state)
 {
 	gchar const *text = gtk_entry_get_text(GTK_ENTRY(state->label));
 
-	cmd_so_set_frame_label (WORKBOOK_CONTROL (state->wbcg), SHEET_OBJECT (state->swf), 
+	cmd_so_set_frame_label (WORKBOOK_CONTROL (state->wbcg),
+				SHEET_OBJECT (state->swf), 
 				g_strdup (state->old_label), g_strdup (text));
 	gtk_widget_destroy (state->dialog);
 }
@@ -439,16 +440,17 @@ sheet_widget_frame_set_label (SheetObject *so, char const* str)
 	GList *ptr;
 
 	str = str ? str : "";
-	
-	if (swf->label)
-		g_free (swf->label);
+
+	if (go_str_compare (str, swf->label) == 0)
+		return;
+
+	g_free (swf->label);
 	swf->label = g_strdup (str);
 
 	for (ptr = swf->sow.realized_list; ptr != NULL; ptr = ptr->next) {
-		gtk_frame_set_label
-			(GTK_FRAME (FOO_CANVAS_WIDGET (ptr->data)->widget),
-			 str);
-	}	
+		FooCanvasWidget *item = FOO_CANVAS_WIDGET (ptr->data);
+		gtk_frame_set_label (GTK_FRAME (item->widget), str);
+	}
 }
 
 static void

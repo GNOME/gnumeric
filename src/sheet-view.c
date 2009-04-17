@@ -472,43 +472,48 @@ void
 sv_set_edit_pos (SheetView *sv, GnmCellPos const *pos)
 {
 	GnmCellPos old;
+	GnmRange const *merged;
 
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 	g_return_if_fail (pos != NULL);
+
+	old = sv->edit_pos;
+	sv->first_tab_col = -1; /* invalidate */
+
+	if (old.col == pos->col && old.row == pos->row)
+		return;
+
+	g_return_if_fail (IS_SHEET (sv->sheet));
 	g_return_if_fail (pos->col >= 0);
 	g_return_if_fail (pos->col < gnm_sheet_get_max_cols (sv->sheet));
 	g_return_if_fail (pos->row >= 0);
 	g_return_if_fail (pos->row < gnm_sheet_get_max_rows (sv->sheet));
 
-	old = sv->edit_pos;
-	sv->first_tab_col = -1; /* invalidate */
 
-	if (old.col != pos->col || old.row != pos->row) {
-		GnmRange const *merged = gnm_sheet_merge_is_corner (sv->sheet, &old);
+	merged = gnm_sheet_merge_is_corner (sv->sheet, &old);
 
-		sv->edit_pos_changed.location =
+	sv->edit_pos_changed.location =
 		sv->edit_pos_changed.content =
 		sv->edit_pos_changed.style  = TRUE;
 
-		/* Redraw before change */
-		if (merged == NULL) {
-			GnmRange tmp; tmp.start = tmp.end = old;
-			sv_redraw_range (sv, &tmp);
-		} else
-			sv_redraw_range (sv, merged);
+	/* Redraw before change */
+	if (merged == NULL) {
+		GnmRange tmp; tmp.start = tmp.end = old;
+		sv_redraw_range (sv, &tmp);
+	} else
+		sv_redraw_range (sv, merged);
 
-		sv->edit_pos_real = *pos;
+	sv->edit_pos_real = *pos;
 
-		/* Redraw after change (handling merged cells) */
-		merged = gnm_sheet_merge_contains_pos (sv->sheet, &sv->edit_pos_real);
-		if (merged == NULL) {
-			GnmRange tmp; tmp.start = tmp.end = *pos;
-			sv_redraw_range (sv, &tmp);
-			sv->edit_pos = sv->edit_pos_real;
-		} else {
-			sv_redraw_range (sv, merged);
-			sv->edit_pos = merged->start;
-		}
+	/* Redraw after change (handling merged cells) */
+	merged = gnm_sheet_merge_contains_pos (sv->sheet, &sv->edit_pos_real);
+	if (merged == NULL) {
+		GnmRange tmp; tmp.start = tmp.end = *pos;
+		sv_redraw_range (sv, &tmp);
+		sv->edit_pos = sv->edit_pos_real;
+	} else {
+		sv_redraw_range (sv, merged);
+		sv->edit_pos = merged->start;
 	}
 }
 
