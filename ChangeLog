@@ -1,5 +1,14 @@
 2009-04-17  Morten Welinder  <terra@gnome.org>
 
+	* src/ssconvert.c (setup_range): Parse in the context of the first
+	sheet.
+
+	* src/parse-util.c (cellref_as_string): Simplify and fix: let
+	gnm_cellpos_init_cellref do the work.
+
+	* src/position.c (gnm_cellref_make_abs): Simplify and fix: Let
+	gnm_cellpos_init_cellref do the work.
+
 	* src/position.c (gnm_cellpos_init_cellref): Take extra base_sheet
 	argument.  All callers changed.
 

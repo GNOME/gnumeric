@@ -325,24 +325,19 @@ gnm_cellpos_init_cellref (GnmCellPos *res, GnmCellRef const *cell_ref,
 void
 gnm_cellref_make_abs (GnmCellRef *dest, GnmCellRef const *src, GnmEvalPos const *ep)
 {
+	GnmCellPos pos;
+
 	g_return_if_fail (dest != NULL);
 	g_return_if_fail (src != NULL);
 	g_return_if_fail (ep != NULL);
 
-	*dest = *src;
-	if (src->col_relative) {
-		dest->col = (dest->col + ep->eval.col) % gnm_sheet_get_max_cols (dest->sheet);
-		if (dest->col < 0)
-			dest->col += gnm_sheet_get_max_cols (dest->sheet);
-	}
+	gnm_cellpos_init_cellref (&pos, src, &ep->eval, ep->sheet);
 
-	if (src->row_relative) {
-		dest->row = (dest->row + ep->eval.row) % gnm_sheet_get_max_rows (dest->sheet);
-		if (dest->row < 0)
-			dest->row += gnm_sheet_get_max_rows (dest->sheet);
-	}
-
-	dest->row_relative = dest->col_relative = FALSE;
+	dest->sheet = src->sheet;
+	dest->col = pos.col;
+	dest->row = pos.row;
+	dest->col_relative = FALSE;
+	dest->row_relative = FALSE;
 }
 
 void

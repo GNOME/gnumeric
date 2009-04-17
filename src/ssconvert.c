@@ -146,7 +146,7 @@ setup_range (GObject *obj, const char *key, Workbook *wb, const char *rtxt)
 	GnmRangeRef rr;
 
 	pp.wb = wb;
-	pp.sheet = NULL;
+	pp.sheet = workbook_sheet_by_index (wb, 0);
 	pp.eval.col = 0;
 	pp.eval.row = 0;
 
