@@ -1,5 +1,9 @@
 2009-04-17  Morten Welinder  <terra@gnome.org>
 
+	* src/commands.c (cmd_so_set_frame_label_finalize,
+	cmd_so_set_checkbox_finalize): Don't NULL-check before g_free.
+	Test suite passes again.
+
 	* src/print-info.c (load_range): Take Sheet argument too and
 	supply it to the parser.  All callers changed.
 	(print_info_new): Take Sheet argument too.  All callers changed.

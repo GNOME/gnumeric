@@ -7098,14 +7098,12 @@ cmd_so_set_frame_label_finalize (GObject *cmd)
 {
 	CmdSOSetFrameLabel *me = CMD_SO_SET_FRAME_LABEL (cmd);
 	
-	if (me->old_label) {
-		g_free (me->old_label);
-		me->old_label = NULL;
-	}
-	if (me->new_label) {
-		g_free (me->new_label);
-		me->new_label = NULL;
-	}
+	g_free (me->old_label);
+	me->old_label = NULL;
+
+	g_free (me->new_label);
+	me->new_label = NULL;
+
 	gnm_command_finalize (cmd);
 }
 
@@ -7175,10 +7173,8 @@ cmd_so_set_checkbox_finalize (GObject *cmd)
 		gnm_expr_top_unref (me->new_link);
 	if (me->old_link)
 		gnm_expr_top_unref (me->old_link);
-	if (me->old_label)
-		g_free (me->old_label);
-	if (me->new_label)
-		g_free (me->new_label);
+	g_free (me->old_label);
+	g_free (me->new_label);
 	gnm_command_finalize (cmd);
 }
 
