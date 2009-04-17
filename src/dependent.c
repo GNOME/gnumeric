@@ -849,17 +849,17 @@ link_single_dep (GnmDependent *dep, GnmCellPos const *pos, GnmCellRef const *ref
 	DependencySingle *single;
 	GnmDepContainer *deps;
 	DependentFlags flag = DEPENDENT_NO_FLAG;
+	Sheet const *sheet = eval_sheet (ref->sheet, dep->sheet);
 
-	if (ref->sheet != NULL) {
-		if (ref->sheet != dep->sheet)
-			flag = (ref->sheet->workbook != dep->sheet->workbook)
-				? DEPENDENT_GOES_INTERBOOK : DEPENDENT_GOES_INTERSHEET;
-		deps = ref->sheet->deps;
-	} else
-		deps = dep->sheet->deps;
+	if (sheet != dep->sheet)
+		flag = (sheet->workbook != dep->sheet->workbook)
+			? DEPENDENT_GOES_INTERBOOK
+			: DEPENDENT_GOES_INTERSHEET;
+
+	deps = sheet->deps;
 
 	/* Inserts if it is not already there */
-	gnm_cellpos_init_cellref (&lookup.pos, ref, pos);
+	gnm_cellpos_init_cellref (&lookup.pos, ref, pos, sheet);
 	single = g_hash_table_lookup (deps->single_hash, &lookup);
 	if (single == NULL) {
 		single = go_mem_chunk_alloc (deps->single_pool);
@@ -877,12 +877,13 @@ unlink_single_dep (GnmDependent *dep, GnmCellPos const *pos, GnmCellRef const *a
 {
 	DependencySingle lookup;
 	DependencySingle *single;
-	GnmDepContainer *deps = eval_sheet (a->sheet, dep->sheet)->deps;
+	Sheet const *sheet = eval_sheet (a->sheet, dep->sheet);
+	GnmDepContainer *deps = sheet->deps;
 
 	if (!deps)
 		return;
 
-	gnm_cellpos_init_cellref (&lookup.pos, a, pos);
+	gnm_cellpos_init_cellref (&lookup.pos, a, pos, sheet);
 	single = g_hash_table_lookup (deps->single_hash, &lookup);
 	if (single != NULL) {
 		micro_hash_remove (&single->deps, dep);
@@ -967,8 +968,8 @@ link_cellrange_dep (GnmDependent *dep, GnmCellPos const *pos,
 	DependencyRange range;
 	DependentFlags flag = DEPENDENT_NO_FLAG;
 
-	gnm_cellpos_init_cellref (&range.range.start, a, pos);
-	gnm_cellpos_init_cellref (&range.range.end, b, pos);
+	gnm_cellpos_init_cellref (&range.range.start, a, pos, dep->sheet);
+	gnm_cellpos_init_cellref (&range.range.end, b, pos, dep->sheet);
 	range_normalize (&range.range);
 
 	if (a->sheet != NULL) {
@@ -1004,8 +1005,8 @@ unlink_cellrange_dep (GnmDependent *dep, GnmCellPos const *pos,
 {
 	DependencyRange range;
 
-	gnm_cellpos_init_cellref (&range.range.start, a, pos);
-	gnm_cellpos_init_cellref (&range.range.end, b, pos);
+	gnm_cellpos_init_cellref (&range.range.start, a, pos, dep->sheet);
+	gnm_cellpos_init_cellref (&range.range.end, b, pos, dep->sheet);
 	range_normalize (&range.range);
 
 	if (a->sheet != NULL) {
@@ -1282,8 +1283,8 @@ dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr)
 		g_hash_table_insert (dep->sheet->deps->dynamic_deps, dep, dyn);
 	}
 
-	gnm_cellpos_init_cellref (&range.range.start, &rr->a, pos);
-	gnm_cellpos_init_cellref (&range.range.end, &rr->b, pos);
+	gnm_cellpos_init_cellref (&range.range.start, &rr->a, pos, dep->sheet);
+	gnm_cellpos_init_cellref (&range.range.end, &rr->b, pos, dep->sheet);
 	if (range_is_singleton (&range.range)) {
 		flags = link_single_dep (&dyn->base, pos, &rr->a);
 		dyn->singles = g_slist_prepend (dyn->singles, gnm_rangeref_dup (rr));

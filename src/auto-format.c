@@ -206,7 +206,7 @@ do_af_suggest (GnmExpr const *expr, GnmEvalPos const *epos, GOFormat **explicit)
 		if (sheet == NULL)
 			return GNM_FUNC_AUTO_UNKNOWN;
 
-		gnm_cellpos_init_cellref (&pos, ref, &epos->eval);
+		gnm_cellpos_init_cellref (&pos, ref, &epos->eval, sheet);
 		cell = sheet_cell_get (sheet, pos.col, pos.row);
 		if (cell == NULL)
 			return GNM_FUNC_AUTO_UNKNOWN;

@@ -213,30 +213,6 @@ row_parse (char const *str, Sheet const *sheet,
 
 /***************************************************************************/
 
-inline static int
-cellref_abs_col (GnmCellRef const *ref, GnmParsePos const *pp)
-{
-	int col = (ref->col_relative) ? pp->eval.col + ref->col : ref->col;
-
-	/* ICK!  XL compatibility kludge */
-	col %= gnm_sheet_get_max_cols (ref->sheet);
-	if (col < 0)
-		return col + gnm_sheet_get_max_cols (ref->sheet);
-	return col;
-}
-
-inline static int
-cellref_abs_row (GnmCellRef const *ref, GnmParsePos const *pp)
-{
-	int row = (ref->row_relative) ? pp->eval.row + ref->row : ref->row;
-
-	/* ICK!  XL compatibility kludge */
-	row %= gnm_sheet_get_max_rows (ref->sheet);
-	if (row < 0)
-		return row + gnm_sheet_get_max_rows (ref->sheet);
-	return row;
-}
-
 static void
 r1c1_add_index (GString *target, char type, int num, unsigned char relative)
 {
@@ -345,10 +321,11 @@ rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 	GnmRange r;
 	GString *target = out->accum;
 
-	r.start.col = cellref_abs_col (&ref->a, out->pp);
-	r.end.col   = cellref_abs_col (&ref->b, out->pp);
-	r.start.row = cellref_abs_row (&ref->a, out->pp);
-	r.end.row   = cellref_abs_row (&ref->b, out->pp);
+	gnm_cellpos_init_cellref (&r.start, &ref->a,
+				  &out->pp->eval, out->pp->sheet);
+	/* FIXME: This the following sheet right?  */
+	gnm_cellpos_init_cellref (&r.end, &ref->b,
+				  &out->pp->eval, out->pp->sheet);
 
 	if (ref->a.sheet) {
 		if (NULL != out->pp->wb && ref->a.sheet->workbook != out->pp->wb) {
@@ -458,10 +435,11 @@ gnm_1_0_rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 	GnmRange r;
 	GString *target = out->accum;
 
-	r.start.col = cellref_abs_col (&ref->a, out->pp);
-	r.end.col   = cellref_abs_col (&ref->b, out->pp);
-	r.start.row = cellref_abs_row (&ref->a, out->pp);
-	r.end.row   = cellref_abs_row (&ref->b, out->pp);
+	gnm_cellpos_init_cellref (&r.start, &ref->a,
+				  &out->pp->eval, out->pp->sheet);
+	/* FIXME: This the following sheet right?  */
+	gnm_cellpos_init_cellref (&r.end, &ref->b,
+				  &out->pp->eval, out->pp->sheet);
 
 	if (ref->a.sheet) {
 		if (NULL != out->pp->wb && ref->a.sheet->workbook != out->pp->wb) {

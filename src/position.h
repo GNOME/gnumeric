@@ -77,8 +77,8 @@ void         gnm_rangeref_normalize(GnmRangeRef const *rr, GnmEvalPos const *ep,
 
 guint gnm_cellpos_hash		(GnmCellPos const *key);
 gint  gnm_cellpos_equal		(GnmCellPos const *a, GnmCellPos const *b);
-void  gnm_cellpos_init_cellref	(GnmCellPos *cp,
-				 GnmCellRef const *cr, GnmCellPos const *pos);
+void  gnm_cellpos_init_cellref	(GnmCellPos *cp, GnmCellRef const *cr,
+				 GnmCellPos const *pos, Sheet const *base_sheet);
 
 G_END_DECLS
 

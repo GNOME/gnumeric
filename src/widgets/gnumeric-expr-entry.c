@@ -1373,8 +1373,8 @@ gnm_expr_entry_get_rangesel (GnmExprEntry const *gee,
 		*sheet = ref.a.sheet;
 
 	if (r != NULL) {
-		gnm_cellpos_init_cellref (&r->start, &ref.a, &gee->pp.eval);
-		gnm_cellpos_init_cellref (&r->end, &ref.b, &gee->pp.eval);
+		gnm_cellpos_init_cellref (&r->start, &ref.a, &gee->pp.eval, ref.a.sheet);
+		gnm_cellpos_init_cellref (&r->end, &ref.b, &gee->pp.eval, ref.b.sheet);
 		range_normalize (r);
 	}
 

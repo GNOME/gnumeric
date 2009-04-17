@@ -1419,7 +1419,8 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		GnmCell *cell;
 		GnmCellPos dest;
 
-		gnm_cellpos_init_cellref (&dest, &expr->cellref.ref, &pos->eval);
+		gnm_cellpos_init_cellref (&dest, &expr->cellref.ref,
+					  &pos->eval, pos->sheet);
 
 		cell = sheet_cell_get (eval_sheet (expr->cellref.ref.sheet, pos->sheet),
 			dest.col, dest.row);

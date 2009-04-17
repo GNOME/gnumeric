@@ -1,5 +1,11 @@
 2009-04-17  Morten Welinder  <terra@gnome.org>
 
+	* src/position.c (gnm_cellpos_init_cellref): Take extra base_sheet
+	argument.  All callers changed.
+
+	* src/parse-util.c (cellref_abs_col, cellref_abs_row): Eliminate
+	in favour of gnm_cellpos_init_cellref.
+
 	* src/commands.c (cmd_so_set_frame_label_finalize,
 	cmd_so_set_checkbox_finalize): Don't NULL-check before g_free.
 	Test suite passes again.

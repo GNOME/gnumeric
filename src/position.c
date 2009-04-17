@@ -289,23 +289,35 @@ gnm_cellref_get_row (GnmCellRef const *ref, GnmEvalPos const *ep)
 }
 
 void
-gnm_cellpos_init_cellref (GnmCellPos *res,
-			  GnmCellRef const *cell_ref, GnmCellPos const *pos)
+gnm_cellpos_init_cellref (GnmCellPos *res, GnmCellRef const *cell_ref,
+			  GnmCellPos const *pos, Sheet const *base_sheet)
 {
+	Sheet const *sheet;
+
 	g_return_if_fail (cell_ref != NULL);
 	g_return_if_fail (res != NULL);
 
+	sheet = eval_sheet (cell_ref->sheet, base_sheet);
+
 	if (cell_ref->col_relative) {
-		res->col = (cell_ref->col + pos->col) % gnm_sheet_get_max_cols (cell_ref->sheet);
-		if (res->col < 0)
-			res->col += gnm_sheet_get_max_cols (cell_ref->sheet);
+		int col = cell_ref->col + pos->col;
+		int max = gnm_sheet_get_max_cols (sheet);
+		if (col < 0)
+			col += max;
+		else if (col >= max)
+			col -= max;
+		res->col = col;
 	} else
 		res->col = cell_ref->col;
 
 	if (cell_ref->row_relative) {
-		res->row = (cell_ref->row + pos->row) % gnm_sheet_get_max_rows (cell_ref->sheet);
-		if (res->row < 0)
-			res->row += gnm_sheet_get_max_rows (cell_ref->sheet);
+		int row = cell_ref->row + pos->row;
+		int max = gnm_sheet_get_max_rows (sheet);
+		if (row < 0)
+			row += max;
+		else if (row >= max)
+			row -= max;
+		res->row = row;
 	} else
 		res->row = cell_ref->row;
 }
@@ -393,17 +405,14 @@ void
 gnm_rangeref_normalize (GnmRangeRef const *ref, GnmEvalPos const *ep,
 			Sheet **start_sheet, Sheet **end_sheet, GnmRange *dest)
 {
-	GnmRangeRef r;
-
 	g_return_if_fail (ref != NULL);
 	g_return_if_fail (ep != NULL);
 
-	r = *ref;
-	r.a.sheet = *start_sheet = eval_sheet (r.a.sheet, ep->sheet);
-	r.b.sheet = *end_sheet   = eval_sheet (r.b.sheet, *start_sheet);
+	*start_sheet = eval_sheet (ref->a.sheet, ep->sheet);
+	*end_sheet   = eval_sheet (ref->b.sheet, *start_sheet);
 
-	gnm_cellpos_init_cellref (&dest->start, &r.a, &ep->eval);
-	gnm_cellpos_init_cellref (&dest->end, &r.b, &ep->eval);
+	gnm_cellpos_init_cellref (&dest->start, &ref->a, &ep->eval, *start_sheet);
+	gnm_cellpos_init_cellref (&dest->end, &ref->b, &ep->eval, *end_sheet);
 	range_normalize (dest);
 }
 

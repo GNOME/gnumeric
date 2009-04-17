@@ -180,8 +180,8 @@ gnumeric_table (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 		GnmExpr const *arg = argv[x];
 		val[x] = NULL;
 		if (NULL != arg && GNM_EXPR_GET_OPER (arg) == GNM_EXPR_OP_CELLREF) {
-			gnm_cellpos_init_cellref (&pos,
-				&arg->cellref.ref, &ei->pos->eval);
+			gnm_cellpos_init_cellref (&pos,	&arg->cellref.ref,
+						  &ei->pos->eval, ei->pos->sheet);
 			in[x] = sheet_cell_get (ei->pos->sheet, pos.col, pos.row);
 			if (NULL == in[x])
 				in[x] = sheet_cell_fetch (ei->pos->sheet, pos.col, pos.row);
