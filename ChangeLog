@@ -1,3 +1,9 @@
+2009-04-17  Morten Welinder  <terra@gnome.org>
+
+	* src/position.c (gnm_cellpos_hash, gnm_cellref_hash,
+	gnm_rangeref_hash): Improve these in light on variable-size
+	sheets.
+
 2009-04-16  Morten Welinder  <terra@gnome.org>
 
 	* src/parse-util.c (col_parse, row_parse): Handle MAGIC_MAX_SHEET.

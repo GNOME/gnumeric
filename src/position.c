@@ -250,9 +250,11 @@ gnm_cellref_equal (GnmCellRef const *a, GnmCellRef const *b)
 guint
 gnm_cellref_hash (GnmCellRef const *cr)
 {
-	guint h = ((cr->row << 8) ^ cr->col) * 4;
-	if (cr->col_relative) h |= 1;
-	if (cr->row_relative) h |= 2;
+	guint h = cr->row;
+	h = (h << 16) | (h >> 16);
+	h ^= (cr->col << 2);
+	if (cr->col_relative) h ^= 1;
+	if (cr->row_relative) h ^= 2;
 	return h;
 }
 
@@ -365,7 +367,10 @@ gnm_rangeref_equal (GnmRangeRef const *a, GnmRangeRef const *b)
 guint
 gnm_rangeref_hash (GnmRangeRef const *rr)
 {
-	return gnm_cellref_hash (&rr->a) << 16 | gnm_cellref_hash (&rr->b);
+	guint h = gnm_cellref_hash (&rr->a);
+	h = (h << 16) | (h >> 16);
+	h ^= gnm_cellref_hash (&rr->b);
+	return h;
 }
 
 GnmRangeRef *
@@ -402,7 +407,10 @@ gnm_rangeref_normalize (GnmRangeRef const *ref, GnmEvalPos const *ep,
 guint
 gnm_cellpos_hash (GnmCellPos const *key)
 {
-	return (key->row << 8) | key->col;
+	guint h = key->row;
+	h = (h << 16) | (h >> 16);
+	h ^= key->col;
+	return h;
 }
 
 gint
