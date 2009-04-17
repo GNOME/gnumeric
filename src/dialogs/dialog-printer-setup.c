@@ -2609,7 +2609,7 @@ printer_setup_state_new (WBCGtk *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->sheet = sheet;
 	state->gui   = gui;
-	state->pi    = print_info_dup (sheet->print_info);
+	state->pi    = print_info_dup (sheet->print_info, sheet);
 	state->display_unit = state->pi->desired_display.top;
 	state->customize_header = NULL; 
 	state->customize_footer = NULL; 

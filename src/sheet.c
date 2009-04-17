@@ -748,7 +748,7 @@ gnm_sheet_init (Sheet *sheet)
 	sheet->rows.info = g_ptr_array_new ();
 	sheet_row_set_default_size_pts (sheet, 12.75);
 
-	sheet->print_info = print_info_new (FALSE);
+	sheet->print_info = print_info_new (sheet, FALSE);
 
 	sheet->filters = NULL;
 	sheet->scenarios = NULL;
@@ -5248,7 +5248,7 @@ sheet_dup (Sheet const *src)
 		NULL);
 
 	print_info_free (dst->print_info);
-	dst->print_info = print_info_dup (src->print_info);
+	dst->print_info = print_info_dup (src->print_info, dst);
 
 	sheet_dup_styles         (src, dst);
 	sheet_dup_merged_regions (src, dst);

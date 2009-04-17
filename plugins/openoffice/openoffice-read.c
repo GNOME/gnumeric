@@ -626,10 +626,10 @@ oo_append_page_break (OOParseState *state, int pos, gboolean is_vert)
 
 	if (is_vert) {
 		if (NULL == (breaks = state->page_breaks.v))
-			breaks = state->page_breaks.v = gnm_page_breaks_new (0, TRUE);
+			breaks = state->page_breaks.v = gnm_page_breaks_new (TRUE);
 	} else {
 		if (NULL == (breaks = state->page_breaks.h))
-			breaks = state->page_breaks.h = gnm_page_breaks_new (0, FALSE);
+			breaks = state->page_breaks.h = gnm_page_breaks_new (FALSE);
 	}
 
 	gnm_page_breaks_append_break (breaks, pos, GNM_PAGE_BREAK_MANUAL);

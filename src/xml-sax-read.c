@@ -851,15 +851,8 @@ static void
 xml_sax_page_breaks_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	int count = 0;
-
 	g_return_if_fail (state->page_breaks == NULL);
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gnm_xml_attr_int  (attrs, "count", &count)) ;
-
-	state->page_breaks = gnm_page_breaks_new (count,
-		xin->node->user_data.v_int);
+	state->page_breaks = gnm_page_breaks_new (xin->node->user_data.v_int);
 }
 
 static void

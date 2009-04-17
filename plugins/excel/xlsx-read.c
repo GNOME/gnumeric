@@ -2781,8 +2781,7 @@ xlsx_CT_PageBreaks_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_int  (xin, attrs, "manualBreakCount", &manual_count)) ;
 #endif
 
-	state->page_breaks = gnm_page_breaks_new (count,
-		xin->node->user_data.v_int);
+	state->page_breaks = gnm_page_breaks_new (xin->node->user_data.v_int);
 }
 
 static void

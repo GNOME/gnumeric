@@ -5963,7 +5963,7 @@ excel_read_PAGE_BREAK (BiffQuery *q, ExcelReadSheet *esheet, gboolean is_vert)
 	XL_CHECK_CONDITION (q->length >= 2);
 	count = GSF_LE_GET_GUINT16 (q->data);
 	XL_CHECK_CONDITION (q->length >= 2 + count * step);
-	breaks = gnm_page_breaks_new (count, is_vert);
+	breaks = gnm_page_breaks_new (is_vert);
 
 	/* 1) Ignore the first/last info for >= biff8
 	 * 2) Assume breaks are manual in the absence of any information  */

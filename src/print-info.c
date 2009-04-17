@@ -148,10 +148,9 @@ print_info_free (PrintInformation *pi)
 }
 
 static gboolean
-load_range (char const *str, GnmRange *r)
+load_range (char const *str, GnmRange *r, Sheet *sheet)
 {
-#warning "We cannot use NULL here"
-	return str && range_parse (r, str, NULL);
+	return str && range_parse (r, str, sheet);
 }
 
 static void
@@ -258,9 +257,11 @@ print_info_load_defaults (PrintInformation *res)
 	res->desired_display.header = gnm_app_prefs->desired_display;
 
 	res->repeat_top.use   = load_range (gnm_app_prefs->print_repeat_top,
-					    &res->repeat_top.range);
+					    &res->repeat_top.range,
+					    res->sheet);
 	res->repeat_left.use  = load_range (gnm_app_prefs->print_repeat_left,
-					    &res->repeat_left.range);
+					    &res->repeat_left.range,
+					    res->sheet);
 
 	res->center_vertically     = gnm_app_prefs->print_center_vertically;
 	res->center_horizontally   = gnm_app_prefs->print_center_horizontally;
@@ -295,10 +296,11 @@ print_info_load_defaults (PrintInformation *res)
  *
  */
 PrintInformation *
-print_info_new (gboolean load_defaults)
+print_info_new (Sheet *sheet, gboolean load_defaults)
 {
 	PrintInformation *res = g_new0 (PrintInformation, 1);
 
+	res->sheet = sheet;
 	res->print_as_draft	   = FALSE;
 	res->comment_placement = PRINT_COMMENTS_IN_PLACE;
 	res->error_display     = PRINT_ERRORS_AS_DISPLAYED;
@@ -817,31 +819,56 @@ print_shutdown (void)
 	destroy_formats ();
 }
 
+#define COPY(field) dst->field = src->field
+
 PrintInformation *
-print_info_dup (PrintInformation *src)
+print_info_dup (PrintInformation const *src, Sheet *new_sheet)
 {
-	PrintInformation *dst = print_info_new (TRUE);
+	PrintInformation *dst = print_info_new (new_sheet, TRUE);
 
-	print_info_load_defaults (src);
+	print_info_load_defaults ((PrintInformation *)src);
 
-	/* clear the refs in the new obj */
-	print_hf_free (dst->header);
-	print_hf_free (dst->footer);
-	if (dst->page_setup)
-		g_object_unref (dst->page_setup);
+	/* Don't copy sheet */
+	COPY(scaling);
+	COPY(edge_to_below_header);
+	COPY(edge_to_above_footer);
+        COPY(desired_display);
+	COPY(repeat_left);
+	COPY(print_across_then_down);
+	COPY(center_vertically);
+	COPY(center_horizontally);
+	COPY(print_grid_lines);
+	COPY(print_titles);
+	COPY(print_black_and_white);
+	COPY(print_as_draft);
+	COPY(print_even_if_only_styles);
+	COPY(do_not_print);
+	COPY(comment_placement);
+	COPY(error_display);
 
-	*dst = *src; /* bit bash */
-
-	dst->page_breaks.v = gnm_page_breaks_dup (src->page_breaks.v);
+	gnm_page_breaks_free (dst->page_breaks.h);
 	dst->page_breaks.h = gnm_page_breaks_dup (src->page_breaks.h);
 
-	/* setup the refs for new content */
-	dst->header	   = print_hf_copy (src->header);
-	dst->footer	   = print_hf_copy (src->footer);
-	dst->page_setup    = gtk_page_setup_copy (src->page_setup);
+	gnm_page_breaks_free (dst->page_breaks.v);
+	dst->page_breaks.v = gnm_page_breaks_dup (src->page_breaks.v);
+
+	print_hf_free (dst->header);
+	dst->header = print_hf_copy (src->header);
+
+	print_hf_free (dst->footer);
+	dst->footer = print_hf_copy (src->footer);
+
+	COPY(start_page);
+        COPY(n_copies);
+
+	if (dst->page_setup)
+		g_object_unref (dst->page_setup);
+	dst->page_setup = gtk_page_setup_copy (src->page_setup);
 
 	return dst;
 }
+
+#undef COPY
 
 void
 print_info_get_margins (PrintInformation *pi,
@@ -1189,8 +1216,7 @@ print_info_set_breaks (PrintInformation *pi,
 	if (*target == breaks) /* just in case something silly happens */
 		return;
 
-	if (NULL != *target)
-		gnm_page_breaks_free (*target);
+	gnm_page_breaks_free (*target);
 	*target = breaks;
 }
 
@@ -1200,23 +1226,17 @@ print_info_set_breaks (PrintInformation *pi,
 
 /**
  * gnm_page_breaks_new :
- * @len : optional estimate of number of breaks that will be in the collection
  * @is_vert :
  *
- * Allocate a collection of page breaks and provide some sanity checking for
- * @len.
+ * Allocate a collection of page breaks.
  **/
 GnmPageBreaks *
-gnm_page_breaks_new (int len, gboolean is_vert)
+gnm_page_breaks_new (gboolean is_vert)
 {
 	GnmPageBreaks *res = g_new (GnmPageBreaks, 1);
 
-#warning "We cannot use NULL here."
-	if (len < 0 || len > colrow_max (is_vert, NULL))
-		len = 0;
 	res->is_vert = is_vert;
-	res->details = g_array_sized_new (FALSE, FALSE,
-		sizeof (GnmPageBreak), len);
+	res->details = g_array_new (FALSE, FALSE, sizeof (GnmPageBreak));
 
 	return res;
 }
@@ -1225,7 +1245,7 @@ GnmPageBreaks *
 gnm_page_breaks_dup (GnmPageBreaks const *src)
 {
 	if (src != NULL) {
-		GnmPageBreaks *dst = gnm_page_breaks_new (src->details->len, src->is_vert);
+		GnmPageBreaks *dst = gnm_page_breaks_new (src->is_vert);
 		GArray       *d_details = dst->details;
 		GArray const *s_details = src->details;
 		unsigned i;
@@ -1243,8 +1263,10 @@ gnm_page_breaks_dup (GnmPageBreaks const *src)
 void
 gnm_page_breaks_free (GnmPageBreaks *breaks)
 {
-	g_array_free (breaks->details, TRUE);
-	g_free (breaks);
+	if (breaks) {
+		g_array_free (breaks->details, TRUE);
+		g_free (breaks);
+	}
 }
 
 gboolean

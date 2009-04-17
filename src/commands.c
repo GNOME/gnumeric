@@ -5522,9 +5522,10 @@ cmd_print_setup_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me->old_pi != NULL, TRUE);
 
 	if (me->cmd.sheet) {
+		PrintInformation *pi = me->old_pi->data;
 		print_info_free (me->cmd.sheet->print_info);
-		me->cmd.sheet->print_info = print_info_dup (
-			(PrintInformation *) me->old_pi->data);
+		me->cmd.sheet->print_info =
+			print_info_dup (pi, me->cmd.sheet);
 	} else {
 		book = wb_control_get_workbook(wbc);
 		n = workbook_sheet_count (book);
@@ -5532,13 +5533,13 @@ cmd_print_setup_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		g_return_val_if_fail (g_slist_length (infos) == n, TRUE);
 
 		for (i = 0 ; i < n ; i++) {
+			PrintInformation *pi = infos->data;
 			Sheet *sheet = workbook_sheet_by_index (book, i);
 
 			g_return_val_if_fail (infos != NULL, TRUE);
 
 			print_info_free (sheet->print_info);
-			sheet->print_info = print_info_dup (
-				(PrintInformation *) infos->data);
+			sheet->print_info = print_info_dup (pi, sheet);
 			infos = infos->next;
 		}
 	}
@@ -5558,18 +5559,18 @@ cmd_print_setup_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			me->old_pi = g_slist_append (me->old_pi, me->cmd.sheet->print_info);
 		else
 			print_info_free (me->cmd.sheet->print_info);
-		me->cmd.sheet->print_info = print_info_dup (me->new_pi);
+		me->cmd.sheet->print_info = print_info_dup (me->new_pi, me->cmd.sheet);
 	} else {
 		book = wb_control_get_workbook(wbc);
 		n = workbook_sheet_count (book);
 		for (i = 0 ; i < n ; i++) {
-			Sheet * sheet = workbook_sheet_by_index (book, i);
+			Sheet *sheet = workbook_sheet_by_index (book, i);
 			sheet_mark_dirty (sheet);
 			if (save_pis)
 				me->old_pi = g_slist_prepend (me->old_pi, sheet->print_info);
 			else
 				print_info_free (sheet->print_info);
-			sheet->print_info = print_info_dup (me->new_pi);
+			sheet->print_info = print_info_dup (me->new_pi, sheet);
 		}
 		me->old_pi = g_slist_reverse (me->old_pi);
 	}
@@ -5605,7 +5606,7 @@ cmd_print_setup (WorkbookControl *wbc, Sheet *sheet, PrintInformation const *pi)
 	else
 		me->cmd.cmd_descriptor = g_strdup (_("Page Setup For All Sheets"));
 	me->old_pi = NULL;
-	me->new_pi = print_info_dup ((PrintInformation *) pi);
+	me->new_pi = print_info_dup (pi, sheet);
 
 	return command_push_undo (wbc, G_OBJECT (me));
 }

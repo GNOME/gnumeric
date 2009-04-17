@@ -580,7 +580,7 @@ xml_read_breaks (XmlParseContext *ctxt, xmlNodePtr tree, gboolean is_vert)
 	GnmPageBreakType  type;
 
 	xml_node_get_int (tree, "count", &count);
-	page_breaks = gnm_page_breaks_new (count, is_vert);
+	page_breaks = gnm_page_breaks_new (is_vert);
 
 	for (tree = tree->xmlChildrenNode; tree != NULL ; tree = tree->next)
 		if (!xmlIsBlankNode (tree) &&
