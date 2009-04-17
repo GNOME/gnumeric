@@ -38,6 +38,7 @@
 #include <value.h>
 #include <number-match.h>
 #include <string.h>
+#include <sheet.h>
 
 static GnmAppPrefs prefs;
 GnmAppPrefs const *gnm_app_prefs = &prefs;
