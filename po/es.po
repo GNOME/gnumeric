@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=gnumeric&component=general\n"
-"POT-Creation-Date: 2009-04-15 06:17+0000\n"
-"PO-Revision-Date: 2009-04-18 19:14+0200\n"
+"POT-Creation-Date: 2009-04-18 17:23+0000\n"
+"PO-Revision-Date: 2009-04-19 14:14+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -236,7 +236,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funciones relacionadas con derivados de finanzas"
 
 #: ../plugins/dif/dif.c:71 ../plugins/excel/ms-excel-read.c:6628
-#: ../plugins/mps/mps.c:543 ../src/xml-io.c:2666 ../src/xml-sax-read.c:2713
+#: ../plugins/mps/mps.c:543 ../src/xml-io.c:2666 ../src/xml-sax-read.c:2706
 msgid "Reading file..."
 msgstr "Leyendo archivo…"
 
@@ -337,7 +337,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atributo inesperado %s::%s == «%s»."
 
 #: ../plugins/excel/excel-xml-read.c:1069
-#: ../plugins/openoffice/openoffice-read.c:3082 ../src/xml-sax-read.c:2731
+#: ../plugins/openoffice/openoffice-read.c:3082 ../src/xml-sax-read.c:2724
 msgid "XML document not well formed!"
 msgstr "El documento XML no se encuentra bien definido"
 
@@ -587,34 +587,34 @@ msgstr "Celda inválida %s"
 msgid "Ignoring column information that does not specify first or last."
 msgstr "Ignorar la información de columnas que no especifica primero o último."
 
-#: ../plugins/excel/xlsx-read.c:2916
+#: ../plugins/excel/xlsx-read.c:2915
 #, c-format
 msgid "Ignoring invalid data validation because : %s"
 msgstr "Ignorando datos inválidos debido a: %s"
 
-#: ../plugins/excel/xlsx-read.c:3341
+#: ../plugins/excel/xlsx-read.c:3340
 msgid "Undefined"
 msgstr "No definido"
 
-#: ../plugins/excel/xlsx-read.c:3384
+#: ../plugins/excel/xlsx-read.c:3383
 #, c-format
 msgid "Ignoring unhandled conditional format of type '%s'"
 msgstr "Ignorando formato condicional no tratado del tipo «%s»"
 
-#: ../plugins/excel/xlsx-read.c:3765
+#: ../plugins/excel/xlsx-read.c:3764
 msgid "Unknown type of hyperlink"
 msgstr "Tipo de hiperenlace desconocido"
 
-#: ../plugins/excel/xlsx-read.c:3976
+#: ../plugins/excel/xlsx-read.c:3975
 msgid "Ignoring a sheet without a name"
 msgstr "Ignorar una hoja sin un nombre"
 
-#: ../plugins/excel/xlsx-read.c:4004
+#: ../plugins/excel/xlsx-read.c:4003
 #, c-format
 msgid "Missing part-id for sheet '%s'"
 msgstr "Para el id de parte para la hoja «%s»"
 
-#: ../plugins/excel/xlsx-read.c:4934
+#: ../plugins/excel/xlsx-read.c:4933
 msgid "No workbook stream found."
 msgstr "No se ha encontrado ningún flujo de libro de cuentas."
 
@@ -729,7 +729,7 @@ msgstr "fecha1,fecha2,intervalo"
 #: ../plugins/fn-date/functions.c:1497 ../plugins/fn-date/functions.c:1501
 #: ../plugins/fn-date/functions.c:1509 ../plugins/fn-date/functions.c:1513
 #: ../plugins/fn-date/functions.c:1526 ../plugins/fn-date/functions.c:1530
-#: ../src/print-info.c:578
+#: ../src/print-info.c:580
 msgid "date"
 msgstr "fecha"
 
@@ -746,7 +746,7 @@ msgid "start_date,months"
 msgstr "fecha_inicio,meses"
 
 #: ../plugins/fn-date/functions.c:1461 ../plugins/fn-date/functions.c:1465
-#: ../plugins/fn-date/functions.c:1481 ../src/print-info.c:579
+#: ../plugins/fn-date/functions.c:1481 ../src/print-info.c:581
 msgid "time"
 msgstr "hora"
 
@@ -911,7 +911,7 @@ msgstr "texto"
 
 #. XLM : looks common in charts
 #: ../plugins/fn-info/functions.c:1993 ../plugins/fn-info/functions.c:1997
-#: ../src/print-info.c:582 ../src/ssgrep.c:359
+#: ../src/print-info.c:584 ../src/ssgrep.c:359
 msgid "cell"
 msgstr "celda"
 
@@ -1252,7 +1252,6 @@ msgstr "¡La versión de arrays aún no está implementada!"
 #: ../plugins/fn-stat/functions.c:4941 ../plugins/fn-stat/functions.c:4945
 #: ../plugins/fn-stat/functions.c:4949 ../plugins/fn-stat/functions.c:5027
 #: ../plugins/fn-stat/functions.c:5071 ../plugins/fn-stat/functions.c:5092
-#| msgid "number,number,"
 msgid "number1,number2,"
 msgstr "número1,número2,"
 
@@ -1269,13 +1268,11 @@ msgid "p,alpha,beta,a,b"
 msgstr "p,alfa,beta,a,b"
 
 #: ../plugins/fn-stat/functions.c:4816
-#, fuzzy
 #| msgid "x,n,M,N,cumulative"
 msgid "n,trials,p,cumulative"
-msgstr "x,n,M,N,acumulado"
+msgstr "n,intentos,p,acumulado"
 
 #: ../plugins/fn-stat/functions.c:4820
-#| msgid "x,y,cumulative"
 msgid "x,a,cumulative"
 msgstr "x,a,acumulado"
 
@@ -1288,7 +1285,6 @@ msgid "p,dof"
 msgstr "p,gdl"
 
 #: ../plugins/fn-stat/functions.c:4830
-#| msgid "act_range,theo_range"
 msgid "actual_range,theoretical_range"
 msgstr "rango_actual,rango_teórico"
 
@@ -1324,7 +1320,6 @@ msgid "x"
 msgstr "x"
 
 #: ../plugins/fn-stat/functions.c:4869
-#| msgid "known_y's,known_x's"
 msgid "x,known_y's,known_x's"
 msgstr "x,y_conocido,x_conocido"
 
@@ -1566,7 +1561,7 @@ msgstr "Error: no es posible establecer conexión a %s"
 
 #: ../plugins/gda/plugin-gda.c:384 ../plugins/gda/plugin-gda.c:473
 msgid "More than one statement in SQL string"
-msgstr ""
+msgstr "Más de una consulta en la cadena SQL"
 
 #: ../plugins/gda/plugin-gda.c:450
 msgid "Format: readDBTable(dsn,user,password,table)"
@@ -1690,7 +1685,7 @@ msgstr "Función objetivo:"
 msgid "Constraints:"
 msgstr "Restricciones:"
 
-#: ../plugins/mps/mps.c:244 ../src/commands.c:4793 ../src/commands.c:5664
+#: ../plugins/mps/mps.c:244 ../src/commands.c:4793 ../src/commands.c:5665
 #: ../src/dialogs/dialog-define-names.c:576
 #: ../src/dialogs/dialog-doc-metadata.c:1277
 #: ../src/dialogs/dialog-formula-guru.c:827
@@ -3171,6 +3166,9 @@ msgid ""
 "gnumeric session. Whatever value is given here, the real number of columns "
 "will be a power of 2 between 256 and 4096."
 msgstr ""
+"El número de columnas en cada hoja. Este ajuste sólo se usará en una sesión "
+"nueva de Gnumeric. Cualquiera que sea el valor aquí proporcionado, el número "
+"de columnas será una potencia de 2 entre 256 y 4096."
 
 #: ../schemas/gnumeric-general.schemas.in.h:44
 msgid ""
@@ -3178,6 +3176,9 @@ msgid ""
 "gnumeric session. Whatever value is given here, the real number of rows will "
 "be a power of 2 between 65539 and 16777216."
 msgstr ""
+"El número de filas en cada hoja. Este ajuste sólo se usará en una sesión "
+"nueva de Gnumeric. Cualquiera que sea el valor aquí proporcionado, el número "
+"de columnas será una potencia de 2 entre 65539 y 16777216."
 
 #: ../schemas/gnumeric-general.schemas.in.h:45
 msgid "The number of sheets initially created in a new workbook."
@@ -3902,52 +3903,52 @@ msgstr "Empujar el objeto atrás"
 msgid "Push Object to the Back"
 msgstr "Empuja el objeto a atrás"
 
-#: ../src/commands.c:5604
+#: ../src/commands.c:5605
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Configuración de página para %s"
 
-#: ../src/commands.c:5606
+#: ../src/commands.c:5607
 msgid "Page Setup For All Sheets"
 msgstr "Configurar impresión para todas las hojas"
 
-#: ../src/commands.c:5722
+#: ../src/commands.c:5723
 msgid "is not allowed as defined name"
 msgstr "no está permitido como nombre definido"
 
-#: ../src/commands.c:5729
+#: ../src/commands.c:5730
 msgid "has a circular reference"
 msgstr "tiene una referencia circular"
 
-#: ../src/commands.c:5763
+#: ../src/commands.c:5764
 #, c-format
 msgid "Define Name %s"
 msgstr "Definir nombre %s"
 
-#: ../src/commands.c:5766
+#: ../src/commands.c:5767
 #, c-format
 msgid "Update Name %s"
 msgstr "Actualizar nombre %s"
 
-#: ../src/commands.c:5859
+#: ../src/commands.c:5860
 #, c-format
 msgid "Remove Name %s"
 msgstr "Quitar nombre %s"
 
-#: ../src/commands.c:5922
+#: ../src/commands.c:5923
 msgid "Add scenario"
 msgstr "Añadir escenario"
 
-#: ../src/commands.c:5995
+#: ../src/commands.c:5996
 msgid "Scenario Show"
 msgstr "Mostrar escenario"
 
-#: ../src/commands.c:6057
+#: ../src/commands.c:6058
 msgid "Shuffle Data"
 msgstr "Datos de muestreo"
 
 #. FIXME?
-#: ../src/commands.c:6161
+#: ../src/commands.c:6162
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Texto (%s) a columnas (%s)"
@@ -3957,7 +3958,7 @@ msgstr "Texto (%s) a columnas (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: ../src/commands.c:6301 ../src/dialogs/solver.glade.h:17
+#: ../src/commands.c:6302 ../src/dialogs/solver.glade.h:17
 #: ../src/tools/solver/reports-write.c:193
 #: ../src/tools/solver/reports-write.c:354
 #: ../src/tools/solver/reports-write.c:484
@@ -3968,50 +3969,48 @@ msgstr "Texto (%s) a columnas (%s)"
 msgid "Solver"
 msgstr "Solver"
 
-#: ../src/commands.c:6383
+#: ../src/commands.c:6384
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Buscar objetivo (%s)"
 
-#: ../src/commands.c:6549
+#: ../src/commands.c:6550
 #, c-format
 msgid "Tabulating Dependencies"
 msgstr "Tabulando dependencias"
 
-#: ../src/commands.c:6623
+#: ../src/commands.c:6624
 msgid "Reconfigure Graph"
 msgstr "Reconfigurar la gráfica"
 
-#: ../src/commands.c:6667
+#: ../src/commands.c:6668
 msgid "Left to Right"
 msgstr "Izquierda a derecha"
 
-#: ../src/commands.c:6667
+#: ../src/commands.c:6668
 msgid "Right to Left"
 msgstr "Derecha a izquierda"
 
-#: ../src/commands.c:6829
+#: ../src/commands.c:6830
 msgid "Changing Hyperlink"
 msgstr "Cambiar hiperenlace"
 
-#: ../src/commands.c:6970
+#: ../src/commands.c:6971
 #, c-format
 msgid "Changing hyperlink of %s"
 msgstr "Cambiando el hiperenlace de %s"
 
-#: ../src/commands.c:7051
-#, fuzzy
+#: ../src/commands.c:7052
 #| msgid "Configure"
 msgid "Configure List"
-msgstr "Configurar"
+msgstr "Configurar lista"
 
-#: ../src/commands.c:7123
-#, fuzzy
+#: ../src/commands.c:7122
 #| msgid "Create a label"
 msgid "Set Frame Label"
-msgstr "Crea una etiqueta"
+msgstr "Establecer etiqueta del marco"
 
-#: ../src/commands.c:7196
+#: ../src/commands.c:7193
 #, fuzzy
 #| msgid "Configure"
 msgid "Configure Checkbox"
@@ -5605,10 +5604,9 @@ msgid "The output specification is invalid."
 msgstr "La especificación de salida no es válida."
 
 #: ../src/dialogs/dialog-analysis-tool-frequency.c:254
-#, fuzzy
 #| msgid "Could not create the FTest Tool dialog."
 msgid "Could not create the Frequency Tool dialog."
-msgstr "No se puede crear el diálogo para la Herramienta de Prueba-F."
+msgstr "No se pudo crear el diálogo de la herramienta de frecuencia."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:116
 msgid "The time column is not valid."
@@ -5619,17 +5617,16 @@ msgid "The time column should be part of a single column."
 msgstr "La columna de hora debe ser parte de una sola columna."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:138
-#, fuzzy
 msgid "The censorship column is not valid."
-msgstr "El rango de entrada no es válido."
+msgstr "La columna de censura no es válida."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:145
 msgid "The censorship column should be part of a single column."
-msgstr ""
+msgstr "La columna de censura debe ser parte de una sola columna."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:152
 msgid "The censorship and time columns should have the same height."
-msgstr ""
+msgstr "Las columnas de censura y hora deben tener la misma altura."
 
 #: ../src/dialogs/dialog-analysis-tool-kaplan-meier.c:167
 msgid "The groups column is not valid."
@@ -6318,7 +6315,7 @@ msgstr "Nivel de libro de cuentas"
 
 #: ../src/dialogs/dialog-goto-cell.c:288 ../src/dialogs/dialog-search.c:403
 #: ../src/dialogs/dialog-stf-export.c:562 ../src/dialogs/hf-config.glade.h:18
-#: ../src/dialogs/print.glade.h:37 ../src/print-info.c:494 ../src/search.c:693
+#: ../src/dialogs/print.glade.h:37 ../src/print-info.c:496 ../src/search.c:693
 #: ../src/wbc-gtk.c:423 ../src/workbook.c:871 ../src/xml-io.c:2289
 msgid "Sheet"
 msgstr "Hoja"
@@ -10120,7 +10117,7 @@ msgstr "«%s» ya se encuentra definido en el libro de cuentas"
 msgid "Internal type error"
 msgstr "Error de tipo interno"
 
-#: ../src/expr.c:1525
+#: ../src/expr.c:1526
 msgid "Unknown evaluation error"
 msgstr "Error al evaluar"
 
@@ -10767,68 +10764,68 @@ msgstr "Expresión inválida"
 msgid "Unexpected token %c"
 msgstr "Señal (token) inesperada %c"
 
-#: ../src/print-info.c:166 ../src/print-info.c:169 ../src/print-info.c:170
-#: ../src/print-info.c:286
+#: ../src/print-info.c:165 ../src/print-info.c:168 ../src/print-info.c:169
+#: ../src/print-info.c:287
 msgid "Page &[PAGE]"
 msgstr "Página &[PAGE]"
 
-#: ../src/print-info.c:167 ../src/print-info.c:172
+#: ../src/print-info.c:166 ../src/print-info.c:171
 msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Página &[PAGE] de &[PAGES]"
 
-#: ../src/print-info.c:168 ../src/print-info.c:169 ../src/print-info.c:170
-#: ../src/print-info.c:172 ../src/print-info.c:280
+#: ../src/print-info.c:167 ../src/print-info.c:168 ../src/print-info.c:169
+#: ../src/print-info.c:171 ../src/print-info.c:281
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
-#: ../src/print-info.c:170 ../src/print-info.c:171 ../src/print-info.c:172
+#: ../src/print-info.c:169 ../src/print-info.c:170 ../src/print-info.c:171
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: ../src/print-info.c:555
+#: ../src/print-info.c:557
 msgid "File Name"
 msgstr "Nombre de archivo"
 
-#: ../src/print-info.c:567
+#: ../src/print-info.c:569
 msgid "Path "
 msgstr "Ruta"
 
-#: ../src/print-info.c:575
+#: ../src/print-info.c:577
 msgid "tab"
 msgstr "tabulación"
 
-#: ../src/print-info.c:576
+#: ../src/print-info.c:578
 msgid "page"
 msgstr "página"
 
-#: ../src/print-info.c:577
+#: ../src/print-info.c:579
 msgid "pages"
 msgstr "páginas"
 
-#: ../src/print-info.c:580
+#: ../src/print-info.c:582
 msgid "file"
 msgstr "archivo"
 
-#: ../src/print-info.c:581
+#: ../src/print-info.c:583
 msgid "path"
 msgstr "ruta"
 
-#: ../src/print-info.c:746 ../src/stf-export.c:634
+#: ../src/print-info.c:748 ../src/stf-export.c:634
 #, c-format
 msgid "There is no such sheet"
 msgstr "No existe dicha hoja"
 
-#: ../src/print-info.c:769
+#: ../src/print-info.c:771
 #, c-format
 msgid "Unknown paper size"
 msgstr "Tamaño de papel desconocido"
 
-#: ../src/print-info.c:779
+#: ../src/print-info.c:781
 #, c-format
 msgid "Invalid option for pdf exporter"
 msgstr "Opción no válida para exportar en pdf"
 
-#: ../src/print-info.c:800
+#: ../src/print-info.c:802
 msgid "PDF export"
 msgstr "Exportar a PDF"
 
@@ -11177,31 +11174,31 @@ msgstr "_Guardar como imagen"
 msgid "Frame"
 msgstr "Marco"
 
-#: ../src/sheet-object-widget.c:567 ../src/wbc-gtk-actions.c:2242
+#: ../src/sheet-object-widget.c:569 ../src/wbc-gtk-actions.c:2242
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "Botón"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:819
+#: ../src/sheet-object-widget.c:821
 msgid "Change widget"
 msgstr "Cambiar widget"
 
-#: ../src/sheet-object-widget.c:1414
+#: ../src/sheet-object-widget.c:1416
 #, c-format
 msgid "CheckBox %d"
 msgstr "Casilla %d"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:1459
+#: ../src/sheet-object-widget.c:1461
 msgid "Clicking checkbox"
 msgstr "Marcar casilla"
 
-#: ../src/sheet-object-widget.c:1860 ../src/wbc-gtk-actions.c:2245
+#: ../src/sheet-object-widget.c:1862 ../src/wbc-gtk-actions.c:2245
 msgid "RadioButton"
 msgstr "RadioButton"
 
-#: ../src/sheet-object-widget.c:2063
+#: ../src/sheet-object-widget.c:2065
 msgid "Clicking in list"
 msgstr "Pulsando en la lista"
 
@@ -14193,7 +14190,6 @@ msgid "Fre_quency Tables..."
 msgstr "Tabla de varias frecuencias"
 
 #: ../src/wbc-gtk-actions.c:2084
-#| msgid "The input range contains non-numeric data."
 msgid "Frequency tables for non-numeric data"
 msgstr "Tablas de frecuencias para datos no numéricos"
 
@@ -14202,7 +14198,6 @@ msgid "_Histogram..."
 msgstr "_Histograma…"
 
 #: ../src/wbc-gtk-actions.c:2087
-#| msgid "Various frequency tables"
 msgid "Various frequency tables for numeric data"
 msgstr "Tabla de varias frecuencias para datos numéricos"
 
@@ -14980,12 +14975,10 @@ msgid "Rename"
 msgstr "Renombrar"
 
 #: ../src/wbc-gtk.c:531
-#| msgid "_Select"
 msgid "Select"
 msgstr "Seleccionar"
 
 #: ../src/wbc-gtk.c:532
-#| msgid "Select N_one"
 msgid "Select (sorted)"
 msgstr "Seleccionar (ordenado)"
 
@@ -15222,7 +15215,7 @@ msgstr "(Vacíos…)"
 msgid "(Non Blanks...)"
 msgstr "(No vacíos…)"
 
-#: ../src/widgets/gnumeric-expr-entry.c:1470
+#: ../src/widgets/gnumeric-expr-entry.c:1474
 #, c-format
 msgid "Expecting a single range"
 msgstr "Se espera un rango simple"
@@ -15389,7 +15382,7 @@ msgstr "Cambiando el orden de la hoja"
 msgid "Reorganizing Sheets"
 msgstr "Reorganizar hojas"
 
-#: ../src/xml-io.c:1690 ../src/xml-sax-read.c:2119
+#: ../src/xml-io.c:1690 ../src/xml-sax-read.c:2112
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Tipo de objeto no soportado «%s»"
@@ -15427,21 +15420,21 @@ msgstr "Especificaciones correspondientes a múltiples versiones. Se asume %d"
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "El archivo tiene un elemento SheetNameIndex inconsistente."
 
-#: ../src/xml-sax-read.c:1982
+#: ../src/xml-sax-read.c:1975
 #, c-format
 msgid "Unknown filter operator \"%s\""
 msgstr "Operador de filtro desconocido «%s»"
 
-#: ../src/xml-sax-read.c:2022
+#: ../src/xml-sax-read.c:2015
 msgid "Missing filter type"
 msgstr "Falta el tipo de filtro"
 
-#: ../src/xml-sax-read.c:2044
+#: ../src/xml-sax-read.c:2037
 #, c-format
 msgid "Unknown filter type \"%s\""
 msgstr "Falta el tipo de filtro «%s»"
 
-#: ../src/xml-sax-read.c:2064
+#: ../src/xml-sax-read.c:2057
 msgid "Invalid filter, missing Area"
 msgstr "Filtro inválido, falta el área"
 
