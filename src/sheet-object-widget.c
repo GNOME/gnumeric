@@ -776,6 +776,34 @@ sheet_widget_adjustment_set_value (SheetWidgetAdjustment *swa, double new_val)
 	swa->being_updated = FALSE;
 }
 
+GtkAdjustment *
+sheet_widget_adjustment_get_adjustment (SheetObject *so)
+{
+	return (SHEET_WIDGET_ADJUSTMENT (so)->adjustment);
+}
+
+void
+sheet_widget_adjustment_set_link (SheetObject *so, GnmExprTop const *texpr)
+{
+	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
+	dependent_set_expr (&swa->dep, texpr);
+	if (NULL != texpr)
+		dependent_link (&swa->dep);
+}
+
+GnmExprTop const *
+sheet_widget_adjustment_get_link (SheetObject *so)
+{
+	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
+	GnmExprTop const *texpr = swa->dep.texpr;
+	
+	if (texpr)
+		gnm_expr_top_ref (texpr);
+
+	return texpr;
+}
+
+
 static void
 adjustment_eval (GnmDependent *dep)
 {
@@ -895,7 +923,8 @@ typedef struct {
 	GtkWidget          *max;
 	GtkWidget          *inc;
 	GtkWidget          *page;
-
+	
+	char               *undo_label;
 	GtkWidget          *old_focus;
 
 	WBCGtk *wbcg;
@@ -934,6 +963,8 @@ cb_adjustment_config_destroy (AdjustmentConfigState *state)
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
 	}
+	if (state->undo_label)
+		g_free (state->undo_label);
 
 	state->dialog = NULL;
 	g_free (state);
@@ -947,22 +978,18 @@ cb_adjustment_config_ok_clicked (GtkWidget *button, AdjustmentConfigState *state
 	GnmExprTop const *texpr = gnm_expr_entry_parse (state->expression,
 		parse_pos_init_sheet (&pp, so->sheet),
 		NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
-	if (texpr != NULL) {
-		dependent_set_expr (&state->swa->dep, texpr);
-		dependent_link (&state->swa->dep);
-		gnm_expr_top_unref (texpr);
-	}
 
-	state->swa->adjustment->lower = gtk_spin_button_get_value_as_int (
-		GTK_SPIN_BUTTON (state->min));
-	state->swa->adjustment->upper = gtk_spin_button_get_value_as_int (
-		GTK_SPIN_BUTTON (state->max));
-	state->swa->adjustment->step_increment = gtk_spin_button_get_value_as_int (
-		GTK_SPIN_BUTTON (state->inc));
-	state->swa->adjustment->page_increment = gtk_spin_button_get_value_as_int (
-		GTK_SPIN_BUTTON (state->page));
-
-	gtk_adjustment_changed	(state->swa->adjustment);
+	cmd_so_set_adjustment (WORKBOOK_CONTROL (state->wbcg), so, 
+			       texpr,
+			       gtk_spin_button_get_value_as_int (
+				       GTK_SPIN_BUTTON (state->min)),
+			       gtk_spin_button_get_value_as_int (
+				       GTK_SPIN_BUTTON (state->max)),
+			       gtk_spin_button_get_value_as_int (
+				       GTK_SPIN_BUTTON (state->inc)),
+			       gtk_spin_button_get_value_as_int (
+				       GTK_SPIN_BUTTON (state->page)),
+			       state->undo_label);
 
 	gtk_widget_destroy (state->dialog);
 }
@@ -974,7 +1001,7 @@ cb_adjustment_config_cancel_clicked (GtkWidget *button, AdjustmentConfigState *s
 }
 
 static void
-sheet_widget_adjustment_user_config (SheetObject *so, SheetControl *sc)
+sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, char const *undo_label, char const *dialog_label)
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
 	WBCGtk   *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
@@ -992,9 +1019,13 @@ sheet_widget_adjustment_user_config (SheetObject *so, SheetControl *sc)
 	state->wbcg = wbcg;
 	state->sheet = sc_sheet	(sc);
 	state->old_focus = NULL;
+	state->undo_label = (undo_label == NULL) ? NULL : g_strdup (undo_label);
 	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"so-scrollbar.glade", NULL, NULL);
 	state->dialog = glade_xml_get_widget (state->gui, "SO-Scrollbar");
+
+	if (dialog_label != NULL)
+		gtk_window_set_title (GTK_WINDOW (state->dialog), dialog_label);
 
 	table = glade_xml_get_widget (state->gui, "table");
 
@@ -1055,6 +1086,13 @@ sheet_widget_adjustment_user_config (SheetObject *so, SheetControl *sc)
 		G_CALLBACK (cb_adjustment_set_focus), state);
 
 	gtk_widget_show (state->dialog);
+}
+
+static void
+sheet_widget_adjustment_user_config (SheetObject *so, SheetControl *sc)
+{
+	sheet_widget_adjustment_user_config_impl (so, sc, N_("Configure Adjustment"),
+						  N_("Adjustment Properties"));
 }
 
 static gboolean
@@ -1211,9 +1249,17 @@ sheet_widget_scrollbar_create_widget (SheetObjectWidget *sow)
 }
 
 static void
+sheet_widget_scrollbar_user_config (SheetObject *so, SheetControl *sc)
+{
+	sheet_widget_adjustment_user_config_impl (so, sc, N_("Configure Scrollbar"),
+						  N_("Scrollbar Properties"));
+}
+
+static void
 sheet_widget_scrollbar_class_init (SheetObjectWidgetClass *sow_class)
 {
         sow_class->create_widget = &sheet_widget_scrollbar_create_widget;
+	SHEET_OBJECT_CLASS (sow_class)->user_config = &sheet_widget_scrollbar_user_config;
 }
 
 GSF_CLASS (SheetWidgetScrollbar, sheet_widget_scrollbar,
@@ -1246,9 +1292,17 @@ sheet_widget_spinbutton_create_widget (SheetObjectWidget *sow)
 }
 
 static void
+sheet_widget_spinbutton_user_config (SheetObject *so, SheetControl *sc)
+{
+           sheet_widget_adjustment_user_config_impl (so, sc, N_("Configure Spinbutton"),
+						     N_("Spinbutton Properties"));
+}
+
+static void
 sheet_widget_spinbutton_class_init (SheetObjectWidgetClass *sow_class)
 {
         sow_class->create_widget = &sheet_widget_spinbutton_create_widget;
+	SHEET_OBJECT_CLASS (sow_class)->user_config = &sheet_widget_spinbutton_user_config;
 }
 
 GSF_CLASS (SheetWidgetSpinbutton, sheet_widget_spinbutton,
@@ -1289,9 +1343,17 @@ sheet_widget_slider_create_widget (SheetObjectWidget *sow)
 }
 
 static void
+sheet_widget_slider_user_config (SheetObject *so, SheetControl *sc)
+{
+           sheet_widget_adjustment_user_config_impl (so, sc, N_("Configure Slider"),
+			   N_("Slider Properties"));
+}
+
+static void
 sheet_widget_slider_class_init (SheetObjectWidgetClass *sow_class)
 {
         sow_class->create_widget = &sheet_widget_slider_create_widget;
+	SHEET_OBJECT_CLASS (sow_class)->user_config = &sheet_widget_slider_user_config;
 }
 
 GSF_CLASS (SheetWidgetSlider, sheet_widget_slider,

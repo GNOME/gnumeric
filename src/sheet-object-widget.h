@@ -33,9 +33,13 @@ void sheet_widget_adjustment_set_details (SheetObject *so,
 					  GnmExprTop const *result_link,
 					  int value, int min, int max,
 					  int inc, int page);
+GnmExprTop const *sheet_widget_adjustment_get_link (SheetObject *so);
+void sheet_widget_adjustment_set_link	 (SheetObject *so,
+					  GnmExprTop const *result_link);
+GtkAdjustment *sheet_widget_adjustment_get_adjustment (SheetObject *so);
 void sheet_widget_checkbox_set_link	 (SheetObject *so,
 					  GnmExprTop const *result_link);
-GnmExprTop const *sheet_widget_checkbox_get_link	 (SheetObject *so);
+GnmExprTop const *sheet_widget_checkbox_get_link (SheetObject *so);
 void sheet_widget_checkbox_set_label	 (SheetObject *so, char const *str);
 void sheet_widget_button_set_label	 (SheetObject *so, char const *str);
 void sheet_widget_radio_button_set_label (SheetObject *so, char const *str);

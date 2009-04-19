@@ -7203,3 +7203,105 @@ cmd_so_set_checkbox (WorkbookControl *wbc,
 
 /******************************************************************/
 
+#define CMD_SO_SET_ADJUSTMENT_TYPE (cmd_so_set_adjustment_get_type ())
+#define CMD_SO_SET_ADJUSTMENT(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SO_SET_ADJUSTMENT_TYPE, CmdSOSetAdjustment))
+
+typedef struct {
+	GnmCommand cmd;
+	SheetObject *so;
+	GnmExprTop const *new_link;
+	GnmExprTop const *old_link;
+	int old_lower;
+	int old_upper;
+	int old_step;
+	int old_page;
+} CmdSOSetAdjustment;
+
+MAKE_GNM_COMMAND (CmdSOSetAdjustment, cmd_so_set_adjustment, NULL)
+
+static void
+cmd_so_set_adjustment_adj (CmdSOSetAdjustment *me)
+{
+	GtkAdjustment *adj = sheet_widget_adjustment_get_adjustment (me->so);
+
+	int old_lower = gtk_adjustment_get_lower (adj);
+	int old_upper = gtk_adjustment_get_upper (adj);
+	int old_step = gtk_adjustment_get_step_increment (adj);
+	int old_page = gtk_adjustment_get_page_increment (adj);
+
+	gtk_adjustment_configure (adj, 
+				  gtk_adjustment_get_value (adj),
+				  me->old_lower,
+				  me->old_upper,
+				  me->old_step,
+				  me->old_page,
+				  gtk_adjustment_get_page_size (adj));
+
+	me->old_lower = old_lower;
+	me->old_upper = old_upper;
+	me->old_step = old_step;
+	me->old_page = old_page;
+}
+
+static gboolean
+cmd_so_set_adjustment_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	CmdSOSetAdjustment *me = CMD_SO_SET_ADJUSTMENT (cmd);
+
+	sheet_widget_adjustment_set_link (me->so, me->new_link);
+	cmd_so_set_adjustment_adj (me);
+	return FALSE;
+}
+
+static gboolean
+cmd_so_set_adjustment_undo (GnmCommand *cmd, G_GNUC_UNUSED  WorkbookControl *wbc)
+{
+	CmdSOSetAdjustment *me = CMD_SO_SET_ADJUSTMENT (cmd);
+
+	sheet_widget_adjustment_set_link (me->so, me->old_link);
+	cmd_so_set_adjustment_adj (me);
+
+	return FALSE;
+}
+
+static void
+cmd_so_set_adjustment_finalize (GObject *cmd)
+{
+	CmdSOSetAdjustment *me = CMD_SO_SET_ADJUSTMENT (cmd);
+	
+	if (me->new_link)
+		gnm_expr_top_unref (me->new_link);
+	if (me->old_link)
+		gnm_expr_top_unref (me->old_link);
+	gnm_command_finalize (cmd);
+}
+
+gboolean
+cmd_so_set_adjustment (WorkbookControl *wbc,
+		       SheetObject *so, GnmExprTop const *link, 
+		       int lower, int upper,
+		       int step, int page,
+		       char const *undo_label)
+{
+	CmdSOSetAdjustment *me;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+
+	me = g_object_new (CMD_SO_SET_ADJUSTMENT_TYPE, NULL);
+	me->cmd.sheet = sheet_object_get_sheet (so);
+	me->cmd.size = 1;
+	me->cmd.cmd_descriptor = g_strdup ((undo_label == NULL) ?  
+					   _("Configure Adjustment") : _(undo_label));
+	me->so = so;
+	me->new_link = link;
+	me->old_lower = lower;
+	me->old_upper = upper;
+	me->old_step = step;
+	me->old_page = page;
+
+	me->old_link = sheet_widget_adjustment_get_link (so);
+
+	return command_push_undo (wbc, G_OBJECT (me));
+}
+
+/******************************************************************/

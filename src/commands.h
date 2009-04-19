@@ -175,7 +175,16 @@ gboolean cmd_so_set_frame_label (WorkbookControl *wbc, SheetObject *so,
 				 char *old_label, char *new_label);
 
 gboolean cmd_so_set_checkbox (WorkbookControl *wbc, SheetObject *so, 
-			      GnmExprTop const *link, char *old_label, char *new_label);
+			      GnmExprTop const *link, 
+			      char *old_label, char *new_label);
+
+gboolean cmd_so_set_adjustment (WorkbookControl *wbc, SheetObject *so, 
+				GnmExprTop const *link, 
+				int lower, int upper,
+				int step, int page,
+				char const *undo_label);
+
+
 
 
 /********************************************************************************/

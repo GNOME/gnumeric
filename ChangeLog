@@ -1,3 +1,32 @@
+2009-04-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.h (cmd_so_set_adjustment): new
+	* src/commands.c (cmd_so_set_adjustment): new
+	(cmd_so_set_adjustment_adj): new
+	(cmd_so_set_adjustment_redo): new
+	(cmd_so_set_adjustment_undo): new
+	(cmd_so_set_adjustment_finalize): new
+	* src/sheet-object-widget.h (sheet_widget_adjustment_get_link): new
+	(sheet_widget_adjustment_set_link): new
+	(sheet_widget_adjustment_get_adjustment): new
+	* src/sheet-object-widget.c (sheet_widget_adjustment_get_link): new
+	(sheet_widget_adjustment_set_link): new
+	(sheet_widget_adjustment_get_adjustment): new
+	(AdjustmentConfigState): new field
+	(cb_adjustment_config_destroy): release label memory
+	(cb_adjustment_config_ok_clicked): call cmd_so_set_adjustment
+	(sheet_widget_adjustment_user_config_impl): previously 
+	  sheet_widget_adjustment_user_config with window title and undo
+	  string handling
+	(sheet_widget_adjustment_user_config): stub to call 
+	  sheet_widget_adjustment_user_config_impl with correct labels.
+	(sheet_widget_scrollbar_user_config) : new
+	(sheet_widget_scrollbar_class_init): hookup sheet_widget_scrollbar_user_config
+	(sheet_widget_spinbutton_user_config) : new
+	(sheet_widget_spinbutton_class_init): hookup sheet_widget_scrollbar_user_config
+	(sheet_widget_slider_user_config) : new
+	(sheet_widget_slider_class_init): hookup sheet_widget_scrollbar_user_config
+
 2009-04-18  Morten Welinder  <terra@gnome.org>
 
 	* */*.c: Use gnm_sheet_get_last_(col|row) where appropriate.
