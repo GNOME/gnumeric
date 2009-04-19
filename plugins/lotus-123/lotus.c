@@ -1171,7 +1171,7 @@ lotus_rldb_walk_3d (LotusRLDB *rldb3,
 			rldb1 = g_ptr_array_index (rldb2->lower, ci);
 			ci++;
 			r.range.end.col =
-				MIN (gnm_sheet_get_max_cols (r.sheet) - 1,
+				MIN (gnm_sheet_get_last_col (r.sheet),
 				     r.range.start.col + (rldb1->rll - 1));
 
 			ri = 0;
@@ -1183,7 +1183,7 @@ lotus_rldb_walk_3d (LotusRLDB *rldb3,
 				rldb0 = g_ptr_array_index (rldb1->lower, ri);
 				ri++;
 				r.range.end.row =
-					MIN (gnm_sheet_get_max_rows (r.sheet) - 1,
+					MIN (gnm_sheet_get_last_row (r.sheet),
 					     r.range.start.row + (rldb0->rll - 1));
 
 				data = rldb0->datanode;
@@ -1212,7 +1212,7 @@ lotus_rldb_walk_2d (LotusRLDB *rldb2,
 	LotusRLDB *rldb1, *rldb0;
 	const GString *data;
 	Sheet *ref_sheet = workbook_sheet_by_index (state->wb, 0);
-	int max = iscol ? gnm_sheet_get_max_cols (ref_sheet) : gnm_sheet_get_max_rows (ref_sheet);
+	int max = colrow_max (iscol, ref_sheet);
 	int start, end;
 	Sheet *sheet;
 

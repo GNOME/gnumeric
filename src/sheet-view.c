@@ -729,8 +729,8 @@ sv_freeze_panes (SheetView *sv,
 		g_return_if_fail (unfrozen->row >= frozen->row);
 
 		/* Just in case */
-		if (unfrozen->col != (gnm_sheet_get_max_cols (sv->sheet)-1) &&
-		    unfrozen->row != (gnm_sheet_get_max_rows (sv->sheet)-1) &&
+		if (unfrozen->col != gnm_sheet_get_last_col (sv->sheet) &&
+		    unfrozen->row != gnm_sheet_get_last_row (sv->sheet) &&
 		    !gnm_cellpos_equal (frozen, unfrozen)) {
 			sv->frozen_top_left = *frozen;
 			sv->unfrozen_top_left = *unfrozen;

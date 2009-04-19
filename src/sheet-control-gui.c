@@ -518,7 +518,7 @@ scg_select_all (SheetControlGUI *scg)
 
 	if (rangesel) {
 		scg_rangesel_bound (scg,
-			0, 0, gnm_sheet_get_max_cols (sheet) - 1, gnm_sheet_get_max_rows (sheet) - 1);
+			0, 0, gnm_sheet_get_last_col (sheet), gnm_sheet_get_last_row (sheet));
 		gnm_expr_entry_signal_update (
 			wbcg_get_entry_logical (scg->wbcg), TRUE);
 	} else if (wbc_gtk_get_guru (scg->wbcg) == NULL) {
@@ -528,7 +528,7 @@ scg_select_all (SheetControlGUI *scg)
 		wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
 		sv_selection_reset (sv);
 		sv_selection_add_full (sv, sv->edit_pos.col, sv->edit_pos.row,
-			0, 0, gnm_sheet_get_max_cols (sheet) - 1, gnm_sheet_get_max_rows (sheet) - 1);
+			0, 0, gnm_sheet_get_last_col (sheet), gnm_sheet_get_last_row (sheet));
 	}
 	sheet_update (sheet);
 }
@@ -563,24 +563,24 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 		if (rangesel) {
 			if (is_cols)
 				scg_rangesel_bound (scg,
-					index, 0, index, gnm_sheet_get_max_rows (sv->sheet) - 1);
+					index, 0, index, gnm_sheet_get_last_row (sv->sheet));
 			else
 				scg_rangesel_bound (scg,
-					0, index, gnm_sheet_get_max_cols (sv->sheet) - 1, index);
+					0, index, gnm_sheet_get_last_col (sv->sheet), index);
 		} else if (is_cols) {
 			GnmPane *pane =
 				scg_pane (scg, scg->pane[3] ? 3 : 0);
 			sv_selection_add_full (sv,
 				index, pane->first.row,
 				index, 0,
-				index, gnm_sheet_get_max_rows (sv->sheet) - 1);
+				index, gnm_sheet_get_last_row (sv->sheet));
 		} else {
 			GnmPane *pane =
 				scg_pane (scg, scg->pane[1] ? 1 : 0);
 			sv_selection_add_full (sv,
 				pane->first.col, index,
 				0, index,
-				gnm_sheet_get_max_cols (sv->sheet) - 1, index);
+				gnm_sheet_get_last_col (sv->sheet), index);
 		}
 	}
 
@@ -777,7 +777,7 @@ scg_set_left_col (SheetControlGUI *scg, int col)
 	if (col < bound->start.col)
 		col = bound->start.col;
 	else if (col >= gnm_sheet_get_max_cols (sheet))
-		col = gnm_sheet_get_max_cols (sheet) - 1;
+		col = gnm_sheet_get_last_col (sheet);
 	else if (col > bound->end.col)
 		col = bound->end.col;
 
@@ -841,7 +841,7 @@ scg_set_top_row (SheetControlGUI *scg, int row)
 	if (row < bound->start.row)
 		row = bound->start.row;
 	else if (row >= gnm_sheet_get_max_rows (sheet))
-		row = gnm_sheet_get_max_rows (sheet) - 1;
+		row = gnm_sheet_get_last_row (sheet);
 	else if (row > bound->end.row)
 		row = bound->end.row;
 
@@ -1091,7 +1091,7 @@ scg_set_panes (SheetControl *sc)
 
 		gnm_pane_bound_set (scg->pane[0],
 			br->col, br->row,
-			gnm_sheet_get_max_cols (sv->sheet) - 1, gnm_sheet_get_max_rows (sv->sheet) - 1);
+			gnm_sheet_get_last_col (sv->sheet), gnm_sheet_get_last_row (sv->sheet));
 
 		if (freeze_h) {
 			scg->active_panes = 2;
@@ -1111,7 +1111,7 @@ scg_set_panes (SheetControl *sc)
 					0, 0);
 			}
 			gnm_pane_bound_set (scg->pane[1],
-				tl->col, br->row, br->col - 1, gnm_sheet_get_max_rows (sv->sheet) - 1);
+				tl->col, br->row, br->col - 1, gnm_sheet_get_last_row (sv->sheet));
 		}
 		if (freeze_h && freeze_v) {
 			scg->active_panes = 4;
@@ -1145,7 +1145,7 @@ scg_set_panes (SheetControl *sc)
 					0, 0);
 			}
 			gnm_pane_bound_set (scg->pane[3],
-				br->col, tl->row, gnm_sheet_get_max_cols (sv->sheet) - 1, br->row - 1);
+				br->col, tl->row, gnm_sheet_get_last_col (sv->sheet), br->row - 1);
 		}
 	} else {
 		int i;
@@ -1157,7 +1157,7 @@ scg_set_panes (SheetControl *sc)
 
 		scg->active_panes = 1;
 		gnm_pane_bound_set (scg->pane[0],
-			0, 0, gnm_sheet_get_max_cols (sv->sheet) - 1, gnm_sheet_get_max_rows (sv->sheet) - 1);
+			0, 0, gnm_sheet_get_last_col (sv->sheet), gnm_sheet_get_last_row (sv->sheet));
 	}
 
 	gtk_widget_show_all (GTK_WIDGET (scg->inner_table));
@@ -1906,10 +1906,10 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 	for (l = scg_view (scg)->selections; l != NULL; l = l->next) {
 		GnmRange const *r = l->data;
 
-		if (r->start.row == 0 && r->end.row == gnm_sheet_get_max_rows (sheet) - 1)
+		if (r->start.row == 0 && r->end.row == gnm_sheet_get_last_row (sheet))
 			sensitivity_filter |= CONTEXT_DISABLE_FOR_ROWS;
 
-		if (r->start.col == 0 && r->end.col == gnm_sheet_get_max_cols (sheet) - 1)
+		if (r->start.col == 0 && r->end.col == gnm_sheet_get_last_col (sheet))
 			sensitivity_filter |= CONTEXT_DISABLE_FOR_COLS;
 
 		if (!has_link && sheet_style_region_contains_link (sheet, r))
@@ -2807,12 +2807,12 @@ scg_rangesel_extend_to (SheetControlGUI *scg, int col, int row)
 
 	if (col < 0) {
 		base_col = 0;
-		col = gnm_sheet_get_max_cols (scg_sheet (scg)) - 1;
+		col = gnm_sheet_get_last_col (scg_sheet (scg));
 	} else
 		base_col = scg->rangesel.base_corner.col;
 	if (row < 0) {
 		base_row = 0;
-		row = gnm_sheet_get_max_rows (scg_sheet (scg)) - 1;
+		row = gnm_sheet_get_last_row (scg_sheet (scg));
 	} else
 		base_row = scg->rangesel.base_corner.row;
 

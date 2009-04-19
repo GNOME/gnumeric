@@ -101,10 +101,10 @@ do_tabulation (WorkbookControl *wbc,
 
 			counts[i] = 1 + gnm_fake_floor ((data->maxima[i] - data->minima[i]) / data->steps[i]);
 			/* Silently truncate at the edges.  */
-			if (!data->with_coordinates && i == 0 && counts[i] > gnm_sheet_get_max_cols (old_sheet) - 1) {
-				counts[i] = gnm_sheet_get_max_cols (old_sheet) - 1;
-			} else if (!data->with_coordinates && i == 1 && counts[i] > gnm_sheet_get_max_rows (old_sheet) - 1) {
-				counts[i] = gnm_sheet_get_max_rows (old_sheet) - 1;
+			if (!data->with_coordinates && i == 0 && counts[i] > gnm_sheet_get_last_col (old_sheet)) {
+				counts[i] = gnm_sheet_get_last_col (old_sheet);
+			} else if (!data->with_coordinates && i == 1 && counts[i] > gnm_sheet_get_last_row (old_sheet)) {
+				counts[i] = gnm_sheet_get_last_row (old_sheet);
 			}
 		}
 	}

@@ -1018,9 +1018,9 @@ gnumeric_lookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 			range_init_value (&r, lookup, &ei->pos->eval);
 			range_normalize (&r);
 			if (vertical_lookup)
-				r.end.row = gnm_sheet_get_max_rows (ei->pos->sheet) - 1;
+				r.end.row = gnm_sheet_get_last_row (ei->pos->sheet);
 			else
-				r.end.col = gnm_sheet_get_max_cols (ei->pos->sheet) - 1;
+				r.end.col = gnm_sheet_get_last_col (ei->pos->sheet);
 
 			lookup = xlookup = value_new_cellrange_r (ei->pos->sheet, &r);
 		}

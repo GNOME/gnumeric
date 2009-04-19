@@ -56,7 +56,7 @@ sv_select_cur_row (SheetView *sv)
 		sv_selection_reset (sv);
 		sv_selection_add_full (sv,
 			sv->edit_pos.col, sv->edit_pos.row,
-			0, r.start.row, gnm_sheet_get_max_cols (sv->sheet)-1, r.end.row);
+			0, r.start.row, gnm_sheet_get_last_col (sv->sheet), r.end.row);
 		sheet_update (sv->sheet);
 	}
 }
@@ -76,7 +76,7 @@ sv_select_cur_col (SheetView *sv)
 		sv_selection_reset (sv);
 		sv_selection_add_full (sv,
 			sv->edit_pos.col, sv->edit_pos.row,
-			r.start.col, 0, r.end.col, gnm_sheet_get_max_rows (sv->sheet)-1);
+			r.start.col, 0, r.end.col, gnm_sheet_get_last_row (sv->sheet));
 		sheet_update (sv->sheet);
 	}
 }
@@ -399,7 +399,7 @@ cmd_shift_rows (WorkbookControl *wbc, Sheet *sheet,
 	rinfo.origin.start.row = start_row;
 	rinfo.origin.start.col = col;
 	rinfo.origin.end.row = end_row;
-	rinfo.origin.end.col = gnm_sheet_get_max_cols (sheet)-1;
+	rinfo.origin.end.col = gnm_sheet_get_last_col (sheet);
 	if (count > 0)
 		rinfo.origin.end.col -= count;
 
@@ -438,7 +438,7 @@ cmd_shift_cols (WorkbookControl *wbc, Sheet *sheet,
 	rinfo.origin.start.col = start_col;
 	rinfo.origin.start.row = row;
 	rinfo.origin.end.col = end_col;
-	rinfo.origin.end.row = gnm_sheet_get_max_rows (sheet)-1;
+	rinfo.origin.end.row = gnm_sheet_get_last_row (sheet);
 	if (count > 0)
 		rinfo.origin.end.row -= count;
 

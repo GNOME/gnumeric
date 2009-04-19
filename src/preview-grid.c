@@ -127,7 +127,7 @@ pg_get_row_offset (PreviewGrid *pg, int const y, int *row_origin)
 	if (row_origin)
 		*row_origin = pixel;
 
-	return gnm_sheet_get_max_rows (pg->sheet) - 1;
+	return gnm_sheet_get_last_row (pg->sheet);
 }
 
 /**
@@ -159,7 +159,7 @@ pg_get_col_offset (PreviewGrid *pg, int const x, int *col_origin)
 	if (col_origin)
 		*col_origin = pixel;
 
-	return gnm_sheet_get_max_cols (pg->sheet) - 1;
+	return gnm_sheet_get_last_col (pg->sheet);
 }
 
 static void

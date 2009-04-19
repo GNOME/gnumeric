@@ -1520,7 +1520,7 @@ sheet_style_apply_border (Sheet       *sheet,
 
 		/* 2.2 bottom outer */
 		r.end.row++;
-		if (r.end.row < (gnm_sheet_get_max_rows (sheet)-1)) {
+		if (r.end.row < gnm_sheet_get_last_row (sheet)) {
 			r.start.row = r.end.row;
 			apply_border (sheet, &r, GNM_STYLE_BORDER_TOP,
 				      gnm_style_border_none ());
@@ -1552,7 +1552,7 @@ sheet_style_apply_border (Sheet       *sheet,
 
 		/* 4.2 right outer */
 		r.end.col++;
-		if (r.end.col < (gnm_sheet_get_max_cols (sheet)-1)) {
+		if (r.end.col < gnm_sheet_get_last_col (sheet)) {
 			r.start.col = r.end.col;
 			apply_border (sheet, &r, GNM_STYLE_BORDER_LEFT,
 				      gnm_style_border_none ());
@@ -1788,7 +1788,7 @@ sheet_style_find_conflicts (Sheet const *sheet, GnmRange const *r,
 	}
 
 	/* merge the top of the next row */
-	if (r->end.row < (gnm_sheet_get_max_rows (sheet)-1)) {
+	if (r->end.row < gnm_sheet_get_last_row (sheet)) {
 		sr.row = r->end.row + 1;
 		sheet_style_get_row (sheet, &sr);
 	}
@@ -1852,7 +1852,7 @@ sheet_style_insert_colrow (GnmExprRelocateInfo const *rinfo)
 			col = 0;
 		corner.row = 0;
 		styles = sheet_style_get_list (rinfo->origin_sheet,
-			       range_init (&r, col, 0, col, gnm_sheet_get_max_rows (rinfo->origin_sheet)-1));
+			       range_init (&r, col, 0, col, gnm_sheet_get_last_row (rinfo->origin_sheet)));
 		if (o > 0)
 			for (ptr = styles ; ptr != NULL ; ptr = ptr->next)
 				((GnmStyleRegion *)ptr->data)->range.end.col = o;
@@ -1953,7 +1953,7 @@ cb_style_extent (GnmStyle *style,
  *
  * A simple implementation that finds the smallest range containing all visible styles
  * and containing res. x If @most_common_in_cols is specified it finds the most common
- * style for each column (0..gnm_sheet_get_max_cols (sheet)-1) and ignores that style in
+ * style for each column (0..gnm_sheet_get_last_col (sheet)) and ignores that style in
  * boundary calculations.
  */
 void
@@ -2028,13 +2028,13 @@ cb_style_list_add_node (GnmStyle *style,
 	if (sheet->partial_col) {
 		if (corner_col >= gnm_sheet_get_max_cols (sheet))
 			return;
-		range.end.col = MIN (range.end.col, gnm_sheet_get_max_cols (sheet) - 1);
+		range.end.col = MIN (range.end.col, gnm_sheet_get_last_col (sheet));
 	}
 
 	if (sheet->partial_row) {
 		if (corner_row >= gnm_sheet_get_max_rows (sheet))
 			return;
-		range.end.row = MIN (range.end.row, gnm_sheet_get_max_rows (sheet) - 1);
+		range.end.row = MIN (range.end.row, gnm_sheet_get_last_row (sheet));
 	}
 
 	if (apply_to) {

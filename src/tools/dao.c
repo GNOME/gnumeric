@@ -368,9 +368,9 @@ dao_set_array_expr (data_analysis_output_t *dao,
 		return;
 	}
 	if (col_end >= gnm_sheet_get_max_cols (dao->sheet))
-		col_end = gnm_sheet_get_max_cols (dao->sheet) - 1;
+		col_end = gnm_sheet_get_last_col (dao->sheet);
 	if (row_end >= gnm_sheet_get_max_rows (dao->sheet))
-		row_end = gnm_sheet_get_max_rows (dao->sheet) - 1;
+		row_end = gnm_sheet_get_last_row (dao->sheet);
 
 	texpr = gnm_expr_top_new (expr);
 	gnm_cell_set_array_formula (dao->sheet, 
@@ -651,7 +651,7 @@ dao_autofit_column (data_analysis_output_t *dao, int col)
 	actual_col = dao->start_col + col;
 
 	ideal_size = sheet_col_size_fit_pixels (dao->sheet, actual_col,
-						0, gnm_sheet_get_max_rows (dao->sheet) - 1,
+						0, gnm_sheet_get_last_row (dao->sheet),
 						FALSE);
 	if (ideal_size == 0)
 	        return;

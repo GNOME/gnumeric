@@ -522,11 +522,11 @@ gnm_pane_colrow_key_press (SheetControlGUI *scg, GdkEventKey *event,
 			range_init_full_sheet (&target, sv->sheet);
 		else {					/* full row */
 			target.start.col = 0;
-			target.end.col = gnm_sheet_get_max_cols (sv->sheet) - 1;
+			target.end.col = gnm_sheet_get_last_col (sv->sheet);
 		}
 	} else if (event->state & GDK_CONTROL_MASK) {	/* full col */
 		target.start.row = 0;
-		target.end.row = gnm_sheet_get_max_rows (sv->sheet) - 1;
+		target.end.row = gnm_sheet_get_last_row (sv->sheet);
 	} else
 		return FALSE;
 
@@ -1242,11 +1242,11 @@ gnm_pane_find_col (GnmPane const *pane, int x, int *col_origin)
 			}
 			pixel += tmp;
 		}
-	} while (++col < gnm_sheet_get_max_cols (sheet) - 1);
+	} while (++col < gnm_sheet_get_last_col (sheet));
 
 	if (col_origin)
 		*col_origin = gnm_pane_x_w2c (pane, pixel);
-	return gnm_sheet_get_max_cols (sheet) - 1;
+	return gnm_sheet_get_last_col (sheet);
 }
 
 /**
@@ -1292,10 +1292,10 @@ gnm_pane_find_row (GnmPane const *pane, int y, int *row_origin)
 			}
 			pixel += tmp;
 		}
-	} while (++row < gnm_sheet_get_max_rows (sheet)-1);
+	} while (++row < gnm_sheet_get_last_row (sheet));
 	if (row_origin)
 		*row_origin = pixel;
-	return gnm_sheet_get_max_rows (sheet)-1;
+	return gnm_sheet_get_last_row (sheet);
 }
 
 /*
@@ -1369,8 +1369,8 @@ gnm_pane_compute_visible_region (GnmPane *pane,
 	} while (pixels < width && col < gnm_sheet_get_max_cols (sheet));
 
 	if (col >= gnm_sheet_get_max_cols (sheet)) {
-		pane->last_visible.col = gnm_sheet_get_max_cols (sheet)-1;
-		pane->last_full.col = gnm_sheet_get_max_cols (sheet)-1;
+		pane->last_visible.col = gnm_sheet_get_last_col (sheet);
+		pane->last_full.col = gnm_sheet_get_last_col (sheet);
 	}
 
 	/* Find out the last visible row and the last fully visible row */
@@ -1401,8 +1401,8 @@ gnm_pane_compute_visible_region (GnmPane *pane,
 	} while (pixels < height && row < gnm_sheet_get_max_rows (sheet));
 
 	if (row >= gnm_sheet_get_max_rows (sheet)) {
-		pane->last_visible.row = gnm_sheet_get_max_rows (sheet)-1;
-		pane->last_full.row = gnm_sheet_get_max_rows (sheet)-1;
+		pane->last_visible.row = gnm_sheet_get_last_row (sheet);
+		pane->last_full.row = gnm_sheet_get_last_row (sheet);
 	}
 
 	/* Update the scrollbar sizes for the primary pane */
@@ -1445,11 +1445,11 @@ gnm_pane_redraw_range (GnmPane *pane, GnmRange const *r)
 		pane->first_offset.col;
 	y1 = scg_colrow_distance_get (scg, FALSE, pane->first.row, tmp.start.row) +
 		pane->first_offset.row;
-	x2 = (tmp.end.col < (gnm_sheet_get_max_cols (sheet)-1))
+	x2 = (tmp.end.col < gnm_sheet_get_last_col (sheet))
 		? 4 + 1 + x1 + scg_colrow_distance_get (scg, TRUE,
 							tmp.start.col, tmp.end.col+1)
 		: INT_MAX;
-	y2 = (tmp.end.row < (gnm_sheet_get_max_rows (sheet)-1))
+	y2 = (tmp.end.row < gnm_sheet_get_last_row (sheet))
 		? 4 + 1 + y1 + scg_colrow_distance_get (scg, FALSE,
 							tmp.start.row, tmp.end.row+1)
 		: INT_MAX;
@@ -1546,8 +1546,8 @@ cb_pane_sliding (GnmPane *pane)
 		if (slide_x) {
 			col = target_pane->last_full.col +
 				col_scroll_step (pane->sliding_dx, sheet);
-			if (col >= gnm_sheet_get_max_cols (sheet)-1) {
-				col = gnm_sheet_get_max_cols (sheet)-1;
+			if (col >= gnm_sheet_get_last_col (sheet)) {
+				col = gnm_sheet_get_last_col (sheet);
 				slide_x = FALSE;
 			}
 		}
@@ -1601,8 +1601,8 @@ cb_pane_sliding (GnmPane *pane)
 		if (slide_y) {
 			row = target_pane->last_full.row +
 				row_scroll_step (pane->sliding_dy, sheet);
-			if (row >= gnm_sheet_get_max_rows (sheet)-1) {
-				row = gnm_sheet_get_max_rows (sheet)-1;
+			if (row >= gnm_sheet_get_last_row (sheet)) {
+				row = gnm_sheet_get_last_row (sheet);
 				slide_y = FALSE;
 			}
 		}

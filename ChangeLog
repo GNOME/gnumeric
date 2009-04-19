@@ -1,3 +1,7 @@
+2009-04-18  Morten Welinder  <terra@gnome.org>
+
+	* */*.c: Use gnm_sheet_get_last_(col|row) where appropriate.
+
 2009-04-17  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (setup_range): Parse in the context of the first

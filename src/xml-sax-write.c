@@ -691,7 +691,7 @@ xml_write_cols_rows (GnmOutputXML *state)
 	closure.prev = NULL;
 	closure.prev_pos = -1;
 	closure.rle_count = 0;
-	colrow_foreach (&state->sheet->cols, 0, gnm_sheet_get_max_cols (state->sheet)-1,
+	colrow_foreach (&state->sheet->cols, 0, gnm_sheet_get_last_col (state->sheet),
 		(ColRowHandler)&xml_write_colrow_info, &closure);
 	xml_write_colrow_info (NULL, &closure); /* flush */
 	gsf_xml_out_end_element (state->output); /* </gnm:Cols> */
@@ -704,7 +704,7 @@ xml_write_cols_rows (GnmOutputXML *state)
 	closure.prev = NULL;
 	closure.prev_pos = -1;
 	closure.rle_count = 0;
-	colrow_foreach (&state->sheet->rows, 0, gnm_sheet_get_max_rows (state->sheet)-1,
+	colrow_foreach (&state->sheet->rows, 0, gnm_sheet_get_last_row (state->sheet),
 		(ColRowHandler)&xml_write_colrow_info, &closure);
 	xml_write_colrow_info (NULL, &closure); /* flush */
 	gsf_xml_out_end_element (state->output); /* </gnm:Rows> */
@@ -816,7 +816,7 @@ xml_write_cells (GnmOutputXML *state)
 {
 	gsf_xml_out_start_element (state->output, GNM "Cells");
 	sheet_foreach_cell_in_range ((Sheet *)state->sheet, CELL_ITER_IGNORE_NONEXISTENT,
-		0, 0, gnm_sheet_get_max_cols (state->sheet)-1, gnm_sheet_get_max_rows (state->sheet)-1,
+		0, 0, gnm_sheet_get_last_col (state->sheet), gnm_sheet_get_last_row (state->sheet),
 		(CellIterFunc) cb_write_cell, state);
 	gsf_xml_out_end_element (state->output); /* </gnm:Cells> */
 }

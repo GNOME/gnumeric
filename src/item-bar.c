@@ -147,9 +147,9 @@ item_bar_calc_size (ItemBar *ib)
 
 	/* 5 pixels left and right plus the width of the widest string I can think of */
 	if (char_label)
-		pango_layout_set_text (layout, "WWWWWWWWWW", strlen (col_name (gnm_sheet_get_max_cols (sheet) - 1)));
+		pango_layout_set_text (layout, "WWWWWWWWWW", strlen (col_name (gnm_sheet_get_last_col (sheet))));
 	else
-		pango_layout_set_text (layout, "8888888888", strlen (row_name (gnm_sheet_get_max_rows (sheet) - 1)));
+		pango_layout_set_text (layout, "8888888888", strlen (row_name (gnm_sheet_get_last_row (sheet))));
 	pango_layout_get_extents (layout, NULL, &logical_rect);
 	ib->cell_width = 5 + 5 + PANGO_PIXELS (logical_rect.width);
 

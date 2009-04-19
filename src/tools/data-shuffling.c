@@ -231,8 +231,8 @@ run_shuffling_tool (data_shuffling_t *st)
 
 	if (st->type == SHUFFLE_COLS) {
 		/* Find empty space. */
-		for (i = gnm_sheet_get_max_cols (st->sheet) - 1; i >= 0; i--)
-			for (j = gnm_sheet_get_max_rows (st->sheet) - 1; j >= 0; j--) {
+		for (i = gnm_sheet_get_last_col (st->sheet); i >= 0; i--)
+			for (j = gnm_sheet_get_last_row (st->sheet); j >= 0; j--) {
 				cell = sheet_cell_get (st->sheet, i, j);
 				if (cell != NULL)
 					break;
@@ -247,8 +247,8 @@ run_shuffling_tool (data_shuffling_t *st)
 			do_swap_cols (st, (swap_t *) cur->data);
 	} else if (st->type == SHUFFLE_ROWS) {
 		/* Find empty space. */
-		for (i = gnm_sheet_get_max_rows (st->sheet) - 1; i >= 0; i--)
-			for (j = gnm_sheet_get_max_cols (st->sheet) - 1; j >= 0; j--) {
+		for (i = gnm_sheet_get_last_row (st->sheet); i >= 0; i--)
+			for (j = gnm_sheet_get_last_col (st->sheet); j >= 0; j--) {
 				cell = sheet_cell_get (st->sheet, j, i);
 				if (cell != NULL)
 					break;
@@ -264,8 +264,8 @@ run_shuffling_tool (data_shuffling_t *st)
 	} else {
 		/* SHUFFLE_AREA */
 		/* Find empty space. */
-		for (i = gnm_sheet_get_max_cols (st->sheet) - 1; i >= 0; i--)
-			for (j = gnm_sheet_get_max_rows (st->sheet) - 1; j >= 0; j--) {
+		for (i = gnm_sheet_get_last_col (st->sheet); i >= 0; i--)
+			for (j = gnm_sheet_get_last_row (st->sheet); j >= 0; j--) {
 				cell = sheet_cell_get (st->sheet, i, j);
 				if (cell == NULL)
 					goto area_out;

@@ -830,7 +830,7 @@ static gboolean
 sheet_cell_or_one_below_is_not_empty (Sheet *sheet, int col, int row)
 {
 	return !sheet_is_cell_empty (sheet, col, row) ||
-		(row < (gnm_sheet_get_max_rows (sheet) - 1) &&
+		(row < gnm_sheet_get_last_row (sheet) &&
 		 !sheet_is_cell_empty (sheet, col, row+1));
 }
 

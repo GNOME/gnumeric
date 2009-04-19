@@ -433,19 +433,19 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 			if (is_cols) {
 				rles->state.size_pts = sheet_col_get_default_size_pts (sheet);
 				sheet_col_set_default_size_pixels (sheet, new_size);
-				colrow_foreach (&sheet->cols, 0, gnm_sheet_get_max_cols (sheet)-1,
+				colrow_foreach (&sheet->cols, 0, gnm_sheet_get_last_col (sheet),
 					&cb_set_colrow_size, &closure);
 			} else {
 				rles->state.size_pts = sheet_row_get_default_size_pts (sheet);
 				sheet_row_set_default_size_pixels (sheet, new_size);
-				colrow_foreach (&sheet->rows, 0, gnm_sheet_get_max_rows (sheet)-1,
+				colrow_foreach (&sheet->rows, 0, gnm_sheet_get_last_row (sheet),
 					&cb_set_colrow_size, &closure);
 			}
 
 			/* force a re-render of cells with expanding formats */
 			if (is_cols)
 				sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
-					0, 0, gnm_sheet_get_max_cols (sheet)-1, gnm_sheet_get_max_rows (sheet)-1,
+					0, 0, gnm_sheet_get_last_col (sheet), gnm_sheet_get_last_row (sheet),
 					(CellIterFunc) &cb_clear_variable_width_content, NULL);
 
 			/* Result is a magic 'default' record + >= 1 normal */
@@ -455,7 +455,7 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 		if (is_cols) {
 			/* force a re-render of cells with expanding formats */
 			sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
-				index->first, 0, index->last, gnm_sheet_get_max_rows (sheet)-1,
+				index->first, 0, index->last, gnm_sheet_get_last_row (sheet),
 				(CellIterFunc) &cb_clear_variable_width_content, NULL);
 
 			/* In order to properly reposition cell comments in
@@ -470,8 +470,8 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 			if (tmp < 0)
 				/* Fall back to assigning the defaul if it is empty */
 				tmp = (is_cols)
-					? sheet_col_size_fit_pixels (sheet, i, 0, gnm_sheet_get_max_rows (sheet) - 1, FALSE)
-					: sheet_row_size_fit_pixels (sheet, i, 0, gnm_sheet_get_max_cols (sheet) - 1, FALSE);
+					? sheet_col_size_fit_pixels (sheet, i, 0, gnm_sheet_get_last_row (sheet), FALSE)
+					: sheet_row_size_fit_pixels (sheet, i, 0, gnm_sheet_get_last_col (sheet), FALSE);
 
 			if (tmp > 0) {
 				if (is_cols)
@@ -597,7 +597,7 @@ colrow_restore_state_group (Sheet *sheet, gboolean is_cols,
 		/* force a re-render of cells with expanding formats */
 		if (is_cols)
 			sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
-				index->first, 0, index->last, gnm_sheet_get_max_rows (sheet)-1,
+				index->first, 0, index->last, gnm_sheet_get_last_row (sheet),
 				(CellIterFunc) &cb_clear_variable_width_content, NULL);
 		colrow_state_list_destroy (ptr->data);
 		selection = selection->prev;
@@ -897,7 +897,7 @@ colrow_set_visibility_list (Sheet *sheet, gboolean is_cols,
 	}
 
 	if (is_cols)
-		sheet_queue_respan (sheet, 0, gnm_sheet_get_max_rows (sheet)-1);
+		sheet_queue_respan (sheet, 0, gnm_sheet_get_last_row (sheet));
 	if (list != NULL)
 		sheet_redraw_all (sheet, TRUE);
 }
