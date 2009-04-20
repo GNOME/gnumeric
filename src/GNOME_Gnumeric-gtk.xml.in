@@ -68,6 +68,7 @@
         <menuitem action="EditDuplicateSheet"/>
         <menuitem action="SheetRemove"/>
         <menuitem action="SheetChangeName"/>
+        <menuitem action="SheetResize"/>
       </menu>
       <menu name="Select" action="MenuEditSelect">
         <menuitem action="EditSelectAll"/>

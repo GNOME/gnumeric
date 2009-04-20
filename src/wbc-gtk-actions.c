@@ -823,6 +823,7 @@ static GNM_ACTION_DEF (cb_sheet_name)
 }
 
 static GNM_ACTION_DEF (cb_sheet_order)		{ dialog_sheet_order (wbcg); }
+static GNM_ACTION_DEF (cb_sheet_resize)		{ dialog_sheet_resize (wbcg); }
 static GNM_ACTION_DEF (cb_format_cells)		{ dialog_cell_format (wbcg, FD_CURRENT); }
 static GNM_ACTION_DEF (cb_autoformat)		{ dialog_autoformat (wbcg); }
 static GNM_ACTION_DEF (cb_workbook_attr)	{ dialog_workbook_attr (wbcg); }
@@ -1885,6 +1886,9 @@ static GtkActionEntry const actions[] = {
 	{ "SheetChangeName", NULL, N_("Re_name"),
 		NULL, N_("Rename the current sheet"),
 		G_CALLBACK (cb_sheet_name) },
+	{ "SheetResize", NULL, N_("Resize..."),
+		NULL, N_("Change the size of the current sheet"),
+		G_CALLBACK (cb_sheet_resize) },
 
 /* Edit */
 	{ "Repeat", NULL, N_("Repeat"),
