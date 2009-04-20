@@ -157,7 +157,6 @@ typedef struct {
 /* Protected functions */
 gboolean wbc_gtk_close		(WBCGtk *wbcg);
 void	 wbcg_insert_sheet	(GtkWidget *ignored, WBCGtk *wbcg);
-void	 wbcg_insert_sized_sheet(GtkWidget *ignored, WBCGtk *wbcg);
 void	 wbcg_append_sheet	(GtkWidget *ignored, WBCGtk *wbcg);
 void	 wbcg_clone_sheet	(GtkWidget *ignored, WBCGtk *wbcg);
 
