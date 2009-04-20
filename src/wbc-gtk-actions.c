@@ -2509,14 +2509,18 @@ wbc_gtk_init_actions (WBCGtk *wbcg)
 	wbcg->font_actions = gtk_action_group_new ("FontActions");
 	gtk_action_group_set_translation_domain (wbcg->font_actions, GETTEXT_PACKAGE);
 
-	  gtk_action_group_add_actions (wbcg->permanent_actions,
+	gtk_action_group_add_actions (wbcg->permanent_actions,
 		permanent_actions, G_N_ELEMENTS (permanent_actions), wbcg);
-	  gtk_action_group_add_actions (wbcg->actions,
+	gtk_action_group_add_actions (wbcg->actions,
 		actions, G_N_ELEMENTS (actions), wbcg);
-	  gtk_action_group_add_toggle_actions (wbcg->actions,
+	gtk_action_group_add_toggle_actions (wbcg->actions,
 		toggle_actions, G_N_ELEMENTS (toggle_actions), wbcg);
-	  gtk_action_group_add_toggle_actions (wbcg->font_actions,
+	gtk_action_group_add_toggle_actions (wbcg->font_actions,
 		font_toggle_actions, G_N_ELEMENTS (font_toggle_actions), wbcg);
 
-	  wbc_gtk_init_alignments (wbcg);
+	wbc_gtk_init_alignments (wbcg);
+
+#ifndef GNM_ENABLE_SOLVER
+	wbc_gtk_set_action_sensitivity (wbcg, "ToolsSolver", FALSE);
+#endif
 }

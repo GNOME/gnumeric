@@ -1,3 +1,8 @@
+2009-04-20  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-actions.c (wbc_gtk_init_actions): Disable solver
+	action if compiled without the solver.
+
 2009-04-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* libspreadsheet.pc.in: use -lspreadsheet-$(VERSION) instead of
