@@ -1,5 +1,10 @@
 2009-04-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/sheet-object-widget.c (so_widget_view_set_bounds): Make sure that the 
+	  bounds are at least 6 wide  [#579152]
+
+2009-04-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/commands.h (cmd_so_set_adjustment): new
 	* src/commands.c (cmd_so_set_adjustment): new
 	(cmd_so_set_adjustment_adj): new

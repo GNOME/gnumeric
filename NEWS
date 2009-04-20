@@ -5,6 +5,7 @@ Andreas:
 	* Write metadata from the property dialog to the files
 	* Complete the list sheet object configuration dialog [#578557]
 	* Make all sheet object configurations undoable [#114098]
+	* Quieten GTK warning [#579152]
 
 Jean:
 	* Variable sheet sizes.

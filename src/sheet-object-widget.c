@@ -130,13 +130,22 @@ static void
 so_widget_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
 	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
+	double left = MIN (coords [0], coords [2]);
+	double top = MIN (coords [1], coords [3]);
+	double width = fabs (coords [2] - coords [0]) + 1.;
+	double height = fabs (coords [3] - coords [1]) + 1.;
+
+	/* We only need the next check for frames, but it doesn't hurt otherwise. */
+	if (width < 8.)
+		width = 8.;
+
 	if (visible) {
 		/* NOTE : far point is EXCLUDED so we add 1 */
 		foo_canvas_item_set (view,
-			"x",	  MIN (coords [0], coords [2]),
-			"y",	  MIN (coords [1], coords [3]),
-			"width",  fabs (coords [2] - coords [0]) + 1.,
-			"height", fabs (coords [3] - coords [1]) + 1.,
+			"x",	  left,
+			"y",	  top,
+			"width",  width,
+			"height", height,
 			NULL);
 		foo_canvas_item_show (view);
 	} else
