@@ -6,6 +6,7 @@ Andreas:
 	* Complete the list sheet object configuration dialog [#578557]
 	* Make all sheet object configurations undoable [#114098]
 	* Quieten GTK warning [#579152]
+	* Print text in sheet object label [#144787]
 
 Jean:
 	* Variable sheet sizes.

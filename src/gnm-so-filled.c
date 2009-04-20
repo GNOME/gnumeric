@@ -284,6 +284,22 @@ gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 		UINT_RGBA_G(style->outline.color),
 		UINT_RGBA_A(style->outline.color));
 	cairo_stroke (cr);
+	/* Draw the text. */
+	if (sof->text != NULL && !sof->is_oval) {
+		PangoLayout *pl = pango_cairo_create_layout (cr);
+		double pl_height = (height - sof->margin_pts.top 
+				    - sof->margin_pts.bottom) * PANGO_SCALE;
+		double pl_width = (width - sof->margin_pts.left 
+				   - sof->margin_pts.right) * PANGO_SCALE;
+		cairo_move_to (cr, sof->margin_pts.left, 
+			       sof->margin_pts.top);
+		pango_layout_set_markup (pl, sof->text, -1);
+		pango_layout_set_attributes (pl, sof->markup);
+		pango_layout_set_width (pl, pl_width);
+		pango_layout_set_height (pl, pl_height);
+		pango_cairo_show_layout (cr, pl);
+		g_object_unref(G_OBJECT (pl));
+	}
 }
 
 static gboolean

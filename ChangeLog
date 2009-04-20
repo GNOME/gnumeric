@@ -1,5 +1,10 @@
 2009-04-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/gnm-so-filled.c (gnm_so_filled_draw_cairo): print text if
+	  available
+
+2009-04-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-object-widget.c (so_widget_view_set_bounds): Make sure that the 
 	  bounds are at least 6 wide  [#579152]
 
