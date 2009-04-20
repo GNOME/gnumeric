@@ -10,6 +10,7 @@ Andreas:
 
 Jean:
 	* Variable sheet sizes.
+	* Fixed libspredsheet.pc. [#575390]
 
 Jody:
 	* Improve xml probing for 2003-spreadsheetml.
