@@ -1,3 +1,10 @@
+2009-04-20  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-actions.c (actions): Get rid of old
+	insert-sized-sheet entry.
+
+	* src/wbc-gtk.c (sheet_menu_label_run): Add new Resize menu entry.
+
 2009-04-20  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* configure.in: check for gtk_adjustment_configure.
