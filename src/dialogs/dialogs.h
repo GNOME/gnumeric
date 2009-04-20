@@ -51,6 +51,7 @@ gboolean dialog_autosave_prompt	(WBCGtk *wbcg);
 void     dialog_autoformat	(WBCGtk *wbcg);
 void     dialog_consolidate	(WBCGtk *wbcg);
 void     dialog_sheet_order	(WBCGtk *wbcg);
+void     dialog_sheet_resize    (WBCGtk *wbcg);
 void     dialog_row_height	(WBCGtk *wbcg, gboolean set_default);
 void	 dialog_fill_series     (WBCGtk *wbcg);
 void     dialog_col_width	(WBCGtk *wbcg, gboolean set_default);

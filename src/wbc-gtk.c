@@ -452,6 +452,8 @@ static void cb_sheets_insert (SheetControlGUI *scg) { wbcg_insert_sheet (NULL, s
 static void cb_sheets_add    (SheetControlGUI *scg) { wbcg_append_sheet (NULL, scg->wbcg); }
 static void cb_sheets_clone  (SheetControlGUI *scg) { wbcg_clone_sheet  (NULL, scg->wbcg); }
 static void cb_sheets_rename (SheetControlGUI *scg) { editable_label_start_editing (EDITABLE_LABEL(scg->label)); }
+static void cb_sheets_resize (SheetControlGUI *scg) { dialog_sheet_resize (scg->wbcg); }
+ 
 
 static gint
 cb_by_scg_sheet_name (gconstpointer a_, gconstpointer b_)
@@ -481,6 +483,7 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 		{ N_("Duplicate"),	  &cb_sheets_clone,	FALSE, 0 },
 		{ N_("Remove"),		  &scg_delete_sheet_if_possible, TRUE, 0 },
 		{ N_("Rename"),		  &cb_sheets_rename,	FALSE, 0 },
+		{ N_("Resize..."),        &cb_sheets_resize,    FALSE, 0 },
 		{ N_("Select"),           NULL,                 FALSE, 1 },
 		{ N_("Select (sorted)"),  NULL,                 FALSE, 2 }
 	};
