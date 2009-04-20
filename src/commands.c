@@ -7206,15 +7206,28 @@ cmd_so_set_checkbox (WorkbookControl *wbc,
 #define CMD_SO_SET_ADJUSTMENT_TYPE (cmd_so_set_adjustment_get_type ())
 #define CMD_SO_SET_ADJUSTMENT(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SO_SET_ADJUSTMENT_TYPE, CmdSOSetAdjustment))
 
+#ifndef HAVE_GTK_ADJUSTMENT_CONFIGURE
+#       define gtk_adjustment_configure(adjustment,value,lower,upper,step_increment,page_increment,page_size) \
+		g_object_set (G_OBJECT (adjustment), "value", (double) value, "lower", (double) lower, "upper", (double) upper, \
+				"step-increment", (double) step_increment, "page-increment", (double) page_increment, \
+				"page-size", (double) page_size, NULL)
+#       define gtk_adjustment_get_value(adjustment)     adjustment->value
+#       define gtk_adjustment_get_lower(adjustment)     adjustment->lower
+#       define gtk_adjustment_get_upper(adjustment)     adjustment->upper
+#       define gtk_adjustment_get_step_increment(adjustment)     adjustment->step_increment
+#       define gtk_adjustment_get_page_increment(adjustment)     adjustment->page_increment
+#       define gtk_adjustment_get_page_size(adjustment)     adjustment->page_size
+#endif
+
 typedef struct {
 	GnmCommand cmd;
 	SheetObject *so;
 	GnmExprTop const *new_link;
 	GnmExprTop const *old_link;
-	int old_lower;
-	int old_upper;
-	int old_step;
-	int old_page;
+	double old_lower;
+	double old_upper;
+	double old_step;
+	double old_page;
 } CmdSOSetAdjustment;
 
 MAKE_GNM_COMMAND (CmdSOSetAdjustment, cmd_so_set_adjustment, NULL)
@@ -7224,10 +7237,10 @@ cmd_so_set_adjustment_adj (CmdSOSetAdjustment *me)
 {
 	GtkAdjustment *adj = sheet_widget_adjustment_get_adjustment (me->so);
 
-	int old_lower = gtk_adjustment_get_lower (adj);
-	int old_upper = gtk_adjustment_get_upper (adj);
-	int old_step = gtk_adjustment_get_step_increment (adj);
-	int old_page = gtk_adjustment_get_page_increment (adj);
+	double old_lower = gtk_adjustment_get_lower (adj);
+	double old_upper = gtk_adjustment_get_upper (adj);
+	double old_step = gtk_adjustment_get_step_increment (adj);
+	double old_page = gtk_adjustment_get_page_increment (adj);
 
 	gtk_adjustment_configure (adj, 
 				  gtk_adjustment_get_value (adj),

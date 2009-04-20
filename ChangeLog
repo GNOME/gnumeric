@@ -1,3 +1,9 @@
+2009-04-20  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* configure.in: check for gtk_adjustment_configure.
+	* src/commands.c (cmd_so_set_adjustment_adj): add defines for missing gtk
+	functions in gtk+-2.12 and earlier (see #114098).
+
 2009-04-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gnm-so-filled.c (gnm_so_filled_draw_cairo): print text if

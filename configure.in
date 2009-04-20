@@ -654,7 +654,7 @@ SAVE_CFLAGS=$CFLAGS
 SAVE_LIBS=$LIBS
 CFLAGS="$CFLAGS $GNUMERIC_CFLAGS"
 LIBS="$GNUMERIC_LIBS $LIBS"
-AC_CHECK_FUNCS(g_date_set_time_t g_slice_alloc pango_font_map_create_context gtk_recent_manager_get_default gtk_orientable_set_orientation gsf_open_pkg_foreach_rel gsf_infile_msvba_steal_modules)
+AC_CHECK_FUNCS(g_date_set_time_t g_slice_alloc pango_font_map_create_context gtk_recent_manager_get_default gtk_orientable_set_orientation gtk_adjustment_configure gsf_open_pkg_foreach_rel gsf_infile_msvba_steal_modules)
 CFLAGS=$SAVE_CFLAGS
 LIBS=$SAVE_LIBS
 
