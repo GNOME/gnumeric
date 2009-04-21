@@ -233,12 +233,11 @@ xml_write_print_unit (GnmOutputXML *state, char const *name,
 static void
 xml_write_print_repeat_range (GnmOutputXML *state,
 			      char const *name,
-			      PrintRepeatRange *range)
+			      const char *range)
 {
-	if (range->use) {
+	if (range && *range) {
 		gsf_xml_out_start_element (state->output, name);
-		gsf_xml_out_add_cstr_unchecked (state->output, "value",
-			range_as_string (&range->range));
+		gsf_xml_out_add_cstr_unchecked (state->output, "value", range);
 		gsf_xml_out_end_element (state->output);
 	}
 }
@@ -357,8 +356,8 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 	gsf_xml_out_end_element (state->output);
 
 
-	xml_write_print_repeat_range (state, GNM "repeat_top", &pi->repeat_top);
-	xml_write_print_repeat_range (state, GNM "repeat_left", &pi->repeat_left);
+	xml_write_print_repeat_range (state, GNM "repeat_top", pi->repeat_top);
+	xml_write_print_repeat_range (state, GNM "repeat_left", pi->repeat_left);
 
 	/* this was once an enum, hence the silly strings */
 	gsf_xml_out_simple_element (state->output, GNM "order",

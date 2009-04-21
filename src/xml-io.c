@@ -546,7 +546,7 @@ xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 
 static void
 xml_read_print_repeat_range (XmlParseContext *ctxt, xmlNodePtr tree,
-			     char const *name, PrintRepeatRange *range)
+			     char const *name, char **range)
 {
 	xmlNodePtr child;
 
@@ -555,20 +555,19 @@ xml_read_print_repeat_range (XmlParseContext *ctxt, xmlNodePtr tree,
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (range != NULL);
 
-	range->use = FALSE;
+	g_free (*range);
+	*range = NULL;
 	if (ctxt->version > GNM_XML_V4 &&
 	    (child = e_xml_get_child_by_name (tree, CC2XML (name)))) {
 		xmlChar *s = xml_node_get_cstr (child, "value");
-
 		if (s) {
-			GnmRange r;
-			if (range_parse (&r, CXML2C (s), ctxt->sheet)) {
-				range->range = r;
-				range->use   = TRUE;
-			}
+			*range = g_strdup (CXML2C (s));
 			xmlFree (s);
 		}
 	}
+
+	if (!*range)
+		*range = g_strdup ("");
 }
 
 static void

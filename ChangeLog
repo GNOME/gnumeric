@@ -1,3 +1,11 @@
+2009-04-21  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-io.c (xml_read_print_repeat_range): Adapt to print-info
+	changes.
+
+	* src/xml-sax-write.c (xml_write_print_repeat_range): Fix writing
+	repeated ranges.
+
 2009-04-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gnm-so-filled.c (gnm_so_filled_user_config): adjust for 
