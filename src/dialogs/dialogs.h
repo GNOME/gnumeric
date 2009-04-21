@@ -106,9 +106,15 @@ void	dialog_preferences (WBCGtk *wbcg, gint page);
 void    dialog_recent_used (WBCGtk *wbcg);
 
 void	dialog_new_view (WBCGtk *wbcg);
+
+typedef enum {
+	SO_STYLED_STYLE_ONLY = 0,
+	SO_STYLED_TEXT
+} so_styled_t;
+
 void	dialog_so_styled (WBCGtk *wbcg, GObject *so,
 			  GOStyle *orig, GOStyle *default_style,
-			  gboolean showtext);
+			  char const *title, so_styled_t extent);
 void	dialog_so_list	 (WBCGtk *wbcg, GObject *so);
 
 void	dialog_doc_metadata_new  (WBCGtk *wbcg);

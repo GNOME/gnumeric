@@ -1,3 +1,10 @@
+2009-04-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gnm-so-filled.c (gnm_so_filled_user_config): adjust for 
+	  changed arguments of dialog_so_styled
+	* src/gnm-so-line.c (gnm_so_line_user_config): ditto
+	* src/gnm-so-polygon.c (gnm_so_polygon_user_config): ditto
+
 2009-04-21  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_print_setup_redo): Only reverse the list

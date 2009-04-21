@@ -113,13 +113,10 @@ dialog_so_styled_text_widget (DialogSOStyled *state)
 void
 dialog_so_styled (WBCGtk *wbcg,
 		  GObject *so, GOStyle *orig, GOStyle *default_style,
-		  gboolean showtext)
+		  char const *title, so_styled_t extent)
 {
 	DialogSOStyled *state;
 	GtkWidget	*dialog, *help, *editor;
-	char const *title = showtext ? 
-		_("Label Properties") :
-		_("Filled Object Properties");
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, GNM_SO_STYLED_KEY))
@@ -151,7 +148,7 @@ dialog_so_styled (WBCGtk *wbcg,
 		editor, TRUE, TRUE, TRUE);
 	g_object_unref (default_style);
 
-	if (showtext) {
+	if (extent == SO_STYLED_TEXT) {
 		GtkWidget *text_w = dialog_so_styled_text_widget (state);
 		gtk_widget_show (text_w);
 		if (GTK_IS_NOTEBOOK (editor))

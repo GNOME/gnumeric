@@ -187,8 +187,8 @@ static void
 gnm_so_polygon_user_config (SheetObject *so, SheetControl *sc)
 {
 	dialog_so_styled (scg_wbcg (SHEET_CONTROL_GUI (sc)), G_OBJECT (so),
-		GNM_SO_POLYGON (so)->style, sop_default_style (),
-		_("Polygon Properties"));
+			  GNM_SO_POLYGON (so)->style, sop_default_style (),
+			  _("Polygon Properties"), SO_STYLED_STYLE_ONLY);
 }
 
 #endif /* GNM_WITH_GTK */

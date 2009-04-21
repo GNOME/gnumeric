@@ -1,3 +1,9 @@
+2009-04-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialogs.h (dialog_so_styled): pass both the title and information
+	  on the extent of the properties dialog
+	* dialog-so-styled.c (dialog_so_styled): use the passsed title
+
 2009-04-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialogs.h (dialog_so_styled): change arguments

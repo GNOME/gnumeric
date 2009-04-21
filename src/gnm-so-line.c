@@ -155,8 +155,8 @@ static void
 gnm_so_line_user_config (SheetObject *so, SheetControl *sc)
 {
 	dialog_so_styled (scg_wbcg (SHEET_CONTROL_GUI (sc)), G_OBJECT (so),
-		GNM_SO_LINE (so)->style, sol_default_style (),
-		_("Line/Arrow Properties"));
+			  GNM_SO_LINE (so)->style, sol_default_style (),
+			  _("Line/Arrow Properties"), SO_STYLED_STYLE_ONLY);
 }
 
 static void
