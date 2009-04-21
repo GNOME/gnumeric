@@ -4838,8 +4838,9 @@ static gboolean
 cmd_resize_sheets_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdResizeSheets *me = CMD_RESIZE_SHEETS (cmd);
+	GOCmdContext *cc = GO_CMD_CONTEXT (wbc);
 
-	go_undo_undo (me->undo);
+	go_undo_undo_with_data (me->undo, cc);
 	g_object_unref (me->undo);
 	me->undo = NULL;
 
@@ -4850,11 +4851,12 @@ static gboolean
 cmd_resize_sheets_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdResizeSheets *me = CMD_RESIZE_SHEETS (cmd);
+	GOCmdContext *cc = GO_CMD_CONTEXT (wbc);
 	GSList *l;
 
 	for (l = me->sheets; l; l = l->next) {
 		Sheet *sheet = l->data;
-		GOUndo *u = gnm_sheet_resize (sheet, me->cols, me->rows);
+		GOUndo *u = gnm_sheet_resize (sheet, me->cols, me->rows, cc);
 		me->undo = go_undo_combine (me->undo, u);
 	}
 
@@ -4888,7 +4890,7 @@ cmd_resize_sheets (WorkbookControl *wbc,
 	me->rows = rows;
 	me->cmd.sheet = sheets ? sheets->data : NULL;
 	me->cmd.size = 1;
-	me->cmd.cmd_descriptor = _("Resizing sheet");
+	me->cmd.cmd_descriptor = g_strdup (_("Resizing sheet"));
 
 	if (sheets &&
 	    gnm_sheet_valid_size (cols, rows))

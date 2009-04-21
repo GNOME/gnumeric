@@ -35,6 +35,7 @@ Morten:
 	* Clean up str.h usage.
 	* Load csv and txt files into sheets as big as needed.  [Part of
 	#168875]
+	* Implement sheet resize.
 
 Vivien Malerba:
 	* Move to libgda4.

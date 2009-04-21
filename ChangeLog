@@ -1,5 +1,10 @@
 2009-04-21  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (sheet_destroy_contents): Use colrow_resize.
+	(gnm_sheet_resize): Initial implementation.
+
+	* src/colrow.c (colrow_resize): New function.
+
 	* src/sheet.c (gnm_sheet_resize): Stub.
 
 	* src/commands.c (cmd_resize_sheets): Undo framework for resizing

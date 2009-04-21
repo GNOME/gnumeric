@@ -1085,17 +1085,96 @@ gnm_sheet_suggest_size (int *cols, int *rows)
 	*rows = r;
 }
 
-GOUndo *
-gnm_sheet_resize (Sheet *sheet, int cols, int rows)
+static void gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
+				   GOCmdContext *cc, GOUndo **pundo);
+
+struct cb_sheet_resize {
+	int cols, rows;
+};
+
+static void
+cb_sheet_resize (Sheet *sheet, const struct cb_sheet_resize *data, GOCmdContext *cc)
 {
+	gnm_sheet_resize_main (sheet, data->cols, data->rows, cc, NULL);
+}
+
+static void
+gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
+		       GOCmdContext *cc, GOUndo **pundo)
+{
+	int old_cols, old_rows;
+
+	if (pundo) *pundo = NULL;
+
+	old_cols = gnm_sheet_get_max_cols (sheet);
+	old_rows = gnm_sheet_get_max_rows (sheet);
+	if (old_cols == cols && old_rows == rows)
+		return;
+
+	/* ---------------------------------------- */
+
+	if (cols < old_cols) {
+		GOUndo *u = NULL;
+		gboolean err;
+
+		err = sheet_delete_cols (sheet, cols, old_cols - cols,
+					 pundo ? &u : NULL, cc);
+		/* FIXME: handle err */
+		if (pundo)
+			*pundo = go_undo_combine (*pundo, u);
+	}
+	colrow_resize (&sheet->cols, cols);
+
+	if (rows < old_rows) {
+		GOUndo *u = NULL;
+		gboolean err;
+
+		err = sheet_delete_rows (sheet, rows, old_rows - rows,
+					 pundo ? &u : NULL, cc);
+		/* FIXME: handle err */
+		if (pundo)
+			*pundo = go_undo_combine (*pundo, u);
+	}
+	colrow_resize (&sheet->rows, rows);
+
+	/* ---------------------------------------- */
+	/* Actually change the properties.  */
+
+	sheet->max_cols = cols;
+	sheet->max_rows = rows;
+	if (old_cols != cols)
+		g_object_notify (G_OBJECT (sheet), "columns");
+	if (old_rows != rows)
+		g_object_notify (G_OBJECT (sheet), "rows");
+
+	if (pundo) {
+		struct cb_sheet_resize *data =
+			g_new (struct cb_sheet_resize, 1);
+		GOUndo *u;
+
+		data->cols = cols;
+		data->rows = rows;
+		u = go_undo_binary_new (sheet, data,
+					(GOUndoBinaryFunc)cb_sheet_resize,
+					NULL, g_free);
+		*pundo = go_undo_combine (*pundo, u);
+	}
+
+	sheet_redraw_all (sheet, TRUE);
+}
+
+GOUndo *
+gnm_sheet_resize (Sheet *sheet, int cols, int rows, GOCmdContext *cc)
+{
+	GOUndo *undo = NULL;
+
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (gnm_sheet_valid_size (cols, rows), NULL);
 
-	if (gnm_sheet_get_max_cols (sheet) == cols &&
-	    gnm_sheet_get_max_rows (sheet) == rows)
-		return NULL;
+	g_warning ("Changing sheet size is experimental.");
+	gnm_sheet_resize_main (sheet, cols, rows, cc, &undo);
 
-	g_warning ("Changing sheet size is not implemented yet.");
-	return NULL;
+	return undo;
 }
 
 
@@ -3672,7 +3751,6 @@ sheet_destroy_contents (Sheet *sheet)
 	int const max_row = sheet->rows.max_used;
 	GSList *filters;
 	int i;
-	gpointer tmp;
 
 	/* By the time we reach here dependencies should have been shut down */
 	g_return_if_fail (sheet->deps == NULL);
@@ -3724,18 +3802,11 @@ sheet_destroy_contents (Sheet *sheet)
 		sheet_row_destroy (sheet, i, FALSE);
 
 	/* Free segments too */
-	for (i = COLROW_SEGMENT_INDEX (max_col); i >= 0 ; --i)
-		if ((tmp = g_ptr_array_index (sheet->cols.info, i)) != NULL) {
-			g_free (tmp);
-			g_ptr_array_index (sheet->cols.info, i) = NULL;
-		}
+	colrow_resize (&sheet->cols, 0);
 	g_ptr_array_free (sheet->cols.info, TRUE);
 	sheet->cols.info = NULL;
-	for (i = COLROW_SEGMENT_INDEX (max_row); i >= 0 ; --i)
-		if ((tmp = g_ptr_array_index (sheet->rows.info, i)) != NULL) {
-			g_free (tmp);
-			g_ptr_array_index (sheet->rows.info, i) = NULL;
-		}
+
+	colrow_resize (&sheet->rows, 0);
 	g_ptr_array_free (sheet->rows.info, TRUE);
 	sheet->rows.info = NULL;
 }

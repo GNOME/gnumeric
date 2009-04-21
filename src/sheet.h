@@ -128,7 +128,7 @@ void      sheet_destroy_contents (Sheet *sheet);
 gboolean  gnm_sheet_valid_size   (int cols, int rows);
 void      gnm_sheet_suggest_size (int *cols, int *rows);
 
-GOUndo   *gnm_sheet_resize       (Sheet *sheet, int cols, int rows);
+GOUndo   *gnm_sheet_resize       (Sheet *sheet, int cols, int rows, GOCmdContext *cc);
 
 int gnm_sheet_get_max_rows (Sheet const *sheet);
 int gnm_sheet_get_max_cols (Sheet const *sheet);

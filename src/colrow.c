@@ -1199,3 +1199,21 @@ colrow_reset_defaults (Sheet *sheet, gboolean is_cols, int maxima)
 	}
 	infos->max_used = maxima - 1;
 }
+
+void
+colrow_resize (ColRowCollection *infos, int size)
+{
+	int end_idx = COLROW_SEGMENT_INDEX (size);
+	int i = infos->info->len - 1;
+
+	while (i >= end_idx) {
+		ColRowSegment *segment = g_ptr_array_index (infos->info, i);
+		if (segment) {
+			g_free (segment);
+			g_ptr_array_index (infos->info, i) = NULL;
+		}
+		i--;
+	}
+
+	g_ptr_array_set_size (infos->info, end_idx);
+}

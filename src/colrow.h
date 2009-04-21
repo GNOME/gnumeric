@@ -89,6 +89,8 @@ gboolean colrow_foreach	   (ColRowCollection const *infos,
 			    ColRowHandler callback,
 			    gpointer user_data);
 
+void colrow_resize (ColRowCollection *infos, int size);
+
 ColRowIndexList *colrow_index_list_destroy   (ColRowIndexList *list);
 GString         *colrow_index_list_to_string (ColRowIndexList *list,
 					      gboolean is_cols,
