@@ -138,6 +138,8 @@ print_info_free (PrintInformation *pi)
 	if (NULL != pi->page_breaks.h)
 		gnm_page_breaks_free (pi->page_breaks.h);
 
+	g_free (pi->repeat_top);
+	g_free (pi->repeat_left);
 	print_hf_free (pi->header);
 	print_hf_free (pi->footer);
 
@@ -145,12 +147,6 @@ print_info_free (PrintInformation *pi)
 		g_object_unref (pi->page_setup);
 
 	g_free (pi);
-}
-
-static gboolean
-load_range (char const *str, GnmRange *r, Sheet *sheet)
-{
-	return str && range_parse (r, str, sheet);
 }
 
 static void
@@ -255,14 +251,8 @@ print_info_load_defaults (PrintInformation *res)
 	res->desired_display.right = gnm_app_prefs->desired_display;
 	res->desired_display.footer = gnm_app_prefs->desired_display;
 	res->desired_display.header = gnm_app_prefs->desired_display;
-
-	res->repeat_top.use   = load_range (gnm_app_prefs->print_repeat_top,
-					    &res->repeat_top.range,
-					    res->sheet);
-	res->repeat_left.use  = load_range (gnm_app_prefs->print_repeat_left,
-					    &res->repeat_left.range,
-					    res->sheet);
-
+	res->repeat_top            = g_strdup (gnm_app_prefs->print_repeat_top);
+	res->repeat_left           = g_strdup (gnm_app_prefs->print_repeat_left);
 	res->center_vertically     = gnm_app_prefs->print_center_vertically;
 	res->center_horizontally   = gnm_app_prefs->print_center_horizontally;
 	res->print_grid_lines      = gnm_app_prefs->print_grid_lines;
@@ -296,11 +286,10 @@ print_info_load_defaults (PrintInformation *res)
  *
  */
 PrintInformation *
-print_info_new (Sheet *sheet, gboolean load_defaults)
+print_info_new (gboolean load_defaults)
 {
 	PrintInformation *res = g_new0 (PrintInformation, 1);
 
-	res->sheet = sheet;
 	res->print_as_draft	   = FALSE;
 	res->comment_placement = PRINT_COMMENTS_IN_PLACE;
 	res->error_display     = PRINT_ERRORS_AS_DISPLAYED;
@@ -387,10 +376,8 @@ print_info_save (PrintInformation *pi)
 	gnm_gconf_set_print_black_and_white (pi->print_black_and_white);
 	gnm_gconf_set_print_order_across_then_down (pi->print_across_then_down);
 
-	go_conf_set_string (node, PRINTSETUP_GCONF_REPEAT_TOP,
-		pi->repeat_top.use ? range_as_string (&pi->repeat_top.range) : "");
-	go_conf_set_string (node, PRINTSETUP_GCONF_REPEAT_LEFT,
-		pi->repeat_left.use ? range_as_string (&pi->repeat_left.range) : "");
+	go_conf_set_string (node, PRINTSETUP_GCONF_REPEAT_TOP, pi->repeat_top);
+	go_conf_set_string (node, PRINTSETUP_GCONF_REPEAT_LEFT, pi->repeat_left);
 
 	save_formats ();
 
@@ -822,18 +809,23 @@ print_shutdown (void)
 #define COPY(field) dst->field = src->field
 
 PrintInformation *
-print_info_dup (PrintInformation const *src, Sheet *new_sheet)
+print_info_dup (PrintInformation const *src)
 {
-	PrintInformation *dst = print_info_new (new_sheet, TRUE);
+	PrintInformation *dst = print_info_new (TRUE);
 
 	print_info_load_defaults ((PrintInformation *)src);
 
-	/* Don't copy sheet */
 	COPY(scaling);
 	COPY(edge_to_below_header);
 	COPY(edge_to_above_footer);
         COPY(desired_display);
-	COPY(repeat_left);
+
+	g_free (dst->repeat_top);
+	dst->repeat_top = g_strdup (src->repeat_top);
+
+	g_free (dst->repeat_left);
+	dst->repeat_left = g_strdup (src->repeat_left);
+
 	COPY(print_across_then_down);
 	COPY(center_vertically);
 	COPY(center_horizontally);

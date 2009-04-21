@@ -2135,17 +2135,11 @@ do_setup_page_info (PrinterSetupState *state)
 /*	gnumeric_editable_enters (GTK_WINDOW (state->dialog), */
 /*		gtk_bin_get_child (GTK_BIN (glade_xml_get_widget (state->gui, "comments-combo")))); */
 
-	if (state->pi->repeat_top.use)
-		gnm_expr_entry_load_from_range (
-			state->top_entry,
-			wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
-			&state->pi->repeat_top.range);
+	gnm_expr_entry_load_from_text (state->top_entry,
+				       state->pi->repeat_top);
+	gnm_expr_entry_load_from_text (state->left_entry,
+				       state->pi->repeat_left);
 
-	if (state->pi->repeat_left.use)
-		gnm_expr_entry_load_from_range (
-			state->left_entry,
-			wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
-			&state->pi->repeat_left.range);
 	load_print_area (state);
 }
 
@@ -2609,7 +2603,7 @@ printer_setup_state_new (WBCGtk *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->sheet = sheet;
 	state->gui   = gui;
-	state->pi    = print_info_dup (sheet->print_info, sheet);
+	state->pi    = print_info_dup (sheet->print_info);
 	state->display_unit = state->pi->desired_display.top;
 	state->customize_header = NULL; 
 	state->customize_footer = NULL; 
@@ -2743,10 +2737,12 @@ do_fetch_page_info (PrinterSetupState *state)
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "radio-order-right")));
 	pi->do_not_print = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "check-do-not-print")));
-	pi->repeat_top.use = gnm_expr_entry_get_rangesel (state->top_entry,
-		&pi->repeat_top.range, NULL);
-	pi->repeat_left.use = gnm_expr_entry_get_rangesel (state->left_entry,
-		&pi->repeat_left.range, NULL);
+
+	g_free (pi->repeat_top);
+	pi->repeat_top = g_strdup (gnm_expr_entry_get_text (state->top_entry));
+
+	g_free (pi->repeat_left);
+	pi->repeat_left = g_strdup (gnm_expr_entry_get_text (state->left_entry));
 }
 
 static void

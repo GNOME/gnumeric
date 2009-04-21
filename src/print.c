@@ -871,6 +871,12 @@ compute_sheet_pages_across_then_down (PrintingInstance * pi,
 }
 
 
+static gboolean
+load_repeat_range (char const *str, GnmRange *r, Sheet *sheet)
+{
+       return str && range_parse (r, str, sheet);
+}
+
 /*
   return TRUE in case of trouble
 */
@@ -891,9 +897,10 @@ compute_sheet_pages (GtkPrintContext   *context,
 	gdouble top_margin, bottom_margin, edge_to_below_header, edge_to_above_footer;
 	gdouble px, py;
 	gdouble usable_x, usable_y;
-
 	GSList *column_pagination = NULL;
 	GSList *row_pagination = NULL;
+	gboolean repeat_top_use, repeat_left_use;
+	int repeat_top_start, repeat_top_end, repeat_left_start, repeat_left_end;
 
 	if (pinfo->print_titles) {
 		col_header_height = sheet->rows.default_style.size_pts;
@@ -925,6 +932,14 @@ compute_sheet_pages (GtkPrintContext   *context,
 	page_height -= ((edge_to_below_header - top_margin)
 			+ (edge_to_above_footer - bottom_margin));
 
+	repeat_top_use = load_repeat_range (pinfo->repeat_top, &r, sheet);
+	repeat_top_start = repeat_top_use ? r.start.row : 0;
+	repeat_top_end = repeat_top_use ? r.end.row : 0;
+
+	repeat_left_use = load_repeat_range (pinfo->repeat_left, &r, sheet);
+	repeat_left_start = repeat_left_use ? r.start.col : 0;
+	repeat_left_end = repeat_left_use ? r.end.col : 0;
+
 	if (pinfo->scaling.type == PRINT_SCALE_FIT_PAGES) {
 		/* Note that the resulting scale is independent from */
 		/* whether we print first down or across!            */
@@ -935,15 +950,15 @@ compute_sheet_pages (GtkPrintContext   *context,
 					    sheet_row_get_distance_pts,
 					    pinfo->scaling.dim.rows, 1.,
 					    col_header_height,
-					    pinfo->repeat_top.use, pinfo->repeat_top.range.start.row, 
-					    pinfo->repeat_top.range.end.row);
+					    repeat_top_use,
+					    repeat_top_start, repeat_top_end);
 		pxy = compute_scale_fit_to (sheet, r.start.col, r.end.col,
 					    page_width, sheet_col_get_info,
 					    sheet_col_get_distance_pts,
 					    pinfo->scaling.dim.cols, pxy,
 					    row_header_width,
-					    pinfo->repeat_left.use, pinfo->repeat_left.range.start.col, 
-					    pinfo->repeat_left.range.end.col);
+					    repeat_left_use,
+					    repeat_left_start, repeat_left_end);
 
 		pinfo->scaling.percentage.x = pxy * 100.;
 		pinfo->scaling.percentage.y = pxy * 100.;
@@ -962,13 +977,11 @@ compute_sheet_pages (GtkPrintContext   *context,
 
 	paginate (&column_pagination, sheet, r.start.col, r.end.col, 
 		  usable_x - row_header_width,
-		  pinfo->repeat_left.use, pinfo->repeat_left.range.start.col, 
-		  pinfo->repeat_left.range.end.col, 
+		  repeat_left_use, repeat_left_start, repeat_left_end,
 		  sheet_col_get_distance_pts, sheet_col_get_info);
 	paginate (&row_pagination, sheet, r.start.row, r.end.row, 
 		  usable_y - col_header_height,
-		  pinfo->repeat_top.use, pinfo->repeat_top.range.start.row, 
-		  pinfo->repeat_top.range.end.row,
+		  repeat_top_use, repeat_top_start, repeat_top_end,
 		  sheet_row_get_distance_pts, sheet_row_get_info);
 
 	if (sheet->print_info->print_across_then_down)

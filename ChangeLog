@@ -1,3 +1,17 @@
+2009-04-21  Morten Welinder  <terra@gnome.org>
+
+	* src/print-info.c (print_info_free): Free here.
+	(print_info_load_defaults): Simply copy as text here.
+	(print_info_dup): Copy here.
+	(print_info_new, print_info_dup): Don't take sheet argument
+	anymore.  All callers changed.
+
+	* src/print-info.h (struct _PrintInformation): Keep repeat_top and
+	repeat_left as strings so they become sheet independent.
+
+	* src/print.c (compute_sheet_pages): Parse repeat_top and
+	repeat_left here.
+
 2009-04-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.h (cmd_object_format): add argument

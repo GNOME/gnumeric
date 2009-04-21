@@ -1009,11 +1009,11 @@ xml_sax_repeat_top (GsfXMLIn *xin, xmlChar const **attrs)
 	pi = state->sheet->print_info;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (!strcmp (CXML2C (attrs[0]), "value"))
-			pi->repeat_top.use =
-				range_parse (&pi->repeat_top.range,
-					     CXML2C (attrs[1]),
-					     state->sheet);
+		if (!strcmp (CXML2C (attrs[0]), "value")) {
+			g_free (pi->repeat_top);
+			pi->repeat_top = g_strdup (CXML2C (attrs[1]));
+			break;
+		}
 }
 
 static void
@@ -1028,11 +1028,11 @@ xml_sax_repeat_left (GsfXMLIn *xin, xmlChar const **attrs)
 	pi = state->sheet->print_info;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (!strcmp (CXML2C (attrs[0]), "value"))
-			pi->repeat_left.use =
-				range_parse (&pi->repeat_left.range,
-					     CXML2C (attrs[1]),
-					     state->sheet);
+		if (!strcmp (CXML2C (attrs[0]), "value")) {
+			g_free (pi->repeat_left);
+			pi->repeat_left = g_strdup (CXML2C (attrs[1]));
+			break;
+		}
 }
 
 static void

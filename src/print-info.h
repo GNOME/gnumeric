@@ -41,7 +41,6 @@ typedef struct {
 } GnmPageBreaks;
 
 struct _PrintInformation {
-	Sheet *sheet;
 	struct {
 		enum {
 			PRINT_SCALE_PERCENTAGE,
@@ -66,7 +65,7 @@ struct _PrintInformation {
 	double           edge_to_below_header;
 	double           edge_to_above_footer;
         DesiredDisplay   desired_display;
-	PrintRepeatRange repeat_top, repeat_left;
+	char            *repeat_top, *repeat_left;
 	unsigned int	 print_across_then_down;
 	unsigned int     center_vertically:1;
 	unsigned int     center_horizontally:1;
@@ -117,9 +116,9 @@ typedef struct {
 	GnmCellPos top_repeating;
 } HFRenderInfo;
 
-PrintInformation *print_info_new         (Sheet *sheet, gboolean load_defaults);
+PrintInformation *print_info_new         (gboolean load_defaults);
 PrintInformation *print_info_load_defaults (PrintInformation *pi);
-PrintInformation *print_info_dup	 (PrintInformation const *pi, Sheet *new_sheet);
+PrintInformation *print_info_dup	 (PrintInformation const *pi);
 void              print_info_free        (PrintInformation *pi);
 void              print_info_save        (PrintInformation *pi);
 
