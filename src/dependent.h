@@ -62,8 +62,9 @@ struct _GnmDepContainer {
 	GnmDependent *head, *tail;
 
 	/* Large ranges hashed on 'range' to accelerate duplicate culling. This
-	 * is tranversed by g_hash_table_foreach mostly.
+	 * is traversed by g_hash_table_foreach mostly.
 	 */
+	int buckets;
 	GHashTable **range_hash;
 	GOMemChunk *range_pool;
 

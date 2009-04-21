@@ -90,7 +90,6 @@ static GOMemChunk *cset_pool;
 
 #define BUCKET_SIZE	128
 #define BUCKET_OF_ROW(row) ((row) / BUCKET_SIZE)
-#define BUCKET_LAST (BUCKET_OF_ROW (gnm_sheet_get_last_row (sheet)))
 #define BUCKET_START_ROW(b) ((b) * BUCKET_SIZE)
 #define BUCKET_END_ROW(b) ((b) * BUCKET_SIZE + (BUCKET_SIZE - 1))
 
@@ -1749,7 +1748,7 @@ sheet_region_queue_recalc (Sheet const *sheet, GnmRange const *r)
 			dependent_flag_recalc (dep););
 
 		/* look for things that depend on the sheet */
-		for (i = BUCKET_LAST; i >= 0 ; i--) {
+		for (i = sheet->deps->buckets - 1; i >= 0 ; i--) {
 			GHashTable *hash = sheet->deps->range_hash[i];
 			if (hash != NULL)
 				g_hash_table_foreach (hash,
@@ -2353,7 +2352,7 @@ do_deps_destroy (Sheet *sheet)
 		sheet->revive = NULL;
 	}
 
-	for (i = BUCKET_LAST; i >= 0 ; i--) {
+	for (i = deps->buckets - 1; i >= 0 ; i--) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL)
 			dep_hash_destroy (hash, &dyn_deps, sheet);
@@ -2416,7 +2415,7 @@ do_deps_invalidate (Sheet *sheet)
 
 	deps = sheet->deps;
 
-	for (i = BUCKET_LAST; i >= 0 ; i--) {
+	for (i = deps->buckets - 1; i >= 0 ; i--) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL)
 			dep_hash_destroy (hash, &dyn_deps, sheet);
@@ -2668,7 +2667,8 @@ gnm_dep_container_new (Sheet *sheet)
 
 	deps->head = deps->tail = NULL;
 
-	deps->range_hash  = g_new0 (GHashTable *, BUCKET_LAST + 1);
+	deps->buckets = 1 + BUCKET_OF_ROW (gnm_sheet_get_last_row (sheet));
+	deps->range_hash  = g_new0 (GHashTable *, deps->buckets);
 	deps->range_pool  = go_mem_chunk_new ("range pool",
 					       sizeof (DependencyRange),
 					       16 * 1024 - 100);
@@ -2843,7 +2843,7 @@ gnm_dep_container_dump (GnmDepContainer const *deps,
 
 	gnm_dep_container_sanity_check (deps);
 
-	for (i = BUCKET_LAST; i >= 0 ; i--) {
+	for (i = deps->buckets - 1; i >= 0 ; i--) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL && g_hash_table_size (hash) > 0) {
 			g_printerr ("  Bucket %d (rows %d-%d): Range hash size %d: range over which cells in list depend\n",
