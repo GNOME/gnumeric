@@ -1085,6 +1085,20 @@ gnm_sheet_suggest_size (int *cols, int *rows)
 	*rows = r;
 }
 
+GOUndo *
+gnm_sheet_resize (Sheet *sheet, int cols, int rows)
+{
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	if (gnm_sheet_get_max_cols (sheet) == cols &&
+	    gnm_sheet_get_max_rows (sheet) == rows)
+		return NULL;
+
+	g_warning ("Changing sheet size is not implemented yet.");
+	return NULL;
+}
+
+
 /**
  * sheet_new_with_type :
  * @wb      : #Workbook

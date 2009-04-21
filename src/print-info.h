@@ -18,11 +18,6 @@ typedef struct {
 	char *right_format;
 } PrintHF;
 
-typedef struct {
-	gboolean use;
-	GnmRange range;
-} PrintRepeatRange;
-
 typedef enum {
 	GNM_PAGE_BREAK_MANUAL,
 	GNM_PAGE_BREAK_AUTO,

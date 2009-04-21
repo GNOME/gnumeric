@@ -151,6 +151,10 @@ gboolean cmd_reorganize_sheets  (WorkbookControl *wbc,
 				 WorkbookSheetState *old_state,
 				 Sheet *undo_sheet);
 
+gboolean cmd_resize_sheets      (WorkbookControl *wbc,
+				 GSList *sheets,
+				 int cols, int rows);
+
 gboolean cmd_so_graph_config (WorkbookControl *wbc, SheetObject *sog,
                               GObject *n_graph, GObject *o_graph);
 

@@ -32,6 +32,7 @@
 #include <workbook-view.h>
 #include <workbook.h>
 #include <sheet.h>
+#include <commands.h>
 
 #define RESIZE_DIALOG_KEY "sheet-resize-dialog"
 
@@ -108,6 +109,7 @@ cb_ok_clicked (ResizeState *state)
 {
 	GList *sheets, *l;
 	GSList *changed_sheets = NULL;
+	WorkbookControl *wbc;
 	Workbook *wb;
 	gboolean all_sheets;
 	int cols, rows;
@@ -116,7 +118,8 @@ cb_ok_clicked (ResizeState *state)
 	all_sheets = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (state->all_sheets_button));
 
-	wb = wb_control_get_workbook (WORKBOOK_CONTROL (state->wbcg));
+	wbc = WORKBOOK_CONTROL (state->wbcg);
+	wb = wb_control_get_workbook (wbc);
 	sheets = workbook_sheets (wb);
 	for (l = sheets; l; l = l->next) {
 		Sheet *this_sheet = l->data;
@@ -132,9 +135,8 @@ cb_ok_clicked (ResizeState *state)
 	}
 	g_list_free (sheets);
 
-	if (changed_sheets) {
-		g_warning ("Changing sheet size is not implemented yet.");
-	}
+	if (changed_sheets)
+		cmd_resize_sheets (wbc, changed_sheets, cols, rows);
 
 	gtk_widget_destroy (state->dialog);
 }

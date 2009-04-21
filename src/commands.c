@@ -4822,6 +4822,85 @@ cmd_rename_sheet (WorkbookControl *wbc,
 
 /******************************************************************/
 
+#define CMD_RESIZE_SHEETS_TYPE        (cmd_resize_sheets_get_type ())
+#define CMD_RESIZE_SHEETS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_RESIZE_SHEETS_TYPE, CmdResizeSheets))
+
+typedef struct {
+	GnmCommand cmd;
+	GSList *sheets;
+	int cols, rows;
+	GOUndo *undo;
+} CmdResizeSheets;
+
+MAKE_GNM_COMMAND (CmdResizeSheets, cmd_resize_sheets, NULL)
+
+static gboolean
+cmd_resize_sheets_undo (GnmCommand *cmd, WorkbookControl *wbc)
+{
+	CmdResizeSheets *me = CMD_RESIZE_SHEETS (cmd);
+
+	go_undo_undo (me->undo);
+	g_object_unref (me->undo);
+	me->undo = NULL;
+
+	return FALSE;
+}
+
+static gboolean
+cmd_resize_sheets_redo (GnmCommand *cmd, WorkbookControl *wbc)
+{
+	CmdResizeSheets *me = CMD_RESIZE_SHEETS (cmd);
+	GSList *l;
+
+	for (l = me->sheets; l; l = l->next) {
+		Sheet *sheet = l->data;
+		GOUndo *u = gnm_sheet_resize (sheet, me->cols, me->rows);
+		me->undo = go_undo_combine (me->undo, u);
+	}
+
+	return FALSE;
+}
+
+static void
+cmd_resize_sheets_finalize (GObject *cmd)
+{
+	CmdResizeSheets *me = CMD_RESIZE_SHEETS (cmd);
+
+	g_slist_free (me->sheets);
+	if (me->undo) {
+		g_object_unref (me->undo);
+		me->undo = NULL;
+	}
+
+	gnm_command_finalize (cmd);
+}
+
+gboolean
+cmd_resize_sheets (WorkbookControl *wbc,
+		   GSList *sheets,
+		   int cols, int rows)
+{
+	CmdResizeSheets *me;
+
+	me = g_object_new (CMD_RESIZE_SHEETS_TYPE, NULL);
+	me->sheets = sheets;
+	me->cols = cols;
+	me->rows = rows;
+	me->cmd.sheet = sheets ? sheets->data : NULL;
+	me->cmd.size = 1;
+	me->cmd.cmd_descriptor = _("Resizing sheet");
+
+	if (sheets &&
+	    gnm_sheet_valid_size (cols, rows))
+		return command_push_undo (wbc, G_OBJECT (me));
+
+	/* No change.  */
+	g_object_unref (me);
+	return FALSE;
+}
+
+/******************************************************************/
+
 #define CMD_SET_COMMENT_TYPE        (cmd_set_comment_get_type ())
 #define CMD_SET_COMMENT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SET_COMMENT_TYPE, CmdSetComment))
 
