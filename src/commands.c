@@ -5583,7 +5583,8 @@ cmd_print_setup_redo (GnmCommand *cmd, WorkbookControl *wbc)
 				print_info_free (sheet->print_info);
 			sheet->print_info = print_info_dup (me->new_pi);
 		}
-		me->old_pi = g_slist_reverse (me->old_pi);
+		if (save_pis)
+			me->old_pi = g_slist_reverse (me->old_pi);
 	}
 	return FALSE;
 }

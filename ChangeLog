@@ -1,5 +1,8 @@
 2009-04-21  Morten Welinder  <terra@gnome.org>
 
+	* src/commands.c (cmd_print_setup_redo): Only reverse the list
+	right after it was created.
+
 	* src/print-info.c (print_info_free): Free here.
 	(print_info_load_defaults): Simply copy as text here.
 	(print_info_dup): Copy here.
