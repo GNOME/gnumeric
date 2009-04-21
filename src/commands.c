@@ -4626,6 +4626,7 @@ cmd_objects_move (WorkbookControl *wbc, GSList *objects, GSList *anchors,
 typedef struct {
 	GnmCommand cmd;
 	GObject	 *so, *style;
+	char *text;
 	gboolean  first_time;
 } CmdObjectFormat;
 
@@ -4639,10 +4640,18 @@ cmd_object_format_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 		me->first_time = FALSE;
 	else {
 		GObject *prev;
+		
 		g_object_get (me->so, "style",  &prev, NULL);
 		g_object_set (me->so, "style",  me->style, NULL);
 		g_object_unref (me->style);
 		me->style = prev;
+		if (me->text != NULL) {
+			char *old_text;
+			g_object_get (me->so, "text",  &old_text, NULL);
+			g_object_set (me->so, "text",  me->text, NULL);
+			g_free (me->text);
+			me->text = old_text;
+		}
 	}
 	sheet_mark_dirty (me->cmd.sheet);
 	return FALSE;
@@ -4660,6 +4669,8 @@ cmd_object_format_finalize (GObject *cmd)
 	CmdObjectFormat *me = CMD_OBJECT_FORMAT (cmd);
 	g_object_unref (me->style);
 	g_object_unref (me->so);
+	if (me->text)
+		g_free (me->text);
 	gnm_command_finalize (cmd);
 }
 
@@ -4667,7 +4678,7 @@ cmd_object_format_finalize (GObject *cmd)
  * instant apply. */
 gboolean
 cmd_object_format (WorkbookControl *wbc, SheetObject *so,
-		   gpointer orig_style)
+		   gpointer orig_style, char *orig_text)
 {
 	CmdObjectFormat *me;
 
@@ -4678,6 +4689,7 @@ cmd_object_format (WorkbookControl *wbc, SheetObject *so,
 
 	me->so    = g_object_ref (G_OBJECT (so));
 	me->style = g_object_ref (G_OBJECT (orig_style));
+	me->text = orig_text ? g_strdup (orig_text) : NULL;
 	me->first_time = TRUE;
 
 	me->cmd.sheet = sheet_object_get_sheet (so);

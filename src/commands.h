@@ -145,7 +145,7 @@ gboolean cmd_objects_move	(WorkbookControl *wbc,
 				 GSList *objects, GSList *anchors,
 				 gboolean objects_created, char const *name);
 gboolean cmd_object_format	(WorkbookControl *wbc, SheetObject *so,
-				 gpointer orig_style);
+				 gpointer orig_style, char *orig_text);
 
 gboolean cmd_reorganize_sheets  (WorkbookControl *wbc,
 				 WorkbookSheetState *old_state,

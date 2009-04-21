@@ -21,6 +21,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "dialogs.h"
 
@@ -38,6 +39,7 @@ typedef struct {
 	GObject			*so;
 	WBCGtk	*wbcg;
 	GOStyle		*orig_style;
+	char    *orig_text;
 } DialogSOStyled;
 
 #define GNM_SO_STYLED_KEY "gnm-so-styled-key"
@@ -48,6 +50,10 @@ dialog_so_styled_free (DialogSOStyled *pref)
 	if (pref->orig_style != NULL) {
 		g_object_set (G_OBJECT (pref->so), "style", pref->orig_style, NULL);
 		g_object_unref (pref->orig_style);
+	}
+	if (pref->orig_text) {
+		g_object_set (G_OBJECT (pref->so), "text", pref->orig_text, NULL);
+		g_free (pref->orig_text);
 	}
 	g_free (pref);
 }
@@ -60,20 +66,60 @@ cb_dialog_so_styled_response (GtkWidget *dialog,
 		return;
 	if (response_id == GTK_RESPONSE_OK) {
 		cmd_object_format (WORKBOOK_CONTROL (pref->wbcg),
-			SHEET_OBJECT (pref->so), pref->orig_style);
+				   SHEET_OBJECT (pref->so), pref->orig_style, 
+				   pref->orig_text);
 		g_object_unref (pref->orig_style);
 		pref->orig_style = NULL;
+		g_free (pref->orig_text);
+		pref->orig_text = NULL;
 	}
 	gtk_object_destroy (GTK_OBJECT (dialog));
+}
+
+static void
+cb_dialog_so_styled_text_widget_changed (GtkTextBuffer *buffer, DialogSOStyled *state)
+{
+	GtkTextIter start, end;
+	gchar *text;
+
+	gtk_text_buffer_get_start_iter (buffer, &start);
+	gtk_text_buffer_get_end_iter (buffer, &end);
+	text = gtk_text_buffer_get_slice (buffer, &start, &end, FALSE);
+	g_object_set (state->so, "text", text, NULL);
+	g_free (text);
+}
+
+static GtkWidget *
+dialog_so_styled_text_widget (DialogSOStyled *state)
+{
+	GtkWidget *tv = gtk_text_view_new ();
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
+	char *strval;
+
+	gtk_container_set_border_width (GTK_CONTAINER (tv), 5);
+	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (tv), GTK_WRAP_WORD_CHAR);
+
+	g_object_get (state->so, "text", &strval, NULL);
+	state->orig_text = g_strdup (strval);
+	gtk_text_buffer_set_text (buffer, strval, -1);
+	g_free (strval);
+
+	g_signal_connect (G_OBJECT (buffer), "changed",
+			  G_CALLBACK (cb_dialog_so_styled_text_widget_changed), state);
+
+	return tv;
 }
 
 void
 dialog_so_styled (WBCGtk *wbcg,
 		  GObject *so, GOStyle *orig, GOStyle *default_style,
-		  char const *title)
+		  gboolean showtext)
 {
 	DialogSOStyled *state;
-	GtkWidget	*dialog, *help;
+	GtkWidget	*dialog, *help, *editor;
+	char const *title = showtext ? 
+		_("Label Properties") :
+		_("Filled Object Properties");
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, GNM_SO_STYLED_KEY))
@@ -83,6 +129,7 @@ dialog_so_styled (WBCGtk *wbcg,
 	state->so    = G_OBJECT (so);
 	state->wbcg  = wbcg;
 	state->orig_style = go_style_dup (orig);
+	state->orig_text = NULL;
 	dialog = gtk_dialog_new_with_buttons (title,
 		wbcg_toplevel (state->wbcg),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -97,11 +144,25 @@ dialog_so_styled (WBCGtk *wbcg,
 		GTK_STOCK_OK,		GTK_RESPONSE_OK,
 		NULL);
 
+	editor = go_style_get_editor (orig, default_style,
+				      GO_CMD_CONTEXT (wbcg), G_OBJECT (so));
+
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-		go_style_get_editor (orig, default_style,
-			GO_CMD_CONTEXT (wbcg), G_OBJECT (so)),
-		TRUE, TRUE, TRUE);
+		editor, TRUE, TRUE, TRUE);
 	g_object_unref (default_style);
+
+	if (showtext) {
+		GtkWidget *text_w = dialog_so_styled_text_widget (state);
+		gtk_widget_show (text_w);
+		if (GTK_IS_NOTEBOOK (editor))
+			gtk_notebook_append_page (GTK_NOTEBOOK (editor),
+						  text_w,
+						  gtk_label_new (_("Content")));
+		else
+			gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
+					    text_w, TRUE, TRUE, TRUE);	
+	}
+
 	g_signal_connect (G_OBJECT (dialog), "response",
 		G_CALLBACK (cb_dialog_so_styled_response), state);
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (dialog),

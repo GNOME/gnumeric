@@ -1,3 +1,12 @@
+2009-04-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.h (cmd_object_format): add argument
+	* src/commands.c (cmd_object_format): handle modified text string
+	(cmd_object_format_redo): ditto
+	(cmd_object_format_finalize): ditto
+	* src/gnm-so-filled.c (gnm_so_filled_user_config): just pass an indicator
+	  rather than a string.
+
 2009-04-20  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk-actions.c (wbc_gtk_init_actions): Disable solver

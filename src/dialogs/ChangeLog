@@ -1,3 +1,13 @@
+2009-04-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialogs.h (dialog_so_styled): change arguments
+	* dialog-so-styled.c (DialogSOStyled): add text field
+	(dialog_so_styled_free): free text field
+	(cb_dialog_so_styled_response): pass text if ppropriate
+	(cb_dialog_so_styled_text_widget_changed): handle changes to text
+	(dialog_so_styled_text_widget): set up text widget
+	(dialog_so_styled): handle text
+
 2009-04-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-so-list.c (cb_so_list_response): handle ok response

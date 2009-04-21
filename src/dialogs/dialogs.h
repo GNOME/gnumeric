@@ -108,7 +108,7 @@ void    dialog_recent_used (WBCGtk *wbcg);
 void	dialog_new_view (WBCGtk *wbcg);
 void	dialog_so_styled (WBCGtk *wbcg, GObject *so,
 			  GOStyle *orig, GOStyle *default_style,
-			  char const *title);
+			  gboolean showtext);
 void	dialog_so_list	 (WBCGtk *wbcg, GObject *so);
 
 void	dialog_doc_metadata_new  (WBCGtk *wbcg);
