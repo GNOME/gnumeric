@@ -476,7 +476,7 @@ static void
 html_file_save (GOFileSaver const *fs, IOContext *io_context,
 		WorkbookView const *wb_view, GsfOutput *output, html_version_t version)
 {
-	GList *sheets, *ptr;
+	GSList *sheets, *ptr;
 	Workbook *wb = wb_view_get_workbook (wb_view);
 	FileSaveScope save_scope;
 
@@ -562,7 +562,7 @@ html_file_save (GOFileSaver const *fs, IOContext *io_context,
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		write_sheet (output, (Sheet *) ptr->data, version, save_scope);
 	}
-	g_list_free (sheets);
+	g_slist_free (sheets);
 	if (version == HTML32 || version == HTML40 || version == XHTML)
 		gsf_output_puts (output, "</body>\n</html>\n");
 }

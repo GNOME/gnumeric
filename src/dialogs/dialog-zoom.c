@@ -156,7 +156,7 @@ void
 dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 {
 	ZoomState *state;
-	GList *l, *sheets;
+	GSList *l, *sheets;
 	int i, row, cur_row;
 	gboolean is_custom = TRUE;
 	GtkRadioButton *radio;
@@ -212,7 +212,7 @@ dialog_zoom (WBCGtk *wbcg, Sheet *sheet)
 			cur_row = row;
 		row++;
 	}
-	g_list_free (sheets);
+	g_slist_free (sheets);
 
 	{
 		GtkTreePath *path = gtk_tree_path_new_from_indices (cur_row, -1);

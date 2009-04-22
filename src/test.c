@@ -112,7 +112,7 @@ thrash_insert (Sheet *sheet)
 void
 workbook_style_test (Workbook *wb)
 {
-	GList *sheets;
+	GSList *sheets;
 
 	g_return_if_fail (wb != NULL);
 
@@ -134,7 +134,7 @@ workbook_style_test (Workbook *wb)
 		thrash_insert (sheet);
 		dump_stats ("Insert");
 
-		sheets = g_list_remove (sheets, sheet);
+		sheets = g_slist_remove (sheets, sheet);
 		sheet_flag_recompute_spans (sheet);
 	}
 	workbook_recalc (wb);

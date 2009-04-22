@@ -107,7 +107,7 @@ cb_destroy (ResizeState *state)
 static void
 cb_ok_clicked (ResizeState *state)
 {
-	GList *sheets, *l;
+	GSList *sheets, *l;
 	GSList *changed_sheets = NULL;
 	WorkbookControl *wbc;
 	Workbook *wb;
@@ -133,7 +133,7 @@ cb_ok_clicked (ResizeState *state)
 
 		changed_sheets = g_slist_prepend (changed_sheets, this_sheet);
 	}
-	g_list_free (sheets);
+	g_slist_free (sheets);
 
 	if (changed_sheets)
 		cmd_resize_sheets (wbc, g_slist_reverse (changed_sheets),

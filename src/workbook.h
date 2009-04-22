@@ -17,7 +17,7 @@ Workbook   *workbook_new                 (void);
 Workbook   *workbook_new_with_sheets     (int sheet_count);
 
 /* Sheet support routines */
-GList      *workbook_sheets              (Workbook const *wb);
+GSList     *workbook_sheets              (Workbook const *wb);
 int         workbook_sheet_count         (Workbook const *wb);
 Sheet      *workbook_sheet_by_index	 (Workbook const *wb, int i);
 Sheet      *workbook_sheet_by_name       (Workbook const *wb, char const *sheet_name);

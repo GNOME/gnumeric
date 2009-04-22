@@ -85,7 +85,7 @@ static void
 workbook_dispose (GObject *wb_object)
 {
 	Workbook *wb = WORKBOOK (wb_object);
-	GList *sheets, *ptr;
+	GSList *sheets, *ptr;
 
 	wb->during_destruction = TRUE;
 
@@ -118,7 +118,7 @@ workbook_dispose (GObject *wb_object)
 		Sheet *sheet = ptr->data;
 		workbook_sheet_delete (sheet);
 	}
-	g_list_free (sheets);
+	g_slist_free (sheets);
 
 	/* TODO : This should be earlier when we figure out how to deal with
 	 * the issue raised by 'pristine'.
@@ -637,17 +637,17 @@ workbook_detach_view (WorkbookView *wbv)
  * workbook_sheets : Get an ordered list of the sheets in the workbook
  *                   The caller is required to free the list.
  */
-GList *
+GSList *
 workbook_sheets (Workbook const *wb)
 {
-	GList *list = NULL;
+	GSList *list = NULL;
 
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
 
 	if (wb->sheets) {
 		int i = wb->sheets->len;
 		while (i-- > 0)
-			list = g_list_prepend (list,
+			list = g_slist_prepend (list,
 				g_ptr_array_index (wb->sheets, i));
 	}
 

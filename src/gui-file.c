@@ -357,18 +357,15 @@ check_multiple_sheet_support_if_needed (GOFileSaver *fs,
 
 	if (go_file_saver_get_save_scope (fs) != FILE_SAVE_WORKBOOK &&
 	    gnm_app_prefs->file_ask_single_sheet_save) {
-		GList *sheets;
+		Workbook *wb = wb_view_get_workbook (wb_view);
 		gchar *msg = _("Selected file format doesn't support "
 			       "saving multiple sheets in one file.\n"
 			       "If you want to save all sheets, save them "
 			       "in separate files or select different file format.\n"
 			       "Do you want to save only current sheet?");
-
-		sheets = workbook_sheets (wb_view_get_workbook (wb_view));
-		if (g_list_length (sheets) > 1) {
+		if (workbook_sheet_count (wb) > 1) {
 			ret_val = go_gtk_query_yes_no (parent, TRUE, msg);
 		}
-		g_list_free (sheets);
 	}
 	return (ret_val);
 }

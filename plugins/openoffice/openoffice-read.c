@@ -3057,7 +3057,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 			}
 		}
 		{
-			GList *l;
+			GSList *l;
 			g_printerr ("Order we have:\n");
 			for (l = workbook_sheets (state.pos.wb); l; l = l->next) {
 				Sheet *sheet = l->data;

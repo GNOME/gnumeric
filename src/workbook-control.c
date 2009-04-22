@@ -418,7 +418,7 @@ wb_control_set_view (WorkbookControl *wbc,
 void
 wb_control_init_state (WorkbookControl *wbc)
 {
-	GList *sheets, *ptr;
+	GSList *sheets, *ptr;
 	Sheet *sheet;
 	WorkbookView *wbv;
 	WorkbookControlClass *wbc_class;
@@ -438,7 +438,7 @@ wb_control_init_state (WorkbookControl *wbc)
 				wb_control_sheet_add (wbc, view);
 		});
 	}
-	g_list_free (sheets);
+	g_slist_free (sheets);
 
 	wbc_class = WBC_CLASS (wbc);
 	if (wbc_class != NULL && wbc_class->init_state != NULL)

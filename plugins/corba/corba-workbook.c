@@ -133,7 +133,7 @@ cworkbook_sheets (PortableServer_Servant servant,
 		  CORBA_Environment *ev)
 {
         WorkbookControlCORBA *wbcc = wbcc_from_servant (servant);
-	GList *sheets =
+	GSList *sheets =
 		workbook_sheets (wb_control_get_workbook (WORKBOOK_CONTROL (wbcc)));
 	int i, len = g_list_length (sheets);
 	GNOME_Gnumeric_Workbooks *res = GNOME_Gnumeric_Sheets__alloc ();
@@ -146,7 +146,7 @@ cworkbook_sheets (PortableServer_Servant servant,
 		res->_buffer [i] = CORBA_OBJECT_NIL;
 	}
 
-	g_list_free (sheets);
+	g_slist_free (sheets);
 
 	return res;
 }

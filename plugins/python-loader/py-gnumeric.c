@@ -1681,7 +1681,7 @@ py_Workbook_as_Workbook (py_Workbook_object *self)
 static PyObject *
 py_Workbook_sheets (py_Workbook_object *self, PyObject *args)
 {
-	GList *sheets, *l;
+	GSList *sheets, *l;
 	gint i;
 	PyObject *py_sheets;
 
@@ -1690,7 +1690,7 @@ py_Workbook_sheets (py_Workbook_object *self, PyObject *args)
 	}
 
 	sheets = workbook_sheets (self->wb);
-	py_sheets = PyTuple_New (g_list_length (sheets));
+	py_sheets = PyTuple_New (g_slist_length (sheets));
 	if (py_sheets == NULL) {
 		return NULL;
 	}
@@ -1701,7 +1701,7 @@ py_Workbook_sheets (py_Workbook_object *self, PyObject *args)
 		g_assert (py_sheet);
 		(void) PyTuple_SetItem (py_sheets, i, py_sheet);
 	}
-	g_list_free (sheets);
+	g_slist_free (sheets);
 
 	return py_sheets;
 }

@@ -87,7 +87,7 @@ void
 roff_file_save (GOFileSaver const *fs, IOContext *io_context,
                 WorkbookView const *wb_view, GsfOutput *output)
 {
-	GList *sheets, *ptr;
+	GSList *sheets, *ptr;
 	GnmCell *cell;
 	int row, col, fontsize, v_size;
 	Workbook *wb = wb_view_get_workbook (wb_view);
@@ -190,5 +190,5 @@ roff_file_save (GOFileSaver const *fs, IOContext *io_context,
 		}
 		gsf_output_printf (output, ".TE\n\n");
 	}
-	g_list_free (sheets);
+	g_slist_free (sheets);
 }

@@ -268,7 +268,7 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 {
 	WorkbookView *wb_view = NULL;
 	Workbook *wb = NULL;
-	GList *l = NULL;
+	GSList *l = NULL;
 	GnmCellRegion *ret = NULL;
 	const GOFileOpener *reader = go_file_opener_for_id (reader_id);
 	IOContext *ioc;
@@ -300,7 +300,7 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 		ret = clipboard_copy_range (tmpsheet, &r);
 	}
 out:
-	g_list_free (l);
+	g_slist_free (l);
 	if (wb_view)
 		g_object_unref (wb_view);
 	if (wb)
