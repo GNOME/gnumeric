@@ -22,6 +22,24 @@
 
 2009-04-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/commands.h (cmd_object_format): add argument
+	* src/commands.c (cmd_object_format): handle attributes
+	(cmd_object_format_redo): ditto
+	(cmd_object_format_finalize): ditto
+	* src/gnm-so-filled.c (cb_gnm_so_filled_changed): also set
+	  attributes
+	* src/gui-util.h (gnumeric_textbuffer_get_text): new
+	(gnm_load_pango_attributes_into_buffer): new
+	(gnm_get_pango_attributes_from_buffer): new
+	* src/gui-util.c (gnumeric_textbuffer_get_text): new
+	(gnm_load_pango_attributes_into_buffer): new
+	(gnm_get_pango_attributes_from_buffer): new
+	(gnumeric_textview_get_text): use gnumeric_textbuffer_get_text
+	(gnm_load_pango_attributes_into_buffer_filter): new
+	(gnm_store_text_tag_attr_in_pango): new
+
+2009-04-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/gnm-so-filled.c (gnm_so_filled_user_config): adjust for 
 	  changed arguments of dialog_so_styled
 	* src/gnm-so-line.c (gnm_so_line_user_config): ditto

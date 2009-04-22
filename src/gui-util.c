@@ -28,6 +28,7 @@
 #include <goffice/app/error-info.h>
 #include <goffice/gtk/go-combo-color.h>
 #include <goffice/gtk/goffice-gtk.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <atk/atkrelation.h>
@@ -634,16 +635,23 @@ gnumeric_init_help_button (GtkWidget *w, char const *link)
 }
 
 char *
-gnumeric_textview_get_text (GtkTextView *text_view)
+gnumeric_textbuffer_get_text (GtkTextBuffer *buf)
 {
 	GtkTextIter    start, end;
-	GtkTextBuffer *buf = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
 
 	g_return_val_if_fail (buf != NULL, NULL);
 
 	gtk_text_buffer_get_start_iter (buf, &start);
 	gtk_text_buffer_get_end_iter (buf, &end);
-	return gtk_text_buffer_get_text (buf, &start, &end, FALSE);
+	/* We are using slice rather than text so that the tags still match */
+	return gtk_text_buffer_get_slice (buf, &start, &end, FALSE);
+}
+
+char *
+gnumeric_textview_get_text (GtkTextView *text_view)
+{
+	return gnumeric_textbuffer_get_text 
+		(gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view)));
 }
 
 void
@@ -652,6 +660,114 @@ gnumeric_textview_set_text (GtkTextView *text_view, char const *txt)
 	gtk_text_buffer_set_text (
 		gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view)),
 		txt, -1);
+}
+
+static gboolean
+gnm_load_pango_attributes_into_buffer_filter (PangoAttribute *attribute, 
+					  G_GNUC_UNUSED gpointer data)
+{
+	return (PANGO_ATTR_FOREGROUND == attribute->klass->type);
+}
+
+void 
+gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *buffer) 
+{
+	PangoAttrIterator * iter;
+	PangoAttrList  *copied_markup;
+	PangoAttrList  *our_markup;
+
+	if (markup == NULL)
+		return; 
+	copied_markup = pango_attr_list_copy (markup);
+	our_markup = pango_attr_list_filter (copied_markup, 
+					     gnm_load_pango_attributes_into_buffer_filter, 
+					     NULL);
+	pango_attr_list_unref (copied_markup);
+	if (our_markup == NULL)
+		return; 
+
+	iter = pango_attr_list_get_iterator (our_markup);
+
+	do {
+		GSList *attr = pango_attr_iterator_get_attrs (iter);
+		if (attr != NULL) {
+			char *string;
+			GSList *ptr;
+			gint start, end;
+			GtkTextIter start_iter, end_iter;
+			GtkTextTag *tag = gtk_text_buffer_create_tag (buffer, NULL, NULL);
+			for (ptr = attr; ptr != NULL; ptr = ptr->next) {
+				PangoAttribute *attribute = ptr->data;
+				switch (attribute->klass->type) {
+				case PANGO_ATTR_FOREGROUND:
+					string = pango_color_to_string 
+						(&((PangoAttrColor *)attribute)->color);
+					g_object_set (G_OBJECT (tag), 
+						      "foreground", string,
+						      "foreground-set", TRUE,
+						      NULL);
+					g_free (string);
+					break;
+				default:
+					break;
+				}
+			}
+			pango_attr_iterator_range (iter, &start, &end);
+			gtk_text_buffer_get_iter_at_offset (buffer, &start_iter, start);
+			gtk_text_buffer_get_iter_at_offset (buffer, &end_iter, end);
+			gtk_text_buffer_apply_tag (buffer, tag, &start_iter, &end_iter);
+			go_slist_free_custom (attr, (GFreeFunc)pango_attribute_destroy);
+		}
+	} while (pango_attr_iterator_next (iter));
+	pango_attr_iterator_destroy (iter);
+	pango_attr_list_unref (our_markup);
+}
+
+static void
+gnm_store_text_tag_attr_in_pango (PangoAttrList *list, GtkTextTag *tag, GtkTextIter *start, gchar const *text)
+{
+	GtkTextIter end = *start;
+	gint x, y;
+	gboolean is_set;
+	PangoAttribute * attr;
+
+	gtk_text_iter_forward_to_tag_toggle (&end, tag);
+	x = g_utf8_offset_to_pointer (text, gtk_text_iter_get_offset (start)) - text;
+	y = g_utf8_offset_to_pointer (text, gtk_text_iter_get_offset (&end)) - text;
+
+	g_object_get (G_OBJECT (tag), "foreground-set", &is_set, NULL);
+	if (is_set) {
+		GdkColor* color;
+		g_object_get (G_OBJECT (tag), "foreground-gdk", &color, NULL);
+		attr =  pango_attr_foreground_new (color->red, color->green, color->blue);
+		attr->start_index = x;
+		attr->end_index = y;
+		pango_attr_list_change (list, attr);
+		gdk_color_free (color);
+	}
+}
+
+PangoAttrList *
+gnm_get_pango_attributes_from_buffer (GtkTextBuffer *buffer)
+{
+	PangoAttrList *list = pango_attr_list_new ();
+	GtkTextIter start;
+	gchar *text = gnumeric_textbuffer_get_text (buffer);
+
+	gtk_text_buffer_get_start_iter (buffer, &start); 
+	
+	while (!gtk_text_iter_is_end (&start)) {
+		if (gtk_text_iter_begins_tag (&start, NULL)) {
+			GSList *ptr, *l = gtk_text_iter_get_toggled_tags (&start, TRUE);
+			for (ptr = l; ptr; ptr = ptr->next)
+				gnm_store_text_tag_attr_in_pango (list, ptr->data, &start, text);
+		}
+		gtk_text_iter_forward_to_tag_toggle (&start, NULL);
+	}
+
+	g_free (text);
+
+	return list;
 }
 
 void

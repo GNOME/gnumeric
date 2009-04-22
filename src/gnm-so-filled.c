@@ -220,8 +220,9 @@ cb_gnm_so_filled_changed (GnmSOFilled const *sof,
 				"attributes",	sof->markup,
 				NULL);
 		foo_canvas_item_set (FOO_CANVAS_ITEM (group->item_list->next->data),
-			"text", sof->text,
-			NULL);
+				     "text", sof->text,
+				     "attributes",	sof->markup,
+				     NULL);
 	} else if (group->item_list->next != NULL)
 		g_object_unref (group->item_list->next->data);
 }

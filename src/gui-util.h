@@ -70,8 +70,12 @@ GnmColor *go_combo_color_get_style_color (GtkWidget *color_combo);
 
 void gnumeric_init_help_button	(GtkWidget *w, char const *link);
 
+char *gnumeric_textbuffer_get_text (GtkTextBuffer *buf);
 char *gnumeric_textview_get_text (GtkTextView *text_view);
 void  gnumeric_textview_set_text (GtkTextView *text_view, char const *txt);
+void  gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, 
+					     GtkTextBuffer *buffer);
+PangoAttrList *gnm_get_pango_attributes_from_buffer (GtkTextBuffer *buffer);
 
 void focus_on_entry (GtkEntry *entry);
 

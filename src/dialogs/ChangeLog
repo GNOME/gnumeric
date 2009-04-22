@@ -1,5 +1,13 @@
 2009-04-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-so-styled.c (DialogSOStyled): include original attributes
+	(dialog_so_styled_free): free attributes
+	(cb_dialog_so_styled_response): adjust arguments of cmd_object_format
+	(cb_dialog_so_styled_text_widget_changed): handle attributes
+	(dialog_so_styled_text_widget): ditto
+
+2009-04-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialogs.h (dialog_so_styled): pass both the title and information
 	  on the extent of the properties dialog
 	* dialog-so-styled.c (dialog_so_styled): use the passsed title

@@ -40,6 +40,7 @@ typedef struct {
 	WBCGtk	*wbcg;
 	GOStyle		*orig_style;
 	char    *orig_text;
+	PangoAttrList *orig_attributes;
 } DialogSOStyled;
 
 #define GNM_SO_STYLED_KEY "gnm-so-styled-key"
@@ -55,6 +56,10 @@ dialog_so_styled_free (DialogSOStyled *pref)
 		g_object_set (G_OBJECT (pref->so), "text", pref->orig_text, NULL);
 		g_free (pref->orig_text);
 	}
+	if (pref->orig_attributes != NULL) {
+		g_object_set (G_OBJECT (pref->so), "markup", pref->orig_attributes, NULL);
+		pango_attr_list_unref (pref->orig_attributes);
+	}
 	g_free (pref);
 }
 
@@ -67,11 +72,13 @@ cb_dialog_so_styled_response (GtkWidget *dialog,
 	if (response_id == GTK_RESPONSE_OK) {
 		cmd_object_format (WORKBOOK_CONTROL (pref->wbcg),
 				   SHEET_OBJECT (pref->so), pref->orig_style, 
-				   pref->orig_text);
+				   pref->orig_text, pref->orig_attributes);
 		g_object_unref (pref->orig_style);
 		pref->orig_style = NULL;
 		g_free (pref->orig_text);
 		pref->orig_text = NULL;
+		pango_attr_list_unref (pref->orig_attributes);
+		pref->orig_attributes = NULL;
 	}
 	gtk_object_destroy (GTK_OBJECT (dialog));
 }
@@ -79,14 +86,14 @@ cb_dialog_so_styled_response (GtkWidget *dialog,
 static void
 cb_dialog_so_styled_text_widget_changed (GtkTextBuffer *buffer, DialogSOStyled *state)
 {
-	GtkTextIter start, end;
-	gchar *text;
+	gchar *text = gnumeric_textbuffer_get_text (buffer);
+	PangoAttrList *attr = gnm_get_pango_attributes_from_buffer (buffer);
 
-	gtk_text_buffer_get_start_iter (buffer, &start);
-	gtk_text_buffer_get_end_iter (buffer, &end);
-	text = gtk_text_buffer_get_slice (buffer, &start, &end, FALSE);
 	g_object_set (state->so, "text", text, NULL);
 	g_free (text);
+	
+	g_object_set (state->so, "markup", attr, NULL);
+	pango_attr_list_unref (attr);
 }
 
 static GtkWidget *
@@ -95,6 +102,7 @@ dialog_so_styled_text_widget (DialogSOStyled *state)
 	GtkWidget *tv = gtk_text_view_new ();
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
 	char *strval;
+	PangoAttrList  *markup;
 
 	gtk_container_set_border_width (GTK_CONTAINER (tv), 5);
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (tv), GTK_WRAP_WORD_CHAR);
@@ -103,6 +111,11 @@ dialog_so_styled_text_widget (DialogSOStyled *state)
 	state->orig_text = g_strdup (strval);
 	gtk_text_buffer_set_text (buffer, strval, -1);
 	g_free (strval);
+
+	g_object_get (state->so, "markup", &markup, NULL);
+	state->orig_attributes = markup;
+	pango_attr_list_ref (state->orig_attributes);
+	gnm_load_pango_attributes_into_buffer (markup, buffer);
 
 	g_signal_connect (G_OBJECT (buffer), "changed",
 			  G_CALLBACK (cb_dialog_so_styled_text_widget_changed), state);
