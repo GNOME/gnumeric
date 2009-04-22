@@ -41,8 +41,7 @@ GNOME_Gnumeric.server
 .intltool-cache*
 xmldocs.make
 omf.make
-libspreadsheet.pc
-libspreadsheet-1.10.pc
+libspreadsheet*.pc
 .dotest
 *.gnumeric
 *.ods
