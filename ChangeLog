@@ -7,6 +7,8 @@
 
 2009-04-22  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (gnm_sheet_resize_main): Undo to the right size.
+
 	* src/wbc-gtk.c (wbcg_get_scg): Fix warning on exit.
 
 	* src/workbook.c (workbook_sheets): Change result type to GSList*.

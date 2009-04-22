@@ -1180,8 +1180,8 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 			g_new (struct cb_sheet_resize, 1);
 		GOUndo *u;
 
-		data->cols = cols;
-		data->rows = rows;
+		data->cols = old_cols;
+		data->rows = old_rows;
 		u = go_undo_binary_new (sheet, data,
 					(GOUndoBinaryFunc)cb_sheet_resize,
 					NULL, g_free);
