@@ -1119,9 +1119,10 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 
 		err = sheet_delete_cols (sheet, cols, old_cols - cols,
 					 pundo ? &u : NULL, cc);
-		/* FIXME: handle err */
 		if (pundo)
 			*pundo = go_undo_combine (*pundo, u);
+		if (err)
+			goto handle_error;
 	}
 
 	if (rows < old_rows) {
@@ -1130,9 +1131,10 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 
 		err = sheet_delete_rows (sheet, rows, old_rows - rows,
 					 pundo ? &u : NULL, cc);
-		/* FIXME: handle err */
 		if (pundo)
 			*pundo = go_undo_combine (*pundo, u);
+		if (err)
+			goto handle_error;
 	}
 
 	/* ---------------------------------------- */
@@ -1187,17 +1189,29 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 	}
 
 	sheet_redraw_all (sheet, TRUE);
+	return;
+
+ handle_error:
+	if (pundo) {
+		go_undo_undo_with_data (*pundo, cc);
+		g_object_unref (*pundo);
+		*pundo = NULL;
+	}	
 }
 
 GOUndo *
 gnm_sheet_resize (Sheet *sheet, int cols, int rows, GOCmdContext *cc)
 {
+	static gboolean warned = FALSE;
 	GOUndo *undo = NULL;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (gnm_sheet_valid_size (cols, rows), NULL);
 
-	g_warning ("Changing sheet size is experimental.");
+	if (!warned) {
+		g_warning ("Changing sheet size is experimental.");
+		warned = TRUE;
+	}
 	gnm_sheet_resize_main (sheet, cols, rows, cc, &undo);
 
 	return undo;

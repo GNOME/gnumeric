@@ -2,6 +2,8 @@
 
 	* src/sheet.c (gnm_sheet_resize_main): Change container size too.
 	Unlink, re-link, and recalculate all dependencies.
+	(gnm_sheet_resize_main): Handle errors from attempted splitting of
+	arrays, etc.
 
 2009-04-21  Morten Welinder  <terra@gnome.org>
 
