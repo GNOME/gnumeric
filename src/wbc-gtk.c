@@ -175,6 +175,15 @@ wbcg_get_scg (WBCGtk *wbcg, Sheet *sheet)
 	if (sheet == NULL || wbcg->snotebook == NULL)
 		return NULL;
 
+	npages = wbcg_get_n_scg (wbcg);
+	if (npages == 0) {
+		/*
+		 * This can happen during construction when the clipboard is
+		 * being cleared.  Ctrl-C Ctrl-Q.
+		 */
+		return NULL;
+	}
+
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (sheet->index_in_wb >= 0, NULL);
 
@@ -186,7 +195,6 @@ wbcg_get_scg (WBCGtk *wbcg, Sheet *sheet)
 	 * index_in_wb is probably not accurate because we are in the
 	 * middle of removing or adding a sheet.
 	 */
-	npages = wbcg_get_n_scg (wbcg);
 	for (i = 0; i < npages; i++) {
 		scg = wbcg_get_nth_scg (wbcg, i);
 		if (NULL != scg && scg_sheet (scg) == sheet)

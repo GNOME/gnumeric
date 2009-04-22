@@ -1,5 +1,7 @@
 2009-04-22  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (wbcg_get_scg): Fix warning on exit.
+
 	* src/workbook.c (workbook_sheets): Change result type to GSList*.
 	All callers changed.
 
