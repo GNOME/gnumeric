@@ -271,17 +271,12 @@ ms_container_read_markup (MSContainer const *c,
 	txo_run.accum = pango_attr_list_new ();
 	for (txo_len -= 16 ; (gssize)txo_len >= 0 ; txo_len -= 8) {
 		guint16 o = GSF_LE_GET_GUINT16 (data + txo_len);
-		guint16 l = GSF_LE_GET_GUINT16 (data + txo_len + 2);
-#if 0
-		if (o + l > str_len)
-			g_printerr ("%d %d %d [%s]\n",o, l, str_len, str);
-#endif
-		XL_CHECK_CONDITION_VAL (o + l <= str_len, txo_run.accum);
+		guint16 idx = GSF_LE_GET_GUINT16 (data + txo_len + 2);
 
 		txo_run.first = g_utf8_offset_to_pointer (str, o) - str;
 		XL_CHECK_CONDITION_VAL (txo_run.first < txo_run.last, txo_run.accum);
 
-		pango_attr_list_filter (ms_container_get_markup (c, l),
+		pango_attr_list_filter (ms_container_get_markup (c, idx),
 					(PangoAttrFilterFunc) append_txorun,
 					&txo_run);
 		txo_run.last = txo_run.first;
