@@ -136,7 +136,8 @@ cb_ok_clicked (ResizeState *state)
 	g_list_free (sheets);
 
 	if (changed_sheets)
-		cmd_resize_sheets (wbc, changed_sheets, cols, rows);
+		cmd_resize_sheets (wbc, g_slist_reverse (changed_sheets),
+				   cols, rows);
 
 	gtk_widget_destroy (state->dialog);
 }

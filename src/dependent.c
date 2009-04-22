@@ -2574,7 +2574,7 @@ dependents_revive_sheet (Sheet *sheet)
 void
 workbook_queue_all_recalc (Workbook *wb)
 {
-	/* FIXME: what about dependents in other workbooks */
+	/* FIXME: what about dependents in other workbooks?  */
 	WORKBOOK_FOREACH_DEPENDENT (wb, dep, dependent_flag_recalc (dep););
 }
 
@@ -2684,6 +2684,29 @@ gnm_dep_container_new (Sheet *sheet)
 		NULL, (GDestroyNotify) dynamic_dep_free);
 
 	return deps;
+}
+
+void
+gnm_dep_container_resize (GnmDepContainer *deps, int rows)
+{
+	int i, buckets = 1 + BUCKET_OF_ROW (rows - 1);
+
+	for (i = buckets; i < deps->buckets; i++) {
+		GHashTable *hash = deps->range_hash[i];
+		if (hash != NULL) {
+			g_printerr ("Hash table size: %d\n",
+				    g_hash_table_size (hash));
+			g_hash_table_destroy (hash);
+			deps->range_hash[i] = NULL;
+		}
+	}
+
+	deps->range_hash = g_renew (GHashTable *, deps->range_hash, buckets);
+
+	for (i = deps->buckets; i < buckets; i++)
+		deps->range_hash[i] = NULL;
+
+	deps->buckets = buckets;
 }
 
 /****************************************************************************

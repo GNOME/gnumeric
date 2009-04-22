@@ -111,6 +111,7 @@ GnmDepContainer *gnm_dep_container_new  (Sheet *sheet);
 void		 gnm_dep_container_dump	(GnmDepContainer const *deps,
 					 Sheet *sheet);
 void             gnm_dep_container_sanity_check (GnmDepContainer const *deps);
+void             gnm_dep_container_resize (GnmDepContainer *deps, int rows);
 
 #define DEPENDENT_CONTAINER_FOREACH_DEPENDENT(dc, dep, code)	\
   do {								\

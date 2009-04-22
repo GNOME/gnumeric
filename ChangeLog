@@ -1,3 +1,8 @@
+2009-04-22  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (gnm_sheet_resize_main): Change container size too.
+	Unlink, re-link, and recalculate all dependencies.
+
 2009-04-21  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (gnm_dep_container_new): Calculate the number of

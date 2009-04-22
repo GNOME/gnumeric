@@ -1123,7 +1123,6 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 		if (pundo)
 			*pundo = go_undo_combine (*pundo, u);
 	}
-	colrow_resize (&sheet->cols, cols);
 
 	if (rows < old_rows) {
 		GOUndo *u = NULL;
@@ -1135,7 +1134,34 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 		if (pundo)
 			*pundo = go_undo_combine (*pundo, u);
 	}
+
+	/* ---------------------------------------- */
+
+	colrow_resize (&sheet->cols, cols);
 	colrow_resize (&sheet->rows, rows);
+
+	{
+		GSList *l, *linked = NULL;
+		/* FIXME: what about dependents in other workbooks?  */
+		WORKBOOK_FOREACH_DEPENDENT
+			(sheet->workbook, dep,
+			 
+			 if (dependent_is_linked (dep)) {
+				 dependent_unlink (dep);
+				 linked = g_slist_prepend (linked, dep);
+			 });
+
+		gnm_dep_container_resize (sheet->deps, rows);
+
+		for (l = linked; l; l = l->next) {
+			GnmDependent *dep = l->data;
+			dependent_link (dep);
+		}
+
+		g_slist_free (linked);
+
+		workbook_queue_all_recalc (sheet->workbook);
+	}
 
 	/* ---------------------------------------- */
 	/* Actually change the properties.  */
