@@ -8,6 +8,8 @@ Andreas:
 	* Quieten GTK warning [#579152]
 	* Print text in sheet object label [#144787]
 	* Implement editing of a sheet object label
+	* Include an "italic" button in the properties dialog for sheet
+	  object labels
 
 Jean:
 	* Variable sheet sizes.

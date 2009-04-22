@@ -1,3 +1,10 @@
+2009-04-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gui-util.c (gnm_load_pango_attributes_into_buffer):
+	  we need to create some labelled tags for off/on styles
+	(gnm_load_pango_attributes_into_buffer_named_filter): new
+	(gnm_store_text_tag_attr_in_pango): handle style attribute
+
 2009-04-22  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbcg_get_scg): Fix warning on exit.

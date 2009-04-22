@@ -668,6 +668,12 @@ gnm_load_pango_attributes_into_buffer_filter (PangoAttribute *attribute,
 {
 	return (PANGO_ATTR_FOREGROUND == attribute->klass->type);
 }
+static gboolean
+gnm_load_pango_attributes_into_buffer_named_filter (PangoAttribute *attribute, 
+						    G_GNUC_UNUSED gpointer data)
+{
+	return (PANGO_ATTR_STYLE == attribute->klass->type);
+}
 
 void 
 gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *buffer) 
@@ -678,49 +684,120 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 
 	if (markup == NULL)
 		return; 
+
+/* For some styles we create named tags. The names are taken from the Pango enums */
+
+	copied_markup = pango_attr_list_copy (markup);
+	our_markup = pango_attr_list_filter (copied_markup, 
+					     gnm_load_pango_attributes_into_buffer_named_filter, 
+					     NULL);
+	pango_attr_list_unref (copied_markup);
+	if (our_markup != NULL) {
+		iter = pango_attr_list_get_iterator (our_markup);
+		
+		do {
+			GSList *attr = pango_attr_iterator_get_attrs (iter);
+			if (attr != NULL) {
+				GSList *ptr;
+				gint start, end;
+				GtkTextIter start_iter, end_iter;
+
+				pango_attr_iterator_range (iter, &start, &end);
+				gtk_text_buffer_get_iter_at_offset (buffer, &start_iter, start);
+				gtk_text_buffer_get_iter_at_offset (buffer, &end_iter, end);
+
+				for (ptr = attr; ptr != NULL; ptr = ptr->next) {
+					PangoAttribute *attribute = ptr->data;
+					GtkTextTag *tag;
+
+					switch (attribute->klass->type) {
+					case PANGO_ATTR_STYLE:
+						switch (((PangoAttrInt *)attribute)->value) {
+						case PANGO_STYLE_ITALIC:
+							tag = gtk_text_tag_table_lookup 
+								(gtk_text_buffer_get_tag_table (buffer), 
+								 "PANGO_STYLE_ITALIC");
+							if (tag == NULL)
+								tag = gtk_text_buffer_create_tag 
+									(buffer, 
+									 "PANGO_STYLE_ITALIC", 
+									 "style", PANGO_STYLE_ITALIC,
+									 "style-set", TRUE,
+									 NULL);
+							gtk_text_buffer_apply_tag (buffer, tag, &start_iter, &end_iter);
+							break;
+						case PANGO_STYLE_NORMAL:
+							tag = gtk_text_tag_table_lookup 
+								(gtk_text_buffer_get_tag_table (buffer), 
+								 "PANGO_STYLE_NORMAL");
+							if (tag == NULL)
+								tag = gtk_text_buffer_create_tag 
+									(buffer, 
+									 "PANGO_STYLE_NORMAL", 
+									 "style", PANGO_STYLE_NORMAL,
+									 "style-set", TRUE,
+									 NULL);
+							gtk_text_buffer_apply_tag (buffer, tag, &start_iter, &end_iter);
+							break;
+						default:
+							break;
+						}
+						break;
+					default:
+						break;
+					}
+				}
+				go_slist_free_custom (attr, (GFreeFunc)pango_attribute_destroy);
+			}
+		} while (pango_attr_iterator_next (iter));
+		pango_attr_iterator_destroy (iter);
+		pango_attr_list_unref (our_markup);
+	}
+
+/* For other styles (that are not at true/faclse type styles) we use unnamed styles */
+
 	copied_markup = pango_attr_list_copy (markup);
 	our_markup = pango_attr_list_filter (copied_markup, 
 					     gnm_load_pango_attributes_into_buffer_filter, 
 					     NULL);
 	pango_attr_list_unref (copied_markup);
-	if (our_markup == NULL)
-		return; 
-
-	iter = pango_attr_list_get_iterator (our_markup);
-
-	do {
-		GSList *attr = pango_attr_iterator_get_attrs (iter);
-		if (attr != NULL) {
-			char *string;
-			GSList *ptr;
-			gint start, end;
-			GtkTextIter start_iter, end_iter;
-			GtkTextTag *tag = gtk_text_buffer_create_tag (buffer, NULL, NULL);
-			for (ptr = attr; ptr != NULL; ptr = ptr->next) {
-				PangoAttribute *attribute = ptr->data;
-				switch (attribute->klass->type) {
-				case PANGO_ATTR_FOREGROUND:
-					string = pango_color_to_string 
-						(&((PangoAttrColor *)attribute)->color);
-					g_object_set (G_OBJECT (tag), 
-						      "foreground", string,
-						      "foreground-set", TRUE,
-						      NULL);
-					g_free (string);
-					break;
-				default:
-					break;
+	if (our_markup != NULL) {
+		iter = pango_attr_list_get_iterator (our_markup);
+		
+		do {
+			GSList *attr = pango_attr_iterator_get_attrs (iter);
+			if (attr != NULL) {
+				char *string;
+				GSList *ptr;
+				gint start, end;
+				GtkTextIter start_iter, end_iter;
+				GtkTextTag *tag = gtk_text_buffer_create_tag (buffer, NULL, NULL);
+				for (ptr = attr; ptr != NULL; ptr = ptr->next) {
+					PangoAttribute *attribute = ptr->data;
+					switch (attribute->klass->type) {
+					case PANGO_ATTR_FOREGROUND:
+						string = pango_color_to_string 
+							(&((PangoAttrColor *)attribute)->color);
+						g_object_set (G_OBJECT (tag), 
+							      "foreground", string,
+							      "foreground-set", TRUE,
+							      NULL);
+						g_free (string);
+						break;
+					default:
+						break;
+					}
 				}
+				pango_attr_iterator_range (iter, &start, &end);
+				gtk_text_buffer_get_iter_at_offset (buffer, &start_iter, start);
+				gtk_text_buffer_get_iter_at_offset (buffer, &end_iter, end);
+				gtk_text_buffer_apply_tag (buffer, tag, &start_iter, &end_iter);
+				go_slist_free_custom (attr, (GFreeFunc)pango_attribute_destroy);
 			}
-			pango_attr_iterator_range (iter, &start, &end);
-			gtk_text_buffer_get_iter_at_offset (buffer, &start_iter, start);
-			gtk_text_buffer_get_iter_at_offset (buffer, &end_iter, end);
-			gtk_text_buffer_apply_tag (buffer, tag, &start_iter, &end_iter);
-			go_slist_free_custom (attr, (GFreeFunc)pango_attribute_destroy);
-		}
-	} while (pango_attr_iterator_next (iter));
-	pango_attr_iterator_destroy (iter);
-	pango_attr_list_unref (our_markup);
+		} while (pango_attr_iterator_next (iter));
+		pango_attr_iterator_destroy (iter);
+		pango_attr_list_unref (our_markup);
+	}
 }
 
 static void
@@ -744,6 +821,15 @@ gnm_store_text_tag_attr_in_pango (PangoAttrList *list, GtkTextTag *tag, GtkTextI
 		attr->end_index = y;
 		pango_attr_list_change (list, attr);
 		gdk_color_free (color);
+	}
+	g_object_get (G_OBJECT (tag), "style-set", &is_set, NULL);
+	if (is_set) {
+		int style;
+		g_object_get (G_OBJECT (tag), "style", &style, NULL);
+		attr =  pango_attr_style_new (style);
+		attr->start_index = x;
+		attr->end_index = y;
+		pango_attr_list_change (list, attr);
 	}
 }
 

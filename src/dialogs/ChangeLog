@@ -1,3 +1,11 @@
+2009-04-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-so-styled.c (DialogSOStyled): add button field
+	(cb_dialog_so_styled_text_widget_mark_set): new
+	(cb_dialog_so_styled_text_widget_set_italic): new
+	(dialog_so_styled_text_widget): add toolbar
+	(dialog_so_styled): show all widgets on the added page 
+	
 2009-04-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-so-styled.c (DialogSOStyled): include original attributes

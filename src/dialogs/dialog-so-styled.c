@@ -41,6 +41,9 @@ typedef struct {
 	GOStyle		*orig_style;
 	char    *orig_text;
 	PangoAttrList *orig_attributes;
+	GtkTextBuffer *buffer;
+	
+	GtkToggleToolButton *italic;
 } DialogSOStyled;
 
 #define GNM_SO_STYLED_KEY "gnm-so-styled-key"
@@ -96,31 +99,95 @@ cb_dialog_so_styled_text_widget_changed (GtkTextBuffer *buffer, DialogSOStyled *
 	pango_attr_list_unref (attr);
 }
 
+static void
+cb_dialog_so_styled_text_widget_mark_set (GtkTextBuffer *buffer,
+					  G_GNUC_UNUSED GtkTextIter   *location,
+					  G_GNUC_UNUSED GtkTextMark   *mark,
+					  DialogSOStyled *state)
+{
+	GtkTextIter start, end;
+	gtk_text_buffer_get_selection_bounds (state->buffer, &start, &end);
+	
+	{ /* Handling italic button */
+		GtkTextTag *tag_italic = gtk_text_tag_table_lookup 
+			(gtk_text_buffer_get_tag_table (state->buffer), "PANGO_STYLE_ITALIC");
+		gtk_toggle_tool_button_set_active 
+			(state->italic, 
+			 (tag_italic != NULL) && gtk_text_iter_has_tag (&start, tag_italic));
+	}
+}
+
+static void
+cb_dialog_so_styled_text_widget_set_italic (GtkToggleToolButton *toolbutton, DialogSOStyled *state)
+{
+	GtkTextIter start, end;
+
+	if (gtk_text_buffer_get_selection_bounds (state->buffer, &start, &end)) {
+		GtkTextTag *tag_italic = gtk_text_tag_table_lookup 
+			(gtk_text_buffer_get_tag_table (state->buffer), "PANGO_STYLE_ITALIC");
+		GtkTextTag *tag_normal = gtk_text_tag_table_lookup 
+			(gtk_text_buffer_get_tag_table (state->buffer), "PANGO_STYLE_NORMAL");
+		if (tag_italic == NULL)
+			tag_italic = gtk_text_buffer_create_tag (state->buffer, "PANGO_STYLE_ITALIC", 
+								 "style", PANGO_STYLE_ITALIC, 
+								 "style-set", TRUE, NULL);
+		if (tag_normal == NULL)
+			tag_normal = gtk_text_buffer_create_tag (state->buffer, "PANGO_STYLE_NORMAL", 
+								 "style", PANGO_STYLE_NORMAL, 
+								 "style-set", TRUE, NULL);
+		
+		if (gtk_text_iter_has_tag (&start, tag_italic)) {
+			gtk_text_buffer_remove_tag (state->buffer, tag_italic,
+						    &start, &end);
+			gtk_text_buffer_apply_tag (state->buffer, tag_normal, &start, &end);
+		} else {
+			gtk_text_buffer_remove_tag (state->buffer, tag_normal,
+						    &start, &end);
+			gtk_text_buffer_apply_tag (state->buffer, tag_italic, &start, &end);
+		}
+		cb_dialog_so_styled_text_widget_changed (state->buffer, state);
+	}
+}
+
 static GtkWidget *
 dialog_so_styled_text_widget (DialogSOStyled *state)
 {
+	GtkWidget *vb = gtk_vbox_new (FALSE, 0);
+	GtkWidget *tb = gtk_toolbar_new ();
 	GtkWidget *tv = gtk_text_view_new ();
-	GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
 	char *strval;
 	PangoAttrList  *markup;
+	GtkToolItem * tb_button;
+
+	state->buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
+
+	tb_button = gtk_toggle_tool_button_new_from_stock (GTK_STOCK_ITALIC);
+	gtk_toolbar_insert(GTK_TOOLBAR(tb), tb_button, -1);
+	g_signal_connect (G_OBJECT (tb_button), "toggled",
+			  G_CALLBACK (cb_dialog_so_styled_text_widget_set_italic), state);
+	state->italic = GTK_TOGGLE_TOOL_BUTTON (tb_button);
 
 	gtk_container_set_border_width (GTK_CONTAINER (tv), 5);
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (tv), GTK_WRAP_WORD_CHAR);
 
 	g_object_get (state->so, "text", &strval, NULL);
 	state->orig_text = g_strdup (strval);
-	gtk_text_buffer_set_text (buffer, strval, -1);
+	gtk_text_buffer_set_text (state->buffer, strval, -1);
 	g_free (strval);
 
 	g_object_get (state->so, "markup", &markup, NULL);
 	state->orig_attributes = markup;
 	pango_attr_list_ref (state->orig_attributes);
-	gnm_load_pango_attributes_into_buffer (markup, buffer);
+	gnm_load_pango_attributes_into_buffer (markup, state->buffer);
 
-	g_signal_connect (G_OBJECT (buffer), "changed",
+	g_signal_connect (G_OBJECT (state->buffer), "changed",
 			  G_CALLBACK (cb_dialog_so_styled_text_widget_changed), state);
+	g_signal_connect (G_OBJECT (state->buffer), "mark_set",
+			  G_CALLBACK (cb_dialog_so_styled_text_widget_mark_set), state);
 
-	return tv;
+	gtk_box_pack_start (GTK_BOX (vb), tb, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vb), tv, TRUE, TRUE, 0);
+	return vb;
 }
 
 void
@@ -163,7 +230,7 @@ dialog_so_styled (WBCGtk *wbcg,
 
 	if (extent == SO_STYLED_TEXT) {
 		GtkWidget *text_w = dialog_so_styled_text_widget (state);
-		gtk_widget_show (text_w);
+		gtk_widget_show_all (text_w);
 		if (GTK_IS_NOTEBOOK (editor))
 			gtk_notebook_append_page (GTK_NOTEBOOK (editor),
 						  text_w,
