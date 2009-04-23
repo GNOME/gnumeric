@@ -4678,8 +4678,7 @@ cmd_object_format_finalize (GObject *cmd)
 	CmdObjectFormat *me = CMD_OBJECT_FORMAT (cmd);
 	g_object_unref (me->style);
 	g_object_unref (me->so);
-	if (me->text)
-		g_free (me->text);
+	g_free (me->text);
 	if (me->attr)
 		pango_attr_list_unref (me->attr);
 	gnm_command_finalize (cmd);
@@ -4701,7 +4700,7 @@ cmd_object_format (WorkbookControl *wbc, SheetObject *so,
 
 	me->so    = g_object_ref (G_OBJECT (so));
 	me->style = g_object_ref (G_OBJECT (orig_style));
-	me->text = orig_text ? g_strdup (orig_text) : NULL;
+	me->text  = g_strdup (orig_text);
 	if (orig_attr != NULL) {
 		me->attr = orig_attr;
 		pango_attr_list_ref (me->attr);

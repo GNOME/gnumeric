@@ -972,8 +972,7 @@ cb_adjustment_config_destroy (AdjustmentConfigState *state)
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
 	}
-	if (state->undo_label)
-		g_free (state->undo_label);
+	g_free (state->undo_label);
 
 	state->dialog = NULL;
 	g_free (state);
