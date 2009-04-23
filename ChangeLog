@@ -1,5 +1,10 @@
 2009-04-23  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-control-gui.c (cb_scg_sheet_resized): New function.
+	(sheet_control_gui_new): Connect cb_scg_sheet_resized to the
+	sheet's "rows" and "columns" properties.
+	(scg_finalize): Disconnect.
+
 	* src/expr-name.c (expr_name_validate): Take sheet argument for
 	checks.  All callers changed.
 

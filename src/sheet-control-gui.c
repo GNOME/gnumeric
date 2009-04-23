@@ -1214,6 +1214,16 @@ cb_scg_redraw_resize (Sheet *sheet,
 }
 
 static void
+cb_scg_sheet_resized (Sheet *sheet,
+		      GParamSpec *pspec,
+		      SheetControlGUI *scg)
+{
+	SheetControl *sc = &scg->sheet_control;
+	sc_set_panes (sc);
+	scg_redraw_all (sc, TRUE);
+}
+
+static void
 cb_scg_direction_changed (SheetControlGUI *scg)
 {
 	scg_resize (scg, TRUE);
@@ -1523,6 +1533,8 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 		 "signal::notify::display-outlines", cb_scg_redraw_resize, scg,
 		 "signal::notify::display-outlines-below", cb_scg_redraw_resize, scg,
 		 "signal::notify::display-outlines-right", cb_scg_redraw_resize, scg,
+		 "signal::notify::columns", cb_scg_sheet_resized, scg,
+		 "signal::notify::rows", cb_scg_sheet_resized, scg,
 		 NULL);
 
 	scg->label = editable_label_new
@@ -1574,6 +1586,7 @@ scg_finalize (GObject *object)
 		g_signal_handlers_disconnect_by_func (sheet, cb_scg_prefs, scg);
 		g_signal_handlers_disconnect_by_func (sheet, cb_scg_redraw, scg);
 		g_signal_handlers_disconnect_by_func (sheet, cb_scg_redraw_resize, scg);
+		g_signal_handlers_disconnect_by_func (sheet, cb_scg_sheet_resized, scg);
 		g_signal_handlers_disconnect_by_func (sheet, cb_scg_direction_changed, scg);
 		sv_detach_control (sc);
 	}
