@@ -1,5 +1,9 @@
 2009-04-23  Morten Welinder  <terra@gnome.org>
 
+	* src/commands.c (cmd_insert_rows, cmd_insert_cols): Simplify and
+	fix plural.
+	(cmd_ins_del_colrow): Simplify.
+
 	* src/sheet.c (sheet_insert_cols, sheet_insert_rows): Fix
 	array-split check.
 

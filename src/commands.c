@@ -1273,6 +1273,12 @@ typedef struct {
 	GnmRange        *cutcopied;
 	SheetView	*cut_copy_view;
 
+	gboolean       (*redo_action) (Sheet *sheet, int col, int count,
+				       GOUndo **pundo, GOCmdContext *cc);
+
+	gboolean       (*repeat_action) (WorkbookControl *wbc, Sheet *sheet,
+					 int start, int count);
+
 	GOUndo          *undo;
 } CmdInsDelColRow;
 
@@ -1284,23 +1290,17 @@ cmd_ins_del_colrow_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	Sheet *sheet = sv_sheet (sv);
 	GnmRange const *r = selection_first_range (sv,
 		GO_CMD_CONTEXT (wbc), _("Ins/Del Column/Row"));
+	int start, count;
 
 	if (r == NULL)
 		return;
 
-	if (orig->is_cols) {
-		int count = range_width (r);
-		if (orig->is_insert)
-			cmd_insert_cols (wbc, sheet, r->start.col, count);
-		else
-			cmd_delete_cols (wbc, sheet, r->start.col, count);
-	} else {
-		int count = range_height (r);
-		if (orig->is_insert)
-			cmd_insert_rows (wbc, sheet, r->start.row, count);
-		else
-			cmd_delete_rows (wbc, sheet, r->start.row, count);
-	}
+	if (orig->is_cols)
+		start = r->start.col, count = range_width (r);
+	else
+		start = r->start.row, count = range_height (r);
+
+	orig->repeat_action (wbc, sheet, start, count);
 }
 
 MAKE_GNM_COMMAND (CmdInsDelColRow, cmd_ins_del_colrow, cmd_ins_del_colrow_repeat)
@@ -1330,30 +1330,18 @@ static gboolean
 cmd_ins_del_colrow_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdInsDelColRow *me = CMD_INS_DEL_COLROW (cmd);
-	gboolean trouble;
 	GOCmdContext *cc = GO_CMD_CONTEXT (wbc);
 	int idx = me->index;
 	int count = me->count;
 
-	if (me->is_insert) {
-		if (me->is_cols)
-			trouble = sheet_insert_cols (me->sheet, idx, count,
-						     &me->undo, cc);
-		else
-			trouble = sheet_insert_rows (me->sheet, idx, count,
-						     &me->undo, cc);
-	} else {
-		if (me->is_cols)
-			trouble = sheet_delete_cols (me->sheet, idx, count,
-						     &me->undo, cc);
-		else
-			trouble = sheet_delete_rows (me->sheet, idx, count,
-						     &me->undo, cc);
+	if (me->redo_action (me->sheet, idx, count, &me->undo, cc)) {
+		/* Trouble.  */
+		return TRUE;
 	}
-
+	
 	/* Ins/Del Row/Col re-ants things completely to account
 	 * for the shift of col/rows. */
-	if (!trouble && me->cutcopied != NULL && me->cut_copy_view != NULL) {
+	if (me->cutcopied != NULL && me->cut_copy_view != NULL) {
 		if (me->is_cut) {
 			GnmRange s = *me->cutcopied;
 			int key = me->is_insert ? count : -count;
@@ -1380,7 +1368,7 @@ cmd_ins_del_colrow_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			gnm_app_clipboard_unant ();
 	}
 
-	return trouble;
+	return FALSE;
 }
 
 static void
@@ -1418,6 +1406,12 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 	me->is_insert = is_insert;
 	me->index = index;
 	me->count = count;
+	me->redo_action = me->is_insert
+		? (me->is_cols ? sheet_insert_cols : sheet_insert_rows)
+		: (me->is_cols ? sheet_delete_cols : sheet_delete_rows);
+	me->repeat_action = me->is_insert
+		? (me->is_cols ? cmd_insert_cols : cmd_insert_rows)
+		: (me->is_cols ? cmd_delete_cols : cmd_delete_rows);
 
 	/* Range that will get deleted. */
 	first = me->is_insert
@@ -1426,12 +1420,7 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 	last = first + count - 1;
 	(is_cols ? range_init_cols : range_init_rows) (&r, sheet, first, last);
 
-	/* Check for array subdivision */
-	if (sheet_range_splits_region (sheet, &r, NULL, GO_CMD_CONTEXT (wbc),
-				       descriptor)) {
-		g_object_unref (me);
-		return TRUE;
-	}
+	/* Note: redo_action checks for array subdivision.  */
 
 	/* Check for locks */
 	if (cmd_cell_range_is_locked_effective (sheet, &r, wbc, descriptor)) {
@@ -1461,32 +1450,24 @@ gboolean
 cmd_insert_cols (WorkbookControl *wbc,
 		 Sheet *sheet, int start_col, int count)
 {
-	/* g_strdup_printf does not support positional args, which screws the translators.
-	 * We control the buffer contents so there is no worry of overflow
-	 */
-	char mesg[128];
-	snprintf (mesg, sizeof (mesg), (count > 1)
-		  ? _("Inserting %d columns before %s")
-		  : _("Inserting %d column before %s"),
-		  count, col_name (start_col));
-	return cmd_ins_del_colrow (wbc, sheet, TRUE, TRUE, g_strdup (mesg),
-				   start_col, count);
+	char *mesg = g_strdup_printf
+		(ngettext ("Inserting %d column before %s",
+			   "Inserting %d columns before %s",
+			   count),
+		 count, col_name (start_col));
+	return cmd_ins_del_colrow (wbc, sheet, TRUE, TRUE, mesg, start_col, count);
 }
 
 gboolean
 cmd_insert_rows (WorkbookControl *wbc,
 		 Sheet *sheet, int start_row, int count)
 {
-	/* g_strdup_printf does not support positional args, which screws the translators.
-	 * We control the buffer contents so there is no worry of overflow
-	 */
-	char mesg[128];
-	snprintf (mesg, sizeof (mesg), (count > 1)
-		  ? _("Inserting %d rows before %s")
-		  : _("Inserting %d row before %s"),
-		  count, row_name (start_row));
-	return cmd_ins_del_colrow (wbc, sheet, FALSE, TRUE, g_strdup (mesg),
-				   start_row, count);
+	char *mesg = g_strdup_printf
+		(ngettext ("Inserting %d row before %s",
+			   "Inserting %d rows before %s",
+			   count),
+		 count, row_name (start_row));
+	return cmd_ins_del_colrow (wbc, sheet, FALSE, TRUE, mesg, start_row, count);
 }
 
 gboolean
