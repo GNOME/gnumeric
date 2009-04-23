@@ -1,3 +1,11 @@
+2009-04-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gui-util.c (gnm_load_pango_attributes_into_buffer_filter):
+	  add more supported items
+	(gnm_load_pango_attributes_into_buffer_named_filter): ditto
+	(gnm_load_pango_attributes_into_buffer): ditto
+	(gnm_store_text_tag_attr_in_pango): ditto
+
 2009-04-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gui-util.c (gnm_load_pango_attributes_into_buffer):

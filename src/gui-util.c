@@ -666,13 +666,17 @@ static gboolean
 gnm_load_pango_attributes_into_buffer_filter (PangoAttribute *attribute, 
 					  G_GNUC_UNUSED gpointer data)
 {
-	return (PANGO_ATTR_FOREGROUND == attribute->klass->type);
+	return ((PANGO_ATTR_FOREGROUND == attribute->klass->type) ||
+		(PANGO_ATTR_WEIGHT == attribute->klass->type) ||
+		(PANGO_ATTR_UNDERLINE == attribute->klass->type) ||
+		(PANGO_ATTR_RISE == attribute->klass->type));
 }
 static gboolean
 gnm_load_pango_attributes_into_buffer_named_filter (PangoAttribute *attribute, 
 						    G_GNUC_UNUSED gpointer data)
 {
-	return (PANGO_ATTR_STYLE == attribute->klass->type);
+	return ((PANGO_ATTR_STYLE == attribute->klass->type) ||
+		(PANGO_ATTR_STRIKETHROUGH == attribute->klass->type));
 }
 
 void 
@@ -701,6 +705,7 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 				GSList *ptr;
 				gint start, end;
 				GtkTextIter start_iter, end_iter;
+				char const *name;
 
 				pango_attr_iterator_range (iter, &start, &end);
 				gtk_text_buffer_get_iter_at_offset (buffer, &start_iter, start);
@@ -712,36 +717,40 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 
 					switch (attribute->klass->type) {
 					case PANGO_ATTR_STYLE:
-						switch (((PangoAttrInt *)attribute)->value) {
-						case PANGO_STYLE_ITALIC:
-							tag = gtk_text_tag_table_lookup 
-								(gtk_text_buffer_get_tag_table (buffer), 
-								 "PANGO_STYLE_ITALIC");
-							if (tag == NULL)
-								tag = gtk_text_buffer_create_tag 
-									(buffer, 
-									 "PANGO_STYLE_ITALIC", 
-									 "style", PANGO_STYLE_ITALIC,
-									 "style-set", TRUE,
-									 NULL);
-							gtk_text_buffer_apply_tag (buffer, tag, &start_iter, &end_iter);
-							break;
-						case PANGO_STYLE_NORMAL:
-							tag = gtk_text_tag_table_lookup 
-								(gtk_text_buffer_get_tag_table (buffer), 
-								 "PANGO_STYLE_NORMAL");
-							if (tag == NULL)
-								tag = gtk_text_buffer_create_tag 
-									(buffer, 
-									 "PANGO_STYLE_NORMAL", 
-									 "style", PANGO_STYLE_NORMAL,
-									 "style-set", TRUE,
-									 NULL);
-							gtk_text_buffer_apply_tag (buffer, tag, &start_iter, &end_iter);
-							break;
-						default:
-							break;
-						}
+						name = (((PangoAttrInt *)attribute)->value 
+							== PANGO_STYLE_NORMAL) 
+							? "PANGO_STYLE_NORMAL" :
+							"PANGO_STYLE_ITALIC";
+						tag = gtk_text_tag_table_lookup 
+							(gtk_text_buffer_get_tag_table (buffer), 
+							 name);
+						if (tag == NULL)
+							tag = gtk_text_buffer_create_tag 
+								(buffer, 
+								 name, 
+								 "style", ((PangoAttrInt *)attribute)->value,
+								 "style-set", TRUE,
+								 NULL);
+						gtk_text_buffer_apply_tag (buffer, tag, 
+									   &start_iter, &end_iter);
+						break;
+					case PANGO_ATTR_STRIKETHROUGH:
+						name = (((PangoAttrInt *)attribute)->value) ?
+							"PANGO_STRIKETHROUGH_TRUE" :
+							"PANGO_STRIKETHROUGH_FALSE";
+						tag = gtk_text_tag_table_lookup 
+							(gtk_text_buffer_get_tag_table (buffer), 
+							 name);
+						if (tag == NULL)
+							tag = gtk_text_buffer_create_tag 
+								(buffer, 
+								 name, 
+								 "strikethrough", 
+								 (((PangoAttrInt *)attribute)->value) != 0,
+								 "strikethrough-set", TRUE,
+								 NULL);
+						gtk_text_buffer_apply_tag (buffer, tag, 
+									   &start_iter, &end_iter);
 						break;
 					default:
 						break;
@@ -754,7 +763,7 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 		pango_attr_list_unref (our_markup);
 	}
 
-/* For other styles (that are not at true/faclse type styles) we use unnamed styles */
+/* For other styles (that are not at true/false type styles) we use unnamed styles */
 
 	copied_markup = pango_attr_list_copy (markup);
 	our_markup = pango_attr_list_filter (copied_markup, 
@@ -784,6 +793,27 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 							      NULL);
 						g_free (string);
 						break;
+					case PANGO_ATTR_WEIGHT:
+						g_object_set (G_OBJECT (tag), 
+							      "weight", 
+							      ((PangoAttrInt *)attribute)->value,
+							      "weight-set", TRUE,
+							      NULL);
+						break;
+					case PANGO_ATTR_UNDERLINE:
+						g_object_set (G_OBJECT (tag), 
+							      "underline", 
+							      ((PangoAttrInt *)attribute)->value,
+							      "underline-set", TRUE,
+							      NULL);
+						break;
+					case PANGO_ATTR_RISE:
+						g_object_set (G_OBJECT (tag), 
+							      "rise", 
+							      ((PangoAttrInt *)attribute)->value,
+							      "rise-set", TRUE,
+							      NULL);
+						break;
 					default:
 						break;
 					}
@@ -799,6 +829,18 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 		pango_attr_list_unref (our_markup);
 	}
 }
+
+#define gnmstoretexttagattrinpangoint(nameset, name, gnm_pango_attr_new)  \
+	g_object_get (G_OBJECT (tag), nameset, &is_set, NULL);            \
+	if (is_set) {                                                     \
+		int value;                                                \
+		g_object_get (G_OBJECT (tag), name, &value, NULL);        \
+		attr =  gnm_pango_attr_new (value);                       \
+		attr->start_index = x;                                    \
+		attr->end_index = y;                                      \
+		pango_attr_list_change (list, attr);                      \
+	}
+
 
 static void
 gnm_store_text_tag_attr_in_pango (PangoAttrList *list, GtkTextTag *tag, GtkTextIter *start, gchar const *text)
@@ -822,16 +864,15 @@ gnm_store_text_tag_attr_in_pango (PangoAttrList *list, GtkTextTag *tag, GtkTextI
 		pango_attr_list_change (list, attr);
 		gdk_color_free (color);
 	}
-	g_object_get (G_OBJECT (tag), "style-set", &is_set, NULL);
-	if (is_set) {
-		int style;
-		g_object_get (G_OBJECT (tag), "style", &style, NULL);
-		attr =  pango_attr_style_new (style);
-		attr->start_index = x;
-		attr->end_index = y;
-		pango_attr_list_change (list, attr);
-	}
+
+	gnmstoretexttagattrinpangoint ("style-set", "style", pango_attr_style_new)
+	gnmstoretexttagattrinpangoint ("weight-set", "weight", pango_attr_weight_new)
+	gnmstoretexttagattrinpangoint ("strikethrough-set", "strikethrough", pango_attr_strikethrough_new)
+	gnmstoretexttagattrinpangoint ("underline-set", "underline", pango_attr_underline_new)
+	gnmstoretexttagattrinpangoint ("rise-set", "rise", pango_attr_rise_new)
 }
+
+#undef gnmstoretexttagattrinpangoint
 
 PangoAttrList *
 gnm_get_pango_attributes_from_buffer (GtkTextBuffer *buffer)
