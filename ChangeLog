@@ -1,3 +1,8 @@
+2009-04-23  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (sheet_insert_cols, sheet_insert_rows): Fix
+	array-split check.
+
 2009-04-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gui-util.c (gnm_load_pango_attributes_into_buffer_filter):

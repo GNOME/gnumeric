@@ -4334,13 +4334,16 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 		states = colrow_get_states (sheet, TRUE, first, last);
 	}
 
-	/* 0. Check displaced region and ensure arrays aren't divided. */
-	if (count < gnm_sheet_get_max_cols (sheet)) {
-		range_init (&region, col, 0, gnm_sheet_get_last_col (sheet)-count, gnm_sheet_get_last_row (sheet));
-		if (sheet_range_splits_array (sheet, &region, NULL,
-					      cc, _("Insert Columns")))
+	/* 0. Check displaced/deleted region and ensure arrays aren't divided. */
+	/* We need to check at "col" and at "first".  If they coincide, just
+	   use the end.  */
+	range_init_cols (&region, sheet, col,
+			 (col < first
+			  ? first - 1
+			  : gnm_sheet_get_last_col (sheet)));
+	if (sheet_range_splits_array (sheet, &region, NULL,
+				      cc, _("Insert Columns")))
 			return TRUE;
-	}
 
 	/* 1. Delete all columns (and their cells) that will fall off the end */
 	for (i = sheet->cols.max_used; i >= gnm_sheet_get_max_cols (sheet) - count ; --i)
@@ -4492,13 +4495,16 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 		states = colrow_get_states (sheet, FALSE, first, last);
 	}
 
-	/* 0. Check displaced region and ensure arrays aren't divided. */
-	if (count < gnm_sheet_get_max_rows (sheet)) {
-		range_init (&region, 0, row, gnm_sheet_get_last_col (sheet), gnm_sheet_get_last_row (sheet)-count);
-		if (sheet_range_splits_array (sheet, &region, NULL,
-					      cc, _("Insert Rows")))
-			return TRUE;
-	}
+	/* 0. Check displaced/deleted region and ensure arrays aren't divided. */
+	/* We need to check at "row" and at "first".  If they coincide, just
+	   use the end.  */
+	range_init_rows (&region, sheet, row,
+			 (row < first
+			  ? first - 1
+			  : gnm_sheet_get_last_row (sheet)));
+	if (sheet_range_splits_array (sheet, &region, NULL,
+				      cc, _("Insert Rows")))
+		return TRUE;
 
 	/* 1. Delete all rows (and their cells) that will fall off the end */
 	for (i = sheet->rows.max_used; i >= gnm_sheet_get_max_rows (sheet) - count ; --i)
