@@ -62,6 +62,7 @@ void	  sheet_style_foreach (Sheet const *sheet,
 			       gpointer    user_data);
 
 void sheet_style_init     (Sheet *sheet);
+void sheet_style_resize   (Sheet *sheet, int cols, int rows);
 void sheet_style_shutdown (Sheet *sheet);
 
 void      sheet_style_set_auto_pattern_color (Sheet  *sheet,

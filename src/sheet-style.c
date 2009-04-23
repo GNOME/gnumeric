@@ -438,37 +438,27 @@ cell_tile_matrix_set (CellTile *t, GnmRange const *indic, ReplacementStyle *rs)
 
 /****************************************************************************/
 
-void
-sheet_style_init (Sheet *sheet)
+static void
+sheet_style_init_size (Sheet *sheet, int cols, int rows)
 {
 	GnmStyle *default_style;
-	int l = 0, w = TILE_SIZE_COL, h = TILE_SIZE_ROW;
+	int lc = 0, lr = 0, w = TILE_SIZE_COL, h = TILE_SIZE_ROW;
 
-	/* some simple sanity checks */
-	g_return_if_fail (IS_SHEET (sheet));
-	g_assert (gnm_sheet_get_max_cols (sheet) <= GNM_MAX_COLS);
-	g_assert (gnm_sheet_get_max_rows (sheet) <= GNM_MAX_ROWS);
+	while (w < cols) {
+		w *= TILE_SIZE_COL;
+		lc++;
+	}
+	while (h < rows) {
+		h *= TILE_SIZE_ROW;
+		lr++;
+	}
+	sheet->tile_top_level = MAX (lc, lr);
 
-	while (w < gnm_sheet_get_max_cols (sheet)) {
-		w *= TILE_SIZE_COL;
-		sheet->tile_top_level++;
-	}
-	while (h < gnm_sheet_get_max_rows (sheet)) {
-		h *= TILE_SIZE_ROW;
-		l++;
-	}
-	if (l > sheet->tile_top_level)
-		sheet->tile_top_level = l;
-	h = TILE_SIZE_ROW;
-	w = TILE_SIZE_COL;
-	for (l = 0 ; l < sheet->tile_top_level; l++) {
-		h *= TILE_SIZE_ROW;
-		w *= TILE_SIZE_COL;
-	}
-	sheet->max_height = h / TILE_SIZE_ROW;
-	sheet->max_width = w / TILE_SIZE_COL;
-	sheet->partial_row = sheet->max_rows != h;
-	sheet->partial_col = sheet->max_cols != w;
+	sheet->max_height = tile_heights[sheet->tile_top_level];
+	sheet->max_width = tile_widths[sheet->tile_top_level];
+
+	sheet->partial_row = (rows != sheet->max_height * TILE_SIZE_ROW);
+	sheet->partial_col = (cols != sheet->max_width * TILE_SIZE_COL);
 
 #if USE_TILE_POOLS
 	if (tile_pool_users++ == 0) {
@@ -496,15 +486,6 @@ sheet_style_init (Sheet *sheet)
 	}
 #endif
 
-	if (GNM_MAX_COLS > 364238) {
-		/* Oh, yeah?  */
-		g_warning (_("This is a special version of Gnumeric.  It has been compiled\n"
-			     "with support for a very large number of columns.  Access to the\n"
-			     "column named TRUE may conflict with the constant of the same\n"
-			     "name.  Expect weirdness."));
-	}
-
-
 	sheet->style_data = g_new (GnmSheetStyleData, 1);
 	sheet->style_data->style_hash =
 		g_hash_table_new (gnm_style_hash, (GCompareFunc) gnm_style_equal);
@@ -529,6 +510,47 @@ sheet_style_init (Sheet *sheet)
 	sheet->style_data->styles =
 		cell_tile_style_new (sheet->style_data->default_style,
 				     TILE_SIMPLE);
+}
+
+void
+sheet_style_init (Sheet *sheet)
+{
+	int cols = gnm_sheet_get_max_cols (sheet);
+	int rows = gnm_sheet_get_max_rows (sheet);
+	sheet_style_init_size (sheet, cols, rows);
+}
+
+void
+sheet_style_resize (Sheet *sheet, int cols, int rows)
+{
+	GnmStyleList *styles, *l;
+	int old_cols = gnm_sheet_get_max_cols (sheet);
+	int old_rows = gnm_sheet_get_max_rows (sheet);
+	GnmRange save_range, new_full;
+
+	/* Save the style for the surviving area.  */
+	range_init (&save_range, 0, 0,
+		    MIN (cols, old_cols), MIN (rows, old_rows));
+	styles = sheet_style_get_list (sheet, &save_range);
+
+	/* Build new empty structures.  */
+	sheet_style_shutdown (sheet);
+	sheet_style_init_size (sheet, cols, rows);
+
+	/* Reapply styles.  */
+	range_init (&new_full, 0, 0, cols, rows);
+	for (l = styles; l; l = l->next) {
+		GnmStyleRegion const *sr = l->data;
+		GnmRange const *r = &sr->range;
+		GnmStyle *style = sr->style;
+		GnmRange newr;
+		if (range_intersection (&newr, r, &new_full)) {
+			gnm_style_ref (style);
+			sheet_style_apply_range (sheet, &newr, style);
+		}
+	}
+
+	style_list_free	(styles);
 }
 
 static gboolean

@@ -634,7 +634,17 @@ gnm_sheet_constructor (GType type,
 {
 	GObject *obj;
 	Sheet *sheet;
-	
+	static gboolean warned = FALSE;
+
+	if (GNM_MAX_COLS > 364238 && !warned) {
+		/* Oh, yeah?  */
+		g_warning (_("This is a special version of Gnumeric.  It has been compiled\n"
+			     "with support for a very large number of columns.  Access to the\n"
+			     "column named TRUE may conflict with the constant of the same\n"
+			     "name.  Expect weirdness."));
+		warned = TRUE;
+	}
+
 	obj = parent_class->constructor (type, n_construct_properties,
 					 construct_params);
 	sheet = SHEET (obj);
@@ -1167,6 +1177,11 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 
 		workbook_queue_all_recalc (sheet->workbook);
 	}
+
+	/* ---------------------------------------- */
+	/* Resize the styles.  */
+
+	sheet_style_resize (sheet, cols, rows);
 
 	/* ---------------------------------------- */
 	/* Actually change the properties.  */

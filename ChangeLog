@@ -1,5 +1,12 @@
 2009-04-23  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (gnm_sheet_resize_main): Resize styles too.
+	(gnm_sheet_constructor): Check row count sanity here.
+
+	* src/sheet-style.c (sheet_style_init): Not here.
+	(sheet_style_resize): New function.
+	(sheet_style_init_size): Split from sheet_style_init.
+
 	* src/commands.c (cmd_insert_rows, cmd_insert_cols): Simplify and
 	fix plural.
 	(cmd_ins_del_colrow): Simplify.
