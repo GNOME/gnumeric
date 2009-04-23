@@ -83,16 +83,20 @@ cb_scale_changed (ResizeState *state)
 				  gnm_sheet_valid_size (cols, rows));
 }
 
+static int
+mylog2 (int N)
+{
+	int l2 = 0;
+	while (N > 1)
+		N >>= 1, l2++;
+	return l2;
+}
+
 static void
 init_scale (GtkWidget *scale, int N)
 {
 	GtkAdjustment *adj = gtk_range_get_adjustment (GTK_RANGE (scale));
-	int l2 = 0;
-
-	while (N > 1)
-		N >>= 1, l2++;
-
-	g_object_set (G_OBJECT (adj), "value", (double)l2, NULL);
+	g_object_set (G_OBJECT (adj), "value", (double)mylog2 (N), NULL);
 }
 
 static void
@@ -147,6 +151,7 @@ dialog_sheet_resize (WBCGtk *wbcg)
 {
 	GladeXML *gui;
 	ResizeState *state;
+	int slider_width;
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, RESIZE_DIALOG_KEY))
 		return;
@@ -162,9 +167,18 @@ dialog_sheet_resize (WBCGtk *wbcg)
 	state->sheet = wbcg_cur_sheet (wbcg);
 	g_return_if_fail (state->dialog != NULL);
 
+	gtk_widget_ensure_style (state->dialog);
+	slider_width = mylog2 (MAX (GNM_MAX_ROWS / GNM_MIN_ROWS,
+				    GNM_MAX_COLS / GNM_MIN_COLS)) *
+		go_pango_measure_string
+		(gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg))),
+		 state->dialog->style->font_desc, "00");
+
 	state->columns_scale = glade_xml_get_widget (state->gui, "columns_scale");
+	gtk_widget_set_size_request (state->columns_scale, slider_width, -1);
 	state->columns_label = glade_xml_get_widget (state->gui, "columns_label");
 	state->rows_scale = glade_xml_get_widget (state->gui, "rows_scale");
+	gtk_widget_set_size_request (state->rows_scale, slider_width, -1);
 	state->rows_label = glade_xml_get_widget (state->gui, "rows_label");
 	state->all_sheets_button = glade_xml_get_widget (state->gui, "all_sheets_button");
 	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
