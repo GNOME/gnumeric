@@ -642,13 +642,11 @@ gnm_sheet_constructor (GType type,
 	/* Now sheet_type, max_cols, and max_rows have been set.  */
 	sheet->being_constructed = FALSE;
 
-	sheet->priv->reposition_objects.col = sheet->max_cols;
-	g_ptr_array_set_size (sheet->cols.info,
-			      COLROW_SEGMENT_INDEX (sheet->max_cols - 1) + 1);
+	colrow_resize (&sheet->cols, sheet->max_cols);
+	colrow_resize (&sheet->rows, sheet->max_rows);
 
+	sheet->priv->reposition_objects.col = sheet->max_cols;
 	sheet->priv->reposition_objects.row = sheet->max_rows;
-	g_ptr_array_set_size (sheet->rows.info,
-			      COLROW_SEGMENT_INDEX (sheet->max_rows - 1) + 1);
 
 	range_init_full_sheet (&sheet->priv->unhidden_region, sheet);
 	sheet_style_init (sheet);
@@ -1112,6 +1110,7 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 		return;
 
 	/* ---------------------------------------- */
+	/* Remove the columns and rows that will disappear.  */
 
 	if (cols < old_cols) {
 		GOUndo *u = NULL;
@@ -1138,9 +1137,13 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 	}
 
 	/* ---------------------------------------- */
+	/* Resize column and row containers.  */
 
 	colrow_resize (&sheet->cols, cols);
 	colrow_resize (&sheet->rows, rows);
+
+	/* ---------------------------------------- */
+	/* Resize the dependency containers.  */
 
 	{
 		GSList *l, *linked = NULL;
@@ -1187,6 +1190,8 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 					NULL, g_free);
 		*pundo = go_undo_combine (*pundo, u);
 	}
+
+	range_init_full_sheet (&sheet->priv->unhidden_region, sheet);
 
 	sheet_redraw_all (sheet, TRUE);
 	return;
