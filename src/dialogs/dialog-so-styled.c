@@ -44,6 +44,7 @@ typedef struct {
 	GtkTextBuffer *buffer;
 	
 	GtkToggleToolButton *italic;
+	GtkToggleToolButton *strikethrough;
 } DialogSOStyled;
 
 #define GNM_SO_STYLED_KEY "gnm-so-styled-key"
@@ -100,6 +101,18 @@ cb_dialog_so_styled_text_widget_changed (GtkTextBuffer *buffer, DialogSOStyled *
 }
 
 static void
+gnm_toggle_tool_button_set_active_no_signal (GtkToggleToolButton *button,
+					     gboolean is_active,
+					     DialogSOStyled *state)
+{
+	gulong handler_id = g_signal_handler_find (button, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, state);
+
+	g_signal_handler_block (button, handler_id);
+	gtk_toggle_tool_button_set_active (button, is_active);
+	g_signal_handler_unblock (button, handler_id);
+}
+
+static void
 cb_dialog_so_styled_text_widget_mark_set (GtkTextBuffer *buffer,
 					  G_GNUC_UNUSED GtkTextIter   *location,
 					  G_GNUC_UNUSED GtkTextMark   *mark,
@@ -111,9 +124,17 @@ cb_dialog_so_styled_text_widget_mark_set (GtkTextBuffer *buffer,
 	{ /* Handling italic button */
 		GtkTextTag *tag_italic = gtk_text_tag_table_lookup 
 			(gtk_text_buffer_get_tag_table (state->buffer), "PANGO_STYLE_ITALIC");
-		gtk_toggle_tool_button_set_active 
+		gnm_toggle_tool_button_set_active_no_signal
 			(state->italic, 
-			 (tag_italic != NULL) && gtk_text_iter_has_tag (&start, tag_italic));
+			 (tag_italic != NULL) && gtk_text_iter_has_tag (&start, tag_italic), state);
+	}
+	{ /* Handling strikethrough button */
+		GtkTextTag *tag_strikethrough = gtk_text_tag_table_lookup 
+			(gtk_text_buffer_get_tag_table (state->buffer), "PANGO_STRIKETHROUGH_TRUE");
+		gnm_toggle_tool_button_set_active_no_signal
+			(state->strikethrough, 
+			 (tag_strikethrough != NULL) && gtk_text_iter_has_tag (&start, tag_strikethrough), 
+			 state);
 	}
 }
 
@@ -149,6 +170,50 @@ cb_dialog_so_styled_text_widget_set_italic (GtkToggleToolButton *toolbutton, Dia
 	}
 }
 
+static void
+cb_dialog_so_styled_text_widget_set_strikethrough (GtkToggleToolButton *toolbutton, DialogSOStyled *state)
+{
+	GtkTextIter start, end;
+
+	if (gtk_text_buffer_get_selection_bounds (state->buffer, &start, &end)) {
+		GtkTextTag *tag_no_strikethrough = gtk_text_tag_table_lookup 
+			(gtk_text_buffer_get_tag_table (state->buffer), "PANGO_STRIKETHROUGH_FALSE");
+		GtkTextTag *tag_strikethrough = gtk_text_tag_table_lookup 
+			(gtk_text_buffer_get_tag_table (state->buffer), "PANGO_STRIKETHROUGH_TRUE");
+		if (tag_no_strikethrough == NULL)
+			tag_no_strikethrough = gtk_text_buffer_create_tag (state->buffer, "PANGO_STRIKETHROUGH_FALSE", 
+								 "strikethrough", FALSE, 
+								 "strikethrough-set", TRUE, NULL);
+		if (tag_strikethrough == NULL)
+			tag_strikethrough = gtk_text_buffer_create_tag (state->buffer, "PANGO_STRIKETHROUGH_TRUE", 
+								 "strikethrough", TRUE, 
+								 "strikethrough-set", TRUE, NULL);
+		
+		if (gtk_text_iter_has_tag (&start, tag_strikethrough)) {
+			gtk_text_buffer_remove_tag (state->buffer, tag_strikethrough,
+						    &start, &end);
+			gtk_text_buffer_apply_tag (state->buffer, tag_no_strikethrough, &start, &end);
+		} else {
+			gtk_text_buffer_remove_tag (state->buffer, tag_no_strikethrough,
+						    &start, &end);
+			gtk_text_buffer_apply_tag (state->buffer, tag_strikethrough, &start, &end);
+		}
+		cb_dialog_so_styled_text_widget_changed (state->buffer, state);
+	}
+}
+
+static GtkToggleToolButton *
+dialog_so_styled_build_toggle_button (GtkWidget *tb, DialogSOStyled *state, char const *button_name, GCallback cb)
+{
+	GtkToolItem * tb_button;
+
+	tb_button = gtk_toggle_tool_button_new_from_stock (button_name);
+	gtk_toolbar_insert(GTK_TOOLBAR(tb), tb_button, -1);
+	g_signal_connect (G_OBJECT (tb_button), "toggled", cb, state);
+	return GTK_TOGGLE_TOOL_BUTTON (tb_button);
+}
+
+
 static GtkWidget *
 dialog_so_styled_text_widget (DialogSOStyled *state)
 {
@@ -157,15 +222,15 @@ dialog_so_styled_text_widget (DialogSOStyled *state)
 	GtkWidget *tv = gtk_text_view_new ();
 	char *strval;
 	PangoAttrList  *markup;
-	GtkToolItem * tb_button;
 
 	state->buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
 
-	tb_button = gtk_toggle_tool_button_new_from_stock (GTK_STOCK_ITALIC);
-	gtk_toolbar_insert(GTK_TOOLBAR(tb), tb_button, -1);
-	g_signal_connect (G_OBJECT (tb_button), "toggled",
-			  G_CALLBACK (cb_dialog_so_styled_text_widget_set_italic), state);
-	state->italic = GTK_TOGGLE_TOOL_BUTTON (tb_button);
+	state->italic = dialog_so_styled_build_toggle_button 
+		(tb, state, GTK_STOCK_ITALIC, 
+		 G_CALLBACK (cb_dialog_so_styled_text_widget_set_italic));
+	state->strikethrough = dialog_so_styled_build_toggle_button 
+		(tb, state, GTK_STOCK_STRIKETHROUGH, 
+		 G_CALLBACK (cb_dialog_so_styled_text_widget_set_strikethrough));
 
 	gtk_container_set_border_width (GTK_CONTAINER (tv), 5);
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (tv), GTK_WRAP_WORD_CHAR);
