@@ -394,7 +394,7 @@ name_guru_add (NameGuruState *state)
 		return TRUE;
 	}
 
-	if (!expr_name_validate (name)) {
+	if (!expr_name_validate (name, state->sheet)) {
 		go_gtk_notice_dialog (GTK_WINDOW (state->dialog),
 				      GTK_MESSAGE_ERROR,
 				      _("Invalid name"));

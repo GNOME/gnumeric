@@ -5801,14 +5801,16 @@ cmd_define_name (WorkbookControl *wbc, char const *name,
 		 GnmParsePos const *pp, GnmExprTop const *texpr,
 		 char const *descriptor)
 {
-	CmdDefineName	*me;
-	GnmNamedExpr    *nexpr;
+	CmdDefineName *me;
+	GnmNamedExpr *nexpr;
+	Sheet *sheet;
 
 	g_return_val_if_fail (name != NULL, TRUE);
 	g_return_val_if_fail (pp != NULL, TRUE);
 	g_return_val_if_fail (texpr != NULL, TRUE);
 
-	if (!expr_name_validate (name)) {
+	sheet = wb_control_cur_sheet (wbc);
+	if (!expr_name_validate (name, sheet)) {
 		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), name,
 					_("is not allowed as defined name"));
 		gnm_expr_top_unref (texpr);
@@ -5833,7 +5835,7 @@ cmd_define_name (WorkbookControl *wbc, char const *name,
 	me->pp = *pp;
 	me->texpr = texpr;
 
-	me->cmd.sheet = wb_control_cur_sheet (wbc);
+	me->cmd.sheet = sheet;
 	me->cmd.size = 1;
 
 	if (descriptor == NULL) {

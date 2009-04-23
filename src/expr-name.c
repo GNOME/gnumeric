@@ -36,7 +36,7 @@
  * returns TRUE if the given name is valid, FALSE otherwise.
  */
 gboolean
-expr_name_validate (const char *name)
+expr_name_validate (const char *name, Sheet *sheet)
 {
 	GnmCellPos cp;
 	const char *p;
@@ -52,8 +52,7 @@ expr_name_validate (const char *name)
 		return FALSE;
 
 	/* What about R1C1?  */
-#warning "We cannot use NULL here"
-	if (cellpos_parse (name, NULL, &cp, TRUE))
+	if (cellpos_parse (name, sheet, &cp, TRUE))
 		return FALSE;
 
 	/* Hmm...   Now what?  */
