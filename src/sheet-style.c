@@ -538,7 +538,7 @@ sheet_style_resize (Sheet *sheet, int cols, int rows)
 	sheet_style_init_size (sheet, cols, rows);
 
 	/* Reapply styles.  */
-	range_init (&new_full, 0, 0, cols, rows);
+	range_init (&new_full, 0, 0, cols - 1, rows - 1);
 	for (l = styles; l; l = l->next) {
 		GnmStyleRegion const *sr = l->data;
 		GnmRange const *r = &sr->range;
