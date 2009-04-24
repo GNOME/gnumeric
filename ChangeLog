@@ -1,5 +1,11 @@
 2009-04-24  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (gnm_sheet_resize_main): Restrict the selection to
+	the size of the new sheet.
+
+	* src/sheet-control-gui.c (cb_scg_sheet_resized): For panes and
+	thus cursors to be updated.
+
 	* src/sheet-style.c (sheet_style_resize): Fix off-by-one.
 
 	* configure.in (PANGO_WEIGHT_THIN): Check for this and friends.

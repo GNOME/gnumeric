@@ -1147,6 +1147,36 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 	}
 
 	/* ---------------------------------------- */
+	/* Restrict selection.  (Not undone.)  */
+
+	SHEET_FOREACH_VIEW (sheet, sv,
+		{
+			GnmRange new_full;
+			GSList *l;
+			GSList *sel = selection_get_ranges (sv, TRUE);
+			gboolean any = FALSE;
+			GnmCellPos vis;
+			sv_selection_reset (sv);
+			range_init (&new_full, 0, 0, cols - 1, rows - 1);
+			vis = new_full.start;
+			for (l = sel; l; l = l->next) {
+				GnmRange *r = l->data;
+				GnmRange newr;
+				if (range_intersection (&newr, r, &new_full)) {
+					sv_selection_add_range (sv, &newr);
+					vis = newr.start;
+					any = TRUE;
+				}
+				g_free (r);
+			}
+			g_slist_free (sel);
+			if (!any) {
+				sv_selection_add_pos (sv, 0, 0);
+			}
+			sv_make_cell_visible (sv, vis.col, vis.row, FALSE);
+		});
+
+	/* ---------------------------------------- */
 	/* Resize column and row containers.  */
 
 	colrow_resize (&sheet->cols, cols);
@@ -1207,6 +1237,8 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 	}
 
 	range_init_full_sheet (&sheet->priv->unhidden_region, sheet);
+
+	/* ---------------------------------------- */
 
 	sheet_redraw_all (sheet, TRUE);
 	return;

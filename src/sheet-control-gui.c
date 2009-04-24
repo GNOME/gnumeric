@@ -1218,9 +1218,8 @@ cb_scg_sheet_resized (Sheet *sheet,
 		      GParamSpec *pspec,
 		      SheetControlGUI *scg)
 {
-	SheetControl *sc = &scg->sheet_control;
-	sc_set_panes (sc);
-	scg_redraw_all (sc, TRUE);
+	cb_scg_redraw_resize (sheet, pspec, scg);
+	sc_set_panes (&scg->sheet_control);
 }
 
 static void
