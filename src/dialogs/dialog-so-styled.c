@@ -240,7 +240,13 @@ dialog_so_styled_bold_button_activated (GtkMenuItem *menuitem, DialogSOStyled *s
 			  G_CALLBACK (dialog_so_styled_bold_button_activated), \
                           state);                                              \
 	g_object_set_data (G_OBJECT (child), "boldvalue",                      \
-                           GINT_TO_POINTER (value)); 
+                           GINT_TO_POINTER (value));
+
+#ifndef HAVE_PANGO_WEIGHT_THIN_ETC
+#define PANGO_WEIGHT_THIN 100
+#define PANGO_WEIGHT_MEDIUM 500
+#define PANGO_WEIGHT_ULTRAHEAVY 1000
+#endif
 
 static GtkToolButton *
 dialog_so_styled_build_button_bold (GtkWidget *tb, DialogSOStyled *state)
@@ -267,8 +273,8 @@ dialog_so_styled_build_button_bold (GtkWidget *tb, DialogSOStyled *state)
 	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (tb_button), menu);
 	g_object_set_data (G_OBJECT (tb_button), "boldvalue",
                            GINT_TO_POINTER (PANGO_WEIGHT_BOLD));
-	g_signal_connect (G_OBJECT (tb_button), "clicked",                        \
-			  G_CALLBACK (dialog_so_styled_bold_button_activated), \
+	g_signal_connect (G_OBJECT (tb_button), "clicked",
+			  G_CALLBACK (dialog_so_styled_bold_button_activated),
                           state);
 	return tb_button;
 }

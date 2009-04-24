@@ -654,7 +654,18 @@ SAVE_CFLAGS=$CFLAGS
 SAVE_LIBS=$LIBS
 CFLAGS="$CFLAGS $GNUMERIC_CFLAGS"
 LIBS="$GNUMERIC_LIBS $LIBS"
+
 AC_CHECK_FUNCS(g_date_set_time_t g_slice_alloc pango_font_map_create_context gtk_recent_manager_get_default gtk_orientable_set_orientation gtk_adjustment_configure gsf_open_pkg_foreach_rel gsf_infile_msvba_steal_modules)
+
+AC_MSG_CHECKING([for PANGO_WEIGHT_THIN etc.])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <pango/pango.h>]],
+				[[(void)(PANGO_WEIGHT_THIN == 42);
+				(void)(PANGO_WEIGHT_MEDIUM == 42);
+				(void)(PANGO_WEIGHT_ULTRAHEAVY == 42);]])],
+               [AC_DEFINE(HAVE_PANGO_WEIGHT_THIN_ETC, 1, [Define if PANGO_WEIGHT_THIN etc are available])
+		AC_MSG_RESULT(yes)],
+	       [AC_MSG_RESULT(no)])
+
 CFLAGS=$SAVE_CFLAGS
 LIBS=$SAVE_LIBS
 

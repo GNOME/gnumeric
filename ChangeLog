@@ -1,3 +1,7 @@
+2009-04-24  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (PANGO_WEIGHT_THIN): Check for this and friends.
+
 2009-04-23  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-control-gui.c (cb_scg_sheet_resized): New function.
