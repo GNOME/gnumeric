@@ -8,7 +8,7 @@ Andreas:
 	* Quieten GTK warning [#579152]
 	* Print text in sheet object label [#144787]
 	* Implement editing of a sheet object label
-	* Include "italic" and "strikethrough" buttons in the properties 
+	* Include "italic", "strikethrough" and "bold" buttons in the properties 
 	  dialog for sheet object labels
 
 Jean:

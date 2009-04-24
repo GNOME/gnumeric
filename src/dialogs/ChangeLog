@@ -1,6 +1,13 @@
 2009-04-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-so-styled.c (DialogSOStyled): add button field
+	(dialog_so_styled_bold_button_activated): new
+	(dialog_so_styled_build_button_bold): new
+	(dialog_so_styled_text_widget): setup bold button
+	
+2009-04-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-so-styled.c (DialogSOStyled): add button field
 	(gnm_toggle_tool_button_set_active_no_signal): new
 	(cb_dialog_so_styled_text_widget_mark_set): block signals when
 	  activating buttons and handle strikethrough button

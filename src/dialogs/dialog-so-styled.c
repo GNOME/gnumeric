@@ -45,6 +45,7 @@ typedef struct {
 	
 	GtkToggleToolButton *italic;
 	GtkToggleToolButton *strikethrough;
+	GtkToolButton *bold;
 } DialogSOStyled;
 
 #define GNM_SO_STYLED_KEY "gnm-so-styled-key"
@@ -213,6 +214,66 @@ dialog_so_styled_build_toggle_button (GtkWidget *tb, DialogSOStyled *state, char
 	return GTK_TOGGLE_TOOL_BUTTON (tb_button);
 }
 
+static void
+dialog_so_styled_bold_button_activated (GtkMenuItem *menuitem, DialogSOStyled *state)
+{
+	gpointer val = g_object_get_data (G_OBJECT (menuitem), "boldvalue");
+	if (val != NULL) {
+		GtkTextIter start, end;
+		if (gtk_text_buffer_get_selection_bounds (state->buffer, &start, &end)) {
+			GtkTextTag *tag = gtk_text_buffer_create_tag (state->buffer, 
+								      NULL, NULL);
+			g_object_set (G_OBJECT (tag), "weight", GPOINTER_TO_INT (val),
+				      "weight-set", TRUE, NULL);
+			gtk_text_buffer_apply_tag (state->buffer, tag, &start, &end);
+			cb_dialog_so_styled_text_widget_changed (state->buffer, state);
+		}
+		g_object_set_data (G_OBJECT (state->bold), "boldvalue", val);
+	}
+}
+
+#define SETUPBPLDMENUITEM(string, value)                                       \
+	child = gtk_menu_item_new_with_label (string);                         \
+        gtk_widget_show (child);					       \
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), child);                  \
+	g_signal_connect (G_OBJECT (child), "activate",                        \
+			  G_CALLBACK (dialog_so_styled_bold_button_activated), \
+                          state);                                              \
+	g_object_set_data (G_OBJECT (child), "boldvalue",                      \
+                           GINT_TO_POINTER (value)); 
+
+static GtkToolButton *
+dialog_so_styled_build_button_bold (GtkWidget *tb, DialogSOStyled *state)
+{
+	GtkToolItem * tb_button;
+	GtkWidget *menu;
+	GtkWidget *child;
+
+	menu = gtk_menu_new ();
+	
+	SETUPBPLDMENUITEM(_("Thin"), PANGO_WEIGHT_THIN)
+	SETUPBPLDMENUITEM(_("Ultralight"), PANGO_WEIGHT_ULTRALIGHT)
+	SETUPBPLDMENUITEM(_("Light"), PANGO_WEIGHT_LIGHT)
+	SETUPBPLDMENUITEM(_("Normal"), PANGO_WEIGHT_NORMAL)
+	SETUPBPLDMENUITEM(_("Medium"), PANGO_WEIGHT_MEDIUM)
+	SETUPBPLDMENUITEM(_("Semibold"), PANGO_WEIGHT_SEMIBOLD)
+	SETUPBPLDMENUITEM(_("Bold"), PANGO_WEIGHT_BOLD)
+	SETUPBPLDMENUITEM(_("Ultrabold"), PANGO_WEIGHT_ULTRABOLD)
+	SETUPBPLDMENUITEM(_("Heavy"), PANGO_WEIGHT_HEAVY)
+	SETUPBPLDMENUITEM(_("Ultraheavy"), PANGO_WEIGHT_ULTRAHEAVY)
+
+	tb_button = gtk_menu_tool_button_new_from_stock (GTK_STOCK_BOLD);
+	gtk_toolbar_insert(GTK_TOOLBAR(tb), tb_button, -1);
+	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (tb_button), menu);
+	g_object_set_data (G_OBJECT (tb_button), "boldvalue",
+                           GINT_TO_POINTER (PANGO_WEIGHT_BOLD));
+	g_signal_connect (G_OBJECT (tb_button), "clicked",                        \
+			  G_CALLBACK (dialog_so_styled_bold_button_activated), \
+                          state);
+	return tb_button;
+}
+
+#undef SETUPBPLDMENUITEM
 
 static GtkWidget *
 dialog_so_styled_text_widget (DialogSOStyled *state)
@@ -231,6 +292,8 @@ dialog_so_styled_text_widget (DialogSOStyled *state)
 	state->strikethrough = dialog_so_styled_build_toggle_button 
 		(tb, state, GTK_STOCK_STRIKETHROUGH, 
 		 G_CALLBACK (cb_dialog_so_styled_text_widget_set_strikethrough));
+	gtk_toolbar_insert(GTK_TOOLBAR(tb), gtk_separator_tool_item_new (), -1);
+	state->bold = dialog_so_styled_build_button_bold (tb, state);
 
 	gtk_container_set_border_width (GTK_CONTAINER (tv), 5);
 	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (tv), GTK_WRAP_WORD_CHAR);
