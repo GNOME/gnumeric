@@ -587,23 +587,6 @@ range_is_full (GnmRange const *r, Sheet const *sheet, gboolean horiz)
 }
 
 /**
- * range_make_full:
- * @r: the range.
- * @sheet : the sheet in which @r lives
- * @full_col : Make @r a full column  ref (_row_ [0..MAX))
- * @full_row : Make @r a full row ref  (_column_ [0..MAX))
- **/
-void
-range_make_full	(GnmRange *r, Sheet const *sheet,
-		 gboolean full_col, gboolean full_row)
-{
-	if (full_col)
-		r->start.row = 0, r->end.row = gnm_sheet_get_last_row (sheet);
-	if (full_row)
-		r->start.col = 0, r->end.col = gnm_sheet_get_last_col (sheet);
-}
-
-/**
  * range_clip_to_finite :
  * @range :
  * @sheet : the sheet in which @range lives

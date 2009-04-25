@@ -152,6 +152,12 @@ struct _GnmExprRelocateInfo {
 		GNM_EXPR_RELOCATE_COLS,		/* ins/del col */
 		GNM_EXPR_RELOCATE_ROWS		/* ins/del row */
 	} reloc_type;
+
+	/* Valid for COLS/ROWS only.  Assumed by MOVE_RANGE.  If TRUE,
+	   ranges ending at the edge of the sheet will keep the end
+	   there.  */
+	gboolean sticky_end;
+
 };
 GnmExprTop const *gnm_expr_top_relocate	 (GnmExprTop const *texpr,
 					  GnmExprRelocateInfo const *rinfo,

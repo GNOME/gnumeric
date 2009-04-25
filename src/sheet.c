@@ -1126,7 +1126,7 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 		GOUndo *u = NULL;
 		gboolean err;
 
-		err = sheet_delete_cols (sheet, cols, old_cols - cols,
+		err = sheet_delete_cols (sheet, cols, G_MAXINT,
 					 pundo ? &u : NULL, cc);
 		if (pundo)
 			*pundo = go_undo_combine (*pundo, u);
@@ -1138,7 +1138,7 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 		GOUndo *u = NULL;
 		gboolean err;
 
-		err = sheet_delete_rows (sheet, rows, old_rows - rows,
+		err = sheet_delete_rows (sheet, rows, G_MAXINT,
 					 pundo ? &u : NULL, cc);
 		if (pundo)
 			*pundo = go_undo_combine (*pundo, u);
@@ -4398,6 +4398,7 @@ sheet_insert_cols (Sheet *sheet, int col, int count,
 
 	/* 2. Fix references to and from the cells which are moving */
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_COLS;
+	reloc_info.sticky_end = TRUE;
 	reloc_info.origin.start.col = col;
 	reloc_info.origin.start.row = 0;
 	reloc_info.origin.end.col = gnm_sheet_get_last_col (sheet);
@@ -4440,9 +4441,22 @@ sheet_delete_cols (Sheet *sheet, int col, int count,
 	GnmExprRelocateInfo reloc_info;
 	int i;
 	ColRowStateList *states = NULL;
+	int max_count;
+	gboolean beyond_end;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count > 0, TRUE);
+
+	max_count = gnm_sheet_get_max_cols (sheet) - col;
+	beyond_end = (count > max_count);
+	if (beyond_end) {
+		/*
+		 * We're trying to delete more than we have (not just to the
+		 * very end).  We take that as a signal that ranges should
+		 * not be sticky at the end.
+		 */
+		count = max_count;
+	}
 
 	if (pundo) *pundo = NULL;
 	schedule_reapply_filters (sheet, pundo);
@@ -4456,6 +4470,7 @@ sheet_delete_cols (Sheet *sheet, int col, int count,
 	}
 
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_COLS;
+	reloc_info.sticky_end = !beyond_end;
 	reloc_info.origin.start.col = col;
 	reloc_info.origin.start.row = 0;
 	reloc_info.origin.end.col = col + count - 1;
@@ -4559,6 +4574,7 @@ sheet_insert_rows (Sheet *sheet, int row, int count,
 
 	/* 2. Fix references to and from the cells which are moving */
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_ROWS;
+	reloc_info.sticky_end = TRUE;
 	reloc_info.origin.start.col = 0;
 	reloc_info.origin.start.row = row;
 	reloc_info.origin.end.col = gnm_sheet_get_last_col (sheet);
@@ -4601,9 +4617,22 @@ sheet_delete_rows (Sheet *sheet, int row, int count,
 	GnmExprRelocateInfo reloc_info;
 	int i;
 	ColRowStateList *states = NULL;
+	int max_count;
+	gboolean beyond_end;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count > 0, TRUE);
+
+	max_count = gnm_sheet_get_max_rows (sheet) - row;
+	beyond_end = (count > max_count);
+	if (beyond_end) {
+		/*
+		 * We're trying to delete more than we have (not just to the
+		 * very end).  We take that as a signal that ranges should
+		 * not be sticky at the end.
+		 */
+		count = max_count;
+	}
 
 	if (pundo) *pundo = NULL;
 	schedule_reapply_filters (sheet, pundo);
@@ -4617,6 +4646,7 @@ sheet_delete_rows (Sheet *sheet, int row, int count,
 	}
 
 	reloc_info.reloc_type = GNM_EXPR_RELOCATE_ROWS;
+	reloc_info.sticky_end = !beyond_end;
 	reloc_info.origin.start.col = 0;
 	reloc_info.origin.start.row = row;
 	reloc_info.origin.end.col = gnm_sheet_get_last_col (sheet);
@@ -4738,6 +4768,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 			 * smart about partial invalidations */
 			reloc_info.col_offset = gnm_sheet_get_max_cols (rinfo->target_sheet);
 			reloc_info.row_offset = gnm_sheet_get_max_rows (rinfo->target_sheet);
+			reloc_info.sticky_end = TRUE;
 			if (rinfo->col_offset == 0) {
 				reloc_info.col_offset = 0;
 				reloc_info.reloc_type = GNM_EXPR_RELOCATE_ROWS;

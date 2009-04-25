@@ -1918,7 +1918,8 @@ reloc_restore_cellref (RelocInfoInternal const *rinfo,
 
 
 static GnmExpr const *
-reloc_cellrange (RelocInfoInternal const *rinfo, GnmValueRange const *v)
+reloc_cellrange (RelocInfoInternal const *rinfo, GnmValueRange const *v,
+		 gboolean sticky_end)
 {
 	GnmRange r;
 	Sheet   *start_sheet, *end_sheet;
@@ -1935,13 +1936,18 @@ reloc_cellrange (RelocInfoInternal const *rinfo, GnmValueRange const *v)
 	if (NULL == v->cell.b.sheet)
 		end_sheet = start_sheet;
 
-	full_col = range_is_full (&r, start_sheet, FALSE);
-	full_row = range_is_full (&r, start_sheet, TRUE);
+	full_col = sticky_end && r.end.row >= gnm_sheet_get_last_row (start_sheet);
+	full_row = sticky_end && r.end.col >= gnm_sheet_get_last_col (start_sheet);
 
 	if (reloc_range (rinfo->details, start_sheet, end_sheet, &r) ||
 	    rinfo->from_inside) {
 		GnmRangeRef res = v->cell;
-		range_make_full (&r, end_sheet, full_col, full_row);
+
+		if (full_col)
+			r.end.row = gnm_sheet_get_last_row (start_sheet);
+		if (full_row)
+			r.end.col = gnm_sheet_get_last_col (start_sheet);
+
 		if (reloc_restore_cellref (rinfo, start_sheet, &r.start, &res.a) ||
 		    reloc_restore_cellref (rinfo, end_sheet,   &r.end,   &res.b))
 			return gnm_expr_new_constant (value_new_error_REF (NULL));
@@ -2108,7 +2114,9 @@ gnm_expr_relocate (GnmExpr const *expr, RelocInfoInternal const *rinfo)
 				return gnm_expr_new_constant (value_new_error_REF (NULL));
 			return NULL;
 
-		default : {
+		case GNM_EXPR_RELOCATE_MOVE_RANGE:
+		case GNM_EXPR_RELOCATE_COLS:
+		case GNM_EXPR_RELOCATE_ROWS: {
 			GnmRange r;
 			Sheet   *sheet;
 
@@ -2126,19 +2134,27 @@ gnm_expr_relocate (GnmExpr const *expr, RelocInfoInternal const *rinfo)
 			}
 			return NULL;
 		}
+
+		default:
+			g_assert_not_reached ();
 		}
+
 		return NULL;
 	}
 
 	case GNM_EXPR_OP_CONSTANT:
 		if (expr->constant.value->type == VALUE_CELLRANGE) {
+			GnmValueRange const *vr = &expr->constant.value->v_range;
 			switch (rinfo->details->reloc_type) {
 			case GNM_EXPR_RELOCATE_INVALIDATE_SHEET:
-				return invalidate_sheet_cellrange (rinfo,
-					&expr->constant.value->v_range);
-			default :
-				return reloc_cellrange (rinfo,
-					&expr->constant.value->v_range);
+				return invalidate_sheet_cellrange (rinfo, vr);
+			case GNM_EXPR_RELOCATE_MOVE_RANGE:
+				return reloc_cellrange (rinfo, vr, TRUE);
+			case GNM_EXPR_RELOCATE_COLS:
+			case GNM_EXPR_RELOCATE_ROWS:
+				return reloc_cellrange (rinfo, vr, rinfo->details->sticky_end);
+			default:
+				g_assert_not_reached ();
 			}
 		}
 		return NULL;

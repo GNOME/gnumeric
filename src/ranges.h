@@ -79,8 +79,6 @@ int	    range_width		(GnmRange const *r);
 int	    range_height	(GnmRange const *r);
 gboolean    range_is_singleton  (GnmRange const *r);
 gboolean    range_is_full	(GnmRange const *r, Sheet const *sheet, gboolean horiz);
-void        range_make_full	(GnmRange *r, Sheet const *sheet,
-				 gboolean full_col, gboolean full_row);
 void        range_clip_to_finite(GnmRange *range, Sheet *sheet);
 gboolean    range_contained     (GnmRange const *a, GnmRange const *b);
 gboolean    range_intersection  (GnmRange *r,

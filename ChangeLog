@@ -1,5 +1,20 @@
 2009-04-24  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (sheet_delete_cols, sheet_delete_rows): If count
+	sends us beyond the end of the sheet, take that as a hint not to
+	make ranges that go to the end of the sheet sticky.
+	(gnm_sheet_resize_main): Supply such a hint.
+
+	* src/expr.h (struct _GnmExprRelocateInfo): Add extra sticky_end
+	field for col/row insert/delete.
+
+	* src/expr.c (reloc_cellrange): Take extra sticky_end argument and
+	only make end-of-sheet stick if that is set.  Fix logic to ignore
+	beginning of such ranges.  All callers changed.
+	(gnm_expr_relocate): Avoid using "default:" for reloc_type.
+
+	* src/ranges.c (range_make_full): Remove.  No longer used.
+
 	* src/validation.c (validation_barf): Ignore the problem if
 	VALIDATION_STYLE_NONE is used.  Fixes #580157.
 
