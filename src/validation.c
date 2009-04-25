@@ -298,12 +298,20 @@ validation_is_ok (GnmValidation const *v)
 }
 
 static ValidationStatus
-validation_barf (WorkbookControl *wbc, GnmValidation const *gv, char *def_msg)
+validation_barf (WorkbookControl *wbc, GnmValidation const *gv,
+		 char *def_msg, gboolean *showed_dialog)
 {
 	char const *msg = gv->msg ? gv->msg->str : def_msg;
 	char const *title = gv->title ? gv->title->str : _("Gnumeric: Validation");
-	ValidationStatus result = wb_control_validation_msg (wbc,
-		gv->style, title, msg);
+	ValidationStatus result;
+
+	if (gv->style == VALIDATION_STYLE_NONE) {
+		/* Invalid, but we're asked to ignore.  */
+		result = VALIDATION_STATUS_VALID;
+	} else {
+		if (showed_dialog) *showed_dialog = TRUE;
+		result = wb_control_validation_msg (wbc, gv->style, title, msg);
+	}
 	g_free (def_msg);
 	return result;
 }
@@ -319,8 +327,7 @@ cb_validate_custom (GnmValueIter const *v_iter, GnmValue const *target)
 
 #define BARF(msg)					\
   do {							\
-	if (showed_dialog) *showed_dialog = TRUE;	\
-	return validation_barf (wbc, v, msg);		\
+	return validation_barf (wbc, v, msg, showed_dialog);		\
   } while (0)
 
 /**

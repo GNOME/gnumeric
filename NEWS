@@ -8,8 +8,8 @@ Andreas:
 	* Quieten GTK warning [#579152]
 	* Print text in sheet object label [#144787]
 	* Implement editing of a sheet object label
-	* Include "italic", "strikethrough" and "bold" buttons in the properties 
-	  dialog for sheet object labels
+	* Include "italic", "strikethrough" and "bold" buttons in the
+	  properties dialog for sheet object labels
 
 Jean:
 	* Variable sheet sizes.
@@ -30,14 +30,15 @@ Morten:
 	* Fix Applix loading crash.  [#577145]
 	* Fix Lotus loading crash.  [#577156]
 	* Fix XLS loading crashes.  [#577205] [#577208] [#577259] [#577260]
-	[#577348] [#577351] [#577399] [#577400] [#577503] [#577504]
+	  [#577348] [#577351] [#577399] [#577400] [#577503] [#577504]
 	* Add sorted sheet list to tab menu.
 	* Fix criticals during Lotus load.
 	* Clean up Sheet object.
 	* Clean up str.h usage.
 	* Load csv and txt files into sheets as big as needed.  [Part of
-	#168875]
+	  #168875]
 	* Implement sheet resize.
+	* Fix validation problem.  [#580157]
 
 Vivien Malerba:
 	* Move to libgda4.
