@@ -1,5 +1,7 @@
 2009-04-24  Morten Welinder  <terra@gnome.org>
 
+	* src/expr.c (gnm_expr_as_string): Add defaults for debugging.
+
 	* src/sheet.c (gnm_sheet_resize_main): Restrict the selection to
 	the size of the new sheet.
 

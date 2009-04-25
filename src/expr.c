@@ -27,6 +27,7 @@
 #include "expr-impl.h"
 #include "expr-name.h"
 #include "dependent.h"
+#include "application.h"
 #include "func.h"
 #include "cell.h"
 #include "sheet.h"
@@ -1723,9 +1724,23 @@ gnm_expr_as_string (GnmExpr const *expr, GnmParsePos const *pp,
 		    GnmConventions const *convs)
 {
 	GnmConventionsOut out;
+	GnmParsePos pp0;
 
 	g_return_val_if_fail (expr != NULL, NULL);
 	g_return_val_if_fail (pp != NULL, NULL);
+
+	/*
+	 * Defaults for debugging only!
+	 */
+	if (!convs)
+		convs = gnm_conventions_default;
+	if (!pp) {
+		/* UGH: Just get the first sheet in the first workbook! */
+		Workbook *wb = gnm_app_workbook_get_by_index (0);
+		Sheet *sheet = workbook_sheet_by_index (wb, 0);
+		parse_pos_init (&pp0, NULL, sheet, 0, 0);
+		pp = &pp0;
+	}
 
 	out.accum = g_string_new (NULL);
 	out.pp    = pp;
