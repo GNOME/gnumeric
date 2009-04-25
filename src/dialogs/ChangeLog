@@ -1,3 +1,8 @@
+2009-04-25  Morten Welinder  <terra@gnome.org>
+
+	* dialog-sheet-resize.c (dialog_sheet_resize): Force an update of
+	the sizes.  Fixes #580229.
+
 2009-04-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-so-styled.c (DialogSOStyled): add button field
