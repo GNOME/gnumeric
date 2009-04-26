@@ -2204,37 +2204,25 @@ static void
 xml_sax_named_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	GnmParsePos *pos;
+	GnmParsePos pp;
 	GnmNamedExpr *nexpr;
 
 	g_return_if_fail (state->name.name != NULL);
 	g_return_if_fail (state->name.value != NULL);
 
-	pos = g_new (GnmParsePos, 1);
-	parse_pos_init (pos, state->wb, state->sheet, 0, 0);
-	if (state->name.position) {
-		GnmCellRef tmp;
-		char const *res = cellref_parse (&tmp, state->sheet,
-						 state->name.position, &pos->eval);
-		if (res != NULL && *res == '\0') {
-			pos->eval.col = tmp.col;
-			pos->eval.row = tmp.row;
-		}
-	}
-
-	nexpr = expr_name_add (pos, state->name.name,
+	parse_pos_init (&pp, state->wb, state->sheet, 0, 0);
+	nexpr = expr_name_add (&pp, state->name.name,
 			       gnm_expr_top_new_constant (value_new_empty ()),
 			       NULL,
 			       TRUE,
 			       NULL);
 
+	state->delayed_names = g_list_prepend (state->delayed_names, state->sheet);
 	state->delayed_names = g_list_prepend (state->delayed_names, state->name.value);
 	state->name.value = NULL;
-	state->delayed_names = g_list_prepend (state->delayed_names, pos);
-	state->delayed_names = g_list_prepend (state->delayed_names, nexpr);
-
-	g_free (state->name.position);
+	state->delayed_names = g_list_prepend (state->delayed_names, state->name.position);
 	state->name.position = NULL;
+	state->delayed_names = g_list_prepend (state->delayed_names, nexpr);
 
 	g_free (state->name.name);
 	state->name.name = NULL;
@@ -2320,26 +2308,48 @@ handle_delayed_names (XMLSaxParseState *state)
 {
 	GList *l;
 
-	for (l = state->delayed_names; l; l = l->next->next->next) {
+	for (l = state->delayed_names; l; l = l->next->next->next->next) {
 		GnmNamedExpr *nexpr = l->data;
-		GnmParsePos *pos = l->next->data;
+		char *pos_str = l->next->data;
 		char *expr_str = l->next->next->data;
+		Sheet *sheet = l->next->next->next->data;
 		GnmParseError perr;
 		GnmExprTop const *texpr;
+		GnmParsePos pp;
+
+		/*
+		 * We need to parse the expression with respect to some
+		 * sheet because sheets may have different sizes.  This
+		 * isn't great, but will have to do for now.
+		 */
+		if (!sheet)
+			sheet = workbook_sheet_by_index (state->wb, 0);
+
+		parse_pos_init (&pp, state->wb, sheet, 0, 0);
+		if (pos_str) {
+			GnmCellRef tmp;
+			char const *rest =
+				cellref_parse (&tmp, sheet, pos_str, &pp.eval);
+			if (rest != NULL && *rest == '\0') {
+				pp.eval.col = tmp.col;
+				pp.eval.row = tmp.row;
+			}
+		}
 
 		parse_error_init (&perr);
-		texpr = gnm_expr_parse_str (expr_str, pos,
+		texpr = gnm_expr_parse_str (expr_str, &pp,
 					    GNM_EXPR_PARSE_DEFAULT,
 					    state->convs,
 					    &perr);
-		if (texpr)
+		if (texpr) {
+			nexpr->pos.eval = pp.eval;
 			expr_name_set_expr (nexpr, texpr);
-		else
+		} else
 			gnm_io_warning (state->context, "%s", perr.err->message);
 
 		parse_error_free (&perr);
 		g_free (expr_str);
-		g_free (pos);
+		g_free (pos_str);
 	}
 
 	g_list_free (state->delayed_names);

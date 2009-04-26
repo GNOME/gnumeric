@@ -1,3 +1,9 @@
+2009-04-26  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (handle_delayed_names): Parse position here
+	too.
+	(xml_sax_named_expr_end): Don't do it here.  Fixes #580227.
+
 2009-04-25  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.
