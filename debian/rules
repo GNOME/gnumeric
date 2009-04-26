@@ -39,13 +39,7 @@ features+= --enable-ssindex
 # The GDA and GnomeDB plugins for gnumeric now require versions of GDA and
 # GnomeDB that are not available as packages yet.
 #	Mon, 10 Oct 2005 20:37:06 +0200
-features+= --without-gda --without-gnomedb
-
-# configure.in: "Gnome Basic is extremely API unstable; it is likely that
-# gnumeric will only build with the single version mentioned in
-# configure.in, if at all. It is possible, but unlikely, that Gnome Basic
-# contains security vulnerabilities."
-features+= --without-gb
+features+= --without-gda
 
 # Psion files support
 features+= --with-psiconv
@@ -58,13 +52,6 @@ features+= --with-perl
 
 # The Python plugin
 features+= PYTHON=/usr/bin/python --with-python
-
-# Bonobo allows us to use parts of other applications as components via
-# CORBA, and was supposed to allow us to work as a component for other
-# applications. However, that promise hasn't really been realised and
-# according to Morten Welinder "drop bonobo from your build.  it's
-# pointless."
-features+= --without-bonobo
 
 # Don't build a PDF of the documentation.
 features+= --disable-pdfdocs
@@ -171,7 +158,7 @@ install: DH_OPTIONS=
 install: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k
+	dh_prep
 	dh_installdirs
 
 	cd build && env GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 \
@@ -256,7 +243,6 @@ binary-indep: build install
 	dh_installchangelogs ChangeLog -i
 	dh_gconf -i
 	dh_scrollkeeper -i
-	dh_desktop -i
 	dh_icons -i
 	dh_link -i
 	dh_compress -i
@@ -291,7 +277,6 @@ binary-arch: build install
 	dh_installchangelogs ChangeLog -a
 	dh_gconf -a
 	dh_scrollkeeper -a
-	dh_desktop -a
 	dh_icons -a
 	dh_strip -a
 	dh_link -a

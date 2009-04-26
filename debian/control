@@ -13,9 +13,9 @@ Build-Depends: debhelper (>= 7.0.0), python-central (>= 0.5), dh-buildinfo,
  pxlib-dev (>= 0.5.1-2+b1), libpsiconv-dev (>= 0.9.8-2), libperl-dev,
  python-dev, python-gtk2-dev
 Homepage: http://www.gnumeric.org/
-Vcs-Svn: svn://svn.gnome.org/svn/gnumeric/trunk
-Vcs-Browser: http://svn.gnome.org/viewcvs/gnumeric/trunk/
-Standards-Version: 3.8.0
+Vcs-git: git://git.gnome.org/gnumeric
+Vcs-Browser: http://git.gnome.org/cgit/gnumeric
+Standards-Version: 3.8.1
 
 Package: gnumeric
 Architecture: any
@@ -60,6 +60,7 @@ Description: spreadsheet application for GNOME - main program
 
 Package: gnumeric-common
 Architecture: all
+Depends: ${misc:Depends}
 Replaces: gnumeric (<= 1.2.6-1)
 Description: spreadsheet application for GNOME - common files
  Gnumeric is a spreadsheet application that interoperates well
@@ -72,6 +73,7 @@ Description: spreadsheet application for GNOME - common files
 Package: gnumeric-doc
 Architecture: all
 Section: doc
+Depends: ${misc:Depends}
 Recommends: yelp (>= 2.6.0), gnome-desktop-data
 Suggests: gnumeric (>= ${Upstream-Version}), docbook-xsl
 Conflicts: gnumeric1.0-doc
@@ -86,7 +88,7 @@ Description: spreadsheet application for GNOME - documentation
 
 Package: gnumeric-plugins-extra
 Architecture: any
-Depends: gnumeric (= ${binary:Version}), python-gtk2, ${python:Depends}, ${shlibs:Depends}
+Depends: gnumeric (= ${binary:Version}), python-gtk2, ${python:Depends}, ${shlibs:Depends}, ${misc:Depends}
 Conflicts: gnumeric1.0-python, gnumeric1.0-gda, gnumeric-python, gnumeric-gda
 Replaces: gnumeric1.0-gda, gnumeric1.0-python, gnumeric-python, gnumeric-gda, gnumeric (<= 1.3.92-1)
 XS-Python-Version: current

@@ -1,11 +1,25 @@
-gnumeric (1.9.6~pre-1) experimental; urgency=low
+gnumeric (1.9.6-1) unstable; urgency=low
 
-  * SVN trunk
-  * [debian/control] Bumped goffice build dependency as per configure.in .
+  * New upstream development release. Upstream changes include:
+    * Basic infrastructure for variable sheet sizes. For example, text and
+      CSV files now load into sheets as big as needed and the silent
+      truncation of a test DBF file with 65536 rows is no longer
+      reproducible. (Closes: #252468, #331356)
+  * [debian/control]
+    * Bumped libgsf and goffice build dependencies as per configure.in .
+    * Fixed debhelper-but-no-misc-depends.
+    * Call dh_prep instead of dh_clean -k.
+    * Updated Standards-Version.
+    * Follow upstream VCS change: replaced Vcs-Svn by Vcs-git and updated
+      Vcs-Browser.
   * [debian/gnumeric.install] Re-enabled schema installation.
-  * [debian/control] Bumped libgsf build dependency per configure.in .
+  * [debian/gnumeric.prerm] Dropped. Fixes maintainer-script-empty.
+  * [debian/rules]
+    * Removed calls to dh_desktop which has been deprecated.
+    * Removed --without-gnomedb, --without-gb, --without-bonobo from
+      features; they are longer needed or recognised.
 
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 29 Mar 2009 20:15:19 +0200
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 26 Apr 2009 17:58:42 +0200
 
 gnumeric (1.9.5-1) unstable; urgency=low
 
