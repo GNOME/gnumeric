@@ -1,3 +1,7 @@
+2009-04-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.6
+
 2009-04-22  Morten Welinder  <terra@gnome.org>
 
 	* ms-container.c (ms_container_read_markup): Fix badly

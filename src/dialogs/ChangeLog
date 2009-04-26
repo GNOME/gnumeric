@@ -1,3 +1,7 @@
+2009-04-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.6
+
 2009-04-25  Morten Welinder  <terra@gnome.org>
 
 	* dialog-sheet-resize.c (dialog_sheet_resize): Force an update of

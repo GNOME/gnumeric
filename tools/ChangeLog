@@ -1,3 +1,7 @@
+2009-04-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.6
+
 2009-03-31  Morten Welinder  <terra@gnome.org>
 
 	* check-glade-visible: Check for type_hint

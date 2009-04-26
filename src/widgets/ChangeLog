@@ -1,3 +1,7 @@
+2009-04-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.6
+
 2009-04-17  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_get_rangesel): Evaluate

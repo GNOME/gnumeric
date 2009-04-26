@@ -1,3 +1,7 @@
+2009-04-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.6
+
 2009-03-30  Morten Welinder  <terra@gnome.org>
 
 	* lotus-formula.c (lotus_placeholder): Lookup name, just in case

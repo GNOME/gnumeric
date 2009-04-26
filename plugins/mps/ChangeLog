@@ -1,3 +1,7 @@
+2009-04-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.6
+
 2009-03-28  Morten Welinder  <terra@gnome.org>
 
 	* mps.c (mps_write_coefficients, mps_create_sheet): Make things a

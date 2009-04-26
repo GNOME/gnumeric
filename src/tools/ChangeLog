@@ -1,3 +1,7 @@
+2009-04-25  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.6
+
 2009-04-10  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* analysis-kaplan-meier.c: fixed after GogStyle -> GOStyle rename.
