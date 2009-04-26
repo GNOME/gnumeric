@@ -1,5 +1,7 @@
 Makefile.in
 Makefile
+functions.out
+functions.tmp
 functions.xml
 func.defs
 gnumeric-*.omf
