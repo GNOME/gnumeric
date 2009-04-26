@@ -1,3 +1,8 @@
+2009-04-26  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_sheet_extent): Fix off-by-one when we
+	overflow the area available.
+
 2009-04-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.6

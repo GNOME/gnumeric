@@ -1,5 +1,8 @@
 Gnumeric 1.9.7
 
+Morten:
+	* Fix xls save problem with sheets that are too big for the format.
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.6
 

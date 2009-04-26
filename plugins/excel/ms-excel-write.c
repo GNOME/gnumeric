@@ -228,7 +228,7 @@ excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
 				 "and this workbook has %d",
 				 maxcols),
 			  maxcols, extent->end.col);
-		extent->end.col = maxcols;
+		extent->end.col = maxcols - 1;
 	}
 	if (extent->end.row >= maxrows) {
 		gnm_io_warning (io_context,
@@ -240,7 +240,7 @@ excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
 				 "and this workbook has %d",
 				 maxrows),
 			maxrows, extent->end.row);
-		extent->end.row = maxrows;
+		extent->end.row = maxrows - 1;
 	}
 
 	sheet_style_get_extent (sheet, extent, col_styles);
