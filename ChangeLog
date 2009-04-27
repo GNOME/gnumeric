@@ -1,3 +1,12 @@
+2009-04-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gui-util.h (gnm_create_std_tags_for_buffer): new
+	* src/gui-util.c (gnm_create_std_tags_for_buffer): new
+	(gnm_load_pango_attributes_into_buffer_filter): weight will use named tags
+	(gnm_load_pango_attributes_into_buffer_named_filter): ditto
+	(gnm_load_pango_attributes_into_buffer): The standard tags will exist.
+	  Classify the weight into the standard values.
+	
 2009-04-26  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (handle_delayed_names): Parse position here

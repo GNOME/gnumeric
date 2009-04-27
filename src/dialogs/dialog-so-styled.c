@@ -149,14 +149,6 @@ cb_dialog_so_styled_text_widget_set_italic (GtkToggleToolButton *toolbutton, Dia
 			(gtk_text_buffer_get_tag_table (state->buffer), "PANGO_STYLE_ITALIC");
 		GtkTextTag *tag_normal = gtk_text_tag_table_lookup 
 			(gtk_text_buffer_get_tag_table (state->buffer), "PANGO_STYLE_NORMAL");
-		if (tag_italic == NULL)
-			tag_italic = gtk_text_buffer_create_tag (state->buffer, "PANGO_STYLE_ITALIC", 
-								 "style", PANGO_STYLE_ITALIC, 
-								 "style-set", TRUE, NULL);
-		if (tag_normal == NULL)
-			tag_normal = gtk_text_buffer_create_tag (state->buffer, "PANGO_STYLE_NORMAL", 
-								 "style", PANGO_STYLE_NORMAL, 
-								 "style-set", TRUE, NULL);
 		
 		if (gtk_text_iter_has_tag (&start, tag_italic)) {
 			gtk_text_buffer_remove_tag (state->buffer, tag_italic,
@@ -181,14 +173,6 @@ cb_dialog_so_styled_text_widget_set_strikethrough (GtkToggleToolButton *toolbutt
 			(gtk_text_buffer_get_tag_table (state->buffer), "PANGO_STRIKETHROUGH_FALSE");
 		GtkTextTag *tag_strikethrough = gtk_text_tag_table_lookup 
 			(gtk_text_buffer_get_tag_table (state->buffer), "PANGO_STRIKETHROUGH_TRUE");
-		if (tag_no_strikethrough == NULL)
-			tag_no_strikethrough = gtk_text_buffer_create_tag (state->buffer, "PANGO_STRIKETHROUGH_FALSE", 
-								 "strikethrough", FALSE, 
-								 "strikethrough-set", TRUE, NULL);
-		if (tag_strikethrough == NULL)
-			tag_strikethrough = gtk_text_buffer_create_tag (state->buffer, "PANGO_STRIKETHROUGH_TRUE", 
-								 "strikethrough", TRUE, 
-								 "strikethrough-set", TRUE, NULL);
 		
 		if (gtk_text_iter_has_tag (&start, tag_strikethrough)) {
 			gtk_text_buffer_remove_tag (state->buffer, tag_strikethrough,
@@ -215,20 +199,42 @@ dialog_so_styled_build_toggle_button (GtkWidget *tb, DialogSOStyled *state, char
 }
 
 static void
+dialog_so_styled_remove_weight_tags (GtkTextBuffer *buffer, GtkTextIter *start, GtkTextIter *end)
+{
+	static char const *tag_names[] = {
+		"PANGO_WEIGHT_THIN",
+		"PANGO_WEIGHT_ULTRALIGHT",
+		"PANGO_WEIGHT_LIGHT",
+		"PANGO_WEIGHT_BOOK",
+		"PANGO_WEIGHT_NORMAL",
+		"PANGO_WEIGHT_MEDIUM",
+		"PANGO_WEIGHT_SEMIBOLD",
+		"PANGO_WEIGHT_BOLD",
+		"PANGO_WEIGHT_ULTRABOLD",
+		"PANGO_WEIGHT_HEAVY",
+		"PANGO_WEIGHT_ULTRAHEAVY",
+		NULL
+	};
+	char const **tag_names_ptr;
+
+	for (tag_names_ptr = tag_names; *tag_names_ptr != NULL; tag_names_ptr++)
+		gtk_text_buffer_remove_tag_by_name (buffer, *tag_names_ptr, start, end);
+}
+
+static void
 dialog_so_styled_bold_button_activated (GtkMenuItem *menuitem, DialogSOStyled *state)
 {
-	gpointer val = g_object_get_data (G_OBJECT (menuitem), "boldvalue");
+	char const *val = g_object_get_data (G_OBJECT (menuitem), "boldvalue");
 	if (val != NULL) {
 		GtkTextIter start, end;
 		if (gtk_text_buffer_get_selection_bounds (state->buffer, &start, &end)) {
-			GtkTextTag *tag = gtk_text_buffer_create_tag (state->buffer, 
-								      NULL, NULL);
-			g_object_set (G_OBJECT (tag), "weight", GPOINTER_TO_INT (val),
-				      "weight-set", TRUE, NULL);
+			GtkTextTag *tag = gtk_text_tag_table_lookup 
+				(gtk_text_buffer_get_tag_table (state->buffer), val);
+			dialog_so_styled_remove_weight_tags (state->buffer, &start, &end);
 			gtk_text_buffer_apply_tag (state->buffer, tag, &start, &end);
 			cb_dialog_so_styled_text_widget_changed (state->buffer, state);
 		}
-		g_object_set_data (G_OBJECT (state->bold), "boldvalue", val);
+		g_object_set_data (G_OBJECT (state->bold), "boldvalue", (char *) val);
 	}
 }
 
@@ -240,13 +246,8 @@ dialog_so_styled_bold_button_activated (GtkMenuItem *menuitem, DialogSOStyled *s
 			  G_CALLBACK (dialog_so_styled_bold_button_activated), \
                           state);                                              \
 	g_object_set_data (G_OBJECT (child), "boldvalue",                      \
-                           GINT_TO_POINTER (value));
+			   (char *) value);
 
-#ifndef HAVE_PANGO_WEIGHT_THIN_ETC
-#define PANGO_WEIGHT_THIN 100
-#define PANGO_WEIGHT_MEDIUM 500
-#define PANGO_WEIGHT_ULTRAHEAVY 1000
-#endif
 
 static GtkToolButton *
 dialog_so_styled_build_button_bold (GtkWidget *tb, DialogSOStyled *state)
@@ -257,26 +258,26 @@ dialog_so_styled_build_button_bold (GtkWidget *tb, DialogSOStyled *state)
 
 	menu = gtk_menu_new ();
 	
-	SETUPBPLDMENUITEM(_("Thin"), PANGO_WEIGHT_THIN)
-	SETUPBPLDMENUITEM(_("Ultralight"), PANGO_WEIGHT_ULTRALIGHT)
-	SETUPBPLDMENUITEM(_("Light"), PANGO_WEIGHT_LIGHT)
-	SETUPBPLDMENUITEM(_("Normal"), PANGO_WEIGHT_NORMAL)
-	SETUPBPLDMENUITEM(_("Medium"), PANGO_WEIGHT_MEDIUM)
-	SETUPBPLDMENUITEM(_("Semibold"), PANGO_WEIGHT_SEMIBOLD)
-	SETUPBPLDMENUITEM(_("Bold"), PANGO_WEIGHT_BOLD)
-	SETUPBPLDMENUITEM(_("Ultrabold"), PANGO_WEIGHT_ULTRABOLD)
-	SETUPBPLDMENUITEM(_("Heavy"), PANGO_WEIGHT_HEAVY)
-	SETUPBPLDMENUITEM(_("Ultraheavy"), PANGO_WEIGHT_ULTRAHEAVY)
+	SETUPBPLDMENUITEM(_("Thin"), "PANGO_WEIGHT_THIN")
+	SETUPBPLDMENUITEM(_("Ultralight"), "PANGO_WEIGHT_ULTRALIGHT")
+	SETUPBPLDMENUITEM(_("Light"), "PANGO_WEIGHT_LIGHT")
+	SETUPBPLDMENUITEM(_("Normal"), "PANGO_WEIGHT_NORMAL")
+	SETUPBPLDMENUITEM(_("Medium"), "PANGO_WEIGHT_MEDIUM")
+	SETUPBPLDMENUITEM(_("Semibold"), "PANGO_WEIGHT_SEMIBOLD")
+	SETUPBPLDMENUITEM(_("Bold"), "PANGO_WEIGHT_BOLD")
+	SETUPBPLDMENUITEM(_("Ultrabold"), "PANGO_WEIGHT_ULTRABOLD")
+	SETUPBPLDMENUITEM(_("Heavy"), "PANGO_WEIGHT_HEAVY")
+	SETUPBPLDMENUITEM(_("Ultraheavy"), "PANGO_WEIGHT_ULTRAHEAVY")
 
 	tb_button = gtk_menu_tool_button_new_from_stock (GTK_STOCK_BOLD);
 	gtk_toolbar_insert(GTK_TOOLBAR(tb), tb_button, -1);
 	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (tb_button), menu);
 	g_object_set_data (G_OBJECT (tb_button), "boldvalue",
-                           GINT_TO_POINTER (PANGO_WEIGHT_BOLD));
+                           (char *) "PANGO_WEIGHT_BOLD");
 	g_signal_connect (G_OBJECT (tb_button), "clicked",
 			  G_CALLBACK (dialog_so_styled_bold_button_activated),
                           state);
-	return tb_button;
+	return GTK_TOOL_BUTTON (tb_button);
 }
 
 #undef SETUPBPLDMENUITEM
@@ -291,6 +292,7 @@ dialog_so_styled_text_widget (DialogSOStyled *state)
 	PangoAttrList  *markup;
 
 	state->buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
+	gnm_create_std_tags_for_buffer (state->buffer);
 
 	state->italic = dialog_so_styled_build_toggle_button 
 		(tb, state, GTK_STOCK_ITALIC, 

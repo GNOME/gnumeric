@@ -599,11 +599,11 @@ pref_window_page_initializer (PrefState *state,
 	int_pref_create_widget (state->root, GNM_CONF_WORKBOOK_NROWS,
 				page, row++, GNM_DEFAULT_ROWS, GNM_MIN_ROWS, GNM_MAX_ROWS, GNM_MIN_ROWS, 
 				gnm_gconf_set_workbook_nrows,
-				_("Default number of rows in a sheet"));
+				_("Default Number of Rows in a Sheet"));
 	int_pref_create_widget (state->root, GNM_CONF_WORKBOOK_NCOLS,
 				page, row++, GNM_DEFAULT_COLS, GNM_MIN_COLS, GNM_MAX_COLS, GNM_MIN_COLS, 
 				gnm_gconf_set_workbook_ncols,
-				_("Default number of columns in a sheet"));
+				_("Default Number of Columns in a Sheet"));
 
 	bool_pref_create_widget (node, GNM_CONF_GUI_ED_LIVESCROLLING,
 				 page, row++, 
@@ -746,7 +746,7 @@ pref_copypaste_page_initializer (PrefState *state,
 				 GNM_CONF_CUTANDPASTE_DIR "/" GNM_CONF_CUTANDPASTE_PREFER_CLIPBOARD,
 				 page, row++, 
 				 gnm_gconf_set_prefer_clipboard,
-				 _("Prefer CLIPBOARD over PRIMARY selection"));
+				 _("Prefer CLIPBOARD Over PRIMARY Selection"));
 	
 	gtk_widget_show_all (page);
 	return page;

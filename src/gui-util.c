@@ -667,7 +667,6 @@ gnm_load_pango_attributes_into_buffer_filter (PangoAttribute *attribute,
 					  G_GNUC_UNUSED gpointer data)
 {
 	return ((PANGO_ATTR_FOREGROUND == attribute->klass->type) ||
-		(PANGO_ATTR_WEIGHT == attribute->klass->type) ||
 		(PANGO_ATTR_UNDERLINE == attribute->klass->type) ||
 		(PANGO_ATTR_RISE == attribute->klass->type));
 }
@@ -676,8 +675,52 @@ gnm_load_pango_attributes_into_buffer_named_filter (PangoAttribute *attribute,
 						    G_GNUC_UNUSED gpointer data)
 {
 	return ((PANGO_ATTR_STYLE == attribute->klass->type) ||
+		(PANGO_ATTR_WEIGHT == attribute->klass->type) ||
 		(PANGO_ATTR_STRIKETHROUGH == attribute->klass->type));
 }
+
+#ifndef HAVE_PANGO_WEIGHT_THIN_ETC
+#define PANGO_WEIGHT_THIN 100
+#define PANGO_WEIGHT_BOOK 380
+#define PANGO_WEIGHT_MEDIUM 500
+#define PANGO_WEIGHT_ULTRAHEAVY 1000
+#endif
+
+void 
+gnm_create_std_tags_for_buffer (GtkTextBuffer *buffer)
+{
+	gtk_text_buffer_create_tag (buffer, "PANGO_STYLE_NORMAL", "style", PANGO_STYLE_NORMAL,
+				    "style-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_STYLE_ITALIC", "style", PANGO_STYLE_ITALIC,
+				    "style-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_STRIKETHROUGH_TRUE", "strikethrough", TRUE,
+				    "strikethrough-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_STRIKETHROUGH_FALSE", "strikethrough", FALSE,
+				    "strikethrough-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_THIN", "weight", PANGO_WEIGHT_THIN,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_ULTRALIGHT", "weight", PANGO_WEIGHT_ULTRALIGHT,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_LIGHT", "weight", PANGO_WEIGHT_LIGHT,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_BOOK", "weight", PANGO_WEIGHT_BOOK,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_NORMAL", "weight", PANGO_WEIGHT_NORMAL,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_MEDIUM", "weight", PANGO_WEIGHT_MEDIUM,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_SEMIBOLD", "weight", PANGO_WEIGHT_SEMIBOLD,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_BOLD", "weight", PANGO_WEIGHT_BOLD,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_ULTRABOLD", "weight", PANGO_WEIGHT_ULTRABOLD,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_HEAVY", "weight", PANGO_WEIGHT_HEAVY,
+				    "weight-set", TRUE, NULL);
+	gtk_text_buffer_create_tag (buffer, "PANGO_WEIGHT_ULTRAHEAVY", "weight", PANGO_WEIGHT_ULTRAHEAVY,
+				    "weight-set", TRUE, NULL);
+}
+
 
 void 
 gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *buffer) 
@@ -714,6 +757,7 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 				for (ptr = attr; ptr != NULL; ptr = ptr->next) {
 					PangoAttribute *attribute = ptr->data;
 					GtkTextTag *tag;
+					int val;
 
 					switch (attribute->klass->type) {
 					case PANGO_ATTR_STYLE:
@@ -724,13 +768,6 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 						tag = gtk_text_tag_table_lookup 
 							(gtk_text_buffer_get_tag_table (buffer), 
 							 name);
-						if (tag == NULL)
-							tag = gtk_text_buffer_create_tag 
-								(buffer, 
-								 name, 
-								 "style", ((PangoAttrInt *)attribute)->value,
-								 "style-set", TRUE,
-								 NULL);
 						gtk_text_buffer_apply_tag (buffer, tag, 
 									   &start_iter, &end_iter);
 						break;
@@ -741,16 +778,43 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 						tag = gtk_text_tag_table_lookup 
 							(gtk_text_buffer_get_tag_table (buffer), 
 							 name);
-						if (tag == NULL)
-							tag = gtk_text_buffer_create_tag 
-								(buffer, 
-								 name, 
-								 "strikethrough", 
-								 (((PangoAttrInt *)attribute)->value) != 0,
-								 "strikethrough-set", TRUE,
-								 NULL);
 						gtk_text_buffer_apply_tag (buffer, tag, 
 									   &start_iter, &end_iter);
+						break;
+					case PANGO_ATTR_WEIGHT:
+						val = ((PangoAttrInt *)attribute)->value;
+						if (val < (PANGO_WEIGHT_THIN + PANGO_WEIGHT_ULTRALIGHT)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_THIN",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_ULTRALIGHT + PANGO_WEIGHT_LIGHT)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_ULTRALIGHT",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_LIGHT + PANGO_WEIGHT_BOOK)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_LIGHT",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_BOOK + PANGO_WEIGHT_NORMAL)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_BOOK",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_NORMAL + PANGO_WEIGHT_MEDIUM)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_NORMAL",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_MEDIUM + PANGO_WEIGHT_SEMIBOLD)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_MEDIUM",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_SEMIBOLD + PANGO_WEIGHT_BOLD)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_SEMIBOLD",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_BOLD + PANGO_WEIGHT_ULTRABOLD)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_BOLD",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_ULTRABOLD + PANGO_WEIGHT_HEAVY)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_ULTRABOLD",
+											   &start_iter, &end_iter);
+						else if (val < (PANGO_WEIGHT_HEAVY + PANGO_WEIGHT_ULTRAHEAVY)/2)
+							gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_HEAVY",
+											   &start_iter, &end_iter);
+						else gtk_text_buffer_apply_tag_by_name (buffer,"PANGO_WEIGHT_ULTRAHEAVY",
+											&start_iter, &end_iter);
 						break;
 					default:
 						break;
@@ -792,13 +856,6 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 							      "foreground-set", TRUE,
 							      NULL);
 						g_free (string);
-						break;
-					case PANGO_ATTR_WEIGHT:
-						g_object_set (G_OBJECT (tag), 
-							      "weight", 
-							      ((PangoAttrInt *)attribute)->value,
-							      "weight-set", TRUE,
-							      NULL);
 						break;
 					case PANGO_ATTR_UNDERLINE:
 						g_object_set (G_OBJECT (tag), 
