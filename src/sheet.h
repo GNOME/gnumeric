@@ -10,6 +10,10 @@
 
 G_BEGIN_DECLS
 
+struct _GnmSheetSize {
+	int max_rows, max_cols;
+};
+
 typedef struct _SheetPrivate SheetPrivate;
 typedef enum {
 	GNM_SHEET_DATA,
@@ -106,8 +110,8 @@ struct _Sheet {
 	/* This needs to move elsewhere and get shared.  */
 	PangoContext *context;
 
-	/* Size related data */
-	int max_rows, max_cols;
+	GnmSheetSize size;
+
 	/* tile related data */
 	int tile_top_level, max_width, max_height;
 	gboolean partial_row, partial_col;

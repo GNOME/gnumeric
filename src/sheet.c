@@ -491,11 +491,11 @@ gnm_sheet_set_property (GObject *object, guint property_id,
 		break;
 	case PROP_COLUMNS:
 		/* Construction-time only */
-		sheet->max_cols = g_value_get_int (value);
+		sheet->size.max_cols = g_value_get_int (value);
 		break;
 	case PROP_ROWS:
 		/* Construction-time only */
-		sheet->max_rows = g_value_get_int (value);
+		sheet->size.max_rows = g_value_get_int (value);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -616,10 +616,10 @@ gnm_sheet_get_property (GObject *object, guint property_id,
 		g_value_set_double (value, sheet->last_zoom_factor_used);
 		break;
 	case PROP_COLUMNS:
-		g_value_set_int (value, sheet->max_cols);
+		g_value_set_int (value, sheet->size.max_cols);
 		break;
 	case PROP_ROWS:
-		g_value_set_int (value, sheet->max_rows);
+		g_value_set_int (value, sheet->size.max_rows);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -652,11 +652,11 @@ gnm_sheet_constructor (GType type,
 	/* Now sheet_type, max_cols, and max_rows have been set.  */
 	sheet->being_constructed = FALSE;
 
-	colrow_resize (&sheet->cols, sheet->max_cols);
-	colrow_resize (&sheet->rows, sheet->max_rows);
+	colrow_resize (&sheet->cols, sheet->size.max_cols);
+	colrow_resize (&sheet->rows, sheet->size.max_rows);
 
-	sheet->priv->reposition_objects.col = sheet->max_cols;
-	sheet->priv->reposition_objects.row = sheet->max_rows;
+	sheet->priv->reposition_objects.col = sheet->size.max_cols;
+	sheet->priv->reposition_objects.row = sheet->size.max_rows;
 
 	range_init_full_sheet (&sheet->priv->unhidden_region, sheet);
 	sheet_style_init (sheet);
@@ -1216,8 +1216,8 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 	/* ---------------------------------------- */
 	/* Actually change the properties.  */
 
-	sheet->max_cols = cols;
-	sheet->max_rows = rows;
+	sheet->size.max_cols = cols;
+	sheet->size.max_rows = rows;
 	if (old_cols != cols)
 		g_object_notify (G_OBJECT (sheet), "columns");
 	if (old_rows != rows)
@@ -5439,7 +5439,7 @@ sheet_dup (Sheet const *src)
 	name = workbook_sheet_get_free_name (wb, src->name_unquoted,
 					     TRUE, TRUE);
 	dst = sheet_new_with_type (wb, name, src->sheet_type,
-				   src->max_cols, src->max_rows);
+				   src->size.max_cols, src->size.max_rows);
 	g_free (name);
 
 	dst->protected_allow = src->protected_allow;
@@ -5716,7 +5716,7 @@ gnm_sheet_get_max_rows (Sheet const *sheet)
 	if (G_UNLIKELY (sheet->being_constructed))
 		g_warning ("Access to sheet size during construction!");
 
-	return sheet->max_rows;
+	return sheet->size.max_rows;
 }
 
 int
@@ -5731,5 +5731,5 @@ gnm_sheet_get_max_cols (Sheet const *sheet)
 	if (G_UNLIKELY (sheet->being_constructed))
 		g_warning ("Access to sheet size during construction!");
 
-	return sheet->max_cols;
+	return sheet->size.max_cols;
 }

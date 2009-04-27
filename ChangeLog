@@ -1,5 +1,10 @@
 2009-04-27  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.h (struct _Sheet): Move max_cols and max_rows into
+	new member size of type GnmSheetSize.
+
+2009-04-27  Morten Welinder  <terra@gnome.org>
+
 	* src/item-grid.c (cb_cursor_come_to_rest): Fix tooltip
 	positioning.
 	* src/item-cursor.c (item_cursor_tip_setlabel): Ditto.

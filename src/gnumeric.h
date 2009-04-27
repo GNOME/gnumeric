@@ -132,6 +132,7 @@ typedef struct _GnmCellRef	        GnmCellRef;	/* abs/rel point with sheet */
 typedef struct _GnmRangeRef	        GnmRangeRef;	/* abs/rel range with sheet */
 typedef struct _GnmEvalPos		GnmEvalPos;
 typedef struct _GnmParsePos	        GnmParsePos;
+typedef struct _GnmSheetSize		GnmSheetSize;
 typedef struct _GnmParseError	        GnmParseError;
 typedef struct _GnmConventions		GnmConventions;
 typedef struct _GnmConventionsOut	GnmConventionsOut;
