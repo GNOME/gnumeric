@@ -965,8 +965,9 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 
 			if (ib->tip == NULL) {
 				GtkWidget *cw = GTK_WIDGET (canvas);
+				GdkWindow *cbw = GTK_LAYOUT (canvas)->bin_window;
 				int wx, wy;
-				gdk_window_get_origin (cw->window, &wx, &wy);
+				gdk_window_get_origin (cbw, &wx, &wy);
 				ib->tip = gnumeric_create_tooltip (cw);
 				colrow_tip_setlabel (ib, is_cols, ib->colrow_resize_size);
 				/* Position above the current point for both

@@ -1063,8 +1063,9 @@ item_cursor_tip_setlabel (ItemCursor *ic, char const *text)
 {
 	if (ic->tip == NULL) {
 		GtkWidget *cw = GTK_WIDGET (FOO_CANVAS_ITEM (ic)->canvas);
+		GdkWindow *cbw = GTK_LAYOUT (cw)->bin_window;
 		int wx, wy;
-		gdk_window_get_origin (cw->window, &wx, &wy);
+		gdk_window_get_origin (cbw, &wx, &wy);
 		ic->tip = gnumeric_create_tooltip (cw);
 		gnumeric_position_tooltip (ic->tip,
 					   wx + ic->last_x,
