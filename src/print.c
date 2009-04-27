@@ -874,7 +874,7 @@ compute_sheet_pages_across_then_down (PrintingInstance * pi,
 static gboolean
 load_repeat_range (char const *str, GnmRange *r, Sheet *sheet)
 {
-       return str && range_parse (r, str, sheet);
+	return str && range_parse (r, str, gnm_sheet_get_size (sheet));
 }
 
 /*

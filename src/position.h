@@ -71,9 +71,14 @@ int         gnm_cellref_get_row	   (GnmCellRef const *cr, GnmEvalPos const *ep);
 gboolean     gnm_rangeref_equal	   (GnmRangeRef const *a, GnmRangeRef const *b);
 guint	     gnm_rangeref_hash	   (GnmRangeRef const *cr);
 GnmRangeRef *gnm_rangeref_dup	   (GnmRangeRef const *cr);
-void         gnm_rangeref_normalize(GnmRangeRef const *rr, GnmEvalPos const *ep,
-				    Sheet **start_sheet, Sheet **end_sheet,
-				    GnmRange *dest);
+void         gnm_rangeref_normalize_pp (GnmRangeRef const *rr,
+					GnmParsePos const *pp,
+					Sheet **start_sheet, Sheet **end_sheet,
+					GnmRange *dest);
+void         gnm_rangeref_normalize (GnmRangeRef const *rr,
+				     GnmEvalPos const *ep,
+				     Sheet **start_sheet, Sheet **end_sheet,
+				     GnmRange *dest);
 
 guint gnm_cellpos_hash		(GnmCellPos const *key);
 gint  gnm_cellpos_equal		(GnmCellPos const *a, GnmCellPos const *b);

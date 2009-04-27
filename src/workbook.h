@@ -75,6 +75,8 @@ GODateConventions const *workbook_date_conv (Workbook const *wb);
 void workbook_set_date_conv (Workbook *wb, GODateConventions const *date_conv);
 void workbook_set_1904 (Workbook *wb, gboolean base1904);
 
+GnmSheetSize const *workbook_get_sheet_size (Workbook const *wb);
+
 void workbook_attach_view (WorkbookView *wbv);
 void workbook_detach_view (WorkbookView *wbv);
 

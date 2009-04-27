@@ -1166,6 +1166,20 @@ workbook_set_1904 (Workbook *wb, gboolean base1904)
 	workbook_set_date_conv (wb, date_conv);
 }
 
+GnmSheetSize const *
+workbook_get_sheet_size (Workbook const *wb)
+{
+	if (wb == NULL || workbook_sheet_count (wb) == 0) {
+		static const GnmSheetSize max_size = {
+			GNM_MAX_COLS, GNM_MAX_ROWS
+		};
+
+		return &max_size;
+	}
+
+	return gnm_sheet_get_size (workbook_sheet_by_index (wb, 0));
+}
+
 /* ------------------------------------------------------------------------- */
 
 typedef struct {

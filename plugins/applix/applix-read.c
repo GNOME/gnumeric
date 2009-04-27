@@ -170,6 +170,11 @@ applix_parse_value (char *buf, char **follow)
 
 /* A..Z, AA..ZZ */
 #define APPLIX_SHEET_MAX_COLS 702
+#define APPLIX_SHEET_MAX_ROWS 65536
+
+static const GnmSheetSize applix_sheet_size = {
+  APPLIX_SHEET_MAX_COLS, APPLIX_SHEET_MAX_ROWS
+};
 
 static gboolean
 valid_col (Sheet const *sheet, int c)
@@ -194,23 +199,13 @@ valid_cellpos (Sheet const *sheet, const GnmCellPos *cpos)
 static char const *
 applix_col_parse (char const *str, int *res, unsigned char *relative)
 {
-	char const *ptr, *start = str;
-	int col = -1;
+	return col_parse (str, &applix_sheet_size, res, relative);
+}
 
-	if (!(*relative = (*start != '$')))
-		start++;
-
-	for (ptr = start; col < APPLIX_SHEET_MAX_COLS ; ptr++)
-		if (('a' <= *ptr && *ptr <= 'z'))
-			col = 26 * (col + 1) + (*ptr - 'a');
-		else if (('A' <= *ptr && *ptr <= 'Z'))
-			col = 26 * (col + 1) + (*ptr - 'A');
-		else if (ptr != start) {
-			*res = col;
-			return ptr;
-		} else
-			return NULL;
-	return NULL;
+static char const *
+applix_row_parse (char const *str, int *res, unsigned char *relative)
+{
+	return row_parse (str, &applix_sheet_size, res, relative);
 }
 
 static char const *
@@ -223,8 +218,7 @@ applix_cellpos_parse (char const *cell_str, Sheet const *sheet,
 	if (!cell_str)
 		return NULL;
 
-	cell_str = row_parse (cell_str, sheet,
-			      &res->row, &dummy_relative);
+	cell_str = applix_row_parse (cell_str, &res->row, &dummy_relative);
 	if (!cell_str)
 		return NULL;
 
@@ -272,10 +266,10 @@ applix_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *p
 	if (ptr == NULL)
 		return start; /* TODO error unknown sheet */
 	if (*ptr == ':') ptr++;
-	tmp1 = col_parse (ptr, pp->sheet, &res->a.col, &res->a.col_relative);
+	tmp1 = applix_col_parse (ptr, &res->a.col, &res->a.col_relative);
 	if (!tmp1)
 		return start;
-	tmp2 = row_parse (tmp1, pp->sheet, &res->a.row, &res->a.row_relative);
+	tmp2 = applix_row_parse (tmp1, &res->a.row, &res->a.row_relative);
 	if (!tmp2)
 		return start;
 	if (res->a.col_relative)
@@ -292,10 +286,10 @@ applix_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *p
 	if (ptr == NULL)
 		return start; /* TODO error unknown sheet */
 	if (*ptr == ':') ptr++;
-	tmp1 = col_parse (ptr, pp->sheet, &res->b.col, &res->b.col_relative);
+	tmp1 = applix_col_parse (ptr, &res->b.col, &res->b.col_relative);
 	if (!tmp1)
 		return start;
-	tmp2 = row_parse (tmp1, pp->sheet, &res->b.row, &res->b.row_relative);
+	tmp2 = applix_row_parse (tmp1, &res->b.row, &res->b.row_relative);
 	if (!tmp2)
 		return start;
 	if (res->b.col_relative)
@@ -1070,7 +1064,7 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 			unsigned char dummy;
 
 			do {
-				ptr = col_parse (tmp = ptr + 1, sheet, &col, &dummy);
+				ptr = applix_col_parse (tmp = ptr + 1, &col, &dummy);
 				if (!ptr || *ptr != ':')
 					return applix_parse_error (state, "Invalid column");
 				width = a_strtol (tmp = ptr + 1, (char **)&ptr);

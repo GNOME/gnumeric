@@ -8,6 +8,7 @@ Morten:
 	* Fix xls save problem with sheets that are too big for the format.
 	* Fix global-name .gnumeric warning.  [#580227]
 	* Fix tooltip positioning.  [#580358]
+	* Fix xlst export problem.  [#580360]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.6

@@ -1,5 +1,19 @@
 2009-04-27  Morten Welinder  <terra@gnome.org>
 
+	* src/position.c (gnm_rangeref_normalize_pp): New function
+	extracted from gnm_rangeref_normalize.
+
+	* src/parse-util.c (col_parse, row_parse, cellpos_parse,
+	cellref_parse, cellref_a1_get, r1c1_get_index, cellref_r1c1_get):
+	Change from Sheet argument to GnmSheetSize argument.  All callers
+	changed.
+	(std_sheet_name_quote): Eliminate the use of MAGIC_MAX_SHEET.
+	(rangeref_as_string): Use gnm_rangeref_normalize_pp.  Fixes
+	#580360.
+
+	src/ranges.c (range_parse): Change from Sheet argument to
+	GnmSheetSize argument.  All callers changed.
+
 	* src/sheet.c (gnm_sheet_get_size): New function replacing
 	gnm_sheet_get_max_cols and gnm_sheet_get_max_rows.  Turn those
 	into macros.

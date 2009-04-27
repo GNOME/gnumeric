@@ -220,7 +220,7 @@ xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, GnmCellPos
 	if (strcmp (CXML2C (attrs[0]), name))
 		return FALSE;
 
-	if (cellpos_parse (CXML2C (attrs[1]), sheet, val, TRUE) == NULL) {
+	if (cellpos_parse (CXML2C (attrs[1]), gnm_sheet_get_size (sheet), val, TRUE) == NULL) {
 		g_warning ("Invalid attribute '%s', expected cellpos, received '%s'",
 			   name, attrs[1]);
 		return FALSE;
@@ -1954,7 +1954,7 @@ xml_sax_merge (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GnmRange r;
 	g_return_if_fail (xin->content->len > 0);
 
-	if (range_parse (&r, xin->content->str, state->sheet))
+	if (range_parse (&r, xin->content->str, gnm_sheet_get_size (state->sheet)))
 		gnm_sheet_merge_add (state->sheet, &r, FALSE,
 			GO_CMD_CONTEXT (state->context));
 }
@@ -2051,7 +2051,7 @@ xml_sax_filter_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2)
 		if (attr_eq (attrs[i], "Area") &&
-		    range_parse (&r, CXML2C (attrs[i + 1]), state->sheet))
+		    range_parse (&r, CXML2C (attrs[i + 1]), gnm_sheet_get_size (state->sheet)))
 			state->filter = gnm_filter_new (state->sheet, &r);
 	if (NULL == state->filter)
 		gnm_io_warning (state->context, _("Invalid filter, missing Area"));
@@ -2133,7 +2133,7 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i + 1] ; i += 2) {
 		if (attr_eq (attrs[i], "ObjectBound"))
-			range_parse (&anchor_r, CXML2C (attrs[i + 1]), state->sheet);
+			range_parse (&anchor_r, CXML2C (attrs[i + 1]), gnm_sheet_get_size (state->sheet));
 		else if (attr_eq (attrs[i], "ObjectOffset") &&
 			4 == sscanf (CXML2C (attrs[i + 1]), "%g %g %g %g",
 				     f_tmp + 0, f_tmp + 1, f_tmp + 2, f_tmp + 3))
@@ -2317,19 +2317,14 @@ handle_delayed_names (XMLSaxParseState *state)
 		GnmExprTop const *texpr;
 		GnmParsePos pp;
 
-		/*
-		 * We need to parse the expression with respect to some
-		 * sheet because sheets may have different sizes.  This
-		 * isn't great, but will have to do for now.
-		 */
-		if (!sheet)
-			sheet = workbook_sheet_by_index (state->wb, 0);
-
 		parse_pos_init (&pp, state->wb, sheet, 0, 0);
 		if (pos_str) {
 			GnmCellRef tmp;
-			char const *rest =
-				cellref_parse (&tmp, sheet, pos_str, &pp.eval);
+			char const *rest;
+			GnmSheetSize const *ss = sheet
+				? gnm_sheet_get_size (sheet)
+				: workbook_get_sheet_size (state->wb);
+			rest = cellref_parse (&tmp, ss, pos_str, &pp.eval);
 			if (rest != NULL && *rest == '\0') {
 				pp.eval.col = tmp.col;
 				pp.eval.row = tmp.row;

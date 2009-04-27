@@ -786,6 +786,7 @@ static char const *
 oo_cellref_parse (GnmCellRef *ref, char const *start, GnmParsePos const *pp)
 {
 	char const *tmp1, *tmp2, *ptr = start;
+	GnmSheetSize const *ss;
 
 	if (*ptr != '.') {
 		char *name, *accum;
@@ -852,10 +853,12 @@ two_quotes :
 		ref->sheet = NULL;
 	}
 
-	tmp1 = col_parse (ptr, pp->sheet, &ref->col, &ref->col_relative);
+	ss = gnm_sheet_get_size (pp->sheet);
+
+	tmp1 = col_parse (ptr, ss, &ref->col, &ref->col_relative);
 	if (!tmp1)
 		return start;
-	tmp2 = row_parse (tmp1, pp->sheet, &ref->row, &ref->row_relative);
+	tmp2 = row_parse (tmp1, ss, &ref->row, &ref->row_relative);
 	if (!tmp2)
 		return start;
 

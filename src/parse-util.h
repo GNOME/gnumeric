@@ -9,21 +9,21 @@ G_BEGIN_DECLS
 
 char const *col_name  (int col);
 char const *cols_name (int start_col, int end_col);
-char const *col_parse (char const *str, Sheet const *sheet,
+char const *col_parse (char const *str, GnmSheetSize const *ss,
 		       int *res, unsigned char *relative);
 
 char const *row_name  (int row);
 char const *rows_name (int start_row, int end_col);
-char const *row_parse (char const *str, Sheet const *sheet,
+char const *row_parse (char const *str, GnmSheetSize const *ss,
 		       int *res, unsigned char *relative);
 
 char const *cellpos_as_string	(GnmCellPos const *pos);
-char const *cellpos_parse	(char const *cell_str, Sheet const *sheet,
+char const *cellpos_parse	(char const *cell_str, GnmSheetSize const *ss,
 				 GnmCellPos *res, gboolean strict);
 void        cellref_as_string   (GnmConventionsOut *out,
 				 GnmCellRef const *cell_ref,
 				 gboolean no_sheetname);
-char const *cellref_parse	(GnmCellRef *out, Sheet const *sheet,
+char const *cellref_parse	(GnmCellRef *out, GnmSheetSize const *ss,
 				 char const *in, GnmCellPos const *pos);
 
 void        rangeref_as_string  (GnmConventionsOut *out,

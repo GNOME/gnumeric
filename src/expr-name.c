@@ -52,7 +52,7 @@ expr_name_validate (const char *name, Sheet *sheet)
 		return FALSE;
 
 	/* What about R1C1?  */
-	if (cellpos_parse (name, sheet, &cp, TRUE))
+	if (cellpos_parse (name, gnm_sheet_get_size (sheet), &cp, TRUE))
 		return FALSE;
 
 	/* Hmm...   Now what?  */

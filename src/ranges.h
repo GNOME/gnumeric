@@ -71,7 +71,7 @@ GnmRange   *range_init_cellpos_size (GnmRange *r, GnmCellPos const *start,
 GnmRange   *range_init              (GnmRange *r, int start_col, int start_row,
 				     int end_col, int end_row);
 gboolean    range_parse 	    (GnmRange *r, char const *text,
-				     Sheet const *sheet);
+				     GnmSheetSize const *ss);
 
 void        range_list_destroy      (GSList *ranges);
 

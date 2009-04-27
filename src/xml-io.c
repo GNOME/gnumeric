@@ -236,7 +236,7 @@ xml_node_get_cellpos (xmlNodePtr node, char const *name,
 	buf = xml_node_get_cstr (node, name);
 	if (val == NULL)
 		return FALSE;
-	res = cellpos_parse (CXML2C (buf), sheet, val, TRUE) != NULL;
+	res = cellpos_parse (CXML2C (buf), gnm_sheet_get_size (sheet), val, TRUE) != NULL;
 	xmlFree (buf);
 	return res;
 }
@@ -375,7 +375,7 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 			xmlChar *pos_txt = xml_node_get_cstr (position, NULL);
 			if (pos_txt != NULL) {
 				GnmCellRef tmp;
-				char const *res = cellref_parse (&tmp, sheet, CXML2C (pos_txt), &pp.eval);
+				char const *res = cellref_parse (&tmp, gnm_sheet_get_size (sheet), CXML2C (pos_txt), &pp.eval);
 				if (res != NULL && *res == '\0') {
 					pp.eval.col = tmp.col;
 					pp.eval.row = tmp.row;
@@ -1479,7 +1479,7 @@ xml_read_sheet_filters (XmlParseContext *ctxt, xmlNode const *container)
 		area = xml_node_get_cstr (filter_node, "Area");
 		if (area == NULL)
 			continue;
-		if (range_parse (&r, CXML2C (area), ctxt->sheet)) {
+		if (range_parse (&r, CXML2C (area), gnm_sheet_get_size (ctxt->sheet))) {
 			filter = gnm_filter_new (ctxt->sheet, &r);
 			for (field = filter_node->xmlChildrenNode; field != NULL; field = field->next)
 				if (!xmlIsBlankNode (field))
@@ -1711,7 +1711,7 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree,
 	tmp = (char *) xmlGetProp (tree, (xmlChar *)"ObjectBound");
 	if (tmp != NULL) {
 		GnmRange r;
-		if (range_parse (&r, tmp, ctxt->sheet)) {
+		if (range_parse (&r, tmp, gnm_sheet_get_size (ctxt->sheet))) {
 			/* Patch problems introduced in some 1.7.x versions that stored
 			 * comments in merged cells with the full rectangle of the merged cell
 			 * rather than just the top left corner */
@@ -1770,7 +1770,7 @@ xml_read_merged_regions (XmlParseContext const *ctxt, xmlNodePtr sheet)
 			xmlChar *content = xml_node_get_cstr (region, NULL);
 			GnmRange r;
 			if (content != NULL) {
-				if (range_parse (&r, CXML2C (content), ctxt->sheet))
+				if (range_parse (&r, CXML2C (content), gnm_sheet_get_size (ctxt->sheet)))
 					gnm_sheet_merge_add (ctxt->sheet, &r, FALSE, NULL);
 				xmlFree (content);
 			}
@@ -2202,7 +2202,7 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, const char *buffer, int
 			if (!xmlIsBlankNode (l)) {
 				GnmRange r;
 				xmlChar *content = (char *)xmlNodeGetContent (l);
-				if (range_parse (&r, CXML2C (content), ctxt->sheet))
+				if (range_parse (&r, CXML2C (content), gnm_sheet_get_size (ctxt->sheet)))
 					cr->merged = g_slist_prepend (cr->merged,
 								      range_dup (&r));
 				xmlFree (content);

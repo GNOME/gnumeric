@@ -30,6 +30,7 @@
 #include "cell.h"
 #include "value.h"
 #include "ranges.h"
+#include "workbook.h"
 
 
 GnmEvalPos *
@@ -288,20 +289,20 @@ gnm_cellref_get_row (GnmCellRef const *ref, GnmEvalPos const *ep)
 	return ref->row;
 }
 
-void
-gnm_cellpos_init_cellref (GnmCellPos *res, GnmCellRef const *cell_ref,
-			  GnmCellPos const *pos, Sheet const *base_sheet)
+static void
+gnm_cellpos_init_cellref_ss (GnmCellPos *res, GnmCellRef const *cell_ref,
+			     GnmCellPos const *pos, GnmSheetSize const *base_ss)
 {
-	Sheet const *sheet;
+	GnmSheetSize const *ss;
 
 	g_return_if_fail (cell_ref != NULL);
 	g_return_if_fail (res != NULL);
 
-	sheet = eval_sheet (cell_ref->sheet, base_sheet);
+	ss = cell_ref->sheet ? gnm_sheet_get_size (cell_ref->sheet) : base_ss;
 
 	if (cell_ref->col_relative) {
 		int col = cell_ref->col + pos->col;
-		int max = gnm_sheet_get_max_cols (sheet);
+		int max = ss->max_cols;
 		if (col < 0)
 			col += max;
 		else if (col >= max)
@@ -312,7 +313,7 @@ gnm_cellpos_init_cellref (GnmCellPos *res, GnmCellRef const *cell_ref,
 
 	if (cell_ref->row_relative) {
 		int row = cell_ref->row + pos->row;
-		int max = gnm_sheet_get_max_rows (sheet);
+		int max = ss->max_rows;
 		if (row < 0)
 			row += max;
 		else if (row >= max)
@@ -320,6 +321,14 @@ gnm_cellpos_init_cellref (GnmCellPos *res, GnmCellRef const *cell_ref,
 		res->row = row;
 	} else
 		res->row = cell_ref->row;
+}
+
+void
+gnm_cellpos_init_cellref (GnmCellPos *res, GnmCellRef const *cell_ref,
+			  GnmCellPos const *pos, Sheet const *base_sheet)
+{
+	gnm_cellpos_init_cellref_ss (res, cell_ref, pos,
+				     gnm_sheet_get_size (base_sheet));
 }
 
 void
@@ -397,18 +406,39 @@ gnm_rangeref_dup (GnmRangeRef const *rr)
  *     by converting to absolute coords and handling inversions.
  */
 void
+gnm_rangeref_normalize_pp (GnmRangeRef const *ref, GnmParsePos const *pp,
+			   Sheet **start_sheet, Sheet **end_sheet,
+			   GnmRange *dest)
+{
+	GnmSheetSize const *ss;
+
+	g_return_if_fail (ref != NULL);
+	g_return_if_fail (pp != NULL);
+
+	*start_sheet = eval_sheet (ref->a.sheet, pp->sheet);
+	*end_sheet   = eval_sheet (ref->b.sheet, *start_sheet);
+
+	ss = *start_sheet
+		? gnm_sheet_get_size (*start_sheet)
+		: workbook_get_sheet_size (pp->wb);
+	gnm_cellpos_init_cellref_ss (&dest->start, &ref->a, &pp->eval, ss);
+
+	ss = *end_sheet
+		? gnm_sheet_get_size (*end_sheet)
+		: ss;
+	gnm_cellpos_init_cellref_ss (&dest->end, &ref->b, &pp->eval, ss);
+
+	range_normalize (dest);
+}
+
+void
 gnm_rangeref_normalize (GnmRangeRef const *ref, GnmEvalPos const *ep,
 			Sheet **start_sheet, Sheet **end_sheet, GnmRange *dest)
 {
-	g_return_if_fail (ref != NULL);
-	g_return_if_fail (ep != NULL);
+	GnmParsePos pp;
 
-	*start_sheet = eval_sheet (ref->a.sheet, ep->sheet);
-	*end_sheet   = eval_sheet (ref->b.sheet, *start_sheet);
-
-	gnm_cellpos_init_cellref (&dest->start, &ref->a, &ep->eval, *start_sheet);
-	gnm_cellpos_init_cellref (&dest->end, &ref->b, &ep->eval, *end_sheet);
-	range_normalize (dest);
+	parse_pos_init_evalpos (&pp, ep);
+	gnm_rangeref_normalize_pp (ref, &pp, start_sheet, end_sheet, dest);
 }
 
 guint
