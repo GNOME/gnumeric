@@ -1,5 +1,9 @@
 2009-04-27  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (gnm_sheet_get_size): New function replacing
+	gnm_sheet_get_max_cols and gnm_sheet_get_max_rows.  Turn those
+	into macros.
+
 	* src/sheet.h (struct _Sheet): Move max_cols and max_rows into
 	new member size of type GnmSheetSize.
 

@@ -5704,32 +5704,21 @@ gnm_sheet_foreach_name (Sheet const *sheet, GHFunc func, gpointer data)
 		gnm_named_expr_collection_foreach (sheet->names, func, data);
 }
 
-int
-gnm_sheet_get_max_rows (Sheet const *sheet)
+GnmSheetSize const *
+gnm_sheet_get_size (Sheet const *sheet)
 {
+	static const GnmSheetSize default_size = {
+		GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS
+	};
+
 	if (G_UNLIKELY (!sheet)) {
-		g_warning ("NULL sheet in gnm_sheet_get_max_rows!");
+		g_warning ("NULL sheet in gnm_sheet_get_size!");
 		/* FIXME: This needs to go.  */
-		return GNM_DEFAULT_ROWS;
+		return &default_size;
 	}
 
 	if (G_UNLIKELY (sheet->being_constructed))
 		g_warning ("Access to sheet size during construction!");
 
-	return sheet->size.max_rows;
-}
-
-int
-gnm_sheet_get_max_cols (Sheet const *sheet)
-{
-	if (G_UNLIKELY (!sheet)) {
-		g_warning ("NULL sheet in gnm_sheet_get_max_cols!");
-		/* FIXME: This needs to go.  */
-		return GNM_DEFAULT_COLS;
-	}
-
-	if (G_UNLIKELY (sheet->being_constructed))
-		g_warning ("Access to sheet size during construction!");
-
-	return sheet->size.max_cols;
+	return &sheet->size;
 }

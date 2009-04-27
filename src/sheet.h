@@ -11,7 +11,7 @@
 G_BEGIN_DECLS
 
 struct _GnmSheetSize {
-	int max_rows, max_cols;
+	int max_cols, max_rows;
 };
 
 typedef struct _SheetPrivate SheetPrivate;
@@ -134,8 +134,9 @@ void      gnm_sheet_suggest_size (int *cols, int *rows);
 
 GOUndo   *gnm_sheet_resize       (Sheet *sheet, int cols, int rows, GOCmdContext *cc);
 
-int gnm_sheet_get_max_rows (Sheet const *sheet);
-int gnm_sheet_get_max_cols (Sheet const *sheet);
+GnmSheetSize const *gnm_sheet_get_size (Sheet const *sheet);
+#define gnm_sheet_get_max_rows(sheet) (gnm_sheet_get_size(sheet)->max_rows)
+#define gnm_sheet_get_max_cols(sheet) (gnm_sheet_get_size(sheet)->max_cols)
 #define gnm_sheet_get_last_col(sheet) (gnm_sheet_get_max_cols(sheet) - 1)
 #define gnm_sheet_get_last_row(sheet) (gnm_sheet_get_max_rows(sheet) - 1)
 
