@@ -1,3 +1,8 @@
+2009-04-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-text-view.[ch]: new
+	* Makefile.am: add gnumeric-text-view.[ch]:
+
 2009-04-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.6

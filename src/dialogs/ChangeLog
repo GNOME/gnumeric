@@ -1,3 +1,17 @@
+2009-04-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-so-styled.c (cb_dialog_so_styled_text_widget_changed): retrieve
+	  data from GnmTextView
+	(dialog_so_styled_text_widget): use GnmTextView
+	(gnm_toggle_tool_button_set_active_no_signal): move to gnumeric-text-view.[ch]
+	(cb_dialog_so_styled_text_widget_mark_set): ditto
+	(cb_dialog_so_styled_text_widget_set_italic): ditto
+	(cb_dialog_so_styled_text_widget_set_strikethrough): ditto
+	(dialog_so_styled_build_toggle_button): ditto
+	(dialog_so_styled_remove_weight_tags): ditto
+	(dialog_so_styled_bold_button_activated): ditto
+	(dialog_so_styled_build_button_bold): ditto
+
 2009-04-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-preferences.c: pref_window_page_initializer: fix some capitalization

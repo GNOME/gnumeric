@@ -37,4 +37,6 @@ libwidgets_la_SOURCES =				\
 	gnumeric-expr-entry.c			\
 	gnumeric-expr-entry.h			\
 	gnumeric-lazy-list.c			\
-	gnumeric-lazy-list.h
+	gnumeric-lazy-list.h			\
+	gnumeric-text-view.c			\
+	gnumeric-text-view.h
