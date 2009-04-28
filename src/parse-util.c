@@ -808,6 +808,7 @@ unquote (char *dst, char const *src, int n)
 
 /**
  * wbref_parse :
+ * @convs : #GnmConventions const
  * @start :
  * @wb :
  *
@@ -815,9 +816,10 @@ unquote (char *dst, char const *src, int n)
  *           If the string is a valid workbook known name it returns a pointer
  *           the end of the name.
  *           Otherwise returns @start and does not modify @wb.
- * **/
+ **/
 static char const *
-wbref_parse (char const *start, Workbook **wb, Workbook *ref_wb)
+wbref_parse (GnmConventions const *convs,
+	     char const *start, Workbook **wb, Workbook *ref_wb)
 {
 	/* Is this an external reference ? */
 	if (*start == '[') {
@@ -843,9 +845,11 @@ wbref_parse (char const *start, Workbook **wb, Workbook *ref_wb)
 		} else
 			unquote (name, start+2, end-start-2);
 
-		tmp_wb = gnm_app_workbook_get_by_name
-			(name,
-			 ref_wb ? go_doc_get_uri ((GODoc *)ref_wb) : NULL);
+		if (convs->input.external_wb)
+			tmp_wb = (*convs->input.external_wb) (convs, ref_wb, name);
+		else
+			tmp_wb = gnm_app_workbook_get_by_name (name,
+				 ref_wb ? go_doc_get_uri ((GODoc *)ref_wb) : NULL);
 		if (tmp_wb == NULL)
 			return NULL;
 		*wb = tmp_wb;
@@ -857,6 +861,7 @@ wbref_parse (char const *start, Workbook **wb, Workbook *ref_wb)
 
 /**
  * sheetref_parse :
+ * @convs :
  * @start :
  * @sheet :
  * @wb    :
@@ -867,8 +872,9 @@ wbref_parse (char const *start, Workbook **wb, Workbook *ref_wb)
  *           the end of the name.
  *           Otherwise returns @start and does not modify @sheet.
  **/
-char const *
-sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb,
+static char const *
+sheetref_parse (GnmConventions const *convs,
+		char const *start, Sheet **sheet, Workbook const *wb,
 		gboolean allow_3d)
 {
 	GString *sheet_name;
@@ -1031,15 +1037,15 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 	wb = pp->wb;
 	ref_wb = wb ? wb : pp->sheet->workbook;
 	start_wb = start;
-	start_sheet = wbref_parse (start, &wb, ref_wb);
+	start_sheet = wbref_parse (convs, start, &wb, ref_wb);
 	if (start_sheet == NULL)
 		return start; /* TODO error unknown workbook */
-	ptr = sheetref_parse (start_sheet, &res->a.sheet, wb, TRUE);
+	ptr = sheetref_parse (convs, start_sheet, &res->a.sheet, wb, TRUE);
 	if (ptr == NULL)
 		return start; /* TODO error unknown sheet */
 	if (ptr != start_sheet) {
 		if (*ptr == ':') { /* 3d ref */
-			ptr = sheetref_parse (ptr+1, &res->b.sheet, wb, FALSE);
+			ptr = sheetref_parse (convs, ptr+1, &res->b.sheet, wb, FALSE);
 			if (ptr == NULL)
 				return start; /* TODO error unknown sheet */
 		} else
@@ -1318,6 +1324,7 @@ gnm_conventions_new_full (unsigned size)
 	convs->input.range_ref		= rangeref_parse;
 	convs->input.name		= std_name_parser;
 	convs->input.func		= std_func_map;
+	convs->input.external_wb	= NULL;
 
 	convs->output.decimal_digits	= GNM_DIG;
 	convs->output.translated	= TRUE;

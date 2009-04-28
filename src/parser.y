@@ -726,6 +726,7 @@ string_opt_quote : STRING
 		 | QUOTED_STRING
 		 ;
 
+/* only used for names */
 workbookref : '[' string_opt_quote ']'  {
 		char const *wb_name = value_peek_string ($2->constant.value);
 		Workbook *ref_wb = state->pos
@@ -735,8 +736,11 @@ workbookref : '[' string_opt_quote ']'  {
 			      ? state->pos->sheet->workbook
 			      : NULL))
 			: NULL;
-		Workbook *wb = gnm_app_workbook_get_by_name
-			(wb_name,
+		Workbook *wb;
+		if (state->convs->input.external_wb)
+			wb = (*state->convs->input.external_wb) (state->convs, ref_wb, wb_name);
+		else
+			wb = gnm_app_workbook_get_by_name (wb_name,
 			 ref_wb ? go_doc_get_uri ((GODoc *)ref_wb) : NULL);
 
 		if (wb != NULL) {

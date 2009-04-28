@@ -33,9 +33,6 @@ char const *rangeref_parse	(GnmRangeRef *res, char const *in,
 				 GnmConventions const *convs);
 				 /* GError **err); */
 
-char const *sheetref_parse	(char const *start, Sheet **sheet,
-				 Workbook const *wb, gboolean allow_3d);
-
 char const *cell_coord_name	(int col, int row);
 char const *cell_name		(GnmCell const *cell);
 
@@ -156,6 +153,9 @@ struct _GnmConventions {
 					Workbook *scope,
 					char const *name,
 					GnmExprList *args);
+		Workbook *(*external_wb) (GnmConventions const *convs,
+					 Workbook *ref_wb,
+					 char const *unquoted_name);
 	} input;
 
 /* Export specific functions ----------------------------------- */

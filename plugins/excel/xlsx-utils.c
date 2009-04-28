@@ -28,13 +28,16 @@
 
 #include "parse-util.h"
 #include "position.h"
+#include "workbook.h"
 #include "sheet.h"
 #include "func.h"
+#include <goffice/app/go-doc.h>
 #include <glib-object.h>
 
 typedef struct {
 	GnmConventions base;
-	GHashTable *extern_ids;
+	GHashTable *extern_id_by_wb;
+	GHashTable *extern_wb_by_id;
 } XLSXExprConventions;
 
 static void
@@ -42,15 +45,25 @@ xlsx_add_extern_id (GnmConventionsOut *out, Workbook *wb)
 {
 	if (wb != out->pp->wb) {
 		XLSXExprConventions const *xconv = (XLSXExprConventions const *)out->convs;
-		char *id = g_hash_table_lookup (xconv->extern_ids, wb);
+		char *id = g_hash_table_lookup (xconv->extern_id_by_wb, wb);
 		if (NULL == id) {
 			id = g_strdup_printf ("[%u]",
-				g_hash_table_size (xconv->extern_ids));
+				g_hash_table_size (xconv->extern_id_by_wb));
 			g_object_ref (wb);
-			g_hash_table_insert (xconv->extern_ids, wb, id);
+			g_hash_table_insert (xconv->extern_id_by_wb, wb, id);
 		}
 		g_string_append (out->accum, id);
 	}
+}
+
+static Workbook *
+xlsx_lookup_external_wb (GnmConventions const *convs,
+			 G_GNUC_UNUSED Workbook *ref_wb,
+			 char const *name)
+{
+	XLSXExprConventions const *xconv = (XLSXExprConventions const *)convs;
+	g_print ("lookup '%s'\n", name);
+	return g_hash_table_lookup (xconv->extern_wb_by_id, name);
 }
 
 static void
@@ -90,6 +103,19 @@ xlsx_rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 		rangeref_as_string (out, ref);
 }
 
+Workbook *
+xlsx_conventions_add_extern_ref (GnmConventions *convs, char const *path)
+{
+	XLSXExprConventions *xconv = (XLSXExprConventions *)convs;
+	Workbook *res = g_object_new (WORKBOOK_TYPE, NULL);
+	(void) go_doc_set_uri (GO_DOC (res), path);
+	g_hash_table_insert (xconv->extern_wb_by_id,
+		g_strdup_printf ("%d", g_hash_table_size (xconv->extern_wb_by_id) + 1),
+		res);
+	g_print ("add %d = '%s'\n", g_hash_table_size (xconv->extern_wb_by_id), path);
+	return res;
+}
+
 GnmConventions *
 xlsx_conventions_new (void)
 {
@@ -99,6 +125,7 @@ xlsx_conventions_new (void)
 
 	convs->decimal_sep_dot		= TRUE;
 	convs->input.range_ref		= rangeref_parse;
+	convs->input.external_wb	= xlsx_lookup_external_wb;
 	convs->output.cell_ref		= xlsx_cellref_as_string;
 	convs->output.range_ref		= xlsx_rangeref_as_string;
 	convs->range_sep_colon		= TRUE;
@@ -107,8 +134,10 @@ xlsx_conventions_new (void)
 	convs->array_col_sep		= ',';
 	convs->array_row_sep		= ';';
 	convs->output.translated		= FALSE;
-	xconv->extern_ids = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+	xconv->extern_id_by_wb = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 		(GDestroyNotify) g_object_unref, g_free);
+	xconv->extern_wb_by_id = g_hash_table_new_full (g_str_hash, g_str_equal,
+		g_free, (GDestroyNotify) g_object_unref);
 
 	return convs;
 }
@@ -117,6 +146,7 @@ void
 xlsx_conventions_free (GnmConventions *convs)
 {
 	XLSXExprConventions *xconv = (XLSXExprConventions *)convs;
-	g_hash_table_destroy (xconv->extern_ids);
+	g_hash_table_destroy (xconv->extern_id_by_wb);
+	g_hash_table_destroy (xconv->extern_wb_by_id);
 	gnm_conventions_free (convs);
 }

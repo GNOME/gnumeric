@@ -35,7 +35,9 @@ enum {
 	XL_NS_PKG_REL
 };
 
-GnmConventions *xlsx_conventions_new  (void);
-void		xlsx_conventions_free (GnmConventions *conv);
+GnmConventions	*xlsx_conventions_new  (void);
+void		 xlsx_conventions_free (GnmConventions *conv);
+Workbook	*xlsx_conventions_add_extern_ref (GnmConventions *conv,
+						  char const *path);
 
 #endif /* GNM_XLSX_UTILS_H */

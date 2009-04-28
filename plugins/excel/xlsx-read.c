@@ -198,6 +198,10 @@ typedef struct {
 		GHashTable *by_obj;
 		XLSXAxisInfo *info;
 	} axis;
+
+	/* external refs */
+       	Workbook *external_ref;
+	Sheet 	 *external_ref_sheet;
 } XLSXReadState;
 typedef struct {
 	GnmString	*str;
@@ -3986,6 +3990,66 @@ xlsx_sheet_begin (GsfXMLIn *xin, xmlChar const **attrs)
 			(GDestroyNotify) g_free);
 }
 
+/**************************************************************************************************/
+
+static void
+xlsx_read_external_book (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	GsfOpenPkgRel const *rel = gsf_open_pkg_lookup_rel_by_type (
+		gsf_xml_in_get_input (xin), 
+		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/externalLinkPath");
+	if (NULL != rel && gsf_open_pkg_rel_is_extern (rel))
+		state->external_ref = xlsx_conventions_add_extern_ref (
+			state->convs, gsf_open_pkg_rel_get_target (rel));
+}
+static void
+xlsx_read_external_book_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	state->external_ref = NULL;
+}
+static void
+xlsx_read_external_sheetname (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (0 == strcmp (attrs[0], "val"))
+			workbook_sheet_attach (state->external_ref,
+				state->external_ref_sheet = sheet_new (state->external_ref, attrs[1], 256, 65536));
+}
+static void
+xlsx_read_external_sheetname_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	state->external_ref_sheet = NULL;
+}
+
+static GsfXMLInNode const xlsx_extern_dtd[] = {
+GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
+GSF_XML_IN_NODE_FULL (START, LINK, XL_NS_SS, "externalLink", GSF_XML_NO_CONTENT, TRUE, TRUE, xlsx_read_external_book, xlsx_read_external_book_end, 0),
+  GSF_XML_IN_NODE (LINK, BOOK, XL_NS_SS, "externalBook", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (BOOK, SHEET_NAMES, XL_NS_SS, "sheetNames", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (SHEET_NAMES, SHEET_NAME, XL_NS_SS, "sheetName", GSF_XML_NO_CONTENT, xlsx_read_external_sheetname, xlsx_read_external_sheetname_end),
+  GSF_XML_IN_NODE (BOOK, SHEET_DATASET, XL_NS_SS, "sheetDataSet", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (SHEET_DATASET, SHEET_DATA, XL_NS_SS, "sheetData", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SHEET_DATA, ROW, XL_NS_SS, "row", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (ROW, CELL, XL_NS_SS, "cell", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (CELL, VAL, XL_NS_SS, "v", GSF_XML_NO_CONTENT, NULL, NULL),
+
+GSF_XML_IN_NODE_END
+};
+
+static void
+xlsx_wb_external_ref (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
+			xlsx_parse_rel_by_id (xin, attrs[1], xlsx_extern_dtd, xlsx_ns);
+}
+
+/**************************************************************************************************/
+
 static void
 xlsx_wb_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
@@ -4039,7 +4103,7 @@ GSF_XML_IN_NODE_FULL (START, WORKBOOK, XL_NS_SS, "workbook", GSF_XML_NO_CONTENT,
     GSF_XML_IN_NODE (FGROUPS, FGROUP,	 XL_NS_SS, "functionGroup", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (WORKBOOK, WEB_PUB,	 XL_NS_SS, "webPublishing", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (WORKBOOK, EXTERNS,	 XL_NS_SS, "externalReferences", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (EXTERNS, EXTERN,	 XL_NS_SS, "externalReference", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (EXTERNS, EXTERN,	 XL_NS_SS, "externalReference", GSF_XML_NO_CONTENT, xlsx_wb_external_ref, NULL),
   GSF_XML_IN_NODE (WORKBOOK, NAMES,	 XL_NS_SS, "definedNames", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (NAMES, NAME,	 XL_NS_SS, "definedName", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (WORKBOOK, PIVOTCACHES,      XL_NS_SS, "pivotCaches", GSF_XML_NO_CONTENT, NULL, NULL),
