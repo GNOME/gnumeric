@@ -908,7 +908,10 @@ applix_fetch_sheet (ApplixReadState *state, char const *name)
 	Sheet *sheet = workbook_sheet_by_name (state->wb, name);
 
 	if (sheet == NULL) {
-	  sheet = sheet_new (state->wb, name, GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
+		int cols = APPLIX_SHEET_MAX_COLS;
+		int rows = APPLIX_SHEET_MAX_ROWS;
+		gnm_sheet_suggest_size (&cols, &rows);
+		sheet = sheet_new (state->wb, name, cols, rows);
 		workbook_sheet_attach (state->wb, sheet);
 		g_object_set (sheet, "zoom-factor", state->zoom / 100.0, NULL);
 		sheet_flag_recompute_spans (sheet);
