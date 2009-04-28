@@ -1,3 +1,9 @@
+2009-04-28  Morten Welinder  <terra@gnome.org>
+
+	* src/parse-util.c (std_expr_name_handler): Handle shadowed global
+	names.
+	* src/parser.y (workbookref): Ditto.  Fixes #306686.
+
 2009-04-27  Morten Welinder  <terra@gnome.org>
 
 	* src/position.c (gnm_rangeref_normalize_pp): New function

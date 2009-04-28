@@ -1163,6 +1163,11 @@ std_expr_name_handler (GnmConventionsOut *out, GnmExprName const *name)
 		   thename->pos.sheet != out->pp->sheet) {
 		g_string_append (target, thename->pos.sheet->name_quoted);
 		g_string_append_unichar (target, out->convs->sheet_name_sep);
+	} else if (out->pp->sheet &&
+		   thename->pos.sheet == NULL &&
+		   expr_name_lookup (out->pp, expr_name_name (thename)) != thename) {
+		/* Special syntax for global names shadowed by sheet names.  */
+		g_string_append (target, "[]");
 	}
 
 	g_string_append (target, expr_name_name (thename));

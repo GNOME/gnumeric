@@ -753,6 +753,23 @@ workbookref : '[' string_opt_quote ']'  {
 			YYERROR;
 		}
 	}
+	| '[' ']' {
+		/* Special syntax for global names shadowed by sheet names.  */
+		Workbook *wb = state->pos
+			? (state->pos->wb
+			   ? state->pos->wb
+			   : (state->pos->sheet
+			      ? state->pos->sheet->workbook
+			      : NULL))
+			: NULL;
+		$$ = wb;
+		if (wb == NULL) {
+			report_err (state, g_error_new (1, PERR_UNKNOWN_WORKBOOK,
+				_("Unknown workbook")),
+				state->ptr - 1, 1);
+			YYERROR;
+		}
+	}
 	;
 
 /* does not need to handle 3d case.  this is only used for names.

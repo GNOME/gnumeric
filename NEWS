@@ -10,6 +10,7 @@ Morten:
 	* Fix tooltip positioning.  [#580358]
 	* Fix xlst export problem.  [#580360]
 	* Fix size of sheets loaded from Applix files.
+	* Fix problem with global names shadowed by sheet names.  [#306686]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.6
