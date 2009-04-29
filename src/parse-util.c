@@ -271,8 +271,12 @@ cellref_as_string (GnmConventionsOut *out,
 		r1c1_add_index (target, 'C', cell_ref->col, cell_ref->col_relative);
 	} else {
 		GnmCellPos pos;
+		Sheet const *size_sheet = eval_sheet (sheet, out->pp->sheet);
+		GnmSheetSize const *ss = size_sheet
+			? gnm_sheet_get_size (size_sheet)
+			: workbook_get_sheet_size (out->pp->wb);
 
-		gnm_cellpos_init_cellref (&pos, cell_ref, &out->pp->eval, out->pp->sheet);
+		gnm_cellpos_init_cellref_ss (&pos, cell_ref, &out->pp->eval, ss);
 
 		if (!cell_ref->col_relative)
 			g_string_append_c (target, '$');
@@ -1030,6 +1034,7 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 	Workbook *wb;
 	Workbook *ref_wb;
 	Sheet *a_sheet, *b_sheet;
+	GnmSheetSize const *a_ss, *b_ss;
 
 	g_return_val_if_fail (start != NULL, start);
 	g_return_val_if_fail (pp != NULL, start);
@@ -1067,20 +1072,24 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 	a_sheet = eval_sheet (res->a.sheet, pp->sheet);
 	b_sheet = eval_sheet (res->b.sheet, a_sheet);
 
-	tmp1 = col_parse (ptr, gnm_sheet_get_size (a_sheet),
-			  &res->a.col, &res->a.col_relative);
+	a_ss = a_sheet
+		? gnm_sheet_get_size (a_sheet)
+		: workbook_get_sheet_size (pp->wb);
+	b_ss = b_sheet ? gnm_sheet_get_size (b_sheet) : a_ss;
+
+	tmp1 = col_parse (ptr, a_ss, &res->a.col, &res->a.col_relative);
 	if (tmp1 == NULL) { /* check for row only ref 2:3 */
-		tmp1 = row_parse (ptr, gnm_sheet_get_size (a_sheet),
+		tmp1 = row_parse (ptr, a_ss,
 				  &res->a.row, &res->a.row_relative);
 		if (!tmp1 || *tmp1++ != ':') /* row only requires : even for singleton */
 			return start;
-		tmp2 = row_parse (tmp1, gnm_sheet_get_size (b_sheet),
+		tmp2 = row_parse (tmp1, b_ss,
 				  &res->b.row, &res->b.row_relative);
 		if (!tmp2)
 			return start;
 		res->a.col_relative = res->b.col_relative = FALSE;
 		res->a.col = 0;
-		res->b.col = gnm_sheet_get_last_col (b_sheet);
+		res->b.col = b_ss->max_cols - 1;
 		if (res->a.row_relative)
 			res->a.row -= pp->eval.row;
 		if (res->b.row_relative)
@@ -1088,18 +1097,17 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 		return tmp2;
 	}
 
-	tmp2 = row_parse (tmp1, gnm_sheet_get_size (a_sheet),
-			  &res->a.row, &res->a.row_relative);
+	tmp2 = row_parse (tmp1, a_ss, &res->a.row, &res->a.row_relative);
 	if (tmp2 == NULL) { /* check for col only ref B:C or R1C1 style */
 		if (*tmp1++ != ':') /* col only requires : even for singleton */
 			return start;
-		tmp2 = col_parse (tmp1, gnm_sheet_get_size (a_sheet),
+		tmp2 = col_parse (tmp1, a_ss,
 				  &res->b.col, &res->b.col_relative);
 		if (!tmp2)
 			return start;
 		res->a.row_relative = res->b.row_relative = FALSE;
 		res->a.row = 0;
-		res->b.row = gnm_sheet_get_last_row (b_sheet);
+		res->b.row = b_ss->max_rows - 1;
 		if (res->a.col_relative)
 			res->a.col -= pp->eval.col;
 		if (res->b.col_relative)
@@ -1116,12 +1124,10 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 	if (*ptr != ':')
 		goto singleton;
 
-	tmp1 = col_parse (ptr+1, gnm_sheet_get_size (b_sheet),
-			  &res->b.col, &res->b.col_relative);
+	tmp1 = col_parse (ptr+1, b_ss, &res->b.col, &res->b.col_relative);
 	if (!tmp1)
 		goto singleton;	/* strange, but valid singleton */
-	tmp2 = row_parse (tmp1, gnm_sheet_get_size (b_sheet),
-			  &res->b.row, &res->b.row_relative);
+	tmp2 = row_parse (tmp1, b_ss, &res->b.row, &res->b.row_relative);
 	if (!tmp2)
 		goto singleton;	/* strange, but valid singleton */
 

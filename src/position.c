@@ -289,16 +289,12 @@ gnm_cellref_get_row (GnmCellRef const *ref, GnmEvalPos const *ep)
 	return ref->row;
 }
 
-static void
+void
 gnm_cellpos_init_cellref_ss (GnmCellPos *res, GnmCellRef const *cell_ref,
-			     GnmCellPos const *pos, GnmSheetSize const *base_ss)
+			     GnmCellPos const *pos, GnmSheetSize const *ss)
 {
-	GnmSheetSize const *ss;
-
 	g_return_if_fail (cell_ref != NULL);
 	g_return_if_fail (res != NULL);
-
-	ss = cell_ref->sheet ? gnm_sheet_get_size (cell_ref->sheet) : base_ss;
 
 	if (cell_ref->col_relative) {
 		int col = cell_ref->col + pos->col;
@@ -327,8 +323,9 @@ void
 gnm_cellpos_init_cellref (GnmCellPos *res, GnmCellRef const *cell_ref,
 			  GnmCellPos const *pos, Sheet const *base_sheet)
 {
+	Sheet *sheet = eval_sheet (cell_ref->sheet, base_sheet);
 	gnm_cellpos_init_cellref_ss (res, cell_ref, pos,
-				     gnm_sheet_get_size (base_sheet));
+				     gnm_sheet_get_size (sheet));
 }
 
 void

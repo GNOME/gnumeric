@@ -1,3 +1,10 @@
+2009-04-29  Morten Welinder  <terra@gnome.org>
+
+	* src/position.c (gnm_cellpos_init_cellref_ss): Make public.
+
+	* src/parse-util.c (cellref_as_string, rangeref_parse): Handle
+	out->pp->sheet being NULL for global names.
+
 2009-04-28  Jody Goldberg <jody@gnome.org>
 
 	* src/wbc-gtk.c (wbc_gtk_init) : use the pref for autosave.
