@@ -1727,7 +1727,6 @@ gnm_expr_as_string (GnmExpr const *expr, GnmParsePos const *pp,
 	GnmParsePos pp0;
 
 	g_return_val_if_fail (expr != NULL, NULL);
-	g_return_val_if_fail (pp != NULL, NULL);
 
 	/*
 	 * Defaults for debugging only!

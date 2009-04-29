@@ -1,5 +1,8 @@
 2009-04-29  Morten Welinder  <terra@gnome.org>
 
+	* src/expr.c (gnm_expr_as_string): Don't check pp for NULL since
+	we have a debug default.
+
 	* src/application.c (gnm_app_workbook_get_by_index): Simplify and
 	make zero-based.
 
