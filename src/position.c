@@ -323,7 +323,7 @@ void
 gnm_cellpos_init_cellref (GnmCellPos *res, GnmCellRef const *cell_ref,
 			  GnmCellPos const *pos, Sheet const *base_sheet)
 {
-	Sheet *sheet = eval_sheet (cell_ref->sheet, base_sheet);
+	Sheet const *sheet = eval_sheet (cell_ref->sheet, base_sheet);
 	gnm_cellpos_init_cellref_ss (res, cell_ref, pos,
 				     gnm_sheet_get_size (sheet));
 }
