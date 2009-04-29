@@ -2,6 +2,11 @@
 
 	* src/expr.c (gnm_expr_as_string): Don't check pp for NULL since
 	we have a debug default.
+	(gnm_expr_is_err): New function extracted from
+	gnm_expr_top_is_err.
+	(gnm_expr_relocate): Only invalidate the use of a name if its
+	expression, hypothetically, moved would become invalid.  Fixes
+	part of #552749.
 
 	* src/application.c (gnm_app_workbook_get_by_index): Simplify and
 	make zero-based.

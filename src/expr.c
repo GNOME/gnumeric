@@ -1749,6 +1749,19 @@ gnm_expr_as_string (GnmExpr const *expr, GnmParsePos const *pp,
 }
 
 /****************************************************************************/
+
+static gboolean
+gnm_expr_is_err (GnmExpr const *expr, GnmStdError err)
+{
+	GnmStdError err2;
+
+	if (GNM_EXPR_GET_OPER (expr) != GNM_EXPR_OP_CONSTANT)
+		return FALSE;
+
+	err2 = value_error_classify (expr->constant.value);
+	return err == err2;
+}
+
 typedef struct {
 	GnmExprRelocateInfo const *details;
 	gboolean from_inside;
@@ -2081,16 +2094,19 @@ gnm_expr_relocate (GnmExpr const *expr, RelocInfoInternal const *rinfo)
 			} else {
 				/*
 				 * Do NOT rewrite the name.
-				 * Just invalidate the use of the name
+				 *
+				 * Just invalidate the use of the name if the
+				 * name's expression, if relocated, would
+				 * become invalid.
 				 */
 				GnmExpr const *tmp =
 					gnm_expr_relocate (nexpr->texpr->expr,
 							   rinfo);
-				if (tmp != NULL) {
+				if (tmp && gnm_expr_is_err (tmp, GNM_ERROR_REF))
+					return tmp;
+
+				if (tmp)
 					gnm_expr_free (tmp);
-					return gnm_expr_new_constant (
-						value_new_error_REF (NULL));
-				}
 
 				return NULL;
 			}
@@ -2963,14 +2979,8 @@ gnm_expr_top_referenced_sheets (GnmExprTop const *texpr)
 gboolean
 gnm_expr_top_is_err (GnmExprTop const *texpr, GnmStdError err)
 {
-	GnmStdError err2;
 	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), FALSE);
-
-	if (GNM_EXPR_GET_OPER (texpr->expr) != GNM_EXPR_OP_CONSTANT)
-		return FALSE;
-
-	err2 = value_error_classify (texpr->expr->constant.value);
-	return err == err2;
+	return gnm_expr_is_err (texpr->expr, err);
 }
 
 /**
