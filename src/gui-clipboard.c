@@ -657,7 +657,8 @@ graph_write (GnmCellRegion *cr, gchar const *mime_type, int *size)
 	}
 	output = gsf_output_memory_new ();
 	omem   = GSF_OUTPUT_MEMORY (output);
-	sheet_object_write_object (so, mime_type, output, NULL);
+	sheet_object_write_object (so, mime_type, output, NULL,
+				   gnm_conventions_default);
 	osize = gsf_output_size (output);
 
 	*size = osize;

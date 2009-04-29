@@ -3157,7 +3157,7 @@ cb_expression_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
 	pp.eval.row = 0;
 	pp.sheet = NULL;
 	pp.wb = NULL;
-	s = gnm_expr_as_string (expr, &pp, gnm_conventions_default);
+	s = gnm_expr_as_string (expr, &pp, NULL);
 	g_printerr ("Leaking expression at %p: %s.\n", (void *)expr, s);
 	g_free (s);
 }

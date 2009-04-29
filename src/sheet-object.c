@@ -1194,15 +1194,16 @@ sheet_object_exportable_get_target_list (SheetObject const *so)
 
 void
 sheet_object_write_object (SheetObject const *so, char const *format,
-			  GsfOutput *output, GError **err)
+			   GsfOutput *output, GError **err,
+			   GnmConventions const *convs)
 {
 	GnmLocale *locale;
 
 	g_return_if_fail (IS_SHEET_OBJECT_EXPORTABLE (so));
 
 	locale = gnm_push_C_locale ();
-	SHEET_OBJECT_EXPORTABLE_CLASS (so)->write_object (so, format,
-							  output, err);
+	SHEET_OBJECT_EXPORTABLE_CLASS (so)->
+		write_object (so, format, output, err, convs);
 	gnm_pop_C_locale (locale);
 }
 

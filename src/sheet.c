@@ -267,8 +267,9 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 	g_free (sheet->name_unquoted_collate_key);
 	g_free (sheet->name_case_insensitive);
 	sheet->name_unquoted = new_name_unquoted;
-	sheet->name_quoted = g_string_free (gnm_expr_conv_quote (
-		gnm_conventions_default, new_name_unquoted), FALSE);
+	sheet->name_quoted = g_string_free
+		(gnm_expr_conv_quote (sheet->convs, new_name_unquoted),
+		 FALSE);
 	sheet->name_unquoted_collate_key =
 		g_utf8_collate_key (new_name_unquoted, -1);
 	sheet->name_case_insensitive =

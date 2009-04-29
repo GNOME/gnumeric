@@ -4410,9 +4410,8 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 	if (!GTK_WIDGET_SENSITIVE (gee) || editor->dataset == NULL)
 		return;
 
-	g_object_get (G_OBJECT (gee), "scg", &scg, NULL);
+	scg = gnm_expr_entry_get_scg (gee);
 	sheet = scg_sheet (scg);
-	g_object_unref (G_OBJECT (scg));
 
 	/* If we are setting something */
 	if (!gnm_expr_entry_is_blank (editor->entry)) {
@@ -4479,7 +4478,9 @@ cb_dataset_changed (GogDataset *dataset,
 
 	val = gog_dataset_get_dim (dataset, editor->dim_i);
 	if (val != NULL) {
-		char *txt = go_data_as_str (val);
+		SheetControlGUI *scg = gnm_expr_entry_get_scg (editor->entry);
+		Sheet const *sheet = scg_sheet (scg);
+		char *txt = go_data_serialize (val, (gpointer)sheet->convs);
 		gnm_expr_entry_load_from_text (editor->entry, txt);
 		g_free (txt);
 	}
@@ -4526,7 +4527,8 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 
 	val = gog_dataset_get_dim (dataset, dim_i);
 	if (val != NULL) {
-		char *txt = go_data_as_str (val);
+		Sheet const *sheet = wbcg_cur_sheet (wbcg);
+		char *txt = go_data_serialize (val, (gpointer)sheet->convs);
 		gnm_expr_entry_load_from_text (editor->entry, txt);
 		g_free (txt);
 	}

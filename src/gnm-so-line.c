@@ -311,7 +311,8 @@ gnm_so_line_read_xml_dom (SheetObject *so, char const *typename,
 }
 
 static void
-gnm_so_line_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+gnm_so_line_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
+			   GnmConventions const *convs)
 {
 	GnmSOLine const *sol = GNM_SO_LINE (so);
 
@@ -339,7 +340,9 @@ sol_sax_style (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-gnm_so_line_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
+gnm_so_line_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
+			     xmlChar const **attrs,
+			     GnmConventions const *convs)
 {
 	static GsfXMLInNode const dtd[] = {
 	  GSF_XML_IN_NODE (STYLE, STYLE, -1, "Style",	GSF_XML_NO_CONTENT, &sol_sax_style, NULL),

@@ -2159,7 +2159,7 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 	sheet_object_set_anchor (so, &anchor);
 
 	if (NULL != klass->prep_sax_parser)
-		(klass->prep_sax_parser) (so, xin, attrs);
+		(klass->prep_sax_parser) (so, xin, attrs, state->convs);
 	if (needs_cleanup) {
 		/* Put in something to get gnm_xml_finish_obj called */
 		static GsfXMLInNode const dtd[] = {

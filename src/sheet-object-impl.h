@@ -61,8 +61,11 @@ typedef struct {
 				      XmlParseContext const *ctxt,
 				      xmlNodePtr	tree);
 	void      (*prep_sax_parser) (SheetObject *so,
-				      GsfXMLIn *xin, xmlChar const **attrs);
-	void        (*write_xml_sax) (SheetObject const *so, GsfXMLOut *output);
+				      GsfXMLIn *xin, xmlChar const **attrs,
+				      GnmConventions const *convs);
+	void        (*write_xml_sax) (SheetObject const *so,
+				      GsfXMLOut *output,
+				      GnmConventions const *convs);
 	void		    (*copy)  (SheetObject *dst,
 				      SheetObject const *src);
 
@@ -165,7 +168,8 @@ struct _SheetObjectExportableIface {
 	GtkTargetList *(*get_target_list) (SheetObject const *so);
 	void           (*write_object)	  (SheetObject const *so,
 					   char const *format,
-					   GsfOutput *output, GError **err);
+					   GsfOutput *output, GError **err,
+					   GnmConventions const *convs);
 };
 
 G_END_DECLS

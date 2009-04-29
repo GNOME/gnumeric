@@ -248,7 +248,8 @@ gnm_sog_write_image (SheetObject const *so, char const *format, double resolutio
 
 static void
 gnm_sog_write_object (SheetObject const *so, char const *format,
-		      GsfOutput *output, GError **err)
+		      GsfOutput *output, GError **err,
+		      GnmConventions const *convs)
 {
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 	GsfXMLOut *xout;
@@ -259,7 +260,7 @@ gnm_sog_write_object (SheetObject const *so, char const *format,
 	graph = gog_object_dup (GOG_OBJECT (sog->graph),
 		NULL, gog_dataset_dup_to_simple);
 	xout = gsf_xml_out_new (output);
-	gog_object_write_xml_sax (GOG_OBJECT (graph), xout);
+	gog_object_write_xml_sax (GOG_OBJECT (graph), xout, (gpointer)convs);
 	g_object_unref (xout);
 	g_object_unref (graph);
 }
@@ -347,7 +348,8 @@ gnm_sog_read_xml_dom (SheetObject *so, char const *typename,
 	xmlNodePtr child = e_xml_get_child_by_name (tree, "GogObject");
 
 	if (child != NULL) {
-		GogObject *graph = gog_object_new_from_xml (NULL, child);
+		GogObject *graph = gog_object_new_from_xml
+			(NULL, child, (gpointer)gnm_conventions_default);
 		sheet_object_graph_set_gog (so, GOG_GRAPH (graph));
 		g_object_unref (graph);
 	}
@@ -355,10 +357,12 @@ gnm_sog_read_xml_dom (SheetObject *so, char const *typename,
 }
 
 static void
-gnm_sog_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+gnm_sog_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
+		       GnmConventions const *convs)
 {
 	SheetObjectGraph const *sog = SHEET_OBJECT_GRAPH (so);
-	gog_object_write_xml_sax (GOG_OBJECT (sog->graph), output);
+	gog_object_write_xml_sax (GOG_OBJECT (sog->graph), output,
+				  (gpointer)convs);
 }
 
 static void
@@ -369,17 +373,19 @@ sog_xml_finish (GogObject *graph, SheetObject *so)
 }
 
 static void
-gnm_sog_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
+gnm_sog_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs,
+			 GnmConventions const *convs)
 {
 	gog_object_sax_push_parser (xin, attrs,
-		(GogObjectSaxHandler) sog_xml_finish, so);
+				    (GogObjectSaxHandler) sog_xml_finish,
+				    (gpointer)convs, so);
 }
 
 static void
 gnm_sog_copy (SheetObject *dst, SheetObject const *src)
 {
 	SheetObjectGraph const *sog = SHEET_OBJECT_GRAPH (src);
-	GogGraph *graph   = gog_graph_dup (sog->graph);
+	GogGraph *graph = gog_graph_dup (sog->graph);
 	sheet_object_graph_set_gog (dst, graph);
 	g_object_unref (graph);
 }

@@ -4180,7 +4180,7 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 			} else if ((value = gnm_expr_top_get_constant (texpr)))
 				ref_type = 1;
 		} else {
-			char *str = go_data_as_str (dim);
+			char *str = go_data_serialize (dim, (gpointer)gnm_conventions_default);
 			ref_type = 1;
 			value = value_new_string (str);
 			g_free (str);
@@ -4214,7 +4214,8 @@ chart_write_AI (XLChartWriteState *s, GOData const *dim, unsigned n,
 		} else {
 			guint dat[2];
 			char *str = (NULL != value && VALUE_IS_STRING (value))
-				? value_get_as_string (value) : go_data_as_str (dim);
+				? value_get_as_string (value)
+				: go_data_serialize (dim, (gpointer)gnm_conventions_default);
 
 			ms_biff_put_commit (s->bp);
 			ms_biff_put_var_next (s->bp, BIFF_CHART_seriestext);

@@ -1,5 +1,11 @@
 2009-04-29  Morten Welinder  <terra@gnome.org>
 
+	* */*.c: Reduce use of gnm_conventions_default and
+	gnm_expr_parse_str_simple.  Use conventions from sheet or passed
+	down from sax writer.
+
+2009-04-29  Morten Welinder  <terra@gnome.org>
+
 	* src/wbc-gtk.c (cb_wbcg_window_state_event): When entering
 	fullscreen mode, disable the actions in ->hide_for_fullscreen.
 	When exiting, restore the old state.

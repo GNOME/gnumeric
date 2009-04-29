@@ -127,7 +127,8 @@ void sheet_object_write_image 	(SheetObject const *so,
 GtkTargetList *sheet_object_exportable_get_target_list (SheetObject const *so);
 void sheet_object_write_object 	(SheetObject const *so,
 				 char const *format,
-				 GsfOutput *output, GError **err);
+				 GsfOutput *output, GError **err,
+				 GnmConventions const *convs);
 
 /* cairo rendering */
 void sheet_object_draw_cairo (SheetObject const *so, cairo_t *cr, gboolean rtl);

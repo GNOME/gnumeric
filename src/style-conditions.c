@@ -219,7 +219,7 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 			use_this = value_get_as_bool (val, NULL);
 #if 0
 			char *str = gnm_expr_as_string (cond->expr[0],
-				&pp, gnm_conventions_default);
+							&pp, NULL);
 			g_print ("'%s' = %s\n", str, use_this ? "true" : "false");
 			g_free (str);
 #endif

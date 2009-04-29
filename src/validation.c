@@ -431,7 +431,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 				char *expr_str = gnm_expr_top_as_string
 					(v->texpr[0],
 					 parse_pos_init_evalpos (&pp, &ep),
-					 gnm_conventions_default);
+					 ep.sheet->convs);
 				char *msg = g_strdup_printf (_("%s does not contain the new value."), expr_str);
 				g_free (expr_str);
 				BARF (msg);
@@ -465,7 +465,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 			char *expr_str = gnm_expr_top_as_string
 				(v->texpr[0],
 				 parse_pos_init_evalpos (&pp, &ep),
-				 gnm_conventions_default);
+				 ep.sheet->convs);
 			char *msg = g_strdup_printf (_("%s is not true."), expr_str);
 			g_free (expr_str);
 			BARF (msg);

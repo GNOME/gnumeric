@@ -220,10 +220,11 @@ gnm_so_polygon_read_xml_dom (SheetObject *so, char const *typename,
 }
 
 static void
-gnm_so_polygon_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+gnm_so_polygon_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
+			      GnmConventions const *convs)
 {
 	/* TODO */
-	gnm_so_polygon_parent_class->write_xml_sax (so, output);
+	gnm_so_polygon_parent_class->write_xml_sax (so, output, convs);
 }
 
 static void

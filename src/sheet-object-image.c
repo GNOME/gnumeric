@@ -516,7 +516,8 @@ content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 }
 
 static void
-gnm_soi_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
+gnm_soi_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
+			 xmlChar const **attrs, GnmConventions const *convs)
 {
 	static GsfXMLInNode const dtd[] = {
 	  GSF_XML_IN_NODE (CONTENT, CONTENT, -1, "Content",	GSF_XML_CONTENT, &content_start, &content_end),
@@ -538,7 +539,8 @@ gnm_soi_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-gnm_soi_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+gnm_soi_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
+		       GnmConventions const *convs)
 {
 	SheetObjectImage *soi;
 

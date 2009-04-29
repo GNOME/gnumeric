@@ -280,7 +280,8 @@ cell_comment_read_xml_dom (SheetObject *so, char const *typename,
 }
 
 static void
-cell_comment_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
+cell_comment_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
+			    GnmConventions const *convs)
 {
 	GnmComment const *cc = CELL_COMMENT (so);
 	if (NULL != cc->author)
@@ -290,7 +291,9 @@ cell_comment_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
 }
 
 static void
-cell_comment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs)
+cell_comment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
+			      xmlChar const **attrs,
+			      GnmConventions const *convs)
 {
 	GnmComment *cc = CELL_COMMENT (so);
 

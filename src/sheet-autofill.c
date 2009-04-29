@@ -879,7 +879,8 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, GnmCellPos const *pos,
 					 gnm_expr_top_new (aexpr));
 			else {
 				res = gnm_expr_as_string (aexpr,
-					&rinfo.pos, gnm_conventions_default);
+							  &rinfo.pos,
+							  cell->base.sheet->convs);
 				gnm_expr_free (aexpr);
 			}
 		} else if (texpr) {
@@ -887,14 +888,16 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, GnmCellPos const *pos,
 				gnm_cell_set_expr (cell, texpr);
 			else
 				res = gnm_expr_top_as_string (texpr,
-					&rinfo.pos, gnm_conventions_default);
+							      &rinfo.pos,
+							      cell->base.sheet->convs);
 			gnm_expr_top_unref (texpr);
 		} else {
 			if (doit)
 				gnm_cell_set_expr (cell, src_texpr);
 			else
 				res = gnm_expr_top_as_string (src_texpr,
-					&rinfo.pos, gnm_conventions_default);
+							      &rinfo.pos,
+							      cell->base.sheet->convs);
 		}
 	} else if (src) {
 		if (doit)

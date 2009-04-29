@@ -1098,7 +1098,7 @@ xml_write_objects (GnmOutputXML *state, GSList *objects)
 		gsf_xml_out_add_int (state->output, "Direction",
 			so->anchor.base.direction);
 
-		(*klass->write_xml_sax) (so, state->output);
+		(*klass->write_xml_sax) (so, state->output, state->convs);
 
 		gsf_xml_out_end_element (state->output); /* </gnm:{typename}> */
 		g_free (tmp);

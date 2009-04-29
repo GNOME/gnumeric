@@ -4037,7 +4037,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 
 					out.accum = g_string_new ("=");
 					out.pp = &pp;
-					out.convs = gnm_conventions_default;
+					out.convs = pp.sheet->convs;
 					gnm_expr_top_as_gstring (ee, &out);
 					gnm_expr_top_unref (ee);
 					cell_res.new_text = g_string_free (out.accum, FALSE);

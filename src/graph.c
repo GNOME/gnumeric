@@ -41,6 +41,37 @@
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
+/* ------------------------------------------------------------------------- */
+
+static inline char *
+get_pending_str (const GOData *data)
+{
+	return g_object_get_data (G_OBJECT (data), "unserialize");
+}
+
+static inline GnmConventions *
+get_pending_convs (const GOData *data)
+{
+	return g_object_get_data (G_OBJECT (data), "unserialize-convs");
+}
+
+static inline void
+set_pending_str (const GOData *data, const char *str)
+{
+	return g_object_set_data_full (G_OBJECT (data),
+				       "unserialize", g_strdup (str),
+				       g_free);
+}
+
+static inline void
+set_pending_convs (GOData *data, const GnmConventions *convs)
+{
+	g_object_set_data (G_OBJECT (data),
+			   "unserialize-convs", (gpointer)convs);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static GnmDependent *gnm_go_data_get_dep (GOData const *obj);
 
 static GOData *
@@ -58,9 +89,8 @@ gnm_go_data_dup (GOData const *src)
 		dependent_set_sheet (dst_dep, src_dep->sheet);
 
 	if (dst_dep->texpr == NULL) {
-		char const *str = g_object_get_data (G_OBJECT (src), "from-str");
-		g_object_set_data_full (G_OBJECT (dst),
-			"from-str", g_strdup (str), g_free);
+		set_pending_str (dst, get_pending_str (src));
+		set_pending_convs (dst, get_pending_convs (src));
 	}
 
 	return GO_DATA (dst);
@@ -72,8 +102,8 @@ gnm_go_data_eq (GOData const *data_a, GOData const *data_b)
 	GnmDependent const *a = gnm_go_data_get_dep (data_a);
 	GnmDependent const *b = gnm_go_data_get_dep (data_b);
 	if (a->texpr == NULL && b->texpr == NULL) {
-		char const *str_a = g_object_get_data (G_OBJECT (data_a), "from-str");
-		char const *str_b = g_object_get_data (G_OBJECT (data_b), "from-str");
+		char const *str_a = get_pending_str (data_a);
+		char const *str_b = get_pending_str (data_b);
 		return go_str_compare (str_a, str_b) == 0;
 	}
 
@@ -96,33 +126,47 @@ gnm_go_data_preferred_fmt (GOData const *dat)
 }
 
 static char *
-gnm_go_data_as_str (GOData const *dat)
+gnm_go_data_serialize (GOData const *dat, gpointer user)
 {
 	GnmParsePos pp;
+	GnmConventions const *convs = user;
 	GnmDependent const *dep = gnm_go_data_get_dep (dat);
 	if (dep->sheet == NULL)
 		return g_strdup ("No sheet for GnmGOData");
+	if (!convs) {
+		g_warning ("NULL convs in gnm_go_data_serialize");
+		convs = gnm_conventions_default;
+	}
 	return gnm_expr_top_as_string (dep->texpr,
-		parse_pos_init_dep (&pp, dep),
-		gnm_conventions_default);
+				       parse_pos_init_dep (&pp, dep),
+				       convs);
 }
 
 static gboolean
-gnm_go_data_from_str (GOData *dat, char const *str)
+gnm_go_data_unserialize (GOData *dat, char const *str, gpointer user)
 {
+	GnmConventions const *convs = user;
 	GnmExprTop const *texpr;
 	GnmParsePos   pp;
 	GnmDependent *dep = gnm_go_data_get_dep (dat);
 
+	if (!convs) {
+		g_warning ("NULL convs in gnm_go_data_serialize");
+		convs = gnm_conventions_default;
+	}
+
 	/* It is too early in the life cycle to know where we
 	 * are.  Wait until later when we parse the sheet */
 	if (dep->sheet == NULL) {
-		g_object_set_data_full (G_OBJECT (dat),
-			"from-str", g_strdup (str), g_free);
+		set_pending_str (dat, str);
+		/* Ugh.  We assume that convs will stay valid.  */
+		set_pending_convs (dat, convs);
 		return TRUE;
 	}
 
-	texpr = gnm_expr_parse_str_simple (str, parse_pos_init_dep (&pp, dep));
+	parse_pos_init_dep (&pp, dep);
+	texpr = gnm_expr_parse_str (str, &pp, GNM_EXPR_PARSE_DEFAULT,
+				    convs, NULL);
 	if (texpr != NULL) {
 		dependent_set_expr (dep, texpr);
 		gnm_expr_top_unref (texpr);
@@ -143,24 +187,27 @@ gnm_go_data_set_sheet (GOData *dat, Sheet *sheet)
 		dependent_unlink (dep);
 		dep->sheet = NULL;
 	}
-	if (sheet != NULL) {
-		/* no expression ?
-		 * Do we need to parse one now that we have more context ? */
-		if (dep->texpr == NULL) {
-			char const *str = g_object_get_data (G_OBJECT (dat), "from-str");
-			if (str != NULL) { /* bingo */
-				dep->sheet = sheet; /* cheat a bit */
-				if (gnm_go_data_from_str (dat, str)) {
-					g_object_set_data (G_OBJECT (dat),
-							   "from-str", NULL); /* free it */
-					go_data_emit_changed (GO_DATA (dat));
-				}
+
+	if (sheet == NULL)
+		return;
+
+	/* no expression?
+	 * Do we need to parse one now that we have more context ? */
+	if (dep->texpr == NULL) {
+		char const *str = get_pending_str (dat);
+		GnmConventions *convs = get_pending_convs (dat);
+		if (str != NULL) { /* bingo */
+			dep->sheet = sheet; /* cheat a bit */
+			if (gnm_go_data_unserialize (dat, str, convs)) {
+				set_pending_str (dat, NULL);
+				set_pending_convs (dat, NULL);
+				go_data_emit_changed (GO_DATA (dat));
 			}
 		}
-
-		dep->sheet = NULL;
-		dependent_set_sheet (dep, sheet);
 	}
+
+	dep->sheet = NULL;
+	dependent_set_sheet (dep, sheet);
 }
 
 Sheet *
@@ -279,8 +326,8 @@ gnm_go_data_scalar_class_init (GObjectClass *gobject_klass)
 	godata_klass->dup		= gnm_go_data_dup;
 	godata_klass->eq		= gnm_go_data_eq;
 	godata_klass->preferred_fmt	= gnm_go_data_preferred_fmt;
-	godata_klass->as_str		= gnm_go_data_as_str;
-	godata_klass->from_str		= gnm_go_data_from_str;
+	godata_klass->serialize		= gnm_go_data_serialize;
+	godata_klass->unserialize	= gnm_go_data_unserialize;
 	scalar_klass->get_value		= gnm_go_data_scalar_get_value;
 	scalar_klass->get_str		= gnm_go_data_scalar_get_str;
 }
@@ -373,7 +420,7 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 
 #if 0
 	{
-		char *str = go_data_as_str (dat);
+		char *str = go_data_serialize (dat);
 		g_warning ("load_len '%s'", str);
 		g_free (str);
 	}
@@ -671,8 +718,8 @@ gnm_go_data_vector_class_init (GObjectClass *gobject_klass)
 	godata_klass->dup		= gnm_go_data_dup;
 	godata_klass->eq		= gnm_go_data_eq;
 	godata_klass->preferred_fmt	= gnm_go_data_preferred_fmt;
-	godata_klass->as_str		= gnm_go_data_as_str;
-	godata_klass->from_str		= gnm_go_data_from_str;
+	godata_klass->serialize		= gnm_go_data_serialize;
+	godata_klass->unserialize	= gnm_go_data_unserialize;
 	vector_klass->load_len		= gnm_go_data_vector_load_len;
 	vector_klass->load_values	= gnm_go_data_vector_load_values;
 	vector_klass->get_value		= gnm_go_data_vector_get_value;
@@ -765,7 +812,7 @@ gnm_go_data_matrix_load_size (GODataMatrix *dat)
 
 #if 0
 	{
-		char *str = go_data_as_str (dat);
+		char *str = go_data_serialize (dat);
 		g_warning ("load_len '%s'", str);
 		g_free (str);
 	}
@@ -1078,8 +1125,8 @@ gnm_go_data_matrix_class_init (GObjectClass *gobject_klass)
 	godata_klass->dup		= gnm_go_data_dup;
 	godata_klass->eq		= gnm_go_data_eq;
 	godata_klass->preferred_fmt	= gnm_go_data_preferred_fmt;
-	godata_klass->as_str		= gnm_go_data_as_str;
-	godata_klass->from_str		= gnm_go_data_from_str;
+	godata_klass->serialize		= gnm_go_data_serialize;
+	godata_klass->unserialize	= gnm_go_data_unserialize;
 	matrix_klass->load_size		= gnm_go_data_matrix_load_size;
 	matrix_klass->load_values	= gnm_go_data_matrix_load_values;
 	matrix_klass->get_value		= gnm_go_data_matrix_get_value;
