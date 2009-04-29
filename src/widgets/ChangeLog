@@ -1,3 +1,7 @@
+2009-04-29  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_get_scg): New function.
+
 2009-04-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-text-view.[ch]: new

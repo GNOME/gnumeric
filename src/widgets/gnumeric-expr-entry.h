@@ -36,6 +36,8 @@ void	  gnm_expr_entry_set_flags	(GnmExprEntry *gee,
 					 GnmExprEntryFlags mask);
 void	  gnm_expr_entry_set_scg	(GnmExprEntry *gee,
 					 SheetControlGUI *scg);
+SheetControlGUI *gnm_expr_entry_get_scg	(GnmExprEntry *gee);
+
 GtkEntry *gnm_expr_entry_get_entry	(GnmExprEntry *gee);
 gboolean  gnm_expr_entry_get_rangesel	(GnmExprEntry const *gee,
 					 GnmRange *r, Sheet **sheet);

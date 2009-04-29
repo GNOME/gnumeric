@@ -1203,6 +1203,12 @@ gnm_expr_entry_set_scg (GnmExprEntry *gee, SheetControlGUI *scg)
 #endif
 }
 
+SheetControlGUI *
+gnm_expr_entry_get_scg (GnmExprEntry *gee)
+{
+	return gee->scg;
+}
+
 /**
  * gnm_expr_entry_load_from_text :
  * @gee :
