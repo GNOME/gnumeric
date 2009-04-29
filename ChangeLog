@@ -1,5 +1,11 @@
 2009-04-29  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (cb_wbcg_window_state_event): When entering
+	fullscreen mode, disable the actions in ->hide_for_fullscreen.
+	When exiting, restore the old state.
+	(cb_toolbar_box_visible): Don't persist changes while in
+	fullscreen mode.  Fixes #574603.
+
 	* src/expr.c (gnm_expr_as_string): Don't check pp for NULL since
 	we have a debug default.
 	(gnm_expr_is_err): New function extracted from

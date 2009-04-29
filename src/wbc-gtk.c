@@ -1948,15 +1948,7 @@ wbcg_toggle_visibility (WBCGtk *wbcg, GtkToggleAction *action)
 	if (!wbcg->updating_ui && wbcg_ui_update_begin (wbcg)) {
 		char const *name = gtk_action_get_name (GTK_ACTION (action));
 		set_visibility (wbcg, name,
-			gtk_toggle_action_get_active (action));
-
-		if (wbcg->toggle_for_fullscreen != NULL) {
-			if (g_hash_table_lookup (wbcg->toggle_for_fullscreen, name) != NULL)
-				g_hash_table_remove (wbcg->toggle_for_fullscreen, name);
-			else
-				g_hash_table_insert (wbcg->toggle_for_fullscreen,
-					g_strdup (name), action);
-		}
+				gtk_toggle_action_get_active (action));
 		wbcg_ui_update_end (wbcg);
 	}
 }
@@ -3522,7 +3514,13 @@ cb_toolbar_box_visible (GtkWidget *box, G_GNUC_UNUSED GParamSpec *pspec,
 	gboolean visible = GTK_WIDGET_VISIBLE (box);
 
 	gtk_toggle_action_set_active (toggle_action, visible);
-	gnm_gconf_set_toolbar_visible (name, visible);
+	if (!wbcg->is_fullscreen) {
+		/*
+		 * We do not persist changes made going-to/while-in/leaving
+		 * fullscreen mode.
+		 */
+		gnm_gconf_set_toolbar_visible (name, visible);
+	}
 }
 
 static void
@@ -3602,10 +3600,10 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 			"/menubar/View/Toolbars",
 #endif
 			toggle_name, toggle_name, GTK_UI_MANAGER_AUTO, FALSE);
-		g_hash_table_insert (wbcg->toggle_for_fullscreen,
-			g_strdup (toggle_name),
-			gtk_action_group_get_action (gtk->toolbar.actions,
-						     toggle_name));
+		wbcg->hide_for_fullscreen =
+			g_slist_prepend (wbcg->hide_for_fullscreen,
+					 gtk_action_group_get_action (gtk->toolbar.actions,
+								      toggle_name));
 
 		g_free (tooltip);
 		g_free (toggle_name);
@@ -3673,19 +3671,10 @@ cb_post_activate (WBCGtk *wbcg)
 }
 
 static void
-cb_toggle_visibility (char const *name,
-		      GtkToggleAction *action, WBCGtk *wbcg)
-{
-	wbc_gtk_set_toggle_action_state (wbcg, name,
-		!gtk_toggle_action_get_active (action));
-}
-
-static void
 cb_wbcg_window_state_event (GtkWidget           *widget,
 			    GdkEventWindowState *event,
 			    WBCGtk  *wbcg)
 {
-	GHashTable *tmp = wbcg->toggle_for_fullscreen;
 	gboolean new_val = (event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN) != 0;
 	if (!(event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN) ||
 	    new_val == wbcg->is_fullscreen ||
@@ -3693,10 +3682,31 @@ cb_wbcg_window_state_event (GtkWidget           *widget,
 		return;
 
 	wbc_gtk_set_toggle_action_state (wbcg, "ViewFullScreen", new_val);
-	wbcg->is_fullscreen = new_val;
-	wbcg->toggle_for_fullscreen = NULL;
-	g_hash_table_foreach (tmp, (GHFunc)cb_toggle_visibility, wbcg);
-	wbcg->toggle_for_fullscreen = tmp;
+
+	if (new_val) {
+		GSList *l;
+
+		wbcg->is_fullscreen = TRUE;
+		for (l = wbcg->hide_for_fullscreen; l; l = l->next) {
+			GtkToggleAction *ta = l->data;
+			GOUndo *u;
+			gboolean active = gtk_toggle_action_get_active (ta);
+			u = go_undo_binary_new
+				(ta, GUINT_TO_POINTER (active),
+				 (GOUndoBinaryFunc)gtk_toggle_action_set_active,
+				 NULL, NULL);
+			wbcg->undo_for_fullscreen =
+				go_undo_combine (wbcg->undo_for_fullscreen, u);
+			gtk_toggle_action_set_active (ta, FALSE);
+		}		
+	} else {
+		if (wbcg->undo_for_fullscreen) {
+			go_undo_undo (wbcg->undo_for_fullscreen);
+			g_object_unref (wbcg->undo_for_fullscreen);
+			wbcg->undo_for_fullscreen = NULL;
+		}
+		wbcg->is_fullscreen = FALSE;
+	}
 }
 
 
@@ -4111,14 +4121,14 @@ wbc_gtk_create_status_area (WBCGtk *wbcg)
 	g_hash_table_insert (wbcg->visibility_widgets,
 			     g_strdup ("ViewStatusbar"),
 			     g_object_ref (wbcg->status_area));
-	/* disable statusbar by default going to fullscreen */
-	g_hash_table_insert (wbcg->toggle_for_fullscreen,
-		g_strdup ("ViewStatusbar"),
-		gtk_action_group_get_action (wbcg->actions, "ViewStatusbar"));
 
 #ifdef GNM_USE_HILDON
-	g_hash_table_remove (wbcg->toggle_for_fullscreen, "ViewStatusbar");
 	gtk_widget_hide (wbcg->status_area);
+#else
+	/* disable statusbar by default going to fullscreen */
+	wbcg->hide_for_fullscreen =
+		g_slist_prepend (wbcg->hide_for_fullscreen,
+				 gtk_action_group_get_action (wbcg->actions, "ViewStatusbar"));
 #endif
 }
 
@@ -4355,7 +4365,11 @@ wbc_gtk_finalize (GObject *obj)
 	UNREF_OBJ (auto_expr_label);
 
 	g_hash_table_destroy (wbcg->visibility_widgets);
-	g_hash_table_destroy (wbcg->toggle_for_fullscreen);
+	UNREF_OBJ (undo_for_fullscreen);
+
+	g_slist_free (wbcg->hide_for_fullscreen);
+	wbcg->hide_for_fullscreen = NULL;
+	
 
 #ifdef GNM_USE_HILDON
 	UNREF_OBJ (hildon_prog);
@@ -4714,8 +4728,8 @@ wbc_gtk_init (GObject *obj)
 
 	wbcg->visibility_widgets = g_hash_table_new_full (g_str_hash,
 		g_str_equal, (GDestroyNotify)g_free, (GDestroyNotify)g_object_unref);
-	wbcg->toggle_for_fullscreen = g_hash_table_new_full (g_str_hash,
-		g_str_equal, (GDestroyNotify)g_free, NULL);
+	wbcg->undo_for_fullscreen = NULL;
+	wbcg->hide_for_fullscreen = NULL;
 
 	wbcg->autosave_prompt = FALSE;
 	wbcg->autosave_time = 0;

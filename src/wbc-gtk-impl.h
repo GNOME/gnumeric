@@ -15,6 +15,7 @@
 #include <goffice/gtk/go-action-combo-color.h>
 #include <goffice/gtk/go-action-combo-text.h>
 #include <goffice/gtk/go-action-combo-pixmaps.h>
+#include <goffice/utils/go-undo.h>
 #ifdef GNM_USE_HILDON
 #include <hildon-widgets/hildon-program.h>
 #endif
@@ -81,8 +82,11 @@ struct _WBCGtk {
 	GtkWidget  *status_text;
 
 	/* Widgets whose visibility should be copied.  */
-	GHashTable *visibility_widgets, *toggle_for_fullscreen;
+	GHashTable *visibility_widgets;
+
 	gboolean is_fullscreen;
+	GOUndo *undo_for_fullscreen;
+	GSList *hide_for_fullscreen;
 
 	/* Edit area */
 	GtkWidget *selection_descriptor;	/* A GtkEntry */

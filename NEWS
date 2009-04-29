@@ -16,6 +16,8 @@ Morten:
 	* Fix xlst export problem.  [#580360]
 	* Fix size of sheets loaded from Applix files.
 	* Fix problem with global names shadowed by sheet names.  [#306686]
+	* Fix relocation problem with expressions using names.  [#552749]
+	* Fix fullscreen toolbar issues.  [#574603]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.6
