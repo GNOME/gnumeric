@@ -435,32 +435,11 @@ gnm_app_workbook_foreach (GnmWbIterFunc cback, gpointer data)
 	return TRUE;
 }
 
-struct wb_index_closure
-{
-	Workbook *wb;
-	int index;	/* 1 based */
-};
-
-static gboolean
-cb_workbook_index (Workbook *wb, gpointer closure)
-{
-	struct wb_index_closure *dat = closure;
-	if (--(dat->index) == 0) {
-		dat->wb = wb;
-		return FALSE;
-	}
-	return TRUE;
-}
-
+/* Get nth workbook.  Index is zero-based.  */
 Workbook *
 gnm_app_workbook_get_by_index (int i)
 {
-	struct wb_index_closure closure;
-	closure.wb = NULL;
-	closure.index = i;
-	gnm_app_workbook_foreach (&cb_workbook_index, &closure);
-
-	return closure.wb;
+	return g_list_nth_data (app->workbook_list, i);
 }
 
 double

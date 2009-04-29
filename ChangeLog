@@ -1,5 +1,8 @@
 2009-04-29  Morten Welinder  <terra@gnome.org>
 
+	* src/application.c (gnm_app_workbook_get_by_index): Simplify and
+	make zero-based.
+
 	* src/position.c (gnm_cellpos_init_cellref_ss): Make public.
 
 	* src/parse-util.c (cellref_as_string, rangeref_parse): Handle
