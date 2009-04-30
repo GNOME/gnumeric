@@ -3144,7 +3144,7 @@ static GnmFuncHelp const help_linest[] = {
 	{ GNM_FUNC_HELP_ARG, F_("known_y's:vector of values of dependent variable.") },
 	{ GNM_FUNC_HELP_ARG, F_("known_x's:array of values of independent variables, defaults to a single vector 1,...,n.") },
 	{ GNM_FUNC_HELP_ARG, F_("affine:if true, the model contains a constant term, defaults to true.") },
-	{ GNM_FUNC_HELP_ARG, F_("stats:if true, some additional statistics is provided, defaults to false") },
+	{ GNM_FUNC_HELP_ARG, F_("stats:if true, some additional statistics are provided, defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns an array with the first row giving the regression "
 					"coefficients for the independent variables "
 					"x_m, x_(m-1),...,x_2, x_1 followed by the y-intercept if @{affine} is true.")},
