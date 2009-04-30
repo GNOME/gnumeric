@@ -9,6 +9,7 @@ Jon Kåre:
 Morten:
 	* Fix problem with dialogs not showing up in fullscreen mode.
 	[#574602]
+	* Work around ABI changes in in gtk-2.16.  [#580930]
 
 --------------------------------------------------------------------------
 Gnumeric 1.8.4

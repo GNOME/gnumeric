@@ -194,8 +194,7 @@
 	      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 	      <property name="snap_to_ticks">False</property>
 	      <property name="wrap">False</property>
-	      <property name="adjustment">0 0 3001 1 10 1</property>
-	      <accessibility>
+	      <property name="adjustment">0 0 3001 1 10 0</property>	      <accessibility>
 		<atkrelation target="label_min" type="labelled-by"/>
 	      </accessibility>
 	    </widget>
@@ -218,8 +217,7 @@
 	      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 	      <property name="snap_to_ticks">False</property>
 	      <property name="wrap">False</property>
-	      <property name="adjustment">0 0 3001 1 10 1</property>
-	      <accessibility>
+	      <property name="adjustment">0 0 3001 1 10 0</property>	      <accessibility>
 		<atkrelation target="label_max" type="labelled-by"/>
 	      </accessibility>
 	    </widget>
@@ -242,8 +240,7 @@
 	      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 	      <property name="snap_to_ticks">False</property>
 	      <property name="wrap">False</property>
-	      <property name="adjustment">0 0 3001 1 10 1</property>
-	      <accessibility>
+	      <property name="adjustment">0 0 3001 1 10 0</property>	      <accessibility>
 		<atkrelation target="label_increment" type="labelled-by"/>
 	      </accessibility>
 	    </widget>
@@ -266,8 +263,7 @@
 	      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 	      <property name="snap_to_ticks">False</property>
 	      <property name="wrap">False</property>
-	      <property name="adjustment">0 0 3001 1 10 1</property>
-	      <accessibility>
+	      <property name="adjustment">0 0 3001 1 10 0</property>	      <accessibility>
 		<atkrelation target="label_page" type="labelled-by"/>
 	      </accessibility>
 	    </widget>

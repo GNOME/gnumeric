@@ -1,3 +1,7 @@
+2009-04-40  Morten Welinder <terra@gnome.org>
+
+	* *.glade: Work around ABI break for spinbuttons.  #580930.
+
 2009-01-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.8.4
