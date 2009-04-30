@@ -912,7 +912,7 @@ cb_notebook_switch_page (G_GNUC_UNUSED GtkNotebook *notebook_,
  * allocated to the tabs.  We don't want empty space on the tabs side
  * at all.
  *
- * We is quite difficult to trick the GtkPaned into doing.  Basically,
+ * This is quite difficult to trick the GtkPaned into doing.  Basically,
  * we need to size_request the tabs notebook in non-scrollable mode
  * and only make it scrollable if we don't have room.  Further, we
  * need to make the notebook non-shrinkable when (and only when) the
@@ -2002,7 +2002,7 @@ cb_update_item_bar_font (GtkWidget *w)
 }
 
 static void
-cb_desktop_font_changed (GtkSettings *settings, GParamSpec  *pspec,
+cb_desktop_font_changed (GtkSettings *settings, GParamSpec *pspec,
 			 WBCGtk *wbcg)
 {
 	if (wbcg->font_desc)
@@ -2020,6 +2020,7 @@ wbcg_get_gtk_settings (WBCGtk *wbcg)
 }
 
 /* ------------------------------------------------------------------------- */
+
 static int
 show_gui (WBCGtk *wbcg)
 {
