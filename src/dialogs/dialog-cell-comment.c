@@ -92,6 +92,10 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 	GtkWidget	*box, *check;
 	GnmComment	*comment;
 	GladeXML	*gui;
+	char *title, *cell_name;
+	GnmCellRef ref;
+	GnmParsePos pp;
+	GnmConventionsOut out;
 
 	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (sheet != NULL);
@@ -121,6 +125,14 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 			    TRUE, TRUE, TRUE);
 	g_object_set (state->gtv, "wrap", GTK_WRAP_WORD, NULL); 
 
+	gnm_cellref_init (&ref, sheet, pos->col, pos->row, FALSE);
+	out.accum = g_string_new (NULL);
+	parse_pos_init_sheet (&pp, sheet);
+	out.pp = &pp;
+	out.convs = sheet->convs;
+	cellref_as_string (&out, &ref, FALSE);
+	cell_name = g_string_free (out.accum, FALSE);
+
 	comment = sheet_get_comment (sheet, pos);
 	if (comment) {
 		char *text;
@@ -131,7 +143,14 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 			      "attributes", attr, NULL);
 		if (attr != NULL)
 			pango_attr_list_unref (attr);
-	}
+		title = g_strdup_printf (_("Edit Cell Comment (%s)"), 
+					 cell_name);
+	} else
+		title = g_strdup_printf (_("New Cell Comment (%s)"), 
+					 cell_name);
+	gtk_window_set_title (GTK_WINDOW (state->dialog), title);
+	g_free (title);
+
 	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",

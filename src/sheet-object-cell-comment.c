@@ -150,7 +150,6 @@ cell_comment_set_property (GObject *obj, guint param_id,
 			   GValue const *value, GParamSpec *pspec)
 {
 	GnmComment *cc = CELL_COMMENT (obj);
-	GList *ptr;
 
 	switch (param_id) {
 	case CC_PROP_TEXT:
@@ -169,9 +168,6 @@ cell_comment_set_property (GObject *obj, guint param_id,
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		return;
 	}
-
-/* 	for (ptr = SHEET_OBJECT (cc)->realized_list; ptr != NULL; ptr = ptr->next) */
-/* 		foo_canvas_item_set (ptr->data, "attributes", cc->markup, NULL); */
 }
 
 static void
@@ -312,6 +308,8 @@ cell_comment_copy (SheetObject *dst, SheetObject const *src)
 	GnmComment	 *new_comment	= CELL_COMMENT (dst);
 	new_comment->author = g_strdup (comment->author);
 	new_comment->text   = g_strdup (comment->text);
+	new_comment->markup = comment->markup;
+	pango_attr_list_ref (new_comment->markup);
 }
 
 static void

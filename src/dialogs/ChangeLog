@@ -1,3 +1,8 @@
+2009-04-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-cell-comment.c (dialog_cell_comment): show cell name in 
+	  dialog title
+
 2009-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* cell-comment.glade: prepare for GnmTextView and add checkbox

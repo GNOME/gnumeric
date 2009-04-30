@@ -1,3 +1,10 @@
+2009-04-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-control-gui.c (scg_comment_display):
+	  use comment attributes
+	* src/sheet-object-cell-comment.c (cell_comment_set_property):
+	  remove invalid and unneeded code
+
 2009-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-cell-comment.h (cell_set_comment): add

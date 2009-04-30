@@ -2489,9 +2489,11 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc)
 	if (scg->comment.item == NULL) {
 		GtkWidget *text, *frame;
 		GtkTextBuffer *buffer;
-		GtkTextIter iter;
 		GtkWindow *toplevel = wbcg_toplevel (scg_wbcg (scg));
 		GdkScreen *screen = gtk_window_get_screen (toplevel);
+		char *comment_text;
+		char const *comment_author;
+		PangoAttrList *comment_markup;
 
 		scg->comment.item = gtk_window_new (GTK_WINDOW_POPUP);
 		gtk_window_set_screen (GTK_WINDOW (scg->comment.item), screen);
@@ -2503,21 +2505,27 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc)
 		gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (text), GTK_WRAP_NONE);
 		gtk_text_view_set_editable  (GTK_TEXT_VIEW (text), FALSE);
 		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text));
-		gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
+		gnm_create_std_tags_for_buffer (buffer);
 
-		if (cell_comment_author_get (cc) != NULL) {
-			gtk_text_buffer_create_tag (buffer, "bold",
-						    "weight", PANGO_WEIGHT_BOLD,
-						    NULL);
-			gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
-				cell_comment_author_get (cc), -1,
-				"bold", NULL);
-			gtk_text_buffer_insert (buffer, &iter, "\n", 1);
+		g_object_get (G_OBJECT (cc), "text", &comment_text,
+			      "markup", &comment_markup, NULL);
+
+		if (comment_text != NULL) {
+			gtk_text_buffer_set_text (buffer, comment_text, -1);
+			g_free (comment_text);
+			gnm_load_pango_attributes_into_buffer (comment_markup, buffer);
 		}
 
-		if (cell_comment_text_get (cc) != NULL)
-			gtk_text_buffer_insert (buffer, &iter,
-				cell_comment_text_get (cc), -1);
+		comment_author = cell_comment_author_get (cc);
+		if (comment_author != NULL) {
+			GtkTextIter iter;
+			gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
+			gtk_text_buffer_insert_with_tags_by_name 
+				(buffer, &iter, comment_author, -1,
+				 "PANGO_WEIGHT_BOLD", NULL);
+			gtk_text_buffer_insert_with_tags_by_name 
+				(buffer, &iter, ":\n", -1, "PANGO_WEIGHT_BOLD", NULL);
+		}
 
 		frame = gtk_frame_new (NULL);
 		gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);

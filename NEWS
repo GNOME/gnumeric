@@ -3,6 +3,7 @@ Gnumeric 1.9.7
 Andreas:
 	* Fix some divergence between character weight in the label properties
 	  dialog and the label itself.
+	* Add interface to format cell comments
 
 Jody:
 	* XLSX start reading external refs.
