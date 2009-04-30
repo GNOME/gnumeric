@@ -1,5 +1,10 @@
 2009-04-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-preferences.c: move autosave preference from
+	pref_window_page_initializer to pref_file_page_initializer
+
+2009-04-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-cell-comment.c (dialog_cell_comment): show cell name in 
 	  dialog title
 
