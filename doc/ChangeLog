@@ -1,3 +1,8 @@
+2009-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* C/.gitignore: add files created when building the gnumeric 
+	  documentation
+
 2009-04-06  Jody Goldberg <jody@gnome.org>
 	From Joseph Pingenot <trelane@digitasaru.net>
 

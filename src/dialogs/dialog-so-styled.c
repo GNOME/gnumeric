@@ -89,14 +89,12 @@ cb_dialog_so_styled_text_widget_changed (GnmTextView *gtv, DialogSOStyled *state
 {
 	gchar *text;
 	PangoAttrList *attr;
-	GtkTextBuffer *buffer;
 
 	g_object_get (gtv, "text", &text, NULL);
 	g_object_set (state->so, "text", text, NULL);
 	g_free (text);
 
-	g_object_get (gtv, "buffer", &buffer, NULL);	
-	attr = gnm_get_pango_attributes_from_buffer (buffer);	
+	g_object_get (gtv, "attributes", &attr, NULL);	
 	g_object_set (state->so, "markup", attr, NULL);
 	pango_attr_list_unref (attr);
 }
@@ -109,7 +107,6 @@ dialog_so_styled_text_widget (DialogSOStyled *state)
 	GnmTextView *gtv = gnm_text_view_new ();
 	char *strval;
 	PangoAttrList  *markup;
-	GtkTextBuffer *buffer;
 
 	g_object_get (state->so, "text", &strval, NULL);
 	g_object_set (gtv, "text", strval, NULL);
@@ -118,8 +115,7 @@ dialog_so_styled_text_widget (DialogSOStyled *state)
 	g_object_get (state->so, "markup", &markup, NULL);
 	state->orig_attributes = markup;
 	pango_attr_list_ref (state->orig_attributes);
-	g_object_get (gtv, "buffer", &buffer, NULL);	
-	gnm_load_pango_attributes_into_buffer (markup, buffer);
+	g_object_set (gtv, "attributes", markup, NULL);
 
 	g_signal_connect (G_OBJECT (gtv), "changed",
 			  G_CALLBACK (cb_dialog_so_styled_text_widget_changed), state);

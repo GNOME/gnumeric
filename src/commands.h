@@ -94,7 +94,8 @@ gboolean cmd_rename_sheet	(WorkbookControl *wbc, Sheet *sheet,
 				 char const *new_name);
 
 gboolean cmd_set_comment	(WorkbookControl *wbc, Sheet *sheet,
-				 GnmCellPos const *pos, char const *new_text);
+				 GnmCellPos const *pos, char const *new_text,
+				 PangoAttrList *attr);
 
 gboolean cmd_analysis_tool	(WorkbookControl *wbc, Sheet *sheet,
 				 data_analysis_output_t *dao, gpointer specs,

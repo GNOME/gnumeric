@@ -170,8 +170,8 @@ cell_comment_set_property (GObject *obj, guint param_id,
 		return;
 	}
 
-	for (ptr = SHEET_OBJECT (cc)->realized_list; ptr != NULL; ptr = ptr->next)
-		foo_canvas_item_set (ptr->data, "attributes", cc->markup, NULL);
+/* 	for (ptr = SHEET_OBJECT (cc)->realized_list; ptr != NULL; ptr = ptr->next) */
+/* 		foo_canvas_item_set (ptr->data, "attributes", cc->markup, NULL); */
 }
 
 static void
@@ -406,7 +406,8 @@ cell_comment_set_pos (GnmComment *cc, GnmCellPos const *pos)
 
 GnmComment *
 cell_set_comment (Sheet *sheet, GnmCellPos const *pos,
-		  char const *author, char const *text)
+		  char const *author, char const *text,
+		  PangoAttrList *attr)
 {
 	GnmComment *cc;
 
@@ -416,6 +417,9 @@ cell_set_comment (Sheet *sheet, GnmCellPos const *pos,
 	cc = g_object_new (CELL_COMMENT_TYPE, NULL);
 	cc->author = g_strdup (author);
 	cc->text = g_strdup (text);
+	cc->markup = attr;
+	if (cc->markup != NULL)
+		pango_attr_list_ref (cc->markup);
 
 	cell_comment_set_pos (cc, pos);
 

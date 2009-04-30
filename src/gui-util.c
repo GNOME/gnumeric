@@ -258,8 +258,9 @@ gnumeric_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
 	h = g_object_get_data (G_OBJECT (screen), SAVE_SIZES_SCREEN_KEY);
 	allocation = h ? g_hash_table_lookup (h, key) : NULL;
 
-	/* TECHOLOGY PREVIEW -- ZOOM DIALOG ONLY.  */
-	if (strcmp (key, "zoom-dialog") == 0) {
+	/* TECHOLOGY PREVIEW -- ZOOM & COMMENT DIALOG ONLY.  */
+	if ((strcmp (key, "zoom-dialog") == 0) || 
+	    (strcmp (key, "cell-comment-dialog") == 0)) {
 		if (allocation) {
 #if 0
 			g_print ("Restoring %s to %dx%d at (%d,%d)\n",

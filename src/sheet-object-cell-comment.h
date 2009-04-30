@@ -21,7 +21,8 @@ void         cell_comment_text_set   (GnmComment       *cc, char const *text);
 /* convenience routine */
 void	     cell_comment_set_pos   (GnmComment *cc, GnmCellPos const *pos);
 GnmComment  *cell_set_comment	    (Sheet *sheet, GnmCellPos const *pos,
-				     char const *author, char const *text);
+				     char const *author, char const *text,
+				     PangoAttrList * markup);
 
 G_END_DECLS
 

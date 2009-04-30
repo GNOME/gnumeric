@@ -2298,7 +2298,7 @@ lotus_read_new (LotusState *state, record_t *r)
 
 			pos.col = col;
 			pos.row = row;
-			cell_set_comment (sheet, &pos, NULL, text);
+			cell_set_comment (sheet, &pos, NULL, text, NULL);
 			g_free (text);
 			break;
 		}

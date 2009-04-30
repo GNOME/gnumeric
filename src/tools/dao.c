@@ -630,7 +630,7 @@ dao_set_cell_comment (data_analysis_output_t *dao, int col, int row,
 
 	pos.col = col;
 	pos.row = row;
-	cell_set_comment (dao->sheet, &pos, author, comment);
+	cell_set_comment (dao->sheet, &pos, author, comment, NULL);
 }
 
 

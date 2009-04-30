@@ -1,3 +1,8 @@
+2009-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* gnumeric-text-view.c: replace "buffer" property with "attributes" 
+	  property and add "wrap" property
+
 2009-04-29  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_get_scg): New function.

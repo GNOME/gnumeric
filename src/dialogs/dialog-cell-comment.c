@@ -31,6 +31,7 @@
 #include <wbc-gtk.h>
 #include <ranges.h>
 #include <commands.h>
+#include <widgets/gnumeric-text-view.h>
 
 #define COMMENT_DIALOG_KEY "cell-comment-dialog"
 
@@ -41,7 +42,7 @@ typedef struct {
 	GtkWidget          *dialog;
 	GtkWidget          *ok_button;
 	GtkWidget          *cancel_button;
-	GtkTextBuffer      *text;
+	GnmTextView        *gtv;
 	GladeXML           *gui;
 } CommentState;
 
@@ -64,23 +65,31 @@ static void
 cb_cell_comment_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 			    CommentState *state)
 {
-	GtkTextIter start;
-	GtkTextIter end;
 	char *text;
+	PangoAttrList *attr;
 
-	gtk_text_buffer_get_bounds (state->text, &start, &end);
-	text = gtk_text_buffer_get_text (state->text, &start, &end, TRUE);
-
-	if (!cmd_set_comment (WORKBOOK_CONTROL (state->wbcg), state->sheet, state->pos, text))
+	g_object_get (G_OBJECT (state->gtv), "text", &text, 
+		      "attributes", &attr, NULL);
+	if (!cmd_set_comment (WORKBOOK_CONTROL (state->wbcg), 
+			      state->sheet, state->pos, text, attr))
 		gtk_widget_destroy (state->dialog);
 	g_free (text);
+	pango_attr_list_unref (attr);
+}
+
+static void
+cb_wrap_toggled (GtkToggleButton *button, GObject *gtv)
+{
+	g_object_set (gtv, "wrap",
+		      gtk_toggle_button_get_active (button) ? GTK_WRAP_WORD : GTK_WRAP_NONE, 
+		      NULL);
 }
 
 void
 dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 {
 	CommentState	*state;
-	GtkWidget	*textview;
+	GtkWidget	*box, *check;
 	GnmComment	*comment;
 	GladeXML	*gui;
 
@@ -104,20 +113,25 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 	state->dialog = glade_xml_get_widget (state->gui, "comment_dialog");
 	g_return_if_fail (state->dialog != NULL);
 
-	textview = glade_xml_get_widget (state->gui, "textview");
-	g_return_if_fail (textview != NULL);
-	state->text = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+	box = glade_xml_get_widget (state->gui, "dialog-vbox");
+	g_return_if_fail (box != NULL);
+	state->gtv = gnm_text_view_new ();
+	gtk_widget_show_all (GTK_WIDGET (state->gtv));
+	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (state->gtv), 
+			    TRUE, TRUE, TRUE);
+	g_object_set (state->gtv, "wrap", GTK_WRAP_WORD, NULL); 
 
 	comment = sheet_get_comment (sheet, pos);
 	if (comment) {
-		GtkTextIter start;
-
-		gtk_text_buffer_set_text (state->text, cell_comment_text_get (comment),
-					  -1);
-		gtk_text_buffer_get_start_iter (state->text, &start);
-		gtk_text_buffer_place_cursor (state->text, &start);
+		char *text;
+		PangoAttrList *attr;
+		g_object_get (G_OBJECT (comment), "text", &text, 
+			      "markup", &attr, NULL); 
+		g_object_set (state->gtv, "text", text,
+			      "attributes", attr, NULL);
+		if (attr != NULL)
+			pango_attr_list_unref (attr);
 	}
-
 	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (state->ok_button),
 		"clicked",
@@ -128,10 +142,15 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 		"clicked",
 		G_CALLBACK (cb_cell_comment_cancel_clicked), state);
 
+	check = glade_xml_get_widget (state->gui, "wrap-check");
+	g_signal_connect (G_OBJECT (check),
+			  "toggled",
+			  G_CALLBACK (cb_wrap_toggled), state->gtv);
+	cb_wrap_toggled (GTK_TOGGLE_BUTTON (check), G_OBJECT (state->gtv));
+
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_CELL_COMMENT);
-	gtk_widget_grab_focus (textview);
 
 	wbc_gtk_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),

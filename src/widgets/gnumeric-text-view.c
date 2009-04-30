@@ -34,6 +34,7 @@ struct _GnmTextView {
 	GtkVBox	parent;
 
 	GtkTextBuffer *buffer;
+	GtkTextView *view;
 	
 	GtkToggleToolButton *italic;
 	GtkToggleToolButton *strikethrough;
@@ -56,7 +57,8 @@ enum {
 enum {
 	PROP_0,
 	PROP_TEXT,
-	PROP_BUFFER
+	PROP_WRAP,
+	PROP_ATTR
 };
 
 static guint signals [LAST_SIGNAL] = { 0 };
@@ -290,6 +292,13 @@ gtv_set_property (GObject      *object,
 		gtk_text_buffer_set_text (gtv->buffer, 
 					  g_value_get_string (value), -1);
 		break;
+	case PROP_WRAP:
+		gtk_text_view_set_wrap_mode (gtv->view, g_value_get_int (value));
+		break;
+	case PROP_ATTR:
+		gnm_load_pango_attributes_into_buffer (g_value_get_boxed (value), 
+						       gtv->buffer);
+	break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 	}
@@ -311,9 +320,16 @@ gtv_get_property (GObject      *object,
 		g_free (text);
 	}
 	break;
-	case PROP_BUFFER:
-		g_value_set_object (value, G_OBJECT (gtv->buffer));
-		break;
+	case PROP_WRAP:
+		g_value_set_int (value, gtk_text_view_get_wrap_mode (gtv->view));
+	break;
+	case PROP_ATTR:
+	{
+		PangoAttrList *attr = gnm_get_pango_attributes_from_buffer 
+			(gtv->buffer);
+		g_value_take_boxed (value, attr);
+	}
+	break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 	}
@@ -324,9 +340,10 @@ static void
 gtv_init (GnmTextView *gtv)
 {
 	GtkWidget *tb = gtk_toolbar_new ();
-	GtkWidget *tv = gtk_text_view_new ();
+	GtkWidget *sw = gtk_scrolled_window_new (NULL, NULL);
 
-	gtv->buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (tv));
+	gtv->view = GTK_TEXT_VIEW (gtk_text_view_new ());
+	gtv->buffer = gtk_text_view_get_buffer (gtv->view);
 	gnm_create_std_tags_for_buffer (gtv->buffer);
 
 	gtv->italic = gtv_build_toggle_button (tb, gtv, GTK_STOCK_ITALIC, 
@@ -338,8 +355,11 @@ gtv_init (GnmTextView *gtv)
 	gtk_toolbar_insert(GTK_TOOLBAR(tb), gtk_separator_tool_item_new (), -1);
 	gtv->bold = gtv_build_button_bold (tb, gtv);
 
-	gtk_container_set_border_width (GTK_CONTAINER (tv), 5);
-	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (tv), GTK_WRAP_WORD_CHAR);
+	gtk_container_set_border_width (GTK_CONTAINER (gtv->view), 5);
+	gtk_text_view_set_wrap_mode (gtv->view, GTK_WRAP_WORD_CHAR);
+
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, 
+					GTK_POLICY_AUTOMATIC);
 	
 	g_signal_connect (G_OBJECT (gtv->buffer), "changed",
 			  G_CALLBACK (cb_gtv_emit_changed), gtv);
@@ -347,7 +367,8 @@ gtv_init (GnmTextView *gtv)
 			  G_CALLBACK (cb_gtv_mark_set), gtv);
 
 	gtk_box_pack_start (GTK_BOX (gtv), tb, FALSE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (gtv), tv, TRUE, TRUE, 0);
+	gtk_container_add (GTK_CONTAINER (sw), GTK_WIDGET (gtv->view));
+	gtk_box_pack_start (GTK_BOX (gtv), sw, TRUE, TRUE, 0);
 
 
 }
@@ -378,11 +399,19 @@ gtv_class_init (GObjectClass *gobject_class)
 			"",
 			GSF_PARAM_STATIC | G_PARAM_READWRITE));
 	g_object_class_install_property (gobject_class,
-		PROP_BUFFER,
-		g_param_spec_object ("buffer", "TextBuffer",
-			"The GtkTextBuffer associated with this view",
-			G_TYPE_OBJECT,
-			GSF_PARAM_STATIC | G_PARAM_READABLE));
+		PROP_WRAP,
+		g_param_spec_int ("wrap", "Wrap",
+				  "The wrapping mode",
+				  GTK_WRAP_NONE, GTK_WRAP_WORD_CHAR, 
+				  GTK_WRAP_WORD,
+				  GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property 
+		(gobject_class, PROP_ATTR,
+		 g_param_spec_boxed 
+		 ("attributes", "PangoAttrList",
+		  "A PangoAttrList derived from the buffer content.",
+		  PANGO_TYPE_ATTR_LIST,	    
+		  GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 

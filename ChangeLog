@@ -1,3 +1,18 @@
+2009-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object-cell-comment.h (cell_set_comment): add
+	  markup argument and change all callers
+	* src/sheet-object-cell-comment.c (cell_set_comment): add
+	  markup argument
+	(cell_comment_set_property): comment out invalid call to 
+	  foo_canvas_item_set
+	* src/commands.h (cmd_set_comment): add attribute argument
+	* src/commands.c (cmd_set_comment): add attribute argument
+	(cmd_set_comment_apply): ditto and change all callers
+	(cmd_set_comment_finalize): unref attributes
+	* src/gui-util.c (gnumeric_keyed_dialog): remember dialog size for 
+	  comment dialog
+
 2009-04-29  Morten Welinder  <terra@gnome.org>
 
 	* */*.c: Reduce use of gnm_conventions_default and

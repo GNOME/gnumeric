@@ -2864,7 +2864,7 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 		} else {
 			/* hmm, how did this happen ? we should have seen
 			 * some escher records earlier */
-			cell_set_comment (sheet, &pos, author, NULL);
+			cell_set_comment (sheet, &pos, author, NULL, NULL);
 		}
 		g_free (author);
 	} else {
@@ -2896,7 +2896,7 @@ excel_read_NOTE (BiffQuery *q, ExcelReadSheet *esheet)
 		d (2, fprintf (stderr,"Comment in %s%d: '%s'\n",
 			      col_name (pos.col), pos.row + 1, comment->str););
 
-		cell_set_comment (sheet, &pos, NULL, comment->str);
+		cell_set_comment (sheet, &pos, NULL, comment->str, NULL);
 		g_string_free (comment, TRUE);
 	}
 }

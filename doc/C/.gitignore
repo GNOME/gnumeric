@@ -7,3 +7,15 @@ func.defs
 gnumeric-*.omf
 gnumeric-*.omf.out
 omf_timestamp
+gnumeric.aux
+gnumeric.cb
+gnumeric.cb2
+gnumeric.glo
+gnumeric.idx
+gnumeric.lof
+gnumeric.log
+gnumeric.lot
+gnumeric.out
+gnumeric.pdf
+gnumeric.tex
+gnumeric.toc

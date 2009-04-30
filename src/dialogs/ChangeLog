@@ -1,3 +1,13 @@
+2009-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* cell-comment.glade: prepare for GnmTextView and add checkbox
+	* dialog-cell-comment.c (cb_cell_comment_ok_clicked): handle attributes
+	(dialog_cell_comment): ditto
+	(cb_wrap_toggled): new
+	* dialog-so-styled.c (cb_dialog_so_styled_text_widget_changed): use 
+	  "attributes" property of GnmTextView
+	(dialog_so_styled_text_widget): ditto
+
 2009-04-28  Jody Goldberg <jody@gnome.org>
 
 	* dialog-preferences.c (pref_window_page_initializer) : entry for

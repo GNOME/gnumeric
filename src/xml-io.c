@@ -1235,7 +1235,8 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 			} else if (!strcmp (child->name, "Comment")) {
 				xmlChar *comment = xmlNodeGetContent (child);
 				cell_set_comment (cell->base.sheet,
-						  &cell->pos, NULL, comment);
+						  &cell->pos, NULL, comment, 
+						  NULL);
 				xmlFree (comment);
 			}
 		}

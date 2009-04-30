@@ -256,7 +256,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 				char *name;
 
 				name = g_strndup (CXML2C (a_buf->content), a_buf->use);
-				cell_set_comment (tc->sheet, &pos, NULL, name);
+				cell_set_comment (tc->sheet, &pos, NULL, name, NULL);
 				g_free (name);
 			}
 			g_string_free (buf, TRUE);
