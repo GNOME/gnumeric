@@ -72,6 +72,41 @@ set_pending_convs (GOData *data, const GnmConventions *convs)
 
 /* ------------------------------------------------------------------------- */
 
+static char *
+render_val (GnmValue const *v, int i, int j,
+	    GOFormat const *fmt, GnmEvalPos const *ep)
+{
+	GODateConventions const *date_conv =
+		ep->sheet ? workbook_date_conv (ep->sheet->workbook) : NULL;
+
+#if 0
+	g_printerr ("Rendering %s with fmt=%s\n",
+		    value_peek_string (v),
+		    fmt ? go_format_as_XL (fmt) : "-");
+#endif
+
+	if (v->type == VALUE_CELLRANGE) {
+		Sheet *start_sheet, *end_sheet;
+		GnmCell *cell;
+		GnmRange r;
+
+		gnm_rangeref_normalize (&v->v_range.cell, ep,
+					&start_sheet, &end_sheet, &r);
+		r.start.row += i;
+		r.start.col += j;
+		cell = sheet_cell_get (start_sheet, r.start.col, r.start.row);
+		if (cell == NULL)
+			return NULL;
+		gnm_cell_eval (cell);
+		v = cell->value;
+	} else if (v->type == VALUE_ARRAY)
+		v = value_area_get_x_y (v, i, j, ep);
+
+	return format_value (fmt, v, NULL, -1, date_conv);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static GnmDependent *gnm_go_data_get_dep (GOData const *obj);
 
 static GOData *
@@ -131,15 +166,21 @@ gnm_go_data_serialize (GOData const *dat, gpointer user)
 	GnmParsePos pp;
 	GnmConventions const *convs = user;
 	GnmDependent const *dep = gnm_go_data_get_dep (dat);
+	char *res;
 	if (dep->sheet == NULL)
 		return g_strdup ("No sheet for GnmGOData");
 	if (!convs) {
 		g_warning ("NULL convs in gnm_go_data_serialize");
 		convs = gnm_conventions_default;
 	}
-	return gnm_expr_top_as_string (dep->texpr,
-				       parse_pos_init_dep (&pp, dep),
-				       convs);
+
+	res = gnm_expr_top_as_string (dep->texpr,
+				      parse_pos_init_dep (&pp, dep),
+				      convs);
+#if 0
+	g_printerr ("Serializing %s\n", res);
+#endif
+	return res;
 }
 
 static gboolean
@@ -310,8 +351,15 @@ static char const *
 gnm_go_data_scalar_get_str (GODataScalar *dat)
 {
 	GnmGODataScalar *scalar = (GnmGODataScalar *)dat;
-	if (scalar->val_str == NULL)
-		scalar->val_str = value_get_as_string (scalar_get_val (scalar));
+	GOFormat const *fmt = NULL;
+
+	if (scalar->val_str == NULL) {
+		GnmEvalPos ep;
+
+		eval_pos_init_dep (&ep, &scalar->dep);
+		scalar->val_str =
+			render_val (scalar_get_val (scalar), 0, 0, fmt, &ep);
+	}
 	return scalar->val_str;
 }
 
@@ -660,51 +708,21 @@ static char *
 gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 {
 	GnmGODataVector *vec = (GnmGODataVector *)dat;
-	GnmValue const *v;
 	GnmEvalPos ep;
-	GOFormat const *format = NULL;
-	GODateConventions const *date_conv;
+	int j;
+	GOFormat const *fmt = NULL;
 
 	if (vec->val == NULL)
 		gnm_go_data_vector_load_len (dat);
-
 	g_return_val_if_fail (vec->val != NULL, NULL);
 
-	v = vec->val;
+	if (vec->as_col)
+		j = 0;
+	else
+		j = i, i = 0;
+
 	eval_pos_init_dep (&ep, &vec->dep);
-	date_conv = ep.sheet ? workbook_date_conv (ep.sheet->workbook) : NULL;
-
-	if (v->type == VALUE_CELLRANGE) {
-		Sheet *start_sheet, *end_sheet;
-		GnmCell  *cell;
-		GnmRange  r;
-
-		gnm_rangeref_normalize (&v->v_range.cell, &ep,
-			&start_sheet, &end_sheet, &r);
-		if (vec->as_col)
-			r.start.row += i;
-		else
-			r.start.col += i;
-		cell = sheet_cell_get (start_sheet, r.start.col, r.start.row);
-		if (cell == NULL)
-			return NULL;
-		gnm_cell_eval (cell);
-		v = cell->value;
-		format = gnm_cell_get_format (cell);
-	} else if (v->type == VALUE_ARRAY)
-		v = vec->as_col
-			? value_area_get_x_y (v, 0, i, &ep)
-			: value_area_get_x_y (v, i, 0, &ep);
-
-	switch (v->type){
-	case VALUE_ARRAY:
-	case VALUE_CELLRANGE:
-		g_warning ("nested non-scalar types ?");
-		return NULL;
-
-	default :
-		return format_value (format, v, NULL, -1, date_conv);
-	}
+	return render_val (vec->val, i, j, fmt, &ep);
 }
 
 static void
@@ -1071,47 +1089,15 @@ static char *
 gnm_go_data_matrix_get_str (GODataMatrix *dat, unsigned i, unsigned j)
 {
 	GnmGODataMatrix *mat = (GnmGODataMatrix *)dat;
-	GnmValue const *v;
 	GnmEvalPos ep;
-	GOFormat const *format = NULL;
-	GODateConventions const *date_conv;
+	GOFormat const *fmt = NULL;
 
 	if (mat->val == NULL)
 		gnm_go_data_matrix_load_size (dat);
-
 	g_return_val_if_fail (mat->val != NULL, NULL);
 
-	v = mat->val;
 	eval_pos_init_dep (&ep, &mat->dep);
-	date_conv = ep.sheet ? workbook_date_conv (ep.sheet->workbook) : NULL;
-
-	if (v->type == VALUE_CELLRANGE) {
-		Sheet *start_sheet, *end_sheet;
-		GnmCell  *cell;
-		GnmRange  r;
-
-		gnm_rangeref_normalize (&v->v_range.cell, &ep,
-					&start_sheet, &end_sheet, &r);
-		r.start.row += i;
-		r.start.col += j;
-		cell = sheet_cell_get (start_sheet, r.start.col, r.start.row);
-		if (cell == NULL)
-			return NULL;
-		gnm_cell_eval (cell);
-		v = cell->value;
-		format = gnm_cell_get_format (cell);
-	} else if (v->type == VALUE_ARRAY)
-		v = value_area_get_x_y (v, i, j, &ep);
-
-	switch (v->type){
-	case VALUE_ARRAY:
-	case VALUE_CELLRANGE:
-		g_warning ("nested non-scalar types ?");
-		return NULL;
-
-	default :
-		return format_value (format, v, NULL, -1, date_conv);
-	}
+	return render_val (mat->val, i, j, fmt, &ep);
 }
 
 static void

@@ -1,3 +1,9 @@
+2009-04-30  Morten Welinder  <terra@gnome.org>
+
+	* src/graph.c (render_val): New function.
+	(gnm_go_data_scalar_get_str, gnm_go_data_vector_get_str,
+	gnm_go_data_matrix_get_str): Use render_val.
+
 2009-04-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-control-gui.c (scg_comment_display):
