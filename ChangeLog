@@ -1,5 +1,10 @@
 2009-04-30  Morten Welinder  <terra@gnome.org>
 
+	* src/wbc-gtk.c (set_entry_contents): New function for common
+	code.
+	(cb_dataset_changed, wbcg_data_allocator_editor): Use
+	set_entry_contents.
+
 	* src/graph.c (render_val): New function.
 	(gnm_go_data_scalar_get_str, gnm_go_data_vector_get_str,
 	gnm_go_data_matrix_get_str): Use render_val.

@@ -4468,24 +4468,28 @@ cb_graph_dim_entry_focus_out_event (G_GNUC_UNUSED GtkEntry	*ignored,
 }
 
 static void
+set_entry_contents (GnmExprEntry *entry, GOData *val)
+{
+	SheetControlGUI *scg = gnm_expr_entry_get_scg (entry);
+	Sheet const *sheet = scg_sheet (scg);
+	char *txt = go_data_serialize (val, (gpointer)sheet->convs);
+	gnm_expr_entry_load_from_text (entry, txt);
+	g_free (txt);
+}
+
+static void
 cb_dataset_changed (GogDataset *dataset,
 		    gboolean resize,
 		    GraphDimEditor *editor)
 {
-	GOData *val;
-
-	g_signal_handler_block (editor->entry, editor->entry_update_handler);
-
-	val = gog_dataset_get_dim (dataset, editor->dim_i);
+	GOData *val = gog_dataset_get_dim (dataset, editor->dim_i);
 	if (val != NULL) {
-		SheetControlGUI *scg = gnm_expr_entry_get_scg (editor->entry);
-		Sheet const *sheet = scg_sheet (scg);
-		char *txt = go_data_serialize (val, (gpointer)sheet->convs);
-		gnm_expr_entry_load_from_text (editor->entry, txt);
-		g_free (txt);
+		g_signal_handler_block (editor->entry,
+					editor->entry_update_handler);
+		set_entry_contents (editor->entry, val);
+		g_signal_handler_unblock (editor->entry,
+					  editor->entry_update_handler);
 	}
-
-	g_signal_handler_unblock (editor->entry, editor->entry_update_handler);
 }
 
 static void
@@ -4526,12 +4530,9 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 		GTK_UPDATE_DISCONTINUOUS);
 
 	val = gog_dataset_get_dim (dataset, dim_i);
-	if (val != NULL) {
-		Sheet const *sheet = wbcg_cur_sheet (wbcg);
-		char *txt = go_data_serialize (val, (gpointer)sheet->convs);
-		gnm_expr_entry_load_from_text (editor->entry, txt);
-		g_free (txt);
-	}
+	if (val != NULL)
+		set_entry_contents (editor->entry, val);
+
 	gnm_expr_entry_set_flags (editor->entry, GNM_EE_FORCE_ABS_REF, GNM_EE_MASK);
 
 	editor->entry_update_handler = g_signal_connect (G_OBJECT (editor->entry),
