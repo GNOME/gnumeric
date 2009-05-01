@@ -266,9 +266,10 @@ gnm_cellref_get_col (GnmCellRef const *ref, GnmEvalPos const *ep)
 	g_return_val_if_fail (ep != NULL, 0);
 
 	if (ref->col_relative) {
-		int res = (ep->eval.col + ref->col) % gnm_sheet_get_max_cols (ref->sheet);
+		Sheet const *sheet = eval_sheet (ref->sheet, ep->sheet);
+		int res = (ep->eval.col + ref->col) % gnm_sheet_get_max_cols (sheet);
 		if (res < 0)
-			return res + gnm_sheet_get_max_cols (ref->sheet);
+			return res + gnm_sheet_get_max_cols (sheet);
 		return res;
 	}
 	return ref->col;
@@ -281,9 +282,10 @@ gnm_cellref_get_row (GnmCellRef const *ref, GnmEvalPos const *ep)
 	g_return_val_if_fail (ep != NULL, 0);
 
 	if (ref->row_relative) {
-		int res = (ep->eval.row + ref->row) % gnm_sheet_get_max_rows (ref->sheet);
+		Sheet const *sheet = eval_sheet (ref->sheet, ep->sheet);
+		int res = (ep->eval.row + ref->row) % gnm_sheet_get_max_rows (sheet);
 		if (res < 0)
-			return res + gnm_sheet_get_max_rows (ref->sheet);
+			return res + gnm_sheet_get_max_rows (sheet);
 		return res;
 	}
 	return ref->row;
