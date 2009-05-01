@@ -1,5 +1,7 @@
 2009-05-01  Morten Welinder  <terra@gnome.org>
 
+	* src/parse-util.c (r1c1_rangeref_parse): Fix sheet size handling.
+
 	* src/sheet-style.c (sheet_style_sanity_check): New function.
 	(sheet_style_init): Call sheet_style_sanity_check.
 	(tile_widths, tile_heights): Add extra element.

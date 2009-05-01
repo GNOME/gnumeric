@@ -953,9 +953,19 @@ static char const *
 r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
 {
 	char const *tmp;
+	GnmSheetSize const *a_ss, *b_ss;
+	Sheet const *a_sheet, *b_sheet;
+
+	a_sheet = eval_sheet (res->a.sheet, pp->sheet);
+	b_sheet = eval_sheet (res->b.sheet, a_sheet);
+
+	a_ss = a_sheet
+		? gnm_sheet_get_size (a_sheet)
+		: workbook_get_sheet_size (pp->wb);
+	b_ss = b_sheet ? gnm_sheet_get_size (b_sheet) : a_ss;
 
 	if (*ptr == 'R' || *ptr == 'r') {
-		ptr = r1c1_get_index (ptr, gnm_sheet_get_size (pp->sheet),
+		ptr = r1c1_get_index (ptr, a_ss,
 				      &res->a.row, &res->a.row_relative,
 				      FALSE);
 		if (!ptr)
@@ -967,17 +977,17 @@ r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
 			res->a.col_relative = FALSE;
 			res->a.col = 0;
 			res->b = res->a;
-			res->b.col = gnm_sheet_get_last_col (res->b.sheet);
+			res->b.col = a_ss->max_cols - 1;
 			if (ptr[0] != ':' || (ptr[1] != 'R' && ptr[1] != 'r'))
 				return ptr;
-			tmp = r1c1_get_index (ptr+1, gnm_sheet_get_size (res->b.sheet),
+			tmp = r1c1_get_index (ptr+1, a_ss,
 					      &res->b.row, &res->b.row_relative,
 					      FALSE);
 			if (!tmp)
 				return ptr; /* fallback to just the initial R */
 			return tmp;
 		} else {
-			ptr = r1c1_get_index (ptr, gnm_sheet_get_size (pp->sheet),
+			ptr = r1c1_get_index (ptr, a_ss,
 					      &res->a.col, &res->a.col_relative,
 					      TRUE);
 			if (!ptr)
@@ -986,15 +996,15 @@ r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
 
 		res->b = res->a;
 		if (ptr[0] != ':' || (ptr[1] != 'R' && ptr[1] != 'r') ||
-		    NULL == (tmp = r1c1_get_index (ptr+1, gnm_sheet_get_size (res->b.sheet),
+		    NULL == (tmp = r1c1_get_index (ptr+1, b_ss,
 						   &res->b.row, &res->b.row_relative, FALSE)) ||
 		    (*tmp != 'C' && *tmp != 'c') ||
-		    NULL == (tmp = r1c1_get_index (tmp, gnm_sheet_get_size (res->b.sheet),
+		    NULL == (tmp = r1c1_get_index (tmp, b_ss,
 						   &res->b.col, &res->b.col_relative, FALSE)))
 			return ptr;
 		return tmp;
 	} else if (*ptr == 'C' || *ptr == 'c') {
-		if (NULL == (ptr = r1c1_get_index (ptr, gnm_sheet_get_size (pp->sheet),
+		if (NULL == (ptr = r1c1_get_index (ptr, a_ss,
 						   &res->a.col, &res->a.col_relative, TRUE)))
 			return NULL;
 		if (g_ascii_isalpha (*ptr))
@@ -1003,10 +1013,10 @@ r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
 		res->a.row_relative = FALSE;
 		res->a.row = 0;
 		res->b = res->a;
-		res->b.row = gnm_sheet_get_last_row (res->b.sheet);
+		res->b.row = b_ss->max_rows - 1;
 		if (ptr[0] != ':' || (ptr[1] != 'C' && ptr[1] != 'c'))
 			return ptr;
-		tmp = r1c1_get_index (ptr, gnm_sheet_get_size (res->b.sheet),
+		tmp = r1c1_get_index (ptr, b_ss,
 				      &res->b.col, &res->b.col_relative,
 				      TRUE);
 		if (!tmp)
