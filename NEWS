@@ -21,6 +21,7 @@ Morten:
 	* Fix fullscreen toolbar issues.  [#574603]
 	* Fix various R1C1 bugs.
 	* Fix precision for xml saving inside graphs.
+	* Fix long-sheet-name GUI issue.  [#580837]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.6

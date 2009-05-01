@@ -44,6 +44,8 @@ struct _EditableLabel {
 	unsigned int text_set;
 	unsigned int editable : 1;
 	unsigned int set_cursor_after_motion : 1;
+	int max_width;
+	gulong parent_width_request_handler;
 };
 
 typedef struct {
@@ -192,7 +194,7 @@ el_button_press_event (GtkWidget *widget, GdkEventButton *button)
 static gint
 el_key_press_event (GtkWidget *w, GdkEventKey *event)
 {
-	EditableLabel  *el = EDITABLE_LABEL (w);
+	EditableLabel *el = EDITABLE_LABEL (w);
 
 	if (el->unedited_text == NULL)
 		return FALSE;
@@ -206,16 +208,22 @@ el_key_press_event (GtkWidget *w, GdkEventKey *event)
 }
 
 static void
-el_size_request (GtkWidget *el, GtkRequisition *req)
+el_size_request (GtkWidget *w, GtkRequisition *req)
 {
+	EditableLabel *el = EDITABLE_LABEL (w);
 	PangoRectangle logical_rect;
 	PangoLayout *layout;
+	int desired;
 
-	parent_class->size_request (el, req);
-	layout = gtk_entry_get_layout (GTK_ENTRY (el));
+	parent_class->size_request (w, req);
+	layout = gtk_entry_get_layout (GTK_ENTRY (w));
 	pango_layout_get_extents (layout, NULL, &logical_rect);
 
-	req->width = logical_rect.width / PANGO_SCALE + 2 * 2;
+	desired = logical_rect.width / PANGO_SCALE + 2 * 2;
+
+	/* We need to be absurdly careful not to allocate too much as
+	   the notebook acts strangely.  See bug #580837.  */
+	req->width = MIN (desired, el->max_width);
 }
 
 static void
@@ -277,6 +285,75 @@ el_class_init (GtkObjectClass *object_class)
 }
 
 static void
+cb_width_changed (GtkWidget *parent, GParamSpec *pspec, EditableLabel *el)
+{
+	int old_max_width = el->max_width;
+
+	el->max_width = G_MAXINT;
+	if (GTK_IS_NOTEBOOK (parent) &&
+	    gtk_notebook_get_scrollable (GTK_NOTEBOOK (parent))) {
+		int width, height;
+
+		gtk_widget_get_size_request (parent, &width, &height);
+		if (width > 0) {
+			/* See el_size_request */
+
+			int focus_width;
+			int tab_overlap, tab_curvature;
+			int arrow_spacing, scroll_arrow_hlength;
+			int tab_hborder;
+			int padding;
+
+			gtk_widget_style_get
+				(parent,
+				 "focus-line-width", &focus_width,
+				 "tab-overlap", &tab_overlap,
+				 "tab-curvature", &tab_curvature,
+				 "arrow-spacing", &arrow_spacing,
+				 "scroll-arrow-hlength", &scroll_arrow_hlength,
+				 NULL);
+			g_object_get (G_OBJECT (parent),
+				      "tab-hborder", &tab_hborder,
+				      NULL);
+			padding = 2 * (scroll_arrow_hlength +
+				       arrow_spacing +
+				       tab_curvature + 
+				       focus_width +
+				       tab_hborder +
+				       parent->style->xthickness);
+			padding += 10;  /* Safety margin.  */
+			el->max_width = MAX (1, width - padding);
+		}
+	}
+
+	if (el->max_width != old_max_width)
+		gtk_widget_queue_resize (GTK_WIDGET (el));
+}
+
+static void
+cb_parent_set (EditableLabel *el, GtkWidget *old_parent, gpointer user)
+{
+	GtkWidget *w = GTK_WIDGET (el);
+	GtkWidget *parent = gtk_widget_get_parent (w);
+
+	if (el->parent_width_request_handler) {
+		g_signal_handler_disconnect (old_parent,
+					     el->parent_width_request_handler);
+		el->parent_width_request_handler = 0;
+	}
+
+	cb_width_changed (parent, NULL, el);
+	if (parent)
+		el->parent_width_request_handler =
+			g_signal_connect (G_OBJECT (parent),
+					  "notify::width-request",
+					  G_CALLBACK (cb_width_changed),
+					  el);
+
+	gtk_widget_queue_resize (w);
+}
+
+static void
 el_init (GObject *obj)
 {
 	EditableLabel *el = EDITABLE_LABEL (obj);
@@ -284,6 +361,9 @@ el_init (GObject *obj)
 	el->set_cursor_after_motion = FALSE;
 	g_signal_connect (obj, "changed",
 			  G_CALLBACK (gtk_widget_queue_resize), NULL);
+	el->max_width = G_MAXINT;
+	g_signal_connect (obj, "parent-set",
+			  G_CALLBACK (cb_parent_set), NULL);
 }
 
 GSF_CLASS (EditableLabel, editable_label,

@@ -1,3 +1,11 @@
+2009-05-01  Morten Welinder  <terra@gnome.org>
+
+	* widget-editable-label.c (el_size_request): Don't ask for too
+	much.  Fixes #580837.
+	(cb_width_changed): New function to calculate what "too much"
+	means.
+	(cb_parent_set): New function to hook up cb_width_changed.
+
 2009-04-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric-text-view.c: replace "buffer" property with "attributes" 
