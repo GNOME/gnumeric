@@ -872,7 +872,7 @@ wbref_parse (GnmConventions const *convs,
  * @allow_3d :
  *
  * Returns : NULL if there is a valid sheet name but it is unknown.
- *           If the string is a valid sheet known name it returns a pointer
+ *           If the string is a valid sheet name it returns a pointer
  *           the end of the name.
  *           Otherwise returns @start and does not modify @sheet.
  **/
@@ -1382,116 +1382,6 @@ gnm_conventions_free (GnmConventions *c)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef TEST
-static void
-test_col_stuff (void)
-{
-	/* Warning: out of date */
-	int col;
-	char const *end, *str;
-	unsigned char col_relative;
-
-	g_assert (strcmp ("A", col_name (0)) == 0);
-	g_assert (strcmp ("AA", col_name (26)) == 0);
-	g_assert (strcmp ("IV", col_name (255)) == 0);
-
-	g_assert (strcmp ("A", cols_name (0, 0)) == 0);
-	g_assert (strcmp ("A:IV", cols_name (0, 255)) == 0);
-
-	end = col_parse ((str = "A"), &col, &col_relative);
-	g_assert (end == str + strlen (str) && col == 0 && col_relative);
-	end = col_parse ((str = "$A"), &col, &col_relative);
-	g_assert (end == str + strlen (str) && col == 0 && !col_relative);
-	end = col_parse ((str = "AA"), &col, &col_relative);
-	g_assert (end == str + strlen (str) && col == 26 && col_relative);
-	end = col_parse ((str = "$AA"), &col, &col_relative);
-	g_assert (end == str + strlen (str) && col == 26 && !col_relative);
-	end = col_parse ((str = "IV"), &col, &col_relative);
-	g_assert (end == str + strlen (str) && col == 255 && col_relative);
-	end = col_parse ((str = "$IV"), &col, &col_relative);
-	g_assert (end == str + strlen (str) && col == 255 && !col_relative);
-	end = col_parse ((str = "IW"), &col, &col_relative);
-	g_assert (!end);
-	end = col_parse ((str = ":IW"), &col, &col_relative);
-	g_assert (!end);
-	end = col_parse ((str = "$IW"), &col, &col_relative);
-	g_assert (!end);
-}
-
-static void
-test_row_stuff (void)
-{
-	/* Warning: out of date */
-	int row;
-	char const *end, *str;
-	unsigned char row_relative;
-
-	g_assert (strcmp ("1", row_name (0)) == 0);
-	g_assert (strcmp ("42", row_name (41)) == 0);
-	g_assert (strcmp ("65536", row_name (65535)) == 0);
-
-	g_assert (strcmp ("1", rows_name (0, 0)) == 0);
-	g_assert (strcmp ("1:65536", rows_name (0, 65535)) == 0);
-
-	end = row_parse ((str = "1"), &row, &row_relative);
-	g_assert (end == str + strlen (str) && row == 0 && row_relative);
-	end = row_parse ((str = "$1"), &row, &row_relative);
-	g_assert (end == str + strlen (str) && row == 0 && !row_relative);
-	end = row_parse ((str = "42"), &row, &row_relative);
-	g_assert (end == str + strlen (str) && row == 41 && row_relative);
-	end = row_parse ((str = "$42"), &row, &row_relative);
-	g_assert (end == str + strlen (str) && row == 41 && !row_relative);
-	end = row_parse ((str = "65536"), &row, &row_relative);
-	g_assert (end == str + strlen (str) && row == 65535 && row_relative);
-	end = row_parse ((str = "$65536"), &row, &row_relative);
-	g_assert (end == str + strlen (str) && row == 65535 && !row_relative);
-	end = row_parse ((str = "0"), &row, &row_relative);
-	g_assert (!end);
-	end = row_parse ((str = "01"), &row, &row_relative);
-	g_assert (!end);
-	end = row_parse ((str = "$01"), &row, &row_relative);
-	g_assert (!end);
-	end = row_parse ((str = "$+1"), &row, &row_relative);
-	g_assert (!end);
-	end = row_parse ((str = "-1"), &row, &row_relative);
-	g_assert (!end);
-	end = row_parse ((str = "65537"), &row, &row_relative);
-	g_assert (!end);
-	end = row_parse ((str = "$65537"), &row, &row_relative);
-	g_assert (!end);
-}
-
-
-static void
-test_cellpos_stuff (void)
-{
-	/* Warning: out of date */
-	GnmCellPos cp;
-	char const *end, *str;
-
-	end = cellpos_parse ((str = "A1"), &cp, TRUE);
-	g_assert (end == str + strlen (str) && cp.col == 0 && cp.row == 0);
-	end = cellpos_parse ((str = "AA42"), &cp, TRUE);
-	g_assert (end == str + strlen (str) && cp.col == 26 && cp.row == 41);
-
-	end = cellpos_parse ((str = "A1"), &cp, FALSE);
-	g_assert (end == str + strlen (str) && cp.col == 0 && cp.row == 0);
-	end = cellpos_parse ((str = "AA42"), &cp, FALSE);
-	g_assert (end == str + strlen (str) && cp.col == 26 && cp.row == 41);
-
-	end = cellpos_parse ((str = "A1:"), &cp, TRUE);
-	g_assert (end == NULL);
-	end = cellpos_parse ((str = "AA42:"), &cp, TRUE);
-	g_assert (end == NULL);
-
-	end = cellpos_parse ((str = "A1:"), &cp, FALSE);
-	g_assert (end == str + strlen (str) -1 && cp.col == 0 && cp.row == 0);
-	end = cellpos_parse ((str = "AA42:"), &cp, FALSE);
-	g_assert (end == str + strlen (str) - 1 && cp.col == 26 && cp.row == 41);
-}
-
-#endif
-
 GnmConventions const *gnm_conventions_default;
 GnmConventions const *gnm_conventions_xls_r1c1;
 
@@ -1499,11 +1389,6 @@ void
 parse_util_init (void)
 {
 	GnmConventions *convs;
-#ifdef TEST
-	test_row_stuff ();
-	test_col_stuff ();
-	test_cellpos_stuff ();
-#endif
 
 	convs = gnm_conventions_new ();
 	convs->range_sep_colon		 = TRUE;
