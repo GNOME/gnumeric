@@ -183,7 +183,7 @@ rstyle_apply (GnmStyle **old, ReplacementStyle *rs)
 
 /* If you change this, change the tile_{widths,heights} here
  * and GNM_MAX_COLS and GNM_MAX_ROWS in gnumeric.h */ 
-#define TILE_TOP_LEVEL 5
+#define TILE_TOP_LEVEL 6
 
 #define TILE_SIZE_COL 4
 #define	TILE_SIZE_ROW 16
@@ -443,13 +443,13 @@ sheet_style_sanity_check (void)
 	unsigned c, r;
 	int i;
 
-	for (c = 1, i = 0; i < TILE_TOP_LEVEL; i++) {
+	for (c = 1, i = 0; i <= TILE_TOP_LEVEL; i++) {
 		g_assert (c < G_MAXUINT / TILE_SIZE_COL);
 		c *= TILE_SIZE_COL;
 	}
 	g_assert (c >= GNM_MAX_COLS);
 
-	for (r = 1, i = 0; i < TILE_TOP_LEVEL; i++) {
+	for (r = 1, i = 0; i <= TILE_TOP_LEVEL; i++) {
 		g_assert (r < G_MAXUINT / TILE_SIZE_COL);
 		r *= TILE_SIZE_ROW;
 	}
