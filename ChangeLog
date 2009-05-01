@@ -1,3 +1,8 @@
+2009-05-01  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-style.c (sheet_style_sanity_check): New function.
+	(sheet_style_init): Call sheet_style_sanity_check.
+
 2009-05-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/commands.h (cmd_set_comment): add author argument

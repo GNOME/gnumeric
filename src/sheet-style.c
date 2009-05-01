@@ -181,8 +181,7 @@ rstyle_apply (GnmStyle **old, ReplacementStyle *rs)
 
 /****************************************************************************/
 
-/* If you change this, change the tile_{widths,heights} here, in sheet_style_get
- * and in the sanity check in sheet_style_init
+/* If you change this, change the tile_{widths,heights} here
  * and GNM_MAX_COLS and GNM_MAX_ROWS in gnumeric.h */ 
 #define TILE_TOP_LEVEL 5
 
@@ -439,6 +438,29 @@ cell_tile_matrix_set (CellTile *t, GnmRange const *indic, ReplacementStyle *rs)
 /****************************************************************************/
 
 static void
+sheet_style_sanity_check (void)
+{
+	unsigned c, r;
+	int i;
+
+	for (c = 1, i = 0; i < TILE_TOP_LEVEL; i++) {
+		g_assert (c < G_MAXUINT / TILE_SIZE_COL);
+		c *= TILE_SIZE_COL;
+	}
+	g_assert (c >= GNM_MAX_COLS);
+
+	for (r = 1, i = 0; i < TILE_TOP_LEVEL; i++) {
+		g_assert (r < G_MAXUINT / TILE_SIZE_COL);
+		r *= TILE_SIZE_ROW;
+	}
+	g_assert (r >= GNM_MAX_ROWS);
+
+	g_assert (G_N_ELEMENTS (tile_heights) > TILE_TOP_LEVEL);
+
+	g_assert (G_N_ELEMENTS (tile_widths) > TILE_TOP_LEVEL);
+}
+
+static void
 sheet_style_init_size (Sheet *sheet, int cols, int rows)
 {
 	GnmStyle *default_style;
@@ -517,6 +539,9 @@ sheet_style_init (Sheet *sheet)
 {
 	int cols = gnm_sheet_get_max_cols (sheet);
 	int rows = gnm_sheet_get_max_rows (sheet);
+
+	sheet_style_sanity_check ();
+
 	sheet_style_init_size (sheet, cols, rows);
 }
 
