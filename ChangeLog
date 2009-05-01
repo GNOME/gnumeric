@@ -2,6 +2,7 @@
 
 	* src/sheet-style.c (sheet_style_sanity_check): New function.
 	(sheet_style_init): Call sheet_style_sanity_check.
+	(tile_widths, tile_heights): Add extra element.
 
 2009-05-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
