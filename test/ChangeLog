@@ -1,3 +1,7 @@
+2009-05-01  Morten Welinder  <terra@gnome.org>
+
+	* t5903-sylk.pl: Add app_b2.sylk in order to test R1C1 parsing.
+
 2009-04-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.6
