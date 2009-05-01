@@ -49,6 +49,7 @@ typedef SheetObjectClass GnmCommentClass;
 enum {
 	CC_PROP_0,
 	CC_PROP_TEXT,
+	CC_PROP_AUTHOR,
 	CC_PROP_MARKUP
 };
 
@@ -156,6 +157,10 @@ cell_comment_set_property (GObject *obj, guint param_id,
 		g_free (cc->text);
 		cc->text = g_strdup (g_value_get_string (value));
 		break;
+	case CC_PROP_AUTHOR:
+		g_free (cc->author);
+		cc->author = g_strdup (g_value_get_string (value));
+		break;
 	case CC_PROP_MARKUP :
 		if (cc->markup != NULL)
 			pango_attr_list_unref (cc->markup);
@@ -178,6 +183,9 @@ cell_comment_get_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case CC_PROP_TEXT :
 		g_value_set_string (value, cc->text);
+		break;
+	case CC_PROP_AUTHOR :
+		g_value_set_string (value, cc->author);
 		break;
 	case CC_PROP_MARKUP :
 		g_value_set_boxed (value, cc->markup);
@@ -325,6 +333,9 @@ cell_comment_class_init (GObjectClass *gobject_class)
 	gobject_class->get_property	= cell_comment_get_property;
         g_object_class_install_property (gobject_class, CC_PROP_TEXT,
                  g_param_spec_string ("text", NULL, NULL, NULL,
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
+        g_object_class_install_property (gobject_class, CC_PROP_AUTHOR,
+                 g_param_spec_string ("author", NULL, NULL, NULL,
 				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
         g_object_class_install_property (gobject_class, CC_PROP_MARKUP,
                  g_param_spec_boxed ("markup", NULL, NULL,

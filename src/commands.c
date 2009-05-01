@@ -4910,6 +4910,8 @@ typedef struct {
 	GnmCellPos	        pos;
 	gchar		*new_text;
 	gchar		*old_text;
+	gchar		*new_author;
+	gchar		*old_author;
 	PangoAttrList   *old_attributes;
 	PangoAttrList   *new_attributes;
 } CmdSetComment;
@@ -4917,14 +4919,17 @@ typedef struct {
 MAKE_GNM_COMMAND (CmdSetComment, cmd_set_comment, NULL)
 
 static gboolean
-cmd_set_comment_apply (Sheet *sheet, GnmCellPos *pos, char const *text, PangoAttrList *attributes)
+cmd_set_comment_apply (Sheet *sheet, GnmCellPos *pos, 
+		       char const *text, PangoAttrList *attributes,
+		       char const *author)
 {
 	GnmComment   *comment;
 
 	comment = sheet_get_comment (sheet, pos);
 	if (comment) {
 		if (text)
-			g_object_set (G_OBJECT (comment), "text", text, 
+			g_object_set (G_OBJECT (comment), "text", text,
+				      "author", author,
 				      "markup", attributes, NULL);
 		else {
 			GnmRange const *mr;
@@ -4939,9 +4944,9 @@ cmd_set_comment_apply (Sheet *sheet, GnmCellPos *pos, char const *text, PangoAtt
 				sheet_objects_clear (sheet, &r, CELL_COMMENT_TYPE, NULL);
 			}
 		}
-	} else if (text && (strlen (text) > 0))
-		cell_set_comment (sheet, pos, NULL, text, attributes);
-
+	} else if (text && (strlen (text) > 0)) {
+		cell_set_comment (sheet, pos, author, text, attributes);
+	}
 	sheet_mark_dirty (sheet);
 	return FALSE;
 }
@@ -4952,7 +4957,9 @@ cmd_set_comment_undo (GnmCommand *cmd,
 {
 	CmdSetComment *me = CMD_SET_COMMENT (cmd);
 
-	return cmd_set_comment_apply (me->sheet, &me->pos, me->old_text, me->old_attributes);
+	return cmd_set_comment_apply (me->sheet, &me->pos, 
+				      me->old_text, me->old_attributes,
+				      me->old_author);
 }
 
 static gboolean
@@ -4961,7 +4968,9 @@ cmd_set_comment_redo (GnmCommand *cmd,
 {
 	CmdSetComment *me = CMD_SET_COMMENT (cmd);
 
-	return cmd_set_comment_apply (me->sheet, &me->pos, me->new_text, me->new_attributes);
+	return cmd_set_comment_apply (me->sheet, &me->pos, 
+				      me->new_text, me->new_attributes,
+				      me->new_author);
 }
 
 static void
@@ -4974,6 +4983,12 @@ cmd_set_comment_finalize (GObject *cmd)
 
 	g_free (me->old_text);
 	me->old_text = NULL;
+
+	g_free (me->new_author);
+	me->new_author = NULL;
+
+	g_free (me->old_author);
+	me->old_author = NULL;
 
 	if (me->old_attributes != NULL) {
 		pango_attr_list_unref (me->old_attributes);
@@ -4992,7 +5007,8 @@ gboolean
 cmd_set_comment (WorkbookControl *wbc,
 		 Sheet *sheet, GnmCellPos const *pos,
 		 char const *new_text,
-		 PangoAttrList *attr)
+		 PangoAttrList *attr, 
+		 char const *new_author)
 {
 	CmdSetComment *me;
 	GnmComment   *comment;
@@ -5009,6 +5025,10 @@ cmd_set_comment (WorkbookControl *wbc,
 		me->new_text = NULL;
 	else
 		me->new_text    = g_strdup (new_text);
+	if (strlen (new_author) < 1)
+		me->new_author = NULL;
+	else
+		me->new_author    = g_strdup (new_author);
 	if (attr != NULL)
 		pango_attr_list_ref (attr);
 	me->new_attributes = attr;
@@ -5020,15 +5040,20 @@ cmd_set_comment (WorkbookControl *wbc,
 				 where);
 	g_free (where);
 	me->old_text    = NULL;
+	me->old_author    = NULL;
 	me->old_attributes = NULL;
 	me->pos         = *pos;
 	me->sheet       = sheet;
 	comment = sheet_get_comment (sheet, pos);
 	if (comment) {
-		g_object_get (G_OBJECT (comment), "text", &(me->old_text), "markup", &(me->old_attributes), NULL);
+		g_object_get (G_OBJECT (comment), 
+			      "text", &(me->old_text),
+			      "author", &(me->old_author), 
+			      "markup", &(me->old_attributes), NULL);
 		if (me->old_attributes != NULL)
 			pango_attr_list_ref (me->old_attributes);
 		me->old_text = g_strdup (me->old_text);
+		me->old_author = g_strdup (me->old_author);
 	}
 
 	/* Register the command object */

@@ -65,13 +65,17 @@ static void
 cb_cell_comment_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 			    CommentState *state)
 {
-	char *text;
+	char          *text;
 	PangoAttrList *attr;
+	char const *author;
 
+	author = gtk_entry_get_text 
+		(GTK_ENTRY (glade_xml_get_widget 
+			    (state->gui, "new-author-entry")));
 	g_object_get (G_OBJECT (state->gtv), "text", &text, 
 		      "attributes", &attr, NULL);
 	if (!cmd_set_comment (WORKBOOK_CONTROL (state->wbcg), 
-			      state->sheet, state->pos, text, attr))
+			      state->sheet, state->pos, text, attr, author))
 		gtk_widget_destroy (state->dialog);
 	g_free (text);
 	pango_attr_list_unref (attr);
@@ -89,10 +93,11 @@ void
 dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 {
 	CommentState	*state;
-	GtkWidget	*box, *check;
+	GtkWidget	*box, *check, *old_author, *new_author;
 	GnmComment	*comment;
 	GladeXML	*gui;
 	char *title, *cell_name;
+	char const*real_user;
 	GnmCellRef ref;
 	GnmParsePos pp;
 	GnmConventionsOut out;
@@ -133,9 +138,18 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 	cellref_as_string (&out, &ref, FALSE);
 	cell_name = g_string_free (out.accum, FALSE);
 
+	old_author = glade_xml_get_widget (state->gui, "old-author-entry");
+	new_author = glade_xml_get_widget (state->gui, "new-author-entry");
+
+	real_user = g_get_real_name ();
+	if ((real_user != NULL) && g_utf8_validate (real_user, -1, NULL)) {
+		gtk_entry_set_text (GTK_ENTRY (new_author), real_user);
+		gtk_editable_select_region (GTK_EDITABLE (new_author), 0, -1);
+	}
+
 	comment = sheet_get_comment (sheet, pos);
 	if (comment) {
-		char *text;
+		char const *text;
 		PangoAttrList *attr;
 		g_object_get (G_OBJECT (comment), "text", &text, 
 			      "markup", &attr, NULL); 
@@ -143,11 +157,20 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 			      "attributes", attr, NULL);
 		if (attr != NULL)
 			pango_attr_list_unref (attr);
+
+		text = cell_comment_author_get (comment);
+		if (text != NULL)
+			gtk_label_set_text (GTK_LABEL (old_author),
+					    text);
 		title = g_strdup_printf (_("Edit Cell Comment (%s)"), 
 					 cell_name);
-	} else
+	} else {
 		title = g_strdup_printf (_("New Cell Comment (%s)"), 
 					 cell_name);
+		gtk_widget_hide (old_author);
+		gtk_widget_hide (glade_xml_get_widget (state->gui, 
+						       "old-author-label"));
+	}
 	gtk_window_set_title (GTK_WINDOW (state->dialog), title);
 	g_free (title);
 
@@ -180,5 +203,5 @@ dialog_cell_comment (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       COMMENT_DIALOG_KEY);
-	gtk_widget_show_all (state->dialog);
+	gtk_widget_show (state->dialog);
 }

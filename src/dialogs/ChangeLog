@@ -1,3 +1,10 @@
+2009-05-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* cell-comment.glade: add additional labels and entry field
+	* dialog-cell-comment.c (cb_cell_comment_ok_clicked): handle
+	  author
+	(dialog_cell_comment): setup author fields
+
 2009-04-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-preferences.c: move autosave preference from

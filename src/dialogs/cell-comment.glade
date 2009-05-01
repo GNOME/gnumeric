@@ -13,6 +13,80 @@
       <widget class="GtkVBox" id="dialog-vbox">
         <property name="visible">True</property>
         <property name="spacing">2</property>
+        <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
+        <child>
+          <widget class="GtkTable" id="table1">
+            <property name="visible">True</property>
+            <property name="n_rows">2</property>
+            <property name="n_columns">2</property>
+	      <property name="row_spacing">6</property>
+	      <property name="column_spacing">12</property>
+            <child>
+              <widget class="GtkEntry" id="new-author-entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">•</property>
+              </widget>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="old-author-entry">
+                <property name="justify">GTK_JUSTIFY_LEFT</property>
+                <property name="visible">True</property>
+                <property name="ellipsize">PANGO_ELLIPSIZE_END</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+              </widget>
+              <packing>
+                <property name="left_attach">1</property>
+		  <property name="x_options">fill</property>
+                <property name="right_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="new-author-label">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">&lt;b&gt;New Author:&lt;/b&gt;</property>
+                <property name="use_markup">True</property>
+                <property name="justify">GTK_JUSTIFY_LEFT</property>
+                <property name="single_line_mode">True</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+              </widget>
+              <packing>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+		  <property name="x_options">fill</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="old-author-label">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">&lt;b&gt;Old Author:&lt;/b&gt;</property>
+                <property name="use_markup">True</property>
+                <property name="single_line_mode">True</property>
+                <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+              </widget>
+              <packing>
+		  <property name="x_options">fill</property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
         <child>
           <widget class="GtkCheckButton" id="wrap-check">
             <property name="visible">True</property>
@@ -27,7 +101,7 @@
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="pack_type">GTK_PACK_END</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child internal-child="action_area">
@@ -43,6 +117,10 @@
                 <property name="use_stock">True</property>
                 <property name="response_id">0</property>
               </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+              </packing>
             </child>
             <child>
               <widget class="GtkButton" id="cancel_button">
@@ -54,6 +132,8 @@
                 <property name="response_id">0</property>
               </widget>
               <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -67,6 +147,8 @@
                 <property name="response_id">0</property>
               </widget>
               <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">2</property>
               </packing>
             </child>
