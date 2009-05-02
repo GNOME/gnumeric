@@ -4,6 +4,7 @@
  *     string representations of common reference types.
  *
  * Copyright (C) 2000-2007 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2008-2009 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

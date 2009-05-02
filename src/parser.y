@@ -4,7 +4,7 @@
  * Gnumeric Parser
  *
  * (C) 1998-2002 GNOME Foundation
- * (C) 2002-2006 Morten Welinder
+ * Copyright (C) 2002-2009 Morten Welinder
  *
  * Authors:
  *    Miguel de Icaza (miguel@gnu.org)

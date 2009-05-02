@@ -2,9 +2,8 @@
 /*
  * dependent.c:  Manage calculation dependencies between objects
  *
- * Copyright (C) 2000-2006
- *  Jody Goldberg   (jody@gnome.org)
- *  Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2000-2006 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2006-2009 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of version 2 of the GNU General Public License as published

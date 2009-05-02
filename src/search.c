@@ -1,8 +1,7 @@
 /*
  * search.c:  Search-and-replace for Gnumeric.
  *
- * Author:
- *   Morten Welinder (terra@gnome.org)
+ * Copyright (C) 2001-2009 Morten Welinder (terra@gnome.org)
  */
 
 #include <gnumeric-config.h>

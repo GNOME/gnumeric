@@ -5,6 +5,7 @@
  *     colored text.
  *
  * Copyright (C) 2000, 2001 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2001-2009 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

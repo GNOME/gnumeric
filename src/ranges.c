@@ -6,6 +6,7 @@
  *   Jody Goldberg   (jody@gnome.org)
  *   Miguel de Icaza (miguel@gnu.org).
  *   Michael Meeks   (mmeeks@gnu.org).
+ * Copyright (C) 2007-2009 Morten Welinder (terra@gnome.org)
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"

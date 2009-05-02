@@ -8,6 +8,7 @@
  *	Andreas J. Guelzow (aguelzow@taliesin.ca)
  *	Jody Goldberg (jody@gnome.org)
  *	Miguel de Icaza (miguel@gnu.org)
+ * Copyright (C) 2007-2009 Morten Welinder (terra@gnome.org)
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"

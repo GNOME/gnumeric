@@ -9,6 +9,7 @@
  *    Andreas J. Guelzow (aguelzow@pyrshep.ca)
  *
  * Copyright 2007, Andreas J. Guelzow, All Rights Reserved
+ * Copyright (C) 2007-2009 Morten Welinder (terra@gnome.org)
  *
  * Handles printing of Sheets.
  */

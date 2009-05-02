@@ -5,7 +5,7 @@
  * Author:
  *   Miguel de Icaza (miguel@kernel.org), 1998
  *   Jody Goldberg (jody@gnome.org), 1999-2006
- *   Morten Welinder (terra@gnome.org), 2006
+ *   Copyright (C) 1999-2009 Morten Welinder (terra@gnome.org)
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>

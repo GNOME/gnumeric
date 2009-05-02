@@ -10,6 +10,7 @@
  * (C) 1998, 1999, 2000 Miguel de Icaza
  * (C) 2000-2001 Ximian, Inc.
  * (C) 2002-2007 Jody Goldberg
+ * Copyright (C) 1999-2009 Morten Welinder (terra@gnome.org)
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"

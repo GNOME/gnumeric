@@ -6,6 +6,7 @@
  *    Jody Goldberg 2000-2006	(jody@gnome.org)
  *    Miguel de Icaza 1999 (miguel@kernel.org)
  *    Andreas J. Guelzow 2007   (aguelzow@pyrshep.ca)
+ *  Copyright (C) 2007-2009 Morten Welinder (terra@gnome.org)
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"

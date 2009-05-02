@@ -6,6 +6,7 @@
  *   Jody Goldberg <jody@gnome.org>
  *
  * Copyright (C) 2004 Jody Goldberg
+ * Copyright (C) 2008-2009 Morten Welinder (terra@gnome.org)
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>

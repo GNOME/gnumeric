@@ -9,7 +9,7 @@
  * EMail: almer1@dds.nl or almer-t@bigfoot.com
  *
  * Copyright (C) 2003 Andreas J. Guelzow <aguelzow@taliesin.ca>
- * Copyright (C) 2003 Morten Welinder <terra@gnome.org>
+ * Copyright (C) 2003,2008-2009 Morten Welinder <terra@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

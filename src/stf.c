@@ -4,6 +4,7 @@
  *         importing text files with a structure (CSV/fixed width)
  *
  * Copyright (C) Almer. S. Tigelaar <almer@gnome.org>
+ * Copyright (C) 1999-2009 Morten Welinder (terra@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

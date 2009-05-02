@@ -2,10 +2,8 @@
 /*
  * ssgrep.c: Search spreadsheets of selected strings
  *
- * Author:
- *   Jody Goldberg <jody@gnome.org>
- *
  * Copyright (C) 2008 Jody Goldberg
+ * Copyright (C) 2008-2009 Morten Welinder (terra@gnome.org)
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
