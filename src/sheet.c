@@ -2056,8 +2056,7 @@ sheet_get_nominal_printarea (Sheet const *sheet)
 
 	g_return_val_if_fail (IS_SHEET (sheet), print_area);
 
-	/* GnmParsePos should really have Sheet const * */
-	parse_pos_init_sheet (&pos, (Sheet *) sheet);
+	parse_pos_init_sheet (&pos, sheet);
 	nexpr = expr_name_lookup (&pos, "Print_Area");
 	if (nexpr != NULL) {
 		val = gnm_expr_top_get_range (nexpr->texpr);

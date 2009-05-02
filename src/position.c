@@ -127,13 +127,13 @@ eval_pos_init_cell (GnmEvalPos *ep, GnmCell const *cell)
 }
 
 GnmEvalPos *
-eval_pos_init_sheet (GnmEvalPos *ep, Sheet *sheet)
+eval_pos_init_sheet (GnmEvalPos *ep, Sheet const *sheet)
 {
 	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	ep->eval.col = ep->eval.row = 0;
-	ep->sheet = sheet;
+	ep->sheet = (Sheet *)sheet;
 	ep->dep   = NULL;
 	ep->array = NULL;
 
@@ -153,7 +153,8 @@ eval_pos_init_sheet (GnmEvalPos *ep, Sheet *sheet)
  * ParsePosition.
  */
 GnmParsePos *
-parse_pos_init (GnmParsePos *pp, Workbook *wb, Sheet *sheet, int col, int row)
+parse_pos_init (GnmParsePos *pp, Workbook *wb, Sheet const *sheet,
+		int col, int row)
 {
 	/* Global */
 	if (wb == NULL && sheet == NULL)
@@ -161,7 +162,7 @@ parse_pos_init (GnmParsePos *pp, Workbook *wb, Sheet *sheet, int col, int row)
 
 	g_return_val_if_fail (pp != NULL, NULL);
 
-	pp->sheet = sheet;
+	pp->sheet = (Sheet *)sheet;
 	pp->wb = sheet ? sheet->workbook : wb;
 	pp->eval.col = col;
 	pp->eval.row = row;
@@ -219,7 +220,7 @@ parse_pos_init_editpos (GnmParsePos *pp, SheetView const *sv)
 }
 
 GnmParsePos *
-parse_pos_init_sheet (GnmParsePos *pp, Sheet *sheet)
+parse_pos_init_sheet (GnmParsePos *pp, Sheet const *sheet)
 {
 	g_return_val_if_fail (pp != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);

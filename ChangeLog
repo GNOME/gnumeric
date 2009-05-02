@@ -1,3 +1,8 @@
+2009-05-02  Morten Welinder  <terra@gnome.org>
+
+	* src/position.c (eval_pos_init_sheet, parse_pos_init,
+	parse_pos_init_sheet): Constify.
+
 2009-05-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (render_val): don't crash with a NULL value. [#581120]

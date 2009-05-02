@@ -11,7 +11,7 @@ Jean:
 Jody:
 	* XLSX start reading external refs.
 	* XL2003-XML enable the use of builtin formats, and drop '.sml' kludge.
-	* Add pref entry to set default value of autsave.
+	* Add pref entry to set default value of autosave.
 
 Morten:
 	* Fix xls save problem with sheets that are too big for the format.

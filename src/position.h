@@ -31,16 +31,16 @@ GnmEvalPos  *eval_pos_init_pos	   (GnmEvalPos *ep, Sheet *s, GnmCellPos const *p
 GnmEvalPos  *eval_pos_init_dep	   (GnmEvalPos *ep, GnmDependent const *dep);
 GnmEvalPos  *eval_pos_init_cell	   (GnmEvalPos *ep, GnmCell const *cell);
 GnmEvalPos  *eval_pos_init_editpos (GnmEvalPos *ep, SheetView const *sv);
-GnmEvalPos  *eval_pos_init_sheet   (GnmEvalPos *ep, Sheet *sheet);
+GnmEvalPos  *eval_pos_init_sheet   (GnmEvalPos *ep, Sheet const *sheet);
 
 /* Initialization routines for Parse Positions */
 GnmParsePos *parse_pos_init         (GnmParsePos *pp, Workbook *wb,
-				     Sheet *sheet, int col, int row);
+				     Sheet const *sheet, int col, int row);
 GnmParsePos *parse_pos_init_dep	    (GnmParsePos *pp, GnmDependent const *dep);
 GnmParsePos *parse_pos_init_cell    (GnmParsePos *pp, GnmCell const *cell);
 GnmParsePos *parse_pos_init_evalpos (GnmParsePos *pp, GnmEvalPos const *pos);
 GnmParsePos *parse_pos_init_editpos (GnmParsePos *pp, SheetView const *sv);
-GnmParsePos *parse_pos_init_sheet   (GnmParsePos *pp, Sheet *sheet);
+GnmParsePos *parse_pos_init_sheet   (GnmParsePos *pp, Sheet const *sheet);
 
 /*****************************************************************************/
 
