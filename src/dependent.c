@@ -2695,8 +2695,9 @@ gnm_dep_container_resize (GnmDepContainer *deps, int rows)
 	for (i = buckets; i < deps->buckets; i++) {
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL) {
-			g_printerr ("Hash table size: %d\n",
-				    g_hash_table_size (hash));
+			int s = g_hash_table_size (hash);
+			if (s)
+				g_printerr ("Hash table size: %d\n", s);
 			g_hash_table_destroy (hash);
 			deps->range_hash[i] = NULL;
 		}
