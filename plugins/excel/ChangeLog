@@ -1,3 +1,8 @@
+2009-05-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* ms-chart.c (get_style), (ms_excel_chart_read): use reimplemented
+	gog_style_new().
+
 2009-04-28  Jody Goldberg <jody@gnome.org>
 
 	* xlsx-read.c : initial work on reading external refs.   Still broken

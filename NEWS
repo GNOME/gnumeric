@@ -5,6 +5,9 @@ Andreas:
 	  dialog and the label itself.
 	* Add interface to format cell comments
 
+Jean:
+	* Do not crash in rendr_value for NULL values. [#581120]
+
 Jody:
 	* XLSX start reading external refs.
 	* XL2003-XML enable the use of builtin formats, and drop '.sml' kludge.

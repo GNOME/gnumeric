@@ -76,8 +76,12 @@ static char *
 render_val (GnmValue const *v, int i, int j,
 	    GOFormat const *fmt, GnmEvalPos const *ep)
 {
-	GODateConventions const *date_conv =
-		ep->sheet ? workbook_date_conv (ep->sheet->workbook) : NULL;
+	GODateConventions const *date_conv;
+
+	if (!v)
+		return NULL;
+	
+	date_conv = ep->sheet ? workbook_date_conv (ep->sheet->workbook) : NULL;
 
 #if 0
 	g_printerr ("Rendering %s with fmt=%s\n",

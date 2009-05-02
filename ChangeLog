@@ -1,3 +1,7 @@
+2009-05-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/graph.c (render_val): don't crash with a NULL value. [#581120]
+
 2009-05-01  Morten Welinder  <terra@gnome.org>
 
 	* src/parse-util.c (r1c1_rangeref_parse): Fix sheet size handling.

@@ -202,7 +202,7 @@ static void
 BC_R(get_style) (XLChartReadState *s)
 {
 	if (s->style == NULL)
-		s->style = g_object_new (g_type_from_name ("GogStyle"), NULL);
+		s->style = gog_style_new ();
 }
 
 static int
@@ -3516,7 +3516,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 		state.chart = GOG_CHART (gog_object_add_by_name (GOG_OBJECT (state.graph), "Chart", NULL));
 
 		if (NULL != full_page) {
-			GOStyle *style = go_style_new ();
+			GOStyle *style = gog_style_new ();
 			style->outline.width = 0;
 			style->outline.dash_type = GO_LINE_NONE;
 			style->fill.type = GO_STYLE_FILL_NONE;
