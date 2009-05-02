@@ -93,9 +93,13 @@ mylog2 (int N)
 }
 
 static void
-init_scale (GtkWidget *scale, int N)
+init_scale (GtkWidget *scale, int N, int lo, int hi)
 {
 	GtkAdjustment *adj = gtk_range_get_adjustment (GTK_RANGE (scale));
+	g_object_set (G_OBJECT (adj),
+		      "lower", (double)mylog2 (lo),
+		      "upper", (double)mylog2 (hi),
+		      NULL);
 	gtk_adjustment_set_value (adj, mylog2 (N));
 }
 
@@ -187,12 +191,17 @@ dialog_sheet_resize (WBCGtk *wbcg)
 	g_signal_connect_swapped (G_OBJECT (state->columns_scale),
 				  "value-changed", G_CALLBACK (cb_scale_changed),
 				  state);
-	init_scale (state->columns_scale, gnm_sheet_get_max_cols (state->sheet));
+	init_scale (state->columns_scale,
+		    gnm_sheet_get_max_cols (state->sheet),
+		    GNM_MIN_COLS, GNM_MAX_COLS);
 
 	g_signal_connect_swapped (G_OBJECT (state->rows_scale),
 				  "value-changed", G_CALLBACK (cb_scale_changed),
 				  state);
-	init_scale (state->rows_scale, gnm_sheet_get_max_rows (state->sheet));
+	init_scale (state->rows_scale,
+		    gnm_sheet_get_max_rows (state->sheet),
+		    GNM_MIN_ROWS, GNM_MAX_ROWS);
+
 	cb_scale_changed (state);
 
 	g_signal_connect_swapped (G_OBJECT (state->cancel_button),

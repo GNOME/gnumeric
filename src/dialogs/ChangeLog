@@ -1,3 +1,8 @@
+2009-05-02  Morten Welinder  <terra@gnome.org>
+
+	* dialog-sheet-resize.c (init_scale): Setup min and max too based
+	on GNM_{MIN,MAX}_{COLS,ROWS}.
+
 2009-05-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* cell-comment.glade: add additional labels and entry field

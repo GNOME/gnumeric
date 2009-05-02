@@ -2093,7 +2093,7 @@ sheet_get_nominal_printarea (Sheet const *sheet)
 	}
 
 	range_ensure_sanity (&print_area, sheet);
-	
+
 	return print_area;
 }
 
