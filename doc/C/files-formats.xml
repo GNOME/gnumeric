@@ -120,7 +120,7 @@
 <row>
   <entry><link linkend="file-format-sxc">OpenOffice.Org / StarOffice
   Old Format</link></entry>
-  <literal>.sxc</literal> / <literal>.stc</literal></entry> 
+  <entry><literal>.sxc</literal> / <literal>.stc</literal></entry> 
   <entry>YES</entry>
   <entry>YES (incomplete)</entry>
   <entry>application/vnd.sun.xml.calc</entry>
