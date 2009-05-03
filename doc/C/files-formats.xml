@@ -417,12 +417,14 @@
 	    http://www.jfree.org/jworkbook/gnumeric-xml.pdf</ulink></literal>.
 	  </para>
 
+          <para>
 	    An outdated PDF document discussing the &gnum; file format
 	    which should provide a useful starting point was developed
 	    by the JWorkbook project. The file can be downloaded from
 	    <literal><ulink type="http"
 	    url="http://www.jfree.org/jworkbook/download/gnumeric-xml.pdf">
 	    http://www.jfree.org/jworkbook/download/gnumeric-xml.pdf</ulink></literal>.
+          </para>
 
 
 	</listitem>
@@ -1672,6 +1674,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	</tbody>
       </tgroup>
     </informaltable>
+    <variablelist>
       <varlistentry>
         <term>
 	  <emphasis role="bold">Plugin</emphasis>
@@ -1755,6 +1758,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	</tbody>
       </tgroup>
     </informaltable>
+    <variablelist>
       <varlistentry>
         <term>
 	  <emphasis role="bold">Plugin</emphasis>
@@ -1834,6 +1838,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	</tbody>
       </tgroup>
     </informaltable>
+    <variablelist>
       <varlistentry>
         <term>
 	  <emphasis role="bold">Plugin</emphasis>
