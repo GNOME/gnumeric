@@ -2266,9 +2266,9 @@ cellref_boundingbox (GnmCellRef const *cr, GnmRange *bound)
 }
 
 static GSList *
-g_slist_insert_unique (GSList *list, gpointer data)
+gnm_insert_unique (GSList *list, gpointer data)
 {
-	if (data != NULL && g_slist_find (list, data) == NULL)
+	if (g_slist_find (list, data) == NULL)
 		return g_slist_prepend (list, data);
 	return list;
 }
@@ -2280,11 +2280,8 @@ do_referenced_sheets (GnmExpr const *expr, GSList *sheets)
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
-		return do_referenced_sheets (
-			expr->binary.value_a,
-			do_referenced_sheets (
-				expr->binary.value_b,
-				sheets));
+		sheets = do_referenced_sheets (expr->binary.value_a, sheets);
+		return do_referenced_sheets (expr->binary.value_b, sheets);
 
 	case GNM_EXPR_OP_ANY_UNARY:
 		return do_referenced_sheets (expr->unary.value, sheets);
@@ -2308,16 +2305,17 @@ do_referenced_sheets (GnmExpr const *expr, GSList *sheets)
 		return sheets;
 
 	case GNM_EXPR_OP_CELLREF:
-		return g_slist_insert_unique (sheets, expr->cellref.ref.sheet);
+		return gnm_insert_unique (sheets, expr->cellref.ref.sheet);
 
 	case GNM_EXPR_OP_CONSTANT: {
 		GnmValue const *v = expr->constant.value;
 		if (v->type != VALUE_CELLRANGE)
 			return sheets;
-		return g_slist_insert_unique (
-			g_slist_insert_unique (sheets,
-					       v->v_range.cell.a.sheet),
-			v->v_range.cell.b.sheet);
+		sheets = gnm_insert_unique (sheets, v->v_range.cell.a.sheet);
+		/* A NULL b sheet means a's sheet.  Do not insert that.  */
+		if (v->v_range.cell.b.sheet)
+			sheets = gnm_insert_unique (sheets, v->v_range.cell.b.sheet);
+		return sheets;
 	}
 
 	case GNM_EXPR_OP_ARRAY_CORNER:
@@ -2507,7 +2505,7 @@ do_gnm_expr_get_ranges (GnmExpr const *expr, GSList *ranges)
 	default: {
 		GnmValue *v = gnm_expr_get_range (expr);
 		if (v)
-			return g_slist_insert_unique (ranges, v);
+			return gnm_insert_unique (ranges, v);
 		return ranges;
 	}
 	}
@@ -2964,10 +2962,10 @@ gnm_expr_top_eval (GnmExprTop const *texpr,
 /**
  * gnm_expr_top_referenced_sheets :
  * @texpr :
- * @sheets : usually NULL.
  *
  * Generates a list of the sheets referenced by the supplied expression.
- * Caller must free the list.
+ * Caller must free the list.  Note, that NULL may occur in the result
+ * if the expression has a range or cellref without a sheet.
  */
 GSList *
 gnm_expr_top_referenced_sheets (GnmExprTop const *texpr)

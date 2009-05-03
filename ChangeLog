@@ -1,5 +1,13 @@
 2009-05-02  Morten Welinder  <terra@gnome.org>
 
+	* src/expr-name.c (expr_name_handle_references): Handle NULL sheet
+	from expr_name_handle_references.  Fixes #581117.
+
+	* src/expr.c (gnm_insert_unique): Renamed from
+	g_slist_insert_unique.  Insert NULL too, if appropriate.
+	(do_referenced_sheets): Correctly handle right-hand side of a
+	range if it is NULL.
+
 	* src/position.c (eval_pos_init_sheet, parse_pos_init,
 	parse_pos_init_sheet): Constify.
 

@@ -25,6 +25,7 @@ Morten:
 	* Fix various R1C1 bugs.
 	* Fix precision for xml saving inside graphs.
 	* Fix long-sheet-name GUI issue.  [#580837]
+	* Fix dependency problem with names.  [#581117]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.6

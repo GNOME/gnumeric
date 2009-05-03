@@ -319,11 +319,20 @@ static void
 expr_name_handle_references (GnmNamedExpr *nexpr, gboolean add)
 {
 	GSList *sheets, *ptr;
+	Sheet *base_sheet = nexpr->pos.sheet;
 
 	sheets = gnm_expr_top_referenced_sheets (nexpr->texpr);
+	if (g_slist_find (sheets, NULL) &&
+	    !g_slist_find (sheets, base_sheet))
+		sheets = g_slist_prepend (sheets, base_sheet);
+
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
 		GnmNamedExpr *found;
+
+		/* Handled above.  */
+		if (!sheet)
+			continue;
 
 		/* No need to do anything during destruction */
 		if (sheet->deps == NULL)
