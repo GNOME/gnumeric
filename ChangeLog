@@ -1,3 +1,8 @@
+2009-05-03  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (reloc_cellrange): Make sure a full row (1:1) or
+	column (A:A) sticks at the beginning too.
+
 2009-05-02  Morten Welinder  <terra@gnome.org>
 
 	* src/expr-name.c (expr_name_handle_references): Handle NULL sheet

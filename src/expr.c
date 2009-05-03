@@ -1937,6 +1937,7 @@ reloc_cellrange (RelocInfoInternal const *rinfo, GnmValueRange const *v,
 	GnmRange r;
 	Sheet   *start_sheet, *end_sheet;
 	gboolean full_col, full_row;
+	gboolean full_col_begin, full_row_begin;
 
 	/* Normalize the rangeRef, and remember if we had a full col/row
 	 *  ref.  If relocating the result changes things, or if we're from
@@ -1950,7 +1951,10 @@ reloc_cellrange (RelocInfoInternal const *rinfo, GnmValueRange const *v,
 		end_sheet = start_sheet;
 
 	full_col = sticky_end && r.end.row >= gnm_sheet_get_last_row (start_sheet);
+	full_col_begin = full_col && r.start.row == 0;
+
 	full_row = sticky_end && r.end.col >= gnm_sheet_get_last_col (start_sheet);
+	full_row_begin = full_row && r.start.col == 0;
 
 	if (reloc_range (rinfo->details, start_sheet, end_sheet, &r) ||
 	    rinfo->from_inside) {
@@ -1958,8 +1962,12 @@ reloc_cellrange (RelocInfoInternal const *rinfo, GnmValueRange const *v,
 
 		if (full_col)
 			r.end.row = gnm_sheet_get_last_row (start_sheet);
+		if (full_col_begin)
+			r.start.row = 0;
 		if (full_row)
 			r.end.col = gnm_sheet_get_last_col (start_sheet);
+		if (full_row_begin)
+			r.start.col = 0;
 
 		if (reloc_restore_cellref (rinfo, start_sheet, &r.start, &res.a) ||
 		    reloc_restore_cellref (rinfo, end_sheet,   &r.end,   &res.b))
