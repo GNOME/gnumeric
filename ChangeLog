@@ -1,5 +1,8 @@
 2009-05-03  Morten Welinder  <terra@gnome.org>
 
+	* src/expr-name.c (expr_name_handle_references): Undo last change.
+	Bug 581117 is duct taped by sheet_get_nominal_printarea change.
+
 	* src/sheet.c (sheet_get_nominal_printarea): Work harder at
 	ensuring sanity.
 

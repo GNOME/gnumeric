@@ -321,33 +321,12 @@ expr_name_handle_references (GnmNamedExpr *nexpr, gboolean add)
 	GSList *sheets, *ptr;
 
 	sheets = gnm_expr_top_referenced_sheets (nexpr->texpr);
-	if (g_slist_find (sheets, NULL)) {
-		/* The value has a sheet-less references.  */
-		Sheet *base_sheet = nexpr->pos.sheet;
-		if (base_sheet) {
-			if (!g_slist_find (sheets, base_sheet))
-				sheets = g_slist_prepend (sheets, base_sheet);
-		} else {
-			/*
-			 * A global name.  Might reference any sheet in the
-			 * workbook it is defined.  FIXME: What if we add
-			 * sheets later?
-			 */
-			GSList *l, *wb_sheets = workbook_sheets (nexpr->pos.wb);
-			for (l = wb_sheets; l; l = l->next) {
-				Sheet *sheet = l->data;
-				if (!g_slist_find (sheets, sheet))
-					sheets = g_slist_prepend (sheets, sheet);
-			}
-			g_slist_free (wb_sheets);
-		}
-	}
 
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
 		GnmNamedExpr *found;
 
-		/* Handled above.  */
+		/* Implicit reference.  */
 		if (!sheet)
 			continue;
 
