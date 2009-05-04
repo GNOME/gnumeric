@@ -2048,51 +2048,30 @@ sheet_get_nominal_printarea (Sheet const *sheet)
 {
 	GnmNamedExpr *nexpr;
 	GnmParsePos pos;
-	GnmValue *val;
-	GnmRangeRef const *r_ref;
-	GnmRange print_area;
+	GnmRange print_area, full_sheet, r;
 
-	range_init_full_sheet (&print_area, sheet);
+	range_init_full_sheet (&full_sheet, sheet);
+	print_area = full_sheet;
 
 	g_return_val_if_fail (IS_SHEET (sheet), print_area);
 
 	parse_pos_init_sheet (&pos, sheet);
 	nexpr = expr_name_lookup (&pos, "Print_Area");
 	if (nexpr != NULL) {
-		val = gnm_expr_top_get_range (nexpr->texpr);
+		GnmValue *val = gnm_expr_top_get_range (nexpr->texpr);
 		if (val != NULL) {
-			r_ref = value_get_rangeref (val);
-			if (r_ref != NULL) {
-				range_init_rangeref (&print_area,
-						     r_ref);
-			}
+			GnmRangeRef const *r_ref = value_get_rangeref (val);
+			if (r_ref != NULL)
+				range_init_rangeref (&print_area, r_ref);
 			value_release (val);
 		}
 	}
-	
 
 	/* We are now trying to fix any problems with the print area */
-	while (print_area.start.col < 0)
-		print_area.start.col += gnm_sheet_get_max_cols (sheet);
-	while (print_area.start.row < 0)
-		print_area.start.row += gnm_sheet_get_max_rows (sheet);
-	while (print_area.end.col < 0)
-		print_area.end.col += gnm_sheet_get_max_cols (sheet);
-	while (print_area.end.row < 0)
-		print_area.end.row += gnm_sheet_get_max_rows (sheet);
-
-	if (print_area.start.col > print_area.end.col) {
-		int col = print_area.end.col;
-		print_area.end.col = print_area.start.col;
-		print_area.start.col = col;
-	}
-	if (print_area.start.row > print_area.end.row) {
-		int row = print_area.end.row;
-		print_area.end.row = print_area.start.row;
-		print_area.start.row = row;
-	}
-
-	range_ensure_sanity (&print_area, sheet);
+	if (range_intersection (&r, &print_area, &full_sheet))
+		print_area = r;
+	else
+		print_area = full_sheet;
 
 	return print_area;
 }
