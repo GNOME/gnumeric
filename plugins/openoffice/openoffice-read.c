@@ -854,7 +854,7 @@ two_quotes :
 		ref->sheet = NULL;
 	}
 
-	ss = gnm_sheet_get_size (pp->sheet);
+	ss = gnm_sheet_get_size (eval_sheet (ref->sheet, pp->sheet));
 
 	tmp1 = col_parse (ptr, ss, &ref->col, &ref->col_relative);
 	if (!tmp1)
