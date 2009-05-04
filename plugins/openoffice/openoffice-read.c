@@ -3112,32 +3112,26 @@ openoffice_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel p
 gboolean
 openoffice_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
-	gboolean ext_ok = FALSE;
+	GsfInfile *zip;
+	OOVer ver;
+
+	gboolean old_ext_ok = FALSE;
 	char const *name = gsf_input_name (input);
 	if (name) {
 		name = gsf_extension_pointer (name);
-		ext_ok = (name != NULL &&
-			  (g_ascii_strcasecmp (name, "ods") == 0 ||
-			   g_ascii_strcasecmp (name, "odt") == 0 ||
-			   g_ascii_strcasecmp (name, "sxc") == 0 ||
-			   g_ascii_strcasecmp (name, "stc") == 0));
+		old_ext_ok = (name != NULL &&
+			      (g_ascii_strcasecmp (name, "sxc") == 0 ||
+			       g_ascii_strcasecmp (name, "stc") == 0));
 	}
 
-	if (pl == FILE_PROBE_CONTENT) {
-		GsfInfile	*zip;
-		OOVer           ver;
+	zip = gsf_infile_zip_new (input, NULL);
+	if (zip == NULL)
+		return FALSE;
 
-		zip = gsf_infile_zip_new (input, NULL);
-		if (zip == NULL)
-			return FALSE;
+	ver = determine_oo_version
+		(zip, old_ext_ok ? OOO_VER_1 : OOO_VER_UNKNOWN);
 
-		ver = determine_oo_version
-			(zip, ext_ok ? OOO_VER_1 : OOO_VER_UNKNOWN);
+	g_object_unref (zip);
 
-		g_object_unref (zip);
-
-		return ver != OOO_VER_UNKNOWN;
-	} else {
-		return ext_ok;
-	}
+	return ver != OOO_VER_UNKNOWN;
 }
