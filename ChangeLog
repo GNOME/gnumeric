@@ -1,3 +1,9 @@
+2009-05-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gnm-so-filled.c (gnm_so_filled_draw_cairo) use 
+	  pango_layout_set_text rather than pango_layout_set_markup
+	  fixes #581125
+
 2009-05-03  Morten Welinder  <terra@gnome.org>
 
 	* src/expr-name.c (expr_name_handle_references): Undo last change.

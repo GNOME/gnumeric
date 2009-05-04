@@ -295,7 +295,7 @@ gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 				   - sof->margin_pts.right) * PANGO_SCALE;
 		cairo_move_to (cr, sof->margin_pts.left, 
 			       sof->margin_pts.top);
-		pango_layout_set_markup (pl, sof->text, -1);
+		pango_layout_set_text (pl, sof->text, -1);
 		pango_layout_set_attributes (pl, sof->markup);
 		pango_layout_set_width (pl, pl_width);
 		pango_layout_set_height (pl, pl_height);

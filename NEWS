@@ -4,6 +4,7 @@ Andreas:
 	* Fix some divergence between character weight in the label properties
 	  dialog and the label itself.
 	* Add interface to format cell comments
+	* Fix printing of sheet objects whose text intersects with markup. [#581125]
 
 Jean:
 	* Do not crash in rendr_value for NULL values. [#581120]
