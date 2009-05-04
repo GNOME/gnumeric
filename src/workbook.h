@@ -58,7 +58,8 @@ GPtrArray  *workbook_cells               (Workbook *wb, gboolean comments,
 					  GnmSheetVisibility vis);
 GSList     *workbook_local_functions	 (Workbook const *wb);
 
-void workbook_foreach_name (Workbook const *wb, GHFunc func, gpointer data);
+void workbook_foreach_name (Workbook const *wb, gboolean globals_only,
+			    GHFunc func, gpointer data);
 
 
 /* Calculation */

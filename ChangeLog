@@ -1,3 +1,11 @@
+2009-05-04  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook.c (workbook_foreach_name): Add extra globals_only
+	flag.  Caller changed.
+
+	* src/dependent.c (dependents_relocate): Relocate sheet-local and
+	global names too.  Minor issues remain.
+
 2009-05-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gnm-so-filled.c (gnm_so_filled_draw_cairo) use 

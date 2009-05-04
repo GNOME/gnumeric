@@ -5253,7 +5253,7 @@ excel_write_WRITEACCESS (BiffPut *bp)
 static void
 excel_foreach_name (ExcelWriteState *ewb, GHFunc func)
 {
-	workbook_foreach_name (ewb->base.wb, func, ewb);
+	workbook_foreach_name (ewb->base.wb, FALSE, func, ewb);
 }
 
 static void

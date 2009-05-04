@@ -1925,6 +1925,58 @@ cb_collect_names (GnmNamedExpr *nexpr,
 	*l = g_slist_prepend (*l, nexpr);
 }
 
+struct cb_remote_names {
+	GSList *names;
+	Workbook *wb;
+};
+
+static void
+cb_remote_names1 (G_GNUC_UNUSED const char *name,
+		  GnmNamedExpr *nexpr,
+		  struct cb_remote_names *data)
+{
+	data->names = g_slist_prepend (data->names, nexpr);
+}
+
+static void
+cb_remote_names2 (GnmNamedExpr *nexpr,
+		  G_GNUC_UNUSED gpointer value,
+		  struct cb_remote_names *data)
+{
+	Workbook *wb =
+		nexpr->pos.sheet ? nexpr->pos.sheet->workbook : nexpr->pos.wb;
+	if (wb != data->wb)
+		data->names = g_slist_prepend (data->names, nexpr);
+}
+
+/*
+ * Get a list of all names that (may) reference data in a given sheet.
+ * This is approximated as all names in the sheet, all global names in
+ * its workbook, and all external references that actually mention the
+ * sheet explicitly.
+ */
+static GSList *
+names_referencing_sheet (Sheet *sheet)
+{
+	struct cb_remote_names data;
+
+	data.names = NULL;
+	data.wb = sheet->workbook;
+
+	workbook_foreach_name (sheet->workbook, TRUE,
+			       (GHFunc)cb_remote_names1,
+			       &data);
+	gnm_sheet_foreach_name (sheet, (GHFunc)cb_remote_names1, &data);
+
+	if (sheet->deps->referencing_names)
+		g_hash_table_foreach (sheet->deps->referencing_names,
+				      (GHFunc)cb_remote_names2,
+				      &data);
+
+	return data.names;
+}
+
+
 /**
  * dependents_relocate:
  * @rinfo : the descriptor record for what is being moved where.
@@ -2059,12 +2111,8 @@ dependents_relocate (GnmExprRelocateInfo const *rinfo)
 
 	case GNM_EXPR_RELOCATE_COLS:
 	case GNM_EXPR_RELOCATE_ROWS: {
-		GSList *names = NULL, *l;
+		GSList *l, *names = names_referencing_sheet (sheet);
 
-		if (sheet->deps->referencing_names)
-			g_hash_table_foreach (sheet->deps->referencing_names,
-					      (GHFunc)cb_collect_names,
-					      &names);
 		for (l = names; l; l = l->next) {
 			GnmNamedExpr *nexpr = l->data;
 			GnmExprTop const *newtree =
