@@ -1,3 +1,9 @@
+2009-05-04  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (openoffice_file_probe): Handle certain
+	suffixes too, even if file has no mimetype.  Fixes #581143
+	except for a go_plugin_file_opener_can_probe problem.
+
 2009-04-25  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.6

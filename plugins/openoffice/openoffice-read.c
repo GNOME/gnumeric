@@ -59,6 +59,7 @@
 #include <gsf/gsf-opendoc-utils.h>
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-output-stdio.h>
+#include <gsf/gsf-utils.h>
 #include <glib/gi18n-lib.h>
 
 #include <goffice/graph/gog-chart.h>
@@ -3111,16 +3112,32 @@ openoffice_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel p
 gboolean
 openoffice_file_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
-	GsfInfile	*zip;
-	OOVer           ver;
+	gboolean ext_ok = FALSE;
+	char const *name = gsf_input_name (input);
+	if (name) {
+		name = gsf_extension_pointer (name);
+		ext_ok = (name != NULL &&
+			  (g_ascii_strcasecmp (name, "ods") == 0 ||
+			   g_ascii_strcasecmp (name, "odt") == 0 ||
+			   g_ascii_strcasecmp (name, "sxc") == 0 ||
+			   g_ascii_strcasecmp (name, "stc") == 0));
+	}
 
-	zip = gsf_infile_zip_new (input, NULL);
-	if (zip == NULL)
-		return FALSE;
+	if (pl == FILE_PROBE_CONTENT) {
+		GsfInfile	*zip;
+		OOVer           ver;
 
-	ver = determine_oo_version (zip, OOO_VER_UNKNOWN);
+		zip = gsf_infile_zip_new (input, NULL);
+		if (zip == NULL)
+			return FALSE;
 
-	g_object_unref (zip);
+		ver = determine_oo_version
+			(zip, ext_ok ? OOO_VER_1 : OOO_VER_UNKNOWN);
 
-	return ver != OOO_VER_UNKNOWN;
+		g_object_unref (zip);
+
+		return ver != OOO_VER_UNKNOWN;
+	} else {
+		return ext_ok;
+	}
 }
