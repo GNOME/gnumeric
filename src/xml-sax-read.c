@@ -2322,9 +2322,8 @@ handle_delayed_names (XMLSaxParseState *state)
 		if (pos_str) {
 			GnmCellRef tmp;
 			char const *rest;
-			GnmSheetSize const *ss = sheet
-				? gnm_sheet_get_size (sheet)
-				: workbook_get_sheet_size (state->wb);
+			GnmSheetSize const *ss =
+				gnm_sheet_get_size2 (sheet, state->wb);
 			rest = cellref_parse (&tmp, ss, pos_str, &pp.eval);
 			if (rest != NULL && *rest == '\0') {
 				pp.eval.col = tmp.col;

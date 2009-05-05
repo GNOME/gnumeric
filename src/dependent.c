@@ -2112,12 +2112,14 @@ dependents_relocate (GnmExprRelocateInfo const *rinfo)
 	case GNM_EXPR_RELOCATE_COLS:
 	case GNM_EXPR_RELOCATE_ROWS: {
 		GSList *l, *names = names_referencing_sheet (sheet);
+		GnmExprRelocateInfo rinfo2 = *rinfo;
 
 		for (l = names; l; l = l->next) {
 			GnmNamedExpr *nexpr = l->data;
-			GnmExprTop const *newtree =
-				gnm_expr_top_relocate (nexpr->texpr,
-						       rinfo, TRUE);
+			GnmExprTop const *newtree;
+			rinfo2.pos = nexpr->pos;
+			newtree = gnm_expr_top_relocate (nexpr->texpr,
+							 &rinfo2, TRUE);
 			if (newtree) {
 				GOUndo *u = expr_name_set_expr_undo_new (nexpr);
 				u_names = go_undo_combine (u_names, u);
@@ -2868,38 +2870,6 @@ dump_dynamic_dep (gpointer key, G_GNUC_UNUSED gpointer value,
 	g_string_free (out.accum, TRUE);
 }
 
-static void
-cb_dump_name_dep (gpointer key, G_GNUC_UNUSED gpointer value,
-		  gpointer closure)
-{
-	GnmDependent *dep = key;
-	GString *target = closure;
-
-	if (target->str[target->len - 1] != '[')
-		g_string_append (target, ", ");
-	dependent_debug_name (dep, target);
-}
-
-static void
-dump_name_dep (gpointer key, G_GNUC_UNUSED gpointer value,
-	       G_GNUC_UNUSED gpointer closure)
-{
-	GnmNamedExpr *nexpr = key;
-	GString *target = g_string_new (NULL);
-
-	g_string_append (target, "    ");
-	if (!nexpr->active) g_string_append_c (target, '(');
-	g_string_append (target, nexpr->name->str);
-	if (!nexpr->active) g_string_append_c (target, ')');
-	g_string_append (target, " -> [");
-	if (nexpr->dependents)
-		g_hash_table_foreach (nexpr->dependents, cb_dump_name_dep, target);
-	g_string_append (target, "]");
-
-	g_printerr ("%s\n", target->str);
-	g_string_free (target, TRUE);
-}
-
 /**
  * gnm_dep_container_dump :
  * @deps :
@@ -2946,9 +2916,20 @@ gnm_dep_container_dump (GnmDepContainer const *deps,
 	}
 
 	if (deps->referencing_names && g_hash_table_size (deps->referencing_names) > 0) {
-		g_printerr ("  Names whose expressions reference this sheet mapped to dependencies\n");
+		GSList *l, *names = NULL;
+
 		g_hash_table_foreach (deps->referencing_names,
-				      dump_name_dep, NULL);
+				      (GHFunc)cb_collect_names,
+				      &names);
+
+		g_printerr ("  Names whose expressions explicitly reference this sheet\n    ");
+		for (l = names; ; l = l->next) {
+			GnmNamedExpr *nexpr = l->data;
+			g_printerr ("%s%s",
+				    expr_name_name (nexpr),
+				    l->next ? ", " : "\n");
+		}
+		g_slist_free (names);
 	}
 }
 

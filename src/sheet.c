@@ -5702,3 +5702,11 @@ gnm_sheet_get_size (Sheet const *sheet)
 
 	return &sheet->size;
 }
+
+GnmSheetSize const *
+gnm_sheet_get_size2 (Sheet const *sheet, Workbook const *wb)
+{
+	return sheet
+		? gnm_sheet_get_size (sheet)
+		: workbook_get_sheet_size (wb);
+}

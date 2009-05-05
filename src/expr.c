@@ -1899,14 +1899,17 @@ reloc_normalize_cellref (RelocInfoInternal const *rinfo, GnmCellRef const *ref,
 /* Return TRUE if @pos is out of bounds */
 static gboolean
 reloc_restore_cellref (RelocInfoInternal const *rinfo,
-		       Sheet *sheet, GnmCellPos const *pos,
+		       GnmSheetSize const *ss, GnmCellPos const *pos,
 		       GnmCellRef *res)
 {
-	if (res->sheet == rinfo->details->origin_sheet)
+	if (res->sheet == rinfo->details->origin_sheet) {
 		res->sheet = rinfo->details->target_sheet;
+		if (res->sheet)
+			ss = gnm_sheet_get_size (res->sheet);
+	}
 
-	if (!res->col_relative  || rinfo->check_rels) {
-		if (pos->col < 0 || gnm_sheet_get_max_cols (sheet) <= pos->col)
+	if (!res->col_relative || rinfo->check_rels) {
+		if (pos->col < 0 || ss->max_cols <= pos->col)
 			return TRUE;
 		res->col = pos->col;
 		if (res->col_relative) {
@@ -1915,8 +1918,9 @@ reloc_restore_cellref (RelocInfoInternal const *rinfo,
 				res->col -= rinfo->details->col_offset;
 		}
 	}
-	if (!res->row_relative  || rinfo->check_rels) {
-		if (pos->row < 0 || gnm_sheet_get_max_rows (sheet) <= pos->row)
+
+	if (!res->row_relative || rinfo->check_rels) {
+		if (pos->row < 0 || ss->max_rows <= pos->row)
 			return TRUE;
 		res->row = pos->row;
 		if (res->row_relative) {
@@ -1936,6 +1940,7 @@ reloc_cellrange (RelocInfoInternal const *rinfo, GnmValueRange const *v,
 {
 	GnmRange r;
 	Sheet   *start_sheet, *end_sheet;
+	GnmSheetSize const *start_ss, *end_ss;
 	gboolean full_col, full_row;
 	gboolean full_col_begin, full_row_begin;
 
@@ -1949,11 +1954,13 @@ reloc_cellrange (RelocInfoInternal const *rinfo, GnmValueRange const *v,
 	/* (Foo,NULL) in Bar will generate (Foo,Bar) in normalize */
 	if (NULL == v->cell.b.sheet)
 		end_sheet = start_sheet;
+	start_ss = gnm_sheet_get_size2 (start_sheet, rinfo->details->pos.wb);
+	end_ss = gnm_sheet_get_size2 (end_sheet, rinfo->details->pos.wb);
 
-	full_col = sticky_end && r.end.row >= gnm_sheet_get_last_row (start_sheet);
+	full_col = sticky_end && r.end.row >= start_ss->max_rows - 1;
 	full_col_begin = full_col && r.start.row == 0;
 
-	full_row = sticky_end && r.end.col >= gnm_sheet_get_last_col (start_sheet);
+	full_row = sticky_end && r.end.col >= start_ss->max_cols - 1;
 	full_row_begin = full_row && r.start.col == 0;
 
 	if (reloc_range (rinfo->details, start_sheet, end_sheet, &r) ||
@@ -1961,16 +1968,16 @@ reloc_cellrange (RelocInfoInternal const *rinfo, GnmValueRange const *v,
 		GnmRangeRef res = v->cell;
 
 		if (full_col)
-			r.end.row = gnm_sheet_get_last_row (start_sheet);
+			r.end.row = start_ss->max_rows - 1;
 		if (full_col_begin)
 			r.start.row = 0;
 		if (full_row)
-			r.end.col = gnm_sheet_get_last_col (start_sheet);
+			r.end.col = start_ss->max_cols - 1;
 		if (full_row_begin)
 			r.start.col = 0;
 
-		if (reloc_restore_cellref (rinfo, start_sheet, &r.start, &res.a) ||
-		    reloc_restore_cellref (rinfo, end_sheet,   &r.end,   &res.b))
+		if (reloc_restore_cellref (rinfo, start_ss, &r.start, &res.a) ||
+		    reloc_restore_cellref (rinfo, end_ss,   &r.end,   &res.b))
 			return gnm_expr_new_constant (value_new_error_REF (NULL));
 		if (gnm_rangeref_equal (&res, &v->cell))
 			return NULL;
@@ -2142,15 +2149,17 @@ gnm_expr_relocate (GnmExpr const *expr, RelocInfoInternal const *rinfo)
 		case GNM_EXPR_RELOCATE_COLS:
 		case GNM_EXPR_RELOCATE_ROWS: {
 			GnmRange r;
-			Sheet   *sheet;
+			Sheet *sheet;
+			GnmSheetSize const *ss;
 
 			reloc_normalize_cellref (rinfo, ref, &sheet, &r.start);
 			r.end = r.start;
+			ss = gnm_sheet_get_size2 (sheet, rinfo->details->pos.wb);
 
 			if (reloc_range (rinfo->details, sheet, sheet, &r) ||
 			    rinfo->from_inside) {
 				GnmCellRef res = *ref;
-				if (reloc_restore_cellref (rinfo, sheet, &r.start, &res))
+				if (reloc_restore_cellref (rinfo, ss, &r.start, &res))
 					return gnm_expr_new_constant (value_new_error_REF (NULL));
 				if (gnm_cellref_equal (&res, ref))
 					return NULL;

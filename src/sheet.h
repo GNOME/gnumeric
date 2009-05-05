@@ -135,6 +135,8 @@ void      gnm_sheet_suggest_size (int *cols, int *rows);
 GOUndo   *gnm_sheet_resize       (Sheet *sheet, int cols, int rows, GOCmdContext *cc);
 
 GnmSheetSize const *gnm_sheet_get_size (Sheet const *sheet);
+GnmSheetSize const *gnm_sheet_get_size2 (Sheet const *sheet,
+					 Workbook const *wb);
 #define gnm_sheet_get_max_rows(sheet) (gnm_sheet_get_size(sheet)->max_rows)
 #define gnm_sheet_get_max_cols(sheet) (gnm_sheet_get_size(sheet)->max_cols)
 #define gnm_sheet_get_last_col(sheet) (gnm_sheet_get_max_cols(sheet) - 1)

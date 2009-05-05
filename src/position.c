@@ -419,9 +419,7 @@ gnm_rangeref_normalize_pp (GnmRangeRef const *ref, GnmParsePos const *pp,
 	*start_sheet = eval_sheet (ref->a.sheet, pp->sheet);
 	*end_sheet   = eval_sheet (ref->b.sheet, *start_sheet);
 
-	ss = *start_sheet
-		? gnm_sheet_get_size (*start_sheet)
-		: workbook_get_sheet_size (pp->wb);
+	ss = gnm_sheet_get_size2 (*start_sheet, pp->wb);
 	gnm_cellpos_init_cellref_ss (&dest->start, &ref->a, &pp->eval, ss);
 
 	ss = *end_sheet

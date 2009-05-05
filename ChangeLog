@@ -1,5 +1,24 @@
 2009-05-04  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (gnm_sheet_get_size2): New function.
+
+	* src/parse-util.c (cellref_as_string, r1c1_rangeref_parse,
+	rangeref_as_string, rangeref_parse): Simplify using
+	gnm_sheet_get_size2.
+
+	* src/position.c (gnm_rangeref_normalize_pp): Simplify using
+	gnm_sheet_get_size2.
+
+	* src/xml-sax-read.c (handle_delayed_names): Simplify using
+	gnm_sheet_get_size2.
+
+	* src/expr.c (reloc_restore_cellref): Take a GnmSheetSize, not a
+	Sheet.  All callers changed.
+
+	* src/dependent.c (dependents_relocate): Relocate names with
+	respect to the right GnmParsePos.
+	(gnm_dep_container_dump): Just list the names.
+
 	* src/workbook.c (workbook_foreach_name): Add extra globals_only
 	flag.  Caller changed.
 

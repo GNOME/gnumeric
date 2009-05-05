@@ -273,9 +273,8 @@ cellref_as_string (GnmConventionsOut *out,
 	} else {
 		GnmCellPos pos;
 		Sheet const *size_sheet = eval_sheet (sheet, out->pp->sheet);
-		GnmSheetSize const *ss = size_sheet
-			? gnm_sheet_get_size (size_sheet)
-			: workbook_get_sheet_size (out->pp->wb);
+		GnmSheetSize const *ss =
+			gnm_sheet_get_size2 (size_sheet, out->pp->wb);
 
 		gnm_cellpos_init_cellref_ss (&pos, cell_ref, &out->pp->eval, ss);
 
@@ -305,9 +304,7 @@ rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 
 	gnm_rangeref_normalize_pp (ref, out->pp, &start_sheet, &end_sheet, &r);
 
-	end_ss = end_sheet
-		? gnm_sheet_get_size (end_sheet)
-		: workbook_get_sheet_size (out->pp->wb);
+	end_ss = gnm_sheet_get_size2 (end_sheet, out->pp->wb);
 
 	if (ref->a.sheet) {
 		if (NULL != out->pp->wb && ref->a.sheet->workbook != out->pp->wb) {
@@ -960,10 +957,8 @@ r1c1_rangeref_parse (GnmRangeRef *res, char const *ptr, GnmParsePos const *pp)
 	a_sheet = eval_sheet (res->a.sheet, pp->sheet);
 	b_sheet = eval_sheet (res->b.sheet, a_sheet);
 
-	a_ss = a_sheet
-		? gnm_sheet_get_size (a_sheet)
-		: workbook_get_sheet_size (pp->wb);
-	b_ss = b_sheet ? gnm_sheet_get_size (b_sheet) : a_ss;
+	a_ss = gnm_sheet_get_size2 (a_sheet, pp->wb);
+	b_ss = gnm_sheet_get_size2 (b_sheet, pp->wb);
 
 	if (*ptr == 'R' || *ptr == 'r') {
 		ptr = r1c1_get_index (ptr, a_ss,
@@ -1083,10 +1078,8 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 	a_sheet = eval_sheet (res->a.sheet, pp->sheet);
 	b_sheet = eval_sheet (res->b.sheet, a_sheet);
 
-	a_ss = a_sheet
-		? gnm_sheet_get_size (a_sheet)
-		: workbook_get_sheet_size (pp->wb);
-	b_ss = b_sheet ? gnm_sheet_get_size (b_sheet) : a_ss;
+	a_ss = gnm_sheet_get_size2 (a_sheet, pp->wb);
+	b_ss = gnm_sheet_get_size2 (b_sheet, pp->wb);
 
 	tmp1 = col_parse (ptr, a_ss, &res->a.col, &res->a.col_relative);
 	if (tmp1 == NULL) { /* check for row only ref 2:3 */
