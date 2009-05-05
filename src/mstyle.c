@@ -39,6 +39,65 @@ static GOMemChunk *gnm_style_pool;
 #define CHUNK_FREE(p,v) g_free ((v))
 #endif
 
+#define UNROLLED_FOR(init_,cond_,step_,code_)			\
+do {								\
+	init_;							\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	if (cond_) { code_; step_;				\
+	g_assert_not_reached ();				\
+	}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}	\
+} while (0)
+
+
+
 static char const * const
 gnm_style_element_name[MSTYLE_ELEMENT_MAX] = {
 	"Color.Back",
@@ -217,48 +276,66 @@ gnm_style_hash (gconstpointer style)
 	return ((GnmStyle const *)style)->hash_key;
 }
 
-static inline gboolean
+#define ELEM_IS_EQ(a,b,elem)						\
+    (elem == MSTYLE_COLOR_BACK						\
+    ? a->color.back == b->color.back ||	(a->color.back->is_auto && b->color.back->is_auto) \
+    : (elem == MSTYLE_COLOR_PATTERN					\
+    ? a->color.pattern == b->color.pattern || (a->color.pattern->is_auto && b->color.pattern->is_auto) \
+    : (elem >= MSTYLE_BORDER_TOP && elem <= MSTYLE_BORDER_DIAGONAL)	\
+    ? a->borders[elem - MSTYLE_BORDER_TOP] == b->borders[elem - MSTYLE_BORDER_TOP] \
+    : (elem == MSTYLE_PATTERN						\
+    ? a->pattern == b->pattern						\
+    : (elem == MSTYLE_FONT_COLOR					\
+    ? a->color.font == b->color.font || (a->color.font->is_auto && b->color.font->is_auto) \
+    : (elem == MSTYLE_FONT_NAME						\
+    ? a->font_detail.name == b->font_detail.name			\
+    : (elem == MSTYLE_FONT_BOLD						\
+    ? a->font_detail.bold == b->font_detail.bold			\
+    : (elem == MSTYLE_FONT_ITALIC					\
+    ? a->font_detail.italic == b->font_detail.italic			\
+    : (elem == MSTYLE_FONT_UNDERLINE					\
+    ? a->font_detail.underline == b->font_detail.underline		\
+    : (elem == MSTYLE_FONT_STRIKETHROUGH				\
+    ? a->font_detail.strikethrough == b->font_detail.strikethrough	\
+    : (elem == MSTYLE_FONT_SCRIPT					\
+    ? a->font_detail.script == b->font_detail.script			\
+    : (elem == MSTYLE_FONT_SIZE						\
+    ? a->font_detail.size == b->font_detail.size			\
+    : (elem == MSTYLE_FORMAT						\
+    ? a->format == b->format						\
+    : (elem == MSTYLE_ALIGN_V						\
+    ? a->v_align == b->v_align						\
+    : (elem == MSTYLE_ALIGN_H						\
+    ? a->h_align == b->h_align						\
+    : (elem == MSTYLE_INDENT						\
+    ? a->indent == b->indent						\
+    : (elem == MSTYLE_ROTATION						\
+    ? a->rotation == b->rotation					\
+    : (elem == MSTYLE_TEXT_DIR						\
+    ? a->text_dir == b->text_dir					\
+    : (elem == MSTYLE_WRAP_TEXT						\
+    ? a->wrap_text == b->wrap_text					\
+    : (elem == MSTYLE_SHRINK_TO_FIT					\
+    ? a->shrink_to_fit == b->shrink_to_fit				\
+    : (elem == MSTYLE_CONTENTS_LOCKED					\
+    ? a->contents_locked == b->contents_locked				\
+    : (elem == MSTYLE_CONTENTS_HIDDEN					\
+    ? a->contents_hidden == b->contents_hidden				\
+    : (elem == MSTYLE_VALIDATION					\
+    ? a->validation == b->validation					\
+    : (elem == MSTYLE_HLINK						\
+    ? a->hlink == b->hlink						\
+    : (elem == MSTYLE_INPUT_MSG						\
+    ? a->input_msg == b->input_msg					\
+    : (elem == MSTYLE_CONDITIONS					\
+    ? a->conditions == b->conditions					\
+    : FALSE)))))))))))))))))))))))))
+
+
+static gboolean
 elem_is_eq (GnmStyle const *a, GnmStyle const *b, GnmStyleElement elem)
 {
-	switch (elem) {
-	case MSTYLE_COLOR_BACK :
-		return a->color.back == b->color.back ||
-			(a->color.back->is_auto && b->color.back->is_auto);
-	case MSTYLE_COLOR_PATTERN :
-		return a->color.pattern == b->color.pattern ||
-			(a->color.pattern->is_auto && b->color.pattern->is_auto);
-	case MSTYLE_ANY_BORDER: {
-		int i = elem - MSTYLE_BORDER_TOP;
-		return a->borders[i] == b->borders[i];
-	}
-	case MSTYLE_PATTERN:		return a->pattern == b->pattern;
-	case MSTYLE_FONT_COLOR :
-		return a->color.font == b->color.font ||
-			(a->color.font->is_auto && b->color.font->is_auto);
-	case MSTYLE_FONT_NAME:		return a->font_detail.name == b->font_detail.name;
-	case MSTYLE_FONT_BOLD:		return a->font_detail.bold == b->font_detail.bold;
-	case MSTYLE_FONT_ITALIC:	return a->font_detail.italic == b->font_detail.italic;
-	case MSTYLE_FONT_UNDERLINE:	return a->font_detail.underline == b->font_detail.underline;
-	case MSTYLE_FONT_STRIKETHROUGH:	return a->font_detail.strikethrough == b->font_detail.strikethrough;
-	case MSTYLE_FONT_SCRIPT:	return a->font_detail.script == b->font_detail.script;
-	case MSTYLE_FONT_SIZE:		return a->font_detail.size == b->font_detail.size;
-	case MSTYLE_FORMAT:		return a->format == b->format;
-	case MSTYLE_ALIGN_V:		return a->v_align == b->v_align;
-	case MSTYLE_ALIGN_H:		return a->h_align == b->h_align;
-	case MSTYLE_INDENT:		return a->indent == b->indent;
-	case MSTYLE_ROTATION:		return a->rotation == b->rotation;
-	case MSTYLE_TEXT_DIR:		return a->text_dir == b->text_dir;
-	case MSTYLE_WRAP_TEXT:		return a->wrap_text == b->wrap_text;
-	case MSTYLE_SHRINK_TO_FIT:	return a->shrink_to_fit == b->shrink_to_fit;
-	case MSTYLE_CONTENTS_LOCKED:	return a->contents_locked == b->contents_locked;
-	case MSTYLE_CONTENTS_HIDDEN:	return a->contents_hidden == b->contents_hidden;
-	case MSTYLE_VALIDATION:		return a->validation == b->validation;
-	case MSTYLE_HLINK:		return a->hlink == b->hlink;
-	case MSTYLE_INPUT_MSG:		return a->input_msg == b->input_msg;
-	case MSTYLE_CONDITIONS:		return a->conditions == b->conditions;
-	default:
-					return FALSE;
-	}
+	return ELEM_IS_EQ (a, b, elem);
 }
 
 static void
@@ -751,14 +828,15 @@ gnm_style_equal (GnmStyle const *a, GnmStyle const *b)
 {
 	int i;
 
-	g_return_val_if_fail (a != NULL, FALSE);
-	g_return_val_if_fail (b != NULL, FALSE);
-
+	if (!gnm_style_equal_XL (a, b))
+		return FALSE;
 	if (a == b)
 		return TRUE;
-	for (i = MSTYLE_COLOR_BACK; i < MSTYLE_ELEMENT_MAX; i++)
-		if (!elem_is_eq (a, b, i))
+	UNROLLED_FOR (i = MSTYLE_VALIDATION, i < MSTYLE_ELEMENT_MAX, i++, {
+		if (!ELEM_IS_EQ (a, b, i))
 			return FALSE;
+	});
+
 	return TRUE;
 }
 
@@ -772,9 +850,10 @@ gnm_style_equal_XL (GnmStyle const *a, GnmStyle const *b)
 
 	if (a == b)
 		return TRUE;
-	for (i = MSTYLE_COLOR_BACK; i < MSTYLE_VALIDATION; i++)
-		if (!elem_is_eq (a, b, i))
+	UNROLLED_FOR (i = MSTYLE_COLOR_BACK, i < MSTYLE_VALIDATION, i++, {
+		if (!ELEM_IS_EQ (a, b, i))
 			return FALSE;
+	});
 	return TRUE;
 }
 
