@@ -17,6 +17,7 @@ gnumeric-paths.h
 ssconvert
 ssindex
 ssgrep
+sstest
 test-pango
 GNOME_Gnumeric-gtk.xml
 HILDON_Gnumeric-gtk.xml

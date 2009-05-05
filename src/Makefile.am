@@ -8,6 +8,7 @@ lib_LTLIBRARIES = libspreadsheet.la
 
 bin_PROGRAMS =
 check_PROGRAMS =
+noinst_PROGRAMS = sstest
 
 if WITH_GTK
   SUBDIRS += pixmaps dialogs widgets
@@ -306,6 +307,10 @@ ssgrep_LDADD   = $(gnumeric_LDADD)
 ssgrep_LDFLAGS = -export-dynamic
 ssgrep_SOURCES =				\
 	ssgrep.c
+sstest_LDADD   = $(gnumeric_LDADD)
+sstest_LDFLAGS = -export-dynamic
+sstest_SOURCES =				\
+	sstest.c
 
 test_pango_LDADD   = $(gnumeric_LDADD)
 test_pango_LDFLAGS = -export-dynamic
