@@ -108,77 +108,96 @@ gnm_style_update (GnmStyle *style)
 	if (style->color.back && !style->color.back->is_auto)
 		hash ^= GPOINTER_TO_UINT (style->color.back);
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
 	if (style->color.pattern && !style->color.pattern->is_auto)
 		hash ^= GPOINTER_TO_UINT (style->color.pattern);
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
 	if (style->color.font && !style->color.font->is_auto)
 		hash ^= GPOINTER_TO_UINT (style->color.font);
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
 
-	for (i = GNM_STYLE_BORDER_TOP; i <= GNM_STYLE_BORDER_DIAG; i++) {
-		hash ^= GPOINTER_TO_UINT (style->borders[i]);
+	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
+		hash ^= GPOINTER_TO_UINT (style->borders[i - MSTYLE_BORDER_TOP]);
 		hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
 	}
-	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
 	hash ^= style->pattern;
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
 	hash ^= GPOINTER_TO_UINT (style->font_detail.name);
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
 	if (style->font_detail.bold) {
 		hash ^= 0x1379;
 		hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
 	}
+
 	if (style->font_detail.italic) {
 		hash ^= 0x1379;
 		hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
 	}
+
 	hash ^= style->font_detail.underline;
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
-	if (style->font_detail.strikethrough) {
+
+	if (style->font_detail.strikethrough)
 		hash ^= 0x1379;
-		hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
-	}
+	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
 	hash ^= ((int)(style->font_detail.size * 97));
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
 	hash ^= GPOINTER_TO_UINT (style->format);
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
 	hash ^= style->h_align;
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
 	hash ^= style->v_align;
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
 	hash ^= style->indent;
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
 	hash ^= style->rotation;
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
 	hash ^= style->text_dir;
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
-	if (style->wrap_text) {
+
+	if (style->wrap_text)
 		hash ^= 0x1379;
-		hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
-	}
-	if (style->shrink_to_fit) {
+	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
+	if (style->shrink_to_fit)
 		hash ^= 0x1379;
-		hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
-	}
-	if (style->contents_locked) {
+	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
+	if (style->contents_locked)
 		hash ^= 0x1379;
-		hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
-	}
-	if (style->contents_hidden) {
+	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
+	if (style->contents_hidden)
 		hash ^= 0x1379;
-		hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
-	}
+	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
 	style->hash_key_xl = hash;
 
-	/* not in MS XL */
+	/* From here on, fields are not in MS XL */
+
 	hash ^= GPOINTER_TO_UINT (style->validation);
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
 	hash ^= GPOINTER_TO_UINT (style->hlink);
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
 	hash ^= GPOINTER_TO_UINT (style->input_msg);
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
 	hash ^= GPOINTER_TO_UINT (style->conditions);
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
+
 	style->hash_key = hash;
 }
 
@@ -198,7 +217,7 @@ gnm_style_hash (gconstpointer style)
 	return ((GnmStyle const *)style)->hash_key;
 }
 
-static gboolean
+static inline gboolean
 elem_is_eq (GnmStyle const *a, GnmStyle const *b, GnmStyleElement elem)
 {
 	switch (elem) {
@@ -208,9 +227,10 @@ elem_is_eq (GnmStyle const *a, GnmStyle const *b, GnmStyleElement elem)
 	case MSTYLE_COLOR_PATTERN :
 		return a->color.pattern == b->color.pattern ||
 			(a->color.pattern->is_auto && b->color.pattern->is_auto);
-	case MSTYLE_ANY_BORDER:
-		elem -= MSTYLE_BORDER_TOP;
-		return a->borders[elem] == b->borders[elem];
+	case MSTYLE_ANY_BORDER: {
+		int i = elem - MSTYLE_BORDER_TOP;
+		return a->borders[i] == b->borders[i];
+	}
 	case MSTYLE_PATTERN:		return a->pattern == b->pattern;
 	case MSTYLE_FONT_COLOR :
 		return a->color.font == b->color.font ||
@@ -353,17 +373,19 @@ gnm_style_find_conflicts (GnmStyle *accum, GnmStyle const *overlay,
 {
 	int i;
 
+	g_assert (MSTYLE_ELEMENT_MAX <= CHAR_BIT * sizeof (conflicts));
+
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
-		if (conflicts & (1 << i) ||
-		    !elem_is_set (overlay, i))
-			continue;
-		if (!elem_is_set (accum, i)) {
+		if (conflicts & (1 << i) || !elem_is_set (overlay, i)) {
+			/* Nothing */
+		} else if (!elem_is_set (accum, i)) {
 			elem_assign_contents (accum, overlay, i);
 			elem_set (accum, i);
 			elem_changed (accum, i);
 		} else if (!elem_is_eq (accum, overlay, i))
 			conflicts |= (1 << i);
 	}
+
 	return conflicts;
 }
 
@@ -457,7 +479,7 @@ gnm_style_new_default (void)
 	gnm_style_set_back_color (new_style, style_color_white ());
 	gnm_style_set_pattern_color (new_style, style_color_black ());
 
-	for (i = MSTYLE_BORDER_TOP ; i <= MSTYLE_BORDER_DIAGONAL ; ++i)
+	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; ++i)
 		gnm_style_set_border (new_style, i,
 			gnm_style_border_ref (gnm_style_border_none ()));
 	gnm_style_set_pattern (new_style, 0);
@@ -601,7 +623,7 @@ link_border_colors (GnmStyle *style, GnmColor *auto_color, gboolean make_copy)
 {
 	int i;
 
-	for (i = MSTYLE_BORDER_TOP ; i <= MSTYLE_BORDER_DIAGONAL ; ++i) {
+	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; ++i) {
 		if (elem_is_set (style, i)) {
 			GnmBorder *border =
 				style->borders[i- MSTYLE_BORDER_TOP];
@@ -1506,7 +1528,7 @@ gnm_style_visible_in_blank (GnmStyle const *style)
 	    gnm_style_get_pattern (style) > 0)
 		return TRUE;
 
-	for (i = MSTYLE_BORDER_TOP ; i <= MSTYLE_BORDER_DIAGONAL ; ++i)
+	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; ++i)
 		if (elem_is_set (style, i) &&
 		    gnm_style_border_visible_in_blank (gnm_style_get_border (style, i)))
 			return TRUE;
@@ -1722,7 +1744,7 @@ gnm_style_dump (GnmStyle const *style)
 	if (elem_is_set (style, MSTYLE_COLOR_PATTERN))
 		gnm_style_dump_color (style->color.pattern, MSTYLE_COLOR_PATTERN);
 
-	for (i = MSTYLE_BORDER_TOP ; i <= MSTYLE_BORDER_DIAGONAL ; ++i)
+	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; ++i)
 		if (elem_is_set (style, i))
 			gnm_style_dump_border (style->borders[i-MSTYLE_BORDER_TOP], i);
 

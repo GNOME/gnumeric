@@ -32,7 +32,7 @@ struct _GnmStyle {
 		GnmColor *back;
 		GnmColor *pattern;
 	}  color;
-	GnmBorder	*borders [GNM_STYLE_BORDER_DIAG + 1];
+	GnmBorder	*borders[MSTYLE_BORDER_DIAGONAL - MSTYLE_BORDER_TOP + 1];
 	guint32          pattern;
 
 #warning TODO use GOFont
