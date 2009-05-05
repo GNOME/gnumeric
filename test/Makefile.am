@@ -6,6 +6,8 @@
 # 18xx:   Operators
 # 19xx:   Evaluation modes, regressions
 #
+# 2xxx: Internal sstest
+#
 # 5xxx: Importers
 # 59xx:   Minor formats
 #
