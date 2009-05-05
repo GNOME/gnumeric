@@ -48,3 +48,4 @@ libspreadsheet*.pc
 *.xls
 *.xlsx
 doltcompile
+*~
