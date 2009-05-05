@@ -28,6 +28,7 @@ Morten:
 	* Fix long-sheet-name GUI issue.  [#580837]
 	* Fix dependency problem with names.  [#581117]
 	* Fix style-allocation screwup.
+	* Fix xls export performance problem.  [#581378]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.6

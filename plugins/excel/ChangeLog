@@ -1,3 +1,8 @@
+2009-05-05  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-write.c (excel_sheet_write_block): Add one-element
+	cache.  Fixes #581378.
+
 2009-05-02  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* ms-chart.c (get_style), (ms_excel_chart_read): use reimplemented

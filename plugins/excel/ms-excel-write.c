@@ -4695,6 +4695,8 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 	Sheet		*sheet = esheet->gnum_sheet;
 	TwoWayTable *twt = esheet->ewb->base.xf.two_way_table;
 	gboolean has_content = FALSE;
+	ExcelStyleVariant esv_cache;
+	int esv_cache_xf;
 
 	xf_list = g_new (gint16, gnm_sheet_get_max_cols (esheet->gnum_sheet));
 	if (nrows > esheet->max_row - (int) begin) /* Incomplete final block? */
@@ -4705,6 +4707,11 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 	ri_start [1] = ewb->bp->streamPos;
 	for (row = begin + 1; row <= max_row; row++)
 		(void) excel_write_ROWINFO (ewb->bp, esheet, row, max_col);
+
+	/* One-element cache for efficiency.  Checked with eq only.  #581378 */
+	esv_cache_xf = -1;
+	esv_cache.variant = 42;
+	esv_cache.style = NULL;
 
 	r.start.col = 0;
 	r.end.col = max_col-1;
@@ -4733,7 +4740,15 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 				(ewb->base.xf.value_fmt_styles, cell);
 			if (esv.style == NULL)
 				esv.style = sheet_style_get (sheet, col, row);
-			xf = two_way_table_key_to_idx (twt, &esv);
+
+			if (esv.variant == esv_cache.variant &&
+			    esv.style == esv_cache.style)
+				xf = esv_cache_xf;
+			else {
+				esv_cache = esv;
+				esv_cache_xf = xf =
+					two_way_table_key_to_idx (twt, &esv);
+			}
 
 			if (xf < 0) {
 				g_warning ("Can't find style %p for cell %s!%s",
