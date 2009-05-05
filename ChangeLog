@@ -1,5 +1,9 @@
 2009-05-05  Morten Welinder  <terra@gnome.org>
 
+	* src/gnm-so-polygon.c (gnm_so_polygon_set_property): Handle NULL
+	points.
+	(so_polygon_view_set_bounds): Handle empty points.
+
 	* src/gnm-style-impl.h (struct _GnmStyle): Allocate the right
 	number of border elements!
 

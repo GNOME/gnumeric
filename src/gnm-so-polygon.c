@@ -78,6 +78,9 @@ so_polygon_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean
 			return;
 
 		i = sop->points->len / 2;
+		if (i == 0)
+			return;
+
 		pts = foo_canvas_points_new (i);
 		x_scale = fabs (coords[2] - coords[0]);
 		y_scale = fabs (coords[3] - coords[1]);
@@ -258,8 +261,8 @@ gnm_so_polygon_set_property (GObject *obj, guint param_id,
 		break;
 	case SOP_PROP_POINTS:
 		points = g_value_get_pointer (value);
-
-		g_return_if_fail (points != NULL);
+		if (!points)
+			points = g_array_new (FALSE, TRUE, sizeof (double));
 
 		if (sop->points != points) {
 			g_array_free (sop->points, TRUE);
