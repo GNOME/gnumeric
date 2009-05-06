@@ -1,5 +1,8 @@
 2009-05-06  Morten Welinder  <terra@gnome.org>
 
+	* src/gnm-so-polygon.c (gnm_so_polygon_write_xml_sax): Implement.
+	Untested, but fixes #581394.
+
 	* src/sheet-autofill.c (afc_set_cell_hint): Don't use the target
 	cell for conventions -- it can be NULL.  Fixes #581589.
 

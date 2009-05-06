@@ -31,6 +31,7 @@ Morten:
 	* Fix xls export performance problem.  [#581378]
 	* Fix xls export issue that made files readable by Gnumeric only.
 	* Fix autofill crash.  [#581589]
+	* Fix gnumeric crash exporting polygons.  [#581394]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.6
