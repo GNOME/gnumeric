@@ -1,6 +1,6 @@
 2009-05-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* configure.in: (libgsf) require 1.14.12 since the
+	* configure.in: (libgsf) require 1.14.13 since the
 	  gsf_opendoc_metadata_subtree in previous versions will crash!
 	* src/xml-sax-read.c (xml_sax_document_meta): new
 	(content_ns): added name spaces
