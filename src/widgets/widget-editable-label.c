@@ -224,6 +224,9 @@ el_size_request (GtkWidget *w, GtkRequisition *req)
 	/* We need to be absurdly careful not to allocate too much as
 	   the notebook acts strangely.  See bug #580837.  */
 	req->width = MIN (desired, el->max_width);
+
+	/* The above isn't working right.  Neuter.  */
+	req->width = desired;
 }
 
 static void
