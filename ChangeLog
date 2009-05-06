@@ -1,3 +1,8 @@
+2009-05-06  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-autofill.c (afc_set_cell_hint): Don't use the target
+	cell for conventions -- it can be NULL.  Fixes #581589.
+
 2009-05-05  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-so-polygon.c (gnm_so_polygon_set_property): Handle NULL
