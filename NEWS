@@ -5,6 +5,7 @@ Andreas:
 	  dialog and the label itself.
 	* Add interface to format cell comments
 	* Fix printing of sheet objects whose text intersects with markup. [#581125]
+	* Load meta data from gnumeric files [#578607]
 
 Jean:
 	* Do not crash in rendr_value for NULL values. [#581120]

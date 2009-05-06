@@ -1,3 +1,11 @@
+2009-05-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* configure.in: (libgsf) require 1.14.13 since the 
+	  gsf_opendoc_metadata_subtree in previous versions will crash!
+	* src/xml-sax-read.c (xml_sax_document_meta): new
+	(content_ns): added name spaces
+	(gnumeric_1_0_dtd): hook up xml_sax_document_meta
+
 2009-05-06  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-so-polygon.c (gnm_so_polygon_write_xml_sax): Implement.

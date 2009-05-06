@@ -72,6 +72,7 @@
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-gzip.h>
+#include <gsf/gsf-opendoc-utils.h>
 #include <glib/gi18n-lib.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
@@ -443,6 +444,16 @@ xml_sax_wb (GsfXMLIn *xin, xmlChar const **attrs)
 		} else
 			unknown_attr (xin, attrs);
 }
+
+static void
+xml_sax_document_meta (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+
+	gsf_opendoc_metadata_subtree (xin, go_doc_get_meta_data (GO_DOC (state->wb)));
+}
+
+
 
 static void
 xml_sax_version (GsfXMLIn *xin, xmlChar const **attrs)
@@ -2360,8 +2371,8 @@ xml_sax_go_doc (GsfXMLIn *xin, xmlChar const **attrs)
 
 /****************************************************************************/
 
-#define GNM		0
-#define SCHEMA_NS	1
+/* libgsf defines OO_NS_OFFICE to be 0, so we need to take something different for GNM */
+#define GNM		100
 
 static GsfXMLInNS const content_ns[] = {
 	GSF_XML_IN_NS (GNM, "http://www.gnumeric.org/v10.dtd"),
@@ -2374,13 +2385,19 @@ static GsfXMLInNS const content_ns[] = {
 	GSF_XML_IN_NS (GNM, "http://www.gnome.org/gnumeric/v3"),
 	GSF_XML_IN_NS (GNM, "http://www.gnome.org/gnumeric/v2"),
 	GSF_XML_IN_NS (GNM, "http://www.gnome.org/gnumeric/"),
-	GSF_XML_IN_NS (SCHEMA_NS, "http://www.w3.org/2001/XMLSchema-instance"),
-	{ NULL }
+/* The next items are from libgsf, there is no obvious way of adding them automatically */
+	GSF_XML_IN_NS (OO_NS_XSI, "http://www.w3.org/2001/XMLSchema-instance"),
+	GSF_XML_IN_NS (OO_NS_OFFICE, "urn:oasis:names:tc:opendocument:xmlns:office:1.0"),
+	GSF_XML_IN_NS (OO_NS_OOO,	"http://openoffice.org/2004/office"),
+	GSF_XML_IN_NS (OO_NS_DC,	"http://purl.org/dc/elements/1.1/"),
+	GSF_XML_IN_NS (OO_NS_XLINK,	"http://www.w3.org/1999/xlink"),
+	GSF_XML_IN_NS (OO_NS_META,	"urn:oasis:names:tc:opendocument:xmlns:meta:1.0"),
+	GSF_XML_IN_NS_END
 };
 
 static GsfXMLInNode gnumeric_1_0_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
-GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALSE, &xml_sax_wb, NULL, 0),
+GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, TRUE, &xml_sax_wb, NULL, 0),
   GSF_XML_IN_NODE (WB, WB_VERSION, GNM, "Version", GSF_XML_NO_CONTENT, &xml_sax_version, NULL),
   GSF_XML_IN_NODE (WB, WB_ATTRIBUTES, GNM, "Attributes", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (WB_ATTRIBUTES, WB_ATTRIBUTE, GNM, "Attribute", GSF_XML_NO_CONTENT, NULL, &xml_sax_finish_parse_wb_attr),
@@ -2539,6 +2556,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, FALS
   GSF_XML_IN_NODE (WB, WB_CALC, GNM, "Calculation", GSF_XML_NO_CONTENT, &xml_sax_calculation, NULL),
   GSF_XML_IN_NODE (WB, WB_DATE, GNM, "DateConvention", GSF_XML_CONTENT, NULL, &xml_sax_old_dateconvention),
   GSF_XML_IN_NODE (WB, GODOC, -1, "GODoc", GSF_XML_NO_CONTENT, &xml_sax_go_doc, NULL),
+    GSF_XML_IN_NODE (WB, DOCUMENTMETA, OO_NS_OFFICE, "document-meta", GSF_XML_NO_CONTENT, &xml_sax_document_meta, NULL),
   { NULL }
 };
 
