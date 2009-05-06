@@ -1,3 +1,8 @@
+2009-05-06  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_init): Use the GnmFunc's case in the
+	hash.
+
 2009-05-05  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_sheet_write_block): Add one-element

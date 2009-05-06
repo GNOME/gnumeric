@@ -29,6 +29,7 @@ Morten:
 	* Fix dependency problem with names.  [#581117]
 	* Fix style-allocation screwup.
 	* Fix xls export performance problem.  [#581378]
+	* Fix xls export issue that made files readable by Gnumeric only.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.6

@@ -6848,6 +6848,12 @@ excel_read_init (void)
 	for (i = 0; i < excel_func_desc_size; i++) {
 		const ExcelFuncDesc *efd = excel_func_desc + i;
 		const char *name = efd->name;
+		GnmFunc *func = gnm_func_lookup (name, NULL);
+
+		/* Fix case.  */
+		if (func)
+			name = gnm_func_get_name (func);
+
 		g_assert (g_hash_table_lookup (excel_func_by_name, name) ==
 			  NULL);
 		g_hash_table_insert (excel_func_by_name,
