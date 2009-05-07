@@ -1,3 +1,12 @@
+2009-05-07  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-style.c (sheet_style_optimize): New function.
+
+	* src/workbook.c (workbook_optimize_style): New function.
+
+	* src/workbook-view.c (wb_view_new_from_input): Call
+	workbook_optimize_style.
+
 2009-05-06  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

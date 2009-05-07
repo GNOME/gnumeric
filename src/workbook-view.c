@@ -1067,6 +1067,7 @@ wb_view_new_from_input  (GsfInput *input,
 			new_wbv = NULL;
 		} else {
 			workbook_share_expressions (new_wb, TRUE);
+			workbook_optimize_style (new_wb);
 			workbook_recalc (new_wb);
 			go_doc_set_dirty (GO_DOC (new_wb), FALSE);
 		}

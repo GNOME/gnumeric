@@ -529,6 +529,14 @@ workbook_share_expressions (Workbook *wb, gboolean freeit)
 	return es;
 }
 
+void
+workbook_optimize_style (Workbook *wb)
+{
+	WORKBOOK_FOREACH_SHEET (wb, sheet, {
+		sheet_style_optimize (sheet);
+	});
+}
+
 GSList *
 workbook_local_functions (Workbook const *wb)
 {

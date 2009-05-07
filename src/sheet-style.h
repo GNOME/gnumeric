@@ -83,6 +83,8 @@ GnmStyleList *sheet_style_collect_validations	(Sheet const *s, GnmRange const *r
 /* For internal use only */
 void	  sheet_style_unlink (Sheet *sheet, GnmStyle *st);
 
+void      sheet_style_optimize (Sheet *sheet);
+
 G_END_DECLS
 
 #endif /* _GNM_SHEET_STYLE_H_ */

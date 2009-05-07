@@ -41,6 +41,7 @@ unsigned    workbook_find_command	(Workbook *wb,
 					 gboolean is_undo, gpointer cmd);
 
 GnmExprSharer *workbook_share_expressions (Workbook *wb, gboolean freeit);
+void        workbook_optimize_style     (Workbook *wb);
 
 /* IO Routines */
 gboolean       workbook_set_saveinfo	(Workbook *wb, FileFormatLevel lev,

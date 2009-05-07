@@ -29,6 +29,7 @@
 #include "style-border.h"
 #include "style-color.h"
 #include "style-conditions.h"
+#include "parse-util.h"
 #include "cell.h"
 #include "gutils.h"
 #include <goffice/utils/go-glib-extras.h>
@@ -202,6 +203,9 @@ static int const tile_size [] = {
 	TILE_SIZE_ROW,			/* TILE_ROW */
 	TILE_SIZE_COL * TILE_SIZE_ROW	/* TILE_MATRIX */
 };
+static const char * const tile_type_str [] = {
+	"simple", "col", "row", "matrix", "ptr-matrix"
+};
 static int const tile_widths [] = {
 	1,
 	TILE_SIZE_COL,
@@ -372,7 +376,7 @@ cell_tile_ptr_matrix_new (CellTile *t)
 		int i = TILE_SIZE_COL * TILE_SIZE_ROW;
 		while (--i >= 0)
 			res->ptr [i] = cell_tile_style_new (
-				t->style_simple.style [i], TILE_SIMPLE);
+				t->style_matrix.style [i], TILE_SIMPLE);
 		break;
 	}
 	default : ;
@@ -2576,4 +2580,308 @@ sheet_style_foreach (Sheet const *sheet, GHFunc	func, gpointer user_data)
 	g_return_if_fail (sheet->style_data != NULL);
 
 	g_hash_table_foreach (sheet->style_data->style_hash, func, user_data);
+}
+
+/* ------------------------------------------------------------------------- */
+
+typedef struct {
+	GnmSheetSize const *ss;
+	gboolean debug;
+} CellTileOptimize;
+
+static void
+cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
+		    int ccol, int crow)
+{
+	CellTileType type;
+	int const w = tile_widths[level];
+	int const h = tile_heights[level];
+	CellTile *res;
+	int i;
+	GnmRange rng;
+
+	type = (*tile)->type;
+	if (type == TILE_SIMPLE)
+		return;
+
+	range_init (&rng,
+		    ccol, crow,
+		    MIN (ccol + tile_widths[level + 1] - 1,
+			 data->ss->max_cols - 1),
+		    MIN (crow + tile_heights[level + 1] - 1,
+			 data->ss->max_rows - 1));
+
+	switch (type) {
+	case TILE_COL:
+	case TILE_ROW: {
+		int s = tile_size[type];
+		int i;
+		gboolean same = TRUE;
+
+		for (i = 1; i < s; i++) {
+			if (!gnm_style_equal ((*tile)->style_any.style[0],
+					      (*tile)->style_any.style[i])) {
+				same = FALSE;
+				break;
+			}
+		}
+
+		if (!same)
+			return;
+
+		type = TILE_SIMPLE;
+		break;
+	}
+
+	case TILE_MATRIX: {
+		gboolean csame = TRUE;
+		gboolean rsame = TRUE;
+		int c, r, i;
+
+		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r, i += TILE_SIZE_COL) {
+			for (c = 0 ; c < TILE_SIZE_COL ; ++c) {
+				if (rsame && c &&
+				    !gnm_style_equal ((*tile)->style_matrix.style[i + c],
+						      (*tile)->style_matrix.style[i    ])) {
+					rsame = FALSE;
+					if (!csame)
+						return;
+				}
+				if (csame && r &&
+				    !gnm_style_equal ((*tile)->style_matrix.style[i + c],
+						      (*tile)->style_matrix.style[    c])) {
+					csame = FALSE;
+					if (!rsame)
+						return;
+				}
+			}
+		}
+
+		if (csame && rsame)
+			type = TILE_SIMPLE;
+		else if (csame) {
+			type = TILE_COL;
+		} else {
+			type = TILE_ROW;
+		}
+		break;
+	}
+
+	case TILE_PTR_MATRIX: {
+		int c, r, i;
+		gboolean csame = TRUE;
+		gboolean rsame = TRUE;
+		gboolean all_simple = TRUE;
+
+		for (i = r = 0 ; r < TILE_SIZE_ROW ; ++r, i += TILE_SIZE_COL) {
+			int const cr = crow + h*r;
+			for (c = 0 ; c < TILE_SIZE_COL ; ++c) {
+				int const cc = ccol + w*c;
+				CellTile const *tcr, *tc0, *t0r;
+				cell_tile_optimize ((*tile)->ptr_matrix.ptr + i + c,
+						    level - 1, data, cc, cr);
+				tcr = (*tile)->ptr_matrix.ptr[i + c];
+				t0r = (*tile)->ptr_matrix.ptr[i];
+				tc0 = (*tile)->ptr_matrix.ptr[c];
+
+				if (tcr->type != TILE_SIMPLE) {
+					all_simple = FALSE;
+					csame = FALSE;
+					rsame = FALSE;
+				}
+
+				if (rsame && c)
+					rsame = gnm_style_equal (tcr->style_simple.style[0],
+								 t0r->style_simple.style[0]);
+
+				if (csame && r)
+					csame = gnm_style_equal (tcr->style_simple.style[0],
+								 tc0->style_simple.style[0]);
+			}
+		}
+		if (csame && rsame) {
+			res = cell_tile_style_new ((*tile)->ptr_matrix.ptr[0]->style_simple.style[0], type);
+		} else if (csame) {
+			res = cell_tile_style_new (NULL, TILE_COL);
+			for (i = 0; i < TILE_SIZE_COL; i++) {
+				GnmStyle *mstyle = (*tile)->ptr_matrix.ptr[i]
+					->style_simple.style[0];
+				res->style_col.style[i] = mstyle;
+				gnm_style_link (mstyle);
+			}
+		} else if (rsame) {
+			res = cell_tile_style_new (NULL, TILE_ROW);
+			for (i = 0; i < TILE_SIZE_ROW; i++) {
+				GnmStyle *mstyle = (*tile)->ptr_matrix.ptr[i * TILE_SIZE_COL]
+					->style_simple.style[0];
+				res->style_row.style[i] = mstyle;
+				gnm_style_link (mstyle);
+			}
+			break;
+		} else if (all_simple) {
+			if (data->debug)
+				g_printerr ("Could turn %s into a matrix\n",
+					    range_as_string (&rng));
+			return;
+		} else
+			return;
+
+		if (data->debug)
+			g_printerr ("Turning %s (%dx%d) from a %s into a %s\n",
+				    range_as_string (&rng),
+				    range_width (&rng), range_height (&rng),
+				    tile_type_str[(*tile)->type],
+				    tile_type_str[res->type]);
+		cell_tile_dtor (*tile);
+		*tile = res;
+		return;
+	}
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	if (data->debug)
+		g_printerr ("Turning %s (%dx%d) from a %s into a %s\n",
+			    range_as_string (&rng),
+			    range_width (&rng), range_height (&rng),
+			    tile_type_str[(*tile)->type],
+			    tile_type_str[type]);
+	res = cell_tile_style_new (NULL, type);
+	switch (type) {
+	case TILE_SIMPLE:
+		res->style_simple.style[0] = (*tile)->style_any.style[0];
+		break;
+	case TILE_ROW:
+		for (i = 0; i < TILE_SIZE_ROW; i++)
+			res->style_row.style[i] =
+				(*tile)->style_matrix.style[i * TILE_SIZE_COL];
+		break;
+	case TILE_COL:
+		for (i = 0; i < TILE_SIZE_COL; i++)
+			res->style_col.style[i] =
+				(*tile)->style_matrix.style[i];
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+
+	for (i = 0; i < tile_size[type]; i++)
+		gnm_style_link (res->style_any.style[i]);
+
+	cell_tile_dtor (*tile);
+	*tile = res;
+}
+
+static GSList *
+sample_styles (Sheet *sheet)
+{
+	GnmSheetSize const *ss = gnm_sheet_get_size (sheet);
+	GSList *res = NULL;
+	int c = 0, r = 0;
+	const int SKIP = 1;
+
+	while (1) {
+		GnmStyle const *mstyle = sheet_style_get (sheet, c, r);
+		if (res == NULL || mstyle != res->data) {
+			gnm_style_ref (mstyle);
+			res = g_slist_prepend (res, GINT_TO_POINTER (c));
+			res = g_slist_prepend (res, GINT_TO_POINTER (r));
+			res = g_slist_prepend (res, (gpointer)mstyle);
+		}
+
+		c += SKIP;
+		if (c >= ss->max_cols) {
+			c -= ss->max_cols;
+			r++;
+			if (r >= ss->max_rows)
+				break;
+		}
+	}
+
+	return g_slist_reverse (res);
+}
+
+static void
+verify_styles (GSList *pre, GSList *post)
+{
+	GSList *lpre, *lpost;
+	gboolean silent = FALSE;
+
+	for (lpre = pre, lpost = post;
+	     lpre || lpost;
+	     lpre = (lpre ? lpre->next->next->next : NULL),
+	     lpost = (lpost ? lpost->next->next->next : NULL)) {
+		int cpre = lpre ? GPOINTER_TO_INT (lpre->data) : -1;
+		int rpre = lpre ? GPOINTER_TO_INT (lpre->next->data) : -1;
+		GnmStyle const *spre = lpre ? lpre->next->next->data : NULL;
+		int cpost = lpost ? GPOINTER_TO_INT (lpost->data) : -1;
+		int rpost = lpost ? GPOINTER_TO_INT (lpost->next->data) : -1;
+		GnmStyle const *spost = lpost ? lpost->next->next->data : NULL;
+
+		if (!silent) {
+			if (!spre || !spost) {
+				g_warning ("Style optimizer failure at end!");
+				silent = TRUE;
+			} else if (cpre != cpost || rpre != rpost) {
+				g_warning ("Style optimizer position conflict at %s!",
+					   cell_coord_name (cpre, rpre));
+				silent = TRUE;
+			} else if (!gnm_style_equal (spre, spost)) {
+				g_warning ("Style optimizer failure at %s!",
+					   cell_coord_name (cpre, rpre));
+			}
+		}
+
+		if (spre) gnm_style_unref (spre);
+		if (spost) gnm_style_unref (spost);
+	}
+
+	g_slist_free (pre);
+	g_slist_free (post);
+}
+
+void
+sheet_style_optimize (Sheet *sheet)
+{
+	CellTileOptimize data;
+	GSList *pre;
+	static guint debug_flags;
+	static gboolean debug_inited = FALSE;
+	gboolean verify;
+	enum { GNM_DEBUG_STYLE_OPTIMIZE = 1,
+	       GNM_DEBUG_STYLE_OPTIMIZE_VERIFY = 2
+	};
+
+	g_return_if_fail (IS_SHEET (sheet));
+
+	if (!debug_inited) {
+		/* not static */
+		const GDebugKey keys[] = {
+			{ (char*)"style-optimize", GNM_DEBUG_STYLE_OPTIMIZE },
+			{ (char*)"style-optimize-verify", GNM_DEBUG_STYLE_OPTIMIZE_VERIFY },
+		};
+
+		const char *val = g_getenv ("GNM_DEBUG");
+		debug_flags = val
+			? g_parse_debug_string (val, keys, G_N_ELEMENTS (keys))
+			: 0;
+
+		debug_inited = TRUE;
+	}
+	verify = (debug_flags & GNM_DEBUG_STYLE_OPTIMIZE_VERIFY) != 0;
+
+	data.ss = gnm_sheet_get_size (sheet);
+	data.debug = (debug_flags & GNM_DEBUG_STYLE_OPTIMIZE) != 0;
+
+	pre = verify ? sample_styles (sheet) : NULL;
+
+	cell_tile_optimize (&sheet->style_data->styles,
+			    sheet->tile_top_level, &data,
+			    0, 0);
+
+	if (verify) {
+		GSList *post = sample_styles (sheet);
+		verify_styles (pre, post);
+	}
 }
