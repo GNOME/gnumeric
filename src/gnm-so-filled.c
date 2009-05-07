@@ -30,6 +30,7 @@
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-persist.h>
 #include <goffice/utils/go-style.h>
+#include <goffice/utils/go-format.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -52,6 +53,7 @@ typedef struct {
 	GOStyle  *style;
 	gboolean   is_oval;
 
+	/* Only valid if !is_oval */
 	char *text;
 	/* Only valid if text != NULL && !is_oval */
 	PangoAttrList  *markup;
@@ -346,8 +348,15 @@ gnm_so_filled_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 	gsf_xml_out_add_float   (output, "Width", sof->style->outline.width, 2);
 	gnm_xml_out_add_gocolor (output, "OutlineColor", sof->style->outline.color);
 	gnm_xml_out_add_gocolor (output, "FillColor",	 sof->style->fill.pattern.back);
-	if (sof->text != NULL)
+	if (!sof->is_oval && sof->text != NULL) {
 		gsf_xml_out_add_cstr (output, "Label", sof->text);
+		if (sof->markup != NULL) {
+			GOFormat *fmt = go_format_new_markup	(sof->markup, TRUE);
+			gsf_xml_out_add_cstr (output, "LabelFormat", 
+					      go_format_as_XL (fmt));
+			go_format_unref (fmt);
+		}
+	}
 
 	gsf_xml_out_start_element (output, "Style");
 	go_persist_sax_save (GO_PERSIST (sof->style), output);
@@ -383,7 +392,13 @@ gnm_so_filled_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_eq (attrs[0], "Label"))
 			g_object_set (G_OBJECT (sof), "text", attrs[1], NULL);
-		else if (gnm_xml_attr_int     (attrs, "Type", &type))
+		else if (attr_eq (attrs[0], "LabelFormat")) {
+			GOFormat * fmt = go_format_new_from_XL (attrs[1]);			
+			g_object_set (G_OBJECT (sof), 
+				      "markup", go_format_get_markup (fmt), 
+				      NULL);
+			go_format_unref (fmt);
+		} else if (gnm_xml_attr_int     (attrs, "Type", &type))
 			sof->is_oval = (type == 102);
 
 		/* Old 1.0 and 1.2 */

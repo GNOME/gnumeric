@@ -1,3 +1,14 @@
+2009-05-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gnm-so-filled.c (gnm_so_filled_write_xml_sax): write
+	  serialized pango attributes
+	(gnm_so_filled_prep_sax_parser): read serialized pango 
+	  attributes
+	* src/sheet-object-cell-comment.c (cell_comment_write_xml_sax)
+	  write serialized pango attributes
+	(cell_comment_prep_sax_parser): read serialized pango 
+	  attributes
+
 2009-05-07  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (sheet_style_optimize): New function.

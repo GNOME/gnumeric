@@ -1,5 +1,9 @@
 Gnumeric 1.9.8
 
+Andreas:
+	* Save and load text formatting of comments [#580838]
+	* Save and load text formatting of sheet object labels [#580979]	
+
 Morten:
 	* Optimize styles on load.
 
