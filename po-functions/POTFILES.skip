@@ -5,6 +5,7 @@ plugins/guile/plugin.c
 plugins/guile/plugin.xml.in
 plugins/guile/smob-value.c
 src/test-harness.c
+src/sstest.c
 component/Gnumeric-embed.xml.in
 component/gnumeric.c
 component/plugin.xml.in
