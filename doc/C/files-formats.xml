@@ -133,7 +133,7 @@
   <entry>application/vnd.oasis.opendocument.spreadsheet</entry>
 </row>
 <row>
-  <entry><link linkend="file-format-paradox">Paradox Database</link></entry>
+  <entry><!--<link linkend="file-format-paradox">-->Paradox Database<!--</link>--></entry>
   <entry><literal>.px</literal> / <literal>.db</literal></entry> 
   <entry>YES</entry>
   <entry>YES</entry>
@@ -147,7 +147,7 @@
   <entry>application/x-planperfect</entry>
 </row>
 <row>
-  <entry><link linkend="file-format-psiconv">Psion 5 Sheet Files</link></entry>
+  <entry><!--<link linkend="file-format-psiconv">-->Psion 5 Sheet Files<!--</link>--></entry>
   <entry><literal>.psisheet</literal></entry> 
   <entry>YES</entry>
   <entry></entry>
