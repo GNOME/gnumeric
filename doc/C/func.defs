@@ -5810,19 +5810,19 @@ SIMTABLE(223,225,227,229) returns 227 on the simulation round #3.
 @{known_y's}: vector of values of dependent variable.
 @{known_x's}: array of values of independent variables, defaults to a single vector 1,...,n.
 @{affine}: if true, the model contains a constant term, defaults to true.
-@{stats}: if true, some additional statistics is provided, defaults to false
+@{stats}: if true, some additional statistics are provided, defaults to false
 @SYNTAX=LINEST(known_y's,known_x's,affine,stats))
 @DESCRIPTION=If @{stats} is true, the second row contains the corresponding standard errors of the regression coefficients.In this case, the third row contains the R^2 value and the standard error for the predicted value. The fourth row contains the observed F value and its degrees of freedom. Finally, the fifth row contains the regression sum of squares and the residual sum of squares.
 @{known_y's}: vector of values of dependent variable.
 @{known_x's}: array of values of independent variables, defaults to a single vector 1,...,n.
 @{affine}: if true, the model contains a constant term, defaults to true.
-@{stats}: if true, some additional statistics is provided, defaults to false
+@{stats}: if true, some additional statistics are provided, defaults to false
 @SYNTAX=LINEST(known_y's,known_x's,affine,stats)))
 @DESCRIPTION=If @{affine} is false, R^2 is the uncentered version of the coefficient of determination; that is the proportion of the sum of squares explained by the model.
 @{known_y's}: vector of values of dependent variable.
 @{known_x's}: array of values of independent variables, defaults to a single vector 1,...,n.
 @{affine}: if true, the model contains a constant term, defaults to true.
-@{stats}: if true, some additional statistics is provided, defaults to false
+@{stats}: if true, some additional statistics are provided, defaults to false
 @SEEALSO=LOGEST,TREND
 
 @CATEGORY=Statistics

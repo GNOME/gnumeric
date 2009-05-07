@@ -1,3 +1,7 @@
+2009-05-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.7
+
 2008-09-19  Jody Goldberg <jody@gnome.org>
 
 	* applix-read.c (applix_parse_style) : clean up the switch.  There's

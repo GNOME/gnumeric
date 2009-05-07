@@ -1,3 +1,7 @@
+2009-05-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.7
+
 2009-05-02  Morten Welinder  <terra@gnome.org>
 
 	* dialog-sheet-resize.c (init_scale): Setup min and max too based

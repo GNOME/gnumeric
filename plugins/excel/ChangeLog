@@ -1,3 +1,7 @@
+2009-05-06  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.7
+
 2009-05-06  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_init): Use the GnmFunc's case in the
