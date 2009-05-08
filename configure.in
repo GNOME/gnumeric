@@ -386,6 +386,17 @@ AC_ARG_ENABLE(ssgrep,
   [], [enable_ssgrep=yes])
 AM_CONDITIONAL(ENABLE_SSGREP, test x"$enable_ssgrep" = xyes)
 
+AC_ARG_ENABLE(component,
+  AS_HELP_STRING([--disable-component], [Do not build the goffice component]),
+  [], [enable_component=yes])
+component_dir=""
+if test x"$enable_component" = xyes; then
+	component_dir="component"
+else
+	component_dir=""
+fi
+AC_SUBST(COMPONENT_DIR, $component_dir)
+
 dnl ****************************
 dnl GDA Plugin
 dnl ****************************
