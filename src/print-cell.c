@@ -100,7 +100,7 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 
 		/* Clip the printed rectangle */
 		cairo_save (context);
-#if 0
+#ifndef G_OS_WIN32
 		if (!rv->rotation) {
 			/* We do not clip rotated cells.  */
 			cairo_new_path (context);
