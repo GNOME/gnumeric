@@ -35,6 +35,7 @@
 #include "gutils.h"
 #include "gnm-marshalers.h"
 #include "style-color.h"
+#include "sheet-style.h"
 
 #include <goffice/app/file.h>
 #include <goffice/app/io-context.h>
