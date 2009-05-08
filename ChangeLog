@@ -1,3 +1,7 @@
+2009-05-08  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (gnm_expr_get_range): Handle parenthesis.
+
 2009-05-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gnm-so-filled.c (gnm_so_filled_write_xml_sax): write
