@@ -1,0 +1,60 @@
+*** doc/Makefile.in	Sat Dec  2 18:27:32 2006
+--- doc/Makefile.in	Thu May  7 18:11:12 2009
+***************
+*** 115,121 ****
+  AUTOHEADER = @AUTOHEADER@
+  AUTOMAKE = @AUTOMAKE@
+  AWK = @AWK@
+- CC = @CC_FOR_BUILD@
+  CCDEPMODE = @CCDEPMODE@
+  CC_FOR_BUILD = @CC_FOR_BUILD@
+  CFLAGS = @CFLAGS@
+--- 115,120 ----
+*** fc-arch/Makefile.in	Sat Dec  2 18:27:32 2006
+--- fc-arch/Makefile.in	Thu May  7 18:11:15 2009
+***************
+*** 102,108 ****
+  AUTOHEADER = @AUTOHEADER@
+  AUTOMAKE = @AUTOMAKE@
+  AWK = @AWK@
+- CC = @CC_FOR_BUILD@
+  CCDEPMODE = @CCDEPMODE@
+  CC_FOR_BUILD = @CC_FOR_BUILD@
+  CFLAGS = @CFLAGS@
+--- 102,107 ----
+*** fc-case/Makefile.in	Sat Dec  2 18:27:32 2006
+--- fc-case/Makefile.in	Thu May  7 18:11:18 2009
+***************
+*** 102,108 ****
+  AUTOHEADER = @AUTOHEADER@
+  AUTOMAKE = @AUTOMAKE@
+  AWK = @AWK@
+- CC = @CC_FOR_BUILD@
+  CCDEPMODE = @CCDEPMODE@
+  CC_FOR_BUILD = @CC_FOR_BUILD@
+  CFLAGS = @CFLAGS@
+--- 102,107 ----
+*** fc-glyphname/Makefile.in	Sat Dec  2 18:27:33 2006
+--- fc-glyphname/Makefile.in	Thu May  7 18:11:22 2009
+***************
+*** 102,108 ****
+  AUTOHEADER = @AUTOHEADER@
+  AUTOMAKE = @AUTOMAKE@
+  AWK = @AWK@
+- CC = @CC_FOR_BUILD@
+  CCDEPMODE = @CCDEPMODE@
+  CC_FOR_BUILD = @CC_FOR_BUILD@
+  CFLAGS = @CFLAGS@
+--- 102,107 ----
+*** fc-lang/Makefile.in	Sat Dec  2 18:27:33 2006
+--- fc-lang/Makefile.in	Thu May  7 18:11:24 2009
+***************
+*** 102,108 ****
+  AUTOHEADER = @AUTOHEADER@
+  AUTOMAKE = @AUTOMAKE@
+  AWK = @AWK@
+- CC = @CC_FOR_BUILD@
+  CCDEPMODE = @CCDEPMODE@
+  CC_FOR_BUILD = @CC_FOR_BUILD@
+  CFLAGS = @CFLAGS@
+--- 102,107 ----

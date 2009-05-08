@@ -4,6 +4,9 @@ Andreas:
 	* Save and load text formatting of comments [#580838]
 	* Save and load text formatting of sheet object labels [#580979]	
 
+Jody:
+	* Closer to a turnkey win32 build.
+
 Morten:
 	* Optimize styles on load.
 

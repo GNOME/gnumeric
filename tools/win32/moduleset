@@ -4,14 +4,24 @@
       <!-- <!ENTITY patch_dir "http://svn.gnome.org/svn/gnumeric/trunk/tools/win32/patches/"> -->
 ]>
 <moduleset>
-    <repository type="svn" name="svn.gnome.org" default="yes"
-		href="http://svn.gnome.org/svn/"/>
+    <repository type="git" name="git.gnome.org" default="yes"
+		href="git://git.gnome.org/"/>
     <repository type="tarball" name="gnome.org"
 		href="http://download.gnome.org"/>
     <repository type="tarball" name="zlib.net"
 		href="http://www.zlib.net"/>
+    <repository type="tarball" name="savannah"
+		href="http://savannah.nongnu.org/download"/>
+
     <repository type="git" name="freedesktop.org"
 		href="git://cgit.freedesktop.org/git"/>
+    <repository type="tarball" name="cairographics"
+		href="http://cairographics.org/releases/"/>
+
+    <repository type="git" name="emmanuel"
+		href="http://cgit.freedesktop.org/~emmanuel/gmathml"/>
+    <repository type="tarball" name="debian"
+		href="http://ftp.debian.org/debian/pool/main/"/>
 
     <tarball id="gettext" version="0.17">
 	<source href="ftp://ftp.gnu.org/pub/gnu/gettext/gettext-0.17.tar.gz"
@@ -28,8 +38,9 @@
 	</patches>
     </tarball>
     <autotools id="gtk-doc">
-	<branch module="gtk-doc/trunk" checkoutdir="gtk-doc"/>
+	<branch module="gtk-doc" checkoutdir="gtk-doc"/>
 	<dependencies>
+	    <dep package="glib"/>
 	</dependencies>
     </autotools>
 
@@ -49,15 +60,14 @@
 	</dependencies>
     </autotools>
 -->
-    <tarball id="glib" version="2.18.3">
-	<source href="http://download.gnome.org/sources/glib/2.18/glib-2.18.3.tar.bz2" />
+    <tarball id="glib" version="2.20.1">
+	<source href="http://download.gnome.org/sources/glib/2.18/glib-2.20.1.tar.bz2" />
 	<patches>
 		<patch file="http://www.gnome.org/~aruiz/gtk+/patches/glib_win32_cachefile.patch"/>
 		<patch file="&patch_dir;glib-goption-disable-localization.patch"/>
 	</patches>
 	<dependencies>
 	    <dep package="gettext"/>
-	    <dep package="gtk-doc"/>
 	</dependencies>
     </tarball>
 
@@ -86,8 +96,8 @@
 	    <patch file="http://gnome.org/~aruiz/gtk+/patches/jpeg_mingwport.patch" strip="1"/>
 	</patches>
     </tarball>
-    <tarball id="png" version="1.2.29">
-	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.29.tar.bz2"/>
+    <tarball id="png" version="1.2.35">
+	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.35.tar.bz2"/>
 	<dependencies>
 	    <dep package="zlib"/>
 	</dependencies>
@@ -104,43 +114,72 @@
 
 <!-- Gtk stack -->
     <autotools id="pixman">
-	<branch repo="freedesktop.org"/>
+	<branch repo="cairographics"
+		module="pixman-0.14.0.tar.gz"
+		version="0.14.0"/>
     </autotools>
     <autotools id="cairo">
-	<branch repo="freedesktop.org"/>
+	<branch repo="cairographics"
+		module="cairo-1.8.2.tar.gz"
+		version="1.8.2"/>
+	<patches>
+	</patches>
 	<dependencies>
 	    <dep package="zlib"/>
 	    <dep package="png"/>
 	    <dep package="pixman"/>
+	    <dep package="freetype"/>
+	    <dep package="fontconfig"/>
 	</dependencies>
     </autotools>
 
-    <tarball id="libdatrie" version="0.1.2" checkoutdir="libdatrie-0.1.3">
-	<source href="http://ftp.debian.org/pool/main/libd/libdatrie/libdatrie_0.1.3.orig.tar.gz"
-		md5sum="917a40de487df3c29650b7434f473fa0"/>
+    <tarball id="iconv" version="1.13">
+	<source href="http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.13.tar.gz"/>
     </tarball>
-    <tarball id="libthai" version="0.1.9" checkoutdir="libthai-0.1.9">
-	<source href="http://ftp.debian.org/pool/main/libt/libthai/libthai_0.1.9.orig.tar.gz"
-		md5sum="7002d111b293f202d20b28aa2b4ed68f"/>
+    <autotools id="libdatrie">
+	<branch repo="debian"
+		module="libd/libdatrie/libdatrie_0.2.2.orig.tar.gz"
+		version="0.2.2" checkoutdir="libdatrie-0.2.2"/>
+	<dependencies>
+	    <dep package="iconv"/>
+	</dependencies>
+    </autotools>
+    <autotools id="libthai">
+	<branch repo="debian"
+		module="libt/libthai/libthai_0.1.11.orig.tar.gz"
+		version="0.1.11" checkoutdir="libthai-0.1.11"/>
 	<dependencies>
 	    <dep package="libdatrie"/>
 	</dependencies>
 	<patches>
-	    <patch file="&patch_dir;libthai.patch"/>
+	    <!-- <patch file="&patch_dir;libthai.patch"/> -->
 	</patches>
-    </tarball>
+    </autotools>
 
     <autotools id="gnome-common">
 	<branch/>
 	<dependencies>
 	</dependencies>
     </autotools>
-    <autotools id="intltool">
-	<branch/>
+
+    <autotools id="freetype"
+	autogen-sh="configure"  skip-autogen="never">
+	<branch repo="savannah" module="freetype/freetype-2.3.7.tar.bz2" version="2.3.7"/>
 	<dependencies>
-	    <dep package="gnome-common"/>
 	</dependencies>
     </autotools>
+
+    <tarball id="fontconfig" version="2.4.2"
+	autogen-sh="autoreconf" skip-autogen="never">
+	<source href="http://fontconfig.org/release/fontconfig-2.4.2.tar.gz"/>
+	<dependencies>
+	    <dep package="freetype"/>
+	</dependencies>
+	<patches>
+	    <patch file="http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/fontconfig-2.4.2-tml-20071015.diff"/>
+            <patch file="&patch_dir;fontconfig-CC.patch"/>
+	</patches>
+    </tarball>
 
 <!--
     <tarball id="pango" version="1.16.4">
@@ -156,6 +195,7 @@
     <autotools id="pango">
 	<branch/>
 	<dependencies>
+	    <dep package="freetype"/>
 	    <dep package="cairo"/>
 	    <dep package="glib"/>
 	    <dep package="libthai"/>
@@ -163,8 +203,8 @@
 	</dependencies>
     </autotools>
 
-    <tarball id="atk" version="1.22.0">
-	<source href="http://ftp.acc.umu.se/pub/gnome/sources/atk/1.22/atk-1.22.0.tar.bz2"/>
+    <tarball id="atk" version="1.26.0">
+	<source href="http://ftp.acc.umu.se/pub/gnome/sources/atk/1.26/atk-1.26.0.tar.bz2"/>
 	<dependencies>
 	    <dep package="glib"/>
 	</dependencies>
@@ -181,10 +221,9 @@
     </autotools>
     -->
 
-    <autotools id="gtk+" version="2.14.4">
-	<branch repo="gnome.org" module="sources/gtk+/2.14/gtk+-2.14.4.tar.bz2"
-		version="2.14.4">
-	    <patch file="&patch_dir;gtk-VK_DECIMAL.patch"/>
+    <autotools id="gtk+">
+	<branch repo="gnome.org" module="sources/gtk+/2.16/gtk+-2.16.1.tar.bz2"
+		version="2.16.1">
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>
@@ -201,9 +240,8 @@
 	    <dep package="zlib"/>
 	</dependencies>
     </tarball>
-    <tarball id="libglade" version="2.6.0">
-	<source href="http://ftp.gnome.org/pub/gnome/sources/libglade/2.6/libglade-2.6.0.tar.bz2"
-		md5sum="81d7b2b64871ce23a5fae1e5da0b1f6e"/>
+    <tarball id="libglade" version="2.6.4">
+	<source href="http://ftp.gnome.org/pub/gnome/sources/libglade/2.6/libglade-2.6.4.tar.bz2"/>
 	<dependencies>
 	    <dep package="gtk+"/>
 	    <dep package="libxml2"/>
@@ -211,9 +249,10 @@
     </tarball>
 
 <!-- python stack -->
-    <autotools id="pygobject" version="3.1.2">
-	<branch repo="gnome.org" module="sources/pygobject/2.14/pygobject-2.14.2.tar.bz2"
-		version="3.1.2">
+    <autotools id="pygobject" 
+	autogen-sh="autoreconf" skip-autogen="never">
+	<branch repo="gnome.org" module="sources/pygobject/2.16/pygobject-2.16.1.tar.bz2"
+		version="2.16.1">
 	    <patch file="&patch_dir;pygobject.patch"/>
 	</branch>
 
@@ -222,25 +261,22 @@
 	</dependencies>
     </autotools>
 
-    <autotools id="libgda" version="3.1.5">
-	<branch repo="gnome.org" module="sources/libgda/3.1/libgda-3.1.5.tar.bz2"
-		version="3.1.5">
+    <autotools id="libgda">
+	<branch repo="gnome.org" module="sources/libgda/4.1/libgda-4.1.0.tar.bz2"
+		version="4.1.0">
 	</branch>
 	<dependencies>
-	    <dep package="intltool"/>
 	    <dep package="glib"/>
 	    <dep package="libxml2"/>
 	</dependencies>
     </autotools>
 
-    <autotools id="libgnomedb" version="3.1.2"
-	autogen-sh="autoreconf">
-	<branch repo="gnome.org" module="sources/libgnomedb/3.1/libgnomedb-3.1.2.tar.bz2"
-		version="3.1.2">
-	    <patch file="&patch_dir;libgnomedb.patch"/>
+    <autotools id="libgnomedb"
+	autogen-sh="autoreconf" skip-autogen="never">
+	<branch repo="gnome.org" module="sources/libgnomedb/3.99/libgnomedb-3.99.7.tar.bz2"
+		version="3.99.7">
 	</branch>
 	<dependencies>
-	    <dep package="intltool"/>
 	    <dep package="libgda"/>
 	    <dep package="gtk+"/>
 	</dependencies>
@@ -252,7 +288,7 @@
 	<patches>
 	</patches>
     </tarball>
-    <tarball id="psiconv" version="2.6.0">
+    <tarball id="psiconv" version="0.9.8">
 	<source href="http://software.frodo.looijaard.name/psiconv/files/psiconv-0.9.8.tar.gz"
 		md5sum="8d7548e3c6b9cd408544736133728acd"/>
 	<patches>
@@ -260,19 +296,62 @@
 	</patches>
     </tarball>
 
+<!-- print preview -->
+  <tarball id="poppler" version="0.10.5">
+    <source href="http://poppler.freedesktop.org/poppler-0.10.5.tar.gz"/>
+    <dependencies>
+      <dep package="cairo"/>
+      <dep package="glib"/>
+      <dep package="freetype"/>
+      <dep package="fontconfig"/>
+    </dependencies>
+    <suggests>
+      <dep package="poppler-data"/>
+    </suggests>
+    <after>
+      <dep package="gtk+"/>
+    </after>
+  </tarball>
+  <autotools id="evince"
+    autogenargs="--without-keyring">
+    <branch/>
+    <dependencies>
+      <dep package="glib"/>
+      <dep package="gtk+"/>
+      <dep package="libxml2"/>
+      <!-- <dep package="gnome-icon-theme"/>-->
+      <dep package="libglade"/>
+      <dep package="poppler"/>
+      <!-- <dep package="gnome-doc-utils"/>-->
+    </dependencies>
+    <suggests>
+      <dep package="gnome-keyring"/>
+    </suggests>
+    <after>
+      <dep package="nautilus"/>
+    </after>
+  </autotools>
 <!-- Gnumeric stack -->
-    <autotools id="libgsf" version="trunk">
+    <autotools id="libgsf">
 	<branch/>
 	<dependencies>
 	    <dep package="glib"/>
 	    <dep package="libxml2"/>
 	    <dep package="zlib"/>
 	    <dep package="libbz2"/>
-	    <dep package="intltool"/>
 	</dependencies>
     </autotools>
 
-    <autotools id="goffice" version="trunk">
+    <autotools id="gmathml">
+	<branch repo="emmanuel"/>
+	<dependencies>
+	    <dep package="gtk+"/>
+	</dependencies>
+	<patches>
+	</patches>
+    </autotools>
+
+    <autotools id="goffice">
 	<branch/>
 	<dependencies>
 	    <dep package="glib"/>
@@ -281,12 +360,12 @@
 	    <dep package="libxml2"/>
 	    <dep package="pango"/>
 	    <dep package="libglade"/>
-	    <dep package="intltool"/>
+	    <dep package="gmathml"/>
 	</dependencies>
 	<patches>
 	</patches>
     </autotools>
-    <autotools id="gnumeric" version="trunk">
+    <autotools id="gnumeric">
 	<branch>
 	    <patch file="&patch_dir;gnumeric-pending-win32-fixes.patch"/>
 	</branch>

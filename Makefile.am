@@ -1,4 +1,4 @@
-SUBDIRS = . po po-functions src plugins component icons templates doc tools schemas test
+SUBDIRS = . po po-functions src plugins icons templates doc tools schemas test
 
 XML_I18N_XML_KIND = --pass-through
 

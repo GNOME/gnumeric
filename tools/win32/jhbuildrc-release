@@ -14,7 +14,7 @@ modules = ['gnumeric']
 # checkoutroot: path to download packages elsewhere
 # prefix:       target path to install the compiled binaries
 checkoutroot = os.path.expanduser('~/win32/release/src/')
-prefix	     = os.path.expanduser("~/win32/release/test")
+prefix	     = os.path.expanduser("~/win32/release/build")
 os.environ['prefix']	= prefix	# for use in zlib kludge
 
 #The host value is obtained with the result of executing
@@ -80,15 +80,14 @@ for tool in ('AR', 'RANLIB', 'STRIP', 'AS',
 	autogenargs += ' '+tool+'="'+os.environ[tool]+'" '
 
 #Module specific configure arguments
-module_autogenargs['zlib']    = autogenargs + ' --prefix='+prefix+' --shared'
+module_autogenargs['zlib']    = autogenargs
+module_autogenargs['libbz2'] = ' --prefix='+prefix + ' --shared'
 module_autogenargs['pcre']    = autogenargs + ' --enable-utf8' + ' --enable-shared'
 module_autogenargs['gettext'] = autogenargs + """ --without-emacs \
 						  --disable-libasprintf \
                                                   --disable-java \
                                                   --disable-native-java \
                                                   --enable-relocatable"""
-#module_autogenargs['zlib']   = ' --prefix='+prefix + ' --shared'
-module_autogenargs['libbz2'] = ' --prefix='+prefix + ' --shared'
 
 #module_autogenargs['jpeg']   = ' --enable-shared' + ' --disable-static' + ' --prefix='+prefix 
 
@@ -96,6 +95,7 @@ module_autogenargs['glib'] =    autogenargs + """ --enable-explicit-deps=no \
                                                   --cache-file=win32.cache \
                                                   --disable-gtk-doc"""
 module_autogenargs['pango']	= autogenargs + """ --disable-gtk-doc \
+						  --disable-ft	\
                                                   --enable-explicit-deps=no \
                                                   --with-included-modules"""
 module_autogenargs['pixman']	= autogenargs + """ --enable-explicit-deps=no \
@@ -126,5 +126,5 @@ module_autogenargs['psiconv']	= autogenargs + """ --disable-xhtml-docs \
 module_autogenargs['libglade']	= autogenargs
 module_autogenargs['pygobject']	= autogenargs
 module_autogenargs['libgsf']	= autogenargs + """ --without-gnome-vfs --without-bonobo"""
-module_autogenargs['goffice']	= autogenargs + """ --without-gconf"""
+module_autogenargs['goffice']	= autogenargs + """ --without-gconf --with-gmathml"""
 module_autogenargs['gnumeric']	= autogenargs

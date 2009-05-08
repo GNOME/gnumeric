@@ -100,7 +100,7 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 
 		/* Clip the printed rectangle */
 		cairo_save (context);
-
+#if 0
 		if (!rv->rotation) {
 			/* We do not clip rotated cells.  */
 			cairo_new_path (context);
@@ -108,7 +108,7 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 					 width + 1, height + 1);
 			cairo_clip (context);
 		}
-
+#endif
 		/* Set the font colour */
 		cairo_set_source_rgb (context,
 			 UINT_RGBA_R (fore_color) / 255.,

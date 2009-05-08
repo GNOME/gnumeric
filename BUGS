@@ -769,13 +769,38 @@ Architecture Changes
 
 41) win32
     41.1) Fix preview [#533795]
+	41.1.1) port over evince based preview from unix
+	    41.1.1.1) port it					(DONE)
+	    41.1.1.2) patch glib [#566348]
     41.2) python installation [#549387]
+	41.2.1) pygobject build fix				(DONE)
+	41.2.2) automate pygobject build fix			(DONE)
+	41.2.3) package pygobject
+	41.2.4) install pygobject
     41.3) libbz2 not found for libgsf				(DONE)
     41.4) hhmap
 	41.4.1) how to generate
 	41.4.2) include in the installer
     41.5) optionally add quicklaunch & desktop links
     41.6) long pause between license and screen ?
+    41.7) version dll.a the same way the .dll is handled
+    41.8) Fix Paradox build
+	41.8.1) find solution					(DONE)
+	41.8.2) automate solution
+    41.9) Add MS Office processing instruction hooks for us
+    41.10) freetype
+	41.10.1) fix build					(DONE)
+	41.10.2) extend jhbuild to automate fix			(DONE)
+	41.10.3) get patch into mainline [#566437]
+    41.11) fontconfig
+	41.11.1) jpg not found
+	41.11.2) zlib not found
+	41.11.3) CPPFLAGS patch
+    41.12) evince
+	41.12.1) totem screensaver disable
+	    41.12.1.1) make patch
+	41.12.2) session management
+	41.12.3) direct connection to unix print backend
 
 autoformat
 ----------
@@ -839,3 +864,5 @@ General Ideas
     - 'Custom' autofilter type to eval expr per cell
     - autofilter : refresh
     - macro hook in validation to run proc if valid
+
+/* vim : ai, ts=8, sw=4, expandtab */

@@ -105,6 +105,14 @@ static GNM_ACTION_DEF (cb_file_open)	{ gui_file_open (wbcg, NULL); }
 static GNM_ACTION_DEF (cb_file_save)	{ gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg))); }
 static GNM_ACTION_DEF (cb_file_save_as)	{ gui_file_save_as (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg))); }
 
+#ifndef HAVE_MKDTEMP
+#include <mathfunc.h>
+#ifdef G_OS_WIN32
+#include <process.h>
+#include <errno.h>
+#endif
+#endif
+
 static GNM_ACTION_DEF (cb_file_sendto) {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	WorkbookView *wbv = wb_control_view (wbc);

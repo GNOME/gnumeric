@@ -8,7 +8,7 @@ SetCompressor /SOLID lzma
 !define GNM_LONGNAME		"Gnumeric Spreadsheet"
 !define GNM_APPNAME		"Gnumeric Spreadsheet"
 !define GNM_VERSION		"@VERSION@"
-!define GNM_VERSION_TAG		"20080707-debug"
+!define GNM_VERSION_TAG		"20081126-debug"
 !define GNM_VERSION_FULL	"${GNM_VERSION}-${GNM_VERSION_TAG}"
 !define GNM_UNINST_KEY		"Software\Microsoft\Windows\CurrentVersion\Uninstall\${GNM_NAME}"
 !define GNM_STARTMENU_REG_VAL	"NSIS:StartMenuDir"
@@ -17,8 +17,8 @@ SetCompressor /SOLID lzma
 
 !define GOFFICE_VERSION		"@GOFFICE_VERSION@"
 
-!define GTK_VERSION		"2.13"
-!define GTK_VENDORRC		"4"
+!define GTK_VERSION		"2.14"
+!define GTK_VENDORRC		"6"
 !define GTK_VENDORVERSION	"${GTK_VERSION}.${GTK_VENDORRC}"
 
 ; MUI 1.67 compatible ------
@@ -98,19 +98,20 @@ Section "Gnumeric (required)" SEC01
 
     SetOutPath "${GNM_ROOT}"
     File /r etc
-    File /r /x "*.a" /x "*.la" /x "*.lib" /x "*.def" /x "pkgconfig" /x "include" lib
+    File /r /x "*.a" /x "*.la" /x "*.lib" /x "*.def" /x "pkgconfig" /x "include" /x "Python25" lib
 
     SetOutPath "${GNM_ROOT}\share"
     File /r "share\themes"
     File /r "share\goffice"
     File /r /x C "share\gnumeric"
     File /r "share\libthai"
-    File /r "share\libgda-3.0"
+    File /r /x "gtk-doc" "share\libgda-3.0"
     ;File /r /x "demo" "share\gnome-db-3.0"
     File /r "share\pixmaps"
 
     SetOutPath "${GNM_ROOT}\${GNM_HELP_DIR}"
     File "${GNM_HELP}"
+    File "${GNM_HELP_DIR}\gnumeric.hhmap"
 
     WriteRegStr SHCTX "Software\GNOME\${GNM_NAME}" "Path" "${GNM_ROOT}\bin"
     WriteRegStr SHCTX "Software\GNOME\${GNM_NAME}" "Version" "${GNM_VERSION_FULL}"
@@ -132,7 +133,7 @@ Section "Gnumeric (required)" SEC01
     WriteRegStr HKCR "GNOME.Gnumeric"			"" "Gnumeric Spreadsheet"
     WriteRegStr HKCR "GNOME.Gnumeric\shell"		"" "Open"
     WriteRegStr HKCR "GNOME.Gnumeric\DefaultIcon"		"" "${GNM_ROOT}\bin\gnumeric.exe,0"
-    WriteRegStr HKCR "GNOME.Gnumeric\shell\Open\command"	"" '"${GNM_ROOT}\bin\gnumeric.exe" "%1"'
+    WriteRegStr HKCR "GNOME.Gnumeric\shell\Open\command"	"" '${GNM_ROOT}\bin\gnumeric.exe "%1"'
 SectionEnd
 
 #############################################################################

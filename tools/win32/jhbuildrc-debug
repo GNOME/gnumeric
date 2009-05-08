@@ -9,12 +9,12 @@
 
 #moduleset = 'http://osl.ulpgc.es/~arc/gnome/gtk/gtk+-win32.moduleset'
 moduleset = '/gnome/src/gnumeric/tools/win32/moduleset'
-modules = ['gnumeric']
+modules = ['gnumeric', 'evince']
 
 # checkoutroot: path to download packages elsewhere
 # prefix:       target path to install the compiled binaries
-checkoutroot = os.path.expanduser('~/win32/debug/src/')
-prefix	     = os.path.expanduser("~/win32/debug/test")
+checkoutroot = os.path.expanduser('~/win32/debug/src')
+prefix	     = os.path.expanduser("~/win32/debug/build")
 os.environ['prefix']	= prefix	# for use in zlib kludge
 
 #The host value is obtained with the result of executing
@@ -81,23 +81,25 @@ for tool in ('AR', 'RANLIB', 'STRIP', 'AS',
 
 #Module specific configure arguments
 module_autogenargs['zlib']    = autogenargs
+module_autogenargs['libbz2'] = ' --prefix='+prefix + ' --shared'
 module_autogenargs['pcre']    = autogenargs + ' --enable-utf8' + ' --enable-shared'
 module_autogenargs['gettext'] = autogenargs + """ --without-emacs \
 						  --disable-libasprintf \
                                                   --disable-java \
                                                   --disable-native-java \
                                                   --enable-relocatable"""
-#module_autogenargs['zlib']   = ' --prefix='+prefix + ' --shared'
-module_autogenargs['libbz2'] = ' --prefix='+prefix + ' --shared'
 
 #module_autogenargs['jpeg']   = ' --enable-shared' + ' --disable-static' + ' --prefix='+prefix 
 
-module_autogenargs['glib'] =    autogenargs + """ --enable-explicit-deps=no \
+module_autogenargs['glib']	=    autogenargs + """ --enable-explicit-deps=no \
                                                   --cache-file=win32.cache \
                                                   --disable-gtk-doc"""
+module_autogenargs['freetype']  = autogenargs
+module_autogenargs['fontconfig']= autogenargs + """ --with-arch=x86"""
 module_autogenargs['pango']	= autogenargs + """ --disable-gtk-doc \
                                                   --enable-explicit-deps=no \
                                                   --with-included-modules"""
+#						  --disable-ft
 module_autogenargs['pixman']	= autogenargs + """ --enable-explicit-deps=no \
                                                   --enable-xlib=no \
                                                   --enable-xlib-xrender=no \
@@ -106,9 +108,10 @@ module_autogenargs['cairo']	= autogenargs + """ --enable-explicit-deps=no \
                                                   --enable-xlib=no \
                                                   --enable-xlib-xrender=no \
                                                   --enable-win32-font=yes \
-						  --enable-ft=no \
+						  --enable-ft=yes \
 						  --disable-static \
 						  --enable-shared"""
+#						  --enable-ft=no
 
 module_autogenargs['libxml2']	= autogenargs + """ --disable-scrollkeeper --without-iconv"""
 
@@ -117,7 +120,7 @@ autogenargs += """ --disable-scrollkeeper --disable-gtk-doc"""
 module_autogenargs['atk']	= autogenargs + """ --disable-glibtest"""
 module_autogenargs['gtk+']	= autogenargs + """ --disable-glibtest --without-libjasper"""
 
-module_autogenargs['libgda']	= autogenargs + """ --without-odbc --without-lda"""
+module_autogenargs['libgda']	= autogenargs + """ --without-odbc --without-lda --without-java"""
 module_autogenargs['pxlib']	= autogenargs + """ --with-gsf=""" + prefix
 module_autogenargs['psiconv']	= autogenargs + """ --disable-xhtml-docs \
 						    --disable-html4-docs \
@@ -126,5 +129,6 @@ module_autogenargs['psiconv']	= autogenargs + """ --disable-xhtml-docs \
 module_autogenargs['libglade']	= autogenargs
 module_autogenargs['pygobject']	= autogenargs
 module_autogenargs['libgsf']	= autogenargs + """ --without-gnome-vfs --without-bonobo"""
-module_autogenargs['goffice']	= autogenargs + """ --without-gconf"""
+module_autogenargs['goffice']	= autogenargs + """ --without-gconf --with-gmathml"""
 module_autogenargs['gnumeric']	= autogenargs
+module_autogenargs['evince']	= autogenargs + """ --without-keyring"""

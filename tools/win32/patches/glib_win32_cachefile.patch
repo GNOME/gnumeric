@@ -1,0 +1,6 @@
+diff -uN ../glib-2.12.11.arc/win32.cache ./win32.cache
+--- ../glib-2.12.11.arc/win32.cache	1970-01-01 00:00:00.000000000 +0000
++++ ./win32.cache	2007-05-05 21:18:38.000000000 +0100
+@@ -0,0 +1,2 @@
++glib_cv_long_long_format=I64
++glib_cv_stack_grows=no
