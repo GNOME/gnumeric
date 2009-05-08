@@ -1,3 +1,9 @@
+2009-05-08  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (get_linear_lookup_cache,
+	get_bisection_lookup_cache): Possible prune caches.
+	(prune_caches): New function.
+
 2009-05-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.7

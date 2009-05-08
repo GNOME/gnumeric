@@ -107,13 +107,15 @@ static GHashTable *linear_lookup_bool_cache;
 static GHashTable *bisection_lookup_string_cache;
 static GHashTable *bisection_lookup_float_cache;
 static GHashTable *bisection_lookup_bool_cache;
-
+static size_t total_cache_size;
 
 static void
 clear_caches (void)
 {
 	if (!lookup_string_pool)
 		return;
+
+	total_cache_size = 0;
 
 	g_hash_table_destroy (linear_lookup_string_cache);
 	linear_lookup_string_cache = NULL;
@@ -145,6 +147,8 @@ create_caches (void)
 {
 	if (lookup_string_pool)
 		return;
+
+	total_cache_size = 0;
 
 	lookup_string_pool = g_string_chunk_new (100 * 1024);
 
@@ -187,6 +191,15 @@ create_caches (void)
 
 }
 
+static void
+prune_caches (void)
+{
+	if (total_cache_size > 10 * GNM_DEFAULT_ROWS) {
+		clear_caches ();
+		create_caches ();
+	}
+}
+
 /* -------------------------------------------------------------------------- */
 
 static GHashTable *
@@ -196,16 +209,17 @@ get_linear_lookup_cache (GnmFuncEvalInfo *ei,
 {
 	GnmValue const *key;
 	GnmValue *key_copy = NULL;
-	GHashTable *h, *cache;
+	GHashTable *h, **cache;
 
 	*brand_new = FALSE;
 
 	create_caches ();
 
+	/* The "&" here is for the pruning case.  */
 	switch (datatype) {
-	case VALUE_STRING: cache = linear_lookup_string_cache; break;
-	case VALUE_FLOAT: cache = linear_lookup_float_cache; break;
-	case VALUE_BOOLEAN: cache = linear_lookup_bool_cache; break;
+	case VALUE_STRING: cache = &linear_lookup_string_cache; break;
+	case VALUE_FLOAT: cache = &linear_lookup_float_cache; break;
+	case VALUE_BOOLEAN: cache = &linear_lookup_bool_cache; break;
 	default:
 		g_assert_not_reached ();
 		return NULL;
@@ -231,8 +245,9 @@ get_linear_lookup_cache (GnmFuncEvalInfo *ei,
 		return NULL;
 	}
 
-	h = g_hash_table_lookup (cache, key);
+	h = g_hash_table_lookup (*cache, key);
 	if (h == NULL) {
+		prune_caches ();
 		*brand_new = TRUE;
 		if (datatype == VALUE_STRING)
 			h = g_hash_table_new (g_str_hash, g_str_equal);
@@ -240,7 +255,7 @@ get_linear_lookup_cache (GnmFuncEvalInfo *ei,
 			h = g_hash_table_new ((GHashFunc)gnm_float_hash,
 					      (GEqualFunc)gnm_float_equal);
 		if (!key_copy) key_copy = value_dup (key);
-		g_hash_table_insert (cache, key_copy, h);
+		g_hash_table_insert (*cache, key_copy, h);
 	} else if (key_copy)
 		value_release (key_copy);
 
@@ -254,17 +269,18 @@ get_bisection_lookup_cache (GnmFuncEvalInfo *ei,
 {
 	GnmValue const *key;
 	GnmValue *key_copy = NULL;
-	GHashTable *cache;
+	GHashTable **cache;
 	LookupBisectionCacheItem *h;
 
 	*brand_new = FALSE;
 
 	create_caches ();
 
+	/* The "&" here is for the pruning case.  */
 	switch (datatype) {
-	case VALUE_STRING: cache = bisection_lookup_string_cache; break;
-	case VALUE_FLOAT: cache = bisection_lookup_float_cache; break;
-	case VALUE_BOOLEAN: cache = bisection_lookup_bool_cache; break;
+	case VALUE_STRING: cache = &bisection_lookup_string_cache; break;
+	case VALUE_FLOAT: cache = &bisection_lookup_float_cache; break;
+	case VALUE_BOOLEAN: cache = &bisection_lookup_bool_cache; break;
 	default:
 		g_assert_not_reached ();
 		return NULL;
@@ -290,12 +306,13 @@ get_bisection_lookup_cache (GnmFuncEvalInfo *ei,
 		return NULL;
 	}
 
-	h = g_hash_table_lookup (cache, key);
+	h = g_hash_table_lookup (*cache, key);
 	if (h == NULL) {
+		prune_caches ();
 		*brand_new = TRUE;
 		h = g_new0 (LookupBisectionCacheItem, 1);
 		if (!key_copy) key_copy = value_dup (key);
-		g_hash_table_insert (cache, key_copy, h);
+		g_hash_table_insert (*cache, key_copy, h);
 	} else if (key_copy)
 		value_release (key_copy);
 
@@ -379,6 +396,7 @@ find_index_linear_equal_string (GnmFuncEvalInfo *ei,
 			if (!g_hash_table_lookup_extended (h, vc, NULL, NULL)) {
 				char *sc = g_string_chunk_insert (lookup_string_pool, vc);
 				g_hash_table_insert (h, sc, GINT_TO_POINTER (lp));
+				total_cache_size++;
 			}
 
 			g_free (vc);
@@ -423,6 +441,7 @@ find_index_linear_equal_float (GnmFuncEvalInfo *ei,
 				gnm_float *fp = go_mem_chunk_alloc (lookup_float_pool);
 				*fp = f2;
 				g_hash_table_insert (h, fp, GINT_TO_POINTER (lp));
+				total_cache_size++;
 			}
 		}
 	}
@@ -519,6 +538,7 @@ find_index_bisection (GnmFuncEvalInfo *ei,
 		bc->data = g_renew (LookupBisectionCacheItemElem,
 				    bc->data,
 				    bc->n);
+		total_cache_size += bc->n;
 	}
 
 #ifdef DEBUG_BISECTION

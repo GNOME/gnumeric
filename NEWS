@@ -9,6 +9,7 @@ Jody:
 
 Morten:
 	* Optimize styles on load.
+	* Prune fn-lookup caches in case someone is being silly.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.7
