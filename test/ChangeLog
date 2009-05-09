@@ -1,3 +1,8 @@
+2009-05-09  Morten Welinder <terra@gnome.org>
+
+	* GnumericTest.pm (EXPORT): Fix $sstest.
+	* t8050-valgrind-sstest.pl: New test.
+
 2009-05-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.7
