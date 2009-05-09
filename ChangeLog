@@ -1,3 +1,8 @@
+2009-05-09  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-style.c (verify_styles): Abort if anything is found to
+	be wrong.
+
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/cell.c (gnm_cell_is_nonsingleton_array): don't use

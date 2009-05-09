@@ -2806,7 +2806,7 @@ static void
 verify_styles (GSList *pre, GSList *post)
 {
 	GSList *lpre, *lpost;
-	gboolean silent = FALSE;
+	gboolean silent = FALSE, bad = FALSE;
 
 	for (lpre = pre, lpost = post;
 	     lpre || lpost;
@@ -2821,13 +2821,16 @@ verify_styles (GSList *pre, GSList *post)
 
 		if (!silent) {
 			if (!spre || !spost) {
+				bad = TRUE;
 				g_warning ("Style optimizer failure at end!");
 				silent = TRUE;
 			} else if (cpre != cpost || rpre != rpost) {
+				bad = TRUE;
 				g_warning ("Style optimizer position conflict at %s!",
 					   cell_coord_name (cpre, rpre));
 				silent = TRUE;
 			} else if (!gnm_style_equal (spre, spost)) {
+				bad = TRUE;
 				g_warning ("Style optimizer failure at %s!",
 					   cell_coord_name (cpre, rpre));
 			}
@@ -2839,6 +2842,9 @@ verify_styles (GSList *pre, GSList *post)
 
 	g_slist_free (pre);
 	g_slist_free (post);
+
+	if (bad)
+		abort ();
 }
 
 void
