@@ -7,8 +7,8 @@ use XML::Parser;
 
 @GnumericTest::ISA = qw (Exporter);
 @GnumericTest::EXPORT = qw(test_sheet_calc test_importer test_valgrind
-			   test_ssindex $sstest test_command message
-			   $ssconvert $topsrc $samples $PERL);
+			   test_ssindex sstest test_command message
+			   $ssconvert $sstest $topsrc $samples $PERL);
 @GnumericTest::EXPORT_OK = qw(junkfile);
 
 use vars qw($topsrc $samples $PERL $verbose);
