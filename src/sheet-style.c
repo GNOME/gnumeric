@@ -2700,7 +2700,7 @@ cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
 			}
 		}
 		if (csame && rsame) {
-			res = cell_tile_style_new ((*tile)->ptr_matrix.ptr[0]->style_simple.style[0], type);
+			res = cell_tile_style_new ((*tile)->ptr_matrix.ptr[0]->style_simple.style[0], TILE_SIMPLE);
 		} else if (csame) {
 			res = cell_tile_style_new (NULL, TILE_COL);
 			for (i = 0; i < TILE_SIZE_COL; i++) {
