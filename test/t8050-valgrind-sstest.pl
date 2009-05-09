@@ -7,4 +7,4 @@ use GnumericTest;
 
 &message ("Check sstest with valgrind.");
 
-&test_valgrind ("$sstest all", 1);
+&test_valgrind ("$sstest all >/dev/null 2>&1", 1);
