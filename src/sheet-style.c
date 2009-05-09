@@ -2874,6 +2874,9 @@ sheet_style_optimize (Sheet *sheet)
 	data.ss = gnm_sheet_get_size (sheet);
 	data.debug = (debug_flags & GNM_DEBUG_STYLE_OPTIMIZE) != 0;
 
+	if (data.debug)
+		g_printerr ("Optimizing %s\n", sheet->name_unquoted);
+
 	pre = verify ? sample_styles (sheet) : NULL;
 
 	cell_tile_optimize (&sheet->style_data->styles,
