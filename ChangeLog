@@ -1,3 +1,9 @@
+2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/cell.c (gnm_cell_is_nonsingleton_array): don't use
+	  simply gnm_cell_is_array_corner since it returns NULL for 
+	  other array elements
+
 2009-05-09  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (cell_tile_optimize): Fix crash.  #581931.

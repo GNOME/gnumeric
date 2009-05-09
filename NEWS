@@ -4,6 +4,8 @@ Andreas:
 	* Save and load text formatting of comments [#580838]
 	* Save and load text formatting of sheet object labels [#580979]
 	* Write all formulas to an odf file [#581937]
+	* Fix loading of arrays from ods files (and general array 
+	  partitioning) [#581953]
 
 Jody:
 	* Closer to a turnkey win32 build.

@@ -440,8 +440,14 @@ gnm_cell_is_array (GnmCell const *cell)
 gboolean
 gnm_cell_is_nonsingleton_array (GnmCell const *cell)
 {
-	GnmExprArrayCorner const *corner = gnm_cell_is_array_corner (cell);
+	GnmExprArrayCorner const *corner;
 
+	if ((cell == NULL) || !gnm_cell_has_expr (cell))
+		return FALSE;
+	if (gnm_expr_top_is_array_elem (cell->base.texpr, NULL, NULL))
+		return TRUE;
+
+	corner 	= gnm_expr_top_get_array_corner (cell->base.texpr);		
 	return corner && (corner->cols > 1 || corner->rows > 1);
 }
 
