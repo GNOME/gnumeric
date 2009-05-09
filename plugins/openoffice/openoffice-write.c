@@ -107,6 +107,7 @@ static struct {
 	{ "xmlns:ooo",		"http://openoffice.org/2004/office" },
 	{ "xmlns:ooow",		"http://openoffice.org/2004/writer" },
 	{ "xmlns:oooc",		"http://openoffice.org/2004/calc" },
+	{ "xmlns:of",		"urn:oasis:names:tc:opendocument:xmlns:of:1.2" },
 	{ "xmlns:dom",		"http://www.w3.org/2001/xml-events" },
 	{ "xmlns:xforms",	"http://www.w3.org/2002/xforms" },
 	{ "xmlns:xsd",		"http://www.w3.org/2001/XMLSchema" },
@@ -141,7 +142,7 @@ odf_write_table_style (GnmOOExport *state,
 	odf_start_style (state->xml, name, "table");
 	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "master-page-name", "Default");
 
-	gsf_xml_out_start_element (state->xml, STYLE "properties");
+	gsf_xml_out_start_element (state->xml, STYLE "table-properties");
 	odf_add_bool (state->xml, TABLE "display",
 		sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE);
 	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "writing-mode",
@@ -310,37 +311,36 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 	if (cell != NULL) {
 		char *rendered_string;
 
-		if (gnm_cell_is_array (cell)) {
-			GnmExprArrayCorner const *ac;
+		if ((NULL != cell->base.texpr) && 
+		    !gnm_expr_top_is_array_elem (cell->base.texpr, NULL, NULL)) {
 			char *formula, *eq_formula;
 			GnmParsePos pp;
-
-			ac = gnm_expr_top_get_array_corner (cell->base.texpr);
-			if (ac != NULL) {
-				gsf_xml_out_add_uint (state->xml,
-					TABLE "number-matrix-columns-spanned",
-						     (unsigned int)(ac->cols));
-				gsf_xml_out_add_uint (state->xml,
-					TABLE "number-matrix-rows-spanned",
-						     (unsigned int)(ac->rows));
+			
+			if (gnm_cell_is_array (cell)) {
+				GnmExprArrayCorner const *ac;
+				
+				ac = gnm_expr_top_get_array_corner (cell->base.texpr);
+				if (ac != NULL) {
+					gsf_xml_out_add_uint (state->xml,
+							      TABLE "number-matrix-columns-spanned",
+							      (unsigned int)(ac->cols));
+					gsf_xml_out_add_uint (state->xml,
+							      TABLE "number-matrix-rows-spanned",
+							      (unsigned int)(ac->rows));
+				}
 			}
 
 			parse_pos_init_cell (&pp, cell);
 			formula = gnm_expr_top_as_string (cell->base.texpr,
 							  &pp,
 							  state->conv);
-			eq_formula = g_strdup_printf ("oooc:=%s", formula);
-
-#if 0
-			g_warning ("Writing: %s", eq_formula);
-#endif
+			eq_formula = g_strdup_printf ("of:=%s", formula);
 
 			gsf_xml_out_add_cstr (state->xml,
 					      TABLE "formula",
 					      eq_formula);
 			g_free (formula);
 			g_free (eq_formula);
-
 		}
 
 		rendered_string = gnm_cell_get_rendered_text (cell);
@@ -366,7 +366,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			gsf_xml_out_add_cstr_unchecked (state->xml,
 							OFFICE "value-type", "string");
 			gsf_xml_out_add_cstr (state->xml,
-					      OFFICE "value",
+					      OFFICE "string-value",
 					      value_peek_string (cell->value));
 			break;
 

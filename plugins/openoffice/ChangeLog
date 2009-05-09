@@ -1,3 +1,9 @@
+2009-05-081  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_table_style): use "table-properties"
+	  rather than "properties"
+	(odf_write_cell): write all formulas
+
 2009-05-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.7
