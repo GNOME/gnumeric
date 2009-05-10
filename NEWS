@@ -16,6 +16,7 @@ Morten:
 	* Plug leak in HTML paste.
 	* Respect the sheet size prefs for new blank workbooks.
 	* Cache large ranges, possibly sorted.
+	* Add progress display for OO import.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.7

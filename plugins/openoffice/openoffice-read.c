@@ -223,7 +223,22 @@ typedef struct {
 	struct {
 		GnmPageBreaks *h, *v;
 	} page_breaks;
+
+	gsf_off_t last_progress_update;
 } OOParseState;
+
+static void
+maybe_update_progress (GsfXMLIn *xin)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	GsfInput *input = gsf_xml_in_get_input (xin);
+	gsf_off_t pos = gsf_input_tell (input);
+
+	if (pos >= state->last_progress_update + 10000) {
+		value_io_progress_update (state->context, pos);
+		state->last_progress_update = pos;
+	}
+}
 
 static GsfXMLInNode const * get_dtd (void);
 static void oo_chart_style_free (OOChartStyle *pointer);
@@ -584,6 +599,8 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GnmRange r;
 	int max_cols, max_rows;
 
+	maybe_update_progress (xin);
+
 	if (NULL != state->page_breaks.h) {
 		print_info_set_breaks (state->pos.sheet->print_info,
 			state->page_breaks.h);
@@ -674,6 +691,8 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 	int	  i, repeat_count = 1;
 	gboolean  hidden = FALSE;
 
+	maybe_update_progress (xin);
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "default-cell-style-name"))
 			style = g_hash_table_lookup (state->styles.cell, attrs[1]);
@@ -729,6 +748,8 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	int	  i, repeat_count = 1;
 	gboolean  hidden = FALSE;
 	int max_rows = gnm_sheet_get_max_rows (state->pos.sheet);
+
+	maybe_update_progress (xin);
 
 	state->pos.eval.col = 0;
 
@@ -909,6 +930,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmRange tmp;
 	int max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
 	int max_rows = gnm_sheet_get_max_rows (state->pos.sheet);
+
+	maybe_update_progress (xin);
 
 	state->col_inc = 1;
 	state->content_is_error = FALSE;
@@ -2938,7 +2961,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input)
 {
 	GsfXMLInDoc	*doc;
-	GsfInput	*content = NULL;
+	GsfInput	*contents = NULL;
 	GsfInput	*styles = NULL;
 	GsfDocMetaData	*meta_data;
 	GsfInfile	*zip;
@@ -2966,8 +2989,8 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		return;
 	}
 
-	content = gsf_infile_child_by_name (zip, "content.xml");
-	if (content == NULL) {
+	contents = gsf_infile_child_by_name (zip, "content.xml");
+	if (contents == NULL) {
 		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
 			 _("No stream named content.xml found."));
 		g_object_unref (zip);
@@ -2978,7 +3001,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	if (styles == NULL) {
 		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
 			 _("No stream named styles.xml found."));
-		g_object_unref (content);
+		g_object_unref (contents);
 		g_object_unref (zip);
 		return;
 	}
@@ -3018,6 +3041,10 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.accum_fmt = NULL;
 	state.filter = NULL;
 	state.page_breaks.h = state.page_breaks.v = NULL;
+	state.last_progress_update = 0;
+
+	io_progress_message (state.context, _("Reading file..."));
+	value_io_progress_set (state.context, gsf_input_size (contents), 0);
 
 	if (state.ver == OOO_VER_OPENDOC) {
 		GsfInput *meta_file = gsf_infile_child_by_name (zip, "meta.xml");
@@ -3045,7 +3072,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	doc  = gsf_xml_in_doc_new (
 		(state.ver == OOO_VER_1) ? ooo1_content_dtd : opendoc_content_dtd,
 		gsf_ooo_ns);
-	if (gsf_xml_in_doc_parse (doc, content, &state)) {
+	if (gsf_xml_in_doc_parse (doc, contents, &state)) {
 		GsfInput *settings;
 
 		/* get the sheet in the right order (in case something was
@@ -3086,6 +3113,8 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
 	gsf_xml_in_doc_free (doc);
 
+	io_progress_unset (state.context);
+
 	if (state.default_style_cell)
 		gnm_style_unref (state.default_style_cell);
 	g_hash_table_destroy (state.styles.sheet);
@@ -3093,7 +3122,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	g_hash_table_destroy (state.styles.cell);
 	g_hash_table_destroy (state.chart.graph_styles);
 	g_hash_table_destroy (state.formats);
-	g_object_unref (content);
+	g_object_unref (contents);
 
 	g_object_unref (zip);
 

@@ -1,3 +1,7 @@
+2009-05-10  Morten Welinder  <terra@gnome.org>
+
+	* openoffice-read.c (openoffice_file_open): Add progress display.
+
 2009-05-081  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_table_style): use "table-properties"
