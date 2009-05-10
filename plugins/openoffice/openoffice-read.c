@@ -487,8 +487,12 @@ oo_expr_parse_str (GsfXMLIn *xin, char const *str,
 	GnmParseError  perr;
 
 	parse_error_init (&perr);
-	texpr = gnm_expr_parse_str (str, pp, flags,
-		state->convs, &perr);
+	if (type == FORMULA_OPENFORMULA)
+		texpr = gnm_expr_parse_str (str, pp, flags,
+					    state->convs, &perr);
+	else
+		texpr = gnm_expr_parse_str (str, pp, flags,
+					    gnm_conventions_default, &perr);
 
 	if (texpr == NULL) {
 		oo_warning (xin, _("Unable to parse\n\t'%s'\nbecause '%s'"),

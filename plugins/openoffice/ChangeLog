@@ -1,5 +1,10 @@
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_expr_parse_str): use Gnumeric's conventions when
+	  parsing MS's formulas
+
+2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (OOFormula): new type
 	(oo_expr_parse_str): add OOFormula type argument and change all callers
 	(oo_cell_start): recognize "msoxl" formulas
