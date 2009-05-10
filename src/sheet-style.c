@@ -2717,7 +2717,6 @@ cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
 				res->style_row.style[i] = mstyle;
 				gnm_style_link (mstyle);
 			}
-			break;
 		} else if (all_simple) {
 			if (data->debug)
 				g_printerr ("Could turn %s into a matrix\n",
@@ -2843,8 +2842,7 @@ verify_styles (GSList *pre, GSList *post)
 	g_slist_free (pre);
 	g_slist_free (post);
 
-	if (bad)
-		abort ();
+	g_assert (!bad);
 }
 
 void

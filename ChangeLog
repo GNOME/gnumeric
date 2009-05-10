@@ -1,5 +1,8 @@
 2009-05-09  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-style.c (cell_tile_optimize): Remove extraneous
+	"break;"  Fixes #582027.
+
 	* src/gnumeric-gconf.c (gnm_gconf_set_workbook_ncols,
 	gnm_gconf_set_workbook_nrows): Respect any valid size.
 
