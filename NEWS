@@ -26,7 +26,7 @@ Andreas:
 	* Load meta data from gnumeric files [#578607]
 
 Jean:
-	* Do not crash in rendr_value for NULL values. [#581120]
+	* Do not crash in render_value for NULL values. [#581120]
 
 Jody:
 	* XLSX start reading external refs.
