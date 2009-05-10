@@ -47,6 +47,7 @@
 #include <print-info.h>
 #include <command-context.h>
 #include <gutils.h>
+#include <xml-io.h>
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-doc.h>
 #include <goffice/utils/go-units.h>
@@ -104,7 +105,8 @@ static struct {
 /* Formula Type */
 typedef enum {
 	FORMULA_OPENFORMULA = 0,
-	FORMULA_MICROSOFT
+	FORMULA_MICROSOFT,
+	NUM_FORMULAE_SUPPORTED
 } OOFormula;
 
 #define OD_BORDER_THIN		1
@@ -225,7 +227,7 @@ typedef struct {
 	char		*fmt_name;
 	GnmFilter	*filter;
 
-	GnmConventions  *convs;
+	GnmConventions  *convs[NUM_FORMULAE_SUPPORTED];
 	struct {
 		GnmPageBreaks *h, *v;
 	} page_breaks;
@@ -477,6 +479,158 @@ oo_attr_enum (GsfXMLIn *xin, xmlChar const * const *attrs,
 			   name, attrs[1]);
 }
 
+static char const *
+oo_cellref_parse (GnmCellRef *ref, char const *start, GnmParsePos const *pp)
+{
+	char const *tmp1, *tmp2, *ptr = start;
+	GnmSheetSize const *ss;
+
+	if (*ptr != '.') {
+		char *name, *accum;
+
+		/* ignore abs vs rel for sheets */
+		if (*ptr == '$')
+			ptr++;
+
+		/* From the spec :
+		 *	SheetName   ::= [^\. ']+ | "'" ([^'] | "''")+ "'" */
+		if ('\'' == *ptr) {
+			tmp1 = ++ptr;
+two_quotes :
+			/* missing close paren */
+			if (NULL == (tmp1 = strchr (tmp1, '\'')))
+				return start;
+
+			/* two in a row is the escape for a single */
+			if (tmp1[1] == '\'') {
+				tmp1 += 2;
+				goto two_quotes;
+			}
+
+			/* If a name is quoted the entire named must be quoted */
+			if (tmp1[1] != '.')
+				return start;
+
+			accum = name = g_alloca (tmp1-ptr+1);
+			while (ptr != tmp1)
+				if ('\'' == (*accum++ = *ptr++))
+					ptr++;
+			*accum = '\0';
+			ptr += 2;
+		} else {
+			if (NULL == (tmp1 = strchr (ptr, '.')))
+				return start;
+			name = g_alloca (tmp1-ptr+1);
+			strncpy (name, ptr, tmp1-ptr);
+			name[tmp1-ptr] = '\0';
+			ptr = tmp1 + 1;
+		}
+
+		if (name[0] == 0)
+			return start;
+
+		/* OpenCalc does not pre-declare its sheets, but it does have a
+		 * nice unambiguous format.  So if we find a name that has not
+		 * been added yet add it.  Reorder below. */
+		ref->sheet = workbook_sheet_by_name (pp->wb, name);
+		if (ref->sheet == NULL) {
+			if (strcmp (name, "#REF!") == 0) {
+				g_warning ("Ignoring reference to sheet %s", name);
+				ref->sheet = NULL;
+			} else {
+				Sheet *old_sheet = workbook_sheet_by_index (pp->wb, 0);
+				ref->sheet = sheet_new (pp->wb, name,
+							gnm_sheet_get_max_cols (old_sheet),
+							gnm_sheet_get_max_rows (old_sheet));
+				workbook_sheet_attach (pp->wb, ref->sheet);
+			}
+		}
+	} else {
+		ptr++; /* local ref */
+		ref->sheet = NULL;
+	}
+
+	ss = gnm_sheet_get_size (eval_sheet (ref->sheet, pp->sheet));
+
+	tmp1 = col_parse (ptr, ss, &ref->col, &ref->col_relative);
+	if (!tmp1)
+		return start;
+	tmp2 = row_parse (tmp1, ss, &ref->row, &ref->row_relative);
+	if (!tmp2)
+		return start;
+
+	if (ref->col_relative)
+		ref->col -= pp->eval.col;
+	if (ref->row_relative)
+		ref->row -= pp->eval.row;
+	return tmp2;
+}
+
+static char const *
+oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp)
+{
+	char const *ptr = oo_cellref_parse (&ref->a, start, pp);
+	if (*ptr == ':')
+		ptr = oo_cellref_parse (&ref->b, ptr+1, pp);
+	else
+		ref->b = ref->a;
+	return ptr;
+}
+
+static char const *
+oo_expr_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp,
+			G_GNUC_UNUSED GnmConventions const *convs)
+{
+	char const *ptr;
+	if (*start == '[') {
+		ptr = oo_rangeref_parse (ref, start+1, pp);
+		if (*ptr == ']')
+			return ptr + 1;
+	}
+	return start;
+}
+
+static GnmExpr const *
+oo_func_map_in (GnmConventions const *convs, Workbook *scope,
+		char const *name, GnmExprList *args);
+
+static GnmConventions *
+oo_conventions_new (void)
+{
+	GnmConventions *conv = gnm_conventions_new ();
+
+	conv->decode_ampersands	= TRUE;
+
+	conv->intersection_char	= '!';
+	conv->decimal_sep_dot	= TRUE;
+	conv->range_sep_colon	= TRUE;
+	conv->arg_sep		= ';';
+	conv->array_col_sep	= ';';
+	conv->array_row_sep	= '|';
+	conv->input.func	= oo_func_map_in;
+	conv->input.range_ref	= oo_expr_rangeref_parse;
+
+	return conv;
+}
+
+static void
+oo_load_convention (OOParseState *state, OOFormula type)
+{
+	g_return_if_fail (state->convs[type] == NULL);
+
+	switch (type) {
+	case FORMULA_MICROSOFT:
+		state->convs[type] = gnm_xml_io_conventions ();
+		break;
+	case FORMULA_OPENFORMULA:
+	default:
+		state->convs[type] =  oo_conventions_new ();
+		break;
+	}
+
+	
+}
+
 static GnmExprTop const *
 oo_expr_parse_str (GsfXMLIn *xin, char const *str,
 		   GnmParsePos const *pp, GnmExprParseFlags flags,
@@ -486,14 +640,11 @@ oo_expr_parse_str (GsfXMLIn *xin, char const *str,
 	GnmExprTop const *texpr;
 	GnmParseError  perr;
 
+	if (state->convs[type] == NULL)
+		oo_load_convention (state, type);
 	parse_error_init (&perr);
-	if (type == FORMULA_OPENFORMULA)
-		texpr = gnm_expr_parse_str (str, pp, flags,
-					    state->convs, &perr);
-	else
-		texpr = gnm_expr_parse_str (str, pp, flags,
-					    gnm_conventions_default, &perr);
-
+	texpr = gnm_expr_parse_str (str, pp, flags,
+				    state->convs[type], &perr);
 	if (texpr == NULL) {
 		oo_warning (xin, _("Unable to parse\n\t'%s'\nbecause '%s'"),
 			    str, perr.err->message);
@@ -819,116 +970,6 @@ oo_row_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->pos.eval.row += state->row_inc;
 }
 
-static char const *
-oo_cellref_parse (GnmCellRef *ref, char const *start, GnmParsePos const *pp)
-{
-	char const *tmp1, *tmp2, *ptr = start;
-	GnmSheetSize const *ss;
-
-	if (*ptr != '.') {
-		char *name, *accum;
-
-		/* ignore abs vs rel for sheets */
-		if (*ptr == '$')
-			ptr++;
-
-		/* From the spec :
-		 *	SheetName   ::= [^\. ']+ | "'" ([^'] | "''")+ "'" */
-		if ('\'' == *ptr) {
-			tmp1 = ++ptr;
-two_quotes :
-			/* missing close paren */
-			if (NULL == (tmp1 = strchr (tmp1, '\'')))
-				return start;
-
-			/* two in a row is the escape for a single */
-			if (tmp1[1] == '\'') {
-				tmp1 += 2;
-				goto two_quotes;
-			}
-
-			/* If a name is quoted the entire named must be quoted */
-			if (tmp1[1] != '.')
-				return start;
-
-			accum = name = g_alloca (tmp1-ptr+1);
-			while (ptr != tmp1)
-				if ('\'' == (*accum++ = *ptr++))
-					ptr++;
-			*accum = '\0';
-			ptr += 2;
-		} else {
-			if (NULL == (tmp1 = strchr (ptr, '.')))
-				return start;
-			name = g_alloca (tmp1-ptr+1);
-			strncpy (name, ptr, tmp1-ptr);
-			name[tmp1-ptr] = '\0';
-			ptr = tmp1 + 1;
-		}
-
-		if (name[0] == 0)
-			return start;
-
-		/* OpenCalc does not pre-declare its sheets, but it does have a
-		 * nice unambiguous format.  So if we find a name that has not
-		 * been added yet add it.  Reorder below. */
-		ref->sheet = workbook_sheet_by_name (pp->wb, name);
-		if (ref->sheet == NULL) {
-			if (strcmp (name, "#REF!") == 0) {
-				g_warning ("Ignoring reference to sheet %s", name);
-				ref->sheet = NULL;
-			} else {
-				Sheet *old_sheet = workbook_sheet_by_index (pp->wb, 0);
-				ref->sheet = sheet_new (pp->wb, name,
-							gnm_sheet_get_max_cols (old_sheet),
-							gnm_sheet_get_max_rows (old_sheet));
-				workbook_sheet_attach (pp->wb, ref->sheet);
-			}
-		}
-	} else {
-		ptr++; /* local ref */
-		ref->sheet = NULL;
-	}
-
-	ss = gnm_sheet_get_size (eval_sheet (ref->sheet, pp->sheet));
-
-	tmp1 = col_parse (ptr, ss, &ref->col, &ref->col_relative);
-	if (!tmp1)
-		return start;
-	tmp2 = row_parse (tmp1, ss, &ref->row, &ref->row_relative);
-	if (!tmp2)
-		return start;
-
-	if (ref->col_relative)
-		ref->col -= pp->eval.col;
-	if (ref->row_relative)
-		ref->row -= pp->eval.row;
-	return tmp2;
-}
-
-static char const *
-oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp)
-{
-	char const *ptr = oo_cellref_parse (&ref->a, start, pp);
-	if (*ptr == ':')
-		ptr = oo_cellref_parse (&ref->b, ptr+1, pp);
-	else
-		ref->b = ref->a;
-	return ptr;
-}
-
-static char const *
-oo_expr_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp,
-			G_GNUC_UNUSED GnmConventions const *convs)
-{
-	char const *ptr;
-	if (*start == '[') {
-		ptr = oo_rangeref_parse (ref, start+1, pp);
-		if (*ptr == ']')
-			return ptr + 1;
-	}
-	return start;
-}
 
 static void
 oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
@@ -2925,25 +2966,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 	return gnm_expr_new_funcall (f, args);
 }
 
-static GnmConventions *
-oo_conventions_new (void)
-{
-	GnmConventions *conv = gnm_conventions_new ();
-
-	conv->decode_ampersands	= TRUE;
-
-	conv->intersection_char	= '!';
-	conv->decimal_sep_dot	= TRUE;
-	conv->range_sep_colon	= TRUE;
-	conv->arg_sep		= ';';
-	conv->array_col_sep	= ';';
-	conv->array_row_sep	= '|';
-	conv->input.func	= oo_func_map_in;
-	conv->input.range_ref	= oo_expr_rangeref_parse;
-
-	return conv;
-}
-
 static OOVer
 determine_oo_version (GsfInfile *zip, OOVer def)
 {
@@ -3061,7 +3083,8 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.default_style_cell = NULL;
 	state.cur_style_type   = OO_STYLE_UNKNOWN;
 	state.sheet_order = NULL;
-	state.convs = oo_conventions_new ();
+	for (i = 0; i<NUM_FORMULAE_SUPPORTED; i++)
+		state.convs[i] = NULL;
 	state.accum_fmt = NULL;
 	state.filter = NULL;
 	state.page_breaks.h = state.page_breaks.v = NULL;
@@ -3154,7 +3177,9 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	while (i-- > 0)
 		sheet_flag_recompute_spans (workbook_sheet_by_index (state.pos.wb, i));
 
-	gnm_conventions_free (state.convs);
+	for (i = 0; i<NUM_FORMULAE_SUPPORTED; i++)
+		if (state.convs[i] != NULL)
+			gnm_conventions_free (state.convs[i]);
 
 	gnm_pop_C_locale (locale);
 }

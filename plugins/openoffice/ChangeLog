@@ -1,5 +1,13 @@
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (OOParseState): use an array of conventions
+	(oo_expr_parse_str): use oo_expr_parse_str
+	(oo_load_convention): new
+	(openoffice_file_open): initialize conv array members to NULL and free
+	  at end
+
+2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_expr_parse_str): use Gnumeric's conventions when
 	  parsing MS's formulas
 
