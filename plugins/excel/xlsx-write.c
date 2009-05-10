@@ -1272,6 +1272,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	}
 
 	xml = gsf_xml_out_new (sheet_part);
+/* CT_Worksheet =                                          */
 	gsf_xml_out_start_element (xml, "worksheet");
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns", ns_ss);
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:r", ns_rel);
@@ -1279,6 +1280,7 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 	/* for now we only use tabColor, move sheetPr outside when we add more
 	 * features */
 	if (NULL != state->sheet->tab_color) {
+/*   element sheetPr { CT_SheetPr }?,     */
 		gsf_xml_out_start_element (xml, "sheetPr");
 
 		gsf_xml_out_start_element (xml, "tabColor");
@@ -1287,15 +1289,15 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 
 		gsf_xml_out_end_element (xml); /* </sheetPr> */
 	}
-
+/*   element dimension { CT_SheetDimension }?,     */
 	gsf_xml_out_start_element (xml, "dimension");
 	xlsx_add_range (xml, "ref", &extent);
 	gsf_xml_out_end_element (xml); /* </dimension> */
-
+/*   element sheetViews { CT_SheetViews }?,     */
 	gsf_xml_out_start_element (xml, "sheetViews");
 	SHEET_FOREACH_VIEW (state->sheet, sv, xlsx_write_sheet_view (xml, sv););
 	gsf_xml_out_end_element (xml); /* </sheetViews> */
-
+/*   element sheetFormatPr { CT_SheetFormatPr }?,     */
 	gsf_xml_out_start_element (xml, "sheetFormatPr");
 	gsf_xml_out_add_float (xml, "defaultRowHeight",
 		sheet_row_get_default_size_pts (state->sheet), 4);
@@ -1306,21 +1308,53 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part, u
 		gsf_xml_out_add_int (xml, "outlineLevelCol",
 			state->sheet->cols.max_outline_level);
 	gsf_xml_out_end_element (xml); /* </sheetFormatPr> */
-
+/*   element cols { CT_Cols }*,     */
 	xlsx_write_cols (state, xml, &extent);
-
+/*   element sheetData { CT_SheetData },     */
 	xlsx_write_cells (state, xml, &extent);
-	xlsx_write_merges (state, xml);
+/*   element sheetCalcPr { CT_SheetCalcPr }?,     */
+/*   element sheetProtection { CT_SheetProtection }?,     */
 	xlsx_write_protection (state, xml);
-	xlsx_write_validations (state, xml, &extent);
-	xlsx_write_hlinks (state, xml, &extent);
+/*   element protectedRanges { CT_ProtectedRanges }?,     */
+/*   element scenarios { CT_Scenarios }?,     */
+/*   element autoFilter { CT_AutoFilter }?,     */
 	xlsx_write_autofilters (state, xml);
+/*   element sortState { CT_SortState }?,     */
+/*   element dataConsolidate { CT_DataConsolidate }?,     */
+/*   element customSheetViews { CT_CustomSheetViews }?,     */
+/*   element mergeCells { CT_MergeCells }?,     */
+	xlsx_write_merges (state, xml);
+/*   element phoneticPr { CT_PhoneticPr }?,     */
+/*   element conditionalFormatting { CT_ConditionalFormatting }*,     */
+/*   element dataValidations { CT_DataValidations }?,     */
+	xlsx_write_validations (state, xml, &extent);
+/*   element hyperlinks { CT_Hyperlinks }?,     */
+	xlsx_write_hlinks (state, xml, &extent);
+/*   element printOptions { CT_PrintOptions }?, included in xlsx_write_print_info */
+/*   element pageMargins { CT_PageMargins }?,   included in xlsx_write_print_info */
+/*   element pageSetup { CT_PageSetup }?,       included in xlsx_write_print_info */
+/*   element headerFooter { CT_HeaderFooter }?, included in xlsx_write_print_info */
 	xlsx_write_print_info (state, xml);
+/*   element rowBreaks { CT_PageBreak }?,     */
+/*   element colBreaks { CT_PageBreak }?,     */
+/*   element customProperties { CT_CustomProperties }?,     */
+/*   element cellWatches { CT_CellWatches }?,     */
+/*   element ignoredErrors { CT_IgnoredErrors }?,     */
+/*   element smartTags { CT_SmartTags }?,     */
+/*   element drawing { CT_Drawing }?,     */
 	if (NULL != chart_drawing_rel_id) {
 		gsf_xml_out_start_element (xml, "drawing");
 		gsf_xml_out_add_cstr_unchecked (xml, "r:id", chart_drawing_rel_id);
-		gsf_xml_out_end_element (xml);
+		gsf_xml_out_end_element (xml);  /* </drawing> */
 	}
+/*   element legacyDrawing { CT_LegacyDrawing }?,     */
+/*   element legacyDrawingHF { CT_LegacyDrawing }?,     */
+/*   element picture { CT_SheetBackgroundPicture }?,     */
+/*   element oleObjects { CT_OleObjects }?,     */
+/*   element controls { CT_Controls }?,     */
+/*   element webPublishItems { CT_WebPublishItems }?,     */
+/*   element tableParts { CT_TableParts }?,     */
+/*   element extLst { CT_ExtensionList }?     */
 	gsf_xml_out_end_element (xml); /* </worksheet> */
 
 	state->sheet = NULL;

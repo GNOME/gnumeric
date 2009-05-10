@@ -6,6 +6,7 @@ Andreas:
 	* Write all formulas to an odf file [#581937]
 	* Fix loading of arrays from ods files (and general array 
 	  partitioning) [#581953]
+	* Fix tag ordering in xlsx files [#581896]
 
 Jody:
 	* Closer to a turnkey win32 build.
