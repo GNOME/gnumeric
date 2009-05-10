@@ -20,6 +20,7 @@
 #include "workbook-control.h"
 #include "command-context.h"
 #include "application.h"
+#include "gnumeric-gconf.h"
 #include "sheet.h"
 #include "sheet-view.h"
 #include "sheet-control.h"
@@ -360,8 +361,11 @@ Workbook *
 workbook_new_with_sheets (int sheet_count)
 {
 	Workbook *wb = workbook_new ();
+	int cols = gnm_app_prefs->col_number;
+	int rows = gnm_app_prefs->row_number;
+	gnm_sheet_suggest_size (&cols, &rows);
 	while (sheet_count-- > 0)
-		workbook_sheet_add (wb, -1, GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
+		workbook_sheet_add (wb, -1, cols, rows);
 	go_doc_set_dirty (GO_DOC (wb), FALSE);
 	GO_DOC (wb)->pristine = TRUE;
 	return wb;
