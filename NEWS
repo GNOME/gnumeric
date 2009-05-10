@@ -15,6 +15,7 @@ Morten:
 	* Prune fn-lookup caches in case someone is being silly.
 	* Plug leak in HTML paste.
 	* Respect the sheet size prefs for new blank workbooks.
+	* Cache large ranges, possibly sorted.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.7

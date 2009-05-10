@@ -11,15 +11,187 @@
 #include "collect.h"
 
 #include "func.h"
+#include "application.h"
 #include "value.h"
 #include "expr.h"
 #include "expr-impl.h"
 #include "gnm-datetime.h"
 #include "workbook.h"
 #include "sheet.h"
+#include "ranges.h"
 #include "number-match.h"
 #include <goffice/utils/go-glib-extras.h>
 #include <stdlib.h>
+#include <string.h>
+
+/* ------------------------------------------------------------------------- */
+
+typedef struct {
+	/* key */
+	GnmValue *value;
+	CollectFlags flags;
+
+	/* result */
+	int n;
+	gnm_float *data;
+	GnmValue *error;
+} SingleFloatsCacheEntry;
+
+static void
+single_floats_cache_entry_free (SingleFloatsCacheEntry *entry)
+{
+	value_release (entry->value);
+	if (entry->error)
+		value_release (entry->error);
+	g_free (entry->data);
+	g_free (entry);
+}
+
+static guint
+single_floats_cache_entry_hash (const SingleFloatsCacheEntry *entry)
+{
+	return value_hash (entry->value) ^ (guint)entry->flags;
+}
+
+static gboolean
+single_floats_cache_entry_equal (const SingleFloatsCacheEntry *a,
+				 const SingleFloatsCacheEntry *b)
+
+{
+	return (a->flags == b->flags &&
+		value_equal (a->value, b->value));
+}
+
+static gulong cache_handler;
+static GHashTable *single_floats_cache;
+static size_t total_cache_size;
+
+static void
+clear_caches (void)
+{
+	if (!cache_handler)
+		return;
+
+	g_signal_handler_disconnect (gnm_app_get_app (), cache_handler);
+	cache_handler = 0;
+
+	g_hash_table_destroy (single_floats_cache);
+	single_floats_cache = NULL;
+
+	total_cache_size = 0;
+}
+
+static void
+create_caches (void)
+{
+	if (cache_handler)
+		return;
+
+	cache_handler =
+		g_signal_connect (gnm_app_get_app (), "recalc-finished",
+				  G_CALLBACK (clear_caches), NULL);
+
+	single_floats_cache = g_hash_table_new_full
+		((GHashFunc)single_floats_cache_entry_hash,
+		 (GEqualFunc)single_floats_cache_entry_equal,
+		 (GDestroyNotify)single_floats_cache_entry_free,
+		 NULL);
+
+	total_cache_size = 0;
+}
+
+static gboolean
+cb_prune (gpointer key, gpointer value, gpointer user)
+{
+	return TRUE;
+}
+
+static void
+prune_caches (void)
+{
+	if (total_cache_size > GNM_DEFAULT_ROWS * 10) {
+		if (0) g_printerr ("Pruning collect cache from size %ld.\n",
+				   (long)total_cache_size);
+
+		total_cache_size = 0;
+		g_hash_table_foreach_remove (single_floats_cache,
+					     cb_prune,
+					     NULL);
+	}
+}
+
+static SingleFloatsCacheEntry *
+get_single_floats_cache_entry (GnmValue const *value, CollectFlags flags)
+{
+	SingleFloatsCacheEntry key;
+
+	if (flags & (COLLECT_INFO | COLLECT_IGNORE_SUBTOTAL))
+		return NULL;
+
+	create_caches ();
+
+	key.value = (GnmValue *)value;
+	key.flags = flags;
+
+	return g_hash_table_lookup (single_floats_cache, &key);
+}
+
+static SingleFloatsCacheEntry *
+get_or_fake_cache_entry (GnmValue const *key, CollectFlags flags,
+			 GnmEvalPos const *ep)
+{
+	SingleFloatsCacheEntry *ce;
+
+	ce = get_single_floats_cache_entry (key, flags);
+	if (ce) return ce;
+
+	if (flags & COLLECT_ORDER_IRRELEVANT) {
+		ce = get_single_floats_cache_entry (key, flags | COLLECT_SORT);
+		if (ce)
+			return ce;
+	}
+
+	if (flags & COLLECT_SORT) {
+		/* FIXME: Try unsorted.  */
+	}
+
+	return NULL;
+}
+
+
+static GnmValue *
+get_single_cache_key (GnmExpr const *e, GnmEvalPos const *ep)
+{
+	GnmValue *r, *key;
+	GnmSheetRange sr;
+	GnmRangeRef const *rr;
+	Sheet *end_sheet;
+	int h, w;
+	const int min_size = 25;
+
+	r = gnm_expr_get_range (e);
+	if (!r)
+		return NULL;
+
+	rr = value_get_rangeref (r);
+	gnm_rangeref_normalize (rr, ep, &sr.sheet, &end_sheet, &sr.range);
+	if (sr.sheet != end_sheet) {
+		value_release (r);
+		return NULL; /* 3D */
+	}
+
+	h = range_height (&sr.range);
+	w = range_width (&sr.range);
+	if (h < min_size && w < min_size && h * w < min_size) {
+		value_release (r);
+		return NULL;
+	}
+
+	key = value_new_cellrange_r (sr.sheet, &sr.range);
+	value_release (r);
+
+	return key;
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -157,15 +329,21 @@ callback_function_collect (GnmEvalPos const *ep, GnmValue const *value,
 static gnm_float *
 collect_floats (int argc, GnmExprConstPtr const *argv,
 		GnmEvalPos const *ep, CollectFlags flags,
-		int *n, GnmValue **error, GSList **info)
+		int *n, GnmValue **error, GSList **info,
+		gboolean *constp)
 {
 	collect_floats_t cl;
 	CellIterFlags iter_flags = CELL_ITER_ALL;
+	GnmValue *key = NULL;
+	CollectFlags keyflags = flags & ~COLLECT_ORDER_IRRELEVANT;
+
+	if (constp)
+		*constp = FALSE;
 
 	if (info) {
+		*info = NULL;
 		g_return_val_if_fail (!(flags & COLLECT_SORT), NULL);
 		flags |= COLLECT_INFO;
-		*info = NULL;
 	} else {
 		if (flags & COLLECT_IGNORE_BLANKS)
 			iter_flags = CELL_ITER_IGNORE_BLANK;
@@ -182,6 +360,33 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 	cl.info = NULL;
 	cl.date_conv = workbook_date_conv (ep->sheet->workbook);
 
+	/* ---------------------------------------- */
+	/* Try cache. */
+
+	if (argc == 1 &&
+	    (flags & (COLLECT_INFO | COLLECT_IGNORE_SUBTOTAL)) == 0) {
+		key = get_single_cache_key (argv[0], ep);
+	}
+	if (key) {
+		SingleFloatsCacheEntry *ce =
+			get_or_fake_cache_entry (key, keyflags, ep);
+		if (ce) {
+			value_release (key);
+			if (ce->error) {
+				*error = value_dup (ce->error);
+				return NULL;
+			}
+			*n = ce->n;
+			if (constp) {
+				*constp = TRUE;
+				return ce->data;
+			}
+			return g_memdup (ce->data, *n * sizeof (gnm_float));
+		}
+	}
+
+	/* ---------------------------------------- */
+
 	*error = function_iterate_argument_values
 		(ep, &callback_function_collect, &cl,
 		 argc, argv,
@@ -189,23 +394,43 @@ collect_floats (int argc, GnmExprConstPtr const *argv,
 	if (*error) {
 		g_assert (VALUE_IS_ERROR (*error));
 		g_free (cl.data);
+		cl.data = NULL;
+		cl.count = 0;
 		g_slist_free (cl.info);
-		return NULL;
-	}
+		cl.info = NULL;
+	} else {
+		if (cl.data == NULL) {
+			cl.alloc_count = 1;
+			cl.data = g_new (gnm_float, cl.alloc_count);
+		}
 
-	if (cl.data == NULL) {
-		cl.alloc_count = 1;
-		cl.data = g_new (gnm_float, cl.alloc_count);
-	}
-
-	if (flags & COLLECT_SORT) {
-		qsort (cl.data, cl.count, sizeof (cl.data[0]), float_compare);
+		if (flags & COLLECT_SORT) {
+			qsort (cl.data, cl.count, sizeof (cl.data[0]),
+			       float_compare);
+		}
 	}
 
 	if (info)
 		*info = cl.info;
 	*n = cl.count;
 
+	if (key) {
+		SingleFloatsCacheEntry *ce = g_new (SingleFloatsCacheEntry, 1);
+		ce->value = key;
+		ce->flags = keyflags;
+		ce->n = *n;
+		ce->error = *error ? value_dup (*error) : NULL;
+		if (cl.data == NULL)
+			ce->data = NULL;
+		else if (constp) {
+			*constp = TRUE;
+			ce->data = cl.data;
+		} else
+			ce->data = g_memdup (cl.data, MAX (1, *n) * sizeof (gnm_float));
+		prune_caches ();
+		g_hash_table_insert (single_floats_cache, ce, ce);
+		total_cache_size += 1 + *n;
+	}
 	return cl.data;
 }
 
@@ -221,7 +446,7 @@ collect_floats_value (GnmValue const *val, GnmEvalPos const *ep,
 	GnmExprConstPtr argv[1] = { &expr_val };
 
 	gnm_expr_constant_init (&expr_val.constant, val);
-	return collect_floats (1, argv, ep, flags, n, error, NULL);
+	return collect_floats (1, argv, ep, flags, n, error, NULL, NULL);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -237,7 +462,7 @@ collect_floats_value_with_info (GnmValue const *val, GnmEvalPos const *ep,
 	gnm_float *res;
 
 	gnm_expr_constant_init (&expr_val.constant, val);
-	res = collect_floats (1, argv, ep, flags, n, error, info);
+	res = collect_floats (1, argv, ep, flags, n, error, info, NULL);
 
 	if (info)
 		*info = g_slist_reverse (*info);
@@ -258,13 +483,15 @@ float_range_function (int argc, GnmExprConstPtr const *argv,
 	GnmValue *error = NULL;
 	gnm_float *vals, res;
 	int n, err;
+	gboolean constp;
 
-	vals = collect_floats (argc, argv, ei->pos, flags, &n, &error, NULL);
+	vals = collect_floats (argc, argv, ei->pos, flags, &n, &error,
+			       NULL, &constp);
 	if (!vals)
 		return error;
 
 	err = func (vals, n, &res);
-	g_free (vals);
+	if (!constp) g_free (vals);
 
 	if (err)
 		return value_new_error_std (ei->pos, func_error);
