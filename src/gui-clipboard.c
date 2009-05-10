@@ -540,7 +540,7 @@ table_cellregion_write (GOCmdContext *ctx, GnmCellRegion *cr,
 	wb = workbook_new_with_sheets (1);
 	wb_view = workbook_view_new (wb);
 
-	sheet = (Sheet *) workbook_sheets (wb)->data;
+	sheet = workbook_sheet_by_index (wb, 0);
 	memset (&r, 0, sizeof r);
 	r.end.col = cr->cols - 1;
 	r.end.row = cr->rows - 1;

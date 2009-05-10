@@ -1,5 +1,7 @@
 2009-05-09  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-clipboard.c (table_cellregion_write): Plug leak.
+
 	* src/gnumeric-gconf.c (gnm_gconf_set_workbook_ncols): Set
 	prefs.col_number too.
 	(gnm_gconf_set_workbook_nrows): Set prefs.row_number too.
