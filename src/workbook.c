@@ -363,7 +363,8 @@ workbook_new_with_sheets (int sheet_count)
 	Workbook *wb = workbook_new ();
 	int cols = gnm_app_prefs->col_number;
 	int rows = gnm_app_prefs->row_number;
-	gnm_sheet_suggest_size (&cols, &rows);
+	if (!gnm_sheet_valid_size (cols, rows))
+		gnm_sheet_suggest_size (&cols, &rows);
 	while (sheet_count-- > 0)
 		workbook_sheet_add (wb, -1, cols, rows);
 	go_doc_set_dirty (GO_DOC (wb), FALSE);

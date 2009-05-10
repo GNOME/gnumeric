@@ -1,5 +1,10 @@
 2009-05-09  Morten Welinder  <terra@gnome.org>
 
+	* src/gnumeric-gconf.c (gnm_gconf_set_workbook_ncols,
+	gnm_gconf_set_workbook_nrows): Respect any valid size.
+
+	* src/workbook.c (workbook_new_with_sheets): Ditto.
+
 	* src/gui-clipboard.c (table_cellregion_write): Explicitly size
 	the temporary sheet.
 

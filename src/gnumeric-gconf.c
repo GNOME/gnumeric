@@ -861,7 +861,8 @@ gnm_gconf_set_workbook_nrows (gint val)
 	while (n < val && n < GNM_MAX_ROWS)
 		n <<= 1;
 	prefs.row_number = n;
-	gnm_sheet_suggest_size (&prefs.col_number, &prefs.row_number);
+	if (!gnm_sheet_valid_size (prefs.col_number, prefs.row_number))
+		gnm_sheet_suggest_size (&prefs.col_number, &prefs.row_number);
 	go_conf_set_int (root, GNM_CONF_WORKBOOK_NROWS, prefs.row_number);
 	go_conf_set_int (root, GNM_CONF_WORKBOOK_NCOLS, prefs.col_number);
 }
@@ -873,7 +874,8 @@ gnm_gconf_set_workbook_ncols (gint val)
 	while (n < val && n < GNM_MAX_COLS)
 		n <<= 1;
 	prefs.col_number = n;
-	gnm_sheet_suggest_size (&prefs.col_number, &prefs.row_number);
+	if (!gnm_sheet_valid_size (prefs.col_number, prefs.row_number))
+		gnm_sheet_suggest_size (&prefs.col_number, &prefs.row_number);
 	go_conf_set_int (root, GNM_CONF_WORKBOOK_NROWS, prefs.row_number);
 	go_conf_set_int (root, GNM_CONF_WORKBOOK_NCOLS, prefs.col_number);
 }
