@@ -1,0 +1,19 @@
+*** src/Makefile.in.orig	2007-10-01 03:26:59.000000000 -0400
+--- src/Makefile.in	2009-05-08 21:56:16.000000000 -0400
+***************
+*** 273,279 ****
+  		px_crypt.c \
+  		gregor.c
+  
+! libpx_la_LIBADD = @RECODE_LIBS@ @GSF_LIBS@
+  BUILD_LIBS = -lm
+  all: all-am
+  
+--- 273,279 ----
+  		px_crypt.c \
+  		gregor.c
+  
+! libpx_la_LIBADD = @RECODE_LIBS@ @GSF_LIBS@ -lintl -liconv
+  BUILD_LIBS = -lm
+  all: all-am
+  

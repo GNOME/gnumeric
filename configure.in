@@ -340,10 +340,10 @@ dnl prep the pixmap generator
 dnl ****************************
 
 AC_ARG_VAR(GLIB_GENMARSHAL, [The glib-genmarshal executable.])
-AC_CHECK_PROG(GLIB_GENMARSHAL, glib-genmarshal, glib-genmarshal)
+AC_CHECK_PROG(GLIB_GENMARSHAL, glib-genmarshal$ac_exeext, glib-genmarshal$ac_exeext)
 
 AC_ARG_VAR(GDK_PIXBUF_CSOURCE, [The gdk-pixbuf-csource executable.])
-AC_CHECK_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource, gdk-pixbuf-csource)
+AC_CHECK_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource$ac_exeext, gdk-pixbuf-csource$ac_exeext)
 
 ## this should come after `AC_PROG_CC'
 ifdef([GNOME_COMPILE_WARNINGS],
@@ -1089,6 +1089,7 @@ templates/autoformat/Makefile
 test/Makefile
 tools/Makefile
 tools/win32/gnumeric.nsi
+tools/win32/build
 component/Makefile
 ])
 

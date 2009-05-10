@@ -11,7 +11,7 @@
     <repository type="tarball" name="zlib.net"
 		href="http://www.zlib.net"/>
     <repository type="tarball" name="savannah"
-		href="http://savannah.nongnu.org/download"/>
+		href="http://savannah.nongnu.org/download/"/>
 
     <repository type="git" name="freedesktop.org"
 		href="git://cgit.freedesktop.org/git"/>
@@ -34,8 +34,6 @@
 
     <tarball id="pcre" version="7.8">
 	<source href="http://downloads.sourceforge.net/pcre/pcre-7.8.tar.bz2"/>
-	<patches>
-	</patches>
     </tarball>
     <autotools id="gtk-doc">
 	<branch module="gtk-doc" checkoutdir="gtk-doc"/>
@@ -44,32 +42,19 @@
 	</dependencies>
     </autotools>
 
-<!--
-		- APPLY MANUALLY -
     <autotools id="glib">
-	<branch>
+	<branch repo="gnome.org" module="sources/glib/2.20/glib-2.20.1.tar.bz2" version="2.20.1">
 	    <patches>
-		<patch file="http://www.gnome.org/~aruiz/gtk+/patches/glib_win32_cachefile.patch.gz"/>
+		<patch file="&patch_dir;glib-win32-cachefile.patch.gz"/>
 		<patch file="&patch_dir;glib-goption-disable-localization.patch"/>
 	    </patches>
 	</branch>
 	<dependencies>
 	    <dep package="gettext"/>
-	    <dep package="gtk-doc"/>
 	    <dep package="iconv"/>
+<!--	    <dep package="gtk-doc"/> -->
 	</dependencies>
     </autotools>
--->
-    <tarball id="glib" version="2.20.1">
-	<source href="http://download.gnome.org/sources/glib/2.18/glib-2.20.1.tar.bz2" />
-	<patches>
-		<patch file="http://www.gnome.org/~aruiz/gtk+/patches/glib_win32_cachefile.patch"/>
-		<patch file="&patch_dir;glib-goption-disable-localization.patch"/>
-	</patches>
-	<dependencies>
-	    <dep package="gettext"/>
-	</dependencies>
-    </tarball>
 
 <!-- Compression -->
     <autotools id="zlib"
@@ -96,8 +81,8 @@
 	    <patch file="http://gnome.org/~aruiz/gtk+/patches/jpeg_mingwport.patch" strip="1"/>
 	</patches>
     </tarball>
-    <tarball id="png" version="1.2.35">
-	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.35.tar.bz2"/>
+    <tarball id="png" version="1.2.36">
+	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.36.tar.bz2"/>
 	<dependencies>
 	    <dep package="zlib"/>
 	</dependencies>
@@ -135,6 +120,9 @@
 
     <tarball id="iconv" version="1.13">
 	<source href="http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.13.tar.gz"/>
+	<patches>
+	    <patch file="&patch_dir;iconv.patch"/>
+	</patches>
     </tarball>
     <autotools id="libdatrie">
 	<branch repo="debian"
@@ -152,7 +140,7 @@
 	    <dep package="libdatrie"/>
 	</dependencies>
 	<patches>
-	    <!-- <patch file="&patch_dir;libthai.patch"/> -->
+	    <patch file="&patch_dir;libthai.patch"/>
 	</patches>
     </autotools>
 
@@ -164,7 +152,7 @@
 
     <autotools id="freetype"
 	autogen-sh="configure"  skip-autogen="never">
-	<branch repo="savannah" module="freetype/freetype-2.3.7.tar.bz2" version="2.3.7"/>
+	<branch repo="savannah" module="freetype/freetype-2.3.9.tar.bz2" version="2.3.9"/>
 	<dependencies>
 	</dependencies>
     </autotools>
@@ -224,6 +212,7 @@
     <autotools id="gtk+">
 	<branch repo="gnome.org" module="sources/gtk+/2.16/gtk+-2.16.1.tar.bz2"
 		version="2.16.1">
+	    <patch file="&patch_dir;gtk-disable-demo.patch"/>
 	</branch>
 	<dependencies>
 	    <dep package="glib"/>
@@ -288,13 +277,18 @@
 	<patches>
 	</patches>
     </tarball>
-    <tarball id="psiconv" version="0.9.8">
+    <autotools id="psiconv">
+	<branch repo="debian"
+		module="p/psiconv/psiconv_0.9.8.orig.gz"
+		version="0.9.8" checkoutdir="psiconv-0.9.8"/>
+<!-- 
 	<source href="http://software.frodo.looijaard.name/psiconv/files/psiconv-0.9.8.tar.gz"
 		md5sum="8d7548e3c6b9cd408544736133728acd"/>
+-->
 	<patches>
 	    <patch file="&patch_dir;psiconv.patch"/>
 	</patches>
-    </tarball>
+    </autotools>
 
 <!-- print preview -->
   <tarball id="poppler" version="0.10.5">
@@ -347,8 +341,6 @@
 	<dependencies>
 	    <dep package="gtk+"/>
 	</dependencies>
-	<patches>
-	</patches>
     </autotools>
 
     <autotools id="goffice">
@@ -362,13 +354,9 @@
 	    <dep package="libglade"/>
 	    <dep package="gmathml"/>
 	</dependencies>
-	<patches>
-	</patches>
     </autotools>
     <autotools id="gnumeric">
-	<branch>
-	    <patch file="&patch_dir;gnumeric-pending-win32-fixes.patch"/>
-	</branch>
+	<branch/>
 	<dependencies>
 	    <dep package="goffice"/>
 	</dependencies>

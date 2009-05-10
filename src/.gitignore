@@ -15,9 +15,17 @@ gnm-marshalers.c
 gnm-marshalers.h
 gnumeric-paths.h
 ssconvert
+ssconvert.exe
 ssindex
+ssindex.exe
 ssgrep
+ssgrep.exe
 sstest
+sstest.exe
 test-pango
+test-pango.exe
 GNOME_Gnumeric-gtk.xml
 HILDON_Gnumeric-gtk.xml
+libspreadsheet.def
+local.def
+stamp-local.def

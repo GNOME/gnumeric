@@ -588,6 +588,11 @@
 
 	* src/expr.c (gnm_expr_get_range): Handle parenthesis.
 
+2009-05-09  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : add $ac_exeext when checking for executables so that
+	  wine can be used when cross compiling.
+
 2009-05-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gnm-so-filled.c (gnm_so_filled_write_xml_sax): write

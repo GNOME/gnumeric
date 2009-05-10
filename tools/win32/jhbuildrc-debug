@@ -130,5 +130,5 @@ module_autogenargs['libglade']	= autogenargs
 module_autogenargs['pygobject']	= autogenargs
 module_autogenargs['libgsf']	= autogenargs + """ --without-gnome-vfs --without-bonobo"""
 module_autogenargs['goffice']	= autogenargs + """ --without-gconf --with-gmathml"""
-module_autogenargs['gnumeric']	= autogenargs
+module_autogenargs['gnumeric']	= autogenargs + """ --disable-component"""
 module_autogenargs['evince']	= autogenargs + """ --without-keyring"""
