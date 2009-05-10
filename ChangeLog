@@ -1,5 +1,9 @@
 2009-05-09  Morten Welinder  <terra@gnome.org>
 
+	* src/gnumeric-gconf.c (gnm_gconf_set_workbook_ncols): Set
+	prefs.col_number too.
+	(gnm_gconf_set_workbook_nrows): Set prefs.row_number too.
+
 	* src/sheet-style.c (verify_styles): Abort if anything is found to
 	be wrong.
 
