@@ -1,8 +1,13 @@
+2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_row_start): don't croak on many repeated lines
+	  beyond the size of our sheets
+
 2009-05-10  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (openoffice_file_open): Add progress display.
 
-2009-05-081  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2009-05-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_table_style): use "table-properties"
 	  rather than "properties"

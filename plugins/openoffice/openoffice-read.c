@@ -754,11 +754,11 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	state->pos.eval.col = 0;
 
 	if (state->pos.eval.row >= max_rows) {
-		oo_warning (xin, _("Content past the maximum number of rows supported in this build (%u).  Please recompile with larger limits."), max_rows);
+		oo_warning (xin, _("Content past the maximum number of rows (%i) supported for this worksheet. Please restart with a larger number of rows."), max_rows);
 		state->row_inc = 0;
 		return;
 	}
-
+	
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
 			row_info = g_hash_table_lookup (state->styles.col_row, attrs[1]);
@@ -770,6 +770,10 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (hidden)
 		colrow_set_visibility (state->pos.sheet, FALSE, FALSE, state->pos.eval.row,
 			state->pos.eval.row+repeat_count - 1);
+
+	/* There are probably lots of empty lines at the end. */
+	if (state->pos.eval.row + repeat_count >= max_rows)
+		repeat_count = max_rows - state->pos.eval.row - 1;
 
 	/* see oo_table_end for details */
 	if (NULL != style) {
@@ -950,6 +954,10 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 					expr_string += 5;
 				else if (strncmp (expr_string, "of:", 3) == 0)
 					expr_string += 3;
+				else if (strncmp (expr_string, "=", 1) == 0)
+					/* They really should include a namespace */
+					/* We assume that it is an OpenFormula expression */
+					expr_string += 0;
 				else {
 					oo_warning (xin, _("Missing or unknown expression namespace: %s"), expr_string);
 					continue;
