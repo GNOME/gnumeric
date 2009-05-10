@@ -537,7 +537,15 @@ table_cellregion_write (GOCmdContext *ctx, GnmCellRegion *cr,
 
 	output = gsf_output_memory_new ();
 	ioc = gnumeric_io_context_new (ctx);
-	wb = workbook_new_with_sheets (1);
+
+	{
+		int cols = cr->cols;
+		int rows = cr->rows;
+		gnm_sheet_suggest_size (&cols, &rows);
+		wb = workbook_new ();
+		workbook_sheet_add (wb, -1, cols, rows);
+	}
+
 	wb_view = workbook_view_new (wb);
 
 	sheet = workbook_sheet_by_index (wb, 0);

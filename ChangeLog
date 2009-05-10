@@ -1,5 +1,8 @@
 2009-05-09  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-clipboard.c (table_cellregion_write): Explicitly size
+	the temporary sheet.
+
 	* src/workbook.c (workbook_new_with_sheets): Respect the sheet
 	size preferences.
 
