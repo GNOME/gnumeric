@@ -101,6 +101,12 @@ static struct {
 	{ "application/vnd.oasis.opendocument.spreadsheet-template",	OOO_VER_OPENDOC }
 };
 
+/* Formula Type */
+typedef enum {
+	FORMULA_OPENFORMULA = 0,
+	FORMULA_MICROSOFT
+} OOFormula;
+
 #define OD_BORDER_THIN		1
 #define OD_BORDER_MEDIUM	2.5
 #define OD_BORDER_THICK		5
@@ -473,7 +479,8 @@ oo_attr_enum (GsfXMLIn *xin, xmlChar const * const *attrs,
 
 static GnmExprTop const *
 oo_expr_parse_str (GsfXMLIn *xin, char const *str,
-		   GnmParsePos const *pp, GnmExprParseFlags flags)
+		   GnmParsePos const *pp, GnmExprParseFlags flags,
+		   OOFormula type)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmExprTop const *texpr;
@@ -943,6 +950,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (oo_attr_int (xin, attrs, OO_NS_TABLE, "number-columns-repeated", &state->col_inc))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "formula")) {
+			OOFormula f_type = FORMULA_OPENFORMULA;
+
 			if (attrs[1] == NULL) {
 				oo_warning (xin, _("Missing expression"));
 				continue;
@@ -950,7 +959,10 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 			expr_string = CXML2C (attrs[1]);
 			if (state->ver == OOO_VER_OPENDOC) {
-				if (strncmp (expr_string, "oooc:", 5) == 0)
+				if (strncmp (expr_string, "msoxl:", 6) == 0) {
+					expr_string += 6;
+					f_type = FORMULA_MICROSOFT;
+				} else if (strncmp (expr_string, "oooc:", 5) == 0)
 					expr_string += 5;
 				else if (strncmp (expr_string, "of:", 3) == 0)
 					expr_string += 3;
@@ -975,7 +987,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				state->content_is_error = TRUE;
 			else
 				texpr = oo_expr_parse_str (xin, expr_string,
-					&state->pos, GNM_EXPR_PARSE_DEFAULT);
+							   &state->pos, GNM_EXPR_PARSE_DEFAULT, f_type);
 		} else if (oo_attr_bool (xin, attrs,
 					 (state->ver == OOO_VER_OPENDOC) ? OO_NS_OFFICE : OO_NS_TABLE,
 					 "boolean-value", &bool_val))
@@ -1878,7 +1890,7 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 
 		parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
 		texpr = oo_expr_parse_str (xin, tmp, &pp,
-			GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES);
+					   GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES, FORMULA_OPENFORMULA);
 		g_free (tmp);
 
 		if (texpr == NULL)
@@ -1894,7 +1906,7 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 
 			gnm_expr_top_unref (texpr);
 			texpr = oo_expr_parse_str (xin, expr_str,
-				&pp, GNM_EXPR_PARSE_DEFAULT);
+						   &pp, GNM_EXPR_PARSE_DEFAULT, FORMULA_OPENFORMULA);
 			if (texpr != NULL) {
 				pp.sheet = NULL;
 				expr_name_add (&pp, name, texpr, NULL, TRUE, NULL);

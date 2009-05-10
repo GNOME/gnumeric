@@ -1,5 +1,11 @@
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (OOFormula): new type
+	(oo_expr_parse_str): add OOFormula type argument and change all callers
+	(oo_cell_start): recognize "msoxl" formulas
+
+2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_row_start): don't croak on many repeated lines
 	  beyond the size of our sheets
 
