@@ -1,5 +1,13 @@
 2009-05-11  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-style.c (sheet_style_init_size): Don't set partial_col
+	and partial_row.
+	(cb_style_list_add_node): Deal without partial_col and
+	partial_row.
+
+	* src/sheet.h (struct _Sheet): Remove partial_col and partial_row
+	flags.
+
 	* src/ssindex.c (cb_index_styles): Index validation stuff too.
 
 2009-05-09  Morten Welinder  <terra@gnome.org>

@@ -114,7 +114,6 @@ struct _Sheet {
 
 	/* tile related data */
 	int tile_top_level, max_width, max_height;
-	gboolean partial_row, partial_col;
 };
 
 #define GNM_SHEET_TYPE	(gnm_sheet_get_type ())

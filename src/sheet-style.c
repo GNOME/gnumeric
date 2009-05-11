@@ -485,9 +485,6 @@ sheet_style_init_size (Sheet *sheet, int cols, int rows)
 	sheet->max_height = tile_heights[sheet->tile_top_level];
 	sheet->max_width = tile_widths[sheet->tile_top_level];
 
-	sheet->partial_row = (rows != sheet->max_height * TILE_SIZE_ROW);
-	sheet->partial_col = (cols != sheet->max_width * TILE_SIZE_COL);
-
 #if USE_TILE_POOLS
 	if (tile_pool_users++ == 0) {
 		tile_pools[TILE_SIMPLE] =
@@ -2072,23 +2069,14 @@ cb_style_list_add_node (GnmStyle *style,
 	GnmCellPos key;
 	GnmRange range;
 	Sheet const *sheet = mi->sheet;
+	GnmSheetSize const *ss = gnm_sheet_get_size (sheet);
 
 	range.start.col = corner_col;
 	range.start.row = corner_row;
-	range.end.col = corner_col + width - 1;
-	range.end.row = corner_row + height - 1;
-
-	if (sheet->partial_col) {
-		if (corner_col >= gnm_sheet_get_max_cols (sheet))
-			return;
-		range.end.col = MIN (range.end.col, gnm_sheet_get_last_col (sheet));
-	}
-
-	if (sheet->partial_row) {
-		if (corner_row >= gnm_sheet_get_max_rows (sheet))
-			return;
-		range.end.row = MIN (range.end.row, gnm_sheet_get_last_row (sheet));
-	}
+	range.end.col = MIN (corner_col + width - 1, ss->max_cols - 1);
+	range.end.row = MIN (corner_row + height - 1, ss->max_rows - 1);
+	if (corner_col >= ss->max_cols || corner_row >= ss->max_rows)
+		return;
 
 	if (apply_to) {
 		range.start.col -= apply_to->start.col;
