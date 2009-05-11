@@ -1,5 +1,12 @@
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_extent_sheet_cols): new
+	(oo_col_start): extent the required number of columns if necessary
+	(oo_extent_sheet_rows): new
+	(oo_row_start): extent the required number of rows if necessary
+
+2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (opendoc_content_dtd): TABLE_ROW can also be contained 
 	  in TABLE_ROWS
 	
