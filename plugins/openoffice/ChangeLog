@@ -1,3 +1,10 @@
+2009-05-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (styles_dtd): there can be column and row 
+	  properties in the default style
+	* plugin.xml.in: remove the UNFINISHED label to see what aspects
+	  people are in fact trying to use
+
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_extent_sheet_cols): new

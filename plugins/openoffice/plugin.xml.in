@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin id="Gnumeric_OpenCalc">
 	<information>
-		<_name>OpenCalc/StarCalc</_name>
-		<_description>Open/Star Office spreadsheet</_description>
+		<_name>Open Document Format</_name>
+		<_description>Open Document Format as used by OpenOffice, Lotus Symphony, etc.</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="openoffice"/>
@@ -10,7 +10,7 @@
 	<services>
 		<service type="file_opener" id="openoffice" priority="1" probe="TRUE">
 			<information>
-				<_description>Open/Star Calc (*.sxc, *.ods)</_description>
+				<_description>Open Document Format (*.sxc, *.ods)</_description>
 			</information>
 			<suffixes>
 				<suffix>ods</suffix>
@@ -28,7 +28,7 @@
 		<service type="file_saver" id="openoffice" file_extension="ods"
 		         format_level="auto" overwrite_files="TRUE">
 			<information>
-				<_description>OpenDocument/OpenOffice _UNFINISHED_ (*.ods)</_description>
+				<_description>Open Document Format/OpenOffice (*.ods)</_description>
 			</information>
 		</service>
 	</services>
