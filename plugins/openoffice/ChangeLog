@@ -1,5 +1,10 @@
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (opendoc_content_dtd): TABLE_ROW can also be contained 
+	  in TABLE_ROWS
+	
+2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (OOParseState): use an array of conventions
 	(oo_expr_parse_str): use oo_expr_parse_str
 	(oo_load_convention): new
