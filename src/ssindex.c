@@ -27,6 +27,8 @@
 #include "mstyle.h"
 #include "sheet-style.h"
 #include "hlink.h"
+#include "validation.h"
+#include "str.h"
 #include "sheet-object-graph.h"
 #include "gnm-plugin.h"
 
@@ -36,7 +38,6 @@
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-stdio.h>
-#include <string.h>
 
 static gboolean ssindex_show_version = FALSE;
 static gboolean ssindex_list_mime_types = FALSE;
@@ -87,14 +88,41 @@ typedef struct {
 } IndexerState;
 
 static void
+ssindex_hlink (IndexerState *state, GnmHLink const *lnk)
+{
+	gchar const *str;
+
+	str = gnm_hlink_get_target (lnk);
+	if (str)
+		gsf_xml_out_simple_element (state->output, "data", str);
+
+	str = gnm_hlink_get_tip (lnk);
+	if (str)
+		gsf_xml_out_simple_element (state->output, "data", str);
+}
+
+static void
+ssindex_validation (IndexerState *state, GnmValidation const *valid)
+{
+	gchar const *str;
+
+	str = valid->title->str;
+	if (*str)
+		gsf_xml_out_simple_element (state->output, "data", str);
+
+	str = valid->msg->str;
+	if (*str)
+		gsf_xml_out_simple_element (state->output, "data", str);
+}
+
+static void
 cb_index_cell (G_GNUC_UNUSED gpointer ignore,
 	       GnmCell const *cell, IndexerState *state)
 {
 	if (cell->value != NULL && VALUE_IS_STRING (cell->value)) {
 		char const *str = value_peek_string (cell->value);
 		if (str != NULL && *str)
-			gsf_xml_out_simple_element (state->output,
-				"data", value_peek_string (cell->value));
+			gsf_xml_out_simple_element (state->output, "data", str);
 	}
 }
 
@@ -102,15 +130,18 @@ static void
 cb_index_styles (GnmStyle *style, gconstpointer dummy, IndexerState *state)
 {
 	if (gnm_style_is_element_set (style, MSTYLE_HLINK)) {
-		gchar const *str;
 		GnmHLink const *lnk = gnm_style_get_hlink (style);
-		if (lnk != NULL) {
-			if (NULL != (str = gnm_hlink_get_target (lnk)))
-				gsf_xml_out_simple_element (state->output, "data", str);
-			if (NULL != (str = gnm_hlink_get_tip (lnk)))
-				gsf_xml_out_simple_element (state->output, "data", str);
-		}
+		if (lnk != NULL)
+			ssindex_hlink (state, lnk);
 	}
+
+	if (gnm_style_is_element_set (style, MSTYLE_VALIDATION)) {
+		GnmValidation const *valid = gnm_style_get_validation (style);
+		if (valid)
+			ssindex_validation (state, valid);
+	}
+
+	/* Input Msg? */
 }
 
 static void
@@ -122,6 +153,13 @@ ssindex_chart (IndexerState *state, GogObject *obj)
 	for (ptr = obj->children ; ptr != NULL ; ptr = ptr->next)
 		ssindex_chart (state, ptr->data);
 }
+
+static void
+cb_index_name (const char *name, GnmExprName const *nexpr, IndexerState *state)
+{
+	gsf_xml_out_simple_element (state->output, "data", name);
+}
+
 
 /**
  * Other things we could index
@@ -147,11 +185,16 @@ ssindex (char const *file, IOContext *ioc)
 	if (state.wb_view == NULL)
 		return 1;
 
+	state.sheet = NULL;
+
 	gsf_stdout = gsf_output_stdio_new_FILE ("<stdout>", stdout, TRUE);
 	state.output = gsf_xml_out_new (gsf_stdout);
 	gsf_xml_out_start_element (state.output, "gnumeric");
 	state.wb = wb = wb_view_get_workbook (state.wb_view);
-	for (i = 0 ; i < workbook_sheet_count (wb); i++) {
+
+	workbook_foreach_name (wb, TRUE, (GHFunc)cb_index_name, &state);
+
+	for (i = 0; i < workbook_sheet_count (wb); i++) {
 		state.sheet = workbook_sheet_by_index (wb, i);
 		gsf_xml_out_simple_element (state.output,
 			"data", state.sheet->name_unquoted);
@@ -177,9 +220,13 @@ ssindex (char const *file, IOContext *ioc)
 		}
 		g_slist_free (objs);
 
-		/* and finally the hyper-links */
+		/* Various stuff in styles.  */
 		sheet_style_foreach (state.sheet,
-			(GHFunc)&cb_index_styles, &state);
+				     (GHFunc)&cb_index_styles, &state);
+
+		/* Local names.  */
+		gnm_sheet_foreach_name (state.sheet,
+					(GHFunc)cb_index_name, &state);
 	}
 
 	gsf_xml_out_end_element (state.output); /* </gnumeric> */

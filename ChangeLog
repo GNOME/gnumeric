@@ -1,3 +1,7 @@
+2009-05-11  Morten Welinder  <terra@gnome.org>
+
+	* src/ssindex.c (cb_index_styles): Index validation stuff too.
+
 2009-05-09  Morten Welinder  <terra@gnome.org>
 
 	* src/collect.c (collect_floats): Introduce a cache for the

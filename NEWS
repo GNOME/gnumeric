@@ -21,6 +21,7 @@ Morten:
 	* Respect the sheet size prefs for new blank workbooks.
 	* Cache large ranges, possibly sorted.
 	* Add progress display for OO import.
+	* Improve ssindex' coverage.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.7
