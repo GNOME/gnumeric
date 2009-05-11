@@ -1,5 +1,9 @@
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* xlsx-write.c (xlsx_write_cols): fix off-by-one error [#569862]
+	
+2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* xlsx-write.c (xlsx_write_sheet): write the tags in schema ordering
 
 2009-05-06  Morten Welinder <terra@gnome.org>

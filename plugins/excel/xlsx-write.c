@@ -701,15 +701,18 @@ xlsx_write_cols (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 {
 	ColRowInfo const *ci, *info;
 	gboolean has_child = FALSE;
-	int first_col = 0, i;
+	int first_col = -1, i;
 
-	info = sheet_col_get (state->sheet, first_col);
-	while (info == NULL && first_col <= extent->end.col)
+	g_print ("xlsx_write_cols extent: %i %i\n", extent->start.col, extent->end.col);
+
+	do {
 		info = sheet_col_get (state->sheet, ++first_col);
+	} while (info == NULL && first_col < extent->end.col);
+
 	if (info == NULL)
 		return;
 
-	for (i = first_col + 1 ; i <= extent->end.col ; i++) {
+	for (i = first_col + 1; i <= extent->end.col ; i++) {
 		ci = sheet_col_get (state->sheet, i);
 		if (!colrow_equal (info, ci)) {
 			has_child |= xlsx_write_col (state, xml, info, first_col, i-1, has_child);
