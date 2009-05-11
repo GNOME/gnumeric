@@ -703,8 +703,6 @@ xlsx_write_cols (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 	gboolean has_child = FALSE;
 	int first_col = -1, i;
 
-	g_print ("xlsx_write_cols extent: %i %i\n", extent->start.col, extent->end.col);
-
 	do {
 		info = sheet_col_get (state->sheet, ++first_col);
 	} while (info == NULL && first_col < extent->end.col);
