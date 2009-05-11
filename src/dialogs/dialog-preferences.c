@@ -300,7 +300,8 @@ int_pref_conf_to_widget (GOConfNode *node, char const *key, GtkSpinButton *butto
 	if (val_in_conf != val_in_button)
 		gtk_spin_button_set_value (button, (gdouble) val_in_conf);
 }
-static void
+
+static GtkWidget *
 int_pref_create_widget (GOConfNode *node, char const *key, GtkWidget *table,
 			gint row, gint val, gint from, gint to, gint step, 
 			gint_conf_setter_t setter, char const *default_label)
@@ -320,6 +321,33 @@ int_pref_create_widget (GOConfNode *node, char const *key, GtkWidget *table,
 
 	pref_create_label (node, key, table, row, default_label, w);
 	set_tip (node, key, w);
+	return w;
+}
+
+static gboolean
+powerof2 (int i)
+{
+	return i > 0 && (i & (i - 1)) == 0;
+}
+
+static void
+cb_power_of_2 (GtkAdjustment *adj)
+{
+	int val = (int)adj->value;
+
+	if (powerof2 (val - 1))
+		gtk_adjustment_set_value (adj, (val - 1) * 2);
+	else if (powerof2 (val + 1))
+		gtk_adjustment_set_value (adj, (val + 1) / 2);
+}
+
+static void
+power_of_2_handlers (GtkWidget *w)
+{
+	GtkSpinButton *spin = GTK_SPIN_BUTTON (w);
+	GtkAdjustment *adj = gtk_spin_button_get_adjustment (spin);
+	g_signal_connect (G_OBJECT (adj), "value_changed",
+			  G_CALLBACK (cb_power_of_2), NULL);
 }
 
 /*************************************************************************/
@@ -577,7 +605,8 @@ pref_window_page_initializer (PrefState *state,
 	GtkWidget *page = gtk_table_new (7, 2, FALSE);
 	gint row = 0;
 	GOConfNode *node;
-	
+	GtkWidget *w;
+
 	node = go_conf_get_node (state->root, GNM_CONF_GUI_DIR);
 	double_pref_create_widget (node, GNM_CONF_GUI_WINDOW_Y,
 				   page, row++, 0.75, 0.25, 1, 0.05, 2, 
@@ -596,14 +625,19 @@ pref_window_page_initializer (PrefState *state,
 				gnm_gconf_set_workbook_nsheets,
 				_("Default Number of Sheets"));
 
-	int_pref_create_widget (state->root, GNM_CONF_WORKBOOK_NROWS,
-				page, row++, GNM_DEFAULT_ROWS, GNM_MIN_ROWS, GNM_MAX_ROWS, GNM_MIN_ROWS, 
-				gnm_gconf_set_workbook_nrows,
+	w = int_pref_create_widget (state->root, GNM_CONF_WORKBOOK_NROWS,
+				    page, row++,
+				    GNM_DEFAULT_ROWS, GNM_MIN_ROWS, GNM_MAX_ROWS, 1, 
+				    gnm_gconf_set_workbook_nrows,
 				_("Default Number of Rows in a Sheet"));
-	int_pref_create_widget (state->root, GNM_CONF_WORKBOOK_NCOLS,
-				page, row++, GNM_DEFAULT_COLS, GNM_MIN_COLS, GNM_MAX_COLS, GNM_MIN_COLS, 
+	power_of_2_handlers (w);
+
+	w = int_pref_create_widget (state->root, GNM_CONF_WORKBOOK_NCOLS,
+				    page, row++,
+				    GNM_DEFAULT_COLS, GNM_MIN_COLS, GNM_MAX_COLS, 1, 
 				gnm_gconf_set_workbook_ncols,
 				_("Default Number of Columns in a Sheet"));
+	power_of_2_handlers (w);
 
 	bool_pref_create_widget (node, GNM_CONF_GUI_ED_LIVESCROLLING,
 				 page, row++, 
