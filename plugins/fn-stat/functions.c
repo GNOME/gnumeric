@@ -48,19 +48,6 @@ GNM_PLUGIN_MODULE_HEADER;
 
 /***************************************************************************/
 
-static gint
-float_compare (gnm_float const *a, gnm_float const *b)
-{
-        if (*a < *b)
-                return -1;
-	else if (*a == *b)
-		return 0;
-	else
-		return 1;
-}
-
-/***************************************************************************/
-
 static GnmFuncHelp const help_varp[] = {
 	{ GNM_FUNC_HELP_NAME, F_("VARP:variance of an entire population")},
 	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},
@@ -1969,8 +1956,8 @@ static GnmFuncHelp const help_ssmedian[] = {
 };
 
 static gnm_float
-gnumeric_ssmedian_calc (gnm_float *sorted_data, int len, gnm_float mid_val,
-			 gnm_float interval)
+gnumeric_ssmedian_calc (gnm_float const *sorted_data, int len,
+			gnm_float mid_val, gnm_float interval)
 {
 	gnm_float L_lower = mid_val - interval / 2;
 	gnm_float L_upper = mid_val + interval / 2;
@@ -1978,7 +1965,7 @@ gnumeric_ssmedian_calc (gnm_float *sorted_data, int len, gnm_float mid_val,
 	int f_within = 0;
 	int i;
 
-	for (i=0; i<len; i++) {
+	for (i = 0; i < len; i++) {
 		if (*sorted_data < L_lower)
 			f_below++;
 		else if (*sorted_data <= L_upper)
@@ -1996,49 +1983,48 @@ gnumeric_ssmedian (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float *data;
 	GnmValue *result = NULL;
+	gnm_float interval;
 	int n;
 
 	data = collect_floats_value (argv[0], ei->pos,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
+				     COLLECT_IGNORE_BLANKS |
+				     COLLECT_SORT,
 				     &n, &result);
-	if (!result) {
-		gnm_float interval = argv[1] ?
-			value_get_as_float (argv[1]) : 1.0;
+	if (result)
+		goto done;
+	interval = argv[1] ? value_get_as_float (argv[1]) : 1.0;
 
-		if (interval <= 0 || n == 0)
-			result = value_new_error_NUM (ei->pos);
-		else {
-			switch (n) {
-			case (1):
-				result = value_new_float (*data);
-				break;
-			case (2):
-				result = value_new_float
-					((*data + *(data+1))/2);
-				break;
-			default:
-				qsort (data, n, sizeof (data[0]), (int (*) (void const *, void const *))&float_compare);
-				if ((n%2) == 0) {
-					result = (*(data + n/2) == *(data + n/2 - 1)) ?
-						value_new_float
-						(gnumeric_ssmedian_calc
-						 (data, n, *(data + n/2),
-						  interval)) :
-						value_new_float
-						((*(data + n/2) + *(data + n/2 - 1))
-						 /2);
-				} else {
-					result = value_new_float
-						(gnumeric_ssmedian_calc
-						 (data, n, *(data + n/2),
-						  interval));
-				}
-			}
+	if (interval <= 0 || n == 0) {
+		result = value_new_error_NUM (ei->pos);
+		goto done;
+	}
+
+	switch (n) {
+	case (1):
+		result = value_new_float (data[0]);
+		break;
+	case (2):
+		result = value_new_float ((data[0] + data[1]) / 2);
+		break;
+	default:
+		if (n % 2 == 0) {
+			gnm_float m1 = data[n / 2];
+			gnm_float m0 = data[n / 2 - 1];
+			result = value_new_float
+				(m1 == m1
+				 ? gnumeric_ssmedian_calc (data, n,
+							   m1, interval)
+				 : (m0 + m1) / 2);
+		} else {
+			result = value_new_float
+				(gnumeric_ssmedian_calc
+				 (data, n, data[n / 2], interval));
 		}
 	}
 
+ done:
 	g_free (data);
 	return result;
 }
@@ -2061,11 +2047,6 @@ static GnmFuncHelp const help_large[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-/* FIXME :
- *  This used to be vararg (n1,n2,n3 ....k) : This is broken in a few contexts
- *  notably it does not do implicit intersection or iteration on the final argument
- *  However, the current approach is dog slow in the implicit iteration case.
- *  We should not need to re-extract and sort the content for each ordinal. */
 static GnmValue *
 gnumeric_large (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
@@ -2110,11 +2091,6 @@ static GnmFuncHelp const help_small[] = {
 };
 
 
-/* FIXME :
- *  This used to be vararg (n1,n2,n3 ....k) : This is broken in a few contexts
- *  notably it does not do implicit intersection or iteration on the final argument
- *  However, the current approach is dog slow in the implicit iteration case.
- *  We should not need to re-extract and sort the content for each ordinal. */
 static GnmValue *
 gnumeric_small (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
@@ -3100,7 +3076,7 @@ gnumeric_frequency (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		goto out;
 	}
 
-	bins = collect_floats_value (argv[1], ei->pos, flags,
+	bins = collect_floats_value (argv[1], ei->pos, flags | COLLECT_SORT,
 				     &nbins, &error);
 	if (error) {
 		res = error;
@@ -3113,7 +3089,6 @@ gnumeric_frequency (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		goto out;
 	}
 
-	qsort (bins, nbins, sizeof (gnm_float), (void *) &float_compare);
 	counts = g_new0 (int, nbins + 1);
 
 	/* Stupid code.  */

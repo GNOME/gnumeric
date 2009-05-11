@@ -1,3 +1,8 @@
+2009-05-11  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_ssmedian): Simplify.
+	(gnumeric_frequency): Simplify.
+
 2009-05-06  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.7
