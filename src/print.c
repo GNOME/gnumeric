@@ -342,13 +342,13 @@ ensure_decoration_layout (GtkPrintContext   *context)
  * the rectangle.
  */
 static void
-print_hf_element (GtkPrintContext   *context, cairo_t *cr, Sheet const *sheet, 
+print_hf_element (GtkPrintContext   *context, cairo_t *cr, Sheet const *sheet,
 		  char const *format,
-		  PangoAlignment side, gdouble width, gboolean align_bottom, 
+		  PangoAlignment side, gdouble width, gboolean align_bottom,
 		  HFRenderInfo *hfi)
 {
 	PangoLayout *layout;
-	
+
 	gdouble text_height = 0.;
 	char *text;
 
@@ -356,25 +356,25 @@ print_hf_element (GtkPrintContext   *context, cairo_t *cr, Sheet const *sheet,
 		return;
 
 	text = hf_format_render (format, hfi, HF_RENDER_PRINT);
-	
+
 	if (text == NULL)
 		return;
 
 	layout = ensure_decoration_layout (context);
-	
+
 	pango_layout_set_text (layout, text, -1);
 	pango_layout_set_width (layout, width * PANGO_SCALE);
 	pango_layout_set_alignment (layout, side);
-	
+
 	if (align_bottom) {
 		gint layout_height = 0;
 		pango_layout_get_size (layout, NULL, &layout_height);
 		text_height = (gdouble)layout_height / PANGO_SCALE;
 	}
-		
+
 	cairo_move_to (cr, 0., - text_height);
 	pango_cairo_show_layout (cr, layout);
-		
+
 	g_object_unref (layout);
 	g_free(text);
 }
@@ -389,7 +389,7 @@ print_hf_element (GtkPrintContext   *context, cairo_t *cr, Sheet const *sheet,
  *
  */
 static void
-print_hf_line (GtkPrintContext   *context, cairo_t *cr, Sheet const *sheet, 
+print_hf_line (GtkPrintContext   *context, cairo_t *cr, Sheet const *sheet,
 	       PrintHF const *hf, gboolean align_bottom, gdouble width, HFRenderInfo *hfi)
 {
 	print_hf_element (context, cr, sheet, hf->left_format, PANGO_ALIGN_LEFT, width, align_bottom, hfi);
@@ -458,11 +458,11 @@ print_page (GtkPrintOperation *operation,
 	main_width = sheet_col_get_distance_pts (sheet, gsr->range.start.col,
 						  gsr->range.end.col + 1);
 	if (gsr->n_rep_rows > 0)
-		rep_row_height = sheet_row_get_distance_pts 
+		rep_row_height = sheet_row_get_distance_pts
 			(sheet, gsr->first_rep_rows,
 			 gsr->first_rep_rows + gsr->n_rep_rows);
 	if (gsr->n_rep_cols > 0)
-		rep_col_width = sheet_col_get_distance_pts 
+		rep_col_width = sheet_col_get_distance_pts
 			(sheet, gsr->first_rep_cols,
 			 gsr->first_rep_cols + gsr->n_rep_cols);
         if ((gsr->n_rep_rows > 0) || (gsr->n_rep_cols > 0)) {
@@ -475,20 +475,20 @@ print_page (GtkPrintOperation *operation,
 	print_width = main_width + row_header_width + rep_col_width;
 
 	/* printing header  */
-	
+
 	if (edge_to_below_header > header) {
 		cairo_save (cr);
-		print_hf_line (context, cr, sheet, pinfo->header, 
+		print_hf_line (context, cr, sheet, pinfo->header,
 			       FALSE, width, pi->hfi);
 		cairo_restore (cr);
 	}
-	
+
 	/* printing footer  */
-	
+
 	if (edge_to_above_footer > footer) {
 		cairo_save (cr);
 		cairo_translate (cr, 0, height + (edge_to_below_header - header) + (edge_to_above_footer - footer));
-		print_hf_line (context, cr, sheet, pinfo->footer, TRUE, width, 
+		print_hf_line (context, cr, sheet, pinfo->footer, TRUE, width,
 			       pi->hfi);
 		cairo_restore (cr);
 	}
@@ -513,22 +513,22 @@ print_page (GtkPrintOperation *operation,
 	if (sheet->print_info->print_titles) {
 		cairo_save (cr);
 		if (gsr->n_rep_cols > 0) {
-			print_page_col_headers (context, pi, cr, sheet, 
-						&r_repeating_intersect, 
+			print_page_col_headers (context, pi, cr, sheet,
+						&r_repeating_intersect,
 						row_header_width, col_header_height);
 			cairo_translate (cr, dir * rep_col_width, 0 );
 		}
-		print_page_col_headers (context, pi, cr, sheet, &gsr->range, 
+		print_page_col_headers (context, pi, cr, sheet, &gsr->range,
 					row_header_width, col_header_height);
 		cairo_restore (cr);
 		cairo_save (cr);
 		if (gsr->n_rep_rows > 0) {
-			print_page_row_headers (context, pi, cr, sheet, 
-						&r_repeating_intersect, 
+			print_page_row_headers (context, pi, cr, sheet,
+						&r_repeating_intersect,
 						row_header_width, col_header_height);
 			cairo_translate (cr, 0, rep_row_height);
 		}
-		print_page_row_headers (context, pi, cr, sheet, &gsr->range, 
+		print_page_row_headers (context, pi, cr, sheet, &gsr->range,
 					row_header_width, col_header_height);
 		cairo_restore (cr);
 		cairo_translate (cr, dir * row_header_width, col_header_height);
@@ -537,8 +537,8 @@ print_page (GtkPrintOperation *operation,
 /* printing repeated row/col intersect */
 
 	if ((gsr->n_rep_rows > 0) && (gsr->n_rep_cols > 0)) {
-		print_page_cells (context, pi, cr, sheet, 
-				  &r_repeating_intersect, 
+		print_page_cells (context, pi, cr, sheet,
+				  &r_repeating_intersect,
 				  dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
 	}
 
@@ -551,7 +551,7 @@ print_page (GtkPrintOperation *operation,
 		cairo_save (cr);
 		if (gsr->n_rep_cols > 0)
 			cairo_translate (cr, dir * rep_col_width, 0 );
-		print_page_cells (context, pi, cr, sheet, &r, 
+		print_page_cells (context, pi, cr, sheet, &r,
 				  dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
 		cairo_restore (cr);
 		cairo_translate (cr, 0, rep_row_height );
@@ -563,14 +563,14 @@ print_page (GtkPrintOperation *operation,
 		GnmRange r;
 		range_init (&r, gsr->first_rep_cols, gsr->range.start.row,
 			    gsr->first_rep_cols + gsr->n_rep_cols - 1, gsr->range.end.row);
-		print_page_cells (context, pi, cr, sheet, &r, 
+		print_page_cells (context, pi, cr, sheet, &r,
 				  dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
 		cairo_translate (cr, dir * rep_col_width, 0 );
 	}
 
 /* printing page content  */
 
-	print_page_cells (context, pi, cr, sheet, &gsr->range, 
+	print_page_cells (context, pi, cr, sheet, &gsr->range,
 			  dir * GNM_COL_MARGIN, -GNM_ROW_MARGIN);
 
 	cairo_restore (cr);
@@ -627,7 +627,7 @@ adjust_repetition (Sheet const *sheet,
 		*first_rep_used = first_rep;
 		if (i - first_rep < n_rep) {
 			*n_rep_used = i - first_rep;
-			*repeating_used = sheet_get_distance_pts 
+			*repeating_used = sheet_get_distance_pts
 				(sheet, first_rep, first_rep + *n_rep_used);
 		} else {
 			*repeating_used = repeating;
@@ -636,7 +636,7 @@ adjust_repetition (Sheet const *sheet,
 	}
 }
 
-static gint 
+static gint
 paginate (GSList **paginationInfo,
 	  Sheet const *sheet,
 	  gint start, gint end,
@@ -654,12 +654,12 @@ paginate (GSList **paginationInfo,
 		first_rep = repeat_start;
 		n_rep = repeat_end - first_rep + 1;
 		repeating = sheet_get_distance_pts (sheet, first_rep, first_rep + n_rep);
-	} 
+	}
 
 	while (rc <= end) {
 		int count;
 		PaginationInfo *item;
- 
+
 		gdouble repeating_used = 0.;
 		gint n_rep_used = 0, first_rep_used = 0;
 
@@ -671,9 +671,9 @@ paginate (GSList **paginationInfo,
 				   sheet_get_distance_pts);
 
 		count = compute_group (sheet, rc, end,
-				       usable - repeating_used, 
+				       usable - repeating_used,
 				       get_info);
-	
+
 		if (paginationInfo) {
 			item = g_new (PaginationInfo,1);
 			item->rc = rc;
@@ -721,7 +721,7 @@ compute_scale_fit_to (Sheet const *sheet,
 
 	/* If the repeating columns are not included we should add them */
 	if (repeat && (repeat_start < start))
-		extent += get_distance_pts (sheet, repeat_start, 
+		extent += get_distance_pts (sheet, repeat_start,
 					    (repeat_end < start) ? (repeat_end + 1) : start);
 
 	/* This means to take whatever space is needed.  */
@@ -830,11 +830,11 @@ compute_sheet_pages_down_then_across (PrintingInstance * pi,
 
 		while (r_list) {
 			PaginationInfo *r_info = r_list->data;
-			
+
 			range_init (&range, COL_FIT (c_info->rc), ROW_FIT (r_info->rc),
 				    COL_FIT (c_info->rc + c_info->count - 1),
 				    ROW_FIT (r_info->rc + r_info->count - 1));
-			compute_sheet_pages_add_range (pi, sheet, &range, 
+			compute_sheet_pages_add_range (pi, sheet, &range,
 						       c_info->n_rep, r_info->n_rep,
 						       c_info->first_rep, r_info->first_rep);
 			r_list = r_list->next;
@@ -858,11 +858,11 @@ compute_sheet_pages_across_then_down (PrintingInstance * pi,
 
 		while (c_list) {
 			PaginationInfo *c_info = c_list->data;
-			
+
 			range_init (&range, COL_FIT (c_info->rc), ROW_FIT (r_info->rc),
 				    COL_FIT (c_info->rc + c_info->count - 1),
 				    ROW_FIT (r_info->rc + r_info->count - 1));
-			compute_sheet_pages_add_range (pi, sheet, &range, 
+			compute_sheet_pages_add_range (pi, sheet, &range,
 						       c_info->n_rep, r_info->n_rep,
 						       c_info->first_rep, r_info->first_rep);
 			c_list = c_list->next;
@@ -976,17 +976,17 @@ compute_sheet_pages (GtkPrintContext   *context,
 	usable_x   = page_width / px;
 	usable_y   = page_height / py;
 
-	paginate (&column_pagination, sheet, r.start.col, r.end.col, 
+	paginate (&column_pagination, sheet, r.start.col, r.end.col,
 		  usable_x - row_header_width,
 		  repeat_left_use, repeat_left_start, repeat_left_end,
 		  sheet_col_get_distance_pts, sheet_col_get_info);
-	paginate (&row_pagination, sheet, r.start.row, r.end.row, 
+	paginate (&row_pagination, sheet, r.start.row, r.end.row,
 		  usable_y - col_header_height,
 		  repeat_top_use, repeat_top_start, repeat_top_end,
 		  sheet_row_get_distance_pts, sheet_row_get_info);
 
 	if (sheet->print_info->print_across_then_down)
-		compute_sheet_pages_across_then_down (pi, sheet, 
+		compute_sheet_pages_across_then_down (pi, sheet,
 						      column_pagination,row_pagination);
 	else
 		compute_sheet_pages_down_then_across (pi, sheet,
@@ -994,7 +994,7 @@ compute_sheet_pages (GtkPrintContext   *context,
 
 	go_slist_free_custom (column_pagination, g_free);
 	go_slist_free_custom (row_pagination, g_free);
-	
+
 	return FALSE;
 }
 
@@ -1025,7 +1025,7 @@ compute_pages (GtkPrintOperation *operation,
 			if (sheet->print_info->do_not_print)
 				continue;
 			if (!sheet_is_visible(sheet))
-				continue;			
+				continue;
 			compute_sheet_pages_add_sheet (pi, sheet,
 						       FALSE, FALSE);
 		}
@@ -1138,7 +1138,7 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 
 	if (compute_sheet_pages (context, pi, spi)) {
 		gtk_print_operation_cancel (operation);
-		return TRUE; 
+		return TRUE;
 	}
 
 	return FALSE;
@@ -1266,13 +1266,13 @@ workbook_visible_sheet_count (Workbook *wb)
 	guint i;
 	guint n = workbook_sheet_count (wb);
 	guint count = 0;
-	
+
 	for (i = 0; i < n; i++) {
 		Sheet *sheet = workbook_sheet_by_index (wb, i);
 		if (sheet_is_visible(sheet))
-			count++;		
-	}	
-	return count;	
+			count++;
+	}
+	return count;
 }
 
 static GObject*

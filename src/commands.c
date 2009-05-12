@@ -1338,7 +1338,7 @@ cmd_ins_del_colrow_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		/* Trouble.  */
 		return TRUE;
 	}
-	
+
 	/* Ins/Del Row/Col re-ants things completely to account
 	 * for the shift of col/rows. */
 	if (me->cutcopied != NULL && me->cut_copy_view != NULL) {
@@ -4622,7 +4622,7 @@ cmd_object_format_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 		me->first_time = FALSE;
 	else {
 		GObject *prev;
-		
+
 		g_object_get (me->so, "style",  &prev, NULL);
 		g_object_set (me->so, "style",  me->style, NULL);
 		g_object_unref (me->style);
@@ -4919,7 +4919,7 @@ typedef struct {
 MAKE_GNM_COMMAND (CmdSetComment, cmd_set_comment, NULL)
 
 static gboolean
-cmd_set_comment_apply (Sheet *sheet, GnmCellPos *pos, 
+cmd_set_comment_apply (Sheet *sheet, GnmCellPos *pos,
 		       char const *text, PangoAttrList *attributes,
 		       char const *author)
 {
@@ -4957,7 +4957,7 @@ cmd_set_comment_undo (GnmCommand *cmd,
 {
 	CmdSetComment *me = CMD_SET_COMMENT (cmd);
 
-	return cmd_set_comment_apply (me->sheet, &me->pos, 
+	return cmd_set_comment_apply (me->sheet, &me->pos,
 				      me->old_text, me->old_attributes,
 				      me->old_author);
 }
@@ -4968,7 +4968,7 @@ cmd_set_comment_redo (GnmCommand *cmd,
 {
 	CmdSetComment *me = CMD_SET_COMMENT (cmd);
 
-	return cmd_set_comment_apply (me->sheet, &me->pos, 
+	return cmd_set_comment_apply (me->sheet, &me->pos,
 				      me->new_text, me->new_attributes,
 				      me->new_author);
 }
@@ -5007,7 +5007,7 @@ gboolean
 cmd_set_comment (WorkbookControl *wbc,
 		 Sheet *sheet, GnmCellPos const *pos,
 		 char const *new_text,
-		 PangoAttrList *attr, 
+		 PangoAttrList *attr,
 		 char const *new_author)
 {
 	CmdSetComment *me;
@@ -5046,9 +5046,9 @@ cmd_set_comment (WorkbookControl *wbc,
 	me->sheet       = sheet;
 	comment = sheet_get_comment (sheet, pos);
 	if (comment) {
-		g_object_get (G_OBJECT (comment), 
+		g_object_get (G_OBJECT (comment),
 			      "text", &(me->old_text),
-			      "author", &(me->old_author), 
+			      "author", &(me->old_author),
 			      "markup", &(me->old_attributes), NULL);
 		if (me->old_attributes != NULL)
 			pango_attr_list_ref (me->old_attributes);
@@ -5193,12 +5193,12 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	}
 	if (me->newSheetObjects != NULL)
 	{
-		GSList *l = g_slist_reverse 
+		GSList *l = g_slist_reverse
 			(g_slist_copy (me->newSheetObjects));
 
 		dao_set_omit_so (me->dao, FALSE);
 		g_slist_foreach (l,
-				 (GFunc) cmd_analysis_tool_draw_old_so, 
+				 (GFunc) cmd_analysis_tool_draw_old_so,
 				 me->dao);
 		g_slist_free (l);
 	}
@@ -6986,7 +6986,7 @@ cmd_hyperlink_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			sheet_cell_set_value (cell, value_new_string (me->opt_content));
 		}
 
-	
+
 
 	sheet_redraw_all (me->cmd.sheet, FALSE);
 	sheet_mark_dirty (me->cmd.sheet);
@@ -7035,11 +7035,11 @@ cb_cmd_hyperlink_find_cells (GnmCellIter const *iter, gpointer user)
 	GnmCell *cell = iter->cell;
 
 	if (cell == NULL)
-		cell = sheet_cell_fetch (iter->pp.sheet, 
-					 iter->pp.eval.col, 
+		cell = sheet_cell_fetch (iter->pp.sheet,
+					 iter->pp.eval.col,
 					 iter->pp.eval.row);
 
-	if (gnm_cell_is_empty (cell) && 
+	if (gnm_cell_is_empty (cell) &&
 	    !gnm_cell_is_nonsingleton_array (cell))
 		*list = g_slist_prepend (*list, cell);
 	return NULL;
@@ -7097,9 +7097,9 @@ cmd_selection_hyperlink (WorkbookControl *wbc,
 
 		if (opt_content != NULL)
 			sheet_foreach_cell_in_range (me->cmd.sheet, CELL_ITER_ALL,
-						     r.start.col, r.start.row, 
+						     r.start.col, r.start.row,
 						     r.end.col, r.end.row,
-						     cb_cmd_hyperlink_find_cells, 
+						     cb_cmd_hyperlink_find_cells,
 						     &me->cells);
 		me->cmd.size += g_slist_length (me->cells)/2;
 	}
@@ -7111,7 +7111,7 @@ cmd_selection_hyperlink (WorkbookControl *wbc,
 		g_free (names);
 	} else
 		me->cmd.cmd_descriptor = g_strdup (opt_translated_name);
-	
+
 
 	return command_push_undo (wbc, G_OBJECT (me));
 }
@@ -7167,7 +7167,7 @@ static void
 cmd_so_set_links_finalize (GObject *cmd)
 {
 	CmdSOSetLink *me = CMD_SO_SET_LINKS (cmd);
-	
+
 	if (me->output)
 		gnm_expr_top_unref (me->output);
 	if (me->content)
@@ -7177,8 +7177,8 @@ cmd_so_set_links_finalize (GObject *cmd)
 
 gboolean
 cmd_so_set_links (WorkbookControl *wbc,
-		  SheetObject *so, 
-		  GnmExprTop const *output, 
+		  SheetObject *so,
+		  GnmExprTop const *output,
 		  GnmExprTop const *content)
 {
 	CmdSOSetLink *me;
@@ -7217,7 +7217,7 @@ cmd_so_set_frame_label_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc
 {
 	CmdSOSetFrameLabel *me = CMD_SO_SET_FRAME_LABEL (cmd);
 
-	sheet_widget_frame_set_label (me->so, me->new_label);	
+	sheet_widget_frame_set_label (me->so, me->new_label);
 
 	return FALSE;
 }
@@ -7236,7 +7236,7 @@ static void
 cmd_so_set_frame_label_finalize (GObject *cmd)
 {
 	CmdSOSetFrameLabel *me = CMD_SO_SET_FRAME_LABEL (cmd);
-	
+
 	g_free (me->old_label);
 	me->old_label = NULL;
 
@@ -7248,7 +7248,7 @@ cmd_so_set_frame_label_finalize (GObject *cmd)
 
 gboolean
 cmd_so_set_frame_label (WorkbookControl *wbc,
-			SheetObject *so, 
+			SheetObject *so,
 			char *old_label, char *new_label )
 {
 	CmdSOSetFrameLabel *me;
@@ -7307,7 +7307,7 @@ static void
 cmd_so_set_checkbox_finalize (GObject *cmd)
 {
 	CmdSOSetCheckbox *me = CMD_SO_SET_CHECKBOX (cmd);
-	
+
 	if (me->new_link)
 		gnm_expr_top_unref (me->new_link);
 	if (me->old_link)
@@ -7319,7 +7319,7 @@ cmd_so_set_checkbox_finalize (GObject *cmd)
 
 gboolean
 cmd_so_set_checkbox (WorkbookControl *wbc,
-		     SheetObject *so, GnmExprTop const *link, 
+		     SheetObject *so, GnmExprTop const *link,
 		     char *old_label, char *new_label)
 {
 	CmdSOSetCheckbox *me;
@@ -7381,7 +7381,7 @@ cmd_so_set_adjustment_adj (CmdSOSetAdjustment *me)
 	double old_step = gtk_adjustment_get_step_increment (adj);
 	double old_page = gtk_adjustment_get_page_increment (adj);
 
-	gtk_adjustment_configure (adj, 
+	gtk_adjustment_configure (adj,
 				  gtk_adjustment_get_value (adj),
 				  me->old_lower,
 				  me->old_upper,
@@ -7420,7 +7420,7 @@ static void
 cmd_so_set_adjustment_finalize (GObject *cmd)
 {
 	CmdSOSetAdjustment *me = CMD_SO_SET_ADJUSTMENT (cmd);
-	
+
 	if (me->new_link)
 		gnm_expr_top_unref (me->new_link);
 	if (me->old_link)
@@ -7430,7 +7430,7 @@ cmd_so_set_adjustment_finalize (GObject *cmd)
 
 gboolean
 cmd_so_set_adjustment (WorkbookControl *wbc,
-		       SheetObject *so, GnmExprTop const *link, 
+		       SheetObject *so, GnmExprTop const *link,
 		       int lower, int upper,
 		       int step, int page,
 		       char const *undo_label)
@@ -7442,7 +7442,7 @@ cmd_so_set_adjustment (WorkbookControl *wbc,
 	me = g_object_new (CMD_SO_SET_ADJUSTMENT_TYPE, NULL);
 	me->cmd.sheet = sheet_object_get_sheet (so);
 	me->cmd.size = 1;
-	me->cmd.cmd_descriptor = g_strdup ((undo_label == NULL) ?  
+	me->cmd.cmd_descriptor = g_strdup ((undo_label == NULL) ?
 					   _("Configure Adjustment") : _(undo_label));
 	me->so = so;
 	me->new_link = link;

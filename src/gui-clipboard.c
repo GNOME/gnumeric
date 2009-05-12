@@ -238,7 +238,7 @@ utf8_content_received (GtkClipboard *clipboard,  const gchar *text,
 		;
 	} else {
 		content = text_to_cell_region (wbcg, text, strlen(text), "UTF-8", TRUE);
-	} 
+	}
 	if (content) {
 		/*
 		 * if the conversion from the X selection -> a cellregion
@@ -553,8 +553,8 @@ table_cellregion_write (GOCmdContext *ctx, GnmCellRegion *cr,
 	r.end.col = cr->cols - 1;
 	r.end.row = cr->rows - 1;
 
-	paste_target_init (&pt, sheet, &r, 
-			   PASTE_AS_VALUES | PASTE_FORMATS | 
+	paste_target_init (&pt, sheet, &r,
+			   PASTE_AS_VALUES | PASTE_FORMATS |
 			   PASTE_COMMENTS | PASTE_OBJECTS);
 	if (clipboard_paste_region (cr, &pt, ctx) == FALSE) {
 		go_file_saver_save (saver, ioc, wb_view, output);
@@ -884,7 +884,7 @@ target_list_to_entries (GtkTargetList *target_list, int *n_entries)
 }
 
 /* Restrict the	set of formats offered to clipboard manager. */
-/* We include bmp in the whitelist because that's the only image format 
+/* We include bmp in the whitelist because that's the only image format
  * we share with OOo over clipboard (!) */
 static void
 set_clipman_targets (GdkDisplay *disp, GtkTargetEntry *targets, int n_targets)
@@ -907,11 +907,11 @@ set_clipman_targets (GdkDisplay *disp, GtkTargetEntry *targets, int n_targets)
 	GtkTargetEntry *t, *wt, *t_allowed;
 
 	for (t = targets; t - targets < n_targets; t++) {
-		for (wt = clipman_whitelist; 
+		for (wt = clipman_whitelist;
 		     wt - clipman_whitelist < n_whitelist; wt++) {
 			if (strcmp(t->target, wt->target) == 0) {
-				gtk_target_list_add 
-					(tl, gdk_atom_intern (t->target, FALSE), 
+				gtk_target_list_add
+					(tl, gdk_atom_intern (t->target, FALSE),
 					 t->flags, t->info);
 				break;
 			}

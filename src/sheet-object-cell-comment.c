@@ -295,7 +295,7 @@ cell_comment_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 		gsf_xml_out_add_cstr (output, "Text", cc->text);
 		if (NULL != cc->markup) {
 			GOFormat *fmt = go_format_new_markup	(cc->markup, TRUE);
-			gsf_xml_out_add_cstr (output, "TextFormat", 
+			gsf_xml_out_add_cstr (output, "TextFormat",
 					      go_format_as_XL (fmt));
 			go_format_unref (fmt);
 		}
@@ -315,9 +315,9 @@ cell_comment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 		else if (!strcmp (attrs[0], "Author"))
 			cc->author = g_strdup (attrs[1]);
 		else if (!strcmp (attrs[0], "TextFormat")) {
-			GOFormat * fmt = go_format_new_from_XL (attrs[1]);			
-			g_object_set (G_OBJECT (cc), 
-				      "markup", go_format_get_markup (fmt), 
+			GOFormat * fmt = go_format_new_from_XL (attrs[1]);
+			g_object_set (G_OBJECT (cc),
+				      "markup", go_format_get_markup (fmt),
 				      NULL);
 			go_format_unref (fmt);
 		}

@@ -259,7 +259,7 @@ gnumeric_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
 	allocation = h ? g_hash_table_lookup (h, key) : NULL;
 
 	/* TECHOLOGY PREVIEW -- ZOOM & COMMENT DIALOG ONLY.  */
-	if ((strcmp (key, "zoom-dialog") == 0) || 
+	if ((strcmp (key, "zoom-dialog") == 0) ||
 	    (strcmp (key, "cell-comment-dialog") == 0)) {
 		if (allocation) {
 #if 0
@@ -651,7 +651,7 @@ gnumeric_textbuffer_get_text (GtkTextBuffer *buf)
 char *
 gnumeric_textview_get_text (GtkTextView *text_view)
 {
-	return gnumeric_textbuffer_get_text 
+	return gnumeric_textbuffer_get_text
 		(gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view)));
 }
 
@@ -664,7 +664,7 @@ gnumeric_textview_set_text (GtkTextView *text_view, char const *txt)
 }
 
 static gboolean
-gnm_load_pango_attributes_into_buffer_filter (PangoAttribute *attribute, 
+gnm_load_pango_attributes_into_buffer_filter (PangoAttribute *attribute,
 					  G_GNUC_UNUSED gpointer data)
 {
 	return ((PANGO_ATTR_FOREGROUND == attribute->klass->type) ||
@@ -672,7 +672,7 @@ gnm_load_pango_attributes_into_buffer_filter (PangoAttribute *attribute,
 		(PANGO_ATTR_RISE == attribute->klass->type));
 }
 static gboolean
-gnm_load_pango_attributes_into_buffer_named_filter (PangoAttribute *attribute, 
+gnm_load_pango_attributes_into_buffer_named_filter (PangoAttribute *attribute,
 						    G_GNUC_UNUSED gpointer data)
 {
 	return ((PANGO_ATTR_STYLE == attribute->klass->type) ||
@@ -687,7 +687,7 @@ gnm_load_pango_attributes_into_buffer_named_filter (PangoAttribute *attribute,
 #define PANGO_WEIGHT_ULTRAHEAVY 1000
 #endif
 
-void 
+void
 gnm_create_std_tags_for_buffer (GtkTextBuffer *buffer)
 {
 	gtk_text_buffer_create_tag (buffer, "PANGO_STYLE_NORMAL", "style", PANGO_STYLE_NORMAL,
@@ -723,26 +723,26 @@ gnm_create_std_tags_for_buffer (GtkTextBuffer *buffer)
 }
 
 
-void 
-gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *buffer) 
+void
+gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *buffer)
 {
 	PangoAttrIterator * iter;
 	PangoAttrList  *copied_markup;
 	PangoAttrList  *our_markup;
 
 	if (markup == NULL)
-		return; 
+		return;
 
 /* For some styles we create named tags. The names are taken from the Pango enums */
 
 	copied_markup = pango_attr_list_copy (markup);
-	our_markup = pango_attr_list_filter (copied_markup, 
-					     gnm_load_pango_attributes_into_buffer_named_filter, 
+	our_markup = pango_attr_list_filter (copied_markup,
+					     gnm_load_pango_attributes_into_buffer_named_filter,
 					     NULL);
 	pango_attr_list_unref (copied_markup);
 	if (our_markup != NULL) {
 		iter = pango_attr_list_get_iterator (our_markup);
-		
+
 		do {
 			GSList *attr = pango_attr_iterator_get_attrs (iter);
 			if (attr != NULL) {
@@ -762,24 +762,24 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 
 					switch (attribute->klass->type) {
 					case PANGO_ATTR_STYLE:
-						name = (((PangoAttrInt *)attribute)->value 
-							== PANGO_STYLE_NORMAL) 
+						name = (((PangoAttrInt *)attribute)->value
+							== PANGO_STYLE_NORMAL)
 							? "PANGO_STYLE_NORMAL" :
 							"PANGO_STYLE_ITALIC";
-						tag = gtk_text_tag_table_lookup 
-							(gtk_text_buffer_get_tag_table (buffer), 
+						tag = gtk_text_tag_table_lookup
+							(gtk_text_buffer_get_tag_table (buffer),
 							 name);
-						gtk_text_buffer_apply_tag (buffer, tag, 
+						gtk_text_buffer_apply_tag (buffer, tag,
 									   &start_iter, &end_iter);
 						break;
 					case PANGO_ATTR_STRIKETHROUGH:
 						name = (((PangoAttrInt *)attribute)->value) ?
 							"PANGO_STRIKETHROUGH_TRUE" :
 							"PANGO_STRIKETHROUGH_FALSE";
-						tag = gtk_text_tag_table_lookup 
-							(gtk_text_buffer_get_tag_table (buffer), 
+						tag = gtk_text_tag_table_lookup
+							(gtk_text_buffer_get_tag_table (buffer),
 							 name);
-						gtk_text_buffer_apply_tag (buffer, tag, 
+						gtk_text_buffer_apply_tag (buffer, tag,
 									   &start_iter, &end_iter);
 						break;
 					case PANGO_ATTR_WEIGHT:
@@ -831,13 +831,13 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 /* For other styles (that are not at true/false type styles) we use unnamed styles */
 
 	copied_markup = pango_attr_list_copy (markup);
-	our_markup = pango_attr_list_filter (copied_markup, 
-					     gnm_load_pango_attributes_into_buffer_filter, 
+	our_markup = pango_attr_list_filter (copied_markup,
+					     gnm_load_pango_attributes_into_buffer_filter,
 					     NULL);
 	pango_attr_list_unref (copied_markup);
 	if (our_markup != NULL) {
 		iter = pango_attr_list_get_iterator (our_markup);
-		
+
 		do {
 			GSList *attr = pango_attr_iterator_get_attrs (iter);
 			if (attr != NULL) {
@@ -850,24 +850,24 @@ gnm_load_pango_attributes_into_buffer (PangoAttrList  *markup, GtkTextBuffer *bu
 					PangoAttribute *attribute = ptr->data;
 					switch (attribute->klass->type) {
 					case PANGO_ATTR_FOREGROUND:
-						string = pango_color_to_string 
+						string = pango_color_to_string
 							(&((PangoAttrColor *)attribute)->color);
-						g_object_set (G_OBJECT (tag), 
+						g_object_set (G_OBJECT (tag),
 							      "foreground", string,
 							      "foreground-set", TRUE,
 							      NULL);
 						g_free (string);
 						break;
 					case PANGO_ATTR_UNDERLINE:
-						g_object_set (G_OBJECT (tag), 
-							      "underline", 
+						g_object_set (G_OBJECT (tag),
+							      "underline",
 							      ((PangoAttrInt *)attribute)->value,
 							      "underline-set", TRUE,
 							      NULL);
 						break;
 					case PANGO_ATTR_RISE:
-						g_object_set (G_OBJECT (tag), 
-							      "rise", 
+						g_object_set (G_OBJECT (tag),
+							      "rise",
 							      ((PangoAttrInt *)attribute)->value,
 							      "rise-set", TRUE,
 							      NULL);
@@ -939,8 +939,8 @@ gnm_get_pango_attributes_from_buffer (GtkTextBuffer *buffer)
 	GtkTextIter start;
 	gchar *text = gnumeric_textbuffer_get_text (buffer);
 
-	gtk_text_buffer_get_start_iter (buffer, &start); 
-	
+	gtk_text_buffer_get_start_iter (buffer, &start);
+
 	while (!gtk_text_iter_is_end (&start)) {
 		if (gtk_text_iter_begins_tag (&start, NULL)) {
 			GSList *ptr, *l = gtk_text_iter_get_toggled_tags (&start, TRUE);

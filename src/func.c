@@ -978,7 +978,7 @@ function_def_get_arg_name (GnmFunc const *fn_def, int arg_idx)
 	if (!fn_def->arg_names)
 		return NULL;
 
-	translated_arguments = (strlen (fn_def->arg_names)>0 
+	translated_arguments = (strlen (fn_def->arg_names)>0
 				? _(fn_def->arg_names)
 				: fn_def->arg_names);
 	uc = (strcmp (translated_arguments, fn_def->arg_names) == 0)

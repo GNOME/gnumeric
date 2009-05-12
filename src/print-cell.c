@@ -128,8 +128,8 @@ print_cell_gtk (GnmCell const *cell, GnmStyle const *mstyle,
 			     lines;
 			     lines = lines->next, li++) {
 				cairo_save (context);
-				cairo_move_to (context, 
-					       PANGO_PIXELS (x + li->dx), 
+				cairo_move_to (context,
+					       PANGO_PIXELS (x + li->dx),
 					       PANGO_PIXELS (- y + li->dy));
 				cairo_rotate (context, rv->rotation * (-M_PI / 180));
 				pango_cairo_show_layout_line (context, lines->data);
@@ -265,7 +265,7 @@ gnm_gtk_print_cell_range (cairo_t *context,
 {
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 	int const dir = sheet->text_is_rtl ? -1 : 1;
-	float const hscale = sheet->display_formulas ? 2 : 1; 
+	float const hscale = sheet->display_formulas ? 2 : 1;
 	int start_row, start_col, end_col, end_row;
 
 	GnmStyleRow sr, next_sr;

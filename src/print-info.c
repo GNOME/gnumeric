@@ -51,7 +51,7 @@ print_hf_new (char const *left_side_format,
 	      char const *right_side_format)
 {
 	PrintHF *hf = g_new0 (PrintHF, 1);
-	hf->left_format   = g_strdup (left_side_format ? 
+	hf->left_format   = g_strdup (left_side_format ?
 				      left_side_format : "");
 	hf->middle_format = g_strdup (middle_format ?
 				      middle_format : "");
@@ -444,21 +444,21 @@ render_cell (GString *target, HFRenderInfo *info, char const *args)
 		GnmParsePos ppos;
 
 		parse_pos_init (&ppos, info->sheet->workbook, (Sheet *)info->sheet, 0, 0);
-		tmp = rangeref_parse 
+		tmp = rangeref_parse
 			(&ref, args, &ppos, sheet_get_conventions (info->sheet));
 		if (tmp == NULL || tmp == args) {
 			gnm_cellref_init (&ref.a, (Sheet *)(info->sheet), 0, 0, FALSE);
 		}
 
 		if (ref.a.row_relative)
-			ref.a.row += (use_repeating ? 
+			ref.a.row += (use_repeating ?
 				      info->top_repeating.row : info->page_area.start.row);
 		if (ref.a.col_relative)
-			ref.a.col += (use_repeating ? 
+			ref.a.col += (use_repeating ?
 				      info->top_repeating.col : info->page_area.start.col);
 
-		val = sheet_cell_get_value 
-			(ref.a.sheet ? ref.a.sheet : (Sheet *)(info->sheet), 
+		val = sheet_cell_get_value
+			(ref.a.sheet ? ref.a.sheet : (Sheet *)(info->sheet),
 			 ref.a.col, ref.a.row);
 		if (val != NULL) {
 			char const *value;

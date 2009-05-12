@@ -447,7 +447,7 @@ cb_frame_config_ok_clicked (GtkWidget *button, FrameConfigState *state)
 	gchar const *text = gtk_entry_get_text(GTK_ENTRY(state->label));
 
 	cmd_so_set_frame_label (WORKBOOK_CONTROL (state->wbcg),
-				SHEET_OBJECT (state->swf), 
+				SHEET_OBJECT (state->swf),
 				g_strdup (state->old_label), g_strdup (text));
 	gtk_widget_destroy (state->dialog);
 }
@@ -818,7 +818,7 @@ sheet_widget_adjustment_get_link (SheetObject *so)
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
 	GnmExprTop const *texpr = swa->dep.texpr;
-	
+
 	if (texpr)
 		gnm_expr_top_ref (texpr);
 
@@ -945,7 +945,7 @@ typedef struct {
 	GtkWidget          *max;
 	GtkWidget          *inc;
 	GtkWidget          *page;
-	
+
 	char               *undo_label;
 	GtkWidget          *old_focus;
 
@@ -1000,7 +1000,7 @@ cb_adjustment_config_ok_clicked (GtkWidget *button, AdjustmentConfigState *state
 		parse_pos_init_sheet (&pp, so->sheet),
 		NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
 
-	cmd_so_set_adjustment (WORKBOOK_CONTROL (state->wbcg), so, 
+	cmd_so_set_adjustment (WORKBOOK_CONTROL (state->wbcg), so,
 			       texpr,
 			       gtk_spin_button_get_value_as_int (
 				       GTK_SPIN_BUTTON (state->min)),
@@ -1644,7 +1644,7 @@ cb_checkbox_config_ok_clicked (GtkWidget *button, CheckboxConfigState *state)
 		NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
 	gchar const *text = gtk_entry_get_text(GTK_ENTRY(state->label));
 
-	cmd_so_set_checkbox (WORKBOOK_CONTROL (state->wbcg), so, 
+	cmd_so_set_checkbox (WORKBOOK_CONTROL (state->wbcg), so,
 			     texpr, g_strdup (state->old_label), g_strdup (text));
 
 	gtk_widget_destroy (state->dialog);
@@ -1826,7 +1826,7 @@ sheet_widget_checkbox_get_link	 (SheetObject *so)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
 	GnmExprTop const *texpr = swc->dep.texpr;
-	
+
 	if (texpr)
 		gnm_expr_top_ref (texpr);
 
@@ -2211,7 +2211,7 @@ list_content_eval (GnmDependent *dep)
 	if (dep->texpr != NULL) {
 		v = gnm_expr_top_eval (dep->texpr,
 				       eval_pos_init_dep (&ep, dep),
-				       GNM_EXPR_EVAL_PERMIT_NON_SCALAR | 
+				       GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
 				       GNM_EXPR_EVAL_PERMIT_EMPTY);
 	}
 	model = gtk_list_store_new (1, G_TYPE_STRING);

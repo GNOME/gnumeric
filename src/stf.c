@@ -522,7 +522,7 @@ csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 			/* Also, ignore a byte-order mark which may be used to
 			 * indicate UTF-8; see
 			 * http://en.wikipedia.org/wiki/Byte_Order_Mark for
-			 * background. 
+			 * background.
 			 */
 			if (p == header_utf8 && uc == 0x0000FEFF) {
 				continue;

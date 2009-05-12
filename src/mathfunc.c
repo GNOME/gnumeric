@@ -7335,7 +7335,7 @@ random_landau (void)
 {
 	static gnm_float F[983] = {
 		0.0000000, /*
-			    * Add empty element [0] to account for difference 
+			    * Add empty element [0] to account for difference
 			    * between C and Fortran convention for lower bound.
 			    */
 		00.000000, 00.000000, 00.000000, 00.000000, 00.000000,

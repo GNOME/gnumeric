@@ -324,7 +324,7 @@ gnm_expr_new_set (GnmExprList *set)
  * @r: end range
  *
  * This function builds a range constructor or something simpler,
- * but equivalent, if the arguments allow it. 
+ * but equivalent, if the arguments allow it.
  *
  * Note: this takes ownership of @l and @r and may delete them.
  **/
@@ -1126,7 +1126,7 @@ gnm_expr_range_op (GnmExpr const *expr, GnmEvalPos const *ep,
 	switch (GNM_EXPR_GET_OPER (expr)) {
 	case GNM_EXPR_OP_RANGE_CTOR:
 		res_range = range_union (&a_range, &b_range);
-		break;		
+		break;
 	case GNM_EXPR_OP_INTERSECT:
 		/* 3D references not allowed.  */
 		if (a_start != a_end || b_start != b_end)

@@ -862,9 +862,9 @@ gnm_pane_set_top_left (GnmPane *pane,
 	gboolean changed = FALSE;
 	int col_offset, row_offset;
 
-	g_return_if_fail (0 <= col && 
+	g_return_if_fail (0 <= col &&
 			  col < gnm_sheet_get_max_cols (scg_sheet (pane->simple.scg)));
-	g_return_if_fail (0 <= row && 
+	g_return_if_fail (0 <= row &&
 			  row < gnm_sheet_get_max_rows (scg_sheet (pane->simple.scg)));
 
 	if (pane->first.col != col || force_scroll) {
@@ -2520,10 +2520,10 @@ scg_comment_display (SheetControlGUI *scg, GnmComment *cc)
 		if (comment_author != NULL) {
 			GtkTextIter iter;
 			gtk_text_buffer_get_iter_at_offset (buffer, &iter, 0);
-			gtk_text_buffer_insert_with_tags_by_name 
+			gtk_text_buffer_insert_with_tags_by_name
 				(buffer, &iter, comment_author, -1,
 				 "PANGO_WEIGHT_BOLD", NULL);
-			gtk_text_buffer_insert_with_tags_by_name 
+			gtk_text_buffer_insert_with_tags_by_name
 				(buffer, &iter, ":\n", -1, "PANGO_WEIGHT_BOLD", NULL);
 		}
 

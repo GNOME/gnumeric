@@ -291,11 +291,11 @@ gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 	/* Draw the text. */
 	if (sof->text != NULL && !sof->is_oval) {
 		PangoLayout *pl = pango_cairo_create_layout (cr);
-		double pl_height = (height - sof->margin_pts.top 
+		double pl_height = (height - sof->margin_pts.top
 				    - sof->margin_pts.bottom) * PANGO_SCALE;
-		double pl_width = (width - sof->margin_pts.left 
+		double pl_width = (width - sof->margin_pts.left
 				   - sof->margin_pts.right) * PANGO_SCALE;
-		cairo_move_to (cr, sof->margin_pts.left, 
+		cairo_move_to (cr, sof->margin_pts.left,
 			       sof->margin_pts.top);
 		pango_layout_set_text (pl, sof->text, -1);
 		pango_layout_set_attributes (pl, sof->markup);
@@ -352,7 +352,7 @@ gnm_so_filled_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 		gsf_xml_out_add_cstr (output, "Label", sof->text);
 		if (sof->markup != NULL) {
 			GOFormat *fmt = go_format_new_markup	(sof->markup, TRUE);
-			gsf_xml_out_add_cstr (output, "LabelFormat", 
+			gsf_xml_out_add_cstr (output, "LabelFormat",
 					      go_format_as_XL (fmt));
 			go_format_unref (fmt);
 		}
@@ -393,9 +393,9 @@ gnm_so_filled_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 		if (attr_eq (attrs[0], "Label"))
 			g_object_set (G_OBJECT (sof), "text", attrs[1], NULL);
 		else if (attr_eq (attrs[0], "LabelFormat")) {
-			GOFormat * fmt = go_format_new_from_XL (attrs[1]);			
-			g_object_set (G_OBJECT (sof), 
-				      "markup", go_format_get_markup (fmt), 
+			GOFormat * fmt = go_format_new_from_XL (attrs[1]);
+			g_object_set (G_OBJECT (sof),
+				      "markup", go_format_get_markup (fmt),
 				      NULL);
 			go_format_unref (fmt);
 		} else if (gnm_xml_attr_int     (attrs, "Type", &type))

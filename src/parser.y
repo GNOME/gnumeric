@@ -253,7 +253,7 @@ fold_negative_constant (GnmExpr *expr)
 {
 	if (expr && GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT) {
 		GnmValue *v = (GnmValue *)expr->constant.value;
-		
+
 		if (VALUE_IS_FLOAT (v)) {
 			gnm_float f = value_get_as_float (v);
 			expr->constant.value = value_new_float (0 - f);
