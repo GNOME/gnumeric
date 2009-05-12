@@ -1,5 +1,8 @@
 2009-05-11  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (gnm_sheet_resize_main): Only warn for a resize that
+	is not a no-op.
+
 	* src/sheet-style.c (sheet_style_init_size): Don't set partial_col
 	and partial_row.
 	(cb_style_list_add_node): Deal without partial_col and

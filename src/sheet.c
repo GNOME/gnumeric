@@ -1113,6 +1113,7 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 		       GOCmdContext *cc, GOUndo **pundo)
 {
 	int old_cols, old_rows;
+	static gboolean warned = FALSE;
 
 	if (pundo) *pundo = NULL;
 
@@ -1120,6 +1121,11 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 	old_rows = gnm_sheet_get_max_rows (sheet);
 	if (old_cols == cols && old_rows == rows)
 		return;
+
+	if (!warned) {
+		g_warning ("Changing sheet size is experimental.");
+		warned = TRUE;
+	}
 
 	/* ---------------------------------------- */
 	/* Remove the columns and rows that will disappear.  */
@@ -1256,16 +1262,11 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 GOUndo *
 gnm_sheet_resize (Sheet *sheet, int cols, int rows, GOCmdContext *cc)
 {
-	static gboolean warned = FALSE;
 	GOUndo *undo = NULL;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (gnm_sheet_valid_size (cols, rows), NULL);
 
-	if (!warned) {
-		g_warning ("Changing sheet size is experimental.");
-		warned = TRUE;
-	}
 	gnm_sheet_resize_main (sheet, cols, rows, cc, &undo);
 
 	return undo;
