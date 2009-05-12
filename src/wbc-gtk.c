@@ -103,9 +103,6 @@ char const *uifilename = NULL;
 static guint wbc_gtk_signals[WBC_GTK_LAST_SIGNAL];
 static GObjectClass *parent_class = NULL;
 
-gint wbc_gtk_debug_deps = 0;
-gint wbc_gtk_debug_expr_share = 0;
-
 /****************************************************************************/
 
 static void
@@ -1758,13 +1755,13 @@ cb_workbook_debug_info (WBCGtk *wbcg)
 {
 	Workbook *wb = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
 
-	if (wbc_gtk_debug_deps > 0) {
+	if (gnm_debug_flag ("deps")) {
 		WORKBOOK_FOREACH_SHEET (wb, sheet,
 			g_printerr ("Dependencies for %s:\n", sheet->name_unquoted);
 			gnm_dep_container_dump (sheet->deps, sheet););
 	}
 
-	if (wbc_gtk_debug_expr_share > 0) {
+	if (gnm_debug_flag ("expr-sharer")) {
 		GnmExprSharer *es = workbook_share_expressions (wb, FALSE);
 
 		g_printerr ("Expression sharer results:\n"
@@ -2250,8 +2247,7 @@ wbc_gtk_create_edit_area (WBCGtk *wbcg)
 		 _("Enter formula..."));
 
 	/* Dependency debugger */
-	if (wbc_gtk_debug_deps > 0 ||
-	    wbc_gtk_debug_expr_share > 0) {
+	if (gnm_debug_flag ("deps") || gnm_debug_flag ("expr-sharer")) {
 		(void)edit_area_button (wbcg, tb, TRUE,
 					G_CALLBACK (cb_workbook_debug_info),
 					GTK_STOCK_DIALOG_INFO,

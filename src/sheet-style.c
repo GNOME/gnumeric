@@ -2838,37 +2838,17 @@ sheet_style_optimize (Sheet *sheet)
 {
 	CellTileOptimize data;
 	GSList *pre;
-	static guint debug_flags;
-	static gboolean debug_inited = FALSE;
 	gboolean verify;
-	enum { GNM_DEBUG_STYLE_OPTIMIZE = 1,
-	       GNM_DEBUG_STYLE_OPTIMIZE_VERIFY = 2
-	};
 
 	g_return_if_fail (IS_SHEET (sheet));
 
-	if (!debug_inited) {
-		/* not static */
-		const GDebugKey keys[] = {
-			{ (char*)"style-optimize", GNM_DEBUG_STYLE_OPTIMIZE },
-			{ (char*)"style-optimize-verify", GNM_DEBUG_STYLE_OPTIMIZE_VERIFY },
-		};
-
-		const char *val = g_getenv ("GNM_DEBUG");
-		debug_flags = val
-			? g_parse_debug_string (val, keys, G_N_ELEMENTS (keys))
-			: 0;
-
-		debug_inited = TRUE;
-	}
-	verify = (debug_flags & GNM_DEBUG_STYLE_OPTIMIZE_VERIFY) != 0;
-
 	data.ss = gnm_sheet_get_size (sheet);
-	data.debug = (debug_flags & GNM_DEBUG_STYLE_OPTIMIZE) != 0;
+	data.debug = gnm_debug_flag ("style-optimize");
 
 	if (data.debug)
 		g_printerr ("Optimizing %s\n", sheet->name_unquoted);
 
+	verify = gnm_debug_flag ("style-optimize-verify");
 	pre = verify ? sample_styles (sheet) : NULL;
 
 	cell_tile_optimize (&sheet->style_data->styles,

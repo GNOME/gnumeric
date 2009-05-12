@@ -349,3 +349,14 @@ gnm_pop_C_locale (GnmLocale *locale)
 	g_free (locale->num_locale);
 	g_free (locale);
 }
+
+
+gboolean
+gnm_debug_flag (const char *flag)
+{
+	GDebugKey key;
+	key.key = (char *)flag;
+	key.value = 1;
+
+	return g_parse_debug_string (g_getenv ("GNM_DEBUG"), &key, 1) != 0;
+}

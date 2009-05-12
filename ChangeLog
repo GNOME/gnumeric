@@ -1,3 +1,12 @@
+2009-05-12  Morten Welinder  <terra@gnome.org>
+
+	* src/gutils.c (gnm_debug_flag): New function.
+	* src/sheet-style.c (sheet_style_optimize): Use gnm_debug_flag.
+	* src/gui-clipboard.c (debug_clipboard): Ditto.
+	* src/main-application.c (main): Ditto.
+	* src/wbc-gtk.c (cb_workbook_debug_info,
+	wbc_gtk_create_edit_area): Ditto.
+
 2009-05-11  Morten Welinder  <terra@gnome.org>
 
 	* src/ssconvert.c (merge): Rearrange to read files only once.

@@ -48,24 +48,15 @@
 static gboolean
 debug_clipboard (void)
 {
-	static guint flags;
+	static gboolean d_clipboard;
 	static gboolean inited = FALSE;
 
 	if (!inited) {
-		/* not static */
-		const GDebugKey keys[] = {
-			{ (char*)"clipboard", 1 },
-		};
-
-		const char *val = g_getenv ("GNM_DEBUG");
-		flags = val
-			? g_parse_debug_string (val, keys, G_N_ELEMENTS (keys))
-			: 0;
-
 		inited = TRUE;
+		d_clipboard = gnm_debug_flag ("clipboard");
 	}
 
-	return (flags & 1) != 0;
+	return d_clipboard;
 }
 
 typedef struct {

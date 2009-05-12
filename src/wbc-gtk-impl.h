@@ -168,9 +168,6 @@ void	 wbc_gtk_init_editline	(WBCGtk *wbcg);
 void	 wbc_gtk_init_actions	(WBCGtk *wbcg);
 void	 wbc_gtk_markup_changer	(WBCGtk *wbcg);
 
-extern gint wbc_gtk_debug_deps;
-extern gint wbc_gtk_debug_expr_share;
-
 G_END_DECLS
 
 #endif /* _GNM_WBC_GTK_IMPL_H_ */

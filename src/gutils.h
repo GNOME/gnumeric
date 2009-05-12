@@ -27,6 +27,8 @@ typedef struct _GnmLocale GnmLocale;
 GnmLocale *gnm_push_C_locale (void);
 void	   gnm_pop_C_locale  (GnmLocale *locale);
 
+gboolean   gnm_debug_flag (const char *flag);
+
 G_END_DECLS
 
 #endif /* _GNM_GUTILS_H_ */
