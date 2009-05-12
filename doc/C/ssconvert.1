@@ -8,6 +8,8 @@ ssconvert \- a command line spreadsheet format converter
 
 .SH SYNOPSIS
 \fBssconvert\fR [\fIOPTIONS\fR] \fIinfile\fR \fIoutfile\fR
+.P
+\fBssconvert\fR [\fIOPTIONS\fR] \fB\-\-merge\-to\fR \fIoutfile\fR \fIinfile1\fR \fIinfile2\fR \fB...\fR
 
 .SH DESCRIPTION
 \fBssconvert\fR is a command line utility to convert spreadsheet files
@@ -56,6 +58,12 @@ name.
 .TP
 .B \-E, \-\-import\-encoding=\fISTRING\fR
 Specify an encoding for imported content.
+.TP
+.B \-M, \-\-merge\-to=\fIFILENAME\fR
+Merge a collection of workbooks into one.  Sheet size will expand
+to the largest in all the workbooks.  Names in the scope of
+individual workbooks will end up in the scope of the merged
+workbook.  The merge will be aborted if there are name conflicts.
 
 .SS "Help options"
 .TP
@@ -192,9 +200,9 @@ The string used to separate fields. Defaults to space.
 
 .TP
 format
-Acceptable values: 
-"\fBautomatic\fR", 
-"\fBraw\fR", or 
+Acceptable values:
+"\fBautomatic\fR",
+"\fBraw\fR", or
 "\fBpreserve\fR".
 
 .TP
@@ -202,14 +210,14 @@ transliterate-mode
 How to handle characters that cannot be represented in the chosen output
 character set.
 Acceptable values:
-"\fBtransliterate\fR", or 
+"\fBtransliterate\fR", or
 "\fBescape\fR".
 
 .TP
 quoting-mode
-When does data need to be quoted? 
+When does data need to be quoted?
 "\fBnever\fR",
-"\fBauto\fR" (puts quotes where needed), or 
+"\fBauto\fR" (puts quotes where needed), or
 "\fBalways\fR". Defaults to "\fBnever\fR".
 
 .TP
