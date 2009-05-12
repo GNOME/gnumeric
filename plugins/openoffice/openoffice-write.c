@@ -5,7 +5,7 @@
  *
  * Copyright (C) 2004-2006 Jody Goldberg (jody@gnome.org)
  *
- * Copyright (C) 2006 Andreas J. Guelzow (aguelzow@pyrshep.ca)
+ * Copyright (C) 2006-2009 Andreas J. Guelzow (aguelzow@pyrshep.ca)
  *
  * Copyright (C) 2005 INdT - Instituto Nokia de Tecnologia
  *               Author: Luciano Wolf (luciano.wolf@indt.org.br)
@@ -67,6 +67,7 @@
 #include <gsf/gsf-opendoc-utils.h>
 #include <goffice/utils/go-glib-extras.h>
 
+#include <glib.h>
 #include <glib/gi18n-lib.h>
 
 #define MANIFEST "manifest:"
@@ -75,6 +76,7 @@
 #define TABLE	 "table:"
 #define TEXT     "text:"
 #define DUBLINCORE "dc:"
+#define FOSTYLE	 "fo:"
 
 typedef struct {
 	GsfXMLOut *xml;
@@ -119,6 +121,145 @@ odf_write_mimetype (GnmOOExport *state, GsfOutput *child)
 {
 	gsf_output_puts (child, "application/vnd.oasis.opendocument.spreadsheet");
 }
+
+/*****************************************************************************/
+
+
+static void
+cb_odf_add_chars (GnmOOExport *state, char const *text, int len)
+{
+	char * str;
+
+	g_return_if_fail (len > 0);
+
+	str = g_strndup (text, len);
+	gsf_xml_out_add_cstr (state->xml, NULL, str);
+	g_free (str);
+}
+
+static int
+cb_odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
+{
+/* 	PangoColor const *c; */
+	int spans = 0;
+
+	switch (a->klass->type) {
+	case PANGO_ATTR_FAMILY :
+		break; /* ignored */
+	case PANGO_ATTR_SIZE :
+		break; /* ignored */
+	case PANGO_ATTR_RISE:
+		break; /* ignored */
+	case PANGO_ATTR_STYLE :
+		spans += 1;
+		gsf_xml_out_start_element (state->xml, TEXT "span");
+		gsf_xml_out_add_cstr (state->xml, TEXT "style-name", 
+				      (((PangoAttrInt *)a)->value 
+				       == PANGO_STYLE_ITALIC) 
+				      ? "AC-italic"  : "AC-roman");
+		break;
+	case PANGO_ATTR_WEIGHT : 
+	{
+		char * str = g_strdup_printf ("AC-weight%i",
+					      ((((PangoAttrInt *)a)->value
+						+50)/100)*100);
+		spans += 1;
+		gsf_xml_out_start_element (state->xml, TEXT "span");
+		gsf_xml_out_add_cstr (state->xml, TEXT "style-name", str);
+		g_free (str);
+	}
+	break;
+	case PANGO_ATTR_STRIKETHROUGH :
+		spans += 1;
+		gsf_xml_out_start_element (state->xml, TEXT "span");
+		gsf_xml_out_add_cstr (state->xml, TEXT "style-name", 
+				      ((PangoAttrInt *)a)->value
+				      ? "AC-strikethrough-solid"  
+				      : "AC-strikethrough-none");
+		break;
+	case PANGO_ATTR_UNDERLINE : 
+	{
+		char const *name = NULL;
+		switch (((PangoAttrInt *)a)->value) {
+		case PANGO_UNDERLINE_NONE :
+			name = "AC-underline-none";
+			break;
+		case PANGO_UNDERLINE_SINGLE :
+			name = "AC-underline-single";
+			break;
+		case PANGO_UNDERLINE_DOUBLE :
+			name = "AC-underline-double";
+			break;
+		case PANGO_UNDERLINE_LOW :
+			name = "AC-underline-low";
+			break;
+		case PANGO_UNDERLINE_ERROR :
+			name = "AC-underline-error";
+			break;
+		default:
+			return spans;
+		}
+		spans += 1;
+		gsf_xml_out_start_element (state->xml, TEXT "span");
+		gsf_xml_out_add_cstr (state->xml, TEXT "style-name", name);
+	}
+	break;
+	case PANGO_ATTR_FOREGROUND :
+/* 		c = &((PangoAttrColor *)a)->color; */
+/* 		g_string_append_printf (accum, "[color=%02xx%02xx%02x", */
+/* 			((c->red & 0xff00) >> 8), */
+/* 			((c->green & 0xff00) >> 8), */
+/* 			((c->blue & 0xff00) >> 8)); */
+		break;/* ignored */
+	default :
+		break; /* ignored */
+	}
+
+	return spans;
+}
+
+static void
+odf_new_markup (GnmOOExport *state, const PangoAttrList *markup, char const *text)
+{
+	int handled = 0;
+	PangoAttrIterator * iter;
+	int from, to;
+	int len = strlen (text);
+
+	iter = pango_attr_list_get_iterator ((PangoAttrList *) markup);
+
+	do {
+		GSList *list, *l;
+		int spans = 0;
+
+		pango_attr_iterator_range (iter, &from, &to);
+		to = (to > len) ? len : to; /* Since "to" can be really big! */
+		if (from > handled) {
+			gsf_xml_out_start_element (state->xml, TEXT "span");
+			cb_odf_add_chars (state, text + handled, from - handled);
+			gsf_xml_out_end_element (state->xml); /* </text:span> */
+		}
+		list = pango_attr_iterator_get_attrs (iter);
+		for (l = list; l != NULL; l = l->next)
+			spans += cb_odf_attrs_as_string (state, l->data);
+		g_slist_free (list);
+		if (to > from) {
+			if (spans == 0) {
+				gsf_xml_out_start_element (state->xml, TEXT "span");
+				spans++;
+			}
+			cb_odf_add_chars (state, text + from, to - from);
+		}
+		while (spans-- > 0)
+			gsf_xml_out_end_element (state->xml); /* </text:span> */
+		handled = to;
+	} while (pango_attr_iterator_next (iter));
+	
+	pango_attr_iterator_destroy (iter);
+
+	return;
+}
+
 
 /*****************************************************************************/
 
@@ -176,6 +317,88 @@ odf_write_table_styles (GnmOOExport *state)
 		} else
 			g_free (name);
 	}
+}
+
+static void
+odf_write_character_styles (GnmOOExport *state)
+{
+	int i;
+
+	for (i = 100; i < 1000; i+=100) {
+		char * str = g_strdup_printf ("AC-weight%i", i);
+		odf_start_style (state->xml, str, "text");
+		gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+		gsf_xml_out_add_int (state->xml, FOSTYLE "font-weight", i);
+		gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+		gsf_xml_out_end_element (state->xml); /* </style:style> */
+		g_free (str);
+	}
+
+	odf_start_style (state->xml, "AC-italic", "text");
+	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+	gsf_xml_out_add_cstr (state->xml, FOSTYLE "font-style", "italic");
+	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
+
+	odf_start_style (state->xml, "AC-roman", "text");
+	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+	gsf_xml_out_add_cstr (state->xml, FOSTYLE "font-style", "normal");
+	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
+
+	odf_start_style (state->xml, "AC-strikethrough-solid", "text");
+	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-line-through-type", "single");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-line-through-style", "solid");
+	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
+
+	odf_start_style (state->xml, "AC-strikethrough-none", "text");
+	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-line-through-type", "none");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-line-through-style", "none");
+	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
+
+	odf_start_style (state->xml, "AC-underline-none", "text");
+	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-underline-type", "none");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-underline-style", "none");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-underline-width", "auto");
+	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
+
+	odf_start_style (state->xml, "AC-underline-single", "text");
+	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-underline-type", "single");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-underline-style", "solid");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-underline-width", "auto");
+	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
+
+	odf_start_style (state->xml, "AC-underline-double", "text");
+	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-underline-type", "double");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-underline-style", "solid");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-underline-width", "auto");
+	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
+
+	odf_start_style (state->xml, "AC-underline-low", "text");
+	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-underline-type", "single");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-underline-style", "solid");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-underline-width", "bold");
+	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
+
+	odf_start_style (state->xml, "AC-underline-error", "text");
+	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-underline-type", "single");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-underline-style", "wave");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-underline-width", "auto");
+	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
 }
 
 static void
@@ -309,7 +532,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		gsf_xml_out_add_int (state->xml,
 				     TABLE "number-rows-spanned", rows_spanned);
 	if (cell != NULL) {
-		char *rendered_string;
+		gboolean write_rendered_string = TRUE;
 
 		if ((NULL != cell->base.texpr) && 
 		    !gnm_expr_top_is_array_elem (cell->base.texpr, NULL, NULL)) {
@@ -343,8 +566,6 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			g_free (eq_formula);
 		}
 
-		rendered_string = gnm_cell_get_rendered_text (cell);
-
 		switch (cell->value->type) {
 		case VALUE_BOOLEAN:
 			gsf_xml_out_add_cstr_unchecked (state->xml,
@@ -362,6 +583,10 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			break;
 
 		case VALUE_STRING:
+			write_rendered_string = FALSE;
+			gsf_xml_out_add_cstr_unchecked (state->xml,
+							OFFICE "value-type", "string");
+			break;
 		case VALUE_ERROR:
 			gsf_xml_out_add_cstr_unchecked (state->xml,
 							OFFICE "value-type", "string");
@@ -376,11 +601,34 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			break;
 
 		}
-		gsf_xml_out_start_element (state->xml, TEXT "p");
-		gsf_xml_out_add_cstr (state->xml, NULL, rendered_string);
-		gsf_xml_out_end_element (state->xml);   /* p */
 
-		g_free (rendered_string);
+		if (write_rendered_string) {
+			char *rendered_string = gnm_cell_get_rendered_text (cell);
+			
+			gsf_xml_out_start_element (state->xml, TEXT "p");
+			gsf_xml_out_add_cstr (state->xml, NULL, rendered_string);
+			gsf_xml_out_end_element (state->xml);   /* p */
+			
+			g_free (rendered_string);
+		} else if ((cell->value != NULL) && (VALUE_FMT (cell->value) != NULL)) {
+			GString *str = g_string_new ("");
+			const PangoAttrList * markup;
+			gboolean pp = TRUE;
+
+			value_get_as_gstring (cell->value, str, NULL);
+			markup = go_format_get_markup (VALUE_FMT (cell->value));
+			
+			g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
+			g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
+			gsf_xml_out_start_element (state->xml, TEXT "p");
+			odf_new_markup (state, markup, str->str);
+			gsf_xml_out_end_element (state->xml);   /* p */
+			g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
+
+			g_string_free (str, TRUE);
+		}
+			
+	       
 	}
 
 	if (cc != NULL) {
@@ -592,6 +840,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 
 	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
 	odf_write_table_styles (state);
+	odf_write_character_styles (state);
 	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
 
 	gsf_xml_out_start_element (state->xml, OFFICE "body");

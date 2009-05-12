@@ -1,3 +1,11 @@
+2009-05-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (cb_odf_add_chars): new
+	(odf_new_markup): new
+	(odf_write_character_styles): new
+	(odf_write_cell): write markup
+	(odf_write_content): call odf_write_character_styles
+
 2009-05-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (styles_dtd): there can be column and row 
