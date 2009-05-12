@@ -23,6 +23,9 @@ Morten:
 	* Add progress display for OO import.
 	* Improve ssindex' coverage.
 
+Paul Fitzpatrick:
+	* Extend ssconvert to also merge multiple sheets.  [#581616]
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.7
 
@@ -30,7 +33,8 @@ Andreas:
 	* Fix some divergence between character weight in the label properties
 	  dialog and the label itself.
 	* Add interface to format cell comments
-	* Fix printing of sheet objects whose text intersects with markup. [#581125]
+	* Fix printing of sheet objects whose text intersects with markup.
+	  [#581125]
 	* Load meta data from gnumeric files [#578607]
 
 Jean:

@@ -35,6 +35,7 @@
 #include <goffice/app/go-doc.h>
 #include <goffice/app/go-cmd-context.h>
 #include <goffice/utils/go-file.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <gsf/gsf-utils.h>
 #include <string.h>
 #ifdef HAVE_SYS_RESOURCE_H
@@ -238,160 +239,181 @@ list_them (get_them_f get_them,
 	}
 }
 
-/* Look at a set of workbooks, and pick a sheet size that would
-   be good for sheets in a workbook merging them all. */
-static int
-suggest_size (const char *inputs[], int *csuggest, int *rsuggest,
-	      GOFileOpener *fo, IOContext *io_context,
-	      GOCmdContext *cc)
+/*
+ * Read the files we're going to merge and return a list of Workbooks.
+ */
+static GSList *
+read_files_to_merge (const char *inputs[], GOFileOpener *fo, 
+		     IOContext *io_context, GOCmdContext *cc)
 {
-	int rmax = 0;
-	int cmax = 0;
-	while (*inputs!=NULL) {
+	GSList *wbs = NULL;
+
+	while (*inputs) {
 		const char *fname = *inputs;
 		char *uri = go_shell_arg_to_uri (fname);
-		WorkbookView *wbv2 = 
-			wb_view_new_from_uri (uri, fo,
-					      io_context, 
+		WorkbookView *wbv = 
+			wb_view_new_from_uri (uri, fo, io_context, 
 					      ssconvert_import_encoding);
-		inputs++;
-		if (wbv2!=NULL) {
-			Workbook *wb2 = wb_view_get_workbook (wbv2);
-			int i;
-			/* Looping through sheets should be redundant
-			   if all must be same size; let's do it anyway */
-			for (i=0; i<workbook_sheet_count (wb2); i++) {
-				Sheet *sheet = workbook_sheet_by_index (wb2,i);
-				int r = gnm_sheet_get_max_rows (sheet);
-				int c = gnm_sheet_get_max_cols (sheet);
-				if (r>rmax) rmax = r;
-				if (c>cmax) cmax = c;
-			}
-			g_object_unref (wb2);
-		}
 		g_free (uri);
+		inputs++;
+
+		if (gnumeric_io_error_occurred (io_context)) {
+			go_slist_free_custom (wbs, g_object_unref);
+			return NULL;
+		}
+
+		if (!wbv)
+			continue;
+
+		wbs = g_slist_prepend (wbs, wb_view_get_workbook (wbv));
 	}
+
+	return g_slist_reverse (wbs);
+}
+
+/*
+ * Look at a set of workbooks, and pick a sheet size that would
+ * be good for sheets in a workbook merging them all.
+ */
+static void
+suggest_size (GSList *wbs, int *csuggest, int *rsuggest)
+{
+	GSList *l;
+	int rmax = 0;
+	int cmax = 0;
+
+	for (l = wbs; l; l = l->next) {
+		Workbook *wb = l->data;
+
+		WORKBOOK_FOREACH_SHEET (wb, sheet, {
+			int r = gnm_sheet_get_max_rows (sheet);
+			int c = gnm_sheet_get_max_cols (sheet);
+			if (r > rmax) rmax = r;
+			if (c > cmax) cmax = c;
+		});
+	}
+
 	gnm_sheet_suggest_size (&cmax, &rmax);
-	if (csuggest!=NULL) *csuggest = cmax;
-	if (rsuggest!=NULL) *rsuggest = rmax;
-	return 0;
+	*csuggest = cmax;
+	*rsuggest = rmax;
+}
+
+static void
+cb_fixup_name_wb (const char *name, GnmNamedExpr *nexpr, Workbook *wb)
+{
+	if (nexpr->pos.wb)
+		nexpr->pos.wb = wb;
 }
 
 
 /* Append the sheets of workbook wb2 to workbook wb.  Resize sheets
    if necessary.  Fix workbook links in sheet if necessary.
    Merge names in workbook scope (conflicts result in an error). */
-static int
-merge_single (Workbook *wb, Workbook *wb2, int cmax, int rmax, 
-	      GOCmdContext *cc) {
-
+static gboolean
+merge_single (Workbook *wb, Workbook *wb2,
+	      int cmax, int rmax,
+	      GOCmdContext *cc)
+{
 	/* Move names with workbook scope in wb2 over to wb */
 	GSList *names = g_slist_sort (gnm_named_expr_collection_list (wb2->names),
 				      (GCompareFunc)expr_name_cmp_by_name);
 	GSList *p;
+	GnmParsePos pp;
+
+	parse_pos_init (&pp, wb, NULL, 0, 0);
+
 	for (p = names; p; p = p->next) {
 		GnmNamedExpr *nexpr = p->data;
-		if (nexpr!=NULL) {
-			if (nexpr->pos.wb!=NULL) {
-				/* Check for clash with existing name */
-				GnmParsePos pp;
-				parse_pos_init (&pp,wb,NULL,0,0);
-				GnmNamedExpr *nexpr2;
-				nexpr2 = expr_name_lookup (&pp,
-							   nexpr->name->str);
-				if (nexpr2!=NULL) {
-					g_printerr (_("Name conflict during merge: '%s' appears twice at workbook scope.\n"),
-						    nexpr->name->str);
-					g_slist_free (names);
-					return -1;
-				}
+		const char *name = expr_name_name (nexpr);
+		GnmNamedExpr *nexpr2;
+		Sheet *sheet;
 
-				/* Move name scope to workbook wb */
-				Sheet *sheet = workbook_sheet_by_index (wb2,0);
-				expr_name_set_scope(nexpr,sheet);
-				nexpr->pos.wb = wb;
-				expr_name_set_scope(nexpr,NULL);
-			}
+		if (!nexpr->active)
+			continue;
+
+		if (nexpr->pos.wb == NULL || nexpr->pos.sheet != NULL)
+			continue;
+
+		/* Check for clash with existing name */
+
+		nexpr2 = expr_name_lookup (&pp, name);
+		if (nexpr2 != NULL) {
+			g_printerr (_("Name conflict during merge: '%s' appears twice at workbook scope.\n"),
+				    name);
+			g_slist_free (names);
+			return TRUE;
 		}
+
+		/* Move name scope to workbook wb */
+		sheet = workbook_sheet_by_index (wb2, 0);
+		expr_name_set_scope (nexpr, sheet);
+		nexpr->pos.wb = wb;
+		expr_name_set_scope (nexpr, NULL);
 	}
+	g_slist_free (names);
 
 	while (workbook_sheet_count (wb2) > 0) {
 		/* Remove sheet from incoming workbook */
-		Sheet *sheet = workbook_sheet_by_index (wb2,0);
+		Sheet *sheet = workbook_sheet_by_index (wb2, 0);
 		int loc = workbook_sheet_count (wb);
-		int r = gnm_sheet_get_max_rows (sheet);
-		int c = gnm_sheet_get_max_cols (sheet);
 		GOUndo *undo;
+		char *sheet_name;
+
 		g_object_ref (sheet);
 		workbook_sheet_delete (sheet);
 		sheet->workbook = wb;
-		
-		/* Fix names that reference the old workbook */
-		GSList *names = g_slist_sort (gnm_named_expr_collection_list (sheet->names),
-					      (GCompareFunc)expr_name_cmp_by_name);
-		GSList *p;
-		for (p = names; p; p = p->next) {
-			GnmNamedExpr *nexpr = p->data;
-			if (nexpr!=NULL) {
-				if (nexpr->pos.wb!=NULL) {
-					nexpr->pos.wb = wb;
-				}
-			}
-		}
-		g_slist_free (names);
 
-		/* Resize if necessary (not sure if this is needed) */
-		if (r!=rmax || c!=cmax) {
-			undo = gnm_sheet_resize (sheet, 
-						 cmax, 
-						 rmax, 
-						 cc);
-			if (undo!=NULL) {
-				g_object_unref (undo);
-			}
-		}
+		/* Fix names that reference the old workbook */
+		gnm_sheet_foreach_name (sheet, (GHFunc)cb_fixup_name_wb, wb);
+
+		undo = gnm_sheet_resize (sheet, cmax, rmax, cc);
+		if (undo)
+			g_object_unref (undo);
 
 		/* Pick a free sheet name */
-		char *name = workbook_sheet_get_free_name(wb,
-							  sheet->name_unquoted,
-							  FALSE,
-							  TRUE);
-		g_object_set (sheet, "name", name, NULL);
-		g_free (name);
+		sheet_name = workbook_sheet_get_free_name
+			(wb, sheet->name_unquoted, FALSE, TRUE);
+		g_object_set (sheet, "name", sheet_name, NULL);
+		g_free (sheet_name);
 
 		/* Insert and revive the sheet */
-		workbook_sheet_attach_at_pos (wb,sheet,loc);
+		workbook_sheet_attach_at_pos (wb, sheet, loc);
 		dependents_revive_sheet (sheet);
 		g_object_unref (sheet);
 	}
-	return 0;
+
+	return FALSE;
 }
 
 /* Merge a collection of workbooks into one. */
+static gboolean
 merge (Workbook *wb, char const *inputs[], 
-       GOFileOpener *fo, IOContext *io_context,
-       GOCmdContext *cc)
+       GOFileOpener *fo, IOContext *io_context, GOCmdContext *cc)
 {
+	GSList *wbs, *l;
 	int result = 0;
 	int cmax, rmax;
-	suggest_size (inputs, &cmax, &rmax, fo, io_context, cc);
 
-	while (*inputs!=NULL && result==0) {
-		const char *fname = *inputs;
-		char *uri = go_shell_arg_to_uri (fname);
-		WorkbookView *wbv2 = 
-			wb_view_new_from_uri (uri, fo,
-					      io_context, 
-					      ssconvert_import_encoding);
-		inputs++;
-		if (wbv2!=NULL) {
-			g_print ("Adding %s\n", fname);
-			Workbook *wb2 = wb_view_get_workbook (wbv2);
-			result = merge_single (wb, wb2, cmax, rmax, cc);
-			g_object_unref (wb2);
-		}
-		g_free (uri);
+	wbs = read_files_to_merge (inputs, fo, io_context, cc);
+	if (gnumeric_io_error_occurred (io_context)) {
+		gnumeric_io_error_display (io_context);
+		return TRUE;
 	}
+
+	suggest_size (wbs, &cmax, &rmax);
+
+	for (l = wbs; l; l = l->next) {
+		Workbook *wb2 = l->data;
+		const char *uri = go_doc_get_uri (GO_DOC (wb2));
+
+		g_printerr ("Adding sheets from %s\n", uri);
+
+		result = merge_single (wb, wb2, cmax, rmax, cc);
+		if (result)
+			break;
+	}
+
+	go_slist_free_custom (wbs, g_object_unref);
 	return result;
 }
 
@@ -481,7 +503,8 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 			}
 
 			if (mergeargs!=NULL) {
-				merge (wb, mergeargs, fo, io_context, cc);
+				if (merge (wb, mergeargs, fo, io_context, cc))
+					goto out;
 			}
 
 			if (ssconvert_goal_seek) {
