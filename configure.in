@@ -1089,7 +1089,7 @@ templates/autoformat/Makefile
 test/Makefile
 tools/Makefile
 tools/win32/gnumeric.nsi
-tools/win32/build
+tools/win32/Makefile
 component/Makefile
 ])
 

@@ -18,8 +18,6 @@
     <repository type="tarball" name="cairographics"
 		href="http://cairographics.org/releases/"/>
 
-    <repository type="git" name="emmanuel"
-		href="http://cgit.freedesktop.org/~emmanuel/gmathml"/>
     <repository type="tarball" name="debian"
 		href="http://ftp.debian.org/debian/pool/main/"/>
 
@@ -336,8 +334,8 @@
 	</dependencies>
     </autotools>
 
-    <autotools id="gmathml">
-	<branch repo="emmanuel"/>
+    <autotools id="lasem">
+	<branch/>
 	<dependencies>
 	    <dep package="gtk+"/>
 	</dependencies>
@@ -352,7 +350,7 @@
 	    <dep package="libxml2"/>
 	    <dep package="pango"/>
 	    <dep package="libglade"/>
-	    <dep package="gmathml"/>
+	    <dep package="lasem"/>
 	</dependencies>
     </autotools>
     <autotools id="gnumeric">
