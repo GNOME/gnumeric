@@ -446,7 +446,7 @@ main (int argc, char const **argv)
 		g_printerr (_("version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
 			    GNM_VERSION_FULL, gnm_sys_data_dir (), gnm_sys_lib_dir ());
 		return 0;
-	} 
+	}
 
 	gnm_init (FALSE);
 
@@ -471,7 +471,7 @@ main (int argc, char const **argv)
 
 		textline = (GsfInputTextline *)gsf_input_textline_new (input);
 		g_object_unref (G_OBJECT (input));
-		
+
 		pat = g_string_new (NULL);
 		while (NULL != (line = gsf_input_textline_ascii_gets (textline))) {
 			if (pat->len)

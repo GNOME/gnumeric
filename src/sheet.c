@@ -986,17 +986,17 @@ gnm_sheet_class_init (GObjectClass *gobject_class)
 				      G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_COLUMNS,
-		g_param_spec_int ("columns", 
+		g_param_spec_int ("columns",
 			_("Columns"),
 			_("Columns number in the sheet"),
-			0, GNM_MAX_COLS, GNM_DEFAULT_COLS, 
+			0, GNM_MAX_COLS, GNM_DEFAULT_COLS,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 
 	g_object_class_install_property (gobject_class, PROP_ROWS,
-		g_param_spec_int ("rows", 
+		g_param_spec_int ("rows",
 			_("Rows"),
 			_("Rows number in the sheet"),
-			0, GNM_MAX_ROWS, GNM_DEFAULT_ROWS, 
+			0, GNM_MAX_ROWS, GNM_DEFAULT_ROWS,
 			GSF_PARAM_STATIC | G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 
 	signals[DETACHED_FROM_WORKBOOK] = g_signal_new
@@ -1198,7 +1198,7 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 		/* FIXME: what about dependents in other workbooks?  */
 		WORKBOOK_FOREACH_DEPENDENT
 			(sheet->workbook, dep,
-			 
+
 			 if (dependent_is_linked (dep)) {
 				 dependent_unlink (dep);
 				 linked = g_slist_prepend (linked, dep);
@@ -1256,7 +1256,7 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 		go_undo_undo_with_data (*pundo, cc);
 		g_object_unref (*pundo);
 		*pundo = NULL;
-	}	
+	}
 }
 
 GOUndo *
@@ -2093,7 +2093,7 @@ sheet_get_printarea	(Sheet const *sheet,
 		    !range_is_full (&r, sheet, FALSE))
 			return r;
 	}
-	
+
 	r = sheet_get_extent (sheet, TRUE);
 	if (include_styles)
 		sheet_style_get_extent (sheet, &r, NULL);

@@ -183,7 +183,7 @@ rstyle_apply (GnmStyle **old, ReplacementStyle *rs)
 /****************************************************************************/
 
 /* If you change this, change the tile_{widths,heights} here
- * and GNM_MAX_COLS and GNM_MAX_ROWS in gnumeric.h */ 
+ * and GNM_MAX_COLS and GNM_MAX_ROWS in gnumeric.h */
 #define TILE_TOP_LEVEL 6
 
 #define TILE_SIZE_COL 4

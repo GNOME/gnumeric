@@ -243,7 +243,7 @@ list_them (get_them_f get_them,
  * Read the files we're going to merge and return a list of Workbooks.
  */
 static GSList *
-read_files_to_merge (const char *inputs[], GOFileOpener *fo, 
+read_files_to_merge (const char *inputs[], GOFileOpener *fo,
 		     IOContext *io_context, GOCmdContext *cc)
 {
 	GSList *wbs = NULL;
@@ -251,8 +251,8 @@ read_files_to_merge (const char *inputs[], GOFileOpener *fo,
 	while (*inputs) {
 		const char *fname = *inputs;
 		char *uri = go_shell_arg_to_uri (fname);
-		WorkbookView *wbv = 
-			wb_view_new_from_uri (uri, fo, io_context, 
+		WorkbookView *wbv =
+			wb_view_new_from_uri (uri, fo, io_context,
 					      ssconvert_import_encoding);
 		g_free (uri);
 		inputs++;
@@ -387,7 +387,7 @@ merge_single (Workbook *wb, Workbook *wb2,
 
 /* Merge a collection of workbooks into one. */
 static gboolean
-merge (Workbook *wb, char const *inputs[], 
+merge (Workbook *wb, char const *inputs[],
        GOFileOpener *fo, IOContext *io_context, GOCmdContext *cc)
 {
 	GSList *wbs, *l;
@@ -483,7 +483,7 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 		WorkbookView *wbv;
 		if (mergeargs==NULL) {
 			wbv = wb_view_new_from_uri (infile, fo,
-						    io_context, 
+						    io_context,
 						    ssconvert_import_encoding);
 		} else {
 			wbv = workbook_view_new (NULL);

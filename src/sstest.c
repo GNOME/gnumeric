@@ -71,7 +71,7 @@ dump_names (Workbook *wb)
 
 	workbook_foreach_name (wb, FALSE, (GHFunc)cb_collect_names, &names);
 	names = g_slist_sort (names, (GCompareFunc)expr_name_cmp_by_name);
-	
+
 	g_printerr ("Dumping names...\n");
 	for (l = names; l; l = l->next) {
 		GnmNamedExpr *nexpr = l->data;
@@ -222,7 +222,7 @@ main (int argc, char const **argv)
 		g_printerr (_("version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
 			    GNM_VERSION_FULL, gnm_sys_data_dir (), gnm_sys_lib_dir ());
 		return 0;
-	} 
+	}
 
 	gnm_init (FALSE);
 

@@ -1014,7 +1014,7 @@ wbcg_insert_object (WBCGtk *wbcg, SheetObject *so)
 /**
  * wbcg_insert_object_clear :
  * @wbcg : #WBCGtk
- * 
+ *
  * If we are preparing to insert a new object, unref the object, and restore
  * a normal state to the scgs that was changed in wbcg_insert_object
  * (e.g.  visiblity of cursors)
