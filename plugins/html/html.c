@@ -40,6 +40,7 @@
 #include "font.h"
 #include "cellspan.h"
 #include <goffice/app/error-info.h>
+#include <goffice/utils/go-format.h>
 #include "style-border.h"
 #include <rendered-value.h>
 #include "style.h"
@@ -135,6 +136,115 @@ html_get_back_color (GnmStyle const *style, guint *r, guint *g, guint *b)
 	*b = color->gdk_color.blue >> 8;
 }
 
+/*****************************************************************************/
+
+
+static void
+cb_html_add_chars (GsfOutput *output, char const *text, int len)
+{
+	char * str;
+
+	g_return_if_fail (len > 0);
+
+	str = g_strndup (text, len);
+	html_print_encoded (output, str);
+	g_free (str);
+}
+
+static char const *
+cb_html_attrs_as_string (GsfOutput *output, PangoAttribute *a, html_version_t version)
+{
+/* 	PangoColor const *c; */
+	char const *closure = NULL;
+
+	switch (a->klass->type) {
+	case PANGO_ATTR_FAMILY :
+		break; /* ignored */
+	case PANGO_ATTR_SIZE :
+		break; /* ignored */
+	case PANGO_ATTR_RISE:
+		break; /* ignored */
+	case PANGO_ATTR_STYLE :
+		if (((PangoAttrInt *)a)->value == PANGO_STYLE_ITALIC) {
+			gsf_output_puts (output, "<i>");
+			closure = "</i>";
+		}
+		break;
+	case PANGO_ATTR_WEIGHT : 
+		if (((PangoAttrInt *)a)->value > 600){
+			gsf_output_puts (output, "<b>");
+			closure = "</b>";
+		}
+		break;
+	case PANGO_ATTR_STRIKETHROUGH :
+		if (((PangoAttrInt *)a)->value == 1) {
+			gsf_output_puts (output, "<strike>");
+			closure = "</strike>";
+		}
+		break;
+	case PANGO_ATTR_UNDERLINE : 
+		if ((version != HTML40) && 
+		    (((PangoAttrInt *)a)->value != PANGO_UNDERLINE_NONE)) {
+			gsf_output_puts (output, "<u>");
+			closure = "</u>";
+		}
+		break;
+	case PANGO_ATTR_FOREGROUND :
+/* 		c = &((PangoAttrColor *)a)->color; */
+/* 		g_string_append_printf (accum, "[color=%02xx%02xx%02x", */
+/* 			((c->red & 0xff00) >> 8), */
+/* 			((c->green & 0xff00) >> 8), */
+/* 			((c->blue & 0xff00) >> 8)); */
+		break;/* ignored */
+	default :
+		break; /* ignored */
+	}
+
+	return closure;
+}
+
+static void
+html_new_markup (GsfOutput *output, const PangoAttrList *markup, char const *text, 
+		 html_version_t version)
+{
+	int handled = 0;
+	PangoAttrIterator * iter;
+	int from, to;
+	int len = strlen (text);
+	GString *closure = g_string_new ("");
+
+	iter = pango_attr_list_get_iterator ((PangoAttrList *) markup);
+
+	do {
+		GSList *list, *l;
+		
+		g_string_erase (closure, 0, -1);
+		pango_attr_iterator_range (iter, &from, &to);
+		to = (to > len) ? len : to; /* Since "to" can be really big! */
+		if (from > handled)
+			cb_html_add_chars (output, text + handled, from - handled);
+		list = pango_attr_iterator_get_attrs (iter);
+		for (l = list; l != NULL; l = l->next) {
+			char const *result = cb_html_attrs_as_string (output, l->data, version);
+			if (result != NULL)
+				g_string_prepend (closure, result);
+		}
+		g_slist_free (list);
+		if (to > from)
+			cb_html_add_chars (output, text + from, to - from);
+		gsf_output_puts (output, closure->str);
+		handled = to;
+	} while (pango_attr_iterator_next (iter));
+
+	g_string_free (closure, TRUE);
+	pango_attr_iterator_destroy (iter);
+
+	return;
+}
+
+
+/*****************************************************************************/
+
 static void
 html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style, html_version_t version)
 {
@@ -174,9 +284,21 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 					gsf_output_printf (output, "<font color=\"#%02X%02X%02X\">", r, g, b);
 			}
 
-			rendered_string = gnm_cell_get_rendered_text (cell);
-			html_print_encoded (output, rendered_string);
-			g_free (rendered_string);
+			if (cell->value->type == VALUE_STRING) {
+				GString *str = g_string_new ("");
+				const PangoAttrList * markup;
+				
+				value_get_as_gstring (cell->value, str, NULL);
+				markup = go_format_get_markup (VALUE_FMT (cell->value));
+				
+				html_new_markup (output, markup, str->str, version);
+				
+				g_string_free (str, TRUE);
+			} else {
+				rendered_string = gnm_cell_get_rendered_text (cell);
+				html_print_encoded (output, rendered_string);
+				g_free (rendered_string);
+			}
 		}
 
 		if (r > 0 || g > 0 || b > 0)
@@ -344,7 +466,7 @@ write_cell (GsfOutput *output, Sheet *sheet, gint row, gint col, html_version_t 
 		}
 
 	}
-	if (version == HTML40 || version == HTML40F) {
+	if (version == HTML40 || version == HTML40F  || version ==XHTML) {
 		if (style != NULL) {
 			gsf_output_printf (output, " style=\"");
 			if (gnm_style_get_pattern (style) != 0 &&
@@ -460,8 +582,7 @@ write_sheet (GsfOutput *output, Sheet *sheet,
 	total_range = sheet_get_extent (sheet, TRUE);
 	for (row = total_range.start.row; row <=  total_range.end.row; row++) {
 		gsf_output_puts (output, "<tr>\n");
-		write_row (output, sheet, row, &total_range,
-			   (version == XHTML) ? HTML40 : version);
+		write_row (output, sheet, row, &total_range, version);
 		gsf_output_puts (output, "</tr>\n");
 	}
 	gsf_output_puts (output, "</table>\n");
@@ -487,7 +608,7 @@ html_file_save (GOFileSaver const *fs, IOContext *io_context,
 	switch (version) {
 	case HTML32:
 	gsf_output_puts (output,
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">\n"
+"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 3.2 Final//EN\">\n"
 "<html>\n"
 "<head>\n\t<title>Tables</title>\n"
 "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n"
@@ -509,8 +630,8 @@ html_file_save (GOFileSaver const *fs, IOContext *io_context,
 		break;
 	case HTML40:
 		gsf_output_puts (output,
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\"\n"
-"\t\t\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"\n"
+"\t\t\"http://www.w3.org/TR/html4/strict.dtd\">\n"
 "<html>\n"
 "<head>\n\t<title>Tables</title>\n"
 "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n"

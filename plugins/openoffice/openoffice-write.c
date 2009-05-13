@@ -32,6 +32,7 @@
 #include <workbook-view.h>
 #include <goffice/app/file.h>
 #include <goffice/app/io-context.h>
+#include <goffice/utils/go-format.h>
 #include <gnm-format.h>
 #include <workbook.h>
 #include <workbook-priv.h> /* Workbook::names */
