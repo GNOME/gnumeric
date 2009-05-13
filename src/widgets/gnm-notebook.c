@@ -685,8 +685,6 @@ G_END_DECLS
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <gnm-marshalers.h>
-#include "gggnotebook.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
