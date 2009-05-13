@@ -686,8 +686,11 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 	if (extent.start.row > 0) {
 		/* We need to write a bunch of empty rows !*/
 		gsf_xml_out_start_element (state->xml, TABLE "table-row");
-		gsf_xml_out_add_int (state->xml, TABLE "number-rows-repeated",
-				     extent.start.row);
+		if (extent.start.row > 1)
+			gsf_xml_out_add_int (state->xml, TABLE "number-rows-repeated",
+					     extent.start.row);
+		gsf_xml_out_start_element (state->xml, TABLE "table-cell");
+		gsf_xml_out_end_element (state->xml);   /* table-cell */
 		gsf_xml_out_end_element (state->xml);   /* table-row */
 	}
 
@@ -729,6 +732,8 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 			odf_write_cell (state, current_cell, merge_range, cc);
 
 		}
+		if (null_cell > 0)
+			odf_write_empty_cell (state, &null_cell);
 		if (covered_cell > 0)
 			odf_write_covered_cell (state, &covered_cell);
 

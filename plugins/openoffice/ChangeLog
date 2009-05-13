@@ -1,5 +1,10 @@
 2009-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_sheet): we need to write at least one
+	  cell per row.
+
+2009-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_cell): also write unformatted text
 	
 2009-05-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
