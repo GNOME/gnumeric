@@ -278,21 +278,21 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle const *style
 			gsf_output_printf (output, "<a href=\"%s\">", hlink_target);
 
 		if (cell != NULL) {
+			const PangoAttrList * markup = NULL;
+
 			if (style != NULL && version != HTML40) {
 				html_get_text_color (cell, style, &r, &g, &b);
 				if (r > 0 || g > 0 || b > 0)
 					gsf_output_printf (output, "<font color=\"#%02X%02X%02X\">", r, g, b);
 			}
 
-			if (cell->value->type == VALUE_STRING) {
-				GString *str = g_string_new ("");
-				const PangoAttrList * markup;
-				
-				value_get_as_gstring (cell->value, str, NULL);
+			if ((cell->value->type == VALUE_STRING) && (VALUE_FMT (cell->value) != NULL))
 				markup = go_format_get_markup (VALUE_FMT (cell->value));
-				
+			
+			if (markup != NULL) {
+				GString *str = g_string_new ("");
+				value_get_as_gstring (cell->value, str, NULL);
 				html_new_markup (output, markup, str->str, version);
-				
 				g_string_free (str, TRUE);
 			} else {
 				rendered_string = gnm_cell_get_rendered_text (cell);
