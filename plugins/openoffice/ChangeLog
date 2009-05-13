@@ -1,6 +1,10 @@
+2009-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_cell): also write unformatted text
+	
 2009-05-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-write.c (opendoc_content_dtd): permit nested text:span
+	* openoffice-read.c (opendoc_content_dtd): permit nested text:span
 
 2009-05-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

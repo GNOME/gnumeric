@@ -604,7 +604,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 
 		}
 
-		if (write_rendered_string) {
+		if (write_rendered_string || (VALUE_FMT (cell->value) == NULL)) {
 			char *rendered_string = gnm_cell_get_rendered_text (cell);
 			
 			gsf_xml_out_start_element (state->xml, TEXT "p");
