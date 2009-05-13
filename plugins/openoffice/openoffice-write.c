@@ -67,6 +67,7 @@
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-opendoc-utils.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <string.h>
 
 #include <glib.h>
 #include <glib/gi18n-lib.h>
