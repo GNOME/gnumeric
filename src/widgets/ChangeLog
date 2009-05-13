@@ -1,6 +1,7 @@
 2009-05-13  Morten Welinder  <terra@gnome.org>
 
 	* widget-editable-label.c (el_size_request): Simplify.
+	(el_cancel_editing): Restore the old label text.
 
 	* gnm-notebook.c: Add a copy of gtknotebook.c until that can be
 	fixed.  Fixes #580837.

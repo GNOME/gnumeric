@@ -125,6 +125,7 @@ el_cancel_editing (EditableLabel *el)
 {
 	if (el->unedited_text) {
 		gboolean dummy;
+		editable_label_set_text (el, el->unedited_text);
 		el_stop_editing (el);
 		g_signal_emit (G_OBJECT (el), el_signals [EDIT_FINISHED], 0,
 			       NULL, &dummy);
