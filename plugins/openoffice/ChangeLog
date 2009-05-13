@@ -1,5 +1,9 @@
 2009-05-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (opendoc_content_dtd): permit nested text:span
+
+2009-05-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (cb_odf_add_chars): new
 	(odf_new_markup): new
 	(odf_write_character_styles): new
