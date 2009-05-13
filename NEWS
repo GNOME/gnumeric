@@ -11,6 +11,7 @@ Andreas:
 	* Load large ODF files by increasing the sheet size.
 	* Fix writing of xlsx files with full extent [#569862]
 	* Write some character based formats to ODF files. [#553508]
+	* Write some character based formats to HTML files. [#582118]
 
 Jody:
 	* Closer to a turnkey win32 build.
