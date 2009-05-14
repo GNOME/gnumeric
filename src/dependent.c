@@ -2659,7 +2659,7 @@ workbook_recalc (Workbook *wb)
 	 * expensive.
 	 */
 	if (redraw) {
-		g_signal_emit_by_name (gnm_app_get_app (), "recalc-finished");
+		gnm_app_recalc_finished ();
 
 		WORKBOOK_FOREACH_SHEET (wb, sheet, {
 			SHEET_FOREACH_VIEW (sheet, sv, sv_flag_selection_change (sv););

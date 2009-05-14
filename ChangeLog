@@ -1,5 +1,10 @@
 2009-05-14  Morten Welinder  <terra@gnome.org>
 
+	* src/application.c (gnm_app_recalc_finished): New function.
+	* src/dependent.c (workbook_recalc): Use gnm_app_recalc_finished.
+	* src/workbook-view.c (wb_view_auto_expr_recalc): Call
+	gnm_app_recalc_finished.
+
 	* src/commands.c (cmd_so_set_adjustment): Handle h/v too.  All
 	callers changed.
 	* src/sheet-object-widget.c (sheet_widget_adjustment_user_config_impl):

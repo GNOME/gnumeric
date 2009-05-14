@@ -863,3 +863,11 @@ _gnm_app_flag_windows_changed (void)
 		windows_update_timer = g_timeout_add (100,
 			(GSourceFunc)cb_flag_windows_changed, NULL);
 }
+
+/**********************************************************************/
+
+void
+gnm_app_recalc_finished (void)
+{
+	g_signal_emit_by_name (gnm_app_get_app (), "recalc-finished");
+}
