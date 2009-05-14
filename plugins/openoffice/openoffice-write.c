@@ -128,7 +128,7 @@ odf_write_mimetype (GnmOOExport *state, GsfOutput *child)
 
 
 static void
-cb_odf_add_chars (GnmOOExport *state, char const *text, int len)
+odf_add_chars_non_white (GnmOOExport *state, char const *text, int len)
 {
 	char * str;
 
@@ -139,8 +139,70 @@ cb_odf_add_chars (GnmOOExport *state, char const *text, int len)
 	g_free (str);
 }
 
+static void
+odf_add_chars (GnmOOExport *state, char const *text, int len, gboolean *white_written)
+{
+	int nw = strcspn(text, " \n\t");
+
+	if (nw >= len) {
+		odf_add_chars_non_white (state, text, len);
+		*white_written = FALSE;
+		return;
+	}
+
+	if (nw > 0) {
+		odf_add_chars_non_white (state, text, nw);
+		text += nw;
+		len -= nw;
+		*white_written = FALSE;
+	}
+
+	switch (*text) {
+	case ' ': 
+	{
+		int white = strspn(text, " ");
+
+		if (!*white_written) {
+			gsf_xml_out_add_cstr (state->xml, NULL, " ");
+			len--;
+			white--;
+			text++;
+			*white_written = TRUE;
+		}
+		if (white > 0) {
+			gsf_xml_out_start_element (state->xml, TEXT "s");
+			if (white > 1)
+				gsf_xml_out_add_int (state->xml, TEXT "c", white);
+			gsf_xml_out_end_element (state->xml);
+			len -= white;
+			text += white;
+		}
+	}
+	break;
+	case '\n':
+		gsf_xml_out_start_element (state->xml, TEXT "line-break");
+		gsf_xml_out_end_element (state->xml);
+		text++;
+		len--;
+		break;
+	case '\t':
+		gsf_xml_out_start_element (state->xml, TEXT "tab");
+		gsf_xml_out_end_element (state->xml);
+		text++;
+		len--;
+		break;
+	default:
+		/* This really shouldn't happen */
+		g_warning ("How can we get here?");
+		break;
+	}
+	
+	if (len > 0)
+		odf_add_chars (state, text, len, white_written);
+}
+
 static int
-cb_odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
+odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 {
 /* 	PangoColor const *c; */
 	int spans = 0;
@@ -227,6 +289,11 @@ odf_new_markup (GnmOOExport *state, const PangoAttrList *markup, char const *tex
 	PangoAttrIterator * iter;
 	int from, to;
 	int len = strlen (text);
+	/* Since whitespace at the beginning of a <text:p> will be deleted upon    */
+	/* reading, we need to behave as if we have already written whitespace and */
+	/* use <text:s> if necessary */
+	gboolean white_written = TRUE;
+
 
 	iter = pango_attr_list_get_iterator ((PangoAttrList *) markup);
 
@@ -236,21 +303,14 @@ odf_new_markup (GnmOOExport *state, const PangoAttrList *markup, char const *tex
 
 		pango_attr_iterator_range (iter, &from, &to);
 		to = (to > len) ? len : to; /* Since "to" can be really big! */
-		if (from > handled) {
-			gsf_xml_out_start_element (state->xml, TEXT "span");
-			cb_odf_add_chars (state, text + handled, from - handled);
-			gsf_xml_out_end_element (state->xml); /* </text:span> */
-		}
+		if (from > handled)
+			odf_add_chars (state, text + handled, from - handled, &white_written);
 		list = pango_attr_iterator_get_attrs (iter);
 		for (l = list; l != NULL; l = l->next)
-			spans += cb_odf_attrs_as_string (state, l->data);
+			spans += odf_attrs_as_string (state, l->data);
 		g_slist_free (list);
 		if (to > from) {
-			if (spans == 0) {
-				gsf_xml_out_start_element (state->xml, TEXT "span");
-				spans++;
-			}
-			cb_odf_add_chars (state, text + from, to - from);
+			odf_add_chars (state, text + from, to - from, &white_written);
 		}
 		while (spans-- > 0)
 			gsf_xml_out_end_element (state->xml); /* </text:span> */
@@ -535,6 +595,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 				     TABLE "number-rows-spanned", rows_spanned);
 	if (cell != NULL) {
 		gboolean write_rendered_string = TRUE;
+		gboolean pp = TRUE;
 
 		if ((NULL != cell->base.texpr) && 
 		    !gnm_expr_top_is_array_elem (cell->base.texpr, NULL, NULL)) {
@@ -604,11 +665,14 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 
 		}
 
+		g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
+		g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
 		if (write_rendered_string || (VALUE_FMT (cell->value) == NULL)) {
 			char *rendered_string = gnm_cell_get_rendered_text (cell);
+			gboolean white_written = TRUE;
 			
 			gsf_xml_out_start_element (state->xml, TEXT "p");
-			gsf_xml_out_add_cstr (state->xml, NULL, rendered_string);
+			odf_add_chars (state, rendered_string, strlen (rendered_string), &white_written);
 			gsf_xml_out_end_element (state->xml);   /* p */
 			
 			g_free (rendered_string);
@@ -620,17 +684,13 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			value_get_as_gstring (cell->value, str, NULL);
 			markup = go_format_get_markup (VALUE_FMT (cell->value));
 			
-			g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
-			g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
 			gsf_xml_out_start_element (state->xml, TEXT "p");
 			odf_new_markup (state, markup, str->str);
 			gsf_xml_out_end_element (state->xml);   /* p */
-			g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
 
 			g_string_free (str, TRUE);
-		}
-			
-	       
+		}    
+		g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
 	}
 
 	if (cc != NULL) {
