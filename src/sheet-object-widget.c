@@ -790,6 +790,11 @@ typedef struct {
 	GType htype, vtype;
 } SheetWidgetAdjustmentClass;
 
+enum {
+	SWA_PROP_0 = 0,
+	SWA_PROP_HORIZONTAL
+};
+
 static GType sheet_widget_adjustment_get_type (void);
 
 static void
@@ -882,6 +887,64 @@ cb_adjustment_widget_value_changed (GtkWidget *widget,
 }
 
 static void
+sheet_widget_adjustment_set_horizontal (SheetWidgetAdjustment *swa,
+					gboolean horizontal)
+{
+	SheetObjectWidgetClass *sow_class =
+		G_TYPE_INSTANCE_GET_CLASS (swa,
+					   sheet_object_widget_get_type(),
+					   SheetObjectWidgetClass);
+	GList *ptr;
+
+	horizontal = !!horizontal;
+	if (horizontal == swa->horizontal)
+		return;
+	swa->horizontal = horizontal;
+
+	/* Change direction for all realized widgets.  */
+	for (ptr = swa->sow.realized_list; ptr != NULL; ptr = ptr->next) {
+		FooCanvasItem *item = FOO_CANVAS_ITEM (ptr->data);
+		GtkWidget *neww = sow_class->create_widget (SHEET_OBJECT (swa));
+		gtk_widget_show (neww);
+		foo_canvas_item_set (item, "widget", neww, NULL);
+	}
+}
+
+
+static void
+sheet_widget_adjustment_get_property (GObject *obj, guint param_id,
+				      GValue  *value, GParamSpec *pspec)
+{
+	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (obj);
+
+	switch (param_id) {
+	case SWA_PROP_HORIZONTAL:
+		g_value_set_boolean (value, swa->horizontal);
+		break;
+	default :
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		break;
+	}
+}
+
+static void
+sheet_widget_adjustment_set_property (GObject *obj, guint param_id,
+				      GValue const *value, GParamSpec *pspec)
+{
+	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (obj);
+
+	switch (param_id) {
+	case SWA_PROP_HORIZONTAL:
+		sheet_widget_adjustment_set_horizontal (swa, g_value_get_boolean (value));
+		/* FIXME */
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		return;
+	}
+}
+
+static void
 sheet_widget_adjustment_init_full (SheetWidgetAdjustment *swa,
 				   GnmCellRef const *ref,
 				   gboolean horizontal)
@@ -951,11 +1014,13 @@ sheet_widget_adjustment_copy (SheetObject *dst, SheetObject const *src)
 typedef struct {
 	GladeXML           *gui;
 	GtkWidget          *dialog;
-	GnmExprEntry  *expression;
+	GnmExprEntry       *expression;
 	GtkWidget          *min;
 	GtkWidget          *max;
 	GtkWidget          *inc;
 	GtkWidget          *page;
+	GtkWidget          *direction_h;
+	GtkWidget          *direction_v;
 
 	char               *undo_label;
 	GtkWidget          *old_focus;
@@ -1006,13 +1071,19 @@ static void
 cb_adjustment_config_ok_clicked (GtkWidget *button, AdjustmentConfigState *state)
 {
 	SheetObject *so = SHEET_OBJECT (state->swa);
-	GnmParsePos  pp;
+	GnmParsePos pp;
 	GnmExprTop const *texpr = gnm_expr_entry_parse (state->expression,
 		parse_pos_init_sheet (&pp, so->sheet),
 		NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
+	gboolean horizontal;
+
+	horizontal = state->direction_h
+		? gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->direction_h))
+		: state->swa->horizontal;
 
 	cmd_so_set_adjustment (WORKBOOK_CONTROL (state->wbcg), so,
 			       texpr,
+			       horizontal,
 			       gtk_spin_button_get_value_as_int (
 				       GTK_SPIN_BUTTON (state->min)),
 			       gtk_spin_button_get_value_as_int (
@@ -1036,11 +1107,16 @@ static void
 sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, char const *undo_label, char const *dialog_label)
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
-	WBCGtk   *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
+	SheetWidgetAdjustmentClass *swa_class =
+		G_TYPE_INSTANCE_GET_CLASS (swa,
+					   sheet_widget_adjustment_get_type(),
+					   SheetWidgetAdjustmentClass);
+
+	WBCGtk *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 	AdjustmentConfigState *state;
 	GtkWidget *table;
-
-	g_return_if_fail (swa != NULL);
+	gboolean has_directions = (swa_class->htype != G_TYPE_NONE &&
+				   swa_class->vtype != G_TYPE_NONE);
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
@@ -1073,6 +1149,21 @@ sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, cha
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
 	gtk_widget_show (GTK_WIDGET (state->expression));
+
+	if (has_directions) {
+		state->direction_h = glade_xml_get_widget (state->gui, "direction_h");
+		state->direction_v = glade_xml_get_widget (state->gui, "direction_v");
+		gtk_toggle_button_set_active
+			(GTK_TOGGLE_BUTTON (swa->horizontal
+					    ? state->direction_h
+					    : state->direction_v),
+			 TRUE);
+	} else {
+		state->direction_h = NULL;
+		state->direction_v = NULL;
+		gtk_widget_destroy (glade_xml_get_widget (state->gui, "direction_label"));
+		gtk_widget_destroy (glade_xml_get_widget (state->gui, "direction_box"));
+	}
 
 	/* TODO : This is silly, no need to be similar to XL here. */
 	state->min = glade_xml_get_widget (state->gui, "spin_min");
@@ -1279,9 +1370,15 @@ SOW_MAKE_TYPE (adjustment, Adjustment,
 	       sheet_widget_adjustment_read_xml_dom,
 	       sheet_widget_adjustment_write_xml_sax,
 	       sheet_widget_adjustment_prep_sax_parser,
-	       NULL,
-	       NULL,
-	       {})
+	       sheet_widget_adjustment_get_property,
+	       sheet_widget_adjustment_set_property,
+	       {
+		       g_object_class_install_property
+			       (object_class, SWA_PROP_HORIZONTAL,
+				g_param_spec_boolean ("horizontal", NULL, NULL,
+						      FALSE,
+						      GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	       })
 
 /****************************************************************************/
 #define SHEET_WIDGET_SCROLLBAR_TYPE	(sheet_widget_scrollbar_get_type ())

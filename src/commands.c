@@ -7367,6 +7367,7 @@ typedef struct {
 	double old_upper;
 	double old_step;
 	double old_page;
+	gboolean old_horizontal;
 } CmdSOSetAdjustment;
 
 MAKE_GNM_COMMAND (CmdSOSetAdjustment, cmd_so_set_adjustment, NULL)
@@ -7380,6 +7381,8 @@ cmd_so_set_adjustment_adj (CmdSOSetAdjustment *me)
 	double old_upper = gtk_adjustment_get_upper (adj);
 	double old_step = gtk_adjustment_get_step_increment (adj);
 	double old_page = gtk_adjustment_get_page_increment (adj);
+	double old_horizontal;
+	g_object_get (G_OBJECT (me->so), "horizontal", &old_horizontal, NULL);
 
 	gtk_adjustment_configure (adj,
 				  gtk_adjustment_get_value (adj),
@@ -7388,11 +7391,13 @@ cmd_so_set_adjustment_adj (CmdSOSetAdjustment *me)
 				  me->old_step,
 				  me->old_page,
 				  gtk_adjustment_get_page_size (adj));
+	g_object_set (G_OBJECT (me->so), "horizontal", me->old_horizontal, NULL);
 
 	me->old_lower = old_lower;
 	me->old_upper = old_upper;
 	me->old_step = old_step;
 	me->old_page = old_page;
+	me->old_horizontal = old_horizontal;
 }
 
 static gboolean
@@ -7431,6 +7436,7 @@ cmd_so_set_adjustment_finalize (GObject *cmd)
 gboolean
 cmd_so_set_adjustment (WorkbookControl *wbc,
 		       SheetObject *so, GnmExprTop const *link,
+		       gboolean horizontal,
 		       int lower, int upper,
 		       int step, int page,
 		       char const *undo_label)
@@ -7450,6 +7456,7 @@ cmd_so_set_adjustment (WorkbookControl *wbc,
 	me->old_upper = upper;
 	me->old_step = step;
 	me->old_page = page;
+	me->old_horizontal = horizontal;
 
 	me->old_link = sheet_widget_adjustment_get_link (so);
 

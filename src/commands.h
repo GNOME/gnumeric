@@ -186,6 +186,7 @@ gboolean cmd_so_set_checkbox (WorkbookControl *wbc, SheetObject *so,
 
 gboolean cmd_so_set_adjustment (WorkbookControl *wbc, SheetObject *so,
 				GnmExprTop const *link,
+				gboolean horizontal,
 				int lower, int upper,
 				int step, int page,
 				char const *undo_label);

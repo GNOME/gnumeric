@@ -25,7 +25,7 @@ Morten:
 	* Cache large ranges, possibly sorted.
 	* Add progress display for OO import.
 	* Improve ssindex' coverage.
-	* Fix problem with scrollbar sheet widgets.  [Part of #166487]
+	* Make it possible to have horizontal widgets too.  [#166487]
 
 Paul Fitzpatrick:
 	* Extend ssconvert to also merge multiple sheets.  [#581616]
