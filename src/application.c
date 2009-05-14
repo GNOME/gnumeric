@@ -67,6 +67,9 @@ struct _GnmApp {
 
 	GList		*workbook_list;
 
+	/* Recalculation manager.  */
+	int             recalc_count;
+
 #ifdef HAVE_GTK_RECENT_MANAGER_GET_DEFAULT
 	GtkRecentManager *recent;
 	gulong           recent_sig;
@@ -867,7 +870,17 @@ _gnm_app_flag_windows_changed (void)
 /**********************************************************************/
 
 void
-gnm_app_recalc_finished (void)
+gnm_app_recalc_start (void)
 {
-	g_signal_emit_by_name (gnm_app_get_app (), "recalc-finished");
+	g_return_if_fail (app->recalc_count >= 0);
+	app->recalc_count++;
+}
+
+void
+gnm_app_recalc_finish (void)
+{
+	g_return_if_fail (app->recalc_count > 0);
+	app->recalc_count--;
+	if (app->recalc_count == 0)
+		g_signal_emit_by_name (gnm_app_get_app (), "recalc-finished");
 }

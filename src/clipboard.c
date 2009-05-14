@@ -138,12 +138,13 @@ paste_cell_with_operation (Sheet *dst_sheet,
 			gnm_expr_new_constant (value_dup (dst->value)),
 			op,
 			gnm_expr_new_constant (value_dup (src->val)));
+		GnmExprTop const *texpr = gnm_expr_top_new (expr);
 
 		eval_pos_init_cell (&pos, dst);
 		pos.dep = NULL; /* no dynamic deps */
-		value = gnm_expr_eval (expr, &pos,
-				       GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
-		gnm_expr_free (expr);
+		value = gnm_expr_top_eval (texpr, &pos,
+					   GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+		gnm_expr_top_unref (texpr);
 		gnm_cell_set_value (dst, value);
 	}
 }

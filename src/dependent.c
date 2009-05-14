@@ -2645,12 +2645,16 @@ workbook_recalc (Workbook *wb)
 
 	g_return_if_fail (IS_WORKBOOK (wb));
 
+	gnm_app_recalc_start ();
+
 	WORKBOOK_FOREACH_DEPENDENT (wb, dep, {
 		if (dependent_needs_recalc (dep)) {
 			redraw = TRUE;
 			dependent_eval (dep);
 		}
 	});
+
+	gnm_app_recalc_finish ();
 
 	/*
 	 * This is a bit of a band-aid.  If anything is recalculated, we
@@ -2659,8 +2663,6 @@ workbook_recalc (Workbook *wb)
 	 * expensive.
 	 */
 	if (redraw) {
-		gnm_app_recalc_finished ();
-
 		WORKBOOK_FOREACH_SHEET (wb, sheet, {
 			SHEET_FOREACH_VIEW (sheet, sv, sv_flag_selection_change (sv););
 			sheet_redraw_all (sheet, FALSE);});

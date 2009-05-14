@@ -1,9 +1,18 @@
 2009-05-14  Morten Welinder  <terra@gnome.org>
 
-	* src/application.c (gnm_app_recalc_finished): New function.
-	* src/dependent.c (workbook_recalc): Use gnm_app_recalc_finished.
-	* src/workbook-view.c (wb_view_auto_expr_recalc): Call
-	gnm_app_recalc_finished.
+	* src/dependent.c (workbook_recalc): Wrap whole evaluation in
+	calls to gnm_app_recalc_start and gnm_app_recalc_finish.
+
+	* src/expr.c (gnm_expr_top_eval): Wrap gnm_expr_eval call in calls
+	to gnm_app_recalc_start and gnm_app_recalc_finish.
+
+	* src/clipboard.c (paste_cell_with_operation): Create a GnmExprTop
+	and use that for evaluation.
+	* src/validation.c (validation_eval): Ditto.
+	* src/workbook-view.c (wb_view_auto_expr_recalc): Ditto.  Simplify.
+
+	* src/application.c (gnm_app_recalc_start, gnm_app_recalc_finish):
+	New functions.
 
 	* src/commands.c (cmd_so_set_adjustment): Handle h/v too.  All
 	callers changed.

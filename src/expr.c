@@ -2974,9 +2974,14 @@ gnm_expr_top_eval (GnmExprTop const *texpr,
 		   GnmEvalPos const *pos,
 		   GnmExprEvalFlags flags)
 {
+	GnmValue *res;
 	g_return_val_if_fail (IS_GNM_EXPR_TOP (texpr), NULL);
 
-	return gnm_expr_eval (texpr->expr, pos, flags);
+	gnm_app_recalc_start ();
+	res = gnm_expr_eval (texpr->expr, pos, flags);
+	gnm_app_recalc_finish ();
+
+	return res;
 }
 
 /**

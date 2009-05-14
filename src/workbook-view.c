@@ -465,12 +465,11 @@ accumulate_regions (SheetView *sv,  GnmRange const *r, gpointer closure)
 void
 wb_view_auto_expr_recalc (WorkbookView *wbv)
 {
-	GnmFuncEvalInfo ei;
 	GnmEvalPos      ep;
 	GnmExprList	*selection = NULL;
 	GnmValue	*v;
 	SheetView	*sv;
-	GnmExpr const   *expr;
+	GnmExprTop const *texpr;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 
@@ -482,12 +481,11 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 
 	sv_selection_apply (sv, &accumulate_regions, FALSE, &selection);
 
-	expr = gnm_expr_new_funcall (wbv->auto_expr_func, selection);
+	texpr = gnm_expr_top_new
+		(gnm_expr_new_funcall (wbv->auto_expr_func, selection));
 
-	ei.pos = eval_pos_init_sheet (&ep, wbv->current_sheet);
-	ei.func_call = &expr->func;
-	v = function_call_with_exprs (&ei, 0);
-	gnm_app_recalc_finished ();
+	eval_pos_init_sheet (&ep, wbv->current_sheet);
+	v = gnm_expr_top_eval (texpr, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 
 	if (v) {
 		GString *str = g_string_new (wbv->auto_expr_descr);
@@ -497,14 +495,9 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 		g_string_append_c (str, '=');
 		if (!wbv->auto_expr_use_max_precision) {
 			format = VALUE_FMT (v);
-			if (!format) {
-				const GnmExprTop *fcall =
-					gnm_expr_top_new (expr);
-				expr = NULL;
+			if (!format)
 				format = tmp_format =
-					auto_style_format_suggest (fcall, ei.pos);
-				gnm_expr_top_unref (fcall);
-			}
+					auto_style_format_suggest (texpr, &ep);
 		}
 
 		if (format) {
@@ -524,8 +517,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 		g_object_set (wbv, "auto-expr-text", "Internal ERROR", NULL);
 	}
 
-	if (expr)
-		gnm_expr_free (expr);
+	gnm_expr_top_unref (texpr);
 }
 
 /* perform whatever initialization of a control that is necessary when it

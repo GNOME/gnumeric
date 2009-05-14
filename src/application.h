@@ -27,7 +27,8 @@ gboolean     gnm_app_workbook_foreach	   (GnmWbIterFunc func, gpointer data);
 GSList      *gnm_app_history_get_list	   (int max_elements);
 void	     gnm_app_history_add	   (char const *filename, const char *mimetype);
 
-void         gnm_app_recalc_finished       (void);
+void         gnm_app_recalc_start          (void);
+void         gnm_app_recalc_finish         (void);
 
 /* GtkFileFilter */
 void        *gnm_app_create_opener_filter (void);

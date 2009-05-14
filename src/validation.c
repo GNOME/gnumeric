@@ -482,24 +482,26 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 
 	nok = 0;
 	for (i = 0; i < opinfo[v->op].nops; i++) {
-		GnmExprTop const *texpr = v->texpr[i];
-		GnmExpr const *expr;
+		GnmExprTop const *texpr_i = v->texpr[i];
+		GnmExpr const *texpr;
 		GnmValue *cres;
 
-		if (!texpr) {
+		if (!texpr_i) {
 			nok++;
 			continue;
 		}
 
-		expr = gnm_expr_new_binary
-			(gnm_expr_new_constant (value_new_float (x)),
-			 opinfo[v->op].ops[i],
-			 gnm_expr_copy (texpr->expr));
-		cres = gnm_expr_eval (expr, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
+		texpr = gnm_expr_top_new
+			(gnm_expr_new_binary
+			 (gnm_expr_new_constant (value_new_float (x)),
+			  opinfo[v->op].ops[i],
+			  gnm_expr_copy (texpr_i->expr)));
+		cres = gnm_expr_top_eval
+			(texpr, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 		if (value_get_as_bool (cres, NULL))
 			nok++;
 		value_release (cres);
-		gnm_expr_free (expr);
+		gnm_expr_top_unref (texpr);
 	}
 
 	if (nok < opinfo[v->op].ntrue)
