@@ -76,7 +76,7 @@ gnm_gcd (gnm_float a, gnm_float b)
 	g_return_val_if_fail (a > 0 && a <= gnm_gcd_max, -1);
 	g_return_val_if_fail (b > 0 && b <= gnm_gcd_max, -1);
 
-	while (gnm_abs (b) > 0.5) {
+	while (b > 0.5) {
 		gnm_float r = gnm_fmod (a, b);
 		a = b;
 		b = r;
@@ -140,37 +140,33 @@ static GnmFuncHelp const help_lcm[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
+static gnm_float
+gnm_lcm (gnm_float a, gnm_float b)
+{
+	return a * (b / gnm_gcd (a, b));
+}
+
 static int
 range_lcm (gnm_float const *xs, int n, gnm_float *res)
 {
-	/* This function violates the "const".  */
-	gnm_float *xsuc = (gnm_float *)xs;
+	int i;
+	gnm_float lcm;
 
-	if (n > 0) {
-		int i, j;
-		gnm_float gcd_so_far = 1;
-
-		for (i = j = 0; i < n; i++) {
-			int k;
-			gnm_float thisx = gnm_fake_floor (xsuc[i]);
-
-			if (thisx < 1 || thisx > gnm_gcd_max)
-				return 1;
-
-			for (k = 0; k < j; k++)
-				thisx /= gnm_gcd (thisx, xsuc[k]);
-
-			if (thisx == 1)
-				continue;
-
-			xsuc[j++] = thisx;
-			gcd_so_far *= thisx;
-		}
-
-		*res = gcd_so_far;
-		return 0;
-	} else
+	if (n <= 0)
 		return 1;
+
+	lcm = 1;
+	for (i = 0; i < n; i++) {
+		gnm_float thisx = gnm_fake_floor (xs[i]);
+		if (thisx == 1)
+			continue;
+		if (thisx < 1 || thisx > gnm_gcd_max || lcm > gnm_gcd_max)
+			return 1;
+		lcm = gnm_lcm (lcm, thisx);
+	}
+
+	*res = lcm;
+	return 0;
 }
 
 static GnmValue *
