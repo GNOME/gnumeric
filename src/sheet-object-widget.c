@@ -1246,7 +1246,11 @@ SOW_MAKE_TYPE (adjustment, Adjustment,
 #define SHEET_WIDGET_SCROLLBAR(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_SCROLLBAR_TYPE, SheetWidgetScrollbar))
 #define DEP_TO_SCROLLBAR(d_ptr)		(SheetWidgetScrollbar *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetScrollbar, dep))
 
-typedef SheetWidgetAdjustment		SheetWidgetScrollbar;
+typedef struct {
+	SheetWidgetAdjustment adjustment;
+	int horizontal;
+} SheetWidgetScrollbar;
+
 typedef SheetWidgetAdjustmentClass	SheetWidgetScrollbarClass;
 
 static GtkWidget *
@@ -1254,15 +1258,18 @@ sheet_widget_scrollbar_create_widget (SheetObjectWidget *sow)
 {
 	SheetObject *so = SHEET_OBJECT (sow);
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (sow);
+	SheetWidgetScrollbar *sws = SHEET_WIDGET_SCROLLBAR (sow);
 	GtkWidget *bar;
 
 	/* TODO : this is not exactly accurate, but should catch the worst of it
 	 * However we do not have a way to handle resizes.
 	 */
-	gboolean is_horizontal = range_width (&so->anchor.cell_bound) > range_height (&so->anchor.cell_bound);
+	if (sws->horizontal == -1)
+		sws->horizontal = (range_width (&so->anchor.cell_bound) >
+				   range_height (&so->anchor.cell_bound));
 
 	swa->being_updated = TRUE;
-	bar = is_horizontal
+	bar = sws->horizontal
 		? gtk_hscrollbar_new (swa->adjustment)
 		: gtk_vscrollbar_new (swa->adjustment);
 	GTK_WIDGET_UNSET_FLAGS (bar, GTK_CAN_FOCUS);
@@ -1282,6 +1289,12 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControl *sc)
 }
 
 static void
+sheet_widget_scrollbar_init (SheetWidgetScrollbar *sws)
+{
+	sws->horizontal = -1; /* Undecided. */
+}
+
+static void
 sheet_widget_scrollbar_class_init (SheetObjectWidgetClass *sow_class)
 {
         sow_class->create_widget = &sheet_widget_scrollbar_create_widget;
@@ -1289,7 +1302,7 @@ sheet_widget_scrollbar_class_init (SheetObjectWidgetClass *sow_class)
 }
 
 GSF_CLASS (SheetWidgetScrollbar, sheet_widget_scrollbar,
-	   &sheet_widget_scrollbar_class_init, NULL,
+	   &sheet_widget_scrollbar_class_init, sheet_widget_scrollbar_init,
 	   SHEET_WIDGET_ADJUSTMENT_TYPE)
 
 /****************************************************************************/

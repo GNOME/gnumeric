@@ -1,3 +1,9 @@
+2009-05-13  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-widget.c (sheet_widget_scrollbar_create_widget):
+	Record whether the scrollbar is horizontal or vertical so
+	different views will have the same orientation.
+
 2009-05-12  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (gnm_debug_flag): New function.
