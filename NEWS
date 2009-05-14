@@ -12,6 +12,7 @@ Andreas:
 	* Fix writing of xlsx files with full extent [#569862]
 	* Write some character based formats to ODF files. [#553508]
 	* Write some character based formats to HTML files. [#582118]
+	* Handle whitespace in created ODF files correctly. 
 
 Jody:
 	* Closer to a turnkey win32 build.
