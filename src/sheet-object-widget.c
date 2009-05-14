@@ -781,8 +781,14 @@ typedef struct {
 	gboolean  being_updated;
 	GnmDependent dep;
 	GtkAdjustment *adjustment;
+
+	gboolean horizontal;
 } SheetWidgetAdjustment;
-typedef SheetObjectWidgetClass SheetWidgetAdjustmentClass;
+
+typedef struct {
+	SheetObjectWidgetClass parent_class;
+	GType htype, vtype;
+} SheetWidgetAdjustmentClass;
 
 static GType sheet_widget_adjustment_get_type (void);
 
@@ -876,18 +882,16 @@ cb_adjustment_widget_value_changed (GtkWidget *widget,
 }
 
 static void
-sheet_widget_adjustment_init_full (SheetWidgetAdjustment *swa, GnmCellRef const *ref)
+sheet_widget_adjustment_init_full (SheetWidgetAdjustment *swa,
+				   GnmCellRef const *ref,
+				   gboolean horizontal)
 {
 	g_return_if_fail (swa != NULL);
 
 	swa->adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0., 0., 100., 1., 10., 0.));
-#if GLIB_CHECK_VERSION(2,10,0) && GTK_CHECK_VERSION(2,8,14)
 	g_object_ref_sink (swa->adjustment);
-#else
-	g_object_ref (swa->adjustment);
-	gtk_object_sink (GTK_OBJECT (swa->adjustment));
-#endif
 
+	swa->horizontal = horizontal;
 	swa->being_updated = FALSE;
 	swa->dep.sheet = NULL;
 	swa->dep.flags = adjustment_get_dep_type ();
@@ -899,7 +903,12 @@ sheet_widget_adjustment_init_full (SheetWidgetAdjustment *swa, GnmCellRef const 
 static void
 sheet_widget_adjustment_init (SheetWidgetAdjustment *swa)
 {
-	sheet_widget_adjustment_init_full (swa, NULL);
+	SheetWidgetAdjustmentClass *klass =
+		G_TYPE_INSTANCE_GET_CLASS (swa,
+					   sheet_widget_adjustment_get_type(),
+					   SheetWidgetAdjustmentClass);
+	gboolean horizontal = (klass->vtype == G_TYPE_NONE);
+	sheet_widget_adjustment_init_full (swa, NULL, horizontal);
 }
 
 static void
@@ -926,7 +935,9 @@ sheet_widget_adjustment_copy (SheetObject *dst, SheetObject const *src)
 	GtkAdjustment *dst_adjust, *src_adjust;
 	GnmCellRef ref;
 
-	sheet_widget_adjustment_init_full (dst_swa, so_get_ref (src, &ref, FALSE));
+	sheet_widget_adjustment_init_full (dst_swa,
+					   so_get_ref (src, &ref, FALSE),
+					   src_swa->horizontal);
 	dst_adjust = dst_swa->adjustment;
 	src_adjust = src_swa->adjustment;
 
@@ -1140,11 +1151,20 @@ sheet_widget_adjustment_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 				       GnmConventions const *convs)
 {
 	SheetWidgetAdjustment const *swa = SHEET_WIDGET_ADJUSTMENT (so);
+	SheetWidgetAdjustmentClass *swa_class =
+		G_TYPE_INSTANCE_GET_CLASS (swa,
+					   sheet_widget_adjustment_get_type(),
+					   SheetWidgetAdjustmentClass);
+
 	gsf_xml_out_add_float (output, "Min",   swa->adjustment->lower, 2);
 	gsf_xml_out_add_float (output, "Max",   swa->adjustment->upper, 2); /* allow scrolling to max */
 	gsf_xml_out_add_float (output, "Inc",   swa->adjustment->step_increment, 2);
 	gsf_xml_out_add_float (output, "Page",  swa->adjustment->page_increment, 2);
 	gsf_xml_out_add_float (output, "Value", swa->adjustment->value, 2);
+
+	if (swa_class->htype != G_TYPE_NONE && swa_class->vtype != G_TYPE_NONE)
+		gsf_xml_out_add_bool (output, "Horizontal", swa->horizontal);
+
 	sax_write_dep (output, &swa->dep, "Input", convs);
 }
 
@@ -1154,9 +1174,15 @@ sheet_widget_adjustment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 					 GnmConventions const *convs)
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
+	SheetWidgetAdjustmentClass *swa_class =
+		G_TYPE_INSTANCE_GET_CLASS (swa,
+					   sheet_widget_adjustment_get_type(),
+					   SheetWidgetAdjustmentClass);
+	swa->horizontal = (swa_class->vtype == G_TYPE_NONE);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		double tmp;
+		gboolean b;
 
 		if (gnm_xml_attr_double (attrs, "Min", &tmp))
 			swa->adjustment->lower = tmp;
@@ -1170,6 +1196,10 @@ sheet_widget_adjustment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 			swa->adjustment->value = tmp;
 		else if (sax_read_dep (attrs, "Input", &swa->dep, xin, convs))
 			;
+		else if (swa_class->htype != G_TYPE_NONE &&
+			 swa_class->vtype != G_TYPE_NONE &&
+			 gnm_xml_attr_bool (attrs, "Horizontal", &b))
+			swa->horizontal = b;
 	}
 
 	swa->dep.flags = adjustment_get_dep_type ();
@@ -1182,7 +1212,14 @@ sheet_widget_adjustment_read_xml_dom (SheetObject *so, char const *typename,
 				      xmlNodePtr tree)
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
+	SheetWidgetAdjustmentClass *swa_class =
+		G_TYPE_INSTANCE_GET_CLASS (swa,
+					   sheet_widget_adjustment_get_type(),
+					   SheetWidgetAdjustmentClass);
 	double tmp;
+	gboolean b;
+
+	swa->horizontal = (swa_class->vtype == G_TYPE_NONE);
 
 	read_dep (&swa->dep, "Input", tree, context);
 	swa->dep.flags = adjustment_get_dep_type ();
@@ -1197,6 +1234,11 @@ sheet_widget_adjustment_read_xml_dom (SheetObject *so, char const *typename,
 		swa->adjustment->page_increment = tmp;
 	if (xml_node_get_double  (tree, "Value", &tmp))
 		swa->adjustment->value = tmp;
+	if (swa_class->htype != G_TYPE_NONE &&
+	    swa_class->vtype != G_TYPE_NONE &&
+	    xml_node_get_bool (tree, "Horizontal", &b))
+		swa->horizontal = b;
+
 	gtk_adjustment_changed	(swa->adjustment);
 
 	return FALSE;
@@ -1246,30 +1288,17 @@ SOW_MAKE_TYPE (adjustment, Adjustment,
 #define SHEET_WIDGET_SCROLLBAR(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_SCROLLBAR_TYPE, SheetWidgetScrollbar))
 #define DEP_TO_SCROLLBAR(d_ptr)		(SheetWidgetScrollbar *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetScrollbar, dep))
 
-typedef struct {
-	SheetWidgetAdjustment adjustment;
-	int horizontal;
-} SheetWidgetScrollbar;
-
-typedef SheetWidgetAdjustmentClass	SheetWidgetScrollbarClass;
+typedef SheetWidgetAdjustment  SheetWidgetScrollbar;
+typedef SheetWidgetAdjustmentClass SheetWidgetScrollbarClass;
 
 static GtkWidget *
 sheet_widget_scrollbar_create_widget (SheetObjectWidget *sow)
 {
-	SheetObject *so = SHEET_OBJECT (sow);
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (sow);
-	SheetWidgetScrollbar *sws = SHEET_WIDGET_SCROLLBAR (sow);
 	GtkWidget *bar;
 
-	/* TODO : this is not exactly accurate, but should catch the worst of it
-	 * However we do not have a way to handle resizes.
-	 */
-	if (sws->horizontal == -1)
-		sws->horizontal = (range_width (&so->anchor.cell_bound) >
-				   range_height (&so->anchor.cell_bound));
-
 	swa->being_updated = TRUE;
-	bar = sws->horizontal
+	bar = swa->horizontal
 		? gtk_hscrollbar_new (swa->adjustment)
 		: gtk_vscrollbar_new (swa->adjustment);
 	GTK_WIDGET_UNSET_FLAGS (bar, GTK_CAN_FOCUS);
@@ -1289,20 +1318,18 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControl *sc)
 }
 
 static void
-sheet_widget_scrollbar_init (SheetWidgetScrollbar *sws)
-{
-	sws->horizontal = -1; /* Undecided. */
-}
-
-static void
 sheet_widget_scrollbar_class_init (SheetObjectWidgetClass *sow_class)
 {
+	SheetWidgetAdjustmentClass *swa_class = (SheetWidgetAdjustmentClass *)sow_class;
+
         sow_class->create_widget = &sheet_widget_scrollbar_create_widget;
 	SHEET_OBJECT_CLASS (sow_class)->user_config = &sheet_widget_scrollbar_user_config;
+	swa_class->htype = GTK_TYPE_HSCROLLBAR;
+	swa_class->vtype = GTK_TYPE_VSCROLLBAR;
 }
 
 GSF_CLASS (SheetWidgetScrollbar, sheet_widget_scrollbar,
-	   &sheet_widget_scrollbar_class_init, sheet_widget_scrollbar_init,
+	   &sheet_widget_scrollbar_class_init, NULL,
 	   SHEET_WIDGET_ADJUSTMENT_TYPE)
 
 /****************************************************************************/
@@ -1340,8 +1367,13 @@ sheet_widget_spinbutton_user_config (SheetObject *so, SheetControl *sc)
 static void
 sheet_widget_spinbutton_class_init (SheetObjectWidgetClass *sow_class)
 {
+	SheetWidgetAdjustmentClass *swa_class = (SheetWidgetAdjustmentClass *)sow_class;
+
         sow_class->create_widget = &sheet_widget_spinbutton_create_widget;
 	SHEET_OBJECT_CLASS (sow_class)->user_config = &sheet_widget_spinbutton_user_config;
+
+	swa_class->htype = GTK_TYPE_SPIN_BUTTON;
+	swa_class->vtype = G_TYPE_NONE;
 }
 
 GSF_CLASS (SheetWidgetSpinbutton, sheet_widget_spinbutton,
@@ -1359,16 +1391,11 @@ typedef SheetWidgetAdjustmentClass	SheetWidgetSliderClass;
 static GtkWidget *
 sheet_widget_slider_create_widget (SheetObjectWidget *sow)
 {
-	SheetObject *so = SHEET_OBJECT (sow);
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (sow);
 	GtkWidget *slider;
-	/* TODO : this is not exactly accurate, but should catch the worst of it
-	 * However we do not have a way to handle resizes.
-	 */
-	gboolean is_horizontal = range_width (&so->anchor.cell_bound) > range_height (&so->anchor.cell_bound);
 
 	swa->being_updated = TRUE;
-	slider = is_horizontal
+	slider = swa->horizontal
 		? gtk_hscale_new (swa->adjustment)
 		: gtk_vscale_new (swa->adjustment);
 	gtk_scale_set_draw_value (GTK_SCALE (slider), FALSE);
@@ -1391,8 +1418,13 @@ sheet_widget_slider_user_config (SheetObject *so, SheetControl *sc)
 static void
 sheet_widget_slider_class_init (SheetObjectWidgetClass *sow_class)
 {
+	SheetWidgetAdjustmentClass *swa_class = (SheetWidgetAdjustmentClass *)sow_class;
+
         sow_class->create_widget = &sheet_widget_slider_create_widget;
 	SHEET_OBJECT_CLASS (sow_class)->user_config = &sheet_widget_slider_user_config;
+
+	swa_class->htype = GTK_TYPE_HSCALE;
+	swa_class->vtype = GTK_TYPE_VSCALE;
 }
 
 GSF_CLASS (SheetWidgetSlider, sheet_widget_slider,
