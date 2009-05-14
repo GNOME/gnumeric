@@ -1,3 +1,8 @@
+2009-05-14  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-util.c (init_xl_font_widths): Add DejaVu fonts with
+	same metrics as Bitstream Vera.
+
 2009-05-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* xlsx-write.c (xlsx_write_cols): and don't commit debugging code
