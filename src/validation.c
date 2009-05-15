@@ -483,7 +483,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 	nok = 0;
 	for (i = 0; i < opinfo[v->op].nops; i++) {
 		GnmExprTop const *texpr_i = v->texpr[i];
-		GnmExpr const *texpr;
+		GnmExprTop const *texpr;
 		GnmValue *cres;
 
 		if (!texpr_i) {
