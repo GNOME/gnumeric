@@ -2925,7 +2925,7 @@ gnm_dep_container_dump (GnmDepContainer const *deps,
 				      &names);
 
 		g_printerr ("  Names whose expressions explicitly reference this sheet\n    ");
-		for (l = names; ; l = l->next) {
+		for (l = names; l; l = l->next) {
 			GnmNamedExpr *nexpr = l->data;
 			g_printerr ("%s%s",
 				    expr_name_name (nexpr),

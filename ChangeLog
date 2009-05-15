@@ -1,3 +1,7 @@
+2009-05-15  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (gnm_dep_container_dump): fix crash.
+
 2009-05-14  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (workbook_recalc): Wrap whole evaluation in
