@@ -1,5 +1,16 @@
 2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_cell): export border styles for 
+	  non-empty cells
+	(ns): add a gnumeric namespace to handle export of specifications
+	  currently not supported in ODF.
+	(odf_get_border_format): new
+	(odf_get_gnm_border_format): new
+	(BORDERSTYLE): new temporary macro
+	(UNDERLINESPECS): new temporary macro
+
+2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_cell): watch for string values 
 	  without markup
 

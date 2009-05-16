@@ -80,6 +80,7 @@
 #define TEXT     "text:"
 #define DUBLINCORE "dc:"
 #define FOSTYLE	 "fo:"
+#define GNMSTYLE	 "gnm:"  /* We use this for attributes and elements not supported by ODF */
 
 typedef struct {
 	GsfXMLOut *xml;
@@ -124,6 +125,7 @@ static struct {
 	{ "xmlns:xforms",	"http://www.w3.org/2002/xforms" },
 	{ "xmlns:xsd",		"http://www.w3.org/2001/XMLSchema" },
 	{ "xmlns:xsi",		"http://www.w3.org/2001/XMLSchema-instance" },
+	{ "xmlns:gnm",		"http://www.gnumeric.org/odf-extension"},
 };
 
 static void
@@ -420,6 +422,123 @@ gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c)
 	g_free (color);
 }
 
+static char *
+odf_get_border_format (GnmBorder   *border)
+{
+	GString *str = g_string_new ("");
+	float w = gnm_style_border_get_width (border->line_type);
+	GnmColor *color = border->color;
+	char const *border_type;
+
+	switch (border->line_type) {
+	case GNM_STYLE_BORDER_THIN:
+		w = 1.;
+		border_type = "solid";
+		break;
+	case GNM_STYLE_BORDER_MEDIUM:
+		border_type = "solid";
+		break;
+	case GNM_STYLE_BORDER_DASHED:
+		border_type = "dashed";
+		break;
+	case GNM_STYLE_BORDER_DOTTED:
+		border_type = "dotted";
+		break;
+	case GNM_STYLE_BORDER_THICK:
+		border_type = "solid";
+		break;
+	case GNM_STYLE_BORDER_DOUBLE:
+		border_type = "double";
+		break;
+	case GNM_STYLE_BORDER_HAIR:
+		w = 0.5;
+		border_type = "solid";
+		break;
+	case GNM_STYLE_BORDER_MEDIUM_DASH:
+		border_type = "dashed";
+		break;
+	case GNM_STYLE_BORDER_DASH_DOT:
+		border_type = "dashed";
+		break;
+	case GNM_STYLE_BORDER_MEDIUM_DASH_DOT:
+		border_type = "dashed";
+		break;
+	case GNM_STYLE_BORDER_DASH_DOT_DOT:
+		border_type = "dotted";
+		break;
+	case GNM_STYLE_BORDER_MEDIUM_DASH_DOT_DOT:
+		border_type = "dotted";
+		break;
+	case GNM_STYLE_BORDER_SLANTED_DASH_DOT:
+		border_type = "dotted";
+		break;
+	case GNM_STYLE_BORDER_NONE:
+	default:
+		w = 0;
+		border_type = "none";
+		break;
+	}
+
+	w = w * 0.033;
+	g_string_append_printf (str, "%.3fcm ", w);
+	g_string_append (str, border_type);
+	g_string_append_printf (str, " #%.2x%.2x%.2x",  
+				color->gdk_color.red/256, color->gdk_color.green/256, color->gdk_color.blue/256);
+	return g_string_free (str, FALSE);
+}
+
+static char const *
+odf_get_gnm_border_format (GnmBorder   *border)
+{
+	char const *border_type = NULL;
+
+	switch (border->line_type) {
+	case GNM_STYLE_BORDER_HAIR:
+		border_type = "hair";
+		break;
+	case GNM_STYLE_BORDER_MEDIUM_DASH:
+		border_type = "medium-dash";
+		break;
+	case GNM_STYLE_BORDER_DASH_DOT:
+		border_type = "dash-dot";
+		break;
+	case GNM_STYLE_BORDER_MEDIUM_DASH_DOT:
+		border_type = "medium-dash-dot";
+		break;
+	case GNM_STYLE_BORDER_DASH_DOT_DOT:
+		border_type = "dash-dot-dot";
+		break;
+	case GNM_STYLE_BORDER_MEDIUM_DASH_DOT_DOT:
+		border_type = "medium-dash-dot-dot";
+		break;
+	case GNM_STYLE_BORDER_SLANTED_DASH_DOT:
+		border_type = "slanted-dash-dot";
+		break;
+	default:
+		break;
+	}
+	return border_type;
+}
+
+#define BORDERSTYLE(msbw, msbwstr, msbwstr_wth, msbwstr_gnm) if (gnm_style_is_element_set (style->style, msbw)) { \
+	                GnmBorder *border = gnm_style_get_border (style->style, msbw); \
+			char *border_style = odf_get_border_format (border); \
+			char const *gnm_border_style = odf_get_gnm_border_format (border); \
+			gsf_xml_out_add_cstr_unchecked (state->xml, msbwstr, border_style); \
+			g_free (border_style); \
+                        if (gnm_border_style != NULL) \
+				gsf_xml_out_add_cstr_unchecked (state->xml, msbwstr_gnm, gnm_border_style); \
+                        if (border->line_type == GNM_STYLE_BORDER_DOUBLE) \
+			        gsf_xml_out_add_cstr_unchecked (state->xml, msbwstr_wth, "0.03cm 0.03cm 0.03cm "); \
+		}
+
+#define UNDERLINESPECS(type, style, width) gsf_xml_out_add_cstr (state->xml, \
+						      STYLE "text-underline-type", type); \
+				gsf_xml_out_add_cstr (state->xml, \
+						      STYLE "text-underline-style", style); \
+				gsf_xml_out_add_cstr (state->xml, \
+						      STYLE "text-underline-width", width)
+
 static void
 odf_write_style (GnmOOExport *state, cell_styles_t *style)
 {
@@ -429,6 +548,12 @@ odf_write_style (GnmOOExport *state, cell_styles_t *style)
 		if (gnm_style_is_element_set (style->style, MSTYLE_COLOR_BACK))
 			gnm_xml_out_add_hex_color (state->xml, FOSTYLE "background-color",
 						   gnm_style_get_back_color (style->style));
+		BORDERSTYLE(MSTYLE_BORDER_TOP,FOSTYLE "border-top", STYLE "border-line-width-top", GNMSTYLE "border-line-style-top");
+		BORDERSTYLE(MSTYLE_BORDER_BOTTOM,FOSTYLE "border-bottom", STYLE "border-line-width-bottom", GNMSTYLE "border-line-style-bottom");
+		BORDERSTYLE(MSTYLE_BORDER_LEFT,FOSTYLE "border-left", STYLE "border-line-width-left", GNMSTYLE "border-line-style-left");
+		BORDERSTYLE(MSTYLE_BORDER_RIGHT,FOSTYLE "border-right", STYLE "border-line-width-right", GNMSTYLE "border-line-style-right");
+		BORDERSTYLE(MSTYLE_BORDER_REV_DIAGONAL,STYLE "diagonal-bl-tr", STYLE "diagonal-bl-tr-widths", GNMSTYLE "diagonal-bl-tr-line-style");
+		BORDERSTYLE(MSTYLE_BORDER_DIAGONAL,STYLE "diagonal-tl-br",  STYLE "diagonal-tl-br-widths", GNMSTYLE "diagonal-tl-br-line-style");
 		gsf_xml_out_end_element (state->xml); /* </style:table-cell-properties */
 
 		gsf_xml_out_start_element (state->xml, STYLE "text-properties");
@@ -452,28 +577,13 @@ odf_write_style (GnmOOExport *state, cell_styles_t *style)
 		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_STRIKETHROUGH))
 			switch (gnm_style_get_font_uline (style->style)) {
 			case UNDERLINE_NONE:
-				gsf_xml_out_add_cstr (state->xml, 
-						      STYLE "text-underline-type", "none");
-				gsf_xml_out_add_cstr (state->xml, 
-						      STYLE "text-underline-style", "none");
-				gsf_xml_out_add_cstr (state->xml, 
-						      STYLE "text-underline-width", "auto");
+				UNDERLINESPECS("none", "none", "auto");
 				break;
 			case UNDERLINE_SINGLE:
-				gsf_xml_out_add_cstr (state->xml, 
-						      STYLE "text-underline-type", "single");
-				gsf_xml_out_add_cstr (state->xml, 
-						      STYLE "text-underline-style", "solid");
-				gsf_xml_out_add_cstr (state->xml, 
-						      STYLE "text-underline-width", "auto");
+				UNDERLINESPECS("single", "solid", "auto");
 				break;
 			case UNDERLINE_DOUBLE:
-				gsf_xml_out_add_cstr (state->xml, 
-						      STYLE "text-underline-type", "double");
-				gsf_xml_out_add_cstr (state->xml, 
-						      STYLE "text-underline-style", "solid");
-				gsf_xml_out_add_cstr (state->xml, 
-						      STYLE "text-underline-width", "auto");
+				UNDERLINESPECS("double", "solid", "auto");
 				break;
 			}
 		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_SCRIPT))		
@@ -504,6 +614,9 @@ odf_write_style (GnmOOExport *state, cell_styles_t *style)
 
 		gsf_xml_out_end_element (state->xml); /* </style:style */
 }
+
+#undef UNDERLINESPECS
+#undef BORDERSTYLE
 
 static const char*
 odf_find_style (GnmOOExport *state, GnmStyle const *style, gboolean write)
