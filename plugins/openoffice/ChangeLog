@@ -1,5 +1,14 @@
 2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_get_border_format): use goffice GO_PT_TO_CM
+	  utility
+	* openoffice-read.c (oo_parse_border): spacing may vary and there are
+	  more borders including "none"
+	(oo_style_prop_cell): The tag is officially called diagonal-bl-tr,
+	  not diagonal-tr-bl
+
+2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_cell): export border styles for 
 	  non-empty cells
 	(ns): add a gnumeric namespace to handle export of specifications

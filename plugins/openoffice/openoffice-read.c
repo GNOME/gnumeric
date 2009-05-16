@@ -1607,7 +1607,7 @@ oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 
 	if (end == NULL || end == CXML2C (str))
 		return;
-	if (*end == ' ')
+	while (*end == ' ')
 		end++;
 	/* "0.035cm solid #000000" */
 	border_color = strchr (end, '#');
@@ -1615,16 +1615,27 @@ oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 		char *border_type = g_strndup (end, border_color - end);
 		color = oo_parse_color (xin, CC2XML (border_color), "color");
 
-		if (!strcmp ("solid", border_type)) {
+		if (g_str_has_prefix (border_type, "none")||
+		    g_str_has_prefix (border_type, "hidden"))
+			border_style = GNM_STYLE_BORDER_NONE;
+		else if (g_str_has_prefix (border_type, "solid") ||
+			 g_str_has_prefix (border_type, "groove") ||
+			 g_str_has_prefix (border_type, "ridge") ||
+			 g_str_has_prefix (border_type, "inset") ||
+			 g_str_has_prefix (border_type, "outset")) {
 			if (pts <= OD_BORDER_THIN)
 				border_style = GNM_STYLE_BORDER_THIN;
 			else if (pts <= OD_BORDER_MEDIUM)
 				border_style = GNM_STYLE_BORDER_MEDIUM;
 			else
 				border_style = GNM_STYLE_BORDER_THICK;
-		} else
+		} else if (g_str_has_prefix (border_type, "dashed"))
+			border_style = GNM_STYLE_BORDER_DASHED;
+		else if (g_str_has_prefix (border_type, "dotted"))
+			border_style = GNM_STYLE_BORDER_DOTTED;
+		else 
 			border_style = GNM_STYLE_BORDER_DOUBLE;
-
+		
 		border = gnm_style_border_fetch (border_style, color,
 						 gnm_style_border_get_orientation (loc));
 		border->width = pts;
@@ -1717,7 +1728,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_LEFT);
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_RIGHT);
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_TOP);
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "diagonal-tr-bl"))
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "diagonal-bl-tr"))
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_DIAGONAL);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "diagonal-tl-br"))
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_REV_DIAGONAL);

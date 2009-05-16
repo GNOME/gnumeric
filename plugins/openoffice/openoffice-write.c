@@ -33,6 +33,7 @@
 #include <goffice/app/file.h>
 #include <goffice/app/io-context.h>
 #include <goffice/utils/go-format.h>
+#include <goffice/utils/go-units.h>
 #include <gnm-format.h>
 #include <workbook.h>
 #include <workbook-priv.h> /* Workbook::names */
@@ -125,7 +126,7 @@ static struct {
 	{ "xmlns:xforms",	"http://www.w3.org/2002/xforms" },
 	{ "xmlns:xsd",		"http://www.w3.org/2001/XMLSchema" },
 	{ "xmlns:xsi",		"http://www.w3.org/2001/XMLSchema-instance" },
-	{ "xmlns:gnm",		"http://www.gnumeric.org/odf-extension"},
+	{ "xmlns:gnm",		"http://www.gnumeric.org/odf-extension/1.0"},
 };
 
 static void
@@ -479,7 +480,7 @@ odf_get_border_format (GnmBorder   *border)
 		break;
 	}
 
-	w = w * 0.033;
+	w = GO_PT_TO_CM (w);
 	g_string_append_printf (str, "%.3fcm ", w);
 	g_string_append (str, border_type);
 	g_string_append_printf (str, " #%.2x%.2x%.2x",  
