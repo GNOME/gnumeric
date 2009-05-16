@@ -59,6 +59,7 @@
 #include <parse-util.h>
 #include <tools/scenarios.h>
 #include <gutils.h>
+#include <xml-io.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output.h>
@@ -408,15 +409,99 @@ odf_compare_style (gconstpointer a, gconstpointer b)
 }
 
 static void
+gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c)
+{
+	char *color;
+	g_return_if_fail (c != NULL);
+	
+	color = g_strdup_printf ("#%.2x%.2x%.2x", 
+				 c->gdk_color.red/256, c->gdk_color.green/256, c->gdk_color.blue/256);
+	gsf_xml_out_add_cstr_unchecked (o, id, color);
+	g_free (color);
+}
+
+static void
 odf_write_style (GnmOOExport *state, cell_styles_t *style)
 {
 		odf_start_style (state->xml, style->name, "table-cell");
+
+		gsf_xml_out_start_element (state->xml, STYLE "table-cell-properties");
+		if (gnm_style_is_element_set (style->style, MSTYLE_COLOR_BACK))
+			gnm_xml_out_add_hex_color (state->xml, FOSTYLE "background-color",
+						   gnm_style_get_back_color (style->style));
+		gsf_xml_out_end_element (state->xml); /* </style:table-cell-properties */
+
 		gsf_xml_out_start_element (state->xml, STYLE "text-properties");
-		gsf_xml_out_add_int (state->xml, FOSTYLE "font-weight", 
-				     gnm_style_get_font_bold (style->style) 
-				     ? PANGO_WEIGHT_BOLD 
-				     : PANGO_WEIGHT_NORMAL);
+		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_BOLD))
+			gsf_xml_out_add_int (state->xml, FOSTYLE "font-weight", 
+					     gnm_style_get_font_bold (style->style) 
+					     ? PANGO_WEIGHT_BOLD 
+					     : PANGO_WEIGHT_NORMAL);
+		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_ITALIC))
+			gsf_xml_out_add_cstr (state->xml, FOSTYLE "font-style", 
+					      gnm_style_get_font_italic (style->style) 
+					      ? "italic" : "normal");
+		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_STRIKETHROUGH)) {
+			if (gnm_style_get_font_strike (style->style)) {
+				gsf_xml_out_add_cstr (state->xml,  STYLE "text-line-through-type", "single");
+				gsf_xml_out_add_cstr (state->xml, STYLE "text-line-through-style", "solid");
+			} else {
+				gsf_xml_out_add_cstr (state->xml,  STYLE "text-line-through-type", "none");
+				gsf_xml_out_add_cstr (state->xml, STYLE "text-line-through-style", "none");
+			}}
+		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_STRIKETHROUGH))
+			switch (gnm_style_get_font_uline (style->style)) {
+			case UNDERLINE_NONE:
+				gsf_xml_out_add_cstr (state->xml, 
+						      STYLE "text-underline-type", "none");
+				gsf_xml_out_add_cstr (state->xml, 
+						      STYLE "text-underline-style", "none");
+				gsf_xml_out_add_cstr (state->xml, 
+						      STYLE "text-underline-width", "auto");
+				break;
+			case UNDERLINE_SINGLE:
+				gsf_xml_out_add_cstr (state->xml, 
+						      STYLE "text-underline-type", "single");
+				gsf_xml_out_add_cstr (state->xml, 
+						      STYLE "text-underline-style", "solid");
+				gsf_xml_out_add_cstr (state->xml, 
+						      STYLE "text-underline-width", "auto");
+				break;
+			case UNDERLINE_DOUBLE:
+				gsf_xml_out_add_cstr (state->xml, 
+						      STYLE "text-underline-type", "double");
+				gsf_xml_out_add_cstr (state->xml, 
+						      STYLE "text-underline-style", "solid");
+				gsf_xml_out_add_cstr (state->xml, 
+						      STYLE "text-underline-width", "auto");
+				break;
+			}
+		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_SCRIPT))		
+			switch (gnm_style_get_font_script (style->style)) {
+			case GO_FONT_SCRIPT_SUB:
+				gsf_xml_out_add_cstr (state->xml, 
+						      STYLE "text-position", "sub 80%");
+				break;
+			case GO_FONT_SCRIPT_STANDARD:
+				gsf_xml_out_add_cstr (state->xml, 
+						      STYLE "text-position", "0% 100%");
+				break;
+			case GO_FONT_SCRIPT_SUPER:
+				gsf_xml_out_add_cstr (state->xml, 
+						      STYLE "text-position", "super 80%");
+				break;
+			}
+		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_SIZE))		
+			gsf_xml_out_add_int (state->xml, FOSTYLE "font-size",
+					     gnm_style_get_font_size (style->style));
+		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_COLOR))
+			gnm_xml_out_add_hex_color (state->xml, FOSTYLE "color",
+						   gnm_style_get_font_color (style->style));
+		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_NAME))
+			gsf_xml_out_add_cstr (state->xml, FOSTYLE "font-family",
+					      gnm_style_get_font_name (style->style));
 		gsf_xml_out_end_element (state->xml); /* </style:text-properties */
+
 		gsf_xml_out_end_element (state->xml); /* </style:style */
 }
 

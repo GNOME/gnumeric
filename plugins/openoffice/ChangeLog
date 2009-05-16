@@ -1,5 +1,10 @@
 2009-05-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (gnm_xml_out_add_hex_color): new
+	(odf_write_style): write more aspects of this style
+
+2009-05-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (GnmOOExport): add cell_styles field
 	(cell_styles_t): new type
 	(cell_styles_free): new

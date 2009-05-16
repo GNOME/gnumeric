@@ -13,6 +13,7 @@ Andreas:
 	* Write some character based formats to ODF files. [#553508]
 	* Write some character based formats to HTML files. [#582118]
 	* Handle whitespace in created ODF files correctly. 
+	* Write cell styles to the ODF file. [#553508]
 
 Jody:
 	* Closer to a turnkey win32 build.
