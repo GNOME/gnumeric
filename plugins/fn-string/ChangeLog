@@ -1,6 +1,6 @@
-2009-05-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
+2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* functions.c (help_char): Fix the description of CHAR.
+	* functions.c (help_char): Fix the description of CHAR and CODE.
 
 2009-05-06  Morten Welinder <terra@gnome.org>
 
