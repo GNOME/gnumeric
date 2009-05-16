@@ -27,6 +27,7 @@ Morten:
 	* Add progress display for OO import.
 	* Improve ssindex' coverage.
 	* Make it possible to have horizontal widgets too.  [#166487]
+	* Fix sheet-object paste crash.  [#490479]
 
 Paul Fitzpatrick:
 	* Extend ssconvert to also merge multiple sheets.  [#581616]

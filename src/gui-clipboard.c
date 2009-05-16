@@ -259,7 +259,7 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 {
 	WorkbookView *wb_view = NULL;
 	Workbook *wb = NULL;
-	GSList *l = NULL;
+	GSList *sheets;
 	GnmCellRegion *ret = NULL;
 	const GOFileOpener *reader = go_file_opener_for_id (reader_id);
 	IOContext *ioc;
@@ -279,10 +279,10 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 	}
 
 	wb = wb_view_get_workbook (wb_view);
-	l = workbook_sheets (wb);
-	if (l) {
+	sheets = workbook_sheets (wb);
+	if (sheets) {
 		GnmRange r;
-		Sheet *tmpsheet = (Sheet *) l->data;
+		Sheet *tmpsheet = sheets->data;
 
 		r.start.col = 0;
 		r.start.row = 0;
@@ -290,8 +290,15 @@ table_cellregion_read (WorkbookControl *wbc, char const *reader_id,
 		r.end.row = tmpsheet->rows.max_used;
 		ret = clipboard_copy_range (tmpsheet, &r);
 	}
+	g_slist_free (sheets);
+
+	/* This isn't particularly right, but we are going to delete
+	   the workbook shortly.  See #490479.  */
+	WORKBOOK_FOREACH_SHEET (wb, sheet, {
+		cellregion_invalidate_sheet (ret, sheet);
+	});
+
 out:
-	g_slist_free (l);
 	if (wb_view)
 		g_object_unref (wb_view);
 	if (wb)

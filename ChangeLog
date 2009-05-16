@@ -1,3 +1,18 @@
+2009-05-16  Morten Welinder  <terra@gnome.org>
+
+	Fix for #490479:
+
+	* src/graph.c (gnm_go_data_preferred_fmt): Don't check dep->sheet.
+
+	* src/sheet-object.c (cb_sheet_object_invalidate_sheet): Clear
+	dep->sheet if necessary.
+
+	* src/gui-clipboard.c (table_cellregion_read): Invalidate the
+	sheets in the temporary workbook.
+
+	* src/clipboard.c (cellregion_invalidate_sheet): Clear
+	->origin_sheet if that is what we are invalidating.
+
 2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* schemas/gnumeric-dialogs.schemas.in: fix some long descriptions

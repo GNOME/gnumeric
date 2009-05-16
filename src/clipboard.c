@@ -840,6 +840,9 @@ cellregion_invalidate_sheet (GnmCellRegion *cr,
 
 	for (ptr = cr->objects; ptr != NULL ; ptr = ptr->next)
 		sheet_object_invalidate_sheet (ptr->data, sheet);
+
+	if (cr->origin_sheet == sheet)
+		cr->origin_sheet = NULL;
 }
 
 static void

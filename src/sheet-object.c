@@ -432,6 +432,7 @@ cb_sheet_object_invalidate_sheet (GnmDependent *dep, SheetObject *so, gpointer u
 	GnmExprRelocateInfo rinfo;
 	GnmExprTop const *texpr;
 	gboolean save_invalidated = sheet->being_invalidated;
+	gboolean dep_sheet_invalidated = (dep->sheet == sheet);
 
 	if (!dep->texpr)
 		return;
@@ -439,13 +440,20 @@ cb_sheet_object_invalidate_sheet (GnmDependent *dep, SheetObject *so, gpointer u
 	sheet->being_invalidated = TRUE;
 	rinfo.reloc_type = GNM_EXPR_RELOCATE_INVALIDATE_SHEET;
 	texpr = gnm_expr_top_relocate (dep->texpr, &rinfo, FALSE);
+	if (!texpr && dep_sheet_invalidated) {
+		texpr = dep->texpr;
+		gnm_expr_top_ref (texpr);
+	}
+
 	sheet->being_invalidated = save_invalidated;
 
 	if (texpr) {
 		gboolean was_linked = dependent_is_linked (dep);
 		dependent_set_expr (dep, texpr);
 		gnm_expr_top_unref (texpr);
-		if (was_linked)
+		if (dep_sheet_invalidated)
+			dep->sheet = NULL;
+		else if (was_linked)
 			dependent_link (dep);
 	}
 }

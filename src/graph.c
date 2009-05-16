@@ -156,7 +156,6 @@ gnm_go_data_preferred_fmt (GOData const *dat)
 	GnmDependent const *dep = gnm_go_data_get_dep (dat);
 
 	g_return_val_if_fail (dep != NULL, NULL);
-	g_return_val_if_fail (dep->sheet != NULL, NULL);
 
 	eval_pos_init_dep (&ep, dep);
 	return dep->texpr
