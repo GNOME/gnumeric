@@ -463,9 +463,10 @@ fmt_dialog_init_format_page (FormatState *state)
 				   gtk_label_new (_("Number")));
 	gtk_widget_show (GTK_WIDGET (gfs));
 
-	if (0 == (state->conflicts & (1 << MSTYLE_FORMAT)))
-		go_format_sel_set_style_format (gfs,
-			gnm_style_get_format (state->style));
+	if (0 == (state->conflicts & (1 << MSTYLE_FORMAT))) {
+		GOFormat const *fmt = gnm_style_get_format (state->style);
+		go_format_sel_set_style_format (gfs, fmt);
+	}
 	if (state->value)
 		gnm_format_sel_set_value (gfs, state->value);
 	go_format_sel_set_dateconv (gfs,
@@ -2337,15 +2338,15 @@ cb_check_cell_format (GnmCellIter const *iter, gpointer user)
 	FormatState *state = user;
 	GnmValue const *value = iter->cell->value;
 	GOFormat const *common = gnm_style_get_format (state->style);
+	GOFormat const *fmt = value ? VALUE_FMT (value) : NULL;
 
-	if (!value || !VALUE_FMT (value))
-		return NULL;
-
-	if (go_format_eq (common, VALUE_FMT (value)))
+	if (!fmt ||
+	    go_format_is_markup (fmt) ||
+	    go_format_eq (common, fmt))
 		return NULL;
 
 	if (go_format_is_general (common)) {
-		gnm_style_set_format (state->style, VALUE_FMT (value));
+		gnm_style_set_format (state->style, fmt);
 		return NULL;
 	} else {
 		state->conflicts |= MSTYLE_FORMAT;

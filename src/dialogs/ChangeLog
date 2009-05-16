@@ -1,3 +1,8 @@
+2009-05-16  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-format.c (cb_check_cell_format): Ignore markup
+	formats.  Fixes #582890.
+
 2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-stf-export.glade: don't asked for translation of 
