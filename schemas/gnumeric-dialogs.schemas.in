@@ -287,7 +287,7 @@
 	<default>FALSE</default>
         <locale name="C">
         <short>Default Horizontal Centering</short>
-        <long>This value determines the default setting in the Print Setup dialog: whether to center pages horizontally. Please use the Print Setup dialog to edit this value.</long>
+        <long>This value determines whether the default setting in the Print Setup dialog is to center pages horizontally.</long>
         </locale>
       </schema>
       <schema>
@@ -298,7 +298,7 @@
 	<default>FALSE</default>
         <locale name="C">
         <short>Default Vertical Centering</short>
-        <long>>This value determines the default setting in the Print Setup dialog: whether to center pages vertically. Please use the Print Setup dialog to edit this value.</long>
+        <long>>This value determines whether the default setting in the Print Setup dialog is to center pages vertically.</long>
         </locale>
       </schema>
       <schema>
@@ -386,7 +386,7 @@
 	<default>0</default>
         <locale name="C">
         <short>Default Scaling Width</short>
-        <long>This value determines the default number of pages a printout of the current sheet is supposed to be wide. 0 disables scaling. Please use the Print Setup dialog to edit this value.</long>
+        <long>This value determines the maximum number of pages that make up the width of a printout of the current sheet. The sheet will be reduced to fit within this width. This value can be changed in the Page Setup dialog.</long>
         </locale>
       </schema>
       <schema>
@@ -397,7 +397,7 @@
 	<default>0</default>
         <locale name="C">
         <short>Default Scaling Height</short>
-        <long>This value determines the default number of pages a printout of the current sheet is supposed to be high. 0 disables scaling. Please use the Print Setup dialog to edit this value.</long>
+        <long>This value determines the maximum number of pages that make up the height of a printout of the current sheet. The sheet will be reduced to fit within this height. This value can be changed in the Page Setup dialog.</long>
         </locale>
       </schema>
       <schema>

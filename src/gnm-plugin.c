@@ -412,6 +412,7 @@ plugin_service_ui_get_description (GOPluginService *service)
 	n_actions = g_slist_length (service_ui->actions);
 	return g_strdup_printf (
 		ngettext (
+/* xgettext : %d gives the number of actions. This is input to ngettext. */
 			"User interface with %d action",
 			"User interface with %d actions",
 			n_actions),

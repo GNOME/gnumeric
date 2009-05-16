@@ -1,3 +1,9 @@
+2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* schemas/gnumeric-dialogs.schemas.in: fix some long descriptions
+	* schemas/gnumeric-general.schemas.in: ditto
+	* src/gnm-plugin.c: add a translator comment
+
 2009-05-15  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (gnm_dep_container_dump): fix crash.
