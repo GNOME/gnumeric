@@ -358,7 +358,7 @@ odf_write_table_style (GnmOOExport *state,
 		sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE);
 	gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "writing-mode",
 		sheet->text_is_rtl ? "rl-tb" : "lr-tb");
-	gsf_xml_out_end_element (state->xml); /* </style:properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:table-properties> */
 
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 }
@@ -881,9 +881,13 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			char *rendered_string = gnm_cell_get_rendered_text (cell);
 			gboolean white_written = TRUE;
 			
-			gsf_xml_out_start_element (state->xml, TEXT "p");
-			odf_add_chars (state, rendered_string, strlen (rendered_string), &white_written);
-			gsf_xml_out_end_element (state->xml);   /* p */
+			if (*rendered_string != '\0') {
+				gsf_xml_out_start_element (state->xml, TEXT "p");
+				odf_add_chars (state, rendered_string, 
+					       strlen (rendered_string), 
+					       &white_written);
+				gsf_xml_out_end_element (state->xml);   /* p */
+			}
 			
 			g_free (rendered_string);
 		} else if ((cell->value != NULL) && (VALUE_FMT (cell->value) != NULL)) {
