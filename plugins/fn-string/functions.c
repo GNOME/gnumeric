@@ -56,18 +56,17 @@ GNM_PLUGIN_MODULE_HEADER;
 static GIConv CHAR_iconv;
 
 static GnmFuncHelp const help_char[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=CHAR\n"
-	   "@SYNTAX=CHAR(x)\n"
-
-	   "@DESCRIPTION="
-	   "CHAR returns the ASCII character represented by the number @x.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "CHAR(65) equals A.\n"
-	   "\n"
-	   "@SEEALSO=CODE")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("CHAR:returns the CP1252 (Windows-1252) character for the given code point.")},
+	{ GNM_FUNC_HELP_ARG, F_("x:which character to return")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("CHAR(@{x}) returns the CP1252 (Windows-1252) character with code @{x}.")},
+{ GNM_FUNC_HELP_DESCRIPTION, F_("@{x} should be in the range 1 to 255.")},
+{ GNM_FUNC_HELP_DESCRIPTION, F_("CP1252 (Windows-1252) is also known as the \"ANSI code page\", but it is not an ANSI standard.")},
+{ GNM_FUNC_HELP_DESCRIPTION, F_("CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains all of its printable characters (but partially at different positions.)")},
+	{ GNM_FUNC_HELP_NOTE, F_("In CP1252 (Windows-1252), 129, 141, 143, 144, and 157 do not have matching characters.") },
+	{ GNM_FUNC_HELP_NOTE, F_("For @{x} from 1 to 255 except 129, 141, 143, 144, and 157 we have CODE(CHAR(@{x}))=@{x}.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("CHAR(65) returns A") },
+	{ GNM_FUNC_HELP_SEEALSO, "CODE"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -137,19 +136,17 @@ gnumeric_unichar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GIConv CODE_iconv;
 
 static GnmFuncHelp const help_code[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=CODE\n"
-	   "@SYNTAX=CODE(char)\n"
-
-	   "@DESCRIPTION="
-	   "CODE returns the ASCII number for the character @char.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "CODE(\"A\") equals 65.\n"
-	   "\n"
-	   "@SEEALSO=CHAR")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("CHAR:returns the CP1252 (Windows-1252) code point for the given character.")},
+	{ GNM_FUNC_HELP_ARG, F_("c:which character to return")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("CODE(@{c}) returns the CP1252 (Windows-1252) code point for character @{c}.")},
+{ GNM_FUNC_HELP_DESCRIPTION, F_("@{c} should be a valid CP1252 (Windows-1252) character.")},
+{ GNM_FUNC_HELP_DESCRIPTION, F_("CP1252 (Windows-1252) is also known as the \"ANSI code page\", but it is not an ANSI standard.")},
+{ GNM_FUNC_HELP_DESCRIPTION, F_("CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains all of its printable characters (but partially at different positions.)")},
+	{ GNM_FUNC_HELP_NOTE, F_("In CP1252 (Windows-1252), 129, 141, 143, 144, and 157 do not have matching characters.") },
+	{ GNM_FUNC_HELP_NOTE, F_("For @{x} from 1 to 255 except 129, 141, 143, 144, and 157 we have CODE(CHAR(@{x}))=@{x}.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("CODE(\"A\") returns 65") },
+	{ GNM_FUNC_HELP_SEEALSO, "CHAR"},
 	{ GNM_FUNC_HELP_END }
 };
 
