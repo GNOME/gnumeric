@@ -726,17 +726,17 @@ FUNCTIONNAME(ARGUMENTS)
       <para>
         It is possible to reference cells in other files. The
         canonical form for these references is
-        =[filename]SHEETNAME!CELLLIST. Again, if the name of the file
-        contains spaces, it is necessary to surround the filename with
-        quotes.
+        =[filename]SHEETNAME!CELLLIST. Note that, even if the name of the file
+        contains spaces, you may not surround the filename with
+        quotes, since these quotes would be interpreted as part of the filename.
       </para>
 
       <example id="simple-file-ref">
         <title>Referencing cells in other files</title>
         <programlisting>
-=['Name of the file']'Sheet 0'!A1
+=[Name of the file]'Sheet 0'!A1
 
-=CEIL( ['First Version.gnumeric']'Sheet 1'!E20 )
+=CEIL( [First Version.gnumeric]'Sheet 1'!E20 )
         </programlisting>
       </example>
 
