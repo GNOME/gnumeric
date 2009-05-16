@@ -393,8 +393,8 @@ xml_write_style (GnmOutputXML *state, GnmStyle const *style)
 		GNM "Bottom",
 		GNM "Left",
 		GNM "Right",
-		GNM "Diagonal",
-		GNM "Rev-Diagonal"
+		GNM "Rev-Diagonal",
+		GNM "Diagonal"
 	};
 	GnmValidation const *v;
 	GnmHLink   const *link;

@@ -15,6 +15,11 @@
 
 2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/xml-sax-write.c (xml_write_style): since we index into the 
+	  array with our enum we should make the order match.
+
+2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* schemas/gnumeric-dialogs.schemas.in: fix some long descriptions
 	* schemas/gnumeric-general.schemas.in: ditto
 	* src/gnm-plugin.c: add a translator comment
