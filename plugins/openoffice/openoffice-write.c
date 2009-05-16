@@ -86,7 +86,14 @@ typedef struct {
 	WorkbookView const *wbv;
 	Workbook const	   *wb;
 	GnmConventions *conv;
+	GSList *cell_styles;
 } GnmOOExport;
+
+typedef struct {
+	int counter;
+	char *name;
+	GnmStyle const *style;
+} cell_styles_t;
 
 static struct {
 	char const *key;
@@ -364,6 +371,16 @@ table_style_name (Sheet const *sheet)
 }
 
 static void
+cell_styles_free (gpointer data)
+{
+	cell_styles_t *style = data;
+	
+	g_free (style->name);
+	gnm_style_unref (style->style);
+	g_free (style);
+} 
+
+static void
 odf_write_table_styles (GnmOOExport *state)
 {
 	int i;
@@ -379,6 +396,104 @@ odf_write_table_styles (GnmOOExport *state)
 		} else
 			g_free (name);
 	}
+}
+
+static gint 
+odf_compare_style (gconstpointer a, gconstpointer b)
+{
+	cell_styles_t const *old_style = a;	
+	GnmStyle const *new_style = b;
+
+	return !gnm_style_equal (new_style, old_style->style);
+}
+
+static void
+odf_write_style (GnmOOExport *state, cell_styles_t *style)
+{
+		odf_start_style (state->xml, style->name, "table-cell");
+		gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+		gsf_xml_out_add_int (state->xml, FOSTYLE "font-weight", 
+				     gnm_style_get_font_bold (style->style) 
+				     ? PANGO_WEIGHT_BOLD 
+				     : PANGO_WEIGHT_NORMAL);
+		gsf_xml_out_end_element (state->xml); /* </style:text-properties */
+		gsf_xml_out_end_element (state->xml); /* </style:style */
+}
+
+static const char*
+odf_find_style (GnmOOExport *state, GnmStyle const *style, gboolean write)
+{
+	cell_styles_t *new_style;
+	GSList *found = g_slist_find_custom (state->cell_styles, style, odf_compare_style);
+
+	if (found) {
+		new_style = found->data;
+		return new_style->name;
+	} else {
+		new_style = g_new0 (cell_styles_t,1);
+		new_style->style = style;
+		gnm_style_ref (style);
+		new_style->counter = g_slist_length (state->cell_styles);
+		new_style->name = g_strdup_printf ("ACELL-%i", new_style->counter);
+		state->cell_styles = g_slist_prepend (state->cell_styles, new_style);
+		if (write)
+			odf_write_style (state, new_style);
+		return new_style->name;
+	}
+}
+
+static void
+odf_load_required_automatic_styles (GnmOOExport *state)
+{
+        /* We have to figure out which automatic styles we need   */
+	/* This is really annoying since we have to scan through  */
+	/* all cells. If we could store these cells in styles.xml */
+	/* we could create them as we need them, but these styles */
+	/* have to go into the beginning of content.xml.          */
+	int j;
+
+	for (j = 0; j < workbook_sheet_count (state->wb); j++) {
+		Sheet const *sheet = workbook_sheet_by_index (state->wb, j);
+		int max_cols = gnm_sheet_get_max_cols (sheet);
+		int max_rows = gnm_sheet_get_max_rows (sheet);
+		GnmStyle **col_styles = g_new (GnmStyle *, max_cols);
+		GnmRange  extent;
+		int i, col, row;
+
+		extent = sheet_get_extent (sheet, FALSE);
+		sheet_style_get_extent (sheet, &extent, col_styles);
+		
+		/* include collapsed or hidden cols and rows */
+		for (i = max_rows ; i-- > extent.end.row ; )
+			if (!colrow_is_empty (sheet_row_get (sheet, i))) {
+				extent.end.row = i;
+				break;
+			}
+		for (i = max_cols ; i-- > extent.end.col ; )
+			if (!colrow_is_empty (sheet_col_get (sheet, i))) {
+				extent.end.col = i;
+				break;
+			}
+		
+		for (row = extent.start.row; row <= extent.end.row; row++) {
+			for (col = extent.start.col; col <= extent.end.col; col++) {
+				GnmCell *current_cell = sheet_cell_get (sheet, col, row);
+				if (current_cell != NULL) {
+					GnmStyle const *style;
+					
+					if (gnm_cell_is_empty (current_cell))
+						continue;
+					
+					style = sheet_style_get (sheet, col, row);
+					if (style != NULL)
+						odf_find_style (state, style, TRUE);
+				}
+			}
+		}
+		g_free (col_styles);
+	}
+
+	return;
 }
 
 static void
@@ -461,6 +576,8 @@ odf_write_character_styles (GnmOOExport *state)
 	gsf_xml_out_add_cstr (state->xml, STYLE "text-underline-width", "auto");
 	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
+
+	odf_load_required_automatic_styles (state);
 }
 
 static void
@@ -596,6 +713,14 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 	if (cell != NULL) {
 		gboolean write_rendered_string = TRUE;
 		gboolean pp = TRUE;
+		GnmStyle const *style = gnm_cell_get_style (cell);
+
+		if (style) {
+			char const * name = odf_find_style (state, style, FALSE);
+			if (name != NULL)
+				gsf_xml_out_add_cstr (state->xml,
+						      TABLE "style-name", name);
+		}
 
 		if ((NULL != cell->base.texpr) && 
 		    !gnm_expr_top_is_array_elem (cell->base.texpr, NULL, NULL)) {
@@ -679,7 +804,6 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		} else if ((cell->value != NULL) && (VALUE_FMT (cell->value) != NULL)) {
 			GString *str = g_string_new ("");
 			const PangoAttrList * markup;
-			gboolean pp = TRUE;
 
 			value_get_as_gstring (cell->value, str, NULL);
 			markup = go_format_get_markup (VALUE_FMT (cell->value));
@@ -1061,6 +1185,7 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	state.wbv = wbv;
 	state.wb  = wb_view_get_workbook (wbv);
 	state.conv = odf_expr_conventions_new ();
+	state.cell_styles = NULL;
 	for (i = 0 ; i < G_N_ELEMENTS (streams); i++) {
 		child = gsf_outfile_new_child_full (outfile, streams[i].name, FALSE,
 				/* do not compress the mimetype */
@@ -1079,4 +1204,5 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	g_object_unref (G_OBJECT (outfile));
 
 	gnm_pop_C_locale (locale);
+	go_slist_free_custom (state.cell_styles, cell_styles_free);
 }

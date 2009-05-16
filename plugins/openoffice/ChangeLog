@@ -1,3 +1,16 @@
+2009-05-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (GnmOOExport): add cell_styles field
+	(cell_styles_t): new type
+	(cell_styles_free): new
+	(odf_compare_style): new
+	(odf_write_style): new
+	(odf_find_style): new
+	(odf_load_required_automatic_styles): new
+	(odf_write_character_styles): call odf_load_required_automatic_styles
+	(odf_write_cell): add cell styles, delete unneeded variable
+	(openoffice_file_save): free cell_styles
+
 2009-05-14  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (opendoc_content_dtd): add text:line-break and 
