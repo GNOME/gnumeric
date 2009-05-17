@@ -1,3 +1,7 @@
+2009-05-17  Morten Welinder  <terra@gnome.org>
+
+	* src/graph.c (gnm_go_data_eq): Compare convs too.
+
 2009-05-16  Morten Welinder  <terra@gnome.org>
 
 	Fix for #490479:

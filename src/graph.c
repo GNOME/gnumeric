@@ -43,19 +43,19 @@
 
 /* ------------------------------------------------------------------------- */
 
-static inline char *
+static char *
 get_pending_str (const GOData *data)
 {
 	return g_object_get_data (G_OBJECT (data), "unserialize");
 }
 
-static inline GnmConventions *
+static GnmConventions *
 get_pending_convs (const GOData *data)
 {
 	return g_object_get_data (G_OBJECT (data), "unserialize-convs");
 }
 
-static inline void
+static void
 set_pending_str (const GOData *data, const char *str)
 {
 	return g_object_set_data_full (G_OBJECT (data),
@@ -63,7 +63,7 @@ set_pending_str (const GOData *data, const char *str)
 				       g_free);
 }
 
-static inline void
+static void
 set_pending_convs (GOData *data, const GnmConventions *convs)
 {
 	g_object_set_data (G_OBJECT (data),
@@ -140,13 +140,17 @@ gnm_go_data_eq (GOData const *data_a, GOData const *data_b)
 {
 	GnmDependent const *a = gnm_go_data_get_dep (data_a);
 	GnmDependent const *b = gnm_go_data_get_dep (data_b);
+
 	if (a->texpr == NULL && b->texpr == NULL) {
-		char const *str_a = get_pending_str (data_a);
-		char const *str_b = get_pending_str (data_b);
-		return go_str_compare (str_a, str_b) == 0;
+		if (go_str_compare (get_pending_str (data_a),
+				    get_pending_str (data_b)))
+			return FALSE;
+		if (get_pending_convs (data_a) != get_pending_convs (data_b))
+			return FALSE;
+		return TRUE;
 	}
 
-	return gnm_expr_top_equal (a->texpr, b->texpr);
+	return a->texpr && b->texpr && gnm_expr_top_equal (a->texpr, b->texpr);
 }
 
 static GOFormat *
@@ -469,14 +473,6 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 		vec->val = gnm_expr_top_eval (vec->dep.texpr, &ep,
 			GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
 
-#if 0
-	{
-		char *str = go_data_serialize (dat);
-		g_warning ("load_len '%s'", str);
-		g_free (str);
-	}
-#endif
-
 	if (vec->val != NULL) {
 		switch (vec->val->type) {
 		case VALUE_CELLRANGE:
@@ -575,7 +571,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 	GnmValue *v;
 	struct assign_closure closure;
 
-	if (dat->len <= 0) {
+	if (dat->len <= 0 || !vec->dep.sheet) {
 		dat->values = NULL;
 		dat->minimum = go_nan;
 		dat->maximum = go_nan;
@@ -830,14 +826,6 @@ gnm_go_data_matrix_load_size (GODataMatrix *dat)
 	if (mat->val == NULL)
 		mat->val = gnm_expr_top_eval (mat->dep.texpr, &ep,
 			GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
-
-#if 0
-	{
-		char *str = go_data_serialize (dat);
-		g_warning ("load_len '%s'", str);
-		g_free (str);
-	}
-#endif
 
 	if (mat->val != NULL) {
 		switch (mat->val->type) {
