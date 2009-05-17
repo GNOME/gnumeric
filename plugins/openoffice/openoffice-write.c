@@ -90,6 +90,7 @@ typedef struct {
 	Workbook const	   *wb;
 	GnmConventions *conv;
 	GSList *cell_styles;
+	GnmStyle *default_style;
 } GnmOOExport;
 
 typedef struct {
@@ -521,8 +522,8 @@ odf_get_gnm_border_format (GnmBorder   *border)
 	return border_type;
 }
 
-#define BORDERSTYLE(msbw, msbwstr, msbwstr_wth, msbwstr_gnm) if (gnm_style_is_element_set (style->style, msbw)) { \
-	                GnmBorder *border = gnm_style_get_border (style->style, msbw); \
+#define BORDERSTYLE(msbw, msbwstr, msbwstr_wth, msbwstr_gnm) if (gnm_style_is_element_set (style, msbw)) { \
+	                GnmBorder *border = gnm_style_get_border (style, msbw); \
 			char *border_style = odf_get_border_format (border); \
 			char const *gnm_border_style = odf_get_gnm_border_format (border); \
 			gsf_xml_out_add_cstr_unchecked (state->xml, msbwstr, border_style); \
@@ -541,14 +542,12 @@ odf_get_gnm_border_format (GnmBorder   *border)
 						      STYLE "text-underline-width", width)
 
 static void
-odf_write_style (GnmOOExport *state, cell_styles_t *style)
+odf_write_style (GnmOOExport *state, GnmStyle const *style)
 {
-		odf_start_style (state->xml, style->name, "table-cell");
-
 		gsf_xml_out_start_element (state->xml, STYLE "table-cell-properties");
-		if (gnm_style_is_element_set (style->style, MSTYLE_COLOR_BACK))
+		if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
 			gnm_xml_out_add_hex_color (state->xml, FOSTYLE "background-color",
-						   gnm_style_get_back_color (style->style));
+						   gnm_style_get_back_color (style));
 		BORDERSTYLE(MSTYLE_BORDER_TOP,FOSTYLE "border-top", STYLE "border-line-width-top", GNMSTYLE "border-line-style-top");
 		BORDERSTYLE(MSTYLE_BORDER_BOTTOM,FOSTYLE "border-bottom", STYLE "border-line-width-bottom", GNMSTYLE "border-line-style-bottom");
 		BORDERSTYLE(MSTYLE_BORDER_LEFT,FOSTYLE "border-left", STYLE "border-line-width-left", GNMSTYLE "border-line-style-left");
@@ -558,25 +557,25 @@ odf_write_style (GnmOOExport *state, cell_styles_t *style)
 		gsf_xml_out_end_element (state->xml); /* </style:table-cell-properties */
 
 		gsf_xml_out_start_element (state->xml, STYLE "text-properties");
-		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_BOLD))
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_BOLD))
 			gsf_xml_out_add_int (state->xml, FOSTYLE "font-weight", 
-					     gnm_style_get_font_bold (style->style) 
+					     gnm_style_get_font_bold (style) 
 					     ? PANGO_WEIGHT_BOLD 
 					     : PANGO_WEIGHT_NORMAL);
-		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_ITALIC))
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC))
 			gsf_xml_out_add_cstr (state->xml, FOSTYLE "font-style", 
-					      gnm_style_get_font_italic (style->style) 
+					      gnm_style_get_font_italic (style) 
 					      ? "italic" : "normal");
-		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_STRIKETHROUGH)) {
-			if (gnm_style_get_font_strike (style->style)) {
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH)) {
+			if (gnm_style_get_font_strike (style)) {
 				gsf_xml_out_add_cstr (state->xml,  STYLE "text-line-through-type", "single");
 				gsf_xml_out_add_cstr (state->xml, STYLE "text-line-through-style", "solid");
 			} else {
 				gsf_xml_out_add_cstr (state->xml,  STYLE "text-line-through-type", "none");
 				gsf_xml_out_add_cstr (state->xml, STYLE "text-line-through-style", "none");
 			}}
-		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_STRIKETHROUGH))
-			switch (gnm_style_get_font_uline (style->style)) {
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH))
+			switch (gnm_style_get_font_uline (style)) {
 			case UNDERLINE_NONE:
 				UNDERLINESPECS("none", "none", "auto");
 				break;
@@ -587,8 +586,8 @@ odf_write_style (GnmOOExport *state, cell_styles_t *style)
 				UNDERLINESPECS("double", "solid", "auto");
 				break;
 			}
-		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_SCRIPT))		
-			switch (gnm_style_get_font_script (style->style)) {
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT))		
+			switch (gnm_style_get_font_script (style)) {
 			case GO_FONT_SCRIPT_SUB:
 				gsf_xml_out_add_cstr (state->xml, 
 						      STYLE "text-position", "sub 80%");
@@ -602,18 +601,16 @@ odf_write_style (GnmOOExport *state, cell_styles_t *style)
 						      STYLE "text-position", "super 80%");
 				break;
 			}
-		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_SIZE))		
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_SIZE))		
 			gsf_xml_out_add_int (state->xml, FOSTYLE "font-size",
-					     gnm_style_get_font_size (style->style));
-		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_COLOR))
+					     gnm_style_get_font_size (style));
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_COLOR))
 			gnm_xml_out_add_hex_color (state->xml, FOSTYLE "color",
-						   gnm_style_get_font_color (style->style));
-		if (gnm_style_is_element_set (style->style, MSTYLE_FONT_NAME))
+						   gnm_style_get_font_color (style));
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME))
 			gsf_xml_out_add_cstr (state->xml, FOSTYLE "font-family",
-					      gnm_style_get_font_name (style->style));
+					      gnm_style_get_font_name (style));
 		gsf_xml_out_end_element (state->xml); /* </style:text-properties */
-
-		gsf_xml_out_end_element (state->xml); /* </style:style */
 }
 
 #undef UNDERLINESPECS
@@ -635,8 +632,11 @@ odf_find_style (GnmOOExport *state, GnmStyle const *style, gboolean write)
 		new_style->counter = g_slist_length (state->cell_styles);
 		new_style->name = g_strdup_printf ("ACELL-%i", new_style->counter);
 		state->cell_styles = g_slist_prepend (state->cell_styles, new_style);
-		if (write)
-			odf_write_style (state, new_style);
+		if (write) {
+			odf_start_style (state->xml, new_style->name, "table-cell");
+			odf_write_style (state, new_style->style);
+			gsf_xml_out_end_element (state->xml); /* </style:style */
+		}
 		return new_style->name;
 	}
 }
@@ -658,9 +658,12 @@ odf_load_required_automatic_styles (GnmOOExport *state)
 		GnmStyle **col_styles = g_new (GnmStyle *, max_cols);
 		GnmRange  extent;
 		int i, col, row;
-
 		extent = sheet_get_extent (sheet, FALSE);
 		sheet_style_get_extent (sheet, &extent, col_styles);
+
+		for (i = 0; i < max_cols; i++)
+			if (col_styles[i] != NULL)
+				odf_find_style (state, col_styles[i], TRUE);
 		
 		/* include collapsed or hidden cols and rows */
 		for (i = max_rows ; i-- > extent.end.row ; )
@@ -1289,7 +1292,18 @@ odf_write_styles (GnmOOExport *state, GsfOutput *child)
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
 	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", "1.0");
+	gsf_xml_out_start_element (state->xml, OFFICE "styles");
+	
+	if (state->default_style != NULL) {
+		gsf_xml_out_start_element (state->xml, STYLE "default-style");
+		gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "family", "table-cell");
+		odf_write_style (state, state->default_style);
+		gsf_xml_out_end_element (state->xml); /* </style:default-style */
+	}
+	
+	gsf_xml_out_end_element (state->xml); /* </office:styles> */
 	gsf_xml_out_end_element (state->xml); /* </office:document-styles> */
+
 	g_object_unref (state->xml);
 	state->xml = NULL;
 }
@@ -1391,6 +1405,7 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	state.wb  = wb_view_get_workbook (wbv);
 	state.conv = odf_expr_conventions_new ();
 	state.cell_styles = NULL;
+	state.default_style = sheet_style_default (workbook_sheet_by_index (state.wb, 0));
 	for (i = 0 ; i < G_N_ELEMENTS (streams); i++) {
 		child = gsf_outfile_new_child_full (outfile, streams[i].name, FALSE,
 				/* do not compress the mimetype */
@@ -1410,4 +1425,5 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 
 	gnm_pop_C_locale (locale);
 	go_slist_free_custom (state.cell_styles, cell_styles_free);
+	gnm_style_unref (state.default_style);					    
 }

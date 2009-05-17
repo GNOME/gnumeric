@@ -1,5 +1,14 @@
 2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_style): change argument types and 
+	  adjust all callers
+	(odf_find_style) wrap and element around odf_write_style
+	(odf_load_required_automatic_styles): load primary column cell styles
+	(odf_write_styles): set default cell style
+	(openoffice_file_save): determine default style
+
+2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_get_border_format): use goffice GO_PT_TO_CM
 	  utility
 	* openoffice-read.c (oo_parse_border): spacing may vary and there are
