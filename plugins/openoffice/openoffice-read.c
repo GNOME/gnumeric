@@ -1593,6 +1593,38 @@ oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
+oo_set_gnm_border  (GsfXMLIn *xin, GnmStyle *style,
+		    xmlChar const *str, GnmStyleElement location)
+{
+	GnmStyleBorderType border_style;
+	GnmBorder   *old_border, *new_border;
+	GnmStyleBorderLocation const loc =
+		GNM_STYLE_BORDER_TOP + (int)(location - MSTYLE_BORDER_TOP);
+
+	if (!strcmp ((char const *)str, "hair"))
+		border_style = GNM_STYLE_BORDER_HAIR;
+	else if (!strcmp ((char const *)str, "medium-dash"))
+		border_style = GNM_STYLE_BORDER_MEDIUM_DASH;
+	else if (!strcmp ((char const *)str, "dash-dot"))
+		border_style = GNM_STYLE_BORDER_DASH_DOT;
+	else if (!strcmp ((char const *)str, "medium-dash-dot"))
+		border_style = GNM_STYLE_BORDER_MEDIUM_DASH_DOT;
+	else if (!strcmp ((char const *)str, "dash-dot-dot"))
+		border_style = GNM_STYLE_BORDER_DASH_DOT_DOT;
+	else if (!strcmp ((char const *)str, "medium-dash-dot-dot"))
+		border_style = GNM_STYLE_BORDER_MEDIUM_DASH_DOT_DOT;
+	else if (!strcmp ((char const *)str, "slanted-dash-dot"))
+		border_style = GNM_STYLE_BORDER_SLANTED_DASH_DOT;
+	else return;
+
+	old_border = gnm_style_get_border (style, location);
+	new_border = gnm_style_border_fetch (border_style,
+					     style_color_ref(old_border->color),
+					     gnm_style_border_get_orientation (loc));
+	gnm_style_set_border (style, location, new_border);
+}
+
+static void
 oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 		 xmlChar const *str, GnmStyleElement location)
 {
@@ -1729,9 +1761,21 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_RIGHT);
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_TOP);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "diagonal-bl-tr"))
-			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_DIAGONAL);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "diagonal-tl-br"))
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_REV_DIAGONAL);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "diagonal-tl-br"))
+			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_DIAGONAL);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "border-line-style-bottom"))
+			oo_set_gnm_border (xin, style, attrs[1], MSTYLE_BORDER_BOTTOM);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "border-line-style-top"))
+			oo_set_gnm_border (xin, style, attrs[1], MSTYLE_BORDER_TOP);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "border-line-style-left"))
+			oo_set_gnm_border (xin, style, attrs[1], MSTYLE_BORDER_LEFT);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "border-line-style-right"))
+			oo_set_gnm_border (xin, style, attrs[1], MSTYLE_BORDER_RIGHT);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "diagonal-bl-tr-line-style"))
+			oo_set_gnm_border (xin, style, attrs[1], MSTYLE_BORDER_REV_DIAGONAL);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, "diagonal-tl-br-line-style"))
+			oo_set_gnm_border (xin, style, attrs[1], MSTYLE_BORDER_DIAGONAL);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "font-name"))
 			gnm_style_set_font_name (style, CXML2C (attrs[1]));
 		else if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "shrink-to-fit", &btmp))
