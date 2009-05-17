@@ -4402,7 +4402,7 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 	SheetControlGUI *scg;
 
 	/* Ignore changes while we are insensitive. useful for displaying
-	 * values, without storing then as Data.  Also ignore updates if the
+	 * values, without storing them as Data.  Also ignore updates if the
 	 * dataset has been cleared via the weakref handler  */
 	if (!GTK_WIDGET_SENSITIVE (gee) || editor->dataset == NULL)
 		return;
