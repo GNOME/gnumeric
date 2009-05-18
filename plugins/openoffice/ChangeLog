@@ -1,5 +1,16 @@
 2009-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c: clean-up g_string_new throughout
+	(GnmOOExport): added fields
+	(odf_write_row_style): new
+	(odf_write_col_style): new
+	(odf_find_col_style): use odf_write_col_style
+	(odf_write_styles): write default row and column styles
+	(openoffice_file_save): determine default styles for rows and
+	  columns
+
+2009-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (GnmOOExport): added field
 	(col_styles_t): new type
 	(odf_add_pt): new

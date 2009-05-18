@@ -92,6 +92,8 @@ typedef struct {
 	GSList *col_styles;
 	GSList *cell_styles;
 	GnmStyle *default_style;
+	ColRowInfo const *row_default;
+	ColRowInfo const *column_default;
 } GnmOOExport;
 
 typedef struct {
@@ -354,7 +356,7 @@ odf_add_bool (GsfXMLOut *xml, char const *id, gboolean val)
 static void
 odf_add_pt (GsfXMLOut *xml, char const *id, float l)
 {
-	GString *str = g_string_new ("");
+	GString *str = g_string_new (NULL);
 	
 	g_string_append_printf (str, "%.2fpt", l);
 	gsf_xml_out_add_cstr_unchecked (xml, id, str->str);
@@ -445,7 +447,7 @@ gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c)
 static char *
 odf_get_border_format (GnmBorder   *border)
 {
-	GString *str = g_string_new ("");
+	GString *str = g_string_new (NULL);
 	float w = gnm_style_border_get_width (border->line_type);
 	GnmColor *color = border->color;
 	char const *border_type;
@@ -671,6 +673,26 @@ odf_compare_ci (gconstpointer a, gconstpointer b)
 	return !colrow_equal (new_style, old_style->ci);
 }
 
+static void
+odf_write_row_style (GnmOOExport *state, ColRowInfo const *ci)
+{
+	gsf_xml_out_start_element (state->xml, STYLE "table-row-properties");
+	odf_add_pt (state->xml, STYLE "row-height", ci->size_pts);
+	odf_add_bool (state->xml, STYLE "use-optimal-row-height",
+		      !ci->hard_size);
+	gsf_xml_out_end_element (state->xml); /* </style:table-column-properties> */
+}
+
+static void
+odf_write_col_style (GnmOOExport *state, ColRowInfo const *ci)
+{
+	gsf_xml_out_start_element (state->xml, STYLE "table-column-properties");
+	odf_add_pt (state->xml, STYLE "column-width", ci->size_pts);
+	odf_add_bool (state->xml, STYLE "use-optimal-column-width",
+		      !ci->hard_size);
+	gsf_xml_out_end_element (state->xml); /* </style:table-column-properties> */
+}
+
 static const char*
 odf_find_col_style (GnmOOExport *state, ColRowInfo const *ci, gboolean write)
 {
@@ -688,13 +710,8 @@ odf_find_col_style (GnmOOExport *state, ColRowInfo const *ci, gboolean write)
 			new_style->name = g_strdup_printf ("ACOL-%i", new_style->counter);
 			state->col_styles = g_slist_prepend (state->col_styles, new_style);
 			odf_start_style (state->xml, new_style->name, "table-column");
-			if (ci != NULL) {
-				gsf_xml_out_start_element (state->xml, STYLE "table-column-properties");
-				odf_add_pt (state->xml, STYLE "column-width", ci->size_pts);
-				odf_add_bool (state->xml, STYLE "use-optimal-column-width",
-					      !ci->hard_size);
-				gsf_xml_out_end_element (state->xml); /* </style:table-column-properties> */
-			}
+			if (ci != NULL)
+				odf_write_col_style (state, ci);
 			gsf_xml_out_end_element (state->xml); /* </style:style> */
 			return new_style->name;
 		} else {
@@ -1106,7 +1123,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 				
 				g_free (rendered_string);
 			} else {
-				GString *str = g_string_new ("");
+				GString *str = g_string_new (NULL);
 				const PangoAttrList * markup;
 				
 				value_get_as_gstring (cell->value, str, NULL);
@@ -1468,6 +1485,18 @@ odf_write_styles (GnmOOExport *state, GsfOutput *child)
 		odf_write_style (state, state->default_style);
 		gsf_xml_out_end_element (state->xml); /* </style:default-style */
 	}
+	if (state->column_default != NULL) {
+		gsf_xml_out_start_element (state->xml, STYLE "default-style");
+		gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "family", "table-column");
+		odf_write_col_style (state, state->column_default);
+		gsf_xml_out_end_element (state->xml); /* </style:default-style */
+	}
+	if (state->row_default != NULL) {
+		gsf_xml_out_start_element (state->xml, STYLE "default-style");
+		gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "family", "table-row");
+		odf_write_row_style (state, state->row_default);
+		gsf_xml_out_end_element (state->xml); /* </style:default-style */
+	}
 	
 	gsf_xml_out_end_element (state->xml); /* </office:styles> */
 	gsf_xml_out_end_element (state->xml); /* </office:document-styles> */
@@ -1563,6 +1592,7 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	GnmLocale  *locale;
 	GError *err;
 	unsigned i;
+	Sheet *sheet;
 
 	locale  = gnm_push_C_locale ();
 
@@ -1574,7 +1604,14 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	state.conv = odf_expr_conventions_new ();
 	state.cell_styles = NULL;
 	state.col_styles = NULL;
-	state.default_style = sheet_style_default (workbook_sheet_by_index (state.wb, 0));
+
+	/* ODF dos not have defaults per table, so we use our first table for defaults only.*/
+	sheet = workbook_sheet_by_index (state.wb, 0);
+	state.default_style = sheet_style_default (sheet);
+	state.column_default = &sheet->cols.default_style;
+	state.row_default = &sheet->rows.default_style;
+	
+
 	for (i = 0 ; i < G_N_ELEMENTS (streams); i++) {
 		child = gsf_outfile_new_child_full (outfile, streams[i].name, FALSE,
 				/* do not compress the mimetype */
