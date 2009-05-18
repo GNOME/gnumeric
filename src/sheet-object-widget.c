@@ -774,6 +774,8 @@ SOW_MAKE_TYPE (button, Button,
 #define SHEET_WIDGET_ADJUSTMENT_TYPE	(sheet_widget_adjustment_get_type())
 #define SHEET_WIDGET_ADJUSTMENT(obj)	(G_TYPE_CHECK_INSTANCE_CAST ((obj), SHEET_WIDGET_ADJUSTMENT_TYPE, SheetWidgetAdjustment))
 #define DEP_TO_ADJUSTMENT(d_ptr)	(SheetWidgetAdjustment *)(((char *)d_ptr) - G_STRUCT_OFFSET(SheetWidgetAdjustment, dep))
+#define SHEET_WIDGET_ADJUSTMENT_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_WIDGET_ADJUSTMENT_TYPE, SheetWidgetAdjustmentClass))
+#define SWA_CLASS(so)		     (SHEET_WIDGET_ADJUSTMENT_CLASS (G_OBJECT_GET_CLASS(so)))
 
 typedef struct {
 	SheetObjectWidget	sow;
@@ -890,10 +892,6 @@ static void
 sheet_widget_adjustment_set_horizontal (SheetWidgetAdjustment *swa,
 					gboolean horizontal)
 {
-	SheetObjectWidgetClass *sow_class =
-		G_TYPE_INSTANCE_GET_CLASS (swa,
-					   sheet_object_widget_get_type(),
-					   SheetObjectWidgetClass);
 	GList *ptr;
 
 	horizontal = !!horizontal;
@@ -904,7 +902,8 @@ sheet_widget_adjustment_set_horizontal (SheetWidgetAdjustment *swa,
 	/* Change direction for all realized widgets.  */
 	for (ptr = swa->sow.realized_list; ptr != NULL; ptr = ptr->next) {
 		FooCanvasItem *item = FOO_CANVAS_ITEM (ptr->data);
-		GtkWidget *neww = sow_class->create_widget (SHEET_OBJECT (swa));
+		GtkWidget *neww =
+			SOW_CLASS (swa)->create_widget (SHEET_OBJECT (swa));
 		gtk_widget_show (neww);
 		foo_canvas_item_set (item, "widget", neww, NULL);
 	}
@@ -966,10 +965,7 @@ sheet_widget_adjustment_init_full (SheetWidgetAdjustment *swa,
 static void
 sheet_widget_adjustment_init (SheetWidgetAdjustment *swa)
 {
-	SheetWidgetAdjustmentClass *klass =
-		G_TYPE_INSTANCE_GET_CLASS (swa,
-					   sheet_widget_adjustment_get_type(),
-					   SheetWidgetAdjustmentClass);
+	SheetWidgetAdjustmentClass *klass = SWA_CLASS (swa);
 	gboolean horizontal = (klass->vtype == G_TYPE_NONE);
 	sheet_widget_adjustment_init_full (swa, NULL, horizontal);
 }
@@ -1107,11 +1103,7 @@ static void
 sheet_widget_adjustment_user_config_impl (SheetObject *so, SheetControl *sc, char const *undo_label, char const *dialog_label)
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
-	SheetWidgetAdjustmentClass *swa_class =
-		G_TYPE_INSTANCE_GET_CLASS (swa,
-					   sheet_widget_adjustment_get_type(),
-					   SheetWidgetAdjustmentClass);
-
+	SheetWidgetAdjustmentClass *swa_class = SWA_CLASS (swa);
 	WBCGtk *wbcg = scg_wbcg (SHEET_CONTROL_GUI (sc));
 	AdjustmentConfigState *state;
 	GtkWidget *table;
@@ -1242,10 +1234,7 @@ sheet_widget_adjustment_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 				       GnmConventions const *convs)
 {
 	SheetWidgetAdjustment const *swa = SHEET_WIDGET_ADJUSTMENT (so);
-	SheetWidgetAdjustmentClass *swa_class =
-		G_TYPE_INSTANCE_GET_CLASS (swa,
-					   sheet_widget_adjustment_get_type(),
-					   SheetWidgetAdjustmentClass);
+	SheetWidgetAdjustmentClass *swa_class = SWA_CLASS (so);
 
 	gsf_xml_out_add_float (output, "Min",   swa->adjustment->lower, 2);
 	gsf_xml_out_add_float (output, "Max",   swa->adjustment->upper, 2); /* allow scrolling to max */
@@ -1265,10 +1254,7 @@ sheet_widget_adjustment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 					 GnmConventions const *convs)
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
-	SheetWidgetAdjustmentClass *swa_class =
-		G_TYPE_INSTANCE_GET_CLASS (swa,
-					   sheet_widget_adjustment_get_type(),
-					   SheetWidgetAdjustmentClass);
+	SheetWidgetAdjustmentClass *swa_class = SWA_CLASS (so);
 	swa->horizontal = (swa_class->vtype == G_TYPE_NONE);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
@@ -1303,10 +1289,7 @@ sheet_widget_adjustment_read_xml_dom (SheetObject *so, char const *typename,
 				      xmlNodePtr tree)
 {
 	SheetWidgetAdjustment *swa = SHEET_WIDGET_ADJUSTMENT (so);
-	SheetWidgetAdjustmentClass *swa_class =
-		G_TYPE_INSTANCE_GET_CLASS (swa,
-					   sheet_widget_adjustment_get_type(),
-					   SheetWidgetAdjustmentClass);
+	SheetWidgetAdjustmentClass *swa_class = SWA_CLASS (so);
 	double tmp;
 	gboolean b;
 
