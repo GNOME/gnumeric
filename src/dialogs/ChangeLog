@@ -1,3 +1,8 @@
+2009-05-18  Morten Welinder  <terra@gnome.org>
+
+	* dialog-workbook-attr.c (cb_attr_dialog_dialog_apply): Use
+	g_object_set to store workbook attributes.
+
 2009-05-16  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (cb_check_cell_format): Ignore markup

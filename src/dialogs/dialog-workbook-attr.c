@@ -133,16 +133,19 @@ static void
 cb_attr_dialog_dialog_apply (G_GNUC_UNUSED GtkWidget *button,
 			     AttrState *state)
 {
-	state->wbv->show_horizontal_scrollbar = state->old.show_hsb =
-		gtk_toggle_button_get_active (state->view.show_hsb);
-	state->wbv->show_vertical_scrollbar = state->old.show_vsb =
-		gtk_toggle_button_get_active (state->view.show_vsb);
-	state->wbv->show_notebook_tabs = state->old.show_tabs =
-		gtk_toggle_button_get_active (state->view.show_tabs);
-	state->wbv->do_auto_completion = state->old.autocomplete =
-		gtk_toggle_button_get_active (state->view.autocomplete);
-	state->wbv->is_protected = state->old.is_protected =
-		gtk_toggle_button_get_active (state->view.is_protected);
+	state->old.show_hsb = gtk_toggle_button_get_active (state->view.show_hsb);
+	state->old.show_vsb = gtk_toggle_button_get_active (state->view.show_vsb);
+	state->old.show_tabs = gtk_toggle_button_get_active (state->view.show_tabs);
+	state->old.autocomplete = gtk_toggle_button_get_active (state->view.autocomplete);
+	state->old.is_protected = gtk_toggle_button_get_active (state->view.is_protected);
+
+	g_object_set (G_OBJECT (state->wbv),
+		      "show-horizontal-scrollbar", state->old.show_hsb,
+		      "show-vertical-scrollbar", state->old.show_vsb,
+		      "show-notebook-tabs", state->old.show_tabs,
+		      "do-auto-completion", state->old.autocomplete,
+		      "protected", state->old.is_protected,
+		      NULL);
 
 	state->old.recalc_auto =
 		gtk_toggle_button_get_active (state->view.recalc_auto);
@@ -152,9 +155,9 @@ cb_attr_dialog_dialog_apply (G_GNUC_UNUSED GtkWidget *button,
 	get_entry_values (state, &state->old.max_iterations,
 			  &state->old.iteration_tolerance);
 	workbook_set_recalcmode	(state->wb, state->old.recalc_auto);
-	workbook_iteration_enabled	(state->wb, state->old.iteration_enabled);
-	workbook_iteration_max_number	(state->wb, state->old.max_iterations);
-	workbook_iteration_tolerance	(state->wb, state->old.iteration_tolerance);
+	workbook_iteration_enabled (state->wb, state->old.iteration_enabled);
+	workbook_iteration_max_number (state->wb, state->old.max_iterations);
+	workbook_iteration_tolerance (state->wb, state->old.iteration_tolerance);
 
 	cb_widget_changed (NULL, state);
 }

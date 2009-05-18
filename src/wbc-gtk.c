@@ -1408,6 +1408,15 @@ wbcg_auto_expr_text_changed (WorkbookView *wbv,
 }
 
 static void
+wbcg_scrollbar_visibility (WorkbookView *wbv,
+			   G_GNUC_UNUSED GParamSpec *pspec,
+			   WBCGtk *wbcg)
+{
+	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
+	scg_adjust_preferences (scg);
+}
+
+static void
 wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 {
 	WBCGtk *wbcg = (WBCGtk *)wbc;
@@ -2361,6 +2370,8 @@ wbcg_view_changed (WBCGtk *wbcg,
 		 0);
 
 	DISCONNECT (wbcg->sig_wbv, sig_auto_expr_text);
+	DISCONNECT (wbcg->sig_wbv, sig_show_horizontal_scrollbar);
+	DISCONNECT (wbcg->sig_wbv, sig_show_vertical_scrollbar);
 	if (wbcg->sig_wbv)
 		g_object_remove_weak_pointer (wbcg->sig_wbv,
 					      &wbcg->sig_wbv);
@@ -2376,6 +2387,21 @@ wbcg_view_changed (WBCGtk *wbcg,
 			 wbcg,
 			 0);
 		wbcg_auto_expr_text_changed (wbv, NULL, wbcg);
+
+		wbcg->sig_show_horizontal_scrollbar =
+			g_signal_connect_object
+			(G_OBJECT (wbv),
+			 "notify::show-horizontal-scrollbar",
+			 G_CALLBACK (wbcg_scrollbar_visibility),
+			 wbcg,
+			 0);
+		wbcg->sig_show_vertical_scrollbar =
+			g_signal_connect_object
+			(G_OBJECT (wbv),
+			 "notify::show-vertical-scrollbar",
+			 G_CALLBACK (wbcg_scrollbar_visibility),
+			 wbcg,
+			 0);
 	}
 
 	DISCONNECT (old_wb, sig_sheet_order);
