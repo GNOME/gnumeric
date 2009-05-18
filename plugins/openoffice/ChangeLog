@@ -1,3 +1,19 @@
+2009-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (GnmOOExport): added field
+	(col_styles_t): new type
+	(odf_add_pt): new
+	(odf_compare_ci): new
+	(odf_find_col_style): new
+	(odf_save_automatic_character_styles): rename 
+	  odf_load_required_automatic_styles to this more appropriate
+	  name and change all callers
+	(odf_write_column_styles): new
+	(write_col_style): rename from write_last_col_style and change all 
+	  callers
+	(odf_write_sheet): write column info for all columns
+	(openoffice_file_save): initialize and dispose of state.col_styles
+
 2009-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_character_styles): also write the 

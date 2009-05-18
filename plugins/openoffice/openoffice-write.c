@@ -89,6 +89,7 @@ typedef struct {
 	WorkbookView const *wbv;
 	Workbook const	   *wb;
 	GnmConventions *conv;
+	GSList *col_styles;
 	GSList *cell_styles;
 	GnmStyle *default_style;
 } GnmOOExport;
@@ -98,6 +99,12 @@ typedef struct {
 	char *name;
 	GnmStyle const *style;
 } cell_styles_t;
+
+typedef struct {
+	int counter;
+	char *name;
+	ColRowInfo const *ci;
+} col_styles_t;
 
 static struct {
 	char const *key;
@@ -341,6 +348,17 @@ static void
 odf_add_bool (GsfXMLOut *xml, char const *id, gboolean val)
 {
 	gsf_xml_out_add_cstr_unchecked (xml, id, val ? "true" : "false");
+}
+
+
+static void
+odf_add_pt (GsfXMLOut *xml, char const *id, float l)
+{
+	GString *str = g_string_new ("");
+	
+	g_string_append_printf (str, "%.2fpt", l);
+	gsf_xml_out_add_cstr_unchecked (xml, id, str->str);
+	g_string_free (str, TRUE);
 }
 
 static void
@@ -644,12 +662,54 @@ odf_find_style (GnmOOExport *state, GnmStyle const *style, gboolean write)
 	}
 }
 
+static gint 
+odf_compare_ci (gconstpointer a, gconstpointer b)
+{
+	col_styles_t const *old_style = a;	
+	ColRowInfo const *new_style = b;
+
+	return !colrow_equal (new_style, old_style->ci);
+}
+
+static const char*
+odf_find_col_style (GnmOOExport *state, ColRowInfo const *ci, gboolean write)
+{
+	col_styles_t *new_style;
+	GSList *found = g_slist_find_custom (state->col_styles, ci, odf_compare_ci);
+
+	if (found) {
+		new_style = found->data;
+		return new_style->name;
+	} else {
+		if (write) {
+			new_style = g_new0 (col_styles_t,1);
+			new_style->ci = ci;
+			new_style->counter = g_slist_length (state->col_styles);
+			new_style->name = g_strdup_printf ("ACOL-%i", new_style->counter);
+			state->col_styles = g_slist_prepend (state->col_styles, new_style);
+			odf_start_style (state->xml, new_style->name, "table-column");
+			if (ci != NULL) {
+				gsf_xml_out_start_element (state->xml, STYLE "table-column-properties");
+				odf_add_pt (state->xml, STYLE "column-width", ci->size_pts);
+				odf_add_bool (state->xml, STYLE "use-optimal-column-width",
+					      !ci->hard_size);
+				gsf_xml_out_end_element (state->xml); /* </style:table-column-properties> */
+			}
+			gsf_xml_out_end_element (state->xml); /* </style:style> */
+			return new_style->name;
+		} else {
+			g_warning("We forgot to export a required column style!");
+			return "Missing-Column-Style";
+		}
+	}
+}
+
 static void
-odf_load_required_automatic_styles (GnmOOExport *state)
+odf_save_automatic_character_styles (GnmOOExport *state)
 {
         /* We have to figure out which automatic styles we need   */
 	/* This is really annoying since we have to scan through  */
-	/* all cells. If we could store these cells in styles.xml */
+	/* all cells. If we could store these styles in styles.xml */
 	/* we could create them as we need them, but these styles */
 	/* have to go into the beginning of content.xml.          */
 	int j;
@@ -785,7 +845,38 @@ odf_write_character_styles (GnmOOExport *state)
 	if (state->default_style != NULL)
 		odf_find_style (state, state->default_style, TRUE);
 
-	odf_load_required_automatic_styles (state);
+	odf_save_automatic_character_styles (state);
+}
+
+static void
+odf_write_column_styles (GnmOOExport *state)
+{
+       /* We have to figure out which automatic styles we need   */
+	/* This is really annoying since we have to scan through  */
+	/* all columnss. If we could store these styless in styles.xml */
+	/* we could create them as we need them, but these styles */
+	/* have to go into the beginning of content.xml.          */
+	int j;
+
+	for (j = 0; j < workbook_sheet_count (state->wb); j++) {
+		Sheet const *sheet = workbook_sheet_by_index (state->wb, j);
+		int max_cols = gnm_sheet_get_max_cols (sheet);
+		int i;
+		ColRowInfo const *last_ci;
+
+		odf_find_col_style (state, &sheet->cols.default_style, TRUE);
+		
+		last_ci = sheet_col_get (sheet, 0);
+		odf_find_col_style (state, last_ci , TRUE);
+		
+		for (i = 1; i < max_cols; i++) {
+			ColRowInfo const *this_ci = sheet_col_get (sheet, i);
+			if (!colrow_equal (last_ci, this_ci))
+				odf_find_col_style (state, (last_ci = this_ci), TRUE);
+		}
+	}
+
+	return;
 }
 
 static void
@@ -1065,14 +1156,22 @@ filter_style (GnmStyle *default_style, GnmStyle * this)
 }
 
 static void
-write_last_col_style (GnmOOExport *state, GnmStyle *last_col_style)
+write_col_style (GnmOOExport *state, GnmStyle *col_style, ColRowInfo const *ci, 
+		 Sheet const *sheet)
 {
-	if (last_col_style != NULL) {					
-		char const * name = odf_find_style (state, last_col_style, FALSE); 
+	char const * name;
+
+	if (col_style != NULL) {					
+		name = odf_find_style (state, col_style, FALSE); 
 		if (name != NULL)					
 			gsf_xml_out_add_cstr (state->xml,		
 					      TABLE "default-cell-style-name", name); 
 	}
+	name = odf_find_col_style (state, 
+				   (ci == NULL) ? &sheet->cols.default_style: ci, 
+				   FALSE); 
+	if (name != NULL)					
+		gsf_xml_out_add_cstr (state->xml, TABLE "style-name", name); 
 }
 
 static void
@@ -1088,6 +1187,7 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 	GnmCellPos pos;
 	GSList *sheet_merges = NULL;
 	int number_cols_rep;
+	ColRowInfo const *last_ci;
 	GnmStyle *last_col_style = NULL;
 	
 
@@ -1110,23 +1210,27 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 	
 	gsf_xml_out_start_element (state->xml, TABLE "table-column");
 	number_cols_rep = 1;
-	last_col_style = filter_style (state->default_style, col_styles[0]); 
-	write_last_col_style (state, last_col_style);
+	last_col_style = filter_style (state->default_style, col_styles[0]);
+	last_ci = sheet_col_get (sheet, 0);
+	write_col_style (state, last_col_style, last_ci, sheet);
 
 	for (i = 1; i < max_cols; i++) {
 		GnmStyle *this_col_style = filter_style (state->default_style, col_styles[i]);
+		ColRowInfo const *this_ci = sheet_col_get (sheet, i);
 
-		if (equal_style (this_col_style, last_col_style))
+		if (equal_style (this_col_style, last_col_style) && colrow_equal (last_ci, this_ci))
 			number_cols_rep++;
 		else {
 			if (number_cols_rep > 1)
 				gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated",
 						     number_cols_rep);
 			gsf_xml_out_end_element (state->xml); /* table-column */
+
 			gsf_xml_out_start_element (state->xml, TABLE "table-column");
 			number_cols_rep = 1;
 			last_col_style = this_col_style;
-			write_last_col_style (state, last_col_style);
+			last_ci = this_ci;
+			write_col_style (state, last_col_style, last_ci, sheet);
 		}
 	}
 
@@ -1303,6 +1407,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
 	odf_write_table_styles (state);
 	odf_write_character_styles (state);
+	odf_write_column_styles (state);
 	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
 
 	gsf_xml_out_start_element (state->xml, OFFICE "body");
@@ -1468,6 +1573,7 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	state.wb  = wb_view_get_workbook (wbv);
 	state.conv = odf_expr_conventions_new ();
 	state.cell_styles = NULL;
+	state.col_styles = NULL;
 	state.default_style = sheet_style_default (workbook_sheet_by_index (state.wb, 0));
 	for (i = 0 ; i < G_N_ELEMENTS (streams); i++) {
 		child = gsf_outfile_new_child_full (outfile, streams[i].name, FALSE,
@@ -1488,5 +1594,6 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 
 	gnm_pop_C_locale (locale);
 	go_slist_free_custom (state.cell_styles, cell_styles_free);
+	g_slist_free (state.col_styles);
 	gnm_style_unref (state.default_style);					    
 }
