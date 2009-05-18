@@ -646,19 +646,19 @@ wb_view_set_property (GObject *object, guint property_id,
 		wb_view_auto_expr_text (wbv, g_value_get_string (value));
 		break;
 	case PROP_SHOW_HORIZONTAL_SCROLLBAR:
-		wbv->show_horizontal_scrollbar = g_value_get_boolean (value);
+		wbv->show_horizontal_scrollbar = !!g_value_get_boolean (value);
 		break;
 	case PROP_SHOW_VERTICAL_SCROLLBAR:
-		wbv->show_vertical_scrollbar = g_value_get_boolean (value);
+		wbv->show_vertical_scrollbar = !!g_value_get_boolean (value);
 		break;
 	case PROP_SHOW_NOTEBOOK_TABS:
-		wbv->show_notebook_tabs = g_value_get_boolean (value);
+		wbv->show_notebook_tabs = !!g_value_get_boolean (value);
 		break;
 	case PROP_DO_AUTO_COMPLETION:
-		wbv->do_auto_completion = g_value_get_boolean (value);
+		wbv->do_auto_completion = !!g_value_get_boolean (value);
 		break;
 	case PROP_PROTECTED:
-		wbv->is_protected = g_value_get_boolean (value);
+		wbv->is_protected = !!g_value_get_boolean (value);
 		break;
 	case PROP_PREFERRED_WIDTH:
 		wbv->preferred_width = g_value_get_int (value);

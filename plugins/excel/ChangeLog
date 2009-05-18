@@ -1,3 +1,8 @@
+2009-05-18  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_WINDOW1): Use g_object_set instead
+	of poking directly into a WorkbookView.
+
 2009-05-14  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-util.c (init_xl_font_widths): Add DejaVu fonts with
