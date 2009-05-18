@@ -167,6 +167,19 @@ gnm_go_data_preferred_fmt (GOData const *dat)
 		: NULL;
 }
 
+static GODateConventions const *
+gnm_go_data_date_conv (GOData const *dat)
+{
+	GnmDependent const *dep = gnm_go_data_get_dep (dat);
+
+	g_return_val_if_fail (dep != NULL, NULL);
+
+	if (!dep->sheet)
+		return NULL;
+
+	return workbook_date_conv (dep->sheet->workbook);
+}
+
 static char *
 gnm_go_data_serialize (GOData const *dat, gpointer user)
 {
@@ -381,6 +394,7 @@ gnm_go_data_scalar_class_init (GObjectClass *gobject_klass)
 	godata_klass->dup		= gnm_go_data_dup;
 	godata_klass->eq		= gnm_go_data_eq;
 	godata_klass->preferred_fmt	= gnm_go_data_preferred_fmt;
+	godata_klass->date_conv		= gnm_go_data_date_conv;
 	godata_klass->serialize		= gnm_go_data_serialize;
 	godata_klass->unserialize	= gnm_go_data_unserialize;
 	scalar_klass->get_value		= gnm_go_data_scalar_get_value;
@@ -735,6 +749,7 @@ gnm_go_data_vector_class_init (GObjectClass *gobject_klass)
 	godata_klass->dup		= gnm_go_data_dup;
 	godata_klass->eq		= gnm_go_data_eq;
 	godata_klass->preferred_fmt	= gnm_go_data_preferred_fmt;
+	godata_klass->date_conv		= gnm_go_data_date_conv;
 	godata_klass->serialize		= gnm_go_data_serialize;
 	godata_klass->unserialize	= gnm_go_data_unserialize;
 	vector_klass->load_len		= gnm_go_data_vector_load_len;
@@ -1102,6 +1117,7 @@ gnm_go_data_matrix_class_init (GObjectClass *gobject_klass)
 	godata_klass->dup		= gnm_go_data_dup;
 	godata_klass->eq		= gnm_go_data_eq;
 	godata_klass->preferred_fmt	= gnm_go_data_preferred_fmt;
+	godata_klass->date_conv		= gnm_go_data_date_conv;
 	godata_klass->serialize		= gnm_go_data_serialize;
 	godata_klass->unserialize	= gnm_go_data_unserialize;
 	matrix_klass->load_size		= gnm_go_data_matrix_load_size;

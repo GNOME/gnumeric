@@ -1,5 +1,7 @@
 2009-05-18  Morten Welinder  <terra@gnome.org>
 
+	* src/graph.c (gnm_go_data_date_conv): New function.
+
 	* src/workbook-view.c (wb_view_set_property): Normalize booleans.
 
 	* src/sheet-style.c (sheet_style_init_size,

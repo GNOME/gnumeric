@@ -33,6 +33,7 @@ Morten:
 	* Fix critical in format dialog.  [#582890]
 	* Turn WorkbookView into a more proper GObject.
 	* Hide scrollbars as requested.  [#583005]
+	* Fix date conventions in graphs.
 
 Paul Fitzpatrick:
 	* Extend ssconvert to also merge multiple sheets.  [#581616]
