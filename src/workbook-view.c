@@ -78,7 +78,14 @@ enum {
 	PROP_AUTO_EXPR_FUNC,
 	PROP_AUTO_EXPR_DESCR,
 	PROP_AUTO_EXPR_MAX_PRECISION,
-	PROP_AUTO_EXPR_TEXT
+	PROP_AUTO_EXPR_TEXT,
+	PROP_SHOW_HORIZONTAL_SCROLLBAR,
+	PROP_SHOW_VERTICAL_SCROLLBAR,
+	PROP_SHOW_NOTEBOOK_TABS,
+	PROP_DO_AUTO_COMPLETION,
+	PROP_PROTECTED,
+	PROP_PREFERRED_WIDTH,
+	PROP_PREFERRED_HEIGHT
 };
 
 /* WorkbookView signals */
@@ -198,26 +205,28 @@ wb_view_is_protected (WorkbookView *wbv, gboolean check_sheet)
 }
 
 void
-wb_view_set_attribute (WorkbookView *wbv, char const *name,
-		       char const *value)
+wb_view_set_attribute (WorkbookView *wbv, char const *name, char const *value)
 {
 	gboolean res;
+	GObject *obj;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (value != NULL);
 
+	obj = G_OBJECT (wbv);
 	res = !g_ascii_strcasecmp (value, "TRUE");
+
 	if (!strcmp (name , "WorkbookView::show_horizontal_scrollbar"))
-		wbv->show_horizontal_scrollbar = res;
+		g_object_set (obj, "show_horizontal_scrollbar", res, NULL);
 	else if (!strcmp (name , "WorkbookView::show_vertical_scrollbar"))
-		wbv->show_vertical_scrollbar = res;
+		g_object_set (obj, "show_vertical_scrollbar", res, NULL);
 	else if (!strcmp (name , "WorkbookView::show_notebook_tabs"))
-		wbv->show_notebook_tabs = res;
+		g_object_set (obj, "show_notebook_tabs", res, NULL);
 	else if (!strcmp (name , "WorkbookView::do_auto_completion"))
-		wbv->do_auto_completion = res;
+		g_object_set (obj, "do_auto_completion", res, NULL);
 	else if (!strcmp (name , "WorkbookView::is_protected"))
-		wbv->is_protected = res;
+		g_object_set (obj, "protected", res, NULL);
 	else
 		g_warning ("WorkbookView unknown arg '%s'", name);
 }
@@ -227,9 +236,10 @@ wb_view_preferred_size (WorkbookView *wbv, int w, int h)
 {
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 
-	/* FIXME : should we notify the controls ? */
-	wbv->preferred_width = w;
-	wbv->preferred_height = h;
+	g_object_set (G_OBJECT (wbv),
+		      "preferred-width", w,
+		      "preferred-height", h,
+		      NULL);
 }
 
 void
@@ -635,6 +645,27 @@ wb_view_set_property (GObject *object, guint property_id,
 	case PROP_AUTO_EXPR_TEXT:
 		wb_view_auto_expr_text (wbv, g_value_get_string (value));
 		break;
+	case PROP_SHOW_HORIZONTAL_SCROLLBAR:
+		wbv->show_horizontal_scrollbar = g_value_get_boolean (value);
+		break;
+	case PROP_SHOW_VERTICAL_SCROLLBAR:
+		wbv->show_vertical_scrollbar = g_value_get_boolean (value);
+		break;
+	case PROP_SHOW_NOTEBOOK_TABS:
+		wbv->show_notebook_tabs = g_value_get_boolean (value);
+		break;
+	case PROP_DO_AUTO_COMPLETION:
+		wbv->do_auto_completion = g_value_get_boolean (value);
+		break;
+	case PROP_PROTECTED:
+		wbv->is_protected = g_value_get_boolean (value);
+		break;
+	case PROP_PREFERRED_WIDTH:
+		wbv->preferred_width = g_value_get_int (value);
+		break;
+	case PROP_PREFERRED_HEIGHT:
+		wbv->preferred_height = g_value_get_int (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -659,6 +690,27 @@ wb_view_get_property (GObject *object, guint property_id,
 		break;
 	case PROP_AUTO_EXPR_TEXT:
 		g_value_set_string (value, wbv->auto_expr_text);
+		break;
+	case PROP_SHOW_HORIZONTAL_SCROLLBAR:
+		g_value_set_boolean (value, wbv->show_horizontal_scrollbar);
+		break;
+	case PROP_SHOW_VERTICAL_SCROLLBAR:
+		g_value_set_boolean (value, wbv->show_vertical_scrollbar);
+		break;
+	case PROP_SHOW_NOTEBOOK_TABS:
+		g_value_set_boolean (value, wbv->show_notebook_tabs);
+		break;
+	case PROP_DO_AUTO_COMPLETION:
+		g_value_set_boolean (value, wbv->do_auto_completion);
+		break;
+	case PROP_PROTECTED:
+		g_value_set_boolean (value, wbv->is_protected);
+		break;
+	case PROP_PREFERRED_WIDTH:
+		g_value_set_int (value, wbv->preferred_width);
+		break;
+	case PROP_PREFERRED_HEIGHT:
+		g_value_set_int (value, wbv->preferred_height);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -774,6 +826,69 @@ workbook_view_class_init (GObjectClass *gobject_class)
 				      NULL,
 				      GSF_PARAM_STATIC |
 				      G_PARAM_READWRITE));
+        g_object_class_install_property
+		(gobject_class,
+		 PROP_SHOW_HORIZONTAL_SCROLLBAR,
+		 g_param_spec_boolean ("show-horizontal-scrollbar",
+				       _("Show horizontal scrollbar"),
+				       _("Show the horizontal scrollbar"),
+				       TRUE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+        g_object_class_install_property
+		(gobject_class,
+		 PROP_SHOW_VERTICAL_SCROLLBAR,
+		 g_param_spec_boolean ("show-vertical-scrollbar",
+				       _("Show vertical scrollbar"),
+				       _("Show the vertical scrollbar"),
+				       TRUE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+        g_object_class_install_property
+		(gobject_class,
+		 PROP_SHOW_NOTEBOOK_TABS,
+		 g_param_spec_boolean ("show-notebook-tabs",
+				       _("Show notebook tabs"),
+				       _("Show the notebook tabs for sheets"),
+				       TRUE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+        g_object_class_install_property
+		(gobject_class,
+		 PROP_DO_AUTO_COMPLETION,
+		 g_param_spec_boolean ("do-auto-completion",
+				       _("Do auto completion"),
+				       _("Auto-complete text"),
+				       gnm_app_use_auto_complete (),
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+        g_object_class_install_property
+		(gobject_class,
+		 PROP_PROTECTED,
+		 g_param_spec_boolean ("protected",
+				       _("Protected"),
+				       _("Is view protected?"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+        g_object_class_install_property
+		(gobject_class,
+		 PROP_PREFERRED_WIDTH,
+		 g_param_spec_int ("preferred-width",
+				   _("Preferred width"),
+				   _("Preferred width"),
+				   1, G_MAXINT, 1024,
+				   GSF_PARAM_STATIC |
+				   G_PARAM_READWRITE));
+        g_object_class_install_property
+		(gobject_class,
+		 PROP_PREFERRED_HEIGHT,
+		 g_param_spec_int ("preferred-height",
+				   _("Preferred height"),
+				   _("Preferred height"),
+				   1, G_MAXINT, 768,
+				   GSF_PARAM_STATIC |
+				   G_PARAM_READWRITE));
 
 	parent_class = g_type_class_peek_parent (gobject_class);
 }

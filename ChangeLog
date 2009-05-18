@@ -1,3 +1,15 @@
+2009-05-18  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-view.c 	(workbook_view_class_init, wb_view_set_property,
+	wb_view_get_property): Add new properties:
+	PROP_SHOW_HORIZONTAL_SCROLLBAR, PROP_SHOW_VERTICAL_SCROLLBAR,
+	PROP_SHOW_NOTEBOOK_TABS, PROP_DO_AUTO_COMPLETION, PROP_PROTECTED,
+	PROP_PREFERRED_WIDTH, PROP_PREFERRED_HEIGHT.
+	(wb_view_preferred_size): Use the new properties thus taking care
+	of any notification needed.
+	(wb_view_set_attribute): Ditto, although this function should die
+	soon.
+
 2009-05-17  Morten Welinder  <terra@gnome.org>
 
 	* src/graph.c (gnm_go_data_eq): Compare convs too.

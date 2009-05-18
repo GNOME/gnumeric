@@ -31,6 +31,7 @@ Morten:
 	* Make it possible to have horizontal widgets too.  [#166487]
 	* Fix sheet-object paste crash.  [#490479]
 	* Fix critical in format dialog.  [#582890]
+	* Turn WorkbookView into a more proper GObject.
 
 Paul Fitzpatrick:
 	* Extend ssconvert to also merge multiple sheets.  [#581616]
