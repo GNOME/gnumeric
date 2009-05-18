@@ -626,18 +626,21 @@ odf_find_style (GnmOOExport *state, GnmStyle const *style, gboolean write)
 		new_style = found->data;
 		return new_style->name;
 	} else {
-		new_style = g_new0 (cell_styles_t,1);
-		new_style->style = style;
-		gnm_style_ref (style);
-		new_style->counter = g_slist_length (state->cell_styles);
-		new_style->name = g_strdup_printf ("ACELL-%i", new_style->counter);
-		state->cell_styles = g_slist_prepend (state->cell_styles, new_style);
 		if (write) {
+			new_style = g_new0 (cell_styles_t,1);
+			new_style->style = style;
+			gnm_style_ref (style);
+			new_style->counter = g_slist_length (state->cell_styles);
+			new_style->name = g_strdup_printf ("ACELL-%i", new_style->counter);
+			state->cell_styles = g_slist_prepend (state->cell_styles, new_style);
 			odf_start_style (state->xml, new_style->name, "table-cell");
 			odf_write_style (state, new_style->style);
 			gsf_xml_out_end_element (state->xml); /* </style:style */
+			return new_style->name;
+		} else {
+			g_warning("We forgot to export a required style!");
+			return "Missing-Style";
 		}
-		return new_style->name;
 	}
 }
 

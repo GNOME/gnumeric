@@ -1,3 +1,8 @@
+2009-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* html.c (html_write_cell_content): make sure there is 
+	  markup before asking for it.
+	
 2009-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* html.c (html_write_cell_content): remember that not 

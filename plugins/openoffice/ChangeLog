@@ -1,3 +1,9 @@
+2009-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_find_style): make sure that we would 
+	  correctly handle the case that we are trying to find a style we
+	  did not write.
+	
 2009-05-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_set_gnm_border): new
