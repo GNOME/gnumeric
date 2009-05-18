@@ -1,7 +1,9 @@
 2009-05-18  Morten Welinder  <terra@gnome.org>
 
-	* src/wbc-gtk.c (wbcg_scrollbar_visibility): New function.
-	(wbcg_view_changed): Hook up wbcg_scrollbar_visibility.
+	* src/wbc-gtk.c (wbcg_scrollbar_visibility,
+	wbcg_notebook_tabs_visibility): New functions.
+	(wbcg_view_changed): Hook up wbcg_scrollbar_visibility and
+	wbcg_notebook_tabs_visibility.
 
 	* src/workbook-view.c 	(workbook_view_class_init, wb_view_set_property,
 	wb_view_get_property): Add new properties:

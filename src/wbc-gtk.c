@@ -1417,6 +1417,16 @@ wbcg_scrollbar_visibility (WorkbookView *wbv,
 }
 
 static void
+wbcg_notebook_tabs_visibility (WorkbookView *wbv,
+			       G_GNUC_UNUSED GParamSpec *pspec,
+			       WBCGtk *wbcg)
+{
+	(wbv->show_notebook_tabs ? gtk_widget_show : gtk_widget_hide)
+		(GTK_WIDGET (wbcg->bnotebook));
+}
+
+
+static void
 wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 {
 	WBCGtk *wbcg = (WBCGtk *)wbc;
@@ -2372,6 +2382,7 @@ wbcg_view_changed (WBCGtk *wbcg,
 	DISCONNECT (wbcg->sig_wbv, sig_auto_expr_text);
 	DISCONNECT (wbcg->sig_wbv, sig_show_horizontal_scrollbar);
 	DISCONNECT (wbcg->sig_wbv, sig_show_vertical_scrollbar);
+	DISCONNECT (wbcg->sig_wbv, sig_show_notebook_tabs);
 	if (wbcg->sig_wbv)
 		g_object_remove_weak_pointer (wbcg->sig_wbv,
 					      &wbcg->sig_wbv);
@@ -2402,6 +2413,14 @@ wbcg_view_changed (WBCGtk *wbcg,
 			 G_CALLBACK (wbcg_scrollbar_visibility),
 			 wbcg,
 			 0);
+		wbcg->sig_show_notebook_tabs =
+			g_signal_connect_object
+			(G_OBJECT (wbv),
+			 "notify::show-notebook-tabs",
+			 G_CALLBACK (wbcg_notebook_tabs_visibility),
+			 wbcg,
+			 0);
+		wbcg_notebook_tabs_visibility (wbv, NULL, wbcg);
 	}
 
 	DISCONNECT (old_wb, sig_sheet_order);
