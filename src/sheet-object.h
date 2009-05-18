@@ -112,8 +112,6 @@ void sheet_object_anchor_init	(SheetObjectAnchor *anchor,
 				 GODrawingAnchorDir direction);
 SheetObjectAnchor *
      sheet_object_anchor_dup	(SheetObjectAnchor const *src);
-void sheet_object_anchor_assign	(SheetObjectAnchor *dst,
-				 SheetObjectAnchor const *src);
 
 /* Image rendering */
 GtkTargetList *sheet_object_get_target_list (SheetObject const *so);

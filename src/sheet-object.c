@@ -607,7 +607,7 @@ sheet_object_set_anchor (SheetObject *so, SheetObjectAnchor const *anchor)
 {
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
-	sheet_object_anchor_assign (&so->anchor, anchor);
+	so->anchor = *anchor;
 	if (so->sheet != NULL) {
 		sheet_objects_max_extent (so->sheet);
 		sheet_object_update_bounds (so, NULL);
@@ -617,18 +617,8 @@ sheet_object_set_anchor (SheetObject *so, SheetObjectAnchor const *anchor)
 SheetObjectAnchor *
 sheet_object_anchor_dup	(SheetObjectAnchor const *src)
 {
-	SheetObjectAnchor *res = g_new0 (SheetObjectAnchor, 1);
-	sheet_object_anchor_assign (res, src);
+	SheetObjectAnchor *res = g_memdup (src, sizeof (SheetObjectAnchor));
 	return res;
-}
-
-void
-sheet_object_anchor_assign (SheetObjectAnchor *dst, SheetObjectAnchor const *src)
-{
-	g_return_if_fail (src != NULL);
-	g_return_if_fail (dst != NULL);
-
-	memcpy (dst, src, sizeof (SheetObjectAnchor));
 }
 
 static double
@@ -876,7 +866,7 @@ sheet_object_dup (SheetObject const *so)
 
 	SO_CLASS (so)->copy (new_so, so);
 	new_so->flags = so->flags;
-	sheet_object_anchor_assign (&new_so->anchor, &so->anchor);
+	new_so->anchor = so->anchor;
 
 	return new_so;
 }

@@ -271,7 +271,7 @@ paste_object (GnmPasteTarget const *pt, SheetObject const *src, int left, int to
 	SheetObject *dst;
 	SheetObjectAnchor tmp;
 
-	sheet_object_anchor_assign (&tmp, sheet_object_get_anchor (src));
+	tmp = *sheet_object_get_anchor (src);
 	if (G_OBJECT_TYPE (src) == CELL_COMMENT_TYPE) {
 		if ((pt->paste_flags & PASTE_COMMENTS) &&
 		    (pt->paste_flags & PASTE_IGNORE_COMMENTS_AT_ORIGIN &&
@@ -565,8 +565,7 @@ cb_dup_objects (SheetObject const *src, GnmCellRegion *cr)
 {
 	SheetObject *dst = sheet_object_dup (src);
 	if (dst != NULL) {
-		SheetObjectAnchor tmp;
-		sheet_object_anchor_assign (&tmp, sheet_object_get_anchor (src));
+		SheetObjectAnchor tmp =	*sheet_object_get_anchor (src);
 		range_translate (&tmp.cell_bound, sheet_object_get_sheet (src),
 				 - cr->base.col, - cr->base.row);
 		sheet_object_set_anchor (dst, &tmp);
@@ -688,7 +687,7 @@ clipboard_copy_obj (Sheet *sheet, GSList *objects)
 			g_object_set_data (G_OBJECT (so),  "pt-height-at-copy",
 				GUINT_TO_POINTER (h));
 
-			sheet_object_anchor_assign (&tmp_anchor, anchor);
+			tmp_anchor = *anchor;
 			r = &tmp_anchor.cell_bound;
 			range_translate (r, sheet,
 				-MIN (r->start.col, r->end.col),

@@ -4532,21 +4532,24 @@ cmd_objects_move_redo (GnmCommand *cmd,
 		       G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdObjectsMove *me = CMD_OBJECTS_MOVE (cmd);
-	SheetObjectAnchor tmp;
-	GSList *obj = me->objects, *anch = me->anchors;
+	GSList *objs = me->objects, *anchs = me->anchors;
 
-	for (; obj != NULL && anch != NULL ; obj = obj->next, anch = anch->next) {
+	for (; objs && anchs; objs = objs->next, anchs = anchs->next) {
+		SheetObject *obj = objs->data;
+		SheetObjectAnchor *anch = anchs->data;
+		SheetObjectAnchor tmp;
+
 		/* If these were newly created objects remove them on undo and
 		 * re-insert on subsequent redos */
 		if (me->objects_created && !me->first_time) {
-			if (NULL != sheet_object_get_sheet (obj->data))
-				sheet_object_clear_sheet (obj->data);
+			if (NULL != sheet_object_get_sheet (obj))
+				sheet_object_clear_sheet (obj);
 			else
-				sheet_object_set_sheet (obj->data, cmd->sheet);
+				sheet_object_set_sheet (obj, cmd->sheet);
 		}
-		sheet_object_anchor_assign (&tmp, sheet_object_get_anchor (obj->data));
-		sheet_object_set_anchor	(obj->data, anch->data);
-		sheet_object_anchor_assign (anch->data, &tmp);
+		tmp = *sheet_object_get_anchor (obj);
+		sheet_object_set_anchor	(obj, anch);
+		*anch = tmp;
 	}
 	me->first_time = FALSE;
 

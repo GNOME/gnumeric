@@ -1,5 +1,12 @@
 2009-05-18  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet-style.c (sheet_style_init_size,
+	sheet_style_set_auto_pattern_color): Use structure assignment, not
+	memcpy.
+
+	* src/sheet-object.c (sheet_object_anchor_assign): Eliminate in
+	favour of plain structure assignment.  All callers changed.
+
 	* src/wbc-gtk.c (wbcg_scrollbar_visibility,
 	wbcg_notebook_tabs_visibility): New functions.
 	(wbcg_view_changed): Hook up wbcg_scrollbar_visibility and

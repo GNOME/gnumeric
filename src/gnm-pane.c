@@ -1990,7 +1990,7 @@ gnm_pane_display_obj_size_tip (GnmPane *pane, SheetObject const *so)
 
 	g_return_if_fail (pane->size_tip != NULL);
 
-	sheet_object_anchor_assign (&anchor, sheet_object_get_anchor (so));
+	anchor = *sheet_object_get_anchor (so);
 	scg_object_coords_to_anchor (scg, coords, &anchor);
 	sheet_object_anchor_to_pts (&anchor, scg_sheet (scg), pts);
 	msg = g_strdup_printf (_("%.1f x %.1f pts\n%d x %d pixels"),

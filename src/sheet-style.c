@@ -516,8 +516,7 @@ sheet_style_init_size (Sheet *sheet, int cols, int rows)
 		g_hash_table_new (gnm_style_hash, (GCompareFunc) gnm_style_equal);
 #warning "FIXME: Allocating a GnmColor here is dubious."
 	sheet->style_data->auto_pattern_color = g_new (GnmColor, 1);
-	memcpy (sheet->style_data->auto_pattern_color,
-		style_color_auto_pattern (), sizeof (GnmColor));
+	*sheet->style_data->auto_pattern_color =  *style_color_auto_pattern ();
 	sheet->style_data->auto_pattern_color->ref_count = 1;
 
 	default_style =  gnm_style_new_default ();
@@ -662,7 +661,7 @@ sheet_style_shutdown (Sheet *sheet)
  * Absorbs a reference to @pattern_color;
  **/
 void
-sheet_style_set_auto_pattern_color (Sheet  *sheet, GnmColor *pattern_color)
+sheet_style_set_auto_pattern_color (Sheet *sheet, GnmColor *pattern_color)
 {
 	GnmColor *apc;
 	int ref_count;
@@ -672,7 +671,7 @@ sheet_style_set_auto_pattern_color (Sheet  *sheet, GnmColor *pattern_color)
 
 	apc = sheet->style_data->auto_pattern_color;
 	ref_count = apc->ref_count;
-	memcpy(apc, pattern_color, sizeof (GnmColor));
+	*apc = *pattern_color;
 	apc->is_auto = TRUE;
 	apc->ref_count = ref_count;
 	style_color_unref (pattern_color);
