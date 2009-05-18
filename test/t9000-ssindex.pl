@@ -41,7 +41,10 @@ my @expected_statfuns =
      'Sheet9', 'Status', 'Status message', 'TDIST', 'TINV', 'TREND',
      'TRIMMEAN', 'TTEST', 'Test Data:', 'Test Status', 'Total', 'VAR',
      'VARA', 'VARP', 'VARPA', 'WEIBULL', 'ZTEST', '[0..1]', 'manytypes',
-     'mode', 'neg', 'pos&neg', 'same', 'text', 'x', 'y', 'z',
+     'mode', 'neg', 'pos&neg', 'same', 'text', 'x', 'y', 'z', 'Print_Area',
+     'Sheet10', 'Sheet11', 'Sheet12', 'Sheet13', 'Sheet14', 'Sheet15',
+     'Sheet16', 'Sheet2', 'Sheet3', 'Sheet4', 'Sheet5', 'Sheet6', 'Sheet7',
+     'Sheet8', 'Sheet9', 'Sheet_Title',
      );
 
 &test_ssindex ("$samples/excel/statfuns.xls",

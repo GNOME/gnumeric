@@ -1,3 +1,8 @@
+2009-05-18  Morten Welinder  <terra@gnome.org>
+
+	* t9000-ssindex.pl (compare_items): Update to match improves
+	ssindex.
+
 2009-05-09  Morten Welinder <terra@gnome.org>
 
 	* GnumericTest.pm (EXPORT): Fix $sstest.
