@@ -782,6 +782,9 @@ odf_write_character_styles (GnmOOExport *state)
 	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 
+	if (state->default_style != NULL)
+		odf_find_style (state, state->default_style, TRUE);
+
 	odf_load_required_automatic_styles (state);
 }
 
@@ -1045,6 +1048,33 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 	gsf_xml_out_end_element (state->xml);   /* table-cell */
 }
 
+static gboolean
+equal_style (GnmStyle *that, GnmStyle * this)
+{
+	if (this == that)
+		return TRUE;
+	if (this == NULL || that == NULL)
+		return FALSE;
+	return gnm_style_equal (that, this);
+}
+
+static GnmStyle *
+filter_style (GnmStyle *default_style, GnmStyle * this)
+{
+	return (equal_style (default_style, this) ? NULL : this);
+}
+
+static void
+write_last_col_style (GnmOOExport *state, GnmStyle *last_col_style)
+{
+	if (last_col_style != NULL) {					
+		char const * name = odf_find_style (state, last_col_style, FALSE); 
+		if (name != NULL)					
+			gsf_xml_out_add_cstr (state->xml,		
+					      TABLE "default-cell-style-name", name); 
+	}
+}
+
 static void
 odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 {
@@ -1057,6 +1087,9 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 	int covered_cell;
 	GnmCellPos pos;
 	GSList *sheet_merges = NULL;
+	int number_cols_rep;
+	GnmStyle *last_col_style = NULL;
+	
 
 	extent = sheet_get_extent (sheet, FALSE);
 	sheet_style_get_extent (sheet, &extent, col_styles);
@@ -1073,10 +1106,36 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 			break;
 		}
 
+	/* Writing Table Columns */
+	
 	gsf_xml_out_start_element (state->xml, TABLE "table-column");
-	gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated",
-			     extent.end.col + 1);
+	number_cols_rep = 1;
+	last_col_style = filter_style (state->default_style, col_styles[0]); 
+	write_last_col_style (state, last_col_style);
+
+	for (i = 1; i < max_cols; i++) {
+		GnmStyle *this_col_style = filter_style (state->default_style, col_styles[i]);
+
+		if (equal_style (this_col_style, last_col_style))
+			number_cols_rep++;
+		else {
+			if (number_cols_rep > 1)
+				gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated",
+						     number_cols_rep);
+			gsf_xml_out_end_element (state->xml); /* table-column */
+			gsf_xml_out_start_element (state->xml, TABLE "table-column");
+			number_cols_rep = 1;
+			last_col_style = this_col_style;
+			write_last_col_style (state, last_col_style);
+		}
+	}
+
+	if (number_cols_rep > 1)
+		gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated",
+				     number_cols_rep);
 	gsf_xml_out_end_element (state->xml); /* table-column */
+
+	/* Done Writing Table Columns */
 
 	if (extent.start.row > 0) {
 		/* We need to write a bunch of empty rows !*/
@@ -1138,6 +1197,7 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 	go_slist_free_custom (sheet_merges, g_free);
 	g_free (col_styles);
 }
+
 
 static void
 odf_write_filter_cond (GnmOOExport *state, GnmFilter const *filter, int i)

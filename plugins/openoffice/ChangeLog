@@ -1,6 +1,15 @@
 2009-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (odf_find_style): make sure that we would 
+	* openoffice-write.c (odf_write_character_styles): also write the 
+	  default style
+	(equal_style): new
+	(filter_style): new
+	(write_last_col_style): new
+	(odf_write_sheet): set default column styles for all columns
+
+2009-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_find_style): make sure that we would 
 	  correctly handle the case that we are trying to find a style we
 	  did not write.
 	
