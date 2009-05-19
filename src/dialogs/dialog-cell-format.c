@@ -228,7 +228,7 @@ fmt_dialog_changed (FormatState *state)
 		state->dialog_changed (state->dialog_changed_user_data);
 	else {
 		GOFormatSel *gfs = GO_FORMAT_SEL (state->format_sel);
-		GOFormat *fmt = go_format_sel_get_fmt (gfs);
+		GOFormat const *fmt = go_format_sel_get_fmt (gfs);
 		gboolean ok = !go_format_is_invalid (fmt);
 
 		gtk_widget_set_sensitive (state->apply_button, ok);

@@ -1751,7 +1751,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 static void
 hf_dt_customize_ok (HFDTFormatState *hf_dt_state)
 {
-	GOFormat *format =
+	GOFormat const *format =
 		go_format_sel_get_fmt (GO_FORMAT_SEL (hf_dt_state->format_sel));
 	hf_dt_state->format_string = g_strdup (go_format_as_XL (format));
 }
