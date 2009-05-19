@@ -6496,9 +6496,9 @@ excel_read_WINDOW1 (BiffQuery *q, WorkbookView *wb_view)
 			g_printerr ("Unsupported: Iconic workbook\n");
 
 		g_object_set (G_OBJECT (wb_view),
-			      "show-horizontal-scrollbar", (options & 0x0008),
-			      "show-vertical-scrollbar", (options & 0x0010),
-			      "show-notebook-tabs", (options & 0x0020),
+			      "show-horizontal-scrollbar", !!(options & 0x0008),
+			      "show-vertical-scrollbar", !!(options & 0x0010),
+			      "show-notebook-tabs", !!(options & 0x0020),
 			      NULL);
 	}
 }

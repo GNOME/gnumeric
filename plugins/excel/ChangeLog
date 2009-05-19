@@ -1,3 +1,8 @@
+2009-05-19  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (excel_read_WINDOW1): Normalize bools, or else
+	gobject will complain.
+
 2009-05-18  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_WINDOW1): Use g_object_set instead
