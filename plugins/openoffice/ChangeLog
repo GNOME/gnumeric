@@ -1,5 +1,17 @@
 2009-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (GnmOOExport): added field
+	(odf_find_row_style): new
+	(odf_write_row_styles): new
+	(odf_write_formatted_columns): new
+	(write_row_style): new
+	(odf_write_formatted_empty_rows): new
+	(odf_write_sheet): split out odf_write_formatted_columns and
+	  add handling of rows
+	(openoffice_file_save): initialize and dispose of state.row_styles
+
+2009-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c: clean-up g_string_new throughout
 	(GnmOOExport): added fields
 	(odf_write_row_style): new

@@ -16,7 +16,7 @@ Andreas:
 	* Write cell styles to the ODF file. [#553508]
 	* Write cell borders to ODF and fix reading of cell borders from ODF. 
 	  [# 582903]
-	* Write column widths to ODF.
+	* Write column widths and row heights to ODF.
 
 Jody:
 	* Closer to a turnkey win32 build.
