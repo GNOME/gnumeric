@@ -788,17 +788,10 @@ odf_save_automatic_character_styles (GnmOOExport *state)
 		
 		for (row = extent.start.row; row <= extent.end.row; row++) {
 			for (col = extent.start.col; col <= extent.end.col; col++) {
-				GnmCell *current_cell = sheet_cell_get (sheet, col, row);
-				if (current_cell != NULL) {
-					GnmStyle const *style;
-					
-					if (gnm_cell_is_empty (current_cell))
-						continue;
-					
-					style = sheet_style_get (sheet, col, row);
-					if (style != NULL)
-						odf_find_style (state, style, TRUE);
-				}
+				GnmStyle const *style;
+				style = sheet_style_get (sheet, col, row);
+				if (style != NULL)
+					odf_find_style (state, style, TRUE);
 			}
 		}
 		g_free (col_styles);
@@ -1045,7 +1038,7 @@ odf_cell_is_covered (Sheet const *sheet, GnmCell *current_cell,
 }
 
 static void
-odf_write_empty_cell (GnmOOExport *state, int *num)
+odf_write_empty_cell (GnmOOExport *state, int *num, GnmStyle const *style)
 {
 	if (*num > 0) {
 		gsf_xml_out_start_element (state->xml, TABLE "table-cell");
@@ -1053,6 +1046,12 @@ odf_write_empty_cell (GnmOOExport *state, int *num)
 			gsf_xml_out_add_int (state->xml,
 					     TABLE "number-columns-repeated",
 					     *num);
+		if (style != NULL) {
+			char const * name = odf_find_style (state, style, FALSE);
+			if (name != NULL)
+				gsf_xml_out_add_cstr (state->xml,
+						      TABLE "style-name", name);			
+		}
 		gsf_xml_out_end_element (state->xml);   /* table-cell */
 		*num = 0;
 	}
@@ -1363,9 +1362,6 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 	GnmStyle **col_styles = g_new (GnmStyle *, max_cols);
 	GnmRange  extent;
 	int i, col, row;
-	int null_cell;
-	int covered_cell;
-	GnmCellPos pos;
 	GSList *sheet_merges = NULL;
 	
 
@@ -1390,8 +1386,10 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 
 	for (row = extent.start.row; row <= extent.end.row; row++) {
 		ColRowInfo const *ci = sheet_row_get (sheet, row);
-		null_cell = extent.start.col;
-		covered_cell = 0;
+		GnmStyle const *null_style = NULL;
+		int null_cell = extent.start.col;
+		int covered_cell = 0;
+		GnmCellPos pos;
 		pos.row = row;
 
 		gsf_xml_out_start_element (state->xml, TABLE "table-row");
@@ -1408,28 +1406,35 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 
 			if (odf_cell_is_covered (sheet, current_cell, col, row,
 						merge_range, &sheet_merges)) {
-				if (null_cell >0)
-					odf_write_empty_cell (state, &null_cell);
+
+				odf_write_empty_cell (state, &null_cell, null_style);
+				
 				covered_cell++;
 				continue;
 			}
 			if ((merge_range == NULL) && (cc == NULL) &&
 			    gnm_cell_is_empty (current_cell)) {
-				if (covered_cell > 0)
-					odf_write_covered_cell (state, &covered_cell);
-				null_cell++;
+				GnmStyle const *this_style = sheet_style_get (sheet, col, row);
+				if ((null_cell == 0) || gnm_style_equal (null_style, this_style)) { 
+					null_style = this_style;
+					if (covered_cell > 0)
+						odf_write_covered_cell (state, &covered_cell);
+					null_cell++;
+				} else {
+					odf_write_empty_cell (state, &null_cell, null_style);
+					null_style = this_style;
+					null_cell = 1;
+				}
 				continue;
 			}
 
-			if (null_cell > 0)
-				odf_write_empty_cell (state, &null_cell);
+			odf_write_empty_cell (state, &null_cell, null_style);
 			if (covered_cell > 0)
 				odf_write_covered_cell (state, &covered_cell);
 			odf_write_cell (state, current_cell, merge_range, cc);
 
 		}
-		if (null_cell > 0)
-			odf_write_empty_cell (state, &null_cell);
+		odf_write_empty_cell (state, &null_cell, null_style);
 		if (covered_cell > 0)
 			odf_write_covered_cell (state, &covered_cell);
 

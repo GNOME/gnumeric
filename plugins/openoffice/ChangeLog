@@ -1,3 +1,12 @@
+2009-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_save_automatic_character_styles): we
+	  also need to save the formats associated with any empty cell
+	(odf_write_empty_cell): also write attached formatting info to empty
+	  cells
+	(odf_write_sheet): we cannot bundle all empty cells but need to
+	  watch for format changes
+	
 2009-05-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (GnmOOExport): added field
