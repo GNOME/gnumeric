@@ -438,11 +438,22 @@ gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c)
 {
 	char *color;
 	g_return_if_fail (c != NULL);
-	
-	color = g_strdup_printf ("#%.2x%.2x%.2x", 
-				 c->gdk_color.red/256, c->gdk_color.green/256, c->gdk_color.blue/256);
-	gsf_xml_out_add_cstr_unchecked (o, id, color);
-	g_free (color);
+
+/* FIXME! there should be a difference between white and transparent */
+
+	if ((UINT_RGBA_A (c->go_color) == 0) &&
+	    c->gdk_color.red/256 == 0xFF &&
+	    c->gdk_color.green/256 == 0xFF &&
+	    c->gdk_color.blue/256 == 0xFF)
+		gsf_xml_out_add_cstr_unchecked (o, id, "transparent");
+	else {
+		color = g_strdup_printf ("#%.2x%.2x%.2x", 
+					 c->gdk_color.red/256, 
+					 c->gdk_color.green/256, 
+					 c->gdk_color.blue/256);
+		gsf_xml_out_add_cstr_unchecked (o, id, color);
+		g_free (color);
+	}
 }
 
 static char *

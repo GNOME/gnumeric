@@ -1,5 +1,10 @@
 2009-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (gnm_xml_out_add_hex_color): make our background 
+	  transparent.
+
+2009-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_save_automatic_character_styles): we
 	  also need to save the formats associated with any empty cell
 	(odf_write_empty_cell): also write attached formatting info to empty
