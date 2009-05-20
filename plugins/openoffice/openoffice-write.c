@@ -68,6 +68,8 @@
 #include <gsf/gsf-outfile-zip.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-opendoc-utils.h>
+#include <gsf/gsf-doc-meta-data.h>
+#include <gsf/gsf-meta-names.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <string.h>
 
@@ -424,13 +426,23 @@ odf_write_table_styles (GnmOOExport *state)
 	}
 }
 
+static gboolean
+equal_style (GnmStyle const *that, GnmStyle const *this)
+{
+	if (this == that)
+		return TRUE;
+	if (this == NULL || that == NULL)
+		return FALSE;
+	return gnm_style_equal (that, this);
+}
+
 static gint 
 odf_compare_style (gconstpointer a, gconstpointer b)
 {
 	cell_styles_t const *old_style = a;	
 	GnmStyle const *new_style = b;
 
-	return !gnm_style_equal (new_style, old_style->style);
+	return !equal_style (new_style, old_style->style);
 }
 
 static void
@@ -1230,16 +1242,6 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 	gsf_xml_out_end_element (state->xml);   /* table-cell */
 }
 
-static gboolean
-equal_style (GnmStyle *that, GnmStyle * this)
-{
-	if (this == that)
-		return TRUE;
-	if (this == NULL || that == NULL)
-		return FALSE;
-	return gnm_style_equal (that, this);
-}
-
 static GnmStyle *
 filter_style (GnmStyle *default_style, GnmStyle * this)
 {
@@ -1426,7 +1428,7 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 			if ((merge_range == NULL) && (cc == NULL) &&
 			    gnm_cell_is_empty (current_cell)) {
 				GnmStyle const *this_style = sheet_style_get (sheet, col, row);
-				if ((null_cell == 0) || gnm_style_equal (null_style, this_style)) { 
+				if ((null_cell == 0) || equal_style (null_style, this_style)) { 
 					null_style = this_style;
 					if (covered_cell > 0)
 						odf_write_covered_cell (state, &covered_cell);
@@ -1652,8 +1654,18 @@ static void
 odf_write_meta (GnmOOExport *state, GsfOutput *child)
 {
 	GsfXMLOut *xml = gsf_xml_out_new (child);
-	gsf_opendoc_metadata_write (xml,
-		go_doc_get_meta_data (GO_DOC (state->wb)));
+	GsfDocMetaData *meta = go_doc_get_meta_data (GO_DOC (state->wb));
+	GValue *val = g_new0 (GValue, 1);
+	GsfDocProp *prop = gsf_doc_meta_data_steal (meta, GSF_META_NAME_GENERATOR);
+
+	g_value_init (val, G_TYPE_STRING);
+	g_value_set_string (val, PACKAGE_NAME "/" VERSION);
+	
+	gsf_doc_meta_data_insert  (meta, g_strdup (GSF_META_NAME_GENERATOR), val);
+	gsf_opendoc_metadata_write (xml, meta);
+	gsf_doc_meta_data_remove (meta,GSF_META_NAME_GENERATOR);
+	if (prop != NULL)
+		gsf_doc_meta_data_store (meta, prop);
 	g_object_unref (xml);
 }
 

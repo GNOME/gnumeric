@@ -1,5 +1,12 @@
 2009-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (equal_style): arguments can be const
+	(odf_compare_style): use equal_style
+	(odf_write_sheet): use equal_style
+	(odf_write_meta): set generator string
+	
+2009-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (gnm_xml_out_add_hex_color): make our background 
 	  transparent.
 
