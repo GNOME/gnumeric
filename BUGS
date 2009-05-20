@@ -1,4 +1,4 @@
-    To report Gnumeric bugs, please visit bugzilla.gnome.org.
+   To report Gnumeric bugs, please visit bugzilla.gnome.org.
 
     This file is used as a scratch pad by developers.  It is a list of known
 issues that need to be addressed.  Divided into, things that will prevent
@@ -55,7 +55,6 @@ Misc stuff that should be fixed
 - Missing undo/redo for
     - Freeze panes (tricky this is a view attribute)
     - `Add Scenario' Portion of Solver
-    - Sheet object configuration changes. (Done for graphs, lines, and fills)
     - Workbook attr changes
     - Adding autofilters
 
@@ -172,8 +171,8 @@ Architecture Changes
     8.13) xls
 	8.13.3) collect fonts from markup for export
 	    8.13.3.1) cells					(DONE)
-	    8.13.3.2) comments
-	    8.13.3.2) text boxes
+	    8.13.3.2) comments                                  (partial)
+	    8.13.3.2) text boxes                                (partial)
 
 9) RTL
     9.1) Drawing
@@ -715,16 +714,13 @@ Architecture Changes
          36.1.1)  Cell Comments
     36.2) Import 
          36.2.1)  We fail to do proper white space handling on import, see
-                 5.1.1 of the OpenDocument Standard. (It is only a minor
-                 issue since files created by OOo or us work correctly. 
-                 In fact because of 36.3.1, we depend currently on this to
-                 read our own files.)  
+                 5.1.1 of the OpenDocument Standard.   
 	36.2.2) default col/row compression on OOo import.	(DONE)
 	36.2.3) table styles					(DONE)
 	36.2.4) col/row manual vs auto
     36.3) Export
          36.3.1)  We don't handle whitespace correctly. See OpenDocument
-                 format 5.1.1
+                 format 5.1.1                                   (DONE)
     36.4) See 11.4 (Conditionals)
     36.5) See 12.6 (Input Messages)
     36.6) See 21.46 (Autofilters)
