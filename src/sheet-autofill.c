@@ -144,8 +144,7 @@ static void
 afa_finalize (AutoFiller *af)
 {
 	AutoFillerArithmetic *afa = (AutoFillerArithmetic *)af;
-	if (afa->format)
-		go_format_unref (afa->format);
+	go_format_unref (afa->format);
 	af_finalize (af);
 }
 
@@ -527,8 +526,7 @@ static void
 afm_finalize (AutoFiller *af)
 {
 	AutoFillerMonth *afm = (AutoFillerMonth *)af;
-	if (afm->format)
-		go_format_unref (afm->format);
+	go_format_unref (afm->format);
 	af_finalize (af);
 }
 

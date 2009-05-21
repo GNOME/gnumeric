@@ -336,8 +336,7 @@ xbase_close (XBfile *x)
 
 	for (i = 0; i < x->fields; i++) {
 		XBfield *field = x->format[i];
-		if (field->fmt != NULL)
-			go_format_unref (field->fmt);
+		go_format_unref (field->fmt);
 		g_free (field);
 	}
 	gsf_iconv_close (x->char_map);

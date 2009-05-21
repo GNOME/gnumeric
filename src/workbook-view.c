@@ -513,8 +513,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv)
 		if (format) {
 			format_value_gstring (str, format, v, NULL,
 					      -1, workbook_date_conv (wb_view_get_workbook (wbv)));
-			if (tmp_format)
-				go_format_unref (tmp_format);
+			go_format_unref (tmp_format);
 		} else {
 			g_string_append (str, value_peek_string (v));
 		}

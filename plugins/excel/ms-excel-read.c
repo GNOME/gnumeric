@@ -2473,10 +2473,9 @@ excel_read_XF_INDEX (BiffQuery *q, ExcelReadSheet *esheet)
 static void
 biff_xf_data_destroy (BiffXFData *xf)
 {
-	if (xf->style_format) {
-		go_format_unref (xf->style_format);
-		xf->style_format = NULL;
-	}
+	go_format_unref (xf->style_format);
+	xf->style_format = NULL;
+
 	if (xf->mstyle) {
 		gnm_style_unref (xf->mstyle);
 		xf->mstyle = NULL;
@@ -3144,8 +3143,7 @@ gnm_xl_importer_free (GnmXLImporter *importer)
 		while (i-- > 0) {
 			if (importer->sst[i].content)
 				gnm_string_unref (importer->sst[i].content);
-			if (importer->sst[i].markup != NULL)
-				go_format_unref (importer->sst[i].markup);
+			go_format_unref (importer->sst[i].markup);
 		}
 		g_free (importer->sst);
 	}
