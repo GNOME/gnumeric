@@ -25,6 +25,7 @@ Morten:
 	* Turn WorkbookView into a more proper GObject.
 	* Hide scrollbars as requested.  [#583005]
 	* Fix date conventions in graphs.
+	* Improve GUI for date/time axes.  [#574681]
 
 Paul Fitzpatrick:
 	* Extend ssconvert to also merge multiple sheets.  [#581616]
@@ -39,7 +40,6 @@ Andreas:
 	* Fix printing of sheet objects whose text intersects with markup.
 	  [#581125]
 	* Load meta data from gnumeric files [#578607]
-	* Improve GUI for date/time axes.  [#574681]
 
 Jean:
 	* Do not crash in render_value for NULL values. [#581120]
