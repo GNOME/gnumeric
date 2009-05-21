@@ -1545,6 +1545,26 @@ odf_write_autofilter (GnmOOExport *state, GnmFilter const *filter)
 }
 
 static void
+odf_print_spreadsheet_content_prelude (GnmOOExport *state)
+{
+	gsf_xml_out_start_element (state->xml, TABLE "calculation-settings");
+	gsf_xml_out_start_element (state->xml, TABLE "null-date");
+	/* As encouraged by the OpenFormula definition we "compensate" here. */
+	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "date-value", "1899-12-30");
+	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "value-type", "date");
+	gsf_xml_out_end_element (state->xml); /* </table:null-date> */	
+	gsf_xml_out_start_element (state->xml, TABLE "iteration");
+	gsf_xml_out_add_float (state->xml, TABLE "maximum-difference", 
+			       state->wb->iteration.tolerance, 6);
+	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "status", 
+					state->wb->iteration.enabled ?  "enable" : "disable");
+	gsf_xml_out_add_int (state->xml, TABLE "steps", state->wb->iteration.max_number);
+	gsf_xml_out_end_element (state->xml); /* </table:iteration> */	
+	gsf_xml_out_end_element (state->xml); /* </table:calculation-settings> */	
+}
+
+
+static void
 odf_write_content (GnmOOExport *state, GsfOutput *child)
 {
 	int i;
@@ -1572,6 +1592,9 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 
 	gsf_xml_out_start_element (state->xml, OFFICE "body");
 	gsf_xml_out_start_element (state->xml, OFFICE "spreadsheet");
+
+	odf_print_spreadsheet_content_prelude (state);
+
 	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
 		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
 		char *style_name;

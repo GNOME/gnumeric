@@ -1,3 +1,8 @@
+2009-05-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_print_spreadsheet_content_prelude): new
+	(odf_write_content): call odf_print_spreadsheet_content_prelude
+
 2009-05-19  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (equal_style): arguments can be const
