@@ -24,11 +24,15 @@
 #include <expr.h>
 #include <dependent.h>
 #include <sheet.h>
+#include <workbook.h>
 #include <sheet-view.h>
 #include <selection.h>
 #include <commands.h>
 #include <gnm-format.h>
+#include <number-match.h>
 #include <goffice/utils/go-locale.h>
+#include <goffice/utils/go-font.h>
+#include <goffice/graph/gog-data-allocator.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
@@ -64,6 +68,8 @@ struct _GnmExprEntry {
 	gboolean                 ignore_changes; /* internal mutex */
 
 	gboolean       feedback_disabled;
+
+	GOFormat const *constant_format;
 };
 
 typedef struct _GnmExprEntryClass {
@@ -90,7 +96,8 @@ enum {
 	PROP_TEXT,
 	PROP_FLAGS,
 	PROP_SCG,
-	PROP_WBCG
+	PROP_WBCG,
+	PROP_CONSTANT_FORMAT
 };
 
 static guint signals [LAST_SIGNAL] = { 0 };
@@ -104,6 +111,12 @@ static void     gee_remove_update_timer (GnmExprEntry *range);
 static void     cb_gee_notify_cursor_position (GnmExprEntry *gee);
 
 static GtkObjectClass *parent_class = NULL;
+
+static GnmConventions const *
+gee_convs (const GnmExprEntry *gee)
+{
+	return sheet_get_conventions (gee->sheet);
+}
 
 static gboolean
 split_char_p (unsigned char const *c)
@@ -278,6 +291,23 @@ cb_icon_clicked (GtkButton *icon,
 }
 
 static void
+gee_set_format (GnmExprEntry *gee, GOFormat const *fmt)
+{
+	if (fmt == gee->constant_format)
+		return;
+
+	if (fmt) go_format_ref (fmt);
+	go_format_unref (gee->constant_format);
+	gee->constant_format = fmt;
+
+#if 0
+	g_printerr ("Setting format %s\n", fmt ? go_format_as_XL (fmt) : "-");
+#endif
+
+	g_object_notify (G_OBJECT (gee), "constant-format");
+}
+
+static void
 gee_set_property (GObject      *object,
 		  guint         prop_id,
 		  GValue const *value,
@@ -322,6 +352,9 @@ gee_set_property (GObject      *object,
 		g_return_if_fail (gee->wbcg == NULL);
 		gee->wbcg = WBC_GTK (g_value_get_object (value));
 		break;
+	case PROP_CONSTANT_FORMAT:
+		gee_set_format (gee, g_value_get_pointer (value));
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 	}
@@ -352,6 +385,9 @@ gee_get_property (GObject      *object,
 		break;
 	case PROP_WBCG:
 		g_value_set_object (value, G_OBJECT (gee->wbcg));
+		break;
+	case PROP_CONSTANT_FORMAT:
+		g_value_set_pointer (value, (gpointer)gee->constant_format);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -568,7 +604,7 @@ cb_gee_key_press_event (GtkEntry	*entry,
 			/* Turn the value into an expression so we get the right syntax.  */
 			expr = gnm_expr_new_constant (v);
 			cst = gnm_expr_as_string  (expr, &gee->pp,
-						   sheet_get_conventions (sheet));
+						   gee_convs (gee));
 			gnm_expr_free (expr);
 
 			gtk_editable_delete_text (editable, start, end);
@@ -656,6 +692,74 @@ gee_init (GnmExprEntry *gee)
 }
 
 static void
+gee_finalize (GObject *obj)
+{
+	GnmExprEntry *gee = (GnmExprEntry *)obj;
+
+	go_format_unref (gee->constant_format);
+
+	((GObjectClass *)parent_class)->finalize (obj);
+}
+
+static void
+gee_set_value_double (GogDataEditor *editor, double val,
+		      GODateConventions const *date_conv)
+{
+	GnmExprEntry *gee = GNM_EXPR_ENTRY (editor);
+	GnmValue *v = value_new_float (val);
+	char *txt = format_value (gee->constant_format, v, NULL, -1, date_conv);
+
+	value_release (v);
+
+	if (*txt == 0) {
+		g_free (txt);
+		txt = g_strdup_printf ("%g", val);
+	}
+
+#if 0
+	g_printerr ("Setting text %s\n", txt);
+#endif
+
+	g_object_set (G_OBJECT (editor), "text", txt, NULL);
+
+	g_free (txt);
+}
+
+static void
+gee_data_editor_set_format (GogDataEditor *deditor, GOFormat const *fmt)
+{
+	GnmExprEntry *gee = (GnmExprEntry *)deditor;
+	GnmValue *v;
+	GODateConventions const *date_conv =
+		workbook_date_conv (gee->sheet->workbook);
+
+	if (fmt == gee->constant_format)
+		return;
+
+	v = format_match_number (gnm_expr_entry_get_text (gee),
+				 gee->constant_format, date_conv);
+
+	gee_set_format (gee, fmt);
+
+	if (v && VALUE_IS_FLOAT (v)) {
+		char *txt = format_value (gee->constant_format, v,
+					  NULL, -1, date_conv);
+		gtk_entry_set_text (gee->entry, txt);
+		g_free (txt);
+	}
+
+	if (v) value_release (v);
+}
+
+static void
+gee_go_plot_data_editor_init (GogDataEditorClass *iface)
+{
+	iface->set_format = gee_data_editor_set_format;
+	iface->set_value_double = gee_set_value_double;
+}
+
+
+static void
 gee_class_init (GObjectClass *gobject_class)
 {
 	GtkObjectClass *gtk_object_class = (GtkObjectClass *)gobject_class;
@@ -665,6 +769,7 @@ gee_class_init (GObjectClass *gobject_class)
 
 	gobject_class->set_property	= gee_set_property;
 	gobject_class->get_property	= gee_get_property;
+	gobject_class->finalize		= gee_finalize;
 	gtk_object_class->destroy	= gee_destroy;
 	widget_class->mnemonic_activate = gee_mnemonic_activate;
 
@@ -692,41 +797,58 @@ gee_class_init (GObjectClass *gobject_class)
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 
-	g_object_class_install_property (gobject_class,
-		PROP_UPDATE_POLICY,
-		g_param_spec_enum ("update-policy", "Update policy",
-			"How frequently changes to the entry should be applied",
-			GTK_TYPE_UPDATE_TYPE, GTK_UPDATE_CONTINUOUS,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
-	g_object_class_install_property (gobject_class,
-		PROP_WITH_ICON,
-		g_param_spec_boolean ("with-icon", "With icon",
-			"Should there be an icon to the right of the entry",
-			TRUE,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
-	g_object_class_install_property (gobject_class,
-		PROP_TEXT,
-		g_param_spec_string ("text", "Text",
-			"The contents of the entry",
-			"",
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
-	g_object_class_install_property (gobject_class,
-		PROP_FLAGS,
-		g_param_spec_uint ("flags", NULL, NULL,
-			0, GNM_EE_MASK, 0,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
-	g_object_class_install_property (gobject_class,
-		PROP_SCG,
-		g_param_spec_object ("scg", "SheetControlGUI",
-			"The GUI container associated with the entry.",
-			SHEET_CONTROL_GUI_TYPE,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
-	g_object_class_install_property (gobject_class,
-		PROP_WBCG,
-		g_param_spec_object ("wbcg", "WBCGtk",
-			"The toplevel GUI container associated with the entry.",
-			WBC_GTK_TYPE,
-			GSF_PARAM_STATIC | G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class, PROP_UPDATE_POLICY,
+		 g_param_spec_enum ("update-policy",
+				    _("Update policy"),
+				    _("How frequently changes to the entry should be applied"),
+				    GTK_TYPE_UPDATE_TYPE, GTK_UPDATE_CONTINUOUS,
+				    GSF_PARAM_STATIC | G_PARAM_READWRITE));
+
+	g_object_class_install_property
+		(gobject_class, PROP_WITH_ICON,
+		 g_param_spec_boolean ("with-icon",
+				       _("With icon"),
+				       _("Should there be an icon to the right of the entry?"),
+				       TRUE,
+				       GSF_PARAM_STATIC | G_PARAM_READWRITE));
+
+	g_object_class_install_property
+		(gobject_class, PROP_TEXT,
+		 g_param_spec_string ("text",
+				      _("Text"),
+				      _("The contents of the entry"),
+				      "",
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
+
+	g_object_class_install_property
+		(gobject_class, PROP_FLAGS,
+		 g_param_spec_uint ("flags", NULL, NULL,
+				    0, GNM_EE_MASK, 0,
+				    GSF_PARAM_STATIC | G_PARAM_READWRITE));
+
+	g_object_class_install_property
+		(gobject_class, PROP_SCG,
+		 g_param_spec_object ("scg",
+				      _("SheetControlGUI"),
+				      _("The GUI container associated with the entry."),
+				      SHEET_CONTROL_GUI_TYPE,
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
+
+	g_object_class_install_property
+		(gobject_class, PROP_WBCG,
+		 g_param_spec_object ("wbcg",
+				      _("WBCGtk"),
+				      _("The toplevel GUI container associated with the entry."),
+				      WBC_GTK_TYPE,
+				      GSF_PARAM_STATIC | G_PARAM_READWRITE));
+
+	g_object_class_install_property
+		(gobject_class, PROP_CONSTANT_FORMAT,
+		 g_param_spec_pointer ("constant-format",
+				       _("Constant Format"),
+				       _("Format for constants"),
+				       GSF_PARAM_STATIC | G_PARAM_READWRITE));
 }
 
 /***************************************************************************/
@@ -752,7 +874,8 @@ gee_cell_editable_init (GtkCellEditableIface *iface)
 GSF_CLASS_FULL (GnmExprEntry, gnm_expr_entry,
 		NULL, NULL, gee_class_init, NULL,
 		gee_init, GTK_TYPE_HBOX, 0,
-		GSF_INTERFACE (gee_cell_editable_init, GTK_TYPE_CELL_EDITABLE))
+		GSF_INTERFACE (gee_cell_editable_init, GTK_TYPE_CELL_EDITABLE);
+		GSF_INTERFACE (gee_go_plot_data_editor_init, GOG_TYPE_DATA_EDITOR))
 
 /**
  * gee_prepare_range :
@@ -806,7 +929,7 @@ gee_rangesel_make_text (GnmExprEntry const *gee)
 
 	out.accum = g_string_new (NULL);
 	out.pp    = &gee->pp;
-	out.convs = gee->sheet->convs;
+	out.convs = gee_convs (gee);
 	rangeref_as_string (&out, &ref);
 	return g_string_free (out.accum, FALSE);
 }
@@ -892,7 +1015,7 @@ gnm_expr_entry_find_range (GnmExprEntry *gee)
 		ptr = text;
 
 	while (ptr != NULL && *ptr && ptr <= cursor) {
-		tmp = rangeref_parse (&range, ptr, &gee->pp, gee->sheet->convs);
+		tmp = rangeref_parse (&range, ptr, &gee->pp, gee_convs (gee));
 		if (tmp != ptr) {
 			if (tmp >= cursor) {
 				rs->is_valid = TRUE;
@@ -1039,8 +1162,8 @@ gee_reset_update_timer (GnmExprEntry *gee, gboolean user_requested)
  * @user_requested : is the update requested by the user (eg activation)
  *
  * Higher level operations know when they are logically complete and can notify
- * ExperEntry clients.  eg button up after a drag selection indicates a logical
- * end to the change and offers a good time to update.
+ * GnmExprEntry clients.  For example, button-up after a drag selection
+ * indicates a logical end to the change and offers a good time to update.
  **/
 void
 gnm_expr_entry_signal_update (GnmExprEntry *gee, gboolean user_requested)
@@ -1236,20 +1359,23 @@ gnm_expr_entry_load_from_text (GnmExprEntry *gee, char const *txt)
 void
 gnm_expr_entry_load_from_dep (GnmExprEntry *gee, GnmDependent const *dep)
 {
-	GnmParsePos pp;
-
 	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 	g_return_if_fail (dep != NULL);
 	/* We have nowhere to store the text while frozen. */
 	g_return_if_fail (gee->freeze_count == 0);
 
 	if (dep->texpr != NULL) {
-		char *text = gnm_expr_top_as_string (dep->texpr,
-			parse_pos_init_dep (&pp, dep), gnm_conventions_default);
+		char *text;
+		GnmParsePos pp;
+
+		parse_pos_init_dep (&pp, dep);
+		text = gnm_expr_top_as_string (dep->texpr, &pp,
+					       gee_convs (gee));
 
 		gee_rangesel_reset (gee);
 		gtk_entry_set_text (gee->entry, text);
 		gee->rangesel.text_end = strlen (text);
+
 		g_free (text);
 	} else
 		gnm_expr_entry_load_from_text (gee, "");
@@ -1274,8 +1400,8 @@ gnm_expr_entry_load_from_expr (GnmExprEntry *gee,
 	g_return_if_fail (gee->freeze_count == 0);
 
 	if (texpr != NULL) {
-		char *text = gnm_expr_top_as_string (texpr, pp,
-				gnm_conventions_default);
+		char *text = gnm_expr_top_as_string
+			(texpr, pp, gee_convs (gee));
 		gee_rangesel_reset (gee);
 		gtk_entry_set_text (gee->entry, text);
 		gee->rangesel.text_end = strlen (text);
@@ -1461,6 +1587,10 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 	if (text == NULL || text[0] == '\0')
 		return NULL;
 
+#if 0
+	g_printerr ("Parsing %s\n", text);
+#endif
+
 	if ((gee->flags & GNM_EE_FORCE_ABS_REF))
 		flags |= GNM_EXPR_PARSE_FORCE_ABSOLUTE_REFERENCES;
 	else if ((gee->flags & GNM_EE_FORCE_REL_REF))
@@ -1468,7 +1598,22 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 	if (!(gee->flags & GNM_EE_SHEET_OPTIONAL))
 		flags |= GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 
-	texpr = gnm_expr_parse_str (text, pp, flags, NULL, perr);
+	texpr = NULL;
+
+	if (gee->constant_format) {
+		GnmValue *v = format_match_number
+			(text, gee->constant_format,
+			 workbook_date_conv (gee->sheet->workbook));
+		if (v) {
+			texpr = gnm_expr_top_new_constant (v);
+			gtk_entry_set_text (gee->entry, text);
+			return texpr;
+		}
+	}
+
+	if (!texpr)
+		texpr = gnm_expr_parse_str (text, pp, flags, NULL, perr);
+
 	if (texpr == NULL)
 		return NULL;
 
@@ -1487,7 +1632,7 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 	}
 
 	/* Reset the entry in case something changed */
-	str = gnm_expr_top_as_string (texpr, pp, gnm_conventions_default);
+	str = gnm_expr_top_as_string (texpr, pp, gee_convs (gee));
 	if (strcmp (str, text)) {
 		SheetControlGUI *scg = wbcg_cur_scg (gee->wbcg);
 		Rangesel const *rs = &gee->rangesel;

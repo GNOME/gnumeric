@@ -4431,6 +4431,7 @@ typedef struct {
 	GnmExprEntry *entry;
 	GogDataset *dataset;
 	int dim_i;
+	gboolean suppress_update;
 	GogDataType data_type;
 
 	gulong dataset_changed_handler;
@@ -4496,7 +4497,9 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 	}
 
 	/* The SheetObjectGraph does the magic to link things in */
+	editor->suppress_update = TRUE;
 	gog_dataset_set_dim (editor->dataset, editor->dim_i, data, NULL);
+	editor->suppress_update = FALSE;
 }
 
 static gboolean
@@ -4514,7 +4517,9 @@ set_entry_contents (GnmExprEntry *entry, GOData *val)
 {
 	SheetControlGUI *scg = gnm_expr_entry_get_scg (entry);
 	Sheet const *sheet = scg_sheet (scg);
-	char *txt = go_data_serialize (val, (gpointer)sheet->convs);
+	char *txt;
+
+	txt = go_data_serialize (val, (gpointer)sheet->convs);
 	gnm_expr_entry_load_from_text (entry, txt);
 	g_free (txt);
 }
@@ -4525,7 +4530,7 @@ cb_dataset_changed (GogDataset *dataset,
 		    GraphDimEditor *editor)
 {
 	GOData *val = gog_dataset_get_dim (dataset, editor->dim_i);
-	if (val != NULL) {
+	if (val != NULL && !editor->suppress_update) {
 		g_signal_handler_block (editor->entry,
 					editor->entry_update_handler);
 		set_entry_contents (editor->entry, val);
@@ -4552,7 +4557,7 @@ graph_dim_editor_free (GraphDimEditor *editor)
 	g_free (editor);
 }
 
-static gpointer
+static GogDataEditor *
 wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 			    GogDataset *dataset, int dim_i, GogDataType data_type)
 {
@@ -4563,6 +4568,7 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 	editor = g_new (GraphDimEditor, 1);
 	editor->dataset		= dataset;
 	editor->dim_i		= dim_i;
+	editor->suppress_update = FALSE;
 	editor->data_type	= data_type;
 	editor->entry		= gnm_expr_entry_new (wbcg, TRUE);
 	g_object_weak_ref (G_OBJECT (editor->dataset),
@@ -4572,8 +4578,9 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 		GTK_UPDATE_DISCONTINUOUS);
 
 	val = gog_dataset_get_dim (dataset, dim_i);
-	if (val != NULL)
+	if (val != NULL) {
 		set_entry_contents (editor->entry, val);
+	}
 
 	gnm_expr_entry_set_flags (editor->entry, GNM_EE_FORCE_ABS_REF, GNM_EE_MASK);
 
@@ -4588,7 +4595,7 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 	g_object_set_data_full (G_OBJECT (editor->entry),
 		"editor", editor, (GDestroyNotify) graph_dim_editor_free);
 
-	return editor->entry;
+	return GOG_DATA_EDITOR (editor->entry);
 }
 
 static void

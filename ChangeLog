@@ -1,3 +1,8 @@
+2009-05-21  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (cb_graph_dim_editor_update): Suppress the initial
+	update gui update.
+
 2009-05-18  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-widget.c: Clean up class accesses.

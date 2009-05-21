@@ -1,3 +1,9 @@
+2009-05-21  Morten Welinder  <terra@gnome.org>
+
+	* gnumeric-expr-entry.c: Add GogDataEditor interface.
+	(gnm_expr_entry_parse): Try parsing as a constant against current
+	format.
+
 2009-05-13  Morten Welinder  <terra@gnome.org>
 
 	* widget-editable-label.c (el_size_request): Simplify.
