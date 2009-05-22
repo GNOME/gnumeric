@@ -589,27 +589,97 @@ static void
 odf_write_style (GnmOOExport *state, GnmStyle const *style)
 {
 		gsf_xml_out_start_element (state->xml, STYLE "table-cell-properties");
+/* Background Color */
 		if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
 			gnm_xml_out_add_hex_color (state->xml, FOSTYLE "background-color",
 						   gnm_style_get_back_color (style));
+/* Borders */
 		BORDERSTYLE(MSTYLE_BORDER_TOP,FOSTYLE "border-top", STYLE "border-line-width-top", GNMSTYLE "border-line-style-top");
 		BORDERSTYLE(MSTYLE_BORDER_BOTTOM,FOSTYLE "border-bottom", STYLE "border-line-width-bottom", GNMSTYLE "border-line-style-bottom");
 		BORDERSTYLE(MSTYLE_BORDER_LEFT,FOSTYLE "border-left", STYLE "border-line-width-left", GNMSTYLE "border-line-style-left");
 		BORDERSTYLE(MSTYLE_BORDER_RIGHT,FOSTYLE "border-right", STYLE "border-line-width-right", GNMSTYLE "border-line-style-right");
 		BORDERSTYLE(MSTYLE_BORDER_REV_DIAGONAL,STYLE "diagonal-bl-tr", STYLE "diagonal-bl-tr-widths", GNMSTYLE "diagonal-bl-tr-line-style");
 		BORDERSTYLE(MSTYLE_BORDER_DIAGONAL,STYLE "diagonal-tl-br",  STYLE "diagonal-tl-br-widths", GNMSTYLE "diagonal-tl-br-line-style");
+/* Vertical Alignment */
+		if (gnm_style_is_element_set (style, MSTYLE_ALIGN_V)) {
+			GnmVAlign align = gnm_style_get_align_v (style);
+			char const *alignment = NULL;
+			gboolean gnum_specs = FALSE;
+			switch (align) {
+			case VALIGN_TOP:
+				alignment = "top";
+				break;
+			case VALIGN_BOTTOM:
+				alignment= "bottom";
+				break;
+			case VALIGN_CENTER:
+				alignment = "middle";
+				break;
+			case VALIGN_JUSTIFY:
+			case VALIGN_DISTRIBUTED:
+			default:
+				alignment = "automatic";
+				gnum_specs = TRUE;
+				break;
+			}
+			gsf_xml_out_add_cstr (state->xml, STYLE "vertical-align", alignment);
+			if (gnum_specs)
+				gsf_xml_out_add_int (state->xml, GNMSTYLE "GnmVAlign", align);
+		}
+
 		gsf_xml_out_end_element (state->xml); /* </style:table-cell-properties */
 
+		gsf_xml_out_start_element (state->xml, STYLE "paragraph-properties");
+/* Horizontal Alignment */
+		if (gnm_style_is_element_set (style, MSTYLE_ALIGN_H)) {
+			GnmHAlign align = gnm_style_get_align_h (style);
+			char const *alignment = NULL;
+			char const *source = "fix";
+			gboolean gnum_specs = FALSE;
+			switch (align) {
+			case HALIGN_LEFT:
+				alignment = "left";
+				break;
+			case HALIGN_RIGHT:
+				alignment= "right";
+				break;
+			case HALIGN_CENTER:
+				alignment = "center";
+				break;
+			case HALIGN_JUSTIFY:
+				alignment = "justify";
+				break;
+			case HALIGN_GENERAL:
+			case HALIGN_FILL:
+			case HALIGN_CENTER_ACROSS_SELECTION:
+			case HALIGN_DISTRIBUTED:
+			default:
+				alignment = "start";
+				source = "value-type";
+				gnum_specs = TRUE;
+				break;
+			}
+			gsf_xml_out_add_cstr (state->xml, FOSTYLE "text-align", alignment);
+			gsf_xml_out_add_cstr (state->xml, FOSTYLE "text-align-source", source);
+			if (gnum_specs)
+				gsf_xml_out_add_int (state->xml, GNMSTYLE "GnmHAlign", align);
+		}
+
+		gsf_xml_out_end_element (state->xml); /* </style:paragraph-properties */
+
 		gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+/* Font Weight */
 		if (gnm_style_is_element_set (style, MSTYLE_FONT_BOLD))
 			gsf_xml_out_add_int (state->xml, FOSTYLE "font-weight", 
 					     gnm_style_get_font_bold (style) 
 					     ? PANGO_WEIGHT_BOLD 
 					     : PANGO_WEIGHT_NORMAL);
+/* Font Style (Italic vs Roman) */
 		if (gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC))
 			gsf_xml_out_add_cstr (state->xml, FOSTYLE "font-style", 
 					      gnm_style_get_font_italic (style) 
 					      ? "italic" : "normal");
+/* Strikethrough */
 		if (gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH)) {
 			if (gnm_style_get_font_strike (style)) {
 				gsf_xml_out_add_cstr (state->xml,  STYLE "text-line-through-type", "single");
@@ -630,6 +700,7 @@ odf_write_style (GnmOOExport *state, GnmStyle const *style)
 				UNDERLINESPECS("double", "solid", "auto");
 				break;
 			}
+/* Superscript/Subscript */
 		if (gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT))		
 			switch (gnm_style_get_font_script (style)) {
 			case GO_FONT_SCRIPT_SUB:
@@ -645,12 +716,15 @@ odf_write_style (GnmOOExport *state, GnmStyle const *style)
 						      STYLE "text-position", "super 80%");
 				break;
 			}
+/* Font Size */
 		if (gnm_style_is_element_set (style, MSTYLE_FONT_SIZE))		
 			gsf_xml_out_add_int (state->xml, FOSTYLE "font-size",
 					     gnm_style_get_font_size (style));
+/* Foreground Color */
 		if (gnm_style_is_element_set (style, MSTYLE_FONT_COLOR))
 			gnm_xml_out_add_hex_color (state->xml, FOSTYLE "color",
 						   gnm_style_get_font_color (style));
+/* Font Family */
 		if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME))
 			gsf_xml_out_add_cstr (state->xml, FOSTYLE "font-family",
 					      gnm_style_get_font_name (style));
@@ -1550,7 +1624,9 @@ odf_print_spreadsheet_content_prelude (GnmOOExport *state)
 	gsf_xml_out_start_element (state->xml, TABLE "calculation-settings");
 	gsf_xml_out_start_element (state->xml, TABLE "null-date");
 	/* As encouraged by the OpenFormula definition we "compensate" here. */
-	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "date-value", "1899-12-30");
+	/* Note that for ODF 1.2 this will change to date-value (an eror in the 1.0 schema)*/
+#warning ODF 1.0 attribute requires change for ODF 1.2
+	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "date-value-type", "1899-12-30");
 	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "value-type", "date");
 	gsf_xml_out_end_element (state->xml); /* </table:null-date> */	
 	gsf_xml_out_start_element (state->xml, TABLE "iteration");

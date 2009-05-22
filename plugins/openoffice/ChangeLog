@@ -1,3 +1,10 @@
+2009-05-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_style): write horizontal and
+	  vertical alignment
+	(odf_print_spreadsheet_content_prelude): in ODF 1.0 date-value is 
+	  incorrectly expected as date-value-type
+
 2009-05-20  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_print_spreadsheet_content_prelude): new
