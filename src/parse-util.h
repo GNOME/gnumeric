@@ -195,9 +195,6 @@ GnmExprTop const *gnm_expr_parse_str (char const *str, GnmParsePos const *pp,
 				      GnmConventions const *convs,
 				      GnmParseError *error);
 
-GnmExprTop const *gnm_expr_parse_str_simple (char const *str,
-					     GnmParsePos const *pp);
-
 /* Is this string potentially the start of an expression */
 char const *gnm_expr_char_start_p (char const *c);
 

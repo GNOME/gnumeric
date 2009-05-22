@@ -1404,12 +1404,6 @@ parse_util_shutdown (void)
 	gnm_conventions_xls_r1c1 = NULL;
 }
 
-GnmExprTop const *
-gnm_expr_parse_str_simple (char const *str, GnmParsePos const *pp)
-{
-	return gnm_expr_parse_str (str, pp, GNM_EXPR_PARSE_DEFAULT, NULL, NULL);
-}
-
 /* ------------------------------------------------------------------------- */
 /**
  * gnm_expr_conv_quote:

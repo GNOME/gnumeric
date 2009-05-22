@@ -268,7 +268,9 @@ read_dep (GnmDependent *dep, char const *name,
 		GnmParsePos pos;
 
 		parse_pos_init_sheet (&pos, context->sheet);
-		dep->texpr = gnm_expr_parse_str_simple (CC2XML (txt), &pos);
+		dep->texpr = gnm_expr_parse_str
+			(CC2XML (txt), &pos, GNM_EXPR_PARSE_DEFAULT,
+			 sheet_get_conventions (pos.sheet), NULL);
 		xmlFree (txt);
 	}
 }

@@ -1,3 +1,8 @@
+2009-05-22  Morten Welinder  <terra@gnome.org>
+
+	* src/parse-util.c (gnm_expr_parse_str_simple): Remove.  Interface
+	invites R1C1 bugs.  All callers fixed.
+
 2009-05-21  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_graph_dim_editor_update): Suppress the initial

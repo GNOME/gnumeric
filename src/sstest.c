@@ -107,14 +107,19 @@ define_name (const char *name, const char *expr_txt, gpointer scope)
 	GnmParsePos pos;
 	GnmExprTop const *texpr;
 	GnmNamedExpr const *nexpr;
+	GnmConventions const *convs;
 
 	if (IS_SHEET (scope)) {
 		parse_pos_init_sheet (&pos, scope);
+		convs = sheet_get_conventions (pos.sheet);
 	} else {
 		parse_pos_init (&pos, WORKBOOK (scope), NULL, 0, 0);
+		convs = gnm_conventions_default;
 	}
 
-	texpr = gnm_expr_parse_str_simple (expr_txt, &pos);
+	texpr = gnm_expr_parse_str (expr_txt, &pos,
+				    GNM_EXPR_PARSE_DEFAULT,
+				    convs, NULL);
 	if (!texpr) {
 		g_printerr ("Failed to parse %s for name %s\n",
 			    expr_txt, name);

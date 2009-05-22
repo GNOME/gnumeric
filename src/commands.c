@@ -1119,7 +1119,10 @@ cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	expr_txt = gnm_expr_char_start_p (me->text);
 	if (expr_txt != NULL)
-		texpr = gnm_expr_parse_str_simple (expr_txt, &me->pp);
+		texpr = gnm_expr_parse_str
+			(expr_txt, &me->pp, GNM_EXPR_PARSE_DEFAULT,
+			 sheet_get_conventions (me->cmd.sheet), NULL);
+
 	if (me->as_array) {
 		if (texpr == NULL)
 			return TRUE;

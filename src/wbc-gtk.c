@@ -4058,6 +4058,7 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
 	};
 
 	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
+	Sheet *sheet = wb_view_cur_sheet (wbv);
 	GtkWidget *item, *menu;
 	int i;
 
@@ -4066,26 +4067,33 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, WBCGtk *wbcg)
 
 	menu = gtk_menu_new ();
 
-	for (i = 0; quick_compute_routines [i].displayed_name; i++) {
+	for (i = 0; quick_compute_routines[i].displayed_name; i++) {
 		GnmParsePos pp;
-		char const *expr = quick_compute_routines [i].function;
+		char const *fname = quick_compute_routines[i].function;
+		char const *dispname =
+			_(quick_compute_routines[i].displayed_name);
 		GnmExprTop const *new_auto_expr;
 		GtkWidget *item;
+		char *expr_txt;
 
 		/* Test the expression...  */
-		parse_pos_init (&pp, wb_control_get_workbook (WORKBOOK_CONTROL (wbcg)), NULL, 0, 0);
-		new_auto_expr = gnm_expr_parse_str_simple (expr, &pp);
+		parse_pos_init (&pp, sheet->workbook, sheet, 0, 0);
+		expr_txt = g_strconcat (fname, "(",
+					parsepos_as_string (&pp),
+					")",  NULL);
+		new_auto_expr = gnm_expr_parse_str
+			(expr_txt, &pp, GNM_EXPR_PARSE_DEFAULT,
+			 sheet_get_conventions (sheet), NULL);
+		g_free (expr_txt);
 		if (!new_auto_expr)
 			continue;
 		gnm_expr_top_unref (new_auto_expr);
 
-		item = gtk_menu_item_new_with_label (
-			_(quick_compute_routines [i].displayed_name));
+		item = gtk_menu_item_new_with_label (dispname);
 		g_object_set_data (G_OBJECT (item),
-				   "func",
-				   gnm_func_lookup (expr, NULL));
-		g_object_set_data (G_OBJECT (item), "descr",
-			(gpointer)_(quick_compute_routines [i].displayed_name));
+				   "func", gnm_func_lookup (fname, NULL));
+		g_object_set_data (G_OBJECT (item),
+				   "descr", (gpointer)dispname);
 		g_signal_connect (G_OBJECT (item),
 			"activate",
 			G_CALLBACK (cb_auto_expr_changed), wbcg);

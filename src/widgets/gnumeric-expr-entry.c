@@ -590,7 +590,10 @@ cb_gee_key_press_event (GtkEntry	*entry,
 			return FALSE;
 		str = gtk_editable_get_chars (editable, start, end);
 
-		texpr = gnm_expr_parse_str_simple (str, &gee->pp);
+		texpr = gnm_expr_parse_str (str, &gee->pp,
+					    GNM_EXPR_PARSE_DEFAULT,
+					    gee_convs (gee),
+					    NULL);
 		if (texpr) {
 			GnmValue *v;
 			GnmEvalPos ep;
@@ -1612,7 +1615,8 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 	}
 
 	if (!texpr)
-		texpr = gnm_expr_parse_str (text, pp, flags, NULL, perr);
+		texpr = gnm_expr_parse_str (text, pp, flags,
+					    gee_convs (gee), perr);
 
 	if (texpr == NULL)
 		return NULL;
