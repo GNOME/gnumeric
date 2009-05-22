@@ -30,8 +30,10 @@
 #include <commands.h>
 #include <gnm-format.h>
 #include <number-match.h>
+#include <gnm-datetime.h>
 #include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-font.h>
+#include <goffice/gtk/go-calendar-button.h>
 #include <goffice/graph/gog-data-allocator.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -50,6 +52,7 @@ struct _GnmExprEntry {
 	GtkHBox	parent;
 
 	GtkEntry		*entry;
+	GtkWidget               *calendar_combo;
 	GtkWidget		*icon;
 	SheetControlGUI		*scg;	/* the source of the edit */
 	Sheet			*sheet;	/* from scg */
@@ -100,7 +103,10 @@ enum {
 	PROP_CONSTANT_FORMAT
 };
 
-static guint signals [LAST_SIGNAL] = { 0 };
+static guint signals[LAST_SIGNAL] = { 0 };
+
+static void gee_set_value_double (GogDataEditor *editor, double val,
+				  GODateConventions const *date_conv);
 
 /* Internal routines
  */
@@ -290,6 +296,56 @@ cb_icon_clicked (GtkButton *icon,
 	}
 }
 
+static GnmValue *
+get_matched_value (GnmExprEntry *gee)
+{
+	GODateConventions const *date_conv =
+		workbook_date_conv (gee->sheet->workbook);
+	const char *text = gnm_expr_entry_get_text (gee);
+
+	return format_match_number (text, gee->constant_format, date_conv);
+}
+
+
+static void
+gee_update_calendar (GnmExprEntry *gee)
+{
+	GDate date;
+	GnmValue *v;
+	GODateConventions const *date_conv =
+		workbook_date_conv (gee->sheet->workbook);
+
+	if (!gee->calendar_combo)
+		return;
+
+	v = get_matched_value (gee);
+	if (!v)
+		return;
+
+	if (datetime_value_to_g (&date, v, date_conv))
+		go_calendar_button_set_date
+			(GO_CALENDAR_BUTTON (gee->calendar_combo),
+			 &date);
+
+	value_release (v);
+}
+
+static void
+cb_calendar_changed (GOCalendarButton *calb, GnmExprEntry *gee)
+{
+	GDate date;
+	GODateConventions const *date_conv =
+		workbook_date_conv (gee->sheet->workbook);
+	int serial;
+
+	if (!go_calendar_button_get_date (calb, &date))
+		return;
+
+	serial = datetime_g_to_serial (&date, date_conv);
+
+	gee_set_value_double (GOG_DATA_EDITOR (gee), serial, date_conv);
+}
+
 static void
 gee_set_format (GnmExprEntry *gee, GOFormat const *fmt)
 {
@@ -303,6 +359,27 @@ gee_set_format (GnmExprEntry *gee, GOFormat const *fmt)
 #if 0
 	g_printerr ("Setting format %s\n", fmt ? go_format_as_XL (fmt) : "-");
 #endif
+
+	if (fmt && go_format_is_date (fmt)) {
+		if (!gee->calendar_combo) {
+			gee->calendar_combo = go_calendar_button_new ();
+			gtk_widget_show (gee->calendar_combo);
+			gtk_box_pack_start (GTK_BOX (gee), gee->calendar_combo,
+					    FALSE, TRUE, 0);
+			gee_update_calendar (gee);
+
+
+			g_signal_connect (G_OBJECT (gee->calendar_combo),
+					  "changed",
+					  G_CALLBACK (cb_calendar_changed),
+					  gee);
+		}
+	} else {
+		if (gee->calendar_combo) {
+			gtk_widget_destroy (gee->calendar_combo);
+			gee->calendar_combo = NULL;
+		}
+	}
 
 	g_object_notify (G_OBJECT (gee), "constant-format");
 }
@@ -326,7 +403,7 @@ gee_set_property (GObject      *object,
 				gtk_container_add (GTK_CONTAINER (gee->icon),
 						   gtk_image_new_from_stock ("Gnumeric_ExprEntry",
 							   		     GTK_ICON_SIZE_MENU));
-				gtk_box_pack_start (GTK_BOX (gee), gee->icon, FALSE, FALSE, 0);
+				gtk_box_pack_end (GTK_BOX (gee), gee->icon, FALSE, FALSE, 0);
 				gtk_widget_show_all (gee->icon);
 				g_signal_connect (gee->icon, "clicked",
 						  G_CALLBACK (cb_icon_clicked), gee);
@@ -397,7 +474,7 @@ gee_get_property (GObject      *object,
 static void
 cb_entry_activate (GnmExprEntry *gee)
 {
-	g_signal_emit (G_OBJECT (gee), signals [ACTIVATE], 0);
+	g_signal_emit (G_OBJECT (gee), signals[ACTIVATE], 0);
 	gnm_expr_entry_signal_update (gee, TRUE);
 }
 
@@ -464,7 +541,8 @@ static void
 cb_entry_changed (GnmExprEntry *gee)
 {
 	gee_update_env (gee);
-	g_signal_emit (G_OBJECT (gee), signals [CHANGED], 0);
+	gee_update_calendar (gee);
+	g_signal_emit (G_OBJECT (gee), signals[CHANGED], 0);
 }
 
 static gboolean
@@ -604,10 +682,13 @@ cb_gee_key_press_event (GtkEntry	*entry,
 			v = gnm_expr_top_eval (texpr, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 			gnm_expr_top_unref (texpr);
 
-			/* Turn the value into an expression so we get the right syntax.  */
+			/*
+			 * Turn the value into an expression so we get
+			 * the right syntax.
+			 */
 			expr = gnm_expr_new_constant (v);
-			cst = gnm_expr_as_string  (expr, &gee->pp,
-						   gee_convs (gee));
+			cst = gnm_expr_as_string (expr, &gee->pp,
+						  gee_convs (gee));
 			gnm_expr_free (expr);
 
 			gtk_editable_delete_text (editable, start, end);
@@ -638,7 +719,7 @@ cb_gee_button_press_event (G_GNUC_UNUSED GtkEntry *entry,
 	if (gee->scg) {
 		scg_rangesel_stop (gee->scg, FALSE);
 		gnm_expr_entry_find_range (gee);
-		g_signal_emit (G_OBJECT (gee), signals [CHANGED], 0);
+		g_signal_emit (G_OBJECT (gee), signals[CHANGED], 0);
 	}
 
 	return FALSE;
@@ -739,8 +820,7 @@ gee_data_editor_set_format (GogDataEditor *deditor, GOFormat const *fmt)
 	if (fmt == gee->constant_format)
 		return;
 
-	v = format_match_number (gnm_expr_entry_get_text (gee),
-				 gee->constant_format, date_conv);
+	v = get_matched_value (gee);
 
 	gee_set_format (gee, fmt);
 
@@ -776,7 +856,7 @@ gee_class_init (GObjectClass *gobject_class)
 	gtk_object_class->destroy	= gee_destroy;
 	widget_class->mnemonic_activate = gee_mnemonic_activate;
 
-	signals [UPDATE] = g_signal_new ("update",
+	signals[UPDATE] = g_signal_new ("update",
 		GNM_EXPR_ENTRY_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmExprEntryClass, update),
@@ -784,7 +864,7 @@ gee_class_init (GObjectClass *gobject_class)
 		g_cclosure_marshal_VOID__BOOLEAN,
 		G_TYPE_NONE,
 		1, G_TYPE_BOOLEAN);
-	signals [CHANGED] = g_signal_new ("changed",
+	signals[CHANGED] = g_signal_new ("changed",
 		GNM_EXPR_ENTRY_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmExprEntryClass, changed),
@@ -1134,7 +1214,7 @@ static gboolean
 cb_gee_update_timeout (GEETimerClosure const *info)
 {
 	info->gee->update_timeout_id = 0;
-	g_signal_emit (G_OBJECT (info->gee), signals [UPDATE], 0,
+	g_signal_emit (G_OBJECT (info->gee), signals[UPDATE], 0,
 		       info->user_requested);
 	return FALSE;
 }
@@ -1263,7 +1343,7 @@ gnm_expr_entry_thaw (GnmExprEntry *gee)
 			if (gee->scg->rangesel.active)
 				break;
 		case GTK_UPDATE_CONTINUOUS:
-			g_signal_emit (G_OBJECT (gee), signals [UPDATE], 0, FALSE);
+			g_signal_emit (G_OBJECT (gee), signals[UPDATE], 0, FALSE);
 		}
 	}
 }
@@ -1604,9 +1684,7 @@ gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
 	texpr = NULL;
 
 	if (gee->constant_format) {
-		GnmValue *v = format_match_number
-			(text, gee->constant_format,
-			 workbook_date_conv (gee->sheet->workbook));
+		GnmValue *v = get_matched_value (gee);
 		if (v) {
 			texpr = gnm_expr_top_new_constant (v);
 			gtk_entry_set_text (gee->entry, text);

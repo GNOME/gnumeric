@@ -1,5 +1,8 @@
 2009-05-22  Morten Welinder  <terra@gnome.org>
 
+	* gnumeric-expr-entry.c (gee_set_format): Install calendar button
+	for date formatted entries.
+
 	* gnumeric-expr-entry.c (cb_gee_key_press_event,
 	gnm_expr_entry_parse): Fix R1C1 problem.
 
