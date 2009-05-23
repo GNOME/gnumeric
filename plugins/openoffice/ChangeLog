@@ -1,5 +1,10 @@
 2009-05-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_print_spreadsheet_content_prelude): add
+	  remaining items defined in ODF 1.0 and 1.2 (1.2 not currently used)
+
+2009-05-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_style): write horizontal and
 	  vertical alignment
 	(odf_print_spreadsheet_content_prelude): in ODF 1.0 date-value is 

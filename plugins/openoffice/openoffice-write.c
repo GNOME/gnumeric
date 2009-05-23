@@ -27,6 +27,10 @@
 
 /*****************************************************************************/
 
+/* change the following to 12 to switch to ODF 1.2 creation. Note that this is not tested and */
+/* changes in GOFFICE are alos required. */
+#define ODFVERSION 10
+
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <workbook-view.h>
@@ -1622,11 +1626,22 @@ static void
 odf_print_spreadsheet_content_prelude (GnmOOExport *state)
 {
 	gsf_xml_out_start_element (state->xml, TABLE "calculation-settings");
+	gsf_xml_out_add_int (state->xml, TABLE "null-year", 1930);
+	odf_add_bool (state->xml, TABLE "automatic-find-labels", FALSE);
+	odf_add_bool (state->xml, TABLE "case-sensitive", FALSE);
+	odf_add_bool (state->xml, TABLE "precision-as-shown", FALSE);
+	odf_add_bool (state->xml, TABLE "search-criteria-must-apply-to-whole-cell", TRUE);
+	odf_add_bool (state->xml, TABLE "use-regular-expressions", FALSE);
+#if ODFVERSION>10
+	odf_add_bool (state->xml, TABLE "use-wildcards", FALSE);
+#endif
 	gsf_xml_out_start_element (state->xml, TABLE "null-date");
 	/* As encouraged by the OpenFormula definition we "compensate" here. */
-	/* Note that for ODF 1.2 this will change to date-value (an eror in the 1.0 schema)*/
-#warning ODF 1.0 attribute requires change for ODF 1.2
+#if ODFVERSION>10
+	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "date-value", "1899-12-30");
+#else
 	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "date-value-type", "1899-12-30");
+#endif
 	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "value-type", "date");
 	gsf_xml_out_end_element (state->xml); /* </table:null-date> */	
 	gsf_xml_out_start_element (state->xml, TABLE "iteration");
