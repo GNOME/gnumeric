@@ -606,218 +606,267 @@ odf_get_gnm_border_format (GnmBorder   *border)
 						      STYLE "text-underline-width", width)
 
 static void
+odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
+{
+	gboolean test1, test2;
+
+	gsf_xml_out_start_element (state->xml, STYLE "table-cell-properties");
+/* Background Color */
+	if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
+		gnm_xml_out_add_hex_color (state->xml, FOSTYLE "background-color",
+					   gnm_style_get_back_color (style));
+/* Borders */
+	BORDERSTYLE(MSTYLE_BORDER_TOP,FOSTYLE "border-top", STYLE "border-line-width-top", GNMSTYLE "border-line-style-top");
+	BORDERSTYLE(MSTYLE_BORDER_BOTTOM,FOSTYLE "border-bottom", STYLE "border-line-width-bottom", GNMSTYLE "border-line-style-bottom");
+	BORDERSTYLE(MSTYLE_BORDER_LEFT,FOSTYLE "border-left", STYLE "border-line-width-left", GNMSTYLE "border-line-style-left");
+	BORDERSTYLE(MSTYLE_BORDER_RIGHT,FOSTYLE "border-right", STYLE "border-line-width-right", GNMSTYLE "border-line-style-right");
+	BORDERSTYLE(MSTYLE_BORDER_REV_DIAGONAL,STYLE "diagonal-bl-tr", STYLE "diagonal-bl-tr-widths", GNMSTYLE "diagonal-bl-tr-line-style");
+	BORDERSTYLE(MSTYLE_BORDER_DIAGONAL,STYLE "diagonal-tl-br",  STYLE "diagonal-tl-br-widths", GNMSTYLE "diagonal-tl-br-line-style");
+	/* note that we are at this time not setting any of: 
+	   fo:padding 18.209, 
+	   fo:padding-bottom 18.210, 
+	   fo:padding-left 18.211, 
+	   fo:padding-right 18.212, 
+	   fo:padding-top 18.213, 
+	   style:shadow 18.347, 
+	*/
+	
+/* Vertical Alignment */
+	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_V)) {
+		GnmVAlign align = gnm_style_get_align_v (style);
+		char const *alignment = NULL;
+		gboolean gnum_specs = FALSE;
+		switch (align) {
+		case VALIGN_TOP:
+			alignment = "top";
+			break;
+		case VALIGN_BOTTOM:
+			alignment= "bottom";
+			break;
+		case VALIGN_CENTER:
+			alignment = "middle";
+			break;
+		case VALIGN_JUSTIFY:
+		case VALIGN_DISTRIBUTED:
+		default:
+			alignment = "automatic";
+			gnum_specs = TRUE;
+			break;
+		}
+		gsf_xml_out_add_cstr (state->xml, STYLE "vertical-align", alignment);
+		if (gnum_specs)
+			gsf_xml_out_add_int (state->xml, GNMSTYLE "GnmVAlign", align);
+	}
+	
+/* Wrapped Text */
+	if (gnm_style_is_element_set (style, MSTYLE_WRAP_TEXT))
+		gsf_xml_out_add_cstr (state->xml, FOSTYLE "wrap-option", 
+				      gnm_style_get_wrap_text (style) ? "wrap" : "no-wrap");
+	
+/* Shrink-To-Fit */
+	if (gnm_style_is_element_set (style, MSTYLE_SHRINK_TO_FIT))
+		odf_add_bool (state->xml,  STYLE "shrink-to-fit", 
+			      gnm_style_get_shrink_to_fit (style));
+	
+/* Text Direction */
+	/* Note that fo:direction, style:writing-mode and style:writing-mode-automatic interact. */
+	/* style:writing-mode-automatic is set in the paragraph properties below. */
+	if (gnm_style_is_element_set (style, MSTYLE_TEXT_DIR)) {
+		char const *writing_mode = NULL;
+		char const *direction = NULL;
+		switch (gnm_style_get_text_dir (style)) {
+		case GNM_TEXT_DIR_RTL:
+			writing_mode = "rl-tb";
+			break;
+		case GNM_TEXT_DIR_LTR:
+			writing_mode = "lr-tb";
+			direction = "ltr";
+			break;
+		case GNM_TEXT_DIR_CONTEXT:
+			writing_mode = "page";
+			/* Note that we will be setting style:writing-mode-automatic below */
+			break;
+		}
+		gsf_xml_out_add_cstr (state->xml, STYLE "writing-mode", writing_mode);
+		if (direction != NULL)
+			gsf_xml_out_add_cstr (state->xml, FOSTYLE "direction", direction);
+		gsf_xml_out_add_cstr (state->xml, STYLE "glyph-orientation-vertical", "auto");
+	}
+	
+/* Cell Protection */
+	test1 = gnm_style_is_element_set (style, MSTYLE_CONTENTS_HIDDEN);
+	test2 = gnm_style_is_element_set (style, MSTYLE_CONTENTS_LOCKED);
+	if (test1 || test2) {
+		    gboolean hidden = test1 && gnm_style_get_contents_hidden (style);
+		    gboolean protected = test2 && gnm_style_get_contents_locked (style);
+		    char const *label;
+
+		    if (hidden)
+			    label = protected ? "hidden-and-protected" : "formula-hidden";
+		    else
+			    label = protected ? "protected" : "none";
+		    gsf_xml_out_add_cstr (state->xml, STYLE "cell-protect", label);
+	}		
+					  
+/* Rotation */
+	if (gnm_style_is_element_set (style, MSTYLE_ROTATION)) {
+		gsf_xml_out_add_cstr (state->xml, STYLE "rotation-align", "none");
+		odf_add_angle (state->xml, STYLE "rotation-angle",  gnm_style_get_rotation (style));
+	}
+	
+/* Print Content */
+	odf_add_bool (state->xml,  STYLE "print-content", TRUE);
+	
+/* Repeat Content */
+	odf_add_bool (state->xml,  STYLE "repeat-content", FALSE);
+	
+/* Decimal Places (this is the maximum number of decimal places shown if not otherwise specified.)  */
+	/* Only interpreted in a default style. */
+	gsf_xml_out_add_int (state->xml, STYLE "decimal-places", 13);
+
+	gsf_xml_out_end_element (state->xml); /* </style:table-cell-properties */
+}
+
+static void
+odf_write_style_paragraph_properties (GnmOOExport *state, GnmStyle const *style)
+{
+	gsf_xml_out_start_element (state->xml, STYLE "paragraph-properties");
+/* Text Direction */
+	/* Note that fo:direction, style:writing-mode and style:writing-mode-automatic interact. */
+	/* fo:direction and style:writing-mode may have been set in the cell properties above. */
+	if (gnm_style_is_element_set (style, MSTYLE_TEXT_DIR))
+		odf_add_bool (state->xml,  STYLE "writing-mode-automatic", 
+			      (gnm_style_get_text_dir (style) == GNM_TEXT_DIR_CONTEXT));
+	
+/* Horizontal Alignment */
+	if (gnm_style_is_element_set (style, MSTYLE_ALIGN_H)) {
+		GnmHAlign align = gnm_style_get_align_h (style);
+		char const *alignment = NULL;
+		char const *source = "fix";
+		gboolean gnum_specs = FALSE;
+		switch (align) {
+		case HALIGN_LEFT:
+			alignment = "left";
+			break;
+		case HALIGN_RIGHT:
+			alignment= "right";
+			break;
+		case HALIGN_CENTER:
+			alignment = "center";
+			break;
+		case HALIGN_JUSTIFY:
+			alignment = "justify";
+			break;
+		case HALIGN_GENERAL:
+		case HALIGN_FILL:
+		case HALIGN_CENTER_ACROSS_SELECTION:
+		case HALIGN_DISTRIBUTED:
+		default:
+			alignment = "start";
+			source = "value-type";
+			gnum_specs = TRUE;
+			break;
+		}
+		gsf_xml_out_add_cstr (state->xml, FOSTYLE "text-align", alignment);
+		gsf_xml_out_add_cstr (state->xml, FOSTYLE "text-align-source", source);
+		if (gnum_specs)
+			gsf_xml_out_add_int (state->xml, GNMSTYLE "GnmHAlign", align);
+	}
+	
+	gsf_xml_out_end_element (state->xml); /* </style:paragraph-properties */
+}
+
+
+static void
+odf_write_style_text_properties (GnmOOExport *state, GnmStyle const *style)
+{
+	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+
+/* Hidden */
+	if (gnm_style_is_element_set (style, MSTYLE_CONTENTS_HIDDEN)) {
+		    char const *label = gnm_style_get_contents_hidden (style) ?
+			    "none":"true";
+		    gsf_xml_out_add_cstr (state->xml, TEXT "display", label);
+	}		
+
+/* Font Weight */
+	if (gnm_style_is_element_set (style, MSTYLE_FONT_BOLD))
+		gsf_xml_out_add_int (state->xml, FOSTYLE "font-weight", 
+				     gnm_style_get_font_bold (style) 
+				     ? PANGO_WEIGHT_BOLD 
+				     : PANGO_WEIGHT_NORMAL);
+/* Font Style (Italic vs Roman) */
+	if (gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC))
+		gsf_xml_out_add_cstr (state->xml, FOSTYLE "font-style", 
+				      gnm_style_get_font_italic (style) 
+				      ? "italic" : "normal");
+/* Strikethrough */
+	if (gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH)) {
+		if (gnm_style_get_font_strike (style)) {
+			gsf_xml_out_add_cstr (state->xml,  STYLE "text-line-through-type", "single");
+			gsf_xml_out_add_cstr (state->xml, STYLE "text-line-through-style", "solid");
+		} else {
+			gsf_xml_out_add_cstr (state->xml,  STYLE "text-line-through-type", "none");
+			gsf_xml_out_add_cstr (state->xml, STYLE "text-line-through-style", "none");
+		}
+	}
+/* Underline */
+	if (gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE))
+		switch (gnm_style_get_font_uline (style)) {
+		case UNDERLINE_NONE:
+			UNDERLINESPECS("none", "none", "auto");
+			break;
+		case UNDERLINE_SINGLE:
+			UNDERLINESPECS("single", "solid", "auto");
+			break;
+		case UNDERLINE_DOUBLE:
+			UNDERLINESPECS("double", "solid", "auto");
+			break;
+		}
+/* Superscript/Subscript */
+	if (gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT))		
+		switch (gnm_style_get_font_script (style)) {
+		case GO_FONT_SCRIPT_SUB:
+			gsf_xml_out_add_cstr (state->xml, 
+					      STYLE "text-position", "sub 80%");
+			break;
+		case GO_FONT_SCRIPT_STANDARD:
+			gsf_xml_out_add_cstr (state->xml, 
+					      STYLE "text-position", "0% 100%");
+			break;
+		case GO_FONT_SCRIPT_SUPER:
+			gsf_xml_out_add_cstr (state->xml, 
+					      STYLE "text-position", "super 80%");
+			break;
+		}
+/* Font Size */
+	if (gnm_style_is_element_set (style, MSTYLE_FONT_SIZE))		
+		gsf_xml_out_add_int (state->xml, FOSTYLE "font-size",
+				     gnm_style_get_font_size (style));
+/* Foreground Color */
+	if (gnm_style_is_element_set (style, MSTYLE_FONT_COLOR))
+		gnm_xml_out_add_hex_color (state->xml, FOSTYLE "color",
+					   gnm_style_get_font_color (style));
+/* Font Family */
+	if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME))
+		gsf_xml_out_add_cstr (state->xml, FOSTYLE "font-family",
+				      gnm_style_get_font_name (style));
+	gsf_xml_out_end_element (state->xml); /* </style:text-properties */	
+}
+
+static void
 odf_write_style (GnmOOExport *state, GnmStyle const *style)
 {
-		gsf_xml_out_start_element (state->xml, STYLE "table-cell-properties");
-/* Background Color */
-		if (gnm_style_is_element_set (style, MSTYLE_COLOR_BACK))
-			gnm_xml_out_add_hex_color (state->xml, FOSTYLE "background-color",
-						   gnm_style_get_back_color (style));
-/* Borders */
-		BORDERSTYLE(MSTYLE_BORDER_TOP,FOSTYLE "border-top", STYLE "border-line-width-top", GNMSTYLE "border-line-style-top");
-		BORDERSTYLE(MSTYLE_BORDER_BOTTOM,FOSTYLE "border-bottom", STYLE "border-line-width-bottom", GNMSTYLE "border-line-style-bottom");
-		BORDERSTYLE(MSTYLE_BORDER_LEFT,FOSTYLE "border-left", STYLE "border-line-width-left", GNMSTYLE "border-line-style-left");
-		BORDERSTYLE(MSTYLE_BORDER_RIGHT,FOSTYLE "border-right", STYLE "border-line-width-right", GNMSTYLE "border-line-style-right");
-		BORDERSTYLE(MSTYLE_BORDER_REV_DIAGONAL,STYLE "diagonal-bl-tr", STYLE "diagonal-bl-tr-widths", GNMSTYLE "diagonal-bl-tr-line-style");
-		BORDERSTYLE(MSTYLE_BORDER_DIAGONAL,STYLE "diagonal-tl-br",  STYLE "diagonal-tl-br-widths", GNMSTYLE "diagonal-tl-br-line-style");
-		/* note that we are at this time not setting any of: 
-		   fo:padding 18.209, 
-		   fo:padding-bottom 18.210, 
-		   fo:padding-left 18.211, 
-		   fo:padding-right 18.212, 
-		   fo:padding-top 18.213, 
-		   style:shadow 18.347, 
-		*/
-
-/* Vertical Alignment */
-		if (gnm_style_is_element_set (style, MSTYLE_ALIGN_V)) {
-			GnmVAlign align = gnm_style_get_align_v (style);
-			char const *alignment = NULL;
-			gboolean gnum_specs = FALSE;
-			switch (align) {
-			case VALIGN_TOP:
-				alignment = "top";
-				break;
-			case VALIGN_BOTTOM:
-				alignment= "bottom";
-				break;
-			case VALIGN_CENTER:
-				alignment = "middle";
-				break;
-			case VALIGN_JUSTIFY:
-			case VALIGN_DISTRIBUTED:
-			default:
-				alignment = "automatic";
-				gnum_specs = TRUE;
-				break;
-			}
-			gsf_xml_out_add_cstr (state->xml, STYLE "vertical-align", alignment);
-			if (gnum_specs)
-				gsf_xml_out_add_int (state->xml, GNMSTYLE "GnmVAlign", align);
-		}
-
-/* Wrapped Text */
-		if (gnm_style_is_element_set (style, MSTYLE_WRAP_TEXT))
-			gsf_xml_out_add_cstr (state->xml, FOSTYLE "wrap-option", 
-					      gnm_style_get_wrap_text (style) ? "wrap" : "no-wrap");
-
-/* Shrink-To-Fit */
-		if (gnm_style_is_element_set (style, MSTYLE_SHRINK_TO_FIT))
-			odf_add_bool (state->xml,  STYLE "shrink-to-fit", 
-				      gnm_style_get_shrink_to_fit (style));
-
-/* Text Direction */
-		/* Note that fo:direction, style:writing-mode and style:writing-mode-automatic interact. */
-		/* style:writing-mode-automatic is set in the paragraph properties below. */
-		if (gnm_style_is_element_set (style, MSTYLE_TEXT_DIR)) {
-			char const *writing_mode = NULL;
-			char const *direction = NULL;
-			switch (gnm_style_get_text_dir (style)) {
-			case GNM_TEXT_DIR_RTL:
-				writing_mode = "rl-tb";
-				break;
-			case GNM_TEXT_DIR_LTR:
-				writing_mode = "lr-tb";
-				direction = "ltr";
-				break;
-			case GNM_TEXT_DIR_CONTEXT:
-				writing_mode = "page";
-				/* Note that we will be setting style:writing-mode-automatic below */
-				break;
-			}
-			gsf_xml_out_add_cstr (state->xml, STYLE "writing-mode", writing_mode);
-			if (direction != NULL)
-				gsf_xml_out_add_cstr (state->xml, FOSTYLE "direction", direction);
-			gsf_xml_out_add_cstr (state->xml, STYLE "glyph-orientation-vertical", "auto");
-		}
-
-/* Rotation */
-		if (gnm_style_is_element_set (style, MSTYLE_ROTATION)) {
-			gsf_xml_out_add_cstr (state->xml, STYLE "rotation-align", "none");
-			odf_add_angle (state->xml, STYLE "rotation-angle",  gnm_style_get_rotation (style));
-		}
-
-		gsf_xml_out_end_element (state->xml); /* </style:table-cell-properties */
-
-		gsf_xml_out_start_element (state->xml, STYLE "paragraph-properties");
-/* Text Direction */
-		/* Note that fo:direction, style:writing-mode and style:writing-mode-automatic interact. */
-		/* fo:direction and style:writing-mode may have been set in the cell properties above. */
-		if (gnm_style_is_element_set (style, MSTYLE_TEXT_DIR))
-		    	odf_add_bool (state->xml,  STYLE "writing-mode-automatic", 
-				      (gnm_style_get_text_dir (style) == GNM_TEXT_DIR_CONTEXT));
-
-/* Horizontal Alignment */
-		if (gnm_style_is_element_set (style, MSTYLE_ALIGN_H)) {
-			GnmHAlign align = gnm_style_get_align_h (style);
-			char const *alignment = NULL;
-			char const *source = "fix";
-			gboolean gnum_specs = FALSE;
-			switch (align) {
-			case HALIGN_LEFT:
-				alignment = "left";
-				break;
-			case HALIGN_RIGHT:
-				alignment= "right";
-				break;
-			case HALIGN_CENTER:
-				alignment = "center";
-				break;
-			case HALIGN_JUSTIFY:
-				alignment = "justify";
-				break;
-			case HALIGN_GENERAL:
-			case HALIGN_FILL:
-			case HALIGN_CENTER_ACROSS_SELECTION:
-			case HALIGN_DISTRIBUTED:
-			default:
-				alignment = "start";
-				source = "value-type";
-				gnum_specs = TRUE;
-				break;
-			}
-			gsf_xml_out_add_cstr (state->xml, FOSTYLE "text-align", alignment);
-			gsf_xml_out_add_cstr (state->xml, FOSTYLE "text-align-source", source);
-			if (gnum_specs)
-				gsf_xml_out_add_int (state->xml, GNMSTYLE "GnmHAlign", align);
-		}
-
-		gsf_xml_out_end_element (state->xml); /* </style:paragraph-properties */
-
-		gsf_xml_out_start_element (state->xml, STYLE "text-properties");
-/* Font Weight */
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_BOLD))
-			gsf_xml_out_add_int (state->xml, FOSTYLE "font-weight", 
-					     gnm_style_get_font_bold (style) 
-					     ? PANGO_WEIGHT_BOLD 
-					     : PANGO_WEIGHT_NORMAL);
-/* Font Style (Italic vs Roman) */
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_ITALIC))
-			gsf_xml_out_add_cstr (state->xml, FOSTYLE "font-style", 
-					      gnm_style_get_font_italic (style) 
-					      ? "italic" : "normal");
-/* Strikethrough */
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH)) {
-			if (gnm_style_get_font_strike (style)) {
-				gsf_xml_out_add_cstr (state->xml,  STYLE "text-line-through-type", "single");
-				gsf_xml_out_add_cstr (state->xml, STYLE "text-line-through-style", "solid");
-			} else {
-				gsf_xml_out_add_cstr (state->xml,  STYLE "text-line-through-type", "none");
-				gsf_xml_out_add_cstr (state->xml, STYLE "text-line-through-style", "none");
-			}
-		}
-/* Underline */
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE))
-			switch (gnm_style_get_font_uline (style)) {
-			case UNDERLINE_NONE:
-				UNDERLINESPECS("none", "none", "auto");
-				break;
-			case UNDERLINE_SINGLE:
-				UNDERLINESPECS("single", "solid", "auto");
-				break;
-			case UNDERLINE_DOUBLE:
-				UNDERLINESPECS("double", "solid", "auto");
-				break;
-			}
-/* Superscript/Subscript */
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_SCRIPT))		
-			switch (gnm_style_get_font_script (style)) {
-			case GO_FONT_SCRIPT_SUB:
-				gsf_xml_out_add_cstr (state->xml, 
-						      STYLE "text-position", "sub 80%");
-				break;
-			case GO_FONT_SCRIPT_STANDARD:
-				gsf_xml_out_add_cstr (state->xml, 
-						      STYLE "text-position", "0% 100%");
-				break;
-			case GO_FONT_SCRIPT_SUPER:
-				gsf_xml_out_add_cstr (state->xml, 
-						      STYLE "text-position", "super 80%");
-				break;
-			}
-/* Font Size */
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_SIZE))		
-			gsf_xml_out_add_int (state->xml, FOSTYLE "font-size",
-					     gnm_style_get_font_size (style));
-/* Foreground Color */
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_COLOR))
-			gnm_xml_out_add_hex_color (state->xml, FOSTYLE "color",
-						   gnm_style_get_font_color (style));
-/* Font Family */
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME))
-			gsf_xml_out_add_cstr (state->xml, FOSTYLE "font-family",
-					      gnm_style_get_font_name (style));
-		gsf_xml_out_end_element (state->xml); /* </style:text-properties */
-
+	odf_write_style_cell_properties (state, style);
+	odf_write_style_paragraph_properties (state, style);
+	odf_write_style_text_properties (state, style);
+	
 /* MSTYLE_FORMAT */
 /* MSTYLE_INDENT */
-/* MSTYLE_CONTENTS_LOCKED */
-/* MSTYLE_CONTENTS_HIDDEN */
 /* MSTYLE_VALIDATION */
 /* MSTYLE_HLINK */
 /* MSTYLE_INPUT_MSG */
 /* MSTYLE_CONDITIONS */
-
 }
 
 #undef UNDERLINESPECS

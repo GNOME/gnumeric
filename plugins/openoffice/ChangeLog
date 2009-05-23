@@ -1,5 +1,13 @@
 2009-05-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_style): added more style info and split 
+	  into 3 sections:
+	(odf_write_style_cell_properties): new
+	(odf_write_style_paragraph_properties): new
+	(odf_write_style_text_properties): new
+	
+2009-05-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_add_angle): new
 	(odf_write_style): handled wrapped text, shrink-to-fit, text direction,
 	  and rotation
