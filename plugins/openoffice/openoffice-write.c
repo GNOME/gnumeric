@@ -359,6 +359,14 @@ odf_add_bool (GsfXMLOut *xml, char const *id, gboolean val)
 	gsf_xml_out_add_cstr_unchecked (xml, id, val ? "true" : "false");
 }
 
+static void
+odf_add_angle (GsfXMLOut *xml, char const *id, int val)
+{
+	if (val == -1)
+		val = 90;
+	gsf_xml_out_add_int (xml, id, val);
+}
+
 
 static void
 odf_add_pt (GsfXMLOut *xml, char const *id, float l)
@@ -570,6 +578,14 @@ odf_get_gnm_border_format (GnmBorder   *border)
 	return border_type;
 }
 
+
+/* ODF write style                                                                        */
+/*                                                                                        */
+/* We have to write our style information and map them to ODF expectations                */
+/* This is supposed to match how we read the styles again in openoffice-read.c            */
+/* Note that we are introducing foreign elemetns as required for round tripping           */
+
+
 #define BORDERSTYLE(msbw, msbwstr, msbwstr_wth, msbwstr_gnm) if (gnm_style_is_element_set (style, msbw)) { \
 	                GnmBorder *border = gnm_style_get_border (style, msbw); \
 			char *border_style = odf_get_border_format (border); \
@@ -604,6 +620,15 @@ odf_write_style (GnmOOExport *state, GnmStyle const *style)
 		BORDERSTYLE(MSTYLE_BORDER_RIGHT,FOSTYLE "border-right", STYLE "border-line-width-right", GNMSTYLE "border-line-style-right");
 		BORDERSTYLE(MSTYLE_BORDER_REV_DIAGONAL,STYLE "diagonal-bl-tr", STYLE "diagonal-bl-tr-widths", GNMSTYLE "diagonal-bl-tr-line-style");
 		BORDERSTYLE(MSTYLE_BORDER_DIAGONAL,STYLE "diagonal-tl-br",  STYLE "diagonal-tl-br-widths", GNMSTYLE "diagonal-tl-br-line-style");
+		/* note that we are at this time not setting any of: 
+		   fo:padding 18.209, 
+		   fo:padding-bottom 18.210, 
+		   fo:padding-left 18.211, 
+		   fo:padding-right 18.212, 
+		   fo:padding-top 18.213, 
+		   style:shadow 18.347, 
+		*/
+
 /* Vertical Alignment */
 		if (gnm_style_is_element_set (style, MSTYLE_ALIGN_V)) {
 			GnmVAlign align = gnm_style_get_align_v (style);
@@ -631,9 +656,57 @@ odf_write_style (GnmOOExport *state, GnmStyle const *style)
 				gsf_xml_out_add_int (state->xml, GNMSTYLE "GnmVAlign", align);
 		}
 
+/* Wrapped Text */
+		if (gnm_style_is_element_set (style, MSTYLE_WRAP_TEXT))
+			gsf_xml_out_add_cstr (state->xml, FOSTYLE "wrap-option", 
+					      gnm_style_get_wrap_text (style) ? "wrap" : "no-wrap");
+
+/* Shrink-To-Fit */
+		if (gnm_style_is_element_set (style, MSTYLE_SHRINK_TO_FIT))
+			odf_add_bool (state->xml,  STYLE "shrink-to-fit", 
+				      gnm_style_get_shrink_to_fit (style));
+
+/* Text Direction */
+		/* Note that fo:direction, style:writing-mode and style:writing-mode-automatic interact. */
+		/* style:writing-mode-automatic is set in the paragraph properties below. */
+		if (gnm_style_is_element_set (style, MSTYLE_TEXT_DIR)) {
+			char const *writing_mode = NULL;
+			char const *direction = NULL;
+			switch (gnm_style_get_text_dir (style)) {
+			case GNM_TEXT_DIR_RTL:
+				writing_mode = "rl-tb";
+				break;
+			case GNM_TEXT_DIR_LTR:
+				writing_mode = "lr-tb";
+				direction = "ltr";
+				break;
+			case GNM_TEXT_DIR_CONTEXT:
+				writing_mode = "page";
+				/* Note that we will be setting style:writing-mode-automatic below */
+				break;
+			}
+			gsf_xml_out_add_cstr (state->xml, STYLE "writing-mode", writing_mode);
+			if (direction != NULL)
+				gsf_xml_out_add_cstr (state->xml, FOSTYLE "direction", direction);
+			gsf_xml_out_add_cstr (state->xml, STYLE "glyph-orientation-vertical", "auto");
+		}
+
+/* Rotation */
+		if (gnm_style_is_element_set (style, MSTYLE_ROTATION)) {
+			gsf_xml_out_add_cstr (state->xml, STYLE "rotation-align", "none");
+			odf_add_angle (state->xml, STYLE "rotation-angle",  gnm_style_get_rotation (style));
+		}
+
 		gsf_xml_out_end_element (state->xml); /* </style:table-cell-properties */
 
 		gsf_xml_out_start_element (state->xml, STYLE "paragraph-properties");
+/* Text Direction */
+		/* Note that fo:direction, style:writing-mode and style:writing-mode-automatic interact. */
+		/* fo:direction and style:writing-mode may have been set in the cell properties above. */
+		if (gnm_style_is_element_set (style, MSTYLE_TEXT_DIR))
+		    	odf_add_bool (state->xml,  STYLE "writing-mode-automatic", 
+				      (gnm_style_get_text_dir (style) == GNM_TEXT_DIR_CONTEXT));
+
 /* Horizontal Alignment */
 		if (gnm_style_is_element_set (style, MSTYLE_ALIGN_H)) {
 			GnmHAlign align = gnm_style_get_align_h (style);
@@ -691,8 +764,10 @@ odf_write_style (GnmOOExport *state, GnmStyle const *style)
 			} else {
 				gsf_xml_out_add_cstr (state->xml,  STYLE "text-line-through-type", "none");
 				gsf_xml_out_add_cstr (state->xml, STYLE "text-line-through-style", "none");
-			}}
-		if (gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH))
+			}
+		}
+/* Underline */
+		if (gnm_style_is_element_set (style, MSTYLE_FONT_UNDERLINE))
 			switch (gnm_style_get_font_uline (style)) {
 			case UNDERLINE_NONE:
 				UNDERLINESPECS("none", "none", "auto");
@@ -733,6 +808,16 @@ odf_write_style (GnmOOExport *state, GnmStyle const *style)
 			gsf_xml_out_add_cstr (state->xml, FOSTYLE "font-family",
 					      gnm_style_get_font_name (style));
 		gsf_xml_out_end_element (state->xml); /* </style:text-properties */
+
+/* MSTYLE_FORMAT */
+/* MSTYLE_INDENT */
+/* MSTYLE_CONTENTS_LOCKED */
+/* MSTYLE_CONTENTS_HIDDEN */
+/* MSTYLE_VALIDATION */
+/* MSTYLE_HLINK */
+/* MSTYLE_INPUT_MSG */
+/* MSTYLE_CONDITIONS */
+
 }
 
 #undef UNDERLINESPECS

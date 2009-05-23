@@ -1,3 +1,9 @@
+2009-05-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_add_angle): new
+	(odf_write_style): handled wrapped text, shrink-to-fit, text direction,
+	  and rotation
+	
 2009-05-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_print_spreadsheet_content_prelude): add
