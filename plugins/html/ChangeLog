@@ -1,3 +1,7 @@
+2009-05-23  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.8
+
 2009-05-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* html.c (html_write_cell_content): make sure there is 

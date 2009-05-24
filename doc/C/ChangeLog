@@ -1,3 +1,7 @@
+2009-05-23  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.8
+
 2009-05-13  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* data-types.xml: fix the description of references to cells in

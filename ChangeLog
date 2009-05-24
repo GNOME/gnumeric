@@ -1,3 +1,7 @@
+2009-05-23  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.8
+
 2009-05-22  Morten Welinder  <terra@gnome.org>
 
 	* src/parse-util.c (gnm_expr_parse_str_simple): Remove.  Interface

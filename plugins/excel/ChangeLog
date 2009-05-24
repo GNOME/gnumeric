@@ -1,3 +1,7 @@
+2009-05-23  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.8
+
 2009-05-19  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_WINDOW1): Normalize bools, or else

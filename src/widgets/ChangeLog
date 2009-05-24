@@ -1,3 +1,7 @@
+2009-05-23  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.8
+
 2009-05-23  Morten Welinder  <terra@gnome.org>
 
 	* gnm-notebook.c (I_): Don't translate signal names.

@@ -1,3 +1,7 @@
+2009-05-23  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.8
+
 2009-05-14  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (range_lcm): Don't change the supplied data.

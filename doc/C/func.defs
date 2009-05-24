@@ -6852,11 +6852,20 @@ CHAR("Foo") equals "Foo".
 @CATEGORY=String
 @FUNCTION=CHAR
 @SYNTAX=CHAR(x)
-@DESCRIPTION=CHAR returns the ASCII character represented by the number @x.
-
-@EXAMPLES=
-CHAR(65) equals A.
-
+@DESCRIPTION=CHAR(@{x}) returns the CP1252 (Windows-1252) character with code @{x}.
+@{x}: which character to return
+@SYNTAX=CHAR(x))
+@DESCRIPTION=@{x} should be in the range 1 to 255.
+@{x}: which character to return
+@SYNTAX=CHAR(x)))
+@DESCRIPTION=CP1252 (Windows-1252) is also known as the "ANSI code page", but it is not an ANSI standard.
+@{x}: which character to return
+@SYNTAX=CHAR(x))))
+@DESCRIPTION=CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains all of its printable characters (but partially at different positions.)
+@{x}: which character to return
+@SYNTAX=CHAR(x)))))
+@DESCRIPTION=This function is Excel compatible.
+@{x}: which character to return
 @SEEALSO=CODE
 
 @CATEGORY=String
@@ -6872,15 +6881,22 @@ CLEAN("one"\&char(7)) equals "one".
 @SEEALSO=
 
 @CATEGORY=String
-@FUNCTION=CODE
-@SYNTAX=CODE(char)
-@DESCRIPTION=CODE returns the ASCII number for the character @char.
-
-* This function is Excel compatible.
-
-@EXAMPLES=
-CODE("A") equals 65.
-
+@FUNCTION=CHAR
+@SYNTAX=CHAR(c)
+@DESCRIPTION=CODE(@{c}) returns the CP1252 (Windows-1252) code point for character @{c}.
+@{c}: which character to return
+@SYNTAX=CHAR(c))
+@DESCRIPTION=@{c} should be a valid CP1252 (Windows-1252) character.
+@{c}: which character to return
+@SYNTAX=CHAR(c)))
+@DESCRIPTION=CP1252 (Windows-1252) is also known as the "ANSI code page", but it is not an ANSI standard.
+@{c}: which character to return
+@SYNTAX=CHAR(c))))
+@DESCRIPTION=CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains all of its printable characters (but partially at different positions.)
+@{c}: which character to return
+@SYNTAX=CHAR(c)))))
+@DESCRIPTION=This function is Excel compatible.
+@{c}: which character to return
 @SEEALSO=CHAR
 
 @CATEGORY=String
