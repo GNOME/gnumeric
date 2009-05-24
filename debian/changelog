@@ -1,3 +1,12 @@
+gnumeric (1.9.8-1) unstable; urgency=low
+
+  * New upstream development release.
+  * [debian/control] Bumped libgsf and goffice build dependencies as per
+    configure.in; updated scrollkeeper build dependency to rarian-compat |
+    scrollkeeper.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 24 May 2009 13:31:08 +0200
+
 gnumeric (1.9.7-1) unstable; urgency=high
 
   * New upstream development release. Upstream changes include:
