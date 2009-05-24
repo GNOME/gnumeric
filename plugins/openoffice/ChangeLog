@@ -1,3 +1,11 @@
+2009-05-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_new_markup): watch for strange starting
+	  positions of the pango iter
+	(odf_write_style_cell_properties): handle input messages
+	(odf_write_style_paragraph_properties): handle indent
+	(odf_write_style_goformat_name): new
+
 2009-05-23  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.8

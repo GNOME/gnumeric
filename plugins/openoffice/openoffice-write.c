@@ -54,6 +54,7 @@
 #include <str.h>
 #include <ranges.h>
 #include <mstyle.h>
+#include <input-msg.h>
 #include <style-border.h>
 #include <validation.h>
 #include <hlink.h>
@@ -330,7 +331,8 @@ odf_new_markup (GnmOOExport *state, const PangoAttrList *markup, char const *tex
 		int spans = 0;
 
 		pango_attr_iterator_range (iter, &from, &to);
-		to = (to > len) ? len : to; /* Since "to" can be really big! */
+		to = (to > len) ? len : to;       /* Since "to" can be really big! */
+		from = (from > len) ? len : from; /* Since "from" can also be really big! */
 		if (from > handled)
 			odf_add_chars (state, text + handled, from - handled, &white_written);
 		list = pango_attr_iterator_get_attrs (iter);
@@ -376,6 +378,29 @@ odf_add_pt (GsfXMLOut *xml, char const *id, float l)
 	g_string_append_printf (str, "%.2fpt", l);
 	gsf_xml_out_add_cstr_unchecked (xml, id, str->str);
 	g_string_free (str, TRUE);
+}
+
+static void
+gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c)
+{
+	char *color;
+	g_return_if_fail (c != NULL);
+
+/* FIXME! there should be a difference between white and transparent */
+
+	if ((UINT_RGBA_A (c->go_color) == 0) &&
+	    c->gdk_color.red/256 == 0xFF &&
+	    c->gdk_color.green/256 == 0xFF &&
+	    c->gdk_color.blue/256 == 0xFF)
+		gsf_xml_out_add_cstr_unchecked (o, id, "transparent");
+	else {
+		color = g_strdup_printf ("#%.2x%.2x%.2x", 
+					 c->gdk_color.red/256, 
+					 c->gdk_color.green/256, 
+					 c->gdk_color.blue/256);
+		gsf_xml_out_add_cstr_unchecked (o, id, color);
+		g_free (color);
+	}
 }
 
 static void
@@ -455,29 +480,6 @@ odf_compare_style (gconstpointer a, gconstpointer b)
 	GnmStyle const *new_style = b;
 
 	return !equal_style (new_style, old_style->style);
-}
-
-static void
-gnm_xml_out_add_hex_color (GsfXMLOut *o, char const *id, GnmColor const *c)
-{
-	char *color;
-	g_return_if_fail (c != NULL);
-
-/* FIXME! there should be a difference between white and transparent */
-
-	if ((UINT_RGBA_A (c->go_color) == 0) &&
-	    c->gdk_color.red/256 == 0xFF &&
-	    c->gdk_color.green/256 == 0xFF &&
-	    c->gdk_color.blue/256 == 0xFF)
-		gsf_xml_out_add_cstr_unchecked (o, id, "transparent");
-	else {
-		color = g_strdup_printf ("#%.2x%.2x%.2x", 
-					 c->gdk_color.red/256, 
-					 c->gdk_color.green/256, 
-					 c->gdk_color.blue/256);
-		gsf_xml_out_add_cstr_unchecked (o, id, color);
-		g_free (color);
-	}
 }
 
 static char *
@@ -724,7 +726,19 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 	/* Only interpreted in a default style. */
 	gsf_xml_out_add_int (state->xml, STYLE "decimal-places", 13);
 
+/* Input Messages */
+	if (gnm_style_is_element_set (style, MSTYLE_ROTATION)) {
+		GnmInputMsg *msg = gnm_style_get_input_msg (style);
+		if (msg != NULL) {
+			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "input-title",  
+					      gnm_input_msg_get_title (msg));
+			
+			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "input-msg",  
+					      gnm_input_msg_get_msg (msg));		}
+	}
+	
 	gsf_xml_out_end_element (state->xml); /* </style:table-cell-properties */
+		
 }
 
 static void
@@ -772,9 +786,14 @@ odf_write_style_paragraph_properties (GnmOOExport *state, GnmStyle const *style)
 		if (gnum_specs)
 			gsf_xml_out_add_int (state->xml, GNMSTYLE "GnmHAlign", align);
 	}
+
+/* Text Indent */
+	if (gnm_style_is_element_set (style, MSTYLE_INDENT))
+		odf_add_pt (state->xml, FOSTYLE "text-indent", gnm_style_get_indent (style));
 	
 	gsf_xml_out_end_element (state->xml); /* </style:paragraph-properties */
 }
+
 
 
 static void
@@ -851,22 +870,47 @@ odf_write_style_text_properties (GnmOOExport *state, GnmStyle const *style)
 	if (gnm_style_is_element_set (style, MSTYLE_FONT_NAME))
 		gsf_xml_out_add_cstr (state->xml, FOSTYLE "font-family",
 				      gnm_style_get_font_name (style));
+
+
 	gsf_xml_out_end_element (state->xml); /* </style:text-properties */	
+}
+
+
+static void
+odf_write_style_goformat_name (GnmOOExport *state, GOFormat *gof)
+{
+	if (go_format_is_markup (gof) || go_format_is_text (gof))
+		return;
+
+	if (go_format_is_general (gof)) {
+#if ODFVERSION>11
+		gsf_xml_out_add_cstr (state->xml, STYLE "data-style-name", "General");
+#endif
+		return;
+	}
 }
 
 static void
 odf_write_style (GnmOOExport *state, GnmStyle const *style)
 {
+
+	if (gnm_style_is_element_set (style, MSTYLE_FORMAT)) {
+		GOFormat *format = gnm_style_get_format(style);
+		if (format != NULL)
+			odf_write_style_goformat_name (state, format);
+	}
+
+
 	odf_write_style_cell_properties (state, style);
 	odf_write_style_paragraph_properties (state, style);
 	odf_write_style_text_properties (state, style);
+
+
 	
-/* MSTYLE_FORMAT */
-/* MSTYLE_INDENT */
-/* MSTYLE_VALIDATION */
-/* MSTYLE_HLINK */
-/* MSTYLE_INPUT_MSG */
-/* MSTYLE_CONDITIONS */
+/* MSTYLE_VALIDATION validations need to be written at a different place and time in ODF  */
+/* MSTYLE_HLINK hyperlinks can not be attached to styles but need to be attached to the cell content */
+
+/* MSTYLE_CONDITIONS  What are we using these for?  */
 }
 
 #undef UNDERLINESPECS
