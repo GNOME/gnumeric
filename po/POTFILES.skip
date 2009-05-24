@@ -6,6 +6,9 @@ src/parser.c
 # not used yet
 src/dialogs/pivottable.glade
 #
+# Irrelevant -- imported from gtk+
+src/widgets/gnm-notebook.c
+#
 # and these are no longer in use:
 plugins/guile/plugin.c
 plugins/guile/plugin.xml.in
