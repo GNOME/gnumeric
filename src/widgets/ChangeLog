@@ -1,3 +1,7 @@
+2009-05-23  Morten Welinder  <terra@gnome.org>
+
+	* gnm-notebook.c (I_): Don't translate signal names.
+
 2009-05-22  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-expr-entry.c (gee_set_format): Install calendar button

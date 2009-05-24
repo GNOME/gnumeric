@@ -26,6 +26,8 @@
 #define USE_INTERNAL_COPY_OF_GTK_NOTEBOOK
 
 #ifdef USE_INTERNAL_COPY_OF_GTK_NOTEBOOK
+
+#define I_(x) (x)
 /*
  * Yes, we really do include a copy of GtkNotebook here until #582488
  * can be fixed.
@@ -1482,7 +1484,7 @@ ggg_notebook_class_init (GggNotebookClass *class)
                                                              G_PARAM_READABLE));
 
   notebook_signals[SWITCH_PAGE] =
-    g_signal_new (_("switch_page"),
+    g_signal_new (I_("switch_page"),
 		  G_TYPE_FROM_CLASS (gobject_class),
 		  G_SIGNAL_RUN_LAST,
 		  G_STRUCT_OFFSET (GggNotebookClass, switch_page),
@@ -1492,7 +1494,7 @@ ggg_notebook_class_init (GggNotebookClass *class)
 		  G_TYPE_POINTER,
 		  G_TYPE_UINT);
   notebook_signals[FOCUS_TAB] = 
-    g_signal_new (_("focus_tab"),
+    g_signal_new (I_("focus_tab"),
                   G_TYPE_FROM_CLASS (gobject_class),
                   G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
                   G_STRUCT_OFFSET (GggNotebookClass, focus_tab),
@@ -1501,7 +1503,7 @@ ggg_notebook_class_init (GggNotebookClass *class)
                   G_TYPE_BOOLEAN, 1,
                   GTK_TYPE_NOTEBOOK_TAB);
   notebook_signals[SELECT_PAGE] = 
-    g_signal_new (_("select_page"),
+    g_signal_new (I_("select_page"),
                   G_TYPE_FROM_CLASS (gobject_class),
                   G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
                   G_STRUCT_OFFSET (GggNotebookClass, select_page),
@@ -1510,7 +1512,7 @@ ggg_notebook_class_init (GggNotebookClass *class)
                   G_TYPE_BOOLEAN, 1,
                   G_TYPE_BOOLEAN);
   notebook_signals[CHANGE_CURRENT_PAGE] = 
-    g_signal_new (_("change_current_page"),
+    g_signal_new (I_("change_current_page"),
                   G_TYPE_FROM_CLASS (gobject_class),
                   G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
                   G_STRUCT_OFFSET (GggNotebookClass, change_current_page),
@@ -1519,7 +1521,7 @@ ggg_notebook_class_init (GggNotebookClass *class)
                   G_TYPE_BOOLEAN, 1,
                   G_TYPE_INT);
   notebook_signals[MOVE_FOCUS_OUT] =
-    g_signal_new (_("move_focus_out"),
+    g_signal_new (I_("move_focus_out"),
                   G_TYPE_FROM_CLASS (gobject_class),
                   G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
                   G_STRUCT_OFFSET (GggNotebookClass, move_focus_out),
@@ -1528,7 +1530,7 @@ ggg_notebook_class_init (GggNotebookClass *class)
                   G_TYPE_NONE, 1,
                   GTK_TYPE_DIRECTION_TYPE);
   notebook_signals[REORDER_TAB] =
-    g_signal_new (_("reorder_tab"),
+    g_signal_new (I_("reorder_tab"),
                   G_TYPE_FROM_CLASS (gobject_class),
                   G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
                   G_STRUCT_OFFSET (GggNotebookClass, reorder_tab),
@@ -1549,7 +1551,7 @@ ggg_notebook_class_init (GggNotebookClass *class)
    * Since: 2.10
    **/
   notebook_signals[PAGE_REORDERED] =
-    g_signal_new (_("page_reordered"),
+    g_signal_new (I_("page_reordered"),
                   G_TYPE_FROM_CLASS (gobject_class),
                   G_SIGNAL_RUN_LAST,
                   0, NULL, NULL,
@@ -1569,7 +1571,7 @@ ggg_notebook_class_init (GggNotebookClass *class)
    * Since: 2.10
    **/
   notebook_signals[PAGE_REMOVED] =
-    g_signal_new (_("page_removed"),
+    g_signal_new (I_("page_removed"),
                   G_TYPE_FROM_CLASS (gobject_class),
                   G_SIGNAL_RUN_LAST,
                   0, NULL, NULL,
@@ -1589,7 +1591,7 @@ ggg_notebook_class_init (GggNotebookClass *class)
    * Since: 2.10
    **/
   notebook_signals[PAGE_ADDED] =
-    g_signal_new (_("page_added"),
+    g_signal_new (I_("page_added"),
                   G_TYPE_FROM_CLASS (gobject_class),
                   G_SIGNAL_RUN_LAST,
                   0, NULL, NULL,
@@ -1622,7 +1624,7 @@ ggg_notebook_class_init (GggNotebookClass *class)
    * Since: 2.12
    */
   notebook_signals[CREATE_WINDOW] = 
-    g_signal_new (_("create_window"),
+    g_signal_new (I_("create_window"),
                   G_TYPE_FROM_CLASS (gobject_class),
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (GggNotebookClass, create_window),
