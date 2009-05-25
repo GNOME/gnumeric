@@ -4,6 +4,7 @@
 
 #include <gnumeric.h>
 #include <position.h>
+#include <numbers.h>
 #include <goffice/utils/regutf8.h>
 
 G_BEGIN_DECLS
@@ -55,6 +56,9 @@ struct _GnmSearchReplace {
 	Sheet *sheet;
 
 	gboolean query;		/* Ask before each change.  */
+
+	gboolean is_number;     /* Search for specific number.  */
+	gnm_float the_number;   /* protected. */
 
 	/* The following identify what kinds of cells are the target.  */
 	gboolean search_strings;

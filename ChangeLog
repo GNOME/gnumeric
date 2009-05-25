@@ -1,3 +1,12 @@
+2009-05-25  Morten Welinder  <terra@gnome.org>
+
+	* src/search.c (gnm_search_replace_set_property,
+	gnm_search_replace_get_property, gnm_search_replace_class_init):
+	Add new is-number property.
+	(gnm_search_replace_comment): Comments are not numbers.
+	(gnm_search_replace_cell, gnm_search_replace_value): Handle number
+	search.
+
 2009-05-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* configure.in: increase libgsf requirement to 1.14.15

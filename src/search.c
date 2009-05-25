@@ -15,6 +15,7 @@
 #include "workbook.h"
 #include "position.h"
 #include "cell.h"
+#include "number-match.h"
 #include "value.h"
 #include "sheet-object-cell-comment.h"
 #include <gsf/gsf-impl-utils.h>
@@ -30,6 +31,7 @@ typedef struct {
 
 enum {
 	PROP_0,
+	PROP_IS_NUMBER,
 	PROP_SEARCH_STRINGS,
 	PROP_SEARCH_OTHER_VALUES,
 	PROP_SEARCH_EXPRESSIONS,
@@ -47,16 +49,56 @@ enum {
 
 /* ------------------------------------------------------------------------- */
 
+static gboolean
+check_number (GnmSearchReplace *sr)
+{
+	GODateConventions const *date_conv =
+		workbook_date_conv (sr->sheet->workbook);
+	GOSearchReplace *gosr = (GOSearchReplace *)sr;
+	GnmValue *v = format_match_number (gosr->search_text, NULL, date_conv);
+
+	if (v) {
+		sr->the_number = value_get_as_float (v);
+		value_release (v);
+		return TRUE;
+	} else {
+		sr->the_number = 0;
+		return FALSE;
+	}
+}
+
+static gboolean
+gnm_search_match_value (GnmSearchReplace const *sr, GnmValue const *val)
+{
+	gnm_float f;
+	if (!VALUE_IS_NUMBER (val))
+		return FALSE;
+
+	f = value_get_as_float (val);
+	/* Exact match for now.  */
+	return (sr->the_number == f);
+}
+
+
 char *
 gnm_search_replace_verify (GnmSearchReplace *sr, gboolean repl)
 {
 	GError *error = NULL;
+	GOSearchReplace *gosr = (GOSearchReplace *)sr;
 	g_return_val_if_fail (sr != NULL, NULL);
 
-	if (!go_search_replace_verify (GO_SEARCH_REPLACE (sr), repl, &error)) {
+	if (!go_search_replace_verify (gosr, repl, &error)) {
 		char *msg = g_strdup (error->message);
 		g_error_free (error);
 		return msg;
+	}
+
+	if (sr->is_number && gosr->is_regexp)
+		return g_strdup (_("Searching for regular expressions and numbers are mutually exclusive."));
+
+	if (sr->is_number) {
+		if (!check_number (sr))
+			return g_strdup (_("The search text must be a number."));
 	}
 
 	if (sr->scope == GNM_SRS_RANGE) {
@@ -194,6 +236,9 @@ gnm_search_filter_matching (GnmSearchReplace *sr, const GPtrArray *cells)
 	unsigned i;
 	GPtrArray *result = g_ptr_array_new ();
 
+	if (sr->is_number)
+		check_number (sr);
+
 	for (i = 0; i < cells->len; i++) {
 		GnmSearchReplaceCellResult cell_res;
 		GnmSearchReplaceValueResult value_res;
@@ -259,6 +304,7 @@ gnm_search_replace_comment (GnmSearchReplace *sr,
 	g_return_val_if_fail (sr, FALSE);
 
 	if (!sr->search_comments) return FALSE;
+	if (sr->is_number) return FALSE;
 
 	res->comment = sheet_get_comment (ep->sheet, &ep->eval);
 	if (!res->comment) return FALSE;
@@ -310,6 +356,12 @@ gnm_search_replace_cell (GnmSearchReplace *sr,
 	is_value = !is_expr && !gnm_cell_is_empty (cell) && v;
 	is_string = is_value && (VALUE_IS_STRING (v));
 	is_other = is_value && !is_string;
+
+	if (sr->is_number) {
+		if (!is_value || !VALUE_IS_NUMBER (v))
+			return FALSE;
+		return gnm_search_match_value (sr, v);
+	}
 
 	if ((is_expr && sr->search_expressions) ||
 	    (is_string && sr->search_strings) ||
@@ -370,7 +422,9 @@ gnm_search_replace_value (GnmSearchReplace *sr,
 	cell = res->cell = sheet_cell_get (ep->sheet, ep->eval.col, ep->eval.row);
 	if (!cell || !gnm_cell_has_expr (cell) || !cell->value)
 		return FALSE;
-	else {
+	else if (sr->is_number) {
+		return gnm_search_match_value (sr, cell->value);
+	} else {
 		char *val = g_utf8_normalize (value_peek_string (cell->value), -1, G_NORMALIZE_DEFAULT);
 		gboolean res = go_search_match_string (GO_SEARCH_REPLACE (sr), val);
 		g_free (val);
@@ -452,6 +506,9 @@ gnm_search_replace_get_property (GObject     *object,
 	GnmSearchReplace *sr = (GnmSearchReplace *)object;
 
 	switch (property_id) {
+	case PROP_IS_NUMBER:
+		g_value_set_boolean (value, sr->is_number);
+		break;
 	case PROP_SEARCH_STRINGS:
 		g_value_set_boolean (value, sr->search_strings);
 		break;
@@ -526,6 +583,9 @@ gnm_search_replace_set_property (GObject      *object,
 	GnmSearchReplace *sr = (GnmSearchReplace *)object;
 
 	switch (property_id) {
+	case PROP_IS_NUMBER:
+		sr->is_number = g_value_get_boolean (value);
+		break;
 	case PROP_SEARCH_STRINGS:
 		sr->search_strings = g_value_get_boolean (value);
 		break;
@@ -595,6 +655,15 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 	gobject_class->get_property = gnm_search_replace_get_property;
 	gobject_class->set_property = gnm_search_replace_set_property;
 
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_IS_NUMBER,
+		 g_param_spec_boolean ("is-number",
+				       _("Is Number"),
+				       _("Search for Specific Number Regardless of Formatting?"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_SEARCH_STRINGS,

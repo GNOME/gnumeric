@@ -72,6 +72,7 @@ typedef struct {
 static const char * const search_type_group[] = {
 	"search_type_text",
 	"search_type_regexp",
+	"search_type_number",
 	NULL
 };
 
@@ -287,9 +288,14 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	int i;
 	GnmSearchReplaceScope scope;
 	char *text;
+	gboolean is_regexp, is_number;
 
 	i = gnumeric_glade_group_value (gui, scope_group);
 	scope = (i == -1) ? GNM_SRS_SHEET : (GnmSearchReplaceScope)i;
+
+	i = gnumeric_glade_group_value (gui, search_type_group);
+	is_regexp = (i == 1);
+	is_number = (i == 2);
 
 	text = g_utf8_normalize (gtk_entry_get_text (dd->gentry), -1, G_NORMALIZE_DEFAULT);
 
@@ -298,7 +304,8 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			   "scope", scope,
 			   "range-text", gnm_expr_entry_get_text (dd->rangetext),
 			   "search-text", text,
-			   "is-regexp", gnumeric_glade_group_value (gui, search_type_group) == 1,
+			   "is-regexp", is_regexp,
+			   "is-number", is_number,
 			   "ignore-case", is_checked (gui, "ignore_case"),
 			   "match-words", is_checked (gui, "match_words"),
 			   "search-strings", is_checked (gui, "search_string"),
