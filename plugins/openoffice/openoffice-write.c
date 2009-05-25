@@ -1860,9 +1860,8 @@ odf_print_spreadsheet_content_prelude (GnmOOExport *state)
 	odf_add_bool (state->xml, TABLE "precision-as-shown", FALSE);
 	odf_add_bool (state->xml, TABLE "search-criteria-must-apply-to-whole-cell", TRUE);
 	odf_add_bool (state->xml, TABLE "use-regular-expressions", FALSE);
-#if GSF_ODF_VERSION>11
-	odf_add_bool (state->xml, TABLE "use-wildcards", FALSE);
-#endif
+	if (GSF_ODF_VERSION >= 12)
+		odf_add_bool (state->xml, TABLE "use-wildcards", FALSE);
 	gsf_xml_out_start_element (state->xml, TABLE "null-date");
 	/* As encouraged by the OpenFormula definition we "compensate" here. */
 	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "date-value", "1899-12-30");
@@ -1891,7 +1890,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
-	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", GSF_ODF_VERSION_STRING);
+	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", gsf_odf_version_string);
 
 	gsf_xml_out_simple_element (state->xml, OFFICE "scripts", NULL);
 
@@ -2100,7 +2099,7 @@ odf_write_second (GnmOOExport *state, char const *xl)
 		break;
 	}
 	if (*(xl+ds)=='.') {
-		dec = strspn(xl+ds+1, "s");
+		dec = strspn(xl+ds+1, "0");
 		if (dec >0)
 			gsf_xml_out_add_int (state->xml, NUMBER "decimal-places", dec);
 		ds += 1 + dec;
@@ -2110,11 +2109,33 @@ odf_write_second (GnmOOExport *state, char const *xl)
 	return ds;
 }
 
+static int
+odf_write_ampm (GnmOOExport *state, char const *xl) 
+{
+	gboolean ampm = g_str_has_prefix (xl, "AM/PM");
+
+	if (ampm) {
+		gsf_xml_out_simple_element (state->xml, NUMBER "am-pm", NULL);
+		return 5;
+	}
+	return 0;
+}
+
 static void
 odf_write_date_style (GnmOOExport *state, GOFormat const *format, char const *name)
 {
 	char const *xl = go_format_as_XL (format);
 	gboolean hour_seen = FALSE;
+	gboolean ignore_A = FALSE;
+	int val;
+
+	/* This indicates the magic number of the style. We should only get here if *\
+	\* we didn't insert this magic format by default.                           */
+	if (*xl == '[') {
+		char const *end = strchr(xl, ']');
+		if (end != NULL)
+			xl = end + 1;
+	}
 
 	gsf_xml_out_start_element (state->xml, NUMBER "date-style");
 	gsf_xml_out_add_cstr (state->xml, STYLE "name", name);
@@ -2122,7 +2143,13 @@ odf_write_date_style (GnmOOExport *state, GOFormat const *format, char const *na
 	gsf_xml_out_add_cstr (state->xml, GNMSTYLE "format", xl);
 
 	while (*xl != '\0') {
-		int nw = strcspn(xl, "dmyhs");
+		int nw;
+		
+		if (ignore_A) {
+			nw  = strcspn(xl, "dmyhs");
+			ignore_A = FALSE;
+		} else
+			nw  = strcspn(xl, "dmyhsA");
 
 		if (nw > 0) {
 			gsf_xml_out_start_element (state->xml, NUMBER "text");
@@ -2150,6 +2177,11 @@ odf_write_date_style (GnmOOExport *state, GOFormat const *format, char const *na
 		case 's':
 			xl += odf_write_second (state, xl);
 			break;			
+		case'A':
+			val = odf_write_ampm (state, xl);
+			ignore_A = (val != 0);
+			xl += val;
+			break;						
 		case '\0':
 			break;
 		default:
@@ -2166,13 +2198,27 @@ static void
 odf_write_time_style (GnmOOExport *state, GOFormat const *format, char const *name)
 {
 	char const *xl = go_format_as_XL (format);
+	gboolean ignore_A = FALSE;
+	int val;
+
+	if (*xl == '[') {
+		char const *end = strchr(xl, ']');
+		if (end != NULL)
+			xl = end + 1;
+	}
 
 	gsf_xml_out_start_element (state->xml, NUMBER "time-style");
 	gsf_xml_out_add_cstr (state->xml, STYLE "name", name);
 	gsf_xml_out_add_cstr (state->xml, GNMSTYLE "format", go_format_as_XL (format));
 
 	while (*xl != '\0') {
-		int nw = strcspn(xl, "hsm");
+		int nw;
+		
+		if (ignore_A) {
+			nw  = strcspn(xl, "mhs");
+			ignore_A = FALSE;
+		} else
+			nw  = strcspn(xl, "mhsA");
 
 		if (nw > 0) {
 			gsf_xml_out_start_element (state->xml, NUMBER "text");
@@ -2192,6 +2238,11 @@ odf_write_time_style (GnmOOExport *state, GOFormat const *format, char const *na
 		case 's':
 			xl += odf_write_second (state, xl);
 			break;			
+		case'A':
+			val = odf_write_ampm (state, xl);
+			ignore_A = (val != 0);
+			xl += val;
+			break;						
 		case '\0':
 			break;
 		default:
@@ -2250,7 +2301,7 @@ odf_write_styles (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_start_element (state->xml, OFFICE "document-styles");
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
-	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", GSF_ODF_VERSION_STRING);
+	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", gsf_odf_version_string);
 	gsf_xml_out_start_element (state->xml, OFFICE "styles");
 	
 	if (state->default_style != NULL) {
@@ -2313,7 +2364,7 @@ odf_write_settings (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_start_element (state->xml, OFFICE "document-settings");
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
-	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", GSF_ODF_VERSION_STRING);
+	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", gsf_odf_version_string);
 	gsf_xml_out_end_element (state->xml); /* </office:document-settings> */
 	g_object_unref (state->xml);
 	state->xml = NULL;
