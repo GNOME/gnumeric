@@ -29,7 +29,6 @@
 
 /* change the following to 12 to switch to ODF 1.2 creation. Note that this is not tested and */
 /* changes in GOFFICE are alos required. */
-#define ODFVERSION 10
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
@@ -88,7 +87,8 @@
 #define TEXT     "text:"
 #define DUBLINCORE "dc:"
 #define FOSTYLE	 "fo:"
-#define GNMSTYLE	 "gnm:"  /* We use this for attributes and elements not supported by ODF */
+#define NUMBER   "number:"
+#define GNMSTYLE "gnm:"  /* We use this for attributes and elements not supported by ODF */
 
 typedef struct {
 	GsfXMLOut *xml;
@@ -99,6 +99,7 @@ typedef struct {
 	GSList *row_styles;
 	GSList *col_styles;
 	GSList *cell_styles;
+	GSList *xl_styles;
 	GnmStyle *default_style;
 	ColRowInfo const *row_default;
 	ColRowInfo const *column_default;
@@ -109,6 +110,12 @@ typedef struct {
 	char *name;
 	GnmStyle const *style;
 } cell_styles_t;
+
+typedef struct {
+	int counter;
+	char *name;
+	GOFormat const *format;
+} xl_styles_t;
 
 typedef struct {
 	int counter;
@@ -433,6 +440,44 @@ table_style_name (Sheet const *sheet)
 	return g_strdup_printf ("ta-%c-%s",
 		(sheet->visibility == GNM_SHEET_VISIBILITY_VISIBLE) ? 'v' : 'h',
 		sheet->text_is_rtl ? "rl" : "lr");
+}
+
+static void
+xl_styles_free (gpointer data)
+{
+	xl_styles_t *style = data;
+	
+	g_free (style->name);
+	go_format_unref (style->format);
+	g_free (style);
+} 
+
+static gint 
+xl_compare_style (gconstpointer a, gconstpointer b)
+{
+	xl_styles_t const *old_xl = a;	
+	char const *new_xl = b;
+
+	return strcmp (new_xl, go_format_as_XL(old_xl->format));
+}
+
+static const char*
+xl_find_format (GnmOOExport *state, GOFormat *format)
+{
+	xl_styles_t *new_format;
+	GSList *found = g_slist_find_custom (state->xl_styles, format, xl_compare_style);
+
+	if (found)
+		new_format = found->data;
+	else {
+		new_format = g_new0 (xl_styles_t,1);
+		new_format->format = format;
+		go_format_ref (format);
+		new_format->counter = g_slist_length (state->xl_styles);
+		new_format->name = g_strdup_printf ("NDATA-%i", new_format->counter);
+		state->xl_styles = g_slist_prepend (state->xl_styles, new_format);
+	}
+	return new_format->name;
 }
 
 static void
@@ -879,22 +924,25 @@ odf_write_style_text_properties (GnmOOExport *state, GnmStyle const *style)
 static void
 odf_write_style_goformat_name (GnmOOExport *state, GOFormat *gof)
 {
-	if (go_format_is_markup (gof) || go_format_is_text (gof))
+	char const *name;
+
+	if ((gof == NULL) || go_format_is_markup (gof) 
+	    || go_format_is_text (gof))
 		return;
 
-	if (go_format_is_general (gof)) {
-#if ODFVERSION>11
-		gsf_xml_out_add_cstr (state->xml, STYLE "data-style-name", "General");
-#endif
-		return;
-	}
+	if (go_format_is_general (gof))
+		name = "General";
+	else
+		name = xl_find_format (state, gof);
+
+	gsf_xml_out_add_cstr (state->xml, STYLE "data-style-name", name);
 }
 
 static void
-odf_write_style (GnmOOExport *state, GnmStyle const *style)
+odf_write_style (GnmOOExport *state, GnmStyle const *style, gboolean is_default)
 {
 
-	if (gnm_style_is_element_set (style, MSTYLE_FORMAT)) {
+	if ((!is_default) && gnm_style_is_element_set (style, MSTYLE_FORMAT)) {
 		GOFormat *format = gnm_style_get_format(style);
 		if (format != NULL)
 			odf_write_style_goformat_name (state, format);
@@ -917,7 +965,7 @@ odf_write_style (GnmOOExport *state, GnmStyle const *style)
 #undef BORDERSTYLE
 
 static const char*
-odf_find_style (GnmOOExport *state, GnmStyle const *style, gboolean write)
+odf_find_style (GnmOOExport *state, GnmStyle const *style, gboolean write, gboolean is_default)
 {
 	cell_styles_t *new_style;
 	GSList *found = g_slist_find_custom (state->cell_styles, style, odf_compare_style);
@@ -934,7 +982,7 @@ odf_find_style (GnmOOExport *state, GnmStyle const *style, gboolean write)
 			new_style->name = g_strdup_printf ("ACELL-%i", new_style->counter);
 			state->cell_styles = g_slist_prepend (state->cell_styles, new_style);
 			odf_start_style (state->xml, new_style->name, "table-cell");
-			odf_write_style (state, new_style->style);
+			odf_write_style (state, new_style->style, is_default);
 			gsf_xml_out_end_element (state->xml); /* </style:style */
 			return new_style->name;
 		} else {
@@ -1051,7 +1099,7 @@ odf_save_automatic_character_styles (GnmOOExport *state)
 
 		for (i = 0; i < max_cols; i++)
 			if (col_styles[i] != NULL)
-				odf_find_style (state, col_styles[i], TRUE);
+				odf_find_style (state, col_styles[i], TRUE, FALSE);
 		
 		/* include collapsed or hidden cols and rows */
 		for (i = max_rows ; i-- > extent.end.row ; )
@@ -1070,7 +1118,7 @@ odf_save_automatic_character_styles (GnmOOExport *state)
 				GnmStyle const *style;
 				style = sheet_style_get (sheet, col, row);
 				if (style != NULL)
-					odf_find_style (state, style, TRUE);
+					odf_find_style (state, style, TRUE, FALSE);
 			}
 		}
 		g_free (col_styles);
@@ -1161,7 +1209,7 @@ odf_write_character_styles (GnmOOExport *state)
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 
 	if (state->default_style != NULL)
-		odf_find_style (state, state->default_style, TRUE);
+		odf_find_style (state, state->default_style, TRUE, TRUE);
 	if (state->row_default != NULL)
 		odf_find_row_style (state, state->row_default, TRUE);
 	if (state->column_default != NULL)
@@ -1326,7 +1374,7 @@ odf_write_empty_cell (GnmOOExport *state, int *num, GnmStyle const *style)
 					     TABLE "number-columns-repeated",
 					     *num);
 		if (style != NULL) {
-			char const * name = odf_find_style (state, style, FALSE);
+			char const * name = odf_find_style (state, style, FALSE, FALSE);
 			if (name != NULL)
 				gsf_xml_out_add_cstr (state->xml,
 						      TABLE "style-name", name);			
@@ -1373,7 +1421,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		GnmStyle const *style = gnm_cell_get_style (cell);
 
 		if (style) {
-			char const * name = odf_find_style (state, style, FALSE);
+			char const * name = odf_find_style (state, style, FALSE, FALSE);
 			if (name != NULL)
 				gsf_xml_out_add_cstr (state->xml,
 						      TABLE "style-name", name);
@@ -1463,6 +1511,8 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 					gsf_xml_out_end_element (state->xml);   /* p */
 				}
 				
+				
+				
 				g_free (rendered_string);
 			} else {
 				GString *str = g_string_new (NULL);
@@ -1511,7 +1561,7 @@ write_col_style (GnmOOExport *state, GnmStyle *col_style, ColRowInfo const *ci,
 	char const * name;
 
 	if (col_style != NULL) {					
-		name = odf_find_style (state, col_style, FALSE); 
+		name = odf_find_style (state, col_style, FALSE, FALSE); 
 		if (name != NULL)					
 			gsf_xml_out_add_cstr (state->xml,		
 					      TABLE "default-cell-style-name", name); 
@@ -1810,16 +1860,12 @@ odf_print_spreadsheet_content_prelude (GnmOOExport *state)
 	odf_add_bool (state->xml, TABLE "precision-as-shown", FALSE);
 	odf_add_bool (state->xml, TABLE "search-criteria-must-apply-to-whole-cell", TRUE);
 	odf_add_bool (state->xml, TABLE "use-regular-expressions", FALSE);
-#if ODFVERSION>10
+#if GSF_ODF_VERSION>11
 	odf_add_bool (state->xml, TABLE "use-wildcards", FALSE);
 #endif
 	gsf_xml_out_start_element (state->xml, TABLE "null-date");
 	/* As encouraged by the OpenFormula definition we "compensate" here. */
-#if ODFVERSION>10
 	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "date-value", "1899-12-30");
-#else
-	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "date-value-type", "1899-12-30");
-#endif
 	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "value-type", "date");
 	gsf_xml_out_end_element (state->xml); /* </table:null-date> */	
 	gsf_xml_out_start_element (state->xml, TABLE "iteration");
@@ -1845,7 +1891,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
-	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", "1.0");
+	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", GSF_ODF_VERSION_STRING);
 
 	gsf_xml_out_simple_element (state->xml, OFFICE "scripts", NULL);
 
@@ -1902,6 +1948,299 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 
 /*****************************************************************************/
 
+static int
+odf_write_day (GnmOOExport *state, char const *xl) 
+{
+	int ds = strspn(xl, "d");
+	
+	switch (ds) {
+	case 0:
+		g_warning ("odf_write_day should only be called with pending 'd'!");
+		return 1;
+	case 1:
+		gsf_xml_out_start_element (state->xml, NUMBER "day");
+		gsf_xml_out_add_cstr (state->xml, NUMBER "style", "short");
+		break;
+	case 2:
+		gsf_xml_out_start_element (state->xml, NUMBER "day");
+		gsf_xml_out_add_cstr (state->xml, NUMBER "style", "long");
+		break;
+	case 3:
+		gsf_xml_out_start_element (state->xml, NUMBER "day-of-week");
+		gsf_xml_out_add_cstr (state->xml, NUMBER "style", "short");
+		break;
+	case 4:
+	default:
+		gsf_xml_out_start_element (state->xml, NUMBER "day-of-week");
+		gsf_xml_out_add_cstr (state->xml, NUMBER "style", "long");
+		break;
+	}
+	gsf_xml_out_end_element (state->xml); /* </number:day or day-of-week> */
+	return ds;
+}
+
+static int
+odf_write_month (GnmOOExport *state, char const *xl) 
+{
+	int ds = strspn(xl, "m");
+	
+	gsf_xml_out_start_element (state->xml, NUMBER "month");
+	gsf_xml_out_add_cstr (state->xml, NUMBER "possessive-form", "false");
+	switch (ds) {
+	case 0:
+		g_warning ("odf_write_month should only be called with pending 'm'!");
+		ds++;
+	case 1:
+		gsf_xml_out_add_cstr (state->xml, NUMBER "textual", "false");
+		gsf_xml_out_add_cstr (state->xml, NUMBER "style", "short");
+		break;
+	case 2:
+		gsf_xml_out_add_cstr (state->xml, NUMBER "textual", "false");
+		gsf_xml_out_add_cstr (state->xml, NUMBER "style", "long");
+		break;
+	case 3:
+		gsf_xml_out_add_cstr (state->xml, NUMBER "textual", "true");
+		gsf_xml_out_add_cstr (state->xml, NUMBER "style", "short");
+		break;
+	case 5:
+		gsf_xml_out_add_cstr (state->xml, NUMBER "textual", "true");
+		/* ODF does not support the one letter abbreviation of the month */
+		gsf_xml_out_add_cstr (state->xml, NUMBER "style", "short");
+		break;
+	case 4:
+	default:
+		gsf_xml_out_add_cstr (state->xml, NUMBER "textual", "true");
+		gsf_xml_out_add_cstr (state->xml, NUMBER "style", "long");
+		break;
+	}
+	gsf_xml_out_end_element (state->xml); /* </number:day or day-of-week> */
+	return ds;
+}
+
+static int
+odf_write_year (GnmOOExport *state, char const *xl) 
+{
+	int ds = strspn(xl, "y");
+	
+	gsf_xml_out_start_element (state->xml, NUMBER "year");
+	switch (ds) {
+	case 0:
+		g_warning ("odf_write_year should only be called with pending 'y'!");
+		ds++;
+	case 1:
+	case 2:
+		gsf_xml_out_add_cstr (state->xml, NUMBER "style", "short");
+		break;
+	default:
+		gsf_xml_out_add_cstr (state->xml, NUMBER "style", "long");
+		break;
+	}
+	gsf_xml_out_end_element (state->xml); /* </number:year> */
+	return ds;
+}
+
+static int
+odf_write_hour (GnmOOExport *state, char const *xl) 
+{
+	int ds = strspn(xl, "h");
+	
+	gsf_xml_out_start_element (state->xml, NUMBER "hours");
+	switch (ds) {
+	case 0:
+		g_warning ("odf_write_hour should only be called with pending 'h'!");
+		ds++;
+	case 1:
+		gsf_xml_out_add_cstr (state->xml, NUMBER "style", "short");
+		break;
+	default:
+		gsf_xml_out_add_cstr (state->xml, NUMBER "style", "long");
+		break;
+	}
+	gsf_xml_out_end_element (state->xml); /* </number:hours> */
+	return ds;
+}
+
+static int
+odf_write_minute (GnmOOExport *state, char const *xl) 
+{
+	int ds = strspn(xl, "m");
+	
+	gsf_xml_out_start_element (state->xml, NUMBER "minutes");
+	switch (ds) {
+	case 0:
+		g_warning ("odf_write_minute should only be called with pending 'm'!");
+		ds++;
+	case 1:
+		gsf_xml_out_add_cstr (state->xml, NUMBER "style", "short");
+		break;
+	default:
+		gsf_xml_out_add_cstr (state->xml, NUMBER "style", "long");
+		break;
+	}
+	gsf_xml_out_end_element (state->xml); /* </number:minutes> */
+	return ds;
+}
+
+static int
+odf_write_second (GnmOOExport *state, char const *xl) 
+{
+	int ds = strspn(xl, "s");
+	int dec = 0;
+
+	gsf_xml_out_start_element (state->xml, NUMBER "seconds");
+	switch (ds) {
+	case 0:
+		g_warning ("odf_write_second should only be called with pending 's'!");
+		ds++;
+	case 1:
+		gsf_xml_out_add_cstr (state->xml, NUMBER "style", "short");
+		break;
+	default:
+		gsf_xml_out_add_cstr (state->xml, NUMBER "style", "long");
+		break;
+	}
+	if (*(xl+ds)=='.') {
+		dec = strspn(xl+ds+1, "s");
+		if (dec >0)
+			gsf_xml_out_add_int (state->xml, NUMBER "decimal-places", dec);
+		ds += 1 + dec;
+	}
+
+	gsf_xml_out_end_element (state->xml); /* </number:minutes> */
+	return ds;
+}
+
+static void
+odf_write_date_style (GnmOOExport *state, GOFormat const *format, char const *name)
+{
+	char const *xl = go_format_as_XL (format);
+	gboolean hour_seen = FALSE;
+
+	gsf_xml_out_start_element (state->xml, NUMBER "date-style");
+	gsf_xml_out_add_cstr (state->xml, STYLE "name", name);
+	gsf_xml_out_add_cstr (state->xml, NUMBER "format-source", "fixed");
+	gsf_xml_out_add_cstr (state->xml, GNMSTYLE "format", xl);
+
+	while (*xl != '\0') {
+		int nw = strcspn(xl, "dmyhs");
+
+		if (nw > 0) {
+			gsf_xml_out_start_element (state->xml, NUMBER "text");
+			/* number:text preserves whitespace so no special handling needed */
+			odf_add_chars_non_white (state, xl, nw);
+			gsf_xml_out_end_element (state->xml); /* </number:text> */
+			xl += nw;
+		}
+
+		switch (*xl) {
+		case 'd':
+			xl += odf_write_day (state, xl);
+			break;
+		case 'm':
+			xl += hour_seen ? odf_write_minute (state, xl) 
+				: odf_write_month (state, xl);
+			break;
+		case 'y':
+			xl += odf_write_year (state, xl);
+			break;
+		case 'h':
+			xl += odf_write_hour (state, xl);
+			hour_seen = TRUE;
+			break;
+		case 's':
+			xl += odf_write_second (state, xl);
+			break;			
+		case '\0':
+			break;
+		default:
+			g_warning ("We should not get here!");
+			gsf_xml_out_end_element (state->xml); /* </> */	
+			break;
+		}
+	}
+
+	gsf_xml_out_end_element (state->xml); /* </number:date-style> */	
+}
+
+static void
+odf_write_time_style (GnmOOExport *state, GOFormat const *format, char const *name)
+{
+	char const *xl = go_format_as_XL (format);
+
+	gsf_xml_out_start_element (state->xml, NUMBER "time-style");
+	gsf_xml_out_add_cstr (state->xml, STYLE "name", name);
+	gsf_xml_out_add_cstr (state->xml, GNMSTYLE "format", go_format_as_XL (format));
+
+	while (*xl != '\0') {
+		int nw = strcspn(xl, "hsm");
+
+		if (nw > 0) {
+			gsf_xml_out_start_element (state->xml, NUMBER "text");
+			/* number:text preserves whitespace so no special handling needed */
+			odf_add_chars_non_white (state, xl, nw);
+			gsf_xml_out_end_element (state->xml); /* </number:text> */
+			xl += nw;
+		}
+
+		switch (*xl) {
+		case 'm':
+			xl += odf_write_minute (state, xl);
+			break;
+		case 'h':
+			xl += odf_write_hour (state, xl);
+			break;
+		case 's':
+			xl += odf_write_second (state, xl);
+			break;			
+		case '\0':
+			break;
+		default:
+			g_warning ("We should not get here!");
+			gsf_xml_out_end_element (state->xml); /* </> */	
+			break;
+		}
+	}
+
+	gsf_xml_out_end_element (state->xml); /* </number:time-style> */
+}
+
+static void
+odf_write_number_style (GnmOOExport *state, GOFormat const *format, char const *name)
+{	
+/* 	gsf_xml_out_start_element (state->xml, NUMBER "number-style"); */
+/* 	gsf_xml_out_add_cstr (state->xml, STYLE "name", name); */
+/* 	gsf_xml_out_add_cstr (state->xml, GNMSTYLE "format", go_format_as_XL (format)); */
+
+/* 	gsf_xml_out_end_element (state->xml); /\* </number:number-style> *\/ */
+}
+
+static void
+odf_write_data_styles (GnmOOExport *state)
+{
+	GSList *l;
+	gboolean pp = TRUE;
+
+	g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
+	/* We need to switch off pretty printing since number:text preserves whitespace */
+	g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
+	
+	for (l = state->xl_styles; l != NULL; l = l->next) {
+		xl_styles_t *style = l->data;
+
+		if (style == NULL)
+			continue;
+
+		if (go_format_is_date (style->format))
+			odf_write_date_style (state, style->format, style->name);
+		else if (go_format_is_time (style->format))
+			odf_write_time_style (state, style->format, style->name);
+		else
+			odf_write_number_style (state, style->format, style->name);
+	}
+	g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
+}
+
+
 static void
 odf_write_styles (GnmOOExport *state, GsfOutput *child)
 {
@@ -1911,13 +2250,13 @@ odf_write_styles (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_start_element (state->xml, OFFICE "document-styles");
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
-	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", "1.0");
+	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", GSF_ODF_VERSION_STRING);
 	gsf_xml_out_start_element (state->xml, OFFICE "styles");
 	
 	if (state->default_style != NULL) {
 		gsf_xml_out_start_element (state->xml, STYLE "default-style");
 		gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "family", "table-cell");
-		odf_write_style (state, state->default_style);
+		odf_write_style (state, state->default_style, TRUE);
 		gsf_xml_out_end_element (state->xml); /* </style:default-style */
 	}
 	if (state->column_default != NULL) {
@@ -1932,6 +2271,8 @@ odf_write_styles (GnmOOExport *state, GsfOutput *child)
 		odf_write_row_style (state, state->row_default);
 		gsf_xml_out_end_element (state->xml); /* </style:default-style */
 	}
+
+	odf_write_data_styles (state);
 	
 	gsf_xml_out_end_element (state->xml); /* </office:styles> */
 	gsf_xml_out_end_element (state->xml); /* </office:document-styles> */
@@ -1972,7 +2313,7 @@ odf_write_settings (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_start_element (state->xml, OFFICE "document-settings");
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
-	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", "1.0");
+	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", GSF_ODF_VERSION_STRING);
 	gsf_xml_out_end_element (state->xml); /* </office:document-settings> */
 	g_object_unref (state->xml);
 	state->xml = NULL;
@@ -2048,6 +2389,7 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	state.wb  = wb_view_get_workbook (wbv);
 	state.conv = odf_expr_conventions_new ();
 	state.cell_styles = NULL;
+	state.xl_styles = NULL;
 	state.col_styles = NULL;
 	state.row_styles = NULL;
 
@@ -2077,6 +2419,7 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 
 	gnm_pop_C_locale (locale);
 	go_slist_free_custom (state.cell_styles, cell_styles_free);
+	go_slist_free_custom (state.xl_styles, xl_styles_free);
 	g_slist_free (state.col_styles);
 	g_slist_free (state.row_styles);
 	gnm_style_unref (state.default_style);					    

@@ -1,3 +1,22 @@
+2009-05-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (xl_styles_free): new
+	(xl_compare_style): new
+	(xl_find_format): new
+	(odf_write_style_goformat_name): write data styles
+	(odf_find_style): add argument and change all callers
+	(odf_print_spreadsheet_content_prelude): use GSF_ODF_VERSION
+	(odf_write_day): new
+	(odf_write_month): new
+	(odf_write_year): new
+	(odf_write_hour): new
+	(odf_write_minute): new
+	(odf_write_second): new
+	(odf_write_date_style): new
+	(odf_write_time_style): new
+	(odf_write_number_style): new stub
+	(openoffice_file_save): initialize and clear state.xl_styles
+	
 2009-05-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_new_markup): watch for strange starting

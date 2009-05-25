@@ -1,3 +1,7 @@
+2009-05-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* configure.in: increase libgsf requirement to 1.14.15
+
 2009-05-23  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: Post-release bump.
