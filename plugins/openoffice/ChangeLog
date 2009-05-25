@@ -1,11 +1,22 @@
 2009-05-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_style_paragraph_properties): Since 
+	  OOo ignores style:text-align-source we have to avoid setting
+	  fo:text-align in this case.
+	(odf_write_number_style): write at least a default style
+	(odf_write_currency_style): write a default currency style
+	(odf_write_percentage_style): write a default percentage style
+	(odf_write_fraction_style): write a default fraction style
+	(odf_write_scientific_style): write a default scientific style
+	(odf_write_data_styles): use go_format_get_family
+
+2009-05-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c: adjust for change in GSF_ODF_VERSION to enum
 	  and replacement of GSF_ODF_VERSION_STRING with gsf_odf_version_string
 	(odf_write_ampm): new
 	(odf_write_date_style): handle am/pm
 	(odf_write_time_style): ditto
-	
 
 2009-05-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

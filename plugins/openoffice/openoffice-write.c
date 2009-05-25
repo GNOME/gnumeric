@@ -821,13 +821,16 @@ odf_write_style_paragraph_properties (GnmOOExport *state, GnmStyle const *style)
 		case HALIGN_CENTER_ACROSS_SELECTION:
 		case HALIGN_DISTRIBUTED:
 		default:
+			/* Note that since source is value-type, alignmnet should be ignored */
+                        /*(but isn't by OOo) */
 			alignment = "start";
 			source = "value-type";
 			gnum_specs = TRUE;
 			break;
 		}
-		gsf_xml_out_add_cstr (state->xml, FOSTYLE "text-align", alignment);
-		gsf_xml_out_add_cstr (state->xml, FOSTYLE "text-align-source", source);
+		if (align != HALIGN_GENERAL)
+			gsf_xml_out_add_cstr (state->xml, FOSTYLE "text-align", alignment);
+		gsf_xml_out_add_cstr (state->xml, STYLE "text-align-source", source);
 		if (gnum_specs)
 			gsf_xml_out_add_int (state->xml, GNMSTYLE "GnmHAlign", align);
 	}
@@ -2258,11 +2261,87 @@ odf_write_time_style (GnmOOExport *state, GOFormat const *format, char const *na
 static void
 odf_write_number_style (GnmOOExport *state, GOFormat const *format, char const *name)
 {	
-/* 	gsf_xml_out_start_element (state->xml, NUMBER "number-style"); */
-/* 	gsf_xml_out_add_cstr (state->xml, STYLE "name", name); */
-/* 	gsf_xml_out_add_cstr (state->xml, GNMSTYLE "format", go_format_as_XL (format)); */
+/* FIXME: we are using default of "#,##0.00" at this time */
+	gsf_xml_out_start_element (state->xml, NUMBER "number-style");
+	gsf_xml_out_add_cstr (state->xml, STYLE "name", name);
+	gsf_xml_out_add_cstr (state->xml, GNMSTYLE "format", go_format_as_XL (format));
+	gsf_xml_out_start_element (state->xml, NUMBER "number");
+	gsf_xml_out_add_int (state->xml, NUMBER "decimal-places", 2);
+/* 	gsf_xml_out_add_cstr (state->xml, NUMBER "decimal-replacement", ); */
+	gsf_xml_out_add_int (state->xml, NUMBER "display-factor", 1);
+	odf_add_bool (state->xml, NUMBER "grouping", TRUE);
+	gsf_xml_out_add_int (state->xml, NUMBER "min-integer-digits", 1);
+	gsf_xml_out_end_element (state->xml); /* </number:number> */
+	gsf_xml_out_end_element (state->xml); /* </number:number-style> */
+}
 
-/* 	gsf_xml_out_end_element (state->xml); /\* </number:number-style> *\/ */
+static void
+odf_write_currency_style (GnmOOExport *state, GOFormat const *format, char const *name)
+{	
+/* FIXME: goffice never yields this family, so we should not get here. */
+	gsf_xml_out_start_element (state->xml, NUMBER "currency-style");
+	gsf_xml_out_add_cstr (state->xml, STYLE "name", name);
+	gsf_xml_out_add_cstr (state->xml, GNMSTYLE "format", go_format_as_XL (format));
+	gsf_xml_out_simple_element(state->xml, NUMBER "currency-symbol", NULL);
+	gsf_xml_out_start_element (state->xml, NUMBER "number");
+	gsf_xml_out_add_int (state->xml, NUMBER "decimal-places", 2);
+/* 	gsf_xml_out_add_cstr (state->xml, NUMBER "decimal-replacement", ); */
+	gsf_xml_out_add_int (state->xml, NUMBER "display-factor", 1);
+	odf_add_bool (state->xml, NUMBER "grouping", TRUE);
+	gsf_xml_out_add_int (state->xml, NUMBER "min-integer-digits", 1);
+	gsf_xml_out_end_element (state->xml); /* </number:number> */	
+	gsf_xml_out_end_element (state->xml); /* </number:currency-style> */
+}
+
+static void
+odf_write_percentage_style (GnmOOExport *state, GOFormat const *format, char const *name)
+{	
+/* FIXME: we are using default of "0.00%" at this time */
+	gsf_xml_out_start_element (state->xml, NUMBER "percentage-style");
+	gsf_xml_out_add_cstr (state->xml, STYLE "name", name);
+	gsf_xml_out_add_cstr (state->xml, GNMSTYLE "format", go_format_as_XL (format));
+	gsf_xml_out_start_element (state->xml, NUMBER "number");
+	gsf_xml_out_add_int (state->xml, NUMBER "decimal-places", 2);
+/* 	gsf_xml_out_add_cstr (state->xml, NUMBER "decimal-replacement", ); */
+	gsf_xml_out_add_int (state->xml, NUMBER "display-factor", 1);
+	odf_add_bool (state->xml, NUMBER "grouping", FALSE);
+	gsf_xml_out_add_int (state->xml, NUMBER "min-integer-digits", 1);
+	gsf_xml_out_end_element (state->xml); /* </number:number> */
+	gsf_xml_out_simple_element(state->xml, NUMBER "text", "%");
+	gsf_xml_out_end_element (state->xml); /* </number:percentage-style> */
+}
+
+static void
+odf_write_fraction_style (GnmOOExport *state, GOFormat const *format, char const *name)
+{	
+/* FIXME: we are using default of ?? at this time */
+	gsf_xml_out_start_element (state->xml, NUMBER "number-style");
+	gsf_xml_out_add_cstr (state->xml, STYLE "name", name);
+	gsf_xml_out_add_cstr (state->xml, GNMSTYLE "format", go_format_as_XL (format));
+	gsf_xml_out_start_element (state->xml, NUMBER "fraction");
+/* 	gsf_xml_out_add_int (state->xml, NUMBER "denominator-value", 1); */
+	odf_add_bool (state->xml, NUMBER "grouping", FALSE);
+	gsf_xml_out_add_int (state->xml, NUMBER "min-denominator-digits", 3);
+	gsf_xml_out_add_int (state->xml, NUMBER "min-integer-digits", 0);
+	gsf_xml_out_add_int (state->xml, NUMBER "min-numerator-digits", 1);
+	gsf_xml_out_end_element (state->xml); /* </number:fraction> */
+	gsf_xml_out_end_element (state->xml); /* </number:number-style> */
+}
+
+static void
+odf_write_scientific_style (GnmOOExport *state, GOFormat const *format, char const *name)
+{	
+/* FIXME: we are using default of "0.00E+00" at this time */
+	gsf_xml_out_start_element (state->xml, NUMBER "number-style");
+	gsf_xml_out_add_cstr (state->xml, STYLE "name", name);
+	gsf_xml_out_add_cstr (state->xml, GNMSTYLE "format", go_format_as_XL (format));
+	gsf_xml_out_start_element (state->xml, NUMBER "scientific-number");
+	gsf_xml_out_add_int (state->xml, NUMBER "decimal-places", 2);
+	odf_add_bool (state->xml, NUMBER "grouping", FALSE);
+	gsf_xml_out_add_int (state->xml, NUMBER "min-integer-digits", 1);
+	gsf_xml_out_add_int (state->xml, NUMBER "min-exponent-digits", 2);
+	gsf_xml_out_end_element (state->xml); /* </number:scientific-number> */
+	gsf_xml_out_end_element (state->xml); /* </number:number-style> */
 }
 
 static void
@@ -2281,12 +2360,37 @@ odf_write_data_styles (GnmOOExport *state)
 		if (style == NULL)
 			continue;
 
-		if (go_format_is_date (style->format))
-			odf_write_date_style (state, style->format, style->name);
-		else if (go_format_is_time (style->format))
-			odf_write_time_style (state, style->format, style->name);
-		else
+		switch (go_format_get_family (style->format)) {
+		case GO_FORMAT_NUMBER:
 			odf_write_number_style (state, style->format, style->name);
+			break;
+		case GO_FORMAT_CURRENCY:
+		case GO_FORMAT_ACCOUNTING:
+			odf_write_currency_style (state, style->format, style->name);
+			break;
+		case GO_FORMAT_DATE:
+			odf_write_date_style (state, style->format, style->name);
+			break;
+		case GO_FORMAT_TIME:
+			odf_write_time_style (state, style->format, style->name);
+			break;
+		case GO_FORMAT_PERCENTAGE:
+			odf_write_percentage_style (state, style->format, style->name);
+			break;
+		case GO_FORMAT_FRACTION:
+			odf_write_fraction_style (state, style->format, style->name);
+			break;
+		case GO_FORMAT_SCIENTIFIC:
+			odf_write_scientific_style (state, style->format, style->name);			
+			break;
+		case GO_FORMAT_TEXT:
+		case GO_FORMAT_SPECIAL:
+		case GO_FORMAT_UNKNOWN:
+		case GO_FORMAT_GENERAL:
+		default:
+			g_warning ("We are failing to export this format: %s", 
+				   go_format_as_XL (style->format));
+		}
 	}
 	g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
 }
