@@ -435,16 +435,28 @@ table_style_name (Sheet const *sheet)
 }
 
 static const char*
-xl_find_format (GnmOOExport *state, GOFormat *format)
+xl_find_format (GnmOOExport *state, GOFormat const *format)
 {
 	char const *xl =  go_format_as_XL(format);
 	char const *found = g_hash_table_lookup (state->xl_styles, xl);
 
 	if (found == NULL) {
 		char *new_found;
-		new_found = g_strdup_printf ("NDATA-%ui", g_hash_table_size (state->xl_styles));
+		new_found = g_strdup_printf ("NDATA-%u", 
+					     g_hash_table_size (state->xl_styles));
 		g_hash_table_insert (state->xl_styles, g_strdup (xl), new_found);
 		found = new_found;
+
+		if (!go_format_is_simple (format)) {
+			int i = 0;
+			GOFormat const *pformat = NULL;
+			char *condition;
+			while ((condition = go_format_odf_style_map 
+				(&pformat, format, i++)) != NULL){
+				xl_find_format (state, pformat); 
+				g_free (condition);
+			}
+		}
 	}
 	return found;
 }
@@ -1829,7 +1841,7 @@ odf_print_spreadsheet_content_prelude (GnmOOExport *state)
 	odf_add_bool (state->xml, TABLE "precision-as-shown", FALSE);
 	odf_add_bool (state->xml, TABLE "search-criteria-must-apply-to-whole-cell", TRUE);
 	odf_add_bool (state->xml, TABLE "use-regular-expressions", FALSE);
-	if (gsf_odf_version > 1.1)
+	if (get_gsf_odf_version () > 101)
 		odf_add_bool (state->xml, TABLE "use-wildcards", FALSE);
 	gsf_xml_out_start_element (state->xml, TABLE "null-date");
 	/* As encouraged by the OpenFormula definition we "compensate" here. */
@@ -1859,7 +1871,8 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
-	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", gsf_odf_version_string);
+	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", 
+					get_gsf_odf_version_string ());
 
 	gsf_xml_out_simple_element (state->xml, OFFICE "scripts", NULL);
 
@@ -2310,6 +2323,31 @@ odf_write_scientific_style (GnmOOExport *state, GOFormat const *format, char con
 	gsf_xml_out_end_element (state->xml); /* </number:number-style> */
 }
 
+
+static void
+odf_write_conditional_style (GOFormat *format, char const *name, GnmOOExport *state)
+{
+	int i = 0;
+	GOFormat const *pformat;
+	char *condition;
+
+	gsf_xml_out_start_element (state->xml, NUMBER "number-style");
+	gsf_xml_out_add_cstr (state->xml, STYLE "name", name);
+	gsf_xml_out_add_cstr (state->xml, GNMSTYLE "format", 
+			      go_format_as_XL (format));
+	while ((condition = go_format_odf_style_map 
+		(&pformat, format, i++)) != NULL) {
+		gsf_xml_out_start_element (state->xml, STYLE "map");
+		gsf_xml_out_add_cstr (state->xml, STYLE "condition", condition);
+		gsf_xml_out_add_cstr (state->xml, STYLE "apply-style-name", 
+				      g_hash_table_lookup (state->xl_styles,
+							   go_format_as_XL(pformat)));
+		gsf_xml_out_end_element (state->xml); /* </style:map> */
+		g_free (condition);
+	}
+	gsf_xml_out_end_element (state->xml); /* </number:number-style> */
+}
+
 static void
 odf_write_this_xl_style (char const *xl, char const *name, GnmOOExport *state)
 {
@@ -2320,37 +2358,40 @@ odf_write_this_xl_style (char const *xl, char const *name, GnmOOExport *state)
 
 	format = go_format_new_from_XL (xl);
 
-	switch (go_format_get_family (format)) {
-	case GO_FORMAT_NUMBER:
-		odf_write_number_style (state, format, name);
-		break;
-	case GO_FORMAT_CURRENCY:
-	case GO_FORMAT_ACCOUNTING:
-		odf_write_currency_style (state, format, name);
-		break;
-	case GO_FORMAT_DATE:
-		odf_write_date_style (state, format, name);
-		break;
-	case GO_FORMAT_TIME:
-		odf_write_time_style (state, format, name);
-		break;
-	case GO_FORMAT_PERCENTAGE:
-		odf_write_percentage_style (state, format, name);
-		break;
-	case GO_FORMAT_FRACTION:
-		odf_write_fraction_style (state, format, name);
-		break;
-	case GO_FORMAT_SCIENTIFIC:
-		odf_write_scientific_style (state, format, name);			
-		break;
-	case GO_FORMAT_TEXT:
-	case GO_FORMAT_SPECIAL:
-	case GO_FORMAT_UNKNOWN:
-	case GO_FORMAT_GENERAL:
-	default:
-		g_warning ("We are failing to export this format: %s", xl);
-	}
-
+	if (go_format_is_simple (format)) {
+		switch (go_format_get_family (format)) {
+		case GO_FORMAT_NUMBER:
+			odf_write_number_style (state, format, name);
+			break;
+		case GO_FORMAT_CURRENCY:
+		case GO_FORMAT_ACCOUNTING:
+			odf_write_currency_style (state, format, name);
+			break;
+		case GO_FORMAT_DATE:
+			odf_write_date_style (state, format, name);
+			break;
+		case GO_FORMAT_TIME:
+			odf_write_time_style (state, format, name);
+			break;
+		case GO_FORMAT_PERCENTAGE:
+			odf_write_percentage_style (state, format, name);
+			break;
+		case GO_FORMAT_FRACTION:
+			odf_write_fraction_style (state, format, name);
+			break;
+		case GO_FORMAT_SCIENTIFIC:
+			odf_write_scientific_style (state, format, name);
+			break;
+		case GO_FORMAT_TEXT:
+		case GO_FORMAT_SPECIAL:
+		case GO_FORMAT_UNKNOWN:
+		case GO_FORMAT_GENERAL:
+		default:
+			go_format_output_to_odf (state->xml, format, name);
+		}
+	} else
+		odf_write_conditional_style (format, name, state);
+		
 	go_format_unref (format);
 }
 
@@ -2376,7 +2417,8 @@ odf_write_styles (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_start_element (state->xml, OFFICE "document-styles");
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
-	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", gsf_odf_version_string);
+	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", 
+					get_gsf_odf_version_string ());
 	gsf_xml_out_start_element (state->xml, OFFICE "styles");
 	
 	if (state->default_style != NULL) {
@@ -2439,7 +2481,8 @@ odf_write_settings (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_start_element (state->xml, OFFICE "document-settings");
 	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
 		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
-	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", gsf_odf_version_string);
+	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", 
+					get_gsf_odf_version_string ());
 	gsf_xml_out_end_element (state->xml); /* </office:document-settings> */
 	g_object_unref (state->xml);
 	state->xml = NULL;

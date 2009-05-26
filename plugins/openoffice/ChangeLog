@@ -1,5 +1,16 @@
 2009-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (xl_find_format): if the format is not simple 
+	  also include the simple portions in the hash
+	(odf_print_spreadsheet_content_prelude): use accessor functions for 
+	  odf version
+	(odf_write_styles): ditto
+	(odf_write_settings): ditto
+	(odf_write_conditional_style): new
+	(odf_write_this_xl_style): use odf_write_conditional_style
+	
+2009-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c: replace xl_styles GSList with a GHashTable
 	  and remove unnecessary counter field in cell_styles_t and 
 	  col_row_styles_t
