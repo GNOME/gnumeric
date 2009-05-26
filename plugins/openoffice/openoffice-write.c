@@ -1863,7 +1863,7 @@ odf_print_spreadsheet_content_prelude (GnmOOExport *state)
 	odf_add_bool (state->xml, TABLE "precision-as-shown", FALSE);
 	odf_add_bool (state->xml, TABLE "search-criteria-must-apply-to-whole-cell", TRUE);
 	odf_add_bool (state->xml, TABLE "use-regular-expressions", FALSE);
-	if (GSF_ODF_VERSION >= 12)
+	if (gsf_odf_version > 1.1)
 		odf_add_bool (state->xml, TABLE "use-wildcards", FALSE);
 	gsf_xml_out_start_element (state->xml, TABLE "null-date");
 	/* As encouraged by the OpenFormula definition we "compensate" here. */

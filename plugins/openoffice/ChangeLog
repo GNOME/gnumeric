@@ -1,5 +1,10 @@
 2009-05-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c: replace GSF_ODF_VERSION with gsf_odf_version
+	since enums are handled at compile time.
+
+2009-05-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_style_paragraph_properties): Since 
 	  OOo ignores style:text-align-source we have to avoid setting
 	  fo:text-align in this case.
