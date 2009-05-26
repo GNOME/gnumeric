@@ -1,3 +1,15 @@
+2009-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c: replace xl_styles GSList with a GHashTable
+	  and remove unnecessary counter field in cell_styles_t and 
+	  col_row_styles_t
+	(xl_styles_free): deleted
+	(xl_compare_style): deleted
+	(xl_find_format): use g_hash_table_lookup
+	(odf_write_this_xl_style): new
+	(odf_write_data_styles): use g_hash_table_foreach
+	(openoffice_file_save): create and dispose of hashtable
+
 2009-05-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c: replace GSF_ODF_VERSION with gsf_odf_version

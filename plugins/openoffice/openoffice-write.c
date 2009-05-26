@@ -99,26 +99,18 @@ typedef struct {
 	GSList *row_styles;
 	GSList *col_styles;
 	GSList *cell_styles;
-	GSList *xl_styles;
+	GHashTable *xl_styles;
 	GnmStyle *default_style;
 	ColRowInfo const *row_default;
 	ColRowInfo const *column_default;
 } GnmOOExport;
 
 typedef struct {
-	int counter;
 	char *name;
 	GnmStyle const *style;
 } cell_styles_t;
 
 typedef struct {
-	int counter;
-	char *name;
-	GOFormat const *format;
-} xl_styles_t;
-
-typedef struct {
-	int counter;
 	char *name;
 	ColRowInfo const *ci;
 } col_row_styles_t;
@@ -442,42 +434,19 @@ table_style_name (Sheet const *sheet)
 		sheet->text_is_rtl ? "rl" : "lr");
 }
 
-static void
-xl_styles_free (gpointer data)
-{
-	xl_styles_t *style = data;
-	
-	g_free (style->name);
-	go_format_unref (style->format);
-	g_free (style);
-} 
-
-static gint 
-xl_compare_style (gconstpointer a, gconstpointer b)
-{
-	xl_styles_t const *old_xl = a;	
-	char const *new_xl = b;
-
-	return strcmp (new_xl, go_format_as_XL(old_xl->format));
-}
-
 static const char*
 xl_find_format (GnmOOExport *state, GOFormat *format)
 {
-	xl_styles_t *new_format;
-	GSList *found = g_slist_find_custom (state->xl_styles, format, xl_compare_style);
+	char const *xl =  go_format_as_XL(format);
+	char const *found = g_hash_table_lookup (state->xl_styles, xl);
 
-	if (found)
-		new_format = found->data;
-	else {
-		new_format = g_new0 (xl_styles_t,1);
-		new_format->format = format;
-		go_format_ref (format);
-		new_format->counter = g_slist_length (state->xl_styles);
-		new_format->name = g_strdup_printf ("NDATA-%i", new_format->counter);
-		state->xl_styles = g_slist_prepend (state->xl_styles, new_format);
+	if (found == NULL) {
+		char *new_found;
+		new_found = g_strdup_printf ("NDATA-%ui", g_hash_table_size (state->xl_styles));
+		g_hash_table_insert (state->xl_styles, g_strdup (xl), new_found);
+		found = new_found;
 	}
-	return new_format->name;
+	return found;
 }
 
 static void
@@ -981,8 +950,7 @@ odf_find_style (GnmOOExport *state, GnmStyle const *style, gboolean write, gbool
 			new_style = g_new0 (cell_styles_t,1);
 			new_style->style = style;
 			gnm_style_ref (style);
-			new_style->counter = g_slist_length (state->cell_styles);
-			new_style->name = g_strdup_printf ("ACELL-%i", new_style->counter);
+			new_style->name = g_strdup_printf ("ACELL-%i", g_slist_length (state->cell_styles));
 			state->cell_styles = g_slist_prepend (state->cell_styles, new_style);
 			odf_start_style (state->xml, new_style->name, "table-cell");
 			odf_write_style (state, new_style->style, is_default);
@@ -1027,8 +995,7 @@ odf_find_row_style (GnmOOExport *state, ColRowInfo const *ci, gboolean write)
 		if (write) {
 			new_style = g_new0 (col_row_styles_t,1);
 			new_style->ci = ci;
-			new_style->counter = g_slist_length (state->row_styles);
-			new_style->name = g_strdup_printf ("AROW-%i", new_style->counter);
+			new_style->name = g_strdup_printf ("AROW-%i", g_slist_length (state->row_styles));
 			state->row_styles = g_slist_prepend (state->row_styles, new_style);
 			odf_start_style (state->xml, new_style->name, "table-row");
 			if (ci != NULL)
@@ -1065,8 +1032,7 @@ odf_find_col_style (GnmOOExport *state, ColRowInfo const *ci, gboolean write)
 		if (write) {
 			new_style = g_new0 (col_row_styles_t,1);
 			new_style->ci = ci;
-			new_style->counter = g_slist_length (state->col_styles);
-			new_style->name = g_strdup_printf ("ACOL-%i", new_style->counter);
+			new_style->name = g_strdup_printf ("ACOL-%i", g_slist_length (state->col_styles));
 			state->col_styles = g_slist_prepend (state->col_styles, new_style);
 			odf_start_style (state->xml, new_style->name, "table-column");
 			if (ci != NULL)
@@ -2345,53 +2311,58 @@ odf_write_scientific_style (GnmOOExport *state, GOFormat const *format, char con
 }
 
 static void
+odf_write_this_xl_style (char const *xl, char const *name, GnmOOExport *state)
+{
+	GOFormat *format;
+
+	if (xl == NULL)
+		return;
+
+	format = go_format_new_from_XL (xl);
+
+	switch (go_format_get_family (format)) {
+	case GO_FORMAT_NUMBER:
+		odf_write_number_style (state, format, name);
+		break;
+	case GO_FORMAT_CURRENCY:
+	case GO_FORMAT_ACCOUNTING:
+		odf_write_currency_style (state, format, name);
+		break;
+	case GO_FORMAT_DATE:
+		odf_write_date_style (state, format, name);
+		break;
+	case GO_FORMAT_TIME:
+		odf_write_time_style (state, format, name);
+		break;
+	case GO_FORMAT_PERCENTAGE:
+		odf_write_percentage_style (state, format, name);
+		break;
+	case GO_FORMAT_FRACTION:
+		odf_write_fraction_style (state, format, name);
+		break;
+	case GO_FORMAT_SCIENTIFIC:
+		odf_write_scientific_style (state, format, name);			
+		break;
+	case GO_FORMAT_TEXT:
+	case GO_FORMAT_SPECIAL:
+	case GO_FORMAT_UNKNOWN:
+	case GO_FORMAT_GENERAL:
+	default:
+		g_warning ("We are failing to export this format: %s", xl);
+	}
+
+	go_format_unref (format);
+}
+
+static void
 odf_write_data_styles (GnmOOExport *state)
 {
-	GSList *l;
 	gboolean pp = TRUE;
-
+	
 	g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
 	/* We need to switch off pretty printing since number:text preserves whitespace */
 	g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
-	
-	for (l = state->xl_styles; l != NULL; l = l->next) {
-		xl_styles_t *style = l->data;
-
-		if (style == NULL)
-			continue;
-
-		switch (go_format_get_family (style->format)) {
-		case GO_FORMAT_NUMBER:
-			odf_write_number_style (state, style->format, style->name);
-			break;
-		case GO_FORMAT_CURRENCY:
-		case GO_FORMAT_ACCOUNTING:
-			odf_write_currency_style (state, style->format, style->name);
-			break;
-		case GO_FORMAT_DATE:
-			odf_write_date_style (state, style->format, style->name);
-			break;
-		case GO_FORMAT_TIME:
-			odf_write_time_style (state, style->format, style->name);
-			break;
-		case GO_FORMAT_PERCENTAGE:
-			odf_write_percentage_style (state, style->format, style->name);
-			break;
-		case GO_FORMAT_FRACTION:
-			odf_write_fraction_style (state, style->format, style->name);
-			break;
-		case GO_FORMAT_SCIENTIFIC:
-			odf_write_scientific_style (state, style->format, style->name);			
-			break;
-		case GO_FORMAT_TEXT:
-		case GO_FORMAT_SPECIAL:
-		case GO_FORMAT_UNKNOWN:
-		case GO_FORMAT_GENERAL:
-		default:
-			g_warning ("We are failing to export this format: %s", 
-				   go_format_as_XL (style->format));
-		}
-	}
+	g_hash_table_foreach (state->xl_styles, (GHFunc) odf_write_this_xl_style, state);
 	g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
 }
 
@@ -2544,7 +2515,8 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	state.wb  = wb_view_get_workbook (wbv);
 	state.conv = odf_expr_conventions_new ();
 	state.cell_styles = NULL;
-	state.xl_styles = NULL;
+	state.xl_styles =  g_hash_table_new_full (g_str_hash, g_str_equal,
+						  (GDestroyNotify) g_free, (GDestroyNotify) g_free);
 	state.col_styles = NULL;
 	state.row_styles = NULL;
 
@@ -2574,7 +2546,7 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 
 	gnm_pop_C_locale (locale);
 	go_slist_free_custom (state.cell_styles, cell_styles_free);
-	go_slist_free_custom (state.xl_styles, xl_styles_free);
+	g_hash_table_unref (state.xl_styles);
 	g_slist_free (state.col_styles);
 	g_slist_free (state.row_styles);
 	gnm_style_unref (state.default_style);					    
