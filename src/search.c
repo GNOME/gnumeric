@@ -59,8 +59,13 @@ check_number (GnmSearchReplace *sr)
 
 	if (v) {
 		gnm_float f = value_get_as_float (v);
-		sr->low_number = gnm_sub_epsilon (f);
-		sr->high_number = gnm_add_epsilon (f);
+		if (f < 0) {
+			sr->low_number = gnm_add_epsilon (f);
+			sr->high_number = gnm_sub_epsilon (f);
+		} else {
+			sr->low_number = gnm_sub_epsilon (f);
+			sr->high_number = gnm_add_epsilon (f);
+		}
 		value_release (v);
 		return TRUE;
 	} else {
