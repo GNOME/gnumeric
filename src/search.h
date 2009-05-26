@@ -58,7 +58,7 @@ struct _GnmSearchReplace {
 	gboolean query;		/* Ask before each change.  */
 
 	gboolean is_number;     /* Search for specific number.  */
-	gnm_float the_number;   /* protected. */
+	gnm_float low_number, high_number;   /* protected. */
 
 	/* The following identify what kinds of cells are the target.  */
 	gboolean search_strings;

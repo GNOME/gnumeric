@@ -1,3 +1,8 @@
+2009-05-26  Morten Welinder  <terra@gnome.org>
+
+	* src/search.c (gnm_search_match_value): Accept a very small
+	range.
+
 2009-05-25  Morten Welinder  <terra@gnome.org>
 
 	* src/search.c (gnm_search_replace_set_property,

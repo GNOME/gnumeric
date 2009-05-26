@@ -58,11 +58,13 @@ check_number (GnmSearchReplace *sr)
 	GnmValue *v = format_match_number (gosr->search_text, NULL, date_conv);
 
 	if (v) {
-		sr->the_number = value_get_as_float (v);
+		gnm_float f = value_get_as_float (v);
+		sr->low_number = gnm_sub_epsilon (f);
+		sr->high_number = gnm_add_epsilon (f);
 		value_release (v);
 		return TRUE;
 	} else {
-		sr->the_number = 0;
+		sr->low_number = sr->high_number = gnm_nan;
 		return FALSE;
 	}
 }
@@ -73,10 +75,9 @@ gnm_search_match_value (GnmSearchReplace const *sr, GnmValue const *val)
 	gnm_float f;
 	if (!VALUE_IS_NUMBER (val))
 		return FALSE;
-
 	f = value_get_as_float (val);
-	/* Exact match for now.  */
-	return (sr->the_number == f);
+
+	return (sr->low_number <= f && f <= sr->high_number);
 }
 
 
