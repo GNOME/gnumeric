@@ -1,3 +1,7 @@
+2009-05-26  Morten Welinder  <terra@gnome.org>
+
+	* src/dependent.c (dependent_changed): Handle NULL dep->sheet.
+
 2009-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* configure.in: increase goffice requirement to 0.7.8

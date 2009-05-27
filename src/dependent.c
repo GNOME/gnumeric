@@ -345,7 +345,8 @@ dependent_type_register (GnmDependentClass const *klass)
 static void
 dependent_changed (GnmDependent *dep)
 {
-	if (dep->sheet->workbook->recursive_dirty_enabled)
+	if (dep->sheet &&
+	    dep->sheet->workbook->recursive_dirty_enabled)
 		dependent_queue_recalc (dep);
 	else
 		dependent_flag_recalc (dep);
