@@ -1,3 +1,24 @@
+2009-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_day): deleted (moved to goffice)
+	(odf_write_month): ditto
+	(odf_write_year): ditto
+	(odf_write_hour): ditto
+	(odf_write_minute): ditto
+	(odf_write_second): ditto
+	(odf_write_ampm): ditto
+	(odf_write_date_style): ditto
+	(odf_write_time_style): ditto
+	(odf_write_number_style): ditto
+	(odf_write_currency_style): ditto
+	(odf_write_percentage_style): ditto
+	(odf_write_fraction_style): ditto
+	(odf_write_scientific_style): ditto
+	(odf_write_this_xl_style): use go_format_output_to_odf for all
+	  but the conditional formats
+	(odf_write_data_styles): deleted
+	(odf_write_styles): call g_hash_table_foreach directly
+	
 2009-05-26  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (xl_find_format): if the format is not simple 
