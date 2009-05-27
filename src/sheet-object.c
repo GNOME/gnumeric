@@ -379,7 +379,7 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
  * sheet_object_clear_sheet :
  * @so : #SheetObject
  *
- * Removes @so from it's container, unrealizes all views, disconects the
+ * Removes @so from its container, unrealizes all views, disconects the
  * associated data and unrefs the object
  **/
 void
