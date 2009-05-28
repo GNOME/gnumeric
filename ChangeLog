@@ -1,3 +1,7 @@
+2009-05-28  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-actions.c (cb_format_as_currency): Fix.
+
 2009-05-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-cell-comment.c (cell_comment_prep_sax_parser):

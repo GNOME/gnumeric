@@ -6,6 +6,7 @@ Andreas:
 
 Morten:
 	* Add search-for-number.
+	* Fix format-as-currency action.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.8

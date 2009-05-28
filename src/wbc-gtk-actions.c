@@ -1420,7 +1420,14 @@ static GNM_ACTION_DEF (cb_format_as_number)
 
 static GNM_ACTION_DEF (cb_format_as_currency)
 {
-	GOFormat *fmt = go_format_new_from_XL (go_format_builtins[GO_FORMAT_CURRENCY][0]);
+	GOFormatCurrency const *currency = go_format_locale_currency ();
+	GString *str = g_string_new (NULL);
+	GOFormat *fmt;
+	go_format_generate_currency_str (str, 2, TRUE, FALSE, FALSE,
+					 currency, FALSE);
+	fmt = go_format_new_from_XL (str->str);
+	g_string_free (str, TRUE);
+	apply_number_format (wbcg, fmt, _("Format as Currency"));
 	go_format_unref (fmt);
 }
 
