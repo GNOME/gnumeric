@@ -316,9 +316,10 @@ cell_comment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 			cc->author = g_strdup (attrs[1]);
 		else if (!strcmp (attrs[0], "TextFormat")) {
 			GOFormat * fmt = go_format_new_from_XL (attrs[1]);
-			g_object_set (G_OBJECT (cc),
-				      "markup", go_format_get_markup (fmt),
-				      NULL);
+			if (go_format_is_markup (fmt))
+				g_object_set (G_OBJECT (cc),
+					      "markup", go_format_get_markup (fmt),
+					      NULL);
 			go_format_unref (fmt);
 		}
 	}

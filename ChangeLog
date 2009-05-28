@@ -1,3 +1,8 @@
+2009-05-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object-cell-comment.c (cell_comment_prep_sax_parser):
+	  make sure we are having markup before retrieving it
+
 2009-05-26  Morten Welinder  <terra@gnome.org>
 
 	* src/dependent.c (dependent_changed): Handle NULL dep->sheet.
