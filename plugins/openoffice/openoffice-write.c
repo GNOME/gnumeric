@@ -1384,13 +1384,17 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		GnmComment const *cc)
 {
 	int rows_spanned = 0, cols_spanned = 0;
+	gboolean pp = TRUE;
 
+	g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
+	
 	if (merge_range != NULL) {
 		rows_spanned = merge_range->end.row - merge_range->start.row + 1;
 		cols_spanned = merge_range->end.col - merge_range->start.col + 1;
 	}
 
 	gsf_xml_out_start_element (state->xml, TABLE "table-cell");
+	
 	if (cols_spanned > 1)
 		gsf_xml_out_add_int (state->xml,
 				     TABLE "number-columns-spanned", cols_spanned);
@@ -1398,7 +1402,6 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		gsf_xml_out_add_int (state->xml,
 				     TABLE "number-rows-spanned", rows_spanned);
 	if (cell != NULL) {
-		gboolean pp = TRUE;
 		GnmStyle const *style = gnm_cell_get_style (cell);
 
 		if (style) {
@@ -1474,47 +1477,15 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			break;
 
 		}
-
-		if (cell->value != NULL) {
-			g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
-			g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
-			if ((VALUE_FMT (cell->value) == NULL)
-			    || (!VALUE_IS_STRING (cell->value))
-			    || (!go_format_is_markup (VALUE_FMT (cell->value)))) {
-				char *rendered_string = gnm_cell_get_rendered_text (cell);
-				gboolean white_written = TRUE;
-				
-				if (*rendered_string != '\0') {
-					gsf_xml_out_start_element (state->xml, TEXT "p");
-					odf_add_chars (state, rendered_string, 
-						       strlen (rendered_string), 
-						       &white_written);
-					gsf_xml_out_end_element (state->xml);   /* p */
-				}
-				
-				
-				
-				g_free (rendered_string);
-			} else {
-				GString *str = g_string_new (NULL);
-				const PangoAttrList * markup;
-				
-				value_get_as_gstring (cell->value, str, NULL);
-				markup = go_format_get_markup (VALUE_FMT (cell->value));
-				
-				gsf_xml_out_start_element (state->xml, TEXT "p");
-				odf_new_markup (state, markup, str->str);
-				gsf_xml_out_end_element (state->xml);   /* p */
-				
-				g_string_free (str, TRUE);
-			}    
-			g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
-		}
 	}
 
 	if (cc != NULL) {
 		char const *author;
-		author = cell_comment_author_get (cc);
+		char const *text;
+		const PangoAttrList * markup;
+
+		g_object_get (G_OBJECT (cc), "text", &text, 
+			      "markup", &markup, "author", &author,  NULL);
 
 		gsf_xml_out_start_element (state->xml, OFFICE "annotation");
 		if (author != NULL) {
@@ -1522,9 +1493,51 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			gsf_xml_out_add_cstr (state->xml, NULL, author);
 			gsf_xml_out_end_element (state->xml); /*  DUBLINCORE "creator" */;
 		}
-		gsf_xml_out_add_cstr (state->xml, NULL, cell_comment_text_get (cc));
+		g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
+		gsf_xml_out_start_element (state->xml, TEXT "p");
+		if (markup != NULL)
+			odf_new_markup (state, markup, text);
+		else {
+			gboolean white_written = TRUE;
+			odf_add_chars (state, text, strlen (text), &white_written);
+		}
+		gsf_xml_out_end_element (state->xml);   /* p */
+		g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
 		gsf_xml_out_end_element (state->xml); /*  OFFICE "annotation" */
 	}
+
+	
+	if (cell != NULL && cell->value != NULL) {
+		g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
+		if ((VALUE_FMT (cell->value) == NULL)
+		    || (!VALUE_IS_STRING (cell->value))
+		    || (!go_format_is_markup (VALUE_FMT (cell->value)))) {
+			char *rendered_string = gnm_cell_get_rendered_text (cell);
+			gboolean white_written = TRUE;
+			
+			if (*rendered_string != '\0') {
+				gsf_xml_out_start_element (state->xml, TEXT "p");
+				odf_add_chars (state, rendered_string, strlen (rendered_string), 
+					       &white_written);
+				gsf_xml_out_end_element (state->xml);   /* p */
+			}
+			g_free (rendered_string);
+		} else {
+			GString *str = g_string_new (NULL);
+			const PangoAttrList * markup;
+			
+			value_get_as_gstring (cell->value, str, NULL);
+			markup = go_format_get_markup (VALUE_FMT (cell->value));
+			
+			gsf_xml_out_start_element (state->xml, TEXT "p");
+			odf_new_markup (state, markup, str->str);
+			gsf_xml_out_end_element (state->xml);   /* p */
+			
+			g_string_free (str, TRUE);
+		}    
+		g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
+	}
+	
 
 	gsf_xml_out_end_element (state->xml);   /* table-cell */
 }

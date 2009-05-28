@@ -1,5 +1,11 @@
 2009-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_cell): the office:annotation must 
+	  precede the text:p of the cell content. The text inside the 
+	  annotation must be contained inside a text:p.
+
+2009-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_day): deleted (moved to goffice)
 	(odf_write_month): ditto
 	(odf_write_year): ditto
