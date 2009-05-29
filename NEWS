@@ -9,6 +9,7 @@ Andreas:
 Morten:
 	* Add search-for-number.
 	* Fix format-as-currency action.
+	* Honour --geometry even when load loading a file.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.8

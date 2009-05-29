@@ -428,7 +428,7 @@ main (int argc, char const **argv)
 			gint n_of_sheets = gnm_app_prefs->initial_sheet_number;
 			wbc_gtk_new (NULL,
 				workbook_new_with_sheets (n_of_sheets),
-				NULL, NULL);
+				NULL, geometry);
 		}
 
 		if (immediate_exit_flag) {

@@ -1,3 +1,8 @@
+2009-05-29  Morten Welinder  <terra@gnome.org>
+
+	* src/main-application.c (main): Honour geometry even when we are
+	not loading a file from the command line.
+
 2009-05-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk-actions.c (toggle_font_attr): when we toggle sub or 
