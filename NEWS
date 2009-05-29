@@ -4,6 +4,7 @@ Andreas:
 	* Export some data formats to ODF
 	* Fix comment export to ODF
 	* Remove distinction between label and filled rectangle
+	* Add superscipt and subscript buttons [#583327]
 
 Morten:
 	* Add search-for-number.
