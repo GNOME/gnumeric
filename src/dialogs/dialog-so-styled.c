@@ -109,7 +109,7 @@ dialog_so_styled_text_widget (DialogSOStyled *state)
 	PangoAttrList  *markup;
 
 	g_object_get (state->so, "text", &strval, NULL);
-	g_object_set (gtv, "text", strval, NULL);
+	g_object_set (gtv, "text", (strval == NULL) ? "" : strval, NULL);
 	state->orig_text = strval;
 
 	g_object_get (state->so, "markup", &markup, NULL);

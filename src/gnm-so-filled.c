@@ -53,9 +53,7 @@ typedef struct {
 	GOStyle  *style;
 	gboolean   is_oval;
 
-	/* Only valid if !is_oval */
 	char *text;
-	/* Only valid if text != NULL && !is_oval */
 	PangoAttrList  *markup;
 	struct {
 		float top, bottom, left, right;
@@ -91,7 +89,7 @@ so_filled_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean 
 			"x2", w, "y2", h,
 			NULL);
 
-		if (sof->text != NULL && group->item_list->next) {
+		if (group->item_list->next) {
 			view = FOO_CANVAS_ITEM (group->item_list->next->data);
 			w -= (sof->margin_pts.left + sof->margin_pts.right)
 				* view->canvas->pixels_per_unit;
@@ -168,12 +166,10 @@ static void
 gnm_so_filled_user_config (SheetObject *so, SheetControl *sc)
 {
 	GnmSOFilled *sof = GNM_SO_FILLED (so);
-	gboolean text = (sof->text != NULL);
 	dialog_so_styled (scg_wbcg (SHEET_CONTROL_GUI (sc)), G_OBJECT (so),
 			  sof->style, sof_default_style (),
-			  text ? _("Label Properties") :
 			  _("Filled Object Properties"),
-			  text ? SO_STYLED_TEXT : SO_STYLED_STYLE_ONLY);
+			  SO_STYLED_TEXT);
 }
 
 static void
@@ -212,21 +208,19 @@ cb_gnm_so_filled_changed (GnmSOFilled const *sof,
 {
 	cb_gnm_so_filled_style_changed (group->item_list->data, sof);
 
-	if (!sof->is_oval && sof->text != NULL) {
-		if (group->item_list->next == NULL)
-			foo_canvas_item_new (group, FOO_TYPE_CANVAS_TEXT,
-				"anchor",	GTK_ANCHOR_NW,
-				"clip",		TRUE,
-				"x",		sof->margin_pts.left,
-				"y",		sof->margin_pts.top,
-				"attributes",	sof->markup,
-				NULL);
-		foo_canvas_item_set (FOO_CANVAS_ITEM (group->item_list->next->data),
-				     "text", sof->text,
+	if (group->item_list->next == NULL)
+		foo_canvas_item_new (group, FOO_TYPE_CANVAS_TEXT,
+				     "anchor",	GTK_ANCHOR_NW,
+				     "clip",		TRUE,
+				     "x",		sof->margin_pts.left,
+				     "y",		sof->margin_pts.top,
 				     "attributes",	sof->markup,
+				     "text", sof->text,
 				     NULL);
-	} else if (group->item_list->next != NULL)
-		g_object_unref (group->item_list->next->data);
+	foo_canvas_item_set (FOO_CANVAS_ITEM (group->item_list->next->data),
+			     "text", sof->text,
+			     "attributes",	sof->markup,
+			     NULL);
 }
 
 static SheetObjectView *
@@ -289,7 +283,7 @@ gnm_so_filled_draw_cairo (SheetObject const *so, cairo_t *cr,
 		UINT_RGBA_A(style->outline.color));
 	cairo_stroke (cr);
 	/* Draw the text. */
-	if (sof->text != NULL && !sof->is_oval) {
+	if (*(sof->text) != '\0') {
 		PangoLayout *pl = pango_cairo_create_layout (cr);
 		double pl_height = (height - sof->margin_pts.top
 				    - sof->margin_pts.bottom) * PANGO_SCALE;
@@ -348,7 +342,7 @@ gnm_so_filled_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 	gsf_xml_out_add_float   (output, "Width", sof->style->outline.width, 2);
 	gnm_xml_out_add_gocolor (output, "OutlineColor", sof->style->outline.color);
 	gnm_xml_out_add_gocolor (output, "FillColor",	 sof->style->fill.pattern.back);
-	if (!sof->is_oval && sof->text != NULL) {
+	if (*(sof->text) != '\0') {
 		gsf_xml_out_add_cstr (output, "Label", sof->text);
 		if (sof->markup != NULL) {
 			GOFormat *fmt = go_format_new_markup	(sof->markup, TRUE);
@@ -547,7 +541,8 @@ gnm_so_filled_init (GObject *obj)
 {
 	GnmSOFilled *sof = GNM_SO_FILLED (obj);
 	sof->style = sof_default_style ();
-	sof->text = NULL;
+	sof->text = g_strdup (""); /* If we initialize with NULL, the canvas item */
+	                           /* does not react on changes */
 	sof->markup = NULL;
 	sof->margin_pts.top  = sof->margin_pts.bottom = 3;
 	sof->margin_pts.left = sof->margin_pts.right  = 5;

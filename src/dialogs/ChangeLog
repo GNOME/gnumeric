@@ -1,3 +1,8 @@
+2009-05-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-so-styled.c (dialog_so_styled_text_widget): make sure 
+	  the existing text is not NULL. 
+
 2009-05-25  Morten Welinder  <terra@gnome.org>
 
 	* dialog-search.c (search_clicked): Handle number search.

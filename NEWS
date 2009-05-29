@@ -3,6 +3,7 @@ Gnumeric 1.9.9
 Andreas:
 	* Export some data formats to ODF
 	* Fix comment export to ODF
+	* Remove distinction between label and filled rectangle
 
 Morten:
 	* Add search-for-number.

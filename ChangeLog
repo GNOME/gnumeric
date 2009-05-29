@@ -4,6 +4,18 @@
 
 2009-05-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/gnm-so-filled.c (so_filled_view_set_bounds): don't check for
+	  text to be non-null and is_oval to be false
+	(gnm_so_filled_user_config): ditto
+	(cb_gnm_so_filled_style_changed): ditto
+	(gnm_so_filled_draw_cairo): ditto
+	(gnm_so_filled_write_xml_sax): ditto
+	(gnm_so_filled_init): Iniitalize with the empty string rather than NULL
+	  since something in FOOCANVAS doesn't update when we change from NULL to 
+	  text.
+
+2009-05-28  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet-object-cell-comment.c (cell_comment_prep_sax_parser):
 	  make sure we are having markup before retrieving it
 
