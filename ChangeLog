@@ -1,5 +1,10 @@
 2009-05-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/wbc-gtk-actions.c (toggle_font_attr): when we toggle sub or 
+	  subscript we should also toggle the size.
+
+2009-05-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/GNOME_Gnumeric-gtk.xml.in: add super and subscript buttons
 	  to format toolbar. Remove Label button from the object toolbar
 	  since it is functionally equivalent to the rectangle button.
