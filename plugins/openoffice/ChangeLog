@@ -1,5 +1,11 @@
 2009-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_attrs_as_string): hadnle super and 
+	  subscripts
+	(odf_write_character_styles): create super and subscript styles
+
+2009-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_cell): the office:annotation must 
 	  precede the text:p of the cell content. The text inside the 
 	  annotation must be contained inside a text:p.

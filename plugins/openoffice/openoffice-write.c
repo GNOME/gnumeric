@@ -241,6 +241,13 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 	case PANGO_ATTR_SIZE :
 		break; /* ignored */
 	case PANGO_ATTR_RISE:
+		if (((PangoAttrInt *)a)->value != 0) {
+			gsf_xml_out_start_element (state->xml, TEXT "span");
+			gsf_xml_out_add_cstr (state->xml, TEXT "style-name", 
+					      (((PangoAttrInt *)a)->value < 0) 
+					      ? "AC-subscript"  : "AC-superscript");
+			spans += 1;
+		}		
 		break; /* ignored */
 	case PANGO_ATTR_STYLE :
 		spans += 1;
@@ -1135,6 +1142,18 @@ odf_write_character_styles (GnmOOExport *state)
 	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 
+	odf_start_style (state->xml, "AC-subscript", "text");
+	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-position", "sub 75%");
+	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
+	
+	odf_start_style (state->xml, "AC-superscript", "text");
+	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
+	gsf_xml_out_add_cstr (state->xml, STYLE "text-position", "super 75%");
+	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
+	
 	odf_start_style (state->xml, "AC-strikethrough-solid", "text");
 	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
 	gsf_xml_out_add_cstr (state->xml, STYLE "text-line-through-type", "single");
