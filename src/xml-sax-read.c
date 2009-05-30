@@ -1954,8 +1954,7 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		 */
 		gnm_cell_set_value (cell, value_new_empty ());
 
-	if (value_fmt != NULL)
-		go_format_unref (value_fmt);
+	go_format_unref (value_fmt);
 }
 
 static void

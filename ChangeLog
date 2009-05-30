@@ -1,3 +1,8 @@
+2009-05-30  Morten Welinder  <terra@gnome.org>
+
+	* src/xml-sax-read.c (xml_sax_cell_content): Don't check
+	go_format_unref.
+
 2009-05-29  Morten Welinder  <terra@gnome.org>
 
 	* src/main-application.c (main): Honour geometry even when we are
