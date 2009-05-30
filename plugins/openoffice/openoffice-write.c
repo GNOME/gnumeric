@@ -100,6 +100,9 @@ typedef struct {
 	GSList *col_styles;
 	GSList *cell_styles;
 	GHashTable *xl_styles;
+	GHashTable *xl_styles_neg;
+	GHashTable *xl_styles_zero;
+	GHashTable *xl_styles_conditional;
 	GnmStyle *default_style;
 	ColRowInfo const *row_default;
 	ColRowInfo const *column_default;
@@ -442,29 +445,64 @@ table_style_name (Sheet const *sheet)
 }
 
 static const char*
-xl_find_format (GnmOOExport *state, GOFormat const *format)
+xl_find_format (GnmOOExport *state, GOFormat const *format, int i)
 {
+	GHashTable *hash;
 	char const *xl =  go_format_as_XL(format);
-	char const *found = g_hash_table_lookup (state->xl_styles, xl);
+	char const *found;
+	const char *prefix;
+
+	switch (i) {
+	case 0: 
+		hash = state->xl_styles;
+		prefix = "ND-%i";
+		break;
+	case 1: 
+		hash = state->xl_styles_neg;
+		prefix = "ND--%i";
+		break;
+	default: 
+		hash = state->xl_styles_zero;
+		prefix = "ND0-%i";
+		break;
+	}
+
+	found = g_hash_table_lookup (hash, xl);
 
 	if (found == NULL) {
 		char *new_found;
-		new_found = g_strdup_printf ("NDATA-%u", 
-					     g_hash_table_size (state->xl_styles));
-		g_hash_table_insert (state->xl_styles, g_strdup (xl), new_found);
+		new_found = g_strdup_printf (prefix, 
+					     g_hash_table_size (hash));
+		g_hash_table_insert (hash, g_strdup (xl), new_found);
 		found = new_found;
+	}
+	return found;
+}
 
-		if (!go_format_is_simple (format)) {
-			int i = 0;
-			GOFormat const *pformat = NULL;
-			char *condition;
-			while ((condition = go_format_odf_style_map 
-				(&pformat, format, i++)) != NULL){
-				xl_find_format (state, pformat); 
-				g_free (condition);
-			}
+static const char*
+xl_find_conditional_format (GnmOOExport *state, GOFormat const *format)
+{
+	char const *xl =  go_format_as_XL(format);
+	char const *found;
+	char *condition;
+
+	found = g_hash_table_lookup (state->xl_styles_conditional, xl);
+
+	if (found == NULL) {
+		char *new_found;
+		new_found = g_strdup_printf ("NDC-%i", 
+					     g_hash_table_size (state->xl_styles_conditional));
+		g_hash_table_insert (state->xl_styles_conditional, g_strdup (xl), new_found);
+		found = new_found;
+		xl_find_format (state, format, 0);
+		xl_find_format (state, format, 1);
+		condition = go_format_odf_style_map (format, 2);
+		if (condition != NULL) {
+			xl_find_format (state, format, 2);
+		g_free (condition);
 		}
 	}
+	
 	return found;
 }
 
@@ -923,8 +961,10 @@ odf_write_style_goformat_name (GnmOOExport *state, GOFormat *gof)
 
 	if (go_format_is_general (gof))
 		name = "General";
+	else if (go_format_is_simple (gof))
+		name = xl_find_format (state, gof, 0);
 	else
-		name = xl_find_format (state, gof);
+		name = xl_find_conditional_format (state, gof);
 
 	gsf_xml_out_add_cstr (state->xml, STYLE "data-style-name", name);
 }
@@ -1962,45 +2002,72 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 /*****************************************************************************/
 
 static void
-odf_write_conditional_style (GOFormat *format, char const *name, GnmOOExport *state)
+odf_write_xl_style (char const *xl, char const *name, GnmOOExport *state, int i)
 {
-	int i = 0;
-	GOFormat const *pformat;
-	char *condition;
-
-	gsf_xml_out_start_element (state->xml, NUMBER "number-style");
-	gsf_xml_out_add_cstr (state->xml, STYLE "name", name);
-	gsf_xml_out_add_cstr (state->xml, GNMSTYLE "format", 
-			      go_format_as_XL (format));
-	while ((condition = go_format_odf_style_map 
-		(&pformat, format, i++)) != NULL) {
-		gsf_xml_out_start_element (state->xml, STYLE "map");
-		gsf_xml_out_add_cstr (state->xml, STYLE "condition", condition);
-		gsf_xml_out_add_cstr (state->xml, STYLE "apply-style-name", 
-				      g_hash_table_lookup (state->xl_styles,
-							   go_format_as_XL(pformat)));
-		gsf_xml_out_end_element (state->xml); /* </style:map> */
-		g_free (condition);
-	}
-	gsf_xml_out_end_element (state->xml); /* </number:number-style> */
+	GOFormat *format;
+	if (xl == NULL) return;
+	format = go_format_new_from_XL (xl);
+	go_format_output_to_odf (state->xml, format, i, name);
+	go_format_unref (format);
 }
 
 static void
 odf_write_this_xl_style (char const *xl, char const *name, GnmOOExport *state)
 {
-	GOFormat *format;
+	odf_write_xl_style (xl, name, state, 0);
+}
 
-	if (xl == NULL)
-		return;
+static void
+odf_write_this_xl_style_neg (char const *xl, char const *name, GnmOOExport *state)
+{
+	odf_write_xl_style (xl, name, state, 1);
+}
 
-	format = go_format_new_from_XL (xl);
+static void
+odf_write_this_xl_style_zero (char const *xl, char const *name, GnmOOExport *state)
+{
+	odf_write_xl_style (xl, name, state, 2);
+}
 
-	if (go_format_is_simple (format))
-		go_format_output_to_odf (state->xml, format, name);
-	else
-		odf_write_conditional_style (format, name, state);
-		
+static gboolean
+odf_write_map (GnmOOExport *state, char const *xl, int i)
+{
+	GHashTable *xl_styles;
+	GOFormat *format = go_format_new_from_XL (xl);
+	char *condition = go_format_odf_style_map (format, i);
 	go_format_unref (format);
+	if (condition == NULL)
+		return FALSE;
+	switch (i) {
+	case 0: 
+		xl_styles = state->xl_styles;
+		break;
+	case 1: 
+		xl_styles = state->xl_styles_neg;
+		break;
+	default: 
+		xl_styles = state->xl_styles_zero;
+		break;
+
+	}
+	gsf_xml_out_start_element (state->xml, STYLE "map");
+	gsf_xml_out_add_cstr (state->xml, STYLE "condition", condition);
+	gsf_xml_out_add_cstr (state->xml, STYLE "apply-style-name", 
+			      g_hash_table_lookup (xl_styles, xl));
+	gsf_xml_out_end_element (state->xml); /* </style:map> */
+	g_free (condition);
+	return TRUE;
+}
+
+static void
+odf_write_this_conditional_xl_style (char const *xl, char const *name, GnmOOExport *state)
+{
+	int i = 0;
+
+	gsf_xml_out_start_element (state->xml, NUMBER "number-style");
+	gsf_xml_out_add_cstr (state->xml, STYLE "name", name);
+	while (odf_write_map (state, xl, i++)) {}
+	gsf_xml_out_end_element (state->xml); /* </number:number-style> */
 }
 
 static void
@@ -2035,7 +2102,10 @@ odf_write_styles (GnmOOExport *state, GsfOutput *child)
 		gsf_xml_out_end_element (state->xml); /* </style:default-style */
 	}
 
+	g_hash_table_foreach (state->xl_styles_zero, (GHFunc) odf_write_this_xl_style_zero, state);
+	g_hash_table_foreach (state->xl_styles_neg, (GHFunc) odf_write_this_xl_style_neg, state);
 	g_hash_table_foreach (state->xl_styles, (GHFunc) odf_write_this_xl_style, state);
+	g_hash_table_foreach (state->xl_styles_conditional, (GHFunc) odf_write_this_conditional_xl_style, state);
 	
 	gsf_xml_out_end_element (state->xml); /* </office:styles> */
 	gsf_xml_out_end_element (state->xml); /* </office:document-styles> */
@@ -2155,6 +2225,12 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	state.cell_styles = NULL;
 	state.xl_styles =  g_hash_table_new_full (g_str_hash, g_str_equal,
 						  (GDestroyNotify) g_free, (GDestroyNotify) g_free);
+	state.xl_styles_neg =  g_hash_table_new_full (g_str_hash, g_str_equal,
+						  (GDestroyNotify) g_free, (GDestroyNotify) g_free);
+	state.xl_styles_zero =  g_hash_table_new_full (g_str_hash, g_str_equal,
+						  (GDestroyNotify) g_free, (GDestroyNotify) g_free);
+	state.xl_styles_conditional =  g_hash_table_new_full (g_str_hash, g_str_equal,
+						  (GDestroyNotify) g_free, (GDestroyNotify) g_free);
 	state.col_styles = NULL;
 	state.row_styles = NULL;
 
@@ -2185,6 +2261,9 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	gnm_pop_C_locale (locale);
 	go_slist_free_custom (state.cell_styles, cell_styles_free);
 	g_hash_table_unref (state.xl_styles);
+	g_hash_table_unref (state.xl_styles_neg);
+	g_hash_table_unref (state.xl_styles_zero);
+	g_hash_table_unref (state.xl_styles_conditional);
 	g_slist_free (state.col_styles);
 	g_slist_free (state.row_styles);
 	gnm_style_unref (state.default_style);					    

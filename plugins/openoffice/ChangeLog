@@ -1,3 +1,15 @@
+2009-05-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (xl_find_format): handle all three possible
+	  format positions
+	(xl_find_conditional_format): new
+	(odf_write_xl_stylet): new
+	(odf_write_this_xl_style_neg): new
+	(odf_write_this_xl_style_zero): new
+	(odf_write_map): rewrite
+	(odf_write_this_conditional_xl_style): new
+	(openoffice_file_save): handle new hashes
+
 2009-05-27  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_attrs_as_string): hadnle super and 
