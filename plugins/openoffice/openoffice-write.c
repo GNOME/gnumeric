@@ -106,6 +106,7 @@ typedef struct {
 	GnmStyle *default_style;
 	ColRowInfo const *row_default;
 	ColRowInfo const *column_default;
+	gboolean with_extension;
 } GnmOOExport;
 
 typedef struct {
@@ -665,7 +666,7 @@ odf_get_gnm_border_format (GnmBorder   *border)
 			char const *gnm_border_style = odf_get_gnm_border_format (border); \
 			gsf_xml_out_add_cstr_unchecked (state->xml, msbwstr, border_style); \
 			g_free (border_style); \
-                        if (gnm_border_style != NULL) \
+                        if (gnm_border_style != NULL && state->with_extension) \
 				gsf_xml_out_add_cstr_unchecked (state->xml, msbwstr_gnm, gnm_border_style); \
                         if (border->line_type == GNM_STYLE_BORDER_DOUBLE) \
 			        gsf_xml_out_add_cstr_unchecked (state->xml, msbwstr_wth, "0.03cm 0.03cm 0.03cm "); \
@@ -727,7 +728,7 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 			break;
 		}
 		gsf_xml_out_add_cstr (state->xml, STYLE "vertical-align", alignment);
-		if (gnum_specs)
+		if (gnum_specs && state->with_extension)
 			gsf_xml_out_add_int (state->xml, GNMSTYLE "GnmVAlign", align);
 	}
 	
@@ -798,7 +799,7 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 	gsf_xml_out_add_int (state->xml, STYLE "decimal-places", 13);
 
 /* Input Messages */
-	if (gnm_style_is_element_set (style, MSTYLE_ROTATION)) {
+	if (gnm_style_is_element_set (style, MSTYLE_ROTATION) && state->with_extension) {
 		GnmInputMsg *msg = gnm_style_get_input_msg (style);
 		if (msg != NULL) {
 			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "input-title",  
@@ -857,7 +858,7 @@ odf_write_style_paragraph_properties (GnmOOExport *state, GnmStyle const *style)
 		if (align != HALIGN_GENERAL)
 			gsf_xml_out_add_cstr (state->xml, FOSTYLE "text-align", alignment);
 		gsf_xml_out_add_cstr (state->xml, STYLE "text-align-source", source);
-		if (gnum_specs)
+		if (gnum_specs && state->with_extension)
 			gsf_xml_out_add_int (state->xml, GNMSTYLE "GnmHAlign", align);
 	}
 
@@ -2010,7 +2011,7 @@ odf_write_xl_style (char const *xl, char const *name, GnmOOExport *state, int i)
 	GOFormat *format;
 	if (xl == NULL) return;
 	format = go_format_new_from_XL (xl);
-	go_format_output_to_odf (state->xml, format, i, name);
+	go_format_output_to_odf (state->xml, format, i, name, state->with_extension);
 	go_format_unref (format);
 }
 
@@ -2187,13 +2188,9 @@ odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 
 /**********************************************************************************/
 
-void
-openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
-		      WorkbookView const *wbv, GsfOutput *output);
-
-G_MODULE_EXPORT void
-openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
-		      WorkbookView const *wbv, GsfOutput *output)
+static void
+openoffice_file_save_real (GOFileSaver const *fs, IOContext *ioc,
+			   WorkbookView const *wbv, GsfOutput *output, gboolean with_extension)
 {
 	static struct {
 		void (*func) (GnmOOExport *state, GsfOutput *child);
@@ -2221,6 +2218,7 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 
 	outfile = gsf_outfile_zip_new (output, &err);
 
+	state.with_extension = with_extension;
 	state.ioc = ioc;
 	state.wbv = wbv;
 	state.wb  = wb_view_get_workbook (wbv);
@@ -2242,7 +2240,6 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	state.default_style = sheet_style_default (sheet);
 	state.column_default = &sheet->cols.default_style;
 	state.row_default = &sheet->rows.default_style;
-	
 
 	for (i = 0 ; i < G_N_ELEMENTS (streams); i++) {
 		child = gsf_outfile_new_child_full (outfile, streams[i].name, FALSE,
@@ -2271,3 +2268,29 @@ openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
 	g_slist_free (state.row_styles);
 	gnm_style_unref (state.default_style);					    
 }
+
+
+
+void
+openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
+		      WorkbookView const *wbv, GsfOutput *output);
+
+G_MODULE_EXPORT void
+openoffice_file_save (GOFileSaver const *fs, IOContext *ioc,
+		      WorkbookView const *wbv, GsfOutput *output)
+{
+	openoffice_file_save_real (fs, ioc, wbv, output, FALSE);
+}
+
+void
+odf_file_save (GOFileSaver const *fs, IOContext *ioc,
+		      WorkbookView const *wbv, GsfOutput *output);
+
+G_MODULE_EXPORT void
+odf_file_save (GOFileSaver const *fs, IOContext *ioc,
+		      WorkbookView const *wbv, GsfOutput *output)
+{
+	openoffice_file_save_real (fs, ioc, wbv, output, TRUE);
+}
+
+

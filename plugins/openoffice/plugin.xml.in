@@ -28,7 +28,13 @@
 		<service type="file_saver" id="openoffice" file_extension="ods"
 		         format_level="auto" overwrite_files="TRUE">
 			<information>
-				<_description>Open Document Format/OpenOffice (*.ods)</_description>
+				<_description>ODF/OpenOffice without foreign elements (*.ods)</_description>
+			</information>
+		</service>
+		<service type="file_saver" id="odf" file_extension="ods"
+		         format_level="auto" overwrite_files="TRUE">
+			<information>
+				<_description>ODF/OpenOffice with foreign elements (*.ods)</_description>
 			</information>
 		</service>
 	</services>

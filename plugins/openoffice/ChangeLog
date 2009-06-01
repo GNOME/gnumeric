@@ -1,5 +1,12 @@
 2009-06-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* plugin.xml.in: add a second filesaver to allow the choice
+	  of with or without foreign elements
+	* openoffice-write.c : throughout bracket all uses of 
+	  foreign elements with a test whether they are permitted.
+
+2009-06-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_fraction): new
 	(odf_number_style): new
 	(odf_number_style_end): new
