@@ -1,5 +1,14 @@
 2009-06-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_number): default iminimum integer digits 
+	  should be 1
+	(odf_scientific): handle scientific numbers
+	(odf_currency_symbol_end): handle currency symbols
+	(styles_dtd): hook-up the above
+	(opendoc_content_dtd): ditto
+	
+2009-06-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_number): new
 	(odf_format_generate_number_str): handle minimum integer digits
 	(styles_dtd): hook-up odf_number and add number:embedded-text
