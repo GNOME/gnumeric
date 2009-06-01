@@ -1,5 +1,12 @@
 2009-06-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_number): new
+	(odf_format_generate_number_str): handle minimum integer digits
+	(styles_dtd): hook-up odf_number and add number:embedded-text
+	(opendoc_content_dtd): ditto
+
+2009-06-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* plugin.xml.in: add a second filesaver to allow the choice
 	  of with or without foreign elements
 	* openoffice-write.c : throughout bracket all uses of 

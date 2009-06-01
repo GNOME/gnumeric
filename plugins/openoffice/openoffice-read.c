@@ -1669,7 +1669,7 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "grouping", &grouping)) {}
+		if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "grouping", &grouping)) {}
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "denominator-value")) {
 			denominator_fixed = TRUE;
 			denominator = atoi (CXML2C (attrs[1]));
@@ -1717,6 +1717,66 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
+static void
+odf_format_generate_number_str (GString *dst,
+			       int num_decimals,
+			       int min_i_digits,
+			       gboolean thousands_sep,
+			       gboolean negative_red,
+			       gboolean negative_paren,
+			       const char *prefix, const char *postfix)
+{
+	if (min_i_digits > 1) {
+		if (thousands_sep) {
+			if (min_i_digits > 3) {
+				while (min_i_digits-- > 3)
+					g_string_append_c (dst, '0');
+				g_string_append (dst, ",00");
+			} else 
+				g_string_append (dst, (min_i_digits == 3) ? "#,00" : "#,#0");
+		} else while (--min_i_digits > 0)
+			       g_string_append_c (dst, '0');
+	}
+	
+	go_format_generate_number_str (dst, num_decimals, 
+					(min_i_digits <= 1) && thousands_sep, 
+					negative_red, negative_paren,
+					prefix, postfix);
+}
+
+static void
+odf_number (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	gboolean grouping = FALSE;
+	int decimal_places = 0;
+	gboolean decimal_places_specified = FALSE;
+/* 	float display_factor = 1.; */
+	int min_i_digits = 0;
+
+	if (state->accum_fmt == NULL)
+		return;
+
+	/* We are ignoring number:decimal-replacement */
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "grouping", &grouping)) {}
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "decimal-places")) {
+			decimal_places = atoi (CXML2C (attrs[1]));
+			decimal_places_specified = TRUE;
+		} /* else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,  */
+/* 					       "display-factor")) */
+/* 			display_factor = atof (CXML2C (attrs[1])); */
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, 
+					       "min-integer-digits"))
+			min_i_digits = atoi (CXML2C (attrs[1]));
+
+	if (decimal_places_specified)
+		odf_format_generate_number_str (state->accum_fmt, decimal_places, min_i_digits,
+					       grouping, FALSE, FALSE, NULL, NULL);
+	else
+		g_string_append (state->accum_fmt, go_format_as_XL (go_format_general ()));
+}
 
 
 static void
@@ -2850,7 +2910,8 @@ GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_XML_NO_CONTEN
     GSF_XML_IN_NODE (DEFAULT_STYLE, DEFAULT_TABLE_ROW_PROPS, OO_NS_STYLE, "table-row-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
 
   GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", GSF_XML_NO_CONTENT, &odf_number_style, &odf_number_style_end),
-    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	"number", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	"number", GSF_XML_NO_CONTENT, &odf_number, NULL),
+       GSF_XML_IN_NODE (NUMBER_STYLE_NUMBER, NUMBER_EMBEDDED_TEXT, OO_NS_NUMBER, "embedded-text", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, NULL, &oo_date_text_end),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, OO_NS_NUMBER, "fraction", GSF_XML_NO_CONTENT, &odf_fraction, NULL),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_SCI_STYLE_PROP, OO_NS_NUMBER, "scientific-number", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -3055,7 +3116,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (STYLE, GRAPHIC_PROPS, OO_NS_STYLE, "graphic-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
 	      GSF_XML_IN_NODE (STYLE, STYLE_MAP, OO_NS_STYLE, "map", GSF_XML_NO_CONTENT, &oo_style_map, NULL),
 	    GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", GSF_XML_NO_CONTENT, &odf_number_style, &odf_number_style_end),
-	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	  "number", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	  "number", GSF_XML_NO_CONTENT, &odf_number, NULL),
+                 GSF_XML_IN_NODE (NUMBER_STYLE_NUMBER, NUMBER_EMBEDDED_TEXT, OO_NS_NUMBER, "embedded-text", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	  "text", GSF_XML_CONTENT, NULL, &oo_date_text_end),
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, OO_NS_NUMBER, "fraction", GSF_XML_NO_CONTENT,  &odf_fraction, NULL),
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_SCI_STYLE_PROP, OO_NS_NUMBER, "scientific-number", GSF_XML_NO_CONTENT, NULL, NULL),
