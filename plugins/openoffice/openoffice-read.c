@@ -225,6 +225,7 @@ typedef struct {
 	int		 richtext_len;
 	GString		*accum_fmt;
 	char		*fmt_name;
+	int              fmt_magic;
 	GnmFilter	*filter;
 
 	GnmConventions  *convs[NUM_FORMULAE_SUPPORTED];
@@ -1555,8 +1556,18 @@ oo_date_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (state->accum_fmt == NULL)
 		return;
-
-	g_string_append (state->accum_fmt, xin->content->str);
+	
+	if (xin->content->len == 1 && 
+	    (*xin->content->str == ' ' ||
+	     *xin->content->str == '/' ||
+	     *xin->content->str == '-' ||
+	     *xin->content->str == ',' ))
+		g_string_append (state->accum_fmt, xin->content->str);
+	else if (xin->content->len >0) {
+		g_string_append_c (state->accum_fmt, '"');
+		g_string_append (state->accum_fmt, xin->content->str);
+		g_string_append_c (state->accum_fmt, '"');
+	}
 }
 
 static void
@@ -1564,6 +1575,7 @@ oo_date_style (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char const *name = NULL;
+	int magic = GO_FORMAT_MAGIC_NONE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "name"))
@@ -1571,11 +1583,15 @@ oo_date_style (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "family") &&
 			 !attr_eq (attrs[1], "data-style"))
 			return;
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, 
+					     "format-magic"))
+			magic = atoi (attrs[1]);
 
 	g_return_if_fail (state->accum_fmt == NULL);
 	g_return_if_fail (name != NULL);
 
-	state->accum_fmt = g_string_new (NULL);
+	state->fmt_magic = magic; 
+	state->accum_fmt = (magic == GO_FORMAT_MAGIC_NONE) ?  g_string_new (NULL) : NULL;
 	state->fmt_name = g_strdup (name);
 }
 
@@ -1583,11 +1599,18 @@ static void
 oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	g_return_if_fail (state->accum_fmt != NULL);
-
-	g_hash_table_insert (state->formats, state->fmt_name,
-		go_format_new_from_XL (state->accum_fmt->str));
-	g_string_free (state->accum_fmt, TRUE);
+	
+	if (state->fmt_magic != GO_FORMAT_MAGIC_NONE) 
+		g_hash_table_insert (state->formats, state->fmt_name,
+				     go_format_new_magic (state->fmt_magic));
+	else {
+		g_return_if_fail (state->accum_fmt != NULL);
+		
+		g_hash_table_insert (state->formats, state->fmt_name,
+				     go_format_new_from_XL (state->accum_fmt->str));
+		g_print ("oo_date_style_end %s\n", state->accum_fmt->str);
+		g_string_free (state->accum_fmt, TRUE);
+	}
 	state->accum_fmt = NULL;
 	state->fmt_name = NULL;
 }

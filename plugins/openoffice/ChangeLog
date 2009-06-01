@@ -1,3 +1,11 @@
+2009-06-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_print_spreadsheet_content_prelude):
+	  give the correct null-date
+	* openoffice-read.c (oo_date_text_end): we need to use 
+	  apostrophes
+	(oo_date_style): handle magic formats
+
 2009-05-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (xl_find_format): handle all three possible
