@@ -1649,6 +1649,110 @@ oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->fmt_name = NULL;
 }
 
+/*****************************************************************************************************/
+
+static void
+odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	gboolean grouping = FALSE;
+	gboolean no_int_part = FALSE;
+	gboolean denominator_fixed = FALSE;
+	int denominator = 0;
+	int min_d_digits = 0;
+	int max_d_digits = 3;
+	int min_i_digits = 0;
+	int min_n_digits = 0;
+	
+
+	if (state->accum_fmt == NULL)
+		return;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "grouping", &grouping)) {}
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "denominator-value")) {
+			denominator_fixed = TRUE;
+			denominator = atoi (CXML2C (attrs[1]));
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, 
+					       "min-denominator-digits"))
+			min_d_digits = atoi (CXML2C (attrs[1]));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT,
+					       "max-denominator-digits"))
+			max_d_digits = atoi (CXML2C (attrs[1]));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, 
+					       "min-integer-digits"))
+			min_i_digits = atoi (CXML2C (attrs[1]));
+		else if  (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "no-integer-part", &no_int_part)) {}
+		else if  (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, 
+					       "min-numerator-digits"))
+			min_n_digits = atoi (CXML2C (attrs[1]));
+
+	if (!no_int_part) {
+		g_string_append_c (state->accum_fmt, '#');
+		while (min_i_digits-- > 0)
+			g_string_append_c (state->accum_fmt, '0');
+		g_string_append_c (state->accum_fmt, ' ');
+	}
+	g_string_append_c (state->accum_fmt, '?');
+	while (min_n_digits-- > 0)
+		g_string_append_c (state->accum_fmt, '0');
+	g_string_append_c (state->accum_fmt, '/');
+	if (denominator_fixed) {
+		int denom = denominator;
+		int count = 0;
+		while (denom > 0) {
+			denom /= 10;
+			count ++;
+		}
+		min_d_digits -= count;
+		while (min_d_digits-- > 0)
+			g_string_append_c (state->accum_fmt, '0');
+		g_string_append_printf (state->accum_fmt, "%i", denominator);
+	} else {
+		max_d_digits -= min_d_digits;
+		while (max_d_digits-- > 0)
+			g_string_append_c (state->accum_fmt, '?');
+		while (min_d_digits-- > 0)
+			g_string_append_c (state->accum_fmt, '0');
+	}
+}
+
+
+
+static void
+odf_number_style (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	char const *name = NULL;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "name"))
+			name = CXML2C (attrs[1]);
+
+	g_return_if_fail (state->accum_fmt == NULL);
+	g_return_if_fail (name != NULL);
+
+	state->accum_fmt = g_string_new (NULL);
+	state->fmt_name = g_strdup (name);
+}
+
+static void
+odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	
+	g_return_if_fail (state->accum_fmt != NULL);
+	
+	if (state->accum_fmt->len > 0)
+		g_hash_table_insert (state->formats, state->fmt_name,
+				     go_format_new_from_XL (state->accum_fmt->str));
+	g_string_free (state->accum_fmt, TRUE);
+	state->accum_fmt = NULL;
+	state->fmt_name = NULL;
+}
+
+/*****************************************************************************************************/
+
 static void
 oo_set_gnm_border  (GsfXMLIn *xin, GnmStyle *style,
 		    xmlChar const *str, GnmStyleElement location)
@@ -2745,10 +2849,10 @@ GSF_XML_IN_NODE (START, OFFICE_STYLES, OO_NS_OFFICE, "styles", GSF_XML_NO_CONTEN
     GSF_XML_IN_NODE (DEFAULT_STYLE, DEFAULT_TABLE_COL_PROPS, OO_NS_STYLE, "table-column-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
     GSF_XML_IN_NODE (DEFAULT_STYLE, DEFAULT_TABLE_ROW_PROPS, OO_NS_STYLE, "table-row-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
 
-  GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", GSF_XML_NO_CONTENT, NULL, NULL),
+  GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", GSF_XML_NO_CONTENT, &odf_number_style, &odf_number_style_end),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	"number", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	"text", GSF_XML_NO_CONTENT, NULL, NULL),
-    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, OO_NS_NUMBER, "fraction", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	"text", GSF_XML_CONTENT, NULL, &oo_date_text_end),
+    GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, OO_NS_NUMBER, "fraction", GSF_XML_NO_CONTENT, &odf_fraction, NULL),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_SCI_STYLE_PROP, OO_NS_NUMBER, "scientific-number", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_PROP, OO_NS_STYLE,	"properties", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_MAP, OO_NS_STYLE,		"map", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2950,10 +3054,10 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (STYLE, PARAGRAPH_PROPS, OO_NS_STYLE, "paragraph-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
 	      GSF_XML_IN_NODE (STYLE, GRAPHIC_PROPS, OO_NS_STYLE, "graphic-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
 	      GSF_XML_IN_NODE (STYLE, STYLE_MAP, OO_NS_STYLE, "map", GSF_XML_NO_CONTENT, &oo_style_map, NULL),
-	    GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", GSF_XML_NO_CONTENT, &odf_number_style, &odf_number_style_end),
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_NUMBER, OO_NS_NUMBER,	  "number", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	  "text", GSF_XML_NO_CONTENT, NULL, NULL),
-	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, OO_NS_NUMBER, "fraction", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_TEXT, OO_NS_NUMBER,	  "text", GSF_XML_CONTENT, NULL, &oo_date_text_end),
+	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, OO_NS_NUMBER, "fraction", GSF_XML_NO_CONTENT,  &odf_fraction, NULL),
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_SCI_STYLE_PROP, OO_NS_NUMBER, "scientific-number", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_STYLE_PROP, OO_NS_STYLE,	  "properties", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (NUMBER_STYLE, NUMBER_MAP, OO_NS_STYLE,		  "map", GSF_XML_NO_CONTENT, NULL, NULL),
