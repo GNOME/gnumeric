@@ -1504,6 +1504,7 @@ oo_date_hours (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean is_short = TRUE;
+	gboolean is_elapsed = FALSE;
 
 	if (state->accum_fmt == NULL)
 		return;
@@ -1511,13 +1512,21 @@ oo_date_hours (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
 			is_short = attr_eq (attrs[1], "short");
-	g_string_append (state->accum_fmt, is_short ? "h" : "hh");
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, 
+					     "elapsed"))
+			is_elapsed = attr_eq (attrs[1], "true");
+
+	if (is_elapsed)
+		g_string_append (state->accum_fmt, is_short ? "[h]" : "[hh]");
+	else
+		g_string_append (state->accum_fmt, is_short ? "h" : "hh");
 }
 static void
 oo_date_minutes (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean is_short = TRUE;
+	gboolean is_elapsed = FALSE;
 
 	if (state->accum_fmt == NULL)
 		return;
@@ -1525,13 +1534,22 @@ oo_date_minutes (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
 			is_short = attr_eq (attrs[1], "short");
-	g_string_append (state->accum_fmt, is_short ? "m" : "mm");
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, 
+					     "elapsed"))
+			is_elapsed = attr_eq (attrs[1], "true");
+			
+	if (is_elapsed)
+		g_string_append (state->accum_fmt, is_short ? "[m]" : "[mm]");
+	else
+		g_string_append (state->accum_fmt, is_short ? "m" : "mm");
 }
 static void
 oo_date_seconds (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean is_short = TRUE;
+	int digits = 0;
+	gboolean is_elapsed = FALSE;
 
 	if (state->accum_fmt == NULL)
 		return;
@@ -1539,8 +1557,25 @@ oo_date_seconds (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
 			is_short = attr_eq (attrs[1], "short");
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, 
+					     "decimal-places"))
+			digits = atoi (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, 
+					     "elapsed"))
+			is_elapsed = attr_eq (attrs[1], "true");
+			
+	if (is_elapsed)
+		g_string_append_c (state->accum_fmt, '[');
 	g_string_append (state->accum_fmt, is_short ? "s" : "ss");
+	if (digits > 0) {
+		g_string_append_c (state->accum_fmt, '.');
+		while (digits-- > 0)
+			g_string_append_c (state->accum_fmt, '0');
+	}
+	if (is_elapsed)
+		g_string_append_c (state->accum_fmt, ']');
 }
+
 static void
 oo_date_am_pm (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -1608,7 +1643,6 @@ oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		
 		g_hash_table_insert (state->formats, state->fmt_name,
 				     go_format_new_from_XL (state->accum_fmt->str));
-		g_print ("oo_date_style_end %s\n", state->accum_fmt->str);
 		g_string_free (state->accum_fmt, TRUE);
 	}
 	state->accum_fmt = NULL;

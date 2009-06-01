@@ -1,5 +1,11 @@
 2009-06-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (oo_date_hours): handle elapsed time
+	(oo_date_minutes): ditto
+	(oo_date_seconds): ditto
+	
+2009-06-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_print_spreadsheet_content_prelude):
 	  give the correct null-date
 	* openoffice-read.c (oo_date_text_end): we need to use 
