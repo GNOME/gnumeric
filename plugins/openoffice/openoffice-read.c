@@ -1594,11 +1594,7 @@ oo_date_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	if (state->accum_fmt == NULL)
 		return;
 	
-	if (xin->content->len == 1 && 
-	    (*xin->content->str == ' ' ||
-	     *xin->content->str == '/' ||
-	     *xin->content->str == '-' ||
-	     *xin->content->str == ',' ))
+	if (xin->content->len == 1 && NULL != strchr (" /-(),",*xin->content->str))
 		g_string_append (state->accum_fmt, xin->content->str);
 	else if (xin->content->len >0) {
 		g_string_append_c (state->accum_fmt, '"');
@@ -1724,34 +1720,6 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
-odf_format_generate_number_str (GString *dst,
-			       int num_decimals,
-			       int min_i_digits,
-			       gboolean thousands_sep,
-			       gboolean negative_red,
-			       gboolean negative_paren,
-			       const char *prefix, const char *postfix)
-{
-	if (min_i_digits > 1) {
-		if (thousands_sep) {
-			if (min_i_digits > 3) {
-				while (min_i_digits-- > 3)
-					g_string_append_c (dst, '0');
-				g_string_append (dst, ",00");
-			} else 
-				g_string_append (dst, (min_i_digits == 3) ? "#,00" : "#,#0");
-		} else while (--min_i_digits > 0)
-			       g_string_append_c (dst, '0');
-	}
-	
-	go_format_generate_number_str (dst, min_i_digits,
-				       num_decimals, 
-				       (min_i_digits <= 1) && thousands_sep, 
-				       negative_red, negative_paren,
-				       prefix, postfix);
-}
-
-static void
 odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -1779,7 +1747,7 @@ odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 			min_i_digits = atoi (CXML2C (attrs[1]));
 
 	if (decimal_places_specified)
-		odf_format_generate_number_str (state->accum_fmt, decimal_places, min_i_digits,
+		go_format_generate_number_str (state->accum_fmt,  min_i_digits, decimal_places,
 					       grouping, FALSE, FALSE, NULL, NULL);
 	else
 		g_string_append (state->accum_fmt, go_format_as_XL (go_format_general ()));
@@ -1790,28 +1758,23 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GOFormatDetails details;
-/* 	gboolean grouping = FALSE; */
-	int decimal_places = 2;
-/* 	int min_int_digits = 1; */
 /* 	int min_exp_digits = 1; */
 
 	if (state->accum_fmt == NULL)
 		return;
 
+	go_format_details_init (&details, GO_FORMAT_SCIENTIFIC);
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		/* if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "grouping", &grouping)) {} */
-/* 		else  */
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "decimal-places"))
-			decimal_places = atoi (CXML2C (attrs[1]));
-/* 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,  */
-/* 					       "min-integer-digits")) */
-/* 			min_int_digits = atoi (CXML2C (attrs[1])); */
+		if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "grouping", &details.thousands_sep)) {}
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "decimal-places"))
+		        details.num_decimals = atoi (CXML2C (attrs[1]));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,
+					     "min-integer-digits"))
+			details.min_digits = atoi (CXML2C (attrs[1]));
 /* 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,  */
 /* 					     "min-exponent-digits")) */
 /* 			min_exp_digits = atoi (CXML2C (attrs[1])); */
-
-	go_format_details_init (&details, GO_FORMAT_SCIENTIFIC);
-	details.num_decimals = decimal_places;
 
 	go_format_generate_str (state->accum_fmt, &details);
 }
@@ -1832,22 +1795,25 @@ static void
 odf_map (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	char *condition = NULL;
+	char const *condition = NULL;
 	char *style_name = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "condition"))
-			condition = g_strdup (attrs[1]);
+			condition = attrs[1];
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "apply-style-name"))
 			style_name = g_strdup (attrs[1]);
 
-	if (condition != NULL && style_name != NULL) {
-		state->conditions = g_slist_prepend (state->conditions, condition);
-		state->cond_formats = g_slist_prepend (state->cond_formats, style_name);		
-		return;
+	if (condition != NULL && style_name != NULL && g_str_has_prefix (condition, "value()")) {
+		condition += 7;
+		while (*condition == ' ') condition++;
+		if (*condition == '>' || *condition == '<' || *condition == '=') {
+			state->conditions = g_slist_prepend (state->conditions, g_strdup (condition));
+			state->cond_formats = g_slist_prepend (state->cond_formats, style_name);
+			return;
+		}
 	}
 
-	g_free (condition);
 	g_free (style_name);
 }
 
@@ -1879,95 +1845,120 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (state->conditions != NULL) {
 		/* We have conditional formats */
-		GSList *lc = state->conditions, *lf = state->cond_formats;
-		char *p1 = NULL, *p2 = NULL, *p3 = NULL;
+		GSList *lc, *lf;
 		char *accum;
+		int parts = 0;
 
-		while (lc && lf) {
-			char *cond = lc->data;
-			if (g_str_has_prefix (cond, "value()")) {
-				char *val = NULL;
-				cond += 7;
-				val = cond + strcspn (cond, "0123456789.");
-				if (*val != '\0' && 0.0 == atof (val)) {
-					while (*cond == ' ') cond++;
-					switch (*cond) {
-					case '>':
-						if (p1 == NULL) {
-							p1 = lf->data;
-							lf->data = NULL;
-						}
-						break;
-					case '<':
-						if (p2 == NULL) {
-							p2 = lf->data;
-							lf->data = NULL;
-						}
-						break;
-					case '=':
-						if (p3 == NULL) {
-							p3 = lf->data;
-							lf->data = NULL;
-						}
-						break;
-					case '!':
-						if (p1 == NULL)
-							p1 = g_strdup (lf->data);
-						if (p2 == NULL) {
-							p2 = lf->data;
-							lf->data = NULL;
-						}
-						break;
-					}
-				}
-			}
-			lc = lc->next;
-			lf = lf->next;
-		}
 		accum = g_string_free (state->accum_fmt, FALSE);
 		if (strlen (accum) == 0) {
 			g_free (accum);
 			accum = NULL;
 		}
 		state->accum_fmt = g_string_new (NULL);
-		if (p1 != NULL)
-			g_string_append (state->accum_fmt, go_format_as_XL 
-					 (g_hash_table_lookup (state->formats, p1)));
-		else if (accum != NULL) { 
+
+		lc = state->conditions;
+		lf = state->cond_formats;
+		while (lc && lf) {
+			char *cond = lc->data;
+			if (*cond == '>') {
+				char *val = cond + strcspn (cond, "0123456789.");
+				float value = atof (val);
+				if (value != 0. || (*(cond+1) != '=')) {
+					g_string_append_c (state->accum_fmt, '[');
+					g_string_append_c (state->accum_fmt, '>');
+					if (*(cond+1) == '=')
+						g_string_append_c (state->accum_fmt, '=');
+					g_string_append_printf (state->accum_fmt, "%.2f", value);
+					g_string_append_c (state->accum_fmt, ']');
+				}
+				g_string_append (state->accum_fmt, go_format_as_XL 
+					 (g_hash_table_lookup (state->formats, lf->data)));
+				parts++;
+			}
+			lc = lc->next;
+			lf = lf->next;
+		}
+
+		if (parts == 0) {
+			lc = state->conditions;
+			lf = state->cond_formats;
+			while (lc && lf) {
+				char *cond = lc->data;
+				if (*cond == '=') {
+					char *val = cond + strcspn (cond, "0123456789.");
+					float value = atof (val);
+					g_string_append_c (state->accum_fmt, '[');
+					g_string_append_c (state->accum_fmt, '=');
+					g_string_append_printf (state->accum_fmt, "%.2f", value);
+					g_string_append_c (state->accum_fmt, ']');
+					g_string_append (state->accum_fmt, go_format_as_XL 
+							 (g_hash_table_lookup (state->formats, lf->data)));
+					parts++;
+				}
+				lc = lc->next;
+				lf = lf->next;
+			}
+		}
+
+		if ((parts == 0) && (accum != NULL)) {
+			g_string_append (state->accum_fmt, accum);
+			parts++;
+		}
+			
+		lc = state->conditions;
+		lf = state->cond_formats;
+		while (lc && lf) {
+			char *cond = lc->data;
+			if (*cond == '<') {
+				char *val = cond + strcspn (cond, "0123456789.");
+				float value = atof (val);
+				if (parts > 0)
+					g_string_append_c (state->accum_fmt, ';');
+				if (value != 0. || (*(cond+1) != '=')) {
+					g_string_append_c (state->accum_fmt, '[');
+					g_string_append_c (state->accum_fmt, '<');
+					if (*(cond+1) == '=')
+						g_string_append_c (state->accum_fmt, '=');
+					g_string_append_printf (state->accum_fmt, "%.2f", value);
+					g_string_append_c (state->accum_fmt, ']');
+				}
+				g_string_append (state->accum_fmt, go_format_as_XL 
+					 (g_hash_table_lookup (state->formats, lf->data)));
+				parts++;
+			}
+			lc = lc->next;
+			lf = lf->next;
+		}
+
+		if (parts < 2) {
+			lc = state->conditions;
+			lf = state->cond_formats;
+			while (lc && lf) {
+				char *cond = lc->data;
+				if (*cond == '=') {
+					char *val = cond + strcspn (cond, "0123456789.");
+					float value = atof (val);
+					if (parts > 0)
+						g_string_append_c (state->accum_fmt, ';');
+					g_string_append_c (state->accum_fmt, '[');
+					g_string_append_c (state->accum_fmt, '=');
+					g_string_append_printf (state->accum_fmt, "%.2f", value);
+					g_string_append_c (state->accum_fmt, ']');
+					g_string_append (state->accum_fmt, go_format_as_XL 
+							 (g_hash_table_lookup (state->formats, lf->data)));
+					parts++;
+				}
+				lc = lc->next;
+				lf = lf->next;
+			}
+		}
+
+		if (accum != NULL) {
+			if (parts > 0)
+				g_string_append_c (state->accum_fmt, ';');
 			g_string_append (state->accum_fmt, accum);
 			g_free (accum);
-			accum = NULL;
 		}
-		if (p2 != NULL || p3 != NULL || accum != NULL) {
-			g_string_append_c (state->accum_fmt, ';');
-			if (p2 != NULL)
-				g_string_append (state->accum_fmt, go_format_as_XL 
-						 (g_hash_table_lookup (state->formats, p2)));
-			else if (accum != NULL) { 
-				g_string_append (state->accum_fmt, accum);
-				g_free (accum);
-				accum = NULL;
-			}
-		}
-		if (p3 != NULL || accum != NULL) {
-			g_string_append_c (state->accum_fmt, ';');
-			if (p3 != NULL)
-				g_string_append (state->accum_fmt, go_format_as_XL 
-						 (g_hash_table_lookup (state->formats, p3)));
-			else { 
-				g_string_append (state->accum_fmt, accum);
-				g_free (accum);
-				accum = NULL;
-			}
-		}
-		if (accum != NULL) {
-			g_string_append_c (state->accum_fmt, ';');
-			g_string_append (state->accum_fmt, accum);
-		}
-		g_free (p1);
-		g_free (p2);
-		g_free (p3);
-		g_free (accum);
 	}
 
 	g_hash_table_insert (state->formats, state->fmt_name,

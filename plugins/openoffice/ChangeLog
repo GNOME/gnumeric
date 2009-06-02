@@ -1,3 +1,15 @@
+2009-06-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_date_text_end): don't quote single ()
+	(odf_format_generate_number_str): delete (this is now handled by 
+	  go_format_generate_number_str
+	(odf_number): use go_format_generate_number_str
+	(odf_scientific): use GOFormatDetails directly
+	(odf_map): already check whether we may understand this and strip 
+	  "value()"
+	(odf_number_style_end): save the conditions in the order we might 
+	  expect them
+
 2009-06-02  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (odf_format_generate_number_str): Handle
