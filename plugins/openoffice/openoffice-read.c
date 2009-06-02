@@ -1136,6 +1136,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name")) {
 			style = g_hash_table_lookup (state->styles.cell, attrs[1]);
+			gnm_style_ref (style);
 		}
 	}
 
@@ -1145,6 +1146,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_expr_top_unref (texpr);
 		if (val)
 			value_release (val);
+		if (style)
+			gnm_style_unref (style);
 		return;
 	}
 
@@ -1164,14 +1167,13 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		
 		if (style == NULL) {
 			style = gnm_style_new_default ();
-			gnm_style_ref(style);
+/* 			gnm_style_ref(style); */
 			gnm_style_set_format (style, format);
 		} else if (!gnm_style_is_element_set (style, MSTYLE_FORMAT))
 			gnm_style_set_format (style, format);
 	}
 
 	if (style != NULL) {
-		gnm_style_ref (style);
 		if (state->col_inc > 1 || state->row_inc > 1) {
 			range_init_cellpos_size (&tmp, &state->pos.eval,
 				state->col_inc, state->row_inc);

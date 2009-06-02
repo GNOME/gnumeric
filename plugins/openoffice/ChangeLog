@@ -1,5 +1,9 @@
 2009-06-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_cell_start): fix style leak
+	
+2009-06-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_cell_start): set a default date or
 	  time format if the incoming data is marked that way.
 	
