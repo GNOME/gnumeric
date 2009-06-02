@@ -1026,6 +1026,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmExprTop const *texpr = NULL;
 	GnmValue	*val = NULL;
+	gboolean  has_date = FALSE, has_datetime = FALSE, has_time = FALSE; 
 	gboolean	 bool_val;
 	gnm_float	 float_val = 0;
 	int array_cols = -1, array_rows = -1;
@@ -1103,8 +1104,11 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 					if (n >= 6) {
 						double time_frac = h + ((double)mi / 60.) + ((double)s / 3600.);
 						val = value_new_float (d_serial + time_frac / 24.);
-					} else
+						has_datetime = TRUE;
+					} else {
 						val = value_new_int (d_serial);
+						has_date = TRUE;
+					}
 				}
 			}
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
@@ -1114,6 +1118,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 			if (3 == sscanf (CXML2C (attrs[1]), "PT%uH%uM%uS", &h, &m, &s)) {
 				unsigned secs = h * 3600 + m * 60 + s;
 				val = value_new_float (secs / (gnm_float)86400);
+				has_time = TRUE;
 			}
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "string-value"))
 			val = value_new_string (CXML2C (attrs[1]));
@@ -1145,6 +1150,25 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	merge_cols = MIN (merge_cols, max_cols - state->pos.eval.col);
 	merge_rows = MIN (merge_rows, max_rows - state->pos.eval.row);
+
+	if (has_datetime || has_date || has_time) {
+		GOFormat *format;
+
+		if (has_datetime) {
+			format = go_format_default_date_time ();
+		} else if (has_date) {
+			format = go_format_default_date ();
+		} else {
+			format = go_format_default_time ();
+		}
+		
+		if (style == NULL) {
+			style = gnm_style_new_default ();
+			gnm_style_ref(style);
+			gnm_style_set_format (style, format);
+		} else if (!gnm_style_is_element_set (style, MSTYLE_FORMAT))
+			gnm_style_set_format (style, format);
+	}
 
 	if (style != NULL) {
 		gnm_style_ref (style);
