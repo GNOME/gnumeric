@@ -2187,7 +2187,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 			int weight = atoi (CXML2C (attrs[1]));
 			if (attr_eq (attrs[1], "bold"))
 				weight = 700;
-			gnm_style_set_font_bold (style, weight > PANGO_WEIGHT_MEDIUM);
+			gnm_style_set_font_bold (style, weight >= PANGO_WEIGHT_SEMIBOLD);
 		}
 #if 0
 		else if (!strcmp (attrs[0], OO_NS_FO, "font-weight")) {
