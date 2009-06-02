@@ -1,6 +1,15 @@
+2009-06-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_map): new
+	(oo_date_style): only use our magic if the format source is still 
+	  set to language
+	(odf_number_style_end): handle conditional number formats
+	(styles_dtd): hook-up odf_map
+	(opendoc_content_dtd): ditto
+	
 2009-06-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (odf_number): default iminimum integer digits 
+	* openoffice-read.c (odf_number): default minimum integer digits 
 	  should be 1
 	(odf_scientific): handle scientific numbers
 	(odf_currency_symbol_end): handle currency symbols
