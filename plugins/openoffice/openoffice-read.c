@@ -1744,10 +1744,11 @@ odf_format_generate_number_str (GString *dst,
 			       g_string_append_c (dst, '0');
 	}
 	
-	go_format_generate_number_str (dst, num_decimals, 
-					(min_i_digits <= 1) && thousands_sep, 
-					negative_red, negative_paren,
-					prefix, postfix);
+	go_format_generate_number_str (dst, min_i_digits,
+				       num_decimals, 
+				       (min_i_digits <= 1) && thousands_sep, 
+				       negative_red, negative_paren,
+				       prefix, postfix);
 }
 
 static void
@@ -1788,6 +1789,7 @@ static void
 odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
+	GOFormatDetails details;
 /* 	gboolean grouping = FALSE; */
 	int decimal_places = 2;
 /* 	int min_int_digits = 1; */
@@ -1808,7 +1810,10 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 /* 					     "min-exponent-digits")) */
 /* 			min_exp_digits = atoi (CXML2C (attrs[1])); */
 
-	go_format_generate_scientific_str (state->accum_fmt, decimal_places, 1, FALSE, FALSE);
+	go_format_details_init (&details, GO_FORMAT_SCIENTIFIC);
+	details.num_decimals = decimal_places;
+
+	go_format_generate_str (state->accum_fmt, &details);
 }
 
 static void

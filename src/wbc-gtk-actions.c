@@ -1424,11 +1424,14 @@ static GNM_ACTION_DEF (cb_format_as_number)
 
 static GNM_ACTION_DEF (cb_format_as_currency)
 {
-	GOFormatCurrency const *currency = go_format_locale_currency ();
+	GOFormatDetails details;
 	GString *str = g_string_new (NULL);
 	GOFormat *fmt;
-	go_format_generate_currency_str (str, 2, TRUE, FALSE, FALSE,
-					 currency, FALSE);
+
+	go_format_details_init (&details, GO_FORMAT_CURRENCY);
+	details.currency = go_format_locale_currency ();
+	details.num_decimals = 2;
+	go_format_generate_str (str, &details);
 	fmt = go_format_new_from_XL (str->str);
 	g_string_free (str, TRUE);
 	apply_number_format (wbcg, fmt, _("Format as Currency"));

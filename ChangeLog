@@ -1,3 +1,8 @@
+2009-06-02  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk-actions.c (cb_format_as_currency): Deal with goffice
+	changes.
+
 2009-05-30  Morten Welinder  <terra@gnome.org>
 
 	* src/xml-sax-read.c (xml_sax_cell_content): Don't check
