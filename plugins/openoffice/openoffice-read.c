@@ -2183,8 +2183,12 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_style_set_font_uline (style, attr_eq (attrs[1], "none") ? UNDERLINE_NONE : UNDERLINE_SINGLE);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-style"))
 			gnm_style_set_font_italic (style, attr_eq (attrs[1], "italic"));
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-weight"))
-			gnm_style_set_font_bold (style, attr_eq (attrs[1], "bold"));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "font-weight")) {
+			int weight = atoi (CXML2C (attrs[1]));
+			if (attr_eq (attrs[1], "bold"))
+				weight = 700;
+			gnm_style_set_font_bold (style, weight > PANGO_WEIGHT_MEDIUM);
+		}
 #if 0
 		else if (!strcmp (attrs[0], OO_NS_FO, "font-weight")) {
 				gnm_style_set_font_bold (style, TRUE);

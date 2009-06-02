@@ -1,5 +1,10 @@
 2009-06-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_style_prop_cell): Also check font weight
+	  rather than just descriptors.
+	
+2009-06-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_map): new
 	(oo_date_style): only use our magic if the format source is still 
 	  set to language
