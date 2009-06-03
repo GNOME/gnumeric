@@ -40,6 +40,7 @@
 #include "workbook-control.h"
 #include "command-context.h"
 #include "gnm-format.h"
+#include "sheet-merge.h"
 #include "sheet-object-cell-comment.h"
 #include "style-color.h"
 #include "graph.h"
@@ -308,6 +309,29 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 }
 
 
+static gboolean
+adjust_range (data_analysis_output_t *dao, GnmRange *r)
+{
+	range_normalize (r);
+
+	r->start.col += dao->offset_col + dao->start_col;
+	r->end.col   += dao->offset_col + dao->start_col;
+	r->start.row += dao->offset_row + dao->start_row;
+	r->end.row   += dao->offset_row + dao->start_row;
+
+	if (dao->type == RangeOutput && (dao->cols > 1 || dao->rows > 1)) {
+		if (r->end.col >= dao->start_col + dao->cols)
+			r->end.col = dao->start_col + dao->cols - 1;
+		if (r->end.row >= dao->start_row + dao->rows)
+			r->end.row = dao->start_row + dao->rows - 1;
+	}
+
+	range_ensure_sanity (r, dao->sheet);
+	
+	return ((r->start.col <= r->end.col) && (r->start.row <= r->end.row));
+
+}
+
 gboolean
 dao_cell_is_visible (data_analysis_output_t *dao, int col, int row)
 {
@@ -336,46 +360,19 @@ dao_set_array_expr (data_analysis_output_t *dao,
 		    GnmExpr const *expr)
 {
 	GnmExprTop const *texpr;
-	int col_end;
-	int row_end;
+	GnmRange r;
 
-	col += dao->offset_col;
-	row += dao->offset_row;
-	col_end = col + cols - 1;
-	row_end = row + rows - 1;
+	range_init (&r, col, row, col + cols - 1, row + rows -1);
 
-	/* Check that the output is in the given range, but allow singletons
-	 * to expand
-	 */
-	if (dao->type == RangeOutput && (dao->cols > 1 || dao->rows > 1)) {
-		if (col >= dao->cols || row >= dao->rows) {
-			gnm_expr_free (expr);
-			return;
-		}
-		if (col_end >= dao->cols)
-			col_end = dao->cols - 1;
-		if (row_end >= dao->rows)
-			row_end = dao->rows - 1;
-	}
-
-	col += dao->start_col;
-	row += dao->start_row;
-	col_end += dao->start_col;
-	row_end += dao->start_row;
-	if (col >= gnm_sheet_get_max_cols (dao->sheet) 
-	    || row >= gnm_sheet_get_max_rows (dao->sheet)) {
+	if (!adjust_range (dao, &r)) {
 		gnm_expr_free (expr);
 		return;
 	}
-	if (col_end >= gnm_sheet_get_max_cols (dao->sheet))
-		col_end = gnm_sheet_get_last_col (dao->sheet);
-	if (row_end >= gnm_sheet_get_max_rows (dao->sheet))
-		row_end = gnm_sheet_get_last_row (dao->sheet);
 
 	texpr = gnm_expr_top_new (expr);
 	gnm_cell_set_array_formula (dao->sheet, 
-				    col, row, 
-				    col_end, row_end,
+				    r.start.col, r.start.row, 
+				    r.end.col, r.end.row,
 				    texpr);
 }
 /*
@@ -400,28 +397,16 @@ dao_set_cell_expr (data_analysis_output_t *dao, int col, int row,
 {
         GnmCell *cell;
 	GnmExprTop const *texpr;
+	GnmRange r;
 
-	col += dao->offset_col;
-	row += dao->offset_row;
+	range_init (&r, col, row, col, row);
 
-	/* Check that the output is in the given range, but allow singletons
-	 * to expand
-	 */
-	if (dao->type == RangeOutput &&
-	    (dao->cols > 1 || dao->rows > 1) &&
-	    (col >= dao->cols || row >= dao->rows)) {
+	if (!adjust_range (dao, &r)) {
 		gnm_expr_free (expr);
 	        return;
 	}
 
-	col += dao->start_col;
-	row += dao->start_row;
-	if (col >= gnm_sheet_get_max_cols (dao->sheet) || row >= gnm_sheet_get_max_rows (dao->sheet)) {
-		gnm_expr_free (expr);
-		return;
-	}
-
-	cell = sheet_cell_fetch (dao->sheet, col, row);
+	cell = sheet_cell_fetch (dao->sheet, r.start.col, r.start.row);
 	texpr = gnm_expr_top_new (expr);
 	gnm_cell_set_expr (cell, texpr);
 	gnm_expr_top_unref (texpr);
@@ -447,28 +432,16 @@ void
 dao_set_cell_value (data_analysis_output_t *dao, int col, int row, GnmValue *v)
 {
         GnmCell *cell;
+	GnmRange r;
 
-	col += dao->offset_col;
-	row += dao->offset_row;
+	range_init (&r, col, row, col, row);
 
-	/* Check that the output is in the given range, but allow singletons
-	 * to expand
-	 */
-	if (dao->type == RangeOutput &&
-	    (dao->cols > 1 || dao->rows > 1) &&
-	    (col >= dao->cols || row >= dao->rows)) {
+	if (!adjust_range (dao, &r)) {
 		value_release (v);
 	        return;
 	}
 
-	col += dao->start_col;
-	row += dao->start_row;
-	if (col >= gnm_sheet_get_max_cols (dao->sheet) || row >= gnm_sheet_get_max_rows (dao->sheet)) {
-		value_release (v);
-		return;
-	}
-
-	cell = sheet_cell_fetch (dao->sheet, col, row);
+	cell = sheet_cell_fetch (dao->sheet, r.start.col, r.start.row);
 
 	sheet_cell_set_value (cell, v);
 }
@@ -612,25 +585,13 @@ void
 dao_set_cell_comment (data_analysis_output_t *dao, int col, int row,
 		      const char *comment)
 {
-	GnmCellPos pos;
 	char const *author = NULL;
+	GnmRange r;
 
-	/* Check that the output is in the given range, but allow singletons
-	 * to expand
-	 */
-	if (dao->type == RangeOutput &&
-	    (dao->cols > 1 || dao->rows > 1) &&
-	    (col >= dao->cols || row >= dao->rows))
-	        return;
+	range_init (&r, col, row, col, row);
 
-	col += dao->start_col;
-	row += dao->start_row;
-	if (col >= gnm_sheet_get_max_cols (dao->sheet) || row >= gnm_sheet_get_max_rows (dao->sheet))
-		return;
-
-	pos.col = col;
-	pos.row = row;
-	cell_set_comment (dao->sheet, &pos, author, comment, NULL);
+	if (adjust_range (dao, &r))
+		cell_set_comment (dao->sheet, &r.start, author, comment, NULL);
 }
 
 
@@ -714,28 +675,16 @@ static void
 dao_set_style (data_analysis_output_t *dao, int col1, int row1,
 	      int col2, int row2, GnmStyle *mstyle)
 {
-	GnmRange  range;
+	GnmRange r;
 
-	range.start.col = col1 + dao->start_col + dao->offset_col;
-	range.start.row = row1 + dao->start_row + dao->offset_row;
-	range.end.col   = col2 + dao->start_col + dao->offset_col;
-	range.end.row   = row2 + dao->start_row + dao->offset_row;
+	range_init (&r, col1, row1, col2, row2);
 
-	if (range.end.col > dao->start_col + dao->cols)
-		range.end.col = dao->start_col + dao->cols;
-	if (range.end.row > dao->start_row + dao->rows)
-		range.end.row = dao->start_row + dao->rows;
-
-	if (range.end.col < range.start.col) {
+	if (!adjust_range (dao, &r)) {
 		gnm_style_unref (mstyle);
-		return;
-	}
-	if (range.end.row < range.start.row) {
-		gnm_style_unref (mstyle);
-		return;
+	        return;
 	}
 
-	sheet_style_apply_range (dao->sheet, &range, mstyle);
+	sheet_style_apply_range (dao->sheet, &r, mstyle);
 }
 
 /**
@@ -755,15 +704,10 @@ dao_set_bold (data_analysis_output_t *dao, int col1, int row1,
 	      int col2, int row2)
 {
 	GnmStyle *mstyle = gnm_style_new ();
-	GnmRange  range;
-
-	range.start.col = col1 + dao->start_col;
-	range.start.row = row1 + dao->start_row;
-	range.end.col   = col2 + dao->start_col;
-	range.end.row   = row2 + dao->start_row;
 
 	gnm_style_set_font_bold (mstyle, TRUE);
-	sheet_style_apply_range (dao->sheet, &range, mstyle);
+
+	dao_set_style (dao, col1, row1, col2, row2, mstyle);
 }
 
 /**
@@ -783,15 +727,10 @@ dao_set_underlined (data_analysis_output_t *dao, int col1, int row1,
 		    int col2, int row2)
 {
 	GnmStyle *mstyle = gnm_style_new ();
-	GnmRange  range;
-
-	range.start.col = col1 + dao->start_col;
-	range.start.row = row1 + dao->start_row;
-	range.end.col   = col2 + dao->start_col;
-	range.end.row   = row2 + dao->start_row;
 
 	gnm_style_set_font_uline (mstyle, TRUE);
-	sheet_style_apply_range (dao->sheet, &range, mstyle);
+
+	dao_set_style (dao, col1, row1, col2, row2, mstyle);
 }
 
 /**
@@ -1215,4 +1154,17 @@ void
 dao_set_omit_so (data_analysis_output_t *dao, gboolean omit)
 {
 	dao->omit_so = omit;
+}
+
+
+
+void 
+dao_set_merge (data_analysis_output_t *dao, int col1, int row1,
+	       int col2, int row2)
+{
+	GnmRange r;
+
+	range_init (&r, col1, row1, col2, row2);
+	if (adjust_range (dao, &r))
+		gnm_sheet_merge_add (dao->sheet, &r, TRUE, NULL);
 }

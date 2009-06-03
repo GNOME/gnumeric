@@ -896,7 +896,7 @@ dialog_ranking_tool (WBCGtk *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
-	gnm_dao_set_put (GNM_DAO (state->gdao), FALSE, FALSE);
+	gnm_dao_set_put (GNM_DAO (state->gdao), TRUE, TRUE);
 	tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 

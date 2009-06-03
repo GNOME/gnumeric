@@ -77,6 +77,8 @@ void dao_set_date             (data_analysis_output_t *dao, int col1, int row1,
 			       int col2, int row2);
 void dao_set_format             (data_analysis_output_t *dao, int col1, int row1,
 				 int col2, int row2, char const *format);
+void dao_set_merge          (data_analysis_output_t *dao, int col1, int row1,
+			       int col2, int row2);
 
 void dao_set_colors (data_analysis_output_t *dao, int col1, int row1,
 		     int col2, int row2,

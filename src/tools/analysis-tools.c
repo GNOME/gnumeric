@@ -713,9 +713,13 @@ int analysis_tool_calc_length (analysis_tools_data_generic_t *info)
 		GnmValue    *current = dataset->data;
 		int      given_length;
 
-		given_length = (info->group_by == GROUPED_BY_COL) ? 
-			(current->v_range.cell.b.row - current->v_range.cell.a.row + 1) :
-			(current->v_range.cell.b.col - current->v_range.cell.a.col + 1);
+		if (info->group_by == GROUPED_BY_AREA) {
+			given_length = (current->v_range.cell.b.row - current->v_range.cell.a.row + 1) *
+				(current->v_range.cell.b.col - current->v_range.cell.a.col + 1);
+		} else 
+			given_length = (info->group_by == GROUPED_BY_COL) ? 
+				(current->v_range.cell.b.row - current->v_range.cell.a.row + 1) :
+				(current->v_range.cell.b.col - current->v_range.cell.a.col + 1);
 		if (given_length > result)
 			result = given_length;
 	}
@@ -3863,97 +3867,130 @@ analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpointer specs
  *
  **/
 
-typedef struct {
-        int     rank;
-        int     same_rank_count;
-        int     point;
-        gnm_float x;
-} rank_t;
-
-static gint
-cb_rank_compare (const void *va, const void *vb)
-{
-	rank_t const *a = va;
-	rank_t const *b = vb;
-        if (a->x < b->x)
-                return 1;
-        else if (a->x == b->x)
-                return 0;
-        else
-                return -1;
-}
-
-
 static gboolean
 analysis_tool_ranking_engine_run (data_analysis_output_t *dao,
 				      analysis_tools_data_ranking_t *info)
 {
-	GPtrArray *data = NULL;
-	guint n_data;
+	GSList *data = info->base.input;
+	int col = 0;
 
-	data = new_data_set_list (info->base.input, info->base.group_by,
-				  TRUE, info->base.labels, dao->sheet);
+	GnmFunc *fd_large;
+	GnmFunc *fd_row;
+	GnmFunc *fd_rank;
+	GnmFunc *fd_match;
+	GnmFunc *fd_percentrank;
 
-	for (n_data = 0; n_data < data->len; n_data++) {
-	        rank_t *rank;
-		guint i, j;
-		data_set_t * this_data_set;
+	fd_large = gnm_func_lookup ("LARGE", NULL);
+	gnm_func_ref (fd_large);
+	fd_row = gnm_func_lookup ("ROW", NULL);
+	gnm_func_ref (fd_row);
+	fd_rank = gnm_func_lookup ("RANK", NULL);
+	gnm_func_ref (fd_rank);
+	fd_match = gnm_func_lookup ("MATCH", NULL);
+	gnm_func_ref (fd_match);
+	fd_percentrank = gnm_func_lookup ("PERCENTRANK", NULL);
+	gnm_func_ref (fd_percentrank);
 
-	        this_data_set = g_ptr_array_index (data, n_data);
+	dao_set_merge (dao, 0, 0, 1, 0);
+	dao_set_italic (dao, 0, 0, 0, 0);
+	dao_set_cell (dao, 0, 0, _("Ranks & Percentiles"));
 
-		dao_set_cell (dao, n_data * 4, 0, _("Point"));
-		dao_set_cell (dao, n_data * 4+1, 0, this_data_set->label);
-		dao_set_cell (dao, n_data * 4 + 2, 0, _("Rank"));
-		dao_set_cell (dao, n_data * 4 + 3, 0, _("Percentile"));
+	for (; data; data = data->next, col++) {
+		GnmValue *val_org = value_dup (data->data);
+		GnmExpr const *expr_large;
+		GnmExpr const *expr_rank;
+		GnmExpr const *expr_position;
+		GnmExpr const *expr_percentile;
+		int rows, i;
 
-		rank = g_new (rank_t, this_data_set->data->len);
+		dao_set_cell (dao, 0, 1, _("Point"));
+		dao_set_cell (dao, 2, 1, _("Rank"));
+		dao_set_cell (dao, 3, 1, _("Percentile Rank"));
+		analysis_tools_write_label (val_org, dao, &info->base, 1, 1, col + 1);
 
-		for (i = 0; i < this_data_set->data->len; i++) {
-		        gnm_float x = g_array_index (this_data_set->data, gnm_float, i);
+		rows = (val_org->v_range.cell.b.row - val_org->v_range.cell.a.row + 1) *
+			(val_org->v_range.cell.b.col - val_org->v_range.cell.a.col + 1);
+		
+		expr_large = gnm_expr_new_funcall2 
+			(fd_large, gnm_expr_new_constant (value_dup (val_org)),
+			 gnm_expr_new_binary (gnm_expr_new_binary 
+					      (gnm_expr_new_funcall (fd_row, NULL),
+					       GNM_EXPR_OP_SUB,
+					       gnm_expr_new_funcall1 
+					       (fd_row, dao_get_cellref (dao, 1, 2))),
+					      GNM_EXPR_OP_ADD,
+					      gnm_expr_new_constant (value_new_int (1))));
+		dao_set_array_expr (dao, 1, 2, 1, rows, gnm_expr_copy (expr_large));
 
-			rank[i].point = i + 1;
-			rank[i].x = x;
-			rank[i].rank = 1;
-			rank[i].same_rank_count = -1;
+		/* If there are ties the following will only give us the first occurrence... */
+		expr_position = gnm_expr_new_funcall3 (fd_match, expr_large,  
+						       gnm_expr_new_constant (value_dup (val_org)),
+						       gnm_expr_new_constant (value_new_int (0)));
 
-			for (j = 0; j < this_data_set->data->len; j++) {
-			        gnm_float y = g_array_index (this_data_set->data, gnm_float, j);
-				if (y > x)
-				        rank[i].rank++;
-				else if (y == x)
-				        rank[i].same_rank_count++;
-			}
+		dao_set_array_expr (dao, 0, 2, 1, rows, expr_position);
+
+		expr_rank = gnm_expr_new_funcall2 (fd_rank,
+						   make_cellref (-1,0),
+/* 						   make_rangeref (-1, 0, -1, rows - 1), */
+						   gnm_expr_new_constant (value_dup (val_org)));
+		if (info->av_ties) {
+			GnmExpr const *expr_rank_lower;
+			GnmExpr const *expr_rows_p_one;
+			GnmExpr const *expr_rows;
+			GnmFunc *fd_count;
+			fd_count = gnm_func_lookup ("COUNT", NULL);
+			gnm_func_ref (fd_count);
+			
+			expr_rows = gnm_expr_new_funcall1 
+				(fd_count, gnm_expr_new_constant (value_dup (val_org)));
+			expr_rows_p_one = gnm_expr_new_binary
+				(expr_rows, 
+				 GNM_EXPR_OP_ADD, 
+				 gnm_expr_new_constant (value_new_int (1)));
+			expr_rank_lower = gnm_expr_new_funcall3
+				(fd_rank,
+				 make_cellref (-1,0),
+/* 				 make_rangeref (-1, 0, -1, rows - 1), */
+				 gnm_expr_new_constant (value_dup (val_org)),
+				 gnm_expr_new_constant (value_new_int (1)));
+			expr_rank = gnm_expr_new_binary
+				(gnm_expr_new_binary
+				 (gnm_expr_new_binary (expr_rank, GNM_EXPR_OP_SUB, expr_rank_lower),
+				  GNM_EXPR_OP_ADD, expr_rows_p_one),
+				 GNM_EXPR_OP_DIV,
+				 gnm_expr_new_constant (value_new_int (2)));
+			
+			gnm_func_unref (fd_count);
+		}
+/* 		dao_set_array_expr (dao, 2, 2, 1, rows, expr_rank); */
+
+		expr_percentile = gnm_expr_new_funcall3 (fd_percentrank,
+							 gnm_expr_new_constant (value_dup (val_org)),
+							 make_cellref (-2,0),
+							 gnm_expr_new_constant (value_new_int (10)));
+
+		dao_set_percent (dao, 3, 2, 3, 1 + rows);
+		for (i = 2; i < rows + 2; i++) {
+			dao_set_cell_expr ( dao, 2, i, gnm_expr_copy (expr_rank));
+			dao_set_cell_expr ( dao, 3, i, gnm_expr_copy (expr_percentile));
 		}
 
-		qsort (rank, this_data_set->data->len,
-		       sizeof (rank_t), &cb_rank_compare);
-
-		dao_set_percent (dao, n_data * 4 + 3, 1,
-			     n_data * 4 + 3, this_data_set->data->len);
-		for (i = 0; i < this_data_set->data->len; i++) {
-			/* Point number */
-			dao_set_cell_int (dao, n_data * 4 + 0, i + 1, rank[i].point);
-
-			/* GnmValue */
-			dao_set_cell_float (dao, n_data * 4 + 1, i + 1, rank[i].x);
-
-			/* Rank */
-			dao_set_cell_float (dao, n_data * 4 + 2, i + 1,
-					rank[i].rank +
-					(info->av_ties ? rank[i].same_rank_count / 2. : 0));
-
-			/* Percent */
-			dao_set_cell_float_na (dao, n_data * 4 + 3, i + 1,
-					   1. - (rank[i].rank - 1.) /
-						    (this_data_set->data->len - 1.),
-					   this_data_set->data->len != 0);
-		}
-		g_free (rank);
+		
+		dao->offset_col += 4;
+		value_release (val_org);
+		gnm_expr_free (expr_rank);
+		gnm_expr_free (expr_percentile);
 	}
 
-	destroy_data_set_list (data);
+	gnm_func_unref (fd_large);
+	gnm_func_unref (fd_row);
+	gnm_func_unref (fd_rank);
+	gnm_func_unref (fd_match);
+	gnm_func_unref (fd_percentrank);
 
-	return 0;
+	dao_redraw_respan (dao);
+
+	return FALSE;
 }
 
 gboolean
@@ -3969,7 +4006,7 @@ analysis_tool_ranking_engine (data_analysis_output_t *dao, gpointer specs,
 	case TOOL_ENGINE_UPDATE_DAO:
 		prepare_input_range (&info->base.input, info->base.group_by);
 		dao_adjust (dao, 4 * g_slist_length (info->base.input),
-			    1 + analysis_tool_calc_length (specs));
+			    2 + analysis_tool_calc_length (specs));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_generic_clean (specs);

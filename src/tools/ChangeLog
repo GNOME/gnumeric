@@ -1,3 +1,22 @@
+2009-06-03  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.c (analysis_tool_calc_length): also handle
+	  GROUPED_BY_AREA
+	(rank_t): deleted
+	(cb_rank_compare): deleted
+	(analysis_tool_ranking_engine_run): rewrite to enter expressions
+	(analysis_tool_ranking_engine): increase required space
+	* dao.c (adjust_range): new
+	(dao_set_array_expr): use adjust_range
+	(dao_set_cell_expr): ditto
+	(dao_set_cell_value): ditto
+	(dao_set_cell_comment): ditto
+	(dao_set_style): ditto
+	(dao_set_bold): use dao_set_style
+	(dao_set_underlined): ditto
+	(dao_set_merge): new
+	* dao.h (dao_set_merge): new
+
 2009-05-23  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.8
