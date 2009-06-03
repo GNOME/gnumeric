@@ -1,16 +1,17 @@
 Gnumeric 1.9.9
 
 Andreas:
-	* Export some data formats to ODF
-	* Fix comment export to ODF
-	* Remove distinction between label and filled rectangle
-	* Add superscipt and subscript buttons [#583327]
+	* Export some data formats to ODF.
+	* Fix comment export to ODF.
+	* Remove distinction between label and filled rectangle.
+	* Add superscipt and subscript buttons. [#583327]
 	* Improve ODF import.
 
 Morten:
 	* Add search-for-number.
 	* Fix format-as-currency action.
-	* Honour --geometry even when load loading a file.
+	* Honour --geometry even when not loading a file.
+	* Fix increase/decrease precision for accounting formats.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.8
