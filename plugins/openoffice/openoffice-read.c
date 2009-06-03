@@ -1299,7 +1299,8 @@ oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		else
 			v = value_new_error (NULL, xin->content->str);
 
-		gnm_cell_set_value (cell, v);
+		/* Note that we could be looking at the result of an array calculation */
+		gnm_cell_assign_value (cell, v);
 		oo_update_data_extent (state, 1, 1);
 	}
 }
