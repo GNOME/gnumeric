@@ -1921,20 +1921,19 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		lf = state->cond_formats;
 		while (lc && lf) {
 			char *cond = lc->data;
-			if (*cond == '>') {
+			if (cond != NULL && *cond == '>') {
 				char *val = cond + strcspn (cond, "0123456789.");
 				float value = atof (val);
-				if (value != 0. || (*(cond+1) != '=')) {
-					g_string_append_c (state->accum_fmt, '[');
-					g_string_append_c (state->accum_fmt, '>');
-					if (*(cond+1) == '=')
-						g_string_append_c (state->accum_fmt, '=');
-					g_string_append_printf (state->accum_fmt, "%.2f", value);
-					g_string_append_c (state->accum_fmt, ']');
-				}
+				if (value != 0. || (*(cond+1) != '='))
+					g_string_append_printf 
+						(state->accum_fmt, 
+						 (*(cond+1) == '=') ? "[>=%.2f]" : "[>%.2f]", value);
 				g_string_append (state->accum_fmt, go_format_as_XL 
 					 (g_hash_table_lookup (state->formats, lf->data)));
 				parts++;
+				g_free (lc->data);
+				lc->data = NULL;
+				break;
 			}
 			lc = lc->next;
 			lf = lf->next;
@@ -1945,16 +1944,37 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			lf = state->cond_formats;
 			while (lc && lf) {
 				char *cond = lc->data;
-				if (*cond == '=') {
+				if (cond != NULL && *cond == '=') {
 					char *val = cond + strcspn (cond, "0123456789.");
 					float value = atof (val);
-					g_string_append_c (state->accum_fmt, '[');
-					g_string_append_c (state->accum_fmt, '=');
-					g_string_append_printf (state->accum_fmt, "%.2f", value);
-					g_string_append_c (state->accum_fmt, ']');
+					g_string_append_printf (state->accum_fmt, "[=%.2f]", value);
 					g_string_append (state->accum_fmt, go_format_as_XL 
 							 (g_hash_table_lookup (state->formats, lf->data)));
 					parts++;
+					g_free (lc->data);
+					lc->data = NULL;
+					break;
+				}
+				lc = lc->next;
+				lf = lf->next;
+			}
+		}
+
+		if (parts == 0) {
+			lc = state->conditions;
+			lf = state->cond_formats;
+			while (lc && lf) {
+				char *cond = lc->data;
+				if (cond != NULL && *cond == '<' && *(cond + 1) == '>') {
+					char *val = cond + strcspn (cond, "0123456789.");
+					float value = atof (val);
+					g_string_append_printf (state->accum_fmt, "[<>%.2f]", value);
+					g_string_append (state->accum_fmt, go_format_as_XL 
+							 (g_hash_table_lookup (state->formats, lf->data)));
+					parts++;
+					g_free (lc->data);
+					lc->data = NULL;
+					break;
 				}
 				lc = lc->next;
 				lf = lf->next;
@@ -1970,19 +1990,15 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		lf = state->cond_formats;
 		while (lc && lf) {
 			char *cond = lc->data;
-			if (*cond == '<') {
+			if (cond != NULL && *cond == '<' && *(cond + 1) != '>') {
 				char *val = cond + strcspn (cond, "0123456789.");
 				float value = atof (val);
 				if (parts > 0)
 					g_string_append_c (state->accum_fmt, ';');
-				if (value != 0. || (*(cond+1) != '=')) {
-					g_string_append_c (state->accum_fmt, '[');
-					g_string_append_c (state->accum_fmt, '<');
-					if (*(cond+1) == '=')
-						g_string_append_c (state->accum_fmt, '=');
-					g_string_append_printf (state->accum_fmt, "%.2f", value);
-					g_string_append_c (state->accum_fmt, ']');
-				}
+				if (value != 0. || (*(cond+1) != '='))
+					g_string_append_printf 
+						(state->accum_fmt, 
+						 (*(cond+1) == '=') ? "[<=%.2f]" : "[<%.2f]", value);
 				g_string_append (state->accum_fmt, go_format_as_XL 
 					 (g_hash_table_lookup (state->formats, lf->data)));
 				parts++;
@@ -1996,24 +2012,42 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			lf = state->cond_formats;
 			while (lc && lf) {
 				char *cond = lc->data;
-				if (*cond == '=') {
+				if (cond != NULL && *cond == '=') {
 					char *val = cond + strcspn (cond, "0123456789.");
 					float value = atof (val);
 					if (parts > 0)
 						g_string_append_c (state->accum_fmt, ';');
-					g_string_append_c (state->accum_fmt, '[');
-					g_string_append_c (state->accum_fmt, '=');
-					g_string_append_printf (state->accum_fmt, "%.2f", value);
-					g_string_append_c (state->accum_fmt, ']');
+					g_string_append_printf (state->accum_fmt, "[=%.2f]", value);
 					g_string_append (state->accum_fmt, go_format_as_XL 
 							 (g_hash_table_lookup (state->formats, lf->data)));
 					parts++;
+					break;
 				}
 				lc = lc->next;
 				lf = lf->next;
 			}
 		}
 
+		if (parts < 2) {
+			lc = state->conditions;
+			lf = state->cond_formats;
+			while (lc && lf) {
+				char *cond = lc->data;
+				if (cond != NULL && *cond == '<' && *(cond + 1) == '>') {
+					char *val = cond + strcspn (cond, "0123456789.");
+					float value = atof (val);
+					if (parts > 0)
+						g_string_append_c (state->accum_fmt, ';');
+					g_string_append_printf (state->accum_fmt, "[<>%.2f]", value);
+					g_string_append (state->accum_fmt, go_format_as_XL 
+							 (g_hash_table_lookup (state->formats, lf->data)));
+					parts++;
+					break;
+				}
+				lc = lc->next;
+				lf = lf->next;
+			}
+		}
 		if (accum != NULL) {
 			if (parts > 0)
 				g_string_append_c (state->accum_fmt, ';');

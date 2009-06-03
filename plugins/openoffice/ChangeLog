@@ -1,5 +1,10 @@
 2009-06-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_number_style_end): shorten code and distinguish 
+	  <> from <
+	
+2009-06-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_cell_start): fix style leak
 	
 2009-06-02 Andreas J. Guelzow <aguelzow@pyrshep.ca>
