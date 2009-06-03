@@ -2396,6 +2396,7 @@ sheet_range_set_text (GnmParsePos const *pos, GnmRange const *r, char const *str
 	if (closure.texpr) {
 		range_init_full_sheet (&closure.expr_bound, pos->sheet);
 		gnm_expr_top_get_boundingbox (closure.texpr,
+					      pos->sheet,
 					      &closure.expr_bound);
 	}
 

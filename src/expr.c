@@ -2256,11 +2256,17 @@ gnm_expr_first_funcall (GnmExpr const *expr)
 }
 
 static void
-cellref_boundingbox (GnmCellRef const *cr, GnmRange *bound)
+cellref_boundingbox (GnmCellRef const *cr, Sheet const *sheet, GnmRange *bound)
 {
+	GnmSheetSize const *ss;
+
+	if (cr->sheet)
+		sheet = cr->sheet;
+	ss = gnm_sheet_get_size (sheet);
+
 	if (cr->col_relative) {
 		if (cr->col >= 0) {
-			int const c = gnm_sheet_get_max_cols (cr->sheet) - cr->col - 1;
+			int const c = ss->max_cols - cr->col - 1;
 			if (bound->end.col > c)
 				bound->end.col = c;
 		} else {
@@ -2271,7 +2277,7 @@ cellref_boundingbox (GnmCellRef const *cr, GnmRange *bound)
 	}
 	if (cr->row_relative) {
 		if (cr->row >= 0) {
-			int const r = gnm_sheet_get_max_rows (cr->sheet) - cr->row - 1;
+			int const r = ss->max_rows - cr->row - 1;
 			if (bound->end.row > r)
 				bound->end.row = r;
 		} else {
@@ -2396,7 +2402,8 @@ gnm_expr_contains_subtotal (GnmExpr const *expr)
 }
 
 static void
-gnm_expr_get_boundingbox (GnmExpr const *expr, GnmRange *bound)
+gnm_expr_get_boundingbox (GnmExpr const *expr, Sheet const *sheet,
+			  GnmRange *bound)
 {
 	g_return_if_fail (expr != NULL);
 
@@ -2404,24 +2411,24 @@ gnm_expr_get_boundingbox (GnmExpr const *expr, GnmRange *bound)
 	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_INTERSECT:
 	case GNM_EXPR_OP_ANY_BINARY:
-		gnm_expr_get_boundingbox (expr->binary.value_a, bound);
-		gnm_expr_get_boundingbox (expr->binary.value_b, bound);
+		gnm_expr_get_boundingbox (expr->binary.value_a, sheet, bound);
+		gnm_expr_get_boundingbox (expr->binary.value_b, sheet, bound);
 		break;
 
 	case GNM_EXPR_OP_ANY_UNARY:
-		gnm_expr_get_boundingbox (expr->unary.value, bound);
+		gnm_expr_get_boundingbox (expr->unary.value, sheet, bound);
 		break;
 
 	case GNM_EXPR_OP_FUNCALL: {
 		int i;
 		for (i = 0; i < expr->func.argc; i++)
-			gnm_expr_get_boundingbox (expr->func.argv[i], bound);
+			gnm_expr_get_boundingbox (expr->func.argv[i], sheet, bound);
 		break;
 	}
 	case GNM_EXPR_OP_SET: {
 		int i;
 		for (i = 0; i < expr->set.argc; i++)
-			gnm_expr_get_boundingbox (expr->set.argv[i], bound);
+			gnm_expr_get_boundingbox (expr->set.argv[i], sheet, bound);
 		break;
 	}
 
@@ -2431,21 +2438,21 @@ gnm_expr_get_boundingbox (GnmExpr const *expr, GnmRange *bound)
 		break;
 
 	case GNM_EXPR_OP_CELLREF:
-		cellref_boundingbox (&expr->cellref.ref, bound);
+		cellref_boundingbox (&expr->cellref.ref, sheet, bound);
 		break;
 
 	case GNM_EXPR_OP_CONSTANT: {
 		GnmValue const *v = expr->constant.value;
 
 		if (v->type == VALUE_CELLRANGE) {
-			cellref_boundingbox (&v->v_range.cell.a, bound);
-			cellref_boundingbox (&v->v_range.cell.b, bound);
+			cellref_boundingbox (&v->v_range.cell.a, sheet, bound);
+			cellref_boundingbox (&v->v_range.cell.b, sheet, bound);
 		}
 		break;
 	}
 
 	case GNM_EXPR_OP_ARRAY_CORNER:
-		gnm_expr_get_boundingbox (expr->array_corner.expr, bound);
+		gnm_expr_get_boundingbox (expr->array_corner.expr, sheet, bound);
 		break;
 
 	case GNM_EXPR_OP_ARRAY_ELEM:
@@ -3044,11 +3051,12 @@ gnm_expr_top_first_funcall (GnmExprTop const *texpr)
  * out of bounds.
  **/
 void
-gnm_expr_top_get_boundingbox (GnmExprTop const *texpr, GnmRange *bound)
+gnm_expr_top_get_boundingbox (GnmExprTop const *texpr, Sheet const *sheet,
+			      GnmRange *bound)
 {
 	g_return_if_fail (IS_GNM_EXPR_TOP (texpr));
 
-	gnm_expr_get_boundingbox (texpr->expr, bound);
+	gnm_expr_get_boundingbox (texpr->expr, sheet, bound);
 }
 
 gboolean

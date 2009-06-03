@@ -1,3 +1,9 @@
+2009-06-03  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (cellref_boundingbox, gnm_expr_get_boundingbox,
+	gnm_expr_top_get_boundingbox): Add sheet parameter for size.
+	All callers changed.
+
 2009-06-02  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk-actions.c (cb_format_as_currency): Deal with goffice
