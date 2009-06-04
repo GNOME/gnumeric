@@ -1,3 +1,8 @@
+2009-06-04  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet.c (cb_set_cell_content): Fix critical when overwriting
+	a non-singular array formula with non-array contents.  [#584746]
+
 2009-06-03  Morten Welinder  <terra@gnome.org>
 
 	* src/expr.c (cellref_boundingbox, gnm_expr_get_boundingbox,

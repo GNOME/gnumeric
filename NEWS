@@ -12,6 +12,7 @@ Morten:
 	* Fix format-as-currency action.
 	* Honour --geometry even when not loading a file.
 	* Fix increase/decrease precision for accounting formats.
+	* Fix array editing criticals.  [#584746]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.8

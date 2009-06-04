@@ -2332,9 +2332,18 @@ cb_set_cell_content (GnmCellIter const *iter, closure_set_cell_value *info)
 	GnmExprTop const *texpr = info->texpr;
 	GnmCell *cell;
 
-	if (NULL == (cell = iter->cell))
+	cell = iter->cell;
+	if (!cell)
 		cell = sheet_cell_create (iter->pp.sheet,
-			iter->pp.eval.col, iter->pp.eval.row);
+					  iter->pp.eval.col,
+					  iter->pp.eval.row);
+
+	/*
+	 * If we are overwriting an array, we need to clear things here
+	 * or gnm_cell_set_expr/gnm_cell_set_value will complain.
+	 */
+	if (cell->base.texpr && gnm_expr_top_is_array (cell->base.texpr))
+		gnm_cell_cleanout (cell);
 
 	if (texpr != NULL) {
 		if (!range_contains (&info->expr_bound,
