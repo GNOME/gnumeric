@@ -19,6 +19,8 @@ AM_CPPFLAGS = 						\
 noinst_LTLIBRARIES = libtools.la
 
 libtools_la_SOURCES =					\
+	analysis-anova.c			\
+	analysis-anova.h			\
 	analysis-exp-smoothing.c			\
 	analysis-exp-smoothing.h			\
 	analysis-frequency.c				\

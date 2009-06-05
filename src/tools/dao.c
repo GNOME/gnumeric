@@ -43,6 +43,7 @@
 #include "sheet-merge.h"
 #include "sheet-object-cell-comment.h"
 #include "style-color.h"
+#include "style-border.h"
 #include "graph.h"
 #include <goffice/app/go-doc.h>
 #include <goffice/utils/go-glib-extras.h>
@@ -874,6 +875,35 @@ dao_set_align (data_analysis_output_t *dao, int col1, int row1,
 	gnm_style_set_align_v (mstyle, align_v);
 	dao_set_style (dao, col1, row1, col2, row2, mstyle);
 }
+
+/**
+ * dao_set_border:
+ * @dao:
+ * @col1:
+ * @row1:
+ * @col2:
+ * @row2:
+ *
+ *
+ *
+ **/
+void
+dao_set_border (data_analysis_output_t *dao, int col1, int row1,
+	       int col2, int row2,
+		GnmStyleElement elem, GnmStyleBorderType border,
+		GnmColor *color,
+		GnmStyleBorderOrientation orientation)
+{
+	GnmStyle *mstyle;
+
+	mstyle = gnm_style_new ();
+	gnm_style_set_border (mstyle, elem, 
+			      gnm_style_border_fetch (border,
+						      color, 
+						      orientation));
+	dao_set_style (dao, col1, row1, col2, row2, mstyle);
+}
+
 
 
 /**

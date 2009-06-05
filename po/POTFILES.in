@@ -299,6 +299,7 @@ src/stf-parse.c
 src/stf.c
 src/style.c
 src/test-pango.c
+src/tools/analysis-anova.c
 src/tools/analysis-exp-smoothing.c
 src/tools/analysis-frequency.c
 src/tools/analysis-histogram.c

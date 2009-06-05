@@ -8,14 +8,9 @@
 #include "regression.h"
 #include "complex.h"
 
-/*******************************************************************/
-/* Section 1: gui utility functions for the tools                  */
 
 /*******************************************************************/
-/* Section 2: not undoable tools                                   */
-
-/*******************************************************************/
-/* Section 3: Undoable tools and their data structures             */
+/* Section 1: Undoable tools and their data structures             */
 
 typedef enum {
 	analysis_tools_noerr = 0,
@@ -29,7 +24,7 @@ typedef enum {
 
 
 /********************************************************************/
-/* Subsection 3a: Undoable Tools using the first  common generic data struct */
+/* Section 2: Undoable Tools using the first  common generic data struct */
 
 typedef struct {
 	analysis_tools_error_code_t err;
@@ -52,7 +47,7 @@ gboolean analysis_tool_covariance_engine  (data_analysis_output_t *dao, gpointer
 
 
 /********************************************************************/
-/* Subsection 3b: Undoable Tools using the first  common generic    */
+/* Section 3: Undoable Tools using the first  common generic    */
 /*                data struct augmented with some simple fields     */
 
 /************** Single Factor ANOVA  *************/
@@ -148,7 +143,7 @@ gboolean analysis_tool_ranking_engine (data_analysis_output_t *dao, gpointer spe
 
 
 /********************************************************************/
-/* Subsection 3c: Undoable Tools using the second common generic    */
+/* Section 4: Undoable Tools using the second common generic    */
 /*                data struct augmented with some simple fields     */
 
 /*********************** FTest ************************/
@@ -206,31 +201,9 @@ gboolean analysis_tool_ztest_engine (data_analysis_output_t *dao, gpointer specs
 				     analysis_tool_engine_t selector, gpointer result);
 
 
-/********************************************************************/
-/* Subsection 3d: Undoable Tools using their own data struct        */
-
-/****************  2-Factor ANOVA  ***************/
-
-typedef struct {
-	analysis_tools_error_code_t err;
-	WorkbookControl *wbc;
-	GnmValue     *input;
-	group_by_t group_by;
-	gboolean   labels;
-	GSList    *row_input_range;
-	GSList    *col_input_range;
-	gnm_float alpha;
-	gint       replication;
-	gint       rows;
-	guint       n_c;
-	guint       n_r;
-} analysis_tools_data_anova_two_factor_t;
-
-gboolean analysis_tool_anova_two_factor_engine (data_analysis_output_t *dao, gpointer specs,
-					   analysis_tool_engine_t selector, gpointer result);
 
 /********************************************************************/
-/* Functions also needed elsewhere.                                 */
+/* Section 5     Functions also needed elsewhere.                  */
 
 gboolean analysis_tool_generic_clean (gpointer specs);
 gboolean analysis_tool_generic_b_clean (gpointer specs);

@@ -1,3 +1,8 @@
+2009-06-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* expr.h (gnm_expr_new_funcall5): new
+	* src/expr.c (gnm_expr_new_funcall5): new
+
 2009-06-04  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (cb_set_cell_content): Fix critical when overwriting

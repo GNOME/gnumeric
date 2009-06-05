@@ -32,6 +32,9 @@
 #include "numbers.h"
 #include "style.h"
 #include <goffice/data/goffice-data.h>
+#include "style-color.h"
+#include "style-border.h"
+#include "graph.h"
 
 typedef enum {
         NewSheetOutput, NewWorkbookOutput, RangeOutput, InPlaceOutput
@@ -86,6 +89,11 @@ void dao_set_colors (data_analysis_output_t *dao, int col1, int row1,
 void dao_set_align (data_analysis_output_t *dao, int col1, int row1,
 		    int col2, int row2,
 		    GnmHAlign align_h, GnmVAlign align_v);
+void dao_set_border (data_analysis_output_t *dao, int col1, 
+		     int row1, int col2, int row2,
+		     GnmStyleElement elem,GnmStyleBorderType border,
+		     GnmColor *color,
+		     GnmStyleBorderOrientation orientation);
 void dao_set_cell             (data_analysis_output_t *dao, int col, int row,
 			       char const *text);
 void dao_set_cell_printf      (data_analysis_output_t *dao,

@@ -28,6 +28,7 @@
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "analysis-tools.h"
+#include "analysis-anova.h"
 #include "analysis-histogram.h"
 #include "analysis-exp-smoothing.h"
 
@@ -3604,7 +3605,7 @@ dialog_anova_two_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->replication_entry));
 
-	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);
+	gnm_dao_set_put (GNM_DAO (state->base.gdao), TRUE, TRUE);
 	anova_two_factor_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, FALSE);
 
