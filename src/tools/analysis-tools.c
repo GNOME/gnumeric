@@ -99,21 +99,6 @@ make_rangeref (int dx0, int dy0, int dx1, int dy1)
 }
 
 
-/*************************************************************************/
-/*
- *  data_set_t: a data set format (optionally) keeping track of missing
- *  observations.
- *
- */
-typedef struct {
-        GArray  *data;
-	char *label;
-	GSList *missing;
-	gboolean complete;
-	gboolean read_label;
-} data_set_t;
-
-
 static gboolean 
 gnm_check_input_range_list_homogeneity (GSList *input_range);
 
@@ -145,166 +130,6 @@ cb_adjust_areas (gpointer data, G_GNUC_UNUSED gpointer user_data)
 	range->v_range.cell.a.row_relative = 0;
 	range->v_range.cell.b.col_relative = 0;
 	range->v_range.cell.b.row_relative = 0;
-}
-
-static GnmValue *
-cb_store_data (GnmCellIter const *iter, gpointer user)
-{
-	data_set_t *data_set = (data_set_t *)user;
-	GnmCell *cell = iter->cell;
-	gnm_float the_data;
-
-	if (data_set->read_label) {
-		if (cell != NULL) {
-			data_set->label = cell->value
-				? value_get_as_string (cell->value)
-				: NULL;
-			if (data_set->label == NULL || strlen (data_set->label) == 0) {
-				g_free (data_set->label);
-				data_set->label = NULL;
-			}
-		}
-		data_set->read_label = FALSE;
-		return NULL;
-	}
-	if (cell == NULL || !VALUE_IS_NUMBER (cell->value)) {
-		if (data_set->complete) {
-			data_set->missing = g_slist_prepend (data_set->missing,
-						 GUINT_TO_POINTER (data_set->data->len));
-			the_data = 0;
-			g_array_append_val (data_set->data, the_data);
-		}
-	} else {
-		the_data =  value_get_as_float (cell->value);
-		g_array_append_val (data_set->data, the_data);
-	}
-	return NULL;
-}
-
-/*
- *  new_data_set:
- *  @range: GnmValue *       the data location, usually a single column or row
- *  @ignore_non_num: gboolean   whether simply to ignore non-numerical values
- *  @read_label: gboolean       whether the first entry contains a label
- *  @format: char*              format string for default label
- *  @i: guint                    index for default label
- */
-static data_set_t *
-new_data_set (GnmValue *range, gboolean ignore_non_num, gboolean read_label,
-	      char *format, gint i, Sheet* sheet)
-{
-	GnmValue *result;
-	GnmEvalPos  *pos = g_new (GnmEvalPos, 1);
-	data_set_t * the_set = g_new (data_set_t, 1);
-
-	pos = eval_pos_init_sheet (pos, sheet);
-	the_set->data = g_array_new (FALSE, FALSE, sizeof (gnm_float)),
-	the_set->missing = NULL;
-        the_set->label = NULL;
-	the_set->complete = !ignore_non_num;
-	the_set->read_label = read_label;
-
-	result = workbook_foreach_cell_in_range (pos, range, CELL_ITER_ALL,
-						 cb_store_data, the_set);
-	g_free (pos);
-
-	if (result != NULL) value_release (result);
-	the_set->missing = g_slist_reverse (the_set->missing);
-	if (the_set->label == NULL)
-		the_set->label = g_strdup_printf (format, i);
-	return the_set;
-}
-
-/*
- *  destroy_data_set:
- *  @data_set:
- */
-static void
-destroy_data_set (data_set_t *data_set)
-{
-
-	if (data_set->data != NULL)
-		g_array_free (data_set->data, TRUE);
-	g_slist_free (data_set->missing);
-	g_free (data_set->label);
-	g_free (data_set);
-}
-
-/*
- *  cb_get_data_set_list:
- *  @data:
- *  @user_data:
- */
-static void
-cb_get_data_set_list (gpointer data, gpointer user_data)
-{
-	GnmValue * the_range = (GnmValue *) data;
-	data_list_specs_t *specs = (data_list_specs_t *)user_data;
-
-	specs->length++;
-	g_ptr_array_add (specs->data_lists,
-			 new_data_set (the_range, specs->ignore_non_num,
-				       specs->read_label, specs->format,
-				       specs->length, specs->sheet));
-}
-
-
-/*
- *  new_data_set_list:
- *  @ranges: GSList *           the data location
- *  @group_by: group_by_t       how to group the data
- *  @ignore_non_num: gboolean   whether simply to ignore non-numerical values
- *  @read_label: gboolean       whether the first entry contains a label
- */
-static GPtrArray *
-new_data_set_list (GSList *ranges, group_by_t group_by,
-		   gboolean ignore_non_num, gboolean read_labels, Sheet *sheet)
-{
-	data_list_specs_t specs = {NULL, NULL, FALSE, FALSE, 0};
-
-	if (ranges == NULL)
-		return NULL;
-
-	specs.read_label = read_labels;
-	specs.data_lists = g_ptr_array_new ();
-	specs.ignore_non_num = ignore_non_num;
-	specs.sheet = sheet;
-
-	switch (group_by) {
-	case GROUPED_BY_ROW:
-		specs.format = _("Row %i");
-		break;
-	case GROUPED_BY_COL:
-		specs.format = _("Column %i");
-		break;
-	case GROUPED_BY_BIN:
-		specs.format = _("Bin %i");
-		break;
-	case GROUPED_BY_AREA:
-	default:
-		specs.format = _("Area %i");
-		break;
-	}
-
-	g_slist_foreach (ranges, cb_get_data_set_list, &specs);
-
-	return specs.data_lists;
-}
-
-/*
- *  destroy_data_set_list:
- *  @the_list:
- */
-static void
-destroy_data_set_list (GPtrArray * the_list)
-{
-	guint i;
-
-	for (i = 0; i < the_list->len; i++) {
-		data_set_t *data = g_ptr_array_index (the_list, i);
-		destroy_data_set (data);
-	}
-	g_ptr_array_free (the_list, TRUE);
 }
 
 /*
@@ -4339,127 +4164,82 @@ analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs,
  * This tool performes a fast fourier transform calculating the fourier
  * transform as defined in Weaver: Theory of dis and cont Fouriere Analysis
  *
- * If the length of the given sequence is not a power of 2, an appropriate
- * number of 0s are added.
- *
- *
  *
  **/
 
-void
-gnm_fourier_fft (complex_t const *in, int n, int skip, complex_t **fourier, gboolean inverse)
-{
-	complex_t  *fourier_1, *fourier_2;
-	int        i;
-	int        nhalf = n / 2;
-	gnm_float argstep;
-
-	*fourier = g_new (complex_t, n);
-
-	if (n == 1) {
-		(*fourier)[0] = in[0];
-		return;
-	}
-
-	gnm_fourier_fft (in, nhalf, skip * 2, &fourier_1, inverse);
-	gnm_fourier_fft (in + skip, nhalf, skip * 2, &fourier_2, inverse);
-
-	argstep = (inverse ? M_PIgnum : -M_PIgnum) / nhalf;
-	for (i = 0; i < nhalf; i++) {
-		complex_t dir, tmp;
-
-		complex_from_polar (&dir, 1, argstep * i);
-		complex_mul (&tmp, &fourier_2[i], &dir);
-
-		complex_add (&((*fourier)[i]), &fourier_1[i], &tmp);
-		complex_scale_real (&((*fourier)[i]), 0.5);
-
-		complex_sub (&((*fourier)[i + nhalf]), &fourier_1[i], &tmp);
-		complex_scale_real (&((*fourier)[i + nhalf]), 0.5);
-	}
-
-	g_free (fourier_1);
-	g_free (fourier_2);
-}
 
 static gboolean
 analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 				  analysis_tools_data_fourier_t *info)
 {
-	GPtrArray     *data;
-	guint         dataset;
-	gint          col = 0;
+	GSList *data = info->base.input;
+	int col = 0;
 
-	data = new_data_set_list (info->base.input, info->base.group_by,
-				  TRUE, info->base.labels, dao->sheet);
+	GnmFunc *fd_fourier;
+	GnmFunc *fd_imaginary;
+	GnmFunc *fd_imreal;
 
-	for (dataset = 0; dataset < data->len; dataset++) {
-		data_set_t    *current;
-		complex_t     *in, *fourier;
-		int           row;
-		int           given_length;
-		int           desired_length = 1;
-		int           i;
-		gnm_float    zero_val = 0.0;
+	fd_fourier = gnm_func_lookup ("FOURIER", NULL);
+	gnm_func_ref (fd_fourier);
+	fd_imaginary = gnm_func_lookup ("IMAGINARY", NULL);
+	gnm_func_ref (fd_imaginary);
+	fd_imreal = gnm_func_lookup ("IMREAL", NULL);
+	gnm_func_ref (fd_imreal);
 
-		current = g_ptr_array_index (data, dataset);
-		given_length = current->data->len;
-		while (given_length > desired_length)
-			desired_length *= 2;
-		for (i = given_length; i < desired_length; i++)
-			current->data = g_array_append_val (current->data, zero_val);
 
-		dao_set_cell_printf (dao, col, 0, "%s", current->label);
-		dao_set_cell_printf (dao, col, 1, _("Real"));
-		dao_set_cell_printf (dao, col + 1, 1, _("Imaginary"));
+	dao_set_merge (dao, 0, 0, 1, 0);
+	dao_set_italic (dao, 0, 0, 0, 0);
+	dao_set_cell (dao, 0, 0, info->inverse ? _("Inverse Fourier Transform") 
+		      : _("Fourier Transform"));
 
-		in = g_new (complex_t, desired_length);
-		for (i = 0; i < desired_length; i++)
-			complex_real (&in[i],
-				      ((gnm_float const *)current->data->data)[i]);
+	for (; data; data = data->next, col++) {
+		GnmValue *val_org = value_dup (data->data);
+		GnmExpr const *expr_fourier;
+		int rows, n;
 
-		gnm_fourier_fft (in, desired_length, 1, &fourier, info->inverse);
-		g_free (in);
+		dao_set_italic (dao, 0, 1, 1, 2);
+		dao_set_cell (dao, 0, 2, _("Real"));
+		dao_set_cell (dao, 1, 2, _("Imaginary"));
+		dao_set_merge (dao, 0, 1, 1, 1);
+		analysis_tools_write_label (val_org, dao, &info->base, 0, 1, col + 1);
 
-		if (fourier) {
-			for (row = 0; row < given_length; row++) {
-				dao_set_cell_float (dao, col, row + 2,
-						fourier[row].re);
-				dao_set_cell_float (dao, col + 1, row + 2,
-						fourier[row].im);
-			}
-			g_free (fourier);
-		}
+		n = (val_org->v_range.cell.b.row - val_org->v_range.cell.a.row + 1) *
+			(val_org->v_range.cell.b.col - val_org->v_range.cell.a.col + 1);
+		rows = 1;
+		while (rows < n)
+			rows *= 2;
 
-		col += 2;
+		expr_fourier = gnm_expr_new_funcall2
+			(fd_fourier,
+			 gnm_expr_new_constant (val_org),
+			 gnm_expr_new_constant (value_new_bool (info->inverse)));
+
+		dao_set_array_expr (dao, 0, 3, 1, rows, 
+				    gnm_expr_new_funcall1 (fd_imreal, 
+							   gnm_expr_copy (expr_fourier)));
+		dao_set_array_expr (dao, 1, 3, 1, rows, 
+				    gnm_expr_new_funcall1 (fd_imaginary, 
+							   expr_fourier));
+		dao->offset_col += 2;
 	}
-	dao_set_italic (dao, 0, 0, col - 1, 1);
 
-	destroy_data_set_list (data);
+	gnm_func_unref (fd_fourier);
+	gnm_func_unref (fd_imaginary);
+	gnm_func_unref (fd_imreal);
 
-	return 0;
+	dao_redraw_respan (dao);
+
+	return FALSE;
 }
 
 static int
 analysis_tool_fourier_calc_length (analysis_tools_data_fourier_t *info)
 {
-	Sheet         *sheet = wb_control_cur_sheet(info->base.wbc);
-	GPtrArray     *data = new_data_set_list (info->base.input, info->base.group_by,
-						 TRUE, info->base.labels, sheet);
-	int           result = 1;
-	guint         dataset;
+	int m = 1, n = analysis_tool_calc_length (&info->base);
 
-	for (dataset = 0; dataset < data->len; dataset++) {
-		data_set_t    *current;
-		int           given_length;
-
-		current = g_ptr_array_index (data, dataset);
-		given_length = current->data->len;
-		if (given_length > result)
-			result = given_length;
-	}
-	destroy_data_set_list (data);
-	return result;
+	while (m < n)
+		m *= 2;
+	return m;
 }
 
 
@@ -4476,7 +4256,7 @@ analysis_tool_fourier_engine (data_analysis_output_t *dao, gpointer specs,
 	case TOOL_ENGINE_UPDATE_DAO:
 		prepare_input_range (&info->base.input, info->base.group_by);
 		dao_adjust (dao, 2 * g_slist_length (info->base.input),
-			    2 + analysis_tool_fourier_calc_length (specs));
+			    3 + analysis_tool_fourier_calc_length (specs));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
 		return analysis_tool_generic_clean (specs);

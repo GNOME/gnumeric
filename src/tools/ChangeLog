@@ -1,4 +1,21 @@
-2009-06-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+2009-06-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.h (gnm_fourier_fft): moved to
+	  plugins/fn-tsa/functions.c
+	* analysis-tools.c (cb_store_data): deleted
+	(new_data_set): deleted
+	(destroy_data_set): deleted
+	(cb_get_data_set_list): deleted
+	(cb_get_data_set_list): deleted
+	(new_data_set_list): deleted
+	(destroy_data_set_list): deleted
+	(gnm_fourier_fft): moved to
+	  plugins/fn-tsa/functions.c
+	(analysis_tool_fourier_engine_run): rewritten
+	(analysis_tool_fourier_calc_length): use analysis_tool_calc_length
+	(analysis_tool_fourier_engine): adjust required size
+	
+2009-06-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* Makefile.am: added  analysis-anova.[ch]
 	* analysis-tools.h (analysis_tool_anova_two_factor_engine):

@@ -5,6 +5,7 @@
  *
  * Copyright (C) 2006 Laurency Franck
  * Copyright (C) 2007 Jean Bréfort <jean.brefort@normalesup.org>
+ * Copyright (C) 2009 Andreas Guelzow <aguelzow@pyrshep.ca>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -48,6 +49,7 @@
 #include <goffice/math/go-cspline.h>
 #include <gnm-plugin.h>
 #include <tools/analysis-tools.h>
+#include <complex.h>
 
 #include <math.h>
 #include <stdlib.h>
@@ -89,11 +91,56 @@ enum {
 #	define gnm_cspline_get_integrals go_cspline_get_integrals
 #endif
 
+#define INTERPOLATIONMETHODS { GNM_FUNC_HELP_DESCRIPTION, F_("Possible interpolation methods are:\n"\
+	   "0: linear;\n"\
+	   "1: linear with averaging;\n"\
+	   "2: staircase;\n"\
+	   "3: staircase with averaging;\n"\
+	   "4: natural cubic spline;\n"\
+	   "5: natural cubic spline with averaging.") }
+
 /**************************************************************************/
 /**************************************************************************/
 /*           CALCULATION FUNCTIONS FOR TOOLS                                */
 /**************************************************************************/
 /**************************************************************************/
+
+static void
+gnm_fourier_fft (complex_t const *in, int n, int skip, complex_t **fourier, gboolean inverse)
+{
+	complex_t  *fourier_1, *fourier_2;
+	int        i;
+	int        nhalf = n / 2;
+	gnm_float argstep;
+
+	*fourier = g_new (complex_t, n);
+
+	if (n == 1) {
+		(*fourier)[0] = in[0];
+		return;
+	}
+
+	gnm_fourier_fft (in, nhalf, skip * 2, &fourier_1, inverse);
+	gnm_fourier_fft (in + skip, nhalf, skip * 2, &fourier_2, inverse);
+
+	argstep = (inverse ? M_PIgnum : -M_PIgnum) / nhalf;
+	for (i = 0; i < nhalf; i++) {
+		complex_t dir, tmp;
+
+		complex_from_polar (&dir, 1, argstep * i);
+		complex_mul (&tmp, &fourier_2[i], &dir);
+
+		complex_add (&((*fourier)[i]), &fourier_1[i], &tmp);
+		complex_scale_real (&((*fourier)[i]), 0.5);
+
+		complex_sub (&((*fourier)[i + nhalf]), &fourier_1[i], &tmp);
+		complex_scale_real (&((*fourier)[i + nhalf]), 0.5);
+	}
+
+	g_free (fourier_1);
+	g_free (fourier_2);
+}
+
 
 /*******LINEAR INTERPOLATION*******/
 
@@ -321,36 +368,17 @@ spline_averaging (const gnm_float *absc, const gnm_float *ord, int nb_knots,
 /******************************************************************************/
 
 static GnmFuncHelp const help_interpolation[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=INTERPOLATION\n"
-	   "@SYNTAX=INTERPOLATION(abscissas,ordinates,targets[,interpolation])\n"
-
-	   "@DESCRIPTION= \n"
-	   "INTERPOLATION returns interpolated values corresponding\n"
-	   "to the given abscissa targets as a one column matrix.\n"
-	   "\n"
-	   "@abscissas are the absicssas of the data to interpolate.\n"
-	   "@ordinates are the ordinates of the data to interpolate.\n"
-	   "* Strings and empty cells in @abscissas and @ordinates are simply ignored.\n"
-	   "@targets are the abscissas of the interpolated data. If several data\n"
-	   "are provided, they must be in the same column, in consecutive cells\n"
-	   "@interpolation is the method to be used for the interpolation;\n"
-	   "possible values are:\n"
-	   "- 0: linear;\n"
-	   "- 1: linear with averaging;\n"
-	   "- 2: staircase;\n"
-	   "- 3: staircase with averaging;\n"
-	   "- 4: natural cubic spline;\n"
-	   "- 5: natural cubic spline with averaging.\n"
-	   "\n"
-	   "If an averaging method is used, the number of returned values\n"
-	   "is one less than the number of targets since the evaluation is made by\n"
-	   "averaging the interpolation over the interval between two consecutive data;\n"
-	   "in that case, the targets values must be given in increasing order.\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=PERIODOGRAM")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("Interpolation:interpolated values corresponding to the given abscissa targets.") },
+	{ GNM_FUNC_HELP_ARG, F_("abscissas:The absicssas of the data to interpolate.") },
+	{ GNM_FUNC_HELP_ARG, F_("ordinates:The ordinates of the data to interpolate.") },
+	{ GNM_FUNC_HELP_ARG, F_("targets:The abscissas of the interpolated data.") },
+	{ GNM_FUNC_HELP_ARG, F_("interpolation:The method of interpolation to be used, defaults to no interpolation") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If an interpolation method is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The output consists always of one column of numbers.") },
+	INTERPOLATIONMETHODS,
+	{ GNM_FUNC_HELP_NOTE, F_("Strings and empty cells in @{abscissas} and @{ordinates} are ignored.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If several target data are provided they must be in the same column in consecutive cells.") },
+	{ GNM_FUNC_HELP_SEEALSO, "PERIODOGRAM" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -614,39 +642,23 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /******************************************************************************/
 
 static GnmFuncHelp const help_periodogram[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=PERIODOGRAM\n"
-	   "@SYNTAX=PERIODOGRAM(ordinates,[filter,[abscissas,[interpolation,[number]]]])\n"
-
-	   "@DESCRIPTION= \n"
-	   "periodogram returns the periodogram of the data\n"
-	   "as a one column matrix.\n"
-	   "\n"
-	   "@ordinates are the ordinates of the data to interpolate.\n"
-	   "@filter gives the window function to  be used. Possible values are:\n"
-	   "- 0: no filter (rectangular window);\n"
-	   "- 1: Bartlett (triangular window);\n"
-	   "- 2: Hahn (cosine window);\n"
-	   "- 3: Welch (parabolic window);\n"
-	   "@abscissas are the absicssas of the data to interpolate. If no\n"
-	   "abscissa is given, it is supposed that the data absicssas are regularly\n"
-	   "spaced. Otherwise, an interpolation method will be used to evaluate\n"
-	   "regularly spaced data.\n"
-	   "* Strings and empty cells in @abscissas and @ordinates are simply ignored.\n"
-	   "@interpolation is the method to be used for the interpolation;\n"
-	   "possible values are:\n"
-	   "- 0: linear;\n"
-	   "- 1: linear with averaging;\n"
-	   "- 2: staircase;\n"
-	   "- 3: staircase with averaging;\n"
-	   "- 4: natural cubic spline;\n"
-	   "- 5: natural cubic spline with averaging.\n"
-	   "@number is the number of interpolated data to be used. If not given,\n"
-	   "a default number is automatically evaluated.\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=INTERPOLATION")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("PERIODOGRAM: Periodogram of the given data.") },
+	{ GNM_FUNC_HELP_ARG, F_("ordinates:The ordinates of the data to interpolate.") },
+	{ GNM_FUNC_HELP_ARG, F_("filter:Window function to  be used, defaults to no window function.") },
+	{ GNM_FUNC_HELP_ARG, F_("abscissas:The abscissas of the data to interpolate, defaults to regularly spaced abscissa.") },
+	{ GNM_FUNC_HELP_ARG, F_("interpolation:The method of interpolation to be used, defaults to no interpolation") },
+	{ GNM_FUNC_HELP_ARG, F_("number: Number of interpolated data points to be used.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If an interpolation method is used, the number of returned values is one less than the number of targets and the targets values must be given in increasing order.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The output consists always of one column of numbers.") },
+	INTERPOLATIONMETHODS,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("Possible window functions are:\n"
+	"0: no filter (rectangular window)\n"
+	"1: Bartlett (triangular window)\n"
+	"2: Hahn (cosine window)\n"
+	"3: Welch (parabolic window)") },
+	{ GNM_FUNC_HELP_NOTE, F_("Strings and empty cells in @{abscissas} and @{ordinates} are ignored.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If several target data are provided they must be in the same column in consecutive cells.") },
+	{ GNM_FUNC_HELP_SEEALSO, "INTERPOLATION" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -892,6 +904,103 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return res;
 }
 
+/******************************************************************************/
+/*                    Fourier Transform                                       */
+/******************************************************************************/
+
+static GnmFuncHelp const help_fourier[] = {
+	{ GNM_FUNC_HELP_NAME, F_("FOURIER:Fourier or inverse Fourier transform.") },
+	{ GNM_FUNC_HELP_ARG, F_("Sequence: the data sequence to be transformed") },
+	{ GNM_FUNC_HELP_ARG, F_("Inverse:if false, the inverse Fourier transform is calculated. Defaults to false") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This array function returns the Fourier or inverse Fourier transform of the given data sequence.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The output consists always of one column of complex numbers.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{Sequence} is neither an n by 1 nor 1 by n array, this function returns #NUM!") },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_fourier (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float *ord;
+	gboolean inverse = FALSE;
+	int n0, nb;
+	GnmValue *error = NULL;
+	GnmValue *res;
+	CollectFlags flags;
+	GnmEvalPos const * const ep = ei->pos;
+	GnmValue const * const Pt = argv[0];
+	int i;
+	GSList *missing0 = NULL;
+	complex_t *in, *out = NULL;
+
+	int const cols = value_area_get_width (Pt, ep);
+	int const rows = value_area_get_height (Pt, ep);
+
+	char f[5 + 4 * sizeof (int) + sizeof (GNM_FORMAT_g)];
+
+	if (cols != 1 && rows != 1) {
+		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
+		return res;
+	}
+
+	flags=COLLECT_IGNORE_BLANKS | COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS;
+
+	ord = collect_floats_value_with_info (argv[0], ei->pos, flags,
+				      &n0, &missing0, &error);
+	if (error) {
+		g_slist_free (missing0);
+		return error;
+	}
+
+	if (n0 == 0) {
+		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
+		return res;
+	}
+
+	if (argv[1]) {
+		inverse = 0 != (int) gnm_floor (value_get_as_float (argv[1]));
+	}
+	
+	if (missing0) {
+		GArray *gval;
+		
+		gval = g_array_new (FALSE, FALSE, sizeof (gnm_float));
+		gval = g_array_append_vals (gval, ord, n0);
+		g_free (ord);
+		gnm_strip_missing (gval, missing0);
+		ord = (gnm_float *) gval->data;
+		n0 = gval->len;
+		g_array_free (gval, FALSE);
+		
+		g_slist_free (missing0);
+	}
+
+	nb = 1;
+	while (nb < n0)
+		nb *= 2;
+
+	/* Transform and return the result */
+	in = g_new0 (complex_t, nb);
+	for (i = 0; i < n0; i++)
+	     in[i].re = ord[i];
+	g_free (ord);
+	gnm_fourier_fft (in, nb, 1, &out, inverse);
+	g_free (in);
+
+	if (out) {
+		res = value_new_array_empty (1 , nb);
+		sprintf (f, "%%.%d" GNM_FORMAT_g, GNM_DIG);
+		for (i = 0; i < nb; i++)
+			res->v_array.vals[0][i] = value_new_string_nocopy 
+				(complex_to_string (&(out[i]), f, f, 'i'));
+		g_free (out);
+	} else
+		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
+
+	return res;
+}
+
+
 const GnmFuncDescriptor TimeSeriesAnalysis_functions[] = {
 
         { "interpolation",       "AAA|f",   N_("Abscissas,Ordinates,Targets,Interpolation"),
@@ -900,6 +1009,10 @@ const GnmFuncDescriptor TimeSeriesAnalysis_functions[] = {
 
 	{ "periodogram",       "A|fAff",   N_("Ordinates,Filter,Abscissas,Interpolation,Number"),
 	  help_periodogram, gnumeric_periodogram, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+
+	{ "fourier",       "A|b",   N_("Sequence,Inverse"),
+	  help_fourier, gnumeric_fourier, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
         {NULL}

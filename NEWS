@@ -7,6 +7,9 @@ Andreas:
 	* Add superscipt and subscript buttons. [#583327]
 	* Improve ODF import.
 	* Improve 2 factor ANOVA tool
+	* Improve Rank & Percentiles tool
+	* Improve Fourier transform tool
+	* New FOURIER function
 
 Morten:
 	* Add search-for-number.

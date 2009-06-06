@@ -217,9 +217,6 @@ const GnmExpr *make_rangeref (int dx0, int dy0, int dx1, int dy1);
 
 gnm_float *range_sort (gnm_float const *xs, int n);
 
-void gnm_fourier_fft (complex_t const *in, int n, int skip,
-					  complex_t **fourier, gboolean inverse);
-
 void set_cell_text_row (data_analysis_output_t *dao, 
 			int col, int row, const char *text);
 void set_cell_text_col (data_analysis_output_t *dao, 
