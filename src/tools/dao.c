@@ -198,8 +198,7 @@ dao_command_descriptor (data_analysis_output_t *dao, char const *format,
 void
 dao_adjust (data_analysis_output_t *dao, gint cols, gint rows)
 {
-	int max_rows = gnm_sheet_get_max_rows (dao->sheet) - dao->start_row;
-	int max_cols = gnm_sheet_get_max_cols (dao->sheet) - dao->start_col;
+	int max_rows, max_cols;
 
 	if (dao->cols == 1 && dao->rows == 1) {
 		if (cols != -1)
@@ -211,6 +210,18 @@ dao_adjust (data_analysis_output_t *dao, gint cols, gint rows)
 			dao->cols = MIN (cols, dao->cols);
 		if (rows != -1)
 			dao->rows = MIN (rows, dao->rows);
+	}
+
+	if (dao->sheet) {
+		max_rows = gnm_sheet_get_max_rows (dao->sheet) - dao->start_row;
+		max_cols = gnm_sheet_get_max_cols (dao->sheet) - dao->start_col;
+	} else {
+		/* In case of NewSheetOutput and NewWorkbookOutput */
+		/* this is called before we actually create the    */
+		/* new sheet and/or workbook                       */
+		Sheet *old_sheet = wb_control_cur_sheet (dao->wbc);
+		max_rows = gnm_sheet_get_max_rows (old_sheet) - dao->start_row;
+		max_cols = gnm_sheet_get_max_cols (old_sheet) - dao->start_col;		
 	}
 
 	if (dao->cols > max_cols)

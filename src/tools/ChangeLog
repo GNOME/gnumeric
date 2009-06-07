@@ -1,5 +1,10 @@
 2009-06-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dao.c (dao_adjust): avoid calling gnm_sheet_get_max_* with
+	  NULL sheet.
+
+2009-06-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* analysis-chi-squared.[ch]: new
 	* Makefile.am: added the above
 
