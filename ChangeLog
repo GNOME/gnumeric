@@ -1,3 +1,9 @@
+2009-06-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/GNOME_Gnumeric-gtk.xml.in: add ChiSquareTests
+	* src/wbc-gtk-actions.c add MenuContingencyTests and
+	  Tools -> Chi Square Tests items
+
 2009-06-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* expr.h (gnm_expr_new_funcall5): new

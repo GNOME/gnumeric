@@ -1,3 +1,8 @@
+2009-06-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-chi-squared.[ch]: new
+	* Makefile.am: added teh above
+
 2009-06-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.h (gnm_fourier_fft): moved to

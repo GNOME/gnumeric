@@ -90,6 +90,7 @@ int dialog_anova_two_factor_tool (WBCGtk *wbcg, Sheet *sheet);
 int dialog_histogram_tool	 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_frequency_tool	 (WBCGtk *wbcg, Sheet *sheet);
 int dialog_kaplan_meier_tool	 (WBCGtk *wbcg, Sheet *sheet);
+int dialog_chi_square_tool       (WBCGtk *wbcg, Sheet *sheet, gboolean independence);
 
 typedef enum {
 	TTEST_PAIRED = 1,

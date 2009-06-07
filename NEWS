@@ -10,6 +10,7 @@ Andreas:
 	* Improve Rank & Percentiles tool
 	* Improve Fourier transform tool
 	* New FOURIER function
+	* Added Tests for Independence and Homogeneity
 
 Morten:
 	* Add search-for-number.

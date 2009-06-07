@@ -1,3 +1,11 @@
+2009-06-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* chi-squared.glade: new
+	* dialog-analysis-tool-chi-squared.c: new
+	* Makefile.am: added the above
+	* dialogs.h (dialog_chi_square_tool): new
+	* help.h (GNUMERIC_HELP_LINK_CHI_SQUARED): new
+
 2009-06-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tools.c (dialog_anova_two_factor_tool): enable

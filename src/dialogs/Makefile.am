@@ -26,6 +26,7 @@ base_files =					\
 	dialog-about.c				\
 	dialog-advanced-filter.c		\
 	dialog-analysis-tools.c			\
+	dialog-analysis-tool-chi-squared.c	\
 	dialog-analysis-tool-frequency.c	\
 	dialog-analysis-tool-kaplan-meier.c	\
 	dialog-autocorrect.c			\
@@ -99,6 +100,7 @@ glade_DATA = 				\
 	cell-comment.glade		\
 	cell-format.glade		\
 	cell-sort.glade			\
+	chi-squared.glade			\
 	col-width.glade			\
 	colrow.glade			\
 	consolidate.glade		\

@@ -166,6 +166,10 @@
           <menuitem action="ToolsANOVAoneFactor"/>
           <menuitem action="ToolsANOVAtwoFactor"/>
         </menu>
+        <menu name="ChiSquareTests" action="MenuContingencyTests">
+          <menuitem action="ToolsHomogeneity"/>
+          <menuitem action="ToolsIndependence"/>
+        </menu>
         <menuitem action="ToolsCorrelation"/>
         <menuitem action="ToolsCovariance"/>
         <menuitem action="ToolsDescStatistics"/>

@@ -855,6 +855,8 @@ static GNM_ACTION_DEF (cb_tools_scenarios)	{ dialog_scenarios (wbcg); }
 static GNM_ACTION_DEF (cb_tools_simulation)	{ dialog_simulation (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_anova_one_factor) { dialog_anova_single_factor_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_anova_two_factor) { dialog_anova_two_factor_tool (wbcg, wbcg_cur_sheet (wbcg)); }
+static GNM_ACTION_DEF (cb_tools_chi_square_independence) { dialog_chi_square_tool (wbcg, wbcg_cur_sheet (wbcg), TRUE); }
+static GNM_ACTION_DEF (cb_tools_chi_square_homogeneity) { dialog_chi_square_tool (wbcg, wbcg_cur_sheet (wbcg), FALSE); }
 static GNM_ACTION_DEF (cb_tools_correlation)	{ dialog_correlation_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_covariance)	{ dialog_covariance_tool (wbcg, wbcg_cur_sheet (wbcg)); }
 static GNM_ACTION_DEF (cb_tools_desc_statistics) { dialog_descriptive_stat_tool (wbcg, wbcg_cur_sheet (wbcg)); }
@@ -1702,6 +1704,7 @@ static GtkActionEntry const permanent_actions[] = {
 		{ "MenuToolsScenarios",	NULL,	N_("Sce_narios") },
 		{ "MenuToolStatisticalAnalysis",	NULL,	N_("Statistical Anal_ysis") },
 		{ "MenuANOVA",	NULL,	N_("_ANOVA") },
+		{ "MenuContingencyTests",	NULL,	N_("Contin_gency Table") },
 		{ "MenuToolForecast",	NULL,	N_("F_orecast") },
 		{ "MenuToolFrequencies",	NULL,	N_("Fre_quency Tables") },
 		{ "MenuToolTTest",	NULL,	N_("Two _Means") },
@@ -2093,6 +2096,14 @@ static GtkActionEntry const actions[] = {
 	{ "ToolsANOVAtwoFactor", NULL, N_("_Two Factor..."),
 		NULL, N_("Two Factor Analysis of Variance..."),
 		G_CALLBACK (cb_tools_anova_two_factor) },
+
+/* Tools -> Chi Square Tests */
+	{ "ToolsHomogeneity", NULL, N_("Test of _Homogeneity..."),
+		NULL, N_("Chi Squared Test of Homogeneity..."),
+		G_CALLBACK (cb_tools_chi_square_homogeneity) },
+	{ "ToolsIndependence", NULL, N_("Test of _Independence..."),
+		NULL, N_("Chi Squared Test of Independence..."),
+		G_CALLBACK (cb_tools_chi_square_independence) },
 
 /* Tools -> Forecasting */
 	{ "ToolsExpSmoothing", NULL, N_("_Exponential Smoothing..."),
