@@ -186,7 +186,7 @@ rstyle_apply (GnmStyle **old, ReplacementStyle *rs)
  * and GNM_MAX_COLS and GNM_MAX_ROWS in gnumeric.h */
 #define TILE_TOP_LEVEL 6
 
-#define TILE_SIZE_COL 4
+#define TILE_SIZE_COL 8
 #define	TILE_SIZE_ROW 16
 
 typedef enum {
@@ -558,7 +558,7 @@ sheet_style_resize (Sheet *sheet, int cols, int rows)
 	/* Save the style for the surviving area.  */
 	range_init (&save_range, 0, 0,
 		    MIN (cols, old_cols), MIN (rows, old_rows));
-	styles = sheet_style_get_list (sheet, &save_range);
+	styles = sheet_style_get_range (sheet, &save_range);
 
 	/* Build new empty structures.  */
 	sheet_style_shutdown (sheet);
@@ -1862,7 +1862,7 @@ sheet_style_relocate (GnmExprRelocateInfo const *rinfo)
 
 	g_return_if_fail (rinfo != NULL);
 
-	styles = sheet_style_get_list (rinfo->origin_sheet, &rinfo->origin);
+	styles = sheet_style_get_range (rinfo->origin_sheet, &rinfo->origin);
 
 	sheet_style_set_range (rinfo->origin_sheet, &rinfo->origin,
 			       sheet_style_default (rinfo->origin_sheet));
@@ -1900,7 +1900,7 @@ sheet_style_insert_colrow (GnmExprRelocateInfo const *rinfo)
 		if (col < 0)
 			col = 0;
 		corner.row = 0;
-		styles = sheet_style_get_list (rinfo->origin_sheet,
+		styles = sheet_style_get_range (rinfo->origin_sheet,
 			       range_init (&r, col, 0, col, gnm_sheet_get_last_row (rinfo->origin_sheet)));
 		if (o > 0)
 			for (ptr = styles ; ptr != NULL ; ptr = ptr->next)
@@ -1913,7 +1913,7 @@ sheet_style_insert_colrow (GnmExprRelocateInfo const *rinfo)
 			row = 0;
 		corner.col = 0;
 		range_init_rows (&r, rinfo->origin_sheet, row, row);
-		styles = sheet_style_get_list (rinfo->origin_sheet, &r);
+		styles = sheet_style_get_range (rinfo->origin_sheet, &r);
 		if (o > 0)
 			for (ptr = styles ; ptr != NULL ; ptr = ptr->next)
 				((GnmStyleRegion *)ptr->data)->range.end.row = o;
@@ -2171,7 +2171,7 @@ cb_hash_to_list (gpointer key, gpointer	value, gpointer	user_data)
 }
 
 /**
- * sheet_style_get_list :
+ * sheet_style_get_range :
  *
  * @sheet :
  * @range :
@@ -2180,7 +2180,7 @@ cb_hash_to_list (gpointer key, gpointer	value, gpointer	user_data)
  * Caller is responsible for freeing.
  */
 GnmStyleList *
-sheet_style_get_list (Sheet const *sheet, GnmRange const *r)
+sheet_style_get_range (Sheet const *sheet, GnmRange const *r)
 {
 	GnmStyleList *res = NULL;
 	StyleListMerge mi;
@@ -2363,14 +2363,13 @@ sheet_style_collect_validations (Sheet const *sheet, GnmRange const *r)
 
 /**
  * sheet_style_set_list
+ * @sheet     : #Sheet
+ * @corner    : The top-left corner (in LTR mode)
+ * @transpose : should the styles be transposed
+ * @list      : #GnmStyleList
  *
- * @sheet     :
- * @corner    :
- * @transpose :
- * @list      :
- *
- * Applies a list of styles to the sheet with the supplied offset.  Optionally
- * transposing the ranges
+ * Overwrites the styles of the ranges given by @corner with the content of
+ * @list. Optionally transposing the ranges
  **/
 GnmSpanCalcFlags
 sheet_style_set_list (Sheet *sheet, GnmCellPos const *corner,

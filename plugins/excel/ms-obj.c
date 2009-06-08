@@ -1217,7 +1217,9 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
  * @attrs : an optional hash of object attributes.
  *
  * This function takes ownership of attrs.
- */
+ *
+ * Returns: %TRUE on success.
+ **/
 gboolean
 ms_read_OBJ (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs)
 {

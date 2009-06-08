@@ -1,9 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
- * pivottable.c:
+ * go-data-slicer-impl.h :
  *
- * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2008 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -19,32 +18,27 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-#include <gnumeric-config.h>
-#include "pivottable.h"
-#include <sheet.h>
+#ifndef GO_DATA_SLICER_IMPL_H
+#define GO_DATA_SLICER_IMPL_H
 
-#include <glib/gi18n-lib.h>
+#include <go-data-slicer.h>
+#include <glib-object.h>
+#include <goffice-utils.h>
 
-GnmPivotTable *
-gnm_pivottable_new (Sheet *src_sheet, GnmRange const *src,
-		    Sheet *dst_sheet, GnmRange const *dst)
-{
-	GnmPivotTable *res;
+G_BEGIN_DECLS
 
-	g_return_val_if_fail (IS_SHEET (src_sheet), NULL);
-	g_return_val_if_fail (IS_SHEET (dst_sheet), NULL);
-	g_return_val_if_fail (src != NULL && dst != NULL, NULL);
+struct _GODataSlicer {
+	GObject		base;
 
-	res = g_new0 (GnmPivotTable, 1);
-	res->src.sheet = src_sheet;
-	res->src.range = *src;
-	res->dst.sheet = src_sheet;
-	res->dst.range = *dst;
+	GODataCache	*cache;
+	GOString	*name;
+	GPtrArray	*all_fields;	/* holds the ref */
+	GArray		*fields[GDS_FIELD_TYPE_MAX];	/* ordered */
+};
+typedef struct {
+	GObjectClass base;
+} GODataSlicerClass;
 
-	return res;
-}
+G_END_DECLS
 
-void
-gnm_pivottable_free (GnmPivotTable *filter)
-{
-}
+#endif /* GO_DATA_SLICER_IMPL_H */

@@ -34,11 +34,12 @@
 #include <rangefunc.h>
 #include <gnm-i18n.h>
 
-#include <math.h>
-#include <string.h>
-
+#include <go-string.h>
 #include <goffice/app/go-plugin.h>
 #include <gnm-plugin.h>
+
+#include <math.h>
+#include <string.h>
 
 GNM_PLUGIN_MODULE_HEADER;
 

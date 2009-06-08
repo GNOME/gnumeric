@@ -380,16 +380,16 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 		
 		dao_set_format  (dao, prob_col, 2, prob_col, rows + 1, "0.00%");
 		
-		dao_set_cell_array_expr (dao, 0, 2, gnm_expr_copy (expr_at_risk)); 	
-		dao_set_cell_array_expr (dao, 1, 2, gnm_expr_copy (expr_deaths)); 	
+		dao_set_cell_array_expr (dao, 0, 2, gnm_expr_copy (expr_at_risk));
+		dao_set_cell_array_expr (dao, 1, 2, gnm_expr_copy (expr_deaths));
 		dao_set_cell_expr (dao, prob_col, 2, expr_prob_zero);
 		
 		if (expr_censures != NULL)
 			dao_set_cell_array_expr (dao, 2, 2, gnm_expr_copy (expr_censures));
 		
 		for (row = 1; row < rows; row++) {
-			dao_set_cell_array_expr (dao, 0, 2+row, gnm_expr_copy (expr_at_risk)); 	
-			dao_set_cell_array_expr (dao, 1, 2+row, gnm_expr_copy (expr_deaths)); 	
+			dao_set_cell_array_expr (dao, 0, 2+row, gnm_expr_copy (expr_at_risk));
+			dao_set_cell_array_expr (dao, 1, 2+row, gnm_expr_copy (expr_deaths));
 			if (expr_censures != NULL)
 				dao_set_cell_array_expr (dao, 2, 2+row, gnm_expr_copy (expr_censures));
 			dao_set_cell_array_expr (dao, prob_col, 2+row, gnm_expr_copy (expr_prob)); 

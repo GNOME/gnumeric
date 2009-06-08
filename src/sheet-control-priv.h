@@ -9,7 +9,7 @@ G_BEGIN_DECLS
 struct _SheetControl {
 	GObject object;
 
-	SheetView     	*view;
+	SheetView	*view;
 	WorkbookControl *wbc;
 };
 

@@ -700,7 +700,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 		/* The set of regions that do not interset with b or
 		 * its predecessors */
 		GSList *clear = NULL;
-		GnmRange *tmp, *b = range_dup (r);
+		GnmRange *tmp, *b = gnm_range_dup (r);
 
 		if (allow_intersection) {
 			proposed = g_slist_prepend (proposed, b);
@@ -811,7 +811,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 					}
 					if (a->start.col != b->start.col) {
 						/* Split existing range */
-						tmp = range_dup (a);
+						tmp = gnm_range_dup (a);
 						tmp->end.col = b->start.col - 1;
 						clear = g_slist_prepend (clear, tmp);
 					}
@@ -839,7 +839,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 				case 3 : /* overlap top */
 					/* Split region */
 					if (b->start.row > 0) {
-						tmp = range_dup (a);
+						tmp = gnm_range_dup (a);
 						tmp->start.col = b->start.col;
 						tmp->end.row = b->start.row - 1;
 						clear = g_slist_prepend (clear, tmp);
@@ -854,7 +854,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 				case 1 : /* overlap bottom */
 					/* Split region */
 					if (b->end.row < gnm_sheet_get_last_row (sv->sheet)) {
-						tmp = range_dup (a);
+						tmp = gnm_range_dup (a);
 						tmp->start.col = b->start.col;
 						tmp->start.row = b->end.row + 1;
 						clear = g_slist_prepend (clear, tmp);
@@ -895,7 +895,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 					}
 					if (a->start.row != b->start.row) {
 						/* Split region */
-						tmp = range_dup (a);
+						tmp = gnm_range_dup (a);
 						tmp->end.row = b->start.row - 1;
 						clear = g_slist_prepend (clear, tmp);
 					}
@@ -920,7 +920,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 
 				case 3 : /* overlap top */
 					/* Split region */
-					tmp = range_dup (a);
+					tmp = gnm_range_dup (a);
 					tmp->end.col = b->end.col;
 					tmp->end.row = b->start.row - 1;
 					clear = g_slist_prepend (clear, tmp);
@@ -933,7 +933,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 
 				case 1 : /* overlap bottom */
 					/* Split region */
-					tmp = range_dup (a);
+					tmp = gnm_range_dup (a);
 					tmp->end.col = b->end.col;
 					tmp->start.row = b->end.row + 1;
 

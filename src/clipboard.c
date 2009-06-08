@@ -605,11 +605,11 @@ clipboard_copy_range (Sheet *sheet, GnmRange const *r)
 	g_slist_foreach (objects, (GFunc)cb_dup_objects, cr);
 	g_slist_free (objects);
 
-	cr->styles = sheet_style_get_list (sheet, r);
+	cr->styles = sheet_style_get_range (sheet, r);
 
 	merged = gnm_sheet_merge_get_overlap (sheet, r);
 	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
-		GnmRange *tmp = range_dup (ptr->data);
+		GnmRange *tmp = gnm_range_dup (ptr->data);
 		range_translate (tmp, sheet, -r->start.col, -r->start.row);
 		cr->merged = g_slist_prepend (cr->merged, tmp);
 	}

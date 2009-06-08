@@ -5,6 +5,7 @@
 #include <glib.h>
 #include <goffice/app/goffice-app.h>
 #include <goffice/utils/goffice-utils.h>
+#include "goffice-utils.h" /* merge into real file when go-string moves */
 
 G_BEGIN_DECLS
 
@@ -73,8 +74,8 @@ typedef enum {
 typedef struct _GnmRenderedValue	GnmRenderedValue;
 typedef struct _GnmRenderedRotatedValue	GnmRenderedRotatedValue;
 
-typedef GSList 				GnmExprList;
-typedef union  _GnmExpr	 		GnmExpr;
+typedef GSList				GnmExprList;
+typedef union  _GnmExpr			GnmExpr;
 typedef struct _GnmExprConstant		GnmExprConstant;
 typedef struct _GnmExprFunction		GnmExprFunction;
 typedef struct _GnmExprUnary		GnmExprUnary;
@@ -97,21 +98,21 @@ typedef struct _GnmNamedExprCollection	GnmNamedExprCollection;
 typedef struct _GnmPasteTarget		GnmPasteTarget;
 typedef struct _GnmCellRegion		GnmCellRegion;
 
-typedef struct _ColRowInfo	 	ColRowInfo;
+typedef struct _ColRowInfo		ColRowInfo;
 typedef struct _ColRowCollection	ColRowCollection;
-typedef struct _ColRowSegment	 	ColRowSegment;
-typedef GSList  			ColRowVisList;
-typedef GSList  			ColRowStateGroup;
-typedef GSList  			ColRowStateList;
-typedef GList   			ColRowIndexList;
+typedef struct _ColRowSegment		ColRowSegment;
+typedef GSList				ColRowVisList;
+typedef GSList				ColRowStateGroup;
+typedef GSList				ColRowStateList;
+typedef GList				ColRowIndexList;
 typedef struct _ColRowIndexSet          ColRowIndexSet;
 
-typedef struct _GnmFont	        	GnmFont;
-typedef struct _GnmFontMetrics        	GnmFontMetrics;
+typedef struct _GnmFont			GnmFont;
+typedef struct _GnmFontMetrics		GnmFontMetrics;
 typedef struct _GnmColor	        GnmColor;
 typedef struct _GnmBorder	        GnmBorder;
 typedef struct _GnmStyle		GnmStyle;
-typedef struct _GnmStyleRow        	GnmStyleRow;
+typedef struct _GnmStyleRow		GnmStyleRow;
 typedef GSList				GnmStyleList;
 typedef struct _GnmStyleRegion	        GnmStyleRegion;
 typedef struct _GnmStyleConditions	GnmStyleConditions;
@@ -156,7 +157,7 @@ typedef struct _GnmCellIter GnmCellIter;
 typedef GnmValue *(*CellIterFunc) (GnmCellIter const *iter, gpointer user);
 
 typedef enum {
-	GNM_SPANCALC_SIMPLE 	= 0x0,	/* Just calc spans */
+	GNM_SPANCALC_SIMPLE	= 0x0,	/* Just calc spans */
 	GNM_SPANCALC_RESIZE	= 0x1,	/* Calculate sizes of all cells */
 	GNM_SPANCALC_RE_RENDER	= 0x2,	/* Render and Size all cells */
 	GNM_SPANCALC_RENDER	= 0x4,	/* Render and Size any unrendered cells */
@@ -169,8 +170,6 @@ typedef enum {
 	GNM_EXPR_EVAL_PERMIT_EMPTY	= 0x2
 } GnmExprEvalFlags;
 
-typedef struct _GnmString 	        GnmString;
-
 typedef struct _XmlParseContext		XmlParseContext;
 
 typedef struct _GnmSortData		GnmSortData;
@@ -181,6 +180,7 @@ typedef struct _GnmFilter		GnmFilter;
 typedef struct _GnmFilterCondition	GnmFilterCondition;
 typedef struct _GnmHLink		GnmHLink;
 typedef struct _GnmInputMsg		GnmInputMsg;
+typedef struct _GnmSheetSlicer		GnmSheetSlicer;
 
 typedef struct _PrintInformation        PrintInformation;
 typedef struct _SolverParameters	SolverParameters;

@@ -20,12 +20,12 @@
 #include "workbook-priv.h"
 #include "expr.h"
 #include "expr-impl.h"
-#include "str.h"
 #include "sheet.h"
 #include "ranges.h"
 #include "gutils.h"
 #include "sheet-style.h"
 
+#include <go-string.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-locale.h>
 
@@ -241,7 +241,7 @@ gnm_named_expr_collection_insert (GnmNamedExprCollection const *scope,
 	 * placeholder, or changing a scope */
 	nexpr->active = TRUE;
 	g_hash_table_replace (nexpr->is_placeholder
-	      ? scope->placeholders : scope->names, nexpr->name->str, nexpr);
+	      ? scope->placeholders : scope->names, (gpointer)nexpr->name->str, nexpr);
 }
 
 typedef struct {
@@ -397,7 +397,7 @@ expr_name_new (char const *name, gboolean is_placeholder)
 
 	nexpr->ref_count	= 1;
 	nexpr->active		= FALSE;
-	nexpr->name		= gnm_string_get (name);
+	nexpr->name		= go_string_new (name);
 	nexpr->texpr		= NULL;
 	nexpr->dependents	= NULL;
 	nexpr->is_placeholder	= is_placeholder;
@@ -557,8 +557,8 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 		if (stub != NULL) {
 			nexpr = stub;
 			stub->is_placeholder = FALSE;
-			gnm_string_unref (stub->name);
-			stub->name = gnm_string_get (name);
+			go_string_unref (stub->name);
+			stub->name = go_string_new (name);
 		} else
 			nexpr = expr_name_new (name, texpr == NULL);
 	}
@@ -593,7 +593,7 @@ expr_name_unref (GnmNamedExpr *nexpr)
 	g_return_if_fail (!nexpr->active);
 
 	if (nexpr->name) {
-		gnm_string_unref (nexpr->name);
+		go_string_unref (nexpr->name);
 		nexpr->name = NULL;
 	}
 

@@ -40,7 +40,7 @@ gboolean gnm_pane_rangesel_bound_set	   (GnmPane *pane, GnmRange const *r);
 void	 gnm_pane_rangesel_start	   (GnmPane *pane, GnmRange const *r);
 void	 gnm_pane_rangesel_stop		   (GnmPane *pane);
 gboolean gnm_pane_special_cursor_bound_set (GnmPane *pane, GnmRange const *r);
-void	 gnm_pane_special_cursor_start 	   (GnmPane *pane, int style, int button);
+void	 gnm_pane_special_cursor_start	   (GnmPane *pane, int style, int button);
 void	 gnm_pane_special_cursor_stop	   (GnmPane *pane);
 void	 gnm_pane_mouse_cursor_set         (GnmPane *pane, GdkCursor *c);
 void	 gnm_pane_expr_cursor_bound_set    (GnmPane *pane, GnmRange const *r);
@@ -113,7 +113,7 @@ void gnm_pane_window_to_coord   (GnmPane *pane,
  * Convert an x position from world coordinates to canvas coordinates,
  * taking into account sheet right to left text setting.
  */
-#define gnm_pane_x_w2c(pane,x) 	(scg_sheet ((pane)->simple.scg)->text_is_rtl) ? \
+#define gnm_pane_x_w2c(pane,x) (scg_sheet ((pane)->simple.scg)->text_is_rtl) ? \
 	gnm_foo_canvas_x_w2c ((FooCanvas *) (pane), (x)) : (x)
 
 G_END_DECLS

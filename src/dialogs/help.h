@@ -84,7 +84,7 @@
 #define GNUMERIC_HELP_LINK_DATA_MERGE "sect-data-generate"
 
 /* dialog-pivottable.c         */
-#define GNUMERIC_HELP_LINK_PIVOT_TABLE ""
+#define GNUMERIC_HELP_LINK_DATA_SLICER "sect-data-slicer-config"
 
 /* dialog-plugin-manager.c     */
 #define GNUMERIC_HELP_LINK_PLUGIN_MANAGER "sect-configuring-plugins"

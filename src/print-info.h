@@ -142,15 +142,13 @@ char const *unit_to_unit_name (GtkUnit unit);
 void        print_init               (void);
 void        print_shutdown           (void);
 
-gboolean    page_setup_set_paper	(GtkPageSetup *page_setup, char const *paper);
-gboolean    print_info_set_paper     	   (PrintInformation *pi, char const *paper);
+gboolean    page_setup_set_paper (GtkPageSetup *page_setup, char const *paper);
+char	   *page_setup_get_paper (GtkPageSetup *page_setup); /* caller frees result */
+gboolean    print_info_set_paper (PrintInformation *pi, char const *paper);
+char       *print_info_get_paper (PrintInformation *pi); /* caller frees result */
+
 void	    print_info_set_paper_orientation   (PrintInformation *pi,
 						GtkPageOrientation orientation);
-char 	   *page_setup_get_paper (GtkPageSetup *page_setup);
-/* Note that the string returned by page_setup_get_paper must be freed */
-char       *print_info_get_paper     	   (PrintInformation *pi);
-/* Note that the string returned by print_info_get_paper must be freed */
-
 char const *print_info_get_paper_display_name (PrintInformation *pi);
 
 double      print_info_get_paper_width     (PrintInformation *pi, GtkUnit unit);

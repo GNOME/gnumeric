@@ -17,8 +17,8 @@
 #include "style-conditions.h"
 #include "application.h"
 #include "gutils.h"
-#include "str.h"
 #include "gnumeric-gconf.h"
+#include <go-string.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-font.h>
 
@@ -354,7 +354,7 @@ elem_assign_contents (GnmStyle *dst, GnmStyle const *src, GnmStyleElement elem)
 		return;
 	case MSTYLE_PATTERN:		dst->pattern = src->pattern; return;
 	case MSTYLE_FONT_COLOR :	style_color_ref (dst->color.font = src->color.font); return;
-	case MSTYLE_FONT_NAME:		gnm_string_ref (dst->font_detail.name = src->font_detail.name); return;
+	case MSTYLE_FONT_NAME:		go_string_ref (dst->font_detail.name = src->font_detail.name); return;
 	case MSTYLE_FONT_BOLD:		dst->font_detail.bold = src->font_detail.bold; return;
 	case MSTYLE_FONT_ITALIC:	dst->font_detail.italic = src->font_detail.italic; return;
 	case MSTYLE_FONT_UNDERLINE:	dst->font_detail.underline = src->font_detail.underline; return;
@@ -408,7 +408,7 @@ elem_clear_contents (GnmStyle *style, GnmStyleElement elem)
 		gnm_style_border_unref (style->borders[elem - MSTYLE_BORDER_TOP]);
 		return;
 	case MSTYLE_FONT_COLOR :	style_color_unref (style->color.font); return;
-	case MSTYLE_FONT_NAME:		gnm_string_unref (style->font_detail.name); return;
+	case MSTYLE_FONT_NAME:		go_string_unref (style->font_detail.name); return;
 	case MSTYLE_FORMAT:		go_format_unref (style->format); return;
 	case MSTYLE_VALIDATION:
 		if (style->validation)
@@ -1150,10 +1150,10 @@ gnm_style_set_font_name (GnmStyle *style, char const *name)
 
 	elem_changed (style, MSTYLE_FONT_NAME);
 	if (elem_is_set (style, MSTYLE_FONT_NAME))
-		gnm_string_unref (style->font_detail.name);
+		go_string_unref (style->font_detail.name);
 	else
 		elem_set (style, MSTYLE_FONT_NAME);
-	style->font_detail.name = gnm_string_get (name);
+	style->font_detail.name = go_string_new (name);
 	gnm_style_clear_font (style);
 	gnm_style_clear_pango (style);
 }

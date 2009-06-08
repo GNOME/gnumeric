@@ -42,6 +42,7 @@
 #include <commands.h>
 #include <widgets/gnumeric-expr-entry.h>
 
+#include <go-string.h>
 #include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <string.h>

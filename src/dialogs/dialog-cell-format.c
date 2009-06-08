@@ -34,7 +34,6 @@
 #include <style-color.h>
 #include <gui-util.h>
 #include <selection.h>
-#include <str.h>
 #include <ranges.h>
 #include <cell.h>
 #include <expr.h>
@@ -53,6 +52,8 @@
 #include <widgets/widget-font-selector.h>
 #include <widgets/gnumeric-dashed-canvas-line.h>
 #include <widgets/gnm-format-sel.h>
+
+#include <go-string.h>
 #include <goffice/gtk/go-combo-color.h>
 #include <goffice/gtk/go-combo-box.h>
 #include <goffice/gtk/go-combo-text.h>

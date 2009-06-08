@@ -67,7 +67,7 @@ typedef enum {
 
 typedef struct {
 	GnmCellPos           lhs;		/* left hand side */
-	GnmCellPos           rhs;  		/* right hand side */
+	GnmCellPos           rhs;		/* right hand side */
 	gint                 rows;              /* number of rows */
 	gint                 cols;              /* number of columns */
 	SolverConstraintType type;	        /* <=, =, >=, int, bool */
@@ -233,7 +233,7 @@ void             solver_results_free   (SolverResults *res);
 
 /* Returns a pointer to the target cell of the model attached to the
  * given sheet. */
-GnmCell      	*solver_get_target_cell (Sheet *sheet);
+GnmCell		*solver_get_target_cell (Sheet *sheet);
 
 /* Returns a pointer to a input variable cell. */
 GnmCell		*solver_get_input_var (SolverResults *res, int n);

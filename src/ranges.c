@@ -54,6 +54,16 @@ range_init_cols (GnmRange *r, Sheet const *sheet, int start_col, int end_col)
 }
 
 GnmRange *
+range_init_invalid (GnmRange *r)
+{
+	r->start.col = -1;
+	r->start.row = -1;
+	r->end.col = -2;
+	r->end.row = -2;
+	return r;
+}
+
+GnmRange *
 range_init_rows (GnmRange *r, Sheet const *sheet, int start_row, int end_row)
 {
 	r->start.col = 0;
@@ -411,7 +421,7 @@ range_split_ranges (GnmRange const *hard, GnmRange const *soft)
 }
 
 /**
- * range_dup:
+ * gnm_range_dup:
  * @a: Source range to copy
  *
  * Copies the @a range.
@@ -419,7 +429,7 @@ range_split_ranges (GnmRange const *hard, GnmRange const *soft)
  * Return value: A copy of the GnmRange.
  **/
 GnmRange *
-range_dup (GnmRange const *a)
+gnm_range_dup (GnmRange const *a)
 {
 	GnmRange *r = g_new (GnmRange, 1);
 	*r = *a;
@@ -1142,4 +1152,16 @@ global_range_contained (Sheet const *sheet, GnmValue const *a, GnmValue const *b
 		return FALSE;
 
 	return TRUE;
+}
+
+GType
+gnm_range_get_type (void)
+{
+	static GType t = 0;
+
+	if (t == 0)
+		t = g_boxed_type_register_static ("GnmRange",
+			 (GBoxedCopyFunc)gnm_range_dup,
+			 (GBoxedFreeFunc)g_free);
+	return t;
 }

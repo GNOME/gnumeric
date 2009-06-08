@@ -529,21 +529,19 @@ popup_item_activate (GtkWidget *item, gpointer *user_data)
 		gtk_widget_destroy (gtk_widget_get_toplevel (item));
 }
 
-static void
-gnumeric_create_popup_menu_list (GSList *elements,
-				 GnumericPopupMenuHandler handler,
-				 gpointer user_data,
-				 int display_filter,
-				 int sensitive_filter,
-				 GdkEventButton *event)
+void
+gnumeric_create_popup_menu (GnumericPopupMenuElement const *element,
+			    GnumericPopupMenuHandler handler,
+			    gpointer user_data,
+			    int display_filter, int sensitive_filter,
+			    GdkEventButton *event)
 {
-	GtkWidget *menu, *item;
 	char const *trans;
+	GSList *menu_stack = NULL;
+	GtkWidget *menu, *item;
 
 	menu = gtk_menu_new ();
-
-	for (; elements != NULL ; elements = elements->next) {
-		GnumericPopupMenuElement const *element = elements->data;
+	for (; NULL != element->name ; element++) {
 		char const * const name = element->name;
 		char const * const pix_name = element->pixmap;
 
@@ -567,13 +565,13 @@ gnumeric_create_popup_menu_list (GSList *elements,
 					GTK_IMAGE_MENU_ITEM (item),
 					image);
 			}
-		} else {
+		} else if (element->index >= 0) {
 			/* separator */
 			item = gtk_menu_item_new ();
 			gtk_widget_set_sensitive (item, FALSE);
 		}
 
-		if (element->index != 0) {
+		if (element->index > 0) {
 			g_signal_connect (G_OBJECT (item),
 				"activate",
 				G_CALLBACK (&popup_item_activate), user_data);
@@ -582,31 +580,22 @@ gnumeric_create_popup_menu_list (GSList *elements,
 			g_object_set_data (
 				G_OBJECT (item), "handler", (gpointer)handler);
 		}
-
-		gtk_widget_show (item);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+		if (NULL != item) {
+			gtk_widget_show (item);
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+		}
+	      	if (element->index < 0) {
+			if (NULL != item) {
+				menu_stack = g_slist_prepend (menu_stack, menu);
+				menu = gtk_menu_new ();
+				gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), menu);
+			} else {
+				menu = menu_stack->data;
+				menu_stack = g_slist_remove (menu_stack, menu);
+			}
+		}
 	}
-
 	gnumeric_popup_menu (GTK_MENU (menu), event);
-}
-
-void
-gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
-			    GnumericPopupMenuHandler handler,
-			    gpointer user_data,
-			    int display_filter, int sensitive_filter,
-			    GdkEventButton *event)
-{
-	int i;
-	GSList *tmp = NULL;
-
-	for (i = 0; elements [i].name != NULL; i++)
-		tmp = g_slist_prepend (tmp, (gpointer)(elements + i));
-
-	tmp = g_slist_reverse (tmp);
-	gnumeric_create_popup_menu_list (tmp, handler, user_data,
-		display_filter, sensitive_filter, event);
-	g_slist_free (tmp);
 }
 
 /**

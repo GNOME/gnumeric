@@ -3,6 +3,7 @@
 # define _GNM_RANGES_H_
 
 #include "gnumeric.h"
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 
@@ -20,8 +21,10 @@ G_BEGIN_DECLS
 			    (a)->start.col == (b)->start.col && \
 			    (a)->end.col   == (b)->end.col)
 
-gboolean gnm_range_equal (const GnmRange *a, const GnmRange *b);
-guint gnm_range_hash (const GnmRange *r);
+GType	  gnm_range_get_type (void); /* GBoxedType */
+GnmRange *gnm_range_dup	  (GnmRange const *r);
+gboolean  gnm_range_equal (GnmRange const *a, GnmRange const *b);
+guint	  gnm_range_hash  (GnmRange const *r);
 
 /**
  * range_overlap:
@@ -63,6 +66,7 @@ GnmRange   *range_init_cols   	    (GnmRange *r, Sheet const *sheet,
 				     int start_col, int end_col);
 GnmRange   *range_init_rows         (GnmRange *r, Sheet const *sheet,
 				     int start_row, int end_row);
+GnmRange   *range_init_invalid	    (GnmRange *r);
 GnmRange   *range_init_rangeref	    (GnmRange *r, GnmRangeRef const *rr);
 GnmRange   *range_init_value	    (GnmRange *r, GnmValue const *v);
 GnmRange   *range_init_cellpos	    (GnmRange *r, GnmCellPos const *pos);
@@ -95,7 +99,6 @@ gboolean    range_transpose     (GnmRange *range, Sheet const *sheet,
 
 char const *range_as_string	(GnmRange const *r);
 void        range_dump		(GnmRange const *r, char const *suffix);
-GnmRange   *range_dup		(GnmRange const *r);
 
 GSList     *range_split_ranges    (GnmRange const *hard, GnmRange const *soft);
 GSList     *range_fragment        (GnmRange const *a, GnmRange const *b);
@@ -106,9 +109,9 @@ void           gnm_sheet_range_free       (GnmSheetRange *r);
 gboolean       gnm_sheet_range_from_value (GnmSheetRange *r, GnmValue const *v);
 gboolean       gnm_sheet_range_overlap    (GnmSheetRange const *a, GnmSheetRange const *b);
 GnmSheetRange *gnm_sheet_range_dup	  (GnmSheetRange const *sr);
-gboolean       gnm_sheet_range_equal      (const GnmSheetRange *a,
-					   const GnmSheetRange *b);
-guint          gnm_sheet_range_hash       (const GnmSheetRange *sr);
+gboolean       gnm_sheet_range_equal      (GnmSheetRange const *a,
+					   GnmSheetRange const *b);
+guint          gnm_sheet_range_hash       (GnmSheetRange const *sr);
 
 char	      *global_range_name	  (Sheet const *sheet, GnmRange const *r);
 char	      *undo_cell_pos_name	  (Sheet const *sheet, GnmCellPos const *pos);

@@ -27,7 +27,6 @@
 #include "value.h"
 #include "cell.h"
 #include "sheet.h"
-#include "str.h"
 #include "expr.h"
 #include "expr-impl.h"
 #include "expr-name.h"
@@ -38,8 +37,9 @@
 #include "gutils.h"
 #include "sheet-view.h"
 
-#include <string.h>
+#include <go-string.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <string.h>
 
 static void dependent_changed (GnmDependent *dep);
 

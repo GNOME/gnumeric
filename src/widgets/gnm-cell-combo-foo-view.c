@@ -48,7 +48,7 @@ ccombo_create_arrow (GnmCComboFooView *ccombo, SheetObject *so)
 	return (iface->create_arrow) (so);
 }
 
-static void
+static gboolean
 ccombo_activate (GtkWidget *popup, GtkTreeView *list)
 {
 	SheetObjectView		*sov    = g_object_get_data (G_OBJECT (list), SOV_ID);
@@ -56,17 +56,21 @@ ccombo_activate (GtkWidget *popup, GtkTreeView *list)
 	GnmPane			*pane   = GNM_PANE (view->canvas);
 	GnmCComboFooViewIface	*iface  = GNM_CCOMBO_FOO_VIEW_GET_CLASS (sov);
 
-	(iface->activate) (sheet_object_view_get_so (sov), popup, list,
-			   scg_wbcg (pane->simple.scg));
-	ccombo_popup_destroy (popup, GTK_WIDGET (list));
+	if ((iface->activate) (sheet_object_view_get_so (sov), popup, list,
+			      scg_wbcg (pane->simple.scg)))
+	{
+		ccombo_popup_destroy (popup, GTK_WIDGET (list));
+		return TRUE;
+	}
+	return FALSE;
 }
 
-static GtkListStore *
-ccombo_fill_model (GnmCComboFooView *ccombo,
-		   SheetObject *so, GtkTreePath **clip, GtkTreePath **select)
+static GtkWidget *
+ccombo_create_list (GnmCComboFooView *ccombo,
+		    SheetObject *so, GtkTreePath **clip, GtkTreePath **select)
 {
 	GnmCComboFooViewIface *iface = GNM_CCOMBO_FOO_VIEW_GET_CLASS (ccombo);
-	return (iface->fill_model) (so, clip, select);
+	return (iface->create_list) (so, clip, select);
 }
 
 /****************************************************************************/
@@ -235,10 +239,9 @@ cb_ccombo_button_release (GtkWidget *popup, GdkEventButton *event,
 			  GtkTreeView *list)
 {
 	if (event->button == 1) {
-	    if (gtk_get_event_widget ((GdkEvent *) event) == GTK_WIDGET (list)) {
-		    ccombo_activate (popup, list);
-		    return TRUE;
-	    }
+	    if (gtk_get_event_widget ((GdkEvent *) event) == GTK_WIDGET (list))
+		    return ccombo_activate (popup, list);
+
 	    g_signal_handlers_disconnect_by_func (popup,
 			G_CALLBACK (cb_ccombo_popup_motion), list);
 	    ccombo_autoscroll_set (G_OBJECT (list), 0);
@@ -270,8 +273,6 @@ gnm_cell_combo_foo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	Sheet const	   *sheet  = sheet_object_get_sheet (so);
 	GtkWidget *frame,  *popup, *list, *container;
 	int root_x, root_y;
-	GtkListStore  *model;
-	GtkTreeViewColumn *column;
 	GtkTreePath	  *clip = NULL, *select = NULL;
 	GtkRequisition	req;
 	GtkWindow *toplevel = wbcg_toplevel (scg_wbcg (scg));
@@ -285,14 +286,9 @@ gnm_cell_combo_foo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	gtk_window_set_screen (GTK_WINDOW (popup),
 		gtk_widget_get_screen (GTK_WIDGET (toplevel)));
 
-	model = ccombo_fill_model (GNM_CCOMBO_FOO_VIEW (sov), so, &clip, &select);
-	column = gtk_tree_view_column_new_with_attributes ("ID",
-		gtk_cell_renderer_text_new (), "text", 0,
-		NULL);
-	list = gtk_tree_view_new_with_model (GTK_TREE_MODEL (model));
-	g_object_unref (model);
+	list = ccombo_create_list (GNM_CCOMBO_FOO_VIEW (sov), so, &clip, &select);
+
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (list), FALSE);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (list), column);
 	gtk_widget_size_request (GTK_WIDGET (list), &req);
 	g_object_set_data (G_OBJECT (list), SOV_ID, sov);
 
@@ -346,7 +342,7 @@ gnm_cell_combo_foo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 		G_CALLBACK (cb_ccombo_key_press), list);
 	g_signal_connect (popup, "button_press_event",
 		G_CALLBACK (cb_ccombo_button_press), list);
-	g_signal_connect (popup, "button_release_event",
+	g_signal_connect_after (popup, "button_release_event",
 		G_CALLBACK (cb_ccombo_button_release), list);
 	g_signal_connect (list, "motion_notify_event",
 		G_CALLBACK (cb_ccombo_list_motion), list);

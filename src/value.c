@@ -17,23 +17,23 @@
 #include "parse-util.h"
 #include "style.h"
 #include "gnm-format.h"
-#include "str.h"
 #include "position.h"
 #include "mathfunc.h"
 #include "gutils.h"
 #include "workbook.h"
 #include "expr.h"
+#include <ranges.h>
+#include <sheet.h>
+#include <cell.h>
+#include <number-match.h>
+#include <go-string.h>
+#include <goffice/utils/go-glib-extras.h>
+#include <goffice/utils/go-locale.h>
 
 #include <stdlib.h>
 #include <errno.h>
 #include <math.h>
 #include <string.h>
-#include <ranges.h>
-#include <sheet.h>
-#include <cell.h>
-#include <number-match.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-locale.h>
 
 #ifndef USE_VALUE_POOLS
 #ifdef HAVE_G_SLICE_ALLOC
@@ -66,7 +66,7 @@ static int value_allocations = 0;
 static struct {
 	char const *C_name;
 	char const *locale_name;
-	GnmString *locale_name_str;
+	GOString *locale_name_str;
 } standard_errors[] = {
 	{ N_("#NULL!"), NULL, NULL },
 	{ N_("#DIV/0!"), NULL, NULL },
@@ -122,17 +122,17 @@ value_new_error (GnmEvalPos const *ep, char const *mesg)
 	GnmValueErr *v = CHUNK_ALLOC (GnmValueErr, value_error_pool);
 	*((GnmValueType *)&(v->type)) = VALUE_ERROR;
 	v->fmt = NULL;
-	v->mesg = gnm_string_get (mesg);
+	v->mesg = go_string_new (mesg);
 	return (GnmValue *)v;
 }
 
 GnmValue *
-value_new_error_str (GnmEvalPos const *ep, GnmString *mesg)
+value_new_error_str (GnmEvalPos const *ep, GOString *mesg)
 {
 	GnmValueErr *v = CHUNK_ALLOC (GnmValueErr, value_error_pool);
 	*((GnmValueType *)&(v->type)) = VALUE_ERROR;
 	v->fmt = NULL;
-	v->mesg = gnm_string_ref (mesg);
+	v->mesg = go_string_ref (mesg);
 	return (GnmValue *)v;
 }
 
@@ -237,7 +237,7 @@ value_error_classify (GnmValue const *v)
 
 /* NOTE : absorbs the reference */
 GnmValue *
-value_new_string_str (GnmString *str)
+value_new_string_str (GOString *str)
 {
 	GnmValueStr *v = CHUNK_ALLOC (GnmValueStr, value_string_pool);
 	*((GnmValueType *)&(v->type)) = VALUE_STRING;
@@ -249,13 +249,13 @@ value_new_string_str (GnmString *str)
 GnmValue *
 value_new_string (char const *str)
 {
-	return value_new_string_str (gnm_string_get (str));
+	return value_new_string_str (go_string_new (str));
 }
 
 GnmValue *
 value_new_string_nocopy (char *str)
 {
-	return value_new_string_str (gnm_string_get_nocopy (str));
+	return value_new_string_str (go_string_new_nocopy (str));
 }
 
 GnmValue *
@@ -531,7 +531,8 @@ value_new_from_string (GnmValueType t, char const *str, GOFormat *sf,
 void
 value_release (GnmValue *value)
 {
-	g_return_if_fail (value != NULL);
+	if (NULL == value)
+		return;
 
 	if (VALUE_FMT (value) != NULL)
 		go_format_unref ((GOFormat *)VALUE_FMT (value));
@@ -553,12 +554,12 @@ value_release (GnmValue *value)
 			return;
 		}
 
-		gnm_string_unref (value->v_err.mesg);
+		go_string_unref (value->v_err.mesg);
 		CHUNK_FREE (value_error_pool, &value->v_err);
 		return;
 
 	case VALUE_STRING:
-		gnm_string_unref (value->v_str.val);
+		go_string_unref (value->v_str.val);
 		CHUNK_FREE (value_string_pool, &value->v_str);
 		return;
 
@@ -627,7 +628,7 @@ value_dup (GnmValue const *src)
 		break;
 
 	case VALUE_STRING:
-		gnm_string_ref (src->v_str.val);
+		go_string_ref (src->v_str.val);
 		res = value_new_string_str (src->v_str.val);
 		break;
 
@@ -697,10 +698,10 @@ value_equal (GnmValue const *a, GnmValue const *b)
 		return a->v_bool.val == b->v_bool.val;
 
 	case VALUE_STRING:
-		return a->v_str.val == b->v_str.val;
+		return go_string_equal (a->v_str.val, b->v_str.val);
 
 	case VALUE_ERROR:
-		return a->v_err.mesg == b->v_err.mesg;
+		return go_string_equal (a->v_err.mesg, b->v_err.mesg);
 
 	case VALUE_FLOAT:
 		return a->v_float.val == b->v_float.val;
@@ -741,10 +742,10 @@ value_hash (GnmValue const *v)
 		return v->v_bool.val ? 0x555aaaa : 0xaaa5555;
 
 	case VALUE_STRING:
-		return g_str_hash (v->v_str.val->str);
+		return go_string_hash (v->v_str.val);
 
 	case VALUE_ERROR:
-		return g_str_hash (v->v_err.mesg->str);
+		return go_string_hash (v->v_err.mesg);
 
 	case VALUE_FLOAT: {
 		int expt;
@@ -841,6 +842,16 @@ value_get_as_checked_bool (GnmValue const *v)
 	return result;
 }
 
+/**
+ * value_get_as_gstring:
+ * @v : #GnmValue
+ * @target : #GString
+ * @conv : #GnmConventions
+ *
+ * A simple value formatter to convert @v into a string stored in @target
+ * according to @conv.  See format_value_gstring for something more elaborate
+ * that handles formats too.
+ **/
 void
 value_get_as_gstring (GnmValue const *v, GString *target,
 		      GnmConventions const *conv)
@@ -1175,11 +1186,9 @@ value_diff (GnmValue const *a, GnmValue const *b)
 
 		/* If both are strings compare as string */
 		case VALUE_STRING :
-		{
-			gint t = g_utf8_collate (a->v_str.val->str, b->v_str.val->str);
-			if (t == 0)
+			if (go_string_equal (a->v_str.val, b->v_str.val))
 				return 0.;
-		}
+
 		case VALUE_FLOAT: case VALUE_BOOLEAN:
 		default :
 			return DBL_MAX;
@@ -1234,6 +1243,7 @@ GnmValDiff
 value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
 {
 	GnmValueType ta, tb;
+	int t;
 
 	/* Handle trivial and double NULL case */
 	if (a == b)
@@ -1259,27 +1269,16 @@ value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
 
 		/* If both are strings compare as string */
 		case VALUE_STRING :
-		{
-			gint t;
-
-			if (case_sensitive) {
-				t = g_utf8_collate (a->v_str.val->str, b->v_str.val->str);
-			} else {
-				char *str_a = g_utf8_casefold (a->v_str.val->str, -1);
-				char *str_b = g_utf8_casefold (b->v_str.val->str, -1);
-
-				t = g_utf8_collate (str_a, str_b);
-				g_free (str_a);
-				g_free (str_b);
-			}
-
-			if (t == 0)
-				return IS_EQUAL;
-			else if (t > 0)
+			t = case_sensitive
+				? go_string_cmp (a->v_str.val, b->v_str.val)
+				: go_string_cmp_ignorecase (a->v_str.val, b->v_str.val);
+			if (t > 0)
 				return IS_GREATER;
-			else
+			else if (t < 0)
 				return IS_LESS;
-		}
+			else
+				return IS_EQUAL;
+
 		default :
 			return TYPE_MISMATCH;
 		}
@@ -1809,7 +1808,7 @@ value_init (void)
 	for (i = 0; i < G_N_ELEMENTS (standard_errors); i++) {
 		standard_errors[i].locale_name = _(standard_errors[i].C_name);
 		standard_errors[i].locale_name_str =
-			gnm_string_get (standard_errors[i].locale_name);
+			go_string_new (standard_errors[i].locale_name);
 	}
 
 #if USE_VALUE_POOLS
@@ -1846,7 +1845,7 @@ value_shutdown (void)
 	size_t i;
 
 	for (i = 0; i < G_N_ELEMENTS (standard_errors); i++) {
-		gnm_string_unref (standard_errors[i].locale_name_str);
+		go_string_unref (standard_errors[i].locale_name_str);
 		standard_errors[i].locale_name_str = NULL;
 	}
 

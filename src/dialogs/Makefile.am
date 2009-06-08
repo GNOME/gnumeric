@@ -39,6 +39,7 @@ base_files =					\
 	dialog-col-width.c			\
 	dialog-col-row.c			\
 	dialog-consolidate.c			\
+	dialog-data-slicer.c			\
 	dialog-data-table.c			\
 	dialog-fill-series.c			\
 	dialog-function-select.c		\
@@ -107,6 +108,7 @@ glade_DATA = 				\
 	correlation.glade		\
 	covariance.glade		\
 	dao.glade			\
+	data-slicer.glade		\
 	data-table.glade		\
 	define-name.glade		\
 	delete-cells.glade		\

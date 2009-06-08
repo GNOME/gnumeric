@@ -14,14 +14,14 @@ typedef enum {
 } GnmStyleBorderOrientation;
 
 typedef enum {
- 	GNM_STYLE_BORDER_NONE			= 0x0,
- 	GNM_STYLE_BORDER_THIN			= 0x1,
- 	GNM_STYLE_BORDER_MEDIUM			= 0x2,
- 	GNM_STYLE_BORDER_DASHED			= 0x3,
- 	GNM_STYLE_BORDER_DOTTED			= 0x4,
- 	GNM_STYLE_BORDER_THICK			= 0x5,
- 	GNM_STYLE_BORDER_DOUBLE			= 0x6,
- 	GNM_STYLE_BORDER_HAIR			= 0x7,
+	GNM_STYLE_BORDER_NONE			= 0x0,
+	GNM_STYLE_BORDER_THIN			= 0x1,
+	GNM_STYLE_BORDER_MEDIUM			= 0x2,
+	GNM_STYLE_BORDER_DASHED			= 0x3,
+	GNM_STYLE_BORDER_DOTTED			= 0x4,
+	GNM_STYLE_BORDER_THICK			= 0x5,
+	GNM_STYLE_BORDER_DOUBLE			= 0x6,
+	GNM_STYLE_BORDER_HAIR			= 0x7,
 	GNM_STYLE_BORDER_MEDIUM_DASH		= 0x8,
 	GNM_STYLE_BORDER_DASH_DOT			= 0x9,
 	GNM_STYLE_BORDER_MEDIUM_DASH_DOT		= 0xa,
@@ -32,7 +32,7 @@ typedef enum {
 	/* ONLY for internal use */
 	GNM_STYLE_BORDER_INCONSISTENT		= 0xe,
 
- 	GNM_STYLE_BORDER_MAX
+	GNM_STYLE_BORDER_MAX
 } GnmStyleBorderType;
 
 /* The order corresponds to the border_buttons name list
@@ -57,7 +57,7 @@ typedef enum {
 struct _GnmBorder {
 	/* Key elements */
 	GnmStyleBorderType line_type;
-	GnmColor     	*color;
+	GnmColor	*color;
 	int		 begin_margin, end_margin, width;
 
 	/* Private */

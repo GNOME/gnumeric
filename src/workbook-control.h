@@ -13,10 +13,10 @@ G_BEGIN_DECLS
 #define IS_WORKBOOK_CONTROL(o)	  (G_TYPE_CHECK_INSTANCE_TYPE ((o), WORKBOOK_CONTROL_TYPE))
 
 GType workbook_control_get_type    (void);
-void  wb_control_set_view    	   (WorkbookControl *wbc,
+void  wb_control_set_view	   (WorkbookControl *wbc,
 				    WorkbookView *optional_view,
 				    Workbook *optional_wb);
-void  wb_control_init_state  	   (WorkbookControl *wbc);
+void  wb_control_init_state	   (WorkbookControl *wbc);
 
 /* Create a new control of the same form */
 WorkbookControl *wb_control_wrapper_new (WorkbookControl *wbc,
@@ -58,7 +58,7 @@ enum {
 
 #define MS_ALL \
     (MS_INSERT_COLS | MS_INSERT_ROWS | MS_INSERT_CELLS |		    \
-     MS_SHOWHIDE_DETAIL | MS_PASTE_SPECIAL |  		    		    \
+     MS_SHOWHIDE_DETAIL | MS_PASTE_SPECIAL |				    \
      MS_PRINT_SETUP | MS_SEARCH_REPLACE | MS_DEFINE_NAME | MS_CONSOLIDATE | \
      MS_FREEZE_VS_THAW | MS_ADD_VS_REMOVE_FILTER)
 #define MS_GURU_MENU_ITEMS \

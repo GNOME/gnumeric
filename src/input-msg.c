@@ -23,14 +23,14 @@
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "input-msg.h"
-#include "str.h"
 
+#include <go-string.h>
 #include <gsf/gsf-impl-utils.h>
 
 struct _GnmInputMsg {
 	GObject obj;
-	GnmString *title;
-	GnmString *msg;
+	GOString *title;
+	GOString *msg;
 };
 
 typedef struct {
@@ -44,11 +44,11 @@ gnm_input_msg_finalize (GObject *obj)
 	GnmInputMsg *msg = (GnmInputMsg *)obj;
 
 	if (msg->title != NULL) {
-		gnm_string_unref (msg->title);
+		go_string_unref (msg->title);
 		msg->title = NULL;
 	}
 	if (msg->msg != NULL) {
-		gnm_string_unref (msg->msg);
+		go_string_unref (msg->msg);
 		msg->msg = NULL;
 	}
 
@@ -85,9 +85,9 @@ gnm_input_msg_new (char const *msg, char const *title)
 	GnmInputMsg *res = g_object_new (GNM_INPUT_MSG_TYPE, NULL);
 
 	if (msg != NULL)
-		res->msg = gnm_string_get (msg);
+		res->msg = go_string_new (msg);
 	if (title != NULL)
-		res->title = gnm_string_get (title);
+		res->title = go_string_new (title);
 
 	return res;
 }

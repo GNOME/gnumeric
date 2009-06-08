@@ -207,7 +207,6 @@
       <menuitem action="DataValidate"/>
       <menuitem action="DataConsolidate"/>
       <menuitem action="DataTable"/>
-<!--      <menuitem action="DataSlice"/> -->
       <menu name="Outline" action="MenuOutline">
         <menuitem action="DataOutlineHideDetail"/>
         <menuitem action="DataOutlineShowDetail"/>
@@ -217,6 +216,11 @@
         <menuitem action="SheetDisplayOutlines"/>
         <menuitem action="SheetOutlineBelow"/>
         <menuitem action="SheetOutlineRight"/>
+      </menu>
+      <menu name="Slicer" action="MenuSlicer">
+        <menuitem action="DataSlicer"/>
+        <menuitem action="DataSlicerRefresh"/>
+        <menuitem action="DataSlicerEdit"/>
       </menu>
       <separator/>
       <menuitem action="DataTextToColumns"/>

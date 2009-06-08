@@ -46,6 +46,7 @@
 #include "cellspan.h"
 #include "cmd-edit.h"
 #include "commands.h"
+#include "gnm-commands-slicer.h"
 #include "clipboard.h"
 #include "dialogs.h"
 #include "gui-file.h"
@@ -60,7 +61,9 @@
 #include "item-cursor.h"
 #include "widgets/gnumeric-expr-entry.h"
 #include "widgets/widget-editable-label.h"
+#include "gnm-sheet-slicer.h"
 
+#include <go-data-slicer-field.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/app/io-context.h>
@@ -1720,7 +1723,9 @@ enum {
 	CONTEXT_COMMENT_EDIT,
 	CONTEXT_HYPERLINK_EDIT,
 	CONTEXT_HYPERLINK_ADD,
-	CONTEXT_HYPERLINK_REMOVE
+	CONTEXT_HYPERLINK_REMOVE,
+	CONTEXT_DATA_SLICER_REFRESH,	/* refresh and redraw */
+	CONTEXT_DATA_SLICER_EDIT	/* prop dialog */
 };
 static gboolean
 context_menu_handler (GnumericPopupMenuElement const *element,
@@ -1730,7 +1735,7 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 	SheetControl	*sc = (SheetControl *) scg;
 	SheetView	*sv = sc->view;
 	Sheet		*sheet = sv->sheet;
-	WBCGtk *wbcg = scg->wbcg;
+	WBCGtk		*wbcg = scg->wbcg;
 	WorkbookControl *wbc = sc->wbc;
 
 	g_return_val_if_fail (element != NULL, TRUE);
@@ -1795,6 +1800,13 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 			_("Remove Hyperlink"));
 		break;
 	}
+	case CONTEXT_DATA_SLICER_REFRESH :
+		cmd_slicer_refresh (wbc);
+		break;
+	case CONTEXT_DATA_SLICER_EDIT :
+		dialog_data_slicer (wbcg, FALSE);
+		break;
+
 	default :
 		break;
 	}
@@ -1805,14 +1817,18 @@ void
 scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		  gboolean is_col, gboolean is_row)
 {
-	Sheet *sheet = scg_sheet (scg);
+	SheetView *sv	 = scg_view (scg);
+	Sheet	  *sheet = sv_sheet (sv);
 
 	enum {
-		CONTEXT_DISPLAY_FOR_CELLS = 1,
-		CONTEXT_DISPLAY_FOR_ROWS = 2,
-		CONTEXT_DISPLAY_FOR_COLS = 4,
-		CONTEXT_DISPLAY_WITH_HYPERLINK	  = 8,
-		CONTEXT_DISPLAY_WITHOUT_HYPERLINK = 16
+		CONTEXT_DISPLAY_FOR_CELLS		= 1 << 0,
+		CONTEXT_DISPLAY_FOR_ROWS		= 1 << 1,
+		CONTEXT_DISPLAY_FOR_COLS		= 1 << 2,
+		CONTEXT_DISPLAY_WITH_HYPERLINK		= 1 << 3,
+		CONTEXT_DISPLAY_WITHOUT_HYPERLINK	= 1 << 4,
+		CONTEXT_DISPLAY_WITH_DATA_SLICER	= 1 << 5,
+		CONTEXT_DISPLAY_WITH_DATA_SLICER_ROW	= 1 << 6,
+		CONTEXT_DISPLAY_WITH_DATA_SLICER_COL	= 1 << 7
 	};
 	enum {
 		CONTEXT_DISABLE_PASTE_SPECIAL	= 1,
@@ -1860,8 +1876,34 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		/* TODO : Add the comment modification elements */
 		{ "", NULL, 0, 0, 0 },
 
+		{ N_("_Edit DataSlicer"),	NULL,
+		     CONTEXT_DISPLAY_WITH_DATA_SLICER, 0,
+		     CONTEXT_DATA_SLICER_EDIT },
+		{ N_("_Refresh DataSlicer"),	NULL,
+		     CONTEXT_DISPLAY_WITH_DATA_SLICER, 0,
+		     CONTEXT_DATA_SLICER_REFRESH },
+
+		{ N_("DataSlicer Field _Order "), NULL,
+		     CONTEXT_DISPLAY_WITH_DATA_SLICER_ROW | CONTEXT_DISPLAY_WITH_DATA_SLICER_COL, 0,
+		     -1 },	/* start sub menu */
+		{ N_("Left"), GTK_STOCK_GO_BACK,
+		     CONTEXT_DISPLAY_WITH_DATA_SLICER_ROW, 0,
+		     CONTEXT_DATA_SLICER_REFRESH },
+		{ N_("Right"), GTK_STOCK_GO_FORWARD,
+		     CONTEXT_DISPLAY_WITH_DATA_SLICER_ROW, 0,
+		     CONTEXT_DATA_SLICER_REFRESH },
+		{ N_("Up"), GTK_STOCK_GO_UP,
+		     CONTEXT_DISPLAY_WITH_DATA_SLICER_COL, 0,
+		     CONTEXT_DATA_SLICER_REFRESH },
+		{ N_("Down"), GTK_STOCK_GO_DOWN,
+		     CONTEXT_DISPLAY_WITH_DATA_SLICER_COL, 0,
+		     CONTEXT_DATA_SLICER_REFRESH },
+		{ "",	NULL,
+		     CONTEXT_DISPLAY_WITH_DATA_SLICER_ROW | CONTEXT_DISPLAY_WITH_DATA_SLICER_COL, 0,
+		     -1 },	/* end sub menu */
+
 		{ N_("_Format Cells..."), GTK_STOCK_PROPERTIES,
-		    0, 0, CONTEXT_FORMAT_CELL },
+		    CONTEXT_DISPLAY_FOR_CELLS, 0, CONTEXT_FORMAT_CELL },
 
 		/* Column specific (Note some labels duplicate row labels) */
 		{ N_("Column _Width..."), "Gnumeric_ColumnSize",
@@ -1908,6 +1950,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 	GSList *l;
 	gboolean has_link = FALSE;
+	GnmSheetSlicer *slicer;
 
 	wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
 
@@ -1926,6 +1969,18 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 		if (!has_link && sheet_style_region_contains_link (sheet, r))
 			has_link = TRUE;
+	}
+
+	if (NULL != (slicer = sv_editpos_in_slicer (scg_view (scg)))) {
+		GODataSlicerField *dsf = gnm_sheet_slicer_field_header_at_pos (slicer, &sv->edit_pos);
+		if (NULL != dsf) {
+			if (go_data_slicer_field_get_field_type_pos (dsf, GDS_FIELD_TYPE_COL) >= 0)
+				display_filter |= CONTEXT_DISPLAY_WITH_DATA_SLICER_COL;
+			if (go_data_slicer_field_get_field_type_pos (dsf, GDS_FIELD_TYPE_ROW) >= 0)
+				display_filter |= CONTEXT_DISPLAY_WITH_DATA_SLICER_ROW;
+		}
+		display_filter |= CONTEXT_DISPLAY_WITH_DATA_SLICER;
+		display_filter &= ~CONTEXT_DISPLAY_FOR_CELLS;
 	}
 
 	if (display_filter & CONTEXT_DISPLAY_FOR_CELLS)

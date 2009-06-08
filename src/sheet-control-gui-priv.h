@@ -35,7 +35,7 @@ struct _SheetControlGUI {
 	GtkPaned	*vpane, *hpane;	/* drag panes for freezing */
 	GtkWidget	*vs, *hs;	/* Scrollbars */
 	GtkAdjustment	*va, *ha;	/* Adjustments */
-	guint 		 pane_drag_handler;
+	guint		 pane_drag_handler;
 
 	/* SheetObject support */
 	GHashTable	 *selected_objects;

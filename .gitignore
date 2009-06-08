@@ -11,6 +11,7 @@ config.guess
 ltconfig
 ltmain.sh
 libtool
+compile
 gnumeric-config.h.in
 gnumeric-config.h
 gnumeric-features.h

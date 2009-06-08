@@ -25,6 +25,8 @@
 #include "sheet-object-cell-comment.h"
 #include "sheet-style.h"
 #include "parse-util.h"
+
+#include <go-string.h>
 #include <goffice/utils/go-glib-extras.h>
 
 /**

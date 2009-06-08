@@ -25,6 +25,7 @@
 
 #include "libgnumeric.h"
 #include "application.h"
+#include "gnm-commands-slicer.h"
 #include "commands.h"
 #include "clipboard.h"
 #include "selection.h"
@@ -38,6 +39,7 @@
 #include "sort.h"
 #include "sheet-merge.h"
 #include "sheet-filter.h"
+#include "sheet-utils.h"
 #include "sheet-style.h"
 #include "style-border.h"
 #include "style-color.h"
@@ -883,7 +885,7 @@ static GNM_ACTION_DEF (cb_auto_filter)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
-	GnmFilter *filter = sv_first_selection_in_filter (sv);
+	GnmFilter *filter = sv_editpos_in_filter (sv);
 
 #warning Add undo/redo
 	if (filter == NULL) {
@@ -898,7 +900,7 @@ static GNM_ACTION_DEF (cb_auto_filter)
 		 * filter the region below this row. */
 		region = *src;
 		if (src->start.row == src->end.row)
-			gnm_sheet_filter_guess_region  (sv->sheet, &region);
+			gnm_sheet_guess_region  (sv->sheet, &region);
 		if (region.start.row == region.end.row) {
 			go_cmd_context_error_invalid	(GO_CMD_CONTEXT (wbcg),
 				 _("AutoFilter"), _("Requires more than 1 row"));
@@ -923,9 +925,9 @@ static GNM_ACTION_DEF (cb_data_validate)	{ dialog_cell_format (wbcg, FD_VALIDATI
 static GNM_ACTION_DEF (cb_data_text_to_columns) { stf_text_to_columns (WORKBOOK_CONTROL (wbcg), GO_CMD_CONTEXT (wbcg)); }
 static GNM_ACTION_DEF (cb_data_consolidate)	{ dialog_consolidate (wbcg); }
 static GNM_ACTION_DEF (cb_data_table)		{ dialog_data_table (wbcg); }
-#ifdef DATA_SLICER
-static GNM_ACTION_DEF (cb_data_slicer)		{ dialog_data_slicer (wbcg); }
-#endif
+static GNM_ACTION_DEF (cb_data_slicer_create)	{ dialog_data_slicer (wbcg, TRUE); }
+static GNM_ACTION_DEF (cb_data_slicer_refresh)	{ cmd_slicer_refresh (WORKBOOK_CONTROL (wbcg)); }
+static GNM_ACTION_DEF (cb_data_slicer_edit)	{ dialog_data_slicer (wbcg, FALSE); }
 
 static void
 hide_show_detail_real (WBCGtk *wbcg, gboolean is_cols, gboolean show)
@@ -939,7 +941,7 @@ hide_show_detail_real (WBCGtk *wbcg, gboolean is_cols, gboolean show)
 	/* This operation can only be performed on a whole existing group */
 	if (sheet_colrow_can_group (sv_sheet (sv), r, is_cols)) {
 		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), operation,
-					_("can only be performed on an existing group"));
+			_("can only be performed on an existing group"));
 		return;
 	}
 
@@ -1131,7 +1133,7 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 	if (!(tmp = selection_first_range (sv, GO_CMD_CONTEXT (wbcg), _("Sort"))))
 		return;
 
-	sel = range_dup (tmp);
+	sel = gnm_range_dup (tmp);
 	range_clip_to_finite (sel, sv_sheet (sv));
 
 	if (gnm_app_prefs->sort_default_has_header) {
@@ -1712,6 +1714,7 @@ static GtkActionEntry const permanent_actions[] = {
 		{ "MenuFilter",		NULL,	N_("_Filter") },
 		{ "MenuOutline",	NULL,	N_("_Group and Outline") },
 		{ "MenuExternalData",	NULL,	N_("Get External _Data") },
+		{ "MenuSlicer",		NULL,	N_("Data S_licer") },
 	{ "MenuHelp",	NULL,	N_("_Help") },
 
 	{ "FileSave", GTK_STOCK_SAVE, NULL,
@@ -2186,11 +2189,6 @@ static GtkActionEntry const actions[] = {
 	{ "DataTable", NULL, N_("_Table..."),
 		NULL, N_("Create a Data Table to evaluate a function with multiple inputs"),
 		G_CALLBACK (cb_data_table) },
-#ifdef DATA_SLICER
-	{ "DataSlice", "Gnumeric_DataSlice", N_("_Data Slice..."),
-		NULL, N_("Create a Data Slice"),
-		G_CALLBACK (cb_data_slicer) },
-#endif
 
 /* Data -> Outline */
 	{ "DataOutlineHideDetail", "Gnumeric_HideDetail", N_("_Hide Detail"),
@@ -2220,6 +2218,18 @@ static GtkActionEntry const actions[] = {
 	{ "DataImportText", GTK_STOCK_DND, N_("Import _Text File..."),
 		NULL, N_("Import the text from a file"),
 		G_CALLBACK (cb_data_import_text) },
+
+/* Data -> Data Slicer */
+	/* label and tip are context dependent, see wbcg_menu_state_update */
+	{ "DataSlicer", NULL, N_("Add _Data Slicer"),
+		NULL, N_("Create a data slicer"),
+		G_CALLBACK (cb_data_slicer_create) },
+	{ "DataSlicerRefresh", NULL, N_("_Refresh"),
+		NULL, N_("Regenerate a data slicer from the source data"),
+		G_CALLBACK (cb_data_slicer_refresh) },
+	{ "DataSlicerEdit", NULL, N_("_Edit Data Slicer..."),
+		NULL, N_("Adjust a data slicer"),
+		G_CALLBACK (cb_data_slicer_edit) },
 
 /* Standard Toolbar */
 	{ "AutoSum", "Gnumeric_AutoSum", N_("Sum"),

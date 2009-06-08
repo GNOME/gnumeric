@@ -68,32 +68,6 @@ value_get_basis (const GnmValue *v, int defalt)
 		return defalt;
 }
 
-static int
-float_to_secs (GnmValue const *v, GODateConventions const *conv)
-{
-	int secs;
-	gnm_float d = datetime_value_to_serial_raw (v, conv);
-	if (d == G_MAXINT)
-		return -1;
-
-	/* Add epsilon before we scale and translate because otherwise it
-	   will not be enough.  */
-	d = gnm_add_epsilon (d);
-
-	/* Get the number down between 0 and 1 before we scale.  */
-	d -= gnm_floor (d);
-
-	/* Scale and round.  */
-	secs = (int)(gnm_add_epsilon (d) * DAY_SECONDS + 0.5);
-
-	/* We rounded, so we might have gone too far.  */
-	if (secs >= DAY_SECONDS)
-		secs -= DAY_SECONDS;
-
-	return secs;
-}
-
-
 /***************************************************************************/
 
 static GnmFuncHelp const help_date[] = {
@@ -613,7 +587,7 @@ static GnmFuncHelp const help_hour[] = {
 static GnmValue *
 gnumeric_hour (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	int secs = float_to_secs (argv[0], DATE_CONV (ei->pos));
+	int secs = datetime_value_to_seconds (argv[0], DATE_CONV (ei->pos));
 
 	if (secs < 0)
 		return value_new_error_NUM (ei->pos);
@@ -648,7 +622,7 @@ static GnmFuncHelp const help_minute[] = {
 static GnmValue *
 gnumeric_minute (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	int secs = float_to_secs (argv[0], DATE_CONV (ei->pos));
+	int secs = datetime_value_to_seconds (argv[0], DATE_CONV (ei->pos));
 
 	if (secs < 0)
 		return value_new_error_NUM (ei->pos);
@@ -683,7 +657,7 @@ static GnmFuncHelp const help_second[] = {
 static GnmValue *
 gnumeric_second (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	int secs = float_to_secs (argv[0], DATE_CONV (ei->pos));
+	int secs = datetime_value_to_seconds (argv[0], DATE_CONV (ei->pos));
 
 	if (secs < 0)
 		return value_new_error_NUM (ei->pos);

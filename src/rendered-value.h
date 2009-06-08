@@ -23,7 +23,7 @@ struct _GnmRenderedValue {
 
 	guint effective_halign : 8;
 	guint effective_valign : 5;
- 	guint variable_width : 1;   /* result depends on the width of cell */
+	guint variable_width : 1;   /* result depends on the width of cell */
 	guint hfilled : 1;
 	guint vfilled : 1;
 	guint wrap_text : 1;

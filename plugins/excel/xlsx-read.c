@@ -33,7 +33,6 @@
 #include "gnm-format.h"
 #include "cell.h"
 #include "position.h"
-#include "str.h"
 #include "expr.h"
 #include "expr-name.h"
 #include "print-info.h"
@@ -49,6 +48,7 @@
 #include "gutils.h"
 #include "graph.h"
 #include "sheet-object-graph.h"
+#include "gnm-sheet-slicer.h"
 
 #include <goffice/app/error-info.h>
 #include <goffice/app/io-context.h>
@@ -65,6 +65,9 @@
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-series.h>
 #include <goffice/graph/gog-data-set.h>
+
+#include "goffice-data.h"		/* MOVE TO GOFFCE with slicer code */
+#include "go-data-slicer-field.h"	/* MOVE TO GOFFCE with slicer code */
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
@@ -136,6 +139,7 @@ typedef struct {
 	PangoAttrList	*rich_attrs;
 
 	GHashTable	*num_fmts;
+	GOFormat	*date_fmt;
 	GHashTable	*cell_styles;
 	GPtrArray	*fonts;
 	GPtrArray	*fills;
@@ -202,9 +206,24 @@ typedef struct {
 	/* external refs */
        	Workbook *external_ref;
 	Sheet 	 *external_ref_sheet;
+
+	/* Pivot state */
+	struct {
+		GnmSheetSlicer	  *slicer;
+		GODataSlicerField *slicer_field;
+
+		GHashTable	  *cache_by_id;
+		GODataCache	  *cache;
+		GODataCacheSource *cache_src;
+		GODataCacheField  *cache_field;
+		GPtrArray	  *cache_field_values;
+
+		unsigned int	   field_count, record_count;
+		char		  *cache_record_part_id;
+	} pivot;
 } XLSXReadState;
 typedef struct {
-	GnmString	*str;
+	GOString	*str;
 	GOFormat	*markup;
 } XLSXStr;
 
@@ -498,6 +517,10 @@ attr_range (GsfXMLIn *xin, xmlChar const **attrs,
 	    char const *target,
 	    GnmRange *res)
 {
+	static const GnmSheetSize xlsx_size = {
+		XLSX_MaxCol, XLSX_MaxRow
+	};
+
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
 	g_return_val_if_fail (attrs != NULL, FALSE);
@@ -507,10 +530,49 @@ attr_range (GsfXMLIn *xin, xmlChar const **attrs,
 	if (strcmp (attrs[0], target))
 		return FALSE;
 
-	if (!range_parse (res, attrs[1], gnm_sheet_get_size (state->sheet)))
+	if (!range_parse (res, attrs[1], &xlsx_size))
 		xlsx_warning (xin, _("Invalid range '%s' for attribute %s"),
 			attrs[1], target);
 	return TRUE;
+}
+
+static GnmValue *
+attr_datetime (GsfXMLIn *xin, xmlChar const **attrs,
+	       char const *target)
+{
+	unsigned y, m, d, h, mi, n;
+	GnmValue *res = NULL;
+	float s;
+
+	g_return_val_if_fail (attrs != NULL, NULL);
+	g_return_val_if_fail (attrs[0] != NULL, NULL);
+	g_return_val_if_fail (attrs[1] != NULL, NULL);
+
+	if (strcmp (attrs[0], target))
+		return NULL;
+
+	n = sscanf (attrs[1], "%u-%u-%uT%u:%u:%g",
+		    &y, &m, &d, &h, &mi, &s);
+
+	if (n >= 3) {
+		GDate date;
+		g_date_set_dmy (&date, d, m, y);
+		if (g_date_valid (&date)) {
+			XLSXReadState *state = (XLSXReadState *)xin->user_state;
+			unsigned d_serial = datetime_g_to_serial (&date,
+				workbook_date_conv (state->wb));
+			if (n >= 6) {
+				double time_frac = h + ((double)mi / 60.) + ((double)s / 3600.);
+				res = value_new_float (d_serial + time_frac / 24.);
+				value_set_fmt (res, state->date_fmt);
+			} else {
+				res = value_new_int (d_serial);
+				value_set_fmt (res, go_format_default_date ());
+			}
+		}
+	}
+
+	return res;
 }
 
 /***********************************************************************/
@@ -649,7 +711,7 @@ themed_color (GsfXMLIn *xin, gint idx)
 	 * looks like the indicies map to hard coded names rather than the
 	 * order in the file.  Indeed the order in the file seems wrong
 	 * it inverts the first to pairs
-	 * 	1,0,3,2, 4,5,6.....
+	 *	1,0,3,2, 4,5,6.....
 	 * see:	http://openxmldeveloper.org/forums/thread/1306.aspx
 	 * OOo seems to do something similar
 	 *
@@ -863,7 +925,7 @@ xlsx_parse_sqref (GsfXMLIn *xin, xmlChar const *refs)
 		}
 
 		range_normalize (&r); /* be anal */
-		res = g_slist_prepend (res, range_dup (&r));
+		res = g_slist_prepend (res, gnm_range_dup (&r));
 
 		for (refs = tmp ; *refs == ' ' ; refs++ ) ;
 	}
@@ -1631,6 +1693,10 @@ static GsfXMLInNode const xlsx_chart_dtd[] =
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
   GSF_XML_IN_NODE (CHART_SPACE, SHAPE_PR, XL_NS_CHART, "spPr", GSF_XML_NO_CONTENT, &xlsx_chart_style_start, &xlsx_chart_style_end),
+    GSF_XML_IN_NODE (SHAPE_PR, SP_XFRM, XL_NS_DRAW, "xfrm", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SP_XFRM, SP_XFRM_OFF, XL_NS_DRAW, "off", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SP_XFRM, SP_XFRM_EXT, XL_NS_DRAW, "ext", GSF_XML_NO_CONTENT, NULL, NULL),
+    GSF_XML_IN_NODE (SHAPE_PR, SP_PR_PRST_GEOM, XL_NS_DRAW, "prstGeom", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (SHAPE_PR, FILL_NONE,	XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, &xlsx_chart_no_fill, NULL),
     GSF_XML_IN_NODE (SHAPE_PR, FILL_SOLID,	XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, &xlsx_chart_solid_fill, NULL),
       GSF_XML_IN_NODE (FILL_SOLID, COLOR_THEMED, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_themed, &xlsx_draw_color_end),
@@ -1665,6 +1731,10 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
       GSF_XML_IN_NODE (SHAPE_PR_LN, LN_DASH, XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
       GSF_XML_IN_NODE (SHAPE_PR_LN, FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
       GSF_XML_IN_NODE (SHAPE_PR_LN, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_MITER,	XL_NS_DRAW, "miter", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_ROUND,	XL_NS_DRAW, "round", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_HEAD,	XL_NS_DRAW, "headEnd", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SHAPE_PR_LN, LN_TAIL,	XL_NS_DRAW, "tailEnd", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (SHAPE_PR, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (TEXT_PR, TEXT_PR_BODY,	XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (TEXT_PR, TEXT_PR_STYLE,	XL_NS_DRAW, "lstStyle", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -1749,6 +1819,12 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
                 GSF_XML_IN_NODE (TX_RICH_P, PR_P_PR, XL_NS_DRAW, "pPr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
                 GSF_XML_IN_NODE (TX_RICH_P, TX_RICH_R, XL_NS_DRAW, "r", GSF_XML_NO_CONTENT, NULL, NULL),
                   GSF_XML_IN_NODE (TX_RICH_R, TX_RICH_R_PR, XL_NS_DRAW, "rPr", GSF_XML_NO_CONTENT, NULL, NULL),
+		    GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_CS, XL_NS_DRAW, "cs", GSF_XML_NO_CONTENT, NULL, NULL),
+		    GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_EA, XL_NS_DRAW, "ea", GSF_XML_NO_CONTENT, NULL, NULL),
+		    GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_LATIN, XL_NS_DRAW, "latin", GSF_XML_NO_CONTENT, NULL, NULL),
+		    GSF_XML_IN_NODE (TX_RICH_R_PR, FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+		    GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_UFILLTX, XL_NS_DRAW, "uFillTx", GSF_XML_NO_CONTENT, NULL, NULL),
+		    GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_ULNTX, XL_NS_DRAW, "uLnTx", GSF_XML_NO_CONTENT, NULL, NULL),
                   GSF_XML_IN_NODE (TX_RICH_R, TX_RICH_R_T, XL_NS_DRAW,  "t", GSF_XML_CONTENT, NULL, &xlsx_chart_text_content),
             GSF_XML_IN_NODE (TEXT, STR_REF, XL_NS_CHART, "strRef", GSF_XML_NO_CONTENT, NULL, NULL),
               GSF_XML_IN_NODE (STR_REF, FUNC,	XL_NS_CHART,	"f",	GSF_XML_CONTENT, NULL, &xlsx_chart_ser_f),
@@ -1960,8 +2036,8 @@ GSF_XML_IN_NODE_FULL (START, CHART_SPACE, XL_NS_CHART, "chartSpace", GSF_XML_NO_
     GSF_XML_IN_NODE (PRINT_SETTINGS, PAGE_SETUP, XL_NS_CHART, "pageSetup", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (PRINT_SETTINGS, PAGE_MARGINS, XL_NS_CHART, "pageMargins", GSF_XML_NO_CONTENT, NULL, NULL),
     GSF_XML_IN_NODE (PRINT_SETTINGS, HEADER_FOOTER, XL_NS_CHART, "headerFooter", GSF_XML_NO_CONTENT, NULL, NULL),
-      GSF_XML_IN_NODE (HEADER_FOOTER, ODD_HEADER, XL_NS_SS, "oddHeader", GSF_XML_NO_CONTENT, NULL, NULL),
-      GSF_XML_IN_NODE (HEADER_FOOTER, ODD_FOOTER, XL_NS_SS, "oddFooter", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (HEADER_FOOTER, ODD_HEADER, XL_NS_CHART, "oddHeader", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (HEADER_FOOTER, ODD_FOOTER, XL_NS_CHART, "oddFooter", GSF_XML_NO_CONTENT, NULL, NULL),
   GSF_XML_IN_NODE (CHART_SPACE, LANG, XL_NS_CHART, "lang", GSF_XML_NO_CONTENT, NULL, NULL),
 GSF_XML_IN_NODE_END
 };
@@ -2194,6 +2270,85 @@ GSF_XML_IN_NODE_FULL (START, DRAWING, XL_NS_SS_DRAW, "wsDr", GSF_XML_NO_CONTENT,
 #undef ROW
 #undef CELL
 #undef OFFSET
+    GSF_XML_IN_NODE (TWO_CELL, SHAPE, XL_NS_SS_DRAW, "sp", GSF_XML_NO_CONTENT, NULL, NULL),
+      GSF_XML_IN_NODE (SHAPE, SHAPE_PR, XL_NS_SS_DRAW, "spPr", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (SHAPE_PR, SP_PR_XFRM, XL_NS_DRAW, "xfrm", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (SP_PR_XFRM, SP_XFRM_OFF, XL_NS_DRAW, "off", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (SP_PR_XFRM, SP_XFRM_EXT, XL_NS_DRAW, "ext", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (SHAPE_PR, SP_PR_PRST_GEOM, XL_NS_DRAW, "prstGeom", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (SP_PR_PRST_GEOM, AV_LST, XL_NS_DRAW, "avLst", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (SHAPE_PR, FILL_NONE,	XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, &xlsx_chart_no_fill, NULL),
+	GSF_XML_IN_NODE (SHAPE_PR, FILL_SOLID,	XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, &xlsx_chart_solid_fill, NULL),
+	  GSF_XML_IN_NODE (FILL_SOLID, COLOR_THEMED, XL_NS_DRAW, "schemeClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_themed, &xlsx_draw_color_end),
+	    GSF_XML_IN_NODE (COLOR_THEMED, COLOR_LUM, XL_NS_DRAW, "lumMod", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (FILL_SOLID, COLOR_RGB,	 XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, &xlsx_draw_color_rgb, &xlsx_draw_color_end),
+	    GSF_XML_IN_NODE (COLOR_RGB, RGB_ALPHA,	   XL_NS_DRAW, "alpha", GSF_XML_NO_CONTENT, &xlsx_draw_color_alpha, NULL),
+	    GSF_XML_IN_NODE (COLOR_RGB, RGB_GAMMA,	   XL_NS_DRAW, "gamma", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (COLOR_RGB, RGB_INV_GAMMA, XL_NS_DRAW, "invGamma", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (COLOR_RGB, RGB_SHADE,	   XL_NS_DRAW, "shade", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (COLOR_RGB, RGB_TINT,	   XL_NS_DRAW, "tint", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (COLOR_RGB, LN_DASH,	   XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, &xlsx_draw_line_dash, NULL),
+
+	GSF_XML_IN_NODE (SHAPE_PR, FILL_BLIP,	XL_NS_DRAW, "blipFill", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (FILL_BLIP, FILL_BLIP_BLIP,	XL_NS_DRAW, "blip", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (FILL_BLIP, FILL_BLIP_SRC,	XL_NS_DRAW, "srcRect", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (FILL_BLIP, FILL_BLIP_TILE,	XL_NS_DRAW, "tile", GSF_XML_NO_CONTENT, NULL, NULL),
+
+	GSF_XML_IN_NODE (SHAPE_PR, FILL_GRAD,	XL_NS_DRAW, "gradFill", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_LIST,	XL_NS_DRAW, "gsLst", GSF_XML_NO_CONTENT, NULL, NULL),
+	   GSF_XML_IN_NODE (GRAD_LIST, GRAD_LIST_ITEM, XL_NS_DRAW, "gs", GSF_XML_NO_CONTENT, NULL, NULL),
+	     GSF_XML_IN_NODE (GRAD_LIST_ITEM, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+	  GSF_XML_IN_NODE (FILL_GRAD, GRAD_LINE,	XL_NS_DRAW, "lin", GSF_XML_NO_CONTENT, NULL, NULL),
+
+	GSF_XML_IN_NODE (SHAPE_PR, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, &xlsx_chart_solid_fill, NULL),
+	  GSF_XML_IN_NODE (FILL_PATT, FILL_PATT_BG,	XL_NS_DRAW, "bgClr", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (FILL_PATT_BG, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+	  GSF_XML_IN_NODE (FILL_PATT, FILL_PATT_FG,	XL_NS_DRAW, "fgClr", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (FILL_PATT_FG, COLOR_RGB, XL_NS_DRAW, "srgbClr", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+
+	GSF_XML_IN_NODE (SHAPE_PR, SHAPE_PR_LN, XL_NS_DRAW, "ln", GSF_XML_NO_CONTENT, xlsx_style_line_start, &xlsx_style_line_end),
+	  GSF_XML_IN_NODE (SHAPE_PR_LN, LN_NOFILL, XL_NS_DRAW, "noFill", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (SHAPE_PR_LN, LN_DASH, XL_NS_DRAW, "prstDash", GSF_XML_NO_CONTENT, NULL, NULL),		/* 2nd Def */
+	  GSF_XML_IN_NODE (SHAPE_PR_LN, FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+	  GSF_XML_IN_NODE (SHAPE_PR_LN, FILL_PATT,	XL_NS_DRAW, "pattFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+	  GSF_XML_IN_NODE (SHAPE_PR_LN, LN_MITER,	XL_NS_DRAW, "miter", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (SHAPE_PR_LN, LN_ROUND,	XL_NS_DRAW, "round", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (SHAPE_PR_LN, LN_HEAD,	XL_NS_DRAW, "headEnd", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (SHAPE_PR_LN, LN_TAIL,	XL_NS_DRAW, "tailEnd", GSF_XML_NO_CONTENT, NULL, NULL),
+
+	GSF_XML_IN_NODE (SHAPE_PR, TEXT_PR, XL_NS_CHART, "txPr", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (TEXT_PR, TEXT_PR_BODY,	XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (TEXT_PR, TEXT_PR_STYLE,	XL_NS_DRAW, "lstStyle", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (TEXT_PR, TEXT_PR_P,	XL_NS_DRAW, "p", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+	    GSF_XML_IN_NODE (TEXT_PR_P, TX_RICH_R, XL_NS_DRAW, "r", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (TX_RICH_R, TX_RICH_R_PR, XL_NS_DRAW, "rPr", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_CS, XL_NS_DRAW, "cs", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_EA, XL_NS_DRAW, "ea", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_LATIN, XL_NS_DRAW, "latin", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (TX_RICH_R_PR, FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+		GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_UFILLTX, XL_NS_DRAW, "uFillTx", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (TX_RICH_R_PR, PR_P_PR_DEF_ULNTX, XL_NS_DRAW, "uLnTx", GSF_XML_NO_CONTENT, NULL, NULL),
+
+	      GSF_XML_IN_NODE (TX_RICH_R, TX_RICH_R_T, XL_NS_DRAW,  "t", GSF_XML_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (TEXT_PR_P, PR_P_PR,	XL_NS_DRAW, "pPr", GSF_XML_NO_CONTENT, NULL, NULL),
+	      GSF_XML_IN_NODE (PR_P_PR, PR_P_PR_DEF, XL_NS_DRAW, "defRPr", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_CS, XL_NS_DRAW, "cs", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_EA, XL_NS_DRAW, "ea", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_LATIN, XL_NS_DRAW, "latin", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (PR_P_PR_DEF, FILL_SOLID, XL_NS_DRAW, "solidFill", GSF_XML_NO_CONTENT, NULL, NULL),	/* 2nd Def */
+		GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_UFILLTX, XL_NS_DRAW, "uFillTx", GSF_XML_NO_CONTENT, NULL, NULL),
+		GSF_XML_IN_NODE (PR_P_PR_DEF, PR_P_PR_DEF_ULNTX, XL_NS_DRAW, "uLnTx", GSF_XML_NO_CONTENT, NULL, NULL),
+	    GSF_XML_IN_NODE (TEXT_PR_P, PR_P_PR_END,XL_NS_DRAW, "endParaRPr", GSF_XML_NO_CONTENT, NULL, NULL),
+
+      GSF_XML_IN_NODE (SHAPE, TX_BODY, XL_NS_SS_DRAW, "txBody", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (TX_BODY, LST_STYLE, XL_NS_DRAW, "lstStyle", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+        GSF_XML_IN_NODE (TX_BODY, TX_BODY_PR, XL_NS_DRAW, "bodyPr", GSF_XML_NO_CONTENT, NULL, NULL),
+	GSF_XML_IN_NODE (TX_BODY, TEXT_PR_P,	XL_NS_DRAW, "p", GSF_XML_NO_CONTENT, NULL, NULL),			/* 2nd Def */
+
+      GSF_XML_IN_NODE (SHAPE, NV_SP_PR, XL_NS_SS_DRAW, "nvSpPr", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (NV_SP_PR, C_NV_SP_PR, XL_NS_SS_DRAW, "cNvSpPr", GSF_XML_NO_CONTENT, NULL, NULL),
+          GSF_XML_IN_NODE (C_NV_SP_PR, SP_LOCKS, XL_NS_DRAW, "spLocks", GSF_XML_NO_CONTENT, NULL, NULL),
+        GSF_XML_IN_NODE (NV_SP_PR, C_NV_PR, XL_NS_SS_DRAW, "cNvPr", GSF_XML_NO_CONTENT, NULL, NULL),
 
     GSF_XML_IN_NODE (TWO_CELL, GRAPHIC_FRAME, XL_NS_SS_DRAW, "graphicFrame", GSF_XML_NO_CONTENT, NULL, NULL),
       GSF_XML_IN_NODE (GRAPHIC_FRAME, GRAPHIC_PR, XL_NS_SS_DRAW, "nvGraphicFramePr", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -2398,7 +2553,7 @@ xlsx_cell_val_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		if (end != xin->content->str && *end == '\0' &&
 		    0 <= i  && i < (int)state->sst->len) {
 			entry = &g_array_index (state->sst, XLSXStr, i);
-			gnm_string_ref (entry->str);
+			go_string_ref (entry->str);
 			state->val = value_new_string_str (entry->str);
 			if (NULL != entry->markup)
 				value_set_fmt (state->val, entry->markup);
@@ -3572,7 +3727,7 @@ xlsx_CT_Selection (GsfXMLIn *xin, xmlChar const **attrs)
 		/* gnumeric assumes the edit_pos is in the last selected range.
 		 * We need to re-order the selection list. */
 		if (i <= sel_with_edit_pos && edit_pos.col >= 0)
-			accum = g_slist_prepend (accum, range_dup (&r));
+			accum = g_slist_prepend (accum, gnm_range_dup (&r));
 		else
 			sv_selection_add_range (state->sv, &r);
 		while (*refs == ' ')
@@ -3909,11 +4064,29 @@ GSF_XML_IN_NODE_END
 static void
 xlsx_CT_PivotCache (GsfXMLIn *xin, xmlChar const **attrs)
 {
-	/*XLSXReadState *state = (XLSXReadState *)xin->user_state; */
+	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	xmlChar const *id = NULL;
+	xmlChar const *cacheId = NULL;
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
-			xlsx_parse_rel_by_id (xin, attrs[1],
-				xlsx_pivot_cache_def_dtd, xlsx_ns);
+			id = attrs[1];
+		else if (0 == strcmp (attrs[0], "cacheId"))
+			cacheId = attrs[1];
+
+	if (NULL != id && NULL != cacheId) {
+		g_return_if_fail (NULL == state->pivot.cache);
+
+		xlsx_parse_rel_by_id (xin, id,
+			xlsx_pivot_cache_def_dtd, xlsx_ns);
+
+		g_return_if_fail (NULL != state->pivot.cache);
+
+		/* absorb the reference to the cache */
+		g_hash_table_replace (state->pivot.cache_by_id,
+			g_strdup (cacheId), state->pivot.cache);
+		state->pivot.cache = NULL;
+	}
 }
 
 static void
@@ -3982,12 +4155,12 @@ xlsx_sheet_begin (GsfXMLIn *xin, xmlChar const **attrs)
 
 	sheet =  workbook_sheet_by_name (state->wb, name);
 	if (NULL == sheet) {
-		sheet = sheet_new (state->wb, name, 256, 65536);  /* FIXME! */
+		sheet = sheet_new (state->wb, name, XLSX_MaxCol, XLSX_MaxRow);
 		workbook_sheet_attach (state->wb, sheet);
 	}
 
 	g_object_set_data_full (G_OBJECT (sheet), "_XLSX_RelID", g_strdup (part_id),
-			(GDestroyNotify) g_free);
+		(GDestroyNotify) g_free);
 }
 
 /**************************************************************************************************/
@@ -4144,7 +4317,7 @@ xlsx_sstitem_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		g_array_set_size (state->sst, state->count+1);
 	entry = &g_array_index (state->sst, XLSXStr, state->count);
 	state->count++;
-	entry->str = gnm_string_get (xin->content->str);
+	entry->str = go_string_new (xin->content->str);
 	if (state->rich_attrs) {
 		entry->markup = go_format_new_markup (state->rich_attrs, FALSE);
 		state->rich_attrs = NULL;
@@ -4965,9 +5138,12 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *context,
 		(GDestroyNotify)g_free, (GDestroyNotify) gnm_style_unref);
 	state.num_fmts = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify)g_free, (GDestroyNotify) go_format_unref);
+	state.date_fmt = xlsx_pivot_date_fmt ();
 	state.convs = xlsx_conventions_new ();
 	state.theme_colors_by_name = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify)g_free, NULL);
+	state.pivot.cache_by_id = g_hash_table_new_full (g_str_hash, g_str_equal,
+		(GDestroyNotify)g_free, (GDestroyNotify) g_object_unref);
 
 	locale = gnm_push_C_locale ();
 
@@ -5005,13 +5181,15 @@ xlsx_file_open (GOFileOpener const *fo, IOContext *context,
 		XLSXStr *entry;
 		while (i-- > 0) {
 			entry = &g_array_index (state.sst, XLSXStr, i);
-			gnm_string_unref (entry->str);
+			go_string_unref (entry->str);
 			if (NULL != entry->markup)
 				go_format_unref (entry->markup);
 		}
 		g_array_free (state.sst, TRUE);
 	}
+	g_hash_table_destroy (state.pivot.cache_by_id);
 	xlsx_conventions_free (state.convs);
+	go_format_unref (state.date_fmt);
 	g_hash_table_destroy (state.num_fmts);
 	g_hash_table_destroy (state.cell_styles);
 	g_hash_table_destroy (state.shared_exprs);

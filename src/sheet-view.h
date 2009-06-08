@@ -16,7 +16,7 @@ typedef enum {
 struct _SheetView {
 	GObject  base;
 
-	Sheet	 	*sheet;
+	Sheet		*sheet;
 	WorkbookView	*sv_wbv;
 	GPtrArray	*controls;
 
@@ -82,9 +82,11 @@ void          sv_dispose          (SheetView *sv);
 Sheet	     *sv_sheet		(SheetView const *sv);
 WorkbookView *sv_wbv		(SheetView const *sv);
 gboolean      sv_is_frozen	(SheetView const *sv);
-GnmFilter    *sv_first_selection_in_filter   (SheetView const *sv);
 gboolean      sv_is_region_empty_or_selected (SheetView const *sv,
 					      GnmRange const *r);
+
+GnmFilter      *sv_editpos_in_filter (SheetView const *sv);
+GnmSheetSlicer *sv_editpos_in_slicer (SheetView const *sv);
 
 /* Manipulation */
 void	 sv_flag_status_update_pos   (SheetView *sv, GnmCellPos const *pos);

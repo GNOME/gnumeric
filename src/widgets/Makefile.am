@@ -26,6 +26,8 @@ libwidgets_la_SOURCES =				\
 	gnm-filter-combo-foo-view.h		\
 	gnm-validation-combo-foo-view.c		\
 	gnm-validation-combo-foo-view.h		\
+	gnm-sheet-slicer-combo-foo-view.c	\
+	gnm-sheet-slicer-combo-foo-view.h	\
 	gnumeric-cell-renderer-text.c		\
 	gnumeric-cell-renderer-text.h		\
 	gnumeric-cell-renderer-expr-entry.c	\

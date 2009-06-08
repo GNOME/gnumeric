@@ -23,7 +23,7 @@ struct _GnmStyleRow {
 
 GnmStyle *sheet_style_default		(Sheet const *sheet);
 GnmStyle const *sheet_style_get		(Sheet const *sheet, int col, int row);
-GnmStyle *sheet_style_find   		(Sheet const *sheet, GnmStyle *st);
+GnmStyle *sheet_style_find  		(Sheet const *sheet, GnmStyle *st);
 void	 sheet_style_get_row		(Sheet const *sheet, GnmStyleRow *sr);
 void	 sheet_style_apply_border	(Sheet *sheet, GnmRange const *r,
 					 GnmBorder **borders);
@@ -70,11 +70,11 @@ void      sheet_style_set_auto_pattern_color (Sheet  *sheet,
 GnmColor *sheet_style_get_auto_pattern_color (Sheet const *sheet);
 void      sheet_style_update_grid_color      (Sheet const *sheet);
 
-GnmStyle const    *style_list_get_style	(GnmStyleList const *l, int col, int row);
-void		 style_list_free	(GnmStyleList *l);
-GnmStyleList	*sheet_style_get_list	(Sheet const *sheet, GnmRange const *r);
-GnmSpanCalcFlags	 sheet_style_set_list	(Sheet *sheet, GnmCellPos const *corner,
-					 gboolean transpose, GnmStyleList const *l);
+GnmStyle const    *style_list_get_style	 (GnmStyleList const *l, int col, int row);
+void		   style_list_free	 (GnmStyleList *l);
+GnmStyleList	  *sheet_style_get_range (Sheet const *sheet, GnmRange const *r);
+GnmSpanCalcFlags   sheet_style_set_list  (Sheet *sheet, GnmCellPos const *corner,
+					  gboolean transpose, GnmStyleList const *l);
 
 GnmStyleList *sheet_style_collect_conditions	(Sheet const *s, GnmRange const *r);
 GnmStyleList *sheet_style_collect_hlinks	(Sheet const *s, GnmRange const *r);

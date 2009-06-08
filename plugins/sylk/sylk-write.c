@@ -30,9 +30,9 @@
 #include "value.h"
 #include "cell.h"
 #include "gutils.h"
-#include "str.h"
 #include "parse-util.h"
 
+#include <go-string.h>
 #include <goffice/app/io-context.h>
 
 #include <gsf/gsf-output.h>
@@ -78,7 +78,7 @@ sylk_write (SylkWriter *state, char const *str)
 }
 
 static void
-sylk_output_string (GnmConventionsOut *out, GnmString const *string)
+sylk_output_string (GnmConventionsOut *out, GOString const *string)
 {
 	g_string_append_c (out->accum, '\"');
 	g_string_append (out->accum, string->str);

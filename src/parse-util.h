@@ -165,7 +165,7 @@ struct _GnmConventions {
 		gboolean translated;
 
 		void (*string)	  (GnmConventionsOut *out,
-				   GnmString const *str);
+				   GOString const *str);
 		void (*name)	  (GnmConventionsOut *out,
 				   GnmExprName const *name);
 		void (*cell_ref)  (GnmConventionsOut *out,

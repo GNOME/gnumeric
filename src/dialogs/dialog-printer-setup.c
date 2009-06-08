@@ -838,7 +838,7 @@ header_changed (GtkComboBox *menu, PrinterSetupState *state)
 	PrintHF *format = (selection)? selection->data: NULL;
 
 	if (format == NULL) {
- 		do_header_customize (state);
+		do_header_customize (state);
 	} else {
 		print_hf_free (state->header);
 		state->header = print_hf_copy (format);
@@ -855,7 +855,7 @@ footer_changed (GtkComboBox *menu, PrinterSetupState *state)
 	PrintHF *format = (selection)? selection->data: NULL;
 
 	if (format == NULL) {
- 		do_footer_customize (state);
+		do_footer_customize (state);
 	} else {
 		print_hf_free (state->footer);
 		state->footer = print_hf_copy (format);
@@ -1738,7 +1738,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 				      GTK_WINDOW (state->dialog)); 
 
 	/* The following would cause the dialog to be below the page setup dialog: */
-/* 	go_gtk_window_set_transient (GTK_WINDOW (dialog), GTK_WINDOW (state->dialog)); */
+/*	go_gtk_window_set_transient (GTK_WINDOW (dialog), GTK_WINDOW (state->dialog)); */
 
 
 	gtk_widget_show_all (dialog);
@@ -1839,7 +1839,7 @@ header_preview_event (G_GNUC_UNUSED FooCanvas *canvas,
 	    event->type != GDK_2BUTTON_PRESS ||
 	    event->button.button != 1)
 		return FALSE;
- 	do_hf_customize (TRUE, state); 
+	do_hf_customize (TRUE, state); 
 	return TRUE;
 }
 
@@ -1851,7 +1851,7 @@ footer_preview_event (G_GNUC_UNUSED FooCanvas *canvas,
 	    event->type != GDK_2BUTTON_PRESS ||
 	    event->button.button != 1)
 		return FALSE;
- 	do_hf_customize (FALSE, state); 
+	do_hf_customize (FALSE, state); 
 	return TRUE;
 }
 

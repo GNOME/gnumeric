@@ -44,7 +44,7 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
-static void
+static gboolean
 fcombo_activate (SheetObject *so, GtkWidget *popup, GtkTreeView *list,
 		 WBCGtk *wbcg)
 {
@@ -99,6 +99,7 @@ fcombo_activate (SheetObject *so, GtkWidget *popup, GtkTreeView *list,
 			sheet_update (fcombo->filter->sheet);
 		}
 	}
+	return TRUE;
 }
 
 typedef struct {
@@ -141,16 +142,17 @@ formatted_value_equal (GnmValue const *a, GnmValue const *b)
 	return value_equal (a, b) && (VALUE_FMT(a) == VALUE_FMT(b));
 }
 
-static GtkListStore *
-fcombo_fill_model (SheetObject *so,  GtkTreePath **clip, GtkTreePath **select)
+static GtkWidget *
+fcombo_create_list (SheetObject *so,  GtkTreePath **clip, GtkTreePath **select)
 {
 	GnmFilterCombo  *fcombo = GNM_FILTER_COMBO (so);
 	GnmFilter const *filter = fcombo->filter;
 	GnmRange	 r = filter->r;
-	Sheet 		*filtered_sheet;
+	Sheet		*filtered_sheet;
 	UniqueCollection uc;
 	GtkTreeIter	 iter;
 	GtkListStore *model;
+	GtkWidget    *list;
 	GPtrArray    *sorted = g_ptr_array_new ();
 	unsigned i, field_num = gnm_filter_combo_index (fcombo);
 	gboolean is_custom = FALSE;
@@ -271,7 +273,13 @@ fcombo_fill_model (SheetObject *so,  GtkTreePath **clip, GtkTreePath **select)
 	g_hash_table_destroy (uc.hash);
 	g_ptr_array_free (sorted, TRUE);
 
-	return model;
+	list = gtk_tree_view_new_with_model (GTK_TREE_MODEL (model));
+	g_object_unref (model);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (list),
+		gtk_tree_view_column_new_with_attributes ("ID",
+			gtk_cell_renderer_text_new (), "text", 0,
+			NULL));
+	return list;
 }
 
 static void
@@ -309,9 +317,9 @@ fcombo_create_arrow (SheetObject *so)
 static void
 fcombo_ccombo_init (GnmCComboFooViewIface *ccombo_iface)
 {
-	ccombo_iface->fill_model	= fcombo_fill_model;
-	ccombo_iface->activate		= fcombo_activate;
+	ccombo_iface->create_list	= fcombo_create_list;
 	ccombo_iface->create_arrow	= fcombo_create_arrow;
+	ccombo_iface->activate		= fcombo_activate;
 }
 
 /*******************************************************************************/

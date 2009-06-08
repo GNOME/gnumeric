@@ -20,10 +20,10 @@ typedef enum {
 	GOD_ANCHOR_DIR_DOWN_RIGHT = 0x11,
 
 	GOD_ANCHOR_DIR_NONE_MASK  = 0x00,
-	GOD_ANCHOR_DIR_H_MASK 	  = 0x01,
+	GOD_ANCHOR_DIR_H_MASK	  = 0x01,
 	GOD_ANCHOR_DIR_RIGHT	  = 0x01,
 	GOD_ANCHOR_DIR_V_MASK	  = 0x10,
-	GOD_ANCHOR_DIR_DOWN  	  = 0x10
+	GOD_ANCHOR_DIR_DOWN	  = 0x10
 } GODrawingAnchorDir;
 typedef struct _GODrawingAnchor {
 	int			pos_pts [4];	/* position in points */
@@ -115,7 +115,7 @@ SheetObjectAnchor *
 
 /* Image rendering */
 GtkTargetList *sheet_object_get_target_list (SheetObject const *so);
-void sheet_object_write_image 	(SheetObject const *so,
+void sheet_object_write_image	(SheetObject const *so,
 				 char const *format,
 				 double resolution,
 				 GsfOutput *output,
@@ -123,7 +123,7 @@ void sheet_object_write_image 	(SheetObject const *so,
 
 /* Object export */
 GtkTargetList *sheet_object_exportable_get_target_list (SheetObject const *so);
-void sheet_object_write_object 	(SheetObject const *so,
+void sheet_object_write_object	(SheetObject const *so,
 				 char const *format,
 				 GsfOutput *output, GError **err,
 				 GnmConventions const *convs);

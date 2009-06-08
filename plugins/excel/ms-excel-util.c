@@ -487,3 +487,4 @@ xl_lookup_font_specs (char const *name)
 
 	return &unknown_spec;
 }
+

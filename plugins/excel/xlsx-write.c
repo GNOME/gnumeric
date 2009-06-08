@@ -39,7 +39,6 @@
 #include "expr.h"
 #include "expr-impl.h"
 #include "func.h"
-#include "str.h"
 #include "style-color.h"
 #include "validation.h"
 #include "hlink.h"
@@ -50,6 +49,9 @@
 #include "sheet-object-graph.h"
 #include "graph.h"
 
+#include "go-val.h"
+
+#include <go-string.h>
 #include <goffice/app/file.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/graph/gog-object.h>
@@ -75,9 +77,6 @@ static char const *ns_rel_hlink	 = "http://schemas.openxmlformats.org/officeDocu
 static char const *ns_rel_draw	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/drawing";
 static char const *ns_rel_chart	 = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/chart";
 
-#define XLSX_MaxCol	16383
-#define XLSX_MaxRow	1048575
-
 typedef struct {
 	XLExportBase base;
 
@@ -91,7 +90,8 @@ typedef struct {
 	struct {
 		unsigned int	count;
 		GsfOutfile	*dir;
-	} chart, drawing;
+	} chart, drawing, pivotCache, pivotTable;
+	GOFormat *date_fmt;
 } XLSXWriteState;
 
 typedef struct {
@@ -143,12 +143,12 @@ xlsx_add_range_list (GsfXMLOut *xml, char const *id, GSList const *ranges)
 /****************************************************************************/
 
 static void
-xlsx_write_shared_strings (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part)
+xlsx_write_shared_strings (XLSXWriteState *state, GsfOutfile *wb_part)
 {
 	if (state->shared_string_array->len > 0) {
 		unsigned i;
-		GnmString const *str;
-		GsfOutput *part = gsf_outfile_open_pkg_add_rel (dir, "sharedStrings.xml",
+		GOString const *str;
+		GsfOutput *part = gsf_outfile_open_pkg_add_rel (state->xl_dir, "sharedStrings.xml",
 			"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml",
 			wb_part,
 			"http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings");
@@ -200,9 +200,9 @@ colors
 */
 
 static void
-xlsx_write_styles (XLSXWriteState *state, GsfOutfile *dir, GsfOutfile *wb_part)
+xlsx_write_styles (XLSXWriteState *state, GsfOutfile *wb_part)
 {
-	GsfOutput *part = gsf_outfile_open_pkg_add_rel (dir, "styles.xml",
+	GsfOutput *part = gsf_outfile_open_pkg_add_rel (state->xl_dir, "styles.xml",
 		"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml",
 		wb_part,
 		"http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles");
@@ -391,7 +391,9 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml, GnmRange const *extent)
 				case VALUE_FLOAT :	type = ""; break; /* "n" is the default */
 				case VALUE_ERROR :	type = "e"; break;
 				case VALUE_STRING :
-					if (val->v_str.val->ref_count > 1) {
+					/* A reasonable approximation of * 'is_shared'.  It can get spoofed by
+					 * rich text references to a base * string */
+					if (go_string_get_ref_count (val->v_str.val) > 1) {
 						if (NULL == (tmp = g_hash_table_lookup (state->shared_string_hash, val->v_str.val))) {
 							tmp = GINT_TO_POINTER (state->shared_string_array->len);
 							g_ptr_array_add (state->shared_string_array, val->v_str.val);
@@ -845,7 +847,7 @@ xlsx_write_protection (XLSXWriteState *state, GsfXMLOut *xml)
 static void
 xlsx_write_breaks (XLSXWriteState *state, GsfXMLOut *xml, GnmPageBreaks *breaks)
 {
-	unsigned const maxima = breaks->is_vert ? XLSX_MaxCol : XLSX_MaxRow;
+	unsigned const maxima = (breaks->is_vert ? XLSX_MaxCol : XLSX_MaxRow) - 1;
 	GArray const *details = breaks->details;
 	GnmPageBreak const *binfo;
 	unsigned i;
@@ -1148,7 +1150,7 @@ xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *object
 	if (NULL == state->chart.dir)
 		state->chart.dir = (GsfOutfile *)gsf_outfile_new_child (state->xl_dir, "charts", TRUE);
 
-	name = g_strdup_printf ("drawing%u.xml", state->drawing.count++);
+	name = g_strdup_printf ("drawing%u.xml", ++state->drawing.count);
 	drawing_part = gsf_outfile_new_child_full (state->drawing.dir, name, FALSE,
 		"content-type", "application/vnd.openxmlformats-officedocument.drawing+xml",
 		NULL);
@@ -1159,7 +1161,7 @@ xlsx_write_objects (XLSXWriteState *state, GsfOutput *sheet_part, GSList *object
 
 	obj = objects = g_slist_reverse (objects);
 	for (obj = objects ; obj != NULL ; obj = obj->next) {
-		char *name = g_strdup_printf ("chart%u.xml", state->chart.count++);
+		char *name = g_strdup_printf ("chart%u.xml", ++state->chart.count);
 		chart_part = gsf_outfile_new_child_full (state->chart.dir, name, FALSE,
 			"content-type", "application/vnd.openxmlformats-officedocument.drawingml.chart+xml",
 			NULL);
@@ -1388,11 +1390,14 @@ xlsx_write_calcPR (XLSXWriteState *state, GsfXMLOut *xml)
 	gsf_xml_out_end_element (xml);
 }
 
+#include "xlsx-write-pivot.c"
+
 static void
 xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 {
 	int i;
 	GsfXMLOut  *xml;
+	GSList	   *cacheRefs;
 	GPtrArray  *sheetIds  = g_ptr_array_new ();
 	GsfOutfile *xl_dir    = (GsfOutfile *)gsf_outfile_new_child (root_part, "xl", TRUE);
 	GsfOutfile *sheet_dir = (GsfOutfile *)gsf_outfile_new_child (xl_dir, "worksheets", TRUE);
@@ -1405,16 +1410,17 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 	state->shared_string_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	state->shared_string_array = g_ptr_array_new ();
 	state->convs	 = xlsx_conventions_new ();
-	state->chart.dir   = state->drawing.dir = NULL;
-	state->chart.count = state->drawing.count = 1;
+	state->chart.dir   = state->drawing.dir   = NULL;
+	state->chart.count = state->drawing.count = 0;
 
 	g_ptr_array_set_size (sheetIds, workbook_sheet_count (state->base.wb));
 	for (i = 0 ; i < workbook_sheet_count (state->base.wb); i++)
 		g_ptr_array_index (sheetIds, i) =
 			(gpointer) xlsx_write_sheet (state, sheet_dir, wb_part, i);
 
-	xlsx_write_shared_strings (state, xl_dir, wb_part);
-	xlsx_write_styles (state, xl_dir, wb_part);
+	xlsx_write_shared_strings (state, wb_part);
+	xlsx_write_styles (state, wb_part);
+	cacheRefs = xlsx_write_pivots (state, wb_part);
 
 	xml = gsf_xml_out_new (GSF_OUTPUT (wb_part));
 	gsf_xml_out_start_element (xml, "workbook");
@@ -1453,6 +1459,18 @@ xlsx_write_workbook (XLSXWriteState *state, GsfOutfile *root_part)
 
 	xlsx_write_calcPR (state, xml);
 
+	if (NULL != cacheRefs) {
+		GSList *ptr;
+		unsigned int i = 0;
+		gsf_xml_out_start_element (xml, "pivotCaches");
+		for (ptr = cacheRefs ; ptr != NULL ; ptr = ptr->next) {
+			gsf_xml_out_start_element (xml, "pivotCache");
+			gsf_xml_out_add_int (xml, "cacheId", i++);
+			gsf_xml_out_add_cstr_unchecked (xml, "r:id", ptr->data);
+			gsf_xml_out_end_element (xml); /* </pivotCache> */
+		}
+		gsf_xml_out_end_element (xml); /* </pivotCaches> */
+	}
 	gsf_xml_out_start_element (xml, "webPublishing");
 	gsf_xml_out_add_int (xml, "codePage", 1252);	/* FIXME : Use utf-8 ? */
 	gsf_xml_out_end_element (xml);

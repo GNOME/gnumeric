@@ -48,12 +48,12 @@ struct _GnmValueFloat {
 struct _GnmValueErr {
 	GnmValueType const type;
 	GOFormat *fmt;
-	GnmString   *mesg;
+	GOString   *mesg;
 };
 struct _GnmValueStr {
 	GnmValueType const type;
 	GOFormat *fmt;
-	GnmString   *val;
+	GOString   *val;
 };
 struct _GnmValueRange {
 	GnmValueType const type;
@@ -102,7 +102,7 @@ GnmValue *value_new_bool             (gboolean b);
 GnmValue *value_new_int              (int i);
 GnmValue *value_new_float            (gnm_float f);
 GnmValue *value_new_error            (GnmEvalPos const *pos, char const *mesg);
-GnmValue *value_new_error_str        (GnmEvalPos const *pos, GnmString *mesg);
+GnmValue *value_new_error_str        (GnmEvalPos const *pos, GOString *mesg);
 GnmValue *value_new_error_std        (GnmEvalPos const *pos, GnmStdError err);
 GnmValue *value_new_error_NULL       (GnmEvalPos const *pos);
 GnmValue *value_new_error_DIV0       (GnmEvalPos const *pos);
@@ -113,7 +113,7 @@ GnmValue *value_new_error_NUM        (GnmEvalPos const *pos);
 GnmValue *value_new_error_NA         (GnmEvalPos const *pos);
 GnmValue *value_new_string           (char const *str);
 GnmValue *value_new_string_nocopy    (char *str);
-GnmValue *value_new_string_str       (GnmString *str);
+GnmValue *value_new_string_str       (GOString *str);
 GnmValue *value_new_cellrange_unsafe (GnmCellRef const *a, GnmCellRef const *b);
 GnmValue *value_new_cellrange        (GnmCellRef const *a, GnmCellRef const *b,
 				      int eval_col, int eval_row);

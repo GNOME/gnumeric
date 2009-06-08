@@ -27,7 +27,6 @@
 #include "gnm-so-line.h"
 #include "gnm-so-filled.h"
 #include "sheet-object-graph.h"
-#include "str.h"
 #include "solver.h"
 #include "scenarios.h"
 #include "print-info.h"
@@ -49,7 +48,6 @@
 #include "clipboard.h"
 #include "gnm-format.h"
 #include "ranges.h"
-#include "str.h"
 #include "hlink.h"
 #include "input-msg.h"
 #include "gutils.h"
@@ -2205,7 +2203,7 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, const char *buffer, int
 				xmlChar *content = (char *)xmlNodeGetContent (l);
 				if (range_parse (&r, CXML2C (content), gnm_sheet_get_size (ctxt->sheet)))
 					cr->merged = g_slist_prepend (cr->merged,
-								      range_dup (&r));
+								      gnm_range_dup (&r));
 				xmlFree (content);
 			}
 
@@ -2749,18 +2747,9 @@ xml_init (void)
 				   "gnumeric",
 				   _("Gnumeric XML (*.gnumeric)"),
 				   FILE_FL_AUTO, gnm_xml_file_save);
-	/*
-	 * The following avoids a hard dep on goffice trunk.  When we
-	 * otherwise require that, just do the g_object_set.
-	 */
-	{
-		GParamSpec *pspec = g_object_class_find_property
-			(G_OBJECT_GET_CLASS (saver), "mime-type");
-		if (pspec)
-			g_object_set (G_OBJECT (saver),
-				      "mime-type", "application/x-gnumeric",
-				      NULL);
-	}
+	g_object_set (G_OBJECT (saver),
+		      "mime-type", "application/x-gnumeric",
+		      NULL);
 
 	go_file_saver_register_as_default (saver, 50);
 }

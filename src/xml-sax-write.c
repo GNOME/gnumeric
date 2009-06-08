@@ -40,7 +40,6 @@
 #include <expr-impl.h>
 #include <expr-name.h>
 #include <value.h>
-#include <str.h>
 #include <ranges.h>
 #include <mstyle.h>
 #include <style-border.h>
@@ -57,6 +56,7 @@
 #include <tools/scenarios.h>
 #include <gnumeric-gconf.h>
 
+#include <go-string.h>
 #include <goffice/app/go-doc.h>
 #include <goffice/app/file.h>
 #include <gsf/gsf-libxml.h>
@@ -617,7 +617,7 @@ static void
 xml_write_styles (GnmOutputXML *state)
 {
 	GnmStyleList *styles =
-		g_slist_sort (sheet_style_get_list (state->sheet, NULL),
+		g_slist_sort (sheet_style_get_range (state->sheet, NULL),
 			      (GCompareFunc)cb_sheet_style_order);
 	if (styles != NULL) {
 		GnmStyleList *ptr;

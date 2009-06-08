@@ -33,7 +33,6 @@
 #include "sheet.h"
 #include "cell.h"
 #include "value.h"
-#include "str.h"
 #include "workbook-control.h"
 #include "parse-util.h"
 
@@ -41,6 +40,7 @@
 #include "sheet-object.h"
 #include "gnm-validation-combo-foo-view.h"
 #include "gnm-cell-combo-foo-view.h"
+#include <go-string.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n-lib.h>
@@ -92,10 +92,6 @@ gnm_validation_combo_finalize (GObject *object)
 		validation_unref (vcombo->validation);
 		vcombo->validation = NULL;
 	}
-	if (NULL != vcombo->sv) {
-		sv_weak_unref (&vcombo->sv);
-		vcombo->sv = NULL;
-	}
 	parent = g_type_class_peek (SHEET_OBJECT_TYPE);
 	parent->finalize (object);
 }
@@ -103,8 +99,6 @@ gnm_validation_combo_finalize (GObject *object)
 static void
 gnm_validation_combo_init (SheetObject *so)
 {
-	/* keep the arrows from wandering with their cells */
-	so->flags &= ~SHEET_OBJECT_MOVE_WITH_CELLS;
 }
 static SheetObjectView *
 gnm_validation_combo_foo_view_new (SheetObject *so, SheetObjectViewContainer *container)
@@ -118,16 +112,12 @@ gnm_validation_combo_class_init (GObjectClass *gobject_class)
 	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (gobject_class);
 	gobject_class->finalize	= gnm_validation_combo_finalize;
 	so_class->new_view	  = gnm_validation_combo_foo_view_new;
-	so_class->read_xml_dom	  = NULL;
-	so_class->write_xml_sax	  = NULL;
-	so_class->prep_sax_parser = NULL;
-	so_class->copy            = NULL;
 }
 
 typedef SheetObjectClass GnmValidationComboClass;
 GSF_CLASS (GnmValidationCombo, gnm_validation_combo,
 	   gnm_validation_combo_class_init, gnm_validation_combo_init,
-	   SHEET_OBJECT_TYPE)
+	   gnm_cell_combo_get_type ())
 
 SheetObject *
 gnm_validation_combo_new (GnmValidation const *val, SheetView *sv)
@@ -137,9 +127,8 @@ gnm_validation_combo_new (GnmValidation const *val, SheetView *sv)
 	g_return_val_if_fail (val != NULL, NULL);
 	g_return_val_if_fail (sv  != NULL, NULL);
 
-	vcombo = g_object_new (GNM_VALIDATION_COMBO_TYPE, NULL);
+	vcombo = g_object_new (GNM_VALIDATION_COMBO_TYPE, "sheet-view", sv, NULL);
 	validation_ref (vcombo->validation = val);
-	sv_weak_ref (vcombo->sv = sv, &vcombo->sv);
 	return SHEET_OBJECT (vcombo);
 }
 
@@ -195,8 +184,8 @@ validation_new (ValidationStyle style,
 
 	v = g_new0 (GnmValidation, 1);
 	v->ref_count = 1;
-	v->title = title && title[0] ? gnm_string_get (title) : NULL;
-	v->msg = msg && msg[0] ? gnm_string_get (msg) : NULL;
+	v->title = title && title[0] ? go_string_new (title) : NULL;
+	v->msg = msg && msg[0] ? go_string_new (msg) : NULL;
 	v->texpr[0] = texpr0;
 	v->texpr[1] = texpr1;
 	v->style = style;
@@ -235,11 +224,11 @@ validation_unref (GnmValidation const *val)
 		int i;
 
 		if (v->title != NULL) {
-			gnm_string_unref (v->title);
+			go_string_unref (v->title);
 			v->title = NULL;
 		}
 		if (v->msg != NULL) {
-			gnm_string_unref (v->msg);
+			go_string_unref (v->msg);
 			v->msg = NULL;
 		}
 		for (i = 0 ; i < 2 ; i++)

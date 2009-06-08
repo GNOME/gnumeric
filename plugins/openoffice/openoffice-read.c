@@ -33,7 +33,6 @@
 #include <sheet-filter.h>
 #include <ranges.h>
 #include <cell.h>
-#include <str.h>
 #include <value.h>
 #include <expr.h>
 #include <expr-impl.h>
@@ -48,6 +47,8 @@
 #include <command-context.h>
 #include <gutils.h>
 #include <xml-io.h>
+
+#include <go-string.h>
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-doc.h>
 #include <goffice/utils/go-units.h>
@@ -152,11 +153,11 @@ typedef struct {
 } OOChartStyle;
 
 typedef struct {
-	GogGraph 	*graph;
-	GogChart 	*chart;
+	GogGraph	*graph;
+	GogChart	*chart;
 
 	/* set in plot-area */
-	GogPlot	 	*plot;
+	GogPlot		*plot;
 	Sheet		*src_sheet;
 	GnmRange	 src_range;
 	gboolean	 src_in_rows;
@@ -170,7 +171,7 @@ typedef struct {
 
 	OOChartStyle		*cur_graph_style;
 	GHashTable		*graph_styles;	/* contain links to OOChartStyle GSLists */
-	OOPlotType	 	 plot_type;
+	OOPlotType		 plot_type;
 	SheetObjectAnchor	 anchor;	/* anchor to draw the frame (images or graphs) */
 } OOChartInfo;
 
@@ -197,9 +198,9 @@ typedef struct {
 	OOVer		 ver;		/* Its an OOo v1.0 or v2.0? */
 	GsfInfile	*zip;		/* Reference to the open file, to load graphs and images*/
 	OOChartInfo	 chart;
-	GnmParsePos 	 pos;
-	GnmCellPos 	 extent_data;
-	GnmCellPos 	 extent_style;
+	GnmParsePos	 pos;
+	GnmCellPos	 extent_data;
+	GnmCellPos	 extent_style;
 
 	int		 col_inc, row_inc;
 	gboolean	 content_is_simple;
@@ -1312,7 +1313,7 @@ oo_cell_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		if (state->content_is_simple)
 			/* embedded newlines stored as a series of <p> */
 			if (VALUE_IS_STRING (cell->value))
-				v = value_new_string_str (gnm_string_get_nocopy (
+				v = value_new_string_str (go_string_new_nocopy (
 					g_strconcat (cell->value->v_str.val->str, "\n",
 						     xin->content->str, NULL)));
 			else

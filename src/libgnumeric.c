@@ -40,7 +40,6 @@
 #include "style-font.h"
 #include "mstyle.h"
 #include "style-color.h"
-#include "str.h"
 #include "print.h"
 #include "dependent.h"
 #include "sheet-autofill.h"
@@ -56,6 +55,7 @@
 #include "mathfunc.h"
 #include "hlink.h"
 #include "wbc-gtk-impl.h"
+#include <go-string.h>
 #include <goffice/goffice.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/app/go-plugin.h>
@@ -255,6 +255,7 @@ gnm_init (gboolean fast)
 {
 	call_gnome_vfs_init ();
 
+	go_string_init ();
 	libgoffice_init ();
 	plugin_service_define ("function_group",
 		&plugin_service_function_group_get_type);
@@ -264,7 +265,6 @@ gnm_init (gboolean fast)
 
 	g_object_new (GNM_APP_TYPE, NULL);
 	mathfunc_init ();
-	gnm_string_init ();
 
 	gnm_style_init ();
 	gnm_conf_init (fast);
@@ -345,8 +345,8 @@ gnm_shutdown (void)
 	gnm_conf_shutdown ();
 	gnm_style_shutdown ();
 
-	gnm_string_shutdown ();
 	libgoffice_shutdown ();
+	go_string_shutdown ();
 	plugin_services_shutdown ();
 	g_object_unref (gnm_app_get_app ());
 	gutils_shutdown ();

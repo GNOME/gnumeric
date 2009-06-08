@@ -18,7 +18,7 @@
 void excel_read_workbook (IOContext *context, WorkbookView *new_wb, GsfInput *input,
 			  gboolean *is_double_stream_file);
 
-typedef struct _ExcelWriteState	 ExcelWriteState;
+typedef struct _XLSExporter	 ExcelWriteState;
 void		 excel_write_state_free (ExcelWriteState *ewb);
 ExcelWriteState *excel_write_state_new  (IOContext *context, WorkbookView const *wbv,
 					 gboolean biff7, gboolean biff8);

@@ -35,10 +35,10 @@
 #include "number-match.h"
 #include "gnm-format.h"
 #include "expr-name.h"
-#include "str.h"
 /* For std_expr_name_handler: */
 #include "expr-impl.h"
 #include "gutils.h"
+#include <go-string.h>
 #include <goffice/app/go-doc.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-file.h>
@@ -1190,7 +1190,7 @@ std_expr_name_handler (GnmConventionsOut *out, GnmExprName const *name)
 }
 
 static void
-std_output_string (GnmConventionsOut *out, GnmString const *str)
+std_output_string (GnmConventionsOut *out, GOString const *str)
 {
 	go_strescape (out->accum, str->str);
 }

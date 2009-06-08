@@ -31,8 +31,8 @@
 #include <glib/gi18n-lib.h>
 
 struct  _GnmDao {
-	GtkHBox 	box;
-	GladeXML 	*gui;
+	GtkHBox		box;
+	GladeXML	*gui;
 
 	GtkWidget *new_sheet;
 	GtkWidget *new_workbook;
@@ -107,7 +107,7 @@ gnm_dao_init (GnmDao *gdao)
 static void
 gnm_dao_destroy (GtkObject *object)
 {
-  	GnmDao *gdao = GNM_DAO (object);
+	GnmDao *gdao = GNM_DAO (object);
 
 	if (gdao->gui) {
 		g_object_unref (G_OBJECT (gdao->gui));

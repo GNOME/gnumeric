@@ -37,7 +37,7 @@ struct _GnmStyle {
 
 #warning TODO use GOFont
 	struct {
-		GnmString *name;
+		GOString	*name;
 		gboolean	bold;
 		gboolean	italic;
 		GnmUnderline	underline;

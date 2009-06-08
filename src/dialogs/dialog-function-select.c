@@ -32,11 +32,11 @@
 #include <gui-util.h>
 #include <func.h>
 #include <workbook.h>
-#include <str.h>
 #include <wbc-gtk.h>
 #include <application.h>
 #include <gnumeric-gconf.h>
 
+#include <go-string.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glade/glade.h>
 #include <gtk/gtk.h>

@@ -314,3 +314,29 @@ gnm_date_add_years (GDate *d, int n)
  bad:
 	g_date_clear (d, 1);
 }
+
+#define DAY_SECONDS (3600*24)
+int
+datetime_value_to_seconds (GnmValue const *v, GODateConventions const *conv)
+{
+	int secs;
+	gnm_float d = datetime_value_to_serial_raw (v, conv);
+	if (d == G_MAXINT)
+		return -1;
+
+	/* Add epsilon before we scale and translate because otherwise it
+	   will not be enough.  */
+	d = gnm_add_epsilon (d);
+
+	/* Get the number down between 0 and 1 before we scale.  */
+	d -= gnm_floor (d);
+
+	/* Scale and round.  */
+	secs = (int)(gnm_add_epsilon (d) * DAY_SECONDS + 0.5);
+
+	/* We rounded, so we might have gone too far.  */
+	if (secs >= DAY_SECONDS)
+		secs -= DAY_SECONDS;
+
+	return secs;
+}

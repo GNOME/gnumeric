@@ -43,6 +43,7 @@ void	 dialog_advanced_filter	(WBCGtk *wbcg);
 void	 dialog_shuffle	        (WBCGtk *wbcg);
 void     dialog_scenario_add    (WBCGtk *wbcg);
 void     dialog_scenarios       (WBCGtk *wbcg);
+void	 dialog_data_slicer	(WBCGtk *wbcg, gboolean create);
 void     dialog_data_table	(WBCGtk *wbcg);
 void	 dialog_auto_filter	(WBCGtk *wbcg, GnmFilter *f, int i,
 				 gboolean is_expr, GnmFilterCondition *cur);

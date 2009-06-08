@@ -48,8 +48,6 @@ excel_la_SOURCES =		\
 	ms-obj.h		\
 	ms-chart.h		\
 	ms-chart.c		\
-	ms-pivot.h		\
-	ms-pivot.c		\
 	rc4.c			\
 	rc4.h			\
 	crypt-md4.c		\
@@ -58,6 +56,9 @@ excel_la_SOURCES =		\
 	md5.h			\
 	\
 	excel-xml-read.c	\
+	\
+	xls-read-pivot.c	\
+	xls-write-pivot.c	\
 	\
 	xlsx-utils.h		\
 	xlsx-utils.c		\
@@ -69,5 +70,8 @@ xml_DATA = $(xml_in_files:.xml.in=.xml)
 
 @INTLTOOL_XML_RULE@
 
-EXTRA_DIST = $(xml_in_files) xlsx-read-pivot.c
+EXTRA_DIST = $(xml_in_files)	\
+	xlsx-read-pivot.c	\
+	xlsx-write-pivot.c
+
 DISTCLEANFILES = $(xml_DATA)

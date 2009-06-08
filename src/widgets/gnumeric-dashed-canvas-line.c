@@ -131,7 +131,7 @@ gnumeric_dashed_canvas_line_draw (FooCanvasItem *item,
 	if (line->dash_style_index == GNM_STYLE_BORDER_DOUBLE)
 		double_line_draw (item, drawable, event);
 	else {
- 		gnm_style_border_set_gc_dash (FOO_CANVAS_LINE (item)->gc,
+		gnm_style_border_set_gc_dash (FOO_CANVAS_LINE (item)->gc,
 					  line->dash_style_index);
 		gnumeric_dashed_canvas_line_class->
 			real_draw (item, drawable, event);

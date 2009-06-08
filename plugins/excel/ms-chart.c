@@ -29,6 +29,7 @@
 #include <sheet-object-graph.h>
 #include <workbook-view.h>
 
+#include <go-string.h>
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-chart.h>
@@ -3411,10 +3412,8 @@ ms_excel_chart_read_NUMBER (BiffQuery *q, XLChartReadState *state, size_t ofs)
 	sernum = GSF_LE_GET_GUINT16 (q->data + 2);
 	val = gsf_le_get_double (q->data + ofs);
 
-	if (state->series == NULL)
+	if (state->series == NULL || state->cur_role < 0)
 		return;
-
-	XL_CHECK_CONDITION (state->cur_role >= 0);
 	XL_CHECK_CONDITION (state->cur_role < GOG_MS_DIM_TYPES);
 	XL_CHECK_CONDITION (sernum < state->series->len);
 
@@ -3443,10 +3442,8 @@ ms_excel_chart_read_LABEL (BiffQuery *q, XLChartReadState *state)
 	sernum = GSF_LE_GET_GUINT16 (q->data + 2);
 	/* xf  = GSF_LE_GET_GUINT16 (q->data + 4); */
 
-	if (state->series == NULL)
+	if (state->series == NULL || state->cur_role < 0)
 		return;
-
-	XL_CHECK_CONDITION (state->cur_role >= 0);
 	XL_CHECK_CONDITION (state->cur_role < GOG_MS_DIM_TYPES);
 	XL_CHECK_CONDITION (sernum < state->series->len);
 
@@ -5747,23 +5744,23 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 					break; /* hopefully there is only one matrix */
 				}
 			if (!has_matrix) {
-  				for (series = gog_plot_get_series (plots->data) ; series != NULL ; series = series->next)
-  					num_series += chart_write_series (&state, series->data, num_series);
+				for (series = gog_plot_get_series (plots->data) ; series != NULL ; series = series->next)
+					num_series += chart_write_series (&state, series->data, num_series);
 			} else if (n == 2) { /* surfaces and countours have the matrix as third data, other
 						plot types that might use matrices will probably not be exportable
 						to any of excel formats */
-  				/* we should have only one series there */
-  				GogSeries *ser = GOG_SERIES (gog_plot_get_series (plots->data)->data);
-  				/* create an equivalent XLContourPlot and save its series */
-  				if (ser != NULL) {
+				/* we should have only one series there */
+				GogSeries *ser = GOG_SERIES (gog_plot_get_series (plots->data)->data);
+				/* create an equivalent XLContourPlot and save its series */
+				if (ser != NULL) {
 					gboolean as_col, s_as_col = FALSE;
 					gboolean s_is_rc = FALSE, mat_is_rc;
 					GnmExprTop const *stexpr = NULL;
-  					GnmExprTop const *mattexpr;
+					GnmExprTop const *mattexpr;
 					GnmValue const *sval = NULL, *matval;
-  					GnmValue *val;
-  					GogSeries *serbuf;
-  					GnmRange vector, svec;
+					GnmValue *val;
+					GogSeries *serbuf;
+					GnmRange vector, svec;
 					int i, j, sn = 0, cur = 0, scur = 0;
 					GOData *s, *c, *mat = ser->values[2].data;
 					GODataMatrixSize size = go_data_matrix_get_size (GO_DATA_MATRIX (mat));

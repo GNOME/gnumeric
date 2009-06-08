@@ -69,21 +69,20 @@ GnmFilterCondition *gnm_filter_condition_new_bucket (gboolean top,
 						     gboolean absolute,
 						     float n);
 
-GnmFilter 		 *gnm_filter_new	    (Sheet *sheet, GnmRange const *r);
-GnmFilter 		 *gnm_filter_dup	    (GnmFilter const *src,
+GnmFilter		 *gnm_filter_new	    (Sheet *sheet, GnmRange const *r);
+GnmFilter		 *gnm_filter_dup	    (GnmFilter const *src,
 						     Sheet *sheet);
 GnmFilter *               gnm_filter_ref            (GnmFilter *filter);
-void	   		  gnm_filter_unref	    (GnmFilter *filter);
-void	   		  gnm_filter_remove	    (GnmFilter *filter);
+void			  gnm_filter_unref	    (GnmFilter *filter);
+void			  gnm_filter_remove	    (GnmFilter *filter);
 GnmFilterCondition const *gnm_filter_get_condition  (GnmFilter const *filter, unsigned i);
-void	   		  gnm_filter_set_condition  (GnmFilter *filter, unsigned i,
+void			  gnm_filter_set_condition  (GnmFilter *filter, unsigned i,
 						     GnmFilterCondition *cond,
 						     gboolean apply);
 gboolean		  gnm_filter_overlaps_range (GnmFilter const *filter, GnmRange const *r);
-gboolean		  gnm_filter_overlaps_range (GnmFilter const *filter, GnmRange const *r);
 void                      gnm_filter_reapply        (GnmFilter *filter);
 
-
+GnmFilter *gnm_sheet_filter_at_pos  (Sheet const *sheet, GnmCellPos const *pos);
 void gnm_sheet_filter_guess_region  (Sheet *sheet, GnmRange *region);
 void gnm_sheet_filter_insdel_colrow (Sheet *sheet,
 				     gboolean is_cols, gboolean is_insert,

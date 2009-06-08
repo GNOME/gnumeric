@@ -67,7 +67,7 @@ do {										\
 } while (0)
 
 #define WORKBOOK_FOREACH_CONTROL(wb, view, control, code)		\
-	WORKBOOK_FOREACH_VIEW((wb), view, 				\
+	WORKBOOK_FOREACH_VIEW((wb), view,				\
 		WORKBOOK_VIEW_FOREACH_CONTROL(view, control, code);)
 
 

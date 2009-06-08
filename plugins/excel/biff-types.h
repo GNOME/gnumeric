@@ -192,7 +192,7 @@
 #define BIFF_SXTBRGIITM			0x0d1
 #define BIFF_SXTBPG			0x0d2
 #define BIFF_OBPROJ			0x0d3
-#define BIFF_SXIDSTM			0x0d5
+#define BIFF_SXStreamID			0x0d5
 #define BIFF_RSTRING			0x0d6
 #define BIFF_DBCELL			0x0d7
 #define BIFF_SXNUMGROUP			0x0d8	/* from OO : numerical grouping in pivot cache field */
@@ -258,15 +258,32 @@
 #define BIFF_DV				0x1be
 #define BIFF_XL9FILE			0x1c0
 #define BIFF_RECALCID			0x1c1
+
+/* new in 2000 */
 #define BIFF_LINK_TIP			0x800	/* follows an hlink */
-#define BIFF_UNKNOWN_802		0x802	/* OO exports it but has not name or docs */
-#define BIFF_WQSETT			0x803	/* OO named it and can export it, but does not include it in the docs */
-#define BIFF_WQTABLES			0x804	/* OO named it and can export it, but does not include it in the docs */
-#define BIFF_UNKNOWN_805		0x805	/* No name or docs, seems related to web query see #153260 for sample */
-#define BIFF_PIVOT_AUTOFORMAT		0x810	/* Seems to contain pivot table autoformat indicies, plus ?? */
-#define BIFF_UNKNOWN_864		0x864	/* seems related to pivot tables */
-#define BIFF_SHEETPROTECTION		0x867	/* OO named it, and has docs */
-#define BIFF_RANGEPROTECTION		0x868	/* OO named it, no docs yet */
+#define BIFF_WEBPUB			0x801
+#define BIFF_QSISXTAG			0x802
+#define BIFF_DBQUERYEXT			0x803
+#define BIFF_EXTSTRING			0x804
+#define BIFF_TXTQUERY			0x805 /* see #153260 for sample */
+#define BIFF_QSIR			0x806
+#define BIFF_QSIF			0x807
+#define BIFF_OLEDBCONN			0x80A
+#define BIFF_WOPT			0x80B
+#define BIFF_SXVIEWEX			0x80C
+#define BIFF_SXTH			0x80D
+#define BIFF_SXPIEX			0x80E
+#define BIFF_SXVDTEX			0x80F
+#define BIFF_SXVIEWEX9			0x810
+#define BIFF_CONTINUEFRT		0x812
+#define BIFF_REALTIMEDATA		0x813
+#define BIFF_SHEETEXT			0x862
+#define BIFF_BOOKEXT			0x863
+#define BIFF_SXADDL			0x864
+#define BIFF_CRASHRECERR		0x865
+#define BIFF_HFPICTURE			0x866
+#define BIFF_SHEETPROTECTION		0x867	/* XL calls it FEATHEADR, but the OOo name is clearer */
+#define BIFF_RANGEPROTECTION		0x868	/* XL calls it FEAT */
 
 /* Chart Specific */
 /* These must be here for the ole program to work, and the suffixes must be

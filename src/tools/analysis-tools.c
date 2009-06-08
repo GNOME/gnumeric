@@ -1158,7 +1158,7 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 			gnm_expr_free (expr_title);			
 		} else {
 			switch (info->base.group_by) {
- 			case GROUPED_BY_ROW:
+			case GROUPED_BY_ROW:
 				format = _("Row %d");
 				break;
 			case GROUPED_BY_COL:
@@ -1924,7 +1924,7 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 	expr_count_1 = gnm_expr_new_funcall1 (fd_count, expr_1);
 	dao_set_cell_expr (dao, 1, 3, expr_count_1);
 	expr_count_2 = gnm_expr_new_funcall1 (fd_count, expr_2);
-       	dao_set_cell_expr (dao, 2, 3, gnm_expr_copy (expr_count_2));
+	dao_set_cell_expr (dao, 2, 3, gnm_expr_copy (expr_count_2));
 
         /* Pooled Variance */
 	{
@@ -2859,7 +2859,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 					"/"
 					"/Intercept"));
 	dao_set_italic (dao, 2, 0, 3, 0);
- 	dao_set_cell (dao, 2, 0, _("Response Variable:"));
+	dao_set_cell (dao, 2, 0, _("Response Variable:"));
 
 	if (info->base.labels) {
 		
@@ -2898,7 +2898,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 					 "/F"
 					 "/Significance of F"));
 
- 	dao_set_italic (dao, 1, 15, 6, 15);
+	dao_set_italic (dao, 1, 15, 6, 15);
 	set_cell_text_row (dao, 1, 15, _("/Coefficients" 
 					 "/Standard Error"
 					 "/t-Statistics"
@@ -3402,7 +3402,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 			dao_set_cell_expr (dao, col, 0, expr_title);
 		} else {
 			switch (info->base.group_by) {
- 			case GROUPED_BY_ROW:
+			case GROUPED_BY_ROW:
 				format = _("Row %d");
 				break;
 			default:

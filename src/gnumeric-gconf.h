@@ -26,7 +26,7 @@ typedef struct {
 		gboolean is_bold, is_italic;
 	} default_font;
 
-	guint    	 num_of_recent_funcs;
+	guint	 	 num_of_recent_funcs;
 	GSList const	*recent_funcs;
 
 	GSList const	*plugin_file_states;
@@ -48,14 +48,14 @@ typedef struct {
 	float		 zoom;
 
 	gint		 xml_compression_level;
-	gboolean 	 file_overwrite_default_answer;
-	gboolean 	 file_ask_single_sheet_save;
+	gboolean	 file_overwrite_default_answer;
+	gboolean	 file_ask_single_sheet_save;
 
-	gboolean 	 sort_default_has_header;
-	gboolean 	 sort_default_by_case;
-	gboolean 	 sort_default_retain_formats;
-	gboolean 	 sort_default_ascending;
-	gint     	 sort_max_initial_clauses;
+	gboolean	 sort_default_has_header;
+	gboolean	 sort_default_by_case;
+	gboolean	 sort_default_retain_formats;
+	gboolean	 sort_default_ascending;
+	gint		 sort_max_initial_clauses;
 
 	gboolean	 print_all_sheets; /* vs print only selected */
 	GSList const    *printer_header;
@@ -78,7 +78,7 @@ typedef struct {
 	gchar           *print_repeat_top;
 	gchar           *print_repeat_left;
 	double	         print_margin_top;
-	double       	 print_margin_bottom;
+	double   	 print_margin_bottom;
 	GtkUnit          desired_display;
 
   /* Also acts as flag whether the print defaults are loaded  */

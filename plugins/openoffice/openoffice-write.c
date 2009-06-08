@@ -50,7 +50,6 @@
 #include <expr-impl.h>
 #include <expr-name.h>
 #include <value.h>
-#include <str.h>
 #include <ranges.h>
 #include <mstyle.h>
 #include <input-msg.h>
@@ -65,6 +64,9 @@
 #include <tools/scenarios.h>
 #include <gutils.h>
 #include <xml-io.h>
+
+#include <go-string.h>
+#include <goffice/utils/go-glib-extras.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output.h>

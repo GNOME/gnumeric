@@ -2,7 +2,7 @@
 
 /*
  * widget-editable-label.c: A label that can be used to edit its text on demand
- * 			and provides control over its colour.
+ *			and provides control over its colour.
  *
  * Copyright (C) 2002 Jody Goldberg (jody@gnome.org)
  *

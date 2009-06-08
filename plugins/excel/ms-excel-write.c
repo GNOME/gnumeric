@@ -62,8 +62,10 @@
 #include <expr.h>
 #include <expr-impl.h>
 #include <expr-name.h>
-#include <str.h>
 #include <mathfunc.h>
+
+#include <go-string.h>
+#include <go-data-slicer.h>
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-styled-object.h>
@@ -2495,7 +2497,7 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 
 	/* Collect strings for the SST if we need them */
 	if (use_sst) {
-		GnmString *str = cell->value->v_str.val;
+		GOString *str = cell->value->v_str.val;
 		if (!g_hash_table_lookup_extended (ewb->sst.strings, str, NULL, NULL)) {
 			int index = ewb->sst.indicies->len;
 			g_ptr_array_add (ewb->sst.indicies, str);
@@ -3840,7 +3842,7 @@ excel_write_autofilter_names (ExcelWriteState *ewb)
 	GnmFilter const *filter;
 	GnmNamedExpr nexpr;
 
-	nexpr.name = gnm_string_get ("_FilterDatabase");
+	nexpr.name = go_string_new ("_FilterDatabase");
 	nexpr.is_hidden = TRUE;
 	nexpr.is_placeholder = FALSE;
 	for (i = 0; i < ewb->esheets->len; i++) {
@@ -3859,7 +3861,7 @@ excel_write_autofilter_names (ExcelWriteState *ewb)
 			}
 		}
 	}
-	gnm_string_unref (nexpr.name);
+	go_string_unref (nexpr.name);
 }
 
 static void
@@ -5126,7 +5128,7 @@ excel_write_SST (ExcelWriteState *ewb)
 	char const * const last = data + sizeof (data);
 	size_t out_bytes, char_len, byte_len;
 	unsigned i, tmp, blocks, scale;
-	GnmString const *string;
+	GOString const *string;
 	char *str;
 
 	if (strings->len > 0) {
@@ -5142,7 +5144,7 @@ excel_write_SST (ExcelWriteState *ewb)
 	ptr = data + 8;
 	for (i = 0; i < strings->len ; i++) {
 		string = g_ptr_array_index (strings, i);
-		str = string->str;
+		str = (char *)string->str;
 
 		if (0 == (i % 8)) {
 			tmp = ptr - data + /* biff header */ 4;
@@ -5742,10 +5744,13 @@ excel_write_v7 (ExcelWriteState *ewb, GsfOutfile *outfile)
 		tmp = g_object_get_data (G_OBJECT (ewb->base.wb), "excel-codepage");
 		if (tmp != NULL)
 			codepage = GPOINTER_TO_INT (tmp);
+
 		ewb->bp = ms_biff_put_new (content, MS_BIFF_V7, codepage);
 		excel_write_workbook (ewb);
 		ms_biff_put_destroy (ewb->bp);
 		ewb->bp = NULL;
+
+		xls_write_pivot_caches (ewb, outfile, MS_BIFF_V7, codepage);
 	} else
 		go_cmd_context_error_export (GO_CMD_CONTEXT (ewb->io_context),
 			_("Couldn't open stream 'Book' for writing\n"));
@@ -5766,6 +5771,8 @@ excel_write_v8 (ExcelWriteState *ewb, GsfOutfile *outfile)
 		excel_write_workbook (ewb);
 		ms_biff_put_destroy (ewb->bp);
 		ewb->bp = NULL;
+
+		xls_write_pivot_caches (ewb, outfile, MS_BIFF_V8, -1);
 	} else
 		go_cmd_context_error_export (GO_CMD_CONTEXT (ewb->io_context),
 			_("Couldn't open stream 'Workbook' for writing\n"));
@@ -5944,6 +5951,7 @@ excel_write_state_new (IOContext *context, WorkbookView const *wb_view,
 
 	if (ewb->esheets->len != 0)
 		pre_pass (ewb);
+	ewb->base.pivot_caches = excel_collect_pivot_caches (ewb->base.wb);
 
 	return ewb;
 }
@@ -6053,4 +6061,26 @@ excel_collect_hlinks (GnmStyleList *ptr, int max_col, int max_row)
 	}
 
 	return group;
+}
+
+GHashTable *
+excel_collect_pivot_caches (Workbook const *wb)
+{
+	GSList *slicers;
+	GHashTable *caches = NULL;
+	unsigned int i;
+
+	for (i = workbook_sheet_count (wb) ; i-- > 0 ;) {
+		Sheet const *sheet = workbook_sheet_by_index (wb, i);
+		for (slicers = sheet->slicers; NULL != slicers ; slicers = slicers->next) {
+			GODataCache *cache = go_data_slicer_get_cache (slicers->data);
+			if (NULL == caches)
+				caches = g_hash_table_new (g_direct_hash, g_direct_equal);
+			else if (NULL != g_hash_table_lookup (caches, cache))
+				continue;
+			g_hash_table_insert (caches, cache, GUINT_TO_POINTER (g_hash_table_size (caches)+1));
+		}
+	}
+
+	return caches;
 }

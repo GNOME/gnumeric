@@ -112,7 +112,7 @@ gnm_sheet_merge_add (Sheet *sheet, GnmRange const *r, gboolean clear,
 		sheet_region_queue_recalc (sheet, r);
 	}
 
-	r_copy = range_dup (r);
+	r_copy = gnm_range_dup (r);
 	g_hash_table_insert (sheet->hash_merged, &r_copy->start, r_copy);
 
 	/* Store in order from bottom to top then LEFT TO RIGHT (by start coord) */
@@ -339,7 +339,7 @@ gnm_sheet_merge_relocate (GnmExprRelocateInfo const *ri)
 			gnm_sheet_merge_remove (ri->origin_sheet, r, NULL);
 			if (!range_translate (&tmp, ri->target_sheet,
 					      ri->col_offset, ri->row_offset))
-				to_move = g_slist_prepend (to_move, range_dup (&tmp));
+				to_move = g_slist_prepend (to_move, gnm_range_dup (&tmp));
 		} else if (!change_sheets &&
 			   range_contains (&dest, r->start.col, r->start.row))
 			gnm_sheet_merge_remove (ri->origin_sheet, r, NULL);

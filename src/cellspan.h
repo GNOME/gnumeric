@@ -19,7 +19,7 @@ void cell_unregister_span  (GnmCell const *cell);
 
 CellSpanInfo const *row_span_get     (ColRowInfo const *ri, int col);
 void		    row_destroy_span (ColRowInfo *ri);
-void	 	    row_calc_spans   (ColRowInfo *ri, int row, Sheet const *sheet);
+void		    row_calc_spans   (ColRowInfo *ri, int row, Sheet const *sheet);
 
 G_END_DECLS
 

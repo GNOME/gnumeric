@@ -12,7 +12,7 @@ G_BEGIN_DECLS
 
 struct _GnmNamedExpr {
 	int	    ref_count;
-	GnmString  *name;
+	GOString   *name;
 	GnmParsePos    pos;
 	GHashTable *dependents;
 	GnmExprTop const *texpr;

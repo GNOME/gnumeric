@@ -17,13 +17,13 @@ void function_dump_defs (char const *filename, int dump_type);
 /* Function group support */
 
 struct _GnmFuncGroup {
-	GnmString *internal_name, *display_name;
+	GOString *internal_name, *display_name;
 	gboolean has_translation;
 	GSList *functions;
 };
 
 GnmFuncGroup *gnm_func_group_get_nth (gint n);
-GnmFuncGroup *gnm_func_group_fetch     		    (char const *name);
+GnmFuncGroup *gnm_func_group_fetch		    (char const *name);
 GnmFuncGroup *gnm_func_group_fetch_with_translation (char const *name,
 						     char const *translation);
 
@@ -48,11 +48,11 @@ GnmFuncGroup *gnm_func_group_fetch_with_translation (char const *name,
  *  Argument tokens passed in 'args'
  *
  * With intersection and iteration support
- * 	f : float 		(no errors, string conversion attempted)
- * 	b : boolean		(identical to f, Do we need this ?)
- * 	s : string		(no errors)
- * 	S : 'scalar': any non-error value
- * 	E : scalar including errors
+ *	f : float		(no errors, string conversion attempted)
+ *	b : boolean		(identical to f, Do we need this ?)
+ *	s : string		(no errors)
+ *	S : 'scalar': any non-error value
+ *	E : scalar including errors
  * Without intersection or iteration support
  *	r : cell range	content is _NOT_ guaranteed to have been evaluated yet
  *	A : area	either range or array (as above)
@@ -81,7 +81,7 @@ typedef enum {
 	 * unexpectedly when we recalc later.  This probably needs to be done
 	 * on a per import format basis.  It may not belong here.
 	 */
-	GNM_FUNC_RECALC_ONLOAD 		= 1 << 2,
+	GNM_FUNC_RECALC_ONLOAD		= 1 << 2,
 
 	/* an unknown function that will hopefully be defined later */
 	GNM_FUNC_IS_PLACEHOLDER		= 1 << 3,
@@ -123,8 +123,8 @@ typedef enum {
 	GNM_FUNC_TEST_STATUS_UNDER_DEVELOPMENT
 } GnmFuncTestStatus;
 
-typedef GnmValue 	*(*GnmFuncArgs)	  (GnmFuncEvalInfo *ei, GnmValue const * const *args);
-typedef GnmValue 	*(*GnmFuncNodes)  (GnmFuncEvalInfo *ei,
+typedef GnmValue	*(*GnmFuncArgs)	  (GnmFuncEvalInfo *ei, GnmValue const * const *args);
+typedef GnmValue	*(*GnmFuncNodes)  (GnmFuncEvalInfo *ei,
 					   int argc, GnmExprConstPtr const *argv);
 typedef DependentFlags	 (*GnmFuncLink)	  (GnmFuncEvalInfo *ei);
 typedef void		 (*GnmFuncUnlink) (GnmFuncEvalInfo *ei);
@@ -137,10 +137,10 @@ typedef enum {
 					/* ------ */
 	GNM_FUNC_HELP_OLD,		/* old token based format */
 	GNM_FUNC_HELP_NAME,		/* <NAME>:<1 SENTENCE DESCRIPTION>	(translated) */
-	GNM_FUNC_HELP_ARG,		/* <NAME>:<1 SENTENCE DESCRIPTION> 	(translated) */
-	GNM_FUNC_HELP_DESCRIPTION,	/* <LONG DESCRIPTION (reference args using @{arg})> 		(translated) */
-	GNM_FUNC_HELP_NOTE,		/* <SPECIAL CASES (reference args using @{arg})> 		(translated) */
-	GNM_FUNC_HELP_EXAMPLES,		/* <TEXT and EXAMPLES ?? get a hook to enter the sample ?? > 	(translated) */
+	GNM_FUNC_HELP_ARG,		/* <NAME>:<1 SENTENCE DESCRIPTION>	(translated) */
+	GNM_FUNC_HELP_DESCRIPTION,	/* <LONG DESCRIPTION (reference args using @{arg})>		(translated) */
+	GNM_FUNC_HELP_NOTE,		/* <SPECIAL CASES (reference args using @{arg})>		(translated) */
+	GNM_FUNC_HELP_EXAMPLES,		/* <TEXT and EXAMPLES ?? get a hook to enter the sample ?? >	(translated) */
 	GNM_FUNC_HELP_SEEALSO		/* name,name,name ...			(not translated) */
 } GnmFuncHelpType;
 typedef struct {
@@ -186,8 +186,8 @@ struct _GnmFunc {
 	GnmFuncTestStatus	 test_status;
 	GnmFuncFlags		 flags;
 
-	gint         		 ref_count;
-	gpointer     		 user_data;
+	gint			 ref_count;
+	gpointer		 user_data;
 };
 
 struct _GnmFuncEvalInfo {

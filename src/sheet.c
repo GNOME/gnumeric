@@ -59,8 +59,10 @@
 #include "hlink.h"
 #include "sheet-filter.h"
 #include "sheet-filter-combo.h"
+#include "gnm-sheet-slicer.h"
 #include "scenarios.h"
 #include "cell-draw.h"
+#include <go-string.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-pango-extras.h>
 #include <goffice/utils/go-format.h>
@@ -1063,8 +1065,11 @@ gnm_sheet_valid_size (int cols, int rows)
 		powerof2 (cols) &&
 		rows >= GNM_MIN_ROWS &&
 		rows <= GNM_MAX_ROWS &&
-		powerof2 (rows) &&
-		0x80000000u / (unsigned)(cols / 2) >= (unsigned)rows);
+		powerof2 (rows)
+#if 0
+       	&& 0x80000000u / (unsigned)(cols / 2) >= (unsigned)rows
+#endif
+		);
 }
 
 void
@@ -3842,6 +3847,12 @@ sheet_destroy_contents (Sheet *sheet)
 	if (sheet->hash_merged == NULL)
 		return;
 
+	{
+		GSList *tmp = sheet->slicers;
+		sheet->slicers = NULL;
+		go_slist_free_custom (tmp, (GFreeFunc)gnm_sheet_slicer_clear_sheet);
+	}
+
 	/* These contain SheetObjects, remove them first */
 	filters = g_slist_copy (sheet->filters);
 	g_slist_foreach (filters, (GFunc)gnm_filter_remove, NULL);
@@ -3936,6 +3947,12 @@ gnm_sheet_finalize (GObject *obj)
 
 	sheet_destroy_contents (sheet);
 
+	if (sheet->slicers != NULL) {
+		g_warning ("DataSlicer list should be NULL");
+	}
+	if (sheet->filters != NULL) {
+		g_warning ("Filter list should be NULL");
+	}
 	if (sheet->sheet_objects != NULL) {
 		g_warning ("Sheet object list should be NULL");
 	}
@@ -4749,7 +4766,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 			    range_overlap (&rinfo->origin, &dst))
 				invalid = range_split_ranges (&rinfo->origin, &dst);
 			else
-				invalid = g_slist_append (NULL, range_dup (&dst));
+				invalid = g_slist_append (NULL, gnm_range_dup (&dst));
 
 			reloc_info.origin_sheet = reloc_info.target_sheet = rinfo->target_sheet;;
 
@@ -5282,7 +5299,7 @@ sheet_dup_styles (Sheet const *src, Sheet *dst)
 	sheet_style_set_auto_pattern_color (
 		dst, sheet_style_get_auto_pattern_color (src));
 
-	styles = sheet_style_get_list (src, range_init_full_sheet (&r, src));
+	styles = sheet_style_get_range (src, range_init_full_sheet (&r, src));
 	sheet_style_set_list (dst, &corner, FALSE, styles);
 	style_list_free	(styles);
 }

@@ -10,7 +10,7 @@ typedef struct {
 	SheetObject parent;
 
 	GnmFilterCondition *cond;
-	GnmFilter   	   *filter;
+	GnmFilter	   *filter;
 } GnmFilterCombo;
 
 #define GNM_FILTER_COMBO_TYPE     (gnm_filter_combo_get_type ())

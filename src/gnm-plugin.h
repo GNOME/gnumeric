@@ -54,7 +54,7 @@ G_MODULE_EXPORT GOPluginModuleDepend const go_plugin_depends [] = {	\
 	{ "goffice",	GOFFICE_API_VERSION },				\
 	{ "gnumeric",	GNM_VERSION_FULL }				\
 };	\
-G_MODULE_EXPORT GOPluginModuleHeader const go_plugin_header =  		\
+G_MODULE_EXPORT GOPluginModuleHeader const go_plugin_header =		\
 	{ GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, G_N_ELEMENTS (go_plugin_depends) }
 
 /**************************************************************************/

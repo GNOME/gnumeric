@@ -2,15 +2,14 @@
 #ifndef _GNM_VALIDATION_COMBO_H_
 # define _GNM_VALIDATION_COMBO_H_
 
-#include "sheet-object-impl.h"
+#include "gnm-cell-combo.h"
 
 G_BEGIN_DECLS
 
 typedef struct {
-	SheetObject parent;
+	GnmCellCombo parent;
 
 	GnmValidation const *validation;
-	SheetView	*sv;
 } GnmValidationCombo;
 
 #define GNM_VALIDATION_COMBO_TYPE     (gnm_validation_combo_get_type ())

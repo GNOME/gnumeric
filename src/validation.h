@@ -43,8 +43,8 @@ typedef enum {
 struct _GnmValidation {
 	int               ref_count;
 
-	GnmString        *title;
-	GnmString        *msg;
+	GOString         *title;
+	GOString         *msg;
 	GnmExprTop const *texpr[2];
 	ValidationStyle   style;
 	ValidationType	  type;

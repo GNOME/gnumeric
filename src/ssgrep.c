@@ -20,11 +20,11 @@
 #include "sheet.h"
 #include "cell.h"
 #include "value.h"
-#include "str.h"
 #include "func.h"
 #include "parse-util.h"
 #include "sheet-object-cell-comment.h"
 
+#include <go-string.h>
 #include <goffice/utils/go-file.h>
 #include <goffice/app/go-cmd-context.h>
 #include <gsf/gsf-input-stdio.h>
@@ -208,7 +208,7 @@ cb_check_strings (G_GNUC_UNUSED gpointer key, gpointer str, gpointer user_data)
 	char *clean = g_utf8_strdown (key, -1);
 	char const *orig = g_hash_table_lookup (state->targets, clean);
 	if (NULL != orig)
-		add_result (state, clean, ((GnmString *)str)->ref_count);
+		add_result (state, clean, go_string_get_ref_count (str));
 	g_free (clean);
 }
 
@@ -262,7 +262,7 @@ search_string_table (Workbook *wb, char const *file_name, GHashTable *targets)
 	state.wb	= wb;
 	state.targets	= targets;
 	state.results	= NULL;
-	gnm_string_foreach (&cb_check_strings, &state);
+	go_string_foreach_base (&cb_check_strings, &state);
 	g_hash_table_foreach (targets, &cb_check_func, &state);
 
 	if (NULL != (modules = g_object_get_data (G_OBJECT (wb), "VBA")))
@@ -453,9 +453,9 @@ main (int argc, char const **argv)
 	ssgrep_targets = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	if (ssgrep_pattern_file) {
 		char *uri = go_shell_arg_to_uri (ssgrep_pattern_file);
-		GsfInput     	 *input;
+		GsfInput	 *input;
 		GsfInputTextline *textline;
-		GError       	 *err = NULL;
+		GError		 *err = NULL;
 		const unsigned char *line;
 		GString *pat;
 

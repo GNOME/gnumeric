@@ -41,12 +41,13 @@
 #include "parse-util.h"
 #include "mathfunc.h"
 
-#include <math.h>
-#include <string.h>
-#include <stdlib.h>
+#include <go-string.h>
 #include <goffice/utils/go-locale.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
 
 /*
  * Using pools here probably does not save anything, but it's a darn

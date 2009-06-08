@@ -28,6 +28,7 @@
 #include "sheet.h"
 #include "sheet-merge.h"
 #include "sheet-filter.h"
+#include "gnm-sheet-slicer.h"
 #include "sheet-private.h"
 #include "sheet-control.h"
 #include "sheet-control-priv.h"
@@ -338,7 +339,7 @@ sv_ant (SheetView *sv, GList *ranges)
 	if (sv->ants != NULL)
 		sv_unant (sv);
 	for (ptr = ranges; ptr != NULL; ptr = ptr->next)
-		sv->ants = g_list_prepend (sv->ants, range_dup (ptr->data));
+		sv->ants = g_list_prepend (sv->ants, gnm_range_dup (ptr->data));
 	sv->ants = g_list_reverse (sv->ants);
 
 	SHEET_VIEW_FOREACH_CONTROL (sv, control,
@@ -664,25 +665,29 @@ cb_fail_if_not_selected (GnmCellIter const *iter, gpointer sv)
 }
 
 /**
- * sv_first_selection_in_filter :
- * @sv :
+ * sv_editpos_in_filter :
+ * @sv : #SheetView
  *
- * Is the row in the edit_pos part of an auto filter ?
+ * Returns: %NULL or GnmFilter that overlaps the sv::edit_pos
  **/
 GnmFilter *
-sv_first_selection_in_filter (SheetView const *sv)
+sv_editpos_in_filter (SheetView const *sv)
 {
-	GSList *ptr;
-	GnmRange const *r;
-
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
-	g_return_val_if_fail (sv->selections != NULL, NULL);
+	return gnm_sheet_filter_at_pos (sv->sheet, &sv->edit_pos);
+}
 
-	r = sv->selections->data;
-	for (ptr = sv->sheet->filters; ptr != NULL ; ptr = ptr->next)
-		if (gnm_filter_overlaps_range (ptr->data, r))
-			return ptr->data;
-	return NULL;
+/**
+ * sv_editpos_in_slicer :
+ * @sv : #SheetView
+ *
+ * Returns: %NULL or #GnmSheetSlicer that overlaps the sv::edit_pos
+ **/
+GnmSheetSlicer *
+sv_editpos_in_slicer (SheetView const *sv)
+{
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
+	return gnm_sheet_slicers_at_pos (sv->sheet, &sv->edit_pos);
 }
 
 /**

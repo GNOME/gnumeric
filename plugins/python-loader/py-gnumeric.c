@@ -17,12 +17,12 @@
 #include "value.h"
 #include "expr.h"
 #include "func.h"
-#include "str.h"
 #include "wbc-gtk.h"
 #include "parse-util.h"
 #include "gnm-py-interpreter.h"
 #include "py-gnumeric.h"
 
+#include <go-string.h>
 #include <goffice/app/go-plugin.h>
 
 #include <glib/gi18n-lib.h>

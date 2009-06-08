@@ -44,8 +44,8 @@ G_BEGIN_DECLS
  * ----------------
  */
 typedef struct {
-	int offset;        	/* Offset (top/left) */
-	int offset_gravity; 	/* Gravity +1 means relative to top/left, -1 relative to bottom/right */
+	int offset;       	/* Offset (top/left) */
+	int offset_gravity;	/* Gravity +1 means relative to top/left, -1 relative to bottom/right */
 	int size;		/* Dimensions (These form the bottom right coordinates) */
 } FormatColRowInfo;
 

@@ -41,6 +41,8 @@
 #include "mstyle.h"
 #include "validation.h"
 #include "validation-combo.h"
+#include "gnm-sheet-slicer.h"
+#include "gnm-sheet-slicer-combo.h"
 #include "position.h"
 #include "cell.h"
 #include "gutils.h"
@@ -247,6 +249,8 @@ wb_view_style_feedback (WorkbookView *wbv)
 {
 	SheetView *sv;
 	GnmStyle const *style;
+	GnmSheetSlicer const *dslicer;
+	GODataSlicerField *dsfield;
 	GnmValidation const *val;
 	GOFormat const *fmt_style, *fmt_cell;
 	GnmCell *cell;
@@ -282,29 +286,35 @@ wb_view_style_feedback (WorkbookView *wbv)
 		gnm_style_unref (wbv->current_style);
 	wbv->current_style = style;
 
-	if (wbv->validation_combo != NULL) {
-		sheet_object_clear_sheet (wbv->validation_combo);
-		g_object_unref (wbv->validation_combo);
-		wbv->validation_combo = NULL;
+	if (wbv->in_cell_combo != NULL) {
+		sheet_object_clear_sheet (wbv->in_cell_combo);
+		g_object_unref (wbv->in_cell_combo);
+		wbv->in_cell_combo = NULL;
 	}
 
 	if (gnm_style_is_element_set (style, MSTYLE_VALIDATION) &&
 	    NULL != (val = gnm_style_get_validation (style)) &&
 	    val->type == VALIDATION_TYPE_IN_LIST &&
-	    val->use_dropdown) {
+	    val->use_dropdown)
+		wbv->in_cell_combo = gnm_validation_combo_new (val, sv);
+	else if (NULL != (dslicer = gnm_sheet_slicers_at_pos (sv->sheet, &sv->edit_pos)) &&
+		   NULL != (dsfield = gnm_sheet_slicer_field_header_at_pos (dslicer, &sv->edit_pos)))
+		wbv->in_cell_combo = g_object_new (gnm_sheet_slicer_combo_get_type (),
+						   "sheet-view", sv,
+						   "field",	 dsfield,
+						   NULL);
+
+	if (NULL != wbv->in_cell_combo)
+	{
 		float const a_offsets [4] = { 0., 0., 1., 1. };
 		SheetObjectAnchor  anchor;
 		GnmRange corner;
 		GnmRange const *r;
-
-		r = gnm_sheet_merge_contains_pos (sv->sheet, &sv->edit_pos);
-		if (r == NULL)
+		if (NULL == (r = gnm_sheet_merge_contains_pos (sv->sheet, &sv->edit_pos)))
 			r = range_init_cellpos (&corner, &sv->edit_pos);
-		wbv->validation_combo = gnm_validation_combo_new (val, sv);
-		sheet_object_anchor_init (&anchor, r, a_offsets,
-			GOD_ANCHOR_DIR_DOWN_RIGHT);
-		sheet_object_set_anchor (wbv->validation_combo, &anchor);
-		sheet_object_set_sheet (wbv->validation_combo, sv_sheet (sv));
+		sheet_object_anchor_init (&anchor, r, a_offsets, GOD_ANCHOR_DIR_DOWN_RIGHT);
+		sheet_object_set_anchor (wbv->in_cell_combo, &anchor);
+		sheet_object_set_sheet (wbv->in_cell_combo, sv->sheet);
 	}
 
 	if (update_controls) {
@@ -770,10 +780,10 @@ wb_view_finalize (GObject *object)
 		gnm_style_unref (wbv->current_style);
 		wbv->current_style = NULL;
 	}
-	if (wbv->validation_combo != NULL) {
-		sheet_object_clear_sheet (wbv->validation_combo);
-		g_object_unref (wbv->validation_combo);
-		wbv->validation_combo = NULL;
+	if (wbv->in_cell_combo != NULL) {
+		sheet_object_clear_sheet (wbv->in_cell_combo);
+		g_object_unref (wbv->in_cell_combo);
+		wbv->in_cell_combo = NULL;
 	}
 
 	parent_class->finalize (object);
@@ -916,7 +926,7 @@ workbook_view_new (Workbook *wb)
 	wbv->is_protected = FALSE;
 
 	wbv->current_style      = NULL;
-	wbv->validation_combo   = NULL;
+	wbv->in_cell_combo      = NULL;
 
 	wbv->current_sheet      = NULL;
 	wbv->current_sheet_view = NULL;

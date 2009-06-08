@@ -285,6 +285,7 @@ src/session.c
 src/sheet-autofill.c
 src/sheet-control-gui.c
 src/sheet-filter.c
+src/sheet-utils.c
 src/sheet-merge.c
 src/sheet-object-graph.c
 src/sheet-object-image.c

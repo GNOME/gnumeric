@@ -982,7 +982,7 @@ dao_append_date (GString *buf)
 	GTimeVal  t;
 	g_get_current_time (&t);
 	now = t.tv_sec;
- 	g_date_set_time (&date, t.tv_sec);
+	g_date_set_time (&date, t.tv_sec);
 #endif
 	g_date_to_struct_tm (&date, &tm_s);
 	tm_s.tm_sec  = now % 60;

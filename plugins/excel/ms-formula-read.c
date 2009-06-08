@@ -25,6 +25,7 @@
 #include <parse-util.h>
 #include <sheet.h>
 #include <workbook.h>
+#include <go-string.h>
 #include <goffice/app/go-doc.h>
 #include <gsf/gsf-utils.h>
 
@@ -1143,7 +1144,7 @@ excel_parse_formula1 (MSContainer const *container,
 
 		case FORMULA_PTG_ERR:
 			CHECK_FORMULA_LEN(1);
-			parse_list_push_raw (&stack, biff_get_error (NULL, GSF_LE_GET_GUINT8 (cur)));
+			parse_list_push_raw (&stack, xls_value_new_err (NULL, GSF_LE_GET_GUINT8 (cur)));
 			break;
 
 		case FORMULA_PTG_INT:
@@ -1370,7 +1371,7 @@ excel_parse_formula1 (MSContainer const *container,
 						break;
 					case 16:
 						CHECK_FORMULA_ARRAY_LEN(8);
-						elem = biff_get_error (NULL, array_data[0]);
+						elem = xls_value_new_err (NULL, array_data[0]);
 						break;
 
 					default :

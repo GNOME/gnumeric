@@ -17,6 +17,7 @@
 #include "ms-container.h"
 #include <expr.h>
 #include <mstyle.h>
+#include <goffice-data.h>
 #include <pango/pango-attributes.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
@@ -93,7 +94,7 @@ typedef struct {
 } BiffFormatData;
 
 typedef struct {
-	GnmString	*content;
+	GOString	*content;
 	GOFormat	*markup;
 } ExcelStringEntry;
 
@@ -113,6 +114,15 @@ struct _GnmXLImporter {
 	GHashTable	 *font_data;
 	GHashTable	 *format_table; /* leave as a hash */
 	struct {
+		GnmSheetSlicer	  *slicer;
+		GODataSlicerField *slicer_field;
+
+		GPtrArray	  *cache_by_id;
+		unsigned int	  field_count, record_count;
+
+		unsigned int	  ivd_index; /* 0 = row, 1 = col, > 1 == err */
+	} pivot;
+	struct {
 		GArray	 *supbook;
 		GArray	 *externsheet;
 	} v8; /* biff8 does this in the workbook */
@@ -124,7 +134,10 @@ struct _GnmXLImporter {
 	GIConv            str_iconv;
 };
 
-GnmValue *biff_get_error (GnmEvalPos const *pos, guint8 const err);
+GnmValue *xls_value_new_err (GnmEvalPos const *pos, guint8 const err);
+void	  xls_read_range32  (GnmRange *r, guint8 const *data);
+void	  xls_read_range16  (GnmRange *r, guint8 const *data);
+void	  xls_read_range8   (GnmRange *r, guint8 const *data);
 
 Sheet		*excel_externsheet_v7	 (MSContainer const *container, gint16 i);
 ExcelExternSheetV8 const *excel_externsheet_v8 (GnmXLImporter const *wb, guint16 i);
@@ -133,17 +146,17 @@ void		excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container);
 MsBiffBofData *ms_biff_bof_data_new     (BiffQuery * q);
 void	       ms_biff_bof_data_destroy (MsBiffBofData * data);
 
-char *excel_get_chars (GnmXLImporter const *importer,
+char *excel_get_chars (GnmXLImporter const *imp,
 		       guint8 const *ptr, size_t length,
 		       gboolean use_utf16);
-char * excel_get_text (GnmXLImporter const *importer,
+char * excel_get_text (GnmXLImporter const *imp,
 		       guint8 const *pos, guint32 length,
 		       guint32 *byte_length, guint32 maxlen);
-char *excel_biff_text_1 (GnmXLImporter const *importer, const BiffQuery *q, guint32 ofs);
-char *excel_biff_text_2 (GnmXLImporter const *importer, const BiffQuery *q, guint32 ofs);
+char *excel_biff_text_1 (GnmXLImporter const *imp, BiffQuery const *q, guint32 ofs);
+char *excel_biff_text_2 (GnmXLImporter const *imp, BiffQuery const *q, guint32 ofs);
 
-GnmColor	*excel_palette_get (GnmXLImporter *importer, gint idx);
-ExcelFont const *excel_font_get    (GnmXLImporter const *importer, unsigned idx);
+GnmColor	*excel_palette_get (GnmXLImporter *imp, gint idx);
+ExcelFont const *excel_font_get    (GnmXLImporter const *imp, unsigned idx);
 GOFont const	*excel_font_get_gofont (ExcelFont const *font);
 
 GdkPixbuf *excel_read_IMDATA (BiffQuery *q, gboolean keep_image);
@@ -151,6 +164,12 @@ void	   excel_read_SCL    (BiffQuery *q, Sheet *esheet);
 
 /* A utility routine to handle unexpected BIFF records */
 void excel_unexpected_biff (BiffQuery *q, char const *state, int debug_level);
+
+void xls_read_SXStreamID (GnmXLImporter *imp, BiffQuery *q,
+			  GsfInfile *parent);
+void xls_read_SXVIEW	 (BiffQuery *q, ExcelReadSheet *esheet);
+void xls_read_SXVD	 (BiffQuery *q, ExcelReadSheet *esheet);
+void xls_read_SXIVD	 (BiffQuery *q, ExcelReadSheet *esheet);
 
 void excel_read_cleanup (void);
 void excel_read_init (void);

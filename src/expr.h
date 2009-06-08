@@ -85,7 +85,7 @@ GnmFunc       *gnm_expr_get_func_def (GnmExpr const *expr);
 
 void	  gnm_expr_free              (GnmExpr const *expr);
 GnmExpr const *gnm_expr_copy         (GnmExpr const *expr);
-gboolean  gnm_expr_is_rangeref 	     (GnmExpr const *expr);
+gboolean  gnm_expr_is_rangeref	     (GnmExpr const *expr);
 gboolean  gnm_expr_is_data_table     (GnmExpr const *expr,
 				      GnmCellPos *c_in, GnmCellPos *r_in);
 
@@ -104,7 +104,7 @@ GnmValue *gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 #define gnm_expr_list_prepend(l,e) g_slist_prepend ((l), (gpointer)(e))
 #define gnm_expr_list_length(l)	   g_slist_length((GSList *)(l)) /* const cast */
 #define gnm_expr_list_free	   g_slist_free
-void 	 gnm_expr_list_unref	  (GnmExprList *list);
+void	 gnm_expr_list_unref	  (GnmExprList *list);
 
 /*****************************************************************************/
 
@@ -129,7 +129,7 @@ gboolean	gnm_expr_top_equal		(GnmExprTop const *te1, GnmExprTop const *te2);
 guint           gnm_expr_top_hash               (GnmExprTop const *texpr);
 gboolean	gnm_expr_top_is_shared		(GnmExprTop const *texpr);
 gboolean	gnm_expr_top_is_err		(GnmExprTop const *texpr, GnmStdError e);
-gboolean 	gnm_expr_top_is_rangeref	(GnmExprTop const *texpr);
+gboolean	gnm_expr_top_is_rangeref	(GnmExprTop const *texpr);
 gboolean	gnm_expr_top_is_array_elem	(GnmExprTop const *texpr, int *x, int *y);
 gboolean	gnm_expr_top_is_array_corner	(GnmExprTop const *texpr);
 GnmExprArrayCorner const *gnm_expr_top_get_array_corner (GnmExprTop const *texpr);
@@ -154,7 +154,7 @@ struct _GnmExprRelocateInfo {
 	int col_offset, row_offset; /* and offset by this amount */
 	enum {
 		/* invalidate references to any sheets with
-		 * 	Sheet::being_invalidated == TRUE */
+		 *	Sheet::being_invalidated == TRUE */
 		GNM_EXPR_RELOCATE_INVALIDATE_SHEET,
 		GNM_EXPR_RELOCATE_MOVE_RANGE,
 		GNM_EXPR_RELOCATE_COLS,		/* ins/del col */

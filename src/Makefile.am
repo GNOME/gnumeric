@@ -56,6 +56,37 @@ libspreadsheet_la_LIBADD = 			\
 	$(HILDON_LIBS)
 
 libspreadsheet_la_SOURCES =			\
+	go-val.h			\
+	go-val.c			\
+	go-string.h			\
+	go-string.c			\
+	\
+	goffice-data.h 			\
+	go-data-cache-source.c 		\
+	go-data-cache-source.h 		\
+	go-data-cache-impl.h 		\
+	go-data-cache.h 		\
+	go-data-cache.c 		\
+	go-data-cache-field-impl.h 	\
+	go-data-cache-field.h 		\
+	go-data-cache-field.c 		\
+	go-data-slicer-impl.h 		\
+	go-data-slicer.h 		\
+	go-data-slicer.c 		\
+	go-data-slicer-field-impl.h 	\
+	go-data-slicer-field.h 		\
+	go-data-slicer-field.c 		\
+	\
+	gnm-data-cache-source.h 	\
+	gnm-data-cache-source.c 	\
+	gnm-sheet-slicer.h 		\
+	gnm-sheet-slicer.c 		\
+	gnm-sheet-slicer-combo.h	\
+	gnm-sheet-slicer-combo.c	\
+	\
+	gnm-cell-combo.h		\
+	gnm-cell-combo.c		\
+	\
 	gnm-marshalers.c			\
 	application.c				\
 	auto-format.c				\
@@ -80,6 +111,7 @@ libspreadsheet_la_SOURCES =			\
 	format-template.c			\
 	func.c					\
 	func-builtin.c				\
+	gnm-commands-slicer.c			\
 	gnm-datetime.c				\
 	gnm-format.c				\
 	gnm-graph-window.c			\
@@ -125,6 +157,7 @@ libspreadsheet_la_SOURCES =			\
 	sheet-merge.c				\
 	sheet-autofill.c			\
 	sheet-filter.c				\
+	sheet-utils.c				\
 	sheet-object.c				\
 	sheet-object-cell-comment.c		\
 	gnm-so-filled.c				\
@@ -136,7 +169,6 @@ libspreadsheet_la_SOURCES =			\
 	sheet-style.c				\
 	gnm-plugin.c				\
 	sort.c					\
-	str.c					\
 	stf.c					\
 	stf-export.c				\
 	stf-parse.c				\
@@ -192,6 +224,8 @@ libspreadsheet_include_HEADERS = 	\
 	format-template.h			\
 	func.h					\
 	func-builtin.h				\
+	gnm-command-impl.h			\
+	gnm-commands-slicer.h			\
 	gnm-datetime.h				\
 	gnm-format.h				\
 	gnm-graph-window.h			\
@@ -243,6 +277,7 @@ libspreadsheet_include_HEADERS = 	\
 	sheet-private.h				\
 	sheet-autofill.h			\
 	sheet-filter.h				\
+	sheet-utils.h				\
 	sheet-filter-combo.h			\
 	sheet-object.h				\
 	sheet-object-impl.h			\
@@ -257,7 +292,6 @@ libspreadsheet_include_HEADERS = 	\
 	gnm-plugin.h				\
 	solver.h				\
 	sort.h					\
-	str.h					\
 	stf.h					\
 	stf-export.h				\
 	stf-parse.h				\

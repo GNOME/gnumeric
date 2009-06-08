@@ -18,7 +18,7 @@ struct _GnmFont {
 		GOFontMetrics *metrics;
 	} go;
 	struct {
-		PangoFont	  	*font;
+		PangoFont *font;
 	} pango;
 
 	unsigned int is_bold : 1;
@@ -38,8 +38,8 @@ GNM_VAR_DECL double gnm_font_default_width;
 
 /****************************************************************/
 /* Internal */
-void     gnm_font_init  	(void);
-void	 gnm_font_shutdown     (void);
+void     gnm_font_init	   (void);
+void	 gnm_font_shutdown (void);
 
 /****************************************************************/
 /* Internal : Deprecated : Wrong place */

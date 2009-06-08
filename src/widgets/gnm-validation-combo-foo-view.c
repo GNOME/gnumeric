@@ -2,7 +2,7 @@
 
 /*
  * gnm-validation-combo-foo-view.c: A foocanvas object for Validate from list
- * 				in cell combos
+ *				in cell combos
  *
  * Copyright (C) 2006 Jody Goldberg (jody@gnome.org)
  *
@@ -46,7 +46,7 @@
 #include <glib/gi18n-lib.h>
 #include <string.h>
 
-static void
+static gboolean
 vcombo_activate (SheetObject *so, GtkWidget *popup, GtkTreeView *list,
 		 WBCGtk *wbcg)
 {
@@ -54,7 +54,7 @@ vcombo_activate (SheetObject *so, GtkWidget *popup, GtkTreeView *list,
 	GtkTreeIter	    iter;
 
 	if (gtk_tree_selection_get_selected (gtk_tree_view_get_selection (list), NULL, &iter)) {
-		SheetView	*sv  = vcombo->sv;
+		SheetView	*sv  = vcombo->parent.sv;
 		char		*strval;
 		gtk_tree_model_get (gtk_tree_view_get_model (list), &iter,
 			1, &strval,
@@ -63,6 +63,7 @@ vcombo_activate (SheetObject *so, GtkWidget *popup, GtkTreeView *list,
 			sv_sheet (sv), &sv->edit_pos, strval, NULL);
 		g_free (strval);
 	}
+	return TRUE;
 }
 
 typedef struct {
@@ -87,38 +88,37 @@ cb_hash_domain (GnmValue *key, gpointer value, gpointer accum)
 	g_ptr_array_add (accum, key);
 }
 
-static GtkListStore *
-vcombo_fill_model (SheetObject *so, GtkTreePath **clip, GtkTreePath **select)
+static GtkWidget *
+vcombo_create_list (SheetObject *so, GtkTreePath **clip, GtkTreePath **select)
 {
 	GnmValidationCombo *vcombo = GNM_VALIDATION_COMBO (so);
 	unsigned	 i;
 	UniqueCollection uc;
 	GnmEvalPos	 ep;
 	GtkTreeIter	 iter;
+	GtkWidget	*list;
 	GPtrArray	*sorted;
 	GtkListStore	*model;
 	GnmValue	*v;
 	GnmValue const	*cur_val;
 	GnmValidation const *val = vcombo->validation;
 	GnmExprArrayCorner array = { GNM_EXPR_OP_ARRAY_CORNER, 1, 1, NULL, NULL };
+	SheetView const *sv = vcombo->parent.sv;
 
-	model = gtk_list_store_new (3,
-		G_TYPE_STRING, G_TYPE_STRING, gnm_value_get_type ());
+	g_return_val_if_fail (val != NULL, NULL);
+	g_return_val_if_fail (val->type == VALIDATION_TYPE_IN_LIST, NULL);
+	g_return_val_if_fail (val->texpr[0] != NULL, NULL);
+	g_return_val_if_fail (sv != NULL, NULL);
 
-	g_return_val_if_fail (val != NULL, model);
-	g_return_val_if_fail (val->type == VALIDATION_TYPE_IN_LIST, model);
-	g_return_val_if_fail (val->texpr[0] != NULL, model);
-	g_return_val_if_fail (vcombo->sv != NULL, model);
-
-	eval_pos_init_pos (&ep, sv_sheet (vcombo->sv), &vcombo->sv->edit_pos);
+	eval_pos_init_editpos (&ep, sv);
 	/* Force into 'array' mode by supplying a fake corner */
 	ep.array = &array;
 	v = gnm_expr_top_eval (val->texpr[0], &ep,
 		 GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
 	if (NULL == v)
-		return model;
+		return NULL;
 
-	uc.date_conv = workbook_date_conv (vcombo->parent.sheet->workbook);
+	uc.date_conv = workbook_date_conv (sv->sheet->workbook);
 	uc.hash = g_hash_table_new_full ((GHashFunc)value_hash, (GEqualFunc)value_equal,
 		(GDestroyNotify)value_release, (GDestroyNotify)g_free);
 	value_area_foreach (v, &ep, CELL_ITER_IGNORE_BLANK,
@@ -130,6 +130,9 @@ vcombo_fill_model (SheetObject *so, GtkTreePath **clip, GtkTreePath **select)
 	qsort (&g_ptr_array_index (sorted, 0),
 	       sorted->len, sizeof (char *),
 	       &value_cmp);
+
+	model = gtk_list_store_new (3,
+		G_TYPE_STRING, G_TYPE_STRING, gnm_value_get_type ());
 
 	cur_val = sheet_cell_get_value (ep.sheet, ep.eval.col, ep.eval.row);
 	for (i = 0; i < sorted->len ; i++) {
@@ -161,7 +164,13 @@ vcombo_fill_model (SheetObject *so, GtkTreePath **clip, GtkTreePath **select)
 	g_hash_table_destroy (uc.hash);
 	g_ptr_array_free (sorted, TRUE);
 
-	return model;
+	list = gtk_tree_view_new_with_model (GTK_TREE_MODEL (model));
+	g_object_unref (model);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (list),
+		gtk_tree_view_column_new_with_attributes ("ID",
+			gtk_cell_renderer_text_new (), "text", 0,
+			NULL));
+	return list;
 }
 
 static GtkWidget *
@@ -173,9 +182,9 @@ vcombo_create_arrow (G_GNUC_UNUSED SheetObject *so)
 static void
 vcombo_ccombo_init (GnmCComboFooViewIface *ccombo_iface)
 {
-	ccombo_iface->fill_model	= vcombo_fill_model;
-	ccombo_iface->activate		= vcombo_activate;
+	ccombo_iface->create_list	= vcombo_create_list;
 	ccombo_iface->create_arrow	= vcombo_create_arrow;
+	ccombo_iface->activate		= vcombo_activate;
 }
 
 /*******************************************************************************/

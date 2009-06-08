@@ -233,7 +233,7 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 	gnm_app_clipboard_clear (FALSE);
 	sheet = sv_sheet (sv);
 	g_free (app->clipboard_cut_range);
-	app->clipboard_cut_range = range_dup (area);
+	app->clipboard_cut_range = gnm_range_dup (area);
 	sv_weak_ref (sv, &(app->clipboard_sheet_view));
 
 	if (!is_cut)

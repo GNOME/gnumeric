@@ -34,9 +34,11 @@
 
 		<service type="file_saver" id="excel_biff8" file_extension="xls"
 		         format_level="auto" overwrite_files="TRUE"
+			 default_saver_priority="1"
 			 mime_type="application/vnd.ms-excel">
-			     <!-- Add default_saver_priority="100"  to make
-			     this the default -->
+			     <!-- change default_saver_priority="100"  to make
+			     this the default.  For now use "1" to give it
+			     higher priority than the other xls savers -->
 			<information>
 				<_description>MS Excel (tm) 97/2000/XP</_description>
 			</information>

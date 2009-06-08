@@ -98,6 +98,7 @@ struct _Sheet {
 
 	GnmDepContainer *deps;
 
+	GSList		 *slicers;
 	GSList		 *filters;
 	GSList		 *list_merged;
 	GHashTable	 *hash_merged;
@@ -168,8 +169,8 @@ GPtrArray  *sheet_cells          (Sheet *sheet, gboolean comments);
 
 void        sheet_recompute_spans_for_col     (Sheet *sheet, int col);
 
-gboolean    sheet_is_region_empty 	      (Sheet *sheet, GnmRange const *r);
-gboolean    sheet_is_cell_empty 	      (Sheet *sheet, int col, int row);
+gboolean    sheet_is_region_empty	      (Sheet *sheet, GnmRange const *r);
+gboolean    sheet_is_cell_empty		      (Sheet *sheet, int col, int row);
 
 gboolean    sheet_col_is_hidden		   (Sheet const *sheet, int col);
 gboolean    sheet_row_is_hidden		   (Sheet const *sheet, int row);
@@ -254,7 +255,7 @@ gboolean sheet_colrow_can_group	     (Sheet *sheet, GnmRange const *r,
 				      gboolean is_cols);
 gboolean sheet_colrow_group_ungroup  (Sheet *sheet, GnmRange const *r,
 				      gboolean is_cols, gboolean inc);
-void     sheet_colrow_gutter 	     (Sheet *sheet,
+void     sheet_colrow_gutter	     (Sheet *sheet,
 				      gboolean is_cols, int max_outline);
 
 gboolean sheet_range_splits_array    (Sheet const *sheet,
@@ -365,7 +366,7 @@ do {										\
 } while (0)
 
 #define SHEET_FOREACH_CONTROL(sheet, view, control, code)		\
-	SHEET_FOREACH_VIEW((sheet), view, 				\
+	SHEET_FOREACH_VIEW((sheet), view,				\
 		SHEET_VIEW_FOREACH_CONTROL(view, control, code);)
 
 /*

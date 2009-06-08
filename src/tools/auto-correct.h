@@ -17,6 +17,6 @@ void	 autocorrect_set_feature    (AutoCorrectFeature feat, gboolean val);
 GSList  *autocorrect_get_exceptions (AutoCorrectFeature feat);
 void	 autocorrect_set_exceptions (AutoCorrectFeature feat, GSList const *list);
 
-char    *autocorrect_tool 	 (char const *input);
+char    *autocorrect_tool	 (char const *input);
 
 #endif /* AUTO_CORRECT_H */

@@ -29,7 +29,7 @@ GnmExprEntry *gnm_expr_entry_new       (WBCGtk *wbcg,
 GtkWidget    *gnm_expr_entry_new_glade (void);
 
 /* Widget specific methods */
-void	  gnm_expr_entry_freeze 	(GnmExprEntry *gee);
+void	  gnm_expr_entry_freeze		(GnmExprEntry *gee);
 void	  gnm_expr_entry_thaw		(GnmExprEntry *gee);
 void	  gnm_expr_entry_set_flags	(GnmExprEntry *gee,
 					 GnmExprEntryFlags flags,

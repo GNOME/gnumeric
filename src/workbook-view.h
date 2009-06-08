@@ -38,7 +38,7 @@ struct _WorkbookView {
 
 	/* Style for feedback */
 	GnmStyle const	*current_style;
-	SheetObject	*validation_combo;
+	SheetObject	*in_cell_combo;	/* validation or data slicer */
 };
 
 typedef struct {
@@ -69,7 +69,7 @@ void		 wb_view_sheet_add	  (WorkbookView *wbv, Sheet *new_sheet);
 gboolean	 wb_view_is_protected	  (WorkbookView *wbv, gboolean check_sheet);
 
 /* Manipulation */
-void         	 wb_view_set_attribute	  (WorkbookView *wbv, char const *name,
+void        	 wb_view_set_attribute	  (WorkbookView *wbv, char const *name,
 					   char const *value);
 void		 wb_view_preferred_size	  (WorkbookView *wbv,
 					   int w_pixels, int h_pixels);

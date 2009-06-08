@@ -247,8 +247,11 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 	case GDK_KP_Down:
 	case GDK_Down:
 		if ((event->state == GDK_MOD1_MASK)) {
-			SheetObject *so;
-			if (NULL == (so = sv_wbv (sv)->validation_combo)) {
+			/* 1) Any in cell combos ? */
+			SheetObject *so = sv_wbv (sv)->in_cell_combo;
+
+			/* 2) How about any autofilters ? */
+			if (NULL == so) {
 				GnmRange r;
 				GSList *objs = sheet_objects_get (sheet,
 					range_init_cellpos (&r, &sv->edit_pos),
@@ -263,18 +266,18 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 				gnm_cell_combo_foo_view_popdown (sov, event->time);
 				break;
 			}
-	}
+		}
 
-	if (event->state & SCROLL_LOCK_MASK)
-		scg_set_top_row (scg, pane->first.row + 1);
-	else if (transition_keys && jump_to_bounds) {
-		delayed_movement = TRUE;
-		scg_queue_movement (scg, movefn,
-				    pane->last_visible.row - pane->first.row,
-				    FALSE, FALSE);
-	} else
-		(*movefn) (scg, 1, jump_to_bounds || end_mode, FALSE);
-	break;
+		if (event->state & SCROLL_LOCK_MASK)
+			scg_set_top_row (scg, pane->first.row + 1);
+		else if (transition_keys && jump_to_bounds) {
+			delayed_movement = TRUE;
+			scg_queue_movement (scg, movefn,
+					    pane->last_visible.row - pane->first.row,
+					    FALSE, FALSE);
+		} else
+			(*movefn) (scg, 1, jump_to_bounds || end_mode, FALSE);
+		break;
 
 	case GDK_KP_Page_Up:
 	case GDK_Page_Up:
@@ -1514,7 +1517,7 @@ cb_pane_sliding (GnmPane *pane)
 	GnmPane *pane3 = scg_pane (pane->simple.scg, 3);
 	gboolean slide_x = FALSE, slide_y = FALSE;
 	int col = -1, row = -1;
-	Sheet *sheet = 	scg_sheet (pane->simple.scg);
+	Sheet *sheet = scg_sheet (pane->simple.scg);
 	gboolean text_is_rtl = sheet->text_is_rtl;
 	GnmPaneSlideInfo info;
 
@@ -2693,6 +2696,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 			break;
 
 	case GDK_BUTTON_RELEASE:
+		g_warning ("release %d : %d", pane->drag.button, (int)event->button.button);
 		if (pane->drag.button != (int)event->button.button)
 			break;
 		pane->drag.button = 0;

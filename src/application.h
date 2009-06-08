@@ -17,7 +17,7 @@ GObject     *gnm_app_get_app (void);
 /* List of active workbooks */
 void         gnm_app_workbook_list_add     (Workbook *wb);
 void         gnm_app_workbook_list_remove  (Workbook *wb);
-GList *      gnm_app_workbook_list 	   (void);
+GList *      gnm_app_workbook_list	   (void);
 Workbook    *gnm_app_workbook_get_by_uri   (char const *uri);
 Workbook    *gnm_app_workbook_get_by_name  (char const *name,
 					    char const *ref_uri);

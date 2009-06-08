@@ -34,12 +34,12 @@
 #include "analysis-tools.h"
 
 /* typedef struct { */
-/* 	analysis_tools_error_code_t err; */
-/* 	WorkbookControl *wbc; */
-/* 	GnmValue *range_1; */
-/* 	GnmValue *range_2; */
-/* 	gboolean   labels; */
-/* 	gnm_float alpha; */
+/*	analysis_tools_error_code_t err; */
+/*	WorkbookControl *wbc; */
+/*	GnmValue *range_1; */
+/*	GnmValue *range_2; */
+/*	gboolean   labels; */
+/*	gnm_float alpha; */
 /* } analysis_tools_data_generic_b_t; */
 
 typedef struct {

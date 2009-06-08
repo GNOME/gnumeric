@@ -16,7 +16,6 @@
 #include <glib/gi18n-lib.h>
 #include "gnumeric.h"
 #include "number-match.h"
-#include "str.h"
 #include "expr.h"
 #include "expr-impl.h"
 #include "expr-name.h"
@@ -28,6 +27,7 @@
 #include "gutils.h"
 #include "style.h"
 #include "value.h"
+#include <go-string.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/app/go-doc.h>
 #include <goffice/utils/go-locale.h>
@@ -1300,11 +1300,11 @@ yylex (void)
 				state->ptr = g_utf8_next_char (state->ptr);
 				if (tmp == '!' || tmp == '?' ||
 				((state->ptr - start) == 4 && 0 == strncmp (start, "#N/A", 4))) {
-					GnmString *name = gnm_string_get_nocopy (g_strndup (start, state->ptr - start));
+					GOString *name = go_string_new_nocopy (g_strndup (start, state->ptr - start));
 					yylval.expr = register_expr_allocation
 						(gnm_expr_new_constant (
 							value_new_error_str (NULL, name)));
-					gnm_string_unref (name);
+					go_string_unref (name);
 					return CONSTANT;
 				}
 			}

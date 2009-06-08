@@ -27,9 +27,9 @@ typedef enum {
 	DEPENDENT_NO_FLAG	   = 0,
 
 	/* Types */
-	DEPENDENT_CELL 		   = 0x00000001,	/* builtin type */
+	DEPENDENT_CELL		   = 0x00000001,	/* builtin type */
 	DEPENDENT_DYNAMIC_DEP	   = 0x00000002,	/* builtin type */
-	DEPENDENT_NAME 		   = 0x00000003,	/* builtin pseudo type */
+	DEPENDENT_NAME		   = 0x00000003,	/* builtin pseudo type */
 	DEPENDENT_TYPE_MASK	   = 0x00000fff,
 
 	/* Linked into the workbook wide expression list */

@@ -1491,7 +1491,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	}
 
 	if (MS_ADD_VS_REMOVE_FILTER & flags) {
-		gboolean const has_filter = (sv_first_selection_in_filter (sv) != NULL);
+		gboolean const has_filter = (NULL != sv_editpos_in_filter (sv));
 		char const* label = has_filter
 			? _("Remove _Auto Filter")
 			: _("Add _Auto Filter");
@@ -1499,6 +1499,19 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 			? _("Remove a filter")
 			: _("Add a filter");
 		wbc_gtk_set_action_label (wbcg, "DataAutoFilter", NULL, label, new_tip);
+	}
+
+	{
+		gboolean const has_slicer = (NULL != sv_editpos_in_slicer (sv));
+		char const* label = has_slicer
+			? _("Remove _Data Slicer")
+			: _("Create _Data Slicer");
+		char const *new_tip = has_slicer
+			? _("Remove a Data Slicer")
+			: _("Create a Data Slicer");
+		wbc_gtk_set_action_label (wbcg, "DataSlicer", NULL, label, new_tip);
+		wbc_gtk_set_action_sensitivity (wbcg, "DataSlicerRefresh", has_slicer);
+		wbc_gtk_set_action_sensitivity (wbcg, "DataSlicerEdit", has_slicer);
 	}
 }
 

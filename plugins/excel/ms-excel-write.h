@@ -16,6 +16,7 @@
 #include "ms-excel-biff.h"
 #include "ms-excel-util.h"
 #include "style.h"
+#include <goffice-data.h>
 
 typedef struct {
 	Sheet const *a, *b;
@@ -73,9 +74,10 @@ typedef struct {
 	struct {
 		TwoWayTable *two_way_table;
 	} formats;
+	GHashTable *pivot_caches;
 } XLExportBase;
 
-struct _ExcelWriteState {
+struct _XLSExporter {
 	XLExportBase	base;
 
 	IOContext     *io_context;
@@ -161,14 +163,18 @@ typedef struct {
 	GnmInputMsg *msg;
 	GSList	    *ranges;
 } XLValInputPair;
-GHashTable *excel_collect_validations (GnmStyleList *ptr,
-				       int max_col, int max_row);
-GHashTable *excel_collect_hlinks      (GnmStyleList *ptr,
-				       int max_col, int max_row);
+GHashTable *excel_collect_validations  (GnmStyleList *ptr,
+					int max_col, int max_row);
+GHashTable *excel_collect_hlinks       (GnmStyleList *ptr,
+					int max_col, int max_row);
+GHashTable *excel_collect_pivot_caches (Workbook const *wb);
 
 void excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GnmStyle **col_styles,
 			 int maxcols, int maxrows, IOContext *io_context);
 
 int excel_font_from_go_font (XLExportBase *ewb, GOFont const *font);
+
+void xls_write_pivot_caches (ExcelWriteState *ewb, GsfOutfile *outfile,
+			     MsBiffVersion version, int codepage);
 
 #endif /* GNM_MS_EXCEL_WRITE_H */

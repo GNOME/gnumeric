@@ -31,6 +31,7 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "func.h"
+#include "gnm-format.h"
 #include <goffice/app/go-doc.h>
 #include <glib-object.h>
 
@@ -150,3 +151,15 @@ xlsx_conventions_free (GnmConventions *convs)
 	g_hash_table_destroy (xconv->extern_wb_by_id);
 	gnm_conventions_free (convs);
 }
+
+/**
+ * xlsx_pivot_date_fmt :
+ *
+ * Returns : A #GOFormat in the convention used for dates in pivot tables.
+ **/
+GOFormat *
+xlsx_pivot_date_fmt (void)
+{
+	return go_format_new_from_XL ("yyyy-mm-dd\"T\"hh:mm:ss");
+}
+

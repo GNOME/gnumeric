@@ -34,7 +34,6 @@
 #include "ms-escher.h"
 #include "ms-excel-util.h"
 #include "ms-excel-xf.h"
-#include "ms-pivot.h"
 #include "formula-types.h"
 
 #include <workbook.h>
@@ -54,7 +53,6 @@
 #include <input-msg.h>
 #include <parse-util.h>	/* for cell_name */
 #include <ranges.h>
-#include <str.h>
 #include <expr.h>
 #include <expr-name.h>
 #include <value.h>
@@ -68,6 +66,7 @@
 #include <gnm-so-polygon.h>
 #include <sheet-object-graph.h>
 #include <sheet-object-image.h>
+#include <go-string.h>
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-doc.h>
 #include <goffice/utils/go-font.h>
@@ -834,7 +833,7 @@ excel_unexpected_biff (BiffQuery *q, char const *state,
 {
 #ifndef NO_DEBUG_EXCEL
 	if (debug_level > 1) {
-		g_warning ("Unexpected Opcode in %s: 0x%hx, length 0x%x\n",
+		g_print ("Unexpected Opcode in %s: 0x%hx, length 0x%x\n",
 			state, q->opcode, q->length);
 		if (debug_level > 2)
 			gsf_mem_dump (q->data, q->length);
@@ -1211,7 +1210,7 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 		total_end_len -= 4*total_n_markup;
 	}
 
-	res->content = gnm_string_get_nocopy (res_str);
+	res->content = go_string_new_nocopy (res_str);
 	return offset + total_end_len;
 }
 
@@ -1267,7 +1266,7 @@ excel_read_1904 (BiffQuery *q, GnmXLImporter *importer)
 }
 
 GnmValue *
-biff_get_error (GnmEvalPos const *pos, guint8 err)
+xls_value_new_err (GnmEvalPos const *pos, guint8 err)
 {
 	switch (err) {
 	case 0:  return value_new_error_NULL (pos);
@@ -2046,7 +2045,8 @@ excel_set_xf_segment (ExcelReadSheet *esheet,
 	range.end.row   = end_row;
 	sheet_style_set_range (esheet->sheet, &range, mstyle);
 
-	d (2, {
+	d (3, {
+		fprintf (stderr,"%s!", esheet->sheet->name_unquoted);
 		range_dump (&range, "");
 		fprintf (stderr, " = xf(%d)\n", xfidx);
 	});
@@ -2504,10 +2504,7 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, GnmCell *cell)
 	ms_biff_query_next (q);
 
 	XL_CHECK_CONDITION_VAL (q->length >= 6, NULL);
-	r.start.row	= GSF_LE_GET_GUINT16 (q->data + 0);
-	r.end.row	= GSF_LE_GET_GUINT16 (q->data + 2);
-	r.start.col	= GSF_LE_GET_GUINT8 (q->data + 4);
-	r.end.col	= GSF_LE_GET_GUINT8 (q->data + 5);
+	xls_read_range8 (&r, q->data);
 
 	if (opcode == BIFF_TABLE_v0 || opcode == BIFF_TABLE_v2) {
 		XLDataTable *dt = g_new0 (XLDataTable, 1);
@@ -2659,7 +2656,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 		case 0: is_string = TRUE; break;
 		case 1: val = value_new_bool (GSF_LE_GET_GUINT8 (val_dat + 2) != 0);
 			break;
-		case 2: val = biff_get_error (NULL, GSF_LE_GET_GUINT8 (val_dat + 2));
+		case 2: val = xls_value_new_err (NULL, GSF_LE_GET_GUINT8 (val_dat + 2));
 			break;
 		case 3: val = value_new_empty (); /* Empty (Undocumented) */
 			break;
@@ -3044,7 +3041,9 @@ gnm_xl_importer_new (IOContext *context, WorkbookView *wb_view)
 		NULL, (GDestroyNotify)excel_font_free);
 	importer->excel_sheets     = g_ptr_array_new ();
 	importer->XF_cell_records  = g_ptr_array_new ();
-	importer->format_table      = g_hash_table_new_full (
+	importer->pivot.cache_by_id= g_ptr_array_new ();
+	importer->pivot.slicer= NULL;
+	importer->format_table     = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal,
 		NULL, (GDestroyNotify)biff_format_data_destroy);
 	importer->palette = NULL;
@@ -3107,6 +3106,18 @@ gnm_xl_importer_free (GnmXLImporter *importer)
 	g_ptr_array_free (importer->excel_sheets, TRUE);
 	importer->excel_sheets = NULL;
 
+	if (NULL != importer->pivot.slicer) {
+		g_object_unref (importer->pivot.slicer);
+		importer->pivot.slicer = NULL;
+	}
+	for (i = 0; i < importer->pivot.cache_by_id->len; i++) {
+		GObject *cache = g_ptr_array_index (importer->pivot.cache_by_id, i);
+		if (NULL != cache)
+			g_object_unref (cache);
+	}
+	g_ptr_array_free (importer->pivot.cache_by_id, TRUE);
+	importer->pivot.cache_by_id = NULL;
+
 	for (i = 0; i < importer->XF_cell_records->len; i++)
 		biff_xf_data_destroy (g_ptr_array_index (importer->XF_cell_records, i));
 	g_ptr_array_free (importer->XF_cell_records, TRUE);
@@ -3142,7 +3153,7 @@ gnm_xl_importer_free (GnmXLImporter *importer)
 		unsigned i = importer->sst_len;
 		while (i-- > 0) {
 			if (importer->sst[i].content)
-				gnm_string_unref (importer->sst[i].content);
+				go_string_unref (importer->sst[i].content);
 			go_format_unref (importer->sst[i].markup);
 		}
 		g_free (importer->sst);
@@ -3678,7 +3689,7 @@ excel_read_XCT (BiffQuery *q, GnmXLImporter *importer)
 
 			case 16:
 				XL_NEED_BYTES (2);
-				v = biff_get_error (&ep, GSF_LE_GET_GUINT16 (data));
+				v = xls_value_new_err (&ep, GSF_LE_GET_GUINT16 (data));
 				/* FIXME: 8?? */
 				data += 8;
 				break;
@@ -4053,7 +4064,6 @@ excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	GnmCellPos edit_pos, tmp;
 	unsigned pane_number, i, j, num_refs;
-	guint8 *refs;
 	SheetView *sv = sheet_get_view (esheet->sheet, esheet->container.importer->wbv);
 	GnmRange r;
 
@@ -4076,11 +4086,7 @@ excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 
 	sv_selection_reset (sv);
 	for (i = 0; i++ < num_refs ; ) {
-		refs = q->data + 9 + 6 * (++j % num_refs);
-		r.start.row = GSF_LE_GET_GUINT16 (refs + 0);
-		r.end.row   = GSF_LE_GET_GUINT16 (refs + 2);
-		r.start.col = GSF_LE_GET_GUINT8  (refs + 4);
-		r.end.col   = GSF_LE_GET_GUINT8  (refs + 5);
+		xls_read_range8 (&r, q->data + 9 + 6 * (++j % num_refs));
 
 		d (5, fprintf (stderr,"Ref %d = %s\n", i-1, range_as_string (&r)););
 
@@ -4461,16 +4467,34 @@ excel_read_MULBLANK (BiffQuery *q, ExcelReadSheet *esheet)
 	d (2, fprintf (stderr,"\n"););
 }
 
-static guint8 const *
-excel_read_range (GnmRange *r, guint8 const *data)
+void
+xls_read_range32 (GnmRange *r, guint8 const *data)
 {
-	r->start.row = GSF_LE_GET_GUINT16 (data);
-	r->end.row = GSF_LE_GET_GUINT16   (data + 2);
-	r->start.col = GSF_LE_GET_GUINT16 (data + 4);
-	r->end.col = GSF_LE_GET_GUINT16   (data + 6);
-	d (4, range_dump (r, "\n"););
+	r->start.row	= GSF_LE_GET_GUINT32 (data + 0);
+	r->end.row	= GSF_LE_GET_GUINT32 (data + 4);
+	r->start.col	= GSF_LE_GET_GUINT16 (data + 8);
+	r->end.col	= GSF_LE_GET_GUINT16 (data + 10);
+	d (4, range_dump (r, ";\n"););
+}
 
-	return data + 8;
+void
+xls_read_range16 (GnmRange *r, guint8 const *data)
+{
+	r->start.row	= GSF_LE_GET_GUINT16 (data + 0);
+	r->end.row	= GSF_LE_GET_GUINT16 (data + 2);
+	r->start.col	= GSF_LE_GET_GUINT16 (data + 4);
+	r->end.col	= GSF_LE_GET_GUINT16 (data + 6);
+	d (4, range_dump (r, ";\n"););
+}
+
+void
+xls_read_range8 (GnmRange *r, guint8 const *data)
+{
+	r->start.row	= GSF_LE_GET_GUINT16 (data + 0);
+	r->end.row	= GSF_LE_GET_GUINT16 (data + 2);
+	r->start.col	= GSF_LE_GET_GUINT8  (data + 4);
+	r->end.col	= GSF_LE_GET_GUINT8  (data + 5);
+	d (4, range_dump (r, ";\n"););
 }
 
 /*
@@ -4489,8 +4513,8 @@ excel_read_MERGECELLS (BiffQuery *q, ExcelReadSheet *esheet)
 	num_merged = GSF_LE_GET_GUINT16 (q->data);
 	XL_CHECK_CONDITION (q->length == (unsigned int)(2 + 8 * num_merged));
 
-	while (num_merged-- > 0) {
-		data = excel_read_range (&r, data);
+	for (; num_merged-- > 0 ; data += 8) {
+		xls_read_range16 (&r, data);
 		overlap = gnm_sheet_merge_get_overlap (esheet->sheet, &r);
 		if (overlap) {
 			GnmRange *r2 = (GnmRange *) overlap->data;
@@ -4513,13 +4537,10 @@ excel_read_DIMENSIONS (BiffQuery *q, GnmXLImporter *importer)
 
 	if (importer->ver >= MS_BIFF_V8) {
 		XL_CHECK_CONDITION (q->length >= 12);
-		r.start.row = GSF_LE_GET_GUINT32 (q->data);
-		r.end.row   = GSF_LE_GET_GUINT32 (q->data + 4);
-		r.start.col = GSF_LE_GET_GUINT16 (q->data + 8);
-		r.end.col   = GSF_LE_GET_GUINT16 (q->data + 10);
+		xls_read_range32 (&r, q->data);
 	} else {
 		XL_CHECK_CONDITION (q->length >= 8);
-		excel_read_range (&r, q->data);
+		xls_read_range16 (&r, q->data);
 	}
 
 	d (1, fprintf (stderr,"Dimension = %s\n", range_as_string (&r)););
@@ -4997,13 +5018,13 @@ excel_read_CONDFMT (BiffQuery *q, ExcelReadSheet *esheet)
 	 * regions.
 	 */
 	if (num_areas > 0)
-		excel_read_range (&region, q->data+4);
+		xls_read_range16 (&region, q->data+4);
 #endif
 
 	data = q->data + 14;
-	for (i = 0 ; i < num_areas && (data+8) <= (q->data + q->length) ; i++) {
-		data = excel_read_range (&region, data);
-		regions = g_slist_prepend (regions, range_dup (&region));
+	for (i = 0 ; i < num_areas && (data+8) <= (q->data + q->length) ; i++, data += 8) {
+		xls_read_range16 (&region, data);
+		regions = g_slist_prepend (regions, gnm_range_dup (&region));
 	}
 
 	XL_CHECK_CONDITION (data == q->data + q->length);
@@ -5093,10 +5114,10 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 
 	XL_CHECK_CONDITION (data+2 < end);
 	i = GSF_LE_GET_GUINT16 (data);
-	for (data += 2; i-- > 0 ;) {
+	for (data += 2; i-- > 0 ; data += 8) {
 		XL_CHECK_CONDITION (data+8 <= end);
-		data = excel_read_range (&r, data);
-		ranges = g_slist_prepend (ranges, range_dup (&r));
+		xls_read_range16 (&r, data);
+		ranges = g_slist_prepend (ranges, gnm_range_dup (&r));
 	}
 
 	/* these enums align, but lets be explicit so that the filter
@@ -5306,10 +5327,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 
 	XL_CHECK_CONDITION (q->length > 32);
 
-	r.start.row = GSF_LE_GET_GUINT16 (data +  0);
-	r.end.row   = GSF_LE_GET_GUINT16 (data +  2);
-	r.start.col = GSF_LE_GET_GUINT16 (data +  4);
-	r.end.col   = GSF_LE_GET_GUINT16 (data +  6);
+	xls_read_range16 (&r, data);
 	options     = GSF_LE_GET_GUINT32 (data + 28);
 
 	XL_CHECK_CONDITION (!memcmp (data + 8, stdlink_guid, sizeof (stdlink_guid)));
@@ -5495,7 +5513,7 @@ read_DOPER (guint8 const *doper, gboolean is_equal,
 		break;
 
 	case 8: if (doper[2])
-			res = biff_get_error (NULL, doper[3]);
+			res = xls_value_new_err (NULL, doper[3]);
 		else
 			res = value_new_bool (doper[3] ? TRUE : FALSE);
 		break;
@@ -5877,7 +5895,7 @@ excel_read_BOOLERR (BiffQuery *q, ExcelReadSheet *esheet)
 	if (GSF_LE_GET_GUINT8 (q->data + base + 1)) {
 		GnmEvalPos ep;
 		eval_pos_init (&ep, esheet->sheet, XL_GETCOL (q), XL_GETROW (q));
-		v = biff_get_error (&ep, GSF_LE_GET_GUINT8 (q->data + base));
+		v = xls_value_new_err (&ep, GSF_LE_GET_GUINT8 (q->data + base));
 	} else
 		v = value_new_bool (GSF_LE_GET_GUINT8 (q->data + base));
 	excel_sheet_insert_val (esheet, q, v);
@@ -5911,7 +5929,7 @@ excel_read_HEADER_FOOTER (GnmXLImporter const *importer,
 			  BiffQuery *q, ExcelReadSheet *esheet,
 			  gboolean is_header)
 {
-	PrintInformation *pi = 	esheet->sheet->print_info;
+	PrintInformation *pi = esheet->sheet->print_info;
 
 	if (q->length) {
 		char *l, *c, *r, *str;
@@ -6082,10 +6100,10 @@ excel_read_LABELSST (BiffQuery *q, ExcelReadSheet *esheet)
 
 	if (esheet->container.importer->sst && i < esheet->container.importer->sst_len) {
 		GnmValue *v;
-		GnmString *str = esheet->container.importer->sst[i].content;
+		GOString *str = esheet->container.importer->sst[i].content;
 		/* ? Why would there be a NULL ? */
 		if (NULL != str) {
-			gnm_string_ref (str);
+			go_string_ref (str);
 			v = value_new_string_str (str);
 		} else
 			v = value_new_string ("");
@@ -6096,7 +6114,6 @@ excel_read_LABELSST (BiffQuery *q, ExcelReadSheet *esheet)
 		g_warning ("string index 0x%u >= 0x%x\n",
 			   i, esheet->container.importer->sst_len);
 }
-
 
 static gboolean
 excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
@@ -6329,7 +6346,8 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 			excel_read_DV (q, esheet);
 			break;
 
-		case BIFF_PIVOT_AUTOFORMAT:
+		case BIFF_SXVIEWEX9 :
+			/* Seems to contain pivot table autoformat indicies, plus ?? */
 			/* samples/excel/dbfuns.xls has as sample of this record
 			 * and I added code in OOo */
 			break;
@@ -6350,6 +6368,11 @@ excel_read_sheet (BiffQuery *q, GnmXLImporter *importer,
 			ms_excel_chart_read (q, sheet_container (esheet),
 				sheet_object_graph_new (NULL), NULL);
 			break;
+		case BIFF_SXVIEW: xls_read_SXVIEW (q, esheet); break;
+		case BIFF_SXVD : xls_read_SXVD (q, esheet); break;
+		case BIFF_SXVDEX : break; /* pulled in with SXVD */
+		case BIFF_SXVI : break; /* pulled in with SXVD */
+		case BIFF_SXIVD: xls_read_SXIVD (q, esheet); break;
 
 		default:
 			excel_unexpected_biff (q, "Sheet", ms_excel_read_debug);
@@ -6796,6 +6819,8 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view, GsfInput *input,
 
 		case BIFF_SUPBOOK:	excel_read_SUPBOOK (q, importer); break;
 
+		case BIFF_SXStreamID:	xls_read_SXStreamID (importer, q, gsf_input_container (input)); break;
+
 		default:
 			excel_unexpected_biff (q, "Workbook", ms_excel_read_debug);
 			break;
@@ -6803,8 +6828,6 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view, GsfInput *input,
 		/* check here in case any of the handlers read additional records */
 		prev_was_eof = (q->opcode == BIFF_EOF);
 	}
-
-	excel_read_pivot_caches (importer, q, gsf_input_container (input));
 
 	ms_biff_query_destroy (q);
 	if (ver)
