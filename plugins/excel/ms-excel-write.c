@@ -4758,7 +4758,7 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 				g_warning ("Can't find style %p for cell %s!%s",
 					   esv.style,
 					   sheet->name_unquoted,
-					   cell ? cell_name (cell) : "?");
+					   cell_coord_name (col, row));
 				xf = 0;
 			}
 			if (cell == NULL) {
