@@ -31,7 +31,6 @@ typedef FILE * OutputStream;
 #include <expr.h>
 #include <func.h>
 #include <value.h>
-#include <str.h>
 
 SV* value2perl(const GnmValue *v);
 GnmValue* perl2value(SV *sv);

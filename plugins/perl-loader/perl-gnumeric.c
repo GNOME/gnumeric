@@ -3,26 +3,28 @@
 SV *
 value2perl(const GnmValue *v)
 {
-    SV *sv;
+	SV *sv;
 
-    switch (v->type) {
-    case VALUE_BOOLEAN:
-	sv = newSViv(v->v_bool.val);
-	break;
+	switch (v->type) {
+	case VALUE_BOOLEAN:
+		sv = newSViv(v->v_bool.val);
+		break;
 
-    case VALUE_FLOAT:
-	sv = newSVnv(value_get_as_float (v));
-	break;
+	case VALUE_FLOAT:
+		sv = newSVnv(value_get_as_float (v));
+		break;
 
-    case VALUE_STRING:
-	sv = newSVpv(v->v_str.val->str, strlen(v->v_str.val->str));
-	break;
+	case VALUE_STRING: {
+		const char *s = value_peek_string (v);
+		sv = newSVpv(s,strlen(s));
+		break;
+	}
 
-    default:
-	sv = NULL;
-	break;
-    }
-    return sv;
+	default:
+		sv = NULL;
+		break;
+	}
+	return sv;
 }
 
 GnmValue *

@@ -1,3 +1,8 @@
+2009-06-08  Morten Welinder  <terra@gnome.org>
+
+	* perl-gnumeric.c (value2perl): Don't try to look inside strings
+	directly.
+
 2009-05-23  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.8
