@@ -1,3 +1,8 @@
+2009-06-08  Jody Goldberg <jody@gnome.org>
+
+	* src/go-data-slicer-field.c (go_data_slicer_field_init) : adjust to
+	  GDS_FIELD_TYPE_ re-org
+
 2009-06-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print-info.h (gnm_page_breaks_clean): new
