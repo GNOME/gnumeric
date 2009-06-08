@@ -996,6 +996,15 @@ compute_sheet_pages (GtkPrintContext   *context,
 	usable_x   = page_width / px;
 	usable_y   = page_height / py;
 
+	if (!pi->ignore_pb) {
+		if (pinfo->page_breaks.h == NULL)
+		        print_info_set_breaks (pinfo, 
+					       gnm_page_breaks_new (FALSE));
+		if (pinfo->page_breaks.v == NULL)
+		        print_info_set_breaks (pinfo, 
+					       gnm_page_breaks_new (TRUE));
+	}
+
 	paginate (&column_pagination, sheet, r.start.col, r.end.col,
 		  usable_x - row_header_width,
 		  repeat_left_use, repeat_left_start, repeat_left_end,

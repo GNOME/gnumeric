@@ -1,5 +1,10 @@
 2009-06-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/print.c (compute_sheet_pages): make sure we have
+	  page breaks allocated before we try to save any.
+
+2009-06-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/print-info.c (gnm_page_breaks_get_next_manual_break):
 	  fix unsigned issue
 	(gnm_page_breaks_set_break): ditto
