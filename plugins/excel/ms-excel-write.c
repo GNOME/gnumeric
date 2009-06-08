@@ -4349,17 +4349,18 @@ excel_write_WSBOOL (BiffPut *bp, ExcelWriteSheet *esheet)
 static void
 excel_write_PAGE_BREAK (BiffPut *bp, GnmPageBreaks const *breaks)
 {
-	GArray const *details = breaks->details;
 	unsigned i, n, step = (bp->version < MS_BIFF_V8) ? 2 : 6;
-	guint16 const maxima = breaks->is_vert ? XLS_MaxRow_V8 : XLS_MaxCol;
 	GnmPageBreak const *binfo;
 	guint8 *data;
+	GnmPageBreaks *manual_pbreaks = gnm_page_breaks_dup_non_auto_breaks (breaks);
+	GArray *details =  manual_pbreaks->details;
+	guint16 const maxima = manual_pbreaks->is_vert ? XLS_MaxRow_V8 : XLS_MaxCol;
 
 	/* limit size to ensure no CONTINUE (do we need this ? ) */
-	if (((n = breaks->details->len)*step + 2 + 2) >= ms_biff_max_record_len (bp))
+	if (((n = details->len)*step + 2 + 2) >= ms_biff_max_record_len (bp))
 		n = (ms_biff_max_record_len (bp) - 2 - 2) / step;
 
-	data = ms_biff_put_len_next (bp, breaks->is_vert
+	data = ms_biff_put_len_next (bp, manual_pbreaks->is_vert
 		? BIFF_VERTICALPAGEBREAKS : BIFF_HORIZONTALPAGEBREAKS,
 		2 + step * n);
 
@@ -4375,6 +4376,7 @@ excel_write_PAGE_BREAK (BiffPut *bp, GnmPageBreaks const *breaks)
 	}
 
 	ms_biff_put_commit (bp);
+	gnm_page_breaks_free (manual_pbreaks);
 }
 
 static void

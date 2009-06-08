@@ -11,6 +11,7 @@ Andreas:
 	* Improve Fourier transform tool
 	* New FOURIER function
 	* Added Tests for Independence and Homogeneity
+	* Make imported manual page breaks work
 
 Morten:
 	* Add search-for-number.

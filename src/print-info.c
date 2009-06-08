@@ -1262,6 +1262,27 @@ gnm_page_breaks_free (GnmPageBreaks *breaks)
 	}
 }
 
+GnmPageBreaks *
+gnm_page_breaks_dup_non_auto_breaks (GnmPageBreaks const *src)
+{
+	if (src != NULL) {
+		GnmPageBreaks *dst = gnm_page_breaks_new (src->is_vert);
+		GArray       *d_details = dst->details;
+		GArray const *s_details = src->details;
+		GnmPageBreak *pbreak;
+		unsigned i;
+
+		/* no need to validate through gnm_page_breaks_append_break, just dup */
+		for (i = 0; i < s_details->len ; i++) {
+			pbreak = &g_array_index (s_details, GnmPageBreak, i);
+			if (pbreak->type != GNM_PAGE_BREAK_AUTO)
+				g_array_append_val (d_details, *pbreak);
+		}
+		return dst;
+	} else
+		return NULL;
+}
+
 gboolean
 gnm_page_breaks_append_break (GnmPageBreaks *breaks,
 			      int pos,
@@ -1271,6 +1292,9 @@ gnm_page_breaks_append_break (GnmPageBreaks *breaks,
 	GnmPageBreak info;
 
 	g_return_val_if_fail (breaks != NULL, FALSE);
+
+	if (type == GNM_PAGE_BREAK_NONE)
+		return TRUE;
 
 	/* Do some simple validation */
 	if (pos < 0)
@@ -1289,6 +1313,90 @@ gnm_page_breaks_append_break (GnmPageBreaks *breaks,
 	return TRUE;
 }
 
+GnmPageBreakType
+gnm_page_breaks_get_break (GnmPageBreaks *breaks,
+			   int pos)
+{
+	int i;
+
+	if (breaks == NULL)
+		return GNM_PAGE_BREAK_NONE;
+
+	for (i = breaks->details->len - 1; i >= 0; i--) {
+		GnmPageBreak *pbreak;
+		pbreak = &g_array_index (breaks->details, GnmPageBreak, i);
+		if (pbreak->pos < pos)
+			return GNM_PAGE_BREAK_NONE;
+		if (pbreak->pos == pos)
+			return (pbreak->type);
+	}
+	return GNM_PAGE_BREAK_NONE;
+}
+
+int
+gnm_page_breaks_get_next_manual_break (GnmPageBreaks *breaks,
+			   int pos)
+{
+	int i;
+
+	if (breaks == NULL)
+		return -1;
+
+	for (i = 0; i < breaks->details->len; i++) {
+		GnmPageBreak const *pbreak;
+		pbreak = &g_array_index (breaks->details, GnmPageBreak, i);
+		if (pbreak->pos > pos 
+		    && pbreak->type == GNM_PAGE_BREAK_MANUAL)
+			return pbreak->pos;
+	}
+	return -1;
+}
+
+gboolean
+gnm_page_breaks_set_break (GnmPageBreaks *breaks,
+			   int pos,
+			   GnmPageBreakType type)
+{
+	GnmPageBreak *pbreak;
+	GnmPageBreak info;
+	int i;
+	int before = -1;
+
+	g_return_val_if_fail (breaks != NULL, FALSE);
+
+	/* Do some simple validation */
+	if (pos < 0)
+		return FALSE;
+	
+	if (breaks->details->len == 0 && type != GNM_PAGE_BREAK_NONE)
+		return gnm_page_breaks_append_break (breaks, pos, type);
+
+	for (i = 0; i < breaks->details->len; i++) {
+		pbreak = &g_array_index (breaks->details, GnmPageBreak, i);
+		if (pbreak->pos == pos) {
+			if (type == GNM_PAGE_BREAK_NONE) {
+				g_array_remove_index (breaks->details, i);
+			} else {
+				pbreak->type = type;
+			}
+			return TRUE;
+		} else if (pbreak->pos < pos)
+			before = i;
+	}
+
+	if (type == GNM_PAGE_BREAK_NONE)
+		return TRUE;
+
+	info.pos   = pos;
+	info.type  = type;
+	if ((before + 1) > breaks->details->len)
+		g_array_append_val (breaks->details, info);
+	else
+		g_array_insert_val (breaks->details, (before + 1), info);
+
+	return TRUE;
+}
+
 /**
  * gnm_page_break_type_from_str
  * @str :
@@ -1303,5 +1411,5 @@ gnm_page_break_type_from_str (char const *str)
 		return GNM_PAGE_BREAK_AUTO;
 	if (0 == g_ascii_strcasecmp (str, "data-slice"))
 		return GNM_PAGE_BREAK_DATA_SLICE;
-	return GNM_PAGE_BREAK_AUTO;
+	return GNM_PAGE_BREAK_NONE;
 }

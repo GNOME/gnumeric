@@ -1,5 +1,24 @@
 2009-06-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/print-info.h (gnm_page_breaks_set_break): new
+	(gnm_page_breaks_get_break): new
+	(gnm_page_breaks_get_next_manual_break): new
+	(gnm_page_breaks_dup_non_auto_breaks): new
+	* src/print-info.c (gnm_page_breaks_set_break): new
+	(gnm_page_breaks_get_break): new
+	(gnm_page_breaks_get_next_manual_break): new
+	(gnm_page_breaks_dup_non_auto_breaks): new
+	(gnm_page_break_type_from_str): default to GNM_PAGE_BREAK_NONE
+	* src/print.h (GNUMERIC_PRINT_SETTING_IGNORE_PAGE_BREAKS_KEY):
+	  new key
+	* src/print.c (PrintingInstance): add new fields
+	(paginate): add arguments and change all callers
+	(gnm_begin_print_cb): handle ignoring of manual page breaks
+	(gnm_create_widget_cb): add ignore page break chackbox
+	(gnm_custom_widget_apply_cb): and handle the checkbox
+
+2009-06-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/GNOME_Gnumeric-gtk.xml.in: add ChiSquareTests
 	* src/wbc-gtk-actions.c add MenuContingencyTests and
 	  Tools -> Chi Square Tests items

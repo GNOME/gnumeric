@@ -803,7 +803,7 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 }
 
 static void
-oo_append_page_break (OOParseState *state, int pos, gboolean is_vert)
+oo_append_page_break (OOParseState *state, int pos, gboolean is_vert, gboolean is_manual)
 {
 	GnmPageBreaks *breaks;
 
@@ -814,20 +814,41 @@ oo_append_page_break (OOParseState *state, int pos, gboolean is_vert)
 		if (NULL == (breaks = state->page_breaks.h))
 			breaks = state->page_breaks.h = gnm_page_breaks_new (FALSE);
 	}
+	
+	gnm_page_breaks_append_break (breaks, pos, 
+				      is_manual ? GNM_PAGE_BREAK_MANUAL : GNM_PAGE_BREAK_AUTO);
+}
 
-	gnm_page_breaks_append_break (breaks, pos, GNM_PAGE_BREAK_MANUAL);
+static void
+oo_set_page_break (OOParseState *state, int pos, gboolean is_vert, gboolean is_manual)
+{
+	GnmPageBreaks *breaks = (is_vert) ? state->page_breaks.v : state->page_breaks.h;
+	
+	switch (gnm_page_breaks_get_break (breaks, pos)) {
+	case GNM_PAGE_BREAK_NONE:
+		oo_append_page_break (state, pos, is_vert, is_manual);
+		return;
+	case GNM_PAGE_BREAK_MANUAL:
+		return;
+	case GNM_PAGE_BREAK_AUTO:
+	default:
+		if (is_manual)
+			gnm_page_breaks_set_break (breaks, pos, GNM_PAGE_BREAK_MANUAL);
+		break;
+	}
 }
 
 static void
 oo_col_row_style_apply_breaks (OOParseState *state, OOColRowStyle *cr_style,
 			       int pos, gboolean is_vert)
 {
-	/* AUTO seems to denote the possibility, of a break, rather than an
-	 * actual break, ignore it*/
-	if (cr_style->break_before == OO_PAGE_BREAK_MANUAL)
-		oo_append_page_break (state, pos, is_vert);
-	if (cr_style->break_after  == OO_PAGE_BREAK_MANUAL)
-		oo_append_page_break (state, pos+1, is_vert);
+	
+	if (cr_style->break_before != OO_PAGE_BREAK_NONE)
+		oo_set_page_break (state, pos, is_vert, 
+				      cr_style->break_before == OO_PAGE_BREAK_MANUAL);
+	if (cr_style->break_after  == OO_PAGE_BREAK_NONE)
+		oo_append_page_break (state, pos+1, is_vert,
+				      cr_style->break_after  == OO_PAGE_BREAK_MANUAL);
 }
 
 static void
@@ -2298,10 +2319,12 @@ oo_page_break_type (GsfXMLIn *xin, xmlChar const *attr)
 {
 	if (!strcmp (attr, "page"))
 		return OO_PAGE_BREAK_MANUAL;
+	if (!strcmp (attr, "column"))
+		return OO_PAGE_BREAK_MANUAL;
 	if (!strcmp (attr, "auto"))
 		return OO_PAGE_BREAK_AUTO;
 	oo_warning (xin,
-		_("Unknown break type '%s' defaulting to Manual"), attr);
+		_("Unknown break type '%s' defaulting to NONE"), attr);
 	return OO_PAGE_BREAK_NONE;
 }
 

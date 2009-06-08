@@ -19,6 +19,7 @@ typedef struct {
 } PrintHF;
 
 typedef enum {
+	GNM_PAGE_BREAK_NONE,
 	GNM_PAGE_BREAK_MANUAL,
 	GNM_PAGE_BREAK_AUTO,
 	GNM_PAGE_BREAK_DATA_SLICE
@@ -178,6 +179,13 @@ void		 gnm_page_breaks_free		(GnmPageBreaks *breaks);
 gboolean	 gnm_page_breaks_append_break	(GnmPageBreaks *breaks,
 						 int pos,
 						 GnmPageBreakType type);
+gboolean	 gnm_page_breaks_set_break	(GnmPageBreaks *breaks,
+						 int pos,
+						 GnmPageBreakType type);
+GnmPageBreakType gnm_page_breaks_get_break      (GnmPageBreaks *breaks, int pos);
+int              gnm_page_breaks_get_next_manual_break  (GnmPageBreaks *breaks, int pos);
+GnmPageBreaks *  gnm_page_breaks_dup_non_auto_breaks (GnmPageBreaks const *src);
+
 
 /* Formats known */
 extern GList *hf_formats;
