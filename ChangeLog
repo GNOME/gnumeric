@@ -1,3 +1,10 @@
+2009-06-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print-info.c (gnm_page_breaks_get_next_manual_break):
+	  fix unsigned issue
+	(gnm_page_breaks_set_break): ditto
+	(gnm_page_breaks_clean): ditto
+
 2009-06-08  Jody Goldberg <jody@gnome.org>
 
 	* src/go-data-slicer-field.c (go_data_slicer_field_init) : adjust to

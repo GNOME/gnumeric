@@ -1,3 +1,13 @@
+2009-06-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_append_page_break): soft pagebreaks are
+	  stored as text:soft-page-breaks tag (and at this time can only 
+	  be included between rows). The "auto" value for break-after
+	  and break-before reflects only the potential of a pagebreak.
+	(oo_page_break_type): ditto
+	* openoffice-write.c (odf_write_sheet): write text:soft-page-breaks
+	  elements at the location of paginated page breaks.
+
 2009-06-07 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_append_page_break): add argument and

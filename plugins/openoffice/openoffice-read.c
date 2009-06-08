@@ -817,7 +817,7 @@ oo_append_page_break (OOParseState *state, int pos, gboolean is_vert, gboolean i
 	}
 	
 	gnm_page_breaks_append_break (breaks, pos, 
-				      is_manual ? GNM_PAGE_BREAK_MANUAL : GNM_PAGE_BREAK_AUTO);
+				      is_manual ? GNM_PAGE_BREAK_MANUAL : GNM_PAGE_BREAK_NONE);
 }
 
 static void
@@ -2318,12 +2318,14 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 static OOPageBreakType
 oo_page_break_type (GsfXMLIn *xin, xmlChar const *attr)
 {
+	/* Note that truly automatic of soft page breaks are stored */
+	/* via text:soft-page-break tags                            */
 	if (!strcmp (attr, "page"))
 		return OO_PAGE_BREAK_MANUAL;
 	if (!strcmp (attr, "column"))
 		return OO_PAGE_BREAK_MANUAL;
 	if (!strcmp (attr, "auto"))
-		return OO_PAGE_BREAK_AUTO;
+		return OO_PAGE_BREAK_NONE;
 	oo_warning (xin,
 		_("Unknown break type '%s' defaulting to NONE"), attr);
 	return OO_PAGE_BREAK_NONE;

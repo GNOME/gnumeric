@@ -42,6 +42,7 @@
 #include <workbook-priv.h> /* Workbook::names */
 #include <cell.h>
 #include <sheet.h>
+#include <print-info.h>
 #include <sheet-view.h>
 #include <sheet-style.h>
 #include <sheet-merge.h>
@@ -1738,7 +1739,7 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 	GnmRange  extent;
 	int i, col, row;
 	GSList *sheet_merges = NULL;
-	
+	GnmPageBreaks *pb = sheet->print_info->page_breaks.v;
 
 	extent = sheet_get_extent (sheet, FALSE);
 	sheet_style_get_extent (sheet, &extent, col_styles);
@@ -1766,6 +1767,10 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 		int covered_cell = 0;
 		GnmCellPos pos;
 		pos.row = row;
+		if (gnm_page_breaks_get_break (pb, row) != GNM_PAGE_BREAK_NONE)
+			gsf_xml_out_simple_element (state->xml, 
+						    TEXT "soft-page-break", 
+						    NULL);
 
 		gsf_xml_out_start_element (state->xml, TABLE "table-row");
 		write_row_style (state, ci, sheet);
