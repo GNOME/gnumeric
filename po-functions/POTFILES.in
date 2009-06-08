@@ -66,6 +66,7 @@ src/dependent.c
 src/dialogs/dao-gui-utils.c
 src/dialogs/dialog-about.c
 src/dialogs/dialog-advanced-filter.c
+src/dialogs/dialog-analysis-tool-chi-squared.c
 src/dialogs/dialog-analysis-tool-frequency.c
 src/dialogs/dialog-analysis-tool-kaplan-meier.c
 src/dialogs/dialog-analysis-tools.c
@@ -177,6 +178,8 @@ src/stf-parse.c
 src/stf.c
 src/style.c
 src/test-pango.c
+src/tools/analysis-anova.c
+src/tools/analysis-chi-squared.c
 src/tools/analysis-exp-smoothing.c
 src/tools/analysis-frequency.c
 src/tools/analysis-histogram.c
