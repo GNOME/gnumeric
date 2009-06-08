@@ -696,6 +696,8 @@ paginate (GSList **paginationInfo,
 			page_count++;
 			
 			rc += count;
+			if (store_breaks && (rc < n_end))
+				gnm_page_breaks_set_break (pb, rc, GNM_PAGE_BREAK_AUTO);
 		}
 	}
 
@@ -951,6 +953,11 @@ compute_sheet_pages (GtkPrintContext   *context,
 	repeat_left_use = load_repeat_range (pinfo->repeat_left, &r, sheet);
 	repeat_left_start = repeat_left_use ? r.start.col : 0;
 	repeat_left_end = repeat_left_use ? r.end.col : 0;
+
+	if (pi->ignore_pb) {
+		gnm_page_breaks_clean (pinfo->page_breaks.h);
+		gnm_page_breaks_clean (pinfo->page_breaks.v);
+	}
 
 	if (pinfo->scaling.type == PRINT_SCALE_FIT_PAGES) {
 		/* Note that the resulting scale is independent from */

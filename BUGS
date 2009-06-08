@@ -476,12 +476,13 @@ Architecture Changes
 
 17) Explicit Page Breaks
     17.1) Store them in PrintInfo				(DONE)
-    17.2) Respect them
-	17.3.3) ODF
-	    17.2.5.1) Import					(DONE)
-	    17.2.5.2) Export	{merge breaks and styles}
-	17.3.4) Lotus ?
-	17.3.5) Applix ?
+    17.2) Respect them						(DONE)
+    17.3.3) ODF
+    17.3.3.1) Import						(DONE)
+    17.3.3.2) Export	{merge breaks and styles}
+    17.3.4) Lotus ?
+    17.3.5) Applix ?
+    17.3.6) Create User Interface for them
 
 2) stf							{Andreas/Morten}
     2.1) UTF-8 cleanliness					(DONE)
@@ -814,7 +815,7 @@ Architecture Changes
 38) Printing
     38.1) cell text wraps differently when printing than
 	  displaying due to scaling differences in font size.   (DONE)
-    38.2) explicit page breaks
+    38.2) explicit page breaks	    		   		(DONE)
     38.3) PI:comment_placement
     38.4) PI:display_errors
 

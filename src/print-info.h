@@ -174,6 +174,7 @@ void        print_info_set_breaks (PrintInformation *pi, GnmPageBreaks *breaks);
 GnmPageBreaks	*gnm_page_breaks_new		(gboolean is_vert);
 GnmPageBreaks	*gnm_page_breaks_dup		(GnmPageBreaks const *src);
 void		 gnm_page_breaks_free		(GnmPageBreaks *breaks);
+void		 gnm_page_breaks_clean		(GnmPageBreaks *breaks);
 gboolean	 gnm_page_breaks_append_break	(GnmPageBreaks *breaks,
 						 int pos,
 						 GnmPageBreakType type);

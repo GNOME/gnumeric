@@ -1413,3 +1413,24 @@ gnm_page_break_type_from_str (char const *str)
 		return GNM_PAGE_BREAK_DATA_SLICE;
 	return GNM_PAGE_BREAK_NONE;
 }
+
+
+/**
+ *
+ * Remove all auto page breaks
+ *
+ **/
+
+void		 
+gnm_page_breaks_clean (GnmPageBreaks *breaks)
+{
+	int i;
+	for (i = 0; i < breaks->details->len; i++) {
+		GnmPageBreak *pbreak = &g_array_index (breaks->details, 
+						       GnmPageBreak, i);
+		if (pbreak->type == GNM_PAGE_BREAK_AUTO) {
+			g_array_remove_index (breaks->details, i);
+			i--;
+		}
+	} 
+}

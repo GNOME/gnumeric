@@ -1,5 +1,13 @@
 2009-06-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/print-info.h (gnm_page_breaks_clean): new
+	* src/print-info.c(gnm_page_breaks_clean): new
+	* src/print.c (paginate): store page breaks if requested
+	(compute_sheet_pages): clear page breaks if storage of new ones 
+	  is requested
+
+2009-06-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/print-info.h (gnm_page_breaks_set_break): new
 	(gnm_page_breaks_get_break): new
 	(gnm_page_breaks_get_next_manual_break): new
