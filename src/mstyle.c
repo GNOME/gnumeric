@@ -577,8 +577,12 @@ gnm_style_dup (GnmStyle const *src)
 			elem_set (new_style, i);
 			elem_changed (new_style, i);
 		}
-	if ((new_style->pango_attrs = src->pango_attrs))
+
+	if ((new_style->pango_attrs = src->pango_attrs)) {
 		pango_attr_list_ref (new_style->pango_attrs);
+		new_style->pango_attrs_zoom = src->pango_attrs_zoom;
+	}
+
 	if ((new_style->font = src->font)) {
 		gnm_font_ref (new_style->font);
 		new_style->font_zoom = src->font_zoom;

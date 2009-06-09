@@ -1,3 +1,7 @@
+2009-06-09  Morten Welinder  <terra@gnome.org>
+
+	* src/mstyle.c (gnm_style_dup): Copy pango_attrs_zoom too.
+
 2009-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print-info.c (gnm_page_breaks_get_next_break): new
