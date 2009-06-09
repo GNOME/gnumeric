@@ -406,7 +406,7 @@ static GOString *go_string_ERROR_val = NULL;
  * Returns : A string saying 'ERROR' but does not add a ref to it.
  **/
 GOString *
-go_string_ERROR ()
+go_string_ERROR (void)
 {
 	if (NULL == go_string_ERROR_val)
 		go_string_ERROR_val = go_string_new ("<ERROR>");
