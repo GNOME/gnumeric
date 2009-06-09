@@ -89,7 +89,7 @@ range_gcd (gnm_float const *xs, int n, gnm_float *res)
 {
 	if (n > 0) {
 		int i;
-		gnm_float gcd_so_far = xs[0];
+		gnm_float gcd_so_far = gnm_fake_floor (xs[0]);
 
 		for (i = 0; i < n; i++) {
 			gnm_float thisx = gnm_fake_floor (xs[i]);

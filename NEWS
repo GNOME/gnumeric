@@ -22,6 +22,7 @@ Morten:
 	* Fix style problems with operator.xls.  [#585178]
 	* Fix NPER problems.
 	* Implement new functions COT and ACOT.  [#585270]
+	* Fix GCD.  [#585271]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.8
