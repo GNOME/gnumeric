@@ -41,14 +41,14 @@ typedef struct _GOStringRichImpl {
 	GOStringPhonetic	 *phonetic;
 } GOStringRichImpl;
 
-#define GO_STRING_HAS_CASEFOLD	(1 << 31)
-#define GO_STRING_HAS_COLLATE	(1 << 30)
-#define GO_STRING_IS_RICH	(1 << 29)
-#define GO_STRING_IS_SHARED	(1 << 28) /* rich strings share this base */
-#define GO_STRING_IS_DEPENDENT	(1 << 27) /* a rich string that shares an underlying */
+#define GO_STRING_HAS_CASEFOLD	(1u << 31)
+#define GO_STRING_HAS_COLLATE	(1u << 30)
+#define GO_STRING_IS_RICH	(1u << 29)
+#define GO_STRING_IS_SHARED	(1u << 28) /* rich strings share this base */
+#define GO_STRING_IS_DEPENDENT	(1u << 27) /* a rich string that shares an underlying */
 
 /* mask off just the len */
-#define GO_STRING_LEN(s)	(((GOStringImpl const *)(s))->flags & ((1 << 27) -1))
+#define GO_STRING_LEN(s)	(((GOStringImpl const *)(s))->flags & ((1u << 27) - 1u))
 
 /* Collection of unique strings
  * : GOStringImpl.base.hash -> GOStringImpl * */
@@ -95,7 +95,8 @@ replace_rich_base_with_plain (GOStringRichImpl *rich)
 	} else
 		g_hash_table_insert (go_strings_shared, (gpointer) res->base.str,
 			g_slist_prepend (NULL, rich));
-	return (GOString *)res;
+
+	return &res->base;
 }
 
 /**
@@ -119,15 +120,16 @@ go_string_new_len (char const *str, guint32 len)
 	key.flags    = len;
 	key.hash     = g_str_hash (str);
 	res = g_hash_table_lookup (go_strings_base, &key);
-	if (NULL == res)
-		return (GOString *)go_string_impl_new (g_strndup (str, len), key.hash, key.flags, 1); /* copy str */
-
-	/* if rich was there first move it to the shared */
-	if (G_UNLIKELY (res->flags & GO_STRING_IS_RICH))
+	if (NULL == res) {
+		 /* Copy str */
+		res = go_string_impl_new (g_strndup (str, len),
+					  key.hash, key.flags, 1);
+		return &res->base;
+	} else if (G_UNLIKELY (res->flags & GO_STRING_IS_RICH))
+		/* if rich was there first move it to the shared */
 		return replace_rich_base_with_plain ((GOStringRichImpl *)res);
-
-	go_string_ref (&res->base);
-	return (GOString *)res;
+	else
+		return go_string_ref (&res->base);
 }
 
 /**
@@ -151,8 +153,11 @@ go_string_new_nocopy_len (char *str, guint32 len)
 	key.flags    = len;
 	key.hash     = g_str_hash (str);
 	res = g_hash_table_lookup (go_strings_base, &key);
-	if (NULL == res)
-		return (GOString *)go_string_impl_new (str, key.hash, key.flags, 1); /* NO copy str */
+	if (NULL == res) {
+		 /* NO copy str */
+		res = go_string_impl_new (str, key.hash, key.flags, 1);
+		return &res->base;
+	}
 
 	if (str != res->base.str) g_free (str); /* Be extra careful */
 
@@ -160,8 +165,7 @@ go_string_new_nocopy_len (char *str, guint32 len)
 	if (G_UNLIKELY (res->flags & GO_STRING_IS_RICH))
 		return replace_rich_base_with_plain ((GOStringRichImpl *)res);
 
-	go_string_ref (&res->base);
-	return (GOString *)res;
+	return go_string_ref (&res->base);
 }
 
 /**
@@ -233,7 +237,7 @@ go_string_new_rich (char const *str,
 		if (copy) rich->base.base.str = g_strndup (str, len);
 		g_hash_table_insert (go_strings_base, rich, rich);
 	} else {
-		go_string_ref ((GOString *)base);
+		go_string_ref (&base->base);
 		if (str != rich->base.base.str) { /* watch for people doing something stupid */
 			if (!copy) g_free ((char *)str);
 			rich->base.base.str = base->base.str;
@@ -250,7 +254,7 @@ go_string_new_rich (char const *str,
 		}
 	}
 
-	return (GOString *)rich;
+	return &rich->base.base;
 }
 
 GOString *
@@ -291,7 +295,7 @@ go_string_unref (GOString *gstr)
 				} else
 					g_hash_table_replace (go_strings_shared, (gpointer)gstr->str, new_shares);
 			}
-			go_string_unref ((GOString *)base);
+			go_string_unref (&base->base);
 		} else {
 			g_hash_table_remove (go_strings_base, gstr);
 			g_free ((gpointer)gstr->str);
@@ -303,32 +307,38 @@ go_string_unref (GOString *gstr)
 unsigned int
 go_string_get_ref_count (GOString const *gstr)
 {
-	return gstr ? ((GOStringImpl *)gstr)->ref_count : 0;
+	return gstr ? ((GOStringImpl const *)gstr)->ref_count : 0;
 }
 
 guint32
 go_string_hash (gconstpointer gstr)
 {
-	return gstr ? ((GOStringImpl *)gstr)->hash : 0;
+	return gstr ? ((GOStringImpl const *)gstr)->hash : 0;
 }
 
 int
 go_string_cmp (gconstpointer gstr_a, gconstpointer gstr_b)
 {
-	return (gstr_a == gstr_b) ? 0 : strcmp (go_string_get_collation (gstr_a), go_string_get_collation (gstr_b));
+	return (gstr_a == gstr_b)
+		? 0
+		: strcmp (go_string_get_collation (gstr_a),
+			  go_string_get_collation (gstr_b));
 }
 
 int
 go_string_cmp_ignorecase (gconstpointer gstr_a, gconstpointer gstr_b)
 {
-	return (gstr_a == gstr_b) ? 0 : strcmp (go_string_get_casefold (gstr_a), go_string_get_casefold (gstr_b));
+	return (gstr_a == gstr_b)
+		? 0
+		: strcmp (go_string_get_casefold (gstr_a),
+			  go_string_get_casefold (gstr_b));
 }
 
 gboolean
 go_string_equal (gconstpointer gstr_a, gconstpointer gstr_b)
 {
-	GOString const *a = (GOString const *)gstr_a;
-	GOString const *b = (GOString const *)gstr_b;
+	GOString const *a = gstr_a;
+	GOString const *b = gstr_b;
 	return a == b || (NULL != a && NULL != b && a->str == b->str);
 }
 
@@ -420,8 +430,8 @@ go_string_ERROR (void)
 static gboolean
 go_string_equal_internal (gconstpointer gstr_a, gconstpointer gstr_b)
 {
-	GOStringImpl const *a = (GOStringImpl const *)gstr_a;
-	GOStringImpl const *b = (GOStringImpl const *)gstr_b;
+	GOStringImpl const *a = gstr_a;
+	GOStringImpl const *b = gstr_b;
 	return a == b ||
 		((a->hash == b->hash) &&
 		 (GO_STRING_LEN (a) == GO_STRING_LEN (b)) &&
@@ -441,7 +451,7 @@ cb_string_pool_leak (G_GNUC_UNUSED gpointer key,
 {
 	GOString const *gstr = value;
 	g_printerr ("Leaking string [%s] with ref_count=%d.\n",
-		 gstr->str, ((GOStringImpl *)gstr)->ref_count);
+		    gstr->str, go_string_get_ref_count (gstr));
 	return TRUE;
 }
 
@@ -520,7 +530,7 @@ value_transform_gostring_string (GValue const *src_val,
 {
 	GOString *src_str = src_val->data[0].v_pointer;
 	dest->data[0].v_pointer = src_str
-		? g_strndup (((GOString const *)src_str)->str, GO_STRING_LEN (src_str))
+		? g_strndup (src_str->str, GO_STRING_LEN (src_str))
 		: NULL;
 }
 

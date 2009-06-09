@@ -1,6 +1,8 @@
 2009-06-09  Morten Welinder  <terra@gnome.org>
 
-	* src/go-string.c (go_string_ERROR): Fix prototype.
+	* src/go-string.c: Avoid lots of casts.  Use unsigned values for
+	flag constants to match the flags.
+	(go_string_ERROR): Fix prototype.
 
 	* src/mathfunc.c (gnm_cot, gnm_acot): New functions.
 
