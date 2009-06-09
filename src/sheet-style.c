@@ -2768,7 +2768,7 @@ sample_styles (Sheet *sheet)
 
 	while (1) {
 		GnmStyle const *mstyle = sheet_style_get (sheet, c, r);
-		if (res == NULL || mstyle != res->data) {
+		if (res == NULL ||  !gnm_style_equal (mstyle, res->data)) {
 			gnm_style_ref (mstyle);
 			res = g_slist_prepend (res, GINT_TO_POINTER (c));
 			res = g_slist_prepend (res, GINT_TO_POINTER (r));
@@ -2839,6 +2839,9 @@ sheet_style_optimize (Sheet *sheet)
 	gboolean verify;
 
 	g_return_if_fail (IS_SHEET (sheet));
+
+	if (gnm_debug_flag ("no-style-optimize"))
+		return;
 
 	data.ss = gnm_sheet_get_size (sheet);
 	data.debug = gnm_debug_flag ("style-optimize");

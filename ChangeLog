@@ -1,3 +1,11 @@
+2009-06-08  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-style.c (sample_styles): Check equality using
+	gnm_style_equal to match the optimizer, if even == ought to be
+	good enough.
+	(sheet_style_optimize): Add no-style-optimize debug flag doing the
+	obvious.
+
 2009-06-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print.c (compute_sheet_pages): make sure we have
