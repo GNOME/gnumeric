@@ -1,3 +1,12 @@
+2009-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/print-info.c (gnm_page_breaks_get_next_break): new
+	* src/print-info.h (gnm_page_breaks_get_next_break): new
+	* src/xml-io.c (xml_read_breaks): adjust to cahnge in enum 
+	  interpretation
+	* src/xml-sax-read.c (xml_sax_page_break): ditto
+	* src/xml-sax-write.c (xml_write_breaks): also write soft breaks
+
 2009-06-08  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-style.c (sample_styles): Check equality using

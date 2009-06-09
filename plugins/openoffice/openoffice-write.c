@@ -1684,50 +1684,61 @@ write_row_style (GnmOOExport *state, ColRowInfo const *ci,
 }
 
 static void
-odf_write_formatted_empty_rows (GnmOOExport *state, Sheet const *sheet, int from, int to, int row_length)
+odf_write_formatted_empty_rows (GnmOOExport *state, Sheet const *sheet, 
+				int from, int to, int row_length)
 {
 	int number_rows_rep;
 	ColRowInfo const *last_ci;
-	int i;
+	int i, next_to;
+	GnmPageBreaks *pb = sheet->print_info->page_breaks.v;
 
-	if (from >= to)
-		return;
+	for (i = from; i < to; ) {
+		if (gnm_page_breaks_get_break (pb, i) != GNM_PAGE_BREAK_NONE)
+			gsf_xml_out_simple_element (state->xml, 
+						    TEXT "soft-page-break", 
+						    NULL);
+		next_to = gnm_page_breaks_get_next_break (pb, i);
+		if (next_to < from || next_to > to)
+			next_to = to;
 
-	gsf_xml_out_start_element (state->xml, TABLE "table-row");
-	number_rows_rep = 1;
-	last_ci = sheet_row_get (sheet, from);
-	write_row_style (state, last_ci, sheet);
+		gsf_xml_out_start_element (state->xml, TABLE "table-row");
+		number_rows_rep = 1;
+		last_ci = sheet_row_get (sheet, from);
+		write_row_style (state, last_ci, sheet);
 
-	for (i = from + 1; i < to; i++) {
-		ColRowInfo const *this_ci = sheet_row_get (sheet, i);
-
-		if (colrow_equal (last_ci, this_ci))
-			number_rows_rep++;
-		else {
-			if (number_rows_rep > 1)
-				gsf_xml_out_add_int (state->xml, TABLE "number-rows-repeated",
-						     number_rows_rep);
-			gsf_xml_out_start_element (state->xml, TABLE "table-cell");
-			gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated",
-					     row_length);
-			gsf_xml_out_end_element (state->xml); /* table-cell */
-			gsf_xml_out_end_element (state->xml); /* table-row */
-
-			gsf_xml_out_start_element (state->xml, TABLE "table-row");
-			number_rows_rep = 1;
-			last_ci = this_ci;
-			write_row_style (state, last_ci, sheet);
+		i++;
+		
+		for (; i < next_to; i++) {
+			ColRowInfo const *this_ci = sheet_row_get (sheet, i);
+			
+			if (colrow_equal (last_ci, this_ci))
+				number_rows_rep++;
+			else {
+				if (number_rows_rep > 1)
+					gsf_xml_out_add_int (state->xml, TABLE "number-rows-repeated",
+							     number_rows_rep);
+				gsf_xml_out_start_element (state->xml, TABLE "table-cell");
+				gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated",
+						     row_length);
+				gsf_xml_out_end_element (state->xml); /* table-cell */
+				gsf_xml_out_end_element (state->xml); /* table-row */
+				
+				gsf_xml_out_start_element (state->xml, TABLE "table-row");
+				number_rows_rep = 1;
+				last_ci = this_ci;
+				write_row_style (state, last_ci, sheet);
+			}
 		}
-	}
-
-	if (number_rows_rep > 1)
-		gsf_xml_out_add_int (state->xml, TABLE "number-rows-repeated",
-				     number_rows_rep);
-	gsf_xml_out_start_element (state->xml, TABLE "table-cell");
-	gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated",
-			     row_length);
-	gsf_xml_out_end_element (state->xml); /* table-cell */
-	gsf_xml_out_end_element (state->xml); /* table-row */	
+		
+		if (number_rows_rep > 1)
+			gsf_xml_out_add_int (state->xml, TABLE "number-rows-repeated",
+					     number_rows_rep);
+		gsf_xml_out_start_element (state->xml, TABLE "table-cell");
+		gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated",
+				     row_length);
+		gsf_xml_out_end_element (state->xml); /* table-cell */
+		gsf_xml_out_end_element (state->xml); /* table-row */
+	}	
 }
 
 static void
@@ -1756,9 +1767,11 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 			break;
 		}
 
+	/* ODF does not allow us to mark sof page breaks between columns */
 	odf_write_formatted_columns (state, sheet, col_styles, 0, max_cols);
 
-	odf_write_formatted_empty_rows (state, sheet, 0, extent.start.row, max_cols);
+	odf_write_formatted_empty_rows (state, sheet, 
+					0, extent.start.row, max_cols);
 
 	for (row = extent.start.row; row <= extent.end.row; row++) {
 		ColRowInfo const *ci = sheet_row_get (sheet, row);
@@ -1824,7 +1837,8 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 	go_slist_free_custom (sheet_merges, g_free);
 	g_free (col_styles);
 
-	odf_write_formatted_empty_rows (state, sheet, extent.end.row + 1, max_rows, max_cols);
+	odf_write_formatted_empty_rows (state, sheet, 
+					extent.end.row + 1, max_rows, max_cols);
 
 }
 

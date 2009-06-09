@@ -1346,7 +1346,25 @@ gnm_page_breaks_get_next_manual_break (GnmPageBreaks *breaks,
 		GnmPageBreak const *pbreak;
 		pbreak = &g_array_index (breaks->details, GnmPageBreak, i);
 		if (pbreak->pos > pos 
-		    && pbreak->type == GNM_PAGE_BREAK_MANUAL)
+		    && pbreak->type != GNM_PAGE_BREAK_AUTO)
+			return pbreak->pos;
+	}
+	return -1;
+}
+
+int
+gnm_page_breaks_get_next_break (GnmPageBreaks *breaks,
+			   int pos)
+{
+	guint i;
+
+	if (breaks == NULL)
+		return -1;
+
+	for (i = 0; i < breaks->details->len; i++) {
+		GnmPageBreak const *pbreak;
+		pbreak = &g_array_index (breaks->details, GnmPageBreak, i);
+		if (pbreak->pos > pos)
 			return pbreak->pos;
 	}
 	return -1;

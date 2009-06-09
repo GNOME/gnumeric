@@ -273,6 +273,8 @@ xml_write_breaks (GnmOutputXML *state, GnmPageBreaks *breaks)
 			gsf_xml_out_add_cstr_unchecked  (state->output, "type", "manual");
 		else if (binfo->type == GNM_PAGE_BREAK_DATA_SLICE)
 			gsf_xml_out_add_cstr_unchecked  (state->output, "type", "data-slice");
+		else if (binfo->type == GNM_PAGE_BREAK_AUTO)
+			gsf_xml_out_add_cstr_unchecked  (state->output, "type", "auto");
 		gsf_xml_out_end_element (state->output); /* </break> */
 	}
 	gsf_xml_out_end_element (state->output);

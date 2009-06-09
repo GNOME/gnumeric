@@ -1,3 +1,10 @@
+2009-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (opendoc_content_dtd): include 
+	  text:soft-page-break
+	* openoffice-write.c (odf_write_formatted_empty_rows):
+	  write text:soft-page-break also in empty territory
+
 2009-06-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_append_page_break): soft pagebreaks are

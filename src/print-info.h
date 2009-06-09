@@ -19,10 +19,10 @@ typedef struct {
 } PrintHF;
 
 typedef enum {
-	GNM_PAGE_BREAK_NONE,
-	GNM_PAGE_BREAK_MANUAL,
-	GNM_PAGE_BREAK_AUTO,
-	GNM_PAGE_BREAK_DATA_SLICE
+	GNM_PAGE_BREAK_NONE,    /* Not actually a page break  */
+	GNM_PAGE_BREAK_MANUAL,  /* hard page break            */
+	GNM_PAGE_BREAK_AUTO,    /* soft (automatic) pagebreak */
+	GNM_PAGE_BREAK_DATA_SLICE  /* place holder ?          */
 } GnmPageBreakType;
 GnmPageBreakType gnm_page_break_type_from_str (char const *str);
 
@@ -33,7 +33,7 @@ typedef struct {
 
 typedef struct {
 	gboolean is_vert;
-	GArray	*details; /* ordered array of GnmPageBreaks */
+	GArray	*details; /* ordered array of GnmPageBreak  */
 } GnmPageBreaks;
 
 struct _PrintInformation {
@@ -183,6 +183,7 @@ gboolean	 gnm_page_breaks_set_break	(GnmPageBreaks *breaks,
 						 GnmPageBreakType type);
 GnmPageBreakType gnm_page_breaks_get_break      (GnmPageBreaks *breaks, int pos);
 int              gnm_page_breaks_get_next_manual_break  (GnmPageBreaks *breaks, int pos);
+int              gnm_page_breaks_get_next_break  (GnmPageBreaks *breaks, int pos);
 GnmPageBreaks *  gnm_page_breaks_dup_non_auto_breaks (GnmPageBreaks const *src);
 
 

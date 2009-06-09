@@ -587,7 +587,7 @@ xml_read_breaks (XmlParseContext *ctxt, xmlNodePtr tree, gboolean is_vert)
 			if (NULL != (type_str = xml_node_get_cstr  (tree, "type")))
 				type = gnm_page_break_type_from_str (CXML2C (type_str));
 			else
-				type = GNM_PAGE_BREAK_AUTO;
+				type = GNM_PAGE_BREAK_NONE;
 
 			/* drops invalid positions */
 			gnm_page_breaks_append_break (page_breaks, pos, type);

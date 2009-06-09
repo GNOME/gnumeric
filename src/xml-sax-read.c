@@ -844,7 +844,7 @@ static void
 xml_sax_page_break (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
-	GnmPageBreakType  type = GNM_PAGE_BREAK_AUTO;
+	GnmPageBreakType  type = GNM_PAGE_BREAK_NONE;
 	int pos = -1;
 
 	if (NULL == state->page_breaks)
