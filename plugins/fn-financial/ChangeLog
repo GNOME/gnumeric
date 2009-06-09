@@ -1,3 +1,10 @@
+2009-06-09  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_nper): Negative rates make sense down to,
+	but not including -100%.  Fixes bug reported at
+	http://www.oasis-open.org/committees/download.php/32469/OpenDocument-formula-20090508.odt
+	on page 184.  Hint: there are better places to report problems.
+
 2009-05-23  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.8

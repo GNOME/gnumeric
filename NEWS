@@ -19,6 +19,8 @@ Morten:
 	* Honour --geometry even when not loading a file.
 	* Fix increase/decrease precision for accounting formats.
 	* Fix array editing criticals.  [#584746]
+	* Fix style problems with operator.xls.  [#585178]
+	* Fix NPER problems.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.8

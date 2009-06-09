@@ -2252,11 +2252,15 @@ gnumeric_nper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float fv   = argv[3] ? value_get_as_float (argv[3]) : 0;
 	int type       = value_get_paytype (argv[4]);
 
-	if (rate == 0 && pmt != 0)
-		return value_new_float (-(fv + pv) / pmt);
+	if (rate == 0) {
+		if (pmt == 0)
+			return value_new_error_DIV0 (ei->pos);
+		else
+			return value_new_float (-(fv + pv) / pmt);
+	}
 
-	if (rate <= 0.0)
-		return value_new_error_DIV0 (ei->pos);
+	if (rate <= -1)
+		return value_new_error_NUM (ei->pos);
 
 	if (!is_valid_paytype (type))
 		return value_new_error_VALUE (ei->pos);
