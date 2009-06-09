@@ -81,6 +81,23 @@ sheet_style_find (Sheet const *sheet, GnmStyle *s)
 	}
 
 	s = gnm_style_link_sheet (s, (Sheet *)sheet);
+
+	/* Retry the lookup in case "s" changed.  See #585178.  */
+	res = g_hash_table_lookup (sheet->style_data->style_hash, s);
+	if (res != NULL) {
+		gnm_style_link (res);
+		/*
+		 * We are abandoning the linking here.  We cannot use
+		 * gnm_style_unlink as that would call sheet_style_unlink
+		 * and thus remove "res" from the hash.
+		 */
+		s->link_count = 0;
+		s->linked_sheet = NULL;
+		gnm_style_unref (s);
+
+		return res;
+	}
+
 	g_hash_table_insert (sheet->style_data->style_hash, s, s);
 	return s;
 }
@@ -2732,6 +2749,7 @@ cell_tile_optimize (CellTile **tile, int level, CellTileOptimize *data,
 			    range_width (&rng), range_height (&rng),
 			    tile_type_str[(*tile)->type],
 			    tile_type_str[type]);
+
 	res = cell_tile_style_new (NULL, type);
 	switch (type) {
 	case TILE_SIMPLE:
