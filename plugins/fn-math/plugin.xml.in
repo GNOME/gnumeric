@@ -14,6 +14,7 @@
 				<function name="abs"/>
 				<function name="acos"/>
 				<function name="acosh"/>
+				<function name="acot"/>
 				<function name="asin"/>
 				<function name="asinh"/>
 				<function name="atan"/>
@@ -23,6 +24,7 @@
 				<function name="betaln"/>
 				<function name="cos"/>
 				<function name="cosh"/>
+				<function name="cot"/>
 				<function name="countif"/>
 				<function name="ceil"/>
 				<function name="ceiling"/>

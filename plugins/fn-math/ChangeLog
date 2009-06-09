@@ -1,3 +1,7 @@
+2009-06-09  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_acot, gnumeric_cot): New functions.
+
 2009-05-23  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.8

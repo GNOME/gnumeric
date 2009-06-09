@@ -312,6 +312,22 @@ gnumeric_acosh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_acot[] = {
+	{ GNM_FUNC_HELP_NAME, F_("ACOT:inverse cotangent of a value")},
+	{ GNM_FUNC_HELP_ARG, F_("x:value")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("ACOT(0.2) equals 1.3734") },
+	{ GNM_FUNC_HELP_SEEALSO, "COT,TAN"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_acot (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_new_float (gnm_acot (value_get_as_float (argv[0])));
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_asin[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=ASIN\n"
@@ -798,6 +814,22 @@ static GnmValue *
 gnumeric_cosh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_float (gnm_cosh (value_get_as_float (argv [0])));
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_cot[] = {
+	{ GNM_FUNC_HELP_NAME, F_("COT:cotangent of a value")},
+	{ GNM_FUNC_HELP_ARG, F_("x:value")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("COT(0.12) equals 8.293") },
+	{ GNM_FUNC_HELP_SEEALSO, "TAN,ACOT"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_cot (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_new_float (gnm_cot (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -3106,6 +3138,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "acosh",   "f", N_("number"),    help_acosh,
 	  gnumeric_acosh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
+	{ "acot",     "f", N_("number"),    help_acot,
+	  gnumeric_acot, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "asin",    "f", N_("number"),    help_asin,
 	  gnumeric_asin, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
@@ -3121,18 +3156,21 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "atan2",   "ff", N_("xnum,ynum"), help_atan2,
 	  gnumeric_atan2, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{ "cos",     "f", N_("number"),    help_cos,
-	  gnumeric_cos, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{ "beta",     "ff", N_("a,b"),     help_beta,
 	  gnumeric_beta, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "betaln",   "ff", N_("a,b"),     help_betaln,
 	  gnumeric_betaln, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "cos",     "f", N_("number"),    help_cos,
+	  gnumeric_cos, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{ "cosh",    "f", N_("number"),    help_cosh,
 	  gnumeric_cosh, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
+	{ "cot",     "f", N_("number"),    help_cot,
+	  gnumeric_cot, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
 /* MS Excel puts this in statistical */
 	{ "countif", "rS", N_("range,criteria"), help_countif,

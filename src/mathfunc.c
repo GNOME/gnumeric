@@ -105,6 +105,33 @@ mathfunc_init (void)
 	/* Nothing, for the time being.  */
 }
 
+gnm_float
+gnm_cot (gnm_float x)
+{
+	gnm_float s = gnm_sin (x);
+	gnm_float c = gnm_cos (x);
+
+	if (s == 0)
+		return gnm_nan;
+	else
+		return c / s;
+}
+
+gnm_float
+gnm_acot (gnm_float x)
+{
+	if (gnm_finite (x)) {
+		if (x == 0)
+			return M_PIgnum / 2;
+		return gnm_atan (1 / x);
+	} else {
+		/* +inf -> +0 */
+		/* -Inf -> -0 */
+		/* +-NaN -> +-NaN */
+		return 1 / x;
+	}
+}
+
 /* ------------------------------------------------------------------------- */
 /* --- BEGIN MAGIC R SOURCE MARKER --- */
 

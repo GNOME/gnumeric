@@ -21,6 +21,7 @@ Morten:
 	* Fix array editing criticals.  [#584746]
 	* Fix style problems with operator.xls.  [#585178]
 	* Fix NPER problems.
+	* Implement new functions COT and ACOT.  [#585270]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.8
