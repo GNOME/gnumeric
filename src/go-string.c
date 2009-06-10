@@ -459,12 +459,15 @@ void
 go_string_shutdown (void)
 {
 	go_string_unref (go_string_ERROR_val);
+
+	g_hash_table_destroy (go_strings_shared);
+	go_strings_shared = NULL;
+
 	g_hash_table_foreach_remove (go_strings_base,
 				     cb_string_pool_leak,
 				     NULL);
 	g_hash_table_destroy (go_strings_base);
 	go_strings_base = NULL;
-	go_strings_shared = NULL;
 }
 
 static void
