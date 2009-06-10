@@ -368,6 +368,15 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 		expr_str = xml_node_get_cstr (expr_node, NULL);
 		g_return_if_fail (name_str != NULL && expr_str != NULL);
 
+
+		/*For the next while we have to ignore Print_areas that look like a whole sheet */
+		if (0 == strcmp (CXML2C (name_str), "Print_Area") 
+		    && g_str_has_suffix (CXML2C (expr_str), "$A$1:$IV$65536")) {
+			xmlFree (name_str);
+			xmlFree (expr_str);
+			continue;
+		}
+
 		parse_pos_init (&pp, wb, sheet, 0, 0);
 		if (position != NULL) {
 			xmlChar *pos_txt = xml_node_get_cstr (position, NULL);

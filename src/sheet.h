@@ -301,7 +301,7 @@ GnmRange    sheet_get_extent	(Sheet const *sheet,
 GnmRange    sheet_get_printarea	(Sheet const *sheet,
 				 gboolean include_styles,
 				 gboolean ignore_printarea);
-GnmRange    sheet_get_nominal_printarea	(Sheet const *sheet);
+GnmRange    *sheet_get_nominal_printarea (Sheet const *sheet);
 
 /*
  * Utilities to set cell contents, queueing recalcs,

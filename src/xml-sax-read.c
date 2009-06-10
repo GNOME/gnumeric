@@ -2221,25 +2221,31 @@ xml_sax_named_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (state->name.name != NULL);
 	g_return_if_fail (state->name.value != NULL);
 
-	parse_pos_init (&pp, state->wb, state->sheet, 0, 0);
-	nexpr = expr_name_add (&pp, state->name.name,
-			       gnm_expr_top_new_constant (value_new_empty ()),
-			       NULL,
-			       TRUE,
-			       NULL);
-
-	state->delayed_names = g_list_prepend (state->delayed_names, state->sheet);
-	state->delayed_names = g_list_prepend (state->delayed_names, state->name.value);
-	state->name.value = NULL;
-	state->delayed_names = g_list_prepend (state->delayed_names, state->name.position);
-	state->name.position = NULL;
-	state->delayed_names = g_list_prepend (state->delayed_names, nexpr);
+	/*For the next while we have to ignore Print_areas that look like a whole sheet */
+	if (0 == strcmp (state->name.name, "Print_Area") 
+	    && g_str_has_suffix (state->name.value, "$A$1:$IV$65536")) {
+		g_free (state->name.value);
+		state->name.value = NULL;
+		g_free (state->name.position);
+		state->name.position = NULL;
+	} else {
+		parse_pos_init (&pp, state->wb, state->sheet, 0, 0);
+		nexpr = expr_name_add (&pp, state->name.name,
+				       gnm_expr_top_new_constant (value_new_empty ()),
+				       NULL,
+				       TRUE,
+				       NULL);
+		
+		state->delayed_names = g_list_prepend (state->delayed_names, state->sheet);
+		state->delayed_names = g_list_prepend (state->delayed_names, state->name.value);
+		state->name.value = NULL;
+		state->delayed_names = g_list_prepend (state->delayed_names, state->name.position);
+		state->name.position = NULL;
+		state->delayed_names = g_list_prepend (state->delayed_names, nexpr);
+	}
 
 	g_free (state->name.name);
 	state->name.name = NULL;
-
-	g_free (state->name.value);
-	state->name.value = NULL;
 }
 
 static void

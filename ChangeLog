@@ -1,3 +1,18 @@
+2009-06-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet.h (sheet_get_nominal_printarea): change return type
+	* src/sheet.c (gnm_sheet_constructor): change initialization
+	  of print area
+	(sheet_get_nominal_printarea): change return type
+	(sheet_get_printarea): adjust for changes in 
+	  sheet_get_nominal_printarea
+	* src/wbc-gtk-actions.c (cb_file_print_area_clear): change to
+	  match changed print area interpretation
+	(cb_file_print_area_show): ditto
+	* src/xml-io.c (xml_read_names): since existing files will assume 
+	  the old meaning of print area we should adjust upon loading.
+	* src/xml-sax-read.c (xml_sax_named_expr_end): ditto
+	
 2009-06-09  Jody Goldberg <jody@gnome.org>
 
 	* src/go-string.c (go_string_shutdown) : don't leak the shared string

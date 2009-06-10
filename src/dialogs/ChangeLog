@@ -1,3 +1,8 @@
+2009-06-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-printer-setup.c (load_print_area) adjust for changes in 
+	  sheet_get_nominal_printarea
+
 2009-06-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* chi-squared.glade: new

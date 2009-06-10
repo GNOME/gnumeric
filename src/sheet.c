@@ -679,7 +679,6 @@ gnm_sheet_constructor (GType type,
 		break;
 	case GNM_SHEET_DATA: {
 		/* We have to add permanent names */
-		GnmRange r;
 		GnmExprTop const *texpr;
 
 		if (sheet->name_unquoted)
@@ -691,10 +690,10 @@ gnm_sheet_constructor (GType type,
 		expr_name_perm_add (sheet, "Sheet_Title",
 				    texpr, FALSE);
 
-		range_init_full_sheet (&r, sheet);
-		texpr = gnm_expr_top_new_constant (value_new_cellrange_r (sheet, &r));
+		texpr = gnm_expr_top_new_constant
+				(value_new_error_REF (NULL));
 		expr_name_perm_add (sheet, "Print_Area",
-				    texpr, TRUE);
+				    texpr, FALSE);
 		break;
 	}
 	default:
@@ -2049,37 +2048,43 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend)
 	return closure.range;
 }
 
-GnmRange
+GnmRange *
 sheet_get_nominal_printarea (Sheet const *sheet)
 {
 	GnmNamedExpr *nexpr;
+	GnmValue *val;
 	GnmParsePos pos;
-	GnmRange print_area, full_sheet, r;
+	GnmRange *r;
+	GnmRangeRef const *r_ref;
+	gint max_rows;
+	gint max_cols;
 
-	range_init_full_sheet (&full_sheet, sheet);
-	print_area = full_sheet;
-
-	g_return_val_if_fail (IS_SHEET (sheet), print_area);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	parse_pos_init_sheet (&pos, sheet);
 	nexpr = expr_name_lookup (&pos, "Print_Area");
-	if (nexpr != NULL) {
-		GnmValue *val = gnm_expr_top_get_range (nexpr->texpr);
-		if (val != NULL) {
-			GnmRangeRef const *r_ref = value_get_rangeref (val);
-			if (r_ref != NULL)
-				range_init_rangeref (&print_area, r_ref);
-			value_release (val);
-		}
-	}
+	if (nexpr == NULL)
+		return NULL;
 
-	/* We are now trying to fix any problems with the print area */
-	if (range_intersection (&r, &print_area, &full_sheet))
-		print_area = r;
-	else
-		print_area = full_sheet;
+	val = gnm_expr_top_get_range (nexpr->texpr);
+	if (val == NULL)
+		return NULL;
 
-	return print_area;
+	r_ref = value_get_rangeref (val);
+	value_release (val);
+
+	if (r_ref == NULL)
+		return NULL;
+
+	r = g_new0 (GnmRange, 1);
+	range_init_rangeref (r, r_ref);
+
+	if (r->end.col >= (max_cols = gnm_sheet_get_max_cols (sheet)))
+		r->end.col = max_cols - 1;
+	if (r->end.row >= (max_rows = gnm_sheet_get_max_rows (sheet)))
+		r->end.row = max_rows - 1;
+
+	return r;
 }
 
 GnmRange
@@ -2088,22 +2093,24 @@ sheet_get_printarea	(Sheet const *sheet,
 			 gboolean ignore_printarea)
 {
 	static GnmRange const dummy = { { 0,0 }, { 0,0 } };
-	GnmRange r;
+	GnmRange print_area;
 
 	g_return_val_if_fail (IS_SHEET (sheet), dummy);
 
 	if (!ignore_printarea) {
-		r = sheet_get_nominal_printarea (sheet);
-		if (!range_is_full (&r, sheet, TRUE) ||
-		    !range_is_full (&r, sheet, FALSE))
-			return r;
+		GnmRange *r = sheet_get_nominal_printarea (sheet);
+		if (r != NULL) {
+			print_area = *r;
+			g_free (r);
+			return print_area;
+		}
 	}
 
-	r = sheet_get_extent (sheet, TRUE);
+	print_area = sheet_get_extent (sheet, TRUE);
 	if (include_styles)
-		sheet_style_get_extent (sheet, &r, NULL);
+		sheet_style_get_extent (sheet, &print_area, NULL);
 
-	return r;
+	return print_area;
 }
 
 struct cb_fit {

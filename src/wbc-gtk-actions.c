@@ -256,27 +256,29 @@ static GNM_ACTION_DEF (cb_file_print_area_set)
 static GNM_ACTION_DEF (cb_file_print_area_clear)
 {
 	GnmParsePos pp;
-	GnmRange r;
 	Sheet *sheet = wbcg_cur_sheet (wbcg);
 
-	range_init_full_sheet (&r, sheet);
 	parse_pos_init_sheet (&pp, sheet);
 	cmd_define_name	(WORKBOOK_CONTROL (wbcg), "Print_Area", &pp,
 			 gnm_expr_top_new_constant
-			 (value_new_cellrange_r (NULL, &r)),
+			 (value_new_error_REF (NULL)),
 			 _("Clear Print Area"));
 }
 
 static GNM_ACTION_DEF (cb_file_print_area_show)
 {
 	Sheet *sheet = wbcg_cur_sheet (wbcg);
-	SheetView *sv = sheet_get_view (sheet, wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	GnmRange r = sheet_get_nominal_printarea (sheet);
+	GnmRange *r = sheet_get_nominal_printarea (sheet);
 
-	wb_control_sheet_focus (WORKBOOK_CONTROL (wbcg), sheet);
-	sv_selection_reset (sv);
-	sv_selection_add_range (sv, &r);
-	sv_make_cell_visible (sv, r.start.col, r.start.row, FALSE);
+	if (r != NULL) {
+		SheetView *sv = sheet_get_view (sheet, 
+						wb_control_view (WORKBOOK_CONTROL (wbcg)));
+		wb_control_sheet_focus (WORKBOOK_CONTROL (wbcg), sheet);
+		sv_selection_reset (sv);
+		sv_selection_add_range (sv, r);
+		sv_make_cell_visible (sv, r->start.col, r->start.row, FALSE);
+		g_free (r);
+	}
 }
 
 static GNM_ACTION_DEF (cb_file_print)

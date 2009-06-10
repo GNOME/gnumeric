@@ -2040,15 +2040,20 @@ display_order_icon (GtkToggleButton *toggle, PrinterSetupState *state)
 static void
 load_print_area (PrinterSetupState *state)
 {
-	GnmRange print_area;
+	GnmRange *print_area;
 	
 	print_area = sheet_get_nominal_printarea
 		(wb_control_cur_sheet
 		 (WORKBOOK_CONTROL (state->wbcg)));
-	gnm_expr_entry_load_from_range
-		(state->area_entry,
-		 wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
-		 &print_area);
+	if (print_area != NULL)
+		gnm_expr_entry_load_from_range
+			(state->area_entry,
+			 wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
+			 print_area);
+	else
+		gnm_expr_entry_load_from_text
+			(state->area_entry, "");
+	g_free (print_area);
 }
 
 static void
