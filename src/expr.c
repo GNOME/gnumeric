@@ -42,9 +42,7 @@
 #include "mathfunc.h"
 
 #include <go-string.h>
-#include <goffice/utils/go-locale.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>

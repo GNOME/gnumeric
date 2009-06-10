@@ -53,10 +53,7 @@
 #include <workbook.h>
 #include <parse-util.h>
 
-#include <goffice/app/io-context.h>
-#include <goffice/app/error-info.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-input-textline.h>
 

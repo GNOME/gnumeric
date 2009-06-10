@@ -6,9 +6,8 @@
 #include "command-context.h"
 #include "gutils.h"
 
-#include <goffice/app/error-info.h>
+#include <goffice/goffice.h>
 #include "numbers.h"
-#include <goffice/gtk/goffice-gtk.h>
 #include <gtk/gtk.h>
 #include <glade/glade-xml.h>
 

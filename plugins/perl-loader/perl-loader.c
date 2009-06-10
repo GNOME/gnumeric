@@ -18,11 +18,7 @@
 #include <expr-impl.h>
 #include <gnm-plugin.h>
 
-#include <goffice/app/error-info.h>
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/go-plugin-loader.h>
-#include <goffice/app/go-plugin-service.h>
-#include <goffice/app/io-context.h>
+#include <goffice/goffice.h>
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-impl-utils.h>
 

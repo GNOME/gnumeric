@@ -28,7 +28,7 @@
 #include <gui-file.h>
 #include <gtk/gtk.h>
 #include <string.h>
-#include <goffice/gtk/goffice-gtk.h>
+#include <goffice/goffice.h>
 
 /* ------------------------------------------------------------------------- */
 

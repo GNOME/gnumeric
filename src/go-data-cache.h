@@ -22,7 +22,7 @@
 #define GO_DATA_CACHE_H
 
 #include "goffice-data.h"	/* remove after move to goffice */
-#include <goffice/data/goffice-data.h>
+#include <goffice/goffice.h>
 #include <go-val.h>
 #include <glib-object.h>
 

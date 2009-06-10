@@ -30,8 +30,7 @@
 #include "font.h"
 #include "cell.h"
 #include "cellspan.h"
-#include <goffice/app/io-context.h>
-#include <goffice/app/error-info.h>
+#include <goffice/goffice.h>
 
 #include <string.h>
 #include <gsf/gsf-output.h>

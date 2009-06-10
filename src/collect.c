@@ -20,7 +20,7 @@
 #include "sheet.h"
 #include "ranges.h"
 #include "number-match.h"
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 #include <stdlib.h>
 #include <string.h>
 

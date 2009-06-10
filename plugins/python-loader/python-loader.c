@@ -24,9 +24,7 @@
 #include "expr-impl.h"
 #include "func.h"
 
-#include <goffice/app/io-context.h>
-#include <goffice/app/go-plugin-service.h>
-#include <goffice/app/go-plugin-loader.h>
+#include <goffice/goffice.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #include <gsf/gsf-impl-utils.h>

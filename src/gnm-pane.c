@@ -40,10 +40,7 @@
 #include "item-edit.h"
 #include "item-grid.h"
 
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/utils/go-locale.h>
-#include <goffice/utils/go-geometry.h>
+#include <goffice/goffice.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <gsf/gsf-impl-utils.h>

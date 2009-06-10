@@ -25,8 +25,7 @@
  */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <goffice/app/io-context.h>
-#include <goffice/app/go-plugin.h>
+#include <goffice/goffice.h>
 #include <gnm-plugin.h>
 #include "psiconv-plugin.h"
 #include "workbook-view.h"

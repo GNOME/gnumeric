@@ -41,7 +41,7 @@
 #include <expr-impl.h>
 #include <func.h>
 #include <gnm-format.h>
-#include <goffice/utils/go-locale.h>
+#include <goffice/goffice.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnumeric-cell-renderer-expr-entry.h>
 

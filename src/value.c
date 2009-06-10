@@ -27,8 +27,7 @@
 #include <cell.h>
 #include <number-match.h>
 #include <go-string.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-locale.h>
+#include <goffice/goffice.h>
 
 #include <stdlib.h>
 #include <errno.h>

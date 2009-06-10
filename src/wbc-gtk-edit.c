@@ -46,8 +46,7 @@
 #include "value.h"
 #include "widgets/gnumeric-expr-entry.h"
 
-#include <goffice/utils/go-font.h>
-#include <goffice/utils/go-pango-extras.h>
+#include <goffice/goffice.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>

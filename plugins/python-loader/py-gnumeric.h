@@ -3,7 +3,7 @@
 
 #include <Python.h>
 #include <glib.h>
-#include <goffice/app/go-plugin.h>
+#include <goffice/goffice.h>
 #include "gnm-py-interpreter.h"
 #include <gui-gnumeric.h>
 

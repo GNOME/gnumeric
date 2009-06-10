@@ -21,7 +21,7 @@
 #ifndef GNM_DATA_CACHE_SOURCE_H
 #define GNM_DATA_CACHE_SOURCE_H
 
-#include <goffice/data/goffice-data.h>
+#include <goffice/goffice.h>
 #include <glib-object.h>
 
 #include <gnumeric.h>

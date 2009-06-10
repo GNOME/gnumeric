@@ -3,7 +3,7 @@
 # define _GNM_REGRESSION_H_
 
 #include "numbers.h"
-#include <goffice/math/go-regression.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

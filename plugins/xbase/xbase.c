@@ -8,8 +8,7 @@
 #include <gnm-format.h>
 #include <gutils.h>
 #include <sheet.h>
-#include <goffice/app/io-context.h>
-#include <goffice/app/error-info.h>
+#include <goffice/goffice.h>
 
 #include <string.h>
 #include <stdio.h>

@@ -26,7 +26,7 @@
 #include <sheet.h>
 #include <workbook.h>
 #include <go-string.h>
-#include <goffice/app/go-doc.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-utils.h>
 
 #undef G_LOG_DOMAIN

@@ -39,7 +39,7 @@
 #include "value.h"
 
 #include "gui-gnumeric.h"
-#include <goffice/utils/regutf8.h>
+#include <goffice/goffice.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>

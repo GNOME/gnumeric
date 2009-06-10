@@ -33,7 +33,7 @@
 #include <ranges.h>
 #include <value.h>
 #include <command-context.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 
 #include "mathfunc.h"
 #include "data-shuffling.h"

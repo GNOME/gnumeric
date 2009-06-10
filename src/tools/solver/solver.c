@@ -41,7 +41,7 @@
 #include "analysis-tools.h"
 #include "api.h"
 #include "gutils.h"
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 #include "xml-io.h"
 
 #include <math.h>

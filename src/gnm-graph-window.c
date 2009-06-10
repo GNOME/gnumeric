@@ -7,7 +7,7 @@
 
 #include <glib/gi18n-lib.h>
 
-#include <goffice/gtk/go-graph-widget.h>
+#include <goffice/goffice.h>
 
 #define ZOOM_IN(x) *x = CLAMP(*x+1, ZOOM_LEVEL_25, ZOOM_LEVEL_200)
 #define ZOOM_OUT(x) *x = CLAMP(*x-1, ZOOM_LEVEL_25, ZOOM_LEVEL_200)

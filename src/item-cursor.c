@@ -34,7 +34,7 @@
 #include "sheet-autofill.h"
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
-#include <goffice/app/go-cmd-context-impl.h>
+#include <goffice/goffice.h>
 #define GNUMERIC_ITEM "CURSOR"
 #include "item-debug.h"
 

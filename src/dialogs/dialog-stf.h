@@ -4,9 +4,7 @@
 #include "dialog-stf-preview.h"
 #include "gui-util.h"
 #include <stf-parse.h>
-#include <goffice/gtk/go-charmap-sel.h>
-#include <goffice/gtk/go-locale-sel.h>
-#include <goffice/gtk/go-format-sel.h>
+#include <goffice/goffice.h>
 
 #include <gtk/gtk.h>
 

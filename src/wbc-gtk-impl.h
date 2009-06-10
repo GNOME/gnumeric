@@ -9,13 +9,8 @@
 #include "widgets/gnumeric-expr-entry.h"
 #include "widgets/gnm-notebook.h"
 
-#include <goffice/app/file.h>
+#include <goffice/goffice.h>
 #include <gtk/gtk.h>
-#include <goffice/gtk/go-action-combo-stack.h>
-#include <goffice/gtk/go-action-combo-color.h>
-#include <goffice/gtk/go-action-combo-text.h>
-#include <goffice/gtk/go-action-combo-pixmaps.h>
-#include <goffice/utils/go-undo.h>
 #ifdef GNM_USE_HILDON
 #include <hildon-widgets/hildon-program.h>
 #endif

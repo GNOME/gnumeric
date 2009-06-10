@@ -36,12 +36,7 @@
 #include "func.h"
 #include "numbers.h"
 #include "sheet-object-graph.h"
-#include <goffice/graph/gog-graph.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-series.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 
 static GnmExpr const *
 make_hist_expr (analysis_tools_data_histogram_t *info,

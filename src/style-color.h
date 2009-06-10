@@ -4,7 +4,7 @@
 
 #include "gnumeric.h"
 #include "libgnumeric.h"
-#include <goffice/utils/go-color.h>
+#include <goffice/goffice.h>
 #include <gdk/gdk.h>
 
 G_BEGIN_DECLS

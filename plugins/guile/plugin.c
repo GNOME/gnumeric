@@ -32,8 +32,7 @@
 #include <guile/gh.h>
 #include <gnome.h>
 
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/error-info.h>
+#include <goffice/goffice.h>
 #include <gnm-plugin.h>
 #include "expr.h"
 #include "expr-impl.h"

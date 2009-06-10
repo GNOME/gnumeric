@@ -15,7 +15,7 @@
 #include "boot.h"
 #include "style.h"
 #include "ms-excel-util.h"
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 
 #include <stdio.h>
 #include <string.h>

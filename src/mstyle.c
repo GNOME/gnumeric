@@ -19,8 +19,7 @@
 #include "gutils.h"
 #include "gnumeric-gconf.h"
 #include <go-string.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-font.h>
+#include <goffice/goffice.h>
 
 #define DEBUG_STYLES
 #ifndef USE_MSTYLE_POOL

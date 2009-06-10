@@ -10,7 +10,7 @@
 #include "python-loader.h"
 #include "py-console.h"
 #include <gnm-plugin.h>
-#include <goffice/app/error-info.h>
+#include <goffice/goffice.h>
 #include <gnm-plugin.h>
 #include <glib.h>
 

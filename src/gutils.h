@@ -3,7 +3,7 @@
 # define _GNM_GUTILS_H_
 
 #include "gnumeric.h"
-#include <goffice/utils/regutf8.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

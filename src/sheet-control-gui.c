@@ -64,9 +64,7 @@
 #include "gnm-sheet-slicer.h"
 
 #include <go-data-slicer-field.h>
-#include <goffice/utils/go-file.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/app/io-context.h>
+#include <goffice/goffice.h>
 
 #include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>

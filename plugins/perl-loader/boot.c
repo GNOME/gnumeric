@@ -6,7 +6,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <glib.h>
-#include <goffice/app/error-info.h>
+#include <goffice/goffice.h>
 #include <gnm-plugin.h>
 
 #include "perl-loader.h"

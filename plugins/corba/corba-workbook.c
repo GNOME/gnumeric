@@ -33,8 +33,7 @@
 #include <sheet.h>
 #include <command-context.h>
 
-#include <goffice/app/go-doc.h>
-#include <goffice/app/go-cmd-context-impl.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-exception.h>

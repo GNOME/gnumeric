@@ -40,8 +40,7 @@
 #include "workbook.h"
 
 #include <string.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-font.h>
+#include <goffice/goffice.h>
 
 #undef DEBUG_BOUNDING_BOX
 

@@ -1307,9 +1307,7 @@ sv_selection_walk_step (SheetView *sv, gboolean forward, gboolean horizontal)
 	sv_make_cell_visible (sv, destination.col, destination.row, FALSE);
 }
 
-#include <goffice/graph/gog-series.h>
-#include <goffice/graph/gog-plot-impl.h>
-#include <goffice/data/go-data.h>
+#include <goffice/goffice.h>
 #include <expr.h>
 #include <graph.h>
 

@@ -26,7 +26,7 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <goffice/app/io-context.h>
+#include <goffice/goffice.h>
 #include "workbook-view.h"
 #include "workbook.h"
 #include "sheet-style.h"
@@ -39,8 +39,6 @@
 #include "value.h"
 #include "font.h"
 #include "cellspan.h"
-#include <goffice/app/error-info.h>
-#include <goffice/utils/go-format.h>
 #include "style-border.h"
 #include <rendered-value.h>
 #include "style.h"

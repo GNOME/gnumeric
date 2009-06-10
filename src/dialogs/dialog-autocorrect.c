@@ -42,7 +42,7 @@
 #include <glade/glade.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 #include <string.h>
 #include "help.h"
 

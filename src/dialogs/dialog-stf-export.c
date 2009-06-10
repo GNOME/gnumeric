@@ -30,8 +30,7 @@
 #include <wbc-gtk.h>
 #include <sheet.h>
 #include <gui-util.h>
-#include <goffice/gtk/go-charmap-sel.h>
-#include <goffice/gtk/go-locale-sel.h>
+#include <goffice/goffice.h>
 
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>

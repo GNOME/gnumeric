@@ -36,7 +36,7 @@
 #include "xml-sax.h"
 #include "xml-io.h"
 
-#include <goffice/app/io-context.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-output-memory.h>
 #include <glib/gi18n-lib.h>

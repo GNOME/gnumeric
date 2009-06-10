@@ -13,7 +13,7 @@
 #include "gnm-py-interpreter.h"
 #include "gnm-python.h"
 
-#include <goffice/app/go-plugin.h>
+#include <goffice/goffice.h>
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>

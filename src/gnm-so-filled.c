@@ -26,11 +26,7 @@
 #include "sheet-object-impl.h"
 #include "xml-io.h"
 
-#include <goffice/utils/go-libxml-extras.h>
-#include <goffice/utils/go-color.h>
-#include <goffice/utils/go-persist.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/utils/go-format.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>

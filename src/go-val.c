@@ -23,8 +23,7 @@
 #include "go-val.h"
 #include "gnm-datetime.h"
 
-#include <goffice/app/go-cmd-context.h>
-#include <goffice/utils/datetime.h>
+#include <goffice/goffice.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 

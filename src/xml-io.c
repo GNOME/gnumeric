@@ -30,7 +30,7 @@
 #include "solver.h"
 #include "scenarios.h"
 #include "print-info.h"
-#include <goffice/app/file.h>
+#include <goffice/goffice.h>
 #include "expr.h"
 #include "expr-impl.h"
 #include "expr-name.h"
@@ -39,7 +39,6 @@
 #include "validation.h"
 #include "sheet-merge.h"
 #include "sheet-filter.h"
-#include <goffice/app/io-context.h>
 #include "command-context.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
@@ -53,9 +52,6 @@
 #include "gutils.h"
 #include "gnumeric-gconf.h"
 
-#include <goffice/utils/go-libxml-extras.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/app/error-info.h>
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-input.h>

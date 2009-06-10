@@ -28,7 +28,7 @@
 #include "cell.h"
 #include "sheet.h"
 #include "value.h"
-#include <goffice/app/io-context.h>
+#include <goffice/goffice.h>
 #include "workbook-view.h"
 #include "workbook.h"
 #include <goffice/app/module-plugin-defs.h>
@@ -38,8 +38,6 @@
 #include "solver.h"
 #include "sheet-style.h"
 #include "parse-util.h"
-#include <goffice/app/file.h>
-#include <goffice/app/error-info.h>
 #include <glib/gi18n-lib.h>
 #include <sys/types.h>
 #include <unistd.h>

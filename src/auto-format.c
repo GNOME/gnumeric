@@ -21,7 +21,7 @@
 #include "expr-impl.h"
 #include "sheet.h"
 #include "workbook.h"
-#include <goffice/utils/go-format.h>
+#include <goffice/goffice.h>
 
 /* ------------------------------------------------------------------------- */
 /*

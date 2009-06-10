@@ -16,10 +16,7 @@
 #include "sheet-style.h"
 #include "style.h"
 #include "style-color.h"
-#include <goffice/app/file.h>
-#include <goffice/app/io-context.h>
-#include <goffice/app/go-cmd-context.h>
-#include <goffice/utils/go-file.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-utils.h>
 #include <string.h>
 

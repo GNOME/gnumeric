@@ -32,9 +32,7 @@
 #include "gnumeric-gconf-priv.h"
 #include "gutils.h"
 #include "mstyle.h"
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/utils/go-locale.h>
+#include <goffice/goffice.h>
 #include <value.h>
 #include <number-match.h>
 #include <string.h>

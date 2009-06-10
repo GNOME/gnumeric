@@ -3,7 +3,7 @@
 # define _GNM_GRAPH_WINDOW_H_
 
 #include <gtk/gtk.h>
-#include <goffice/graph/gog-graph.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

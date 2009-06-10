@@ -3,7 +3,7 @@
 # define _GNM_SELECTION_H_
 
 #include "gnumeric.h"
-#include <goffice/graph/goffice-graph.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

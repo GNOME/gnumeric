@@ -32,7 +32,7 @@
 #include "parse-util.h"
 #include "cell.h"
 #include "gutils.h"
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 #include <math.h>

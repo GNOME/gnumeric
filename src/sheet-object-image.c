@@ -19,12 +19,9 @@
 #include "application.h"
 #include "xml-io.h"
 
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-libxml-extras.h>
-#include <goffice/utils/go-file.h>
+#include <goffice/goffice.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-pixbuf.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
-#include <goffice/gtk/go-pixbuf.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-utils.h>

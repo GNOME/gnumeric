@@ -32,8 +32,7 @@
 #include "sheet-control-gui-priv.h"
 #include "dialogs.h"
 #include "gui-util.h"
-#include <goffice/utils/go-libxml-extras.h>
-#include <goffice/utils/go-format.h>
+#include <goffice/goffice.h>
 
 #include <string.h>
 #include <libxml/globals.h>

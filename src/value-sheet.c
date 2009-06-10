@@ -18,7 +18,7 @@
 #include "workbook.h"
 #include "parse-util.h"
 #include <go-string.h>
-#include <goffice/utils/go-locale.h>
+#include <goffice/goffice.h>
 
 /* Debugging utility to print a GnmValue */
 void

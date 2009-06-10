@@ -9,9 +9,8 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
-#include <goffice/app/go-plugin.h>
+#include <goffice/goffice.h>
 #include <gnm-plugin.h>
-#include <goffice/app/io-context.h>
 #include <sheet.h>
 #include <ranges.h>
 #include <value.h>
@@ -23,8 +22,6 @@
 #include <sheet-style.h>
 #include <style.h>
 #include <mstyle.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/app/error-info.h>
 
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-input.h>

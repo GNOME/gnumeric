@@ -27,11 +27,7 @@
 #include "gnumeric-gconf-priv.h"
 #include "parse-util.h"
 
-#include <goffice/app/go-doc.h>
-#include <goffice/app/go-cmd-context.h>
-#include <goffice/utils/go-file.h>
-#include <goffice/utils/datetime.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 
 #include <glib/gi18n-lib.h>
 #include <string.h>

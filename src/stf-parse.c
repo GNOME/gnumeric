@@ -42,10 +42,7 @@
 #include "number-match.h"
 #include "gutils.h"
 #include "parse-util.h"
-#include <goffice/utils/datetime.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-locale.h>
-#include <goffice/utils/go-format.h>
+#include <goffice/goffice.h>
 
 #include <stdlib.h>
 #include <stdio.h>

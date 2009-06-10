@@ -31,7 +31,7 @@
 #include "gnumeric.h"
 #include "numbers.h"
 #include "style.h"
-#include <goffice/data/goffice-data.h>
+#include <goffice/goffice.h>
 #include "style-color.h"
 #include "style-border.h"
 #include "graph.h"

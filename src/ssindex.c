@@ -14,12 +14,9 @@
 #include "libgnumeric.h"
 #include "gutils.h"
 #include "gnumeric-paths.h"
-#include <goffice/app/go-plugin.h>
+#include <goffice/goffice.h>
 #include "command-context-stderr.h"
-#include <goffice/app/io-context.h>
-#include <goffice/app/error-info.h>
 #include "workbook-view.h"
-#include <goffice/app/file.h>
 #include "workbook.h"
 #include "sheet.h"
 #include "cell.h"
@@ -32,9 +29,6 @@
 #include "sheet-object-graph.h"
 #include "gnm-plugin.h"
 
-#include <goffice/utils/go-file.h>
-#include <goffice/app/go-cmd-context.h>
-#include <goffice/graph/gog-object.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-stdio.h>

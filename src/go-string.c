@@ -23,8 +23,7 @@
 #include "gnumeric.h"
 #include "go-string.h"
 
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-pango-extras.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-utils.h>
 
 #include <string.h>

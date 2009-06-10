@@ -4,8 +4,7 @@
 
 #include <gnumeric.h>
 #include <xml-io-version.h>
-#include <goffice/utils/goffice-utils.h>
-#include <goffice/app/file.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-libxml.h>
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>

@@ -38,10 +38,7 @@
 #include "style-color.h"
 #include "sheet-style.h"
 
-#include <goffice/app/file.h>
-#include <goffice/app/io-context.h>
-#include <goffice/utils/go-file.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-impl-utils.h>

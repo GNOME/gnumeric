@@ -25,7 +25,7 @@
 #include "html.h"
 #include "latex.h"
 #include "roff.h"
-#include <goffice/app/file.h>
+#include <goffice/goffice.h>
 #include <gnm-plugin.h>
 
 GNM_PLUGIN_MODULE_HEADER;

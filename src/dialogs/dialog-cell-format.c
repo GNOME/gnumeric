@@ -54,12 +54,7 @@
 #include <widgets/gnm-format-sel.h>
 
 #include <go-string.h>
-#include <goffice/gtk/go-combo-color.h>
-#include <goffice/gtk/go-combo-box.h>
-#include <goffice/gtk/go-combo-text.h>
-#include <goffice/gtk/go-rotation-sel.h>
-#include <goffice/utils/go-font.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <glade/glade.h>

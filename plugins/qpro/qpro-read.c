@@ -34,7 +34,7 @@
 
 #include <gutils.h>
 #include <func.h>
-#include <goffice/app/file.h>
+#include <goffice/goffice.h>
 #include <workbook-view.h>
 #include <workbook.h>
 #include <sheet.h>
@@ -46,7 +46,6 @@
 #include <style-color.h>
 #include <parse-util.h>
 #include <gnm-plugin.h>
-#include <goffice/app/io-context.h>
 
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-input.h>

@@ -52,11 +52,7 @@
 #include "go-val.h"
 
 #include <go-string.h>
-#include <goffice/app/file.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-data-set.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-outfile.h>

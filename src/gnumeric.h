@@ -3,8 +3,7 @@
 # define _GNM_GNUMERIC_H_
 
 #include <glib.h>
-#include <goffice/app/goffice-app.h>
-#include <goffice/utils/goffice-utils.h>
+#include <goffice/goffice.h>
 #include "goffice-utils.h" /* merge into real file when go-string moves */
 
 G_BEGIN_DECLS

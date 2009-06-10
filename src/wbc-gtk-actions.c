@@ -64,13 +64,7 @@
 #include "print.h"
 #include "gnm-pane-impl.h"
 
-#include <goffice/app/io-context.h>
-#include <goffice/graph/gog-guru.h>
-#include <goffice/graph/gog-data-allocator.h>
-#include <goffice/graph/gog-data-set.h>
-#include <goffice/utils/go-file.h>
-#include <goffice/utils/go-locale.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 
 #include "widgets/widget-editable-label.h"
 #include <gtk/gtk.h>

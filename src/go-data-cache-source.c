@@ -19,7 +19,7 @@
  * USA
  */
 
-//#include <goffice/goffice-config.h>
+#include <goffice/goffice.h>
 #include <gnumeric-config.h>
 #include "go-data-cache-source.h"
 

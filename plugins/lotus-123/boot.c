@@ -13,13 +13,10 @@
 #include "lotus-formula.h"
 #include "lotus-types.h"
 
-#include <goffice/app/file.h>
+#include <goffice/goffice.h>
 #include <workbook-view.h>
-#include <goffice/app/go-plugin.h>
 #include <gnm-plugin.h>
-#include <goffice/app/error-info.h>
 #include <gutils.h>
-#include <goffice/app/io-context.h>
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>

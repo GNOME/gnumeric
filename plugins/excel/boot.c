@@ -35,9 +35,7 @@
 #include "ms-excel-util.h"
 #include "ms-excel-read.h"
 
-#include <goffice/app/go-doc.h>
-#include <goffice/app/file.h>
-#include <goffice/app/io-context.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>

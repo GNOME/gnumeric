@@ -60,13 +60,7 @@
 #include "xml-io.h"
 #include "gutils.h"
 
-#include <goffice/app/io-context.h>
-#include <goffice/app/go-doc.h>
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/error-info.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/utils/datetime.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
@@ -80,8 +74,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-
-GNM_PLUGIN_MODULE_HEADER;
 
 #define CXML2C(s) ((char const *)(s))
 

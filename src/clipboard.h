@@ -3,7 +3,7 @@
 # define _GNM_CLIPBOARD_H_
 
 #include "gnumeric.h"
-#include <goffice/utils/go-undo.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

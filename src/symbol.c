@@ -11,7 +11,7 @@
 #include "gutils.h"
 
 #include <string.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 
 /**
  * symbol_lookup:

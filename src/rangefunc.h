@@ -3,7 +3,7 @@
 # define _GNM_RANGEFUNC_H_
 
 #include "numbers.h"
-#include <goffice/math/go-rangefunc.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

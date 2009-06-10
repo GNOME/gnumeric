@@ -26,7 +26,7 @@
 #include <value.h>
 #include <workbook-control.h>
 
-#include <goffice/gtk/goffice-gtk.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 

@@ -3,7 +3,7 @@
 # define _GNM_COMMAND_CONTEXT_H_
 
 #include "gnumeric.h"
-#include <goffice/app/go-cmd-context.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

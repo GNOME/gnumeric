@@ -17,9 +17,7 @@
 #include "ranges.h"
 #include "mathfunc.h"
 
-#include <goffice/utils/go-format.h>
-#include <goffice/utils/go-locale.h>
-#include <goffice/utils/go-file.h>
+#include <goffice/goffice.h>
 
 #include <stdlib.h>
 #include <math.h>

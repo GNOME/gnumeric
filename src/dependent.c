@@ -38,7 +38,7 @@
 #include "sheet-view.h"
 
 #include <go-string.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 #include <string.h>
 
 static void dependent_changed (GnmDependent *dep);

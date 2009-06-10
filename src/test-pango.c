@@ -9,8 +9,7 @@
 #include "command-context-stderr.h"
 #include "wbc-gtk.h"
 #include "workbook-view.h"
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/go-doc.h>
+#include <goffice/goffice.h>
 #include "selection.h"
 #include "sheet-view.h"
 #include "commands.h"
@@ -19,7 +18,6 @@
 #include "gnumeric-paths.h"
 #include "gnm-plugin.h"
 
-#include <goffice/app/io-context.h>
 
 #include <gtk/gtk.h>
 

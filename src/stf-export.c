@@ -39,9 +39,7 @@
 #include <gsf/gsf-output-iconv.h>
 #include <gsf/gsf-output-memory.h>
 #include <gsf/gsf-impl-utils.h>
-#include <goffice/utils/go-locale.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/app/file.h>
+#include <goffice/goffice.h>
 
 #include <string.h>
 #include <locale.h>
@@ -567,8 +565,6 @@ GSF_CLASS (GnmStfExport, gnm_stf_export,
 
 
 #include "wbc-gtk.h"
-#include <goffice/app/io-context.h>
-#include <goffice/app/io-context-priv.h>
 #include "dialog-stf-export.h"
 #include "workbook-view.h"
 

@@ -53,12 +53,7 @@
 #include "command-context.h"
 #include "sheet-object-graph.h"
 #include "graph.h"
-#include <goffice/graph/gog-graph.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-series.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 
 #include <string.h>
 #include <stdlib.h>

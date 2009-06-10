@@ -18,11 +18,10 @@
 #include <value.h>
 #include <numbers.h>
 #include <gutils.h>
-#include <goffice/app/io-context.h>
+#include <goffice/goffice.h>
 #include <workbook-view.h>
 #include <workbook.h>
 #include <gnm-plugin.h>
-#include <goffice/app/error-info.h>
 
 #include <gsf/gsf-input-textline.h>
 #include <gsf/gsf-output.h>

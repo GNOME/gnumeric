@@ -44,8 +44,7 @@
 #include <glib/gi18n-lib.h>
 #include <locale.h>
 #include <string.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/datetime.h>
+#include <goffice/goffice.h>
 
 #ifndef USE_CELL_COPY_POOLS
 #define USE_CELL_COPY_POOLS 1

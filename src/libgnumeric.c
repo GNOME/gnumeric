@@ -57,11 +57,6 @@
 #include "wbc-gtk-impl.h"
 #include <go-string.h>
 #include <goffice/goffice.h>
-#include <goffice/utils/go-file.h>
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/go-plugin-service.h>
-#include <goffice/app/go-cmd-context.h>
-#include <goffice/app/go-plugin-loader-module.h>
 #include <glade/glade.h>
 
 #ifdef HAVE_SYS_RESOURCE_H

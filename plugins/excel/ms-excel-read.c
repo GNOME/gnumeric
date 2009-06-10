@@ -67,14 +67,7 @@
 #include <sheet-object-graph.h>
 #include <sheet-object-image.h>
 #include <go-string.h>
-#include <goffice/app/io-context.h>
-#include <goffice/app/go-doc.h>
-#include <goffice/utils/go-font.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/utils/go-locale.h>
-#include <goffice/utils/go-units.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-style.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>

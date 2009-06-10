@@ -3,8 +3,7 @@
 # define _GNM_DEPENDENT_H_
 
 #include "gnumeric.h"
-#include <goffice/utils/goffice-utils.h>
-#include <goffice/utils/go-undo.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

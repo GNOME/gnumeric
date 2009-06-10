@@ -11,7 +11,7 @@
 #include "oleo.h"
 
 #include <workbook-view.h>
-#include <goffice/app/go-plugin.h>
+#include <goffice/goffice.h>
 #include <gnm-plugin.h>
 
 GNM_PLUGIN_MODULE_HEADER;

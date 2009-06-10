@@ -12,7 +12,7 @@
 #include "py-command-line.h"
 #include "py-console.h"
 
-#include <goffice/app/go-plugin.h>
+#include <goffice/goffice.h>
 #include <goffice/app/module-plugin-defs.h>
 
 #include <gtk/gtk.h>

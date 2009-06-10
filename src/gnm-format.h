@@ -3,7 +3,7 @@
 # define _GNM_FORMAT_H_
 
 #include "gnumeric.h"
-#include <goffice/utils/go-format.h>
+#include <goffice/goffice.h>
 #include <pango/pango.h>
 
 G_BEGIN_DECLS

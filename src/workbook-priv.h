@@ -3,9 +3,7 @@
 # define _GNM_WORKBOOK_PRIV_H_
 
 #include "workbook.h"
-#include <goffice/app/file.h>
-#include <goffice/app/go-doc-impl.h>
-#include <goffice/utils/datetime.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

@@ -31,7 +31,7 @@
 #include <expr-name.h>
 #include <parse-util.h>
 #include <go-string.h>
-#include <goffice/app/io-context.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-utils.h>
 #include <glib/gi18n-lib.h>

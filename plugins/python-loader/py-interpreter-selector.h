@@ -4,7 +4,7 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <gnumeric.h>
-#include <goffice/app/error-info.h>
+#include <goffice/goffice.h>
 #include "gnm-py-interpreter.h"
 
 #define GNM_PY_INTERPRETER_SELECTOR_TYPE     (gnm_py_interpreter_selector_get_type ())

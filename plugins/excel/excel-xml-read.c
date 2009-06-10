@@ -42,10 +42,7 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "xml-io.h"
-#include <goffice/app/error-info.h>
-#include <goffice/app/io-context.h>
-#include <goffice/app/go-plugin.h>
-#include <goffice/utils/datetime.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>

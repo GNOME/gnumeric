@@ -57,7 +57,7 @@
 #include <print-info.h>
 #include <workbook-view.h>
 #include <workbook-priv.h>
-#include <goffice/app/io-context.h>
+#include <goffice/goffice.h>
 #include <command-context.h>
 #include <expr.h>
 #include <expr-impl.h>
@@ -66,15 +66,6 @@
 
 #include <go-string.h>
 #include <go-data-slicer.h>
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-styled-object.h>
-#include <goffice/graph/gog-axis.h>
-#include <goffice/utils/go-color.h>
-#include <goffice/utils/go-marker.h>
-#include <goffice/utils/go-units.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-style.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-outfile.h>

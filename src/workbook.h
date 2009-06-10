@@ -3,7 +3,7 @@
 # define _GNM_WORKBOOK_H_
 
 #include "gnumeric.h"
-#include <goffice/app/file.h>
+#include <goffice/goffice.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS

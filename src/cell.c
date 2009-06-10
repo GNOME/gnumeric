@@ -27,7 +27,7 @@
 #include "parse-util.h"
 
 #include <go-string.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 
 /**
  * gnm_cell_cleanout :

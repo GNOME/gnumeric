@@ -37,13 +37,10 @@
 #include <mathfunc.h>
 #include <rangefunc-strings.h>
 #include <collect.h>
-#include <goffice/utils/regutf8.h>
-#include <goffice/utils/go-locale.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-msole-utils.h>
 #include <gnm-i18n.h>
-#include <goffice/app/go-plugin.h>
-#include <goffice/utils/go-glib-extras.h>
 #include <gnm-plugin.h>
 
 #include <limits.h>

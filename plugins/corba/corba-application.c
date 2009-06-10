@@ -30,7 +30,7 @@
 #include <workbook-priv.h>
 #include <workbook-view.h>
 #include <gnm-plugin.h>
-#include <goffice/app/io-context.h>
+#include <goffice/goffice.h>
 #include <command-context.h>
 #include <command-context-stderr.h>
 #include <glib/gi18n-lib.h>

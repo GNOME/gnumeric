@@ -22,7 +22,7 @@
 #define GO_DATA_CACHE_SOURCE_H
 
 #include "goffice-data.h"	/* remove after move to goffice */
-#include <goffice/data/goffice-data.h>
+#include <goffice/goffice.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS

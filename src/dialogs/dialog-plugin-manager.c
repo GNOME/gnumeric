@@ -36,12 +36,7 @@
 #include <gutils.h>
 #include <gui-util.h>
 
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/go-plugin-service.h>
-#include <goffice/app/go-cmd-context.h>
-#include <goffice/app/error-info.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/gtk/goffice-gtk.h>
+#include <goffice/goffice.h>
 
 #include <glade/glade.h>
 #include <gtk/gtk.h>

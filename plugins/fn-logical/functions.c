@@ -33,7 +33,7 @@
 #include <value.h>
 #include <gnm-i18n.h>
 
-#include <goffice/app/go-plugin.h>
+#include <goffice/goffice.h>
 #include <gnm-plugin.h>
 
 GNM_PLUGIN_MODULE_HEADER;

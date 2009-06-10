@@ -30,9 +30,7 @@
 #include <gui-clipboard.h>
 #include <application.h>
 
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-file.h>
-#include <goffice/app/go-doc.h>
+#include <goffice/goffice.h>
 #include <gtk/gtk.h>
 
 #include <glib/gi18n-lib.h>

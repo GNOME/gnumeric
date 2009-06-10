@@ -31,13 +31,12 @@
 #include "sheet-object-graph.h"
 #include "sheet-object-image.h"
 #include "graph.h"
-#include <goffice/app/io-context.h>
+#include <goffice/goffice.h>
 #include "application.h"
 #include "gutils.h"
 
 #include <libxml/globals.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
-#include <goffice/utils/go-glib-extras.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <string.h>

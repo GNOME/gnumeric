@@ -63,9 +63,7 @@
 #include "scenarios.h"
 #include "cell-draw.h"
 #include <go-string.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-pango-extras.h>
-#include <goffice/utils/go-format.h>
+#include <goffice/goffice.h>
 
 #include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>

@@ -42,7 +42,7 @@
 #include "mathfunc.h"
 #include "fill-series.h"
 #include "dao.h"
-#include <goffice/utils/datetime.h>
+#include <goffice/goffice.h>
 
 static void
 do_row_filling_wday (data_analysis_output_t *dao, fill_series_t *info)

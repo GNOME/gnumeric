@@ -50,7 +50,7 @@
 #include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
-#include <goffice/gtk/go-locale-sel.h>
+#include <goffice/goffice.h>
 
 #define CELL_SORT_KEY "cell-sort-dialog"
 

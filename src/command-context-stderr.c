@@ -12,8 +12,7 @@
 #include "gnumeric.h"
 #include "command-context-stderr.h"
 #include <gsf/gsf-impl-utils.h>
-#include <goffice/app/error-info.h>
-#include <goffice/app/go-cmd-context-impl.h>
+#include <goffice/goffice.h>
 #include "ranges.h"
 
 struct _CmdContextStderr {

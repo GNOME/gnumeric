@@ -28,9 +28,7 @@
 #include "style.h"
 #include "value.h"
 #include <go-string.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/app/go-doc.h>
-#include <goffice/utils/go-locale.h>
+#include <goffice/goffice.h>
 
 #include <string.h>
 #include <errno.h>

@@ -23,7 +23,7 @@
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-msole-utils.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 
 #define BIFF_DEBUG 0
 #define sizeof_BIFF_8_FILEPASS	 (6 + 3*16)

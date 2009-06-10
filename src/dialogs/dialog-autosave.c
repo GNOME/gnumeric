@@ -31,7 +31,7 @@
 #include <wbc-gtk.h>
 #include <gui-util.h>
 
-#include <goffice/app/go-doc.h>
+#include <goffice/goffice.h>
 #include <glib/gi18n-lib.h>
 
 #include <glade/glade.h>

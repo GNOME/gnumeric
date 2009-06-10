@@ -3,8 +3,7 @@
 # define _GNM_PLUGIN_H_
 
 #include <gnumeric.h>
-#include <goffice/app/goffice-app.h>
-#include <goffice/app/go-plugin.h>
+#include <goffice/goffice.h>
 #include <goffice/app/module-plugin-defs.h>
 #include <gmodule.h>
 #include <libxml/tree.h>

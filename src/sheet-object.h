@@ -5,7 +5,7 @@
 #include "gnumeric.h"
 #include <gtk/gtk.h>
 #include <gsf/gsf-output.h>
-#include <goffice/utils/go-undo.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

@@ -39,9 +39,7 @@
 #include "expr-impl.h"
 #include "gutils.h"
 #include <go-string.h>
-#include <goffice/app/go-doc.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-file.h>
+#include <goffice/goffice.h>
 
 #include <errno.h>
 #include <stdlib.h>

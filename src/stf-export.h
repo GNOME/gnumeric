@@ -4,7 +4,7 @@
 
 #include "gnumeric.h"
 #include <gsf/gsf-output-csv.h>
-#include <goffice/app/goffice-app.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

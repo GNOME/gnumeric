@@ -36,7 +36,7 @@
 #include <expr-impl.h>
 #include <func-builtin.h>
 #include <gnm-i18n.h>
-#include <goffice/app/go-plugin.h>
+#include <goffice/goffice.h>
 #include <gnm-plugin.h>
 #include <math.h>
 #include <stdlib.h>

@@ -25,11 +25,10 @@
 #include <gnumeric.h>
 #include "applix.h"
 
-#include <goffice/app/go-plugin.h>
+#include <goffice/goffice.h>
 #include <gnm-plugin.h>
 #include <workbook-view.h>
 #include <workbook.h>
-#include <goffice/app/io-context.h>
 
 #include <gsf/gsf-input.h>
 #include <string.h>

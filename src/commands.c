@@ -73,9 +73,7 @@
 #include "tools/tabulate.h"
 
 #include <go-string.h>
-#include <goffice/graph/gog-graph.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-pango-extras.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-doc-meta-data.h>
 #include <string.h>
 

@@ -42,8 +42,7 @@
 #include <parse-util.h>
 #include <gnm-i18n.h>
 
-#include <goffice/app/go-plugin.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 #include <gnm-plugin.h>
 
 #include <string.h>

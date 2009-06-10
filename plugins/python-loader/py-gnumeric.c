@@ -23,7 +23,7 @@
 #include "py-gnumeric.h"
 
 #include <go-string.h>
-#include <goffice/app/go-plugin.h>
+#include <goffice/goffice.h>
 
 #include <glib/gi18n-lib.h>
 

@@ -33,10 +33,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <workbook-view.h>
-#include <goffice/app/file.h>
-#include <goffice/app/io-context.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/utils/go-units.h>
+#include <goffice/goffice.h>
 #include <gnm-format.h>
 #include <workbook.h>
 #include <workbook-priv.h> /* Workbook::names */
@@ -67,7 +64,6 @@
 #include <xml-io.h>
 
 #include <go-string.h>
-#include <goffice/utils/go-glib-extras.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output.h>
@@ -77,7 +73,6 @@
 #include <gsf/gsf-opendoc-utils.h>
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-meta-names.h>
-#include <goffice/utils/go-glib-extras.h>
 #include <string.h>
 
 #include <glib.h>

@@ -23,6 +23,6 @@
 #define GNUMERIC_HTML_BOOT_H
 
 #include "gnumeric.h"
-#include "goffice/app/go-plugin.h"
+#include <goffice/goffice.h>
 
 #endif

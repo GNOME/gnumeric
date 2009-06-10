@@ -32,10 +32,8 @@
 #include "command-context.h"
 #include "ranges.h"
 #include "xml-io.h"
-#include <goffice/app/io-context.h>
+#include <goffice/goffice.h>
 #include <string.h>
-#include <goffice/utils/go-libxml-extras.h>
-#include <goffice/utils/go-glib-extras.h>
 #include <libxml/parser.h>
 
 #define CC2XML(s) ((xmlChar const *)(s))

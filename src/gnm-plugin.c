@@ -13,12 +13,7 @@
 #include "gnumeric-gconf.h"
 #include "application.h"
 
-#include <goffice/app/go-cmd-context.h>
-#include <goffice/app/go-plugin-service.h>
-#include <goffice/app/go-plugin-service-impl.h>
-#include <goffice/app/error-info.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-libxml-extras.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -437,8 +432,6 @@ GSF_CLASS (PluginServiceUI, plugin_service_ui,
 
 /****************************************************************************/
 
-#include <goffice/app/go-plugin-loader.h>
-#include <goffice/app/go-plugin-loader-module.h>
 
 typedef GOPluginLoaderModule	  GnmPluginLoaderModule;
 typedef GOPluginLoaderModuleClass GnmPluginLoaderModuleClass;

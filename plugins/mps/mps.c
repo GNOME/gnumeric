@@ -35,7 +35,7 @@
 #include "cell.h"
 #include "sheet.h"
 #include "value.h"
-#include <goffice/app/io-context.h>
+#include <goffice/goffice.h>
 #include "workbook-view.h"
 #include "workbook.h"
 #include <gnm-plugin.h>
@@ -47,9 +47,6 @@
 #include "parse-util.h"
 #include "func.h"
 #include "expr.h"
-#include <goffice/app/file.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/app/error-info.h>
 #include <glib/gi18n-lib.h>
 #include <sys/types.h>
 #include <unistd.h>

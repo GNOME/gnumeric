@@ -35,7 +35,7 @@
 #include "ranges.h"
 #include "expr-name.h"
 #include "command-context.h"
-#include <goffice/utils/go-file.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 
 enum {

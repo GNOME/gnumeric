@@ -28,9 +28,7 @@
 #include "value.h"
 #include "cell.h"
 
-#include <goffice/utils/go-font.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-locale.h>
+#include <goffice/goffice.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
 #include <style-font.h>

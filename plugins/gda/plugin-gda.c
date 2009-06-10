@@ -35,11 +35,7 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "gnm-i18n.h"
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/error-info.h>
-#include <goffice/utils/datetime.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 #include <gnm-plugin.h>
 
 GNM_PLUGIN_MODULE_HEADER;

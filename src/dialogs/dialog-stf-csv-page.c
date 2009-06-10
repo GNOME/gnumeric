@@ -22,7 +22,7 @@
 #include <gnumeric-config.h>
 #include "dialog-stf.h"
 #include "gnm-format.h"
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 #include <string.h>
 
 /*************************************************************************************************

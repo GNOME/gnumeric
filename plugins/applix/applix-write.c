@@ -40,11 +40,9 @@
 #include "selection.h"
 #include "position.h"
 #include "ranges.h"
-#include <goffice/app/io-context.h>
+#include <goffice/goffice.h>
 #include "workbook-view.h"
 #include "workbook.h"
-#include <goffice/app/error-info.h>
-#include <goffice/app/go-doc.h>
 
 #include <string.h>
 #include <gsf/gsf-output.h>

@@ -25,10 +25,7 @@
 #include "wbc-gtk.h"
 #include "widgets/gnumeric-expr-entry.h"
 
-#include <goffice/app/error-info.h>
-#include <goffice/gtk/go-combo-color.h>
-#include <goffice/gtk/goffice-gtk.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 #include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <atk/atkrelation.h>

@@ -40,8 +40,7 @@
 #include <gnumeric.h>
 #include <gnumeric-gconf.h>
 #include "latex.h"
-#include <goffice/app/io-context.h>
-#include <goffice/app/error-info.h>
+#include <goffice/goffice.h>
 #include <workbook-view.h>
 #include <workbook.h>
 #include <sheet.h>

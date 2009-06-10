@@ -20,8 +20,7 @@
 #include <mstyle.h>
 #include <preview-grid.h>
 
-#include <goffice/utils/go-font.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>

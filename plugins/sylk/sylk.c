@@ -15,8 +15,7 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n-lib.h>
 #include <gnumeric.h>
-#include <goffice/app/file.h>
-#include <goffice/app/io-context.h>
+#include <goffice/goffice.h>
 #include "workbook-view.h"
 #include "workbook.h"
 #include "cell.h"
@@ -32,8 +31,6 @@
 #include "number-match.h"
 #include "parse-util.h"
 #include "gutils.h"
-#include <goffice/app/error-info.h>
-#include <goffice/app/go-plugin.h>
 #include <gnm-plugin.h>
 
 #include <string.h>

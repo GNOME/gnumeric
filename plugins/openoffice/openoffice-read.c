@@ -49,10 +49,7 @@
 #include <xml-io.h>
 
 #include <go-string.h>
-#include <goffice/app/io-context.h>
-#include <goffice/app/go-doc.h>
-#include <goffice/utils/go-units.h>
-#include <goffice/utils/datetime.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
@@ -64,10 +61,6 @@
 #include <gsf/gsf-utils.h>
 #include <glib/gi18n-lib.h>
 
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-plot-impl.h>
-#include <goffice/data/go-data-simple.h>
-#include <goffice/utils/go-glib-extras.h>
 #include <sheet-object-graph.h>
 #include <sheet-object-image.h>
 #include <graph.h>

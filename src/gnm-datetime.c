@@ -24,7 +24,7 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include <goffice/utils/go-format.h>
+#include <goffice/goffice.h>
 #include "value.h"
 #include <string.h>
 #include "gnm-datetime.h"

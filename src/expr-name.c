@@ -26,8 +26,7 @@
 #include "sheet-style.h"
 
 #include <go-string.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-locale.h>
+#include <goffice/goffice.h>
 
 /**
  * expr_name_validate:

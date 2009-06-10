@@ -3,7 +3,7 @@
 # define _GNM_WORKBOOK_CONTROL_PRIV_H_
 
 #include "workbook-control.h"
-#include <goffice/app/go-doc-control-impl.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

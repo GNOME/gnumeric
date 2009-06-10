@@ -37,8 +37,7 @@
 #include <gsf/gsf-timestamp.h>
 #include <gsf/gsf-docprop-vector.h>
 
-#include <goffice/app/go-doc.h>
-#include <goffice/utils/go-file.h>
+#include <goffice/goffice.h>
 
 #include <glade/glade.h>
 #include <gtk/gtk.h>

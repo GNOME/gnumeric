@@ -26,10 +26,7 @@
 #include "sheet-object-impl.h"
 #include "xml-io.h"
 
-#include <goffice/utils/go-libxml-extras.h>
-#include <goffice/utils/go-color.h>
-#include <goffice/utils/go-persist.h>
-#include <goffice/utils/go-style.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
@@ -149,7 +146,6 @@ sol_default_style (void)
 #include <dialogs/dialogs.h>
 #include <gnumeric-simple-canvas.h>
 #include <gnm-pane.h>
-#include <goffice/utils/go-color.h>
 
 static void
 gnm_so_line_user_config (SheetObject *so, SheetControl *sc)

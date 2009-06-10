@@ -20,11 +20,7 @@
 #include <mstyle.h>
 #include <sheet-style.h>
 
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/io-context.h>
-#include <goffice/utils/datetime.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/app/error-info.h>
+#include <goffice/goffice.h>
 
 #include <string.h>
 #include <unistd.h>

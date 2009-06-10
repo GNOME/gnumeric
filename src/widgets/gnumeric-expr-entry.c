@@ -31,10 +31,7 @@
 #include <gnm-format.h>
 #include <number-match.h>
 #include <gnm-datetime.h>
-#include <goffice/utils/go-locale.h>
-#include <goffice/utils/go-font.h>
-#include <goffice/gtk/go-calendar-button.h>
-#include <goffice/graph/gog-data-allocator.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>

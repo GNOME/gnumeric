@@ -4,7 +4,7 @@
 
 #include "gnumeric.h"
 #include "numbers.h"
-#include <goffice/utils/datetime.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

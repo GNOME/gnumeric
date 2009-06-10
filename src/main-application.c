@@ -20,13 +20,12 @@
 #endif
 
 #include "command-context.h"
-#include <goffice/app/io-context.h>
+#include <goffice/goffice.h>
 #include "io-context-gtk.h"
 /* TODO: Get rid of this one */
 #include "command-context-stderr.h"
 #include "wbc-gtk-impl.h"
 #include "workbook-view.h"
-#include <goffice/app/go-plugin.h>
 #include "workbook.h"
 #include "gui-file.h"
 #include "gnumeric-gconf.h"
@@ -39,8 +38,6 @@
 
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
-#include <goffice/utils/go-file.h>
-#include <goffice/app/go-cmd-context.h>
 
 #include <sys/types.h>
 #include <fcntl.h>

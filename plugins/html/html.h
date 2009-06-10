@@ -23,7 +23,7 @@
 #define GNUMERIC_PLUGIN_HTML_H
 
 #include "gnumeric.h"
-#include <goffice/app/file.h>
+#include <goffice/goffice.h>
 
 void html32_file_save	  (GOFileSaver const *fs, IOContext *io_context, 
 			   WorkbookView const  *wb_view, GsfOutput *output);

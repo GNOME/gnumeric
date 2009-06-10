@@ -27,17 +27,7 @@
 #include <gui-util.h>
 #include <mathfunc.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-styled-object.h>
-#include <goffice/graph/gog-graph.h>
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-series.h>
-#include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/gog-control-foocanvas.h>
-#include <goffice/data/go-data-simple.h>
-#include <goffice/utils/go-color.h>
-#include <goffice/utils/go-style.h>
+#include <goffice/goffice.h>
 #include <gtk/gtk.h>
 
 #define ABOUT_KEY          "about-dialog"

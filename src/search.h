@@ -5,7 +5,7 @@
 #include <gnumeric.h>
 #include <position.h>
 #include <numbers.h>
-#include <goffice/utils/regutf8.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

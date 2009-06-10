@@ -33,8 +33,7 @@
 #include "gutils.h"
 #include "gnumeric-gconf.h"
 #include "parse-util.h"
-#include <goffice/utils/go-format.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 

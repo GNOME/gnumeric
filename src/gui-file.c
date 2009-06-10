@@ -26,10 +26,7 @@
 #include "gnumeric-gconf.h"
 #include "application.h"
 
-#include <goffice/gtk/go-charmap-sel.h>
-#include <goffice/app/io-context.h>
-#include <goffice/app/go-doc.h>
-#include <goffice/utils/go-file.h>
+#include <goffice/goffice.h>
 
 #include <gtk/gtk.h>
 #include <glade/glade.h>

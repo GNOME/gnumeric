@@ -30,29 +30,7 @@
 #include <workbook-view.h>
 
 #include <go-string.h>
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/graph/gog-graph.h>
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-axis.h>
-#include <goffice/graph/gog-grid-line.h>
-#include <goffice/graph/gog-plot-impl.h>
-#include <goffice/graph/gog-series-impl.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-styled-object.h>
-#include <goffice/graph/gog-plot-engine.h>
-#include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-error-bar.h>
-#include <goffice/graph/gog-reg-curve.h>
-#include <goffice/graph/gog-label.h>
-#include <goffice/data/go-data-simple.h>
-#include <goffice/utils/go-color.h>
-#include <goffice/utils/go-font.h>
-#include <goffice/utils/go-line.h>
-#include <goffice/utils/go-pattern.h>
-#include <goffice/utils/go-marker.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/utils/go-styled-object.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-utils.h>
 #include <math.h>

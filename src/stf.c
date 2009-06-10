@@ -26,16 +26,13 @@
 #include "gnumeric.h"
 #include "stf.h"
 
-#include <goffice/app/file.h>
+#include <goffice/goffice.h>
 #include "cell.h"
 #include "sheet.h"
 #include "sheet-view.h"
 #include "sheet-style.h"
 #include "style.h"
 #include "mstyle.h"
-#include <goffice/app/io-context-priv.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/app/go-doc.h>
 #include "command-context.h"
 #include "wbc-gtk.h"
 #include "workbook-view.h"

@@ -56,15 +56,7 @@
 #include "graph.h"
 #include "selection.h"
 
-#include <goffice/graph/gog-data-allocator.h>
-#include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/gog-series.h>
-#include <goffice/data/go-data.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-color.h>
-#include <goffice/utils/go-font.h>
-#include <goffice/utils/go-file.h>
-#include <goffice/app/go-cmd-context-impl.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
 #include "gdk/gdkkeysyms.h"

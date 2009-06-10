@@ -32,7 +32,7 @@
 #include "sheet.h"
 #include "func.h"
 #include "gnm-format.h"
-#include <goffice/app/go-doc.h>
+#include <goffice/goffice.h>
 #include <glib-object.h>
 
 typedef struct {

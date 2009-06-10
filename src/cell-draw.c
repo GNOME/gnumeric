@@ -18,7 +18,7 @@
 #include "rendered-value.h"
 #include "parse-util.h"
 #include "sheet-merge.h"
-#include <goffice/utils/go-color.h>
+#include <goffice/goffice.h>
 
 #include <gdk/gdk.h>
 #include <string.h>

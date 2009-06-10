@@ -7,7 +7,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 
 #include <gtk/gtk.h>
 #include <gsf/gsf-impl-utils.h>

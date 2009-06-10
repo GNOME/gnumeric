@@ -40,7 +40,7 @@
 #include <go-data-slicer-field.h>
 #include <go-data-slicer.h>
 
-#include <goffice/utils/datetime.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-input.h>

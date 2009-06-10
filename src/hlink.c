@@ -37,7 +37,7 @@
 #include "value.h"
 #include "mstyle.h"
 
-#include <goffice/utils/go-file.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
 
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GNM_HLINK_TYPE, GnmHLinkClass)

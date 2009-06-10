@@ -31,8 +31,7 @@
 #include "wbc-gtk.h"
 #include "commands.h"
 #include "sheet-object.h"
-#include <goffice/app/go-cmd-context.h>
-#include <goffice/utils/go-style.h>
+#include <goffice/goffice.h>
 #include <gtk/gtk.h>
 #include <widgets/gnumeric-text-view.h>
 

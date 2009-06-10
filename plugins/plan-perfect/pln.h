@@ -11,7 +11,7 @@
 #define GNUMERIC_PLN_H
 
 #include "sheet.h"
-#include <goffice/app/go-plugin.h>
+#include <goffice/goffice.h>
 
 PluginInitResult       init_plugin (GOCmdContext *context, PluginData *pd);
 

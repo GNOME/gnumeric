@@ -25,7 +25,7 @@
 #include "func.h"
 #include "value.h"
 #include <gnm-i18n.h>
-#include <goffice/app/go-plugin.h>
+#include <goffice/goffice.h>
 #include <gnm-plugin.h>
 #include <limits.h>
 

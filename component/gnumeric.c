@@ -37,14 +37,10 @@
 #include <workbook-view.h>
 #include <workbook.h>
 
-#include <goffice/app/io-context.h>
+#include <goffice/goffice.h>
 #include <goffice/component/goffice-component.h>
 #include <goffice/component/go-component-factory.h>
 #include <goffice/component/go-component.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-color.h>
-#include <goffice/utils/go-image.h>
-#include <goffice/app/go-cmd-context.h>
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-input-memory.h>

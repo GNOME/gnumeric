@@ -40,8 +40,7 @@
 #include "parse-util.h"
 #include "style-font.h"
 #include "gnumeric-gconf.h"
-#include <goffice/utils/go-font.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 
 #include <gtk/gtk.h>
 

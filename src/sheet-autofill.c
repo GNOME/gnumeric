@@ -24,8 +24,7 @@
 #include "ranges.h"
 #include "sheet-merge.h"
 #include "gnm-format.h"
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-format.h>
+#include <goffice/goffice.h>
 
 #include <string.h>
 #include <errno.h>

@@ -3,7 +3,7 @@
 # define _GNM_NUMBERS_H_
 
 #include <gnumeric-features.h>
-#include <goffice/math/go-math.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

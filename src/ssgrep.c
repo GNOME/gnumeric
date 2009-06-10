@@ -8,10 +8,8 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "libgnumeric.h"
-#include <goffice/app/go-plugin.h>
+#include <goffice/goffice.h>
 #include "command-context-stderr.h"
-#include <goffice/app/io-context.h>
-#include <goffice/app/error-info.h>
 #include "workbook-view.h"
 #include "workbook.h"
 #include "gutils.h"
@@ -25,8 +23,6 @@
 #include "sheet-object-cell-comment.h"
 
 #include <go-string.h>
-#include <goffice/utils/go-file.h>
-#include <goffice/app/go-cmd-context.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>
 #include <glib/gi18n.h>

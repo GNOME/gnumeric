@@ -27,7 +27,7 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <string.h>
-#include <goffice/utils/go-font.h>
+#include <goffice/goffice.h>
 
 #undef DEBUG_REF_COUNT
 #undef DEBUG_FONTS

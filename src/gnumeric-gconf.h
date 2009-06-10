@@ -7,8 +7,7 @@
 #include <glib-object.h>
 #include <print-info.h>
 #include <libgnumeric.h>
-#include <goffice/app/go-conf.h>
-#include <goffice/utils/go-geometry.h>
+#include <goffice/goffice.h>
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS

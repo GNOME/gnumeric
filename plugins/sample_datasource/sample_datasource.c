@@ -28,7 +28,7 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "gnm-i18n.h"
-#include <goffice/app/go-plugin.h>
+#include <goffice/goffice.h>
 #include <gnm-plugin.h>
 
 #include <sys/types.h>

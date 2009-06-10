@@ -4,8 +4,7 @@
 
 #include "sheet-object.h"
 #include "gui-gnumeric.h"
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/graph/gog-guru.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

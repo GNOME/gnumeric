@@ -47,9 +47,7 @@
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <glade/glade.h>
 #include <gdk/gdkkeysyms.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/gtk/go-format-sel.h>
+#include <goffice/goffice.h>
 #include <string.h>
 
 /* FIXME: do not hardcode pixel counts.  */

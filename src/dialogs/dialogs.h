@@ -3,7 +3,7 @@
 
 #include "gui-gnumeric.h"
 #include "consolidate.h"
-#include <goffice/utils/go-style.h>
+#include <goffice/goffice.h>
 
 typedef enum {
 	FD_CURRENT = -1,

@@ -57,8 +57,7 @@
 #include <gnumeric-gconf.h>
 
 #include <go-string.h>
-#include <goffice/app/go-doc.h>
-#include <goffice/app/file.h>
+#include <goffice/goffice.h>
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-gzip.h>
 #include <gsf/gsf-doc-meta-data.h>

@@ -38,21 +38,7 @@
 #include "sheet.h"
 #include <graph.h>
 
-#include <goffice/graph/gog-graph.h>
-#include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-object-xml.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-data-allocator.h>
-#include <goffice/graph/gog-data-set.h>
-#include <goffice/graph/gog-renderer.h>
-#include <goffice/graph/gog-control-foocanvas.h>
-#include <goffice/utils/go-file.h>
-#include <goffice/utils/go-units.h>
-#include <goffice/utils/go-libxml-extras.h>
-#include <goffice/utils/go-glib-extras.h>
-#include <goffice/utils/go-format.h>
-#include <goffice/app/go-cmd-context.h>
-#include <goffice/gtk/go-graph-widget.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-utils.h>

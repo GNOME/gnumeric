@@ -48,9 +48,7 @@
 #include "commands.h"
 #include "gnm-format.h"
 
-#include <goffice/gtk/go-combo-text.h>
-#include <goffice/utils/go-libxml-extras.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <libxml/globals.h>

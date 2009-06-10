@@ -6,7 +6,7 @@
 #include "expr.h"
 #include "func.h"
 #include "parse-util.h"
-#include <goffice/utils/go-undo.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

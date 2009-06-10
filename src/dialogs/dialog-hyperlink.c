@@ -37,7 +37,7 @@
 #include <sheet-style.h>
 #include <value.h>
 #include <wbc-gtk.h>
-#include <goffice/utils/go-file.h>
+#include <goffice/goffice.h>
 
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>

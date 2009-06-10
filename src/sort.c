@@ -17,7 +17,7 @@
 #include "value.h"
 #include "sheet.h"
 #include "ranges.h"
-#include <goffice/utils/go-locale.h>
+#include <goffice/goffice.h>
 #include <stdlib.h>
 
 typedef struct {

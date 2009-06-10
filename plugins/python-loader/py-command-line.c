@@ -10,7 +10,7 @@
 #include "gnm-python.h"
 #include <gnumeric.h>
 #include <gutils.h>
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 #include <goffice/app/module-plugin-defs.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib-object.h>

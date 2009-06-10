@@ -29,7 +29,7 @@
 #include "func-builtin.h"
 
 #include <go-string.h>
-#include <goffice/utils/go-locale.h>
+#include <goffice/goffice.h>
 #include <glib.h>
 #include <string.h>
 #include <stdlib.h>

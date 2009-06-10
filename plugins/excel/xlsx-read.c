@@ -50,21 +50,8 @@
 #include "sheet-object-graph.h"
 #include "gnm-sheet-slicer.h"
 
-#include <goffice/app/error-info.h>
-#include <goffice/app/io-context.h>
-#include <goffice/app/go-plugin.h>
-#include <goffice/utils/datetime.h>
-#include <goffice/utils/go-units.h>
-#include <goffice/utils/go-marker.h>
-#include <goffice/utils/go-style.h>
-#include <goffice/utils/go-styled-object.h>
-#include <goffice/data/go-data-simple.h>
+#include <goffice/goffice.h>
 
-#include <goffice/graph/gog-object.h>
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-series.h>
-#include <goffice/graph/gog-data-set.h>
 
 #include "goffice-data.h"		/* MOVE TO GOFFCE with slicer code */
 #include "go-data-slicer-field.h"	/* MOVE TO GOFFCE with slicer code */

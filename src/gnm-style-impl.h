@@ -7,7 +7,7 @@
 #include "style-font.h"
 #include "validation.h"
 #include "pattern.h"
-#include <goffice/utils/go-format.h>
+#include <goffice/goffice.h>
 
 G_BEGIN_DECLS
 

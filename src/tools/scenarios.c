@@ -39,7 +39,7 @@
 #include "dao.h"
 #include "style-color.h"
 #include "parse-util.h"
-#include <goffice/utils/go-glib-extras.h>
+#include <goffice/goffice.h>
 
 #include <string.h>
 
