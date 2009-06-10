@@ -28,7 +28,7 @@
 /*****************************************************************************/
 
 /* change the following to 12 to switch to ODF 1.2 creation. Note that this is not tested and */
-/* changes in GOFFICE are alos required. */
+/* changes in GOFFICE are also required. */
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
@@ -846,7 +846,7 @@ odf_write_style_paragraph_properties (GnmOOExport *state, GnmStyle const *style)
 		case HALIGN_CENTER_ACROSS_SELECTION:
 		case HALIGN_DISTRIBUTED:
 		default:
-			/* Note that since source is value-type, alignmnet should be ignored */
+			/* Note that since source is value-type, alignment should be ignored */
                         /*(but isn't by OOo) */
 			alignment = "start";
 			source = "value-type";
