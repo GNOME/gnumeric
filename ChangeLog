@@ -1,3 +1,8 @@
+2009-06-10  Morten Welinder  <terra@gnome.org>
+
+	* src/parser.y: Change x^y^z into x^(y^z) to indicate how we
+	parsed it.
+
 2009-06-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/ranges.c (range_clip_to_finite): adjust limits and add 

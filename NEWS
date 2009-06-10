@@ -31,6 +31,7 @@ Morten:
 	* Fix NPER problems.
 	* Implement new functions COT and ACOT.  [#585270]
 	* Fix GCD.  [#585271]
+	* Change x^y^z into x^(y^z) to indicate parsing.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.8

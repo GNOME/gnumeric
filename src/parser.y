@@ -605,13 +605,17 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	| exp '/' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_DIV,	$3); }
 	| exp '^' exp	{
 		GnmExpr *l = $1;
+		GnmExpr *r = $3;
 
-		/* See bug 115941 */
 		if (is_signed (l)) {
+			/* See bug 115941 */
 			l = build_unary_op (GNM_EXPR_OP_PAREN, l);
+		} else if (GNM_EXPR_GET_OPER (r) == GNM_EXPR_OP_EXP) {
+			/* Add ()s to x^y^z */
+			r = build_unary_op (GNM_EXPR_OP_PAREN, r);
 		}
 
-		$$ = build_binop (l, GNM_EXPR_OP_EXP, $3);
+		$$ = build_binop (l, GNM_EXPR_OP_EXP, r);
 	}
 	| exp '&' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_CAT,	$3); }
 	| exp '=' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_EQUAL,	$3); }
