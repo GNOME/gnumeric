@@ -3,6 +3,8 @@
 	* src/parser.y: Change x^y^z into x^(y^z) to indicate how we
 	parsed it.
 
+	* src/expr.c (do_expr_as_string): Ditto.
+
 2009-06-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/ranges.c (range_clip_to_finite): adjust limits and add 

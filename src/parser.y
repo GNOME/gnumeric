@@ -610,7 +610,15 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		if (is_signed (l)) {
 			/* See bug 115941 */
 			l = build_unary_op (GNM_EXPR_OP_PAREN, l);
-		} else if (GNM_EXPR_GET_OPER (r) == GNM_EXPR_OP_EXP) {
+		}
+
+		if (GNM_EXPR_GET_OPER (l) == GNM_EXPR_OP_EXP) {
+			/* Add ()s to x^y^z */
+			/* I don't think this can currently happen.  */
+			l = build_unary_op (GNM_EXPR_OP_PAREN, l);
+		}
+
+		if (GNM_EXPR_GET_OPER (r) == GNM_EXPR_OP_EXP) {
 			/* Add ()s to x^y^z */
 			r = build_unary_op (GNM_EXPR_OP_PAREN, r);
 		}

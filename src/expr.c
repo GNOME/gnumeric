@@ -1577,7 +1577,7 @@ do_expr_as_string (GnmExpr const *expr, int paren_level,
 		{ "-",  3, 1, 0, 0 },
 		{ "*",  4, 1, 0, 0 },
 		{ "/",  4, 1, 0, 0 },
-		{ "^",  5, 0, 1, 0 },
+		{ "^",  5, 0, 0, 0 }, /* Note: neither left nor right */
 		{ "&",  2, 1, 0, 0 },
 		{ "",   0, 0, 0, 0 }, /* Funcall  */
 		{ "",   0, 0, 0, 0 }, /* Name     */
