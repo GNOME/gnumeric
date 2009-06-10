@@ -603,6 +603,13 @@ range_is_full (GnmRange const *r, Sheet const *sheet, gboolean horiz)
  * @sheet : the sheet in which @range lives
  *
  * Clip the range to the area of the sheet with content.
+ * if the range reaches the edge 
+ *
+ * The idea here is that users may select a whole column or ow when they
+ * really are only concerned with the extent of the sheet.
+ * On the otehr hand, if users select any smaller region they probably 
+ * intend to selec tjust that.
+ *
  * WARNING THIS IS EXPENSIVE!
  **/
 void
@@ -615,9 +622,9 @@ range_clip_to_finite (GnmRange *range, Sheet *sheet)
 	 * using the current values as a cache
 	 */
 	extent = sheet_get_extent (sheet, FALSE);
-	if (range->end.col >= gnm_sheet_get_max_cols (sheet) - 2)
+	if (range->end.col >= gnm_sheet_get_max_cols (sheet) - 1)
 		range->end.col = extent.end.col;
-	if (range->end.row >= gnm_sheet_get_max_rows (sheet) - 2)
+	if (range->end.row >= gnm_sheet_get_max_rows (sheet) - 1)
 		range->end.row = extent.end.row;
 }
 

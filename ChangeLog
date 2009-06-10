@@ -1,5 +1,10 @@
 2009-06-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* src/ranges.c (range_clip_to_finite): adjust limits and add 
+	  explanatory comment
+
+2009-06-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/sheet.h (sheet_get_nominal_printarea): change return type
 	* src/sheet.c (gnm_sheet_constructor): change initialization
 	  of print area
