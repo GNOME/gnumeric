@@ -13,6 +13,13 @@ Andreas:
 	* Added Tests for Independence and Homogeneity
 	* Make imported manual page breaks work
 
+Jody:
+	* GOString start of richtext and phonetic support.
+	* Extend cell combo to allow support for toggles
+	* XLS/XLSX import/export for data slicer caches.
+	* Hooks for data slicer UI.
+	* Break GnmCommand out to allow commands in multiple files.
+
 Morten:
 	* Add search-for-number.
 	* Fix format-as-currency action.

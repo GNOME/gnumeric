@@ -1,3 +1,8 @@
+2009-06-09  Jody Goldberg <jody@gnome.org>
+
+	* xls-read-pivot.c (xls_read_SXIVD) : ignore magic index of 0xfffe.
+	  Need to figure out what it does.
+
 2009-06-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* ms-excel-write.c (excel_write_PAGE_BREAK): don't save automatic

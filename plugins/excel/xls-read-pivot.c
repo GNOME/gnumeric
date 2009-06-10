@@ -600,17 +600,21 @@ xls_read_SXIVD (BiffQuery *q, ExcelReadSheet *esheet)
 
 	d(3, ms_biff_query_dump (q););
 
-	for (i = 0 ; 2*i < q->length ; i++)
-		go_data_slicer_field_set_field_type_pos (
-			go_data_slicer_get_field ((GODataSlicer *)imp->pivot.slicer,
-				GSF_LE_GET_GUINT16 (q->data + i*2)),
-			t, i);
+	for (i = 0 ; 2*i < q->length ; i++) {
+		guint16 const indx = GSF_LE_GET_GUINT16 (q->data + i*2);
+		/* ignore special orientation index. */
+		if (0xfffe != indx) {
+			go_data_slicer_field_set_field_type_pos (
+				go_data_slicer_get_field ((GODataSlicer *)imp->pivot.slicer, indx),
+				t, i);
+		}
+	}
 }
 
 void
 xls_read_SXVD (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	static GODataSlicerFieldType axis_bits[] = {
+	static GODataSlicerFieldType const axis_bits[] = {
 		GDS_FIELD_TYPE_ROW,	GDS_FIELD_TYPE_COL,
 		GDS_FIELD_TYPE_PAGE,	GDS_FIELD_TYPE_DATA
 	};
