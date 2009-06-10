@@ -1989,8 +1989,9 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 	odf_print_spreadsheet_content_prelude (state);
 
 	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
-		Sheet const *sheet = workbook_sheet_by_index (state->wb, i);
+		Sheet *sheet = workbook_sheet_by_index (state->wb, i);
 		char *style_name;
+		GnmRange    *p_area;
 
 		gsf_xml_out_start_element (state->xml, TABLE "table");
 		gsf_xml_out_add_cstr (state->xml, TABLE "name", sheet->name_unquoted);
@@ -1998,6 +1999,37 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 		style_name = table_style_name (sheet);
 		gsf_xml_out_add_cstr (state->xml, TABLE "style-name", style_name);
 		g_free (style_name);
+
+		p_area  = sheet_get_nominal_printarea (sheet);
+
+		if (p_area != NULL) { 
+			GnmValue *v = value_new_cellrange_r (sheet, p_area);
+			GnmExprTop const *texpr;
+			char *formula;
+			GnmParsePos pp;
+			char *closing;
+			GnmCellRef *a, *b;
+			
+			a = &v->v_range.cell.a;
+			b = &v->v_range.cell.b;
+			a->col_relative = b->col_relative = TRUE;
+			a->row_relative = b->row_relative = TRUE;
+	
+			texpr = gnm_expr_top_new_constant (v);
+
+			g_free (p_area);
+			parse_pos_init_sheet (&pp, sheet);
+			formula = gnm_expr_top_as_string (texpr,
+							  &pp,
+							  state->conv);
+			/* While this should be enough, ODF doesn't want the same format here as in formulas: */
+			closing = strrchr(formula, ']');
+			if (closing != NULL)
+				*closing = '\0';
+			gnm_expr_top_unref (texpr);
+			gsf_xml_out_add_cstr (state->xml, TABLE "print-ranges", (*formula == '[') ? (formula + 1) : formula);
+			g_free (formula);
+		}
 
 		odf_write_sheet (state, sheet);
 		gsf_xml_out_end_element (state->xml); /* </table:table> */

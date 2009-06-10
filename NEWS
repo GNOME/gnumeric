@@ -12,6 +12,7 @@ Andreas:
 	* New FOURIER function
 	* Added Tests for Independence and Homogeneity
 	* Make imported manual page breaks work
+	* Improve print area handling and export to ODF
 
 Jody:
 	* GOString start of richtext and phonetic support.
