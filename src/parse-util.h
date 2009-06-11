@@ -130,6 +130,9 @@ struct _GnmConventions {
 	/* Accept prefix #NOT# and infixs #AND# and #OR#.  */
 	gboolean accept_hash_logicals;
 
+	/* If TRUE, parse x^y^z as (x^y)^z.  */
+	gboolean exp_is_left_associative;
+
 /* Import specific functions ------------------------------------- */
 	struct {
 		/* Called a lot for anything that might be a reference.  */

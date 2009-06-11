@@ -597,6 +597,7 @@ oo_conventions_new (void)
 	GnmConventions *conv = gnm_conventions_new ();
 
 	conv->decode_ampersands	= TRUE;
+	conv->exp_is_left_associative = TRUE;
 
 	conv->intersection_char	= '!';
 	conv->decimal_sep_dot	= TRUE;
@@ -613,19 +614,22 @@ oo_conventions_new (void)
 static void
 oo_load_convention (OOParseState *state, OOFormula type)
 {
+	GnmConventions *convs;
+
 	g_return_if_fail (state->convs[type] == NULL);
 
 	switch (type) {
 	case FORMULA_MICROSOFT:
-		state->convs[type] = gnm_xml_io_conventions ();
+		convs = gnm_xml_io_conventions ();
+		convs->exp_is_left_associative = TRUE;
 		break;
 	case FORMULA_OPENFORMULA:
 	default:
-		state->convs[type] =  oo_conventions_new ();
+		convs = oo_conventions_new ();
 		break;
 	}
 
-	
+	state->convs[type] = convs;
 }
 
 static GnmExprTop const *

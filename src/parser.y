@@ -327,6 +327,27 @@ build_not (GnmExpr *expr)
 		(gnm_expr_new_funcall1 (not_func, expr));
 }
 
+static GnmExpr *
+build_exp (GnmExpr *l, GnmExpr *r)
+{
+	if (is_signed (l)) {
+		/* See bug 115941 */
+		l = build_unary_op (GNM_EXPR_OP_PAREN, l);
+	}
+
+	if (GNM_EXPR_GET_OPER (l) == GNM_EXPR_OP_EXP) {
+		/* Add ()s to x^y^z */
+		l = build_unary_op (GNM_EXPR_OP_PAREN, l);
+	}
+
+	if (GNM_EXPR_GET_OPER (r) == GNM_EXPR_OP_EXP) {
+		/* Add ()s to x^y^z */
+		r = build_unary_op (GNM_EXPR_OP_PAREN, r);
+	}
+
+	return build_binop (l, GNM_EXPR_OP_EXP, r);
+}
+
 /*
  * Build an array expression.
  *
@@ -560,7 +581,8 @@ int yyparse (void);
 %left '&'
 %left '-' '+'
 %left '*' '/'
-%right '^'
+%right RIGHT_EXP_TOKEN
+%left LEFT_EXP_TOKEN
 %nonassoc '%'
 %nonassoc NEG PLUS NOT
 %left AND OR
@@ -603,28 +625,8 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	| exp '-' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_SUB,	$3); }
 	| exp '*' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_MULT,	$3); }
 	| exp '/' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_DIV,	$3); }
-	| exp '^' exp	{
-		GnmExpr *l = $1;
-		GnmExpr *r = $3;
-
-		if (is_signed (l)) {
-			/* See bug 115941 */
-			l = build_unary_op (GNM_EXPR_OP_PAREN, l);
-		}
-
-		if (GNM_EXPR_GET_OPER (l) == GNM_EXPR_OP_EXP) {
-			/* Add ()s to x^y^z */
-			/* I don't think this can currently happen.  */
-			l = build_unary_op (GNM_EXPR_OP_PAREN, l);
-		}
-
-		if (GNM_EXPR_GET_OPER (r) == GNM_EXPR_OP_EXP) {
-			/* Add ()s to x^y^z */
-			r = build_unary_op (GNM_EXPR_OP_PAREN, r);
-		}
-
-		$$ = build_binop (l, GNM_EXPR_OP_EXP, r);
-	}
+	| exp RIGHT_EXP_TOKEN exp { $$ = build_exp ($1, $3); }
+	| exp LEFT_EXP_TOKEN exp { $$ = build_exp ($1, $3); }
 	| exp '&' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_CAT,	$3); }
 	| exp '=' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_EQUAL,	$3); }
 	| exp '<' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_LT,		$3); }
@@ -1393,6 +1395,11 @@ yylex (void)
 	case '}' :
 		state->in_array--;
 		return c;
+
+	case '^':
+		return state->convs->exp_is_left_associative
+			? LEFT_EXP_TOKEN
+			: RIGHT_EXP_TOKEN;
 
 	case UNICODE_LOGICAL_NOT_C: return NOT;
 	case UNICODE_MINUS_SIGN_C: return '-';

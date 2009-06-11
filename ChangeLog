@@ -1,5 +1,15 @@
 2009-06-10  Morten Welinder  <terra@gnome.org>
 
+	* src/parser.y (yylex): Return LEFT_EXP_TOKEN or RIGHT_EXP_TOKEN
+	for '^'.
+	(yyparse): Handle LEFT_EXP_TOKEN and RIGHT_EXP_TOKEN instead of
+	'^'.
+
+	* src/parse-util.h (struct _GnmConventions): Add associativity
+	switch for '^'.
+
+	* src/parse-util.c (gnm_conventions_new_full): Init it.
+
 	* src/parser.y: Change x^y^z into x^(y^z) to indicate how we
 	parsed it.
 

@@ -1329,6 +1329,7 @@ gnm_conventions_new_full (unsigned size)
 
 	convs->sheet_name_sep		= '!';
 	convs->intersection_char	= ' ';
+	convs->exp_is_left_associative  = FALSE;
 	convs->input.range_ref		= rangeref_parse;
 	convs->input.name		= std_name_parser;
 	convs->input.func		= std_func_map;
