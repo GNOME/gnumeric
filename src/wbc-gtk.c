@@ -1858,19 +1858,19 @@ cb_set_focus (GtkWindow *window, GtkWidget *focus, WBCGtk *wbcg)
 /***************************************************************************/
 
 static gboolean
-cb_scroll_wheel (GtkWidget *ignored, GdkEventScroll *event,
+cb_scroll_wheel (GtkWidget *w, GdkEventScroll *event,
 		 WBCGtk *wbcg)
 {
-	/* scroll always operates on pane 0 */
-	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
+	SheetControlGUI *scg = wbcg_get_scg (wbcg, wbcg_focus_cur_scg (wbcg));
 	Sheet		*sheet = scg_sheet (scg);
+	/* scroll always operates on pane 0 */
 	GnmPane *pane = scg_pane (scg, 0);
 	gboolean go_horiz = (event->direction == GDK_SCROLL_LEFT ||
 			     event->direction == GDK_SCROLL_RIGHT);
 	gboolean go_back = (event->direction == GDK_SCROLL_UP ||
 			    event->direction == GDK_SCROLL_LEFT);
 
-	if (!GTK_WIDGET_REALIZED (ignored))
+	if (!GTK_WIDGET_REALIZED (w))
 		return FALSE;
 
 	if ((event->state & GDK_MOD1_MASK))

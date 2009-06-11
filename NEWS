@@ -1,5 +1,8 @@
 Gnumeric 1.9.9
 
+Almer S. Tigelaar:
+        * Fix scolling via mouse wheels [#533051]
+
 Andreas:
 	* Export some data formats to ODF.
 	* Fix comment export to ODF.
