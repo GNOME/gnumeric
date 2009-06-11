@@ -1,3 +1,9 @@
+2009-06-11  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_parse_fixed_line): Make sure we have the
+	right number of columns, even if we need to add empty items.
+	Fixes #135523.
+
 2009-06-10  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 	for Almer S. Tigelaar
 	

@@ -777,6 +777,9 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 		src->splitpos++;
 	}
 
+	while (line->len < parseoptions->splitpositions->len)
+		g_ptr_array_add (line, g_strdup (""));
+
 	return line;
 }
 
