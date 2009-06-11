@@ -23,7 +23,10 @@
 #include "gnm-notebook.h"
 #include <gsf/gsf-impl-utils.h>
 
+#if !GTK_CHECK_VERSION(2,17,1)
+/* 582488 GtkNotebook behaves poorly when allocated less than reque... */
 #define USE_INTERNAL_COPY_OF_GTK_NOTEBOOK
+#endif
 
 #ifdef USE_INTERNAL_COPY_OF_GTK_NOTEBOOK
 

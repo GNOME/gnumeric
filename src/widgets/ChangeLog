@@ -1,3 +1,8 @@
+2009-06-11  Morten Welinder  <terra@gnome.org>
+
+	* gnm-notebook.c: Turn off internal copy of GtkNotebook if
+	GTK+>=2.17.1.
+
 2009-05-23  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.8
