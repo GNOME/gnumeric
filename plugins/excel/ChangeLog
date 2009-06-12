@@ -1,3 +1,8 @@
+2009-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* ms-excel-read.c (excel_parse_name): If it looks like the print area
+	  could have been one of our old "whole sheet" areas, set it to nil.
+
 2009-06-09  Jody Goldberg <jody@gnome.org>
 
 	* xls-read-pivot.c (xls_read_SXIVD) : ignore magic index of 0xfffe.

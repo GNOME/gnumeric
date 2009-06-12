@@ -3275,6 +3275,22 @@ excel_parse_name (GnmXLImporter *importer, Sheet *sheet, char *name,
 		});
 	}
 
+	if (0 == strcmp (name, "Print_Area")) {
+		GnmValue *val = gnm_expr_get_range (texpr->expr);
+		if (val != NULL && val->type == VALUE_CELLRANGE) {
+			GnmEvalPos ep; 
+			int height, width;
+			eval_pos_init_sheet (&ep, sheet);
+			height = value_area_get_height (val, &ep);
+			width = value_area_get_width (val, &ep);
+			value_release (val);
+			if ((height == 65536) && (width == 256)) {
+				gnm_expr_top_unref (texpr);
+				texpr = gnm_expr_top_new_constant (value_new_error_REF (&ep));
+			}
+		}
+	}
+
 	parse_pos_init (&pp, importer->wb, sheet, 0, 0);
 	nexpr = expr_name_add (&pp, name,
 			       texpr,
