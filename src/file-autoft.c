@@ -264,3 +264,11 @@ category_group_get_templates_list (FormatTemplateCategoryGroup *category_group,
 
 	return g_slist_sort (templates, format_template_compare_name);
 }
+
+int
+category_group_cmp (gconstpointer a, gconstpointer b)
+{
+	FormatTemplateCategoryGroup const *group_a = a;
+	FormatTemplateCategoryGroup const *group_b = b;
+	return g_utf8_collate (_(group_a->name), _(group_b->name));
+}

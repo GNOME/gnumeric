@@ -506,14 +506,6 @@ setup_check_item (GladeXML *gui, AutoFormatState *state, char const *name)
 	return item;
 }
 
-static int
-category_group_cmp (gconstpointer a, gconstpointer b)
-{
-	FormatTemplateCategoryGroup const *group_a = a;
-	FormatTemplateCategoryGroup const *group_b = b;
-	return g_utf8_collate (_(group_a->name), _(group_b->name));
-}
-
 static gboolean
 cb_canvas_focus (GtkWidget *canvas, GtkDirectionType direction,
 		 AutoFormatState *state)

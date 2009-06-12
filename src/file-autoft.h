@@ -13,6 +13,8 @@ GSList  *category_group_get_templates_list (FormatTemplateCategoryGroup *categor
 GList   *category_group_list_get (void);
 void     category_group_list_free (GList *category_groups);
 
+int category_group_cmp (gconstpointer a, gconstpointer b);
+
 G_END_DECLS
 
 #endif /* _GNM_FILE_AUTOFT_H_ */
