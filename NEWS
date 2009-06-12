@@ -16,6 +16,8 @@ Andreas:
 	* Added Tests for Independence and Homogeneity
 	* Make imported manual page breaks work
 	* Improve print area handling and export to ODF
+	* Some minor menu rearrangement
+	* Let the sort dialog guess whether there is a header
 
 Jody:
 	* GOString start of richtext and phonetic support.

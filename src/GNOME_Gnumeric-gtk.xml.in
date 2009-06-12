@@ -19,7 +19,6 @@
       <separator name="file-sep3"/>
       <menuitem action="FileSend"/>
       <menuitem action="FileMetaData"/>
-      <menuitem action="FilePreferences"/>
       <separator name="file-sep4"/>
       <placeholder name="FileHistory" />
       <menuitem action="FileHistoryFull"/>
@@ -37,13 +36,6 @@
       <menuitem action="EditPasteSpecial"/>
 <!--TODO  menuitem action="EditPasteLink" -->
       <separator name="edit-sep2"/>
-      <menu name="Fill" action="MenuEditFill">
-        <menuitem action="EditFillAutofill"/>
-        <menuitem action="ToolsMerge"/>
-        <menuitem action="ToolsTabulate"/>
-        <menuitem action="EditFillSeries"/>
-        <menuitem action="RandomGenerator"/>
-      </menu>
       <menu name="Clear" action="MenuEditClear">
         <menuitem action="EditClearAll"/>
         <menuitem action="EditClearFormats"/>
@@ -58,7 +50,6 @@
       <separator name="edit-sep3"/>
       <menuitem action="EditFind"/>
       <menuitem action="EditReplace"/>
-      <menuitem action="EditGoto"/>
       <separator name="edit-sep4"/>
       <menu name="EditSheet" action="MenuEditSheet">
         <menuitem action="SheetReorder"/>
@@ -77,9 +68,13 @@
         <menuitem action="EditSelectArray"/>
         <menuitem action="EditSelectDepends"/>
         <menuitem action="EditSelectInputs"/>
+        <separator name="edit-sep5"/>
+	<menuitem action="EditGoto"/>
       </menu>
       <menuitem action="EditRecalc"/>
       <placeholder name="ops"/>
+      <separator name="edit-sep6"/>
+      <menuitem action="EditPreferences"/>
     </menu>
     <menu name="View" action="MenuView">
       <menuitem action="ViewNew"/>
@@ -147,7 +142,6 @@
 	<menuitem action="SheetDirection"/>
       </menu>
       <menuitem action="FormatWorkbook"/>
-      <menuitem action="FilePreferences"/>
       <menuitem action="FormatAuto"/>
     </menu>
     <menu name="Tools" action="MenuTools">
@@ -199,6 +193,13 @@
     </menu>
     <menu name="Data" action="MenuData">
       <menuitem action="DataSort"/>
+      <menu name="Fill" action="MenuEditFill">
+        <menuitem action="EditFillAutofill"/>
+        <menuitem action="ToolsMerge"/>
+        <menuitem action="ToolsTabulate"/>
+        <menuitem action="EditFillSeries"/>
+        <menuitem action="RandomGenerator"/>
+      </menu>
       <menu name="Filter" action="MenuFilter">
         <menuitem action="DataAutoFilter"/>
         <menuitem action="DataFilterShowAll"/>

@@ -1,3 +1,11 @@
+2009-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-cell-sort.c (dialog_load_selection): return info about
+	  the selection
+	(dialog_init): use sheet_range_has_heading
+	* dialog-preferences.c (pref_sort_page_initializer): remove "Sort 
+	  Area Has a HEADER" button.
+	
 2009-06-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-printer-setup.c (load_print_area) adjust for changes in 

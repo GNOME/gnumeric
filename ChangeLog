@@ -1,3 +1,14 @@
+2009-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* schemas/gnumeric-general.schemas.in: remove sort header default
+	* src/GNOME_Gnumeric-gtk.xml.in move preferences menu item
+	* src/gnumeric-gconf.h: remove sort_default_has_header
+	* src/gnumeric-gconf.c: remove sort_default_has_header
+	(gnm_gconf_set_sort_has_header): deleted
+	* src/wbc-gtk-actions.c: sort_by_rows, trust the automatic
+	  detection and don't try to use the default too
+	(actions): move preferences, goto and fill menus 
+	
 2009-06-11  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-parse.c (stf_parse_fixed_line): Make sure we have the

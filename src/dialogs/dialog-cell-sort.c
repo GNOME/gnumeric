@@ -514,8 +514,8 @@ cb_dialog_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 	gtk_widget_destroy (state->dialog);
 }
 
-static void
-dialog_load_selection (SortFlowState *state)
+static GnmRange const *
+dialog_load_selection (SortFlowState *state, gboolean *col_rb)
 {
 	GnmRange const *first;
 
@@ -524,13 +524,14 @@ dialog_load_selection (SortFlowState *state)
 	if (first != NULL) {
 		gtk_toggle_button_set_active (
 			GTK_TOGGLE_BUTTON (state->cell_sort_col_rb),
-			first->end.row - first->start.row > first->end.col - first->start.col);
+			(*col_rb = (first->end.row - first->start.row > first->end.col - first->start.col)));
 		gnm_expr_entry_load_from_range (state->range_entry,
 						state->sheet, first);
 	} else
 		gtk_toggle_button_set_active (
 			GTK_TOGGLE_BUTTON (state->cell_sort_col_rb),
-			TRUE);
+			(*col_rb = TRUE));
+	return first;
 }
 
 /**
@@ -874,6 +875,8 @@ dialog_init (SortFlowState *state)
 	GtkWidget *scrolled;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
+	gboolean col_rb;
+	GnmRange const *range;
 
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "cell_sort_options_table"));
 	/* setup range entry */
@@ -994,8 +997,6 @@ dialog_init (SortFlowState *state)
 
 	state->cell_sort_header_check = glade_xml_get_widget (state->gui,
 							      "cell_sort_header_check");
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->cell_sort_header_check),
-				      gnm_app_prefs->sort_default_has_header);
 	g_signal_connect_swapped (G_OBJECT (state->cell_sort_header_check),
 				  "toggled",
 				  G_CALLBACK (cb_sort_header_check), state);
@@ -1059,9 +1060,12 @@ dialog_init (SortFlowState *state)
 	g_object_set_data_full (G_OBJECT (state->dialog),
 				"state", state, (GDestroyNotify) cb_dialog_destroy);
 	cb_sort_selection_changed (state);
-	dialog_load_selection (state);
-	cb_update_sensitivity (state);
+
+	range = dialog_load_selection (state, &col_rb);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->cell_sort_header_check),
+				      sheet_range_has_heading (state->sheet, range, col_rb, FALSE));
 	cb_sort_header_check (state);
+	cb_update_sensitivity (state);
 
 	gnm_expr_entry_grab_focus(GNM_EXPR_ENTRY (state->add_entry), TRUE);
 }

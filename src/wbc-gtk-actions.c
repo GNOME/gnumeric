@@ -1132,12 +1132,6 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 	sel = gnm_range_dup (tmp);
 	range_clip_to_finite (sel, sv_sheet (sv));
 
-	if (gnm_app_prefs->sort_default_has_header) {
-		sel->start.row++;
-		if (sel->start.row > sel->end.row)
-			return;
-	}
-
 	numclause = range_width (sel);
 	clause = g_new0 (GnmSortClause, numclause);
 	for (i = 0; i < numclause; i++) {
@@ -1792,9 +1786,6 @@ static GtkActionEntry const actions[] = {
 	{ "FileMetaData", GTK_STOCK_PROPERTIES, N_("Proper_ties..."),
 		NULL, N_("Edit descriptive information"),
 		G_CALLBACK (cb_doc_meta_data) },
-	{ "FilePreferences", GTK_STOCK_PREFERENCES, N_("Pre_ferences..."),
-		NULL, N_("Change Gnumeric Preferences"),
-		G_CALLBACK (cb_file_preferences) },
 	{ "FileHistoryFull", NULL, N_("Full _History..."),
 		NULL, N_("Access previously used file"),
 		G_CALLBACK (cb_file_history_full) },
@@ -1846,46 +1837,32 @@ static GtkActionEntry const actions[] = {
 	 *		gnm-pane.c:gnm_pane_key_mode_sheet
 	 *	with the rest of the key movement and rangeselection.
 	 *	Otherwise input methods would steal them */
-	{ "EditSelectAll", NULL, N_("Select _All"),
+	{ "EditSelectAll", NULL, N_("_All"),
 		"<control><shift>space", N_("Select all cells in the spreadsheet"),
 		G_CALLBACK (cb_edit_select_all) },
 	/* A duplicate that should not go into the menus, used only for the accelerator */
-	{ "EditSelectAllXL", NULL, N_("Select _All"),
+	{ "EditSelectAllXL", NULL, N_("_All"),
 		"<control>a", N_("Select all cells in the spreadsheet"),
 		G_CALLBACK (cb_edit_select_all) },
-	{ "EditSelectColumn", NULL, N_("Select _Column"),
+	{ "EditSelectColumn", NULL, N_("_Column"),
 		"<control>space", N_("Select an entire column"),
 		G_CALLBACK (cb_edit_select_col) },
-	{ "EditSelectRow", NULL, N_("Select _Row"),
+	{ "EditSelectRow", NULL, N_("_Row"),
 		"<shift>space", N_("Select an entire row"),
 		G_CALLBACK (cb_edit_select_row) },
 
-	{ "EditSelectArray", NULL, N_("Select Arra_y"),
+	{ "EditSelectArray", NULL, N_("Arra_y"),
 		"<control>slash", N_("Select an array of cells"),
 		G_CALLBACK (cb_edit_select_array) },
-	{ "EditSelectDepends", NULL, N_("Select _Depends"),
+	{ "EditSelectDepends", NULL, N_("_Depends"),
 		"<control>bracketright", N_("Select all the cells that depend on the current edit cell"),
 		G_CALLBACK (cb_edit_select_depends) },
-	{ "EditSelectInputs", NULL, N_("Select _Inputs"),
+	{ "EditSelectInputs", NULL, N_("_Inputs"),
 		"<control>bracketleft", N_("Select all the cells are used by the current edit cell"),
 		G_CALLBACK (cb_edit_select_inputs) },
-
-/* Edit -> Fill */
-	{ "EditFillAutofill", NULL, N_("Auto_fill"),
-		NULL, N_("Automatically fill the current selection"),
-		G_CALLBACK (cb_edit_fill_autofill) },
-	{ "ToolsMerge", NULL, N_("_Merge..."),
-		NULL, N_("Merges columnar data into a sheet creating duplicate sheets for each row"),
-		G_CALLBACK (cb_tools_merge) },
-	{ "ToolsTabulate", NULL, N_("_Tabulate Dependency..."),
-		NULL, N_("Make a table of a cell's value as a function of other cells"),
-		G_CALLBACK (cb_tools_tabulate) },
-	{ "EditFillSeries", NULL, N_("_Series..."),
-		NULL, N_("Fill according to a linear or exponential series"),
-		G_CALLBACK (cb_edit_fill_series) },
-	{ "RandomGenerator", NULL, N_("_Random Generator..."),
-		NULL, N_("Generate random numbers of a selection of distributions"),
-		G_CALLBACK (cb_tools_random_generator) },
+	{ "EditGoto", GTK_STOCK_JUMP_TO, N_("_Goto cell..."),
+		"<control>G", N_("Jump to a specified cell"),
+		G_CALLBACK (cb_edit_goto) },
 
 /* Edit -> Sheet */
 	{ "SheetReorder", NULL, N_("_Manage Sheets..."),
@@ -1932,13 +1909,14 @@ static GtkActionEntry const actions[] = {
 	{ "EditReplace", GTK_STOCK_FIND_AND_REPLACE, N_("R_eplace..."),
 		"<control>H", N_("Search for something and replace it with something else"),
 		G_CALLBACK (cb_edit_search_replace) },
-	{ "EditGoto", GTK_STOCK_JUMP_TO, N_("_Goto cell..."),
-		"<control>G", N_("Jump to a specified cell"),
-		G_CALLBACK (cb_edit_goto) },
 
 	{ "EditRecalc", NULL, N_("Recalculate"),
 		"F9", N_("Recalculate the spreadsheet"),
 		G_CALLBACK (cb_edit_recalc) },
+
+	{ "EditPreferences", GTK_STOCK_PREFERENCES, N_("Preferences..."),
+		NULL, N_("Change Gnumeric Preferences"),
+		G_CALLBACK (cb_file_preferences) },
 
 /* View */
 	{ "ViewNew", GTK_STOCK_NEW, N_("_New View..."),
@@ -2185,6 +2163,24 @@ static GtkActionEntry const actions[] = {
 	{ "DataTable", NULL, N_("_Table..."),
 		NULL, N_("Create a Data Table to evaluate a function with multiple inputs"),
 		G_CALLBACK (cb_data_table) },
+
+/* Data -> Fill */
+	{ "EditFillAutofill", NULL, N_("Auto_fill"),
+		NULL, N_("Automatically fill the current selection"),
+		G_CALLBACK (cb_edit_fill_autofill) },
+	{ "ToolsMerge", NULL, N_("_Merge..."),
+		NULL, N_("Merges columnar data into a sheet creating duplicate sheets for each row"),
+		G_CALLBACK (cb_tools_merge) },
+	{ "ToolsTabulate", NULL, N_("_Tabulate Dependency..."),
+		NULL, N_("Make a table of a cell's value as a function of other cells"),
+		G_CALLBACK (cb_tools_tabulate) },
+	{ "EditFillSeries", NULL, N_("_Series..."),
+		NULL, N_("Fill according to a linear or exponential series"),
+		G_CALLBACK (cb_edit_fill_series) },
+	{ "RandomGenerator", NULL, N_("_Random Generator..."),
+		NULL, N_("Generate random numbers of a selection of distributions"),
+		G_CALLBACK (cb_tools_random_generator) },
+
 
 /* Data -> Outline */
 	{ "DataOutlineHideDetail", "Gnumeric_HideDetail", N_("_Hide Detail"),

@@ -50,7 +50,6 @@ typedef struct {
 	gboolean	 file_overwrite_default_answer;
 	gboolean	 file_ask_single_sheet_save;
 
-	gboolean	 sort_default_has_header;
 	gboolean	 sort_default_by_case;
 	gboolean	 sort_default_retain_formats;
 	gboolean	 sort_default_ascending;
@@ -185,7 +184,6 @@ void     gnm_gconf_set_hf_font (GnmStyle const *mstyle);
 /* sorting */
 void     gnm_gconf_set_sort_dialog_max_initial (gint value);
 void     gnm_gconf_set_sort_retain_form (gboolean value);
-void     gnm_gconf_set_sort_has_header (gboolean value);
 void     gnm_gconf_set_sort_by_case (gboolean value);
 void     gnm_gconf_set_sort_ascending (gboolean value);
 

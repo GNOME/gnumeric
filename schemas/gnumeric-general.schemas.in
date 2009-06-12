@@ -339,17 +339,6 @@ they are also processed at that time. If `lag' is negative, then recalculation h
         </locale>
       </schema>
       <schema>
-        <key>/schemas/apps/gnumeric/core/sort/default/has-header</key>
-        <applyto>/apps/gnumeric/core/sort/default/has-header</applyto>
-        <owner>Gnumeric</owner>
-        <type>bool</type>
-	<default>FALSE</default>
-        <locale name="C">
-        <short>Sort Area Has Header</short>
-        <long>Setting this option will cause the sort buttons on the toolbar to assume that the area to be sorted has a header and determine the initial state of the has-header checkbox in the sort dialog.</long>
-        </locale>
-      </schema>
-      <schema>
         <key>/schemas/apps/gnumeric/core/sort/default/by-case</key>
         <applyto>/apps/gnumeric/core/sort/default/by-case</applyto>
         <owner>Gnumeric</owner>

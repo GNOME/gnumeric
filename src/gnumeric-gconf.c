@@ -345,8 +345,6 @@ gnm_conf_init_extras (void)
 	node = go_conf_get_node (root, GNM_CONF_SORT_DIR);
 	prefs.sort_default_by_case = go_conf_load_bool (
 		node, GNM_CONF_SORT_DEFAULT_BY_CASE, FALSE);
-	prefs.sort_default_has_header = go_conf_load_bool (
-		node, GNM_CONF_SORT_DEFAULT_HAS_HEADER, FALSE);
 	prefs.sort_default_retain_formats = go_conf_load_bool (
 		node, GNM_CONF_SORT_DEFAULT_RETAIN_FORM, TRUE);
 	prefs.sort_default_ascending = go_conf_load_bool (
@@ -923,14 +921,6 @@ gnm_gconf_set_sort_by_case (gboolean val)
 	prefs.sort_default_by_case = val;
 	go_conf_set_bool (
 		root, GNM_CONF_SORT_DIR "/" GNM_CONF_SORT_DEFAULT_BY_CASE, val != FALSE);
-}
-
-void
-gnm_gconf_set_sort_has_header (gboolean val)
-{
-	prefs.sort_default_has_header = val;
-	go_conf_set_bool (
-		root, GNM_CONF_SORT_DIR "/" GNM_CONF_SORT_DEFAULT_HAS_HEADER, val != FALSE);
 }
 
 void

@@ -582,10 +582,6 @@ pref_sort_page_initializer (PrefState *state,
 				 page, row++, 
 				 gnm_gconf_set_sort_ascending,
 				 _("Sort Ascending"));
-	bool_pref_create_widget (node, GNM_CONF_SORT_DEFAULT_HAS_HEADER,
-				 page, row++, 
-				 gnm_gconf_set_sort_has_header,
-				 _("Sort Area Has a HEADER"));
 	go_conf_free_node (node);
 
 	gtk_widget_show_all (page);
