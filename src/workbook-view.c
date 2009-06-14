@@ -206,6 +206,7 @@ wb_view_set_attribute (WorkbookView *wbv, char const *name, char const *value)
 {
 	gboolean res;
 	GObject *obj;
+	const char *tname;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 	g_return_if_fail (name != NULL);
@@ -214,15 +215,23 @@ wb_view_set_attribute (WorkbookView *wbv, char const *name, char const *value)
 	obj = G_OBJECT (wbv);
 	res = !g_ascii_strcasecmp (value, "TRUE");
 
-	if (!strcmp (name , "WorkbookView::show_horizontal_scrollbar"))
+	if (strncmp (name, "WorkbookView::", 14) == 0)
+		tname = name + 14;
+	else if (strncmp (name, "Workbook::", 10) == 0)
+		/* Some old files have this.  */
+		tname = name + 10;
+	else
+		tname = "nope";
+
+	if (!strcmp (tname , "show_horizontal_scrollbar"))
 		g_object_set (obj, "show_horizontal_scrollbar", res, NULL);
-	else if (!strcmp (name , "WorkbookView::show_vertical_scrollbar"))
+	else if (!strcmp (tname , "show_vertical_scrollbar"))
 		g_object_set (obj, "show_vertical_scrollbar", res, NULL);
-	else if (!strcmp (name , "WorkbookView::show_notebook_tabs"))
+	else if (!strcmp (tname , "show_notebook_tabs"))
 		g_object_set (obj, "show_notebook_tabs", res, NULL);
-	else if (!strcmp (name , "WorkbookView::do_auto_completion"))
+	else if (!strcmp (tname , "do_auto_completion"))
 		g_object_set (obj, "do_auto_completion", res, NULL);
-	else if (!strcmp (name , "WorkbookView::is_protected"))
+	else if (!strcmp (tname , "is_protected"))
 		g_object_set (obj, "protected", res, NULL);
 	else
 		g_warning ("WorkbookView unknown arg '%s'", name);

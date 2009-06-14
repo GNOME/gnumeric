@@ -39,6 +39,7 @@ Morten:
 	* Change x^y^z into x^(y^z) to indicate parsing.
 	* Parse x^y^z as (x^y)^z from ODF files.  [#585277]
 	* Fix text import problem.  [#135523]
+	* Fix problem loading very old .gnumeric files.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.8
