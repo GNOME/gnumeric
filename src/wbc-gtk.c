@@ -55,6 +55,7 @@
 #include "gnm-pane-impl.h"
 #include "graph.h"
 #include "selection.h"
+#include "file-autoft.h"
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
@@ -1341,7 +1342,7 @@ static void
 wbcg_update_title (WBCGtk *wbcg)
 {
 	GODoc *doc = wb_control_get_doc (WORKBOOK_CONTROL (wbcg));
-	char *basename = go_basename_from_uri (doc->uri);
+	char *basename = doc->uri ? go_basename_from_uri (doc->uri) : NULL;
 	char *title = g_strconcat
 		(go_doc_is_dirty (doc) ? "*" : "",
 		 basename ? basename : doc->uri,
@@ -3197,6 +3198,9 @@ static unsigned
 regenerate_window_menu (WBCGtk *gtk, Workbook *wb, unsigned i)
 {
 	int k, count;
+	char *basename = GO_DOC (wb)->uri
+		? go_basename_from_uri (GO_DOC (wb)->uri)
+		: NULL;
 
 	/* How many controls are there?  */
 	count = 0;
@@ -3207,11 +3211,9 @@ regenerate_window_menu (WBCGtk *gtk, Workbook *wb, unsigned i)
 
 	k = 1;
 	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc, {
-		char *basename;
 		if (i >= 20)
 			return i;
-		if (IS_WBC_GTK (wbc) &&
-			(basename = go_basename_from_uri (GO_DOC (wb)->uri)) != NULL) {
+		if (IS_WBC_GTK (wbc) && basename) {
 			GString *label = g_string_new (NULL);
 			char *name;
 			char const *s;
@@ -3241,9 +3243,9 @@ regenerate_window_menu (WBCGtk *gtk, Workbook *wb, unsigned i)
 
 			g_string_free (label, TRUE);
 			g_free (name);
-			g_free (basename);
 			i++;
 		}});
+	g_free (basename);
 	return i;
 }
 
@@ -4263,6 +4265,120 @@ wbc_gtk_reload_recent_file_menu (WBCGtk const *wbcg)
 }
 
 static void
+cb_new_from_template (GObject *action, WBCGtk *wbcg)
+{
+	const char *uri = g_object_get_data (action, "uri");
+	gui_file_template (wbcg, uri);
+}
+
+static void
+wbc_gtk_reload_templates (WBCGtk *gtk)
+{
+	unsigned i;
+	GDir *dir;
+	const char *name;
+	GSList *l, *names;
+	char *path;
+
+	if (gtk->templates.merge_id != 0)
+		gtk_ui_manager_remove_ui (gtk->ui, gtk->templates.merge_id);
+	gtk->templates.merge_id = gtk_ui_manager_new_merge_id (gtk->ui);
+
+	if (gtk->templates.actions != NULL) {
+		gtk_ui_manager_remove_action_group (gtk->ui,
+			gtk->templates.actions);
+		g_object_unref (gtk->templates.actions);
+	}
+	gtk->templates.actions = gtk_action_group_new ("TemplateList");
+
+	gtk_ui_manager_insert_action_group (gtk->ui, gtk->templates.actions, 0);
+
+	path = g_build_filename (gnm_sys_data_dir (), "templates", NULL);
+	dir = g_dir_open (path, 0, NULL);
+	if (!dir) {
+		g_free (path);
+		return;
+	}
+
+	names = NULL;
+	while ((name = g_dir_read_name (dir))) {
+		char *fullname = g_build_filename (path, name, NULL);
+		if (g_file_test (fullname, G_FILE_TEST_IS_REGULAR)) {
+			char *uri = go_filename_to_uri (fullname);
+			names = g_slist_prepend (names, uri);
+		}
+		g_free (fullname);
+	}
+	g_free (path);
+	g_dir_close (dir);
+
+	names = g_slist_sort (names, (GCompareFunc)g_utf8_collate);
+
+	for (i = 1, l = names; l; l = l->next) {
+		const char *uri = l->data;
+		GString *label = g_string_new (NULL);
+		GtkActionEntry entry;
+		char *gname;
+		const char *gpath;
+		char *basename = go_basename_from_uri (uri);
+		const char *s;
+		GtkAction *action;
+
+		if (i < 10) g_string_append_c (label, '_');
+		g_string_append_printf (label, "%d ", i);
+
+		for (s = basename; *s; s++) {
+			if (*s == '_') g_string_append_c (label, '_');
+			g_string_append_c (label, *s);
+		}
+
+		entry.name = gname = g_strdup_printf ("Template%d", i);
+		entry.stock_id = NULL;
+		entry.label = label->str;
+		entry.accelerator = NULL;
+		entry.tooltip = NULL;
+		entry.callback = G_CALLBACK (cb_new_from_template);
+
+		gtk_action_group_add_actions (gtk->templates.actions,
+					      &entry, 1, gtk);
+
+		action = gtk_action_group_get_action (gtk->templates.actions,
+						      entry.name);
+
+		g_object_set_data_full (G_OBJECT (action), "uri",
+			g_strdup (uri), (GDestroyNotify)g_free);
+
+
+		gpath =
+#ifdef GNM_USE_HILDON
+			"/popup/File/Templates"
+#else
+			"/menubar/File/Templates"
+#endif
+			;
+		gtk_ui_manager_add_ui (gtk->ui, gtk->templates.merge_id,
+				       gpath, gname, gname,
+				       GTK_UI_MANAGER_AUTO, FALSE);
+
+		g_string_free (label, TRUE);
+		g_free (gname);
+		g_free (basename);
+		i++;
+	}
+	go_slist_free_custom (names, (GFreeFunc)g_free);
+}
+
+gboolean
+wbc_gtk_load_templates (WBCGtk *wbcg)
+{
+	if (wbcg->templates.merge_id == 0) {
+		wbc_gtk_reload_templates (wbcg);
+	}
+
+	return FALSE;
+}
+
+static void
 wbcg_set_toplevel (WBCGtk *wbcg, GtkWidget *w)
 {
 	static GtkTargetEntry const drag_types[] = {
@@ -4369,6 +4485,10 @@ wbc_gtk_finalize (GObject *obj)
 	if (wbcg->windows.merge_id != 0)
 		gtk_ui_manager_remove_ui (wbcg->ui, wbcg->windows.merge_id);
 	UNREF_OBJ (windows.actions);
+
+	if (wbcg->templates.merge_id != 0)
+		gtk_ui_manager_remove_ui (wbcg->ui, wbcg->templates.merge_id);
+	UNREF_OBJ (templates.actions);
 
 	g_hash_table_destroy (wbcg->custom_uis);
 
@@ -4911,6 +5031,10 @@ wbc_gtk_init (GObject *obj)
 
 	wbcg->windows.actions = NULL;
 	wbcg->windows.merge_id = 0;
+
+	wbcg->templates.actions = NULL;
+	wbcg->templates.merge_id = 0;
+
 	gnm_app_foreach_extra_ui ((GFunc) cb_init_extra_ui, wbcg);
 	g_object_connect ((GObject *) gnm_app_get_app (),
 		"swapped-object-signal::window-list-changed",
@@ -5004,7 +5128,14 @@ wbc_gtk_new (WorkbookView *optional_view,
 		gtk_window_set_screen (wbcg_toplevel (wbcg), optional_screen);
 
 	/* Postpone showing the GUI, so that we may resize it freely. */
-	g_idle_add ((GSourceFunc) show_gui, wbcg);
+	g_idle_add ((GSourceFunc)show_gui, wbcg);
+
+	/* Load this later when thing have calmed down.  If this does not
+	   trigger by the time the file menu is activated, then the UI is
+	   updated right then -- and that looks sub-optimal because the
+	   "Templates" menu is empty (and thus not shown) until the
+	   update is done. */
+	g_timeout_add (1000, (GSourceFunc)wbc_gtk_load_templates, wbcg);
 
 	wb_control_init_state (wbc);
 	return wbcg;

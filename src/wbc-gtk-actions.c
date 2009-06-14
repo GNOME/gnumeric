@@ -1672,9 +1672,15 @@ static GNM_ACTION_DEF (cb_format_row_unhide)
 	cmd_selection_colrow_hide (WORKBOOK_CONTROL (wbcg), FALSE, TRUE);
 }
 
+static GNM_ACTION_DEF (cb_file_menu)
+{
+	wbc_gtk_load_templates (wbcg);
+}
+
 /* Actions that are always sensitive */
 static GtkActionEntry const permanent_actions[] = {
-	{ "MenuFile",		NULL, N_("_File") },
+	{ "MenuFile",		NULL, N_("_File"), NULL, NULL, G_CALLBACK (cb_file_menu) },
+	{ "FileNewFromTemplate", GTK_STOCK_NEW, N_("New From Template"), "" },
 		{ "FilePrintArea",      NULL, N_("Print Area")},
 	{ "MenuEdit",		NULL, N_("_Edit") },
 		{ "MenuEditClear",	GTK_STOCK_CLEAR, N_("C_lear") },

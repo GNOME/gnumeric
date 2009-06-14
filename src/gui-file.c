@@ -138,6 +138,36 @@ gui_file_read (WBCGtk *wbcg, char const *uri,
 	return FALSE;
 }
 
+gboolean
+gui_file_template (WBCGtk *wbcg, char const *uri)
+{
+	IOContext *io_context;
+	WorkbookView *wbv;
+	GOFileOpener const *optional_format = NULL;
+	gchar const *optional_encoding = NULL;
+
+	go_cmd_context_set_sensitive (GO_CMD_CONTEXT (wbcg), FALSE);
+	io_context = gnumeric_io_context_new (GO_CMD_CONTEXT (wbcg));
+	wbv = wb_view_new_from_uri (uri, optional_format, io_context,
+				    optional_encoding);
+
+	if (gnumeric_io_error_occurred (io_context) ||
+	    gnumeric_io_warning_occurred (io_context))
+		gnumeric_io_error_display (io_context);
+
+	g_object_unref (G_OBJECT (io_context));
+	go_cmd_context_set_sensitive (GO_CMD_CONTEXT (wbcg), TRUE);
+
+	if (wbv != NULL) {
+		Workbook *wb = wb_view_get_workbook (wbv);
+		go_doc_set_uri (GO_DOC (wb), NULL);
+		workbook_set_saveinfo (wb, FILE_FL_NEW, NULL);
+		gui_wb_view_show (wbcg, wbv);
+		return TRUE;
+	}
+	return FALSE;
+}
+
 static void
 file_format_changed_cb (GtkComboBox *format_combo,
 			file_format_changed_cb_data *data)

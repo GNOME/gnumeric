@@ -110,7 +110,7 @@ struct _WBCGtk {
 	struct {
 		GtkActionGroup   *actions;
 		guint		  merge_id;
-	} file_history, toolbar, windows;
+	} file_history, toolbar, windows, templates;
 
 	GOActionComboStack	*undo_haction, *redo_haction;
 	GtkAction		*undo_vaction, *redo_vaction;
@@ -164,6 +164,8 @@ void	 wbcg_clone_sheet	(GtkWidget *ignored, WBCGtk *wbcg);
 void	 wbc_gtk_init_editline	(WBCGtk *wbcg);
 void	 wbc_gtk_init_actions	(WBCGtk *wbcg);
 void	 wbc_gtk_markup_changer	(WBCGtk *wbcg);
+
+gboolean wbc_gtk_load_templates (WBCGtk *gtk);
 
 G_END_DECLS
 

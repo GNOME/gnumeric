@@ -1,5 +1,17 @@
 2009-06-14  Morten Welinder  <terra@gnome.org>
 
+	Implement New-From-Template (#303657):
+
+	* src/wbc-gtk.c (wbc_gtk_reload_templates, wbc_gtk_load_templates,
+	cb_new_from_template): New functions.
+	(wbc_gtk_new): Arrange to load templates later.
+	(wbcg_update_title, regenerate_window_menu): Handle NULL uri.
+
+	* src/wbc-gtk-actions.c (cb_file_menu): New handler to ensure that
+	templates have been loaded.
+
+	* src/gui-file.c (gui_file_template): New function.
+
 	* src/workbook-view.c (wb_view_set_attribute): Handle problem with
 	old .gnumeric files.
 
