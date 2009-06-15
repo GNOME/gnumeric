@@ -39,7 +39,6 @@
 
 #include <wbc-gtk.h>
 
-#include <go-string.h>
 #include <gtk/gtk.h>
 
 #define GOTO_KEY "goto-dialog"

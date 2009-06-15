@@ -34,7 +34,6 @@
 #include <rangefunc.h>
 #include <gnm-i18n.h>
 
-#include <go-string.h>
 #include <goffice/goffice.h>
 #include <gnm-plugin.h>
 

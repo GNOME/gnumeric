@@ -25,7 +25,6 @@
 #include "sheet-style.h"
 #include "hlink.h"
 #include "validation.h"
-#include <go-string.h>
 #include "sheet-object-graph.h"
 #include "gnm-plugin.h"
 

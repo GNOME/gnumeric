@@ -40,7 +40,6 @@
 #include "sheet-object.h"
 #include "gnm-validation-combo-foo-view.h"
 #include "gnm-cell-combo-foo-view.h"
-#include <go-string.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <glib/gi18n-lib.h>

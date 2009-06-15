@@ -64,7 +64,6 @@
 #include <expr-name.h>
 #include <mathfunc.h>
 
-#include <go-string.h>
 #include <go-data-slicer.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-output.h>

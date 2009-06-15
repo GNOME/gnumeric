@@ -55,7 +55,6 @@
 #include "mathfunc.h"
 #include "hlink.h"
 #include "wbc-gtk-impl.h"
-#include <go-string.h>
 #include <goffice/goffice.h>
 #include <glade/glade.h>
 
@@ -250,7 +249,6 @@ gnm_init (gboolean fast)
 {
 	call_gnome_vfs_init ();
 
-	go_string_init ();
 	libgoffice_init ();
 	plugin_service_define ("function_group",
 		&plugin_service_function_group_get_type);
@@ -341,7 +339,6 @@ gnm_shutdown (void)
 	gnm_style_shutdown ();
 
 	libgoffice_shutdown ();
-	go_string_shutdown ();
 	plugin_services_shutdown ();
 	g_object_unref (gnm_app_get_app ());
 	gutils_shutdown ();

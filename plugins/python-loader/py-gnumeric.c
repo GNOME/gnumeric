@@ -22,7 +22,6 @@
 #include "gnm-py-interpreter.h"
 #include "py-gnumeric.h"
 
-#include <go-string.h>
 #include <goffice/goffice.h>
 
 #include <glib/gi18n-lib.h>

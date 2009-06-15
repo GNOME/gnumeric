@@ -20,7 +20,6 @@
 #include "sheet.h"
 #include "dependent.h"
 #include "expr-name.h"
-#include <go-string.h>
 #include "libgnumeric.h"
 #include "gutils.h"
 #include "gnumeric-paths.h"

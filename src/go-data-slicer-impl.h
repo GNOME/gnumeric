@@ -21,9 +21,9 @@
 #ifndef GO_DATA_SLICER_IMPL_H
 #define GO_DATA_SLICER_IMPL_H
 
+#include <goffice/goffice.h>
 #include <go-data-slicer.h>
 #include <glib-object.h>
-#include <goffice-utils.h>
 
 G_BEGIN_DECLS
 

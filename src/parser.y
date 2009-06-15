@@ -27,7 +27,6 @@
 #include "gutils.h"
 #include "style.h"
 #include "value.h"
-#include <go-string.h>
 #include <goffice/goffice.h>
 
 #include <string.h>

@@ -25,7 +25,6 @@
 #include <parse-util.h>
 #include <sheet.h>
 #include <workbook.h>
-#include <go-string.h>
 #include <goffice/goffice.h>
 #include <gsf/gsf-utils.h>
 

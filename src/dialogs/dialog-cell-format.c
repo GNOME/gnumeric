@@ -53,7 +53,6 @@
 #include <widgets/gnumeric-dashed-canvas-line.h>
 #include <widgets/gnm-format-sel.h>
 
-#include <go-string.h>
 #include <goffice/goffice.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>

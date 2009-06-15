@@ -24,7 +24,6 @@
 #include "go-data-cache-source.h"
 #include "go-data-cache.h"
 
-#include "go-string.h"
 
 #include <gnumeric.h>
 #include <ranges.h>

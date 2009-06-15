@@ -36,7 +36,6 @@
 #include "workbook.h"
 #include "workbook-control.h"
 
-#include <go-string.h>
 
 /**********************************************************************************
  * UTILITY ROUTINES

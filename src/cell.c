@@ -26,7 +26,6 @@
 #include "sheet-style.h"
 #include "parse-util.h"
 
-#include <go-string.h>
 #include <goffice/goffice.h>
 
 /**

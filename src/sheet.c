@@ -62,7 +62,6 @@
 #include "gnm-sheet-slicer.h"
 #include "scenarios.h"
 #include "cell-draw.h"
-#include <go-string.h>
 #include <goffice/goffice.h>
 
 #include <glib/gi18n-lib.h>

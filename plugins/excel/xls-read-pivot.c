@@ -34,7 +34,6 @@
 #include <gnm-data-cache-source.h>
 #include <gnm-sheet-slicer.h>
 
-#include <go-string.h>
 #include <go-data-cache.h>
 #include <go-data-cache-field.h>
 #include <go-data-slicer-field.h>

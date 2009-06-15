@@ -22,7 +22,6 @@
 #include "parse-util.h"
 #include "sheet-object-cell-comment.h"
 
-#include <go-string.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>
 #include <glib/gi18n.h>

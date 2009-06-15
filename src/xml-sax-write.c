@@ -56,7 +56,6 @@
 #include <tools/scenarios.h>
 #include <gnumeric-gconf.h>
 
-#include <go-string.h>
 #include <goffice/goffice.h>
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-gzip.h>

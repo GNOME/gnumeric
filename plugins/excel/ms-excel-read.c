@@ -66,7 +66,6 @@
 #include <gnm-so-polygon.h>
 #include <sheet-object-graph.h>
 #include <sheet-object-image.h>
-#include <go-string.h>
 #include <goffice/goffice.h>
 
 #include <gsf/gsf-input.h>

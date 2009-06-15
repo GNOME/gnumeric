@@ -18,7 +18,6 @@
 #include "application.h"
 #include "gutils.h"
 #include "gnumeric-gconf.h"
-#include <go-string.h>
 #include <goffice/goffice.h>
 
 #define DEBUG_STYLES

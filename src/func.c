@@ -28,7 +28,6 @@
 #include "number-match.h"
 #include "func-builtin.h"
 
-#include <go-string.h>
 #include <goffice/goffice.h>
 #include <glib.h>
 #include <string.h>

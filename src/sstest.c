@@ -18,7 +18,6 @@
 #include "sheet.h"
 #include "cell.h"
 #include "value.h"
-#include "go-string.h"
 #include "func.h"
 #include "parse-util.h"
 #include "sheet-object-cell-comment.h"

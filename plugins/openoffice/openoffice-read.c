@@ -48,7 +48,6 @@
 #include <gutils.h>
 #include <xml-io.h>
 
-#include <go-string.h>
 #include <goffice/goffice.h>
 
 #include <gsf/gsf-libxml.h>

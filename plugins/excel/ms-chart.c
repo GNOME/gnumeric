@@ -29,7 +29,6 @@
 #include <sheet-object-graph.h>
 #include <workbook-view.h>
 
-#include <go-string.h>
 #include <goffice/goffice.h>
 
 #include <gsf/gsf-utils.h>

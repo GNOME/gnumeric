@@ -51,7 +51,6 @@
 
 #include "go-val.h"
 
-#include <go-string.h>
 #include <goffice/goffice.h>
 
 #include <gsf/gsf-output.h>

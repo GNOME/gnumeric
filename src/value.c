@@ -26,7 +26,6 @@
 #include <sheet.h>
 #include <cell.h>
 #include <number-match.h>
-#include <go-string.h>
 #include <goffice/goffice.h>
 
 #include <stdlib.h>

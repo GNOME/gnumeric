@@ -25,7 +25,6 @@
 #include "go-data-cache-field-impl.h"
 #include "go-data-cache.h"
 
-#include <go-string.h>
 #include <go-val.h>
 
 #include <gsf/gsf-impl-utils.h>

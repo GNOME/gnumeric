@@ -41,7 +41,6 @@
 #include "parse-util.h"
 #include "mathfunc.h"
 
-#include <go-string.h>
 #include <goffice/goffice.h>
 #include <math.h>
 #include <string.h>

@@ -38,7 +38,6 @@
 /* For std_expr_name_handler: */
 #include "expr-impl.h"
 #include "gutils.h"
-#include <go-string.h>
 #include <goffice/goffice.h>
 
 #include <errno.h>

@@ -26,7 +26,6 @@
 #include "gnm-datetime.h"
 #include "workbook.h"
 #include "go-val.h"
-#include "go-string.h"
 #include "go-data-cache.h"
 #include "go-data-cache-field.h"
 

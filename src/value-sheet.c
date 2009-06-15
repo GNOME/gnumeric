@@ -17,7 +17,6 @@
 #include "cell.h"
 #include "workbook.h"
 #include "parse-util.h"
-#include <go-string.h>
 #include <goffice/goffice.h>
 
 /* Debugging utility to print a GnmValue */

@@ -72,7 +72,6 @@
 #include "data-shuffling.h"
 #include "tools/tabulate.h"
 
-#include <go-string.h>
 #include <goffice/goffice.h>
 #include <gsf/gsf-doc-meta-data.h>
 #include <string.h>

@@ -23,7 +23,6 @@
 
 #include <go-data-cache.h>
 #include <glib-object.h>
-#include <go-string.h>
 
 G_BEGIN_DECLS
 

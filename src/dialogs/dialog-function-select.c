@@ -36,7 +36,6 @@
 #include <application.h>
 #include <gnumeric-gconf.h>
 
-#include <go-string.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glade/glade.h>
 #include <gtk/gtk.h>

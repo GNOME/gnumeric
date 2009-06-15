@@ -32,7 +32,6 @@
 #include "gutils.h"
 #include "parse-util.h"
 
-#include <go-string.h>
 #include <goffice/goffice.h>
 
 #include <gsf/gsf-output.h>

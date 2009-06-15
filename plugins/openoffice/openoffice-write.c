@@ -63,7 +63,6 @@
 #include <gutils.h>
 #include <xml-io.h>
 
-#include <go-string.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output.h>

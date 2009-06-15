@@ -24,7 +24,6 @@
 #include "gnumeric.h"
 #include "input-msg.h"
 
-#include <go-string.h>
 #include <gsf/gsf-impl-utils.h>
 
 struct _GnmInputMsg {

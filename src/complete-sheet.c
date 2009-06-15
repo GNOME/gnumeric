@@ -19,7 +19,6 @@
 #include "value.h"
 #include "parse-util.h"
 
-#include <go-string.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 

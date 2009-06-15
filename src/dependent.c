@@ -37,7 +37,6 @@
 #include "gutils.h"
 #include "sheet-view.h"
 
-#include <go-string.h>
 #include <goffice/goffice.h>
 #include <string.h>
 

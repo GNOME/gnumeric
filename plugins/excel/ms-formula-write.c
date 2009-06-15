@@ -30,7 +30,6 @@
 #include <expr-impl.h>
 #include <expr-name.h>
 #include <parse-util.h>
-#include <go-string.h>
 #include <goffice/goffice.h>
 
 #include <gsf/gsf-utils.h>

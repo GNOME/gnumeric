@@ -58,8 +58,6 @@ libspreadsheet_la_LIBADD = 			\
 libspreadsheet_la_SOURCES =			\
 	go-val.h			\
 	go-val.c			\
-	go-string.h			\
-	go-string.c			\
 	\
 	goffice-data.h 			\
 	go-data-cache-source.c 		\

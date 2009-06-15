@@ -34,7 +34,6 @@
 #include "auto-format.h"
 #include "ranges.h"
 #include "parse-util.h"
-#include <go-string.h>
 #include <goffice/goffice.h>
 
 #include <gsf/gsf-impl-utils.h>

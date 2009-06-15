@@ -26,7 +26,6 @@
 
 #include <gnumeric.h>
 #include "goffice-data.h"
-#include "goffice-utils.h"
 
 G_BEGIN_DECLS
 
