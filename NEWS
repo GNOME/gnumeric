@@ -41,6 +41,7 @@ Morten:
 	* Fix text import problem.  [#135523]
 	* Fix problem loading very old .gnumeric files.
 	* Implement new-from-template.  [#303657]
+	* Add Gudermannian function GD.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.8

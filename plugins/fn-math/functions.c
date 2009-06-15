@@ -183,6 +183,28 @@ gnumeric_lcm (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_gd[] = {
+	{ GNM_FUNC_HELP_NAME, F_("GD:Gudermannian function")},
+	{ GNM_FUNC_HELP_ARG, F_("x:value")},
+	{ GNM_FUNC_HELP_SEEALSO, "TAN,TANH"},
+	{ GNM_FUNC_HELP_END }
+
+};
+
+static gnm_float
+gnm_gd (gnm_float x)
+{
+	return 2 * gnm_atan (gnm_tanh (x / 2));
+}
+
+static GnmValue *
+gnumeric_gd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_new_float (gnm_gd (value_get_as_float (argv [0])));
+}
+
+/***************************************************************************/
+
 static GnmFuncHelp const help_hypot[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=HYPOT\n"
@@ -3219,6 +3241,10 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "gcd", NULL, N_("number,number"), help_gcd,
 	  NULL, gnumeric_gcd, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "gd",   "f", N_("number"),  help_gd,
+	  gnumeric_gd, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE,
+	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "hypot", NULL, "",            help_hypot,
 	  NULL, gnumeric_hypot, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },

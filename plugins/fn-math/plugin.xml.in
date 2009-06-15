@@ -38,6 +38,7 @@
 				<function name="combin"/>
 				<function name="floor"/>
 				<function name="gcd"/>
+				<function name="gd"/>
 				<function name="hypot"/>
 				<function name="int"/>
 				<function name="lcm"/>
