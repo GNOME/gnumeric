@@ -200,7 +200,7 @@ gnm_gd (gnm_float x)
 static GnmValue *
 gnumeric_gd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (gnm_gd (value_get_as_float (argv [0])));
+	return value_new_float (gnm_gd (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -258,7 +258,7 @@ static GnmFuncHelp const help_abs[] = {
 static GnmValue *
 gnumeric_abs (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (gnm_abs (value_get_as_float (argv [0])));
+	return value_new_float (gnm_abs (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -289,7 +289,7 @@ static GnmFuncHelp const help_acos[] = {
 static GnmValue *
 gnumeric_acos (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float t = value_get_as_float (argv [0]);
+	gnm_float t = value_get_as_float (argv[0]);
 
 	if (t < -1.0 || t > 1.0)
 		return value_new_error_NUM (ei->pos);
@@ -324,7 +324,7 @@ static GnmFuncHelp const help_acosh[] = {
 static GnmValue *
 gnumeric_acosh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float t = value_get_as_float (argv [0]);
+	gnm_float t = value_get_as_float (argv[0]);
 
 	if (t < 1.0)
 		return value_new_error_NUM (ei->pos);
@@ -375,7 +375,7 @@ static GnmFuncHelp const help_asin[] = {
 static GnmValue *
 gnumeric_asin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float t = value_get_as_float (argv [0]);
+	gnm_float t = value_get_as_float (argv[0]);
 
 	if (t < -1.0 || t > 1.0)
 		return value_new_error_NUM (ei->pos);
@@ -407,7 +407,7 @@ static GnmFuncHelp const help_asinh[] = {
 static GnmValue *
 gnumeric_asinh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (gnm_asinh (value_get_as_float (argv [0])));
+	return value_new_float (gnm_asinh (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -435,7 +435,7 @@ static GnmFuncHelp const help_atan[] = {
 static GnmValue *
 gnumeric_atan (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (gnm_atan (value_get_as_float (argv [0])));
+	return value_new_float (gnm_atan (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -465,12 +465,12 @@ static GnmFuncHelp const help_atanh[] = {
 static GnmValue *
 gnumeric_atanh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float t = value_get_as_float (argv [0]);
+	gnm_float t = value_get_as_float (argv[0]);
 
 	if (t <= -1.0 || t >= 1.0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (gnm_atanh (value_get_as_float (argv [0])));
+	return value_new_float (gnm_atanh (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -500,8 +500,8 @@ static GnmFuncHelp const help_atan2[] = {
 static GnmValue *
 gnumeric_atan2 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float x = value_get_as_float (argv [0]);
-	gnm_float y = value_get_as_float (argv [1]);
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float y = value_get_as_float (argv[1]);
 
 	if (x == 0 && y == 0)
 		return value_new_error_DIV0 (ei->pos);
@@ -532,7 +532,7 @@ static GnmFuncHelp const help_ceil[] = {
 static GnmValue *
 gnumeric_ceil (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (gnm_fake_ceil (value_get_as_float (argv [0])));
+	return value_new_float (gnm_fake_ceil (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -807,7 +807,7 @@ static GnmFuncHelp const help_cos[] = {
 static GnmValue *
 gnumeric_cos (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (gnm_cos (value_get_as_float (argv [0])));
+	return value_new_float (gnm_cos (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -835,7 +835,7 @@ static GnmFuncHelp const help_cosh[] = {
 static GnmValue *
 gnumeric_cosh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (gnm_cosh (value_get_as_float (argv [0])));
+	return value_new_float (gnm_cosh (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -877,7 +877,7 @@ static GnmFuncHelp const help_degrees[] = {
 static GnmValue *
 gnumeric_degrees (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float ((value_get_as_float (argv [0]) * 180.0) /
+	return value_new_float ((value_get_as_float (argv[0]) * 180.0) /
 				M_PIgnum);
 }
 
@@ -904,7 +904,7 @@ static GnmFuncHelp const help_exp[] = {
 static GnmValue *
 gnumeric_exp (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (gnm_exp (value_get_as_float (argv [0])));
+	return value_new_float (gnm_exp (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -928,7 +928,7 @@ static GnmFuncHelp const help_expm1[] = {
 static GnmValue *
 gnumeric_expm1 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (gnm_expm1 (value_get_as_float (argv [0])));
+	return value_new_float (gnm_expm1 (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -1131,7 +1131,7 @@ static GnmValue *
 gnumeric_int (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_float (gnm_fake_floor
-				(value_get_as_float (argv [0])));
+				(value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -1159,7 +1159,7 @@ static GnmFuncHelp const help_log[] = {
 static GnmValue *
 gnumeric_log (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float t = value_get_as_float (argv [0]);
+	gnm_float t = value_get_as_float (argv[0]);
 	gnm_float base = argv[1] ? value_get_as_float (argv[1]) : 10;
 
 	if (base == 1. || base <= 0.)
@@ -1195,7 +1195,7 @@ static GnmFuncHelp const help_ln[] = {
 static GnmValue *
 gnumeric_ln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float t = value_get_as_float (argv [0]);
+	gnm_float t = value_get_as_float (argv[0]);
 
 	if (t <= 0.0)
 		return value_new_error_NUM (ei->pos);
@@ -1227,7 +1227,7 @@ static GnmFuncHelp const help_ln1p[] = {
 static GnmValue *
 gnumeric_ln1p (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float t = value_get_as_float (argv [0]);
+	gnm_float t = value_get_as_float (argv[0]);
 
 	if (t <= -1)
 		return value_new_error_NUM (ei->pos);
@@ -1262,8 +1262,8 @@ static GnmFuncHelp const help_power[] = {
 static GnmValue *
 gnumeric_power (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float x = value_get_as_float (argv [0]);
-	gnm_float y = value_get_as_float (argv [1]);
+	gnm_float x = value_get_as_float (argv[0]);
+	gnm_float y = value_get_as_float (argv[1]);
 
 	if ((x > 0) || (x == 0 && y > 0) || (x < 0 && y == gnm_floor (y)))
 		return value_new_float (gnm_pow (x, y));
@@ -1296,7 +1296,7 @@ static GnmFuncHelp const help_log2[] = {
 static GnmValue *
 gnumeric_log2 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float t = value_get_as_float (argv [0]);
+	gnm_float t = value_get_as_float (argv[0]);
 
 	if (t <= 0.0)
 		return value_new_error_NUM (ei->pos);
@@ -1327,7 +1327,7 @@ static GnmFuncHelp const help_log10[] = {
 static GnmValue *
 gnumeric_log10 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float t = value_get_as_float (argv [0]);
+	gnm_float t = value_get_as_float (argv[0]);
 
 	if (t <= 0.0)
 		return value_new_error_NUM (ei->pos);
@@ -1411,7 +1411,7 @@ static GnmFuncHelp const help_radians[] = {
 static GnmValue *
 gnumeric_radians (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float ((value_get_as_float (argv [0]) * M_PIgnum) /
+	return value_new_float ((value_get_as_float (argv[0]) * M_PIgnum) /
 				180);
 }
 
@@ -1438,7 +1438,7 @@ static GnmFuncHelp const help_sin[] = {
 static GnmValue *
 gnumeric_sin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (gnm_sin (value_get_as_float (argv [0])));
+	return value_new_float (gnm_sin (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -1465,7 +1465,7 @@ static GnmFuncHelp const help_sinh[] = {
 static GnmValue *
 gnumeric_sinh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (gnm_sinh (value_get_as_float (argv [0])));
+	return value_new_float (gnm_sinh (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -1654,7 +1654,7 @@ static GnmFuncHelp const help_tan[] = {
 static GnmValue *
 gnumeric_tan (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (gnm_tan (value_get_as_float (argv [0])));
+	return value_new_float (gnm_tan (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -1680,7 +1680,7 @@ static GnmFuncHelp const help_tanh[] = {
 static GnmValue *
 gnumeric_tanh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (gnm_tanh (value_get_as_float (argv [0])));
+	return value_new_float (gnm_tanh (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
