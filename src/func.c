@@ -210,8 +210,8 @@ dump_externals (GPtrArray *defs, FILE *out)
 	fprintf (out, "<!--#include virtual=\"header-begin.shtml\" -->");
 	fprintf (out, "<link rel=\"stylesheet\" href=\"style/index.css\" type=\"text/css\"/>");
 	fprintf (out, "<!--#include virtual=\"header-end.shtml\" -->");
-	fprintf (out, "<!--set var=\"wolfram\" value=\"none\" -->");
-	fprintf (out, "<!--set var=\"wiki\" value=\"none\" -->");
+	fprintf (out, "<!--#set var=\"wolfram\" value=\"none\" -->");
+	fprintf (out, "<!--#set var=\"wiki\" value=\"none\" -->");
 	fprintf (out, "<!--\n\n-->");
 
 	for (ui = 0; ui < defs->len; ui++) {
@@ -249,12 +249,15 @@ dump_externals (GPtrArray *defs, FILE *out)
 			fprintf (out, "<!--#endif\n\n-->");
 	}
 
+	fprintf (out, "<div class=\"floatflush\">\n");
+	fprintf (out, "<h1>Online Documentation for \"<!--#echo var=\"QUERY_STRING\" -->\"</h1>\n");
 	fprintf (out, "<ul>");
 	fprintf (out, "<!--#if expr=\"${wolfram} != none\"-->");
 	fprintf (out, "<li><a href=\"http://mathworld.wolfram.com/<!--#echo var=\"wolfram\" -->\">Wolfram Mathworld entry</a>.</li><!--#endif-->");
 	fprintf (out, "<!--#if expr=\"${wiki} != none\"--><li><a href=\"http://<!--#echo var=\"wiki_lang\" -->.wikipedia.org/wiki/<!--#echo var=\"wiki\" -->\">Wikipedia entry</a>.</li><!--#endif-->");
 	fprintf (out, "<li><a href=\"http://www.google.com/#q=<!--#echo var=\"QUERY_STRING_UNESCAPED\" -->\">Google Search</a>.</li>");
 	fprintf (out, "</ul>");
+	fprintf (out, "</div>\n");
 
 	fprintf (out, "<!--#include virtual=\"footer.shtml\" -->\n");
 }

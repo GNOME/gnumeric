@@ -56,6 +56,8 @@ static GnmFuncHelp const help_varp[] = {
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain number 11.4, 17.3, 21.3, 25.9, and 40.1.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then VARP(A1:A5) equals 94.112")},
 	{ GNM_FUNC_HELP_SEEALSO, ("AVERAGE,DVAR,DVARP,STDEV,VAR")},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Variance") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Variance.html") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -82,6 +84,8 @@ static GnmFuncHelp const help_var[] = {
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then VAR(A1:A5) equals 117.64.")},
 	{ GNM_FUNC_HELP_SEEALSO, ("VARP,STDEV")},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Variance") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Variance.html") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -110,6 +114,8 @@ static GnmFuncHelp const help_stdev[] = {
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then STDEV(A1:A5) equals 10.84619749.")},
 	{ GNM_FUNC_HELP_SEEALSO, ("AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR")},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Standard_deviation") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:StandardDeviation.html") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -135,6 +141,8 @@ static GnmFuncHelp const help_stdevp[] = {
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then STDEVP(A1:A5) equals 9.701133954.")},	
 	{ GNM_FUNC_HELP_SEEALSO, ("STDEV,STDEVA,STDEVPA")},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Standard_deviation") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:StandardDeviation.html") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -261,6 +269,8 @@ static GnmFuncHelp const help_covar[] = {
 	   "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then COVAR(A1:A5,B1:B5) equals 65.858.") },
 	{ GNM_FUNC_HELP_SEEALSO, "CORREL,FISHER,FISHERINV"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Covariance") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Covariance.html") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -289,6 +299,8 @@ static GnmFuncHelp const help_correl[] = {
 	   "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then CORREL(A1:A5,B1:B5) equals 0.996124788.") },
 	{ GNM_FUNC_HELP_SEEALSO, "COVAR,FISHER,FISHERINV"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:CorrelationCoefficient.html") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Covariance.html") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -341,6 +353,8 @@ static GnmFuncHelp const help_normsdist[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("NORMSDIST(2) equals 0.977249868.") },
 	{ GNM_FUNC_HELP_SEEALSO, "NORMDIST"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Normal_distribution") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:NormalDistribution.html") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -357,12 +371,14 @@ gnumeric_normsdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_normsinv[] = {
-	{ GNM_FUNC_HELP_NAME, F_("NORMSINV:inverse of the cumulative desnity function of the standard normal distribution")},
+	{ GNM_FUNC_HELP_NAME, F_("NORMSINV:inverse of the cumulative density function of the standard normal distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("p:given probability")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns #NUM! error.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("NORMSINV(0.2) equals -0.841621234.") },
 	{ GNM_FUNC_HELP_SEEALSO, "NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Normal_distribution") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:NormalDistribution.html") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -391,6 +407,8 @@ static GnmFuncHelp const help_lognormdist[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("LOGNORMDIST(3,1,2) equals 0.519662338.") },
 	{ GNM_FUNC_HELP_SEEALSO, "NORMDIST"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Log-normal_distribution") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:LogNormalDistribution.html") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -418,6 +436,8 @@ static GnmFuncHelp const help_loginv[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("LOGINV(0.5,2,3) equals 7.389056099.")},
 	{ GNM_FUNC_HELP_SEEALSO, ("EXP,LN,LOG,LOG10,LOGNORMDIST")},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Log-normal_distribution") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:LogNormalDistribution.html") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -495,6 +515,8 @@ static GnmFuncHelp const help_harmean[] = {
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then HARMEAN(A1:A5) equals 19.529814427.") },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Harmonic_mean") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:HarmonicMean.html") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -520,6 +542,8 @@ static GnmFuncHelp const help_geomean[] = {
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then GEOMEAN(A1:A5) equals 21.279182482.") },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Geometric_mean") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:GeometricMean.html") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -614,6 +638,8 @@ static GnmFuncHelp const help_average[] = {
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then AVERAGE(A1:A5) equals 23.2.")},
 	{ GNM_FUNC_HELP_SEEALSO, ("SUM, COUNT")},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Arithmetic_mean") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:ArithmeticMean.html") },
 	{ GNM_FUNC_HELP_END }
 };
 
