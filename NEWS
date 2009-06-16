@@ -43,6 +43,7 @@ Morten:
 	* Implement new-from-template.  [#303657]
 	* Add Gudermannian function GD.
 	* Fixed FIXED.  No, really.
+	* Start introducing external references for function docs.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.8

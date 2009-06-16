@@ -449,6 +449,8 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 		}
 		case GNM_FUNC_HELP_END:
 			return;
+		case GNM_FUNC_HELP_EXTREF:
+			/* FIXME! */
 		default:
 			break;
 		}

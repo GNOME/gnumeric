@@ -200,6 +200,64 @@ split_at_colon (char const *s, char **rest)
 	return dup;
 }
 
+static void
+dump_externals (GPtrArray *defs, FILE *out)
+{
+	unsigned int ui;
+
+	fprintf (out, "<!--#set var=\"title\" value=\"Gnumeric Web Documentation\" -->");
+	fprintf (out, "<!--#set var=\"rootdir\" value=\".\" -->");
+	fprintf (out, "<!--#include virtual=\"header-begin.shtml\" -->");
+	fprintf (out, "<link rel=\"stylesheet\" href=\"style/index.css\" type=\"text/css\"/>");
+	fprintf (out, "<!--#include virtual=\"header-end.shtml\" -->");
+	fprintf (out, "<!--set var=\"wolfram\" value=\"none\" -->");
+	fprintf (out, "<!--set var=\"wiki\" value=\"none\" -->");
+	fprintf (out, "<!--\n\n-->");
+
+	for (ui = 0; ui < defs->len; ui++) {
+		GnmFunc const *fd = g_ptr_array_index (defs, ui);
+		gboolean any = FALSE;
+		int j;
+
+		for (j = 0; fd->help[j].type != GNM_FUNC_HELP_END; j++) {
+			const char *s = _(fd->help[j].text);
+
+			switch (fd->help[j].type) {
+			case GNM_FUNC_HELP_EXTREF:
+				if (!any) {
+					any = TRUE;
+					fprintf (out, "<!--#if expr=\"${QUERY_STRING_UNESCAPED} = %s\" -->", fd->name);
+				}
+
+				if (strncmp (s, "wolfram:", 8) == 0) {
+					fprintf (out, "<!--#set var=\"wolfram\" value=\"%s\" -->", s + 8);
+				}
+				if (strncmp (s, "wiki:", 5) == 0) {
+					char *lang, *page;
+					lang = split_at_colon (s + 5, &page);
+					fprintf (out, "<!--#set var=\"wiki_lang\" value=\"%s\" -->", lang);
+					fprintf (out, "<!--#set var=\"wiki\" value=\"%s\" -->", page);
+					g_free (lang);
+				}
+				break;
+			default:
+				break;
+			}
+		}
+
+		if (any)
+			fprintf (out, "<!--#endif\n\n-->");
+	}
+
+	fprintf (out, "<ul>");
+	fprintf (out, "<!--#if expr=\"${wolfram} != none\"-->");
+	fprintf (out, "<li><a href=\"http://mathworld.wolfram.com/<!--#echo var=\"wolfram\" -->\">Wolfram Mathworld entry</a>.</li><!--#endif-->");
+	fprintf (out, "<!--#if expr=\"${wiki} != none\"--><li><a href=\"http://<!--#echo var=\"wiki_lang\" -->.wikipedia.org/wiki/<!--#echo var=\"wiki\" -->\">Wikipedia entry</a>.</li><!--#endif-->");
+	fprintf (out, "<li><a href=\"http://www.google.com/#q=<!--#echo var=\"QUERY_STRING_UNESCAPED\" -->\">Google Search</a>.</li>");
+	fprintf (out, "</ul>");
+
+	fprintf (out, "<!--#include virtual=\"footer.shtml\" -->\n");
+}
 
 /**
  * function_dump_defs :
@@ -211,8 +269,9 @@ split_at_colon (char const *s, char **rest)
  * Right now
  * 0 :
  * 1 :
- * 2 :
+ * 2 : generate_po
  * 3 : dump function usage count
+ * 4 : external refs
  **/
 void
 function_dump_defs (char const *filename, int dump_type)
@@ -250,6 +309,13 @@ function_dump_defs (char const *filename, int dump_type)
 		qsort (&g_ptr_array_index (ordered, 0),
 		       ordered->len, sizeof (gpointer),
 		       func_def_cmp);
+
+	if (dump_type == 4) {
+		dump_externals (ordered, output_file);
+		g_ptr_array_free (ordered, TRUE);
+		fclose (output_file);
+		return;
+	}
 
 	if (dump_type == 0) {
 		int unique = 0;
@@ -366,6 +432,8 @@ function_dump_defs (char const *filename, int dump_type)
 					break;
 				}
 
+				case GNM_FUNC_HELP_EXTREF:
+					/* FIXME! */
 				case GNM_FUNC_HELP_EXAMPLES:
 				case GNM_FUNC_HELP_END:
 				case GNM_FUNC_HELP_NOTE:

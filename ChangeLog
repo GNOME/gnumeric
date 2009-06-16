@@ -1,5 +1,12 @@
 2009-06-16  Morten Welinder  <terra@gnome.org>
 
+	* src/func.c (dump_externals): New function for creating what will
+	become http://projects.gnome.org/gnumeric/func-doc.shtml
+	(function_dump_defs): Call dump_externals for type 4.
+
+	* src/main-application.c (gnumeric_options): Introduce hidden
+	option for generating web page.
+
 	* src/gnm-pane.c (cb_control_point_event): Remove debug code.
 
 	* src/mstyle.c (gnm_style_update): Verify that empty styles have

@@ -1,3 +1,8 @@
+2009-06-16  Morten Welinder  <terra@gnome.org>
+
+	* functions.c: Start adding external references to a few
+	functions.
+
 2009-05-23  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.8

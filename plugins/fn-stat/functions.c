@@ -468,6 +468,8 @@ static GnmFuncHelp const help_mode[] = {
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 11.4, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MODE(A1:A5) equals 11.4.") },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,MEDIAN"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Mode_(statistics)") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Mode.html") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1922,6 +1924,8 @@ static GnmFuncHelp const help_median[] = {
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MEDIAN(A1:A5) equals 21.3.") },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SSMEDIAN,SUM"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Median") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:StatisticalMedian.html") },
 	{ GNM_FUNC_HELP_END }
 };
 

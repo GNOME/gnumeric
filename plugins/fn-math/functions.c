@@ -187,8 +187,9 @@ static GnmFuncHelp const help_gd[] = {
 	{ GNM_FUNC_HELP_NAME, F_("GD:Gudermannian function")},
 	{ GNM_FUNC_HELP_ARG, F_("x:value")},
 	{ GNM_FUNC_HELP_SEEALSO, "TAN,TANH"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Gudermannian.html") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Gudermannian_function") },
 	{ GNM_FUNC_HELP_END }
-
 };
 
 static gnm_float
@@ -786,21 +787,14 @@ gnumeric_ceiling (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_cos[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=COS\n"
-	   "@SYNTAX=COS(x)\n"
-
-	   "@DESCRIPTION="
-	   "COS function returns the cosine of @x, where @x is given "
-           "in radians.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "COS(0.5) equals 0.877583.\n"
-	   "COS(1) equals 0.540302.\n"
-	   "\n"
-	   "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("COS:Cosine function")},
+	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
+	{ GNM_FUNC_HELP_SEEALSO, "SIN,TAN,SINH,COSH,TANH,RADIANS,DEGREES"},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("COS(0.5) equals 0.877583") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("COS(1) equals 0.540302") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Cosine.html") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Trigonometric_functions") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1418,20 +1412,13 @@ gnumeric_radians (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_sin[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SIN\n"
-	   "@SYNTAX=SIN(x)\n"
-
-	   "@DESCRIPTION="
-	   "SIN function returns the sine of @x, where @x is given "
-           "in radians.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "SIN(0.5) equals 0.479426.\n"
-	   "\n"
-	   "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("SIN:Sine function")},
+	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
+	{ GNM_FUNC_HELP_SEEALSO, "COS,TAN,SINH,COSH,TANH,RADIANS,DEGREES"},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("SIN((0.5) equals 0.479426") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Sine.html") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Trigonometric_functions") },
 	{ GNM_FUNC_HELP_END }
 };
 
