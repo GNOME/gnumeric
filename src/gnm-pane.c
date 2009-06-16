@@ -2693,7 +2693,6 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 			break;
 
 	case GDK_BUTTON_RELEASE:
-		g_warning ("release %d : %d", pane->drag.button, (int)event->button.button);
 		if (pane->drag.button != (int)event->button.button)
 			break;
 		pane->drag.button = 0;

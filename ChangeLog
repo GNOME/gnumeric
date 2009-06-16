@@ -1,5 +1,7 @@
 2009-06-16  Morten Welinder  <terra@gnome.org>
 
+	* src/gnm-pane.c (cb_control_point_event): Remove debug code.
+
 	* src/mstyle.c (gnm_style_update): Verify that empty styles have
 	hash values all zero.
 
