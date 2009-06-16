@@ -53,7 +53,7 @@ go_data_slicer_field_init (GODataSlicerField *dsf)
 	dsf->data_cache_field_indx = -1;
 	dsf->aggregations = 0;
 
-	for (i = GDS_FIELD_TYPE_MAX ; i-- >= GDS_FIELD_TYPE_UNSET ; )
+	for (i = GDS_FIELD_TYPE_MAX ; i-- > GDS_FIELD_TYPE_UNSET ; )
 		dsf->field_type_pos[i] = -1;
 }
 

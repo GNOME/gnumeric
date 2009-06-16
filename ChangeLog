@@ -1,3 +1,8 @@
+2009-06-16  Morten Welinder  <terra@gnome.org>
+
+	* src/go-data-slicer-field.c (go_data_slicer_field_init): Don't
+	assign to ->field_type_pos[-1].
+
 2009-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/mstyle.c (gnm_style_equal): check first for pointer equality
