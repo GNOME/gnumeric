@@ -1121,7 +1121,7 @@ gnumeric_dollar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	v = value_new_float (number);
 	s = format_value (sf, v, NULL, -1,
-		workbook_date_conv (ei->pos->sheet->workbook));
+			  workbook_date_conv (ei->pos->sheet->workbook));
 	value_release (v);
 	go_format_unref (sf);
 
