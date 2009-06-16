@@ -1,3 +1,7 @@
+2009-06-15  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/mstyle.c (gnm_style_equal): check first for pointer equality
+
 2009-06-14  Morten Welinder  <terra@gnome.org>
 
 	Implement New-From-Template (#303657):

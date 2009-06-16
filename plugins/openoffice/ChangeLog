@@ -1,3 +1,15 @@
+2009-06-15 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (cell_styles_free): deleted
+	(odf_compare_style): deleted
+	(odf_find_style): just look in the hash. remove 
+	  unnecessary arguments and change all callers
+	(odf_save_automatic_character_styles): deleted
+	(odf_save_this_style): write an individual style and
+	  save it in the hash
+	(odf_write_character_styles): call odf_save_this_style
+	  for each style
+
 2009-06-10  Morten Welinder  <terra@gnome.org>
 
 	* openoffice-read.c (oo_load_convention): Mark '^'
@@ -6,7 +18,7 @@
 
 2009-06-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	openoffice-write.c (odf_write_content): export print area to ODF 
+	* openoffice-write.c (odf_write_content): export print area to ODF 
 
 2009-06-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

@@ -830,10 +830,10 @@ gnm_style_equal (GnmStyle const *a, GnmStyle const *b)
 {
 	int i;
 
-	if (!gnm_style_equal_XL (a, b))
-		return FALSE;
 	if (a == b)
 		return TRUE;
+	if (!gnm_style_equal_XL (a, b))
+		return FALSE;
 	UNROLLED_FOR (i = MSTYLE_VALIDATION, i < MSTYLE_ELEMENT_MAX, i++, {
 		if (!ELEM_IS_EQ (a, b, i))
 			return FALSE;
