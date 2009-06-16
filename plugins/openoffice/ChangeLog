@@ -1,3 +1,16 @@
+2009-06-16 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_comment): new
+	(equal_style): deleted
+	(odf_write_empty_cell): change arguments and adjust all callers.
+	(filter_style): just compare pointers
+	(finder): new
+	(write_styled_cells): new
+	(odf_write_styled_empty_rows): new
+	(odf_write_formatted_empty_rows): deleted
+	(odf_write_content_rows): new
+	(odf_write_sheet): split into parts
+
 2009-06-15 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (cell_styles_free): deleted

@@ -517,16 +517,6 @@ odf_write_table_styles (GnmOOExport *state)
 	}
 }
 
-static gboolean
-equal_style (GnmStyle const *that, GnmStyle const *this)
-{
-	if (this == that)
-		return TRUE;
-	if (this == NULL || that == NULL)
-		return FALSE;
-	return gnm_style_equal (that, this);
-}
-
 static char *
 odf_get_border_format (GnmBorder   *border)
 {
@@ -1326,22 +1316,55 @@ odf_cell_is_covered (Sheet const *sheet, GnmCell *current_cell,
 }
 
 static void
-odf_write_empty_cell (GnmOOExport *state, int *num, GnmStyle const *style)
+odf_write_comment (GnmOOExport *state, GnmComment const *cc)
 {
-	if (*num > 0) {
+	char const *author;
+	char const *text;
+	const PangoAttrList * markup;
+	gboolean pp = TRUE;
+
+	g_object_get (G_OBJECT (state->xml), "pretty-print", &pp, NULL);
+	
+	g_object_get (G_OBJECT (cc), "text", &text, 
+		      "markup", &markup, "author", &author,  NULL);
+	
+	gsf_xml_out_start_element (state->xml, OFFICE "annotation");
+	if (author != NULL) {
+		gsf_xml_out_start_element (state->xml, DUBLINCORE "creator");
+		gsf_xml_out_add_cstr (state->xml, NULL, author);
+		gsf_xml_out_end_element (state->xml); /*  DUBLINCORE "creator" */;
+	}
+	g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
+	gsf_xml_out_start_element (state->xml, TEXT "p");
+	if (markup != NULL)
+		odf_new_markup (state, markup, text);
+	else {
+		gboolean white_written = TRUE;
+		odf_add_chars (state, text, strlen (text), &white_written);
+	}
+	gsf_xml_out_end_element (state->xml);   /* p */
+	g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
+	gsf_xml_out_end_element (state->xml); /*  OFFICE "annotation" */
+}
+
+static void
+odf_write_empty_cell (GnmOOExport *state, int num, GnmStyle const *style, GnmComment const *cc)
+{
+	if (num > 0) {
 		gsf_xml_out_start_element (state->xml, TABLE "table-cell");
-		if (*num > 1)
+		if (num > 1)
 			gsf_xml_out_add_int (state->xml,
 					     TABLE "number-columns-repeated",
-					     *num);
+					     num);
 		if (style != NULL) {
 			char const * name = odf_find_style (state, style);
 			if (name != NULL)
 				gsf_xml_out_add_cstr (state->xml,
 						      TABLE "style-name", name);			
 		}
+		if (cc != NULL)
+			odf_write_comment (state, cc);
 		gsf_xml_out_end_element (state->xml);   /* table-cell */
-		*num = 0;
 	}
 }
 
@@ -1459,33 +1482,8 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		}
 	}
 
-	if (cc != NULL) {
-		char const *author;
-		char const *text;
-		const PangoAttrList * markup;
-
-		g_object_get (G_OBJECT (cc), "text", &text, 
-			      "markup", &markup, "author", &author,  NULL);
-
-		gsf_xml_out_start_element (state->xml, OFFICE "annotation");
-		if (author != NULL) {
-			gsf_xml_out_start_element (state->xml, DUBLINCORE "creator");
-			gsf_xml_out_add_cstr (state->xml, NULL, author);
-			gsf_xml_out_end_element (state->xml); /*  DUBLINCORE "creator" */;
-		}
-		g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
-		gsf_xml_out_start_element (state->xml, TEXT "p");
-		if (markup != NULL)
-			odf_new_markup (state, markup, text);
-		else {
-			gboolean white_written = TRUE;
-			odf_add_chars (state, text, strlen (text), &white_written);
-		}
-		gsf_xml_out_end_element (state->xml);   /* p */
-		g_object_set (G_OBJECT (state->xml), "pretty-print", pp, NULL);
-		gsf_xml_out_end_element (state->xml); /*  OFFICE "annotation" */
-	}
-
+	if (cc != NULL)
+		odf_write_comment (state, cc);
 	
 	if (cell != NULL && cell->value != NULL) {
 		g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
@@ -1525,7 +1523,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 static GnmStyle *
 filter_style (GnmStyle *default_style, GnmStyle * this)
 {
-	return (equal_style (default_style, this) ? NULL : this);
+	return ((default_style == this) ? NULL : this);
 }
 
 static void
@@ -1565,7 +1563,7 @@ odf_write_formatted_columns (GnmOOExport *state, Sheet const *sheet, GnmStyle **
 		GnmStyle *this_col_style = filter_style (state->default_style, col_styles[i]);
 		ColRowInfo const *this_ci = sheet_col_get (sheet, i);
 
-		if (equal_style (this_col_style, last_col_style) && colrow_equal (last_ci, this_ci))
+		if ((this_col_style == last_col_style) && colrow_equal (last_ci, this_ci))
 			number_cols_rep++;
 		else {
 			if (number_cols_rep > 1)
@@ -1600,14 +1598,61 @@ write_row_style (GnmOOExport *state, ColRowInfo const *ci,
 		gsf_xml_out_add_cstr (state->xml, TABLE "style-name", name); 
 }
 
+
+static gint
+finder (gconstpointer a, gconstpointer b)
+{
+	GnmStyleRegion const *region = a;
+	GnmCellPos const *where = b;
+
+	return !range_contains ((&region->range), where->col, where->row);
+}
+
+static int
+write_styled_cells (GnmOOExport *state, Sheet const *sheet, int row, int row_length, 
+		    int max_rows, GnmStyleList *list)
+{
+	int answer = max_rows;
+	GnmCellPos where;
+	where.row = row;
+
+	for (where.col = 0; where.col < row_length; ) {
+		GSList* l = g_slist_find_custom (list, &where, finder); 
+
+		if (l == NULL) {
+			answer = 1;
+			odf_write_empty_cell (state, 1, NULL, NULL);
+			where.col++;
+		} else {
+			GnmStyleRegion *region = l->data;
+			int repetition = region->range.end.col - where.col + 1;
+			int rows = region->range.end.row - where.row + 1;
+
+			odf_write_empty_cell (state, repetition, region->style, NULL);
+			where.col += repetition;
+			if (rows < answer)
+				answer = rows;
+		}
+	}
+	return answer;
+}
+
 static void
-odf_write_formatted_empty_rows (GnmOOExport *state, Sheet const *sheet, 
-				int from, int to, int row_length)
+odf_write_styled_empty_rows (GnmOOExport *state, Sheet const *sheet, 
+			     int from, int to, int row_length, 
+			     GnmPageBreaks *pb, G_GNUC_UNUSED GnmStyle **col_styles)
 {
 	int number_rows_rep;
 	ColRowInfo const *last_ci;
-	int i, next_to;
-	GnmPageBreaks *pb = sheet->print_info->page_breaks.v;
+	int i, j, next_to, style_rep;
+	GnmStyleList *list;
+	GnmRange r;
+
+	if (from >= to)
+		return;
+
+	range_init_rows (&r, sheet, from, to - 1);
+	list = sheet_style_get_range (sheet, &r);
 
 	for (i = from; i < to; ) {
 		if (gnm_page_breaks_get_break (pb, i) != GNM_PAGE_BREAK_NONE)
@@ -1619,43 +1664,130 @@ odf_write_formatted_empty_rows (GnmOOExport *state, Sheet const *sheet,
 			next_to = to;
 
 		gsf_xml_out_start_element (state->xml, TABLE "table-row");
-		number_rows_rep = 1;
-		last_ci = sheet_row_get (sheet, from);
+		last_ci = sheet_row_get (sheet, i);
 		write_row_style (state, last_ci, sheet);
-
+		style_rep = write_styled_cells (state, sheet, i - from, row_length, 
+						next_to - i, list) - 1;
+		gsf_xml_out_end_element (state->xml); /* table-row */
 		i++;
+
+		if (style_rep <= 0)
+			continue;
+
+		if (i + style_rep < next_to)
+			next_to = i + style_rep;
 		
-		for (; i < next_to; i++) {
-			ColRowInfo const *this_ci = sheet_row_get (sheet, i);
+		number_rows_rep = 1;
+		last_ci = sheet_row_get (sheet, i);
+		for (j = i + 1; j < next_to; j++) {
+			ColRowInfo const *this_ci = sheet_row_get (sheet, j);
 			
 			if (colrow_equal (last_ci, this_ci))
 				number_rows_rep++;
-			else {
-				if (number_rows_rep > 1)
-					gsf_xml_out_add_int (state->xml, TABLE "number-rows-repeated",
-							     number_rows_rep);
-				gsf_xml_out_start_element (state->xml, TABLE "table-cell");
-				gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated",
-						     row_length);
-				gsf_xml_out_end_element (state->xml); /* table-cell */
-				gsf_xml_out_end_element (state->xml); /* table-row */
-				
-				gsf_xml_out_start_element (state->xml, TABLE "table-row");
-				number_rows_rep = 1;
-				last_ci = this_ci;
-				write_row_style (state, last_ci, sheet);
-			}
 		}
 		
+		gsf_xml_out_start_element (state->xml, TABLE "table-row");
+		write_row_style (state, last_ci, sheet);
 		if (number_rows_rep > 1)
 			gsf_xml_out_add_int (state->xml, TABLE "number-rows-repeated",
 					     number_rows_rep);
-		gsf_xml_out_start_element (state->xml, TABLE "table-cell");
-		gsf_xml_out_add_int (state->xml, TABLE "number-columns-repeated",
-				     row_length);
-		gsf_xml_out_end_element (state->xml); /* table-cell */
-		gsf_xml_out_end_element (state->xml); /* table-row */
+		write_styled_cells (state, sheet, i - from, row_length, 0, list);
+		gsf_xml_out_end_element (state->xml); /* table-row */		
+		
+		i += number_rows_rep;
 	}	
+	style_list_free (list);
+}
+
+static void
+odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to, 
+			G_GNUC_UNUSED int col_from, G_GNUC_UNUSED int col_to, int row_length, 
+			GSList **sheet_merges, GnmPageBreaks *pb, G_GNUC_UNUSED GnmStyle **col_styles)
+{
+	int col, row;
+	int n;
+	GnmStyleRow sr;
+
+	n = row_length + 2;
+	sr.vertical = g_alloca (n * 4 * sizeof (gpointer));
+	sr.vertical += 1;
+	sr.top		 = sr.vertical + n;
+	sr.bottom	 = sr.top + n;
+	sr.styles	 = ((GnmStyle const **) (sr.bottom + n));
+	sr.start_col = 0;
+	sr.end_col = row_length - 1;
+	sr.hide_grid = TRUE;
+
+	/* We are currently ignoring col_from and col_to but using them should speed things up.*/
+
+	for (row = from; row < to; row++) {
+		ColRowInfo const *ci = sheet_row_get (sheet, row);
+		GnmStyle const *null_style = NULL;
+		int null_cell = 0;
+		int covered_cell = 0;
+		GnmCellPos pos;
+
+		pos.row = row;
+
+		sr.row = row;
+		sheet_style_get_row (sheet, &sr);
+
+		if (gnm_page_breaks_get_break (pb, row) != GNM_PAGE_BREAK_NONE)
+			gsf_xml_out_simple_element (state->xml, 
+						    TEXT "soft-page-break", 
+						    NULL);
+
+		gsf_xml_out_start_element (state->xml, TABLE "table-row");
+		write_row_style (state, ci, sheet);
+
+		for (col = 0; col < row_length; col++) {
+			GnmCell *current_cell = sheet_cell_get (sheet, col, row);
+			GnmRange const	*merge_range;
+			GnmComment const *cc;
+
+			pos.col = col;
+			cc = sheet_get_comment (sheet, &pos);
+			merge_range = gnm_sheet_merge_is_corner (sheet, &pos);
+
+			if (odf_cell_is_covered (sheet, current_cell, col, row,
+						merge_range, sheet_merges)) {
+				odf_write_empty_cell (state, null_cell, null_style, NULL);
+				null_cell = 0;
+				covered_cell++;
+				continue;
+			}
+			if ((merge_range == NULL) && (cc == NULL) &&
+			    gnm_cell_is_empty (current_cell)) {
+				GnmStyle const *this_style = sr.styles [col];
+				if ((null_cell == 0) || (null_style == this_style)) { 
+					null_style = this_style;
+					if (covered_cell > 0)
+						odf_write_covered_cell (state, &covered_cell);
+					null_cell++;
+				} else {
+					odf_write_empty_cell (state, null_cell, null_style, NULL);
+					null_style = this_style;
+					null_cell = 1;
+				}
+				continue;
+			}
+
+			odf_write_empty_cell (state, null_cell, null_style, NULL);
+			null_cell = 0;
+			if (covered_cell > 0)
+				odf_write_covered_cell (state, &covered_cell);
+			odf_write_cell (state, current_cell, merge_range, cc);
+
+		}
+		odf_write_empty_cell (state, null_cell, null_style, NULL);
+		null_cell = 0;
+		if (covered_cell > 0)
+			odf_write_covered_cell (state, &covered_cell);
+
+		gsf_xml_out_end_element (state->xml);   /* table-row */
+	}
+
+
 }
 
 static void
@@ -1663,14 +1795,13 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 {
 	int max_cols = gnm_sheet_get_max_cols (sheet);
 	int max_rows = gnm_sheet_get_max_rows (sheet);
-	GnmStyle **col_styles = g_new (GnmStyle *, max_cols);
-	GnmRange  extent;
-	int i, col, row;
+	GnmStyle **col_styles = g_new0 (GnmStyle *, max_cols);
+	GnmRange extent, style_extent;
+	int i;
 	GSList *sheet_merges = NULL;
 	GnmPageBreaks *pb = sheet->print_info->page_breaks.v;
 
 	extent = sheet_get_extent (sheet, FALSE);
-	sheet_style_get_extent (sheet, &extent, col_styles);
 
 	/* include collapsed or hidden cols and rows */
 	for (i = max_rows ; i-- > extent.end.row ; )
@@ -1684,78 +1815,23 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 			break;
 		}
 
-	/* ODF does not allow us to mark sof page breaks between columns */
+	style_extent = extent;
+	sheet_style_get_extent (sheet, &style_extent, col_styles);
+
+	/* ODF does not allow us to mark soft page breaks between columns */
 	odf_write_formatted_columns (state, sheet, col_styles, 0, max_cols);
 
-	odf_write_formatted_empty_rows (state, sheet, 
-					0, extent.start.row, max_cols);
-
-	for (row = extent.start.row; row <= extent.end.row; row++) {
-		ColRowInfo const *ci = sheet_row_get (sheet, row);
-		GnmStyle const *null_style = NULL;
-		int null_cell = extent.start.col;
-		int covered_cell = 0;
-		GnmCellPos pos;
-		pos.row = row;
-		if (gnm_page_breaks_get_break (pb, row) != GNM_PAGE_BREAK_NONE)
-			gsf_xml_out_simple_element (state->xml, 
-						    TEXT "soft-page-break", 
-						    NULL);
-
-		gsf_xml_out_start_element (state->xml, TABLE "table-row");
-		write_row_style (state, ci, sheet);
-
-		for (col = extent.start.col; col <= extent.end.col; col++) {
-			GnmCell *current_cell = sheet_cell_get (sheet, col, row);
-			GnmRange const	*merge_range;
-			GnmComment const *cc;
-
-			pos.col = col;
-			cc = sheet_get_comment (sheet, &pos);
-			merge_range = gnm_sheet_merge_is_corner (sheet, &pos);
-
-			if (odf_cell_is_covered (sheet, current_cell, col, row,
-						merge_range, &sheet_merges)) {
-
-				odf_write_empty_cell (state, &null_cell, null_style);
-				
-				covered_cell++;
-				continue;
-			}
-			if ((merge_range == NULL) && (cc == NULL) &&
-			    gnm_cell_is_empty (current_cell)) {
-				GnmStyle const *this_style = sheet_style_get (sheet, col, row);
-				if ((null_cell == 0) || equal_style (null_style, this_style)) { 
-					null_style = this_style;
-					if (covered_cell > 0)
-						odf_write_covered_cell (state, &covered_cell);
-					null_cell++;
-				} else {
-					odf_write_empty_cell (state, &null_cell, null_style);
-					null_style = this_style;
-					null_cell = 1;
-				}
-				continue;
-			}
-
-			odf_write_empty_cell (state, &null_cell, null_style);
-			if (covered_cell > 0)
-				odf_write_covered_cell (state, &covered_cell);
-			odf_write_cell (state, current_cell, merge_range, cc);
-
-		}
-		odf_write_empty_cell (state, &null_cell, null_style);
-		if (covered_cell > 0)
-			odf_write_covered_cell (state, &covered_cell);
-
-		gsf_xml_out_end_element (state->xml);   /* table-row */
-	}
+	odf_write_styled_empty_rows (state, sheet, 0, extent.start.row, 
+				     max_cols, pb, col_styles);
+	odf_write_content_rows (state, sheet, 
+				extent.start.row, extent.end.row + 1, 
+				extent.start.col, extent.end.col + 1, 
+				max_cols, &sheet_merges, pb, col_styles);
+	odf_write_styled_empty_rows (state, sheet, extent.end.col + 1, max_rows, 
+				     max_cols, pb, col_styles);
 
 	go_slist_free_custom (sheet_merges, g_free);
 	g_free (col_styles);
-
-	odf_write_formatted_empty_rows (state, sheet, 
-					extent.end.row + 1, max_rows, max_cols);
 
 }
 
