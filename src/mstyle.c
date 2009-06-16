@@ -256,6 +256,16 @@ gnm_style_update (GnmStyle *style)
 	hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
 
 	style->hash_key = hash;
+
+	if (G_UNLIKELY (style->set == 0)) {
+		/*
+		 * gnm_style_new and gnm_style_dup both assume that the
+		 * correct hash values (both of them) for the empty style
+		 * is zero.
+		 */
+		g_assert (style->hash_key == 0);
+		g_assert (style->hash_key_xl == 0);
+	}
 }
 
 guint

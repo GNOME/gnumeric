@@ -1,5 +1,8 @@
 2009-06-16  Morten Welinder  <terra@gnome.org>
 
+	* src/mstyle.c (gnm_style_update): Verify that empty styles have
+	hash values all zero.
+
 	* src/sstest.c (test_insdel_rowcol_names): Explicitly define
 	Print_Area to be whole sheet.  Fixes test again.
 
