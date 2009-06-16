@@ -639,16 +639,16 @@ gnumeric_fixed (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float num = value_get_as_float (argv[0]);
 	gnm_float decimals = argv[1] ? value_get_as_float (argv[1]) : 2.0;
-	gboolean commas = argv[2] ? value_get_as_checked_bool (argv[2]) : TRUE;
+	gboolean no_commas = argv[2] ? value_get_as_checked_bool (argv[2]) : FALSE;
 	GString *format;
 	GOFormat *fmt;
 	GnmValue *v;
 	char *res;
+	GOFormatDetails details;
 
 	decimals = gnm_fake_trunc (decimals);
 	if (decimals >= 128)
 		return value_new_error_VALUE (ei->pos);
-
 	if (decimals < 0) {
 		/* no decimal point : just round and pad 0's */
 		gnm_float mult = gnm_pow10 (decimals);
@@ -656,23 +656,20 @@ gnumeric_fixed (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			num = 0;  /* Underflow */
 		else
 			num = gnm_fake_round (num * mult) / mult;
+		decimals = 0;
 	}
 	v = value_new_float (num);
 
-	format = g_string_sized_new (200);
-	if (commas)
-		g_string_append (format, "#,##0");
-	else
-		g_string_append_c (format, '0');
-	if (decimals > 0) {
-		g_string_append_c (format, '.');
-		go_string_append_c_n (format, '0', decimals);
-	}
-
+	go_format_details_init (&details, GO_FORMAT_NUMBER);
+	details.num_decimals = decimals;
+	details.thousands_sep = !no_commas;
+	format = g_string_new (NULL);
+	go_format_generate_str (format, &details);
 	fmt = go_format_new_from_XL (format->str);
 	g_string_free (format, TRUE);
 
-	res = format_value (fmt, v, NULL, -1, workbook_date_conv (ei->pos->sheet->workbook));
+	res = format_value (fmt, v, NULL, -1,
+			    workbook_date_conv (ei->pos->sheet->workbook));
 
 	go_format_unref (fmt);
 	value_release (v);

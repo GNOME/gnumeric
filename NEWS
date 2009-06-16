@@ -42,6 +42,7 @@ Morten:
 	* Fix problem loading very old .gnumeric files.
 	* Implement new-from-template.  [#303657]
 	* Add Gudermannian function GD.
+	* Fixed FIXED.  No, really.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.8
