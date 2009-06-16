@@ -142,6 +142,9 @@ test_insdel_rowcol_names (void)
 	sheet2 = workbook_sheet_add (wb, -1,
 				     GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
 
+	define_name ("Print_Area", "Sheet1!$A$1:$IV$65536", sheet1);
+	define_name ("Print_Area", "Sheet2!$A$1:$IV$65536", sheet2);
+
 	define_name ("NAMEGA1", "A1", wb);
 	define_name ("NAMEG2", "$A$14+Sheet1!$A$14+Sheet2!$A$14", wb);
 

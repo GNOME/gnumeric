@@ -1,5 +1,8 @@
 2009-06-16  Morten Welinder  <terra@gnome.org>
 
+	* src/sstest.c (test_insdel_rowcol_names): Explicitly define
+	Print_Area to be whole sheet.  Fixes test again.
+
 	* src/go-data-slicer-field.c (go_data_slicer_field_init): Don't
 	assign to ->field_type_pos[-1].
 
