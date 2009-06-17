@@ -1262,6 +1262,50 @@ odf_rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 	g_string_append (out->accum, "]");
 }
 
+static void
+odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
+{
+		static struct {
+			char const *gnm_name;
+			char const *odf_name;
+		} const sc_func_renames[] = {
+			{ "CEIL", "CEILING" },
+			{ "SSMEDIAN", "ORG.GNUMERIC.SSMEDIAN" },
+			{ NULL, NULL }
+		};
+		static GHashTable *namemap = NULL;
+
+		char const *name = gnm_func_get_name (func->func);
+		char const *new_name;
+		GString *target = out->accum;
+
+		if (NULL == namemap) {
+			guint i;
+			namemap = g_hash_table_new (go_ascii_strcase_hash,
+						    go_ascii_strcase_equal);
+			for (i = 0; sc_func_renames[i].gnm_name; i++)
+				g_hash_table_insert (namemap,
+						     (gchar *) sc_func_renames[i].gnm_name,
+						     (gchar *) sc_func_renames[i].odf_name);
+		}
+
+		new_name = g_hash_table_lookup (namemap, name);
+
+		if (new_name == NULL) {
+			char *new_u_name;
+			if (*(name+1) == '.') 
+				g_string_append (target, "ORG.GNUMERIC.");
+			new_u_name = g_ascii_strup (name, -1);
+			g_string_append (target, new_u_name);
+			g_free (new_u_name);
+		} else
+			g_string_append (target, new_name);
+
+		gnm_expr_list_as_string (func->argc, func->argv, out);
+		return;	
+}
+
+
 
 static GnmConventions *
 odf_expr_conventions_new (void)
@@ -1276,6 +1320,7 @@ odf_expr_conventions_new (void)
 	conv->decimal_sep_dot		= TRUE;
 	conv->output.cell_ref		= odf_cellref_as_string;
 	conv->output.range_ref		= odf_rangeref_as_string;
+	conv->output.func               = odf_expr_func_handler;
 
 	return conv;
 }

@@ -1543,11 +1543,6 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	return value_new_error (pos, _("Unknown evaluation error"));
 }
 
-static void
-gnm_expr_list_as_string (int argc, GnmExprConstPtr const *argv,
-			 GnmConventionsOut *out);
-
-
 /*
  * Converts a parsed tree into its string representation
  * assuming that we are evaluating at col, row
@@ -1650,15 +1645,9 @@ do_expr_as_string (GnmExpr const *expr, int paren_level,
 		return;
 	}
 
-	case GNM_EXPR_OP_FUNCALL: {
-		GnmExprFunction const *func = &expr->func;
-		char const *name = gnm_func_get_name (func->func);
-
-		g_string_append (target, name);
-		/* FIXME: possibly a space here.  */
-		gnm_expr_list_as_string (func->argc, func->argv, out);
+	case GNM_EXPR_OP_FUNCALL:
+		out->convs->output.func (out, &expr->func);
 		return;
-	}
 
 	case GNM_EXPR_OP_NAME:
 		out->convs->output.name (out, &expr->name);
@@ -2644,7 +2633,7 @@ gnm_expr_list_unref (GnmExprList *list)
 	gnm_expr_list_free (list);
 }
 
-static void
+void
 gnm_expr_list_as_string (int argc,
 			 GnmExprConstPtr const *argv,
 			 GnmConventionsOut *out)

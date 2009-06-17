@@ -93,6 +93,8 @@ void	  gnm_expr_as_gstring	     (GnmExpr const *expr,
 				      GnmConventionsOut *out);
 char	 *gnm_expr_as_string	     (GnmExpr const *expr, GnmParsePos const *pp,
 				      GnmConventions const *convs);
+void      gnm_expr_list_as_string    (int argc, GnmExprConstPtr const *argv,
+				      GnmConventionsOut *out);
 gboolean  gnm_expr_contains_subtotal (GnmExpr const *expr);
 
 GnmValue *gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,

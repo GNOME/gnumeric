@@ -169,6 +169,8 @@ struct _GnmConventions {
 
 		void (*string)	  (GnmConventionsOut *out,
 				   GOString const *str);
+		void (*func)	  (GnmConventionsOut *out,
+				   GnmExprFunction const *func);
 		void (*name)	  (GnmConventionsOut *out,
 				   GnmExprName const *name);
 		void (*cell_ref)  (GnmConventionsOut *out,

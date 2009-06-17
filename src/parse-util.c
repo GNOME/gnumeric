@@ -1149,6 +1149,18 @@ rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp,
 /* ------------------------------------------------------------------------- */
 
 static void
+std_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
+{
+		char const *name = gnm_func_get_name (func->func);
+		GString *target = out->accum;
+
+		g_string_append (target, name);
+		/* FIXME: possibly a space here.  */
+		gnm_expr_list_as_string (func->argc, func->argv, out);
+		return;	
+}
+
+static void
 std_expr_name_handler (GnmConventionsOut *out, GnmExprName const *name)
 {
 	GnmNamedExpr const *thename = name->name;
@@ -1338,6 +1350,7 @@ gnm_conventions_new_full (unsigned size)
 	convs->output.translated	= TRUE;
 	convs->output.string		= std_output_string;
 	convs->output.name		= std_expr_name_handler;
+	convs->output.func              = std_expr_func_handler;
 	convs->output.cell_ref		= cellref_as_string;
 	convs->output.range_ref		= rangeref_as_string;
 	convs->output.quote_sheet_name	= std_sheet_name_quote;

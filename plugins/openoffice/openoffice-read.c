@@ -3610,6 +3610,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ NULL, NULL }
 	};
 	static char const OOoAnalysisPrefix[] = "com.sun.star.sheet.addin.Analysis.get";
+	static char const GnumericPrefix[] = "ORG.GNUMERIC.";
 	static GHashTable *namemap = NULL;
 
 	GnmFunc  *f;
@@ -3626,8 +3627,9 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 				(gchar *) sc_func_renames[i].oo_name,
 				(gchar *) sc_func_renames[i].gnm_name);
 	}
-
-	if (0 != strncmp (name, OOoAnalysisPrefix, sizeof (OOoAnalysisPrefix)-1)) {
+	if (0 == strncmp (name, GnumericPrefix, sizeof (GnumericPrefix)-1)) {
+		f = gnm_func_lookup (name+sizeof (GnumericPrefix)-1, scope);
+	} else if (0 != strncmp (name, OOoAnalysisPrefix, sizeof (OOoAnalysisPrefix)-1)) {
 		if (NULL != namemap &&
 		    NULL != (new_name = g_hash_table_lookup (namemap, name)))
 			name = new_name;
