@@ -333,6 +333,59 @@ describe_old_style (GtkTextBuffer *description, GnmFunc const *func)
 	tokenized_help_destroy (help);
 }
 
+static GtkTextTag *
+make_link (GtkTextBuffer *description, const char *name,
+	   GCallback cb, gpointer user)
+{
+	GtkTextTag *link =
+		gtk_text_buffer_create_tag
+		(description, name,
+		 "underline", PANGO_UNDERLINE_SINGLE,
+		 "foreground", "#0000ff",
+		 NULL);
+
+	if (cb)
+		g_signal_connect (link, "event", cb, user);
+
+	return link;
+}
+
+static gboolean
+cb_link_event (GtkTextTag *link, GObject *trigger,
+	       GdkEvent *event, GtkTextIter *iter,
+	       const char *uri)
+{
+	switch (event->type) {
+	case GDK_BUTTON_PRESS:
+	case GDK_2BUTTON_PRESS:
+	case GDK_3BUTTON_PRESS: {
+		GdkEventButton *eb = (GdkEventButton *)event;
+		GdkScreen *screen;
+
+		if (eb->button != 1)
+			break;
+		if (event->type != GDK_BUTTON_PRESS)
+			return TRUE;
+
+		screen = gdk_event_get_screen (event);
+		gtk_show_uri (screen, uri, GDK_CURRENT_TIME, NULL);
+
+		return TRUE;
+	}
+
+#if 0
+	case GDK_ENTER_NOTIFY:
+	case GDK_LEAVE_NOTIFY:
+		/* We aren't getting these. */
+#endif
+	default:
+		break;
+	}
+
+	return FALSE;
+}
+
+
 #define ADD_LTEXT(text,len) gtk_text_buffer_insert (description, &ti, (text), (len))
 #define ADD_TEXT(text) ADD_LTEXT((text),-1)
 #define ADD_BOLD_TEXT(text,len) gtk_text_buffer_insert_with_tags (description, &ti, (text), (len), bold, NULL)
@@ -353,6 +406,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 		 NULL);
 	gboolean seen_args = FALSE;
 	gboolean seen_examples = FALSE;
+	gboolean seen_extref = FALSE;
 
 	gtk_text_buffer_get_end_iter (description, &ti);
 
@@ -419,17 +473,13 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 		case GNM_FUNC_HELP_SEEALSO: {
 			const char *text = help->text;  /* Not translated */
 			const char *pre = _("See also: ");
-			GtkTextTag *link = NULL;
-
-			link = gtk_text_tag_table_lookup 
+			GtkTextTag *link =
+				gtk_text_tag_table_lookup 
 				(gtk_text_buffer_get_tag_table (description), "LINK");
 
 			if (link == NULL)
-				link =gtk_text_buffer_create_tag
-					(description, "LINK",
-					 "underline", PANGO_UNDERLINE_SINGLE,
-					 "foreground", "#0000ff",
-					 NULL);
+				link = make_link (description, "LINK",
+						  NULL, NULL);
 
 			ADD_TEXT ("\n");
 
@@ -449,8 +499,40 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 		}
 		case GNM_FUNC_HELP_END:
 			return;
-		case GNM_FUNC_HELP_EXTREF:
-			/* FIXME! */
+		case GNM_FUNC_HELP_EXTREF: {
+			GtkTextTag *link;
+			char *uri;
+			const char *text;
+
+			/*
+			 * We put in just one link and let the web page handle
+			 * the rest.  In particular, we do not even look at
+			 * what the help->text is here.
+			 */
+			if (seen_extref)
+				break;
+
+			uri = g_strdup_printf ("http://projects.gnome.org/gnumeric/func-doc.shtml?%s", func->name);
+
+			link = make_link
+				(description, "EXTLINK",
+				 G_CALLBACK (cb_link_event),
+				 uri);
+
+			g_object_set_data_full (G_OBJECT (link),
+						"uri", uri,
+						g_free);
+
+			ADD_TEXT (_("Further information: "));
+
+			text = _("online descriptions");
+			ADD_LINK_TEXT (text, strlen (text));
+
+			ADD_TEXT (".\n");
+
+			seen_extref = TRUE;
+			break;
+		}
 		default:
 			break;
 		}

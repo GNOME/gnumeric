@@ -1,3 +1,7 @@
+2009-06-16  Morten Welinder  <terra@gnome.org>
+
+	* dialog-function-select.c: Handle external references.
+
 2009-06-12  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-cell-sort.c (dialog_load_selection): return info about

@@ -226,7 +226,7 @@ dump_externals (GPtrArray *defs, FILE *out)
 			case GNM_FUNC_HELP_EXTREF:
 				if (!any) {
 					any = TRUE;
-					fprintf (out, "<!--#if expr=\"${QUERY_STRING_UNESCAPED} = %s\" -->", fd->name);
+					fprintf (out, "<!--#if expr=\"${QUERY_STRING} = %s\" -->", fd->name);
 				}
 
 				if (strncmp (s, "wolfram:", 8) == 0) {
@@ -251,11 +251,15 @@ dump_externals (GPtrArray *defs, FILE *out)
 
 	fprintf (out, "<div class=\"floatflush\">\n");
 	fprintf (out, "<h1>Online Documentation for \"<!--#echo var=\"QUERY_STRING\" -->\"</h1>\n");
+	fprintf (out, "<p>When last checked, these sources provided useful information about\n");
+	fprintf (out, "this function.  However, since the links are not controlled by the\n");
+	fprintf (out, "Gnumeric Team, we cannot guarantee that the links still work.  If\n");
+	fprintf (out, "you find that they do not work, please drop us a line.</p>\n");
 	fprintf (out, "<ul>");
 	fprintf (out, "<!--#if expr=\"${wolfram} != none\"-->");
-	fprintf (out, "<li><a href=\"http://mathworld.wolfram.com/<!--#echo var=\"wolfram\" -->\">Wolfram Mathworld entry</a>.</li><!--#endif-->");
-	fprintf (out, "<!--#if expr=\"${wiki} != none\"--><li><a href=\"http://<!--#echo var=\"wiki_lang\" -->.wikipedia.org/wiki/<!--#echo var=\"wiki\" -->\">Wikipedia entry</a>.</li><!--#endif-->");
-	fprintf (out, "<li><a href=\"http://www.google.com/#q=<!--#echo var=\"QUERY_STRING_UNESCAPED\" -->\">Google Search</a>.</li>");
+	fprintf (out, "<li><a href=\"http://mathworld.wolfram.com/<!--#echo var=\"wolfram\" -->\">Wolfram Mathworld\nentry</a>.</li><!--#endif-->");
+	fprintf (out, "<!--#if expr=\"${wiki} != none\"--><li><a href=\"http://<!--#echo var=\"wiki_lang\" -->.wikipedia.org/wiki/<!--#echo var=\"wiki\" -->\">Wikipedia\nentry</a>.</li><!--#endif-->");
+	fprintf (out, "<li><a href=\"http://www.google.com/#q=<!--#echo var=\"QUERY_STRING\" -->\">Google Search</a>.</li>");
 	fprintf (out, "</ul>");
 	fprintf (out, "</div>\n");
 
