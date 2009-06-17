@@ -1,3 +1,10 @@
+2009-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/gnm-so-filled.c (gnm_so_filled_write_xml_sax): be rather safe
+	  than sorry and check whether sof->text is NULL
+	(gnm_so_filled_set_property): make sure sof->text does not become
+	  NULL. (If it is NULL the foocanvas items don't notice it changing.)
+	
 2009-06-16  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (dump_externals): New function for creating what will

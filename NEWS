@@ -18,6 +18,7 @@ Andreas:
 	* Improve print area handling and export to ODF
 	* Some minor menu rearrangement
 	* Let the sort dialog guess whether there is a header
+	* Fix xls import of sheet labels [#586066]
 
 Jody:
 	* GOString start of richtext and phonetic support.

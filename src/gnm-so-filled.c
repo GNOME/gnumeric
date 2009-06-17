@@ -338,7 +338,7 @@ gnm_so_filled_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 	gsf_xml_out_add_float   (output, "Width", sof->style->outline.width, 2);
 	gnm_xml_out_add_gocolor (output, "OutlineColor", sof->style->outline.color);
 	gnm_xml_out_add_gocolor (output, "FillColor",	 sof->style->fill.pattern.back);
-	if (*(sof->text) != '\0') {
+	if (sof->text != NULL && *(sof->text) != '\0') {
 		gsf_xml_out_add_cstr (output, "Label", sof->text);
 		if (sof->markup != NULL) {
 			GOFormat *fmt = go_format_new_markup	(sof->markup, TRUE);
@@ -424,6 +424,7 @@ gnm_so_filled_set_property (GObject *obj, guint param_id,
 {
 	GnmSOFilled *sof = GNM_SO_FILLED (obj);
 	GOStyle *style;
+	char const * str;
 
 	switch (param_id) {
 	case SOF_PROP_STYLE:
@@ -437,7 +438,8 @@ gnm_so_filled_set_property (GObject *obj, guint param_id,
 		break;
 	case SOF_PROP_TEXT:
 		g_free (sof->text);
-		sof->text = g_strdup (g_value_get_string (value));
+		str = g_value_get_string (value);
+		sof->text = g_strdup (str == NULL ? "" : str);
 		break;
 	case SOF_PROP_MARKUP:
 		if (sof->markup != NULL)
