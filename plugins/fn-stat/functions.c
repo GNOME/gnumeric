@@ -464,16 +464,14 @@ static GnmFuncHelp const help_fisherinv[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is a non-number this function returns a #VALUE! error.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("FISHERINV(2) equals 0.96402758.") },
-	{ GNM_FUNC_HELP_SEEALSO, "FISHER"},
+	{ GNM_FUNC_HELP_SEEALSO, "FISHER,TANH"},
 	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
 gnumeric_fisherinv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-       gnm_float y = value_get_as_float (argv[0]);
-
-       return value_new_float (gnm_expm1 (2 * y) / (gnm_exp (2 * y) + 1.0));
+       return value_new_float (gnm_tanh (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -1842,7 +1840,7 @@ static GnmFuncHelp const help_fisher[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} <= -1 or @{x} >= 1, this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("FISHER(0.332) equals 0.345074339.") },
-	{ GNM_FUNC_HELP_SEEALSO, "SKEW"},
+	{ GNM_FUNC_HELP_SEEALSO, "FISHERINV,ATANH"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1859,7 +1857,7 @@ gnumeric_fisher (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
         if (x <= -1.0 || x >= 1.0)
                 return value_new_error_NUM (ei->pos);
 
-        return value_new_float (0.5 * (gnm_log1p (x) - gnm_log1p (-x)));
+        return value_new_float (gnm_atanh (x));
 }
 
 /***************************************************************************/
