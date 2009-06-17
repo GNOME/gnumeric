@@ -318,7 +318,7 @@ of the calculated field is stored in a directly following SXFormula record. If f
 	guint16 std_items	= GSF_LE_GET_GUINT16  (q->data + 12);
 	GOString *name		= go_string_new_nocopy (excel_biff_text_2 (s->imp, q, 14));
 
-	d(-1, fprintf (stderr, "FIELD [%d] '%s' type %d, has %d %d %d %d items, and flags = 0x%hx, parent = %d, child = %d;\n",
+	d(0, fprintf (stderr, "FIELD [%d] '%s' type %d, has %d %d %d %d items, and flags = 0x%hx, parent = %d, child = %d;\n",
 		field_num, name ? name->str : "<UNDEFINED>", index_type, count, grouped_items, base_items, std_items, flags,
 		group_parent, group_child););
 
@@ -382,7 +382,7 @@ xls_read_pivot_cache (XLSReadPivot *s, BiffQuery *q)
 
 	s->indexed = g_array_sized_new (FALSE, FALSE, sizeof (unsigned int), num_fields);
 	s->inlined = g_array_sized_new (FALSE, FALSE, sizeof (unsigned int), num_fields);
-	d (-1, {
+	d (1, {
 		guint16 flags		= GSF_LE_GET_GUINT16 (q->data + 6);
 		guint16 rec_per_block	= GSF_LE_GET_GUINT16 (q->data + 8);	/* seems constant */
 		guint16 base_fields	= GSF_LE_GET_GUINT16 (q->data + 10);	/* base */
@@ -541,8 +541,10 @@ xls_read_SXStreamID (GnmXLImporter *imp, BiffQuery *q, GsfInfile *container)
 						; /* TODO : the rest of dcon-file */
 				}
 
-				g_print ("Sheet : ref '%s' ! %s\n", source_name ? (char*)source_name : "<<unknown>",
+#if 0
+				g_printerr ("Sheet : ref '%s' ! %s\n", source_name ? (char*)source_name : "<<unknown>",
 					 range_as_string (&r));
+#endif
 				g_free (source_name);
 			}
 			break;
@@ -706,7 +708,7 @@ xls_read_SXVIEW (BiffQuery *q, ExcelReadSheet *esheet)
 		excel_get_text (imp, q->data + 44 + len, data_field_name_len,
 				&len, q->length - 44 - len));
 
-	d(-1, fprintf (stderr, "Slicer in : %s named '%s';\n",
+	d(0, fprintf (stderr, "Slicer in : %s named '%s';\n",
 		       range_as_string (&range), name ? name->str : "<UNDEFINED>"););
 	if (NULL != imp->pivot.slicer)
 		g_object_unref (imp->pivot.slicer);
