@@ -1827,7 +1827,7 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 				extent.start.row, extent.end.row + 1, 
 				extent.start.col, extent.end.col + 1, 
 				max_cols, &sheet_merges, pb, col_styles);
-	odf_write_styled_empty_rows (state, sheet, extent.end.col + 1, max_rows, 
+	odf_write_styled_empty_rows (state, sheet, extent.end.row + 1, max_rows, 
 				     max_cols, pb, col_styles);
 
 	go_slist_free_custom (sheet_merges, g_free);

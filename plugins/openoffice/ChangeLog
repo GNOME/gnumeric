@@ -1,5 +1,10 @@
 2009-06-16 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_sheet): don't confuse rows and cols
+	* openoffice-read.c (opendoc_content_dtd): add annotation tags
+
+2009-06-16 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_comment): new
 	(equal_style): deleted
 	(odf_write_empty_cell): change arguments and adjust all callers.
