@@ -1,3 +1,12 @@
+2009-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/commands.c (cmd_define_name_undo): we have to update the 
+	  printarea menu items
+	(cmd_define_name_redo): ditto
+	* src/wbc-gtk.c (wbcg_menu_state_update): update the printarea menu
+	  items
+	* src/workbook-control.h: add enum for printarea menu item update
+
 2009-06-16  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/gnm-so-filled.c (gnm_so_filled_write_xml_sax): be rather safe

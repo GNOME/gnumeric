@@ -1430,6 +1430,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	gboolean has_filtered_rows = sheet->has_filtered_rows;
 	gboolean edit_object = scg != NULL &&
 		(scg->selected_objects != NULL || wbcg->new_object != NULL);
+	gboolean has_print_area;
 
 	if (!has_filtered_rows) {
 		GSList *ptr = sheet->filters;
@@ -1470,6 +1471,13 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		wbc_gtk_set_action_sensitivity (wbcg, "DataConsolidate", !has_guru);
 	if (MS_CONSOLIDATE & flags)
 		wbc_gtk_set_action_sensitivity (wbcg, "DataFilterShowAll", has_filtered_rows);
+	if (MS_SHOW_PRINTAREA & flags) {
+		GnmRange *print_area = sheet_get_nominal_printarea (sheet);
+		has_print_area = (print_area != NULL);
+		g_free (print_area);
+		wbc_gtk_set_action_sensitivity (wbcg, "FilePrintAreaClear", has_print_area);
+		wbc_gtk_set_action_sensitivity (wbcg, "FilePrintAreaShow", has_print_area);
+	}
 
 	if (MS_FREEZE_VS_THAW & flags) {
 		/* Cheat and use the same accelerator for both states because

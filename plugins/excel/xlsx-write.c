@@ -862,6 +862,7 @@ xlsx_write_breaks (XLSXWriteState *state, GsfXMLOut *xml, GnmPageBreaks *breaks)
 		switch (binfo->type) {
 		case GNM_PAGE_BREAK_MANUAL :	gsf_xml_out_add_bool (xml, "man", TRUE); break;
 		case GNM_PAGE_BREAK_AUTO :	break;
+		case GNM_PAGE_BREAK_NONE :	break;
 		case GNM_PAGE_BREAK_DATA_SLICE :gsf_xml_out_add_bool (xml, "pt", TRUE); break;
 		}
 		gsf_xml_out_end_element (xml); /* </brk> */

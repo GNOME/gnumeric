@@ -5714,7 +5714,7 @@ MAKE_GNM_COMMAND (CmdDefineName, cmd_define_name, NULL)
 
 static gboolean
 cmd_define_name_undo (GnmCommand *cmd,
-		      G_GNUC_UNUSED WorkbookControl *wbc)
+		      WorkbookControl *wbc)
 {
 	CmdDefineName *me = CMD_DEFINE_NAME (cmd);
 	GnmNamedExpr  *nexpr = expr_name_lookup (&(me->pp), me->name);
@@ -5729,6 +5729,10 @@ cmd_define_name_undo (GnmCommand *cmd,
 		expr_name_set_expr (nexpr, me->texpr); /* restore old def */
 
 	me->texpr = texpr;
+
+	WORKBOOK_FOREACH_VIEW (wb_control_get_workbook (wbc), each_wbv, {
+			wb_view_menus_update (each_wbv);
+		});
 	return FALSE;
 }
 
@@ -5757,6 +5761,9 @@ cmd_define_name_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		expr_name_set_expr (nexpr, me->texpr);
 		me->texpr = tmp; /* store the old definition */
 	}
+	WORKBOOK_FOREACH_VIEW (wb_control_get_workbook (wbc), each_wbv, {
+			wb_view_menus_update (each_wbv);
+		});
 
 	return FALSE;
 }
