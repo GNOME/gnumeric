@@ -1,5 +1,12 @@
 2009-06-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_func_map_in): perform some function name 
+	  translation
+	* openoffice-write.c (odf_expr_func_handler): perform some function 
+	  name translation
+
+2009-06-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_func_map_in): handle ORG.GNUMERIC. prefix
 	* openoffice-write.c (odf_expr_func_handler): new
 	(odf_expr_conventions_new): hook up odf_expr_func_handler
