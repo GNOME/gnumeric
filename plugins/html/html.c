@@ -218,7 +218,8 @@ html_new_markup (GsfOutput *output, const PangoAttrList *markup, char const *tex
 		
 		g_string_erase (closure, 0, -1);
 		pango_attr_iterator_range (iter, &from, &to);
-		to = (to > len) ? len : to; /* Since "to" can be really big! */
+		from = (from > len) ? len : from; /* Since "from" can be really big! */
+		to = (to > len) ? len : to;       /* Since "to" can be really big!   */
 		if (from > handled)
 			cb_html_add_chars (output, text + handled, from - handled);
 		list = pango_attr_iterator_get_attrs (iter);
