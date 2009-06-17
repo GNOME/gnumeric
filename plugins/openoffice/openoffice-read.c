@@ -47,6 +47,7 @@
 #include <command-context.h>
 #include <gutils.h>
 #include <xml-io.h>
+#include <sheet-object-cell-comment.h>
 
 #include <goffice/goffice.h>
 
@@ -193,6 +194,7 @@ typedef struct {
 	GnmParsePos	 pos;
 	GnmCellPos	 extent_data;
 	GnmCellPos	 extent_style;
+	GnmComment      *cell_comment;
 
 	int		 col_inc, row_inc;
 	gboolean	 content_is_simple;
@@ -3161,6 +3163,50 @@ oo_chart_style_free (OOChartStyle *cstyle)
 	g_free (cstyle);
 }
 
+static void
+odf_annotation_start (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	state->cell_comment = cell_set_comment (state->pos.sheet, &state->pos.eval,
+						NULL, NULL, NULL);
+}
+
+static void
+odf_annotation_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	char const *old = cell_comment_text_get (state->cell_comment);
+	char *new;
+
+	g_print ("odf_annotation_content_end: %s\n",  xin->content->str);
+
+	if (old != NULL && strlen (old) > 0)
+		new = g_strconcat (old, "\n", xin->content->str, NULL);
+	else
+		new = g_strdup (xin->content->str);
+	cell_comment_text_set (state->cell_comment, new);
+	g_free (new);
+}
+
+static void
+odf_annotation_author_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	g_print ("odf_annotation_author_end: %s\n",  xin->content->str);
+
+	cell_comment_author_set (state->cell_comment, xin->content->str);
+}
+
+static void
+odf_annotation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	state->cell_comment = NULL;
+}
+
 static GsfXMLInNode const styles_dtd[] = {
 GSF_XML_IN_NODE_FULL (START, START, -1, NULL, GSF_XML_NO_CONTENT, FALSE, TRUE, NULL, NULL, 0),
 
@@ -3516,9 +3562,13 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		  GSF_XML_IN_NODE (TABLE_CELL, DRAW_FRAME, OO_NS_DRAW, "frame", GSF_XML_NO_CONTENT, &od_draw_frame, NULL),
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_OBJECT, OO_NS_DRAW, "object", GSF_XML_NO_CONTENT, &od_draw_object, NULL),
 		    GSF_XML_IN_NODE (DRAW_FRAME, DRAW_IMAGE, OO_NS_DRAW, "image", GSF_XML_NO_CONTENT, &od_draw_image, NULL),
-	          GSF_XML_IN_NODE (TABLE_CELL, CELL_ANNOTATION, OO_NS_OFFICE, "annotation", GSF_XML_NO_CONTENT, NULL, NULL),
-	            GSF_XML_IN_NODE (CELL_ANNOTATION, CELL_ANNOTATION_TEXT, OO_NS_TEXT, "p", GSF_XML_NO_CONTENT, NULL, NULL),
-	            GSF_XML_IN_NODE (CELL_ANNOTATION, CELL_ANNOTATION_AUTHOR, OO_NS_DC, "creator", GSF_XML_NO_CONTENT, NULL, NULL),
+	          GSF_XML_IN_NODE (TABLE_CELL, CELL_ANNOTATION, OO_NS_OFFICE, "annotation", GSF_XML_NO_CONTENT, &odf_annotation_start, &odf_annotation_end),
+	            GSF_XML_IN_NODE (CELL_ANNOTATION, CELL_ANNOTATION_TEXT, OO_NS_TEXT, "p", GSF_XML_CONTENT, NULL, &odf_annotation_content_end),
+  		      GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT, CELL_ANNOTATION_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),
+		      GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT, CELL_ANNOTATION_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_SHARED_CONTENT, NULL, NULL),
+		        GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT_SPAN, CELL_ANNOTATION_TEXT_SPAN, OO_NS_TEXT, "span", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+		        GSF_XML_IN_NODE (CELL_ANNOTATION_TEXT_SPAN, CELL_ANNOTATION_TEXT_S,    OO_NS_TEXT, "s", GSF_XML_NO_CONTENT, NULL, NULL),/* 2nd def */
+	            GSF_XML_IN_NODE (CELL_ANNOTATION, CELL_ANNOTATION_AUTHOR, OO_NS_DC, "creator", GSF_XML_CONTENT, NULL, &odf_annotation_author_end),
 		GSF_XML_IN_NODE (TABLE_ROW, TABLE_COVERED_CELL, OO_NS_TABLE, "covered-table-cell", GSF_XML_NO_CONTENT, &oo_covered_cell_start, &oo_covered_cell_end),
 
 	      GSF_XML_IN_NODE (TABLE, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", GSF_XML_NO_CONTENT, NULL, NULL),
@@ -3686,6 +3736,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.pos.sheet = NULL;
 	state.pos.eval.col	= -1;
 	state.pos.eval.row	= -1;
+	state.cell_comment      = NULL;
 	state.styles.sheet = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_free);
