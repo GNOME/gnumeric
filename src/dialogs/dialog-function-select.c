@@ -338,14 +338,19 @@ make_link (GtkTextBuffer *description, const char *name,
 	   GCallback cb, gpointer user)
 {
 	GtkTextTag *link =
-		gtk_text_buffer_create_tag
-		(description, name,
-		 "underline", PANGO_UNDERLINE_SINGLE,
-		 "foreground", "#0000ff",
-		 NULL);
+		gtk_text_tag_table_lookup 
+		(gtk_text_buffer_get_tag_table (description), name);
 
-	if (cb)
-		g_signal_connect (link, "event", cb, user);
+	if (!link) {
+		link = gtk_text_buffer_create_tag
+			(description, name,
+			 "underline", PANGO_UNDERLINE_SINGLE,
+			 "foreground", "#0000ff",
+			 NULL);
+
+		if (cb)
+			g_signal_connect (link, "event", cb, user);
+	}
 
 	return link;
 }
@@ -353,22 +358,33 @@ make_link (GtkTextBuffer *description, const char *name,
 static gboolean
 cb_link_event (GtkTextTag *link, GObject *trigger,
 	       GdkEvent *event, GtkTextIter *iter,
-	       const char *uri)
+	       gpointer user)
 {
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
 	case GDK_2BUTTON_PRESS:
 	case GDK_3BUTTON_PRESS: {
 		GdkEventButton *eb = (GdkEventButton *)event;
-		GdkScreen *screen;
+		const char *uri = g_object_get_data (G_OBJECT (link), "uri");
+		GError *error = NULL;
 
 		if (eb->button != 1)
 			break;
 		if (event->type != GDK_BUTTON_PRESS)
 			return TRUE;
 
-		screen = gdk_event_get_screen (event);
-		gtk_show_uri (screen, uri, GDK_CURRENT_TIME, NULL);
+#ifdef HAVE_GTK_SHOW_URI
+		gtk_show_uri (gdk_event_get_screen (event), uri,
+			      GDK_CURRENT_TIME, &error);
+#else
+		error = go_url_show (uri);
+#endif
+		if (error) {
+			g_printerr ("Failed to show %s\n(%s)\n",
+				    uri,
+				    error->message);
+			g_error_free (error);
+		}
 
 		return TRUE;
 	}
@@ -474,12 +490,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 			const char *text = help->text;  /* Not translated */
 			const char *pre = _("See also: ");
 			GtkTextTag *link =
-				gtk_text_tag_table_lookup 
-				(gtk_text_buffer_get_tag_table (description), "LINK");
-
-			if (link == NULL)
-				link = make_link (description, "LINK",
-						  NULL, NULL);
+				make_link (description, "LINK", NULL, NULL);
 
 			ADD_TEXT ("\n");
 
@@ -501,7 +512,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 			return;
 		case GNM_FUNC_HELP_EXTREF: {
 			GtkTextTag *link;
-			char *uri;
+			char *uri, *tagname;
 			const char *text;
 
 			/*
@@ -514,10 +525,11 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 
 			uri = g_strdup_printf ("http://projects.gnome.org/gnumeric/func-doc.shtml?%s", func->name);
 
+			tagname = g_strdup_printf ("EXTLINK-%s", func->name);
 			link = make_link
-				(description, "EXTLINK",
+				(description, tagname,
 				 G_CALLBACK (cb_link_event),
-				 uri);
+				 NULL);
 
 			g_object_set_data_full (G_OBJECT (link),
 						"uri", uri,
