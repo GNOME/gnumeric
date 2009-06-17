@@ -58,7 +58,7 @@ GNM_PLUGIN_MODULE_HEADER;
  * >1 increasing levels of detail.
  */
 gint ms_excel_read_debug = 0;
-gint ms_excel_pivot_debug = 1;
+gint ms_excel_pivot_debug = 0;
 gint ms_excel_escher_debug = 0;
 gint ms_excel_formula_debug = 0;
 gint ms_excel_chart_debug = 0;

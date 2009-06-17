@@ -1,3 +1,7 @@
+2009-06-16  Morten Welinder  <terra@gnome.org>
+
+	* boot.c: Quiet pivot debugging.
+
 2009-06-11  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* ms-excel-read.c (excel_parse_name): If it looks like the print area
