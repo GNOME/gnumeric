@@ -373,12 +373,7 @@ cb_link_event (GtkTextTag *link, GObject *trigger,
 		if (event->type != GDK_BUTTON_PRESS)
 			return TRUE;
 
-#ifdef HAVE_GTK_SHOW_URI
-		gtk_show_uri (gdk_event_get_screen (event), uri,
-			      GDK_CURRENT_TIME, &error);
-#else
-		error = go_url_show (uri);
-#endif
+		error = go_gtk_url_show (uri, gdk_event_get_screen (event));
 		if (error) {
 			g_printerr ("Failed to show %s\n(%s)\n",
 				    uri,
