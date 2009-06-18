@@ -1,5 +1,15 @@
 2009-06-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_find_style): give more info in the case
+	  we don't find the style
+	(odf_save_this_style_with_name): new
+	(odf_save_this_style): use odf_save_this_style_with_name
+	(odf_write_content_rows): THe style row contains styles already
+	  adjusted for the values. We can't use that. So access the real
+	  styles.
+
+2009-06-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_func_map_in): perform some function name 
 	  translation
 	* openoffice-write.c (odf_expr_func_handler): perform some function 

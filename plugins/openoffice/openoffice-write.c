@@ -62,7 +62,7 @@
 #include <tools/scenarios.h>
 #include <gutils.h>
 #include <xml-io.h>
-
+#include <style-conditions.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output.h>
@@ -943,17 +943,12 @@ odf_write_style (GnmOOExport *state, GnmStyle const *style, gboolean is_default)
 			odf_write_style_goformat_name (state, format);
 	}
 
-
 	odf_write_style_cell_properties (state, style);
 	odf_write_style_paragraph_properties (state, style);
 	odf_write_style_text_properties (state, style);
 
-
-	
 /* MSTYLE_VALIDATION validations need to be written at a different place and time in ODF  */
 /* MSTYLE_HLINK hyperlinks can not be attached to styles but need to be attached to the cell content */
-
-/* MSTYLE_CONDITIONS  What are we using these for?  */
 }
 
 #undef UNDERLINESPECS
@@ -965,8 +960,8 @@ odf_find_style (GnmOOExport *state, GnmStyle const *style)
 	char const *found = g_hash_table_lookup (state->cell_styles, style);
 
 	if (found == NULL) {
-		g_warning("We forgot to export a required style!");
-		return "Missing-Style";
+		g_print ("Could not find style %p\n", style);
+		return NULL;
 	}
 
 	return found;
@@ -1056,13 +1051,39 @@ odf_find_col_style (GnmOOExport *state, ColRowInfo const *ci, gboolean write)
 }
 
 static void
-odf_save_this_style (GnmStyle *style, G_GNUC_UNUSED gconstpointer dummy, GnmOOExport *state)
+odf_save_this_style_with_name (GnmStyle *style, GnmOOExport *state, char const *name)
 {
-	char *name = g_strdup_printf ("ACELL-%p", style);
-	g_hash_table_insert (state->cell_styles, style, name);
 	odf_start_style (state->xml, name, "table-cell");
 	odf_write_style (state, style, FALSE);
 	gsf_xml_out_end_element (state->xml); /* </style:style */
+}
+
+static void
+odf_save_this_style (GnmStyle *style, G_GNUC_UNUSED gconstpointer dummy, GnmOOExport *state)
+{
+	char *name = g_strdup_printf ("ACELL-%p", style);
+	GnmStyleConditions const *sc;
+
+	g_hash_table_insert (state->cell_styles, style, name);
+
+	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS) &&
+	    NULL != (sc = gnm_style_get_conditions (style))) {
+		GArray const *conds = gnm_style_conditions_details (sc);
+		if (conds != NULL) {
+			guint i;
+			for (i = 0 ; i < conds->len ; i++) {
+				GnmStyleCond const *cond;
+				
+				cond = &g_array_index (conds, GnmStyleCond, i);
+				/* When we correctly save contitional styles, then we should in fact */
+				/* stick with the same name! */
+				odf_save_this_style (cond->overlay, NULL, state);
+			}
+		}
+	}
+
+
+	odf_save_this_style_with_name (style, state, name);
 }
 
 static void
@@ -2331,20 +2352,6 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 			GSList **sheet_merges, GnmPageBreaks *pb, G_GNUC_UNUSED GnmStyle **col_styles)
 {
 	int col, row;
-	int n;
-	GnmStyleRow sr;
-
-	n = row_length + 2;
-	sr.vertical = g_alloca (n * 4 * sizeof (gpointer));
-	sr.vertical += 1;
-	sr.top		 = sr.vertical + n;
-	sr.bottom	 = sr.top + n;
-	sr.styles	 = ((GnmStyle const **) (sr.bottom + n));
-	sr.start_col = 0;
-	sr.end_col = row_length - 1;
-	sr.hide_grid = TRUE;
-
-	/* We are currently ignoring col_from and col_to but using them should speed things up.*/
 
 	for (row = from; row < to; row++) {
 		ColRowInfo const *ci = sheet_row_get (sheet, row);
@@ -2354,9 +2361,6 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 		GnmCellPos pos;
 
 		pos.row = row;
-
-		sr.row = row;
-		sheet_style_get_row (sheet, &sr);
 
 		if (gnm_page_breaks_get_break (pb, row) != GNM_PAGE_BREAK_NONE)
 			gsf_xml_out_simple_element (state->xml, 
@@ -2384,7 +2388,8 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 			}
 			if ((merge_range == NULL) && (cc == NULL) &&
 			    gnm_cell_is_empty (current_cell)) {
-				GnmStyle const *this_style = sr.styles [col];
+				GnmStyle const *this_style= sheet_style_get (sheet, pos.col, pos.row);
+
 				if ((null_cell == 0) || (null_style == this_style)) { 
 					null_style = this_style;
 					if (covered_cell > 0)
