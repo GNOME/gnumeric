@@ -2621,6 +2621,15 @@ gnm_expr_is_data_table (GnmExpr const *expr, GnmCellPos *c_in, GnmCellPos *r_in)
 	return FALSE;
 }
 
+gboolean
+gnm_expr_is_empty (GnmExpr const *expr)
+{
+	g_return_val_if_fail (expr != NULL, FALSE);
+
+	return (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_CONSTANT &&
+		VALUE_IS_EMPTY (expr->constant.value));
+}
+
 /*
  * This frees the data pointers and the list.
  */

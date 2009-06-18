@@ -1,7 +1,15 @@
 2009-06-18  Morten Welinder  <terra@gnome.org>
 
+	* src/func.c (function_call_with_exprs): Make sure we can tell
+	skipped arguments from present arguments that return empty values.
+	Fixes #586312.
+
+	* src/expr.c (gnm_expr_is_empty): New function.
+
 	* src/func-builtin.c (gnumeric_if2): Allow empty and array results
-	results.
+	results.  Map NULL into value_new_empty() if the argument that
+	produced it is not empty.  (That prevents them from being treated
+	as zero.)  Fixes #586218.
 
 2009-06-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 

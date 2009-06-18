@@ -1188,8 +1188,15 @@ function_call_with_exprs (GnmFuncEvalInfo *ei, GnmExprEvalFlags flags)
 			continue;
 
 		/* optional arguments can be blank */
-		if (i >= fn_def->fn.args.min_args && VALUE_IS_EMPTY (tmp))
+		if (i >= fn_def->fn.args.min_args && VALUE_IS_EMPTY (tmp)) {
+			if (arg_type == 'E' && !gnm_expr_is_empty (expr)) {
+				/* An actual argument produced empty.  Make
+				   sure function sees that.  */
+				args[i] = value_new_empty ();
+			}
+
 			continue;
+		}
 
 		if (tmp == NULL)
 			tmp = args[i] = value_new_empty ();
