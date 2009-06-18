@@ -1,3 +1,12 @@
+2009-06-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_func_r_qchisq_handler): new
+	(odf_expr_func_handler): add hash of individual handlers, map
+	  GET.FORMULA to FORMULA and 2-argument instances of R.QCHISQ to
+	  CHISQINV
+	* openoffice-read.c (oo_func_map_in): map FORMULA to GET.FORMULA
+	  and CHISQINV to R.QCHISQ
+
 2009-06-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (xl_find_format): use easier to follow style 

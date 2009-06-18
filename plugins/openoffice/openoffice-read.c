@@ -3629,7 +3629,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* { "DAYS","DAYS" }, */
 /* { "DDE","DDE" }, */
 /* { "FINDB","FINDB" }, */
-/* { "FORMULA","FORMULA" }, */
 /* { "GAMMA","GAMMA" }, */
 /* { "GAUSS","GAUSS" }, */
 /* { "IFNA","IFNA" }, */
@@ -3661,6 +3660,8 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "LEGACY.FINV","FINV" },
 		{ "LEGACY.NORMSDIST","NORMSDIST" },
 		{ "LEGACY.NORMSINV","NORMSINV" },
+		{ "CHISQINV","R.QCHISQ" },
+		{ "FORMULA","GET.FORMULA" },
 
 /* { "ABS","ABS" }, */
 /* { "ACCRINT","ACCRINT" }, */
@@ -3795,7 +3796,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* { "FIXED","FIXED" }, */
 /* { "FLOOR","FLOOR" }, */
 /* { "FORECAST","FORECAST" }, */
-/* { "FORMULA","FORMULA" }, */
 /* { "FREQUENCY","FREQUENCY" }, */
 /* { "FTEST","FTEST" }, */
 /* { "FV","FV" }, */
