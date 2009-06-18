@@ -1,5 +1,9 @@
 2009-06-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (h_alignments): include right and left
+
+2009-06-17 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_find_style): give more info in the case
 	  we don't find the style
 	(odf_save_this_style_with_name): new

@@ -2178,9 +2178,11 @@ static void
 oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static OOEnum const h_alignments [] = {
-		{ "start",	HALIGN_LEFT },
+		{ "start",	HALIGN_LEFT },    /* This really depends on the text direction */
+		{ "left",	HALIGN_LEFT },
 		{ "center",	HALIGN_CENTER },
-		{ "end",	HALIGN_RIGHT },
+		{ "end",	HALIGN_RIGHT },   /* This really depends on the text direction */
+		{ "right",	HALIGN_RIGHT },
 		{ "justify",	HALIGN_JUSTIFY },
 		{ "automatic",	HALIGN_GENERAL },
 		{ NULL,	0 },
