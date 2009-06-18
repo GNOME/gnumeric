@@ -880,6 +880,17 @@ gnm_func_add_placeholder (Workbook *scope,
 	return func;
 }
 
+/* Utility routine to be used for import and analysis tools */
+GnmFunc	*
+gnm_func_lookup_or_add_placeholder (char const *name, Workbook *scope, gboolean copy_name)
+{
+	GnmFunc	* f = gnm_func_lookup (name, scope);
+	if (f == NULL)
+		f = gnm_func_add_placeholder (scope, name, "", copy_name);
+	return f;
+}
+
+
 gpointer
 gnm_func_get_user_data (GnmFunc const *func)
 {

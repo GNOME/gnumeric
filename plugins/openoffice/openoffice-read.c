@@ -3599,9 +3599,65 @@ static GsfXMLInNode const *get_dtd () { return opendoc_content_dtd; }
 /****************************************************************************/
 
 static GnmExpr const *
+odf_func_chisqdist_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
+{
+	switch (gnm_expr_list_length (args)) {
+	case 2: {
+		GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("R.PCHISQ", scope, FALSE);
+		return gnm_expr_new_funcall (f, args);
+	}
+	case 3: {
+		GSList * link = g_slist_nth ((GSList *) args, 2);
+		GnmExpr const *expr = link->data;
+		GnmFunc  *fd_if;
+		GnmFunc  *fd_pchisq;
+		GnmFunc  *fd_dchisq;
+		GnmExpr  const *expr_pchisq;
+		GnmExpr  const *expr_dchisq;
+		
+		args = (GnmExprList *) g_slist_remove_link ((GSList *) args, link);
+		g_slist_free (link);
+		
+		if (GNM_EXPR_GET_OPER (expr) == GNM_EXPR_OP_FUNCALL) {
+			if (go_ascii_strcase_equal (expr->func.func->name, "TRUE")) {
+				fd_pchisq = gnm_func_lookup_or_add_placeholder ("R.PCHISQ", scope, FALSE);
+				gnm_expr_free (expr);
+				return gnm_expr_new_funcall (fd_pchisq, args);
+			}
+			if (go_ascii_strcase_equal (expr->func.func->name, "FALSE")) {
+				fd_dchisq = gnm_func_lookup_or_add_placeholder ("R.DCHISQ", scope, FALSE);
+				gnm_expr_free (expr);
+				return gnm_expr_new_funcall (fd_dchisq, args);
+			}
+		}
+		fd_if = gnm_func_lookup_or_add_placeholder ("IF", scope, FALSE);
+		fd_pchisq = gnm_func_lookup_or_add_placeholder ("R.PCHISQ", scope, FALSE);
+		fd_dchisq = gnm_func_lookup_or_add_placeholder ("R.DCHISQ", scope, FALSE);
+		expr_pchisq = gnm_expr_new_funcall2
+			(fd_pchisq, gnm_expr_copy (g_slist_nth_data ((GSList *) args, 0)),
+			 gnm_expr_copy (g_slist_nth_data ((GSList *) args, 1)));
+		expr_dchisq = gnm_expr_new_funcall (fd_dchisq, args);
+		return gnm_expr_new_funcall3 (fd_if, expr, expr_pchisq, expr_dchisq);
+	}
+	default:
+		break;
+	}
+	return NULL;
+}
+
+
+static GnmExpr const *
 oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		 char const *name, GnmExprList *args)
 {
+	static struct {
+		char const *gnm_name;
+		gpointer handler;
+	} const sc_func_handlers[] = {
+		{"CHISQDIST", odf_func_chisqdist_handler},
+		{NULL, NULL}
+	};
+	
 	static struct {
 		char const *oo_name;
 		char const *gnm_name;
@@ -4049,10 +4105,12 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 	static char const OOoAnalysisPrefix[] = "com.sun.star.sheet.addin.Analysis.get";
 	static char const GnumericPrefix[] = "ORG.GNUMERIC.";
 	static GHashTable *namemap = NULL;
+	static GHashTable *handlermap = NULL;
 
 	GnmFunc  *f;
 	char const *new_name;
 	int i;
+	GnmExpr const * (*handler) (GnmConventions const *convs, Workbook *scope, GnmExprList *args);
 
 #warning "TODO : OO adds a 'mode' parm to floor/ceiling"
 #warning "TODO : OO missing 'A1' parm for address"
@@ -4064,18 +4122,33 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 				(gchar *) sc_func_renames[i].oo_name,
 				(gchar *) sc_func_renames[i].gnm_name);
 	}
+	if (NULL == handlermap) {
+		guint i;
+		handlermap = g_hash_table_new (go_ascii_strcase_hash,
+					       go_ascii_strcase_equal);
+		for (i = 0; sc_func_handlers[i].gnm_name; i++)
+			g_hash_table_insert (handlermap,
+					     (gchar *) sc_func_handlers[i].gnm_name,
+					     sc_func_handlers[i].handler);
+	}
+
+	handler = g_hash_table_lookup (handlermap, name);
+	if (handler != NULL) {
+		GnmExpr const * res = handler (convs, scope, args);
+		if (res != NULL)
+			return res;
+	}
+
 	if (0 == strncmp (name, GnumericPrefix, sizeof (GnumericPrefix)-1)) {
-		f = gnm_func_lookup (name+sizeof (GnumericPrefix)-1, scope);
+		f = gnm_func_lookup_or_add_placeholder (name+sizeof (GnumericPrefix)-1, scope, TRUE);
 	} else if (0 != strncmp (name, OOoAnalysisPrefix, sizeof (OOoAnalysisPrefix)-1)) {
 		if (NULL != namemap &&
 		    NULL != (new_name = g_hash_table_lookup (namemap, name)))
 			name = new_name;
-		f = gnm_func_lookup (name, scope);
+		f = gnm_func_lookup_or_add_placeholder (name, scope, TRUE);
 	} else
-		f = gnm_func_lookup (name+sizeof (OOoAnalysisPrefix)-1, scope);
+		f = gnm_func_lookup_or_add_placeholder (name+sizeof (OOoAnalysisPrefix)-1, scope, TRUE);
 
-	if (NULL == f)
-		f = gnm_func_add_placeholder (scope, name, "", TRUE);
 	return gnm_expr_new_funcall (f, args);
 }
 

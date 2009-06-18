@@ -215,6 +215,9 @@ GnmFunc    *gnm_func_add_placeholder (Workbook *optional_scope,			/* change scop
 				      char const *name,
 				      char const *type,
 				      gboolean copy_name);
+GnmFunc	   *gnm_func_lookup_or_add_placeholder 
+                                      (char const *name, Workbook *scope,	/* change scope one day */
+				       gboolean copy_name);
 
 /* TODO */
 void        function_def_count_args    (GnmFunc const *fn_def,

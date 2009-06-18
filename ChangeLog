@@ -1,3 +1,8 @@
+2009-06-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/expr.h (gnm_func_lookup_or_add_placeholder): new
+	* src/expr.c (gnm_func_lookup_or_add_placeholder): new
+
 2009-06-17  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (gnm_coth, gnm_acoth): New functions.
@@ -5,7 +10,7 @@
 2009-06-17  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/expr.h (gnm_expr_list_as_string): new
-	* src/expr.h (gnm_expr_list_as_string): make non-static
+	* src/expr.c (gnm_expr_list_as_string): make non-static
 	(do_expr_as_string): use convs->output.func
 	* src/parse-util.h (_GnmConventions): add func field
 	* src/parse-util.c (std_expr_func_handler): new

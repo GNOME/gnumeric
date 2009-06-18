@@ -1,5 +1,13 @@
 2009-06-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_func_chisqdist_handler): new
+	(oo_func_map_in): new handler hash
+	* openoffice-write.c (odf_func_r_dchisq_handler): new
+	(odf_func_r_pchisq_handler): new
+	(sc_func_handlers): hook up the above
+	
+2009-06-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_func_r_qchisq_handler): new
 	(odf_expr_func_handler): add hash of individual handlers, map
 	  GET.FORMULA to FORMULA and 2-argument instances of R.QCHISQ to
