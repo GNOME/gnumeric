@@ -46,6 +46,7 @@ Morten:
 	* Add Gudermannian function GD.
 	* Fixed FIXED.  No, really.
 	* Start introducing external references for function docs.
+	* Implement new functions COTH and ACOTH.  [#586170]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.8
