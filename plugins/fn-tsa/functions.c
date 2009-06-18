@@ -889,7 +889,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_fourier_fft (in, nb, 1, &out, FALSE);
 	g_free (in);
 	nb /= 2;
-	if (out) {
+	if (out && nb > 0) {
 		res = value_new_array_non_init (1 , nb);
 		res->v_array.vals[0] = g_new (GnmValue *, nb);
 		for (i = 0; i < nb; i++)

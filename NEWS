@@ -47,6 +47,7 @@ Morten:
 	* Fixed FIXED.  No, really.
 	* Start introducing external references for function docs.
 	* Implement new functions COTH and ACOTH.  [#586170]
+	* Fix tsa crash.  [#586191]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.8

@@ -1,3 +1,7 @@
+2009-06-18  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_periodogram): Fix crash.  #586191.
+
 2009-06-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (gnm_fourier_fft): moved here from 
