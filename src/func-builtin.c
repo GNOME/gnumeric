@@ -331,11 +331,18 @@ gnumeric_if2 (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 	branch = value_get_as_bool (args[0], &err) ? 1 : 2;
 	for (i = 1; i <= 2; i++) {
-		args[i] = argc > i
-			? (branch == i ?
-			   gnm_expr_eval (argv[branch], ei->pos, 0)
-			   : value_new_empty ())
-			: NULL;
+		GnmExprEvalFlags flags =
+			GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
+			GNM_EXPR_EVAL_PERMIT_EMPTY;
+
+		if (i >= argc)
+			args[i] = NULL;
+		else if (branch == i) {
+			args[i] = gnm_expr_eval (argv[branch], ei->pos, flags);
+			if (!args[i])
+				args[i] = value_new_empty ();
+		} else
+			args[i] = value_new_empty ();
 	}
 
 	res = gnumeric_if (ei, (GnmValue const * const *)args);

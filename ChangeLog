@@ -1,3 +1,8 @@
+2009-06-18  Morten Welinder  <terra@gnome.org>
+
+	* src/func-builtin.c (gnumeric_if2): Allow empty and array results
+	results.
+
 2009-06-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/expr.h (gnm_func_lookup_or_add_placeholder): new
