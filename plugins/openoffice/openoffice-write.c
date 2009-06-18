@@ -448,15 +448,15 @@ xl_find_format (GnmOOExport *state, GOFormat const *format, int i)
 	switch (i) {
 	case 0: 
 		hash = state->xl_styles;
-		prefix = "ND-%i";
+		prefix = "ND+%i";
 		break;
 	case 1: 
 		hash = state->xl_styles_neg;
-		prefix = "ND--%i";
+		prefix = "ND-%i";
 		break;
 	default: 
 		hash = state->xl_styles_zero;
-		prefix = "ND0-%i";
+		prefix = "ND0%i";
 		break;
 	}
 
@@ -2686,7 +2686,8 @@ static void
 odf_write_xl_style (char const *xl, char const *name, GnmOOExport *state, int i)
 {
 	GOFormat *format;
-	if (xl == NULL) return;
+	if (xl == NULL)
+		xl = "General";
 	format = go_format_new_from_XL (xl);
 	go_format_output_to_odf (state->xml, format, i, name, state->with_extension);
 	go_format_unref (format);
@@ -2783,9 +2784,9 @@ odf_write_styles (GnmOOExport *state, GsfOutput *child)
 		gsf_xml_out_end_element (state->xml); /* </style:default-style */
 	}
 
-	g_hash_table_foreach (state->xl_styles_zero, (GHFunc) odf_write_this_xl_style_zero, state);
-	g_hash_table_foreach (state->xl_styles_neg, (GHFunc) odf_write_this_xl_style_neg, state);
 	g_hash_table_foreach (state->xl_styles, (GHFunc) odf_write_this_xl_style, state);
+	g_hash_table_foreach (state->xl_styles_neg, (GHFunc) odf_write_this_xl_style_neg, state);
+	g_hash_table_foreach (state->xl_styles_zero, (GHFunc) odf_write_this_xl_style_zero, state);
 	g_hash_table_foreach (state->xl_styles_conditional, (GHFunc) odf_write_this_conditional_xl_style, state);
 	
 	gsf_xml_out_end_element (state->xml); /* </office:styles> */
