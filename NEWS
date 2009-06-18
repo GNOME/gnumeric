@@ -20,6 +20,7 @@ Andreas:
 	* Let the sort dialog guess whether there is a header
 	* Fix xls import of sheet labels [#586066]
 	* Fix html export [#586028]
+	* Avoid analysis tool crashes if required plugins are not loaded
 
 Jody:
 	* GOString start of richtext and phonetic support.

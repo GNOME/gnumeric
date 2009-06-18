@@ -51,23 +51,23 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_columns = NULL;
 	GnmFunc *fd_exact = NULL;
 
-	fd_sum = gnm_func_lookup ("SUM", NULL);
+	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", NULL, FALSE);
 	gnm_func_ref (fd_sum);
-	fd_if = gnm_func_lookup ("IF", NULL);
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF", NULL, FALSE);
 	gnm_func_ref (fd_if);
-	fd_index = gnm_func_lookup ("INDEX", NULL);
+	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", NULL, FALSE);
 	gnm_func_ref (fd_index);
-	fd_isblank = gnm_func_lookup ("ISBLANK", NULL);
+	fd_isblank = gnm_func_lookup_or_add_placeholder ("ISBLANK", NULL, FALSE);
 	gnm_func_ref (fd_isblank);
 	
 	if (info->exact) {
-		fd_exact = gnm_func_lookup ("EXACT", NULL);
+		fd_exact = gnm_func_lookup_or_add_placeholder ("EXACT", NULL, FALSE);
 		gnm_func_ref (fd_exact);
 	}
 	if (info->percentage) {
-		fd_rows = gnm_func_lookup ("ROWS", NULL);
+		fd_rows = gnm_func_lookup_or_add_placeholder ("ROWS", NULL, FALSE);
 		gnm_func_ref (fd_rows);
-		fd_columns = gnm_func_lookup ("COLUMNS", NULL);
+		fd_columns = gnm_func_lookup_or_add_placeholder ("COLUMNS", NULL, FALSE);
 		gnm_func_ref (fd_columns);
 	}
 	/* General Info */

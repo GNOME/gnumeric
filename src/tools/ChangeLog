@@ -1,3 +1,9 @@
+2009-06-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* *.c In all files in this directory replace gnm_func_lookup
+	  with gnm_func_lookup_or_add_placeholder to avoid crashes
+	  when plugins are not loaded.
+
 2009-06-07  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dao.c (dao_adjust): avoid calling gnm_sheet_get_max_* with

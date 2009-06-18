@@ -76,21 +76,21 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 
 	GSList *gl = info->group_list;
 
-	fd_small = gnm_func_lookup ("SMALL", NULL);
+	fd_small = gnm_func_lookup_or_add_placeholder ("SMALL", NULL, FALSE);
 	gnm_func_ref (fd_small);
-	fd_if = gnm_func_lookup ("IF", NULL);
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF", NULL, FALSE);
 	gnm_func_ref (fd_if);
-	fd_iserror = gnm_func_lookup ("ISERROR", NULL);
+	fd_iserror = gnm_func_lookup_or_add_placeholder ("ISERROR", NULL, FALSE);
 	gnm_func_ref (fd_iserror);
-	fd_sum = gnm_func_lookup ("SUM", NULL);
+	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", NULL, FALSE);
 	gnm_func_ref (fd_sum);
 	
 	if (info->std_err) {
-		fd_sqrt = gnm_func_lookup ("SQRT", NULL);
+		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", NULL, FALSE);
 		gnm_func_ref (fd_sqrt);
 	}
 	if (info->median) {
-		fd_min = gnm_func_lookup ("MIN", NULL);
+		fd_min = gnm_func_lookup_or_add_placeholder ("MIN", NULL, FALSE);
 		gnm_func_ref (fd_min);
 	}
 
@@ -523,7 +523,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 		GnmExpr const *expr_n_total = gnm_expr_new_constant (value_new_int (0));
 		GnmExpr const *expr_death_total = gnm_expr_new_constant (value_new_int (0));
 
-		fd_chidist = gnm_func_lookup ("CHIDIST", NULL);
+		fd_chidist = gnm_func_lookup_or_add_placeholder ("CHIDIST", NULL, FALSE);
 		gnm_func_ref (fd_chidist);
 
 		dao_set_italic (dao, 1, logrank_test_y_offset, 1, logrank_test_y_offset+3);
