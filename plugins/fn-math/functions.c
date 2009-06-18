@@ -340,6 +340,8 @@ static GnmFuncHelp const help_acot[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:value")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("ACOT(0.2) equals 1.3734") },
 	{ GNM_FUNC_HELP_SEEALSO, "COT,TAN"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:InverseCotangent.html") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Trigonometric_functions") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -347,6 +349,24 @@ static GnmValue *
 gnumeric_acot (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_float (gnm_acot (value_get_as_float (argv[0])));
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_acoth[] = {
+	{ GNM_FUNC_HELP_NAME, F_("ACOTH:inverse hyperbolic cotangent of a value")},
+	{ GNM_FUNC_HELP_ARG, F_("x:value")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("ACOTH(2.2) equals 0.4904") },
+	{ GNM_FUNC_HELP_SEEALSO, "COTH,TANH"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:InverseHyperbolicCotangent.html") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Inverse_hyperbolic_function") },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_acoth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_new_float (gnm_acoth (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -839,6 +859,8 @@ static GnmFuncHelp const help_cot[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:value")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("COT(0.12) equals 8.293") },
 	{ GNM_FUNC_HELP_SEEALSO, "TAN,ACOT"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Cotangent.html") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Trigonometric_functions") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -846,6 +868,24 @@ static GnmValue *
 gnumeric_cot (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	return value_new_float (gnm_cot (value_get_as_float (argv[0])));
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_coth[] = {
+	{ GNM_FUNC_HELP_NAME, F_("COT:hyperbolic cotangent of a value")},
+	{ GNM_FUNC_HELP_ARG, F_("x:value")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("COTH(0.12) equals 8.373") },
+	{ GNM_FUNC_HELP_SEEALSO, "TANH,ACOTH"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:HyperbolicCotangent.html") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Hyperbolic_function") },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_coth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_new_float (gnm_coth (value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -3150,6 +3190,9 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "acot",     "f", N_("number"),    help_acot,
 	  gnumeric_acot, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "acoth",     "f", N_("number"),    help_acoth,
+	  gnumeric_acoth, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "asin",    "f", N_("number"),    help_asin,
 	  gnumeric_asin, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
@@ -3179,6 +3222,9 @@ GnmFuncDescriptor const math_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{ "cot",     "f", N_("number"),    help_cot,
 	  gnumeric_cot, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "coth",     "f", N_("number"),    help_coth,
+	  gnumeric_coth, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
 /* MS Excel puts this in statistical */

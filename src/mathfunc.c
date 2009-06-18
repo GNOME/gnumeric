@@ -132,6 +132,19 @@ gnm_acot (gnm_float x)
 	}
 }
 
+gnm_float
+gnm_coth (gnm_float x)
+{
+	return 1 / gnm_tanh (x);
+}
+
+gnm_float
+gnm_acoth (gnm_float x)
+{
+	return gnm_atanh (1 / x);
+}
+
+
 /* ------------------------------------------------------------------------- */
 /* --- BEGIN MAGIC R SOURCE MARKER --- */
 

@@ -36,6 +36,8 @@ gnm_float logspace_sub (gnm_float logx, gnm_float logy);
 
 gnm_float gnm_cot (gnm_float x);
 gnm_float gnm_acot (gnm_float x);
+gnm_float gnm_coth (gnm_float x);
+gnm_float gnm_acoth (gnm_float x);
 
 gnm_float beta (gnm_float a, gnm_float b);
 gnm_float lbeta3 (gnm_float a, gnm_float b, int *sign);
