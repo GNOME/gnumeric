@@ -582,23 +582,29 @@ static GnmFuncHelp const help_countif[] = {
 };
 
 typedef struct {
-        GnmCriteriaFunc  test;
-        GnmValue *test_value;
-	GODateConventions const *date_conv;
+	GnmCriteria *crit;
 	int count;
 } CountIfClosure;
 
 static GnmValue *
 cb_countif (GnmCellIter const *iter, CountIfClosure *res)
 {
-	GnmCell *cell;
-	if (NULL != (cell = iter->cell)) {
-		gnm_cell_eval (cell);
-		if ((VALUE_IS_NUMBER (cell->value) ||
-		     VALUE_IS_STRING (cell->value)) &&
-		    (res->test) (cell->value, res->test_value, res->date_conv))
-			res->count++;
-	}
+	GnmCell *cell = iter->cell;
+	GnmValue *v;
+
+	if (!cell)
+		return NULL;
+
+	gnm_cell_eval (cell);
+	v = cell->value;
+
+	if (!VALUE_IS_NUMBER (v) && !VALUE_IS_STRING (v))
+		return NULL;
+
+	if (!res->crit->fun (v, res->crit->x, res->crit->date_conv))
+		return NULL;
+
+	res->count++;
 
 	return NULL;
 }
@@ -609,8 +615,9 @@ gnumeric_countif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
         GnmValueRange const *r = &argv[0]->v_range;
 	Sheet		*sheet;
 	GnmValue        *problem;
-	CellIterFlags	 iter_flags;
 	CountIfClosure   res;
+	GODateConventions const *date_conv =
+		workbook_date_conv (ei->pos->sheet->workbook);
 
 	/* XL has some limitations on @range that we currently emulate, but do
 	 * not need to.
@@ -622,18 +629,18 @@ gnumeric_countif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	    (!VALUE_IS_NUMBER (argv[1]) && !VALUE_IS_STRING (argv[1])))
 	        return value_new_error_VALUE (ei->pos);
 
-	res.date_conv = sheet ?	workbook_date_conv (sheet->workbook) : NULL;
-
 	res.count = 0;
-	parse_criteria (argv[1], &res.test, &res.test_value, &iter_flags,
-		workbook_date_conv (ei->pos->sheet->workbook));
-#warning 2006/May/31  Why do we not filter non-existent as a flag, rather than checking for NULL in cb_countif
-	problem = sheet_foreach_cell_in_range (sheet, iter_flags,
-		r->cell.a.col, r->cell.a.row, r->cell.b.col, r->cell.b.row,
-		(CellIterFunc) &cb_countif, &res);
-	value_release (res.test_value);
+	res.crit = parse_criteria (argv[1], date_conv);
+#warning "2006/May/31  Why do we not filter non-existent as a flag, rather than checking for NULL in cb_countif"
+	problem = sheet_foreach_cell_in_range
+		(sheet, res.crit->iter_flags,
+		 r->cell.a.col, r->cell.a.row, r->cell.b.col, r->cell.b.row,
+		 (CellIterFunc) &cb_countif, &res);
+	free_criteria (res.crit);
+
 	if (NULL != problem)
 	        return value_new_error_VALUE (ei->pos);
+
 	return value_new_int (res.count);
 }
 
@@ -666,44 +673,46 @@ static GnmFuncHelp const help_sumif[] = {
 };
 
 typedef struct {
-        GnmCriteriaFunc  test;
-        GnmValue            *test_value;
-	GODateConventions const *date_conv;
-
-	Sheet		*target_sheet;
-	int              offset_col, offset_row;
-	gnm_float	 sum;
+	GnmCriteria *crit;
+	Sheet *target_sheet;
+	int offset_col, offset_row;
+	gnm_float sum;
 } SumIfClosure;
 
 static GnmValue *
 cb_sumif (GnmCellIter const *iter, SumIfClosure *res)
 {
-	GnmCell *cell;
-	if (NULL == (cell = iter->cell))
+	GnmCell *cell = iter->cell;
+	GnmValue *v;
+	if (!cell)
 		return NULL;
-	gnm_cell_eval (cell);
 
-	if ((VALUE_IS_NUMBER (cell->value) || VALUE_IS_STRING (cell->value)) &&
-	    (res->test) (cell->value, res->test_value, res->date_conv)) {
-		if (NULL != res->target_sheet) {
-			cell = sheet_cell_get (res->target_sheet,
-				iter->pp.eval.col + res->offset_col,
-				iter->pp.eval.row + res->offset_row);
-			if (cell != NULL) {
-				gnm_cell_eval (cell);
-				switch (cell->value->type) {
-				case VALUE_FLOAT:
-					/* FIXME: Check bools.  */
-					res->sum += value_get_as_float (cell->value);
-					break;
-				default:
-					break;
-				}
-			}
-		} else
-			/* FIXME: Check bools.  */
-			res->sum += value_get_as_float (cell->value);
+	gnm_cell_eval (cell);
+	v = cell->value;
+
+	if (!VALUE_IS_NUMBER (v) && !VALUE_IS_STRING (v))
+		return NULL;
+
+	if (!res->crit->fun (v, res->crit->x, res->crit->date_conv))
+		return NULL;
+
+	if (NULL != res->target_sheet) {
+		cell = sheet_cell_get (res->target_sheet,
+				       iter->pp.eval.col + res->offset_col,
+				       iter->pp.eval.row + res->offset_row);
+		if (!cell)
+			return NULL;
+
+		gnm_cell_eval (cell);
+		v = cell->value;
+
+		/* FIXME: Check bools.  */
+		if (!VALUE_IS_FLOAT (v))
+			return NULL;
 	}
+
+	/* FIXME: Check bools.  */
+	res->sum += value_get_as_float (v);
 
 	return NULL;
 }
@@ -715,7 +724,8 @@ gnumeric_sumif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	Sheet *start_sheet, *end_sheet;
 	SumIfClosure res;
 	GnmValue *problem;
-	CellIterFlags iter_flags;
+	GODateConventions const *date_conv =
+		workbook_date_conv (ei->pos->sheet->workbook);
 
 	/* XL has some limitations on @range that we currently emulate, but do
 	 * not need to.
@@ -732,8 +742,6 @@ gnumeric_sumif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (start_sheet != end_sheet)
 		return value_new_error_VALUE (ei->pos);
 
-	res.date_conv = workbook_date_conv (start_sheet->workbook);
-
 	if (argv[2]) {
 		GnmRange ra;
 		/* See 557782.  */
@@ -749,14 +757,13 @@ gnumeric_sumif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		res.target_sheet = NULL;
 
 	res.sum = 0.;
-	parse_criteria (argv[1], &res.test, &res.test_value, &iter_flags,
-			res.date_conv);
-#warning 2006/May/31  Why do we not filter non-existent as a flag, rather than checking for NULL in cb_sumif
+	res.crit = parse_criteria (argv[1], date_conv);
+#warning "2006/May/31  Why do we not filter non-existent as a flag, rather than checking for NULL in cb_sumif"
 	problem = sheet_foreach_cell_in_range
-		(start_sheet, iter_flags,
+		(start_sheet, res.crit->iter_flags,
 		 rs.start.col, rs.start.row, rs.end.col, rs.end.row,
 		 (CellIterFunc) &cb_sumif, &res);
-	value_release (res.test_value);
+	free_criteria (res.crit);
 
 	if (NULL != problem)
 	        return value_new_error_VALUE (ei->pos);

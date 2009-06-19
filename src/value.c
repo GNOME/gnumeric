@@ -1532,6 +1532,13 @@ find_column_of_field (GnmEvalPos const *ep,
 	return column;
 }
 
+void
+free_criteria (GnmCriteria *criteria)
+{
+	value_release (criteria->x);
+	g_free (criteria);
+}
+
 /*
  * Frees the allocated memory.
  */
@@ -1541,16 +1548,9 @@ free_criterias (GSList *criterias)
         GSList *list = criterias;
 
         while (criterias != NULL) {
-		GSList *l;
 		GnmDBCriteria *criteria = criterias->data;
-
-		for (l = criteria->conditions; l; l = l->next) {
-			GnmCriteria *cond = l->data;
-			value_release (cond->x);
-			g_free (cond);
-		}
-
-		g_slist_free (criteria->conditions);
+		go_slist_free_custom (criteria->conditions,
+				      (GFreeFunc)free_criteria);
 		g_free (criteria);
 		criterias = criterias->next;
 	}
@@ -1560,59 +1560,64 @@ free_criterias (GSList *criterias)
 /**
  * parse_criteria :
  * @crit_val : #GnmValue
- * @fun : #GnmCriteriaFunc result
- * @test_value : #GnmValue the value to compare against.
- * @iter_flags :
  * @date_conv : #GODateConventions
  *
- * If @crit_val is a number set @text_val and @fun to test for equality, other
- * wise parse it as a string and see if it matches one of the available
- * operators.  Caller is responsible for freeing @test_value.
+ * Returns GnmCriteria which caller must free.
+ *
+ * ">=value"
+ * "<=value"
+ * "<>value"
+ * "<value"
+ * ">value"
+ * "=value"
+ * "pattern"
  **/
-void
-parse_criteria (GnmValue const *crit_val, GnmCriteriaFunc *fun, GnmValue **test_value,
-		CellIterFlags *iter_flags, GODateConventions const *date_conv)
+GnmCriteria *
+parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv)
 {
 	int len;
 	char const *criteria;
+	GnmCriteria *res = g_new0 (GnmCriteria, 1);
 
-	if (iter_flags)
-		*iter_flags = CELL_ITER_IGNORE_BLANK;
+	res->iter_flags = CELL_ITER_IGNORE_BLANK;
+	res->date_conv = date_conv;
+
 	if (VALUE_IS_NUMBER (crit_val)) {
-		*fun = criteria_test_equal;
-		*test_value = value_dup (crit_val);
-		return;
+		res->fun = criteria_test_equal;
+		res->x = value_dup (crit_val);
+		return res;
 	}
 
 	criteria = value_peek_string (crit_val);
         if (strncmp (criteria, "<=", 2) == 0) {
-		*fun = criteria_test_less_or_equal;
+		res->fun = criteria_test_less_or_equal;
 		len = 2;
 	} else if (strncmp (criteria, ">=", 2) == 0) {
-		*fun = criteria_test_greater_or_equal;
+		res->fun = criteria_test_greater_or_equal;
 		len = 2;
 	} else if (strncmp (criteria, "<>", 2) == 0) {
-		*fun = (GnmCriteriaFunc) criteria_test_unequal;
+		res->fun = (GnmCriteriaFunc) criteria_test_unequal;
 		len = 2;
-		if (iter_flags)
-			*iter_flags = CELL_ITER_ALL;
+		res->iter_flags = CELL_ITER_ALL;
 	} else if (*criteria == '<') {
-		*fun = (GnmCriteriaFunc) criteria_test_less;
+		res->fun = (GnmCriteriaFunc) criteria_test_less;
 		len = 1;
 	} else if (*criteria == '=') {
-		*fun = (GnmCriteriaFunc) criteria_test_equal;
+		res->fun = (GnmCriteriaFunc) criteria_test_equal;
 		len = 1;
 	} else if (*criteria == '>') {
-		*fun = (GnmCriteriaFunc) criteria_test_greater;
+		res->fun = (GnmCriteriaFunc) criteria_test_greater;
 		len = 1;
 	} else {
-		*fun = (GnmCriteriaFunc) criteria_test_equal;
+		res->fun = (GnmCriteriaFunc) criteria_test_equal;
 		len = 0;
 	}
 
-	*test_value = format_match (criteria + len, NULL, date_conv);
-	if (*test_value == NULL)
-		*test_value = value_new_string (criteria + len);
+	res->x = format_match (criteria + len, NULL, date_conv);
+	if (res->x == NULL)
+		res->x = value_new_string (criteria + len);
+
+	return res;
 }
 
 
@@ -1620,29 +1625,27 @@ static GSList *
 parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 		      int   *field_ind)
 {
-	GnmDBCriteria *new_criteria;
-	GSList              *criterias = NULL;
-	GSList              *conditions;
-	GnmCell		    *cell;
-	GnmCriteria     *cond;
-	GODateConventions const *date_conv = workbook_date_conv (sheet->workbook);
-
+	GSList *criterias = NULL;
+	GODateConventions const *date_conv =
+		workbook_date_conv (sheet->workbook);
         int i, j;
 
 	for (i = b_row; i <= e_row; i++) {
-		new_criteria = g_new (GnmDBCriteria, 1);
-		conditions = NULL;
+		GnmDBCriteria *new_criteria = g_new (GnmDBCriteria, 1);
+		GSList *conditions = NULL;
 
 		for (j = b_col; j <= e_col; j++) {
-			cell = sheet_cell_get (sheet, j, i);
+			GnmCriteria *cond;
+			GnmCell	*cell = sheet_cell_get (sheet, j, i);
 			if (cell != NULL)
 				gnm_cell_eval (cell);
 			if (gnm_cell_is_empty (cell))
 				continue;
 
-			cond = g_new (GnmCriteria, 1);
-			parse_criteria (cell->value, &cond->fun, &cond->x, NULL, date_conv);
-			cond->column = (field_ind != NULL) ? field_ind[j - b_col] : j - b_col;
+			cond = parse_criteria (cell->value, date_conv);
+			cond->column = (field_ind != NULL)
+				? field_ind[j - b_col]
+				: j - b_col;
 			conditions = g_slist_prepend (conditions, cond);
 		}
 

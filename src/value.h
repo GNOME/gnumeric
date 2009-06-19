@@ -192,17 +192,18 @@ typedef struct {
         GnmCriteriaFunc fun;
         GnmValue  *x;
         int	   column; /* absolute */
+	CellIterFlags iter_flags;
+	GODateConventions const *date_conv;
 } GnmCriteria;
+
 typedef struct {
         int     row;	/* absolute */
         GSList *conditions;
 } GnmDBCriteria;
 
-void	parse_criteria		(GnmValue const *criteria,
-				 GnmCriteriaFunc *fun,
-				 GnmValue **test_value,
-				 CellIterFlags *iter_flags,
-				 GODateConventions const *date_conv);
+GnmCriteria *parse_criteria (GnmValue const *crit_val,
+			     GODateConventions const *date_conv);
+void	free_criteria		(GnmCriteria *criteria);
 void	free_criterias		(GSList *criterias);
 GSList *find_rows_that_match	(Sheet *sheet, int first_col,
 				 int first_row, int last_col, int last_row,

@@ -1,3 +1,8 @@
+2009-06-19  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (parse_criteria): Return a GnmCriteria.  All callers
+	changed.
+
 2009-06-18  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (function_call_with_exprs): Make sure we can tell
