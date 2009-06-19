@@ -99,6 +99,7 @@ static struct {
 /* Formula Type */
 typedef enum {
 	FORMULA_OPENFORMULA = 0,
+	FORMULA_OLD_OPENOFFICE,
 	FORMULA_MICROSOFT,
 	NUM_FORMULAE_SUPPORTED
 } OOFormula;
@@ -608,6 +609,7 @@ oo_conventions_new (void)
 	conv->array_row_sep	= '|';
 	conv->input.func	= oo_func_map_in;
 	conv->input.range_ref	= oo_expr_rangeref_parse;
+	conv->sheet_name_sep	= '.';
 
 	return conv;
 }
@@ -623,6 +625,11 @@ oo_load_convention (OOParseState *state, OOFormula type)
 	case FORMULA_MICROSOFT:
 		convs = gnm_xml_io_conventions ();
 		convs->exp_is_left_associative = TRUE;
+		break;
+	case FORMULA_OLD_OPENOFFICE:
+		convs = oo_conventions_new ();
+		convs->sheet_name_sep	= '!'; /* Note that we are using this also as a marker*/
+		                               /* in the function handlers */
 		break;
 	case FORMULA_OPENFORMULA:
 	default:
@@ -1077,9 +1084,10 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				if (strncmp (expr_string, "msoxl:", 6) == 0) {
 					expr_string += 6;
 					f_type = FORMULA_MICROSOFT;
-				} else if (strncmp (expr_string, "oooc:", 5) == 0)
+				} else if (strncmp (expr_string, "oooc:", 5) == 0) {
 					expr_string += 5;
-				else if (strncmp (expr_string, "of:", 3) == 0)
+					f_type = FORMULA_OLD_OPENOFFICE;
+				} else if (strncmp (expr_string, "of:", 3) == 0)
 					expr_string += 3;
 				else if (strncmp (expr_string, "=", 1) == 0)
 					/* They really should include a namespace */
@@ -1089,7 +1097,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 					oo_warning (xin, _("Missing or unknown expression namespace: %s"), expr_string);
 					continue;
 				}
-			}
+			} else if (state->ver == OOO_VER_1)
+				f_type = FORMULA_OLD_OPENOFFICE;
 
 			expr_string = gnm_expr_char_start_p (expr_string);
 			if (expr_string == NULL)
@@ -3599,6 +3608,24 @@ static GsfXMLInNode const *get_dtd () { return opendoc_content_dtd; }
 /****************************************************************************/
 
 static GnmExpr const *
+odf_func_address_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
+{
+	guint argc = gnm_expr_list_length (args);
+
+	if (argc == 4 && convs->sheet_name_sep == '!') {
+		/* Openoffice was missing the A1 parameter */ 
+		GnmExprList *new_args;
+		GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("ADDRESS", scope, FALSE);
+		
+		new_args = g_slist_insert ((GSList *) args,
+					   (gpointer) gnm_expr_new_constant (value_new_int (1)),
+					   3);
+		return gnm_expr_new_funcall (f, new_args);
+	}
+	return NULL;
+}
+
+static GnmExpr const *
 odf_func_floor_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
 {
 	guint argc = gnm_expr_list_length (args);
@@ -3823,6 +3850,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{"CHISQDIST", odf_func_chisqdist_handler},
 		{"CEILING", odf_func_ceiling_handler},
 		{"FLOOR", odf_func_floor_handler},
+		{"ADDRESS", odf_func_address_handler},
 		{NULL, NULL}
 	};
 	
@@ -4279,7 +4307,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 	int i;
 	GnmExpr const * (*handler) (GnmConventions const *convs, Workbook *scope, GnmExprList *args);
 
-#warning "TODO : check ADDRESS, old OO did not used to have A1 parameter"
 	if (NULL == namemap) {
 		namemap = g_hash_table_new (go_ascii_strcase_hash,
 					    go_ascii_strcase_equal);
