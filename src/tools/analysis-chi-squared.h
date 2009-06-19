@@ -32,6 +32,7 @@
 #include "dao.h"
 #include "tools.h"
 #include "analysis-tools.h"
+#include "sheet.h"
 
 typedef struct {
 	WorkbookControl *wbc;

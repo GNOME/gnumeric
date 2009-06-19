@@ -33,6 +33,7 @@
 #include "ranges.h"
 #include "expr.h"
 #include "func.h"
+#include "sheet.h"
 #include "numbers.h"
 #include "mstyle.h"
 #include "style-border.h"
@@ -95,25 +96,25 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_fdist;
 	GnmFunc *fd_finv;
 
-	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", NULL, FALSE);
+	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_index);
-	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET", NULL, FALSE);
+	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_offset);
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", NULL, FALSE);
+	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_count);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", NULL, FALSE);
+	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_sum);
-	fd_sumsq = gnm_func_lookup_or_add_placeholder ("SUMSQ", NULL, FALSE);
+	fd_sumsq = gnm_func_lookup_or_add_placeholder ("SUMSQ", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_sumsq);
-	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE", NULL, FALSE);
+	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_average);
-	fd_var = gnm_func_lookup_or_add_placeholder ("VAR", NULL, FALSE);
+	fd_var = gnm_func_lookup_or_add_placeholder ("VAR", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_var);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF", NULL, FALSE);
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_if);
-	fd_fdist = gnm_func_lookup_or_add_placeholder ("FDIST", NULL, FALSE);
+	fd_fdist = gnm_func_lookup_or_add_placeholder ("FDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_fdist);
-	fd_finv = gnm_func_lookup_or_add_placeholder ("FINV", NULL, FALSE);
+	fd_finv = gnm_func_lookup_or_add_placeholder ("FINV", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_finv);
 
 	dao_set_merge (dao, 0, 0, 4, 0);
@@ -433,25 +434,25 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_fdist;
 	GnmFunc *fd_finv;
 
-	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", NULL, FALSE);
+	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_index);
-	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET", NULL, FALSE);
+	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_offset);
-	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", NULL, FALSE);
+	fd_count = gnm_func_lookup_or_add_placeholder ("COUNT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_count);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", NULL, FALSE);
+	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_sum);
-	fd_sumsq = gnm_func_lookup_or_add_placeholder ("SUMSQ", NULL, FALSE);
+	fd_sumsq = gnm_func_lookup_or_add_placeholder ("SUMSQ", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_sumsq);
-	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE", NULL, FALSE);
+	fd_average = gnm_func_lookup_or_add_placeholder ("AVERAGE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_average);
-	fd_var = gnm_func_lookup_or_add_placeholder ("VAR", NULL, FALSE);
+	fd_var = gnm_func_lookup_or_add_placeholder ("VAR", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_var);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF", NULL, FALSE);
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_if);
-	fd_fdist = gnm_func_lookup_or_add_placeholder ("FDIST", NULL, FALSE);
+	fd_fdist = gnm_func_lookup_or_add_placeholder ("FDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_fdist);
-	fd_finv = gnm_func_lookup_or_add_placeholder ("FINV", NULL, FALSE);
+	fd_finv = gnm_func_lookup_or_add_placeholder ("FINV", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_finv);
 
 	dao_set_merge (dao, 0, 0, 4, 0);

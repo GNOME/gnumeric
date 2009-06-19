@@ -60,21 +60,21 @@ analysis_tool_chi_squared_engine_run (data_analysis_output_t *dao,
 		? _("[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\"") 
 		: _("[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\"");
 
-	fd_mmult = gnm_func_lookup_or_add_placeholder ("MMULT", NULL, FALSE);
+	fd_mmult = gnm_func_lookup_or_add_placeholder ("MMULT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_mmult);
-	fd_row = gnm_func_lookup_or_add_placeholder ("ROW", NULL, FALSE);
+	fd_row = gnm_func_lookup_or_add_placeholder ("ROW", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_row);
-	fd_transpose = gnm_func_lookup_or_add_placeholder ("TRANSPOSE", NULL, FALSE);
+	fd_transpose = gnm_func_lookup_or_add_placeholder ("TRANSPOSE", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_transpose);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", NULL, FALSE);
+	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_sum);
-	fd_min = gnm_func_lookup_or_add_placeholder ("MIN", NULL, FALSE);
+	fd_min = gnm_func_lookup_or_add_placeholder ("MIN", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_min);
-	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET", NULL, FALSE);
+	fd_offset = gnm_func_lookup_or_add_placeholder ("OFFSET", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_offset);
-	fd_chiinv = gnm_func_lookup_or_add_placeholder ("CHIINV", NULL, FALSE);
+	fd_chiinv = gnm_func_lookup_or_add_placeholder ("CHIINV", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_chiinv);
-	fd_chidist = gnm_func_lookup_or_add_placeholder ("CHIDIST", NULL, FALSE);
+	fd_chidist = gnm_func_lookup_or_add_placeholder ("CHIDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_chidist);
 
 	dao_set_italic (dao, 0, 1, 0, 4);

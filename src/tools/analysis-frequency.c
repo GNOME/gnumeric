@@ -35,6 +35,7 @@
 #include "numbers.h"
 #include "sheet-object-graph.h"
 #include <goffice/goffice.h>
+#include "sheet.h"
 
 static gboolean
 analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
@@ -51,23 +52,23 @@ analysis_tool_frequency_engine_run (data_analysis_output_t *dao,
 	GnmFunc *fd_columns = NULL;
 	GnmFunc *fd_exact = NULL;
 
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", NULL, FALSE);
+	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_sum);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF", NULL, FALSE);
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_if);
-	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", NULL, FALSE);
+	fd_index = gnm_func_lookup_or_add_placeholder ("INDEX", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_index);
-	fd_isblank = gnm_func_lookup_or_add_placeholder ("ISBLANK", NULL, FALSE);
+	fd_isblank = gnm_func_lookup_or_add_placeholder ("ISBLANK", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_isblank);
 	
 	if (info->exact) {
-		fd_exact = gnm_func_lookup_or_add_placeholder ("EXACT", NULL, FALSE);
+		fd_exact = gnm_func_lookup_or_add_placeholder ("EXACT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 		gnm_func_ref (fd_exact);
 	}
 	if (info->percentage) {
-		fd_rows = gnm_func_lookup_or_add_placeholder ("ROWS", NULL, FALSE);
+		fd_rows = gnm_func_lookup_or_add_placeholder ("ROWS", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 		gnm_func_ref (fd_rows);
-		fd_columns = gnm_func_lookup_or_add_placeholder ("COLUMNS", NULL, FALSE);
+		fd_columns = gnm_func_lookup_or_add_placeholder ("COLUMNS", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 		gnm_func_ref (fd_columns);
 	}
 	/* General Info */

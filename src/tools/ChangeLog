@@ -1,5 +1,11 @@
 2009-06-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* *.c In all files in this directory where we use 
+	  gnm_func_lookup_or_add_placeholder we need to pass the 
+	  appropriate workbook as scope to avoid leaks and warnings.
+
+2009-06-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* *.c In all files in this directory replace gnm_func_lookup
 	  with gnm_func_lookup_or_add_placeholder to avoid crashes
 	  when plugins are not loaded.

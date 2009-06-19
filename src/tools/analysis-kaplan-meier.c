@@ -37,6 +37,7 @@
 #include "sheet-object-graph.h"
 #include "graph.h"
 #include <goffice/goffice.h>
+#include "sheet.h"
 
 static gboolean
 analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
@@ -76,21 +77,21 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 
 	GSList *gl = info->group_list;
 
-	fd_small = gnm_func_lookup_or_add_placeholder ("SMALL", NULL, FALSE);
+	fd_small = gnm_func_lookup_or_add_placeholder ("SMALL", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_small);
-	fd_if = gnm_func_lookup_or_add_placeholder ("IF", NULL, FALSE);
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_if);
-	fd_iserror = gnm_func_lookup_or_add_placeholder ("ISERROR", NULL, FALSE);
+	fd_iserror = gnm_func_lookup_or_add_placeholder ("ISERROR", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_iserror);
-	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", NULL, FALSE);
+	fd_sum = gnm_func_lookup_or_add_placeholder ("SUM", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 	gnm_func_ref (fd_sum);
 	
 	if (info->std_err) {
-		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", NULL, FALSE);
+		fd_sqrt = gnm_func_lookup_or_add_placeholder ("SQRT", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 		gnm_func_ref (fd_sqrt);
 	}
 	if (info->median) {
-		fd_min = gnm_func_lookup_or_add_placeholder ("MIN", NULL, FALSE);
+		fd_min = gnm_func_lookup_or_add_placeholder ("MIN", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 		gnm_func_ref (fd_min);
 	}
 
@@ -523,7 +524,7 @@ analysis_tool_kaplan_meier_engine_run (data_analysis_output_t *dao,
 		GnmExpr const *expr_n_total = gnm_expr_new_constant (value_new_int (0));
 		GnmExpr const *expr_death_total = gnm_expr_new_constant (value_new_int (0));
 
-		fd_chidist = gnm_func_lookup_or_add_placeholder ("CHIDIST", NULL, FALSE);
+		fd_chidist = gnm_func_lookup_or_add_placeholder ("CHIDIST", dao->sheet ? dao->sheet->workbook : NULL, FALSE);
 		gnm_func_ref (fd_chidist);
 
 		dao_set_italic (dao, 1, logrank_test_y_offset, 1, logrank_test_y_offset+3);
