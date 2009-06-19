@@ -3599,6 +3599,81 @@ static GsfXMLInNode const *get_dtd () { return opendoc_content_dtd; }
 /****************************************************************************/
 
 static GnmExpr const *
+odf_func_ceiling_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
+{
+	guint argc = gnm_expr_list_length (args);
+	switch (argc) {
+	case 1: {
+		GnmFunc  *f = gnm_func_lookup_or_add_placeholder ("CEIL", scope, FALSE);
+		return gnm_expr_new_funcall (f, args);
+	}
+	case 2: case 3: {
+		GnmExpr const *expr_mode_zero;
+		GnmExpr const *expr_mode_one;
+		GnmExpr const *expr_if;
+		GnmExpr const *expr_mode;
+		GnmExpr const *expr_sign;
+		GnmFunc  *fd_ceiling = gnm_func_lookup_or_add_placeholder ("CEILING", scope, FALSE);
+		GnmFunc  *fd_abs = gnm_func_lookup_or_add_placeholder ("ABS", scope, FALSE);
+		GnmFunc  *fd_sign = gnm_func_lookup_or_add_placeholder ("SIGN", scope, FALSE);
+		GnmFunc  *fd_if = gnm_func_lookup_or_add_placeholder ("IF", scope, FALSE);
+		
+		expr_sign = gnm_expr_new_funcall1 
+			(fd_sign, gnm_expr_copy (g_slist_nth_data ((GSList *) args, 0)));
+		expr_mode_zero = gnm_expr_new_binary 
+			(expr_sign,
+			 GNM_EXPR_OP_MULT,
+			 gnm_expr_new_funcall2 (fd_ceiling,
+						gnm_expr_new_funcall1 
+						(fd_abs, 
+						 gnm_expr_copy (g_slist_nth_data ((GSList *) args, 0))),
+						gnm_expr_new_binary 
+						(gnm_expr_copy (expr_sign),
+						 GNM_EXPR_OP_MULT, 
+						 gnm_expr_copy (g_slist_nth_data ((GSList *) args, 1)))));
+		if (argc == 2) {
+			gnm_expr_list_unref (args);
+			return expr_mode_zero;
+		}
+
+		expr_mode_one = 
+			gnm_expr_new_funcall2 (fd_ceiling,
+					       gnm_expr_copy (g_slist_nth_data ((GSList *) args, 0)),
+					       gnm_expr_copy (g_slist_nth_data ((GSList *) args, 1)));
+
+		expr_mode = g_slist_nth_data ((GSList *) args, 2);
+		if (GNM_EXPR_GET_OPER (expr_mode) == GNM_EXPR_OP_CONSTANT) {
+			GnmValue const * val = expr_mode->constant.value;
+			if (VALUE_IS_NUMBER (val)) {
+				gnm_float value = value_get_as_float (val);
+				if (value == 0.) {
+					gnm_expr_free (expr_mode_one);
+					gnm_expr_list_unref (args);
+					return expr_mode_zero;
+				} else {
+					gnm_expr_free (expr_mode_zero);
+					gnm_expr_list_unref (args);
+					return expr_mode_one;
+				}
+			}
+		}
+		expr_if = gnm_expr_new_funcall3 (fd_if,
+						 gnm_expr_new_binary 
+						 (gnm_expr_new_constant (value_new_int (0)),
+						  GNM_EXPR_OP_EQUAL,
+						  gnm_expr_copy (expr_mode)),
+						 expr_mode_zero,
+						 expr_mode_one);
+		gnm_expr_list_unref (args);
+		return expr_if;
+	}
+	default:
+		break;
+	}
+	return NULL;
+}
+
+static GnmExpr const *
 odf_func_chisqdist_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
 {
 	switch (gnm_expr_list_length (args)) {
@@ -3655,6 +3730,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		gpointer handler;
 	} const sc_func_handlers[] = {
 		{"CHISQDIST", odf_func_chisqdist_handler},
+		{"CEILING", odf_func_ceiling_handler},
 		{NULL, NULL}
 	};
 	
@@ -4112,7 +4188,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 	int i;
 	GnmExpr const * (*handler) (GnmConventions const *convs, Workbook *scope, GnmExprList *args);
 
-#warning "TODO : OO adds a 'mode' parm to floor/ceiling"
+#warning "TODO : OO adds a 'mode' parm to floor"
 #warning "TODO : OO missing 'A1' parm for address"
 	if (NULL == namemap) {
 		namemap = g_hash_table_new (go_ascii_strcase_hash,

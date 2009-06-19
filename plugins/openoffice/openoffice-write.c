@@ -1323,6 +1323,29 @@ odf_func_r_qchisq_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 	return FALSE;
 }
 
+static gboolean
+odf_func_ceiling_handler (GnmConventionsOut *out, GnmExprFunction const *func)
+{
+	GString *target = out->accum;
+	GnmExprConstPtr const *ptr = func->argv;
+	g_string_append (target, "CEILING(");
+	if (func->argc > 0) {
+		gnm_expr_as_gstring (ptr[0], out);
+		g_string_append_c (target, ';');
+		if (func->argc > 1)
+			gnm_expr_as_gstring (ptr[1], out);
+		else {
+			g_string_append (target, "SIGN(");
+			gnm_expr_as_gstring (ptr[0], out);
+			g_string_append_c (target, ')');
+		}
+		g_string_append (target, ";1)");
+		return TRUE;
+	}
+	return FALSE;
+}
+
+
 static void
 odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 {
@@ -1333,6 +1356,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 			{"R.QCHISQ", odf_func_r_qchisq_handler},
 			{"R.DCHISQ", odf_func_r_dchisq_handler},
 			{"R.PCHISQ", odf_func_r_pchisq_handler},
+			{"CEILING",  odf_func_ceiling_handler},
 			{NULL, NULL}
 	};
 	
@@ -1480,7 +1504,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "R.DBETA","ORG.GNUMERIC.R.DBETA" },
 		{ "R.DBINOM","ORG.GNUMERIC.R.DBINOM" },
 		{ "R.DCAUCHY","ORG.GNUMERIC.R.DCAUCHY" },
-		{ "R.DCHISQ","ORG.GNUMERIC.R.DCHISQ" },
+		{ "R.DCHISQ","ORG.GNUMERIC.R.DCHISQ" },   /* also see the handler code */
 		{ "R.DEXP","ORG.GNUMERIC.R.DEXP" },
 		{ "R.DF","ORG.GNUMERIC.R.DF" },
 		{ "R.DGAMMA","ORG.GNUMERIC.R.DGAMMA" },
@@ -1495,7 +1519,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "R.PBETA","ORG.GNUMERIC.R.PBETA" },
 		{ "R.PBINOM","ORG.GNUMERIC.R.PBINOM" },
 		{ "R.PCAUCHY","ORG.GNUMERIC.R.PCAUCHY" },
-		{ "R.PCHISQ","ORG.GNUMERIC.R.PCHISQ" },
+		{ "R.PCHISQ","ORG.GNUMERIC.R.PCHISQ" },  /* also see the handler code */
 		{ "R.PEXP","ORG.GNUMERIC.R.PEXP" },
 		{ "R.PF","ORG.GNUMERIC.R.PF" },
 		{ "R.PGAMMA","ORG.GNUMERIC.R.PGAMMA" },
@@ -1510,7 +1534,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "R.QBETA","ORG.GNUMERIC.R.QBETA" },
 		{ "R.QBINOM","ORG.GNUMERIC.R.QBINOM" },
 		{ "R.QCAUCHY","ORG.GNUMERIC.R.QCAUCHY" },
-		{ "R.QCHISQ","ORG.GNUMERIC.R.QCHISQ" },
+		{ "R.QCHISQ","ORG.GNUMERIC.R.QCHISQ" }, /* also  see the handler code */
 		{ "R.QEXP","ORG.GNUMERIC.R.QEXP" },
 		{ "R.QF","ORG.GNUMERIC.R.QF" },
 		{ "R.QGAMMA","ORG.GNUMERIC.R.QGAMMA" },
@@ -1567,7 +1591,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 /* { "BITOR","BITOR" }, */
 /* { "BITRSHIFT","BITRSHIFT" }, */
 /* { "BITXOR","BITXOR" }, */
-/* { "CEILING","CEILING" }, */
+/* { "CEILING","CEILING" },    see the handler code */
 /* { "CELL","CELL" }, */
 /* { "CHAR","CHAR" }, */
 /* /\* { "CHISQDIST","CHISQDIST" }, *\/ */

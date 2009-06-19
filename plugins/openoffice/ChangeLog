@@ -1,3 +1,10 @@
+2009-06-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_func_ceiling_handler): new
+	(oo_func_map_in): hook up the above handler
+	* openoffice-write.c (odf_func_ceiling_handler): new
+	(odf_expr_func_handler): hook up the above handler
+	
 2009-06-18 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_func_chisqdist_handler): new
