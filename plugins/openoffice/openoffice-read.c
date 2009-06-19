@@ -3612,34 +3612,37 @@ odf_func_ceiling_handler (GnmConventions const *convs, Workbook *scope, GnmExprL
 		GnmExpr const *expr_mode_one;
 		GnmExpr const *expr_if;
 		GnmExpr const *expr_mode;
-		GnmExpr const *expr_sign;
+		GnmExpr const *expr_x = g_slist_nth_data ((GSList *) args, 0);
+		GnmExpr const *expr_sig = g_slist_nth_data ((GSList *) args, 1);
+		
 		GnmFunc  *fd_ceiling = gnm_func_lookup_or_add_placeholder ("CEILING", scope, FALSE);
-		GnmFunc  *fd_abs = gnm_func_lookup_or_add_placeholder ("ABS", scope, FALSE);
-		GnmFunc  *fd_sign = gnm_func_lookup_or_add_placeholder ("SIGN", scope, FALSE);
+		GnmFunc  *fd_floor = gnm_func_lookup_or_add_placeholder ("FLOOR", scope, FALSE);
 		GnmFunc  *fd_if = gnm_func_lookup_or_add_placeholder ("IF", scope, FALSE);
 		
-		expr_sign = gnm_expr_new_funcall1 
-			(fd_sign, gnm_expr_copy (g_slist_nth_data ((GSList *) args, 0)));
-		expr_mode_zero = gnm_expr_new_binary 
-			(expr_sign,
-			 GNM_EXPR_OP_MULT,
-			 gnm_expr_new_funcall2 (fd_ceiling,
-						gnm_expr_new_funcall1 
-						(fd_abs, 
-						 gnm_expr_copy (g_slist_nth_data ((GSList *) args, 0))),
-						gnm_expr_new_binary 
-						(gnm_expr_copy (expr_sign),
-						 GNM_EXPR_OP_MULT, 
-						 gnm_expr_copy (g_slist_nth_data ((GSList *) args, 1)))));
+		expr_mode_zero = gnm_expr_new_funcall3
+			(fd_if,
+			 gnm_expr_new_binary 
+			 (gnm_expr_copy (expr_x),
+			  GNM_EXPR_OP_LT,
+			  gnm_expr_new_constant (value_new_int (0))),
+			 gnm_expr_new_funcall2 
+			 (fd_floor,
+			  gnm_expr_copy (expr_x),
+			  gnm_expr_copy (expr_sig)),
+			 gnm_expr_new_funcall2 
+			 (fd_ceiling,
+			  gnm_expr_copy (expr_x),
+			  gnm_expr_copy (expr_sig)));
 		if (argc == 2) {
 			gnm_expr_list_unref (args);
 			return expr_mode_zero;
 		}
 
 		expr_mode_one = 
-			gnm_expr_new_funcall2 (fd_ceiling,
-					       gnm_expr_copy (g_slist_nth_data ((GSList *) args, 0)),
-					       gnm_expr_copy (g_slist_nth_data ((GSList *) args, 1)));
+			gnm_expr_new_funcall2 
+			(fd_ceiling,
+			 gnm_expr_copy (expr_x),
+			 gnm_expr_copy (expr_sig));
 
 		expr_mode = g_slist_nth_data ((GSList *) args, 2);
 		if (GNM_EXPR_GET_OPER (expr_mode) == GNM_EXPR_OP_CONSTANT) {
@@ -3657,13 +3660,14 @@ odf_func_ceiling_handler (GnmConventions const *convs, Workbook *scope, GnmExprL
 				}
 			}
 		}
-		expr_if = gnm_expr_new_funcall3 (fd_if,
-						 gnm_expr_new_binary 
-						 (gnm_expr_new_constant (value_new_int (0)),
-						  GNM_EXPR_OP_EQUAL,
-						  gnm_expr_copy (expr_mode)),
-						 expr_mode_zero,
-						 expr_mode_one);
+		expr_if = gnm_expr_new_funcall3 
+			(fd_if,
+			 gnm_expr_new_binary 
+			 (gnm_expr_new_constant (value_new_int (0)),
+			  GNM_EXPR_OP_EQUAL,
+			  gnm_expr_copy (expr_mode)),
+			 expr_mode_zero,
+			 expr_mode_one);
 		gnm_expr_list_unref (args);
 		return expr_if;
 	}
