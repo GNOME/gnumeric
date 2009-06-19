@@ -3599,6 +3599,93 @@ static GsfXMLInNode const *get_dtd () { return opendoc_content_dtd; }
 /****************************************************************************/
 
 static GnmExpr const *
+odf_func_floor_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
+{
+	guint argc = gnm_expr_list_length (args);
+	GnmExpr const *expr_x;
+	GnmExpr const *expr_sig;
+	GnmExpr const *expr_mode;
+	GnmExpr const *expr_mode_zero;
+	GnmExpr const *expr_mode_one;
+	GnmExpr const *expr_if;
+	GnmFunc  *fd_ceiling;
+	GnmFunc  *fd_floor;
+	GnmFunc  *fd_if;
+
+	if (argc == 0 || argc > 3)
+		return NULL;
+
+	fd_ceiling = gnm_func_lookup_or_add_placeholder ("CEILING", scope, FALSE);
+	fd_floor = gnm_func_lookup_or_add_placeholder ("FLOOR", scope, FALSE);
+	fd_if = gnm_func_lookup_or_add_placeholder ("IF", scope, FALSE);
+
+	expr_x = g_slist_nth_data ((GSList *) args, 0);
+	if (argc > 1)
+		expr_sig = gnm_expr_copy (g_slist_nth_data ((GSList *) args, 1));
+	else {
+		GnmFunc  *fd_sign = gnm_func_lookup_or_add_placeholder ("SIGN", scope, FALSE);
+		expr_sig = gnm_expr_new_funcall1 (fd_sign, gnm_expr_copy (expr_x));
+	}
+
+	expr_mode_zero = gnm_expr_new_funcall3
+		(fd_if,
+		 gnm_expr_new_binary 
+		 (gnm_expr_copy (expr_x),
+		  GNM_EXPR_OP_LT,
+		  gnm_expr_new_constant (value_new_int (0))),
+		 gnm_expr_new_funcall2 
+		 (fd_ceiling,
+		  gnm_expr_copy (expr_x),
+		  gnm_expr_copy (expr_sig)),
+		 gnm_expr_new_funcall2 
+		 (fd_floor,
+		  gnm_expr_copy (expr_x),
+		  gnm_expr_copy (expr_sig)));
+	if (argc < 3) {
+		gnm_expr_free (expr_sig);
+		gnm_expr_list_unref (args);
+		return expr_mode_zero;
+	}
+
+	expr_mode_one = 
+		gnm_expr_new_funcall2 
+		(fd_floor,
+		 gnm_expr_copy (expr_x),
+		 gnm_expr_copy (expr_sig));
+
+	expr_mode = g_slist_nth_data ((GSList *) args, 2);
+	if (GNM_EXPR_GET_OPER (expr_mode) == GNM_EXPR_OP_CONSTANT) {
+		GnmValue const * val = expr_mode->constant.value;
+		if (VALUE_IS_NUMBER (val)) {
+			gnm_float value = value_get_as_float (val);
+			if (value == 0.) {
+				gnm_expr_free (expr_mode_one);
+				gnm_expr_list_unref (args);
+				gnm_expr_free (expr_sig);
+				return expr_mode_zero;
+			} else {
+				gnm_expr_free (expr_mode_zero);
+				gnm_expr_list_unref (args);
+				gnm_expr_free (expr_sig);
+				return expr_mode_one;
+			}
+		}
+	}
+	expr_if = gnm_expr_new_funcall3 
+		(fd_if,
+		 gnm_expr_new_binary 
+		 (gnm_expr_new_constant (value_new_int (0)),
+		  GNM_EXPR_OP_EQUAL,
+		  gnm_expr_copy (expr_mode)),
+		 expr_mode_zero,
+		 expr_mode_one);
+
+	gnm_expr_free (expr_sig);
+	gnm_expr_list_unref (args);
+	return expr_if;
+}
+
+static GnmExpr const *
 odf_func_ceiling_handler (GnmConventions const *convs, Workbook *scope, GnmExprList *args)
 {
 	guint argc = gnm_expr_list_length (args);
@@ -3735,6 +3822,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 	} const sc_func_handlers[] = {
 		{"CHISQDIST", odf_func_chisqdist_handler},
 		{"CEILING", odf_func_ceiling_handler},
+		{"FLOOR", odf_func_floor_handler},
 		{NULL, NULL}
 	};
 	
@@ -3751,7 +3839,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* The following is a list of the functions defined in ODF OpenFormula draft 20090508 */
 /* where we do not have a function with the same name                                 */
 
-/* { "ACOTH","ACOTH" }, */
 /* { "ARABIC","ARABIC" }, */
 /* { "AVERAGEIFS","AVERAGEIFS" }, */
 /* { "B","B" }, */
@@ -3796,7 +3883,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "LEGACY.FINV","FINV" },
 		{ "LEGACY.NORMSDIST","NORMSDIST" },
 		{ "LEGACY.NORMSINV","NORMSINV" },
-		{ "CHISQINV","R.QCHISQ" },
+		{ "CHISQINV","R.QCHISQ" },    /* also see handler */
 		{ "FORMULA","GET.FORMULA" },
 
 /* { "ABS","ABS" }, */
@@ -3839,7 +3926,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* { "BITOR","BITOR" }, */
 /* { "BITRSHIFT","BITRSHIFT" }, */
 /* { "BITXOR","BITXOR" }, */
-/* { "CEILING","CEILING" }, */
+/* { "CEILING","CEILING" },               see handler */
 /* { "CHAR","CHAR" }, */
 /* { "CHISQDIST","CHISQDIST" }, */
 /* { "CHISQINV","CHISQINV" }, */
@@ -4192,8 +4279,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 	int i;
 	GnmExpr const * (*handler) (GnmConventions const *convs, Workbook *scope, GnmExprList *args);
 
-#warning "TODO : OO adds a 'mode' parm to floor"
-#warning "TODO : OO missing 'A1' parm for address"
+#warning "TODO : check ADDRESS, old OO did not used to have A1 parameter"
 	if (NULL == namemap) {
 		namemap = g_hash_table_new (go_ascii_strcase_hash,
 					    go_ascii_strcase_equal);

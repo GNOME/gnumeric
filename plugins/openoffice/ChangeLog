@@ -1,5 +1,13 @@
 2009-06-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_func_floor_handler): new
+	(oo_func_map_in): hook up above handler
+	* openoffice-write.c (odf_func_ceiling_handler):  rename to
+	  odf_func_floor_ceiling_handler and change all callers
+	(odf_expr_func_handler): hook uup handler for FLOOR
+	
+2009-06-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_func_ceiling_handler): fix logic
 	
 2009-06-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>

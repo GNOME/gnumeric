@@ -1324,11 +1324,12 @@ odf_func_r_qchisq_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 }
 
 static gboolean
-odf_func_ceiling_handler (GnmConventionsOut *out, GnmExprFunction const *func)
+odf_func_floor_ceiling_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 {
 	GString *target = out->accum;
 	GnmExprConstPtr const *ptr = func->argv;
-	g_string_append (target, "CEILING(");
+	g_string_append (target, func->func->name);
+	g_string_append_c (target, '(');
 	if (func->argc > 0) {
 		gnm_expr_as_gstring (ptr[0], out);
 		g_string_append_c (target, ';');
@@ -1356,7 +1357,8 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 			{"R.QCHISQ", odf_func_r_qchisq_handler},
 			{"R.DCHISQ", odf_func_r_dchisq_handler},
 			{"R.PCHISQ", odf_func_r_pchisq_handler},
-			{"CEILING",  odf_func_ceiling_handler},
+			{"CEILING",  odf_func_floor_ceiling_handler},
+			{"FLOOR",  odf_func_floor_ceiling_handler},
 			{NULL, NULL}
 	};
 	
