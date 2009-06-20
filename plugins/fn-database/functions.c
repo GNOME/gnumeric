@@ -81,13 +81,13 @@ find_cells_that_match (Sheet *sheet, GnmValue const *database,
 			condition = current_criteria->conditions;
 
 			for (;condition != NULL ; condition = condition->next) {
-				GnmCriteria const *cond = condition->data;
+				GnmCriteria *cond = condition->data;
 				GnmCell *tmp = sheet_cell_get (sheet,
 					cond->column, row);
 				if (tmp != NULL)
 					gnm_cell_eval (tmp);
 				if (gnm_cell_is_empty (tmp) ||
-				    !cond->fun (tmp->value, cond->x, date_conv)) {
+				    !cond->fun (tmp->value, cond)) {
 					add_flag = FALSE;
 					break;
 				}

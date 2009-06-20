@@ -185,16 +185,19 @@ extern GnmValueErr const value_terminate_err;
 
 void value_array_set       (GnmValue *array, int col, int row, GnmValue *v);
 
+typedef struct _GnmCriteria GnmCriteria;
+
 /* FIXME: this stuff below ought to go elsewhere.  */
-typedef gboolean (*GnmCriteriaFunc) (GnmValue const *x, GnmValue const *y,
-				     GODateConventions const *date_conv);
-typedef struct {
+typedef gboolean (*GnmCriteriaFunc) (GnmValue const *x, GnmCriteria *crit);
+struct _GnmCriteria {
         GnmCriteriaFunc fun;
-        GnmValue  *x;
-        int	   column; /* absolute */
+        GnmValue *x;
+        int column; /* absolute */
 	CellIterFlags iter_flags;
 	GODateConventions const *date_conv;
-} GnmCriteria;
+	GORegexp rx;
+	gboolean has_rx;
+};
 
 typedef struct {
         int     row;	/* absolute */

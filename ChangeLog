@@ -1,3 +1,14 @@
+2009-06-20  Morten Welinder  <terra@gnome.org>
+
+	* src/value.c (criteria_test_match): New function.
+	(free_criteria): Free regexp if needed.
+	(criteria_inspect_values, criteria_test_equal,
+	criteria_test_unequal, criteria_test_less, criteria_test_greater,
+	criteria_test_less_or_equal, criteria_test_greater_or_equal): Take
+	GnmCriteria instead of y and date_conv.  All callers changed.
+	(parse_criteria): The no-operator case is criteria_test_match, not
+	criteria_test_equal.
+
 2009-06-20  Morten Welinder <terra@gnome.org>
 
 	* configure.in: Post-release bump.

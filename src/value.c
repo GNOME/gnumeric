@@ -1337,11 +1337,11 @@ value_set_fmt (GnmValue *v, GOFormat const *fmt)
 typedef enum { CRIT_NULL, CRIT_FLOAT, CRIT_BADFLOAT, CRIT_STRING } CritType;
 
 static CritType
-criteria_inspect_values (GnmValue const *x, GnmValue const *y,
-			 gnm_float *xr, gnm_float *yr,
-			 GODateConventions const *date_conv)
+criteria_inspect_values (GnmValue const *x, gnm_float *xr, gnm_float *yr,
+			 GnmCriteria *crit)
 {
 	GnmValue *vx;
+	GnmValue const *y = crit->x;
 
 	if (x == NULL || y == NULL)
 		return CRIT_NULL;
@@ -1355,7 +1355,7 @@ criteria_inspect_values (GnmValue const *x, GnmValue const *y,
 		return CRIT_FLOAT;
 	}
 
-	vx = format_match (value_peek_string (x), NULL, date_conv);
+	vx = format_match (value_peek_string (x), NULL, crit->date_conv);
 	if (!vx)
 		return CRIT_BADFLOAT;
 
@@ -1366,12 +1366,12 @@ criteria_inspect_values (GnmValue const *x, GnmValue const *y,
 
 
 static gboolean
-criteria_test_equal (GnmValue const *x, GnmValue const *y,
-		     GODateConventions const *date_conv)
+criteria_test_equal (GnmValue const *x, GnmCriteria *crit)
 {
 	gnm_float xf, yf;
+	GnmValue const *y = crit->x;
 
-	switch (criteria_inspect_values (x, y, &xf, &yf, date_conv)) {
+	switch (criteria_inspect_values (x, &xf, &yf, crit)) {
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
@@ -1387,12 +1387,11 @@ criteria_test_equal (GnmValue const *x, GnmValue const *y,
 }
 
 static gboolean
-criteria_test_unequal (GnmValue const *x, GnmValue const *y,
-		       GODateConventions const *date_conv)
+criteria_test_unequal (GnmValue const *x, GnmCriteria *crit)
 {
 	gnm_float xf, yf;
 
-	switch (criteria_inspect_values (x, y, &xf, &yf, date_conv)) {
+	switch (criteria_inspect_values (x, &xf, &yf, crit)) {
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
@@ -1403,17 +1402,16 @@ criteria_test_unequal (GnmValue const *x, GnmValue const *y,
 	case CRIT_STRING:
 		/* FIXME: _ascii_??? */
 		return g_ascii_strcasecmp (value_peek_string (x),
-					   value_peek_string (y)) != 0;
+					   value_peek_string (crit->x)) != 0;
 	}
 }
 
 static gboolean
-criteria_test_less (GnmValue const *x, GnmValue const *y,
-		    GODateConventions const *date_conv)
+criteria_test_less (GnmValue const *x, GnmCriteria *crit)
 {
 	gnm_float xf, yf;
 
-	switch (criteria_inspect_values (x, y, &xf, &yf, date_conv)) {
+	switch (criteria_inspect_values (x, &xf, &yf, crit)) {
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
@@ -1426,12 +1424,11 @@ criteria_test_less (GnmValue const *x, GnmValue const *y,
 }
 
 static gboolean
-criteria_test_greater (GnmValue const *x, GnmValue const *y,
-		       GODateConventions const *date_conv)
+criteria_test_greater (GnmValue const *x, GnmCriteria *crit)
 {
 	gnm_float xf, yf;
 
-	switch (criteria_inspect_values (x, y, &xf, &yf, date_conv)) {
+	switch (criteria_inspect_values (x, &xf, &yf, crit)) {
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
@@ -1444,12 +1441,11 @@ criteria_test_greater (GnmValue const *x, GnmValue const *y,
 }
 
 static gboolean
-criteria_test_less_or_equal (GnmValue const *x, GnmValue const *y,
-			     GODateConventions const *date_conv)
+criteria_test_less_or_equal (GnmValue const *x, GnmCriteria *crit)
 {
 	gnm_float xf, yf;
 
-	switch (criteria_inspect_values (x, y, &xf, &yf, date_conv)) {
+	switch (criteria_inspect_values (x, &xf, &yf, crit)) {
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
@@ -1462,12 +1458,11 @@ criteria_test_less_or_equal (GnmValue const *x, GnmValue const *y,
 }
 
 static gboolean
-criteria_test_greater_or_equal (GnmValue const *x, GnmValue const *y,
-				GODateConventions const *date_conv)
+criteria_test_greater_or_equal (GnmValue const *x, GnmCriteria *crit)
 {
 	gnm_float xf, yf;
 
-	switch (criteria_inspect_values (x, y, &xf, &yf, date_conv)) {
+	switch (criteria_inspect_values (x, &xf, &yf, crit)) {
 	default:
 		g_assert_not_reached ();
 	case CRIT_NULL:
@@ -1477,6 +1472,15 @@ criteria_test_greater_or_equal (GnmValue const *x, GnmValue const *y,
 	case CRIT_FLOAT:
 		return xf >= yf;
 	}
+}
+
+static gboolean
+criteria_test_match (GnmValue const *x, GnmCriteria *crit)
+{
+	if (!crit->has_rx)
+		return FALSE;
+
+	return go_regexec (&crit->rx, value_peek_string (x), 0, NULL, 0) == REG_OK;
 }
 
 /*
@@ -1536,6 +1540,8 @@ void
 free_criteria (GnmCriteria *criteria)
 {
 	value_release (criteria->x);
+	if (criteria->has_rx)
+		go_regfree (&criteria->rx);
 	g_free (criteria);
 }
 
@@ -1596,20 +1602,21 @@ parse_criteria (GnmValue const *crit_val, GODateConventions const *date_conv)
 		res->fun = criteria_test_greater_or_equal;
 		len = 2;
 	} else if (strncmp (criteria, "<>", 2) == 0) {
-		res->fun = (GnmCriteriaFunc) criteria_test_unequal;
+		res->fun = criteria_test_unequal;
 		len = 2;
 		res->iter_flags = CELL_ITER_ALL;
 	} else if (*criteria == '<') {
-		res->fun = (GnmCriteriaFunc) criteria_test_less;
+		res->fun = criteria_test_less;
 		len = 1;
 	} else if (*criteria == '=') {
-		res->fun = (GnmCriteriaFunc) criteria_test_equal;
+		res->fun = criteria_test_equal;
 		len = 1;
 	} else if (*criteria == '>') {
-		res->fun = (GnmCriteriaFunc) criteria_test_greater;
+		res->fun = criteria_test_greater;
 		len = 1;
 	} else {
-		res->fun = (GnmCriteriaFunc) criteria_test_equal;
+		res->fun = criteria_test_match;
+		res->has_rx = (gnm_regcomp_XL (&res->rx, criteria, 0, TRUE) == REG_OK);
 		len = 0;
 	}
 
@@ -1714,22 +1721,19 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 	gboolean   add_flag;
 	char const *t1, *t2;
 	GnmCell   *test_cell;
-	GnmCriteria const *cond;
-	GODateConventions const *date_conv =
-		workbook_date_conv (sheet->workbook);
 
 	for (row = first_row; row <= last_row; row++) {
 		add_flag = TRUE;
-		for (crit_ptr = criterias; crit_ptr != NULL; crit_ptr = crit_ptr->next) {
+		for (crit_ptr = criterias; crit_ptr; crit_ptr = crit_ptr->next) {
 			add_flag = TRUE;
 			for (cond_ptr = ((GnmDBCriteria const *)crit_ptr->data)->conditions;
 			     cond_ptr != NULL ; cond_ptr = cond_ptr->next) {
-				cond = cond_ptr->data;
+				GnmCriteria *cond = cond_ptr->data;
 				test_cell = sheet_cell_get (sheet, cond->column, row);
 				if (test_cell != NULL) {
 					gnm_cell_eval (test_cell);
 					if (!gnm_cell_is_empty (test_cell) &&
-					    !cond->fun (test_cell->value, cond->x, date_conv)) {
+					    !cond->fun (test_cell->value, cond)) {
 						add_flag = FALSE;
 						break;
 					}

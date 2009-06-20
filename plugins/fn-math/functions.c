@@ -601,7 +601,7 @@ cb_countif (GnmCellIter const *iter, CountIfClosure *res)
 	if (!VALUE_IS_NUMBER (v) && !VALUE_IS_STRING (v))
 		return NULL;
 
-	if (!res->crit->fun (v, res->crit->x, res->crit->date_conv))
+	if (!res->crit->fun (v, res->crit))
 		return NULL;
 
 	res->count++;
@@ -693,7 +693,7 @@ cb_sumif (GnmCellIter const *iter, SumIfClosure *res)
 	if (!VALUE_IS_NUMBER (v) && !VALUE_IS_STRING (v))
 		return NULL;
 
-	if (!res->crit->fun (v, res->crit->x, res->crit->date_conv))
+	if (!res->crit->fun (v, res->crit))
 		return NULL;
 
 	if (NULL != res->target_sheet) {

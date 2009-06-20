@@ -1,5 +1,9 @@
 Gnumeric 1.9.10
 
+Morten:
+	* Make SUMIF/COUNTIF and the D* functions understand pattern.
+	[#586215]
+
 --------------------------------------------------------------------------
 Gnumeric 1.9.9
 
@@ -12,18 +16,18 @@ Andreas:
 	* Remove distinction between label and filled rectangle.
 	* Add superscipt and subscript buttons. [#583327]
 	* Improve ODF import.
-	* Improve 2 factor ANOVA tool
-	* Improve Rank & Percentiles tool
-	* Improve Fourier transform tool
-	* New FOURIER function
-	* Added Tests for Independence and Homogeneity
-	* Make imported manual page breaks work
-	* Improve print area handling and export to ODF
-	* Some minor menu rearrangement
-	* Let the sort dialog guess whether there is a header
-	* Fix xls import of sheet labels [#586066]
-	* Fix html export [#586028]
-	* Avoid analysis tool crashes if required plugins are not loaded
+	* Improve 2 factor ANOVA tool.
+	* Improve Rank & Percentiles tool.
+	* Improve Fourier transform tool.
+	* New FOURIER function.
+	* Added Tests for Independence and Homogeneity.
+	* Make imported manual page breaks work.
+	* Improve print area handling and export to ODF.
+	* Some minor menu rearrangement.
+	* Let the sort dialog guess whether there is a header.
+	* Fix xls import of sheet labels.  [#586066]
+	* Fix html export.  [#586028]
+	* Avoid analysis tool crashes if required plugins are not loaded.
 
 Jody:
 	* GOString start of richtext and phonetic support.
