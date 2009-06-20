@@ -1,5 +1,8 @@
 2009-06-20  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-util.c (gnumeric_restore_window_geometry): Split out
+	from gnumeric_keyed_dialog.
+
 	* src/value.c (criteria_test_match): New function.
 	(free_criteria): Free regexp if needed.
 	(criteria_inspect_values, criteria_test_equal,

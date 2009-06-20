@@ -61,6 +61,8 @@
 
 #include <string.h>
 
+#define CELL_FORMAT_KEY "cell-format-dialog"
+
 static struct {
 	char const *Cname;
 	GnmUnderline ut;
@@ -2321,6 +2323,9 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	wbc_gtk_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_fmt_dialog_dialog_destroy);
+
+	gnumeric_restore_window_geometry (GTK_WINDOW (state->dialog),
+					  CELL_FORMAT_KEY);
 
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));

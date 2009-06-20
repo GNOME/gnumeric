@@ -209,6 +209,33 @@ cb_save_sizes (GtkWidget *dialog, const char *key)
 	g_hash_table_replace (h, g_strdup (key), r);
 }
 
+void
+gnumeric_restore_window_geometry (GtkWindow *dialog, const char *key)
+{
+	GtkWidget *top = gtk_widget_get_toplevel (GTK_WIDGET (dialog));
+	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (dialog));
+	GHashTable *h = g_object_get_data (G_OBJECT (screen), SAVE_SIZES_SCREEN_KEY);
+	GdkRectangle *allocation = h ? g_hash_table_lookup (h, key) : NULL;
+
+	if (allocation) {
+#if 0
+		g_printerr ("Restoring %s to %dx%d at (%d,%d)\n",
+			    key, allocation->width, allocation->height,
+			    allocation->x, allocation->y);
+#endif
+		gtk_window_move
+			(GTK_WINDOW (top),
+			 allocation->x, allocation->y);
+		gtk_window_set_default_size
+			(GTK_WINDOW (top),
+			 allocation->width, allocation->height);
+	}
+
+	g_signal_connect (G_OBJECT (dialog), "unrealize",
+			  G_CALLBACK (cb_save_sizes),
+			  (gpointer)key);
+}
+
 /**
  * gnumeric_keyed_dialog
  *
@@ -225,10 +252,6 @@ void
 gnumeric_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
 {
 	KeyedDialogContext *ctxt;
-	GtkWindow *top;
-	GdkScreen *screen;
-	GHashTable *h;
-	GdkRectangle *allocation;
 
 	g_return_if_fail (IS_WBC_GTK (wbcg));
 	g_return_if_fail (GTK_IS_WINDOW (dialog));
@@ -250,29 +273,7 @@ gnumeric_keyed_dialog (WBCGtk *wbcg, GtkWindow *dialog, char const *key)
 	g_signal_connect (G_OBJECT (dialog), "key_press_event",
 			  G_CALLBACK (cb_keyed_dialog_keypress), NULL);
 
-	top = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (dialog)));
-	screen = gtk_widget_get_screen (GTK_WIDGET (dialog));
-	h = g_object_get_data (G_OBJECT (screen), SAVE_SIZES_SCREEN_KEY);
-	allocation = h ? g_hash_table_lookup (h, key) : NULL;
-
-	/* TECHOLOGY PREVIEW -- ZOOM & COMMENT DIALOG ONLY.  */
-	if ((strcmp (key, "zoom-dialog") == 0) ||
-	    (strcmp (key, "cell-comment-dialog") == 0)) {
-		if (allocation) {
-#if 0
-			g_print ("Restoring %s to %dx%d at (%d,%d)\n",
-				 key, allocation->width, allocation->height,
-				 allocation->x, allocation->y);
-#endif
-			gtk_window_move (top, allocation->x, allocation->y);
-			gtk_window_set_default_size
-				(top, allocation->width, allocation->height);
-		}
-
-		g_signal_connect (G_OBJECT (dialog), "unrealize",
-				  G_CALLBACK (cb_save_sizes),
-				  (gpointer)key);
-	}
+	gnumeric_restore_window_geometry (dialog, key);
 }
 
 /**

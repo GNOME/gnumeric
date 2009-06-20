@@ -19,6 +19,8 @@ G_BEGIN_DECLS
 GtkWidget* gnumeric_error_info_dialog_new (ErrorInfo *error);
 void       gnumeric_error_info_dialog_show (GtkWindow *parent,
                                             ErrorInfo *error);
+void       gnumeric_restore_window_geometry (GtkWindow *dialog,
+					     const char *key);
 void       gnumeric_keyed_dialog (WBCGtk *wbcg,
 				  GtkWindow *dialog,
 				  char const *key);

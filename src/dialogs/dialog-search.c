@@ -47,6 +47,8 @@
 #include <gtk/gtk.h>
 #include <string.h>
 
+#define SEARCH_KEY "search-dialog"
+
 enum {
 	COL_SHEET = 0,
 	COL_CELL,
@@ -550,6 +552,7 @@ dialog_search (WBCGtk *wbcg)
 	gnumeric_init_help_button (
 		glade_xml_get_widget (gui, "help_button"),
 		GNUMERIC_HELP_LINK_SEARCH);
+	gnumeric_restore_window_geometry (GTK_WINDOW (dialog), SEARCH_KEY);
 
 	go_gtk_nonmodal_dialog (wbcg_toplevel (wbcg), GTK_WINDOW (dialog));
 	gtk_widget_show_all (GTK_WIDGET (dialog));

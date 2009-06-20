@@ -1,8 +1,8 @@
 Gnumeric 1.9.10
 
 Morten:
-	* Make SUMIF/COUNTIF and the D* functions understand pattern.
-	[#586215]
+	* Make SUMIF/COUNTIF and the D* functions understand pattern. [#586215]
+	* Make dialogs remember their sizes and positions.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.9
