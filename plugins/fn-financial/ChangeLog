@@ -1,3 +1,7 @@
+2009-06-20  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.9
+
 2009-06-09  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_nper): Negative rates make sense down to,

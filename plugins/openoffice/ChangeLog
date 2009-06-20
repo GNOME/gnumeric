@@ -1,3 +1,7 @@
+2009-06-20  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.9
+
 2009-06-19 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (odf_func_address_handler): new

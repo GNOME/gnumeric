@@ -1,3 +1,7 @@
+2009-06-20  Morten Welinder <terra@gnome.org>
+
+	* Release 1.9.9
+
 2009-06-19  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_periodogram): Fix another crash.  #586427.
