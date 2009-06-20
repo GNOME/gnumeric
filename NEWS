@@ -48,7 +48,7 @@ Morten:
 	* Fixed FIXED.  No, really.
 	* Start introducing external references for function docs.
 	* Implement new functions COTH and ACOTH.  [#586170]
-	* Fix tsa crash.  [#586191]
+	* Fix tsa crashes.  [#586191, #586427]
 	* Fix IF problems with empties and arrays.  [#586218, #586312]
 
 --------------------------------------------------------------------------

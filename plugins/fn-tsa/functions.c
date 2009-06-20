@@ -838,6 +838,11 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			interpolated[i] = start + i * incr;
 		g_free (ord);
 		ord = interpproc (absc, ord, n0, interpolated, n1);
+		if (ord == NULL) {
+			g_free (absc);
+			g_free (interpolated);
+			return value_new_error_std (ei->pos, GNM_ERROR_NA);
+		}
 		n0 = nb;
 	} else {
 		/* we have no interpolation to apply, so just take the values */
@@ -882,6 +887,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 
 	/* Transform and return the result */
+	g_printerr ("n0=%d nb=%d\n", n0, nb);
 	in = g_new0 (complex_t, nb);
 	for (i = 0; i < n0; i++)
 	     in[i].re = ord[i];
