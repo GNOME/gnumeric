@@ -10,6 +10,7 @@ src/sstest.c
 component/Gnumeric-embed.xml.in
 component/gnumeric.c
 component/plugin.xml.in
+src/go-val.c
 gnumeric.desktop.in
 plugins/applix/plugin.xml.in
 plugins/corba/plugin.xml.in
@@ -79,6 +80,7 @@ src/dialogs/consolidate.glade
 src/dialogs/correlation.glade
 src/dialogs/covariance.glade
 src/dialogs/dao.glade
+src/dialogs/data-slicer.glade
 src/dialogs/data-table.glade
 src/dialogs/define-name.glade
 src/dialogs/delete-cells.glade

@@ -23,3 +23,6 @@ src/sstest.c
 component/Gnumeric-embed.xml.in
 component/gnumeric.c
 component/plugin.xml.in
+#
+# Needs to go to goffice
+src/go-val.c

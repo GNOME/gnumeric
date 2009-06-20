@@ -10,6 +10,7 @@ plugins/excel/ms-excel-write.c
 plugins/excel/ms-formula-read.c
 plugins/excel/ms-formula-write.c
 plugins/excel/xlsx-read.c
+plugins/excel/xlsx-read-pivot.c
 plugins/fn-complex/functions.c
 plugins/fn-database/functions.c
 plugins/fn-date/functions.c
@@ -79,6 +80,7 @@ src/dialogs/dialog-cell-format.c
 src/dialogs/dialog-cell-sort.c
 src/dialogs/dialog-col-width.c
 src/dialogs/dialog-consolidate.c
+src/dialogs/dialog-data-slicer.c
 src/dialogs/dialog-data-table.c
 src/dialogs/dialog-define-names.c
 src/dialogs/dialog-delete-cells.c
@@ -128,6 +130,7 @@ src/file-autoft.c
 src/format-template.c
 src/func-builtin.c
 src/func.c
+src/gnm-commands-slicer.c
 src/gnm-datetime.c
 src/gnm-format.c
 src/gnm-graph-window.c
