@@ -887,7 +887,6 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 
 	/* Transform and return the result */
-	g_printerr ("n0=%d nb=%d\n", n0, nb);
 	in = g_new0 (complex_t, nb);
 	for (i = 0; i < n0; i++)
 	     in[i].re = ord[i];
