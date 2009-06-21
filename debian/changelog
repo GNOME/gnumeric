@@ -1,3 +1,12 @@
+gnumeric (1.9.9-1) unstable; urgency=low
+
+  * New upstream development release.
+  * [debian/control]
+    * Bumped libgsf and goffice build dependencies as per per configure.in .
+    * Updated Standards-Version.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sun, 21 Jun 2009 20:42:08 +0200
+
 gnumeric (1.9.8-1) unstable; urgency=low
 
   * New upstream development release.

@@ -5,8 +5,8 @@ Maintainer: J.H.M. Dassen (Ray) <jdassen@debian.org>
 Build-Depends: debhelper (>= 7.0.0), python-central (>= 0.5), dh-buildinfo, 
  po-debconf, gettext, bison, flex, rarian-compat | scrollkeeper,
  intltool (>= 0.29), libxml-parser-perl,
- zlib1g-dev, libglib2.0-dev (>= 2.12.0), libgsf-1-dev (>= 1.14.14),
- libgoffice-0-8-dev (>= 0.7.7), libxml2-dev (>= 2.6.10-2),
+ zlib1g-dev, libglib2.0-dev (>= 2.12.0), libgsf-1-dev (>= 1.14.15),
+ libgoffice-0-8-dev (>= 0.7.8), libxml2-dev (>= 2.6.10-2),
  libpango1.0-dev (>= 1.12.0),
  libgtk2.0-dev (>= 2.12.0), libglade2-dev (>= 1:2.4.0),
  libart-2.0-dev (>= 2.3.16-5),
@@ -15,7 +15,7 @@ Build-Depends: debhelper (>= 7.0.0), python-central (>= 0.5), dh-buildinfo,
 Homepage: http://www.gnumeric.org/
 Vcs-git: git://git.gnome.org/gnumeric
 Vcs-Browser: http://git.gnome.org/cgit/gnumeric
-Standards-Version: 3.8.1
+Standards-Version: 3.8.2
 
 Package: gnumeric
 Architecture: any
