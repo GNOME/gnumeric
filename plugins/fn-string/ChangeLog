@@ -1,5 +1,10 @@
 2009-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* plugin.xml.in: new JIS
+	* functions.c: new JIS function
+
+2009-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* plugin.xml.in: new LEFTB, MIDB, RIGHTB
 	* functions.c: new LEFTB, MIDB, RIGHTB functions
 	(help_asc): update

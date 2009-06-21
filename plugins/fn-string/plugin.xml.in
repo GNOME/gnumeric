@@ -20,6 +20,7 @@
 				<function name="exact"/>
 				<function name="find"/>
 				<function name="fixed"/>
+				<function name="jis"/>
 				<function name="left"/>
 				<function name="leftb"/>
 				<function name="len"/>

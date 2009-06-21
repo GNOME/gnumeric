@@ -1602,7 +1602,7 @@ odf_expr_func_handler (GnmConventionsOut *out, GnmExprFunction const *func)
 		{ "ISPMT","ISPMT" },
 		{ "ISREF","ISREF" },
 		{ "ISTEXT","ISTEXT" },
-		/* { "JIS","JIS" },  not implemented */
+		{ "JIS","JIS" },
 		{ "KURT","KURT" },
 		{ "LARGE","LARGE" },
 		{ "LCM","LCM" },

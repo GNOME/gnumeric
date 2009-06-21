@@ -1416,6 +1416,117 @@ gnumeric_asc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 /***************************************************************************/
+
+static GnmFuncHelp const help_jis[] = {
+	{ GNM_FUNC_HELP_NAME, F_("JIS:text with half-width katakana and ASCII characters converted to full-width.")},
+	{ GNM_FUNC_HELP_ARG, F_("text:")},   
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("JIS converts half-width katakana and ASCII characters to full-width equivalent characters, copying all others. ")},   
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The distinction between half-width and full-width characters is described in http://www.unicode.org/reports/tr11/.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("For most strings, this function has the same effect as in Excel.")},
+	{ GNM_FUNC_HELP_NOTE, F_("While in obsolete encodings JIS used to translate between 1-byte and 2-byte characters, this is not the case in UTF-8.")},
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("JIS(\"ABC\") yields \"\xef\xbc\xa1\xef\xbc\xa2\xef\xbc\xa3\"")},
+	{ GNM_FUNC_HELP_SEEALSO, ("ASC")},
+	{ GNM_FUNC_HELP_END }
+};
+
+static gunichar
+gnm_asc_full (gunichar c, gunichar fc)
+{
+	if (c < 0x0021)
+		return c;
+	if (c == 0x0022)
+		return (0x201d);
+	if (c == 0x0027)
+		return (0x2019);
+	if (c == 0x005c)
+		return (0xffe5);
+	if (c == 0x0060)
+		return (0x2018);
+	if (c <= 0x007e)
+		return (c - 0x0021 + 0xff01);
+	if (c < 0xff61)
+		return c;
+	if (c == 0xff61)
+		return (0x3002);
+	if (c == 0xff62)
+		return (0x300c);
+	if (c == 0xff63)
+		return (0x300d);
+	if (c == 0xff64)
+		return (0x3001);
+	if (c == 0xff65)
+		return (0x30fb);
+	if (c == 0xff66)
+		return (0x30f2);
+	if (c <= 0xff6b)
+		return ((c - 0xff67)*2 + 0x30a1);
+	if (c <= 0xff6e)
+		return ((c - 0xff6c)*2 + 0x30e3);
+	if (c == 0xff6f)
+		return (0x30c3);
+	if (c == 0xff70)
+		return (0x30fc);
+	if (c <= 0xff75)
+		return ((c - 0xff71)*2 + 0x30a2);
+	if (c <= 0xff81) {
+		if (fc == 0xff9e)
+			return ((c - 0xff76)*2 + 0x30ac);
+		else
+			return ((c - 0xff76)*2 + 0x30ab);
+	}
+	if (c <= 0xff84) {
+		if (fc == 0xff9e)
+			return ((c - 0xff82)*2 + 0x30c5);
+		else
+			return ((c - 0xff82)*2 + 0x30c4);
+	}
+	if (c <= 0xff89)
+		return ((c - 0xff85)*2 + 0x30ca);
+	if (c <= 0xff8e) {
+		if (fc == 0xff9e)
+			return ((c - 0xff8a)*3 + 0x30d0);
+		else if (fc == 0xff9f)
+			return ((c - 0xff8a)*3 + 0x30d1);
+		else
+			return ((c - 0xff8a)*3 + 0x30cf);
+	}
+	if (c <= 0xff93)
+		return (c - 0xff8f + 0x30de);
+	if (c <= 0xff96)
+		return ((c - 0xff94)*2 + 0x30e4);
+	if (c <= 0xff9b)
+		return (c - 0xff97 + 0x30e9);
+	if (c == 0xff9c)
+		return (0x30ef);
+	if (c == 0xff9d)
+		return (0x30f3);
+	if (c == 0xff9e)
+		return (0x309b);
+	if (c == 0xff9f)
+		return (0x309c);
+	return c;
+}
+
+static GnmValue *
+gnumeric_jis (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	char const *peek = value_peek_string (argv[0]);
+	GString *str = g_string_new (NULL);
+	gunichar tc = g_utf8_get_char (peek);
+
+	while ((*peek) != '\0') {
+		gunichar fc;
+		char const *next = g_utf8_next_char(peek);
+		fc = g_utf8_get_char (next);
+		g_string_append_unichar (str, gnm_asc_full (tc, fc));
+		peek = next;
+		tc = fc;
+	}
+
+	return value_new_string_nocopy (g_string_free (str, FALSE));
+}
+/***************************************************************************/
 GnmFuncDescriptor const string_functions[] = {
         { "asc",       "s",     N_("string"),                  help_asc,
 	  gnumeric_asc, NULL, NULL, NULL, NULL,
@@ -1450,6 +1561,9 @@ GnmFuncDescriptor const string_functions[] = {
         { "fixed",      "f|fb",  N_("num,decs,no_commas"),      help_fixed,
 	  gnumeric_fixed, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "jis",       "s",     N_("string"),                  help_jis,
+	  gnumeric_jis, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "left",       "S|f",   N_("text,num_chars"),          help_left,
 	  gnumeric_left, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

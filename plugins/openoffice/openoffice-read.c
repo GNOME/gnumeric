@@ -3879,7 +3879,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "GAUSS","ODF.GAUSS" },
 		{ "IFNA","ODF.IFNA" },
 		{ "ISFORMULA","ODF.ISFORMULA" },
-		{ "JIS","ODF.JIS" },
 		{ "MULTIPLE.OPERATIONS","ODF.MULTIPLE.OPERATIONS" },
 		{ "MUNIT","ODF.MUNIT" },
 		{ "NUMBERVALUE","ODF.NUMBERVALUE" },
@@ -3910,6 +3909,9 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "LEGACY.NORMSINV","NORMSINV" },
 		{ "USDOLLAR","DOLLAR" },
 
+/* { "ADDRESS","ADDRESS" },       also  see handler */
+
+
 /* { "ABS","ABS" }, */
 /* { "ACCRINT","ACCRINT" }, */
 /* { "ACCRINTM","ACCRINTM" }, */
@@ -3917,7 +3919,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* { "ACOSH","ACOSH" }, */
 /* { "ACOT","ACOT" }, */
 /* { "ACOTH","ACOTH" }, */
-/* { "ADDRESS","ADDRESS" },       also  see handler */
 /* { "AMORDEGRC","AMORDEGRC" }, */
 /* { "AMORLINC","AMORLINC" }, */
 /* { "AND","AND" }, */

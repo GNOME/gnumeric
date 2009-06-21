@@ -5,7 +5,7 @@ Andreas:
 	* Add OpenFormula comp. descriptors to some function documentations
 	* Implement new functions CSC, CSCH, SEC, and SECH
 	* Implement new functions LEFTB, MIDB, RIGHTB
-	* Implement ASC
+	* Implement ASC and add new function JIS
 
 Morten:
 	* Make SUMIF/COUNTIF and the D* functions understand pattern. [#586215]

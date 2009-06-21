@@ -1,5 +1,10 @@
 2009-06-21 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_func_map_in): we now have JIS
+	* openoffice-write.c (odf_expr_func_handler): ditto
+
+2009-06-21 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (oo_func_map_in): adjust function listing
 	* openoffice-write.c (odf_func_floor_ceiling_handler):
 	  handle all instances
