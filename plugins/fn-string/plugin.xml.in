@@ -21,14 +21,17 @@
 				<function name="find"/>
 				<function name="fixed"/>
 				<function name="left"/>
+				<function name="leftb"/>
 				<function name="len"/>
 				<function name="lenb"/>
 				<function name="lower"/>
 				<function name="mid"/>
+				<function name="midb"/>
 				<function name="proper"/>
 				<function name="replace"/>
 				<function name="rept"/>
 				<function name="right"/>
+				<function name="rightb"/>
 				<function name="search"/>
 				<function name="substitute"/>
 				<function name="t"/>

@@ -1,3 +1,15 @@
+2009-06-21 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_func_map_in): adjust function listing
+	* openoffice-write.c (odf_func_floor_ceiling_handler):
+	  handle all instances
+	(odf_func_sec_handler): new
+	(odf_func_sech_handler): new
+	(odf_expr_func_handler): change the default behaviour to always
+	  precede functions with ORG.GNUMERIC, so we don't have to worry
+	  to miss functions from new plugins or that have been added.
+	  Also handle "ODF...." functions that were imported.
+
 2009-06-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.9

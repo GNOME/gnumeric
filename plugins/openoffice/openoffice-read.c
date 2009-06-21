@@ -3867,43 +3867,40 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* The following is a list of the functions defined in ODF OpenFormula draft 20090508 */
 /* where we do not have a function with the same name                                 */
 
-/* { "ARABIC","ARABIC" }, */
-/* { "AVERAGEIFS","AVERAGEIFS" }, */
-/* { "B","B" }, */
-/* { "CHISQDIST","CHISQDIST" }, */
-/* { "CHISQINV","CHISQINV" }, */
-/* { "COMBINA","COMBINA" }, */
-/* { "COTH","COTH" }, */
-/* { "COUNTIFS","COUNTIFS" }, */
-/* { "CSC","CSC" }, */
-/* { "CSCH","CSCH" }, */
-/* { "DAYS","DAYS" }, */
-/* { "DDE","DDE" }, */
-/* { "FINDB","FINDB" }, */
-/* { "GAMMA","GAMMA" }, */
-/* { "GAUSS","GAUSS" }, */
-/* { "IFNA","IFNA" }, */
-/* { "ISFORMULA","ISFORMULA" }, */
-/* { "JIS","JIS" }, */
-/* { "MIDB","MIDB" }, */
-/* { "MULTIPLE.OPERATIONS","MULTIPLE.OPERATIONS" }, */
-/* { "MUNIT","MUNIT" }, */
-/* { "NUMBERVALUE","NUMBERVALUE" }, */
-/* { "PDURATION","PDURATION" }, */
-/* { "PERMUTATIONA","PERMUTATIONA" }, */
-/* { "PHI","PHI" }, */
-/* { "REPLACEB","REPLACEB" }, */
-/* { "RIGHTB","RIGHTB" }, */
-/* { "RRI","RRI" }, */
-/* { "SEARCHB","SEARCHB" }, */
-/* { "SHEET","SHEET" }, */
-/* { "SHEETS","SHEETS" }, */
-/* { "SUMIFS","SUMIFS" }, */
-		{ "USDOLLAR","DOLLAR" },
+		{ "ARABIC","ODF.ARABIC" },
+		{ "AVERAGEIFS","ODF.AVERAGEIFS" },
+		{ "B","ODF.B" },
+		{ "COMBINA","ODF.COMBINA" },
+		{ "COUNTIFS","ODF.COUNTIFS" },
+		{ "DAYS","ODF.DAYS" },
+		{ "DDE","ODF.DDE" },
+		{ "FINDB","ODF.FINDB" },
+		{ "GAMMA","ODF.GAMMA" },
+		{ "GAUSS","ODF.GAUSS" },
+		{ "IFNA","ODF.IFNA" },
+		{ "ISFORMULA","ODF.ISFORMULA" },
+		{ "JIS","ODF.JIS" },
+		{ "MULTIPLE.OPERATIONS","ODF.MULTIPLE.OPERATIONS" },
+		{ "MUNIT","ODF.MUNIT" },
+		{ "NUMBERVALUE","ODF.NUMBERVALUE" },
+		{ "PDURATION","ODF.PDURATION" },
+		{ "PERMUTATIONA","ODF.PERMUTATIONA" },
+		{ "PHI","ODF.PHI" },
+		{ "REPLACEB","ODF.REPLACEB" },
+		{ "RRI","ODF.RRI" },
+		{ "SEARCHB","ODF.SEARCHB" },
+		{ "SHEET","ODF.SHEET" },
+		{ "SHEETS","ODF.SHEETS" },
+		{ "SUMIFS","ODF.SUMIFS" },
 
 /* The following is a complete list of the functions defined in ODF OpenFormula draft 20090508 */
 /* We should determine whether any mapping is needed. */
 
+		{ "CEILING","ODF.CEILING" },          /* see handler */
+		{ "CHISQINV","R.QCHISQ" },
+		{ "CHISQDIST","ODF.CHISQDIST" },      /* see handler */
+		{ "FLOOR","ODF.FLOOR" },              /* see handler */
+		{ "FORMULA","GET.FORMULA" },
 		{ "LEGACY.CHIDIST","CHIDIST" },
 		{ "LEGACY.CHIINV","CHIINV" },
 		{ "LEGACY.CHITEST","CHITEST" },
@@ -3911,8 +3908,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 		{ "LEGACY.FINV","FINV" },
 		{ "LEGACY.NORMSDIST","NORMSDIST" },
 		{ "LEGACY.NORMSINV","NORMSINV" },
-		{ "CHISQINV","R.QCHISQ" },    /* also see handler */
-		{ "FORMULA","GET.FORMULA" },
+		{ "USDOLLAR","DOLLAR" },
 
 /* { "ABS","ABS" }, */
 /* { "ACCRINT","ACCRINT" }, */
@@ -3921,7 +3917,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* { "ACOSH","ACOSH" }, */
 /* { "ACOT","ACOT" }, */
 /* { "ACOTH","ACOTH" }, */
-/* { "ADDRESS","ADDRESS" }, */
+/* { "ADDRESS","ADDRESS" },       also  see handler */
 /* { "AMORDEGRC","AMORDEGRC" }, */
 /* { "AMORLINC","AMORLINC" }, */
 /* { "AND","AND" }, */
@@ -3954,10 +3950,7 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* { "BITOR","BITOR" }, */
 /* { "BITRSHIFT","BITRSHIFT" }, */
 /* { "BITXOR","BITXOR" }, */
-/* { "CEILING","CEILING" },               see handler */
 /* { "CHAR","CHAR" }, */
-/* { "CHISQDIST","CHISQDIST" }, */
-/* { "CHISQINV","CHISQINV" }, */
 /* { "CHOOSE","CHOOSE" }, */
 /* { "CLEAN","CLEAN" }, */
 /* { "CODE","CODE" }, */
@@ -3987,7 +3980,6 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* { "COUPPCD","COUPPCD" }, */
 /* { "COVAR","COVAR" }, */
 /* { "CRITBINOM","CRITBINOM" }, */
-/* { "CSC","CSC" }, */
 /* { "CSC","CSC" }, */
 /* { "CSCH","CSCH" }, */
 /* { "CUMIPMT","CUMIPMT" }, */
@@ -4043,9 +4035,8 @@ oo_func_map_in (GnmConventions const *convs, Workbook *scope,
 /* { "FINDB","FINDB" }, */
 /* { "FINV","FINV" }, */
 /* { "FISHER","FISHER" }, */
-/* { "FISHERINV","FISHERINV" }, */
+/* { "FISHERINV","FISHERINV" }, */        
 /* { "FIXED","FIXED" }, */
-/* { "FLOOR","FLOOR" }, */
 /* { "FORECAST","FORECAST" }, */
 /* { "FREQUENCY","FREQUENCY" }, */
 /* { "FTEST","FTEST" }, */

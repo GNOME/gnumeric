@@ -1,3 +1,11 @@
+2009-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugin.xml.in: new LEFTB, MIDB, RIGHTB
+	* functions.c: new LEFTB, MIDB, RIGHTB functions
+	(help_asc): update
+	(gnm_asc_half): new
+	(gnumeric_asc): implement
+	
 2009-06-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.9

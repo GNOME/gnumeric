@@ -80,7 +80,7 @@ static GnmFuncHelp const help_var[] = {
 	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("VAR is also known as the N-1-variance. Under reasonable conditions, it is the maximum-likelihood estimator for the "
 	   "true variance.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then VAR(A1:A5) equals 117.64.")},
 	{ GNM_FUNC_HELP_SEEALSO, ("VARP,STDEV")},
@@ -110,7 +110,7 @@ static GnmFuncHelp const help_stdev[] = {
 					"Under reasonable conditions, it is the maximum-likelihood "
 					"estimator for the true population standard deviation.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("To obtain the population standard deviation of a whole population use STDEVP.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then STDEV(A1:A5) equals 10.84619749.")},
 	{ GNM_FUNC_HELP_SEEALSO, ("AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR")},
@@ -137,7 +137,7 @@ static GnmFuncHelp const help_stdevp[] = {
 	{ GNM_FUNC_HELP_ARG, F_("area1:first cell area")},	
 	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This is also known as the N-standard deviation")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then STDEVP(A1:A5) equals 9.701133954.")},	
 	{ GNM_FUNC_HELP_SEEALSO, ("STDEV,STDEVA,STDEVPA")},
@@ -164,7 +164,7 @@ static GnmFuncHelp const help_rank[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:number whose rank you want to find")},
 	{ GNM_FUNC_HELP_ARG, F_("ref:list of numbers")},
 	{ GNM_FUNC_HELP_ARG, F_("order:If this is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then RANK(17.3,A1:A5) equals 4.")},
 	{ GNM_FUNC_HELP_SEEALSO, ("PERCENTRANK")},
@@ -215,7 +215,7 @@ static GnmFuncHelp const help_trimmean[] = {
 	{ GNM_FUNC_HELP_ARG, F_("fraction:fraction of the data set excluded from the mean")},	
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{fraction}=0.2 and the data set contains 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2): "
 					"the 4 largest and the 4 smallest. To avoid a bias, the number of points to be excluded is always rounded down to the nearest even number.")},	
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then TRIMMEAN(A1:A5,0.2) equals 23.2 and TRIMMEAN(A1:A5,0.4) equals 21.5.")},
 	{ GNM_FUNC_HELP_SEEALSO, ("AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE")},
@@ -263,7 +263,7 @@ static GnmFuncHelp const help_covar[] = {
 	{ GNM_FUNC_HELP_ARG, F_("array1:first data set")},
 	{ GNM_FUNC_HELP_ARG, F_("array2:set data set")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.") },
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 	   "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
 	   "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
@@ -293,7 +293,7 @@ static GnmFuncHelp const help_correl[] = {
 	{ GNM_FUNC_HELP_ARG, F_("array1:first data set")},
 	{ GNM_FUNC_HELP_ARG, F_("array2:second data set")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 	   "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
 	   "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
@@ -326,7 +326,7 @@ static GnmFuncHelp const help_negbinomdist[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{f} or @{t} is a non-integer it is truncated.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If (@{f} + @{t} -1) <= 0 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this functions returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("NEGBINOMDIST(2,5,0.55) equals 0.152872629.") },
 	{ GNM_FUNC_HELP_SEEALSO, "BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"},
 	{ GNM_FUNC_HELP_END }
@@ -350,7 +350,8 @@ gnumeric_negbinomdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_normsdist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("NORMSDIST:cumulative density function of the standard normal distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_ODF, F_("NORMSDIST is the OpenFormula function LEGACY.NORMSDIST.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("NORMSDIST(2) equals 0.977249868.") },
 	{ GNM_FUNC_HELP_SEEALSO, "NORMDIST"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Normal_distribution") },
@@ -374,7 +375,8 @@ static GnmFuncHelp const help_normsinv[] = {
 	{ GNM_FUNC_HELP_NAME, F_("NORMSINV:inverse of the cumulative density function of the standard normal distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("p:given probability")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_ODF, F_("NORMSINV is the OpenFormula function LEGACY.NORMSINV.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("NORMSINV(0.2) equals -0.841621234.") },
 	{ GNM_FUNC_HELP_SEEALSO, "NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Normal_distribution") },
@@ -404,7 +406,7 @@ static GnmFuncHelp const help_lognormdist[] = {
 	{ GNM_FUNC_HELP_ARG, F_("stddev:standard deviation")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{stddev} = 0 LOGNORMDIST returns a #DIV/0! error.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} <= 0, @{mean} < 0 or @{stddev} <= 0 this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("LOGNORMDIST(3,1,2) equals 0.519662338.") },
 	{ GNM_FUNC_HELP_SEEALSO, "NORMDIST"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Log-normal_distribution") },
@@ -433,7 +435,7 @@ static GnmFuncHelp const help_loginv[] = {
 	{ GNM_FUNC_HELP_ARG, F_("mean:mean")},
 	{ GNM_FUNC_HELP_ARG, F_("stddev:standard deviation")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("LOGINV(0.5,2,3) equals 7.389056099.")},
 	{ GNM_FUNC_HELP_SEEALSO, ("EXP,LN,LOG,LOG10,LOGNORMDIST")},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Log-normal_distribution") },
@@ -462,7 +464,7 @@ static GnmFuncHelp const help_fisherinv[] = {
 	{ GNM_FUNC_HELP_NAME, F_("FISHERINV:inverse of the Fisher transformation")},
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is a non-number this function returns a #VALUE! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("FISHERINV(2) equals 0.96402758.") },
 	{ GNM_FUNC_HELP_SEEALSO, "FISHER,TANH"},
 	{ GNM_FUNC_HELP_END }
@@ -482,7 +484,7 @@ static GnmFuncHelp const help_mode[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("If the data set does not contain any duplicates this function returns a #N/A error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 11.4, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MODE(A1:A5) equals 11.4.") },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,MEDIAN"},
@@ -509,7 +511,7 @@ static GnmFuncHelp const help_harmean[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The harmonic mean of N data points is  N divided by the sum of the reciprocals of the data points).")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then HARMEAN(A1:A5) equals 19.529814427.") },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"},
@@ -536,7 +538,7 @@ static GnmFuncHelp const help_geomean[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The geometric mean is equal to the Nth root of the product of the N values.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then GEOMEAN(A1:A5) equals 21.279182482.") },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"},
@@ -562,7 +564,7 @@ static GnmFuncHelp const help_count[] = {
 	{ GNM_FUNC_HELP_NAME, F_("COUNT:total number of integer or floating point arguments passed")},
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then COUNT(A1:A5) equals 5.") },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE"},
@@ -598,7 +600,7 @@ static GnmFuncHelp const help_counta[] = {
 	{ GNM_FUNC_HELP_NAME, F_("COUNTA:number of arguments passed not including empty cells")},
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, \"missing\", \"missing\", 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then COUNTA(A1:A5) equals 5.") },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"},
@@ -632,7 +634,7 @@ static GnmFuncHelp const help_average[] = {
 	{ GNM_FUNC_HELP_NAME, F_("AVERAGE:average of all the numeric values and cells")},
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then AVERAGE(A1:A5) equals 23.2.")},
 	{ GNM_FUNC_HELP_SEEALSO, ("SUM, COUNT")},
@@ -658,7 +660,7 @@ static GnmFuncHelp const help_min[] = {
 	{ GNM_FUNC_HELP_NAME, F_("MIN:smallest value, with negative numbers considered smaller than positive numbers")},
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MIN(A1:A5) equals 11.4.") },
 	{ GNM_FUNC_HELP_SEEALSO, "MAX,ABS"},
@@ -693,7 +695,7 @@ static GnmFuncHelp const help_max[] = {
 	{ GNM_FUNC_HELP_NAME, F_("MAX:largest value, with negative numbers considered smaller than positive numbers.")},
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MAX(A1:A5) equals 40.1.") },
 	{ GNM_FUNC_HELP_SEEALSO, "MIN,ABS"},
@@ -733,7 +735,7 @@ static GnmFuncHelp const help_skew[] = {
 				 "distribution really has a third moment.  The skewness of a "
 				 "symmetric (e.g., normal) distribution is zero.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If less than three numbers are given, this function returns a #DIV/0! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SKEW(A1:A5) equals 0.976798268.") },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,VAR,SKEWP,KURT"},
@@ -787,7 +789,7 @@ static GnmFuncHelp const help_expondist[] = {
 	   "@{y} * exp (-@{y}*@{x}),otherwise it will return\t"
 	   "1 - exp (-@{y}*@{x}).")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 or @{y} <= 0 this will return an error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("EXPONDIST(2,4,0) equals 0.001341851.") },
 	{ GNM_FUNC_HELP_SEEALSO, "POISSON"},
 	{ GNM_FUNC_HELP_END }
@@ -852,7 +854,7 @@ static GnmFuncHelp const help_gammaln[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is non-number then this function returns a #VALUE! error.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} <= 0 then this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("GAMMALN(23) equals 48.471181352.") },
 	{ GNM_FUNC_HELP_SEEALSO, "POISSON"},
 	{ GNM_FUNC_HELP_END }
@@ -885,7 +887,7 @@ static GnmFuncHelp const help_gammadist[] = {
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("GAMMADIST(1,2,3,0) equals 0.07961459.") },
 	{ GNM_FUNC_HELP_SEEALSO, "GAMMAINV"},
 	{ GNM_FUNC_HELP_END }
@@ -917,7 +919,7 @@ static GnmFuncHelp const help_gammainv[] = {
 	{ GNM_FUNC_HELP_ARG, F_("beta:scale parameter")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0 this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("GAMMAINV(0.34,2,4) equals 4.829093908.") },
 	{ GNM_FUNC_HELP_SEEALSO, "GAMMADIST"},
 	{ GNM_FUNC_HELP_END }
@@ -947,7 +949,8 @@ static GnmFuncHelp const help_chidist[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{dof} is non-integer it is truncated.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{dof} < 1 this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_ODF, F_("CHIDIST(@{x},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{x},@{dof}).") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("CHIDIST(5.3,2) equals 0.070651213.") },
 	{ GNM_FUNC_HELP_SEEALSO, "CHIINV,CHITEST"},
 	{ GNM_FUNC_HELP_END }
@@ -973,7 +976,8 @@ static GnmFuncHelp const help_chiinv[] = {
 	{ GNM_FUNC_HELP_ARG, F_("dof:number of degrees of freedom")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_ODF, F_("CHIINV(@{p},@{dof}) is the OpenFormula function LEGACY.CHIDIST(@{p},@{dof}).") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("CHIINV(0.98,7) equals 1.564293004.") },
 	{ GNM_FUNC_HELP_SEEALSO, "CHIDIST,CHITEST"},
 	{ GNM_FUNC_HELP_END }
@@ -999,7 +1003,8 @@ static GnmFuncHelp const help_chitest[] = {
 	{ GNM_FUNC_HELP_ARG, F_("theoretical_range:expected values")},
 	{ GNM_FUNC_HELP_NOTE, F_("If the actual range is not an n by 1 or 1 by n range, "
 				 "the returned value appears to have no sensible meaning.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_ODF, F_("CHITEST is the OpenFormula function LEGACY.CHITEST.") },
 	{ GNM_FUNC_HELP_SEEALSO, "CHIDIST,CHIINV"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1088,7 +1093,7 @@ static GnmFuncHelp const help_betadist[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < @{a} or @{x} > @{b} this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{a} >= @{b} this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("BETADIST(0.12,2,3) equals 0.07319808.") },
 	{ GNM_FUNC_HELP_SEEALSO, "BETAINV"},
 	{ GNM_FUNC_HELP_END }
@@ -1125,7 +1130,7 @@ static GnmFuncHelp const help_betainv[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0, this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{a} >= @{b} this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("BETAINV(0.45,1.6,1) equals 0.607096629.") },
 	{ GNM_FUNC_HELP_SEEALSO, "BETADIST"},
 	{ GNM_FUNC_HELP_END }
@@ -1192,7 +1197,7 @@ static GnmFuncHelp const help_tinv[] = {
 	{ GNM_FUNC_HELP_ARG, F_("dof:number of degrees of freedom")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },	
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 or @{dof} < 1 this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_NOTE, F_("The parameterization of this function is different from "
 	   "what is used for, e.g., NORMSINV.  This is a common source of "
 	   "mistakes, but necessary for compatibility.") },
@@ -1229,7 +1234,8 @@ static GnmFuncHelp const help_fdist[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{dof_of_num} < 1 or @{dof_of_denom} < 1, this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_ODF, F_("FDIST is the OpenFormula function LEGACY.FDIST.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("FDIST(2,5,5) equals 0.232511319.") },
 	{ GNM_FUNC_HELP_SEEALSO, "FINV"},
 	{ GNM_FUNC_HELP_END }
@@ -1394,7 +1400,8 @@ static GnmFuncHelp const help_finv[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },	
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{dof_of_num} < 1 or @{dof_of_denom} < 1 this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_ODF, F_("FINV is the OpenFormula function LEGACY.FINV.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("FINV(0.2,2,4) equals 2.472135955.") },
 	{ GNM_FUNC_HELP_SEEALSO, "FDIST"},
 	{ GNM_FUNC_HELP_END }
@@ -1425,7 +1432,7 @@ static GnmFuncHelp const help_binomdist[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} < 0 or @{trials} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} > @{trials} this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("BINOMDIST(3,5,0.8,0) equals 0.2048.") },
 	{ GNM_FUNC_HELP_SEEALSO, "POISSON"},
 	{ GNM_FUNC_HELP_END }
@@ -1490,7 +1497,7 @@ static GnmFuncHelp const help_critbinom[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{trials} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} < 0 or @{alpha} > 1 this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("CRITBINOM(10,0.5,0.75) equals 6.") },
 	{ GNM_FUNC_HELP_SEEALSO, "BINOMDIST"},
 	{ GNM_FUNC_HELP_END }
@@ -1517,7 +1524,7 @@ static GnmFuncHelp const help_permut[] = {
 	{ GNM_FUNC_HELP_ARG, F_("k:number of elements in each permutation")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} = 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} < @{k} this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("PERMUT(7,3) equals 7 times 6 times 5 = 210.") },
 	{ GNM_FUNC_HELP_SEEALSO, "COMBIN"},
 	{ GNM_FUNC_HELP_END }
@@ -1547,7 +1554,7 @@ static GnmFuncHelp const help_hypgeomdist[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x},@{n},@{M} or @{N} is a non-integer it is truncated.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x},@{n},@{M} or @{N} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} > @{M} or @{n} > @{N} this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("HYPGEOMDIST(1,2,3,10) equals 0.4666667.") },
 	{ GNM_FUNC_HELP_SEEALSO, "BINOMDIST,POISSON"},
 	{ GNM_FUNC_HELP_END }
@@ -1582,7 +1589,7 @@ static GnmFuncHelp const help_confidence[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{size} is non-integer it is truncated.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{size} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{size} is 0 this function returns a #DIV/0! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("CONFIDENCE(0.05,1,33) equals 0.341185936.") },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE"},
 	{ GNM_FUNC_HELP_END }
@@ -1609,7 +1616,7 @@ static GnmFuncHelp const help_standardize[] = {
 	{ GNM_FUNC_HELP_ARG, F_("mean:mean of the original distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("stddev:standard deviation of the original distribution")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{stddev} is 0 this function returns a #DIV/0! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("STANDARDIZE(3,2,4) equals 0.25.") },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE"},
 	{ GNM_FUNC_HELP_END }
@@ -1641,7 +1648,7 @@ static GnmFuncHelp const help_weibull[] = {
            "(@{alpha}/@{beta}^@{alpha}) * @{x}^(@{alpha}-1) * exp(-(@{x}/@{beta}^@{alpha})).") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{beta} <= 0 this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("WEIBULL(3,2,4,0) equals 0.213668559.") },
 	{ GNM_FUNC_HELP_SEEALSO, "POISSON"},
 	{ GNM_FUNC_HELP_END }
@@ -1673,7 +1680,7 @@ static GnmFuncHelp const help_normdist[] = {
 	{ GNM_FUNC_HELP_ARG, F_("stddev:standard deviation of the distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{stddev} is 0 this function returns a #DIV/0! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("NORMDIST(2,1,2,0) equals 0.176032663.") },
 	{ GNM_FUNC_HELP_SEEALSO, "POISSON"},
 	{ GNM_FUNC_HELP_END }
@@ -1705,7 +1712,7 @@ static GnmFuncHelp const help_norminv[] = {
 	{ GNM_FUNC_HELP_ARG, F_("mean:mean of the distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("stddev:standard deviation of the distribution")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 or @{stddev} <= 0 this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("NORMINV(0.76,2,3) equals 4.118907689.") },
 	{ GNM_FUNC_HELP_SEEALSO, "NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"},
 	{ GNM_FUNC_HELP_END }
@@ -1738,7 +1745,7 @@ static GnmFuncHelp const help_kurt[] = {
 	   "kurtosis.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If fewer than four numbers are given or all of them are equal "
 				 "this function returns a #DIV/0! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then KURT(A1:A5) equals 1.234546305.") },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,VAR,SKEW,KURTP"},
@@ -1788,7 +1795,7 @@ static GnmFuncHelp const help_avedev[] = {
 	{ GNM_FUNC_HELP_NAME, F_("AVEDEV:average of the absolute deviations of a data set")},
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then AVEDEV(A1:A5) equals 7.84.") },
 	{ GNM_FUNC_HELP_SEEALSO, "STDEV"},
@@ -1813,7 +1820,7 @@ static GnmFuncHelp const help_devsq[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then DEVSQ(A1:A5) equals 470.56.") },
 	{ GNM_FUNC_HELP_SEEALSO, "STDEV"},
@@ -1838,7 +1845,7 @@ static GnmFuncHelp const help_fisher[] = {
            { GNM_FUNC_HELP_ARG, F_("x:")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is not a number, this function returns a #VALUE! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} <= -1 or @{x} >= 1, this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("FISHER(0.332) equals 0.345074339.") },
 	{ GNM_FUNC_HELP_SEEALSO, "FISHERINV,ATANH"},
 	{ GNM_FUNC_HELP_END }
@@ -1870,7 +1877,7 @@ static GnmFuncHelp const help_poisson[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is a non-integer it is truncated.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{mean} <= 0 POISSON returns the #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("POISSON(3,6,0) equals 0.089235078.")},
 	{ GNM_FUNC_HELP_SEEALSO, ("NORMDIST,WEIBULL")},
 	{ GNM_FUNC_HELP_END }
@@ -1899,7 +1906,7 @@ static GnmFuncHelp const help_pearson[] = {
 	{ GNM_FUNC_HELP_ARG, F_("array1:first component values")},
 	{ GNM_FUNC_HELP_ARG, F_("array2:second component values")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_SEEALSO, "INTERCEPT,LINEST,RSQ,SLOPE,STEYX"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1918,7 +1925,7 @@ static GnmFuncHelp const help_rsq[] = {
 	{ GNM_FUNC_HELP_ARG, F_("array1:first component values")},
 	{ GNM_FUNC_HELP_ARG, F_("array2:second component values")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_SEEALSO, ("CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND")},
 	{ GNM_FUNC_HELP_END }
 };
@@ -1944,7 +1951,7 @@ static GnmFuncHelp const help_median[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("Strings and empty cells are simply ignored.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If even numbers are given MEDIAN returns the average of the two "
 	   "numbers in the center.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MEDIAN(A1:A5) equals 21.3.") },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SSMEDIAN,SUM"},
@@ -2066,7 +2073,7 @@ static GnmFuncHelp const help_large[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If data set is empty this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{k} <= 0 or @{k} is greater than the number of data items given "
 				 "this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 				     "11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then LARGE(A1:A5,2) equals 25.9."
@@ -2109,7 +2116,7 @@ static GnmFuncHelp const help_small[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If data set is empty this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{k} <= 0 or @{k} is greater than the number of data items given "
 				 "this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 				     "11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SMALL(A1:A5,2) equals 17.3."
@@ -2183,7 +2190,7 @@ static GnmFuncHelp const help_prob[] = {
 				 "error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x_range} and @{prob_range} contain a different number of data "
 				 "entries, this function returns a #N/A error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_SEEALSO, "BINOMDIST,CRITBINOM"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -2263,7 +2270,7 @@ static GnmFuncHelp const help_steyx[] = {
 	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{known_y}'s and @{known_x}'s are empty or have a different "
 				 "number of arguments then this function returns a #N/A error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 				     "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
 				     "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
@@ -2413,7 +2420,7 @@ static GnmFuncHelp const help_ztest[] = {
 	{ GNM_FUNC_HELP_ARG, F_("stddev:population stadard deviation, defaults to the sample standard deviation")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{ref} contains less than two data items ZTEST "
 				 "returns #DIV/0! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 				     "11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then ZTEST(A1:A5,20) equals 0.254717826.")},
@@ -2471,7 +2478,7 @@ static GnmFuncHelp const help_averagea[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	HELP_DESCRIPTION_TEXT_INCLUSION,
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then AVERAGEA(A1:A5) equals 18.94.") },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE"},
@@ -2496,7 +2503,7 @@ static GnmFuncHelp const help_maxa[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	HELP_DESCRIPTION_TEXT_INCLUSION,
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MAXA(A1:A5) equals 40.1.") },
@@ -2523,7 +2530,7 @@ static GnmFuncHelp const help_mina[] = {
 	{ GNM_FUNC_HELP_ARG, F_("number1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("number2:second value")},
 	HELP_DESCRIPTION_TEXT_INCLUSION,
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then MINA(A1:A5) equals 0.") },
@@ -2554,7 +2561,7 @@ static GnmFuncHelp const help_vara[] = {
 					"true variance")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("To get the true variance of a complete population use VARPA.") },
 	HELP_DESCRIPTION_TEXT_INCLUSION,
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then VARA(A1:A5) equals 228.613.") },
@@ -2581,7 +2588,7 @@ static GnmFuncHelp const help_varpa[] = {
 	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("VARPA is also known as the N-variance.") },
 	HELP_DESCRIPTION_TEXT_INCLUSION,
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then VARPA(A1:A5) equals 182.8904.") },
@@ -2614,7 +2621,7 @@ static GnmFuncHelp const help_stdeva[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("To obtain the population standard deviation of a whole population "
 					"use STDEVPA.")},
 	HELP_DESCRIPTION_TEXT_INCLUSION,
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then STDEVA(A1:A5) equals 15.119953704.") },
@@ -2641,7 +2648,7 @@ static GnmFuncHelp const help_stdevpa[] = {
 	{ GNM_FUNC_HELP_ARG, F_("area2:second cell area")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This is also known as the N-standard deviation")},
 	HELP_DESCRIPTION_TEXT_INCLUSION,
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 				     "11.4, 17.3, \"missing\", 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then STDEVPA(A1:A5) equals 13.523697719.") },
@@ -2765,7 +2772,7 @@ static GnmFuncHelp const help_percentile[] = {
 	{ GNM_FUNC_HELP_ARG, F_("k:which percentile to calculate")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{array} is empty, this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{k} < 0 or @{k} > 1, this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then PERCENTILE(A1:A5,0.42) equals 20.02.") },
 	{ GNM_FUNC_HELP_SEEALSO, "QUARTILE"},
@@ -2809,7 +2816,7 @@ static GnmFuncHelp const help_quartile[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{array} is empty, this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{quart} < 0 or @{quart} > 4, this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{quart} is not an integer, it is truncated.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then QUARTILE(A1:A5,1) equals 17.3.") },
 	{ GNM_FUNC_HELP_SEEALSO, "LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"},
@@ -2850,7 +2857,7 @@ static GnmFuncHelp const help_ftest[] = {
 				 "variances of two populations")},
 	{ GNM_FUNC_HELP_ARG, F_("array1:sample from the first population")},
 	{ GNM_FUNC_HELP_ARG, F_("array2:sample from the second population")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 				     "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
 				     "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
@@ -2916,7 +2923,7 @@ static GnmFuncHelp const help_ttest[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("@{tails} and @{type} are truncated to integers.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{tails} is not one or two, this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{type} is any other than one, two, or three, this function returns a #NUM! error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 				     "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
 				     "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
@@ -3082,7 +3089,7 @@ static GnmFuncHelp const help_frequency[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("If the @{bin_array} is empty, this function "
 					"returns the number of data points "
 					"in @{data_array}.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -4209,7 +4216,7 @@ static GnmFuncHelp const help_forecast[] = {
 				 "number of data entries, this function returns a #N/A error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If the variance of the @{known_x} is zero, this function returns a #DIV/0 "
 				 "error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 				     "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
 				     "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
@@ -4273,7 +4280,7 @@ static GnmFuncHelp const help_intercept[] = {
 				 "number of data entries, this function returns a #N/A error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If the variance of the @{known_x} is zero, this function returns "
 				 "#DIV/0 error.")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers "
 				     "11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... "
 				     "B5 23.2, 25.8, 29.9, 33.5, and 42.7.") },
@@ -4315,7 +4322,7 @@ static GnmFuncHelp const help_slope[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SLOPE:calculates the slope of a linear regression line")},
 	{ GNM_FUNC_HELP_ARG, F_("known_y's:known y-values")},
 	{ GNM_FUNC_HELP_ARG, F_("known_x's:known x-values")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{known_x} or @{known_y} contains no data entries or different "
 				 "number of data entries, this function returns a #N/A error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If the variance of the @{known_x} is zero, this function returns "
@@ -4374,7 +4381,7 @@ static GnmFuncHelp const help_subtotal[] = {
 			)},
 	{ GNM_FUNC_HELP_ARG, F_("ref1:first value")},
 	{ GNM_FUNC_HELP_ARG, F_("ref2:second value")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, and 39.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("Then SUBTOTAL(1,A1:A5) equals 30."
 				     "SUBTOTAL(6,A1:A5) equals 22378356."

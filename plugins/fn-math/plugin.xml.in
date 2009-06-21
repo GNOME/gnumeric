@@ -30,6 +30,8 @@
 				<function name="countif"/>
 				<function name="ceil"/>
 				<function name="ceiling"/>
+				<function name="csc"/>
+				<function name="csch"/>
 				<function name="degrees"/>
 				<function name="even"/>
 				<function name="exp"/>
@@ -61,6 +63,8 @@
 				<function name="round"/>
 				<function name="rounddown"/>
 				<function name="roundup"/>
+				<function name="sec"/>
+				<function name="sech"/>
 				<function name="seriessum"/>
 				<function name="sign"/>
 				<function name="sin"/>

@@ -1206,18 +1206,13 @@ gnumeric_expression (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_get_formula[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=GET.FORMULA\n"
-	   "@SYNTAX=GET.FORMULA(cell)\n"
-	   "@DESCRIPTION="
-	   "EXPRESSION returns expression in @cell as a string, or "
-	   "empty if the cell is not an expression.\n"
-	   "@EXAMPLES=\n"
-	   "entering '=GET.FORMULA(A3)' in A2 = empty (assuming there is nothing in A3).\n"
-	   "entering '=GET.FORMULA(A2)' in A1 = '=GET.FORMULA(A3)'.\n"
-	   "\n"
-	   "@SEEALSO=EXPRESSION")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("GET.FORMULA:The formula in the referenced cell as a string.")},
+	{ GNM_FUNC_HELP_ARG, F_("cell:the referenced cell")},
+	{ GNM_FUNC_HELP_ODF, F_("GET.FORMULA is the OpenFormula function FORMULA.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("If A1 is empty and A2 contains =B1+B2, then\n"
+				     "GET.FORMULA(A2) yields '=B1+B2' and\n"
+				     "GET.FORMULA(A1) yields ''.") },
+	{ GNM_FUNC_HELP_SEEALSO, "EXPRESSION"},
 	{ GNM_FUNC_HELP_END }
 };
 

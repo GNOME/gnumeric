@@ -448,7 +448,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 
 			ADD_BOLD_TEXT (text, colon - text);
 			ADD_TEXT (": ");
-			ADD_TEXT (colon + 1);
+			ADD_TEXT_WITH_ARGS (colon + 1);
 			ADD_TEXT ("\n");
 			break;
 		}
@@ -538,6 +538,22 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 			ADD_TEXT (".\n");
 
 			seen_extref = TRUE;
+			break;
+		}
+		case GNM_FUNC_HELP_EXCEL: {
+			const char *text = F_(help->text);
+			ADD_TEXT ("\n");
+			ADD_TEXT (_("Microsoft Excel: "));
+			ADD_TEXT_WITH_ARGS (text);
+			ADD_TEXT ("\n");
+			break;
+		}
+		case GNM_FUNC_HELP_ODF: {
+			const char *text = F_(help->text);
+			ADD_TEXT ("\n");
+			ADD_TEXT (_("ODF (OpenFormula): "));
+			ADD_TEXT_WITH_ARGS (text);
+			ADD_TEXT ("\n");
 			break;
 		}
 		default:

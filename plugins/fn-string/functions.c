@@ -285,20 +285,13 @@ gnumeric_lenb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_left[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=LEFT\n"
-	   "@SYNTAX=LEFT(text[,num_chars])\n"
-
-	   "@DESCRIPTION="
-	   "LEFT returns the leftmost @num_chars characters or the left "
-	   "character if @num_chars is not specified.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "LEFT(\"Directory\",3) equals \"Dir\".\n"
-	   "\n"
-	   "@SEEALSO=MID, RIGHT")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("LEFT:the first @{num_chars} characters.")},
+	{ GNM_FUNC_HELP_ARG, F_("num_chars:the number of characters to return (defaults to 1)")},   
+	{ GNM_FUNC_HELP_NOTE, F_("If the string is in a right-to-left script, the returned first characters are from the right of the string.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("LEFT(\"Directory\",3) equals \"Dir\".")},
+	{ GNM_FUNC_HELP_SEEALSO, ("MID,RIGHT,LEN,MIDB,RIGHTB,LENB")},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -319,6 +312,37 @@ gnumeric_left (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return value_new_string_nocopy (g_strndup (peek, newlen));
 }
 
+/***************************************************************************/
+
+static GnmFuncHelp const help_leftb[] = {
+	{ GNM_FUNC_HELP_NAME, F_("LEFTB:the first characters comprising at most @{num_bytes} bytes.")},
+	{ GNM_FUNC_HELP_ARG, F_("num_bytes:the maximum number of bytes to return (defaults to 1)")},   
+	{ GNM_FUNC_HELP_NOTE, F_("If the string is in a right-to-left script, the returned first characters are from the right of the string.")},
+/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")}, */
+/* 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")}, */
+	{ GNM_FUNC_HELP_EXAMPLES, F_("LEFTB(\"Directory\",3) equals \"Dir\".")},
+	{ GNM_FUNC_HELP_SEEALSO, ("MIDB,RIGHTB,LENB,LEFT,MID,RIGHT,LEN")},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_leftb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	const guchar *peek = (const guchar *)value_peek_string (argv[0]);
+	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1.0;
+	int len = strlen (peek);
+	int icount, newlen;
+
+	if (count < 0)
+		return value_new_error_VALUE (ei->pos);
+	icount = (int)MIN ((gnm_float)INT_MAX, count);
+	if (icount >= len)
+		return value_new_string (peek);
+       
+	newlen = ((const guchar *)g_utf8_find_prev_char (peek, peek + icount + 1)) - peek;
+
+	return value_new_string_nocopy (g_strndup (peek, newlen));
+}
 /***************************************************************************/
 
 static GnmFuncHelp const help_lower[] = {
@@ -347,20 +371,14 @@ gnumeric_lower (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_mid[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=MID\n"
-	   "@SYNTAX=MID(string, position, length)\n"
-
-	   "@DESCRIPTION="
-	   "MID returns a substring from @string starting at @position for "
-	   "@length characters.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "MID(\"testing\",2,3) equals \"est\".\n"
-	   "\n"
-	   "@SEEALSO=LEFT, RIGHT")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("MID:the substring starting at position @{position} consisting of @{length} characters.")},
+	{ GNM_FUNC_HELP_ARG, F_("string")},   
+	{ GNM_FUNC_HELP_ARG, F_("position:the starting position (defaults to 0)")},   
+	{ GNM_FUNC_HELP_ARG, F_("length:the number of characters to return (defaults to 1)")},   
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("MID(\"Directory\",4,3) equals \"cto\".")},
+	{ GNM_FUNC_HELP_SEEALSO, ("LEFT,RIGHT,LEN,LEFTB,MIDB,RIGHTB,LENB")},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -391,22 +409,53 @@ gnumeric_mid (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
-static GnmFuncHelp const help_right[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=RIGHT\n"
-	   "@SYNTAX=RIGHT(text[,num_chars])\n"
+static GnmFuncHelp const help_midb[] = {
+	{ GNM_FUNC_HELP_NAME, F_("MIDB:the characters following  the first @{start_ps} bytes comprising at most @{num_bytes} bytes.")},
+	{ GNM_FUNC_HELP_ARG, F_("start_pos:the number of the byte with which to start (defaults to 1)")},   
+	{ GNM_FUNC_HELP_ARG, F_("num_bytes:the maximum number of bytes to return (defaults to 1)")},   
+/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")}, */
+/* 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")}, */
+	{ GNM_FUNC_HELP_EXAMPLES, F_("MIDB(\"Directory\",4,3) equals \"cto\".")},
+	{ GNM_FUNC_HELP_SEEALSO, ("LEFTB,RIGHTB,LENB,LEFT,MID,RIGHT,LEN")},
+	{ GNM_FUNC_HELP_END }
+};
 
-	   "@DESCRIPTION="
-	   "RIGHT returns the rightmost @num_chars characters or the right "
-	   "character if @num_chars is not specified.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "RIGHT(\"end\") equals \"d\".\n"
-	   "RIGHT(\"end\",2) equals \"nd\".\n"
-	   "\n"
-	   "@SEEALSO=MID, LEFT")
-	},
+static GnmValue *
+gnumeric_midb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	const guchar *peek = (const guchar *)value_peek_string (argv[0]);
+	gnm_float pos = value_get_as_float (argv[1]);
+	gnm_float len = value_get_as_float (argv[2]);
+ 	int slen = strlen (peek);
+	int ipos, ilen, newlen;
+
+	if ((len < 0) || (pos < 1))
+		return value_new_error_VALUE (ei->pos);
+	ipos = (int)MIN ((gnm_float)INT_MAX, pos) - 1;
+	ilen = (int)MIN ((gnm_float)INT_MAX, len);
+	if ((ipos >= slen) || 
+	    ((gunichar)-1 == g_utf8_get_char_validated (peek + ipos, -1)))
+		return value_new_error_VALUE (ei->pos);
+
+	if ((ipos + ilen) >= slen)
+		return value_new_string (peek + ipos);
+       
+	newlen = ((const guchar *)g_utf8_find_prev_char (peek + ipos, peek + ipos + ilen + 1))
+		- (peek + ipos);
+
+	return value_new_string_nocopy (g_strndup (peek + ipos, newlen));
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_right[] = {
+	{ GNM_FUNC_HELP_NAME, F_("RIGHT:the last @{num_chars} characters")},
+	{ GNM_FUNC_HELP_ARG, F_("num_chars:the number of characters to return (defaults to 1)")},   
+	{ GNM_FUNC_HELP_NOTE, F_("If the string is in a right-to-left script, the returned last characters are from the left of the string.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("RIGHT(\"Directory\",3) equals \"ory\".")},
+	{ GNM_FUNC_HELP_SEEALSO, ("LEFT,MID,LEN,LEFTB,MIDB,RIGHTB,LENB")},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -429,6 +478,38 @@ gnumeric_right (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		/* We could just duplicate the arg, but that would not ensure
 		   that the result was a string.  */
 		return value_new_string (os);
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_rightb[] = {
+	{ GNM_FUNC_HELP_NAME, F_("RIGHTB:the last characters comprising at most @{num_bytes} bytes.")},
+	{ GNM_FUNC_HELP_ARG, F_("num_bytes:the maximum number of bytes to return (defaults to 1)")},   
+	{ GNM_FUNC_HELP_NOTE, F_("If the string is in a right-to-left script, the returned last characters are from the left of the string.")},
+/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")}, */
+/* 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")}, */
+	{ GNM_FUNC_HELP_EXAMPLES, F_("RIGHTB(\"Directory\",3) equals \"ory\".")},
+	{ GNM_FUNC_HELP_SEEALSO, ("LEFTB,MIDB,LENB,LEFT,MID,RIGHT,LEN")},
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_rightb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	const guchar *peek = (const guchar *)value_peek_string (argv[0]);
+	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1.0;
+	int len = strlen (peek);
+	int icount;
+	gchar *res;
+
+	if (count < 0)
+		return value_new_error_VALUE (ei->pos);
+	icount = (int)MIN ((gnm_float)INT_MAX, count);
+	if (icount >= len)
+		return value_new_string (peek);
+
+	res = g_utf8_find_next_char (peek + len - icount - 1, peek + len);
+	return value_new_string ((res == NULL) ? "" : res);
 }
 
 /***************************************************************************/
@@ -1210,26 +1291,128 @@ gnumeric_search (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_asc[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ASC\n"
-	   "@SYNTAX=ASC(string)\n"
-
-	   "@DESCRIPTION="
-	   "ASC a compatibility function that is meaningless in Gnumeric.  "
-	   "In MS Excel (tm) it converts 2 byte @string into single byte text.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "CHAR(\"Foo\") equals \"Foo\".\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("ASC:text with full-width katakana and ASCII characters converted to half-width.")},
+	{ GNM_FUNC_HELP_ARG, F_("text:")},   
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ASC converts full-width katakana and ASCII characters to half-width equivalent characters, copying all others. ")},   
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The distinction between half-width and full-width characters is described in http://www.unicode.org/reports/tr11/.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("For most strings, this function has the same effect as in Excel.")},
+	{ GNM_FUNC_HELP_NOTE, F_("While in obsolete encodings ASC used to translate between 2-byte and 1-byte characters, this is not the case in UTF-8.")},
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("ASC(\"\xef\xbc\xa1\xef\xbc\xa2\xef\xbc\xa3\") yields \"ABC\"")},
+	{ GNM_FUNC_HELP_SEEALSO, ("JIS")},
 	{ GNM_FUNC_HELP_END }
 };
+
+static gunichar
+gnm_asc_half (gunichar c, GString *str)
+{
+	if (c < 0x2015)
+		return c;
+	if (c == 0x2015)
+		return (0xff70);
+	if (c == 0x2018)
+		return (0x0060);
+	if (c == 0x2019)
+		return (0x0027);
+	if (c == 0x201d)
+		return (0x0022);
+	if (c < 0x3001)
+		return c;
+	if (c == 0x3001)
+		return (0xff64);
+	if (c == 0x3002)
+		return (0xff61);
+	if (c == 0x300c)
+		return (0xff62);
+	if (c == 0x300d)
+		return (0xff63);
+	if (c == 0x309b)
+		return (0xff9e);
+	if (c == 0x309c)
+		return (0xff9f);
+	if (c < 0x30a1)
+		return c;
+	if (0x30a1 <= c && c <= 0x30aa)
+		return (c%2 == 0) ? ((c - 0x30a2)/2 + 0xff71)
+			: ((c - 0x30a1)/2 + 0xff67);
+	if (c <= 0x30c2) {
+		if (c%2 == 1)
+			return ((c - 0x30ab)/2 + 0xff76);
+		else {
+			g_string_append_unichar 
+				(str, (c - 0x30ac)/2 + 0xff76);
+			return 0xff9e;
+		}
+	}
+	if (c == 0x30c3)
+		return (0xff6f);
+	if (c <= 0x30c9) {
+		if (c%2 == 0)
+			return ((c - 0x30c4)/2 + 0xff82);
+		else {
+			g_string_append_unichar 
+				(str, (c - 0x30c5)/2 + 0xff82);
+			return 0xff9e;
+		}
+	}
+	if (c <= 0x30ce)
+		return (c - 0x30ca + 0xff85);
+	if (c <= 0x30dd)
+		switch (c%2) {
+		case 0:
+			return ((c - 0x30cf)/3 + 0xff8a);
+		case 1:
+			g_string_append_unichar 
+				(str, (c - 0x30d0)/3 + 0xff8a);
+			return 0xff9e;
+		case 2:
+		default:
+			g_string_append_unichar 
+				(str, (c - 0x30d1)/3 + 0xff8a);
+			return 0xff9f;
+		}
+	if (c <= 30e2)
+		return (c - 0x30de + 0xff8f);
+	if (c <= 0x30e8) {
+		if (c%2 == 0)
+			return ((c - 0x30e4)/2 + 0xff94);
+		else
+			return ((c - 0x30e3)/2 + 0xff6c);
+	}			
+	if (c <= 0x30ed)
+		return (c - 0x30e9 + 0xff97);
+	if (c == 0x30ef)
+		return (0xff9c);
+	if (c == 0x30f2)
+		return (0xff66);
+	if (c == 0x30f3)
+		return (0xff9d);
+	if (c == 0x30fb)
+		return (0xff65);
+	if (c == 0x30fc)
+		return (0xff70);
+	if (c < 0xff01)
+		return c;
+	if (c <= 0xff5e)
+		return (c - 0xff01 + 0x0021);
+	if (c == 0xffe5)
+		return (0x005c);
+	return c;
+}
 
 static GnmValue *
 gnumeric_asc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_string (value_peek_string (argv[0]));
+	char const *peek = value_peek_string (argv[0]);
+	GString *str = g_string_new (NULL);
+
+	while ((*peek) != '\0') {
+		gunichar wc = gnm_asc_half (g_utf8_get_char (peek), str);
+		g_string_append_unichar (str, wc);
+		peek = g_utf8_next_char(peek);
+	}
+
+	return value_new_string_nocopy (g_string_free (str, FALSE));
 }
 
 /***************************************************************************/
@@ -1270,6 +1453,9 @@ GnmFuncDescriptor const string_functions[] = {
         { "left",       "S|f",   N_("text,num_chars"),          help_left,
 	  gnumeric_left, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "leftb",       "S|f",   N_("text,num_bytes"),          help_leftb,
+	  gnumeric_leftb, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "len",        "S",     N_("text"),                    help_len,
 	  gnumeric_len, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -1282,6 +1468,9 @@ GnmFuncDescriptor const string_functions[] = {
         { "mid",        "Sff",   N_("text,pos,num"),            help_mid,
 	  gnumeric_mid, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "midb",        "Sff",   N_("text,pos,num"),            help_midb,
+	  gnumeric_midb, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "proper",     "S",     N_("text"),                    help_proper,
 	  gnumeric_proper, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -1294,6 +1483,9 @@ GnmFuncDescriptor const string_functions[] = {
         { "right",      "S|f",   N_("text,num_chars"),          help_right,
 	  gnumeric_right, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "rightb",       "S|f",   N_("text,num_bytes"),          help_rightb,
+	  gnumeric_rightb, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "search",     "SS|f",  N_("search_string,text,start_num"),   help_search,
 	  gnumeric_search, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

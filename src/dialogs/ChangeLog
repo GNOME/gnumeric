@@ -1,3 +1,9 @@
+2009-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* dialog-function-select.c (describe_new_style): argument
+	  descriptions may refer to other arguments. Handle 
+	  GNM_FUNC_HELP_EXCEL and GNM_FUNC_HELP_ODF
+
 2009-06-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.9

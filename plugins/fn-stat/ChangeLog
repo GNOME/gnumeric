@@ -1,3 +1,8 @@
+2009-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c: use GNM_FUNC_HELP_EXCEL throughout and add a
+	few GNM_FUNC_HELP_ODF
+
 2009-06-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.9

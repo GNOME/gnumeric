@@ -142,7 +142,9 @@ typedef enum {
 	GNM_FUNC_HELP_NOTE,		/* <SPECIAL CASES (reference args using @{arg})>		(translated) */
 	GNM_FUNC_HELP_EXAMPLES,		/* <TEXT and EXAMPLES ?? get a hook to enter the sample ?? >	(translated) */
 	GNM_FUNC_HELP_SEEALSO,		/* name,name,name ...			(not translated) */
-	GNM_FUNC_HELP_EXTREF            /* wolfram:Sine.html wiki:en:Trigonometric_functions */
+	GNM_FUNC_HELP_EXTREF,           /* wolfram:Sine.html wiki:en:Trigonometric_functions */
+	GNM_FUNC_HELP_EXCEL,             /* <SPECIAL NOTE RE EXCEL (reference args using @{arg})>       	(translated) */
+	GNM_FUNC_HELP_ODF               /* <SPECIAL NOTE RE ODF (reference args using @{arg})>       	(translated) */
 } GnmFuncHelpType;
 typedef struct {
     GnmFuncHelpType	 type;

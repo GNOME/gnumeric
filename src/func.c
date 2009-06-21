@@ -444,8 +444,9 @@ function_dump_defs (char const *filename, int dump_type)
 				case GNM_FUNC_HELP_EXAMPLES:
 				case GNM_FUNC_HELP_END:
 				case GNM_FUNC_HELP_NOTE:
+				case GNM_FUNC_HELP_EXCEL:
+				case GNM_FUNC_HELP_ODF:
 					break;
-
 				}
 			}
 			g_string_free (syntax, TRUE);

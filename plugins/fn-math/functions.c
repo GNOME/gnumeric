@@ -533,20 +533,14 @@ gnumeric_atan2 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ceil[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=CEIL\n"
-	   "@SYNTAX=CEIL(x)\n"
-
-	   "@DESCRIPTION="
-	   "CEIL function rounds @x up to the next nearest integer.\n\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "CEIL(0.4) equals 1.\n"
-	   "CEIL(-1.1) equals -1.\n"
-	   "CEIL(-2.9) equals -2.\n"
-	   "\n"
-	   "@SEEALSO=CEILING, FLOOR, ABS, INT, MOD")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("CEIL:smallest integer larger than or equal to @{x}")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},	
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("CEIL(@{x}) is the smallest integer that is at least as large as @{x}.")},
+	{ GNM_FUNC_HELP_ODF, F_("This function is the OpenFormula function CEILING(@{x}).")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("CEIL(0.4) equals 1.\n"
+				     "CEIL(-1.1) equals -1.\n"
+				     "CEIL(-2.9) equals -2.")},	
+	{ GNM_FUNC_HELP_SEEALSO, ("CEILING,FLOOR,ABS,INT,MOD")},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -773,26 +767,18 @@ gnumeric_sumif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ceiling[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=CEILING\n"
-	   "@SYNTAX=CEILING(x[,significance])\n"
-
-	   "@DESCRIPTION="
-	   "CEILING function rounds @x up to the nearest multiple of "
-	   "@significance.\n"
-	   "\n"
-	   "* If @x or @significance is non-numeric CEILING returns "
-	   "#VALUE! error.\n"
-	   "* If @x and @significance have different signs CEILING returns "
-	   "#NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "CEILING(2.43,1) equals 3.\n"
-	   "CEILING(123.123,3) equals 126.\n"
-	   "\n"
-	   "@SEEALSO=CEIL, FLOOR, ABS, INT, MOD")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("CEILING:nearest multiple of @{significance} whose absolute value is at least ABS(@{x})")},
+	{ GNM_FUNC_HELP_ARG, F_("x:number")},	
+	{ GNM_FUNC_HELP_ARG, F_("significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)")},	
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("CEILING(@{x},@{significance}) is the nearest multiple of @{significance} whose absolute value is at least ABS(@{x}).")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{significance} is non-numeric, CEILING returns a #VALUE! error.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} and @{significance} have different signs, CEILING returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
+	{ GNM_FUNC_HELP_ODF, F_("CEILING(@{x}) is exported to ODF as CEILING(@{x},SIGN(@{x}),1). CEILING(@{x},@{significance}) is the OpenFormula function CEILING(@{x},@{significance},1).")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("CEILING(2.43,1) equals 3.\n"
+				     "CEILING(123.123,3) equals 126.\n"
+				     "CEILING(-2.43,-1) equals -3.")},	
+	{ GNM_FUNC_HELP_SEEALSO, ("CEIL,FLOOR,ABS,INT,MOD")},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1115,13 +1101,14 @@ gnumeric_combin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_floor[] = {
-	{ GNM_FUNC_HELP_NAME, F_("FLOOR:rounds down.") },
+	{ GNM_FUNC_HELP_NAME, F_("FLOOR:nearest multiple of @{significance} whose absolute value is at most ABS(@{x}).") },
 	{ GNM_FUNC_HELP_ARG, F_("x:value.") },
-	{ GNM_FUNC_HELP_ARG, F_("significance:base multiple (defaults to 1 for @x > 0 and -1 for @x <0)") },
+	{ GNM_FUNC_HELP_ARG, F_("significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_(
-	   "FLOOR function rounds @x down to the next nearest multiple "
-	   "of @significance.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("FLOOR(0.5) equals 0.") },
+	   "FLOOR(@{x},@{significance}) is the nearest multiple of @{significance} whose absolute value is at most ABS(@{x})") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
+	{ GNM_FUNC_HELP_ODF, F_("FLOOR(@{x}) is exported to ODF as FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},@{significance}) is the OpenFormula function FLOOR(@{x},@{significance},1).")},
+       	{ GNM_FUNC_HELP_EXAMPLES, F_("FLOOR(0.5) equals 0.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("FLOOR(5,2) equals 4.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("FLOOR(-5,-2) equals -4.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("FLOOR(-5,2) equals #NUM!.") },
@@ -1461,7 +1448,7 @@ gnumeric_radians (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_sin[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SIN:Sine function")},
 	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
-	{ GNM_FUNC_HELP_SEEALSO, "COS,TAN,SINH,COSH,TANH,RADIANS,DEGREES"},
+	{ GNM_FUNC_HELP_SEEALSO, "COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES"},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("SIN((0.5) equals 0.479426") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Sine.html") },
@@ -1477,6 +1464,84 @@ gnumeric_sin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 
+static GnmFuncHelp const help_csc[] = {
+	{ GNM_FUNC_HELP_NAME, F_("CSC:Cosecant")},
+	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is not Excel compatible.") },
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("CSC((0.5) equals 2.085829642933488") },
+	{ GNM_FUNC_HELP_SEEALSO, "SIN,COS,TAN,SEC,SINH,COSH,TANH,RADIANS,DEGREES"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Cosecant.html") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Trigonometric_functions") },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_csc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_new_float (1./gnm_sin (value_get_as_float (argv[0])));
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_csch[] = {
+	{ GNM_FUNC_HELP_NAME, F_("CSC:Hyperbolic cosecant")},
+	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is not Excel compatible.") },
+	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("CSCH((0.5) equals 1.919034751334944") },
+	{ GNM_FUNC_HELP_SEEALSO, "SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:HyperbolicCosecant.html") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Hyperbolic_function") },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_csch (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_new_float (1./gnm_sinh (value_get_as_float (argv[0])));
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_sec[] = {
+	{ GNM_FUNC_HELP_NAME, F_("SEC:Secant")},
+	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is not Excel compatible.") },
+	{ GNM_FUNC_HELP_ODF, F_("SEC(@{x}) is exported to OpenFormula as 1/COS(@{x}).") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("SEC((0.5) equals 1.139493927324549") },
+	{ GNM_FUNC_HELP_SEEALSO, "SIN,COS,TAN,CSC,SINH,COSH,TANH,RADIANS,DEGREES"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Secant.html") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Trigonometric_functions") },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_sec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_new_float (1./gnm_cos (value_get_as_float (argv[0])));
+}
+
+/***************************************************************************/
+
+static GnmFuncHelp const help_sech[] = {
+	{ GNM_FUNC_HELP_NAME, F_("SEC:Hyperbolic secant")},
+	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is not Excel compatible.") },
+	{ GNM_FUNC_HELP_ODF, F_("SECH(@{x}) is exported to OpenFormula as 1/COSH(@{x}).") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("SECH((0.5) equals 0.88681888397007") },
+	{ GNM_FUNC_HELP_SEEALSO, "SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:HyperbolicSecant.html") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Hyperbolic_function") },
+	{ GNM_FUNC_HELP_END }
+};
+
+static GnmValue *
+gnumeric_sech (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	return value_new_float (1./gnm_cosh (value_get_as_float (argv[0])));
+}
+/***************************************************************************/
 static GnmFuncHelp const help_sinh[] = {
 	{ GNM_FUNC_HELP_OLD,
 	F_("@FUNCTION=SINH\n"
@@ -3274,6 +3339,12 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "combin",  "ff", N_("n,k"),      help_combin,
 	  gnumeric_combin, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "csc",     "f", N_("number"),    help_csc,
+	  gnumeric_csc, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "csch",     "f", N_("number"),    help_csch,
+	  gnumeric_csch, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "floor",   "f|f", N_("number"),  help_floor,
 	  gnumeric_floor, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
@@ -3350,6 +3421,12 @@ GnmFuncDescriptor const math_functions[] = {
 	  gnumeric_roundup, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	{ "sec",     "f", N_("number"),    help_sec,
+	  gnumeric_sec, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+	{ "sech",     "f", N_("number"),    help_sech,
+	  gnumeric_sech, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "seriessum", "fffA", N_("x,n,m,coefficients"), help_seriessum,
 	  gnumeric_seriessum, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },

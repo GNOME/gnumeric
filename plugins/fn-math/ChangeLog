@@ -1,3 +1,11 @@
+2009-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* plugin.xml.in: new csc, csh, sec, sech
+	* functions.c: new csc, csh, sec, sech functions
+	(help_ceil): update to new format
+	(help_ceiling): ditto
+	(help_floor): ditto
+
 2009-06-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.9
