@@ -13,7 +13,6 @@
       <widget class="GtkVBox" id="dialog-vbox">
         <property name="visible">True</property>
         <property name="spacing">2</property>
-        <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
         <child>
           <widget class="GtkTable" id="table1">
             <property name="visible">True</property>

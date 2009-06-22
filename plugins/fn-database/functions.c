@@ -56,8 +56,6 @@ find_cells_that_match (Sheet *sheet, GnmValue const *database,
 	int    row, first_row, last_row;
 	gboolean add_flag;
 	GnmCell *cell;
-	GODateConventions const *date_conv =
-		workbook_date_conv (sheet->workbook);
 
 	cells = NULL;
 	/* TODO : Why ignore the first row ?  What if there is no header ? */
