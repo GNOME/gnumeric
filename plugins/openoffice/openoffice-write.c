@@ -448,7 +448,7 @@ xl_find_format (GnmOOExport *state, GOFormat const *format, int i)
 	switch (i) {
 	case 0: 
 		hash = state->xl_styles;
-		prefix = "ND+%i";
+		prefix = "ND.%i";
 		break;
 	case 1: 
 		hash = state->xl_styles_neg;
