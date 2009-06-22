@@ -953,9 +953,18 @@ compute_sheet_pages (GtkPrintContext   *context,
 	repeat_left_start = repeat_left_use ? r.start.col : 0;
 	repeat_left_end = repeat_left_use ? r.end.col : 0;
 
-	if (pi->ignore_pb) {
-		gnm_page_breaks_clean (pinfo->page_breaks.h);
-		gnm_page_breaks_clean (pinfo->page_breaks.v);
+	if (!pi->ignore_pb) {
+		if (pinfo->page_breaks.h == NULL)
+		        print_info_set_breaks (pinfo, 
+					       gnm_page_breaks_new (FALSE));
+		else
+			gnm_page_breaks_clean (pinfo->page_breaks.h);
+		if (pinfo->page_breaks.v == NULL)
+		        print_info_set_breaks (pinfo, 
+					       gnm_page_breaks_new (TRUE));
+		else
+			gnm_page_breaks_clean (pinfo->page_breaks.v);
+
 	}
 
 	if (pinfo->scaling.type == PRINT_SCALE_FIT_PAGES) {
@@ -994,15 +1003,6 @@ compute_sheet_pages (GtkPrintContext   *context,
 
 	usable_x   = page_width / px;
 	usable_y   = page_height / py;
-
-	if (!pi->ignore_pb) {
-		if (pinfo->page_breaks.h == NULL)
-		        print_info_set_breaks (pinfo, 
-					       gnm_page_breaks_new (FALSE));
-		if (pinfo->page_breaks.v == NULL)
-		        print_info_set_breaks (pinfo, 
-					       gnm_page_breaks_new (TRUE));
-	}
 
 	paginate (&column_pagination, sheet, r.start.col, r.end.col,
 		  usable_x - row_header_width,

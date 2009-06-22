@@ -1441,6 +1441,10 @@ void
 gnm_page_breaks_clean (GnmPageBreaks *breaks)
 {
 	guint i;
+
+	if (breaks == NULL)
+		return;
+
 	for (i = 0; i < breaks->details->len; i++) {
 		GnmPageBreak *pbreak = &g_array_index (breaks->details, 
 						       GnmPageBreak, i);

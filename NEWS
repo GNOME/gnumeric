@@ -1,11 +1,12 @@
 Gnumeric 1.9.10
 
 Andreas:
-	* Improve ODF export
-	* Add OpenFormula comp. descriptors to some function documentations
-	* Implement new functions CSC, CSCH, SEC, and SECH
-	* Implement new functions LEFTB, MIDB, RIGHTB
-	* Implement ASC and add new function JIS
+	* Improve ODF export.
+	* Add OpenFormula comp. descriptors to some function documentations.
+	* Implement new functions CSC, CSCH, SEC, and SECH.
+	* Implement new functions LEFTB, MIDB, RIGHTB.
+	* Implement ASC and add new function JIS.
+	* Fix printing crash. [#586672]
 
 Morten:
 	* Make SUMIF/COUNTIF and the D* functions understand pattern. [#586215]
