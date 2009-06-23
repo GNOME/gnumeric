@@ -1195,7 +1195,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	merge_cols = MIN (merge_cols, max_cols - state->pos.eval.col);
 	merge_rows = MIN (merge_rows, max_rows - state->pos.eval.row);
 
-	if (has_datetime || has_date || has_time) {
+	if ((state->ver == OOO_VER_1) && (has_datetime || has_date || has_time)) {
 		GOFormat *format;
 
 		if (has_datetime) {

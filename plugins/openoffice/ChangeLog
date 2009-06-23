@@ -1,5 +1,10 @@
 2009-06-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (oo_cell_start): do not overwrite formats 
+	  from the file
+
+2009-06-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (OOParseState): separate format item and
 	  change references throughout
 	(oo_date_hours): handle elapsed times better
