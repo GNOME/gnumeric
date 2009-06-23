@@ -66,6 +66,7 @@ Morten:
 	* Implement new functions COTH and ACOTH.  [#586170]
 	* Fix tsa crashes.  [#586191, #586427]
 	* Fix IF problems with empties and arrays.  [#586218, #586312]
+	* Fix problem with tooltip positions.  [#586590]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.8

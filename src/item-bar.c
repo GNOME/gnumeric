@@ -965,9 +965,11 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 
 			if (ib->tip == NULL) {
 				GtkWidget *cw = GTK_WIDGET (canvas);
-				GdkWindow *cbw = GTK_LAYOUT (canvas)->bin_window;
 				int wx, wy;
-				gdk_window_get_origin (cbw, &wx, &wy);
+
+				gnm_canvas_get_position (canvas, &wx, &wy,
+							 e->button.x,
+							 e->button.y);
 				ib->tip = gnumeric_create_tooltip (cw);
 				colrow_tip_setlabel (ib, is_cols, ib->colrow_resize_size);
 				/* Position above the current point for both
@@ -976,9 +978,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 				 * the tip under the cursor which can have odd
 				 * effects on the event stream.  win32 was
 				 * different from X. */
-				gnumeric_position_tooltip (ib->tip,
-							   wx + e->button.x,
-							   wy + e->button.y,
+				gnumeric_position_tooltip (ib->tip, wx, wy,
 							   TRUE);
 				gtk_widget_show_all (gtk_widget_get_toplevel (ib->tip));
 			}

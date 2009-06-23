@@ -1062,14 +1062,15 @@ static void
 item_cursor_tip_setlabel (ItemCursor *ic, char const *text)
 {
 	if (ic->tip == NULL) {
-		GtkWidget *cw = GTK_WIDGET (FOO_CANVAS_ITEM (ic)->canvas);
-		GdkWindow *cbw = GTK_LAYOUT (cw)->bin_window;
+		FooCanvas *canvas = FOO_CANVAS_ITEM (ic)->canvas;
+		GtkWidget *cw = GTK_WIDGET (canvas);
 		int wx, wy;
-		gdk_window_get_origin (cbw, &wx, &wy);
+
+		gnm_canvas_get_position (canvas, &wx, &wy,
+					 ic->last_x, ic->last_y);
 		ic->tip = gnumeric_create_tooltip (cw);
-		gnumeric_position_tooltip (ic->tip,
-					   wx + ic->last_x,
-					   wy + ic->last_y, TRUE);
+
+		gnumeric_position_tooltip (ic->tip, wx, wy, TRUE);
 		gtk_widget_show_all (gtk_widget_get_toplevel (ic->tip));
 	}
 

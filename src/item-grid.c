@@ -967,13 +967,12 @@ cb_cursor_come_to_rest (ItemGrid *ig)
 
 		if (ig->tip == NULL && strlen (tiptext) > 0) {
 			GtkWidget *cw = GTK_WIDGET (canvas);
-			GdkWindow *cbw = GTK_LAYOUT (canvas)->bin_window;
 			int wx, wy;
-			gdk_window_get_origin (cbw, &wx, &wy);
+
+			gnm_canvas_get_position (canvas, &wx, &wy,
+						 ig->last_x, ig->last_y);
 			ig->tip = gnumeric_create_tooltip (cw);
-			gnumeric_position_tooltip (ig->tip,
-						   wx + ig->last_x,
-						   wy + ig->last_y, TRUE);
+			gnumeric_position_tooltip (ig->tip, wx, wy, TRUE);
 			gtk_label_set_text (GTK_LABEL (ig->tip), tiptext);
 			gtk_widget_show_all (gtk_widget_get_toplevel (ig->tip));
 		}

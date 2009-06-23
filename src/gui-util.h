@@ -124,6 +124,9 @@ void gnm_dialog_setup_destroy_handlers (GtkDialog *dialog,
 					WBCGtk *wbcg,
 					GnmDialogDestroyOptions what);
 
+void gnm_canvas_get_position (FooCanvas *canvas, int *x, int *y,
+			      int px, int py);
+
 G_END_DECLS
 
 #endif /* _GNM_GUI_UTIL_H_ */

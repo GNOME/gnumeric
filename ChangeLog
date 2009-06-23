@@ -1,3 +1,12 @@
+2009-06-23  Morten Welinder  <terra@gnome.org>
+
+	* src/item-cursor.c (item_cursor_tip_setlabel,
+	cb_cursor_come_to_rest, item_bar_event): Use
+	gnm_canvas_get_position.
+
+	* src/gui-util.c (gnm_canvas_get_position): New function working
+	around gdk bug.  Fixes #586590.
+
 2009-06-22  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/print-info.c (gnm_page_breaks_clean): we can't and don't need

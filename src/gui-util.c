@@ -1347,3 +1347,26 @@ gnm_dialog_setup_destroy_handlers (GtkDialog *dialog,
 			  G_CALLBACK (cb_gnm_dialog_setup_destroy_handlers),
 			  dd);
 }
+
+
+void
+gnm_canvas_get_position (FooCanvas *canvas, int *x, int *y, int px, int py)
+{
+	GtkWidget *cw = GTK_WIDGET (canvas);
+	GdkWindow *cbw = GTK_LAYOUT (cw)->bin_window;
+	int wx, wy, ox, oy;
+	double pdx, pdy;
+
+	/*
+	 * Get offsets for the 16-bit X11 system within the 32-bit gdk system.
+	 * I don't think this should be necessary, see bug 586756.
+	 */
+	gdk_window_get_internal_paint_info (cbw, NULL, &ox, &oy);
+
+	gdk_window_get_origin (cbw, &wx, &wy);
+
+	foo_canvas_world_to_window (canvas, px, py, &pdx, &pdy);
+
+	*x = (int)pdx + wx - ox;
+	*y = (int)pdy + wy - oy;
+}
