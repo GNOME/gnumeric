@@ -1,3 +1,9 @@
+2009-06-23  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_leftb): add warning
+	(help_midb): add warning
+	(help_rightb): add warning
+
 2009-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugin.xml.in: new JIS

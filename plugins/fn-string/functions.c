@@ -317,9 +317,10 @@ gnumeric_left (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_leftb[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LEFTB:the first characters comprising at most @{num_bytes} bytes.")},
 	{ GNM_FUNC_HELP_ARG, F_("num_bytes:the maximum number of bytes to return (defaults to 1)")},   
+	{ GNM_FUNC_HELP_NOTE, F_("The semantics of this function is subject to change as various applications implement it.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If the string is in a right-to-left script, the returned first characters are from the right of the string.")},
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")}, */
-/* 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")}, */
+	{ GNM_FUNC_HELP_EXCEL, F_("While this function is syntactically Excel compatible, the differences in the underlying text encoding will usually yield different results.")},
+	{ GNM_FUNC_HELP_ODF, F_("While this function is OpenFormula compatible, most of its behavior is, at this time, implementation specific.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("LEFTB(\"Directory\",3) equals \"Dir\".")},
 	{ GNM_FUNC_HELP_SEEALSO, ("MIDB,RIGHTB,LENB,LEFT,MID,RIGHT,LEN")},
 	{ GNM_FUNC_HELP_END }
@@ -413,8 +414,9 @@ static GnmFuncHelp const help_midb[] = {
 	{ GNM_FUNC_HELP_NAME, F_("MIDB:the characters following  the first @{start_ps} bytes comprising at most @{num_bytes} bytes.")},
 	{ GNM_FUNC_HELP_ARG, F_("start_pos:the number of the byte with which to start (defaults to 1)")},   
 	{ GNM_FUNC_HELP_ARG, F_("num_bytes:the maximum number of bytes to return (defaults to 1)")},   
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")}, */
-/* 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")}, */
+	{ GNM_FUNC_HELP_NOTE, F_("The semantics of this function is subject to change as various applications implement it.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("While this function is syntactically Excel compatible, the differences in the underlying text encoding will usually yield different results.")},
+	{ GNM_FUNC_HELP_ODF, F_("While this function is OpenFormula compatible, most of its behavior is, at this time, implementation specific.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("MIDB(\"Directory\",4,3) equals \"cto\".")},
 	{ GNM_FUNC_HELP_SEEALSO, ("LEFTB,RIGHTB,LENB,LEFT,MID,RIGHT,LEN")},
 	{ GNM_FUNC_HELP_END }
@@ -485,9 +487,10 @@ gnumeric_right (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_rightb[] = {
 	{ GNM_FUNC_HELP_NAME, F_("RIGHTB:the last characters comprising at most @{num_bytes} bytes.")},
 	{ GNM_FUNC_HELP_ARG, F_("num_bytes:the maximum number of bytes to return (defaults to 1)")},   
+	{ GNM_FUNC_HELP_NOTE, F_("The semantics of this function is subject to change as various applications implement it.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If the string is in a right-to-left script, the returned last characters are from the left of the string.")},
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")}, */
-/* 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")}, */
+	{ GNM_FUNC_HELP_EXCEL, F_("While this function is syntactically Excel compatible, the differences in the underlying text encoding will usually yield different results.")},
+	{ GNM_FUNC_HELP_ODF, F_("While this function is OpenFormula compatible, most of its behavior is, at this time, implementation specific.")},
 	{ GNM_FUNC_HELP_EXAMPLES, F_("RIGHTB(\"Directory\",3) equals \"ory\".")},
 	{ GNM_FUNC_HELP_SEEALSO, ("LEFTB,MIDB,LENB,LEFT,MID,RIGHT,LEN")},
 	{ GNM_FUNC_HELP_END }

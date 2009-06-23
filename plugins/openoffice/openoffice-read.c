@@ -1842,8 +1842,13 @@ odf_currency_symbol_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (state->accum_fmt == NULL)
 		return;
-	
+	if (0 == strcmp (xin->content->str, "$")) {
+		g_string_append_c (state->accum_fmt, '$');
+		return;
+	}
+	g_string_append (state->accum_fmt, "[$");
 	g_string_append (state->accum_fmt, xin->content->str);
+	g_string_append_c (state->accum_fmt, ']');
 }
 
 
