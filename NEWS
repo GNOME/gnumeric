@@ -8,6 +8,7 @@ Andreas:
 	* Implement ASC and add new function JIS.
 	* Fix printing crash. [#586672]
 	* Fix import of currency symbols from ODF.
+	* Improve import of elapsed time from ODF.
 
 Morten:
 	* Make SUMIF/COUNTIF and the D* functions understand pattern. [#586215]

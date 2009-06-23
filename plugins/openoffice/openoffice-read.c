@@ -186,6 +186,12 @@ typedef struct {
 	gboolean is_rtl;
 } OOSheetStyle;
 
+typedef enum {
+	ODF_ELAPSED_SET_SECONDS = 1 << 0,
+	ODF_ELAPSED_SET_MINUTES = 1 << 1,
+	ODF_ELAPSED_SET_HOURS   = 1 << 2
+} odf_elapsed_set_t;
+
 typedef struct {
 	IOContext	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
@@ -219,9 +225,15 @@ typedef struct {
 	GnmStyle	*default_style_cell;
 	GSList		*sheet_order;
 	int		 richtext_len;
-	GString		*accum_fmt;
-	char		*fmt_name;
-	int              fmt_magic;
+	struct {
+		GString	*accum;
+		char	*name;
+		int      magic;
+		gboolean truncate_hour_on_overflow;
+		int      elapsed_set; /* using a sum of odf_elapsed_set_t */
+		guint      pos_seconds;
+		guint      pos_minutes;
+	} cur_format;
 	GSList          *conditions;
 	GSList          *cond_formats;
 	GnmFilter	*filter;
@@ -1488,14 +1500,14 @@ oo_date_day (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean is_short = TRUE;
 
-	if (state->accum_fmt == NULL)
+	if (state->cur_format.accum == NULL)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
 			is_short = (attr_eq (attrs[1], "short"));
 
-	g_string_append (state->accum_fmt, is_short ? "d" : "dd");
+	g_string_append (state->cur_format.accum, is_short ? "d" : "dd");
 }
 
 static void
@@ -1505,7 +1517,7 @@ oo_date_month (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean as_text = FALSE;
 	gboolean is_short = TRUE;
 
-	if (state->accum_fmt == NULL)
+	if (state->cur_format.accum == NULL)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -1513,7 +1525,7 @@ oo_date_month (GsfXMLIn *xin, xmlChar const **attrs)
 			is_short = attr_eq (attrs[1], "short");
 		else if (oo_attr_bool (xin, attrs, OO_NS_NUMBER, "textual", &as_text))
 			;
-	g_string_append (state->accum_fmt, as_text
+	g_string_append (state->cur_format.accum, as_text
 			 ? (is_short ? "mmm" : "mmmm")
 			 : (is_short ? "m" : "mm"));
 }
@@ -1523,13 +1535,13 @@ oo_date_year (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean is_short = TRUE;
 
-	if (state->accum_fmt == NULL)
+	if (state->cur_format.accum == NULL)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
 			is_short = attr_eq (attrs[1], "short");
-	g_string_append (state->accum_fmt, is_short ? "yy" : "yyyy");
+	g_string_append (state->cur_format.accum, is_short ? "yy" : "yyyy");
 }
 static void
 oo_date_era (GsfXMLIn *xin, xmlChar const **attrs)
@@ -1541,13 +1553,13 @@ oo_date_day_of_week (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean is_short = TRUE;
 
-	if (state->accum_fmt == NULL)
+	if (state->cur_format.accum == NULL)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
 			is_short = attr_eq (attrs[1], "short");
-	g_string_append (state->accum_fmt, is_short ? "ddd" : "dddd");
+	g_string_append (state->cur_format.accum, is_short ? "ddd" : "dddd");
 }
 static void
 oo_date_week_of_year (GsfXMLIn *xin, xmlChar const **attrs)
@@ -1562,54 +1574,98 @@ oo_date_hours (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean is_short = TRUE;
-	gboolean is_elapsed = FALSE;
+	gboolean truncate_hour_on_overflow = TRUE;
+	gboolean truncate_hour_on_overflow_set = FALSE;
 
-	if (state->accum_fmt == NULL)
+	if (state->cur_format.accum == NULL)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
 			is_short = attr_eq (attrs[1], "short");
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, 
-					     "elapsed"))
-			is_elapsed = attr_eq (attrs[1], "true");
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT,
+				       "truncate-on-overflow", 
+				       &truncate_hour_on_overflow))
+			truncate_hour_on_overflow_set = TRUE;
 
-	if (is_elapsed)
-		g_string_append (state->accum_fmt, is_short ? "[h]" : "[hh]");
-	else
-		g_string_append (state->accum_fmt, is_short ? "h" : "hh");
+	if (truncate_hour_on_overflow_set) {
+		if (truncate_hour_on_overflow) 
+			g_string_append (state->cur_format.accum, is_short ? "h" : "hh");
+		else {
+			g_string_append (state->cur_format.accum, is_short ? "[h]" : "[hh]");
+			state->cur_format.elapsed_set |= ODF_ELAPSED_SET_HOURS;
+		}
+	} else {
+		if (state->cur_format.truncate_hour_on_overflow) 
+			g_string_append (state->cur_format.accum, is_short ? "h" : "hh");
+		else {
+			g_string_append (state->cur_format.accum, is_short ? "[h]" : "[hh]");
+			state->cur_format.elapsed_set |= ODF_ELAPSED_SET_HOURS;
+		}
+	}
 }
+
 static void
 oo_date_minutes (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean is_short = TRUE;
-	gboolean is_elapsed = FALSE;
+	gboolean truncate_hour_on_overflow = TRUE;
+	gboolean truncate_hour_on_overflow_set = FALSE;
 
-	if (state->accum_fmt == NULL)
+	if (state->cur_format.accum == NULL)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "style"))
 			is_short = attr_eq (attrs[1], "short");
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, 
-					     "elapsed"))
-			is_elapsed = attr_eq (attrs[1], "true");
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT,
+				       "truncate-on-overflow", 
+				       &truncate_hour_on_overflow))
+			truncate_hour_on_overflow_set = TRUE;
+	state->cur_format.pos_minutes = state->cur_format.accum->len;
 			
-	if (is_elapsed)
-		g_string_append (state->accum_fmt, is_short ? "[m]" : "[mm]");
-	else
-		g_string_append (state->accum_fmt, is_short ? "m" : "mm");
+	if (truncate_hour_on_overflow_set) {
+		if (truncate_hour_on_overflow) 
+			g_string_append (state->cur_format.accum, is_short ? "m" : "mm");
+		else {
+			g_string_append (state->cur_format.accum, is_short ? "[m]" : "[mm]");
+			state->cur_format.elapsed_set |= ODF_ELAPSED_SET_MINUTES;
+		}
+	} else {
+		if (state->cur_format.truncate_hour_on_overflow ||
+		    0 != (state->cur_format.elapsed_set & ODF_ELAPSED_SET_HOURS)) 
+			g_string_append (state->cur_format.accum, is_short ? "m" : "mm");
+		else {
+			g_string_append (state->cur_format.accum, is_short ? "[m]" : "[mm]");
+			state->cur_format.elapsed_set |= ODF_ELAPSED_SET_MINUTES;
+		}
+	}
 }
+
+#define OO_DATE_SECONDS_PRINT_SECONDS	{				\
+		g_string_append (state->cur_format.accum,		\
+				 is_short ? "s" : "ss");		\
+		if (digits > 0) {					\
+			g_string_append_c (state->cur_format.accum,	\
+					   '.');			\
+			while (digits-- > 0)				\
+				g_string_append_c			\
+					(state->cur_format.accum, '0');	\
+		}							\
+	}
+
+
 static void
 oo_date_seconds (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	gboolean is_short = TRUE;
 	int digits = 0;
-	gboolean is_elapsed = FALSE;
+	gboolean truncate_hour_on_overflow = TRUE;
+	gboolean truncate_hour_on_overflow_set = FALSE;
 
-	if (state->accum_fmt == NULL)
+	if (state->cur_format.accum == NULL)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -1618,28 +1674,44 @@ oo_date_seconds (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, 
 					     "decimal-places"))
 			digits = atoi (attrs[1]);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_GNUM_NS_EXT, 
-					     "elapsed"))
-			is_elapsed = attr_eq (attrs[1], "true");
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT,
+				       "truncate-on-overflow", 
+				       &truncate_hour_on_overflow))
+			truncate_hour_on_overflow_set = TRUE;
+
+	state->cur_format.pos_seconds = state->cur_format.accum->len;
 			
-	if (is_elapsed)
-		g_string_append_c (state->accum_fmt, '[');
-	g_string_append (state->accum_fmt, is_short ? "s" : "ss");
-	if (digits > 0) {
-		g_string_append_c (state->accum_fmt, '.');
-		while (digits-- > 0)
-			g_string_append_c (state->accum_fmt, '0');
+	if (truncate_hour_on_overflow_set) {
+		if (truncate_hour_on_overflow) {
+			OO_DATE_SECONDS_PRINT_SECONDS;
+		} else {
+			g_string_append_c (state->cur_format.accum, '[');
+			OO_DATE_SECONDS_PRINT_SECONDS;
+			g_string_append_c (state->cur_format.accum, ']');
+			state->cur_format.elapsed_set |= ODF_ELAPSED_SET_SECONDS;
+		}
+	} else {
+		if (state->cur_format.truncate_hour_on_overflow ||
+		    0 != (state->cur_format.elapsed_set & 
+			  (ODF_ELAPSED_SET_HOURS | ODF_ELAPSED_SET_MINUTES))) {
+			OO_DATE_SECONDS_PRINT_SECONDS;
+		} else {
+			g_string_append_c (state->cur_format.accum, '[');
+			OO_DATE_SECONDS_PRINT_SECONDS;
+			g_string_append_c (state->cur_format.accum, ']');
+			state->cur_format.elapsed_set |= ODF_ELAPSED_SET_SECONDS;
+		}
 	}
-	if (is_elapsed)
-		g_string_append_c (state->accum_fmt, ']');
 }
+
+#undef OO_DATE_SECONDS_PRINT_SECONDS
 
 static void
 oo_date_am_pm (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	if (state->accum_fmt != NULL)
-		g_string_append (state->accum_fmt, "AM/PM");
+	if (state->cur_format.accum != NULL)
+		g_string_append (state->cur_format.accum, "AM/PM");
 
 }
 static void
@@ -1647,15 +1719,15 @@ oo_date_text_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
-	if (state->accum_fmt == NULL)
+	if (state->cur_format.accum == NULL)
 		return;
 	
 	if (xin->content->len == 1 && NULL != strchr (" /-(),",*xin->content->str))
-		g_string_append (state->accum_fmt, xin->content->str);
+		g_string_append (state->cur_format.accum, xin->content->str);
 	else if (xin->content->len >0) {
-		g_string_append_c (state->accum_fmt, '"');
-		g_string_append (state->accum_fmt, xin->content->str);
-		g_string_append_c (state->accum_fmt, '"');
+		g_string_append_c (state->cur_format.accum, '"');
+		g_string_append (state->cur_format.accum, xin->content->str);
+		g_string_append_c (state->cur_format.accum, '"');
 	}
 }
 
@@ -1666,6 +1738,7 @@ oo_date_style (GsfXMLIn *xin, xmlChar const **attrs)
 	char const *name = NULL;
 	int magic = GO_FORMAT_MAGIC_NONE;
 	gboolean format_source_is_language = FALSE;
+	gboolean truncate_hour_on_overflow = TRUE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "name"))
@@ -1678,33 +1751,69 @@ oo_date_style (GsfXMLIn *xin, xmlChar const **attrs)
 			magic = atoi (attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER, "format-source"))
 			format_source_is_language = attr_eq (attrs[1], "language");
+		else if (oo_attr_bool (xin, attrs, OO_NS_NUMBER,
+				       "truncate-on-overflow", &truncate_hour_on_overflow));
 
-	g_return_if_fail (state->accum_fmt == NULL);
+	g_return_if_fail (state->cur_format.accum == NULL);
 	g_return_if_fail (name != NULL);
 
 	/* We always save a magic number with source language, so if that is gone somebody may have changed formats */
-	state->fmt_magic = format_source_is_language ? magic : GO_FORMAT_MAGIC_NONE; 
-	state->accum_fmt = (state->fmt_magic == GO_FORMAT_MAGIC_NONE) ?  g_string_new (NULL) : NULL;
-	state->fmt_name = g_strdup (name);
+	state->cur_format.magic = format_source_is_language ? magic : GO_FORMAT_MAGIC_NONE; 
+	state->cur_format.accum = (state->cur_format.magic == GO_FORMAT_MAGIC_NONE) ?  g_string_new (NULL) : NULL;
+	state->cur_format.name = g_strdup (name);
+	state->cur_format.truncate_hour_on_overflow = truncate_hour_on_overflow;
+	state->cur_format.elapsed_set = 0;
+	state->cur_format.pos_seconds = 0;
+	state->cur_format.pos_minutes = 0;
+}
+
+static void
+oo_date_style_end_rm_elapsed (GString *str, guint pos) 
+{
+	guint end;
+	g_return_if_fail (str->len > pos && str->str[pos] == '[');
+
+	g_string_erase (str, pos, 1);
+	end = strcspn (str->str + pos, "]");
+	g_string_erase (str, pos + end, 1);
 }
 
 static void
 oo_date_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	
-	if (state->fmt_magic != GO_FORMAT_MAGIC_NONE) 
-		g_hash_table_insert (state->formats, state->fmt_name,
-				     go_format_new_magic (state->fmt_magic));
+	int elapsed = state->cur_format.elapsed_set;
+
+	if (state->cur_format.magic != GO_FORMAT_MAGIC_NONE) 
+		g_hash_table_insert (state->formats, state->cur_format.name,
+				     go_format_new_magic (state->cur_format.magic));
 	else {
-		g_return_if_fail (state->accum_fmt != NULL);
+		g_return_if_fail (state->cur_format.accum != NULL);
 		
-		g_hash_table_insert (state->formats, state->fmt_name,
-				     go_format_new_from_XL (state->accum_fmt->str));
-		g_string_free (state->accum_fmt, TRUE);
+		while (elapsed != 0 && elapsed != ODF_ELAPSED_SET_SECONDS 
+		       && elapsed != ODF_ELAPSED_SET_MINUTES
+		       && elapsed != ODF_ELAPSED_SET_HOURS) {
+			/*We need to fix the format string since several times are set as "elapsed". */
+			if (0 != (elapsed & ODF_ELAPSED_SET_SECONDS)) {
+				oo_date_style_end_rm_elapsed (state->cur_format.accum, 
+							      state->cur_format.pos_seconds);
+				if (state->cur_format.pos_seconds < state->cur_format.pos_minutes)
+					state->cur_format.pos_minutes -= 2;
+				elapsed -= ODF_ELAPSED_SET_SECONDS;
+			} else {
+				oo_date_style_end_rm_elapsed (state->cur_format.accum, 
+							      state->cur_format.pos_minutes);
+				elapsed -= ODF_ELAPSED_SET_MINUTES;
+				break;
+			}
+		}
+	
+		g_hash_table_insert (state->formats, state->cur_format.name,
+				     go_format_new_from_XL (state->cur_format.accum->str));
+		g_string_free (state->cur_format.accum, TRUE);
 	}
-	state->accum_fmt = NULL;
-	state->fmt_name = NULL;
+	state->cur_format.accum = NULL;
+	state->cur_format.name = NULL;
 }
 
 /*****************************************************************************************************/
@@ -1723,7 +1832,7 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 	int min_n_digits = 0;
 	
 
-	if (state->accum_fmt == NULL)
+	if (state->cur_format.accum == NULL)
 		return;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -1746,15 +1855,15 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 			min_n_digits = atoi (CXML2C (attrs[1]));
 
 	if (!no_int_part) {
-		g_string_append_c (state->accum_fmt, '#');
+		g_string_append_c (state->cur_format.accum, '#');
 		while (min_i_digits-- > 0)
-			g_string_append_c (state->accum_fmt, '0');
-		g_string_append_c (state->accum_fmt, ' ');
+			g_string_append_c (state->cur_format.accum, '0');
+		g_string_append_c (state->cur_format.accum, ' ');
 	}
-	g_string_append_c (state->accum_fmt, '?');
+	g_string_append_c (state->cur_format.accum, '?');
 	while (min_n_digits-- > 0)
-		g_string_append_c (state->accum_fmt, '0');
-	g_string_append_c (state->accum_fmt, '/');
+		g_string_append_c (state->cur_format.accum, '0');
+	g_string_append_c (state->cur_format.accum, '/');
 	if (denominator_fixed) {
 		int denom = denominator;
 		int count = 0;
@@ -1764,14 +1873,14 @@ odf_fraction (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 		min_d_digits -= count;
 		while (min_d_digits-- > 0)
-			g_string_append_c (state->accum_fmt, '0');
-		g_string_append_printf (state->accum_fmt, "%i", denominator);
+			g_string_append_c (state->cur_format.accum, '0');
+		g_string_append_printf (state->cur_format.accum, "%i", denominator);
 	} else {
 		max_d_digits -= min_d_digits;
 		while (max_d_digits-- > 0)
-			g_string_append_c (state->accum_fmt, '?');
+			g_string_append_c (state->cur_format.accum, '?');
 		while (min_d_digits-- > 0)
-			g_string_append_c (state->accum_fmt, '0');
+			g_string_append_c (state->cur_format.accum, '0');
 	}
 }
 
@@ -1785,7 +1894,7 @@ odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 /* 	float display_factor = 1.; */
 	int min_i_digits = 1;
 
-	if (state->accum_fmt == NULL)
+	if (state->cur_format.accum == NULL)
 		return;
 
 	/* We are ignoring number:decimal-replacement */
@@ -1803,10 +1912,10 @@ odf_number (GsfXMLIn *xin, xmlChar const **attrs)
 			min_i_digits = atoi (CXML2C (attrs[1]));
 
 	if (decimal_places_specified)
-		go_format_generate_number_str (state->accum_fmt,  min_i_digits, decimal_places,
+		go_format_generate_number_str (state->cur_format.accum,  min_i_digits, decimal_places,
 					       grouping, FALSE, FALSE, NULL, NULL);
 	else
-		g_string_append (state->accum_fmt, go_format_as_XL (go_format_general ()));
+		g_string_append (state->cur_format.accum, go_format_as_XL (go_format_general ()));
 }
 
 static void
@@ -1816,7 +1925,7 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 	GOFormatDetails details;
 /* 	int min_exp_digits = 1; */
 
-	if (state->accum_fmt == NULL)
+	if (state->cur_format.accum == NULL)
 		return;
 
 	go_format_details_init (&details, GO_FORMAT_SCIENTIFIC);
@@ -1832,7 +1941,7 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 /* 					     "min-exponent-digits")) */
 /* 			min_exp_digits = atoi (CXML2C (attrs[1])); */
 
-	go_format_generate_str (state->accum_fmt, &details);
+	go_format_generate_str (state->cur_format.accum, &details);
 }
 
 static void
@@ -1840,15 +1949,15 @@ odf_currency_symbol_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
-	if (state->accum_fmt == NULL)
+	if (state->cur_format.accum == NULL)
 		return;
 	if (0 == strcmp (xin->content->str, "$")) {
-		g_string_append_c (state->accum_fmt, '$');
+		g_string_append_c (state->cur_format.accum, '$');
 		return;
 	}
-	g_string_append (state->accum_fmt, "[$");
-	g_string_append (state->accum_fmt, xin->content->str);
-	g_string_append_c (state->accum_fmt, ']');
+	g_string_append (state->cur_format.accum, "[$");
+	g_string_append (state->cur_format.accum, xin->content->str);
+	g_string_append_c (state->cur_format.accum, ']');
 }
 
 
@@ -1909,7 +2018,7 @@ odf_number_color (GsfXMLIn *xin, xmlChar const **attrs)
 			else if (attr_eq_ncase (attrs[1], "#ffff00", 7))
 				color = "[Yellow]";
 			if (color != NULL)
-				g_string_append (state->accum_fmt, color);
+				g_string_append (state->cur_format.accum, color);
 		}
 }
 
@@ -1923,11 +2032,11 @@ odf_number_style (GsfXMLIn *xin, xmlChar const **attrs)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "name"))
 			name = CXML2C (attrs[1]);
 
-	g_return_if_fail (state->accum_fmt == NULL);
+	g_return_if_fail (state->cur_format.accum == NULL);
 	g_return_if_fail (name != NULL);
 
-	state->accum_fmt = g_string_new (NULL);
-	state->fmt_name = g_strdup (name);
+	state->cur_format.accum = g_string_new (NULL);
+	state->cur_format.name = g_strdup (name);
 	state->conditions = NULL;
 	state->cond_formats = NULL;
 }
@@ -1937,7 +2046,7 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	
-	g_return_if_fail (state->accum_fmt != NULL);
+	g_return_if_fail (state->cur_format.accum != NULL);
 
 	if (state->conditions != NULL) {
 		/* We have conditional formats */
@@ -1945,12 +2054,12 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		char *accum;
 		int parts = 0;
 
-		accum = g_string_free (state->accum_fmt, FALSE);
+		accum = g_string_free (state->cur_format.accum, FALSE);
 		if (strlen (accum) == 0) {
 			g_free (accum);
 			accum = NULL;
 		}
-		state->accum_fmt = g_string_new (NULL);
+		state->cur_format.accum = g_string_new (NULL);
 
 		lc = state->conditions;
 		lf = state->cond_formats;
@@ -1961,9 +2070,9 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				float value = atof (val);
 				if (value != 0. || (*(cond+1) != '='))
 					g_string_append_printf 
-						(state->accum_fmt, 
+						(state->cur_format.accum, 
 						 (*(cond+1) == '=') ? "[>=%.2f]" : "[>%.2f]", value);
-				g_string_append (state->accum_fmt, go_format_as_XL 
+				g_string_append (state->cur_format.accum, go_format_as_XL 
 					 (g_hash_table_lookup (state->formats, lf->data)));
 				parts++;
 				g_free (lc->data);
@@ -1982,8 +2091,8 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				if (cond != NULL && *cond == '=') {
 					char *val = cond + strcspn (cond, "0123456789.");
 					float value = atof (val);
-					g_string_append_printf (state->accum_fmt, "[=%.2f]", value);
-					g_string_append (state->accum_fmt, go_format_as_XL 
+					g_string_append_printf (state->cur_format.accum, "[=%.2f]", value);
+					g_string_append (state->cur_format.accum, go_format_as_XL 
 							 (g_hash_table_lookup (state->formats, lf->data)));
 					parts++;
 					g_free (lc->data);
@@ -2003,8 +2112,8 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				if (cond != NULL && *cond == '<' && *(cond + 1) == '>') {
 					char *val = cond + strcspn (cond, "0123456789.");
 					float value = atof (val);
-					g_string_append_printf (state->accum_fmt, "[<>%.2f]", value);
-					g_string_append (state->accum_fmt, go_format_as_XL 
+					g_string_append_printf (state->cur_format.accum, "[<>%.2f]", value);
+					g_string_append (state->cur_format.accum, go_format_as_XL 
 							 (g_hash_table_lookup (state->formats, lf->data)));
 					parts++;
 					g_free (lc->data);
@@ -2017,7 +2126,7 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		}
 
 		if ((parts == 0) && (accum != NULL)) {
-			g_string_append (state->accum_fmt, accum);
+			g_string_append (state->cur_format.accum, accum);
 			parts++;
 		}
 			
@@ -2029,12 +2138,12 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				char *val = cond + strcspn (cond, "0123456789.");
 				float value = atof (val);
 				if (parts > 0)
-					g_string_append_c (state->accum_fmt, ';');
+					g_string_append_c (state->cur_format.accum, ';');
 				if (value != 0. || (*(cond+1) != '='))
 					g_string_append_printf 
-						(state->accum_fmt, 
+						(state->cur_format.accum, 
 						 (*(cond+1) == '=') ? "[<=%.2f]" : "[<%.2f]", value);
-				g_string_append (state->accum_fmt, go_format_as_XL 
+				g_string_append (state->cur_format.accum, go_format_as_XL 
 					 (g_hash_table_lookup (state->formats, lf->data)));
 				parts++;
 			}
@@ -2051,9 +2160,9 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					char *val = cond + strcspn (cond, "0123456789.");
 					float value = atof (val);
 					if (parts > 0)
-						g_string_append_c (state->accum_fmt, ';');
-					g_string_append_printf (state->accum_fmt, "[=%.2f]", value);
-					g_string_append (state->accum_fmt, go_format_as_XL 
+						g_string_append_c (state->cur_format.accum, ';');
+					g_string_append_printf (state->cur_format.accum, "[=%.2f]", value);
+					g_string_append (state->cur_format.accum, go_format_as_XL 
 							 (g_hash_table_lookup (state->formats, lf->data)));
 					parts++;
 					break;
@@ -2072,9 +2181,9 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					char *val = cond + strcspn (cond, "0123456789.");
 					float value = atof (val);
 					if (parts > 0)
-						g_string_append_c (state->accum_fmt, ';');
-					g_string_append_printf (state->accum_fmt, "[<>%.2f]", value);
-					g_string_append (state->accum_fmt, go_format_as_XL 
+						g_string_append_c (state->cur_format.accum, ';');
+					g_string_append_printf (state->cur_format.accum, "[<>%.2f]", value);
+					g_string_append (state->cur_format.accum, go_format_as_XL 
 							 (g_hash_table_lookup (state->formats, lf->data)));
 					parts++;
 					break;
@@ -2085,17 +2194,17 @@ odf_number_style_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		}
 		if (accum != NULL) {
 			if (parts > 0)
-				g_string_append_c (state->accum_fmt, ';');
-			g_string_append (state->accum_fmt, accum);
+				g_string_append_c (state->cur_format.accum, ';');
+			g_string_append (state->cur_format.accum, accum);
 			g_free (accum);
 		}
 	}
 
-	g_hash_table_insert (state->formats, state->fmt_name,
-			     go_format_new_from_XL (state->accum_fmt->str));
-	g_string_free (state->accum_fmt, TRUE);
-	state->accum_fmt = NULL;
-	state->fmt_name = NULL;
+	g_hash_table_insert (state->formats, state->cur_format.name,
+			     go_format_new_from_XL (state->cur_format.accum->str));
+	g_string_free (state->cur_format.accum, TRUE);
+	state->cur_format.accum = NULL;
+	state->cur_format.name = NULL;
 	go_slist_free_custom (state->conditions, g_free);
 	state->conditions = NULL;
 	go_slist_free_custom (state->cond_formats, g_free);
@@ -4462,7 +4571,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.sheet_order = NULL;
 	for (i = 0; i<NUM_FORMULAE_SUPPORTED; i++)
 		state.convs[i] = NULL;
-	state.accum_fmt = NULL;
+	state.cur_format.accum = NULL;
 	state.filter = NULL;
 	state.page_breaks.h = state.page_breaks.v = NULL;
 	state.last_progress_update = 0;

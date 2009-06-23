@@ -1,5 +1,15 @@
 2009-06-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (OOParseState): separate format item and
+	  change references throughout
+	(oo_date_hours): handle elapsed times better
+	(oo_date_minutes): ditto
+	(oo_date_seconds): ditto
+	(oo_date_style_end): ditto
+	(oo_date_style_end_rm_elapsed): new
+	
+2009-06-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_currency_symbol_end): mark the 
 	  currency symbol as such.
 

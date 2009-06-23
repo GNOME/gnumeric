@@ -3,28 +3,22 @@ Due to the limitations of the ODF file format we occasionally add foreign elemen
 1) Elements and attributes added by goffice:
 
 gnm:format-magic
-An attribute to <number:time-style> and <number:date-style> to specify Gnumeric's 
-magic number for the style. The magic number is stored as an integer.
+An attribute to <number:time-style> and <number:date-style> to specify Gnumeric's magic number for the style. The magic number is stored as an integer. When ever we set this attribute we also set the number:source attribute to language. On import we only use this magic number if the number:source attribute is still set to language, since otherwise somebody will have edited the format.
 
 gnm:truncate-on-overflow
-An attribute to <number:hours>, <number:minutes> and <number:seconds>. An attribute value of "false"
-indicates that this item is not restricted to its natural range and so is used for elapsed time.
-Note that ODF has the attribute number:truncate-on-overflow of the <number:time-style> with the same
-effect on the <number:hours> representation. THis attribute defaults to "true". For <number:hours> in
-this case the attrobute of the surrounding style governs.
+An attribute to <number:hours>, <number:minutes> and <number:seconds>. An attribute value of "false" indicates that this item is not restricted to its natural range and so is used for elapsed time. This attribute defaults to "true". Note that ODF has the attribute number:truncate-on-overflow of the <number:time-style> with a similar effect, but with unclear specification to which element it applies. For an element where gnm:truncate-on-overflow is not set, number:truncate-on-overflow applies.
 
 gnm:max-denominator-digits
 An attribute to <number:fraction> giving the maximum number of denominator digits to be used.
 
 gnm:no-integer-part
-An attribute to <number:fraction> determining whether an integer portion is shown or not. Defaults to 
-"false" (i.e. an integer part is shown.)
+An attribute to <number:fraction> determining whether an integer portion is shown or not. Defaults to "false" (i.e. an integer part is shown.)
 
 gnm:engineering
-An attribute to <number:scientific number>. A value of "true" indicates that the exponent will always be a multiple of 3.
+An attribute to <number:scientific number>. A value of "true" indicates that the exponent will always be a multiple of 3.  [This is currently ignored on import.]
 
 
-2) Elements and attributes added by gnumeric:
+2) Elements and attributes added by Gnumeric:
 
 gnm:border-line-style-top
 gnm:border-line-style-bottom
@@ -32,18 +26,15 @@ gnm:border-line-style-left
 gnm:border-line-style-right
 gnm:diagonal-bl-tr-line-style
 gnm:diagonal-tl-br-line-style
-These are attributes of the <style:table-cell-properties> giving the gnumeric code for the appropriate border as created by
-odf_get_gnm_border_format
+These are attributes of the <style:table-cell-properties> giving the Gnumeric code for the appropriate border as created by odf_get_gnm_border_format.
 
 gnm:GnmVAlign
-An attribute of the <style:table-cell-properties> adding to the "automatic" value of style:vertical-align. Possible values are
-any GnmVAlign enumeration values other than VALIGN_TOP, VALIGN_BOTTOM, VALIGN_CENTER
+An attribute of the <style:table-cell-properties> adding to the "automatic" value of style:vertical-align. Possible values are any GnmVAlign enumeration values other than VALIGN_TOP, VALIGN_BOTTOM, VALIGN_CENTER  [This is currently ignored on import.]
 
 gnm:GnmHAlign
-An attribute of the <style:paragraph-properties> clarifying the "start" value of style:text-align. Possible values are
-any GnmHAlign enumeration values other than HALIGN_LEFT, HALIGN_RIGHT, HALIGN_CENTER, HALIGN_JUSTIFY
+An attribute of the <style:paragraph-properties> clarifying the "start" value of style:text-align. Possible values are any GnmHAlign enumeration values other than HALIGN_LEFT, HALIGN_RIGHT, HALIGN_CENTER, HALIGN_JUSTIFY  [This is currently ignored on import.]
 
 gnm:input-title
 gnm:input-msg
-These are attributes of the <style:table-cell-properties> giving the input title and the input message
+These are attributes of the <style:table-cell-properties> giving the input title and the input message  [These are currently ignored on import.]
 
