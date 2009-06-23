@@ -1,0 +1,49 @@
+Due to the limitations of the ODF file format we occasionally add foreign elements and attributes to those files. This text documents those elements and attributes.
+
+1) Elements and attributes added by goffice:
+
+gnm:format-magic
+An attribute to <number:time-style> and <number:date-style> to specify Gnumeric's 
+magic number for the style. The magic number is stored as an integer.
+
+gnm:truncate-on-overflow
+An attribute to <number:hours>, <number:minutes> and <number:seconds>. An attribute value of "false"
+indicates that this item is not restricted to its natural range and so is used for elapsed time.
+Note that ODF has the attribute number:truncate-on-overflow of the <number:time-style> with the same
+effect on the <number:hours> representation. THis attribute defaults to "true". For <number:hours> in
+this case the attrobute of the surrounding style governs.
+
+gnm:max-denominator-digits
+An attribute to <number:fraction> giving the maximum number of denominator digits to be used.
+
+gnm:no-integer-part
+An attribute to <number:fraction> determining whether an integer portion is shown or not. Defaults to 
+"false" (i.e. an integer part is shown.)
+
+gnm:engineering
+An attribute to <number:scientific number>. A value of "true" indicates that the exponent will always be a multiple of 3.
+
+
+2) Elements and attributes added by gnumeric:
+
+gnm:border-line-style-top
+gnm:border-line-style-bottom
+gnm:border-line-style-left
+gnm:border-line-style-right
+gnm:diagonal-bl-tr-line-style
+gnm:diagonal-tl-br-line-style
+These are attributes of the <style:table-cell-properties> giving the gnumeric code for the appropriate border as created by
+odf_get_gnm_border_format
+
+gnm:GnmVAlign
+An attribute of the <style:table-cell-properties> adding to the "automatic" value of style:vertical-align. Possible values are
+any GnmVAlign enumeration values other than VALIGN_TOP, VALIGN_BOTTOM, VALIGN_CENTER
+
+gnm:GnmHAlign
+An attribute of the <style:paragraph-properties> clarifying the "start" value of style:text-align. Possible values are
+any GnmHAlign enumeration values other than HALIGN_LEFT, HALIGN_RIGHT, HALIGN_CENTER, HALIGN_JUSTIFY
+
+gnm:input-title
+gnm:input-msg
+These are attributes of the <style:table-cell-properties> giving the input title and the input message
+
