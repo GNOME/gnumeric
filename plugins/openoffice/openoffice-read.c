@@ -782,6 +782,7 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmRange r;
+	int rows, cols;
 	int max_cols, max_rows;
 
 	maybe_update_progress (xin);
@@ -803,14 +804,22 @@ oo_table_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	/* default cell styles are applied only to cells that are specified
 	 * which is a performance nightmare.  Instead we apply the styles to
 	 * the entire column or row and clear the area beyond the extent here. */
-	if (state->extent_style.col + 1 < max_cols) {
-		range_init (&r, state->extent_style.col + 1, 0,
+
+	rows = state->extent_style.row;
+	if (state->extent_data.row > rows)
+		rows = state->extent_data.row;
+	cols = state->extent_style.col;
+	if (state->extent_data.col > cols)
+		cols = state->extent_data.col;
+	cols++; rows++;
+	if (cols < max_cols) {
+		range_init (&r, cols, 0,
 			    max_cols - 1, max_rows - 1);
 		sheet_style_set_range (state->pos.sheet, &r,
 				       sheet_style_default (state->pos.sheet));
 	}
-	if (state->extent_style.row + 1 < max_rows) {
-		range_init (&r, 0, state->extent_style.row+1,
+	if (rows < max_rows) {
+		range_init (&r, 0, rows,
 			    max_cols - 1, max_rows - 1);
 		sheet_style_set_range (state->pos.sheet, &r,
 				       sheet_style_default (state->pos.sheet));
