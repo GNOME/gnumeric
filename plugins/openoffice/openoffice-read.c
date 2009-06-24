@@ -48,6 +48,8 @@
 #include <gutils.h>
 #include <xml-io.h>
 #include <sheet-object-cell-comment.h>
+#include <style-conditions.h>
+
 
 #include <goffice/goffice.h>
 
@@ -1966,25 +1968,24 @@ odf_map (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char const *condition = NULL;
-	char *style_name = NULL;
+	char const *style_name = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "condition"))
 			condition = attrs[1];
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "apply-style-name"))
-			style_name = g_strdup (attrs[1]);
+			style_name = attrs[1];
 
 	if (condition != NULL && style_name != NULL && g_str_has_prefix (condition, "value()")) {
 		condition += 7;
 		while (*condition == ' ') condition++;
 		if (*condition == '>' || *condition == '<' || *condition == '=') {
 			state->conditions = g_slist_prepend (state->conditions, g_strdup (condition));
-			state->cond_formats = g_slist_prepend (state->cond_formats, style_name);
+			state->cond_formats = g_slist_prepend (state->cond_formats, 
+							       g_strdup (style_name));
 			return;
 		}
-	}
-
-	g_free (style_name);
+	} 
 }
 
 static inline gboolean
@@ -2512,16 +2513,102 @@ oo_style_prop_table (GsfXMLIn *xin, xmlChar const **attrs)
 			style->is_rtl = tmp_i;
 }
 
+
+
 static void
 oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	OOParseState *state = (OOParseState *)xin->user_state;
+	char const *style_name = NULL;
+	char const *condition = NULL, *full_condition;
+	GnmStyle *style = NULL;
+	GnmStyleCond cond;
+	GnmStyleConditions *sc;
+	gboolean success = FALSE;
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "condition")) /* "cell-content()=1" */
-			;
+			condition = attrs[1];
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "apply-style-name"))
-			;
+			style_name = attrs[1];
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "base-cell-address"))
 			;
+	if (style_name == NULL || condition == NULL)
+		return;
+
+	style = g_hash_table_lookup (state->styles.cell, style_name);
+
+	g_return_if_fail (style != NULL);
+	g_return_if_fail (state->cur_style.cells != NULL);
+	
+	full_condition = condition;
+
+	if (g_str_has_prefix (condition, "cell-content()")) {
+		condition += strlen ("cell-content()") - 1;
+		while (*(++condition) == ' ');
+		switch (*(condition++)) {
+		case '<':
+			if (*condition == '=') {
+				condition++;
+				cond.op = GNM_STYLE_COND_LTE;
+			} else
+				cond.op = GNM_STYLE_COND_LT;
+			success = TRUE;
+			break;
+		case '>':
+			if (*condition == '=') {
+				condition++;
+				cond.op = GNM_STYLE_COND_GTE;
+			} else
+				cond.op = GNM_STYLE_COND_GT;
+			success = TRUE;
+			break;
+			break;
+		case '=':
+			cond.op = GNM_STYLE_COND_EQUAL;
+			success = TRUE;
+			break;
+		case '!':
+			if (*condition == '=') {
+				condition++;
+				cond.op = GNM_STYLE_COND_NOT_EQUAL;
+				success = TRUE;
+			}
+			break;
+		default:
+			break;
+		}
+	} 
+	if (success) {
+		GnmParsePos   pp;
+		while (*condition == ' ') condition++;
+		parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
+		cond.texpr[0] = oo_expr_parse_str (xin, condition, &pp,
+						   GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES, 
+						   FORMULA_OPENFORMULA);
+	}
+	
+	if (!success || cond.texpr[0] == NULL)
+	{
+		oo_warning (xin,
+			    _("Unknown condition '%s' encountered, ignoring."), 
+			    full_condition);
+		return;
+	}
+
+	cond.texpr[1] = NULL;
+	cond.overlay = style;
+	gnm_style_ref (style);
+
+	if (gnm_style_is_element_set (state->cur_style.cells, MSTYLE_CONDITIONS) &&
+	    (sc = gnm_style_get_conditions (state->cur_style.cells)) != NULL)
+		gnm_style_conditions_insert (sc, &cond, -1);
+	else {
+		sc = gnm_style_conditions_new ();
+		gnm_style_conditions_insert (sc, &cond, -1);
+		gnm_style_set_conditions (state->cur_style.cells, sc);
+	}
+
 }
 
 static OOProp *
