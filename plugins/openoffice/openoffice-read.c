@@ -224,6 +224,8 @@ typedef struct {
 	OOStyleType	 cur_style_type;
 
 	gboolean	 h_align_is_valid, repeat_content;
+	int              text_align, gnm_halign;
+
 	GnmStyle	*default_style_cell;
 	GSList		*sheet_order;
 	int		 richtext_len;
@@ -1434,6 +1436,8 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 		state->cur_style.cells = (style != NULL)
 			? gnm_style_dup (style) : gnm_style_new_default ();
 		state->h_align_is_valid = state->repeat_content = FALSE;
+		state->text_align = -2;
+		state->gnm_halign = -2;
 
 		if (fmt != NULL)
 			gnm_style_set_format (state->cur_style.cells, fmt);
@@ -1934,6 +1938,7 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GOFormatDetails details;
+	gboolean engineering = FALSE;
 /* 	int min_exp_digits = 1; */
 
 	if (state->cur_format.accum == NULL)
@@ -1951,7 +1956,10 @@ odf_scientific (GsfXMLIn *xin, xmlChar const **attrs)
 /* 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_NUMBER,  */
 /* 					     "min-exponent-digits")) */
 /* 			min_exp_digits = atoi (CXML2C (attrs[1])); */
-
+		else if (oo_attr_bool (xin, attrs, OO_GNUM_NS_EXT, "engineering", 
+				       &engineering));
+	if (engineering)
+		details.exponent_step = 3;
 	go_format_generate_str (state->cur_format.accum, &details);
 }
 
@@ -2308,10 +2316,23 @@ oo_parse_border (GsfXMLIn *xin, GnmStyle *style,
 }
 
 static void
+odf_style_set_align_h (GnmStyle *style, gboolean h_align_is_valid, gboolean repeat_content,
+		       int text_align, int gnm_halign)
+{
+	int alignment = HALIGN_GENERAL;
+	if (h_align_is_valid)
+		alignment = repeat_content ? HALIGN_FILL 
+			: ((text_align < 0) ? ((gnm_halign > -1) ? gnm_halign : HALIGN_LEFT) 
+			   : text_align);
+
+	gnm_style_set_align_h (style, alignment);
+}
+
+static void
 oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	static OOEnum const h_alignments [] = {
-		{ "start",	HALIGN_LEFT },    /* This really depends on the text direction */
+		{ "start",	-1 },            /* see below, we may have a gnm:GnmHAlign attribute */
 		{ "left",	HALIGN_LEFT },
 		{ "center",	HALIGN_CENTER },
 		{ "end",	HALIGN_RIGHT },   /* This really depends on the text direction */
@@ -2324,12 +2345,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "bottom",	VALIGN_BOTTOM },
 		{ "top",	VALIGN_TOP },
 		{ "middle",	VALIGN_CENTER },
-
-		/* FIXME : a new state dependent on the rotation
-		 *	'0 or 90 == baseline'
-		 *	'270 == center'
-		 *	No comment on what to do for other items */
-		{ "automatic",	VALIGN_BOTTOM },
+		{ "automatic",	-1 },            /* see below, we may have a gnm:GnmVAlign attribute */
 		{ NULL,	0 },
 	};
 	static OOEnum const protections [] = {
@@ -2346,6 +2362,7 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmStyle *style = state->cur_style.cells;
 	gboolean  btmp;
 	int	  tmp;
+	gboolean  v_alignment_is_fixed = FALSE;
 
 	g_return_if_fail (style != NULL);
 
@@ -2366,19 +2383,37 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_style_set_contents_hidden (style, (tmp & 1) != 0);
 		} else if (oo_attr_enum (xin, attrs,
 				       (state->ver >= OOO_VER_OPENDOC) ? OO_NS_FO : OO_NS_STYLE,
-				       "text-align", h_alignments, &tmp))
-			gnm_style_set_align_h (style, state->h_align_is_valid
-					       ? (state->repeat_content ? HALIGN_FILL : tmp)
-					       : HALIGN_GENERAL);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "text-align-source"))
+					 "text-align", h_alignments, &(state->text_align)))
+			/* Note that style:text-align-source, style:text_align, style:repeat-content  */
+			/* and gnm:GnmHAlign interact but can appear in any order and arrive from different */
+			/* elements, so we can't use local variables                                  */
+			odf_style_set_align_h (style, state->h_align_is_valid, state->repeat_content,
+					       state->text_align, state->gnm_halign);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "text-align-source")) {
 			state->h_align_is_valid = attr_eq (attrs[1], "fix");
-		else if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "repeat-content", &btmp))
-			state->repeat_content = btmp;
+			odf_style_set_align_h (style, state->h_align_is_valid, state->repeat_content,
+					       state->text_align, state->gnm_halign);
+		} else if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "repeat-content", &(state->repeat_content)))
+			odf_style_set_align_h (style, state->h_align_is_valid, state->repeat_content,
+					       state->text_align, state->gnm_halign);
+		else if (oo_attr_int (xin,attrs, OO_GNUM_NS_EXT, "GnmHAlign", &(state->gnm_halign)))
+			odf_style_set_align_h (style, state->h_align_is_valid, state->repeat_content,
+					       state->text_align, state->gnm_halign);			
 		else if (oo_attr_enum (xin, attrs,
 				       (state->ver >= OOO_VER_OPENDOC) ? OO_NS_STYLE : OO_NS_FO,
-				       "vertical-align", v_alignments, &tmp))
-			gnm_style_set_align_v (style, tmp);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "wrap-option"))
+				       "vertical-align", v_alignments, &tmp)) {
+			if (tmp != -1) {
+				gnm_style_set_align_v (style, tmp);
+				v_alignment_is_fixed = TRUE;
+			} else if (!v_alignment_is_fixed)
+                                /* This should depend on the rotation */
+				gnm_style_set_align_v (style, VALIGN_BOTTOM); 
+		} else if (oo_attr_int (xin,attrs, OO_GNUM_NS_EXT, "GnmVAlign", &tmp)) {
+			if (!v_alignment_is_fixed) {
+				gnm_style_set_align_v (style, tmp);
+				v_alignment_is_fixed = TRUE;
+			}
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "wrap-option"))
 			gnm_style_set_wrap_text (style, attr_eq (attrs[1], "wrap"));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "border-bottom"))
 			oo_parse_border (xin, style, attrs[1], MSTYLE_BORDER_BOTTOM);

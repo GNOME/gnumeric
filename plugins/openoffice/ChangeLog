@@ -1,5 +1,12 @@
 2009-06-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (odf_scientific): handle gnm:engineering
+	(oo_style): initialize new fields
+	(oo_style_prop_cell): handle alignments (including our
+	  foreign elements) safely
+
+2009-06-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_style_map_load_one_value): new
 	(oo_style_map): use odf_style_map_load_one_value and
 	  handle "is-true-formula"
