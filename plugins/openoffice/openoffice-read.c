@@ -3514,8 +3514,6 @@ odf_annotation_content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	char const *old = cell_comment_text_get (state->cell_comment);
 	char *new;
 
-	g_print ("odf_annotation_content_end: %s\n",  xin->content->str);
-
 	if (old != NULL && strlen (old) > 0)
 		new = g_strconcat (old, "\n", xin->content->str, NULL);
 	else
@@ -3528,8 +3526,6 @@ static void
 odf_annotation_author_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-
-	g_print ("odf_annotation_author_end: %s\n",  xin->content->str);
 
 	cell_comment_author_set (state->cell_comment, xin->content->str);
 }

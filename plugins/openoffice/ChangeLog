@@ -1,5 +1,11 @@
 2009-06-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c
+	(odf_annotation_content_end): remove debug output
+	(odf_annotation_author_end): ditto
+	
+2009-06-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (odf_scientific): handle gnm:engineering
 	(oo_style): initialize new fields
 	(oo_style_prop_cell): handle alignments (including our

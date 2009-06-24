@@ -415,7 +415,7 @@ Architecture Changes
 	11.3.1) import
 	11.3.2) export
     11.4) ODF
-	11.4.1) import	(conditional number formats DONE)
+	11.4.1) import	                                        (partial)
 	11.4.2) export	(conditional number formats DONE)
     11.6) Evaluation
 	11.6.1) Custom						(DONE)
@@ -769,13 +769,10 @@ Architecture Changes
 
 36) OpenDocument (ODF)
     36.1) missing features in importer that we in fact export
-         36.1.1)  Cell Comments
+         36.1.1)  Cell Comments                                 (DONE)
     36.2) Import
          36.2.1)  We fail to do proper white space handling on import, see
-                 5.1.1 of the OpenDocument Standard. (It is only a minor
-                 issue since files created by OOo or us work correctly.
-                 In fact because of 36.3.1, we depend currently on this to
-                 read our own files.)
+                 5.1.1 of the OpenDocument Standard. 
 	36.2.2) default col/row compression on OOo import.	(DONE)
 	36.2.3) table styles					(DONE)
 	36.2.4) col/row manual vs auto
