@@ -2522,6 +2522,47 @@ oo_style_prop_table (GsfXMLIn *xin, xmlChar const **attrs)
 			style->is_rtl = tmp_i;
 }
 
+static gboolean
+odf_style_map_load_two_values (GsfXMLIn *xin, char *condition, GnmStyleCond *cond)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+
+	condition = g_strstrip (condition);
+	if (*(condition++) == '(') {
+		guint len = strlen (condition);
+		char *end = condition + len - 1;
+		if (*end == ')') {
+			GnmParsePos   pp;
+			
+			parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
+			len -= 1;
+			*end = '\0';
+			while (1) {
+				gchar * try = g_strrstr_len (condition, len, ",");
+				GnmExprTop const *texpr;
+				
+				if (try == NULL || try == condition) return FALSE;
+				
+				texpr = oo_expr_parse_str 
+					(xin, try + 1, &pp,
+					 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
+					 FORMULA_OPENFORMULA);
+				if (texpr != NULL) {
+					cond->texpr[1] = texpr;
+					*try = '\0';
+					break;
+				}
+				len = try - condition - 1;
+			}
+			cond->texpr[0] = oo_expr_parse_str 
+				(xin, condition, &pp,
+				 GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES,
+				 FORMULA_OPENFORMULA);
+			return (cond->texpr[0] != NULL) && (cond->texpr[1] != NULL);
+		}
+	}
+	return FALSE;
+}
 
 
 static void
@@ -2536,7 +2577,7 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean success = FALSE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "condition")) /* "cell-content()=1" */
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "condition"))
 			condition = attrs[1];
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "apply-style-name"))
 			style_name = attrs[1];
@@ -2551,6 +2592,8 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->cur_style.cells != NULL);
 	
 	full_condition = condition;
+	cond.texpr[0] = NULL;
+	cond.texpr[1] = NULL;
 
 	if (g_str_has_prefix (condition, "cell-content()")) {
 		condition += strlen ("cell-content()") - 1;
@@ -2587,25 +2630,44 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 		default:
 			break;
 		}
-	} 
-	if (success) {
-		GnmParsePos   pp;
-		while (*condition == ' ') condition++;
-		parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
-		cond.texpr[0] = oo_expr_parse_str (xin, condition, &pp,
-						   GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES, 
-						   FORMULA_OPENFORMULA);
+		if (success) {
+			GnmParsePos   pp;
+			while (*condition == ' ') condition++;
+			parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
+			cond.texpr[0] = oo_expr_parse_str (xin, condition, &pp,
+							   GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES, 
+							   FORMULA_OPENFORMULA);
+			success = (cond.texpr[0] != NULL);
+		}
+
+	} else if (g_str_has_prefix (condition, "cell-content-is-between")) {
+		char *text;
+		cond.op = GNM_STYLE_COND_BETWEEN;
+		condition += strlen ("cell-content-is-between");
+		text = g_strdup (condition);
+		success = odf_style_map_load_two_values (xin, text, &cond);
+		g_free (text);
+	} else if (g_str_has_prefix (condition, "cell-content-is-not-between")) {
+		char *text;
+		cond.op = GNM_STYLE_COND_NOT_BETWEEN;
+		condition += strlen ("cell-content-is-not-between");
+		text = g_strdup (condition);
+		success = odf_style_map_load_two_values (xin, text, &cond);
+		g_free (text);
 	}
 	
-	if (!success || cond.texpr[0] == NULL)
+	if (!success)
 	{
+		if (cond.texpr[0] != NULL)
+			gnm_expr_top_unref (cond.texpr[0]);
+		if (cond.texpr[1] != NULL)
+			gnm_expr_top_unref (cond.texpr[1]);
 		oo_warning (xin,
 			    _("Unknown condition '%s' encountered, ignoring."), 
 			    full_condition);
 		return;
 	}
 
-	cond.texpr[1] = NULL;
 	cond.overlay = style;
 	gnm_style_ref (style);
 

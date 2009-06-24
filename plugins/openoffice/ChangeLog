@@ -1,6 +1,12 @@
+2009-06-24 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (odf_style_map_load_two_values): new
+	(oo_style_map): handle cell-content-is-between and try to
+	  handle cell-content-is-not-between
+	
 2009-06-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* openoffice-read.c (oo_table_end): keep the styles for also
+	* openoffice-read.c (oo_table_end): keep the styles also
 	  for the whole data extent.
 
 2009-06-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
