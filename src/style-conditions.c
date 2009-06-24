@@ -231,8 +231,10 @@ gnm_style_conditions_eval (GnmStyleConditions const *sc, GnmEvalPos const *ep)
 			case GNM_STYLE_COND_EQUAL:	use_this = (diff == IS_EQUAL); break;
 			case GNM_STYLE_COND_NOT_EQUAL:	use_this = (diff != IS_EQUAL); break;
 			case GNM_STYLE_COND_NOT_BETWEEN:
-				if (diff != IS_LESS)
+				if (diff == IS_LESS) {
+					use_this = TRUE;
 					break;
+				}
 				value_release (val);
 				val = gnm_expr_top_eval (cond->texpr[1], ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 				diff = value_compare (cv, val, TRUE);

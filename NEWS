@@ -10,6 +10,7 @@ Andreas:
 	* Fix import of currency symbols from ODF.
 	* Improve import of elapsed time from ODF.
 	* Import some conditional cell formats from ODF.
+	* Fix "not-between" conditional styles. [#586818]
 
 Morten:
 	* Make SUMIF/COUNTIF and the D* functions understand pattern. [#586215]
