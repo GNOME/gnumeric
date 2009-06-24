@@ -1,5 +1,9 @@
 2009-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric.spec.in: updated to something a touch more recent
+
+2009-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/style-conditions.c (gnm_style_conditions_eval): fix
 	  GNM_STYLE_COND_NOT_BETWEEN:
 
