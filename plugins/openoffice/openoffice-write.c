@@ -97,6 +97,7 @@ typedef struct {
 	GSList *row_styles;
 	GSList *col_styles;
 	GHashTable *cell_styles;
+	GHashTable *named_cell_styles;
 	GHashTable *xl_styles;
 	GHashTable *xl_styles_neg;
 	GHashTable *xl_styles_zero;
@@ -937,7 +938,11 @@ odf_write_style_goformat_name (GnmOOExport *state, GOFormat *gof)
 static const char*
 odf_find_style (GnmOOExport *state, GnmStyle const *style)
 {
-	char const *found = g_hash_table_lookup (state->cell_styles, style);
+	char const *found = g_hash_table_lookup (state->named_cell_styles, style);
+	
+	if (found == NULL) {
+		found = g_hash_table_lookup (state->cell_styles, style);
+	}
 
 	if (found == NULL) {
 		g_print ("Could not find style %p\n", style);
@@ -1157,11 +1162,41 @@ odf_find_col_style (GnmOOExport *state, ColRowInfo const *ci, gboolean write)
 }
 
 static void
-odf_save_this_style_with_name (GnmStyle *style, GnmOOExport *state, char const *name)
+odf_save_this_style_with_name (GnmStyle *style, char const *name, GnmOOExport *state)
 {
 	odf_start_style (state->xml, name, "table-cell");
 	odf_write_style (state, style, FALSE);
 	gsf_xml_out_end_element (state->xml); /* </style:style */
+}
+
+static void
+odf_store_this_named_style (GnmStyle *style, char const *name, GnmOOExport *state)
+{
+	char *real_name;
+	GnmStyleConditions const *sc;
+
+	if (name == NULL) {
+		int i = g_hash_table_size (state->named_cell_styles);
+                /* All styles referenced by a style:map need to be named, so in that case */
+		/* we make up a name, that ought to look nice */
+		real_name = g_strdup_printf ("Gnumeric-%i", i);
+	} else
+		real_name = g_strdup (name);
+
+	g_hash_table_insert (state->named_cell_styles, style, real_name);
+
+	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS) &&
+	    NULL != (sc = gnm_style_get_conditions (style))) {
+		GArray const *conds = gnm_style_conditions_details (sc);
+		if (conds != NULL) {
+			guint i;
+			for (i = 0 ; i < conds->len ; i++) {
+				GnmStyleCond const *cond;
+				cond = &g_array_index (conds, GnmStyleCond, i);
+				odf_store_this_named_style (cond->overlay, NULL, state);
+			}
+		}
+	}
 }
 
 static void
@@ -1180,13 +1215,12 @@ odf_save_this_style (GnmStyle *style, G_GNUC_UNUSED gconstpointer dummy, GnmOOEx
 			for (i = 0 ; i < conds->len ; i++) {
 				GnmStyleCond const *cond;
 				cond = &g_array_index (conds, GnmStyleCond, i);
-				odf_save_this_style (cond->overlay, NULL, state);
+				odf_store_this_named_style (cond->overlay, NULL, state);
 			}
 		}
 	}
 
-
-	odf_save_this_style_with_name (style, state, name);
+	odf_save_this_style_with_name (style, name, state);
 }
 
 static void
@@ -2816,6 +2850,13 @@ odf_write_styles (GnmOOExport *state, GsfOutput *child)
 					get_gsf_odf_version_string ());
 	gsf_xml_out_start_element (state->xml, OFFICE "styles");
 	
+	g_hash_table_foreach (state->xl_styles, (GHFunc) odf_write_this_xl_style, state);
+	g_hash_table_foreach (state->xl_styles_neg, (GHFunc) odf_write_this_xl_style_neg, state);
+	g_hash_table_foreach (state->xl_styles_zero, (GHFunc) odf_write_this_xl_style_zero, state);
+	g_hash_table_foreach (state->xl_styles_conditional, (GHFunc) odf_write_this_conditional_xl_style, state);
+
+	g_hash_table_foreach (state->named_cell_styles, (GHFunc) odf_save_this_style_with_name, state);
+	
 	if (state->default_style != NULL) {
 		gsf_xml_out_start_element (state->xml, STYLE "default-style");
 		gsf_xml_out_add_cstr_unchecked (state->xml, STYLE "family", "table-cell");
@@ -2835,11 +2876,6 @@ odf_write_styles (GnmOOExport *state, GsfOutput *child)
 		gsf_xml_out_end_element (state->xml); /* </style:default-style */
 	}
 
-	g_hash_table_foreach (state->xl_styles, (GHFunc) odf_write_this_xl_style, state);
-	g_hash_table_foreach (state->xl_styles_neg, (GHFunc) odf_write_this_xl_style_neg, state);
-	g_hash_table_foreach (state->xl_styles_zero, (GHFunc) odf_write_this_xl_style_zero, state);
-	g_hash_table_foreach (state->xl_styles_conditional, (GHFunc) odf_write_this_conditional_xl_style, state);
-	
 	gsf_xml_out_end_element (state->xml); /* </office:styles> */
 	gsf_xml_out_end_element (state->xml); /* </office:document-styles> */
 
@@ -2952,6 +2988,8 @@ openoffice_file_save_real (GOFileSaver const *fs, IOContext *ioc,
 	state.wbv = wbv;
 	state.wb  = wb_view_get_workbook (wbv);
 	state.conv = odf_expr_conventions_new ();
+	state.named_cell_styles = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+						   NULL, (GDestroyNotify) g_free);
 	state.cell_styles = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 						   NULL, (GDestroyNotify) g_free);
 	state.xl_styles =  g_hash_table_new_full (g_str_hash, g_str_equal,
@@ -2967,9 +3005,12 @@ openoffice_file_save_real (GOFileSaver const *fs, IOContext *ioc,
 
 	/* ODF dos not have defaults per table, so we use our first table for defaults only.*/
 	sheet = workbook_sheet_by_index (state.wb, 0);
-	state.default_style = sheet_style_default (sheet);
+
 	state.column_default = &sheet->cols.default_style;
 	state.row_default = &sheet->rows.default_style;
+	if (NULL != (state.default_style = sheet_style_default (sheet)))
+		/* We need to make sure any referenced styles are added to the named hash */
+		odf_store_this_named_style (state.default_style, "Gnumeric-default", &state);
 
 	for (i = 0 ; i < G_N_ELEMENTS (streams); i++) {
 		child = gsf_outfile_new_child_full (outfile, streams[i].name, FALSE,
@@ -2989,6 +3030,7 @@ openoffice_file_save_real (GOFileSaver const *fs, IOContext *ioc,
 	g_object_unref (G_OBJECT (outfile));
 
 	gnm_pop_C_locale (locale);
+	g_hash_table_unref (state.named_cell_styles);
 	g_hash_table_unref (state.cell_styles);
 	g_hash_table_unref (state.xl_styles);
 	g_hash_table_unref (state.xl_styles_neg);

@@ -1,5 +1,20 @@
 2009-06-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (GnmOOExport): add new hash
+	(odf_find_style): check named_cell_styles hash first
+	(odf_save_this_style_with_name): change argument order
+	  to be able to pass it to hash_foreach and change all
+	  callers
+	(odf_store_this_named_style): new
+	(odf_save_this_style): styles referenced in style:map
+	  must be named
+	(odf_write_styles): write named styles and reorder to 
+	  write referenced styles before referencing styles.
+	(openoffice_file_save_real): handle new hashes and make sure
+	  styles referenced by the default cell style will be written
+	
+2009-06-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_style_cell_properties):
 	  MSTYLE_ROTATION should be MSTYLE_INPUT_MSG
 	(odf_save_style_map_single_f): new
