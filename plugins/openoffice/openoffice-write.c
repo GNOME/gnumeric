@@ -92,6 +92,7 @@ typedef struct {
 	IOContext *ioc;
 	WorkbookView const *wbv;
 	Workbook const	   *wb;
+	Sheet const	   *sheet;
 	GnmConventions *conv;
 	GSList *row_styles;
 	GSList *col_styles;
@@ -762,7 +763,7 @@ odf_write_style_cell_properties (GnmOOExport *state, GnmStyle const *style)
 	gsf_xml_out_add_int (state->xml, STYLE "decimal-places", 13);
 
 /* Input Messages */
-	if (gnm_style_is_element_set (style, MSTYLE_ROTATION) && state->with_extension) {
+	if (gnm_style_is_element_set (style, MSTYLE_INPUT_MSG) && state->with_extension) {
 		GnmInputMsg *msg = gnm_style_get_input_msg (style);
 		if (msg != NULL) {
 			gsf_xml_out_add_cstr (state->xml, GNMSTYLE "input-title",  
@@ -910,7 +911,7 @@ odf_write_style_text_properties (GnmOOExport *state, GnmStyle const *style)
 				      gnm_style_get_font_name (style));
 
 
-	gsf_xml_out_end_element (state->xml); /* </style:text-properties */	
+	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */	
 }
 
 
@@ -933,27 +934,6 @@ odf_write_style_goformat_name (GnmOOExport *state, GOFormat *gof)
 	gsf_xml_out_add_cstr (state->xml, STYLE "data-style-name", name);
 }
 
-static void
-odf_write_style (GnmOOExport *state, GnmStyle const *style, gboolean is_default)
-{
-
-	if ((!is_default) && gnm_style_is_element_set (style, MSTYLE_FORMAT)) {
-		GOFormat *format = gnm_style_get_format(style);
-		if (format != NULL)
-			odf_write_style_goformat_name (state, format);
-	}
-
-	odf_write_style_cell_properties (state, style);
-	odf_write_style_paragraph_properties (state, style);
-	odf_write_style_text_properties (state, style);
-
-/* MSTYLE_VALIDATION validations need to be written at a different place and time in ODF  */
-/* MSTYLE_HLINK hyperlinks can not be attached to styles but need to be attached to the cell content */
-}
-
-#undef UNDERLINESPECS
-#undef BORDERSTYLE
-
 static const char*
 odf_find_style (GnmOOExport *state, GnmStyle const *style)
 {
@@ -966,6 +946,132 @@ odf_find_style (GnmOOExport *state, GnmStyle const *style)
 
 	return found;
 }
+
+static void
+odf_save_style_map_single_f (GnmOOExport *state, GString *str, GnmExprTop const *texpr, GnmStyle *style)
+{
+	char *formula;
+	GnmParsePos pp;
+	
+	parse_pos_init (&pp, WORKBOOK (state->wb), state->sheet, 0, 0);
+
+	formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
+	g_string_append (str, formula);
+	g_free (formula);
+}
+
+
+static void
+odf_save_style_map_double_f (GnmOOExport *state, GString *str, GnmStyleCond const *cond, GnmStyle *style)
+{
+	g_string_append_c (str, '(');
+	odf_save_style_map_single_f (state, str, cond->texpr[0], style);
+	g_string_append_c (str, ',');
+	odf_save_style_map_single_f (state, str, cond->texpr[1], style);
+	g_string_append_c (str, ')');
+}
+
+static void
+odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond)
+{
+	char const *name = odf_find_style (state, cond->overlay);
+	GString *str;
+
+	g_return_if_fail (name != NULL);
+
+	str = g_string_new (NULL);
+
+	switch (cond->op) {
+	case GNM_STYLE_COND_BETWEEN:
+		g_string_append (str, "cell-content-is-between");
+		odf_save_style_map_double_f (state, str, cond, cond->overlay);
+		break;
+	case GNM_STYLE_COND_NOT_BETWEEN:
+		g_string_append (str, "cell-content-is-not-between");
+		odf_save_style_map_double_f (state, str, cond, cond->overlay);
+		break;
+	case GNM_STYLE_COND_EQUAL:
+		g_string_append (str, "cell-content()=");
+		odf_save_style_map_single_f (state, str, cond->texpr[0], cond->overlay);
+		break;
+	case GNM_STYLE_COND_NOT_EQUAL:
+		g_string_append (str, "cell-content()!=");
+		odf_save_style_map_single_f (state, str, cond->texpr[0], cond->overlay);
+		break;
+	case GNM_STYLE_COND_GT:
+		g_string_append (str, "cell-content()>");
+		odf_save_style_map_single_f (state, str, cond->texpr[0], cond->overlay);
+		break;
+	case GNM_STYLE_COND_LT:
+		g_string_append (str, "cell-content()<");
+		odf_save_style_map_single_f (state, str, cond->texpr[0], cond->overlay);
+		break;
+	case GNM_STYLE_COND_GTE:
+		g_string_append (str, "cell-content()>=");
+		odf_save_style_map_single_f (state, str, cond->texpr[0], cond->overlay);
+		break;
+	case GNM_STYLE_COND_LTE:
+		g_string_append (str, "cell-content()<=");
+		odf_save_style_map_single_f (state, str, cond->texpr[0], cond->overlay);
+		break;
+
+	case GNM_STYLE_COND_CUSTOM:
+	case GNM_STYLE_COND_CONTAINS_STR:
+	case GNM_STYLE_COND_NOT_CONTAINS_STR:
+	case GNM_STYLE_COND_BEGINS_WITH_STR:
+	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
+	case GNM_STYLE_COND_ENDS_WITH_STR:
+	case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
+	case GNM_STYLE_COND_CONTAINS_ERR:
+	case GNM_STYLE_COND_NOT_CONTAINS_ERR:
+	case GNM_STYLE_COND_CONTAINS_BLANKS:
+	case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:
+	default:
+		g_string_free (str, TRUE);
+		return;
+	}
+
+	gsf_xml_out_start_element (state->xml, STYLE "map");
+
+	gsf_xml_out_add_cstr (state->xml, STYLE "apply-style-name", name);
+/* 	gsf_xml_out_add_cstr (state->xml, STYLE "base-cell-address","A1"); */
+	gsf_xml_out_add_cstr (state->xml, STYLE "condition", str->str);
+
+	gsf_xml_out_end_element (state->xml); /* </style:map> */
+
+	g_string_free (str, TRUE);
+
+}
+
+static void
+odf_write_style (GnmOOExport *state, GnmStyle const *style, gboolean is_default)
+{
+	GnmStyleConditions const *sc;
+	GArray const *conds;
+	guint i;
+
+	if ((!is_default) && gnm_style_is_element_set (style, MSTYLE_FORMAT)) {
+		GOFormat *format = gnm_style_get_format(style);
+		if (format != NULL)
+			odf_write_style_goformat_name (state, format);
+	}
+
+	odf_write_style_cell_properties (state, style);
+	odf_write_style_paragraph_properties (state, style);
+	odf_write_style_text_properties (state, style);
+
+	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS) &&
+	    NULL != (sc = gnm_style_get_conditions (style)) &&
+	    NULL != (conds = gnm_style_conditions_details (sc)))
+		for (i = 0 ; i < conds->len ; i++)
+			odf_save_style_map (state, &g_array_index (conds, GnmStyleCond, i));
+
+/* MSTYLE_VALIDATION validations need to be written at a different place and time in ODF  */
+/* MSTYLE_HLINK hyperlinks can not be attached to styles but need to be attached to the cell content */
+}
+
+#undef UNDERLINESPECS
+#undef BORDERSTYLE
 
 static gint 
 odf_compare_ci (gconstpointer a, gconstpointer b)
@@ -1061,7 +1167,7 @@ odf_save_this_style_with_name (GnmStyle *style, GnmOOExport *state, char const *
 static void
 odf_save_this_style (GnmStyle *style, G_GNUC_UNUSED gconstpointer dummy, GnmOOExport *state)
 {
-	char *name = g_strdup_printf ("ACELL-%p", style);
+	char *name = g_strdup_printf ("ACE-%p", style);
 	GnmStyleConditions const *sc;
 
 	g_hash_table_insert (state->cell_styles, style, name);
@@ -1073,10 +1179,7 @@ odf_save_this_style (GnmStyle *style, G_GNUC_UNUSED gconstpointer dummy, GnmOOEx
 			guint i;
 			for (i = 0 ; i < conds->len ; i++) {
 				GnmStyleCond const *cond;
-				
 				cond = &g_array_index (conds, GnmStyleCond, i);
-				/* When we correctly save contitional styles, then we should in fact */
-				/* stick with the same name! */
 				odf_save_this_style (cond->overlay, NULL, state);
 			}
 		}
@@ -1184,10 +1287,19 @@ odf_write_character_styles (GnmOOExport *state)
 	if (state->column_default != NULL)
 		odf_find_col_style (state, state->column_default, TRUE);
 
-	for (i = 0; i < workbook_sheet_count (state->wb); i++)
-		sheet_style_foreach (workbook_sheet_by_index (state->wb, i),
+}
+
+static void
+odf_write_cell_styles (GnmOOExport *state)
+{
+	int i;
+	for (i = 0; i < workbook_sheet_count (state->wb); i++) {
+		state->sheet = workbook_sheet_by_index (state->wb, i);
+		sheet_style_foreach (state->sheet,
 				     (GHFunc) odf_save_this_style,
 				     state);
+	}
+	state->sheet = NULL;
 }
 
 static void
@@ -2358,8 +2470,9 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 }
 
 static void
-odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
+odf_write_sheet (GnmOOExport *state)
 {
+	Sheet const *sheet = state->sheet;
 	int max_cols = gnm_sheet_get_max_cols (sheet);
 	int max_rows = gnm_sheet_get_max_rows (sheet);
 	GnmStyle **col_styles = g_new0 (GnmStyle *, max_cols);
@@ -2367,7 +2480,6 @@ odf_write_sheet (GnmOOExport *state, Sheet const *sheet)
 	int i;
 	GSList *sheet_merges = NULL;
 	GnmPageBreaks *pb = sheet->print_info->page_breaks.v;
-
 	extent = sheet_get_extent (sheet, FALSE);
 
 	/* include collapsed or hidden cols and rows */
@@ -2539,6 +2651,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
 	odf_write_table_styles (state);
 	odf_write_character_styles (state);
+	odf_write_cell_styles (state);
 	odf_write_column_styles (state);
 	odf_write_row_styles (state);
 	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
@@ -2552,6 +2665,8 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 		Sheet *sheet = workbook_sheet_by_index (state->wb, i);
 		char *style_name;
 		GnmRange    *p_area;
+
+		state->sheet = sheet;
 
 		gsf_xml_out_start_element (state->xml, TABLE "table");
 		gsf_xml_out_add_cstr (state->xml, TABLE "name", sheet->name_unquoted);
@@ -2591,7 +2706,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 			g_free (formula);
 		}
 
-		odf_write_sheet (state, sheet);
+		odf_write_sheet (state);
 		gsf_xml_out_end_element (state->xml); /* </table:table> */
 
 		has_autofilters |= (sheet->filters != NULL);
