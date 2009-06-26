@@ -38,8 +38,6 @@ void	     go_data_slicer_set_cache (GODataSlicer *ds, GODataCache *cache);
 void		   go_data_slicer_add_field   (GODataSlicer *ds, GODataSlicerField *field);
 GODataSlicerField *go_data_slicer_get_field   (GODataSlicer const *ds, unsigned int field_index);
 unsigned int	   go_data_slicer_num_fields  (GODataSlicer const *ds);
-void		   go_data_slicer_order_field (GODataSlicer *ds, GODataSlicerFieldType field_type,
-					       unsigned int field_index, int before);
 
 G_END_DECLS
 
