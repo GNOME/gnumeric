@@ -207,12 +207,21 @@ typedef struct _FormatState {
 	} input_msg;
 	struct {
 		GtkButton       *remove;
+		GtkLabel        *label;
 		GtkTreeStore    *model;
 	} conditions;
 
 	void (*dialog_changed) (gpointer user_data);
 	gpointer	dialog_changed_user_data;
 } FormatState;
+
+enum {
+	CONDITIONS_RANGE,
+	CONDITIONS_COND,
+	CONDITIONS_NUM_COLUMNS
+};
+
+
 
 /*****************************************************************************/
 /* Some utility routines shared by all pages */
@@ -1947,7 +1956,8 @@ fmt_dialog_conditions_page_load_cond_single_f (FormatState *state,
 			state->sheet, 0, 0);
 
 	formula = gnm_expr_top_as_string (texpr, &pp, gnm_conventions_default);
-	gtk_tree_store_set (state->conditions.model, &iter2, 0, formula, -1);
+	gtk_tree_store_set (state->conditions.model, &iter2, CONDITIONS_RANGE, NULL, 
+			    CONDITIONS_COND, formula, -1);
 	g_free (formula);
 }
 
@@ -1961,133 +1971,202 @@ fmt_dialog_conditions_page_load_cond_double_f (FormatState *state,
 }
 
 static void
-fmt_dialog_conditions_page_load_cond (FormatState *state, GnmStyleCond const *cond)
+fmt_dialog_conditions_page_load_cond (FormatState *state, GnmStyleCond const *cond, 
+				      GtkTreeIter *iter)
 {
 	GtkTreeIter iter1;
 	
-	gtk_tree_store_append (state->conditions.model, &iter1, NULL);
+	gtk_tree_store_append (state->conditions.model, &iter1, iter);
 
 	switch (cond->op) {
 	case GNM_STYLE_COND_BETWEEN:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell content is between these "
 				      "two values, a special style is used."), -1);
 		fmt_dialog_conditions_page_load_cond_double_f (state, cond, &iter1);
 		break;
 	case GNM_STYLE_COND_NOT_BETWEEN:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell content is not between these"
 				      " two values, a special style is used."), -1);
 		fmt_dialog_conditions_page_load_cond_double_f (state, cond, &iter1);
 		break;
 	case GNM_STYLE_COND_EQUAL:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell content is equal to this value"
 				      ", a special style is used."), -1);
 		fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
 	case GNM_STYLE_COND_NOT_EQUAL:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell content is not equal to this value"
 				      ", a special style is used."), -1);
 		fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
 	case GNM_STYLE_COND_GT:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell content is > this value, a "
 				      "special style is used."), -1);
 		fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
 	case GNM_STYLE_COND_LT:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell content is < this value, a "
 				      "special style is used."), -1);
 		fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
 	case GNM_STYLE_COND_GTE:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell content is \xe2\x89\xa7 this "
 				      "value, a special style is used."), -1);
 
 		fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
 	case GNM_STYLE_COND_LTE:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell content is \xe2\x89\xa6 this "
 				      "value, a special style is used."), -1);
 		fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
 
 	case GNM_STYLE_COND_CUSTOM:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If this formula evaluates to TRUE, a special style is used."), -1);
 		fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
 	case GNM_STYLE_COND_CONTAINS_STR:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell content contains this string"
 				      ", a special style is used."), -1);
 		fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_STR:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell content does not contain this string"
 				      ", a special style is used."), -1);
 		fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
 	case GNM_STYLE_COND_BEGINS_WITH_STR:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell content begins with this string"
 				      ", a special style is used."), -1);
 		fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
 	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell content does not begin with this string,"
 				      " a special style is used."), -1);
 		fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
 	case GNM_STYLE_COND_ENDS_WITH_STR:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell content ends with this string"
 				      ", a special style is used."), -1);
 		fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
 	case GNM_STYLE_COND_NOT_ENDS_WITH_STR:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell content does not end  "
 				      "with this string, a special style is used."), -1);
 		fmt_dialog_conditions_page_load_cond_single_f (state, cond->texpr[0], &iter1);
 		break;
 	case GNM_STYLE_COND_CONTAINS_ERR:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell contains an error "
 				      "value, a special style is used."), -1);
 		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_ERR:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell does not contain an error value"
 				      ", a special style is used."), -1);
 		break;
 	case GNM_STYLE_COND_CONTAINS_BLANKS:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell content is \xe2\x89\xa6 this "
 				      "contains blanks, a special style is used."), -1);
 		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_BLANKS:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0,
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND,
 				    _("If the cell content does not contain blanks"
 				      ", a special style is used."), -1);
 		break;
 	default:
-		gtk_tree_store_set (state->conditions.model, &iter1, 0, 
-				    _("This is an condition type."), -1);
+		gtk_tree_store_set (state->conditions.model, &iter1, CONDITIONS_RANGE, NULL, 
+				    CONDITIONS_COND, 
+				    _("This is an unknown condition type."), -1);
 		return;
 	}
-/* 		gtk_tree_store_append (state->conditions.model, &iter2, &iter1); */
-/* 		gtk_tree_store_set (state->conditions.model, &iter2, 0, value, -1); */
 }
 
+static void
+fmt_dialog_conditions_page_load_conditions (GnmStyle *style, char const *range, FormatState *state)
+{
+	GnmStyleConditions const *sc;
+	GArray const *conds;
+	guint i;
+	GtkTreeIter iter1, *iter;
+
+	if (range == NULL)
+		iter = NULL;
+	else {
+		iter = &iter1;
+		gtk_tree_store_append (state->conditions.model, iter, NULL);
+		gtk_tree_store_set (state->conditions.model, iter, CONDITIONS_RANGE, range, 
+				    CONDITIONS_COND, NULL, -1);		
+	}
+
+			
+	if (gnm_style_is_element_set (style, MSTYLE_CONDITIONS) &&
+	    NULL != (sc = gnm_style_get_conditions (style)) &&
+	    NULL != (conds = gnm_style_conditions_details (sc)))
+		for (i = 0 ; i < conds->len ; i++)
+			fmt_dialog_conditions_page_load_cond 
+				(state, &g_array_index (conds, 
+							GnmStyleCond, 
+							i), iter);
+
+}
+
+static gboolean
+fmt_dialog_condition_collector (SheetView *sv, GnmRange const *range, gpointer user_data)
+{
+	FormatState *state = user_data;
+	GnmStyleList *l, *list = sheet_style_collect_conditions (state->sheet, range);
+
+	for (l = list; l != NULL; l = l->next) {
+		GnmStyleRegion const *sr = l->data;
+		GnmRange r  = *((GnmRange *) l->data);
+		r.start.row += range->start.row; 
+		r.end.row += range->start.row; 
+		r.start.col += range->start.col; 
+		r.end.col += range->start.col; 
+		fmt_dialog_conditions_page_load_conditions 
+			(sr->style, range_as_string (&r), state);
+	}
+
+	style_list_free (list);
+	return TRUE;
+
+}
 
 static void
 fmt_dialog_init_conditions_page (FormatState *state)
@@ -2098,32 +2177,43 @@ fmt_dialog_init_conditions_page (FormatState *state)
 
 	g_return_if_fail (state != NULL);
 
-	state->conditions.remove = GTK_BUTTON (glade_xml_get_widget (state->gui, "conditions_remove"));
+	state->conditions.remove = GTK_BUTTON (glade_xml_get_widget (state->gui, 
+								     "conditions_remove"));
 	gtk_widget_set_sensitive (GTK_WIDGET (state->conditions.remove), FALSE);
 
-	state->conditions.model = gtk_tree_store_new (1, G_TYPE_STRING);
+	state->conditions.model = gtk_tree_store_new (CONDITIONS_NUM_COLUMNS,
+						      G_TYPE_STRING,
+						      G_TYPE_STRING);
 	treeview = GTK_TREE_VIEW (glade_xml_get_widget (state->gui, "conditions_treeview"));
 	gtk_tree_view_set_fixed_height_mode (treeview, FALSE);
 	gtk_tree_view_set_model (treeview, GTK_TREE_MODEL (state->conditions.model));
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes 
-		("Invisible", renderer, "text", 0, NULL);
+		("Range", renderer, "text", CONDITIONS_RANGE, NULL);
 	gtk_tree_view_insert_column (treeview, column, -1);
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes 
+		("Conditions", renderer, "text", CONDITIONS_COND, NULL);
+	gtk_tree_view_insert_column (treeview, column, -1);
+	gtk_tree_view_set_expander_column (treeview, column);
 
-	if (state->style != NULL) {
-		GnmStyleConditions const *sc;
-		GArray const *conds;
-		guint i;
-
-		if (gnm_style_is_element_set (state->style, MSTYLE_CONDITIONS) &&
-		    NULL != (sc = gnm_style_get_conditions (state->style)) &&
-		    NULL != (conds = gnm_style_conditions_details (sc)))
-			for (i = 0 ; i < conds->len ; i++)
-				fmt_dialog_conditions_page_load_cond 
-					(state, &g_array_index (conds, GnmStyleCond, i));
+	state->conditions.label = GTK_LABEL (glade_xml_get_widget (state->gui, 
+								   "conditions_label"));
+	if (state->conflicts & (1 << MSTYLE_CONDITIONS)) {
+		gtk_label_set_markup (state->conditions.label, 
+				      "The selection is <b>not</b> homogeneous "
+				      "with respect to conditions!");
+		(void) sv_selection_foreach (state->sv,
+					     fmt_dialog_condition_collector, state);
+	} else {
+		gtk_label_set_markup (state->conditions.label, 
+				      "The selection is homogeneous with "
+				      "respect to conditions.");
+		if (state->style != NULL)
+			fmt_dialog_conditions_page_load_conditions 
+				(state->style, NULL, state);
+		gtk_tree_view_expand_all (treeview);
 	}
-
-	gtk_tree_view_expand_all (treeview);
 }
 
 /*****************************************************************************/

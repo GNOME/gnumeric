@@ -1,3 +1,15 @@
+2009-06-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* cell-format.glade: remove unused label text and reduce
+	  indentation for conditions treeview
+	* dialog-cell-format.c: introduce enum for conditions treeview 
+	  columns and use throughout
+	(fmt_dialog_conditions_page_load_cond): add parent iter argument
+	(fmt_dialog_conditions_page_load_conditions): new
+	(fmt_dialog_condition_collector): new
+	(fmt_dialog_init_conditions_page): add column and move some code
+	  into fmt_dialog_conditions_page_load_conditions
+
 2009-06-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* cell-format.glade: Add "conditions" page

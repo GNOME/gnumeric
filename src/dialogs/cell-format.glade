@@ -2743,12 +2743,12 @@ val &lt;= bound                  (less than or equal)</property>
                 <property name="border_width">12</property>
                 <property name="n_rows">3</property>
                 <child>
-                  <widget class="GtkLabel" id="label1">
+                  <widget class="GtkLabel" id="conditions_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="xpad">5</property>
                     <property name="ypad">5</property>
-                    <property name="label" translatable="yes">This page shows conditional formats that were imported.</property>
+                    <property name="label" translatable="no"></property>
                   </widget>
                   <packing>
                     <property name="top_attach">2</property>
@@ -2771,7 +2771,7 @@ val &lt;= bound                  (less than or equal)</property>
                         <property name="headers_visible">False</property>
                         <property name="headers_clickable">False</property>
                         <property name="enable_search">False</property>
-                        <property name="level_indentation">25</property>
+                        <property name="level_indentation">5</property>
                       </widget>
                     </child>
                   </widget>
