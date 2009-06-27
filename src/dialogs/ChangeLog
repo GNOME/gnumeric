@@ -1,5 +1,10 @@
 2009-06-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-sheet-order.c (dialog_sheet_order): restore window
+	  geometry
+	
+2009-06-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* cell-format.glade: remove unused label text and reduce
 	  indentation for conditions treeview
 	* dialog-cell-format.c: introduce enum for conditions treeview 

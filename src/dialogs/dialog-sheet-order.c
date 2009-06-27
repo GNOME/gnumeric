@@ -1512,6 +1512,9 @@ dialog_sheet_order (WBCGtk *wbcg)
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_sheet_order_destroy);
 
+	gnumeric_restore_window_geometry (GTK_WINDOW (state->dialog),
+					  SHEET_ORDER_KEY);
+
 	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
