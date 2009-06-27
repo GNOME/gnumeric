@@ -1,3 +1,13 @@
+2009-06-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* cell-format.glade: Add "conditions" page
+	* dialog-cell-format.c (): new
+	(fmt_dialog_conditions_page_load_cond_single_f): new		
+	(fmt_dialog_conditions_page_load_cond_double_f): new		
+	(fmt_dialog_conditions_page_load_cond): new		
+	(fmt_dialog_init_conditions_page): new		
+	(fmt_dialog_impl): call fmt_dialog_init_conditions_page
+	
 2009-06-22  Morten Welinder  <terra@gnome.org>
 
 	* cell-comment.glade: Don't add orientation to a vbox.

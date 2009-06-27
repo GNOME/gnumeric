@@ -1,5 +1,11 @@
 2009-06-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_save_style_map_single_f):
+	  remove unneeded argument and change all callers
+	(odf_save_style_map_double_f): ditto
+
+2009-06-25 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (GnmOOExport): add new hash
 	(odf_find_style): check named_cell_styles hash first
 	(odf_save_this_style_with_name): change argument order

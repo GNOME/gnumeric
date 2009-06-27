@@ -953,7 +953,7 @@ odf_find_style (GnmOOExport *state, GnmStyle const *style)
 }
 
 static void
-odf_save_style_map_single_f (GnmOOExport *state, GString *str, GnmExprTop const *texpr, GnmStyle *style)
+odf_save_style_map_single_f (GnmOOExport *state, GString *str, GnmExprTop const *texpr)
 {
 	char *formula;
 	GnmParsePos pp;
@@ -967,12 +967,12 @@ odf_save_style_map_single_f (GnmOOExport *state, GString *str, GnmExprTop const 
 
 
 static void
-odf_save_style_map_double_f (GnmOOExport *state, GString *str, GnmStyleCond const *cond, GnmStyle *style)
+odf_save_style_map_double_f (GnmOOExport *state, GString *str, GnmStyleCond const *cond)
 {
 	g_string_append_c (str, '(');
-	odf_save_style_map_single_f (state, str, cond->texpr[0], style);
+	odf_save_style_map_single_f (state, str, cond->texpr[0]);
 	g_string_append_c (str, ',');
-	odf_save_style_map_single_f (state, str, cond->texpr[1], style);
+	odf_save_style_map_single_f (state, str, cond->texpr[1]);
 	g_string_append_c (str, ')');
 }
 
@@ -989,35 +989,35 @@ odf_save_style_map (GnmOOExport *state, GnmStyleCond const *cond)
 	switch (cond->op) {
 	case GNM_STYLE_COND_BETWEEN:
 		g_string_append (str, "cell-content-is-between");
-		odf_save_style_map_double_f (state, str, cond, cond->overlay);
+		odf_save_style_map_double_f (state, str, cond);
 		break;
 	case GNM_STYLE_COND_NOT_BETWEEN:
 		g_string_append (str, "cell-content-is-not-between");
-		odf_save_style_map_double_f (state, str, cond, cond->overlay);
+		odf_save_style_map_double_f (state, str, cond);
 		break;
 	case GNM_STYLE_COND_EQUAL:
 		g_string_append (str, "cell-content()=");
-		odf_save_style_map_single_f (state, str, cond->texpr[0], cond->overlay);
+		odf_save_style_map_single_f (state, str, cond->texpr[0]);
 		break;
 	case GNM_STYLE_COND_NOT_EQUAL:
 		g_string_append (str, "cell-content()!=");
-		odf_save_style_map_single_f (state, str, cond->texpr[0], cond->overlay);
+		odf_save_style_map_single_f (state, str, cond->texpr[0]);
 		break;
 	case GNM_STYLE_COND_GT:
 		g_string_append (str, "cell-content()>");
-		odf_save_style_map_single_f (state, str, cond->texpr[0], cond->overlay);
+		odf_save_style_map_single_f (state, str, cond->texpr[0]);
 		break;
 	case GNM_STYLE_COND_LT:
 		g_string_append (str, "cell-content()<");
-		odf_save_style_map_single_f (state, str, cond->texpr[0], cond->overlay);
+		odf_save_style_map_single_f (state, str, cond->texpr[0]);
 		break;
 	case GNM_STYLE_COND_GTE:
 		g_string_append (str, "cell-content()>=");
-		odf_save_style_map_single_f (state, str, cond->texpr[0], cond->overlay);
+		odf_save_style_map_single_f (state, str, cond->texpr[0]);
 		break;
 	case GNM_STYLE_COND_LTE:
 		g_string_append (str, "cell-content()<=");
-		odf_save_style_map_single_f (state, str, cond->texpr[0], cond->overlay);
+		odf_save_style_map_single_f (state, str, cond->texpr[0]);
 		break;
 
 	case GNM_STYLE_COND_CUSTOM:
