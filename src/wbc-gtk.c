@@ -98,6 +98,14 @@ static GObjectClass *parent_class = NULL;
 
 /****************************************************************************/
 
+#ifndef HILDON
+G_MODULE_EXPORT void
+set_uifilename (char const *name)
+{
+	uifilename = name;
+}
+#endif
+
 static void
 wbc_gtk_set_action_sensitivity (WBCGtk const *wbcg,
 				char const *action, gboolean sensitive)

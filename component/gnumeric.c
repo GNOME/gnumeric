@@ -161,7 +161,6 @@ cb_gognm_save (GtkAction *a, WBCGtk *wbcg)
 	go_component_emit_changed (component);
 }
 
-extern char const *uifilename;
 static GtkActionEntry const actions[] = {
 /* File */
 	{ "FileSaveEmbed", GTK_STOCK_SAVE, NULL,
@@ -198,7 +197,7 @@ go_gnm_component_edit (GOComponent *component)
 		wv = wb_view_new_from_input (input, NULL, io_context, NULL);
 		g_object_unref (io_context);
 	}
-	uifilename =  "Gnumeric-embed.xml";
+	set_uifilename ("Gnumeric-embed.xml");
 	gognm->edited = wbc_gtk_new (wv, NULL, NULL, NULL);
 	gtk_action_group_add_actions (gognm->edited->actions,
 		actions, G_N_ELEMENTS (actions), gognm->edited);

@@ -167,6 +167,10 @@ void	 wbc_gtk_markup_changer	(WBCGtk *wbcg);
 
 gboolean wbc_gtk_load_templates (WBCGtk *gtk);
 
+#ifndef HILDON
+	G_MODULE_EXPORT void set_uifilename (char const *name);
+#endif
+
 G_END_DECLS
 
 #endif /* _GNM_WBC_GTK_IMPL_H_ */

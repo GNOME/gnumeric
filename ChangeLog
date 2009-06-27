@@ -1,3 +1,11 @@
+2009-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* component/gnumeric.c (go_gnm_component_edit): call 
+	  set_uifilename
+	* src/Makefile.am: add new headers
+	* src/wbc-gtk-impl.h (set_uifilename): new
+	* src/wbc-gtk.c (set_uifilename): new
+
 2009-06-24  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* gnumeric.spec.in: updated to something a touch more recent

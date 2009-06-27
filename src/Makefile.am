@@ -224,13 +224,21 @@ libspreadsheet_include_HEADERS = 	\
 	func-builtin.h				\
 	gnm-command-impl.h			\
 	gnm-commands-slicer.h			\
+	gnm-data-cache-source.h			\
 	gnm-datetime.h				\
 	gnm-format.h				\
 	gnm-graph-window.h			\
 	gnm-pane.h				\
+	gnm-sheet-slicer.h			\
 	gnm-style-impl.h			\
 	gnumeric.h				\
 	gnumeric-simple-canvas.h		\
+	go-data-cache-source.h 			\
+	go-data-cache.h 			\
+	go-data-cache-field.h 			\
+	go-data-slicer.h			\
+	go-data-slicer-field.h			\
+	go-val.h				\
 	graph.h					\
 	gutils.h				\
 	gui-clipboard.h				\
