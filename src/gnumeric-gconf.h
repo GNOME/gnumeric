@@ -2,206 +2,277 @@
 #ifndef _GNM_GCONF_H_
 # define _GNM_GCONF_H_
 
-#include "numbers.h"
-#include <gnumeric.h>
-#include <glib-object.h>
-#include <print-info.h>
-#include <libgnumeric.h>
 #include <goffice/goffice.h>
-#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
-
-typedef struct {
-	struct {
-		GSList	const *extra_dirs;
-		char	*sys_dir;
-		char	*usr_dir;
-	} autoformat;
-
-	struct {
-		char const *name;
-		float size;
-		gboolean is_bold, is_italic;
-	} default_font;
-
-	guint	 	 num_of_recent_funcs;
-	GSList const	*recent_funcs;
-
-	GSList const	*plugin_file_states;
-	GSList const	*plugin_extra_dirs;
-	GSList const	*active_plugins;
-	gboolean	 activate_new_plugins;
-
-	gboolean	 show_sheet_name;
-	guint		 max_descriptor_width;
-	gint		 undo_size;
-	gint		 undo_max_number;
-
-	gint		 initial_sheet_number;
-	gint		 row_number;
-	gint		 col_number;
-	gint		 autosave_time;
-	float		 horizontal_window_fraction;
-	float		 vertical_window_fraction;
-	float		 zoom;
-
-	gint		 xml_compression_level;
-	gboolean	 file_overwrite_default_answer;
-	gboolean	 file_ask_single_sheet_save;
-
-	gboolean	 sort_default_by_case;
-	gboolean	 sort_default_retain_formats;
-	gboolean	 sort_default_ascending;
-	gint		 sort_max_initial_clauses;
-
-	gboolean	 print_all_sheets; /* vs print only selected */
-	GSList const    *printer_header;
-	GSList const    *printer_footer;
-	GSList const    *printer_header_formats_left;
-	GSList const    *printer_header_formats_middle;
-	GSList const    *printer_header_formats_right;
-	GnmStyle        *printer_decoration_font;
-	gboolean         print_center_horizontally;
-	gboolean         print_center_vertically;
-	gboolean         print_grid_lines;
-	gboolean         print_even_if_only_styles;
-	gboolean         print_black_and_white;
-	gboolean         print_titles;
-	gboolean         print_order_across_then_down;
-	gboolean         print_scale_percentage;
-	float            print_scale_percentage_value;
-	gint             print_scale_width;
-	gint             print_scale_height;
-	gchar           *print_repeat_top;
-	gchar           *print_repeat_left;
-	double	         print_margin_top;
-	double   	 print_margin_bottom;
-	GtkUnit          desired_display;
-
-  /* Also acts as flag whether the print defaults are loaded  */
-        GtkPrintSettings *print_settings;
-        GtkPageSetup     *page_setup;
-
-
-	float		 horizontal_dpi;
-	float		 vertical_dpi;
-
-	gboolean	 auto_complete;
-	GODirection	 enter_moves_dir;	/* Which way does hitting <Enter> go */
-	gboolean	 transition_keys;
-
-	gboolean	 live_scrolling;
-	gboolean         detachable_toolbars;
-	GHashTable      *toolbars;
-	GHashTable      *toolbar_positions;
-	gint		 recalc_lag;
-	gboolean	 unfocused_range_selection;
-	gboolean         prefer_clipboard_selection;  /* As opposed to "primary".  */
-	gboolean	 latex_use_utf8;
-} GnmAppPrefs;
-GNM_VAR_DECL GnmAppPrefs const *gnm_app_prefs;
 
 void     gnm_conf_init (gboolean fast);
 void     gnm_conf_shutdown (void);
 GOConfNode *gnm_conf_get_root (void);
 
-/* autocomplete */
-void     gnm_gconf_set_autocomplete (gboolean val);
+const char *gnm_conf_get_toolbar_style (void);
+void gnm_conf_set_toolbar_style (const char *);
 
-/* autoformat */
-void     gnm_gconf_set_autoformat_sys_dirs (char const * string);
-void     gnm_gconf_set_autoformat_usr_dirs (char const * string);
+gboolean gnm_conf_get_autocorrect_first_letter (void);
+void gnm_conf_set_autocorrect_first_letter (gboolean);
 
-/* plugins */
-void     gnm_gconf_set_plugin_file_states (GSList *list);
-void     gnm_gconf_set_plugin_extra_dirs (GSList *list);
-void     gnm_gconf_set_active_plugins (GSList *list);
-void     gnm_gconf_set_activate_new_plugins (gboolean val);
+GSList *gnm_conf_get_autocorrect_first_letter_list (void);
+void gnm_conf_set_autocorrect_first_letter_list (GSList *);
 
-/* undo */
-void     gnm_gconf_set_show_sheet_name (gboolean val);
-void     gnm_gconf_set_max_descriptor_width (gint val);
-void     gnm_gconf_set_undo_size (gint val);
-void     gnm_gconf_set_undo_max_number (gint val);
+gboolean gnm_conf_get_autocorrect_init_caps (void);
+void gnm_conf_set_autocorrect_init_caps (gboolean);
 
-/* xml/files */
-void     gnm_gconf_set_recent_funcs (GSList *list);
-void     gnm_gconf_set_xml_compression (gint value);
-void     gnm_gconf_set_file_overwrite (gboolean value);
-void     gnm_gconf_set_file_single_sheet_save (gboolean value);
+GSList *gnm_conf_get_autocorrect_init_caps_list (void);
+void gnm_conf_set_autocorrect_init_caps_list (GSList *);
 
-/* print-setup & printing */
-void     gnm_gconf_init_printer_defaults (void);
+gboolean gnm_conf_get_autocorrect_names_of_days (void);
+void gnm_conf_set_autocorrect_names_of_days (gboolean);
 
-void     gnm_gconf_set_all_sheets (gboolean val);
-void     gnm_gconf_set_printer_header (gchar const *left, gchar const *middle,
-				       gchar const *right);
-void     gnm_gconf_set_printer_footer (gchar const *left, gchar const *middle,
-				       gchar const *right);
-void     gnm_gconf_set_print_center_horizontally (gboolean val);
-void     gnm_gconf_set_print_center_vertically (gboolean val);
-void     gnm_gconf_set_print_grid_lines (gboolean val);
-void     gnm_gconf_set_print_even_if_only_styles (gboolean val);
-void     gnm_gconf_set_print_black_and_white (gboolean val);
-void     gnm_gconf_set_print_titles (gboolean val);
-void     gnm_gconf_set_print_order_across_then_down (gboolean val);
-void     gnm_gconf_set_print_scale_percentage (gboolean val);
-void     gnm_gconf_set_print_scale_percentage_value (gnm_float val);
-void     gnm_gconf_set_print_tb_margins (double edge_to_header,
-					 double edge_to_footer,
-					 GtkUnit unit);
-void     gnm_gconf_set_print_header_formats (GSList *left, GSList *middle,
-					     GSList *right);
-void	 gnm_gconf_set_print_settings (GtkPrintSettings *settings);
-void     gnm_gconf_set_page_setup (GtkPageSetup *setup);
-GtkPrintSettings  *gnm_gconf_get_print_settings (void);
-GtkPageSetup      *gnm_gconf_get_page_setup (void);
+gboolean gnm_conf_get_autocorrect_replace (void);
+void gnm_conf_set_autocorrect_replace (gboolean);
 
-/* gui */
-void     gnm_gconf_set_gui_window_x (gnm_float val);
-void     gnm_gconf_set_gui_window_y (gnm_float val);
-void     gnm_gconf_set_gui_zoom (gnm_float val);
-void     gnm_gconf_set_gui_transition_keys (gboolean value);
-void     gnm_gconf_set_gui_livescrolling (gboolean value);
-void     gnm_gconf_set_gui_resolution_h (gnm_float val);
-void     gnm_gconf_set_gui_resolution_v (gnm_float val);
-gboolean gnm_gconf_get_toolbar_visible (char const *name);
-void     gnm_gconf_set_toolbar_visible (char const *name, gboolean vis);
-int      gnm_gconf_get_toolbar_position (char const *name);
-void     gnm_gconf_set_toolbar_position (char const *name, int pos);
-void	 gnm_gconf_set_enter_moves_dir (GODirection val);
+GSList *gnm_conf_get_autoformat_extra_dirs (void);
+void gnm_conf_set_autoformat_extra_dirs (GSList *);
 
-/* default font */
-void     gnm_gconf_set_default_font_size (gnm_float val);
-void     gnm_gconf_set_default_font_name (char const *str);
-void     gnm_gconf_set_default_font_bold (gboolean val);
-void     gnm_gconf_set_default_font_italic (gboolean val);
+const char *gnm_conf_get_autoformat_sys_dir (void);
+void gnm_conf_set_autoformat_sys_dir (const char *);
 
-/* hf font */
-void     gnm_gconf_set_hf_font (GnmStyle const *mstyle);
+const char *gnm_conf_get_autoformat_usr_dir (void);
+void gnm_conf_set_autoformat_usr_dir (const char *);
 
-/* sorting */
-void     gnm_gconf_set_sort_dialog_max_initial (gint value);
-void     gnm_gconf_set_sort_retain_form (gboolean value);
-void     gnm_gconf_set_sort_by_case (gboolean value);
-void     gnm_gconf_set_sort_ascending (gboolean value);
+gboolean gnm_conf_get_core_defaultfont_bold (void);
+void gnm_conf_set_core_defaultfont_bold (gboolean);
 
-/* workbook */
-void     gnm_gconf_set_workbook_nsheets (gint value);
-void     gnm_gconf_set_workbook_nrows (gint value);
-void     gnm_gconf_set_workbook_ncols (gint value);
-void     gnm_gconf_set_workbook_autosave_time (gint value);
-void     gnm_gconf_set_unfocused_rs (gboolean value);
+gboolean gnm_conf_get_core_defaultfont_italic (void);
+void gnm_conf_set_core_defaultfont_italic (gboolean);
 
-/* function selector and formula guru */
-void     gnm_gconf_set_num_recent_functions (gint value);
+const char *gnm_conf_get_core_defaultfont_name (void);
+void gnm_conf_set_core_defaultfont_name (const char *);
 
-/* standard plugins */
-void     gnm_gconf_set_latex_use_utf8 (gboolean value);
+double gnm_conf_get_core_defaultfont_size (void);
+void gnm_conf_set_core_defaultfont_size (double);
 
-/* application interface */
-void     gnm_gconf_set_prefer_clipboard  (gboolean value);
+gboolean gnm_conf_get_core_file_save_def_overwrite (void);
+void gnm_conf_set_core_file_save_def_overwrite (gboolean);
+
+gboolean gnm_conf_get_core_file_save_single_sheet (void);
+void gnm_conf_set_core_file_save_single_sheet (gboolean);
+
+gboolean gnm_conf_get_core_gui_editing_autocomplete (void);
+void gnm_conf_set_core_gui_editing_autocomplete (gboolean);
+
+GODirection gnm_conf_get_core_gui_editing_enter_moves_dir (void);
+void gnm_conf_set_core_gui_editing_enter_moves_dir (GODirection);
+
+gboolean gnm_conf_get_core_gui_editing_livescrolling (void);
+void gnm_conf_set_core_gui_editing_livescrolling (gboolean);
+
+int gnm_conf_get_core_gui_editing_recalclag (void);
+void gnm_conf_set_core_gui_editing_recalclag (int);
+
+gboolean gnm_conf_get_core_gui_editing_transitionkeys (void);
+void gnm_conf_set_core_gui_editing_transitionkeys (gboolean);
+
+double gnm_conf_get_core_gui_screen_horizontaldpi (void);
+void gnm_conf_set_core_gui_screen_horizontaldpi (double);
+
+double gnm_conf_get_core_gui_screen_verticaldpi (void);
+void gnm_conf_set_core_gui_screen_verticaldpi (double);
+
+gboolean gnm_conf_get_core_gui_toolbars_FormatToolbar (void);
+void gnm_conf_set_core_gui_toolbars_FormatToolbar (gboolean);
+
+int gnm_conf_get_core_gui_toolbars_FormatToolbar_position (void);
+void gnm_conf_set_core_gui_toolbars_FormatToolbar_position (int);
+
+gboolean gnm_conf_get_core_gui_toolbars_ObjectToolbar (void);
+void gnm_conf_set_core_gui_toolbars_ObjectToolbar (gboolean);
+
+int gnm_conf_get_core_gui_toolbars_ObjectToolbar_position (void);
+void gnm_conf_set_core_gui_toolbars_ObjectToolbar_position (int);
+
+gboolean gnm_conf_get_core_gui_toolbars_StandardToolbar (void);
+void gnm_conf_set_core_gui_toolbars_StandardToolbar (gboolean);
+
+int gnm_conf_get_core_gui_toolbars_StandardToolbar_position (void);
+void gnm_conf_set_core_gui_toolbars_StandardToolbar_position (int);
+
+double gnm_conf_get_core_gui_window_x (void);
+void gnm_conf_set_core_gui_window_x (double);
+
+double gnm_conf_get_core_gui_window_y (void);
+void gnm_conf_set_core_gui_window_y (double);
+
+double gnm_conf_get_core_gui_window_zoom (void);
+void gnm_conf_set_core_gui_window_zoom (double);
+
+gboolean gnm_conf_get_core_sort_default_ascending (void);
+void gnm_conf_set_core_sort_default_ascending (gboolean);
+
+gboolean gnm_conf_get_core_sort_default_by_case (void);
+void gnm_conf_set_core_sort_default_by_case (gboolean);
+
+gboolean gnm_conf_get_core_sort_default_retain_formats (void);
+void gnm_conf_set_core_sort_default_retain_formats (gboolean);
+
+int gnm_conf_get_core_sort_dialog_max_initial_clauses (void);
+void gnm_conf_set_core_sort_dialog_max_initial_clauses (int);
+
+int gnm_conf_get_core_workbook_autosave_time (void);
+void gnm_conf_set_core_workbook_autosave_time (int);
+
+int gnm_conf_get_core_workbook_n_cols (void);
+void gnm_conf_set_core_workbook_n_cols (int);
+
+int gnm_conf_get_core_workbook_n_rows (void);
+void gnm_conf_set_core_workbook_n_rows (int);
+
+int gnm_conf_get_core_workbook_n_sheet (void);
+void gnm_conf_set_core_workbook_n_sheet (int);
+
+int gnm_conf_get_core_xml_compression_level (void);
+void gnm_conf_set_core_xml_compression_level (int);
+
+gboolean gnm_conf_get_cut_and_paste_prefer_clipboard (void);
+void gnm_conf_set_cut_and_paste_prefer_clipboard (gboolean);
+
+gboolean gnm_conf_get_dialogs_rs_unfocused (void);
+void gnm_conf_set_dialogs_rs_unfocused (gboolean);
+
+int gnm_conf_get_functionselector_num_of_recent (void);
+void gnm_conf_set_functionselector_num_of_recent (int);
+
+GSList *gnm_conf_get_functionselector_recentfunctions (void);
+void gnm_conf_set_functionselector_recentfunctions (GSList *);
+
+gboolean gnm_conf_get_plugin_latex_use_utf8 (void);
+void gnm_conf_set_plugin_latex_use_utf8 (gboolean);
+
+gboolean gnm_conf_get_plugins_activate_new (void);
+void gnm_conf_set_plugins_activate_new (gboolean);
+
+GSList *gnm_conf_get_plugins_active (void);
+void gnm_conf_set_plugins_active (GSList *);
+
+GSList *gnm_conf_get_plugins_extra_dirs (void);
+void gnm_conf_set_plugins_extra_dirs (GSList *);
+
+GSList *gnm_conf_get_plugins_file_states (void);
+void gnm_conf_set_plugins_file_states (GSList *);
+
+GSList *gnm_conf_get_plugins_known (void);
+void gnm_conf_set_plugins_known (GSList *);
+
+gboolean gnm_conf_get_printsetup_across_then_down (void);
+void gnm_conf_set_printsetup_across_then_down (gboolean);
+
+gboolean gnm_conf_get_printsetup_all_sheets (void);
+void gnm_conf_set_printsetup_all_sheets (gboolean);
+
+gboolean gnm_conf_get_printsetup_center_horizontally (void);
+void gnm_conf_set_printsetup_center_horizontally (gboolean);
+
+gboolean gnm_conf_get_printsetup_center_vertically (void);
+void gnm_conf_set_printsetup_center_vertically (gboolean);
+
+GSList *gnm_conf_get_printsetup_footer (void);
+void gnm_conf_set_printsetup_footer (GSList *);
+
+GSList *gnm_conf_get_printsetup_gtk_setting (void);
+void gnm_conf_set_printsetup_gtk_setting (GSList *);
+
+GSList *gnm_conf_get_printsetup_header (void);
+void gnm_conf_set_printsetup_header (GSList *);
+
+gboolean gnm_conf_get_printsetup_hf_font_bold (void);
+void gnm_conf_set_printsetup_hf_font_bold (gboolean);
+
+gboolean gnm_conf_get_printsetup_hf_font_italic (void);
+void gnm_conf_set_printsetup_hf_font_italic (gboolean);
+
+const char *gnm_conf_get_printsetup_hf_font_name (void);
+void gnm_conf_set_printsetup_hf_font_name (const char *);
+
+double gnm_conf_get_printsetup_hf_font_size (void);
+void gnm_conf_set_printsetup_hf_font_size (double);
+
+GSList *gnm_conf_get_printsetup_hf_left (void);
+void gnm_conf_set_printsetup_hf_left (GSList *);
+
+GSList *gnm_conf_get_printsetup_hf_middle (void);
+void gnm_conf_set_printsetup_hf_middle (GSList *);
+
+GSList *gnm_conf_get_printsetup_hf_right (void);
+void gnm_conf_set_printsetup_hf_right (GSList *);
+
+double gnm_conf_get_printsetup_margin_bottom (void);
+void gnm_conf_set_printsetup_margin_bottom (double);
+
+double gnm_conf_get_printsetup_margin_gtk_bottom (void);
+void gnm_conf_set_printsetup_margin_gtk_bottom (double);
+
+double gnm_conf_get_printsetup_margin_gtk_left (void);
+void gnm_conf_set_printsetup_margin_gtk_left (double);
+
+double gnm_conf_get_printsetup_margin_gtk_right (void);
+void gnm_conf_set_printsetup_margin_gtk_right (double);
+
+double gnm_conf_get_printsetup_margin_gtk_top (void);
+void gnm_conf_set_printsetup_margin_gtk_top (double);
+
+double gnm_conf_get_printsetup_margin_top (void);
+void gnm_conf_set_printsetup_margin_top (double);
+
+const char *gnm_conf_get_printsetup_paper (void);
+void gnm_conf_set_printsetup_paper (const char *);
+
+int gnm_conf_get_printsetup_paper_orientation (void);
+void gnm_conf_set_printsetup_paper_orientation (int);
+
+const char *gnm_conf_get_printsetup_preferred_unit (void);
+void gnm_conf_set_printsetup_preferred_unit (const char *);
+
+gboolean gnm_conf_get_printsetup_print_black_n_white (void);
+void gnm_conf_set_printsetup_print_black_n_white (gboolean);
+
+gboolean gnm_conf_get_printsetup_print_even_if_only_styles (void);
+void gnm_conf_set_printsetup_print_even_if_only_styles (gboolean);
+
+gboolean gnm_conf_get_printsetup_print_grid_lines (void);
+void gnm_conf_set_printsetup_print_grid_lines (gboolean);
+
+gboolean gnm_conf_get_printsetup_print_titles (void);
+void gnm_conf_set_printsetup_print_titles (gboolean);
+
+const char *gnm_conf_get_printsetup_repeat_left (void);
+void gnm_conf_set_printsetup_repeat_left (const char *);
+
+const char *gnm_conf_get_printsetup_repeat_top (void);
+void gnm_conf_set_printsetup_repeat_top (const char *);
+
+int gnm_conf_get_printsetup_scale_height (void);
+void gnm_conf_set_printsetup_scale_height (int);
+
+gboolean gnm_conf_get_printsetup_scale_percentage (void);
+void gnm_conf_set_printsetup_scale_percentage (gboolean);
+
+double gnm_conf_get_printsetup_scale_percentage_value (void);
+void gnm_conf_set_printsetup_scale_percentage_value (double);
+
+int gnm_conf_get_printsetup_scale_width (void);
+void gnm_conf_set_printsetup_scale_width (int);
+
+int gnm_conf_get_undo_max_descriptor_width (void);
+void gnm_conf_set_undo_max_descriptor_width (int);
+
+int gnm_conf_get_undo_maxnum (void);
+void gnm_conf_set_undo_maxnum (int);
+
+gboolean gnm_conf_get_undo_show_sheet_name (void);
+void gnm_conf_set_undo_show_sheet_name (gboolean);
+
+int gnm_conf_get_undo_size (void);
+void gnm_conf_set_undo_size (int);
 
 G_END_DECLS
 

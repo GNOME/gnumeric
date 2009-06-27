@@ -80,15 +80,17 @@ enum {
 static void
 dialog_function_load_recent_funcs (FunctionSelectState *state)
 {
-	GnmFunc *fd;
-	GSList const *recent_funcs, *this_funcs;
+	GSList const *recent_funcs;
 
-	recent_funcs = gnm_app_prefs->recent_funcs;
+	for (recent_funcs = gnm_conf_get_functionselector_recentfunctions ();
+	     recent_funcs;
+	     recent_funcs = recent_funcs->next) {
+		char const *name = recent_funcs->data;
+		GnmFunc *fd;
 
-	for (this_funcs = recent_funcs; this_funcs; this_funcs = this_funcs->next) {
-		char const *name = this_funcs->data;
 		if (name == NULL)
 			continue;
+
 		fd = gnm_func_lookup (name, NULL);
 		if (fd)
 			state->recent_funcs = g_slist_prepend (state->recent_funcs, fd);
@@ -100,7 +102,7 @@ dialog_function_write_recent_func (FunctionSelectState *state, GnmFunc const *fd
 {
 	GSList *rec_funcs;
 	GSList *gconf_value_list = NULL;
-	guint ulimit = gnm_app_prefs->num_of_recent_funcs;
+	guint ulimit = gnm_conf_get_functionselector_num_of_recent ();
 
 	state->recent_funcs = g_slist_remove (state->recent_funcs, (gpointer) fd);
 	state->recent_funcs = g_slist_prepend (state->recent_funcs, (gpointer) fd);
@@ -113,7 +115,8 @@ dialog_function_write_recent_func (FunctionSelectState *state, GnmFunc const *fd
 		gconf_value_list = g_slist_prepend
 			(gconf_value_list, g_strdup (gnm_func_get_name (rec_funcs->data)));
 	}
-	gnm_gconf_set_recent_funcs (gconf_value_list);
+	gnm_conf_set_functionselector_recentfunctions (gconf_value_list);
+	go_slist_free_custom (gconf_value_list, g_free);
 	go_conf_sync (NULL);
 }
 

@@ -135,6 +135,17 @@
         </locale>
       </schema>
       <schema>
+        <key>/schemas/apps/gnumeric/core/workbook/autosave_time</key>
+        <applyto>/apps/gnumeric/core/workbook/autosave_time</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>0</default>
+        <locale name="C">
+        <short>Autosave frequency</short>
+        <long>The number of seconds between autosaves.</long>
+        </locale>
+      </schema>
+      <schema>
         <key>/schemas/apps/gnumeric/core/gui/screen/horizontaldpi</key>
         <applyto>/apps/gnumeric/core/gui/screen/horizontaldpi</applyto>
         <owner>Gnumeric</owner>

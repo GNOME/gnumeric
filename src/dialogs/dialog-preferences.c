@@ -402,16 +402,16 @@ cb_pref_font_set_fonts (GOConfNode *node, char const *key, GtkWidget *page)
 {
 	if (!key || g_str_has_suffix (key, GNM_CONF_FONT_NAME))
 		font_selector_set_name (FONT_SELECTOR (page),
-			gnm_app_prefs->default_font.name);
+					gnm_conf_get_core_defaultfont_name ());
 	if (!key || g_str_has_suffix (key, GNM_CONF_FONT_SIZE))
 		font_selector_set_points (FONT_SELECTOR (page),
-			gnm_app_prefs->default_font.size);
+					  gnm_conf_get_core_defaultfont_size ());
 	if (!key ||
 	    g_str_has_suffix (key, GNM_CONF_FONT_BOLD) ||
 	    g_str_has_suffix (key, GNM_CONF_FONT_ITALIC))
 		font_selector_set_style (FONT_SELECTOR (page),
-			gnm_app_prefs->default_font.is_bold,
-			gnm_app_prefs->default_font.is_italic);
+					 gnm_conf_get_core_defaultfont_bold (),
+					 gnm_conf_get_core_defaultfont_italic ());
 }
 
 static gboolean
@@ -419,16 +419,16 @@ cb_pref_font_has_changed (G_GNUC_UNUSED FontSelector *fs,
 			  GnmStyle *mstyle, PrefState *state)
 {
 	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_SIZE))
-		gnm_gconf_set_default_font_size 
+		gnm_conf_set_core_defaultfont_size 
 			(gnm_style_get_font_size (mstyle));
 	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_NAME))
-		gnm_gconf_set_default_font_name (
+		gnm_conf_set_core_defaultfont_name (
 			gnm_style_get_font_name (mstyle));
 	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_BOLD))
-		gnm_gconf_set_default_font_bold (
+		gnm_conf_set_core_defaultfont_bold (
 			gnm_style_get_font_bold (mstyle));
 	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
-		gnm_gconf_set_default_font_italic (
+		gnm_conf_set_core_defaultfont_italic (
 			gnm_style_get_font_italic (mstyle));
 	return TRUE;
 }
@@ -460,36 +460,49 @@ pref_font_initializer (PrefState *state,
 /*******************************************************************************************/
 
 static void
-cb_pref_font_hf_set_fonts (GOConfNode *node, char const *key, GtkWidget *page)
+cb_pref_font_hf_set_fonts (G_GNUC_UNUSED GOConfNode *node,
+			   char const *key, GtkWidget *page)
 {
-	node = gnm_conf_get_root ();
+	FontSelector *fs = FONT_SELECTOR (page);
+
 	if (!key ||
 	    g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_NAME)) {
-		gchar *name = go_conf_load_string (
-			node, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_HF_FONT_NAME);
-		font_selector_set_name (FONT_SELECTOR (page), name);
-		g_free (name);
+		const char *name = gnm_conf_get_printsetup_hf_font_name ();
+		font_selector_set_name (fs, name);
 	}
-	if (!key ||
-	    g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_SIZE))
-		font_selector_set_points (FONT_SELECTOR (page),
-			go_conf_get_double (
-				node, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_HF_FONT_SIZE));
+
+	if  (!key ||
+	     g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_SIZE)) {
+		double size = gnm_conf_get_printsetup_hf_font_size ();
+		font_selector_set_points (fs, size);
+	}
+
 	if (!key ||
 	    g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_BOLD) ||
-	    g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_ITALIC))
-		font_selector_set_style (FONT_SELECTOR (page),
-			go_conf_get_bool (
-				node, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_HF_FONT_BOLD),
-			go_conf_get_bool (
-				node, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_HF_FONT_ITALIC));
+	    g_str_has_suffix (key, PRINTSETUP_GCONF_HF_FONT_ITALIC)) {
+		gboolean bold = gnm_conf_get_printsetup_hf_font_bold ();
+		gboolean italic = gnm_conf_get_printsetup_hf_font_italic ();
+		font_selector_set_style (fs, bold, italic);
+	}
 }
 
 static gboolean
 cb_pref_font_hf_has_changed (G_GNUC_UNUSED FontSelector *fs,
 			     GnmStyle *mstyle, PrefState *state)
 {
-	gnm_gconf_set_hf_font (mstyle);
+	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_SIZE))
+		gnm_conf_set_printsetup_hf_font_size
+			(gnm_style_get_font_size (mstyle));
+	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_NAME))
+		gnm_conf_set_printsetup_hf_font_name
+			(gnm_style_get_font_name (mstyle));
+	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_BOLD))
+		gnm_conf_set_printsetup_hf_font_bold
+			(gnm_style_get_font_bold (mstyle));
+	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
+		gnm_conf_set_printsetup_hf_font_italic
+			(gnm_style_get_font_italic (mstyle));
+
 	return TRUE;
 }
 
@@ -531,19 +544,19 @@ pref_undo_page_initializer (PrefState *state,
 	node = go_conf_get_node (state->root, GNM_CONF_UNDO_DIR);
 	int_pref_create_widget (node, GNM_CONF_UNDO_MAX_DESCRIPTOR_WIDTH,
 				page, row++, 5, 5, 200, 1, 
-				gnm_gconf_set_max_descriptor_width,
+				gnm_conf_set_undo_max_descriptor_width,
 				_("Length of Undo Descriptors"));
 	int_pref_create_widget (node, GNM_CONF_UNDO_SIZE,
 				page, row++, 1000, 0, 30000, 100, 
-				gnm_gconf_set_undo_size,
+				gnm_conf_set_undo_size,
 				_("Maximal Undo Size"));
 	int_pref_create_widget (node, GNM_CONF_UNDO_MAXNUM,
 				page, row++, 20, 1, 200, 1, 
-				gnm_gconf_set_undo_max_number,
+				gnm_conf_set_undo_maxnum,
 				_("Number of Undo Items"));
 	bool_pref_create_widget (node, GNM_CONF_UNDO_SHOW_SHEET_NAME,
 				 page, row++, 
-				 gnm_gconf_set_show_sheet_name,
+				 gnm_conf_set_undo_show_sheet_name,
 				_("Show Sheet Name in Undo List"));
 	go_conf_free_node (node);
 
@@ -568,19 +581,19 @@ pref_sort_page_initializer (PrefState *state,
 	node = go_conf_get_node (state->root, GNM_CONF_SORT_DIR);
 	int_pref_create_widget (node, GNM_CONF_SORT_DIALOG_MAX_INITIAL,
 				page, row++, 10, 0, 50, 1, 
-				gnm_gconf_set_sort_dialog_max_initial,
+				gnm_conf_set_core_sort_dialog_max_initial_clauses,
 				_("Number of Automatic Clauses"));
 	bool_pref_create_widget (node, GNM_CONF_SORT_DEFAULT_RETAIN_FORM,
 				 page, row++, 
-				 gnm_gconf_set_sort_retain_form,
+				 gnm_conf_set_core_sort_default_retain_formats,
 				 _("Sorting Preserves Formats"));
 	bool_pref_create_widget (node, GNM_CONF_SORT_DEFAULT_BY_CASE,
 				 page, row++, 
-				 gnm_gconf_set_sort_by_case,
+				 gnm_conf_set_core_sort_default_by_case,
 				 _("Sorting is Case-Sensitive"));
 	bool_pref_create_widget (node, GNM_CONF_SORT_DEFAULT_ASCENDING,
 				 page, row++, 
-				 gnm_gconf_set_sort_ascending,
+				 gnm_conf_set_core_sort_default_ascending,
 				 _("Sort Ascending"));
 	go_conf_free_node (node);
 
@@ -606,38 +619,38 @@ pref_window_page_initializer (PrefState *state,
 	node = go_conf_get_node (state->root, GNM_CONF_GUI_DIR);
 	double_pref_create_widget (node, GNM_CONF_GUI_WINDOW_Y,
 				   page, row++, 0.75, 0.25, 1, 0.05, 2, 
-				   gnm_gconf_set_gui_window_y,
+				   gnm_conf_set_core_gui_window_y,
 				   _("Default Vertical Window Size"));
 	double_pref_create_widget (node, GNM_CONF_GUI_WINDOW_X,
 				   page, row++, 0.75, 0.25, 1, 0.05, 2, 
-				   gnm_gconf_set_gui_window_x,
+				   gnm_conf_set_core_gui_window_x,
 				   _("Default Horizontal Window Size"));
 	double_pref_create_widget (node, GNM_CONF_GUI_ZOOM,
 				   page, row++, 1.00, 0.10, 5.00, 0.05, 2, 
-				   gnm_gconf_set_gui_zoom,
+				   gnm_conf_set_core_gui_window_zoom,
 				   _("Default Zoom Factor"));
 	int_pref_create_widget (state->root, GNM_CONF_WORKBOOK_NSHEETS,
 				page, row++, 1, 1, 64, 1, 
-				gnm_gconf_set_workbook_nsheets,
+				gnm_conf_set_core_workbook_n_sheet,
 				_("Default Number of Sheets"));
 
 	w = int_pref_create_widget (state->root, GNM_CONF_WORKBOOK_NROWS,
 				    page, row++,
 				    GNM_DEFAULT_ROWS, GNM_MIN_ROWS, GNM_MAX_ROWS, 1, 
-				    gnm_gconf_set_workbook_nrows,
-				_("Default Number of Rows in a Sheet"));
+				    gnm_conf_set_core_workbook_n_rows,
+				    _("Default Number of Rows in a Sheet"));
 	power_of_2_handlers (w);
 
 	w = int_pref_create_widget (state->root, GNM_CONF_WORKBOOK_NCOLS,
 				    page, row++,
 				    GNM_DEFAULT_COLS, GNM_MIN_COLS, GNM_MAX_COLS, 1, 
-				gnm_gconf_set_workbook_ncols,
-				_("Default Number of Columns in a Sheet"));
+				    gnm_conf_set_core_workbook_n_cols,
+				    _("Default Number of Columns in a Sheet"));
 	power_of_2_handlers (w);
 
 	bool_pref_create_widget (node, GNM_CONF_GUI_ED_LIVESCROLLING,
 				 page, row++, 
-				 gnm_gconf_set_gui_livescrolling,
+				 gnm_conf_set_core_gui_editing_livescrolling,
 				 _("Live Scrolling"));
 	go_conf_free_node (node);
 
@@ -662,26 +675,26 @@ pref_file_page_initializer (PrefState *state,
 	node = go_conf_get_node (state->root, GNM_CONF_FILE_DIR);
 	int_pref_create_widget (state->root, GNM_CONF_XML_COMPRESSION,
 				page, row++, 9, 0, 9, 1, 
-				gnm_gconf_set_xml_compression,
+				gnm_conf_set_core_xml_compression_level,
 				_("Default Compression Level For "
 				  "Gnumeric Files"));
 	int_pref_create_widget (state->root, GNM_CONF_WORKBOOK_AUTOSAVE_TIME,
 				page, row++, 0, 0, 365*24*60*60, 60, 
-				gnm_gconf_set_workbook_autosave_time,
+				gnm_conf_set_core_workbook_autosave_time,
 				_("Default autosave frequency in seconds"));
 	bool_pref_create_widget (node, GNM_CONF_FILE_OVERWRITE_DEFAULT,
 				 page, row++, 
-				 gnm_gconf_set_file_overwrite,
+				 gnm_conf_set_core_file_save_def_overwrite,
 				 _("Default To Overwriting Files"));
 	bool_pref_create_widget (node, GNM_CONF_FILE_SINGLE_SHEET_SAVE,
 				 page, row++, 
-				 gnm_gconf_set_file_single_sheet_save,
+				 gnm_conf_set_core_file_save_single_sheet,
 				 _("Warn When Exporting Into Single "
 				   "Sheet Format"));
 	bool_pref_create_widget (state->root,
 				 PLUGIN_GCONF_LATEX "/" PLUGIN_GCONF_LATEX_USE_UTF8,
 				 page, row++, 
-				 gnm_gconf_set_latex_use_utf8,
+				 gnm_conf_set_plugin_latex_use_utf8,
 				 _("Use UTF-8 in LaTeX Export"));
 	go_conf_free_node (node);
 
@@ -706,11 +719,11 @@ pref_screen_page_initializer (PrefState *state,
 	node = go_conf_get_node (state->root, GNM_CONF_GUI_DIR);
 	double_pref_create_widget (node, GNM_CONF_GUI_RES_H, page, row++,
 				   96, 50, 250, 1, 1, 
-				   gnm_gconf_set_gui_resolution_h,
+				   gnm_conf_set_core_gui_screen_horizontaldpi,
 				   _("Horizontal DPI"));
 	double_pref_create_widget (node, GNM_CONF_GUI_RES_V, page, row++,
 				   96, 50, 250, 1, 1, 
-				   gnm_gconf_set_gui_resolution_v,
+				   gnm_conf_set_core_gui_screen_verticaldpi,
 				   _("Vertical DPI"));
 	go_conf_free_node (node);
 
@@ -735,27 +748,27 @@ pref_tool_page_initializer (PrefState *state,
 				 GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_ENTER_MOVES_DIR,
 				 page, row++, 
 				 GO_TYPE_DIRECTION,
-				 (enum_conf_setter_t) gnm_gconf_set_enter_moves_dir,
+				 (enum_conf_setter_t)gnm_conf_set_core_gui_editing_enter_moves_dir,
 				 _("Enter _Moves Selection"));
 	bool_pref_create_widget (state->root,
 				 GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_TRANSITION_KEYS,
 				 page, row++, 
-				 gnm_gconf_set_gui_transition_keys,
+				 gnm_conf_set_core_gui_editing_transitionkeys,
 				 _("Transition Keys"));
 	bool_pref_create_widget (state->root,
 				 GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_AUTOCOMPLETE,
 				 page, row++, 
-				 gnm_gconf_set_autocomplete,
+				 gnm_conf_set_core_gui_editing_autocomplete,
 				_("Autocomplete"));
 	bool_pref_create_widget (state->root,
 				 DIALOGS_GCONF_DIR "/" DIALOGS_GCONF_UNFOCUSED_RS,
 				 page, row++, 
-				 gnm_gconf_set_unfocused_rs,
+				 gnm_conf_set_dialogs_rs_unfocused,
 				_("Allow Unfocused Range Selections"));
 	int_pref_create_widget (state->root,
 				FUNCTION_SELECT_GCONF_DIR "/" FUNCTION_SELECT_GCONF_NUM_OF_RECENT,
 				page, row++, 10, 0, 40, 1, 
-				gnm_gconf_set_num_recent_functions,
+				gnm_conf_set_functionselector_num_of_recent,
 				_("Maximum Length of Recently "
 				  "Used Functions List"));
 	
@@ -779,7 +792,7 @@ pref_copypaste_page_initializer (PrefState *state,
 	bool_pref_create_widget (state->root,
 				 GNM_CONF_CUTANDPASTE_DIR "/" GNM_CONF_CUTANDPASTE_PREFER_CLIPBOARD,
 				 page, row++, 
-				 gnm_gconf_set_prefer_clipboard,
+				 gnm_conf_set_cut_and_paste_prefer_clipboard,
 				 _("Prefer CLIPBOARD Over PRIMARY Selection"));
 	
 	gtk_widget_show_all (page);

@@ -229,7 +229,7 @@ append_data (SortFlowState *state, int i, int index)
 	gchar *str, *header;
 	GtkTreeIter iter;
 	Sheet *sheet = state->sel->v_range.cell.a.sheet;
-	gboolean sort_asc = gnm_app_prefs->sort_default_ascending;
+	gboolean sort_asc = gnm_conf_get_core_sort_default_ascending ();
 
 	header = state->is_cols
 		? header_name (sheet, i, index)
@@ -244,7 +244,7 @@ append_data (SortFlowState *state, int i, int index)
 			    ITEM_DESCENDING, !sort_asc,
 			    ITEM_DESCENDING_IMAGE, sort_asc ? state->image_ascending
 			    : state->image_descending,
-			    ITEM_CASE_SENSITIVE, gnm_app_prefs->sort_default_by_case,
+			    ITEM_CASE_SENSITIVE, gnm_conf_get_core_sort_default_by_case (),
 			    ITEM_SORT_BY_VALUE, TRUE,
 			    ITEM_MOVE_FORMAT, TRUE,
 			    ITEM_NUMBER, i,
@@ -359,7 +359,7 @@ load_model_data (SortFlowState *state)
 	int end;
 	int index;
 	int i;
-	int limit = gnm_app_prefs->sort_max_initial_clauses;
+	int limit = gnm_conf_get_core_sort_dialog_max_initial_clauses ();
 
 	if (state->is_cols) {
 		start = state->sel->v_range.cell.a.col;
@@ -1004,7 +1004,7 @@ dialog_init (SortFlowState *state)
 	state->retain_format_check = glade_xml_get_widget (state->gui,
 							   "retain_format_button");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->retain_format_check),
-				      gnm_app_prefs->sort_default_retain_formats);
+				      gnm_conf_get_core_sort_default_retain_formats ());
 
 
 	/* Set-up buttons */

@@ -201,7 +201,7 @@ static void
 cb_pm_checkbutton_install_new_toggled (GtkCheckButton *checkbutton,
 				       G_GNUC_UNUSED PluginManagerGUI *pm_gui)
 {
-	gnm_gconf_set_activate_new_plugins (
+	gnm_conf_set_plugins_activate_new (
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton)));
 }
 
@@ -257,7 +257,7 @@ pm_gui_load_directory_page (PluginManagerGUI *pm_gui)
 		pm_gui_load_directories (pm_gui, plugin_dirs, FALSE);
 		go_slist_free_custom (plugin_dirs, g_free);
 	}
-	pm_gui_load_directories (pm_gui, gnm_app_prefs->plugin_extra_dirs, TRUE);
+	pm_gui_load_directories (pm_gui, gnm_conf_get_plugins_extra_dirs (), TRUE);
 }
 
 static void
@@ -288,14 +288,16 @@ cb_pm_button_directory_add_clicked (PluginManagerGUI *pm_gui)
 			path = dir_name;
 		}
 
-		if (g_slist_find_custom ((GSList *)gnm_app_prefs->plugin_extra_dirs,
+		if (g_slist_find_custom (gnm_conf_get_plugins_extra_dirs (),
 					 path, go_str_compare) == NULL) {
-			GSList *extra_dirs = go_string_slist_copy (
-				gnm_app_prefs->plugin_extra_dirs);
-			GO_SLIST_PREPEND (extra_dirs, path);
-			GO_SLIST_SORT (extra_dirs, go_str_compare);
+			GSList *extra_dirs = go_string_slist_copy
+				(gnm_conf_get_plugins_extra_dirs ());
 
-			gnm_gconf_set_plugin_extra_dirs (extra_dirs);
+			GO_SLIST_PREPEND (extra_dirs, path);
+
+			gnm_conf_set_plugins_extra_dirs (extra_dirs);
+			go_slist_free_custom (extra_dirs, g_free);
+
 			pm_gui_load_directory_page (pm_gui);
 			cb_pm_button_rescan_directories_clicked (pm_gui);
 		} else
@@ -311,6 +313,7 @@ cb_pm_button_directory_delete_clicked (PluginManagerGUI *pm_gui)
 	GtkTreeIter iter;
 	char     *dir_name = NULL;
 	gboolean  is_system = TRUE;
+	GSList *extra_dirs, *res;
 
 	if (!gtk_tree_selection_get_selected (pm_gui->selection_directory, NULL, &iter))
 		return;
@@ -320,20 +323,23 @@ cb_pm_button_directory_delete_clicked (PluginManagerGUI *pm_gui)
 			    DIR_IS_SYSTEM,	&is_system,
 			    -1);
 
-	if (!is_system
-	    && g_slist_find_custom ((GSList *)gnm_app_prefs->plugin_extra_dirs,
-				    dir_name, go_str_compare) != NULL) {
+	extra_dirs = go_string_slist_copy (gnm_conf_get_plugins_extra_dirs ());
+	res = is_system
+		? NULL
+		: g_slist_find_custom (extra_dirs, dir_name, go_str_compare);
 
-		GSList *extra_dirs = go_string_slist_copy (gnm_app_prefs->plugin_extra_dirs);
-		GSList *res = g_slist_find_custom (extra_dirs, dir_name, go_str_compare);
-
+	if (res) {
+		extra_dirs = g_slist_remove_link (extra_dirs, res);
 		g_free (res->data);
-		extra_dirs = g_slist_remove (extra_dirs, res->data);
+		g_slist_free_1 (res);
 
-		gnm_gconf_set_plugin_extra_dirs (extra_dirs);
+		gnm_conf_set_plugins_extra_dirs (extra_dirs);
+
 		pm_gui_load_directory_page (pm_gui);
 		cb_pm_button_rescan_directories_clicked (pm_gui);
 	}
+
+	go_slist_free_custom (extra_dirs, g_free);
 	g_free (dir_name);
 }
 
@@ -511,7 +517,7 @@ pm_dialog_init (PluginManagerGUI *pm_gui)
 		G_CALLBACK (cb_pm_checkbutton_install_new_toggled), pm_gui);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pm_gui->checkbutton_install_new),
-				      gnm_app_prefs->activate_new_plugins);
+				      gnm_conf_get_plugins_activate_new ());
 
 	/* initialize plugin list */
 	gtk_list_store_clear (pm_gui->model_plugins);
