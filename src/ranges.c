@@ -899,7 +899,7 @@ global_range_name (Sheet const *sheet, GnmRange const *r)
 static guint
 max_range_name_width (void)
 {
-	guint max_width = gnm_app_prefs->max_descriptor_width;
+	guint max_width = gnm_conf_get_undo_max_descriptor_width ();
 
 	return (max_width > 23 ? max_width - 20 : 3);
 }
@@ -934,7 +934,7 @@ undo_range_name (Sheet const *sheet, GnmRange const *r)
 
 	max_width = max_range_name_width ();
 
-	if (sheet != NULL && gnm_app_prefs->show_sheet_name) {
+	if (sheet != NULL && gnm_conf_get_undo_show_sheet_name ()) {
 		char *n = g_strdup_printf ("%s!%s", sheet->name_quoted, the_range_name);
 
 		if (strlen (n) <= max_width)
@@ -1015,7 +1015,7 @@ undo_range_list_name (Sheet const *sheet, GSList const *ranges)
 	names = g_string_new (NULL);
 
 	/* With the sheet name. */
-	if (sheet != NULL && gnm_app_prefs->show_sheet_name) {
+	if (sheet != NULL && gnm_conf_get_undo_show_sheet_name ()) {
 		if (range_list_name_try (names, sheet, ranges, max_width)) {
 			/* We have reached the end, return the data from names. */
 			return g_string_free (names, FALSE);

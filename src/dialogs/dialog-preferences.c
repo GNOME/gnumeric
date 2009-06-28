@@ -306,18 +306,21 @@ int_pref_create_widget (GOConfNode *node, char const *key, GtkWidget *table,
 			gint row, gint val, gint from, gint to, gint step, 
 			gint_conf_setter_t setter, char const *default_label)
 {
-	GtkWidget *w = gtk_spin_button_new (GTK_ADJUSTMENT (
-		gtk_adjustment_new (val, from, to, step, step, 0)),
-		1, 0);
+	GtkAdjustment *adj = GTK_ADJUSTMENT
+		(gtk_adjustment_new (val, from, to, step, step, 0));
+	GtkWidget *w = gtk_spin_button_new (adj, 1, 0);
+
 	int_pref_conf_to_widget (node, key, GTK_SPIN_BUTTON (w));
 	gtk_table_attach (GTK_TABLE (table), w,
 		1, 2, row, row + 1,
 		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 2);
 
 	g_signal_connect (G_OBJECT (w), "value-changed",
-		G_CALLBACK (int_pref_widget_to_conf), (gpointer) setter);
+			  G_CALLBACK (int_pref_widget_to_conf),
+			  (gpointer) setter);
 	connect_notification (node, key,
-		(GOConfMonitorFunc)int_pref_conf_to_widget, w, table);
+			      (GOConfMonitorFunc)int_pref_conf_to_widget,
+			      w, table);
 
 	pref_create_label (node, key, table, row, default_label, w);
 	set_tip (node, key, w);
@@ -419,17 +422,17 @@ cb_pref_font_has_changed (G_GNUC_UNUSED FontSelector *fs,
 			  GnmStyle *mstyle, PrefState *state)
 {
 	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_SIZE))
-		gnm_conf_set_core_defaultfont_size 
+		gnm_conf_set_core_defaultfont_size
 			(gnm_style_get_font_size (mstyle));
 	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_NAME))
-		gnm_conf_set_core_defaultfont_name (
-			gnm_style_get_font_name (mstyle));
+		gnm_conf_set_core_defaultfont_name
+			(gnm_style_get_font_name (mstyle));
 	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_BOLD))
-		gnm_conf_set_core_defaultfont_bold (
-			gnm_style_get_font_bold (mstyle));
+		gnm_conf_set_core_defaultfont_bold
+			(gnm_style_get_font_bold (mstyle));
 	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
-		gnm_conf_set_core_defaultfont_italic (
-			gnm_style_get_font_italic (mstyle));
+		gnm_conf_set_core_defaultfont_italic
+			(gnm_style_get_font_italic (mstyle));
 	return TRUE;
 }
 

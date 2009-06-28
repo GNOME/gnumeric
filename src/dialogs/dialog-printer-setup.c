@@ -1900,7 +1900,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		"fill-color",	"white",
 		NULL);
 
-	style = gnm_style_dup (gnm_app_prefs->printer_decoration_font);
+	style = gnm_style_dup (gnm_conf_get_printer_decoration_font ());
 	font_desc = pango_font_description_new ();
 	pango_font_description_set_family (font_desc, gnm_style_get_font_name (style));
 	pango_font_description_set_style 
@@ -2436,7 +2436,7 @@ print_setup_get_sheet (PrinterSetupState *state)
 	GtkWidget *w = glade_xml_get_widget (state->gui, "apply-to-all");
 	gboolean apply_all_sheets = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	gnm_gconf_set_all_sheets (apply_all_sheets);
+	gnm_conf_set_printsetup_all_sheets (apply_all_sheets);
 
 	if (apply_all_sheets)
 		return NULL;
@@ -2547,11 +2547,11 @@ do_setup_sheet_selector (PrinterSetupState *state)
 		"toggled",
 		G_CALLBACK (cb_do_sheet_selector_toggled), state);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
-				      gnm_app_prefs->print_all_sheets);
+				      gnm_conf_get_printsetup_all_sheets ());
 	cb_do_sheet_selector_toggled (GTK_TOGGLE_BUTTON (w), state);
 	w = glade_xml_get_widget (state->gui, "apply-to-selected");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
-				      !gnm_app_prefs->print_all_sheets);
+				      !gnm_conf_get_printsetup_all_sheets ());
 	gtk_widget_show_all (table);
 }
 

@@ -136,19 +136,13 @@ gnm_command_finalize (GObject *obj)
 
 /******************************************************************/
 
-static guint
-max_descriptor_width (void)
-{
-	return gnm_app_prefs->max_descriptor_width;
-}
-
 static char *
 make_undo_text (char const *src, gboolean *truncated)
 {
 	char *dst = g_strdup (src);
 	char *p;
 	int len;
-	int max_len = max_descriptor_width ();
+	int max_len = gnm_conf_get_undo_max_descriptor_width ();
 	*truncated = FALSE;
 	for (len = 0, p = dst;
 	     *p;
@@ -570,8 +564,8 @@ truncate_undo_info (Workbook *wb)
 	int ok_count;
 	GSList *l, *prev;
 
-	size_left = gnm_app_prefs->undo_size;
-	max_num   = gnm_app_prefs->undo_max_number;
+	size_left = gnm_conf_get_undo_size ();
+	max_num   = gnm_conf_get_undo_maxnum ();
 
 #ifdef DEBUG_TRUNCATE_UNDO
 	g_printerr ("Undo sizes:");
@@ -1938,7 +1932,7 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 
 	list = colrow_index_list_to_string (selection, is_cols, &is_single);
 	/* Make sure the string doesn't get overly wide */
-	max_width = max_descriptor_width ();
+	max_width = gnm_conf_get_undo_max_descriptor_width ();
 	if (strlen (list->str) > max_width) {
 		g_string_truncate (list, max_width - 3);
 		g_string_append (list, "...");
@@ -4348,7 +4342,7 @@ cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
 	}
 
 	/* Make sure the string doesn't get overly wide */
-	max_width = max_descriptor_width ();
+	max_width = gnm_conf_get_undo_max_descriptor_width ();
 	if (strlen (namelist->str) > max_width) {
 		g_string_truncate (namelist, max_width - 3);
 		g_string_append (namelist, "...");

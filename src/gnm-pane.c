@@ -39,6 +39,7 @@
 #include "item-cursor.h"
 #include "item-edit.h"
 #include "item-grid.h"
+#include "gnumeric-gconf.h"
 
 #include <goffice/goffice.h>
 #include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
@@ -177,7 +178,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 	int state = gnumeric_filter_modifiers (event->state);
 	void (*movefn) (SheetControlGUI *, int n, gboolean jump, gboolean horiz);
 
-	gboolean transition_keys = gnm_app_use_transition_keys();
+	gboolean transition_keys = gnm_conf_get_core_gui_editing_transitionkeys ();
 	gboolean const end_mode = wbcg->last_key_was_end;
 
 	/* Update end-mode for magic end key stuff. */
@@ -402,6 +403,7 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 			sheet = wbcg->editing_sheet;
 
 		if (wbcg_edit_finish (wbcg, WBC_EDIT_ACCEPT, NULL)) {
+			GODirection dir = gnm_conf_get_core_gui_editing_enter_moves_dir ();
 			if ((event->state & GDK_MOD1_MASK) &&
 			    (event->state & GDK_CONTROL_MASK) &&
 			    !is_enter) {
@@ -409,14 +411,12 @@ gnm_pane_key_mode_sheet (GnmPane *pane, GdkEventKey *event,
 					workbook_cmd_dec_indent (sc->wbc);
 				else
 					workbook_cmd_inc_indent	(sc->wbc);
-			} else if (gnm_app_enter_moves_dir () != GO_DIRECTION_NONE) {
+			} else if (dir != GO_DIRECTION_NONE) {
 				gboolean forward = TRUE;
 				gboolean horizontal = TRUE;
 				if (is_enter) {
-					horizontal = go_direction_is_horizontal (
-						gnm_app_enter_moves_dir ());
-					forward = go_direction_is_forward (
-						gnm_app_enter_moves_dir ());
+					horizontal = go_direction_is_horizontal (dir);
+					forward = go_direction_is_forward (dir);
 				}
 
 				if (event->state & GDK_SHIFT_MASK)

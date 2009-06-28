@@ -382,7 +382,7 @@ check_multiple_sheet_support_if_needed (GOFileSaver *fs,
 	gboolean ret_val = TRUE;
 
 	if (go_file_saver_get_save_scope (fs) != FILE_SAVE_WORKBOOK &&
-	    gnm_app_prefs->file_ask_single_sheet_save) {
+	    gnm_conf_get_core_file_save_single_sheet ()) {
 		Workbook *wb = wb_view_get_workbook (wb_view);
 		gchar *msg = _("Selected file format doesn't support "
 			       "saving multiple sheets in one file.\n"
@@ -544,7 +544,7 @@ gui_file_save_as (WBCGtk *wbcg, WorkbookView *wb_view)
 		uri = uri2;
 
 		if (go_gtk_url_is_writeable (GTK_WINDOW (fsel), uri,
-					     gnm_app_prefs->file_overwrite_default_answer))
+					     gnm_conf_get_core_file_save_def_overwrite ()))
 			break;
 
 		g_free (uri);

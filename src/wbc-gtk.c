@@ -2074,8 +2074,8 @@ show_gui (WBCGtk *wbcg)
 	sx = MAX (rect.width, 600);
 	sy = MAX (rect.height, 200);
 
-	fx = gnm_app_prefs->horizontal_window_fraction;
-	fy = gnm_app_prefs->vertical_window_fraction;
+	fx = gnm_conf_get_core_gui_window_x ();
+	fy = gnm_conf_get_core_gui_window_y ();
 
 	/* Successfully parsed geometry string and urged WM to comply */
 	if (NULL != wbcg->preferred_geometry && NULL != wbcg->toplevel &&

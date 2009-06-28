@@ -49,6 +49,7 @@
 #include "command-context.h"
 #include "auto-format.h"
 #include "sheet-object.h"
+#include "gnumeric-gconf.h"
 
 #include <goffice/goffice.h>
 #include <gsf/gsf.h>
@@ -872,7 +873,7 @@ workbook_view_class_init (GObjectClass *gobject_class)
 		 g_param_spec_boolean ("do-auto-completion",
 				       _("Do auto completion"),
 				       _("Auto-complete text"),
-				       gnm_app_use_auto_complete (),
+				       gnm_conf_get_core_gui_editing_autocomplete (),
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
         g_object_class_install_property
@@ -926,7 +927,7 @@ workbook_view_new (Workbook *wb)
 	wbv->show_horizontal_scrollbar = TRUE;
 	wbv->show_vertical_scrollbar = TRUE;
 	wbv->show_notebook_tabs = TRUE;
-	wbv->do_auto_completion = gnm_app_use_auto_complete ();
+	wbv->do_auto_completion = gnm_conf_get_core_gui_editing_autocomplete ();
 	wbv->is_protected = FALSE;
 
 	wbv->current_style      = NULL;

@@ -55,6 +55,7 @@
 #include "xml-sax.h"
 #include "xml-io.h"
 #include "style-color.h"
+#include "gnumeric-gconf.h"
 
 #include "gnm-pane-impl.h"
 #include "item-bar.h"
@@ -1454,7 +1455,7 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 	gtk_widget_show_all (GTK_WIDGET (scg->inner_table));
 
 	/* Scroll bars and their adjustments */
-	scroll_update_policy = gnm_app_live_scrolling ()
+	scroll_update_policy = gnm_conf_get_core_gui_editing_livescrolling ()
 		? GTK_UPDATE_CONTINUOUS : GTK_UPDATE_DELAYED;
 	scg->va = (GtkAdjustment *)gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
 	scg->vs = g_object_new (GTK_TYPE_VSCROLLBAR,

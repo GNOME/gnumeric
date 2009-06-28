@@ -653,16 +653,16 @@ gnm_plugins_init (GOCmdContext *context)
 			g_build_filename (gnm_usr_dir (), PLUGIN_SUBDIR, NULL)),
 		NULL);
 	dir_list = g_slist_concat (dir_list,
-		go_string_slist_copy (gnm_app_prefs->plugin_extra_dirs));
+				   go_string_slist_copy (gnm_conf_get_plugins_extra_dirs ()));
 
 	env_var = g_getenv ("GNUMERIC_PLUGIN_PATH");
 	if (env_var != NULL)
 		GO_SLIST_CONCAT (dir_list, go_strsplit_to_slist (env_var, G_SEARCHPATH_SEPARATOR));
 
 	go_plugins_init (GO_CMD_CONTEXT (context),
-		gnm_app_prefs->plugin_file_states,
-		gnm_app_prefs->active_plugins,
-		dir_list,
-		gnm_app_prefs->activate_new_plugins,
-		gnm_plugin_loader_module_get_type ());
+			 gnm_conf_get_plugins_file_states (),
+			 gnm_conf_get_plugins_active (),
+			 dir_list,
+			 gnm_conf_get_plugins_activate_new (),
+			 gnm_plugin_loader_module_get_type ());
 }

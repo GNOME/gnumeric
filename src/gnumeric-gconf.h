@@ -2,13 +2,18 @@
 #ifndef _GNM_GCONF_H_
 # define _GNM_GCONF_H_
 
-#include <goffice/goffice.h>
+#include "gnumeric.h"
 
 G_BEGIN_DECLS
 
 void     gnm_conf_init (gboolean fast);
 void     gnm_conf_shutdown (void);
 GOConfNode *gnm_conf_get_root (void);
+
+GtkPageSetup *gnm_gconf_get_page_setup (void);
+void gnm_gconf_set_page_setup (GtkPageSetup *setup);
+
+GnmStyle *gnm_conf_get_printer_decoration_font (void);
 
 const char *gnm_conf_get_toolbar_style (void);
 void gnm_conf_set_toolbar_style (const char *);
@@ -229,8 +234,8 @@ void gnm_conf_set_printsetup_paper (const char *);
 int gnm_conf_get_printsetup_paper_orientation (void);
 void gnm_conf_set_printsetup_paper_orientation (int);
 
-const char *gnm_conf_get_printsetup_preferred_unit (void);
-void gnm_conf_set_printsetup_preferred_unit (const char *);
+GtkUnit gnm_conf_get_printsetup_preferred_unit (void);
+void gnm_conf_set_printsetup_preferred_unit (GtkUnit);
 
 gboolean gnm_conf_get_printsetup_print_black_n_white (void);
 void gnm_conf_set_printsetup_print_black_n_white (gboolean);

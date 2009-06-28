@@ -643,7 +643,7 @@ sv_update (SheetView *sv)
 	}
 
 	if (sv->selection_content_changed) {
-		int const lag = gnm_app_auto_expr_recalc_lag ();
+		int const lag = gnm_conf_get_core_gui_editing_recalclag ();
 		sv->selection_content_changed = FALSE;
 		if (sv->auto_expr_timer == 0 || lag < 0) {
 			auto_expr_timer_clear (sv);

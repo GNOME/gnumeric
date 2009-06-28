@@ -446,14 +446,16 @@ gnm_app_workbook_get_by_index (int i)
 double
 gnm_app_display_dpi_get (gboolean horizontal)
 {
-	return horizontal ? gnm_app_prefs->horizontal_dpi : gnm_app_prefs->vertical_dpi;
+	return horizontal
+		? gnm_conf_get_core_gui_screen_horizontaldpi ()
+		: gnm_conf_get_core_gui_screen_verticaldpi ();
 }
 
 double
 gnm_app_dpi_to_pixels (void)
 {
-	return MIN (gnm_app_prefs->horizontal_dpi,
-		    gnm_app_prefs->vertical_dpi) / 72.;
+	return MIN (gnm_app_display_dpi_get (TRUE),
+		    gnm_app_display_dpi_get (FALSE)) / 72.;
 }
 
 /* GtkFileFilter */
@@ -639,17 +641,6 @@ gnm_app_history_add (char const *uri, const char *mimetype)
 #endif
 
 	g_object_notify (G_OBJECT (app), "file-history-list");
-}
-
-int	 gnm_app_enter_moves_dir	(void) { return gnm_app_prefs->enter_moves_dir; }
-gboolean gnm_app_use_auto_complete	(void) { return gnm_app_prefs->auto_complete; }
-gboolean gnm_app_live_scrolling		(void) { return gnm_app_prefs->live_scrolling; }
-gboolean gnm_app_detachable_toolbars    (void) { return gnm_app_prefs->detachable_toolbars; }
-int	 gnm_app_auto_expr_recalc_lag	(void) { return gnm_app_prefs->recalc_lag; }
-gboolean gnm_app_use_transition_keys	(void) { return gnm_app_prefs->transition_keys; }
-void     gnm_app_set_transition_keys	(gboolean state)
-{
-	((GnmAppPrefs *)gnm_app_prefs)->transition_keys = state;
 }
 
 static void

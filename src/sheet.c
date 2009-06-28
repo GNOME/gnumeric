@@ -1301,7 +1301,7 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type,
 			      "columns", columns,
 			      "rows", rows,
 			      "name", name,
-			      "zoom-factor", (double)gnm_app_prefs->zoom,
+			      "zoom-factor", gnm_conf_get_core_gui_window_zoom (),
 			      NULL);
 
 	return sheet;

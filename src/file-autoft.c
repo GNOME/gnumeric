@@ -200,12 +200,14 @@ category_group_list_get (void)
 	GList *categories, *l;
 	FormatTemplateCategoryGroup *current_group;
 
-	dir_list = go_slist_create (gnm_app_prefs->autoformat.sys_dir,
-				     gnm_app_prefs->autoformat.usr_dir,
-				     NULL);
-	dir_list = g_slist_concat (dir_list,
-		g_slist_copy ((GSList *)gnm_app_prefs->autoformat.extra_dirs));
+	dir_list = go_slist_create ((char *)gnm_conf_get_autoformat_sys_dir (),
+				    (char *)gnm_conf_get_autoformat_usr_dir (),
+				    NULL);
+	dir_list = g_slist_concat
+		(dir_list,
+		 g_slist_copy (gnm_conf_get_autoformat_extra_dirs ()));
 	categories = category_list_get_from_dir_list (dir_list);
+	g_slist_free (dir_list); /* we do not own the strings here */
 
 	categories = g_list_sort (categories, category_compare_name_and_dir);
 
@@ -230,7 +232,6 @@ category_group_list_get (void)
 		category_groups = g_list_prepend (category_groups, current_group);
 
 	g_list_free (categories);
-	g_slist_free (dir_list); /* strings are owned by the gnm_app_prefs */
 
 	return category_groups;
 }

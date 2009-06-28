@@ -838,7 +838,7 @@ x_request_clipboard (WBCGtk *wbcg, GnmPasteTarget const *pt)
 	GtkClipboard *clipboard =
 		gtk_clipboard_get_for_display
 		(display,
-		 gnm_app_prefs->prefer_clipboard_selection
+		 gnm_conf_get_cut_and_paste_prefer_clipboard ()
 		 ? GDK_SELECTION_CLIPBOARD
 		 : GDK_SELECTION_PRIMARY);
 

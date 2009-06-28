@@ -38,11 +38,18 @@ my %type_to_ctype =
      'string' => 'const char *',
      'list:string' => 'GSList *',
      'GO_TYPE_DIRECTION' => 'GODirection',
+     'GTK_TYPE_UNIT' => 'GtkUnit',
     );
 
 my %extra_attributes =
     ('/apps/gnumeric/core/gui/editing/enter_moves_dir' => {
 	'gtype' => 'GO_TYPE_DIRECTION',
+	'default' => 'GO_DIRECTION_DOWN',  # Should match schema
+     },
+
+     '/apps/gnumeric/printsetup/preferred-unit' => {
+	 'gtype' => 'GTK_TYPE_UNIT',
+	 'default' => 'GTK_UNIT_MM',  # Should match schema
      },
 
      '/apps/gnumeric/core/gui/editing/recalclag' => {

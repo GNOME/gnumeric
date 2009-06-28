@@ -536,10 +536,10 @@ gnm_style_new_default (void)
 	GnmStyle *new_style = gnm_style_new ();
 	int i;
 
-	gnm_style_set_font_name	  (new_style, gnm_app_prefs->default_font.name);
-	gnm_style_set_font_size	  (new_style, gnm_app_prefs->default_font.size);
-	gnm_style_set_font_bold	  (new_style, gnm_app_prefs->default_font.is_bold);
-	gnm_style_set_font_italic (new_style, gnm_app_prefs->default_font.is_italic);
+	gnm_style_set_font_name	  (new_style, gnm_conf_get_core_defaultfont_name ());
+	gnm_style_set_font_size	  (new_style, gnm_conf_get_core_defaultfont_size ());
+	gnm_style_set_font_bold	  (new_style, gnm_conf_get_core_defaultfont_bold ());
+	gnm_style_set_font_italic (new_style, gnm_conf_get_core_defaultfont_italic ());
 
 	gnm_style_set_format      (new_style, go_format_general ());
 	gnm_style_set_align_v     (new_style, VALIGN_BOTTOM);

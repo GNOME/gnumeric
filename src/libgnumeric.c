@@ -315,7 +315,8 @@ gnm_shutdown (void)
 
 	plugin_states = go_plugins_shutdown ();
 	if (NULL != plugin_states) {
-		gnm_gconf_set_plugin_file_states (plugin_states);
+		gnm_conf_set_plugins_file_states (plugin_states);
+		go_slist_free_custom (plugin_states, g_free);
 		go_conf_sync (NULL);
 	}
 

@@ -191,9 +191,9 @@ load_formats (void)
 		GSList const *middle;
 		GSList const *right;
 
-		left = gnm_app_prefs->printer_header_formats_left;
-		middle = gnm_app_prefs->printer_header_formats_middle;
-		right = gnm_app_prefs->printer_header_formats_right;
+		left = gnm_conf_get_printsetup_hf_left ();
+		middle = gnm_conf_get_printsetup_hf_middle ();
+		right = gnm_conf_get_printsetup_hf_right ();
 
 		while (left != NULL && middle != NULL && right != NULL)
 		{
@@ -234,39 +234,39 @@ print_info_load_defaults (PrintInformation *res)
 
 	res->page_setup = gtk_page_setup_copy (gnm_gconf_get_page_setup ());
 
-	res->scaling.type = gnm_app_prefs->print_scale_percentage
-		? PRINT_SCALE_PERCENTAGE : PRINT_SCALE_FIT_PAGES;
+	res->scaling.type = gnm_conf_get_printsetup_scale_percentage ()
+		? PRINT_SCALE_PERCENTAGE
+		: PRINT_SCALE_FIT_PAGES;
 	res->scaling.percentage.x = res->scaling.percentage.y
-		= gnm_app_prefs->print_scale_percentage_value;
-	res->scaling.dim.cols = gnm_app_prefs->print_scale_width;
-	res->scaling.dim.rows = gnm_app_prefs->print_scale_height;
-	res->edge_to_below_header = gnm_app_prefs->print_margin_top;
-	res->edge_to_above_footer = gnm_app_prefs->print_margin_bottom;
-	res->desired_display.top = gnm_app_prefs->desired_display;
-	res->desired_display.bottom = gnm_app_prefs->desired_display;
-	res->desired_display.left = gnm_app_prefs->desired_display;
-	res->desired_display.right = gnm_app_prefs->desired_display;
-	res->desired_display.footer = gnm_app_prefs->desired_display;
-	res->desired_display.header = gnm_app_prefs->desired_display;
-	res->repeat_top            = g_strdup (gnm_app_prefs->print_repeat_top);
-	res->repeat_left           = g_strdup (gnm_app_prefs->print_repeat_left);
-	res->center_vertically     = gnm_app_prefs->print_center_vertically;
-	res->center_horizontally   = gnm_app_prefs->print_center_horizontally;
-	res->print_grid_lines      = gnm_app_prefs->print_grid_lines;
-	res->print_titles          = gnm_app_prefs->print_titles;
-	res->print_black_and_white = gnm_app_prefs->print_black_and_white;
-	res->print_even_if_only_styles
-		= gnm_app_prefs->print_even_if_only_styles;
+		= gnm_conf_get_printsetup_scale_percentage_value ();
+	res->scaling.dim.cols = gnm_conf_get_printsetup_scale_width ();
+	res->scaling.dim.rows = gnm_conf_get_printsetup_scale_height ();
+	res->edge_to_below_header = gnm_conf_get_printsetup_margin_top ();
+	res->edge_to_above_footer = gnm_conf_get_printsetup_margin_bottom ();
+	res->desired_display.top = gnm_conf_get_printsetup_preferred_unit ();
+	res->desired_display.bottom = gnm_conf_get_printsetup_preferred_unit ();
+	res->desired_display.left = gnm_conf_get_printsetup_preferred_unit ();
+	res->desired_display.right = gnm_conf_get_printsetup_preferred_unit ();
+	res->desired_display.footer = gnm_conf_get_printsetup_preferred_unit ();
+	res->desired_display.header = gnm_conf_get_printsetup_preferred_unit ();
+	res->repeat_top = g_strdup (gnm_conf_get_printsetup_repeat_top ());
+	res->repeat_left = g_strdup (gnm_conf_get_printsetup_repeat_left ());
+	res->center_vertically = gnm_conf_get_printsetup_center_vertically ();
+	res->center_horizontally = gnm_conf_get_printsetup_center_horizontally ();
+	res->print_grid_lines = gnm_conf_get_printsetup_print_grid_lines ();
+	res->print_titles = gnm_conf_get_printsetup_print_titles ();
+	res->print_black_and_white = gnm_conf_get_printsetup_print_black_n_white ();
+	res->print_even_if_only_styles = gnm_conf_get_printsetup_print_even_if_only_styles ();
+	res->print_across_then_down = gnm_conf_get_printsetup_across_then_down ();
 
-	res->print_across_then_down = gnm_app_prefs->print_order_across_then_down;
-
-	list = (GSList *) gnm_app_prefs->printer_header;
+	list = gnm_conf_get_printsetup_header ();
 	res->header = list ?
 		print_hf_new (g_slist_nth_data (list, 0),
 			      g_slist_nth_data (list, 1),
 			      g_slist_nth_data (list, 2)) :
 		print_hf_new ("", _("&[TAB]"), "");
-	list = (GSList *) gnm_app_prefs->printer_footer;
+
+	list = gnm_conf_get_printsetup_footer ();
 	res->footer = list ?
 		print_hf_new (g_slist_nth_data (list, 0),
 			      g_slist_nth_data (list, 1),
@@ -334,56 +334,72 @@ save_formats (void)
 		GO_SLIST_PREPEND (right, g_strdup(hf->right_format));
 	}
 	GO_SLIST_REVERSE(left);
-	GO_SLIST_REVERSE(middle);
-	GO_SLIST_REVERSE(right);
+	gnm_conf_set_printsetup_hf_left (left);
+	go_slist_free_custom (left, g_free);
 
-	gnm_gconf_set_print_header_formats (left, middle, right);
+	GO_SLIST_REVERSE(middle);
+	gnm_conf_set_printsetup_hf_middle (middle);
+	go_slist_free_custom (middle, g_free);
+
+	GO_SLIST_REVERSE(right);
+	gnm_conf_set_printsetup_hf_right (right);
+	go_slist_free_custom (right, g_free);
 }
 
 static void
 destroy_formats (void)
 {
-	while (hf_formats) {
-		print_hf_free (hf_formats->data);
-		hf_formats = g_list_remove (hf_formats,
-					    hf_formats->data);
-	}
+	go_list_free_custom (hf_formats, (GFreeFunc)print_hf_free);
 	hf_formats = NULL;
+}
+
+static GSList *
+make_triple (const PrintHF *hf)
+{
+	GSList *l = NULL;
+
+	GO_SLIST_PREPEND (l, hf->left_format ? hf->left_format : NULL);
+	GO_SLIST_PREPEND (l, hf->middle_format ? hf->middle_format : NULL);
+	GO_SLIST_PREPEND (l, hf->right_format ? hf->right_format : NULL);
+
+	return l;
 }
 
 void
 print_info_save (PrintInformation *pi)
 {
 	GOConfNode *node = go_conf_get_node (gnm_conf_get_root (), PRINTSETUP_GCONF_DIR);
+	GSList *l;
 
-	gnm_gconf_set_print_scale_percentage (pi->scaling.type == PRINT_SCALE_PERCENTAGE);
-	gnm_gconf_set_print_scale_percentage_value (pi->scaling.percentage.x);
+	gnm_conf_set_printsetup_scale_percentage (pi->scaling.type == PRINT_SCALE_PERCENTAGE);
+	gnm_conf_set_printsetup_scale_percentage_value (pi->scaling.percentage.x);
 	go_conf_set_int (node, PRINTSETUP_GCONF_SCALE_WIDTH,  pi->scaling.dim.cols);
 	go_conf_set_int (node, PRINTSETUP_GCONF_SCALE_HEIGHT, pi->scaling.dim.rows);
 
-	gnm_gconf_set_print_tb_margins (pi->edge_to_below_header,
-					pi->edge_to_above_footer,
-					pi->desired_display.top);
+	gnm_conf_set_printsetup_margin_top (pi->edge_to_below_header);
+	gnm_conf_set_printsetup_margin_bottom (pi->edge_to_above_footer);
+	gnm_conf_set_printsetup_preferred_unit (pi->desired_display.top);
 
-	gnm_gconf_set_print_center_horizontally (pi->center_horizontally);
-	gnm_gconf_set_print_center_vertically (pi->center_vertically);
-	gnm_gconf_set_print_grid_lines (pi->print_grid_lines);
-	gnm_gconf_set_print_titles (pi->print_titles);
-	gnm_gconf_set_print_even_if_only_styles (pi->print_even_if_only_styles);
-	gnm_gconf_set_print_black_and_white (pi->print_black_and_white);
-	gnm_gconf_set_print_order_across_then_down (pi->print_across_then_down);
+	gnm_conf_set_printsetup_center_horizontally (pi->center_horizontally);
+	gnm_conf_set_printsetup_center_vertically (pi->center_vertically);
+	gnm_conf_set_printsetup_print_grid_lines (pi->print_grid_lines);
+	gnm_conf_set_printsetup_print_titles (pi->print_titles);
+	gnm_conf_set_printsetup_print_even_if_only_styles (pi->print_even_if_only_styles);
+	gnm_conf_set_printsetup_print_black_n_white (pi->print_black_and_white);
+	gnm_conf_set_printsetup_across_then_down (pi->print_across_then_down);
 
 	go_conf_set_string (node, PRINTSETUP_GCONF_REPEAT_TOP, pi->repeat_top);
 	go_conf_set_string (node, PRINTSETUP_GCONF_REPEAT_LEFT, pi->repeat_left);
 
 	save_formats ();
 
-	gnm_gconf_set_printer_header (pi->header->left_format,
-				      pi->header->middle_format,
-				      pi->header->right_format);
-	gnm_gconf_set_printer_footer (pi->footer->left_format,
-				      pi->footer->middle_format,
-				      pi->footer->right_format);
+	l = make_triple (pi->header);
+	gnm_conf_set_printsetup_header (l);
+	g_slist_free (l);
+
+	l = make_triple (pi->footer);
+	gnm_conf_set_printsetup_footer (l);
+	g_slist_free (l);
 
 	gnm_gconf_set_page_setup (pi->page_setup);
 

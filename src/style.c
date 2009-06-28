@@ -318,8 +318,8 @@ gnm_font_init (void)
 	style_font_negative_hash = g_hash_table_new (
 		gnm_font_hash, gnm_font_equal);
 
-	gnumeric_default_font_name = g_strdup (gnm_app_prefs->default_font.name);
-	gnumeric_default_font_size = gnm_app_prefs->default_font.size;
+	gnumeric_default_font_name = g_strdup (gnm_conf_get_core_defaultfont_name ());
+	gnumeric_default_font_size = gnm_conf_get_core_defaultfont_size ();
 
 	context = gnm_pango_context_get ();
 	if (gnumeric_default_font_name && gnumeric_default_font_size >= 1)
