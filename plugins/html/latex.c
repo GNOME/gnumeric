@@ -407,7 +407,7 @@ latex_math_fputs_latin (char const *text, GsfOutput *output)
 static void
 latex_fputs (char const *text, GsfOutput *output)
 {
-	if (gnm_app_prefs->latex_use_utf8)
+	if (gnm_conf_get_plugin_latex_use_utf8 ())
 		latex_fputs_utf (text, output);
 	else
 		latex_fputs_latin (text, output);
@@ -416,7 +416,7 @@ latex_fputs (char const *text, GsfOutput *output)
 static void
 latex_math_fputs (char const *text, GsfOutput *output)
 {
-	if (gnm_app_prefs->latex_use_utf8)
+	if (gnm_conf_get_plugin_latex_use_utf8 ())
 		latex_math_fputs_utf (text, output);
 	else
 		latex_math_fputs_latin (text, output);
@@ -453,7 +453,7 @@ latex2e_write_file_header(GsfOutput *output)
 "%%  rendered correctly:                                             %%\n"
 );
 
-	if (gnm_app_prefs->latex_use_utf8)
+	if (gnm_conf_get_plugin_latex_use_utf8 ())
 		gsf_output_puts (output,
 "%%    \\usepackage{ucs}                                            %%\n"
 "%%    \\usepackage[utf8x]{inputenc}                                 %%\n"
@@ -507,7 +507,7 @@ latex2e_write_file_header(GsfOutput *output)
 		);
 
 
-	if (gnm_app_prefs->latex_use_utf8)
+	if (gnm_conf_get_plugin_latex_use_utf8 ())
 		gsf_output_puts (output,
 "       \\usepackage{ucs}\n"
 "       \\usepackage[utf8x]{inputenc}\n"
