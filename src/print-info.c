@@ -368,13 +368,12 @@ make_triple (const PrintHF *hf)
 void
 print_info_save (PrintInformation *pi)
 {
-	GOConfNode *node = go_conf_get_node (gnm_conf_get_root (), PRINTSETUP_GCONF_DIR);
 	GSList *l;
 
 	gnm_conf_set_printsetup_scale_percentage (pi->scaling.type == PRINT_SCALE_PERCENTAGE);
 	gnm_conf_set_printsetup_scale_percentage_value (pi->scaling.percentage.x);
-	go_conf_set_int (node, PRINTSETUP_GCONF_SCALE_WIDTH,  pi->scaling.dim.cols);
-	go_conf_set_int (node, PRINTSETUP_GCONF_SCALE_HEIGHT, pi->scaling.dim.rows);
+	gnm_conf_set_printsetup_scale_width (pi->scaling.dim.cols);
+	gnm_conf_set_printsetup_scale_height (pi->scaling.dim.rows);
 
 	gnm_conf_set_printsetup_margin_top (pi->edge_to_below_header);
 	gnm_conf_set_printsetup_margin_bottom (pi->edge_to_above_footer);
@@ -388,8 +387,8 @@ print_info_save (PrintInformation *pi)
 	gnm_conf_set_printsetup_print_black_n_white (pi->print_black_and_white);
 	gnm_conf_set_printsetup_across_then_down (pi->print_across_then_down);
 
-	go_conf_set_string (node, PRINTSETUP_GCONF_REPEAT_TOP, pi->repeat_top);
-	go_conf_set_string (node, PRINTSETUP_GCONF_REPEAT_LEFT, pi->repeat_left);
+	gnm_conf_set_printsetup_repeat_top (pi->repeat_top);
+	gnm_conf_set_printsetup_repeat_left (pi->repeat_left);
 
 	save_formats ();
 
@@ -402,8 +401,6 @@ print_info_save (PrintInformation *pi)
 	g_slist_free (l);
 
 	gnm_gconf_set_page_setup (pi->page_setup);
-
-	go_conf_free_node (node);
 }
 
 GtkUnit

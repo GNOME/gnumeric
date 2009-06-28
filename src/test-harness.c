@@ -56,7 +56,7 @@ main (int argc, char const *argv [])
 	g_option_context_add_main_entries (ctx, test_options, GETTEXT_PACKAGE);
 	g_option_context_parse (ctx, &argc, (gchar ***) &argv, &error);
 
-	gnm_init (FALSE);
+	gnm_init ();
 
 	cc = cmd_context_stderr_new ();
 	gnm_plugins_init (GO_CMD_CONTEXT (cc));

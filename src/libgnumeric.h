@@ -20,7 +20,7 @@ G_BEGIN_DECLS
 
 char const **gnm_pre_parse_init     (int argc, gchar const **argv);
 void	     gnm_pre_parse_shutdown (void);
-void	     gnm_init		    (gboolean fast);
+void	     gnm_init		    (void);
 void	     gnm_shutdown	    (void);
 
 GOptionGroup *gnm_get_option_group (void);

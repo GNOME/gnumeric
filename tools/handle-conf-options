@@ -39,6 +39,7 @@ my %type_to_ctype =
      'list:string' => 'GSList *',
      'GO_TYPE_DIRECTION' => 'GODirection',
      'GTK_TYPE_UNIT' => 'GtkUnit',
+     'GTK_TYPE_TOOLBAR_STYLE' => 'GtkToolbarStyle',
     );
 
 my %extra_attributes =
@@ -50,6 +51,11 @@ my %extra_attributes =
      '/apps/gnumeric/printsetup/preferred-unit' => {
 	 'gtype' => 'GTK_TYPE_UNIT',
 	 'default' => 'GTK_UNIT_MM',  # Should match schema
+     },
+
+     '/apps/gnome-settings/gnumeric/toolbar_style' => {
+	 'gtype' => 'GTK_TYPE_TOOLBAR_STYLE',
+	 'default' => 'GTK_TOOLBAR_ICONS',  # Should match schema
      },
 
      '/apps/gnumeric/core/gui/editing/recalclag' => {
@@ -275,8 +281,9 @@ foreach my $schema (@schemas) {
 	$cfile .= "$get_head\n";
 	$cfile .= "{\n";
 	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\tchar *res = go_conf_load_string (root, key, \"$default\");\n";
-	$cfile .= "\tg_hash_table_replace (string_pool, key, res);\n";
+	$cfile .= "\tchar *res = go_conf_load_string (root, key);\n";
+	$cfile .= "\tif (!res) res = g_strdup (\"$default\");\n";
+	$cfile .= "\tg_hash_table_replace (string_pool, (gpointer)key, res);\n";
 	$cfile .= "\treturn res;\n";
 	$cfile .= "}\n\n";
 
@@ -303,7 +310,7 @@ foreach my $schema (@schemas) {
 	$cfile .= "{\n";
 	$cfile .= "\tconst char *key = \"$key\";\n";
 	$cfile .= "\tGSList *res = go_conf_load_str_list (root, key);\n";
-	$cfile .= "\tg_hash_table_replace (string_list_pool, key, res);\n";
+	$cfile .= "\tg_hash_table_replace (string_list_pool, (gpointer)key, res);\n";
 	$cfile .= "\treturn res;\n";
 	$cfile .= "}\n\n";
 

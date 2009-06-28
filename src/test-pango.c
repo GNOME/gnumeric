@@ -59,7 +59,7 @@ main (int argc, char const **argv)
 
 	argv = gnm_pre_parse_init (argc, argv);
 	gtk_init (&argc, &argv);
-	gnm_init (FALSE);
+	gnm_init ();
 
 	cc  = cmd_context_stderr_new ();
 	ioc = gnumeric_io_context_new (cc);

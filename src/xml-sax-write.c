@@ -1282,7 +1282,7 @@ gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
 	if (NULL != extension && g_ascii_strcasecmp (extension, "xml") == 0)
 		compress = FALSE;
 	else
-		compress = (gnm_app_prefs->xml_compression_level > 0);
+		compress = (gnm_conf_get_core_xml_compression_level () > 0);
 
 	if (compress) {
 		gzout  = gsf_output_gzip_new (output, NULL);

@@ -443,7 +443,7 @@ main (int argc, char const **argv)
 		return 0;
 	}
 
-	gnm_init (FALSE);
+	gnm_init ();
 
 	ssgrep_targets = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	if (ssgrep_pattern_file) {

@@ -6,6 +6,7 @@
  *	Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * (C) Copyright 2002-2005 Andreas J. Guelzow <aguelzow@taliesin.ca>
+ * (C) Copyright 2009 Morten Welinder <terra@gnome.org>
  *
  * Introduced the concept of "node" and implemented the win32 backend
  * by Ivan, Wong Yat Cheung <email@ivanwong.info>, 2005
@@ -38,10 +39,6 @@
 #include <string.h>
 #include <sheet.h>
 
-static GnmAppPrefs prefs;
-GnmAppPrefs const *gnm_app_prefs = &prefs;
-static GOConfNode *root = NULL;
-
 #define NO_DEBUG_GCONF
 #ifndef NO_DEBUG_GCONF
 #define d(code)	{ code; }
@@ -49,386 +46,48 @@ static GOConfNode *root = NULL;
 #define d(code)
 #endif
 
-static void
-gnm_conf_init_page_setup (GOConfNode *node)
-{
-	if (prefs.page_setup == NULL) {
-		gchar *paper;
-		double margin;
-		GtkPageOrientation orient;
+static GOConfNode *root = NULL;
+static GtkPageSetup *page_setup = NULL;
 
-		prefs.page_setup = gtk_page_setup_new ();
-
-		paper = go_conf_load_string (node, PRINTSETUP_GCONF_PAPER);
-
-		if (paper != NULL) {
-			if (*paper != 0) {
-				GtkPaperSize *size
-					= gtk_paper_size_new (paper);
-				gtk_page_setup_set_paper_size
-					(prefs.page_setup,
-					 size);
-				gtk_paper_size_free (size);
-			}
-			g_free (paper);
-		}
-
-		orient = go_conf_load_int (node, PRINTSETUP_GCONF_PAPER_ORIENTATION,
-					   GTK_PAGE_ORIENTATION_PORTRAIT,
-					   GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE,
-					   GTK_PAGE_ORIENTATION_PORTRAIT);
-		gtk_page_setup_set_orientation (prefs.page_setup, orient);
-
-		margin = go_conf_load_double
-			(node, PRINTSETUP_GCONF_MARGIN_GTK_TOP,
-			 0., 720. , 72.);
-		gtk_page_setup_set_top_margin (prefs.page_setup, margin,
-					       GTK_UNIT_POINTS);
-		margin = go_conf_load_double
-			(node, PRINTSETUP_GCONF_MARGIN_GTK_BOTTOM,
-			 0., 720. , 72.);
-		gtk_page_setup_set_bottom_margin (prefs.page_setup, margin,
-						  GTK_UNIT_POINTS);
-		margin = go_conf_load_double
-			(node, PRINTSETUP_GCONF_MARGIN_GTK_LEFT,
-			 0., 720. , 72.);
-		gtk_page_setup_set_left_margin (prefs.page_setup, margin,
-						GTK_UNIT_POINTS);
-		margin = go_conf_load_double
-			(node, PRINTSETUP_GCONF_MARGIN_GTK_RIGHT,
-			 0., 720. , 72.);
-		gtk_page_setup_set_right_margin (prefs.page_setup, margin,
-						 GTK_UNIT_POINTS);
-
-	}
-}
+/*
+ * Hashes to simply ownership rules.  We use this so none of the getters
+ * have to return memory that the callers needs to free.
+  */
+static GHashTable *string_pool;
+static GHashTable *string_list_pool;
 
 static void
-gnm_conf_init_print_settings (GOConfNode *node)
+cb_free_string_list (GSList *l)
 {
-	GSList *list, *item;
-	char const *key;
-	char const *value;
-
-	prefs.print_settings =  gtk_print_settings_new ();
-
-	item = list = go_conf_load_str_list (node, PRINTSETUP_GCONF_GTKSETTING);
-
-	while (item) {
-		value = item->data;
-		item = item->next;
-		if (item) {
-			key = item->data;
-			item = item->next;
-			gtk_print_settings_set (prefs.print_settings, key, value);
-		}
-	}
-
-	go_slist_free_custom (list, g_free);
-}
-
-static void
-gnm_conf_init_printer_decoration_font (void)
-{
-	GOConfNode *node;
-	gchar *name;
-	if (prefs.printer_decoration_font == NULL)
-		prefs.printer_decoration_font = gnm_style_new ();
-
-	node = go_conf_get_node (root, PRINTSETUP_GCONF_DIR);
-	name = go_conf_load_string (node, PRINTSETUP_GCONF_HF_FONT_NAME);
-	if (name) {
-		gnm_style_set_font_name (prefs.printer_decoration_font, name);
-		g_free (name);
-	} else
-		gnm_style_set_font_name (prefs.printer_decoration_font, DEFAULT_FONT);
-	gnm_style_set_font_size (prefs.printer_decoration_font,
-		go_conf_load_double (node, PRINTSETUP_GCONF_HF_FONT_SIZE, 1., 100., DEFAULT_SIZE));
-	gnm_style_set_font_bold (prefs.printer_decoration_font,
-		go_conf_load_bool (node, PRINTSETUP_GCONF_HF_FONT_BOLD, FALSE));
-	gnm_style_set_font_italic (prefs.printer_decoration_font,
-		go_conf_load_bool (node, PRINTSETUP_GCONF_HF_FONT_ITALIC, FALSE));
-	go_conf_free_node (node);
-}
-
-static void
-gnm_conf_init_essential (void)
-{
-	GOConfNode *node;
-
-	node = go_conf_get_node (root, CONF_DEFAULT_FONT_DIR);
-	prefs.default_font.name = go_conf_load_string (node, CONF_DEFAULT_FONT_NAME);
-	if (prefs.default_font.name == NULL)
-		prefs.default_font.name = g_strdup (DEFAULT_FONT);
-	prefs.default_font.size = go_conf_load_double (
-		node, CONF_DEFAULT_FONT_SIZE, 1., 100., DEFAULT_SIZE);
-	prefs.default_font.is_bold = go_conf_load_bool (
-		node, CONF_DEFAULT_FONT_BOLD, FALSE);
-	prefs.default_font.is_italic = go_conf_load_bool (
-		node, CONF_DEFAULT_FONT_ITALIC, FALSE);
-	go_conf_free_node (node);
-
-	node = go_conf_get_node (root, PLUGIN_GCONF_DIR);
-	prefs.plugin_file_states = go_conf_load_str_list (node, PLUGIN_GCONF_FILE_STATES);
-	prefs.plugin_extra_dirs = go_conf_load_str_list (node, PLUGIN_GCONF_EXTRA_DIRS);
-	prefs.active_plugins = go_conf_load_str_list (node, PLUGIN_GCONF_ACTIVE);
-	prefs.activate_new_plugins = go_conf_load_bool (
-		node, PLUGIN_GCONF_ACTIVATE_NEW, TRUE);
-	go_conf_free_node (node);
-
-	node = go_conf_get_node (root, GNM_CONF_GUI_DIR);
-	prefs.horizontal_dpi = go_conf_load_double (
-		node, GNM_CONF_GUI_RES_H, 10., 1000., 96.);
-	prefs.vertical_dpi = go_conf_load_double (
-		node, GNM_CONF_GUI_RES_V, 10., 1000., 96.);
-	prefs.initial_sheet_number = go_conf_load_int (
-		root, GNM_CONF_WORKBOOK_NSHEETS, 1, 64, 3);
-	prefs.row_number = go_conf_load_int (
-		root, GNM_CONF_WORKBOOK_NROWS, GNM_MIN_ROWS, GNM_MAX_ROWS, GNM_DEFAULT_ROWS);
-	prefs.col_number = go_conf_load_int (
-		root, GNM_CONF_WORKBOOK_NCOLS, GNM_MIN_COLS, GNM_MAX_COLS, GNM_DEFAULT_COLS);
-	gnm_sheet_suggest_size (&prefs.col_number,
-				&prefs.row_number);
-	prefs.autosave_time = go_conf_load_int (
-		root, GNM_CONF_WORKBOOK_AUTOSAVE_TIME, 0, 365*24*60*60, 0);
-	prefs.horizontal_window_fraction = go_conf_load_double (
-		  node, GNM_CONF_GUI_WINDOW_X, .1, 1., .6);
-	prefs.vertical_window_fraction = go_conf_load_double (
-		  node, GNM_CONF_GUI_WINDOW_Y, .1, 1., .6);
-	prefs.zoom = go_conf_load_double (
-		  node, GNM_CONF_GUI_ZOOM, .1, 5., 1.);
-	prefs.enter_moves_dir = go_conf_load_enum (
-		  node, GNM_CONF_GUI_ED_ENTER_MOVES_DIR,
-		  GO_TYPE_DIRECTION, GO_DIRECTION_DOWN);
-	prefs.auto_complete = go_conf_load_bool (
-		  node, GNM_CONF_GUI_ED_AUTOCOMPLETE, TRUE);
-	prefs.live_scrolling = go_conf_load_bool (
-		  node, GNM_CONF_GUI_ED_LIVESCROLLING, TRUE);
-	prefs.detachable_toolbars =
-#ifdef WIN32
-		FALSE;
-#else
-		go_conf_get_bool
-		(NULL, "/desktop/gnome/interface/toolbar_detachable");
-#endif
-	prefs.toolbars = g_hash_table_new_full
-		(g_str_hash, g_str_equal,
-		 (GDestroyNotify)g_free,
-		 NULL);
-	prefs.toolbar_positions = g_hash_table_new_full
-		(g_str_hash, g_str_equal,
-		 (GDestroyNotify)g_free,
-		 NULL);
-	go_conf_free_node (node);
+	go_slist_free_custom (l, g_free);
 }
 
 void
-gnm_gconf_init_printer_defaults (void)
+gnm_conf_init (void)
 {
-	GOConfNode *node;
+	string_pool = g_hash_table_new_full
+		(g_str_hash, g_str_equal,
+		 NULL, g_free);
+	string_list_pool = g_hash_table_new_full
+		(g_str_hash, g_str_equal,
+		 NULL, (GDestroyNotify)cb_free_string_list);
 
-	if (prefs.print_settings != NULL)
-		return;
-
-	node = go_conf_get_node (root, PRINTSETUP_GCONF_DIR);
-
-	gnm_conf_init_print_settings (node);
-	gnm_conf_init_page_setup (node);
-
-	prefs.print_center_horizontally = go_conf_load_bool
-		(node, PRINTSETUP_GCONF_CENTER_HORIZONTALLY, FALSE);
-	prefs.print_center_vertically = go_conf_load_bool
-		(node, PRINTSETUP_GCONF_CENTER_VERTICALLY, FALSE);
-	prefs.print_grid_lines = go_conf_load_bool
-		(node, PRINTSETUP_GCONF_PRINT_GRID_LINES, FALSE);
-	prefs.print_even_if_only_styles = go_conf_load_bool
-		(node, PRINTSETUP_GCONF_EVEN_IF_ONLY_STYLES, FALSE);
-	prefs.print_black_and_white = go_conf_load_bool
-		(node, PRINTSETUP_GCONF_PRINT_BLACK_AND_WHITE, FALSE);
-	prefs.print_titles = go_conf_load_bool
-		(node, PRINTSETUP_GCONF_PRINT_TITLES, FALSE);
-	prefs.print_order_across_then_down = go_conf_load_bool
-		(node, PRINTSETUP_GCONF_ACROSS_THEN_DOWN, FALSE);
-	prefs.print_scale_percentage = go_conf_load_bool
-		(node, PRINTSETUP_GCONF_SCALE_PERCENTAGE, TRUE);
-	prefs.print_scale_percentage_value = go_conf_load_double
-		(node, PRINTSETUP_GCONF_SCALE_PERCENTAGE_VALUE, 1, 500, 100);
-	prefs.print_scale_width = go_conf_load_int
-		(node, PRINTSETUP_GCONF_SCALE_WIDTH, 0, 100, 1);
-        prefs.print_scale_height = go_conf_load_int
-		(node, PRINTSETUP_GCONF_SCALE_HEIGHT, 0, 100, 1);
-	prefs.print_repeat_top = go_conf_load_string (node, PRINTSETUP_GCONF_REPEAT_TOP);
-	prefs.print_repeat_left = go_conf_load_string (node, PRINTSETUP_GCONF_REPEAT_LEFT);
-	prefs.print_margin_top = go_conf_load_double
-		(node, PRINTSETUP_GCONF_MARGIN_TOP, 0.0, 10000.0, 120.0);
-	prefs.print_margin_bottom = go_conf_load_double
-		(node, PRINTSETUP_GCONF_MARGIN_BOTTOM, 0.0, 10000.0, 120.0);
-	{
-		char *str;
-		str = go_conf_load_string
-			(node,PRINTSETUP_GCONF_PREFERRED_UNIT);
-		if (str != NULL) {
-			prefs.desired_display = unit_name_to_unit (str);
-			g_free (str);
-		} else
-			prefs.desired_display = GTK_UNIT_MM;
-	}
-	prefs.print_all_sheets = go_conf_load_bool (
-		node, PRINTSETUP_GCONF_ALL_SHEETS, TRUE);
-	prefs.printer_header = go_conf_load_str_list (node, PRINTSETUP_GCONF_HEADER);
-	prefs.printer_footer = go_conf_load_str_list (node, PRINTSETUP_GCONF_FOOTER);
-	prefs.printer_header_formats_left = go_conf_load_str_list (node, PRINTSETUP_GCONF_HEADER_FORMAT_LEFT);
-	prefs.printer_header_formats_middle = go_conf_load_str_list (node, PRINTSETUP_GCONF_HEADER_FORMAT_MIDDLE);
-	prefs.printer_header_formats_right = go_conf_load_str_list (node, PRINTSETUP_GCONF_HEADER_FORMAT_RIGHT);
-	go_conf_free_node (node);
-}
-
-
-static gboolean
-gnm_conf_init_extras (void)
-{
-	char *tmp;
-	GOConfNode *node;
-
-	node = go_conf_get_node (root, FUNCTION_SELECT_GCONF_DIR);
-	prefs.num_of_recent_funcs = go_conf_load_int (
-		node, FUNCTION_SELECT_GCONF_NUM_OF_RECENT, 0, 40, 10);
-	prefs.recent_funcs = go_conf_load_str_list (node, FUNCTION_SELECT_GCONF_RECENT);
-	go_conf_free_node (node);
-
-	node = go_conf_get_node (root, GNM_CONF_GUI_DIR);
-	prefs.transition_keys = go_conf_load_bool (
-		node, GNM_CONF_GUI_ED_TRANSITION_KEYS, FALSE);
-	prefs.recalc_lag = go_conf_load_int (
-		node, GNM_CONF_GUI_ED_RECALC_LAG, -5000, 5000, 200);
-	go_conf_free_node (node);
-
-	node = go_conf_get_node (root, GNM_CONF_UNDO_DIR);
-	prefs.show_sheet_name = go_conf_load_bool (
-		node, GNM_CONF_UNDO_SHOW_SHEET_NAME, TRUE);
-	prefs.max_descriptor_width = go_conf_load_int (
-		node, GNM_CONF_UNDO_MAX_DESCRIPTOR_WIDTH, 5, 256, 15);
-	prefs.undo_size = go_conf_load_int (
-		node, GNM_CONF_UNDO_SIZE, 1, 1000000, 100000);
-	prefs.undo_max_number = go_conf_load_int (
-		node, GNM_CONF_UNDO_MAXNUM, 0, 10000, 100);
-	go_conf_free_node (node);
-
-	node = go_conf_get_node (root, AUTOFORMAT_GCONF_DIR);
-	prefs.autoformat.extra_dirs = go_conf_load_str_list (node, AUTOFORMAT_GCONF_EXTRA_DIRS);
-
-	tmp = go_conf_load_string (node, AUTOFORMAT_GCONF_SYS_DIR);
-	if (tmp == NULL)
-		tmp = g_strdup ("autoformat-templates");
-	prefs.autoformat.sys_dir = g_build_filename (gnm_sys_data_dir (), tmp, NULL);
-	g_free (tmp);
-
-	if (gnm_usr_dir () != NULL) {
-		tmp = go_conf_load_string (node, AUTOFORMAT_GCONF_USR_DIR);
-		if (tmp == NULL)
-			tmp = g_strdup ("autoformat-templates");
-		prefs.autoformat.usr_dir = g_build_filename (gnm_usr_dir (), tmp, NULL);
-		g_free (tmp);
-	}
-	go_conf_free_node (node);
-
-	prefs.xml_compression_level = go_conf_load_int (
-		root, GNM_CONF_XML_COMPRESSION, 0, 9, 9);
-
-	node = go_conf_get_node (root, GNM_CONF_FILE_DIR);
-	prefs.file_overwrite_default_answer = go_conf_load_bool (
-		node, GNM_CONF_FILE_OVERWRITE_DEFAULT, FALSE);
-	prefs.file_ask_single_sheet_save = go_conf_load_bool (
-		node, GNM_CONF_FILE_SINGLE_SHEET_SAVE, TRUE);
-	go_conf_free_node (node);
-
-	node = go_conf_get_node (root, GNM_CONF_SORT_DIR);
-	prefs.sort_default_by_case = go_conf_load_bool (
-		node, GNM_CONF_SORT_DEFAULT_BY_CASE, FALSE);
-	prefs.sort_default_retain_formats = go_conf_load_bool (
-		node, GNM_CONF_SORT_DEFAULT_RETAIN_FORM, TRUE);
-	prefs.sort_default_ascending = go_conf_load_bool (
-		node, GNM_CONF_SORT_DEFAULT_ASCENDING, TRUE);
-	prefs.sort_max_initial_clauses = go_conf_load_int (
-		node, GNM_CONF_SORT_DIALOG_MAX_INITIAL, 0, 256, 10);
-	go_conf_free_node (node);
-
-	prefs.unfocused_range_selection = go_conf_load_bool (
-		root, DIALOGS_GCONF_DIR "/" DIALOGS_GCONF_UNFOCUSED_RS, TRUE);
-	prefs.prefer_clipboard_selection = go_conf_load_bool (
-		root, GNM_CONF_CUTANDPASTE_DIR "/" GNM_CONF_CUTANDPASTE_PREFER_CLIPBOARD, TRUE);
-	prefs.latex_use_utf8 = go_conf_load_bool (
-		root, PLUGIN_GCONF_LATEX "/" PLUGIN_GCONF_LATEX_USE_UTF8, TRUE);
-
-	gnm_conf_init_printer_decoration_font ();
-
-	gnm_gconf_init_printer_defaults ();
-
-	return FALSE;
-}
-
-/**
- * gnm_conf_init
- *
- * @fast : Load non-essential prefs in an idle handler
- **/
-void
-gnm_conf_init (gboolean fast)
-{
 	root = go_conf_get_node (NULL, GNM_CONF_DIR);
-	gnm_conf_init_essential ();
-	if (fast)
-		g_timeout_add (1000, (GSourceFunc) gnm_conf_init_extras, NULL);
-	else
-		gnm_conf_init_extras ();
 }
 
 void
 gnm_conf_shutdown (void)
 {
-	if (prefs.printer_decoration_font)
-		gnm_style_unref (prefs.printer_decoration_font);
+	gnm_gconf_set_page_setup (NULL);
 
-	go_slist_free_custom ((GSList *)prefs.printer_header, g_free);
-	go_slist_free_custom ((GSList *)prefs.printer_header_formats_left, g_free);
-	go_slist_free_custom ((GSList *)prefs.printer_header_formats_middle, g_free);
-	go_slist_free_custom ((GSList *)prefs.printer_header_formats_right, g_free);
-	go_slist_free_custom ((GSList *)prefs.printer_footer, g_free);
+	g_hash_table_destroy (string_pool);
+	string_pool = NULL;
 
-	g_hash_table_destroy (prefs.toolbars);
-	g_hash_table_destroy (prefs.toolbar_positions);
-
-	go_slist_free_custom ((GSList *)prefs.plugin_file_states,
-			      (GFreeFunc)g_free);
-
-	if (prefs.print_settings != NULL)
-		g_object_unref (prefs.print_settings);
-
-	if (prefs.page_setup != NULL)
-		g_object_unref (prefs.page_setup);
-
-	/* the const in the header is just a safety net */
-	g_free ((char *) prefs.default_font.name);
-
-	/* the const_cast is ok, the const in the header is just to keep
-	 * people for doing stupid things */
-	go_slist_free_custom ((GSList *)prefs.recent_funcs, g_free);
-
-	go_slist_free_custom ((GSList *)prefs.plugin_extra_dirs, g_free);
-	go_slist_free_custom ((GSList *)prefs.active_plugins, g_free);
-
-	go_slist_free_custom ((GSList *)prefs.autoformat.extra_dirs, g_free);
-
-	g_free (prefs.print_repeat_top);
-	g_free (prefs.print_repeat_left);
-
-	g_free (prefs.autoformat.usr_dir);
-	g_free (prefs.autoformat.sys_dir);
+	g_hash_table_destroy (string_list_pool);
+	string_list_pool = NULL;
 
 	go_conf_free_node (root);
-
-	memset (&prefs, 0, sizeof (prefs));
-	gnm_app_prefs = NULL;
+	root = NULL;
 }
 
 GOConfNode *
@@ -437,669 +96,1348 @@ gnm_conf_get_root (void)
 	return root;
 }
 
-static void
-gnm_gconf_set_print_settings_cb (const gchar *key, const gchar *value, gpointer user_data)
-{
-	GSList **list = user_data;
-
-	*list = g_slist_prepend (*list, g_strdup (key));
-	*list = g_slist_prepend (*list, g_strdup (value));
-}
-
-GtkPrintSettings *
-gnm_gconf_get_print_settings (void) {
-	gnm_gconf_init_printer_defaults ();
-	return prefs.print_settings;
-}
-
 GtkPageSetup *
-gnm_gconf_get_page_setup (void) {
-	gnm_gconf_init_printer_defaults ();
-	return prefs.page_setup;
-}
-
-void
-gnm_gconf_set_print_settings (GtkPrintSettings *settings)
+gnm_gconf_get_page_setup (void)
 {
-	GSList *list = NULL;
+	if (!page_setup) {
+	}
 
-	if (prefs.print_settings != NULL)
-		g_object_unref (prefs.print_settings);
-	prefs.print_settings = g_object_ref (settings);
-
-	gtk_print_settings_foreach (settings, gnm_gconf_set_print_settings_cb, &list);
-	go_conf_set_str_list (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_GTKSETTING, list);
-	go_slist_free_custom (list, g_free);
+	return page_setup;
 }
 
 void
 gnm_gconf_set_page_setup (GtkPageSetup *setup)
 {
-	char * paper;
+	if (page_setup) {
+		g_object_unref (page_setup);
+		page_setup = NULL;
+	}
 
-	g_return_if_fail (setup != NULL);
+	if (setup) {
+		page_setup = gtk_page_setup_copy (setup);
 
-	if (prefs.page_setup != NULL)
-		g_object_unref (prefs.page_setup);
-	prefs.page_setup = gtk_page_setup_copy (setup);
-
-	paper = page_setup_get_paper (setup);
-	go_conf_set_string (root,
-			    PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_PAPER,
-			    paper);
-	g_free (paper);
-
-	go_conf_set_int
-		(root,
-		 PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_PAPER_ORIENTATION,
-		 gtk_page_setup_get_orientation (setup));
-
-	go_conf_set_double
-		(root,
-		 PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_GTK_TOP,
-		 gtk_page_setup_get_top_margin (setup, GTK_UNIT_POINTS));
-	go_conf_set_double
-		(root,
-		 PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_GTK_BOTTOM,
-		 gtk_page_setup_get_bottom_margin (setup, GTK_UNIT_POINTS));
-	go_conf_set_double
-		(root,
-		 PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_GTK_LEFT,
-		 gtk_page_setup_get_left_margin (setup, GTK_UNIT_POINTS));
-	go_conf_set_double
-		(root,
-		 PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_GTK_RIGHT,
-		 gtk_page_setup_get_right_margin (setup, GTK_UNIT_POINTS));
-}
-
-/* Note: takes ownership of argument.  */
-void
-gnm_gconf_set_plugin_file_states (GSList *list)
-{
-	g_return_if_fail (prefs.plugin_file_states != list);
-
-	/* the const_casts are ok, the const in the header is just to keep
-	 * people for doing stupid things */
-	go_slist_free_custom ((GSList *)prefs.plugin_file_states,
-			      (GFreeFunc)g_free);
-	prefs.plugin_file_states = list;
-
-	go_conf_set_str_list (root, PLUGIN_GCONF_DIR "/" PLUGIN_GCONF_FILE_STATES, list);
-}
-
-/* Note: takes ownership of argument.  */
-void
-gnm_gconf_set_plugin_extra_dirs (GSList *list)
-{
-	g_return_if_fail (prefs.plugin_extra_dirs != list);
-
-	/* the const_cast is ok, the const in the header is just to keep
-	 * people for doing stupid things */
-	go_slist_free_custom ((GSList *)prefs.plugin_extra_dirs, g_free);
-	prefs.plugin_extra_dirs = list;
-
-	go_conf_set_str_list (root, PLUGIN_GCONF_DIR "/" PLUGIN_GCONF_EXTRA_DIRS, list);
-}
-
-/* Note: argument is unchanged.  */
-void
-gnm_gconf_set_active_plugins (GSList *list)
-{
-	go_conf_set_str_list (root, PLUGIN_GCONF_DIR "/" PLUGIN_GCONF_ACTIVE, list);
-}
-
-void
-gnm_gconf_set_activate_new_plugins (gboolean val)
-{
-	go_conf_set_bool (root, PLUGIN_GCONF_DIR "/" PLUGIN_GCONF_ACTIVATE_NEW, val);
-}
-
-/* Note: takes ownership of argument.  */
-void
-gnm_gconf_set_recent_funcs (GSList *list)
-{
-	go_conf_set_str_list (root, FUNCTION_SELECT_GCONF_DIR "/" FUNCTION_SELECT_GCONF_RECENT, list);
-
-	/* the const_cast is ok, the const in the header is just to keep
-	 * people for doing stupid things */
-	go_slist_free_custom ((GSList *)prefs.recent_funcs, g_free);
-
-	prefs.recent_funcs = list;
-}
-
-void
-gnm_gconf_set_num_recent_functions (gint val)
-{
-	if (val < 0)
-		val = 0;
-	prefs.num_of_recent_funcs = val;
-	go_conf_set_int (root, FUNCTION_SELECT_GCONF_DIR "/" FUNCTION_SELECT_GCONF_NUM_OF_RECENT, val);
-}
-
-void
-gnm_gconf_set_undo_size (gint val)
-{
-	if (val < 1)
-		val = 1;
-	prefs.undo_size = val;
-	go_conf_set_int (root, GNM_CONF_UNDO_DIR "/" GNM_CONF_UNDO_SIZE, val);
-}
-
-
-void
-gnm_gconf_set_undo_max_number (gint val)
-{
-	if (val < 1)
-		val = 1;
-	prefs.undo_max_number = val;
-	go_conf_set_int (root, GNM_CONF_UNDO_DIR "/" GNM_CONF_UNDO_MAXNUM, val);
-}
-
-void
-gnm_gconf_set_autoformat_sys_dirs (char const * string)
-{
-	go_conf_set_string (root, AUTOFORMAT_GCONF_DIR "/" AUTOFORMAT_GCONF_SYS_DIR, string);
-}
-
-void
-gnm_gconf_set_autoformat_usr_dirs (char const * string)
-{
-	go_conf_set_string (root, AUTOFORMAT_GCONF_DIR "/" AUTOFORMAT_GCONF_USR_DIR, string);
-}
-
-void
-gnm_gconf_set_all_sheets (gboolean val)
-{
-	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_ALL_SHEETS, val);
-}
-
-void
-gnm_gconf_set_printer_header (gchar const *left, gchar const *middle,
-			      gchar const *right)
-{
-	GSList *list = NULL;
-	list = g_slist_prepend (list, g_strdup (right ? right : ""));
-	list = g_slist_prepend (list, g_strdup (middle ? middle : ""));
-	list = g_slist_prepend (list, g_strdup (left ? left : ""));
-	go_conf_set_str_list (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_HEADER, list);
-	go_slist_free_custom ((GSList *)prefs.printer_header, g_free);
-	prefs.printer_header = list;
-}
-
-void
-gnm_gconf_set_printer_footer (gchar const *left, gchar const *middle,
-			      gchar const *right)
-{
-	GSList *list = NULL;
-	list = g_slist_prepend (list, g_strdup (right ? right : ""));
-	list = g_slist_prepend (list, g_strdup (middle ? middle : ""));
-	list = g_slist_prepend (list, g_strdup (left ? left : ""));
-	go_conf_set_str_list (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_FOOTER, list);
-	go_slist_free_custom ((GSList *)prefs.printer_footer, g_free);
-	prefs.printer_footer = list;
-}
-
-void
-gnm_gconf_set_print_center_horizontally (gboolean val)
-{
-	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_CENTER_HORIZONTALLY, val);
-}
-
-void
-gnm_gconf_set_print_center_vertically (gboolean val)
-{
-	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_CENTER_VERTICALLY, val);
-}
-
-void
-gnm_gconf_set_print_grid_lines (gboolean val)
-{
-	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_PRINT_GRID_LINES, val);
-}
-
-void
-gnm_gconf_set_print_even_if_only_styles (gboolean val)
-{
-	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_EVEN_IF_ONLY_STYLES, val);
-}
-
-void
-gnm_gconf_set_print_black_and_white (gboolean val)
-{
-	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_PRINT_BLACK_AND_WHITE, val);
-}
-
-void
-gnm_gconf_set_print_titles (gboolean val)
-{
-	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_PRINT_TITLES, val);
-}
-
-void
-gnm_gconf_set_print_order_across_then_down (gboolean val)
-{
-	go_conf_set_bool (root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_ACROSS_THEN_DOWN, val);
-}
-
-void
-gnm_gconf_set_print_scale_percentage (gboolean val)
-{
-	go_conf_set_bool (
-		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_SCALE_PERCENTAGE, val);
-}
-
-void
-gnm_gconf_set_print_scale_percentage_value (gnm_float val)
-{
-	go_conf_set_double (
-		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_SCALE_PERCENTAGE_VALUE, val);
-}
-
-void
-gnm_gconf_set_print_tb_margins (double edge_to_header,
-				double edge_to_footer,
-				GtkUnit unit)
-{
-	go_conf_set_double (
-		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_TOP,
-		edge_to_header);
-	go_conf_set_double (
-		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_MARGIN_BOTTOM,
-		edge_to_footer);
-	go_conf_set_string (
-		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_PREFERRED_UNIT, unit_to_unit_name (unit));
-}
-
-void
-gnm_gconf_set_print_header_formats (GSList *left, GSList *middle,
-				    GSList *right)
-{
-	go_conf_set_str_list (
-		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_HEADER_FORMAT_LEFT, left);
-	go_slist_free_custom (left, g_free);
-	go_conf_set_str_list (
-		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_HEADER_FORMAT_MIDDLE, middle);
-	go_slist_free_custom (middle, g_free);
-	go_conf_set_str_list (
-		root, PRINTSETUP_GCONF_DIR "/" PRINTSETUP_GCONF_HEADER_FORMAT_RIGHT, right);
-	go_slist_free_custom (right, g_free);
-}
-
-void
-gnm_gconf_set_gui_window_x (gnm_float val)
-{
-	prefs.horizontal_window_fraction = val;
-	go_conf_set_double (
-		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_WINDOW_X, val);
-}
-
-void
-gnm_gconf_set_gui_window_y (gnm_float val)
-{
-	prefs.vertical_window_fraction = val;
-	go_conf_set_double (
-		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_WINDOW_Y, val);
-}
-
-void
-gnm_gconf_set_gui_zoom (gnm_float val)
-{
-	prefs.zoom = val;
-	go_conf_set_double (
-		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ZOOM, val);
-}
-
-void
-gnm_gconf_set_default_font_size (gnm_float val)
-{
-	prefs.default_font.size = val;
-	go_conf_set_double (
-		root, GNM_CONF_FONT_DIR "/" GNM_CONF_FONT_SIZE, val);
-}
-
-void
-gnm_gconf_set_default_font_name (char const *str)
-{
-	go_conf_set_string (root, GNM_CONF_FONT_DIR "/" GNM_CONF_FONT_NAME, str);
-	if (prefs.default_font.name != str) {
-		/* the const in the header is just a safety net */
-		g_free ((char *) prefs.default_font.name);
-		prefs.default_font.name = g_strdup (str);
+		gnm_conf_set_printsetup_paper_orientation
+			(gtk_page_setup_get_orientation (setup));
 	}
 }
 
-void
-gnm_gconf_set_default_font_bold (gboolean val)
+GnmStyle *
+gnm_conf_get_printer_decoration_font (void)
 {
-	prefs.default_font.is_bold = val;
-	go_conf_set_bool (
-		root, GNM_CONF_FONT_DIR "/" GNM_CONF_FONT_BOLD, val);
+	GnmStyle *style = gnm_style_new ();
+
+	gnm_style_set_font_name (style,
+				 gnm_conf_get_printsetup_hf_font_name ());
+	gnm_style_set_font_size (style,
+				 gnm_conf_get_printsetup_hf_font_size ());
+	gnm_style_set_font_bold (style,
+				 gnm_conf_get_printsetup_hf_font_bold ());
+	gnm_style_set_font_italic (style,
+				   gnm_conf_get_printsetup_hf_font_italic ());
+
+	return style;
+}
+
+/* ------------------------------------------------------------------------- */
+
+GtkToolbarStyle
+gnm_conf_get_toolbar_style (void)
+{
+	const char *key = "/apps/gnome-settings/gnumeric/toolbar_style";
+	return go_conf_load_enum (root, key, GTK_TYPE_TOOLBAR_STYLE, GTK_TOOLBAR_ICONS);
 }
 
 void
-gnm_gconf_set_default_font_italic (gboolean val)
+gnm_conf_set_toolbar_style (GtkToolbarStyle x)
 {
-	prefs.default_font.is_italic = val;
-	go_conf_set_bool (
-		root, GNM_CONF_FONT_DIR "/" GNM_CONF_FONT_ITALIC, val);
-}
-
-void
-gnm_gconf_set_hf_font (GnmStyle const *mstyle)
-{
-	GOConfNode *node;
-	GnmStyle *old_style = (prefs.printer_decoration_font != NULL) ?
-		prefs.printer_decoration_font :
-		gnm_style_new_default ();
-
-	prefs.printer_decoration_font = gnm_style_new_merged (old_style, mstyle);
-	gnm_style_unref (old_style);
-
-	node = go_conf_get_node (root, PRINTSETUP_GCONF_DIR);
-	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_SIZE))
-		go_conf_set_double (node, PRINTSETUP_GCONF_HF_FONT_SIZE,
-			gnm_style_get_font_size (mstyle));
-	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_NAME))
-		go_conf_set_string (node, PRINTSETUP_GCONF_HF_FONT_NAME,
-			gnm_style_get_font_name (mstyle));
-	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_BOLD))
-		go_conf_set_bool (node, PRINTSETUP_GCONF_HF_FONT_BOLD,
-			gnm_style_get_font_bold (mstyle));
-	if (gnm_style_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
-		go_conf_set_bool (node, PRINTSETUP_GCONF_HF_FONT_ITALIC,
-			gnm_style_get_font_italic (mstyle));
-	go_conf_free_node (node);
-}
-
-
-void
-gnm_gconf_set_max_descriptor_width (gint val)
-{
-	if (val < 1)
-		val = 1;
-	prefs.max_descriptor_width = val;
-	go_conf_set_int (
-		root, GNM_CONF_UNDO_DIR "/" GNM_CONF_UNDO_MAX_DESCRIPTOR_WIDTH, val);
-}
-
-void
-gnm_gconf_set_sort_dialog_max_initial (gint val)
-{
-	if (val < 1)
-		val = 1;
-	prefs.sort_max_initial_clauses = val;
-	go_conf_set_int (
-		root, GNM_CONF_SORT_DIR "/" GNM_CONF_SORT_DIALOG_MAX_INITIAL, val);
-}
-
-void
-gnm_gconf_set_workbook_nsheets (gint val)
-{
-	if (val < 1)
-		val = 1;
-	prefs.initial_sheet_number = val;
-	go_conf_set_int (root, GNM_CONF_WORKBOOK_NSHEETS, val);
-}
-void
-gnm_gconf_set_workbook_autosave_time (gint val)
-
-{
-	if (val < 0)
-		val = 0;
-	prefs.autosave_time = val;
-	go_conf_set_int (root, GNM_CONF_WORKBOOK_AUTOSAVE_TIME, val);
-}
-
-void
-gnm_gconf_set_workbook_nrows (gint val)
-{
-	int old_cols = prefs.col_number;
-	int old_rows = prefs.row_number;
-
-	prefs.row_number = CLAMP (val, GNM_MIN_ROWS, GNM_MAX_ROWS);	
-	if (!gnm_sheet_valid_size (prefs.col_number, prefs.row_number))
-		gnm_sheet_suggest_size (&prefs.col_number, &prefs.row_number);
-
-	if (prefs.row_number != old_rows)
-		go_conf_set_int (root, GNM_CONF_WORKBOOK_NROWS, prefs.row_number);
-	if (prefs.col_number != old_cols)
-		go_conf_set_int (root, GNM_CONF_WORKBOOK_NCOLS, prefs.col_number);
-}
-
-void
-gnm_gconf_set_workbook_ncols (gint val)
-{
-	int old_cols = prefs.col_number;
-	int old_rows = prefs.row_number;
-
-	prefs.col_number = CLAMP (val, GNM_MIN_ROWS, GNM_MAX_ROWS);	
-	if (!gnm_sheet_valid_size (prefs.col_number, prefs.row_number))
-		gnm_sheet_suggest_size (&prefs.col_number, &prefs.row_number);
-
-	if (prefs.row_number != old_rows)
-		go_conf_set_int (root, GNM_CONF_WORKBOOK_NROWS, prefs.row_number);
-	if (prefs.col_number != old_cols)
-		go_conf_set_int (root, GNM_CONF_WORKBOOK_NCOLS, prefs.col_number);
-}
-
-void
-gnm_gconf_set_xml_compression (gint val)
-{
-	if (val < 0)
-		val = 0;
-	prefs.xml_compression_level = val;
-	go_conf_set_int (root, GNM_CONF_XML_COMPRESSION, val);
-}
-
-void
-gnm_gconf_set_show_sheet_name (gboolean val)
-{
-	prefs.show_sheet_name = val;
-	go_conf_set_bool (
-		root, GNM_CONF_UNDO_DIR "/" GNM_CONF_UNDO_SHOW_SHEET_NAME,val != FALSE);
-}
-
-void
-gnm_gconf_set_latex_use_utf8 (gboolean val)
-{
-	prefs.latex_use_utf8 = val;
-	go_conf_set_bool (
-		root, PLUGIN_GCONF_LATEX "/" PLUGIN_GCONF_LATEX_USE_UTF8, val != FALSE);
-}
-
-void
-gnm_gconf_set_sort_retain_form (gboolean val)
-{
-	prefs.sort_default_retain_formats = val;
-	go_conf_set_bool (
-		root, GNM_CONF_SORT_DIR "/" GNM_CONF_SORT_DEFAULT_RETAIN_FORM, val != FALSE);
-}
-
-void
-gnm_gconf_set_sort_by_case (gboolean val)
-{
-	prefs.sort_default_by_case = val;
-	go_conf_set_bool (
-		root, GNM_CONF_SORT_DIR "/" GNM_CONF_SORT_DEFAULT_BY_CASE, val != FALSE);
-}
-
-void
-gnm_gconf_set_sort_ascending (gboolean val)
-{
-	prefs.sort_default_ascending = val;
-	go_conf_set_bool (
-		root, GNM_CONF_SORT_DIR "/" GNM_CONF_SORT_DEFAULT_ASCENDING, val != FALSE);
-}
-
-void
-gnm_gconf_set_gui_transition_keys (gboolean val)
-{
-	prefs.transition_keys = val;
-	go_conf_set_bool (
-		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_TRANSITION_KEYS, val != FALSE);
-}
-
-void
-gnm_gconf_set_gui_livescrolling (gboolean val)
-{
-	prefs.live_scrolling = val;
-	go_conf_set_bool (
-		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_LIVESCROLLING, val != FALSE);
-}
-
-void
-gnm_gconf_set_file_overwrite (gboolean val)
-{
-	prefs.file_overwrite_default_answer = val;
-	go_conf_set_bool (
-		root, GNM_CONF_FILE_DIR "/" GNM_CONF_FILE_OVERWRITE_DEFAULT, val != FALSE);
-}
-
-void
-gnm_gconf_set_file_single_sheet_save (gboolean val)
-{
-	prefs.file_ask_single_sheet_save = val;
-	go_conf_set_bool (
-		root, GNM_CONF_FILE_DIR "/" GNM_CONF_FILE_SINGLE_SHEET_SAVE, val != FALSE);
-}
-
-void
-gnm_gconf_set_gui_resolution_h (gnm_float val)
-{
-	if (val < 50)
-		val = 50;
-	if (val > 250)
-		val = 250;
-	prefs.horizontal_dpi = val;
-	go_conf_set_double (
-		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_RES_H, val);
-}
-
-void
-gnm_gconf_set_gui_resolution_v (gnm_float val)
-{
-	if (val < 50)
-		val = 50;
-	if (val > 250)
-		val = 250;
-	prefs.vertical_dpi = val;
-	go_conf_set_double (
-		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_RES_V, val);
+	const char *key = "/apps/gnome-settings/gnumeric/toolbar_style";
+	go_conf_set_enum (root, key, GTK_TYPE_TOOLBAR_STYLE, x);
 }
 
 gboolean
-gnm_gconf_get_toolbar_visible (char const *name)
+gnm_conf_get_autocorrect_first_letter (void)
 {
-	gpointer pval;
-	char *key = g_strconcat (GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_TOOLBARS "/",
-				 name,
-				 NULL);
-	gboolean found, vis;
-
-	found = g_hash_table_lookup_extended (prefs.toolbars,
-					      key,
-					      NULL, &pval);
-	if (found) {
-		vis = GPOINTER_TO_INT (pval);
-	} else {
-		vis = go_conf_load_bool (root, key, TRUE);
-		g_hash_table_insert (prefs.toolbars,
-				     g_strdup (name),
-				     GINT_TO_POINTER (vis));
-	}
-
-	g_free (key);
-	return vis;
+	const char *key = "/apps/gnumeric/autocorrect/first-letter";
+	return go_conf_load_bool (root, key, TRUE);
 }
 
 void
-gnm_gconf_set_toolbar_visible (char const *name, gboolean vis)
+gnm_conf_set_autocorrect_first_letter (gboolean x)
 {
-	char *key = g_strconcat (GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_TOOLBARS "/",
-				 name,
-				 NULL);
-	vis = !!vis;
-	g_hash_table_replace (prefs.toolbars,
-			      g_strdup (name),
-			      GINT_TO_POINTER (vis));
-	go_conf_set_bool (root, key, vis);
-	g_free (key);
+	const char *key = "/apps/gnumeric/autocorrect/first-letter";
+	go_conf_set_bool (root, key, x != FALSE);
 }
 
-/*
- * Actually returns a GtkPositionType.
- */
+GSList *
+gnm_conf_get_autocorrect_first_letter_list (void)
+{
+	const char *key = "/apps/gnumeric/autocorrect/first-letter-list";
+	GSList *res = go_conf_load_str_list (root, key);
+	g_hash_table_replace (string_list_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_autocorrect_first_letter_list (GSList *x)
+{
+	const char *key = "/apps/gnumeric/autocorrect/first-letter-list";
+	go_conf_set_str_list (root, key, x);
+	g_hash_table_remove (string_list_pool, key);
+}
+
+gboolean
+gnm_conf_get_autocorrect_init_caps (void)
+{
+	const char *key = "/apps/gnumeric/autocorrect/init-caps";
+	return go_conf_load_bool (root, key, TRUE);
+}
+
+void
+gnm_conf_set_autocorrect_init_caps (gboolean x)
+{
+	const char *key = "/apps/gnumeric/autocorrect/init-caps";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+GSList *
+gnm_conf_get_autocorrect_init_caps_list (void)
+{
+	const char *key = "/apps/gnumeric/autocorrect/init-caps-list";
+	GSList *res = go_conf_load_str_list (root, key);
+	g_hash_table_replace (string_list_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_autocorrect_init_caps_list (GSList *x)
+{
+	const char *key = "/apps/gnumeric/autocorrect/init-caps-list";
+	go_conf_set_str_list (root, key, x);
+	g_hash_table_remove (string_list_pool, key);
+}
+
+gboolean
+gnm_conf_get_autocorrect_names_of_days (void)
+{
+	const char *key = "/apps/gnumeric/autocorrect/names-of-days";
+	return go_conf_load_bool (root, key, TRUE);
+}
+
+void
+gnm_conf_set_autocorrect_names_of_days (gboolean x)
+{
+	const char *key = "/apps/gnumeric/autocorrect/names-of-days";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+gboolean
+gnm_conf_get_autocorrect_replace (void)
+{
+	const char *key = "/apps/gnumeric/autocorrect/replace";
+	return go_conf_load_bool (root, key, TRUE);
+}
+
+void
+gnm_conf_set_autocorrect_replace (gboolean x)
+{
+	const char *key = "/apps/gnumeric/autocorrect/replace";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+GSList *
+gnm_conf_get_autoformat_extra_dirs (void)
+{
+	const char *key = "/apps/gnumeric/autoformat/extra-dirs";
+	GSList *res = go_conf_load_str_list (root, key);
+	g_hash_table_replace (string_list_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_autoformat_extra_dirs (GSList *x)
+{
+	const char *key = "/apps/gnumeric/autoformat/extra-dirs";
+	go_conf_set_str_list (root, key, x);
+	g_hash_table_remove (string_list_pool, key);
+}
+
+const char *
+gnm_conf_get_autoformat_sys_dir (void)
+{
+	const char *key = "/apps/gnumeric/autoformat/sys-dir";
+	char *res = go_conf_load_string (root, key);
+	if (!res) res = g_strdup ("autoformat-templates");
+	g_hash_table_replace (string_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_autoformat_sys_dir (const char *x)
+{
+	const char *key = "/apps/gnumeric/autoformat/sys-dir";
+	go_conf_set_string (root, key, x);
+	g_hash_table_remove (string_pool, key);
+}
+
+const char *
+gnm_conf_get_autoformat_usr_dir (void)
+{
+	const char *key = "/apps/gnumeric/autoformat/usr-dir";
+	char *res = go_conf_load_string (root, key);
+	if (!res) res = g_strdup ("autoformat-templates");
+	g_hash_table_replace (string_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_autoformat_usr_dir (const char *x)
+{
+	const char *key = "/apps/gnumeric/autoformat/usr-dir";
+	go_conf_set_string (root, key, x);
+	g_hash_table_remove (string_pool, key);
+}
+
+gboolean
+gnm_conf_get_core_defaultfont_bold (void)
+{
+	const char *key = "/apps/gnumeric/core/defaultfont/bold";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_core_defaultfont_bold (gboolean x)
+{
+	const char *key = "/apps/gnumeric/core/defaultfont/bold";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+gboolean
+gnm_conf_get_core_defaultfont_italic (void)
+{
+	const char *key = "/apps/gnumeric/core/defaultfont/italic";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_core_defaultfont_italic (gboolean x)
+{
+	const char *key = "/apps/gnumeric/core/defaultfont/italic";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+const char *
+gnm_conf_get_core_defaultfont_name (void)
+{
+	const char *key = "/apps/gnumeric/core/defaultfont/name";
+	char *res = go_conf_load_string (root, key);
+	if (!res) res = g_strdup ("Sans");
+	g_hash_table_replace (string_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_core_defaultfont_name (const char *x)
+{
+	const char *key = "/apps/gnumeric/core/defaultfont/name";
+	go_conf_set_string (root, key, x);
+	g_hash_table_remove (string_pool, key);
+}
+
+double
+gnm_conf_get_core_defaultfont_size (void)
+{
+	const char *key = "/apps/gnumeric/core/defaultfont/size";
+	return go_conf_load_double (root, key, 1, 100, 10);
+}
+
+void
+gnm_conf_set_core_defaultfont_size (double x)
+{
+	const char *key = "/apps/gnumeric/core/defaultfont/size";
+	go_conf_set_double (root, key, CLAMP (x, 1, 100));
+}
+
+gboolean
+gnm_conf_get_core_file_save_def_overwrite (void)
+{
+	const char *key = "/apps/gnumeric/core/file/save/def-overwrite";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_core_file_save_def_overwrite (gboolean x)
+{
+	const char *key = "/apps/gnumeric/core/file/save/def-overwrite";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+gboolean
+gnm_conf_get_core_file_save_single_sheet (void)
+{
+	const char *key = "/apps/gnumeric/core/file/save/single_sheet";
+	return go_conf_load_bool (root, key, TRUE);
+}
+
+void
+gnm_conf_set_core_file_save_single_sheet (gboolean x)
+{
+	const char *key = "/apps/gnumeric/core/file/save/single_sheet";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+gboolean
+gnm_conf_get_core_gui_editing_autocomplete (void)
+{
+	const char *key = "/apps/gnumeric/core/gui/editing/autocomplete";
+	return go_conf_load_bool (root, key, TRUE);
+}
+
+void
+gnm_conf_set_core_gui_editing_autocomplete (gboolean x)
+{
+	const char *key = "/apps/gnumeric/core/gui/editing/autocomplete";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+GODirection
+gnm_conf_get_core_gui_editing_enter_moves_dir (void)
+{
+	const char *key = "/apps/gnumeric/core/gui/editing/enter_moves_dir";
+	return go_conf_load_enum (root, key, GO_TYPE_DIRECTION, GO_DIRECTION_DOWN);
+}
+
+void
+gnm_conf_set_core_gui_editing_enter_moves_dir (GODirection x)
+{
+	const char *key = "/apps/gnumeric/core/gui/editing/enter_moves_dir";
+	go_conf_set_enum (root, key, GO_TYPE_DIRECTION, x);
+}
+
+gboolean
+gnm_conf_get_core_gui_editing_livescrolling (void)
+{
+	const char *key = "/apps/gnumeric/core/gui/editing/livescrolling";
+	return go_conf_load_bool (root, key, TRUE);
+}
+
+void
+gnm_conf_set_core_gui_editing_livescrolling (gboolean x)
+{
+	const char *key = "/apps/gnumeric/core/gui/editing/livescrolling";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
 int
-gnm_gconf_get_toolbar_position (char const *name)
+gnm_conf_get_core_gui_editing_recalclag (void)
 {
-	gpointer pval;
-	char *key = g_strconcat (GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_TOOLBARS "/",
-				 name, "-position",
-				 NULL);
-	gboolean found;
-	int pos;
-	static const int TOP = 2;
-
-	found = g_hash_table_lookup_extended (prefs.toolbar_positions,
-					      key,
-					      NULL, &pval);
-	if (found) {
-		pos = GPOINTER_TO_INT (pval);
-	} else {
-		pos = go_conf_load_int (root, key, 0, 3, TOP);
-		g_hash_table_insert (prefs.toolbar_positions,
-				     g_strdup (name),
-				     GINT_TO_POINTER (pos));
-	}
-
-	g_free (key);
-	return pos;
+	const char *key = "/apps/gnumeric/core/gui/editing/recalclag";
+	return go_conf_load_int (root, key, -5000, 5000, 200);
 }
 
 void
-gnm_gconf_set_toolbar_position (char const *name, int pos)
+gnm_conf_set_core_gui_editing_recalclag (int x)
 {
-	char *key;
+	const char *key = "/apps/gnumeric/core/gui/editing/recalclag";
+	go_conf_set_int (root, key, CLAMP (x, -5000, 5000));
+}
 
-	g_return_if_fail (pos >= 0 && pos <= 3);
-
-	key = g_strconcat (GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_TOOLBARS "/",
-				 name, "-position",
-				 NULL);
-	g_hash_table_replace (prefs.toolbar_positions,
-			      g_strdup (name),
-			      GINT_TO_POINTER (pos));
-	go_conf_set_int (root, key, pos);
-	g_free (key);
+gboolean
+gnm_conf_get_core_gui_editing_transitionkeys (void)
+{
+	const char *key = "/apps/gnumeric/core/gui/editing/transitionkeys";
+	return go_conf_load_bool (root, key, FALSE);
 }
 
 void
-gnm_gconf_set_unfocused_rs (gboolean val)
+gnm_conf_set_core_gui_editing_transitionkeys (gboolean x)
 {
-	prefs.unfocused_range_selection = val;
-	go_conf_set_bool (
-		root, DIALOGS_GCONF_DIR "/" DIALOGS_GCONF_UNFOCUSED_RS, val != FALSE);
+	const char *key = "/apps/gnumeric/core/gui/editing/transitionkeys";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+double
+gnm_conf_get_core_gui_screen_horizontaldpi (void)
+{
+	const char *key = "/apps/gnumeric/core/gui/screen/horizontaldpi";
+	return go_conf_load_double (root, key, 10, 1000, 96);
 }
 
 void
-gnm_gconf_set_enter_moves_dir (GODirection val)
+gnm_conf_set_core_gui_screen_horizontaldpi (double x)
 {
-	prefs.enter_moves_dir = val;
-	go_conf_set_enum (
-		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_ENTER_MOVES_DIR, GO_TYPE_DIRECTION, val);
+	const char *key = "/apps/gnumeric/core/gui/screen/horizontaldpi";
+	go_conf_set_double (root, key, CLAMP (x, 10, 1000));
+}
+
+double
+gnm_conf_get_core_gui_screen_verticaldpi (void)
+{
+	const char *key = "/apps/gnumeric/core/gui/screen/verticaldpi";
+	return go_conf_load_double (root, key, 10, 1000, 96);
 }
 
 void
-gnm_gconf_set_autocomplete (gboolean val)
+gnm_conf_set_core_gui_screen_verticaldpi (double x)
 {
-	prefs.auto_complete = val;
-	go_conf_set_bool (
-		root, GNM_CONF_GUI_DIR "/" GNM_CONF_GUI_ED_AUTOCOMPLETE, val != FALSE);
+	const char *key = "/apps/gnumeric/core/gui/screen/verticaldpi";
+	go_conf_set_double (root, key, CLAMP (x, 10, 1000));
 }
-void
-gnm_gconf_set_prefer_clipboard  (gboolean val)
+
+gboolean
+gnm_conf_get_core_gui_toolbars_FormatToolbar (void)
 {
-	prefs.prefer_clipboard_selection = val;
-	go_conf_set_bool (
-		root, GNM_CONF_CUTANDPASTE_DIR "/" GNM_CONF_CUTANDPASTE_PREFER_CLIPBOARD, val != FALSE);
+	const char *key = "/apps/gnumeric/core/gui/toolbars/FormatToolbar";
+	return go_conf_load_bool (root, key, TRUE);
+}
+
+void
+gnm_conf_set_core_gui_toolbars_FormatToolbar (gboolean x)
+{
+	const char *key = "/apps/gnumeric/core/gui/toolbars/FormatToolbar";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+int
+gnm_conf_get_core_gui_toolbars_FormatToolbar_position (void)
+{
+	const char *key = "/apps/gnumeric/core/gui/toolbars/FormatToolbar-position";
+	return go_conf_load_int (root, key, 0, 3, 2);
+}
+
+void
+gnm_conf_set_core_gui_toolbars_FormatToolbar_position (int x)
+{
+	const char *key = "/apps/gnumeric/core/gui/toolbars/FormatToolbar-position";
+	go_conf_set_int (root, key, CLAMP (x, 0, 3));
+}
+
+gboolean
+gnm_conf_get_core_gui_toolbars_ObjectToolbar (void)
+{
+	const char *key = "/apps/gnumeric/core/gui/toolbars/ObjectToolbar";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_core_gui_toolbars_ObjectToolbar (gboolean x)
+{
+	const char *key = "/apps/gnumeric/core/gui/toolbars/ObjectToolbar";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+int
+gnm_conf_get_core_gui_toolbars_ObjectToolbar_position (void)
+{
+	const char *key = "/apps/gnumeric/core/gui/toolbars/ObjectToolbar-position";
+	return go_conf_load_int (root, key, 0, 3, 2);
+}
+
+void
+gnm_conf_set_core_gui_toolbars_ObjectToolbar_position (int x)
+{
+	const char *key = "/apps/gnumeric/core/gui/toolbars/ObjectToolbar-position";
+	go_conf_set_int (root, key, CLAMP (x, 0, 3));
+}
+
+gboolean
+gnm_conf_get_core_gui_toolbars_StandardToolbar (void)
+{
+	const char *key = "/apps/gnumeric/core/gui/toolbars/StandardToolbar";
+	return go_conf_load_bool (root, key, TRUE);
+}
+
+void
+gnm_conf_set_core_gui_toolbars_StandardToolbar (gboolean x)
+{
+	const char *key = "/apps/gnumeric/core/gui/toolbars/StandardToolbar";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+int
+gnm_conf_get_core_gui_toolbars_StandardToolbar_position (void)
+{
+	const char *key = "/apps/gnumeric/core/gui/toolbars/StandardToolbar-position";
+	return go_conf_load_int (root, key, 0, 3, 2);
+}
+
+void
+gnm_conf_set_core_gui_toolbars_StandardToolbar_position (int x)
+{
+	const char *key = "/apps/gnumeric/core/gui/toolbars/StandardToolbar-position";
+	go_conf_set_int (root, key, CLAMP (x, 0, 3));
+}
+
+double
+gnm_conf_get_core_gui_window_x (void)
+{
+	const char *key = "/apps/gnumeric/core/gui/window/x";
+	return go_conf_load_double (root, key, 0.1, 1, 0.75);
+}
+
+void
+gnm_conf_set_core_gui_window_x (double x)
+{
+	const char *key = "/apps/gnumeric/core/gui/window/x";
+	go_conf_set_double (root, key, CLAMP (x, 0.1, 1));
+}
+
+double
+gnm_conf_get_core_gui_window_y (void)
+{
+	const char *key = "/apps/gnumeric/core/gui/window/y";
+	return go_conf_load_double (root, key, 0.1, 1, 0.75);
+}
+
+void
+gnm_conf_set_core_gui_window_y (double x)
+{
+	const char *key = "/apps/gnumeric/core/gui/window/y";
+	go_conf_set_double (root, key, CLAMP (x, 0.1, 1));
+}
+
+double
+gnm_conf_get_core_gui_window_zoom (void)
+{
+	const char *key = "/apps/gnumeric/core/gui/window/zoom";
+	return go_conf_load_double (root, key, 0.1, 5, 1);
+}
+
+void
+gnm_conf_set_core_gui_window_zoom (double x)
+{
+	const char *key = "/apps/gnumeric/core/gui/window/zoom";
+	go_conf_set_double (root, key, CLAMP (x, 0.1, 5));
+}
+
+gboolean
+gnm_conf_get_core_sort_default_ascending (void)
+{
+	const char *key = "/apps/gnumeric/core/sort/default/ascending";
+	return go_conf_load_bool (root, key, TRUE);
+}
+
+void
+gnm_conf_set_core_sort_default_ascending (gboolean x)
+{
+	const char *key = "/apps/gnumeric/core/sort/default/ascending";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+gboolean
+gnm_conf_get_core_sort_default_by_case (void)
+{
+	const char *key = "/apps/gnumeric/core/sort/default/by-case";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_core_sort_default_by_case (gboolean x)
+{
+	const char *key = "/apps/gnumeric/core/sort/default/by-case";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+gboolean
+gnm_conf_get_core_sort_default_retain_formats (void)
+{
+	const char *key = "/apps/gnumeric/core/sort/default/retain-formats";
+	return go_conf_load_bool (root, key, TRUE);
+}
+
+void
+gnm_conf_set_core_sort_default_retain_formats (gboolean x)
+{
+	const char *key = "/apps/gnumeric/core/sort/default/retain-formats";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+int
+gnm_conf_get_core_sort_dialog_max_initial_clauses (void)
+{
+	const char *key = "/apps/gnumeric/core/sort/dialog/max-initial-clauses";
+	return go_conf_load_int (root, key, 0, 256, 10);
+}
+
+void
+gnm_conf_set_core_sort_dialog_max_initial_clauses (int x)
+{
+	const char *key = "/apps/gnumeric/core/sort/dialog/max-initial-clauses";
+	go_conf_set_int (root, key, CLAMP (x, 0, 256));
+}
+
+int
+gnm_conf_get_core_workbook_autosave_time (void)
+{
+	const char *key = "/apps/gnumeric/core/workbook/autosave_time";
+	return go_conf_load_int (root, key, 0, 365 * 24 * 60 * 60, 0);
+}
+
+void
+gnm_conf_set_core_workbook_autosave_time (int x)
+{
+	const char *key = "/apps/gnumeric/core/workbook/autosave_time";
+	go_conf_set_int (root, key, CLAMP (x, 0, 365 * 24 * 60 * 60));
+}
+
+int
+gnm_conf_get_core_workbook_n_cols (void)
+{
+	const char *key = "/apps/gnumeric/core/workbook/n-cols";
+	return go_conf_load_int (root, key, GNM_MIN_COLS, GNM_MAX_COLS, 256);
+}
+
+void
+gnm_conf_set_core_workbook_n_cols (int x)
+{
+	const char *key = "/apps/gnumeric/core/workbook/n-cols";
+	go_conf_set_int (root, key, CLAMP (x, GNM_MIN_COLS, GNM_MAX_COLS));
+}
+
+int
+gnm_conf_get_core_workbook_n_rows (void)
+{
+	const char *key = "/apps/gnumeric/core/workbook/n-rows";
+	return go_conf_load_int (root, key, GNM_MIN_ROWS, GNM_MAX_ROWS, 65536);
+}
+
+void
+gnm_conf_set_core_workbook_n_rows (int x)
+{
+	const char *key = "/apps/gnumeric/core/workbook/n-rows";
+	go_conf_set_int (root, key, CLAMP (x, GNM_MIN_ROWS, GNM_MAX_ROWS));
+}
+
+int
+gnm_conf_get_core_workbook_n_sheet (void)
+{
+	const char *key = "/apps/gnumeric/core/workbook/n-sheet";
+	return go_conf_load_int (root, key, 1, 64, 3);
+}
+
+void
+gnm_conf_set_core_workbook_n_sheet (int x)
+{
+	const char *key = "/apps/gnumeric/core/workbook/n-sheet";
+	go_conf_set_int (root, key, CLAMP (x, 1, 64));
+}
+
+int
+gnm_conf_get_core_xml_compression_level (void)
+{
+	const char *key = "/apps/gnumeric/core/xml/compression-level";
+	return go_conf_load_int (root, key, 0, 9, 9);
+}
+
+void
+gnm_conf_set_core_xml_compression_level (int x)
+{
+	const char *key = "/apps/gnumeric/core/xml/compression-level";
+	go_conf_set_int (root, key, CLAMP (x, 0, 9));
+}
+
+gboolean
+gnm_conf_get_cut_and_paste_prefer_clipboard (void)
+{
+	const char *key = "/apps/gnumeric/cut-and-paste/prefer-clipboard";
+	return go_conf_load_bool (root, key, TRUE);
+}
+
+void
+gnm_conf_set_cut_and_paste_prefer_clipboard (gboolean x)
+{
+	const char *key = "/apps/gnumeric/cut-and-paste/prefer-clipboard";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+gboolean
+gnm_conf_get_dialogs_rs_unfocused (void)
+{
+	const char *key = "/apps/gnumeric/dialogs/rs/unfocused";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_dialogs_rs_unfocused (gboolean x)
+{
+	const char *key = "/apps/gnumeric/dialogs/rs/unfocused";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+int
+gnm_conf_get_functionselector_num_of_recent (void)
+{
+	const char *key = "/apps/gnumeric/functionselector/num-of-recent";
+	return go_conf_load_int (root, key, 0, 40, 12);
+}
+
+void
+gnm_conf_set_functionselector_num_of_recent (int x)
+{
+	const char *key = "/apps/gnumeric/functionselector/num-of-recent";
+	go_conf_set_int (root, key, CLAMP (x, 0, 40));
+}
+
+GSList *
+gnm_conf_get_functionselector_recentfunctions (void)
+{
+	const char *key = "/apps/gnumeric/functionselector/recentfunctions";
+	GSList *res = go_conf_load_str_list (root, key);
+	g_hash_table_replace (string_list_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_functionselector_recentfunctions (GSList *x)
+{
+	const char *key = "/apps/gnumeric/functionselector/recentfunctions";
+	go_conf_set_str_list (root, key, x);
+	g_hash_table_remove (string_list_pool, key);
+}
+
+gboolean
+gnm_conf_get_plugin_latex_use_utf8 (void)
+{
+	const char *key = "/apps/gnumeric/plugin/latex/use-utf8";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_plugin_latex_use_utf8 (gboolean x)
+{
+	const char *key = "/apps/gnumeric/plugin/latex/use-utf8";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+gboolean
+gnm_conf_get_plugins_activate_new (void)
+{
+	const char *key = "/apps/gnumeric/plugins/activate-new";
+	return go_conf_load_bool (root, key, TRUE);
+}
+
+void
+gnm_conf_set_plugins_activate_new (gboolean x)
+{
+	const char *key = "/apps/gnumeric/plugins/activate-new";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+GSList *
+gnm_conf_get_plugins_active (void)
+{
+	const char *key = "/apps/gnumeric/plugins/active";
+	GSList *res = go_conf_load_str_list (root, key);
+	g_hash_table_replace (string_list_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_plugins_active (GSList *x)
+{
+	const char *key = "/apps/gnumeric/plugins/active";
+	go_conf_set_str_list (root, key, x);
+	g_hash_table_remove (string_list_pool, key);
+}
+
+GSList *
+gnm_conf_get_plugins_extra_dirs (void)
+{
+	const char *key = "/apps/gnumeric/plugins/extra-dirs";
+	GSList *res = go_conf_load_str_list (root, key);
+	g_hash_table_replace (string_list_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_plugins_extra_dirs (GSList *x)
+{
+	const char *key = "/apps/gnumeric/plugins/extra-dirs";
+	go_conf_set_str_list (root, key, x);
+	g_hash_table_remove (string_list_pool, key);
+}
+
+GSList *
+gnm_conf_get_plugins_file_states (void)
+{
+	const char *key = "/apps/gnumeric/plugins/file-states";
+	GSList *res = go_conf_load_str_list (root, key);
+	g_hash_table_replace (string_list_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_plugins_file_states (GSList *x)
+{
+	const char *key = "/apps/gnumeric/plugins/file-states";
+	go_conf_set_str_list (root, key, x);
+	g_hash_table_remove (string_list_pool, key);
+}
+
+GSList *
+gnm_conf_get_plugins_known (void)
+{
+	const char *key = "/apps/gnumeric/plugins/known";
+	GSList *res = go_conf_load_str_list (root, key);
+	g_hash_table_replace (string_list_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_plugins_known (GSList *x)
+{
+	const char *key = "/apps/gnumeric/plugins/known";
+	go_conf_set_str_list (root, key, x);
+	g_hash_table_remove (string_list_pool, key);
+}
+
+gboolean
+gnm_conf_get_printsetup_across_then_down (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/across-then-down";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_printsetup_across_then_down (gboolean x)
+{
+	const char *key = "/apps/gnumeric/printsetup/across-then-down";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+gboolean
+gnm_conf_get_printsetup_all_sheets (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/all-sheets";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_printsetup_all_sheets (gboolean x)
+{
+	const char *key = "/apps/gnumeric/printsetup/all-sheets";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+gboolean
+gnm_conf_get_printsetup_center_horizontally (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/center-horizontally";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_printsetup_center_horizontally (gboolean x)
+{
+	const char *key = "/apps/gnumeric/printsetup/center-horizontally";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+gboolean
+gnm_conf_get_printsetup_center_vertically (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/center-vertically";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_printsetup_center_vertically (gboolean x)
+{
+	const char *key = "/apps/gnumeric/printsetup/center-vertically";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+GSList *
+gnm_conf_get_printsetup_footer (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/footer";
+	GSList *res = go_conf_load_str_list (root, key);
+	g_hash_table_replace (string_list_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_printsetup_footer (GSList *x)
+{
+	const char *key = "/apps/gnumeric/printsetup/footer";
+	go_conf_set_str_list (root, key, x);
+	g_hash_table_remove (string_list_pool, key);
+}
+
+GSList *
+gnm_conf_get_printsetup_gtk_setting (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/gtk-setting";
+	GSList *res = go_conf_load_str_list (root, key);
+	g_hash_table_replace (string_list_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_printsetup_gtk_setting (GSList *x)
+{
+	const char *key = "/apps/gnumeric/printsetup/gtk-setting";
+	go_conf_set_str_list (root, key, x);
+	g_hash_table_remove (string_list_pool, key);
+}
+
+GSList *
+gnm_conf_get_printsetup_header (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/header";
+	GSList *res = go_conf_load_str_list (root, key);
+	g_hash_table_replace (string_list_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_printsetup_header (GSList *x)
+{
+	const char *key = "/apps/gnumeric/printsetup/header";
+	go_conf_set_str_list (root, key, x);
+	g_hash_table_remove (string_list_pool, key);
+}
+
+gboolean
+gnm_conf_get_printsetup_hf_font_bold (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/hf-font-bold";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_printsetup_hf_font_bold (gboolean x)
+{
+	const char *key = "/apps/gnumeric/printsetup/hf-font-bold";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+gboolean
+gnm_conf_get_printsetup_hf_font_italic (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/hf-font-italic";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_printsetup_hf_font_italic (gboolean x)
+{
+	const char *key = "/apps/gnumeric/printsetup/hf-font-italic";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+const char *
+gnm_conf_get_printsetup_hf_font_name (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/hf-font-name";
+	char *res = go_conf_load_string (root, key);
+	if (!res) res = g_strdup ("Sans");
+	g_hash_table_replace (string_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_printsetup_hf_font_name (const char *x)
+{
+	const char *key = "/apps/gnumeric/printsetup/hf-font-name";
+	go_conf_set_string (root, key, x);
+	g_hash_table_remove (string_pool, key);
+}
+
+double
+gnm_conf_get_printsetup_hf_font_size (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/hf-font-size";
+	return go_conf_load_double (root, key, 1, 100, 10);
+}
+
+void
+gnm_conf_set_printsetup_hf_font_size (double x)
+{
+	const char *key = "/apps/gnumeric/printsetup/hf-font-size";
+	go_conf_set_double (root, key, CLAMP (x, 1, 100));
+}
+
+GSList *
+gnm_conf_get_printsetup_hf_left (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/hf-left";
+	GSList *res = go_conf_load_str_list (root, key);
+	g_hash_table_replace (string_list_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_printsetup_hf_left (GSList *x)
+{
+	const char *key = "/apps/gnumeric/printsetup/hf-left";
+	go_conf_set_str_list (root, key, x);
+	g_hash_table_remove (string_list_pool, key);
+}
+
+GSList *
+gnm_conf_get_printsetup_hf_middle (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/hf-middle";
+	GSList *res = go_conf_load_str_list (root, key);
+	g_hash_table_replace (string_list_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_printsetup_hf_middle (GSList *x)
+{
+	const char *key = "/apps/gnumeric/printsetup/hf-middle";
+	go_conf_set_str_list (root, key, x);
+	g_hash_table_remove (string_list_pool, key);
+}
+
+GSList *
+gnm_conf_get_printsetup_hf_right (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/hf-right";
+	GSList *res = go_conf_load_str_list (root, key);
+	g_hash_table_replace (string_list_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_printsetup_hf_right (GSList *x)
+{
+	const char *key = "/apps/gnumeric/printsetup/hf-right";
+	go_conf_set_str_list (root, key, x);
+	g_hash_table_remove (string_list_pool, key);
+}
+
+double
+gnm_conf_get_printsetup_margin_bottom (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/margin-bottom";
+	return go_conf_load_double (root, key, 0, 10000, 120);
+}
+
+void
+gnm_conf_set_printsetup_margin_bottom (double x)
+{
+	const char *key = "/apps/gnumeric/printsetup/margin-bottom";
+	go_conf_set_double (root, key, CLAMP (x, 0, 10000));
+}
+
+double
+gnm_conf_get_printsetup_margin_gtk_bottom (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/margin-gtk-bottom";
+	return go_conf_load_double (root, key, 0, 720, 72);
+}
+
+void
+gnm_conf_set_printsetup_margin_gtk_bottom (double x)
+{
+	const char *key = "/apps/gnumeric/printsetup/margin-gtk-bottom";
+	go_conf_set_double (root, key, CLAMP (x, 0, 720));
+}
+
+double
+gnm_conf_get_printsetup_margin_gtk_left (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/margin-gtk-left";
+	return go_conf_load_double (root, key, 0, 720, 72);
+}
+
+void
+gnm_conf_set_printsetup_margin_gtk_left (double x)
+{
+	const char *key = "/apps/gnumeric/printsetup/margin-gtk-left";
+	go_conf_set_double (root, key, CLAMP (x, 0, 720));
+}
+
+double
+gnm_conf_get_printsetup_margin_gtk_right (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/margin-gtk-right";
+	return go_conf_load_double (root, key, 0, 720, 72);
+}
+
+void
+gnm_conf_set_printsetup_margin_gtk_right (double x)
+{
+	const char *key = "/apps/gnumeric/printsetup/margin-gtk-right";
+	go_conf_set_double (root, key, CLAMP (x, 0, 720));
+}
+
+double
+gnm_conf_get_printsetup_margin_gtk_top (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/margin-gtk-top";
+	return go_conf_load_double (root, key, 0, 720, 72);
+}
+
+void
+gnm_conf_set_printsetup_margin_gtk_top (double x)
+{
+	const char *key = "/apps/gnumeric/printsetup/margin-gtk-top";
+	go_conf_set_double (root, key, CLAMP (x, 0, 720));
+}
+
+double
+gnm_conf_get_printsetup_margin_top (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/margin-top";
+	return go_conf_load_double (root, key, 0, 10000, 120);
+}
+
+void
+gnm_conf_set_printsetup_margin_top (double x)
+{
+	const char *key = "/apps/gnumeric/printsetup/margin-top";
+	go_conf_set_double (root, key, CLAMP (x, 0, 10000));
+}
+
+const char *
+gnm_conf_get_printsetup_paper (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/paper";
+	char *res = go_conf_load_string (root, key);
+	if (!res) res = g_strdup ("");
+	g_hash_table_replace (string_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_printsetup_paper (const char *x)
+{
+	const char *key = "/apps/gnumeric/printsetup/paper";
+	go_conf_set_string (root, key, x);
+	g_hash_table_remove (string_pool, key);
+}
+
+int
+gnm_conf_get_printsetup_paper_orientation (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/paper-orientation";
+	return go_conf_load_int (root, key, GTK_PAGE_ORIENTATION_PORTRAIT, GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE, 0);
+}
+
+void
+gnm_conf_set_printsetup_paper_orientation (int x)
+{
+	const char *key = "/apps/gnumeric/printsetup/paper-orientation";
+	go_conf_set_int (root, key, CLAMP (x, GTK_PAGE_ORIENTATION_PORTRAIT, GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE));
+}
+
+GtkUnit
+gnm_conf_get_printsetup_preferred_unit (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/preferred-unit";
+	return go_conf_load_enum (root, key, GTK_TYPE_UNIT, GTK_UNIT_MM);
+}
+
+void
+gnm_conf_set_printsetup_preferred_unit (GtkUnit x)
+{
+	const char *key = "/apps/gnumeric/printsetup/preferred-unit";
+	go_conf_set_enum (root, key, GTK_TYPE_UNIT, x);
+}
+
+gboolean
+gnm_conf_get_printsetup_print_black_n_white (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/print-black-n-white";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_printsetup_print_black_n_white (gboolean x)
+{
+	const char *key = "/apps/gnumeric/printsetup/print-black-n-white";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+gboolean
+gnm_conf_get_printsetup_print_even_if_only_styles (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/print-even-if-only-styles";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_printsetup_print_even_if_only_styles (gboolean x)
+{
+	const char *key = "/apps/gnumeric/printsetup/print-even-if-only-styles";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+gboolean
+gnm_conf_get_printsetup_print_grid_lines (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/print-grid-lines";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_printsetup_print_grid_lines (gboolean x)
+{
+	const char *key = "/apps/gnumeric/printsetup/print-grid-lines";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+gboolean
+gnm_conf_get_printsetup_print_titles (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/print-titles";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_printsetup_print_titles (gboolean x)
+{
+	const char *key = "/apps/gnumeric/printsetup/print-titles";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+const char *
+gnm_conf_get_printsetup_repeat_left (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/repeat-left";
+	char *res = go_conf_load_string (root, key);
+	if (!res) res = g_strdup ("");
+	g_hash_table_replace (string_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_printsetup_repeat_left (const char *x)
+{
+	const char *key = "/apps/gnumeric/printsetup/repeat-left";
+	go_conf_set_string (root, key, x);
+	g_hash_table_remove (string_pool, key);
+}
+
+const char *
+gnm_conf_get_printsetup_repeat_top (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/repeat-top";
+	char *res = go_conf_load_string (root, key);
+	if (!res) res = g_strdup ("");
+	g_hash_table_replace (string_pool, (gpointer)key, res);
+	return res;
+}
+
+void
+gnm_conf_set_printsetup_repeat_top (const char *x)
+{
+	const char *key = "/apps/gnumeric/printsetup/repeat-top";
+	go_conf_set_string (root, key, x);
+	g_hash_table_remove (string_pool, key);
+}
+
+int
+gnm_conf_get_printsetup_scale_height (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/scale-height";
+	return go_conf_load_int (root, key, 0, 100, 0);
+}
+
+void
+gnm_conf_set_printsetup_scale_height (int x)
+{
+	const char *key = "/apps/gnumeric/printsetup/scale-height";
+	go_conf_set_int (root, key, CLAMP (x, 0, 100));
+}
+
+gboolean
+gnm_conf_get_printsetup_scale_percentage (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/scale-percentage";
+	return go_conf_load_bool (root, key, TRUE);
+}
+
+void
+gnm_conf_set_printsetup_scale_percentage (gboolean x)
+{
+	const char *key = "/apps/gnumeric/printsetup/scale-percentage";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+double
+gnm_conf_get_printsetup_scale_percentage_value (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/scale-percentage-value";
+	return go_conf_load_double (root, key, 1, 500, 100);
+}
+
+void
+gnm_conf_set_printsetup_scale_percentage_value (double x)
+{
+	const char *key = "/apps/gnumeric/printsetup/scale-percentage-value";
+	go_conf_set_double (root, key, CLAMP (x, 1, 500));
+}
+
+int
+gnm_conf_get_printsetup_scale_width (void)
+{
+	const char *key = "/apps/gnumeric/printsetup/scale-width";
+	return go_conf_load_int (root, key, 0, 100, 0);
+}
+
+void
+gnm_conf_set_printsetup_scale_width (int x)
+{
+	const char *key = "/apps/gnumeric/printsetup/scale-width";
+	go_conf_set_int (root, key, CLAMP (x, 0, 100));
+}
+
+int
+gnm_conf_get_undo_max_descriptor_width (void)
+{
+	const char *key = "/apps/gnumeric/undo/max_descriptor_width";
+	return go_conf_load_int (root, key, 5, 256, 40);
+}
+
+void
+gnm_conf_set_undo_max_descriptor_width (int x)
+{
+	const char *key = "/apps/gnumeric/undo/max_descriptor_width";
+	go_conf_set_int (root, key, CLAMP (x, 5, 256));
+}
+
+int
+gnm_conf_get_undo_maxnum (void)
+{
+	const char *key = "/apps/gnumeric/undo/maxnum";
+	return go_conf_load_int (root, key, 0, 10000, 20);
+}
+
+void
+gnm_conf_set_undo_maxnum (int x)
+{
+	const char *key = "/apps/gnumeric/undo/maxnum";
+	go_conf_set_int (root, key, CLAMP (x, 0, 10000));
+}
+
+gboolean
+gnm_conf_get_undo_show_sheet_name (void)
+{
+	const char *key = "/apps/gnumeric/undo/show_sheet_name";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_undo_show_sheet_name (gboolean x)
+{
+	const char *key = "/apps/gnumeric/undo/show_sheet_name";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+int
+gnm_conf_get_undo_size (void)
+{
+	const char *key = "/apps/gnumeric/undo/size";
+	return go_conf_load_int (root, key, 1, 1000000, 100);
+}
+
+void
+gnm_conf_set_undo_size (int x)
+{
+	const char *key = "/apps/gnumeric/undo/size";
+	go_conf_set_int (root, key, CLAMP (x, 1, 1000000));
 }

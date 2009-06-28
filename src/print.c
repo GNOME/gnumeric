@@ -318,7 +318,7 @@ ensure_decoration_layout (GtkPrintContext   *context)
 	PangoLayout *layout;
 
 	layout = gtk_print_context_create_pango_layout (context);
-	style = gnm_style_dup (gnm_app_prefs->printer_decoration_font);
+	style = gnm_style_dup (gnm_conf_get_printer_decoration_font ());
 	font = gnm_style_get_font
 		(style,
 		 pango_layout_get_context (layout),

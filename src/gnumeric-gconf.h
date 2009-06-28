@@ -6,7 +6,7 @@
 
 G_BEGIN_DECLS
 
-void     gnm_conf_init (gboolean fast);
+void     gnm_conf_init (void);
 void     gnm_conf_shutdown (void);
 GOConfNode *gnm_conf_get_root (void);
 
@@ -15,8 +15,10 @@ void gnm_gconf_set_page_setup (GtkPageSetup *setup);
 
 GnmStyle *gnm_conf_get_printer_decoration_font (void);
 
-const char *gnm_conf_get_toolbar_style (void);
-void gnm_conf_set_toolbar_style (const char *);
+/* ----------- AUTOMATICALLY GENERATED CODE BELOW -- DO NOT EDIT ----------- */
+
+GtkToolbarStyle gnm_conf_get_toolbar_style (void);
+void gnm_conf_set_toolbar_style (GtkToolbarStyle);
 
 gboolean gnm_conf_get_autocorrect_first_letter (void);
 void gnm_conf_set_autocorrect_first_letter (gboolean);
@@ -278,6 +280,8 @@ void gnm_conf_set_undo_show_sheet_name (gboolean);
 
 int gnm_conf_get_undo_size (void);
 void gnm_conf_set_undo_size (int);
+
+/* ----------- AUTOMATICALLY GENERATED CODE ABOVE -- DO NOT EDIT ----------- */
 
 G_END_DECLS
 

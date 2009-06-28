@@ -92,7 +92,7 @@ static GNM_ACTION_DEF (cb_file_new)
 {
 	GdkScreen *screen = gtk_window_get_screen (wbcg_toplevel (wbcg));
 	Workbook *wb = workbook_new_with_sheets
-		(gnm_app_prefs->initial_sheet_number);
+		(gnm_conf_get_core_workbook_n_sheet ());
 	WBCGtk *new_wbcg = wbc_gtk_new (NULL, wb, screen, NULL);
 	wbcg_copy_toolbar_visibility (new_wbcg, wbcg);
 }
@@ -1146,7 +1146,7 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 	for (i = 0; i < numclause; i++) {
 		clause[i].offset = i;
 		clause[i].asc = descending;
-		clause[i].cs = gnm_app_prefs->sort_default_by_case;
+		clause[i].cs = gnm_conf_get_core_sort_default_by_case ();
 		clause[i].val = TRUE;
 	}
 
@@ -1157,7 +1157,7 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 	data->clauses = clause;
 	data->locale = NULL;
 
-	data->retain_formats = gnm_app_prefs->sort_default_retain_formats;
+	data->retain_formats = gnm_conf_get_core_sort_default_retain_formats ();
 
 	/* Hard code sorting by row.  I would prefer not to, but user testing
 	 * indicates

@@ -245,7 +245,7 @@ call_gnome_vfs_init (void)
 }
 
 void
-gnm_init (gboolean fast)
+gnm_init (void)
 {
 	call_gnome_vfs_init ();
 
@@ -260,7 +260,7 @@ gnm_init (gboolean fast)
 	mathfunc_init ();
 
 	gnm_style_init ();
-	gnm_conf_init (fast);
+	gnm_conf_init ();
 	gnm_color_init ();
 	gnm_font_init ();	/* requires config */
 

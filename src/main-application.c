@@ -245,7 +245,7 @@ static void
 store_plugin_state (void)
 {
 	GSList *active_plugins = go_plugins_get_active_plugins ();
-	gnm_gconf_set_active_plugins (active_plugins);
+	gnm_conf_set_plugins_active (active_plugins);
 	g_slist_free (active_plugins);
 }
 
@@ -343,7 +343,7 @@ main (int argc, char const **argv)
 		gnm_session_init (argv[0]);
 	}
 
-	gnm_init (TRUE);
+	gnm_init ();
 
 	if (with_gui) {
 		ioc = IO_CONTEXT
@@ -431,7 +431,7 @@ main (int argc, char const **argv)
 	if (!initial_workbook_open_complete) {
 		initial_workbook_open_complete = TRUE;
 		if (!opened_workbook) {
-			gint n_of_sheets = gnm_app_prefs->initial_sheet_number;
+			gint n_of_sheets = gnm_conf_get_core_workbook_n_sheet ();
 			wbc_gtk_new (NULL,
 				workbook_new_with_sheets (n_of_sheets),
 				NULL, geometry);

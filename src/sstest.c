@@ -226,7 +226,7 @@ main (int argc, char const **argv)
 		return 0;
 	}
 
-	gnm_init (FALSE);
+	gnm_init ();
 
 	cc = cmd_context_stderr_new ();
 	gnm_plugins_init (GO_CMD_CONTEXT (cc));
