@@ -102,21 +102,14 @@ GNM_PLUGIN_MODULE_HEADER;
 
 /***************************************************************************/
 static GnmFuncHelp const help_probblock[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=PROBBLOCK\n"
-	   "@SYNTAX=PROBBLOCK(traffic,circuits)\n"
-
-	   "@DESCRIPTION="
-	   "PROBBLOCK returns probability of blocking when a number "
-	   "of @traffic loads into a number of @circuits (servers).\n"
-	   "\n"
-	   "* @traffic cannot exceed @circuits\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "PROBBLOCK(24,30) returns 0.4012.\n"
-	   "\n"
-	   "@SEEALSO=OFFTRAF, DIMCIRC, OFFCAP")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("PROBBLOCK:probability of blocking")},
+	{ GNM_FUNC_HELP_ARG, F_("traffic:number of calls")},
+	{ GNM_FUNC_HELP_ARG, F_("circuits:number of circuits")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("PROBBLOCK returns probability of blocking when @{traffic}"
+					" calls load into @{ccicuits} circuits.")},
+	{ GNM_FUNC_HELP_NOTE, F_("@{traffic} cannot exceed @{circuits}.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("=PROBBLOCK(24,30)") },
+	{ GNM_FUNC_HELP_SEEALSO, "OFFTRAF,DIMCIRC,OFFCAP"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -134,22 +127,13 @@ gnumeric_probblock (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_offtraf[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=OFFTRAF\n"
-	   "@SYNTAX=OFFTRAF(traffic,circuits)\n"
-
-	   "@DESCRIPTION="
-	   "OFFTRAF returns a predicted number of offered traffic "
-	   "from a number of carried @traffic (taken from measurements) "
-	   "on a number of @circuits.\n"
-	   "\n"
-	   "* @traffic cannot exceed @circuits\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "OFFTRAF(24,30) returns 25.527.\n"
-	   "\n"
-	   "@SEEALSO=PROBBLOCK, DIMCIRC, OFFCAP")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("OFFTRAF:predicted number of offered calls")},
+	{ GNM_FUNC_HELP_ARG, F_("traffic:number of carried calls")},
+	{ GNM_FUNC_HELP_ARG, F_("circuits:number of circuits")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OFFTRAF returns the predicted number of offered calls given @{traffic} carried calls (taken from measurements) on @{circuits} circuits.")},
+	{ GNM_FUNC_HELP_NOTE, F_("@{traffic} cannot exceed @{circuits}.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("=OFFTRAF(24,30)") },
+	{ GNM_FUNC_HELP_SEEALSO, "PROBBLOCK,DIMCIRC,OFFCAP"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -203,19 +187,12 @@ gnumeric_offtraf (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_dimcirc[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=DIMCIRC\n"
-	   "@SYNTAX=DIMCIRC(traffic,gos)\n"
-
-	   "@DESCRIPTION="
-	   "DIMCIRC returns a number of circuits required from "
-	   "a number of @traffic loads with @gos grade of service.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "DIMCIRC(24,1%) returns 35.\n"
-	   "\n"
-	   "@SEEALSO=OFFCAP, OFFTRAF, PROBBLOCK")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("DIMCIRC:number of circuits required")},
+	{ GNM_FUNC_HELP_ARG, F_("traffic:number of calls")},
+	{ GNM_FUNC_HELP_ARG, F_("gos:grade of service")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("DIMCIRC returns the number of circuits required given @{traffic} calls with grade of service @{gos}.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("=DIMCIRC(24,0.01)") },
+	{ GNM_FUNC_HELP_SEEALSO, "OFFCAP,OFFTRAF,PROBBLOCK"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -248,19 +225,12 @@ gnumeric_dimcirc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_offcap[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=OFFCAP\n"
-	   "@SYNTAX=OFFCAP(circuits,gos)\n"
-
-	   "@DESCRIPTION="
-	   "OFFCAP returns a number of traffic capacity given by "
-	   "a number of @circuits with @gos grade of service.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "OFFCAP(30,1%) returns 20.337.\n"
-	   "\n"
-	   "@SEEALSO=DIMCIRC, OFFTRAF, PROBBLOCK")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("OFFCAP:traffic capacity")},
+	{ GNM_FUNC_HELP_ARG, F_("circuits:number of circuits")},
+	{ GNM_FUNC_HELP_ARG, F_("gos:grade of service")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OFFCAP returns the traffic capacity given @{circuits} circuits with grade of service @{gos}.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("=OFFCAP(30,0.01)") },
+	{ GNM_FUNC_HELP_SEEALSO, "DIMCIRC,OFFTRAF,PROBBLOCK"},
 	{ GNM_FUNC_HELP_END }
 };
 
