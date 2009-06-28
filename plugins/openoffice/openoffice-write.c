@@ -1420,7 +1420,7 @@ odf_rangeref_as_string (GnmConventionsOut *out, GnmRangeRef const *ref)
 		g_string_append_c (out->accum, '.');
 	cellref_as_string (out, &(ref->a), FALSE);
 
-	if (ref->a.sheet == NULL)
+	if (ref->b.sheet == NULL)
 		g_string_append (out->accum, ":.");
 	else
 		g_string_append_c (out->accum, ':');
