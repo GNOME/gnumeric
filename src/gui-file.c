@@ -160,7 +160,6 @@ gui_file_template (WBCGtk *wbcg, char const *uri)
 
 	if (wbv != NULL) {
 		Workbook *wb = wb_view_get_workbook (wbv);
-		go_doc_set_uri (GO_DOC (wb), NULL);
 		workbook_set_saveinfo (wb, FILE_FL_NEW, NULL);
 		gui_wb_view_show (wbcg, wbv);
 		return TRUE;

@@ -1,3 +1,8 @@
+2009-06-28  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-file.c (gui_file_template): Do not set a NULL uri here.
+	Lots of code assumes we have a uri.
+
 2009-06-25  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* component/gnumeric.c (go_gnm_component_edit): call 
