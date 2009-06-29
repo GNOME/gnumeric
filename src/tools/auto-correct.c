@@ -109,22 +109,15 @@ autocorrect_init (void)
 void
 autocorrect_store_config (void)
 {
-	GOConfNode *node = go_conf_get_node (gnm_conf_get_root (), AUTOCORRECT_DIRECTORY);
+	gnm_conf_set_autocorrect_init_caps (autocorrect.init_caps);
+	gnm_conf_set_autocorrect_init_caps_list (autocorrect.exceptions.init_caps);
 
-	go_conf_set_bool (node, AUTOCORRECT_INIT_CAPS,
-		autocorrect.init_caps);
-	go_conf_set_str_list (node, AUTOCORRECT_INIT_CAPS_LIST,
-		autocorrect.exceptions.init_caps);
-	go_conf_set_bool (node, AUTOCORRECT_FIRST_LETTER,
-		autocorrect.first_letter);
-	go_conf_set_str_list (node, AUTOCORRECT_FIRST_LETTER_LIST,
-	       autocorrect.exceptions.first_letter);
-	go_conf_set_bool (node, AUTOCORRECT_NAMES_OF_DAYS,
-		autocorrect.names_of_days);
-	go_conf_set_bool (node, AUTOCORRECT_REPLACE,
-		autocorrect.replace);
-	go_conf_sync (node);
-	go_conf_free_node (node);
+	gnm_conf_set_autocorrect_first_letter (autocorrect.first_letter);
+	gnm_conf_set_autocorrect_first_letter_list (autocorrect.exceptions.init_caps);
+
+	gnm_conf_set_autocorrect_names_of_days (autocorrect.names_of_days);
+
+	gnm_conf_set_autocorrect_replace (autocorrect.replace);
 }
 
 gboolean
