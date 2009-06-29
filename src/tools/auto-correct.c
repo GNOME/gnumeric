@@ -69,17 +69,16 @@ autocorrect_clear (void)
 static void
 autocorrect_load (void)
 {
-	GOConfNode *node = go_conf_get_node (gnm_conf_get_root (), AUTOCORRECT_DIRECTORY);
-
-	autocorrect.init_caps = go_conf_load_bool (node, AUTOCORRECT_INIT_CAPS, TRUE);
+	autocorrect.init_caps = gnm_conf_get_autocorrect_init_caps ();
 	autocorrect_set_exceptions (AC_INIT_CAPS,
-		go_conf_load_str_list (node, AUTOCORRECT_INIT_CAPS_LIST));
-	autocorrect.first_letter = go_conf_load_bool (node, AUTOCORRECT_FIRST_LETTER, TRUE);
+				    gnm_conf_get_autocorrect_init_caps_list ());
+
+	autocorrect.first_letter = gnm_conf_get_autocorrect_first_letter ();
 	autocorrect_set_exceptions (AC_FIRST_LETTER,
-		go_conf_load_str_list (node, AUTOCORRECT_FIRST_LETTER_LIST));
-	autocorrect.names_of_days = go_conf_load_bool (node, AUTOCORRECT_NAMES_OF_DAYS, TRUE);
-	autocorrect.replace = go_conf_load_bool (node, AUTOCORRECT_REPLACE, TRUE);
-	go_conf_free_node (node);
+				    gnm_conf_get_autocorrect_first_letter_list ());
+
+	autocorrect.names_of_days = gnm_conf_get_autocorrect_names_of_days ();
+	autocorrect.replace = gnm_conf_get_autocorrect_replace ();
 }
 
 static void
