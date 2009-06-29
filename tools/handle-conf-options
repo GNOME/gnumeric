@@ -244,6 +244,13 @@ foreach my $schema (@schemas) {
     my $ctype = $type_to_ctype{$gtype || $type};
     my $ctypes = "$ctype "; $ctypes =~ s/\*\s/\*/;
 
+    my $root;
+    if ($key =~ s{/apps/gnumeric/}{}) {
+	$root = 'root';
+    } else {
+	$root = 'NULL';
+    }
+
     $hfile .= "${ctypes}gnm_conf_get_$var (void);\n";
     $hfile .= "void gnm_conf_set_$var ($ctype);\n\n";
 
@@ -257,35 +264,36 @@ foreach my $schema (@schemas) {
 	$cfile .= "$get_head\n";
 	$cfile .= "{\n";
 	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\treturn go_conf_load_bool (root, key, $default);\n";
+	$cfile .= "\treturn go_conf_load_bool ($root, key, $default);\n";
 	$cfile .= "}\n\n";
 
 	$cfile .= "$set_head\n";
 	$cfile .= "{\n";
 	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\tgo_conf_set_bool (root, key, x != FALSE);\n";
+	$cfile .= "\tgo_conf_set_bool ($root, key, x != FALSE);\n";
 	$cfile .= "}\n\n";
     } elsif ($type eq 'int' || $type eq 'float') {
+	my $ltype = $type_to_ctype{$type};
 	die "$0: No min for $key\n" unless defined $min;
 	die "$0: No max for $key\n" unless defined $max;
 
 	$cfile .= "$get_head\n";
 	$cfile .= "{\n";
 	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\treturn go_conf_load_$ctype (root, key, $min, $max, $default);\n";
+	$cfile .= "\treturn go_conf_load_$ltype ($root, key, $min, $max, $default);\n";
 	$cfile .= "}\n\n";
 
 	$cfile .= "void\n";
 	$cfile .= "gnm_conf_set_$var ($ctype x)\n";
 	$cfile .= "{\n";
 	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\tgo_conf_set_$ctype (root, key, CLAMP (x, $min, $max));\n";
+	$cfile .= "\tgo_conf_set_$ltype ($root, key, CLAMP (x, $min, $max));\n";
 	$cfile .= "}\n\n";
     } elsif ($type eq 'string' && $gtype eq '0') {
 	$cfile .= "$get_head\n";
 	$cfile .= "{\n";
 	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\tchar *res = go_conf_load_string (root, key);\n";
+	$cfile .= "\tchar *res = go_conf_load_string ($root, key);\n";
 	$cfile .= "\tif (!res) res = g_strdup (\"$default\");\n";
 	$cfile .= "\tg_hash_table_replace (string_pool, (gpointer)key, res);\n";
 	$cfile .= "\treturn res;\n";
@@ -294,26 +302,26 @@ foreach my $schema (@schemas) {
 	$cfile .= "$set_head\n";
 	$cfile .= "{\n";
 	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\tgo_conf_set_string (root, key, x);\n";
+	$cfile .= "\tgo_conf_set_string ($root, key, x);\n";
 	$cfile .= "\tg_hash_table_remove (string_pool, key);\n";
 	$cfile .= "}\n\n";
     } elsif ($type eq 'string' && $gtype ne '0') {
 	$cfile .= "$get_head\n";
 	$cfile .= "{\n";
 	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\treturn go_conf_load_enum (root, key, $gtype, $default);\n";
+	$cfile .= "\treturn go_conf_load_enum ($root, key, $gtype, $default);\n";
 	$cfile .= "}\n\n";
 
 	$cfile .= "$set_head\n";
 	$cfile .= "{\n";
 	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\tgo_conf_set_enum (root, key, $gtype, x);\n";
+	$cfile .= "\tgo_conf_set_enum ($root, key, $gtype, x);\n";
 	$cfile .= "}\n\n";
     } elsif ($type eq 'list:string') {
 	$cfile .= "$get_head\n";
 	$cfile .= "{\n";
 	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\tGSList *res = go_conf_load_str_list (root, key);\n";
+	$cfile .= "\tGSList *res = go_conf_load_str_list ($root, key);\n";
 	$cfile .= "\tg_hash_table_replace (string_list_pool, (gpointer)key, res);\n";
 	$cfile .= "\treturn res;\n";
 	$cfile .= "}\n\n";
@@ -321,7 +329,7 @@ foreach my $schema (@schemas) {
 	$cfile .= "$set_head\n";
 	$cfile .= "{\n";
 	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\tgo_conf_set_str_list (root, key, x);\n";
+	$cfile .= "\tgo_conf_set_str_list ($root, key, x);\n";
 	$cfile .= "\tg_hash_table_remove (string_list_pool, key);\n";
 	$cfile .= "}\n\n";
     } else {

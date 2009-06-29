@@ -102,20 +102,20 @@ void gnm_conf_set_core_gui_screen_verticaldpi (double);
 gboolean gnm_conf_get_core_gui_toolbars_FormatToolbar (void);
 void gnm_conf_set_core_gui_toolbars_FormatToolbar (gboolean);
 
-int gnm_conf_get_core_gui_toolbars_FormatToolbar_position (void);
-void gnm_conf_set_core_gui_toolbars_FormatToolbar_position (int);
+GtkPositionType gnm_conf_get_core_gui_toolbars_FormatToolbar_position (void);
+void gnm_conf_set_core_gui_toolbars_FormatToolbar_position (GtkPositionType);
 
 gboolean gnm_conf_get_core_gui_toolbars_ObjectToolbar (void);
 void gnm_conf_set_core_gui_toolbars_ObjectToolbar (gboolean);
 
-int gnm_conf_get_core_gui_toolbars_ObjectToolbar_position (void);
-void gnm_conf_set_core_gui_toolbars_ObjectToolbar_position (int);
+GtkPositionType gnm_conf_get_core_gui_toolbars_ObjectToolbar_position (void);
+void gnm_conf_set_core_gui_toolbars_ObjectToolbar_position (GtkPositionType);
 
 gboolean gnm_conf_get_core_gui_toolbars_StandardToolbar (void);
 void gnm_conf_set_core_gui_toolbars_StandardToolbar (gboolean);
 
-int gnm_conf_get_core_gui_toolbars_StandardToolbar_position (void);
-void gnm_conf_set_core_gui_toolbars_StandardToolbar_position (int);
+GtkPositionType gnm_conf_get_core_gui_toolbars_StandardToolbar_position (void);
+void gnm_conf_set_core_gui_toolbars_StandardToolbar_position (GtkPositionType);
 
 double gnm_conf_get_core_gui_window_x (void);
 void gnm_conf_set_core_gui_window_x (double);
