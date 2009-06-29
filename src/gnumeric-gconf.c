@@ -48,7 +48,6 @@
 #endif
 
 static GOConfNode *root = NULL;
-static GtkPageSetup *page_setup = NULL;
 
 /*
  * Hashes to simply ownership rules.  We use this so none of the getters
@@ -79,8 +78,6 @@ gnm_conf_init (void)
 void
 gnm_conf_shutdown (void)
 {
-	gnm_conf_set_page_setup (NULL);
-
 	g_hash_table_destroy (string_pool);
 	string_pool = NULL;
 
@@ -100,33 +97,31 @@ gnm_conf_get_root (void)
 GtkPageSetup *
 gnm_conf_get_page_setup (void)
 {
-	if (!page_setup) {
-		page_setup = gtk_page_setup_new ();
+	GtkPageSetup *page_setup = gtk_page_setup_new ();
 
-		page_setup_set_paper (page_setup,
-				      gnm_conf_get_printsetup_paper ());
+	page_setup_set_paper (page_setup,
+			      gnm_conf_get_printsetup_paper ());
 
-		gtk_page_setup_set_orientation
-			(page_setup,
-			 gnm_conf_get_printsetup_paper_orientation ());
+	gtk_page_setup_set_orientation
+		(page_setup,
+		 gnm_conf_get_printsetup_paper_orientation ());
 
-		gtk_page_setup_set_top_margin
-			(page_setup,
-			 gnm_conf_get_printsetup_margin_gtk_top (),
-			 GTK_UNIT_POINTS);
-		gtk_page_setup_set_bottom_margin
-			(page_setup,
-			 gnm_conf_get_printsetup_margin_gtk_bottom (),
-			 GTK_UNIT_POINTS);
-		gtk_page_setup_set_left_margin
-			(page_setup,
-			 gnm_conf_get_printsetup_margin_gtk_left (),
-			 GTK_UNIT_POINTS);
-		gtk_page_setup_set_right_margin
-			(page_setup,
-			 gnm_conf_get_printsetup_margin_gtk_right (),
-			 GTK_UNIT_POINTS);
-	}
+	gtk_page_setup_set_top_margin
+		(page_setup,
+		 gnm_conf_get_printsetup_margin_gtk_top (),
+		 GTK_UNIT_POINTS);
+	gtk_page_setup_set_bottom_margin
+		(page_setup,
+		 gnm_conf_get_printsetup_margin_gtk_bottom (),
+		 GTK_UNIT_POINTS);
+	gtk_page_setup_set_left_margin
+		(page_setup,
+		 gnm_conf_get_printsetup_margin_gtk_left (),
+		 GTK_UNIT_POINTS);
+	gtk_page_setup_set_right_margin
+		(page_setup,
+		 gnm_conf_get_printsetup_margin_gtk_right (),
+		 GTK_UNIT_POINTS);
 
 	return page_setup;
 }
@@ -134,32 +129,23 @@ gnm_conf_get_page_setup (void)
 void
 gnm_conf_set_page_setup (GtkPageSetup *setup)
 {
-	if (page_setup) {
-		g_object_unref (page_setup);
-		page_setup = NULL;
-	}
+	char *paper;
 
-	if (setup) {
-		char *paper;
+	paper = page_setup_get_paper (setup);
+	gnm_conf_set_printsetup_paper (paper);
+	g_free (paper);
 
-		page_setup = gtk_page_setup_copy (setup);
+	gnm_conf_set_printsetup_paper_orientation
+		(gtk_page_setup_get_orientation (setup));
 
-		paper = page_setup_get_paper (setup);
-		gnm_conf_set_printsetup_paper (paper);
-		g_free (paper);
-
-		gnm_conf_set_printsetup_paper_orientation
-			(gtk_page_setup_get_orientation (setup));
-
-		gnm_conf_set_printsetup_margin_gtk_top
-			(gtk_page_setup_get_top_margin (setup, GTK_UNIT_POINTS));
-		gnm_conf_set_printsetup_margin_gtk_bottom
-			(gtk_page_setup_get_bottom_margin (setup, GTK_UNIT_POINTS));
-		gnm_conf_set_printsetup_margin_gtk_left
-			(gtk_page_setup_get_left_margin (setup, GTK_UNIT_POINTS));
-		gnm_conf_set_printsetup_margin_gtk_right
-			(gtk_page_setup_get_right_margin (setup, GTK_UNIT_POINTS));
-	}
+	gnm_conf_set_printsetup_margin_gtk_top
+		(gtk_page_setup_get_top_margin (setup, GTK_UNIT_POINTS));
+	gnm_conf_set_printsetup_margin_gtk_bottom
+		(gtk_page_setup_get_bottom_margin (setup, GTK_UNIT_POINTS));
+	gnm_conf_set_printsetup_margin_gtk_left
+		(gtk_page_setup_get_left_margin (setup, GTK_UNIT_POINTS));
+	gnm_conf_set_printsetup_margin_gtk_right
+		(gtk_page_setup_get_right_margin (setup, GTK_UNIT_POINTS));
 }
 
 GnmStyle *
