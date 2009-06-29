@@ -136,15 +136,40 @@ typedef enum {
 	GNM_FUNC_HELP_END,		/* Format */
 					/* ------ */
 	GNM_FUNC_HELP_OLD,		/* old token based format */
-	GNM_FUNC_HELP_NAME,		/* <NAME>:<1 SENTENCE DESCRIPTION>	(translated) */
-	GNM_FUNC_HELP_ARG,		/* <NAME>:<1 SENTENCE DESCRIPTION>	(translated) */
-	GNM_FUNC_HELP_DESCRIPTION,	/* <LONG DESCRIPTION (reference args using @{arg})>		(translated) */
-	GNM_FUNC_HELP_NOTE,		/* <SPECIAL CASES (reference args using @{arg})>		(translated) */
-	GNM_FUNC_HELP_EXAMPLES,		/* <TEXT and EXAMPLES ?? get a hook to enter the sample ?? >	(translated) */
-	GNM_FUNC_HELP_SEEALSO,		/* name,name,name ...			(not translated) */
-	GNM_FUNC_HELP_EXTREF,           /* wolfram:Sine.html wiki:en:Trigonometric_functions */
-	GNM_FUNC_HELP_EXCEL,             /* <SPECIAL NOTE RE EXCEL (reference args using @{arg})>       	(translated) */
-	GNM_FUNC_HELP_ODF               /* <SPECIAL NOTE RE ODF (reference args using @{arg})>       	(translated) */
+
+	GNM_FUNC_HELP_NAME,
+	/* <NAME>:<1 SENTENCE DESCRIPTION> (translated) */
+
+	GNM_FUNC_HELP_ARG,
+	/* <NAME>:<1 SENTENCE DESCRIPTION> (translated) */
+
+	GNM_FUNC_HELP_DESCRIPTION,
+	/* <LONG DESCRIPTION (reference args using @{arg})> (translated) */
+
+	GNM_FUNC_HELP_NOTE,
+	/* <SPECIAL CASES (reference args using @{arg})> (translated) */
+
+	GNM_FUNC_HELP_EXAMPLES,
+	/*
+	 * Either translated text, or a formula that is only marked for
+	 * translation if it contains strings that need to be translated.
+	 */
+
+	GNM_FUNC_HELP_SEEALSO,
+	/* name,name,name ...	(not translated) */
+
+	GNM_FUNC_HELP_EXTREF,
+	/*
+	 * Link to external descriptions.  The following styles defined:
+	 * wolfram:Sine.html
+	 * wiki:en:Trigonometric_functions
+	 */
+
+	GNM_FUNC_HELP_EXCEL,
+	/* <SPECIAL NOTE RE EXCEL (reference args using @{arg})> (translated) */
+
+	GNM_FUNC_HELP_ODF
+	/* <SPECIAL NOTE RE ODF (reference args using @{arg})> (translated) */
 } GnmFuncHelpType;
 typedef struct {
     GnmFuncHelpType	 type;

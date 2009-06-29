@@ -442,7 +442,7 @@ static GnmFuncHelp const help_pfactor[] = {
 	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("PFACTOR finds the smallest prime factor of its argument.")},
 	{ GNM_FUNC_HELP_NOTE, F_("The argument @{n} must be at least 2. Otherwise a #VALUE! error is returned.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("pfactor(57)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=PFACTOR(57)" },
 	{ GNM_FUNC_HELP_SEEALSO, "ITHPRIME"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -472,7 +472,7 @@ static GnmFuncHelp const help_nt_pi[] = {
 	{ GNM_FUNC_HELP_NAME, F_("NT_PI:number of primes upto @{n}")},
 	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("NT_PI returns the number of primes less than or equal to @{n}.")},
-	{ GNM_FUNC_HELP_EXAMPLES, "=NT_PI{11}" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=NT_PI(11)" },
 	{ GNM_FUNC_HELP_SEEALSO, "ITHPRIME,NT_PHI,NT_D,NT_SIGMA"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:PrimeCountingFunction.html") },
 	{ GNM_FUNC_HELP_END }

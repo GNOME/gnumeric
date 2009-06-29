@@ -34,6 +34,10 @@
 #include <workbook.h>
 #include <wbc-gtk.h>
 #include <application.h>
+#include <position.h>
+#include <expr.h>
+#include <value.h>
+#include <sheet.h>
 #include <gnumeric-gconf.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -49,7 +53,8 @@
 
 typedef struct {
 	WBCGtk  *wbcg;
-	Workbook  *wb;
+	Workbook *wb;
+	Sheet *sheet;
 
 	GladeXML  *gui;
 	GtkWidget *dialog;
@@ -398,6 +403,50 @@ cb_link_event (GtkTextTag *link, GObject *trigger,
 	return FALSE;
 }
 
+static char *
+make_expr_example (Sheet *sheet, const char *text, gboolean localized)
+{
+	GnmLocale *oldlocale = NULL;
+	GnmExprTop const *texpr;
+	char *res;
+	GnmParsePos pp;
+	GnmEvalPos ep;
+	GnmConventions const *convs = gnm_conventions_default;
+
+	eval_pos_init_sheet (&ep, sheet);
+	parse_pos_init_evalpos (&pp, &ep);
+
+	if (!localized)
+		oldlocale = gnm_push_C_locale ();
+	texpr = gnm_expr_parse_str (text, &pp,
+				    GNM_EXPR_PARSE_DEFAULT,
+				    convs,
+				    NULL);
+	if (!localized)
+		gnm_pop_C_locale (oldlocale);
+
+	if (texpr) {
+		char *etxt = gnm_expr_top_as_string (texpr, &pp, convs);
+		GnmValue *val = gnm_expr_top_eval (texpr, &ep, 0);
+		GnmExprTop const *texpr_res = gnm_expr_top_new_constant (val);
+		char *vtxt = gnm_expr_top_as_string (texpr_res, &pp, convs);
+
+		gnm_expr_top_unref (texpr);
+		gnm_expr_top_unref (texpr_res);
+		
+		res = g_strdup_printf (_("%s evaluates to %s."), etxt, vtxt);
+
+		g_free (etxt);
+		g_free (vtxt);
+	} else {
+		g_warning ("Failed to parse [%s]", text);
+		res = g_strdup ("");
+	}
+
+	return res;
+}
+
+
 
 #define ADD_LTEXT(text,len) gtk_text_buffer_insert (description, &ti, (text), (len))
 #define ADD_TEXT(text) ADD_LTEXT((text),-1)
@@ -408,7 +457,7 @@ cb_link_event (GtkTextTag *link, GObject *trigger,
 			if (at != NULL) { ADD_BOLD_TEXT(t, at - t); t = at + 1; } else {ADD_TEXT (t); break;}}} 
 
 static void
-describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
+describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *sheet)
 {
 	GnmFuncHelp const *help;
 	GtkTextIter ti;
@@ -470,7 +519,8 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 			break;
 		}
 		case GNM_FUNC_HELP_EXAMPLES: {
-			const char *text = help->text;
+			const char *text = F_(help->text);
+			gboolean was_translated = (text != help->text);
 
 			if (!seen_examples) {
 				seen_examples = TRUE;
@@ -479,7 +529,13 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func)
 				ADD_TEXT ("\n");
 			}
 
-			ADD_TEXT_WITH_ARGS (text);
+			if (text[0] == '=') {
+				char *example = make_expr_example (sheet, text + 1, was_translated);
+				ADD_TEXT (example);
+				g_free (example);
+			} else {
+				ADD_TEXT_WITH_ARGS (text);
+			}
 			ADD_TEXT ("\n");
 			break;
 		}
@@ -735,7 +791,7 @@ cb_description_clicked (GtkTextBuffer *textbuffer,
 }
 
 static void
-cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection,
+cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *selection,
 						 FunctionSelectState *state)
 {
 	GtkTreeIter  iter;
@@ -751,7 +807,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 				      0.1, TRUE, 0.0, 0.0);
 	gtk_text_buffer_set_text (description, "", 0);
 
-	if (gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		gtk_tree_model_get (model, &iter,
 				    FUNCTION, &func,
 				    -1);
@@ -763,7 +819,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 		else if (func->help[0].type == GNM_FUNC_HELP_OLD)
 			describe_old_style (description, func);
 		else
-			describe_new_style (description, func);
+			describe_new_style (description, func, state->sheet);
 
 		gtk_widget_set_sensitive (state->ok_button, TRUE);
 	} else {
@@ -940,7 +996,8 @@ dialog_function_select (WBCGtk *wbcg, char const *key)
 
 	state = g_new (FunctionSelectState, 1);
 	state->wbcg  = wbcg;
-	state->wb    = wb_control_get_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	state->wb    = state->sheet->workbook;
         state->gui   = gui;
         state->dialog = glade_xml_get_widget (state->gui, "selection_dialog");
 	state->formula_guru_key = key;

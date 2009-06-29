@@ -1,3 +1,9 @@
+2009-06-29  Morten Welinder  <terra@gnome.org>
+
+	* dialog-function-select.c (make_expr_example): New function.
+	(describe_new_style): Call make_expr_example when we see an
+	expression.
+
 2009-06-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* function-select.glade: add left and right margins to description
