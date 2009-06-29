@@ -19,6 +19,7 @@ Morten:
 	* Make dialogs remember their sizes and positions.
 	* Fix crash with new-from-template.
 	* Rework loading of configuration.  [#585701]
+	* Support evaluated examples in function docs.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.9
