@@ -866,7 +866,6 @@ cb_dialog_pref_selection_changed (GtkTreeSelection *selection,
 static void
 cb_preferences_destroy (PrefState *state)
 {
-	go_conf_sync (state->root);
 	if (state->store) {
 		g_object_unref (state->store);
 		state->store = NULL;

@@ -277,6 +277,7 @@ foreach my $schema (@schemas) {
 	$cfile .= "{\n";
 	$cfile .= "\tconst char *key = \"$key\";\n";
 	$cfile .= "\tgo_conf_set_bool ($root, key, x != FALSE);\n";
+	$cfile .= "\tschedule_sync ();\n";
 	$cfile .= "}\n\n";
     } elsif ($type eq 'int' || $type eq 'float') {
 	my $ltype = $type_to_ctype{$type};
@@ -294,6 +295,7 @@ foreach my $schema (@schemas) {
 	$cfile .= "{\n";
 	$cfile .= "\tconst char *key = \"$key\";\n";
 	$cfile .= "\tgo_conf_set_$ltype ($root, key, CLAMP (x, $min, $max));\n";
+	$cfile .= "\tschedule_sync ();\n";
 	$cfile .= "}\n\n";
     } elsif ($type eq 'string' && $gtype eq '0') {
 	$cfile .= "$get_head\n";
@@ -310,6 +312,7 @@ foreach my $schema (@schemas) {
 	$cfile .= "\tconst char *key = \"$key\";\n";
 	$cfile .= "\tgo_conf_set_string ($root, key, x);\n";
 	$cfile .= "\tg_hash_table_remove (string_pool, key);\n";
+	$cfile .= "\tschedule_sync ();\n";
 	$cfile .= "}\n\n";
     } elsif ($type eq 'string' && $gtype ne '0') {
 	$cfile .= "$get_head\n";
@@ -322,6 +325,7 @@ foreach my $schema (@schemas) {
 	$cfile .= "{\n";
 	$cfile .= "\tconst char *key = \"$key\";\n";
 	$cfile .= "\tgo_conf_set_enum ($root, key, $gtype, x);\n";
+	$cfile .= "\tschedule_sync ();\n";
 	$cfile .= "}\n\n";
     } elsif ($type eq 'list:string') {
 	$cfile .= "$get_head\n";
@@ -337,6 +341,7 @@ foreach my $schema (@schemas) {
 	$cfile .= "\tconst char *key = \"$key\";\n";
 	$cfile .= "\tgo_conf_set_str_list ($root, key, x);\n";
 	$cfile .= "\tg_hash_table_remove (string_list_pool, key);\n";
+	$cfile .= "\tschedule_sync ();\n";
 	$cfile .= "}\n\n";
     } else {
 	die "$0: Unhandled type $type\n";

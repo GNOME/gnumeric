@@ -56,6 +56,25 @@ static GOConfNode *root = NULL;
 static GHashTable *string_pool;
 static GHashTable *string_list_pool;
 
+static guint sync_handler;
+
+static gboolean
+cb_sync (void)
+{
+	go_conf_sync (root);
+	sync_handler = 0;
+	return FALSE;
+}
+
+static void
+schedule_sync (void)
+{
+	if (sync_handler)
+		return;
+
+	sync_handler = g_timeout_add (200, (GSourceFunc)cb_sync, NULL);
+}
+
 static void
 cb_free_string_list (GSList *l)
 {
@@ -78,6 +97,12 @@ gnm_conf_init (void)
 void
 gnm_conf_shutdown (void)
 {
+	go_conf_sync (root);
+	if (sync_handler) {
+		g_source_remove (sync_handler);
+		sync_handler = 0;
+	}
+
 	g_hash_table_destroy (string_pool);
 	string_pool = NULL;
 
@@ -298,6 +323,7 @@ gnm_conf_set_toolbar_style (GtkToolbarStyle x)
 {
 	const char *key = "/apps/gnome-settings/gnumeric/toolbar_style";
 	go_conf_set_enum (NULL, key, GTK_TYPE_TOOLBAR_STYLE, x);
+	schedule_sync ();
 }
 
 gboolean
@@ -312,6 +338,7 @@ gnm_conf_set_autocorrect_first_letter (gboolean x)
 {
 	const char *key = "autocorrect/first-letter";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 GSList *
@@ -329,6 +356,7 @@ gnm_conf_set_autocorrect_first_letter_list (GSList *x)
 	const char *key = "autocorrect/first-letter-list";
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
+	schedule_sync ();
 }
 
 gboolean
@@ -343,6 +371,7 @@ gnm_conf_set_autocorrect_init_caps (gboolean x)
 {
 	const char *key = "autocorrect/init-caps";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 GSList *
@@ -360,6 +389,7 @@ gnm_conf_set_autocorrect_init_caps_list (GSList *x)
 	const char *key = "autocorrect/init-caps-list";
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
+	schedule_sync ();
 }
 
 gboolean
@@ -374,6 +404,7 @@ gnm_conf_set_autocorrect_names_of_days (gboolean x)
 {
 	const char *key = "autocorrect/names-of-days";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 gboolean
@@ -388,6 +419,7 @@ gnm_conf_set_autocorrect_replace (gboolean x)
 {
 	const char *key = "autocorrect/replace";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 GSList *
@@ -405,6 +437,7 @@ gnm_conf_set_autoformat_extra_dirs (GSList *x)
 	const char *key = "autoformat/extra-dirs";
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
+	schedule_sync ();
 }
 
 const char *
@@ -423,6 +456,7 @@ gnm_conf_set_autoformat_sys_dir (const char *x)
 	const char *key = "autoformat/sys-dir";
 	go_conf_set_string (root, key, x);
 	g_hash_table_remove (string_pool, key);
+	schedule_sync ();
 }
 
 const char *
@@ -441,6 +475,7 @@ gnm_conf_set_autoformat_usr_dir (const char *x)
 	const char *key = "autoformat/usr-dir";
 	go_conf_set_string (root, key, x);
 	g_hash_table_remove (string_pool, key);
+	schedule_sync ();
 }
 
 gboolean
@@ -455,6 +490,7 @@ gnm_conf_set_core_defaultfont_bold (gboolean x)
 {
 	const char *key = "core/defaultfont/bold";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 gboolean
@@ -469,6 +505,7 @@ gnm_conf_set_core_defaultfont_italic (gboolean x)
 {
 	const char *key = "core/defaultfont/italic";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 const char *
@@ -487,6 +524,7 @@ gnm_conf_set_core_defaultfont_name (const char *x)
 	const char *key = "core/defaultfont/name";
 	go_conf_set_string (root, key, x);
 	g_hash_table_remove (string_pool, key);
+	schedule_sync ();
 }
 
 double
@@ -501,6 +539,7 @@ gnm_conf_set_core_defaultfont_size (double x)
 {
 	const char *key = "core/defaultfont/size";
 	go_conf_set_double (root, key, CLAMP (x, 1, 100));
+	schedule_sync ();
 }
 
 gboolean
@@ -515,6 +554,7 @@ gnm_conf_set_core_file_save_def_overwrite (gboolean x)
 {
 	const char *key = "core/file/save/def-overwrite";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 gboolean
@@ -529,6 +569,7 @@ gnm_conf_set_core_file_save_single_sheet (gboolean x)
 {
 	const char *key = "core/file/save/single_sheet";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 gboolean
@@ -543,6 +584,7 @@ gnm_conf_set_core_gui_editing_autocomplete (gboolean x)
 {
 	const char *key = "core/gui/editing/autocomplete";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 GODirection
@@ -557,6 +599,7 @@ gnm_conf_set_core_gui_editing_enter_moves_dir (GODirection x)
 {
 	const char *key = "core/gui/editing/enter_moves_dir";
 	go_conf_set_enum (root, key, GO_TYPE_DIRECTION, x);
+	schedule_sync ();
 }
 
 gboolean
@@ -571,6 +614,7 @@ gnm_conf_set_core_gui_editing_livescrolling (gboolean x)
 {
 	const char *key = "core/gui/editing/livescrolling";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 int
@@ -585,6 +629,7 @@ gnm_conf_set_core_gui_editing_recalclag (int x)
 {
 	const char *key = "core/gui/editing/recalclag";
 	go_conf_set_int (root, key, CLAMP (x, -5000, 5000));
+	schedule_sync ();
 }
 
 gboolean
@@ -599,6 +644,7 @@ gnm_conf_set_core_gui_editing_transitionkeys (gboolean x)
 {
 	const char *key = "core/gui/editing/transitionkeys";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 double
@@ -613,6 +659,7 @@ gnm_conf_set_core_gui_screen_horizontaldpi (double x)
 {
 	const char *key = "core/gui/screen/horizontaldpi";
 	go_conf_set_double (root, key, CLAMP (x, 10, 1000));
+	schedule_sync ();
 }
 
 double
@@ -627,6 +674,7 @@ gnm_conf_set_core_gui_screen_verticaldpi (double x)
 {
 	const char *key = "core/gui/screen/verticaldpi";
 	go_conf_set_double (root, key, CLAMP (x, 10, 1000));
+	schedule_sync ();
 }
 
 gboolean
@@ -641,6 +689,7 @@ gnm_conf_set_core_gui_toolbars_FormatToolbar (gboolean x)
 {
 	const char *key = "core/gui/toolbars/FormatToolbar";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 GtkPositionType
@@ -655,6 +704,7 @@ gnm_conf_set_core_gui_toolbars_FormatToolbar_position (GtkPositionType x)
 {
 	const char *key = "core/gui/toolbars/FormatToolbar-position";
 	go_conf_set_int (root, key, CLAMP (x, 0, 3));
+	schedule_sync ();
 }
 
 gboolean
@@ -669,6 +719,7 @@ gnm_conf_set_core_gui_toolbars_LongFormatToolbar (gboolean x)
 {
 	const char *key = "core/gui/toolbars/LongFormatToolbar";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 GtkPositionType
@@ -683,6 +734,7 @@ gnm_conf_set_core_gui_toolbars_LongFormatToolbar_position (GtkPositionType x)
 {
 	const char *key = "core/gui/toolbars/LongFormatToolbar-position";
 	go_conf_set_int (root, key, CLAMP (x, 0, 3));
+	schedule_sync ();
 }
 
 gboolean
@@ -697,6 +749,7 @@ gnm_conf_set_core_gui_toolbars_ObjectToolbar (gboolean x)
 {
 	const char *key = "core/gui/toolbars/ObjectToolbar";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 GtkPositionType
@@ -711,6 +764,7 @@ gnm_conf_set_core_gui_toolbars_ObjectToolbar_position (GtkPositionType x)
 {
 	const char *key = "core/gui/toolbars/ObjectToolbar-position";
 	go_conf_set_int (root, key, CLAMP (x, 0, 3));
+	schedule_sync ();
 }
 
 gboolean
@@ -725,6 +779,7 @@ gnm_conf_set_core_gui_toolbars_StandardToolbar (gboolean x)
 {
 	const char *key = "core/gui/toolbars/StandardToolbar";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 GtkPositionType
@@ -739,6 +794,7 @@ gnm_conf_set_core_gui_toolbars_StandardToolbar_position (GtkPositionType x)
 {
 	const char *key = "core/gui/toolbars/StandardToolbar-position";
 	go_conf_set_int (root, key, CLAMP (x, 0, 3));
+	schedule_sync ();
 }
 
 double
@@ -753,6 +809,7 @@ gnm_conf_set_core_gui_window_x (double x)
 {
 	const char *key = "core/gui/window/x";
 	go_conf_set_double (root, key, CLAMP (x, 0.1, 1));
+	schedule_sync ();
 }
 
 double
@@ -767,6 +824,7 @@ gnm_conf_set_core_gui_window_y (double x)
 {
 	const char *key = "core/gui/window/y";
 	go_conf_set_double (root, key, CLAMP (x, 0.1, 1));
+	schedule_sync ();
 }
 
 double
@@ -781,6 +839,7 @@ gnm_conf_set_core_gui_window_zoom (double x)
 {
 	const char *key = "core/gui/window/zoom";
 	go_conf_set_double (root, key, CLAMP (x, 0.1, 5));
+	schedule_sync ();
 }
 
 gboolean
@@ -795,6 +854,7 @@ gnm_conf_set_core_sort_default_ascending (gboolean x)
 {
 	const char *key = "core/sort/default/ascending";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 gboolean
@@ -809,6 +869,7 @@ gnm_conf_set_core_sort_default_by_case (gboolean x)
 {
 	const char *key = "core/sort/default/by-case";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 gboolean
@@ -823,6 +884,7 @@ gnm_conf_set_core_sort_default_retain_formats (gboolean x)
 {
 	const char *key = "core/sort/default/retain-formats";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 int
@@ -837,6 +899,7 @@ gnm_conf_set_core_sort_dialog_max_initial_clauses (int x)
 {
 	const char *key = "core/sort/dialog/max-initial-clauses";
 	go_conf_set_int (root, key, CLAMP (x, 0, 256));
+	schedule_sync ();
 }
 
 int
@@ -851,6 +914,7 @@ gnm_conf_set_core_workbook_autosave_time (int x)
 {
 	const char *key = "core/workbook/autosave_time";
 	go_conf_set_int (root, key, CLAMP (x, 0, 365 * 24 * 60 * 60));
+	schedule_sync ();
 }
 
 int
@@ -865,6 +929,7 @@ gnm_conf_set_core_workbook_n_cols (int x)
 {
 	const char *key = "core/workbook/n-cols";
 	go_conf_set_int (root, key, CLAMP (x, GNM_MIN_COLS, GNM_MAX_COLS));
+	schedule_sync ();
 }
 
 int
@@ -879,6 +944,7 @@ gnm_conf_set_core_workbook_n_rows (int x)
 {
 	const char *key = "core/workbook/n-rows";
 	go_conf_set_int (root, key, CLAMP (x, GNM_MIN_ROWS, GNM_MAX_ROWS));
+	schedule_sync ();
 }
 
 int
@@ -893,6 +959,7 @@ gnm_conf_set_core_workbook_n_sheet (int x)
 {
 	const char *key = "core/workbook/n-sheet";
 	go_conf_set_int (root, key, CLAMP (x, 1, 64));
+	schedule_sync ();
 }
 
 int
@@ -907,6 +974,7 @@ gnm_conf_set_core_xml_compression_level (int x)
 {
 	const char *key = "core/xml/compression-level";
 	go_conf_set_int (root, key, CLAMP (x, 0, 9));
+	schedule_sync ();
 }
 
 gboolean
@@ -921,6 +989,7 @@ gnm_conf_set_cut_and_paste_prefer_clipboard (gboolean x)
 {
 	const char *key = "cut-and-paste/prefer-clipboard";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 gboolean
@@ -935,6 +1004,7 @@ gnm_conf_set_dialogs_rs_unfocused (gboolean x)
 {
 	const char *key = "dialogs/rs/unfocused";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 int
@@ -949,6 +1019,7 @@ gnm_conf_set_functionselector_num_of_recent (int x)
 {
 	const char *key = "functionselector/num-of-recent";
 	go_conf_set_int (root, key, CLAMP (x, 0, 40));
+	schedule_sync ();
 }
 
 GSList *
@@ -966,6 +1037,7 @@ gnm_conf_set_functionselector_recentfunctions (GSList *x)
 	const char *key = "functionselector/recentfunctions";
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
+	schedule_sync ();
 }
 
 gboolean
@@ -980,6 +1052,7 @@ gnm_conf_set_plugin_latex_use_utf8 (gboolean x)
 {
 	const char *key = "plugin/latex/use-utf8";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 gboolean
@@ -994,6 +1067,7 @@ gnm_conf_set_plugins_activate_new (gboolean x)
 {
 	const char *key = "plugins/activate-new";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 GSList *
@@ -1011,6 +1085,7 @@ gnm_conf_set_plugins_active (GSList *x)
 	const char *key = "plugins/active";
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
+	schedule_sync ();
 }
 
 GSList *
@@ -1028,6 +1103,7 @@ gnm_conf_set_plugins_extra_dirs (GSList *x)
 	const char *key = "plugins/extra-dirs";
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
+	schedule_sync ();
 }
 
 GSList *
@@ -1045,6 +1121,7 @@ gnm_conf_set_plugins_file_states (GSList *x)
 	const char *key = "plugins/file-states";
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
+	schedule_sync ();
 }
 
 GSList *
@@ -1062,6 +1139,7 @@ gnm_conf_set_plugins_known (GSList *x)
 	const char *key = "plugins/known";
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
+	schedule_sync ();
 }
 
 gboolean
@@ -1076,6 +1154,7 @@ gnm_conf_set_printsetup_across_then_down (gboolean x)
 {
 	const char *key = "printsetup/across-then-down";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 gboolean
@@ -1090,6 +1169,7 @@ gnm_conf_set_printsetup_all_sheets (gboolean x)
 {
 	const char *key = "printsetup/all-sheets";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 gboolean
@@ -1104,6 +1184,7 @@ gnm_conf_set_printsetup_center_horizontally (gboolean x)
 {
 	const char *key = "printsetup/center-horizontally";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 gboolean
@@ -1118,6 +1199,7 @@ gnm_conf_set_printsetup_center_vertically (gboolean x)
 {
 	const char *key = "printsetup/center-vertically";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 GSList *
@@ -1135,6 +1217,7 @@ gnm_conf_set_printsetup_footer (GSList *x)
 	const char *key = "printsetup/footer";
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
+	schedule_sync ();
 }
 
 GSList *
@@ -1152,6 +1235,7 @@ gnm_conf_set_printsetup_gtk_setting (GSList *x)
 	const char *key = "printsetup/gtk-setting";
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
+	schedule_sync ();
 }
 
 GSList *
@@ -1169,6 +1253,7 @@ gnm_conf_set_printsetup_header (GSList *x)
 	const char *key = "printsetup/header";
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
+	schedule_sync ();
 }
 
 gboolean
@@ -1183,6 +1268,7 @@ gnm_conf_set_printsetup_hf_font_bold (gboolean x)
 {
 	const char *key = "printsetup/hf-font-bold";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 gboolean
@@ -1197,6 +1283,7 @@ gnm_conf_set_printsetup_hf_font_italic (gboolean x)
 {
 	const char *key = "printsetup/hf-font-italic";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 const char *
@@ -1215,6 +1302,7 @@ gnm_conf_set_printsetup_hf_font_name (const char *x)
 	const char *key = "printsetup/hf-font-name";
 	go_conf_set_string (root, key, x);
 	g_hash_table_remove (string_pool, key);
+	schedule_sync ();
 }
 
 double
@@ -1229,6 +1317,7 @@ gnm_conf_set_printsetup_hf_font_size (double x)
 {
 	const char *key = "printsetup/hf-font-size";
 	go_conf_set_double (root, key, CLAMP (x, 1, 100));
+	schedule_sync ();
 }
 
 GSList *
@@ -1246,6 +1335,7 @@ gnm_conf_set_printsetup_hf_left (GSList *x)
 	const char *key = "printsetup/hf-left";
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
+	schedule_sync ();
 }
 
 GSList *
@@ -1263,6 +1353,7 @@ gnm_conf_set_printsetup_hf_middle (GSList *x)
 	const char *key = "printsetup/hf-middle";
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
+	schedule_sync ();
 }
 
 GSList *
@@ -1280,6 +1371,7 @@ gnm_conf_set_printsetup_hf_right (GSList *x)
 	const char *key = "printsetup/hf-right";
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
+	schedule_sync ();
 }
 
 double
@@ -1294,6 +1386,7 @@ gnm_conf_set_printsetup_margin_bottom (double x)
 {
 	const char *key = "printsetup/margin-bottom";
 	go_conf_set_double (root, key, CLAMP (x, 0, 10000));
+	schedule_sync ();
 }
 
 double
@@ -1308,6 +1401,7 @@ gnm_conf_set_printsetup_margin_gtk_bottom (double x)
 {
 	const char *key = "printsetup/margin-gtk-bottom";
 	go_conf_set_double (root, key, CLAMP (x, 0, 720));
+	schedule_sync ();
 }
 
 double
@@ -1322,6 +1416,7 @@ gnm_conf_set_printsetup_margin_gtk_left (double x)
 {
 	const char *key = "printsetup/margin-gtk-left";
 	go_conf_set_double (root, key, CLAMP (x, 0, 720));
+	schedule_sync ();
 }
 
 double
@@ -1336,6 +1431,7 @@ gnm_conf_set_printsetup_margin_gtk_right (double x)
 {
 	const char *key = "printsetup/margin-gtk-right";
 	go_conf_set_double (root, key, CLAMP (x, 0, 720));
+	schedule_sync ();
 }
 
 double
@@ -1350,6 +1446,7 @@ gnm_conf_set_printsetup_margin_gtk_top (double x)
 {
 	const char *key = "printsetup/margin-gtk-top";
 	go_conf_set_double (root, key, CLAMP (x, 0, 720));
+	schedule_sync ();
 }
 
 double
@@ -1364,6 +1461,7 @@ gnm_conf_set_printsetup_margin_top (double x)
 {
 	const char *key = "printsetup/margin-top";
 	go_conf_set_double (root, key, CLAMP (x, 0, 10000));
+	schedule_sync ();
 }
 
 const char *
@@ -1382,6 +1480,7 @@ gnm_conf_set_printsetup_paper (const char *x)
 	const char *key = "printsetup/paper";
 	go_conf_set_string (root, key, x);
 	g_hash_table_remove (string_pool, key);
+	schedule_sync ();
 }
 
 int
@@ -1396,6 +1495,7 @@ gnm_conf_set_printsetup_paper_orientation (int x)
 {
 	const char *key = "printsetup/paper-orientation";
 	go_conf_set_int (root, key, CLAMP (x, GTK_PAGE_ORIENTATION_PORTRAIT, GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE));
+	schedule_sync ();
 }
 
 GtkUnit
@@ -1410,6 +1510,7 @@ gnm_conf_set_printsetup_preferred_unit (GtkUnit x)
 {
 	const char *key = "printsetup/preferred-unit";
 	go_conf_set_enum (root, key, GTK_TYPE_UNIT, x);
+	schedule_sync ();
 }
 
 gboolean
@@ -1424,6 +1525,7 @@ gnm_conf_set_printsetup_print_black_n_white (gboolean x)
 {
 	const char *key = "printsetup/print-black-n-white";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 gboolean
@@ -1438,6 +1540,7 @@ gnm_conf_set_printsetup_print_even_if_only_styles (gboolean x)
 {
 	const char *key = "printsetup/print-even-if-only-styles";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 gboolean
@@ -1452,6 +1555,7 @@ gnm_conf_set_printsetup_print_grid_lines (gboolean x)
 {
 	const char *key = "printsetup/print-grid-lines";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 gboolean
@@ -1466,6 +1570,7 @@ gnm_conf_set_printsetup_print_titles (gboolean x)
 {
 	const char *key = "printsetup/print-titles";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 const char *
@@ -1484,6 +1589,7 @@ gnm_conf_set_printsetup_repeat_left (const char *x)
 	const char *key = "printsetup/repeat-left";
 	go_conf_set_string (root, key, x);
 	g_hash_table_remove (string_pool, key);
+	schedule_sync ();
 }
 
 const char *
@@ -1502,6 +1608,7 @@ gnm_conf_set_printsetup_repeat_top (const char *x)
 	const char *key = "printsetup/repeat-top";
 	go_conf_set_string (root, key, x);
 	g_hash_table_remove (string_pool, key);
+	schedule_sync ();
 }
 
 int
@@ -1516,6 +1623,7 @@ gnm_conf_set_printsetup_scale_height (int x)
 {
 	const char *key = "printsetup/scale-height";
 	go_conf_set_int (root, key, CLAMP (x, 0, 100));
+	schedule_sync ();
 }
 
 gboolean
@@ -1530,6 +1638,7 @@ gnm_conf_set_printsetup_scale_percentage (gboolean x)
 {
 	const char *key = "printsetup/scale-percentage";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 double
@@ -1544,6 +1653,7 @@ gnm_conf_set_printsetup_scale_percentage_value (double x)
 {
 	const char *key = "printsetup/scale-percentage-value";
 	go_conf_set_double (root, key, CLAMP (x, 1, 500));
+	schedule_sync ();
 }
 
 int
@@ -1558,6 +1668,7 @@ gnm_conf_set_printsetup_scale_width (int x)
 {
 	const char *key = "printsetup/scale-width";
 	go_conf_set_int (root, key, CLAMP (x, 0, 100));
+	schedule_sync ();
 }
 
 int
@@ -1572,6 +1683,7 @@ gnm_conf_set_undo_max_descriptor_width (int x)
 {
 	const char *key = "undo/max_descriptor_width";
 	go_conf_set_int (root, key, CLAMP (x, 5, 256));
+	schedule_sync ();
 }
 
 int
@@ -1586,6 +1698,7 @@ gnm_conf_set_undo_maxnum (int x)
 {
 	const char *key = "undo/maxnum";
 	go_conf_set_int (root, key, CLAMP (x, 0, 10000));
+	schedule_sync ();
 }
 
 gboolean
@@ -1600,6 +1713,7 @@ gnm_conf_set_undo_show_sheet_name (gboolean x)
 {
 	const char *key = "undo/show_sheet_name";
 	go_conf_set_bool (root, key, x != FALSE);
+	schedule_sync ();
 }
 
 int
@@ -1614,6 +1728,5 @@ gnm_conf_set_undo_size (int x)
 {
 	const char *key = "undo/size";
 	go_conf_set_int (root, key, CLAMP (x, 1, 1000000));
+	schedule_sync ();
 }
-
-/* ----------- AUTOMATICALLY GENERATED CODE ABOVE -- DO NOT EDIT ----------- */
