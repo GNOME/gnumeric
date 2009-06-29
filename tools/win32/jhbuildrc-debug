@@ -7,7 +7,6 @@
 #
 # Author: Alberto Ruiz <aruiz@gnome.org>
 
-#moduleset = 'http://osl.ulpgc.es/~arc/gnome/gtk/gtk+-win32.moduleset'
 moduleset = '/gnome/src/gnumeric/tools/win32/moduleset'
 modules = ['gnumeric', 'evince']
 
@@ -131,4 +130,4 @@ module_autogenargs['pygobject']	= autogenargs
 module_autogenargs['libgsf']	= autogenargs + """ --without-gnome-vfs --without-bonobo"""
 module_autogenargs['goffice']	= autogenargs + """ --without-gconf --with-gmathml"""
 module_autogenargs['gnumeric']	= autogenargs + """ --disable-component"""
-module_autogenargs['evince']	= autogenargs + """ --without-keyring"""
+module_autogenargs['evince']	= autogenargs + """ --without-gconf --without-keyring"""

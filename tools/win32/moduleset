@@ -12,6 +12,8 @@
 		href="http://www.zlib.net"/>
     <repository type="tarball" name="savannah"
 		href="http://savannah.nongnu.org/download/"/>
+    <repository type="tarball" name="fontconfig"
+		href="http://fontconfig.org/release/"/>
 
     <repository type="git" name="freedesktop.org"
 		href="git://cgit.freedesktop.org/git"/>
@@ -41,11 +43,9 @@
     </autotools>
 
     <autotools id="glib">
-	<branch repo="gnome.org" module="sources/glib/2.20/glib-2.20.1.tar.bz2" version="2.20.1">
-	    <patches>
-		<patch file="&patch_dir;glib-win32-cachefile.patch.gz"/>
-		<patch file="&patch_dir;glib-goption-disable-localization.patch"/>
-	    </patches>
+	<branch repo="gnome.org" module="sources/glib/2.20/glib-2.20.4.tar.bz2" version="2.20.4">
+	    <patch file="&patch_dir;glib-win32-cachefile.patch.gz"/>
+	    <patch file="&patch_dir;glib-goption-disable-localization.patch"/>
 	</branch>
 	<dependencies>
 	    <dep package="gettext"/>
@@ -79,8 +79,8 @@
 	    <patch file="http://gnome.org/~aruiz/gtk+/patches/jpeg_mingwport.patch" strip="1"/>
 	</patches>
     </tarball>
-    <tarball id="png" version="1.2.36">
-	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.36.tar.bz2"/>
+    <tarball id="png" version="1.2.37">
+	<source href="ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng-1.2.37.tar.bz2"/>
 	<dependencies>
 	    <dep package="zlib"/>
 	</dependencies>
@@ -104,9 +104,8 @@
     <autotools id="cairo">
 	<branch repo="cairographics"
 		module="cairo-1.8.2.tar.gz"
-		version="1.8.2"/>
-	<patches>
-	</patches>
+		version="1.8.2">
+	</branch>
 	<dependencies>
 	    <dep package="zlib"/>
 	    <dep package="png"/>
@@ -133,13 +132,12 @@
     <autotools id="libthai">
 	<branch repo="debian"
 		module="libt/libthai/libthai_0.1.11.orig.tar.gz"
-		version="0.1.11" checkoutdir="libthai-0.1.11"/>
+		version="0.1.11" checkoutdir="libthai-0.1.11">
+	    <patch file="&patch_dir;libthai.patch"/>
+	</branch>
 	<dependencies>
 	    <dep package="libdatrie"/>
 	</dependencies>
-	<patches>
-	    <patch file="&patch_dir;libthai.patch"/>
-	</patches>
     </autotools>
 
     <autotools id="gnome-common">
@@ -155,17 +153,15 @@
 	</dependencies>
     </autotools>
 
-    <tarball id="fontconfig" version="2.4.2"
-	autogen-sh="autoreconf" skip-autogen="never">
-	<source href="http://fontconfig.org/release/fontconfig-2.4.2.tar.gz"/>
+    <autotools id="fontconfig"
+	autogen-sh="autoreconf"  skip-autogen="never">
+	<branch repo="fontconfig" module="fontconfig-2.7.0.tar.gz" version="2.7.0">
+	    <patch file="&patch_dir;fontconfig-CC.patch"/>
+	</branch>
 	<dependencies>
 	    <dep package="freetype"/>
 	</dependencies>
-	<patches>
-	    <patch file="http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/fontconfig-2.4.2-tml-20071015.diff"/>
-            <patch file="&patch_dir;fontconfig-CC.patch"/>
-	</patches>
-    </tarball>
+    </autotools>
 
 <!--
     <tarball id="pango" version="1.16.4">
@@ -189,27 +185,16 @@
 	</dependencies>
     </autotools>
 
-    <tarball id="atk" version="1.26.0">
-	<source href="http://ftp.acc.umu.se/pub/gnome/sources/atk/1.26/atk-1.26.0.tar.bz2"/>
+    <autotools id="atk">
+	<branch repo="gnome.org" module="sources/atk/2.26/atk-1.26.0.tar.bz2" version="1.26.0"/>
 	<dependencies>
 	    <dep package="glib"/>
-	</dependencies>
-    </tarball>
-<!--
-    <autotools id="gtk+">
-	<branch/>
-	<dependencies>
-	    <dep package="glib"/>
-	    <dep package="cairo"/>
-	    <dep package="atk"/>
-	    <dep package="pango"/>
 	</dependencies>
     </autotools>
-    -->
 
     <autotools id="gtk+">
-	<branch repo="gnome.org" module="sources/gtk+/2.16/gtk+-2.16.1.tar.bz2"
-		version="2.16.1">
+	<branch repo="gnome.org" module="sources/gtk+/2.16/gtk+-2.16.2.tar.bz2"
+		version="2.16.2">
 	    <patch file="&patch_dir;gtk-disable-demo.patch"/>
 	</branch>
 	<dependencies>
@@ -272,20 +257,14 @@
     <tarball id="pxlib" version="0.6.3">
 	<source href="http://superb-east.dl.sourceforge.net/sourceforge/pxlib/pxlib-0.6.3.tar.gz"
 		md5sum="0742020854496fa757d7acbe6a895224"/>
-	<patches>
-	</patches>
     </tarball>
+
     <autotools id="psiconv">
 	<branch repo="debian"
 		module="p/psiconv/psiconv_0.9.8.orig.gz"
-		version="0.9.8" checkoutdir="psiconv-0.9.8"/>
-<!-- 
-	<source href="http://software.frodo.looijaard.name/psiconv/files/psiconv-0.9.8.tar.gz"
-		md5sum="8d7548e3c6b9cd408544736133728acd"/>
--->
-	<patches>
+		version="0.9.8" checkoutdir="psiconv-0.9.8">
 	    <patch file="&patch_dir;psiconv.patch"/>
-	</patches>
+	</branch>
     </autotools>
 
 <!-- print preview -->
@@ -304,8 +283,7 @@
       <dep package="gtk+"/>
     </after>
   </tarball>
-  <autotools id="evince"
-    autogenargs="--without-keyring">
+  <autotools id="evince">
     <branch/>
     <dependencies>
       <dep package="glib"/>
@@ -319,9 +297,6 @@
     <suggests>
       <dep package="gnome-keyring"/>
     </suggests>
-    <after>
-      <dep package="nautilus"/>
-    </after>
   </autotools>
 <!-- Gnumeric stack -->
     <autotools id="libgsf">

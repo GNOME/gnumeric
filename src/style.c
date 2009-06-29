@@ -404,9 +404,13 @@ gnm_font_shutdown (void)
 
 	if (fontmap) {
 		/* Do this late -- see bugs 558100 and 558254.  */
+		/* and not at all on win32, where the life cycle is different */
+#ifndef	G_OS_WIN32
 		g_object_unref (fontmap);
+#endif
 		fontmap = NULL;
 	}
+
 }
 
 /**

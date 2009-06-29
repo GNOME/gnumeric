@@ -1,60 +1,37 @@
-*** doc/Makefile.in	Sat Dec  2 18:27:32 2006
---- doc/Makefile.in	Thu May  7 18:11:12 2009
+Index: configure.in
+===================================================================
+--- configure.in	2009-06-24 15:04:11.000000000 -0400
++++ configure.in	2009-06-28 16:10:11.000000000 -0400
+@@ -100,11 +100,7 @@
+ 
+ # Setup for compiling build tools (fc-glyphname, etc)
+ AC_MSG_CHECKING([for a C compiler for build tools])
+-if test $cross_compiling = yes; then
+-  AC_CHECK_PROGS(CC_FOR_BUILD, gcc cc)
+-else
+   CC_FOR_BUILD=$CC
+-fi
+ AC_MSG_RESULT([$CC_FOR_BUILD])
+ AC_SUBST(CC_FOR_BUILD)
+ 
+Index: src/fcint.h
+===================================================================
+*** src/fcint.h	Wed Jun 24 13:52:13 2009
+--- src/fcint.h	Sun Jun 28 16:25:38 2009
 ***************
-*** 115,121 ****
-  AUTOHEADER = @AUTOHEADER@
-  AUTOMAKE = @AUTOMAKE@
-  AWK = @AWK@
-- CC = @CC_FOR_BUILD@
-  CCDEPMODE = @CCDEPMODE@
-  CC_FOR_BUILD = @CC_FOR_BUILD@
-  CFLAGS = @CFLAGS@
---- 115,120 ----
-*** fc-arch/Makefile.in	Sat Dec  2 18:27:32 2006
---- fc-arch/Makefile.in	Thu May  7 18:11:15 2009
-***************
-*** 102,108 ****
-  AUTOHEADER = @AUTOHEADER@
-  AUTOMAKE = @AUTOMAKE@
-  AWK = @AWK@
-- CC = @CC_FOR_BUILD@
-  CCDEPMODE = @CCDEPMODE@
-  CC_FOR_BUILD = @CC_FOR_BUILD@
-  CFLAGS = @CFLAGS@
---- 102,107 ----
-*** fc-case/Makefile.in	Sat Dec  2 18:27:32 2006
---- fc-case/Makefile.in	Thu May  7 18:11:18 2009
-***************
-*** 102,108 ****
-  AUTOHEADER = @AUTOHEADER@
-  AUTOMAKE = @AUTOMAKE@
-  AWK = @AWK@
-- CC = @CC_FOR_BUILD@
-  CCDEPMODE = @CCDEPMODE@
-  CC_FOR_BUILD = @CC_FOR_BUILD@
-  CFLAGS = @CFLAGS@
---- 102,107 ----
-*** fc-glyphname/Makefile.in	Sat Dec  2 18:27:33 2006
---- fc-glyphname/Makefile.in	Thu May  7 18:11:22 2009
-***************
-*** 102,108 ****
-  AUTOHEADER = @AUTOHEADER@
-  AUTOMAKE = @AUTOMAKE@
-  AWK = @AWK@
-- CC = @CC_FOR_BUILD@
-  CCDEPMODE = @CCDEPMODE@
-  CC_FOR_BUILD = @CC_FOR_BUILD@
-  CFLAGS = @CFLAGS@
---- 102,107 ----
-*** fc-lang/Makefile.in	Sat Dec  2 18:27:33 2006
---- fc-lang/Makefile.in	Thu May  7 18:11:24 2009
-***************
-*** 102,108 ****
-  AUTOHEADER = @AUTOHEADER@
-  AUTOMAKE = @AUTOMAKE@
-  AWK = @AWK@
-- CC = @CC_FOR_BUILD@
-  CCDEPMODE = @CCDEPMODE@
-  CC_FOR_BUILD = @CC_FOR_BUILD@
-  CFLAGS = @CFLAGS@
---- 102,107 ----
+*** 538,544 ****
+  
+  #ifdef _WIN32
+  FcPrivate int
+! FcStat (const char *file, struct stat *statb)
+  #else
+  #define FcStat stat
+  #endif
+--- 538,544 ----
+  
+  #ifdef _WIN32
+  FcPrivate int
+! FcStat (const char *file, struct stat *statb);
+  #else
+  #define FcStat stat
+  #endif
