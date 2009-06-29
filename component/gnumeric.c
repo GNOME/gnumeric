@@ -268,7 +268,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 #endif
 	module = go_plugin_get_type_module (plugin);
 	go_gnm_component_register_type (module);
-	gnm_init (FALSE);
+	gnm_init ();
 	if (!gnm_sys_data_dir ())
 		gutils_init ();
 	dir_list = go_slist_create (
@@ -276,8 +276,9 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 		(gnm_usr_dir () == NULL ? NULL :
 			g_build_filename (gnm_usr_dir (), PLUGIN_SUBDIR, NULL)),
 		NULL);
-	dir_list = g_slist_concat (dir_list,
-		go_string_slist_copy (gnm_app_prefs->plugin_extra_dirs));
+	dir_list = g_slist_concat
+		(dir_list,
+		 go_string_slist_copy (gnm_conf_get_autoformat_extra_dirs ()));
 
 	env_var = g_getenv ("GNUMERIC_PLUGIN_PATH");
 	if (env_var != NULL)
@@ -287,10 +288,10 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 
 /* WHERE IS THIS DEFINED */
 	go_plugins_add (go_component_get_command_context (),
-		gnm_app_prefs->plugin_file_states,
-		gnm_app_prefs->active_plugins,
-		dir_list,
-		gnm_plugin_loader_module_get_type ());
+			gnm_conf_get_plugins_file_states (),
+			gnm_conf_get_plugins_active (),
+			dir_list,
+			gnm_plugin_loader_module_get_type ());
 }
 
 G_MODULE_EXPORT void

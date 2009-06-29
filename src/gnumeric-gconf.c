@@ -38,6 +38,7 @@
 #include <number-match.h>
 #include <string.h>
 #include <sheet.h>
+#include <print-info.h>
 
 #define NO_DEBUG_GCONF
 #ifndef NO_DEBUG_GCONF
@@ -78,7 +79,7 @@ gnm_conf_init (void)
 void
 gnm_conf_shutdown (void)
 {
-	gnm_gconf_set_page_setup (NULL);
+	gnm_conf_set_page_setup (NULL);
 
 	g_hash_table_destroy (string_pool);
 	string_pool = NULL;
@@ -97,16 +98,41 @@ gnm_conf_get_root (void)
 }
 
 GtkPageSetup *
-gnm_gconf_get_page_setup (void)
+gnm_conf_get_page_setup (void)
 {
 	if (!page_setup) {
+		page_setup = gtk_page_setup_new ();
+
+		page_setup_set_paper (page_setup,
+				      gnm_conf_get_printsetup_paper ());
+
+		gtk_page_setup_set_orientation
+			(page_setup,
+			 gnm_conf_get_printsetup_paper_orientation ());
+
+		gtk_page_setup_set_top_margin
+			(page_setup,
+			 gnm_conf_get_printsetup_margin_gtk_top (),
+			 GTK_UNIT_POINTS);
+		gtk_page_setup_set_bottom_margin
+			(page_setup,
+			 gnm_conf_get_printsetup_margin_gtk_bottom (),
+			 GTK_UNIT_POINTS);
+		gtk_page_setup_set_left_margin
+			(page_setup,
+			 gnm_conf_get_printsetup_margin_gtk_left (),
+			 GTK_UNIT_POINTS);
+		gtk_page_setup_set_right_margin
+			(page_setup,
+			 gnm_conf_get_printsetup_margin_gtk_right (),
+			 GTK_UNIT_POINTS);
 	}
 
 	return page_setup;
 }
 
 void
-gnm_gconf_set_page_setup (GtkPageSetup *setup)
+gnm_conf_set_page_setup (GtkPageSetup *setup)
 {
 	if (page_setup) {
 		g_object_unref (page_setup);
@@ -114,10 +140,25 @@ gnm_gconf_set_page_setup (GtkPageSetup *setup)
 	}
 
 	if (setup) {
+		char *paper;
+
 		page_setup = gtk_page_setup_copy (setup);
+
+		paper = page_setup_get_paper (setup);
+		gnm_conf_set_printsetup_paper (paper);
+		g_free (paper);
 
 		gnm_conf_set_printsetup_paper_orientation
 			(gtk_page_setup_get_orientation (setup));
+
+		gnm_conf_set_printsetup_margin_gtk_top
+			(gtk_page_setup_get_top_margin (setup, GTK_UNIT_POINTS));
+		gnm_conf_set_printsetup_margin_gtk_bottom
+			(gtk_page_setup_get_bottom_margin (setup, GTK_UNIT_POINTS));
+		gnm_conf_set_printsetup_margin_gtk_left
+			(gtk_page_setup_get_left_margin (setup, GTK_UNIT_POINTS));
+		gnm_conf_set_printsetup_margin_gtk_right
+			(gtk_page_setup_get_right_margin (setup, GTK_UNIT_POINTS));
 	}
 }
 
@@ -136,6 +177,105 @@ gnm_conf_get_printer_decoration_font (void)
 				   gnm_conf_get_printsetup_hf_font_italic ());
 
 	return style;
+}
+
+#define TOOLBAR_TANGO(Object,Format,Standard)		\
+	if (strcmp (name, "Object") == 0)		\
+		Object					\
+	else if (strcmp (name, "Format") == 0)		\
+		Format					\
+	else if (strcmp (name, "Standard") == 0)	\
+		Standard
+
+
+gboolean
+gnm_conf_get_toolbar_visible (const char *name)
+{
+	TOOLBAR_TANGO
+		(return gnm_conf_get_core_gui_toolbars_ObjectToolbar ();,
+		 return gnm_conf_get_core_gui_toolbars_FormatToolbar ();,
+		 return gnm_conf_get_core_gui_toolbars_StandardToolbar (););
+
+	return FALSE;
+}
+
+void
+gnm_conf_set_toolbar_visible (const char *name, gboolean x)
+{
+	TOOLBAR_TANGO
+		(gnm_conf_set_core_gui_toolbars_ObjectToolbar (x);,
+		 gnm_conf_set_core_gui_toolbars_FormatToolbar (x);,
+		 gnm_conf_set_core_gui_toolbars_StandardToolbar (x););
+}
+
+GtkPositionType
+gnm_conf_get_toolbar_position (const char *name)
+{
+	TOOLBAR_TANGO
+		(return gnm_conf_get_core_gui_toolbars_ObjectToolbar_position ();,
+		 return gnm_conf_get_core_gui_toolbars_FormatToolbar_position ();,
+		 return gnm_conf_get_core_gui_toolbars_StandardToolbar_position (););
+
+	return GTK_POS_TOP;
+}
+
+void
+gnm_conf_set_toolbar_position (const char *name, GtkPositionType x)
+{
+	TOOLBAR_TANGO
+		(gnm_conf_set_core_gui_toolbars_ObjectToolbar_position (x);,
+		 gnm_conf_set_core_gui_toolbars_FormatToolbar_position (x);,
+		 gnm_conf_set_core_gui_toolbars_StandardToolbar_position (x););
+}
+
+#undef TOOLBAR_TANGO
+
+GtkPrintSettings *
+gnm_conf_get_print_settings (void)
+{
+	GtkPrintSettings *settings =  gtk_print_settings_new ();
+	GSList *list = gnm_conf_get_printsetup_gtk_setting ();
+
+	while (list && list->next) {
+		const char *value = list->data;
+		const char *key = list->next->data;
+
+		list = list->next->next;
+		gtk_print_settings_set (settings, key, value);
+	}
+
+	return settings;
+}
+
+static void
+gnm_gconf_set_print_settings_cb (const gchar *key, const gchar *value, gpointer user_data)
+{
+	GSList **list = user_data;
+
+	*list = g_slist_prepend (*list, g_strdup (key));
+	*list = g_slist_prepend (*list, g_strdup (value));
+}
+
+void
+gnm_conf_set_print_settings (GtkPrintSettings *settings)
+{
+	GSList *list = NULL;
+
+	gtk_print_settings_foreach (settings, gnm_gconf_set_print_settings_cb, &list);
+	gnm_conf_set_printsetup_gtk_setting (list);
+	go_slist_free_custom (list, g_free);
+}
+
+gboolean
+gnm_conf_get_detachable_toolbars (void)
+{
+#ifdef WIN32
+	return FALSE;
+#else
+	return go_conf_get_bool
+		(root,
+		 "/desktop/gnome/interface/toolbar_detachable");
+#endif
 }
 
 /* ------------------------------------------------------------------------- */

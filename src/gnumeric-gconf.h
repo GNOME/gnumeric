@@ -10,10 +10,23 @@ void     gnm_conf_init (void);
 void     gnm_conf_shutdown (void);
 GOConfNode *gnm_conf_get_root (void);
 
-GtkPageSetup *gnm_gconf_get_page_setup (void);
-void gnm_gconf_set_page_setup (GtkPageSetup *setup);
+/* Convenience APIs */
+
+GtkPageSetup *gnm_conf_get_page_setup (void);
+void gnm_conf_set_page_setup (GtkPageSetup *setup);
+
+GtkPrintSettings *gnm_conf_get_print_settings (void);
+void gnm_conf_set_print_settings (GtkPrintSettings *settings);
 
 GnmStyle *gnm_conf_get_printer_decoration_font (void);
+
+gboolean gnm_conf_get_toolbar_visible (const char *name);
+void gnm_conf_set_toolbar_visible (const char *name, gboolean x);
+
+GtkPositionType gnm_conf_get_toolbar_position (const char *name);
+void gnm_conf_set_toolbar_position (const char *name, GtkPositionType x);
+
+gboolean gnm_conf_get_detachable_toolbars (void);
 
 /* ----------- AUTOMATICALLY GENERATED CODE BELOW -- DO NOT EDIT ----------- */
 

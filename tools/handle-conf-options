@@ -40,6 +40,7 @@ my %type_to_ctype =
      'GO_TYPE_DIRECTION' => 'GODirection',
      'GTK_TYPE_UNIT' => 'GtkUnit',
      'GTK_TYPE_TOOLBAR_STYLE' => 'GtkToolbarStyle',
+     'GTK_TYPE_POSITION' => 'GtkPositionType',
     );
 
 my %extra_attributes =
@@ -64,16 +65,19 @@ my %extra_attributes =
      },
 
      '/apps/gnumeric/core/gui/toolbars/FormatToolbar-position' => {
+	 'gtype' => 'GTK_TYPE_POSITION',
 	 'min' => 0,
 	 'max' => 3,
      },
 
      '/apps/gnumeric/core/gui/toolbars/ObjectToolbar-position' => {
+	 'gtype' => 'GTK_TYPE_POSITION',
 	 'min' => 0,
 	 'max' => 3,
      },
 
      '/apps/gnumeric/core/gui/toolbars/StandardToolbar-position' => {
+	 'gtype' => 'GTK_TYPE_POSITION',
 	 'min' => 0,
 	 'max' => 3,
      },

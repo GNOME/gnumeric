@@ -1555,9 +1555,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
   pi->wbc = wbc ? WORKBOOK_CONTROL (wbc) : NULL;
   pi->sheet = sheet;
 
-  gnm_gconf_init_printer_defaults ();
-
-  settings = gnm_gconf_get_print_settings ();
+  settings = gnm_conf_get_print_settings ();
   gtk_print_settings_set_int (settings, GNUMERIC_PRINT_SETTING_PRINTRANGE_KEY,
 			      default_range);
   pi->pr = default_range;
@@ -1611,7 +1609,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 
   switch (res) {
   case GTK_PRINT_OPERATION_RESULT_APPLY:
-	  gnm_gconf_set_print_settings (gtk_print_operation_get_print_settings (print));
+	  gnm_conf_set_print_settings (gtk_print_operation_get_print_settings (print));
 	  break;
   case GTK_PRINT_OPERATION_RESULT_CANCEL:
 	  printing_instance_delete (pi);

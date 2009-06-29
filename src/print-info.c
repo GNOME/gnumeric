@@ -232,7 +232,7 @@ print_info_load_defaults (PrintInformation *res)
 	if (res->page_setup != NULL)
 		return res;
 
-	res->page_setup = gtk_page_setup_copy (gnm_gconf_get_page_setup ());
+	res->page_setup = gtk_page_setup_copy (gnm_conf_get_page_setup ());
 
 	res->scaling.type = gnm_conf_get_printsetup_scale_percentage ()
 		? PRINT_SCALE_PERCENTAGE
@@ -400,7 +400,7 @@ print_info_save (PrintInformation *pi)
 	gnm_conf_set_printsetup_footer (l);
 	g_slist_free (l);
 
-	gnm_gconf_set_page_setup (pi->page_setup);
+	gnm_conf_set_page_setup (pi->page_setup);
 }
 
 GtkUnit

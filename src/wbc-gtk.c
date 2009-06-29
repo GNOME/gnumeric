@@ -3448,7 +3448,7 @@ set_toolbar_position (GtkToolbar *tb, GtkPositionType pos, WBCGtk *gtk)
 	g_object_unref (box);
 
 	if (zone)
-		gnm_gconf_set_toolbar_position (name, pos);
+		gnm_conf_set_toolbar_position (name, pos);
 }
 
 static void
@@ -3584,7 +3584,7 @@ cb_toolbar_box_visible (GtkWidget *box, G_GNUC_UNUSED GParamSpec *pspec,
 		 * We do not persist changes made going-to/while-in/leaving
 		 * fullscreen mode.
 		 */
-		gnm_gconf_set_toolbar_visible (name, visible);
+		gnm_conf_set_toolbar_visible (name, visible);
 	}
 }
 
@@ -3598,7 +3598,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		GtkToggleActionEntry entry;
 		char *toggle_name = g_strconcat ("ViewMenuToolbar", name, NULL);
 		char *tooltip = g_strdup_printf (_("Show/Hide toolbar %s"), _(name));
-		gboolean visible = gnm_gconf_get_toolbar_visible (name);
+		gboolean visible = gnm_conf_get_toolbar_visible (name);
 
 #ifdef GNM_USE_HILDON
 		hildon_window_add_toolbar (HILDON_WINDOW (wbcg_toplevel (wbcg)), GTK_TOOLBAR (w));
@@ -3608,9 +3608,9 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 			g_strdup (toggle_name), g_object_ref (w));
 #else
 		GtkWidget *box;
-		GtkPositionType pos = gnm_gconf_get_toolbar_position (name);
+		GtkPositionType pos = gnm_conf_get_toolbar_position (name);
 
-		if (gnm_app_detachable_toolbars ()) {
+		if (gnm_conf_get_detachable_toolbars ()) {
 			box = gtk_handle_box_new ();
 			g_object_connect (box,
 				"signal::child_attached", G_CALLBACK (cb_handlebox_dock_status), GINT_TO_POINTER (TRUE),
