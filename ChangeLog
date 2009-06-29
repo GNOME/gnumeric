@@ -1,5 +1,12 @@
 2009-06-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* schemas/gnumeric-general.schemas.in: add schema for 
+	  long format toolbar and fix other toolbar schemas
+	* src/GNOME_Gnumeric-gtk.xml.in: provide a long version of 
+	  the format toolbar
+
+2009-06-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* src/wbc-gtk-actions.c (cb_help_docs): pass flags to g_spawn_async
 	  and provide more descriptive error message
 

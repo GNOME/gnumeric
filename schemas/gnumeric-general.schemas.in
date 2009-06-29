@@ -1,6 +1,6 @@
 <gconfschemafile>
     <schemalist>
-      <!-- Override the global setting becaue our toolbars look terrible with text -->
+      <!-- Override the global setting because our toolbars look terrible with text -->
       <schema>
         <key>/schemas/apps/gnome-settings/gnumeric/toolbar_style</key>
         <applyto>/apps/gnome-settings/gnumeric/toolbar_style</applyto>
@@ -196,8 +196,30 @@
         <type>int</type>
 	<default>2</default>
         <locale name="C">
-        <short>Standard toolbar position</short>
+        <short>Format toolbar position</short>
         <long>This variable determines where the format toolbar should be shown.  0 is left, 1 is right, 2 is top.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/gui/toolbars/LongFormatToolbar</key>
+        <applyto>/apps/gnumeric/core/gui/toolbars/LongFormatToolbar</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>FALSE</default>
+        <locale name="C">
+        <short>Long format toolbar visible</short>
+        <long>This variable determines whether the long format toolbar should be visible initially.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/gui/toolbars/LongFormatToolbar-position</key>
+        <applyto>/apps/gnumeric/core/gui/toolbars/LongFormatToolbar-position</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>2</default>
+        <locale name="C">
+        <short>Long format toolbar position</short>
+        <long>This variable determines where the long format toolbar should be shown.  0 is left, 1 is right, 2 is top.</long>
         </locale>
       </schema>
       <schema>
@@ -218,7 +240,7 @@
         <type>int</type>
 	<default>2</default>
         <locale name="C">
-        <short>Standard toolbar position</short>
+        <short>Object toolbar position</short>
         <long>This variable determines where the object toolbar should be shown.  0 is left, 1 is right, 2 is top.</long>
         </locale>
       </schema>

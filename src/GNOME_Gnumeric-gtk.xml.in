@@ -270,8 +270,6 @@
     <toolitem action="FontBold"/>
     <toolitem action="FontItalic"/>
     <toolitem action="FontUnderline"/>
-    <toolitem action="FontSuperscript"/>
-    <toolitem action="FontSubscript"/>
     <separator name="fmt-sep1"/>
     <toolitem action="AlignLeft"/>
     <toolitem action="AlignCenter"/>
@@ -292,6 +290,35 @@
     <toolitem action="BorderSelector"/>
     <toolitem action="ColorBack"/>
     <toolitem action="ColorFore"/>
+  </toolbar>
+  <toolbar _name="LongFormatToolbar">
+    <toolitem action="FontName"/>
+    <toolitem action="FontSize"/>
+    <toolitem action="FontSuperscript"/>
+    <toolitem action="FontSubscript"/>
+    <toolitem action="FontBold"/>
+    <toolitem action="FontItalic"/>
+    <toolitem action="FontUnderline"/>
+    <separator name="fmt-sep1"/>
+    <toolitem action="BorderSelector"/>
+    <toolitem action="ColorBack"/>
+    <toolitem action="ColorFore"/>
+    <separator name="fmt-sep2"/>
+    <toolitem action="AlignLeft"/>
+    <toolitem action="AlignCenter"/>
+    <toolitem action="AlignRight"/>
+    <toolitem action="CenterAcrossSelection"/>
+    <toolitem action="FormatMergeCells"/>
+    <toolitem action="FormatUnmergeCells"/>
+    <separator name="fmt-sep3"/>
+    <toolitem action="FormatAsAccounting"/>
+    <toolitem action="FormatAsPercentage"/>
+    <toolitem action="FormatWithThousands"/>
+    <toolitem action="FormatIncreasePrecision"/>
+    <toolitem action="FormatDecreasePrecision"/>
+    <separator name="fmt-sep4"/>
+    <toolitem action="FormatDecreaseIndent"/>
+    <toolitem action="FormatIncreaseIndent"/>
   </toolbar>
   <toolbar _name="ObjectToolbar">
 <!-- Functionally Equivalent to CreateRectangle

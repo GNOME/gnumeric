@@ -12,6 +12,7 @@ Andreas:
 	* Import some conditional cell formats from ODF.
 	* Fix "not-between" conditional styles. [#586818]
 	* Show existence of conditional styles in format dialog.
+	* Add an initialy hidden long format toolbar.
 
 Morten:
 	* Make SUMIF/COUNTIF and the D* functions understand pattern. [#586215]
