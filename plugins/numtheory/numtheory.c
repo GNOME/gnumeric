@@ -215,17 +215,13 @@ isprime (guint64 n)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_phi[] = {
-    { GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=NT_PHI\n"
-	   "@SYNTAX=NT_PHI(n)\n"
-	   "@DESCRIPTION="
-	   "NT_PHI function calculates the number of integers less "
-	   "than or equal to @n that are relatively prime to @n.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA")
-    },
-    { GNM_FUNC_HELP_END }
+ 	{ GNM_FUNC_HELP_NAME, F_("NT_PHI:Euler's totient function")},
+	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
+	{ GNM_FUNC_HELP_NOTE, F_("Euler's totient function gives the number of integers less than or equal to @{n} that are relatively prime (coprime) to @{n}.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("=NT_PHI(9)") },
+	{ GNM_FUNC_HELP_SEEALSO, "NT_D,ITHPRIME,NT_SIGMA"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Euler's_totient_function") },
+	{ GNM_FUNC_HELP_END }
 };
 
 static void
@@ -253,22 +249,18 @@ gnumeric_phi (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_nt_mu[] = {
-    { GNM_FUNC_HELP_OLD,
-	/* xgettext: you can translate the funny character as an 'o' if unicode is not available. */
-	F_("@FUNCTION=NT_MU\n"
-	   "@SYNTAX=NT_MU(n)\n"
-	   "@DESCRIPTION="
-	   "NT_MU function (Möbius mu function) returns \n"
-	   "0  if @n is divisible by the square of a prime .\n"
-	   "Otherwise it returns: \n\n"
-	   "  -1 if @n has an odd  number of different prime factors .\n"
-	   "   1  if @n has an even number of different prime factors .\n\n"
-	   "* If @n = 1 NT_MU returns 1.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "@SEEALSO=NT_D, ITHPRIME, NT_PHI")
-    },
-    { GNM_FUNC_HELP_END }
+ 	{ GNM_FUNC_HELP_NAME, F_("NT_MU:Möbius mu function")},
+	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
+	{ GNM_FUNC_HELP_DESCRIPTION, 
+	  F_("NT_MU function (Möbius mu function) returns 0  if @{n} is "
+	     "divisible by the square of a prime. Otherwise, if @{n} has"
+	     " an odd  number of different prime factors, NT_MU returns "
+	     "-1, and if @{n} has an even number of different prime factors,"
+	     " it returns 1. If @{n} = 1, NT_MU returns 1.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("=NT_MU(45)") },
+	{ GNM_FUNC_HELP_SEEALSO, "ITHPRIME,NT_PHI,NT_SIGMA,NT_D"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Möbius_function") },
+	{ GNM_FUNC_HELP_END }
 };
 
 static void
@@ -297,18 +289,13 @@ gnumeric_nt_mu (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_d[] = {
-    { GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=NT_D\n"
-	   "@SYNTAX=NT_D(n)\n"
-	   "@DESCRIPTION="
-	   "NT_D function calculates the number of divisors of @n.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA")
-    },
-    { GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("NT_D:number of divisors")},
+	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("NT_D calculates the number of divisors of @{n}.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("ITHPRIME,NT_PHI,NT_SIGMA") },
+	{ GNM_FUNC_HELP_SEEALSO, "ITHPRIME,NT_PHI,NT_SIGMA"},
+	{ GNM_FUNC_HELP_END }
 };
-
 static void
 walk_for_d (guint64 p, int v, void *data_)
 {
@@ -334,16 +321,13 @@ gnumeric_d (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_sigma[] = {
-    { GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=NT_SIGMA\n"
-	   "@SYNTAX=NT_SIGMA(n)\n"
-	   "@DESCRIPTION="
-	   "NT_SIGMA function calculates the sum of the divisors of @n.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "@SEEALSO=NT_D, ITHPRIME, NT_PHI")
-    },
-    { GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("NT_SIGMA:sigma function")},
+	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("NT_SIGMA calculates the sum of the divisors of @n.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("=NT_SIGMA(4)") },
+	{ GNM_FUNC_HELP_SEEALSO, "NT_D,ITHPRIME,NT_PHI"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Divisor_function") },
+	{ GNM_FUNC_HELP_END }
 };
 
 static void
@@ -371,16 +355,12 @@ gnumeric_sigma (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_ithprime[] = {
-    { GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ITHPRIME\n"
-	   "@SYNTAX=ITHPRIME(i)\n"
-	   "@DESCRIPTION="
-	   "ITHPRIME function returns the @ith prime.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "@SEEALSO=NT_D, NT_SIGMA")
-    },
-    { GNM_FUNC_HELP_END }
+ 	{ GNM_FUNC_HELP_NAME, F_("ITHPRIME:@{i}th prime")},
+	{ GNM_FUNC_HELP_ARG, F_("i:positive integer")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ITHPRIME finds the @{i}th prime.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("=ITHPRIME(7)") },
+	{ GNM_FUNC_HELP_SEEALSO, "NT_D,NT_SIGMA"},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -401,16 +381,12 @@ gnumeric_ithprime (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_isprime[] = {
-    { GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ISPRIME\n"
-	   "@SYNTAX=ISPRIME(i)\n"
-	   "@DESCRIPTION="
-	   "ISPRIME function returns TRUE if @i is prime and FALSE otherwise.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA")
-    },
-    { GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("ISPRIME:whether @{n} is prime")},
+	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ISPRIME returns TRUE if @{n} is prime and FALSE otherwise.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("=isprime(57)") },
+	{ GNM_FUNC_HELP_SEEALSO, "NT_D, NT_SIGMA"},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -460,18 +436,13 @@ prime_factor (guint64 n)
 }
 
 static GnmFuncHelp const help_pfactor[] = {
-    { GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=PFACTOR\n"
-	   "@SYNTAX=PFACTOR(n)\n"
-	   "@DESCRIPTION="
-	   "PFACTOR function returns the smallest prime factor of its argument.\n"
-	   "\n"
-	   "The argument must be at least 2, or else a #VALUE! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "@SEEALSO=ITHPRIME")
-    },
-    { GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("PFACTOR:smallest prime factor")},
+	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("PFACTOR finds the smallest prime factor of its argument.")},
+	{ GNM_FUNC_HELP_NOTE, F_("The argument @{n} must be at least 2. Otherwise a #VALUE! error is returned.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("pfactor(57)") },
+	{ GNM_FUNC_HELP_SEEALSO, "ITHPRIME"},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -496,17 +467,12 @@ gnumeric_pfactor (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_nt_pi[] = {
-    { GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=NT_PI\n"
-	   "@SYNTAX=NT_PI(n)\n"
-	   "@DESCRIPTION="
-	   "NT_PI function returns the number of primes less than or equal "
-	   "to @n.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA")
-    },
-    { GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("NT_PI:number of primes upto @{n}")},
+	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("NT_PI returns the number of primes less than or equal to @{n}.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("=NT_PI{11}") },
+	{ GNM_FUNC_HELP_SEEALSO, "ITHPRIME,NT_PHI,NT_D,NT_SIGMA"},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -531,16 +497,13 @@ gnumeric_nt_pi (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_bitor[] = {
-    { GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=BITOR\n"
-	   "@SYNTAX=BITOR(a,b)\n"
-	   "@DESCRIPTION="
-	   "BITOR function returns bitwise or-ing of its arguments.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "@SEEALSO=BITXOR,BITAND")
-    },
-    { GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("BITOR:bitwise or")},
+	{ GNM_FUNC_HELP_ARG, F_("a:non-negative integer")},
+	{ GNM_FUNC_HELP_ARG, F_("b:non-negative integer")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITOR returns the bitwise or of the binary representations of its arguments.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("=BITOR(9,5)") },
+	{ GNM_FUNC_HELP_SEEALSO, "BITXOR,BITAND"},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -558,17 +521,13 @@ func_bitor (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_bitxor[] = {
-    { GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=BITXOR\n"
-	   "@SYNTAX=BITXOR(a,b)\n"
-	   "@DESCRIPTION="
-	   "BITXOR function returns bitwise exclusive or-ing of its "
-	   "arguments.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "@SEEALSO=BITOR,BITAND")
-    },
-    { GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("BITXOR:bitwise exclusive or")},
+	{ GNM_FUNC_HELP_ARG, F_("a:non-negative integer")},
+	{ GNM_FUNC_HELP_ARG, F_("b:non-negative integer")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITXOR returns the bitwise exclusive or of the binary representations of its arguments.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("=BITXOR(9,5)") },
+	{ GNM_FUNC_HELP_SEEALSO, "BITOR,BITAND"},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -586,16 +545,13 @@ func_bitxor (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_bitand[] = {
-    { GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=BITAND\n"
-	   "@SYNTAX=BITAND(a,b)\n"
-	   "@DESCRIPTION="
-	   "BITAND function returns bitwise and-ing of its arguments.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "@SEEALSO=BITOR,BITXOR")
-    },
-    { GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("BITAND:bitwise and")},
+	{ GNM_FUNC_HELP_ARG, F_("a:non-negative integer")},
+	{ GNM_FUNC_HELP_ARG, F_("b:non-negative integer")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITAND returns the bitwise and of the binary representations of its arguments.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("=BITAND(9,5)") },
+	{ GNM_FUNC_HELP_SEEALSO, "BITOR,BITXOR"},
+	{ GNM_FUNC_HELP_END }
 };
 
 
@@ -614,17 +570,14 @@ func_bitand (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_bitlshift[] = {
-    { GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=BITLSHIFT\n"
-	   "@SYNTAX=BITLSHIFT(x,n)\n"
-	   "@DESCRIPTION="
-	   "BITLSHIFT function returns @x bit-shifted left by @n bits.\n\n"
-	   "* If @n is negative, a right shift will in effect be performed.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "@SEEALSO=BITRSHIFT")
-    },
-    { GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("BITLSHIFT:bit-shift to the left")},
+	{ GNM_FUNC_HELP_ARG, F_("a:non-negative integer")},
+	{ GNM_FUNC_HELP_ARG, F_("n:integer")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITLSHIFT returns the binary representations of @{a} shifted @{n} positions to the left.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{n} is negative, BITLSHIFT shifts the bits to the right by ABS(@{n}) positions.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("=BITLSHIFT(9,5)") },
+	{ GNM_FUNC_HELP_SEEALSO, "BITRSHIFT"},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -647,17 +600,14 @@ func_bitlshift (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_bitrshift[] = {
-    { GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=BITRSHIFT\n"
-	   "@SYNTAX=BITRSHIFT(x,n)\n"
-	   "@DESCRIPTION="
-	   "BITRSHIFT function returns @x bit-shifted right by @n bits.\n\n"
-	   "* If @n is negative, a left shift will in effect be performed.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "@SEEALSO=BITLSHIFT")
-    },
-    { GNM_FUNC_HELP_END }
+ 	{ GNM_FUNC_HELP_NAME, F_("BITRSHIFT:bit-shift to the right")},
+	{ GNM_FUNC_HELP_ARG, F_("a:non-negative integer")},
+	{ GNM_FUNC_HELP_ARG, F_("n:integer")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITRSHIFT returns the binary representations of @{a} shifted @{n} positions to the right.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{n} is negative, BITRSHIFT shifts the bits to the left by ABS(@{n}) positions.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("=BITRSHIFT(137,5)") },
+	{ GNM_FUNC_HELP_SEEALSO, "BITLSHIFT"},
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -716,19 +666,19 @@ const GnmFuncDescriptor num_theory_functions[] = {
 };
 
 const GnmFuncDescriptor bitwise_functions[] = {
-	{"bitor",     "ff", "A,B", help_bitor,
+	{"bitor",     "ff", "a,b", help_bitor,
 	 &func_bitor,     NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{"bitxor",    "ff", "A,B", help_bitxor,
+	{"bitxor",    "ff", "a,b", help_bitxor,
 	 &func_bitxor,    NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{"bitand",    "ff", "A,B", help_bitand,
+	{"bitand",    "ff", "a,b", help_bitand,
 	 &func_bitand,    NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{"bitlshift", "ff", "X,N", help_bitlshift,
+	{"bitlshift", "ff", "a,n", help_bitlshift,
 	 &func_bitlshift, NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-	{"bitrshift", "ff", "N,N", help_bitrshift,
+	{"bitrshift", "ff", "a,n", help_bitrshift,
 	 &func_bitrshift, NULL, NULL, NULL, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
 	{NULL}

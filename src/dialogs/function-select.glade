@@ -119,6 +119,8 @@
                         <property name="editable">False</property>
                         <property name="wrap_mode">GTK_WRAP_WORD</property>
                         <property name="cursor_visible">False</property>
+			<property name="right_margin">5</property>
+			<property name="left_margin">5</property>
                       </widget>
                     </child>
                   </widget>
