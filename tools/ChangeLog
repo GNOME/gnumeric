@@ -1,3 +1,8 @@
+2009-06-29  Morten Welinder  <terra@gnome.org>
+
+	* dumpdef.pl (parse_header): Handle the argument-as-type-only
+	case.
+
 2009-06-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.9

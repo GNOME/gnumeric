@@ -29,8 +29,8 @@ sub parse_header {
     close HEADER;
     while ($lines =~ /^\s*[A-Za-z_]\w*(?:\s+[A-Za-z_]\w*)*[\s\*]+ #function type
 		      ([A-Za-z_]\w*)\s*\( #function name
-		      (?:\s*[A-Za-z_]\w*(?:[\s\*]+[A-Za-z_]\w*)*[\s\*]+[A-Za-z_]\w*(?:\s*\[\s*\]\s*)? #[first arg
-		       (?:\s*,\s*[A-Za-z_]\w*(?:[\s\*]+[A-Za-z_]\w*)*[\s\*]+[A-Za-z_]\w*(?:\s*\[\s*\]\s*)?)* #[more args]]
+		      (?:\s*[A-Za-z_]\w*(?:[\s\*]+[A-Za-z_]\w*)*[\s\*]*(?:[A-Za-z_]\w*)?(?:\s*\[\s*\]\s*)? #[first arg
+		       (?:\s*,\s*[A-Za-z_]\w*(?:[\s\*]+[A-Za-z_]\w*)*[\s\*]+(?:[A-Za-z_]\w*)?(?:\s*\[\s*\]\s*)?)* #[more args]]
 		       (?:\s*,\s*\.{3})?|void) #vargs or void
 		      \s*\)\s* #close
 		      (?:(?:G_GNUC_PRINTF|G_GNUC_SCANF)\s*\(\s*\d+\s*,\s*\d+\) # predefined macro modifiers]
