@@ -105,6 +105,12 @@ void gnm_conf_set_core_gui_toolbars_FormatToolbar (gboolean);
 GtkPositionType gnm_conf_get_core_gui_toolbars_FormatToolbar_position (void);
 void gnm_conf_set_core_gui_toolbars_FormatToolbar_position (GtkPositionType);
 
+gboolean gnm_conf_get_core_gui_toolbars_LongFormatToolbar (void);
+void gnm_conf_set_core_gui_toolbars_LongFormatToolbar (gboolean);
+
+GtkPositionType gnm_conf_get_core_gui_toolbars_LongFormatToolbar_position (void);
+void gnm_conf_set_core_gui_toolbars_LongFormatToolbar_position (GtkPositionType);
+
 gboolean gnm_conf_get_core_gui_toolbars_ObjectToolbar (void);
 void gnm_conf_set_core_gui_toolbars_ObjectToolbar (gboolean);
 

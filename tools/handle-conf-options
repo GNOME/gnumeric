@@ -70,6 +70,12 @@ my %extra_attributes =
 	 'max' => 3,
      },
 
+     '/apps/gnumeric/core/gui/toolbars/LongFormatToolbar-position' => {
+	 'gtype' => 'GTK_TYPE_POSITION',
+	 'min' => 0,
+	 'max' => 3,
+     },
+
      '/apps/gnumeric/core/gui/toolbars/ObjectToolbar-position' => {
 	 'gtype' => 'GTK_TYPE_POSITION',
 	 'min' => 0,

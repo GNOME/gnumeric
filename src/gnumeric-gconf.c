@@ -179,23 +179,24 @@ gnm_conf_get_printer_decoration_font (void)
 	return style;
 }
 
-#define TOOLBAR_TANGO(Object,Format,Standard)		\
-	if (strcmp (name, "ObjectToolbar") == 0)	\
-		Object					\
-	else if (strcmp (name, "FormatToolbar") == 0)	\
-		Format					\
-	else if (strcmp (name, "StandardToolbar") == 0)	\
+#define TOOLBAR_TANGO(Object,Format,LongFormat,Standard)	\
+	if (strcmp (name, "ObjectToolbar") == 0)		\
+		Object						\
+	else if (strcmp (name, "FormatToolbar") == 0)		\
+		Format						\
+	else if (strcmp (name, "LongFormatToolbar") == 0)	\
+		LongFormat					\
+	else if (strcmp (name, "StandardToolbar") == 0)		\
 		Standard
 
 
 gboolean
 gnm_conf_get_toolbar_visible (const char *name)
 {
-	gboolean viz = FALSE;
-
 	TOOLBAR_TANGO
 		(return gnm_conf_get_core_gui_toolbars_ObjectToolbar ();,
 		 return gnm_conf_get_core_gui_toolbars_FormatToolbar ();,
+		 return gnm_conf_get_core_gui_toolbars_LongFormatToolbar ();,
 		 return gnm_conf_get_core_gui_toolbars_StandardToolbar (););
 
 	g_warning ("Unknown toolbar: %s", name);
@@ -208,9 +209,8 @@ gnm_conf_set_toolbar_visible (const char *name, gboolean x)
 	TOOLBAR_TANGO
 		(gnm_conf_set_core_gui_toolbars_ObjectToolbar (x);,
 		 gnm_conf_set_core_gui_toolbars_FormatToolbar (x);,
+		 gnm_conf_set_core_gui_toolbars_LongFormatToolbar (x);,
 		 gnm_conf_set_core_gui_toolbars_StandardToolbar (x););
-
-	g_warning ("Unknown toolbar: %s", name);
 }
 
 GtkPositionType
@@ -219,6 +219,7 @@ gnm_conf_get_toolbar_position (const char *name)
 	TOOLBAR_TANGO
 		(return gnm_conf_get_core_gui_toolbars_ObjectToolbar_position ();,
 		 return gnm_conf_get_core_gui_toolbars_FormatToolbar_position ();,
+		 return gnm_conf_get_core_gui_toolbars_LongFormatToolbar_position ();,
 		 return gnm_conf_get_core_gui_toolbars_StandardToolbar_position (););
 
 	g_warning ("Unknown toolbar: %s", name);
@@ -231,9 +232,8 @@ gnm_conf_set_toolbar_position (const char *name, GtkPositionType x)
 	TOOLBAR_TANGO
 		(gnm_conf_set_core_gui_toolbars_ObjectToolbar_position (x);,
 		 gnm_conf_set_core_gui_toolbars_FormatToolbar_position (x);,
+		 gnm_conf_set_core_gui_toolbars_LongFormatToolbar_position (x);,
 		 gnm_conf_set_core_gui_toolbars_StandardToolbar_position (x););
-
-	g_warning ("Unknown toolbar: %s", name);
 }
 
 #undef TOOLBAR_TANGO
@@ -292,7 +292,7 @@ gnm_conf_get_detachable_toolbars (void)
  * running
  *
  *     cd src
- *     perl ../tools/handle-conf-options ../schemas/*.schemas.in  >~/xxx
+ *     perl ../tools/handle-conf-options ../schemas/gnumeric*.schemas.in >~/xxx
  *
  * which creates ~/xxx containing both headers and code.
  */
@@ -668,6 +668,34 @@ void
 gnm_conf_set_core_gui_toolbars_FormatToolbar_position (GtkPositionType x)
 {
 	const char *key = "core/gui/toolbars/FormatToolbar-position";
+	go_conf_set_int (root, key, CLAMP (x, 0, 3));
+}
+
+gboolean
+gnm_conf_get_core_gui_toolbars_LongFormatToolbar (void)
+{
+	const char *key = "core/gui/toolbars/LongFormatToolbar";
+	return go_conf_load_bool (root, key, FALSE);
+}
+
+void
+gnm_conf_set_core_gui_toolbars_LongFormatToolbar (gboolean x)
+{
+	const char *key = "core/gui/toolbars/LongFormatToolbar";
+	go_conf_set_bool (root, key, x != FALSE);
+}
+
+GtkPositionType
+gnm_conf_get_core_gui_toolbars_LongFormatToolbar_position (void)
+{
+	const char *key = "core/gui/toolbars/LongFormatToolbar-position";
+	return go_conf_load_int (root, key, 0, 3, 2);
+}
+
+void
+gnm_conf_set_core_gui_toolbars_LongFormatToolbar_position (GtkPositionType x)
+{
+	const char *key = "core/gui/toolbars/LongFormatToolbar-position";
 	go_conf_set_int (root, key, CLAMP (x, 0, 3));
 }
 
