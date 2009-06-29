@@ -218,7 +218,7 @@ static GnmFuncHelp const help_phi[] = {
  	{ GNM_FUNC_HELP_NAME, F_("NT_PHI:Euler's totient function")},
 	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
 	{ GNM_FUNC_HELP_NOTE, F_("Euler's totient function gives the number of integers less than or equal to @{n} that are relatively prime (coprime) to @{n}.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("=NT_PHI(9)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=NT_PHI(9)" },
 	{ GNM_FUNC_HELP_SEEALSO, "NT_D,ITHPRIME,NT_SIGMA"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Euler's_totient_function") },
 	{ GNM_FUNC_HELP_END }
@@ -257,9 +257,10 @@ static GnmFuncHelp const help_nt_mu[] = {
 	     " an odd  number of different prime factors, NT_MU returns "
 	     "-1, and if @{n} has an even number of different prime factors,"
 	     " it returns 1. If @{n} = 1, NT_MU returns 1.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("=NT_MU(45)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=NT_MU(45)" },
 	{ GNM_FUNC_HELP_SEEALSO, "ITHPRIME,NT_PHI,NT_SIGMA,NT_D"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Möbius_function") },
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:MoebiusFunction.html") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -324,7 +325,7 @@ static GnmFuncHelp const help_sigma[] = {
 	{ GNM_FUNC_HELP_NAME, F_("NT_SIGMA:sigma function")},
 	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("NT_SIGMA calculates the sum of the divisors of @n.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("=NT_SIGMA(4)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=NT_SIGMA(4)" },
 	{ GNM_FUNC_HELP_SEEALSO, "NT_D,ITHPRIME,NT_PHI"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Divisor_function") },
 	{ GNM_FUNC_HELP_END }
@@ -358,7 +359,7 @@ static GnmFuncHelp const help_ithprime[] = {
  	{ GNM_FUNC_HELP_NAME, F_("ITHPRIME:@{i}th prime")},
 	{ GNM_FUNC_HELP_ARG, F_("i:positive integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ITHPRIME finds the @{i}th prime.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("=ITHPRIME(7)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=ITHPRIME(7)" },
 	{ GNM_FUNC_HELP_SEEALSO, "NT_D,NT_SIGMA"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -384,8 +385,9 @@ static GnmFuncHelp const help_isprime[] = {
 	{ GNM_FUNC_HELP_NAME, F_("ISPRIME:whether @{n} is prime")},
 	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ISPRIME returns TRUE if @{n} is prime and FALSE otherwise.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("=isprime(57)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=ISPRIME(57)" },
 	{ GNM_FUNC_HELP_SEEALSO, "NT_D, NT_SIGMA"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:PrimeNumber.html") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -470,8 +472,9 @@ static GnmFuncHelp const help_nt_pi[] = {
 	{ GNM_FUNC_HELP_NAME, F_("NT_PI:number of primes upto @{n}")},
 	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("NT_PI returns the number of primes less than or equal to @{n}.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("=NT_PI{11}") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=NT_PI{11}" },
 	{ GNM_FUNC_HELP_SEEALSO, "ITHPRIME,NT_PHI,NT_D,NT_SIGMA"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:PrimeCountingFunction.html") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -501,7 +504,7 @@ static GnmFuncHelp const help_bitor[] = {
 	{ GNM_FUNC_HELP_ARG, F_("a:non-negative integer")},
 	{ GNM_FUNC_HELP_ARG, F_("b:non-negative integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITOR returns the bitwise or of the binary representations of its arguments.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("=BITOR(9,5)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=BITOR(9,5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BITXOR,BITAND"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -525,7 +528,7 @@ static GnmFuncHelp const help_bitxor[] = {
 	{ GNM_FUNC_HELP_ARG, F_("a:non-negative integer")},
 	{ GNM_FUNC_HELP_ARG, F_("b:non-negative integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITXOR returns the bitwise exclusive or of the binary representations of its arguments.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("=BITXOR(9,5)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=BITXOR(9,5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BITOR,BITAND"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -549,7 +552,7 @@ static GnmFuncHelp const help_bitand[] = {
 	{ GNM_FUNC_HELP_ARG, F_("a:non-negative integer")},
 	{ GNM_FUNC_HELP_ARG, F_("b:non-negative integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITAND returns the bitwise and of the binary representations of its arguments.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("=BITAND(9,5)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=BITAND(9,5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BITOR,BITXOR"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -575,7 +578,7 @@ static GnmFuncHelp const help_bitlshift[] = {
 	{ GNM_FUNC_HELP_ARG, F_("n:integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITLSHIFT returns the binary representations of @{a} shifted @{n} positions to the left.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} is negative, BITLSHIFT shifts the bits to the right by ABS(@{n}) positions.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("=BITLSHIFT(9,5)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=BITLSHIFT(9,5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BITRSHIFT"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -605,7 +608,7 @@ static GnmFuncHelp const help_bitrshift[] = {
 	{ GNM_FUNC_HELP_ARG, F_("n:integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("BITRSHIFT returns the binary representations of @{a} shifted @{n} positions to the right.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} is negative, BITRSHIFT shifts the bits to the left by ABS(@{n}) positions.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("=BITRSHIFT(137,5)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=BITRSHIFT(137,5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BITLSHIFT"},
 	{ GNM_FUNC_HELP_END }
 };

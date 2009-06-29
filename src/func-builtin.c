@@ -43,7 +43,7 @@ static GnmFuncHelp const help_sum[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, N_("SUM computes the sum of all the values and cells referenced in the argument list.")},
 	{ GNM_FUNC_HELP_EXCEL, N_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, N_("This function is OpenFormula compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, N_("=SUM(11,15,17,21,43)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=SUM(11,15,17,21,43)" },
 	{ GNM_FUNC_HELP_SEEALSO, "AVERAGE,COUNT"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -68,7 +68,7 @@ static GnmFuncHelp const help_product[] = {
 	{ GNM_FUNC_HELP_NOTE, N_("If all cells are empty, the result will be 0.") },
 	{ GNM_FUNC_HELP_EXCEL, N_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, N_("This function is OpenFormula compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, N_("=PRODUCT(2,5,9)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=PRODUCT(2,5,9)" },
 	{ GNM_FUNC_HELP_SEEALSO, "SUM,COUNT,G_PRODUCT"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -99,7 +99,7 @@ gnumeric_product (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 static GnmFuncHelp const help_gnumeric_version[] = {
  	{ GNM_FUNC_HELP_NAME, N_("GNUMERIC_VERSION:the current version of GNumeric")},
 	{ GNM_FUNC_HELP_DESCRIPTION, N_("GNUMERIC_VERSION returns the version of gnumeric as a string.")},
-	{ GNM_FUNC_HELP_EXAMPLES, N_("=GNUMERIC_VERSION()") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=GNUMERIC_VERSION()" },
 	{ GNM_FUNC_HELP_SEEALSO, ""},
 	{ GNM_FUNC_HELP_END }
 };

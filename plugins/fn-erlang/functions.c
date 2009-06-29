@@ -108,7 +108,7 @@ static GnmFuncHelp const help_probblock[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("PROBBLOCK returns probability of blocking when @{traffic}"
 					" calls load into @{ccicuits} circuits.")},
 	{ GNM_FUNC_HELP_NOTE, F_("@{traffic} cannot exceed @{circuits}.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("=PROBBLOCK(24,30)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=PROBBLOCK(24,30)" },
 	{ GNM_FUNC_HELP_SEEALSO, "OFFTRAF,DIMCIRC,OFFCAP"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -132,7 +132,7 @@ static GnmFuncHelp const help_offtraf[] = {
 	{ GNM_FUNC_HELP_ARG, F_("circuits:number of circuits")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("OFFTRAF returns the predicted number of offered calls given @{traffic} carried calls (taken from measurements) on @{circuits} circuits.")},
 	{ GNM_FUNC_HELP_NOTE, F_("@{traffic} cannot exceed @{circuits}.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("=OFFTRAF(24,30)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=OFFTRAF(24,30)" },
 	{ GNM_FUNC_HELP_SEEALSO, "PROBBLOCK,DIMCIRC,OFFCAP"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -191,7 +191,7 @@ static GnmFuncHelp const help_dimcirc[] = {
 	{ GNM_FUNC_HELP_ARG, F_("traffic:number of calls")},
 	{ GNM_FUNC_HELP_ARG, F_("gos:grade of service")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("DIMCIRC returns the number of circuits required given @{traffic} calls with grade of service @{gos}.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("=DIMCIRC(24,0.01)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=DIMCIRC(24,0.01)" },
 	{ GNM_FUNC_HELP_SEEALSO, "OFFCAP,OFFTRAF,PROBBLOCK"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -229,7 +229,7 @@ static GnmFuncHelp const help_offcap[] = {
 	{ GNM_FUNC_HELP_ARG, F_("circuits:number of circuits")},
 	{ GNM_FUNC_HELP_ARG, F_("gos:grade of service")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("OFFCAP returns the traffic capacity given @{circuits} circuits with grade of service @{gos}.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("=OFFCAP(30,0.01)") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=OFFCAP(30,0.01)" },
 	{ GNM_FUNC_HELP_SEEALSO, "DIMCIRC,OFFTRAF,PROBBLOCK"},
 	{ GNM_FUNC_HELP_END }
 };
