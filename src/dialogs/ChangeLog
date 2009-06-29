@@ -1,3 +1,9 @@
+2009-06-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* cell-format.glade: add buttons
+	* dialog-cell-format.c (fmt_dialog_init_conditions_page): disable
+	  buttons
+
 2009-06-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-sheet-order.c (dialog_sheet_order): restore window

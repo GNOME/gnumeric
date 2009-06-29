@@ -1,3 +1,8 @@
+2009-06-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/wbc-gtk-actions.c (cb_help_docs): pass flags to g_spawn_async
+	  and provide more descriptive error message
+
 2009-06-28  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-file.c (gui_file_template): Do not set a NULL uri here.

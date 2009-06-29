@@ -206,7 +206,11 @@ typedef struct _FormatState {
 		GtkTextView     *msg;
 	} input_msg;
 	struct {
+		GtkButton       *add;
 		GtkButton       *remove;
+		GtkButton       *clear;
+		GtkButton       *expand;
+		GtkButton       *edit;
 		GtkLabel        *label;
 		GtkTreeStore    *model;
 	} conditions;
@@ -2177,9 +2181,21 @@ fmt_dialog_init_conditions_page (FormatState *state)
 
 	g_return_if_fail (state != NULL);
 
+	state->conditions.add = GTK_BUTTON (glade_xml_get_widget (state->gui, 
+								     "conditions_add"));
+	gtk_widget_set_sensitive (GTK_WIDGET (state->conditions.add), FALSE);
 	state->conditions.remove = GTK_BUTTON (glade_xml_get_widget (state->gui, 
 								     "conditions_remove"));
 	gtk_widget_set_sensitive (GTK_WIDGET (state->conditions.remove), FALSE);
+	state->conditions.clear = GTK_BUTTON (glade_xml_get_widget (state->gui, 
+								     "conditions_clear"));
+	gtk_widget_set_sensitive (GTK_WIDGET (state->conditions.clear), FALSE);
+	state->conditions.expand = GTK_BUTTON (glade_xml_get_widget (state->gui, 
+								     "conditions_expand"));
+	gtk_widget_set_sensitive (GTK_WIDGET (state->conditions.expand), FALSE);
+	state->conditions.edit = GTK_BUTTON (glade_xml_get_widget (state->gui, 
+								     "conditions_edit"));
+	gtk_widget_set_sensitive (GTK_WIDGET (state->conditions.edit), FALSE);
 
 	state->conditions.model = gtk_tree_store_new (CONDITIONS_NUM_COLUMNS,
 						      G_TYPE_STRING,
