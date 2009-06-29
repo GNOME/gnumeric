@@ -18,6 +18,7 @@ Morten:
 	* Make SUMIF/COUNTIF and the D* functions understand pattern. [#586215]
 	* Make dialogs remember their sizes and positions.
 	* Fix crash with new-from-template.
+	* Rework loading of configuration.  [#585701]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.9
