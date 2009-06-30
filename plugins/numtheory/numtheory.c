@@ -293,7 +293,7 @@ static GnmFuncHelp const help_d[] = {
 	{ GNM_FUNC_HELP_NAME, F_("NT_D:number of divisors")},
 	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("NT_D calculates the number of divisors of @{n}.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("ITHPRIME,NT_PHI,NT_SIGMA") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=NT_D(4096)" },
 	{ GNM_FUNC_HELP_SEEALSO, "ITHPRIME,NT_PHI,NT_SIGMA"},
 	{ GNM_FUNC_HELP_END }
 };

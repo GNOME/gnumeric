@@ -1,3 +1,7 @@
+2009-06-29  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c: partial conversion to new function description
+	
 2009-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* plugin.xml.in: new csc, csh, sec, sech
