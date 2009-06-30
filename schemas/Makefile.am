@@ -28,7 +28,8 @@ reg_DATA = $(schema_in_files:.schemas.in=.reg) $(schema_in_files:.schemas.in=.hk
 CLEANFILES += $(reg_DATA)
 
 .schemas.in.reg:
-	-cd $(bindir) ; $(abs_top_builddir)/tools/gconf-schemas-to-win32-reg.exe $(abs_builddir)/$< >$(abs_builddir)/$@
+	$(PERL) $(top_srcdir)/tools/handle-conf-options --reg $< >$(abs_builddir)/$@
+
 .schemas.in.hkcu.reg:
-	-cd $(bindir) ; $(abs_top_builddir)/tools/gconf-schemas-to-win32-reg.exe -c $(abs_builddir)/$< >$(abs_builddir)/$@
+	$(PERL) $(top_srcdir)/tools/handle-conf-options --hkcu-reg $< >$(abs_builddir)/$@
 endif

@@ -20,6 +20,7 @@ Morten:
 	* Fix crash with new-from-template.
 	* Rework loading of configuration.  [#585701]
 	* Support evaluated examples in function docs.
+	* Simplify Win32 build.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.9

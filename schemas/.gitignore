@@ -4,3 +4,4 @@ Makefile
 gnumeric-dialogs.schemas
 gnumeric-general.schemas
 gnumeric-plugins.schemas
+*.reg

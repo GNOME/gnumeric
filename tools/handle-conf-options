@@ -2,6 +2,16 @@
 
 use strict;
 use XML::Parser;
+use Getopt::Long;
+
+my ($do_cfile,$do_hfile);
+my ($do_hkcu_reg,$do_reg);
+&GetOptions("cfile" => \$do_cfile,
+	    "hfile" => \$do_hfile,
+	    "hkcu-reg" => \$do_hkcu_reg,
+	    "reg" => \$do_reg);
+
+# -----------------------------------------------------------------------------
 
 my @schemas = ();
 
@@ -11,37 +21,47 @@ for my $filename (@ARGV) {
 
     &walk_tree ([], [{},@$tree]);
 }
-@schemas = sort { $a->{'applyto'} cmp $b->{'applyto'} } @schemas;
-my $N = @schemas;
 
-# Number the schemas and decide on a variable name.
-{
-    my $i = 0;
-    foreach my $schema (@schemas) {
-	$schema->{'i'} = $i++;
+my $schema;
+sub walk_tree {
+    my ($parents,$contents) = @_;
 
-	my $var = $schema->{'applyto'};
-	$var =~ s{^/apps/gnumeric/}{};
-	$var =~ s{^/apps/gnome-settings/gnumeric/}{};
-	$var =~ s{[^a-zA-Z0-9_]}{_}g;
-	$schema->{'var'} = $var;
+    if (ref ($contents) eq 'ARRAY') {
+	my @items = @$contents;
+	my $attrs = shift @items;
+
+	while (@items) {
+	    my $tag = shift @items;
+	    my $args = shift @items;
+
+	    if ($tag eq '0') {
+		# Text
+		if (@$parents > 2 && $parents->[-2] eq 'schema') {
+		    my $key = $parents->[-1];
+		    next if $key eq 'locale';
+		    $schema->{$key} = $args;
+		}
+		if (@$parents > 3 &&
+		    $parents->[-3] eq 'schema' &&
+		    $parents->[-2] eq 'locale') {
+		    my $key = $parents->[-1];
+		    next if $key ne 'default';
+		    $schema->{$key} = $args;
+		}
+	    } else {
+		$schema = {} if $tag eq 'schema';
+		if (@$parents > 1 && $parents->[-1] eq 'schema') {
+		    # This handles empty defaults.
+		    $schema->{$tag} = '';
+		}
+		&walk_tree ([@$parents,$tag],$args);
+		push @schemas, $schema if $tag eq 'schema';
+	    }
+	}
     }
 }
 
-my $cfile = "";
-my $hfile = "";
-
-my %type_to_ctype =
-    ('bool' => 'gboolean',
-     'int' => 'int',
-     'float' => 'double',
-     'string' => 'const char *',
-     'list:string' => 'GSList *',
-     'GO_TYPE_DIRECTION' => 'GODirection',
-     'GTK_TYPE_UNIT' => 'GtkUnit',
-     'GTK_TYPE_TOOLBAR_STYLE' => 'GtkToolbarStyle',
-     'GTK_TYPE_POSITION' => 'GtkPositionType',
-    );
+# -----------------------------------------------------------------------------
 
 my %extra_attributes =
     ('/apps/gnumeric/core/gui/editing/enter_moves_dir' => {
@@ -225,234 +245,265 @@ my %extra_attributes =
 
     );
 
-foreach my $schema (@schemas) {
-    my $key = $schema->{'applyto'};
-    my $e = $extra_attributes{$key};
-    next unless $e;
-    foreach my $k (keys %$e) {
-	$schema->{$k} = $e->{$k};
-    }
-}
-
-# -----------------------------------------------------------------------------
-
-foreach my $schema (@schemas) {
-    my $i = $schema->{'i'};
-    my $var = $schema->{'var'};
-    my $key = $schema->{'applyto'};
-    my $type = $schema->{'type'};
-    $type .= ":" . $schema->{'list_type'} if $type eq 'list';
-    my $default = $schema->{'default'};
-    my $min = $schema->{'min'};
-    my $max = $schema->{'max'};
-    my $gtype = ($schema->{'gtype'} || '0');
-
-    my $ctype = $type_to_ctype{$gtype || $type};
-    my $ctypes = "$ctype "; $ctypes =~ s/\*\s/\*/;
-
-    my $root;
-    if ($key =~ s{/apps/gnumeric/}{}) {
-	$root = 'root';
-    } else {
-	$root = 'NULL';
-    }
-
-    $hfile .= "${ctypes}gnm_conf_get_$var (void);\n";
-    $hfile .= "void gnm_conf_set_$var ($ctype);\n\n";
-
-    my $get_head = "$ctype\ngnm_conf_get_$var (void)";
-    my $set_head = "void\ngnm_conf_set_$var (${ctypes}x)";
-
-
-    if ($type eq 'bool') {
-	$default = uc $default;
-
-	$cfile .= "$get_head\n";
-	$cfile .= "{\n";
-	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\treturn go_conf_load_bool ($root, key, $default);\n";
-	$cfile .= "}\n\n";
-
-	$cfile .= "$set_head\n";
-	$cfile .= "{\n";
-	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\tgo_conf_set_bool ($root, key, x != FALSE);\n";
-	$cfile .= "\tschedule_sync ();\n";
-	$cfile .= "}\n\n";
-    } elsif ($type eq 'int' || $type eq 'float') {
-	my $ltype = $type_to_ctype{$type};
-	die "$0: No min for $key\n" unless defined $min;
-	die "$0: No max for $key\n" unless defined $max;
-
-	$cfile .= "$get_head\n";
-	$cfile .= "{\n";
-	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\treturn go_conf_load_$ltype ($root, key, $min, $max, $default);\n";
-	$cfile .= "}\n\n";
-
-	$cfile .= "void\n";
-	$cfile .= "gnm_conf_set_$var ($ctype x)\n";
-	$cfile .= "{\n";
-	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\tgo_conf_set_$ltype ($root, key, CLAMP (x, $min, $max));\n";
-	$cfile .= "\tschedule_sync ();\n";
-	$cfile .= "}\n\n";
-    } elsif ($type eq 'string' && $gtype eq '0') {
-	$cfile .= "$get_head\n";
-	$cfile .= "{\n";
-	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\tchar *res = go_conf_load_string ($root, key);\n";
-	$cfile .= "\tif (!res) res = g_strdup (\"$default\");\n";
-	$cfile .= "\tg_hash_table_replace (string_pool, (gpointer)key, res);\n";
-	$cfile .= "\treturn res;\n";
-	$cfile .= "}\n\n";
-
-	$cfile .= "$set_head\n";
-	$cfile .= "{\n";
-	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\tgo_conf_set_string ($root, key, x);\n";
-	$cfile .= "\tg_hash_table_remove (string_pool, key);\n";
-	$cfile .= "\tschedule_sync ();\n";
-	$cfile .= "}\n\n";
-    } elsif ($type eq 'string' && $gtype ne '0') {
-	$cfile .= "$get_head\n";
-	$cfile .= "{\n";
-	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\treturn go_conf_load_enum ($root, key, $gtype, $default);\n";
-	$cfile .= "}\n\n";
-
-	$cfile .= "$set_head\n";
-	$cfile .= "{\n";
-	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\tgo_conf_set_enum ($root, key, $gtype, x);\n";
-	$cfile .= "\tschedule_sync ();\n";
-	$cfile .= "}\n\n";
-    } elsif ($type eq 'list:string') {
-	$cfile .= "$get_head\n";
-	$cfile .= "{\n";
-	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\tGSList *res = go_conf_load_str_list ($root, key);\n";
-	$cfile .= "\tg_hash_table_replace (string_list_pool, (gpointer)key, res);\n";
-	$cfile .= "\treturn res;\n";
-	$cfile .= "}\n\n";
-
-	$cfile .= "$set_head\n";
-	$cfile .= "{\n";
-	$cfile .= "\tconst char *key = \"$key\";\n";
-	$cfile .= "\tgo_conf_set_str_list ($root, key, x);\n";
-	$cfile .= "\tg_hash_table_remove (string_list_pool, key);\n";
-	$cfile .= "\tschedule_sync ();\n";
-	$cfile .= "}\n\n";
-    } else {
-	die "$0: Unhandled type $type\n";
-    }
-}
-
-print $hfile;
-print $cfile;
-
-# -----------------------------------------------------------------------------
-
-my $schema;
-sub walk_tree {
-    my ($parents,$contents) = @_;
-
-    if (ref ($contents) eq 'ARRAY') {
-	my @items = @$contents;
-	my $attrs = shift @items;
-
-	while (@items) {
-	    my $tag = shift @items;
-	    my $args = shift @items;
-
-	    if ($tag eq '0') {
-		# Text
-		if (@$parents > 2 && $parents->[-2] eq 'schema') {
-		    my $key = $parents->[-1];
-		    next if $key eq 'locale';
-		    $schema->{$key} = $args;
-		}
-		if (@$parents > 3 &&
-		    $parents->[-3] eq 'schema' &&
-		    $parents->[-2] eq 'locale') {
-		    my $key = $parents->[-1];
-		    next if $key ne 'default';
-		    $schema->{$key} = $args;
-		}
-	    } else {
-		$schema = {} if $tag eq 'schema';
-		if (@$parents > 1 && $parents->[-1] eq 'schema') {
-		    # This handles empty defaults.
-		    $schema->{$tag} = '';
-		}
-		&walk_tree ([@$parents,$tag],$args);
-		push @schemas, $schema if $tag eq 'schema';
-	    }
+sub apply_extra_attributes {
+    foreach my $schema (@schemas) {
+	my $key = $schema->{'applyto'};
+	my $e = $extra_attributes{$key};
+	next unless $e;
+	foreach my $k (keys %$e) {
+	    $schema->{$k} = $e->{$k};
 	}
     }
 }
 
+sub sort_schemas {
+    @schemas = sort { $a->{'applyto'} cmp $b->{'applyto'} } @schemas;
+}
+
+sub number_schemas {
+    my $i = 0;
+    foreach my $schema (@schemas) {
+	$schema->{'i'} = $i++;
+    }
+}
+
 # -----------------------------------------------------------------------------
 
-__END__
+sub create_hcfile {
+    @schemas = sort { $a->{'applyto'} cmp $b->{'applyto'} } @schemas;
+    &number_schemas ();
+    &apply_extra_attributes ();
 
-print "static unsigned char key_loaded[$N];\n\n";
-print "static const char *key_names[$N] = {\n";
-foreach my $schema (@schemas) {
-    my $comma = ($schema->{'i'} == $N - 1) ? "" : ",";
-    print "\t\"", $schema->{'applyto'}, "\"$comma\n";
-}
-print "};\n\n";
+    my %type_to_ctype =
+	('bool' => 'gboolean',
+	 'int' => 'int',
+	 'float' => 'double',
+	 'string' => 'const char *',
+	 'list:string' => 'GSList *',
+	 'GO_TYPE_DIRECTION' => 'GODirection',
+	 'GTK_TYPE_UNIT' => 'GtkUnit',
+	 'GTK_TYPE_TOOLBAR_STYLE' => 'GtkToolbarStyle',
+	 'GTK_TYPE_POSITION' => 'GtkPositionType',
+	);
 
-print "static void\n";
-print "load_one_option (int i)\n";
-print "{\n";
-print "\tconst char *key;\n";
-print "\tg_return_if_fail (i >= 0 && i < $N);\n";
-print "\n";
-print "\tkey = key_names[i];\n";
-print "\n";
-print "\tswitch (i) {\n";
-foreach my $schema (@schemas) {
-    my $i = $schema->{'i'};
-    my $var = "prefs." . $schema->{'var'};
-    my $key = $schema->{'applyto'};
-    my $type = $schema->{'type'};
-    $type .= ":" . $schema->{'list_type'} if $type eq 'list';
-    my $default = $schema->{'default'};
+    my $cfile = "";
+    my $hfile = "";
 
-    print "\tcase $i:\n";
-    if ($type eq 'bool') {
-	$default = uc $default;
-	print "\t\t$var =\n";
-	print "\t\t\tgo_conf_load_bool (node, key, $default);\n";
-    } elsif ($type eq 'int') {
-	my $min = 42; # FIXME
-	my $max = 42; # FIXME
-	print "\t\t$var =\n";
-	print "\t\t\tgo_conf_load_int (node, key, $min, $max, $default);\n";
-    } elsif ($type eq 'float') {
-	my $min = 42; # FIXME
-	my $max = 42; # FIXME
-	print "\t\t$var =\n";
-	print "\t\t\tgo_conf_load_double (node, key, $min, $max, $default);\n";
-    } elsif ($type eq 'string') {
-	print "\t\tg_free ($var);\n";
-	print "\t\t$var =\n";
-	print "\t\t\tgo_conf_load_string (node, key);\n";
-    } elsif ($type eq 'list:string') {
-	print "\t\tgo_slist_free_custom ($var, g_free);\n";
-	print "\t\t$var =\n";
-	print "\t\t\tgo_conf_load_str_list (node, key);\n";
-    } else {
-	print "\t\t/* Unhandled type $type */\n";
+    foreach my $schema (@schemas) {
+	my $i = $schema->{'i'};
+	my $key = $schema->{'applyto'};
+	my $type = $schema->{'type'};
+	$type .= ":" . $schema->{'list_type'} if $type eq 'list';
+	my $default = $schema->{'default'};
+	my $min = $schema->{'min'};
+	my $max = $schema->{'max'};
+	my $gtype = ($schema->{'gtype'} || '0');
+
+	my $ctype = $type_to_ctype{$gtype || $type};
+	my $ctypes = "$ctype "; $ctypes =~ s/\*\s/\*/;
+
+	my $var = $key;
+	$var =~ s{^/apps/gnumeric/}{};
+	$var =~ s{^/apps/gnome-settings/gnumeric/}{};
+	$var =~ s{[^a-zA-Z0-9_]}{_}g;
+
+	my $root;
+	if ($key =~ s{/apps/gnumeric/}{}) {
+	    $root = 'root';
+	} else {
+	    $root = 'NULL';
+	}
+
+	$hfile .= "${ctypes}gnm_conf_get_$var (void);\n";
+	$hfile .= "void gnm_conf_set_$var ($ctype);\n\n";
+
+	my $get_head = "$ctype\ngnm_conf_get_$var (void)";
+	my $set_head = "void\ngnm_conf_set_$var (${ctypes}x)";
+
+
+	if ($type eq 'bool') {
+	    $default = uc $default;
+
+	    $cfile .= "$get_head\n";
+	    $cfile .= "{\n";
+	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\treturn go_conf_load_bool ($root, key, $default);\n";
+	    $cfile .= "}\n\n";
+
+	    $cfile .= "$set_head\n";
+	    $cfile .= "{\n";
+	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\tgo_conf_set_bool ($root, key, x != FALSE);\n";
+	    $cfile .= "\tschedule_sync ();\n";
+	    $cfile .= "}\n\n";
+	} elsif ($type eq 'int' || $type eq 'float') {
+	    my $ltype = $type_to_ctype{$type};
+	    die "$0: No min for $key\n" unless defined $min;
+	    die "$0: No max for $key\n" unless defined $max;
+
+	    $cfile .= "$get_head\n";
+	    $cfile .= "{\n";
+	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\treturn go_conf_load_$ltype ($root, key, $min, $max, $default);\n";
+	    $cfile .= "}\n\n";
+
+	    $cfile .= "void\n";
+	    $cfile .= "gnm_conf_set_$var ($ctype x)\n";
+	    $cfile .= "{\n";
+	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\tgo_conf_set_$ltype ($root, key, CLAMP (x, $min, $max));\n";
+	    $cfile .= "\tschedule_sync ();\n";
+	    $cfile .= "}\n\n";
+	} elsif ($type eq 'string' && $gtype eq '0') {
+	    $cfile .= "$get_head\n";
+	    $cfile .= "{\n";
+	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\tchar *res = go_conf_load_string ($root, key);\n";
+	    $cfile .= "\tif (!res) res = g_strdup (\"$default\");\n";
+	    $cfile .= "\tg_hash_table_replace (string_pool, (gpointer)key, res);\n";
+	    $cfile .= "\treturn res;\n";
+	    $cfile .= "}\n\n";
+
+	    $cfile .= "$set_head\n";
+	    $cfile .= "{\n";
+	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\tgo_conf_set_string ($root, key, x);\n";
+	    $cfile .= "\tg_hash_table_remove (string_pool, key);\n";
+	    $cfile .= "\tschedule_sync ();\n";
+	    $cfile .= "}\n\n";
+	} elsif ($type eq 'string' && $gtype ne '0') {
+	    $cfile .= "$get_head\n";
+	    $cfile .= "{\n";
+	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\treturn go_conf_load_enum ($root, key, $gtype, $default);\n";
+	    $cfile .= "}\n\n";
+
+	    $cfile .= "$set_head\n";
+	    $cfile .= "{\n";
+	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\tgo_conf_set_enum ($root, key, $gtype, x);\n";
+	    $cfile .= "\tschedule_sync ();\n";
+	    $cfile .= "}\n\n";
+	} elsif ($type eq 'list:string') {
+	    $cfile .= "$get_head\n";
+	    $cfile .= "{\n";
+	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\tGSList *res = go_conf_load_str_list ($root, key);\n";
+	    $cfile .= "\tg_hash_table_replace (string_list_pool, (gpointer)key, res);\n";
+	    $cfile .= "\treturn res;\n";
+	    $cfile .= "}\n\n";
+
+	    $cfile .= "$set_head\n";
+	    $cfile .= "{\n";
+	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\tgo_conf_set_str_list ($root, key, x);\n";
+	    $cfile .= "\tg_hash_table_remove (string_list_pool, key);\n";
+	    $cfile .= "\tschedule_sync ();\n";
+	    $cfile .= "}\n\n";
+	} else {
+	    die "$0: Unhandled type $type\n";
+	}
     }
 
-    print "\t\tbreak;\n";
+    print $hfile if $do_hfile;
+    print $cfile if $do_cfile;
 }
-print "\tdefault:\n";
-print "\t\tg_assert_not_reached ();\n";
-print "\t}\n";
-print "\n";
-print "\tkey_loaded[i] = TRUE;\n";
-print "};\n\n";
+
+# -----------------------------------------------------------------------------
+
+sub create_reg {
+    my ($prefix) = @_;
+
+    # --------------------
+    # Bizarre ordering of schemas.
+
+    my %dir_group;
+    my $i = 0;
+    my @groups;
+    foreach my $schema (@schemas) {
+	my $key = $schema->{'applyto'};
+	my $dir = $key; $dir =~ s{/[^/]+$}{};
+
+	my $group = $dir_group{$dir};
+	if (!defined $group) {
+	    $group = $dir_group{$dir} = $i++;
+	    push @groups, [];
+	}
+
+	# Unshift to reverse the order within the group for no reason other
+	# than matching old code.
+	unshift @{$groups[$group]}, $schema;
+    }
+    @schemas = ();
+    foreach (@groups) {
+	push @schemas, @$_;
+    }
+
+    # --------------------
+
+    print "REGEDIT4\n";
+
+    my %dirs;
+    foreach my $schema (@schemas) {
+	my $key = $schema->{'applyto'};
+	my $type = $schema->{'type'};
+	$type .= ":" . $schema->{'list_type'} if $type eq 'list';
+	my $default = $schema->{'default'};
+
+	next unless $key =~ s{^/apps/}{};
+
+	my $wkey = $prefix;
+	my @items = split ('/', $key);
+	my $var = pop @items;
+	foreach my $item (@items) {
+	    $wkey .= "\\$item";
+	    if (!exists $dirs{$wkey}) {
+		print "\n[$wkey]\n";
+		$dirs{$wkey} = 1;
+	    }
+	}
+
+	print "\"$var\"=";
+	if ($type eq 'bool') {
+	    printf "hex:0%d", ($default =~ /TRUE/i ? 1 : 0);
+	} elsif ($type eq 'int') {
+	    printf "dword:%08x", $default;
+	} elsif ($type eq 'float') {
+	    printf "\"%s\"", $default;
+	} elsif ($type eq 'string') {
+	    printf "\"%s\"", $default;
+	} elsif ($type eq 'list:string') {
+	    print "\"";
+	    $default = "" unless defined $default;
+	    if ($default =~ s{^\[(.*)\]$}{$1}) {
+		while ($default ne '') {
+		    if ($default =~ m{^,}) {
+			print "\n";
+			$default = substr ($default, 1);
+		    } elsif ($default =~ m{^\\.}) {
+			print "\\" if $default =~ m{^\\[\\""]};
+			print substr ($default, 1, 1);
+			$default = substr ($default, 2);
+		    } else {
+			print substr ($default, 0, 1);
+			$default = substr ($default, 1);
+		    }
+		}
+		print "\n";
+	    }
+	    print "\"";
+	} else {
+	    die "$0: Unhandled type $type\n";
+	}
+
+	print "\n";
+    }
+
+    print "\n";
+}
+
+# -----------------------------------------------------------------------------
+
+&create_hcfile () if $do_hfile || $do_cfile;
+&create_reg ("HKEY_USERS\\.DEFAULT\\Software") if $do_reg;
+&create_reg ("HKEY_CURRENT_USER\\Software") if $do_hkcu_reg;
