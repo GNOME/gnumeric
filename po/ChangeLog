@@ -1,3 +1,7 @@
+2009-06-30  Emmanuel Pacaud <emmanuel@gnome.org>
+
+	* fr.po: Warning fix.
+
 2009-06-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.9
@@ -11,7 +15,7 @@
 2009-06-02  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* POTFILES.in: added src/tools/analysis-anova.c
-	
+
 2009-05-23  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.8
@@ -30,7 +34,7 @@
 
 2009-04-13  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
-        * es.po: Updated Spanish translation.
+	* es.po: Updated Spanish translation.
 
 2009-04-04  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 

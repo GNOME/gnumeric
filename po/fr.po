@@ -13669,7 +13669,7 @@ msgstr "Recherche un texte et le remplace par un autre"
 
 #: ../src/wbc-gtk-actions.c:1906
 msgid "_Goto cell..."
-msgstr "A_ller à la cellule..."
+msgstr "Aller à la cell_ule..."
 
 #: ../src/wbc-gtk-actions.c:1907
 msgid "Jump to a specified cell"
