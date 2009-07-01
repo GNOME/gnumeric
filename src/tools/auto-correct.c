@@ -96,9 +96,8 @@ autocorrect_init (void)
 
 	autocorrect_load ();
 	autocorrect.notification_id =
-		go_conf_add_monitor (gnm_conf_get_root (),
-				     AUTOCORRECT_DIRECTORY,
-				     &cb_autocorrect_update, NULL);
+		go_conf_add_monitor (gnm_conf_get_autocorrect_dir_node (),
+				     NULL, &cb_autocorrect_update, NULL);
 	g_object_set_data_full (gnm_app_get_app (),
 		"ToolsAutoCorrect", GINT_TO_POINTER (1),
 		(GDestroyNotify) autocorrect_clear);

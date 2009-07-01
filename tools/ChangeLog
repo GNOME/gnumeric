@@ -1,3 +1,8 @@
+2009-07-01  Morten Welinder  <terra@gnome.org>
+
+	* handle-conf-options (make_get_conf_node): Create _get_node and
+	_get_dir_node functions too.
+
 2009-06-29  Morten Welinder  <terra@gnome.org>
 
 	* dumpdef.pl (parse_header): Handle the argument-as-type-only

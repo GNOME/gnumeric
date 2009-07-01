@@ -30,7 +30,6 @@
 #include <gnumeric.h>
 #include "application.h"
 #include "gnumeric-gconf.h"
-#include "gnumeric-gconf-priv.h"
 #include "gutils.h"
 #include "mstyle.h"
 #include <goffice/goffice.h>
@@ -47,6 +46,8 @@
 #define d(code)
 #endif
 
+#define GNM_CONF_DIR "gnumeric"
+
 static GOConfNode *root = NULL;
 
 /*
@@ -55,6 +56,7 @@ static GOConfNode *root = NULL;
   */
 static GHashTable *string_pool;
 static GHashTable *string_list_pool;
+static GHashTable *node_pool;
 
 static guint sync_handler;
 
@@ -90,8 +92,12 @@ gnm_conf_init (void)
 	string_list_pool = g_hash_table_new_full
 		(g_str_hash, g_str_equal,
 		 NULL, (GDestroyNotify)cb_free_string_list);
+	node_pool = g_hash_table_new_full
+		(g_str_hash, g_str_equal,
+		 NULL, (GDestroyNotify)go_conf_free_node);
 
 	root = go_conf_get_node (NULL, GNM_CONF_DIR);
+	g_hash_table_insert (node_pool, (gpointer)"/", root);
 }
 
 void
@@ -109,7 +115,8 @@ gnm_conf_shutdown (void)
 	g_hash_table_destroy (string_list_pool);
 	string_list_pool = NULL;
 
-	go_conf_free_node (root);
+	g_hash_table_destroy (node_pool);
+	node_pool = NULL;
 	root = NULL;
 }
 
@@ -117,6 +124,17 @@ GOConfNode *
 gnm_conf_get_root (void)
 {
 	return root;
+}
+
+static GOConfNode *
+get_node (const char *key)
+{
+	GOConfNode *res = g_hash_table_lookup (node_pool, key);
+	if (!res) {
+		res = go_conf_get_node (root, key);
+		g_hash_table_insert (node_pool, (gpointer)key, res);
+	}
+	return res;
 }
 
 GtkPageSetup *
@@ -328,6 +346,13 @@ gnm_conf_set_toolbar_style (GtkToolbarStyle x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_autocorrect_first_letter_node (void)
+{
+	const char *key = "autocorrect/first-letter";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_autocorrect_first_letter (void)
 {
@@ -341,6 +366,13 @@ gnm_conf_set_autocorrect_first_letter (gboolean x)
 	const char *key = "autocorrect/first-letter";
 	go_conf_set_bool (root, key, x != FALSE);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_autocorrect_first_letter_list_node (void)
+{
+	const char *key = "autocorrect/first-letter-list";
+	return get_node (key);
 }
 
 GSList *
@@ -361,6 +393,13 @@ gnm_conf_set_autocorrect_first_letter_list (GSList *x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_autocorrect_init_caps_node (void)
+{
+	const char *key = "autocorrect/init-caps";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_autocorrect_init_caps (void)
 {
@@ -374,6 +413,13 @@ gnm_conf_set_autocorrect_init_caps (gboolean x)
 	const char *key = "autocorrect/init-caps";
 	go_conf_set_bool (root, key, x != FALSE);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_autocorrect_init_caps_list_node (void)
+{
+	const char *key = "autocorrect/init-caps-list";
+	return get_node (key);
 }
 
 GSList *
@@ -394,6 +440,13 @@ gnm_conf_set_autocorrect_init_caps_list (GSList *x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_autocorrect_names_of_days_node (void)
+{
+	const char *key = "autocorrect/names-of-days";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_autocorrect_names_of_days (void)
 {
@@ -409,6 +462,13 @@ gnm_conf_set_autocorrect_names_of_days (gboolean x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_autocorrect_replace_node (void)
+{
+	const char *key = "autocorrect/replace";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_autocorrect_replace (void)
 {
@@ -422,6 +482,13 @@ gnm_conf_set_autocorrect_replace (gboolean x)
 	const char *key = "autocorrect/replace";
 	go_conf_set_bool (root, key, x != FALSE);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_autoformat_extra_dirs_node (void)
+{
+	const char *key = "autoformat/extra-dirs";
+	return get_node (key);
 }
 
 GSList *
@@ -440,6 +507,13 @@ gnm_conf_set_autoformat_extra_dirs (GSList *x)
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_autoformat_sys_dir_node (void)
+{
+	const char *key = "autoformat/sys-dir";
+	return get_node (key);
 }
 
 const char *
@@ -461,6 +535,13 @@ gnm_conf_set_autoformat_sys_dir (const char *x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_autoformat_usr_dir_node (void)
+{
+	const char *key = "autoformat/usr-dir";
+	return get_node (key);
+}
+
 const char *
 gnm_conf_get_autoformat_usr_dir (void)
 {
@@ -480,6 +561,13 @@ gnm_conf_set_autoformat_usr_dir (const char *x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_core_defaultfont_bold_node (void)
+{
+	const char *key = "core/defaultfont/bold";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_core_defaultfont_bold (void)
 {
@@ -495,6 +583,13 @@ gnm_conf_set_core_defaultfont_bold (gboolean x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_core_defaultfont_italic_node (void)
+{
+	const char *key = "core/defaultfont/italic";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_core_defaultfont_italic (void)
 {
@@ -508,6 +603,13 @@ gnm_conf_set_core_defaultfont_italic (gboolean x)
 	const char *key = "core/defaultfont/italic";
 	go_conf_set_bool (root, key, x != FALSE);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_core_defaultfont_name_node (void)
+{
+	const char *key = "core/defaultfont/name";
+	return get_node (key);
 }
 
 const char *
@@ -529,6 +631,13 @@ gnm_conf_set_core_defaultfont_name (const char *x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_core_defaultfont_size_node (void)
+{
+	const char *key = "core/defaultfont/size";
+	return get_node (key);
+}
+
 double
 gnm_conf_get_core_defaultfont_size (void)
 {
@@ -542,6 +651,13 @@ gnm_conf_set_core_defaultfont_size (double x)
 	const char *key = "core/defaultfont/size";
 	go_conf_set_double (root, key, CLAMP (x, 1, 100));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_core_file_save_def_overwrite_node (void)
+{
+	const char *key = "core/file/save/def-overwrite";
+	return get_node (key);
 }
 
 gboolean
@@ -559,6 +675,13 @@ gnm_conf_set_core_file_save_def_overwrite (gboolean x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_core_file_save_single_sheet_node (void)
+{
+	const char *key = "core/file/save/single_sheet";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_core_file_save_single_sheet (void)
 {
@@ -572,6 +695,13 @@ gnm_conf_set_core_file_save_single_sheet (gboolean x)
 	const char *key = "core/file/save/single_sheet";
 	go_conf_set_bool (root, key, x != FALSE);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_editing_autocomplete_node (void)
+{
+	const char *key = "core/gui/editing/autocomplete";
+	return get_node (key);
 }
 
 gboolean
@@ -589,6 +719,13 @@ gnm_conf_set_core_gui_editing_autocomplete (gboolean x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_core_gui_editing_enter_moves_dir_node (void)
+{
+	const char *key = "core/gui/editing/enter_moves_dir";
+	return get_node (key);
+}
+
 GODirection
 gnm_conf_get_core_gui_editing_enter_moves_dir (void)
 {
@@ -602,6 +739,13 @@ gnm_conf_set_core_gui_editing_enter_moves_dir (GODirection x)
 	const char *key = "core/gui/editing/enter_moves_dir";
 	go_conf_set_enum (root, key, GO_TYPE_DIRECTION, x);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_editing_livescrolling_node (void)
+{
+	const char *key = "core/gui/editing/livescrolling";
+	return get_node (key);
 }
 
 gboolean
@@ -619,6 +763,13 @@ gnm_conf_set_core_gui_editing_livescrolling (gboolean x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_core_gui_editing_recalclag_node (void)
+{
+	const char *key = "core/gui/editing/recalclag";
+	return get_node (key);
+}
+
 int
 gnm_conf_get_core_gui_editing_recalclag (void)
 {
@@ -632,6 +783,13 @@ gnm_conf_set_core_gui_editing_recalclag (int x)
 	const char *key = "core/gui/editing/recalclag";
 	go_conf_set_int (root, key, CLAMP (x, -5000, 5000));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_editing_transitionkeys_node (void)
+{
+	const char *key = "core/gui/editing/transitionkeys";
+	return get_node (key);
 }
 
 gboolean
@@ -649,6 +807,13 @@ gnm_conf_set_core_gui_editing_transitionkeys (gboolean x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_core_gui_screen_horizontaldpi_node (void)
+{
+	const char *key = "core/gui/screen/horizontaldpi";
+	return get_node (key);
+}
+
 double
 gnm_conf_get_core_gui_screen_horizontaldpi (void)
 {
@@ -662,6 +827,13 @@ gnm_conf_set_core_gui_screen_horizontaldpi (double x)
 	const char *key = "core/gui/screen/horizontaldpi";
 	go_conf_set_double (root, key, CLAMP (x, 10, 1000));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_screen_verticaldpi_node (void)
+{
+	const char *key = "core/gui/screen/verticaldpi";
+	return get_node (key);
 }
 
 double
@@ -679,6 +851,13 @@ gnm_conf_set_core_gui_screen_verticaldpi (double x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_core_gui_toolbars_FormatToolbar_node (void)
+{
+	const char *key = "core/gui/toolbars/FormatToolbar";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_core_gui_toolbars_FormatToolbar (void)
 {
@@ -692,6 +871,13 @@ gnm_conf_set_core_gui_toolbars_FormatToolbar (gboolean x)
 	const char *key = "core/gui/toolbars/FormatToolbar";
 	go_conf_set_bool (root, key, x != FALSE);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_toolbars_FormatToolbar_position_node (void)
+{
+	const char *key = "core/gui/toolbars/FormatToolbar-position";
+	return get_node (key);
 }
 
 GtkPositionType
@@ -709,6 +895,13 @@ gnm_conf_set_core_gui_toolbars_FormatToolbar_position (GtkPositionType x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_core_gui_toolbars_LongFormatToolbar_node (void)
+{
+	const char *key = "core/gui/toolbars/LongFormatToolbar";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_core_gui_toolbars_LongFormatToolbar (void)
 {
@@ -722,6 +915,13 @@ gnm_conf_set_core_gui_toolbars_LongFormatToolbar (gboolean x)
 	const char *key = "core/gui/toolbars/LongFormatToolbar";
 	go_conf_set_bool (root, key, x != FALSE);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_toolbars_LongFormatToolbar_position_node (void)
+{
+	const char *key = "core/gui/toolbars/LongFormatToolbar-position";
+	return get_node (key);
 }
 
 GtkPositionType
@@ -739,6 +939,13 @@ gnm_conf_set_core_gui_toolbars_LongFormatToolbar_position (GtkPositionType x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_core_gui_toolbars_ObjectToolbar_node (void)
+{
+	const char *key = "core/gui/toolbars/ObjectToolbar";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_core_gui_toolbars_ObjectToolbar (void)
 {
@@ -752,6 +959,13 @@ gnm_conf_set_core_gui_toolbars_ObjectToolbar (gboolean x)
 	const char *key = "core/gui/toolbars/ObjectToolbar";
 	go_conf_set_bool (root, key, x != FALSE);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_toolbars_ObjectToolbar_position_node (void)
+{
+	const char *key = "core/gui/toolbars/ObjectToolbar-position";
+	return get_node (key);
 }
 
 GtkPositionType
@@ -769,6 +983,13 @@ gnm_conf_set_core_gui_toolbars_ObjectToolbar_position (GtkPositionType x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_core_gui_toolbars_StandardToolbar_node (void)
+{
+	const char *key = "core/gui/toolbars/StandardToolbar";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_core_gui_toolbars_StandardToolbar (void)
 {
@@ -782,6 +1003,13 @@ gnm_conf_set_core_gui_toolbars_StandardToolbar (gboolean x)
 	const char *key = "core/gui/toolbars/StandardToolbar";
 	go_conf_set_bool (root, key, x != FALSE);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_toolbars_StandardToolbar_position_node (void)
+{
+	const char *key = "core/gui/toolbars/StandardToolbar-position";
+	return get_node (key);
 }
 
 GtkPositionType
@@ -799,6 +1027,13 @@ gnm_conf_set_core_gui_toolbars_StandardToolbar_position (GtkPositionType x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_core_gui_window_x_node (void)
+{
+	const char *key = "core/gui/window/x";
+	return get_node (key);
+}
+
 double
 gnm_conf_get_core_gui_window_x (void)
 {
@@ -812,6 +1047,13 @@ gnm_conf_set_core_gui_window_x (double x)
 	const char *key = "core/gui/window/x";
 	go_conf_set_double (root, key, CLAMP (x, 0.1, 1));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_window_y_node (void)
+{
+	const char *key = "core/gui/window/y";
+	return get_node (key);
 }
 
 double
@@ -829,6 +1071,13 @@ gnm_conf_set_core_gui_window_y (double x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_core_gui_window_zoom_node (void)
+{
+	const char *key = "core/gui/window/zoom";
+	return get_node (key);
+}
+
 double
 gnm_conf_get_core_gui_window_zoom (void)
 {
@@ -842,6 +1091,13 @@ gnm_conf_set_core_gui_window_zoom (double x)
 	const char *key = "core/gui/window/zoom";
 	go_conf_set_double (root, key, CLAMP (x, 0.1, 5));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_core_sort_default_ascending_node (void)
+{
+	const char *key = "core/sort/default/ascending";
+	return get_node (key);
 }
 
 gboolean
@@ -859,6 +1115,13 @@ gnm_conf_set_core_sort_default_ascending (gboolean x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_core_sort_default_by_case_node (void)
+{
+	const char *key = "core/sort/default/by-case";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_core_sort_default_by_case (void)
 {
@@ -872,6 +1135,13 @@ gnm_conf_set_core_sort_default_by_case (gboolean x)
 	const char *key = "core/sort/default/by-case";
 	go_conf_set_bool (root, key, x != FALSE);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_core_sort_default_retain_formats_node (void)
+{
+	const char *key = "core/sort/default/retain-formats";
+	return get_node (key);
 }
 
 gboolean
@@ -889,6 +1159,13 @@ gnm_conf_set_core_sort_default_retain_formats (gboolean x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_core_sort_dialog_max_initial_clauses_node (void)
+{
+	const char *key = "core/sort/dialog/max-initial-clauses";
+	return get_node (key);
+}
+
 int
 gnm_conf_get_core_sort_dialog_max_initial_clauses (void)
 {
@@ -902,6 +1179,13 @@ gnm_conf_set_core_sort_dialog_max_initial_clauses (int x)
 	const char *key = "core/sort/dialog/max-initial-clauses";
 	go_conf_set_int (root, key, CLAMP (x, 0, 256));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_core_workbook_autosave_time_node (void)
+{
+	const char *key = "core/workbook/autosave_time";
+	return get_node (key);
 }
 
 int
@@ -919,6 +1203,13 @@ gnm_conf_set_core_workbook_autosave_time (int x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_core_workbook_n_cols_node (void)
+{
+	const char *key = "core/workbook/n-cols";
+	return get_node (key);
+}
+
 int
 gnm_conf_get_core_workbook_n_cols (void)
 {
@@ -932,6 +1223,13 @@ gnm_conf_set_core_workbook_n_cols (int x)
 	const char *key = "core/workbook/n-cols";
 	go_conf_set_int (root, key, CLAMP (x, GNM_MIN_COLS, GNM_MAX_COLS));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_core_workbook_n_rows_node (void)
+{
+	const char *key = "core/workbook/n-rows";
+	return get_node (key);
 }
 
 int
@@ -949,6 +1247,13 @@ gnm_conf_set_core_workbook_n_rows (int x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_core_workbook_n_sheet_node (void)
+{
+	const char *key = "core/workbook/n-sheet";
+	return get_node (key);
+}
+
 int
 gnm_conf_get_core_workbook_n_sheet (void)
 {
@@ -962,6 +1267,13 @@ gnm_conf_set_core_workbook_n_sheet (int x)
 	const char *key = "core/workbook/n-sheet";
 	go_conf_set_int (root, key, CLAMP (x, 1, 64));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_core_xml_compression_level_node (void)
+{
+	const char *key = "core/xml/compression-level";
+	return get_node (key);
 }
 
 int
@@ -979,6 +1291,13 @@ gnm_conf_set_core_xml_compression_level (int x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_cut_and_paste_prefer_clipboard_node (void)
+{
+	const char *key = "cut-and-paste/prefer-clipboard";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_cut_and_paste_prefer_clipboard (void)
 {
@@ -992,6 +1311,13 @@ gnm_conf_set_cut_and_paste_prefer_clipboard (gboolean x)
 	const char *key = "cut-and-paste/prefer-clipboard";
 	go_conf_set_bool (root, key, x != FALSE);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_dialogs_rs_unfocused_node (void)
+{
+	const char *key = "dialogs/rs/unfocused";
+	return get_node (key);
 }
 
 gboolean
@@ -1009,6 +1335,13 @@ gnm_conf_set_dialogs_rs_unfocused (gboolean x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_functionselector_num_of_recent_node (void)
+{
+	const char *key = "functionselector/num-of-recent";
+	return get_node (key);
+}
+
 int
 gnm_conf_get_functionselector_num_of_recent (void)
 {
@@ -1022,6 +1355,13 @@ gnm_conf_set_functionselector_num_of_recent (int x)
 	const char *key = "functionselector/num-of-recent";
 	go_conf_set_int (root, key, CLAMP (x, 0, 40));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_functionselector_recentfunctions_node (void)
+{
+	const char *key = "functionselector/recentfunctions";
+	return get_node (key);
 }
 
 GSList *
@@ -1042,6 +1382,13 @@ gnm_conf_set_functionselector_recentfunctions (GSList *x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_plugin_latex_use_utf8_node (void)
+{
+	const char *key = "plugin/latex/use-utf8";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_plugin_latex_use_utf8 (void)
 {
@@ -1057,6 +1404,13 @@ gnm_conf_set_plugin_latex_use_utf8 (gboolean x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_plugins_activate_new_node (void)
+{
+	const char *key = "plugins/activate-new";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_plugins_activate_new (void)
 {
@@ -1070,6 +1424,13 @@ gnm_conf_set_plugins_activate_new (gboolean x)
 	const char *key = "plugins/activate-new";
 	go_conf_set_bool (root, key, x != FALSE);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_plugins_active_node (void)
+{
+	const char *key = "plugins/active";
+	return get_node (key);
 }
 
 GSList *
@@ -1090,6 +1451,13 @@ gnm_conf_set_plugins_active (GSList *x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_plugins_extra_dirs_node (void)
+{
+	const char *key = "plugins/extra-dirs";
+	return get_node (key);
+}
+
 GSList *
 gnm_conf_get_plugins_extra_dirs (void)
 {
@@ -1106,6 +1474,13 @@ gnm_conf_set_plugins_extra_dirs (GSList *x)
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_plugins_file_states_node (void)
+{
+	const char *key = "plugins/file-states";
+	return get_node (key);
 }
 
 GSList *
@@ -1126,6 +1501,13 @@ gnm_conf_set_plugins_file_states (GSList *x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_plugins_known_node (void)
+{
+	const char *key = "plugins/known";
+	return get_node (key);
+}
+
 GSList *
 gnm_conf_get_plugins_known (void)
 {
@@ -1144,6 +1526,13 @@ gnm_conf_set_plugins_known (GSList *x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_across_then_down_node (void)
+{
+	const char *key = "printsetup/across-then-down";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_printsetup_across_then_down (void)
 {
@@ -1157,6 +1546,13 @@ gnm_conf_set_printsetup_across_then_down (gboolean x)
 	const char *key = "printsetup/across-then-down";
 	go_conf_set_bool (root, key, x != FALSE);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_printsetup_all_sheets_node (void)
+{
+	const char *key = "printsetup/all-sheets";
+	return get_node (key);
 }
 
 gboolean
@@ -1174,6 +1570,13 @@ gnm_conf_set_printsetup_all_sheets (gboolean x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_center_horizontally_node (void)
+{
+	const char *key = "printsetup/center-horizontally";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_printsetup_center_horizontally (void)
 {
@@ -1189,6 +1592,13 @@ gnm_conf_set_printsetup_center_horizontally (gboolean x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_center_vertically_node (void)
+{
+	const char *key = "printsetup/center-vertically";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_printsetup_center_vertically (void)
 {
@@ -1202,6 +1612,13 @@ gnm_conf_set_printsetup_center_vertically (gboolean x)
 	const char *key = "printsetup/center-vertically";
 	go_conf_set_bool (root, key, x != FALSE);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_printsetup_footer_node (void)
+{
+	const char *key = "printsetup/footer";
+	return get_node (key);
 }
 
 GSList *
@@ -1222,6 +1639,13 @@ gnm_conf_set_printsetup_footer (GSList *x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_gtk_setting_node (void)
+{
+	const char *key = "printsetup/gtk-setting";
+	return get_node (key);
+}
+
 GSList *
 gnm_conf_get_printsetup_gtk_setting (void)
 {
@@ -1238,6 +1662,13 @@ gnm_conf_set_printsetup_gtk_setting (GSList *x)
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_printsetup_header_node (void)
+{
+	const char *key = "printsetup/header";
+	return get_node (key);
 }
 
 GSList *
@@ -1258,6 +1689,13 @@ gnm_conf_set_printsetup_header (GSList *x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_hf_font_bold_node (void)
+{
+	const char *key = "printsetup/hf-font-bold";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_printsetup_hf_font_bold (void)
 {
@@ -1273,6 +1711,13 @@ gnm_conf_set_printsetup_hf_font_bold (gboolean x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_hf_font_italic_node (void)
+{
+	const char *key = "printsetup/hf-font-italic";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_printsetup_hf_font_italic (void)
 {
@@ -1286,6 +1731,13 @@ gnm_conf_set_printsetup_hf_font_italic (gboolean x)
 	const char *key = "printsetup/hf-font-italic";
 	go_conf_set_bool (root, key, x != FALSE);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_printsetup_hf_font_name_node (void)
+{
+	const char *key = "printsetup/hf-font-name";
+	return get_node (key);
 }
 
 const char *
@@ -1307,6 +1759,13 @@ gnm_conf_set_printsetup_hf_font_name (const char *x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_hf_font_size_node (void)
+{
+	const char *key = "printsetup/hf-font-size";
+	return get_node (key);
+}
+
 double
 gnm_conf_get_printsetup_hf_font_size (void)
 {
@@ -1320,6 +1779,13 @@ gnm_conf_set_printsetup_hf_font_size (double x)
 	const char *key = "printsetup/hf-font-size";
 	go_conf_set_double (root, key, CLAMP (x, 1, 100));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_printsetup_hf_left_node (void)
+{
+	const char *key = "printsetup/hf-left";
+	return get_node (key);
 }
 
 GSList *
@@ -1340,6 +1806,13 @@ gnm_conf_set_printsetup_hf_left (GSList *x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_hf_middle_node (void)
+{
+	const char *key = "printsetup/hf-middle";
+	return get_node (key);
+}
+
 GSList *
 gnm_conf_get_printsetup_hf_middle (void)
 {
@@ -1356,6 +1829,13 @@ gnm_conf_set_printsetup_hf_middle (GSList *x)
 	go_conf_set_str_list (root, key, x);
 	g_hash_table_remove (string_list_pool, key);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_printsetup_hf_right_node (void)
+{
+	const char *key = "printsetup/hf-right";
+	return get_node (key);
 }
 
 GSList *
@@ -1376,6 +1856,13 @@ gnm_conf_set_printsetup_hf_right (GSList *x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_margin_bottom_node (void)
+{
+	const char *key = "printsetup/margin-bottom";
+	return get_node (key);
+}
+
 double
 gnm_conf_get_printsetup_margin_bottom (void)
 {
@@ -1389,6 +1876,13 @@ gnm_conf_set_printsetup_margin_bottom (double x)
 	const char *key = "printsetup/margin-bottom";
 	go_conf_set_double (root, key, CLAMP (x, 0, 10000));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_printsetup_margin_gtk_bottom_node (void)
+{
+	const char *key = "printsetup/margin-gtk-bottom";
+	return get_node (key);
 }
 
 double
@@ -1406,6 +1900,13 @@ gnm_conf_set_printsetup_margin_gtk_bottom (double x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_margin_gtk_left_node (void)
+{
+	const char *key = "printsetup/margin-gtk-left";
+	return get_node (key);
+}
+
 double
 gnm_conf_get_printsetup_margin_gtk_left (void)
 {
@@ -1419,6 +1920,13 @@ gnm_conf_set_printsetup_margin_gtk_left (double x)
 	const char *key = "printsetup/margin-gtk-left";
 	go_conf_set_double (root, key, CLAMP (x, 0, 720));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_printsetup_margin_gtk_right_node (void)
+{
+	const char *key = "printsetup/margin-gtk-right";
+	return get_node (key);
 }
 
 double
@@ -1436,6 +1944,13 @@ gnm_conf_set_printsetup_margin_gtk_right (double x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_margin_gtk_top_node (void)
+{
+	const char *key = "printsetup/margin-gtk-top";
+	return get_node (key);
+}
+
 double
 gnm_conf_get_printsetup_margin_gtk_top (void)
 {
@@ -1451,6 +1966,13 @@ gnm_conf_set_printsetup_margin_gtk_top (double x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_margin_top_node (void)
+{
+	const char *key = "printsetup/margin-top";
+	return get_node (key);
+}
+
 double
 gnm_conf_get_printsetup_margin_top (void)
 {
@@ -1464,6 +1986,13 @@ gnm_conf_set_printsetup_margin_top (double x)
 	const char *key = "printsetup/margin-top";
 	go_conf_set_double (root, key, CLAMP (x, 0, 10000));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_printsetup_paper_node (void)
+{
+	const char *key = "printsetup/paper";
+	return get_node (key);
 }
 
 const char *
@@ -1485,6 +2014,13 @@ gnm_conf_set_printsetup_paper (const char *x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_paper_orientation_node (void)
+{
+	const char *key = "printsetup/paper-orientation";
+	return get_node (key);
+}
+
 int
 gnm_conf_get_printsetup_paper_orientation (void)
 {
@@ -1498,6 +2034,13 @@ gnm_conf_set_printsetup_paper_orientation (int x)
 	const char *key = "printsetup/paper-orientation";
 	go_conf_set_int (root, key, CLAMP (x, GTK_PAGE_ORIENTATION_PORTRAIT, GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_printsetup_preferred_unit_node (void)
+{
+	const char *key = "printsetup/preferred-unit";
+	return get_node (key);
 }
 
 GtkUnit
@@ -1515,6 +2058,13 @@ gnm_conf_set_printsetup_preferred_unit (GtkUnit x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_print_black_n_white_node (void)
+{
+	const char *key = "printsetup/print-black-n-white";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_printsetup_print_black_n_white (void)
 {
@@ -1528,6 +2078,13 @@ gnm_conf_set_printsetup_print_black_n_white (gboolean x)
 	const char *key = "printsetup/print-black-n-white";
 	go_conf_set_bool (root, key, x != FALSE);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_printsetup_print_even_if_only_styles_node (void)
+{
+	const char *key = "printsetup/print-even-if-only-styles";
+	return get_node (key);
 }
 
 gboolean
@@ -1545,6 +2102,13 @@ gnm_conf_set_printsetup_print_even_if_only_styles (gboolean x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_print_grid_lines_node (void)
+{
+	const char *key = "printsetup/print-grid-lines";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_printsetup_print_grid_lines (void)
 {
@@ -1560,6 +2124,13 @@ gnm_conf_set_printsetup_print_grid_lines (gboolean x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_print_titles_node (void)
+{
+	const char *key = "printsetup/print-titles";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_printsetup_print_titles (void)
 {
@@ -1573,6 +2144,13 @@ gnm_conf_set_printsetup_print_titles (gboolean x)
 	const char *key = "printsetup/print-titles";
 	go_conf_set_bool (root, key, x != FALSE);
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_printsetup_repeat_left_node (void)
+{
+	const char *key = "printsetup/repeat-left";
+	return get_node (key);
 }
 
 const char *
@@ -1594,6 +2172,13 @@ gnm_conf_set_printsetup_repeat_left (const char *x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_repeat_top_node (void)
+{
+	const char *key = "printsetup/repeat-top";
+	return get_node (key);
+}
+
 const char *
 gnm_conf_get_printsetup_repeat_top (void)
 {
@@ -1613,6 +2198,13 @@ gnm_conf_set_printsetup_repeat_top (const char *x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_scale_height_node (void)
+{
+	const char *key = "printsetup/scale-height";
+	return get_node (key);
+}
+
 int
 gnm_conf_get_printsetup_scale_height (void)
 {
@@ -1626,6 +2218,13 @@ gnm_conf_set_printsetup_scale_height (int x)
 	const char *key = "printsetup/scale-height";
 	go_conf_set_int (root, key, CLAMP (x, 0, 100));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_printsetup_scale_percentage_node (void)
+{
+	const char *key = "printsetup/scale-percentage";
+	return get_node (key);
 }
 
 gboolean
@@ -1643,6 +2242,13 @@ gnm_conf_set_printsetup_scale_percentage (gboolean x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_printsetup_scale_percentage_value_node (void)
+{
+	const char *key = "printsetup/scale-percentage-value";
+	return get_node (key);
+}
+
 double
 gnm_conf_get_printsetup_scale_percentage_value (void)
 {
@@ -1656,6 +2262,13 @@ gnm_conf_set_printsetup_scale_percentage_value (double x)
 	const char *key = "printsetup/scale-percentage-value";
 	go_conf_set_double (root, key, CLAMP (x, 1, 500));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_printsetup_scale_width_node (void)
+{
+	const char *key = "printsetup/scale-width";
+	return get_node (key);
 }
 
 int
@@ -1673,6 +2286,13 @@ gnm_conf_set_printsetup_scale_width (int x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_undo_max_descriptor_width_node (void)
+{
+	const char *key = "undo/max_descriptor_width";
+	return get_node (key);
+}
+
 int
 gnm_conf_get_undo_max_descriptor_width (void)
 {
@@ -1686,6 +2306,13 @@ gnm_conf_set_undo_max_descriptor_width (int x)
 	const char *key = "undo/max_descriptor_width";
 	go_conf_set_int (root, key, CLAMP (x, 5, 256));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_undo_maxnum_node (void)
+{
+	const char *key = "undo/maxnum";
+	return get_node (key);
 }
 
 int
@@ -1703,6 +2330,13 @@ gnm_conf_set_undo_maxnum (int x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_undo_show_sheet_name_node (void)
+{
+	const char *key = "undo/show_sheet_name";
+	return get_node (key);
+}
+
 gboolean
 gnm_conf_get_undo_show_sheet_name (void)
 {
@@ -1718,6 +2352,13 @@ gnm_conf_set_undo_show_sheet_name (gboolean x)
 	schedule_sync ();
 }
 
+GOConfNode *
+gnm_conf_get_undo_size_node (void)
+{
+	const char *key = "undo/size";
+	return get_node (key);
+}
+
 int
 gnm_conf_get_undo_size (void)
 {
@@ -1731,4 +2372,137 @@ gnm_conf_set_undo_size (int x)
 	const char *key = "undo/size";
 	go_conf_set_int (root, key, CLAMP (x, 1, 1000000));
 	schedule_sync ();
+}
+
+GOConfNode *
+gnm_conf_get_autocorrect_dir_node (void)
+{
+	const char *key = "autocorrect";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_autoformat_dir_node (void)
+{
+	const char *key = "autoformat";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_core_defaultfont_dir_node (void)
+{
+	const char *key = "core/defaultfont";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_core_file_save_dir_node (void)
+{
+	const char *key = "core/file/save";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_editing_dir_node (void)
+{
+	const char *key = "core/gui/editing";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_screen_dir_node (void)
+{
+	const char *key = "core/gui/screen";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_toolbars_dir_node (void)
+{
+	const char *key = "core/gui/toolbars";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_core_gui_window_dir_node (void)
+{
+	const char *key = "core/gui/window";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_core_sort_default_dir_node (void)
+{
+	const char *key = "core/sort/default";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_core_sort_dialog_dir_node (void)
+{
+	const char *key = "core/sort/dialog";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_core_workbook_dir_node (void)
+{
+	const char *key = "core/workbook";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_core_xml_dir_node (void)
+{
+	const char *key = "core/xml";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_cut_and_paste_dir_node (void)
+{
+	const char *key = "cut-and-paste";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_dialogs_rs_dir_node (void)
+{
+	const char *key = "dialogs/rs";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_functionselector_dir_node (void)
+{
+	const char *key = "functionselector";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_plugin_latex_dir_node (void)
+{
+	const char *key = "plugin/latex";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_plugins_dir_node (void)
+{
+	const char *key = "plugins";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_printsetup_dir_node (void)
+{
+	const char *key = "printsetup";
+	return get_node (key);
+}
+
+GOConfNode *
+gnm_conf_get_undo_dir_node (void)
+{
+	const char *key = "undo";
+	return get_node (key);
 }

@@ -189,7 +189,6 @@ libspreadsheet_la_SOURCES =			\
 	xml-sax-read.c				\
 	xml-sax-write.c				\
 	gnumeric-gconf.c			\
-	gnumeric-gconf-priv.h			\
 	print.c					\
 	print-cell.c
 

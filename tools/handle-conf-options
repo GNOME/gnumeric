@@ -269,6 +269,21 @@ sub number_schemas {
 
 # -----------------------------------------------------------------------------
 
+sub make_get_conf_node {
+    my ($key,$var,$suffix,$phfile,$pcfile) = @_;
+
+    my $id = "gnm_conf_get_${var}_${suffix}";
+
+    ${$phfile} .= "GOConfNode *$id (void);\n";
+
+    ${$pcfile} .= "GOConfNode *\n";
+    ${$pcfile} .= "$id (void)\n";
+    ${$pcfile} .= "{\n";
+    ${$pcfile} .= "\tconst char *key = \"$key\";\n";
+    ${$pcfile} .= "\treturn get_node (key);\n";
+    ${$pcfile} .= "}\n\n";
+}
+
 sub create_hcfile {
     @schemas = sort { $a->{'applyto'} cmp $b->{'applyto'} } @schemas;
     &number_schemas ();
@@ -288,6 +303,8 @@ sub create_hcfile {
 
     my $cfile = "";
     my $hfile = "";
+
+    my %dirs;
 
     foreach my $schema (@schemas) {
 	my $i = $schema->{'i'};
@@ -310,6 +327,10 @@ sub create_hcfile {
 	my $root;
 	if ($key =~ s{/apps/gnumeric/}{}) {
 	    $root = 'root';
+	    &make_get_conf_node ($key, $var, "node", \$hfile, \$cfile);
+
+	    my $dir = $key; $dir =~ s{/[^/]+$}{};
+	    $dirs{$dir} = 1;
 	} else {
 	    $root = 'NULL';
 	}
@@ -319,7 +340,6 @@ sub create_hcfile {
 
 	my $get_head = "$ctype\ngnm_conf_get_$var (void)";
 	my $set_head = "void\ngnm_conf_set_$var (${ctypes}x)";
-
 
 	if ($type eq 'bool') {
 	    $default = uc $default;
@@ -403,6 +423,12 @@ sub create_hcfile {
 	} else {
 	    die "$0: Unhandled type $type\n";
 	}
+    }
+
+    for my $dir (sort keys %dirs) {
+	my $var = $dir;
+	$var =~ s{[^a-zA-Z0-9_]}{_}g;
+	&make_get_conf_node ($dir, $var, "dir_node", \$hfile, \$cfile);
     }
 
     print $hfile if $do_hfile;

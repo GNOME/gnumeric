@@ -13,7 +13,7 @@ License:          GPLv2
 URL:              http://www.gnome.org/gnumeric/
 Source:           ftp://ftp.gnome.org/pub/GNOME/sources/%{name}/1.9/%{name}-%{version}.tar.bz2
 BuildRoot:        %{_tmppath}/%{name}-%{PACKAGE_VERSION}-root
-BuildRequires:    goffice-devel >= 0.7.8
+BuildRequires:    goffice-devel >= 0.7.9
 BuildRequires:    libgsf-devel >= 1.14.15
 BuildRequires:    libxml-2.0-devel >= 2.4.12
 BuildRequires:    glib-2.0-devel >= 2.12.0

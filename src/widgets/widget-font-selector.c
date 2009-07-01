@@ -79,16 +79,23 @@ static void
 fs_modify_style (FontSelector *fs, GnmStyle *modification)
 {
 	GnmStyle *original = fs->mstyle;
+	GnmStyle *new_style;
 	g_return_if_fail (modification != NULL);
 
-	fs->mstyle = gnm_style_new_merged (original, modification);
-	g_signal_emit (G_OBJECT (fs),
-		fs_signals[FONT_CHANGED], 0, modification);
-	foo_canvas_item_set (fs->font_preview_grid,
-		"default-style",  fs->mstyle,
-		NULL);
+	new_style = gnm_style_new_merged (original, modification);
+
+	if (gnm_style_equal (new_style, original)) {
+		gnm_style_unref (new_style);
+	} else {
+		fs->mstyle = new_style;
+		g_signal_emit (G_OBJECT (fs),
+			       fs_signals[FONT_CHANGED], 0, modification);
+		foo_canvas_item_set (fs->font_preview_grid,
+				     "default-style",  fs->mstyle,
+				     NULL);
+		gnm_style_unref (original);
+	}
 	gnm_style_unref (modification);
-	gnm_style_unref (original);
 }
 
 static void
@@ -133,9 +140,8 @@ list_init (GtkTreeView* view)
 	store = gtk_list_store_new (1, G_TYPE_STRING);
 	gtk_tree_view_set_model (view, GTK_TREE_MODEL (store));
 	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (
-								NULL,
-								renderer, "text", 0, NULL);
+	column = gtk_tree_view_column_new_with_attributes
+		(NULL, renderer, "text", 0, NULL);
 	gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_append_column (view, column);
 	g_signal_connect (view, "realize", G_CALLBACK (cb_list_adjust), NULL);

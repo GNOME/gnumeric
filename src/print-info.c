@@ -24,7 +24,6 @@
 #include "workbook.h"
 #include "workbook-view.h"
 #include "gnumeric-gconf.h"
-#include "gnumeric-gconf-priv.h"
 #include "parse-util.h"
 
 #include <goffice/goffice.h>
