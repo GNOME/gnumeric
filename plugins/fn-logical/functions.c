@@ -41,33 +41,20 @@ GNM_PLUGIN_MODULE_HEADER;
 /***************************************************************************/
 
 static GnmFuncHelp const help_and[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=AND\n"
-	   "@SYNTAX=AND(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "AND implements the logical AND function: the result is TRUE "
-	   "if all of the expressions evaluate to TRUE, otherwise it returns "
-	   "FALSE.\n"
-	   "\n"
-	   "@b1 through @bN are expressions that should evaluate to TRUE "
-	   "or FALSE.  If an integer or floating point value is provided, "
-	   "zero is considered FALSE and anything else is TRUE.\n"
-	   "\n"
-	   "* If the values contain strings or empty cells those values are "
-	   "ignored.\n"
-	   "* If no logical values are provided, then the error #VALUE! "
-	   "is returned.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "AND(TRUE,TRUE) equals TRUE.\n"
-	   "AND(TRUE,FALSE) equals FALSE.\n\n"
-	   "Let us assume that A1 holds number five and A2 number one.  Then\n"
-	   "AND(A1>3,A2<2) equals TRUE.\n"
-	   "\n"
-	   "@SEEALSO=OR, NOT")
-	},
+        { GNM_FUNC_HELP_NAME, F_("AND:logical conjunction")},
+        { GNM_FUNC_HELP_ARG, F_("b0:logical value")},
+        { GNM_FUNC_HELP_ARG, F_("b1:logical value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("AND calculates the logical conjunction of its arguments @{b0},@{b1},...") },
+	{ GNM_FUNC_HELP_NOTE, F_("If an argument is numerical, zero is considered FALSE and anything else TRUE.")},
+	{ GNM_FUNC_HELP_NOTE, F_("Strings and empty values are ignored.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If no logical values are provided, then the error #VALUE! is returned.")},
+	{ GNM_FUNC_HELP_NOTE, F_("This function is strict: if any argument is an error, the result will be the first such error.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=AND(TRUE,FALSE)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=AND(0,1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=AND(FALSE,NA())" },
+        { GNM_FUNC_HELP_SEEALSO, "OR,NOT,IF"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Logical_conjunction") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -108,22 +95,16 @@ gnumeric_and (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_not[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=NOT\n"
-	   "@SYNTAX=NOT(number)\n"
-
-	   "@DESCRIPTION="
-	   "NOT implements the logical NOT function: the result is TRUE "
-	   "if the @number is zero;  otherwise the result is FALSE.\n"
-	   "\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "NOT(0) equals TRUE.\n"
-	   "NOT(TRUE) equals FALSE.\n"
-	   "\n"
-	   "@SEEALSO=AND, OR")
-	},
+        { GNM_FUNC_HELP_NAME, F_("NOT:logical negation")},
+        { GNM_FUNC_HELP_ARG, F_("b:logical value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("NOT calculates the logical negation of its argument.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If the argument is numerical, zero is considered FALSE and anything else TRUE.")},
+	{ GNM_FUNC_HELP_NOTE, F_("Strings and empty values are ignored.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=NOT(FALSE)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=NOT(1)" },
+        { GNM_FUNC_HELP_SEEALSO, "AND,OR,IF"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Negation") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -139,30 +120,20 @@ gnumeric_not (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_or[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=OR\n"
-	   "@SYNTAX=OR(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "OR implements the logical OR function: the result is TRUE if "
-	   "any of the values evaluated to TRUE.\n"
-	   "\n"
-	   "@b1 through @bN are expressions that should evaluate to TRUE "
-	   "or FALSE. If an integer or floating point value is provided, "
-	   "zero is considered FALSE and anything else is TRUE.\n"
-	   "\n"
-	   "* If the values contain strings or empty cells those values are "
-	   "ignored.\n"
-	   "* If no logical values are provided, then the error "
-	   "#VALUE! is returned.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "OR(TRUE,FALSE) equals TRUE.\n"
-	   "OR(3>4,4<3) equals FALSE.\n"
-	   "\n"
-	   "@SEEALSO=AND, NOT")
-	},
+        { GNM_FUNC_HELP_NAME, F_("OR:logical disjunction")},
+        { GNM_FUNC_HELP_ARG, F_("b0:logical value")},
+        { GNM_FUNC_HELP_ARG, F_("b1:logical value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OR calculates the logical disjunction of its arguments @{b0},@{b1},...") },
+	{ GNM_FUNC_HELP_NOTE, F_("If an argument is numerical, zero is considered FALSE and anything else TRUE.")},
+	{ GNM_FUNC_HELP_NOTE, F_("Strings and empty values are ignored.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If no logical values are provided, then the error #VALUE! is returned.")},
+	{ GNM_FUNC_HELP_NOTE, F_("This function is strict: if any argument is an error, the result will be the first such error.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=OR(TRUE,FALSE)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=OR(0,1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=OR(TRUE,NA())" },
+        { GNM_FUNC_HELP_SEEALSO, "AND,XOR,NOT,IF"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Logical_disjunction") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -203,28 +174,20 @@ gnumeric_or (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_xor[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=XOR\n"
-	   "@SYNTAX=XOR(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "XOR implements the logical exclusive OR function: the result is "
-	   "TRUE if an odd number of the values evaluated to TRUE.\n"
-	   "\n"
-	   "@b1 through @bN are expressions that should evaluate to TRUE "
-	   "or FALSE. If an integer or floating point value is provided, "
-	   "zero is considered FALSE and anything else is TRUE.\n"
-	   "\n"
-	   "* If the values contain strings or empty cells those values are "
-	   "ignored.\n"
-	   "* If no logical values are provided, then the error "
-	   "#VALUE! is returned.\n"
-	   "@EXAMPLES=\n"
-	   "XOR(TRUE,FALSE) equals TRUE.\n"
-	   "XOR(3>4,4<3) equals FALSE.\n"
-	   "\n"
-	   "@SEEALSO=OR, AND, NOT")
-	},
+        { GNM_FUNC_HELP_NAME, F_("XOR:logical exclusive disjunction")},
+        { GNM_FUNC_HELP_ARG, F_("b0:logical value")},
+        { GNM_FUNC_HELP_ARG, F_("b1:logical value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("XOR calculates the logical exclusive disjunction of its arguments @{b0},@{b1},...") },
+	{ GNM_FUNC_HELP_NOTE, F_("If an argument is numerical, zero is considered FALSE and anything else TRUE.")},
+	{ GNM_FUNC_HELP_NOTE, F_("Strings and empty values are ignored.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If no logical values are provided, then the error #VALUE! is returned.")},
+	{ GNM_FUNC_HELP_NOTE, F_("This function is strict: if any argument is an error, the result will be the first such error.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=XOR(TRUE,FALSE)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=XOR(0,1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=XOR(TRUE,NA())" },
+        { GNM_FUNC_HELP_SEEALSO, "OR,AND,NOT,IF"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Exclusive_disjunction") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -282,19 +245,11 @@ gnumeric_iferror (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_true[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TRUE\n"
-	   "@SYNTAX=TRUE()\n"
-
-	   "@DESCRIPTION="
-	   "TRUE returns boolean value true.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "TRUE() equals TRUE.\n"
-	   "\n"
-	   "@SEEALSO=FALSE")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("TRUE:return the value TRUE.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("TRUE returns the value TRUE.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_SEEALSO, "FALSE,IF" },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Logical_value") },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -307,19 +262,11 @@ gnumeric_true (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /***************************************************************************/
 
 static GnmFuncHelp const help_false[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=FALSE\n"
-	   "@SYNTAX=FALSE()\n"
-
-	   "@DESCRIPTION="
-	   "FALSE returns boolean value false.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "FALSE() equals FALSE.\n"
-	   "\n"
-	   "@SEEALSO=TRUE")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("FALSE:return the value FALSE.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("FALSE returns the value FALSE.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_SEEALSO, "TRUE,IF" },
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Logical_value") },
 	{ GNM_FUNC_HELP_END }
 };
 

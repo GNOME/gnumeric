@@ -21,6 +21,7 @@ Morten:
 	* Rework loading of configuration.  [#585701]
 	* Support evaluated examples in function docs.
 	* Simplify Win32 build.
+	* Convert fn-logical and sample_datasource to new help format.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.9
