@@ -44,6 +44,12 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
+
+#define FUNCTION_A_DESC   GNM_FUNC_HELP_DESCRIPTION, F_("Numbers, text and logical values are "	\
+							"included in the calculation too. If the cell contains text or " \
+							"the argument evaluates to FALSE, it is counted as value zero (0). " \
+							"If the argument evaluates to TRUE, it is counted as one (1).")
+
 /***************************************************************************/
 
 static GnmFuncHelp const help_gcd[] = {
@@ -55,7 +61,7 @@ static GnmFuncHelp const help_gcd[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=GCD(470,770)" },
         { GNM_FUNC_HELP_EXAMPLES, "=GCD(470,770,1495)" },
-        { GNM_FUNC_HELP_SEEALSO, ("LCM")},
+        { GNM_FUNC_HELP_SEEALSO, "LCM"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -117,7 +123,7 @@ static GnmFuncHelp const help_lcm[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=LCM(2,13)" },
         { GNM_FUNC_HELP_EXAMPLES, "=LCM(4,7,5)" },
-        { GNM_FUNC_HELP_SEEALSO, ("GCD")},
+        { GNM_FUNC_HELP_SEEALSO, "GCD"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -192,7 +198,7 @@ static GnmFuncHelp const help_hypot[] = {
 	{ GNM_FUNC_HELP_ARG, F_("n0:number")},
         { GNM_FUNC_HELP_ARG, F_("n1:number")},
         { GNM_FUNC_HELP_EXAMPLES, "=HYPOT(3,4)" },
-        { GNM_FUNC_HELP_SEEALSO, ("MIN,MAX")},
+        { GNM_FUNC_HELP_SEEALSO, "MIN,MAX"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -217,7 +223,7 @@ static GnmFuncHelp const help_abs[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ABS(7)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ABS(-3.14)" },
-        { GNM_FUNC_HELP_SEEALSO, ("CEIL, CEILING, FLOOR, INT, MOD")},
+        { GNM_FUNC_HELP_SEEALSO, "CEIL, CEILING, FLOOR, INT, MOD"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -235,7 +241,7 @@ static GnmFuncHelp const help_acos[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ACOS(0.1)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ACOS(-0.1)" },
-        { GNM_FUNC_HELP_SEEALSO, ("COS, SIN, DEGREES, RADIANS")},
+        { GNM_FUNC_HELP_SEEALSO, "COS, SIN, DEGREES, RADIANS"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -258,7 +264,7 @@ static GnmFuncHelp const help_acosh[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ACOSH(0.1)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ACOSH(-0.1)" },
-        { GNM_FUNC_HELP_SEEALSO, ("ACOS,ASINH,DEGREES,RADIANS ")}, 
+        { GNM_FUNC_HELP_SEEALSO, "ACOS,ASINH,DEGREES,RADIANS "}, 
         { GNM_FUNC_HELP_END}
 };
 
@@ -318,7 +324,7 @@ static GnmFuncHelp const help_asin[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} falls outside the range -1 to 1, ASIN returns #NUM!") },	
         { GNM_FUNC_HELP_EXAMPLES, "=ASIN(0.5)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ASIN(1)" },
-        { GNM_FUNC_HELP_SEEALSO, ("SIN COS,ASINH,DEGREES,RADIANS")},
+        { GNM_FUNC_HELP_SEEALSO, "SIN COS,ASINH,DEGREES,RADIANS"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -342,7 +348,7 @@ static GnmFuncHelp const help_asinh[] = {
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ASIN(0.5)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ASIN(1)" },
-	{ GNM_FUNC_HELP_SEEALSO, ("ASIN,ACOSH,SIN,COS,DEGREES,RADIANS")},
+	{ GNM_FUNC_HELP_SEEALSO, "ASIN,ACOSH,SIN,COS,DEGREES,RADIANS"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -361,7 +367,7 @@ static GnmFuncHelp const help_atan[] = {
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ATAN(0.5)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ATAN(1)" },
-        { GNM_FUNC_HELP_SEEALSO, ("TAN,COS,SIN,DEGREES,RADIANS")},
+        { GNM_FUNC_HELP_SEEALSO, "TAN,COS,SIN,DEGREES,RADIANS"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -381,7 +387,7 @@ static GnmFuncHelp const help_atanh[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If the absolute value of @{x} is greater than 1.0, ATANH returns #NUM!") },	
         { GNM_FUNC_HELP_EXAMPLES, "=ATANH(0.5)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ATANH(1)" },
-        { GNM_FUNC_HELP_SEEALSO, ("ATAN,COS,SIN,DEGREES,RADIANS")},
+        { GNM_FUNC_HELP_SEEALSO, "ATAN,COS,SIN,DEGREES,RADIANS"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -406,7 +412,7 @@ static GnmFuncHelp const help_atan2[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ATAN(0.5,1.0)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ATAN(-0.5,2.0)" },
-        { GNM_FUNC_HELP_SEEALSO, ("ATAN,ATANH,COS,SIN,DEGREES,RADIANS")},
+        { GNM_FUNC_HELP_SEEALSO, "ATAN,ATANH,COS,SIN,DEGREES,RADIANS"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -432,7 +438,7 @@ static GnmFuncHelp const help_ceil[] = {
 	{ GNM_FUNC_HELP_EXAMPLES, "=CEIL(0.4)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=CEIL(-1.1)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=CEIL(-2.9)" },	
-	{ GNM_FUNC_HELP_SEEALSO, ("CEILING,FLOOR,ABS,INT,MOD")},
+	{ GNM_FUNC_HELP_SEEALSO, "CEILING,FLOOR,ABS,INT,MOD"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -449,7 +455,7 @@ static GnmFuncHelp const help_countif[] = {
         { GNM_FUNC_HELP_ARG, F_("range:cell area")},
         { GNM_FUNC_HELP_ARG, F_("criteria: condition for a cell to be counted")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-        { GNM_FUNC_HELP_SEEALSO, ("COUNT,SUMIF")},
+        { GNM_FUNC_HELP_SEEALSO, "COUNT,SUMIF"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -497,7 +503,7 @@ gnumeric_countif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	 * 2) @range can not be 3d */
 	if (r->type != VALUE_CELLRANGE ||
 	    ((sheet = eval_sheet (r->cell.a.sheet, ei->pos->sheet)) != r->cell.b.sheet &&
-	      r->cell.b.sheet != NULL) ||
+	     r->cell.b.sheet != NULL) ||
 	    (!VALUE_IS_NUMBER (argv[1]) && !VALUE_IS_STRING (argv[1])))
 	        return value_new_error_VALUE (ei->pos);
 
@@ -524,7 +530,7 @@ static GnmFuncHelp const help_sumif[] = {
         { GNM_FUNC_HELP_ARG, F_("criteria: condition for a cell to be sumed")},
         { GNM_FUNC_HELP_ARG, F_("actual_range: cell area, defaults to @{range}")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-        { GNM_FUNC_HELP_SEEALSO, ("SUM,COUNTIF")},
+        { GNM_FUNC_HELP_SEEALSO, "SUM,COUNTIF"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -640,7 +646,7 @@ static GnmFuncHelp const help_ceiling[] = {
 	{ GNM_FUNC_HELP_EXAMPLES, "=CEILING(2.43,1)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=CEILING(123.123,3)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=CEILING(-2.43,-1)" },	
-	{ GNM_FUNC_HELP_SEEALSO, ("CEIL,FLOOR,ABS,INT,MOD")},
+	{ GNM_FUNC_HELP_SEEALSO, "CEIL,FLOOR,ABS,INT,MOD"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -740,7 +746,7 @@ static GnmFuncHelp const help_degrees[] = {
         { GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=DEGREES(2.5)" },
-        { GNM_FUNC_HELP_SEEALSO, ("RADIANS,PI")},
+        { GNM_FUNC_HELP_SEEALSO, "RADIANS,PI"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -759,7 +765,7 @@ static GnmFuncHelp const help_exp[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("e is the base of the natural logarithm.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=EXP(2)" },
-        { GNM_FUNC_HELP_SEEALSO, ("LOG, LOG2, LOG10")},
+        { GNM_FUNC_HELP_SEEALSO, "LOG, LOG2, LOG10"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -776,7 +782,7 @@ static GnmFuncHelp const help_expm1[] = {
         { GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_NOTE, F_("This function has a higher resulting precision than evaluating EXP(@{x})-1.") },
         { GNM_FUNC_HELP_EXAMPLES, "=EXPM1(0.01)" },
-        { GNM_FUNC_HELP_SEEALSO, ("EXP, LN1P")},
+        { GNM_FUNC_HELP_SEEALSO, "EXP, LN1P"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -826,7 +832,7 @@ static GnmFuncHelp const help_beta[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETA returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=BETA(2,3)" },
         { GNM_FUNC_HELP_EXAMPLES, "=BETA(-0.5,0.5)" },
-        { GNM_FUNC_HELP_SEEALSO, ("BETALN,GAMMALN")},
+        { GNM_FUNC_HELP_SEEALSO, "BETALN,GAMMALN"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Beta_function") },
         { GNM_FUNC_HELP_END}
 };
@@ -851,7 +857,7 @@ static GnmFuncHelp const help_betaln[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x}, @{y}, or (@{x} + @{y}) are non-positive integers, BETALN returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=BETALN(2,3)" },
         { GNM_FUNC_HELP_EXAMPLES, "=BETALN(-0.5,0.5)" },
-        { GNM_FUNC_HELP_SEEALSO, ("BETA,GAMMALN")},
+        { GNM_FUNC_HELP_SEEALSO, "BETA,GAMMALN"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Beta_function") },
         { GNM_FUNC_HELP_END}
 };
@@ -901,7 +907,7 @@ static GnmFuncHelp const help_floor[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:value.") },
 	{ GNM_FUNC_HELP_ARG, F_("significance:base multiple (defaults to 1 for @{x} > 0 and -1 for @{x} <0)") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_(
-	   "FLOOR(@{x},@{significance}) is the nearest multiple of @{significance} whose absolute value is at most ABS(@{x})") },
+			"FLOOR(@{x},@{significance}) is the nearest multiple of @{significance} whose absolute value is at most ABS(@{x})") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_ODF, F_("FLOOR(@{x}) is exported to ODF as FLOOR(@{x},SIGN(@{x}),1). FLOOR(@{x},@{significance}) is the OpenFormula function FLOOR(@{x},@{significance},1).")},
        	{ GNM_FUNC_HELP_EXAMPLES, "=FLOOR(0.5)" },
@@ -938,7 +944,7 @@ static GnmFuncHelp const help_int[] = {
  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=INT(7.2)" },
         { GNM_FUNC_HELP_EXAMPLES, "=INT(-5.5)" },
-        { GNM_FUNC_HELP_SEEALSO, ("CEIL,CEILING,FLOOR,ABS,MOD")},
+        { GNM_FUNC_HELP_SEEALSO, "CEIL,CEILING,FLOOR,ABS,MOD"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -960,7 +966,7 @@ static GnmFuncHelp const help_log[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=LOG(2)" },
         { GNM_FUNC_HELP_EXAMPLES, "=LOG(8192,2)" },
-        { GNM_FUNC_HELP_SEEALSO, ("LN,LOG2,LOG10")},
+        { GNM_FUNC_HELP_SEEALSO, "LN,LOG2,LOG10"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -987,7 +993,7 @@ static GnmFuncHelp const help_ln[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} \xe2\x89\xa4 0, LN returns #NUM! error.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=LN(7)" },
-        { GNM_FUNC_HELP_SEEALSO, ("EXP,LOG2,LOG10")},
+        { GNM_FUNC_HELP_SEEALSO, "EXP,LOG2,LOG10"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -1011,7 +1017,7 @@ static GnmFuncHelp const help_ln1p[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} \xe2\x89\xa4 -1, LN returns #NUM! error.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=LN1P(0.01)" },
-        { GNM_FUNC_HELP_SEEALSO, ("EXP,LN,EXPM1")},
+        { GNM_FUNC_HELP_SEEALSO, "EXP,LN,EXPM1"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -1038,7 +1044,7 @@ static GnmFuncHelp const help_power[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=POWER(2,7)" },
         { GNM_FUNC_HELP_EXAMPLES, "=POWER(3,3.141)" },
-        { GNM_FUNC_HELP_SEEALSO, ("EXP")},
+        { GNM_FUNC_HELP_SEEALSO, "EXP"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -1064,7 +1070,7 @@ static GnmFuncHelp const help_log2[] = {
         { GNM_FUNC_HELP_ARG, F_("x:positive number")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} \xe2\x89\xa4 0, LOG2 returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=LOG2(1024)" },
-        { GNM_FUNC_HELP_SEEALSO, ("EXP,LOG10,LOG")},
+        { GNM_FUNC_HELP_SEEALSO, "EXP,LOG10,LOG"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -1086,7 +1092,7 @@ static GnmFuncHelp const help_log10[] = {
         { GNM_FUNC_HELP_ARG, F_("x:positive number")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} \xe2\x89\xa4 0, LOG10 returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=LOG10(1024)" },
-        { GNM_FUNC_HELP_SEEALSO, ("EXP,LOG2,LOG")},
+        { GNM_FUNC_HELP_SEEALSO, "EXP,LOG2,LOG"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -1112,7 +1118,7 @@ static GnmFuncHelp const help_mod[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=MOD(23,7)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=MOD(23,-7)" },
-        { GNM_FUNC_HELP_SEEALSO, ("CEIL,CEILING,FLOOR,ABS,INT,ABS")},
+        { GNM_FUNC_HELP_SEEALSO, "CEIL,CEILING,FLOOR,ABS,INT,ABS"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -1154,7 +1160,7 @@ static GnmFuncHelp const help_radians[] = {
         { GNM_FUNC_HELP_ARG, F_("x:angle in degrees")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=RADIANS(180)" },
-        { GNM_FUNC_HELP_SEEALSO, ("PI,DEGREES")},
+        { GNM_FUNC_HELP_SEEALSO, "PI,DEGREES"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -1270,7 +1276,7 @@ static GnmFuncHelp const help_sinh[] = {
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ASINH(0.1)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ASINH(-0.1)" },
-        { GNM_FUNC_HELP_SEEALSO, ("ACOS,ASINH,DEGREES,RADIANS ")}, 
+        { GNM_FUNC_HELP_SEEALSO, "ACOS,ASINH,DEGREES,RADIANS "}, 
         { GNM_FUNC_HELP_END}
 };
 
@@ -1283,31 +1289,13 @@ gnumeric_sinh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_sqrt[] = {
-/*         { GNM_FUNC_HELP_NAME, F_("exp@{x} - exp-@{x} / 2.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("SQRT function returns the square root of @{x}.")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=SQRT(2)" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("POWER")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SQRT\n"
-	   "@SYNTAX=SQRT(x)\n"
-
-	   "@DESCRIPTION="
-	   "SQRT function returns the square root of @{x}.\n"
-	   "\n"
-	   "* If @{x} is negative, SQRT returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "SQRT(2)"
-	   "\n"
-	   "@SEEALSO=POWER")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("SQRT:square root of @{x}")},
+        { GNM_FUNC_HELP_ARG, F_("x:non-negative number")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is negative, SQRT returns #NUM!")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=SQRT(2)"},
+        { GNM_FUNC_HELP_SEEALSO, "POWER"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1323,41 +1311,15 @@ gnumeric_sqrt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_suma[] = {
-/*         { GNM_FUNC_HELP_NAME, F_("SUMA:the sum of all the values and cells referenced ")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area1:second cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area2:third cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("in the argument list.  Numbers, text and logical values are ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("included in the calculation too.  If the cell contains text or ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("the argument evaluates to FALSE, it is counted as value zero 0. ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("If the argument evaluates to TRUE, it is counted as one 1.")}, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=Let us assume that the cells A1, A2, ..., A5 contain numbers " }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=11, 15, 17, 21, and 43.  Then" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=SUMAA(1):A5" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("AVERAGE, SUM, COUNT")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SUMA\n"
-	   "@SYNTAX=SUMA(value1, value2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "SUMA computes the sum of all the values and cells referenced "
-	   "in the argument list.  Numbers, text and logical values are "
-	   "included in the calculation too.  If the cell contains text or "
-	   "the argument evaluates to FALSE, it is counted as value zero (0). "
-	   "If the argument evaluates to TRUE, it is counted as one (1).\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11, 15, 17, 21, and 43.  Then\n"
-	   "SUMA(A1:A5)"
-	   "\n"
-	   "@SEEALSO=AVERAGE, SUM, COUNT")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("SUMA:sum of all values and cells referenced")},
+        { GNM_FUNC_HELP_ARG, F_("area0:first cell area")},
+        { GNM_FUNC_HELP_ARG, F_("area1:second cell area")},
+	{ FUNCTION_A_DESC },
+        { GNM_FUNC_HELP_EXAMPLES, "=SUMA(11,TRUE,FALSE,12)"},
+        { GNM_FUNC_HELP_SEEALSO, "AVERAGE,SUM,COUNT"},
+        { GNM_FUNC_HELP_END}
 };
+
 
 static GnmValue *
 gnumeric_suma (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
@@ -1373,37 +1335,14 @@ gnumeric_suma (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_sumsq[] = {
-/*         { GNM_FUNC_HELP_NAME, F_("cells referenced in the argument list.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area1:second cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area2:third cell area")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=Let us assume that the cells A1, A2, ..., A5 contain numbers " }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "11, 15, 17, 21, and 43.  Then" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=SUMSQA(1):A5" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("SUM, COUNT")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SUMSQ\n"
-	   "@SYNTAX=SUMSQ(value1, value2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "SUMSQ returns the sum of the squares of all the values and "
-	   "cells referenced in the argument list.\n\n"
-	   "* This function is Excel compatible.\n "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11, 15, 17, 21, and 43.  Then\n"
-	   "SUMSQ(A1:A5)"
-	   "\n"
-	   "@SEEALSO=SUM, COUNT")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("SUMSQ:sum of th squares of all values and cells referenced")},
+        { GNM_FUNC_HELP_ARG, F_("area0:first cell area")},
+        { GNM_FUNC_HELP_ARG, F_("area1:second cell area")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=SUMSQ(11,TRUE,FALSE,12)"},
+        { GNM_FUNC_HELP_SEEALSO, "SUM,COUNT"},
+        { GNM_FUNC_HELP_END}
 };
-
 
 static GnmValue *
 gnumeric_sumsq (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
@@ -1419,33 +1358,16 @@ gnumeric_sumsq (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_multinomial[] = {
-/*         { GNM_FUNC_HELP_NAME, F_("values to the product of factorials.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area1:second cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area2:third cell area")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=MULTINOMIAL(2,3,4)" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("SUM")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=MULTINOMIAL\n"
-	   "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "MULTINOMIAL returns the ratio of the factorial of a sum of "
-	   "values to the product of factorials.\n\n"
-	   "* This function is Excel compatible.\n "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "MULTINOMIAL(2,3,4)"
-	   "\n"
-	   "@SEEALSO=SUM")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("MULTINOMIAL:Multinomial coefficient (@{x1}+\xe2\x8b\xaf+@{xn}) choose (@{x1},...,@{xn})")},
+        { GNM_FUNC_HELP_ARG, F_("x1:first number")},
+        { GNM_FUNC_HELP_ARG, F_("x2:second number")},
+        { GNM_FUNC_HELP_ARG, F_("xn:nth number")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=MULTINOMIAL(2,3,4)"},
+        { GNM_FUNC_HELP_SEEALSO, "COMBIN,SUM"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Multinomial_theorem") },	
+        { GNM_FUNC_HELP_END}
 };
-
 
 static GnmValue *
 gnumeric_multinomial (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
@@ -1461,30 +1383,13 @@ gnumeric_multinomial (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv
 /***************************************************************************/
 
 static GnmFuncHelp const help_g_product[] = {
-/*         { GNM_FUNC_HELP_NAME, F_("referenced in the argument list.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area1:second cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area2:third cell area")}, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=G_PRODUCT2,5,9" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("SUM, COUNT")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=G_PRODUCT\n"
-	   "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "G_PRODUCT returns the product of all the values and cells "
-	   "referenced in the argument list.\n\n"
-	   "* Empty cells are ignored and the empty product is 1.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "G_PRODUCT(2,5,9)"
-	   "\n"
-	   "@SEEALSO=SUM, COUNT")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("G_PRODUCT:product of all the values and cells referenced")},
+        { GNM_FUNC_HELP_ARG, F_("x1:number")},
+        { GNM_FUNC_HELP_ARG, F_("x2:number")},
+	{ GNM_FUNC_HELP_NOTE, F_("Empty cells are ignored and the empty product is 1.")},
+        { GNM_FUNC_HELP_EXAMPLES, "=G_PRODUCT(2,5,9)"},
+        { GNM_FUNC_HELP_SEEALSO, "SUM, COUNT"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1501,30 +1406,12 @@ gnumeric_g_product (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_tan[] = {
-/*         { GNM_FUNC_HELP_NAME, F_("given in radians.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("TAN function returns the tangent of @{x}, where @{x} is ")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=TAN(3)" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TAN\n"
-	   "@SYNTAX=TAN(x)\n"
-
-	   "@DESCRIPTION="
-	   "TAN function returns the tangent of @{x}, where @{x} is "
-	   "given in radians.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "TAN(3)"
-	   "\n"
-	   "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("TAN:tangent")},
+        { GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=TAN(3)"},
+        { GNM_FUNC_HELP_SEEALSO, "TANH,COS,COSH,SIN,SINH,DEGREES,RADIANS"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1536,30 +1423,12 @@ gnumeric_tan (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_tanh[] = {
-/*         { GNM_FUNC_HELP_NAME, F_("which is defined mathematically as \tsinh@{x} / cosh@{x}.\n\n")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("TANH function returns the hyperbolic tangent of @{x}, ")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=TANH(2)" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TANH\n"
-	   "@SYNTAX=TANH(x)\n"
-
-	   "@DESCRIPTION="
-	   "TANH function returns the hyperbolic tangent of @{x}, "
-	   "which is defined mathematically as \n\n\tsinh(@{x}) / cosh(@{x}).\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "TANH(2)"
-	   "\n"
-	   "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("TAN:hyperbolic tangent")},
+        { GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=TANH(2)"},
+        { GNM_FUNC_HELP_SEEALSO, "TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1574,7 +1443,7 @@ static GnmFuncHelp const help_pi[] = {
         { GNM_FUNC_HELP_NAME, F_("PI:the constant \xcf\x80")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible, but it returns \xcf\x80 with a better precision.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=PI()" },
-        { GNM_FUNC_HELP_SEEALSO, ("SQRTPI")},
+        { GNM_FUNC_HELP_SEEALSO, "SQRTPI"},
         { GNM_FUNC_HELP_END}
 };
 
@@ -1587,35 +1456,15 @@ gnumeric_pi (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_trunc[] = {
-/*         { GNM_FUNC_HELP_NAME, F_("truncated to the number of digits specified.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area1:second cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("TRUNC function returns the value of @number ")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=TRUNC(3.12)" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=TRUNC(4.15,1)" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("INT")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TRUNC\n"
-	   "@SYNTAX=TRUNC(number[,digits])\n"
-
-	   "@DESCRIPTION="
-	   "TRUNC function returns the value of @number "
-	   "truncated to the number of digits specified.\n\n"
-	   "* If @digits is omitted or negative then @digits defaults to zero.\n"
-	   "* If @digits is not an integer, it is truncated.\n"
-	   "* This function is Excel compatible.\n "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "TRUNC(3.12)"
-	   "TRUNC(4.15,1)"
-	   "\n"
-	   "@SEEALSO=INT")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("TRUNC:@{x} truncated to @{d} digits")},
+        { GNM_FUNC_HELP_ARG, F_("x:number")},
+        { GNM_FUNC_HELP_ARG, F_("x:non-negative integer, defaults to 0")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{d} is omitted or negative then it defaults to zero. If it is not an integer then it is truncated to an integer.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=TRUNC(35.12)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=TRUNC(43.15,1)"},
+        { GNM_FUNC_HELP_SEEALSO, "INT"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1644,32 +1493,13 @@ gnumeric_trunc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_even[] = {
-/*         { GNM_FUNC_HELP_NAME, F_("nearest even integer.  Negative numbers are rounded down.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("EVEN function returns the number rounded up to the ")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=EVEN(5.4)" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=EVEN(-5.4)" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("ODD")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=EVEN\n"
-	   "@SYNTAX=EVEN(number)\n"
-
-	   "@DESCRIPTION="
-	   "EVEN function returns the number rounded up to the "
-	   "nearest even integer.  Negative numbers are rounded down.\n\n"
-	   "* This function is Excel compatible.\n "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "EVEN(5.4)"
-	   "EVEN(-5.4)"
-	   "\n"
-	   "@SEEALSO=ODD")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("EVEN: @{x} rounded away from 0 to the next even integer")},
+        { GNM_FUNC_HELP_ARG, F_("x:number")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=EVEN(5.4)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=EVEN(-5.4)"},
+        { GNM_FUNC_HELP_SEEALSO, "ODD"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1698,32 +1528,13 @@ gnumeric_even (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_odd[] = {
- /*        { GNM_FUNC_HELP_NAME, F_("nearest odd integer.  Negative numbers are rounded down.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("ODD function returns the @number rounded up to the ")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=ODD(4.4)" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=ODD(-4.4)" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("EVEN")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ODD\n"
-	   "@SYNTAX=ODD(number)\n"
-
-	   "@DESCRIPTION="
-	   "ODD function returns the @number rounded up to the "
-	   "nearest odd integer.  Negative numbers are rounded down.\n\n"
-	   "* This function is Excel compatible.\n "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ODD(4.4)"
-	   "ODD(-4.4)"
-	   "\n"
-	   "@SEEALSO=EVEN")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("ODD: @{x} rounded away from 0 to the next odd integer")},
+        { GNM_FUNC_HELP_ARG, F_("x:number")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=ODD(5.4)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=ODD(-5.4)"},
+        { GNM_FUNC_HELP_SEEALSO, "EVEN"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1752,34 +1563,14 @@ gnumeric_odd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_factdouble[] = {
- /*        { GNM_FUNC_HELP_NAME, F_("nearest odd integer.  Negative numbers are rounded down.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("FACTDOUBLE function returns the double factorial ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("of a @number, i.e., x!!.")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=FACTDOUBLE(5)" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("FACT")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=FACTDOUBLE\n"
-	   "@SYNTAX=FACTDOUBLE(number)\n"
-
-	   "@DESCRIPTION="
-	   "FACTDOUBLE function returns the double factorial "
-	   "of a @number, i.e., x!!.\n"
-	   "\n"
-	   "* If @number is not an integer, it is truncated.\n"
-	   "* If @number is negative FACTDOUBLE returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "FACTDOUBLE(5)"
-	   "\n"
-	   "@SEEALSO=FACT")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("FACTDOUBLE:double factorial")},
+        { GNM_FUNC_HELP_ARG, F_("area0:first cell areax:non-negative integer")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("FACTDOUBLE function returns the double factorial @{x}!!")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} is not an integer, it is truncated. If @{x} is negative, FACTDOUBLE returns #NUM!") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=FACTDOUBLE(5)"},
+        { GNM_FUNC_HELP_SEEALSO, "FACT"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1809,30 +1600,12 @@ gnumeric_factdouble (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_fib[] = {
-/*         { GNM_FUNC_HELP_NAME, F_("nearest odd integer.  Negative numbers are rounded down.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("FIB function computes Fibonacci numbers.")}, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=FIB(12)" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=FIB\n"
-	   "@SYNTAX=FIB(number)\n"
-
-	   "@DESCRIPTION="
-	   "FIB function computes Fibonacci numbers.\n"
-	   "\n"
-	   "* If @number is not an integer, it is truncated.\n"
-	   "* If @number is negative or zero FIB returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "FIB(12)"
-	   "\n"
-	   "@SEEALSO=")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("FIB:Fibonacci numbers")},
+        { GNM_FUNC_HELP_ARG, F_("n:positive integer")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("FIB(@{n}) is the @{n}th Fibonacci number.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{n} is not an integer, it is truncated. If it is negative or zero FIB returns #NUM!") },
+        { GNM_FUNC_HELP_EXAMPLES, "=FIB(23)"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1868,34 +1641,17 @@ gnumeric_fib (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_quotient[] = {
-/*         { GNM_FUNC_HELP_NAME, F_("@denominator is the divisor.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area1:second cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("QUOTIENT function returns the integer portion ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("of a division.  @numerator is the divided number and ")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=QUOTIENT(23,5)" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("MOD")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=QUOTIENT\n"
-	   "@SYNTAX=QUOTIENT(numerator,denominator)\n"
-
-	   "@DESCRIPTION="
-	   "QUOTIENT function returns the integer portion "
-	   "of a division.  @numerator is the divided number and "
-	   "@denominator is the divisor.\n\n"
-	   "* This function is Excel compatible.\n "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "QUOTIENT(23,5)"
-	   "\n"
-	   "@SEEALSO=MOD")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("QUOTIENT:integer portion of a division")},
+        { GNM_FUNC_HELP_ARG, F_("numerator:integer")},
+        { GNM_FUNC_HELP_ARG, F_("denominator:non-zero integer")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("QUOTIENT yields the integer portion of the division @{numerator}/@{denominator}.\n"
+					"QUOTIENT (@{numerator},@{denominator})\xe2\xa8\x89@{denominator}+MOD(@{numerator},@{denominator})=@{numerator}")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=QUOTIENT(23,5)"},
+        { GNM_FUNC_HELP_SEEALSO, "MOD"},
+        { GNM_FUNC_HELP_END}
 };
+
 
 static GnmValue *
 gnumeric_quotient (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
@@ -1912,34 +1668,15 @@ gnumeric_quotient (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_sign[] = {
-/*         { GNM_FUNC_HELP_NAME, F_("zero if the @number is 0, and -1 if the @number is negative.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("SIGN function returns 1 if the @number is positive, ")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=SIGN(3)" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=SIGN(-3)" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=SIGN(0)" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SIGN\n"
-	   "@SYNTAX=SIGN(number)\n"
-
-	   "@DESCRIPTION="
-	   "SIGN function returns 1 if the @number is positive, "
-	   "zero if the @number is 0, and -1 if the @number is negative.\n\n"
-	   "* This function is Excel compatible.\n "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "SIGN(3)"
-	   "SIGN(-3)"
-	   "SIGN(0)"
-	   "\n"
-	   "@SEEALSO=")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("SIGN:sign of @{x}")},
+        { GNM_FUNC_HELP_ARG, F_("x:number")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("SIGN returns 1 if the @{x} is positive and it returns -1 if @{x} is negative.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=SIGN(3)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=SIGN(-3)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=SIGN(0)"},
+        { GNM_FUNC_HELP_SEEALSO, "ABS"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1948,40 +1685,22 @@ gnumeric_sign (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
         gnm_float n = value_get_as_float (argv[0]);
 
 	if (n > 0)
-	      return value_new_int (1);
+		return value_new_int (1);
 	else if (n == 0)
-	      return value_new_int (0);
+		return value_new_int (0);
 	else
-	      return value_new_int (-1);
+		return value_new_int (-1);
 }
 
 /***************************************************************************/
 
 static GnmFuncHelp const help_sqrtpi[] = {
-/*         { GNM_FUNC_HELP_NAME, F_("multiplied by pi.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("SQRTPI function returns the square root of a @number ")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=SQRTPI(2)" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("PI")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SQRTPI\n"
-	   "@SYNTAX=SQRTPI(number)\n"
-
-	   "@DESCRIPTION="
-	   "SQRTPI function returns the square root of a @number "
-	   "multiplied by pi.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "SQRTPI(2)"
-	   "\n"
-	   "@SEEALSO=PI")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("SQRTPI:the square root of @{x} times \xcf\x80")},
+	{ GNM_FUNC_HELP_ARG, F_("x:non-negative number")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=SQRTPI(2)"},
+        { GNM_FUNC_HELP_SEEALSO, "PI"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1998,44 +1717,19 @@ gnumeric_sqrtpi (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_rounddown[] = {
-/*         { GNM_FUNC_HELP_NAME, F_(" function rounds a given @number towards 0.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area1:second cell area")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=ROUNDDOWN(5.5)" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=ROUNDDOWN(-3.3)" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=ROUNDDOWN(1501.15,1)" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=ROUNDDOWN(1501.15,)-2" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("ROUND,ROUNDUP")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ROUNDDOWN\n"
-	   "@SYNTAX=ROUNDDOWN(number[,digits])\n"
-
-	   "@DESCRIPTION="
-	   "ROUNDDOWN function rounds a given @number towards 0.\n\n"
-	   "@number is the number you want rounded toward 0 and @digits is the "
-	   "number of digits to which you want to round that number.\n"
-	   "\n"
-	   "* If @digits is greater than zero, @number is rounded toward 0 to "
-	   "the given number of digits.\n"
-	   "* If @digits is zero or omitted, @number is rounded toward 0 to "
-	   "the next integer.\n"
-	   "* If @digits is less than zero, @number is rounded toward 0 to the "
-	   "left of the decimal point.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ROUNDDOWN(5.5)"
-	   "ROUNDDOWN(-3.3)"
-	   "ROUNDDOWN(1501.15,1)"
-	   "ROUNDDOWN(1501.15,-2)"
-	   "\n"
-	   "@SEEALSO=ROUND,ROUNDUP")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("ROUNDDOWN:@{x} rounded towards 0.")},
+        { GNM_FUNC_HELP_ARG, F_("x:number")},
+	{ GNM_FUNC_HELP_ARG, F_("d:integer, defaults to 0")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{d} is greater than zero, @{x} is rounded toward 0 to the given number of digits.\n"
+					"If @{d} is zero, @{x} is rounded toward 0 to the next integer.\n"
+					"If @{d} is less than zero, @{x} is rounded toward 0 to the left of the decimal point")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=ROUNDDOWN(5.5)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=ROUNDDOWN(-3.3)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=ROUNDDOWN(1501.15,1)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=ROUNDDOWN(1501.15,-2)"},
+        { GNM_FUNC_HELP_SEEALSO, "ROUND,ROUNDUP"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -2047,44 +1741,19 @@ gnumeric_rounddown (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_round[] = {
-/*         { GNM_FUNC_HELP_NAME, F_(" function rounds a given number.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area1:second cell area")}, */
-/*  	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=ROUND(5.5)" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=ROUND(-3.3)" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=ROUND(1501.15,1)" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=ROUND(1501.15,)-2" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("ROUNDDOWN,ROUNDUP")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ROUND\n"
-	   "@SYNTAX=ROUND(number[,digits])\n"
-
-	   "@DESCRIPTION="
-	   "ROUND function rounds a given number.\n\n"
-	   "@number is the number you want rounded and @digits is the "
-	   "number of digits to which you want to round that number.\n"
-	   "\n"
-	   "* If @digits is greater than zero, @number is rounded to the "
-	   "given number of digits.\n"
-	   "* If @digits is zero or omitted, @number is rounded to the "
-	   "nearest integer.\n"
-	   "* If @digits is less than zero, @number is rounded to the left "
-	   "of the decimal point.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ROUND(5.5)"
-	   "ROUND(-3.3)"
-	   "ROUND(1501.15,1)"
-	   "ROUND(1501.15,-2)"
-	   "\n"
-	   "@SEEALSO=ROUNDDOWN,ROUNDUP")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("ROUNDDOWN:rounded @{x}")},
+        { GNM_FUNC_HELP_ARG, F_("x:number")},
+	{ GNM_FUNC_HELP_ARG, F_("d:integer, defaults to 0")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{d} is greater than zero, @{x} is rounded to the given number of digits.\n"
+					"If @{d} is zero, @{x} is rounded to the next integer.\n"
+					"If @{d} is less than zero, @{x} is rounded to the left of the decimal point")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=ROUND(5.5)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=ROUND(-3.3)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=ROUND(1501.15,1)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=ROUND(1501.15,-2)"},
+        { GNM_FUNC_HELP_SEEALSO, "ROUNDDOWN,ROUNDUP"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -2113,45 +1782,19 @@ gnumeric_round (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_roundup[] = {
- /*        { GNM_FUNC_HELP_NAME, F_(" function rounds a given number away from 0.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area1:second cell area")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=ROUNDUP(5.5)" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=ROUNDUP(-3.3)" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=ROUNDUP(1501.15,1)" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=ROUNDUP(1501.15,)-2" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("ROUND,ROUNDDOWN")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ROUNDUP\n"
-	   "@SYNTAX=ROUNDUP(number[,digits])\n"
-
-	   "@DESCRIPTION="
-	   "ROUNDUP function rounds a given number away from 0.\n\n"
-	   "@number is the number you want rounded away from 0 and "
-	   "@digits is the "
-	   "number of digits to which you want to round that number.\n"
-	   "\n"
-	   "* If @digits is greater than zero, @number is rounded away from "
-	   "0 to the given number of digits.\n"
-	   "* If @digits is zero or omitted, @number is rounded away from 0 "
-	   "to the next integer.\n"
-	   "* If @digits is less than zero, @number is rounded away from 0 "
-	   "to the left of the decimal point.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ROUNDUP(5.5)"
-	   "ROUNDUP(-3.3)"
-	   "ROUNDUP(1501.15,1)"
-	   "ROUNDUP(1501.15,-2)"
-	   "\n"
-	   "@SEEALSO=ROUND,ROUNDDOWN")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("ROUNDUP:@{x} rounded away from 0.")},
+        { GNM_FUNC_HELP_ARG, F_("x:number")},
+	{ GNM_FUNC_HELP_ARG, F_("d:integer, defaults to 0")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{d} is greater than zero, @{x} is rounded away from 0 to the given number of digits.\n"
+					"If @{d} is zero, @{x} is rounded away from 0 to the next integer.\n"
+					"If @{d} is less than zero, @{x} is rounded away from 0 to the left of the decimal point")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=ROUNDUP(5.5)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=ROUNDUP(-3.3)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=ROUNDUP(1501.15,1)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=ROUNDUP(1501.15,-2)"},
+        { GNM_FUNC_HELP_SEEALSO, "ROUND,ROUNDDOWN,INT"},
+        { GNM_FUNC_HELP_END}
 };
 
 static gnm_float
@@ -2186,36 +1829,15 @@ gnumeric_roundup (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_mround[] = {
-/*         { GNM_FUNC_HELP_NAME, F_(" function rounds a given number to the desired multiple.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area1:second cell area")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=MROUND(1.7,0.2)" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=MROUND(321.123,0.12)" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("ROUNDDOWN,ROUND,ROUNDUP")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=MROUND\n"
-	   "@SYNTAX=MROUND(number,multiple)\n"
-
-	   "@DESCRIPTION="
-	   "MROUND function rounds a given number to the desired multiple.\n\n"
-	   "@number is the number you want rounded and @multiple is the "
-	   "the multiple to which you want to round the number.\n"
-	   "\n"
-	   "* If @number and @multiple have different sign, MROUND "
-	   "returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "MROUND(1.7,0.2)"
-	   "MROUND(321.123,0.12)"
-	   "\n"
-	   "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("MROUND:@{x} rounded to a multiple of @{m}")},
+        { GNM_FUNC_HELP_ARG, F_("x:number")},
+        { GNM_FUNC_HELP_ARG, F_("m:number")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} and @{m} have different sign, MROUND returns #NUM!") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=MROUND(1.7,0.2)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=MROUND(321.123,0.12)"},
+        { GNM_FUNC_HELP_SEEALSO, "ROUNDDOWN,ROUND,ROUNDUP"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -2247,57 +1869,26 @@ gnumeric_mround (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	div = number - mod;
 
         return value_new_float (sign * (
-		div + ((mod + accuracy_limit >= multiple / 2) ? multiple : 0)));
+					div + ((mod + accuracy_limit >= multiple / 2) ? multiple : 0)));
 }
 
 /***************************************************************************/
 
 static GnmFuncHelp const help_roman[] = {
-/*         { GNM_FUNC_HELP_NAME, F_(" function rounds a given number to the desired multiple.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area1:second cell area")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_DESCRIPTION, F_("ROMAN function returns an arabic number in the roman numeral ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("style, as text. @number is the number you want to convert and ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("@type is the type of roman numeral you want.")}, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=ROMAN(999) equals CMXCIX." }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=ROMAN(999,1) equals LMVLIV." }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=ROMAN(999,2) equals XMIX." }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=ROMAN(999,3) equals VMIV." }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=ROMAN(999,4) equals IM." }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ROMAN\n"
-	   "@SYNTAX=ROMAN(number[,type])\n"
-
-	   "@DESCRIPTION="
-	   "ROMAN function returns an arabic number in the roman numeral "
-	   "style, as text. @number is the number you want to convert and "
-	   "@type is the type of roman numeral you want.\n"
-	   "\n"
-	   "* If @type is 0 or it is omitted, ROMAN returns classic roman "
-	   "numbers.\n"
-	   "* Type 1 is more concise than classic type, type 2 is more concise "
-	   "than type 1, and type 3 is more concise than type 2.  Type 4 "
-	   "is simplified type."
-	   "\n"
-	   "* If @number is negative or greater than 3999, ROMAN returns "
-	   "#VALUE! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ROMAN(999) equals CMXCIX.\n"
-	   "ROMAN(999,1) equals LMVLIV.\n"
-	   "ROMAN(999,2) equals XMIX.\n"
-	   "ROMAN(999,3) equals VMIV.\n"
-	   "ROMAN(999,4) equals IM.\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("ROMAN:@{n} as a roman numeral text")},
+        { GNM_FUNC_HELP_ARG, F_("n:non-negative integer")},
+        { GNM_FUNC_HELP_ARG, F_("type:0,1,2,3,or 4, defaults to 0")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ROMAN returns the arabic number @{n} as a roman numeral text.\n"
+					"If @{type} is 0 or it is omitted, ROMAN returns classic roman numbers.\n"
+					"Type 1 is more concise than classic type, type 2 is more concise than "
+					"type 1, and type 3 is more concise than type 2. Type 4 is a simplified type.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=ROMAN(999)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=ROMAN(999,1)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=ROMAN(999,2)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=ROMAN(999,3)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=ROMAN(999,4)"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -2534,48 +2125,16 @@ gnumeric_roman (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_sumx2my2[] = {
-/*        { GNM_FUNC_HELP_NAME, F_(" function rounds a given number to the desired multiple.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area1:second cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("SUMX2MY2 function returns the sum of the difference of squares ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("of corresponding values in two arrays. @array1 is the first ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("array or range of data points and @array2 is the second array ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("or range of data points. The equation of SUMX2MY2 is ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("SUM x^2-y^2.")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=Let us assume that the cells A1, A2, ..., A5 contain numbers " }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold " }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=numbers 13, 22, 31, 33, and 39.  Then" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=SUMX(2)MY2A1:A5,B1:B5" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("SUMSQ,SUMX2PY2")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SUMX2MY2\n"
-	   "@SYNTAX=SUMX2MY2(array1,array2)\n"
-
-	   "@DESCRIPTION="
-	   "SUMX2MY2 function returns the sum of the difference of squares "
-	   "of corresponding values in two arrays. @array1 is the first "
-	   "array or range of data points and @array2 is the second array "
-	   "or range of data points. The equation of SUMX2MY2 is "
-	   "SUM (x^2-y^2).\n"
-	   "\n"
-           "* Strings and empty cells are simply ignored.\n"
-	   "* If @array1 and @array2 have different number of data points, "
-	   "SUMX2MY2 returns #N/A error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold "
-	   "numbers 13, 22, 31, 33, and 39.  Then\n"
-	   "SUMX2MY2(A1:A5,B1:B5)"
-	   "\n"
-	   "@SEEALSO=SUMSQ,SUMX2PY2")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("SUMX2MY2: sum of the difference of squares")},
+        { GNM_FUNC_HELP_ARG, F_("array0:first cell area")},
+        { GNM_FUNC_HELP_ARG, F_("array1:second cell area")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("SUMX2MY2 function returns the sum of the difference of squares of "
+					"corresponding values in two arrays. The equation of SUMX2MY2 is SUM(x^2-y^2).")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.\n"
+	  "Then SUMX2MY2(A1:A5,B1:B5) yields -1299."},
+        { GNM_FUNC_HELP_SEEALSO, "SUMSQ,SUMX2PY2"},
+        { GNM_FUNC_HELP_END}
 };
 
 static int
@@ -2608,48 +2167,18 @@ gnumeric_sumx2my2 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_sumx2py2[] = {
-/*         { GNM_FUNC_HELP_NAME, F_(" function rounds a given number to the desired multiple.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area1:second cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("SUMX2PY2 function returns the sum of the sum of squares ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("of corresponding values in two arrays. @array1 is the first ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("array or range of data points and @array2 is the second array ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("or range of data points. The equation of SUMX2PY2 is ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("SUM x^2+y^2.")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=Let us assume that the cells A1, A2, ..., A5 contain numbers " }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold " }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=numbers 13, 22, 31, 33, and 39.  Then" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=SUMX(2)PY2A1:A5,B1:B5" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("SUMSQ,SUMX2MY2")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SUMX2PY2\n"
-	   "@SYNTAX=SUMX2PY2(array1,array2)\n"
-
-	   "@DESCRIPTION="
-	   "SUMX2PY2 function returns the sum of the sum of squares "
-	   "of corresponding values in two arrays. @array1 is the first "
-	   "array or range of data points and @array2 is the second array "
-	   "or range of data points. The equation of SUMX2PY2 is "
-	   "SUM (x^2+y^2).\n"
-	   "\n"
-           "* Strings and empty cells are simply ignored.\n"
-	   "* If @array1 and @array2 have different number of data points, "
-	   "SUMX2PY2 returns #N/A error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold "
-	   "numbers 13, 22, 31, 33, and 39.  Then\n"
-	   "SUMX2PY2(A1:A5,B1:B5)"
-	   "\n"
-	   "@SEEALSO=SUMSQ,SUMX2MY2")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("SUMX2PY2: sum of the sum of squares")},
+        { GNM_FUNC_HELP_ARG, F_("array0:first cell area")},
+        { GNM_FUNC_HELP_ARG, F_("array1:second cell area")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("SUMX2PY2 function returns the sum of the sum of squares of "
+					"corresponding values in two arrays. The equation of SUMX2PY2 is SUM(x^2+y^2).")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{array0} and @{array1} have different number of data points, SUMX2PY2 returns #N/A.\n"
+				 "Strings and empty cells are simply ignored.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.\n"
+	  "Then SUMX2PY2(A1:A5,B1:B5) yields 7149."},
+        { GNM_FUNC_HELP_SEEALSO, "SUMSQ,SUMX2MY2"},
+        { GNM_FUNC_HELP_END}
 };
 
 static int
@@ -2681,48 +2210,18 @@ gnumeric_sumx2py2 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_sumxmy2[] = {
-/*         { GNM_FUNC_HELP_NAME, F_(" function rounds a given number to the desired multiple.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area1:second cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("SUMXMY2 function returns the sum of squares of differences ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("of corresponding values in two arrays. @array1 is the first ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("array or range of data points and @array2 is the second array ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("or range of data points. The equation of SUMXMY2 is ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("SUM x-y^2.")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=Let us assume that the cells A1, A2, ..., A5 contain numbers " }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold " }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=numbers 13, 22, 31, 33, and 39.  Then" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=SUMXMY(2)A1:A5,B1:B5" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("SUMSQ,SUMX2MY2,SUMX2PY2")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SUMXMY2\n"
-	   "@SYNTAX=SUMXMY2(array1,array2)\n"
-
-	   "@DESCRIPTION="
-	   "SUMXMY2 function returns the sum of squares of differences "
-	   "of corresponding values in two arrays. @array1 is the first "
-	   "array or range of data points and @array2 is the second array "
-	   "or range of data points. The equation of SUMXMY2 is "
-	   "SUM (x-y)^2.\n"
-	   "\n"
-           "* Strings and empty cells are simply ignored.\n"
-	   "* If @array1 and @array2 have different number of data points, "
-	   "SUMXMY2 returns #N/A error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold "
-	   "numbers 13, 22, 31, 33, and 39.  Then\n"
-	   "SUMXMY2(A1:A5,B1:B5)"
-	   "\n"
-	   "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("SUMXMY2: sum of the squares of differences")},
+        { GNM_FUNC_HELP_ARG, F_("array0:first cell area")},
+        { GNM_FUNC_HELP_ARG, F_("array1:second cell area")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("SUMXMY2 function returns the sum of the squares of the differences of "
+					"corresponding values in two arrays. The equation of SUMXMY2 is SUM((x-y)^2).")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{array0} and @{array1} have different number of data points, SUMXMY2 returns #N/A.\n"
+				 "Strings and empty cells are simply ignored.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.\n"
+	  "Then SUMXMY2(A1:A5,B1:B5) yields 409."},
+        { GNM_FUNC_HELP_SEEALSO, "SUMSQ,SUMX2MY2,SUMX2PY2"},
+        { GNM_FUNC_HELP_END}
 };
 
 static int
@@ -2756,43 +2255,16 @@ gnumeric_sumxmy2 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_seriessum[] = {
-/*         { GNM_FUNC_HELP_NAME, F_("of @{x} is multiplied.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area1:second cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area2:third cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area3:fourth cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("SERIESSUM function returns the sum of a power series.  @{x} is ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("the base of the power series, @n is the initial power to raise @{x}, ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("@m is the increment to the power for each term in the series, and ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("@coefficients are the coefficients by which each successive power ")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_EXAMPLES, "=Let us assume that the cells A1, A2, ..., A5 contain numbers " }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=1.23, 2.32, 2.98, 3.42, and 4.33.  Then" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=SERIESSUM(3,1,2.23,)A1:A5" }, */
-/*         { GNM_FUNC_HELP_SEEALSO, ("COUNT,SUM")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SERIESSUM\n"
-	   "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
-
-	   "@DESCRIPTION="
-	   "SERIESSUM function returns the sum of a power series.  @{x} is "
-	   "the base of the power series, @n is the initial power to raise @{x}, "
-	   "@m is the increment to the power for each term in the series, and "
-	   "@coefficients are the coefficients by which each successive power "
-	   "of @{x} is multiplied.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "1.23, 2.32, 2.98, 3.42, and 4.33.  Then\n"
-	   "SERIESSUM(3,1,2.23,A1:A5)"
-	   "\n"
-	   "@SEEALSO=COUNT,SUM")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("SERIESSUM:sum of a power series at @{x}")},
+        { GNM_FUNC_HELP_ARG, F_("x:number where to evaluate the power series")},
+        { GNM_FUNC_HELP_ARG, F_("n:non-negative integer, exponent of the lowest term of the series")},
+        { GNM_FUNC_HELP_ARG, F_("m:increment to each exponent")},
+        { GNM_FUNC_HELP_ARG, F_("coeff:coefficients of the power series")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "Let us assume that the cells A1, A2, ..., A5 contain numbers 1.23, 2.32, 2.98, 3.42, and 4.33.\n"
+	  " Then SERIESSUM(2,1,2.23,A1:A5) evaluates as 5056.37439843926"},
+        { GNM_FUNC_HELP_SEEALSO, "COUNT,SUM"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -2832,7 +2304,7 @@ gnumeric_seriessum (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			result = value_new_error_NUM (ei->pos);
 	}
 
- done:
+done:
 	g_free (data);
 	return result;
 }
@@ -2840,32 +2312,13 @@ gnumeric_seriessum (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_minverse[] = {
-/*         { GNM_FUNC_HELP_NAME, F_("of @{x} is multiplied.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("MINVERSE function returns the inverse matrix of @matrix.")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_SEEALSO, ("MMULT, MDETERM")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=MINVERSE\n"
-	   "@SYNTAX=MINVERSE(matrix)\n"
-
-	   "@DESCRIPTION="
-	   "MINVERSE function returns the inverse matrix of @matrix.\n"
-	   "\n"
-	   "* If @matrix cannot be inverted, MINVERSE returns #NUM! "
-	   "error.\n"
-	   "* If @matrix does not contain equal number of columns and "
-	   "rows, MINVERSE returns #VALUE! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=MMULT, MDETERM")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("MINVERSE:the inverse matrix of @{matrix}")},
+        { GNM_FUNC_HELP_ARG, F_("matrix:a square matrix")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @matrix is not invertible, MINVERSE returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @matrix does not contain an equal number of columns and rows, MINVERSE returns #VALUE!") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_SEEALSO, "MMULT, MDETERM"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -2993,31 +2446,12 @@ gnumeric_minverse (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_mmult[] = {
-/*         { GNM_FUNC_HELP_NAME, F_("the same number of columns as @array2.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area1:second cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("MMULT function returns the matrix product of two arrays. The ")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("result is an array with the same number of rows as @array1 and ")}, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_SEEALSO, ("TRANSPOSE,MINVERSE")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=MMULT\n"
-	   "@SYNTAX=MMULT(array1,array2)\n"
-
-	   "@DESCRIPTION="
-	   "MMULT function returns the matrix product of two arrays. The "
-	   "result is an array with the same number of rows as @array1 and "
-	   "the same number of columns as @array2.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=TRANSPOSE,MINVERSE")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("MMULT:the matrix product of @{mat1} and @{mat2}")},
+        { GNM_FUNC_HELP_ARG, F_("mat1:a matrix")},
+        { GNM_FUNC_HELP_ARG, F_("mat2:a matrix")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_SEEALSO, "TRANSPOSE,MINVERSE"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -3050,14 +2484,14 @@ gnumeric_mmult (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	for (c = 0; c < cols_a; c++)
 	        for (r = 0; r < rows_a; r++) {
 		        GnmValue const * a =
-			     value_area_get_x_y (values_a, c, r, ep);
+				value_area_get_x_y (values_a, c, r, ep);
 		        A[r + c * rows_a] = value_get_as_float (a);
 		}
 
 	for (c = 0; c < cols_b; c++)
 	        for (r = 0; r < rows_b; r++) {
 		        GnmValue const * b =
-			     value_area_get_x_y (values_b, c, r, ep);
+				value_area_get_x_y (values_b, c, r, ep);
 		        B[r + c * rows_b] = value_get_as_float (b);
 		}
 
@@ -3067,7 +2501,7 @@ gnumeric_mmult (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	        res->v_array.vals[c] = g_new (GnmValue *, rows_a);
 	        for (r = 0; r < rows_a; r++)
 		        res->v_array.vals[c][r] =
-			    value_new_float (product[r + c * rows_a]);
+				value_new_float (product[r + c * rows_a]);
 	}
 	g_free (A);
 	g_free (B);
@@ -3079,38 +2513,12 @@ gnumeric_mmult (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_mdeterm[] = {
-/*         { GNM_FUNC_HELP_NAME, F_("the same number of columns as @array2.")}, */
-/*         { GNM_FUNC_HELP_ARG, F_("area0:first cell area")}, */
-/*         { GNM_FUNC_HELP_DESCRIPTION, F_("MDETERM function returns the determinant of a given matrix.")}, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=Let us assume that A1, ..., A4 contain numbers 2, 3, 7, and 3, " }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=B(1,) ..., B4 4, 2, 4, and 1, C1, ..., C4 9, 4, 3, and 2, and " }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=D(1,) ..., D4 7, 3, 6, and 5. Then" }, */
-/*         { GNM_FUNC_HELP_EXAMPLES, "=MDETERMA(1):D4" }, */
-/* 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") }, */
-/*          { GNM_FUNC_HELP_SEEALSO, ("MMULT, MINVERSE")}, */
-/*         { GNM_FUNC_HELP_END} */
-/* }; */
-
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=MDETERM\n"
-	   "@SYNTAX=MDETERM(matrix)\n"
-
-	   "@DESCRIPTION="
-	   "MDETERM function returns the determinant of a given matrix.\n"
-	   "\n"
-	   "* If the @matrix does not contain equal number of columns and "
-	   "rows, MDETERM returns #VALUE! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that A1, ..., A4 contain numbers 2, 3, 7, and 3, "
-	   "B1, ..., B4 4, 2, 4, and 1, C1, ..., C4 9, 4, 3, and 2, and "
-	   "D1, ..., D4 7, 3, 6, and 5. Then\n"
-	   "MDETERM(A1:D4)"
-	   "\n"
-	   "@SEEALSO=MMULT, MINVERSE")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("MDETERM:the determinant of the matrix @{matrix}")},
+        { GNM_FUNC_HELP_ARG, F_("matrix:a square matrix")},
+        { GNM_FUNC_HELP_EXAMPLES, "Let us assume that A1,...,A4 contain numbers 2, 3, 7, and 3; B1,..., B4 4, 2, 4, and 1; C1,...,C4 9, 4, 3; and 2; and D1,...,D4 7, 3, 6, and 5. Then MDETERM(A1:D4) yields 148."},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_SEEALSO, "MMULT, MINVERSE"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -3143,21 +2551,21 @@ gnumeric_mdeterm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_sumproduct[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SUMPRODUCT:Multiplies components and adds the results.") },
 	{ GNM_FUNC_HELP_DESCRIPTION,
-		F_("Multiplies corresponding data entries in the "
-		   "given arrays or ranges, and then returns the sum of those "
-		   "products.") },
+	  F_("Multiplies corresponding data entries in the "
+	     "given arrays or ranges, and then returns the sum of those "
+	     "products.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If an entry is not numeric, the value zero is used instead.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If arrays or range arguments do not have the same dimensions, "
-	   "return #VALUE! error.") },
+				 "return #VALUE! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("SUMPRODUCTs arguments are arrays or ranges. "
 				 "Attempting to use A1:A5>0 will not work, implicit intersection will kick in. "
 				 "Instead use --(A1:A5>0)") },
 #if 0
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold "
-	   "numbers 13, 22, 31, 33, and 39.  Then\n"
-	   "SUMPRODUCT(A1:A5,B1:B5) equals 3370.\n"
+	"@EXAMPLES=\n"
+	"Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	"11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold "
+	"numbers 13, 22, 31, 33, and 39.  Then\n"
+	"SUMPRODUCT(A1:A5,B1:B5) equals 3370.\n"
 #endif
 	{ GNM_FUNC_HELP_SEEALSO, "SUM,PRODUCT,G_PRODUCT" },
 	{ GNM_FUNC_HELP_END }
@@ -3181,8 +2589,8 @@ gnumeric_sumproduct (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 		int thissizex, thissizey, x, y;
 		GnmExpr const *expr = argv[i];
 		GnmValue    *val = gnm_expr_eval (expr, ei->pos,
-					   GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
-					   GNM_EXPR_EVAL_PERMIT_EMPTY);
+						  GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
+						  GNM_EXPR_EVAL_PERMIT_EMPTY);
 
 		if (!val) {
 			size_error = TRUE;
@@ -3253,7 +2661,7 @@ gnumeric_sumproduct (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 		result = value_new_float (sum);
 	}
 
- done:
+done:
 	for (i = 0; i < argc; i++)
 		g_free (data[i]);
 	g_free (data);
