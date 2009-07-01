@@ -322,11 +322,11 @@ gnumeric_d (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /* ------------------------------------------------------------------------- */
 
 static GnmFuncHelp const help_sigma[] = {
-	{ GNM_FUNC_HELP_NAME, F_("NT_SIGMA:sigma function")},
-	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("NT_SIGMA calculates the sum of the divisors of @n.")},
+	{ GNM_FUNC_HELP_NAME, F_("NT_SIGMA:sigma function") },
+	{ GNM_FUNC_HELP_ARG, F_("n:positive integer") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("NT_SIGMA calculates the sum of the divisors of @{n}.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=NT_SIGMA(4)" },
-	{ GNM_FUNC_HELP_SEEALSO, "NT_D,ITHPRIME,NT_PHI"},
+	{ GNM_FUNC_HELP_SEEALSO, "NT_D,ITHPRIME,NT_PHI" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Divisor_function") },
 	{ GNM_FUNC_HELP_END }
 };

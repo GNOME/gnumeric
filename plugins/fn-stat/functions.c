@@ -3374,7 +3374,8 @@ gnumeric_linest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			value_array_set (result, dim - i - 1, 1,
 					 value_new_float (extra_stat->se[i+affine]));
 		value_array_set (result, dim, 1,
-				 value_new_float (extra_stat->se[0]));
+				 affine ? value_new_float (extra_stat->se[0]) 
+				 : value_new_error_NA (ei->pos));
 	} else
 		result = value_new_array (dim + 1, 1);
 

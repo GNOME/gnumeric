@@ -1,6 +1,10 @@
+2009-07-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* numtheory.c (help_sigma): escape argument name
+
 2009-06-29 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* numtheory.c (help_d): change to new type of descriptionfix example
+	* numtheory.c (help_d): fix example
 
 2009-06-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
