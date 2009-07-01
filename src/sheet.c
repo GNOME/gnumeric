@@ -2080,6 +2080,10 @@ sheet_get_nominal_printarea (Sheet const *sheet)
 		r->end.col = max_cols - 1;
 	if (r->end.row >= (max_rows = gnm_sheet_get_max_rows (sheet)))
 		r->end.row = max_rows - 1;
+	if (r->start.col < 0)
+		r->start.col = 0;
+	if (r->start.row < 0)
+		r->start.row = 0;
 
 	return r;
 }
