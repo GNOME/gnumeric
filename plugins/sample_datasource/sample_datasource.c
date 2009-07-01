@@ -131,7 +131,7 @@ cb_atl_input (GIOChannel *gioc, GIOCondition cond, gpointer ignored)
 
 				g_hash_table_foreach (wv->deps,
 					cb_watcher_queue_recalc, NULL);
-				printf ("'%s' <= %f\n", sym, val);
+				g_printerr ("'%s' <= %f\n", sym, val);
 			}
 		}
 	}
@@ -145,7 +145,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 	GIOChannel *channel = NULL;
 	char *filename;
 
-	fprintf (stderr, ">>>>>>>>>>>>>>>>>>>>>>>>>>>> LOAD ATL\n");
+	g_printerr (">>>>>>>>>>>>>>>>>>>>>>>>>>>> LOAD ATL\n");
 	g_return_if_fail (atl_fd < 0);
 
 	filename = g_build_filename (g_get_home_dir (), "atl", NULL);
@@ -182,7 +182,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
-	fprintf (stderr, "UNLOAD ATL >>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
+	g_printerr ("UNLOAD ATL >>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
 
 	if (atl_source) {
 		g_source_remove (atl_source);
@@ -247,7 +247,7 @@ atl_last (GnmFuncEvalInfo *ei, GnmValue const * const argv[])
 static DependentFlags
 atl_last_link (GnmFuncEvalInfo *ei)
 {
-	puts ("link atl_last");
+	g_printerr ("link atl_last\n");
 	return DEPENDENT_ALWAYS_UNLINK;
 }
 static void
@@ -263,26 +263,14 @@ atl_last_unlink (GnmFuncEvalInfo *ei)
 			g_hash_table_remove (w->value->deps, w);
 		g_free (w);
 	}
-	puts ("unlink atl_last");
+	g_printerr ("unlink atl_last\n");
 }
 
 static GnmFuncHelp const help_atl_last[] = {
-	{ GNM_FUNC_HELP_OLD,
-        /* xgettext:no-c-format */
-	F_("@FUNCTION=atl_last\n"
-	   "@SYNTAX=ATL_LAST (tag)\n"
-	   "@DESCRIPTION="
-	   "ATL_LAST is a sample implementation of a real time data source. "
-	   "It takes a string tag and monitors the named pipe /tmp/atl "
-	   "for changes to the value of that tag.\n"
-	   "\n"
-	   "* This is not intended to be generally enabled and is OFF by default.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ATL_LAST(\"IBM\")"
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("ATL_LAST:sample real-time data source")},
+        { GNM_FUNC_HELP_ARG, F_("tag:tag to watch")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ATL_LAST is a sample implementation of a real time data source.  It takes a string tag and monitors the named pipe ~/atl for changes to the value of that tag.") },
+	{ GNM_FUNC_HELP_NOTE, F_("This is not intended to be generally enabled and is OFF by default.") },
 	{ GNM_FUNC_HELP_END }
 };
 
