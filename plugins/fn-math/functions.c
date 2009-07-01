@@ -1176,9 +1176,9 @@ gnumeric_radians (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_sin[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SIN:Sine function")},
 	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
-	{ GNM_FUNC_HELP_SEEALSO, "COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES" },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=SIN(0.5)" },
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
+	{ GNM_FUNC_HELP_SEEALSO, "COS,TAN,CSC,SEC,SINH,COSH,TANH,RADIANS,DEGREES" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:Sine.html") },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Trigonometric_functions") },
 	{ GNM_FUNC_HELP_END }
