@@ -91,16 +91,14 @@ cb_autocorrect_update (GOConfNode *node, gchar const *key, gpointer data)
 static void
 autocorrect_init (void)
 {
-	GOConfNode *node;
-
 	if (autocorrect.notification_id != 0)
 		return;
 
 	autocorrect_load ();
-	node = go_conf_get_node (gnm_conf_get_root (), AUTOCORRECT_DIRECTORY);
-	autocorrect.notification_id = go_conf_add_monitor (
-		node, AUTOCORRECT_DIRECTORY, &cb_autocorrect_update, NULL);
-	go_conf_free_node (node);
+	autocorrect.notification_id =
+		go_conf_add_monitor (gnm_conf_get_root (),
+				     AUTOCORRECT_DIRECTORY,
+				     &cb_autocorrect_update, NULL);
 	g_object_set_data_full (gnm_app_get_app (),
 		"ToolsAutoCorrect", GINT_TO_POINTER (1),
 		(GDestroyNotify) autocorrect_clear);

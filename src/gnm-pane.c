@@ -1025,7 +1025,7 @@ cb_pane_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 #ifdef DEBUG_DND
 	{
 		gchar *target_name = gdk_atom_name (selection_data->target);
-		g_print ("drag-data-received - %s\n", target_name);
+		g_printerr ("drag-data-received - %s\n", target_name);
 		g_free (target_name);
 	}
 #endif
@@ -1044,7 +1044,7 @@ cb_pane_drag_data_get (GtkWidget *widget, GdkDragContext *context,
 {
 #ifdef DEBUG_DND
 	gchar *target_name = gdk_atom_name (selection_data->target);
-	g_print ("drag-data-get - %s \n", target_name);
+	g_printerr ("drag-data-get - %s \n", target_name);
 	g_free (target_name);
 #endif
 	scg_drag_data_get (scg, selection_data);
@@ -2607,11 +2607,11 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 #ifdef DEBUG_DND
 	{
 		GList *l;
-		g_print ("%d offered formats:\n", g_list_length (targets->list));
+		g_printerr ("%d offered formats:\n", g_list_length (targets->list));
 		for (l = targets->list; l; l = l->next) {
 			GtkTargetPair *pair = (GtkTargetPair *)l->data;
 			char *target_name = gdk_atom_name (pair->target);
-			g_print ("%s\n", target_name);
+			g_printerr ("%s\n", target_name);
 			g_free (target_name);
 		}
 	}

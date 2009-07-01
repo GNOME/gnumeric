@@ -182,7 +182,6 @@ static GnmFuncHelp const help_xor[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("Strings and empty values are ignored.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If no logical values are provided, then the error #VALUE! is returned.")},
 	{ GNM_FUNC_HELP_NOTE, F_("This function is strict: if any argument is an error, the result will be the first such error.")},
-	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=XOR(TRUE,FALSE)" },
         { GNM_FUNC_HELP_EXAMPLES, "=XOR(0,1)" },
         { GNM_FUNC_HELP_EXAMPLES, "=XOR(TRUE,NA())" },

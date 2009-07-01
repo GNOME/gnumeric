@@ -256,6 +256,7 @@ gnm_conf_get_print_settings (void)
 	GSList *list = gnm_conf_get_printsetup_gtk_setting ();
 
 	while (list && list->next) {
+		/* For historical reasons, value comes before key. */
 		const char *value = list->data;
 		const char *key = list->next->data;
 
@@ -271,6 +272,7 @@ gnm_gconf_set_print_settings_cb (const gchar *key, const gchar *value, gpointer 
 {
 	GSList **list = user_data;
 
+	/* For historical reasons, value comes before key. */
 	*list = g_slist_prepend (*list, g_strdup (key));
 	*list = g_slist_prepend (*list, g_strdup (value));
 }
