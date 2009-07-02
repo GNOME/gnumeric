@@ -1298,7 +1298,7 @@ gnumeric_index (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 
 static GnmFuncHelp const help_column[] = {
 	{ GNM_FUNC_HELP_NAME, F_("COLUMN:vector of column numbers.") },
-	{ GNM_FUNC_HELP_ARG, F_("[reference].") },
+	{ GNM_FUNC_HELP_ARG, F_("x:reference.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_(
 	   "COLUMN function returns a Nx1 array containing the series of integers "
 	   "from the first column to the last column of @reference."
@@ -1307,8 +1307,8 @@ static GnmFuncHelp const help_column[] = {
 	   "\n"
 	   "* If @reference is neither an array nor a reference nor a range, "
 	   "returns #VALUE! error.\n") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("COLUMN(A1:C4) equals {1,2,3}") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("COLUMN(A:C) equals {1,2,3}") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=COLUMN(A1:C4)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=COLUMN(A:C)" },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("COLUMN() in G13 equals 7.") },
 	{ GNM_FUNC_HELP_SEEALSO, "COLUMNS,ROW,ROWS" },
 	{ GNM_FUNC_HELP_END }
@@ -1479,7 +1479,7 @@ gnumeric_offset (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 static GnmFuncHelp const help_row[] = {
 	{ GNM_FUNC_HELP_NAME, F_("ROW:vector of row numbers.") },
-	{ GNM_FUNC_HELP_ARG, F_("[reference].") },
+	{ GNM_FUNC_HELP_ARG, F_("x:reference.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_(
 	   "ROW function returns a 1xN array containing the series of integers "
 	   "from the first row to the last row of @reference."
@@ -1488,9 +1488,9 @@ static GnmFuncHelp const help_row[] = {
 	   "\n"
 	   "* If @reference is neither an array nor a reference nor a range, "
 	   "returns #VALUE! error.\n") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("ROW(A1:D3) equals {1;2;3}") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("ROW(1:3) equals {1;2;3}") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("ROW() in G13 equals 13.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=ROW(A1:D3)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=ROW(1:3)" },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("=ROW() in G13 equals 13.") },
 	{ GNM_FUNC_HELP_SEEALSO, "COLUMN,COLUMNS,ROWS" },
 	{ GNM_FUNC_HELP_END }
 };

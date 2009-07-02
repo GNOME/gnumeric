@@ -427,7 +427,8 @@ make_expr_example (Sheet *sheet, const char *text, gboolean localized)
 
 	if (texpr) {
 		char *etxt = gnm_expr_top_as_string (texpr, &pp, convs);
-		GnmValue *val = gnm_expr_top_eval (texpr, &ep, 0);
+		GnmValue *val = gnm_expr_top_eval
+			(texpr, &ep, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 		GnmExprTop const *texpr_res = gnm_expr_top_new_constant (val);
 		char *vtxt = gnm_expr_top_as_string (texpr_res, &pp, convs);
 
