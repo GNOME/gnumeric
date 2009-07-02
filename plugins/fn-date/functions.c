@@ -1158,7 +1158,7 @@ typedef struct {
 
 static GnmValue *
 cb_networkdays_holiday (GnmValueIter const *v_iter,
-			networkdays_holiday_closure *close)
+			networkdays_holiday_closure *cls)
 {
 	int serial;
 	GDate date;
@@ -1170,14 +1170,14 @@ cb_networkdays_holiday (GnmValueIter const *v_iter,
         if (serial <= 0)
 		return value_new_error_NUM (v_iter->ep);
 
-	if (serial < close->start_serial || close->end_serial < serial)
+	if (serial < cls->start_serial || cls->end_serial < serial)
 		return NULL;
 
 	datetime_serial_to_g (&date, serial, conv);
         if (!g_date_valid (&date))
 		return value_new_error_NUM (v_iter->ep);
 	if (g_date_get_weekday (&date) < G_DATE_SATURDAY)
-		++close->res;
+		++cls->res;
 	return NULL;
 }
 
@@ -1187,7 +1187,7 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	int start_serial;
 	int end_serial;
 	int start_offset, end_offset, res;
-	networkdays_holiday_closure close;
+	networkdays_holiday_closure cls;
 	GDate start_date;
 	GODateConventions const *conv = DATE_CONV (ei->pos);
 
@@ -1202,9 +1202,9 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 
 	datetime_serial_to_g (&start_date, start_serial, DATE_CONV (ei->pos));
-	close.start_serial = start_serial;
-	close.end_serial = end_serial;
-	close.res = 0;
+	cls.start_serial = start_serial;
+	cls.end_serial = end_serial;
+	cls.res = 0;
 
 	/* Move to mondays, and check for problems */
 	start_serial = get_serial_weekday (start_serial, &start_offset, conv);
@@ -1220,12 +1220,12 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			value_area_foreach (argv[2], ei->pos,
 					    CELL_ITER_IGNORE_BLANK,
 					    (GnmValueIterFunc)&cb_networkdays_holiday,
-					    &close);
+					    &cls);
 		if (e)
 			return e;
 	}
 
-	res = res - start_offset + end_offset - close.res;
+	res = res - start_offset + end_offset - cls.res;
 
 	if (g_date_get_weekday (&start_date) < G_DATE_SATURDAY)
 		res++;
