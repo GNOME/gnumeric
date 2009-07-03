@@ -43,21 +43,12 @@ GNM_PLUGIN_MODULE_HEADER;
 /***************************************************************************/
 
 static GnmFuncHelp const help_rand[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=RAND\n"
-	   "@SYNTAX=RAND()\n"
-
-	   "@DESCRIPTION="
-	   "RAND returns a random number between zero and one.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "RAND() returns a random number greater than zero but less "
-	   "than one.\n"
-	   "\n"
-	   "@SEEALSO=RANDBETWEEN")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RAND:a random number between zero and one.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RAND()" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RAND()" },
+        { GNM_FUNC_HELP_SEEALSO, "RANDBETWEEN" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -69,24 +60,14 @@ gnumeric_rand (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randuniform[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=RANDUNIFORM\n"
-	   "@SYNTAX=RANDUNIFORM(a,b)\n"
-
-	   "@DESCRIPTION="
-	   "RANDUNIFORM returns a random variate from the uniform (flat) "
-	   "distribution from a to b. The distribution is,\n\n\t"
-	   "p(x) dx = {1 over (b-a)} dx : for a <= x < b.\n"
-	   "p(x) dx = 0 : for x < a or b <= x.\n"
-           "* If @a > @b RANDUNIFORM returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "RANDUNIFORM(1.4,4.2) returns a random number greater than or "
-	   "equal to 1.4 but less than 4.2.\n"
-	   "\n"
-	   "@SEEALSO=RANDBETWEEN,RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDUNIFORM:random variate from the uniform distribution from @{a} to @{b}") },
+        { GNM_FUNC_HELP_ARG, F_("a:lower limit of the uniform distribution") },
+        { GNM_FUNC_HELP_ARG, F_("b:upper limit of the uniform distribution") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{a} > @{b} RANDUNIFORM returns #NUM!") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDUNIFORM(1.4,4.2)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDUNIFORM(1.4,4.2)" },
+        { GNM_FUNC_HELP_SEEALSO, "RANDBETWEEN,RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -104,29 +85,19 @@ gnumeric_randuniform (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randdiscrete[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=RANDDISCRETE\n"
-	   "@SYNTAX=RANDDISCRETE(val_range[,prob_range])\n"
-
-	   "@DESCRIPTION="
-	   "RANDDISCRETE returns one of the values in the @val_range. The "
-	   "probabilities for each value are given in the @prob_range.\n"
-	   "\n"
-	   "* If @prob_range is omitted, the uniform discrete distribution "
-	   "is assumed.\n"
-           "* If the sum of all values in @prob_range is other than one, "
-	   "RANDDISCRETE returns #NUM! error.\n"
-           "* If @val_range and @prob_range are not the same size, "
-	   "RANDDISCRETE returns #NUM! error.\n"
-	   "* If @val_range or @prob_range is not a range, RANDDISCRETE "
-	   "returns #VALUE! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "RANDDISCRETE(A1:A6) returns one of the values in the range A1:A6.\n"
-	   "\n"
-	   "@SEEALSO=RANDBETWEEN,RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDDISCRETE:random variate from a finite discrete distribution") },
+        { GNM_FUNC_HELP_ARG, F_("val_range:possible values of the random variable") },
+        { GNM_FUNC_HELP_ARG, F_("prob_range:probabilities of the corresponding values in @{val_range},"
+				" defaults to equal probabilities") },
+        { GNM_FUNC_HELP_DESCRIPTION, F_("RANDDISCRETE returns one of the values in the @{val_range}. "
+					"The probabilities for each value are given in the @{prob_range}.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If the sum of all values in @{prob_range} is not one, RANDDISCRETE returns #NUM!") },
+ 	{ GNM_FUNC_HELP_NOTE, F_("If @{val_range} and @{prob_range} are not the same size, RANDDISCRETE returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{val_range} or @{prob_range} is not a range, RANDDISCRETE returns #VALUE!") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=RANDDISCRETE({1;3;5;7})" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDDISCRETE({1;3;5;7})" },
+        { GNM_FUNC_HELP_SEEALSO, "RANDBETWEEN,RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -187,12 +158,12 @@ gnumeric_randdiscrete (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/* MIN is needed because of the sum grace.  */
 	res = value_new_float (values[MIN (i, nv - 1)]);
 
- out:
+out:
 	g_free (values);
 	g_free (probs);
 	return res;
 
- error:
+error:
 	res = value_new_error_NUM (ei->pos);
 	goto out;
 }
@@ -200,19 +171,12 @@ gnumeric_randdiscrete (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randexp[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDEXP\n"
-           "@SYNTAX=RANDEXP(b)\n"
-
-           "@DESCRIPTION="
-           "RANDEXP returns a exponentially-distributed random number.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDEXP(0.5).\n"
-           "\n"
-           "@SEEALSO=RAND,RANDBETWEEN")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDEXP:random variate from an exponential distribution") },
+        { GNM_FUNC_HELP_ARG, F_("b:parameter of the exponential distribution") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDEXP(0.5)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDEXP(0.5)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND,RANDBETWEEN" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -226,21 +190,14 @@ gnumeric_randexp (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randpoisson[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDPOISSON\n"
-           "@SYNTAX=RANDPOISSON(lambda)\n"
-
-           "@DESCRIPTION="
-           "RANDPOISSON returns a Poisson-distributed random number.\n"
-           "\n"
-           "* If @lambda < 0 RANDPOISSON returns #NUM! error.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDPOISSON(3).\n"
-           "\n"
-           "@SEEALSO=RAND,RANDBETWEEN")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDPOISSON:random variate from a Poisson distribution") },
+        { GNM_FUNC_HELP_ARG, F_("\xce\xbb:parameter of the Poisson distribution") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{\xce\xbb} < 0 RANDPOISSON returns #NUM!") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDPOISSON(30)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDPOISSON(30)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDPOISSON(-1)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND,RANDBETWEEN" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -257,22 +214,15 @@ gnumeric_randpoisson (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randbinom[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDBINOM\n"
-           "@SYNTAX=RANDBINOM(p,trials)\n"
-
-           "@DESCRIPTION="
-           "RANDBINOM returns a binomially-distributed random number.\n"
-           "\n"
-           "* If @p < 0 or @p > 1 RANDBINOM returns #NUM! error.\n"
-           "* If @trials < 0 RANDBINOM returns #NUM! error. "
-	   "\n"
-           "@EXAMPLES=\n"
-           "RANDBINOM(0.5,2).\n"
-           "\n"
-           "@SEEALSO=RAND,RANDBETWEEN")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDBINOM:random variate from a binomial distribution") },
+        { GNM_FUNC_HELP_ARG, F_("p:probability of success in a single trial") },
+        { GNM_FUNC_HELP_ARG, F_("n:number of trials") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 RANDBINOM returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{n} < 0 RANDBINOM returns #NUM!") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDBINOM(0.5,10)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDBINOM(0.5,10)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND,RANDBETWEEN" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -290,25 +240,16 @@ gnumeric_randbinom (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randbetween[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=RANDBETWEEN\n"
-	   "@SYNTAX=RANDBETWEEN(bottom,top)\n"
-
-	   "@DESCRIPTION="
-	   "RANDBETWEEN function returns a random integer number "
-	   "between and including @bottom and @top.\n"
-           "\n"
-	   "* If @bottom is non-integer, it is rounded up.\n"
-	   "* If @top is non-integer, it is rounded down.\n"
-	   "* If @bottom > @top, RANDBETWEEN returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "RANDBETWEEN(3,7).\n"
-	   "\n"
-	   "@SEEALSO=RAND,RANDUNIFORM")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDBETWEEN:a random integer number between and "
+				 "including @{bottom} and @{top}") },
+        { GNM_FUNC_HELP_ARG, F_("bottom:lower limit") },
+        { GNM_FUNC_HELP_ARG, F_("top:upper limit") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{bottom} > @{top}, RANDBETWEEN returns #NUM!") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDBETWEEN(3,7)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDBETWEEN(3,7)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND,RANDUNIFORM" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -330,23 +271,17 @@ gnumeric_randbetween (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randnegbinom[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDNEGBINOM\n"
-           "@SYNTAX=RANDNEGBINOM(p,failures)\n"
-
-           "@DESCRIPTION="
-           "RANDNEGBINOM returns a negative binomially-distributed random "
-           "number.\n"
-           "\n"
-           "* If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error.\n"
-           "* If @failures < 1, RANDNEGBINOM returns #NUM! error.\n"
-	   "\n"
-           "@EXAMPLES=\n"
-           "RANDNEGBINOM(0.5,2).\n"
-           "\n"
-           "@SEEALSO=RAND,RANDBETWEEN")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDNEGBINOM:random variate from a negative binomial distribution") },
+        { GNM_FUNC_HELP_ARG, F_("p:probability of success in a single trial") },
+        { GNM_FUNC_HELP_ARG, F_("n:number of failures") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 RANDNEGBINOM returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{n} < 1 RANDNEGBINOM returns #NUM!") },
+        { GNM_FUNC_HELP_ARG, F_("area0:first cell area") },
+        { GNM_FUNC_HELP_ARG, F_("area1:second cell area") },
+        { GNM_FUNC_HELP_DESCRIPTION, F_("number.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDNEGBINOM(0.5,5)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND,RANDBETWEEN" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -364,21 +299,14 @@ gnumeric_randnegbinom (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randbernoulli[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDBERNOULLI\n"
-           "@SYNTAX=RANDBERNOULLI(p)\n"
-
-           "@DESCRIPTION="
-           "RANDBERNOULLI returns a Bernoulli-distributed random number.\n"
-           "\n"
-           "* If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error.\n"
-	   "\n"
-           "@EXAMPLES=\n"
-           "RANDBERNOULLI(0.5).\n"
-           "\n"
-           "@SEEALSO=RAND,RANDBETWEEN")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDBERNOULLI:random variate from a Bernoulli distribution") },
+        { GNM_FUNC_HELP_ARG, F_("p:probability of success") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 RANDBERNOULLI returns #NUM!") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDBERNOULLI(0.5)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDBERNOULLI(0.5)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDBERNOULLI(0.5)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND,RANDBETWEEN" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -395,21 +323,14 @@ gnumeric_randbernoulli (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randnorm[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDNORM\n"
-           "@SYNTAX=RANDNORM(mean,stdev)\n"
-
-           "@DESCRIPTION="
-           "RANDNORM returns a normal-distributed random number.\n"
-           "\n"
-           "* If @stdev < 0 RANDNORM returns #NUM! error.\n"
-	   "\n"
-           "@EXAMPLES=\n"
-           "RANDNORM(0,1).\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDNORM:random variate from a normal distribution") },
+        { GNM_FUNC_HELP_ARG, F_("\xce\xbc:mean of the ditribution") },
+        { GNM_FUNC_HELP_ARG, F_("\xcf\x83:standard deviation of the distribution") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{\xcf\x83} < 0, RANDNORM returns #NUM!") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDNORM(0,1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDNORM(0,1)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -427,23 +348,13 @@ gnumeric_randnorm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randcauchy[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDCAUCHY\n"
-           "@SYNTAX=RANDCAUCHY(a)\n"
-
-           "@DESCRIPTION="
-           "RANDCAUCHY returns a Cauchy-distributed random number with "
-	   "scale parameter a. The Cauchy distribution is also known as the "
-	   "Lorentz distribution.\n"
-           "\n"
-           "* If @a < 0 RANDCAUCHY returns #NUM! error.\n"
-	   "\n"
-           "@EXAMPLES=\n"
-           "RANDCAUCHY(1).\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDCAUCHY:random variate from a Cauchy or Lorentz distribution") },
+        { GNM_FUNC_HELP_ARG, F_("a:scale parameter of the distribution") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{a} < 0 RANDCAUCHY returns #NUM!") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDCAUCHY(1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDCAUCHY(1)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -460,19 +371,14 @@ gnumeric_randcauchy (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randlognorm[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDLOGNORM\n"
-           "@SYNTAX=RANDLOGNORM(zeta,sigma)\n"
-
-           "@DESCRIPTION="
-           "RANDLOGNORM returns a lognormal-distributed random number.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDLOGNORM(1,2).\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDLOGNORM:random variate from a lognormal distribution") },
+        { GNM_FUNC_HELP_ARG, F_("\xce\xb6:parameter of the lognormal distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("\xcf\x83:standard deviation of the distribution") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{\xcf\x83} < 0, RANDLOGNORM returns #NUM!") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDLOGNORM(1,2)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDLOGNORM(1,2)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -487,19 +393,13 @@ gnumeric_randlognorm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randweibull[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDWEIBULL\n"
-           "@SYNTAX=RANDWEIBULL(a,b)\n"
-
-           "@DESCRIPTION="
-           "RANDWEIBULL returns a Weibull-distributed random number.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDWEIBULL(1,2).\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDWEIBULL:random variate from a Weibull distribution") },
+        { GNM_FUNC_HELP_ARG, F_("a:parameter of the Weibull distribution") },
+        { GNM_FUNC_HELP_ARG, F_("b:parameter of the Weibull distribution") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDWEIBULL(1,2)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDWEIBULL(1,2)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -514,21 +414,12 @@ gnumeric_randweibull (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randlaplace[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDLAPLACE\n"
-           "@SYNTAX=RANDLAPLACE(a)\n"
-
-           "@DESCRIPTION="
-           "RANDLAPLACE returns a Laplace-distributed random number. Laplace "
-	   "distribution is also known as two-sided exponential probability "
-	   "distribution.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDLAPLACE(1).\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDLAPLACE:random variate from a Laplace distribution") },
+        { GNM_FUNC_HELP_ARG, F_("a:parameter of the Laplace distribution") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=RANDLAPLACE(1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDLAPLACE(1)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -542,19 +433,12 @@ gnumeric_randlaplace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randrayleigh[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDRAYLEIGH\n"
-           "@SYNTAX=RANDRAYLEIGH(sigma)\n"
-
-           "@DESCRIPTION="
-           "RANDRAYLEIGH returns a Rayleigh-distributed random number.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDRAYLEIGH(1).\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDRAYLEIGH:random variate from a Rayleigh distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("\xcf\x83:scale parameter of the Rayleigh distribution") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDRAYLEIGH(1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDRAYLEIGH(1)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -568,23 +452,13 @@ gnumeric_randrayleigh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randrayleightail[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDRAYLEIGHTAIL\n"
-           "@SYNTAX=RANDRAYLEIGHTAIL(a,sigma)\n"
-
-           "@DESCRIPTION="
-           "RANDRAYLEIGHTAIL returns  a random variate from the tail of the "
-	   "Rayleigh distribution with scale parameter sigma and a lower limit "
-	   "of a. The distribution is,\n\n\t"
-	   "p(x) dx = {x over sigma^2} exp ((a^2 - x^2) /(2 sigma^2)) dx,\n\n"
-	   "for x > a.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDRAYLEIGHTAIL(0.3,1).\n"
-           "\n"
-           "@SEEALSO=RAND,RANDRAYLEIGH")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDRAYLEIGHTAIL:random variate from the tail of a Rayleigh distribution") },
+        { GNM_FUNC_HELP_ARG, F_("a:lower limit of the tail") },
+	{ GNM_FUNC_HELP_ARG, F_("\xcf\x83:scale parameter of the Rayleigh distribution") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDRAYLEIGHTAIL(0.3,1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDRAYLEIGHTAIL(0.3,1)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND,RANDRAYLEIGH" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -599,21 +473,14 @@ gnumeric_randrayleightail (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randgamma[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDGAMMA\n"
-           "@SYNTAX=RANDGAMMA(a,b)\n"
-
-           "@DESCRIPTION="
-           "RANDGAMMA returns a Gamma-distributed random number.\n"
-           "\n"
-           "* If @a <= 0 RANDGAMMA returns #NUM! error.\n"
-	   "\n"
-           "@EXAMPLES=\n"
-           "RANDGAMMA(1,2).\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDGAMMA:random variate from a Gamma distribution") },
+        { GNM_FUNC_HELP_ARG, F_("a:parameter of the Gamma distribution") },
+        { GNM_FUNC_HELP_ARG, F_("b:parameter of the Gamma distribution") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{a} \xe2\x89\xa4 0, RANDGAMMA returns #NUM!") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDGAMMA(1,2)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDGAMMA(1,2)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -631,19 +498,13 @@ gnumeric_randgamma (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randpareto[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDPARETO\n"
-           "@SYNTAX=RANDPARETO(a,b)\n"
-
-           "@DESCRIPTION="
-           "RANDPARETO returns a Pareto-distributed random number.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDPARETO(1,2).\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDPARETO:random variate from a Pareto distribution") },
+        { GNM_FUNC_HELP_ARG, F_("a:parameter of the Pareto distribution") },
+        { GNM_FUNC_HELP_ARG, F_("b:parameter of the Pareto distribution") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDPARETO(1,2)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDPARETO(1,2)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -658,19 +519,13 @@ gnumeric_randpareto (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randfdist[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDFDIST\n"
-           "@SYNTAX=RANDFDIST(nu1,nu2)\n"
-
-           "@DESCRIPTION="
-           "RANDFDIST returns a F-distributed random number.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDFDIST(1,2).\n"
-           "\n"
-           "@SEEALSO=RAND,RANDGAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDFDIST:random variate from an F distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("df1:numerator degrees of freedom") },
+        { GNM_FUNC_HELP_ARG, F_("df2:denominator degrees of freedom") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDFDIST(1,2)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDFDIST(1,2)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND,RANDGAMMA" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -685,19 +540,13 @@ gnumeric_randfdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randbeta[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDBETA\n"
-           "@SYNTAX=RANDBETA(a,b)\n"
-
-           "@DESCRIPTION="
-           "RANDBETA returns a Beta-distributed random number.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDBETA(1,2).\n"
-           "\n"
-           "@SEEALSO=RAND,RANDGAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDBETA:random variate from a Beta distribution") },
+        { GNM_FUNC_HELP_ARG, F_("a:parameter of the Beta distribution") },
+        { GNM_FUNC_HELP_ARG, F_("b:parameter of the Beta distribution") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDBETA(1,2)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDBETA(1,2)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND,RANDGAMMA" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -712,22 +561,12 @@ gnumeric_randbeta (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randlogistic[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDLOGISTIC\n"
-           "@SYNTAX=RANDLOGISTIC(a)\n"
-
-           "@DESCRIPTION="
-           "RANDLOGISTIC returns a logistic-distributed random number.  The "
-	   "distribution function is,\n\n\t"
-	   "p(x) dx = { exp(-x/a) over a (1 + exp(-x/a))^2 } dx for "
-	   "-infty < x < +infty.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDLOGISTIC(1).\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDLOGISTIC:random variate from a logistic distribution") },
+        { GNM_FUNC_HELP_ARG, F_("a:parameter of the logistic distribution") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDLOGISTIC(1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDLOGISTIC(1)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -741,24 +580,13 @@ gnumeric_randlogistic (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randgeom[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDGEOM\n"
-           "@SYNTAX=RANDGEOM(p)\n"
-
-           "@DESCRIPTION="
-           "RANDGEOM returns a geometric-distributed random number. The "
-	   "number of independent trials with probability @p until the "
-	   "first success. The probability distribution for geometric "
-	   "variates is, \n\n\tp(k) =  p (1-p)^(k-1), for k >= 1.\n"
-           "\n"
-           "* If @p < 0 or @p > 1 RANDGEOM returns #NUM! error. "
-	   "\n"
-           "@EXAMPLES=\n"
-           "RANDGEOM(0.4).\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDGEOM:random variate from a geometric distribution") },
+        { GNM_FUNC_HELP_ARG, F_("p:probability of success in a single trial") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 RANDGEOM returns #NUM!") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDGEOM(0.4)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDGEOM(0.4)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -775,24 +603,14 @@ gnumeric_randgeom (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randhyperg[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDHYPERG\n"
-           "@SYNTAX=RANDHYPERG(n1,n2,t)\n"
-
-           "@DESCRIPTION="
-           "RANDHYPERG returns a hypergeometric-distributed random number. "
-	   "The probability distribution for hypergeometric random variates "
-	   "is,\n\n\t"
-	   "p(k) =  C(n_1,k) C(n_2, t-k) / C(n_1 + n_2,k), \n\nwhere C(a,b) "
-	   "= a!/(b!(a-b)!). \n\n"
-	   "The domain of k is max(0,t-n_2), ..., max(t,n_1)."
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDHYPERG(21,1,9).\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDHYPERG:random variate from a hypergeometric distribution") },
+        { GNM_FUNC_HELP_ARG, F_("n1:number of objects of type 1") },
+        { GNM_FUNC_HELP_ARG, F_("n2:number of objects of type 2") },
+        { GNM_FUNC_HELP_ARG, F_("t:total number of objects selected") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDHYPERG(21,1,9)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDHYPERG(21,1,9)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -810,21 +628,13 @@ gnumeric_randhyperg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randlog[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDLOG\n"
-           "@SYNTAX=RANDLOG(p)\n"
-
-           "@DESCRIPTION="
-           "RANDLOG returns a logarithmic-distributed random number.\n"
-           "\n"
-           "* If @p < 0 or @p > 1 RANDLOG returns #NUM! error.\n"
-	   "\n"
-           "@EXAMPLES=\n"
-           "RANDLOG(0.72).\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDLOG:random variate from a logarithmic distribution") },
+        { GNM_FUNC_HELP_ARG, F_("p:probability") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 RANDLOG returns #NUM!") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDLOG(0.72)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDLOG(0.72)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -841,19 +651,12 @@ gnumeric_randlog (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randchisq[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDCHISQ\n"
-           "@SYNTAX=RANDCHISQ(nu)\n"
-
-           "@DESCRIPTION="
-           "RANDCHISQ returns a Chi-Square-distributed random number.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDCHISQ(0.5).\n"
-           "\n"
-           "@SEEALSO=RAND,RANDGAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDCHISQ:random variate from a Chi-square distribution") },
+        { GNM_FUNC_HELP_ARG, F_("df:degrees of freedom") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDCHISQ(0.5)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDCHISQ(0.5)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND,RANDGAMMA" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -867,19 +670,12 @@ gnumeric_randchisq (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randtdist[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDTDIST\n"
-           "@SYNTAX=RANDTDIST(nu)\n"
-
-           "@DESCRIPTION="
-           "RANDTDIST returns a T-distributed random number.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDTDIST(0.5).\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDTDIST:random variate from a Student t distribution") },
+        { GNM_FUNC_HELP_ARG, F_("df:degrees of freedom") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDTDIST(0.5)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDTDIST(0.5)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -893,24 +689,15 @@ gnumeric_randtdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randgumbel[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDGUMBEL\n"
-           "@SYNTAX=RANDGUMBEL(a,b[,type])\n"
-
-           "@DESCRIPTION="
-           "RANDGUMBEL returns a Type I or Type II Gumbel-distributed "
-	   "random number. @type is either 1 or 2 and specifies the type of "
-	   "the distribution (Type I or Type II).\n"
-           "\n"
-	   "* If @type is neither 1 nor 2, RANDGUMBEL returns #NUM! error.\n"
-	   "* If @type is omitted, Type I is assumed.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDGUMBEL(0.5,1,2).\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDGUMBEL:random variate from a Gumbel distribution") },
+        { GNM_FUNC_HELP_ARG, F_("a:parameter of the Gumbel distribution") },
+        { GNM_FUNC_HELP_ARG, F_("b:parameter of the Gumbel distribution") },
+        { GNM_FUNC_HELP_ARG, F_("type:type of the Gumbel distribution, defaults to 1") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{type} is neither 1 nor 2, RANDGUMBEL returns #NUM!") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDGUMBEL(0.5,1,2)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDGUMBEL(0.5,1,2)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -931,26 +718,20 @@ gnumeric_randgumbel (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randlevy[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDLEVY\n"
-           "@SYNTAX=RANDLEVY(c,alpha[,beta])\n"
-
-           "@DESCRIPTION="
-           "RANDLEVY returns a Levy-distributed random number. If @beta is "
-	   "omitted, it is assumed to be 0.\n"
-	   "\n"
-	   "* For @alpha = 1, @beta=0, we get the Lorentz distribution.\n"
-	   "* For @alpha = 2, @beta=0, we get the normal distribution.\n"
-           "\n"
-	   "* If @alpha <= 0 or @alpha > 2, RANDLEVY returns #NUM! error.\n"
-	   "* If @beta < -1 or @beta > 1, RANDLEVY returns #NUM! error.\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDLEVY(0.5,0.1,1).\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDLEVY:random variate from a L\xc3\xa9vy distribution") },
+        { GNM_FUNC_HELP_ARG, F_("c:parameter of the L\xc3\xa9vy distribution") },
+        { GNM_FUNC_HELP_ARG, F_("\xce\xb1:parameter of the L\xc3\xa9vy distribution") },
+        { GNM_FUNC_HELP_ARG, F_("\xce\xb2:parameter of the L\xc3\xa9vy distribution, defaults to 0") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("For @{\xce\xb1} = 1, @{\xce\xb2}=0, the L\xc3\xa9vy distribution "
+					"reduces to the Cauchy (or Lorentzian) distribution.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("For @{\xce\xb1} = 2, @{\xce\xb2}=0, the L\xc3\xa9vy distribution "
+					"reduces to the normal distribution.") },
+ 	{ GNM_FUNC_HELP_NOTE, F_("If @{\xce\xb1} \xe2\x89\xa4 0 or @{\xce\xb1} > 2, RANDLEVY returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{\xce\xb2} < -1 or @{\xce\xb2} > 1, RANDLEVY returns #NUM!") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=RANDLEVY(0.5,0.1,1)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=RANDLEVY(0.5,0.1,1)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -969,26 +750,17 @@ gnumeric_randlevy (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randexppow[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDEXPPOW\n"
-           "@SYNTAX=RANDEXPPOW(a,b)\n"
-
-           "@DESCRIPTION="
-           "RANDEXPPOW returns a random variate from the exponential power "
-	   "distribution with scale parameter @a and exponent @b. The "
-	   "distribution is,\n\n\t"
-	   "p(x) dx = {1 over 2 a Gamma(1+1/b)} exp(-|x/a|^b) dx, "
-	   "for x >= 0.\n\n"
-	   "* For @b = 1 this reduces to the Laplace distribution.\n"
-	   "* For @b = 2 it has the same form as a normal distribution "
-	   "with sigma = a/sqrt(2).\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDEXPPOW(0.5,0.1).\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDEXPPOW:random variate from an exponential power distribution") },
+        { GNM_FUNC_HELP_ARG, F_("a:scale parameter of the exponential power distribution") },
+        { GNM_FUNC_HELP_ARG, F_("b:exponent of the exponential power distribution") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("For @{b} = 1 the exponential power distribution "
+					"reduces to the Laplace distribution.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("For @{b} = 2 the exponential power distribution "
+					"reduces to the normal distribution with \xcf\x83 = a/sqrt(2)") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDEXPPOW(0.5,0.1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDEXPPOW(0.5,0.1)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1003,26 +775,11 @@ gnumeric_randexppow (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randlandau[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDLANDAU\n"
-           "@SYNTAX=RANDLANDAU()\n"
-
-           "@DESCRIPTION="
-           "RANDLANDAU returns a random variate from the Landau distribution. "
-	   "The probability distribution for Landau random variates is "
-	   "defined analytically by the complex integral,\n\n\t"
-	   "p(x) = (1/(2 pi i)) int_{c-i infty}^{c+i infty} ds "
-	   "exp(s log(s) + x s).\n\n"
-	   "For numerical purposes it is more convenient to use the "
-	   "following equivalent form of the integral,\n\n\t"
-	   "p(x) = (1/pi) int_0^ infty dt exp(-t log(t) - x t) sin(pi t).\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDLANDAU().\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDLANDAU:random variate from the Landau distribution") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDLANDAU()" },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDLANDAU()" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1034,31 +791,16 @@ gnumeric_randlandau (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_randnormtail[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=RANDNORMTAIL\n"
-           "@SYNTAX=RANDNORMTAIL(a,sigma)\n"
-
-           "@DESCRIPTION="
-           "RANDNORMTAIL returns a random variates from the upper tail "
-	   "of a normal distribution with standard deviation @sigma. The "
-	   "values returned are larger than the lower limit @a, which must be "
-	   "positive. The method is based on Marsaglia's famous "
-	   "rectangle-wedge-tail algorithm (Ann Math Stat 32, 894-899 "
-	   "(1961)), with this aspect explained in Knuth, v2, 3rd ed, p139, "
-	   "586 (exercise 11).\n"
-	   "\n"
-	   "The probability distribution for normal tail random variates "
-	   "is,\n\n\t"
-	   "p(x) dx = {1 over N(a;sigma)} exp (- x^2/(2 sigma^2)) dx,\n\n"
-	   "for x > a where N(a;sigma) is the normalization constant, "
-	   "N(a;sigma) = (1/2) erfc(a / sqrt(2 sigma^2)).\n"
-           "\n"
-           "@EXAMPLES=\n"
-           "RANDNORMTAIL(0.5,0.1).\n"
-           "\n"
-           "@SEEALSO=RAND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("RANDNORMTAIL:a random variates from the upper tail of a normal distribution with mean 0") },
+        { GNM_FUNC_HELP_ARG, F_("a:lower limit of the tail") },
+        { GNM_FUNC_HELP_ARG, F_("\xcf\x83:standard deviation of the normal distribution") },
+	{ GNM_FUNC_HELP_NOTE, F_("The method is based on Marsaglia's famous "
+				 "rectangle-wedge-tail algorithm (Ann Math Stat 32, 894-899 "
+				 "(1961)), with this aspect explained in Knuth, v2, 3rd ed, p139, "
+				 "586 (exercise 11).") },
+        { GNM_FUNC_HELP_EXAMPLES, "=RANDNORMTAIL(0.5,0.1)" },
+        { GNM_FUNC_HELP_SEEALSO, "RAND" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1073,43 +815,32 @@ gnumeric_randnormtail (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_simtable[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=SIMTABLE\n"
-           "@SYNTAX=SIMTABLE(d1, d2, ..., dN)\n"
-
-           "@DESCRIPTION="
-           "SIMTABLE returns one of the values in the given argument list "
-	   "depending on the round number of the simulation tool. When the "
-	   "simulation tool is not activated, SIMTABLE returns @d1.\n"
-	   "\n"
-	   "With the simulation tool and the SIMTABLE function you can "
-	   "test given decision variables. Each SIMTABLE function contains "
-	   "the possible values of a simulation variable. In most "
-	   "valid simulation models you should have the same number of "
-	   "values @dN for all decision variables.  If the simulation is run "
-	   "more rounds than there are values defined, SIMTABLE returns "
-	   "#N/A! error (e.g. if A1 contains `=SIMTABLE(1)' and A2 "
-	   "`=SIMTABLE(1,2)', A1 yields #N/A! error on the second round).\n"
-	   "\n"
-	   "The successive use of the simulation tool also requires that you "
-	   "give to the tool at least one input variable having RAND() or "
-	   "any other RAND<distribution name>() function in it. "
-	   "On each round, the simulation tool iterates for the given number "
-	   "of rounds over all the input variables to reevaluate them. "
-	   "On each iteration, "
-	   "the values of the output variables are stored, and when "
-	   "the round is completed, descriptive statistical information is "
-	   "created according to the values.\n"
-	   "\n"
-           "@EXAMPLES=\n"
-	   "SIMTABLE(TRUE,FALSE) returns TRUE on the first simulation round "
-	   "and FALSE on the second round.\n"
-           "SIMTABLE(223,225,227,229) returns 227 on the simulation round "
-           "#3.\n"
-           "\n"
-           "@SEEALSO=")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("SIMTABLE:one of the values in the given argument list "
+				 "depending on the round number of the simulation tool.") },
+        { GNM_FUNC_HELP_ARG, F_("d1:first value") },
+        { GNM_FUNC_HELP_ARG, F_("d2:second value") },
+        { GNM_FUNC_HELP_DESCRIPTION, F_("SIMTABLE returns one of the values in the given argument list "
+					"depending on the round number of the simulation tool. When the "
+					"simulation tool is not activated, SIMTABLE returns @{d1}.\n"
+					"With the simulation tool and the SIMTABLE function you can "
+					"test given decision variables. Each SIMTABLE function contains "
+					"the possible values of a simulation variable. In most "
+					"valid simulation models you should have the same number of "
+					"values @{dN} for all decision variables.  If the simulation is run "
+					"more rounds than there are values defined, SIMTABLE returns "
+					"#N/A! error (e.g. if A1 contains `=SIMTABLE(1)' and A2 "
+					"`=SIMTABLE(1,2)', A1 yields #N/A! error on the second round).\n"
+					"The successive use of the simulation tool also requires that you "
+					"give to the tool at least one input variable having RAND() or "
+					"any other RAND<distribution name>() function in it. "
+					"On each round, the simulation tool iterates for the given number "
+					"of rounds over all the input variables to reevaluate them. "
+					"On each iteration, "
+					"the values of the output variables are stored, and when "
+					"the round is completed, descriptive statistical information is "
+					"created according to the values.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=SIMTABLE(223,225,227,229)" },
+        { GNM_FUNC_HELP_END}
 };
 
 typedef struct {
