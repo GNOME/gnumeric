@@ -317,23 +317,18 @@ open_connection (const gchar *dsn, const gchar *user, const gchar *password, Gda
  * execSQL function
  */
 static GnmFuncHelp const help_execSQL[] = {
-    { GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=EXECSQL\n"
-	   "@SYNTAX=EXECSQL(dsn,username,password,sql)\n"
-	   "@DESCRIPTION="
-	   "The EXECSQL function lets you execute a command in a"
-	   " database server, and show the results returned in"
-	   " current sheet. It uses libgda as the means for"
-	   " accessing the databases.\n"
-	   "For using it, you need first to set up a libgda data source."
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "To get all the data from the table \"Customers\" present"
-	   " in the \"mydatasource\" GDA data source, you would use:\n"
-	   "EXECSQL(\"mydatasource\",\"username\",\"password\",\"SELECT * FROM customers\")\n"
-	   "@SEEALSO=READDBTABLE")
-    },
-    { GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("EXECSQL:result of executing @{sql} in the "
+				 "libgda data source @{dsn}") },
+	{ GNM_FUNC_HELP_ARG, F_("dsn:libgda data source") },
+	{ GNM_FUNC_HELP_ARG, F_("username:user name to access @{dsn}") },
+	{ GNM_FUNC_HELP_ARG, F_("password:password to access @{dsn} as @{username}") },
+	{ GNM_FUNC_HELP_ARG, F_("sql:SQL command") },
+	{ GNM_FUNC_HELP_NOTE, F_("Before using EXECSQL, you need to set up a libgda "
+				 "data source.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=EXECSQL(\"mydatasource\",\"username\",\"password\""
+	  ",\"SELECT * FROM customers\")" },
+	{ GNM_FUNC_HELP_SEEALSO, "READDBTABLE" },
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
@@ -400,26 +395,17 @@ gnumeric_execSQL (GnmFuncEvalInfo *ei, GnmValue const  * const *args)
  * readDBTable function
  */
 static GnmFuncHelp const help_readDBTable[] = {
-    { GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=READDBTABLE\n"
-	   "@SYNTAX=READDBTABLE(dsn,username,password,table)\n"
-	   "@DESCRIPTION="
-	   "The READDBTABLE function lets you get the contents of"
-	   " a table, as stored in a database. "
-	   "For using it, you need first to set up a libgda data source."
-	   "\n"
-	   "Note that this function returns all the rows in the given"
-	   " table. If you want to get data from more than one table"
-	   " or want a more precise selection (conditions), use the"
-	   " EXECSQL function."
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "To get all the data from the table \"Customers\" present"
-	   " in the \"mydatasource\" GDA data source, you would use:\n"
-	   "READDBTABLE(\"mydatasource\",\"username\",\"password\",\"customers\")\n"
-	   "@SEEALSO=EXECSQL")
-    },
-    { GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("READDBTABLE:all rows of the table @{table} in @{dsn}") },
+	{ GNM_FUNC_HELP_ARG, F_("dsn:libgda data source") },
+	{ GNM_FUNC_HELP_ARG, F_("username:user name to access @{dsn}") },
+	{ GNM_FUNC_HELP_ARG, F_("password:password to access @{dsn} as @{username}") },
+	{ GNM_FUNC_HELP_ARG, F_("table:SQL table to retrieve") },
+	{ GNM_FUNC_HELP_NOTE, F_("Before using EXECSQL, you need to set up a libgda "
+				 "data source.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=READDBTABLE(\"mydatasource\",\"username\","
+	  "\"password\",\"customers\")" },
+	{ GNM_FUNC_HELP_SEEALSO, "EXECSQL" },
+	{ GNM_FUNC_HELP_END }
 };
 
 static GnmValue *
