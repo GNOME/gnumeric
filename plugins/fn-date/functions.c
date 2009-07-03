@@ -71,26 +71,18 @@ value_get_basis (const GnmValue *v, int defalt)
 /***************************************************************************/
 
 static GnmFuncHelp const help_date[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=DATE\n"
-	   "@SYNTAX=DATE (year,month,day)\n"
-
-	   "@DESCRIPTION="
-	   "DATE returns the number of days since the 1st of January of 1900"
-	   "(the date serial number) for the given year, month and day.\n"
-	   "\n"
-	   "* If @month < 1 or @month > 12, the year will be corrected.  A "
-	   "similar correction takes place for days.\n"
-	   "* The @years should be at least 1900.  If "
-	   "@years < 1900, it is assumed to be 1900 + @years.\n"
-	   "* If the given date is not valid, DATE returns #NUM! error.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "DATE(2001, 3, 30) returns 'Mar 30, 2001'.\n "
-	   "\n"
-	   "@SEEALSO=TODAY, NOW")
-	},
+        { GNM_FUNC_HELP_NAME, F_("DATE:create a date serial value.")},
+        { GNM_FUNC_HELP_ARG, F_("year:year of date")},
+        { GNM_FUNC_HELP_ARG, F_("month:month of year")},
+        { GNM_FUNC_HELP_ARG, F_("day:day of month")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The DATE function creates date serial values.  1-Jan-1900 is serial value 1, 2-Jan-1900 is serial value 2, and so on.  For compatibility reasons, a serial value is reserved for the non-existing date 29-Feb-1900.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{month} or @{day} is less than 1 or too big, then the year and/or month will be adjusted.") },
+	{ GNM_FUNC_HELP_NOTE, F_("For spreadsheets created with the Mac version of Excel, serial 1 is 1-Jan-1904.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=DATE(2008,1,1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=DATE(2008,13,1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=DATE(2008,1,-10)" },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_SEEALSO, "TODAY,YEAR,MONTH,DAY"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -138,20 +130,11 @@ gnumeric_date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_unix2date[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=UNIX2DATE\n"
-	   "@SYNTAX=UNIX2DATE(unixtime)\n"
-
-	   "@DESCRIPTION="
-	   "UNIX2DATE converts a unix time into a spreadsheet date and time.\n"
-	   "\n"
-	   "A unix time is the number of seconds since midnight January 1, "
-	   "1970.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=NOW, DATE, DATE2UNIX")
-	},
+        { GNM_FUNC_HELP_NAME, F_("UNIX2DATE:create a date value from a Unix timestamp")},
+        { GNM_FUNC_HELP_ARG, F_("t:Unix time stamp")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The UNIT2DATE function translates Unix timestamps into date serial values.  Unix timestamps are number of seconds since Midnight 1-Jan-1900.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=UNIX2DATE(1000000000)" },
+        { GNM_FUNC_HELP_SEEALSO, "DATE2UNIX,DATE"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -177,22 +160,11 @@ gnumeric_unix2date (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_date2unix[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=DATE2UNIX\n"
-	   "@SYNTAX=DATE2UNIX(serial)\n"
-
-	   "@DESCRIPTION="
-	   "DATE2UNIX converts a spreadsheet date and time serial number "
-	   "into a unix time.\n"
-	   "\n"
-	   "A unix time is the number of seconds since midnight January 1, "
-	   "1970.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "DATE2UNIX(\"01/01/2000\") equals 946656000.\n"
-	   "\n"
-	   "@SEEALSO=NOW, DATE, UNIX2DATE")
-	},
+        { GNM_FUNC_HELP_NAME, F_("DATE2UNIX:translate a date serial value to a Unix timestamp") },
+        { GNM_FUNC_HELP_ARG, F_("d:date serial value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The DATE2UNIX function translates a date serial values into a Unix timestamp.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=DATE2UNIX(DATE(2000,1,1))" },
+        { GNM_FUNC_HELP_SEEALSO, "UNIX2DATE,DATE"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -443,20 +415,11 @@ gnumeric_edate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_today[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TODAY\n"
-	   "@SYNTAX=TODAY()\n"
-
-	   "@DESCRIPTION="
-	   "TODAY returns the serial number for today (the number of days "
-	   "elapsed since the 1st of January of 1900).\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "TODAY() returns 'Nov 6, 2001' on that particular day.\n "
-	   "\n"
-	   "@SEEALSO=NOW")
-	},
+        { GNM_FUNC_HELP_NAME, F_("TODAY:return the date serial value of today") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The TODAY function returns the date serial value of the day it is computed.  Recomputing on a later date will produce a different value.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=TODAY()" },
+        { GNM_FUNC_HELP_SEEALSO, "DATE"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -469,28 +432,11 @@ gnumeric_today (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_now[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=NOW\n"
-	   "@SYNTAX=NOW ()\n"
-
-	   "@DESCRIPTION="
-	   "NOW returns the serial number for the date and time at the time "
-	   "it is evaluated.\n"
-	   "\n"
-	   "Serial Numbers in Gnumeric are represented as follows: "
-	   "The integral part is the number of days since the 1st of "
-	   "January of 1900.  The decimal part represent the fraction "
-	   "of the day and is mapped into hour, minutes and seconds.\n"
-	   "\n"
-	   "For example: .0 represents the beginning of the day, and 0.5 "
-	   "represents noon.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "NOW().\n"
-	   "\n"
-	   "@SEEALSO=TODAY")
-	},
+        { GNM_FUNC_HELP_NAME, F_("NOW:return the date and time serial value of the current time.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The NOW function returns the date and time serial value of the moment it is computed.  Recomputing later will produce a different value.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=NOW()" },
+        { GNM_FUNC_HELP_SEEALSO, "DATE"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -503,19 +449,14 @@ gnumeric_now (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_time[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TIME\n"
-	   "@SYNTAX=TIME (hours,minutes,seconds)\n"
-
-	   "@DESCRIPTION="
-	   "TIME returns a fraction representing the time of day.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "TIME(3, 5, 23) equals 3:05AM.\n"
-	   "\n"
-	   "@SEEALSO=HOUR")
-	},
+        { GNM_FUNC_HELP_NAME, F_("TIME:create a time serial value.")},
+        { GNM_FUNC_HELP_ARG, F_("hour:hour of the day")},
+        { GNM_FUNC_HELP_ARG, F_("minute:minute within the hour")},
+        { GNM_FUNC_HELP_ARG, F_("second:second within the minute")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The TIME function computes the fractional day between midnight at the time given by @{hour}, @{minute}, and @{second}.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=TIME(12,30,2)" },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_SEEALSO, "HOUR,MINUTE,SECOND"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -563,24 +504,12 @@ gnumeric_timevalue (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_hour[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=HOUR\n"
-	   "@SYNTAX=HOUR (date)\n"
-
-	   "@DESCRIPTION="
-	   "HOUR converts a serial number to an hour.  The hour is returned as "
-	   "an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.).\n"
-	   "\n"
-	   "* Note that Gnumeric will perform regular string to serial "
-	   "number conversion for you, so you can enter a date as a "
-	   "string.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "HOUR(0.128472) equals 3.\n"
-	   "\n"
-	   "@SEEALSO=MINUTE, NOW, TIME, SECOND")
-	},
+        { GNM_FUNC_HELP_NAME, F_("HOUR:compute hour part of fractional day.")},
+        { GNM_FUNC_HELP_ARG, F_("time:time of day as fractional day.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The HOUR function computes the hour part of the fractional day given by @{time}.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=HOUR(TIME(12,30,2))" },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_SEEALSO, "TIME,MINUTE,SECOND"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -598,24 +527,12 @@ gnumeric_hour (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_minute[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=MINUTE\n"
-	   "@SYNTAX=MINUTE (date)\n"
-
-	   "@DESCRIPTION="
-	   "MINUTE converts a serial number to a minute.  The minute is "
-	   "returned as an integer in the range 0 to 59.\n"
-	   "\n"
-	   "* Note that Gnumeric will perform regular string to serial "
-	   "number conversion for you, so you can enter a date as a "
-	   "string.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "MINUTE(0.128472) equals 5.\n"
-	   "\n"
-	   "@SEEALSO=HOUR, NOW, TIME, SECOND")
-	},
+        { GNM_FUNC_HELP_NAME, F_("MINUTE:compute minute part of fractional day.")},
+        { GNM_FUNC_HELP_ARG, F_("time:time of day as fractional day.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The MINUTE function computes the minute part of the fractional day given by @{time}.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=MINUTE(TIME(12,30,2))" },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_SEEALSO, "TIME,HOUR,SECOND"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -633,24 +550,12 @@ gnumeric_minute (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_second[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SECOND\n"
-	   "@SYNTAX=SECOND (date)\n"
-
-	   "@DESCRIPTION="
-	   "SECOND converts a serial number to a second.  The second is "
-	   "returned as an integer in the range 0 to 59.\n"
-	   "\n"
-	   "* Note that Gnumeric will perform regular string to serial "
-	   "number conversion for you, so you can enter a date as a "
-	   "string.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "SECOND(0.600613) equals 53.\n"
-	   "\n"
-	   "@SEEALSO=HOUR, MINUTE, NOW, TIME")
-	},
+        { GNM_FUNC_HELP_NAME, F_("SECOND:compute seconds part of fractional day.")},
+        { GNM_FUNC_HELP_ARG, F_("time:time of day as fractional day.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The SECOND function computes the seconds part of the fractional day given by @{time}.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=SECOND(TIME(12,30,2))" },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_SEEALSO, "TIME,HOUR,MINUTE"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -668,23 +573,13 @@ gnumeric_second (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_year[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=YEAR\n"
-	   "@SYNTAX=YEAR (date)\n"
-
-	   "@DESCRIPTION="
-	   "YEAR converts a serial number to a year.\n"
-	   "\n"
-	   "* Note that Gnumeric will perform regular string to serial "
-	   "number conversion for you, so you can enter a date as a "
-	   "string.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "YEAR(DATE(2003, 4, 30)) equals 2003.\n"
-	   "\n"
-	   "@SEEALSO=DAY, MONTH, TIME, NOW")
-	},
+        { GNM_FUNC_HELP_NAME, F_("YEAR:Return the year part of a date serial value.") },
+        { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The YEAR function returns the year part of @{date}.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=YEAR(TODAY())" },
+        { GNM_FUNC_HELP_EXAMPLES, "=YEAR(DATE(1940,4,9))" },
+        { GNM_FUNC_HELP_SEEALSO, "DATE,MONTH,DAY"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -702,23 +597,13 @@ gnumeric_year (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_month[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=MONTH\n"
-	   "@SYNTAX=MONTH (date)\n"
-
-	   "@DESCRIPTION="
-	   "MONTH converts a serial number to a month.\n"
-	   "\n"
-	   "* Note that Gnumeric will perform regular string to serial "
-	   "number conversion for you, so you can enter a date as a "
-	   "string.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "MONTH(DATE(2003, 4, 30)) equals 4.\n"
-	   "\n"
-	   "@SEEALSO=DAY, TIME, NOW, YEAR")
-	},
+        { GNM_FUNC_HELP_NAME, F_("MONTH:Return the month part of a date serial value.") },
+        { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The MONTH function returns the month part of @{date}.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=MONTH(TODAY())" },
+        { GNM_FUNC_HELP_EXAMPLES, "=MONTH(DATE(1940,4,9))" },
+        { GNM_FUNC_HELP_SEEALSO, "DATE,YEAR,DAY"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -736,23 +621,13 @@ gnumeric_month (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_day[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=DAY\n"
-	   "@SYNTAX=DAY (date)\n"
-
-	   "@DESCRIPTION="
-	   "DAY converts a serial number to a day of month.\n"
-	   "\n"
-	   "* Note that Gnumeric will perform regular string to serial "
-	   "number conversion for you, so you can enter a date as a "
-	   "string.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "DAY(\"10/24/1968\") equals 24.\n"
-	   "\n"
-	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
-	},
+        { GNM_FUNC_HELP_NAME, F_("DAY:Return the day-of-month part of a date serial value.") },
+        { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The DAY function returns the day-of-month part of @{date}.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=DAY(TODAY())" },
+        { GNM_FUNC_HELP_EXAMPLES, "=DAY(DATE(1940,4,9))" },
+        { GNM_FUNC_HELP_SEEALSO, "DATE,YEAR,MONTH"},
 	{ GNM_FUNC_HELP_END }
 };
 
