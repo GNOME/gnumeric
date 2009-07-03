@@ -41,6 +41,7 @@
 #include "parse-util.h"
 #include "expr-name.h"
 #include "command-context.h"
+#include "gnumeric-gconf.h"
 
 #include <gsf/gsf-impl-utils.h>
 
