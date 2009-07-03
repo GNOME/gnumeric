@@ -53,16 +53,18 @@ GNM_PLUGIN_MODULE_HEADER;
 static GIConv CHAR_iconv;
 
 static GnmFuncHelp const help_char[] = {
-	{ GNM_FUNC_HELP_NAME, F_("CHAR:returns the CP1252 (Windows-1252) character for the given code point.")},
-	{ GNM_FUNC_HELP_ARG, F_("x:which character to return")},
+	{ GNM_FUNC_HELP_NAME, F_("CHAR:the CP1252 (Windows-1252) character for the code point @{x}.")},
+	{ GNM_FUNC_HELP_ARG, F_("x:code point")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("CHAR(@{x}) returns the CP1252 (Windows-1252) character with code @{x}.")},
-{ GNM_FUNC_HELP_DESCRIPTION, F_("@{x} should be in the range 1 to 255.")},
-{ GNM_FUNC_HELP_DESCRIPTION, F_("CP1252 (Windows-1252) is also known as the \"ANSI code page\", but it is not an ANSI standard.")},
-{ GNM_FUNC_HELP_DESCRIPTION, F_("CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains all of its printable characters (but partially at different positions.)")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("@{x} must be in the range 1 to 255.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("CP1252 (Windows-1252) is also known as the \"ANSI code page\", "
+					"but it is not an ANSI standard.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, "
+					"and contains all of its printable characters (but partially at different positions.)")},
 	{ GNM_FUNC_HELP_NOTE, F_("In CP1252 (Windows-1252), 129, 141, 143, 144, and 157 do not have matching characters.") },
 	{ GNM_FUNC_HELP_NOTE, F_("For @{x} from 1 to 255 except 129, 141, 143, 144, and 157 we have CODE(CHAR(@{x}))=@{x}.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("CHAR(65) returns A") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=CHAR(65)" },
 	{ GNM_FUNC_HELP_SEEALSO, "CODE"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -98,20 +100,12 @@ gnumeric_char (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_unichar[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=UNICHAR\n"
-	   "@SYNTAX=UNICHAR(x)\n"
-
-	   "@DESCRIPTION="
-	   "UNICHAR returns the Unicode character represented by the number @x.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "UNICHAR(65) equals A.\n"
-	   "UNICHAR(960) equals a small Greek pi.\n"
-	   "\n"
-	   "@SEEALSO=CHAR,UNICODE,CODE")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("UNICHAR:the Unicode character represented by the Unicode code point @{x}.")},
+        { GNM_FUNC_HELP_ARG, F_("x:Unicode code point")},
+        { GNM_FUNC_HELP_EXAMPLES, "=UNICHAR(65)"},
+        { GNM_FUNC_HELP_EXAMPLES, "=UNICHAR(960)"},
+        { GNM_FUNC_HELP_SEEALSO, "CHAR,UNICODE,CODE"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -133,16 +127,15 @@ gnumeric_unichar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GIConv CODE_iconv;
 
 static GnmFuncHelp const help_code[] = {
-	{ GNM_FUNC_HELP_NAME, F_("CHAR:returns the CP1252 (Windows-1252) code point for the given character.")},
-	{ GNM_FUNC_HELP_ARG, F_("c:which character to return")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("CODE(@{c}) returns the CP1252 (Windows-1252) code point for character @{c}.")},
-{ GNM_FUNC_HELP_DESCRIPTION, F_("@{c} should be a valid CP1252 (Windows-1252) character.")},
+	{ GNM_FUNC_HELP_NAME, F_("CODE:the CP1252 (Windows-1252) code point for the character @{c}")},
+	{ GNM_FUNC_HELP_ARG, F_("c:character")},
+{ GNM_FUNC_HELP_DESCRIPTION, F_("@{c} must be a valid CP1252 (Windows-1252) character.")},
 { GNM_FUNC_HELP_DESCRIPTION, F_("CP1252 (Windows-1252) is also known as the \"ANSI code page\", but it is not an ANSI standard.")},
 { GNM_FUNC_HELP_DESCRIPTION, F_("CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains all of its printable characters (but partially at different positions.)")},
 	{ GNM_FUNC_HELP_NOTE, F_("In CP1252 (Windows-1252), 129, 141, 143, 144, and 157 do not have matching characters.") },
 	{ GNM_FUNC_HELP_NOTE, F_("For @{x} from 1 to 255 except 129, 141, 143, 144, and 157 we have CODE(CHAR(@{x}))=@{x}.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function is Excel compatible.") },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("CODE(\"A\") returns 65") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=CODE(\"A\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "CHAR"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -179,19 +172,11 @@ gnumeric_code (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_unicode[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=UNICODE\n"
-	   "@SYNTAX=UNICODE(char)\n"
-
-	   "@DESCRIPTION="
-	   "UNICODE returns the Unicode number for the character @char.\n\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "UNICODE(\"A\") equals 65.\n"
-	   "\n"
-	   "@SEEALSO=UNICHAR,CODE,CHAR")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("UNICODE:the Unicode code point for the character @{c}")},
+        { GNM_FUNC_HELP_ARG, F_("c:character")},
+        { GNM_FUNC_HELP_EXAMPLES, "=UNICODE(\"A\")" },
+        { GNM_FUNC_HELP_SEEALSO, "UNICHAR,CODE,CHAR"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -208,22 +193,14 @@ gnumeric_unicode (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_exact[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=EXACT\n"
-	   "@SYNTAX=EXACT(string1, string2)\n"
-
-	   "@DESCRIPTION="
-	   "EXACT returns true if @string1 is exactly equal to @string2 "
-	   "(this routine is case sensitive).\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "EXACT(\"key\",\"key\") equals TRUE.\n"
-	   "EXACT(\"key\",\"Key\") equals FALSE.\n"
-	   "\n"
-	   "@SEEALSO=LEN, SEARCH, DELTA")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("EXACT:TRUE if @{string1} is exactly equal to @{string2}")},
+        { GNM_FUNC_HELP_ARG, F_("string1:first string")},
+        { GNM_FUNC_HELP_ARG, F_("string2:second string")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=EXACT(\"key\",\"key\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=EXACT(\"key\",\"Key\")" },
+        { GNM_FUNC_HELP_SEEALSO, "LEN,SEARCH,DELTA"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -236,20 +213,13 @@ gnumeric_exact (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_len[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=LEN\n"
-	   "@SYNTAX=LEN(string)\n"
-
-	   "@DESCRIPTION="
-	   "LEN returns the length in characters of the string @string.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "LEN(\"Helsinki\") equals 8.\n"
-	   "\n"
-	   "@SEEALSO=CHAR, CODE, LENB")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("LEN:the number of characters of the string @{s}.")},
+        { GNM_FUNC_HELP_ARG, F_("s:string")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=LEN(\"Helsinki\")" },
+       { GNM_FUNC_HELP_EXAMPLES, "=LEN(\"L\xc3\xa9vy\")" },
+         { GNM_FUNC_HELP_SEEALSO, "CHAR,CODE,LENB"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -260,20 +230,13 @@ gnumeric_len (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /***************************************************************************/
 static GnmFuncHelp const help_lenb[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=LENB\n"
-	   "@SYNTAX=LENB(string)\n"
-
-	   "@DESCRIPTION="
-	   "LENB returns the length in bytes of the string @string.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "LENB(\"Helsinki\") equals 8.\n"
-	   "\n"
-	   "@SEEALSO=CHAR, CODE, LEN")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("LENB:the number of bytes in the string @{s}.")},
+        { GNM_FUNC_HELP_ARG, F_("s:string")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=LENB(\"Helsinki\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=LENB(\"L\xc3\xa9vy\")" },
+        { GNM_FUNC_HELP_SEEALSO, "CHAR, CODE, LEN"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -290,8 +253,9 @@ static GnmFuncHelp const help_left[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If the string is in a right-to-left script, the returned first characters are from the right of the string.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("LEFT(\"Directory\",3) equals \"Dir\".")},
-	{ GNM_FUNC_HELP_SEEALSO, ("MID,RIGHT,LEN,MIDB,RIGHTB,LENB")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=LEFT(\"L\xc3\xa9vy\",3)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=LEFT(\"L\xc3\xa9vy\",2)" },
+	{ GNM_FUNC_HELP_SEEALSO, "MID,RIGHT,LEN,MIDB,RIGHTB,LENB"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -321,8 +285,9 @@ static GnmFuncHelp const help_leftb[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If the string is in a right-to-left script, the returned first characters are from the right of the string.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("While this function is syntactically Excel compatible, the differences in the underlying text encoding will usually yield different results.")},
 	{ GNM_FUNC_HELP_ODF, F_("While this function is OpenFormula compatible, most of its behavior is, at this time, implementation specific.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("LEFTB(\"Directory\",3) equals \"Dir\".")},
-	{ GNM_FUNC_HELP_SEEALSO, ("MIDB,RIGHTB,LENB,LEFT,MID,RIGHT,LEN")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=LEFTB(\"L\xc3\xa9vy\",3)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=LEFTB(\"L\xc3\xa9vy\",2)" },
+	{ GNM_FUNC_HELP_SEEALSO, "MIDB,RIGHTB,LENB,LEFT,MID,RIGHT,LEN" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -347,20 +312,13 @@ gnumeric_leftb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_lower[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=LOWER\n"
-	   "@SYNTAX=LOWER(text)\n"
-
-	   "@DESCRIPTION="
-	   "LOWER returns a lower-case version of the string in @text.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "LOWER(\"J. F. Kennedy\") equals \"j. f. kennedy\".\n"
-	   "\n"
-	   "@SEEALSO=UPPER")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("LOWER:a lower-case version of the string @{text}.")},
+	{ GNM_FUNC_HELP_ARG, F_("text:string")},
+        { GNM_FUNC_HELP_EXCEL, "This function is Excel compatible."},
+        { GNM_FUNC_HELP_EXAMPLES, "=LOWER(\"J. F. Kennedy\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=LOWER(\"L\xc3\x89VY\")" },
+        { GNM_FUNC_HELP_SEEALSO, "UPPER"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -372,14 +330,15 @@ gnumeric_lower (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_mid[] = {
-	{ GNM_FUNC_HELP_NAME, F_("MID:the substring starting at position @{position} consisting of @{length} characters.")},
-	{ GNM_FUNC_HELP_ARG, F_("string")},   
-	{ GNM_FUNC_HELP_ARG, F_("position:the starting position (defaults to 0)")},   
-	{ GNM_FUNC_HELP_ARG, F_("length:the number of characters to return (defaults to 1)")},   
+	{ GNM_FUNC_HELP_NAME, F_("MID:the substring starting at position @{position} consisting of @{length} characters")},
+	{ GNM_FUNC_HELP_ARG, F_("string:string")},   
+	{ GNM_FUNC_HELP_ARG, F_("position:the starting position")},   
+	{ GNM_FUNC_HELP_ARG, F_("length:the number of characters to return")},   
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("MID(\"Directory\",4,3) equals \"cto\".")},
-	{ GNM_FUNC_HELP_SEEALSO, ("LEFT,RIGHT,LEN,LEFTB,MIDB,RIGHTB,LENB")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=MID(\"L\xc3\xa9vy\",2,1)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=MID(\"L\xc3\xa9vy\",3,2)" },
+	{ GNM_FUNC_HELP_SEEALSO, "LEFT,RIGHT,LEN,LEFTB,MIDB,RIGHTB,LENB"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -411,14 +370,17 @@ gnumeric_mid (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_midb[] = {
-	{ GNM_FUNC_HELP_NAME, F_("MIDB:the characters following  the first @{start_ps} bytes comprising at most @{num_bytes} bytes.")},
+	{ GNM_FUNC_HELP_NAME, F_("MIDB:the characters following  the first @{start_pos} bytes comprising at most @{num_bytes} bytes.")},
 	{ GNM_FUNC_HELP_ARG, F_("start_pos:the number of the byte with which to start (defaults to 1)")},   
 	{ GNM_FUNC_HELP_ARG, F_("num_bytes:the maximum number of bytes to return (defaults to 1)")},   
 	{ GNM_FUNC_HELP_NOTE, F_("The semantics of this function is subject to change as various applications implement it.")},
-	{ GNM_FUNC_HELP_EXCEL, F_("While this function is syntactically Excel compatible, the differences in the underlying text encoding will usually yield different results.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("While this function is syntactically Excel compatible, "
+				  "the differences in the underlying text encoding will usually yield different results.")},
 	{ GNM_FUNC_HELP_ODF, F_("While this function is OpenFormula compatible, most of its behavior is, at this time, implementation specific.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("MIDB(\"Directory\",4,3) equals \"cto\".")},
-	{ GNM_FUNC_HELP_SEEALSO, ("LEFTB,RIGHTB,LENB,LEFT,MID,RIGHT,LEN")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=MIDB(\"L\xc3\xa9vy\",2,1)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=MIDB(\"L\xc3\xa9vy\",2,2)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=MIDB(\"L\xc3\xa9vy\",3,2)" },
+	{ GNM_FUNC_HELP_SEEALSO, "LEFTB,RIGHTB,LENB,LEFT,MID,RIGHT,LEN"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -456,8 +418,9 @@ static GnmFuncHelp const help_right[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If the string is in a right-to-left script, the returned last characters are from the left of the string.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("RIGHT(\"Directory\",3) equals \"ory\".")},
-	{ GNM_FUNC_HELP_SEEALSO, ("LEFT,MID,LEN,LEFTB,MIDB,RIGHTB,LENB")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=RIGHT(\"L\xc3\xa9vy\",2)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=RIGHT(\"L\xc3\xa9vy\",3)" },
+	{ GNM_FUNC_HELP_SEEALSO, "LEFT,MID,LEN,LEFTB,MIDB,RIGHTB,LENB"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -491,8 +454,9 @@ static GnmFuncHelp const help_rightb[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If the string is in a right-to-left script, the returned last characters are from the left of the string.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("While this function is syntactically Excel compatible, the differences in the underlying text encoding will usually yield different results.")},
 	{ GNM_FUNC_HELP_ODF, F_("While this function is OpenFormula compatible, most of its behavior is, at this time, implementation specific.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("RIGHTB(\"Directory\",3) equals \"ory\".")},
-	{ GNM_FUNC_HELP_SEEALSO, ("LEFTB,MIDB,LENB,LEFT,MID,RIGHT,LEN")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=RIGHTB(\"L\xc3\xa9vy\",2)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=RIGHTB(\"L\xc3\xa9vy\",3)" },
+	{ GNM_FUNC_HELP_SEEALSO, "LEFTB,MIDB,LENB,LEFT,MID,RIGHT,LEN"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -518,21 +482,15 @@ gnumeric_rightb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_upper[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=UPPER\n"
-	   "@SYNTAX=UPPER(text)\n"
-
-	   "@DESCRIPTION="
-	   "UPPER returns a upper-case version of the string in @text.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "UPPER(\"cancelled\") equals \"CANCELLED\".\n"
-	   "\n"
-	   "@SEEALSO=LOWER")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("UPPER:an upper-case version of the string @text.")},
+	{ GNM_FUNC_HELP_ARG, F_("text:string")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=UPPER(\"cancelled\")" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=UPPER(\"L\xc3\xa9vy\")" },
+        { GNM_FUNC_HELP_SEEALSO, "LOWER"},
+        { GNM_FUNC_HELP_END}
 };
+
 
 static GnmValue *
 gnumeric_upper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
@@ -543,21 +501,15 @@ gnumeric_upper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_concatenate[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=CONCATENATE\n"
-	   "@SYNTAX=CONCATENATE(string1[,string2...])\n"
-	   "@DESCRIPTION="
-	   "CONCATENATE returns the string obtained by concatenation of "
-	   "the given strings.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "CONCATENATE(\"aa\",\"bb\") equals \"aabb\".\n"
-	   "\n"
-	   "@SEEALSO=LEFT, MID, RIGHT")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("CONCATENATE:the concatenation of the strings @{s1}, @{s2},...")},
+        { GNM_FUNC_HELP_ARG, F_("s1:first string")},
+        { GNM_FUNC_HELP_ARG, F_("s2 second string")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=CONCATENATE(\"aa\",\"bb\")" },
+        { GNM_FUNC_HELP_SEEALSO, "LEFT,MID,RIGHT"},
+        { GNM_FUNC_HELP_END}
 };
+
 
 static GnmValue *
 gnumeric_concatenate (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
@@ -571,19 +523,13 @@ gnumeric_concatenate (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv
 /***************************************************************************/
 
 static GnmFuncHelp const help_rept[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=REPT\n"
-	   "@SYNTAX=REPT(string,num)\n"
-	   "@DESCRIPTION="
-	   "REPT returns @num repetitions of @string.\n\n"
-           "* This function is Excel compatible.\n "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "REPT(\".\",3) equals \"...\".\n"
-	   "\n"
-	   "@SEEALSO=CONCATENATE")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("REPT:@{num} repetitions of string @{text}")},
+        { GNM_FUNC_HELP_ARG, F_("text:string")},
+        { GNM_FUNC_HELP_ARG, F_("num:non-negative integer")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=REPT(\"x\",3)" },
+        { GNM_FUNC_HELP_SEEALSO, "CONCATENATE"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -621,19 +567,11 @@ gnumeric_rept (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_clean[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=CLEAN\n"
-	   "@SYNTAX=CLEAN(string)\n"
-	   "@DESCRIPTION="
-	   "CLEAN removes any non-printable characters from @string.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "CLEAN(\"one\"\\&char(7)) equals \"one\".\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("CLEAN:@{text} with any non-printable characters removed")},
+        { GNM_FUNC_HELP_ARG, F_("text:string")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=CLEAN(\"one\"&char(7))" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -657,21 +595,15 @@ gnumeric_clean (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_find[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=FIND\n"
-	   "@SYNTAX=FIND(string1,string2[,start])\n"
-	   "@DESCRIPTION="
-	   "FIND returns position of @string1 in @string2 (case-sensitive), "
-	   "searching only from character @start onwards (assuming 1 if "
-	   "omitted).\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "FIND(\"ac\",\"Jack\") equals 2.\n"
-	   "\n"
-	   "@SEEALSO=EXACT, LEN, MID, SEARCH")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("FIND:first position of @{string1} in @{string2} following position @{start}")},
+        { GNM_FUNC_HELP_ARG, F_("string1:search string")},
+        { GNM_FUNC_HELP_ARG, F_("string2:search field")},
+        { GNM_FUNC_HELP_ARG, F_("start:starting position, defaults to 1")},
+        { GNM_FUNC_HELP_NOTE, F_("This search is case-sensitive.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=FIND(\"ac\",\"Jack\")" },
+        { GNM_FUNC_HELP_SEEALSO, "EXACT,LEN,MID,SEARCH"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -701,21 +633,16 @@ gnumeric_find (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_fixed[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=FIXED\n"
-	   "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
-	   "@DESCRIPTION="
-	   "FIXED returns @num as a formatted string with @decimals numbers "
-	   "after the decimal point, omitting commas if requested by "
-	   "@no_commas.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "FIXED(1234.567,2) equals \"1,234.57\".\n"
-	   "\n"
-	   "@SEEALSO=TEXT, VALUE, DOLLAR")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("FIXED:formatted string representation of @{num}")},
+        { GNM_FUNC_HELP_ARG, F_("num:number")},
+        { GNM_FUNC_HELP_ARG, F_("decimals:number of decimals")},
+        { GNM_FUNC_HELP_ARG, F_("no_commas:TRUE if no thousand separators should be used, "
+				"defaults to FALSE")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=FIXED(1234.567,2)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=FIXED(1234.567,2,TRUE)" },
+        { GNM_FUNC_HELP_SEEALSO, "TEXT,VALUE,DOLLAR"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -764,27 +691,14 @@ gnumeric_fixed (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_proper[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=PROPER\n"
-	   "@SYNTAX=PROPER(string)\n"
-
-	   "@DESCRIPTION="
-	   "PROPER returns @string with initial of each word capitalised.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "PROPER(\"j. f. kennedy\") equals \"J. F. Kennedy\".\n"
-	   "\n"
-	   "@SEEALSO=LOWER, UPPER")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("PROPER:@{text} with initial of each word capitalised.")},
+        { GNM_FUNC_HELP_ARG, F_("text:string")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=PROPER(\"j. f. kennedy\")" },
+        { GNM_FUNC_HELP_SEEALSO, "LOWER,UPPER"},
+        { GNM_FUNC_HELP_END}
 };
 
-/*
- * proper could be a LOT nicer
- * (e.g. "US Of A" -> "US of A", "Cent'S Worth" -> "Cent's Worth")
- * but this is how Excel does it
- */
 static GnmValue *
 gnumeric_proper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
@@ -819,20 +733,16 @@ gnumeric_proper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_replace[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=REPLACE\n"
-	   "@SYNTAX=REPLACE(old,start,num,new)\n"
-	   "@DESCRIPTION="
-	   "REPLACE returns @old with @new replacing @num characters from "
-	   "@start.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "REPLACE(\"testing\",2,3,\"*****\") equals \"t*****ing\".\n"
-	   "\n"
-	   "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("REPLACE:String @{old} with @{num} characters "
+				 "starting at @{start} replaced by @{new}")},
+        { GNM_FUNC_HELP_ARG, F_("old:original text")},
+        { GNM_FUNC_HELP_ARG, F_("start:starting position")},
+        { GNM_FUNC_HELP_ARG, F_("num:number of characters to be replaced")},
+        { GNM_FUNC_HELP_ARG, F_("new:replacement string")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=REPLACE(\"testing\",2,3,\"*****\")" },
+        { GNM_FUNC_HELP_SEEALSO, "MID,SEARCH,SUBSTITUTE,TRIM"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -875,21 +785,13 @@ gnumeric_replace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /* Note: help_t is a reserved symbol.  */
 
 static GnmFuncHelp const help_t_[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=T\n"
-	   "@SYNTAX=T(value)\n"
-	   "@DESCRIPTION="
-	   "T returns @value if and only if it is text, otherwise a blank "
-	   "string.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "T(\"text\") equals \"text\".\n"
-	   "T(64) returns an empty cell.\n"
-	   "\n"
-	   "@SEEALSO=CELL, N, VALUE")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("T:@{value} if and only if @{value} is text, otherwise empty")},
+        { GNM_FUNC_HELP_ARG, F_("value:original value")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=T(\"text\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=T(64)"},
+        { GNM_FUNC_HELP_SEEALSO, "CELL,N,VALUE"},
+        { GNM_FUNC_HELP_END}
 };
 
 /* Note: gnumeric_t is a reserved symbol.  */
@@ -906,20 +808,14 @@ gnumeric_t_ (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_text[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TEXT\n"
-	   "@SYNTAX=TEXT(value,format_text)\n"
-	   "@DESCRIPTION="
-	   "TEXT returns @value as a string with the specified format.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "TEXT(3.223,\"$0.00\") equals \"$3.22\".\n"
-	   "TEXT(date(1999,4,15),\"mmmm, dd, yy\") equals \"April, 15, 99\".\n"
-	   "\n"
-	   "@SEEALSO=DOLLAR, FIXED, VALUE")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("TEXT:@{value} as a string formatted as @{format}")},
+        { GNM_FUNC_HELP_ARG, F_("value:value to be formatted")},
+        { GNM_FUNC_HELP_ARG, F_("format:desired format")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=TEXT(3.223,\"$0.00\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=TEXT(date(1999,4,15),\"mmmm, dd, yy\")" },
+        { GNM_FUNC_HELP_SEEALSO, "DOLLAR,FIXED,VALUE"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -967,19 +863,12 @@ gnumeric_text (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_trim[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TRIM\n"
-	   "@SYNTAX=TRIM(text)\n"
-	   "@DESCRIPTION="
-	   "TRIM returns @text with only single spaces between words.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "TRIM(\"  a bbb  cc\") equals \"a bbb cc\".\n"
-	   "\n"
-	   "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("TRIM:@{text} with only single spaces between words.")},
+        { GNM_FUNC_HELP_ARG, F_("text:string")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=TRIM(\"  a bbb  cc \")" },
+        { GNM_FUNC_HELP_SEEALSO, "CLEAN,MID,REPLACE,SUBSTITUTE"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1021,19 +910,12 @@ gnumeric_trim (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_value[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=VALUE\n"
-	   "@SYNTAX=VALUE(text)\n"
-	   "@DESCRIPTION="
-	   "VALUE returns numeric value of @text.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "VALUE(\"$1,000\") equals 1000.\n"
-	   "\n"
-	   "@SEEALSO=DOLLAR, FIXED, TEXT")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("VALUE:numeric value of @{text}")},
+        { GNM_FUNC_HELP_ARG, F_("text:string")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=VALUE(\"$1,000\")" },
+        { GNM_FUNC_HELP_SEEALSO, "DOLLAR,FIXED,TEXT"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1061,21 +943,17 @@ gnumeric_value (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_substitute[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SUBSTITUTE\n"
-	   "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
-	   "@DESCRIPTION="
-	   "SUBSTITUTE replaces @old with @new in @text.  Substitutions "
-	   "are only applied to instance @num of @old in @text, otherwise "
-	   "every one is changed.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "SUBSTITUTE(\"testing\",\"test\",\"wait\") equals \"waiting\".\n"
-	   "\n"
-	   "@SEEALSO=REPLACE, TRIM")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("SUBSTITUTE:@{text} with all occurrences of @{old} replaced by @{new}")},
+        { GNM_FUNC_HELP_ARG, F_("text:original text")},
+        { GNM_FUNC_HELP_ARG, F_("old:string to be replaced")},
+        { GNM_FUNC_HELP_ARG, F_("new:replacement string")},
+        { GNM_FUNC_HELP_ARG, F_("num:if @{num} is specified and a number "
+				"only the @{num}th occurrence of @{old} is replaced")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=SUBSTITUTE(\"testing with this test\",\"test\",\"wait\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SUBSTITUTE(\"testing with this test\",\"test\",\"wait\",1)" },
+        { GNM_FUNC_HELP_SEEALSO, "REPLACE,TRIM"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1139,19 +1017,13 @@ gnumeric_substitute (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_dollar[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=DOLLAR\n"
-	   "@SYNTAX=DOLLAR(num[,decimals])\n"
-	   "@DESCRIPTION="
-	   "DOLLAR returns @num formatted as currency.\n\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "DOLLAR(12345) equals \"$12,345.00\".\n"
-	   "\n"
-	   "@SEEALSO=FIXED, TEXT, VALUE")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("DOLLAR:@{num} formatted as currency.")},
+        { GNM_FUNC_HELP_ARG, F_("num:number")},
+        { GNM_FUNC_HELP_ARG, F_("decimals:decimals")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=DOLLAR(12345)" },
+        { GNM_FUNC_HELP_SEEALSO, "FIXED,TEXT,VALUE"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1217,35 +1089,27 @@ gnumeric_dollar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_search[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SEARCH\n"
-	   "@SYNTAX=SEARCH(search_string,text[,start_num])\n"
-	   "@DESCRIPTION="
-	   "SEARCH returns the location of the @search_ string within "
-	   "@text. The search starts  with the @start_num character of text "
-	   "@text.  If @start_num "
-	   "is omitted, it is assumed to be one.  The search is not case "
-	   "sensitive.\n"
-	   "\n"
-	   "@search_string can contain wildcard characters (*) and "
-	   "question marks (?). "
-	   "A question mark matches any "
-	   "character and a wildcard matches any string including the empty "
-	   "string.  If you want the actual wildcard or question mark to "
-	   "be found, use tilde (~) before the character.\n"
-	   "\n"
-	   "* If @search_string is not found, SEARCH returns #VALUE! error.\n"
-	   "* If @start_num is less than one or it is greater than the length "
-	   "of @text, SEARCH returns #VALUE! error.\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "SEARCH(\"c\",\"Cancel\") equals 1.\n"
-	   "SEARCH(\"c\",\"Cancel\",2) equals 4.\n"
-	   "\n"
-	   "@SEEALSO=FIND")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("SEARCH:the location of the @{search} string within "
+				 "@{text} after position @{start}")},
+        { GNM_FUNC_HELP_ARG, F_("search:search string")},
+        { GNM_FUNC_HELP_ARG, F_("text:search field")},
+        { GNM_FUNC_HELP_ARG, F_("start:starting position, defaults to 1")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("@{search} may contain wildcard characters (*) and "
+					"question marks (?). A question mark matches any "
+					"single character, and a wildcard matches any "
+					"string including the empty string. To search for "
+					"* or ?, precede the symbol with ~.")},
+	{ GNM_FUNC_HELP_NOTE, F_("This search is not case sensitive.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{search} is not found, SEARCH returns #VALUE!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{start} is less than one or it is greater than "
+				 "the length of @{text}, SEARCH returns #VALUE!") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=SEARCH(\"c\",\"Cancel\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SEARCH(\"c\",\"Cancel\",2)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SEARCH(\"c*c\",\"Cancel\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SEARCH(\"c*c\",\"Cancel\",2)" },
+        { GNM_FUNC_HELP_SEEALSO, "FIND"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1295,14 +1159,14 @@ gnumeric_search (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_asc[] = {
 	{ GNM_FUNC_HELP_NAME, F_("ASC:text with full-width katakana and ASCII characters converted to half-width.")},
-	{ GNM_FUNC_HELP_ARG, F_("text:")},   
+	{ GNM_FUNC_HELP_ARG, F_("text:string")},   
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ASC converts full-width katakana and ASCII characters to half-width equivalent characters, copying all others. ")},   
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The distinction between half-width and full-width characters is described in http://www.unicode.org/reports/tr11/.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("For most strings, this function has the same effect as in Excel.")},
 	{ GNM_FUNC_HELP_NOTE, F_("While in obsolete encodings ASC used to translate between 2-byte and 1-byte characters, this is not the case in UTF-8.")},
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("ASC(\"\xef\xbc\xa1\xef\xbc\xa2\xef\xbc\xa3\") yields \"ABC\"")},
-	{ GNM_FUNC_HELP_SEEALSO, ("JIS")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=ASC(\"\xef\xbc\xa1\xef\xbc\xa2\xef\xbc\xa3\")"},
+	{ GNM_FUNC_HELP_SEEALSO, "JIS"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1422,14 +1286,17 @@ gnumeric_asc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmFuncHelp const help_jis[] = {
 	{ GNM_FUNC_HELP_NAME, F_("JIS:text with half-width katakana and ASCII characters converted to full-width.")},
-	{ GNM_FUNC_HELP_ARG, F_("text:")},   
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("JIS converts half-width katakana and ASCII characters to full-width equivalent characters, copying all others. ")},   
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("The distinction between half-width and full-width characters is described in http://www.unicode.org/reports/tr11/.")},
+	{ GNM_FUNC_HELP_ARG, F_("text:original text")},   
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("JIS converts half-width katakana and ASCII characters "
+					"to full-width equivalent characters, copying all others. ")},   
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The distinction between half-width and full-width characters "
+					"is described in http://www.unicode.org/reports/tr11/.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("For most strings, this function has the same effect as in Excel.")},
-	{ GNM_FUNC_HELP_NOTE, F_("While in obsolete encodings JIS used to translate between 1-byte and 2-byte characters, this is not the case in UTF-8.")},
+	{ GNM_FUNC_HELP_NOTE, F_("While in obsolete encodings JIS used to translate between 1-byte "
+				 "and 2-byte characters, this is not the case in UTF-8.")},
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("JIS(\"ABC\") yields \"\xef\xbc\xa1\xef\xbc\xa2\xef\xbc\xa3\"")},
-	{ GNM_FUNC_HELP_SEEALSO, ("ASC")},
+	{ GNM_FUNC_HELP_EXAMPLES, "=JIS(\"ABC\")"},
+	{ GNM_FUNC_HELP_SEEALSO, "ASC"},
 	{ GNM_FUNC_HELP_END }
 };
 
