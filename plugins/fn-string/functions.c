@@ -197,8 +197,8 @@ static GnmFuncHelp const help_exact[] = {
         { GNM_FUNC_HELP_ARG, F_("string1:first string")},
         { GNM_FUNC_HELP_ARG, F_("string2:second string")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=EXACT(\"key\",\"key\")" },
-        { GNM_FUNC_HELP_EXAMPLES, "=EXACT(\"key\",\"Key\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=EXACT(\"Gnumeric\",\"Gnumeric\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=EXACT(\"gnumeric\",\"Gnumeric\")" },
         { GNM_FUNC_HELP_SEEALSO, "LEN,SEARCH,DELTA"},
         { GNM_FUNC_HELP_END}
 };
@@ -485,7 +485,7 @@ static GnmFuncHelp const help_upper[] = {
         { GNM_FUNC_HELP_NAME, F_("UPPER:an upper-case version of the string @text.")},
 	{ GNM_FUNC_HELP_ARG, F_("text:string")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=UPPER(\"cancelled\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=UPPER(\"Gnumeric\")" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=UPPER(\"L\xc3\xa9vy\")" },
         { GNM_FUNC_HELP_SEEALSO, "LOWER"},
         { GNM_FUNC_HELP_END}
@@ -570,7 +570,7 @@ static GnmFuncHelp const help_clean[] = {
         { GNM_FUNC_HELP_NAME, F_("CLEAN:@{text} with any non-printable characters removed")},
         { GNM_FUNC_HELP_ARG, F_("text:string")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=CLEAN(\"one\"&char(7))" },
+        { GNM_FUNC_HELP_EXAMPLES, "=CLEAN(\"Gnumeric\"&char(7))" },
         { GNM_FUNC_HELP_END}
 };
 
@@ -601,7 +601,7 @@ static GnmFuncHelp const help_find[] = {
         { GNM_FUNC_HELP_ARG, F_("start:starting position, defaults to 1")},
         { GNM_FUNC_HELP_NOTE, F_("This search is case-sensitive.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=FIND(\"ac\",\"Jack\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=FIND(\"num\",\"Gnumeric\")" },
         { GNM_FUNC_HELP_SEEALSO, "EXACT,LEN,MID,SEARCH"},
         { GNM_FUNC_HELP_END}
 };
@@ -740,7 +740,7 @@ static GnmFuncHelp const help_replace[] = {
         { GNM_FUNC_HELP_ARG, F_("num:number of characters to be replaced")},
         { GNM_FUNC_HELP_ARG, F_("new:replacement string")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=REPLACE(\"testing\",2,3,\"*****\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=REPLACE(\"Gnumeric\",2,6,\"*6*\")" },
         { GNM_FUNC_HELP_SEEALSO, "MID,SEARCH,SUBSTITUTE,TRIM"},
         { GNM_FUNC_HELP_END}
 };
@@ -788,7 +788,7 @@ static GnmFuncHelp const help_t_[] = {
         { GNM_FUNC_HELP_NAME, F_("T:@{value} if and only if @{value} is text, otherwise empty")},
         { GNM_FUNC_HELP_ARG, F_("value:original value")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=T(\"text\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=T(\"Gnumeric\")" },
         { GNM_FUNC_HELP_EXAMPLES, "=T(64)"},
         { GNM_FUNC_HELP_SEEALSO, "CELL,N,VALUE"},
         { GNM_FUNC_HELP_END}
@@ -950,8 +950,8 @@ static GnmFuncHelp const help_substitute[] = {
         { GNM_FUNC_HELP_ARG, F_("num:if @{num} is specified and a number "
 				"only the @{num}th occurrence of @{old} is replaced")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=SUBSTITUTE(\"testing with this test\",\"test\",\"wait\")" },
-        { GNM_FUNC_HELP_EXAMPLES, "=SUBSTITUTE(\"testing with this test\",\"test\",\"wait\",1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SUBSTITUTE(\"United Nations Educational, Scientific and Cultural Organization\",\"ation\",\"-5-\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SUBSTITUTE(\"United Nations Educational, Scientific and Cultural Organization\",\"ation\",\"-5-\",2)" },
         { GNM_FUNC_HELP_SEEALSO, "REPLACE,TRIM"},
         { GNM_FUNC_HELP_END}
 };
@@ -1104,10 +1104,10 @@ static GnmFuncHelp const help_search[] = {
 	{ GNM_FUNC_HELP_NOTE, F_("If @{start} is less than one or it is greater than "
 				 "the length of @{text}, SEARCH returns #VALUE!") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
-        { GNM_FUNC_HELP_EXAMPLES, "=SEARCH(\"c\",\"Cancel\")" },
-        { GNM_FUNC_HELP_EXAMPLES, "=SEARCH(\"c\",\"Cancel\",2)" },
-        { GNM_FUNC_HELP_EXAMPLES, "=SEARCH(\"c*c\",\"Cancel\")" },
-        { GNM_FUNC_HELP_EXAMPLES, "=SEARCH(\"c*c\",\"Cancel\",2)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SEARCH(\"c\",\"Canc\xc3\xban\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SEARCH(\"c\",\"Canc\xc3\xban\",2)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SEARCH(\"c*c\",\"Canc\xc3\xban\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=SEARCH(\"c*c\",\"Canc\xc3\xban\",2)" },
         { GNM_FUNC_HELP_SEEALSO, "FIND"},
         { GNM_FUNC_HELP_END}
 };
