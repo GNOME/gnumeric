@@ -314,7 +314,7 @@ gnumeric_leftb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_lower[] = {
         { GNM_FUNC_HELP_NAME, F_("LOWER:a lower-case version of the string @{text}.")},
 	{ GNM_FUNC_HELP_ARG, F_("text:string")},
-        { GNM_FUNC_HELP_EXCEL, "This function is Excel compatible."},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.")},
         { GNM_FUNC_HELP_EXAMPLES, "=LOWER(\"J. F. Kennedy\")" },
         { GNM_FUNC_HELP_EXAMPLES, "=LOWER(\"L\xc3\x89VY\")" },
         { GNM_FUNC_HELP_SEEALSO, "UPPER"},
