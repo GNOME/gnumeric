@@ -1,3 +1,7 @@
+2009-07-5  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* functions.c (help_*): change to new format
+
 2009-06-21  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (help_get_formula): change to new format

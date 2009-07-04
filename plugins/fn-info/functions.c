@@ -64,32 +64,40 @@ GNM_PLUGIN_MODULE_HEADER;
 /***************************************************************************/
 
 static GnmFuncHelp const help_cell[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=CELL\n"
-	   "@SYNTAX=CELL(type,ref)\n"
-
-	   "@DESCRIPTION="
-	   "CELL returns information about the formatting, location, or "
-	   "contents of a cell.\n"
-	   "\n"
-	   "@type specifies the type of information you want to obtain:\n\n"
-	   "  address    \tReturns the given cell reference as text.\n"
-	   "  col        \t\tReturns the number of the column in @ref.\n"
-	   "  contents   \tReturns the contents of the cell in @ref.\n"
-	   "  format     \t\tReturns the code of the format of the cell.\n"
-	   "  parentheses\tReturns 1 if @ref contains a negative value\n"
-	   "             \t\tand its format displays it with parentheses.\n"
-	   "  row        \t\tReturns the number of the row in @ref.\n"
-	   "  width      \t\tReturns the column width.\n"
-	   "\n"
-           "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Cell(\"format\",A1) returns the code of the format of the cell A1.\n"
-	   "\n"
-	   "@SEEALSO=INDIRECT")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("CELL:information of @{type} about @{cell}")},
+        { GNM_FUNC_HELP_ARG, F_("type:string specifying the type of information requested")},
+        { GNM_FUNC_HELP_ARG, F_("cell:cell reference")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("@{type} specifies the type of information you want to obtain:\n"
+					"  address        \t\tReturns the given cell reference as text.\n"
+					"  col            \t\tReturns the number of the column in @{cell}.\n"
+					"  color          \t\tReturns 0.\n"
+					"  contents       \t\tReturns the contents of the cell in @{cell}.\n"
+					"  column         \t\tReturns the number of the column in @{cell}.\n"
+					"  columnwidth    \tReturns the column width.\n"
+					"  coord          \t\tReturns the absolute address of @{cell}.\n"
+					"  datatype       \tsame as type\n"
+					"  filename       \t\tReturns the name of the file of @{cell}.\n"
+					"  format         \t\tReturns the code of the format of the cell.\n"
+					"  formulatype    \tsame as type\n"
+					"  locked         \t\tReturns 1 if @{cell} is locked.\n"
+					"  parentheses    \tReturns 1 if @{cell} contains a negative value\n"
+					"                 \t\tand its format displays it with parentheses.\n"
+					"  prefix         \t\tReturns a character indicating the horizontal\n"
+					"                 \t\talignment of @{cell}.\n"
+					"  prefixcharacter  \tsame as prefix\n"
+					"  protect        \t\tReturns 1 if @{cell} is locked.\n"
+					"  row            \t\tReturns the number of the row in @{cell}.\n"
+					"  sheetname      \tReturns the name of the sheet of @{cell}.\n"
+					"  type           \t\tReturns \"l\" if @{cell} contains a string, \n"
+					"                 \t\t\"v\" if it contains some other value, and \n"
+					"                 \t\t\"b\" if @{cell} is blank.\n"
+					"  value          \t\tReturns the contents of the cell in @{cell}.\n"
+					"  width          \t\tReturns the column width.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=CELL(\"col\",A1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=CELL(\"width\",A1)" },
+        { GNM_FUNC_HELP_SEEALSO, "INDIRECT"},
+        { GNM_FUNC_HELP_END}
 };
 
 typedef struct {
@@ -1161,19 +1169,11 @@ End Function
 /***************************************************************************/
 
 static GnmFuncHelp const help_expression[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=EXPRESSION\n"
-	   "@SYNTAX=EXPRESSION(cell)\n"
-	   "@DESCRIPTION="
-	   "EXPRESSION returns expression in @cell as a string, or "
-	   "empty if the cell is not an expression.\n"
-	   "@EXAMPLES=\n"
-	   "entering '=EXPRESSION(A3)' in A2 = empty (assuming there is nothing in A3).\n"
-	   "entering '=EXPRESSION(A2)' in A1 = 'EXPRESSION(A3)'.\n"
-	   "\n"
-	   "@SEEALSO=TEXT")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("EXPRESSION:expression in @cell as a string")},
+        { GNM_FUNC_HELP_ARG, F_("cell:a cell reference")},
+        { GNM_FUNC_HELP_NOTE, F_("If @{cell} contains no expression, EXPRESSION returns empty.")},
+        { GNM_FUNC_HELP_SEEALSO, "TEXT"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1206,7 +1206,7 @@ gnumeric_expression (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_get_formula[] = {
-	{ GNM_FUNC_HELP_NAME, F_("GET.FORMULA:The formula in the referenced cell as a string.")},
+	{ GNM_FUNC_HELP_NAME, F_("GET.FORMULA:The formula in @{cell} as a string.")},
 	{ GNM_FUNC_HELP_ARG, F_("cell:the referenced cell")},
 	{ GNM_FUNC_HELP_ODF, F_("GET.FORMULA is the OpenFormula function FORMULA.") },
 	{ GNM_FUNC_HELP_EXAMPLES, F_("If A1 is empty and A2 contains =B1+B2, then\n"
@@ -1249,20 +1249,11 @@ gnumeric_get_formula (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_countblank[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=COUNTBLANK\n"
-           "@SYNTAX=COUNTBLANK(range)\n"
-
-           "@DESCRIPTION="
-           "COUNTBLANK returns the number of blank cells in a @range.\n\n"
-	   "* This function is Excel compatible.\n"
-           "\n"
-	   "@EXAMPLES=\n"
-	   "COUNTBLANK(A1:A20) returns the number of blank cell in A1:A20.\n"
-	   "\n"
-           "@SEEALSO=COUNT")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("COUNTBLANK:the number of blank cells in @{range}")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, F_("COUNTBLANK(A1:A20) returns the number of blank cell in A1:A20.") },
+        { GNM_FUNC_HELP_SEEALSO, "COUNT"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1312,34 +1303,26 @@ gnumeric_countblank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_info[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=INFO\n"
-	   "@SYNTAX=INFO(type)\n"
-
-	   "@DESCRIPTION="
-	   "INFO returns information about the current operating environment. "
-	   "\n\n"
-	   "@type is the type of information you want to obtain:\n\n"
-	   "  memavail \tReturns the amount of memory available, bytes.\n"
-	   "  memused  \tReturns the amount of memory used (bytes).\n"
-	   "  numfile  \t\tReturns the number of active worksheets.\n"
-	   "  osversion\t\tReturns the operating system version.\n"
-	   "  recalc   \t\tReturns the recalculation mode (automatic).\n"
-	   "  release  \t\tReturns the version of Gnumeric as text.\n"
-	   "  system   \t\tReturns the name of the environment.\n"
-	   "  totmem   \t\tReturns the amount of total memory available.\n"
-	   "\n"
-	   "* This function is Excel compatible, except that types directory "
-	   "and origin are not implemented.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "INFO(\"system\") returns \"Linux\" on a Linux system.\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("INFO:information about the current operating environment "
+				 "according to @{type}")},
+        { GNM_FUNC_HELP_ARG, F_("type:string giving the type of information requested")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("INFO returns information about the current operating "
+					"environment according to @{type}:\n"
+					"  memavail     \t\tReturns the amount of memory available, bytes.\n"
+					"  memused      \tReturns the amount of memory used (bytes).\n"
+					"  numfile      \t\tReturns the number of active worksheets.\n"
+					"  osversion    \t\tReturns the operating system version.\n"
+					"  recalc       \t\tReturns the recalculation mode (automatic).\n"
+					"  release      \t\tReturns the version of Gnumeric as text.\n"
+					"  system       \t\tReturns the name of the environment.\n"
+					"  totmem       \t\tReturns the amount of total memory available.")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=INFO(\"system\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=INFO(\"release\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=INFO(\"numfile\")" },
+        { GNM_FUNC_HELP_SEEALSO, "CELL"},
+        { GNM_FUNC_HELP_END}
 };
-
 
 static GnmValue *
 gnumeric_info (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
@@ -1420,20 +1403,13 @@ gnumeric_info (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_iserror[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ISERROR\n"
-	   "@SYNTAX=ISERROR(value)\n"
-
-	   "@DESCRIPTION="
-	   "ISERROR returns a TRUE value if the expression has an error.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ISERROR(NA()) equals TRUE.\n"
-	   "\n"
-	   "@SEEALSO=ERROR")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("ISERROR:TRUE if @{value} is any error value")},
+        { GNM_FUNC_HELP_ARG, F_("value:a value")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISERROR(NA())" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISERROR(5/0)" },
+        { GNM_FUNC_HELP_SEEALSO, "ISERR,ISNA"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1445,20 +1421,13 @@ gnumeric_iserror (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_isna[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ISNA\n"
-	   "@SYNTAX=ISNA(value)\n"
-
-	   "@DESCRIPTION="
-	   "ISNA returns TRUE if the value is the #N/A error value.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ISNA(NA()) equals TRUE.\n"
-	   "\n"
-	   "@SEEALSO=NA")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("ISNA:TRUE if @{value} is the #N/A error value.")},
+        { GNM_FUNC_HELP_ARG, F_("value:a value")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISNA(NA())" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISNA(5/0)" },
+        { GNM_FUNC_HELP_SEEALSO, "NA"},
+        { GNM_FUNC_HELP_END}
 };
 
 /*
@@ -1474,20 +1443,13 @@ gnumeric_isna (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_iserr[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ISERR\n"
-	   "@SYNTAX=ISERR(value)\n"
-
-	   "@DESCRIPTION="
-	   "ISERR returns TRUE if the value is any error value except #N/A.\n\n"
-	   "* This function is Excel compatible. "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ISERR(NA()) return FALSE.\n"
-	   "\n"
-	   "@SEEALSO=ISERROR")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("ISERR:TRUE if @{value} is any error value except #N/A")},
+        { GNM_FUNC_HELP_ARG, F_("value:a value")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISERR(NA())" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISERR(5/0)" },
+        { GNM_FUNC_HELP_SEEALSO, "ISERROR"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1500,27 +1462,21 @@ gnumeric_iserr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_error_type[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ERROR.TYPE\n"
-	   "@SYNTAX=ERROR.TYPE(value)\n"
-
-	   "@DESCRIPTION="
-	   "ERROR.TYPE returns an error number corresponding to the given "
-	   "error value.  The error numbers for error values are:\n\n"
-	   "\t#DIV/0!  \t\t2\n"
-	   "\t#VALUE!  \t3\n"
-	   "\t#REF!    \t\t4\n"
-	   "\t#NAME?   \t5\n"
-	   "\t#NUM!    \t\t6\n"
-	   "\t#N/A     \t\t7\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ERROR.TYPE(NA()) equals 7.\n"
-	   "\n"
-	   "@SEEALSO=ISERROR")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("ERROR_TYPE:the type of @error")},
+        { GNM_FUNC_HELP_ARG, F_("error:an error")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("ERROR.TYPE returns an error number corresponding to the given "
+					"error value.  The error numbers for error values are:\n\n"
+					"\t#DIV/0!  \t\t2\n"
+					"\t#VALUE!  \t3\n"
+					"\t#REF!    \t\t4\n"
+					"\t#NAME?   \t5\n"
+					"\t#NUM!    \t6\n"
+					"\t#N/A     \t\t7")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=ERROR.TYPE(NA())" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ERROR.TYPE(ERROR(\"#X\"))" },
+        { GNM_FUNC_HELP_SEEALSO, "ISERROR"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1542,21 +1498,14 @@ gnumeric_error_type (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_na[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=NA\n"
-	   "@SYNTAX=NA()\n"
-
-	   "@DESCRIPTION="
-	   "NA returns the error value #N/A.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "NA() equals #N/A error.\n"
-	   "\n"
-	   "@SEEALSO=ISNA")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("NA:the error value #N/A")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=NA()" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISNA(NA())" },
+        { GNM_FUNC_HELP_SEEALSO, "ISNA"},
+        { GNM_FUNC_HELP_END}
 };
+
 
 static GnmValue *
 gnumeric_na (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
@@ -1567,19 +1516,12 @@ gnumeric_na (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_error[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ERROR\n"
-	   "@SYNTAX=ERROR(text)\n"
-
-	   "@DESCRIPTION="
-	   "ERROR return the specified error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ERROR(\"#OWN ERROR\").\n"
-	   "\n"
-	   "@SEEALSO=ISERROR")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("ERROR:the error with name @{text}")},
+        { GNM_FUNC_HELP_ARG, F_("name:string")},
+        { GNM_FUNC_HELP_EXAMPLES, "=ERROR(\"#N/A\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISNA(ERROR(\"#N/A\"))" },
+        { GNM_FUNC_HELP_SEEALSO, "ISERROR"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1591,20 +1533,11 @@ gnumeric_error (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_isblank[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ISBLANK\n"
-	   "@SYNTAX=ISBLANK(value)\n"
-
-	   "@DESCRIPTION="
-	   "ISBLANK returns TRUE if the value is blank.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ISBLANK(A1).\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("ISBLANK:TRUE if @{value} is blank.")},
+        { GNM_FUNC_HELP_ARG, F_("value:a value")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISBLANK(\"\")" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1616,20 +1549,12 @@ gnumeric_isblank (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_iseven[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ISEVEN\n"
-	   "@SYNTAX=ISEVEN(value)\n"
-
-	   "@DESCRIPTION="
-	   "ISEVEN returns TRUE if the number is even.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ISEVEN(4) equals TRUE.\n"
-	   "\n"
-	   "@SEEALSO=ISODD")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("ISEVEN:TRUE if @{n} is even.")},
+        { GNM_FUNC_HELP_ARG, F_("n:number")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISEVEN(4)" },
+        { GNM_FUNC_HELP_SEEALSO, "ISODD"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1645,20 +1570,12 @@ gnumeric_iseven (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_islogical[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ISLOGICAL\n"
-	   "@SYNTAX=ISLOGICAL(value)\n"
-
-	   "@DESCRIPTION="
-	   "ISLOGICAL returns TRUE if the value is a logical value.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ISLOGICAL(A1).\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("ISLOGICAL:TRUE if @{value} is a logical value.")},
+        { GNM_FUNC_HELP_ARG, F_("value:a value")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISLOGICAL(1)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISLOGICAL(\"Gnumeric\")" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1670,20 +1587,12 @@ gnumeric_islogical (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_isnontext[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ISNONTEXT\n"
-	   "@SYNTAX=ISNONTEXT(value)\n"
-
-	   "@DESCRIPTION="
-	   "ISNONTEXT Returns TRUE if the value is not text.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ISNONTEXT(\"text\") equals FALSE.\n"
-	   "\n"
-	   "@SEEALSO=ISTEXT")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("ISNONTEXT:TRUE if @{value} is not text.")},
+        { GNM_FUNC_HELP_ARG, F_("value:a value")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISNONTEXT(\"Gnumeric\")" },
+        { GNM_FUNC_HELP_SEEALSO, "ISTEXT"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1695,20 +1604,12 @@ gnumeric_isnontext (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_isnumber[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ISNUMBER\n"
-	   "@SYNTAX=ISNUMBER(value)\n"
-
-	   "@DESCRIPTION="
-	   "ISNUMBER returns TRUE if the value is a number.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ISNUMBER(\"text\") equals FALSE.\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("ISNUMBER:TRUE if @{value} is a number.")},
+        { GNM_FUNC_HELP_ARG, F_("value:a value")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISNUMBER(\"Gnumeric\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISNUMBER(PI())" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1720,20 +1621,12 @@ gnumeric_isnumber (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_isodd[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ISODD\n"
-	   "@SYNTAX=ISODD(value)\n"
-
-	   "@DESCRIPTION="
-	   "ISODD returns TRUE if the number is odd.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ISODD(3) equals TRUE.\n"
-	   "\n"
-	   "@SEEALSO=ISEVEN")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("ISODD:TRUE if @{n} is odd.")},
+        { GNM_FUNC_HELP_ARG, F_("n:number")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISODD(3)" },
+        { GNM_FUNC_HELP_SEEALSO, "ISEVEN"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1749,20 +1642,11 @@ gnumeric_isodd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_isref[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ISREF\n"
-	   "@SYNTAX=ISREF(value)\n"
-
-	   "@DESCRIPTION="
-	   "ISREF returns TRUE if the value is a reference.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ISREF(A1) equals TRUE.\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("ISREF:TRUE if @{value} is a reference.")},
+        { GNM_FUNC_HELP_ARG, F_("value:a value")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISREF(A1)" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1778,20 +1662,13 @@ gnumeric_isref (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_istext[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ISTEXT\n"
-	   "@SYNTAX=ISTEXT(value)\n"
-
-	   "@DESCRIPTION="
-	   "ISTEXT returns TRUE if the value is text.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ISTEXT(\"text\") equals TRUE.\n"
-	   "\n"
-	   "@SEEALSO=ISNONTEXT")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("ISTEXT:TRUE if @{value} is text.")},
+        { GNM_FUNC_HELP_ARG, F_("value:a value")},
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISTEXT(\"Gnumeric\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISTEXT(34)" },
+        { GNM_FUNC_HELP_SEEALSO, "ISNONTEXT"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1803,21 +1680,13 @@ gnumeric_istext (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_n[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=N\n"
-	   "@SYNTAX=N(value)\n"
-
-	   "@DESCRIPTION="
-	   "N returns a value converted to a number.  Strings containing "
-	   "text are converted to the zero value.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "N(\"42\") equals 42.\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("N:@{text} converted to a number")},
+        { GNM_FUNC_HELP_ARG, F_("text:string")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{text} contains non-numerical text, 0 is returned.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=N(\"42\")" },
+        { GNM_FUNC_HELP_EXAMPLES, F_("=N(\"eleven\")") },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1843,26 +1712,18 @@ gnumeric_n (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_type[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TYPE\n"
-	   "@SYNTAX=TYPE(value)\n"
-
-	   "@DESCRIPTION="
-	   "TYPE returns a number indicating the data type of a value.\n\n"
-	   "1  == number\n"
-	   "2  == text\n"
-	   "4  == boolean\n"
-	   "16 == error\n"
-	   "64 == array\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "TYPE(3) equals 1.\n"
-	   "TYPE(\"text\") equals 2.\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("TYPE:a number indicating the data type of @{value}")},
+        { GNM_FUNC_HELP_ARG, F_("value:a value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("TYPE returns a number indicating the data type of @{ value}:\n"
+					"1  \t= number\n"
+					"2  \t= text\n"
+					"4  \t= boolean\n"
+					"16 \t= error\n"
+					"64 \t= array")},	
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=TYPE(3)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=TYPE(\"Gnumeric\")" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1892,20 +1753,12 @@ gnumeric_type (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_getenv[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=GETENV\n"
-	   "@SYNTAX=GETENV(string)\n"
-
-	   "@DESCRIPTION="
-	   "GETENV retrieves a value from the execution environment.\n"
-	   "\n"
-	   "* If the variable specified by @string does not exist, #N/A! will "
-	   "be returned.  Note, that variable names are case sensitive.\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
-	{ GNM_FUNC_HELP_END }
+        { GNM_FUNC_HELP_NAME, F_("GETENV:the value of execution environment varaible @{name}")},
+        { GNM_FUNC_HELP_ARG, F_("name:the name of the environment variable")},
+	{ GNM_FUNC_HELP_NOTE, F_("If a variable called @{name} does not exist, #N/A! will be returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("Variable names are case sensitive.") },	
+	{ GNM_FUNC_HELP_EXAMPLES, "=GETENV(\"HOME\")" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
