@@ -42,6 +42,49 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
+#define GNM_HELP_ARG_DATABASE { GNM_FUNC_HELP_ARG, F_("database:a range in which rows " \
+						      "of related information are records and " \
+						      "columns of data are fields") }
+#define GNM_HELP_ARG_FIELD { GNM_FUNC_HELP_ARG, F_("field:a string or integer specifying which " \
+						   "field is to be used") }
+#define GNM_HELP_ARG_CRITERIA { GNM_FUNC_HELP_ARG, F_("criteria:a range containing conditions" ) }
+
+#define GNM_HELP_DESC_DATABASE { GNM_FUNC_HELP_DESCRIPTION, F_("@{database} is a range in which rows " \
+							       "of related information are records and " \
+							       "columns of data are fields. " \
+							       "The first row of a database " \
+							       "contains labels for each column.") }
+#define GNM_HELP_DESC_FIELD { GNM_FUNC_HELP_DESCRIPTION, F_("@{field} is a string or integer specifying which" \
+							    "field is to be used. If @{field} is an integer n" \
+							    "then the nth column will be used. If @{field} " \
+							    "is a string, then the column with the matching " \
+							    "label will be used.") }
+#define GNM_HELP_DESC_CRITERIA { GNM_FUNC_HELP_DESCRIPTION, F_("@{criteria} is a range containing conditions. " \
+							       "The first row of a @{criteria} should contain "	\
+							       "labels. Each label specifies to which field " \
+							       "the conditions given in that column apply. " \
+							       "Each cell below the label specifies a "	\
+							       "condition such as \">3\" or \"<9\". An " \
+							       "equality condition can be given by simply " \
+							       "specifying a value, e. g. \"3\" or \"Jody\". " \
+							       "For a record to be considered it must satisfy "	\
+							       "all conditions in "	\
+							       "at least one of the rows of @{criteria}.") }
+#define GNM_HELP_EXAMPLE_DESC { GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the range A1:C7 contain " \
+							   "the following values:\n\n" \
+							   "Name    \tAge     \tSalary\n" \
+							   "John    \t34      \t54342\n" \
+							   "Bill    \t35      \t22343\n" \
+							   "Clark   \t29      \t34323\n" \
+							   "Bob     \t43      \t47242\n" \
+							   "Susan   \t37      \t42932\n" \
+							   "Jill    \t\t45      \t45324\n\n" \
+							   "In addition, the cells A9:B11 contain the "	\
+							   "following values:\n" \
+							   "Age     \tSalary\n" \
+							   "<30\n"	\
+							   ">40     \t>46000\n") }
+
 /***************************************************************************/
 
 /**
@@ -273,64 +316,23 @@ database_value_range_function (GnmFuncEvalInfo *ei,
 /***************************************************************************/
 
 static GnmFuncHelp const help_daverage[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=DAVERAGE\n"
-           "@SYNTAX=DAVERAGE(database,field,criteria)\n"
-
-           "@DESCRIPTION="
-           "DAVERAGE function returns the average of the values in a list "
-	   "or database that match conditions specified.\n"
-	   "\n"
-	   "@database is a range of cells in which rows of related " \
-	   "information are records and columns of data are fields. " \
-	   "The first row of a database contains labels for each column. " \
-	   "\n\n" \
-	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example 2, the second column is used. " \
-	   "Field can also be the label of a column.  For example, ``Age'' " \
-	   "refers to the column with the label ``Age'' in @database range. " \
-	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criteria are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifying a " \
-	   "value, e.g. ``3'' or ``John''. \n"\
-	   "Each row in @criteria specifies a separate condition. "\
-           "If a row in "\
-	   "@database matches a row in @criteria, then that row is counted. "\
-	   "Technically speaking, this a boolean OR operation between the "\
-	   "rows in @criteria.\n"\
-	   "If @criteria specifies more than one column, then each of the "\
-	   "conditions in the specified columns must be true for the row in "\
-	   "@database to match. Technically speaking, this is a boolean AND "\
-	   "operation between the columns in @criteria.\n"
-           "\n" \
-	   "@EXAMPLES=\n" \
-	   "Let us assume that the range A1:C7 contain the following " \
-	   "values:\n" \
-	   "Name    Age     Salary\n" \
-	   "John    34      54342\n" \
-	   "Bill    35      22343\n" \
-	   "Clark   29      34323\n" \
-	   "Bob     43      47242\n" \
-	   "Susan   37      42932\n" \
-	   "Jill    45      45324\n" \
-	   "\n" \
-	   "In addition, the cells A9:B11 contain the following values:\n" \
-	   "Age     Salary\n" \
-	   "<30\n" \
-	   ">40     >46000\n"
-	   "\n"
-           "DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-	   "DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-           "DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-	   "DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-	   "\n"
-           "@SEEALSO=DCOUNT")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("DAVERAGE:average of the values in @{field} in @{database}"
+				 " belonging to records that match @{criteria}") },
+	GNM_HELP_ARG_DATABASE,
+	GNM_HELP_ARG_FIELD,
+	GNM_HELP_ARG_CRITERIA,
+	GNM_HELP_DESC_DATABASE,
+	GNM_HELP_DESC_FIELD,
+	GNM_HELP_DESC_CRITERIA,
+	GNM_HELP_EXAMPLE_DESC,
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.") },
+	{ GNM_FUNC_HELP_SEEALSO, "DCOUNT" },
 	{ GNM_FUNC_HELP_END }
 };
+
 
 static GnmValue *
 gnumeric_daverage (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
@@ -350,63 +352,22 @@ gnumeric_daverage (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_dcount[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=DCOUNT\n"
-           "@SYNTAX=DCOUNT(database,field,criteria)\n"
-
-           "@DESCRIPTION="
-           "DCOUNT function counts the cells that contain numbers in a "
-	   "database that match conditions specified.\n"
-	   "\n"
-	   "@database is a range of cells in which rows of related " \
-	   "information are records and columns of data are fields. " \
-	   "The first row of a database contains labels for each column. " \
-	   "\n\n" \
-	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example 2, the second column is used. " \
-	   "Field can also be the label of a column.  For example, ``Age'' " \
-	   "refers to the column with the label ``Age'' in @database range. " \
-	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criteria are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifying a " \
-	   "value, e.g. ``3'' or ``John''. \n"\
-	   "Each row in @criteria specifies a separate condition. "\
-           "If a row in "\
-	   "@database matches a row in @criteria, then that row is counted. "\
-	   "Technically speaking, this a boolean OR operation between the "\
-	   "rows in @criteria.\n"\
-	   "If @criteria specifies more than one column, then each of the "\
-	   "conditions in the specified columns must be true for the row in "\
-	   "@database to match. Technically speaking, this is a boolean AND "\
-	   "operation between the columns in @criteria.\n"
-           "\n" \
-	   "@EXAMPLES=\n" \
-	   "Let us assume that the range A1:C7 contain the following " \
-	   "values:\n" \
-	   "Name    Age     Salary\n" \
-	   "John    34      54342\n" \
-	   "Bill    35      22343\n" \
-	   "Clark   29      34323\n" \
-	   "Bob     43      47242\n" \
-	   "Susan   37      42932\n" \
-	   "Jill    45      45324\n" \
-	   "\n" \
-	   "In addition, the cells A9:B11 contain the following values:\n" \
-	   "Age     Salary\n" \
-	   "<30\n" \
-	   ">40     >46000\n"
-	   "\n"
-           "DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-           "DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-           "DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-	   "\n"
-           "@SEEALSO=DAVERAGE")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("DCOUNT:count of numbers in @{field} in @{database}"
+				 " belonging to records that match @{criteria}") },
+	GNM_HELP_ARG_DATABASE,
+	GNM_HELP_ARG_FIELD,
+	GNM_HELP_ARG_CRITERIA,
+	GNM_HELP_DESC_DATABASE,
+	GNM_HELP_DESC_FIELD,
+	GNM_HELP_DESC_CRITERIA,
+	GNM_HELP_EXAMPLE_DESC,
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.") },
+	{ GNM_FUNC_HELP_SEEALSO, "DAVERAGE,DCOUNTA" },
 	{ GNM_FUNC_HELP_END }
 };
+
 
 static GnmValue *
 gnumeric_dcount (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
@@ -426,61 +387,19 @@ gnumeric_dcount (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_dcounta[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=DCOUNTA\n"
-           "@SYNTAX=DCOUNTA(database,field,criteria)\n"
-
-           "@DESCRIPTION="
-           "DCOUNTA function counts the cells that contain data in a "
-	   "database that match conditions specified.\n"
-	   "\n"
-	   "@database is a range of cells in which rows of related " \
-	   "information are records and columns of data are fields. " \
-	   "The first row of a database contains labels for each column. " \
-	   "\n\n" \
-	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example 2, the second column is used. " \
-	   "Field can also be the label of a column.  For example, ``Age'' " \
-	   "refers to the column with the label ``Age'' in @database range. " \
-	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criteria are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifying a " \
-	   "value, e.g. ``3'' or ``John''. \n"\
-	   "Each row in @criteria specifies a separate condition. "\
-           "If a row in "\
-	   "@database matches a row in @criteria, then that row is counted. "\
-	   "Technically speaking, this a boolean OR operation between the "\
-	   "rows in @criteria.\n"\
-	   "If @criteria specifies more than one column, then each of the "\
-	   "conditions in the specified columns must be true for the row in "\
-	   "@database to match. Technically speaking, this is a boolean AND "\
-	   "operation between the columns in @criteria.\n"
-           "\n" \
-	   "@EXAMPLES=\n" \
-	   "Let us assume that the range A1:C7 contain the following " \
-	   "values:\n" \
-	   "Name    Age     Salary\n" \
-	   "John    34      54342\n" \
-	   "Bill    35      22343\n" \
-	   "Clark   29      34323\n" \
-	   "Bob     43      47242\n" \
-	   "Susan   37      42932\n" \
-	   "Jill    45      45324\n" \
-	   "\n" \
-	   "In addition, the cells A9:B11 contain the following values:\n" \
-	   "Age     Salary\n" \
-	   "<30\n" \
-	   ">40     >46000\n"
-	   "\n"
-           "DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-           "DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-           "DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-	   "\n"
-           "@SEEALSO=DCOUNT")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("DCOUNTA:count of cells with data in @{field} in @{database}"
+				 " belonging to records that match @{criteria}") },
+	GNM_HELP_ARG_DATABASE,
+	GNM_HELP_ARG_FIELD,
+	GNM_HELP_ARG_CRITERIA,
+	GNM_HELP_DESC_DATABASE,
+	GNM_HELP_DESC_FIELD,
+	GNM_HELP_DESC_CRITERIA,
+	GNM_HELP_EXAMPLE_DESC,
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.") },
+	{ GNM_FUNC_HELP_SEEALSO, "DCOUNT" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -500,65 +419,20 @@ gnumeric_dcounta (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_dget[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=DGET\n"
-           "@SYNTAX=DGET(database,field,criteria)\n"
-
-           "@DESCRIPTION="
-           "DGET function returns a single value from a column that "
-	   "match conditions specified.\n"
-	   "\n"
-	   "@database is a range of cells in which rows of related " \
-	   "information are records and columns of data are fields. " \
-	   "The first row of a database contains labels for each column. " \
-	   "\n\n" \
-	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example 2, the second column is used. " \
-	   "Field can also be the label of a column.  For example, ``Age'' " \
-	   "refers to the column with the label ``Age'' in @database range. " \
-	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criteria are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifying a " \
-	   "value, e.g. ``3'' or ``John''. \n"\
-	   "Each row in @criteria specifies a separate condition. "\
-           "If a row in "\
-	   "@database matches a row in @criteria, then that row is counted. "\
-	   "Technically speaking, this a boolean OR operation between the "\
-	   "rows in @criteria.\n"\
-	   "If @criteria specifies more than one column, then each of the "\
-	   "conditions in the specified columns must be true for the row in "\
-	   "@database to match. Technically speaking, this is a boolean AND "\
-	   "operation between the columns in @criteria.\n"
-           "\n" \
-	   "@EXAMPLES=\n" \
-	   "Let us assume that the range A1:C7 contain the following " \
-	   "values:\n" \
-	   "Name    Age     Salary\n" \
-	   "John    34      54342\n" \
-	   "Bill    35      22343\n" \
-	   "Clark   29      34323\n" \
-	   "Bob     43      47242\n" \
-	   "Susan   37      42932\n" \
-	   "Jill    45      45324\n" \
-	   "\n" \
-	   "In addition, the cells A9:B11 contain the following values:\n" \
-	   "Age     Salary\n" \
-	   "<30\n" \
-	   ">40     >46000\n"
-	   "\n"
-	   "* If none of the items match the conditions, DGET returns #VALUE! "
-	   "error.\n"
-	   "* If more than one items match the conditions, DGET returns #NUM! "
-	   "error.\n"
-	   "\n"
-           "DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-           "DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-	   "\n"
-           "@SEEALSO=DCOUNT")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("DGET:a value from @{field} in @{database}"
+				 " belonging to records that match @{criteria}") },
+	GNM_HELP_ARG_DATABASE,
+	GNM_HELP_ARG_FIELD,
+	GNM_HELP_ARG_CRITERIA,
+	GNM_HELP_DESC_DATABASE,
+	GNM_HELP_DESC_FIELD,
+	GNM_HELP_DESC_CRITERIA,
+	GNM_HELP_EXAMPLE_DESC,
+	{ GNM_FUNC_HELP_NOTE, F_("If none of the records match the conditions, DGET returns #VALUE!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If more than one record match the conditions, DGET returns #NUM!") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DGET(A1:C7, \"Salary\", A9:A10) equals 34323.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".") },
+	{ GNM_FUNC_HELP_SEEALSO, "DCOUNT" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -586,61 +460,19 @@ gnumeric_dget (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_dmax[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=DMAX\n"
-           "@SYNTAX=DMAX(database,field,criteria)\n"
-
-           "@DESCRIPTION="
-           "DMAX function returns the largest number in a column that "
-	   "match conditions specified.\n"
-	   "\n"
-	   "@database is a range of cells in which rows of related " \
-	   "information are records and columns of data are fields. " \
-	   "The first row of a database contains labels for each column. " \
-	   "\n\n" \
-	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example 2, the second column is used. " \
-	   "Field can also be the label of a column.  For example, ``Age'' " \
-	   "refers to the column with the label ``Age'' in @database range. " \
-	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criteria are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifying a " \
-	   "value, e.g. ``3'' or ``John''. \n"\
-	   "Each row in @criteria specifies a separate condition. "\
-           "If a row in "\
-	   "@database matches a row in @criteria, then that row is counted. "\
-	   "Technically speaking, this a boolean OR operation between the "\
-	   "rows in @criteria.\n"\
-	   "If @criteria specifies more than one column, then each of the "\
-	   "conditions in the specified columns must be true for the row in "\
-	   "@database to match. Technically speaking, this is a boolean AND "\
-	   "operation between the columns in @criteria.\n"
-           "\n" \
-	   "@EXAMPLES=\n" \
-	   "Let us assume that the range A1:C7 contain the following " \
-	   "values:\n" \
-	   "Name    Age     Salary\n" \
-	   "John    34      54342\n" \
-	   "Bill    35      22343\n" \
-	   "Clark   29      34323\n" \
-	   "Bob     43      47242\n" \
-	   "Susan   37      42932\n" \
-	   "Jill    45      45324\n" \
-	   "\n" \
-	   "In addition, the cells A9:B11 contain the following values:\n" \
-	   "Age     Salary\n" \
-	   "<30\n" \
-	   ">40     >46000\n"
-	   "\n"
-           "DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-           "DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-           "DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-	   "\n"
-           "@SEEALSO=DMIN")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("DMAX:largest number in @{field} in @{database}"
+				 " belonging to a record that match @{criteria}") },
+	GNM_HELP_ARG_DATABASE,
+	GNM_HELP_ARG_FIELD,
+	GNM_HELP_ARG_CRITERIA,
+	GNM_HELP_DESC_DATABASE,
+	GNM_HELP_DESC_FIELD,
+	GNM_HELP_DESC_CRITERIA,
+	GNM_HELP_EXAMPLE_DESC,
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DMAX(A1:C7, \"Age\", A9:A11) equals 45.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DMAX(A1:C7, \"Age\", A9:B11) equals 43.") },
+	{ GNM_FUNC_HELP_SEEALSO, "DMIN" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -664,60 +496,18 @@ gnumeric_dmax (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_dmin[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=DMIN\n"
-           "@SYNTAX=DMIN(database,field,criteria)\n"
-
-           "@DESCRIPTION="
-           "DMIN function returns the smallest number in a column that "
-	   "match conditions specified.\n"
-	   "\n"
-	   "@database is a range of cells in which rows of related " \
-	   "information are records and columns of data are fields. " \
-	   "The first row of a database contains labels for each column. " \
-	   "\n\n" \
-	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example 2, the second column is used. " \
-	   "Field can also be the label of a column.  For example, ``Age'' " \
-	   "refers to the column with the label ``Age'' in @database range. " \
-	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criteria are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifying a " \
-	   "value, e.g. ``3'' or ``John''. \n"\
-	   "Each row in @criteria specifies a separate condition. "\
-           "If a row in "\
-	   "@database matches a row in @criteria, then that row is counted. "\
-	   "Technically speaking, this a boolean OR operation between the "\
-	   "rows in @criteria.\n"\
-	   "If @criteria specifies more than one column, then each of the "\
-	   "conditions in the specified columns must be true for the row in "\
-	   "@database to match. Technically speaking, this is a boolean AND "\
-	   "operation between the columns in @criteria.\n"
-           "\n" \
-	   "@EXAMPLES=\n" \
-	   "Let us assume that the range A1:C7 contain the following " \
-	   "values:\n" \
-	   "Name    Age     Salary\n" \
-	   "John    34      54342\n" \
-	   "Bill    35      22343\n" \
-	   "Clark   29      34323\n" \
-	   "Bob     43      47242\n" \
-	   "Susan   37      42932\n" \
-	   "Jill    45      45324\n" \
-	   "\n" \
-	   "In addition, the cells A9:B11 contain the following values:\n" \
-	   "Age     Salary\n" \
-	   "<30\n" \
-	   ">40     >46000\n"
-	   "\n"
-           "DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-           "DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-	   "\n"
-           "@SEEALSO=DMAX")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("DMIN:smallest number in @{field} in @{database}"
+				 " belonging to a record that match @{criteria}") },
+	GNM_HELP_ARG_DATABASE,
+	GNM_HELP_ARG_FIELD,
+	GNM_HELP_ARG_CRITERIA,
+	GNM_HELP_DESC_DATABASE,
+	GNM_HELP_DESC_FIELD,
+	GNM_HELP_DESC_CRITERIA,
+	GNM_HELP_EXAMPLE_DESC,
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DMIN(A1:C7, \"Age\", A9:B11) equals 29.") },
+	{ GNM_FUNC_HELP_SEEALSO, "DCOUNT" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -739,59 +529,17 @@ gnumeric_dmin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_dproduct[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=DPRODUCT\n"
-           "@SYNTAX=DPRODUCT(database,field,criteria)\n"
-
-           "@DESCRIPTION="
-           "DPRODUCT function returns the product of numbers in a column "
-	   "that match conditions specified.\n"
-	   "\n"
-	   "@database is a range of cells in which rows of related " \
-	   "information are records and columns of data are fields. " \
-	   "The first row of a database contains labels for each column. " \
-	   "\n\n" \
-	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example 2, the second column is used. " \
-	   "Field can also be the label of a column.  For example, ``Age'' " \
-	   "refers to the column with the label ``Age'' in @database range. " \
-	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criteria are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifying a " \
-	   "value, e.g. ``3'' or ``John''. \n"\
-	   "Each row in @criteria specifies a separate condition. "\
-           "If a row in "\
-	   "@database matches a row in @criteria, then that row is counted. "\
-	   "Technically speaking, this a boolean OR operation between the "\
-	   "rows in @criteria.\n"\
-	   "If @criteria specifies more than one column, then each of the "\
-	   "conditions in the specified columns must be true for the row in "\
-	   "@database to match. Technically speaking, this is a boolean AND "\
-	   "operation between the columns in @criteria.\n"
-           "\n" \
-	   "@EXAMPLES=\n" \
-	   "Let us assume that the range A1:C7 contain the following " \
-	   "values:\n" \
-	   "Name    Age     Salary\n" \
-	   "John    34      54342\n" \
-	   "Bill    35      22343\n" \
-	   "Clark   29      34323\n" \
-	   "Bob     43      47242\n" \
-	   "Susan   37      42932\n" \
-	   "Jill    45      45324\n" \
-	   "\n" \
-	   "In addition, the cells A9:B11 contain the following values:\n" \
-	   "Age     Salary\n" \
-	   "<30\n" \
-	   ">40     >46000\n"
-	   "\n"
-           "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-	   "\n"
-           "@SEEALSO=DSUM")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("DPRODUCT:product of all values in @{field} in @{database}"
+				 " belonging to records that match @{criteria}") },
+	GNM_HELP_ARG_DATABASE,
+	GNM_HELP_ARG_FIELD,
+	GNM_HELP_ARG_CRITERIA,
+	GNM_HELP_DESC_DATABASE,
+	GNM_HELP_DESC_FIELD,
+	GNM_HELP_DESC_CRITERIA,
+	GNM_HELP_EXAMPLE_DESC,
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.") },
+	{ GNM_FUNC_HELP_SEEALSO, "DSUM" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -814,61 +562,18 @@ gnumeric_dproduct (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_dstdev[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=DSTDEV\n"
-           "@SYNTAX=DSTDEV(database,field,criteria)\n"
-
-           "@DESCRIPTION="
-           "DSTDEV function returns the estimate of the standard deviation "
-	   "of a population based on a sample. The population consists of "
-	   "numbers that match conditions specified.\n"
-	   "\n"
-	   "@database is a range of cells in which rows of related " \
-	   "information are records and columns of data are fields. " \
-	   "The first row of a database contains labels for each column. " \
-	   "\n\n" \
-	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example 2, the second column is used. " \
-	   "Field can also be the label of a column.  For example, ``Age'' " \
-	   "refers to the column with the label ``Age'' in @database range. " \
-	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criteria are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifying a " \
-	   "value, e.g. ``3'' or ``John''. \n"\
-	   "Each row in @criteria specifies a separate condition. "\
-           "If a row in "\
-	   "@database matches a row in @criteria, then that row is counted. "\
-	   "Technically speaking, this a boolean OR operation between the "\
-	   "rows in @criteria.\n"\
-	   "If @criteria specifies more than one column, then each of the "\
-	   "conditions in the specified columns must be true for the row in "\
-	   "@database to match. Technically speaking, this is a boolean AND "\
-	   "operation between the columns in @criteria.\n"
-           "\n" \
-	   "@EXAMPLES=\n" \
-	   "Let us assume that the range A1:C7 contain the following " \
-	   "values:\n" \
-	   "Name    Age     Salary\n" \
-	   "John    34      54342\n" \
-	   "Bill    35      22343\n" \
-	   "Clark   29      34323\n" \
-	   "Bob     43      47242\n" \
-	   "Susan   37      42932\n" \
-	   "Jill    45      45324\n" \
-	   "\n" \
-	   "In addition, the cells A9:B11 contain the following values:\n" \
-	   "Age     Salary\n" \
-	   "<30\n" \
-	   ">40     >46000\n"
-	   "\n"
-           "DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-           "DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-	   "\n"
-           "@SEEALSO=DSTDEVP")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("DSTDEV:sample standard deviation of the values in @{field} in @{database}"
+				 " belonging to records that match @{criteria}") },
+	GNM_HELP_ARG_DATABASE,
+	GNM_HELP_ARG_FIELD,
+	GNM_HELP_ARG_CRITERIA,
+	GNM_HELP_DESC_DATABASE,
+	GNM_HELP_DESC_FIELD,
+	GNM_HELP_DESC_CRITERIA,
+	GNM_HELP_EXAMPLE_DESC,
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.") },
+	{ GNM_FUNC_HELP_SEEALSO, "DSTDEVP" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -890,61 +595,19 @@ gnumeric_dstdev (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_dstdevp[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=DSTDEVP\n"
-           "@SYNTAX=DSTDEVP(database,field,criteria)\n"
-
-           "@DESCRIPTION="
-           "DSTDEVP function returns the standard deviation of a population "
-	   "based on the entire population. The population consists of "
-	   "numbers that match conditions specified.\n"
-	   "\n"
-	   "@database is a range of cells in which rows of related " \
-	   "information are records and columns of data are fields. " \
-	   "The first row of a database contains labels for each column. " \
-	   "\n\n" \
-	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example 2, the second column is used. " \
-	   "Field can also be the label of a column.  For example, ``Age'' " \
-	   "refers to the column with the label ``Age'' in @database range. " \
-	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criteria are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifying a " \
-	   "value, e.g. ``3'' or ``John''. \n"\
-	   "Each row in @criteria specifies a separate condition. "\
-           "If a row in "\
-	   "@database matches a row in @criteria, then that row is counted. "\
-	   "Technically speaking, this a boolean OR operation between the "\
-	   "rows in @criteria.\n"\
-	   "If @criteria specifies more than one column, then each of the "\
-	   "conditions in the specified columns must be true for the row in "\
-	   "@database to match. Technically speaking, this is a boolean AND "\
-	   "operation between the columns in @criteria.\n"
-           "\n" \
-	   "@EXAMPLES=\n" \
-	   "Let us assume that the range A1:C7 contain the following " \
-	   "values:\n" \
-	   "Name    Age     Salary\n" \
-	   "John    34      54342\n" \
-	   "Bill    35      22343\n" \
-	   "Clark   29      34323\n" \
-	   "Bob     43      47242\n" \
-	   "Susan   37      42932\n" \
-	   "Jill    45      45324\n" \
-	   "\n" \
-	   "In addition, the cells A9:B11 contain the following values:\n" \
-	   "Age     Salary\n" \
-	   "<30\n" \
-	   ">40     >46000\n"
-	   "\n"
-           "DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-           "DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-	   "\n"
-           "@SEEALSO=DSTDEV")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("DSTDEVP:standard deviation of the population of "
+				 "values in @{field} in @{database}"
+				 " belonging to records that match @{criteria}") },
+	GNM_HELP_ARG_DATABASE,
+	GNM_HELP_ARG_FIELD,
+	GNM_HELP_ARG_CRITERIA,
+	GNM_HELP_DESC_DATABASE,
+	GNM_HELP_DESC_FIELD,
+	GNM_HELP_DESC_CRITERIA,
+	GNM_HELP_EXAMPLE_DESC,
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.") },
+	{ GNM_FUNC_HELP_SEEALSO, "DSTDEV" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -966,60 +629,18 @@ gnumeric_dstdevp (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_dsum[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=DSUM\n"
-           "@SYNTAX=DSUM(database,field,criteria)\n"
-
-           "@DESCRIPTION="
-           "DSUM function returns the sum of numbers in a column "
-	   "that match conditions specified.\n"
-	   "\n"
-	   "@database is a range of cells in which rows of related " \
-	   "information are records and columns of data are fields. " \
-	   "The first row of a database contains labels for each column. " \
-	   "\n\n" \
-	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example 2, the second column is used. " \
-	   "Field can also be the label of a column.  For example, ``Age'' " \
-	   "refers to the column with the label ``Age'' in @database range. " \
-	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criteria are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifying a " \
-	   "value, e.g. ``3'' or ``John''. \n"\
-	   "Each row in @criteria specifies a separate condition. "\
-           "If a row in "\
-	   "@database matches a row in @criteria, then that row is counted. "\
-	   "Technically speaking, this a boolean OR operation between the "\
-	   "rows in @criteria.\n"\
-	   "If @criteria specifies more than one column, then each of the "\
-	   "conditions in the specified columns must be true for the row in "\
-	   "@database to match. Technically speaking, this is a boolean AND "\
-	   "operation between the columns in @criteria.\n"
-           "\n" \
-	   "@EXAMPLES=\n" \
-	   "Let us assume that the range A1:C7 contain the following " \
-	   "values:\n" \
-	   "Name    Age     Salary\n" \
-	   "John    34      54342\n" \
-	   "Bill    35      22343\n" \
-	   "Clark   29      34323\n" \
-	   "Bob     43      47242\n" \
-	   "Susan   37      42932\n" \
-	   "Jill    45      45324\n" \
-	   "\n" \
-	   "In addition, the cells A9:B11 contain the following values:\n" \
-	   "Age     Salary\n" \
-	   "<30\n" \
-	   ">40     >46000\n"
-	   "\n"
-           "DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-           "DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-	   "\n"
-           "@SEEALSO=DPRODUCT")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("DSUM:sum of the values in @{field} in @{database}"
+				 " belonging to records that match @{criteria}") },
+	GNM_HELP_ARG_DATABASE,
+	GNM_HELP_ARG_FIELD,
+	GNM_HELP_ARG_CRITERIA,
+	GNM_HELP_DESC_DATABASE,
+	GNM_HELP_DESC_FIELD,
+	GNM_HELP_DESC_CRITERIA,
+	GNM_HELP_EXAMPLE_DESC,
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DSUM(A1:C7, \"Age\", A9:B11) equals 72.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.") },
+	{ GNM_FUNC_HELP_SEEALSO, "DPRODUCT" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1042,61 +663,18 @@ gnumeric_dsum (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_dvar[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=DVAR\n"
-           "@SYNTAX=DVAR(database,field,criteria)\n"
-
-           "@DESCRIPTION="
-           "DVAR function returns the estimate of variance of a population "
-	   "based on a sample. The population consists of numbers "
-	   "that match conditions specified.\n"
-	   "\n"
-	   "@database is a range of cells in which rows of related " \
-	   "information are records and columns of data are fields. " \
-	   "The first row of a database contains labels for each column. " \
-	   "\n\n" \
-	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example 2, the second column is used. " \
-	   "Field can also be the label of a column.  For example, ``Age'' " \
-	   "refers to the column with the label ``Age'' in @database range. " \
-	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criteria are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifying a " \
-	   "value, e.g. ``3'' or ``John''. \n"\
-	   "Each row in @criteria specifies a separate condition. "\
-           "If a row in "\
-	   "@database matches a row in @criteria, then that row is counted. "\
-	   "Technically speaking, this a boolean OR operation between the "\
-	   "rows in @criteria.\n"\
-	   "If @criteria specifies more than one column, then each of the "\
-	   "conditions in the specified columns must be true for the row in "\
-	   "@database to match. Technically speaking, this is a boolean AND "\
-	   "operation between the columns in @criteria.\n"
-           "\n" \
-	   "@EXAMPLES=\n" \
-	   "Let us assume that the range A1:C7 contain the following " \
-	   "values:\n" \
-	   "Name    Age     Salary\n" \
-	   "John    34      54342\n" \
-	   "Bill    35      22343\n" \
-	   "Clark   29      34323\n" \
-	   "Bob     43      47242\n" \
-	   "Susan   37      42932\n" \
-	   "Jill    45      45324\n" \
-	   "\n" \
-	   "In addition, the cells A9:B11 contain the following values:\n" \
-	   "Age     Salary\n" \
-	   "<30\n" \
-	   ">40     >46000\n"
-	   "\n"
-           "DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-           "DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-	   "\n"
-           "@SEEALSO=DVARP")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("DVAR:sample variance of the values in @{field} in @{database}"
+				 " belonging to records that match @{criteria}") },
+	GNM_HELP_ARG_DATABASE,
+	GNM_HELP_ARG_FIELD,
+	GNM_HELP_ARG_CRITERIA,
+	GNM_HELP_DESC_DATABASE,
+	GNM_HELP_DESC_FIELD,
+	GNM_HELP_DESC_CRITERIA,
+	GNM_HELP_EXAMPLE_DESC,
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DVAR(A1:C7, \"Age\", A9:B11) equals 98.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.") },
+	{ GNM_FUNC_HELP_SEEALSO, "DVARP" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1118,61 +696,19 @@ gnumeric_dvar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_dvarp[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=DVARP\n"
-           "@SYNTAX=DVARP(database,field,criteria)\n"
-
-           "@DESCRIPTION="
-           "DVARP function returns the variance of a population based "
-	   "on the entire population. The population consists of numbers "
-	   "that match conditions specified.\n"
-	   "\n"
-	   "@database is a range of cells in which rows of related " \
-	   "information are records and columns of data are fields. " \
-	   "The first row of a database contains labels for each column. " \
-	   "\n\n" \
-	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example 2, the second column is used. " \
-	   "Field can also be the label of a column.  For example, ``Age'' " \
-	   "refers to the column with the label ``Age'' in @database range. " \
-	   "\n\n" \
-	   "@criteria is the range of cells which contains the specified " \
-	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criteria are for.  Cells " \
-	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifying a " \
-	   "value, e.g. ``3'' or ``John''. \n"\
-	   "Each row in @criteria specifies a separate condition. "\
-           "If a row in "\
-	   "@database matches a row in @criteria, then that row is counted. "\
-	   "Technically speaking, this a boolean OR operation between the "\
-	   "rows in @criteria.\n"\
-	   "If @criteria specifies more than one column, then each of the "\
-	   "conditions in the specified columns must be true for the row in "\
-	   "@database to match. Technically speaking, this is a boolean AND "\
-	   "operation between the columns in @criteria.\n"
-           "\n" \
-	   "@EXAMPLES=\n" \
-	   "Let us assume that the range A1:C7 contain the following " \
-	   "values:\n" \
-	   "Name    Age     Salary\n" \
-	   "John    34      54342\n" \
-	   "Bill    35      22343\n" \
-	   "Clark   29      34323\n" \
-	   "Bob     43      47242\n" \
-	   "Susan   37      42932\n" \
-	   "Jill    45      45324\n" \
-	   "\n" \
-	   "In addition, the cells A9:B11 contain the following values:\n" \
-	   "Age     Salary\n" \
-	   "<30\n" \
-	   ">40     >46000\n"
-	   "\n"
-           "DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-           "DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-	   "\n"
-           "@SEEALSO=DVAR")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("DVARP:variance of the population of "
+				 "values in @{field} in @{database}"
+				 " belonging to records that match @{criteria}") },
+	GNM_HELP_ARG_DATABASE,
+	GNM_HELP_ARG_FIELD,
+	GNM_HELP_ARG_CRITERIA,
+	GNM_HELP_DESC_DATABASE,
+	GNM_HELP_DESC_FIELD,
+	GNM_HELP_DESC_CRITERIA,
+	GNM_HELP_EXAMPLE_DESC,
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DVARP(A1:C7, \"Age\", A9:B11) equals 49.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.") },
+	{ GNM_FUNC_HELP_SEEALSO, "DVAR" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1194,25 +730,13 @@ gnumeric_dvarp (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_getpivotdata[] = {
-	{ GNM_FUNC_HELP_OLD,
-        F_("@FUNCTION=GETPIVOTDATA\n"
-           "@SYNTAX=GETPIVOTDATA(pivot_table,field_name)\n"
-
-           "@DESCRIPTION="
-           "GETPIVOTDATA function fetches summary data from a pivot table. "
-	   "@pivot_table is a cell range containing the pivot table. "
-	   "@field_name is the name of the field of which you want the "
-	   "summary data.\n"
-	   "\n"
-	   "* If the summary data is unavailable, GETPIVOTDATA returns #REF! "
-	   "error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-           "@SEEALSO=")
-	},
+	{ GNM_FUNC_HELP_NAME, F_("GETPIVOTDATA:summary data from a pivot table") },
+	{ GNM_FUNC_HELP_ARG, F_("pivot_table:cell range containing the pivot table") },
+	{ GNM_FUNC_HELP_ARG, F_("field_name:name of the field for which the summary data is requested") },
+	{ GNM_FUNC_HELP_NOTE, F_("If the summary data is unavailable, GETPIVOTDATA returns #REF!") },
 	{ GNM_FUNC_HELP_END }
 };
+
 
 static GnmValue *
 gnumeric_getpivotdata (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
