@@ -144,6 +144,12 @@ my %argoverride = ();
 	"psuc";
 }
 
+my %odf_note =
+    ('qchisq' => 'A two argument invocation R.QCHISQ(@{p},@{df}) is exported to OpenFormula as CHISQINV(@{p},@{df}).',
+     'pchisq' => 'A two argument invocation R.PCHISQ(@{x},@{df}) is exported to OpenFormula as CHISQDIST(@{x},@{df}).',
+     'dchisq' => 'A two argument invocation R.DCHISQ(@{x},@{df}) is exported to OpenFormula as CHISQDIST(@{x},@{df},FALSE()).',
+    );
+
 my %type_getter =
     ('gnm_float' => 'value_get_as_float',
      'gboolean' => 'value_get_as_checked_bool',
@@ -271,6 +277,11 @@ sub distribution {
 	    : "probability quantile function, i.e., the inverse of the cumulative distribution function,")) .
 	    " of the $distname distribution.";
     &emit ("\t{ GNM_FUNC_HELP_DESCRIPTION, F_(\"$what\") },\n");
+
+    my $odf = $odf_note{$func};
+    if ($odf) {
+	&emit ("\t{ GNM_FUNC_HELP_ODF, F_(\"$odf\") },\n");
+    }
 
     my $seealso = "";
     my $f1 = substr ($func, 1);

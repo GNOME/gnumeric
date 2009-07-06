@@ -489,7 +489,7 @@ static GnmFuncHelp const help_r_dchisq[] = {
 	{ GNM_FUNC_HELP_ARG, F_("df:the number of degrees of freedom of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead.  This is useful if the result would otherwise underflow to 0.  Defaults to false.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the chi-square distribution.") },
-	{ GNM_FUNC_HELP_ODF, "A two argument invocation R.DCHISQ(@{x},@{df}) is exported to OpenFormula as CHISQDIST(@{x},@{df},FALSE())." },
+	{ GNM_FUNC_HELP_ODF, F_("A two argument invocation R.DCHISQ(@{x},@{df}) is exported to OpenFormula as CHISQDIST(@{x},@{df},FALSE()).") },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PCHISQ,R.QCHISQ" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -514,7 +514,7 @@ static GnmFuncHelp const help_r_pchisq[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the chi-square distribution.") },
-	{ GNM_FUNC_HELP_ODF, "A two argument invocation R.PCHISQ(@{x},@{df}) is exported to OpenFormula as CHISQDIST(@{x},@{df})." },
+	{ GNM_FUNC_HELP_ODF, F_("A two argument invocation R.PCHISQ(@{x},@{df}) is exported to OpenFormula as CHISQDIST(@{x},@{df}).") },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DCHISQ,R.QCHISQ" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -540,7 +540,7 @@ static GnmFuncHelp const help_r_qchisq[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered.") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, log of the probability is used.  This is useful if the probability would otherwise underflow to 0.  Defaults to false.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the chi-square distribution.") },
-	{ GNM_FUNC_HELP_ODF, "A two argument invocation R.QCHISQ(@{p},@{df}) is exported to OpenFormula as CHISQINV(@{p},@{df})." },
+	{ GNM_FUNC_HELP_ODF, F_("A two argument invocation R.QCHISQ(@{p},@{df}) is exported to OpenFormula as CHISQINV(@{p},@{df}).") },
 	{ GNM_FUNC_HELP_SEEALSO, "R.DCHISQ,R.PCHISQ" },
 	{ GNM_FUNC_HELP_END }
 };
