@@ -2064,17 +2064,15 @@ sheet_get_nominal_printarea (Sheet const *sheet)
 		return NULL;
 
 	val = gnm_expr_top_get_range (nexpr->texpr);
-	if (val == NULL)
+	r_ref = val ? value_get_rangeref (val) : NULL;
+	if (r_ref == NULL) {
+		value_release (val);
 		return NULL;
-
-	r_ref = value_get_rangeref (val);
-	value_release (val);
-
-	if (r_ref == NULL)
-		return NULL;
+	}
 
 	r = g_new0 (GnmRange, 1);
 	range_init_rangeref (r, r_ref);
+	value_release (val);
 
 	if (r->end.col >= (max_cols = gnm_sheet_get_max_cols (sheet)))
 		r->end.col = max_cols - 1;
