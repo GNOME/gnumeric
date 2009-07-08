@@ -417,7 +417,7 @@ pln_convert_expr (GnmParsePos const *pp, guint8 const *ch)
 			ch += 9 + len;
 			break;
 
-		case 31:	/* Reference to passed arguement in user defined function */
+		case 31:	/* Reference to passed argument in user defined function */
 			g_string_append (expr, "_unknown31_");
 			ch++; /* ignore arg number */
 			break;
