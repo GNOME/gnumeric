@@ -1,5 +1,12 @@
 2009-07-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c (opendoc_content_dtd): add 
+	  style:tab-stops to style:paragraph-properties
+	(od_draw_object): handle both "Object 1/" and 
+	  "./Object 1".
+
+2009-07-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (opendoc_content_dtd): add svg:desc
 	  to draw:frame and remove unneeded duplication
 

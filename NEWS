@@ -14,6 +14,7 @@ Andreas:
 	* Show existence of conditional styles in format dialog.
 	* Add an initialy hidden long format toolbar.
 	* Fix std error for intercept in non-affine case of LINEST. [#550933]
+	* Fix loading of charts from MS generated ODF files. [#588107]
 
 Morten:
 	* Make SUMIF/COUNTIF and the D* functions understand pattern. [#586215]

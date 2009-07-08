@@ -3061,7 +3061,9 @@ static void
 od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	gchar const *name = NULL;
+	gchar const *name_start = NULL;
+	gchar * name;
+	gint name_len;
 	GsfInput	*content = NULL;
 	SheetObject *sog = sheet_object_graph_new (NULL);
 
@@ -3071,14 +3073,21 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	g_object_unref (sog);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_XLINK, "href") &&
-		    strncmp (CXML2C (attrs[1]), "./", 2) == 0) {
-			name = CXML2C (attrs[1]) + 2;
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_XLINK, "href")) {
+			name_start = CXML2C (attrs[1]);
+			if (strncmp (CXML2C (attrs[1]), "./", 2) == 0)
+				name_start += 2;
+			if (strncmp (CXML2C (attrs[1]), "/", 1) == 0)
+				name_start = NULL;
 			break;
 		}
 
-	if (!name)
+	if (!name_start)
 		return;
+	name_len = strlen (name_start);
+	if (*(name_start + name_len - 1) == '/') /* OOo does not append a / */
+		name_len--;
+	name = g_strndup (name_start, name_len);
 
 #ifdef OO_DEBUG_OBJS
 	g_print ("START %s\n", name);
@@ -3095,6 +3104,7 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 #ifdef OO_DEBUG_OBJS
 	g_print ("END %s\n", name);
 #endif
+	g_free (name);
 
 	if (state->cur_style_type == OO_STYLE_CHART)
 		state->cur_style_type = OO_STYLE_UNKNOWN;
@@ -3775,6 +3785,7 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 	      GSF_XML_IN_NODE (STYLE, TEXT_PROPS, OO_NS_STYLE, "text-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
 	      GSF_XML_IN_NODE (STYLE, TABLE_PROPS, OO_NS_STYLE, "table-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
 	      GSF_XML_IN_NODE (STYLE, PARAGRAPH_PROPS, OO_NS_STYLE, "paragraph-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
+	        GSF_XML_IN_NODE (PARAGRAPH_PROPS, PARA_TABS, OO_NS_STYLE,  "tab-stops", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (STYLE, GRAPHIC_PROPS, OO_NS_STYLE, "graphic-properties", GSF_XML_NO_CONTENT, &oo_style_prop, NULL),
 	      GSF_XML_IN_NODE (STYLE, STYLE_MAP, OO_NS_STYLE, "map", GSF_XML_NO_CONTENT, &oo_style_map, NULL),
 	    GSF_XML_IN_NODE (OFFICE_STYLES, NUMBER_STYLE, OO_NS_NUMBER, "number-style", GSF_XML_NO_CONTENT, &odf_number_style, &odf_number_style_end),
