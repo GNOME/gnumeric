@@ -171,7 +171,7 @@ plugin_service_function_group_activate (GOPluginService *service, ErrorInfo **re
 	PluginServiceFunctionGroup *service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	service_function_group->func_group = gnm_func_group_fetch_with_translation (
+	service_function_group->func_group = gnm_func_group_fetch (
 		service_function_group->category_name,
 		service_function_group->translated_category_name);
 	GO_SLIST_FOREACH (service_function_group->function_name_list, char, fname,

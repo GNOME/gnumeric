@@ -340,6 +340,8 @@ static GnmFuncGroup *logic_group = NULL;
 void
 func_builtin_init (void)
 {
+	const char *gname;
+
 	static GnmFuncDescriptor const builtins [] = {
 		{	"sum",		NULL,	N_("number,number,"),
 			help_sum,	NULL,	gnumeric_sum,
@@ -375,15 +377,18 @@ func_builtin_init (void)
 		{ NULL }
 	};
 
-	math_group = gnm_func_group_fetch (N_("Mathematics"));
+	gname = N_("Mathematics");
+	math_group = gnm_func_group_fetch (gname, _(gname));
 	gnm_func_add (math_group, builtins + 0);
 	gnm_func_add (math_group, builtins + 1);
 
-	gnumeric_group = gnm_func_group_fetch (N_("Gnumeric"));
+	gname = N_("Gnumeric");
+	gnumeric_group = gnm_func_group_fetch (gname, _(gname));
 	gnm_func_add (gnumeric_group, builtins + 2);
 	gnm_func_add (gnumeric_group, builtins + 3);
 
-	logic_group = gnm_func_group_fetch (N_("Logic"));
+	gname = N_("Logic");
+	logic_group = gnm_func_group_fetch (gname, _(gname));
 	gnm_func_add (logic_group, builtins + 4);
 }
 

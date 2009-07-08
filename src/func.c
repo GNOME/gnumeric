@@ -541,14 +541,7 @@ function_category_compare (gconstpointer a, gconstpointer b)
 }
 
 GnmFuncGroup *
-gnm_func_group_fetch (char const *name)
-{
-	return gnm_func_group_fetch_with_translation (name, _(name));
-}
-
-GnmFuncGroup *
-gnm_func_group_fetch_with_translation (char const *name,
-				       char const *translation)
+gnm_func_group_fetch (char const *name, char const *translation)
 {
 	GnmFuncGroup *cat = NULL;
 	GList *l;
@@ -761,7 +754,7 @@ gnm_func_add (GnmFuncGroup *fn_group,
 	func->ref_count		= 0;
 
 	if (desc->fn_args != NULL) {
-		/* Check those arguements */
+		/* Check those arguments */
 		for (ptr = desc->arg_spec ; *ptr ; ptr++) {
 			g_return_val_if_fail (strchr (valid_tokens, *ptr), NULL);
 		}
@@ -845,7 +838,8 @@ gnm_func_add_placeholder (Workbook *scope,
 	g_return_val_if_fail (func == NULL, NULL);
 
 	if (!unknown_cat)
-		unknown_cat = gnm_func_group_fetch (unknown_cat_name);
+		unknown_cat = gnm_func_group_fetch
+			(unknown_cat_name, _(unknown_cat_name));
 
 	memset (&desc, 0, sizeof (GnmFuncDescriptor));
 	desc.name	  = copy_name ? g_strdup (name) : name;

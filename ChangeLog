@@ -7,6 +7,12 @@
 
 	* src/sheet.c (sheet_get_nominal_printarea): Avoid UMR.
 
+2009-07-07  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (gnm_func_group_fetch): Remove.
+	(gnm_func_group_fetch_with_translation): Rename to
+	gnm_func_group_fetch.
+
 2009-07-01  Morten Welinder  <terra@gnome.org>
 
 	* configure.in (libspreadsheet_reqs): Require goffice 0.7.9

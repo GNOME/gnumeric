@@ -23,9 +23,8 @@ struct _GnmFuncGroup {
 };
 
 GnmFuncGroup *gnm_func_group_get_nth (gint n);
-GnmFuncGroup *gnm_func_group_fetch		    (char const *name);
-GnmFuncGroup *gnm_func_group_fetch_with_translation (char const *name,
-						     char const *translation);
+GnmFuncGroup *gnm_func_group_fetch (char const *name,
+				    char const *translation);
 
 /******************************************************************************/
 
