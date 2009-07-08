@@ -25,6 +25,7 @@ Morten:
 	* Simplify Win32 build.
 	* Convert fn-logical and sample_datasource to new help format.
 	* Fix problem with print area.
+	* Fix problems with in-sheet combos.  [#587992]
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.9

@@ -32,29 +32,51 @@ enum {
 };
 
 static void
+gnm_cell_combo_set_sv (GnmCellCombo *ccombo, SheetView *sv)
+{
+	if (ccombo->sv == sv)
+		return;
+
+	if (NULL != ccombo->sv)
+		sv_weak_unref (&ccombo->sv);
+
+	ccombo->sv = sv;
+	if (sv)
+		sv_weak_ref (sv, &ccombo->sv);
+}
+
+static void
 gnm_cell_combo_finalize (GObject *object)
 {
 	GnmCellCombo *ccombo = GNM_CELL_COMBO (object);
 	GObjectClass *parent;
 
-	if (NULL != ccombo->sv) {
-		sv_weak_unref (&ccombo->sv);
-		ccombo->sv = NULL;
-	}
+	gnm_cell_combo_set_sv (ccombo, NULL);
 	parent = g_type_class_peek (SHEET_OBJECT_TYPE);
 	parent->finalize (object);
 }
 
 static void
+gnm_cell_combo_dispose (GObject *object)
+{
+	GnmCellCombo *ccombo = GNM_CELL_COMBO (object);
+	GObjectClass *parent;
+
+	gnm_cell_combo_set_sv (ccombo, NULL);
+	parent = g_type_class_peek (SHEET_OBJECT_TYPE);
+	parent->dispose (object);
+}
+
+static void
 gnm_cell_combo_set_property (GObject *obj, guint property_id,
-				   GValue const *value, GParamSpec *pspec)
+			     GValue const *value, GParamSpec *pspec)
 {
 	GnmCellCombo *ccombo = (GnmCellCombo *)obj;
 
 	switch (property_id) {
-	case PROP_SV : {
+	case PROP_SV: {
 		SheetView *sv = g_value_get_object (value);
-		sv_weak_ref (ccombo->sv = sv, &ccombo->sv);
+		gnm_cell_combo_set_sv (ccombo, sv);
 		break;
 	}
 
@@ -70,7 +92,9 @@ gnm_cell_combo_get_property (GObject *obj, guint property_id,
 	GnmCellCombo const *ccombo = (GnmCellCombo const *)obj;
 
 	switch (property_id) {
-	case PROP_SV : g_value_set_object (value, ccombo->sv); break;
+	case PROP_SV:
+		g_value_set_object (value, ccombo->sv);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
 	}
@@ -87,6 +111,7 @@ static void
 gnm_cell_combo_class_init (GObjectClass *gobject_class)
 {
 	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (gobject_class);
+	gobject_class->dispose		= gnm_cell_combo_dispose;
 	gobject_class->finalize		= gnm_cell_combo_finalize;
 	gobject_class->get_property	= gnm_cell_combo_get_property;
 	gobject_class->set_property	= gnm_cell_combo_set_property;

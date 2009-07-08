@@ -1,5 +1,10 @@
 2009-07-08  Morten Welinder  <terra@gnome.org>
 
+	* src/gnm-cell-combo.c (gnm_cell_combo_set_sv): New function.
+	(gnm_cell_combo_finalize, gnm_cell_combo_set_property): Call
+	gnm_cell_combo_set_sv to release sv weak ref.
+	(gnm_cell_combo_dispose): New function.  Fixes #587992.
+
 	* src/sheet.c (sheet_get_nominal_printarea): Avoid UMR.
 
 2009-07-01  Morten Welinder  <terra@gnome.org>
