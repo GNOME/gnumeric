@@ -341,72 +341,69 @@ sub create_hcfile {
 	my $get_head = "$ctype\ngnm_conf_get_$var (void)";
 	my $set_head = "void\ngnm_conf_set_$var (${ctypes}x)";
 
+	my $watch_name = "watch_$var";
+
 	if ($type eq 'bool') {
 	    $default = uc $default;
 
+	    $cfile .= "static struct cb_watch_bool $watch_name = {\n";
+	    $cfile .= "\t0, \"$key\", $default,\n";
+	    $cfile .= "};\n\n";
+
 	    $cfile .= "$get_head\n";
 	    $cfile .= "{\n";
-	    $cfile .= "\tstatic struct cb_watch_bool watch;\n";
-	    $cfile .= "\tif (!watch.handler) {\n";
-	    $cfile .= "\t\twatch.key = \"$key\";\n";
-	    $cfile .= "\t\twatch.defalt = $default;\n";
-	    $cfile .= "\t\twatch_bool (&watch);\n";
-	    $cfile .= "\t}\n";
-	    $cfile .= "\treturn watch.var;\n";
+	    $cfile .= "\tif (!$watch_name.handler)\n";
+	    $cfile .= "\t\twatch_bool (&$watch_name);\n";
+	    $cfile .= "\treturn $watch_name.var;\n";
 	    $cfile .= "}\n\n";
 
 	    $cfile .= "$set_head\n";
 	    $cfile .= "{\n";
-	    $cfile .= "\tconst char *key = \"$key\";\n";
-	    $cfile .= "\tMAYBE_DEBUG_SET (key);\n";
-	    $cfile .= "\tgo_conf_set_bool ($root, key, x != FALSE);\n";
-	    $cfile .= "\tschedule_sync ();\n";
+	    $cfile .= "\tif (!$watch_name.handler)\n";
+	    $cfile .= "\t\twatch_bool (&$watch_name);\n";
+	    $cfile .= "\tset_bool (&$watch_name, x);\n";
 	    $cfile .= "}\n\n";
 	} elsif ($type eq 'int' || $type eq 'float') {
 	    my $ltype = $type_to_ctype{$type};
 	    die "$0: No min for $key\n" unless defined $min;
 	    die "$0: No max for $key\n" unless defined $max;
 
+	    $cfile .= "static struct cb_watch_$ltype $watch_name = {\n";
+	    $cfile .= "\t0, \"$key\", $min, $max, $default,\n";
+	    $cfile .= "};\n\n";
+
 	    $cfile .= "$get_head\n";
 	    $cfile .= "{\n";
-	    $cfile .= "\tstatic struct cb_watch_$ltype watch;\n";
-	    $cfile .= "\tif (!watch.handler) {\n";
-	    $cfile .= "\t\twatch.key = \"$key\";\n";
-	    $cfile .= "\t\twatch.min = $min;\n";
-	    $cfile .= "\t\twatch.max = $max;\n";
-	    $cfile .= "\t\twatch.defalt = $default;\n";
-	    $cfile .= "\t\twatch_$ltype (&watch);\n";
-	    $cfile .= "\t}\n";
-	    $cfile .= "\treturn watch.var;\n";
+	    $cfile .= "\tif (!$watch_name.handler)\n";
+	    $cfile .= "\t\twatch_$ltype (&$watch_name);\n";
+	    $cfile .= "\treturn $watch_name.var;\n";
 	    $cfile .= "}\n\n";
 
 	    $cfile .= "void\n";
 	    $cfile .= "gnm_conf_set_$var ($ctype x)\n";
 	    $cfile .= "{\n";
-	    $cfile .= "\tconst char *key = \"$key\";\n";
-	    $cfile .= "\tMAYBE_DEBUG_SET (key);\n";
-	    $cfile .= "\tgo_conf_set_$ltype ($root, key, CLAMP (x, $min, $max));\n";
-	    $cfile .= "\tschedule_sync ();\n";
+	    $cfile .= "\tif (!$watch_name.handler)\n";
+	    $cfile .= "\t\twatch_$ltype (&$watch_name);\n";
+	    $cfile .= "\tset_$ltype (&$watch_name, x);\n";
 	    $cfile .= "}\n\n";
 	} elsif ($type eq 'string' && $gtype eq '0') {
+	    $cfile .= "static struct cb_watch_string $watch_name = {\n";
+	    $cfile .= "\t0, \"$key\", \"$default\",\n";
+	    $cfile .= "};\n\n";
+
 	    $cfile .= "$get_head\n";
 	    $cfile .= "{\n";
-	    $cfile .= "\tstatic struct cb_watch_string watch;\n";
-	    $cfile .= "\tif (!watch.handler) {\n";
-	    $cfile .= "\t\twatch.key = \"$key\";\n";
-	    $cfile .= "\t\twatch.defalt = \"$default\";\n";
-	    $cfile .= "\t\twatch_string (&watch);\n";
-	    $cfile .= "\t}\n";
-	    $cfile .= "\treturn watch.var;\n";
+	    $cfile .= "\tif (!$watch_name.handler)\n";
+	    $cfile .= "\t\twatch_string (&$watch_name);\n";
+	    $cfile .= "\treturn $watch_name.var;\n";
 	    $cfile .= "}\n\n";
 
 	    $cfile .= "$set_head\n";
 	    $cfile .= "{\n";
-	    $cfile .= "\tconst char *key = \"$key\";\n";
-	    $cfile .= "\tMAYBE_DEBUG_SET (key);\n";
-	    $cfile .= "\tgo_conf_set_string ($root, key, x);\n";
-	    $cfile .= "\tg_hash_table_remove (string_pool, key);\n";
-	    $cfile .= "\tschedule_sync ();\n";
+	    $cfile .= "\tg_return_if_fail (x != NULL);\n";
+	    $cfile .= "\tif (!$watch_name.handler)\n";
+	    $cfile .= "\t\twatch_string (&$watch_name);\n";
+	    $cfile .= "\tset_string (&$watch_name, x);\n";
 	    $cfile .= "}\n\n";
 	} elsif ($type eq 'string' && $gtype ne '0') {
 	    $cfile .= "$get_head\n";
