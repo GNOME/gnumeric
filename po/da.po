@@ -48,7 +48,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-07-07 19:49-0400\n"
-"PO-Revision-Date: 2007-10-26 09:56-0400\n"
+"PO-Revision-Date: 2009-07-07 20:26-0400\n"
 "Last-Translator: Morten Welinder <terra@gnome.org>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -10907,17 +10907,16 @@ msgid "IF:conditional expression."
 msgstr "Ugyldigt udtryk"
 
 #: ../src/func-builtin.c:259
-#, fuzzy
 msgid "cond:condition."
-msgstr "Betingelse:"
+msgstr "b:betingelse"
 
 #: ../src/func-builtin.c:260
 msgid "trueval:value to use if condition is true."
-msgstr ""
+msgstr "sand:værdi, hvis @{b} er sand"
 
 #: ../src/func-builtin.c:261
 msgid "falseval:value to use if condition is false."
-msgstr ""
+msgstr "falsk:værdi, hvis @{b} er falsk"
 
 #: ../src/func-builtin.c:262
 msgid ""
