@@ -346,9 +346,13 @@ sub create_hcfile {
 
 	    $cfile .= "$get_head\n";
 	    $cfile .= "{\n";
-	    $cfile .= "\tconst char *key = \"$key\";\n";
-	    $cfile .= "\tMAYBE_DEBUG_GET (key);\n";
-	    $cfile .= "\treturn go_conf_load_bool ($root, key, $default);\n";
+	    $cfile .= "\tstatic struct cb_watch_bool watch;\n";
+	    $cfile .= "\tif (!watch.handler) {\n";
+	    $cfile .= "\t\twatch.key = \"$key\";\n";
+	    $cfile .= "\t\twatch.defalt = $default;\n";
+	    $cfile .= "\t\twatch_bool (&watch);\n";
+	    $cfile .= "\t}\n";
+	    $cfile .= "\treturn watch.var;\n";
 	    $cfile .= "}\n\n";
 
 	    $cfile .= "$set_head\n";
@@ -365,9 +369,15 @@ sub create_hcfile {
 
 	    $cfile .= "$get_head\n";
 	    $cfile .= "{\n";
-	    $cfile .= "\tconst char *key = \"$key\";\n";
-	    $cfile .= "\tMAYBE_DEBUG_GET (key);\n";
-	    $cfile .= "\treturn go_conf_load_$ltype ($root, key, $min, $max, $default);\n";
+	    $cfile .= "\tstatic struct cb_watch_$ltype watch;\n";
+	    $cfile .= "\tif (!watch.handler) {\n";
+	    $cfile .= "\t\twatch.key = \"$key\";\n";
+	    $cfile .= "\t\twatch.min = $min;\n";
+	    $cfile .= "\t\twatch.max = $max;\n";
+	    $cfile .= "\t\twatch.defalt = $default;\n";
+	    $cfile .= "\t\twatch_$ltype (&watch);\n";
+	    $cfile .= "\t}\n";
+	    $cfile .= "\treturn watch.var;\n";
 	    $cfile .= "}\n\n";
 
 	    $cfile .= "void\n";
@@ -381,12 +391,13 @@ sub create_hcfile {
 	} elsif ($type eq 'string' && $gtype eq '0') {
 	    $cfile .= "$get_head\n";
 	    $cfile .= "{\n";
-	    $cfile .= "\tconst char *key = \"$key\";\n";
-	    $cfile .= "\tchar *res = go_conf_load_string ($root, key);\n";
-	    $cfile .= "\tMAYBE_DEBUG_GET (key);\n";
-	    $cfile .= "\tif (!res) res = g_strdup (\"$default\");\n";
-	    $cfile .= "\tg_hash_table_replace (string_pool, (gpointer)key, res);\n";
-	    $cfile .= "\treturn res;\n";
+	    $cfile .= "\tstatic struct cb_watch_string watch;\n";
+	    $cfile .= "\tif (!watch.handler) {\n";
+	    $cfile .= "\t\twatch.key = \"$key\";\n";
+	    $cfile .= "\t\twatch.defalt = \"$default\";\n";
+	    $cfile .= "\t\twatch_string (&watch);\n";
+	    $cfile .= "\t}\n";
+	    $cfile .= "\treturn watch.var;\n";
 	    $cfile .= "}\n\n";
 
 	    $cfile .= "$set_head\n";

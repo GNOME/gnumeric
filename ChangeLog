@@ -1,5 +1,8 @@
 2009-07-09  Morten Welinder  <terra@gnome.org>
 
+	* src/gnumeric-gconf.c: Transparently watch all configuration
+	options of types int, bool, double, and string.
+
 	* src/validation.c (gnm_validation_combo_finalize): Call the right
 	parent class' finalizer.
 

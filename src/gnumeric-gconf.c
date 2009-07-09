@@ -87,6 +87,149 @@ schedule_sync (void)
 	sync_handler = g_timeout_add (200, (GSourceFunc)cb_sync, NULL);
 }
 
+/* -------------------------------------------------------------------------- */
+
+GOConfNode *
+gnm_conf_get_root (void)
+{
+	return root;
+}
+
+static GOConfNode *
+get_node (const char *key)
+{
+	GOConfNode *res = g_hash_table_lookup (node_pool, key);
+	if (!res) {
+		res = go_conf_get_node (root, key);
+		g_hash_table_insert (node_pool, (gpointer)key, res);
+	}
+	return res;
+}
+
+/* -------------------------------------------------------------------------- */
+
+static GSList *watchers;
+
+struct cb_watch_generic {
+	guint handler;
+};
+
+struct cb_watch_bool {
+	guint handler;
+	const char *key;
+	gboolean var;
+	gboolean defalt;
+};
+
+static void
+cb_watch_bool (GOConfNode *node, G_GNUC_UNUSED const char *key, gpointer user)
+{
+	struct cb_watch_bool *watch = user;
+	watch->var = go_conf_load_bool (node, NULL, watch->defalt);
+}
+
+static void
+watch_bool (struct cb_watch_bool *watch)
+{
+	GOConfNode *node = get_node (watch->key);
+	watch->handler = go_conf_add_monitor
+		(node, NULL, cb_watch_bool, watch);
+	watchers = g_slist_prepend (watchers, watch);
+	cb_watch_bool (node, NULL, watch);
+	MAYBE_DEBUG_GET (watch->key);
+}
+
+struct cb_watch_int {
+	guint handler;
+	const char *key;
+	int var;
+	int min, max, defalt;
+};
+
+static void
+cb_watch_int (GOConfNode *node, G_GNUC_UNUSED const char *key, gpointer user)
+{
+	struct cb_watch_int *watch = user;
+	watch->var = go_conf_load_int (node, NULL,
+				       watch->min, watch->max,
+				       watch->defalt);
+}
+
+static void
+watch_int (struct cb_watch_int *watch)
+{
+	GOConfNode *node = get_node (watch->key);
+	watch->handler = go_conf_add_monitor
+		(node, NULL, cb_watch_int, watch);
+	watchers = g_slist_prepend (watchers, watch);
+	cb_watch_int (node, NULL, watch);
+	MAYBE_DEBUG_GET (watch->key);
+}
+
+struct cb_watch_double {
+	guint handler;
+	const char *key;
+	double var;
+	double min, max, defalt;
+};
+
+static void
+cb_watch_double (GOConfNode *node, G_GNUC_UNUSED const char *key, gpointer user)
+{
+	struct cb_watch_double *watch = user;
+	watch->var = go_conf_load_double (node, NULL,
+					  watch->min, watch->max,
+					  watch->defalt);
+}
+
+static void
+watch_double (struct cb_watch_double *watch)
+{
+	GOConfNode *node = get_node (watch->key);
+	watch->handler = go_conf_add_monitor
+		(node, NULL, cb_watch_double, watch);
+	watchers = g_slist_prepend (watchers, watch);
+	cb_watch_double (node, NULL, watch);
+	MAYBE_DEBUG_GET (watch->key);
+}
+
+struct cb_watch_string {
+	guint handler;
+	const char *key;
+	const char *var;
+	const char *defalt;
+};
+
+static void
+cb_watch_string (GOConfNode *node, G_GNUC_UNUSED const char *key, gpointer user)
+{
+	struct cb_watch_string *watch = user;
+	char *res = go_conf_load_string (node, NULL);
+	if (!res) res = g_strdup (watch->defalt);
+	g_hash_table_replace (string_pool, (gpointer)watch->key, res);
+	watch->var = res;
+}
+
+static void
+watch_string (struct cb_watch_string *watch)
+{
+	GOConfNode *node = get_node (watch->key);
+	watch->handler = go_conf_add_monitor
+		(node, NULL, cb_watch_string, watch);
+	watchers = g_slist_prepend (watchers, watch);
+	cb_watch_string (node, NULL, watch);
+	MAYBE_DEBUG_GET (watch->key);
+}
+
+
+static void
+free_watcher (struct cb_watch_generic *watcher)
+{
+	go_conf_remove_monitor (watcher->handler);
+}
+
+/* -------------------------------------------------------------------------- */
+
 static void
 cb_free_string_list (GSList *l)
 {
@@ -122,6 +265,9 @@ gnm_conf_shutdown (void)
 		sync_handler = 0;
 	}
 
+	go_slist_free_custom (watchers, (GFreeFunc)free_watcher);
+	watchers = NULL;
+
 	g_hash_table_destroy (string_pool);
 	string_pool = NULL;
 
@@ -131,23 +277,6 @@ gnm_conf_shutdown (void)
 	g_hash_table_destroy (node_pool);
 	node_pool = NULL;
 	root = NULL;
-}
-
-GOConfNode *
-gnm_conf_get_root (void)
-{
-	return root;
-}
-
-static GOConfNode *
-get_node (const char *key)
-{
-	GOConfNode *res = g_hash_table_lookup (node_pool, key);
-	if (!res) {
-		res = go_conf_get_node (root, key);
-		g_hash_table_insert (node_pool, (gpointer)key, res);
-	}
-	return res;
 }
 
 GtkPageSetup *
@@ -371,9 +500,13 @@ gnm_conf_get_autocorrect_first_letter_node (void)
 gboolean
 gnm_conf_get_autocorrect_first_letter (void)
 {
-	const char *key = "autocorrect/first-letter";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, TRUE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "autocorrect/first-letter";
+		watch.defalt = TRUE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -422,9 +555,13 @@ gnm_conf_get_autocorrect_init_caps_node (void)
 gboolean
 gnm_conf_get_autocorrect_init_caps (void)
 {
-	const char *key = "autocorrect/init-caps";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, TRUE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "autocorrect/init-caps";
+		watch.defalt = TRUE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -473,9 +610,13 @@ gnm_conf_get_autocorrect_names_of_days_node (void)
 gboolean
 gnm_conf_get_autocorrect_names_of_days (void)
 {
-	const char *key = "autocorrect/names-of-days";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, TRUE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "autocorrect/names-of-days";
+		watch.defalt = TRUE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -497,9 +638,13 @@ gnm_conf_get_autocorrect_replace_node (void)
 gboolean
 gnm_conf_get_autocorrect_replace (void)
 {
-	const char *key = "autocorrect/replace";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, TRUE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "autocorrect/replace";
+		watch.defalt = TRUE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -548,12 +693,13 @@ gnm_conf_get_autoformat_sys_dir_node (void)
 const char *
 gnm_conf_get_autoformat_sys_dir (void)
 {
-	const char *key = "autoformat/sys-dir";
-	char *res = go_conf_load_string (root, key);
-	MAYBE_DEBUG_GET (key);
-	if (!res) res = g_strdup ("autoformat-templates");
-	g_hash_table_replace (string_pool, (gpointer)key, res);
-	return res;
+	static struct cb_watch_string watch;
+	if (!watch.handler) {
+		watch.key = "autoformat/sys-dir";
+		watch.defalt = "autoformat-templates";
+		watch_string (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -576,12 +722,13 @@ gnm_conf_get_autoformat_usr_dir_node (void)
 const char *
 gnm_conf_get_autoformat_usr_dir (void)
 {
-	const char *key = "autoformat/usr-dir";
-	char *res = go_conf_load_string (root, key);
-	MAYBE_DEBUG_GET (key);
-	if (!res) res = g_strdup ("autoformat-templates");
-	g_hash_table_replace (string_pool, (gpointer)key, res);
-	return res;
+	static struct cb_watch_string watch;
+	if (!watch.handler) {
+		watch.key = "autoformat/usr-dir";
+		watch.defalt = "autoformat-templates";
+		watch_string (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -604,9 +751,13 @@ gnm_conf_get_core_defaultfont_bold_node (void)
 gboolean
 gnm_conf_get_core_defaultfont_bold (void)
 {
-	const char *key = "core/defaultfont/bold";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "core/defaultfont/bold";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -628,9 +779,13 @@ gnm_conf_get_core_defaultfont_italic_node (void)
 gboolean
 gnm_conf_get_core_defaultfont_italic (void)
 {
-	const char *key = "core/defaultfont/italic";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "core/defaultfont/italic";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -652,12 +807,13 @@ gnm_conf_get_core_defaultfont_name_node (void)
 const char *
 gnm_conf_get_core_defaultfont_name (void)
 {
-	const char *key = "core/defaultfont/name";
-	char *res = go_conf_load_string (root, key);
-	MAYBE_DEBUG_GET (key);
-	if (!res) res = g_strdup ("Sans");
-	g_hash_table_replace (string_pool, (gpointer)key, res);
-	return res;
+	static struct cb_watch_string watch;
+	if (!watch.handler) {
+		watch.key = "core/defaultfont/name";
+		watch.defalt = "Sans";
+		watch_string (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -680,9 +836,15 @@ gnm_conf_get_core_defaultfont_size_node (void)
 double
 gnm_conf_get_core_defaultfont_size (void)
 {
-	const char *key = "core/defaultfont/size";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_double (root, key, 1, 100, 10);
+	static struct cb_watch_double watch;
+	if (!watch.handler) {
+		watch.key = "core/defaultfont/size";
+		watch.min = 1;
+		watch.max = 100;
+		watch.defalt = 10;
+		watch_double (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -704,9 +866,13 @@ gnm_conf_get_core_file_save_def_overwrite_node (void)
 gboolean
 gnm_conf_get_core_file_save_def_overwrite (void)
 {
-	const char *key = "core/file/save/def-overwrite";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "core/file/save/def-overwrite";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -728,9 +894,13 @@ gnm_conf_get_core_file_save_single_sheet_node (void)
 gboolean
 gnm_conf_get_core_file_save_single_sheet (void)
 {
-	const char *key = "core/file/save/single_sheet";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, TRUE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "core/file/save/single_sheet";
+		watch.defalt = TRUE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -752,9 +922,13 @@ gnm_conf_get_core_gui_editing_autocomplete_node (void)
 gboolean
 gnm_conf_get_core_gui_editing_autocomplete (void)
 {
-	const char *key = "core/gui/editing/autocomplete";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, TRUE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "core/gui/editing/autocomplete";
+		watch.defalt = TRUE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -800,9 +974,13 @@ gnm_conf_get_core_gui_editing_livescrolling_node (void)
 gboolean
 gnm_conf_get_core_gui_editing_livescrolling (void)
 {
-	const char *key = "core/gui/editing/livescrolling";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, TRUE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "core/gui/editing/livescrolling";
+		watch.defalt = TRUE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -824,9 +1002,15 @@ gnm_conf_get_core_gui_editing_recalclag_node (void)
 int
 gnm_conf_get_core_gui_editing_recalclag (void)
 {
-	const char *key = "core/gui/editing/recalclag";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, -5000, 5000, 200);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "core/gui/editing/recalclag";
+		watch.min = -5000;
+		watch.max = 5000;
+		watch.defalt = 200;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -848,9 +1032,13 @@ gnm_conf_get_core_gui_editing_transitionkeys_node (void)
 gboolean
 gnm_conf_get_core_gui_editing_transitionkeys (void)
 {
-	const char *key = "core/gui/editing/transitionkeys";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "core/gui/editing/transitionkeys";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -872,9 +1060,15 @@ gnm_conf_get_core_gui_screen_horizontaldpi_node (void)
 double
 gnm_conf_get_core_gui_screen_horizontaldpi (void)
 {
-	const char *key = "core/gui/screen/horizontaldpi";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_double (root, key, 10, 1000, 96);
+	static struct cb_watch_double watch;
+	if (!watch.handler) {
+		watch.key = "core/gui/screen/horizontaldpi";
+		watch.min = 10;
+		watch.max = 1000;
+		watch.defalt = 96;
+		watch_double (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -896,9 +1090,15 @@ gnm_conf_get_core_gui_screen_verticaldpi_node (void)
 double
 gnm_conf_get_core_gui_screen_verticaldpi (void)
 {
-	const char *key = "core/gui/screen/verticaldpi";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_double (root, key, 10, 1000, 96);
+	static struct cb_watch_double watch;
+	if (!watch.handler) {
+		watch.key = "core/gui/screen/verticaldpi";
+		watch.min = 10;
+		watch.max = 1000;
+		watch.defalt = 96;
+		watch_double (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -920,9 +1120,13 @@ gnm_conf_get_core_gui_toolbars_FormatToolbar_node (void)
 gboolean
 gnm_conf_get_core_gui_toolbars_FormatToolbar (void)
 {
-	const char *key = "core/gui/toolbars/FormatToolbar";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, TRUE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "core/gui/toolbars/FormatToolbar";
+		watch.defalt = TRUE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -944,9 +1148,15 @@ gnm_conf_get_core_gui_toolbars_FormatToolbar_position_node (void)
 GtkPositionType
 gnm_conf_get_core_gui_toolbars_FormatToolbar_position (void)
 {
-	const char *key = "core/gui/toolbars/FormatToolbar-position";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, 0, 3, 2);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "core/gui/toolbars/FormatToolbar-position";
+		watch.min = 0;
+		watch.max = 3;
+		watch.defalt = 2;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -968,9 +1178,13 @@ gnm_conf_get_core_gui_toolbars_LongFormatToolbar_node (void)
 gboolean
 gnm_conf_get_core_gui_toolbars_LongFormatToolbar (void)
 {
-	const char *key = "core/gui/toolbars/LongFormatToolbar";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "core/gui/toolbars/LongFormatToolbar";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -992,9 +1206,15 @@ gnm_conf_get_core_gui_toolbars_LongFormatToolbar_position_node (void)
 GtkPositionType
 gnm_conf_get_core_gui_toolbars_LongFormatToolbar_position (void)
 {
-	const char *key = "core/gui/toolbars/LongFormatToolbar-position";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, 0, 3, 2);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "core/gui/toolbars/LongFormatToolbar-position";
+		watch.min = 0;
+		watch.max = 3;
+		watch.defalt = 2;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1016,9 +1236,13 @@ gnm_conf_get_core_gui_toolbars_ObjectToolbar_node (void)
 gboolean
 gnm_conf_get_core_gui_toolbars_ObjectToolbar (void)
 {
-	const char *key = "core/gui/toolbars/ObjectToolbar";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "core/gui/toolbars/ObjectToolbar";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1040,9 +1264,15 @@ gnm_conf_get_core_gui_toolbars_ObjectToolbar_position_node (void)
 GtkPositionType
 gnm_conf_get_core_gui_toolbars_ObjectToolbar_position (void)
 {
-	const char *key = "core/gui/toolbars/ObjectToolbar-position";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, 0, 3, 2);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "core/gui/toolbars/ObjectToolbar-position";
+		watch.min = 0;
+		watch.max = 3;
+		watch.defalt = 2;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1064,9 +1294,13 @@ gnm_conf_get_core_gui_toolbars_StandardToolbar_node (void)
 gboolean
 gnm_conf_get_core_gui_toolbars_StandardToolbar (void)
 {
-	const char *key = "core/gui/toolbars/StandardToolbar";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, TRUE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "core/gui/toolbars/StandardToolbar";
+		watch.defalt = TRUE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1088,9 +1322,15 @@ gnm_conf_get_core_gui_toolbars_StandardToolbar_position_node (void)
 GtkPositionType
 gnm_conf_get_core_gui_toolbars_StandardToolbar_position (void)
 {
-	const char *key = "core/gui/toolbars/StandardToolbar-position";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, 0, 3, 2);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "core/gui/toolbars/StandardToolbar-position";
+		watch.min = 0;
+		watch.max = 3;
+		watch.defalt = 2;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1112,9 +1352,15 @@ gnm_conf_get_core_gui_window_x_node (void)
 double
 gnm_conf_get_core_gui_window_x (void)
 {
-	const char *key = "core/gui/window/x";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_double (root, key, 0.1, 1, 0.75);
+	static struct cb_watch_double watch;
+	if (!watch.handler) {
+		watch.key = "core/gui/window/x";
+		watch.min = 0.1;
+		watch.max = 1;
+		watch.defalt = 0.75;
+		watch_double (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1136,9 +1382,15 @@ gnm_conf_get_core_gui_window_y_node (void)
 double
 gnm_conf_get_core_gui_window_y (void)
 {
-	const char *key = "core/gui/window/y";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_double (root, key, 0.1, 1, 0.75);
+	static struct cb_watch_double watch;
+	if (!watch.handler) {
+		watch.key = "core/gui/window/y";
+		watch.min = 0.1;
+		watch.max = 1;
+		watch.defalt = 0.75;
+		watch_double (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1160,9 +1412,15 @@ gnm_conf_get_core_gui_window_zoom_node (void)
 double
 gnm_conf_get_core_gui_window_zoom (void)
 {
-	const char *key = "core/gui/window/zoom";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_double (root, key, 0.1, 5, 1);
+	static struct cb_watch_double watch;
+	if (!watch.handler) {
+		watch.key = "core/gui/window/zoom";
+		watch.min = 0.1;
+		watch.max = 5;
+		watch.defalt = 1;
+		watch_double (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1184,9 +1442,13 @@ gnm_conf_get_core_sort_default_ascending_node (void)
 gboolean
 gnm_conf_get_core_sort_default_ascending (void)
 {
-	const char *key = "core/sort/default/ascending";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, TRUE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "core/sort/default/ascending";
+		watch.defalt = TRUE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1208,9 +1470,13 @@ gnm_conf_get_core_sort_default_by_case_node (void)
 gboolean
 gnm_conf_get_core_sort_default_by_case (void)
 {
-	const char *key = "core/sort/default/by-case";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "core/sort/default/by-case";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1232,9 +1498,13 @@ gnm_conf_get_core_sort_default_retain_formats_node (void)
 gboolean
 gnm_conf_get_core_sort_default_retain_formats (void)
 {
-	const char *key = "core/sort/default/retain-formats";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, TRUE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "core/sort/default/retain-formats";
+		watch.defalt = TRUE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1256,9 +1526,15 @@ gnm_conf_get_core_sort_dialog_max_initial_clauses_node (void)
 int
 gnm_conf_get_core_sort_dialog_max_initial_clauses (void)
 {
-	const char *key = "core/sort/dialog/max-initial-clauses";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, 0, 256, 10);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "core/sort/dialog/max-initial-clauses";
+		watch.min = 0;
+		watch.max = 256;
+		watch.defalt = 10;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1280,9 +1556,15 @@ gnm_conf_get_core_workbook_autosave_time_node (void)
 int
 gnm_conf_get_core_workbook_autosave_time (void)
 {
-	const char *key = "core/workbook/autosave_time";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, 0, 365 * 24 * 60 * 60, 0);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "core/workbook/autosave_time";
+		watch.min = 0;
+		watch.max = 365 * 24 * 60 * 60;
+		watch.defalt = 0;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1304,9 +1586,15 @@ gnm_conf_get_core_workbook_n_cols_node (void)
 int
 gnm_conf_get_core_workbook_n_cols (void)
 {
-	const char *key = "core/workbook/n-cols";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, GNM_MIN_COLS, GNM_MAX_COLS, 256);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "core/workbook/n-cols";
+		watch.min = GNM_MIN_COLS;
+		watch.max = GNM_MAX_COLS;
+		watch.defalt = 256;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1328,9 +1616,15 @@ gnm_conf_get_core_workbook_n_rows_node (void)
 int
 gnm_conf_get_core_workbook_n_rows (void)
 {
-	const char *key = "core/workbook/n-rows";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, GNM_MIN_ROWS, GNM_MAX_ROWS, 65536);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "core/workbook/n-rows";
+		watch.min = GNM_MIN_ROWS;
+		watch.max = GNM_MAX_ROWS;
+		watch.defalt = 65536;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1352,9 +1646,15 @@ gnm_conf_get_core_workbook_n_sheet_node (void)
 int
 gnm_conf_get_core_workbook_n_sheet (void)
 {
-	const char *key = "core/workbook/n-sheet";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, 1, 64, 3);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "core/workbook/n-sheet";
+		watch.min = 1;
+		watch.max = 64;
+		watch.defalt = 3;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1376,9 +1676,15 @@ gnm_conf_get_core_xml_compression_level_node (void)
 int
 gnm_conf_get_core_xml_compression_level (void)
 {
-	const char *key = "core/xml/compression-level";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, 0, 9, 9);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "core/xml/compression-level";
+		watch.min = 0;
+		watch.max = 9;
+		watch.defalt = 9;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1400,9 +1706,13 @@ gnm_conf_get_cut_and_paste_prefer_clipboard_node (void)
 gboolean
 gnm_conf_get_cut_and_paste_prefer_clipboard (void)
 {
-	const char *key = "cut-and-paste/prefer-clipboard";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, TRUE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "cut-and-paste/prefer-clipboard";
+		watch.defalt = TRUE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1424,9 +1734,13 @@ gnm_conf_get_dialogs_rs_unfocused_node (void)
 gboolean
 gnm_conf_get_dialogs_rs_unfocused (void)
 {
-	const char *key = "dialogs/rs/unfocused";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "dialogs/rs/unfocused";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1448,9 +1762,15 @@ gnm_conf_get_functionselector_num_of_recent_node (void)
 int
 gnm_conf_get_functionselector_num_of_recent (void)
 {
-	const char *key = "functionselector/num-of-recent";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, 0, 40, 12);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "functionselector/num-of-recent";
+		watch.min = 0;
+		watch.max = 40;
+		watch.defalt = 12;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1499,9 +1819,13 @@ gnm_conf_get_plugin_latex_use_utf8_node (void)
 gboolean
 gnm_conf_get_plugin_latex_use_utf8 (void)
 {
-	const char *key = "plugin/latex/use-utf8";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "plugin/latex/use-utf8";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1523,9 +1847,13 @@ gnm_conf_get_plugins_activate_new_node (void)
 gboolean
 gnm_conf_get_plugins_activate_new (void)
 {
-	const char *key = "plugins/activate-new";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, TRUE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "plugins/activate-new";
+		watch.defalt = TRUE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1655,9 +1983,13 @@ gnm_conf_get_printsetup_across_then_down_node (void)
 gboolean
 gnm_conf_get_printsetup_across_then_down (void)
 {
-	const char *key = "printsetup/across-then-down";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/across-then-down";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1679,9 +2011,13 @@ gnm_conf_get_printsetup_all_sheets_node (void)
 gboolean
 gnm_conf_get_printsetup_all_sheets (void)
 {
-	const char *key = "printsetup/all-sheets";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/all-sheets";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1703,9 +2039,13 @@ gnm_conf_get_printsetup_center_horizontally_node (void)
 gboolean
 gnm_conf_get_printsetup_center_horizontally (void)
 {
-	const char *key = "printsetup/center-horizontally";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/center-horizontally";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1727,9 +2067,13 @@ gnm_conf_get_printsetup_center_vertically_node (void)
 gboolean
 gnm_conf_get_printsetup_center_vertically (void)
 {
-	const char *key = "printsetup/center-vertically";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/center-vertically";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1832,9 +2176,13 @@ gnm_conf_get_printsetup_hf_font_bold_node (void)
 gboolean
 gnm_conf_get_printsetup_hf_font_bold (void)
 {
-	const char *key = "printsetup/hf-font-bold";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/hf-font-bold";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1856,9 +2204,13 @@ gnm_conf_get_printsetup_hf_font_italic_node (void)
 gboolean
 gnm_conf_get_printsetup_hf_font_italic (void)
 {
-	const char *key = "printsetup/hf-font-italic";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/hf-font-italic";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1880,12 +2232,13 @@ gnm_conf_get_printsetup_hf_font_name_node (void)
 const char *
 gnm_conf_get_printsetup_hf_font_name (void)
 {
-	const char *key = "printsetup/hf-font-name";
-	char *res = go_conf_load_string (root, key);
-	MAYBE_DEBUG_GET (key);
-	if (!res) res = g_strdup ("Sans");
-	g_hash_table_replace (string_pool, (gpointer)key, res);
-	return res;
+	static struct cb_watch_string watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/hf-font-name";
+		watch.defalt = "Sans";
+		watch_string (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -1908,9 +2261,15 @@ gnm_conf_get_printsetup_hf_font_size_node (void)
 double
 gnm_conf_get_printsetup_hf_font_size (void)
 {
-	const char *key = "printsetup/hf-font-size";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_double (root, key, 1, 100, 10);
+	static struct cb_watch_double watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/hf-font-size";
+		watch.min = 1;
+		watch.max = 100;
+		watch.defalt = 10;
+		watch_double (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2013,9 +2372,15 @@ gnm_conf_get_printsetup_margin_bottom_node (void)
 double
 gnm_conf_get_printsetup_margin_bottom (void)
 {
-	const char *key = "printsetup/margin-bottom";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_double (root, key, 0, 10000, 120);
+	static struct cb_watch_double watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/margin-bottom";
+		watch.min = 0;
+		watch.max = 10000;
+		watch.defalt = 120;
+		watch_double (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2037,9 +2402,15 @@ gnm_conf_get_printsetup_margin_gtk_bottom_node (void)
 double
 gnm_conf_get_printsetup_margin_gtk_bottom (void)
 {
-	const char *key = "printsetup/margin-gtk-bottom";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_double (root, key, 0, 720, 72);
+	static struct cb_watch_double watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/margin-gtk-bottom";
+		watch.min = 0;
+		watch.max = 720;
+		watch.defalt = 72;
+		watch_double (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2061,9 +2432,15 @@ gnm_conf_get_printsetup_margin_gtk_left_node (void)
 double
 gnm_conf_get_printsetup_margin_gtk_left (void)
 {
-	const char *key = "printsetup/margin-gtk-left";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_double (root, key, 0, 720, 72);
+	static struct cb_watch_double watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/margin-gtk-left";
+		watch.min = 0;
+		watch.max = 720;
+		watch.defalt = 72;
+		watch_double (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2085,9 +2462,15 @@ gnm_conf_get_printsetup_margin_gtk_right_node (void)
 double
 gnm_conf_get_printsetup_margin_gtk_right (void)
 {
-	const char *key = "printsetup/margin-gtk-right";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_double (root, key, 0, 720, 72);
+	static struct cb_watch_double watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/margin-gtk-right";
+		watch.min = 0;
+		watch.max = 720;
+		watch.defalt = 72;
+		watch_double (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2109,9 +2492,15 @@ gnm_conf_get_printsetup_margin_gtk_top_node (void)
 double
 gnm_conf_get_printsetup_margin_gtk_top (void)
 {
-	const char *key = "printsetup/margin-gtk-top";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_double (root, key, 0, 720, 72);
+	static struct cb_watch_double watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/margin-gtk-top";
+		watch.min = 0;
+		watch.max = 720;
+		watch.defalt = 72;
+		watch_double (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2133,9 +2522,15 @@ gnm_conf_get_printsetup_margin_top_node (void)
 double
 gnm_conf_get_printsetup_margin_top (void)
 {
-	const char *key = "printsetup/margin-top";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_double (root, key, 0, 10000, 120);
+	static struct cb_watch_double watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/margin-top";
+		watch.min = 0;
+		watch.max = 10000;
+		watch.defalt = 120;
+		watch_double (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2157,12 +2552,13 @@ gnm_conf_get_printsetup_paper_node (void)
 const char *
 gnm_conf_get_printsetup_paper (void)
 {
-	const char *key = "printsetup/paper";
-	char *res = go_conf_load_string (root, key);
-	MAYBE_DEBUG_GET (key);
-	if (!res) res = g_strdup ("");
-	g_hash_table_replace (string_pool, (gpointer)key, res);
-	return res;
+	static struct cb_watch_string watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/paper";
+		watch.defalt = "";
+		watch_string (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2185,9 +2581,15 @@ gnm_conf_get_printsetup_paper_orientation_node (void)
 int
 gnm_conf_get_printsetup_paper_orientation (void)
 {
-	const char *key = "printsetup/paper-orientation";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, GTK_PAGE_ORIENTATION_PORTRAIT, GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE, 0);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/paper-orientation";
+		watch.min = GTK_PAGE_ORIENTATION_PORTRAIT;
+		watch.max = GTK_PAGE_ORIENTATION_REVERSE_LANDSCAPE;
+		watch.defalt = 0;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2233,9 +2635,13 @@ gnm_conf_get_printsetup_print_black_n_white_node (void)
 gboolean
 gnm_conf_get_printsetup_print_black_n_white (void)
 {
-	const char *key = "printsetup/print-black-n-white";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/print-black-n-white";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2257,9 +2663,13 @@ gnm_conf_get_printsetup_print_even_if_only_styles_node (void)
 gboolean
 gnm_conf_get_printsetup_print_even_if_only_styles (void)
 {
-	const char *key = "printsetup/print-even-if-only-styles";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/print-even-if-only-styles";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2281,9 +2691,13 @@ gnm_conf_get_printsetup_print_grid_lines_node (void)
 gboolean
 gnm_conf_get_printsetup_print_grid_lines (void)
 {
-	const char *key = "printsetup/print-grid-lines";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/print-grid-lines";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2305,9 +2719,13 @@ gnm_conf_get_printsetup_print_titles_node (void)
 gboolean
 gnm_conf_get_printsetup_print_titles (void)
 {
-	const char *key = "printsetup/print-titles";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/print-titles";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2329,12 +2747,13 @@ gnm_conf_get_printsetup_repeat_left_node (void)
 const char *
 gnm_conf_get_printsetup_repeat_left (void)
 {
-	const char *key = "printsetup/repeat-left";
-	char *res = go_conf_load_string (root, key);
-	MAYBE_DEBUG_GET (key);
-	if (!res) res = g_strdup ("");
-	g_hash_table_replace (string_pool, (gpointer)key, res);
-	return res;
+	static struct cb_watch_string watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/repeat-left";
+		watch.defalt = "";
+		watch_string (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2357,12 +2776,13 @@ gnm_conf_get_printsetup_repeat_top_node (void)
 const char *
 gnm_conf_get_printsetup_repeat_top (void)
 {
-	const char *key = "printsetup/repeat-top";
-	char *res = go_conf_load_string (root, key);
-	MAYBE_DEBUG_GET (key);
-	if (!res) res = g_strdup ("");
-	g_hash_table_replace (string_pool, (gpointer)key, res);
-	return res;
+	static struct cb_watch_string watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/repeat-top";
+		watch.defalt = "";
+		watch_string (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2385,9 +2805,15 @@ gnm_conf_get_printsetup_scale_height_node (void)
 int
 gnm_conf_get_printsetup_scale_height (void)
 {
-	const char *key = "printsetup/scale-height";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, 0, 100, 0);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/scale-height";
+		watch.min = 0;
+		watch.max = 100;
+		watch.defalt = 0;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2409,9 +2835,13 @@ gnm_conf_get_printsetup_scale_percentage_node (void)
 gboolean
 gnm_conf_get_printsetup_scale_percentage (void)
 {
-	const char *key = "printsetup/scale-percentage";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, TRUE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/scale-percentage";
+		watch.defalt = TRUE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2433,9 +2863,15 @@ gnm_conf_get_printsetup_scale_percentage_value_node (void)
 double
 gnm_conf_get_printsetup_scale_percentage_value (void)
 {
-	const char *key = "printsetup/scale-percentage-value";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_double (root, key, 1, 500, 100);
+	static struct cb_watch_double watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/scale-percentage-value";
+		watch.min = 1;
+		watch.max = 500;
+		watch.defalt = 100;
+		watch_double (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2457,9 +2893,15 @@ gnm_conf_get_printsetup_scale_width_node (void)
 int
 gnm_conf_get_printsetup_scale_width (void)
 {
-	const char *key = "printsetup/scale-width";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, 0, 100, 0);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "printsetup/scale-width";
+		watch.min = 0;
+		watch.max = 100;
+		watch.defalt = 0;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2481,9 +2923,15 @@ gnm_conf_get_undo_max_descriptor_width_node (void)
 int
 gnm_conf_get_undo_max_descriptor_width (void)
 {
-	const char *key = "undo/max_descriptor_width";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, 5, 256, 40);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "undo/max_descriptor_width";
+		watch.min = 5;
+		watch.max = 256;
+		watch.defalt = 40;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2505,9 +2953,15 @@ gnm_conf_get_undo_maxnum_node (void)
 int
 gnm_conf_get_undo_maxnum (void)
 {
-	const char *key = "undo/maxnum";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, 0, 10000, 20);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "undo/maxnum";
+		watch.min = 0;
+		watch.max = 10000;
+		watch.defalt = 20;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2529,9 +2983,13 @@ gnm_conf_get_undo_show_sheet_name_node (void)
 gboolean
 gnm_conf_get_undo_show_sheet_name (void)
 {
-	const char *key = "undo/show_sheet_name";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_bool (root, key, FALSE);
+	static struct cb_watch_bool watch;
+	if (!watch.handler) {
+		watch.key = "undo/show_sheet_name";
+		watch.defalt = FALSE;
+		watch_bool (&watch);
+	}
+	return watch.var;
 }
 
 void
@@ -2553,9 +3011,15 @@ gnm_conf_get_undo_size_node (void)
 int
 gnm_conf_get_undo_size (void)
 {
-	const char *key = "undo/size";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_int (root, key, 1, 1000000, 100);
+	static struct cb_watch_int watch;
+	if (!watch.handler) {
+		watch.key = "undo/size";
+		watch.min = 1;
+		watch.max = 1000000;
+		watch.defalt = 100;
+		watch_int (&watch);
+	}
+	return watch.var;
 }
 
 void
