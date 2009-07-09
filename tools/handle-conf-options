@@ -347,12 +347,14 @@ sub create_hcfile {
 	    $cfile .= "$get_head\n";
 	    $cfile .= "{\n";
 	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\tMAYBE_DEBUG_GET (key);\n";
 	    $cfile .= "\treturn go_conf_load_bool ($root, key, $default);\n";
 	    $cfile .= "}\n\n";
 
 	    $cfile .= "$set_head\n";
 	    $cfile .= "{\n";
 	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\tMAYBE_DEBUG_SET (key);\n";
 	    $cfile .= "\tgo_conf_set_bool ($root, key, x != FALSE);\n";
 	    $cfile .= "\tschedule_sync ();\n";
 	    $cfile .= "}\n\n";
@@ -364,6 +366,7 @@ sub create_hcfile {
 	    $cfile .= "$get_head\n";
 	    $cfile .= "{\n";
 	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\tMAYBE_DEBUG_GET (key);\n";
 	    $cfile .= "\treturn go_conf_load_$ltype ($root, key, $min, $max, $default);\n";
 	    $cfile .= "}\n\n";
 
@@ -371,6 +374,7 @@ sub create_hcfile {
 	    $cfile .= "gnm_conf_set_$var ($ctype x)\n";
 	    $cfile .= "{\n";
 	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\tMAYBE_DEBUG_SET (key);\n";
 	    $cfile .= "\tgo_conf_set_$ltype ($root, key, CLAMP (x, $min, $max));\n";
 	    $cfile .= "\tschedule_sync ();\n";
 	    $cfile .= "}\n\n";
@@ -379,6 +383,7 @@ sub create_hcfile {
 	    $cfile .= "{\n";
 	    $cfile .= "\tconst char *key = \"$key\";\n";
 	    $cfile .= "\tchar *res = go_conf_load_string ($root, key);\n";
+	    $cfile .= "\tMAYBE_DEBUG_GET (key);\n";
 	    $cfile .= "\tif (!res) res = g_strdup (\"$default\");\n";
 	    $cfile .= "\tg_hash_table_replace (string_pool, (gpointer)key, res);\n";
 	    $cfile .= "\treturn res;\n";
@@ -387,6 +392,7 @@ sub create_hcfile {
 	    $cfile .= "$set_head\n";
 	    $cfile .= "{\n";
 	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\tMAYBE_DEBUG_SET (key);\n";
 	    $cfile .= "\tgo_conf_set_string ($root, key, x);\n";
 	    $cfile .= "\tg_hash_table_remove (string_pool, key);\n";
 	    $cfile .= "\tschedule_sync ();\n";
@@ -395,12 +401,14 @@ sub create_hcfile {
 	    $cfile .= "$get_head\n";
 	    $cfile .= "{\n";
 	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\tMAYBE_DEBUG_GET (key);\n";
 	    $cfile .= "\treturn go_conf_load_enum ($root, key, $gtype, $default);\n";
 	    $cfile .= "}\n\n";
 
 	    $cfile .= "$set_head\n";
 	    $cfile .= "{\n";
 	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\tMAYBE_DEBUG_SET (key);\n";
 	    $cfile .= "\tgo_conf_set_enum ($root, key, $gtype, x);\n";
 	    $cfile .= "\tschedule_sync ();\n";
 	    $cfile .= "}\n\n";
@@ -409,6 +417,7 @@ sub create_hcfile {
 	    $cfile .= "{\n";
 	    $cfile .= "\tconst char *key = \"$key\";\n";
 	    $cfile .= "\tGSList *res = go_conf_load_str_list ($root, key);\n";
+	    $cfile .= "\tMAYBE_DEBUG_GET (key);\n";
 	    $cfile .= "\tg_hash_table_replace (string_list_pool, (gpointer)key, res);\n";
 	    $cfile .= "\treturn res;\n";
 	    $cfile .= "}\n\n";
@@ -416,6 +425,7 @@ sub create_hcfile {
 	    $cfile .= "$set_head\n";
 	    $cfile .= "{\n";
 	    $cfile .= "\tconst char *key = \"$key\";\n";
+	    $cfile .= "\tMAYBE_DEBUG_SET (key);\n";
 	    $cfile .= "\tgo_conf_set_str_list ($root, key, x);\n";
 	    $cfile .= "\tg_hash_table_remove (string_list_pool, key);\n";
 	    $cfile .= "\tschedule_sync ();\n";
