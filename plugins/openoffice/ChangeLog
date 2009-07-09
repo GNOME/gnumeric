@@ -1,5 +1,20 @@
 2009-07-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-read.c: split styles.col_row into
+	  split styles.col and split styles.row, change users
+	(oo_table_start): use default 
+	  row/column styles
+	(cb_find_default_colrow_style): simplify
+	(oo_colrow_reset_defaults): split into oo_col_reset_defaults
+	  and oo_row_reset_defaults, change callers
+	(oo_col_row_style_apply_breaks): fix typo
+	(oo_col_start)L if we don't have a default style but
+	  lots of repetition, use the repeated style as default
+	(oo_row_start): ditto
+	(oo_style): row and column styles can also be defaults
+
+2009-07-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (opendoc_content_dtd): add 
 	  style:tab-stops to style:paragraph-properties
 	(od_draw_object): handle both "Object 1/" and 
