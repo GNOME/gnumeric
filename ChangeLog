@@ -1,5 +1,8 @@
 2009-07-09  Morten Welinder  <terra@gnome.org>
 
+	* src/validation.c (gnm_validation_combo_finalize): Call the right
+	parent class' finalizer.
+
 	* src/gnumeric-gconf.c (gnm_conf_init): Handle new debug flags
 	"conf-get" and "conf-set".
 

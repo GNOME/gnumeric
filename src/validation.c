@@ -82,35 +82,41 @@ static struct {
 
 /***************************************************************************/
 
+static GObjectClass *gvc_parent_klass;
+
 static void
 gnm_validation_combo_finalize (GObject *object)
 {
 	GnmValidationCombo *vcombo = GNM_VALIDATION_COMBO (object);
-	GObjectClass *parent;
+
 	if (NULL != vcombo->validation) {
 		validation_unref (vcombo->validation);
 		vcombo->validation = NULL;
 	}
-	parent = g_type_class_peek (SHEET_OBJECT_TYPE);
-	parent->finalize (object);
+
+	gvc_parent_klass->finalize (object);
 }
 
 static void
 gnm_validation_combo_init (SheetObject *so)
 {
 }
+
 static SheetObjectView *
 gnm_validation_combo_foo_view_new (SheetObject *so, SheetObjectViewContainer *container)
 {
 	return gnm_cell_combo_foo_view_new (so,
 		gnm_validation_combo_foo_view_get_type (), container);
 }
+
 static void
 gnm_validation_combo_class_init (GObjectClass *gobject_class)
 {
 	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (gobject_class);
 	gobject_class->finalize	= gnm_validation_combo_finalize;
 	so_class->new_view	  = gnm_validation_combo_foo_view_new;
+
+	gvc_parent_klass = g_type_class_peek_parent (gobject_class);
 }
 
 typedef SheetObjectClass GnmValidationComboClass;

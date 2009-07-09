@@ -33,16 +33,16 @@ enum {
 	PROP_FIELD
 };
 
+static GObjectClass *gssc_parent_klass;
+
 static void
 gnm_sheet_slicer_combo_finalize (GObject *object)
 {
 #if 0
 	GnmSheetSlicerCombo *sscombo = GNM_SHEET_SLICER_COMBO (object);
 #endif
-	GObjectClass *parent;
 
-	parent = g_type_class_peek (gnm_cell_combo_get_type ());
-	parent->finalize (object);
+	gssc_parent_klass->finalize (object);
 }
 
 static void
@@ -64,7 +64,9 @@ gnm_sheet_slicer_combo_set_property (GObject *obj, guint property_id,
 	GnmSheetSlicerCombo *sscombo = (GnmSheetSlicerCombo *)obj;
 
 	switch (property_id) {
-	case PROP_FIELD : sscombo->dsf =  g_value_get_object (value); break;
+	case PROP_FIELD:
+		sscombo->dsf = g_value_get_object (value);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
 	}
@@ -76,15 +78,21 @@ gnm_sheet_slicer_combo_get_property (GObject *obj, guint property_id,
 {
 	GnmSheetSlicerCombo const *sscombo = (GnmSheetSlicerCombo const *)obj;
 	switch (property_id) {
-	case PROP_FIELD : g_value_set_object (value, (GObject *) (sscombo->dsf)); break;
+	case PROP_FIELD:
+		g_value_set_object (value, (GObject *) (sscombo->dsf));
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, property_id, pspec);
 	}
 }
+
 static void
 gnm_sheet_slicer_combo_class_init (GObjectClass *gobject_class)
 {
 	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (gobject_class);
+
+	gssc_parent_klass = g_type_class_peek_parent (gobject_class);
+
 	gobject_class->set_property	= gnm_sheet_slicer_combo_set_property;
 	gobject_class->get_property	= gnm_sheet_slicer_combo_get_property;
 	gobject_class->finalize		= gnm_sheet_slicer_combo_finalize;

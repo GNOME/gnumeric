@@ -31,6 +31,8 @@ enum {
 	PROP_SV,
 };
 
+static GObjectClass *gcc_parent_klass;
+
 static void
 gnm_cell_combo_set_sv (GnmCellCombo *ccombo, SheetView *sv)
 {
@@ -49,22 +51,16 @@ static void
 gnm_cell_combo_finalize (GObject *object)
 {
 	GnmCellCombo *ccombo = GNM_CELL_COMBO (object);
-	GObjectClass *parent;
-
 	gnm_cell_combo_set_sv (ccombo, NULL);
-	parent = g_type_class_peek (SHEET_OBJECT_TYPE);
-	parent->finalize (object);
+	gcc_parent_klass->finalize (object);
 }
 
 static void
 gnm_cell_combo_dispose (GObject *object)
 {
 	GnmCellCombo *ccombo = GNM_CELL_COMBO (object);
-	GObjectClass *parent;
-
 	gnm_cell_combo_set_sv (ccombo, NULL);
-	parent = g_type_class_peek (SHEET_OBJECT_TYPE);
-	parent->dispose (object);
+	gcc_parent_klass->dispose (object);
 }
 
 static void
@@ -111,6 +107,9 @@ static void
 gnm_cell_combo_class_init (GObjectClass *gobject_class)
 {
 	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (gobject_class);
+
+	gcc_parent_klass = g_type_class_peek_parent (gobject_class);
+
 	gobject_class->dispose		= gnm_cell_combo_dispose;
 	gobject_class->finalize		= gnm_cell_combo_finalize;
 	gobject_class->get_property	= gnm_cell_combo_get_property;
@@ -128,4 +127,3 @@ gnm_cell_combo_class_init (GObjectClass *gobject_class)
 GSF_CLASS_ABSTRACT (GnmCellCombo, gnm_cell_combo,
 		    gnm_cell_combo_class_init, gnm_cell_combo_init,
 		    SHEET_OBJECT_TYPE)
-
