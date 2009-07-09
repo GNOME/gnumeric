@@ -1,5 +1,12 @@
 2009-07-08  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (sheet_scale_changed): Compute scale only once per
+	direction.  Fixes #588105.
+
+	* src/colrow.c (colrow_compute_pixel_scale): New function.
+	(colrow_compute_pixels_from_pts, colrow_compute_pts_from_pixels):
+	Take extra scale parameter.
+
 	* src/gnm-cell-combo.c (gnm_cell_combo_set_sv): New function.
 	(gnm_cell_combo_finalize, gnm_cell_combo_set_property): Call
 	gnm_cell_combo_set_sv to release sv weak ref.

@@ -67,10 +67,11 @@ typedef struct {
 #define COL_INTERNAL_WIDTH(col)	\
 	((col)->size_pixels - (GNM_COL_MARGIN + GNM_COL_MARGIN + 1))
 
+double  colrow_compute_pixel_scale (Sheet const *sheet, gboolean horizontal);
 void	colrow_compute_pixels_from_pts (ColRowInfo *cri, Sheet const *sheet,
-					gboolean horizontal);
+					gboolean horizontal, double scale);
 void	colrow_compute_pts_from_pixels (ColRowInfo *cri, Sheet const *sheet,
-					gboolean horizontal);
+					gboolean horizontal, double scale);
 
 gboolean colrow_is_default (ColRowInfo const *cri);
 gboolean colrow_is_empty   (ColRowInfo const *cri);

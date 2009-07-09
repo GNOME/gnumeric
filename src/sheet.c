@@ -301,6 +301,7 @@ sheet_set_name (Sheet *sheet, char const *new_name)
 struct resize_colrow {
 	Sheet *sheet;
 	gboolean is_cols;
+	double scale;
 };
 
 static gboolean
@@ -308,7 +309,8 @@ cb_colrow_compute_pixels_from_pts (GnmColRowIter const *iter,
 				   struct resize_colrow *data)
 {
 	colrow_compute_pixels_from_pts ((ColRowInfo *)iter->cri,
-		data->sheet, data->is_cols);
+					data->sheet, data->is_cols,
+					data->scale);
 	return FALSE;
 }
 
@@ -325,21 +327,30 @@ cb_clear_rendered_cells (gpointer ignored, GnmCell *cell)
 static void
 sheet_scale_changed (Sheet *sheet, gboolean cols_rescaled, gboolean rows_rescaled)
 {
-	struct resize_colrow closure;
-
 	g_return_if_fail (cols_rescaled || rows_rescaled);
 
 	/* Then every column and row */
 	if (cols_rescaled) {
-		colrow_compute_pixels_from_pts (&sheet->cols.default_style, sheet, TRUE);
+		struct resize_colrow closure;
+
 		closure.sheet = sheet;
 		closure.is_cols = TRUE;
+		closure.scale = colrow_compute_pixel_scale (sheet, TRUE);
+
+		colrow_compute_pixels_from_pts (&sheet->cols.default_style,
+						sheet, TRUE, closure.scale);
 		colrow_foreach (&sheet->cols, 0, gnm_sheet_get_last_col (sheet),
 			(ColRowHandler)&cb_colrow_compute_pixels_from_pts, &closure);
 	}
 	if (rows_rescaled) {
-		colrow_compute_pixels_from_pts (&sheet->rows.default_style, sheet, FALSE);
+		struct resize_colrow closure;
+
+		closure.sheet = sheet;
 		closure.is_cols = FALSE;
+		closure.scale = colrow_compute_pixel_scale (sheet, FALSE);
+
+		colrow_compute_pixels_from_pts (&sheet->rows.default_style,
+						sheet, FALSE, closure.scale);
 		colrow_foreach (&sheet->rows, 0, gnm_sheet_get_last_row (sheet),
 			(ColRowHandler)&cb_colrow_compute_pixels_from_pts, &closure);
 	}
@@ -671,8 +682,10 @@ gnm_sheet_constructor (GType type,
 	case GNM_SHEET_OBJECT:
 		sheet->hide_grid = TRUE;
 		sheet->hide_col_header = sheet->hide_row_header = TRUE;
-		colrow_compute_pixels_from_pts (&sheet->rows.default_style, sheet, FALSE);
-		colrow_compute_pixels_from_pts (&sheet->cols.default_style, sheet, TRUE);
+		colrow_compute_pixels_from_pts (&sheet->rows.default_style,
+						sheet, FALSE, -1);
+		colrow_compute_pixels_from_pts (&sheet->cols.default_style,
+						sheet, TRUE, -1);
 		break;
 	case GNM_SHEET_DATA: {
 		/* We have to add permanent names */
@@ -4890,12 +4903,13 @@ sheet_colrow_default_calc (Sheet *sheet, double units,
 	cri->hard_size	= FALSE;
 	cri->visible	= TRUE;
 	cri->spans	= NULL;
+
 	if (is_pts) {
 		cri->size_pts = units;
-		colrow_compute_pixels_from_pts (cri, sheet, is_cols);
+		colrow_compute_pixels_from_pts (cri, sheet, is_cols, -1);
 	} else {
 		cri->size_pixels = units;
-		colrow_compute_pts_from_pixels (cri, sheet, is_cols);
+		colrow_compute_pts_from_pixels (cri, sheet, is_cols, -1);
 	}
 }
 
@@ -5007,7 +5021,7 @@ sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
 		return;
 
 	ci->size_pts = width_pts;
-	colrow_compute_pixels_from_pts (ci, sheet, TRUE);
+	colrow_compute_pixels_from_pts (ci, sheet, TRUE, -1);
 
 	sheet->priv->recompute_visibility = TRUE;
 	sheet_flag_recompute_spans (sheet);
@@ -5030,7 +5044,7 @@ sheet_col_set_size_pixels (Sheet *sheet, int col, int width_pixels,
 		return;
 
 	ci->size_pixels = width_pixels;
-	colrow_compute_pts_from_pixels (ci, sheet, TRUE);
+	colrow_compute_pts_from_pixels (ci, sheet, TRUE, -1);
 
 	sheet->priv->recompute_visibility = TRUE;
 	sheet_flag_recompute_spans (sheet);
@@ -5163,7 +5177,7 @@ sheet_row_set_size_pts (Sheet *sheet, int row, double height_pts,
 		return;
 
 	ri->size_pts = height_pts;
-	colrow_compute_pixels_from_pts (ri, sheet, FALSE);
+	colrow_compute_pixels_from_pts (ri, sheet, FALSE, -1);
 
 	sheet->priv->recompute_visibility = TRUE;
 	if (sheet->priv->reposition_objects.row > row)
@@ -5196,7 +5210,7 @@ sheet_row_set_size_pixels (Sheet *sheet, int row, int height_pixels,
 		return;
 
 	ri->size_pixels = height_pixels;
-	colrow_compute_pts_from_pixels (ri, sheet, FALSE);
+	colrow_compute_pts_from_pixels (ri, sheet, FALSE, -1);
 
 	sheet->priv->recompute_visibility = TRUE;
 	if (sheet->priv->reposition_objects.row > row)

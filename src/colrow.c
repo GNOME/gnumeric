@@ -35,14 +35,21 @@
 #include "cellspan.h"
 #include "rendered-value.h"
 
+double
+colrow_compute_pixel_scale (Sheet const *sheet, gboolean horizontal)
+{
+	return sheet->last_zoom_factor_used *
+		gnm_app_display_dpi_get (horizontal) / 72.;
+}
+
 void
-colrow_compute_pixels_from_pts (ColRowInfo *cri,
-				Sheet const *sheet, gboolean horizontal)
+colrow_compute_pixels_from_pts (ColRowInfo *cri, Sheet const *sheet,
+				gboolean horizontal, double scale)
 {
 	int const margin = horizontal ? 2*GNM_COL_MARGIN : 2*GNM_ROW_MARGIN;
-	double scale =
-		sheet->last_zoom_factor_used *
-		gnm_app_display_dpi_get (horizontal) / 72.;
+
+	if (scale == -1)
+		scale = colrow_compute_pixel_scale (sheet, horizontal);
 
 	if (horizontal && sheet->display_formulas)
 		scale *= 2;
@@ -54,13 +61,9 @@ colrow_compute_pixels_from_pts (ColRowInfo *cri,
 }
 
 void
-colrow_compute_pts_from_pixels (ColRowInfo *cri,
-				Sheet const *sheet, gboolean horizontal)
+colrow_compute_pts_from_pixels (ColRowInfo *cri, Sheet const *sheet,
+				gboolean horizontal, double scale)
 {
-	double scale =
-		sheet->last_zoom_factor_used *
-		gnm_app_display_dpi_get (horizontal) / 72.;
-
 	if (horizontal && sheet->display_formulas)
 		scale *= 2;
 
@@ -507,11 +510,13 @@ colrow_set_states (Sheet *sheet, gboolean is_cols,
 	GSList *l;
 	int i, max_outline, offset = first;
 	ColRowCollection *infos;
+	double scale;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
 	infos = is_cols ? &(sheet->cols) : &(sheet->rows);
 	max_outline = infos->max_outline_level;
+	scale = colrow_compute_pixel_scale (sheet, is_cols);
 
 	for (l = states; l != NULL; l = l->next) {
 		ColRowRLEState const *rles = l->data;
@@ -535,7 +540,7 @@ colrow_set_states (Sheet *sheet, gboolean is_cols,
 				ColRowInfo *cri = sheet_colrow_fetch (sheet, i, is_cols);
 				cri->hard_size = state->hard_size;
 				cri->size_pts = state->size_pts;
-				colrow_compute_pixels_from_pts (cri, sheet, is_cols);
+				colrow_compute_pixels_from_pts (cri, sheet, is_cols, scale);
 				colrow_set_outline (cri, state->outline_level,
 					state->is_collapsed);
 			}
