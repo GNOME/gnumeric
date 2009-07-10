@@ -1,5 +1,17 @@
 2009-07-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_strip_brackets): new
+	(odf_graph_get_series): new
+	(odf_write_frame): use odf_strip_brackets and create
+	  draw:object for graphs
+	(odf_write_content): use odf_strip_brackets
+	(odf_write_meta_graph): new
+	(odf_write_graph_manifest): new
+	(odf_write_manifest): attach odf_write_graph_manifest
+	(odf_write_graphs): also write meta.xml
+
+2009-07-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-read.c (od_draw_frame): we can only match
 	  once
 	(openoffice_file_open): g_free can handle NULL

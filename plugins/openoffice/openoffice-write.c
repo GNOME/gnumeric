@@ -90,6 +90,7 @@
 #define NUMBER   "number:"
 #define DRAW	 "draw:"
 #define SVG	 "svg:"
+#define XLINK	 "xlink:"
 #define GNMSTYLE "gnm:"  /* We use this for attributes and elements not supported by ODF */
 
 typedef struct {
@@ -2083,8 +2084,38 @@ odf_write_comment (GnmOOExport *state, GnmComment const *cc)
 	gsf_xml_out_end_element (state->xml); /*  OFFICE "annotation" */
 }
 
+static char *
+odf_strip_brackets (char *string)
+{
+	char *closing;
+	closing = strrchr(string, ']');
+	if (closing != NULL)
+		*closing = '\0';
+	return ((*string == '[') ? (string + 1) : string);	
+}
+
+static char *
+odf_graph_get_series (GnmOOExport *state, GogGraph *sog, GnmParsePos *pp)
+{
+	GSList *list = gog_graph_get_data (sog);
+	GString *str = g_string_new (NULL);
+
+	for (;list != NULL; list = list->next) {
+		GOData *dat = list->data;
+		GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
+		if (gnm_expr_top_is_rangeref (texpr)) {
+			char *formula = gnm_expr_top_as_string (texpr, pp, state->conv);
+			g_string_append (str, odf_strip_brackets (formula));
+			g_string_append_c (str, ' ');
+			g_free (formula);
+		}
+	}
+	
+	return g_string_free (str, FALSE);
+}
+
 static void
-odf_write_frame (GnmOOExport *state, SheetObject const *so)
+odf_write_frame (GnmOOExport *state, SheetObject *so)
 {
 	SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
 	double res_pts[4] = {0.,0.,0.,0.};
@@ -2092,7 +2123,7 @@ odf_write_frame (GnmOOExport *state, SheetObject const *so)
 	GnmRange const *r = &anchor->cell_bound;
 	GnmExprTop const *texpr;
 	GnmParsePos pp;
-	char *formula, *closing;
+	char *formula;
 
 	sheet_object_anchor_to_offset_pts (anchor, state->sheet, res_pts);
 
@@ -2112,17 +2143,31 @@ odf_write_frame (GnmOOExport *state, SheetObject const *so)
 	texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
 	parse_pos_init_sheet (&pp, state->sheet);
 	formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
-	/* While this should be enough, ODF doesn't want the same format here as in formulas: */
-	closing = strrchr(formula, ']');
-	if (closing != NULL)
-		*closing = '\0';
 	gnm_expr_top_unref (texpr);
-	gsf_xml_out_add_cstr (state->xml, TABLE "end-cell-address", 
-			      (*formula == '[') ? (formula + 1) : formula);
+	gsf_xml_out_add_cstr (state->xml, TABLE "end-cell-address", odf_strip_brackets (formula));
 
-	gsf_xml_out_start_element (state->xml, DRAW "text-box");
-	gsf_xml_out_simple_element (state->xml, TEXT "p", "Missing Sheet Object");
-	gsf_xml_out_end_element (state->xml); /*  DRAW "textbox" */
+	if (IS_SHEET_OBJECT_GRAPH (so)) {
+		char const *name = g_hash_table_lookup (state->objects, so);
+		if (name != NULL) {
+			char *full_name = g_strdup_printf ("./%s", name);
+			gsf_xml_out_start_element (state->xml, DRAW "object");
+			gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
+			g_free (full_name);
+			gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
+			gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
+			gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
+			full_name = odf_graph_get_series (state, sheet_object_graph_get_gog (so), &pp);
+			gsf_xml_out_add_cstr (state->xml, DRAW "notify-on-update-of-ranges",
+					      full_name);
+			g_free (full_name);
+			gsf_xml_out_end_element (state->xml); /*  DRAW "object" */
+		} else
+			g_warning ("Graph is missing from hash.");
+	} else {
+		gsf_xml_out_start_element (state->xml, DRAW "text-box");
+		gsf_xml_out_simple_element (state->xml, TEXT "p", "Missing Sheet Object");
+		gsf_xml_out_end_element (state->xml); /*  DRAW "text-box" */
+	}
 	
 	gsf_xml_out_end_element (state->xml); /*  DRAW "frame" */
 }
@@ -2795,7 +2840,7 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 		graphs = sheet_objects_get (sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
 		for (l = graphs; l != NULL; l = l->next)
 			g_hash_table_insert (state->objects, l->data, 
-					     g_strdup_printf ("Object %i", graph_n++));
+					     g_strdup_printf ("Graph%i", graph_n++));
 		g_slist_free (graphs);
 
 		gsf_xml_out_start_element (state->xml, TABLE "table");
@@ -2812,7 +2857,6 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 			GnmExprTop const *texpr;
 			char *formula;
 			GnmParsePos pp;
-			char *closing;
 			GnmCellRef *a, *b;
 			
 			a = &v->v_range.cell.a;
@@ -2827,12 +2871,9 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 			formula = gnm_expr_top_as_string (texpr,
 							  &pp,
 							  state->conv);
-			/* While this should be enough, ODF doesn't want the same format here as in formulas: */
-			closing = strrchr(formula, ']');
-			if (closing != NULL)
-				*closing = '\0';
 			gnm_expr_top_unref (texpr);
-			gsf_xml_out_add_cstr (state->xml, TABLE "print-ranges", (*formula == '[') ? (formula + 1) : formula);
+			gsf_xml_out_add_cstr (state->xml, TABLE "print-ranges", 
+					      odf_strip_brackets (formula));
 			g_free (formula);
 		}
 
@@ -3000,6 +3041,22 @@ odf_write_meta (GnmOOExport *state, GsfOutput *child)
 	g_object_unref (xml);
 }
 
+static void
+odf_write_meta_graph (GnmOOExport *state, GsfOutput *child)
+{
+	GsfXMLOut *xml = gsf_xml_out_new (child);
+	GsfDocMetaData *meta = gsf_doc_meta_data_new ();
+	GValue *val = g_new0 (GValue, 1);
+
+	g_value_init (val, G_TYPE_STRING);
+	g_value_set_string (val, PACKAGE_NAME "/" VERSION);
+	
+	gsf_doc_meta_data_insert  (meta, g_strdup (GSF_META_NAME_GENERATOR), val);
+	gsf_opendoc_metadata_write (xml, meta);
+
+	g_object_unref (meta);
+	g_object_unref (xml);
+}
 /*****************************************************************************/
 
 static void
@@ -3030,6 +3087,20 @@ odf_file_entry (GsfXMLOut *out, char const *type, char const *name)
 }
 
 static void
+odf_write_graph_manifest (G_GNUC_UNUSED SheetObject *graph, char const *name, GnmOOExport *state)
+{
+	char *fullname = g_strdup_printf ("%s/", name);
+	odf_file_entry (state->xml, "application/vnd.oasis.opendocument.chart", fullname);
+	g_free(fullname);
+	fullname = g_strdup_printf ("%s/content.xml", name);
+	odf_file_entry (state->xml, "text/xml", fullname);
+	g_free(fullname);
+	fullname = g_strdup_printf ("%s/meta.xml", name);
+	odf_file_entry (state->xml, "text/xml", fullname);
+	g_free(fullname);
+}
+
+static void
 odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 {
 	GsfXMLOut *xml = gsf_xml_out_new (child);
@@ -3038,11 +3109,15 @@ odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:manifest",
 		"urn:oasis:names:tc:opendocument:xmlns:manifest:1.0");
 	odf_file_entry (xml, "application/vnd.oasis.opendocument.spreadsheet" ,"/");
-	odf_file_entry (xml, "", "Pictures/");
+/* 	odf_file_entry (xml, "", "Pictures/"); */
 	odf_file_entry (xml, "text/xml", "content.xml");
 	odf_file_entry (xml, "text/xml", "styles.xml");
 	odf_file_entry (xml, "text/xml", "meta.xml");
 	odf_file_entry (xml, "text/xml", "settings.xml");
+
+	state->xml = xml;
+	g_hash_table_foreach (state->objects, (GHFunc) odf_write_graph_manifest, state);
+
 	gsf_xml_out_end_element (xml); /* </manifest:manifest> */
 	g_object_unref (xml);
 }
@@ -3052,24 +3127,34 @@ odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 static void
 odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 {
-	GsfOutput  *child, *sec_child;
-		char *fullname = g_strdup_printf ("%s/content.xml", name);
-
-		child = gsf_outfile_new_child_full (state->outfile, name, TRUE,
+	GsfOutput  *child;
+	
+	child = gsf_outfile_new_child_full (state->outfile, name, TRUE,
 				"compression-level", GSF_ZIP_DEFLATED,
-				NULL);
-		if (NULL != child) {
-			sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
-							    "compression-level", GSF_ZIP_DEFLATED,
-							    NULL);
-			gsf_output_close (child);
-			g_object_unref (G_OBJECT (child));
-			if (NULL != sec_child) {
-				gsf_output_close (sec_child);
-				g_object_unref (G_OBJECT (sec_child));
-			}
+					    NULL);
+	if (NULL != child) {
+		char *fullname = g_strdup_printf ("%s/content.xml", name);
+		GsfOutput  *sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
+							"compression-level", GSF_ZIP_DEFLATED,
+							NULL);
+		if (NULL != sec_child) {
+			gsf_output_close (sec_child);
+			g_object_unref (G_OBJECT (sec_child));
 		}
 		g_free (fullname);
+		fullname = g_strdup_printf ("%s/meta.xml", name);
+		sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
+							"compression-level", GSF_ZIP_DEFLATED,
+							NULL);
+		if (NULL != sec_child) {
+			odf_write_meta_graph (state, sec_child);
+			gsf_output_close (sec_child);
+			g_object_unref (G_OBJECT (sec_child));
+		}
+		g_free (fullname);
+		gsf_output_close (child);
+		g_object_unref (G_OBJECT (child));
+	}
 }
 
 
