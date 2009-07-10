@@ -114,6 +114,14 @@ struct cb_watch_generic {
 	guint handler;
 };
 
+static void
+free_watcher (struct cb_watch_generic *watcher)
+{
+	go_conf_remove_monitor (watcher->handler);
+}
+
+/* ---------------------------------------- */
+
 struct cb_watch_bool {
 	guint handler;
 	const char *key;
@@ -342,10 +350,44 @@ set_string_list (struct cb_watch_string_list *watch, GSList *x)
 
 /* ---------------------------------------- */
 
+struct cb_watch_enum {
+	guint handler;
+	const char *key;
+	int defalt;
+	GType typ;
+	int var;
+};
+
 static void
-free_watcher (struct cb_watch_generic *watcher)
+cb_watch_enum (GOConfNode *node, G_GNUC_UNUSED const char *key, gpointer user)
 {
-	go_conf_remove_monitor (watcher->handler);
+	struct cb_watch_enum *watch = user;
+	watch->var = go_conf_load_enum (node, NULL,
+					watch->typ, watch->defalt);
+}
+
+static void
+watch_enum (struct cb_watch_enum *watch, GType typ)
+{
+	GOConfNode *node = get_node (watch->key);
+	watch->typ = typ;
+	watch->handler = go_conf_add_monitor
+		(node, NULL, cb_watch_enum, watch);
+	watchers = g_slist_prepend (watchers, watch);
+	cb_watch_enum (node, NULL, watch);
+	MAYBE_DEBUG_GET (watch->key);
+}
+
+static void
+set_enum (struct cb_watch_enum *watch, int x)
+{
+	if (x == watch->var)
+		return;
+
+	MAYBE_DEBUG_SET (watch->key);
+	watch->var = x;
+	go_conf_set_enum (root, watch->key, watch->typ, x);
+	schedule_sync ();
 }
 
 /* -------------------------------------------------------------------------- */
@@ -593,28 +635,24 @@ gnm_conf_get_detachable_toolbars (void)
 
 /* ----------- AUTOMATICALLY GENERATED CODE BELOW -- DO NOT EDIT ----------- */
 
+static struct cb_watch_enum watch_toolbar_style = {
+	0, "/apps/gnome-settings/gnumeric/toolbar_style", GTK_TOOLBAR_ICONS,
+};
+
 GtkToolbarStyle
 gnm_conf_get_toolbar_style (void)
 {
-	const char *key = "/apps/gnome-settings/gnumeric/toolbar_style";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_enum (NULL, key, GTK_TYPE_TOOLBAR_STYLE, GTK_TOOLBAR_ICONS);
+	if (!watch_toolbar_style.handler)
+		watch_enum (&watch_toolbar_style, GTK_TYPE_TOOLBAR_STYLE);
+	return watch_toolbar_style.var;
 }
 
 void
 gnm_conf_set_toolbar_style (GtkToolbarStyle x)
 {
-	const char *key = "/apps/gnome-settings/gnumeric/toolbar_style";
-	MAYBE_DEBUG_SET (key);
-	go_conf_set_enum (NULL, key, GTK_TYPE_TOOLBAR_STYLE, x);
-	schedule_sync ();
-}
-
-GOConfNode *
-gnm_conf_get_autocorrect_first_letter_node (void)
-{
-	const char *key = "autocorrect/first-letter";
-	return get_node (key);
+	if (!watch_toolbar_style.handler)
+		watch_enum (&watch_toolbar_style, GTK_TYPE_TOOLBAR_STYLE);
+	set_enum (&watch_toolbar_style, x);
 }
 
 static struct cb_watch_bool watch_autocorrect_first_letter = {
@@ -638,10 +676,9 @@ gnm_conf_set_autocorrect_first_letter (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_autocorrect_first_letter_list_node (void)
+gnm_conf_get_autocorrect_first_letter_node (void)
 {
-	const char *key = "autocorrect/first-letter-list";
-	return get_node (key);
+	return get_node (watch_autocorrect_first_letter.key);
 }
 
 static struct cb_watch_string_list watch_autocorrect_first_letter_list = {
@@ -665,10 +702,9 @@ gnm_conf_set_autocorrect_first_letter_list (GSList *x)
 }
 
 GOConfNode *
-gnm_conf_get_autocorrect_init_caps_node (void)
+gnm_conf_get_autocorrect_first_letter_list_node (void)
 {
-	const char *key = "autocorrect/init-caps";
-	return get_node (key);
+	return get_node (watch_autocorrect_first_letter_list.key);
 }
 
 static struct cb_watch_bool watch_autocorrect_init_caps = {
@@ -692,10 +728,9 @@ gnm_conf_set_autocorrect_init_caps (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_autocorrect_init_caps_list_node (void)
+gnm_conf_get_autocorrect_init_caps_node (void)
 {
-	const char *key = "autocorrect/init-caps-list";
-	return get_node (key);
+	return get_node (watch_autocorrect_init_caps.key);
 }
 
 static struct cb_watch_string_list watch_autocorrect_init_caps_list = {
@@ -719,10 +754,9 @@ gnm_conf_set_autocorrect_init_caps_list (GSList *x)
 }
 
 GOConfNode *
-gnm_conf_get_autocorrect_names_of_days_node (void)
+gnm_conf_get_autocorrect_init_caps_list_node (void)
 {
-	const char *key = "autocorrect/names-of-days";
-	return get_node (key);
+	return get_node (watch_autocorrect_init_caps_list.key);
 }
 
 static struct cb_watch_bool watch_autocorrect_names_of_days = {
@@ -746,10 +780,9 @@ gnm_conf_set_autocorrect_names_of_days (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_autocorrect_replace_node (void)
+gnm_conf_get_autocorrect_names_of_days_node (void)
 {
-	const char *key = "autocorrect/replace";
-	return get_node (key);
+	return get_node (watch_autocorrect_names_of_days.key);
 }
 
 static struct cb_watch_bool watch_autocorrect_replace = {
@@ -773,10 +806,9 @@ gnm_conf_set_autocorrect_replace (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_autoformat_extra_dirs_node (void)
+gnm_conf_get_autocorrect_replace_node (void)
 {
-	const char *key = "autoformat/extra-dirs";
-	return get_node (key);
+	return get_node (watch_autocorrect_replace.key);
 }
 
 static struct cb_watch_string_list watch_autoformat_extra_dirs = {
@@ -800,10 +832,9 @@ gnm_conf_set_autoformat_extra_dirs (GSList *x)
 }
 
 GOConfNode *
-gnm_conf_get_autoformat_sys_dir_node (void)
+gnm_conf_get_autoformat_extra_dirs_node (void)
 {
-	const char *key = "autoformat/sys-dir";
-	return get_node (key);
+	return get_node (watch_autoformat_extra_dirs.key);
 }
 
 static struct cb_watch_string watch_autoformat_sys_dir = {
@@ -828,10 +859,9 @@ gnm_conf_set_autoformat_sys_dir (const char *x)
 }
 
 GOConfNode *
-gnm_conf_get_autoformat_usr_dir_node (void)
+gnm_conf_get_autoformat_sys_dir_node (void)
 {
-	const char *key = "autoformat/usr-dir";
-	return get_node (key);
+	return get_node (watch_autoformat_sys_dir.key);
 }
 
 static struct cb_watch_string watch_autoformat_usr_dir = {
@@ -856,10 +886,9 @@ gnm_conf_set_autoformat_usr_dir (const char *x)
 }
 
 GOConfNode *
-gnm_conf_get_core_defaultfont_bold_node (void)
+gnm_conf_get_autoformat_usr_dir_node (void)
 {
-	const char *key = "core/defaultfont/bold";
-	return get_node (key);
+	return get_node (watch_autoformat_usr_dir.key);
 }
 
 static struct cb_watch_bool watch_core_defaultfont_bold = {
@@ -883,10 +912,9 @@ gnm_conf_set_core_defaultfont_bold (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_core_defaultfont_italic_node (void)
+gnm_conf_get_core_defaultfont_bold_node (void)
 {
-	const char *key = "core/defaultfont/italic";
-	return get_node (key);
+	return get_node (watch_core_defaultfont_bold.key);
 }
 
 static struct cb_watch_bool watch_core_defaultfont_italic = {
@@ -910,10 +938,9 @@ gnm_conf_set_core_defaultfont_italic (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_core_defaultfont_name_node (void)
+gnm_conf_get_core_defaultfont_italic_node (void)
 {
-	const char *key = "core/defaultfont/name";
-	return get_node (key);
+	return get_node (watch_core_defaultfont_italic.key);
 }
 
 static struct cb_watch_string watch_core_defaultfont_name = {
@@ -938,10 +965,9 @@ gnm_conf_set_core_defaultfont_name (const char *x)
 }
 
 GOConfNode *
-gnm_conf_get_core_defaultfont_size_node (void)
+gnm_conf_get_core_defaultfont_name_node (void)
 {
-	const char *key = "core/defaultfont/size";
-	return get_node (key);
+	return get_node (watch_core_defaultfont_name.key);
 }
 
 static struct cb_watch_double watch_core_defaultfont_size = {
@@ -965,10 +991,9 @@ gnm_conf_set_core_defaultfont_size (double x)
 }
 
 GOConfNode *
-gnm_conf_get_core_file_save_def_overwrite_node (void)
+gnm_conf_get_core_defaultfont_size_node (void)
 {
-	const char *key = "core/file/save/def-overwrite";
-	return get_node (key);
+	return get_node (watch_core_defaultfont_size.key);
 }
 
 static struct cb_watch_bool watch_core_file_save_def_overwrite = {
@@ -992,10 +1017,9 @@ gnm_conf_set_core_file_save_def_overwrite (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_core_file_save_single_sheet_node (void)
+gnm_conf_get_core_file_save_def_overwrite_node (void)
 {
-	const char *key = "core/file/save/single_sheet";
-	return get_node (key);
+	return get_node (watch_core_file_save_def_overwrite.key);
 }
 
 static struct cb_watch_bool watch_core_file_save_single_sheet = {
@@ -1019,10 +1043,9 @@ gnm_conf_set_core_file_save_single_sheet (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_editing_autocomplete_node (void)
+gnm_conf_get_core_file_save_single_sheet_node (void)
 {
-	const char *key = "core/gui/editing/autocomplete";
-	return get_node (key);
+	return get_node (watch_core_file_save_single_sheet.key);
 }
 
 static struct cb_watch_bool watch_core_gui_editing_autocomplete = {
@@ -1046,34 +1069,35 @@ gnm_conf_set_core_gui_editing_autocomplete (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_editing_enter_moves_dir_node (void)
+gnm_conf_get_core_gui_editing_autocomplete_node (void)
 {
-	const char *key = "core/gui/editing/enter_moves_dir";
-	return get_node (key);
+	return get_node (watch_core_gui_editing_autocomplete.key);
 }
+
+static struct cb_watch_enum watch_core_gui_editing_enter_moves_dir = {
+	0, "core/gui/editing/enter_moves_dir", GO_DIRECTION_DOWN,
+};
 
 GODirection
 gnm_conf_get_core_gui_editing_enter_moves_dir (void)
 {
-	const char *key = "core/gui/editing/enter_moves_dir";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_enum (root, key, GO_TYPE_DIRECTION, GO_DIRECTION_DOWN);
+	if (!watch_core_gui_editing_enter_moves_dir.handler)
+		watch_enum (&watch_core_gui_editing_enter_moves_dir, GO_TYPE_DIRECTION);
+	return watch_core_gui_editing_enter_moves_dir.var;
 }
 
 void
 gnm_conf_set_core_gui_editing_enter_moves_dir (GODirection x)
 {
-	const char *key = "core/gui/editing/enter_moves_dir";
-	MAYBE_DEBUG_SET (key);
-	go_conf_set_enum (root, key, GO_TYPE_DIRECTION, x);
-	schedule_sync ();
+	if (!watch_core_gui_editing_enter_moves_dir.handler)
+		watch_enum (&watch_core_gui_editing_enter_moves_dir, GO_TYPE_DIRECTION);
+	set_enum (&watch_core_gui_editing_enter_moves_dir, x);
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_editing_livescrolling_node (void)
+gnm_conf_get_core_gui_editing_enter_moves_dir_node (void)
 {
-	const char *key = "core/gui/editing/livescrolling";
-	return get_node (key);
+	return get_node (watch_core_gui_editing_enter_moves_dir.key);
 }
 
 static struct cb_watch_bool watch_core_gui_editing_livescrolling = {
@@ -1097,10 +1121,9 @@ gnm_conf_set_core_gui_editing_livescrolling (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_editing_recalclag_node (void)
+gnm_conf_get_core_gui_editing_livescrolling_node (void)
 {
-	const char *key = "core/gui/editing/recalclag";
-	return get_node (key);
+	return get_node (watch_core_gui_editing_livescrolling.key);
 }
 
 static struct cb_watch_int watch_core_gui_editing_recalclag = {
@@ -1124,10 +1147,9 @@ gnm_conf_set_core_gui_editing_recalclag (int x)
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_editing_transitionkeys_node (void)
+gnm_conf_get_core_gui_editing_recalclag_node (void)
 {
-	const char *key = "core/gui/editing/transitionkeys";
-	return get_node (key);
+	return get_node (watch_core_gui_editing_recalclag.key);
 }
 
 static struct cb_watch_bool watch_core_gui_editing_transitionkeys = {
@@ -1151,10 +1173,9 @@ gnm_conf_set_core_gui_editing_transitionkeys (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_screen_horizontaldpi_node (void)
+gnm_conf_get_core_gui_editing_transitionkeys_node (void)
 {
-	const char *key = "core/gui/screen/horizontaldpi";
-	return get_node (key);
+	return get_node (watch_core_gui_editing_transitionkeys.key);
 }
 
 static struct cb_watch_double watch_core_gui_screen_horizontaldpi = {
@@ -1178,10 +1199,9 @@ gnm_conf_set_core_gui_screen_horizontaldpi (double x)
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_screen_verticaldpi_node (void)
+gnm_conf_get_core_gui_screen_horizontaldpi_node (void)
 {
-	const char *key = "core/gui/screen/verticaldpi";
-	return get_node (key);
+	return get_node (watch_core_gui_screen_horizontaldpi.key);
 }
 
 static struct cb_watch_double watch_core_gui_screen_verticaldpi = {
@@ -1205,10 +1225,9 @@ gnm_conf_set_core_gui_screen_verticaldpi (double x)
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_toolbars_FormatToolbar_node (void)
+gnm_conf_get_core_gui_screen_verticaldpi_node (void)
 {
-	const char *key = "core/gui/toolbars/FormatToolbar";
-	return get_node (key);
+	return get_node (watch_core_gui_screen_verticaldpi.key);
 }
 
 static struct cb_watch_bool watch_core_gui_toolbars_FormatToolbar = {
@@ -1232,10 +1251,9 @@ gnm_conf_set_core_gui_toolbars_FormatToolbar (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_toolbars_FormatToolbar_position_node (void)
+gnm_conf_get_core_gui_toolbars_FormatToolbar_node (void)
 {
-	const char *key = "core/gui/toolbars/FormatToolbar-position";
-	return get_node (key);
+	return get_node (watch_core_gui_toolbars_FormatToolbar.key);
 }
 
 static struct cb_watch_int watch_core_gui_toolbars_FormatToolbar_position = {
@@ -1259,10 +1277,9 @@ gnm_conf_set_core_gui_toolbars_FormatToolbar_position (GtkPositionType x)
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_toolbars_LongFormatToolbar_node (void)
+gnm_conf_get_core_gui_toolbars_FormatToolbar_position_node (void)
 {
-	const char *key = "core/gui/toolbars/LongFormatToolbar";
-	return get_node (key);
+	return get_node (watch_core_gui_toolbars_FormatToolbar_position.key);
 }
 
 static struct cb_watch_bool watch_core_gui_toolbars_LongFormatToolbar = {
@@ -1286,10 +1303,9 @@ gnm_conf_set_core_gui_toolbars_LongFormatToolbar (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_toolbars_LongFormatToolbar_position_node (void)
+gnm_conf_get_core_gui_toolbars_LongFormatToolbar_node (void)
 {
-	const char *key = "core/gui/toolbars/LongFormatToolbar-position";
-	return get_node (key);
+	return get_node (watch_core_gui_toolbars_LongFormatToolbar.key);
 }
 
 static struct cb_watch_int watch_core_gui_toolbars_LongFormatToolbar_position = {
@@ -1313,10 +1329,9 @@ gnm_conf_set_core_gui_toolbars_LongFormatToolbar_position (GtkPositionType x)
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_toolbars_ObjectToolbar_node (void)
+gnm_conf_get_core_gui_toolbars_LongFormatToolbar_position_node (void)
 {
-	const char *key = "core/gui/toolbars/ObjectToolbar";
-	return get_node (key);
+	return get_node (watch_core_gui_toolbars_LongFormatToolbar_position.key);
 }
 
 static struct cb_watch_bool watch_core_gui_toolbars_ObjectToolbar = {
@@ -1340,10 +1355,9 @@ gnm_conf_set_core_gui_toolbars_ObjectToolbar (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_toolbars_ObjectToolbar_position_node (void)
+gnm_conf_get_core_gui_toolbars_ObjectToolbar_node (void)
 {
-	const char *key = "core/gui/toolbars/ObjectToolbar-position";
-	return get_node (key);
+	return get_node (watch_core_gui_toolbars_ObjectToolbar.key);
 }
 
 static struct cb_watch_int watch_core_gui_toolbars_ObjectToolbar_position = {
@@ -1367,10 +1381,9 @@ gnm_conf_set_core_gui_toolbars_ObjectToolbar_position (GtkPositionType x)
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_toolbars_StandardToolbar_node (void)
+gnm_conf_get_core_gui_toolbars_ObjectToolbar_position_node (void)
 {
-	const char *key = "core/gui/toolbars/StandardToolbar";
-	return get_node (key);
+	return get_node (watch_core_gui_toolbars_ObjectToolbar_position.key);
 }
 
 static struct cb_watch_bool watch_core_gui_toolbars_StandardToolbar = {
@@ -1394,10 +1407,9 @@ gnm_conf_set_core_gui_toolbars_StandardToolbar (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_toolbars_StandardToolbar_position_node (void)
+gnm_conf_get_core_gui_toolbars_StandardToolbar_node (void)
 {
-	const char *key = "core/gui/toolbars/StandardToolbar-position";
-	return get_node (key);
+	return get_node (watch_core_gui_toolbars_StandardToolbar.key);
 }
 
 static struct cb_watch_int watch_core_gui_toolbars_StandardToolbar_position = {
@@ -1421,10 +1433,9 @@ gnm_conf_set_core_gui_toolbars_StandardToolbar_position (GtkPositionType x)
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_window_x_node (void)
+gnm_conf_get_core_gui_toolbars_StandardToolbar_position_node (void)
 {
-	const char *key = "core/gui/window/x";
-	return get_node (key);
+	return get_node (watch_core_gui_toolbars_StandardToolbar_position.key);
 }
 
 static struct cb_watch_double watch_core_gui_window_x = {
@@ -1448,10 +1459,9 @@ gnm_conf_set_core_gui_window_x (double x)
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_window_y_node (void)
+gnm_conf_get_core_gui_window_x_node (void)
 {
-	const char *key = "core/gui/window/y";
-	return get_node (key);
+	return get_node (watch_core_gui_window_x.key);
 }
 
 static struct cb_watch_double watch_core_gui_window_y = {
@@ -1475,10 +1485,9 @@ gnm_conf_set_core_gui_window_y (double x)
 }
 
 GOConfNode *
-gnm_conf_get_core_gui_window_zoom_node (void)
+gnm_conf_get_core_gui_window_y_node (void)
 {
-	const char *key = "core/gui/window/zoom";
-	return get_node (key);
+	return get_node (watch_core_gui_window_y.key);
 }
 
 static struct cb_watch_double watch_core_gui_window_zoom = {
@@ -1502,10 +1511,9 @@ gnm_conf_set_core_gui_window_zoom (double x)
 }
 
 GOConfNode *
-gnm_conf_get_core_sort_default_ascending_node (void)
+gnm_conf_get_core_gui_window_zoom_node (void)
 {
-	const char *key = "core/sort/default/ascending";
-	return get_node (key);
+	return get_node (watch_core_gui_window_zoom.key);
 }
 
 static struct cb_watch_bool watch_core_sort_default_ascending = {
@@ -1529,10 +1537,9 @@ gnm_conf_set_core_sort_default_ascending (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_core_sort_default_by_case_node (void)
+gnm_conf_get_core_sort_default_ascending_node (void)
 {
-	const char *key = "core/sort/default/by-case";
-	return get_node (key);
+	return get_node (watch_core_sort_default_ascending.key);
 }
 
 static struct cb_watch_bool watch_core_sort_default_by_case = {
@@ -1556,10 +1563,9 @@ gnm_conf_set_core_sort_default_by_case (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_core_sort_default_retain_formats_node (void)
+gnm_conf_get_core_sort_default_by_case_node (void)
 {
-	const char *key = "core/sort/default/retain-formats";
-	return get_node (key);
+	return get_node (watch_core_sort_default_by_case.key);
 }
 
 static struct cb_watch_bool watch_core_sort_default_retain_formats = {
@@ -1583,10 +1589,9 @@ gnm_conf_set_core_sort_default_retain_formats (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_core_sort_dialog_max_initial_clauses_node (void)
+gnm_conf_get_core_sort_default_retain_formats_node (void)
 {
-	const char *key = "core/sort/dialog/max-initial-clauses";
-	return get_node (key);
+	return get_node (watch_core_sort_default_retain_formats.key);
 }
 
 static struct cb_watch_int watch_core_sort_dialog_max_initial_clauses = {
@@ -1610,10 +1615,9 @@ gnm_conf_set_core_sort_dialog_max_initial_clauses (int x)
 }
 
 GOConfNode *
-gnm_conf_get_core_workbook_autosave_time_node (void)
+gnm_conf_get_core_sort_dialog_max_initial_clauses_node (void)
 {
-	const char *key = "core/workbook/autosave_time";
-	return get_node (key);
+	return get_node (watch_core_sort_dialog_max_initial_clauses.key);
 }
 
 static struct cb_watch_int watch_core_workbook_autosave_time = {
@@ -1637,10 +1641,9 @@ gnm_conf_set_core_workbook_autosave_time (int x)
 }
 
 GOConfNode *
-gnm_conf_get_core_workbook_n_cols_node (void)
+gnm_conf_get_core_workbook_autosave_time_node (void)
 {
-	const char *key = "core/workbook/n-cols";
-	return get_node (key);
+	return get_node (watch_core_workbook_autosave_time.key);
 }
 
 static struct cb_watch_int watch_core_workbook_n_cols = {
@@ -1664,10 +1667,9 @@ gnm_conf_set_core_workbook_n_cols (int x)
 }
 
 GOConfNode *
-gnm_conf_get_core_workbook_n_rows_node (void)
+gnm_conf_get_core_workbook_n_cols_node (void)
 {
-	const char *key = "core/workbook/n-rows";
-	return get_node (key);
+	return get_node (watch_core_workbook_n_cols.key);
 }
 
 static struct cb_watch_int watch_core_workbook_n_rows = {
@@ -1691,10 +1693,9 @@ gnm_conf_set_core_workbook_n_rows (int x)
 }
 
 GOConfNode *
-gnm_conf_get_core_workbook_n_sheet_node (void)
+gnm_conf_get_core_workbook_n_rows_node (void)
 {
-	const char *key = "core/workbook/n-sheet";
-	return get_node (key);
+	return get_node (watch_core_workbook_n_rows.key);
 }
 
 static struct cb_watch_int watch_core_workbook_n_sheet = {
@@ -1718,10 +1719,9 @@ gnm_conf_set_core_workbook_n_sheet (int x)
 }
 
 GOConfNode *
-gnm_conf_get_core_xml_compression_level_node (void)
+gnm_conf_get_core_workbook_n_sheet_node (void)
 {
-	const char *key = "core/xml/compression-level";
-	return get_node (key);
+	return get_node (watch_core_workbook_n_sheet.key);
 }
 
 static struct cb_watch_int watch_core_xml_compression_level = {
@@ -1745,10 +1745,9 @@ gnm_conf_set_core_xml_compression_level (int x)
 }
 
 GOConfNode *
-gnm_conf_get_cut_and_paste_prefer_clipboard_node (void)
+gnm_conf_get_core_xml_compression_level_node (void)
 {
-	const char *key = "cut-and-paste/prefer-clipboard";
-	return get_node (key);
+	return get_node (watch_core_xml_compression_level.key);
 }
 
 static struct cb_watch_bool watch_cut_and_paste_prefer_clipboard = {
@@ -1772,10 +1771,9 @@ gnm_conf_set_cut_and_paste_prefer_clipboard (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_dialogs_rs_unfocused_node (void)
+gnm_conf_get_cut_and_paste_prefer_clipboard_node (void)
 {
-	const char *key = "dialogs/rs/unfocused";
-	return get_node (key);
+	return get_node (watch_cut_and_paste_prefer_clipboard.key);
 }
 
 static struct cb_watch_bool watch_dialogs_rs_unfocused = {
@@ -1799,10 +1797,9 @@ gnm_conf_set_dialogs_rs_unfocused (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_functionselector_num_of_recent_node (void)
+gnm_conf_get_dialogs_rs_unfocused_node (void)
 {
-	const char *key = "functionselector/num-of-recent";
-	return get_node (key);
+	return get_node (watch_dialogs_rs_unfocused.key);
 }
 
 static struct cb_watch_int watch_functionselector_num_of_recent = {
@@ -1826,10 +1823,9 @@ gnm_conf_set_functionselector_num_of_recent (int x)
 }
 
 GOConfNode *
-gnm_conf_get_functionselector_recentfunctions_node (void)
+gnm_conf_get_functionselector_num_of_recent_node (void)
 {
-	const char *key = "functionselector/recentfunctions";
-	return get_node (key);
+	return get_node (watch_functionselector_num_of_recent.key);
 }
 
 static struct cb_watch_string_list watch_functionselector_recentfunctions = {
@@ -1853,10 +1849,9 @@ gnm_conf_set_functionselector_recentfunctions (GSList *x)
 }
 
 GOConfNode *
-gnm_conf_get_plugin_latex_use_utf8_node (void)
+gnm_conf_get_functionselector_recentfunctions_node (void)
 {
-	const char *key = "plugin/latex/use-utf8";
-	return get_node (key);
+	return get_node (watch_functionselector_recentfunctions.key);
 }
 
 static struct cb_watch_bool watch_plugin_latex_use_utf8 = {
@@ -1880,10 +1875,9 @@ gnm_conf_set_plugin_latex_use_utf8 (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_plugins_activate_new_node (void)
+gnm_conf_get_plugin_latex_use_utf8_node (void)
 {
-	const char *key = "plugins/activate-new";
-	return get_node (key);
+	return get_node (watch_plugin_latex_use_utf8.key);
 }
 
 static struct cb_watch_bool watch_plugins_activate_new = {
@@ -1907,10 +1901,9 @@ gnm_conf_set_plugins_activate_new (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_plugins_active_node (void)
+gnm_conf_get_plugins_activate_new_node (void)
 {
-	const char *key = "plugins/active";
-	return get_node (key);
+	return get_node (watch_plugins_activate_new.key);
 }
 
 static struct cb_watch_string_list watch_plugins_active = {
@@ -1934,10 +1927,9 @@ gnm_conf_set_plugins_active (GSList *x)
 }
 
 GOConfNode *
-gnm_conf_get_plugins_extra_dirs_node (void)
+gnm_conf_get_plugins_active_node (void)
 {
-	const char *key = "plugins/extra-dirs";
-	return get_node (key);
+	return get_node (watch_plugins_active.key);
 }
 
 static struct cb_watch_string_list watch_plugins_extra_dirs = {
@@ -1961,10 +1953,9 @@ gnm_conf_set_plugins_extra_dirs (GSList *x)
 }
 
 GOConfNode *
-gnm_conf_get_plugins_file_states_node (void)
+gnm_conf_get_plugins_extra_dirs_node (void)
 {
-	const char *key = "plugins/file-states";
-	return get_node (key);
+	return get_node (watch_plugins_extra_dirs.key);
 }
 
 static struct cb_watch_string_list watch_plugins_file_states = {
@@ -1988,10 +1979,9 @@ gnm_conf_set_plugins_file_states (GSList *x)
 }
 
 GOConfNode *
-gnm_conf_get_plugins_known_node (void)
+gnm_conf_get_plugins_file_states_node (void)
 {
-	const char *key = "plugins/known";
-	return get_node (key);
+	return get_node (watch_plugins_file_states.key);
 }
 
 static struct cb_watch_string_list watch_plugins_known = {
@@ -2015,10 +2005,9 @@ gnm_conf_set_plugins_known (GSList *x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_across_then_down_node (void)
+gnm_conf_get_plugins_known_node (void)
 {
-	const char *key = "printsetup/across-then-down";
-	return get_node (key);
+	return get_node (watch_plugins_known.key);
 }
 
 static struct cb_watch_bool watch_printsetup_across_then_down = {
@@ -2042,10 +2031,9 @@ gnm_conf_set_printsetup_across_then_down (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_all_sheets_node (void)
+gnm_conf_get_printsetup_across_then_down_node (void)
 {
-	const char *key = "printsetup/all-sheets";
-	return get_node (key);
+	return get_node (watch_printsetup_across_then_down.key);
 }
 
 static struct cb_watch_bool watch_printsetup_all_sheets = {
@@ -2069,10 +2057,9 @@ gnm_conf_set_printsetup_all_sheets (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_center_horizontally_node (void)
+gnm_conf_get_printsetup_all_sheets_node (void)
 {
-	const char *key = "printsetup/center-horizontally";
-	return get_node (key);
+	return get_node (watch_printsetup_all_sheets.key);
 }
 
 static struct cb_watch_bool watch_printsetup_center_horizontally = {
@@ -2096,10 +2083,9 @@ gnm_conf_set_printsetup_center_horizontally (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_center_vertically_node (void)
+gnm_conf_get_printsetup_center_horizontally_node (void)
 {
-	const char *key = "printsetup/center-vertically";
-	return get_node (key);
+	return get_node (watch_printsetup_center_horizontally.key);
 }
 
 static struct cb_watch_bool watch_printsetup_center_vertically = {
@@ -2123,10 +2109,9 @@ gnm_conf_set_printsetup_center_vertically (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_footer_node (void)
+gnm_conf_get_printsetup_center_vertically_node (void)
 {
-	const char *key = "printsetup/footer";
-	return get_node (key);
+	return get_node (watch_printsetup_center_vertically.key);
 }
 
 static struct cb_watch_string_list watch_printsetup_footer = {
@@ -2150,10 +2135,9 @@ gnm_conf_set_printsetup_footer (GSList *x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_gtk_setting_node (void)
+gnm_conf_get_printsetup_footer_node (void)
 {
-	const char *key = "printsetup/gtk-setting";
-	return get_node (key);
+	return get_node (watch_printsetup_footer.key);
 }
 
 static struct cb_watch_string_list watch_printsetup_gtk_setting = {
@@ -2177,10 +2161,9 @@ gnm_conf_set_printsetup_gtk_setting (GSList *x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_header_node (void)
+gnm_conf_get_printsetup_gtk_setting_node (void)
 {
-	const char *key = "printsetup/header";
-	return get_node (key);
+	return get_node (watch_printsetup_gtk_setting.key);
 }
 
 static struct cb_watch_string_list watch_printsetup_header = {
@@ -2204,10 +2187,9 @@ gnm_conf_set_printsetup_header (GSList *x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_hf_font_bold_node (void)
+gnm_conf_get_printsetup_header_node (void)
 {
-	const char *key = "printsetup/hf-font-bold";
-	return get_node (key);
+	return get_node (watch_printsetup_header.key);
 }
 
 static struct cb_watch_bool watch_printsetup_hf_font_bold = {
@@ -2231,10 +2213,9 @@ gnm_conf_set_printsetup_hf_font_bold (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_hf_font_italic_node (void)
+gnm_conf_get_printsetup_hf_font_bold_node (void)
 {
-	const char *key = "printsetup/hf-font-italic";
-	return get_node (key);
+	return get_node (watch_printsetup_hf_font_bold.key);
 }
 
 static struct cb_watch_bool watch_printsetup_hf_font_italic = {
@@ -2258,10 +2239,9 @@ gnm_conf_set_printsetup_hf_font_italic (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_hf_font_name_node (void)
+gnm_conf_get_printsetup_hf_font_italic_node (void)
 {
-	const char *key = "printsetup/hf-font-name";
-	return get_node (key);
+	return get_node (watch_printsetup_hf_font_italic.key);
 }
 
 static struct cb_watch_string watch_printsetup_hf_font_name = {
@@ -2286,10 +2266,9 @@ gnm_conf_set_printsetup_hf_font_name (const char *x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_hf_font_size_node (void)
+gnm_conf_get_printsetup_hf_font_name_node (void)
 {
-	const char *key = "printsetup/hf-font-size";
-	return get_node (key);
+	return get_node (watch_printsetup_hf_font_name.key);
 }
 
 static struct cb_watch_double watch_printsetup_hf_font_size = {
@@ -2313,10 +2292,9 @@ gnm_conf_set_printsetup_hf_font_size (double x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_hf_left_node (void)
+gnm_conf_get_printsetup_hf_font_size_node (void)
 {
-	const char *key = "printsetup/hf-left";
-	return get_node (key);
+	return get_node (watch_printsetup_hf_font_size.key);
 }
 
 static struct cb_watch_string_list watch_printsetup_hf_left = {
@@ -2340,10 +2318,9 @@ gnm_conf_set_printsetup_hf_left (GSList *x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_hf_middle_node (void)
+gnm_conf_get_printsetup_hf_left_node (void)
 {
-	const char *key = "printsetup/hf-middle";
-	return get_node (key);
+	return get_node (watch_printsetup_hf_left.key);
 }
 
 static struct cb_watch_string_list watch_printsetup_hf_middle = {
@@ -2367,10 +2344,9 @@ gnm_conf_set_printsetup_hf_middle (GSList *x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_hf_right_node (void)
+gnm_conf_get_printsetup_hf_middle_node (void)
 {
-	const char *key = "printsetup/hf-right";
-	return get_node (key);
+	return get_node (watch_printsetup_hf_middle.key);
 }
 
 static struct cb_watch_string_list watch_printsetup_hf_right = {
@@ -2394,10 +2370,9 @@ gnm_conf_set_printsetup_hf_right (GSList *x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_margin_bottom_node (void)
+gnm_conf_get_printsetup_hf_right_node (void)
 {
-	const char *key = "printsetup/margin-bottom";
-	return get_node (key);
+	return get_node (watch_printsetup_hf_right.key);
 }
 
 static struct cb_watch_double watch_printsetup_margin_bottom = {
@@ -2421,10 +2396,9 @@ gnm_conf_set_printsetup_margin_bottom (double x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_margin_gtk_bottom_node (void)
+gnm_conf_get_printsetup_margin_bottom_node (void)
 {
-	const char *key = "printsetup/margin-gtk-bottom";
-	return get_node (key);
+	return get_node (watch_printsetup_margin_bottom.key);
 }
 
 static struct cb_watch_double watch_printsetup_margin_gtk_bottom = {
@@ -2448,10 +2422,9 @@ gnm_conf_set_printsetup_margin_gtk_bottom (double x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_margin_gtk_left_node (void)
+gnm_conf_get_printsetup_margin_gtk_bottom_node (void)
 {
-	const char *key = "printsetup/margin-gtk-left";
-	return get_node (key);
+	return get_node (watch_printsetup_margin_gtk_bottom.key);
 }
 
 static struct cb_watch_double watch_printsetup_margin_gtk_left = {
@@ -2475,10 +2448,9 @@ gnm_conf_set_printsetup_margin_gtk_left (double x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_margin_gtk_right_node (void)
+gnm_conf_get_printsetup_margin_gtk_left_node (void)
 {
-	const char *key = "printsetup/margin-gtk-right";
-	return get_node (key);
+	return get_node (watch_printsetup_margin_gtk_left.key);
 }
 
 static struct cb_watch_double watch_printsetup_margin_gtk_right = {
@@ -2502,10 +2474,9 @@ gnm_conf_set_printsetup_margin_gtk_right (double x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_margin_gtk_top_node (void)
+gnm_conf_get_printsetup_margin_gtk_right_node (void)
 {
-	const char *key = "printsetup/margin-gtk-top";
-	return get_node (key);
+	return get_node (watch_printsetup_margin_gtk_right.key);
 }
 
 static struct cb_watch_double watch_printsetup_margin_gtk_top = {
@@ -2529,10 +2500,9 @@ gnm_conf_set_printsetup_margin_gtk_top (double x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_margin_top_node (void)
+gnm_conf_get_printsetup_margin_gtk_top_node (void)
 {
-	const char *key = "printsetup/margin-top";
-	return get_node (key);
+	return get_node (watch_printsetup_margin_gtk_top.key);
 }
 
 static struct cb_watch_double watch_printsetup_margin_top = {
@@ -2556,10 +2526,9 @@ gnm_conf_set_printsetup_margin_top (double x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_paper_node (void)
+gnm_conf_get_printsetup_margin_top_node (void)
 {
-	const char *key = "printsetup/paper";
-	return get_node (key);
+	return get_node (watch_printsetup_margin_top.key);
 }
 
 static struct cb_watch_string watch_printsetup_paper = {
@@ -2584,10 +2553,9 @@ gnm_conf_set_printsetup_paper (const char *x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_paper_orientation_node (void)
+gnm_conf_get_printsetup_paper_node (void)
 {
-	const char *key = "printsetup/paper-orientation";
-	return get_node (key);
+	return get_node (watch_printsetup_paper.key);
 }
 
 static struct cb_watch_int watch_printsetup_paper_orientation = {
@@ -2611,34 +2579,35 @@ gnm_conf_set_printsetup_paper_orientation (int x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_preferred_unit_node (void)
+gnm_conf_get_printsetup_paper_orientation_node (void)
 {
-	const char *key = "printsetup/preferred-unit";
-	return get_node (key);
+	return get_node (watch_printsetup_paper_orientation.key);
 }
+
+static struct cb_watch_enum watch_printsetup_preferred_unit = {
+	0, "printsetup/preferred-unit", GTK_UNIT_MM,
+};
 
 GtkUnit
 gnm_conf_get_printsetup_preferred_unit (void)
 {
-	const char *key = "printsetup/preferred-unit";
-	MAYBE_DEBUG_GET (key);
-	return go_conf_load_enum (root, key, GTK_TYPE_UNIT, GTK_UNIT_MM);
+	if (!watch_printsetup_preferred_unit.handler)
+		watch_enum (&watch_printsetup_preferred_unit, GTK_TYPE_UNIT);
+	return watch_printsetup_preferred_unit.var;
 }
 
 void
 gnm_conf_set_printsetup_preferred_unit (GtkUnit x)
 {
-	const char *key = "printsetup/preferred-unit";
-	MAYBE_DEBUG_SET (key);
-	go_conf_set_enum (root, key, GTK_TYPE_UNIT, x);
-	schedule_sync ();
+	if (!watch_printsetup_preferred_unit.handler)
+		watch_enum (&watch_printsetup_preferred_unit, GTK_TYPE_UNIT);
+	set_enum (&watch_printsetup_preferred_unit, x);
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_print_black_n_white_node (void)
+gnm_conf_get_printsetup_preferred_unit_node (void)
 {
-	const char *key = "printsetup/print-black-n-white";
-	return get_node (key);
+	return get_node (watch_printsetup_preferred_unit.key);
 }
 
 static struct cb_watch_bool watch_printsetup_print_black_n_white = {
@@ -2662,10 +2631,9 @@ gnm_conf_set_printsetup_print_black_n_white (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_print_even_if_only_styles_node (void)
+gnm_conf_get_printsetup_print_black_n_white_node (void)
 {
-	const char *key = "printsetup/print-even-if-only-styles";
-	return get_node (key);
+	return get_node (watch_printsetup_print_black_n_white.key);
 }
 
 static struct cb_watch_bool watch_printsetup_print_even_if_only_styles = {
@@ -2689,10 +2657,9 @@ gnm_conf_set_printsetup_print_even_if_only_styles (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_print_grid_lines_node (void)
+gnm_conf_get_printsetup_print_even_if_only_styles_node (void)
 {
-	const char *key = "printsetup/print-grid-lines";
-	return get_node (key);
+	return get_node (watch_printsetup_print_even_if_only_styles.key);
 }
 
 static struct cb_watch_bool watch_printsetup_print_grid_lines = {
@@ -2716,10 +2683,9 @@ gnm_conf_set_printsetup_print_grid_lines (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_print_titles_node (void)
+gnm_conf_get_printsetup_print_grid_lines_node (void)
 {
-	const char *key = "printsetup/print-titles";
-	return get_node (key);
+	return get_node (watch_printsetup_print_grid_lines.key);
 }
 
 static struct cb_watch_bool watch_printsetup_print_titles = {
@@ -2743,10 +2709,9 @@ gnm_conf_set_printsetup_print_titles (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_repeat_left_node (void)
+gnm_conf_get_printsetup_print_titles_node (void)
 {
-	const char *key = "printsetup/repeat-left";
-	return get_node (key);
+	return get_node (watch_printsetup_print_titles.key);
 }
 
 static struct cb_watch_string watch_printsetup_repeat_left = {
@@ -2771,10 +2736,9 @@ gnm_conf_set_printsetup_repeat_left (const char *x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_repeat_top_node (void)
+gnm_conf_get_printsetup_repeat_left_node (void)
 {
-	const char *key = "printsetup/repeat-top";
-	return get_node (key);
+	return get_node (watch_printsetup_repeat_left.key);
 }
 
 static struct cb_watch_string watch_printsetup_repeat_top = {
@@ -2799,10 +2763,9 @@ gnm_conf_set_printsetup_repeat_top (const char *x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_scale_height_node (void)
+gnm_conf_get_printsetup_repeat_top_node (void)
 {
-	const char *key = "printsetup/scale-height";
-	return get_node (key);
+	return get_node (watch_printsetup_repeat_top.key);
 }
 
 static struct cb_watch_int watch_printsetup_scale_height = {
@@ -2826,10 +2789,9 @@ gnm_conf_set_printsetup_scale_height (int x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_scale_percentage_node (void)
+gnm_conf_get_printsetup_scale_height_node (void)
 {
-	const char *key = "printsetup/scale-percentage";
-	return get_node (key);
+	return get_node (watch_printsetup_scale_height.key);
 }
 
 static struct cb_watch_bool watch_printsetup_scale_percentage = {
@@ -2853,10 +2815,9 @@ gnm_conf_set_printsetup_scale_percentage (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_scale_percentage_value_node (void)
+gnm_conf_get_printsetup_scale_percentage_node (void)
 {
-	const char *key = "printsetup/scale-percentage-value";
-	return get_node (key);
+	return get_node (watch_printsetup_scale_percentage.key);
 }
 
 static struct cb_watch_double watch_printsetup_scale_percentage_value = {
@@ -2880,10 +2841,9 @@ gnm_conf_set_printsetup_scale_percentage_value (double x)
 }
 
 GOConfNode *
-gnm_conf_get_printsetup_scale_width_node (void)
+gnm_conf_get_printsetup_scale_percentage_value_node (void)
 {
-	const char *key = "printsetup/scale-width";
-	return get_node (key);
+	return get_node (watch_printsetup_scale_percentage_value.key);
 }
 
 static struct cb_watch_int watch_printsetup_scale_width = {
@@ -2907,10 +2867,9 @@ gnm_conf_set_printsetup_scale_width (int x)
 }
 
 GOConfNode *
-gnm_conf_get_undo_max_descriptor_width_node (void)
+gnm_conf_get_printsetup_scale_width_node (void)
 {
-	const char *key = "undo/max_descriptor_width";
-	return get_node (key);
+	return get_node (watch_printsetup_scale_width.key);
 }
 
 static struct cb_watch_int watch_undo_max_descriptor_width = {
@@ -2934,10 +2893,9 @@ gnm_conf_set_undo_max_descriptor_width (int x)
 }
 
 GOConfNode *
-gnm_conf_get_undo_maxnum_node (void)
+gnm_conf_get_undo_max_descriptor_width_node (void)
 {
-	const char *key = "undo/maxnum";
-	return get_node (key);
+	return get_node (watch_undo_max_descriptor_width.key);
 }
 
 static struct cb_watch_int watch_undo_maxnum = {
@@ -2961,10 +2919,9 @@ gnm_conf_set_undo_maxnum (int x)
 }
 
 GOConfNode *
-gnm_conf_get_undo_show_sheet_name_node (void)
+gnm_conf_get_undo_maxnum_node (void)
 {
-	const char *key = "undo/show_sheet_name";
-	return get_node (key);
+	return get_node (watch_undo_maxnum.key);
 }
 
 static struct cb_watch_bool watch_undo_show_sheet_name = {
@@ -2988,10 +2945,9 @@ gnm_conf_set_undo_show_sheet_name (gboolean x)
 }
 
 GOConfNode *
-gnm_conf_get_undo_size_node (void)
+gnm_conf_get_undo_show_sheet_name_node (void)
 {
-	const char *key = "undo/size";
-	return get_node (key);
+	return get_node (watch_undo_show_sheet_name.key);
 }
 
 static struct cb_watch_int watch_undo_size = {
@@ -3015,134 +2971,121 @@ gnm_conf_set_undo_size (int x)
 }
 
 GOConfNode *
+gnm_conf_get_undo_size_node (void)
+{
+	return get_node (watch_undo_size.key);
+}
+
+GOConfNode *
 gnm_conf_get_autocorrect_dir_node (void)
 {
-	const char *key = "autocorrect";
-	return get_node (key);
+	return get_node ("autocorrect");
 }
 
 GOConfNode *
 gnm_conf_get_autoformat_dir_node (void)
 {
-	const char *key = "autoformat";
-	return get_node (key);
+	return get_node ("autoformat");
 }
 
 GOConfNode *
 gnm_conf_get_core_defaultfont_dir_node (void)
 {
-	const char *key = "core/defaultfont";
-	return get_node (key);
+	return get_node ("core/defaultfont");
 }
 
 GOConfNode *
 gnm_conf_get_core_file_save_dir_node (void)
 {
-	const char *key = "core/file/save";
-	return get_node (key);
+	return get_node ("core/file/save");
 }
 
 GOConfNode *
 gnm_conf_get_core_gui_editing_dir_node (void)
 {
-	const char *key = "core/gui/editing";
-	return get_node (key);
+	return get_node ("core/gui/editing");
 }
 
 GOConfNode *
 gnm_conf_get_core_gui_screen_dir_node (void)
 {
-	const char *key = "core/gui/screen";
-	return get_node (key);
+	return get_node ("core/gui/screen");
 }
 
 GOConfNode *
 gnm_conf_get_core_gui_toolbars_dir_node (void)
 {
-	const char *key = "core/gui/toolbars";
-	return get_node (key);
+	return get_node ("core/gui/toolbars");
 }
 
 GOConfNode *
 gnm_conf_get_core_gui_window_dir_node (void)
 {
-	const char *key = "core/gui/window";
-	return get_node (key);
+	return get_node ("core/gui/window");
 }
 
 GOConfNode *
 gnm_conf_get_core_sort_default_dir_node (void)
 {
-	const char *key = "core/sort/default";
-	return get_node (key);
+	return get_node ("core/sort/default");
 }
 
 GOConfNode *
 gnm_conf_get_core_sort_dialog_dir_node (void)
 {
-	const char *key = "core/sort/dialog";
-	return get_node (key);
+	return get_node ("core/sort/dialog");
 }
 
 GOConfNode *
 gnm_conf_get_core_workbook_dir_node (void)
 {
-	const char *key = "core/workbook";
-	return get_node (key);
+	return get_node ("core/workbook");
 }
 
 GOConfNode *
 gnm_conf_get_core_xml_dir_node (void)
 {
-	const char *key = "core/xml";
-	return get_node (key);
+	return get_node ("core/xml");
 }
 
 GOConfNode *
 gnm_conf_get_cut_and_paste_dir_node (void)
 {
-	const char *key = "cut-and-paste";
-	return get_node (key);
+	return get_node ("cut-and-paste");
 }
 
 GOConfNode *
 gnm_conf_get_dialogs_rs_dir_node (void)
 {
-	const char *key = "dialogs/rs";
-	return get_node (key);
+	return get_node ("dialogs/rs");
 }
 
 GOConfNode *
 gnm_conf_get_functionselector_dir_node (void)
 {
-	const char *key = "functionselector";
-	return get_node (key);
+	return get_node ("functionselector");
 }
 
 GOConfNode *
 gnm_conf_get_plugin_latex_dir_node (void)
 {
-	const char *key = "plugin/latex";
-	return get_node (key);
+	return get_node ("plugin/latex");
 }
 
 GOConfNode *
 gnm_conf_get_plugins_dir_node (void)
 {
-	const char *key = "plugins";
-	return get_node (key);
+	return get_node ("plugins");
 }
 
 GOConfNode *
 gnm_conf_get_printsetup_dir_node (void)
 {
-	const char *key = "printsetup";
-	return get_node (key);
+	return get_node ("printsetup");
 }
 
 GOConfNode *
 gnm_conf_get_undo_dir_node (void)
 {
-	const char *key = "undo";
-	return get_node (key);
+	return get_node ("undo");
 }
