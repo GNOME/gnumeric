@@ -89,6 +89,7 @@
 #define FOSTYLE	 "fo:"
 #define NUMBER   "number:"
 #define DRAW	 "draw:"
+#define CHART	 "chart:"
 #define SVG	 "svg:"
 #define XLINK	 "xlink:"
 #define GNMSTYLE "gnm:"  /* We use this for attributes and elements not supported by ODF */
@@ -3135,9 +3136,53 @@ odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 
 /**********************************************************************************/
 static void
-odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *graph)
+odf_write_series (GnmOOExport *state, GSList const *series)
+{
+	GnmParsePos pp;
+	parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
+
+	for ( ; NULL != series ; series = series->next) {
+		GOData const *dat = gog_dataset_get_dim (GOG_DATASET (series->data), GOG_MS_DIM_VALUES);
+		if (NULL != dat) {
+			GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
+			if (NULL != texpr) {
+				char *str = gnm_expr_top_as_string (texpr, &pp, state->conv);
+				gsf_xml_out_start_element (state->xml, CHART "series");
+				gsf_xml_out_add_cstr (state->xml, CHART "values-cell-range-address", 
+						      odf_strip_brackets (str));
+				gsf_xml_out_end_element (state->xml); /* </chart:series> */
+			}
+		}
+	}
+}
+
+static void
+odf_write_bar_col_plot (GnmOOExport *state, GogObject const *chart, GogObject const *plot)
+{
+	gsf_xml_out_add_cstr (state->xml, CHART "class", "chart:bar");
+
+	gsf_xml_out_start_element (state->xml, CHART "plot-area");
+	odf_write_series (state, gog_plot_get_series (GOG_PLOT (plot)));
+	gsf_xml_out_end_element (state->xml); /* </chart:plot_area> */
+}
+
+static void
+odf_write_plot (GnmOOExport *state, GogObject const *chart, GogObject const *plot)
+{
+	char const *plot_type = G_OBJECT_TYPE_NAME (plot);
+	gsf_xml_out_start_element (state->xml, CHART "chart");
+	gsf_xml_out_add_cstr (state->xml, XLINK "href", "..");
+	if (0 == strcmp (plot_type, "GogBarColPlot"))
+		odf_write_bar_col_plot (state, chart, plot);
+	gsf_xml_out_end_element (state->xml); /* </chart:chart> */
+}
+
+
+static void
+odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so)
 {
 	int i;
+	GogGraph const	*graph;
 
 	state->xml = gsf_xml_out_new (child);
 	gsf_xml_out_set_doc_type (state->xml, "\n");
@@ -3149,10 +3194,18 @@ odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *grap
 					get_gsf_odf_version_string ());
 
 	gsf_xml_out_start_element (state->xml, OFFICE "body");
-
-
+	graph = sheet_object_graph_get_gog (so);
+	if (graph != NULL) {
+		GogObject const	*chart = gog_object_get_child_by_name (GOG_OBJECT (graph), "Chart");
+		gsf_xml_out_start_element (state->xml, OFFICE "chart");
+		if (chart != NULL) {
+			GogObject const *plot = gog_object_get_child_by_name (GOG_OBJECT (chart), "Plot");
+			if (plot != NULL) 
+				odf_write_plot (state, chart, plot);
+		}
+		gsf_xml_out_end_element (state->xml); /* </office:chart> */
+	}
 	gsf_xml_out_end_element (state->xml); /* </office:body> */
-
 	gsf_xml_out_end_element (state->xml); /* </office:document-content> */
 	g_object_unref (state->xml);
 	state->xml = NULL;

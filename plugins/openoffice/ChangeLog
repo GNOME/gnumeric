@@ -1,5 +1,11 @@
 2009-07-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_series): new
+	(odf_write_bar_col_plot): new
+	(odf_write_graph_content): retrieve plot
+
+2009-07-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_frame): also include
 	  an image of graphs
 	(odf_write_graph_manifest): add svg image file
