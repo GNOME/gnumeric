@@ -2161,6 +2161,14 @@ odf_write_frame (GnmOOExport *state, SheetObject *so)
 					      full_name);
 			g_free (full_name);
 			gsf_xml_out_end_element (state->xml); /*  DRAW "object" */
+			full_name = g_strdup_printf ("./Pictures/%s", name);
+			gsf_xml_out_start_element (state->xml, DRAW "image");
+			gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
+			g_free (full_name);
+			gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
+			gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
+			gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
+			gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
 		} else
 			g_warning ("Graph is missing from hash.");
 	} else {
@@ -3098,6 +3106,9 @@ odf_write_graph_manifest (G_GNUC_UNUSED SheetObject *graph, char const *name, Gn
 	fullname = g_strdup_printf ("%s/meta.xml", name);
 	odf_file_entry (state->xml, "text/xml", fullname);
 	g_free(fullname);
+	fullname = g_strdup_printf ("Pictures/%s", name);
+	odf_file_entry (state->xml, "image/svg+xml", fullname);
+	g_free(fullname);
 }
 
 static void
@@ -3109,7 +3120,7 @@ odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:manifest",
 		"urn:oasis:names:tc:opendocument:xmlns:manifest:1.0");
 	odf_file_entry (xml, "application/vnd.oasis.opendocument.spreadsheet" ,"/");
-/* 	odf_file_entry (xml, "", "Pictures/"); */
+	odf_file_entry (xml, "", "Pictures/");
 	odf_file_entry (xml, "text/xml", "content.xml");
 	odf_file_entry (xml, "text/xml", "styles.xml");
 	odf_file_entry (xml, "text/xml", "meta.xml");
@@ -3120,6 +3131,31 @@ odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 
 	gsf_xml_out_end_element (xml); /* </manifest:manifest> */
 	g_object_unref (xml);
+}
+
+/**********************************************************************************/
+static void
+odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *graph)
+{
+	int i;
+
+	state->xml = gsf_xml_out_new (child);
+	gsf_xml_out_set_doc_type (state->xml, "\n");
+	gsf_xml_out_start_element (state->xml, OFFICE "document-content");
+
+	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
+		gsf_xml_out_add_cstr_unchecked (state->xml, ns[i].key, ns[i].url);
+	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", 
+					get_gsf_odf_version_string ());
+
+	gsf_xml_out_start_element (state->xml, OFFICE "body");
+
+
+	gsf_xml_out_end_element (state->xml); /* </office:body> */
+
+	gsf_xml_out_end_element (state->xml); /* </office:document-content> */
+	g_object_unref (state->xml);
+	state->xml = NULL;
 }
 
 /**********************************************************************************/
@@ -3138,10 +3174,12 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 							"compression-level", GSF_ZIP_DEFLATED,
 							NULL);
 		if (NULL != sec_child) {
+			odf_write_graph_content (state, sec_child, graph);
 			gsf_output_close (sec_child);
 			g_object_unref (G_OBJECT (sec_child));
 		}
 		g_free (fullname);
+
 		fullname = g_strdup_printf ("%s/meta.xml", name);
 		sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
 							"compression-level", GSF_ZIP_DEFLATED,
@@ -3152,8 +3190,22 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 			g_object_unref (G_OBJECT (sec_child));
 		}
 		g_free (fullname);
+
 		gsf_output_close (child);
 		g_object_unref (G_OBJECT (child));
+
+		fullname = g_strdup_printf ("Pictures/%s", name);
+		sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
+							"compression-level", GSF_ZIP_DEFLATED,
+							NULL);
+		if (NULL != sec_child) {
+			GogGraph *gog = sheet_object_graph_get_gog (graph);
+			if (!gog_graph_export_image (gog, GO_IMAGE_FORMAT_SVG, sec_child, 100., 100.))
+				g_print ("Failed to create svg image of graph.\n");
+			gsf_output_close (sec_child);
+			g_object_unref (G_OBJECT (sec_child));
+		}
+		g_free (fullname);
 	}
 }
 
@@ -3183,6 +3235,7 @@ openoffice_file_save_real (GOFileSaver const *fs, IOContext *ioc,
 	GError *err;
 	unsigned i;
 	Sheet *sheet;
+	GsfOutput  *pictures;
 
 	locale  = gnm_push_C_locale ();
 
@@ -3232,7 +3285,15 @@ openoffice_file_save_real (GOFileSaver const *fs, IOContext *ioc,
 		}
 	}
 
+        pictures = gsf_outfile_new_child_full (state.outfile, "Pictures", TRUE,
+								"compression-level", GSF_ZIP_DEFLATED,
+								NULL);
 	g_hash_table_foreach (state.objects, (GHFunc) odf_write_graphs, &state);
+	if (NULL != pictures) {
+		gsf_output_close (pictures);
+		g_object_unref (G_OBJECT (pictures));
+	}
+	
 
 	g_free (state.conv);
 

@@ -1,3 +1,14 @@
+2009-07-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_frame): also include
+	  an image of graphs
+	(odf_write_graph_manifest): add svg image file
+	(odf_write_manifest): write Pictures directory
+	(odf_write_graph_content): new stub
+	(odf_write_graphs): call odf_write_graph_content and 
+	  write image of graph to image file
+	(openoffice_file_save_real): create Pictures directory
+	
 2009-07-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_strip_brackets): new
