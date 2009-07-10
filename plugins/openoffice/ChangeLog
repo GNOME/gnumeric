@@ -1,5 +1,18 @@
 2009-07-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_cell): let gsf figure
+	  out precision
+	(odf_print_spreadsheet_content_prelude): ditto
+	(odf_write_axis_style): new
+	(odf_write_axis): new
+	(odf_write_bar_col_plot_styles): new
+	(odf_write_bar_col_plot): move some of the chart 
+	  construction here
+	(odf_write_graph_content): from here and
+	(odf_write_plot): from here, so that we write styles here
+	
+2009-07-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_series): new
 	(odf_write_bar_col_plot): new
 	(odf_write_graph_content): retrieve plot

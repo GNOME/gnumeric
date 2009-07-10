@@ -2310,7 +2310,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 			gsf_xml_out_add_float (state->xml, OFFICE "value",
 					       value_get_as_float
 					       (cell->value),
-					       10);
+					       -1);
 			break;
 
 		case VALUE_STRING:
@@ -2795,7 +2795,7 @@ odf_print_spreadsheet_content_prelude (GnmOOExport *state)
 	gsf_xml_out_end_element (state->xml); /* </table:null-date> */	
 	gsf_xml_out_start_element (state->xml, TABLE "iteration");
 	gsf_xml_out_add_float (state->xml, TABLE "maximum-difference", 
-			       state->wb->iteration.tolerance, 6);
+			       state->wb->iteration.tolerance, -1);
 	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "status", 
 					state->wb->iteration.enabled ?  "enable" : "disable");
 	gsf_xml_out_add_int (state->xml, TABLE "steps", state->wb->iteration.max_number);
@@ -3157,24 +3157,100 @@ odf_write_series (GnmOOExport *state, GSList const *series)
 }
 
 static void
+odf_write_axis_style (GnmOOExport *state, GogObject const *chart, char const *axis_role, 
+		      char const *style_label)
+{
+	GogObject const *axis = gog_object_get_child_by_name (chart, axis_role);
+	if (axis != NULL) {
+		char const *type = NULL;
+		double minima = 0., maxima = 0.;
+
+		odf_start_style (state->xml, style_label, "chart");
+		gsf_xml_out_start_element (state->xml, STYLE "chart-properties");
+		
+		g_object_get (G_OBJECT (axis), "map-name", &type, NULL);
+		odf_add_bool (state->xml, CHART "logarithmic", 0 != strcmp (type, "Linear"));
+		gsf_xml_out_add_int (state->xml, CHART "axis-position", 0);
+
+		if (gog_axis_get_bounds (GOG_AXIS (axis), &minima, &maxima)) {
+			gsf_xml_out_add_float (state->xml, CHART "minimum", minima, -1);
+			gsf_xml_out_add_float (state->xml, CHART "maximum", maxima, -1);
+		}
+
+		gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
+		gsf_xml_out_end_element (state->xml); /* </style:style> */
+	}
+}
+
+static void
+odf_write_axis (GnmOOExport *state, GogObject const *chart, char const *axis_role, char const *style_label,
+	char const *dimension)
+{
+	GogObject const *axis = gog_object_get_child_by_name (chart, axis_role);
+	if (axis != NULL) {
+		gsf_xml_out_start_element (state->xml, CHART "axis");
+		gsf_xml_out_add_cstr (state->xml, CHART "dimension", dimension);
+		gsf_xml_out_add_cstr (state->xml, CHART "style-name", style_label);
+		gsf_xml_out_end_element (state->xml); /* </chart:axis> */
+	}	
+}
+
+static void
+odf_write_bar_col_plot_styles (GnmOOExport *state, GogObject const *chart, GogObject const *plot)
+{
+	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
+	odf_write_axis_style (state, chart, "Y-Axis", "yaxis");
+	odf_write_axis_style (state, chart, "X-Axis", "xaxis");
+
+	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
+}
+
+static void
 odf_write_bar_col_plot (GnmOOExport *state, GogObject const *chart, GogObject const *plot)
 {
+	gsf_xml_out_start_element (state->xml, OFFICE "body");
+	gsf_xml_out_start_element (state->xml, OFFICE "chart");
+	gsf_xml_out_start_element (state->xml, CHART "chart");
+	if (get_gsf_odf_version () > 101)
+		gsf_xml_out_add_cstr (state->xml, XLINK "href", "..");
 	gsf_xml_out_add_cstr (state->xml, CHART "class", "chart:bar");
-
 	gsf_xml_out_start_element (state->xml, CHART "plot-area");
+	if (get_gsf_odf_version () <= 101) {
+		GSList const *series = gog_plot_get_series (GOG_PLOT (plot));
+		for ( ; NULL != series ; series = series->next) {
+			GOData const *dat = gog_dataset_get_dim 
+				(GOG_DATASET (series->data), GOG_MS_DIM_VALUES);
+			if (NULL != dat) {
+				GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
+				if (NULL != texpr) {
+					GnmParsePos pp;
+					char *str;
+					parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
+					str = gnm_expr_top_as_string (texpr, &pp, state->conv);
+					gsf_xml_out_add_cstr (state->xml, TABLE "cell-range-address", 
+							      odf_strip_brackets (str));
+					break;
+				}
+			}
+		}
+	}
+	odf_write_axis (state, chart, "Y-Axis", "yaxis", "y");
+	odf_write_axis (state, chart, "X-Axis", "xaxis", "x");
 	odf_write_series (state, gog_plot_get_series (GOG_PLOT (plot)));
 	gsf_xml_out_end_element (state->xml); /* </chart:plot_area> */
+	gsf_xml_out_end_element (state->xml); /* </chart:chart> */
+	gsf_xml_out_end_element (state->xml); /* </office:chart> */
+	gsf_xml_out_end_element (state->xml); /* </office:body> */
 }
 
 static void
 odf_write_plot (GnmOOExport *state, GogObject const *chart, GogObject const *plot)
 {
 	char const *plot_type = G_OBJECT_TYPE_NAME (plot);
-	gsf_xml_out_start_element (state->xml, CHART "chart");
-	gsf_xml_out_add_cstr (state->xml, XLINK "href", "..");
-	if (0 == strcmp (plot_type, "GogBarColPlot"))
+	if (0 == strcmp (plot_type, "GogBarColPlot")) {
+		odf_write_bar_col_plot_styles (state, chart, plot);
 		odf_write_bar_col_plot (state, chart, plot);
-	gsf_xml_out_end_element (state->xml); /* </chart:chart> */
+	}
 }
 
 
@@ -3193,19 +3269,15 @@ odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so)
 	gsf_xml_out_add_cstr_unchecked (state->xml, OFFICE "version", 
 					get_gsf_odf_version_string ());
 
-	gsf_xml_out_start_element (state->xml, OFFICE "body");
 	graph = sheet_object_graph_get_gog (so);
 	if (graph != NULL) {
 		GogObject const	*chart = gog_object_get_child_by_name (GOG_OBJECT (graph), "Chart");
-		gsf_xml_out_start_element (state->xml, OFFICE "chart");
 		if (chart != NULL) {
 			GogObject const *plot = gog_object_get_child_by_name (GOG_OBJECT (chart), "Plot");
 			if (plot != NULL) 
 				odf_write_plot (state, chart, plot);
 		}
-		gsf_xml_out_end_element (state->xml); /* </office:chart> */
 	}
-	gsf_xml_out_end_element (state->xml); /* </office:body> */
 	gsf_xml_out_end_element (state->xml); /* </office:document-content> */
 	g_object_unref (state->xml);
 	state->xml = NULL;
