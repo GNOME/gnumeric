@@ -48,7 +48,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-14 07:39-0400\n"
-"PO-Revision-Date: 2002-01-16 11:31+0100\n"
+"PO-Revision-Date: 2009-07-09 20:24-0400\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -9793,7 +9793,7 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:231 ../plugins/fn-r/functions.c:562
 #: ../plugins/fn-r/functions.c:587 ../plugins/fn-r/functions.c:614
 msgid "shape:the shape parameter of the distribution"
-msgstr ""
+msgstr "form:distributionens formparameter"
 
 #: ../plugins/fn-r/functions.c:180 ../plugins/fn-r/functions.c:205
 #: ../plugins/fn-r/functions.c:232 ../plugins/fn-r/functions.c:563
@@ -9802,7 +9802,7 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:762 ../plugins/fn-r/functions.c:1104
 #: ../plugins/fn-r/functions.c:1129 ../plugins/fn-r/functions.c:1156
 msgid "scale:the scale parameter of the distribution"
-msgstr ""
+msgstr "skala:distributionens skalaparameter"
 
 #: ../plugins/fn-r/functions.c:182
 msgid ""
