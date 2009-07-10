@@ -2170,6 +2170,14 @@ odf_write_frame (GnmOOExport *state, SheetObject *so)
 			gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
 			gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
 			gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
+			full_name = g_strdup_printf ("./Pictures/%s.png", name);
+			gsf_xml_out_start_element (state->xml, DRAW "image");
+			gsf_xml_out_add_cstr (state->xml, XLINK "href", full_name);
+			g_free (full_name);
+			gsf_xml_out_add_cstr (state->xml, XLINK "type", "simple");
+			gsf_xml_out_add_cstr (state->xml, XLINK "show", "embed");
+			gsf_xml_out_add_cstr (state->xml, XLINK "actuate", "onLoad");
+			gsf_xml_out_end_element (state->xml); /*  DRAW "image" */
 		} else
 			g_warning ("Graph is missing from hash.");
 	} else {
@@ -3110,6 +3118,9 @@ odf_write_graph_manifest (G_GNUC_UNUSED SheetObject *graph, char const *name, Gn
 	fullname = g_strdup_printf ("Pictures/%s", name);
 	odf_file_entry (state->xml, "image/svg+xml", fullname);
 	g_free(fullname);
+	fullname = g_strdup_printf ("Pictures/%s.png", name);
+	odf_file_entry (state->xml, "image/png", fullname);
+	g_free(fullname);
 }
 
 static void
@@ -3170,7 +3181,7 @@ odf_write_axis_style (GnmOOExport *state, GogObject const *chart, char const *ax
 		
 		g_object_get (G_OBJECT (axis), "map-name", &type, NULL);
 		odf_add_bool (state->xml, CHART "logarithmic", 0 != strcmp (type, "Linear"));
-		gsf_xml_out_add_int (state->xml, CHART "axis-position", 0);
+		gsf_xml_out_add_cstr (state->xml, CHART "axis-position", "start");
 
 		if (gog_axis_get_bounds (GOG_AXIS (axis), &minima, &maxima)) {
 			gsf_xml_out_add_float (state->xml, CHART "minimum", minima, -1);
@@ -3327,6 +3338,19 @@ odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
 			GogGraph *gog = sheet_object_graph_get_gog (graph);
 			if (!gog_graph_export_image (gog, GO_IMAGE_FORMAT_SVG, sec_child, 100., 100.))
 				g_print ("Failed to create svg image of graph.\n");
+			gsf_output_close (sec_child);
+			g_object_unref (G_OBJECT (sec_child));
+		}
+		g_free (fullname);
+
+		fullname = g_strdup_printf ("Pictures/%s.png", name);
+		sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
+							"compression-level", GSF_ZIP_DEFLATED,
+							NULL);
+		if (NULL != sec_child) {
+			GogGraph *gog = sheet_object_graph_get_gog (graph);
+			if (!gog_graph_export_image (gog, GO_IMAGE_FORMAT_PNG, sec_child, 100., 100.))
+				g_print ("Failed to create png image of graph.\n");
 			gsf_output_close (sec_child);
 			g_object_unref (G_OBJECT (sec_child));
 		}

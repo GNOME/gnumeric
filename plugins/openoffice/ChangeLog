@@ -1,5 +1,14 @@
 2009-07-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* openoffice-write.c (odf_write_frame): also link to a png
+	  representation
+	(odf_write_graph_manifest): include the png representations
+	(odf_write_axis_style): we should use "start" rather than 0
+	  as default axis-position
+	(odf_write_graphs): write png representation
+
+2009-07-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* openoffice-write.c (odf_write_cell): let gsf figure
 	  out precision
 	(odf_print_spreadsheet_content_prelude): ditto
