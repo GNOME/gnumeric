@@ -10,7 +10,7 @@
 	<services>
 		<service type="function_group" id="engineering">
 			<_category>Engineering</_category>
-			<functions>
+			<functions textdomain="gnumeric-functions">
 				<function name="base"/>
 				<function name="besseli"/>
 				<function name="besselk"/>

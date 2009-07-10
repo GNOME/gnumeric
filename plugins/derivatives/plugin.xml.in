@@ -10,7 +10,7 @@
 	<services>
 		<service type="function_group" id="derivatives">
 			<_category>Finance</_category>
-			<functions>
+			<functions textdomain="gnumeric-functions">
 				<function name="cum_biv_norm_dist"/>
 				<function name="opt_bs"/>
 				<function name="opt_bs_delta"/>

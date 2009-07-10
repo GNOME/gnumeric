@@ -11,10 +11,10 @@
 	<services>
 		<service type="function_group" id="TimeSeriesAnalysis">
 			<_category>Time Series Analysis</_category>
-			<functions>
-            	<function name="interpolation"/>
-            	<function name="periodogram"/>
-            	<function name="fourier"/>
+			<functions textdomain="gnumeric-functions">
+            			<function name="interpolation"/>
+            			<function name="periodogram"/>
+            			<function name="fourier"/>
 			</functions>
 		</service>
 	</services> 

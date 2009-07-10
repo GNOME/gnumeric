@@ -10,7 +10,7 @@
 	<services>
 		<service type="function_group" id="database">
 			<_category>Database</_category>
-			<functions>
+			<functions textdomain="gnumeric-functions">
 				<function name="daverage"/>
 				<function name="dcount"/>
 				<function name="dcounta"/>

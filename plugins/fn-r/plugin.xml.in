@@ -10,7 +10,7 @@
 	<services>
 		<service type="function_group" id="stat">
 			<_category>Statistics</_category>
-			<functions>
+			<functions textdomain="gnumeric-functions">
 				<function name="r.dbeta"/>
 				<function name="r.dbinom"/>
 				<function name="r.dcauchy"/>

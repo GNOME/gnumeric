@@ -10,7 +10,7 @@
 	<services>
 		<service type="function_group" id="math">
 			<_category>Mathematics</_category>
-			<functions>
+			<functions textdomain="gnumeric-functions">
 				<function name="abs"/>
 				<function name="acos"/>
 				<function name="acosh"/>

@@ -10,7 +10,7 @@
 	<services>
 		<service type="function_group" id="erlang">
 			<_category>Erlang</_category>
-			<functions>
+			<functions textdomain="gnumeric-functions">
 				<function name="probblock"/>
 				<function name="offtraf"/>
 				<function name="dimcirc"/>

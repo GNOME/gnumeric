@@ -10,7 +10,7 @@
 	<services>
 		<service type="function_group" id="random">
 			<_category>Random Numbers</_category>
-			<functions>
+			<functions textdomain="gnumeric-functions">
 				<function name="rand"/>
 				<function name="randbernoulli"/>
 				<function name="randbeta"/>

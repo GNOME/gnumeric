@@ -10,7 +10,7 @@
 	<services>
 		<service type="function_group" id="datetime">
 			<_category>Date/Time</_category>
-			<functions>
+			<functions textdomain="gnumeric-functions">
 				<function name="date"/>
 				<function name="unix2date"/>
 				<function name="date2unix"/>
