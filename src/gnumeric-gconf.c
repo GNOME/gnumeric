@@ -284,6 +284,64 @@ set_string (struct cb_watch_string *watch, const char *x)
 	schedule_sync ();
 }
 
+/* ---------------------------------------- */
+
+struct cb_watch_string_list {
+	guint handler;
+	const char *key;
+	GSList *var;
+};
+
+static void
+cb_watch_string_list (GOConfNode *node, G_GNUC_UNUSED const char *key, gpointer user)
+{
+	struct cb_watch_string_list *watch = user;
+	GSList *res = go_conf_load_str_list (node, NULL);
+	g_hash_table_replace (string_list_pool, (gpointer)watch->key, res);
+	watch->var = res;
+}
+
+static void
+watch_string_list (struct cb_watch_string_list *watch)
+{
+	GOConfNode *node = get_node (watch->key);
+	watch->handler = go_conf_add_monitor
+		(node, NULL, cb_watch_string_list, watch);
+	watchers = g_slist_prepend (watchers, watch);
+	cb_watch_string_list (node, NULL, watch);
+	MAYBE_DEBUG_GET (watch->key);
+}
+
+static gboolean
+string_list_equal (GSList *x, GSList *y)
+{
+	while (x && y) {
+		if (strcmp (x->data, y->data) != 0)
+			return FALSE;
+		x = x->next;
+		y = y->next;
+	}
+
+	return x == y;
+}
+
+static void
+set_string_list (struct cb_watch_string_list *watch, GSList *x)
+{
+	if (string_list_equal (x, watch->var))
+		return;
+
+	x = go_string_slist_copy (x);
+
+	MAYBE_DEBUG_SET (watch->key);
+	watch->var = x;
+	go_conf_set_str_list (root, watch->key, x);
+	g_hash_table_replace (string_list_pool, (gpointer)watch->key, x);
+	schedule_sync ();
+}
+
+/* ---------------------------------------- */
+
 static void
 free_watcher (struct cb_watch_generic *watcher)
 {
@@ -586,24 +644,24 @@ gnm_conf_get_autocorrect_first_letter_list_node (void)
 	return get_node (key);
 }
 
+static struct cb_watch_string_list watch_autocorrect_first_letter_list = {
+	0, "autocorrect/first-letter-list",
+};
+
 GSList *
 gnm_conf_get_autocorrect_first_letter_list (void)
 {
-	const char *key = "autocorrect/first-letter-list";
-	GSList *res = go_conf_load_str_list (root, key);
-	MAYBE_DEBUG_GET (key);
-	g_hash_table_replace (string_list_pool, (gpointer)key, res);
-	return res;
+	if (!watch_autocorrect_first_letter_list.handler)
+		watch_string_list (&watch_autocorrect_first_letter_list);
+	return watch_autocorrect_first_letter_list.var;
 }
 
 void
 gnm_conf_set_autocorrect_first_letter_list (GSList *x)
 {
-	const char *key = "autocorrect/first-letter-list";
-	MAYBE_DEBUG_SET (key);
-	go_conf_set_str_list (root, key, x);
-	g_hash_table_remove (string_list_pool, key);
-	schedule_sync ();
+	if (!watch_autocorrect_first_letter_list.handler)
+		watch_string_list (&watch_autocorrect_first_letter_list);
+	set_string_list (&watch_autocorrect_first_letter_list, x);
 }
 
 GOConfNode *
@@ -640,24 +698,24 @@ gnm_conf_get_autocorrect_init_caps_list_node (void)
 	return get_node (key);
 }
 
+static struct cb_watch_string_list watch_autocorrect_init_caps_list = {
+	0, "autocorrect/init-caps-list",
+};
+
 GSList *
 gnm_conf_get_autocorrect_init_caps_list (void)
 {
-	const char *key = "autocorrect/init-caps-list";
-	GSList *res = go_conf_load_str_list (root, key);
-	MAYBE_DEBUG_GET (key);
-	g_hash_table_replace (string_list_pool, (gpointer)key, res);
-	return res;
+	if (!watch_autocorrect_init_caps_list.handler)
+		watch_string_list (&watch_autocorrect_init_caps_list);
+	return watch_autocorrect_init_caps_list.var;
 }
 
 void
 gnm_conf_set_autocorrect_init_caps_list (GSList *x)
 {
-	const char *key = "autocorrect/init-caps-list";
-	MAYBE_DEBUG_SET (key);
-	go_conf_set_str_list (root, key, x);
-	g_hash_table_remove (string_list_pool, key);
-	schedule_sync ();
+	if (!watch_autocorrect_init_caps_list.handler)
+		watch_string_list (&watch_autocorrect_init_caps_list);
+	set_string_list (&watch_autocorrect_init_caps_list, x);
 }
 
 GOConfNode *
@@ -721,24 +779,24 @@ gnm_conf_get_autoformat_extra_dirs_node (void)
 	return get_node (key);
 }
 
+static struct cb_watch_string_list watch_autoformat_extra_dirs = {
+	0, "autoformat/extra-dirs",
+};
+
 GSList *
 gnm_conf_get_autoformat_extra_dirs (void)
 {
-	const char *key = "autoformat/extra-dirs";
-	GSList *res = go_conf_load_str_list (root, key);
-	MAYBE_DEBUG_GET (key);
-	g_hash_table_replace (string_list_pool, (gpointer)key, res);
-	return res;
+	if (!watch_autoformat_extra_dirs.handler)
+		watch_string_list (&watch_autoformat_extra_dirs);
+	return watch_autoformat_extra_dirs.var;
 }
 
 void
 gnm_conf_set_autoformat_extra_dirs (GSList *x)
 {
-	const char *key = "autoformat/extra-dirs";
-	MAYBE_DEBUG_SET (key);
-	go_conf_set_str_list (root, key, x);
-	g_hash_table_remove (string_list_pool, key);
-	schedule_sync ();
+	if (!watch_autoformat_extra_dirs.handler)
+		watch_string_list (&watch_autoformat_extra_dirs);
+	set_string_list (&watch_autoformat_extra_dirs, x);
 }
 
 GOConfNode *
@@ -1774,24 +1832,24 @@ gnm_conf_get_functionselector_recentfunctions_node (void)
 	return get_node (key);
 }
 
+static struct cb_watch_string_list watch_functionselector_recentfunctions = {
+	0, "functionselector/recentfunctions",
+};
+
 GSList *
 gnm_conf_get_functionselector_recentfunctions (void)
 {
-	const char *key = "functionselector/recentfunctions";
-	GSList *res = go_conf_load_str_list (root, key);
-	MAYBE_DEBUG_GET (key);
-	g_hash_table_replace (string_list_pool, (gpointer)key, res);
-	return res;
+	if (!watch_functionselector_recentfunctions.handler)
+		watch_string_list (&watch_functionselector_recentfunctions);
+	return watch_functionselector_recentfunctions.var;
 }
 
 void
 gnm_conf_set_functionselector_recentfunctions (GSList *x)
 {
-	const char *key = "functionselector/recentfunctions";
-	MAYBE_DEBUG_SET (key);
-	go_conf_set_str_list (root, key, x);
-	g_hash_table_remove (string_list_pool, key);
-	schedule_sync ();
+	if (!watch_functionselector_recentfunctions.handler)
+		watch_string_list (&watch_functionselector_recentfunctions);
+	set_string_list (&watch_functionselector_recentfunctions, x);
 }
 
 GOConfNode *
@@ -1855,24 +1913,24 @@ gnm_conf_get_plugins_active_node (void)
 	return get_node (key);
 }
 
+static struct cb_watch_string_list watch_plugins_active = {
+	0, "plugins/active",
+};
+
 GSList *
 gnm_conf_get_plugins_active (void)
 {
-	const char *key = "plugins/active";
-	GSList *res = go_conf_load_str_list (root, key);
-	MAYBE_DEBUG_GET (key);
-	g_hash_table_replace (string_list_pool, (gpointer)key, res);
-	return res;
+	if (!watch_plugins_active.handler)
+		watch_string_list (&watch_plugins_active);
+	return watch_plugins_active.var;
 }
 
 void
 gnm_conf_set_plugins_active (GSList *x)
 {
-	const char *key = "plugins/active";
-	MAYBE_DEBUG_SET (key);
-	go_conf_set_str_list (root, key, x);
-	g_hash_table_remove (string_list_pool, key);
-	schedule_sync ();
+	if (!watch_plugins_active.handler)
+		watch_string_list (&watch_plugins_active);
+	set_string_list (&watch_plugins_active, x);
 }
 
 GOConfNode *
@@ -1882,24 +1940,24 @@ gnm_conf_get_plugins_extra_dirs_node (void)
 	return get_node (key);
 }
 
+static struct cb_watch_string_list watch_plugins_extra_dirs = {
+	0, "plugins/extra-dirs",
+};
+
 GSList *
 gnm_conf_get_plugins_extra_dirs (void)
 {
-	const char *key = "plugins/extra-dirs";
-	GSList *res = go_conf_load_str_list (root, key);
-	MAYBE_DEBUG_GET (key);
-	g_hash_table_replace (string_list_pool, (gpointer)key, res);
-	return res;
+	if (!watch_plugins_extra_dirs.handler)
+		watch_string_list (&watch_plugins_extra_dirs);
+	return watch_plugins_extra_dirs.var;
 }
 
 void
 gnm_conf_set_plugins_extra_dirs (GSList *x)
 {
-	const char *key = "plugins/extra-dirs";
-	MAYBE_DEBUG_SET (key);
-	go_conf_set_str_list (root, key, x);
-	g_hash_table_remove (string_list_pool, key);
-	schedule_sync ();
+	if (!watch_plugins_extra_dirs.handler)
+		watch_string_list (&watch_plugins_extra_dirs);
+	set_string_list (&watch_plugins_extra_dirs, x);
 }
 
 GOConfNode *
@@ -1909,24 +1967,24 @@ gnm_conf_get_plugins_file_states_node (void)
 	return get_node (key);
 }
 
+static struct cb_watch_string_list watch_plugins_file_states = {
+	0, "plugins/file-states",
+};
+
 GSList *
 gnm_conf_get_plugins_file_states (void)
 {
-	const char *key = "plugins/file-states";
-	GSList *res = go_conf_load_str_list (root, key);
-	MAYBE_DEBUG_GET (key);
-	g_hash_table_replace (string_list_pool, (gpointer)key, res);
-	return res;
+	if (!watch_plugins_file_states.handler)
+		watch_string_list (&watch_plugins_file_states);
+	return watch_plugins_file_states.var;
 }
 
 void
 gnm_conf_set_plugins_file_states (GSList *x)
 {
-	const char *key = "plugins/file-states";
-	MAYBE_DEBUG_SET (key);
-	go_conf_set_str_list (root, key, x);
-	g_hash_table_remove (string_list_pool, key);
-	schedule_sync ();
+	if (!watch_plugins_file_states.handler)
+		watch_string_list (&watch_plugins_file_states);
+	set_string_list (&watch_plugins_file_states, x);
 }
 
 GOConfNode *
@@ -1936,24 +1994,24 @@ gnm_conf_get_plugins_known_node (void)
 	return get_node (key);
 }
 
+static struct cb_watch_string_list watch_plugins_known = {
+	0, "plugins/known",
+};
+
 GSList *
 gnm_conf_get_plugins_known (void)
 {
-	const char *key = "plugins/known";
-	GSList *res = go_conf_load_str_list (root, key);
-	MAYBE_DEBUG_GET (key);
-	g_hash_table_replace (string_list_pool, (gpointer)key, res);
-	return res;
+	if (!watch_plugins_known.handler)
+		watch_string_list (&watch_plugins_known);
+	return watch_plugins_known.var;
 }
 
 void
 gnm_conf_set_plugins_known (GSList *x)
 {
-	const char *key = "plugins/known";
-	MAYBE_DEBUG_SET (key);
-	go_conf_set_str_list (root, key, x);
-	g_hash_table_remove (string_list_pool, key);
-	schedule_sync ();
+	if (!watch_plugins_known.handler)
+		watch_string_list (&watch_plugins_known);
+	set_string_list (&watch_plugins_known, x);
 }
 
 GOConfNode *
@@ -2071,24 +2129,24 @@ gnm_conf_get_printsetup_footer_node (void)
 	return get_node (key);
 }
 
+static struct cb_watch_string_list watch_printsetup_footer = {
+	0, "printsetup/footer",
+};
+
 GSList *
 gnm_conf_get_printsetup_footer (void)
 {
-	const char *key = "printsetup/footer";
-	GSList *res = go_conf_load_str_list (root, key);
-	MAYBE_DEBUG_GET (key);
-	g_hash_table_replace (string_list_pool, (gpointer)key, res);
-	return res;
+	if (!watch_printsetup_footer.handler)
+		watch_string_list (&watch_printsetup_footer);
+	return watch_printsetup_footer.var;
 }
 
 void
 gnm_conf_set_printsetup_footer (GSList *x)
 {
-	const char *key = "printsetup/footer";
-	MAYBE_DEBUG_SET (key);
-	go_conf_set_str_list (root, key, x);
-	g_hash_table_remove (string_list_pool, key);
-	schedule_sync ();
+	if (!watch_printsetup_footer.handler)
+		watch_string_list (&watch_printsetup_footer);
+	set_string_list (&watch_printsetup_footer, x);
 }
 
 GOConfNode *
@@ -2098,24 +2156,24 @@ gnm_conf_get_printsetup_gtk_setting_node (void)
 	return get_node (key);
 }
 
+static struct cb_watch_string_list watch_printsetup_gtk_setting = {
+	0, "printsetup/gtk-setting",
+};
+
 GSList *
 gnm_conf_get_printsetup_gtk_setting (void)
 {
-	const char *key = "printsetup/gtk-setting";
-	GSList *res = go_conf_load_str_list (root, key);
-	MAYBE_DEBUG_GET (key);
-	g_hash_table_replace (string_list_pool, (gpointer)key, res);
-	return res;
+	if (!watch_printsetup_gtk_setting.handler)
+		watch_string_list (&watch_printsetup_gtk_setting);
+	return watch_printsetup_gtk_setting.var;
 }
 
 void
 gnm_conf_set_printsetup_gtk_setting (GSList *x)
 {
-	const char *key = "printsetup/gtk-setting";
-	MAYBE_DEBUG_SET (key);
-	go_conf_set_str_list (root, key, x);
-	g_hash_table_remove (string_list_pool, key);
-	schedule_sync ();
+	if (!watch_printsetup_gtk_setting.handler)
+		watch_string_list (&watch_printsetup_gtk_setting);
+	set_string_list (&watch_printsetup_gtk_setting, x);
 }
 
 GOConfNode *
@@ -2125,24 +2183,24 @@ gnm_conf_get_printsetup_header_node (void)
 	return get_node (key);
 }
 
+static struct cb_watch_string_list watch_printsetup_header = {
+	0, "printsetup/header",
+};
+
 GSList *
 gnm_conf_get_printsetup_header (void)
 {
-	const char *key = "printsetup/header";
-	GSList *res = go_conf_load_str_list (root, key);
-	MAYBE_DEBUG_GET (key);
-	g_hash_table_replace (string_list_pool, (gpointer)key, res);
-	return res;
+	if (!watch_printsetup_header.handler)
+		watch_string_list (&watch_printsetup_header);
+	return watch_printsetup_header.var;
 }
 
 void
 gnm_conf_set_printsetup_header (GSList *x)
 {
-	const char *key = "printsetup/header";
-	MAYBE_DEBUG_SET (key);
-	go_conf_set_str_list (root, key, x);
-	g_hash_table_remove (string_list_pool, key);
-	schedule_sync ();
+	if (!watch_printsetup_header.handler)
+		watch_string_list (&watch_printsetup_header);
+	set_string_list (&watch_printsetup_header, x);
 }
 
 GOConfNode *
@@ -2261,24 +2319,24 @@ gnm_conf_get_printsetup_hf_left_node (void)
 	return get_node (key);
 }
 
+static struct cb_watch_string_list watch_printsetup_hf_left = {
+	0, "printsetup/hf-left",
+};
+
 GSList *
 gnm_conf_get_printsetup_hf_left (void)
 {
-	const char *key = "printsetup/hf-left";
-	GSList *res = go_conf_load_str_list (root, key);
-	MAYBE_DEBUG_GET (key);
-	g_hash_table_replace (string_list_pool, (gpointer)key, res);
-	return res;
+	if (!watch_printsetup_hf_left.handler)
+		watch_string_list (&watch_printsetup_hf_left);
+	return watch_printsetup_hf_left.var;
 }
 
 void
 gnm_conf_set_printsetup_hf_left (GSList *x)
 {
-	const char *key = "printsetup/hf-left";
-	MAYBE_DEBUG_SET (key);
-	go_conf_set_str_list (root, key, x);
-	g_hash_table_remove (string_list_pool, key);
-	schedule_sync ();
+	if (!watch_printsetup_hf_left.handler)
+		watch_string_list (&watch_printsetup_hf_left);
+	set_string_list (&watch_printsetup_hf_left, x);
 }
 
 GOConfNode *
@@ -2288,24 +2346,24 @@ gnm_conf_get_printsetup_hf_middle_node (void)
 	return get_node (key);
 }
 
+static struct cb_watch_string_list watch_printsetup_hf_middle = {
+	0, "printsetup/hf-middle",
+};
+
 GSList *
 gnm_conf_get_printsetup_hf_middle (void)
 {
-	const char *key = "printsetup/hf-middle";
-	GSList *res = go_conf_load_str_list (root, key);
-	MAYBE_DEBUG_GET (key);
-	g_hash_table_replace (string_list_pool, (gpointer)key, res);
-	return res;
+	if (!watch_printsetup_hf_middle.handler)
+		watch_string_list (&watch_printsetup_hf_middle);
+	return watch_printsetup_hf_middle.var;
 }
 
 void
 gnm_conf_set_printsetup_hf_middle (GSList *x)
 {
-	const char *key = "printsetup/hf-middle";
-	MAYBE_DEBUG_SET (key);
-	go_conf_set_str_list (root, key, x);
-	g_hash_table_remove (string_list_pool, key);
-	schedule_sync ();
+	if (!watch_printsetup_hf_middle.handler)
+		watch_string_list (&watch_printsetup_hf_middle);
+	set_string_list (&watch_printsetup_hf_middle, x);
 }
 
 GOConfNode *
@@ -2315,24 +2373,24 @@ gnm_conf_get_printsetup_hf_right_node (void)
 	return get_node (key);
 }
 
+static struct cb_watch_string_list watch_printsetup_hf_right = {
+	0, "printsetup/hf-right",
+};
+
 GSList *
 gnm_conf_get_printsetup_hf_right (void)
 {
-	const char *key = "printsetup/hf-right";
-	GSList *res = go_conf_load_str_list (root, key);
-	MAYBE_DEBUG_GET (key);
-	g_hash_table_replace (string_list_pool, (gpointer)key, res);
-	return res;
+	if (!watch_printsetup_hf_right.handler)
+		watch_string_list (&watch_printsetup_hf_right);
+	return watch_printsetup_hf_right.var;
 }
 
 void
 gnm_conf_set_printsetup_hf_right (GSList *x)
 {
-	const char *key = "printsetup/hf-right";
-	MAYBE_DEBUG_SET (key);
-	go_conf_set_str_list (root, key, x);
-	g_hash_table_remove (string_list_pool, key);
-	schedule_sync ();
+	if (!watch_printsetup_hf_right.handler)
+		watch_string_list (&watch_printsetup_hf_right);
+	set_string_list (&watch_printsetup_hf_right, x);
 }
 
 GOConfNode *

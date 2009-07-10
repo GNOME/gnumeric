@@ -421,22 +421,22 @@ sub create_hcfile {
 	    $cfile .= "\tschedule_sync ();\n";
 	    $cfile .= "}\n\n";
 	} elsif ($type eq 'list:string') {
+	    $cfile .= "static struct cb_watch_string_list $watch_name = {\n";
+	    $cfile .= "\t0, \"$key\",\n";
+	    $cfile .= "};\n\n";
+
 	    $cfile .= "$get_head\n";
 	    $cfile .= "{\n";
-	    $cfile .= "\tconst char *key = \"$key\";\n";
-	    $cfile .= "\tGSList *res = go_conf_load_str_list ($root, key);\n";
-	    $cfile .= "\tMAYBE_DEBUG_GET (key);\n";
-	    $cfile .= "\tg_hash_table_replace (string_list_pool, (gpointer)key, res);\n";
-	    $cfile .= "\treturn res;\n";
+	    $cfile .= "\tif (!$watch_name.handler)\n";
+	    $cfile .= "\t\twatch_string_list (&$watch_name);\n";
+	    $cfile .= "\treturn $watch_name.var;\n";
 	    $cfile .= "}\n\n";
 
 	    $cfile .= "$set_head\n";
 	    $cfile .= "{\n";
-	    $cfile .= "\tconst char *key = \"$key\";\n";
-	    $cfile .= "\tMAYBE_DEBUG_SET (key);\n";
-	    $cfile .= "\tgo_conf_set_str_list ($root, key, x);\n";
-	    $cfile .= "\tg_hash_table_remove (string_list_pool, key);\n";
-	    $cfile .= "\tschedule_sync ();\n";
+	    $cfile .= "\tif (!$watch_name.handler)\n";
+	    $cfile .= "\t\twatch_string_list (&$watch_name);\n";
+	    $cfile .= "\tset_string_list (&$watch_name, x);\n";
 	    $cfile .= "}\n\n";
 	} else {
 	    die "$0: Unhandled type $type\n";
