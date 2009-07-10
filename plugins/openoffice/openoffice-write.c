@@ -56,13 +56,16 @@
 #include <hlink.h>
 #include <solver.h>
 #include <sheet-filter.h>
-#include <sheet-object-cell-comment.h>
 #include <print-info.h>
 #include <parse-util.h>
 #include <tools/scenarios.h>
 #include <gutils.h>
 #include <xml-io.h>
 #include <style-conditions.h>
+
+#include <sheet-object.h>
+#include <sheet-object-graph.h>
+#include <sheet-object-cell-comment.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output.h>
@@ -85,10 +88,13 @@
 #define DUBLINCORE "dc:"
 #define FOSTYLE	 "fo:"
 #define NUMBER   "number:"
+#define DRAW	 "draw:"
+#define SVG	 "svg:"
 #define GNMSTYLE "gnm:"  /* We use this for attributes and elements not supported by ODF */
 
 typedef struct {
 	GsfXMLOut *xml;
+	GsfOutfile *outfile;
 	IOContext *ioc;
 	WorkbookView const *wbv;
 	Workbook const	   *wb;
@@ -105,6 +111,7 @@ typedef struct {
 	GnmStyle *default_style;
 	ColRowInfo const *row_default;
 	ColRowInfo const *column_default;
+	GHashTable *objects;
 	gboolean with_extension;
 } GnmOOExport;
 
@@ -2077,7 +2084,69 @@ odf_write_comment (GnmOOExport *state, GnmComment const *cc)
 }
 
 static void
-odf_write_empty_cell (GnmOOExport *state, int num, GnmStyle const *style, GnmComment const *cc)
+odf_write_frame (GnmOOExport *state, SheetObject const *so)
+{
+	SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
+	double res_pts[4] = {0.,0.,0.,0.};
+	GnmCellRef ref;
+	GnmRange const *r = &anchor->cell_bound;
+	GnmExprTop const *texpr;
+	GnmParsePos pp;
+	char *formula, *closing;
+
+	sheet_object_anchor_to_offset_pts (anchor, state->sheet, res_pts);
+
+	gsf_xml_out_start_element (state->xml, DRAW "frame");
+	odf_add_pt (state->xml, SVG "x", res_pts[0]);
+	odf_add_pt (state->xml, SVG "y", res_pts[1]);
+	odf_add_pt (state->xml, TABLE "end-x", res_pts[2]);
+	odf_add_pt (state->xml, TABLE "end-y", res_pts[3]);
+
+	/* The next 3 lines should not be needed, but older versions of Gnumeric used the */
+	/* width and height. */
+	sheet_object_anchor_to_pts (anchor, state->sheet, res_pts);
+	odf_add_pt (state->xml, SVG "width", res_pts[2] - res_pts[0]);
+	odf_add_pt (state->xml, SVG "height", res_pts[3] - res_pts[1]);
+
+	gnm_cellref_init (&ref, (Sheet *) state->sheet, r->end.col, r->end.row, TRUE);
+	texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
+	parse_pos_init_sheet (&pp, state->sheet);
+	formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
+	/* While this should be enough, ODF doesn't want the same format here as in formulas: */
+	closing = strrchr(formula, ']');
+	if (closing != NULL)
+		*closing = '\0';
+	gnm_expr_top_unref (texpr);
+	gsf_xml_out_add_cstr (state->xml, TABLE "end-cell-address", 
+			      (*formula == '[') ? (formula + 1) : formula);
+
+	gsf_xml_out_start_element (state->xml, DRAW "text-box");
+	gsf_xml_out_simple_element (state->xml, TEXT "p", "Missing Sheet Object");
+	gsf_xml_out_end_element (state->xml); /*  DRAW "textbox" */
+	
+	gsf_xml_out_end_element (state->xml); /*  DRAW "frame" */
+}
+
+static void
+odf_write_objects (GnmOOExport *state, GSList *objects)
+{
+	GSList *l;
+
+	for (l = objects; l != NULL; l = l->next) {
+		SheetObject *so = l->data;
+		if (so == NULL) {
+			g_warning ("NULL sheet object encountered.");
+			continue;
+		}
+		if (IS_CELL_COMMENT (so))
+			odf_write_comment (state, CELL_COMMENT (so));
+		else
+			odf_write_frame (state, so);
+	}
+}
+
+static void
+odf_write_empty_cell (GnmOOExport *state, int num, GnmStyle const *style, GSList *objects)
 {
 	if (num > 0) {
 		gsf_xml_out_start_element (state->xml, TABLE "table-cell");
@@ -2091,8 +2160,7 @@ odf_write_empty_cell (GnmOOExport *state, int num, GnmStyle const *style, GnmCom
 				gsf_xml_out_add_cstr (state->xml,
 						      TABLE "style-name", name);			
 		}
-		if (cc != NULL)
-			odf_write_comment (state, cc);
+		odf_write_objects (state, objects);
 		gsf_xml_out_end_element (state->xml);   /* table-cell */
 	}
 }
@@ -2113,7 +2181,7 @@ odf_write_covered_cell (GnmOOExport *state, int *num)
 
 static void
 odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
-		GnmComment const *cc)
+		GSList *objects)
 {
 	int rows_spanned = 0, cols_spanned = 0;
 	gboolean pp = TRUE;
@@ -2211,8 +2279,7 @@ odf_write_cell (GnmOOExport *state, GnmCell *cell, GnmRange const *merge_range,
 		}
 	}
 
-	if (cc != NULL)
-		odf_write_comment (state, cc);
+	odf_write_objects (state, objects);
 	
 	if (cell != NULL && cell->value != NULL) {
 		g_object_set (G_OBJECT (state->xml), "pretty-print", FALSE, NULL);
@@ -2428,6 +2495,23 @@ odf_write_styled_empty_rows (GnmOOExport *state, Sheet const *sheet,
 	style_list_free (list);
 }
 
+static GSList *
+odf_sheet_objects_get (Sheet const *sheet, GnmCellPos const *pos)
+{
+	GSList *res = NULL;
+	GSList *ptr;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ) {
+		SheetObject *so = SHEET_OBJECT (ptr->data);
+		SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
+		if (gnm_cellpos_equal (&anchor->cell_bound.start, pos))
+			res = g_slist_prepend (res, so);
+	}
+	return res;
+}
+
 static void
 odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to, 
 			G_GNUC_UNUSED int col_from, G_GNUC_UNUSED int col_to, int row_length, 
@@ -2455,10 +2539,9 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 		for (col = 0; col < row_length; col++) {
 			GnmCell *current_cell = sheet_cell_get (sheet, col, row);
 			GnmRange const	*merge_range;
-			GnmComment const *cc;
+			GSList *objects;
 
 			pos.col = col;
-			cc = sheet_get_comment (sheet, &pos);
 			merge_range = gnm_sheet_merge_is_corner (sheet, &pos);
 
 			if (odf_cell_is_covered (sheet, current_cell, col, row,
@@ -2468,7 +2551,10 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 				covered_cell++;
 				continue;
 			}
-			if ((merge_range == NULL) && (cc == NULL) &&
+
+			objects = odf_sheet_objects_get (sheet, &pos);
+
+			if ((merge_range == NULL) && (objects == NULL) &&
 			    gnm_cell_is_empty (current_cell)) {
 				GnmStyle const *this_style= sheet_style_get (sheet, pos.col, pos.row);
 
@@ -2489,7 +2575,9 @@ odf_write_content_rows (GnmOOExport *state, Sheet const *sheet, int from, int to
 			null_cell = 0;
 			if (covered_cell > 0)
 				odf_write_covered_cell (state, &covered_cell);
-			odf_write_cell (state, current_cell, merge_range, cc);
+			odf_write_cell (state, current_cell, merge_range, objects);
+
+			g_slist_free (objects);
 
 		}
 		odf_write_empty_cell (state, null_cell, null_style, NULL);
@@ -2666,6 +2754,7 @@ static void
 odf_write_content (GnmOOExport *state, GsfOutput *child)
 {
 	int i;
+	int graph_n = 1;
 	gboolean has_autofilters = FALSE;
 
 	state->xml = gsf_xml_out_new (child);
@@ -2699,8 +2788,15 @@ odf_write_content (GnmOOExport *state, GsfOutput *child)
 		Sheet *sheet = workbook_sheet_by_index (state->wb, i);
 		char *style_name;
 		GnmRange    *p_area;
+		GSList *l, *graphs;
 
 		state->sheet = sheet;
+
+		graphs = sheet_objects_get (sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
+		for (l = graphs; l != NULL; l = l->next)
+			g_hash_table_insert (state->objects, l->data, 
+					     g_strdup_printf ("Object %i", graph_n++));
+		g_slist_free (graphs);
 
 		gsf_xml_out_start_element (state->xml, TABLE "table");
 		gsf_xml_out_add_cstr (state->xml, TABLE "name", sheet->name_unquoted);
@@ -2954,6 +3050,32 @@ odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 /**********************************************************************************/
 
 static void
+odf_write_graphs (SheetObject *graph, char const *name, GnmOOExport *state)
+{
+	GsfOutput  *child, *sec_child;
+		char *fullname = g_strdup_printf ("%s/content.xml", name);
+
+		child = gsf_outfile_new_child_full (state->outfile, name, TRUE,
+				"compression-level", GSF_ZIP_DEFLATED,
+				NULL);
+		if (NULL != child) {
+			sec_child = gsf_outfile_new_child_full (state->outfile, fullname, FALSE,
+							    "compression-level", GSF_ZIP_DEFLATED,
+							    NULL);
+			gsf_output_close (child);
+			g_object_unref (G_OBJECT (child));
+			if (NULL != sec_child) {
+				gsf_output_close (sec_child);
+				g_object_unref (G_OBJECT (sec_child));
+			}
+		}
+		g_free (fullname);
+}
+
+
+/**********************************************************************************/
+
+static void
 openoffice_file_save_real (GOFileSaver const *fs, IOContext *ioc,
 			   WorkbookView const *wbv, GsfOutput *output, gboolean with_extension)
 {
@@ -2972,8 +3094,6 @@ openoffice_file_save_real (GOFileSaver const *fs, IOContext *ioc,
 	};
 
 	GnmOOExport state;
-	GsfOutfile *outfile = NULL;
-	GsfOutput  *child;
 	GnmLocale  *locale;
 	GError *err;
 	unsigned i;
@@ -2981,13 +3101,15 @@ openoffice_file_save_real (GOFileSaver const *fs, IOContext *ioc,
 
 	locale  = gnm_push_C_locale ();
 
-	outfile = gsf_outfile_zip_new (output, &err);
+	state.outfile = gsf_outfile_zip_new (output, &err);
 
 	state.with_extension = with_extension;
 	state.ioc = ioc;
 	state.wbv = wbv;
 	state.wb  = wb_view_get_workbook (wbv);
 	state.conv = odf_expr_conventions_new ();
+	state.objects = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+					       NULL, (GDestroyNotify) g_free);
 	state.named_cell_styles = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 						   NULL, (GDestroyNotify) g_free);
 	state.cell_styles = g_hash_table_new_full (g_direct_hash, g_direct_equal,
@@ -3013,7 +3135,8 @@ openoffice_file_save_real (GOFileSaver const *fs, IOContext *ioc,
 		odf_store_this_named_style (state.default_style, "Gnumeric-default", &state);
 
 	for (i = 0 ; i < G_N_ELEMENTS (streams); i++) {
-		child = gsf_outfile_new_child_full (outfile, streams[i].name, FALSE,
+		GsfOutput  *child;
+		child = gsf_outfile_new_child_full (state.outfile, streams[i].name, FALSE,
 				/* do not compress the mimetype */
 				"compression-level", ((0 == i) ? GSF_ZIP_STORED : GSF_ZIP_DEFLATED),
 				NULL);
@@ -3024,12 +3147,15 @@ openoffice_file_save_real (GOFileSaver const *fs, IOContext *ioc,
 		}
 	}
 
+	g_hash_table_foreach (state.objects, (GHFunc) odf_write_graphs, &state);
+
 	g_free (state.conv);
 
-	gsf_output_close (GSF_OUTPUT (outfile));
-	g_object_unref (G_OBJECT (outfile));
+	gsf_output_close (GSF_OUTPUT (state.outfile));
+	g_object_unref (G_OBJECT (state.outfile));
 
 	gnm_pop_C_locale (locale);
+	g_hash_table_unref (state.objects);
 	g_hash_table_unref (state.named_cell_styles);
 	g_hash_table_unref (state.cell_styles);
 	g_hash_table_unref (state.xl_styles);

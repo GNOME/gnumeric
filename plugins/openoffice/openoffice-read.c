@@ -3108,11 +3108,11 @@ od_draw_frame (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "width"))
 			aux = oo_parse_distance (xin, attrs[1], "width", &width);
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "height"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "height"))
 			aux = oo_parse_distance (xin, attrs[1], "height", &height);
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "x"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "x"))
 			aux = oo_parse_distance (xin, attrs[1], "x", &x);
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "y"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "y"))
 			aux = oo_parse_distance (xin, attrs[1], "y", &y);
 	}
 	cell_base.start.col = cell_base.end.col = state->pos.eval.col;
@@ -4942,10 +4942,8 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 
 	if (state.default_style.cells)
 		gnm_style_unref (state.default_style.cells);
-	if (state.default_style.rows)
-		g_free (state.default_style.rows);
-	if (state.default_style.columns)
-		g_free (state.default_style.columns);
+	g_free (state.default_style.rows);
+	g_free (state.default_style.columns);
 	g_hash_table_destroy (state.styles.sheet);
 	g_hash_table_destroy (state.styles.col);
 	g_hash_table_destroy (state.styles.row);

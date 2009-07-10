@@ -106,6 +106,8 @@ gboolean sheet_object_rubber_band_directly (SheetObject const *so);
 /* Anchor utilities */
 void sheet_object_anchor_to_pts	(SheetObjectAnchor const *anchor,
 				 Sheet const *sheet, double *res_pts);
+void sheet_object_anchor_to_offset_pts	(SheetObjectAnchor const *anchor,
+					 Sheet const *sheet, double *res_pts);
 void sheet_object_anchor_init	(SheetObjectAnchor *anchor,
 				 GnmRange const *cell_bound,
 				 float const	*offset,

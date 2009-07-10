@@ -1,3 +1,8 @@
+2009-07-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* src/sheet-object.h (sheet_object_anchor_to_offset_pts): new
+	* src/sheet-object.c (sheet_object_anchor_to_offset_pts): new
+
 2009-07-09  Morten Welinder  <terra@gnome.org>
 
 	* src/gnm-plugin.c (plugin_service_function_group_read_xml):

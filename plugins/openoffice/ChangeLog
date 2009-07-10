@@ -1,3 +1,22 @@
+2009-07-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (od_draw_frame): we can only match
+	  once
+	(openoffice_file_open): g_free can handle NULL
+	* openoffice-write.c (odf_write_frame): new
+	(odf_write_objects): new
+	(odf_write_empty_cell): rather than calling
+	  odf_write_comment, call odf_write_objects
+	(odf_write_covered_cell): change argument, and 
+	  change all callers
+	(odf_sheet_objects_get): new
+	(odf_write_content_rows): handle all sheet objects,
+	  not just comments
+	(odf_write_content): hash graphs
+	(odf_write_graphs): new stub
+	(openoffice_file_save_real): initialize graph hash
+	  and create include chart documents
+
 2009-07-08 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c: split styles.col_row into

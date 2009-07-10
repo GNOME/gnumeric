@@ -691,6 +691,26 @@ sheet_object_anchor_to_pts (SheetObjectAnchor const *anchor,
 		FALSE, anchor->offset [3]);
 }
 
+void
+sheet_object_anchor_to_offset_pts (SheetObjectAnchor const *anchor,
+				   Sheet const *sheet, double *res_pts)
+{
+	GnmRange const *r;
+
+	g_return_if_fail (res_pts != NULL);
+
+	r = &anchor->cell_bound;
+
+	res_pts [0] = cell_offset_calc_pt (sheet, r->start.col,
+					   TRUE, anchor->offset [0]);
+	res_pts [1] = cell_offset_calc_pt (sheet, r->start.row,
+					   FALSE, anchor->offset [1]);
+	res_pts [2] = cell_offset_calc_pt (sheet, r->end.col,
+					   TRUE, anchor->offset [2]);
+	res_pts [3] = cell_offset_calc_pt (sheet, r->end.row,
+					   FALSE, anchor->offset [3]);
+}
+
 static void
 clear_sheet (SheetObject *so, GOUndo **pundo)
 {
