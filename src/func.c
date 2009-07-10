@@ -690,6 +690,10 @@ gnm_func_free (GnmFunc *func)
 		g_free (func->fn.args.arg_types);
 	if (func->flags & GNM_FUNC_FREE_NAME)
 		g_free ((char *)func->name);
+
+	if (func->textdomain)
+		go_string_unref (func->textdomain);
+
 	g_free (func);
 }
 
@@ -727,7 +731,8 @@ gnm_func_lookup (char const *name, Workbook *scope)
 
 GnmFunc *
 gnm_func_add (GnmFuncGroup *fn_group,
-	      GnmFuncDescriptor const *desc)
+	      GnmFuncDescriptor const *desc,
+	      const char *textdomain)
 {
 	static char const valid_tokens[] = "fsbraAES?|";
 	GnmFunc *func;
@@ -737,12 +742,14 @@ gnm_func_add (GnmFuncGroup *fn_group,
 	g_return_val_if_fail (desc != NULL, NULL);
 
 	func = g_new (GnmFunc, 1);
-	if (func == NULL)
-		return NULL;
+
+	if (!textdomain)
+		textdomain = GETTEXT_PACKAGE;
 
 	func->name		= desc->name;
 	func->arg_names		= desc->arg_names;
 	func->help		= desc->help ? desc->help : NULL;
+	func->textdomain        = go_string_new (textdomain);
 	func->linker		= desc->linker;
 	func->unlinker		= desc->unlinker;
 	func->ref_notify	= desc->ref_notify;
@@ -797,18 +804,21 @@ unknownFunctionHandler (GnmFuncEvalInfo *ei,
 
 GnmFunc *
 gnm_func_add_stub (GnmFuncGroup *fn_group,
-		   char const	    *name,
+		   const char *name,
+		   const char *textdomain,
 		   GnmFuncLoadDesc   load_desc,
 		   GnmFuncRefNotify  opt_ref_notify)
 {
 	GnmFunc *func = g_new0 (GnmFunc, 1);
-	if (func == NULL)
-		return NULL;
+
+	if (!textdomain)
+		textdomain = GETTEXT_PACKAGE;
 
 	func->name		= name;
 	func->ref_notify	= opt_ref_notify;
 	func->fn_type		= GNM_FUNC_TYPE_STUB;
 	func->fn.load_desc	= load_desc;
+	func->textdomain        = go_string_new (textdomain);
 
 	func->fn_group = fn_group;
 	if (fn_group != NULL)
@@ -861,7 +871,7 @@ gnm_func_add_placeholder (Workbook *scope,
 		/* WISHLIST : it would be nice to have a log if these. */
 		g_warning ("Unknown %sfunction : %s", type, name);
 
-	func = gnm_func_add (unknown_cat, &desc);
+	func = gnm_func_add (unknown_cat, &desc, NULL);
 
 	if (scope != NULL) {
 		if (scope->sheet_local_functions == NULL)

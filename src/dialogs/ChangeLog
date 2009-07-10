@@ -1,3 +1,8 @@
+2009-07-09  Morten Welinder  <terra@gnome.org>
+
+	* dialog-function-select.c (describe_new_style): Translate in the
+	right textdomain.
+
 2009-07-02  Morten Welinder  <terra@gnome.org>
 
 	* dialog-function-select.c (make_expr_example): Allow array

@@ -194,6 +194,7 @@ struct _GnmFunc {
 	char const *name;
 	char const *arg_names;
 	GnmFuncHelp const *help;
+	GOString *textdomain;
 	GnmFuncType fn_type;
 	union {
 		GnmFuncNodes nodes;
@@ -232,10 +233,12 @@ gpointer    gnm_func_get_user_data   (GnmFunc const *func);
 void        gnm_func_set_user_data   (GnmFunc *func, gpointer user_data);
 GnmFunc	   *gnm_func_lookup	     (char const *name, Workbook *scope);	/* change scope one day */
 GnmFunc    *gnm_func_add	     (GnmFuncGroup *group,
-				      GnmFuncDescriptor const *descriptor);
+				      GnmFuncDescriptor const *descriptor,
+				      const char *textdomain);
 GnmFunc    *gnm_func_add_stub	     (GnmFuncGroup *group,
-				      char const *name,
-				      GnmFuncLoadDesc  load_desc,
+				      const char *name,
+				      const char *textdomain,
+				      GnmFuncLoadDesc load_desc,
 				      GnmFuncRefNotify opt_ref_notify);
 GnmFunc    *gnm_func_add_placeholder (Workbook *optional_scope,			/* change scope one day */
 				      char const *name,

@@ -205,7 +205,7 @@ scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_categor
 	desc.test_status = GNM_FUNC_TEST_STATUS_UNKNOWN;
 
 	cat = gnm_func_group_fetch (SCM_CHARS (scm_category), NULL);
-	fndef = gnm_func_add (cat, &desc);
+	fndef = gnm_func_add (cat, &desc, NULL);
 
 	gnm_func_set_user_data (fndef, GINT_TO_POINTER (scm_function));
 

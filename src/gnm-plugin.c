@@ -27,22 +27,28 @@ struct _PluginServiceFunctionGroup {
 	gchar *category_name, *translated_category_name;
 	GSList *function_name_list;
 
-	GnmFuncGroup	*func_group;
+	GnmFuncGroup *func_group;
 	PluginServiceFunctionGroupCallbacks cbs;
+	char *textdomain;
 };
 
 static void
 plugin_service_function_group_finalize (GObject *obj)
 {
-	PluginServiceFunctionGroup *service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (obj);
+	PluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (obj);
 	GObjectClass *parent_class;
 
-	g_free (service_function_group->category_name);
-	service_function_group->category_name = NULL;
-	g_free (service_function_group->translated_category_name);
-	service_function_group->translated_category_name = NULL;
-	go_slist_free_custom (service_function_group->function_name_list, g_free);
-	service_function_group->function_name_list = NULL;
+	g_free (sfg->category_name);
+	sfg->category_name = NULL;
+
+	g_free (sfg->translated_category_name);
+	sfg->translated_category_name = NULL;
+
+	go_slist_free_custom (sfg->function_name_list, g_free);
+	sfg->function_name_list = NULL;
+
+	g_free (sfg->textdomain);
+	sfg->textdomain = NULL;
 
 	parent_class = g_type_class_peek (GO_TYPE_PLUGIN_SERVICE);
 	parent_class->finalize (obj);
@@ -54,14 +60,13 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 	xmlNode *category_node, *translated_category_node, *functions_node;
 	gchar *category_name, *translated_category_name;
 	GSList *function_name_list = NULL;
+	gchar *textdomain = NULL;
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	category_node = e_xml_get_child_by_name_no_lang (tree, "category");
 	if (category_node != NULL) {
-		xmlChar *val;
-
-		val = xmlNodeGetContent (category_node);
-		category_name = g_strdup ((gchar *)val);
+		xmlChar *val = xmlNodeGetContent (category_node);
+		category_name = g_strdup (CXML2C (val));
 		xmlFree (val);
 	} else {
 		category_name = NULL;
@@ -75,7 +80,7 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 			xmlChar *val;
 
 			val = xmlNodeGetContent (translated_category_node);
-			translated_category_name = g_strdup ((gchar *)val);
+			translated_category_name = g_strdup (CXML2C (val));
 			xmlFree (val);
 			g_free (lang);
 		} else {
@@ -87,6 +92,8 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 	functions_node = e_xml_get_child_by_name (tree, (xmlChar *)"functions");
 	if (functions_node != NULL) {
 		xmlNode *node;
+
+		textdomain = xml_node_get_cstr (functions_node, "textdomain");
 
 		for (node = functions_node->xmlChildrenNode; node != NULL; node = node->next) {
 			gchar *func_name;
@@ -100,11 +107,12 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 		GO_SLIST_REVERSE (function_name_list);
 	}
 	if (category_name != NULL && function_name_list != NULL) {
-		PluginServiceFunctionGroup *service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
+		PluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 
-		service_function_group->category_name = category_name;
-		service_function_group->translated_category_name = translated_category_name;
-		service_function_group->function_name_list = function_name_list;
+		sfg->category_name = category_name;
+		sfg->translated_category_name = translated_category_name;
+		sfg->function_name_list = function_name_list;
+		sfg->textdomain = textdomain;
 	} else {
 		GSList *error_list = NULL;
 
@@ -122,6 +130,8 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 		g_free (category_name);
 		g_free (translated_category_name);
 		go_slist_free_custom (function_name_list, g_free);
+
+		g_free (textdomain);
 	}
 }
 
@@ -129,8 +139,8 @@ static gboolean
 plugin_service_function_group_func_desc_load (GnmFunc const *fn_def,
 					      GnmFuncDescriptor *res)
 {
-	GOPluginService	   *service = gnm_func_get_user_data (fn_def);
-	PluginServiceFunctionGroup *service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
+	GOPluginService	*service = gnm_func_get_user_data (fn_def);
+	PluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 	ErrorInfo *error = NULL;
 
 	g_return_val_if_fail (fn_def != NULL, FALSE);
@@ -141,14 +151,15 @@ plugin_service_function_group_func_desc_load (GnmFunc const *fn_def,
 		error_info_free (error);
 		return FALSE;
 	}
-	if (NULL == service_function_group->cbs.func_desc_load) {
+	if (NULL == sfg->cbs.func_desc_load) {
                 error = error_info_new_printf (_("No func_desc_load method.\n"));
 		error_info_print (error);
 		error_info_free (error);
 		return FALSE;
 	}
-	return service_function_group->cbs.func_desc_load (service,
-		gnm_func_get_name (fn_def), res);
+	return sfg->cbs.func_desc_load (service,
+					gnm_func_get_name (fn_def),
+					res);
 }
 
 static void
@@ -168,17 +179,17 @@ plugin_service_function_group_func_ref_notify  (GnmFunc *fn_def, int refcount)
 static void
 plugin_service_function_group_activate (GOPluginService *service, ErrorInfo **ret_error)
 {
-	PluginServiceFunctionGroup *service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
+	PluginServiceFunctionGroup *sfg =
+		GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	service_function_group->func_group = gnm_func_group_fetch (
-		service_function_group->category_name,
-		service_function_group->translated_category_name);
-	GO_SLIST_FOREACH (service_function_group->function_name_list, char, fname,
+	sfg->func_group = gnm_func_group_fetch (sfg->category_name,
+						sfg->translated_category_name);
+	GO_SLIST_FOREACH (sfg->function_name_list, char, fname,
 		GnmFunc *fn_def;
 
 		fn_def = gnm_func_add_stub (
-			service_function_group->func_group, fname,
+			sfg->func_group, fname, sfg->textdomain,
 			plugin_service_function_group_func_desc_load,
 			plugin_service_function_group_func_ref_notify);
 		gnm_func_set_user_data (fn_def, service);
@@ -189,10 +200,10 @@ plugin_service_function_group_activate (GOPluginService *service, ErrorInfo **re
 static void
 plugin_service_function_group_deactivate (GOPluginService *service, ErrorInfo **ret_error)
 {
-	PluginServiceFunctionGroup *service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
+	PluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	GO_SLIST_FOREACH (service_function_group->function_name_list, char, fname,
+	GO_SLIST_FOREACH (sfg->function_name_list, char, fname,
 		gnm_func_free (gnm_func_lookup (fname, NULL));
 	);
 	service->is_active = FALSE;
@@ -201,14 +212,14 @@ plugin_service_function_group_deactivate (GOPluginService *service, ErrorInfo **
 static char *
 plugin_service_function_group_get_description (GOPluginService *service)
 {
-	PluginServiceFunctionGroup *service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
+	PluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 	int n_functions;
 	char const *category_name;
 
-	n_functions = g_slist_length (service_function_group->function_name_list);
-	category_name = service_function_group->translated_category_name != NULL
-		? service_function_group->translated_category_name
-		: service_function_group->category_name;
+	n_functions = g_slist_length (sfg->function_name_list);
+	category_name = sfg->translated_category_name != NULL
+		? sfg->translated_category_name
+		: sfg->category_name;
 
 	return g_strdup_printf (ngettext (
 			"%d function in category \"%s\"",
@@ -225,7 +236,9 @@ plugin_service_function_group_init (PluginServiceFunctionGroup *s)
 	s->translated_category_name = NULL;
 	s->function_name_list = NULL;
 	s->func_group = NULL;
+	s->textdomain = NULL;
 }
+
 static void
 plugin_service_function_group_class_init (GObjectClass *gobject_class)
 {

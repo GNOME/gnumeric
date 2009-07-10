@@ -341,6 +341,7 @@ void
 func_builtin_init (void)
 {
 	const char *gname;
+	const char *textdomain = GETTEXT_PACKAGE;
 
 	static GnmFuncDescriptor const builtins [] = {
 		{	"sum",		NULL,	N_("number,number,"),
@@ -379,17 +380,17 @@ func_builtin_init (void)
 
 	gname = N_("Mathematics");
 	math_group = gnm_func_group_fetch (gname, _(gname));
-	gnm_func_add (math_group, builtins + 0);
-	gnm_func_add (math_group, builtins + 1);
+	gnm_func_add (math_group, builtins + 0, textdomain);
+	gnm_func_add (math_group, builtins + 1, textdomain);
 
 	gname = N_("Gnumeric");
 	gnumeric_group = gnm_func_group_fetch (gname, _(gname));
-	gnm_func_add (gnumeric_group, builtins + 2);
-	gnm_func_add (gnumeric_group, builtins + 3);
+	gnm_func_add (gnumeric_group, builtins + 2, textdomain);
+	gnm_func_add (gnumeric_group, builtins + 3, textdomain);
 
 	gname = N_("Logic");
 	logic_group = gnm_func_group_fetch (gname, _(gname));
-	gnm_func_add (logic_group, builtins + 4);
+	gnm_func_add (logic_group, builtins + 4, textdomain);
 }
 
 static void

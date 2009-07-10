@@ -45,8 +45,7 @@
 #include <gtk/gtk.h>
 #include <string.h>
 
-#undef F_
-#define F_(s) dgettext ("gnumeric-functions", (s))
+#define F2(func,s) dgettext ((func)->textdomain->str, (s))
 
 #define FUNCTION_SELECT_KEY "function-selector-dialog"
 #define FUNCTION_SELECT_DIALOG_KEY "function-selector-dialog"
@@ -476,7 +475,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 	for (help = func->help; 1; help++) {
 		switch (help->type) {
 		case GNM_FUNC_HELP_NAME: {
-			const char *text = F_(help->text);
+			const char *text = F2 (func, help->text);
 			const char *colon = strchr (text, ':');
 			if (!colon)
 				break;
@@ -487,7 +486,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 			break;
 		}
 		case GNM_FUNC_HELP_ARG: {
-			const char *text = F_(help->text);
+			const char *text = F2 (func, help->text);
 			const char *colon = strchr (text, ':');
 			if (!colon)
 				break;
@@ -505,14 +504,14 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 			break;
 		}
 		case GNM_FUNC_HELP_DESCRIPTION: {
-			const char *text = F_(help->text);
+			const char *text = F2 (func, help->text);
 			ADD_TEXT ("\n");
 			ADD_TEXT_WITH_ARGS (text);
 			ADD_TEXT ("\n");
 			break;
 		}
 		case GNM_FUNC_HELP_NOTE: {
-			const char *text = F_(help->text);
+			const char *text = F2 (func, help->text);
 			ADD_TEXT ("\n");
 			ADD_TEXT (_("Note: "));
 			ADD_TEXT_WITH_ARGS (text);
@@ -520,7 +519,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 			break;
 		}
 		case GNM_FUNC_HELP_EXAMPLES: {
-			const char *text = F_(help->text);
+			const char *text = F2 (func, help->text);
 			gboolean was_translated = (text != help->text);
 
 			if (!seen_examples) {
@@ -600,7 +599,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 			break;
 		}
 		case GNM_FUNC_HELP_EXCEL: {
-			const char *text = F_(help->text);
+			const char *text = F2 (func, help->text);
 			ADD_TEXT ("\n");
 			ADD_TEXT (_("Microsoft Excel: "));
 			ADD_TEXT_WITH_ARGS (text);
@@ -608,7 +607,7 @@ describe_new_style (GtkTextBuffer *description, GnmFunc const *func, Sheet *shee
 			break;
 		}
 		case GNM_FUNC_HELP_ODF: {
-			const char *text = F_(help->text);
+			const char *text = F2 (func, help->text);
 			ADD_TEXT ("\n");
 			ADD_TEXT (_("ODF (OpenFormula): "));
 			ADD_TEXT_WITH_ARGS (text);
