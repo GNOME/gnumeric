@@ -1,3 +1,19 @@
+2009-07-12 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_chart_axis): use more of the 
+	  applicable styles
+	(oo_plot_area): ditto
+	(oo_plot_area_end): free GSList
+	(oo_chart): save applicable style
+	(openoffice_file_open): initialize chart.these_plot_styles
+	(od_draw_frame): calculate correct offsets
+	* openoffice-write.c (odf_write_bar_col_plot_style): new
+	(odf_write_bar_col_plot_styles): deleted
+	(odf_write_plot): try to implement basic support for all
+	  plot types
+	(odf_write_bar_col_plot): deleted and incorporated in 
+	  odf_write_plot
+
 2009-07-10 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_frame): also link to a png

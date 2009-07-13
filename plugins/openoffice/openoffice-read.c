@@ -144,7 +144,7 @@ typedef struct {
 typedef struct {
 	gboolean grid;		/* graph has grid? */
 	gboolean src_in_rows;	/* orientation of graph data: rows or columns */
-	GSList	*axis_props;		/* axis properties */
+	GSList	*axis_props;	/* axis properties */
 	GSList	*plot_props;	/* plot properties */
 } OOChartStyle;
 
@@ -167,6 +167,7 @@ typedef struct {
 
 	OOChartStyle		*cur_graph_style;
 	GHashTable		*graph_styles;	/* contain links to OOChartStyle GSLists */
+	GSList                  *these_plot_styles;  /*  */
 	OOPlotType		 plot_type;
 	SheetObjectAnchor	 anchor;	/* anchor to draw the frame (images or graphs) */
 } OOChartInfo;
@@ -3123,8 +3124,8 @@ od_draw_frame (GsfXMLIn *xin, xmlChar const **attrs)
 
 	frame_offset[0] = (x/col->size_pts);
 	frame_offset[1] = (y/row->size_pts);
-	frame_offset[2] = (width/col->size_pts);
-	frame_offset[3] = (height/row->size_pts);
+	frame_offset[2] = ((x+width)/col->size_pts);
+	frame_offset[3] = ((y+height)/row->size_pts);
 	sheet_object_anchor_init (&state->chart.anchor, &cell_base, frame_offset,
 		GOD_ANCHOR_DIR_DOWN_RIGHT);
 }
@@ -3247,6 +3248,7 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 	gchar const *style_name = NULL;
 	GogAxisType  axis_type;
 	int tmp;
+	GSList *l;
 
 	axis_type = GOG_AXIS_UNKNOWN;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -3259,6 +3261,11 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 	if (NULL != axes) {
 		state->chart.axis = axes->data;
 		g_slist_free (axes);
+	}
+
+	for (l = state->chart.these_plot_styles; l != NULL; l = l->next) { 
+		style = l->data;
+		oo_prop_list_apply (style->axis_props, G_OBJECT (state->chart.axis));
 	}
 
 	if (NULL != (style = g_hash_table_lookup (state->chart.graph_styles, style_name))) {
@@ -3287,10 +3294,15 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	OOChartStyle	*style = NULL;
 	xmlChar const   *source_range_str = NULL;
 	int label_flags = 0;
+	GSList *l;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
-			style = g_hash_table_lookup (state->chart.graph_styles, CXML2C (attrs[1]));
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					OO_NS_CHART, "style-name"))
+			state->chart.these_plot_styles = g_slist_append 
+				(state->chart.these_plot_styles,
+				 g_hash_table_lookup 
+				 (state->chart.graph_styles, CXML2C (attrs[1])));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "cell-range-address"))
 			source_range_str = attrs[1];
 		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "data-source-has-labels", labels, &label_flags))
@@ -3316,8 +3328,10 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 			if (label_flags & 2)
 				state->chart.src_range.start.col++;
 
-			if (NULL != style)
+			for (l = state->chart.these_plot_styles; l != NULL; l = l->next) { 
+				style = l->data;
 				state->chart.src_in_rows = style->src_in_rows;
+			}
 			if (state->chart.src_in_rows) {
 				state->chart.src_n_vectors = range_height (&state->chart.src_range);
 				state->chart.src_range.end.row  = state->chart.src_range.start.row;
@@ -3345,8 +3359,10 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.plot = gog_plot_new_by_name (type);
 	gog_object_add_by_name (GOG_OBJECT (state->chart.chart),
 		"Plot", GOG_OBJECT (state->chart.plot));
-	if (style)
+	for (l = state->chart.these_plot_styles; l != NULL; l = l->next) { 
+		style = l->data;
 		oo_prop_list_apply (style->plot_props, G_OBJECT (state->chart.plot));
+	}
 }
 
 static void
@@ -3354,6 +3370,8 @@ oo_plot_area_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	state->chart.plot = NULL;
+	g_slist_free (state->chart.these_plot_styles);
+	state->chart.these_plot_styles = NULL;
 }
 
 static int
@@ -3500,16 +3518,28 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	int tmp;
 	OOPlotType type = OO_PLOT_SCATTER; /* arbitrary default */
+	OOChartStyle	*style = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_enum (xin, attrs, OO_NS_CHART, "class", types, &tmp))
 			type = tmp;
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					     OO_NS_CHART, "style-name"))
+			state->chart.these_plot_styles = g_slist_append 
+				(state->chart.these_plot_styles,
+				 g_hash_table_lookup 
+				 (state->chart.graph_styles, CXML2C (attrs[1])));
 	state->chart.plot_type = type;
 	state->chart.chart = GOG_CHART (gog_object_add_by_name (
 		GOG_OBJECT (state->chart.graph), "Chart", NULL));
 	state->chart.plot = NULL;
 	state->chart.series = NULL;
 	state->chart.axis = NULL;
+	if (NULL != style)
+		state->chart.src_in_rows = style->src_in_rows;
+
+	/* if (NULL != style) we also need to save the style for later use in oo_plot_area */
+
 }
 
 static void
@@ -4835,6 +4865,7 @@ openoffice_file_open (GOFileOpener const *fo, IOContext *io_context,
 	state.pos.eval.col	= -1;
 	state.pos.eval.row	= -1;
 	state.cell_comment      = NULL;
+	state.chart.these_plot_styles = NULL;
 	state.styles.sheet = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_free);

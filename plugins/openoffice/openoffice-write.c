@@ -3168,6 +3168,18 @@ odf_write_series (GnmOOExport *state, GSList const *series)
 }
 
 static void
+odf_write_bar_col_plot_style (GnmOOExport *state, GogObject const *chart, GogObject const *plot)
+{
+	gboolean horizontal = FALSE;
+	if (plot == NULL)
+		return;
+
+	g_object_get (G_OBJECT (plot), "horizontal", &horizontal, NULL);
+	/* Note: horizontal refers to the bars and vertical to the x-axis */
+	odf_add_bool (state->xml, CHART "vertical", horizontal);
+}
+
+static void
 odf_write_axis_style (GnmOOExport *state, GogObject const *chart, char const *axis_role, 
 		      char const *style_label)
 {
@@ -3207,25 +3219,87 @@ odf_write_axis (GnmOOExport *state, GogObject const *chart, char const *axis_rol
 }
 
 static void
-odf_write_bar_col_plot_styles (GnmOOExport *state, GogObject const *chart, GogObject const *plot)
+odf_write_plot (GnmOOExport *state, GogObject const *chart, GogObject const *plot)
 {
+	
+	enum {
+		ODF_BARCOL,
+		ODF_LINE,
+		ODF_AREA,
+		ODF_DROPBAR,
+		ODF_MINMAX,
+		ODF_CIRCLE,
+		ODF_RADAR,
+		ODF_RADARAREA,
+		ODF_RING,
+		ODF_SCATTER,
+		ODF_SURF,
+		ODF_STOCK
+	} gtype;
+	char const *plot_type = G_OBJECT_TYPE_NAME (plot);
+	char const *odf_plot_type;
+
+	if (0 == strcmp (plot_type, "GogBarColPlot")) {
+		gtype = ODF_BARCOL;
+		odf_plot_type = "chart:bar";
+	} else if (0 == strcmp (plot_type, "GogLinePlot")) {
+		gtype = ODF_LINE;
+		odf_plot_type = "chart:line";
+	} else if (0 == strcmp (plot_type, "GogAreaPlot")) {
+		gtype = ODF_AREA;
+		odf_plot_type = "chart:area";
+	} else if (0 == strcmp (plot_type, "GogDropBarPlot")) {
+		gtype = ODF_DROPBAR;
+		odf_plot_type = "chart:bar";
+	} else if (0 == strcmp (plot_type, "GogMinMaxPlot")) {
+		gtype = ODF_STOCK;
+		odf_plot_type = "chart:stock";
+	} else if (0 == strcmp (plot_type, "GogPiePlot")) {
+		gtype = ODF_CIRCLE;
+		odf_plot_type = "chart:circle";
+	} else if (0 == strcmp (plot_type, "GogRadarPlot")) {
+		gtype = ODF_RADAR;
+		odf_plot_type = "chart:radar";
+	} else if (0 == strcmp (plot_type, "GogRadarAreaPlot")) {
+		gtype = ODF_RADARAREA;
+		odf_plot_type = "chart:radararea";
+	} else if (0 == strcmp (plot_type, "GogRingPlot")) {
+		gtype = ODF_RING;
+		odf_plot_type = "chart:ring";
+	} else if (0 == strcmp (plot_type, "GogXYPlot")) {
+		gtype = ODF_SCATTER;
+		odf_plot_type = "chart:scatter";
+	} else if (0 == strcmp (plot_type, "GogContourPlot")) {
+		gtype = ODF_SURF;
+		odf_plot_type = "chart:surface";
+	} else {
+		g_print ("encountered unknown chart type %s\n", plot_type);
+		gtype = ODF_BARCOL;
+		odf_plot_type = "GogBarColPlot";
+	}
+
 	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
 	odf_write_axis_style (state, chart, "Y-Axis", "yaxis");
 	odf_write_axis_style (state, chart, "X-Axis", "xaxis");
+	odf_start_style (state->xml, "plotstyle", "chart");
+	gsf_xml_out_start_element (state->xml, STYLE "chart-properties");
 
+	if (gtype == ODF_BARCOL)
+		odf_write_bar_col_plot_style (state, chart, plot);	
+
+	gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
 	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
-}
 
-static void
-odf_write_bar_col_plot (GnmOOExport *state, GogObject const *chart, GogObject const *plot)
-{
 	gsf_xml_out_start_element (state->xml, OFFICE "body");
 	gsf_xml_out_start_element (state->xml, OFFICE "chart");
 	gsf_xml_out_start_element (state->xml, CHART "chart");
 	if (get_gsf_odf_version () > 101)
 		gsf_xml_out_add_cstr (state->xml, XLINK "href", "..");
-	gsf_xml_out_add_cstr (state->xml, CHART "class", "chart:bar");
+	gsf_xml_out_add_cstr (state->xml, CHART "class", odf_plot_type);
+	gsf_xml_out_add_cstr (state->xml, CHART "style-name", "plotstyle");
 	gsf_xml_out_start_element (state->xml, CHART "plot-area");
+	gsf_xml_out_add_cstr (state->xml, CHART "style-name", "plotstyle");
 	if (get_gsf_odf_version () <= 101) {
 		GSList const *series = gog_plot_get_series (GOG_PLOT (plot));
 		for ( ; NULL != series ; series = series->next) {
@@ -3252,16 +3326,6 @@ odf_write_bar_col_plot (GnmOOExport *state, GogObject const *chart, GogObject co
 	gsf_xml_out_end_element (state->xml); /* </chart:chart> */
 	gsf_xml_out_end_element (state->xml); /* </office:chart> */
 	gsf_xml_out_end_element (state->xml); /* </office:body> */
-}
-
-static void
-odf_write_plot (GnmOOExport *state, GogObject const *chart, GogObject const *plot)
-{
-	char const *plot_type = G_OBJECT_TYPE_NAME (plot);
-	if (0 == strcmp (plot_type, "GogBarColPlot")) {
-		odf_write_bar_col_plot_styles (state, chart, plot);
-		odf_write_bar_col_plot (state, chart, plot);
-	}
 }
 
 
