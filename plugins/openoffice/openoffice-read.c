@@ -3098,12 +3098,16 @@ oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 od_draw_frame (GsfXMLIn *xin, xmlChar const **attrs)
 {
+/* Note that in ODF spreadsheet files svg:height and svg:width should be ignored. We should be considering */
+/* table:end-x and table:end-y together with table:end-cell-address */
+
 	OOParseState *state = (OOParseState *)xin->user_state;
 	GnmRange cell_base;
 	gfloat frame_offset [4];
 	gchar const *aux = NULL;
-	gdouble height, width, x, y;
+	gdouble height = 0., width = 0., x = 0., y = 0., end_x = 0., end_y = 0.;
 	ColRowInfo const *col, *row;
+	GnmExprTop const *texpr = NULL;
 
 	height = width = x = y = 0.;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
@@ -3115,19 +3119,50 @@ od_draw_frame (GsfXMLIn *xin, xmlChar const **attrs)
 			aux = oo_parse_distance (xin, attrs[1], "x", &x);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "y"))
 			aux = oo_parse_distance (xin, attrs[1], "y", &y);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "end-x"))
+			aux = oo_parse_distance (xin, attrs[1], "end-x", &end_x);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "end-y"))
+			aux = oo_parse_distance (xin, attrs[1], "end-y", &end_y);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "end-cell-address")) {
+			GnmParsePos   pp;
+			char *end_str = g_strconcat ("[", CXML2C (attrs[1]), "]", NULL);
+			parse_pos_init (&pp, state->pos.wb, NULL, 0, 0);
+			texpr = oo_expr_parse_str (xin, end_str, &pp,
+						   GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES, 
+						   FORMULA_OPENFORMULA);
+			g_free (end_str);
+		}
 	}
+
 	cell_base.start.col = cell_base.end.col = state->pos.eval.col;
 	cell_base.start.row = cell_base.end.row = state->pos.eval.row;
 
 	col = sheet_col_get_info (state->pos.sheet, state->pos.eval.col);
 	row = sheet_row_get_info (state->pos.sheet, state->pos.eval.row);
 
-	frame_offset[0] = (x/col->size_pts);
-	frame_offset[1] = (y/row->size_pts);
-	frame_offset[2] = ((x+width)/col->size_pts);
-	frame_offset[3] = ((y+height)/row->size_pts);
+	frame_offset[0] = x;
+	frame_offset[1] = y;
+
+	if (texpr == NULL || (GNM_EXPR_GET_OPER (texpr->expr) != GNM_EXPR_OP_CELLREF)) {
+		frame_offset[2] = x+width;
+		frame_offset[3] = y+height;
+	} else {
+		GnmCellRef const *ref = &texpr->expr->cellref.ref;
+		cell_base.end.col = ref->col;
+		cell_base.end.row = ref->row;
+		frame_offset[2] = end_x;
+		frame_offset[3] = end_y ;
+	}
+
+	frame_offset[0] /= col->size_pts;
+	frame_offset[1] /= row->size_pts;
+	frame_offset[2] /= col->size_pts;
+	frame_offset[3] /= row->size_pts;
+
+	if (texpr)
+		gnm_expr_top_unref (texpr);
 	sheet_object_anchor_init (&state->chart.anchor, &cell_base, frame_offset,
-		GOD_ANCHOR_DIR_DOWN_RIGHT);
+				  GOD_ANCHOR_DIR_DOWN_RIGHT);
 }
 
 static void
