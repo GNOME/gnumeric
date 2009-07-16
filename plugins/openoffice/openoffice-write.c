@@ -382,6 +382,16 @@ odf_add_angle (GsfXMLOut *xml, char const *id, int val)
 	gsf_xml_out_add_int (xml, id, val);
 }
 
+static void
+odf_add_percent (GsfXMLOut *xml, char const *id, double val)
+{
+	GString *str = g_string_new (NULL);
+	
+	g_string_append_printf (str, "%.2f%%", val * 100.);
+	gsf_xml_out_add_cstr_unchecked (xml, id, str->str);
+	g_string_free (str, TRUE);	
+}
+
 
 static void
 odf_add_pt (GsfXMLOut *xml, char const *id, float l)
@@ -2146,6 +2156,7 @@ odf_write_frame (GnmOOExport *state, SheetObject *so)
 	formula = gnm_expr_top_as_string (texpr, &pp, state->conv);
 	gnm_expr_top_unref (texpr);
 	gsf_xml_out_add_cstr (state->xml, TABLE "end-cell-address", odf_strip_brackets (formula));
+	g_free (formula);
 
 	if (IS_SHEET_OBJECT_GRAPH (so)) {
 		char const *name = g_hash_table_lookup (state->objects, so);
@@ -3146,21 +3157,54 @@ odf_write_manifest (GnmOOExport *state, GsfOutput *child)
 }
 
 /**********************************************************************************/
+typedef enum {
+	ODF_BARCOL,
+	ODF_LINE,
+	ODF_AREA,
+	ODF_DROPBAR,
+	ODF_MINMAX,
+	ODF_CIRCLE,
+	ODF_RADAR,
+	ODF_RADARAREA,
+	ODF_RING,
+	ODF_SCATTER,
+	ODF_SURF,
+	ODF_BUBBLE,
+	ODF_STOCK
+} odf_chart_type_t; 
+
 static void
 odf_write_series (GnmOOExport *state, GSList const *series)
 {
 	GnmParsePos pp;
+	int i;
 	parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
 
-	for ( ; NULL != series ; series = series->next) {
+	for (i = 1; NULL != series ; series = series->next, i++) {
 		GOData const *dat = gog_dataset_get_dim (GOG_DATASET (series->data), GOG_MS_DIM_VALUES);
 		if (NULL != dat) {
 			GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
 			if (NULL != texpr) {
 				char *str = gnm_expr_top_as_string (texpr, &pp, state->conv);
+				GOData const *cat = gog_dataset_get_dim (GOG_DATASET (series->data), GOG_MS_DIM_LABELS);
 				gsf_xml_out_start_element (state->xml, CHART "series");
 				gsf_xml_out_add_cstr (state->xml, CHART "values-cell-range-address", 
 						      odf_strip_brackets (str));
+				g_free (str);
+				str = g_strdup_printf ("series%i", i);
+				gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
+				g_free (str);
+				if (NULL != cat) {
+					texpr = gnm_go_data_get_expr (cat);	
+					if (NULL != texpr) {
+						str = gnm_expr_top_as_string (texpr, &pp, state->conv);
+						gsf_xml_out_start_element (state->xml, CHART "domain");
+						gsf_xml_out_add_cstr (state->xml, TABLE "cell-range-address", 
+								      odf_strip_brackets (str));
+						gsf_xml_out_end_element (state->xml); /* </chart:domain> */
+						g_free (str);
+					}
+				}
 				gsf_xml_out_end_element (state->xml); /* </chart:series> */
 			}
 		}
@@ -3168,11 +3212,107 @@ odf_write_series (GnmOOExport *state, GSList const *series)
 }
 
 static void
-odf_write_bar_col_plot_style (GnmOOExport *state, GogObject const *chart, GogObject const *plot)
+odf_write_gantt_series (GnmOOExport *state, GSList const *series)
+{
+	GnmParsePos pp;
+	int i;
+	parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
+
+	for (i = 1; NULL != series ; series = series->next, i++) {
+		GOData const *dat = gog_dataset_get_dim (GOG_DATASET (series->data), GOG_MS_DIM_VALUES);
+		if (NULL != dat) {
+			GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
+			if (NULL != texpr) {
+				char *str = gnm_expr_top_as_string (texpr, &pp, state->conv);
+				GOData const *cat = gog_dataset_get_dim (GOG_DATASET (series->data), GOG_MS_DIM_LABELS);
+				gsf_xml_out_start_element (state->xml, CHART "series");
+				gsf_xml_out_add_cstr (state->xml, CHART "values-cell-range-address", 
+						      odf_strip_brackets (str));
+				g_free (str);
+				str = g_strdup_printf ("series%i", i);
+				gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
+				g_free (str);
+				if (NULL != cat) {
+					texpr = gnm_go_data_get_expr (cat);	
+					if (NULL != texpr) {
+						str = gnm_expr_top_as_string (texpr, &pp, state->conv);
+						gsf_xml_out_start_element (state->xml, CHART "domain");
+						gsf_xml_out_add_cstr (state->xml, TABLE "cell-range-address", 
+								      odf_strip_brackets (str));
+						gsf_xml_out_end_element (state->xml); /* </chart:domain> */
+						g_free (str);
+					}
+				}
+				gsf_xml_out_end_element (state->xml); /* </chart:series> */
+			}
+		}
+		dat = gog_dataset_get_dim (GOG_DATASET (series->data), GOG_MS_DIM_CATEGORIES);
+		if (NULL != dat) {
+			GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
+			if (NULL != texpr) {
+				char *str = gnm_expr_top_as_string (texpr, &pp, state->conv);
+				gsf_xml_out_start_element (state->xml, CHART "series");
+				gsf_xml_out_add_cstr (state->xml, CHART "values-cell-range-address", 
+						      odf_strip_brackets (str));
+				g_free (str);
+				str = g_strdup_printf ("series%i", i);
+				gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
+				g_free (str);
+				gsf_xml_out_end_element (state->xml); /* </chart:series> */
+			}
+		}
+	}
+}
+
+static void
+odf_write_bubble_series (GnmOOExport *state, GSList const *orig_series)
+{
+	GnmParsePos pp;
+	int i;
+	GSList const *series;
+	parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
+
+	gsf_xml_out_start_element (state->xml, CHART "series");
+	for (series = orig_series, i = 0; NULL != series; series = series->next, i++) {
+		GOData const *dat = gog_dataset_get_dim (GOG_DATASET (series->data), 2);
+
+		if (NULL != dat) {
+			GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
+			if (NULL != texpr) {
+				char *str = gnm_expr_top_as_string (texpr, &pp, state->conv);
+				gsf_xml_out_add_cstr (state->xml, CHART "values-cell-range-address",
+						      odf_strip_brackets (str));
+				g_free (str);
+				str = g_strdup_printf ("series%i", i);
+				gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
+				g_free (str);
+				break;
+			}
+		}
+	}
+	for (i = 1; i >= 0; i--) 
+		for (series = orig_series; NULL != series ; series = series->next) {
+			GOData const *dat = gog_dataset_get_dim (GOG_DATASET (series->data), i);
+			if (NULL != dat) {
+				GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
+				if (NULL != texpr) {
+					char *str = gnm_expr_top_as_string (texpr, &pp, state->conv);
+					gsf_xml_out_start_element (state->xml, CHART "domain");
+					gsf_xml_out_add_cstr (state->xml, TABLE "cell-range-address", 
+							      odf_strip_brackets (str));
+					gsf_xml_out_end_element (state->xml); /* </chart:domain> */
+					g_free (str);
+					break;
+				}
+			}
+		}
+	gsf_xml_out_end_element (state->xml); /* </chart:series> */
+}
+
+static void
+odf_write_bar_col_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, GogObject const *plot)
 {
 	gboolean horizontal = FALSE;
-	if (plot == NULL)
-		return;
 
 	g_object_get (G_OBJECT (plot), "horizontal", &horizontal, NULL);
 	/* Note: horizontal refers to the bars and vertical to the x-axis */
@@ -3180,8 +3320,35 @@ odf_write_bar_col_plot_style (GnmOOExport *state, GogObject const *chart, GogObj
 }
 
 static void
+odf_write_ring_plot_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
+{
+	odf_add_percent (state->xml, CHART "hole-size", 0.5);
+}
+
+static void
+odf_write_line_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
+{
+	gsf_xml_out_add_cstr (state->xml, CHART "symbol-type", "none");
+}
+
+static void
+odf_write_scatter_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
+{
+	gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
+	odf_add_bool (state->xml, CHART "lines", FALSE);
+}
+
+static void
+odf_write_scatter_series_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *series)
+{
+	gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
+	odf_add_bool (state->xml, CHART "lines", FALSE);
+	gsf_xml_out_add_cstr (state->xml, CHART "symbol-type", "automatic");
+}
+
+static void
 odf_write_axis_style (GnmOOExport *state, GogObject const *chart, char const *axis_role, 
-		      char const *style_label)
+		      char const *style_label, odf_chart_type_t gtype)
 {
 	GogObject const *axis = gog_object_get_child_by_name (chart, axis_role);
 	if (axis != NULL) {
@@ -3194,12 +3361,46 @@ odf_write_axis_style (GnmOOExport *state, GogObject const *chart, char const *ax
 		g_object_get (G_OBJECT (axis), "map-name", &type, NULL);
 		odf_add_bool (state->xml, CHART "logarithmic", 0 != strcmp (type, "Linear"));
 		gsf_xml_out_add_cstr (state->xml, CHART "axis-position", "start");
+		odf_add_bool (state->xml, CHART "display-label", TRUE);
 
 		if (gog_axis_get_bounds (GOG_AXIS (axis), &minima, &maxima)) {
 			gsf_xml_out_add_float (state->xml, CHART "minimum", minima, -1);
 			gsf_xml_out_add_float (state->xml, CHART "maximum", maxima, -1);
 		}
 
+		if (get_gsf_odf_version () > 101)
+			switch (gtype) {
+			case ODF_CIRCLE:
+				odf_add_bool (state->xml, CHART "reverse-direction", TRUE);
+				break;
+			case ODF_RING:
+				odf_add_bool (state->xml, CHART "reverse-direction",
+					      *style_label == 'y' );
+				break;
+			case ODF_DROPBAR:
+				odf_add_bool (state->xml, CHART "reverse-direction", 
+					      *style_label == 'x' && *axis_role == 'Y');
+				break;
+			default:
+				break;
+			}
+		gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
+		gsf_xml_out_end_element (state->xml); /* </style:style> */
+	} else if (gtype == ODF_CIRCLE || gtype == ODF_RING) {
+		odf_start_style (state->xml, style_label, "chart");
+		gsf_xml_out_start_element (state->xml, STYLE "chart-properties");
+		if (get_gsf_odf_version () > 101)
+			switch (gtype) {
+			case ODF_CIRCLE:
+				odf_add_bool (state->xml, CHART "reverse-direction", TRUE);
+				break;
+			case ODF_RING:
+				odf_add_bool (state->xml, CHART "reverse-direction",
+					      *style_label == 'y' );
+				break;
+			default:
+				break;
+			}
 		gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
 		gsf_xml_out_end_element (state->xml); /* </style:style> */
 	}
@@ -3207,10 +3408,10 @@ odf_write_axis_style (GnmOOExport *state, GogObject const *chart, char const *ax
 
 static void
 odf_write_axis (GnmOOExport *state, GogObject const *chart, char const *axis_role, char const *style_label,
-	char const *dimension)
+	char const *dimension, odf_chart_type_t gtype)
 {
 	GogObject const *axis = gog_object_get_child_by_name (chart, axis_role);
-	if (axis != NULL) {
+	if (axis != NULL || (gtype == ODF_CIRCLE && *dimension == 'y') || (gtype == ODF_RING)) {
 		gsf_xml_out_start_element (state->xml, CHART "axis");
 		gsf_xml_out_add_cstr (state->xml, CHART "dimension", dimension);
 		gsf_xml_out_add_cstr (state->xml, CHART "style-name", style_label);
@@ -3219,89 +3420,179 @@ odf_write_axis (GnmOOExport *state, GogObject const *chart, char const *axis_rol
 }
 
 static void
-odf_write_plot (GnmOOExport *state, GogObject const *chart, GogObject const *plot)
+odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, GogObject const *plot)
 {
-	
-	enum {
-		ODF_BARCOL,
-		ODF_LINE,
-		ODF_AREA,
-		ODF_DROPBAR,
-		ODF_MINMAX,
-		ODF_CIRCLE,
-		ODF_RADAR,
-		ODF_RADARAREA,
-		ODF_RING,
-		ODF_SCATTER,
-		ODF_SURF,
-		ODF_STOCK
-	} gtype;
+	odf_chart_type_t gtype;
 	char const *plot_type = G_OBJECT_TYPE_NAME (plot);
 	char const *odf_plot_type;
+	SheetObjectAnchor const *anchor = sheet_object_get_anchor (so);
+	double res_pts[4] = {0.,0.,0.,0.};
+	double pad = 4.;
+	gboolean horizontal = FALSE;
+	GSList const *series, *l;
+	int i;
+	GogObject *wall = gog_object_get_child_by_name (plot, "Backplane");
 
 	if (0 == strcmp (plot_type, "GogBarColPlot")) {
 		gtype = ODF_BARCOL;
 		odf_plot_type = "chart:bar";
+		pad = 20.;
 	} else if (0 == strcmp (plot_type, "GogLinePlot")) {
 		gtype = ODF_LINE;
 		odf_plot_type = "chart:line";
+		pad = 20.;
 	} else if (0 == strcmp (plot_type, "GogAreaPlot")) {
 		gtype = ODF_AREA;
 		odf_plot_type = "chart:area";
+		pad = 20.;
 	} else if (0 == strcmp (plot_type, "GogDropBarPlot")) {
 		gtype = ODF_DROPBAR;
-		odf_plot_type = "chart:bar";
+		odf_plot_type = "chart:gantt";
+		pad = 20.;
 	} else if (0 == strcmp (plot_type, "GogMinMaxPlot")) {
 		gtype = ODF_STOCK;
 		odf_plot_type = "chart:stock";
+		pad = 10.;
 	} else if (0 == strcmp (plot_type, "GogPiePlot")) {
 		gtype = ODF_CIRCLE;
 		odf_plot_type = "chart:circle";
+		pad = 5.;
 	} else if (0 == strcmp (plot_type, "GogRadarPlot")) {
 		gtype = ODF_RADAR;
 		odf_plot_type = "chart:radar";
+		pad = 10.;
 	} else if (0 == strcmp (plot_type, "GogRadarAreaPlot")) {
 		gtype = ODF_RADARAREA;
 		odf_plot_type = "chart:radararea";
+		pad = 10.;
 	} else if (0 == strcmp (plot_type, "GogRingPlot")) {
 		gtype = ODF_RING;
 		odf_plot_type = "chart:ring";
+		pad = 10.;
 	} else if (0 == strcmp (plot_type, "GogXYPlot")) {
 		gtype = ODF_SCATTER;
 		odf_plot_type = "chart:scatter";
+		pad = 20.;
 	} else if (0 == strcmp (plot_type, "GogContourPlot")) {
 		gtype = ODF_SURF;
 		odf_plot_type = "chart:surface";
+		pad = 20.;
+	} else if (0 == strcmp (plot_type, "GogXYZContourPlot")) {
+		gtype = ODF_SURF;
+		odf_plot_type = "chart:surface";
+		pad = 20.;
+	} else if (0 == strcmp (plot_type, "GogBubblePlot")) {
+		gtype = ODF_BUBBLE;
+		odf_plot_type = "chart:bubble";
+		pad = 20.;
 	} else {
 		g_print ("encountered unknown chart type %s\n", plot_type);
 		gtype = ODF_BARCOL;
-		odf_plot_type = "GogBarColPlot";
+		odf_plot_type = "chart:bar";
 	}
 
+	series = gog_plot_get_series (GOG_PLOT (plot));
+
 	gsf_xml_out_start_element (state->xml, OFFICE "automatic-styles");
-	odf_write_axis_style (state, chart, "Y-Axis", "yaxis");
-	odf_write_axis_style (state, chart, "X-Axis", "xaxis");
+
+	switch (gtype) {
+	case ODF_RADAR:
+		odf_write_axis_style (state, chart, "Radial-Axis", "yaxis", gtype);
+		odf_write_axis_style (state, chart, "Circular-Axis", "xaxis", gtype);
+		break;
+	case ODF_BARCOL:
+	case ODF_DROPBAR:
+		g_object_get (G_OBJECT (plot), "horizontal", &horizontal, NULL);
+		odf_write_axis_style (state, chart, "Y-Axis", horizontal ? "xaxis" : "yaxis", gtype);
+		odf_write_axis_style (state, chart, "X-Axis", horizontal ? "yaxis" : "xaxis", gtype);
+		break;
+	default:
+		odf_write_axis_style (state, chart, "Y-Axis", "yaxis", gtype);
+		odf_write_axis_style (state, chart, "X-Axis", "xaxis", gtype);
+		break;
+	}
+
 	odf_start_style (state->xml, "plotstyle", "chart");
 	gsf_xml_out_start_element (state->xml, STYLE "chart-properties");
+	odf_add_bool (state->xml, CHART "auto-size", TRUE);
 
-	if (gtype == ODF_BARCOL)
-		odf_write_bar_col_plot_style (state, chart, plot);	
+	switch (gtype) {
+	case ODF_SCATTER:
+		odf_write_scatter_chart_style (state, chart, plot);
+		break;
+	case ODF_LINE:
+		odf_write_line_chart_style (state, chart, plot);
+		break;
+	default:
+			break;
+	}
 
 	gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
+
+	odf_start_style (state->xml, "plotarea", "chart");
+	gsf_xml_out_start_element (state->xml, STYLE "chart-properties");
+	odf_add_bool (state->xml, CHART "auto-size", TRUE);
+
+	switch (gtype) {
+	case ODF_BARCOL:
+	case ODF_DROPBAR:
+		odf_write_bar_col_plot_style (state, chart, plot);
+		break;
+	case ODF_RING:
+		odf_write_ring_plot_style (state, chart, plot);
+		break;
+	default:
+			break;
+	}
+
+	gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
+	gsf_xml_out_end_element (state->xml); /* </style:style> */
+
+	for (l = series, i = 1; l != NULL; l = l->next) {
+		char *name = g_strdup_printf ("series%i", i++);
+		odf_start_style (state->xml, name, "chart");
+		gsf_xml_out_start_element (state->xml, STYLE "chart-properties");
+		odf_add_bool (state->xml, CHART "auto-size", TRUE);
+		switch (gtype) {
+		case ODF_SCATTER:
+			odf_write_scatter_series_style (state, l->data);
+			break;
+		default:
+			break;
+		}
+		gsf_xml_out_end_element (state->xml); /* </style:chart-properties> */
+		gsf_xml_out_end_element (state->xml); /* </style:style> */	
+		g_free (name);
+	}
+
+	if (wall != NULL) {
+		odf_start_style (state->xml, "wallstyle", "chart");
+		gsf_xml_out_start_element (state->xml, STYLE "graphic-properties");
+		gsf_xml_out_add_cstr (state->xml, DRAW "fill", "solid");
+/* 	gnm_xml_out_add_hex_color (state->xml, DRAW "fill-color", GnmColor const *c) */
+		gsf_xml_out_add_cstr (state->xml, DRAW "fill-color", "#D0D0D0");
+		gsf_xml_out_end_element (state->xml); /* </style:graphic-properties> */
+		gsf_xml_out_end_element (state->xml); /* </style:style> */
+	}
+
 	gsf_xml_out_end_element (state->xml); /* </office:automatic-styles> */
 
 	gsf_xml_out_start_element (state->xml, OFFICE "body");
 	gsf_xml_out_start_element (state->xml, OFFICE "chart");
 	gsf_xml_out_start_element (state->xml, CHART "chart");
+
+	sheet_object_anchor_to_pts (anchor, state->sheet, res_pts);
+	odf_add_pt (state->xml, SVG "width", res_pts[2] - res_pts[0] - 2 * pad);
+	odf_add_pt (state->xml, SVG "height", res_pts[3] - res_pts[1] - 2 * pad);
+	
 	if (get_gsf_odf_version () > 101)
 		gsf_xml_out_add_cstr (state->xml, XLINK "href", "..");
 	gsf_xml_out_add_cstr (state->xml, CHART "class", odf_plot_type);
 	gsf_xml_out_add_cstr (state->xml, CHART "style-name", "plotstyle");
 	gsf_xml_out_start_element (state->xml, CHART "plot-area");
-	gsf_xml_out_add_cstr (state->xml, CHART "style-name", "plotstyle");
+	gsf_xml_out_add_cstr (state->xml, CHART "style-name", "plotarea");
 	if (get_gsf_odf_version () <= 101) {
-		GSList const *series = gog_plot_get_series (GOG_PLOT (plot));
 		for ( ; NULL != series ; series = series->next) {
 			GOData const *dat = gog_dataset_get_dim 
 				(GOG_DATASET (series->data), GOG_MS_DIM_VALUES);
@@ -3314,14 +3605,42 @@ odf_write_plot (GnmOOExport *state, GogObject const *chart, GogObject const *plo
 					str = gnm_expr_top_as_string (texpr, &pp, state->conv);
 					gsf_xml_out_add_cstr (state->xml, TABLE "cell-range-address", 
 							      odf_strip_brackets (str));
+					g_free (str);
 					break;
 				}
 			}
 		}
 	}
-	odf_write_axis (state, chart, "Y-Axis", "yaxis", "y");
-	odf_write_axis (state, chart, "X-Axis", "xaxis", "x");
-	odf_write_series (state, gog_plot_get_series (GOG_PLOT (plot)));
+
+	switch (gtype) {
+	case ODF_RADAR:
+		odf_write_axis (state, chart, "Radial-Axis", "yaxis", "y", gtype);
+		odf_write_axis (state, chart, "Circular-Axis", "xaxis", "x", gtype);
+		odf_write_series (state, series);
+		break;
+	case ODF_BUBBLE:
+		odf_write_axis (state, chart, "Y-Axis", "yaxis", "y", gtype);
+		odf_write_axis (state, chart, "X-Axis", "xaxis", "x", gtype);
+		odf_write_bubble_series (state, series);
+		break;
+	case ODF_DROPBAR:
+		odf_write_axis (state, chart, "Y-Axis", "yaxis", "y", gtype);
+		odf_write_axis (state, chart, "X-Axis", "xaxis", "x", gtype);
+		odf_write_gantt_series (state, series);
+		break;
+	default:
+		odf_write_axis (state, chart, "Y-Axis", "yaxis", "y", gtype);
+		odf_write_axis (state, chart, "X-Axis", "xaxis", "x", gtype);
+		odf_write_series (state, series);
+		break;
+	}
+
+	if (wall != NULL) {
+		gsf_xml_out_start_element (state->xml, CHART "wall");
+		odf_add_pt (state->xml, SVG "width", res_pts[2] - res_pts[0] - 2 * pad);
+		gsf_xml_out_add_cstr (state->xml, CHART "style-name", "wallstyle");
+		gsf_xml_out_end_element (state->xml); /* </chart:wall> */
+	}
 	gsf_xml_out_end_element (state->xml); /* </chart:plot_area> */
 	gsf_xml_out_end_element (state->xml); /* </chart:chart> */
 	gsf_xml_out_end_element (state->xml); /* </office:chart> */
@@ -3350,7 +3669,7 @@ odf_write_graph_content (GnmOOExport *state, GsfOutput *child, SheetObject *so)
 		if (chart != NULL) {
 			GogObject const *plot = gog_object_get_child_by_name (GOG_OBJECT (chart), "Plot");
 			if (plot != NULL) 
-				odf_write_plot (state, chart, plot);
+				odf_write_plot (state, so, chart, plot);
 		}
 	}
 	gsf_xml_out_end_element (state->xml); /* </office:document-content> */

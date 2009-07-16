@@ -121,6 +121,8 @@ typedef enum {
 	OO_PLOT_SCATTER,
 	OO_PLOT_STOCK,
 	OO_PLOT_SURF,
+	OO_PLOT_BUBBLE,
+	OO_PLOT_GANTT,
 	OO_PLOT_UNKNOWN
 } OOPlotType;
 
@@ -160,6 +162,7 @@ typedef struct {
 	int		 src_n_vectors;
 
 	GogSeries	*series;
+	unsigned	 series_count;	/* reset for each plotarea */
 	unsigned	 domain_count;	/* reset for each series */
 	unsigned	 data_pt_count;	/* reset for each series */
 
@@ -2864,7 +2867,7 @@ oo_prop_list_apply (GSList *props, GObject *obj)
 	for (ptr = props; ptr; ptr = ptr->next) {
 		prop = ptr->data;
 		if (NULL != g_object_class_find_property (klass, prop->name))
-			    g_object_set_property (obj, prop->name, &prop->value);
+			g_object_set_property (obj, prop->name, &prop->value);
 	}
 }
 
@@ -2875,6 +2878,9 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	OOChartStyle *style = state->chart.cur_graph_style;
 	gboolean btmp;
 	int	  tmp;
+	gboolean default_style_has_lines_set = FALSE;
+	gboolean draw_stroke_set = FALSE;
+	gboolean draw_stroke;
 
 	g_return_if_fail (style != NULL);
 
@@ -2889,6 +2895,9 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			/* This is backwards from my intuition */
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_bool ("horizontal", btmp));
+		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "reverse-direction", &btmp)) {
+			style->axis_props = g_slist_prepend (style->axis_props,
+				oo_prop_new_bool ("invert-axis", btmp));
 		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "stacked", &btmp)) {
 			if (btmp)
 				style->plot_props = g_slist_prepend (style->plot_props,
@@ -2903,9 +2912,27 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (oo_attr_int (xin, attrs, OO_NS_CHART, "gap-width", &tmp))
 			style->plot_props = g_slist_prepend (style->plot_props,
 				oo_prop_new_int ("gap-percentage", tmp));
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "series-source"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "symbol-type"))
+			style->plot_props = g_slist_prepend 
+				(style->plot_props,
+				 oo_prop_new_bool ("default-style-has-markers", 
+						   !attr_eq (attrs[1], "none")));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_DRAW, "stroke")) {
+			draw_stroke = !attr_eq (attrs[1], "none");
+			draw_stroke_set = TRUE;
+		} else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "lines", &btmp)) {
+			style->plot_props = g_slist_prepend 
+				(style->plot_props,
+				 oo_prop_new_bool ("default-style-has-lines", btmp));
+			default_style_has_lines_set = TRUE;
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "series-source"))
 			style->src_in_rows = attr_eq (attrs[1], "rows");
 	}
+
+	if (draw_stroke_set && !default_style_has_lines_set)
+		style->plot_props = g_slist_prepend 
+			(style->plot_props,
+			 oo_prop_new_bool ("default-style-has-lines", draw_stroke));
 }
 
 static void
@@ -3309,104 +3336,9 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 
 		/* AAARRRGGGHH : why would they do this.  The axis style impact
 		 * the plot ?? */
-		if (NULL != state->chart.plot)
+		if (NULL != state->chart.plot && (state->ver == OOO_VER_1))
 			oo_prop_list_apply (style->plot_props, G_OBJECT (state->chart.plot));
 	}
-}
-
-static void
-oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
-{
-	static OOEnum const labels[] = {
-		{ "both",		2 | 1 },
-		{ "column",		2 },
-		{ "row",		    1 },
-		{ NULL,	0 },
-	};
-
-	OOParseState *state = (OOParseState *)xin->user_state;
-	gchar const *type = NULL;
-	OOChartStyle	*style = NULL;
-	xmlChar const   *source_range_str = NULL;
-	int label_flags = 0;
-	GSList *l;
-
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
-					OO_NS_CHART, "style-name"))
-			state->chart.these_plot_styles = g_slist_append 
-				(state->chart.these_plot_styles,
-				 g_hash_table_lookup 
-				 (state->chart.graph_styles, CXML2C (attrs[1])));
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "cell-range-address"))
-			source_range_str = attrs[1];
-		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "data-source-has-labels", labels, &label_flags))
-			;
-
-	state->chart.src_n_vectors = -1;
-	state->chart.src_in_rows = TRUE;
-	if (NULL != source_range_str) {
-		GnmParsePos pp;
-		GnmEvalPos  ep;
-		GnmRangeRef ref;
-		Sheet	   *dummy;
-		char const *ptr = oo_rangeref_parse (&ref, CXML2C (source_range_str),
-			parse_pos_init_sheet (&pp, state->pos.sheet));
-		if (ptr != CXML2C (source_range_str)) {
-			gnm_rangeref_normalize (&ref,
-				eval_pos_init_sheet (&ep, state->pos.sheet),
-				&state->chart.src_sheet, &dummy,
-				&state->chart.src_range);
-
-			if (label_flags & 1)
-				state->chart.src_range.start.row++;
-			if (label_flags & 2)
-				state->chart.src_range.start.col++;
-
-			for (l = state->chart.these_plot_styles; l != NULL; l = l->next) { 
-				style = l->data;
-				state->chart.src_in_rows = style->src_in_rows;
-			}
-			if (state->chart.src_in_rows) {
-				state->chart.src_n_vectors = range_height (&state->chart.src_range);
-				state->chart.src_range.end.row  = state->chart.src_range.start.row;
-			} else {
-				state->chart.src_n_vectors = range_width (&state->chart.src_range);
-				state->chart.src_range.end.col  = state->chart.src_range.start.col;
-			}
-		}
-	}
-
-	switch (state->chart.plot_type) {
-	case OO_PLOT_AREA:	type = "GogAreaPlot";	break;
-	case OO_PLOT_BAR:	type = "GogBarColPlot";	break;
-	case OO_PLOT_CIRCLE:	type = "GogPiePlot";	break;
-	case OO_PLOT_LINE:	type = "GogLinePlot";	break;
-	case OO_PLOT_RADAR:	type = "GogRadarPlot";	break;
-	case OO_PLOT_RADARAREA: type = "GogRadarAreaPlot";break;
-	case OO_PLOT_RING:	type = "GogRingPlot";	break;
-	case OO_PLOT_SCATTER:	type = "GogXYPlot";	break;
-	case OO_PLOT_STOCK:	type = "GogMinMaxPlot";	break;
-	case OO_PLOT_SURF:	type = "GogContourPlot"; break;
-	default: return;
-	}
-
-	state->chart.plot = gog_plot_new_by_name (type);
-	gog_object_add_by_name (GOG_OBJECT (state->chart.chart),
-		"Plot", GOG_OBJECT (state->chart.plot));
-	for (l = state->chart.these_plot_styles; l != NULL; l = l->next) { 
-		style = l->data;
-		oo_prop_list_apply (style->plot_props, G_OBJECT (state->chart.plot));
-	}
-}
-
-static void
-oo_plot_area_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
-{
-	OOParseState *state = (OOParseState *)xin->user_state;
-	state->chart.plot = NULL;
-	g_slist_free (state->chart.these_plot_styles);
-	state->chart.these_plot_styles = NULL;
 }
 
 static int
@@ -3482,6 +3414,121 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, GogMSDimType dim_type)
 }
 
 static void
+oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	static OOEnum const labels[] = {
+		{ "both",		2 | 1 },
+		{ "column",		2 },
+		{ "row",		    1 },
+		{ NULL,	0 },
+	};
+
+	OOParseState *state = (OOParseState *)xin->user_state;
+	gchar const *type = NULL;
+	OOChartStyle	*style = NULL;
+	xmlChar const   *source_range_str = NULL;
+	int label_flags = 0;
+	GSList *l;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), 
+					OO_NS_CHART, "style-name"))
+			state->chart.these_plot_styles = g_slist_append 
+				(state->chart.these_plot_styles,
+				 g_hash_table_lookup 
+				 (state->chart.graph_styles, CXML2C (attrs[1])));
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "cell-range-address"))
+			source_range_str = attrs[1];
+		else if (oo_attr_enum (xin, attrs, OO_NS_CHART, "data-source-has-labels", labels, &label_flags))
+			;
+
+	state->chart.src_n_vectors = -1;
+	state->chart.src_in_rows = TRUE;
+	state->chart.series = NULL;
+	state->chart.series_count = 0;
+	if (NULL != source_range_str) {
+		GnmParsePos pp;
+		GnmEvalPos  ep;
+		GnmRangeRef ref;
+		Sheet	   *dummy;
+		char const *ptr = oo_rangeref_parse (&ref, CXML2C (source_range_str),
+			parse_pos_init_sheet (&pp, state->pos.sheet));
+		if (ptr != CXML2C (source_range_str)) {
+			gnm_rangeref_normalize (&ref,
+				eval_pos_init_sheet (&ep, state->pos.sheet),
+				&state->chart.src_sheet, &dummy,
+				&state->chart.src_range);
+
+			if (label_flags & 1)
+				state->chart.src_range.start.row++;
+			if (label_flags & 2)
+				state->chart.src_range.start.col++;
+
+			for (l = state->chart.these_plot_styles; l != NULL; l = l->next) { 
+				style = l->data;
+				state->chart.src_in_rows = style->src_in_rows;
+			}
+			if (state->chart.src_in_rows) {
+				state->chart.src_n_vectors = range_height (&state->chart.src_range);
+				state->chart.src_range.end.row  = state->chart.src_range.start.row;
+			} else {
+				state->chart.src_n_vectors = range_width (&state->chart.src_range);
+				state->chart.src_range.end.col  = state->chart.src_range.start.col;
+			}
+		}
+	}
+
+	switch (state->chart.plot_type) {
+	case OO_PLOT_AREA:	type = "GogAreaPlot";	break;
+	case OO_PLOT_BAR:	type = "GogBarColPlot";	break;
+	case OO_PLOT_CIRCLE:	type = "GogPiePlot";	break;
+	case OO_PLOT_LINE:	type = "GogLinePlot";	break;
+	case OO_PLOT_RADAR:	type = "GogRadarPlot";	break;
+	case OO_PLOT_RADARAREA: type = "GogRadarAreaPlot";break;
+	case OO_PLOT_RING:	type = "GogRingPlot";	break;
+	case OO_PLOT_SCATTER:	type = "GogXYPlot";	break;
+	case OO_PLOT_STOCK:	type = "GogMinMaxPlot";	break;
+	case OO_PLOT_SURF:	type = "GogContourPlot"; break;
+	case OO_PLOT_BUBBLE:	type = "GogBubblePlot"; break;
+	case OO_PLOT_GANTT:	type = "GogDropBarPlot"; break;
+	default: return;
+	}
+
+	state->chart.plot = gog_plot_new_by_name (type);
+	gog_object_add_by_name (GOG_OBJECT (state->chart.chart),
+		"Plot", GOG_OBJECT (state->chart.plot));
+	for (l = state->chart.these_plot_styles; l != NULL; l = l->next) { 
+		style = l->data;
+		oo_prop_list_apply (style->plot_props, G_OBJECT (state->chart.plot));
+	}
+	if (state->chart.plot_type == OO_PLOT_GANTT) {
+		GogObject *yaxis = gog_object_get_child_by_name (GOG_OBJECT (state->chart.chart), 
+								 "Y-Axis");
+		if (yaxis != NULL) {
+			GValue *val = g_value_init (g_new0 (GValue, 1), G_TYPE_BOOLEAN);
+			g_value_set_boolean (val, TRUE);
+			g_object_set_property (G_OBJECT (yaxis), "invert-axis", val);
+			g_value_unset (val);
+			g_free (val);
+		}
+	}
+}
+
+static void
+oo_plot_area_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	if (state->chart.series != NULL) {
+		oo_plot_assign_dim (xin, NULL, GOG_MS_DIM_VALUES);
+		state->chart.series = NULL;		
+	}
+	state->chart.plot = NULL;
+	g_slist_free (state->chart.these_plot_styles);
+	state->chart.these_plot_styles = NULL;
+}
+
+
+static void
 oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -3489,14 +3536,28 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 #ifdef OO_DEBUG_OBJS
 	g_print ("<<<<< Start\n");
 #endif
-	state->chart.series = gog_plot_new_series (state->chart.plot);
+	state->chart.series_count++;
+	if (state->chart.series == NULL)
+		state->chart.series = gog_plot_new_series (state->chart.plot);
 	state->chart.domain_count = 0;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style"))
 			;
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address"))
-			oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_VALUES);
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "label-cell-address"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address")) {
+			int dim;
+			switch (state->chart.plot_type) {
+			case OO_PLOT_GANTT:
+				dim = (state->chart.series_count % 2 == 1) ? GOG_MS_DIM_START : GOG_MS_DIM_END;
+				break;
+			case OO_PLOT_BUBBLE:
+				dim = GOG_MS_DIM_BUBBLES;
+				break;
+			default:
+				dim = GOG_MS_DIM_VALUES;
+				break;
+			}
+			oo_plot_assign_dim (xin, attrs[1], dim);
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "label-cell-address"))
 			oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_LABELS);
 }
 
@@ -3504,8 +3565,16 @@ static void
 oo_plot_series_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	oo_plot_assign_dim (xin, NULL, GOG_MS_DIM_VALUES);
-	state->chart.series = NULL;
+	
+	switch (state->chart.plot_type) {
+	case OO_PLOT_GANTT:
+		if ((state->chart.series_count % 2) != 0)
+			break;
+	default:
+		oo_plot_assign_dim (xin, NULL, GOG_MS_DIM_VALUES);
+		state->chart.series = NULL;
+		break;
+	}
 #ifdef OO_DEBUG_OBJS
 	g_print (">>>>> end\n");
 #endif
@@ -3521,9 +3590,11 @@ oo_series_domain (GsfXMLIn *xin, xmlChar const **attrs)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "cell-range-address"))
 			src = attrs[1];
 
-	oo_plot_assign_dim (xin, src, GOG_MS_DIM_CATEGORIES);
+	if (state->chart.plot_type == OO_PLOT_BUBBLE && (state->chart.domain_count == 0))
+		oo_plot_assign_dim (xin, src, GOG_MS_DIM_VALUES);
+	else
+		oo_plot_assign_dim (xin, src, GOG_MS_DIM_CATEGORIES);
 
-/* FIXME : Bubbles */
 	state->chart.domain_count++;
 }
 
@@ -3548,6 +3619,8 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "chart:ring",		OO_PLOT_RING },
 		{ "chart:scatter",	OO_PLOT_SCATTER },
 		{ "chart:stock",	OO_PLOT_STOCK },
+		{ "chart:bubble",	OO_PLOT_BUBBLE },
+		{ "chart:gantt",	OO_PLOT_GANTT },
 		{ NULL,	0 },
 	};
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -3634,7 +3707,12 @@ static void
 oo_chart_wall (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	gog_object_add_by_name (GOG_OBJECT (state->chart.chart), "Backplane", NULL);
+/* 	GOStyle *style = NULL; */
+/* 	GogObject *backplane; */
+
+	/* backplane =  */gog_object_add_by_name (GOG_OBJECT (state->chart.chart), "Backplane", NULL);
+	
+/* 	g_object_get (G_OBJECT (backplane), "style", &style, NULL); */
 }
 
 static void
@@ -4005,8 +4083,8 @@ static GsfXMLInNode const opendoc_content_dtd [] =
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DOMAIN, OO_NS_CHART, "domain", GSF_XML_NO_CONTENT, &oo_series_domain, NULL),
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DATA_PT, OO_NS_CHART, "data-point", GSF_XML_NO_CONTENT, &oo_series_pt, NULL),
 		  GSF_XML_IN_NODE (CHART_SERIES, SERIES_DATA_ERR, OO_NS_CHART, "error-indicator", GSF_XML_NO_CONTENT, NULL, NULL),
-		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_WALL, OO_NS_CHART, "wall", GSF_XML_NO_CONTENT, NULL, NULL),
-		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_FLOOR, OO_NS_CHART, "floor", GSF_XML_NO_CONTENT, &oo_chart_wall, NULL),
+		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_WALL, OO_NS_CHART, "wall", GSF_XML_NO_CONTENT, &oo_chart_wall, NULL),
+		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_FLOOR, OO_NS_CHART, "floor", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (CHART_PLOT_AREA, CHART_AXIS, OO_NS_CHART, "axis", GSF_XML_NO_CONTENT, &oo_chart_axis, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_GRID, OO_NS_CHART, "grid", GSF_XML_NO_CONTENT, &oo_chart_grid, NULL),
 		  GSF_XML_IN_NODE (CHART_AXIS, CHART_AXIS_CAT,   OO_NS_CHART, "categories", GSF_XML_NO_CONTENT, NULL, NULL),

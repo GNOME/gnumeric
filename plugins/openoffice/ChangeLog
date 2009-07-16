@@ -1,3 +1,28 @@
+2009-07-15 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (od_style_prop_chart): handle 
+	  chart:reverse-direction, chart:symbol-type, 
+	  draw:stroke, chart:lines
+	(oo_chart_axis): in ODF proper the axis style should not affect 
+	  the overall graph.
+	(oo_plot_area): handle double series for Gantt charts
+	(oo_plot_area_end): ditto
+	(oo_plot_series): ditto
+	(oo_series_domain): handle dimensions for series:domain
+	(oo_chart_wall): hook-up to the correct element
+	* openoffice-write.c (odf_add_percent): new
+	(odf_write_frame): fix leak
+	(odf_write_series): handle more dimensions
+	(odf_write_gantt_series): new
+	(odf_write_bubble_series): new
+	(odf_write_ring_plot_style): new
+	(odf_write_line_chart_style): new
+	(odf_write_scatter_chart_style): new
+	(odf_write_scatter_series_style): new
+	(odf_write_axis_style): differentiate based on plot type
+	(odf_write_axis): ditto
+	(df_write_plot): handle more plot types
+
 2009-07-13 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (od_draw_frame): use table:end-x and 
