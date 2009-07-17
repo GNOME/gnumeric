@@ -1,3 +1,18 @@
+2009-07-16 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_plot_area): set up series handling for 
+	  Stock plot
+	(oo_plot_area_end): handle stock plot series
+	(odf_create_stock_plot): new
+	(oo_plot_series): for Stock plot just save the info
+	(oo_plot_series_end): for Stock plots we don't want to do 
+	  anything here
+	(oo_chart): set up reading of more chart types
+	* openoffice-write.c (odf_write_bubble_series): fix style name
+	(odf_write_min_max_series): new
+	(odf_write_plot): set up writing of more plot types
+	(odf_write_plot): handle writing of minmax plots
+
 2009-07-15 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (od_style_prop_chart): handle 

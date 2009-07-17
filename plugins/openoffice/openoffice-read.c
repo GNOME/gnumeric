@@ -123,6 +123,8 @@ typedef enum {
 	OO_PLOT_SURF,
 	OO_PLOT_BUBBLE,
 	OO_PLOT_GANTT,
+	OO_PLOT_POLAR,
+	OO_PLOT_XYZ_CONTOUR,
 	OO_PLOT_UNKNOWN
 } OOPlotType;
 
@@ -153,6 +155,7 @@ typedef struct {
 typedef struct {
 	GogGraph	*graph;
 	GogChart	*chart;
+	GSList          *stock_series; /* used by Stcock plot */
 
 	/* set in plot-area */
 	GogPlot		*plot;
@@ -170,7 +173,7 @@ typedef struct {
 
 	OOChartStyle		*cur_graph_style;
 	GHashTable		*graph_styles;	/* contain links to OOChartStyle GSLists */
-	GSList                  *these_plot_styles;  /*  */
+	GSList                  *these_plot_styles;  /* currently active styles */
 	OOPlotType		 plot_type;
 	SheetObjectAnchor	 anchor;	/* anchor to draw the frame (images or graphs) */
 } OOChartInfo;
@@ -3446,6 +3449,7 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	state->chart.src_in_rows = TRUE;
 	state->chart.series = NULL;
 	state->chart.series_count = 0;
+	state->chart.stock_series = NULL;
 	if (NULL != source_range_str) {
 		GnmParsePos pp;
 		GnmEvalPos  ep;
@@ -3487,10 +3491,12 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_RADARAREA: type = "GogRadarAreaPlot";break;
 	case OO_PLOT_RING:	type = "GogRingPlot";	break;
 	case OO_PLOT_SCATTER:	type = "GogXYPlot";	break;
-	case OO_PLOT_STOCK:	type = "GogMinMaxPlot";	break;
-	case OO_PLOT_SURF:	type = "GogContourPlot"; break;
+	case OO_PLOT_STOCK:	type = "GogMinMaxPlot";	break;  /* This is not quite right! */
+	case OO_PLOT_SURF:	type = "GogContourPlot"; break; /* This might not be right!? */
 	case OO_PLOT_BUBBLE:	type = "GogBubblePlot"; break;
 	case OO_PLOT_GANTT:	type = "GogDropBarPlot"; break;
+	case OO_PLOT_POLAR:	type = "GogPolarPlot"; break;
+	case OO_PLOT_XYZ_CONTOUR: type = "GogXYZContourPlot"; break;
 	default: return;
 	}
 
@@ -3515,10 +3521,36 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static void
+odf_create_stock_plot (GsfXMLIn *xin)
+{
+	OOParseState *state = (OOParseState *)xin->user_state;
+	GSList *series_addresses = state->chart.stock_series;
+	int len = g_slist_length (series_addresses);
+
+	if (len > 3) {
+		series_addresses = series_addresses->next;
+		len--;
+	}
+
+	if (len-- > 0) {
+		state->chart.series = gog_plot_new_series (state->chart.plot);
+		oo_plot_assign_dim (xin, series_addresses->data, GOG_MS_DIM_LOW);
+	}
+	if (len-- > 0) {
+		series_addresses = series_addresses->next;
+		oo_plot_assign_dim (xin, series_addresses->data, GOG_MS_DIM_HIGH);
+	}
+}
+
+static void
 oo_plot_area_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	if (state->chart.series != NULL) {
+	if (state->chart.plot_type == OO_PLOT_STOCK) {
+		odf_create_stock_plot (xin);
+		go_slist_free_custom (state->chart.stock_series, g_free);
+		state->chart.stock_series = NULL;
+	} else if (state->chart.series != NULL) {
 		oo_plot_assign_dim (xin, NULL, GOG_MS_DIM_VALUES);
 		state->chart.series = NULL;		
 	}
@@ -3536,29 +3568,37 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 #ifdef OO_DEBUG_OBJS
 	g_print ("<<<<< Start\n");
 #endif
-	state->chart.series_count++;
-	if (state->chart.series == NULL)
-		state->chart.series = gog_plot_new_series (state->chart.plot);
-	state->chart.domain_count = 0;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style"))
-			;
-		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address")) {
-			int dim;
-			switch (state->chart.plot_type) {
-			case OO_PLOT_GANTT:
-				dim = (state->chart.series_count % 2 == 1) ? GOG_MS_DIM_START : GOG_MS_DIM_END;
-				break;
-			case OO_PLOT_BUBBLE:
-				dim = GOG_MS_DIM_BUBBLES;
-				break;
-			default:
-				dim = GOG_MS_DIM_VALUES;
-				break;
-			}
-			oo_plot_assign_dim (xin, attrs[1], dim);
-		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "label-cell-address"))
-			oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_LABELS);
+	state->chart.series_count++; 
+
+	if (state->chart.plot_type == OO_PLOT_STOCK) {
+		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address"))
+				state->chart.stock_series = g_slist_append (state->chart.stock_series, 
+									    g_strdup (attrs[1]));
+	} else {
+		if (state->chart.series == NULL)
+			state->chart.series = gog_plot_new_series (state->chart.plot);
+		state->chart.domain_count = 0;
+		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style"))
+				;
+			else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address")) {
+				int dim;
+				switch (state->chart.plot_type) {
+				case OO_PLOT_GANTT:
+					dim = (state->chart.series_count % 2 == 1) ? GOG_MS_DIM_START : GOG_MS_DIM_END;
+					break;
+				case OO_PLOT_BUBBLE:
+					dim = GOG_MS_DIM_BUBBLES;
+					break;
+				default:
+					dim = GOG_MS_DIM_VALUES;
+					break;
+				}
+				oo_plot_assign_dim (xin, attrs[1], dim);
+			} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "label-cell-address"))
+				oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_LABELS);
+	}
 }
 
 static void
@@ -3567,9 +3607,12 @@ oo_plot_series_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	OOParseState *state = (OOParseState *)xin->user_state;
 	
 	switch (state->chart.plot_type) {
+	case OO_PLOT_STOCK:
+		break;
 	case OO_PLOT_GANTT:
 		if ((state->chart.series_count % 2) != 0)
 			break;
+		/* else no break */
 	default:
 		oo_plot_assign_dim (xin, NULL, GOG_MS_DIM_VALUES);
 		state->chart.series = NULL;
@@ -3616,11 +3659,15 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "chart:circle",	OO_PLOT_CIRCLE },
 		{ "chart:line",		OO_PLOT_LINE },
 		{ "chart:radar",	OO_PLOT_RADAR },
+		{ "chart:filled-radar",	OO_PLOT_RADARAREA },
 		{ "chart:ring",		OO_PLOT_RING },
 		{ "chart:scatter",	OO_PLOT_SCATTER },
 		{ "chart:stock",	OO_PLOT_STOCK },
 		{ "chart:bubble",	OO_PLOT_BUBBLE },
 		{ "chart:gantt",	OO_PLOT_GANTT },
+		{ "chart:surface",	OO_PLOT_SURF },
+		{ "gnm:polar",  	OO_PLOT_POLAR },
+		{ "gnm:xyz-contour", 	OO_PLOT_XYZ_CONTOUR },
 		{ NULL,	0 },
 	};
 	OOParseState *state = (OOParseState *)xin->user_state;

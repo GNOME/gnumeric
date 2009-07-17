@@ -3169,8 +3169,9 @@ typedef enum {
 	ODF_RING,
 	ODF_SCATTER,
 	ODF_SURF,
+	ODF_XYZ_SURF,
 	ODF_BUBBLE,
-	ODF_STOCK
+	ODF_POLAR
 } odf_chart_type_t; 
 
 static void
@@ -3273,7 +3274,7 @@ odf_write_bubble_series (GnmOOExport *state, GSList const *orig_series)
 	parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
 
 	gsf_xml_out_start_element (state->xml, CHART "series");
-	for (series = orig_series, i = 0; NULL != series; series = series->next, i++) {
+	for (series = orig_series, i = 1; NULL != series; series = series->next, i++) {
 		GOData const *dat = gog_dataset_get_dim (GOG_DATASET (series->data), 2);
 
 		if (NULL != dat) {
@@ -3307,6 +3308,37 @@ odf_write_bubble_series (GnmOOExport *state, GSList const *orig_series)
 			}
 		}
 	gsf_xml_out_end_element (state->xml); /* </chart:series> */
+}
+
+static void
+odf_write_min_max_series (GnmOOExport *state, GSList const *orig_series)
+{
+	GnmParsePos pp;
+	int i, j;
+	GSList const *series;
+	parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
+
+	for (j = 1; j < 3; j++) { 
+		gsf_xml_out_start_element (state->xml, CHART "series");
+		for (series = orig_series, i = 1; NULL != series; series = series->next, i++) {
+			GOData const *dat = gog_dataset_get_dim (GOG_DATASET (series->data), j);
+
+			if (NULL != dat) {
+				GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
+				if (NULL != texpr) {
+					char *str = gnm_expr_top_as_string (texpr, &pp, state->conv);
+					gsf_xml_out_add_cstr (state->xml, CHART "values-cell-range-address",
+							      odf_strip_brackets (str));
+					g_free (str);
+					str = g_strdup_printf ("series%i", i);
+					gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
+					g_free (str);
+					break;
+				}
+			}
+		}
+		gsf_xml_out_end_element (state->xml); /* </chart:series> */
+	}
 }
 
 static void
@@ -3441,6 +3473,10 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		gtype = ODF_LINE;
 		odf_plot_type = "chart:line";
 		pad = 20.;
+	} else if (0 == strcmp (plot_type, "GogPolarPlot")) {
+		gtype = ODF_POLAR;
+		odf_plot_type = "gnm:polar";
+		pad = 20.;
 	} else if (0 == strcmp (plot_type, "GogAreaPlot")) {
 		gtype = ODF_AREA;
 		odf_plot_type = "chart:area";
@@ -3450,7 +3486,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		odf_plot_type = "chart:gantt";
 		pad = 20.;
 	} else if (0 == strcmp (plot_type, "GogMinMaxPlot")) {
-		gtype = ODF_STOCK;
+		gtype = ODF_MINMAX;
 		odf_plot_type = "chart:stock";
 		pad = 10.;
 	} else if (0 == strcmp (plot_type, "GogPiePlot")) {
@@ -3463,7 +3499,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		pad = 10.;
 	} else if (0 == strcmp (plot_type, "GogRadarAreaPlot")) {
 		gtype = ODF_RADARAREA;
-		odf_plot_type = "chart:radararea";
+		odf_plot_type = "chart:filled-radar";
 		pad = 10.;
 	} else if (0 == strcmp (plot_type, "GogRingPlot")) {
 		gtype = ODF_RING;
@@ -3478,8 +3514,8 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		odf_plot_type = "chart:surface";
 		pad = 20.;
 	} else if (0 == strcmp (plot_type, "GogXYZContourPlot")) {
-		gtype = ODF_SURF;
-		odf_plot_type = "chart:surface";
+		gtype = ODF_XYZ_SURF;
+		odf_plot_type = "gnm:xyz-contour";
 		pad = 20.;
 	} else if (0 == strcmp (plot_type, "GogBubblePlot")) {
 		gtype = ODF_BUBBLE;
@@ -3502,6 +3538,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		break;
 	case ODF_BARCOL:
 	case ODF_DROPBAR:
+	case ODF_MINMAX:
 		g_object_get (G_OBJECT (plot), "horizontal", &horizontal, NULL);
 		odf_write_axis_style (state, chart, "Y-Axis", horizontal ? "xaxis" : "yaxis", gtype);
 		odf_write_axis_style (state, chart, "X-Axis", horizontal ? "yaxis" : "xaxis", gtype);
@@ -3628,6 +3665,11 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		odf_write_axis (state, chart, "X-Axis", "xaxis", "x", gtype);
 		odf_write_gantt_series (state, series);
 		break;
+	case ODF_MINMAX:
+		odf_write_axis (state, chart, "Y-Axis", "yaxis", "y", gtype);
+		odf_write_axis (state, chart, "X-Axis", "xaxis", "x", gtype);
+		odf_write_min_max_series (state, series);
+		break;		
 	default:
 		odf_write_axis (state, chart, "Y-Axis", "yaxis", "y", gtype);
 		odf_write_axis (state, chart, "X-Axis", "xaxis", "x", gtype);
