@@ -3656,6 +3656,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		odf_write_series (state, series);
 		break;
 	case ODF_BUBBLE:
+	case ODF_SURF:
 		odf_write_axis (state, chart, "Y-Axis", "yaxis", "y", gtype);
 		odf_write_axis (state, chart, "X-Axis", "xaxis", "x", gtype);
 		odf_write_bubble_series (state, series);

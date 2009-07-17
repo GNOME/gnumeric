@@ -3359,7 +3359,7 @@ gog_series_map_dim (GogSeries const *series, GogMSDimType ms_type)
 }
 /* If range == %NULL use an implicit range */
 static void
-oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, GogMSDimType dim_type)
+oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
@@ -3371,7 +3371,10 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, GogMSDimType dim_type)
 
 	if (NULL == state->chart.series)
 		return;
-	dim = gog_series_map_dim (state->chart.series, dim_type);
+	if (dim_type < 0)
+		dim = - (1 + dim_type);
+	else
+		dim = gog_series_map_dim (state->chart.series, dim_type);
 	if (dim < -1)
 		return;
 
@@ -3569,20 +3572,38 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 	g_print ("<<<<< Start\n");
 #endif
 	state->chart.series_count++; 
+	state->chart.domain_count = 0;
 
-	if (state->chart.plot_type == OO_PLOT_STOCK) {
+	switch (state->chart.plot_type) {
+	case OO_PLOT_STOCK:
 		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address"))
 				state->chart.stock_series = g_slist_append (state->chart.stock_series, 
 									    g_strdup (attrs[1]));
-	} else {
+		break;
+	case OO_PLOT_SURF:
+		state->chart.series = gog_plot_new_series (state->chart.plot);
+		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address")) {
+				GnmRangeRef ref;
+				GnmValue *v;
+				GnmExprTop const *texpr;
+				GnmParsePos pp;
+				char const *ptr = oo_rangeref_parse (&ref, CXML2C (attrs[1]),
+								     parse_pos_init_sheet (&pp, state->pos.sheet));
+				if (ptr == CXML2C (attrs[1]))
+					return;
+				v = value_new_cellrange (&ref.a, &ref.b, 0, 0);
+				texpr = gnm_expr_top_new_constant (v);
+				if (NULL != texpr)
+					gog_series_set_dim (state->chart.series, 2,
+							    gnm_go_data_matrix_new_expr (state->pos.sheet, texpr), NULL);
+			}
+	default:
 		if (state->chart.series == NULL)
 			state->chart.series = gog_plot_new_series (state->chart.plot);
-		state->chart.domain_count = 0;
 		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style"))
-				;
-			else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address")) {
+			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address")) {
 				int dim;
 				switch (state->chart.plot_type) {
 				case OO_PLOT_GANTT:
@@ -3598,6 +3619,7 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 				oo_plot_assign_dim (xin, attrs[1], dim);
 			} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "label-cell-address"))
 				oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_LABELS);
+		break;
 	}
 }
 
@@ -3608,6 +3630,7 @@ oo_plot_series_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	
 	switch (state->chart.plot_type) {
 	case OO_PLOT_STOCK:
+	case OO_PLOT_SURF:
 		break;
 	case OO_PLOT_GANTT:
 		if ((state->chart.series_count % 2) != 0)
@@ -3628,16 +3651,26 @@ oo_series_domain (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	xmlChar const *src = NULL;
+	int dim;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "cell-range-address"))
 			src = attrs[1];
-
-	if (state->chart.plot_type == OO_PLOT_BUBBLE && (state->chart.domain_count == 0))
-		oo_plot_assign_dim (xin, src, GOG_MS_DIM_VALUES);
-	else
-		oo_plot_assign_dim (xin, src, GOG_MS_DIM_CATEGORIES);
-
+	if (state->chart.domain_count == 0)
+		switch (state->chart.plot_type) {
+		case OO_PLOT_BUBBLE:
+			dim = GOG_MS_DIM_VALUES;
+			break;
+		case OO_PLOT_SURF:
+			dim = -1;
+			break;
+		default:
+			dim = GOG_MS_DIM_CATEGORIES;
+			break;
+		}
+	else 
+		dim = GOG_MS_DIM_CATEGORIES;
+	oo_plot_assign_dim (xin, src, dim);
 	state->chart.domain_count++;
 }
 
