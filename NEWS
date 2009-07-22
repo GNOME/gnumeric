@@ -18,6 +18,9 @@ Andreas:
 	* Add some sheet object support to ODF export.
 	* Export basic charts to ODF.
 
+Jody:
+	* Fix col/row resize. [#588297]
+
 Morten:
 	* Make SUMIF/COUNTIF and the D* functions understand pattern. [#586215]
 	* Make dialogs remember their sizes and positions.

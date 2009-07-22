@@ -64,6 +64,9 @@ void
 colrow_compute_pts_from_pixels (ColRowInfo *cri, Sheet const *sheet,
 				gboolean horizontal, double scale)
 {
+	if (scale <= 0.)
+		scale = colrow_compute_pixel_scale (sheet, horizontal);
+
 	if (horizontal && sheet->display_formulas)
 		scale *= 2;
 

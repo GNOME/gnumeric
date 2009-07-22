@@ -1,3 +1,9 @@
+2009-07-22  Jody Goldberg <jody@gnome.org>
+
+	* src/colrow.c (colrow_compute_pts_from_pixels) : seems like the
+	  intent was to use -1 as a proxy for a call to colrow_compute_pixel_scale.
+	  This fixes the negatively sized cols/rows since b2c73a3e. [#588297]
+
 2009-07-09 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object.h (sheet_object_anchor_to_offset_pts): new
