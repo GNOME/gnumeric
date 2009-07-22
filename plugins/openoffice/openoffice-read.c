@@ -125,6 +125,7 @@ typedef enum {
 	OO_PLOT_GANTT,
 	OO_PLOT_POLAR,
 	OO_PLOT_XYZ_CONTOUR,
+	OO_PLOT_SCATTER_COLOUR,
 	OO_PLOT_UNKNOWN
 } OOPlotType;
 
@@ -3495,11 +3496,12 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_RING:	type = "GogRingPlot";	break;
 	case OO_PLOT_SCATTER:	type = "GogXYPlot";	break;
 	case OO_PLOT_STOCK:	type = "GogMinMaxPlot";	break;  /* This is not quite right! */
-	case OO_PLOT_SURF:	type = "GogContourPlot"; break; /* This might not be right!? */
+	case OO_PLOT_SURF:	type = "GogContourPlot"; break;
 	case OO_PLOT_BUBBLE:	type = "GogBubblePlot"; break;
 	case OO_PLOT_GANTT:	type = "GogDropBarPlot"; break;
 	case OO_PLOT_POLAR:	type = "GogPolarPlot"; break;
 	case OO_PLOT_XYZ_CONTOUR: type = "GogXYZContourPlot"; break;
+	case OO_PLOT_SCATTER_COLOUR: type = "GogXYColorPlot";	break;
 	default: return;
 	}
 
@@ -3612,6 +3614,9 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 				case OO_PLOT_BUBBLE:
 					dim = GOG_MS_DIM_BUBBLES;
 					break;
+				case OO_PLOT_SCATTER_COLOUR:
+					dim = GOG_MS_DIM_EXTRA1;
+					break;
 				default:
 					dim = GOG_MS_DIM_VALUES;
 					break;
@@ -3659,6 +3664,7 @@ oo_series_domain (GsfXMLIn *xin, xmlChar const **attrs)
 	if (state->chart.domain_count == 0)
 		switch (state->chart.plot_type) {
 		case OO_PLOT_BUBBLE:
+		case OO_PLOT_SCATTER_COLOUR:
 			dim = GOG_MS_DIM_VALUES;
 			break;
 		case OO_PLOT_SURF:
@@ -3701,6 +3707,7 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "chart:surface",	OO_PLOT_SURF },
 		{ "gnm:polar",  	OO_PLOT_POLAR },
 		{ "gnm:xyz-contour", 	OO_PLOT_XYZ_CONTOUR },
+		{ "gnm:scatter-color", 	OO_PLOT_SCATTER_COLOUR },
 		{ NULL,	0 },
 	};
 	OOParseState *state = (OOParseState *)xin->user_state;

@@ -3171,6 +3171,7 @@ typedef enum {
 	ODF_SURF,
 	ODF_XYZ_SURF,
 	ODF_BUBBLE,
+	ODF_SCATTER_COLOUR,
 	ODF_POLAR
 } odf_chart_type_t; 
 
@@ -3269,11 +3270,10 @@ static void
 odf_write_bubble_series (GnmOOExport *state, GSList const *orig_series)
 {
 	GnmParsePos pp;
-	int i;
+	int i, j;
 	GSList const *series;
 	parse_pos_init (&pp, WORKBOOK (state->wb), NULL, 0,0 );
 
-	gsf_xml_out_start_element (state->xml, CHART "series");
 	for (series = orig_series, i = 1; NULL != series; series = series->next, i++) {
 		GOData const *dat = gog_dataset_get_dim (GOG_DATASET (series->data), 2);
 
@@ -3281,33 +3281,31 @@ odf_write_bubble_series (GnmOOExport *state, GSList const *orig_series)
 			GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
 			if (NULL != texpr) {
 				char *str = gnm_expr_top_as_string (texpr, &pp, state->conv);
+				gsf_xml_out_start_element (state->xml, CHART "series");
 				gsf_xml_out_add_cstr (state->xml, CHART "values-cell-range-address",
 						      odf_strip_brackets (str));
 				g_free (str);
 				str = g_strdup_printf ("series%i", i);
 				gsf_xml_out_add_cstr (state->xml, CHART "style-name", str);
 				g_free (str);
-				break;
-			}
-		}
-	}
-	for (i = 1; i >= 0; i--) 
-		for (series = orig_series; NULL != series ; series = series->next) {
-			GOData const *dat = gog_dataset_get_dim (GOG_DATASET (series->data), i);
-			if (NULL != dat) {
-				GnmExprTop const *texpr = gnm_go_data_get_expr (dat);
-				if (NULL != texpr) {
-					char *str = gnm_expr_top_as_string (texpr, &pp, state->conv);
-					gsf_xml_out_start_element (state->xml, CHART "domain");
-					gsf_xml_out_add_cstr (state->xml, TABLE "cell-range-address", 
-							      odf_strip_brackets (str));
-					gsf_xml_out_end_element (state->xml); /* </chart:domain> */
-					g_free (str);
-					break;
+				for (j = 1; j >= 0; j--) {
+					dat = gog_dataset_get_dim (GOG_DATASET (series->data), j);
+					if (NULL != dat) {
+						texpr = gnm_go_data_get_expr (dat);
+						if (NULL != texpr) {
+							str = gnm_expr_top_as_string (texpr, &pp, state->conv);
+							gsf_xml_out_start_element (state->xml, CHART "domain");
+							gsf_xml_out_add_cstr (state->xml, TABLE "cell-range-address", 
+									      odf_strip_brackets (str));
+							gsf_xml_out_end_element (state->xml); /* </chart:domain> */
+							g_free (str);
+						}
+					}
 				}
 			}
+			gsf_xml_out_end_element (state->xml); /* </chart:series> */
 		}
-	gsf_xml_out_end_element (state->xml); /* </chart:series> */
+	}
 }
 
 static void
@@ -3521,6 +3519,10 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		gtype = ODF_BUBBLE;
 		odf_plot_type = "chart:bubble";
 		pad = 20.;
+	} else if (0 == strcmp (plot_type, "GogXYColorPlot")) {
+		gtype = ODF_SCATTER_COLOUR;
+		odf_plot_type = "gnm:scatter-color";
+		pad = 20.;
 	} else {
 		g_print ("encountered unknown chart type %s\n", plot_type);
 		gtype = ODF_BARCOL;
@@ -3655,6 +3657,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		odf_write_axis (state, chart, "Circular-Axis", "xaxis", "x", gtype);
 		odf_write_series (state, series);
 		break;
+	case ODF_SCATTER_COLOUR:
 	case ODF_BUBBLE:
 	case ODF_SURF:
 		odf_write_axis (state, chart, "Y-Axis", "yaxis", "y", gtype);

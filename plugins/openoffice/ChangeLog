@@ -1,3 +1,11 @@
+2009-07-22 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (oo_plot_series): handle OO_PLOT_SCATTER_COLOUR
+	(oo_series_domain): ditto
+	(oo_chart): ditto
+	* openoffice-write.c (odf_write_bubble_series): write all series
+	(odf_write_plot): handle GogXYColorPlot/ODF_SCATTER_COLOUR
+
 2009-07-16 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_plot_assign_dim): allow for 
