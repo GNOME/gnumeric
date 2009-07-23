@@ -3660,6 +3660,7 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 	case ODF_SCATTER_COLOUR:
 	case ODF_BUBBLE:
 	case ODF_SURF:
+	case ODF_XYZ_SURF:
 		odf_write_axis (state, chart, "Y-Axis", "yaxis", "y", gtype);
 		odf_write_axis (state, chart, "X-Axis", "xaxis", "x", gtype);
 		odf_write_bubble_series (state, series);

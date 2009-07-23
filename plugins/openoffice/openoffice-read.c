@@ -3358,9 +3358,22 @@ gog_series_map_dim (GogSeries const *series, GogMSDimType ms_type)
 			return i;
 	return -2;
 }
+
+static int
+gog_series_map_dim_by_name (GogSeries const *series, char const *dim_name)
+{
+	GogSeriesDesc const *desc = &series->plot->desc.series;
+	unsigned i = desc->num_dim;
+
+	while (i-- > 0)
+		if (desc->dim[i].name != NULL && strcmp (desc->dim[i].name, dim_name) == 0)
+			return i;
+	return -2;
+}
+
 /* If range == %NULL use an implicit range */
 static void
-oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type)
+oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char const *dim_name)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
@@ -3374,8 +3387,10 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type)
 		return;
 	if (dim_type < 0)
 		dim = - (1 + dim_type);
-	else
+	else if (dim_name == NULL)
 		dim = gog_series_map_dim (state->chart.series, dim_type);
+	else 
+		dim = gog_series_map_dim_by_name (state->chart.series, dim_name);
 	if (dim < -1)
 		return;
 
@@ -3539,11 +3554,11 @@ odf_create_stock_plot (GsfXMLIn *xin)
 
 	if (len-- > 0) {
 		state->chart.series = gog_plot_new_series (state->chart.plot);
-		oo_plot_assign_dim (xin, series_addresses->data, GOG_MS_DIM_LOW);
+		oo_plot_assign_dim (xin, series_addresses->data, GOG_MS_DIM_LOW, NULL);
 	}
 	if (len-- > 0) {
 		series_addresses = series_addresses->next;
-		oo_plot_assign_dim (xin, series_addresses->data, GOG_MS_DIM_HIGH);
+		oo_plot_assign_dim (xin, series_addresses->data, GOG_MS_DIM_HIGH, NULL);
 	}
 }
 
@@ -3556,7 +3571,7 @@ oo_plot_area_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		go_slist_free_custom (state->chart.stock_series, g_free);
 		state->chart.stock_series = NULL;
 	} else if (state->chart.series != NULL) {
-		oo_plot_assign_dim (xin, NULL, GOG_MS_DIM_VALUES);
+		oo_plot_assign_dim (xin, NULL, GOG_MS_DIM_VALUES, NULL);
 		state->chart.series = NULL;		
 	}
 	state->chart.plot = NULL;
@@ -3621,9 +3636,9 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 					dim = GOG_MS_DIM_VALUES;
 					break;
 				}
-				oo_plot_assign_dim (xin, attrs[1], dim);
+				oo_plot_assign_dim (xin, attrs[1], dim, NULL);
 			} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "label-cell-address"))
-				oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_LABELS);
+				oo_plot_assign_dim (xin, attrs[1], GOG_MS_DIM_LABELS, NULL);
 		break;
 	}
 }
@@ -3642,7 +3657,7 @@ oo_plot_series_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			break;
 		/* else no break */
 	default:
-		oo_plot_assign_dim (xin, NULL, GOG_MS_DIM_VALUES);
+		oo_plot_assign_dim (xin, NULL, GOG_MS_DIM_VALUES, NULL);
 		state->chart.series = NULL;
 		break;
 	}
@@ -3656,27 +3671,28 @@ oo_series_domain (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	xmlChar const *src = NULL;
-	int dim;
+	int dim = GOG_MS_DIM_VALUES;
+	char const *name = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "cell-range-address"))
 			src = attrs[1];
-	if (state->chart.domain_count == 0)
-		switch (state->chart.plot_type) {
-		case OO_PLOT_BUBBLE:
-		case OO_PLOT_SCATTER_COLOUR:
-			dim = GOG_MS_DIM_VALUES;
-			break;
-		case OO_PLOT_SURF:
-			dim = -1;
-			break;
-		default:
-			dim = GOG_MS_DIM_CATEGORIES;
-			break;
-		}
-	else 
+	switch (state->chart.plot_type) {
+	case OO_PLOT_BUBBLE:
+	case OO_PLOT_SCATTER_COLOUR:
+		dim = (state->chart.domain_count == 0) ? GOG_MS_DIM_VALUES : GOG_MS_DIM_CATEGORIES;
+		break;
+	case OO_PLOT_XYZ_CONTOUR:
+		name = (state->chart.domain_count == 0) ? "Y" : "X";
+		break;
+	case OO_PLOT_SURF:
+		dim = (state->chart.domain_count == 0) ? -1 : GOG_MS_DIM_CATEGORIES;
+		break;
+	default:
 		dim = GOG_MS_DIM_CATEGORIES;
-	oo_plot_assign_dim (xin, src, dim);
+		break;
+	}
+	oo_plot_assign_dim (xin, src, dim, name);
 	state->chart.domain_count++;
 }
 

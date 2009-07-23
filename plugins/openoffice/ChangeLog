@@ -1,3 +1,10 @@
+2009-07-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (gog_series_map_dim_by_name): new
+	(oo_plot_assign_dim): add optional name argument and change all callers
+	(oo_series_domain): handle OO_PLOT_XYZ_CONTOUR
+	* openoffice-write.c (odf_write_plot): handle ODF_XYZ_SURF
+
 2009-07-22 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (oo_plot_series): handle OO_PLOT_SCATTER_COLOUR
