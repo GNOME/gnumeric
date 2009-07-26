@@ -296,8 +296,8 @@ stf_preview_get_cell_renderer (RenderData_t *renderdata, int col)
 	GtkCellRenderer *res = NULL;
 	GtkTreeViewColumn *column = stf_preview_get_column (renderdata, col);
 	if (column) {
-		GList *renderers =
-			gtk_tree_view_column_get_cell_renderers (column);
+		GList *renderers = gtk_cell_layout_get_cells
+			(GTK_CELL_LAYOUT(column));
 		if (renderers) {
 			res = renderers->data;
 			g_list_free (renderers);
