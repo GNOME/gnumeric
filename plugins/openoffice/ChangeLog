@@ -1,3 +1,16 @@
+2009-07-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-read.c (OO_PLOT_SURF): rename to OO_PLOT_CONTOUR throughout
+	(OO_PLOT_XYZ_SURFACE): new
+	(OO_PLOT_SURFACE): new
+	(oo_plot_area): handle OO_PLOT_XYZ_SURFACE and OO_PLOT_SURFACE
+	(oo_plot_series): ditto
+	(oo_series_domain): ditto
+	(oo_chart): ditto
+	* openoffice-write.c (ODF_GNM_SURF): new
+	(ODF_XYZ_GNM_SURF): new
+	(odf_write_plot): handle ODF_GNM_SURF and ODF_XYZ_GNM_SURF
+
 2009-07-23 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (gog_series_map_dim_by_name): new

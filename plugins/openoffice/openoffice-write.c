@@ -3169,7 +3169,9 @@ typedef enum {
 	ODF_RING,
 	ODF_SCATTER,
 	ODF_SURF,
+	ODF_GNM_SURF,
 	ODF_XYZ_SURF,
+	ODF_XYZ_GNM_SURF,
 	ODF_BUBBLE,
 	ODF_SCATTER_COLOUR,
 	ODF_POLAR
@@ -3515,6 +3517,14 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		gtype = ODF_XYZ_SURF;
 		odf_plot_type = "gnm:xyz-contour";
 		pad = 20.;
+	} else if (0 == strcmp (plot_type, "GogXYZSurfacePlot")) {
+		gtype = ODF_XYZ_GNM_SURF;
+		odf_plot_type = "gnm:xyz-surface";
+		pad = 20.;
+	} else if (0 == strcmp (plot_type, "GogSurfacePlot")) {
+		gtype = ODF_GNM_SURF;
+		odf_plot_type = "gnm:surface";
+		pad = 20.;
 	} else if (0 == strcmp (plot_type, "GogBubblePlot")) {
 		gtype = ODF_BUBBLE;
 		odf_plot_type = "chart:bubble";
@@ -3545,6 +3555,10 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		odf_write_axis_style (state, chart, "Y-Axis", horizontal ? "xaxis" : "yaxis", gtype);
 		odf_write_axis_style (state, chart, "X-Axis", horizontal ? "yaxis" : "xaxis", gtype);
 		break;
+	case ODF_GNM_SURF:
+	case ODF_XYZ_GNM_SURF:
+		odf_write_axis_style (state, chart, "Z-Axis", "zaxis", gtype);
+		/* no break */
 	default:
 		odf_write_axis_style (state, chart, "Y-Axis", "yaxis", gtype);
 		odf_write_axis_style (state, chart, "X-Axis", "xaxis", gtype);
@@ -3657,6 +3671,10 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		odf_write_axis (state, chart, "Circular-Axis", "xaxis", "x", gtype);
 		odf_write_series (state, series);
 		break;
+	case ODF_GNM_SURF:
+	case ODF_XYZ_GNM_SURF:
+		odf_write_axis (state, chart, "Z-Axis", "zaxis", "z", gtype);		
+		/* no break */
 	case ODF_SCATTER_COLOUR:
 	case ODF_BUBBLE:
 	case ODF_SURF:

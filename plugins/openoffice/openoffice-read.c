@@ -120,12 +120,14 @@ typedef enum {
 	OO_PLOT_RING,
 	OO_PLOT_SCATTER,
 	OO_PLOT_STOCK,
-	OO_PLOT_SURF,
+	OO_PLOT_CONTOUR,
 	OO_PLOT_BUBBLE,
 	OO_PLOT_GANTT,
 	OO_PLOT_POLAR,
 	OO_PLOT_XYZ_CONTOUR,
 	OO_PLOT_SCATTER_COLOUR,
+	OO_PLOT_XYZ_SURFACE,
+	OO_PLOT_SURFACE,
 	OO_PLOT_UNKNOWN
 } OOPlotType;
 
@@ -3305,6 +3307,7 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 	static OOEnum const types[] = {
 		{ "x",	GOG_AXIS_X },
 		{ "y",	GOG_AXIS_Y },
+		{ "z",	GOG_AXIS_Z },
 		{ NULL,	0 },
 	};
 	GSList	*axes;
@@ -3511,11 +3514,13 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_RING:	type = "GogRingPlot";	break;
 	case OO_PLOT_SCATTER:	type = "GogXYPlot";	break;
 	case OO_PLOT_STOCK:	type = "GogMinMaxPlot";	break;  /* This is not quite right! */
-	case OO_PLOT_SURF:	type = "GogContourPlot"; break;
+	case OO_PLOT_CONTOUR:	type = "GogContourPlot"; break;
 	case OO_PLOT_BUBBLE:	type = "GogBubblePlot"; break;
 	case OO_PLOT_GANTT:	type = "GogDropBarPlot"; break;
 	case OO_PLOT_POLAR:	type = "GogPolarPlot"; break;
 	case OO_PLOT_XYZ_CONTOUR: type = "GogXYZContourPlot"; break;
+	case OO_PLOT_XYZ_SURFACE: type = "GogXYZSurfacePlot"; break;
+	case OO_PLOT_SURFACE: type = "GogSurfacePlot"; break;
 	case OO_PLOT_SCATTER_COLOUR: type = "GogXYColorPlot";	break;
 	default: return;
 	}
@@ -3598,7 +3603,8 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 				state->chart.stock_series = g_slist_append (state->chart.stock_series, 
 									    g_strdup (attrs[1]));
 		break;
-	case OO_PLOT_SURF:
+	case OO_PLOT_SURFACE:
+	case OO_PLOT_CONTOUR:
 		state->chart.series = gog_plot_new_series (state->chart.plot);
 		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "values-cell-range-address")) {
@@ -3650,7 +3656,7 @@ oo_plot_series_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	
 	switch (state->chart.plot_type) {
 	case OO_PLOT_STOCK:
-	case OO_PLOT_SURF:
+	case OO_PLOT_CONTOUR:
 		break;
 	case OO_PLOT_GANTT:
 		if ((state->chart.series_count % 2) != 0)
@@ -3683,9 +3689,11 @@ oo_series_domain (GsfXMLIn *xin, xmlChar const **attrs)
 		dim = (state->chart.domain_count == 0) ? GOG_MS_DIM_VALUES : GOG_MS_DIM_CATEGORIES;
 		break;
 	case OO_PLOT_XYZ_CONTOUR:
+	case OO_PLOT_XYZ_SURFACE:
+	case OO_PLOT_SURFACE:
 		name = (state->chart.domain_count == 0) ? "Y" : "X";
 		break;
-	case OO_PLOT_SURF:
+	case OO_PLOT_CONTOUR:
 		dim = (state->chart.domain_count == 0) ? -1 : GOG_MS_DIM_CATEGORIES;
 		break;
 	default:
@@ -3720,9 +3728,11 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "chart:stock",	OO_PLOT_STOCK },
 		{ "chart:bubble",	OO_PLOT_BUBBLE },
 		{ "chart:gantt",	OO_PLOT_GANTT },
-		{ "chart:surface",	OO_PLOT_SURF },
+		{ "chart:surface",	OO_PLOT_CONTOUR },
 		{ "gnm:polar",  	OO_PLOT_POLAR },
 		{ "gnm:xyz-contour", 	OO_PLOT_XYZ_CONTOUR },
+		{ "gnm:xyz-surface", 	OO_PLOT_XYZ_SURFACE },
+		{ "gnm:surface", 	OO_PLOT_SURFACE },
 		{ "gnm:scatter-color", 	OO_PLOT_SCATTER_COLOUR },
 		{ NULL,	0 },
 	};
