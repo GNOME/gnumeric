@@ -71,7 +71,7 @@ val_to_base (GnmFuncEvalInfo *ei,
 	     Val2BaseFlags flags)
 {
 	int digit, min, max, places;
-	gnm_float v, b10;
+	gnm_float v;
 	GString *buffer;
 	GnmValue *vstring = NULL;
 
@@ -126,8 +126,11 @@ val_to_base (GnmFuncEvalInfo *ei,
 					hsuffix = TRUE;
 			}
 
-			v = strtol (str, &err, src_base);
+			v = g_ascii_strtoll (str, &err, src_base);
 			if (err == str || err[hsuffix] != 0)
+				return value_new_error_NUM (ei->pos);
+
+			if (v < min_value || v > max_value)
 				return value_new_error_NUM (ei->pos);
 
 			break;
@@ -149,19 +152,21 @@ val_to_base (GnmFuncEvalInfo *ei,
 				 "%.0" GNM_FORMAT_f,
 				 val);
 
-		v = strtol (buf, &err, src_base);
+		v = g_ascii_strtoll (buf, &err, src_base);
 		if (*err != 0)
 			return value_new_error_NUM (ei->pos);
 		break;
 	}
 	}
 
-	b10 = gnm_pow (src_base, 10);
-	if (v >= b10 / 2) /* N's complement */
-		v = v - b10;
+	if (src_base != 10) {
+		gnm_float b10 = gnm_pow (src_base, 10);
+		if (v >= b10 / 2) /* N's complement */
+			v = v - b10;
+	}
 
 	if (flags & V2B_NUMBER)
-		return value_new_int (v);
+		return value_new_float (v);
 
 	if (v < 0) {
 		min = 1;
@@ -525,9 +530,10 @@ static GnmFuncHelp const help_hex2dec[] = {
 static GnmValue *
 gnumeric_hex2dec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
+	static gnm_float pow_2_40 = GNM_const(1099511627776.0);
 	return val_to_base (ei, argv[0], NULL,
 			    16, 10,
-			    0, GNM_const(9999999999.0),
+			    0, pow_2_40 - 1,
 			    V2B_STRINGS_MAXLEN |
 			    V2B_STRINGS_BLANK_ZERO |
 			    V2B_NUMBER);

@@ -1,3 +1,11 @@
+2009-07-27  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_hex2dec): Fix maximum.
+	(val_to_base): Check range even in the string case.  Only do
+	two-complement thingy when src_base is not 10.  Use
+	g_ascii_strtoll, not strtol.  Use value_new_float, not
+	value_new_int.  Fixes #588997.
+
 2009-07-01  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c: conversion to new function description
