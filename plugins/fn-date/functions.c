@@ -186,22 +186,12 @@ gnumeric_date2unix (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_datevalue[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=DATEVALUE\n"
-	   "@SYNTAX=DATEVALUE(date_str)\n"
-
-	   "@DESCRIPTION="
-	   "DATEVALUE returns the serial number of the date.  @date_str is "
-	   "the string that contains the date. The value depends on the date "
-	   "convention.  The MS Excel 1900 convention dates things from Jan 1 1900 "
-	   "while the 1904 convention uses Jan 1 1904.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "DATEVALUE(\"1/1/1999\") equals 36161 (in the 1900 convention)."
-	   "\n"
-	   "@SEEALSO=DATE")
-	},
+        { GNM_FUNC_HELP_NAME, F_("DATEVALUE:return date part of a date and time serial value.")},
+        { GNM_FUNC_HELP_ARG, F_("serial:date and time serial value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("DATEVALUE returns the date serial value part of a date and time serial value.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=DATEVALUE(NOW())" },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_SEEALSO, "TIMEVALUE,DATE"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -366,25 +356,13 @@ gnumeric_datedif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_edate[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=EDATE\n"
-	   "@SYNTAX=EDATE(date,months)\n"
-
-	   "@DESCRIPTION="
-	   "EDATE returns the serial number of the date that is the "
-	   "specified number of months before or after a given date.  "
-	   "@date is the serial number of the initial date and @months "
-	   "is the number of months before (negative number) or after "
-	   "(positive number) the initial date.\n"
-	   "\n"
-	   "* If @months is not an integer, it is truncated.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "EDATE(DATE(2001,12,30),2) returns 'Feb 28, 2002'.\n"
-	   "\n"
-	   "@SEEALSO=DATE")
-	},
+        { GNM_FUNC_HELP_NAME, F_("EDATE:adjust a date by a number of months") },
+        { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
+        { GNM_FUNC_HELP_ARG, F_("months:signed number of months")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("EDATE returns @{date} moved forward or backward the number of months specified by @{months}.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=EDATE(DATE(2001,12,30),2)" },
+        { GNM_FUNC_HELP_SEEALSO, "DATE"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -476,21 +454,12 @@ gnumeric_time (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_timevalue[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TIMEVALUE\n"
-	   "@SYNTAX=TIMEVALUE (timetext)\n"
-
-	   "@DESCRIPTION="
-	   "TIMEVALUE returns a fraction representing the time of day, a "
-	   "number between 0 and 1.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "TIMEVALUE(\"3:05\") equals 0.128472.\n"
-	   "TIMEVALUE(\"2:24:53 PM\") equals 0.600613.\n"
-	   "\n"
-	   "@SEEALSO=HOUR,MINUTE")
-	},
+        { GNM_FUNC_HELP_NAME, F_("TIMEVALUE:return time part of a date and time serial value.")},
+        { GNM_FUNC_HELP_ARG, F_("serial:date and time serial value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("TIMEVALUE returns the time-of-day part of a date and time serial value.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=TIMEVALUE(NOW())" },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_SEEALSO, "DATEVALUE,TIME"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -759,23 +728,13 @@ gnumeric_days360 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_eomonth[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=EOMONTH\n"
-	   "@SYNTAX=EOMONTH (start_date,months)\n"
-
-	   "@DESCRIPTION="
-	   "EOMONTH returns the last day of the month which is @months "
-	   "from the @start_date.\n"
-	   "\n"
-	   "* EOMONTH returns #NUM! if @start_date or @months are invalid.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "If A1 contains 12/21/00 then EOMONTH(A1,0)=12/31/00, "
-	   "EOMONTH(A1,5)=5/31/01, and EOMONTH(A1,2)=2/28/01\n"
-	   "\n"
-	   "@SEEALSO=MONTH")
-	},
+        { GNM_FUNC_HELP_NAME, F_("EOMONTH:calculate end of month") },
+        { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
+        { GNM_FUNC_HELP_ARG, F_("months:signed number of months")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("EOMONTH returns the date serial value of the end of the month specified by @{date} adjusted forward or backward the number of months specified by @{months}.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=EOMONTH(DATE(2001,12,14),2)" },
+        { GNM_FUNC_HELP_SEEALSO, "EDATE"},
 	{ GNM_FUNC_HELP_END }
 };
 
