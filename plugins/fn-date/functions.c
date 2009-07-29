@@ -71,7 +71,7 @@ value_get_basis (const GnmValue *v, int defalt)
 /***************************************************************************/
 
 static GnmFuncHelp const help_date[] = {
-        { GNM_FUNC_HELP_NAME, F_("DATE:create a date serial value.")},
+        { GNM_FUNC_HELP_NAME, F_("DATE:create a date serial value")},
         { GNM_FUNC_HELP_ARG, F_("year:year of date")},
         { GNM_FUNC_HELP_ARG, F_("month:month of year")},
         { GNM_FUNC_HELP_ARG, F_("day:day of month")},
@@ -186,7 +186,7 @@ gnumeric_date2unix (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_datevalue[] = {
-        { GNM_FUNC_HELP_NAME, F_("DATEVALUE:return date part of a date and time serial value.")},
+        { GNM_FUNC_HELP_NAME, F_("DATEVALUE:return date part of a date and time serial value")},
         { GNM_FUNC_HELP_ARG, F_("serial:date and time serial value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("DATEVALUE returns the date serial value part of a date and time serial value.") },
         { GNM_FUNC_HELP_EXAMPLES, "=DATEVALUE(NOW())" },
@@ -410,7 +410,7 @@ gnumeric_today (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_now[] = {
-        { GNM_FUNC_HELP_NAME, F_("NOW:return the date and time serial value of the current time.") },
+        { GNM_FUNC_HELP_NAME, F_("NOW:return the date and time serial value of the current time") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The NOW function returns the date and time serial value of the moment it is computed.  Recomputing later will produce a different value.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=NOW()" },
@@ -427,7 +427,7 @@ gnumeric_now (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_time[] = {
-        { GNM_FUNC_HELP_NAME, F_("TIME:create a time serial value.")},
+        { GNM_FUNC_HELP_NAME, F_("TIME:create a time serial value")},
         { GNM_FUNC_HELP_ARG, F_("hour:hour of the day")},
         { GNM_FUNC_HELP_ARG, F_("minute:minute within the hour")},
         { GNM_FUNC_HELP_ARG, F_("second:second within the minute")},
@@ -454,7 +454,7 @@ gnumeric_time (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_timevalue[] = {
-        { GNM_FUNC_HELP_NAME, F_("TIMEVALUE:return time part of a date and time serial value.")},
+        { GNM_FUNC_HELP_NAME, F_("TIMEVALUE:return time part of a date and time serial value")},
         { GNM_FUNC_HELP_ARG, F_("serial:date and time serial value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("TIMEVALUE returns the time-of-day part of a date and time serial value.") },
         { GNM_FUNC_HELP_EXAMPLES, "=TIMEVALUE(NOW())" },
@@ -473,7 +473,7 @@ gnumeric_timevalue (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_hour[] = {
-        { GNM_FUNC_HELP_NAME, F_("HOUR:compute hour part of fractional day.")},
+        { GNM_FUNC_HELP_NAME, F_("HOUR:compute hour part of fractional day")},
         { GNM_FUNC_HELP_ARG, F_("time:time of day as fractional day.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The HOUR function computes the hour part of the fractional day given by @{time}.") },
         { GNM_FUNC_HELP_EXAMPLES, "=HOUR(TIME(12,30,2))" },
@@ -496,7 +496,7 @@ gnumeric_hour (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_minute[] = {
-        { GNM_FUNC_HELP_NAME, F_("MINUTE:compute minute part of fractional day.")},
+        { GNM_FUNC_HELP_NAME, F_("MINUTE:compute minute part of fractional day")},
         { GNM_FUNC_HELP_ARG, F_("time:time of day as fractional day.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The MINUTE function computes the minute part of the fractional day given by @{time}.") },
         { GNM_FUNC_HELP_EXAMPLES, "=MINUTE(TIME(12,30,2))" },
@@ -519,7 +519,7 @@ gnumeric_minute (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_second[] = {
-        { GNM_FUNC_HELP_NAME, F_("SECOND:compute seconds part of fractional day.")},
+        { GNM_FUNC_HELP_NAME, F_("SECOND:compute seconds part of fractional day")},
         { GNM_FUNC_HELP_ARG, F_("time:time of day as fractional day.")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The SECOND function computes the seconds part of the fractional day given by @{time}.") },
         { GNM_FUNC_HELP_EXAMPLES, "=SECOND(TIME(12,30,2))" },
@@ -542,7 +542,7 @@ gnumeric_second (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_year[] = {
-        { GNM_FUNC_HELP_NAME, F_("YEAR:Return the year part of a date serial value.") },
+        { GNM_FUNC_HELP_NAME, F_("YEAR:Return the year part of a date serial value") },
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The YEAR function returns the year part of @{date}.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -566,7 +566,7 @@ gnumeric_year (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_month[] = {
-        { GNM_FUNC_HELP_NAME, F_("MONTH:Return the month part of a date serial value.") },
+        { GNM_FUNC_HELP_NAME, F_("MONTH:Return the month part of a date serial value") },
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The MONTH function returns the month part of @{date}.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -590,7 +590,7 @@ gnumeric_month (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_day[] = {
-        { GNM_FUNC_HELP_NAME, F_("DAY:Return the day-of-month part of a date serial value.") },
+        { GNM_FUNC_HELP_NAME, F_("DAY:Return the day-of-month part of a date serial value") },
         { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The DAY function returns the day-of-month part of @{date}.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -614,30 +614,16 @@ gnumeric_day (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_weekday[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=WEEKDAY\n"
-	   "@SYNTAX=WEEKDAY (date[, method])\n"
-
-	   "@DESCRIPTION="
-	   "WEEKDAY converts a serial number to a weekday.\n"
-	   "\n"
-	   "This function returns an integer indicating the day of week.\n"
-	   "@METHOD indicates the numbering system.  It defaults to 1.\n"
-	   "\n"
-	   "  For @METHOD=1: Sunday is 1, Monday is 2, etc.\n"
-	   "  For @METHOD=2: Monday is 1, Tuesday is 2, etc.\n"
-	   "  For @METHOD=3: Monday is 0, Tuesday is 1, etc.\n"
-	   "\n"
-	   "* Note that Gnumeric will perform regular string to serial "
-	   "number conversion for you, so you can enter a date as a "
-	   "string.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "WEEKDAY(\"10/24/1968\") equals 5 (Thursday).\n"
-	   "\n"
-	   "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR")
-	},
+        { GNM_FUNC_HELP_NAME, F_("WEEKDAY:Calculate day-of-week") },
+        { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
+        { GNM_FUNC_HELP_ARG, F_("method:numbering system")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The WEEKDAY function returns the day-of-week of @{date}.  The value of @{method} determines how days are numbered.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 1, then Sunday is 1, Monday is 2, etc.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 2, then Monday is 1, Sunday is 2, etc.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 3, then Monday is 0, Sunday is 1, etc.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=WEEKDAY(DATE(1940,4,9))" },
+        { GNM_FUNC_HELP_SEEALSO, "DATE,ISOWEEKNUM"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1070,26 +1056,13 @@ gnumeric_networkdays (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_isoweeknum[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ISOWEEKNUM\n"
-	   "@SYNTAX=ISOWEEKNUM (date)\n"
-
-	   "@DESCRIPTION="
-	   "ISOWEEKNUM returns the ISO 8601 week number of @date.\n"
-	   "\n"
-	   "An ISO 8601 week starts on Monday. Weeks are numbered from 1. A "
-	   "week including days from two different years is assigned to the "
-	   "year which includes the most days. This means that Dec 31 could "
-	   "be in week 1 of the following year, and Jan 1 could be in week 52 "
-	   "or 53 of the previous year. ISOWEEKNUM returns the week number.\n"
-	   "\n"
-	   "* ISOWEEKNUM returns #NUM! if date is invalid.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "If A1 contains 12/21/00 then ISOWEEKNUM(A1)=51"
-	   "\n"
-	   "@SEEALSO=WEEKNUM, ISOYEAR")
-	},
+        { GNM_FUNC_HELP_NAME, F_("ISOWEEKNUM:calculate ISO week number")},
+        { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ISOWEEKNUM calculates the week number according to the ISE 8601 standard.  Weeks start on Mondays and week 1 contains the first Thursday of the year.") },
+	{ GNM_FUNC_HELP_NOTE, F_("January 1 of a year is sometimes in week 52 or 53 of the previous year.  Similarly, December 31 is sometimes in week 1 of the following year.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISOWEEKNUM(DATE(2000,1,1))" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISOWEEKNUM(DATE(2008,1,1))" },
+        { GNM_FUNC_HELP_SEEALSO, "ISOYEAR,WEEKNUM"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1107,27 +1080,13 @@ gnumeric_isoweeknum (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_isoyear[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ISOYEAR\n"
-	   "@SYNTAX=ISOYEAR (date)\n"
-
-	   "@DESCRIPTION="
-	   "ISOYEAR returns the year of the ISO 8601 week number of @date."
-	   "\n\n"
-	   "An ISO 8601 week starts on Monday. Weeks are numbered from 1. A "
-	   "week including days from two different years is assigned to the "
-	   "year which includes the most days. This means that Dec 31 could "
-	   "be in week 1 of the following year, and Jan 1 could be in week 52 "
-	   "or 53 of the previous year. ISOYEAR returns the year the week is "
-	   "assigned to.\n"
-	   "\n"
-	   "* ISOYEAR returns #NUM! if date is invalid."
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "If A1 contains 12/31/2001 then ISOYEAR(A1)=2002"
-	   "\n"
-	   "@SEEALSO=ISOWEEKNUM")
-	},
+        { GNM_FUNC_HELP_NAME, F_("ISOYEAR:calculate year corresponding to the ISO week number")},
+        { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ISOYEAR calculates the year to go with week number according to the ISE 8601 standard.") },
+	{ GNM_FUNC_HELP_NOTE, F_("January 1 of a year is sometimes in week 52 or 53 of the previous year.  Similarly, December 31 is sometimes in week 1 of the following year.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISOYEAR(DATE(2000,1,1))" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISOYEAR(DATE(2008,1,1))" },
+        { GNM_FUNC_HELP_SEEALSO, "ISOWEEKNUM,YEAR"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1157,30 +1116,16 @@ gnumeric_isoyear (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_weeknum[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=WEEKNUM\n"
-	   "@SYNTAX=WEEKNUM (date[,method])\n"
-
-	   "@DESCRIPTION="
-	   "WEEKNUM returns the week number of @date according to the given "
-	   "@method.\n"
-	   "\n"
-	   "@method defaults to 1.\n\n"
-	   "  For @method=1, week starts on Sunday, and days before first "
-	   "Sunday are in week 0.\n"
-	   "  For @method=2, week starts on Monday, and days before first "
-	   "Monday are in week 0.\n"
-	   "  For @method=150, the ISO 8601 week number is returned.\n"
-	   "\n"
-	   "* WEEKNUM returns #NUM! if @date or @method is invalid.\n"
-	   "* This function is Excel compatible, except that Excel does not "
-	   "support ISO 8601 week numbers.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "If A1 contains 12/21/00 then WEEKNUM(A1,2)=51"
-	   "\n"
-	   "@SEEALSO=ISOWEEKNUM")
-	},
+        { GNM_FUNC_HELP_NAME, F_("WEEKNUM:calculate ISO week number")},
+        { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
+        { GNM_FUNC_HELP_ARG, F_("method:numbering system")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("WEEKNUM calculates the week number according to @{method} which defaults to 1.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 1, then weeks start on Sundays and days before first Sunday are in week 0.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 2, then weeks start on Mondays and days before first Monday are in week 0.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 150, then the ISO 8601 numbering is used.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=WEEKNUM(DATE(2000,1,1))" },
+        { GNM_FUNC_HELP_EXAMPLES, "=WEEKNUM(DATE(2008,1,1))" },
+        { GNM_FUNC_HELP_SEEALSO, "ISOWEEKNUM"},
 	{ GNM_FUNC_HELP_END }
 };
 
