@@ -1,3 +1,16 @@
+2009-07-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_series): renamed to
+	  odf_write_standard_series
+	(odf_write_axis_style): moved some code to callers and simplify
+	(odf_write_circle_axes_styles): new
+	(odf_write_radar_axes_styles): new
+	(odf_write_dropbar_axes_styles): new
+	(odf_write_standard_axes_styles): new
+	(odf_write_surface_axes_styles): new
+	(odf_write_axis): moved some code to callers
+	(odf_write_plot): use selection array
+
 2009-07-27 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-read.c (OO_PLOT_SURF): rename to OO_PLOT_CONTOUR throughout
