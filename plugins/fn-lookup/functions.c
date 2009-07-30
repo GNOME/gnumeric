@@ -1490,7 +1490,6 @@ static GnmFuncHelp const help_row[] = {
 	   "returns #VALUE! error.\n") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=ROW(A1:D3)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=ROW(1:3)" },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("=ROW() in G13 equals 13.") },
 	{ GNM_FUNC_HELP_SEEALSO, "COLUMN,COLUMNS,ROWS" },
 	{ GNM_FUNC_HELP_END }
 };

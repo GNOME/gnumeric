@@ -204,31 +204,19 @@ gnumeric_datevalue (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_datedif[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=DATEDIF\n"
-	   "@SYNTAX=DATEDIF(date1,date2,interval)\n"
-
-	   "@DESCRIPTION="
-	   "DATEDIF returns the difference between two dates.  @interval is "
-	   "one of six possible values:  \"y\", \"m\", \"d\", \"ym\", "
-	   "\"md\", and \"yd\".\n\n"
-	   "The first three options will return the "
-	   "number of complete years, months, or days, respectively, between "
-	   "the two dates specified.\n\n"
-	   "  \"ym\" will return the number of full months between the two "
-	   "dates, not including the difference in years.\n"
-	   "  \"md\" will return the number of full days between the two "
-	   "dates, not including the difference in months.\n"
-	   "  \"yd\" will return the number of full days between the two "
-	   "dates, not including the difference in years.\n\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\"d\") equals 1191.\n"
-	   "DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\"y\") equals 3.\n"
-	   "\n"
-	   "@SEEALSO=DATE")
-	},
+        { GNM_FUNC_HELP_NAME, F_("DATEDIF:calculate difference between dates") },
+        { GNM_FUNC_HELP_ARG, F_("start_date:starting date serial value")},
+        { GNM_FUNC_HELP_ARG, F_("end_date:ending date serial value")},
+        { GNM_FUNC_HELP_ARG, F_("interval:counting unit")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("DATEDIF returns the distance from @{start_date} to @{end_date} according to the unit specified by @{interval}.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{interval} is \"y\", \"m\", or \"d\" then the distance is measured in complete years, months, or days respectively.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{interval} is \"ym\" or \"yd\" then the distance is measured in complete months or days, respectively, but excluding any difference in years.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{interval} is \"md\" then the distance is measured in complete days but excluding any difference in months.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=DATEDIF(DATE(2003,2,3),DATE(2007,4,2),\"m\")" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\"d\")" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\"y\")" },
+        { GNM_FUNC_HELP_SEEALSO, "DAYS360"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -654,35 +642,17 @@ gnumeric_weekday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_days360[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=DAYS360 \n"
-	   "@SYNTAX=DAYS360 (date1,date2,method)\n"
-
-	   "@DESCRIPTION="
-	   "DAYS360 returns the number of days from @date1 to @date2 following "
-	   "a 360-day calendar in which all months are assumed to have 30 days."
-	   "\n\n"
-	   "* If @method is 1, the European method will be used.  In this "
-	   "case, if the day of the month is 31 it will be considered as 30."
-	   "\n"
-	   "* If @method is 0 or omitted, the MS Excel (tm) US method will be used.  "
-	   "This is a somewhat complicated industry standard method "
-	   "where the last day of February is considered to be the 30th day "
-	   "of the month, but only for the first date."
-	   "\n"
-	   "* If @method is 2, a saner version of the US method is "
-	   "used in which both dates get the same February treatment."
-	   "\n"
-	   "* Note that Gnumeric will perform regular string to serial "
-	   "number conversion for you, so you can enter a date as a "
-	   "string.\n"
-	   "* This function is mostly Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "DAYS360(DATE(2003, 2, 3), DATE(2007, 4, 2)) equals 1499.\n"
-	   "\n"
-	   "@SEEALSO=MONTH, TIME, NOW, YEAR")
-	},
+        { GNM_FUNC_HELP_NAME, F_("DAYS360:calculate days between dates") },
+        { GNM_FUNC_HELP_ARG, F_("start_date:starting date serial value")},
+        { GNM_FUNC_HELP_ARG, F_("end_date:ending date serial value")},
+        { GNM_FUNC_HELP_ARG, F_("method:counting method")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("DAYS360 returns the number of days from @{start_date} to @{end_date}.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 0, the default, the MS Excel (tm) US method will be used. This is a somewhat complicated industry standard method where the last day of February is considered to be the 30th day of the month, but only for @{start_date}.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 1, the European method will be used.  In this case, if the day of the month is 31 it will be considered as 30") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{method} is 2, a saner version of the US method is used in which both dates get the same February treatment.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=DAYS360(DATE(2003,2,3),DATE(2007,4,2))" },
+        { GNM_FUNC_HELP_SEEALSO, "DATEDIF"},
 	{ GNM_FUNC_HELP_END }
 };
 
