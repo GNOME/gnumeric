@@ -754,24 +754,15 @@ gnumeric_eomonth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_workday[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=WORKDAY\n"
-	   "@SYNTAX=WORKDAY (start_date,days[,holidays])\n"
-
-	   "@DESCRIPTION="
-	   "WORKDAY returns the date which is @days working days "
-	   "from the @start_date.  Weekends and holidays optionally "
-	   "supplied in @holidays are respected.\n"
-	   "\n"
-	   "* WORKDAY returns #NUM! if @start_date or @days are invalid.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "DAY(WORKDAY(DATE(2001,1,5),30)) equals 16 and\n"
-	   "MONTH(WORKDAY(DATE(2001,1,5),30)) equals 2.\n"
-	   "\n"
-	   "@SEEALSO=NETWORKDAYS")
-	},
+        { GNM_FUNC_HELP_NAME, F_("WORKDAY:add working days") },
+        { GNM_FUNC_HELP_ARG, F_("date:date serial value")},
+        { GNM_FUNC_HELP_ARG, F_("days:number of days to add")},
+        { GNM_FUNC_HELP_ARG, F_("holidays:array of holidays")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("WORKDAY adjusts @{date} by @{days} skipping over weekends and @{holidays} in the process.") },
+	{ GNM_FUNC_HELP_NOTE, F_("@{days} may be negative.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=WORKDAY(DATE(2001,12,14),2)" },
+        { GNM_FUNC_HELP_SEEALSO, "NETWORKDAYS"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -927,24 +918,14 @@ gnumeric_workday (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_networkdays[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=NETWORKDAYS\n"
-	   "@SYNTAX=NETWORKDAYS (start_date,end_date[,holidays])\n"
-
-	   "@DESCRIPTION="
-	   "NETWORKDAYS returns the number of non-weekend non-holidays between "
-	   "@start_date and @end_date including these dates. "
-	   "Holidays are optionally supplied in @holidays.\n"
-	   "\n"
-	   "* NETWORKDAYS returns #NUM! if @start_date or @end_date are "
-	   "invalid.\n"
-	   "* This function is Excel compatible.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15)) equals 33.\n"
-	   "\n"
-	   "@SEEALSO=WORKDAY")
-	},
+        { GNM_FUNC_HELP_NAME, F_("NETWORKDAYS:calculate number of workdays in range") },
+        { GNM_FUNC_HELP_ARG, F_("start_date:starting date serial value")},
+        { GNM_FUNC_HELP_ARG, F_("end_date:ending date serial value")},
+        { GNM_FUNC_HELP_ARG, F_("holidays:array of holidays")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("NETWORKDAYS calculates the number of days from @{start_date} to @{end_date} skipping weekends and @{holidays} in the process.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15))" },
+        { GNM_FUNC_HELP_SEEALSO, "WORKDAY"},
 	{ GNM_FUNC_HELP_END }
 };
 
