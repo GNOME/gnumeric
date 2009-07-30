@@ -1131,18 +1131,14 @@ gnumeric_weeknum (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_yearfrac[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=YEARFRAC\n"
-	   "@SYNTAX=YEARFRAC (start_date, end_date [,basis])\n"
-
-	   "@DESCRIPTION="
-	   "YEARFRAC returns the number of full days between @start_date and "
-	   "@end_date according to the @basis.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=DATEDIF")
-	},
+        { GNM_FUNC_HELP_NAME, F_("YEARFRAC:calculates fractional number of years between dates")},
+        { GNM_FUNC_HELP_ARG, F_("start_date:starting date serial value")},
+        { GNM_FUNC_HELP_ARG, F_("end_date:ending date serial value")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("YEARFRAC calculates the number of days from @{start_date} to @{end_date} according to the calendar specified by @{basis}, which defaults to 0, and expresses the result as a fractional number of years.") },
+	GNM_DATE_BASIS_HELP
+        { GNM_FUNC_HELP_SEEALSO, "DATE"},
+        { GNM_FUNC_HELP_EXAMPLES, "=YEARFRAC(DATE(2000,1,1),DATE(2001,4,1))" },
 	{ GNM_FUNC_HELP_END }
 };
 

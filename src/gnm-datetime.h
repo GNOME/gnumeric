@@ -25,6 +25,14 @@ void gnm_date_add_days (GDate *d, int n);
 void gnm_date_add_months (GDate *d, int n);
 void gnm_date_add_years (GDate *d, int n);
 
+#define GNM_DATE_BASIS_HELP							\
+	{ GNM_FUNC_HELP_NOTE, F_("If @{basis} is 0, then the US 30/360 method is used.") }, \
+	{ GNM_FUNC_HELP_NOTE, F_("If @{basis} is 1, then actual number of days is used.") }, \
+	{ GNM_FUNC_HELP_NOTE, F_("If @{basis} is 2, then actual number of days is used within a month, but years are considered only 360 days.") }, \
+	{ GNM_FUNC_HELP_NOTE, F_("If @{basis} is 3, then actual number of days is used within a month, but years are always considered 365 days.") }, \
+	{ GNM_FUNC_HELP_NOTE, F_("If @{basis} is 4, then the European 30/360 method is used.") },
+
+
 G_END_DECLS
 
 #endif /* _GNM_DATETIME_H_ */
