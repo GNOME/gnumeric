@@ -153,6 +153,7 @@ typedef struct {
 	gboolean src_in_rows;	/* orientation of graph data: rows or columns */
 	GSList	*axis_props;	/* axis properties */
 	GSList	*plot_props;	/* plot properties */
+	GSList	*other_props;	/* any other properties */
 } OOChartStyle;
 
 typedef struct {
@@ -1556,6 +1557,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 			cur_style = g_new0(OOChartStyle, 1);
 			cur_style->axis_props = NULL;
 			cur_style->plot_props = NULL;
+			cur_style->other_props = NULL;
 			state->chart.cur_graph_style = cur_style;
 			g_hash_table_replace (state->chart.graph_styles,
 					      g_strdup (name),
@@ -2878,6 +2880,30 @@ oo_prop_list_apply (GSList *props, GObject *obj)
 }
 
 static void
+oo_prop_list_has_three_dimensional (GSList *props, gboolean *threed)
+{
+	GSList *ptr;
+	for (ptr = props; ptr; ptr = ptr->next) {
+		OOProp *prop = ptr->data;
+		if (0 == strcmp (prop->name, "three-dimensional") && g_value_get_boolean (&prop->value))
+			*threed = TRUE;
+	}
+}
+
+static gboolean
+oo_style_have_three_dimensional (GSList *styles)
+{
+	GSList *l;
+	gboolean is_three_dimensional = FALSE;
+	for (l = styles; l != NULL; l = l->next) { 
+		OOChartStyle *style = l->data;
+		oo_prop_list_has_three_dimensional (style->other_props, 
+						    &is_three_dimensional);
+	}
+	return is_three_dimensional;
+}
+
+static void
 od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -2933,6 +2959,9 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 			default_style_has_lines_set = TRUE;
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "series-source"))
 			style->src_in_rows = attr_eq (attrs[1], "rows");
+		else if (oo_attr_bool (xin, attrs, OO_NS_CHART, "three-dimensional", &btmp))
+			style->other_props = g_slist_prepend (style->other_props,
+				oo_prop_new_bool ("three-dimensional", btmp));
 	}
 
 	if (draw_stroke_set && !default_style_has_lines_set)
@@ -3514,11 +3543,23 @@ oo_plot_area (GsfXMLIn *xin, xmlChar const **attrs)
 	case OO_PLOT_RING:	type = "GogRingPlot";	break;
 	case OO_PLOT_SCATTER:	type = "GogXYPlot";	break;
 	case OO_PLOT_STOCK:	type = "GogMinMaxPlot";	break;  /* This is not quite right! */
-	case OO_PLOT_CONTOUR:	type = "GogContourPlot"; break;
+	case OO_PLOT_CONTOUR:
+		if (oo_style_have_three_dimensional (state->chart.these_plot_styles)) {
+			type = "GogSurfacePlot";
+			state->chart.plot_type = OO_PLOT_SURFACE;
+		} else 
+			type = "GogContourPlot"; 
+		break;
 	case OO_PLOT_BUBBLE:	type = "GogBubblePlot"; break;
 	case OO_PLOT_GANTT:	type = "GogDropBarPlot"; break;
 	case OO_PLOT_POLAR:	type = "GogPolarPlot"; break;
-	case OO_PLOT_XYZ_CONTOUR: type = "GogXYZContourPlot"; break;
+	case OO_PLOT_XYZ_CONTOUR: 
+		if (oo_style_have_three_dimensional (state->chart.these_plot_styles)) {
+			type = "GogXYZSurfacePlot";
+			state->chart.plot_type = OO_PLOT_XYZ_SURFACE;
+		} else 
+			type = "GogXYZContourPlot"; 
+		break;
 	case OO_PLOT_XYZ_SURFACE: type = "GogXYZSurfacePlot"; break;
 	case OO_PLOT_SURFACE: type = "GogSurfacePlot"; break;
 	case OO_PLOT_SCATTER_COLOUR: type = "GogXYColorPlot";	break;
@@ -3731,8 +3772,6 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		{ "chart:surface",	OO_PLOT_CONTOUR },
 		{ "gnm:polar",  	OO_PLOT_POLAR },
 		{ "gnm:xyz-contour", 	OO_PLOT_XYZ_CONTOUR },
-		{ "gnm:xyz-surface", 	OO_PLOT_XYZ_SURFACE },
-		{ "gnm:surface", 	OO_PLOT_SURFACE },
 		{ "gnm:scatter-color", 	OO_PLOT_SCATTER_COLOUR },
 		{ NULL,	0 },
 	};
@@ -3833,6 +3872,7 @@ oo_chart_style_free (OOChartStyle *cstyle)
 {
 	oo_prop_list_free (cstyle->axis_props);
 	oo_prop_list_free (cstyle->plot_props);
+	oo_prop_list_free (cstyle->other_props);
 	g_free (cstyle);
 }
 

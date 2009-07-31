@@ -1,3 +1,18 @@
+2009-07-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* openoffice-write.c (odf_write_surface_chart_style): new
+	(odf_write_contour_chart_style): new
+	(odf_write_plot): hook-up above functions and drop
+	  gnm:xyz-surface & gnm:surface
+	* openoffice-read.c (OOChartStyle): add new field
+	(oo_style): initialize new field
+	(oo_chart_style_free): free new field
+	(oo_prop_list_has_three_dimensional): new
+	(oo_style_have_three_dimensional): new
+	(od_style_prop_chart): read chart:three-dimensional
+	(oo_plot_area): handle chart:three-dimensional spec
+	(oo_chart): drop unneeded gnm:xyz-surface & gnm:surface
+
 2009-07-28 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* openoffice-write.c (odf_write_series): renamed to

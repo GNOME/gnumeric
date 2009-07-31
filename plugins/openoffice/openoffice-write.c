@@ -3371,6 +3371,18 @@ odf_write_scatter_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const
 }
 
 static void
+odf_write_surface_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
+{
+	odf_add_bool (state->xml, CHART "three-dimensional", TRUE);
+}
+
+static void
+odf_write_contour_chart_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *chart, G_GNUC_UNUSED GogObject const *plot)
+{
+	odf_add_bool (state->xml, CHART "three-dimensional", FALSE);
+}
+
+static void
 odf_write_scatter_series_style (GnmOOExport *state, G_GNUC_UNUSED GogObject const *series)
 {
 	gsf_xml_out_add_cstr (state->xml, DRAW "stroke", "none");
@@ -3539,16 +3551,16 @@ odf_write_plot (GnmOOExport *state, SheetObject *so, GogObject const *chart, Gog
 		  odf_write_scatter_chart_style, NULL, odf_write_standard_series, odf_write_scatter_series_style},
 		{ "GogContourPlot", "chart:surface", ODF_SURF,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
-		  NULL, NULL, odf_write_bubble_series, NULL},
-		{ "GogXYZContourPlot", "gnm:xyz-contour", ODF_XYZ_SURF,
+		  odf_write_contour_chart_style, NULL, odf_write_bubble_series, NULL},
+		{ "GogXYZContourPlot", "gnm:xyz-surface", ODF_XYZ_SURF,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
-		  NULL, NULL, odf_write_bubble_series, NULL},
+		  odf_write_contour_chart_style, NULL, odf_write_bubble_series, NULL},
 		{ "GogXYZSurfacePlot", "gnm:xyz-surface", ODF_XYZ_GNM_SURF,
 		  20., "X-Axis", "Y-Axis", "Z-Axis", odf_write_surface_axes_styles,
-		  NULL, NULL, odf_write_bubble_series, NULL},
-		{ "GogSurfacePlot", "gnm:surface", ODF_GNM_SURF,
+		  odf_write_surface_chart_style, NULL, odf_write_bubble_series, NULL},
+		{ "GogSurfacePlot", "chart:surface", ODF_GNM_SURF,
 		  20., "X-Axis", "Y-Axis", "Z-Axis", odf_write_surface_axes_styles,
-		  NULL, NULL, odf_write_bubble_series, NULL},
+		  odf_write_surface_chart_style, NULL, odf_write_bubble_series, NULL},
 		{ "GogBubblePlot", "chart:bubble", ODF_BUBBLE,
 		  20., "X-Axis", "Y-Axis", NULL, odf_write_standard_axes_styles,
 		  NULL, NULL, odf_write_bubble_series, NULL},
