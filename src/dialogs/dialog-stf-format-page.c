@@ -290,9 +290,16 @@ cb_popup_menu_extend_format (GtkWidget *widget, gpointer data)
 	for (index++; index < pagedata->format.formats->len; index++) {
 		GOFormat *sf = g_ptr_array_index 
 			(pagedata->format.formats, index);
+		GtkTreeViewColumn* column = 
+			stf_preview_get_column (pagedata->format.renderdata, 
+						index);
+		GtkWidget *w = g_object_get_data (G_OBJECT (column), 
+						  "formatlabel");
 		go_format_unref (sf);
 		g_ptr_array_index (pagedata->format.formats, index) 
 			= go_format_ref (colformat); 
+		gtk_label_set_text (GTK_LABEL (w), 
+				    go_format_sel_format_classification (colformat));
 	}
 
 	format_page_update_preview (data);

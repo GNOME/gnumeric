@@ -17,6 +17,7 @@ Andreas:
 	* Fix loading of charts from MS generated ODF files. [#588107]
 	* Add some sheet object support to ODF export.
 	* Export basic charts to ODF.
+	* Fix format labels in configurable text importer. [#590257]
 
 Jody:
 	* Fix col/row resize. [#588297]
