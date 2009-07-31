@@ -1,3 +1,8 @@
+2009-07-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-tools.c (analysis_tool_fourier_engine_run): combine
+	  translatable text to allow for better translation
+
 2009-07-01  Morten Welinder  <terra@gnome.org>
 
 	* auto-correct.c (autocorrect_init): Monitor the right

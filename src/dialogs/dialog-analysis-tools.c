@@ -965,10 +965,16 @@ int
 dialog_fourier_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         GenericToolState *state;
+	char const * plugins[] = { "Gnumeric_fnTimeSeriesAnalysis",
+				   "Gnumeric_fncomplex",
+				   NULL};
 
 	if (wbcg == NULL) {
 		return 1;
 	}
+
+	if (gnm_check_for_plugins_missing (plugins, NULL))
+		return 1;
 
 
 	/* Only pop up one copy per workbook */
@@ -988,7 +994,7 @@ dialog_fourier_tool (WBCGtk *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
-	gnm_dao_set_put (GNM_DAO (state->gdao), FALSE, FALSE);
+	gnm_dao_set_put (GNM_DAO (state->gdao), TRUE, TRUE);
 	tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 

@@ -1370,3 +1370,31 @@ gnm_canvas_get_position (FooCanvas *canvas, int *x, int *y, int px, int py)
 	*x = (int)pdx + wx - ox;
 	*y = (int)pdy + wy - oy;
 }
+
+
+gboolean 
+gnm_check_for_plugins_missing (char const **ids, GtkWindow *parent)
+{
+	for (; *ids != NULL; ids++) {
+		GOPlugin *pi = go_plugins_get_plugin_by_id (*ids);
+		if (pi == NULL) {
+			ErrorInfo *error;
+			error = error_info_new_printf 
+				(_("The plugin with id %s is required "
+				   "but cannot be found."), *ids);
+			gnumeric_error_info_dialog_show (parent,
+							 error);
+			return TRUE;
+		} else if (!go_plugin_is_active (pi)) {
+			ErrorInfo *error;
+			error = error_info_new_printf 
+				(_("The %s plugin is required "
+				   "but is not loaded."), 
+				 go_plugin_get_name (pi));
+			gnumeric_error_info_dialog_show (parent,
+							 error);
+			return TRUE;			
+		}
+	}
+	return FALSE;
+}

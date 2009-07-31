@@ -1,5 +1,10 @@
 2009-07-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-analysis-tools.c (dialog_fourier_tool): check for 
+	  required plugins and enable dao selector
+
+2009-07-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-stf-format-page.c (cb_popup_menu_extend_format): also
 	  set the format label. Fixes #590257
 

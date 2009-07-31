@@ -4193,8 +4193,8 @@ analysis_tool_fourier_engine_run (data_analysis_output_t *dao,
 		int rows, n;
 
 		dao_set_italic (dao, 0, 1, 1, 2);
-		dao_set_cell (dao, 0, 2, _("Real"));
-		dao_set_cell (dao, 1, 2, _("Imaginary"));
+		set_cell_text_row (dao, 0, 2, _("/Real"
+						"/Imaginary"));
 		dao_set_merge (dao, 0, 1, 1, 1);
 		analysis_tools_write_label (val_org, dao, &info->base, 0, 1, col + 1);
 
