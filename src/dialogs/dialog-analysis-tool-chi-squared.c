@@ -197,11 +197,14 @@ dialog_chi_square_tool (WBCGtk *wbcg, Sheet *sheet, gboolean independence)
 {
         ChiSquaredIToolState *state;
 	char const *type;
+	char const * plugins[] = { "Gnumeric_fnstat",
+				   "Gnumeric_fnlookup",
+				   "Gnumeric_fnmath",
+				   NULL};
 
-	if (wbcg == NULL) {
+	if ((wbcg == NULL) || 
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
-	}
-
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, CHI_SQUARED_I_KEY))

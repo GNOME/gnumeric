@@ -19,7 +19,7 @@ Andreas:
 	* Export basic charts to ODF.
 	* Fix format labels in configurable text importer. [#590257]
 	* Add warning for missing plugins needed by tools. [#590175]
-	* Fix prercentage histogram . [#590375]
+	* Fix percentage histogram . [#590375]
 
 Jody:
 	* Fix col/row resize. [#588297]

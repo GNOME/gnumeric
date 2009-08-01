@@ -236,11 +236,15 @@ int
 dialog_frequency_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         FrequencyToolState *state;
+	char const * plugins[] = { "Gnumeric_fnlookup",
+				   "Gnumeric_fninfo",
+				   "Gnumeric_fnstring",
+				   "Gnumeric_fnlogical",
+				   NULL};
 
-	if (wbcg == NULL) {
+	if ((wbcg == NULL) || 
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
-	}
-
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, FREQUENCY_KEY))

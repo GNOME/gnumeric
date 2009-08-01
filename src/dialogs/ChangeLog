@@ -1,5 +1,16 @@
 2009-07-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* dialog-analysis-tools.c (dialog_*_tool): check for 
+	  required plugins
+	* dialog-analysis-tool-chi-squared.c (dialog_chi_square_tool):
+	  ditto
+	* dialog-analysis-tool-frequency.c (dialog_frequency_tool):
+	  ditto
+	* dialog-analysis-tool-kaplan-meier.c (dialog_kaplan_meier_tool):
+	  ditto
+
+2009-07-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* dialog-analysis-tools.c (dialog_fourier_tool): check for 
 	  required plugins and enable dao selector
 

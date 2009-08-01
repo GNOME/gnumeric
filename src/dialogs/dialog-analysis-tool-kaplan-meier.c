@@ -597,11 +597,16 @@ dialog_kaplan_meier_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         KaplanMeierToolState *state;
 	GtkWidget *widget;
+	char const * plugins[] = { "Gnumeric_fnstat",
+				   "Gnumeric_fnlookup",
+				   "Gnumeric_fnmath",
+				   "Gnumeric_fninfo",
+				   "Gnumeric_fnlogical",
+				   NULL};
 
-	if (wbcg == NULL) {
+	if ((wbcg == NULL) || 
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
-	}
-
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, KAPLAN_MEIER_KEY))

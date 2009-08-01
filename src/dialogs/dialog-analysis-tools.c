@@ -665,11 +665,12 @@ int
 dialog_correlation_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         GenericToolState *state;
+	char const * plugins[] = { "Gnumeric_fnstat",
+				   NULL};
 
-	if (wbcg == NULL) {
+	if ((wbcg == NULL) || 
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
-	}
-
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, CORRELATION_KEY))
@@ -784,11 +785,12 @@ int
 dialog_covariance_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         GenericToolState *state;
+	char const * plugins[] = { "Gnumeric_fnstat",
+				   NULL};
 
-	if (wbcg == NULL) {
+	if ((wbcg == NULL) || 
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
-	}
-
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, COVARIANCE_KEY))
@@ -874,11 +876,13 @@ int
 dialog_ranking_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         GenericToolState *state;
+	char const * plugins[] = { "Gnumeric_fnstat",
+				   "Gnumeric_fnlookup",
+				   NULL};
 
-	if (wbcg == NULL) {
+	if ((wbcg == NULL) || 
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
-	}
-
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, RANK_PERCENTILE_KEY))
@@ -969,13 +973,9 @@ dialog_fourier_tool (WBCGtk *wbcg, Sheet *sheet)
 				   "Gnumeric_fncomplex",
 				   NULL};
 
-	if (wbcg == NULL) {
+	if ((wbcg == NULL) || 
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
-	}
-
-	if (gnm_check_for_plugins_missing (plugins, NULL))
-		return 1;
-
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, FOURIER_KEY))
@@ -1182,11 +1182,13 @@ int
 dialog_descriptive_stat_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         DescriptiveStatState *state;
+	char const * plugins[] = {"Gnumeric_fnstat",
+				  "Gnumeric_fnmath",
+				  NULL};
 
-	if (wbcg == NULL) {
+	if ((wbcg == NULL) || 
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
-	}
-
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, DESCRIPTIVE_STATS_KEY))
@@ -1547,10 +1549,15 @@ dialog_ttest_tool (WBCGtk *wbcg, Sheet *sheet, ttest_type test)
 {
         TTestState *state;
 	GtkDialog *dialog;
+	char const * plugins[] = {"Gnumeric_fnstat",
+				  "Gnumeric_fnmath",
+				  "Gnumeric_fninfo",
+				  "Gnumeric_fnlogical",
+				  NULL};
 
-	if (wbcg == NULL) {
+	if ((wbcg == NULL) || 
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
-	}
 
 	/* Only pop up one copy per workbook */
 	dialog = gnumeric_dialog_raise_if_exists (wbcg, TTEST_KEY);
@@ -1739,11 +1746,12 @@ int
 dialog_ftest_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         FTestToolState *state;
+	char const * plugins[] = { "Gnumeric_fnstat",
+				   NULL};
 
-	if (wbcg == NULL) {
+	if ((wbcg == NULL) || 
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
-	}
-
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, FTEST_KEY))
@@ -1986,11 +1994,13 @@ int
 dialog_sampling_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         SamplingState *state;
+	char const * plugins[] = { "Gnumeric_fnlookup",
+				   "Gnumeric_fnrandom",		   				   
+				   NULL};
 
-	if (wbcg == NULL) {
+	if ((wbcg == NULL) || 
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
-	}
-
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, SAMPLING_KEY)) {
@@ -2269,11 +2279,16 @@ int
 dialog_regression_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         RegressionToolState *state;
+	char const * plugins[] = { "Gnumeric_fnstat",
+				   "Gnumeric_fnlookup",
+				   "Gnumeric_fnmath",
+				   "Gnumeric_fninfo",
+				   "Gnumeric_fnstring",
+				   NULL};
 
-	if (wbcg == NULL) {
+	if ((wbcg == NULL) || 
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
-	}
-
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, REGRESSION_KEY))
@@ -2540,10 +2555,15 @@ int
 dialog_exp_smoothing_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         ExpSmoothToolState *state;
+	char const * plugins[] = { "Gnumeric_fnstat",
+				   "Gnumeric_fnlookup",
+				   "Gnumeric_fnmath",
+				   "Gnumeric_fnlogical",
+				   NULL};
 
-	if (wbcg == NULL) {
+	if ((wbcg == NULL) || 
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
-	}
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, EXP_SMOOTHING_KEY))
@@ -2904,10 +2924,14 @@ int
 dialog_average_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         AverageToolState *state;
+	char const * plugins[] = { "Gnumeric_fnstat",
+				   "Gnumeric_fnlookup",
+				   "Gnumeric_fnmath",
+				   NULL};
 
-	if (wbcg == NULL) {
+	if ((wbcg == NULL) || 
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
-	}
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, AVERAGE_KEY))
@@ -3167,11 +3191,14 @@ int
 dialog_histogram_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         HistogramToolState *state;
+	char const * plugins[] = {"Gnumeric_fnlogical",
+				  "Gnumeric_fnstat",
+				  "Gnumeric_fnlookup",
+				  NULL};
 
-	if (wbcg == NULL) {
+	if ((wbcg == NULL) || 
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
-	}
-
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, HISTOGRAM_KEY))
@@ -3343,11 +3370,12 @@ int
 dialog_anova_single_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         AnovaSingleToolState *state;
+	char const * plugins[] = { "Gnumeric_fnstat",
+				   NULL};
 
-	if (wbcg == NULL) {
+	if ((wbcg == NULL) || 
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
-	}
-
 
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, ANOVA_SINGLE_KEY))
@@ -3569,8 +3597,15 @@ int
 dialog_anova_two_factor_tool (WBCGtk *wbcg, Sheet *sheet)
 {
         AnovaTwoFactorToolState *state;
+	char const * plugins[] = { "Gnumeric_fnstat",
+				   "Gnumeric_fnlookup",
+				   "Gnumeric_fnmath",
+				   "Gnumeric_fninfo",
+				   "Gnumeric_fnlogical",
+				   NULL};
 
-	if (wbcg == NULL)
+	if ((wbcg == NULL) || 
+	    gnm_check_for_plugins_missing (plugins, wbcg_toplevel (wbcg)))
 		return 1;
 
 	/* Only pop up one copy per workbook */
