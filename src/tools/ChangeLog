@@ -1,3 +1,8 @@
+2009-08-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-histogram.c (make_hist_expr): only free expr_data
+	  if we didn't already use it. Fixes #590375.
+
 2009-07-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-tools.c (analysis_tool_fourier_engine_run): combine

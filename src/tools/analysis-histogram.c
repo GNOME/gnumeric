@@ -101,8 +101,8 @@ make_hist_expr (analysis_tools_data_histogram_t *info,
 					    gnm_expr_new_funcall1 
 					    (fd_count, 
 					     expr_data));
-
-	gnm_expr_free (expr_data);
+	else
+		gnm_expr_free (expr_data);
 
 	return expr;
 }
