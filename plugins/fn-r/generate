@@ -12,19 +12,15 @@ my %argoverride = ();
 {
     my $of = "of the distribution";
     my @common = ('give_log' =>
-		  "if true, log of the result will be returned instead.  " .
-		  "This is useful if the result would otherwise underflow to 0.  " .
-		  "Defaults to false.",
+		  "if true, log of the result will be returned instead",
 	      
 		  'lower_tail' =>
-		  "if true (the default), the lower tail of the distribution is considered.",
+		  "if true (the default), the lower tail of the distribution is considered",
 
-		  'log_p' => "if true, log of the probability is used.  " .
-		  "This is useful if the probability would otherwise underflow to 0.  " .
-		  "Defaults to false.",
+		  'log_p' => "if true, log of the probability is used",
 
-		  'x' => 'observation.',
-		  'p' => 'probability.',
+		  'x' => 'observation',
+		  'p' => 'probability',
 
 		  'shape' => "the shape parameter $of",
 		  'scale' => "the scale parameter $of",
@@ -33,15 +29,15 @@ my %argoverride = ();
     $funcs{'dnorm'} = $funcs{'pnorm'} = $funcs{'qnorm'} =
 	[\&distribution,
 	 'normal',
-	 ({ 'mu' => "mean $of.",
-	    'sigma' => "standard deviation $of.",
+	 ({ 'mu' => "mean $of",
+	    'sigma' => "standard deviation $of",
 	    @common })];
 
     $funcs{'dlnorm'} = $funcs{'plnorm'} = $funcs{'qlnorm'} =
 	[\&distribution,
 	 'log-normal',
-	 ({ 'logmean' => "mean of the underlying normal distribution.",
-	    'logsd' => "standard deviation of the underlying normal distribution.",
+	 ({ 'logmean' => "mean of the underlying normal distribution",
+	    'logsd' => "standard deviation of the underlying normal distribution",
 	    @common })];
 
     $funcs{'dgamma'} = $funcs{'pgamma'} = $funcs{'qgamma'} =
@@ -255,7 +251,7 @@ sub distribution {
 		      : ($func =~ /^p/
 			 ? "cumulative distribution function"
 			 : "probability quantile function")) .
-			 " of the $distname distribution.";
+			 " of the $distname distribution";
     &emit ("\t{ GNM_FUNC_HELP_NAME, F_(\"" . uc ("r.$func") . ":$short_what\") },\n");
 
     foreach (@args) {
@@ -406,7 +402,7 @@ sub create_plugin_xml_in {
 	   "\t<services>\n" .
 	   "\t\t<service type=\"function_group\" id=\"stat\">\n" .
 	   "\t\t\t<_category>Statistics</_category>\n" .
-	   "\t\t\t<functions>\n");
+	   "\t\t\t<functions textdomain=\"gnumeric-functions\">\n");
 
     foreach my $rfunc (sort @funcnames) {
 	&emit ("\t\t\t\t<function name=\"$rfunc\"/>\n");
