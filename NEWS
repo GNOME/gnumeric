@@ -20,6 +20,7 @@ Andreas:
 	* Fix format labels in configurable text importer. [#590257]
 	* Add warning for missing plugins needed by tools. [#590175]
 	* Fix percentage histogram . [#590375]
+	* Fix non-label 2-factor ANOVA with replication.
 
 Jody:
 	* Fix col/row resize. [#588297]
