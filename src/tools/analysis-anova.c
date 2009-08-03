@@ -478,7 +478,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 
 	r = 3;
 	for (i = 1; i <= info->n_r; i++, r += 6) {
-		int level_start =  (i-1)*info->replication + 1;
+		int level_start =  (i-1)*info->replication + (info->labels) ? 1 : 0;
 
 		dao_set_italic (dao, 0, r, 0, r+4);
 		if (info->labels) {
@@ -542,7 +542,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 		expr_source =  gnm_expr_new_funcall5
 			(fd_offset,
 			 gnm_expr_new_constant (value_dup (info->input)),
-			 gnm_expr_new_constant (value_new_int (1)),
+			 gnm_expr_new_constant (value_new_int ((info->labels) ? 1 : 0)),
 			 gnm_expr_new_constant (value_new_int ((info->labels) ? k : (k - 1))),
 			 gnm_expr_new_constant (value_new_int (info->replication * info->n_r)),
 			 gnm_expr_new_constant (value_new_int (1)));
@@ -562,8 +562,8 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 	expr_source =  gnm_expr_new_funcall5
 		(fd_offset,
 		 gnm_expr_new_constant (value_dup (info->input)),
-		 gnm_expr_new_constant (value_new_int (1)),
-		 gnm_expr_new_constant (value_new_int ((info->labels) ? 1 : (0))),
+		 gnm_expr_new_constant (value_new_int ((info->labels) ? 1 : 0)),
+		 gnm_expr_new_constant (value_new_int ((info->labels) ? 1 : 0)),
 		 gnm_expr_new_constant (value_new_int (info->replication * info->n_r)),
 		 gnm_expr_new_constant (value_new_int (info->n_c)));
 	expr_total_count = gnm_expr_new_funcall1 (fd_count, gnm_expr_copy (expr_source));

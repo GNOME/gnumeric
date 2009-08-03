@@ -1,3 +1,8 @@
+2009-08-03 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* analysis-anova.c (analysis_tool_anova_two_factor_engine_run):
+	  fix erroneous vertical offset in non-label analysis
+
 2009-08-01 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-histogram.c (make_hist_expr): only free expr_data
