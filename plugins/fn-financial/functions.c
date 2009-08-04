@@ -533,36 +533,15 @@ gnumeric_received (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_pricedisc[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=PRICEDISC\n"
-	   "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
-	   "@DESCRIPTION="
-	   "PRICEDISC calculates and returns the price per $100 face value "
-	   "of a security bond.  The security does not pay interest at "
-	   "maturity.\n\n"
-	   "@settlement is the settlement date of the security. "
-	   "@maturity is the maturity date of the security.  @discount is "
-	   "the rate for which the security is discounted.  @redemption is "
-	   "the amount to be received on @maturity date.\n\n"
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @settlement date or @maturity date is not valid, PRICEDISC "
-	   "returns #NUM! error.\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis < 0 or @basis > 4, PRICEDISC returns #NUM! error.\n"
-	   "* If @settlement date is after @maturity date or they are the "
-	   "same, PRICEDISC returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=PRICEMAT")
-	},
+        { GNM_FUNC_HELP_NAME, F_("PRICEDISC:calculate discounted price")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("discount:annual rate at which to discount")},
+        { GNM_FUNC_HELP_ARG, F_("redemption:amount received at maturity")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("PRICEDISC calculates the price per $100 face value of a bond that does not pay interest at maturity.") },
+	GNM_DATE_BASIS_HELP
+        { GNM_FUNC_HELP_SEEALSO, "PRICEMAT"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -590,35 +569,16 @@ gnumeric_pricedisc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_pricemat[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=PRICEMAT\n"
-	   "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
-	   "@DESCRIPTION="
-	   "PRICEMAT calculates and returns the price per $100 face value "
-	   "of a security.  The security pays interest at maturity.\n\n"
-	   "@settlement is the settlement date of the security.  @maturity is "
-	   "the maturity date of the security.  @issue is the issue date of "
-	   "the security.  @rate is the discount rate of the security. "
-	   "@yield is the annual yield of the security. "
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @settlement date or @maturity date is not valid, PRICEMAT "
-	   "returns #NUM! error.\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis < 0 or @basis > 4, PRICEMAT returns #NUM! error.\n"
-	   "* If @settlement date is after @maturity date or they are the "
-	   "same, PRICEMAT returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=PRICEDISC")
-	},
+        { GNM_FUNC_HELP_NAME, F_("PRICEMAT:calculate price at maturity")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("issue:date of issue")},
+        { GNM_FUNC_HELP_ARG, F_("discount:annual rate at which to discount")},
+        { GNM_FUNC_HELP_ARG, F_("yield:annual yield of security")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("PRICEMAT calculates the price per $100 face value of a bond that pays interest at maturity.") },
+	GNM_DATE_BASIS_HELP
+        { GNM_FUNC_HELP_SEEALSO, "PRICEDISC"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -654,34 +614,16 @@ gnumeric_pricemat (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_disc[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=DISC\n"
-	   "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-	   "@DESCRIPTION="
-	   "DISC calculates and returns the discount rate for a security. "
-	   "@settlement is the settlement date of the security.\n\n"
-	   "@maturity is the maturity date of the security.  @par is the "
-	   "price per $100 face value of the security.  @redemption is the "
-	   "redemption value per $100 face value of the security.\n\n"
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @settlement date or @maturity date is not valid, DISC "
-	   "returns #NUM! error.\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis < 0 or @basis > 4, DISC returns #NUM! error.\n"
-	   "* If @settlement date is after @maturity date or they are the "
-	   "same, DISC returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("DISC:calculate discount rate")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("par:price per $100 face value")},
+        { GNM_FUNC_HELP_ARG, F_("redemption:amount received at maturity")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("DISC calculates the discount rate for a security.") },
+	{ GNM_FUNC_HELP_NOTE, F_("@{redemption} is the redemption value per $100 face value.") },
+	GNM_DATE_BASIS_HELP
+        { GNM_FUNC_HELP_SEEALSO, "PRICEMAT"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -4053,7 +3995,7 @@ GnmFuncDescriptor const financial_functions[] = {
 	{ "pricedisc", "ffff|f", "settlement,maturity,discount,redemption,basis",
 	  help_pricedisc,  gnumeric_pricedisc, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "pricemat", "fffff|f", "settlement,maturity,issue,rate,yield,basis",
+	{ "pricemat", "fffff|f", "settlement,maturity,issue,discount,yield,basis",
 	  help_pricemat,  gnumeric_pricemat, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "pv", "fff|ff", "rate,nper,pmt,fv,type",
