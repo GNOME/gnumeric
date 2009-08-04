@@ -454,43 +454,16 @@ gnumeric_accrintm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_intrate[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=INTRATE\n"
-	   "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
-	   "@DESCRIPTION="
-	   "INTRATE calculates and returns the interest rate of a fully "
-	   "vested security.\n\n"
-	   "@settlement is the settlement date of the security.  @maturity "
-	   "is the maturity date of the security. @investment is the price "
-	   "of the security paid at @settlement date and @redemption is "
-	   "the amount to be received at @maturity date.\n\n"
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @settlement date or @maturity date is not valid, INTRATE "
-	   "returns #NUM! error.\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis < 0 or @basis > 4, INTRATE returns #NUM! error.\n"
-	   "* If @settlement date is after @maturity date or they are the "
-	   "same, INTRATE returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "If you had a bond with a settlement date of April 15, 2000, "
-	   "maturity date September 30, 2000, investment of $100,000, "
-	   "redemption value $103,525, using the actual/actual basis, the "
-	   "bond discount rate is:"
-	   "\n"
-	   "=INTRATE(36631, 36799, 100000, 103525, 1) which equals 0.0648 "
-	   "or 6.48%"
-	   "\n"
-	   "@SEEALSO=RECEIVED, DATE")
-	},
+        { GNM_FUNC_HELP_NAME, F_("INTRATE:calculate interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("investment:amount paid on settlement")},
+        { GNM_FUNC_HELP_ARG, F_("redemption:amount received at maturity")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("INTRATE calculates the interest of a fully vested security.") },
+	GNM_DATE_BASIS_HELP
+	{ GNM_FUNC_HELP_EXAMPLES, "=INTRATE(DATE(2008,4,15),DATE(2008,9,30),100000,103525,1)" },
+        { GNM_FUNC_HELP_SEEALSO, "RECEIVED"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -519,37 +492,16 @@ gnumeric_intrate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_received[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=RECEIVED\n"
-	   "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
-	   "@DESCRIPTION="
-	   "RECEIVED calculates and returns the amount to be received at "
-	   "maturity date for a security bond.\n"
-	   "\n"
-	   "@settlement is the settlement date of the security.  "
-	   "@maturity is the maturity date of the security.  The amount "
-	   "of investment is specified in @investment.  @rate is the "
-	   "security's discount rate.\n\n"
-	   "@basis is the type of day counting system you want to "
-	   "use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @settlement date or @maturity date is not valid, RECEIVED "
-	   "returns #NUM! error.\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis < 0 or @basis > 4, RECEIVED returns #NUM! error.\n"
-	   "* If @settlement date is after @maturity date or they are the "
-	   "same, RECEIVED returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=INTRATE")
-	},
+        { GNM_FUNC_HELP_NAME, F_("RECEIVED:calculate amount to be received at maturity")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("investment:amount paid on settlement")},
+        { GNM_FUNC_HELP_ARG, F_("rate:nominal annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("RECEIVED calculates the amount to be received when a security matures.") },
+	GNM_DATE_BASIS_HELP
+	{ GNM_FUNC_HELP_EXAMPLES, "=RECEIVED(DATE(2008,4,15),DATE(2008,9,30),100000,4%,1)" },
+        { GNM_FUNC_HELP_SEEALSO, "INTRATE"},
 	{ GNM_FUNC_HELP_END }
 };
 
