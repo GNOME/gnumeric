@@ -47,6 +47,13 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
+/***************************************************************************/
+
+#define FREQ_HELP \
+	{ GNM_FUNC_HELP_NOTE, F_("@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly).") }
+
+/***************************************************************************/
+
 #define is_valid_basis(B) ((B) >= 0 && (B) <= 5)
 #define is_valid_freq(F) ((F) == 1 || (F) == 2 || (F) == 4)
 #define is_valid_paytype(t) ((t) == 0 || (t) == 1)
@@ -348,46 +355,18 @@ func_coup (GnmFuncEvalInfo *ei, GnmValue const * const *argv,
  */
 
 static GnmFuncHelp const help_accrint[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ACCRINT\n"
-	   "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,"
-	   "frequency[,basis])\n"
-	   "@DESCRIPTION="
-	   "ACCRINT calculates the accrued interest for a security that "
-	   "pays periodic interest.\n\n"
-	   "@issue is the issue date of the security.  @first_interest is "
-	   "the first interest date of the security.  @settlement is the "
-	   "settlement date of the security.  The settlement date is always "
-	   "after the issue date (the date when the security is bought). "
-	   "@rate is the annual rate of the security and @par is the par "
-	   "value of the security. @frequency is the number of coupon "
-	   "payments per year.\n\n"
-	   "Allowed frequencies are:\n"
-	   "  1 = annual,\n"
-	   "  2 = semi,\n"
-	   "  4 = quarterly.\n\n"
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @issue date, @first_interest date, or @settlement date is not "
-	   "valid, ACCRINT returns #NUM! error.\n"
-	   "* The dates must be @issue < @first_interest < @settlement, or "
-	   "ACCRINT returns #NUM! error.\n"
-	   "* If @rate <= 0 or @par <= 0 , ACCRINT returns #NUM! error.\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis < 0 or @basis > 4, ACCRINT returns #NUM! error.\n"
-	   "* If @issue date is after @settlement date or they are the same, "
-	   "ACCRINT returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=ACCRINTM")
-	},
+        { GNM_FUNC_HELP_NAME, F_("ACCRINT:calculate accrued interest")},
+        { GNM_FUNC_HELP_ARG, F_("issue:date of issue")},
+        { GNM_FUNC_HELP_ARG, F_("first_interest:date of first interest payment")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("rate:nominal annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("par:par value")},
+        { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ACCRINT calculates the accrued interest for a security that pays periodic interest.") },
+	FREQ_HELP,
+	GNM_DATE_BASIS_HELP
+        { GNM_FUNC_HELP_SEEALSO, "ACCRINTM"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -437,36 +416,16 @@ gnumeric_accrint (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_accrintm[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ACCRINTM\n"
-	   "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
-	   "@DESCRIPTION="
-	   "ACCRINTM calculates and returns the accrued interest for a "
-	   "security from @issue to @maturity date.\n\n"
-	   "@issue is the issue date of the security.  @maturity is "
-	   "the maturity date of the security.  @rate is the annual "
-	   "rate of the security and @par is the par value of the security. "
-	   "If you omit @par, ACCRINTM applies $1,000 instead.  "
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @issue date or @maturity date is not valid, ACCRINTM returns "
-	   "#NUM! error.\n"
-	   "* If @rate <= 0 or @par <= 0, ACCRINTM returns #NUM! error.\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis < 0 or @basis > 4, ACCRINTM returns #NUM! error.\n"
-	   "* If @issue date is after @maturity date or they are the same, "
-	   "ACCRINTM returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=ACCRINT")
-	},
+        { GNM_FUNC_HELP_NAME, F_("ACCRINTM:calculate accrued interest")},
+        { GNM_FUNC_HELP_ARG, F_("issue:date of issue")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("rate:nominal annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("par:par value")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ACCRINT calculates the accrued interest from @{issue} to @{maturity}.") },
+	{ GNM_FUNC_HELP_NOTE, F_("@{par} defaults to $1000.") },
+	GNM_DATE_BASIS_HELP
+        { GNM_FUNC_HELP_SEEALSO, "ACCRINT"},
 	{ GNM_FUNC_HELP_END }
 };
 
