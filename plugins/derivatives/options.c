@@ -1571,8 +1571,8 @@ static GnmFuncHelp const help_opt_extendible_writer[] = {
 	DEF_ARG_CC,
 	DEF_ARG_VOLATILITY_SHORT,
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_EXTENDIBLE_WRITER models the theoretical price of extendible "
-					"writer options. These are options that can be exercised at an initial "
-					"period, @{time1}, or their maturity extended to @{time2} if the option is "
+					"writer options. These are options that have their maturity "
+					"extended to @{time2} if the option is "
 					"out of the money at @{time1}.")},
         { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
         { GNM_FUNC_HELP_END}
@@ -1798,9 +1798,7 @@ opt_float_strk_lkbk(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_float_strk_lkbk[] = {
-	{ GNM_FUNC_HELP_NAME, F_("OPT_FLOAT_STRK_LKBK:theoretical price of an option where the holder "
-				 "of the option may exercise on expiry at the most favourable price "
-				 "observed during the options life of the underlying asset")},
+	{ GNM_FUNC_HELP_NAME, F_("OPT_FLOAT_STRK_LKBK:theoretical price of floating-strike lookback option")},
 	DEF_ARG_CALL_PUT_FLAG,
 	DEF_ARG_SPOT,
         { GNM_FUNC_HELP_ARG, F_("spot_min:minimum spot price of the underlying asset so far observed")},
@@ -1809,6 +1807,10 @@ static GnmFuncHelp const help_opt_float_strk_lkbk[] = {
 	DEF_ARG_RATE_RISKFREE_ANN,
 	DEF_ARG_CC,
         DEF_ARG_VOLATILITY_SHORT,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_FLOAT_STRK_LKBK determines the theoretical price of a "
+					"floating-strike lookback option where the holder "
+					"of the option may exercise on expiry at the most favourable price "
+					"observed during the options life of the underlying asset.")},
         { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
         { GNM_FUNC_HELP_END}
 };
@@ -1860,10 +1862,7 @@ opt_fixed_strk_lkbk(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_fixed_strk_lkbk[] = {
-	{ GNM_FUNC_HELP_NAME, F_("OPT_FIXED_STRK_LKBK:theoretical price of an option "
-					"where the holder of the option may exercise on expiry at the "
-					"most favourable price observed during the options life of the "
-					"underlying asset.")},
+	{ GNM_FUNC_HELP_NAME, F_("OPT_FIXED_STRK_LKBK:theoretical price of a fixed-strike lookback option")},
 	DEF_ARG_CALL_PUT_FLAG,
 	DEF_ARG_SPOT,
         { GNM_FUNC_HELP_ARG, F_("spot_min:minimum spot price of the underlying asset so far observed")},
@@ -1873,6 +1872,10 @@ static GnmFuncHelp const help_opt_fixed_strk_lkbk[] = {
 	DEF_ARG_RATE_RISKFREE_ANN,
 	DEF_ARG_CC,
         DEF_ARG_VOLATILITY_SHORT,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_FIXED_STRK_LKBK determines the theoretical price of a "
+					"fixed-strike lookback option where the holder "
+					"of the option may exercise on expiry at the most favourable price "
+					"observed during the options life of the underlying asset.")},
         { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
         { GNM_FUNC_HELP_END}
 };

@@ -1,5 +1,13 @@
 2009-08-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	Fixes part of [#312746]
+	* derivatives.c (help_opt_extendible_writer): clarify
+	(help_opt_float_strk_lkbk): simplify and spell out the option
+	  type
+	(help_opt_fixed_strk_lkbk): ditto
+
+2009-08-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* derivatives.c (help_*): convert to "new" style
 
 2009-06-20  Morten Welinder <terra@gnome.org>

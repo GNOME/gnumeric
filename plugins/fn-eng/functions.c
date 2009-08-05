@@ -604,7 +604,7 @@ gnumeric_besselk (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_besselj[] = {
-        { GNM_FUNC_HELP_NAME, F_("BESSELJ:Bessel functionn of the first kind of order @{\xce\xb1} at @{x}") },
+        { GNM_FUNC_HELP_NAME, F_("BESSELJ:Bessel function of the first kind of order @{\xce\xb1} at @{x}") },
         { GNM_FUNC_HELP_ARG, F_("X:number") },
         { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any non-negative integer)") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned. "
@@ -633,7 +633,7 @@ gnumeric_besselj (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_bessely[] = {
-        { GNM_FUNC_HELP_NAME, F_("BESSELJ:Bessel functionn of the second kind of order @{\xce\xb1} at @{x}") },
+        { GNM_FUNC_HELP_NAME, F_("BESSELJ:Bessel function of the second kind of order @{\xce\xb1} at @{x}") },
         { GNM_FUNC_HELP_ARG, F_("X:number") },
         { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any non-negative integer)") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned. "
