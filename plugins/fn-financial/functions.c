@@ -652,37 +652,12 @@ gnumeric_disc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_effect[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=EFFECT\n"
-	   "@SYNTAX=EFFECT(r,nper)\n"
-	   "@DESCRIPTION="
-	   "EFFECT calculates the effective interest rate from "
-	   "a given nominal rate.\n\n"
-	   "Effective interest rate is calculated using this formula:\n"
-	   "\n"
-           "    (1 + @r / @nper) ^ @nper - 1\n"
-	   "\n"
-	   "where:\n"
-	   "\n"
-	   "@r = nominal interest rate (stated in yearly terms)\n"
-	   "@nper = number of periods used for compounding\n"
-	   "\n"
-	   "* If @rate < 0, EFFECT returns #NUM! error.\n"
-	   "* If @nper <= 0, EFFECT returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "For example credit cards will list an APR (annual percentage "
-	   "rate) which is a nominal interest rate."
-	   "\n"
-	   "For example if you wanted to find out how much you are actually "
-	   "paying interest on your credit card that states an APR of 19% "
-	   "that is compounded monthly you would type in:"
-	   "\n"
-	   "=EFFECT(.19,12) and you would get .2075 or 20.75%. That is the "
-	   "effective percentage you will pay on your loan."
-	   "\n"
-	   "@SEEALSO=NOMINAL")
-	},
+        { GNM_FUNC_HELP_NAME, F_("EFFECT:calculate effective interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("rate:nominal annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("nper:number of periods used for compounding")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("EFFECT calculates the effective interest rate using the formula (1+@{rate}/@{nper})^@{nper}-1.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=EFFECT(19%,12)"},
+        { GNM_FUNC_HELP_SEEALSO, "NOMINAL"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -702,28 +677,12 @@ gnumeric_effect (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_nominal[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=NOMINAL\n"
-	   "@SYNTAX=NOMINAL(r,nper)\n"
-	   "@DESCRIPTION="
-	   "NOMINAL calculates the nominal interest rate from "
-	   "a given effective rate.\n\n"
-	   "Nominal interest rate is given by a formula:\n"
-	   "\n"
-           "@nper * (( 1 + @r ) ^ (1 / @nper) - 1 )"
-	   "\n"
-	   "where:\n"
-	   "\n"
-	   "@r = effective interest rate\n"
-	   "@nper = number of periods used for compounding\n"
-	   "\n"
-	   "* If @rate < 0, NOMINAL returns #NUM! error.\n"
-	   "* If @nper <= 0, NOMINAL returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=EFFECT")
-	},
+        { GNM_FUNC_HELP_NAME, F_("NOMINAL:calculate nominal interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("nper:number of periods used for compounding")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("NOMINAL calculates the nominal interest rate from the effective rate.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=NOMINAL(10%,6)" },
+        { GNM_FUNC_HELP_SEEALSO, "EFFECT"},
 	{ GNM_FUNC_HELP_END }
 };
 
