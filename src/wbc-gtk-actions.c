@@ -1918,10 +1918,10 @@ static GtkActionEntry const actions[] = {
 		NULL, N_("Edit the selected cell's comment"),
 		G_CALLBACK (cb_insert_comment) },
 
-	{ "EditFind", GTK_STOCK_FIND, N_("_Find..."),
+	{ "EditFind", GTK_STOCK_FIND, N_("S_earch..."),
 		"<control>F", N_("Search for something"),
 		G_CALLBACK (cb_edit_search) },
-	{ "EditReplace", GTK_STOCK_FIND_AND_REPLACE, N_("R_eplace..."),
+	{ "EditReplace", GTK_STOCK_FIND_AND_REPLACE, N_("Search _& Replace..."),
 		"<control>H", N_("Search for something and replace it with something else"),
 		G_CALLBACK (cb_edit_search_replace) },
 

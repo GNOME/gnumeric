@@ -1575,7 +1575,7 @@
        the inverse discrete fourier transform
        f<subscript>t</subscript> of the given sequence
        F<subscript>s</subscript> of real numbers</para> <note><para>If
-       the given sequences does not contain a number of terms that is
+       the number of terms in the given sequence is not
        a power of 2 (i.e.  2, 4, 8, 16, 32, 64, 128, etc.), this tool
        will append zeros to reach such a power of 2!</para></note>
      

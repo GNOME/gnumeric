@@ -1,3 +1,8 @@
+2009-08-05 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* search-replace.glade: make the dialog title match the menu entry
+	* search.glade: ditto
+
 2009-07-31 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* dialog-analysis-tools.c (dialog_*_tool): check for 
