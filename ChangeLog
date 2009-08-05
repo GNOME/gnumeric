@@ -1,3 +1,8 @@
+2009-08-05  Morten Welinder  <terra@gnome.org>
+
+	* src/GNOME_Gnumeric-gtk.xml.in: Add VUndo and VRedo.  See bug
+	#590889.
+
 2009-08-05 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/wbc-gtk-actions.c: Change action names 

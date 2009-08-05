@@ -38,6 +38,7 @@ Morten:
 	* Fix translation textdomain confusion.  [#588110]
 	* Avoid using gtk_tree_view_column_get_cell_renderers.  [#589105]
 	* Fix DEC2HEX and friends for large values.  [#588997]
+	* Make undo/redo visible for vertical toolbar.
 
 --------------------------------------------------------------------------
 Gnumeric 1.9.9

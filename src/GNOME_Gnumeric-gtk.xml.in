@@ -253,7 +253,9 @@
     <toolitem action="EditPaste"/>
     <separator name="std-sep3"/>
     <toolitem action="Undo"/>
+    <toolitem action="VUndo"/>
     <toolitem action="Redo"/>
+    <toolitem action="VRedo"/>
     <separator name="std-sep4"/>
     <toolitem action="InsertHyperlink"/>
     <toolitem action="AutoSum"/>
