@@ -1,3 +1,7 @@
+2009-09-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* derivatives.c (help_*): convert to "new" style
+
 2009-06-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.9.9

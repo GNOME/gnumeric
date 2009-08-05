@@ -42,6 +42,26 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
+/* Some common decriptors */
+#define DEF_ARG_CALL_PUT_FLAG { GNM_FUNC_HELP_ARG, F_("call_put_flag:'c' for a call and 'p' for a put") }
+#define DEF_ARG_SPOT { GNM_FUNC_HELP_ARG, F_("spot:spot price") }
+#define DEF_ARG_STRIKE { GNM_FUNC_HELP_ARG, F_("strike:strike price") }
+#define DEF_ARG_TIME_MATURITY_Y { GNM_FUNC_HELP_ARG, F_("time:time to maturity in years") }
+#define DEF_ARG_TIME_MATURITY_D { GNM_FUNC_HELP_ARG, F_("time:time to maturity in days") }
+#define DEF_ARG_TIME_DIVIDEND { GNM_FUNC_HELP_ARG, F_("time_payout:time to dividend payout") }
+#define DEF_ARG_TIME_EXPIRATION { GNM_FUNC_HELP_ARG, F_("time_exp:time to expiration") }
+#define DEF_ARG_RATE_RISKFREE { GNM_FUNC_HELP_ARG, F_("rate:risk-free interest rate to the exercise date in percent") }
+#define DEF_ARG_RATE_ANNUALIZED { GNM_FUNC_HELP_ARG, F_("rate:annualized interest rate") }
+#define DEF_ARG_RATE_RISKFREE_ANN { GNM_FUNC_HELP_ARG, F_("rate:annualized risk-free interest rate") }
+#define DEF_ARG_VOLATILITY { GNM_FUNC_HELP_ARG, F_("volatility:annualized volatility of the asset in percent for the period through to the exercise date") }
+#define DEF_ARG_VOLATILITY_SHORT { GNM_FUNC_HELP_ARG, F_("volatility:annualized volatility of the asset") }
+#define DEF_ARG_AMOUNT { GNM_FUNC_HELP_ARG, F_("d:amount of the dividend to be paid expressed in currency") }
+#define DEF_ARG_CC_OPT { GNM_FUNC_HELP_ARG, F_("cost_of_carry:leakage in value of the underlying asset (for common stocks, the dividend yield), defaults to 0") }
+#define DEF_ARG_CC { GNM_FUNC_HELP_ARG, F_("cost_of_carry:leakage in value of the underlying asset (for common stocks, the dividend yield)") }
+
+#define DEF_NOTE_UNITS { GNM_FUNC_HELP_NOTE, F_("The returned value will be expressed in the same units as @{strike} and @{spot}.")}
+
+
 typedef enum {
 	OS_Call,
 	OS_Put,
@@ -169,23 +189,15 @@ cum_biv_norm_dist(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_cum_biv_norm_dist[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=CUM_BIV_NORM_DIST\n"
-
-	   "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
-	   "@DESCRIPTION="
-	   "CUM_BIV_NORM_DIST calculates the cumulative bivariate "
-	   "normal distribution from parameters a, b & rho.\n"
-	   "The return value is the probability that two random variables "
-	   "with correlation @rho are respectively each less than @a and "
-	   "@b.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("CUM_BIV_NORM_DIST:cumulative bivariate normal distribution")},
+        { GNM_FUNC_HELP_ARG, F_("a:limit for first random variable")},
+        { GNM_FUNC_HELP_ARG, F_("b:limit for second random variable")},
+        { GNM_FUNC_HELP_ARG, F_("rho:correlation of the two random variables")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("CUM_BIV_NORM_DIST calculates the probability that two standard "
+					"normal distributed random variables with correlation @{rho} are "
+					"respectively each less than @{a} and @{b}.")},
+        { GNM_FUNC_HELP_EXAMPLES, "=CUM_BIV_NORM_DIST(0,0,0.5)" },
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -230,32 +242,20 @@ opt_bs (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_bs[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=OPT_BS\n"
-	   "@SYNTAX=OPT_BS(call_put_flag,spot,strike,time,rate,volatility [,"
-	   "cost_of_carry])\n"
-	   "@DESCRIPTION="
-	   "OPT_BS uses the Black-Scholes model to calculate the price of "
-	   "a European option using call_put_flag, @call_put_flag, 'c' or 'p' "
-	   "struck at "
-	   "@strike on an asset with spot price @spot.\n"
-	   "@time is the time to maturity of the option expressed in years.\n"
-	   "@rate is the risk-free interest rate."
-	   "\n"
-	   "@volatility is the annualized volatility, in percent, of the asset "
-	   "for the period through to the exercise date. "
-	   "\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "for common stocks, this would be the dividend yield."
-	   "\n"
-	   "* The returned value will be expressed in the same units as "
-	   "@strike and @spot.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_BS:price of a European option")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+	DEF_ARG_STRIKE,
+	DEF_ARG_TIME_MATURITY_Y,
+	DEF_ARG_RATE_RISKFREE,
+	DEF_ARG_VOLATILITY,
+	DEF_ARG_CC_OPT,        
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_BS uses the Black-Scholes model to calculate "
+					"the price of a European option struck at @{strike} "
+					"on an asset with spot price @{spot}.")},
+	DEF_NOTE_UNITS,
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_VEGA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 /* Delta for the generalized Black and Scholes formula */
@@ -299,33 +299,20 @@ opt_bs_delta (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_bs_delta[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=OPT_BS_DELTA\n"
-
-	   "@SYNTAX=OPT_BS_DELTA(call_put_flag,spot,strike,time,rate,"
-	   "volatility[,cost_of_carry])\n"
-	   "@DESCRIPTION="
-	   "OPT_BS_DELTA uses the Black-Scholes model to calculate the "
-	   "'delta' of a European option with call_put_flag, @call_put_flag, 'c' or 'p' "
-	   "struck at "
-	   "@strike on an asset with spot price @spot.\n"
-	   "Where @time is the time to maturity of the option expressed in years.\n"
-	   "@rate is the risk-free interest rate."
-	   "\n"
-	   "@volatility is the annualized volatility, in percent, of the asset "
-	   "for the period through to the exercise date. "
-	   "\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "for common stocks, this would be the dividend yield."
-	   "\n"
-	   "* The returned value will be expressed in the same units as "
-	   "@strike and @spot.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_BS_DELTA:delta of a European option")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+	DEF_ARG_STRIKE,
+	DEF_ARG_TIME_MATURITY_Y,
+	DEF_ARG_RATE_RISKFREE,
+	DEF_ARG_VOLATILITY,
+	DEF_ARG_CC_OPT,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_BS_DELTA uses the Black-Scholes model to calculate "
+					"the 'delta' of a European option struck at @{strike} "
+					"on an asset with spot price @{spot}.")},
+	DEF_NOTE_UNITS,
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_VEGA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -354,36 +341,23 @@ opt_bs_gamma (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_bs_gamma[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=OPT_BS_GAMMA\n"
-
-	   "@SYNTAX=OPT_BS_GAMMA(spot,strike,time,rate,volatility[,"
-	   "cost_of_carry])\n"
-	   "@DESCRIPTION="
-	   "OPT_BS_GAMMA uses the Black-Scholes model to calculate the "
-	   "'gamma' of a European option struck at @strike on an asset "
-	   "with spot price @spot.\n"
-	   "\n"
-	   "(The gamma of an option is the second derivative of its price "
-	   "with respect to the price of the underlying asset, and is the "
-	   "same for calls and puts.)\n"
-	   "\n"
-	   "@time is the time to maturity of the option expressed in years.\n"
-	   "@rate is "
-	   "the risk-free interest rate to the exercise date, in percent.\n"
-	   "@volatility is the annualized volatility, in percent, of the "
-	   "asset for the period through to the exercise date.\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "for common stocks, this would be the dividend yield."
-	   "\n"
-	   "* The returned value will be expressed as the rate of change "
-	   "of delta per unit change in @spot.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_BS_GAMMA:gamma of a European option")},
+	DEF_ARG_SPOT,
+	DEF_ARG_STRIKE,
+	DEF_ARG_TIME_MATURITY_Y,
+	DEF_ARG_RATE_RISKFREE,
+	DEF_ARG_VOLATILITY,
+	DEF_ARG_CC_OPT,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_BS_DELTA uses the Black-Scholes model to calculate "
+					"the 'gamma' of a European option struck at @{strike} "
+					"on an asset with spot price @{spot}. The gamma of an "
+					"option is the second derivative of its price "
+					"with respect to the price of the underlying asset.")},
+	{ GNM_FUNC_HELP_NOTE, F_("Gamma is expressed as the rate of change "
+				 "of delta per unit change in @{spot}.")},
+	{ GNM_FUNC_HELP_NOTE, F_("Gamma is the same for calls and puts.")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_VEGA"},
+        { GNM_FUNC_HELP_END}
 };
 
 /* theta for the generalized Black and Scholes formula */
@@ -424,35 +398,23 @@ opt_bs_theta (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_bs_theta[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=OPT_BS_THETA\n"
-
-	   "@SYNTAX=OPT_BS_THETA(call_put_flag,spot,strike,time,rate,"
-	   "volatility[,cost_of_carry])\n"
-	   "@DESCRIPTION="
-	   "OPT_BS_THETA uses the Black-Scholes model to calculate the "
-	   "'theta' of a European option with call_put_flag, @call_put_flag "
-	   "struck at @strike on an asset with spot price @spot.\n"
-	   "\n"
-	   "(The theta of an option is the rate of change of its price with "
-	   "respect to time to expiry.)\n"
-	   "\n"
-	   "@time is the time to maturity of the option expressed in years\n"
-	   "and @rate is "
-	   "the risk-free interest rate to the exercise date, in percent.\n"
-	   "@volatility is the annualized volatility, in percent, of the "
-	   "asset for the period through to the exercise date.\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "for common stocks, this would be the dividend yield."
-	   "\n"
-	   "* The returned value will be expressed as minus the rate of change "
-	   "of option value, per 365.25 days.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_VEGA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_BS_THETA:theta of a European option")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+	DEF_ARG_STRIKE,
+	DEF_ARG_TIME_MATURITY_Y,
+	DEF_ARG_RATE_RISKFREE,
+	DEF_ARG_VOLATILITY,
+	DEF_ARG_CC_OPT,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_BS_DELTA uses the Black-Scholes model to calculate "
+					"the 'theta' of a European option struck at @{strike} "
+					"on an asset with spot price @{spot}. The theta of an "
+					"option is the rate of change of its price with "
+					"respect to time to expiry.")},
+	{ GNM_FUNC_HELP_NOTE, F_("Theta is expressed as the negative of the rate of change "
+				 "of the option value, per 365.25 days.")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_VEGA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -480,34 +442,23 @@ opt_bs_vega (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_bs_vega[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_BS_VEGA\n"
-
-	   "@SYNTAX=OPT_BS_VEGA(spot,strike,time,rate,volatility[,"
-	   "cost_of_carry])\n"
-	   "@DESCRIPTION="
-	   "OPT_BS_VEGA uses the Black-Scholes model to calculate the "
-	   "'vega' of a European option struck at @strike on an asset "
-	   "with spot price @spot.\n"
-	   "(The vega of an option is the rate of change of its price with "
-	   "respect to volatility, and is the same for calls and puts.)\n"
-	   "@volatility is the annualized volatility, in percent, of the "
-	   "asset for the period through to the exercise date.\n "
-	   "@time is the time to maturity of the option expressed in years.\n"
-	   "@rate is "
-	   "the risk-free interest rate to the exercise date, in percent.\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "for common stocks, this would be the dividend yield.\n"
-	   "\n"
-	   "* The returned value will be expressed as the rate of change "
-	   "of option value, per 100% volatility.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_BS_VEGA:vega of a European option")},
+	DEF_ARG_SPOT,
+	DEF_ARG_STRIKE,
+	DEF_ARG_TIME_MATURITY_Y,
+	DEF_ARG_RATE_RISKFREE,
+	DEF_ARG_VOLATILITY,
+	DEF_ARG_CC_OPT,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_BS_DELTA uses the Black-Scholes model to calculate "
+					"the 'vega' of a European option struck at @{strike} "
+					"on an asset with spot price @{spot}. The vega of an "
+					"option is the rate of change of its price with "
+					"respect to volatility.")},
+	{ GNM_FUNC_HELP_NOTE, F_("Vega is the same for calls and puts.")},
+	{ GNM_FUNC_HELP_NOTE, F_("Vega is expressed as the rate of change "
+				 "of option value, per 100% volatility.")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -555,36 +506,23 @@ opt_bs_rho (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_bs_rho[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_BS_RHO\n"
-
-	   "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility[,"
-	   "cost_of_carry])\n"
-	   "@DESCRIPTION="
-	   "OPT_BS_RHO uses the Black-Scholes model to calculate the "
-	   "'rho' of a European option with call_put_flag, @call_put_flag "
-	   "struck at @strike on an asset with spot price @spot.\n"
-	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-	   "\n"
-	   "(The rho of an option is the rate of change of its price with "
-	   "respect to the risk free interest rate.)\n"
-
-	   "@time is the time to maturity of the option expressed in years.\n"
-	   "@rate is "
-	   "the risk-free interest rate to the exercise date, in percent.\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "for common stocks, this would be the dividend yield."
-
-	   "\n"
-	   "* The returned value will be expressed as the rate of change of "
-	   "option value, per 100% change in @rate.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_BS_RHO:rho of a European option")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+	DEF_ARG_STRIKE,
+	DEF_ARG_TIME_MATURITY_Y,
+	DEF_ARG_RATE_RISKFREE,
+	DEF_ARG_VOLATILITY,
+	DEF_ARG_CC_OPT,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_BS_DELTA uses the Black-Scholes model to calculate "
+					"the 'rho' of a European option struck at @{strike} "
+					"on an asset with spot price @{spot}. The rho of an "
+					"option is the rate of change of its price with "
+					"respect to the risk free interest rate.")},
+	{ GNM_FUNC_HELP_NOTE, F_("Rho is expressed as the rate of change "
+				 "of the option value, per 100% change in @{rate}.")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_THETA,OPT_BS_VEGA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 /* Carry for the generalized Black and Scholes formula */
@@ -623,38 +561,25 @@ opt_bs_carrycost (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 
 static GnmFuncHelp const help_opt_bs_carrycost[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_BS_CARRYCOST\n"
-
-	   "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,"
-	   "volatility[,cost_of_carry])\n"
-	   "@DESCRIPTION="
-	   "OPT_BS_CARRYCOST uses the Black-Scholes model to calculate the "
-	   "'elasticity' of a European option struck at @strike on an asset "
-	   "with spot price @spot.\n"
-	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-
-	   "\n"
-	   "(The elasticity of an option is the rate of change of its price "
-	   "with respect to its cost of carry.)\n"
-	   "\n"
-	   "@volatility is the annualized volatility, in percent, of the "
-	   "asset for the period through to the exercise date.  "
-	   "@time is the time to maturity of the option expressed in years.\n"
-	   "@rate is "
-	   "the risk-free interest rate to the exercise date, in percent.\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "for common stocks, this would be the dividend yield.\n"
-	   "\n"
-	   "* The returned value will be expressed as the rate of change "
-	   "of option value, per 100% volatility.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_BS_CARRYCOST:elasticity of a European option")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+	DEF_ARG_STRIKE,
+	DEF_ARG_TIME_MATURITY_Y,
+	DEF_ARG_RATE_RISKFREE,
+	DEF_ARG_VOLATILITY,
+	DEF_ARG_CC_OPT,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_BS_DELTA uses the Black-Scholes model to calculate "
+					"the 'elasticity' of a European option struck at @{strike} "
+					"on an asset with spot price @{spot}. The elasticity of an option "
+					"is the rate of change of its price "
+					"with respect to its @{cost_of_carry}.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("")},
+	{ GNM_FUNC_HELP_NOTE, F_("Elasticity is expressed as the rate of change "
+				 "of the option value, per 100% volatility.")},
+	{ GNM_FUNC_HELP_NOTE, F_("")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -695,35 +620,19 @@ opt_garman_kohlhagen (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_garman_kohlhagen[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
-
-	   "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,"
-	   "domestic_rate,foreign_rate,volatility[,cost_of_carry])\n"
-	   "@DESCRIPTION="
-	   "OPT_GARMAN_KOHLHAGEN values the theoretical price of a European "
-	   "currency option struck at @strike on an asset with spot price @spot.\n"
-	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-	   "@volatility is the annualized volatility, in percent, of the "
-	   "asset for the period through to the exercise date. \n"
-	   "@time the number of days to exercise.\n"
-	   "@domestic_rate is the domestic risk-free interest rate to the "
-	   "exercise date.\n"
-	   "@foreign_rate is the foreign risk-free interest rate "
-	   "to the exercise date, in percent.\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "for common stocks, this would be the dividend yield."
-
-	   "\n"
-	   "* The returned value will be expressed as the rate of change "
-	   "of option value, per 100% volatility.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_GARMAN_KOHLHAGEN:theoretical price of a European currency option")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+	DEF_ARG_STRIKE,
+        { GNM_FUNC_HELP_ARG, F_("time:number of days to exercise")},
+        { GNM_FUNC_HELP_ARG, F_("domestic_rate:domestic risk-free interest rate to the exercise date in percent")},
+        { GNM_FUNC_HELP_ARG, F_("foreign_rate:foreign risk-free interest rate to the exercise date in percent")},
+	DEF_ARG_VOLATILITY,
+	DEF_ARG_CC_OPT,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_GARMAN_KOHLHAGEN values the theoretical price of a European "
+					"currency option struck at @{strike} on an asset with spot price @{spot}.")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -766,31 +675,20 @@ opt_french (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_french[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_FRENCH\n"
-
-	   "@SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,volatility[,cost_of_carry])\n"
-	   "@DESCRIPTION="
-	   "OPT_FRENCH values the theoretical price of a "
-	   "European option adjusted for trading day volatility, struck at "
-	   "@strike on an asset with spot price @spot.\n"
-	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-	   "@volatility is the annualized volatility, in percent, of the "
-	   "asset for the period through to the exercise date.\n "
-	   "@time the number of calendar days to exercise divided by calendar days in the year.\n"
-	   "@t2 is the number of trading days to exercise divided by trading days in the year.\n"
-	   "@rate is the risk-free interest rate.\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "to the exercise date, in percent.\n"
-	   "For common stocks, this would be the dividend yield."
-	   "\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_FRENCH:theoretical price of a European option adjusted for trading day volatility")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+	DEF_ARG_STRIKE,
+        { GNM_FUNC_HELP_ARG, F_("time:ratio of the number of calendar days to exercise and the number of calendar days in the year")},
+        { GNM_FUNC_HELP_ARG, F_("ttime:ratio of the number of trading days to exercise and the number of trading days in the year")},
+	DEF_ARG_RATE_RISKFREE,
+	DEF_ARG_VOLATILITY,
+	DEF_ARG_CC_OPT,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_FRENCH values the theoretical price of a "
+					"European option adjusted for trading day volatility, struck at "
+					"@{strike} on an asset with spot price @{spot}.")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 /* Merton jump diffusion model*/
@@ -830,31 +728,19 @@ opt_jump_diff (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_jump_diff[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_JUMP_DIFF\n"
-
-	   "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,"
-	   "volatility,lambda,gamma)\n"
-	   "@DESCRIPTION="
-	   "OPT_JUMP_DIFF models the theoretical price of an option according "
-	   "to the Jump Diffusion process (Merton)."
-	   "\n"
-	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-
-	   "@spot is the spot price of the underlying asset.\n"
-	   "@strike is the strike price of the option.\n"
-	   "@time is the time to maturity of the option expressed in years.\n"
-	   "@rate is the annualized rate of interest.\n"
-	   "@volatility is the annualized volatility of the underlying asset.\n"
-	   "@lambda is expected number of 'jumps' per year.\n"
-	   "@gamma is proportion of volatility explained by the 'jumps.'\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_JUMP_DIFF:theoretical price of an option according to the Jump Diffusion process")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+	DEF_ARG_STRIKE,
+	DEF_ARG_TIME_MATURITY_Y,
+        { GNM_FUNC_HELP_ARG, F_("rate:the annualized rate of interest")},
+	DEF_ARG_VOLATILITY,
+        { GNM_FUNC_HELP_ARG, F_("lambda:expected number of 'jumps' per year")},
+        { GNM_FUNC_HELP_ARG, F_("gamma:proportion of volatility explained by the 'jumps'")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_JUMP_DIFF models the theoretical price of an option according "
+					"to the Jump Diffusion process (Merton).")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -929,43 +815,24 @@ opt_miltersen_schwartz (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 
 static GnmFuncHelp const help_opt_miltersen_schwartz[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
-
-	   "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,x,t1,t2,v_s,"
-	   "v_e,v_f,rho_se,rho_sf,rho_ef,kappa_e,kappa_f)\n"
-	   "@DESCRIPTION="
-	   "OPT_MILTERSEN_SCHWARTZ models the theoretical price of options on "
-	   "commodities futures "
-	   "according to Miltersen & Schwartz. \n"
-
-	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-	   "@p_t is a zero coupon bond with expiry at option maturity.\n"
-	   "@f_t is the futures price.\n"
-	   "@x is the strike price.\n"
-	   "@t1 is the time to maturity of the option.\n"
-	   "@t2 is the time to maturity of the underlying commodity futures contract.\n"
-	   "@v_s is the volatility of the spot commodity price.\n"
-	   "@v_e is the volatility of the future convenience yield.\n"
-	   "@v_f is the volatility of the forward rate of interest.\n"
-	   "@rho_se is correlation between the spot commodity price and the convenience yield.\n"
-	   "@rho_sf is correlation between the spot commodity price and the forward interest rate.\n"
-	   "@rho_ef is correlation between the forward interest rate and the convenience yield.\n"
-	   "@kappa_e is the speed of mean reversion of the convenience yield.\n"
-	   "@kappa_f is the speed of mean reversion of the forward interest rate.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_MILTERSEN_SCHWARTZ:theoretical price of options on commodities futures according to Miltersen & Schwartz")},
+	DEF_ARG_CALL_PUT_FLAG,
+        { GNM_FUNC_HELP_ARG, F_("p_t:zero coupon bond with expiry at option maturity")},
+        { GNM_FUNC_HELP_ARG, F_("f_t:futures price")},
+	DEF_ARG_STRIKE,
+        { GNM_FUNC_HELP_ARG, F_("t1:time to maturity of the option")},
+        { GNM_FUNC_HELP_ARG, F_("t2:time to maturity of the underlying commodity futures contract")},
+        { GNM_FUNC_HELP_ARG, F_("v_s:volatility of the spot commodity price")},
+        { GNM_FUNC_HELP_ARG, F_("v_e:volatility of the future convenience yield")},
+        { GNM_FUNC_HELP_ARG, F_("v_f:volatility of the forward rate of interest")},
+        { GNM_FUNC_HELP_ARG, F_("rho_se:correlation between the spot commodity price and the convenience yield")},
+        { GNM_FUNC_HELP_ARG, F_("rho_sf:correlation between the spot commodity price and the forward interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("rho_ef:correlation between the forward interest rate and the convenience yield")},
+        { GNM_FUNC_HELP_ARG, F_("kappa_e:speed of mean reversion of the convenience yield")},
+        { GNM_FUNC_HELP_ARG, F_("kappa_f:speed of mean reversion of the forward interest rate")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
-
-
-
-
-
 
 /* American options */
 
@@ -1045,29 +912,16 @@ opt_rgw(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_rgw[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_RGW\n"
-
-	   "@SYNTAX=OPT_RGW(spot,strike,t1,t2,rate,d,volatility)"
-	   "\n"
-	   "@DESCRIPTION="
-	   "OPT_RGW models the theoretical price of an American option according to "
-	   "the Roll-Geske-Whaley approximation where: \n"
-
-	   "@spot is the spot price of the underlying asset.\n"
-	   "@strike is the strike price at which the option is struck.\n"
-	   "@t1 is the time to the dividend payout.\n"
-	   "@t2 is the time to option expiration.\n"
-	   "@rate is the annualized rate of interest.\n"
-	   "@d is the amount of the dividend to be paid expressed in currency.\n"
-	   "@volatility is the annualized rate of volatility of the underlying asset.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_RGW:theoretical price of an American option according to the Roll-Geske-Whaley approximation")},
+	DEF_ARG_SPOT,
+	DEF_ARG_STRIKE,
+	DEF_ARG_TIME_DIVIDEND,
+	DEF_ARG_TIME_EXPIRATION,
+	DEF_ARG_RATE_ANNUALIZED,
+        DEF_ARG_AMOUNT,
+	DEF_ARG_VOLATILITY,
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 /* the Barone-Adesi and Whaley (1987) American approximation */
@@ -1101,30 +955,16 @@ opt_baw_amer (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_baw_amer[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_BAW_AMER\n"
-
-	   "@SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,"
-	   "cost_of_carry,volatility)\n"
-	   "@DESCRIPTION="
-	   "OPT_BAW_AMER models the theoretical price of an option according "
-	   "to the Barone Adesie & Whaley approximation. \n"
-	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-
-	   "@spot is the spot price of the underlying asset.\n"
-	   "@strike is the strike price at which the option is struck.\n"
-	   "@time is the number of days to maturity of the option.\n"
-	   "@rate is the annualized risk-free rate of interest.\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "for common stocks, this would be the dividend yield.\n"
-	   "@volatility is the annualized volatility in price of the underlying asset.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_BAW_AMER:theoretical price of an option according to the Barone Adesie & Whaley approximation")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+	DEF_ARG_STRIKE,
+	DEF_ARG_TIME_MATURITY_D,
+	DEF_ARG_RATE_RISKFREE_ANN,
+	DEF_ARG_CC,
+        DEF_ARG_VOLATILITY_SHORT,
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 /* American call */
@@ -1287,29 +1127,16 @@ opt_bjer_stens (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 
 static GnmFuncHelp const help_opt_bjer_stens[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_BJER_STENS\n"
-
-	   "@SYNTAX=OPT_BJER_STENS(call_put_flag,spot,strike,time,rate,"
-	   "volatility[,cost_of_carry])\n"
-	   "@DESCRIPTION="
-	   "OPT_BJER_STENS models the theoretical price of American options "
-	   "according to the Bjerksund & Stensland approximation technique.\n"
-	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-	   "@spot is the spot price of the underlying asset.\n"
-	   "@strike is the strike price at which the option is struck.\n"
-	   "@time is the number of days to maturity of the option.\n"
-	   "@rate is the annualized risk-free rate of interest.\n"
-	   "@volatility is the annualized volatility in price of the underlying asset.\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "for common stocks, this would be the dividend yield.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_BJER_STENS:theoretical price of American options according to the Bjerksund & Stensland approximation technique")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+	DEF_ARG_STRIKE,
+	DEF_ARG_TIME_MATURITY_D,
+	DEF_ARG_RATE_RISKFREE_ANN,
+        DEF_ARG_VOLATILITY_SHORT,
+	DEF_ARG_CC_OPT,
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 static gnm_float
@@ -1374,31 +1201,18 @@ opt_exec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 
 static GnmFuncHelp const help_opt_exec[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_EXEC\n"
-
-	   "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
-	   "cost_of_carry,lambda)\n"
-	   "@DESCRIPTION="
-	   "OPT_EXEC models the theoretical price of executive stock options "
-	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-	   "One would expect this to always be a call option.\n"
-	   "@spot is the spot price of the underlying asset.\n"
-	   "@strike is the strike price at which the option is struck.\n"
-	   "@time is the number of days to maturity of the option.\n"
-	   "@rate is the annualized risk-free rate of interest.\n"
-	   "@volatility is the annualized volatility in price of the underlying asset.\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "for common stocks, this would be the dividend yield.\n"
-	   "@lambda is the jump rate for executives."
-	   " The model assumes executives forfeit their options if they leave the company.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_EXEC:theoretical price of executive stock options")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+	DEF_ARG_STRIKE,
+	DEF_ARG_TIME_MATURITY_D,
+	DEF_ARG_RATE_RISKFREE_ANN,
+        DEF_ARG_VOLATILITY_SHORT,
+	DEF_ARG_CC,
+        { GNM_FUNC_HELP_ARG, F_("lambda:jump rate for executives")},
+	{ GNM_FUNC_HELP_NOTE, F_("The model assumes executives forfeit their options if they leave the company.")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -1425,31 +1239,17 @@ opt_forward_start(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 
 static GnmFuncHelp const help_opt_forward_start[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_FORWARD_START\n"
-
-	   "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,"
-	   "volatility,cost_of_carry)\n"
-	   "@DESCRIPTION="
-	   "OPT_FORWARD_START models the theoretical price of forward start options\n "
-
-	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-	   "@spot is the spot price of the underlying asset.\n"
-	   "@alpha is a fraction that set the strike price the future date @time1.\n"
-	   "@time1 is the number of days until the option starts.\n"
-	   "@time is the number of days to maturity of the option.\n"
-	   "@rate is the annualized risk-free rate of interest.\n"
-	   "@volatility is the annualized volatility in price of the underlying asset.\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "for common stocks, this would be the dividend yield."
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, "
-	   "OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_FORWARD_START:theoretical price of forward start options")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+        { GNM_FUNC_HELP_ARG, F_("alpha:fraction setting the strike price at the future date @{time_start}")},
+        { GNM_FUNC_HELP_ARG, F_("time_start:time until the option starts in days")},
+	DEF_ARG_TIME_MATURITY_D,
+	DEF_ARG_RATE_RISKFREE_ANN,
+        DEF_ARG_VOLATILITY_SHORT,
+	DEF_ARG_CC,
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -1491,35 +1291,23 @@ opt_time_switch (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_time_switch[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_TIME_SWITCH\n"
-
-	   "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
-	   "cost_of_carry,volatility)\n"
-	   "@DESCRIPTION="
-	   "OPT_TIME_SWITCH models the theoretical price of time switch "
-	   "options. (Pechtl 1995)\n"
-	   "The holder receives @a * @dt for each period dt that the asset price was "
-	   "greater than the strike price (for a call) or below it (for a put). \n"
-	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-	   "@spot is the spot price of the underlying asset.\n"
-	   "@strike is the strike price at which the option is struck.\n"
-	   "@a is the amount received for each time period as discussed above.\n"
-	   "@time is the maturity of the option in years.\n"
-	   "@m is the number of time units the option has already met the condition.\n"
-	   "@dt is the agreed upon discrete time period (often a day) expressed as "
-	   "a fraction of a year.\n"
-	   "@rate is the annualized risk-free rate of interest.\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "for common stocks, this would be the dividend yield."
-
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_TIME_SWITCH:theoretical price of time switch options")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+	DEF_ARG_STRIKE,
+        { GNM_FUNC_HELP_ARG, F_("a:amount received for each time period")},
+	DEF_ARG_TIME_MATURITY_Y,
+        { GNM_FUNC_HELP_ARG, F_("m:number of time units the option has already met the condition")},
+	{ GNM_FUNC_HELP_ARG, F_("dt:agreed upon discrete time period expressed as "
+				"a fraction of a year")},
+	DEF_ARG_RATE_RISKFREE_ANN,
+	DEF_ARG_CC,
+	DEF_ARG_VOLATILITY_SHORT,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_TIME_SWITCH models the theoretical price of time switch options. (Pechtl 1995). "
+					"The holder receives @{a} * @{dt} for each period that the asset price was "
+					"greater than @{strike} (for a call) or below it (for a put).")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -1545,30 +1333,16 @@ opt_simple_chooser (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_simple_chooser[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_SIMPLE_CHOOSER\n"
-
-	   "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,"
-	   "rate,cost_of_carry,volatility)\n"
-	   "@DESCRIPTION="
-	   "OPT_SIMPLE_CHOOSER models the theoretical price of simple chooser "
-	   "options.\n"
-	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-	   "@spot is the spot price of the underlying asset.\n"
-	   "@strike is the strike price at which the option is struck.\n"
-	   "@time1 is the time in years until the holder chooses a put or a call option.\n"
-	   "@time2 is the time in years until the chosen option expires.\n"
-	   "@rate is the annualized risk-free rate of interest.\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "for common stocks, this would be the dividend yield."
-
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_SIMPLE_CHOOSER:theoretical price of a simple chooser option")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+	DEF_ARG_STRIKE,
+        { GNM_FUNC_HELP_ARG, F_("time1:time in years until the holder chooses a put or a call option")},
+        { GNM_FUNC_HELP_ARG, F_("time2:time in years until the chosen option expires")},
+	DEF_ARG_CC,
+	DEF_ARG_VOLATILITY_SHORT,
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -1608,34 +1382,19 @@ opt_complex_chooser(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_complex_chooser[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_COMPLEX_CHOOSER\n"
-
-	   "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,"
-	   "strike_put,time,time_call,time_put,rate,cost_of_carry,volatility)\n"
-	   "@DESCRIPTION="
-	   "OPT_COMPLEX_CHOOSER models the theoretical price of complex "
-	   "chooser options.\n"
-	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-	   "@spot is the spot price of the underlying asset.\n"
-	   "@strike_call is the strike price at which the option is struck, applicable if exercised as a call option.\n"
-	   "@strike_put is the strike price at which the option is struck, applicable if exercised as a put option.\n"
-
-	   "@time is the time in years until the holder chooses a put or a call option. \n"
-	   "@time_call is the time in years to maturity of the call option if chosen.\n"
-	   "@time_put is the time in years  to maturity of the put option if chosen.\n"
-	   "@rate is the annualized risk-free rate of interest.\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "for common stocks, this would be the dividend yield.\n"
-	   "@volatility is the annualized volatility in price of the underlying asset.\n"
-
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_COMPLEX_CHOOSER:theoretical price of a complex chooser option")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+        { GNM_FUNC_HELP_ARG, F_("strike_call:strike price, if exercised as a call option.")},
+        { GNM_FUNC_HELP_ARG, F_("strike_put:strike price, if exercised as a put option")},
+        { GNM_FUNC_HELP_ARG, F_("time:time in years until the holder chooses a put or a call option")},
+        { GNM_FUNC_HELP_ARG, F_("time_call:time in years to maturity of the call option if chosen")},
+        { GNM_FUNC_HELP_ARG, F_("time_put:time in years  to maturity of the put option if chosen")},
+	DEF_ARG_RATE_RISKFREE_ANN,
+	DEF_ARG_CC,
+	DEF_ARG_VOLATILITY,
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -1725,31 +1484,19 @@ opt_on_options (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_on_options[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_ON_OPTIONS\n"
-
-	   "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,"
-	   "rate,cost_of_carry,volatility)\n"
-	   "@DESCRIPTION="
-	   "OPT_ON_OPTIONS models the theoretical price of options on options.\n"
-	   "@type_flag is 'cc' for calls on calls, 'cp' for calls on puts, and so on for 'pc', and 'pp'.\n"
-	   "@spot is the spot price of the underlying asset.\n"
-	   "@strike1 is the strike price at which the option being valued is struck.\n"
-	   "@strike2 is the strike price at which the underlying option is struck.\n"
-	   "@time1 is the time in years to maturity of the option.\n"
-	   "@time2 is the time in years to the maturity of the underlying option.\n"
-	   "(@time2 >= @time1).\n"
-	   "@rate is the annualized risk-free rate of interest.\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset of the underlying option."
-	   "for common stocks, this would be the dividend yield.\n"
-	   "@volatility is the annualized volatility in price of the underlying asset of the underlying option.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_ON_OPTIONS:theoretical price of options on options")},
+        { GNM_FUNC_HELP_ARG, F_("type_flag:'cc' for calls on calls, 'cp' for calls on puts, and so on for 'pc', and 'pp'.")},
+	DEF_ARG_SPOT,
+        { GNM_FUNC_HELP_ARG, F_("strike1:strike price at which the option being valued is struck")},
+        { GNM_FUNC_HELP_ARG, F_("strike2:strike price at which the underlying option is struck")},
+        { GNM_FUNC_HELP_ARG, F_("time1:time in years to maturity of the option")},
+        { GNM_FUNC_HELP_ARG, F_("time2:time in years to the maturity of the underlying option")},
+	DEF_ARG_RATE_RISKFREE_ANN,
+        { GNM_FUNC_HELP_ARG, F_("cost_of_carry:leakage in value of the underlying asset of the underlying option (for common stocks, the dividend yield)")},
+        { GNM_FUNC_HELP_ARG, F_("volatility:annualized volatility in price of the underlying asset of the underlying option")},
+        { GNM_FUNC_HELP_NOTE, F_("@{time2} \xe2\x89\xa5 @{time1}")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -1813,34 +1560,22 @@ opt_extendible_writer (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_extendible_writer[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
-
-	   "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,"
-	   "time1,time2,rate,cost_of_carry,volatility)\n"
-	   "@DESCRIPTION="
-	   "OPT_EXTENDIBLE_WRITER models the theoretical price of extendible "
-	   "writer options. These are options that can be exercised at an initial "
-	   "period, @time1, or their maturity extended to @time2 if the option is "
-	   "out of the money at @time1.\n"
-	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-	   "@spot is the spot price of the underlying asset.\n"
-	   "@strike1 is the strike price at which the option is struck.\n"
-	   "@strike2 is the strike price at which the option is re-struck if out of the money at @time1.\n"
-	   "@time1 is the initial maturity of the option in years.\n"
-	   "@time2 is the is the extended maturity in years if chosen.\n"
-	   "@rate is the annualized risk-free rate of interest.\n"
-	   "@cost_of_carry is the leakage in value of the underlying asset, "
-	   "for common stocks, this would be the dividend yield.\n"
-	   "@volatility is the annualized volatility in price of the underlying asset.\n"
-
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_EXTENDIBLE_WRITER:theoretical price of extendible writer options")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+        { GNM_FUNC_HELP_ARG, F_("strike1:strike price at which the option is struck")},
+        { GNM_FUNC_HELP_ARG, F_("strike2:strike price at which the option is re-struck if out of the money at @{time1}")},
+        { GNM_FUNC_HELP_ARG, F_("time1:initial maturity of the option in years")},
+        { GNM_FUNC_HELP_ARG, F_("time2:extended maturity in years if chosen")},
+	DEF_ARG_RATE_RISKFREE_ANN,
+	DEF_ARG_CC,
+	DEF_ARG_VOLATILITY_SHORT,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_EXTENDIBLE_WRITER models the theoretical price of extendible "
+					"writer options. These are options that can be exercised at an initial "
+					"period, @{time1}, or their maturity extended to @{time2} if the option is "
+					"out of the money at @{time1}.")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -1877,34 +1612,24 @@ opt_2_asset_correlation(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_2_asset_correlation[] = {
-	{ GNM_FUNC_HELP_OLD,
-	/* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_2_ASSET_CORRELATION\n"
-
-	   "@SYNTAX=OPT_2_ASSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
-	   "time,cost_of_carry1,cost_of_carry2,rate,volatility1,volatility2,rho)\n"
-	   "@DESCRIPTION="
-	   "OPT_2_ASSET_CORRELATION models the theoretical price of  options "
-
-	   "on 2 assets with correlation @rho.\nThe payoff for a call is "
-	   "max(@spot2 - @strike2,0) if @spot1 > @strike1 or 0 otherwise.\n"
-	   "The payoff for a put is max (@strike2 - @spot2, 0) if @spot1 < @strike1 or 0 otherwise.\n"
-	   "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-	   "@spot1 & @spot2 are the spot prices of the underlying assets.\n"
-	   "@strike1 & @strike2 are the strike prices at which the option"
-	   " is struck.\n"
-	   "@time is the initial maturity of the option in years.\n"
-	   "@rate is the annualized risk-free rate of interest.\n"
-	   "@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying assets, "
-	   "for common stocks, this would be the dividend yield.\n"
-	   "@volatility1 & @volatility2 are the annualized volatility in price of the underlying assets.\n"
-
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_2_ASSET_CORRELATION:theoretical price of options on 2 assets with correlation @{rho}")},
+	DEF_ARG_CALL_PUT_FLAG,
+        { GNM_FUNC_HELP_ARG, F_("spot1:spot price of the underlying asset of the first option")},
+        { GNM_FUNC_HELP_ARG, F_("spot2:spot price of the underlying asset of the second option")},
+        { GNM_FUNC_HELP_ARG, F_("strike1:strike prices of the first option")},
+        { GNM_FUNC_HELP_ARG, F_("strike1:strike prices of the second option")},
+	DEF_ARG_TIME_MATURITY_Y,
+	DEF_ARG_RATE_RISKFREE_ANN,
+        { GNM_FUNC_HELP_ARG, F_("cost_of_carry1:leakage in value of the underlying asset of the first option")},
+        { GNM_FUNC_HELP_ARG, F_("cost_of_carry2:leakage in value of the underlying asset of the second option")},
+        { GNM_FUNC_HELP_ARG, F_("volatility1:annualized volatility in price of the underlying asset of the first option")},
+        { GNM_FUNC_HELP_ARG, F_("volatility2:annualized volatility in price of the underlying asset of the second option")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_2_ASSET_CORRELATION models the theoretical price of options "
+					"on 2 assets with correlation @{rho}. The payoff for a call is "
+					"max(@{spot2} - @{strike2},0) if @{spot1} > @{strike1} or 0 otherwise. "
+					"The payoff for a put is max (@{strike2} - @{spot2}, 0) if @{spot1} < @{strike1} or 0 otherwise.")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -1934,29 +1659,24 @@ opt_euro_exchange(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_euro_exchange[] = {
-	{ GNM_FUNC_HELP_OLD,
-	 /* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_EURO_EXCHANGE\n"
-	"@SYNTAX=OPT_EURO_EXCHANGE(spot1,spot2,qty1,qty2,"
-	"time,rate,cost_of_carry1,cost_of_carry2,"
-	"volatility1,volatility2,rho)\n"
-	"@DESCRIPTION="
-	"OPT_EURO_EXCHANGE models the theoretical price of a European "
-	"option to exchange one asset with quantity @qty2 and spot "
-	"price @spot2 for another, with quantity @qty1 and spot price "
-	"@spot1.\n"
-	"@time is the initial maturity of the option in years.\n"
-	"@rate is the annualized risk-free rate of interest.\n"
-	"@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying assets, "
-	"for common stocks, this would be the dividend yield.\n"
-	"@volatility1 & @volatility2 are the annualized volatility in price of the underlying assets.\n"
-	"@rho is the correlation between the two assets.\n"
-	"\n"
-	"@EXAMPLES=\n"
-	"\n"
-	"@SEEALSO=OPT_AMER_EXCHANGE, OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_EURO_EXCHANGE:theoretical price of a European option to exchange assets")},
+	{ GNM_FUNC_HELP_ARG, F_("spot1:spot price of asset 1")},
+        { GNM_FUNC_HELP_ARG, F_("spot2:spot price of asset 1")},
+	{ GNM_FUNC_HELP_ARG, F_("qty1:quantity of asset 1")},
+	{ GNM_FUNC_HELP_ARG, F_("qty2:quantity of asset 2")},
+	DEF_ARG_TIME_MATURITY_Y,
+	DEF_ARG_RATE_RISKFREE_ANN,
+	{ GNM_FUNC_HELP_ARG, F_("cost_of_carry1:leakage in value of asset 1")},
+	{ GNM_FUNC_HELP_ARG, F_("cost_of_carry2:leakage in value of asset 2")},
+	{ GNM_FUNC_HELP_ARG, F_("volatility1:annualized volatility in price of asset 1")},
+	{ GNM_FUNC_HELP_ARG, F_("volatility2:annualized volatility in price of asset 2")},
+	{ GNM_FUNC_HELP_ARG, F_("rho:correlation between the prices of the two assets")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_EURO_EXCHANGE models the theoretical price of a European "
+					"option to exchange one asset with quantity @{qty2} and spot "
+					"price @{spot2} for another with quantity @{qty1} and spot price "
+					"@{spot1}.")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_AMER_EXCHANGE,OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -1981,27 +1701,24 @@ opt_amer_exchange(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_amer_exchange[] = {
-	{ GNM_FUNC_HELP_OLD,
-	 /* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_AMER_EXCHANGE\n"
-	"@SYNTAX=OPT_AMER_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1, volatility2, rho)\n"
-	"@DESCRIPTION="
-	"OPT_AMER_EXCHANGE models the theoretical price of an American "
-	"option to exchange one asset with quantity @qty2 and spot "
-	"price @spot2 for another, with quantity @qty1 and spot price "
-	"@spot1.\n"
-	"@time is the initial maturity of the option in years.\n"
-	"@rate is the annualized risk-free rate of interest.\n"
-	"@cost_of_carry1 & @cost_of_carry2 are the leakage in value of the underlying assets, "
-	"for common stocks, this would be the dividend yield.\n"
-	"@volatility1 & @volatility2 are the annualized volatility in price of the underlying assets.\n"
-	"@rho is the correlation between the two assets.\n"
-	"\n"
-	"@EXAMPLES=\n"
-	"\n"
-	"@SEEALSO=OPT_EURO_EXCHANGE, OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_AMER_EXCHANGE:theoretical price of an American option to exchange assets")},
+	{ GNM_FUNC_HELP_ARG, F_("spot1:spot price of asset 1")},
+        { GNM_FUNC_HELP_ARG, F_("spot2:spot price of asset 1")},
+	{ GNM_FUNC_HELP_ARG, F_("qty1:quantity of asset 1")},
+	{ GNM_FUNC_HELP_ARG, F_("qty2:quantity of asset 2")},
+	DEF_ARG_TIME_MATURITY_Y,
+	DEF_ARG_RATE_RISKFREE_ANN,
+	{ GNM_FUNC_HELP_ARG, F_("cost_of_carry1:leakage in value of asset 1")},
+	{ GNM_FUNC_HELP_ARG, F_("cost_of_carry2:leakage in value of asset 2")},
+	{ GNM_FUNC_HELP_ARG, F_("volatility1:annualized volatility in price of asset 1")},
+	{ GNM_FUNC_HELP_ARG, F_("volatility2:annualized volatility in price of asset 2")},
+	{ GNM_FUNC_HELP_ARG, F_("rho:correlation between the prices of the two assets")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_AMER_EXCHANGE models the theoretical price of an American "
+					"option to exchange one asset with quantity @{qty2} and spot "
+					"price @{spot2} for another with quantity @{qty1} and spot price "
+					"@{spot1}.")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_EURO_EXCHANGE,OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -2026,25 +1743,18 @@ opt_spread_approx(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_spread_approx[] = {
-	{ GNM_FUNC_HELP_OLD,
-	 /* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_SPREAD_APPROX\n"
-	"@SYNTAX=OPT_SPREAD_APPROX(call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,volatility2,rho)\n"
-	"@DESCRIPTION="
-	"OPT_SPREAD_APPROX models the theoretical price of a European option on the spread between two futures contracts.\n"
-	"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-	"@fut_price1 & @fut_price2 are the prices of the two futures contracts.\n"
-	"@strike is the strike price at which the option is struck \n"
-	"@time is the initial maturity of the option in years.\n"
-	"@rate is the annualized risk-free rate of interest.\n"
-	"@volatility1 & @volatility2 are the annualized volatility in price of the underlying futures contracts.\n"
-	"@rho is the correlation between the two futures contracts.\n"
-	"\n"
-	"@EXAMPLES=\n"
-	"\n"
-	"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_SPREAD_APPROX:theoretical price of a European option on the spread between two futures contracts")},
+	DEF_ARG_CALL_PUT_FLAG,
+        { GNM_FUNC_HELP_ARG, F_("fut_price1:price of the first futures contract")},
+        { GNM_FUNC_HELP_ARG, F_("fut_price2:price of the second futures contract")},
+	DEF_ARG_STRIKE,
+	DEF_ARG_TIME_MATURITY_Y,
+	DEF_ARG_RATE_RISKFREE_ANN,
+        { GNM_FUNC_HELP_ARG, F_("volatility1:annualized volatility in price of the first underlying futures contract")},
+        { GNM_FUNC_HELP_ARG, F_("volatility2:annualized volatility in price of the second underlying futures contract")},
+        { GNM_FUNC_HELP_ARG, F_("rho:correlation between the two futures contracts")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -2088,27 +1798,19 @@ opt_float_strk_lkbk(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_float_strk_lkbk[] = {
-	{ GNM_FUNC_HELP_OLD,
-	 /* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
-	"@SYNTAX=OPT_FLOAT_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility)\n"
-	"@DESCRIPTION="
-	"OPT_FLOAT_STRK_LKBK models the theoretical price of an option where the holder of the option may exercise on expiry at the most favourable price observed during the options life of the underlying asset.\n"
-	"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-	"@spot is the spot price of the underlying asset.\n"
-	"@spot_min is the minimum spot price of the underlying asset so far observed.\n"
-	"@spot_max is the maximum spot price of the underlying asset so far observed.\n"
-	"@time is the initial maturity of the option in years.\n"
-	"@rate is the annualized risk-free rate of interest.\n"
-	"@cost_of_carry is the leakage in value of the underlying asset, "
-	"for common stocks, this would be the dividend yield.\n"
-	"@volatility is the annualized volatility in price of the underlying asset.\n"
-	 "\n"
-	 "@EXAMPLES=\n"
-	 "\n"
-	 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_FLOAT_STRK_LKBK:theoretical price of an option where the holder "
+				 "of the option may exercise on expiry at the most favourable price "
+				 "observed during the options life of the underlying asset")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+        { GNM_FUNC_HELP_ARG, F_("spot_min:minimum spot price of the underlying asset so far observed")},
+        { GNM_FUNC_HELP_ARG, F_("spot_max:maximum spot price of the underlying asset so far observed")},
+	DEF_ARG_TIME_MATURITY_Y,
+	DEF_ARG_RATE_RISKFREE_ANN,
+	DEF_ARG_CC,
+        DEF_ARG_VOLATILITY_SHORT,
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -2158,28 +1860,21 @@ opt_fixed_strk_lkbk(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_fixed_strk_lkbk[] = {
-	{ GNM_FUNC_HELP_OLD,
-	 /* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_FIXED_STRK_LKBK\n"
-	"@SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,volatility)\n"
-	"@DESCRIPTION="
-	"OPT_FIXED_STRK_LKBK models the theoretical price of an option where the holder of the option may exercise on expiry at the most favourable price observed during the options life of the underlying asset.\n"
-	"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-	"@spot is the spot price of the underlying asset.\n"
-	"@spot_min is the minimum spot price of the underlying asset so far observed.\n"
-	"@spot_max is the maximum spot price of the underlying asset so far observed.\n"
-	"@strike is the strike prices at which the option is struck.\n"
-	"@time is the initial maturity of the option in years.\n"
-	"@rate is the annualized risk-free rate of interest.\n"
-	"@cost_of_carry is the leakage in value of the underlying asset, "
-	"for common stocks, this would be the dividend yield.\n"
-	"@volatility is the annualized volatility in price of the underlying asset.\n"
-	 "\n"
-	 "@EXAMPLES=\n"
-	 "\n"
-	 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_FIXED_STRK_LKBK:theoretical price of an option "
+					"where the holder of the option may exercise on expiry at the "
+					"most favourable price observed during the options life of the "
+					"underlying asset.")},
+	DEF_ARG_CALL_PUT_FLAG,
+	DEF_ARG_SPOT,
+        { GNM_FUNC_HELP_ARG, F_("spot_min:minimum spot price of the underlying asset so far observed")},
+        { GNM_FUNC_HELP_ARG, F_("spot_max:maximum spot price of the underlying asset so far observed")},
+	DEF_ARG_STRIKE,
+	DEF_ARG_TIME_MATURITY_Y,
+	DEF_ARG_RATE_RISKFREE_ANN,
+	DEF_ARG_CC,
+        DEF_ARG_VOLATILITY_SHORT,
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
@@ -2248,27 +1943,19 @@ opt_binomial(GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 static GnmFuncHelp const help_opt_binomial[] = {
-	{ GNM_FUNC_HELP_OLD,
-	 /* xgettext:no-c-format */
-	F_("@FUNCTION=OPT_BINOMIAL\n"
-	"@SYNTAX=OPT_BINOMIAL(amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, volatility, cost_of_carry)\n"
-	"@DESCRIPTION="
-	"OPT_ models the theoretical price of either an American or European style option using a binomial tree.\n"
-	"@amer_euro_flag is either 'a' or 'e' to indicate whether the option being valued is an American or European style option respectively.\n"
-	"@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a put.\n"
-	"@num_time_steps is the number of time steps used in the valuation, a greater number of time steps yields greater accuracy however is slower to calculate.\n"
-	"@spot is the spot price of the underlying asset.\n"
-	"@strike is the strike price at which the option is struck.\n"
-	"@time is the initial maturity of the option in years.\n"
-	"@rate is the annualized risk-free rate of interest.\n"
-	"@volatility is the annualized volatility in price of the underlying asset.\n"
-	"@cost_of_carry is the leakage in value of the underlying asset.\n"
-	"\n"
-	"@EXAMPLES=\n"
-	"\n"
-	"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OPT_BINOMIAL:theoretical price of either an American or European style option using a binomial tree")},
+        { GNM_FUNC_HELP_ARG, F_("amer_euro_flag:'a' for an American style option or 'e' for a European style option")},
+	DEF_ARG_CALL_PUT_FLAG,
+        { GNM_FUNC_HELP_ARG, F_("num_time_steps:number of time steps used in the valuation")},
+	DEF_ARG_SPOT,
+	DEF_ARG_STRIKE,
+	DEF_ARG_TIME_MATURITY_Y,
+	DEF_ARG_RATE_RISKFREE_ANN,
+        DEF_ARG_VOLATILITY_SHORT,
+	DEF_ARG_CC,
+	{ GNM_FUNC_HELP_NOTE, F_("A larger @{num_time_steps} yields greater accuracy but  OPT_BINOMIAL is slower to calculate.")},
+        { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
+        { GNM_FUNC_HELP_END}
 };
 
 
