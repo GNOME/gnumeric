@@ -52,6 +52,10 @@ GNM_PLUGIN_MODULE_HEADER;
 #define FREQ_HELP \
 	{ GNM_FUNC_HELP_NOTE, F_("@{frequency} may be 1 (annual), 2 (semi-annual), or 4 (quarterly).") }
 
+#define TYPE_HELP \
+	{ GNM_FUNC_HELP_NOTE, F_("If @{type} is 0, the default, payment is at the end of each period.  If @{type} is 1, payment is at the beginning of each period.") }
+
+
 /***************************************************************************/
 
 #define is_valid_basis(B) ((B) >= 0 && (B) <= 5)
@@ -702,18 +706,14 @@ gnumeric_nominal (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ispmt[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ISPMT\n"
-	   "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
-	   "@DESCRIPTION="
-	   "ISPMT function returns the interest paid on a given period.\n"
-	   "\n"
-	   "* If @per < 1 or @per > @nper, ISPMT returns #NUM! error. "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=PV")
-	},
+        { GNM_FUNC_HELP_NAME, F_("ISPMT:calculate interest payment for period")},
+        { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("per:period number")},
+        { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
+        { GNM_FUNC_HELP_ARG, F_("pv:present value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ISPMT calculates the interest payment for period number @{period}.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=ISPMT(10%,4,10,1e6)" },
+        { GNM_FUNC_HELP_SEEALSO, "PV"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1552,24 +1552,15 @@ gnumeric_irr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_pv[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=PV\n"
-	   "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
-	   "@DESCRIPTION="
-	   "PV calculates the present value of an investment. "
-	   "@rate is the periodic interest rate, @nper is the "
-	   "number of periods used for compounding. "
-	   "@pmt is the payment made each period, "
-	   "@fv is the future value and @type is when the payment is made.\n"
-	   "\n"
-	   "* If @type = 1 then the payment is made at the beginning of the "
-	   "period.\n"
-	   "* If @type = 0 (or omitted) it is made at the end of each "
-	   "period.\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=FV")
-	},
+        { GNM_FUNC_HELP_NAME, F_("PV:calculate present value")},
+        { GNM_FUNC_HELP_ARG, F_("rate:effective interest rate per period")},
+        { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
+        { GNM_FUNC_HELP_ARG, F_("pmt:payment at each period")},
+        { GNM_FUNC_HELP_ARG, F_("fv:future value")},
+	TYPE_HELP,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("PV calculates the present value of @{fv} which is @{nper} periods into the future, assuming a periodic payment of @{pmt} and an interest rate of @{rate} per period.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=PV(10%,10,1000,20000,0)" },
+        { GNM_FUNC_HELP_SEEALSO, "FV"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1829,24 +1820,15 @@ gnumeric_xirr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_fv[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=FV\n"
-	   "@SYNTAX=FV(rate,nper,pmt[,pv,type])\n"
-	   "@DESCRIPTION="
-	   "FV computes the future value of an investment. This is based "
-	   "on periodic, constant payments and a constant interest rate. "
-	   "The interest rate per period is @rate, @nper is the number of "
-	   "periods in an annuity, @pmt is the payment made each period, "
-	   "@pv is the present value and @type is when the payment is made.\n"
-	   "\n"
-	   "* If @type = 1 then the payment is made at the beginning of the "
-	   "period.\n"
-	   "* If @type = 0 it is made at the end of each period.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=PV,PMT,PPMT")
-	},
+        { GNM_FUNC_HELP_NAME, F_("FV:calculate future value")},
+        { GNM_FUNC_HELP_ARG, F_("rate:effective interest rate per period")},
+        { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
+        { GNM_FUNC_HELP_ARG, F_("pmt:payment at each period")},
+        { GNM_FUNC_HELP_ARG, F_("pv:present value")},
+	TYPE_HELP,
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("FV calculates the future value of @{pv} moved @{nper} periods into the future, assuming a periodic payment of @{pmt} and an interest rate of @{rate} per period.") },
+        { GNM_FUNC_HELP_EXAMPLES, "=FV(10%,10,1000,20000,0)" },
+        { GNM_FUNC_HELP_SEEALSO, "PV"},
 	{ GNM_FUNC_HELP_END }
 };
 
