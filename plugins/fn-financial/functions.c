@@ -1307,9 +1307,10 @@ static GnmFuncHelp const help_rate[] = {
         { GNM_FUNC_HELP_ARG, F_("pmt:payment at each period")},
         { GNM_FUNC_HELP_ARG, F_("pv:present value")},
         { GNM_FUNC_HELP_ARG, F_("fv:future value")},
-	TYPE_HELP,
-        { GNM_FUNC_HELP_ARG, F_("guess:a estimate of what the result should be")},
+        { GNM_FUNC_HELP_ARG, F_("type:payment type")},
+        { GNM_FUNC_HELP_ARG, F_("guess:an estimate of what the result should be")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("RATE calculates the rate of return.") },
+	TYPE_HELP,
 	{ GNM_FUNC_HELP_NOTE, F_("The optional @{guess} is needed because there can be more than one valid result.  It defaults to 10%.") },
         { GNM_FUNC_HELP_EXAMPLES, "=RATE(10,-1500,10000,0)" },
         { GNM_FUNC_HELP_SEEALSO, "PV,FV"},
@@ -1417,7 +1418,7 @@ gnumeric_rate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_irr[] = {
         { GNM_FUNC_HELP_NAME, F_("IRR:calculate internal rate of return")},
         { GNM_FUNC_HELP_ARG, F_("values:cash flow")},
-        { GNM_FUNC_HELP_ARG, F_("guess:a estimate of what the result should be")},
+        { GNM_FUNC_HELP_ARG, F_("guess:an estimate of what the result should be")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("IRR calculates the internal rate of return of a cash flow with periodic payments.  @{values} lists the payments (negative values) and receipts (positive values) for each period.") },
         { GNM_FUNC_HELP_EXAMPLES, "=IRR({100;100;200;-450})" },
 	{ GNM_FUNC_HELP_NOTE, F_("The optional @{guess} is needed because there can be more than one valid result.  It defaults to 10%.") },
@@ -1537,8 +1538,9 @@ static GnmFuncHelp const help_pv[] = {
         { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
         { GNM_FUNC_HELP_ARG, F_("pmt:payment at each period")},
         { GNM_FUNC_HELP_ARG, F_("fv:future value")},
-	TYPE_HELP,
+        { GNM_FUNC_HELP_ARG, F_("type:payment type")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("PV calculates the present value of @{fv} which is @{nper} periods into the future, assuming a periodic payment of @{pmt} and an interest rate of @{rate} per period.") },
+	TYPE_HELP,
         { GNM_FUNC_HELP_EXAMPLES, "=PV(10%,10,1000,20000,0)" },
         { GNM_FUNC_HELP_SEEALSO, "FV"},
 	{ GNM_FUNC_HELP_END }
@@ -1687,7 +1689,7 @@ static GnmFuncHelp const help_xirr[] = {
         { GNM_FUNC_HELP_NAME, F_("XIRR:calculate internal rate of return")},
         { GNM_FUNC_HELP_ARG, F_("values:cash flow")},
         { GNM_FUNC_HELP_ARG, F_("dates:date of cash flow")},
-        { GNM_FUNC_HELP_ARG, F_("guess:a estimate of what the result should be")},
+        { GNM_FUNC_HELP_ARG, F_("guess:an estimate of what the result should be")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("XIRR calculates the annualized internal rate of return of a cash flow at arbitrary points in time.  @{values} lists the payments (negative values) and receipts (positive values) with one value for each entry in @{dates}.") },
 	{ GNM_FUNC_HELP_NOTE, F_("The optional @{guess} is needed because there can be more than one valid result.  It defaults to 10%.") },
         { GNM_FUNC_HELP_SEEALSO, "IRR"},
@@ -1783,8 +1785,9 @@ static GnmFuncHelp const help_fv[] = {
         { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
         { GNM_FUNC_HELP_ARG, F_("pmt:payment at each period")},
         { GNM_FUNC_HELP_ARG, F_("pv:present value")},
-	TYPE_HELP,
+        { GNM_FUNC_HELP_ARG, F_("type:payment type")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("FV calculates the future value of @{pv} moved @{nper} periods into the future, assuming a periodic payment of @{pmt} and an interest rate of @{rate} per period.") },
+	TYPE_HELP,
         { GNM_FUNC_HELP_EXAMPLES, "=FV(10%,10,1000,20000,0)" },
         { GNM_FUNC_HELP_SEEALSO, "PV"},
 	{ GNM_FUNC_HELP_END }
@@ -1813,28 +1816,15 @@ gnumeric_fv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_pmt[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=PMT\n"
-	   "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
-	   "@DESCRIPTION="
-	   "PMT returns the amount of payment for a loan based on a constant "
-	   "interest rate and constant payments (each payment is equal "
-	   "amount).\n"
-	   "\n"
-	   "@rate is the constant interest rate.\n"
-	   "@nper is the overall number of payments.\n"
-	   "@pv is the present value.\n"
-	   "@fv is the future value.\n"
-	   "@type is the type of the payment: 0 means at the end of the period "
-	   "and 1 means at the beginning of the period.\n"
-	   "\n"
-	   "* If @fv is omitted, Gnumeric assumes it to be zero.\n"
-	   "* If @type is omitted, Gnumeric assumes it to be zero.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=PPMT,PV,FV")
-	},
+        { GNM_FUNC_HELP_NAME, F_("PMT:calculate payment for annuity")},
+        { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
+        { GNM_FUNC_HELP_ARG, F_("pv:present value")},
+        { GNM_FUNC_HELP_ARG, F_("fv:future value")},
+        { GNM_FUNC_HELP_ARG, F_("type:payment type")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("PMT calculates the payment amount for an annuity.") },
+	TYPE_HELP,
+        { GNM_FUNC_HELP_SEEALSO, "PV,FV,RATE,ISPMT"},
 	{ GNM_FUNC_HELP_END }
 };
 
