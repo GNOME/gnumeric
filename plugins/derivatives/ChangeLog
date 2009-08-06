@@ -1,3 +1,8 @@
+2009-08-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	Fixes [#448580]
+	* derivatives.c: change the definition of cost_of_carry throughout
+
 2009-08-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	Fixes part of [#312746]

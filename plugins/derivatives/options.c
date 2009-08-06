@@ -56,8 +56,8 @@ GNM_PLUGIN_MODULE_HEADER;
 #define DEF_ARG_VOLATILITY { GNM_FUNC_HELP_ARG, F_("volatility:annualized volatility of the asset in percent for the period through to the exercise date") }
 #define DEF_ARG_VOLATILITY_SHORT { GNM_FUNC_HELP_ARG, F_("volatility:annualized volatility of the asset") }
 #define DEF_ARG_AMOUNT { GNM_FUNC_HELP_ARG, F_("d:amount of the dividend to be paid expressed in currency") }
-#define DEF_ARG_CC_OPT { GNM_FUNC_HELP_ARG, F_("cost_of_carry:leakage in value of the underlying asset (for common stocks, the dividend yield), defaults to 0") }
-#define DEF_ARG_CC { GNM_FUNC_HELP_ARG, F_("cost_of_carry:leakage in value of the underlying asset (for common stocks, the dividend yield)") }
+#define DEF_ARG_CC_OPT { GNM_FUNC_HELP_ARG, F_("cost_of_carry:net cost of holding the underlying asset (for common stocks, the risk free rate less the dividend yield), defaults to 0") }
+#define DEF_ARG_CC { GNM_FUNC_HELP_ARG, F_("cost_of_carry:net cost of holding the underlying asset") }
 
 #define DEF_NOTE_UNITS { GNM_FUNC_HELP_NOTE, F_("The returned value will be expressed in the same units as @{strike} and @{spot}.")}
 
@@ -628,7 +628,6 @@ static GnmFuncHelp const help_opt_garman_kohlhagen[] = {
         { GNM_FUNC_HELP_ARG, F_("domestic_rate:domestic risk-free interest rate to the exercise date in percent")},
         { GNM_FUNC_HELP_ARG, F_("foreign_rate:foreign risk-free interest rate to the exercise date in percent")},
 	DEF_ARG_VOLATILITY,
-	DEF_ARG_CC_OPT,
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_GARMAN_KOHLHAGEN values the theoretical price of a European "
 					"currency option struck at @{strike} on an asset with spot price @{spot}.")},
         { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
@@ -1492,7 +1491,7 @@ static GnmFuncHelp const help_opt_on_options[] = {
         { GNM_FUNC_HELP_ARG, F_("time1:time in years to maturity of the option")},
         { GNM_FUNC_HELP_ARG, F_("time2:time in years to the maturity of the underlying option")},
 	DEF_ARG_RATE_RISKFREE_ANN,
-        { GNM_FUNC_HELP_ARG, F_("cost_of_carry:leakage in value of the underlying asset of the underlying option (for common stocks, the dividend yield)")},
+        { GNM_FUNC_HELP_ARG, F_("cost_of_carry:net cost of holding the underlying asset of the underlying option (for common stocks, the risk free rate less the dividend yield)")},
         { GNM_FUNC_HELP_ARG, F_("volatility:annualized volatility in price of the underlying asset of the underlying option")},
         { GNM_FUNC_HELP_NOTE, F_("@{time2} \xe2\x89\xa5 @{time1}")},
         { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
@@ -1620,8 +1619,10 @@ static GnmFuncHelp const help_opt_2_asset_correlation[] = {
         { GNM_FUNC_HELP_ARG, F_("strike1:strike prices of the second option")},
 	DEF_ARG_TIME_MATURITY_Y,
 	DEF_ARG_RATE_RISKFREE_ANN,
-        { GNM_FUNC_HELP_ARG, F_("cost_of_carry1:leakage in value of the underlying asset of the first option")},
-        { GNM_FUNC_HELP_ARG, F_("cost_of_carry2:leakage in value of the underlying asset of the second option")},
+        { GNM_FUNC_HELP_ARG, F_("cost_of_carry1:net cost of holding the underlying asset of the first option "
+				"(for common stocks, the risk free rate less the dividend yield)")},
+        { GNM_FUNC_HELP_ARG, F_("cost_of_carry2:net cost of holding the underlying asset of the second option "
+				"(for common stocks, the risk free rate less the dividend yield)")},
         { GNM_FUNC_HELP_ARG, F_("volatility1:annualized volatility in price of the underlying asset of the first option")},
         { GNM_FUNC_HELP_ARG, F_("volatility2:annualized volatility in price of the underlying asset of the second option")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("OPT_2_ASSET_CORRELATION models the theoretical price of options "
@@ -1666,8 +1667,10 @@ static GnmFuncHelp const help_opt_euro_exchange[] = {
 	{ GNM_FUNC_HELP_ARG, F_("qty2:quantity of asset 2")},
 	DEF_ARG_TIME_MATURITY_Y,
 	DEF_ARG_RATE_RISKFREE_ANN,
-	{ GNM_FUNC_HELP_ARG, F_("cost_of_carry1:leakage in value of asset 1")},
-	{ GNM_FUNC_HELP_ARG, F_("cost_of_carry2:leakage in value of asset 2")},
+	{ GNM_FUNC_HELP_ARG, F_("cost_of_carry1:net cost of holding asset 1 "
+				"(for common stocks, the risk free rate less the dividend yield)")},
+	{ GNM_FUNC_HELP_ARG, F_("cost_of_carry2:net cost of holding asset 2 "
+				"(for common stocks, the risk free rate less the dividend yield)")},
 	{ GNM_FUNC_HELP_ARG, F_("volatility1:annualized volatility in price of asset 1")},
 	{ GNM_FUNC_HELP_ARG, F_("volatility2:annualized volatility in price of asset 2")},
 	{ GNM_FUNC_HELP_ARG, F_("rho:correlation between the prices of the two assets")},
@@ -1708,8 +1711,10 @@ static GnmFuncHelp const help_opt_amer_exchange[] = {
 	{ GNM_FUNC_HELP_ARG, F_("qty2:quantity of asset 2")},
 	DEF_ARG_TIME_MATURITY_Y,
 	DEF_ARG_RATE_RISKFREE_ANN,
-	{ GNM_FUNC_HELP_ARG, F_("cost_of_carry1:leakage in value of asset 1")},
-	{ GNM_FUNC_HELP_ARG, F_("cost_of_carry2:leakage in value of asset 2")},
+	{ GNM_FUNC_HELP_ARG, F_("cost_of_carry1:net cost of holding asset 1 "
+				"(for common stocks, the risk free rate less the dividend yield)")},
+	{ GNM_FUNC_HELP_ARG, F_("cost_of_carry2:net cost of holding asset 2 "
+				"(for common stocks, the risk free rate less the dividend yield)")},
 	{ GNM_FUNC_HELP_ARG, F_("volatility1:annualized volatility in price of asset 1")},
 	{ GNM_FUNC_HELP_ARG, F_("volatility2:annualized volatility in price of asset 2")},
 	{ GNM_FUNC_HELP_ARG, F_("rho:correlation between the prices of the two assets")},
