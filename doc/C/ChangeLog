@@ -1,5 +1,10 @@
 2009-08-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* gnumeric.xml: ensure that the help links from the manage sheet dialog
+	  in fact exist. [#564031]
+
+2009-08-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* graphics-plots.xml: add description of major and minor ticks for
 	  linear axes [#563275]
 

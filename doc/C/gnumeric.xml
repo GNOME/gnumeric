@@ -596,9 +596,6 @@
 
   </chapter>
 
-
-<!-- 
-
   <chapter id="chapter-worksheets">
     <title>Using Worksheets</title>
 
@@ -633,8 +630,6 @@
     &f-workbooks;
 
   </chapter>
-
--->
 
   <chapter id="chapter-configuring">
     <title>Configuring Gnumeric</title>
