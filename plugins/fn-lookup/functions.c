@@ -616,41 +616,24 @@ find_index_bisection (GnmFuncEvalInfo *ei,
 /***************************************************************************/
 
 static GnmFuncHelp const help_address[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ADDRESS\n"
-	   "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
-
-	   "@DESCRIPTION="
-	   "ADDRESS returns a cell address as text for specified row "
-	   "and column numbers.\n"
-	   "\n"
-	   "@a1 is a logical value that specifies the reference style.  If "
-	   "@a1 is TRUE or omitted, ADDRESS returns an A1-style reference, "
-	   "i.e. $D$4.  Otherwise ADDRESS returns an R1C1-style reference, "
-	   "i.e. R4C4.\n"
-	   "\n"
-	   "@text specifies the name of the worksheet to be used as the "
-	   "external reference.\n"
-	   "\n"
-	   "* If @abs_num is 1 or omitted, ADDRESS returns absolute "
-	   "reference.\n"
-	   "* If @abs_num is 2 ADDRESS returns absolute row and relative "
-	   "column.\n"
-	   "* If @abs_num is 3 ADDRESS returns relative row and "
-	   "absolute column.\n"
-	   "* If @abs_num is 4 ADDRESS returns relative reference.\n"
-	   "* If @abs_num is greater than 4 ADDRESS returns #VALUE! error.\n"
-	   "* If @row_num or @col_num is less than one, ADDRESS returns "
-	   "#VALUE! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ADDRESS(5,4) equals \"$D$5\".\n"
-	   "ADDRESS(5,4,4) equals \"D5\".\n"
-	   "ADDRESS(5,4,3,FALSE) equals \"R[5]C4\".\n"
-	   "\n"
-	   "@SEEALSO=COLUMNNUMBER")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("ADDRESS:cell address as text")},
+        { GNM_FUNC_HELP_ARG, F_("row_num:row number")},
+        { GNM_FUNC_HELP_ARG, F_("col_num:column number")},
+        { GNM_FUNC_HELP_ARG, F_("abs_num:1 for an absolute, 2 for a row absolute and column "
+				"relative, 3 for a row relative and column absolute, "
+				"and 4 for a relative reference; defaults to 1")},
+        { GNM_FUNC_HELP_ARG, F_("a1:if TRUE, an A1-style reference is provided, "
+				"otherwise an R1C1-style reference; defaults to TRUE")},
+        { GNM_FUNC_HELP_ARG, F_("text:name of the worksheet, defaults to no sheet")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{row_num} or @{col_num} is less than one, ADDRESS returns "
+				 "#VALUE!")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{abs_num} is greater than 4 ADDRESS returns #VALUE!")},
+        { GNM_FUNC_HELP_EXAMPLES, "=ADDRESS(5,4)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ADDRESS(5,4,4)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ADDRESS(5,4,4,FALSE)" },
+        { GNM_FUNC_HELP_EXAMPLES, "=ADDRESS(5,4,4,FALSE,\"Sheet99\")" },
+        { GNM_FUNC_HELP_SEEALSO, "COLUMNNUMBER"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -718,21 +701,11 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /***************************************************************************/
 
 static GnmFuncHelp const help_areas[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=AREAS\n"
-	   "@SYNTAX=AREAS(reference)\n"
-
-	   "@DESCRIPTION="
-	   "AREAS returns the number of areas in @reference. "
-	   "\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "AREAS((A1,B2,C3)) equals "
-	   "3.\n"
-	   "\n"
-	   "@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("AREAS:number of areas in @{reference}")},
+        { GNM_FUNC_HELP_ARG, F_("reference:range")},
+        { GNM_FUNC_HELP_EXAMPLES, "=AREAS(A1,B2,C3)" },
+        { GNM_FUNC_HELP_SEEALSO, "ADDRESS,INDEX,INDIRECT,OFFSET"},
+        { GNM_FUNC_HELP_END}
 };
 
 /* TODO : we need to rethink EXPR_SET as an operator vs a value type */
@@ -796,24 +769,17 @@ gnumeric_areas (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_choose[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=CHOOSE\n"
-	   "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
-
-	   "@DESCRIPTION="
-	   "CHOOSE returns the value of index @index. "
-	   "@index is rounded to an integer if it is not.\n"
-	   "\n"
-	   "* If @index < 1 or @index > number of values, CHOOSE "
-	   "returns #VALUE! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "CHOOSE(3,\"Apple\",\"Orange\",\"Grape\",\"Perry\") equals "
-	   "\"Grape\".\n"
-	   "\n"
-	   "@SEEALSO=IF")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("CHOOSE:the (@{index}+1)th argument")},
+        { GNM_FUNC_HELP_ARG, F_("index:positive number")},
+        { GNM_FUNC_HELP_ARG, F_("value1:first value")},
+        { GNM_FUNC_HELP_ARG, F_("value2:second value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("CHOOSE returns its (@{index}+1)th argument.")},
+	{ GNM_FUNC_HELP_NOTE, F_("@{index} is truncated to an integer. If @{index} < 1 "
+				 "or the truncated @{index} > number of values, CHOOSE "
+				 "returns #VALUE!")},
+        { GNM_FUNC_HELP_EXAMPLES, "=CHOOSE(3,\"Apple\",\"Orange\",\"Grape\",\"Perry\")" },
+        { GNM_FUNC_HELP_SEEALSO, "IF"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -850,28 +816,26 @@ gnumeric_choose (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_vlookup[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=VLOOKUP\n"
-	   "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
-
-	   "@DESCRIPTION="
-	   "VLOOKUP function finds the row in range that has a first "
-	   "column similar to @value.  If @approximate is not true it finds "
-	   "the row with an exact equivalence.  If @approximate is true, "
-	   "then the values must be sorted in order of ascending value for "
-	   "correct function; in this case it finds the row with value less "
-	   "than @value.  It returns the value in the row found at a 1-based "
-	   "offset in @column columns into the @range.  @as_index returns the "
-	   "0-based offset that matched rather than the value.\n"
-	   "\n"
-	   "* VLOOKUP returns #NUM! if @column < 0.\n"
-	   "* VLOOKUP returns #REF! if @column falls outside @range.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=HLOOKUP")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("VLOOKUP:search the first column of @{range} for @{value}")},
+        { GNM_FUNC_HELP_ARG, F_("value:search value")},
+        { GNM_FUNC_HELP_ARG, F_("range:range to search")},
+        { GNM_FUNC_HELP_ARG, F_("column:1-based column offset indicating the return values")},
+        { GNM_FUNC_HELP_ARG, F_("approximate:if false, an exact match of @{value} "
+				"must be found; defaults to FALSE")},
+        { GNM_FUNC_HELP_ARG, F_("as_index:if true, the 0-based row offset is "
+				"returned; defaults to FALSE")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("VLOOKUP function finds the row in @{range} that has a first "
+					"cell similar to @{value}.  If @{approximate} is not true it "
+					"finds the row with an exact equality. If @{approximate} is "
+					"true, it finds the last row with first value less than "
+					"or equal to "
+					"@{value}. If @{as_index} is true the 0-based row offset "
+					"is returned.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @approximate is true, "
+				 "then the values must be sorted in order of ascending value.")},
+	{ GNM_FUNC_HELP_NOTE, F_("VLOOKUP returns #REF! if @{row} falls outside @{range}.")},
+        { GNM_FUNC_HELP_SEEALSO, "HLOOKUP"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -913,29 +877,26 @@ gnumeric_vlookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /***************************************************************************/
 
 static GnmFuncHelp const help_hlookup[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=HLOOKUP\n"
-	   "@SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])\n"
-
-	   "@DESCRIPTION="
-	   "HLOOKUP function finds the col in range that has a first "
-	   "row cell similar to @value.  If @approximate is not true it finds "
-	   "the col with an exact equivalence.  If @approximate is true, "
-	   "then the values must be sorted in order of ascending value for "
-	   "correct function; in this case it finds the col with value less "
-	   "than @value it returns the value in the col found at a 1-based "
-	   "offset in @row rows into the @range.  @as_index returns the "
-	   "0-based offset "
-	   "that matched rather than the value.\n"
-	   "\n"
-	   "* HLOOKUP returns #NUM! if @row < 0.\n"
-	   "* HLOOKUP returns #REF! if @row falls outside @range.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=VLOOKUP")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("HLOOKUP:search the first row of @{range} for @{value}")},
+        { GNM_FUNC_HELP_ARG, F_("value:search value")},
+        { GNM_FUNC_HELP_ARG, F_("range:range to search")},
+        { GNM_FUNC_HELP_ARG, F_("row:1-based column offset indicating the return values ")},
+        { GNM_FUNC_HELP_ARG, F_("approximate:if false, an exact match of @{value} "
+				"must be found; defaults to FALSE")},
+        { GNM_FUNC_HELP_ARG, F_("as_index:if true, the 0-based row offset is "
+				"returned; defaults to FALSE")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("HLOOKUP function finds the row in @{range} that has a first "
+					"cell similar to @{value}.  If @{approximate} is not true it "
+					"finds the row with an exact equality. If @{approximate} is "
+					"true, it finds the last row with first value less than or "
+					"equal to"
+					"@{value}. If @{as_index} is true the 0-based row offset "
+					"is returned.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @approximate is true, "
+				 "then the values must be sorted in order of ascending value.")},
+	{ GNM_FUNC_HELP_NOTE, F_("HLOOKUP returns #REF! if @{row} falls outside @{range}.")},
+        { GNM_FUNC_HELP_SEEALSO, "VLOOKUP"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -977,27 +938,23 @@ gnumeric_hlookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /***************************************************************************/
 
 static GnmFuncHelp const help_lookup[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=LOOKUP\n"
-	   "@SYNTAX=LOOKUP(value,vector1[,vector2])\n"
-
-	   "@DESCRIPTION="
-	   "LOOKUP function finds the row index of @value in @vector1 "
-	   "and returns the contents of @vector2 at that row index. "
-	   "Alternatively a single array can be used for @vector1. "
-	   "If the area is longer than it is wide then the sense of the "
-	   "search is rotated. \n"
-	   "\n"
-	   "* If LOOKUP can't find @value it uses the largest value less "
-	   "than @value.\n"
-	   "* The data must be sorted.\n"
-	   "* If @value is smaller than the first value it returns #N/A.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=VLOOKUP,HLOOKUP")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("LOOKUP:contents of @{vector2} at the corresponding location to "
+				 "@{value} in @{vector1}")},
+        { GNM_FUNC_HELP_ARG, F_("value:value to look up")},
+        { GNM_FUNC_HELP_ARG, F_("vector1:range to search:")},
+        { GNM_FUNC_HELP_ARG, F_("vector2:range of return values")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If  @{vector1} has more rows than columns, LOOKUP searches "
+					"the first row of @{vector1}, otherwise the first column. "
+					"If @{vector2} is omitted the return value is taken from "
+					"the last row or column of @{vector1}.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If LOOKUP can't find @{value} it uses the largest value less "
+				 "than @{value}.")},
+	{ GNM_FUNC_HELP_NOTE, F_("The data must be sorted.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{value} is smaller than the first value it returns #N/A.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If the corresponding location does not exist in @{vector2}, "
+				 "it returns #N/A.")},
+        { GNM_FUNC_HELP_SEEALSO, "VLOOKUP,HLOOKUP"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1082,32 +1039,19 @@ gnumeric_lookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /***************************************************************************/
 
 static GnmFuncHelp const help_match[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=MATCH\n"
-	   "@SYNTAX=MATCH(seek,vector[,type])\n"
-
-	   "@DESCRIPTION="
-	   "MATCH function finds the row index of @seek in @vector "
-	   "and returns it.\n"
-	   "\n"
-	   "If the area is longer than it is wide then the sense of the "
-	   "search is rotated. Alternatively a single array can be used.\n"
-	   "\n"
-	   "* The @type parameter, which defaults to +1, controls the search:\n"
-	   "* If @type = 1, MATCH finds largest value <= @seek.\n"
-	   "* If @type = 0, MATCH finds first value == @seek.\n"
-	   "* If @type = -1, MATCH finds smallest value >= @seek.\n"
-	   "* For @type = 0, the data can be in any order.  "
-	   "* For @type = -1 and @type = +1, "
-	   "the data must be sorted.  (And in these cases, MATCH uses "
-	   "a binary search to locate the index.)\n"
-	   "* If @seek could not be found, #N/A is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=LOOKUP")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("MATCH:the index of @{seek} in @{vector}")},
+        { GNM_FUNC_HELP_ARG, F_("seek:value to find")},
+        { GNM_FUNC_HELP_ARG, F_("vector:range to be searched")},
+        { GNM_FUNC_HELP_ARG, F_("type:+1 to find the largest value \xe2\x89\xa4 @{seek}, "
+				"0 to find the first value = @{seek}, or"
+				"-1 to find the smallest value \xe2\x89\xa5 @{seek}")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{vector} has more rows than columns, its first column, "
+					"otherwise its first row is searched. The respective row or "
+					"column index is returned.")},
+	{ GNM_FUNC_HELP_NOTE, F_(" For @{type} = -1 and @{type} = +1, the data must be sorted.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{seek} could not be found, #N/A is returned.")},
+        { GNM_FUNC_HELP_SEEALSO, "LOOKUP"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1156,29 +1100,16 @@ gnumeric_match (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /***************************************************************************/
 
 static GnmFuncHelp const help_indirect[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=INDIRECT\n"
-	   "@SYNTAX=INDIRECT(ref_text[,format])\n"
-
-	   "@DESCRIPTION="
-	   "INDIRECT function returns the contents of the cell pointed to "
-	   "by the @ref_text string. The string specifies a single cell "
-	   "reference the format of which is either A1 or R1C1 style. "
-	   "The boolean @format controls how @ref_text is to be interpreted: "
-	   "TRUE (the default) for A1 style and FALSE for R1C1 style.\n"
-	   "\n"
-	   "* If @ref_text is not a valid reference in the style controlled "
-	   "by @format, returns #REF! "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "If A1 contains 3.14 and A2 contains \"A1\", then\n"
-	   "INDIRECT(A2) equals 3.14.\n"
-	   "\n"
-	   "If B1 contains 23 and A1 contains \"R1C2\", then\n"
-	   "INDIRECT(A1,FALSE) equals 23.\n"
-	   "@SEEALSO=AREAS,INDEX,CELL")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("INDIRECT:contents of the cell pointed to by the @{ref_text} string")},
+        { GNM_FUNC_HELP_ARG, F_("ref_text:")},
+        { GNM_FUNC_HELP_ARG, F_("format:if true, @{ref_text} is given in A1-style, "
+				"otherwise it is given in R1C1 style; defaults to true")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{ref_text} is not a valid reference in the style determined "
+				 "by @{format}, INDIRECT returns #REF!")},
+        { GNM_FUNC_HELP_EXAMPLES, "If A1 contains 3.14 and A2 contains \"A1\", then\n"
+	   "INDIRECT(A2) equals 3.14." },
+        { GNM_FUNC_HELP_SEEALSO, "AREAS,INDEX,CELL"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1207,26 +1138,22 @@ gnumeric_indirect (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /*****************************************************************************/
 
 static GnmFuncHelp const help_index[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_(
-	"@FUNCTION=INDEX\n"
-	"@SYNTAX=INDEX(array[,row, col, area])\n"
-	"@DESCRIPTION="
-	"INDEX gives a reference to a cell in the given @array."
-	"The cell is pointed out by @row and @col, which count the rows and "
-	"columns in the array.\n"
-	"\n"
-	"* If @row and @col are omitted the are assumed to be 1.\n"
-	"* If the reference falls outside the range of the @array, INDEX "
-	"returns a #REF! error.\n"
-	"\n"
-	"@EXAMPLES="
-	"Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, "
-	"17.3, 21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25.9\n"
-	"\n"
-	"@SEEALSO=")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("INDEX:reference to a cell in the given @{array}")},
+        { GNM_FUNC_HELP_ARG, F_("array:")},
+        { GNM_FUNC_HELP_ARG, F_("row:desired row, defaults to 1")},
+        { GNM_FUNC_HELP_ARG, F_("col:desired column, defaults to 1")},
+        { GNM_FUNC_HELP_ARG, F_("area:from which area to select a cell, defaults to 1")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("INDEX gives a reference to a cell "
+					"in the given @{array}. "
+					"The cell is selected by @{row} and @{col}, "
+					"which count the rows and "
+					"columns in the array.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If the reference falls outside the range of @{array},"
+				 " INDEX returns #REF!")},
+        { GNM_FUNC_HELP_EXAMPLES, F_("Let us assume that the cells A1, A2, ..., A5"
+				     " contain numbers 11.4, "
+				     "17.3, 21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25.9") },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1297,19 +1224,16 @@ gnumeric_index (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_column[] = {
-	{ GNM_FUNC_HELP_NAME, F_("COLUMN:vector of column numbers.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:reference.") },
-	{ GNM_FUNC_HELP_DESCRIPTION, F_(
-	   "COLUMN function returns a Nx1 array containing the series of integers "
-	   "from the first column to the last column of @reference."
-	   "\n"
-	   "* @reference defaults to the position of the current expression.\n"
-	   "\n"
-	   "* If @reference is neither an array nor a reference nor a range, "
-	   "returns #VALUE! error.\n") },
+	{ GNM_FUNC_HELP_NAME, F_("COLUMN:vector of column numbers") },
+	{ GNM_FUNC_HELP_ARG, F_("x:reference, defaults to the position of the current expression") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("COLUMN function returns a Nx1 array containing the sequence "
+					"of integers "
+					"from the first column to the last column of @{reference}.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{reference} is neither an array nor a reference nor a range, "
+				 "returns #VALUE!") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=COLUMN(A1:C4)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=COLUMN(A:C)" },
-	{ GNM_FUNC_HELP_EXAMPLES, F_("COLUMN() in G13 equals 7.") },
+	{ GNM_FUNC_HELP_EXAMPLES, F_("column() in G13 equals 7.") },
 	{ GNM_FUNC_HELP_SEEALSO, "COLUMNS,ROW,ROWS" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1349,22 +1273,12 @@ gnumeric_column (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /***************************************************************************/
 
 static GnmFuncHelp const help_columnnumber[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=COLUMNNUMBER\n"
-	   "@SYNTAX=COLUMNNUMBER(name)\n"
-
-	   "@DESCRIPTION="
-	   "COLUMNNUMBER function returns an integer corresponding to the column "
-	   "name supplied as a string.\n"
-	   "\n"
-	   "* If @name is invalid, COLUMNNUMBER returns the #VALUE! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "COLUMNNUMBER(\"E\") equals 5.\n"
-	   "\n"
-	   "@SEEALSO=ADDRESS")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("COLUMNNUMBER:column number for the given column called @{name}")},
+        { GNM_FUNC_HELP_ARG, F_("name:column name such as \"IV\"")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{name} is invalid, COLUMNNUMBER returns #VALUE!")},
+        { GNM_FUNC_HELP_EXAMPLES, "=COLUMNNUMBER(\"E\")" },
+        { GNM_FUNC_HELP_SEEALSO, "ADDRESS"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1386,23 +1300,13 @@ gnumeric_columnnumber (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /***************************************************************************/
 
 static GnmFuncHelp const help_columns[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=COLUMNS\n"
-	   "@SYNTAX=COLUMNS(reference)\n"
-
-	   "@DESCRIPTION="
-	   "COLUMNS function returns the number of columns in area or "
-	   "array reference.\n"
-	   "\n"
-	   "* If @reference is neither an array nor a reference nor a range, "
-	   "COLUMNS returns #VALUE! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "COLUMNS(H2:J3) equals 3.\n"
-	   "\n"
-	   "@SEEALSO=COLUMN,ROW,ROWS")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("COLUMNS:number of columns in @{reference}")},
+        { GNM_FUNC_HELP_ARG, F_("reference:array or area")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{reference} is neither an array nor a reference nor a range, "
+				 "COLUMNS returns #VALUE!")},
+        { GNM_FUNC_HELP_EXAMPLES, "=COLUMNS(H2:J3)" },
+        { GNM_FUNC_HELP_SEEALSO, "COLUMN,ROW,ROWS"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1414,25 +1318,19 @@ gnumeric_columns (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /***************************************************************************/
 
 static GnmFuncHelp const help_offset[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=OFFSET\n"
-	   "@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
-
-	   "@DESCRIPTION="
-	   "OFFSET function returns a cell range. "
-	   "The cell range starts at offset (@row,@col) from @range, "
-	   "and is of height @height and width @width.\n"
-	   "\n"
-	   "* If @range is neither a reference nor a range, OFFSET "
-	   "returns #VALUE!.\n"
-	   "* If either @height or @width is omitted, the height or width "
-	   "of the reference is used.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=COLUMN,COLUMNS,ROWS,INDEX,INDIRECT,ADDRESS")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("OFFSET:an offset cell range")},
+        { GNM_FUNC_HELP_ARG, F_("range:reference or range")},
+        { GNM_FUNC_HELP_ARG, F_("row:number of rows to offset @{range}")},
+        { GNM_FUNC_HELP_ARG, F_("col:number of columns to offset @{range}")},
+        { GNM_FUNC_HELP_ARG, F_("height:height of the offset range, defaults to height of @{range}")},
+        { GNM_FUNC_HELP_ARG, F_("width:width of the offset range, defaults to width of @{range}")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("OFFSET returns the cell range starting at offset "
+					"(@{row},@{col}) from @{range} of height @{height} and "
+					"width @{width}.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{range} is neither a reference nor a range, OFFSET "
+				 "returns #VALUE!")},
+        { GNM_FUNC_HELP_SEEALSO, "COLUMN,COLUMNS,ROWS,INDEX,INDIRECT,ADDRESS"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1478,16 +1376,13 @@ gnumeric_offset (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /***************************************************************************/
 
 static GnmFuncHelp const help_row[] = {
-	{ GNM_FUNC_HELP_NAME, F_("ROW:vector of row numbers.") },
-	{ GNM_FUNC_HELP_ARG, F_("x:reference.") },
-	{ GNM_FUNC_HELP_DESCRIPTION, F_(
-	   "ROW function returns a 1xN array containing the series of integers "
-	   "from the first row to the last row of @reference."
-	   "\n"
-	   "* @reference defaults to the position of the current expression.\n"
-	   "\n"
-	   "* If @reference is neither an array nor a reference nor a range, "
-	   "returns #VALUE! error.\n") },
+	{ GNM_FUNC_HELP_NAME, F_("ROW:vector of row numbers") },
+	{ GNM_FUNC_HELP_ARG, F_("x:reference, defaults to the position of the current expression") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ROW function returns a 1xN array containing the "
+					"sequence of integers "
+					"from the first row to the last row of @{reference}.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{reference} is neither an array nor a reference nor a range, "
+				 "returns #VALUE!") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=ROW(A1:D3)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=ROW(1:3)" },
 	{ GNM_FUNC_HELP_SEEALSO, "COLUMN,COLUMNS,ROWS" },
@@ -1529,23 +1424,13 @@ gnumeric_row (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /***************************************************************************/
 
 static GnmFuncHelp const help_rows[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=ROWS\n"
-	   "@SYNTAX=ROWS(reference)\n"
-
-	   "@DESCRIPTION="
-	   "ROWS function returns the number of rows in area or array "
-	   "reference.\n"
-	   "\n"
-	   "* If @reference is neither an array nor a reference nor a range, "
-	   "ROWS returns #VALUE! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "ROWS(H7:I13) equals 7.\n"
-	   "\n"
-	   "@SEEALSO=COLUMN,COLUMNS,ROW")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("ROWS:number of rows in @{reference}")},
+        { GNM_FUNC_HELP_ARG, F_("reference:array, reference, or range")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{reference} is neither an array nor a reference nor a range, "
+				 "ROWS returns #VALUE!")},
+        { GNM_FUNC_HELP_EXAMPLES, "=ROWS(H7:I13)" },
+        { GNM_FUNC_HELP_SEEALSO, "COLUMN,COLUMNS,ROW"},
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1557,20 +1442,14 @@ gnumeric_rows (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /***************************************************************************/
 
 static GnmFuncHelp const help_hyperlink[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=HYPERLINK\n"
-	   "@SYNTAX=HYPERLINK(link_location[,optional_label])\n"
-
-	   "@DESCRIPTION="
-	   "HYPERLINK function currently returns its 2nd argument, "
-	   "or if that is omitted the 1st argument.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "HYPERLINK(\"www.gnome.org\",\"GNOME\").\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("HYPERLINK:second or first arguments")},
+        { GNM_FUNC_HELP_ARG, F_("link_location:string")},
+        { GNM_FUNC_HELP_ARG, F_("label:string, optional")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("HYPERLINK function currently returns its 2nd argument, "
+					"or if that is omitted the 1st argument.")},
+        { GNM_FUNC_HELP_EXAMPLES, "=HYPERLINK(\"www.gnome.org\",\"GNOME\")" },
+        { GNM_FUNC_HELP_EXAMPLES, "=HYPERLINK(\"www.gnome.org\")" },
+        { GNM_FUNC_HELP_END}
 };
 
 static GnmValue *
@@ -1585,19 +1464,10 @@ gnumeric_hyperlink (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 /***************************************************************************/
 
 static GnmFuncHelp const help_transpose[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TRANSPOSE\n"
-	   "@SYNTAX=TRANSPOSE(matrix)\n"
-
-	   "@DESCRIPTION="
-	   "TRANSPOSE function returns the transpose of the input "
-	   "@matrix.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=MMULT")
-	},
-	{ GNM_FUNC_HELP_END }
+	{ GNM_FUNC_HELP_NAME, F_("TRANSPOSE:the transpose of @{matrix}")},
+        { GNM_FUNC_HELP_ARG, F_("matrix:range")},
+        { GNM_FUNC_HELP_SEEALSO, "MMULT"},
+        { GNM_FUNC_HELP_END}
 };
 
 
