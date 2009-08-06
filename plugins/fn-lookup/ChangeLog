@@ -1,5 +1,9 @@
 2009-08-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* functions.c (help_match): fix documentation [#317784]
+
+2009-08-05  Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* functions.c (help_*): change to "new" documentation format
 	
 2009-06-20  Morten Welinder <terra@gnome.org>

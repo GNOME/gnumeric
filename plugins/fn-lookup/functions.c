@@ -1041,15 +1041,15 @@ gnumeric_lookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 static GnmFuncHelp const help_match[] = {
 	{ GNM_FUNC_HELP_NAME, F_("MATCH:the index of @{seek} in @{vector}")},
         { GNM_FUNC_HELP_ARG, F_("seek:value to find")},
-        { GNM_FUNC_HELP_ARG, F_("vector:range to be searched")},
+        { GNM_FUNC_HELP_ARG, F_("vector:n by 1 or 1 by n range to be searched")},
         { GNM_FUNC_HELP_ARG, F_("type:+1 to find the largest value \xe2\x89\xa4 @{seek}, "
 				"0 to find the first value = @{seek}, or"
 				"-1 to find the smallest value \xe2\x89\xa5 @{seek}")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{vector} has more rows than columns, its first column, "
-					"otherwise its first row is searched. The respective row or "
-					"column index is returned.")},
-	{ GNM_FUNC_HELP_NOTE, F_(" For @{type} = -1 and @{type} = +1, the data must be sorted.")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("MATCH searches @{vector} for @{seek} and returns the 1-based index.")},
+	{ GNM_FUNC_HELP_NOTE, F_(" For @{type} = -1 the data must be sorted in descending order; "
+				 "for @{type} = +1 the data must be sorted in ascending order.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{seek} could not be found, #N/A is returned.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{vector} is neither n by 1 nor 1 by n, #N/A is returned.")},
         { GNM_FUNC_HELP_SEEALSO, "LOOKUP"},
         { GNM_FUNC_HELP_END}
 };
