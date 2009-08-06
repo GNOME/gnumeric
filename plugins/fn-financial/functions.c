@@ -1573,20 +1573,14 @@ gnumeric_pv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_npv[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=NPV\n"
-	   "@SYNTAX=NPV(rate,v1,v2,...)\n"
-	   "@DESCRIPTION="
-	   "NPV calculates the net present value of an investment generating "
-	   "periodic payments.  @rate is the periodic interest rate and "
-	   "@v1, @v2, ... are the periodic payments.  If the schedule of the "
-	   "cash flows are not periodic use the XNPV function. "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "NPV(0.17,-10000,3340,2941,2493,3233,1732,2932) equals 186.30673.\n"
-	   "\n"
-	   "@SEEALSO=PV,XNPV")
-	},
+        { GNM_FUNC_HELP_NAME, F_("NPV:calculate net present value")},
+        { GNM_FUNC_HELP_ARG, F_("rate:effective interest rate per period")},
+        { GNM_FUNC_HELP_ARG, F_("value1:cash flow for period 1")},
+        { GNM_FUNC_HELP_ARG, F_("value2:cash flow for period 2")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("NPV calculates the net present value of a cash flow.") },
+	TYPE_HELP,
+        { GNM_FUNC_HELP_EXAMPLES, "=NPV(10%,100,100,-250)" },
+        { GNM_FUNC_HELP_SEEALSO, "PV"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1624,22 +1618,13 @@ gnumeric_npv (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_xnpv[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=XNPV\n"
-	   "@SYNTAX=XNPV(rate,values,dates)\n"
-	   "@DESCRIPTION="
-	   "XNPV calculates the net present value of an investment.  The "
-	   "schedule of the cash flows is given in @dates array.  The first "
-	   "date indicates the beginning of the payment schedule.  @rate "
-	   "is the interest rate and @values are the payments.\n"
-	   "\n"
-	   "* If @values and @dates contain unequal number of values, XNPV "
-	   "returns the #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=NPV,PV")
-	},
+        { GNM_FUNC_HELP_NAME, F_("XNPV:calculate net present value")},
+        { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("values:cash flow")},
+        { GNM_FUNC_HELP_ARG, F_("dates:dates of cash flow")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("XNPV calculates the net present value of a cash flow at irregular times") },
+	TYPE_HELP,
+        { GNM_FUNC_HELP_SEEALSO, "NPV"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1653,6 +1638,9 @@ gnumeric_xnpv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	rate = value_get_as_float (argv[0]);
 	sum = 0;
+
+	/* FIXME: clearly the values should be collected as pairs so
+	   missing entries are lined up.  */
 
 	payments = collect_floats_value (argv[1], ei->pos,
 					 COLLECT_COERCE_STRINGS,
@@ -1688,7 +1676,7 @@ gnumeric_xnpv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_xirr[] = {
         { GNM_FUNC_HELP_NAME, F_("XIRR:calculate internal rate of return")},
         { GNM_FUNC_HELP_ARG, F_("values:cash flow")},
-        { GNM_FUNC_HELP_ARG, F_("dates:date of cash flow")},
+        { GNM_FUNC_HELP_ARG, F_("dates:dates of cash flow")},
         { GNM_FUNC_HELP_ARG, F_("guess:an estimate of what the result should be")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("XIRR calculates the annualized internal rate of return of a cash flow at arbitrary points in time.  @{values} lists the payments (negative values) and receipts (positive values) with one value for each entry in @{dates}.") },
 	{ GNM_FUNC_HELP_NOTE, F_("The optional @{guess} is needed because there can be more than one valid result.  It defaults to 10%.") },
@@ -2171,37 +2159,26 @@ out:
 /***************************************************************************/
 
 static GnmFuncHelp const help_euro[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=EURO\n"
-	   "@SYNTAX=EURO(currency)\n"
-	   "@DESCRIPTION="
-	   "EURO converts one Euro to a given national currency in the "
-	   "European monetary union.\n"
-	   "\n"
-	   "@currency is one of the following:\n"
-	   "\n"
-	   "    ATS\t(Austria)\n"
-	   "    BEF\t(Belgium)\n"
-	   "    DEM\t(Germany)\n"
-	   "    ESP\t(Spain)\n"
-	   "    EUR\t(Euro)\n"
-	   "    FIM\t(Finland)\n"
-	   "    FRF\t(France)\n"
-	   "    GRD\t(Greek)\n"
-	   "    IEP\t(Ireland)\n"
-	   "    ITL\t(Italy)\n"
-	   "    LUF\t(Luxembourg)\n"
-	   "    NLG\t(Netherlands)\n"
-	   "    PTE\t(Portugal)\n"
-	   "\n"
-	   "* If the given @currency is other than one of the above, EURO "
-	   "returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "EURO(\"DEM\") returns 1.95583."
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("EURO:calculate equivalent of 1 EUR")},
+        { GNM_FUNC_HELP_ARG, F_("currency:three-letter currency code")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("EURO calculates the national currency amount corresponding to 1 EUR for any of the national currencies that were replaced by the Euro on its introduction.") },
+	{ GNM_FUNC_HELP_NOTE, F_("@{currency} must be one of "
+				 "ATS (Austria), "
+				 "BEF (Belgium), "
+				 "DEM (Germany), "
+				 "ESP (Spain), "
+				 "EUR (Euro), "
+				 "FIM (Finland), "
+				 "FRF (France), "
+				 "GRD (Greece), "
+				 "IEP (Ireland), "
+				 "ITL (Italy), "
+				 "LUF (Luxembourg), "
+				 "NLG (The Netherlands), or "
+				 "PTE (Portugal).") },
+	{ GNM_FUNC_HELP_NOTE, F_("This function is not likely to be useful anymore.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=EURO(\"DEM\")" },
+        { GNM_FUNC_HELP_SEEALSO, "EUROCONVERT"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2281,37 +2258,16 @@ gnumeric_euro (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_euroconvert[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=EUROCONVERT\n"
-	   "@SYNTAX=EUROCONVERT(n,source,target)\n"
-	   "@DESCRIPTION="
-	   "EUROCONVERT converts the currency value @n of @source currency "
-	   "to a target currency @target. Both currencies are given as "
-	   "three-letter strings using the ISO code system names.  The "
-	   "following currencies are available:\n"
-	   "\n"
-	   "    ATS\t(Austria)\n"
-	   "    BEF\t(Belgium)\n"
-	   "    DEM\t(Germany)\n"
-	   "    ESP\t(Spain)\n"
-	   "    EUR\t(Euro)\n"
-	   "    FIM\t(Finland)\n"
-	   "    FRF\t(France)\n"
-	   "    GRD\t(Greek)\n"
-	   "    IEP\t(Ireland)\n"
-	   "    ITL\t(Italy)\n"
-	   "    LUF\t(Luxembourg)\n"
-	   "    NLG\t(Netherlands)\n"
-	   "    PTE\t(Portugal)\n"
-	   "\n"
-	   "* If the given @source or @target is other than one of the "
-	   "above, EUROCONVERT returns #VALUE! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "EUROCONVERT(2.1,\"DEM\",\"EUR\") returns 1.07."
-	   "\n"
-	   "@SEEALSO=EURO")
-	},
+        { GNM_FUNC_HELP_NAME, F_("EUROCONVERT:calculate pre-Euro amount from one currency to another")},
+        { GNM_FUNC_HELP_ARG, F_("n:amount")},
+        { GNM_FUNC_HELP_ARG, F_("source:three-letter source currency code")},
+        { GNM_FUNC_HELP_ARG, F_("target:three-letter target currency code")},
+        { GNM_FUNC_HELP_ARG, F_("currency:three-letter currency code")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("EUROCONVERT converts @{n} units of currency @{source} to currency @{target}.  The rates used are the official ones used on the introduction of the Euro.") },
+	{ GNM_FUNC_HELP_NOTE, F_("@{source} and @{target} must be one of the currencies listed for the EURO function.") },
+	{ GNM_FUNC_HELP_NOTE, F_("This function is not likely to be useful anymore.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=EUROCONVERT(1,\"DEM\",\"ITL\")" },
+        { GNM_FUNC_HELP_SEEALSO, "EURO"},
 	{ GNM_FUNC_HELP_END }
 };
 
