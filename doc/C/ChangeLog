@@ -1,3 +1,8 @@
+2009-08-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
+	* graphics-plots.xml: add description of major and minor ticks for
+	  linear axes [#563275]
+
 2009-08-05 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* analysis-statistical.xml: fix spelling

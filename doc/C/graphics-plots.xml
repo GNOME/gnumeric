@@ -3703,9 +3703,46 @@
 
 	<para>
 	  The <guilabel>Bounds</guilabel> tab allow users to configure
-	  the limits and intervals of a continuous axis. 
+	  the limits and intervals of a continuous axis. The meaning of the 
+	  values for <guilabel>Major Ticks</guilabel> and 
+	  <guilabel>Minor Ticks</guilabel> depends on the type of continuous axes:
+	  <variablelist>
+	    <varlistentry>
+	      <term>
+		Continuous Axes with Linear Scale
+	      </term>
+	      <listitem>
+		<para>
+		  The <guilabel>Major Ticks</guilabel> value gives the distance
+		  between major ticks and the <guilabel>Minor Ticks</guilabel>
+		  value the distance between minor ticks.
+		</para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>
+		Continuous Axes with Logarithmic Scale
+	      </term>
+	      <listitem>
+		<para>
+		   The <guilabel>Major Ticks</guilabel> value gives the number of
+		   decades (powers of 10) between major ticks. The 
+		   <guilabel>Minor Ticks</guilabel> value is indicative of the 
+		   number of minor ticks in a decade.
+		</para>
+		<note>
+		  <para>
+		    Currently the <guilabel>Minor Ticks</guilabel> value is only 
+		    used if the <guilabel>Major Ticks</guilabel> value is 1. In
+		    this case a <guilabel>Minor Ticks</guilabel> value of 8 yields
+		    8 minor ticks and any other value hides all minor ticks.
+		  </para>
+		</note>
+	      </listitem>
+	    </varlistentry>
+	  </variablelist>
 	</para>
-
+	
 	<para>
 	  The <guilabel>Style</guilabel> tab changes the linear style
 	  of the axis in the same way as it acted on category
