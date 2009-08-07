@@ -1992,16 +1992,16 @@
   <para> The bins tab is used to determine how the cutoffs <parameter>c<subscript>1</subscript></parameter>,
     <parameter>c<subscript>2</subscript></parameter>, and so on 
     to  <parameter>c<subscript>n</subscript></parameter> are translated into bins. Specifically, 
-    it has to be determined whether first and/or last bins reaching from %#x2212;%#x221e; to 
+    it has to be determined whether first and/or last bins reaching from &#x2212;&#x221e; to 
     <parameter>c<subscript>1</subscript></parameter> and from 
-    <parameter>c<subscript>n</subscript></parameter> to %#x221e; are added and whether data points that much
+    <parameter>c<subscript>n</subscript></parameter> to &#x221e; are added and whether data points that much
     cutoffs exactly are included in the bin to the right or the left.
   </para>
   <para> For example the option  
-    <quote><guilabel>[%#x2219;,%#x2219;),[%#x2219;,%#x2219;),%#x22ef,
-	[%#x2219;,%#x2219;),[%#x2219;,%#x221e;)
+    <quote><guilabel>[&#x2219;,&#x2219;),[&#x2219;,&#x2219;),&#x22ef;,
+	[&#x2219;,&#x2219;),[&#x2219;,&#x221e;)
     </guilabel></quote>
-    indicates that the first bin starts at the first cutoff while the last bin ends at %#x22ef. Moreover,
+    indicates that the first bin starts at the first cutoff while the last bin ends at &#x221e;. Moreover,
     each cutoff value belongs to the bin on its right.
   </para>
     </sect4>
@@ -2133,7 +2133,7 @@
             linkend="histogram-example-2" />). </para>
         </listitem>
         <listitem><para> In the  <quote><guilabel>Bins</guilabel></quote> tab 
-	    select the second option since we want to add two bins reaching to %#x2213;%#x221e and 
+	    select the second option since we want to add two bins reaching to &#x2213;&#x221e; and 
 	    we want to count each cutoff value in the bin to its right (see <xref
             linkend="histogram-example-3" />).</para>
         </listitem>

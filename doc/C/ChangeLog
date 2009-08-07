@@ -1,5 +1,10 @@
 2009-08-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
+	* analysis-statistical.xml: fix entities
+	* graphics-plots.xml: fix note re minor ticks on logarithmix axis
+
+2009-08-06 Andreas J. Guelzow <aguelzow@pyrshep.ca>
+
 	* gnumeric.xml: ensure that the help links from the manage sheet dialog
 	  in fact exist. [#564031]
 

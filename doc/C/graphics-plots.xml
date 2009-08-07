@@ -3727,15 +3727,14 @@
 		<para>
 		   The <guilabel>Major Ticks</guilabel> value gives the number of
 		   decades (powers of 10) between major ticks. The 
-		   <guilabel>Minor Ticks</guilabel> value is indicative of the 
-		   number of minor ticks in a decade.
+		   <guilabel>Minor Ticks</guilabel> value gives the 
+		   number of minor ticks between major ticks.
 		</para>
 		<note>
 		  <para>
-		    Currently the <guilabel>Minor Ticks</guilabel> value is only 
-		    used if the <guilabel>Major Ticks</guilabel> value is 1. In
-		    this case a <guilabel>Minor Ticks</guilabel> value of 8 yields
-		    8 minor ticks and any other value hides all minor ticks.
+		    If the <guilabel>Major Ticks</guilabel> value is <parameter>N</parameter>,
+		    then the <guilabel>Minor Ticks</guilabel> value can be
+		    <parameter>0</parameter>, <parameter>N&#x2212;1</parameter>, or <parameter>9N&#x2212;1</parameter>.
 		  </para>
 		</note>
 	      </listitem>
