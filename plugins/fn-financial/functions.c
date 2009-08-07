@@ -983,23 +983,12 @@ gnumeric_syd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_dollarde[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=DOLLARDE\n"
-	   "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
-	   "@DESCRIPTION="
-	   "DOLLARDE converts a dollar price expressed as a "
-	   "fraction into a dollar price expressed as a decimal number.\n"
-	   "\n"
-	   "@fractional_dollar is the fractional number to be converted. "
-	   "@fraction is the denominator of the fraction.\n"
-	   "\n"
-	   "* If @fraction is non-integer it is truncated.\n"
-	   "* If @fraction <= 0, DOLLARDE returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=DOLLARFR")
-	},
+        { GNM_FUNC_HELP_NAME, F_("DOLLARDE:convert to decimal dollar amount")},
+        { GNM_FUNC_HELP_ARG, F_("fractional_dollar:amount to convert")},
+        { GNM_FUNC_HELP_ARG, F_("fraction:denominator")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("DOLLARDE converts a fractional dollar amount into a decimal amount.  This is the inverse of the DOLLARFR function.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=DOLLARDE(0.03,16)" },
+        { GNM_FUNC_HELP_SEEALSO, "DOLLARFR" },
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1042,20 +1031,12 @@ gnumeric_dollarde (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_dollarfr[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=DOLLARFR\n"
-	   "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
-	   "@DESCRIPTION="
-	   "DOLLARFR converts a decimal dollar price into "
-	   "a dollar price expressed as a fraction.\n"
-	   "\n"
-	   "* If @fraction is non-integer it is truncated.\n"
-	   "* If @fraction <= 0, DOLLARFR returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=DOLLARDE")
-	},
+        { GNM_FUNC_HELP_NAME, F_("DOLLARFR:convert to dollar fraction")},
+        { GNM_FUNC_HELP_ARG, F_("decimal_dollar:amount to convert")},
+        { GNM_FUNC_HELP_ARG, F_("fraction:denominator")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("DOLLARFR converts a fractional dollar amount into a fraction which is represented as the digits after the decimal point.  For example, 2/8 would be represented as .2 while 3/16 would be represented as .03.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=DOLLARFR(0.25,8)" },
+        { GNM_FUNC_HELP_SEEALSO, "DOLLARDE"},
 	{ GNM_FUNC_HELP_END }
 };
 
