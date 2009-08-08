@@ -76,8 +76,8 @@
 
         <listitem>
           <para>
-            The instructions on how to use GNOME CVS can be found <ulink
-            url="http://developer.gnome.org/tools/cvs.html">here</ulink>.
+            The instructions on how to use GNOME Git can be found <ulink
+            url="http://live.gnome.org/Git">here</ulink>.
           </para>
         </listitem>
 
@@ -175,7 +175,7 @@
     <para>
       You need to get Python and Gnumeric, and the Python plugin for
       Gnumeric. You can get the binaries, the packaged source, or the
-      developing edge CVS.
+      developing edge sources from Git.
     </para>
 	
     <sect4 id="sect-extending-python-install-binaries">
@@ -282,8 +282,8 @@
        </procedure>
      </sect4>
 
-    <sect4 id="sect-extending-python-install-cvs">
-      <title>Getting and building the source from CVS-HEAD</title>
+    <sect4 id="sect-extending-python-install-git">
+      <title>Getting and building the source from Git</title>
 	  
       <para>
         Remember that this is the developing edge. Things may not
@@ -328,20 +328,6 @@
 
           <step>
             <para>
-              <literal>export
-              CVSROOT=:pserver:anonymous@anoncvs.gnome.org:/cvs/gnome</literal>
-            </para>
-          </step>
-
-          <step>
-            <para>
-              <literal>cvs login</literal> (No password -- hit
-              RETURN.)
-            </para>
-          </step>
-
-          <step>
-            <para>
               Getting and building libgsf:
             </para>
 
@@ -349,7 +335,7 @@
 
               <step>
                 <para>
-                  cvs co libgsf
+                  git clone git://git.gnome.org/libgsf
                 </para>
               </step>
 
@@ -403,13 +389,68 @@
              </para>
 	  </step>
 
+          <step>
+            <para>
+              Getting and building goffice:
+            </para>
+
+            <procedure>
+
+              <step>
+                <para>
+                  git clone git://git.gnome.org/goffice
+                </para>
+              </step>
+
+              <step>
+                <para>
+                  cd goffice
+                </para>
+              </step>
+
+              <step>
+                <para>
+                  Red Hat: <literal>./autogen.sh</literal>
+                </para>
+              </step>
+
+              <step>
+                <para>
+                  Debian: <literal>./autogen.sh --prefix=/usr
+                --with-gconf-schema-file-dir=/etc/gconf/schemas</literal>
+                </para>
+              </step>
+
+              <step>
+                <para>
+                  <literal>make</literal>
+                </para>
+              </step>
+
+              <step>
+                <para>
+                  <emphasis>$root</emphasis> <literal>make install</literal>
+                </para>
+              </step>
+
+              <step>
+                <para>
+                  If you find that this didn't work, try <literal>make
+                  clean</literal> and then repeat from the autogen
+                  step.
+                </para>
+              </step>
+            </procedure>
+
+          </step>
+
 	  <step>
             <para>
               Getting and building gnumeric:
             </para>
 		  <procedure>
-			<step><para><literal>cvs -z3 checkout gnumeric -d
-				gnumeric-head</literal></para></step>
+			<step><para><literal>git clone
+git://git.gnome.org/gnumeric gnumeric-head</literal></para></step>
 			<step><para><literal>cd gnumeric-head</literal></para></step>
 			<step><para>Red Hat: <literal>./autogen.sh</literal> and wait while it
 			  compiles</para></step>

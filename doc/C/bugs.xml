@@ -509,8 +509,8 @@ a user
       </para>
 
       <para>
-        The "CVS" version refers to a version which the user has
-        recently obtained from the Concurrent Versions System
+        The "GIT" version refers to a version which the user has
+        recently obtained from the Git revision control
         repository provided by the GNOME project.
       </para>
 

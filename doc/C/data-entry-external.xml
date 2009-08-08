@@ -98,7 +98,7 @@
       source code can be found in the directory
       <literal>gnumeric/plugins/sample_datasource/</literal> of
       either a distribution of &gnum; or
-      in a code checkout from the concurrent versioning system (CVS)
+      in a code checkout from the revision control 
       repository.
     </para>
 

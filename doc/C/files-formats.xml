@@ -468,7 +468,7 @@ gunzip Book1.text.gz
             files and access the data they contain, since the file
 	    format is XML. The file can be validated by an XML Schema
 	    Definition (XSD) .  These are available via the Internet
-            at <uri>http://svn.gnome.org/svn/gnumeric/trunk/gnumeric.xsd</uri>.
+            at <uri>http://git.gnome.org/cgit/gnumeric/plain/gnumeric.xsd</uri>.
           </para>
 
 	  <para>
