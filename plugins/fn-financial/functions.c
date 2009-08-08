@@ -742,28 +742,14 @@ gnumeric_ispmt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_db[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=DB\n"
-	   "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
-	   "@DESCRIPTION="
-	   "DB calculates the depreciation of an asset for a given period "
-	   "using the fixed-declining balance method.  @cost is the "
-	   "initial value of the asset.  @salvage is the value after the "
-	   "depreciation.\n"
-	   "\n"
-	   "@life is the number of periods overall.  @period is the period "
-	   "for which you want the depreciation to be calculated.  @month "
-	   "is the number of months in the first year of depreciation.\n"
-	   "\n"
-	   "* If @month is omitted, it is assumed to be 12.\n"
-	   "* If @cost = 0, DB returns #NUM! error.\n"
-	   "* If @life <= 0, DB returns #NUM! error.\n"
-	   "* If @salvage / @cost < 0, DB returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=DDB,SLN,SYD")
-	},
+        { GNM_FUNC_HELP_NAME, F_("DB:calculate depreciation of an asset")},
+        { GNM_FUNC_HELP_ARG, F_("cost:initial cost of asset")},
+        { GNM_FUNC_HELP_ARG, F_("salvage:value after depreciation")},
+        { GNM_FUNC_HELP_ARG, F_("life:number of periods")},
+        { GNM_FUNC_HELP_ARG, F_("period:subject period")},
+        { GNM_FUNC_HELP_ARG, F_("month:number of months in first year of depreciation")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("DB calculates the depreciation of an asset for a given period using the fixed-declining balance method.") },
+        { GNM_FUNC_HELP_SEEALSO, "DDB,SLN,SYD"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -806,28 +792,14 @@ gnumeric_db (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ddb[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=DDB\n"
-	   "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
-	   "@DESCRIPTION="
-	   "DDB returns the depreciation of an asset for a given period "
-	   "using the double-declining balance method or some other similar "
-	   "method you specify.\n"
-	   "\n"
-	   "@cost is the initial value of the asset, "
-	   "@salvage is the value after the last period, @life is the "
-	   "number of periods, @period is the period for which you want the "
-	   "depreciation to be calculated, and @factor is the factor at "
-	   "which the balance declines.\n"
-	   "\n"
-	   "* If @factor is omitted, it is assumed to be two "
-	   "(double-declining balance method).\n"
-	   "* If @life <= 0, DDB returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=SLN,SYD")
-	},
+        { GNM_FUNC_HELP_NAME, F_("DB:calculate depreciation of an asset")},
+        { GNM_FUNC_HELP_ARG, F_("cost:initial cost of asset")},
+        { GNM_FUNC_HELP_ARG, F_("salvage:value after depreciation")},
+        { GNM_FUNC_HELP_ARG, F_("life:number of periods")},
+        { GNM_FUNC_HELP_ARG, F_("period:subject period")},
+        { GNM_FUNC_HELP_ARG, F_("factor:factor at which the balance declines")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("DDB calculates the depreciation of an asset for a given period using the double-declining balance method.") },
+        { GNM_FUNC_HELP_SEEALSO, "DB,SLN,SYD"},
 	{ GNM_FUNC_HELP_END }
 };
 
