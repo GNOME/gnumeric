@@ -711,7 +711,7 @@ static GnmFuncHelp const help_ispmt[] = {
         { GNM_FUNC_HELP_ARG, F_("per:period number")},
         { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
         { GNM_FUNC_HELP_ARG, F_("pv:present value")},
-	{ GNM_FUNC_HELP_DESCRIPTION, F_("ISPMT calculates the interest payment for period number @{period}.") },
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("ISPMT calculates the interest payment for period number @{per}.") },
         { GNM_FUNC_HELP_EXAMPLES, "=ISPMT(10%,4,10,1e6)" },
         { GNM_FUNC_HELP_SEEALSO, "PV"},
 	{ GNM_FUNC_HELP_END }
@@ -1815,29 +1815,17 @@ gnumeric_pmt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ipmt[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=IPMT\n"
-	   "@SYNTAX=IPMT(rate,per,nper,pv[,fv,type])\n"
-	   "@DESCRIPTION="
-	   "IPMT calculates the amount of a payment of an annuity going "
-	   "towards interest.\n"
-	   "\n"
-	   "Formula for IPMT is:\n"
-	   "\n"
-	   "IPMT(PER) = -PRINCIPAL(PER-1) * INTEREST_RATE\n"
-	   "\n"
-	   "where:\n"
-	   "\n"
-	   "PRINCIPAL(PER-1) = amount of the remaining principal from last "
-	   "period\n"
-	   "\n"
-	   "* If @fv is omitted, it is assumed to be 0.\n"
-	   "* If @type is omitted, it is assumed to be 0.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=PPMT,PV,FV")
-	},
+        { GNM_FUNC_HELP_NAME, F_("IPMT:calculate interest payment for period")},
+        { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("per:period number")},
+        { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
+        { GNM_FUNC_HELP_ARG, F_("pv:present value")},
+        { GNM_FUNC_HELP_ARG, F_("fv:future value")},
+        { GNM_FUNC_HELP_ARG, F_("type:payment type")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("IPMT calculates the interest part of an annuity's payment for period number @{per}.") },
+	TYPE_HELP,
+        { GNM_FUNC_HELP_EXAMPLES, "=IPMT(10%,4,10,1e6)" },
+        { GNM_FUNC_HELP_SEEALSO, "PPMT"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1867,29 +1855,17 @@ gnumeric_ipmt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_ppmt[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=PPMT\n"
-	   "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
-	   "@DESCRIPTION="
-	   "PPMT calculates the amount of a payment of an annuity going "
-	   "towards principal.\n"
-	   "\n"
-	   "Formula for it is:"
-	   "\n"
-	   "PPMT(per) = PMT - IPMT(per)"
-	   "\n"
-	   "where:\n"
-	   "\n"
-	   "PMT = Payment received on annuity\n"
-	   "IPMT(per) = amount of interest for period @per\n"
-	   "\n"
-	   "* If @fv is omitted, it is assumed to be 0.\n"
-	   "* If @type is omitted, it is assumed to be 0.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=IPMT,PV,FV")
-	},
+        { GNM_FUNC_HELP_NAME, F_("PPMT:calculate interest payment for period")},
+        { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("per:period number")},
+        { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
+        { GNM_FUNC_HELP_ARG, F_("pv:present value")},
+        { GNM_FUNC_HELP_ARG, F_("fv:future value")},
+        { GNM_FUNC_HELP_ARG, F_("type:payment type")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("PPMT calculates the principal part of an annuity's payment for period number @{per}.") },
+	TYPE_HELP,
+        { GNM_FUNC_HELP_EXAMPLES, "=PPMT(10%,4,10,1e6)" },
+        { GNM_FUNC_HELP_SEEALSO, "IPMT"},
 	{ GNM_FUNC_HELP_END }
 };
 
