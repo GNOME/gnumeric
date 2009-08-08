@@ -1843,32 +1843,16 @@ gnumeric_ppmt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_nper[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=NPER\n"
-	   "@SYNTAX=NPER(rate,pmt,pv[,fv,type])\n"
-	   "@DESCRIPTION="
-	   "NPER calculates number of periods of an investment based on "
-	   "periodic constant payments and a constant interest rate.\n"
-	   "\n"
-	   "The interest rate per period is @rate, @pmt is the payment made "
-	   "each period, @pv is the present value, @fv is the future value "
-	   "and @type is when the payments are due. If @type = 1, payments "
-	   "are due at the beginning of the period, if @type = 0, payments "
-	   "are due at the end of the period.\n"
-	   "\n"
-	   "* If @rate <= 0, NPER returns #DIV0 error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "For example, if you deposit $10,000 in a savings account that "
-	   "earns an interest rate of 6%. To calculate how many years it "
-	   "will take to double your investment use NPER as follows:"
-	   "\n"
-	   "=NPER(0.06, 0, -10000, 20000,0)"
-	   "returns 11.895661046 which indicates that you can double your "
-	   "money just before the end of the 12th year."
-	   "\n"
-	   "@SEEALSO=PPMT,PV,FV")
-	},
+        { GNM_FUNC_HELP_NAME, F_("NPER:calculate number of periods")},
+        { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("pmt:payment at each period")},
+        { GNM_FUNC_HELP_ARG, F_("pv:present value")},
+        { GNM_FUNC_HELP_ARG, F_("fv:future value")},
+        { GNM_FUNC_HELP_ARG, F_("type:payment type")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("NPER calculates the number of periods of an investment based on periodic constant payments and a constant interest rate.") },
+	TYPE_HELP,
+	{ GNM_FUNC_HELP_EXAMPLES, "=NPER(6%,0,-10000,20000,0)" },
+        { GNM_FUNC_HELP_SEEALSO, "PV,FV"},
 	{ GNM_FUNC_HELP_END }
 };
 
