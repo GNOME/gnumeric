@@ -841,36 +841,13 @@ gnumeric_ddb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_sln[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SLN\n"
-	   "@SYNTAX=SLN(cost,salvage_value,life)\n"
-	   "@DESCRIPTION="
-	   "SLN function will determine the straight line depreciation "
-	   "of an asset for a single period.\n"
-	   "\n"
-	   "The formula is:\n"
-	   "\n"
-	   "Depreciation expense = ( @cost - @salvage_value ) / @life\n"
-	   "\n"
-	   "@cost is the cost of an asset when acquired (market value).\n"
-	   "@salvage_value is the amount you get when asset is sold at the end "
-	   "of the asset's useful life.\n"
-	   "@life is the anticipated life of an asset.\n"
-	   "\n"
-	   "* If @life <= 0, SLN returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "For example, lets suppose your company purchases a new machine "
-	   "for $10,000, which has a salvage value of $700 and will have a "
-	   "useful life of 10 years. The SLN yearly depreciation is "
-	   "computed as follows:"
-	   "\n"
-	   "=SLN(10000, 700, 10)"
-	   "\n"
-	   "This will return the yearly depreciation figure of $930."
-	   "\n"
-	   "@SEEALSO=SYD")
-	},
+        { GNM_FUNC_HELP_NAME, F_("SLN:calculate depreciation of an asset")},
+        { GNM_FUNC_HELP_ARG, F_("cost:initial cost of asset")},
+        { GNM_FUNC_HELP_ARG, F_("salvage:value after depreciation")},
+        { GNM_FUNC_HELP_ARG, F_("life:number of periods")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("SLN calculates the depreciation of an asset using the straight-line method.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=SLN(10000,700,10)" },
+        { GNM_FUNC_HELP_SEEALSO, "DB,DDB,SYD"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1049,17 +1026,12 @@ gnumeric_dollarfr (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_mirr[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=MIRR\n"
-	   "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
-	   "@DESCRIPTION="
-	   "MIRR function returns the modified internal rate of return "
-	   "for a given periodic cash flow. "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=NPV")
-	},
+        { GNM_FUNC_HELP_NAME, F_("MIRR:calculate modified internal rate of return")},
+        { GNM_FUNC_HELP_ARG, F_("values:cash flow")},
+        { GNM_FUNC_HELP_ARG, F_("finance_rate:interest rate for financing cost")},
+        { GNM_FUNC_HELP_ARG, F_("reinvest_rate:interest rate for reinvestments")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("MIRR calculates the modified internal rate of return of a periodic cash flow.") },
+        { GNM_FUNC_HELP_SEEALSO, "IRR,XIRR"},
 	{ GNM_FUNC_HELP_END }
 };
 
