@@ -3363,25 +3363,16 @@ gnumeric_coupnum (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_cumipmt[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=CUMIPMT\n"
-	   "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
-	   "@DESCRIPTION="
-	   "CUMIPMT returns the cumulative interest paid on a loan between "
-	   "@start_period and @end_period.\n"
-	   "\n"
-	   "* If @rate <= 0, CUMIPMT returns #NUM! error.\n"
-	   "* If @nper <= 0, CUMIPMT returns #NUM! error.\n"
-	   "* If @pv <= 0, CUMIPMT returns #NUM! error.\n"
-	   "* If @start_period < 1, CUMIPMT returns #NUM! error.\n"
-	   "* If @end_period < @start_period, CUMIPMT returns #NUM! error.\n"
-	   "* If @end_period > @nper, CUMIPMT returns #NUM! error.\n"
-	   "* If @type <> 0 and @type <> 1, CUMIPMT returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("CUMIPMT:calculate cumulative interest payment")},
+        { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
+        { GNM_FUNC_HELP_ARG, F_("pv:present value")},
+        { GNM_FUNC_HELP_ARG, F_("start_period:first period to accumulate for")},
+        { GNM_FUNC_HELP_ARG, F_("end_period:last period to accumulate for")},
+        { GNM_FUNC_HELP_ARG, F_("type:payment type")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("CUMIPMT calculates the cumulative interest paid on a loan from @{start_period} to @{end_period}.") },
+	TYPE_HELP,
+        { GNM_FUNC_HELP_SEEALSO, "IPMT"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3416,25 +3407,16 @@ gnumeric_cumipmt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_cumprinc[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=CUMPRINC\n"
-	   "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
-	   "@DESCRIPTION="
-	   "CUMPRINC returns the cumulative principal paid on a loan between "
-	   "@start_period and @end_period.\n"
-	   "\n"
-	   "* If @rate <= 0, CUMPRINC returns #NUM! error.\n"
-	   "* If @nper <= 0, CUMPRINC returns #NUM! error.\n"
-	   "* If @pv <= 0, CUMPRINC returns #NUM! error.\n"
-	   "* If @start_period < 1, CUMPRINC returns #NUM! error.\n"
-	   "* If @end_period < @start_period, CUMPRINC returns #NUM! error.\n"
-	   "* If @end_period > @nper, CUMPRINC returns #NUM! error.\n"
-	   "* If @type <> 0 and @type <> 1, CUMPRINC returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("CUMPRINC:calculate cumulative principal")},
+        { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("nper:number of periods")},
+        { GNM_FUNC_HELP_ARG, F_("pv:present value")},
+        { GNM_FUNC_HELP_ARG, F_("start_period:first period to accumulate for")},
+        { GNM_FUNC_HELP_ARG, F_("end_period:last period to accumulate for")},
+        { GNM_FUNC_HELP_ARG, F_("type:payment type")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("CUMPRINC calculates the cumulative principal paid on a loan from @{start_period} to @{end_period}.") },
+	TYPE_HELP,
+        { GNM_FUNC_HELP_SEEALSO, "PPMT"},
 	{ GNM_FUNC_HELP_END }
 };
 
