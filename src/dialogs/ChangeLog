@@ -1,3 +1,8 @@
+2009-08-11  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* dialog-about.c : use GocCanvas nstead of FooCanvas.
+	* dialog-printer-setup.c: ditto.
+
 2009-08-11  Morten Welinder  <terra@gnome.org>
 
 	* dialog-printer-setup.c (create_hf_preview_canvas): Avoid leaking

@@ -40,11 +40,6 @@
 #include <style.h>
 #include <gnumeric-gconf.h>
 
-#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-text.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <glade/glade.h>
 #include <gdk/gdkkeysyms.h>
 #include <goffice/goffice.h>
@@ -58,8 +53,8 @@
 #define PAGE_X (PREVIEW_X - PREVIEW_MARGIN_X)
 #define PAGE_Y (PREVIEW_Y - PREVIEW_MARGIN_Y)
 
-#define MARGIN_COLOR_DEFAULT "darkgray"
-#define MARGIN_COLOR_ACTIVE "red"
+#define MARGIN_COLOR_DEFAULT 0xa9a9a9ff /* dark gray */
+#define MARGIN_COLOR_ACTIVE RGBA_RED
 
 #define HF_PREVIEW_X 350
 #define HF_PREVIEW_Y 75
@@ -80,7 +75,7 @@ typedef struct {
 	GtkWidget        *canvas;
 
 	/* Objects in the Preview Canvas */
-	FooCanvasItem  *group;
+	GocItem  *group;
 
 	/* Values for the scaling of the nice preview */
 	int offset_x, offset_y;	/* For centering the small page preview */
@@ -93,9 +88,9 @@ typedef struct {
 	GtkWidget        *canvas;
 
 	/* Objects in the Preview Canvas */
-	FooCanvasItem  *left;
-	FooCanvasItem  *middle;
-	FooCanvasItem  *right;
+	GocItem		*left;
+	GocItem		*middle;
+	GocItem		*right;
 
 } HFPreviewInfo;
 
@@ -104,7 +99,7 @@ typedef struct _PrinterSetupState PrinterSetupState;
 typedef struct {
 	double     value;
 	GtkSpinButton *spin;
-	FooCanvasItem *line;
+	GocItem *line;
 	double bound_x1, bound_y1, bound_x2, bound_y2;
 	MarginPreviewInfo *pi;
 	PrinterSetupState *state;
@@ -237,45 +232,36 @@ margin_preview_page_destroy (PrinterSetupState *state)
 }
 
 static void
-move_line (FooCanvasItem *item,
+move_line (GocItem *item,
 	   double x1, double y1,
 	   double x2, double y2)
 {
-	if (item != NULL) {
-		FooCanvasPoints *points;
-
-		points = foo_canvas_points_new (2);
-		points->coords[0] = x1;
-		points->coords[1] = y1;
-		points->coords[2] = x2;
-		points->coords[3] = y2;
-		
-		foo_canvas_item_set (item,
-				     "points", points,
-				     NULL);
-		foo_canvas_points_unref (points);
-	}
+	if (item != NULL)
+		goc_item_set (item,
+			     "x0", floor (x1) + .5,
+			     "y0", floor (y1) + .5,
+			     "x1", floor (x2) + .5,
+			     "y1", floor (y2) + .5,
+			     NULL);
 }
 
-static FooCanvasItem *
-make_line (FooCanvasGroup *g, double x1, double y1, double x2, double y2)
+static GocItem *
+make_line (GocGroup *g, double x1, double y1, double x2, double y2)
 {
-	FooCanvasPoints *points;
-	FooCanvasItem *item;
 
-	points = foo_canvas_points_new (2);
-	points->coords[0] = x1;
-	points->coords[1] = y1;
-	points->coords[2] = x2;
-	points->coords[3] = y2;
+	GocItem *item;
+	GOStyle *style;
 
-	item = foo_canvas_item_new (
-		FOO_CANVAS_GROUP (g), foo_canvas_line_get_type (),
-		"points", points,
-		"width-pixels", 1,
-		"fill-color",   MARGIN_COLOR_DEFAULT,
+	item = goc_item_new (
+		g, goc_line_get_type (),
+		"x0", floor (x1) + .5,
+		"y0", floor (y1) + .5,
+		"x1", floor (x2) + .5,
+		"y1", floor (y2) + .5,
 		NULL);
-	foo_canvas_points_unref (points);
+	style = go_styled_object_get_style (GO_STYLED_OBJECT (item));
+	style->line.width = 1.;
+	style->line.color = MARGIN_COLOR_DEFAULT;
 
 	return item;
 }
@@ -374,7 +360,7 @@ create_margin (UnitInfo *uinfo,
 	       double x1, double y1,
 	       double x2, double y2)
 {
-	FooCanvasGroup *g = FOO_CANVAS_GROUP (uinfo->state->preview.group);
+	GocGroup *g = GOC_GROUP (uinfo->state->preview.group);
 
 	uinfo->line = make_line (g, x1 + 8, y1, x1 + 8, y2);
 	uinfo->bound_x1 = x1;
@@ -414,6 +400,7 @@ margin_preview_page_create (PrinterSetupState *state)
 	double x1, y1, x2, y2;
 	double width, height;
 	MarginPreviewInfo *pi = &state->preview;
+	GOStyle *style;
 
 	width = state->width;
 	height = state->height;
@@ -430,34 +417,36 @@ margin_preview_page_create (PrinterSetupState *state)
 	x2 = pi->offset_x + width * pi->scale;
 	y2 = pi->offset_y + height * pi->scale;
 
-	pi->group = foo_canvas_item_new (
-		foo_canvas_root (FOO_CANVAS (pi->canvas)),
-		foo_canvas_group_get_type (),
+	pi->group = goc_item_new (
+		goc_canvas_get_root (GOC_CANVAS (pi->canvas)),
+		goc_group_get_type (),
 		"x", 0.0,
 		"y", 0.0,
 		NULL);
 
-	foo_canvas_item_new (FOO_CANVAS_GROUP (pi->group),
-		FOO_TYPE_CANVAS_RECT,
-		"x1",		 (double) x1+2,
-		"y1",		 (double) y1+2,
-		"x2",		 (double) x2+2,
-		"y2",		 (double) y2+2,
-		"fill-color",    "black",
-		"outline-color", "black",
-		"width-pixels",   1,
-		NULL);
+	style = go_styled_object_get_style (
+	        GO_STYLED_OBJECT (goc_item_new (GOC_GROUP (pi->group),
+			GOC_TYPE_RECTANGLE,
+			"x",		 (double) x1+2,
+			"y",		 (double) y1+2,
+			"width",	 (double) x2-x1,
+			"height",	 (double) y2-y1,
+			NULL)));
+	style->fill.pattern.back = RGBA_BLACK;
+	style->outline.color = RGBA_BLACK;
+	style->outline.width = 1.;
 
-	foo_canvas_item_new (FOO_CANVAS_GROUP (pi->group),
-		FOO_TYPE_CANVAS_RECT,
-		"x1",		 (double) x1,
-		"y1",		 (double) y1,
-		"x2",		 (double) x2,
-		"y2",		 (double) y2,
-		"fill-color",    "white",
-		"outline-color", "black",
-		"width-pixels",   1,
-		NULL);
+	style = go_styled_object_get_style (
+		GO_STYLED_OBJECT (goc_item_new (GOC_GROUP (pi->group),
+			GOC_TYPE_RECTANGLE,
+			"x",		 (double) x1,
+			"y",		 (double) y1,
+			"width",	 (double) x2-x1,
+			"height",	 (double) y2-y1,
+			NULL)));
+	style->fill.pattern.back = RGBA_WHITE;
+	style->outline.color = RGBA_BLACK;
+	style->outline.width = 1.;
 
 	draw_margins (state, x1, y1, x2, y2);
 }
@@ -473,18 +462,19 @@ canvas_update (PrinterSetupState *state)
 static gboolean
 cb_spin_activated (UnitInfo *target)
 {
-	foo_canvas_item_set (target->line,
-			     "fill-color", MARGIN_COLOR_ACTIVE,
-			     NULL);
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (target->line));
+	style->fill.pattern.back = MARGIN_COLOR_ACTIVE,
+	goc_item_invalidate (target->line);
 	return FALSE;
 }
 
 static gboolean
 cb_spin_deactivated (UnitInfo *target)
 {
-	foo_canvas_item_set (target->line,
-			     "fill-color", MARGIN_COLOR_DEFAULT,
-			     NULL);
+	GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (target->line));
+	style->fill.pattern.back = MARGIN_COLOR_DEFAULT,
+	goc_item_invalidate (target->line);
+	return FALSE;
 	return FALSE;
 }
 
@@ -689,10 +679,10 @@ do_setup_margin (PrinterSetupState *state)
 
 	g_return_if_fail (state && state->pi);
 
-	state->preview.canvas = foo_canvas_new ();
-	foo_canvas_set_scroll_region (
-		FOO_CANVAS (state->preview.canvas),
-		0.0, 0.0, PREVIEW_X, PREVIEW_Y);
+	state->preview.canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
+	goc_canvas_set_scroll_region (  /* is this useful? */
+		GOC_CANVAS (state->preview.canvas),
+		PREVIEW_X, PREVIEW_Y);
 	gtk_widget_set_size_request (state->preview.canvas, PREVIEW_X, PREVIEW_Y);
 	gtk_widget_show (state->preview.canvas);
 
@@ -802,15 +792,15 @@ display_hf_preview (PrinterSetupState *state, gboolean header)
 	}
 
 	text = hf_format_render (sample->left_format, hfi, HF_RENDER_PRINT);
-	foo_canvas_item_set (pi->left, "text", text ? text : "", NULL);
+	goc_item_set (pi->left, "text", text ? text : "", NULL);
 	g_free (text);
 
 	text = hf_format_render (sample->middle_format, hfi, HF_RENDER_PRINT);
-	foo_canvas_item_set (pi->middle, "text", text ? text : "", NULL);
+	goc_item_set (pi->middle, "text", text ? text : "", NULL);
 	g_free (text);
 
 	text  = hf_format_render (sample->right_format, hfi, HF_RENDER_PRINT);
-	foo_canvas_item_set (pi->right, "text", text ? text : "", NULL);
+	goc_item_set (pi->right, "text", text ? text : "", NULL);
 	g_free (text);
 
 	hf_render_info_destroy (hfi);
@@ -1830,7 +1820,7 @@ do_hf_dt_format_customize (gboolean date, HFCustomizeState *hf_state)
  * They can also do this from the option menu.
  */
 static gboolean
-header_preview_event (G_GNUC_UNUSED FooCanvas *canvas,
+header_preview_event (G_GNUC_UNUSED GocCanvas *canvas,
 		      GdkEvent *event, PrinterSetupState *state)
 {
 	if (event == NULL ||
@@ -1842,7 +1832,7 @@ header_preview_event (G_GNUC_UNUSED FooCanvas *canvas,
 }
 
 static gboolean
-footer_preview_event (G_GNUC_UNUSED FooCanvas *canvas,
+footer_preview_event (G_GNUC_UNUSED GocCanvas *canvas,
 		      GdkEvent *event, PrinterSetupState *state)
 {
 	if (event == NULL ||
@@ -1870,6 +1860,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 	gdouble padding = HF_PREVIEW_PADDING;
 	gdouble margin = HF_PREVIEW_MARGIN;
 	gdouble bottom_margin = height - margin;
+	GOStyle *gostyle;
 
 	pi = g_new (HFPreviewInfo, 1);
 
@@ -1878,27 +1869,33 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 	else
 		state->pi_footer = pi;
 
-	pi->canvas = foo_canvas_new ();
+	pi->canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
 
-	foo_canvas_set_scroll_region (FOO_CANVAS (pi->canvas), 0.0, 0.0, width, width);
+	goc_canvas_set_scroll_region (GOC_CANVAS (pi->canvas), width, width); /* ? */
 
-        foo_canvas_item_new (foo_canvas_root (FOO_CANVAS (pi->canvas)),
-		FOO_TYPE_CANVAS_RECT,
-		"x1",		shadow,
-		"y1",		(header ? shadow : 0),
-		"x2",		width + shadow,
-		"y2",		height + (header ? 0 : shadow),
-		"fill-color",	"black",
-		NULL);
+ 	gostyle = go_styled_object_get_style (
+		GO_STYLED_OBJECT (goc_item_new (goc_canvas_get_root (GOC_CANVAS (pi->canvas)),
+			GOC_TYPE_RECTANGLE,
+			"x",		shadow,
+			"y",		(header ? shadow : 0),
+			"width",	width,
+			"height",	height + (header ? -shadow: shadow),
+			NULL)));
+	gostyle->fill.pattern.back = RGBA_BLACK;
+	gostyle->outline.width = 0.;
+	gostyle->outline.color = 0;
 
-        foo_canvas_item_new (foo_canvas_root (FOO_CANVAS (pi->canvas)),
-		FOO_TYPE_CANVAS_RECT,
-		"x1",		0.0,
-		"y1",		0.0,
-		"x2",		width,
-		"y2",		height,
-		"fill-color",	"white",
-		NULL);
+	gostyle = go_styled_object_get_style (
+		GO_STYLED_OBJECT (goc_item_new (goc_canvas_get_root (GOC_CANVAS (pi->canvas)),
+			GOC_TYPE_RECTANGLE,
+		        "x",		0.0,
+			"y",		0.0,
+			"width",	width,
+			"height",	height,
+			NULL)));
+	gostyle->fill.pattern.back = RGBA_WHITE;
+	gostyle->outline.width = 0.;
+	gostyle->outline.color = 0;
 
 	style = gnm_conf_get_printer_decoration_font ();
 	font_desc = pango_font_description_new ();
@@ -1911,38 +1908,38 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 	pango_font_description_set_size (font_desc, 8 * PANGO_SCALE);
 	gnm_style_unref (style);
 
-	pi->left = foo_canvas_item_new (
-		foo_canvas_root (FOO_CANVAS (pi->canvas)),
-		foo_canvas_text_get_type (),
+	pi->left = goc_item_new (
+		goc_canvas_get_root (GOC_CANVAS (pi->canvas)),
+		goc_text_get_type (),
 		"x",		padding,
 		"y",		header ? margin : bottom_margin,
 		"anchor",	header ? GTK_ANCHOR_NORTH_WEST : GTK_ANCHOR_SOUTH_WEST,
-		"font-desc",	font_desc,
-		"fill-color",	"black",
 		"text",		"Left",
 		NULL);
+	gostyle = go_styled_object_get_style (GO_STYLED_OBJECT (pi->left));
+	go_style_set_font_desc (gostyle, pango_font_description_copy (font_desc)); 
 
-	pi->middle = foo_canvas_item_new (
-		foo_canvas_root (FOO_CANVAS (pi->canvas)),
-		foo_canvas_text_get_type (),
+	pi->middle = goc_item_new (
+		goc_canvas_get_root (GOC_CANVAS (pi->canvas)),
+		goc_text_get_type (),
 		"x",		width / 2,
 		"y",		header ? margin : bottom_margin,
 		"anchor",	header ? GTK_ANCHOR_NORTH : GTK_ANCHOR_SOUTH,
-		"font-desc",	font_desc,
-		"fill-color",	"black",
 		"text",		"Center",
 		NULL);
+	gostyle = go_styled_object_get_style (GO_STYLED_OBJECT (pi->left));
+	go_style_set_font_desc (gostyle, pango_font_description_copy (font_desc)); 
 
-	pi->right = foo_canvas_item_new (
-		foo_canvas_root (FOO_CANVAS (pi->canvas)),
-		foo_canvas_text_get_type (),
+	pi->right =  goc_item_new (
+		goc_canvas_get_root (GOC_CANVAS (pi->canvas)),
+		goc_text_get_type (),
 		"x",		width - padding,
 		"y",		header ? margin : bottom_margin,
 		"anchor",	header ? GTK_ANCHOR_NORTH_EAST : GTK_ANCHOR_SOUTH_EAST,
-		"font-desc",    font_desc,
-		"fill-color",	"black",
 		"text",		"Right",
 		NULL);
+	gostyle = go_styled_object_get_style (GO_STYLED_OBJECT (pi->left));
+	go_style_set_font_desc (gostyle, pango_font_description_copy (font_desc)); 
 
 	pango_font_description_free (font_desc);
 

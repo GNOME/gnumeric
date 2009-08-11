@@ -26,7 +26,6 @@
 
 #include <gui-util.h>
 #include <mathfunc.h>
-#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <goffice/goffice.h>
 #include <gtk/gtk.h>
 
@@ -156,25 +155,25 @@ static struct {
 };
 
 static void
-cb_plot_resize (FooCanvas *canvas, GtkAllocation *alloc, FooCanvasItem *ctrl)
+cb_plot_resize (GocCanvas *canvas, GtkAllocation *alloc, GocItem *ctrl)
 {
-	foo_canvas_item_set (ctrl,
-		"w", (double)alloc->width,
-		"h", (double)alloc->height,
+	goc_item_set (ctrl,
+		"width", (double)alloc->width,
+		"height", (double)alloc->height,
 		NULL);
 }
 static void
-cb_canvas_realized (GtkLayout *canvas, FooCanvasItem *ctrl)
+cb_canvas_realized (GtkLayout *canvas, GocItem *ctrl)
 {
 	gdk_window_set_back_pixmap (canvas->bin_window, NULL, FALSE);
-	cb_plot_resize (FOO_CANVAS (canvas),
+	cb_plot_resize (GOC_CANVAS (canvas),
 		&GTK_WIDGET (canvas)->allocation, ctrl);
 }
 
 typedef struct {
         GtkDialog *about;
 	GtkWidget *canvas;
-	FooCanvasItem *ctrl;
+	GocItem *ctrl;
 	GogObject *graph;
 	GOStyle   *contributor_style;
 	GOData *contribs_data, *individual_data, *contributor_name;
@@ -369,13 +368,12 @@ dialog_about (WBCGtk *wbcg)
 	go_style_set_font_desc (GOG_STYLED_OBJECT (tmp)->style,
 		pango_font_description_from_string ("Sans Bold 12"));
 
-	state->canvas = foo_canvas_new ();
+	state->canvas = GTK_WIDGET (g_object_new (GOC_TYPE_CANVAS, NULL));
 	gtk_widget_set_size_request (state->canvas, 400, 350);
-	foo_canvas_scroll_to (FOO_CANVAS (state->canvas), 0, 0);
 
-	state->ctrl = foo_canvas_item_new (foo_canvas_root (FOO_CANVAS (state->canvas)),
-			GOG_TYPE_CONTROL_FOOCANVAS,
-			"model", state->graph,
+	state->ctrl = goc_item_new (goc_canvas_get_root (GOC_CANVAS (state->canvas)),
+			GOC_TYPE_GRAPH,
+			"graph", state->graph,
 			NULL);
 	g_object_connect (state->canvas,
 		"signal::realize",	 G_CALLBACK (cb_canvas_realized), state->ctrl,
