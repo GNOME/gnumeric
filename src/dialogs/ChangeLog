@@ -1,3 +1,8 @@
+2009-08-11  Morten Welinder  <terra@gnome.org>
+
+	* dialog-printer-setup.c (create_hf_preview_canvas): Avoid leaking
+	the printer style.
+
 2009-08-05 Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* search-replace.glade: make the dialog title match the menu entry

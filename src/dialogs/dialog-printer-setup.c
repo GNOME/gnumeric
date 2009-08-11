@@ -1900,7 +1900,7 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		"fill-color",	"white",
 		NULL);
 
-	style = gnm_style_dup (gnm_conf_get_printer_decoration_font ());
+	style = gnm_conf_get_printer_decoration_font ();
 	font_desc = pango_font_description_new ();
 	pango_font_description_set_family (font_desc, gnm_style_get_font_name (style));
 	pango_font_description_set_style 
