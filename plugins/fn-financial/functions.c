@@ -3447,24 +3447,17 @@ gnumeric_mduration (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_vdb[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=VDB\n"
-	   "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
-	   "@DESCRIPTION="
-	   "VDB calculates the depreciation of an asset for a given period "
-	   "or partial period using the double-declining balance method.\n"
-	   "\n"
-	   "* If @start_period < 0, VDB returns #NUM! error.\n"
-	   "* If @start_period > @end_period, VDB returns #NUM! error.\n"
-	   "* If @end_period > @life, VDB returns #NUM! error.\n"
-	   "* If @cost < 0, VDB returns #NUM! error.\n"
-	   "* If @salvage > @cost, VDB returns #NUM! error.\n"
-	   "* If @factor <= 0, VDB returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=DB")
-	},
+        { GNM_FUNC_HELP_NAME, F_("VDB:calculate depreciation of an asset")},
+        { GNM_FUNC_HELP_ARG, F_("cost:initial cost of asset")},
+        { GNM_FUNC_HELP_ARG, F_("salvage:value after depreciation")},
+        { GNM_FUNC_HELP_ARG, F_("life:number of periods")},
+        { GNM_FUNC_HELP_ARG, F_("start_period:first period to accumulate for")},
+        { GNM_FUNC_HELP_ARG, F_("end_period:last period to accumulate for")},
+        { GNM_FUNC_HELP_ARG, F_("factor:factor at which the balance declines")},
+        { GNM_FUNC_HELP_ARG, F_("no_switch:do not switch to straight-line depreciation")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("VDB calculates the depreciation of an asset for a given period range using the double-declining balance method.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{no_switch} is FALSE, the calculation switches to straight-line depreciation when depreciation is greater than the declining balance calculation.") },
+        { GNM_FUNC_HELP_SEEALSO, "DB,DDB"},
 	{ GNM_FUNC_HELP_END }
 };
 
