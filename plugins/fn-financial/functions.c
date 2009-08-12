@@ -871,42 +871,14 @@ gnumeric_sln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_syd[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=SYD\n"
-	   "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
-	   "@DESCRIPTION="
-	   "SYD function calculates the sum-of-years digits depreciation "
-	   "for an asset based on its cost, salvage value, anticipated life "
-	   "and a particular period. This method accelerates the rate of the "
-	   "depreciation, so that more depreciation expense occurs in "
-	   "earlier periods than in later ones. The depreciable cost is the "
-	   "actual cost minus the salvage value. The useful life is the "
-	   "number of periods (typically years) over which the asset is "
-	   "depreciated.\n"
-	   "\n"
-	   "The Formula used for sum-of-years digits depreciation is:\n"
-	   "\n"
-	   "Depreciation expense =\n\n\t ( @cost - @salvage_value ) * "
-	   "(@life - @period + 1) * 2 / @life * (@life + 1).\n"
-	   "\n"
-	   "@cost is the cost of an asset when acquired (market value).\n"
-	   "@salvage_value is the amount you get when asset sold at the end of "
-	   "its useful life.\n"
-	   "@life is the anticipated life of an asset.\n"
-	   "@period is the period for which we need the expense.\n"
-	   "\n"
-	   "* If @life <= 0, SYD returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "For example say a company purchases a new computer for $5000 "
-	   "which has a salvage value of $200, and a useful life of five "
-	   "years. We would use the following to calculate the second "
-	   "year's depreciation using the SYD method:"
-	   "\n"
-	   "=SYD(5000, 200, 5, 2) which returns 1,280.00."
-	   "\n"
-	   "@SEEALSO=SLN")
-	},
+        { GNM_FUNC_HELP_NAME, F_("SYD:calculate sum-of-years depreciation")},
+        { GNM_FUNC_HELP_ARG, F_("cost:initial cost of asset")},
+        { GNM_FUNC_HELP_ARG, F_("salvage:value after depreciation")},
+        { GNM_FUNC_HELP_ARG, F_("life:number of periods")},
+        { GNM_FUNC_HELP_ARG, F_("period:subject period")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("SYD calculates the depreciation of an asset using the sum-of-years method.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=SYD(5000,200,5,2)" },
+        { GNM_FUNC_HELP_SEEALSO, "DB,DDB,SLN"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1084,25 +1056,12 @@ out:
 /***************************************************************************/
 
 static GnmFuncHelp const help_tbilleq[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TBILLEQ\n"
-	   "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
-	   "@DESCRIPTION="
-	   "TBILLEQ function returns the bond-yield equivalent (BEY) for "
-	   "a treasury bill.  TBILLEQ is equivalent to\n"
-	   "\n"
-	   "\t(365 * @discount) / (360 - @discount * DSM),\n\n"
-	   "where DSM is the days between @settlement and @maturity.\n"
-	   "\n"
-	   "* If @settlement is after @maturity or the @maturity is set to "
-	   "over one year later than the @settlement, TBILLEQ returns "
-	   "#NUM! error.\n"
-	   "* If @discount is negative, TBILLEQ returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=TBILLPRICE,TBILLYIELD")
-	},
+        { GNM_FUNC_HELP_NAME, F_("TBILLEQ:calculate bond-equivalent yield for a treasury bill")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("discount:annual rate at which to discount")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("TBILLEQ calculates the bond-equivalent yield for a treasury bill.") },
+        { GNM_FUNC_HELP_SEEALSO, "TBILLPRICE,TBILLYIELD"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1135,24 +1094,12 @@ gnumeric_tbilleq (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_tbillprice[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TBILLPRICE\n"
-	   "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
-	   "@DESCRIPTION="
-	   "TBILLPRICE function returns the price per $100 value for a "
-	   "treasury bill where @settlement is the settlement date and "
-	   "@maturity is the maturity date of the bill.  @discount is the "
-	   "treasury bill's discount rate.\n"
-	   "\n"
-	   "* If @settlement is after @maturity or the @maturity is set to "
-	   "over one year later than the @settlement, TBILLPRICE returns "
-	   "#NUM! error.\n"
-	   "* If @discount is negative, TBILLPRICE returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=TBILLEQ,TBILLYIELD")
-	},
+        { GNM_FUNC_HELP_NAME, F_("TBILLPRICE:calculate price of a treasury bill")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("discount:annual rate at which to discount")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("TBILLPRICE calculates the price per $100 face value for a treasury bill.") },
+        { GNM_FUNC_HELP_SEEALSO, "TBILLEQ,TBILLYIELD"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1181,24 +1128,12 @@ gnumeric_tbillprice (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_tbillyield[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=TBILLYIELD\n"
-	   "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
-	   "@DESCRIPTION="
-	   "TBILLYIELD function returns the yield for a treasury bill. "
-	   "@settlement is the settlement date and @maturity is the "
-	   "maturity date of the bill.  @discount is the treasury bill's "
-	   "discount rate.\n"
-	   "\n"
-	   "* If @settlement is after @maturity or the @maturity is set to "
-	   "over one year later than the @settlement, TBILLYIELD returns "
-	   "#NUM! error.\n"
-	   "* If @pr is negative, TBILLYIELD returns #NUM! error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=TBILLEQ,TBILLPRICE")
-	},
+        { GNM_FUNC_HELP_NAME, F_("TBILLYIELD:calculate yield of a treasury bill")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("price:price")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("TBILLYIELD calculates the yield of a treasury bill.") },
+        { GNM_FUNC_HELP_SEEALSO, "TBILLEQ,TBILLPRICE"},
 	{ GNM_FUNC_HELP_END }
 };
 
