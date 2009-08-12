@@ -1932,23 +1932,12 @@ gnumeric_g_duration (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_fvschedule[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=FVSCHEDULE\n"
-	   "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
-	   "@DESCRIPTION="
-	   "FVSCHEDULE returns the future value of given initial value "
-	   "after applying a series of compound periodic interest rates. "
-	   "The argument @principal is the present value; @schedule is an "
-	   "array of interest rates to apply. The @schedule argument must "
-	   "be a range of cells.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain interest "
-	   "rates 0.11, 0.13, 0.09, 0.17, and 0.03.  Then\n"
-	   "FVSCHEDULE(3000,A1:A5) equals 4942.7911611."
-	   "\n"
-	   "@SEEALSO=PV,FV")
-	},
+        { GNM_FUNC_HELP_NAME, F_("FVSCHEDULE:calculate future value")},
+        { GNM_FUNC_HELP_ARG, F_("principal:intial value")},
+        { GNM_FUNC_HELP_ARG, F_("schedule:range of interest rates")},
+        { GNM_FUNC_HELP_DESCRIPTION, F_("FVSCHEDULE calculates the future value of @{principal} after applying a range of interest rates with compounding.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=FVSCHEDULE(1000,{0.1;0.02;0.1})" },
+        { GNM_FUNC_HELP_SEEALSO, "FV"},
 	{ GNM_FUNC_HELP_END }
 };
 
