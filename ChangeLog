@@ -1,3 +1,8 @@
+2009-08-13  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (func_def_cmp, function_category_compare): Take
+	advantage of go-string.
+
 2009-08-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/gnm-plugin.c (plugin_service_function_group_read_xml): get "lang"

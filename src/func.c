@@ -92,7 +92,8 @@ func_def_cmp (gconstpointer a, gconstpointer b)
 	g_return_val_if_fail (fdb->name != NULL, 0);
 
 	if (fda->fn_group != NULL && fdb->fn_group != NULL) {
-		int res = strcmp (fda->fn_group->display_name->str, fdb->fn_group->display_name->str);
+		int res = go_string_cmp (fda->fn_group->display_name,
+					 fdb->fn_group->display_name);
 		if (res != 0)
 			return res;
 	}
@@ -536,8 +537,7 @@ function_category_compare (gconstpointer a, gconstpointer b)
 	GnmFuncGroup const *cat_a = a;
 	GnmFuncGroup const *cat_b = b;
 
-	return g_utf8_collate (cat_a->display_name->str,
-			       cat_b->display_name->str);
+	return go_string_cmp (cat_a->display_name, cat_b->display_name);
 }
 
 GnmFuncGroup *
