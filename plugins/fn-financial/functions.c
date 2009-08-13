@@ -1826,35 +1826,18 @@ gnumeric_nper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_duration[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=DURATION\n"
-	   "@SYNTAX=DURATION(settlement,maturity,coup,yield,frequency[,basis])\n"
-	   "@DESCRIPTION="
-	   "DURATION calculates the duration of a security.\n"
-	   "\n"
-	   "@settlement is the settlement date of the security.\n"
-	   "@maturity is the maturity date of the security.\n"
-	   "@coup The annual coupon rate as a percentage.\n"
-	   "@yield The annualized yield of the security as a percentage.\n"
-	   "@frequency is the number of coupon payments per year. "
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @frequency is other than 1, 2, or 4, DURATION returns #NUM! "
-	   "error.\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=G_DURATION,MDURATION")
-	},
+        { GNM_FUNC_HELP_NAME, F_("DURATION:calculates the duration of a security")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("coupon:annual coupon rate")},
+        { GNM_FUNC_HELP_ARG, F_("issue:date of issue")},
+        { GNM_FUNC_HELP_ARG, F_("yield:annual yield of security")},
+        { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("DURATION calculates the duration of a security.") },
+	FREQ_HELP,
+	GNM_DATE_BASIS_HELP
+        { GNM_FUNC_HELP_SEEALSO, "MDURATION"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -1888,24 +1871,12 @@ gnumeric_duration (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_g_duration[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=G_DURATION\n"
-	   "@SYNTAX=G_DURATION(rate,pv,fv)\n"
-	   "@DESCRIPTION="
-	   "G_DURATION calculates number of periods needed for an investment "
-	   "to attain a desired value. This function is similar to FV and PV "
-	   "with a difference that we do not need give the direction of "
-	   "cash flows e.g. -100 for a cash outflow and +100 for a cash "
-	   "inflow.\n"
-	   "\n"
-	   "* If @rate <= 0, G_DURATION returns #DIV0 error.\n"
-	   "* If @fv = 0 or @pv = 0, G_DURATION returns #DIV0 error.\n"
-	   "* If @fv / @pv < 0, G_DURATION returns #VALUE error.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=PPMT,PV,FV,DURATION,MDURATION")
-	},
+        { GNM_FUNC_HELP_NAME, F_("G_DURATION:calculates the duration of a investment") },
+        { GNM_FUNC_HELP_ARG, F_("rate:effective annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("pv:present value")},
+        { GNM_FUNC_HELP_ARG, F_("fv:future value")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("G_DURATION calculates the number of periods needed for an investment to attain a desired value.") },
+        { GNM_FUNC_HELP_SEEALSO, "FV,PV"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -3375,33 +3346,18 @@ gnumeric_cumprinc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_mduration[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=MDURATION\n"
-	   "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
-	   "@DESCRIPTION="
-	   "MDURATION returns the Macauley duration for a security with par "
-	   "value 100.\n"
-	   "\n"
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  MSRB 30/360 (MSRB Rule G33 (e))\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "  5  European+ 30/360\n"
-	   "\n"
-	   "* If @settlement or @maturity are not valid dates, MDURATION "
-	   "returns #NUM! error.\n"
-	   "* If @frequency is other than 1, 2, or 4, MDURATION returns #NUM! "
-	   "error.\n"
-	   "* If @basis is omitted, MSRB 30/360 is applied.\n"
-	   "* If @basis is invalid, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=DURATION,G_DURATION")
-	},
+        { GNM_FUNC_HELP_NAME, F_("MDURATION:calculates the Macauley duration of a security")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("coupon:annual coupon rate")},
+        { GNM_FUNC_HELP_ARG, F_("issue:date of issue")},
+        { GNM_FUNC_HELP_ARG, F_("yield:annual yield of security")},
+        { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("MDURATION calculates the Macauley duration of a security.") },
+	FREQ_HELP,
+	GNM_DATE_BASIS_HELP
+        { GNM_FUNC_HELP_SEEALSO, "DURATION"},
 	{ GNM_FUNC_HELP_END }
 };
 
