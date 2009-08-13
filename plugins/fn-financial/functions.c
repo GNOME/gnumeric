@@ -2067,33 +2067,18 @@ gnumeric_euroconvert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_price[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=PRICE\n"
-	   "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,[frequency,basis])\n"
-	   "@DESCRIPTION="
-	   "PRICE returns price per $100 face value of a security. "
-	   "This method can only be used if the security pays periodic "
-	   "interest.\n"
-	   "\n"
-	   "@frequency is the number of coupon payments per year. "
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @frequency is other than 1, 2, or 4, PRICE returns #NUM! "
-	   "error.\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("PRICE:calculates price of a security")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("rate:nominal annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("yield:annual yield of security")},
+        { GNM_FUNC_HELP_ARG, F_("redemption:amount received at maturity")},
+        { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("PRICE calculates the price per $100 face value of a security that pays periodic interest.") },
+	FREQ_HELP,
+	GNM_DATE_BASIS_HELP
+        { GNM_FUNC_HELP_SEEALSO, "YIELD,DURATION"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -2101,8 +2086,6 @@ static GnmValue *
 gnumeric_price (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
         GDate      settlement, maturity;
-        /* gnm_float a, d, e, n; */
-	/* gnm_float first_term, last_term, den, base, exponent, sum; */
 	gnm_float rate, yield, redemption;
 	GnmCouponConvention conv;
 
@@ -2134,32 +2117,18 @@ gnumeric_price (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_yield[] = {
-	{ GNM_FUNC_HELP_OLD,
-	F_("@FUNCTION=YIELD\n"
-	   "@SYNTAX=YIELD(settlement,maturity,rate,price,redemption_price,frequency[,basis])\n"
-	   "@DESCRIPTION="
-	   "YIELD returns the yield on a security that pays periodic "
-	   "interest.\n"
-	   "\n"
-	   "@frequency is the number of coupon payments per year. "
-	   "Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
-	   "@basis is the type of day counting system you want to use:\n"
-	   "\n"
-	   "  0  US 30/360\n"
-	   "  1  actual days/actual days\n"
-	   "  2  actual days/360\n"
-	   "  3  actual days/365\n"
-	   "  4  European 30/360\n"
-	   "\n"
-	   "* If @frequency is other than 1, 2, or 4, YIELD returns #NUM! "
-	   "error.\n"
-	   "* If @basis is omitted, US 30/360 is applied.\n"
-	   "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
-	},
+        { GNM_FUNC_HELP_NAME, F_("YIELD:calculates yield of a security")},
+        { GNM_FUNC_HELP_ARG, F_("settlement:settlement date")},
+        { GNM_FUNC_HELP_ARG, F_("maturity:maturity date")},
+        { GNM_FUNC_HELP_ARG, F_("rate:nominal annual interest rate")},
+        { GNM_FUNC_HELP_ARG, F_("price:price of security")},
+        { GNM_FUNC_HELP_ARG, F_("redemption:amount received at maturity")},
+        { GNM_FUNC_HELP_ARG, F_("frequency:number of interest payments per year")},
+        { GNM_FUNC_HELP_ARG, F_("basis:calendar basis")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("YIELD calculates the yield of a security that pays periodic interest.") },
+	FREQ_HELP,
+	GNM_DATE_BASIS_HELP
+        { GNM_FUNC_HELP_SEEALSO, "PRICE,DURATION"},
 	{ GNM_FUNC_HELP_END }
 };
 
